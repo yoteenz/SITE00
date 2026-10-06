@@ -36,13 +36,24 @@ export const AUTHORITY_DEVELOPMENT_SEQUENCE: readonly { step: string; id: string
   { step: '04', id: 'CREATE_3_COMPOSITION_TERRITORIES', does: 'Author three territories that differ in spatial logic, primary zone, hierarchy, interaction emphasis, density and media relationship.', produces: 'CompositionTerritory[3] (checked by checkTerritoryDistinctness)' },
   { step: '05', id: 'GENERATE_OR_ASSEMBLE_REFERENCE_AUTHORITIES', does: 'One reference authority per territory that shows real composition, hierarchy, zones, media relationship, interaction emphasis and actor intent.', produces: 'ReferenceAuthority per territory' },
   { step: '06', id: 'FOUNDER_CHOOSES_OR_REVISES', does: 'Founder: LOVE_IT · REVISE · REJECT · COMBINE · REQUEST_FOURTH_TERRITORY.', produces: 'FounderAuthorityDecision' },
-  { step: '07', id: 'LOCK_PAGE_FAMILY_AUTHORITY', does: 'Lock approved page logic: core logic locks + flexible implementation areas + lineage.', produces: 'PageFamilyAuthority (PAGE_FAMILY_AUTHORITY level)' },
+  { step: '07', id: 'LOCK_PAGE_FAMILY_AUTHORITY', does: 'Lock approved page logic: core logic locks + flexible implementation areas + lineage. Other actors / viewports may DERIVE from the locked parent authority (AuthorityDerivation) instead of running their own territories.', produces: 'PageFamilyAuthority (PAGE_FAMILY_AUTHORITY level)' },
+  { step: '07A', id: 'PRODUCE_PAGE_TAB_STATE_TREE', does: 'The Brain ingests brand DNA + experience contract + authority package + page / tab / data / interaction / asset contracts and produces the page / tab / state tree. Tabs are first-class nodes; every material node carries a node contract, authority binding and readiness.', produces: 'Experience tree (tree.ts) + PageTreeConfirmation PRODUCED' },
+  { step: '07B', id: 'FOUNDER_CONFIRMS_TREE', does: 'Founder confirms the page / tab / state tree (and settles its open decisions). Only then may implementation begin.', produces: 'PageTreeConfirmation FOUNDER_CONFIRMED' },
   { step: '08', id: 'IMPLEMENT', does: 'Implementation consumes authority + experience contract + brand DNA + state / interaction / responsive contracts.', produces: 'Implementation (AUTHORITY_IMPLEMENTATION_CONTRACT)' },
   { step: '09', id: 'INCREASE_FIDELITY_WITHOUT_VIOLATING_CORE_LOGIC', does: 'Raise responsiveness, interactivity, state completeness, accessibility, material realism, content fidelity and integration; material deviation → founder review.', produces: 'LIVE_AUTHORITY after founder approval (lineage kept)' },
 ];
 
 /** The methodology this gate supersedes. */
 export const SUPERSEDED_METHODOLOGY = 'FAMILY LOCK → IMPLEMENTATION without experience + visual authority development.' as const;
+
+/**
+ * Founder decisions (authority-bundle ingest + page-tree proof sprint) that extend the gate:
+ * the parent authority precedes actor / viewport derivation, tabs are first-class nodes, and the authority package plus a
+ * founder-confirmed page / tab / state tree precede implementation. Supersedes the direct experience-contract →
+ * implementation pipeline.
+ */
+export const AUTHORITY_PIPELINE_DOCTRINE = ['AUTHOR FIRST.', 'DERIVE SECOND.', 'SPECIFY THIRD.', 'IMPLEMENT LAST.'] as const;
+export const SUPERSEDED_PIPELINE = 'DIRECT EXPERIENCE-CONTRACT → IMPLEMENTATION PIPELINE' as const;
 
 /* ─────────────────────────────── production states ─────────────────────────────── */
 
@@ -73,14 +84,16 @@ export type AuthorityGuardStatus =
   | 'REFERENCE_AUTHORITY_REQUIRED'
   | 'FOUNDER_REVIEW_REQUIRED'
   | 'RESPONSIVE_AUTHORITY_REQUIRED'
-  | 'AUTHORITY_AS_RUNTIME_ASSET';
+  | 'AUTHORITY_AS_RUNTIME_ASSET'
+  | 'PAGE_TREE_CONFIRMATION_REQUIRED';
 
 export const AUTHORITY_GUARD_STATUSES: readonly AuthorityGuardStatus[] = [
   'FAMILY_LOCK_REQUIRED', 'VISUAL_AUTHORITY_REQUIRED', 'LEGACY_VISUAL_LEAK', 'TERRITORY_DISTINCTNESS_FAILURE',
   'REFERENCE_AUTHORITY_REQUIRED', 'FOUNDER_REVIEW_REQUIRED', 'RESPONSIVE_AUTHORITY_REQUIRED', 'AUTHORITY_AS_RUNTIME_ASSET',
+  'PAGE_TREE_CONFIRMATION_REQUIRED',
 ];
 
-/** The durable rule (motherboard): all seven must hold before a material page family moves to implementation. */
+/** The durable rule (motherboard): all eight must hold before a material page family moves to implementation. */
 export const DURABLE_GATE_CONDITIONS = [
   'BRAND_CONTEXT_LOADED',
   'EXPERIENCE_CONTRACT_LOADED',
@@ -89,6 +102,7 @@ export const DURABLE_GATE_CONDITIONS = [
   'REFERENCE_AUTHORITY_EXISTS',
   'FOUNDER_APPROVAL_EXISTS',
   'PAGE_FAMILY_AUTHORITY_LOCKED',
+  'PAGE_TREE_CONFIRMED',
 ] as const;
 export type DurableGateCondition = (typeof DURABLE_GATE_CONDITIONS)[number];
 
@@ -338,6 +352,37 @@ export type PageFamilyAuthority = {
 /** Minimum core locks a PAGE_FAMILY_AUTHORITY must carry to be implementation-ready. */
 export const REQUIRED_CORE_LOCKS: readonly CoreLogicLockKind[] = ['PRIMARY_OBJECT', 'PRIMARY_COMPOSITION', 'MAJOR_ZONES', 'CORE_HIERARCHY', 'CTA_HIERARCHY'];
 
+/* ─────────────────────────────── 07 derivation (parent authority precedes actor / viewport derivation) ─────────────────────────────── */
+
+/**
+ * An actor page family may DERIVE its authority from the locked parent authority of the same family instead of running
+ * its own three territories (the territory step happened at the parent). The derived actor still needs its own
+ * reference authorities (each showing all six proofs, each tracing to a parent territory), its own founder approval and
+ * its own locked authority.
+ */
+export type AuthorityDerivation = {
+  parent: PageFamilyAuthority;
+  /** The parent's territories — proof that the parent ran the territory step. */
+  parent_territories: CompositionTerritory[];
+  /** This actor's derived reference authorities (territory_id = a parent territory in parent.territory_source). */
+  references: ReferenceAuthority[];
+};
+
+/* ─────────────────────────────── 07A / 07B page / tab / state tree ─────────────────────────────── */
+
+export type PageTreeStatus = 'NOT_PRODUCED' | 'PRODUCED' | 'FOUNDER_CONFIRMED';
+
+/** The page / tab / state tree the Brain produces from the locked authority package. Implementation needs FOUNDER_CONFIRMED. */
+export type PageTreeConfirmation = {
+  tree_id: string;
+  status: PageTreeStatus;
+  produced_at: string | null;
+  confirmed_at: string | null;
+  founder_decision: string | null;
+  /** Decisions the founder settles when confirming the tree. */
+  open_decisions?: string[];
+};
+
 /* ─────────────────────────────── 08–09 implementation ─────────────────────────────── */
 
 export type ImplementationChange = {
@@ -372,6 +417,10 @@ export type AuthorityGateInput = {
   references?: ReferenceAuthority[];
   founder_decision?: FounderAuthorityDecision | null;
   authority?: PageFamilyAuthority | null;
+  /** Derived actor authority: territories + parent lock come from the parent page-family authority. */
+  derivation?: AuthorityDerivation | null;
+  /** The page / tab / state tree; FOUNDER_CONFIRMED is required before implementation. */
+  page_tree?: PageTreeConfirmation | null;
   implementation?: ImplementationReport | null;
 };
 
@@ -391,6 +440,10 @@ export type VisualAuthorityRegistryRow = {
   core_logic_locks: CoreLogicLock[];
   flexible_areas: FlexibleImplementationArea[];
   founder_decision: string | null;
+  /** Parent authority a derived actor inherits its territory step from (null for a parent / own-territory actor). */
+  derived_from_authority: string | null;
+  /** Page / tab / state tree status (FOUNDER_CONFIRMED is required before implementation). */
+  page_tree: PageTreeStatus | null;
   created_at: string;
   updated_at: string;
   supersedes: string | null;

@@ -269,6 +269,15 @@ Canonical upstream-to-downstream layers (methodology v20+):
 - Without all seven conditions (brand, experience, legacy status, territories, references, founder approval, lock) the status is **VISUAL_AUTHORITY_REQUIRED** and IMPLEMENTATION_READY is false.
 - Legacy surfaces are FUNCTIONAL_REFERENCE_ONLY unless the founder promotes them; visual reuse → LEGACY_VISUAL_LEAK. A locked authority is page logic, not the final design; changing a core lock → FOUNDER_REVIEW_REQUIRED.
 - Docs + AIO IFTA input packages: `docs/studioos/visual-authority-development/` (regenerate with `npx tsx scripts/studioos/visual-authority-export.ts`).
+- **Founder decisions (2026-10-06, P0.AIO.IFTA.AUTHORITY-BUNDLE-INGEST-AND-PAGE-TREE-PROOF1):**
+  - **Tabs are first-class authority-design nodes.** PROJECT → FEATURE FAMILY → ACTOR MODE → PAGE FAMILY → TAB FAMILY → CHILD / DRAWER / MODAL / STATE → COMPONENT → INTERACTION.
+  - **Client parent authority precedes actor / viewport derivation.** Other actors derive from the locked parent (`checkDerivation`) instead of running their own three territories.
+  - **Authority package precedes implementation.** The Brain produces the page / tab / state tree (`tree.ts`); the founder confirms it. The 8th durable condition is `PAGE_TREE_CONFIRMED`; until it holds, the guard is **PAGE_TREE_CONFIRMATION_REQUIRED**.
+  - **Sidekick is fallback, not default** (SIDEKICK_FALLBACK_ONLY).
+  - **Supersedes:** the direct experience-contract → implementation pipeline. **AUTHOR FIRST. DERIVE SECOND. SPECIFY THIRD. IMPLEMENT LAST.**
+- **Known failure / do not regress:** the legacy AIO visual shell leaked into the new experience. Legacy visuals have ZERO design authority.
+- **No false readiness:** a node is IMPLEMENTATION_READY only with experience contract + authority binding + data contracts + interactions + permissions + responsive rule (`evaluateNodeReadiness`). Visual and data status stay separate.
+- **AIO IFTA:** authority bundle ingested at `docs/aio/ifta/authority-bundle/`. Regenerate with `npx tsx scripts/studioos/aio-ifta-authority-bundle-export.ts`; source is `shared/studioos-visual-authority/projects/aio/ifta-authority/`.
 
 ---
 

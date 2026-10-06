@@ -7,11 +7,18 @@
  *
  * Inputs: Experience Brain (AIO_DNA, AIO_IFTA_CONTRACT) + brand canon + read-only AIO source (yoteenz/fsbw ·
  * all-in-one-enterprises/ @ fd8bf3c). Every existing AIO surface is FUNCTIONAL_REFERENCE_ONLY (no founder promotion).
+ *
+ * Since P0.AIO.IFTA.AUTHORITY-BUNDLE-INGEST-AND-PAGE-TREE-PROOF1 the test-run's output (the authority bundle) is
+ * ingested in ./ifta-authority/ and drives the gate below; the input packages remain as the historical brief.
  */
 import { aio } from '../../../studioos-experience-brain/index.js';
 import type { ExperienceActor, ExperienceContract, StateVisualRelationship, ViewportBehavior } from '../../../studioos-experience-brain/schema.js';
 import { isNotApplicable } from '../../../studioos-experience-brain/schema.js';
 import { checkBrandContext, checkExperience, evaluateAuthorityGate, experienceIngest, legacyClassOf, type AuthorityGateResult } from '../../gate.js';
+import { AIO_IFTA_AUTHORITIES, AIO_IFTA_CLIENT_REFERENCES, AIO_IFTA_CLIENT_TERRITORIES, AIO_IFTA_DERIVATIONS, AIO_IFTA_FOUNDER_DECISIONS, aioIftaPageTreeConfirmation } from './ifta-authority/authorities.js';
+import { AIO_BRAND_AUTHORITY, AIO_BRAND_CONTEXT_ID, AIO_IFTA_BUNDLE_DIR, bundleFile } from './ifta-authority/bundle.js';
+import { AIO_IFTA_OPEN_DECISION_IDS } from './ifta-authority/decisions.js';
+import { AIO_IFTA_LEGACY_USES } from './ifta-authority/index.js';
 import {
   AUTHORITY_DEVELOPMENT_SEQUENCE,
   CORE_LOGIC_LOCK_KINDS,
@@ -24,6 +31,7 @@ import {
   TERRITORY_STRUCTURAL_DIMENSIONS,
   VISUAL_AUTHORITY_DOCTRINE,
   VISUAL_AUTHORITY_SPRINT,
+  type AuthorityGateInput,
   type BrandContext,
   type LegacySurface,
 } from '../../schema.js';
@@ -32,31 +40,42 @@ const SRC = aio.AIO_SOURCE_REPO;
 
 /* ─────────────────────────────── 01 brand DNA ─────────────────────────────── */
 
+/**
+ * Brand context — updated from the founder-approved AIO IFTA AUTHORITY BUNDLE (00_BRAND + 06_CONTRACTS): palette,
+ * uppercase typography, the LOCKED logo rule and the actor themes. Questions the bundle answered are closed; the
+ * bundle's own internal conflicts are carried as open questions (decisions D-BRAND-TOKENS · D-TYPOGRAPHY).
+ */
 export const AIO_BRAND_CONTEXT: BrandContext = {
-  brand_context_id: 'AIO.BRAND@2026-10-06',
+  brand_context_id: AIO_BRAND_CONTEXT_ID,
   project_id: 'AIO',
   positioning: `${aio.AIO_DNA.brand.tagline} ${aio.AIO_DNA.brand.positioning} ${aio.AIO_DNA.brand.promise}`,
   audience: 'Owner-operators, small and growing fleets, office managers and shippers — interstate carriers who need the business side of trucking handled.',
   voice: aio.AIO_DNA.brand.voice,
-  color: aio.AIO_DNA.visual_language.palette,
-  materials: ['brushed / satin metal (silver)', 'obsidian glass', 'charcoal steel', 'stone', 'champagne-gold accents and seals', 'office paper / filed-packet surfaces'],
-  typography: 'Current code tokens: display Plus Jakarta Sans, body DM Sans (src/styles/aio.css). Not founder-locked brand typography; never Frontal Slayer typography.',
-  logo_rules: 'Logo lockup asset public/brand/aio-logo-lockup.png (code). Clear-space / minimum-size rules not documented.',
-  mood: 'OPERATIONAL LUXURY — executive industrial × modern infrastructure; calm control over a moving operation.',
-  references: ['CINEMATIC TRUCKING / INFRASTRUCTURE imagery: highways, yards, cabs, fuel islands, office light', 'public/brand/all-in-one-hero-truck.png (legacy asset — content reference only)'],
+  color: [...AIO_BRAND_AUTHORITY.palette.map((t) => `${t.token} ${t.hex} — ${t.role}`), ...AIO_BRAND_AUTHORITY.material_world.map((m) => `material world: ${m}`)],
+  materials: [...AIO_BRAND_AUTHORITY.materials, 'brushed / satin metal (silver)', 'obsidian glass', 'charcoal steel', 'stone', 'champagne-gold accents', 'clean light operational surfaces (authenticated workspaces)'],
+  typography: 'UPPERCASE PRIMARY (locked). Brand DNA board: MONUMENT EXTENDED (headline) · INTER (secondary) · BEBAS NEUE (accent / label). IFTA asset sheet: INTER TIGHT headings · INTER body (+2% tracking). Display face open (D-TYPOGRAPHY). Code tokens Plus Jakarta Sans / DM Sans carry no authority.',
+  logo_rules: 'LOCKED: SIMPLE AIO MARK ONLY in tight / top navigation (also app launchers, favicons) — never the full text lockup there. FULL LOCKUP only in spacious lower brand bands / footer / exit regions.',
+  mood: 'OPERATIONAL LUXURY — executive industrial × modern infrastructure; calm control over a moving operation. Actor themes: PUBLIC DARK_PRIMARY cinematic · CLIENT LIGHT_PRIMARY · FOUNDER / STAFF LIGHT_PRIMARY + DARK_OPERATIONAL_ACCENTS.',
+  references: [bundleFile('BRAND_DNA_BOARD').path, bundleFile('FULL_LOGO_LOCKUP').path, bundleFile('SIMPLE_NAV_MARK').path, bundleFile('ICON_ASSET_SHEET').path, `Photography direction: ${AIO_BRAND_AUTHORITY.photography.join(' · ')} (cinematic truck-on-highway perimeters per the IFTA authorities)`],
   architectural_language: 'The business office behind the truck: a command office over road infrastructure — rooms, desks, filed packets, ledgers, gauges; never a generic SaaS dashboard.',
-  avoid_list: [...aio.AIO_DNA.visual_language.forbidden, 'stock smiles', 'alarm red as decoration', 'implying AIO is a government system'],
-  history: ['AIO structural completion F01–F18 (canonical product graph)', 'Workspace Experience Brain AIO proof (28 material features; IFTA deepest proof)', 'Known failure: IFTA experience coded onto legacy page geometry (OLD PAGE + NEW CONTENT)'],
+  avoid_list: [...aio.AIO_DNA.visual_language.forbidden, 'stock smiles', 'alarm red as decoration', 'implying AIO is a government system', 'full lockup in tight navigation', 'generic emoji / other icon families / random colors', 'third-party fuel-brand logos', 'legacy AIO shell visuals'],
+  history: ['AIO structural completion F01–F18 (canonical product graph)', 'Workspace Experience Brain AIO proof (28 material features; IFTA deepest proof)', 'Known failure: IFTA experience coded onto legacy page geometry (OLD PAGE + NEW CONTENT)', `AIO IFTA authority bundle ingested 2026-10-06 (${AIO_IFTA_BUNDLE_DIR})`],
   approved_decisions: [
     'Brand lines: WHERE BUSINESS MEETS THE ROAD. / THE BUSINESS OFFICE BEHIND THE TRUCK. / FROM STARTUP TO EVERY MILE AFTER.',
     'Voice: CLEAR · CAPABLE · CONNECTED · HUMAN',
     'Register: EXECUTIVE INDUSTRIAL × MODERN INFRASTRUCTURE; palette BLACK GOLD SILVER OBSIDIAN CHARCOAL STONE CHAMPAGNE',
     'IFTA metaphor: QUARTERLY FILING ROOM (experience contract)',
+    'Secondary line: ONE OFFICE. THE WHOLE ROAD AHEAD.',
+    'Logo: SIMPLE MARK ONLY in tight / top navigation; FULL LOCKUP only in lower brand bands (LOCKED)',
+    'Typography: UPPERCASE PRIMARY',
+    'Actor themes: PUBLIC DARK_PRIMARY · CLIENT LIGHT_PRIMARY · FOUNDER / STAFF LIGHT_PRIMARY + DARK_OPERATIONAL_ACCENTS',
+    'IFTA client parent authority: LIGHT ANALYTICS COMMAND',
+    'Legacy AIO visuals have ZERO design authority',
   ],
   open_brand_questions: [
-    'Is the code typography (Plus Jakarta Sans / DM Sans) the founder brand typography, or provisional?',
-    'Logo clear-space, minimum size and on-dark / on-light rules.',
-    'Approved photography set (which cinematic trucking images are brand-approved vs placeholder).',
+    'D-BRAND-TOKENS — brand DNA board vs IFTA asset sheet values for gold (#D4A853 vs #F4B223), charcoal (#1A1A1A vs #1F2937), darkest ink (#050505 vs #0B0B0B), light background (#F6F6F4 vs #FFFFFF).',
+    'D-TYPOGRAPHY — display face MONUMENT EXTENDED (+ BEBAS NEUE labels; commercial licence) vs INTER TIGHT.',
+    'Production brand assets not in the package: light-theme / transparent simple mark, transparent full lockups, approved hero photographs (reference images are not runtime assets).',
   ],
 };
 
@@ -92,7 +111,7 @@ export type AuthorityInputActor = 'PUBLIC' | 'CLIENT' | 'FOUNDER_STAFF';
 const VIEWPORTS_BY_ACTOR: Record<AuthorityInputActor, { primary: string; targets: string[]; note: string }> = {
   PUBLIC: { primary: 'MOBILE', targets: ['MOBILE', 'DESKTOP'], note: 'Discovery happens on phones; desktop is the considered-purchase read. Separate authorities if the composition cannot scale.' },
   CLIENT: { primary: 'MOBILE', targets: ['MOBILE', 'TABLET', 'DESKTOP'], note: 'Mobile = capture-first task flow at the pump; desktop = packet workbench. Never shrink the desktop bench into mobile.' },
-  FOUNDER_STAFF: { primary: 'DESKTOP', targets: ['DESKTOP', 'TABLET'], note: 'Staff work the queue on desktop; tablet for review away from the desk. Mobile is out of scope for this authority.' },
+  FOUNDER_STAFF: { primary: 'DESKTOP', targets: ['DESKTOP', 'TABLET', 'MOBILE'], note: 'Staff work the queue on desktop; tablet for review away from the desk. Mobile is in scope: the authority bundle includes a staff mobile derivation (ACTOR_MODES_MOBILE) — it supersedes the earlier “mobile out of scope” note.' },
 };
 
 /** Composition questions each actor's territories must answer differently (page logic, not paint). */
@@ -134,9 +153,13 @@ const perspectiveFor = (c: ExperienceContract, actor: AuthorityInputActor) => {
 
 const viewportBehavior = (c: ExperienceContract): Record<string, ViewportBehavior> => ({ MOBILE: c.mobile_behavior, TABLET: c.tablet_behavior, DESKTOP: c.desktop_behavior });
 
-/** Gate evaluation today: brand + experience loaded, legacy classified, no territories → AUTHORITY_TERRITORIES_REQUIRED. */
-export function aioIftaGateStatus(actor: AuthorityInputActor): AuthorityGateResult {
-  return evaluateAuthorityGate({
+/**
+ * Gate input after the authority bundle: CLIENT runs its three territories → LOVE_IT T03 (LIGHT) → locked parent;
+ * FOUNDER_STAFF and PUBLIC derive from the locked client parent. Legacy is read for function only. The page / tab /
+ * state tree is PRODUCED and awaits founder confirmation → AUTHORITY_APPROVED + PAGE_TREE_CONFIRMATION_REQUIRED.
+ */
+export function aioIftaGateInput(actor: AuthorityInputActor): AuthorityGateInput {
+  const shared: AuthorityGateInput = {
     project_id: 'AIO',
     family_id: aio.AIO_IFTA_CONTRACT.family_id,
     feature_id: aio.AIO_IFTA_CONTRACT.feature_id,
@@ -146,8 +169,18 @@ export function aioIftaGateStatus(actor: AuthorityInputActor): AuthorityGateResu
     experience_contract: aio.AIO_IFTA_CONTRACT,
     brand_context: AIO_BRAND_CONTEXT,
     legacy_surfaces: AIO_IFTA_LEGACY_SURFACES,
-    territories: [],
-  });
+    legacy_uses: AIO_IFTA_LEGACY_USES,
+    founder_decision: AIO_IFTA_FOUNDER_DECISIONS[actor],
+    authority: AIO_IFTA_AUTHORITIES[actor],
+    page_tree: aioIftaPageTreeConfirmation(AIO_IFTA_OPEN_DECISION_IDS),
+  };
+  return actor === 'CLIENT'
+    ? { ...shared, territories: AIO_IFTA_CLIENT_TERRITORIES, references: AIO_IFTA_CLIENT_REFERENCES }
+    : { ...shared, derivation: AIO_IFTA_DERIVATIONS[actor] };
+}
+
+export function aioIftaGateStatus(actor: AuthorityInputActor): AuthorityGateResult {
+  return evaluateAuthorityGate(aioIftaGateInput(actor));
 }
 
 export function buildAioIftaActorAuthorityInput(actor: AuthorityInputActor) {
@@ -245,11 +278,12 @@ export function buildAioIftaAuthorityDevelopmentInput() {
     cross_actor_rules: [
       'PUBLIC page prepares the client for the real workspace (same six-step quarter, same quarter object) — continuity, not a copy of the portal.',
       'FOUNDER / STAFF mirrors the client quarter as a CASE FILE across many clients — mirror, not copy.',
-      'The three actor authorities share brand DNA and the QUARTERLY FILING ROOM metaphor; each still gets its own 3 territories.',
+      'The three actor authorities share brand DNA and the QUARTERLY FILING ROOM metaphor. Founder decision (authority bundle): the CLIENT parent authority precedes actor / viewport derivation — FOUNDER_STAFF and PUBLIC derive from the locked client parent instead of running their own three territories.',
     ],
     founder_test_run: {
       who: 'Founder + ChatGPT',
       steps: ['Read the actor package', 'Author 3 territories per actor that pass the distinctness test', 'Produce one reference authority per territory (no paid generation from this sprint)', 'Founder verdict per actor', 'Lock PAGE_FAMILY_AUTHORITY → AUTHORITY_APPROVED → IMPLEMENTATION_READY'],
+      status: 'RAN — the founder + ChatGPT test produced the AIO IFTA AUTHORITY BUNDLE (client parent via 3 territories; staff + public derived). Ingested in docs/aio/ifta/authority-bundle/.',
     },
     constraints: { new_paid_generations: 0, credits_spent: 0, page_implementation: false },
   };

@@ -1,0 +1,1203 @@
+{
+  "id": "AIO_IFTA_REFERENCE_PACKAGE_GAP_REPORT",
+  "sprint": "P0.AIO.IFTA.AUTHORITY-BUNDLE-INGEST-AND-PAGE-TREE-PROOF1",
+  "generated_by": "scripts/studioos/aio-ifta-authority-bundle-export.ts",
+  "source": "shared/studioos-visual-authority/projects/aio/ifta-authority",
+  "generated_for": "2026-10-06",
+  "constraints": {
+    "page_implementation": false,
+    "new_paid_generations": 0,
+    "credits_spent": 0,
+    "legacy_visual_authority": "FORBIDDEN"
+  },
+  "status": "REFERENCE_PACKAGE_INCOMPLETE",
+  "rule": "IF INCOMPLETE: DO NOT INVENT VISUAL DESIGN. RETURN EXACTLY WHICH AUTHORITY IS MISSING.",
+  "authority_gaps": [
+    {
+      "gap_id": "G-STAFF-QUEUE",
+      "kind": "MISSING_AUTHORITY",
+      "missing": "FOUNDER / STAFF fuel tax QUEUE page (multi-client, due date × readiness, hub buckets) — MOBILE · TABLET · DESKTOP",
+      "nodes": [
+        "AIO.IFTA.STAFF.QUEUE"
+      ],
+      "components": [
+        "QUEUE_TABLE"
+      ],
+      "decision": "D-STAFF-QUEUE-AUTHORITY",
+      "why_not_derived": "The package shows one client-quarter only; the queue’s primary object (many client-quarters) and its composition are not in any reference. Deriving it would invent composition."
+    },
+    {
+      "gap_id": "G-INTERACTION-09",
+      "kind": "ILLEGIBLE_CONTRACT_ITEM",
+      "missing": "Page / component / interaction contract §05 item 09 label (“…FAQS”)",
+      "nodes": [],
+      "components": [],
+      "interactions": [
+        "I.CONTRACT_09"
+      ],
+      "decision": "D-INTERACTION-09",
+      "why_not_derived": "Unreadable — never guessed."
+    }
+  ],
+  "missing_bindings": [
+    {
+      "node_id": "AIO.IFTA.CLIENT.ROOM.NOTES",
+      "viewport": "MOBILE",
+      "binding": "DERIVED",
+      "note": "Tab label only in references (no NOTES content composition); asset sheet shows the tab DISABLED.",
+      "derivation": {
+        "family_composition_clear": true,
+        "component_contract_clear": true,
+        "tab_logic_clear": false,
+        "asset_family_clear": true
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.CLIENT.ROOM.NOTES",
+      "viewport": "TABLET",
+      "binding": "DERIVED",
+      "note": "Tab label only.",
+      "derivation": {
+        "family_composition_clear": true,
+        "component_contract_clear": true,
+        "tab_logic_clear": false,
+        "asset_family_clear": true
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.CLIENT.ROOM.NOTES",
+      "viewport": "DESKTOP",
+      "binding": "DERIVED",
+      "note": "Tab label only.",
+      "derivation": {
+        "family_composition_clear": true,
+        "component_contract_clear": true,
+        "tab_logic_clear": false,
+        "asset_family_clear": true
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.STAFF.QUEUE",
+      "viewport": "MOBILE",
+      "binding": "MISSING",
+      "note": "No queue reference in the package (G-STAFF-QUEUE).",
+      "derivation": null
+    },
+    {
+      "node_id": "AIO.IFTA.STAFF.QUEUE",
+      "viewport": "TABLET",
+      "binding": "MISSING",
+      "note": "No queue reference in the package.",
+      "derivation": null
+    },
+    {
+      "node_id": "AIO.IFTA.STAFF.QUEUE",
+      "viewport": "DESKTOP",
+      "binding": "MISSING",
+      "note": "No queue reference in the package.",
+      "derivation": null
+    },
+    {
+      "node_id": "AIO.IFTA.STAFF.CASE.NOTES",
+      "viewport": "MOBILE",
+      "binding": "DERIVED",
+      "note": "Tab label only (no NOTES content composition).",
+      "derivation": {
+        "family_composition_clear": true,
+        "component_contract_clear": true,
+        "tab_logic_clear": false,
+        "asset_family_clear": true
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.STAFF.CASE.NOTES",
+      "viewport": "TABLET",
+      "binding": "DERIVED",
+      "note": "Tab label only.",
+      "derivation": {
+        "family_composition_clear": true,
+        "component_contract_clear": true,
+        "tab_logic_clear": false,
+        "asset_family_clear": true
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.STAFF.CASE.NOTES",
+      "viewport": "DESKTOP",
+      "binding": "DERIVED",
+      "note": "Tab label only.",
+      "derivation": {
+        "family_composition_clear": true,
+        "component_contract_clear": true,
+        "tab_logic_clear": false,
+        "asset_family_clear": true
+      }
+    }
+  ],
+  "pending_scope_decision": {
+    "note": "Bindings unusable only because the node itself is a founder SCOPE decision (tab label in references, no content composition). Not counted as a reference gap; resolved by D-NOTES-TAB.",
+    "nodes": [
+      "AIO.IFTA.CLIENT.ROOM.NOTES",
+      "AIO.IFTA.STAFF.CASE.NOTES"
+    ]
+  },
+  "derived_not_gaps": {
+    "rule": "A tab / child without a dedicated image derives from the approved parent when family composition, component contract, tab logic and asset family are clear (sprint §36). These are not gaps.",
+    "nodes": [
+      "AIO.IFTA.CLIENT.ROOM.PROGRESS.NEEDS_YOU",
+      "AIO.IFTA.CLIENT.ROOM.PROGRESS.CORRECTION_FLOW",
+      "AIO.IFTA.CLIENT.ROOM.PROGRESS.SEND_CONFIRM",
+      "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW",
+      "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW.APPROVE_CONFIRM",
+      "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW.ASK",
+      "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES",
+      "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.UPLOAD",
+      "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.CSV_IMPORT",
+      "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.IMPORT_VAULT",
+      "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.RECEIPT_DETAIL",
+      "AIO.IFTA.CLIENT.ROOM.MILEAGE",
+      "AIO.IFTA.CLIENT.ROOM.MILEAGE.SOURCE_PICKER",
+      "AIO.IFTA.CLIENT.ROOM.MILEAGE.REPORT_IMPORT",
+      "AIO.IFTA.CLIENT.ROOM.MILEAGE.MANUAL_ENTRY",
+      "AIO.IFTA.CLIENT.ROOM.MILEAGE.VEHICLE_DETAIL",
+      "AIO.IFTA.CLIENT.ROOM.VEHICLES",
+      "AIO.IFTA.CLIENT.ROOM.VEHICLES.CONFIRM_FLEET",
+      "AIO.IFTA.CLIENT.ROOM.VEHICLES.VEHICLE_DETAIL",
+      "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS",
+      "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS.STATE_DETAIL",
+      "AIO.IFTA.CLIENT.ROOM.DOCUMENTS",
+      "AIO.IFTA.CLIENT.ROOM.DOCUMENTS.FILE_PREVIEW",
+      "AIO.IFTA.CLIENT.ROOM.MESSAGES",
+      "AIO.IFTA.CLIENT.ROOM.FILED",
+      "AIO.IFTA.CLIENT.ROOM.ARCHIVED",
+      "AIO.IFTA.CLIENT.ROOM.NEXT_QUARTER_OPEN",
+      "AIO.IFTA.CLIENT.ROOM.RETURNED",
+      "AIO.IFTA.CLIENT.NOT_ENROLLED",
+      "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES",
+      "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES.RECEIPT_REVIEW",
+      "AIO.IFTA.STAFF.CASE.MILEAGE",
+      "AIO.IFTA.STAFF.CASE.MILEAGE.SOURCE_VERIFY",
+      "AIO.IFTA.STAFF.CASE.VEHICLES",
+      "AIO.IFTA.STAFF.CASE.VEHICLES.MARK_NOT_OPERATED",
+      "AIO.IFTA.STAFF.CASE.JURISDICTIONS",
+      "AIO.IFTA.STAFF.CASE.JURISDICTIONS.DISCREPANCY",
+      "AIO.IFTA.STAFF.CASE.DOCUMENTS",
+      "AIO.IFTA.STAFF.CASE.DOCUMENTS.FILE_PREVIEW",
+      "AIO.IFTA.STAFF.CASE.RETURN_DRAFT",
+      "AIO.IFTA.STAFF.CASE.RETURN_DRAFT.SEND_CONFIRM",
+      "AIO.IFTA.STAFF.CASE.REQUEST_CORRECTION",
+      "AIO.IFTA.STAFF.CASE.RECORD_FILING",
+      "AIO.IFTA.STAFF.CASE.RECORD_PAYMENT",
+      "AIO.IFTA.STAFF.CASE.AUDIT",
+      "AIO.IFTA.STAFF.CASE.THREAD",
+      "AIO.IFTA.STAFF.CASE.AMENDMENT",
+      "AIO.IFTA.STAFF.CASE.REOPEN",
+      "AIO.IFTA.PUBLIC.SERVICE.WHAT_IS_IFTA",
+      "AIO.IFTA.PUBLIC.SERVICE.RESOURCES",
+      "AIO.IFTA.PUBLIC.REQUEST_FILING"
+    ],
+    "founder_spot_check_recommended": [
+      "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW (highest-stakes client decision window)",
+      "AIO.IFTA.CLIENT.ROOM.FILED (sealed quarter — no dedicated seal asset)"
+    ]
+  },
+  "blocked_by_founder_decision": [
+    {
+      "decision_id": "D-INTERACTION-09",
+      "question": "Interaction 09 on the page / component / interaction contract is illegible (“…FAQS”). What is it?",
+      "blocks_nodes": []
+    },
+    {
+      "decision_id": "D-ROUTES-SHELL",
+      "question": "Where do the new IFTA pages mount? The planned helpers (/portal/services/ifta, /office/permitting/fuel-tax/:caseId) are unrouted today (the client path is caught by services/:serviceRequestId), and the legacy portal / office layouts carry legacy chrome with zero design authority.",
+      "blocks_nodes": []
+    },
+    {
+      "decision_id": "D-NOTES-TAB",
+      "question": "NOTES appears as a tab on the client desktop, the 3-actor mobile sheet and every staff reference, but not in the approved parent’s six tabs (and is drawn DISABLED on the asset sheet). Is NOTES a tab, and for whom?",
+      "blocks_nodes": [
+        "AIO.IFTA.CLIENT.ROOM.NOTES",
+        "AIO.IFTA.STAFF.CASE.NOTES"
+      ]
+    },
+    {
+      "decision_id": "D-CLIENT-DESKTOP-STAFF-MODULES",
+      "question": "The client DESKTOP reference shows staff-only content (CLIENT: ALEX R. / ACCOUNT #AIO-1042 card, CLIENT HEALTH button, QUARTER TASKS incl. “Internal QA” and “Check jurisdiction rates”). What does the client desktop show in those slots?",
+      "blocks_nodes": [
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS"
+      ]
+    },
+    {
+      "decision_id": "D-STAFF-QUEUE-AUTHORITY",
+      "question": "The package has no reference for the multi-client FUEL TAX QUEUE (contract work_queue: client-quarters by due date × readiness with hub buckets). How is its authority supplied?",
+      "blocks_nodes": [
+        "AIO.IFTA.STAFF.QUEUE"
+      ]
+    }
+  ],
+  "runtime_asset_gaps": {
+    "note": "Not authority gaps: the package directs composition; these production files are absent. SIDEKICK_FALLBACK_ONLY candidates (TRUE MISSING RUNTIME ASSET) — nothing generated.",
+    "assets": [
+      {
+        "asset_id": "BRAND.SIMPLE_MARK",
+        "asset_class": "BRAND_MARK",
+        "note": "Only a dark-tile raster exists; a transparent / light-theme vector mark is needed for LIGHT_PRIMARY navs."
+      },
+      {
+        "asset_id": "BRAND.FULL_LOCKUP",
+        "asset_class": "BRAND_MARK",
+        "note": "Transparent light + dark production lockups not in the package."
+      },
+      {
+        "asset_id": "ICON.NAV.OVERVIEW",
+        "asset_class": "NAV_ICON",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.NAV.FILING",
+        "asset_class": "NAV_ICON",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.NAV.DOCUMENTS",
+        "asset_class": "NAV_ICON",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.NAV.VEHICLES",
+        "asset_class": "NAV_ICON",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.NAV.SUPPORT",
+        "asset_class": "NAV_ICON",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.NAV.SETTINGS",
+        "asset_class": "NAV_ICON",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.METRIC.MILES",
+        "asset_class": "METRIC_ICON",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.METRIC.FUEL",
+        "asset_class": "METRIC_ICON",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.METRIC.TAX_DUE",
+        "asset_class": "METRIC_ICON",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.METRIC.JURISDICTIONS",
+        "asset_class": "METRIC_ICON",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.WORKFLOW.DATA_COLLECTION",
+        "asset_class": "WORKFLOW_ICON",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.WORKFLOW.PREPARE_RETURN",
+        "asset_class": "WORKFLOW_ICON",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.WORKFLOW.REVIEW_APPROVE",
+        "asset_class": "WORKFLOW_ICON",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.WORKFLOW.SEND",
+        "asset_class": "WORKFLOW_ICON",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.WORKFLOW.FILE_CONFIRM",
+        "asset_class": "WORKFLOW_ICON",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.FILE.PDF",
+        "asset_class": "FILE_ICON",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.FILE.EXCEL",
+        "asset_class": "FILE_ICON",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.FILE.CSV",
+        "asset_class": "FILE_ICON",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.FILE.DOCUMENT",
+        "asset_class": "FILE_ICON",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.FILE.IMAGE",
+        "asset_class": "FILE_ICON",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.FILE.TEXT",
+        "asset_class": "FILE_ICON",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.FILE.ARCHIVE",
+        "asset_class": "FILE_ICON",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.FILE.UPLOAD",
+        "asset_class": "FILE_ICON",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.STATUS.COMPLETE",
+        "asset_class": "STATUS_ICON",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.STATUS.IN_PROGRESS",
+        "asset_class": "STATUS_ICON",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.STATUS.PENDING",
+        "asset_class": "STATUS_ICON",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.STATUS.ATTENTION",
+        "asset_class": "STATUS_ICON",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.COMM.SEARCH",
+        "asset_class": "COMMUNICATION_ICON",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.COMM.NOTIFICATION",
+        "asset_class": "COMMUNICATION_ICON",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.COMM.USERS",
+        "asset_class": "COMMUNICATION_ICON",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.COMM.MESSAGE",
+        "asset_class": "COMMUNICATION_ICON",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.COMM.OPEN",
+        "asset_class": "COMMUNICATION_ICON",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.COMM.MORE",
+        "asset_class": "COMMUNICATION_ICON",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "MAP.JURISDICTION_STYLE",
+        "asset_class": "MAP_STYLE",
+        "note": "No base-map geometry asset in the package (US state shapes needed; provinces not in AIO data)."
+      },
+      {
+        "asset_id": "IMAGE.HERO_TRUCK_LIGHT",
+        "asset_class": "IMAGE_TREATMENT",
+        "note": "Reference images may not ship (AUTHORITY ≠ RUNTIME ASSET); no production hero in the package."
+      },
+      {
+        "asset_id": "IMAGE.HERO_TRUCK_DARK",
+        "asset_class": "IMAGE_TREATMENT",
+        "note": "No production public hero in the package."
+      },
+      {
+        "asset_id": "IMAGE.ROAD_EVIDENCE",
+        "asset_class": "IMAGE_TREATMENT",
+        "note": ""
+      },
+      {
+        "asset_id": "IMAGE.BAND_LANDSCAPE",
+        "asset_class": "IMAGE_TREATMENT",
+        "note": ""
+      }
+    ],
+    "fonts": "MONUMENT EXTENDED requires a commercial licence if chosen (D-TYPOGRAPHY)."
+  },
+  "reference_defects": [
+    {
+      "ref_id": "FULL_LOGO_LOCKUP",
+      "defects": [
+        "Raster reference on a background — no transparent production lockup for light and dark bands (runtime asset gap)."
+      ]
+    },
+    {
+      "ref_id": "SIMPLE_NAV_MARK",
+      "defects": [
+        "Only a dark-tile raster exists — no light-theme or transparent vector mark for the LIGHT_PRIMARY client / staff nav (runtime asset gap)."
+      ]
+    },
+    {
+      "ref_id": "CLIENT_3_TERRITORIES",
+      "defects": [
+        "01 copy “ORGANIZED. AUTOMATED. HANDLED BY AIO.” overstates automation (not selected; recorded only)."
+      ]
+    },
+    {
+      "ref_id": "ACTOR_MODES_MOBILE",
+      "defects": [
+        "Staff persona TAYLOR M. here vs ALEX R. AIO STAFF on the staff tablet / desktop (sample-data inconsistency).",
+        "Public copy “simple, organized, and automated” and “we track your fuel, mileage, and routes” overstate current capability (content truth)."
+      ]
+    },
+    {
+      "ref_id": "CLIENT_MOBILE_PARENT_AUTHORITY",
+      "defects": [
+        "Upload row label typo “FUEL FUEL RECEIPTS”.",
+        "EST. TAX DUE shown during AIO PREPARATION although no tax figure exists until staff prepares the return summary (data truth — decision D-EST-TAX)."
+      ]
+    },
+    {
+      "ref_id": "FUEL_PURCHASES_CHILD_PROOF",
+      "defects": [
+        "No STATE / jurisdiction column although the FUEL PURCHASES contract requires STATE (sprint §12) — implementation adds it inside the table component (content fit, not new design).",
+        "Third-party fuel-brand logos in vendor cells conflict with the asset sheet rule “do not include any third-party branding” — vendor names render as text.",
+        "Only three status chips; DUPLICATE and UNREADABLE are required by contract (mapped to the status chip family — see state registry)."
+      ]
+    },
+    {
+      "ref_id": "CLIENT_TABLET_DESKTOP",
+      "defects": [
+        "Desktop shows staff-only content in client mode: CLIENT: ALEX R. / ACCOUNT #AIO-1042 card, CLIENT HEALTH button, QUARTER TASKS with “Internal QA” and “Check jurisdiction rates” (decision D-CLIENT-DESKTOP-STAFF-MODULES).",
+        "Desktop adds a NOTES tab not in the approved parent’s six tabs (decision D-NOTES-TAB)."
+      ]
+    },
+    {
+      "ref_id": "FOUNDER_STAFF_TABLET_DESKTOP",
+      "defects": [
+        "Single client-quarter only — no authority for the multi-client FUEL TAX QUEUE (contract work_queue) → reference gap."
+      ]
+    },
+    {
+      "ref_id": "PUBLIC_TABLET_DESKTOP",
+      "defects": [
+        "Copy claims (“calculate your return”, “we calculate your IFTA return for you”, “submit with confidence”, “automated tracking”, “track miles by state or province”) exceed current truth: staff-coordinated filing, no government API, no tax engine, US states only (decision D-PUBLIC-COPY-TRUTH).",
+        "Sample quarter metrics must be labelled SAMPLE — public mode never shows private client data.",
+        "RESOURCES nav item has no section composition in the reference."
+      ]
+    },
+    {
+      "ref_id": "PAGE_COMPONENT_INTERACTION_CONTRACT",
+      "defects": [
+        "Interaction 09 label is illegible (“…FAQS”) — recorded as ILLEGIBLE_IN_AUTHORITY, never guessed (decision D-INTERACTION-09).",
+        "JURISDICTIONS “configure jurisdictions and tax rules / manage settings” is a staff capability; AIO holds no tax-rate table (data reconciliation).",
+        "VEHICLES “add / deactivate” belongs to the fleet profile; the quarter only records participation."
+      ]
+    },
+    {
+      "ref_id": "ICON_ASSET_SHEET",
+      "defects": [
+        "Color tokens and typography differ from the brand DNA board (decisions D-BRAND-TOKENS and D-TYPOGRAPHY).",
+        "Raster only — no vector icon set (runtime asset gap)."
+      ]
+    }
+  ],
+  "asset_contract": {
+    "classes": [
+      "BRAND_MARK",
+      "NAV_ICON",
+      "METRIC_ICON",
+      "WORKFLOW_ICON",
+      "FILE_ICON",
+      "STATUS_ICON",
+      "COMMUNICATION_ICON",
+      "MAP_STYLE",
+      "CTA_TREATMENT",
+      "AVATAR_TREATMENT",
+      "IMAGE_TREATMENT",
+      "SURFACE_SHADOW_TREATMENT"
+    ],
+    "by_class": {
+      "BRAND_MARK": 2,
+      "NAV_ICON": 6,
+      "METRIC_ICON": 4,
+      "WORKFLOW_ICON": 5,
+      "FILE_ICON": 8,
+      "STATUS_ICON": 4,
+      "COMMUNICATION_ICON": 6,
+      "MAP_STYLE": 2,
+      "CTA_TREATMENT": 5,
+      "AVATAR_TREATMENT": 1,
+      "IMAGE_TREATMENT": 4,
+      "SURFACE_SHADOW_TREATMENT": 5
+    },
+    "strictness": {
+      "rule": "When a family asset exists, do not substitute it.",
+      "forbidden": [
+        "GENERIC EMOJI",
+        "DIFFERENT ICON FAMILIES",
+        "RANDOM COLORS",
+        "UNRELATED CHART STYLES",
+        "GENERIC SAAS SYMBOLS",
+        "THIRD-PARTY BRANDING (fuel-brand logos)",
+        "LEGACY AIO SHELL ASSETS"
+      ],
+      "when_missing": "Report as RUNTIME_ASSET_MISSING → SIDEKICK_FALLBACK_ONLY candidate (true missing runtime asset). Never invent."
+    },
+    "assets": [
+      {
+        "asset_id": "BRAND.SIMPLE_MARK",
+        "asset_class": "BRAND_MARK",
+        "name": "Simple AIO mark",
+        "source_refs": [
+          "SIMPLE_NAV_MARK",
+          "ICON_ASSET_SHEET"
+        ],
+        "usage": "Top / tight navigation, app launchers, favicons",
+        "rule": "LOCKED: SIMPLE_MARK_ONLY in tight navigation; never the full lockup there.",
+        "runtime": "RUNTIME_ASSET_MISSING",
+        "note": "Only a dark-tile raster exists; a transparent / light-theme vector mark is needed for LIGHT_PRIMARY navs."
+      },
+      {
+        "asset_id": "BRAND.FULL_LOCKUP",
+        "asset_class": "BRAND_MARK",
+        "name": "Full AIO lockup",
+        "source_refs": [
+          "FULL_LOGO_LOCKUP",
+          "ICON_ASSET_SHEET"
+        ],
+        "usage": "Lower brand band / footer / exit region only",
+        "rule": "LOCKED: FULL_LOCKUP_ALLOWED only in spacious lower bands.",
+        "runtime": "RUNTIME_ASSET_MISSING",
+        "note": "Transparent light + dark production lockups not in the package."
+      },
+      {
+        "asset_id": "ICON.NAV.OVERVIEW",
+        "asset_class": "NAV_ICON",
+        "name": "Overview",
+        "source_refs": [
+          "ICON_ASSET_SHEET"
+        ],
+        "usage": "Overview / progress tab, staff OVERVIEW",
+        "rule": "Linear · structured · premium (brand icon direction). Use this glyph; no substitute family, no emoji.",
+        "runtime": "RUNTIME_ASSET_MISSING",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.NAV.FILING",
+        "asset_class": "NAV_ICON",
+        "name": "Filing",
+        "source_refs": [
+          "ICON_ASSET_SHEET"
+        ],
+        "usage": "Filing room / return",
+        "rule": "Linear · structured · premium (brand icon direction). Use this glyph; no substitute family, no emoji.",
+        "runtime": "RUNTIME_ASSET_MISSING",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.NAV.DOCUMENTS",
+        "asset_class": "NAV_ICON",
+        "name": "Documents",
+        "source_refs": [
+          "ICON_ASSET_SHEET"
+        ],
+        "usage": "DOCUMENTS tab",
+        "rule": "Linear · structured · premium (brand icon direction). Use this glyph; no substitute family, no emoji.",
+        "runtime": "RUNTIME_ASSET_MISSING",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.NAV.VEHICLES",
+        "asset_class": "NAV_ICON",
+        "name": "Vehicles",
+        "source_refs": [
+          "ICON_ASSET_SHEET"
+        ],
+        "usage": "VEHICLES tab, vehicle rows",
+        "rule": "Linear · structured · premium (brand icon direction). Use this glyph; no substitute family, no emoji.",
+        "runtime": "RUNTIME_ASSET_MISSING",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.NAV.SUPPORT",
+        "asset_class": "NAV_ICON",
+        "name": "Support",
+        "source_refs": [
+          "ICON_ASSET_SHEET"
+        ],
+        "usage": "Help rail (message your AIO team)",
+        "rule": "Linear · structured · premium (brand icon direction). Use this glyph; no substitute family, no emoji.",
+        "runtime": "RUNTIME_ASSET_MISSING",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.NAV.SETTINGS",
+        "asset_class": "NAV_ICON",
+        "name": "Settings",
+        "source_refs": [
+          "ICON_ASSET_SHEET"
+        ],
+        "usage": "Avatar menu settings",
+        "rule": "Linear · structured · premium (brand icon direction). Use this glyph; no substitute family, no emoji.",
+        "runtime": "RUNTIME_ASSET_MISSING",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.METRIC.MILES",
+        "asset_class": "METRIC_ICON",
+        "name": "Miles",
+        "source_refs": [
+          "ICON_ASSET_SHEET"
+        ],
+        "usage": "TOTAL MILES metric",
+        "rule": "Linear · structured · premium (brand icon direction). Use this glyph; no substitute family, no emoji.",
+        "runtime": "RUNTIME_ASSET_MISSING",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.METRIC.FUEL",
+        "asset_class": "METRIC_ICON",
+        "name": "Fuel",
+        "source_refs": [
+          "ICON_ASSET_SHEET"
+        ],
+        "usage": "TOTAL FUEL (GAL) metric, fuel rows",
+        "rule": "Linear · structured · premium (brand icon direction). Use this glyph; no substitute family, no emoji.",
+        "runtime": "RUNTIME_ASSET_MISSING",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.METRIC.TAX_DUE",
+        "asset_class": "METRIC_ICON",
+        "name": "Tax due",
+        "source_refs": [
+          "ICON_ASSET_SHEET"
+        ],
+        "usage": "TAX DUE / CREDIT metric (from the return summary only)",
+        "rule": "Linear · structured · premium (brand icon direction). Use this glyph; no substitute family, no emoji.",
+        "runtime": "RUNTIME_ASSET_MISSING",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.METRIC.JURISDICTIONS",
+        "asset_class": "METRIC_ICON",
+        "name": "Jurisdictions",
+        "source_refs": [
+          "ICON_ASSET_SHEET"
+        ],
+        "usage": "JURISDICTIONS metric, map pins",
+        "rule": "Linear · structured · premium (brand icon direction). Use this glyph; no substitute family, no emoji.",
+        "runtime": "RUNTIME_ASSET_MISSING",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.WORKFLOW.DATA_COLLECTION",
+        "asset_class": "WORKFLOW_ICON",
+        "name": "Data collection (numbered step)",
+        "source_refs": [
+          "ICON_ASSET_SHEET"
+        ],
+        "usage": "Filing workflow step 01",
+        "rule": "Linear · structured · premium (brand icon direction). Use this glyph; no substitute family, no emoji.",
+        "runtime": "RUNTIME_ASSET_MISSING",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.WORKFLOW.PREPARE_RETURN",
+        "asset_class": "WORKFLOW_ICON",
+        "name": "Prepare return",
+        "source_refs": [
+          "ICON_ASSET_SHEET"
+        ],
+        "usage": "Filing workflow step 02 / return preparation line",
+        "rule": "Linear · structured · premium (brand icon direction). Use this glyph; no substitute family, no emoji.",
+        "runtime": "RUNTIME_ASSET_MISSING",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.WORKFLOW.REVIEW_APPROVE",
+        "asset_class": "WORKFLOW_ICON",
+        "name": "Review & approve",
+        "source_refs": [
+          "ICON_ASSET_SHEET"
+        ],
+        "usage": "Filing workflow step 03 / your review & approval line",
+        "rule": "Linear · structured · premium (brand icon direction). Use this glyph; no substitute family, no emoji.",
+        "runtime": "RUNTIME_ASSET_MISSING",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.WORKFLOW.SEND",
+        "asset_class": "WORKFLOW_ICON",
+        "name": "Send",
+        "source_refs": [
+          "ICON_ASSET_SHEET"
+        ],
+        "usage": "Send quarter to AIO / send for approval / filing & confirmation line",
+        "rule": "Linear · structured · premium (brand icon direction). Use this glyph; no substitute family, no emoji.",
+        "runtime": "RUNTIME_ASSET_MISSING",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.WORKFLOW.FILE_CONFIRM",
+        "asset_class": "WORKFLOW_ICON",
+        "name": "File & confirm",
+        "source_refs": [
+          "ICON_ASSET_SHEET"
+        ],
+        "usage": "Filing workflow step 04",
+        "rule": "Linear · structured · premium (brand icon direction). Use this glyph; no substitute family, no emoji.",
+        "runtime": "RUNTIME_ASSET_MISSING",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.FILE.PDF",
+        "asset_class": "FILE_ICON",
+        "name": "PDF",
+        "source_refs": [
+          "ICON_ASSET_SHEET"
+        ],
+        "usage": "File rows / badges",
+        "rule": "Linear · structured · premium (brand icon direction). Use this glyph; no substitute family, no emoji.",
+        "runtime": "RUNTIME_ASSET_MISSING",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.FILE.EXCEL",
+        "asset_class": "FILE_ICON",
+        "name": "Excel",
+        "source_refs": [
+          "ICON_ASSET_SHEET"
+        ],
+        "usage": "File rows / badges",
+        "rule": "Linear · structured · premium (brand icon direction). Use this glyph; no substitute family, no emoji.",
+        "runtime": "RUNTIME_ASSET_MISSING",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.FILE.CSV",
+        "asset_class": "FILE_ICON",
+        "name": "CSV",
+        "source_refs": [
+          "ICON_ASSET_SHEET"
+        ],
+        "usage": "CSV import, file rows",
+        "rule": "Linear · structured · premium (brand icon direction). Use this glyph; no substitute family, no emoji.",
+        "runtime": "RUNTIME_ASSET_MISSING",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.FILE.DOCUMENT",
+        "asset_class": "FILE_ICON",
+        "name": "Document",
+        "source_refs": [
+          "ICON_ASSET_SHEET"
+        ],
+        "usage": "Return drafts, confirmations",
+        "rule": "Linear · structured · premium (brand icon direction). Use this glyph; no substitute family, no emoji.",
+        "runtime": "RUNTIME_ASSET_MISSING",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.FILE.IMAGE",
+        "asset_class": "FILE_ICON",
+        "name": "Image",
+        "source_refs": [
+          "ICON_ASSET_SHEET"
+        ],
+        "usage": "Receipt photos",
+        "rule": "Linear · structured · premium (brand icon direction). Use this glyph; no substitute family, no emoji.",
+        "runtime": "RUNTIME_ASSET_MISSING",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.FILE.TEXT",
+        "asset_class": "FILE_ICON",
+        "name": "Text",
+        "source_refs": [
+          "ICON_ASSET_SHEET"
+        ],
+        "usage": "Notes / text files",
+        "rule": "Linear · structured · premium (brand icon direction). Use this glyph; no substitute family, no emoji.",
+        "runtime": "RUNTIME_ASSET_MISSING",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.FILE.ARCHIVE",
+        "asset_class": "FILE_ICON",
+        "name": "Archive",
+        "source_refs": [
+          "ICON_ASSET_SHEET"
+        ],
+        "usage": "Sealed packet / zip",
+        "rule": "Linear · structured · premium (brand icon direction). Use this glyph; no substitute family, no emoji.",
+        "runtime": "RUNTIME_ASSET_MISSING",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.FILE.UPLOAD",
+        "asset_class": "FILE_ICON",
+        "name": "Upload",
+        "source_refs": [
+          "ICON_ASSET_SHEET"
+        ],
+        "usage": "Upload zone",
+        "rule": "Linear · structured · premium (brand icon direction). Use this glyph; no substitute family, no emoji.",
+        "runtime": "RUNTIME_ASSET_MISSING",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.STATUS.COMPLETE",
+        "asset_class": "STATUS_ICON",
+        "name": "Complete",
+        "source_refs": [
+          "ICON_ASSET_SHEET"
+        ],
+        "usage": "Complete / processed / filed",
+        "rule": "Linear · structured · premium (brand icon direction). Use this glyph; no substitute family, no emoji.",
+        "runtime": "RUNTIME_ASSET_MISSING",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.STATUS.IN_PROGRESS",
+        "asset_class": "STATUS_ICON",
+        "name": "In progress",
+        "source_refs": [
+          "ICON_ASSET_SHEET"
+        ],
+        "usage": "In progress / AIO reviewing",
+        "rule": "Linear · structured · premium (brand icon direction). Use this glyph; no substitute family, no emoji.",
+        "runtime": "RUNTIME_ASSET_MISSING",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.STATUS.PENDING",
+        "asset_class": "STATUS_ICON",
+        "name": "Pending",
+        "source_refs": [
+          "ICON_ASSET_SHEET"
+        ],
+        "usage": "Pending steps",
+        "rule": "Linear · structured · premium (brand icon direction). Use this glyph; no substitute family, no emoji.",
+        "runtime": "RUNTIME_ASSET_MISSING",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.STATUS.ATTENTION",
+        "asset_class": "STATUS_ICON",
+        "name": "Attention",
+        "source_refs": [
+          "ICON_ASSET_SHEET"
+        ],
+        "usage": "Needs you / exceptions / duplicate / unreadable",
+        "rule": "Linear · structured · premium (brand icon direction). Use this glyph; no substitute family, no emoji.",
+        "runtime": "RUNTIME_ASSET_MISSING",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.COMM.SEARCH",
+        "asset_class": "COMMUNICATION_ICON",
+        "name": "Search",
+        "source_refs": [
+          "ICON_ASSET_SHEET"
+        ],
+        "usage": "Top nav search",
+        "rule": "Linear · structured · premium (brand icon direction). Use this glyph; no substitute family, no emoji.",
+        "runtime": "RUNTIME_ASSET_MISSING",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.COMM.NOTIFICATION",
+        "asset_class": "COMMUNICATION_ICON",
+        "name": "Notification",
+        "source_refs": [
+          "ICON_ASSET_SHEET"
+        ],
+        "usage": "Top nav notifications",
+        "rule": "Linear · structured · premium (brand icon direction). Use this glyph; no substitute family, no emoji.",
+        "runtime": "RUNTIME_ASSET_MISSING",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.COMM.USERS",
+        "asset_class": "COMMUNICATION_ICON",
+        "name": "Users",
+        "source_refs": [
+          "ICON_ASSET_SHEET"
+        ],
+        "usage": "Team / assignees",
+        "rule": "Linear · structured · premium (brand icon direction). Use this glyph; no substitute family, no emoji.",
+        "runtime": "RUNTIME_ASSET_MISSING",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.COMM.MESSAGE",
+        "asset_class": "COMMUNICATION_ICON",
+        "name": "Message",
+        "source_refs": [
+          "ICON_ASSET_SHEET"
+        ],
+        "usage": "Message AIO / message client",
+        "rule": "Linear · structured · premium (brand icon direction). Use this glyph; no substitute family, no emoji.",
+        "runtime": "RUNTIME_ASSET_MISSING",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.COMM.OPEN",
+        "asset_class": "COMMUNICATION_ICON",
+        "name": "Open / launch",
+        "source_refs": [
+          "ICON_ASSET_SHEET"
+        ],
+        "usage": "Row chevrons, CTA arrows, open in Vault",
+        "rule": "Linear · structured · premium (brand icon direction). Use this glyph; no substitute family, no emoji.",
+        "runtime": "RUNTIME_ASSET_MISSING",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "ICON.COMM.MORE",
+        "asset_class": "COMMUNICATION_ICON",
+        "name": "More",
+        "source_refs": [
+          "ICON_ASSET_SHEET"
+        ],
+        "usage": "Row menus",
+        "rule": "Linear · structured · premium (brand icon direction). Use this glyph; no substitute family, no emoji.",
+        "runtime": "RUNTIME_ASSET_MISSING",
+        "note": "Raster sheet only — production SVG not in the package."
+      },
+      {
+        "asset_id": "MAP.JURISDICTION_STYLE",
+        "asset_class": "MAP_STYLE",
+        "name": "Jurisdiction map style + legend",
+        "source_refs": [
+          "ICON_ASSET_SHEET",
+          "CLIENT_MOBILE_PARENT_AUTHORITY",
+          "PUBLIC_TABLET_DESKTOP"
+        ],
+        "usage": "MAP_PANEL (client / staff light: gold-graded states; public dark: lit network map)",
+        "rule": "Gold / champagne / stone graded fills with the sheet legend style; no other chart palettes.",
+        "runtime": "RUNTIME_ASSET_MISSING",
+        "note": "No base-map geometry asset in the package (US state shapes needed; provinces not in AIO data)."
+      },
+      {
+        "asset_id": "CHART.FAMILY_STYLE",
+        "asset_class": "MAP_STYLE",
+        "name": "Bars + donut chart style",
+        "source_refs": [
+          "CLIENT_TABLET_DESKTOP",
+          "FOUNDER_STAFF_TABLET_DESKTOP"
+        ],
+        "usage": "Mileage-by-jurisdiction bars, fuel / vendor donuts",
+        "rule": "Gold → bronze → stone → black series as drawn; no unrelated chart styles.",
+        "runtime": "BUILD_FROM_SPEC"
+      },
+      {
+        "asset_id": "CTA.PRIMARY_GOLD",
+        "asset_class": "CTA_TREATMENT",
+        "name": "Primary gold button",
+        "source_refs": [
+          "ICON_ASSET_SHEET"
+        ],
+        "usage": "GET STARTED (public), primary confirms",
+        "rule": "Gold fill, uppercase label, arrow glyph.",
+        "runtime": "BUILD_FROM_SPEC"
+      },
+      {
+        "asset_id": "CTA.SECONDARY_OUTLINE",
+        "asset_class": "CTA_TREATMENT",
+        "name": "Secondary outline button",
+        "source_refs": [
+          "ICON_ASSET_SHEET"
+        ],
+        "usage": "VIEW DETAILS",
+        "rule": "Outline, uppercase, arrow.",
+        "runtime": "BUILD_FROM_SPEC"
+      },
+      {
+        "asset_id": "CTA.TERTIARY_TEXT",
+        "asset_class": "CTA_TREATMENT",
+        "name": "Tertiary text button",
+        "source_refs": [
+          "ICON_ASSET_SHEET"
+        ],
+        "usage": "CANCEL",
+        "rule": "Text only.",
+        "runtime": "BUILD_FROM_SPEC"
+      },
+      {
+        "asset_id": "CTA.NEXT_ACTION_RAIL",
+        "asset_class": "CTA_TREATMENT",
+        "name": "Next-action rail",
+        "source_refs": [
+          "ICON_ASSET_SHEET",
+          "CLIENT_MOBILE_PARENT_AUTHORITY",
+          "FOUNDER_STAFF_TABLET_DESKTOP"
+        ],
+        "usage": "One per tab × state (dark rail, gold arrow tile)",
+        "rule": "Exactly one next-action rail per view.",
+        "runtime": "BUILD_FROM_SPEC"
+      },
+      {
+        "asset_id": "CTA.TAB_PILL",
+        "asset_class": "CTA_TREATMENT",
+        "name": "Tab pill",
+        "source_refs": [
+          "ICON_ASSET_SHEET"
+        ],
+        "usage": "TAB_BAR",
+        "rule": "Active gold pill · inactive · hover · disabled.",
+        "runtime": "BUILD_FROM_SPEC"
+      },
+      {
+        "asset_id": "AVATAR.CHIP",
+        "asset_class": "AVATAR_TREATMENT",
+        "name": "Avatar chip",
+        "source_refs": [
+          "ICON_ASSET_SHEET"
+        ],
+        "usage": "Top nav identity (name + role), staff assignee initials",
+        "rule": "Circular photo or initials + uppercase name / role.",
+        "runtime": "BUILD_FROM_SPEC"
+      },
+      {
+        "asset_id": "IMAGE.HERO_TRUCK_LIGHT",
+        "asset_class": "IMAGE_TREATMENT",
+        "name": "Cinematic truck perimeter — light",
+        "source_refs": [
+          "CLIENT_MOBILE_PARENT_AUTHORITY",
+          "CLIENT_TABLET_DESKTOP",
+          "FOUNDER_STAFF_TABLET_DESKTOP",
+          "ICON_ASSET_SHEET"
+        ],
+        "usage": "Client + staff hero perimeter",
+        "rule": "Truck on a mountain highway, warm daylight; text-safe left area; never behind operational data.",
+        "runtime": "RUNTIME_ASSET_MISSING",
+        "note": "Reference images may not ship (AUTHORITY ≠ RUNTIME ASSET); no production hero in the package."
+      },
+      {
+        "asset_id": "IMAGE.HERO_TRUCK_DARK",
+        "asset_class": "IMAGE_TREATMENT",
+        "name": "Cinematic truck perimeter — dark",
+        "source_refs": [
+          "PUBLIC_TABLET_DESKTOP",
+          "ACTOR_MODES_MOBILE"
+        ],
+        "usage": "Public hero",
+        "rule": "Night / dusk highway, gold rim light.",
+        "runtime": "RUNTIME_ASSET_MISSING",
+        "note": "No production public hero in the package."
+      },
+      {
+        "asset_id": "IMAGE.ROAD_EVIDENCE",
+        "asset_class": "IMAGE_TREATMENT",
+        "name": "REAL DRIVERS. REAL ROADS. REAL COMPLIANCE. image card",
+        "source_refs": [
+          "PUBLIC_TABLET_DESKTOP"
+        ],
+        "usage": "Public clear-path section",
+        "rule": "Road / landscape evidence image with uppercase overlay.",
+        "runtime": "RUNTIME_ASSET_MISSING"
+      },
+      {
+        "asset_id": "IMAGE.BAND_LANDSCAPE",
+        "asset_class": "IMAGE_TREATMENT",
+        "name": "Lower-band landscape",
+        "source_refs": [
+          "PUBLIC_TABLET_DESKTOP",
+          "CLIENT_TABLET_DESKTOP"
+        ],
+        "usage": "Lower brand band backdrop",
+        "rule": "Mountain / road panorama behind the full lockup.",
+        "runtime": "RUNTIME_ASSET_MISSING"
+      },
+      {
+        "asset_id": "SURFACE.CARD",
+        "asset_class": "SURFACE_SHADOW_TREATMENT",
+        "name": "Card",
+        "source_refs": [
+          "ICON_ASSET_SHEET"
+        ],
+        "usage": "All panels",
+        "rule": "Radius 12px · subtle shadow · 1px divider.",
+        "runtime": "BUILD_FROM_SPEC"
+      },
+      {
+        "asset_id": "SURFACE.SHADOW_LEVELS",
+        "asset_class": "SURFACE_SHADOW_TREATMENT",
+        "name": "Shadow levels 1–3",
+        "source_refs": [
+          "ICON_ASSET_SHEET"
+        ],
+        "usage": "Cards · drawers · modals",
+        "rule": "Three levels only.",
+        "runtime": "BUILD_FROM_SPEC"
+      },
+      {
+        "asset_id": "SURFACE.STATUS_CHIPS",
+        "asset_class": "SURFACE_SHADOW_TREATMENT",
+        "name": "Status chips",
+        "source_refs": [
+          "ICON_ASSET_SHEET"
+        ],
+        "usage": "STATUS_CHIP",
+        "rule": "Complete green · in progress blue · pending gray · attention amber.",
+        "runtime": "BUILD_FROM_SPEC"
+      },
+      {
+        "asset_id": "SURFACE.FILE_BADGES",
+        "asset_class": "SURFACE_SHADOW_TREATMENT",
+        "name": "File badges",
+        "source_refs": [
+          "ICON_ASSET_SHEET"
+        ],
+        "usage": "FILE_ROW",
+        "rule": "PDF · XLS · CSV · DOC.",
+        "runtime": "BUILD_FROM_SPEC"
+      },
+      {
+        "asset_id": "SURFACE.DARK_OPERATIONAL_PANEL",
+        "asset_class": "SURFACE_SHADOW_TREATMENT",
+        "name": "Dark operational accent panel",
+        "source_refs": [
+          "FOUNDER_STAFF_TABLET_DESKTOP",
+          "ACTOR_MODES_MOBILE"
+        ],
+        "usage": "Staff CLIENT HEALTH panel, next-action rails",
+        "rule": "Dark charcoal panel on the light body (staff accents).",
+        "runtime": "BUILD_FROM_SPEC"
+      }
+    ]
+  },
+  "sidekick": {
+    "status": "SIDEKICK_FALLBACK_ONLY",
+    "primary_path": "COMPLETE AUTHORITY PACKAGE → IMPLEMENT",
+    "allowed_only_for": [
+      "TRUE MISSING RUNTIME ASSET",
+      "UNFORESEEN RESPONSIVE ASSET GAP",
+      "EXPLICIT NEW FOUNDER REQUEST",
+      "REQUIRED ASSET ABSENT FROM AUTHORITY PACKAGE"
+    ],
+    "invoked_this_sprint": false,
+    "new_paid_generations": 0,
+    "credits_spent": 0
+  }
+}

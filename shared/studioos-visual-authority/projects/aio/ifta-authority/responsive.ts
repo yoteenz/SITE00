@@ -1,0 +1,133 @@
+/**
+ * AIO IFTA — responsive authority map (sprint §27). MOBILE / TABLET / DESKTOP are related authorities, not scale
+ * transforms. One rule per actor × viewport, read from the governing reference images + contract sheet §07.
+ */
+import type { ResponsiveAuthority } from '../../../tree.js';
+
+export const AIO_IFTA_RESPONSIVE: ResponsiveAuthority[] = [
+  /* ── CLIENT ── */
+  {
+    rule_id: 'RESP.CLIENT.MOBILE', actor: 'CLIENT', viewport: 'MOBILE', authority_refs: ['CLIENT_MOBILE_PARENT_AUTHORITY', 'FUEL_PURCHASES_CHILD_PROOF'], binding: 'DIRECT',
+    information_priority: ['quarter identity + state chip', 'metrics rail', 'tab bar', 'single next item / checklist', 'filing progress', 'map / data viz', 'recent uploads', 'AIO insights', 'recent activity', 'next-action rail', 'lower brand band'],
+    grid: 'single column, full-bleed hero; 2-up only inside the metrics rail',
+    stacking: 'hero → metrics rail → tab bar → panels in priority order → next-action rail → lower brand band',
+    nav: 'top bar: simple mark (left) · search · notifications · avatar; no text lockup',
+    tab_behavior: 'horizontally scrollable tab pills under the metrics rail; active pill gold; the tab swaps the hero title and the body modules',
+    panel_density: 'balanced — one module per row, compact rows with chevrons',
+    cta_placement: 'dark next-action rail at the end of the body (sticky-able); help rail beneath on long pages',
+    hero_height: 'tall cinematic hero (≈ first screen) with quarter identity bottom-left and state chip',
+    data_visualization: 'map with legend list beside / under it; donuts compact; tables become stacked rows (date · vendor · state · gallons · amount · chip)',
+    overflow_strategy: 'tab bar scrolls horizontally; long tables paginate / “view all”; long text wraps; no horizontal page scroll',
+  },
+  {
+    rule_id: 'RESP.CLIENT.TABLET', actor: 'CLIENT', viewport: 'TABLET', authority_refs: ['CLIENT_TABLET_DESKTOP'], binding: 'DIRECT',
+    information_priority: ['quarter identity + state chip', 'metrics rail', 'tab bar', 'filing progress + quick actions', 'jurisdiction breakdown + recent uploads', 'AIO insights + recent activity', 'next-action rail', 'lower brand band'],
+    grid: 'recomposed two-column module grid under a full-width hero and metrics rail',
+    stacking: 'paired modules per row: (filing progress | quick actions) · (jurisdiction breakdown | recent uploads) · (AIO insights | recent activity)',
+    nav: 'top bar: simple mark · search · notifications · avatar with name + role',
+    tab_behavior: 'all six tabs visible in one row',
+    panel_density: 'balanced',
+    cta_placement: 'full-width dark next-action rail above the lower brand band',
+    hero_height: 'medium-tall hero with the truck perimeter on the right',
+    data_visualization: 'map + legend side by side; lists with status chips',
+    overflow_strategy: 'modules wrap to single column below the tablet range; tables truncate with “view all”',
+  },
+  {
+    rule_id: 'RESP.CLIENT.DESKTOP', actor: 'CLIENT', viewport: 'DESKTOP', authority_refs: ['CLIENT_TABLET_DESKTOP'], binding: 'DIRECT',
+    information_priority: ['quarter identity + state chip', 'metrics rail', 'tab bar + quarter selector', 'filing workflow + quarter tasks + mileage bars', 'jurisdiction breakdown + fuel donut + vehicle & trip data', 'recent uploads + recent activity + AIO insights', 'next-action rail + lower brand band'],
+    grid: 'expanded three-column workspace under hero, metrics rail and tab bar',
+    stacking: 'three rows of three modules; CTA rail and lockup band share the last row',
+    nav: 'top bar: simple mark · search · notifications · avatar; quarter selector at the end of the tab bar',
+    tab_behavior: 'tab bar full width with the quarter selector right-aligned',
+    panel_density: 'dense — tables with column headers (file · date · status; event · date)',
+    cta_placement: 'dark next-action rail bottom-left beside the lower brand band',
+    hero_height: 'wide cinematic hero, shorter relative to width',
+    data_visualization: 'bars (mileage by jurisdiction), donut (fuel by jurisdiction), choropleth map with legend; series colours gold → bronze → stone → black',
+    overflow_strategy: 'modules keep fixed column positions; overflowing lists link to the owning tab',
+  },
+  /* ── FOUNDER / STAFF ── */
+  {
+    rule_id: 'RESP.STAFF.MOBILE', actor: 'FOUNDER_STAFF', viewport: 'MOBILE', authority_refs: ['ACTOR_MODES_MOBILE'], binding: 'DIRECT',
+    information_priority: ['client identity + quarter + CLIENT HEALTH', 'metrics rail + risk chip', 'tab bar (OVERVIEW first)', 'filing workflow', 'quarter tasks', 'mileage bars + fuel donut', 'client activity · team activity · risks / flags', 'OPEN RETURN DRAFT rail'],
+    grid: 'single column body; the reference composes paired modules where width allows',
+    stacking: 'hero with dark CLIENT HEALTH panel → metrics + LOW RISK chip → tabs → workflow / tasks → charts → activity / flags → dark rail → band',
+    nav: 'top bar: simple mark · search · notifications · staff avatar (name + AIO STAFF)',
+    tab_behavior: 'scrollable tab pills incl. NOTES (decision D-NOTES-TAB)',
+    panel_density: 'dense',
+    cta_placement: 'dark OPEN RETURN DRAFT rail at the end',
+    hero_height: 'tall hero carrying client identity and the dark health panel',
+    data_visualization: 'bars + donut compact; flags as icon rows',
+    overflow_strategy: 'tables become stacked rows; “view all” to the owning tab',
+  },
+  {
+    rule_id: 'RESP.STAFF.TABLET', actor: 'FOUNDER_STAFF', viewport: 'TABLET', authority_refs: ['FOUNDER_STAFF_TABLET_DESKTOP'], binding: 'DIRECT',
+    information_priority: ['client identity + CLIENT HEALTH', 'metrics rail', 'tab bar', 'filing workflow | quarter tasks', 'mileage bars | fuel donut', 'client activity | team activity | risks / flags', 'OPEN RETURN DRAFT rail'],
+    grid: 'two-column module grid (1024 × 1366 reference); three narrow modules in the activity row',
+    stacking: 'hero (health panel right) → metrics → tabs → paired modules → activity row → dark rail',
+    nav: 'top bar: simple mark · search · notifications · staff avatar',
+    tab_behavior: 'all tabs incl. NOTES in one row',
+    panel_density: 'dense',
+    cta_placement: 'full-width dark OPEN RETURN DRAFT rail',
+    hero_height: 'medium-tall hero with the dark CLIENT HEALTH panel overlapping the right side',
+    data_visualization: 'bars + donut side by side',
+    overflow_strategy: 'activity lists truncate with “view all”',
+  },
+  {
+    rule_id: 'RESP.STAFF.DESKTOP', actor: 'FOUNDER_STAFF', viewport: 'DESKTOP', authority_refs: ['FOUNDER_STAFF_TABLET_DESKTOP'], binding: 'DIRECT',
+    information_priority: ['client identity + CLIENT HEALTH', 'metrics with prior-quarter deltas', 'tab bar + EXPORT REPORT', 'filing workflow | quarter tasks | important dates', 'mileage bars | fuel donut | vehicles', 'client activity | team activity | risks / flags', 'OPEN RETURN DRAFT rail'],
+    grid: 'three-column operational grid (1440 × 1024 reference)',
+    stacking: 'three rows of three modules under hero, metrics and tabs',
+    nav: 'top bar: simple mark · search · notifications · staff avatar; EXPORT REPORT at the end of the tab bar',
+    tab_behavior: 'tab bar full width, OVERVIEW first',
+    panel_density: 'dense — tables with TYPE · ACTIVITY · DATE · BY columns; assignee initials on tasks',
+    cta_placement: 'full-width dark OPEN RETURN DRAFT rail',
+    hero_height: 'wide hero, dark CLIENT HEALTH panel top-right',
+    data_visualization: 'bars with values, donut with gallons per jurisdiction, vehicle list with miles',
+    overflow_strategy: '“view all vehicles (n)” and “view all” links to the owning tab',
+  },
+  /* ── PUBLIC ── */
+  {
+    rule_id: 'RESP.PUBLIC.MOBILE', actor: 'PUBLIC', viewport: 'MOBILE', authority_refs: ['ACTOR_MODES_MOBILE'], binding: 'DIRECT',
+    information_priority: ['promise + SAMPLE quarter', 'sample metrics', 'clear path explanation', 'process tiles', 'jurisdictions map', 'built-for pillars', 'lower brand band'],
+    grid: 'single column; process tiles 3 + 2; pillars 3-up',
+    stacking: 'hero → sample metrics → explanation → process tiles → map card → pillars → band',
+    nav: 'dark top bar: simple mark · search · GET STARTED (gold) · menu',
+    tab_behavior: 'no tabs — section navigation lives in the menu',
+    panel_density: 'sparse',
+    cta_placement: 'GET STARTED in the nav; SEE HOW IT WORKS in the hero',
+    hero_height: 'tall cinematic dark hero',
+    data_visualization: 'lit network map with “8 JURISDICTIONS ONE RETURN” (sample)',
+    overflow_strategy: 'text wraps; tiles wrap; no horizontal scroll',
+  },
+  {
+    rule_id: 'RESP.PUBLIC.TABLET', actor: 'PUBLIC', viewport: 'TABLET', authority_refs: ['PUBLIC_TABLET_DESKTOP'], binding: 'DIRECT',
+    information_priority: ['promise + SAMPLE quarter', 'sample metrics', 'clear path explanation', 'process tiles', 'jurisdictions map', 'built-for pillars', 'lower brand band'],
+    grid: 'single column with 3 + 2 process tiles and 3-up pillars',
+    stacking: 'hero → metrics → explanation → tiles → map → pillars → band',
+    nav: 'dark top bar: simple mark · search · GET STARTED · menu',
+    tab_behavior: 'no tabs — menu',
+    panel_density: 'sparse',
+    cta_placement: 'GET STARTED in the nav; SEE HOW IT WORKS in the hero',
+    hero_height: 'tall hero',
+    data_visualization: 'map card with copy beside it',
+    overflow_strategy: 'tiles wrap',
+  },
+  {
+    rule_id: 'RESP.PUBLIC.DESKTOP', actor: 'PUBLIC', viewport: 'DESKTOP', authority_refs: ['PUBLIC_TABLET_DESKTOP'], binding: 'DIRECT',
+    information_priority: ['promise + SAMPLE quarter', 'sample metrics', 'clear path explanation + evidence image', 'five-step process', 'map + built-for pillars', 'lower brand band'],
+    grid: 'wide single canvas: explanation | image card; five process tiles in one row; map | pillars',
+    stacking: 'hero → metrics → explanation row → process row → map + pillars row → band',
+    nav: 'dark top bar: simple mark · IFTA FILING ROOM · HOW IT WORKS · FEATURES · JURISDICTIONS · RESOURCES · search · GET STARTED',
+    tab_behavior: 'section anchors in the nav (active item underlined gold)',
+    panel_density: 'sparse',
+    cta_placement: 'GET STARTED in the nav and under the explanation; SEE HOW IT WORKS in the hero',
+    hero_height: 'tall wide cinematic hero',
+    data_visualization: 'lit network map (sample)',
+    overflow_strategy: 'nav collapses to the menu below desktop width',
+  },
+];
+
+export const respRule = (actor: 'CLIENT' | 'FOUNDER_STAFF' | 'PUBLIC') => {
+  const key = actor === 'FOUNDER_STAFF' ? 'STAFF' : actor;
+  return { MOBILE: `RESP.${key}.MOBILE`, TABLET: `RESP.${key}.TABLET`, DESKTOP: `RESP.${key}.DESKTOP` } as const;
+};

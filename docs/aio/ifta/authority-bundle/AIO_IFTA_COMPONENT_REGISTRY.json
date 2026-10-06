@@ -1,0 +1,1827 @@
+{
+  "id": "AIO_IFTA_COMPONENT_REGISTRY",
+  "sprint": "P0.AIO.IFTA.AUTHORITY-BUNDLE-INGEST-AND-PAGE-TREE-PROOF1",
+  "generated_by": "scripts/studioos/aio-ifta-authority-bundle-export.ts",
+  "source": "shared/studioos-visual-authority/projects/aio/ifta-authority",
+  "generated_for": "2026-10-06",
+  "constraints": {
+    "page_implementation": false,
+    "new_paid_generations": 0,
+    "credits_spent": 0,
+    "legacy_visual_authority": "FORBIDDEN"
+  },
+  "rule": "Reusable family components = shared DESIGN. Each node binds them to its own data, interactions and states.",
+  "by_authority_status": {
+    "DEFINED_IN_AUTHORITY": 29,
+    "DERIVED_FROM_FAMILY": 10,
+    "MISSING_AUTHORITY": 1
+  },
+  "contract_sheet_stack": [
+    "01 HERO BANNER → QUARTER_HERO",
+    "02 METRICS RAIL → METRICS_RAIL",
+    "03 TAB BAR → TAB_BAR",
+    "04 WORKFLOW STATUS → FILING_WORKFLOW",
+    "05 TASK LIST / CARDS → TASK_LIST",
+    "06 MAP PANEL → MAP_PANEL",
+    "07 RECENT UPLOADS → RECENT_UPLOADS",
+    "08 INSIGHTS PANEL → INSIGHTS_PANEL",
+    "09 RECENT ACTIVITY → ACTIVITY_TIMELINE",
+    "10 BOTTOM CTA RAIL → NEXT_ACTION_RAIL",
+    "11 FOOTER LOCKUP → BRAND_EXIT_BAND"
+  ],
+  "components": [
+    {
+      "component_id": "TOP_NAV",
+      "name": "Top navigation",
+      "family_role": "SHELL",
+      "purpose": "Tight navigation with the simple AIO mark only; search, notifications, identity (public: section anchors + GET STARTED).",
+      "actors": [
+        "CLIENT",
+        "FOUNDER_STAFF",
+        "PUBLIC"
+      ],
+      "authority_refs": [
+        "CLIENT_MOBILE_PARENT_AUTHORITY",
+        "CLIENT_TABLET_DESKTOP",
+        "FOUNDER_STAFF_TABLET_DESKTOP",
+        "PUBLIC_TABLET_DESKTOP",
+        "ACTOR_MODES_MOBILE",
+        "SIMPLE_NAV_MARK"
+      ],
+      "authority_status": "DEFINED_IN_AUTHORITY",
+      "asset_refs": [
+        "BRAND.SIMPLE_MARK",
+        "ICON.COMM.SEARCH",
+        "ICON.COMM.NOTIFICATION",
+        "AVATAR.CHIP",
+        "CTA.PRIMARY_GOLD"
+      ],
+      "ui_states": [
+        "UI.DEFAULT"
+      ],
+      "data_domains": [
+        "PERMISSIONS_ROLES"
+      ],
+      "interactions": [
+        "I.SEARCH",
+        "I.OPEN_NOTIFICATIONS",
+        "I.PUBLIC_NAV",
+        "I.GET_STARTED"
+      ],
+      "responsive": {
+        "MOBILE": "mark · search · bell · avatar (public: mark · search · GET STARTED · menu)",
+        "TABLET": "same + name / role",
+        "DESKTOP": "public adds section anchors"
+      },
+      "rules": [
+        "LOCKED: SIMPLE_MARK_ONLY — never the full lockup",
+        "never the legacy AIONav geometry"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM",
+        "AIO.IFTA.STAFF.QUEUE",
+        "AIO.IFTA.STAFF.CASE",
+        "AIO.IFTA.PUBLIC.SERVICE"
+      ]
+    },
+    {
+      "component_id": "QUARTER_HERO",
+      "name": "Quarter hero",
+      "family_role": "IDENTITY",
+      "purpose": "Cinematic perimeter + high-visibility quarter identity (IFTA FILING ROOM · Q{n} {YYYY} · period · line) + state chip. Staff: client identity + account. Public: SAMPLE quarter + SEE HOW IT WORKS.",
+      "actors": [
+        "CLIENT",
+        "FOUNDER_STAFF",
+        "PUBLIC"
+      ],
+      "authority_refs": [
+        "CLIENT_MOBILE_PARENT_AUTHORITY",
+        "FUEL_PURCHASES_CHILD_PROOF",
+        "CLIENT_TABLET_DESKTOP",
+        "FOUNDER_STAFF_TABLET_DESKTOP",
+        "PUBLIC_TABLET_DESKTOP",
+        "ACTOR_MODES_MOBILE"
+      ],
+      "authority_status": "DEFINED_IN_AUTHORITY",
+      "asset_refs": [
+        "IMAGE.HERO_TRUCK_LIGHT",
+        "IMAGE.HERO_TRUCK_DARK",
+        "SURFACE.STATUS_CHIPS"
+      ],
+      "ui_states": [
+        "UI.DEFAULT",
+        "UI.LOADING"
+      ],
+      "data_domains": [
+        "QUARTER_CASE"
+      ],
+      "interactions": [
+        "I.SEE_HOW_IT_WORKS"
+      ],
+      "responsive": {
+        "MOBILE": "tall, identity bottom-left",
+        "TABLET": "medium-tall, truck right",
+        "DESKTOP": "wide, shorter; staff health panel top-right"
+      },
+      "rules": [
+        "tab-specific title line on child tabs (e.g. Q3 2026 FUEL PURCHASES)",
+        "media is a perimeter, never behind data"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS",
+        "AIO.IFTA.CLIENT.ROOM.FILED",
+        "AIO.IFTA.CLIENT.ROOM.ARCHIVED",
+        "AIO.IFTA.CLIENT.ROOM.NEXT_QUARTER_OPEN",
+        "AIO.IFTA.CLIENT.ROOM.RETURNED",
+        "AIO.IFTA.CLIENT.NOT_ENROLLED",
+        "AIO.IFTA.STAFF.CASE",
+        "AIO.IFTA.STAFF.CASE.RETURN_DRAFT",
+        "AIO.IFTA.PUBLIC.SERVICE",
+        "AIO.IFTA.PUBLIC.SERVICE.OVERVIEW"
+      ]
+    },
+    {
+      "component_id": "METRICS_RAIL",
+      "name": "Metrics rail",
+      "family_role": "DATA",
+      "purpose": "Four live quarter metrics (miles · fuel gal · jurisdictions · tax due / credit); tab-specific sets on child tabs; staff adds prior-quarter deltas; public shows SAMPLE values.",
+      "actors": [
+        "CLIENT",
+        "FOUNDER_STAFF",
+        "PUBLIC"
+      ],
+      "authority_refs": [
+        "CLIENT_MOBILE_PARENT_AUTHORITY",
+        "FUEL_PURCHASES_CHILD_PROOF",
+        "CLIENT_TABLET_DESKTOP",
+        "FOUNDER_STAFF_TABLET_DESKTOP",
+        "PUBLIC_TABLET_DESKTOP"
+      ],
+      "authority_status": "DEFINED_IN_AUTHORITY",
+      "asset_refs": [
+        "ICON.METRIC.MILES",
+        "ICON.METRIC.FUEL",
+        "ICON.METRIC.JURISDICTIONS",
+        "ICON.METRIC.TAX_DUE"
+      ],
+      "ui_states": [
+        "UI.DEFAULT",
+        "UI.LOADING"
+      ],
+      "data_domains": [
+        "MILEAGE",
+        "FUEL_RECEIPTS",
+        "JURISDICTIONS",
+        "RETURN_SUMMARY"
+      ],
+      "interactions": [],
+      "responsive": {
+        "MOBILE": "4-up compact",
+        "TABLET": "4-up",
+        "DESKTOP": "4-up wide (+ deltas for staff)"
+      },
+      "rules": [
+        "TAX slot reads the staff return summary only (decision D-TAX-FIGURES)"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS",
+        "AIO.IFTA.CLIENT.ROOM.FILED",
+        "AIO.IFTA.CLIENT.ROOM.ARCHIVED",
+        "AIO.IFTA.CLIENT.ROOM.NEXT_QUARTER_OPEN",
+        "AIO.IFTA.STAFF.CASE",
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES",
+        "AIO.IFTA.STAFF.CASE.MILEAGE",
+        "AIO.IFTA.STAFF.CASE.RETURN_DRAFT",
+        "AIO.IFTA.PUBLIC.SERVICE",
+        "AIO.IFTA.PUBLIC.SERVICE.OVERVIEW"
+      ]
+    },
+    {
+      "component_id": "TAB_BAR",
+      "name": "Tab bar",
+      "family_role": "SHELL",
+      "purpose": "First-class tab family of the quarter (client: PROGRESS · FUEL PURCHASES · MILEAGE · VEHICLES · JURISDICTIONS · DOCUMENTS; staff: OVERVIEW first + EXPORT REPORT).",
+      "actors": [
+        "CLIENT",
+        "FOUNDER_STAFF"
+      ],
+      "authority_refs": [
+        "CLIENT_MOBILE_PARENT_AUTHORITY",
+        "CLIENT_TABLET_DESKTOP",
+        "FOUNDER_STAFF_TABLET_DESKTOP",
+        "ACTOR_MODES_MOBILE",
+        "ICON_ASSET_SHEET"
+      ],
+      "authority_status": "DEFINED_IN_AUTHORITY",
+      "asset_refs": [
+        "CTA.TAB_PILL"
+      ],
+      "ui_states": [
+        "UI.DEFAULT"
+      ],
+      "data_domains": [
+        "QUARTER_CASE"
+      ],
+      "interactions": [
+        "I.SWITCH_TAB",
+        "I.EXPORT_REPORT"
+      ],
+      "responsive": {
+        "MOBILE": "horizontal scroll",
+        "TABLET": "one row",
+        "DESKTOP": "one row + quarter selector / export"
+      },
+      "rules": [
+        "active · inactive · hover · disabled pill states (asset sheet)"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM",
+        "AIO.IFTA.CLIENT.ROOM.NOTES",
+        "AIO.IFTA.CLIENT.ROOM.ARCHIVED",
+        "AIO.IFTA.STAFF.CASE",
+        "AIO.IFTA.STAFF.CASE.NOTES"
+      ]
+    },
+    {
+      "component_id": "QUARTER_SELECTOR",
+      "name": "Quarter selector",
+      "family_role": "SHELL",
+      "purpose": "Switch to another quarter (history / next quarter).",
+      "actors": [
+        "CLIENT",
+        "FOUNDER_STAFF"
+      ],
+      "authority_refs": [
+        "CLIENT_TABLET_DESKTOP"
+      ],
+      "authority_status": "DEFINED_IN_AUTHORITY",
+      "asset_refs": [
+        "ICON.COMM.OPEN"
+      ],
+      "ui_states": [
+        "UI.DEFAULT"
+      ],
+      "data_domains": [
+        "QUARTER_CASE"
+      ],
+      "interactions": [
+        "I.SWITCH_QUARTER"
+      ],
+      "responsive": {
+        "MOBILE": "in the hero overflow menu",
+        "TABLET": "in the hero overflow menu",
+        "DESKTOP": "right end of the tab bar"
+      },
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM"
+      ]
+    },
+    {
+      "component_id": "NEXT_ACTION_RAIL",
+      "name": "Next-action rail",
+      "family_role": "ACTION",
+      "purpose": "Exactly one dark rail with the single next thing for this tab × state (client: GO TO / CONTINUE / APPROVE; staff: OPEN RETURN DRAFT …).",
+      "actors": [
+        "CLIENT",
+        "FOUNDER_STAFF"
+      ],
+      "authority_refs": [
+        "CLIENT_MOBILE_PARENT_AUTHORITY",
+        "FUEL_PURCHASES_CHILD_PROOF",
+        "CLIENT_TABLET_DESKTOP",
+        "FOUNDER_STAFF_TABLET_DESKTOP",
+        "PAGE_COMPONENT_INTERACTION_CONTRACT"
+      ],
+      "authority_status": "DEFINED_IN_AUTHORITY",
+      "asset_refs": [
+        "CTA.NEXT_ACTION_RAIL",
+        "ICON.COMM.OPEN"
+      ],
+      "ui_states": [
+        "UI.DEFAULT",
+        "UI.BLOCKED",
+        "UI.LOCKED_IN_REVIEW"
+      ],
+      "data_domains": [
+        "QUARTER_CASE"
+      ],
+      "interactions": [
+        "I.CONTINUE_NEXT_ACTION"
+      ],
+      "responsive": {
+        "MOBILE": "full width at body end",
+        "TABLET": "full width above the band",
+        "DESKTOP": "bottom-left beside the band (client) · full width (staff)"
+      },
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.CORRECTION_FLOW",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS",
+        "AIO.IFTA.CLIENT.ROOM.FILED",
+        "AIO.IFTA.CLIENT.ROOM.ARCHIVED",
+        "AIO.IFTA.CLIENT.ROOM.NEXT_QUARTER_OPEN",
+        "AIO.IFTA.CLIENT.NOT_ENROLLED",
+        "AIO.IFTA.STAFF.CASE",
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES",
+        "AIO.IFTA.STAFF.CASE.MILEAGE",
+        "AIO.IFTA.STAFF.CASE.VEHICLES",
+        "AIO.IFTA.STAFF.CASE.JURISDICTIONS",
+        "AIO.IFTA.STAFF.CASE.RETURN_DRAFT"
+      ]
+    },
+    {
+      "component_id": "HELP_RAIL",
+      "name": "Help rail",
+      "family_role": "ACTION",
+      "purpose": "NEED HELP? MESSAGE YOUR AIO TEAM.",
+      "actors": [
+        "CLIENT"
+      ],
+      "authority_refs": [
+        "CLIENT_3_TERRITORIES",
+        "CLIENT_TABLET_DESKTOP"
+      ],
+      "authority_status": "DEFINED_IN_AUTHORITY",
+      "asset_refs": [
+        "ICON.COMM.MESSAGE",
+        "AVATAR.CHIP"
+      ],
+      "ui_states": [
+        "UI.DEFAULT"
+      ],
+      "data_domains": [
+        "MESSAGES"
+      ],
+      "interactions": [
+        "I.MESSAGE_AIO"
+      ],
+      "responsive": {
+        "MOBILE": "below the next-action rail",
+        "TABLET": "beside the rail",
+        "DESKTOP": "beside the rail"
+      },
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW",
+        "AIO.IFTA.CLIENT.ROOM.RETURNED"
+      ]
+    },
+    {
+      "component_id": "BRAND_EXIT_BAND",
+      "name": "Lower brand band",
+      "family_role": "BRAND",
+      "purpose": "Full AIO lockup + band line (client DATA · COMPLIANCE · REAL PROGRESS; staff OPERATIONS · COMPLIANCE · CLIENT SUCCESS; public DRIVEN BY COMPLIANCE. BUILT FOR WHAT MOVES YOU.).",
+      "actors": [
+        "CLIENT",
+        "FOUNDER_STAFF",
+        "PUBLIC"
+      ],
+      "authority_refs": [
+        "CLIENT_MOBILE_PARENT_AUTHORITY",
+        "CLIENT_TABLET_DESKTOP",
+        "FOUNDER_STAFF_TABLET_DESKTOP",
+        "PUBLIC_TABLET_DESKTOP",
+        "FULL_LOGO_LOCKUP"
+      ],
+      "authority_status": "DEFINED_IN_AUTHORITY",
+      "asset_refs": [
+        "BRAND.FULL_LOCKUP",
+        "IMAGE.BAND_LANDSCAPE"
+      ],
+      "ui_states": [
+        "UI.DEFAULT"
+      ],
+      "data_domains": [],
+      "interactions": [],
+      "responsive": {
+        "MOBILE": "centred lockup",
+        "TABLET": "centred lockup",
+        "DESKTOP": "lockup beside the rail / band line right"
+      },
+      "rules": [
+        "LOCKED: the only place the full lockup appears"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM",
+        "AIO.IFTA.STAFF.QUEUE",
+        "AIO.IFTA.STAFF.CASE",
+        "AIO.IFTA.PUBLIC.SERVICE",
+        "AIO.IFTA.PUBLIC.SERVICE.START"
+      ]
+    },
+    {
+      "component_id": "FILING_WORKFLOW",
+      "name": "Filing workflow",
+      "family_role": "STATUS",
+      "purpose": "Four phases DATA COLLECTION → AIO PREPARATION → CLIENT REVIEW → FILE & CONFIRM (staff adds dates).",
+      "actors": [
+        "CLIENT",
+        "FOUNDER_STAFF"
+      ],
+      "authority_refs": [
+        "CLIENT_MOBILE_PARENT_AUTHORITY",
+        "CLIENT_TABLET_DESKTOP",
+        "FOUNDER_STAFF_TABLET_DESKTOP"
+      ],
+      "authority_status": "DEFINED_IN_AUTHORITY",
+      "asset_refs": [
+        "ICON.WORKFLOW.DATA_COLLECTION",
+        "ICON.WORKFLOW.PREPARE_RETURN",
+        "ICON.WORKFLOW.REVIEW_APPROVE",
+        "ICON.WORKFLOW.FILE_CONFIRM",
+        "ICON.STATUS.COMPLETE",
+        "ICON.STATUS.IN_PROGRESS",
+        "ICON.STATUS.PENDING"
+      ],
+      "ui_states": [
+        "UI.DEFAULT",
+        "UI.LOADING"
+      ],
+      "data_domains": [
+        "QUARTER_CASE"
+      ],
+      "interactions": [],
+      "responsive": {
+        "MOBILE": "vertical stepper",
+        "TABLET": "vertical stepper",
+        "DESKTOP": "vertical stepper with dates"
+      },
+      "rules": [
+        "phase mapping D-PROGRESS-PHASES"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS",
+        "AIO.IFTA.CLIENT.ROOM.FILED",
+        "AIO.IFTA.STAFF.CASE.OVERVIEW"
+      ]
+    },
+    {
+      "component_id": "TASK_LIST",
+      "name": "Task list / checklist",
+      "family_role": "ACTION",
+      "purpose": "Client: six checklist lines (fuel purchases · mileage · vehicles · return preparation · your review & approval · filing & confirmation). Staff: quarter tasks with assignee + due.",
+      "actors": [
+        "CLIENT",
+        "FOUNDER_STAFF"
+      ],
+      "authority_refs": [
+        "CLIENT_MOBILE_PARENT_AUTHORITY",
+        "CLIENT_TABLET_DESKTOP",
+        "FOUNDER_STAFF_TABLET_DESKTOP",
+        "PAGE_COMPONENT_INTERACTION_CONTRACT"
+      ],
+      "authority_status": "DEFINED_IN_AUTHORITY",
+      "asset_refs": [
+        "ICON.STATUS.COMPLETE",
+        "ICON.STATUS.IN_PROGRESS",
+        "ICON.STATUS.PENDING",
+        "ICON.COMM.OPEN"
+      ],
+      "ui_states": [
+        "UI.DEFAULT",
+        "UI.LOADING"
+      ],
+      "data_domains": [
+        "QUARTER_CASE",
+        "STAFF_WORK_QUEUE"
+      ],
+      "interactions": [
+        "I.CONTINUE_NEXT_ACTION"
+      ],
+      "responsive": {
+        "MOBILE": "rows with chevrons",
+        "TABLET": "QUICK ACTIONS list",
+        "DESKTOP": "QUARTER TASKS panel"
+      },
+      "rules": [
+        "client never sees staff-internal tasks (decision D-CLIENT-DESKTOP-STAFF-MODULES)"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS",
+        "AIO.IFTA.CLIENT.ROOM.NEXT_QUARTER_OPEN",
+        "AIO.IFTA.STAFF.CASE.OVERVIEW"
+      ]
+    },
+    {
+      "component_id": "MAP_PANEL",
+      "name": "Map panel",
+      "family_role": "DATA",
+      "purpose": "Jurisdiction breakdown map + legend (share of miles); public: lit network map (sample).",
+      "actors": [
+        "CLIENT",
+        "FOUNDER_STAFF",
+        "PUBLIC"
+      ],
+      "authority_refs": [
+        "CLIENT_MOBILE_PARENT_AUTHORITY",
+        "CLIENT_TABLET_DESKTOP",
+        "PUBLIC_TABLET_DESKTOP",
+        "ACTOR_MODES_MOBILE",
+        "ICON_ASSET_SHEET"
+      ],
+      "authority_status": "DEFINED_IN_AUTHORITY",
+      "asset_refs": [
+        "MAP.JURISDICTION_STYLE"
+      ],
+      "ui_states": [
+        "UI.DEFAULT",
+        "UI.LOADING",
+        "UI.EMPTY"
+      ],
+      "data_domains": [
+        "JURISDICTIONS",
+        "MILEAGE"
+      ],
+      "interactions": [
+        "I.OPEN_JURISDICTION"
+      ],
+      "responsive": {
+        "MOBILE": "map + legend list",
+        "TABLET": "map + legend side by side",
+        "DESKTOP": "map + legend side by side"
+      },
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS",
+        "AIO.IFTA.STAFF.CASE.JURISDICTIONS",
+        "AIO.IFTA.PUBLIC.SERVICE.JURISDICTIONS"
+      ]
+    },
+    {
+      "component_id": "MILEAGE_BARS",
+      "name": "Mileage-by-jurisdiction bars",
+      "family_role": "DATA",
+      "purpose": "Miles per jurisdiction (bars + values).",
+      "actors": [
+        "CLIENT",
+        "FOUNDER_STAFF"
+      ],
+      "authority_refs": [
+        "CLIENT_TABLET_DESKTOP",
+        "FOUNDER_STAFF_TABLET_DESKTOP",
+        "ACTOR_MODES_MOBILE"
+      ],
+      "authority_status": "DEFINED_IN_AUTHORITY",
+      "asset_refs": [
+        "CHART.FAMILY_STYLE"
+      ],
+      "ui_states": [
+        "UI.DEFAULT",
+        "UI.LOADING",
+        "UI.EMPTY"
+      ],
+      "data_domains": [
+        "MILEAGE",
+        "JURISDICTIONS"
+      ],
+      "interactions": [
+        "I.OPEN_JURISDICTION"
+      ],
+      "responsive": {
+        "MOBILE": "compact bars + list",
+        "TABLET": "bars + list",
+        "DESKTOP": "bars with values"
+      },
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS",
+        "AIO.IFTA.STAFF.CASE.OVERVIEW",
+        "AIO.IFTA.STAFF.CASE.MILEAGE",
+        "AIO.IFTA.STAFF.CASE.JURISDICTIONS"
+      ]
+    },
+    {
+      "component_id": "FUEL_DONUT",
+      "name": "Fuel donut",
+      "family_role": "DATA",
+      "purpose": "Fuel gallons by jurisdiction (overview) or spend by vendor (fuel tab).",
+      "actors": [
+        "CLIENT",
+        "FOUNDER_STAFF"
+      ],
+      "authority_refs": [
+        "CLIENT_TABLET_DESKTOP",
+        "FOUNDER_STAFF_TABLET_DESKTOP",
+        "FUEL_PURCHASES_CHILD_PROOF"
+      ],
+      "authority_status": "DEFINED_IN_AUTHORITY",
+      "asset_refs": [
+        "CHART.FAMILY_STYLE"
+      ],
+      "ui_states": [
+        "UI.DEFAULT",
+        "UI.LOADING",
+        "UI.EMPTY"
+      ],
+      "data_domains": [
+        "FUEL_RECEIPTS"
+      ],
+      "interactions": [],
+      "responsive": {
+        "MOBILE": "compact",
+        "TABLET": "compact",
+        "DESKTOP": "with gallons column (staff)"
+      },
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES",
+        "AIO.IFTA.STAFF.CASE.OVERVIEW",
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES"
+      ]
+    },
+    {
+      "component_id": "JURISDICTION_TABLE",
+      "name": "Jurisdiction table",
+      "family_role": "DATA",
+      "purpose": "Per jurisdiction: miles · gallons · allocation · net tax (summary only) · data quality · review status.",
+      "actors": [
+        "CLIENT",
+        "FOUNDER_STAFF"
+      ],
+      "authority_refs": [
+        "CLIENT_MOBILE_PARENT_AUTHORITY",
+        "FOUNDER_STAFF_TABLET_DESKTOP"
+      ],
+      "authority_status": "DERIVED_FROM_FAMILY",
+      "asset_refs": [
+        "SURFACE.STATUS_CHIPS",
+        "ICON.STATUS.ATTENTION"
+      ],
+      "ui_states": [
+        "UI.DEFAULT",
+        "UI.LOADING",
+        "UI.EMPTY",
+        "UI.ERROR",
+        "UI.WARNING"
+      ],
+      "data_domains": [
+        "JURISDICTIONS",
+        "RETURN_SUMMARY"
+      ],
+      "interactions": [
+        "I.OPEN_JURISDICTION",
+        "I.FILTER_SORT"
+      ],
+      "responsive": {
+        "MOBILE": "stacked rows",
+        "TABLET": "table",
+        "DESKTOP": "table"
+      },
+      "rules": [
+        "derived from the legend list + table row family; no rates column (D-TAX-FIGURES)"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS.STATE_DETAIL",
+        "AIO.IFTA.STAFF.CASE.JURISDICTIONS",
+        "AIO.IFTA.STAFF.CASE.RETURN_DRAFT"
+      ]
+    },
+    {
+      "component_id": "RECEIPT_STATUS_SUMMARY",
+      "name": "Receipt status summary",
+      "family_role": "STATUS",
+      "purpose": "Counts by receipt status (processed · needs review · missing details · duplicate · unreadable · possible missing).",
+      "actors": [
+        "CLIENT",
+        "FOUNDER_STAFF"
+      ],
+      "authority_refs": [
+        "FUEL_PURCHASES_CHILD_PROOF"
+      ],
+      "authority_status": "DEFINED_IN_AUTHORITY",
+      "asset_refs": [
+        "SURFACE.STATUS_CHIPS"
+      ],
+      "ui_states": [
+        "UI.DEFAULT",
+        "UI.LOADING"
+      ],
+      "data_domains": [
+        "FUEL_RECEIPTS"
+      ],
+      "interactions": [
+        "I.FILTER_SORT"
+      ],
+      "responsive": {
+        "MOBILE": "list",
+        "TABLET": "list",
+        "DESKTOP": "list"
+      },
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES",
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES"
+      ]
+    },
+    {
+      "component_id": "RECEIPT_ROW",
+      "name": "Receipt row",
+      "family_role": "DATA",
+      "purpose": "Date · vendor (text) · STATE · gallons · amount · status chip · row menu.",
+      "actors": [
+        "CLIENT",
+        "FOUNDER_STAFF"
+      ],
+      "authority_refs": [
+        "FUEL_PURCHASES_CHILD_PROOF",
+        "ICON_ASSET_SHEET"
+      ],
+      "authority_status": "DEFINED_IN_AUTHORITY",
+      "asset_refs": [
+        "SURFACE.STATUS_CHIPS",
+        "ICON.COMM.MORE"
+      ],
+      "ui_states": [
+        "UI.DEFAULT",
+        "UI.LOADING",
+        "UI.EMPTY",
+        "UI.ERROR",
+        "UI.SUCCESS"
+      ],
+      "data_domains": [
+        "FUEL_RECEIPTS"
+      ],
+      "interactions": [
+        "I.OPEN_RECEIPT",
+        "I.FILTER_SORT"
+      ],
+      "responsive": {
+        "MOBILE": "stacked row",
+        "TABLET": "table row",
+        "DESKTOP": "table row"
+      },
+      "rules": [
+        "vendor names as text (D-VENDOR-LOGOS)",
+        "STATE column added (D-FUEL-STATE-COLUMN)"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.NEEDS_YOU",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.CORRECTION_FLOW",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.UPLOAD",
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES",
+        "AIO.IFTA.STAFF.CASE.REQUEST_CORRECTION"
+      ]
+    },
+    {
+      "component_id": "UPLOAD_ZONE",
+      "name": "Upload zone",
+      "family_role": "INPUT",
+      "purpose": "Drag & drop / choose files (PDF, JPG, PNG, max 10MB each); camera on mobile; import from Vault; import CSV.",
+      "actors": [
+        "CLIENT"
+      ],
+      "authority_refs": [
+        "FUEL_PURCHASES_CHILD_PROOF",
+        "PAGE_COMPONENT_INTERACTION_CONTRACT",
+        "ICON_ASSET_SHEET"
+      ],
+      "authority_status": "DEFINED_IN_AUTHORITY",
+      "asset_refs": [
+        "ICON.FILE.UPLOAD",
+        "CTA.PRIMARY_GOLD"
+      ],
+      "ui_states": [
+        "UI.DEFAULT",
+        "UI.LOADING",
+        "UI.SUCCESS",
+        "UI.ERROR",
+        "UI.LOCKED_IN_REVIEW"
+      ],
+      "data_domains": [
+        "FUEL_RECEIPTS",
+        "DOCUMENTS_VAULT"
+      ],
+      "interactions": [
+        "I.UPLOAD_RECEIPT",
+        "I.TAKE_PHOTO",
+        "I.IMPORT_FROM_VAULT",
+        "I.IMPORT_CSV"
+      ],
+      "responsive": {
+        "MOBILE": "camera first + choose files",
+        "TABLET": "drag & drop + camera",
+        "DESKTOP": "drag & drop bulk"
+      },
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.UPLOAD",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.REPORT_IMPORT",
+        "AIO.IFTA.CLIENT.ROOM.NEXT_QUARTER_OPEN"
+      ]
+    },
+    {
+      "component_id": "MILEAGE_SOURCE_PICKER",
+      "name": "Mileage source picker",
+      "family_role": "INPUT",
+      "purpose": "ELD / GPS (not live) · ELD report upload · manual state entry · spreadsheet · AIO assistance.",
+      "actors": [
+        "CLIENT"
+      ],
+      "authority_refs": [
+        "CLIENT_MOBILE_PARENT_AUTHORITY"
+      ],
+      "authority_status": "DERIVED_FROM_FAMILY",
+      "asset_refs": [
+        "ICON.FILE.UPLOAD",
+        "ICON.FILE.CSV",
+        "ICON.COMM.MESSAGE"
+      ],
+      "ui_states": [
+        "UI.DEFAULT"
+      ],
+      "data_domains": [
+        "MILEAGE"
+      ],
+      "interactions": [
+        "I.CHOOSE_MILEAGE_SOURCE",
+        "I.IMPORT_MILEAGE_REPORT",
+        "I.ENTER_MILEAGE_MANUAL",
+        "I.CONNECT_ELD"
+      ],
+      "responsive": {
+        "MOBILE": "bottom sheet",
+        "TABLET": "side panel",
+        "DESKTOP": "side panel"
+      },
+      "rules": [
+        "derived from the task-list row + upload zone parts"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.SOURCE_PICKER"
+      ]
+    },
+    {
+      "component_id": "CSV_MAPPER",
+      "name": "CSV / report mapper",
+      "family_role": "INPUT",
+      "purpose": "Map columns and validate before import.",
+      "actors": [
+        "CLIENT"
+      ],
+      "authority_refs": [
+        "PAGE_COMPONENT_INTERACTION_CONTRACT"
+      ],
+      "authority_status": "DERIVED_FROM_FAMILY",
+      "asset_refs": [
+        "ICON.FILE.CSV",
+        "ICON.STATUS.ATTENTION",
+        "CTA.PRIMARY_GOLD",
+        "CTA.TERTIARY_TEXT"
+      ],
+      "ui_states": [
+        "UI.DEFAULT",
+        "UI.WARNING",
+        "UI.ERROR",
+        "UI.SUCCESS"
+      ],
+      "data_domains": [
+        "FUEL_RECEIPTS",
+        "MILEAGE"
+      ],
+      "interactions": [
+        "I.IMPORT_CSV",
+        "I.IMPORT_MILEAGE_REPORT"
+      ],
+      "responsive": {
+        "MOBILE": "full-screen modal",
+        "TABLET": "modal",
+        "DESKTOP": "modal"
+      },
+      "rules": [
+        "contract sheet #02 “map fields and validate”; built from modal + table row family"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.CSV_IMPORT",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.REPORT_IMPORT"
+      ]
+    },
+    {
+      "component_id": "MILEAGE_ROW",
+      "name": "Mileage row",
+      "family_role": "DATA",
+      "purpose": "Per truck: miles by state, source badge (VERIFIED / AWAITING VERIFICATION / ESTIMATE), exceptions.",
+      "actors": [
+        "CLIENT",
+        "FOUNDER_STAFF"
+      ],
+      "authority_refs": [
+        "CLIENT_MOBILE_PARENT_AUTHORITY",
+        "CLIENT_TABLET_DESKTOP"
+      ],
+      "authority_status": "DERIVED_FROM_FAMILY",
+      "asset_refs": [
+        "SURFACE.STATUS_CHIPS",
+        "ICON.NAV.VEHICLES"
+      ],
+      "ui_states": [
+        "UI.DEFAULT",
+        "UI.LOADING",
+        "UI.EMPTY",
+        "UI.ERROR",
+        "UI.WARNING"
+      ],
+      "data_domains": [
+        "MILEAGE"
+      ],
+      "interactions": [
+        "I.OPEN_MILEAGE_RECORD",
+        "I.FILTER_SORT"
+      ],
+      "responsive": {
+        "MOBILE": "stacked row",
+        "TABLET": "row",
+        "DESKTOP": "table row by state × truck"
+      },
+      "rules": [
+        "estimate is visually distinct (stone, ESTIMATE) and never looks filed-ready"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.MANUAL_ENTRY",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.VEHICLE_DETAIL",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES.VEHICLE_DETAIL",
+        "AIO.IFTA.STAFF.CASE.MILEAGE",
+        "AIO.IFTA.STAFF.CASE.MILEAGE.SOURCE_VERIFY"
+      ]
+    },
+    {
+      "component_id": "VEHICLE_ROW",
+      "name": "Vehicle row",
+      "family_role": "DATA",
+      "purpose": "Unit · miles · gallons · participation · readiness dot.",
+      "actors": [
+        "CLIENT",
+        "FOUNDER_STAFF"
+      ],
+      "authority_refs": [
+        "CLIENT_TABLET_DESKTOP",
+        "FOUNDER_STAFF_TABLET_DESKTOP"
+      ],
+      "authority_status": "DEFINED_IN_AUTHORITY",
+      "asset_refs": [
+        "ICON.NAV.VEHICLES",
+        "SURFACE.STATUS_CHIPS"
+      ],
+      "ui_states": [
+        "UI.DEFAULT",
+        "UI.LOADING",
+        "UI.EMPTY",
+        "UI.ERROR",
+        "UI.WARNING"
+      ],
+      "data_domains": [
+        "VEHICLES"
+      ],
+      "interactions": [
+        "I.OPEN_VEHICLE"
+      ],
+      "responsive": {
+        "MOBILE": "stacked row",
+        "TABLET": "row",
+        "DESKTOP": "row"
+      },
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES.CONFIRM_FLEET",
+        "AIO.IFTA.STAFF.CASE.OVERVIEW",
+        "AIO.IFTA.STAFF.CASE.VEHICLES"
+      ]
+    },
+    {
+      "component_id": "FILE_ROW",
+      "name": "File row",
+      "family_role": "DATA",
+      "purpose": "File badge · name · date · status; open / download / share.",
+      "actors": [
+        "CLIENT",
+        "FOUNDER_STAFF"
+      ],
+      "authority_refs": [
+        "CLIENT_MOBILE_PARENT_AUTHORITY",
+        "CLIENT_TABLET_DESKTOP",
+        "ICON_ASSET_SHEET"
+      ],
+      "authority_status": "DEFINED_IN_AUTHORITY",
+      "asset_refs": [
+        "SURFACE.FILE_BADGES",
+        "ICON.FILE.PDF",
+        "ICON.FILE.CSV",
+        "ICON.FILE.DOCUMENT",
+        "ICON.STATUS.COMPLETE"
+      ],
+      "ui_states": [
+        "UI.DEFAULT",
+        "UI.LOADING",
+        "UI.EMPTY",
+        "UI.ERROR"
+      ],
+      "data_domains": [
+        "DOCUMENTS_VAULT"
+      ],
+      "interactions": [
+        "I.OPEN_FILE",
+        "I.DOWNLOAD_FILE"
+      ],
+      "responsive": {
+        "MOBILE": "row",
+        "TABLET": "row",
+        "DESKTOP": "table row (file · date · status)"
+      },
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.IMPORT_VAULT",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS.FILE_PREVIEW",
+        "AIO.IFTA.CLIENT.ROOM.FILED",
+        "AIO.IFTA.CLIENT.ROOM.ARCHIVED",
+        "AIO.IFTA.STAFF.CASE.DOCUMENTS",
+        "AIO.IFTA.STAFF.CASE.DOCUMENTS.FILE_PREVIEW"
+      ]
+    },
+    {
+      "component_id": "RECENT_UPLOADS",
+      "name": "Recent uploads",
+      "family_role": "DATA",
+      "purpose": "Latest source files for the quarter.",
+      "actors": [
+        "CLIENT",
+        "FOUNDER_STAFF"
+      ],
+      "authority_refs": [
+        "CLIENT_MOBILE_PARENT_AUTHORITY",
+        "CLIENT_TABLET_DESKTOP"
+      ],
+      "authority_status": "DEFINED_IN_AUTHORITY",
+      "asset_refs": [
+        "SURFACE.FILE_BADGES"
+      ],
+      "ui_states": [
+        "UI.DEFAULT",
+        "UI.LOADING",
+        "UI.EMPTY",
+        "UI.ERROR"
+      ],
+      "data_domains": [
+        "FUEL_RECEIPTS",
+        "MILEAGE",
+        "DOCUMENTS_VAULT"
+      ],
+      "interactions": [
+        "I.OPEN_FILE"
+      ],
+      "responsive": {
+        "MOBILE": "list",
+        "TABLET": "list",
+        "DESKTOP": "table"
+      },
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS",
+        "AIO.IFTA.STAFF.CASE.DOCUMENTS"
+      ]
+    },
+    {
+      "component_id": "ACTIVITY_TIMELINE",
+      "name": "Activity timeline",
+      "family_role": "FEEDBACK",
+      "purpose": "Client: recent IFTA activity (customer-visible kinds only). Staff: RECENT CLIENT ACTIVITY + AIO TEAM ACTIVITY.",
+      "actors": [
+        "CLIENT",
+        "FOUNDER_STAFF"
+      ],
+      "authority_refs": [
+        "CLIENT_MOBILE_PARENT_AUTHORITY",
+        "CLIENT_TABLET_DESKTOP",
+        "FOUNDER_STAFF_TABLET_DESKTOP"
+      ],
+      "authority_status": "DEFINED_IN_AUTHORITY",
+      "asset_refs": [
+        "AVATAR.CHIP",
+        "ICON.FILE.PDF"
+      ],
+      "ui_states": [
+        "UI.DEFAULT",
+        "UI.LOADING",
+        "UI.EMPTY",
+        "UI.ERROR"
+      ],
+      "data_domains": [
+        "ACTIVITY",
+        "AUDIT_TRAIL"
+      ],
+      "interactions": [],
+      "responsive": {
+        "MOBILE": "timeline",
+        "TABLET": "timeline",
+        "DESKTOP": "table (event · date / type · activity · date · by)"
+      },
+      "rules": [
+        "client reads IFTA kinds with visibility customer only (G-ACTIVITY-PRIVACY)"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES",
+        "AIO.IFTA.STAFF.CASE.OVERVIEW",
+        "AIO.IFTA.STAFF.CASE.NOTES",
+        "AIO.IFTA.STAFF.CASE.AUDIT"
+      ]
+    },
+    {
+      "component_id": "INSIGHTS_PANEL",
+      "name": "AIO insights",
+      "family_role": "FEEDBACK",
+      "purpose": "Plain-language line of what AIO is doing / found (aioDoingLine, nextStepLine).",
+      "actors": [
+        "CLIENT",
+        "FOUNDER_STAFF"
+      ],
+      "authority_refs": [
+        "CLIENT_MOBILE_PARENT_AUTHORITY",
+        "CLIENT_TABLET_DESKTOP",
+        "FUEL_PURCHASES_CHILD_PROOF"
+      ],
+      "authority_status": "DEFINED_IN_AUTHORITY",
+      "asset_refs": [
+        "ICON.STATUS.ATTENTION"
+      ],
+      "ui_states": [
+        "UI.DEFAULT",
+        "UI.LOADING"
+      ],
+      "data_domains": [
+        "QUARTER_CASE"
+      ],
+      "interactions": [],
+      "responsive": {
+        "MOBILE": "card",
+        "TABLET": "card",
+        "DESKTOP": "card with landscape"
+      },
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS",
+        "AIO.IFTA.CLIENT.ROOM.RETURNED"
+      ]
+    },
+    {
+      "component_id": "STATUS_CHIP",
+      "name": "Status chip",
+      "family_role": "STATUS",
+      "purpose": "Complete green · in progress blue · pending gray · attention amber; quarter state chip in the hero.",
+      "actors": [
+        "CLIENT",
+        "FOUNDER_STAFF",
+        "PUBLIC"
+      ],
+      "authority_refs": [
+        "ICON_ASSET_SHEET",
+        "CLIENT_MOBILE_PARENT_AUTHORITY"
+      ],
+      "authority_status": "DEFINED_IN_AUTHORITY",
+      "asset_refs": [
+        "SURFACE.STATUS_CHIPS"
+      ],
+      "ui_states": [
+        "UI.DEFAULT"
+      ],
+      "data_domains": [],
+      "interactions": [],
+      "responsive": {
+        "MOBILE": "same",
+        "TABLET": "same",
+        "DESKTOP": "same"
+      },
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.NEEDS_YOU",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.UPLOAD",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.RECEIPT_DETAIL",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.VEHICLE_DETAIL",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES.VEHICLE_DETAIL",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS.STATE_DETAIL",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS",
+        "AIO.IFTA.CLIENT.ROOM.FILED",
+        "AIO.IFTA.CLIENT.ROOM.ARCHIVED",
+        "AIO.IFTA.STAFF.QUEUE",
+        "AIO.IFTA.STAFF.CASE",
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES.RECEIPT_REVIEW",
+        "AIO.IFTA.STAFF.CASE.VEHICLES",
+        "AIO.IFTA.STAFF.CASE.DOCUMENTS"
+      ]
+    },
+    {
+      "component_id": "RISK_FLAG_PANEL",
+      "name": "Risks / flags",
+      "family_role": "STATUS",
+      "purpose": "Open flags and discrepancies with the fix inline (client: NEEDS YOU; staff: RISKS / FLAGS).",
+      "actors": [
+        "CLIENT",
+        "FOUNDER_STAFF"
+      ],
+      "authority_refs": [
+        "FOUNDER_STAFF_TABLET_DESKTOP",
+        "ACTOR_MODES_MOBILE",
+        "CLIENT_MOBILE_PARENT_AUTHORITY"
+      ],
+      "authority_status": "DEFINED_IN_AUTHORITY",
+      "asset_refs": [
+        "ICON.STATUS.ATTENTION",
+        "ICON.STATUS.COMPLETE"
+      ],
+      "ui_states": [
+        "UI.DEFAULT",
+        "UI.LOADING",
+        "UI.EMPTY",
+        "UI.ERROR",
+        "UI.WARNING"
+      ],
+      "data_domains": [
+        "CORRECTION_REQUESTS",
+        "FUEL_RECEIPTS",
+        "MILEAGE"
+      ],
+      "interactions": [
+        "I.RESOLVE_FLAG",
+        "I.RESOLVE_DISCREPANCY"
+      ],
+      "responsive": {
+        "MOBILE": "icon rows",
+        "TABLET": "panel",
+        "DESKTOP": "table (status · item · detail)"
+      },
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.NEEDS_YOU",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.CORRECTION_FLOW",
+        "AIO.IFTA.CLIENT.ROOM.RETURNED",
+        "AIO.IFTA.STAFF.CASE.OVERVIEW",
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES",
+        "AIO.IFTA.STAFF.CASE.MILEAGE",
+        "AIO.IFTA.STAFF.CASE.VEHICLES",
+        "AIO.IFTA.STAFF.CASE.JURISDICTIONS",
+        "AIO.IFTA.STAFF.CASE.JURISDICTIONS.DISCREPANCY",
+        "AIO.IFTA.STAFF.CASE.RETURN_DRAFT",
+        "AIO.IFTA.STAFF.CASE.AMENDMENT"
+      ]
+    },
+    {
+      "component_id": "CLIENT_HEALTH_PANEL",
+      "name": "Client health panel",
+      "family_role": "STATUS",
+      "purpose": "Staff-only dark panel: data completeness · fuel receipts n/n · jurisdictions n/n · return readiness + risk chip.",
+      "actors": [
+        "FOUNDER_STAFF"
+      ],
+      "authority_refs": [
+        "FOUNDER_STAFF_TABLET_DESKTOP",
+        "ACTOR_MODES_MOBILE"
+      ],
+      "authority_status": "DEFINED_IN_AUTHORITY",
+      "asset_refs": [
+        "SURFACE.DARK_OPERATIONAL_PANEL",
+        "ICON.STATUS.COMPLETE"
+      ],
+      "ui_states": [
+        "UI.DEFAULT",
+        "UI.LOADING"
+      ],
+      "data_domains": [
+        "CLIENT_HEALTH_RISK",
+        "QUARTER_CASE"
+      ],
+      "interactions": [],
+      "responsive": {
+        "MOBILE": "over the hero",
+        "TABLET": "over the hero (right)",
+        "DESKTOP": "over the hero (top-right)"
+      },
+      "rules": [
+        "risk tier has no backing model (STAFF.read.health PARTIAL)"
+      ],
+      "used_by": [
+        "AIO.IFTA.STAFF.CASE"
+      ]
+    },
+    {
+      "component_id": "IMPORTANT_DATES",
+      "name": "Important dates",
+      "family_role": "DATA",
+      "purpose": "Return period · draft target · client review · file & pay deadline.",
+      "actors": [
+        "FOUNDER_STAFF"
+      ],
+      "authority_refs": [
+        "FOUNDER_STAFF_TABLET_DESKTOP"
+      ],
+      "authority_status": "DEFINED_IN_AUTHORITY",
+      "asset_refs": [
+        "ICON.NAV.FILING"
+      ],
+      "ui_states": [
+        "UI.DEFAULT"
+      ],
+      "data_domains": [
+        "QUARTER_CASE"
+      ],
+      "interactions": [],
+      "responsive": {
+        "MOBILE": "in the overview stack",
+        "TABLET": "in the overview stack",
+        "DESKTOP": "third column"
+      },
+      "used_by": [
+        "AIO.IFTA.STAFF.CASE.OVERVIEW"
+      ]
+    },
+    {
+      "component_id": "RETURN_SUMMARY_SHEET",
+      "name": "Return summary sheet",
+      "family_role": "DATA",
+      "purpose": "Decision window: miles · gallons · MPG · tax due / credit by jurisdiction (client approve / ask; staff draft + worksheet).",
+      "actors": [
+        "CLIENT",
+        "FOUNDER_STAFF"
+      ],
+      "authority_refs": [
+        "CLIENT_MOBILE_PARENT_AUTHORITY",
+        "FOUNDER_STAFF_TABLET_DESKTOP"
+      ],
+      "authority_status": "DERIVED_FROM_FAMILY",
+      "asset_refs": [
+        "ICON.WORKFLOW.REVIEW_APPROVE",
+        "ICON.METRIC.TAX_DUE",
+        "CTA.NEXT_ACTION_RAIL"
+      ],
+      "ui_states": [
+        "UI.DEFAULT",
+        "UI.LOADING",
+        "UI.EMPTY",
+        "UI.SUCCESS",
+        "UI.ERROR"
+      ],
+      "data_domains": [
+        "RETURN_SUMMARY",
+        "JURISDICTIONS"
+      ],
+      "interactions": [
+        "I.REVIEW_DRAFT",
+        "I.APPROVE_RETURN",
+        "I.ASK_QUESTION",
+        "I.PREPARE_RETURN_SUMMARY",
+        "I.ENTER_WORKSHEET",
+        "I.SEND_FOR_APPROVAL"
+      ],
+      "responsive": {
+        "MOBILE": "metrics rail + stacked jurisdiction rows + rail",
+        "TABLET": "metrics + table",
+        "DESKTOP": "metrics + table + approval column"
+      },
+      "rules": [
+        "derived: metrics rail + jurisdiction table + next-action rail (no new composition)"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW",
+        "AIO.IFTA.STAFF.CASE.RETURN_DRAFT"
+      ]
+    },
+    {
+      "component_id": "DETAIL_DRAWER",
+      "name": "Detail drawer",
+      "family_role": "SHELL",
+      "purpose": "Record detail / edit surface for receipts, mileage, vehicles, jurisdictions, files, audit, threads.",
+      "actors": [
+        "CLIENT",
+        "FOUNDER_STAFF"
+      ],
+      "authority_refs": [
+        "PAGE_COMPONENT_INTERACTION_CONTRACT",
+        "ICON_ASSET_SHEET"
+      ],
+      "authority_status": "DERIVED_FROM_FAMILY",
+      "asset_refs": [
+        "SURFACE.CARD",
+        "SURFACE.SHADOW_LEVELS"
+      ],
+      "ui_states": [
+        "UI.DEFAULT",
+        "UI.LOADING",
+        "UI.ERROR",
+        "UI.SUCCESS",
+        "UI.READ_ONLY"
+      ],
+      "data_domains": [],
+      "interactions": [],
+      "responsive": {
+        "MOBILE": "full-height sheet",
+        "TABLET": "side drawer",
+        "DESKTOP": "side drawer"
+      },
+      "rules": [
+        "contract sheet #03 “open detail drawer”; card + shadow level 3"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.NEEDS_YOU",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.CORRECTION_FLOW",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW.ASK",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.RECEIPT_DETAIL",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.SOURCE_PICKER",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.MANUAL_ENTRY",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.VEHICLE_DETAIL",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES.VEHICLE_DETAIL",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS.STATE_DETAIL",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS.FILE_PREVIEW",
+        "AIO.IFTA.CLIENT.ROOM.MESSAGES",
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES.RECEIPT_REVIEW",
+        "AIO.IFTA.STAFF.CASE.MILEAGE.SOURCE_VERIFY",
+        "AIO.IFTA.STAFF.CASE.JURISDICTIONS.DISCREPANCY",
+        "AIO.IFTA.STAFF.CASE.DOCUMENTS.FILE_PREVIEW",
+        "AIO.IFTA.STAFF.CASE.AUDIT",
+        "AIO.IFTA.STAFF.CASE.THREAD"
+      ]
+    },
+    {
+      "component_id": "CONFIRM_MODAL",
+      "name": "Confirm / form modal",
+      "family_role": "SHELL",
+      "purpose": "Decisions that change the quarter (send to AIO, approve, request correction, record filing / payment, reopen) and short forms.",
+      "actors": [
+        "CLIENT",
+        "FOUNDER_STAFF",
+        "PUBLIC"
+      ],
+      "authority_refs": [
+        "ICON_ASSET_SHEET"
+      ],
+      "authority_status": "DERIVED_FROM_FAMILY",
+      "asset_refs": [
+        "CTA.PRIMARY_GOLD",
+        "CTA.TERTIARY_TEXT",
+        "SURFACE.SHADOW_LEVELS"
+      ],
+      "ui_states": [
+        "UI.DEFAULT",
+        "UI.LOADING",
+        "UI.ERROR",
+        "UI.SUCCESS"
+      ],
+      "data_domains": [],
+      "interactions": [],
+      "responsive": {
+        "MOBILE": "bottom sheet",
+        "TABLET": "centred modal",
+        "DESKTOP": "centred modal"
+      },
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.SEND_CONFIRM",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW.APPROVE_CONFIRM",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.CSV_IMPORT",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.IMPORT_VAULT",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.REPORT_IMPORT",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES.CONFIRM_FLEET",
+        "AIO.IFTA.STAFF.CASE.VEHICLES.MARK_NOT_OPERATED",
+        "AIO.IFTA.STAFF.CASE.RETURN_DRAFT.SEND_CONFIRM",
+        "AIO.IFTA.STAFF.CASE.REQUEST_CORRECTION",
+        "AIO.IFTA.STAFF.CASE.RECORD_FILING",
+        "AIO.IFTA.STAFF.CASE.RECORD_PAYMENT",
+        "AIO.IFTA.STAFF.CASE.AMENDMENT",
+        "AIO.IFTA.STAFF.CASE.REOPEN",
+        "AIO.IFTA.PUBLIC.REQUEST_FILING"
+      ]
+    },
+    {
+      "component_id": "MESSAGE_THREAD",
+      "name": "Message thread",
+      "family_role": "FEEDBACK",
+      "purpose": "Quarter request thread (client ↔ AIO).",
+      "actors": [
+        "CLIENT",
+        "FOUNDER_STAFF"
+      ],
+      "authority_refs": [
+        "PAGE_COMPONENT_INTERACTION_CONTRACT"
+      ],
+      "authority_status": "DERIVED_FROM_FAMILY",
+      "asset_refs": [
+        "ICON.COMM.MESSAGE",
+        "AVATAR.CHIP"
+      ],
+      "ui_states": [
+        "UI.DEFAULT",
+        "UI.LOADING",
+        "UI.EMPTY",
+        "UI.ERROR",
+        "UI.SUCCESS"
+      ],
+      "data_domains": [
+        "MESSAGES"
+      ],
+      "interactions": [
+        "I.MESSAGE_AIO",
+        "I.MESSAGE_CLIENT"
+      ],
+      "responsive": {
+        "MOBILE": "full-height sheet",
+        "TABLET": "drawer",
+        "DESKTOP": "drawer"
+      },
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.CORRECTION_FLOW",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW.ASK",
+        "AIO.IFTA.CLIENT.ROOM.NOTES",
+        "AIO.IFTA.CLIENT.ROOM.MESSAGES",
+        "AIO.IFTA.STAFF.CASE.THREAD"
+      ]
+    },
+    {
+      "component_id": "EMPTY_STATE",
+      "name": "Empty state",
+      "family_role": "FEEDBACK",
+      "purpose": "Panel-level empty copy + the capture action (e.g. “NO FUEL PURCHASES YET. UPLOAD RECEIPTS OR IMPORT YOUR CSV FILE.”).",
+      "actors": [
+        "CLIENT",
+        "FOUNDER_STAFF"
+      ],
+      "authority_refs": [
+        "PAGE_COMPONENT_INTERACTION_CONTRACT"
+      ],
+      "authority_status": "DEFINED_IN_AUTHORITY",
+      "asset_refs": [
+        "ICON.FILE.UPLOAD"
+      ],
+      "ui_states": [
+        "UI.EMPTY"
+      ],
+      "data_domains": [],
+      "interactions": [],
+      "responsive": {
+        "MOBILE": "in panel",
+        "TABLET": "in panel",
+        "DESKTOP": "in panel"
+      },
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS",
+        "AIO.IFTA.CLIENT.ROOM.NOTES",
+        "AIO.IFTA.CLIENT.ROOM.NEXT_QUARTER_OPEN",
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES",
+        "AIO.IFTA.STAFF.CASE.MILEAGE",
+        "AIO.IFTA.STAFF.CASE.VEHICLES",
+        "AIO.IFTA.STAFF.CASE.JURISDICTIONS",
+        "AIO.IFTA.STAFF.CASE.DOCUMENTS",
+        "AIO.IFTA.STAFF.CASE.NOTES"
+      ]
+    },
+    {
+      "component_id": "QUEUE_TABLE",
+      "name": "Fuel tax queue",
+      "family_role": "DATA",
+      "purpose": "Client-quarters by due date × readiness with hub buckets (AWAITING CLIENT · BLOCKED · NEEDS REVIEW · READY TO FILE · COMPLETE).",
+      "actors": [
+        "FOUNDER_STAFF"
+      ],
+      "authority_refs": [],
+      "authority_status": "MISSING_AUTHORITY",
+      "asset_refs": [
+        "SURFACE.STATUS_CHIPS"
+      ],
+      "ui_states": [
+        "UI.DEFAULT",
+        "UI.LOADING",
+        "UI.EMPTY",
+        "UI.ERROR"
+      ],
+      "data_domains": [
+        "STAFF_WORK_QUEUE"
+      ],
+      "interactions": [
+        "I.OPEN_CASE",
+        "I.FILTER_QUEUE"
+      ],
+      "responsive": {},
+      "rules": [
+        "no reference authority (gap G-STAFF-QUEUE / decision D-STAFF-QUEUE-AUTHORITY)"
+      ],
+      "used_by": [
+        "AIO.IFTA.STAFF.QUEUE"
+      ]
+    },
+    {
+      "component_id": "EXPLAINER_BAND",
+      "name": "Clear-path explainer",
+      "family_role": "IDENTITY",
+      "purpose": "A CLEAR PATH FROM MILES TO COMPLIANCE — what AIO handles + evidence image card + GET STARTED.",
+      "actors": [
+        "PUBLIC"
+      ],
+      "authority_refs": [
+        "PUBLIC_TABLET_DESKTOP",
+        "ACTOR_MODES_MOBILE"
+      ],
+      "authority_status": "DEFINED_IN_AUTHORITY",
+      "asset_refs": [
+        "IMAGE.ROAD_EVIDENCE",
+        "CTA.PRIMARY_GOLD"
+      ],
+      "ui_states": [
+        "UI.DEFAULT"
+      ],
+      "data_domains": [
+        "PUBLIC_CONTENT"
+      ],
+      "interactions": [
+        "I.GET_STARTED"
+      ],
+      "responsive": {
+        "MOBILE": "copy only",
+        "TABLET": "copy only",
+        "DESKTOP": "copy | image card"
+      },
+      "rules": [
+        "copy from the experience contract (D-PUBLIC-COPY-TRUTH)"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.NOT_ENROLLED",
+        "AIO.IFTA.PUBLIC.SERVICE.WHAT_IS_IFTA",
+        "AIO.IFTA.PUBLIC.SERVICE.HOW_IT_WORKS",
+        "AIO.IFTA.PUBLIC.SERVICE.START"
+      ]
+    },
+    {
+      "component_id": "PROCESS_STEPS",
+      "name": "Process steps",
+      "family_role": "IDENTITY",
+      "purpose": "Five steps: fuel purchases · mileage by jurisdiction · vehicle & trip data · return preparation · filing & confirmation.",
+      "actors": [
+        "PUBLIC"
+      ],
+      "authority_refs": [
+        "PUBLIC_TABLET_DESKTOP",
+        "ACTOR_MODES_MOBILE"
+      ],
+      "authority_status": "DEFINED_IN_AUTHORITY",
+      "asset_refs": [
+        "ICON.METRIC.FUEL",
+        "ICON.METRIC.MILES",
+        "ICON.NAV.VEHICLES",
+        "ICON.WORKFLOW.PREPARE_RETURN",
+        "ICON.WORKFLOW.FILE_CONFIRM"
+      ],
+      "ui_states": [
+        "UI.DEFAULT"
+      ],
+      "data_domains": [
+        "PUBLIC_CONTENT"
+      ],
+      "interactions": [],
+      "responsive": {
+        "MOBILE": "tiles 3 + 2",
+        "TABLET": "tiles 3 + 2",
+        "DESKTOP": "five tiles in a row with step numbers"
+      },
+      "used_by": [
+        "AIO.IFTA.PUBLIC.SERVICE.HOW_IT_WORKS"
+      ]
+    },
+    {
+      "component_id": "VALUE_PILLARS",
+      "name": "Built-for pillars",
+      "family_role": "IDENTITY",
+      "purpose": "BUILT FOR OWNER OPERATORS AND FLEETS — ACCURATE · EFFICIENT · COMPLIANT.",
+      "actors": [
+        "PUBLIC"
+      ],
+      "authority_refs": [
+        "PUBLIC_TABLET_DESKTOP",
+        "ACTOR_MODES_MOBILE"
+      ],
+      "authority_status": "DEFINED_IN_AUTHORITY",
+      "asset_refs": [
+        "ICON.STATUS.COMPLETE"
+      ],
+      "ui_states": [
+        "UI.DEFAULT"
+      ],
+      "data_domains": [
+        "PUBLIC_CONTENT"
+      ],
+      "interactions": [],
+      "responsive": {
+        "MOBILE": "3-up",
+        "TABLET": "3-up",
+        "DESKTOP": "3-up beside the map"
+      },
+      "used_by": [
+        "AIO.IFTA.PUBLIC.SERVICE.FEATURES"
+      ]
+    },
+    {
+      "component_id": "RESOURCE_TILES",
+      "name": "Resource tiles",
+      "family_role": "IDENTITY",
+      "purpose": "RESOURCES section: what IFTA is, who needs it, due dates, what to send — as pillar-style tiles.",
+      "actors": [
+        "PUBLIC"
+      ],
+      "authority_refs": [
+        "PUBLIC_TABLET_DESKTOP"
+      ],
+      "authority_status": "DERIVED_FROM_FAMILY",
+      "asset_refs": [
+        "ICON.FILE.DOCUMENT",
+        "ICON.NAV.FILING"
+      ],
+      "ui_states": [
+        "UI.DEFAULT"
+      ],
+      "data_domains": [
+        "PUBLIC_CONTENT"
+      ],
+      "interactions": [],
+      "responsive": {
+        "MOBILE": "stacked tiles",
+        "TABLET": "2-up tiles",
+        "DESKTOP": "3-up tiles"
+      },
+      "rules": [
+        "derived from the pillar tile pattern; the nav item exists in the reference, the section composition does not"
+      ],
+      "used_by": [
+        "AIO.IFTA.PUBLIC.SERVICE.RESOURCES"
+      ]
+    },
+    {
+      "component_id": "REQUEST_FORM",
+      "name": "Request-filing form",
+      "family_role": "INPUT",
+      "purpose": "Company, contact, fleet size, base jurisdiction, IFTA account yes / no → quote request.",
+      "actors": [
+        "PUBLIC",
+        "CLIENT"
+      ],
+      "authority_refs": [
+        "ICON_ASSET_SHEET"
+      ],
+      "authority_status": "DERIVED_FROM_FAMILY",
+      "asset_refs": [
+        "CTA.PRIMARY_GOLD",
+        "CTA.TERTIARY_TEXT"
+      ],
+      "ui_states": [
+        "UI.DEFAULT",
+        "UI.LOADING",
+        "UI.ERROR",
+        "UI.SUCCESS"
+      ],
+      "data_domains": [
+        "SERVICE_ENROLLMENT_REQUESTS"
+      ],
+      "interactions": [
+        "I.SUBMIT_FILING_REQUEST",
+        "I.START_IFTA_REGISTRATION"
+      ],
+      "responsive": {
+        "MOBILE": "full-screen",
+        "TABLET": "modal",
+        "DESKTOP": "modal"
+      },
+      "rules": [
+        "fields from the existing request engine; derived from modal + button family"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.NOT_ENROLLED",
+        "AIO.IFTA.PUBLIC.REQUEST_FILING"
+      ]
+    }
+  ]
+}

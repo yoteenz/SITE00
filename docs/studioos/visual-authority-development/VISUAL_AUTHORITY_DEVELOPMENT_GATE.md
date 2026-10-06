@@ -47,7 +47,9 @@ The compiler's creative gates say *which* archetypes need new authority. This ga
 | 04 | CREATE 3 DISTINCT COMPOSITION TERRITORIES | `checkTerritoryDistinctness` → TERRITORY_DISTINCTNESS_FAILURE |
 | 05 | GENERATE / ASSEMBLE REFERENCE AUTHORITIES | `checkReferences` → REFERENCE_AUTHORITY_REQUIRED |
 | 06 | FOUNDER CHOOSES / REVISES | founder verdict |
-| 07 | LOCK PAGE-FAMILY AUTHORITY | `checkAuthorityLock` |
+| 07 | LOCK PAGE-FAMILY AUTHORITY (other actors / viewports may **derive** from the locked parent) | `checkAuthorityLock` · `checkDerivation` |
+| 07A | BRAIN PRODUCES THE PAGE / TAB / STATE TREE (tabs are first-class nodes) | `tree.ts` → `buildExperienceTree` · `evaluateNodeReadiness` · `treeCoverage` |
+| 07B | FOUNDER CONFIRMS THE TREE | `pageTreeConfirmed` → PAGE_TREE_CONFIRMATION_REQUIRED |
 | 08 | IMPLEMENT | `AUTHORITY_IMPLEMENTATION_CONTRACT` |
 | 09 | INCREASE FIDELITY WITHOUT VIOLATING CORE LOGIC | `classifyDeviation` → FOUNDER_REVIEW_REQUIRED |
 
@@ -55,22 +57,35 @@ The compiler's creative gates say *which* archetypes need new authority. This ga
 - `state`: the furthest production state earned
 - `guard`: what stops the line
 - `durable_rule`: SATISFIED or VISUAL_AUTHORITY_REQUIRED
-- the seven conditions
+- the eight conditions
 - `implementation_ready`
 - `next_step`
 
 ## 4. Durable rule
 
-No **material** page family moves from experience contract to implementation unless all seven hold:
+No **material** page family moves from experience contract to implementation unless all eight hold:
 1. brand context loaded
 2. experience contract loaded
 3. legacy visual status known
-4. composition territories exist
+4. composition territories exist (own three, or inherited from a locked parent authority)
 5. reference authority exists
 6. founder approval exists
 7. page-family authority locked
+8. page / tab / state tree founder-confirmed
 
-Otherwise **STATUS: VISUAL_AUTHORITY_REQUIRED**. For material families, `AUTHORITY_APPROVED != true → IMPLEMENTATION_READY = false`.
+Otherwise **STATUS: VISUAL_AUTHORITY_REQUIRED** (1–7) or **PAGE_TREE_CONFIRMATION_REQUIRED** (8). For material families, `AUTHORITY_APPROVED != true → IMPLEMENTATION_READY = false`.
+
+### 4.1 Parent authority precedes actor / viewport derivation (founder decision, P0.AIO.IFTA.AUTHORITY-BUNDLE-INGEST-AND-PAGE-TREE-PROOF1)
+
+The canonical flow is: lock the client **parent** authority → derive the other actor modes → derive tablet + desktop per mode → page / component / interaction contract → every tab as a first-class node → icon / asset sheet → lock the authority package → the Brain produces the page / tab / state tree → the founder confirms the tree → only then implementation.
+
+A derived actor does not run its own three territories. `checkDerivation` requires:
+- a locked parent authority of the same family (another actor) whose territories passed the distinctness test
+- derived reference authorities that trace to a parent source territory and show all six proofs
+
+The derived actor still needs its own founder approval and its own locked authority.
+
+**AUTHOR FIRST. DERIVE SECOND. SPECIFY THIRD. IMPLEMENT LAST.** This supersedes the direct experience-contract → implementation pipeline.
 
 ## 5. Production states
 
@@ -88,6 +103,7 @@ These guards can stop the line at any state:
 - FOUNDER_REVIEW_REQUIRED
 - RESPONSIVE_AUTHORITY_REQUIRED
 - AUTHORITY_AS_RUNTIME_ASSET
+- PAGE_TREE_CONFIRMATION_REQUIRED
 
 Full transitions are in `VISUAL_AUTHORITY_STATE_MODEL.json`.
 
@@ -287,7 +303,7 @@ A declared core-lock change, or an observed value that drifts from a lock, is a 
 | Registry | Fields |
 |---|---|
 | `VISUAL_AUTHORITY_REGISTRY.json` | project_id, family_id, feature_id, actor, authority_id, authority_level, status, reference_paths, brand_context_id, experience_contract_id, territory_id, core_logic_locks, flexible_areas, founder_decision, created_at, updated_at, supersedes; plus `guard` and portability rows |
-| `COMPOSITION_TERRITORY_REGISTRY.json` | territory_id, project_id, family_id, feature_id, actor, name, concept, metaphor, primary_object, composition_logic, mobile_logic, desktop_logic, brand_fit, experience_fit, status, founder_decision; currently 0 rows and 3 open slots per AIO IFTA actor |
+| `COMPOSITION_TERRITORY_REGISTRY.json` | territory_id, project_id, family_id, feature_id, actor, name, concept, metaphor, primary_object, composition_logic, mobile_logic, desktop_logic, brand_fit, experience_fit, status, founder_decision. Holds the three AIO IFTA CLIENT territories (T03 SELECTED). FOUNDER_STAFF and PUBLIC derive from the client parent. |
 
 ## 14. Portability
 
@@ -309,10 +325,14 @@ The gate is proven against:
   - open questions: whether the typography is founder-locked; logo rules; the approved photo set
 - **Experience:** `AIO_IFTA_FUEL_TAX_EXPERIENCE_CONTRACT` / `VISUAL_CONTRACT` / `E2E_CONTRACT` (QUARTERLY FILING ROOM).
 - **Legacy:** all 12 current AIO public / client / staff / shared surfaces are **FUNCTIONAL_REFERENCE_ONLY**. Old AIO page proportions may not be used.
-- **Gate today** (PUBLIC · CLIENT · FOUNDER_STAFF):
-  - state: **AUTHORITY_TERRITORIES_REQUIRED**
+- **Gate before the authority bundle** (PUBLIC · CLIENT · FOUNDER_STAFF):
+  - state: AUTHORITY_TERRITORIES_REQUIRED
   - guard: VISUAL_AUTHORITY_REQUIRED
-  - next step: author 3 territories per actor
+- **Gate after the authority bundle** (P0.AIO.IFTA.AUTHORITY-BUNDLE-INGEST-AND-PAGE-TREE-PROOF1):
+  - CLIENT: three territories → LOVE_IT on 03 THE ANALYTICS COMMAND rendered LIGHT → locked `AIO.IFTA.CLIENT.PFA.v1`.
+  - FOUNDER_STAFF and PUBLIC: derived from the locked client parent → locked.
+  - All three actors: **AUTHORITY_APPROVED**, guard **PAGE_TREE_CONFIRMATION_REQUIRED** (7 of 8 conditions hold). The founder confirms the page / tab / state tree next.
+  - Ingest + tree proof: `docs/aio/ifta/authority-bundle/`.
 - **Packages:**
 
 | File | What it holds |

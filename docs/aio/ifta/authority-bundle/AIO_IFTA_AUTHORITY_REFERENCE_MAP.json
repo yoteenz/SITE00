@@ -1,0 +1,4223 @@
+{
+  "id": "AIO_IFTA_AUTHORITY_REFERENCE_MAP",
+  "sprint": "P0.AIO.IFTA.AUTHORITY-BUNDLE-INGEST-AND-PAGE-TREE-PROOF1",
+  "generated_by": "scripts/studioos/aio-ifta-authority-bundle-export.ts",
+  "source": "shared/studioos-visual-authority/projects/aio/ifta-authority",
+  "generated_for": "2026-10-06",
+  "constraints": {
+    "page_implementation": false,
+    "new_paid_generations": 0,
+    "credits_spent": 0,
+    "legacy_visual_authority": "FORBIDDEN"
+  },
+  "family_inheritance": {
+    "rule": "Every child inherits the family DNA from its parent authority and overrides only its task, data, modules, actions and states. SHARED DESIGN ≠ SHARED LOGIC.",
+    "inherit": [
+      "SHELL",
+      "TYPOGRAPHY",
+      "MATERIAL",
+      "COLOR_LANGUAGE",
+      "HERO_LOGIC",
+      "TAB_LOGIC",
+      "LOWER_BRAND_BAND",
+      "ICON_FAMILY",
+      "NAV (simple mark only)",
+      "PANEL_MATERIALS",
+      "BASE_GRID",
+      "CTA_LANGUAGE",
+      "BRAND_ENVIRONMENT"
+    ],
+    "override": [
+      "PRIMARY_TASK",
+      "PRIMARY_DATA",
+      "CONTENT_MODULES",
+      "ACTIONS",
+      "STATES",
+      "DATA_OWNERSHIP",
+      "MUTATIONS",
+      "VALIDATION",
+      "CHILD_ROUTES",
+      "DRAWERS",
+      "MODALS",
+      "ERROR_CONDITIONS",
+      "ACTOR_RIGHTS",
+      "SYSTEM_RELATIONSHIPS"
+    ],
+    "never_inherit": [
+      "LEGACY AIO VISUALS (header, nav geometry, sidebar, footer, page width, grid, card system, panel system, typography, spacing, color, responsive rules, layout, composition, visual proportion, shell architecture)"
+    ],
+    "parents": {
+      "CLIENT": {
+        "parent_authority": "AIO.IFTA.CLIENT.PFA.v1",
+        "parent_ref": "CLIENT_MOBILE_PARENT_AUTHORITY",
+        "derivation_proof": "FUEL_PURCHASES_CHILD_PROOF",
+        "viewport_derivation": "CLIENT_TABLET_DESKTOP"
+      },
+      "FOUNDER_STAFF": {
+        "parent_authority": "AIO.IFTA.FOUNDER_STAFF.PFA.v1 (derived from the client parent)",
+        "parent_ref": "ACTOR_MODES_MOBILE (staff)",
+        "derivation_proof": "FUEL_PURCHASES_CHILD_PROOF (rule)",
+        "viewport_derivation": "FOUNDER_STAFF_TABLET_DESKTOP",
+        "actor_override": "LIGHT_PRIMARY + DARK_OPERATIONAL_ACCENTS, denser; OVERVIEW replaces PROGRESS; CLIENT HEALTH + tasks + team activity + risks"
+      },
+      "PUBLIC": {
+        "parent_authority": "AIO.IFTA.PUBLIC.PFA.v1 (derived from the client parent)",
+        "parent_ref": "ACTOR_MODES_MOBILE (public)",
+        "derivation_proof": "—",
+        "viewport_derivation": "PUBLIC_TABLET_DESKTOP",
+        "actor_override": "DARK_PRIMARY cinematic; sections instead of tabs; SAMPLE data only"
+      }
+    },
+    "derivation_conditions": [
+      "FAMILY COMPOSITION IS CLEAR",
+      "COMPONENT CONTRACT IS CLEAR",
+      "TAB LOGIC IS CLEAR",
+      "ASSET FAMILY IS CLEAR"
+    ],
+    "child_proof_rule": "FUEL PURCHASES proves the derivation; it is not a template copied into every tab."
+  },
+  "by_node": [
+    {
+      "node_id": "AIO.IFTA.CLIENT.ROOM",
+      "actor": "CLIENT",
+      "node_type": "PAGE",
+      "tab_id": null,
+      "viewports": {
+        "MOBILE": {
+          "binding": "DIRECT",
+          "usable": true,
+          "refs": [
+            "CLIENT_MOBILE_PARENT_AUTHORITY"
+          ]
+        },
+        "TABLET": {
+          "binding": "DIRECT",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP"
+          ]
+        },
+        "DESKTOP": {
+          "binding": "DIRECT",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP"
+          ]
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.CLIENT.ROOM.PROGRESS",
+      "actor": "CLIENT",
+      "node_type": "TAB",
+      "tab_id": "PROGRESS",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DIRECT",
+          "usable": true,
+          "refs": [
+            "CLIENT_MOBILE_PARENT_AUTHORITY"
+          ]
+        },
+        "TABLET": {
+          "binding": "DIRECT",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP"
+          ]
+        },
+        "DESKTOP": {
+          "binding": "DIRECT",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP"
+          ]
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.CLIENT.ROOM.PROGRESS.NEEDS_YOU",
+      "actor": "CLIENT",
+      "node_type": "DRAWER",
+      "tab_id": "PROGRESS",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Blocked-state list built from the parent checklist rows + status chips + contract sheet #03 drawer."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Blocked-state list built from the parent checklist rows + status chips + contract sheet #03 drawer."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Blocked-state list built from the parent checklist rows + status chips + contract sheet #03 drawer."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.CLIENT.ROOM.PROGRESS.CORRECTION_FLOW",
+      "actor": "CLIENT",
+      "node_type": "FLOW",
+      "tab_id": "PROGRESS",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Correction list = NEEDS YOU rows scoped to the request message; derived from parent checklist + flag panel."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Correction list = NEEDS YOU rows scoped to the request message; derived from parent checklist + flag panel."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Correction list = NEEDS YOU rows scoped to the request message; derived from parent checklist + flag panel."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.CLIENT.ROOM.PROGRESS.SEND_CONFIRM",
+      "actor": "CLIENT",
+      "node_type": "MODAL",
+      "tab_id": "PROGRESS",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #10 + family confirm modal."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #10 + family confirm modal."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #10 + family confirm modal."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW",
+      "actor": "CLIENT",
+      "node_type": "CHILD_PAGE",
+      "tab_id": "PROGRESS",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Derived: metrics rail + jurisdiction table + dark next-action rail (APPROVE RETURN); the parent shows the YOUR REVIEW & APPROVAL line."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Derived: metrics rail + jurisdiction table + dark next-action rail (APPROVE RETURN); the parent shows the YOUR REVIEW & APPROVAL line."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Derived: metrics rail + jurisdiction table + dark next-action rail (APPROVE RETURN); the parent shows the YOUR REVIEW & APPROVAL line."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW.APPROVE_CONFIRM",
+      "actor": "CLIENT",
+      "node_type": "MODAL",
+      "tab_id": "PROGRESS",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Family confirm modal."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Family confirm modal."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Family confirm modal."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW.ASK",
+      "actor": "CLIENT",
+      "node_type": "DRAWER",
+      "tab_id": "PROGRESS",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Family drawer + thread."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Family drawer + thread."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Family drawer + thread."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES",
+      "actor": "CLIENT",
+      "node_type": "TAB",
+      "tab_id": "FUEL_PURCHASES",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DIRECT",
+          "usable": true,
+          "refs": [
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "FUEL_PURCHASES_CHILD_PROOF"
+          ]
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Tablet / desktop derive the FUEL PURCHASES child proof onto the client tablet / desktop grid."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Tablet / desktop derive the FUEL PURCHASES child proof onto the client tablet / desktop grid."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.UPLOAD",
+      "actor": "CLIENT",
+      "node_type": "FLOW",
+      "tab_id": "FUEL_PURCHASES",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DIRECT",
+          "usable": true,
+          "refs": [
+            "FUEL_PURCHASES_CHILD_PROOF"
+          ]
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Upload zone on the tablet / desktop grid."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Upload zone on the tablet / desktop grid."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.CSV_IMPORT",
+      "actor": "CLIENT",
+      "node_type": "MODAL",
+      "tab_id": "FUEL_PURCHASES",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #02 “map fields and validate” on the family modal."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #02 “map fields and validate” on the family modal."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #02 “map fields and validate” on the family modal."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.IMPORT_VAULT",
+      "actor": "CLIENT",
+      "node_type": "MODAL",
+      "tab_id": "FUEL_PURCHASES",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Family modal + file rows."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Family modal + file rows."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Family modal + file rows."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.RECEIPT_DETAIL",
+      "actor": "CLIENT",
+      "node_type": "DRAWER",
+      "tab_id": "FUEL_PURCHASES",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #03 detail drawer from the receipt row menu."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #03 detail drawer from the receipt row menu."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #03 detail drawer from the receipt row menu."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.CLIENT.ROOM.MILEAGE",
+      "actor": "CLIENT",
+      "node_type": "TAB",
+      "tab_id": "MILEAGE",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Derived from the parent (MILEAGE BY JURISDICTION checklist line + map) with the FUEL PURCHASES derivation rule; desktop mileage bars from the client desktop."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Derived from the parent (MILEAGE BY JURISDICTION checklist line + map) with the FUEL PURCHASES derivation rule; desktop mileage bars from the client desktop."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Derived from the parent (MILEAGE BY JURISDICTION checklist line + map) with the FUEL PURCHASES derivation rule; desktop mileage bars from the client desktop."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.CLIENT.ROOM.MILEAGE.SOURCE_PICKER",
+      "actor": "CLIENT",
+      "node_type": "DRAWER",
+      "tab_id": "MILEAGE",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract mobile_behavior “mileage source picker as a sheet”; built from task-list rows."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract mobile_behavior “mileage source picker as a sheet”; built from task-list rows."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract mobile_behavior “mileage source picker as a sheet”; built from task-list rows."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.CLIENT.ROOM.MILEAGE.REPORT_IMPORT",
+      "actor": "CLIENT",
+      "node_type": "MODAL",
+      "tab_id": "MILEAGE",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #02 import on the family modal."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #02 import on the family modal."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #02 import on the family modal."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.CLIENT.ROOM.MILEAGE.MANUAL_ENTRY",
+      "actor": "CLIENT",
+      "node_type": "DRAWER",
+      "tab_id": "MILEAGE",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Family drawer with mileage rows."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Family drawer with mileage rows."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Family drawer with mileage rows."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.CLIENT.ROOM.MILEAGE.VEHICLE_DETAIL",
+      "actor": "CLIENT",
+      "node_type": "DRAWER",
+      "tab_id": "MILEAGE",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #03 detail drawer."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #03 detail drawer."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #03 detail drawer."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.CLIENT.ROOM.VEHICLES",
+      "actor": "CLIENT",
+      "node_type": "TAB",
+      "tab_id": "VEHICLES",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Derived from the parent VEHICLE & TRIP DATA line and the client desktop VEHICLE & TRIP DATA panel (trucks 101–104)."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Derived from the parent VEHICLE & TRIP DATA line and the client desktop VEHICLE & TRIP DATA panel (trucks 101–104)."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Derived from the parent VEHICLE & TRIP DATA line and the client desktop VEHICLE & TRIP DATA panel (trucks 101–104)."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.CLIENT.ROOM.VEHICLES.CONFIRM_FLEET",
+      "actor": "CLIENT",
+      "node_type": "MODAL",
+      "tab_id": "VEHICLES",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #05 verify record on the family modal."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #05 verify record on the family modal."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #05 verify record on the family modal."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.CLIENT.ROOM.VEHICLES.VEHICLE_DETAIL",
+      "actor": "CLIENT",
+      "node_type": "DRAWER",
+      "tab_id": "VEHICLES",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #03 detail drawer."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #03 detail drawer."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #03 detail drawer."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS",
+      "actor": "CLIENT",
+      "node_type": "TAB",
+      "tab_id": "JURISDICTIONS",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Derived from the parent JURISDICTION BREAKDOWN map + legend and the desktop mileage-by-jurisdiction bars."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Derived from the parent JURISDICTION BREAKDOWN map + legend and the desktop mileage-by-jurisdiction bars."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Derived from the parent JURISDICTION BREAKDOWN map + legend and the desktop mileage-by-jurisdiction bars."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS.STATE_DETAIL",
+      "actor": "CLIENT",
+      "node_type": "DRAWER",
+      "tab_id": "JURISDICTIONS",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #03 detail drawer from the map / legend."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #03 detail drawer from the map / legend."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #03 detail drawer from the map / legend."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.CLIENT.ROOM.DOCUMENTS",
+      "actor": "CLIENT",
+      "node_type": "TAB",
+      "tab_id": "DOCUMENTS",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Derived from the parent RECENT UPLOADS rows and the client desktop file table (file · date · status)."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Derived from the parent RECENT UPLOADS rows and the client desktop file table (file · date · status)."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Derived from the parent RECENT UPLOADS rows and the client desktop file table (file · date · status)."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.CLIENT.ROOM.DOCUMENTS.FILE_PREVIEW",
+      "actor": "CLIENT",
+      "node_type": "DRAWER",
+      "tab_id": "DOCUMENTS",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #03 detail drawer from a file row."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #03 detail drawer from a file row."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #03 detail drawer from a file row."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.CLIENT.ROOM.NOTES",
+      "actor": "CLIENT",
+      "node_type": "TAB",
+      "tab_id": "NOTES",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": false,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "ACTOR_MODES_MOBILE",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": false,
+            "asset_family_clear": true
+          },
+          "note": "Tab label only in references (no NOTES content composition); asset sheet shows the tab DISABLED."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": false,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": false,
+            "asset_family_clear": true
+          },
+          "note": "Tab label only."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": false,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": false,
+            "asset_family_clear": true
+          },
+          "note": "Tab label only."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.CLIENT.ROOM.MESSAGES",
+      "actor": "CLIENT",
+      "node_type": "DRAWER",
+      "tab_id": null,
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #08 message team; help rail in the parent / territory board."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #08 message team; help rail in the parent / territory board."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #08 message team; help rail in the parent / territory board."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.CLIENT.ROOM.FILED",
+      "actor": "CLIENT",
+      "node_type": "STATE_VIEW",
+      "tab_id": "PROGRESS",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "State chip FILED + workflow all complete + documents prominent — the parent composition in its success state (no dedicated seal asset)."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "State chip FILED + workflow all complete + documents prominent — the parent composition in its success state (no dedicated seal asset)."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "State chip FILED + workflow all complete + documents prominent — the parent composition in its success state (no dedicated seal asset)."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.CLIENT.ROOM.ARCHIVED",
+      "actor": "CLIENT",
+      "node_type": "STATE_VIEW",
+      "tab_id": "PROGRESS",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Parent composition read-only; chip ARCHIVED (stone)."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Parent composition read-only; chip ARCHIVED (stone)."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Parent composition read-only; chip ARCHIVED (stone)."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.CLIENT.ROOM.NEXT_QUARTER_OPEN",
+      "actor": "CLIENT",
+      "node_type": "STATE_VIEW",
+      "tab_id": "PROGRESS",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Parent composition in its empty state (checklist pending, metrics zero) + upload zone from the child proof."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Parent composition in its empty state (checklist pending, metrics zero) + upload zone from the child proof."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Parent composition in its empty state (checklist pending, metrics zero) + upload zone from the child proof."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.CLIENT.ROOM.RETURNED",
+      "actor": "CLIENT",
+      "node_type": "STATE_VIEW",
+      "tab_id": "PROGRESS",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Parent composition with the attention chip + insights line."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Parent composition with the attention chip + insights line."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Parent composition with the attention chip + insights line."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.CLIENT.NOT_ENROLLED",
+      "actor": "CLIENT",
+      "node_type": "STATE_VIEW",
+      "tab_id": null,
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Parent hero with the explainer pattern from the public family (light)."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Parent hero with the explainer pattern from the public family (light)."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "CLIENT_TABLET_DESKTOP",
+            "CLIENT_MOBILE_PARENT_AUTHORITY",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Parent hero with the explainer pattern from the public family (light)."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.STAFF.QUEUE",
+      "actor": "FOUNDER_STAFF",
+      "node_type": "PAGE",
+      "tab_id": null,
+      "viewports": {
+        "MOBILE": {
+          "binding": "MISSING",
+          "usable": false,
+          "refs": [],
+          "note": "No queue reference in the package (G-STAFF-QUEUE)."
+        },
+        "TABLET": {
+          "binding": "MISSING",
+          "usable": false,
+          "refs": [],
+          "note": "No queue reference in the package."
+        },
+        "DESKTOP": {
+          "binding": "MISSING",
+          "usable": false,
+          "refs": [],
+          "note": "No queue reference in the package."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.STAFF.CASE",
+      "actor": "FOUNDER_STAFF",
+      "node_type": "PAGE",
+      "tab_id": null,
+      "viewports": {
+        "MOBILE": {
+          "binding": "DIRECT",
+          "usable": true,
+          "refs": [
+            "ACTOR_MODES_MOBILE"
+          ]
+        },
+        "TABLET": {
+          "binding": "DIRECT",
+          "usable": true,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP"
+          ]
+        },
+        "DESKTOP": {
+          "binding": "DIRECT",
+          "usable": true,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP"
+          ]
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.STAFF.CASE.OVERVIEW",
+      "actor": "FOUNDER_STAFF",
+      "node_type": "TAB",
+      "tab_id": "OVERVIEW",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DIRECT",
+          "usable": true,
+          "refs": [
+            "ACTOR_MODES_MOBILE"
+          ]
+        },
+        "TABLET": {
+          "binding": "DIRECT",
+          "usable": true,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP"
+          ]
+        },
+        "DESKTOP": {
+          "binding": "DIRECT",
+          "usable": true,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP"
+          ]
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES",
+      "actor": "FOUNDER_STAFF",
+      "node_type": "TAB",
+      "tab_id": "FUEL_PURCHASES",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "ACTOR_MODES_MOBILE",
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Client FUEL PURCHASES derivation rule applied to the staff case (denser table + verify actions)."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Client FUEL PURCHASES derivation rule applied to the staff case (denser table + verify actions)."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Client FUEL PURCHASES derivation rule applied to the staff case (denser table + verify actions)."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES.RECEIPT_REVIEW",
+      "actor": "FOUNDER_STAFF",
+      "node_type": "DRAWER",
+      "tab_id": "FUEL_PURCHASES",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "ACTOR_MODES_MOBILE",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #03 / #05 drawer."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #03 / #05 drawer."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #03 / #05 drawer."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.STAFF.CASE.MILEAGE",
+      "actor": "FOUNDER_STAFF",
+      "node_type": "TAB",
+      "tab_id": "MILEAGE",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "ACTOR_MODES_MOBILE",
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Derived from the staff MILEAGE BY JURISDICTION bars + client mileage tab logic."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Derived from the staff MILEAGE BY JURISDICTION bars + client mileage tab logic."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Derived from the staff MILEAGE BY JURISDICTION bars + client mileage tab logic."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.STAFF.CASE.MILEAGE.SOURCE_VERIFY",
+      "actor": "FOUNDER_STAFF",
+      "node_type": "DRAWER",
+      "tab_id": "MILEAGE",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "ACTOR_MODES_MOBILE",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #05 verify record drawer."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #05 verify record drawer."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #05 verify record drawer."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.STAFF.CASE.VEHICLES",
+      "actor": "FOUNDER_STAFF",
+      "node_type": "TAB",
+      "tab_id": "VEHICLES",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "ACTOR_MODES_MOBILE",
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Derived from the staff VEHICLES panel (Unit 101–105, view all 12)."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Derived from the staff VEHICLES panel (Unit 101–105, view all 12)."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Derived from the staff VEHICLES panel (Unit 101–105, view all 12)."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.STAFF.CASE.VEHICLES.MARK_NOT_OPERATED",
+      "actor": "FOUNDER_STAFF",
+      "node_type": "MODAL",
+      "tab_id": "VEHICLES",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "ACTOR_MODES_MOBILE",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Family confirm modal with note field."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Family confirm modal with note field."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Family confirm modal with note field."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.STAFF.CASE.JURISDICTIONS",
+      "actor": "FOUNDER_STAFF",
+      "node_type": "TAB",
+      "tab_id": "JURISDICTIONS",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "ACTOR_MODES_MOBILE",
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Derived from staff RISKS / FLAGS (jurisdiction changes, review recommended) + mileage bars + client jurisdiction logic."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Derived from staff RISKS / FLAGS (jurisdiction changes, review recommended) + mileage bars + client jurisdiction logic."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Derived from staff RISKS / FLAGS (jurisdiction changes, review recommended) + mileage bars + client jurisdiction logic."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.STAFF.CASE.JURISDICTIONS.DISCREPANCY",
+      "actor": "FOUNDER_STAFF",
+      "node_type": "DRAWER",
+      "tab_id": "JURISDICTIONS",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "ACTOR_MODES_MOBILE",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Family drawer."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Family drawer."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Family drawer."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.STAFF.CASE.DOCUMENTS",
+      "actor": "FOUNDER_STAFF",
+      "node_type": "TAB",
+      "tab_id": "DOCUMENTS",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "ACTOR_MODES_MOBILE",
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Derived from the client DOCUMENTS logic + staff recent client activity file rows."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Derived from the client DOCUMENTS logic + staff recent client activity file rows."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Derived from the client DOCUMENTS logic + staff recent client activity file rows."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.STAFF.CASE.DOCUMENTS.FILE_PREVIEW",
+      "actor": "FOUNDER_STAFF",
+      "node_type": "DRAWER",
+      "tab_id": "DOCUMENTS",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "ACTOR_MODES_MOBILE",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #03 drawer."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #03 drawer."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #03 drawer."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.STAFF.CASE.NOTES",
+      "actor": "FOUNDER_STAFF",
+      "node_type": "TAB",
+      "tab_id": "NOTES",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": false,
+          "refs": [
+            "ACTOR_MODES_MOBILE",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": false,
+            "asset_family_clear": true
+          },
+          "note": "Tab label only (no NOTES content composition)."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": false,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": false,
+            "asset_family_clear": true
+          },
+          "note": "Tab label only."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": false,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": false,
+            "asset_family_clear": true
+          },
+          "note": "Tab label only."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.STAFF.CASE.RETURN_DRAFT",
+      "actor": "FOUNDER_STAFF",
+      "node_type": "CHILD_PAGE",
+      "tab_id": "OVERVIEW",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "ACTOR_MODES_MOBILE",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Opened from the dark OPEN RETURN DRAFT rail; derived from metrics + jurisdiction table + rail."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Opened from the dark OPEN RETURN DRAFT rail; derived from metrics + jurisdiction table + rail."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Opened from the dark OPEN RETURN DRAFT rail; derived from metrics + jurisdiction table + rail."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.STAFF.CASE.RETURN_DRAFT.SEND_CONFIRM",
+      "actor": "FOUNDER_STAFF",
+      "node_type": "MODAL",
+      "tab_id": "OVERVIEW",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "ACTOR_MODES_MOBILE",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #10 on the family modal."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #10 on the family modal."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #10 on the family modal."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.STAFF.CASE.REQUEST_CORRECTION",
+      "actor": "FOUNDER_STAFF",
+      "node_type": "MODAL",
+      "tab_id": null,
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "ACTOR_MODES_MOBILE",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #06 on the family modal."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #06 on the family modal."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #06 on the family modal."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.STAFF.CASE.RECORD_FILING",
+      "actor": "FOUNDER_STAFF",
+      "node_type": "MODAL",
+      "tab_id": null,
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "ACTOR_MODES_MOBILE",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #11 on the family modal."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #11 on the family modal."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Contract sheet #11 on the family modal."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.STAFF.CASE.RECORD_PAYMENT",
+      "actor": "FOUNDER_STAFF",
+      "node_type": "MODAL",
+      "tab_id": null,
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "ACTOR_MODES_MOBILE",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Family confirm modal."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Family confirm modal."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Family confirm modal."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.STAFF.CASE.AUDIT",
+      "actor": "FOUNDER_STAFF",
+      "node_type": "DRAWER",
+      "tab_id": null,
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "ACTOR_MODES_MOBILE",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Family drawer with activity rows."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Family drawer with activity rows."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Family drawer with activity rows."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.STAFF.CASE.THREAD",
+      "actor": "FOUNDER_STAFF",
+      "node_type": "DRAWER",
+      "tab_id": null,
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "ACTOR_MODES_MOBILE",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Family drawer + thread."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Family drawer + thread."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Family drawer + thread."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.STAFF.CASE.AMENDMENT",
+      "actor": "FOUNDER_STAFF",
+      "node_type": "FLOW",
+      "tab_id": null,
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "ACTOR_MODES_MOBILE",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Family modal + flags."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Family modal + flags."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Family modal + flags."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.STAFF.CASE.REOPEN",
+      "actor": "FOUNDER_STAFF",
+      "node_type": "MODAL",
+      "tab_id": null,
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "ACTOR_MODES_MOBILE",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Family confirm modal."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Family confirm modal."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Family confirm modal."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.PUBLIC.SERVICE",
+      "actor": "PUBLIC",
+      "node_type": "PAGE",
+      "tab_id": null,
+      "viewports": {
+        "MOBILE": {
+          "binding": "DIRECT",
+          "usable": true,
+          "refs": [
+            "ACTOR_MODES_MOBILE"
+          ]
+        },
+        "TABLET": {
+          "binding": "DIRECT",
+          "usable": true,
+          "refs": [
+            "PUBLIC_TABLET_DESKTOP"
+          ]
+        },
+        "DESKTOP": {
+          "binding": "DIRECT",
+          "usable": true,
+          "refs": [
+            "PUBLIC_TABLET_DESKTOP"
+          ]
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.PUBLIC.SERVICE.OVERVIEW",
+      "actor": "PUBLIC",
+      "node_type": "SECTION",
+      "tab_id": "IFTA_FILING_ROOM",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DIRECT",
+          "usable": true,
+          "refs": [
+            "ACTOR_MODES_MOBILE"
+          ]
+        },
+        "TABLET": {
+          "binding": "DIRECT",
+          "usable": true,
+          "refs": [
+            "PUBLIC_TABLET_DESKTOP"
+          ]
+        },
+        "DESKTOP": {
+          "binding": "DIRECT",
+          "usable": true,
+          "refs": [
+            "PUBLIC_TABLET_DESKTOP"
+          ]
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.PUBLIC.SERVICE.WHAT_IS_IFTA",
+      "actor": "PUBLIC",
+      "node_type": "SECTION",
+      "tab_id": "WHAT_IS_IFTA",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "ACTOR_MODES_MOBILE",
+            "PUBLIC_TABLET_DESKTOP",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Explainer copy band pattern from the public family (no dedicated section in the reference)."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "PUBLIC_TABLET_DESKTOP",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Explainer band pattern."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "PUBLIC_TABLET_DESKTOP",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Explainer band pattern."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.PUBLIC.SERVICE.HOW_IT_WORKS",
+      "actor": "PUBLIC",
+      "node_type": "SECTION",
+      "tab_id": "HOW_IT_WORKS",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DIRECT",
+          "usable": true,
+          "refs": [
+            "ACTOR_MODES_MOBILE"
+          ]
+        },
+        "TABLET": {
+          "binding": "DIRECT",
+          "usable": true,
+          "refs": [
+            "PUBLIC_TABLET_DESKTOP"
+          ]
+        },
+        "DESKTOP": {
+          "binding": "DIRECT",
+          "usable": true,
+          "refs": [
+            "PUBLIC_TABLET_DESKTOP"
+          ]
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.PUBLIC.SERVICE.FEATURES",
+      "actor": "PUBLIC",
+      "node_type": "SECTION",
+      "tab_id": "FEATURES",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DIRECT",
+          "usable": true,
+          "refs": [
+            "ACTOR_MODES_MOBILE"
+          ]
+        },
+        "TABLET": {
+          "binding": "DIRECT",
+          "usable": true,
+          "refs": [
+            "PUBLIC_TABLET_DESKTOP"
+          ]
+        },
+        "DESKTOP": {
+          "binding": "DIRECT",
+          "usable": true,
+          "refs": [
+            "PUBLIC_TABLET_DESKTOP"
+          ]
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.PUBLIC.SERVICE.JURISDICTIONS",
+      "actor": "PUBLIC",
+      "node_type": "SECTION",
+      "tab_id": "JURISDICTIONS",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DIRECT",
+          "usable": true,
+          "refs": [
+            "ACTOR_MODES_MOBILE"
+          ]
+        },
+        "TABLET": {
+          "binding": "DIRECT",
+          "usable": true,
+          "refs": [
+            "PUBLIC_TABLET_DESKTOP"
+          ]
+        },
+        "DESKTOP": {
+          "binding": "DIRECT",
+          "usable": true,
+          "refs": [
+            "PUBLIC_TABLET_DESKTOP"
+          ]
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.PUBLIC.SERVICE.RESOURCES",
+      "actor": "PUBLIC",
+      "node_type": "SECTION",
+      "tab_id": "RESOURCES",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "ACTOR_MODES_MOBILE",
+            "PUBLIC_TABLET_DESKTOP",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Nav item exists in the reference; section derived from the pillar tile pattern."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "PUBLIC_TABLET_DESKTOP",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Pillar tile pattern."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "PUBLIC_TABLET_DESKTOP",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Pillar tile pattern."
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.PUBLIC.SERVICE.START",
+      "actor": "PUBLIC",
+      "node_type": "SECTION",
+      "tab_id": "START",
+      "viewports": {
+        "MOBILE": {
+          "binding": "DIRECT",
+          "usable": true,
+          "refs": [
+            "ACTOR_MODES_MOBILE"
+          ]
+        },
+        "TABLET": {
+          "binding": "DIRECT",
+          "usable": true,
+          "refs": [
+            "PUBLIC_TABLET_DESKTOP"
+          ]
+        },
+        "DESKTOP": {
+          "binding": "DIRECT",
+          "usable": true,
+          "refs": [
+            "PUBLIC_TABLET_DESKTOP"
+          ]
+        }
+      }
+    },
+    {
+      "node_id": "AIO.IFTA.PUBLIC.REQUEST_FILING",
+      "actor": "PUBLIC",
+      "node_type": "FLOW",
+      "tab_id": null,
+      "viewports": {
+        "MOBILE": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "ACTOR_MODES_MOBILE",
+            "PUBLIC_TABLET_DESKTOP",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Family modal / form on the dark public family."
+        },
+        "TABLET": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "PUBLIC_TABLET_DESKTOP",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Family modal / form."
+        },
+        "DESKTOP": {
+          "binding": "DERIVED",
+          "usable": true,
+          "refs": [
+            "PUBLIC_TABLET_DESKTOP",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Family modal / form."
+        }
+      }
+    }
+  ],
+  "by_reference": [
+    {
+      "ref_id": "BRAND_DNA_BOARD",
+      "governs_direct": [],
+      "informs_derived": []
+    },
+    {
+      "ref_id": "FULL_LOGO_LOCKUP",
+      "governs_direct": [],
+      "informs_derived": []
+    },
+    {
+      "ref_id": "SIMPLE_NAV_MARK",
+      "governs_direct": [],
+      "informs_derived": []
+    },
+    {
+      "ref_id": "CLIENT_3_TERRITORIES",
+      "governs_direct": [],
+      "informs_derived": []
+    },
+    {
+      "ref_id": "ACTOR_MODES_MOBILE",
+      "governs_direct": [
+        "AIO.IFTA.STAFF.CASE/MOBILE",
+        "AIO.IFTA.STAFF.CASE.OVERVIEW/MOBILE",
+        "AIO.IFTA.PUBLIC.SERVICE/MOBILE",
+        "AIO.IFTA.PUBLIC.SERVICE.OVERVIEW/MOBILE",
+        "AIO.IFTA.PUBLIC.SERVICE.HOW_IT_WORKS/MOBILE",
+        "AIO.IFTA.PUBLIC.SERVICE.FEATURES/MOBILE",
+        "AIO.IFTA.PUBLIC.SERVICE.JURISDICTIONS/MOBILE",
+        "AIO.IFTA.PUBLIC.SERVICE.START/MOBILE"
+      ],
+      "informs_derived": [
+        "AIO.IFTA.CLIENT.ROOM.NOTES/MOBILE",
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES/MOBILE",
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES.RECEIPT_REVIEW/MOBILE",
+        "AIO.IFTA.STAFF.CASE.MILEAGE/MOBILE",
+        "AIO.IFTA.STAFF.CASE.MILEAGE.SOURCE_VERIFY/MOBILE",
+        "AIO.IFTA.STAFF.CASE.VEHICLES/MOBILE",
+        "AIO.IFTA.STAFF.CASE.VEHICLES.MARK_NOT_OPERATED/MOBILE",
+        "AIO.IFTA.STAFF.CASE.JURISDICTIONS/MOBILE",
+        "AIO.IFTA.STAFF.CASE.JURISDICTIONS.DISCREPANCY/MOBILE",
+        "AIO.IFTA.STAFF.CASE.DOCUMENTS/MOBILE",
+        "AIO.IFTA.STAFF.CASE.DOCUMENTS.FILE_PREVIEW/MOBILE",
+        "AIO.IFTA.STAFF.CASE.NOTES/MOBILE",
+        "AIO.IFTA.STAFF.CASE.RETURN_DRAFT/MOBILE",
+        "AIO.IFTA.STAFF.CASE.RETURN_DRAFT.SEND_CONFIRM/MOBILE",
+        "AIO.IFTA.STAFF.CASE.REQUEST_CORRECTION/MOBILE",
+        "AIO.IFTA.STAFF.CASE.RECORD_FILING/MOBILE",
+        "AIO.IFTA.STAFF.CASE.RECORD_PAYMENT/MOBILE",
+        "AIO.IFTA.STAFF.CASE.AUDIT/MOBILE",
+        "AIO.IFTA.STAFF.CASE.THREAD/MOBILE",
+        "AIO.IFTA.STAFF.CASE.AMENDMENT/MOBILE",
+        "AIO.IFTA.STAFF.CASE.REOPEN/MOBILE",
+        "AIO.IFTA.PUBLIC.SERVICE.WHAT_IS_IFTA/MOBILE",
+        "AIO.IFTA.PUBLIC.SERVICE.RESOURCES/MOBILE",
+        "AIO.IFTA.PUBLIC.REQUEST_FILING/MOBILE"
+      ]
+    },
+    {
+      "ref_id": "CLIENT_MOBILE_PARENT_AUTHORITY",
+      "governs_direct": [
+        "AIO.IFTA.CLIENT.ROOM/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES/MOBILE"
+      ],
+      "informs_derived": [
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.NEEDS_YOU/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.NEEDS_YOU/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.NEEDS_YOU/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.CORRECTION_FLOW/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.CORRECTION_FLOW/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.CORRECTION_FLOW/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.SEND_CONFIRM/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.SEND_CONFIRM/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.SEND_CONFIRM/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW.APPROVE_CONFIRM/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW.APPROVE_CONFIRM/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW.APPROVE_CONFIRM/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW.ASK/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW.ASK/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW.ASK/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.CSV_IMPORT/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.CSV_IMPORT/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.CSV_IMPORT/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.IMPORT_VAULT/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.IMPORT_VAULT/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.IMPORT_VAULT/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.RECEIPT_DETAIL/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.RECEIPT_DETAIL/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.RECEIPT_DETAIL/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.SOURCE_PICKER/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.SOURCE_PICKER/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.SOURCE_PICKER/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.REPORT_IMPORT/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.REPORT_IMPORT/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.REPORT_IMPORT/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.MANUAL_ENTRY/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.MANUAL_ENTRY/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.MANUAL_ENTRY/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.VEHICLE_DETAIL/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.VEHICLE_DETAIL/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.VEHICLE_DETAIL/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES.CONFIRM_FLEET/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES.CONFIRM_FLEET/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES.CONFIRM_FLEET/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES.VEHICLE_DETAIL/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES.VEHICLE_DETAIL/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES.VEHICLE_DETAIL/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS.STATE_DETAIL/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS.STATE_DETAIL/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS.STATE_DETAIL/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS.FILE_PREVIEW/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS.FILE_PREVIEW/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS.FILE_PREVIEW/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.MESSAGES/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.MESSAGES/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.MESSAGES/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.FILED/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.FILED/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.FILED/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.ARCHIVED/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.ARCHIVED/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.ARCHIVED/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.NEXT_QUARTER_OPEN/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.NEXT_QUARTER_OPEN/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.NEXT_QUARTER_OPEN/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.RETURNED/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.RETURNED/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.RETURNED/DESKTOP",
+        "AIO.IFTA.CLIENT.NOT_ENROLLED/MOBILE",
+        "AIO.IFTA.CLIENT.NOT_ENROLLED/TABLET",
+        "AIO.IFTA.CLIENT.NOT_ENROLLED/DESKTOP"
+      ]
+    },
+    {
+      "ref_id": "FUEL_PURCHASES_CHILD_PROOF",
+      "governs_direct": [
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.UPLOAD/MOBILE"
+      ],
+      "informs_derived": [
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.NEEDS_YOU/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.CORRECTION_FLOW/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.SEND_CONFIRM/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW.APPROVE_CONFIRM/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW.ASK/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.UPLOAD/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.UPLOAD/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.CSV_IMPORT/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.IMPORT_VAULT/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.RECEIPT_DETAIL/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.SOURCE_PICKER/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.REPORT_IMPORT/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.MANUAL_ENTRY/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.VEHICLE_DETAIL/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES.CONFIRM_FLEET/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES.VEHICLE_DETAIL/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS.STATE_DETAIL/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS.FILE_PREVIEW/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.MESSAGES/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.FILED/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.ARCHIVED/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.NEXT_QUARTER_OPEN/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.RETURNED/MOBILE",
+        "AIO.IFTA.CLIENT.NOT_ENROLLED/MOBILE",
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES/MOBILE",
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES/TABLET",
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES.RECEIPT_REVIEW/MOBILE",
+        "AIO.IFTA.STAFF.CASE.MILEAGE/MOBILE",
+        "AIO.IFTA.STAFF.CASE.MILEAGE/TABLET",
+        "AIO.IFTA.STAFF.CASE.MILEAGE/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.MILEAGE.SOURCE_VERIFY/MOBILE",
+        "AIO.IFTA.STAFF.CASE.VEHICLES/MOBILE",
+        "AIO.IFTA.STAFF.CASE.VEHICLES/TABLET",
+        "AIO.IFTA.STAFF.CASE.VEHICLES/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.VEHICLES.MARK_NOT_OPERATED/MOBILE",
+        "AIO.IFTA.STAFF.CASE.JURISDICTIONS/MOBILE",
+        "AIO.IFTA.STAFF.CASE.JURISDICTIONS/TABLET",
+        "AIO.IFTA.STAFF.CASE.JURISDICTIONS/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.JURISDICTIONS.DISCREPANCY/MOBILE",
+        "AIO.IFTA.STAFF.CASE.DOCUMENTS/MOBILE",
+        "AIO.IFTA.STAFF.CASE.DOCUMENTS/TABLET",
+        "AIO.IFTA.STAFF.CASE.DOCUMENTS/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.DOCUMENTS.FILE_PREVIEW/MOBILE",
+        "AIO.IFTA.STAFF.CASE.RETURN_DRAFT/MOBILE",
+        "AIO.IFTA.STAFF.CASE.RETURN_DRAFT.SEND_CONFIRM/MOBILE",
+        "AIO.IFTA.STAFF.CASE.REQUEST_CORRECTION/MOBILE",
+        "AIO.IFTA.STAFF.CASE.RECORD_FILING/MOBILE",
+        "AIO.IFTA.STAFF.CASE.RECORD_PAYMENT/MOBILE",
+        "AIO.IFTA.STAFF.CASE.AUDIT/MOBILE",
+        "AIO.IFTA.STAFF.CASE.THREAD/MOBILE",
+        "AIO.IFTA.STAFF.CASE.AMENDMENT/MOBILE",
+        "AIO.IFTA.STAFF.CASE.REOPEN/MOBILE"
+      ]
+    },
+    {
+      "ref_id": "CLIENT_TABLET_DESKTOP",
+      "governs_direct": [
+        "AIO.IFTA.CLIENT.ROOM/TABLET",
+        "AIO.IFTA.CLIENT.ROOM/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS/DESKTOP"
+      ],
+      "informs_derived": [
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.NEEDS_YOU/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.NEEDS_YOU/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.CORRECTION_FLOW/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.CORRECTION_FLOW/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.SEND_CONFIRM/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.SEND_CONFIRM/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW.APPROVE_CONFIRM/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW.APPROVE_CONFIRM/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW.ASK/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW.ASK/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.UPLOAD/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.UPLOAD/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.CSV_IMPORT/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.CSV_IMPORT/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.IMPORT_VAULT/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.IMPORT_VAULT/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.RECEIPT_DETAIL/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.RECEIPT_DETAIL/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.SOURCE_PICKER/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.SOURCE_PICKER/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.REPORT_IMPORT/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.REPORT_IMPORT/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.MANUAL_ENTRY/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.MANUAL_ENTRY/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.VEHICLE_DETAIL/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.VEHICLE_DETAIL/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES.CONFIRM_FLEET/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES.CONFIRM_FLEET/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES.VEHICLE_DETAIL/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES.VEHICLE_DETAIL/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS.STATE_DETAIL/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS.STATE_DETAIL/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS.FILE_PREVIEW/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS.FILE_PREVIEW/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.NOTES/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.NOTES/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.NOTES/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.MESSAGES/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.MESSAGES/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.FILED/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.FILED/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.ARCHIVED/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.ARCHIVED/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.NEXT_QUARTER_OPEN/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.NEXT_QUARTER_OPEN/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.RETURNED/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.RETURNED/DESKTOP",
+        "AIO.IFTA.CLIENT.NOT_ENROLLED/TABLET",
+        "AIO.IFTA.CLIENT.NOT_ENROLLED/DESKTOP"
+      ]
+    },
+    {
+      "ref_id": "FOUNDER_STAFF_TABLET_DESKTOP",
+      "governs_direct": [
+        "AIO.IFTA.STAFF.CASE/TABLET",
+        "AIO.IFTA.STAFF.CASE/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.OVERVIEW/TABLET",
+        "AIO.IFTA.STAFF.CASE.OVERVIEW/DESKTOP"
+      ],
+      "informs_derived": [
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES/MOBILE",
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES/TABLET",
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES.RECEIPT_REVIEW/TABLET",
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES.RECEIPT_REVIEW/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.MILEAGE/MOBILE",
+        "AIO.IFTA.STAFF.CASE.MILEAGE/TABLET",
+        "AIO.IFTA.STAFF.CASE.MILEAGE/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.MILEAGE.SOURCE_VERIFY/TABLET",
+        "AIO.IFTA.STAFF.CASE.MILEAGE.SOURCE_VERIFY/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.VEHICLES/MOBILE",
+        "AIO.IFTA.STAFF.CASE.VEHICLES/TABLET",
+        "AIO.IFTA.STAFF.CASE.VEHICLES/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.VEHICLES.MARK_NOT_OPERATED/TABLET",
+        "AIO.IFTA.STAFF.CASE.VEHICLES.MARK_NOT_OPERATED/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.JURISDICTIONS/MOBILE",
+        "AIO.IFTA.STAFF.CASE.JURISDICTIONS/TABLET",
+        "AIO.IFTA.STAFF.CASE.JURISDICTIONS/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.JURISDICTIONS.DISCREPANCY/TABLET",
+        "AIO.IFTA.STAFF.CASE.JURISDICTIONS.DISCREPANCY/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.DOCUMENTS/MOBILE",
+        "AIO.IFTA.STAFF.CASE.DOCUMENTS/TABLET",
+        "AIO.IFTA.STAFF.CASE.DOCUMENTS/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.DOCUMENTS.FILE_PREVIEW/TABLET",
+        "AIO.IFTA.STAFF.CASE.DOCUMENTS.FILE_PREVIEW/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.NOTES/TABLET",
+        "AIO.IFTA.STAFF.CASE.NOTES/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.RETURN_DRAFT/TABLET",
+        "AIO.IFTA.STAFF.CASE.RETURN_DRAFT/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.RETURN_DRAFT.SEND_CONFIRM/TABLET",
+        "AIO.IFTA.STAFF.CASE.RETURN_DRAFT.SEND_CONFIRM/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.REQUEST_CORRECTION/TABLET",
+        "AIO.IFTA.STAFF.CASE.REQUEST_CORRECTION/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.RECORD_FILING/TABLET",
+        "AIO.IFTA.STAFF.CASE.RECORD_FILING/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.RECORD_PAYMENT/TABLET",
+        "AIO.IFTA.STAFF.CASE.RECORD_PAYMENT/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.AUDIT/TABLET",
+        "AIO.IFTA.STAFF.CASE.AUDIT/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.THREAD/TABLET",
+        "AIO.IFTA.STAFF.CASE.THREAD/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.AMENDMENT/TABLET",
+        "AIO.IFTA.STAFF.CASE.AMENDMENT/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.REOPEN/TABLET",
+        "AIO.IFTA.STAFF.CASE.REOPEN/DESKTOP"
+      ]
+    },
+    {
+      "ref_id": "PUBLIC_TABLET_DESKTOP",
+      "governs_direct": [
+        "AIO.IFTA.PUBLIC.SERVICE/TABLET",
+        "AIO.IFTA.PUBLIC.SERVICE/DESKTOP",
+        "AIO.IFTA.PUBLIC.SERVICE.OVERVIEW/TABLET",
+        "AIO.IFTA.PUBLIC.SERVICE.OVERVIEW/DESKTOP",
+        "AIO.IFTA.PUBLIC.SERVICE.HOW_IT_WORKS/TABLET",
+        "AIO.IFTA.PUBLIC.SERVICE.HOW_IT_WORKS/DESKTOP",
+        "AIO.IFTA.PUBLIC.SERVICE.FEATURES/TABLET",
+        "AIO.IFTA.PUBLIC.SERVICE.FEATURES/DESKTOP",
+        "AIO.IFTA.PUBLIC.SERVICE.JURISDICTIONS/TABLET",
+        "AIO.IFTA.PUBLIC.SERVICE.JURISDICTIONS/DESKTOP",
+        "AIO.IFTA.PUBLIC.SERVICE.START/TABLET",
+        "AIO.IFTA.PUBLIC.SERVICE.START/DESKTOP"
+      ],
+      "informs_derived": [
+        "AIO.IFTA.PUBLIC.SERVICE.WHAT_IS_IFTA/MOBILE",
+        "AIO.IFTA.PUBLIC.SERVICE.WHAT_IS_IFTA/TABLET",
+        "AIO.IFTA.PUBLIC.SERVICE.WHAT_IS_IFTA/DESKTOP",
+        "AIO.IFTA.PUBLIC.SERVICE.RESOURCES/MOBILE",
+        "AIO.IFTA.PUBLIC.SERVICE.RESOURCES/TABLET",
+        "AIO.IFTA.PUBLIC.SERVICE.RESOURCES/DESKTOP",
+        "AIO.IFTA.PUBLIC.REQUEST_FILING/MOBILE",
+        "AIO.IFTA.PUBLIC.REQUEST_FILING/TABLET",
+        "AIO.IFTA.PUBLIC.REQUEST_FILING/DESKTOP"
+      ]
+    },
+    {
+      "ref_id": "PAGE_COMPONENT_INTERACTION_CONTRACT",
+      "governs_direct": [],
+      "informs_derived": [
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.NEEDS_YOU/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.NEEDS_YOU/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.NEEDS_YOU/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.CORRECTION_FLOW/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.CORRECTION_FLOW/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.CORRECTION_FLOW/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.SEND_CONFIRM/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.SEND_CONFIRM/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.SEND_CONFIRM/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW.APPROVE_CONFIRM/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW.APPROVE_CONFIRM/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW.APPROVE_CONFIRM/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW.ASK/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW.ASK/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW.ASK/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.UPLOAD/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.UPLOAD/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.CSV_IMPORT/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.CSV_IMPORT/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.CSV_IMPORT/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.IMPORT_VAULT/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.IMPORT_VAULT/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.IMPORT_VAULT/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.RECEIPT_DETAIL/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.RECEIPT_DETAIL/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.RECEIPT_DETAIL/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.SOURCE_PICKER/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.SOURCE_PICKER/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.SOURCE_PICKER/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.REPORT_IMPORT/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.REPORT_IMPORT/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.REPORT_IMPORT/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.MANUAL_ENTRY/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.MANUAL_ENTRY/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.MANUAL_ENTRY/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.VEHICLE_DETAIL/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.VEHICLE_DETAIL/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.VEHICLE_DETAIL/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES.CONFIRM_FLEET/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES.CONFIRM_FLEET/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES.CONFIRM_FLEET/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES.VEHICLE_DETAIL/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES.VEHICLE_DETAIL/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES.VEHICLE_DETAIL/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS.STATE_DETAIL/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS.STATE_DETAIL/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS.STATE_DETAIL/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS.FILE_PREVIEW/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS.FILE_PREVIEW/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS.FILE_PREVIEW/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.MESSAGES/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.MESSAGES/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.MESSAGES/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.FILED/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.FILED/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.FILED/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.ARCHIVED/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.ARCHIVED/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.ARCHIVED/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.NEXT_QUARTER_OPEN/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.NEXT_QUARTER_OPEN/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.NEXT_QUARTER_OPEN/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.RETURNED/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.RETURNED/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.RETURNED/DESKTOP",
+        "AIO.IFTA.CLIENT.NOT_ENROLLED/MOBILE",
+        "AIO.IFTA.CLIENT.NOT_ENROLLED/TABLET",
+        "AIO.IFTA.CLIENT.NOT_ENROLLED/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES/MOBILE",
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES/TABLET",
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES.RECEIPT_REVIEW/MOBILE",
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES.RECEIPT_REVIEW/TABLET",
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES.RECEIPT_REVIEW/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.MILEAGE/MOBILE",
+        "AIO.IFTA.STAFF.CASE.MILEAGE/TABLET",
+        "AIO.IFTA.STAFF.CASE.MILEAGE/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.MILEAGE.SOURCE_VERIFY/MOBILE",
+        "AIO.IFTA.STAFF.CASE.MILEAGE.SOURCE_VERIFY/TABLET",
+        "AIO.IFTA.STAFF.CASE.MILEAGE.SOURCE_VERIFY/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.VEHICLES/MOBILE",
+        "AIO.IFTA.STAFF.CASE.VEHICLES/TABLET",
+        "AIO.IFTA.STAFF.CASE.VEHICLES/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.VEHICLES.MARK_NOT_OPERATED/MOBILE",
+        "AIO.IFTA.STAFF.CASE.VEHICLES.MARK_NOT_OPERATED/TABLET",
+        "AIO.IFTA.STAFF.CASE.VEHICLES.MARK_NOT_OPERATED/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.JURISDICTIONS/MOBILE",
+        "AIO.IFTA.STAFF.CASE.JURISDICTIONS/TABLET",
+        "AIO.IFTA.STAFF.CASE.JURISDICTIONS/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.JURISDICTIONS.DISCREPANCY/MOBILE",
+        "AIO.IFTA.STAFF.CASE.JURISDICTIONS.DISCREPANCY/TABLET",
+        "AIO.IFTA.STAFF.CASE.JURISDICTIONS.DISCREPANCY/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.DOCUMENTS/MOBILE",
+        "AIO.IFTA.STAFF.CASE.DOCUMENTS/TABLET",
+        "AIO.IFTA.STAFF.CASE.DOCUMENTS/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.DOCUMENTS.FILE_PREVIEW/MOBILE",
+        "AIO.IFTA.STAFF.CASE.DOCUMENTS.FILE_PREVIEW/TABLET",
+        "AIO.IFTA.STAFF.CASE.DOCUMENTS.FILE_PREVIEW/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.RETURN_DRAFT/MOBILE",
+        "AIO.IFTA.STAFF.CASE.RETURN_DRAFT/TABLET",
+        "AIO.IFTA.STAFF.CASE.RETURN_DRAFT/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.RETURN_DRAFT.SEND_CONFIRM/MOBILE",
+        "AIO.IFTA.STAFF.CASE.RETURN_DRAFT.SEND_CONFIRM/TABLET",
+        "AIO.IFTA.STAFF.CASE.RETURN_DRAFT.SEND_CONFIRM/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.REQUEST_CORRECTION/MOBILE",
+        "AIO.IFTA.STAFF.CASE.REQUEST_CORRECTION/TABLET",
+        "AIO.IFTA.STAFF.CASE.REQUEST_CORRECTION/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.RECORD_FILING/MOBILE",
+        "AIO.IFTA.STAFF.CASE.RECORD_FILING/TABLET",
+        "AIO.IFTA.STAFF.CASE.RECORD_FILING/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.RECORD_PAYMENT/MOBILE",
+        "AIO.IFTA.STAFF.CASE.RECORD_PAYMENT/TABLET",
+        "AIO.IFTA.STAFF.CASE.RECORD_PAYMENT/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.AUDIT/MOBILE",
+        "AIO.IFTA.STAFF.CASE.AUDIT/TABLET",
+        "AIO.IFTA.STAFF.CASE.AUDIT/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.THREAD/MOBILE",
+        "AIO.IFTA.STAFF.CASE.THREAD/TABLET",
+        "AIO.IFTA.STAFF.CASE.THREAD/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.AMENDMENT/MOBILE",
+        "AIO.IFTA.STAFF.CASE.AMENDMENT/TABLET",
+        "AIO.IFTA.STAFF.CASE.AMENDMENT/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.REOPEN/MOBILE",
+        "AIO.IFTA.STAFF.CASE.REOPEN/TABLET",
+        "AIO.IFTA.STAFF.CASE.REOPEN/DESKTOP"
+      ]
+    },
+    {
+      "ref_id": "ICON_ASSET_SHEET",
+      "governs_direct": [],
+      "informs_derived": [
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.NEEDS_YOU/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.NEEDS_YOU/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.NEEDS_YOU/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.CORRECTION_FLOW/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.CORRECTION_FLOW/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.CORRECTION_FLOW/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.SEND_CONFIRM/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.SEND_CONFIRM/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.SEND_CONFIRM/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW.APPROVE_CONFIRM/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW.APPROVE_CONFIRM/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW.APPROVE_CONFIRM/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW.ASK/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW.ASK/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW.ASK/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.UPLOAD/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.UPLOAD/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.CSV_IMPORT/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.CSV_IMPORT/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.CSV_IMPORT/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.IMPORT_VAULT/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.IMPORT_VAULT/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.IMPORT_VAULT/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.RECEIPT_DETAIL/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.RECEIPT_DETAIL/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.RECEIPT_DETAIL/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.SOURCE_PICKER/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.SOURCE_PICKER/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.SOURCE_PICKER/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.REPORT_IMPORT/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.REPORT_IMPORT/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.REPORT_IMPORT/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.MANUAL_ENTRY/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.MANUAL_ENTRY/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.MANUAL_ENTRY/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.VEHICLE_DETAIL/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.VEHICLE_DETAIL/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.MILEAGE.VEHICLE_DETAIL/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES.CONFIRM_FLEET/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES.CONFIRM_FLEET/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES.CONFIRM_FLEET/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES.VEHICLE_DETAIL/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES.VEHICLE_DETAIL/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.VEHICLES.VEHICLE_DETAIL/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS.STATE_DETAIL/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS.STATE_DETAIL/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS.STATE_DETAIL/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS.FILE_PREVIEW/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS.FILE_PREVIEW/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.DOCUMENTS.FILE_PREVIEW/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.NOTES/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.NOTES/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.NOTES/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.MESSAGES/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.MESSAGES/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.MESSAGES/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.FILED/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.FILED/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.FILED/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.ARCHIVED/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.ARCHIVED/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.ARCHIVED/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.NEXT_QUARTER_OPEN/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.NEXT_QUARTER_OPEN/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.NEXT_QUARTER_OPEN/DESKTOP",
+        "AIO.IFTA.CLIENT.ROOM.RETURNED/MOBILE",
+        "AIO.IFTA.CLIENT.ROOM.RETURNED/TABLET",
+        "AIO.IFTA.CLIENT.ROOM.RETURNED/DESKTOP",
+        "AIO.IFTA.CLIENT.NOT_ENROLLED/MOBILE",
+        "AIO.IFTA.CLIENT.NOT_ENROLLED/TABLET",
+        "AIO.IFTA.CLIENT.NOT_ENROLLED/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES/MOBILE",
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES/TABLET",
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES.RECEIPT_REVIEW/MOBILE",
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES.RECEIPT_REVIEW/TABLET",
+        "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES.RECEIPT_REVIEW/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.MILEAGE/MOBILE",
+        "AIO.IFTA.STAFF.CASE.MILEAGE/TABLET",
+        "AIO.IFTA.STAFF.CASE.MILEAGE/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.MILEAGE.SOURCE_VERIFY/MOBILE",
+        "AIO.IFTA.STAFF.CASE.MILEAGE.SOURCE_VERIFY/TABLET",
+        "AIO.IFTA.STAFF.CASE.MILEAGE.SOURCE_VERIFY/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.VEHICLES/MOBILE",
+        "AIO.IFTA.STAFF.CASE.VEHICLES/TABLET",
+        "AIO.IFTA.STAFF.CASE.VEHICLES/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.VEHICLES.MARK_NOT_OPERATED/MOBILE",
+        "AIO.IFTA.STAFF.CASE.VEHICLES.MARK_NOT_OPERATED/TABLET",
+        "AIO.IFTA.STAFF.CASE.VEHICLES.MARK_NOT_OPERATED/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.JURISDICTIONS/MOBILE",
+        "AIO.IFTA.STAFF.CASE.JURISDICTIONS/TABLET",
+        "AIO.IFTA.STAFF.CASE.JURISDICTIONS/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.JURISDICTIONS.DISCREPANCY/MOBILE",
+        "AIO.IFTA.STAFF.CASE.JURISDICTIONS.DISCREPANCY/TABLET",
+        "AIO.IFTA.STAFF.CASE.JURISDICTIONS.DISCREPANCY/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.DOCUMENTS/MOBILE",
+        "AIO.IFTA.STAFF.CASE.DOCUMENTS/TABLET",
+        "AIO.IFTA.STAFF.CASE.DOCUMENTS/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.DOCUMENTS.FILE_PREVIEW/MOBILE",
+        "AIO.IFTA.STAFF.CASE.DOCUMENTS.FILE_PREVIEW/TABLET",
+        "AIO.IFTA.STAFF.CASE.DOCUMENTS.FILE_PREVIEW/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.NOTES/MOBILE",
+        "AIO.IFTA.STAFF.CASE.NOTES/TABLET",
+        "AIO.IFTA.STAFF.CASE.NOTES/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.RETURN_DRAFT/MOBILE",
+        "AIO.IFTA.STAFF.CASE.RETURN_DRAFT/TABLET",
+        "AIO.IFTA.STAFF.CASE.RETURN_DRAFT/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.RETURN_DRAFT.SEND_CONFIRM/MOBILE",
+        "AIO.IFTA.STAFF.CASE.RETURN_DRAFT.SEND_CONFIRM/TABLET",
+        "AIO.IFTA.STAFF.CASE.RETURN_DRAFT.SEND_CONFIRM/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.REQUEST_CORRECTION/MOBILE",
+        "AIO.IFTA.STAFF.CASE.REQUEST_CORRECTION/TABLET",
+        "AIO.IFTA.STAFF.CASE.REQUEST_CORRECTION/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.RECORD_FILING/MOBILE",
+        "AIO.IFTA.STAFF.CASE.RECORD_FILING/TABLET",
+        "AIO.IFTA.STAFF.CASE.RECORD_FILING/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.RECORD_PAYMENT/MOBILE",
+        "AIO.IFTA.STAFF.CASE.RECORD_PAYMENT/TABLET",
+        "AIO.IFTA.STAFF.CASE.RECORD_PAYMENT/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.AUDIT/MOBILE",
+        "AIO.IFTA.STAFF.CASE.AUDIT/TABLET",
+        "AIO.IFTA.STAFF.CASE.AUDIT/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.THREAD/MOBILE",
+        "AIO.IFTA.STAFF.CASE.THREAD/TABLET",
+        "AIO.IFTA.STAFF.CASE.THREAD/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.AMENDMENT/MOBILE",
+        "AIO.IFTA.STAFF.CASE.AMENDMENT/TABLET",
+        "AIO.IFTA.STAFF.CASE.AMENDMENT/DESKTOP",
+        "AIO.IFTA.STAFF.CASE.REOPEN/MOBILE",
+        "AIO.IFTA.STAFF.CASE.REOPEN/TABLET",
+        "AIO.IFTA.STAFF.CASE.REOPEN/DESKTOP",
+        "AIO.IFTA.PUBLIC.SERVICE.WHAT_IS_IFTA/MOBILE",
+        "AIO.IFTA.PUBLIC.SERVICE.WHAT_IS_IFTA/TABLET",
+        "AIO.IFTA.PUBLIC.SERVICE.WHAT_IS_IFTA/DESKTOP",
+        "AIO.IFTA.PUBLIC.SERVICE.RESOURCES/MOBILE",
+        "AIO.IFTA.PUBLIC.SERVICE.RESOURCES/TABLET",
+        "AIO.IFTA.PUBLIC.SERVICE.RESOURCES/DESKTOP",
+        "AIO.IFTA.PUBLIC.REQUEST_FILING/MOBILE",
+        "AIO.IFTA.PUBLIC.REQUEST_FILING/TABLET",
+        "AIO.IFTA.PUBLIC.REQUEST_FILING/DESKTOP"
+      ]
+    },
+    {
+      "ref_id": "BUNDLE_README",
+      "governs_direct": [],
+      "informs_derived": []
+    },
+    {
+      "ref_id": "BUNDLE_MANIFEST",
+      "governs_direct": [],
+      "informs_derived": []
+    }
+  ],
+  "sprint_examples": [
+    {
+      "example": "CLIENT / PROGRESS / MOBILE → CLIENT_MOBILE_PARENT_AUTHORITY",
+      "node": "AIO.IFTA.CLIENT.ROOM.PROGRESS",
+      "viewport": "MOBILE",
+      "expect": [
+        "CLIENT_MOBILE_PARENT_AUTHORITY"
+      ],
+      "actual": [
+        "CLIENT_MOBILE_PARENT_AUTHORITY"
+      ],
+      "binding": "DIRECT",
+      "pass": true
+    },
+    {
+      "example": "CLIENT / FUEL_PURCHASES / MOBILE → CLIENT_MOBILE_PARENT_AUTHORITY + FUEL_PURCHASES_CHILD_PROOF",
+      "node": "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES",
+      "viewport": "MOBILE",
+      "expect": [
+        "CLIENT_MOBILE_PARENT_AUTHORITY",
+        "FUEL_PURCHASES_CHILD_PROOF"
+      ],
+      "actual": [
+        "CLIENT_MOBILE_PARENT_AUTHORITY",
+        "FUEL_PURCHASES_CHILD_PROOF"
+      ],
+      "binding": "DIRECT",
+      "pass": true
+    },
+    {
+      "example": "CLIENT / PROGRESS / DESKTOP → CLIENT_TABLET_DESKTOP",
+      "node": "AIO.IFTA.CLIENT.ROOM.PROGRESS",
+      "viewport": "DESKTOP",
+      "expect": [
+        "CLIENT_TABLET_DESKTOP"
+      ],
+      "actual": [
+        "CLIENT_TABLET_DESKTOP"
+      ],
+      "binding": "DIRECT",
+      "pass": true
+    },
+    {
+      "example": "FOUNDER / PROGRESS (OVERVIEW) / DESKTOP → FOUNDER_STAFF_TABLET_DESKTOP",
+      "node": "AIO.IFTA.STAFF.CASE.OVERVIEW",
+      "viewport": "DESKTOP",
+      "expect": [
+        "FOUNDER_STAFF_TABLET_DESKTOP"
+      ],
+      "actual": [
+        "FOUNDER_STAFF_TABLET_DESKTOP"
+      ],
+      "binding": "DIRECT",
+      "pass": true
+    },
+    {
+      "example": "PUBLIC / ROOT / DESKTOP → PUBLIC_TABLET_DESKTOP",
+      "node": "AIO.IFTA.PUBLIC.SERVICE",
+      "viewport": "DESKTOP",
+      "expect": [
+        "PUBLIC_TABLET_DESKTOP"
+      ],
+      "actual": [
+        "PUBLIC_TABLET_DESKTOP"
+      ],
+      "binding": "DIRECT",
+      "pass": true
+    }
+  ]
+}

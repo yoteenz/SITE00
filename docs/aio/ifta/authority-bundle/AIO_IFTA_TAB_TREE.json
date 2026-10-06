@@ -1,0 +1,3715 @@
+{
+  "id": "AIO_IFTA_TAB_TREE",
+  "sprint": "P0.AIO.IFTA.AUTHORITY-BUNDLE-INGEST-AND-PAGE-TREE-PROOF1",
+  "generated_by": "scripts/studioos/aio-ifta-authority-bundle-export.ts",
+  "source": "shared/studioos-visual-authority/projects/aio/ifta-authority",
+  "generated_for": "2026-10-06",
+  "constraints": {
+    "page_implementation": false,
+    "new_paid_generations": 0,
+    "credits_spent": 0,
+    "legacy_visual_authority": "FORBIDDEN"
+  },
+  "rule": "Tabs share the family DESIGN (header, visual family, nav, panel materials, typography, base grid, CTA language, brand environment) and own their LOGIC (data ownership, purpose, components, mutations, states, validation, child routes, drawers, modals, error conditions, actor rights, system relationships).",
+  "required_inventory": [
+    "PROGRESS",
+    "FUEL_PURCHASES",
+    "MILEAGE",
+    "VEHICLES",
+    "JURISDICTIONS",
+    "DOCUMENTS"
+  ],
+  "candidate_tabs": {
+    "NOTES": "Appears in client desktop + every staff reference + 3-actor mobile; absent from the approved parent; asset sheet shows it disabled → SECONDARY_CANDIDATE pending D-NOTES-TAB. No new primary tab without contractual reason."
+  },
+  "families": {
+    "CLIENT": {
+      "page": "AIO.IFTA.CLIENT.ROOM",
+      "tabs": [
+        {
+          "node_id": "AIO.IFTA.CLIENT.ROOM.PROGRESS",
+          "tab_id": "PROGRESS",
+          "tab_class": "PRIMARY",
+          "title": "PROGRESS",
+          "purpose": "Show end-to-end quarter readiness (sprint §11): collection, AIO preparation, client review, filing status, next action, blockers, insights, recent uploads, activity, jurisdiction overview, quarter metrics.",
+          "primary_task": "Know exactly what AIO needs next and where the quarter stands.",
+          "sprint_contract": {
+            "section": "§11",
+            "purpose": "SHOW END-TO-END QUARTER READINESS.",
+            "must_model": [
+              {
+                "item": "COLLECTION STATUS",
+                "covered_by": [
+                  "TASK_LIST",
+                  "FILING_WORKFLOW",
+                  "COLLECTING"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "AIO PREPARATION",
+                "covered_by": [
+                  "FILING_WORKFLOW",
+                  "AIO_REVIEWING",
+                  "INSIGHTS_PANEL"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "CLIENT REVIEW",
+                "covered_by": [
+                  "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW",
+                  "READY_FOR_CLIENT_REVIEW",
+                  "CLIENT_APPROVAL_PENDING"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "FILING STATUS",
+                "covered_by": [
+                  "FILING_WORKFLOW",
+                  "APPROVED_FOR_FILING",
+                  "FILING",
+                  "AIO.IFTA.CLIENT.ROOM.FILED"
+                ],
+                "status": "MODELED_DATA_PARTIAL",
+                "note": "No separate “filing started” marker (FILING sub-state PARTIAL)."
+              },
+              {
+                "item": "NEXT ACTION",
+                "covered_by": [
+                  "NEXT_ACTION_RAIL",
+                  "I.CONTINUE_NEXT_ACTION"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "BLOCKERS",
+                "covered_by": [
+                  "AIO.IFTA.CLIENT.ROOM.PROGRESS.NEEDS_YOU",
+                  "RISK_FLAG_PANEL",
+                  "UI.BLOCKED",
+                  "OVERDUE_RISK"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "INSIGHTS",
+                "covered_by": [
+                  "INSIGHTS_PANEL"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "RECENT UPLOADS",
+                "covered_by": [
+                  "RECENT_UPLOADS"
+                ],
+                "status": "MODELED_DATA_PARTIAL",
+                "note": "Source files are names only (not stored as documents)."
+              },
+              {
+                "item": "ACTIVITY",
+                "covered_by": [
+                  "ACTIVITY_TIMELINE",
+                  "ACTIVITY.read.ifta_client"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "JURISDICTION OVERVIEW",
+                "covered_by": [
+                  "MAP_PANEL",
+                  "JURIS.read.breakdown"
+                ],
+                "status": "MODELED_DATA_PARTIAL",
+                "note": "13 US state names only."
+              },
+              {
+                "item": "QUARTER METRICS",
+                "covered_by": [
+                  "METRICS_RAIL"
+                ],
+                "status": "MODELED_DATA_PARTIAL",
+                "note": "Tax slot from the return summary only (D-TAX-FIGURES)."
+              }
+            ],
+            "contract_sheet": {
+              "purpose": "Track end-to-end filing progress",
+              "key_data": "Workflow status, completion by step, upcoming tasks",
+              "primary_actions": "Continue, review, submit"
+            },
+            "own_logic": {
+              "data_ownership": "Derived quarter status (no own records).",
+              "mutations": [
+                "QUARTER.write.sendQuarterToAio",
+                "RETURN.write.approveReturn",
+                "RETURN.write.askQuestion",
+                "FUEL.write.resolveReceipt"
+              ],
+              "validation": [
+                "canSendToAio()",
+                "approval only in AWAITING_APPROVAL"
+              ],
+              "error_conditions": [
+                "blocking items",
+                "locked quarter"
+              ],
+              "actor_rights": "Client submits / approves / asks; staff mirror in OVERVIEW.",
+              "system_relationships": [
+                "MY_OFFICE attention",
+                "INBOX approval request",
+                "ACTIVITY milestones"
+              ]
+            }
+          },
+          "components": [
+            "TASK_LIST",
+            "FILING_WORKFLOW",
+            "MAP_PANEL",
+            "RECENT_UPLOADS",
+            "INSIGHTS_PANEL",
+            "ACTIVITY_TIMELINE",
+            "RISK_FLAG_PANEL",
+            "MILEAGE_BARS",
+            "FUEL_DONUT",
+            "VEHICLE_ROW"
+          ],
+          "interactions": [
+            "I.CONTINUE_NEXT_ACTION",
+            "I.OPEN_JURISDICTION",
+            "I.OPEN_FILE",
+            "I.RESOLVE_FLAG",
+            "I.SEND_QUARTER_TO_AIO",
+            "I.REVIEW_DRAFT"
+          ],
+          "states": [
+            "COLLECTING",
+            "NEEDS_YOU",
+            "READY_FOR_AIO",
+            "AIO_REVIEWING",
+            "CORRECTION_REQUIRED",
+            "READY_FOR_CLIENT_REVIEW",
+            "CLIENT_APPROVAL_PENDING",
+            "APPROVED_FOR_FILING",
+            "FILING",
+            "OVERDUE_RISK",
+            "UI.DEFAULT",
+            "UI.LOADING",
+            "UI.EMPTY",
+            "UI.BLOCKED",
+            "UI.LOCKED_IN_REVIEW"
+          ],
+          "data_domains": [
+            "QUARTER_CASE",
+            "FUEL_RECEIPTS",
+            "MILEAGE",
+            "JURISDICTIONS",
+            "ACTIVITY",
+            "DOCUMENTS_VAULT"
+          ],
+          "read_contracts": [
+            "QUARTER.read.derived",
+            "FUEL.read.receipts",
+            "MILEAGE.read.records",
+            "JURIS.read.breakdown",
+            "ACTIVITY.read.ifta_client",
+            "DOCS.read.vault"
+          ],
+          "write_contracts": [
+            "FUEL.write.resolveReceipt",
+            "QUARTER.write.sendQuarterToAio"
+          ],
+          "children": [
+            "AIO.IFTA.CLIENT.ROOM.PROGRESS.CORRECTION_FLOW",
+            "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW"
+          ],
+          "drawers": [
+            "AIO.IFTA.CLIENT.ROOM.PROGRESS.NEEDS_YOU"
+          ],
+          "modals": [
+            "AIO.IFTA.CLIENT.ROOM.PROGRESS.SEND_CONFIRM"
+          ],
+          "descendants": [
+            {
+              "node_id": "AIO.IFTA.CLIENT.ROOM.PROGRESS.NEEDS_YOU",
+              "node_type": "DRAWER",
+              "title": "NEEDS YOU — {n} ITEMS"
+            },
+            {
+              "node_id": "AIO.IFTA.CLIENT.ROOM.PROGRESS.CORRECTION_FLOW",
+              "node_type": "FLOW",
+              "title": "CORRECTION REQUESTED"
+            },
+            {
+              "node_id": "AIO.IFTA.CLIENT.ROOM.PROGRESS.SEND_CONFIRM",
+              "node_type": "MODAL",
+              "title": "SEND QUARTER TO AIO"
+            },
+            {
+              "node_id": "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW",
+              "node_type": "CHILD_PAGE",
+              "title": "YOUR REVIEW & APPROVAL"
+            },
+            {
+              "node_id": "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW.APPROVE_CONFIRM",
+              "node_type": "MODAL",
+              "title": "APPROVE RETURN"
+            },
+            {
+              "node_id": "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW.ASK",
+              "node_type": "DRAWER",
+              "title": "ASK A QUESTION"
+            }
+          ],
+          "authority_refs": [
+            {
+              "viewport": "MOBILE",
+              "binding": "DIRECT",
+              "refs": [
+                "CLIENT_MOBILE_PARENT_AUTHORITY"
+              ]
+            },
+            {
+              "viewport": "TABLET",
+              "binding": "DIRECT",
+              "refs": [
+                "CLIENT_TABLET_DESKTOP"
+              ]
+            },
+            {
+              "viewport": "DESKTOP",
+              "binding": "DIRECT",
+              "refs": [
+                "CLIENT_TABLET_DESKTOP"
+              ]
+            }
+          ],
+          "overrides": [
+            "PRIMARY_TASK: readiness overview",
+            "CONTENT_MODULES: checklist + workflow + map + uploads + insights + activity"
+          ],
+          "open_decisions": [
+            "D-CLIENT-DESKTOP-STAFF-MODULES"
+          ],
+          "readiness": {
+            "node_id": "AIO.IFTA.CLIENT.ROOM.PROGRESS",
+            "node_type": "TAB",
+            "actor": "CLIENT",
+            "EXPERIENCE_READY": true,
+            "AUTHORITY_READY": false,
+            "DATA_READY": true,
+            "INTERACTION_READY": true,
+            "PERMISSIONS_KNOWN": true,
+            "RESPONSIVE_RULE_EXISTS": true,
+            "IMPLEMENTATION_READY": false,
+            "visual_status": "VISUALLY_DEFINED",
+            "functional_status": "FUNCTIONALLY_PARTIAL",
+            "blockers": [
+              "authority: open decision D-CLIENT-DESKTOP-STAFF-MODULES"
+            ]
+          }
+        },
+        {
+          "node_id": "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES",
+          "tab_id": "FUEL_PURCHASES",
+          "tab_class": "PRIMARY",
+          "title": "FUEL PURCHASES",
+          "purpose": "Collect, verify, correct and reconcile fuel purchase records (sprint §12).",
+          "primary_task": "Get every fuel purchase into the quarter and answer what AIO asks about them.",
+          "sprint_contract": {
+            "section": "§12",
+            "purpose": "COLLECT, VERIFY, CORRECT AND RECONCILE FUEL PURCHASE RECORDS.",
+            "must_model": [
+              {
+                "item": "RECEIPT UPLOAD",
+                "covered_by": [
+                  "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.UPLOAD",
+                  "UPLOAD_ZONE",
+                  "I.UPLOAD_RECEIPT",
+                  "I.TAKE_PHOTO"
+                ],
+                "status": "MODELED_DATA_PARTIAL",
+                "note": "Parser is a seeded stand-in; files not stored."
+              },
+              {
+                "item": "FILE IMPORT",
+                "covered_by": [
+                  "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.CSV_IMPORT",
+                  "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.IMPORT_VAULT",
+                  "I.IMPORT_CSV",
+                  "I.IMPORT_FROM_VAULT"
+                ],
+                "status": "MODELED_DATA_MISSING",
+                "note": "CSV import has no parser (FUEL.write.importCsv MISSING); Vault import exists."
+              },
+              {
+                "item": "RECEIPT LIST",
+                "covered_by": [
+                  "RECEIPT_ROW",
+                  "FUEL.read.receipts"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "VENDOR",
+                "covered_by": [
+                  "RECEIPT_ROW",
+                  "FUEL_DONUT"
+                ],
+                "status": "MODELED",
+                "note": "Vendor names as text."
+              },
+              {
+                "item": "DATE",
+                "covered_by": [
+                  "RECEIPT_ROW"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "STATE",
+                "covered_by": [
+                  "RECEIPT_ROW"
+                ],
+                "status": "MODELED",
+                "note": "Column added (D-FUEL-STATE-COLUMN)."
+              },
+              {
+                "item": "GALLONS",
+                "covered_by": [
+                  "RECEIPT_ROW",
+                  "METRICS_RAIL"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "AMOUNT",
+                "covered_by": [
+                  "RECEIPT_ROW"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "STATUS",
+                "covered_by": [
+                  "STATUS_CHIP",
+                  "RECEIPT_STATUS_SUMMARY"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "PROCESSED",
+                "covered_by": [
+                  "RECEIPT.PROCESSED"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "NEEDS REVIEW",
+                "covered_by": [
+                  "RECEIPT.NEEDS_REVIEW"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "MISSING DETAILS",
+                "covered_by": [
+                  "RECEIPT.MISSING_DETAILS"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "DUPLICATE",
+                "covered_by": [
+                  "RECEIPT.DUPLICATE"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "UNREADABLE",
+                "covered_by": [
+                  "RECEIPT.UNREADABLE"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "DETAIL / EDIT",
+                "covered_by": [
+                  "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.RECEIPT_DETAIL",
+                  "I.EDIT_RECEIPT"
+                ],
+                "status": "MODELED_DATA_PARTIAL",
+                "note": "Edits are resolutions; free-form field edits unsupported."
+              },
+              {
+                "item": "AIO REVIEW RELATIONSHIP",
+                "covered_by": [
+                  "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES",
+                  "I.STAFF_VERIFY_RECEIPT",
+                  "RECEIPT.NEEDS_REVIEW"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "MILEAGE / JURISDICTION RELATIONSHIP",
+                "covered_by": [
+                  "RECEIPT.POSSIBLE_MISSING",
+                  "JURIS.read.breakdown",
+                  "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS"
+                ],
+                "status": "MODELED"
+              }
+            ],
+            "contract_sheet": {
+              "purpose": "Manage and verify fuel receipts",
+              "key_data": "Receipts, gallons, vendors, dates, jurisdictions",
+              "primary_actions": "Upload, import CSV, edit, verify"
+            },
+            "own_logic": {
+              "data_ownership": "Client owns receipts; staff own classification.",
+              "mutations": [
+                "FUEL.write.captureReceipts",
+                "FUEL.write.resolveReceipt",
+                "FUEL.write.importCsv",
+                "STAFF.write.verifyReceipt",
+                "STAFF.write.reclassifyReceipt"
+              ],
+              "validation": [
+                "date inside the quarter",
+                "duplicate check (station + date + gallons ± 0.5 + amount)",
+                "jurisdiction present",
+                "PDF / JPG / PNG ≤ 10MB"
+              ],
+              "error_conditions": [
+                "unreadable file kept as UNREADABLE",
+                "locked quarter"
+              ],
+              "actor_rights": "Client captures + answers; staff verify / reclassify / request correction.",
+              "system_relationships": [
+                "VAULT tax_fuel import",
+                "BOOKKEEPING fuel expense"
+              ]
+            }
+          },
+          "components": [
+            "QUARTER_HERO",
+            "METRICS_RAIL",
+            "UPLOAD_ZONE",
+            "RECEIPT_ROW",
+            "RECEIPT_STATUS_SUMMARY",
+            "FUEL_DONUT",
+            "INSIGHTS_PANEL",
+            "ACTIVITY_TIMELINE",
+            "EMPTY_STATE",
+            "NEXT_ACTION_RAIL",
+            "STATUS_CHIP"
+          ],
+          "interactions": [
+            "I.UPLOAD_RECEIPT",
+            "I.TAKE_PHOTO",
+            "I.IMPORT_FROM_VAULT",
+            "I.IMPORT_CSV",
+            "I.OPEN_RECEIPT",
+            "I.FILTER_SORT",
+            "I.CONTINUE_NEXT_ACTION"
+          ],
+          "states": [
+            "COLLECTING",
+            "NEEDS_YOU",
+            "AIO_REVIEWING",
+            "RECEIPT.PROCESSED",
+            "RECEIPT.NEEDS_REVIEW",
+            "RECEIPT.MISSING_DETAILS",
+            "RECEIPT.DUPLICATE",
+            "RECEIPT.UNREADABLE",
+            "RECEIPT.POSSIBLE_MISSING",
+            "UI.DEFAULT",
+            "UI.LOADING",
+            "UI.EMPTY",
+            "UI.SUCCESS",
+            "UI.ERROR",
+            "UI.LOCKED_IN_REVIEW"
+          ],
+          "data_domains": [
+            "FUEL_RECEIPTS",
+            "QUARTER_CASE",
+            "ACTIVITY"
+          ],
+          "read_contracts": [
+            "FUEL.read.receipts",
+            "QUARTER.read.derived",
+            "ACTIVITY.read.ifta_client"
+          ],
+          "write_contracts": [
+            "FUEL.write.captureReceipts",
+            "FUEL.write.importCsv"
+          ],
+          "children": [
+            "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.UPLOAD"
+          ],
+          "drawers": [
+            "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.RECEIPT_DETAIL"
+          ],
+          "modals": [
+            "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.CSV_IMPORT",
+            "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.IMPORT_VAULT"
+          ],
+          "descendants": [
+            {
+              "node_id": "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.UPLOAD",
+              "node_type": "FLOW",
+              "title": "UPLOAD RECEIPTS"
+            },
+            {
+              "node_id": "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.CSV_IMPORT",
+              "node_type": "MODAL",
+              "title": "IMPORT CSV"
+            },
+            {
+              "node_id": "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.IMPORT_VAULT",
+              "node_type": "MODAL",
+              "title": "IMPORT FROM VAULT"
+            },
+            {
+              "node_id": "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.RECEIPT_DETAIL",
+              "node_type": "DRAWER",
+              "title": "RECEIPT DETAIL"
+            }
+          ],
+          "authority_refs": [
+            {
+              "viewport": "MOBILE",
+              "binding": "DIRECT",
+              "refs": [
+                "CLIENT_MOBILE_PARENT_AUTHORITY",
+                "FUEL_PURCHASES_CHILD_PROOF"
+              ]
+            },
+            {
+              "viewport": "TABLET",
+              "binding": "DERIVED",
+              "refs": [
+                "CLIENT_TABLET_DESKTOP",
+                "FUEL_PURCHASES_CHILD_PROOF",
+                "PAGE_COMPONENT_INTERACTION_CONTRACT",
+                "ICON_ASSET_SHEET"
+              ],
+              "derivation": {
+                "family_composition_clear": true,
+                "component_contract_clear": true,
+                "tab_logic_clear": true,
+                "asset_family_clear": true
+              },
+              "note": "Tablet / desktop derive the FUEL PURCHASES child proof onto the client tablet / desktop grid."
+            },
+            {
+              "viewport": "DESKTOP",
+              "binding": "DERIVED",
+              "refs": [
+                "CLIENT_TABLET_DESKTOP",
+                "FUEL_PURCHASES_CHILD_PROOF",
+                "PAGE_COMPONENT_INTERACTION_CONTRACT",
+                "ICON_ASSET_SHEET"
+              ],
+              "derivation": {
+                "family_composition_clear": true,
+                "component_contract_clear": true,
+                "tab_logic_clear": true,
+                "asset_family_clear": true
+              },
+              "note": "Tablet / desktop derive the FUEL PURCHASES child proof onto the client tablet / desktop grid."
+            }
+          ],
+          "overrides": [
+            "PRIMARY_TASK: capture + verify receipts",
+            "PRIMARY_DATA: receipts",
+            "CONTENT_MODULES: upload zone · receipt table · status counts · vendor donut",
+            "ACTIONS: upload · photo · vault import · CSV import",
+            "STATES: receipt classes"
+          ],
+          "open_decisions": [],
+          "readiness": {
+            "node_id": "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES",
+            "node_type": "TAB",
+            "actor": "CLIENT",
+            "EXPERIENCE_READY": true,
+            "AUTHORITY_READY": true,
+            "DATA_READY": false,
+            "INTERACTION_READY": true,
+            "PERMISSIONS_KNOWN": true,
+            "RESPONSIVE_RULE_EXISTS": true,
+            "IMPLEMENTATION_READY": false,
+            "visual_status": "VISUALLY_DERIVED",
+            "functional_status": "FUNCTIONALLY_PARTIAL",
+            "blockers": [
+              "data: FUEL.write.importCsv MISSING"
+            ]
+          }
+        },
+        {
+          "node_id": "AIO.IFTA.CLIENT.ROOM.MILEAGE",
+          "tab_id": "MILEAGE",
+          "tab_class": "PRIMARY",
+          "title": "MILEAGE",
+          "purpose": "Track miles by jurisdiction per truck (sprint §13): source, import, manual entry, validation, exceptions, trip + fuel relationship.",
+          "primary_task": "Give every qualified truck a verified mileage source.",
+          "sprint_contract": {
+            "section": "§13",
+            "purpose": "TRACK MILES BY JURISDICTION.",
+            "must_model": [
+              {
+                "item": "ELD / GPS SOURCE IF SUPPORTED",
+                "covered_by": [
+                  "I.CONNECT_ELD",
+                  "AIO.IFTA.CLIENT.ROOM.MILEAGE.SOURCE_PICKER"
+                ],
+                "status": "CONDITIONAL_NOT_SUPPORTED",
+                "note": "Not supported today; shown NOT LIVE with report upload."
+              },
+              {
+                "item": "FILE IMPORT",
+                "covered_by": [
+                  "AIO.IFTA.CLIENT.ROOM.MILEAGE.REPORT_IMPORT",
+                  "I.IMPORT_MILEAGE_REPORT"
+                ],
+                "status": "MODELED_DATA_PARTIAL",
+                "note": "Report miles fabricated in demo; files not stored."
+              },
+              {
+                "item": "CSV / REPORT IMPORT",
+                "covered_by": [
+                  "CSV_MAPPER",
+                  "I.IMPORT_MILEAGE_REPORT"
+                ],
+                "status": "MODELED_DATA_PARTIAL"
+              },
+              {
+                "item": "MANUAL ENTRY IF SUPPORTED",
+                "covered_by": [
+                  "AIO.IFTA.CLIENT.ROOM.MILEAGE.MANUAL_ENTRY",
+                  "I.ENTER_MILEAGE_MANUAL"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "JURISDICTION BREAKDOWN",
+                "covered_by": [
+                  "MILEAGE_BARS",
+                  "MAP_PANEL"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "MILES",
+                "covered_by": [
+                  "MILEAGE_ROW",
+                  "METRICS_RAIL"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "SOURCE",
+                "covered_by": [
+                  "MILEAGE_ROW",
+                  "MILEAGE.VERIFIED",
+                  "MILEAGE.UNVERIFIED",
+                  "MILEAGE.ESTIMATED"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "VALIDATION",
+                "covered_by": [
+                  "I.VERIFY_MILEAGE_SOURCE",
+                  "MILEAGE.UNVERIFIED"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "EXCEPTION",
+                "covered_by": [
+                  "MILEAGE.EXCEPTION",
+                  "UI.WARNING"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "EDIT / CORRECT",
+                "covered_by": [
+                  "AIO.IFTA.CLIENT.ROOM.MILEAGE.VEHICLE_DETAIL",
+                  "I.ENTER_MILEAGE_MANUAL"
+                ],
+                "status": "MODELED",
+                "note": "A newer source supersedes."
+              },
+              {
+                "item": "TRIP RELATIONSHIP",
+                "covered_by": [
+                  "AIO.IFTA.CLIENT.ROOM.MILEAGE.VEHICLE_DETAIL"
+                ],
+                "status": "MODELED_DATA_MISSING",
+                "note": "No trip records (origin / destination / odometer) in AIO."
+              },
+              {
+                "item": "FUEL RELATIONSHIP",
+                "covered_by": [
+                  "RECEIPT.POSSIBLE_MISSING",
+                  "MILEAGE.EXCEPTION"
+                ],
+                "status": "MODELED"
+              }
+            ],
+            "contract_sheet": {
+              "purpose": "Track mileage by jurisdiction",
+              "key_data": "Miles by state / province, trip data, allocation rules",
+              "primary_actions": "Import, edit, validate, view breakdown"
+            },
+            "own_logic": {
+              "data_ownership": "Client owns mileage records; staff verify.",
+              "mutations": [
+                "MILEAGE.write.addMileage",
+                "STAFF.write.verifyMileage"
+              ],
+              "validation": [
+                "every truck that ran has a source",
+                "assessIftaReadiness verified-source rule",
+                "estimates never filed"
+              ],
+              "error_conditions": [
+                "ELD / GPS not live",
+                "unparseable report",
+                "estimate-only truck"
+              ],
+              "actor_rights": "Client adds sources; staff verify.",
+              "system_relationships": [
+                "DISPATCH estimates",
+                "ELD provider exports"
+              ]
+            }
+          },
+          "components": [
+            "QUARTER_HERO",
+            "METRICS_RAIL",
+            "MILEAGE_ROW",
+            "MILEAGE_BARS",
+            "MAP_PANEL",
+            "MILEAGE_SOURCE_PICKER",
+            "INSIGHTS_PANEL",
+            "EMPTY_STATE",
+            "NEXT_ACTION_RAIL"
+          ],
+          "interactions": [
+            "I.CHOOSE_MILEAGE_SOURCE",
+            "I.IMPORT_MILEAGE_REPORT",
+            "I.ENTER_MILEAGE_MANUAL",
+            "I.OPEN_MILEAGE_RECORD",
+            "I.FILTER_SORT",
+            "I.CONTINUE_NEXT_ACTION"
+          ],
+          "states": [
+            "COLLECTING",
+            "NEEDS_YOU",
+            "MILEAGE.VERIFIED",
+            "MILEAGE.UNVERIFIED",
+            "MILEAGE.ESTIMATED",
+            "MILEAGE.EXCEPTION",
+            "UI.DEFAULT",
+            "UI.LOADING",
+            "UI.EMPTY",
+            "UI.WARNING",
+            "UI.ERROR",
+            "UI.LOCKED_IN_REVIEW"
+          ],
+          "data_domains": [
+            "MILEAGE",
+            "JURISDICTIONS",
+            "VEHICLES",
+            "FUEL_RECEIPTS"
+          ],
+          "read_contracts": [
+            "MILEAGE.read.records",
+            "JURIS.read.breakdown",
+            "VEHICLES.read.quarter",
+            "FUEL.read.receipts"
+          ],
+          "write_contracts": [
+            "MILEAGE.write.addMileage"
+          ],
+          "children": [],
+          "drawers": [
+            "AIO.IFTA.CLIENT.ROOM.MILEAGE.SOURCE_PICKER",
+            "AIO.IFTA.CLIENT.ROOM.MILEAGE.MANUAL_ENTRY",
+            "AIO.IFTA.CLIENT.ROOM.MILEAGE.VEHICLE_DETAIL"
+          ],
+          "modals": [
+            "AIO.IFTA.CLIENT.ROOM.MILEAGE.REPORT_IMPORT"
+          ],
+          "descendants": [
+            {
+              "node_id": "AIO.IFTA.CLIENT.ROOM.MILEAGE.SOURCE_PICKER",
+              "node_type": "DRAWER",
+              "title": "ADD MILES — CHOOSE SOURCE"
+            },
+            {
+              "node_id": "AIO.IFTA.CLIENT.ROOM.MILEAGE.REPORT_IMPORT",
+              "node_type": "MODAL",
+              "title": "IMPORT MILEAGE REPORT / CSV"
+            },
+            {
+              "node_id": "AIO.IFTA.CLIENT.ROOM.MILEAGE.MANUAL_ENTRY",
+              "node_type": "DRAWER",
+              "title": "ENTER MILES BY STATE"
+            },
+            {
+              "node_id": "AIO.IFTA.CLIENT.ROOM.MILEAGE.VEHICLE_DETAIL",
+              "node_type": "DRAWER",
+              "title": "TRUCK MILEAGE"
+            }
+          ],
+          "authority_refs": [
+            {
+              "viewport": "MOBILE",
+              "binding": "DERIVED",
+              "refs": [
+                "CLIENT_MOBILE_PARENT_AUTHORITY",
+                "FUEL_PURCHASES_CHILD_PROOF",
+                "PAGE_COMPONENT_INTERACTION_CONTRACT",
+                "ICON_ASSET_SHEET"
+              ],
+              "derivation": {
+                "family_composition_clear": true,
+                "component_contract_clear": true,
+                "tab_logic_clear": true,
+                "asset_family_clear": true
+              },
+              "note": "Derived from the parent (MILEAGE BY JURISDICTION checklist line + map) with the FUEL PURCHASES derivation rule; desktop mileage bars from the client desktop."
+            },
+            {
+              "viewport": "TABLET",
+              "binding": "DERIVED",
+              "refs": [
+                "CLIENT_TABLET_DESKTOP",
+                "FUEL_PURCHASES_CHILD_PROOF",
+                "PAGE_COMPONENT_INTERACTION_CONTRACT",
+                "ICON_ASSET_SHEET"
+              ],
+              "derivation": {
+                "family_composition_clear": true,
+                "component_contract_clear": true,
+                "tab_logic_clear": true,
+                "asset_family_clear": true
+              },
+              "note": "Derived from the parent (MILEAGE BY JURISDICTION checklist line + map) with the FUEL PURCHASES derivation rule; desktop mileage bars from the client desktop."
+            },
+            {
+              "viewport": "DESKTOP",
+              "binding": "DERIVED",
+              "refs": [
+                "CLIENT_TABLET_DESKTOP",
+                "FUEL_PURCHASES_CHILD_PROOF",
+                "PAGE_COMPONENT_INTERACTION_CONTRACT",
+                "ICON_ASSET_SHEET"
+              ],
+              "derivation": {
+                "family_composition_clear": true,
+                "component_contract_clear": true,
+                "tab_logic_clear": true,
+                "asset_family_clear": true
+              },
+              "note": "Derived from the parent (MILEAGE BY JURISDICTION checklist line + map) with the FUEL PURCHASES derivation rule; desktop mileage bars from the client desktop."
+            }
+          ],
+          "overrides": [
+            "PRIMARY_TASK: miles by state per truck",
+            "PRIMARY_DATA: mileage records",
+            "CONTENT_MODULES: truck rows · bars · map · source picker",
+            "ACTIONS: report upload · manual entry",
+            "STATES: mileage quality"
+          ],
+          "open_decisions": [],
+          "readiness": {
+            "node_id": "AIO.IFTA.CLIENT.ROOM.MILEAGE",
+            "node_type": "TAB",
+            "actor": "CLIENT",
+            "EXPERIENCE_READY": true,
+            "AUTHORITY_READY": true,
+            "DATA_READY": true,
+            "INTERACTION_READY": true,
+            "PERMISSIONS_KNOWN": true,
+            "RESPONSIVE_RULE_EXISTS": true,
+            "IMPLEMENTATION_READY": true,
+            "visual_status": "VISUALLY_DERIVED",
+            "functional_status": "FUNCTIONALLY_PARTIAL",
+            "blockers": []
+          }
+        },
+        {
+          "node_id": "AIO.IFTA.CLIENT.ROOM.VEHICLES",
+          "tab_id": "VEHICLES",
+          "tab_class": "PRIMARY",
+          "title": "VEHICLES",
+          "purpose": "Manage vehicle and trip data relevant to the quarter (sprint §14): active vehicles, unit numbers, trip data, quarter participation, missing data, detail, excluded state, validation, filing impact.",
+          "primary_task": "Confirm which trucks ran and that each has fuel + miles.",
+          "sprint_contract": {
+            "section": "§14",
+            "purpose": "MANAGE VEHICLE AND TRIP DATA RELEVANT TO THE QUARTER.",
+            "must_model": [
+              {
+                "item": "ACTIVE VEHICLES",
+                "covered_by": [
+                  "VEHICLE_ROW",
+                  "VEHICLE.ACTIVE"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "UNIT NUMBER",
+                "covered_by": [
+                  "VEHICLE_ROW"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "TRIP DATA",
+                "covered_by": [
+                  "AIO.IFTA.CLIENT.ROOM.VEHICLES.VEHICLE_DETAIL"
+                ],
+                "status": "MODELED_DATA_MISSING",
+                "note": "No trip records in AIO."
+              },
+              {
+                "item": "QUARTER PARTICIPATION",
+                "covered_by": [
+                  "AIO.IFTA.CLIENT.ROOM.VEHICLES.CONFIRM_FLEET",
+                  "I.CONFIRM_VEHICLES"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "MISSING VEHICLE DATA",
+                "covered_by": [
+                  "VEHICLE.MISSING_DATA"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "VEHICLE DETAIL",
+                "covered_by": [
+                  "AIO.IFTA.CLIENT.ROOM.VEHICLES.VEHICLE_DETAIL"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "DEACTIVATED / EXCLUDED VEHICLE STATE",
+                "covered_by": [
+                  "VEHICLE.NOT_OPERATED",
+                  "AIO.IFTA.STAFF.CASE.VEHICLES.MARK_NOT_OPERATED"
+                ],
+                "status": "MODELED_DATA_PARTIAL",
+                "note": "Client exclusion exists; staff override-with-note has no writer."
+              },
+              {
+                "item": "DATA VALIDATION",
+                "covered_by": [
+                  "vehicleReadiness (VEHICLES.read.quarter)"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "FILING IMPACT",
+                "covered_by": [
+                  "AIO.IFTA.CLIENT.ROOM.VEHICLES.VEHICLE_DETAIL",
+                  "INSIGHTS_PANEL"
+                ],
+                "status": "MODELED"
+              }
+            ],
+            "contract_sheet": {
+              "purpose": "Manage vehicle and trip data",
+              "key_data": "Vehicle list, unit numbers, configurations, active trips",
+              "primary_actions": "Add, edit, deactivate, view history"
+            },
+            "own_logic": {
+              "data_ownership": "Fleet profile owns units; the quarter owns participation.",
+              "mutations": [
+                "VEHICLES.write.confirmVehicles",
+                "STAFF.write.markNotOperated"
+              ],
+              "validation": [
+                "each truck that ran has fuel + verified miles"
+              ],
+              "error_conditions": [
+                "unconfirmed participation",
+                "truck missing data"
+              ],
+              "actor_rights": "Client confirms participation; staff override with note; units managed in the fleet profile.",
+              "system_relationships": [
+                "Fleet profile",
+                "ROAD_READY"
+              ]
+            }
+          },
+          "components": [
+            "QUARTER_HERO",
+            "METRICS_RAIL",
+            "VEHICLE_ROW",
+            "STATUS_CHIP",
+            "INSIGHTS_PANEL",
+            "EMPTY_STATE",
+            "NEXT_ACTION_RAIL"
+          ],
+          "interactions": [
+            "I.CONFIRM_VEHICLES",
+            "I.OPEN_VEHICLE",
+            "I.MANAGE_FLEET",
+            "I.FILTER_SORT",
+            "I.CONTINUE_NEXT_ACTION"
+          ],
+          "states": [
+            "COLLECTING",
+            "NEEDS_YOU",
+            "VEHICLE.ACTIVE",
+            "VEHICLE.NOT_OPERATED",
+            "VEHICLE.MISSING_DATA",
+            "UI.DEFAULT",
+            "UI.LOADING",
+            "UI.EMPTY",
+            "UI.WARNING",
+            "UI.LOCKED_IN_REVIEW"
+          ],
+          "data_domains": [
+            "VEHICLES",
+            "MILEAGE",
+            "FUEL_RECEIPTS"
+          ],
+          "read_contracts": [
+            "VEHICLES.read.quarter",
+            "VEHICLES.read.fleet",
+            "MILEAGE.read.records",
+            "FUEL.read.receipts"
+          ],
+          "write_contracts": [
+            "VEHICLES.write.confirmVehicles"
+          ],
+          "children": [],
+          "drawers": [
+            "AIO.IFTA.CLIENT.ROOM.VEHICLES.VEHICLE_DETAIL"
+          ],
+          "modals": [
+            "AIO.IFTA.CLIENT.ROOM.VEHICLES.CONFIRM_FLEET"
+          ],
+          "descendants": [
+            {
+              "node_id": "AIO.IFTA.CLIENT.ROOM.VEHICLES.CONFIRM_FLEET",
+              "node_type": "MODAL",
+              "title": "CONFIRM TRUCKS THAT RAN"
+            },
+            {
+              "node_id": "AIO.IFTA.CLIENT.ROOM.VEHICLES.VEHICLE_DETAIL",
+              "node_type": "DRAWER",
+              "title": "VEHICLE DETAIL"
+            }
+          ],
+          "authority_refs": [
+            {
+              "viewport": "MOBILE",
+              "binding": "DERIVED",
+              "refs": [
+                "CLIENT_MOBILE_PARENT_AUTHORITY",
+                "FUEL_PURCHASES_CHILD_PROOF",
+                "PAGE_COMPONENT_INTERACTION_CONTRACT",
+                "ICON_ASSET_SHEET"
+              ],
+              "derivation": {
+                "family_composition_clear": true,
+                "component_contract_clear": true,
+                "tab_logic_clear": true,
+                "asset_family_clear": true
+              },
+              "note": "Derived from the parent VEHICLE & TRIP DATA line and the client desktop VEHICLE & TRIP DATA panel (trucks 101–104)."
+            },
+            {
+              "viewport": "TABLET",
+              "binding": "DERIVED",
+              "refs": [
+                "CLIENT_TABLET_DESKTOP",
+                "FUEL_PURCHASES_CHILD_PROOF",
+                "PAGE_COMPONENT_INTERACTION_CONTRACT",
+                "ICON_ASSET_SHEET"
+              ],
+              "derivation": {
+                "family_composition_clear": true,
+                "component_contract_clear": true,
+                "tab_logic_clear": true,
+                "asset_family_clear": true
+              },
+              "note": "Derived from the parent VEHICLE & TRIP DATA line and the client desktop VEHICLE & TRIP DATA panel (trucks 101–104)."
+            },
+            {
+              "viewport": "DESKTOP",
+              "binding": "DERIVED",
+              "refs": [
+                "CLIENT_TABLET_DESKTOP",
+                "FUEL_PURCHASES_CHILD_PROOF",
+                "PAGE_COMPONENT_INTERACTION_CONTRACT",
+                "ICON_ASSET_SHEET"
+              ],
+              "derivation": {
+                "family_composition_clear": true,
+                "component_contract_clear": true,
+                "tab_logic_clear": true,
+                "asset_family_clear": true
+              },
+              "note": "Derived from the parent VEHICLE & TRIP DATA line and the client desktop VEHICLE & TRIP DATA panel (trucks 101–104)."
+            }
+          ],
+          "overrides": [
+            "PRIMARY_TASK: participation",
+            "PRIMARY_DATA: quarter vehicles",
+            "CONTENT_MODULES: vehicle rows",
+            "ACTIONS: confirm fleet",
+            "STATES: vehicle participation"
+          ],
+          "open_decisions": [],
+          "readiness": {
+            "node_id": "AIO.IFTA.CLIENT.ROOM.VEHICLES",
+            "node_type": "TAB",
+            "actor": "CLIENT",
+            "EXPERIENCE_READY": true,
+            "AUTHORITY_READY": true,
+            "DATA_READY": true,
+            "INTERACTION_READY": true,
+            "PERMISSIONS_KNOWN": true,
+            "RESPONSIVE_RULE_EXISTS": true,
+            "IMPLEMENTATION_READY": true,
+            "visual_status": "VISUALLY_DERIVED",
+            "functional_status": "FUNCTIONALLY_PARTIAL",
+            "blockers": []
+          }
+        },
+        {
+          "node_id": "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS",
+          "tab_id": "JURISDICTIONS",
+          "tab_class": "PRIMARY",
+          "title": "JURISDICTIONS",
+          "purpose": "Show state / jurisdiction distribution and the tax relationship (sprint §15): miles, gallons, rate / tax relationship, allocation, exception, state detail, map, data quality, review status.",
+          "primary_task": "See where miles and fuel fall and what is still being checked.",
+          "sprint_contract": {
+            "section": "§15",
+            "purpose": "SHOW STATE / JURISDICTION DISTRIBUTION AND TAX RELATIONSHIP.",
+            "must_model": [
+              {
+                "item": "JURISDICTION",
+                "covered_by": [
+                  "JURISDICTION_TABLE",
+                  "MAP_PANEL"
+                ],
+                "status": "MODELED_DATA_PARTIAL",
+                "note": "13 US state names; no Canada."
+              },
+              {
+                "item": "MILES",
+                "covered_by": [
+                  "JURISDICTION_TABLE",
+                  "MILEAGE_BARS"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "GALLONS",
+                "covered_by": [
+                  "JURISDICTION_TABLE"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "RATE / TAX RELATIONSHIP",
+                "covered_by": [
+                  "JURIS.read.tax"
+                ],
+                "status": "MODELED_DATA_PARTIAL",
+                "note": "Net tax from the staff summary only; no rate data (D-TAX-FIGURES)."
+              },
+              {
+                "item": "ALLOCATION",
+                "covered_by": [
+                  "MAP_PANEL",
+                  "JURISDICTION_TABLE"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "EXCEPTION",
+                "covered_by": [
+                  "JURISDICTION.EXCEPTION"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "STATE DETAIL",
+                "covered_by": [
+                  "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS.STATE_DETAIL"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "MAP VIEW",
+                "covered_by": [
+                  "MAP_PANEL"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "DATA QUALITY",
+                "covered_by": [
+                  "JURISDICTION_TABLE",
+                  "STATUS_CHIP"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "REVIEW STATUS",
+                "covered_by": [
+                  "JURISDICTION.OK",
+                  "JURISDICTION.EXCEPTION",
+                  "AIO.IFTA.STAFF.CASE.JURISDICTIONS"
+                ],
+                "status": "MODELED"
+              }
+            ],
+            "contract_sheet": {
+              "purpose": "Configure jurisdictions and tax rules",
+              "key_data": "State / province settings, rates, distance and fuel allocation",
+              "primary_actions": "Review rates, manage settings"
+            },
+            "own_logic": {
+              "data_ownership": "AIO derives the rollup; staff own reconciliation + worksheet.",
+              "mutations": [
+                "STAFF.write.resolveDiscrepancy",
+                "STAFF.write.worksheet"
+              ],
+              "validation": [
+                "miles without fuel",
+                "MPG band"
+              ],
+              "error_conditions": [
+                "open discrepancy",
+                "tax pending"
+              ],
+              "actor_rights": "Client read-only; staff reconcile / override / enter worksheet.",
+              "system_relationships": [
+                "Base jurisdiction (filing destination)"
+              ]
+            }
+          },
+          "components": [
+            "QUARTER_HERO",
+            "METRICS_RAIL",
+            "MAP_PANEL",
+            "JURISDICTION_TABLE",
+            "MILEAGE_BARS",
+            "STATUS_CHIP",
+            "INSIGHTS_PANEL",
+            "EMPTY_STATE",
+            "NEXT_ACTION_RAIL"
+          ],
+          "interactions": [
+            "I.OPEN_JURISDICTION",
+            "I.FILTER_SORT",
+            "I.CONTINUE_NEXT_ACTION"
+          ],
+          "states": [
+            "COLLECTING",
+            "AIO_REVIEWING",
+            "READY_FOR_CLIENT_REVIEW",
+            "JURISDICTION.OK",
+            "JURISDICTION.EXCEPTION",
+            "RECEIPT.POSSIBLE_MISSING",
+            "UI.DEFAULT",
+            "UI.LOADING",
+            "UI.EMPTY",
+            "UI.WARNING"
+          ],
+          "data_domains": [
+            "JURISDICTIONS",
+            "RETURN_SUMMARY",
+            "MILEAGE",
+            "FUEL_RECEIPTS",
+            "CORRECTION_REQUESTS"
+          ],
+          "read_contracts": [
+            "JURIS.read.breakdown",
+            "JURIS.read.tax",
+            "MILEAGE.read.records",
+            "FUEL.read.receipts",
+            "STAFF.read.discrepancies"
+          ],
+          "write_contracts": [],
+          "children": [],
+          "drawers": [
+            "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS.STATE_DETAIL"
+          ],
+          "modals": [],
+          "descendants": [
+            {
+              "node_id": "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS.STATE_DETAIL",
+              "node_type": "DRAWER",
+              "title": "JURISDICTION DETAIL"
+            }
+          ],
+          "authority_refs": [
+            {
+              "viewport": "MOBILE",
+              "binding": "DERIVED",
+              "refs": [
+                "CLIENT_MOBILE_PARENT_AUTHORITY",
+                "FUEL_PURCHASES_CHILD_PROOF",
+                "PAGE_COMPONENT_INTERACTION_CONTRACT",
+                "ICON_ASSET_SHEET"
+              ],
+              "derivation": {
+                "family_composition_clear": true,
+                "component_contract_clear": true,
+                "tab_logic_clear": true,
+                "asset_family_clear": true
+              },
+              "note": "Derived from the parent JURISDICTION BREAKDOWN map + legend and the desktop mileage-by-jurisdiction bars."
+            },
+            {
+              "viewport": "TABLET",
+              "binding": "DERIVED",
+              "refs": [
+                "CLIENT_TABLET_DESKTOP",
+                "FUEL_PURCHASES_CHILD_PROOF",
+                "PAGE_COMPONENT_INTERACTION_CONTRACT",
+                "ICON_ASSET_SHEET"
+              ],
+              "derivation": {
+                "family_composition_clear": true,
+                "component_contract_clear": true,
+                "tab_logic_clear": true,
+                "asset_family_clear": true
+              },
+              "note": "Derived from the parent JURISDICTION BREAKDOWN map + legend and the desktop mileage-by-jurisdiction bars."
+            },
+            {
+              "viewport": "DESKTOP",
+              "binding": "DERIVED",
+              "refs": [
+                "CLIENT_TABLET_DESKTOP",
+                "FUEL_PURCHASES_CHILD_PROOF",
+                "PAGE_COMPONENT_INTERACTION_CONTRACT",
+                "ICON_ASSET_SHEET"
+              ],
+              "derivation": {
+                "family_composition_clear": true,
+                "component_contract_clear": true,
+                "tab_logic_clear": true,
+                "asset_family_clear": true
+              },
+              "note": "Derived from the parent JURISDICTION BREAKDOWN map + legend and the desktop mileage-by-jurisdiction bars."
+            }
+          ],
+          "overrides": [
+            "PRIMARY_TASK: distribution + tax relationship",
+            "PRIMARY_DATA: per-jurisdiction rollup",
+            "CONTENT_MODULES: map · table · bars",
+            "ACTIONS: open jurisdiction (client read-only)",
+            "STATES: jurisdiction quality"
+          ],
+          "open_decisions": [
+            "D-TAX-FIGURES"
+          ],
+          "readiness": {
+            "node_id": "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS",
+            "node_type": "TAB",
+            "actor": "CLIENT",
+            "EXPERIENCE_READY": true,
+            "AUTHORITY_READY": true,
+            "DATA_READY": false,
+            "INTERACTION_READY": true,
+            "PERMISSIONS_KNOWN": true,
+            "RESPONSIVE_RULE_EXISTS": true,
+            "IMPLEMENTATION_READY": false,
+            "visual_status": "VISUALLY_DERIVED",
+            "functional_status": "FUNCTIONALLY_PARTIAL",
+            "blockers": [
+              "data: decision D-TAX-FIGURES"
+            ]
+          }
+        },
+        {
+          "node_id": "AIO.IFTA.CLIENT.ROOM.DOCUMENTS",
+          "tab_id": "DOCUMENTS",
+          "tab_class": "PRIMARY",
+          "title": "DOCUMENTS",
+          "purpose": "Manage the quarter’s filing records (sprint §16): source files, receipts, mileage reports, draft return, client review copy, final return, confirmation, payment record, Vault destination, file status, version / supersession.",
+          "primary_task": "Find, view and download any record of the quarter.",
+          "sprint_contract": {
+            "section": "§16",
+            "purpose": "MANAGE THE QUARTER’S FILING RECORDS.",
+            "must_model": [
+              {
+                "item": "SOURCE FILES",
+                "covered_by": [
+                  "FILE_ROW",
+                  "DOC.SOURCE"
+                ],
+                "status": "MODELED_DATA_PARTIAL",
+                "note": "File names only."
+              },
+              {
+                "item": "RECEIPTS",
+                "covered_by": [
+                  "FILE_ROW",
+                  "FUEL.read.receipts"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "MILEAGE REPORTS",
+                "covered_by": [
+                  "FILE_ROW",
+                  "MILEAGE.read.records"
+                ],
+                "status": "MODELED_DATA_PARTIAL",
+                "note": "Reports not stored."
+              },
+              {
+                "item": "DRAFT RETURN",
+                "covered_by": [
+                  "DOC.DRAFT"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "CLIENT REVIEW COPY",
+                "covered_by": [
+                  "DOC.REVIEW_COPY"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "FINAL RETURN",
+                "covered_by": [
+                  "DOC.FINAL"
+                ],
+                "status": "MODELED_DATA_PARTIAL",
+                "note": "Filed return file not uploaded."
+              },
+              {
+                "item": "CONFIRMATION",
+                "covered_by": [
+                  "DOC.FINAL",
+                  "FILING.read.record"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "PAYMENT RECORD IF APPLICABLE",
+                "covered_by": [
+                  "PAYMENT.read.record",
+                  "PAYMENT_PENDING"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "VAULT DESTINATION",
+                "covered_by": [
+                  "DOC.SEALED",
+                  "I.OPEN_VAULT_RECORD"
+                ],
+                "status": "MODELED_DATA_PARTIAL",
+                "note": "Packet metadata only."
+              },
+              {
+                "item": "FILE STATUS",
+                "covered_by": [
+                  "STATUS_CHIP",
+                  "FILE_ROW"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "VERSION / SUPERSESSION",
+                "covered_by": [
+                  "DOC.SUPERSEDED"
+                ],
+                "status": "MODELED_DATA_PARTIAL"
+              }
+            ],
+            "contract_sheet": {
+              "purpose": "Manage filing documents and records",
+              "key_data": "Return drafts, final filings, receipts, correspondence",
+              "primary_actions": "View, download, share, submit"
+            },
+            "own_logic": {
+              "data_ownership": "Client owns filed records; AIO produces summary / packet.",
+              "mutations": [
+                "DOCS.write.share",
+                "SYSTEM.write.sealPacket"
+              ],
+              "validation": [
+                "packet sealed only on FILED"
+              ],
+              "error_conditions": [
+                "file unavailable"
+              ],
+              "actor_rights": "Client view / download / share; staff view / download.",
+              "system_relationships": [
+                "VAULT"
+              ]
+            }
+          },
+          "components": [
+            "QUARTER_HERO",
+            "METRICS_RAIL",
+            "FILE_ROW",
+            "RECENT_UPLOADS",
+            "STATUS_CHIP",
+            "EMPTY_STATE",
+            "NEXT_ACTION_RAIL"
+          ],
+          "interactions": [
+            "I.OPEN_FILE",
+            "I.DOWNLOAD_FILE",
+            "I.SHARE_FILE",
+            "I.OPEN_VAULT_RECORD",
+            "I.FILTER_SORT"
+          ],
+          "states": [
+            "COLLECTING",
+            "FILED",
+            "COMPLETE",
+            "ARCHIVED",
+            "DOC.SOURCE",
+            "DOC.REVIEW_COPY",
+            "DOC.APPROVED",
+            "DOC.FINAL",
+            "DOC.SEALED",
+            "DOC.SUPERSEDED",
+            "UI.DEFAULT",
+            "UI.LOADING",
+            "UI.EMPTY",
+            "UI.ERROR"
+          ],
+          "data_domains": [
+            "DOCUMENTS_VAULT",
+            "RETURN_SUMMARY",
+            "FILING",
+            "PAYMENT",
+            "FUEL_RECEIPTS",
+            "MILEAGE"
+          ],
+          "read_contracts": [
+            "DOCS.read.packet",
+            "DOCS.read.vault",
+            "DOCS.read.download",
+            "RETURN.read.summary",
+            "FILING.read.record",
+            "PAYMENT.read.record",
+            "FUEL.read.receipts",
+            "MILEAGE.read.records"
+          ],
+          "write_contracts": [
+            "DOCS.write.share"
+          ],
+          "children": [],
+          "drawers": [
+            "AIO.IFTA.CLIENT.ROOM.DOCUMENTS.FILE_PREVIEW"
+          ],
+          "modals": [],
+          "descendants": [
+            {
+              "node_id": "AIO.IFTA.CLIENT.ROOM.DOCUMENTS.FILE_PREVIEW",
+              "node_type": "DRAWER",
+              "title": "FILE PREVIEW"
+            }
+          ],
+          "authority_refs": [
+            {
+              "viewport": "MOBILE",
+              "binding": "DERIVED",
+              "refs": [
+                "CLIENT_MOBILE_PARENT_AUTHORITY",
+                "FUEL_PURCHASES_CHILD_PROOF",
+                "PAGE_COMPONENT_INTERACTION_CONTRACT",
+                "ICON_ASSET_SHEET"
+              ],
+              "derivation": {
+                "family_composition_clear": true,
+                "component_contract_clear": true,
+                "tab_logic_clear": true,
+                "asset_family_clear": true
+              },
+              "note": "Derived from the parent RECENT UPLOADS rows and the client desktop file table (file · date · status)."
+            },
+            {
+              "viewport": "TABLET",
+              "binding": "DERIVED",
+              "refs": [
+                "CLIENT_TABLET_DESKTOP",
+                "FUEL_PURCHASES_CHILD_PROOF",
+                "PAGE_COMPONENT_INTERACTION_CONTRACT",
+                "ICON_ASSET_SHEET"
+              ],
+              "derivation": {
+                "family_composition_clear": true,
+                "component_contract_clear": true,
+                "tab_logic_clear": true,
+                "asset_family_clear": true
+              },
+              "note": "Derived from the parent RECENT UPLOADS rows and the client desktop file table (file · date · status)."
+            },
+            {
+              "viewport": "DESKTOP",
+              "binding": "DERIVED",
+              "refs": [
+                "CLIENT_TABLET_DESKTOP",
+                "FUEL_PURCHASES_CHILD_PROOF",
+                "PAGE_COMPONENT_INTERACTION_CONTRACT",
+                "ICON_ASSET_SHEET"
+              ],
+              "derivation": {
+                "family_composition_clear": true,
+                "component_contract_clear": true,
+                "tab_logic_clear": true,
+                "asset_family_clear": true
+              },
+              "note": "Derived from the parent RECENT UPLOADS rows and the client desktop file table (file · date · status)."
+            }
+          ],
+          "overrides": [
+            "PRIMARY_TASK: records",
+            "PRIMARY_DATA: documents",
+            "CONTENT_MODULES: file rows",
+            "ACTIONS: view · download · share · open in Vault",
+            "STATES: document lifecycle"
+          ],
+          "open_decisions": [],
+          "readiness": {
+            "node_id": "AIO.IFTA.CLIENT.ROOM.DOCUMENTS",
+            "node_type": "TAB",
+            "actor": "CLIENT",
+            "EXPERIENCE_READY": true,
+            "AUTHORITY_READY": true,
+            "DATA_READY": true,
+            "INTERACTION_READY": true,
+            "PERMISSIONS_KNOWN": true,
+            "RESPONSIVE_RULE_EXISTS": true,
+            "IMPLEMENTATION_READY": true,
+            "visual_status": "VISUALLY_DERIVED",
+            "functional_status": "FUNCTIONALLY_PARTIAL",
+            "blockers": []
+          }
+        },
+        {
+          "node_id": "AIO.IFTA.CLIENT.ROOM.NOTES",
+          "tab_id": "NOTES",
+          "tab_class": "SECONDARY_CANDIDATE",
+          "title": "NOTES (candidate)",
+          "purpose": "Notes for AIO (context such as “truck sold mid-quarter”). Shown on the client desktop reference; absent from the approved parent’s six tabs.",
+          "primary_task": "Tell AIO context about the quarter.",
+          "sprint_contract": null,
+          "components": [
+            "TAB_BAR",
+            "MESSAGE_THREAD",
+            "EMPTY_STATE"
+          ],
+          "interactions": [
+            "I.SAVE_NOTE",
+            "I.MESSAGE_AIO"
+          ],
+          "states": [
+            "UI.DEFAULT",
+            "UI.EMPTY"
+          ],
+          "data_domains": [
+            "NOTES",
+            "MESSAGES"
+          ],
+          "read_contracts": [
+            "NOTES.read",
+            "MSG.read.thread"
+          ],
+          "write_contracts": [
+            "NOTES.write",
+            "MSG.write.postThread"
+          ],
+          "children": [],
+          "drawers": [],
+          "modals": [],
+          "descendants": [],
+          "authority_refs": [
+            {
+              "viewport": "MOBILE",
+              "binding": "DERIVED",
+              "refs": [
+                "CLIENT_TABLET_DESKTOP",
+                "ACTOR_MODES_MOBILE",
+                "ICON_ASSET_SHEET"
+              ],
+              "derivation": {
+                "family_composition_clear": true,
+                "component_contract_clear": true,
+                "tab_logic_clear": false,
+                "asset_family_clear": true
+              },
+              "note": "Tab label only in references (no NOTES content composition); asset sheet shows the tab DISABLED."
+            },
+            {
+              "viewport": "TABLET",
+              "binding": "DERIVED",
+              "refs": [
+                "CLIENT_TABLET_DESKTOP",
+                "ICON_ASSET_SHEET"
+              ],
+              "derivation": {
+                "family_composition_clear": true,
+                "component_contract_clear": true,
+                "tab_logic_clear": false,
+                "asset_family_clear": true
+              },
+              "note": "Tab label only."
+            },
+            {
+              "viewport": "DESKTOP",
+              "binding": "DERIVED",
+              "refs": [
+                "CLIENT_TABLET_DESKTOP",
+                "ICON_ASSET_SHEET"
+              ],
+              "derivation": {
+                "family_composition_clear": true,
+                "component_contract_clear": true,
+                "tab_logic_clear": false,
+                "asset_family_clear": true
+              },
+              "note": "Tab label only."
+            }
+          ],
+          "overrides": [],
+          "open_decisions": [
+            "D-NOTES-TAB"
+          ],
+          "readiness": {
+            "node_id": "AIO.IFTA.CLIENT.ROOM.NOTES",
+            "node_type": "TAB",
+            "actor": "CLIENT",
+            "EXPERIENCE_READY": true,
+            "AUTHORITY_READY": false,
+            "DATA_READY": false,
+            "INTERACTION_READY": false,
+            "PERMISSIONS_KNOWN": true,
+            "RESPONSIVE_RULE_EXISTS": true,
+            "IMPLEMENTATION_READY": false,
+            "visual_status": "VISUALLY_MISSING",
+            "functional_status": "FUNCTIONALLY_PARTIAL",
+            "blockers": [
+              "authority: no usable binding for MOBILE, TABLET, DESKTOP",
+              "authority: open decision D-NOTES-TAB",
+              "data: NOTES.read MISSING, NOTES.write MISSING",
+              "interaction: I.SAVE_NOTE CANDIDATE_FOUNDER_DECISION"
+            ]
+          }
+        }
+      ]
+    },
+    "FOUNDER_STAFF": {
+      "page": "AIO.IFTA.STAFF.CASE",
+      "note": "OVERVIEW is the staff mirror of PROGRESS.",
+      "tabs": [
+        {
+          "node_id": "AIO.IFTA.STAFF.CASE.OVERVIEW",
+          "tab_id": "OVERVIEW",
+          "tab_class": "PRIMARY",
+          "title": "OVERVIEW",
+          "purpose": "Staff mirror of PROGRESS: filing workflow with dates, quarter tasks, important dates, mileage + fuel, vehicles, client activity, team activity, risks / flags.",
+          "primary_task": "See what is blocking this filing and who has to act.",
+          "sprint_contract": {
+            "section": "§11",
+            "purpose": "SHOW END-TO-END QUARTER READINESS.",
+            "must_model": [
+              {
+                "item": "COLLECTION STATUS",
+                "covered_by": [
+                  "TASK_LIST",
+                  "FILING_WORKFLOW",
+                  "COLLECTING"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "AIO PREPARATION",
+                "covered_by": [
+                  "FILING_WORKFLOW",
+                  "AIO_REVIEWING",
+                  "INSIGHTS_PANEL"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "CLIENT REVIEW",
+                "covered_by": [
+                  "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW",
+                  "READY_FOR_CLIENT_REVIEW",
+                  "CLIENT_APPROVAL_PENDING"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "FILING STATUS",
+                "covered_by": [
+                  "FILING_WORKFLOW",
+                  "APPROVED_FOR_FILING",
+                  "FILING",
+                  "AIO.IFTA.CLIENT.ROOM.FILED"
+                ],
+                "status": "MODELED_DATA_PARTIAL",
+                "note": "No separate “filing started” marker (FILING sub-state PARTIAL)."
+              },
+              {
+                "item": "NEXT ACTION",
+                "covered_by": [
+                  "NEXT_ACTION_RAIL",
+                  "I.CONTINUE_NEXT_ACTION"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "BLOCKERS",
+                "covered_by": [
+                  "AIO.IFTA.CLIENT.ROOM.PROGRESS.NEEDS_YOU",
+                  "RISK_FLAG_PANEL",
+                  "UI.BLOCKED",
+                  "OVERDUE_RISK"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "INSIGHTS",
+                "covered_by": [
+                  "INSIGHTS_PANEL"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "RECENT UPLOADS",
+                "covered_by": [
+                  "RECENT_UPLOADS"
+                ],
+                "status": "MODELED_DATA_PARTIAL",
+                "note": "Source files are names only (not stored as documents)."
+              },
+              {
+                "item": "ACTIVITY",
+                "covered_by": [
+                  "ACTIVITY_TIMELINE",
+                  "ACTIVITY.read.ifta_client"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "JURISDICTION OVERVIEW",
+                "covered_by": [
+                  "MAP_PANEL",
+                  "JURIS.read.breakdown"
+                ],
+                "status": "MODELED_DATA_PARTIAL",
+                "note": "13 US state names only."
+              },
+              {
+                "item": "QUARTER METRICS",
+                "covered_by": [
+                  "METRICS_RAIL"
+                ],
+                "status": "MODELED_DATA_PARTIAL",
+                "note": "Tax slot from the return summary only (D-TAX-FIGURES)."
+              }
+            ],
+            "contract_sheet": {
+              "purpose": "Track end-to-end filing progress",
+              "key_data": "Workflow status, completion by step, upcoming tasks",
+              "primary_actions": "Continue, review, submit"
+            },
+            "own_logic": {
+              "data_ownership": "Derived quarter status (no own records).",
+              "mutations": [
+                "QUARTER.write.sendQuarterToAio",
+                "RETURN.write.approveReturn",
+                "RETURN.write.askQuestion",
+                "FUEL.write.resolveReceipt"
+              ],
+              "validation": [
+                "canSendToAio()",
+                "approval only in AWAITING_APPROVAL"
+              ],
+              "error_conditions": [
+                "blocking items",
+                "locked quarter"
+              ],
+              "actor_rights": "Client submits / approves / asks; staff mirror in OVERVIEW.",
+              "system_relationships": [
+                "MY_OFFICE attention",
+                "INBOX approval request",
+                "ACTIVITY milestones"
+              ]
+            }
+          },
+          "components": [
+            "FILING_WORKFLOW",
+            "TASK_LIST",
+            "IMPORTANT_DATES",
+            "MILEAGE_BARS",
+            "FUEL_DONUT",
+            "VEHICLE_ROW",
+            "ACTIVITY_TIMELINE",
+            "RISK_FLAG_PANEL"
+          ],
+          "interactions": [
+            "I.START_RECONCILIATION",
+            "I.NUDGE_CLIENT",
+            "I.ESCALATE",
+            "I.RESOLVE_DISCREPANCY",
+            "I.OPEN_AUDIT_TRAIL",
+            "I.CONTINUE_NEXT_ACTION"
+          ],
+          "states": [
+            "COLLECTING",
+            "NEEDS_YOU",
+            "AIO_REVIEWING",
+            "CORRECTION_REQUIRED",
+            "READY_FOR_CLIENT_REVIEW",
+            "CLIENT_APPROVAL_PENDING",
+            "APPROVED_FOR_FILING",
+            "OVERDUE_RISK",
+            "UI.DEFAULT",
+            "UI.LOADING",
+            "UI.WARNING"
+          ],
+          "data_domains": [
+            "QUARTER_CASE",
+            "STAFF_WORK_QUEUE",
+            "AUDIT_TRAIL",
+            "CORRECTION_REQUESTS",
+            "MILEAGE",
+            "FUEL_RECEIPTS",
+            "VEHICLES",
+            "NOTIFICATIONS_INBOX"
+          ],
+          "read_contracts": [
+            "QUARTER.read.derived",
+            "STAFF.read.tasks",
+            "STAFF.read.dates",
+            "STAFF.read.audit",
+            "STAFF.read.discrepancies",
+            "MILEAGE.read.records",
+            "FUEL.read.receipts",
+            "VEHICLES.read.quarter"
+          ],
+          "write_contracts": [
+            "STAFF.write.startReconciliation",
+            "STAFF.write.nudgeClient",
+            "STAFF.write.escalate",
+            "STAFF.write.resolveDiscrepancy"
+          ],
+          "children": [],
+          "drawers": [],
+          "modals": [],
+          "descendants": [],
+          "authority_refs": [
+            {
+              "viewport": "MOBILE",
+              "binding": "DIRECT",
+              "refs": [
+                "ACTOR_MODES_MOBILE"
+              ]
+            },
+            {
+              "viewport": "TABLET",
+              "binding": "DIRECT",
+              "refs": [
+                "FOUNDER_STAFF_TABLET_DESKTOP"
+              ]
+            },
+            {
+              "viewport": "DESKTOP",
+              "binding": "DIRECT",
+              "refs": [
+                "FOUNDER_STAFF_TABLET_DESKTOP"
+              ]
+            }
+          ],
+          "overrides": [
+            "PRIMARY_TASK: unblock the filing",
+            "CONTENT_MODULES: tasks with assignees · important dates · team activity · risks",
+            "ACTIONS: operational",
+            "STATES: staff mirror"
+          ],
+          "open_decisions": [],
+          "readiness": {
+            "node_id": "AIO.IFTA.STAFF.CASE.OVERVIEW",
+            "node_type": "TAB",
+            "actor": "FOUNDER_STAFF",
+            "EXPERIENCE_READY": true,
+            "AUTHORITY_READY": true,
+            "DATA_READY": false,
+            "INTERACTION_READY": true,
+            "PERMISSIONS_KNOWN": true,
+            "RESPONSIVE_RULE_EXISTS": true,
+            "IMPLEMENTATION_READY": false,
+            "visual_status": "VISUALLY_DEFINED",
+            "functional_status": "FUNCTIONALLY_PARTIAL",
+            "blockers": [
+              "data: STAFF.write.escalate MISSING"
+            ]
+          }
+        },
+        {
+          "node_id": "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES",
+          "tab_id": "FUEL_PURCHASES",
+          "tab_class": "PRIMARY",
+          "title": "FUEL PURCHASES",
+          "purpose": "Receipt classification review: verify, reclassify, request correction; heat strip of receipts per truck per month.",
+          "primary_task": "Classify and verify every receipt.",
+          "sprint_contract": {
+            "section": "§12",
+            "purpose": "COLLECT, VERIFY, CORRECT AND RECONCILE FUEL PURCHASE RECORDS.",
+            "must_model": [
+              {
+                "item": "RECEIPT UPLOAD",
+                "covered_by": [
+                  "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.UPLOAD",
+                  "UPLOAD_ZONE",
+                  "I.UPLOAD_RECEIPT",
+                  "I.TAKE_PHOTO"
+                ],
+                "status": "MODELED_DATA_PARTIAL",
+                "note": "Parser is a seeded stand-in; files not stored."
+              },
+              {
+                "item": "FILE IMPORT",
+                "covered_by": [
+                  "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.CSV_IMPORT",
+                  "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.IMPORT_VAULT",
+                  "I.IMPORT_CSV",
+                  "I.IMPORT_FROM_VAULT"
+                ],
+                "status": "MODELED_DATA_MISSING",
+                "note": "CSV import has no parser (FUEL.write.importCsv MISSING); Vault import exists."
+              },
+              {
+                "item": "RECEIPT LIST",
+                "covered_by": [
+                  "RECEIPT_ROW",
+                  "FUEL.read.receipts"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "VENDOR",
+                "covered_by": [
+                  "RECEIPT_ROW",
+                  "FUEL_DONUT"
+                ],
+                "status": "MODELED",
+                "note": "Vendor names as text."
+              },
+              {
+                "item": "DATE",
+                "covered_by": [
+                  "RECEIPT_ROW"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "STATE",
+                "covered_by": [
+                  "RECEIPT_ROW"
+                ],
+                "status": "MODELED",
+                "note": "Column added (D-FUEL-STATE-COLUMN)."
+              },
+              {
+                "item": "GALLONS",
+                "covered_by": [
+                  "RECEIPT_ROW",
+                  "METRICS_RAIL"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "AMOUNT",
+                "covered_by": [
+                  "RECEIPT_ROW"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "STATUS",
+                "covered_by": [
+                  "STATUS_CHIP",
+                  "RECEIPT_STATUS_SUMMARY"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "PROCESSED",
+                "covered_by": [
+                  "RECEIPT.PROCESSED"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "NEEDS REVIEW",
+                "covered_by": [
+                  "RECEIPT.NEEDS_REVIEW"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "MISSING DETAILS",
+                "covered_by": [
+                  "RECEIPT.MISSING_DETAILS"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "DUPLICATE",
+                "covered_by": [
+                  "RECEIPT.DUPLICATE"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "UNREADABLE",
+                "covered_by": [
+                  "RECEIPT.UNREADABLE"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "DETAIL / EDIT",
+                "covered_by": [
+                  "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.RECEIPT_DETAIL",
+                  "I.EDIT_RECEIPT"
+                ],
+                "status": "MODELED_DATA_PARTIAL",
+                "note": "Edits are resolutions; free-form field edits unsupported."
+              },
+              {
+                "item": "AIO REVIEW RELATIONSHIP",
+                "covered_by": [
+                  "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES",
+                  "I.STAFF_VERIFY_RECEIPT",
+                  "RECEIPT.NEEDS_REVIEW"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "MILEAGE / JURISDICTION RELATIONSHIP",
+                "covered_by": [
+                  "RECEIPT.POSSIBLE_MISSING",
+                  "JURIS.read.breakdown",
+                  "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS"
+                ],
+                "status": "MODELED"
+              }
+            ],
+            "contract_sheet": {
+              "purpose": "Manage and verify fuel receipts",
+              "key_data": "Receipts, gallons, vendors, dates, jurisdictions",
+              "primary_actions": "Upload, import CSV, edit, verify"
+            },
+            "own_logic": {
+              "data_ownership": "Client owns receipts; staff own classification.",
+              "mutations": [
+                "FUEL.write.captureReceipts",
+                "FUEL.write.resolveReceipt",
+                "FUEL.write.importCsv",
+                "STAFF.write.verifyReceipt",
+                "STAFF.write.reclassifyReceipt"
+              ],
+              "validation": [
+                "date inside the quarter",
+                "duplicate check (station + date + gallons ± 0.5 + amount)",
+                "jurisdiction present",
+                "PDF / JPG / PNG ≤ 10MB"
+              ],
+              "error_conditions": [
+                "unreadable file kept as UNREADABLE",
+                "locked quarter"
+              ],
+              "actor_rights": "Client captures + answers; staff verify / reclassify / request correction.",
+              "system_relationships": [
+                "VAULT tax_fuel import",
+                "BOOKKEEPING fuel expense"
+              ]
+            }
+          },
+          "components": [
+            "METRICS_RAIL",
+            "RECEIPT_ROW",
+            "RECEIPT_STATUS_SUMMARY",
+            "FUEL_DONUT",
+            "RISK_FLAG_PANEL",
+            "EMPTY_STATE",
+            "NEXT_ACTION_RAIL"
+          ],
+          "interactions": [
+            "I.OPEN_RECEIPT",
+            "I.STAFF_VERIFY_RECEIPT",
+            "I.REQUEST_CORRECTION",
+            "I.FILTER_SORT"
+          ],
+          "states": [
+            "AIO_REVIEWING",
+            "NEEDS_YOU",
+            "RECEIPT.PROCESSED",
+            "RECEIPT.NEEDS_REVIEW",
+            "RECEIPT.MISSING_DETAILS",
+            "RECEIPT.DUPLICATE",
+            "RECEIPT.UNREADABLE",
+            "RECEIPT.POSSIBLE_MISSING",
+            "UI.DEFAULT",
+            "UI.LOADING",
+            "UI.EMPTY",
+            "UI.SUCCESS"
+          ],
+          "data_domains": [
+            "FUEL_RECEIPTS",
+            "QUARTER_CASE",
+            "CORRECTION_REQUESTS"
+          ],
+          "read_contracts": [
+            "FUEL.read.receipts",
+            "QUARTER.read.derived",
+            "STAFF.read.discrepancies"
+          ],
+          "write_contracts": [
+            "STAFF.write.verifyReceipt",
+            "STAFF.write.requestCorrection"
+          ],
+          "children": [],
+          "drawers": [
+            "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES.RECEIPT_REVIEW"
+          ],
+          "modals": [],
+          "descendants": [
+            {
+              "node_id": "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES.RECEIPT_REVIEW",
+              "node_type": "DRAWER",
+              "title": "RECEIPT REVIEW"
+            }
+          ],
+          "authority_refs": [
+            {
+              "viewport": "MOBILE",
+              "binding": "DERIVED",
+              "refs": [
+                "ACTOR_MODES_MOBILE",
+                "FOUNDER_STAFF_TABLET_DESKTOP",
+                "FUEL_PURCHASES_CHILD_PROOF",
+                "PAGE_COMPONENT_INTERACTION_CONTRACT",
+                "ICON_ASSET_SHEET"
+              ],
+              "derivation": {
+                "family_composition_clear": true,
+                "component_contract_clear": true,
+                "tab_logic_clear": true,
+                "asset_family_clear": true
+              },
+              "note": "Client FUEL PURCHASES derivation rule applied to the staff case (denser table + verify actions)."
+            },
+            {
+              "viewport": "TABLET",
+              "binding": "DERIVED",
+              "refs": [
+                "FOUNDER_STAFF_TABLET_DESKTOP",
+                "FUEL_PURCHASES_CHILD_PROOF",
+                "PAGE_COMPONENT_INTERACTION_CONTRACT",
+                "ICON_ASSET_SHEET"
+              ],
+              "derivation": {
+                "family_composition_clear": true,
+                "component_contract_clear": true,
+                "tab_logic_clear": true,
+                "asset_family_clear": true
+              },
+              "note": "Client FUEL PURCHASES derivation rule applied to the staff case (denser table + verify actions)."
+            },
+            {
+              "viewport": "DESKTOP",
+              "binding": "DERIVED",
+              "refs": [
+                "FOUNDER_STAFF_TABLET_DESKTOP",
+                "FUEL_PURCHASES_CHILD_PROOF",
+                "PAGE_COMPONENT_INTERACTION_CONTRACT",
+                "ICON_ASSET_SHEET"
+              ],
+              "derivation": {
+                "family_composition_clear": true,
+                "component_contract_clear": true,
+                "tab_logic_clear": true,
+                "asset_family_clear": true
+              },
+              "note": "Client FUEL PURCHASES derivation rule applied to the staff case (denser table + verify actions)."
+            }
+          ],
+          "overrides": [
+            "PRIMARY_TASK: classification review",
+            "ACTIONS: verify · reclassify · request correction"
+          ],
+          "open_decisions": [],
+          "readiness": {
+            "node_id": "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES",
+            "node_type": "TAB",
+            "actor": "FOUNDER_STAFF",
+            "EXPERIENCE_READY": true,
+            "AUTHORITY_READY": true,
+            "DATA_READY": true,
+            "INTERACTION_READY": true,
+            "PERMISSIONS_KNOWN": true,
+            "RESPONSIVE_RULE_EXISTS": true,
+            "IMPLEMENTATION_READY": true,
+            "visual_status": "VISUALLY_DERIVED",
+            "functional_status": "FUNCTIONALLY_COMPLETE",
+            "blockers": []
+          }
+        },
+        {
+          "node_id": "AIO.IFTA.STAFF.CASE.MILEAGE",
+          "tab_id": "MILEAGE",
+          "tab_class": "PRIMARY",
+          "title": "MILEAGE",
+          "purpose": "Mileage source verification; MPG outliers; estimated-only trucks.",
+          "primary_task": "Verify every mileage source.",
+          "sprint_contract": {
+            "section": "§13",
+            "purpose": "TRACK MILES BY JURISDICTION.",
+            "must_model": [
+              {
+                "item": "ELD / GPS SOURCE IF SUPPORTED",
+                "covered_by": [
+                  "I.CONNECT_ELD",
+                  "AIO.IFTA.CLIENT.ROOM.MILEAGE.SOURCE_PICKER"
+                ],
+                "status": "CONDITIONAL_NOT_SUPPORTED",
+                "note": "Not supported today; shown NOT LIVE with report upload."
+              },
+              {
+                "item": "FILE IMPORT",
+                "covered_by": [
+                  "AIO.IFTA.CLIENT.ROOM.MILEAGE.REPORT_IMPORT",
+                  "I.IMPORT_MILEAGE_REPORT"
+                ],
+                "status": "MODELED_DATA_PARTIAL",
+                "note": "Report miles fabricated in demo; files not stored."
+              },
+              {
+                "item": "CSV / REPORT IMPORT",
+                "covered_by": [
+                  "CSV_MAPPER",
+                  "I.IMPORT_MILEAGE_REPORT"
+                ],
+                "status": "MODELED_DATA_PARTIAL"
+              },
+              {
+                "item": "MANUAL ENTRY IF SUPPORTED",
+                "covered_by": [
+                  "AIO.IFTA.CLIENT.ROOM.MILEAGE.MANUAL_ENTRY",
+                  "I.ENTER_MILEAGE_MANUAL"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "JURISDICTION BREAKDOWN",
+                "covered_by": [
+                  "MILEAGE_BARS",
+                  "MAP_PANEL"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "MILES",
+                "covered_by": [
+                  "MILEAGE_ROW",
+                  "METRICS_RAIL"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "SOURCE",
+                "covered_by": [
+                  "MILEAGE_ROW",
+                  "MILEAGE.VERIFIED",
+                  "MILEAGE.UNVERIFIED",
+                  "MILEAGE.ESTIMATED"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "VALIDATION",
+                "covered_by": [
+                  "I.VERIFY_MILEAGE_SOURCE",
+                  "MILEAGE.UNVERIFIED"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "EXCEPTION",
+                "covered_by": [
+                  "MILEAGE.EXCEPTION",
+                  "UI.WARNING"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "EDIT / CORRECT",
+                "covered_by": [
+                  "AIO.IFTA.CLIENT.ROOM.MILEAGE.VEHICLE_DETAIL",
+                  "I.ENTER_MILEAGE_MANUAL"
+                ],
+                "status": "MODELED",
+                "note": "A newer source supersedes."
+              },
+              {
+                "item": "TRIP RELATIONSHIP",
+                "covered_by": [
+                  "AIO.IFTA.CLIENT.ROOM.MILEAGE.VEHICLE_DETAIL"
+                ],
+                "status": "MODELED_DATA_MISSING",
+                "note": "No trip records (origin / destination / odometer) in AIO."
+              },
+              {
+                "item": "FUEL RELATIONSHIP",
+                "covered_by": [
+                  "RECEIPT.POSSIBLE_MISSING",
+                  "MILEAGE.EXCEPTION"
+                ],
+                "status": "MODELED"
+              }
+            ],
+            "contract_sheet": {
+              "purpose": "Track mileage by jurisdiction",
+              "key_data": "Miles by state / province, trip data, allocation rules",
+              "primary_actions": "Import, edit, validate, view breakdown"
+            },
+            "own_logic": {
+              "data_ownership": "Client owns mileage records; staff verify.",
+              "mutations": [
+                "MILEAGE.write.addMileage",
+                "STAFF.write.verifyMileage"
+              ],
+              "validation": [
+                "every truck that ran has a source",
+                "assessIftaReadiness verified-source rule",
+                "estimates never filed"
+              ],
+              "error_conditions": [
+                "ELD / GPS not live",
+                "unparseable report",
+                "estimate-only truck"
+              ],
+              "actor_rights": "Client adds sources; staff verify.",
+              "system_relationships": [
+                "DISPATCH estimates",
+                "ELD provider exports"
+              ]
+            }
+          },
+          "components": [
+            "METRICS_RAIL",
+            "MILEAGE_ROW",
+            "MILEAGE_BARS",
+            "RISK_FLAG_PANEL",
+            "EMPTY_STATE",
+            "NEXT_ACTION_RAIL"
+          ],
+          "interactions": [
+            "I.OPEN_MILEAGE_RECORD",
+            "I.VERIFY_MILEAGE_SOURCE",
+            "I.REQUEST_CORRECTION",
+            "I.FILTER_SORT"
+          ],
+          "states": [
+            "AIO_REVIEWING",
+            "MILEAGE.VERIFIED",
+            "MILEAGE.UNVERIFIED",
+            "MILEAGE.ESTIMATED",
+            "MILEAGE.EXCEPTION",
+            "UI.DEFAULT",
+            "UI.LOADING",
+            "UI.WARNING"
+          ],
+          "data_domains": [
+            "MILEAGE",
+            "JURISDICTIONS",
+            "CORRECTION_REQUESTS"
+          ],
+          "read_contracts": [
+            "MILEAGE.read.records",
+            "JURIS.read.breakdown",
+            "STAFF.read.discrepancies"
+          ],
+          "write_contracts": [
+            "STAFF.write.verifyMileage",
+            "STAFF.write.requestCorrection"
+          ],
+          "children": [],
+          "drawers": [
+            "AIO.IFTA.STAFF.CASE.MILEAGE.SOURCE_VERIFY"
+          ],
+          "modals": [],
+          "descendants": [
+            {
+              "node_id": "AIO.IFTA.STAFF.CASE.MILEAGE.SOURCE_VERIFY",
+              "node_type": "DRAWER",
+              "title": "VERIFY MILEAGE SOURCE"
+            }
+          ],
+          "authority_refs": [
+            {
+              "viewport": "MOBILE",
+              "binding": "DERIVED",
+              "refs": [
+                "ACTOR_MODES_MOBILE",
+                "FOUNDER_STAFF_TABLET_DESKTOP",
+                "FUEL_PURCHASES_CHILD_PROOF",
+                "PAGE_COMPONENT_INTERACTION_CONTRACT",
+                "ICON_ASSET_SHEET"
+              ],
+              "derivation": {
+                "family_composition_clear": true,
+                "component_contract_clear": true,
+                "tab_logic_clear": true,
+                "asset_family_clear": true
+              },
+              "note": "Derived from the staff MILEAGE BY JURISDICTION bars + client mileage tab logic."
+            },
+            {
+              "viewport": "TABLET",
+              "binding": "DERIVED",
+              "refs": [
+                "FOUNDER_STAFF_TABLET_DESKTOP",
+                "FUEL_PURCHASES_CHILD_PROOF",
+                "PAGE_COMPONENT_INTERACTION_CONTRACT",
+                "ICON_ASSET_SHEET"
+              ],
+              "derivation": {
+                "family_composition_clear": true,
+                "component_contract_clear": true,
+                "tab_logic_clear": true,
+                "asset_family_clear": true
+              },
+              "note": "Derived from the staff MILEAGE BY JURISDICTION bars + client mileage tab logic."
+            },
+            {
+              "viewport": "DESKTOP",
+              "binding": "DERIVED",
+              "refs": [
+                "FOUNDER_STAFF_TABLET_DESKTOP",
+                "FUEL_PURCHASES_CHILD_PROOF",
+                "PAGE_COMPONENT_INTERACTION_CONTRACT",
+                "ICON_ASSET_SHEET"
+              ],
+              "derivation": {
+                "family_composition_clear": true,
+                "component_contract_clear": true,
+                "tab_logic_clear": true,
+                "asset_family_clear": true
+              },
+              "note": "Derived from the staff MILEAGE BY JURISDICTION bars + client mileage tab logic."
+            }
+          ],
+          "overrides": [],
+          "open_decisions": [],
+          "readiness": {
+            "node_id": "AIO.IFTA.STAFF.CASE.MILEAGE",
+            "node_type": "TAB",
+            "actor": "FOUNDER_STAFF",
+            "EXPERIENCE_READY": true,
+            "AUTHORITY_READY": true,
+            "DATA_READY": true,
+            "INTERACTION_READY": true,
+            "PERMISSIONS_KNOWN": true,
+            "RESPONSIVE_RULE_EXISTS": true,
+            "IMPLEMENTATION_READY": true,
+            "visual_status": "VISUALLY_DERIVED",
+            "functional_status": "FUNCTIONALLY_PARTIAL",
+            "blockers": []
+          }
+        },
+        {
+          "node_id": "AIO.IFTA.STAFF.CASE.VEHICLES",
+          "tab_id": "VEHICLES",
+          "tab_class": "PRIMARY",
+          "title": "VEHICLES",
+          "purpose": "Vehicle readiness per truck; exclude a truck that did not operate (override with note).",
+          "primary_task": "Confirm every truck is ready or excluded.",
+          "sprint_contract": {
+            "section": "§14",
+            "purpose": "MANAGE VEHICLE AND TRIP DATA RELEVANT TO THE QUARTER.",
+            "must_model": [
+              {
+                "item": "ACTIVE VEHICLES",
+                "covered_by": [
+                  "VEHICLE_ROW",
+                  "VEHICLE.ACTIVE"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "UNIT NUMBER",
+                "covered_by": [
+                  "VEHICLE_ROW"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "TRIP DATA",
+                "covered_by": [
+                  "AIO.IFTA.CLIENT.ROOM.VEHICLES.VEHICLE_DETAIL"
+                ],
+                "status": "MODELED_DATA_MISSING",
+                "note": "No trip records in AIO."
+              },
+              {
+                "item": "QUARTER PARTICIPATION",
+                "covered_by": [
+                  "AIO.IFTA.CLIENT.ROOM.VEHICLES.CONFIRM_FLEET",
+                  "I.CONFIRM_VEHICLES"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "MISSING VEHICLE DATA",
+                "covered_by": [
+                  "VEHICLE.MISSING_DATA"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "VEHICLE DETAIL",
+                "covered_by": [
+                  "AIO.IFTA.CLIENT.ROOM.VEHICLES.VEHICLE_DETAIL"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "DEACTIVATED / EXCLUDED VEHICLE STATE",
+                "covered_by": [
+                  "VEHICLE.NOT_OPERATED",
+                  "AIO.IFTA.STAFF.CASE.VEHICLES.MARK_NOT_OPERATED"
+                ],
+                "status": "MODELED_DATA_PARTIAL",
+                "note": "Client exclusion exists; staff override-with-note has no writer."
+              },
+              {
+                "item": "DATA VALIDATION",
+                "covered_by": [
+                  "vehicleReadiness (VEHICLES.read.quarter)"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "FILING IMPACT",
+                "covered_by": [
+                  "AIO.IFTA.CLIENT.ROOM.VEHICLES.VEHICLE_DETAIL",
+                  "INSIGHTS_PANEL"
+                ],
+                "status": "MODELED"
+              }
+            ],
+            "contract_sheet": {
+              "purpose": "Manage vehicle and trip data",
+              "key_data": "Vehicle list, unit numbers, configurations, active trips",
+              "primary_actions": "Add, edit, deactivate, view history"
+            },
+            "own_logic": {
+              "data_ownership": "Fleet profile owns units; the quarter owns participation.",
+              "mutations": [
+                "VEHICLES.write.confirmVehicles",
+                "STAFF.write.markNotOperated"
+              ],
+              "validation": [
+                "each truck that ran has fuel + verified miles"
+              ],
+              "error_conditions": [
+                "unconfirmed participation",
+                "truck missing data"
+              ],
+              "actor_rights": "Client confirms participation; staff override with note; units managed in the fleet profile.",
+              "system_relationships": [
+                "Fleet profile",
+                "ROAD_READY"
+              ]
+            }
+          },
+          "components": [
+            "VEHICLE_ROW",
+            "STATUS_CHIP",
+            "RISK_FLAG_PANEL",
+            "EMPTY_STATE",
+            "NEXT_ACTION_RAIL"
+          ],
+          "interactions": [
+            "I.OPEN_VEHICLE",
+            "I.STAFF_MARK_NOT_OPERATED",
+            "I.FILTER_SORT"
+          ],
+          "states": [
+            "VEHICLE.ACTIVE",
+            "VEHICLE.NOT_OPERATED",
+            "VEHICLE.MISSING_DATA",
+            "UI.DEFAULT",
+            "UI.LOADING",
+            "UI.WARNING"
+          ],
+          "data_domains": [
+            "VEHICLES",
+            "MILEAGE"
+          ],
+          "read_contracts": [
+            "VEHICLES.read.quarter",
+            "VEHICLES.read.fleet",
+            "MILEAGE.read.records"
+          ],
+          "write_contracts": [
+            "STAFF.write.markNotOperated"
+          ],
+          "children": [],
+          "drawers": [],
+          "modals": [
+            "AIO.IFTA.STAFF.CASE.VEHICLES.MARK_NOT_OPERATED"
+          ],
+          "descendants": [
+            {
+              "node_id": "AIO.IFTA.STAFF.CASE.VEHICLES.MARK_NOT_OPERATED",
+              "node_type": "MODAL",
+              "title": "MARK NOT OPERATED"
+            }
+          ],
+          "authority_refs": [
+            {
+              "viewport": "MOBILE",
+              "binding": "DERIVED",
+              "refs": [
+                "ACTOR_MODES_MOBILE",
+                "FOUNDER_STAFF_TABLET_DESKTOP",
+                "FUEL_PURCHASES_CHILD_PROOF",
+                "PAGE_COMPONENT_INTERACTION_CONTRACT",
+                "ICON_ASSET_SHEET"
+              ],
+              "derivation": {
+                "family_composition_clear": true,
+                "component_contract_clear": true,
+                "tab_logic_clear": true,
+                "asset_family_clear": true
+              },
+              "note": "Derived from the staff VEHICLES panel (Unit 101–105, view all 12)."
+            },
+            {
+              "viewport": "TABLET",
+              "binding": "DERIVED",
+              "refs": [
+                "FOUNDER_STAFF_TABLET_DESKTOP",
+                "FUEL_PURCHASES_CHILD_PROOF",
+                "PAGE_COMPONENT_INTERACTION_CONTRACT",
+                "ICON_ASSET_SHEET"
+              ],
+              "derivation": {
+                "family_composition_clear": true,
+                "component_contract_clear": true,
+                "tab_logic_clear": true,
+                "asset_family_clear": true
+              },
+              "note": "Derived from the staff VEHICLES panel (Unit 101–105, view all 12)."
+            },
+            {
+              "viewport": "DESKTOP",
+              "binding": "DERIVED",
+              "refs": [
+                "FOUNDER_STAFF_TABLET_DESKTOP",
+                "FUEL_PURCHASES_CHILD_PROOF",
+                "PAGE_COMPONENT_INTERACTION_CONTRACT",
+                "ICON_ASSET_SHEET"
+              ],
+              "derivation": {
+                "family_composition_clear": true,
+                "component_contract_clear": true,
+                "tab_logic_clear": true,
+                "asset_family_clear": true
+              },
+              "note": "Derived from the staff VEHICLES panel (Unit 101–105, view all 12)."
+            }
+          ],
+          "overrides": [],
+          "open_decisions": [],
+          "readiness": {
+            "node_id": "AIO.IFTA.STAFF.CASE.VEHICLES",
+            "node_type": "TAB",
+            "actor": "FOUNDER_STAFF",
+            "EXPERIENCE_READY": true,
+            "AUTHORITY_READY": true,
+            "DATA_READY": false,
+            "INTERACTION_READY": true,
+            "PERMISSIONS_KNOWN": true,
+            "RESPONSIVE_RULE_EXISTS": true,
+            "IMPLEMENTATION_READY": false,
+            "visual_status": "VISUALLY_DERIVED",
+            "functional_status": "FUNCTIONALLY_PARTIAL",
+            "blockers": [
+              "data: STAFF.write.markNotOperated MISSING"
+            ]
+          }
+        },
+        {
+          "node_id": "AIO.IFTA.STAFF.CASE.JURISDICTIONS",
+          "tab_id": "JURISDICTIONS",
+          "tab_class": "PRIMARY",
+          "title": "JURISDICTIONS",
+          "purpose": "Reconciliation: jurisdiction × truck table, discrepancies (miles without fuel, MPG outliers, unverified mileage), overrides with note.",
+          "primary_task": "Reconcile fuel to miles per jurisdiction.",
+          "sprint_contract": {
+            "section": "§15",
+            "purpose": "SHOW STATE / JURISDICTION DISTRIBUTION AND TAX RELATIONSHIP.",
+            "must_model": [
+              {
+                "item": "JURISDICTION",
+                "covered_by": [
+                  "JURISDICTION_TABLE",
+                  "MAP_PANEL"
+                ],
+                "status": "MODELED_DATA_PARTIAL",
+                "note": "13 US state names; no Canada."
+              },
+              {
+                "item": "MILES",
+                "covered_by": [
+                  "JURISDICTION_TABLE",
+                  "MILEAGE_BARS"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "GALLONS",
+                "covered_by": [
+                  "JURISDICTION_TABLE"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "RATE / TAX RELATIONSHIP",
+                "covered_by": [
+                  "JURIS.read.tax"
+                ],
+                "status": "MODELED_DATA_PARTIAL",
+                "note": "Net tax from the staff summary only; no rate data (D-TAX-FIGURES)."
+              },
+              {
+                "item": "ALLOCATION",
+                "covered_by": [
+                  "MAP_PANEL",
+                  "JURISDICTION_TABLE"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "EXCEPTION",
+                "covered_by": [
+                  "JURISDICTION.EXCEPTION"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "STATE DETAIL",
+                "covered_by": [
+                  "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS.STATE_DETAIL"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "MAP VIEW",
+                "covered_by": [
+                  "MAP_PANEL"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "DATA QUALITY",
+                "covered_by": [
+                  "JURISDICTION_TABLE",
+                  "STATUS_CHIP"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "REVIEW STATUS",
+                "covered_by": [
+                  "JURISDICTION.OK",
+                  "JURISDICTION.EXCEPTION",
+                  "AIO.IFTA.STAFF.CASE.JURISDICTIONS"
+                ],
+                "status": "MODELED"
+              }
+            ],
+            "contract_sheet": {
+              "purpose": "Configure jurisdictions and tax rules",
+              "key_data": "State / province settings, rates, distance and fuel allocation",
+              "primary_actions": "Review rates, manage settings"
+            },
+            "own_logic": {
+              "data_ownership": "AIO derives the rollup; staff own reconciliation + worksheet.",
+              "mutations": [
+                "STAFF.write.resolveDiscrepancy",
+                "STAFF.write.worksheet"
+              ],
+              "validation": [
+                "miles without fuel",
+                "MPG band"
+              ],
+              "error_conditions": [
+                "open discrepancy",
+                "tax pending"
+              ],
+              "actor_rights": "Client read-only; staff reconcile / override / enter worksheet.",
+              "system_relationships": [
+                "Base jurisdiction (filing destination)"
+              ]
+            }
+          },
+          "components": [
+            "MAP_PANEL",
+            "JURISDICTION_TABLE",
+            "MILEAGE_BARS",
+            "RISK_FLAG_PANEL",
+            "EMPTY_STATE",
+            "NEXT_ACTION_RAIL"
+          ],
+          "interactions": [
+            "I.OPEN_JURISDICTION",
+            "I.START_RECONCILIATION",
+            "I.RESOLVE_DISCREPANCY",
+            "I.FILTER_SORT"
+          ],
+          "states": [
+            "AIO_REVIEWING",
+            "JURISDICTION.OK",
+            "JURISDICTION.EXCEPTION",
+            "UI.DEFAULT",
+            "UI.LOADING",
+            "UI.WARNING"
+          ],
+          "data_domains": [
+            "JURISDICTIONS",
+            "RETURN_SUMMARY",
+            "CORRECTION_REQUESTS",
+            "MILEAGE",
+            "FUEL_RECEIPTS",
+            "QUARTER_CASE"
+          ],
+          "read_contracts": [
+            "JURIS.read.breakdown",
+            "JURIS.read.tax",
+            "STAFF.read.discrepancies",
+            "MILEAGE.read.records",
+            "FUEL.read.receipts"
+          ],
+          "write_contracts": [
+            "STAFF.write.startReconciliation",
+            "STAFF.write.resolveDiscrepancy"
+          ],
+          "children": [],
+          "drawers": [
+            "AIO.IFTA.STAFF.CASE.JURISDICTIONS.DISCREPANCY"
+          ],
+          "modals": [],
+          "descendants": [
+            {
+              "node_id": "AIO.IFTA.STAFF.CASE.JURISDICTIONS.DISCREPANCY",
+              "node_type": "DRAWER",
+              "title": "DISCREPANCY"
+            }
+          ],
+          "authority_refs": [
+            {
+              "viewport": "MOBILE",
+              "binding": "DERIVED",
+              "refs": [
+                "ACTOR_MODES_MOBILE",
+                "FOUNDER_STAFF_TABLET_DESKTOP",
+                "FUEL_PURCHASES_CHILD_PROOF",
+                "PAGE_COMPONENT_INTERACTION_CONTRACT",
+                "ICON_ASSET_SHEET"
+              ],
+              "derivation": {
+                "family_composition_clear": true,
+                "component_contract_clear": true,
+                "tab_logic_clear": true,
+                "asset_family_clear": true
+              },
+              "note": "Derived from staff RISKS / FLAGS (jurisdiction changes, review recommended) + mileage bars + client jurisdiction logic."
+            },
+            {
+              "viewport": "TABLET",
+              "binding": "DERIVED",
+              "refs": [
+                "FOUNDER_STAFF_TABLET_DESKTOP",
+                "FUEL_PURCHASES_CHILD_PROOF",
+                "PAGE_COMPONENT_INTERACTION_CONTRACT",
+                "ICON_ASSET_SHEET"
+              ],
+              "derivation": {
+                "family_composition_clear": true,
+                "component_contract_clear": true,
+                "tab_logic_clear": true,
+                "asset_family_clear": true
+              },
+              "note": "Derived from staff RISKS / FLAGS (jurisdiction changes, review recommended) + mileage bars + client jurisdiction logic."
+            },
+            {
+              "viewport": "DESKTOP",
+              "binding": "DERIVED",
+              "refs": [
+                "FOUNDER_STAFF_TABLET_DESKTOP",
+                "FUEL_PURCHASES_CHILD_PROOF",
+                "PAGE_COMPONENT_INTERACTION_CONTRACT",
+                "ICON_ASSET_SHEET"
+              ],
+              "derivation": {
+                "family_composition_clear": true,
+                "component_contract_clear": true,
+                "tab_logic_clear": true,
+                "asset_family_clear": true
+              },
+              "note": "Derived from staff RISKS / FLAGS (jurisdiction changes, review recommended) + mileage bars + client jurisdiction logic."
+            }
+          ],
+          "overrides": [],
+          "open_decisions": [
+            "D-TAX-FIGURES"
+          ],
+          "readiness": {
+            "node_id": "AIO.IFTA.STAFF.CASE.JURISDICTIONS",
+            "node_type": "TAB",
+            "actor": "FOUNDER_STAFF",
+            "EXPERIENCE_READY": true,
+            "AUTHORITY_READY": true,
+            "DATA_READY": false,
+            "INTERACTION_READY": true,
+            "PERMISSIONS_KNOWN": true,
+            "RESPONSIVE_RULE_EXISTS": true,
+            "IMPLEMENTATION_READY": false,
+            "visual_status": "VISUALLY_DERIVED",
+            "functional_status": "FUNCTIONALLY_PARTIAL",
+            "blockers": [
+              "data: decision D-TAX-FIGURES"
+            ]
+          }
+        },
+        {
+          "node_id": "AIO.IFTA.STAFF.CASE.DOCUMENTS",
+          "tab_id": "DOCUMENTS",
+          "tab_class": "PRIMARY",
+          "title": "DOCUMENTS",
+          "purpose": "Packet contents, return draft, approved summary, filed return, confirmation, payment record; seal status.",
+          "primary_task": "Check the packet is complete.",
+          "sprint_contract": {
+            "section": "§16",
+            "purpose": "MANAGE THE QUARTER’S FILING RECORDS.",
+            "must_model": [
+              {
+                "item": "SOURCE FILES",
+                "covered_by": [
+                  "FILE_ROW",
+                  "DOC.SOURCE"
+                ],
+                "status": "MODELED_DATA_PARTIAL",
+                "note": "File names only."
+              },
+              {
+                "item": "RECEIPTS",
+                "covered_by": [
+                  "FILE_ROW",
+                  "FUEL.read.receipts"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "MILEAGE REPORTS",
+                "covered_by": [
+                  "FILE_ROW",
+                  "MILEAGE.read.records"
+                ],
+                "status": "MODELED_DATA_PARTIAL",
+                "note": "Reports not stored."
+              },
+              {
+                "item": "DRAFT RETURN",
+                "covered_by": [
+                  "DOC.DRAFT"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "CLIENT REVIEW COPY",
+                "covered_by": [
+                  "DOC.REVIEW_COPY"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "FINAL RETURN",
+                "covered_by": [
+                  "DOC.FINAL"
+                ],
+                "status": "MODELED_DATA_PARTIAL",
+                "note": "Filed return file not uploaded."
+              },
+              {
+                "item": "CONFIRMATION",
+                "covered_by": [
+                  "DOC.FINAL",
+                  "FILING.read.record"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "PAYMENT RECORD IF APPLICABLE",
+                "covered_by": [
+                  "PAYMENT.read.record",
+                  "PAYMENT_PENDING"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "VAULT DESTINATION",
+                "covered_by": [
+                  "DOC.SEALED",
+                  "I.OPEN_VAULT_RECORD"
+                ],
+                "status": "MODELED_DATA_PARTIAL",
+                "note": "Packet metadata only."
+              },
+              {
+                "item": "FILE STATUS",
+                "covered_by": [
+                  "STATUS_CHIP",
+                  "FILE_ROW"
+                ],
+                "status": "MODELED"
+              },
+              {
+                "item": "VERSION / SUPERSESSION",
+                "covered_by": [
+                  "DOC.SUPERSEDED"
+                ],
+                "status": "MODELED_DATA_PARTIAL"
+              }
+            ],
+            "contract_sheet": {
+              "purpose": "Manage filing documents and records",
+              "key_data": "Return drafts, final filings, receipts, correspondence",
+              "primary_actions": "View, download, share, submit"
+            },
+            "own_logic": {
+              "data_ownership": "Client owns filed records; AIO produces summary / packet.",
+              "mutations": [
+                "DOCS.write.share",
+                "SYSTEM.write.sealPacket"
+              ],
+              "validation": [
+                "packet sealed only on FILED"
+              ],
+              "error_conditions": [
+                "file unavailable"
+              ],
+              "actor_rights": "Client view / download / share; staff view / download.",
+              "system_relationships": [
+                "VAULT"
+              ]
+            }
+          },
+          "components": [
+            "FILE_ROW",
+            "RECENT_UPLOADS",
+            "STATUS_CHIP",
+            "EMPTY_STATE"
+          ],
+          "interactions": [
+            "I.OPEN_FILE",
+            "I.DOWNLOAD_FILE",
+            "I.OPEN_VAULT_RECORD",
+            "I.FILTER_SORT"
+          ],
+          "states": [
+            "FILED",
+            "COMPLETE",
+            "DOC.DRAFT",
+            "DOC.REVIEW_COPY",
+            "DOC.APPROVED",
+            "DOC.FINAL",
+            "DOC.SEALED",
+            "DOC.SUPERSEDED",
+            "UI.DEFAULT",
+            "UI.EMPTY"
+          ],
+          "data_domains": [
+            "DOCUMENTS_VAULT",
+            "RETURN_SUMMARY",
+            "FILING",
+            "PAYMENT"
+          ],
+          "read_contracts": [
+            "DOCS.read.packet",
+            "DOCS.read.vault",
+            "RETURN.read.summary",
+            "FILING.read.record",
+            "PAYMENT.read.record"
+          ],
+          "write_contracts": [],
+          "children": [],
+          "drawers": [
+            "AIO.IFTA.STAFF.CASE.DOCUMENTS.FILE_PREVIEW"
+          ],
+          "modals": [],
+          "descendants": [
+            {
+              "node_id": "AIO.IFTA.STAFF.CASE.DOCUMENTS.FILE_PREVIEW",
+              "node_type": "DRAWER",
+              "title": "FILE PREVIEW"
+            }
+          ],
+          "authority_refs": [
+            {
+              "viewport": "MOBILE",
+              "binding": "DERIVED",
+              "refs": [
+                "ACTOR_MODES_MOBILE",
+                "FOUNDER_STAFF_TABLET_DESKTOP",
+                "FUEL_PURCHASES_CHILD_PROOF",
+                "PAGE_COMPONENT_INTERACTION_CONTRACT",
+                "ICON_ASSET_SHEET"
+              ],
+              "derivation": {
+                "family_composition_clear": true,
+                "component_contract_clear": true,
+                "tab_logic_clear": true,
+                "asset_family_clear": true
+              },
+              "note": "Derived from the client DOCUMENTS logic + staff recent client activity file rows."
+            },
+            {
+              "viewport": "TABLET",
+              "binding": "DERIVED",
+              "refs": [
+                "FOUNDER_STAFF_TABLET_DESKTOP",
+                "FUEL_PURCHASES_CHILD_PROOF",
+                "PAGE_COMPONENT_INTERACTION_CONTRACT",
+                "ICON_ASSET_SHEET"
+              ],
+              "derivation": {
+                "family_composition_clear": true,
+                "component_contract_clear": true,
+                "tab_logic_clear": true,
+                "asset_family_clear": true
+              },
+              "note": "Derived from the client DOCUMENTS logic + staff recent client activity file rows."
+            },
+            {
+              "viewport": "DESKTOP",
+              "binding": "DERIVED",
+              "refs": [
+                "FOUNDER_STAFF_TABLET_DESKTOP",
+                "FUEL_PURCHASES_CHILD_PROOF",
+                "PAGE_COMPONENT_INTERACTION_CONTRACT",
+                "ICON_ASSET_SHEET"
+              ],
+              "derivation": {
+                "family_composition_clear": true,
+                "component_contract_clear": true,
+                "tab_logic_clear": true,
+                "asset_family_clear": true
+              },
+              "note": "Derived from the client DOCUMENTS logic + staff recent client activity file rows."
+            }
+          ],
+          "overrides": [],
+          "open_decisions": [],
+          "readiness": {
+            "node_id": "AIO.IFTA.STAFF.CASE.DOCUMENTS",
+            "node_type": "TAB",
+            "actor": "FOUNDER_STAFF",
+            "EXPERIENCE_READY": true,
+            "AUTHORITY_READY": true,
+            "DATA_READY": true,
+            "INTERACTION_READY": true,
+            "PERMISSIONS_KNOWN": true,
+            "RESPONSIVE_RULE_EXISTS": true,
+            "IMPLEMENTATION_READY": true,
+            "visual_status": "VISUALLY_DERIVED",
+            "functional_status": "FUNCTIONALLY_PARTIAL",
+            "blockers": []
+          }
+        },
+        {
+          "node_id": "AIO.IFTA.STAFF.CASE.NOTES",
+          "tab_id": "NOTES",
+          "tab_class": "SECONDARY_CANDIDATE",
+          "title": "NOTES (candidate)",
+          "purpose": "Internal notes + reconciliation notes on the case (staff-only).",
+          "primary_task": "Keep internal context on the case.",
+          "sprint_contract": null,
+          "components": [
+            "TAB_BAR",
+            "ACTIVITY_TIMELINE",
+            "EMPTY_STATE"
+          ],
+          "interactions": [
+            "I.SAVE_NOTE"
+          ],
+          "states": [
+            "UI.DEFAULT",
+            "UI.EMPTY"
+          ],
+          "data_domains": [
+            "NOTES",
+            "AUDIT_TRAIL"
+          ],
+          "read_contracts": [
+            "NOTES.read",
+            "STAFF.read.audit"
+          ],
+          "write_contracts": [
+            "NOTES.write"
+          ],
+          "children": [],
+          "drawers": [],
+          "modals": [],
+          "descendants": [],
+          "authority_refs": [
+            {
+              "viewport": "MOBILE",
+              "binding": "DERIVED",
+              "refs": [
+                "ACTOR_MODES_MOBILE",
+                "ICON_ASSET_SHEET"
+              ],
+              "derivation": {
+                "family_composition_clear": true,
+                "component_contract_clear": true,
+                "tab_logic_clear": false,
+                "asset_family_clear": true
+              },
+              "note": "Tab label only (no NOTES content composition)."
+            },
+            {
+              "viewport": "TABLET",
+              "binding": "DERIVED",
+              "refs": [
+                "FOUNDER_STAFF_TABLET_DESKTOP",
+                "ICON_ASSET_SHEET"
+              ],
+              "derivation": {
+                "family_composition_clear": true,
+                "component_contract_clear": true,
+                "tab_logic_clear": false,
+                "asset_family_clear": true
+              },
+              "note": "Tab label only."
+            },
+            {
+              "viewport": "DESKTOP",
+              "binding": "DERIVED",
+              "refs": [
+                "FOUNDER_STAFF_TABLET_DESKTOP",
+                "ICON_ASSET_SHEET"
+              ],
+              "derivation": {
+                "family_composition_clear": true,
+                "component_contract_clear": true,
+                "tab_logic_clear": false,
+                "asset_family_clear": true
+              },
+              "note": "Tab label only."
+            }
+          ],
+          "overrides": [],
+          "open_decisions": [
+            "D-NOTES-TAB"
+          ],
+          "readiness": {
+            "node_id": "AIO.IFTA.STAFF.CASE.NOTES",
+            "node_type": "TAB",
+            "actor": "FOUNDER_STAFF",
+            "EXPERIENCE_READY": true,
+            "AUTHORITY_READY": false,
+            "DATA_READY": false,
+            "INTERACTION_READY": false,
+            "PERMISSIONS_KNOWN": true,
+            "RESPONSIVE_RULE_EXISTS": true,
+            "IMPLEMENTATION_READY": false,
+            "visual_status": "VISUALLY_MISSING",
+            "functional_status": "FUNCTIONALLY_PARTIAL",
+            "blockers": [
+              "authority: no usable binding for MOBILE, TABLET, DESKTOP",
+              "authority: open decision D-NOTES-TAB",
+              "data: NOTES.read MISSING, NOTES.write MISSING",
+              "interaction: I.SAVE_NOTE CANDIDATE_FOUNDER_DECISION"
+            ]
+          }
+        }
+      ]
+    },
+    "PUBLIC": {
+      "page": "AIO.IFTA.PUBLIC.SERVICE",
+      "note": "Public mode has no tabs: its section anchors (IFTA FILING ROOM · HOW IT WORKS · FEATURES · JURISDICTIONS · RESOURCES) are SECTION nodes.",
+      "sections": [
+        {
+          "node_id": "AIO.IFTA.PUBLIC.SERVICE.OVERVIEW",
+          "title": "IFTA FILING ROOM (hero)",
+          "purpose": "Promise + SAMPLE quarter + sample metrics (workspace continuity: the same quarter object the client will live in).",
+          "readiness": {
+            "node_id": "AIO.IFTA.PUBLIC.SERVICE.OVERVIEW",
+            "node_type": "SECTION",
+            "actor": "PUBLIC",
+            "EXPERIENCE_READY": true,
+            "AUTHORITY_READY": true,
+            "DATA_READY": true,
+            "INTERACTION_READY": true,
+            "PERMISSIONS_KNOWN": true,
+            "RESPONSIVE_RULE_EXISTS": true,
+            "IMPLEMENTATION_READY": true,
+            "visual_status": "VISUALLY_DEFINED",
+            "functional_status": "FUNCTIONALLY_COMPLETE",
+            "blockers": []
+          }
+        },
+        {
+          "node_id": "AIO.IFTA.PUBLIC.SERVICE.WHAT_IS_IFTA",
+          "title": "WHAT IFTA IS · WHO NEEDS IT",
+          "purpose": "IFTA is the quarterly fuel tax report for qualifying interstate carriers; due dates; who needs it (and the IFTA account prerequisite).",
+          "readiness": {
+            "node_id": "AIO.IFTA.PUBLIC.SERVICE.WHAT_IS_IFTA",
+            "node_type": "SECTION",
+            "actor": "PUBLIC",
+            "EXPERIENCE_READY": true,
+            "AUTHORITY_READY": true,
+            "DATA_READY": true,
+            "INTERACTION_READY": true,
+            "PERMISSIONS_KNOWN": true,
+            "RESPONSIVE_RULE_EXISTS": true,
+            "IMPLEMENTATION_READY": true,
+            "visual_status": "VISUALLY_DERIVED",
+            "functional_status": "FUNCTIONALLY_COMPLETE",
+            "blockers": []
+          }
+        },
+        {
+          "node_id": "AIO.IFTA.PUBLIC.SERVICE.HOW_IT_WORKS",
+          "title": "HOW IT WORKS — WHAT AIO HANDLES · WHAT YOU PROVIDE",
+          "purpose": "A clear path from miles to compliance + five process steps; what AIO handles and what the client provides.",
+          "readiness": {
+            "node_id": "AIO.IFTA.PUBLIC.SERVICE.HOW_IT_WORKS",
+            "node_type": "SECTION",
+            "actor": "PUBLIC",
+            "EXPERIENCE_READY": true,
+            "AUTHORITY_READY": true,
+            "DATA_READY": false,
+            "INTERACTION_READY": true,
+            "PERMISSIONS_KNOWN": true,
+            "RESPONSIVE_RULE_EXISTS": true,
+            "IMPLEMENTATION_READY": false,
+            "visual_status": "VISUALLY_DEFINED",
+            "functional_status": "FUNCTIONALLY_COMPLETE",
+            "blockers": [
+              "data: decision D-PUBLIC-COPY-TRUTH"
+            ]
+          }
+        },
+        {
+          "node_id": "AIO.IFTA.PUBLIC.SERVICE.FEATURES",
+          "title": "WHY IT IS DIFFERENT — BUILT FOR OWNER OPERATORS AND FLEETS",
+          "purpose": "ACCURATE · EFFICIENT · COMPLIANT — why the filing room is different (verified records, you approve before filing, the quarter lands in your Vault).",
+          "readiness": {
+            "node_id": "AIO.IFTA.PUBLIC.SERVICE.FEATURES",
+            "node_type": "SECTION",
+            "actor": "PUBLIC",
+            "EXPERIENCE_READY": true,
+            "AUTHORITY_READY": true,
+            "DATA_READY": false,
+            "INTERACTION_READY": true,
+            "PERMISSIONS_KNOWN": true,
+            "RESPONSIVE_RULE_EXISTS": true,
+            "IMPLEMENTATION_READY": false,
+            "visual_status": "VISUALLY_DEFINED",
+            "functional_status": "FUNCTIONALLY_COMPLETE",
+            "blockers": [
+              "data: decision D-PUBLIC-COPY-TRUTH"
+            ]
+          }
+        },
+        {
+          "node_id": "AIO.IFTA.PUBLIC.SERVICE.JURISDICTIONS",
+          "title": "JURISDICTIONS — ONE RETURN",
+          "purpose": "Many jurisdictions, one return (sample map).",
+          "readiness": {
+            "node_id": "AIO.IFTA.PUBLIC.SERVICE.JURISDICTIONS",
+            "node_type": "SECTION",
+            "actor": "PUBLIC",
+            "EXPERIENCE_READY": true,
+            "AUTHORITY_READY": true,
+            "DATA_READY": false,
+            "INTERACTION_READY": true,
+            "PERMISSIONS_KNOWN": true,
+            "RESPONSIVE_RULE_EXISTS": true,
+            "IMPLEMENTATION_READY": false,
+            "visual_status": "VISUALLY_DEFINED",
+            "functional_status": "FUNCTIONALLY_COMPLETE",
+            "blockers": [
+              "data: decision D-PUBLIC-COPY-TRUTH"
+            ]
+          }
+        },
+        {
+          "node_id": "AIO.IFTA.PUBLIC.SERVICE.RESOURCES",
+          "title": "RESOURCES",
+          "purpose": "Due dates, what to send, pricing relationship (quote required; tax is the carrier’s liability), IFTA account help.",
+          "readiness": {
+            "node_id": "AIO.IFTA.PUBLIC.SERVICE.RESOURCES",
+            "node_type": "SECTION",
+            "actor": "PUBLIC",
+            "EXPERIENCE_READY": true,
+            "AUTHORITY_READY": true,
+            "DATA_READY": true,
+            "INTERACTION_READY": true,
+            "PERMISSIONS_KNOWN": true,
+            "RESPONSIVE_RULE_EXISTS": true,
+            "IMPLEMENTATION_READY": true,
+            "visual_status": "VISUALLY_DERIVED",
+            "functional_status": "FUNCTIONALLY_COMPLETE",
+            "blockers": []
+          }
+        },
+        {
+          "node_id": "AIO.IFTA.PUBLIC.SERVICE.START",
+          "title": "HOW TO START",
+          "purpose": "GET STARTED → REQUEST FILING; lower brand band.",
+          "readiness": {
+            "node_id": "AIO.IFTA.PUBLIC.SERVICE.START",
+            "node_type": "SECTION",
+            "actor": "PUBLIC",
+            "EXPERIENCE_READY": true,
+            "AUTHORITY_READY": true,
+            "DATA_READY": false,
+            "INTERACTION_READY": true,
+            "PERMISSIONS_KNOWN": true,
+            "RESPONSIVE_RULE_EXISTS": true,
+            "IMPLEMENTATION_READY": false,
+            "visual_status": "VISUALLY_DEFINED",
+            "functional_status": "FUNCTIONALLY_MISSING",
+            "blockers": [
+              "data: PUBLIC.read.availability CONFLICT"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "tab_status": [
+    {
+      "tab_id": "PROGRESS",
+      "status": "PARTIAL",
+      "must_items": 11,
+      "modeled": 11,
+      "by_status": {
+        "MODELED": 7,
+        "MODELED_DATA_PARTIAL": 4
+      },
+      "client_node_ready": false,
+      "staff_node_ready": false,
+      "blockers": [
+        "ROOM.PROGRESS: authority: open decision D-CLIENT-DESKTOP-STAFF-MODULES",
+        "CASE.OVERVIEW: data: STAFF.write.escalate MISSING"
+      ]
+    },
+    {
+      "tab_id": "FUEL_PURCHASES",
+      "status": "PARTIAL",
+      "must_items": 17,
+      "modeled": 17,
+      "by_status": {
+        "MODELED_DATA_PARTIAL": 2,
+        "MODELED_DATA_MISSING": 1,
+        "MODELED": 14
+      },
+      "client_node_ready": false,
+      "staff_node_ready": true,
+      "blockers": [
+        "ROOM.FUEL_PURCHASES: data: FUEL.write.importCsv MISSING"
+      ]
+    },
+    {
+      "tab_id": "MILEAGE",
+      "status": "PASS",
+      "must_items": 12,
+      "modeled": 12,
+      "by_status": {
+        "CONDITIONAL_NOT_SUPPORTED": 1,
+        "MODELED_DATA_PARTIAL": 2,
+        "MODELED": 8,
+        "MODELED_DATA_MISSING": 1
+      },
+      "client_node_ready": true,
+      "staff_node_ready": true,
+      "blockers": []
+    },
+    {
+      "tab_id": "VEHICLES",
+      "status": "PARTIAL",
+      "must_items": 9,
+      "modeled": 9,
+      "by_status": {
+        "MODELED": 7,
+        "MODELED_DATA_MISSING": 1,
+        "MODELED_DATA_PARTIAL": 1
+      },
+      "client_node_ready": true,
+      "staff_node_ready": false,
+      "blockers": [
+        "CASE.VEHICLES: data: STAFF.write.markNotOperated MISSING"
+      ]
+    },
+    {
+      "tab_id": "JURISDICTIONS",
+      "status": "PARTIAL",
+      "must_items": 10,
+      "modeled": 10,
+      "by_status": {
+        "MODELED_DATA_PARTIAL": 2,
+        "MODELED": 8
+      },
+      "client_node_ready": false,
+      "staff_node_ready": false,
+      "blockers": [
+        "ROOM.JURISDICTIONS: data: decision D-TAX-FIGURES",
+        "CASE.JURISDICTIONS: data: decision D-TAX-FIGURES"
+      ]
+    },
+    {
+      "tab_id": "DOCUMENTS",
+      "status": "PASS",
+      "must_items": 11,
+      "modeled": 11,
+      "by_status": {
+        "MODELED_DATA_PARTIAL": 5,
+        "MODELED": 6
+      },
+      "client_node_ready": true,
+      "staff_node_ready": true,
+      "blockers": []
+    }
+  ]
+}
