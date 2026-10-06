@@ -1,0 +1,209 @@
+{
+  "id": "AUTHORITY_IMPLEMENTATION_CONTRACT",
+  "schema_version": "1.0.0",
+  "sprint": "P0.SITE00.PRODUCTION-METHODOLOGY.VISUAL-AUTHORITY-DEVELOPMENT-GATE1",
+  "doctrine": "UPSTREAM DEFINES INTENT. DOWNSTREAM INCREASES FIDELITY.",
+  "source": "shared/studioos-visual-authority",
+  "consumes": [
+    "PAGE_FAMILY_AUTHORITY",
+    "EXPERIENCE_CONTRACT",
+    "BRAND_DNA",
+    "STATE_CONTRACT",
+    "INTERACTION_CONTRACT",
+    "RESPONSIVE_CONTRACT"
+  ],
+  "authority_is_not_a_ceiling": "Implementation may improve the authority. It must explain any material deviation.",
+  "may_improve": [
+    "SPACING",
+    "MARGINS",
+    "MICRO_SPACING",
+    "RESPONSIVE_BEHAVIOR",
+    "BREAKPOINTS",
+    "MATERIAL_REALISM",
+    "MATERIAL_DEPTH",
+    "MICRO_INTERACTIONS",
+    "MOTION",
+    "TRANSITIONS",
+    "ACCESSIBILITY",
+    "PANEL_PROPORTIONS",
+    "IMAGE_TREATMENT",
+    "MEDIA_FRAMING",
+    "DENSITY",
+    "CONTROL_DENSITY",
+    "STATE_CLARITY",
+    "CONTROL_PLACEMENT",
+    "TYPOGRAPHIC_OPTICS",
+    "SMALL_TYPOGRAPHY_ADJUSTMENTS"
+  ],
+  "may_not_casually_change": [
+    "PRIMARY_COMPOSITION",
+    "PRIMARY_OBJECT",
+    "PRIMARY_AXIS",
+    "METAPHOR",
+    "SPATIAL_LOGIC",
+    "CORE_HIERARCHY",
+    "MAJOR_ZONES",
+    "ZONE_RELATIONSHIP",
+    "CTA_HIERARCHY",
+    "MEDIA_RELATIONSHIP",
+    "STATE_TRANSITION_LOGIC",
+    "ACTOR_INTENT",
+    "CLIENT_STAFF_DISTINCTION",
+    "APPROVED_TERRITORY",
+    "CORE_EXPERIENCE_LOGIC"
+  ],
+  "material_deviation": {
+    "examples": [
+      "primary layout change",
+      "zone removal",
+      "primary object change",
+      "metaphor change",
+      "hierarchy change",
+      "actor experience change"
+    ],
+    "outcome": "FOUNDER_REVIEW_REQUIRED",
+    "evaluator": "classifyDeviation(authority, report) — declared core-lock changes and observed lock drift are both material.",
+    "resolution": "Founder approves (new authority version, supersedes the old, lineage kept) or implementation reverts."
+  },
+  "fidelity_escalation_increases": [
+    "responsiveness",
+    "interactivity",
+    "state completeness",
+    "accessibility",
+    "material realism",
+    "content fidelity",
+    "system integration"
+  ],
+  "implementation_blocker": "Material page family with AUTHORITY_APPROVED != true → IMPLEMENTATION_READY = false.",
+  "report_schema": {
+    "type": "object",
+    "required": [
+      "status",
+      "changes"
+    ],
+    "properties": {
+      "status": {
+        "type": "string",
+        "enum": [
+          "NOT_STARTED",
+          "IMPLEMENTING",
+          "COMPLETE"
+        ]
+      },
+      "changes": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": [
+            "area",
+            "description"
+          ],
+          "properties": {
+            "area": {
+              "type": "string",
+              "enum": [
+                "PRIMARY_COMPOSITION",
+                "PRIMARY_OBJECT",
+                "PRIMARY_AXIS",
+                "METAPHOR",
+                "SPATIAL_LOGIC",
+                "CORE_HIERARCHY",
+                "MAJOR_ZONES",
+                "ZONE_RELATIONSHIP",
+                "CTA_HIERARCHY",
+                "MEDIA_RELATIONSHIP",
+                "STATE_TRANSITION_LOGIC",
+                "ACTOR_INTENT",
+                "CLIENT_STAFF_DISTINCTION",
+                "APPROVED_TERRITORY",
+                "CORE_EXPERIENCE_LOGIC",
+                "SPACING",
+                "MARGINS",
+                "MICRO_SPACING",
+                "RESPONSIVE_BEHAVIOR",
+                "BREAKPOINTS",
+                "MATERIAL_REALISM",
+                "MATERIAL_DEPTH",
+                "MICRO_INTERACTIONS",
+                "MOTION",
+                "TRANSITIONS",
+                "ACCESSIBILITY",
+                "PANEL_PROPORTIONS",
+                "IMAGE_TREATMENT",
+                "MEDIA_FRAMING",
+                "DENSITY",
+                "CONTROL_DENSITY",
+                "STATE_CLARITY",
+                "CONTROL_PLACEMENT",
+                "TYPOGRAPHIC_OPTICS",
+                "SMALL_TYPOGRAPHY_ADJUSTMENTS"
+              ]
+            },
+            "description": {
+              "type": "string"
+            },
+            "explanation": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "observed": {
+        "type": "object",
+        "properties": {
+          "PRIMARY_COMPOSITION": {
+            "type": "string"
+          },
+          "PRIMARY_OBJECT": {
+            "type": "string"
+          },
+          "PRIMARY_AXIS": {
+            "type": "string"
+          },
+          "METAPHOR": {
+            "type": "string"
+          },
+          "SPATIAL_LOGIC": {
+            "type": "string"
+          },
+          "CORE_HIERARCHY": {
+            "type": "string"
+          },
+          "MAJOR_ZONES": {
+            "type": "string"
+          },
+          "ZONE_RELATIONSHIP": {
+            "type": "string"
+          },
+          "CTA_HIERARCHY": {
+            "type": "string"
+          },
+          "MEDIA_RELATIONSHIP": {
+            "type": "string"
+          },
+          "STATE_TRANSITION_LOGIC": {
+            "type": "string"
+          },
+          "ACTOR_INTENT": {
+            "type": "string"
+          },
+          "CLIENT_STAFF_DISTINCTION": {
+            "type": "string"
+          },
+          "APPROVED_TERRITORY": {
+            "type": "string"
+          },
+          "CORE_EXPERIENCE_LOGIC": {
+            "type": "string"
+          }
+        }
+      },
+      "legacy_uses": {
+        "type": "array"
+      },
+      "live_founder_approved": {
+        "type": "boolean"
+      }
+    }
+  }
+}

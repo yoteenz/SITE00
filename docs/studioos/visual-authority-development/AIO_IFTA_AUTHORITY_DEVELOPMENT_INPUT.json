@@ -1,0 +1,150 @@
+{
+  "id": "AIO_IFTA_AUTHORITY_DEVELOPMENT_INPUT",
+  "schema_version": "1.0.0",
+  "sprint": "P0.SITE00.PRODUCTION-METHODOLOGY.VISUAL-AUTHORITY-DEVELOPMENT-GATE1",
+  "doctrine": "UPSTREAM DEFINES INTENT. DOWNSTREAM INCREASES FIDELITY.",
+  "generated_by": "scripts/studioos/visual-authority-export.ts",
+  "package_id": "AIO.IFTA.AUTHORITY_DEVELOPMENT_INPUT",
+  "project_id": "AIO",
+  "feature_id": "AIO.IFTA",
+  "feature_name": "IFTA / Fuel Tax",
+  "known_failure": {
+    "id": "OLD_PAGE_PLUS_NEW_CONTENT",
+    "description": "Implementation consumed the IFTA experience contract directly and placed new content onto legacy AIO page geometry.",
+    "lesson": "EXPERIENCE CONTRACT ≠ VISUAL AUTHORITY. A material page family needs an approved page-family authority before implementation."
+  },
+  "brand_check": {
+    "status": "BRAND_CONTEXT_LOADED",
+    "missing": [],
+    "thin": [],
+    "open_questions": [
+      "Is the code typography (Plus Jakarta Sans / DM Sans) the founder brand typography, or provisional?",
+      "Logo clear-space, minimum size and on-dark / on-light rules.",
+      "Approved photography set (which cinematic trucking images are brand-approved vs placeholder)."
+    ]
+  },
+  "experience_check": {
+    "CLIENT": "EXPERIENCE_COMPLETE",
+    "FOUNDER_STAFF": "EXPERIENCE_COMPLETE",
+    "PUBLIC": "EXPERIENCE_COMPLETE"
+  },
+  "gate_status": {
+    "PUBLIC": {
+      "state": "AUTHORITY_TERRITORIES_REQUIRED",
+      "guard": "VISUAL_AUTHORITY_REQUIRED",
+      "durable_rule": "VISUAL_AUTHORITY_REQUIRED",
+      "next_step": "Author 3 distinct composition territories."
+    },
+    "CLIENT": {
+      "state": "AUTHORITY_TERRITORIES_REQUIRED",
+      "guard": "VISUAL_AUTHORITY_REQUIRED",
+      "durable_rule": "VISUAL_AUTHORITY_REQUIRED",
+      "next_step": "Author 3 distinct composition territories."
+    },
+    "FOUNDER_STAFF": {
+      "state": "AUTHORITY_TERRITORIES_REQUIRED",
+      "guard": "VISUAL_AUTHORITY_REQUIRED",
+      "durable_rule": "VISUAL_AUTHORITY_REQUIRED",
+      "next_step": "Author 3 distinct composition territories."
+    }
+  },
+  "actor_packages": {
+    "PUBLIC": "docs/studioos/visual-authority-development/AIO_IFTA_PUBLIC_AUTHORITY_INPUT.json",
+    "CLIENT": "docs/studioos/visual-authority-development/AIO_IFTA_CLIENT_AUTHORITY_INPUT.json",
+    "FOUNDER_STAFF": "docs/studioos/visual-authority-development/AIO_IFTA_FOUNDER_AUTHORITY_INPUT.json"
+  },
+  "legacy_surfaces": [
+    {
+      "surface_id": "AIO.LEGACY.PUBLIC.SERVICE_DETAIL",
+      "actor": "PUBLIC",
+      "route": "services/:serviceSlug (ServiceCatalogDetailPage — ifta-filing / ifta-reg)",
+      "visual_class": "FUNCTIONAL_REFERENCE_ONLY"
+    },
+    {
+      "surface_id": "AIO.LEGACY.PUBLIC.SERVICES_HUB",
+      "actor": "PUBLIC",
+      "route": "services",
+      "visual_class": "FUNCTIONAL_REFERENCE_ONLY"
+    },
+    {
+      "surface_id": "AIO.LEGACY.PUBLIC.ROAD_READY",
+      "actor": "PUBLIC",
+      "route": "road-ready",
+      "visual_class": "FUNCTIONAL_REFERENCE_ONLY"
+    },
+    {
+      "surface_id": "AIO.LEGACY.CLIENT.PORTAL_SHELL",
+      "actor": "CLIENT",
+      "route": "portal (AIOPortalLayout)",
+      "visual_class": "FUNCTIONAL_REFERENCE_ONLY"
+    },
+    {
+      "surface_id": "AIO.LEGACY.CLIENT.SERVICES_CENTER",
+      "actor": "CLIENT",
+      "route": "portal/services (ServicesCenterPage)",
+      "visual_class": "FUNCTIONAL_REFERENCE_ONLY"
+    },
+    {
+      "surface_id": "AIO.LEGACY.CLIENT.REQUESTS_CENTER",
+      "actor": "CLIENT",
+      "route": "portal/requests (ServiceRequestsCenterPage)",
+      "visual_class": "FUNCTIONAL_REFERENCE_ONLY"
+    },
+    {
+      "surface_id": "AIO.LEGACY.CLIENT.VAULT",
+      "actor": "CLIENT",
+      "route": "portal/vault (VaultPage)",
+      "visual_class": "FUNCTIONAL_REFERENCE_ONLY"
+    },
+    {
+      "surface_id": "AIO.LEGACY.CLIENT.ROAD_READY",
+      "actor": "CLIENT",
+      "route": "portal/road-ready (RoadReadyPage)",
+      "visual_class": "FUNCTIONAL_REFERENCE_ONLY"
+    },
+    {
+      "surface_id": "AIO.LEGACY.CLIENT.IFTA_READINESS_ENGINE",
+      "actor": "SYSTEM",
+      "route": "(engine — no page)",
+      "visual_class": "FUNCTIONAL_REFERENCE_ONLY"
+    },
+    {
+      "surface_id": "AIO.LEGACY.STAFF.OFFICE_COMMAND_CENTER",
+      "actor": "FOUNDER_STAFF",
+      "route": "office/* (OfficeRouteGuard → OfficeRoutesLazy)",
+      "visual_class": "FUNCTIONAL_REFERENCE_ONLY"
+    },
+    {
+      "surface_id": "AIO.LEGACY.STAFF.OFFICE_DOCUMENTS",
+      "actor": "FOUNDER_STAFF",
+      "route": "office/documents (Office Document Center)",
+      "visual_class": "FUNCTIONAL_REFERENCE_ONLY"
+    },
+    {
+      "surface_id": "AIO.LEGACY.SHARED.NAV",
+      "actor": "ALL",
+      "route": "AIONav",
+      "visual_class": "FUNCTIONAL_REFERENCE_ONLY"
+    }
+  ],
+  "cross_actor_rules": [
+    "PUBLIC page prepares the client for the real workspace (same six-step quarter, same quarter object) — continuity, not a copy of the portal.",
+    "FOUNDER / STAFF mirrors the client quarter as a CASE FILE across many clients — mirror, not copy.",
+    "The three actor authorities share brand DNA and the QUARTERLY FILING ROOM metaphor; each still gets its own 3 territories."
+  ],
+  "founder_test_run": {
+    "who": "Founder + ChatGPT",
+    "steps": [
+      "Read the actor package",
+      "Author 3 territories per actor that pass the distinctness test",
+      "Produce one reference authority per territory (no paid generation from this sprint)",
+      "Founder verdict per actor",
+      "Lock PAGE_FAMILY_AUTHORITY → AUTHORITY_APPROVED → IMPLEMENTATION_READY"
+    ]
+  },
+  "constraints": {
+    "new_paid_generations": 0,
+    "credits_spent": 0,
+    "page_implementation": false
+  }
+}

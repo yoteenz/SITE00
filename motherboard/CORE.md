@@ -263,6 +263,13 @@ Canonical upstream-to-downstream layers (methodology v20+):
 - Generators call `queryExperience(contract, dna, actor, state, viewport)`; material features without an EXPERIENCE_COMPLETE contract return `EXPERIENCE_REQUIRED` — never invent. Experience completion is separate from functional completion.
 - Exports + AIO proof (IFTA = QUARTERLY FILING ROOM): `docs/studioos/experience-brain/` (regenerate with `npx tsx scripts/studioos/experience-brain-export.ts`).
 
+## Visual Authority Development Gate (Studio OS expression entry)
+
+- **UPSTREAM DEFINES INTENT. DOWNSTREAM INCREASES FIDELITY.** Between the experience contract and implementation, every **material** page family passes `shared/studioos-visual-authority/`: brand DNA → experience contract → legacy firewall → 3 distinct composition territories → reference authority each → founder verdict → locked PAGE_FAMILY_AUTHORITY → implement → raise fidelity.
+- Without all seven conditions (brand, experience, legacy status, territories, references, founder approval, lock) the status is **VISUAL_AUTHORITY_REQUIRED** and IMPLEMENTATION_READY is false.
+- Legacy surfaces are FUNCTIONAL_REFERENCE_ONLY unless the founder promotes them; visual reuse → LEGACY_VISUAL_LEAK. A locked authority is page logic, not the final design; changing a core lock → FOUNDER_REVIEW_REQUIRED.
+- Docs + AIO IFTA input packages: `docs/studioos/visual-authority-development/` (regenerate with `npx tsx scripts/studioos/visual-authority-export.ts`).
+
 ---
 
 ## Docs

@@ -1,0 +1,722 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "id": "VISUAL_AUTHORITY_DEVELOPMENT_SCHEMA",
+  "schema_version": "1.0.0",
+  "sprint": "P0.SITE00.PRODUCTION-METHODOLOGY.VISUAL-AUTHORITY-DEVELOPMENT-GATE1",
+  "doctrine": "UPSTREAM DEFINES INTENT. DOWNSTREAM INCREASES FIDELITY.",
+  "source": "shared/studioos-visual-authority",
+  "title": "Visual Authority Development Gate input (one actor page family)",
+  "production_stack": [
+    "PRODUCT / BUSINESS TRUTH",
+    "PRODUCT TREE / FAMILY LOCK",
+    "EXPERIENCE CONTRACT",
+    "VISUAL AUTHORITY DEVELOPMENT",
+    "IMPLEMENTATION",
+    "IMPLEMENTATION REFINEMENT",
+    "FINAL LIVE AUTHORITY"
+  ],
+  "sequence": [
+    {
+      "step": "01",
+      "id": "LOAD_BRAND_DNA",
+      "does": "Load positioning, audience, voice, color, materials, typography, logo rules, mood, references, architecture, avoid list, history, approved decisions.",
+      "produces": "BrandContext (checked by checkBrandContext)"
+    },
+    {
+      "step": "02",
+      "id": "LOAD_EXPERIENCE_CONTRACT",
+      "does": "Load the Workspace Experience Brain contract (purpose, promise, actor, task, states, mirror, metaphor, archetype, hierarchy, E2E).",
+      "produces": "ExperienceIngest (checked by validateExperienceContract)"
+    },
+    {
+      "step": "03",
+      "id": "EXCLUDE_LEGACY_VISUALS",
+      "does": "Classify every existing surface; non-approved legacy may inform function, never layout.",
+      "produces": "LegacySurface[] (LEGACY_VISUAL_AUTHORITY_POLICY)"
+    },
+    {
+      "step": "04",
+      "id": "CREATE_3_COMPOSITION_TERRITORIES",
+      "does": "Author three territories that differ in spatial logic, primary zone, hierarchy, interaction emphasis, density and media relationship.",
+      "produces": "CompositionTerritory[3] (checked by checkTerritoryDistinctness)"
+    },
+    {
+      "step": "05",
+      "id": "GENERATE_OR_ASSEMBLE_REFERENCE_AUTHORITIES",
+      "does": "One reference authority per territory that shows real composition, hierarchy, zones, media relationship, interaction emphasis and actor intent.",
+      "produces": "ReferenceAuthority per territory"
+    },
+    {
+      "step": "06",
+      "id": "FOUNDER_CHOOSES_OR_REVISES",
+      "does": "Founder: LOVE_IT · REVISE · REJECT · COMBINE · REQUEST_FOURTH_TERRITORY.",
+      "produces": "FounderAuthorityDecision"
+    },
+    {
+      "step": "07",
+      "id": "LOCK_PAGE_FAMILY_AUTHORITY",
+      "does": "Lock approved page logic: core logic locks + flexible implementation areas + lineage.",
+      "produces": "PageFamilyAuthority (PAGE_FAMILY_AUTHORITY level)"
+    },
+    {
+      "step": "08",
+      "id": "IMPLEMENT",
+      "does": "Implementation consumes authority + experience contract + brand DNA + state / interaction / responsive contracts.",
+      "produces": "Implementation (AUTHORITY_IMPLEMENTATION_CONTRACT)"
+    },
+    {
+      "step": "09",
+      "id": "INCREASE_FIDELITY_WITHOUT_VIOLATING_CORE_LOGIC",
+      "does": "Raise responsiveness, interactivity, state completeness, accessibility, material realism, content fidelity and integration; material deviation → founder review.",
+      "produces": "LIVE_AUTHORITY after founder approval (lineage kept)"
+    }
+  ],
+  "supersedes_methodology": "FAMILY LOCK → IMPLEMENTATION without experience + visual authority development.",
+  "gate_inputs": [
+    "brand DNA",
+    "product ontology",
+    "family contract",
+    "feature experience contract",
+    "actor model",
+    "state model",
+    "visual archetype",
+    "approved assets / references",
+    "legacy visual status",
+    "viewport targets"
+  ],
+  "type": "object",
+  "required": [
+    "project_id",
+    "family_id",
+    "feature_id",
+    "actor",
+    "material",
+    "family_locked"
+  ],
+  "properties": {
+    "project_id": {
+      "type": "string"
+    },
+    "family_id": {
+      "type": "string"
+    },
+    "feature_id": {
+      "type": "string"
+    },
+    "actor": {
+      "type": "string",
+      "enum": [
+        "PUBLIC",
+        "CLIENT",
+        "FOUNDER_STAFF",
+        "SYSTEM"
+      ]
+    },
+    "material": {
+      "type": "boolean"
+    },
+    "family_locked": {
+      "type": "boolean"
+    },
+    "experience_contract": {
+      "$ref": "../experience-brain/WORKSPACE_EXPERIENCE_BRAIN_SCHEMA.json"
+    },
+    "brand_context": {
+      "$ref": "#/$defs/BrandContext"
+    },
+    "legacy_surfaces": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/LegacySurface"
+      }
+    },
+    "legacy_uses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "surface_id",
+          "uses"
+        ],
+        "properties": {
+          "surface_id": {
+            "type": "string"
+          },
+          "uses": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "FUNCTION",
+                "DATA",
+                "ROUTING",
+                "PERMISSIONS",
+                "CONTENT_TRUTH",
+                "STATE",
+                "INTERACTION",
+                "CAPABILITIES",
+                "LAYOUT",
+                "GEOMETRY",
+                "PANEL_SYSTEM",
+                "NAV_VISUALS",
+                "SPACING",
+                "TYPOGRAPHY",
+                "COLOR",
+                "MATERIAL",
+                "COMPOSITION",
+                "RESPONSIVE_DESIGN"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "territories": {
+      "type": "array",
+      "items": {
+        "$ref": "COMPOSITION_TERRITORY_SCHEMA.json"
+      }
+    },
+    "references": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ReferenceAuthority"
+      }
+    },
+    "founder_decision": {
+      "$ref": "#/$defs/FounderAuthorityDecision"
+    },
+    "authority": {
+      "$ref": "#/$defs/PageFamilyAuthority"
+    },
+    "implementation": {
+      "$ref": "AUTHORITY_IMPLEMENTATION_CONTRACT.json#/report_schema"
+    }
+  },
+  "$defs": {
+    "BrandContext": {
+      "type": "object",
+      "required": [
+        "brand_context_id",
+        "project_id",
+        "positioning",
+        "audience",
+        "voice",
+        "color",
+        "materials",
+        "typography",
+        "mood",
+        "architectural_language",
+        "avoid_list"
+      ],
+      "properties": {
+        "brand_context_id": {
+          "type": "string"
+        },
+        "project_id": {
+          "type": "string"
+        },
+        "positioning": {
+          "type": "string"
+        },
+        "audience": {
+          "type": "string"
+        },
+        "voice": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "color": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "materials": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "typography": {
+          "type": "string"
+        },
+        "logo_rules": {
+          "type": "string"
+        },
+        "mood": {
+          "type": "string"
+        },
+        "references": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "architectural_language": {
+          "type": "string"
+        },
+        "avoid_list": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "history": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "approved_decisions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "open_brand_questions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "recommended": [
+        "logo_rules",
+        "references",
+        "history",
+        "approved_decisions"
+      ],
+      "on_missing": "BRAND_CONTEXT_REQUIRED"
+    },
+    "ExperienceIngest": {
+      "required": [
+        "purpose",
+        "promise",
+        "primary_actor",
+        "primary_task",
+        "start_state",
+        "success_state",
+        "blocked_state",
+        "system_relationships",
+        "client_founder_mirror",
+        "metaphor",
+        "archetype",
+        "information_hierarchy",
+        "e2e_path"
+      ],
+      "projected_by": "experienceIngest(contract, actor)",
+      "on_missing": "EXPERIENCE_REQUIRED"
+    },
+    "LegacySurface": {
+      "type": "object",
+      "required": [
+        "surface_id",
+        "project_id",
+        "actor",
+        "route",
+        "source",
+        "functional_value"
+      ],
+      "properties": {
+        "surface_id": {
+          "type": "string"
+        },
+        "project_id": {
+          "type": "string"
+        },
+        "actor": {
+          "type": "string"
+        },
+        "route": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "visual_class": {
+          "type": "string",
+          "enum": [
+            "APPROVED_AUTHORITY",
+            "PARTIAL_AUTHORITY",
+            "FUNCTIONAL_REFERENCE_ONLY",
+            "VISUALLY_SUPERSEDED",
+            "FORBIDDEN_VISUAL_SOURCE"
+          ]
+        },
+        "promoted_dimensions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "LAYOUT",
+              "GEOMETRY",
+              "PANEL_SYSTEM",
+              "NAV_VISUALS",
+              "SPACING",
+              "TYPOGRAPHY",
+              "COLOR",
+              "MATERIAL",
+              "COMPOSITION",
+              "RESPONSIVE_DESIGN"
+            ]
+          }
+        },
+        "founder_decision": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "functional_value": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "note": {
+          "type": "string"
+        }
+      },
+      "default_visual_class": "FUNCTIONAL_REFERENCE_ONLY"
+    },
+    "ReferenceAuthority": {
+      "type": "object",
+      "required": [
+        "reference_id",
+        "territory_id",
+        "format",
+        "reference_paths",
+        "viewport",
+        "states_shown",
+        "shows",
+        "role",
+        "paid_generation"
+      ],
+      "properties": {
+        "reference_id": {
+          "type": "string"
+        },
+        "territory_id": {
+          "type": "string"
+        },
+        "format": {
+          "type": "string",
+          "enum": [
+            "GENERATED_FULL_PAGE_REFERENCE",
+            "COMPOSED_BOARD",
+            "EXISTING_APPROVED_PAGE",
+            "HYBRID",
+            "WIREFRAME_PLUS_BRAND_RENDER",
+            "OTHER_APPROVED_PROOF"
+          ]
+        },
+        "reference_paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "viewport": {
+          "type": "string",
+          "enum": [
+            "MOBILE",
+            "TABLET",
+            "DESKTOP"
+          ]
+        },
+        "states_shown": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "shows": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "composition",
+              "hierarchy",
+              "zones",
+              "media_relationship",
+              "interaction_emphasis",
+              "actor_intent"
+            ]
+          }
+        },
+        "role": {
+          "const": "PAGE_LOGIC_COMPOSITION_DIRECTION_CONTRACT"
+        },
+        "paid_generation": {
+          "type": "boolean"
+        }
+      },
+      "must_show_all": [
+        "composition",
+        "hierarchy",
+        "zones",
+        "media_relationship",
+        "interaction_emphasis",
+        "actor_intent"
+      ]
+    },
+    "FounderAuthorityDecision": {
+      "type": "object",
+      "required": [
+        "verdict",
+        "territory_ids",
+        "notes",
+        "decided_at"
+      ],
+      "properties": {
+        "verdict": {
+          "type": "string",
+          "enum": [
+            "LOVE_IT",
+            "REVISE",
+            "REJECT",
+            "COMBINE",
+            "REQUEST_FOURTH_TERRITORY"
+          ]
+        },
+        "territory_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "combination": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "notes": {
+          "type": "string"
+        },
+        "decided_at": {
+          "type": "string"
+        }
+      },
+      "approving": [
+        "LOVE_IT",
+        "COMBINE"
+      ]
+    },
+    "PageFamilyAuthority": {
+      "type": "object",
+      "required": [
+        "authority_id",
+        "project_id",
+        "family_id",
+        "feature_id",
+        "actor",
+        "viewports",
+        "state_coverage",
+        "territory_source",
+        "founder_status",
+        "authority_level",
+        "core_logic_locks",
+        "flexible_implementation_areas",
+        "supersedes",
+        "lineage"
+      ],
+      "properties": {
+        "authority_id": {
+          "type": "string"
+        },
+        "project_id": {
+          "type": "string"
+        },
+        "family_id": {
+          "type": "string"
+        },
+        "feature_id": {
+          "type": "string"
+        },
+        "actor": {
+          "type": "string"
+        },
+        "viewports": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "MOBILE",
+              "TABLET",
+              "DESKTOP"
+            ]
+          }
+        },
+        "scales_to": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "MOBILE",
+              "TABLET",
+              "DESKTOP"
+            ]
+          }
+        },
+        "state_coverage": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "territory_source": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "founder_status": {
+          "type": "string",
+          "enum": [
+            "PENDING",
+            "APPROVED",
+            "REVISE",
+            "REJECTED"
+          ]
+        },
+        "authority_level": {
+          "type": "string",
+          "enum": [
+            "CONCEPT_AUTHORITY",
+            "COMPOSITION_AUTHORITY",
+            "PAGE_FAMILY_AUTHORITY",
+            "LIVE_AUTHORITY"
+          ]
+        },
+        "core_logic_locks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "kind",
+              "value"
+            ],
+            "properties": {
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "PRIMARY_COMPOSITION",
+                  "PRIMARY_OBJECT",
+                  "PRIMARY_AXIS",
+                  "METAPHOR",
+                  "SPATIAL_LOGIC",
+                  "CORE_HIERARCHY",
+                  "MAJOR_ZONES",
+                  "ZONE_RELATIONSHIP",
+                  "CTA_HIERARCHY",
+                  "MEDIA_RELATIONSHIP",
+                  "STATE_TRANSITION_LOGIC",
+                  "ACTOR_INTENT",
+                  "CLIENT_STAFF_DISTINCTION",
+                  "APPROVED_TERRITORY",
+                  "CORE_EXPERIENCE_LOGIC"
+                ]
+              },
+              "value": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "flexible_implementation_areas": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "SPACING",
+              "MARGINS",
+              "MICRO_SPACING",
+              "RESPONSIVE_BEHAVIOR",
+              "BREAKPOINTS",
+              "MATERIAL_REALISM",
+              "MATERIAL_DEPTH",
+              "MICRO_INTERACTIONS",
+              "MOTION",
+              "TRANSITIONS",
+              "ACCESSIBILITY",
+              "PANEL_PROPORTIONS",
+              "IMAGE_TREATMENT",
+              "MEDIA_FRAMING",
+              "DENSITY",
+              "CONTROL_DENSITY",
+              "STATE_CLARITY",
+              "CONTROL_PLACEMENT",
+              "TYPOGRAPHIC_OPTICS",
+              "SMALL_TYPOGRAPHY_ADJUSTMENTS"
+            ]
+          }
+        },
+        "reference_paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "brand_context_id": {
+          "type": "string"
+        },
+        "experience_contract_id": {
+          "type": "string"
+        },
+        "supersedes": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "lineage": {
+          "type": "object",
+          "required": [
+            "created",
+            "territory_lineage",
+            "founder_decisions",
+            "superseded_by"
+          ],
+          "properties": {
+            "created": {
+              "type": "string"
+            },
+            "territory_lineage": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "founder_decisions": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "superseded_by": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "reason": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "required_core_locks": [
+        "PRIMARY_OBJECT",
+        "PRIMARY_COMPOSITION",
+        "MAJOR_ZONES",
+        "CORE_HIERARCHY",
+        "CTA_HIERARCHY"
+      ],
+      "is_not": "the final design — it locks page logic, composition, spatial relationship, visual direction, primary metaphor, information hierarchy, zone relationship and experience emphasis."
+    }
+  }
+}

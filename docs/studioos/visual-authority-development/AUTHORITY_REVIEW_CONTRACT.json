@@ -1,0 +1,73 @@
+{
+  "id": "AUTHORITY_REVIEW_CONTRACT",
+  "schema_version": "1.0.0",
+  "sprint": "P0.SITE00.PRODUCTION-METHODOLOGY.VISUAL-AUTHORITY-DEVELOPMENT-GATE1",
+  "doctrine": "UPSTREAM DEFINES INTENT. DOWNSTREAM INCREASES FIDELITY.",
+  "source": "shared/studioos-visual-authority",
+  "verdicts": {
+    "LOVE_IT": "Approve one territory → lock it.",
+    "REVISE": "Keep the territory, change named aspects → stays AUTHORITY_IN_REVIEW.",
+    "REJECT": "Territory removed from consideration (status REJECTED); if fewer than 3 remain → AUTHORITY_TERRITORIES_REQUIRED.",
+    "COMBINE": "Hybrid authority (e.g. A structure + C material) — combination map required → approval.",
+    "REQUEST_FOURTH_TERRITORY": "Author an additional territory → stays AUTHORITY_IN_REVIEW."
+  },
+  "approving_verdicts": [
+    "LOVE_IT",
+    "COMBINE"
+  ],
+  "no_lock_without": "founder approval",
+  "review_packet": [
+    "brand DNA summary",
+    "experience contract summary (actor, task, states, metaphor, hierarchy)",
+    "legacy status table",
+    "3 territories (each with page logic + structure dimensions)",
+    "distinctness report",
+    "one reference authority per territory",
+    "risks per territory"
+  ],
+  "lock_record_fields": [
+    "AUTHORITY_ID",
+    "PROJECT_ID",
+    "FAMILY_ID",
+    "FEATURE_ID",
+    "ACTOR",
+    "VIEWPORT",
+    "STATE_COVERAGE",
+    "TERRITORY_SOURCE",
+    "FOUNDER_STATUS",
+    "CORE_LOGIC_LOCKS",
+    "FLEXIBLE_IMPLEMENTATION_AREAS",
+    "SUPERSEDES",
+    "LINEAGE"
+  ],
+  "core_logic_lock_examples": [
+    "primary object",
+    "primary axis",
+    "major zones",
+    "CTA hierarchy",
+    "media relationship",
+    "state transition logic",
+    "client / staff distinction"
+  ],
+  "flexible_area_examples": [
+    "margins",
+    "micro-spacing",
+    "breakpoints",
+    "control density",
+    "material depth",
+    "small typography adjustments",
+    "motion",
+    "accessibility",
+    "media framing"
+  ],
+  "review_ui": {
+    "target_workspaces": [
+      "DESIGN",
+      "EXPERIENCE",
+      "EXPRESSION",
+      "REVIEWS"
+    ],
+    "status": "DATA_CONTRACT_ONLY",
+    "note": "Methodology + data contract first. No Studio OS UI was changed in this sprint; the review workspace consumes the registries when built."
+  }
+}

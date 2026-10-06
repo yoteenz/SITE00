@@ -1,0 +1,59 @@
+{
+  "id": "COMPOSITION_TERRITORY_REGISTRY",
+  "schema_version": "1.0.0",
+  "sprint": "P0.SITE00.PRODUCTION-METHODOLOGY.VISUAL-AUTHORITY-DEVELOPMENT-GATE1",
+  "doctrine": "UPSTREAM DEFINES INTENT. DOWNSTREAM INCREASES FIDELITY.",
+  "generated_by": "scripts/studioos/visual-authority-export.ts",
+  "note": "No territories are authored yet. AIO IFTA territories are authored by the founder + ChatGPT test-run from the actor input packages; rows are added here when they exist.",
+  "territories": [],
+  "open_slots": [
+    {
+      "project_id": "AIO",
+      "family_id": "F06 SERVICES (permits-taxes-compliance) · F04 ROAD READY item · F16 VAULT tax_fuel",
+      "feature_id": "AIO.IFTA",
+      "actor": "PUBLIC",
+      "required": 3,
+      "authored": 0,
+      "status": "AUTHORITY_TERRITORIES_REQUIRED",
+      "input_package": "AIO_IFTA_PUBLIC_AUTHORITY_INPUT.json"
+    },
+    {
+      "project_id": "AIO",
+      "family_id": "F06 SERVICES (permits-taxes-compliance) · F04 ROAD READY item · F16 VAULT tax_fuel",
+      "feature_id": "AIO.IFTA",
+      "actor": "CLIENT",
+      "required": 3,
+      "authored": 0,
+      "status": "AUTHORITY_TERRITORIES_REQUIRED",
+      "input_package": "AIO_IFTA_CLIENT_AUTHORITY_INPUT.json"
+    },
+    {
+      "project_id": "AIO",
+      "family_id": "F06 SERVICES (permits-taxes-compliance) · F04 ROAD READY item · F16 VAULT tax_fuel",
+      "feature_id": "AIO.IFTA",
+      "actor": "FOUNDER_STAFF",
+      "required": 3,
+      "authored": 0,
+      "status": "AUTHORITY_TERRITORIES_REQUIRED",
+      "input_package": "AIO_IFTA_FOUNDER_AUTHORITY_INPUT.json"
+    }
+  ],
+  "row_fields": [
+    "territory_id",
+    "project_id",
+    "family_id",
+    "feature_id",
+    "actor",
+    "name",
+    "concept",
+    "metaphor",
+    "primary_object",
+    "composition_logic",
+    "mobile_logic",
+    "desktop_logic",
+    "brand_fit",
+    "experience_fit",
+    "status",
+    "founder_decision"
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "id": "AUTHORITY_FIDELITY_MODEL",
+  "schema_version": "1.0.0",
+  "sprint": "P0.SITE00.PRODUCTION-METHODOLOGY.VISUAL-AUTHORITY-DEVELOPMENT-GATE1",
+  "doctrine": "UPSTREAM DEFINES INTENT. DOWNSTREAM INCREASES FIDELITY.",
+  "source": "shared/studioos-visual-authority",
+  "levels": [
+    {
+      "level": "CONCEPT_AUTHORITY",
+      "proves": "territory idea, metaphor, primary object",
+      "locks": [
+        "APPROVED_TERRITORY",
+        "METAPHOR"
+      ],
+      "typical_format": "composed board / concept frame"
+    },
+    {
+      "level": "COMPOSITION_AUTHORITY",
+      "proves": "zones, hierarchy, spatial logic, media relationship for key states",
+      "locks": [
+        "PRIMARY_COMPOSITION",
+        "MAJOR_ZONES",
+        "SPATIAL_LOGIC",
+        "MEDIA_RELATIONSHIP"
+      ],
+      "typical_format": "wireframe + brand render / generated full-page reference"
+    },
+    {
+      "level": "PAGE_FAMILY_AUTHORITY",
+      "proves": "approved page logic across the family’s states and viewports; core logic locks + flexible areas",
+      "locks": [
+        "PRIMARY_OBJECT",
+        "PRIMARY_COMPOSITION",
+        "MAJOR_ZONES",
+        "CORE_HIERARCHY",
+        "CTA_HIERARCHY"
+      ],
+      "typical_format": "locked authority record + reference set"
+    },
+    {
+      "level": "LIVE_AUTHORITY",
+      "proves": "the founder-approved live implementation",
+      "locks": "inherits page-family locks; lineage kept",
+      "typical_format": "live page + capture"
+    }
+  ],
+  "order": [
+    "CONCEPT_AUTHORITY",
+    "COMPOSITION_AUTHORITY",
+    "PAGE_FAMILY_AUTHORITY",
+    "LIVE_AUTHORITY"
+  ],
+  "implementation_minimum": "PAGE_FAMILY_AUTHORITY",
+  "live_authority": "After implementation + founder approval the live implementation becomes LIVE_AUTHORITY without erasing lineage (territories, references, decisions stay).",
+  "regeneration": "Reconceptualisation never edits an authority in place: it creates a NEW version with supersedes, reason and founder decision.",
+  "responsive_authority": "Mobile / tablet / desktop get independent authorities when the composition cannot scale; scales_to declares the viewports one authority may adapt to. Never shrink desktop into mobile.",
+  "authority_vs_runtime": "AUTHORITY ≠ RUNTIME ASSET — reference images direct composition; they are never shipped as page assets."
+}

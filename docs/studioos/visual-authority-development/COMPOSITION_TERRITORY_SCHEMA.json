@@ -1,0 +1,200 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "id": "COMPOSITION_TERRITORY_SCHEMA",
+  "schema_version": "1.0.0",
+  "sprint": "P0.SITE00.PRODUCTION-METHODOLOGY.VISUAL-AUTHORITY-DEVELOPMENT-GATE1",
+  "doctrine": "UPSTREAM DEFINES INTENT. DOWNSTREAM INCREASES FIDELITY.",
+  "source": "shared/studioos-visual-authority",
+  "title": "Composition territory",
+  "default_count": 3,
+  "type": "object",
+  "required": [
+    "territory_id",
+    "project_id",
+    "family_id",
+    "feature_id",
+    "actor",
+    "name",
+    "concept",
+    "core_idea",
+    "metaphor",
+    "primary_object",
+    "page_logic",
+    "major_zones",
+    "structure",
+    "composition_logic",
+    "actor_fit",
+    "state_fit",
+    "mobile_logic",
+    "desktop_logic",
+    "visual_language",
+    "risks",
+    "brand_fit",
+    "experience_fit",
+    "status",
+    "founder_decision"
+  ],
+  "properties": {
+    "territory_id": {
+      "type": "string"
+    },
+    "project_id": {
+      "type": "string"
+    },
+    "family_id": {
+      "type": "string"
+    },
+    "feature_id": {
+      "type": "string"
+    },
+    "actor": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "concept": {
+      "type": "string"
+    },
+    "core_idea": {
+      "type": "string"
+    },
+    "metaphor": {
+      "type": "string"
+    },
+    "primary_object": {
+      "type": "string"
+    },
+    "page_logic": {
+      "type": "string"
+    },
+    "major_zones": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "structure": {
+      "type": "object",
+      "required": [
+        "spatial_logic",
+        "primary_zone",
+        "visual_hierarchy",
+        "interaction_emphasis",
+        "information_density",
+        "media_relationship"
+      ],
+      "properties": {
+        "spatial_logic": {
+          "type": "string"
+        },
+        "primary_zone": {
+          "type": "string"
+        },
+        "visual_hierarchy": {
+          "type": "string"
+        },
+        "interaction_emphasis": {
+          "type": "string"
+        },
+        "information_density": {
+          "type": "string"
+        },
+        "media_relationship": {
+          "type": "string"
+        }
+      }
+    },
+    "composition_logic": {
+      "type": "string"
+    },
+    "actor_fit": {
+      "type": "string"
+    },
+    "state_fit": {
+      "type": "string"
+    },
+    "mobile_logic": {
+      "type": "string"
+    },
+    "desktop_logic": {
+      "type": "string"
+    },
+    "visual_language": {
+      "type": "string"
+    },
+    "risks": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "brand_fit": {
+      "type": "string"
+    },
+    "experience_fit": {
+      "type": "string"
+    },
+    "cosmetic": {
+      "type": "object",
+      "properties": {
+        "color": {
+          "type": "string"
+        },
+        "hero_image": {
+          "type": "string"
+        },
+        "background": {
+          "type": "string"
+        },
+        "typeface": {
+          "type": "string"
+        },
+        "single_card_position": {
+          "type": "string"
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "DRAFT",
+        "IN_REVIEW",
+        "SELECTED",
+        "COMBINED",
+        "REVISE",
+        "REJECTED",
+        "SUPERSEDED"
+      ]
+    },
+    "founder_decision": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "distinctness": {
+    "must_differ_on": [
+      "spatial_logic",
+      "primary_zone",
+      "visual_hierarchy",
+      "interaction_emphasis",
+      "information_density",
+      "media_relationship"
+    ],
+    "min_differing_dimensions_per_pair": 3,
+    "anchor": "Each pair must differ on spatial_logic or primary_zone.",
+    "never_sufficient": [
+      "color",
+      "hero_image",
+      "background",
+      "typeface",
+      "single_card_position"
+    ],
+    "page_logic_required": "page_logic, major_zones, primary_object and all six structure dimensions must be filled — otherwise the territory is purely aesthetic.",
+    "failure": "TERRITORY_DISTINCTNESS_FAILURE",
+    "quality_test": "If territories could be produced by swapping hero images, swapping colors or moving one card → failure.",
+    "evaluator": "checkTerritoryDistinctness(territories)"
+  }
+}
