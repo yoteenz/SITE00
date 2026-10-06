@@ -16,8 +16,13 @@ import type { FamilyProps } from './types';
 const IMPORTANCE: Record<string, string> = { HERO: 'LEAD', SUPPORTING: 'SUPPORTING', ENSEMBLE: 'ENSEMBLE', BACKGROUND: 'BACKGROUND' };
 const availTone = (s: string): Tone => (s === 'AVAILABLE' ? 'green' : s === 'IN_CURRENT_PRODUCTION' ? 'red' : 'amber');
 
-function ActorFace({ actor, label }: { actor: StudioWorldActor | null; label: string }) {
-  return actor?.headshotPreviewUrl ? <Img url={actor.headshotPreviewUrl} label={label} className="exf-face" slot="ROW_THUMB" fit="PORTRAIT_COVER" /> : <Mono text={actor?.stageName ?? label} className="exf-face" />;
+/**
+ * Actor headshot — a PORTRAIT at the catalogue's headshot aspect, face-safe at every width. CHIP inside list rows,
+ * TILE in the talent rail, PREVIEW on the actor record. With no headshot the initials tile keeps the same slot.
+ */
+function ActorFace({ actor, label, scale = 'CHIP' }: { actor: StudioWorldActor | null; label: string; scale?: 'CHIP' | 'TILE' | 'PREVIEW' }) {
+  const media = { role: 'PORTRAIT', scale, aspect: 'ACTOR_HEADSHOT', slot: scale === 'CHIP' ? 'ROW_THUMB' : 'PORTRAIT', focal: 'face' } as const;
+  return actor?.headshotPreviewUrl ? <Img url={actor.headshotPreviewUrl} label={label} className="exf-face" {...media} fit="PORTRAIT_COVER" /> : <Mono text={actor?.stageName ?? label} className="exf-face" media={media} />;
 }
 
 export function CastingFamily({ d, r, go }: FamilyProps) {
@@ -67,7 +72,7 @@ export function CastingFamily({ d, r, go }: FamilyProps) {
         key={c.characterId}
         to={go('casting', 'character-profile', c.characterId)}
         testId="casting-character-row"
-        media={<Mono text={c.characterName} className="exf-face exf-face--char" />}
+        media={<Mono text={c.characterName} className="exf-face exf-face--char" media={{ role: 'PORTRAIT', scale: 'CHIP', slot: 'ROW_THUMB' }} />}
         title={c.characterName}
         sub={`${c.narrativeRole} · ${actor ? `PLAYED BY ${actor.catalogueNumber}` : 'NO ACTOR'}`}
         aside={<Chip tone={c.status === 'LOCKED' ? 'green' : 'amber'}>{words(c.status)}</Chip>}
@@ -93,7 +98,7 @@ export function CastingFamily({ d, r, go }: FamilyProps) {
     case 'roles':
       return (
         <Grid rows={{ d: '1fr 0.75fr', t: '1fr 0.8fr', m: '1.2fr 0.85fr 0.6fr' }}>
-          <Panel title="ROLES" meta={`${roles.length} CASTING REQUIREMENTS`} at={{ d: [8, 2], t: [7, 2], m: [6, 1] }} testId="casting-roles">
+          <Panel title="ROLES" meta={`${roles.length} CASTING REQUIREMENTS`} at={{ d: [8, 2], t: [7, 2], m: [6, 1] }} media="MEDIA_INLINE" testId="casting-roles">
             {roles.map(roleCard)}
           </Panel>
           <Panel title="CASTING OVERVIEW" at={{ d: [4, 1], t: [5, 1], m: [6, 1] }} testId="casting-roles-overview">
@@ -120,7 +125,7 @@ export function CastingFamily({ d, r, go }: FamilyProps) {
     case 'characters':
       return (
         <Grid rows={{ d: '1fr 0.62fr', t: '1fr 0.7fr', m: '1.15fr 1fr' }}>
-          <Panel title="CHARACTERS" meta={`${d.cast.characters.length} STORY IDENTITIES`} at={{ d: [7, 2], t: [7, 2], m: [6, 1] }} testId="casting-characters">
+          <Panel title="CHARACTERS" meta={`${d.cast.characters.length} STORY IDENTITIES`} at={{ d: [7, 2], t: [7, 2], m: [6, 1] }} media="MEDIA_INLINE" testId="casting-characters">
             {d.cast.characters.map(characterRow)}
           </Panel>
           <Panel title="ROLE → ACTOR → CHARACTER" meta="LINKED BY ID · NEVER MERGED" at={{ d: [5, 2], t: [5, 2], m: [6, 1] }} testId="casting-chain">
@@ -186,7 +191,7 @@ export function CastingFamily({ d, r, go }: FamilyProps) {
     default:
       return (
         <Grid rows={{ d: '1.05fr 0.9fr', t: '1fr 0.8fr 0.75fr', m: '1.05fr 0.8fr 0.75fr 0.5fr' }}>
-          <Panel title="ROLE PREVIEWS" meta={`${roles.length} ROLES`} to={go('casting', 'roles')} at={{ d: [8, 1], t: [12, 1], m: [6, 1] }} testId="casting-role-previews">
+          <Panel title="ROLE PREVIEWS" meta={`${roles.length} ROLES`} to={go('casting', 'roles')} at={{ d: [8, 1], t: [12, 1], m: [6, 1] }} media="MEDIA_INLINE" testId="casting-role-previews">
             <div className="exf-list">
               {roles.map((q, i) => roleCard(q, i))}
             </div>
@@ -194,18 +199,18 @@ export function CastingFamily({ d, r, go }: FamilyProps) {
           <Panel title="CASTING OVERVIEW" at={{ d: [4, 1], t: [6, 1], m: [6, 1] }} testId="casting-root-overview">
             {overview}
           </Panel>
-          <Panel title="AVAILABLE TALENT" meta={`${available.length} AVAILABLE · ${d.actors.length} IN CATALOGUE`} to={go('casting', 'actors')} toLabel="CATALOGUE" at={{ d: [5, 1], t: [6, 1], m: [6, 1] }} testId="casting-available-talent">
+          <Panel title="AVAILABLE TALENT" meta={`${available.length} AVAILABLE · ${d.actors.length} IN CATALOGUE`} to={go('casting', 'actors')} toLabel="CATALOGUE" at={{ d: [5, 1], t: [6, 1], m: [6, 1] }} media="PORTRAIT_GRID" testId="casting-available-talent">
             <div className="exf-rail">
               {d.actors.map((a) => (
                 <Link key={a.actorId} to={go('casting', 'actor-profile', a.actorId)} className="exf-tile" data-testid="casting-talent-tile">
-                  <ActorFace actor={a} label={a.stageName} />
+                  <ActorFace actor={a} label={a.stageName} scale="TILE" />
                   <b>{a.stageName}</b>
                   <small>{a.roleArchetypes.slice(0, 2).map(words).join(' · ')}</small>
                 </Link>
               ))}
             </div>
           </Panel>
-          <Panel title="CASTING ACTIONS" at={{ d: [3, 1], t: [6, 1], m: [3, 1] }} testId="casting-actions">
+          <Panel title="CASTING ACTIONS" at={{ d: [3, 1], t: [6, 1], m: [6, 1] }} testId="casting-actions">
             <Actions>
               <Btn to={go('casting', 'actors')} testId="casting-open-catalogue">
                 OPEN ACTOR CATALOGUE
@@ -215,8 +220,8 @@ export function CastingFamily({ d, r, go }: FamilyProps) {
               </Btn>
             </Actions>
           </Panel>
-          <Panel title="LEAD AUTHORITY" meta="HUB CAST NODE" at={{ d: [4, 1], t: [6, 1], m: [3, 1] }} testId="casting-lead-authority">
-            <Img url={castArt} label="CAST AUTHORITY" className="exf-fill" />
+          <Panel title="LEAD AUTHORITY" meta="HUB CAST NODE" at={{ d: [4, 1], t: [6, 1], m: [6, 1] }} media="AUTHORITY_PREVIEW" testId="casting-lead-authority">
+            <Img url={castArt} label="CAST AUTHORITY" className="exf-fill" role="REFERENCE_AUTHORITY" scale="PREVIEW" aspect="node:cast" />
           </Panel>
           <Panel title="CASTING STATUS" at={{ d: [0, 0], t: [0, 0], m: [6, 1] }} hide="d t" testId="casting-status-strip">
             <div className="exf-stats">
@@ -237,7 +242,7 @@ function Actors({ d, actorRow, inCast }: { d: FamilyProps['d']; actorRow: (a: St
   const states = [...new Set(d.actors.map((a) => a.availabilityState))];
   return (
     <Grid rows={{ d: '1fr 0.7fr', t: '1fr 0.75fr', m: '1.35fr 0.65fr' }}>
-      <Panel title="ACTOR CATALOGUE" meta={`${list.length} OF ${d.actors.length} ACTORS`} at={{ d: [8, 2], t: [7, 2], m: [6, 1] }} testId="casting-actors">
+      <Panel title="ACTOR CATALOGUE" meta={`${list.length} OF ${d.actors.length} ACTORS`} at={{ d: [8, 2], t: [7, 2], m: [6, 1] }} media="MEDIA_INLINE" testId="casting-actors">
         <label className="exf-search">
           <span>CREATIVE SEARCH</span>
           <input type="search" value={query} placeholder="warm but intimidating woman in her 40s" onChange={(e) => setQuery(e.target.value)} data-testid="acting-catalogue-search" />
@@ -298,7 +303,7 @@ function RoleDetail({ d, id, go, actorRow }: { d: FamilyProps['d']; id: string |
       <Panel title="PERFORMANCE BRIEF" at={{ d: [3, 1], t: [6, 1], m: [6, 1] }} testId="casting-role-brief">
         <p className="exf-text">{q.performanceEnergy}</p>
       </Panel>
-      <Panel title="CURRENT CAST" meta={`${chars.length} CHARACTER${chars.length === 1 ? '' : 'S'}`} at={{ d: [4, 1], t: [4, 1], m: [6, 1] }} testId="casting-role-current">
+      <Panel title="CURRENT CAST" meta={`${chars.length} CHARACTER${chars.length === 1 ? '' : 'S'}`} at={{ d: [4, 1], t: [4, 1], m: [6, 1] }} media="MEDIA_INLINE" testId="casting-role-current">
         {chars.length ?
           chars.map((c) => {
             const a = d.actor(c.actorId);
@@ -315,7 +320,7 @@ function RoleDetail({ d, id, go, actorRow }: { d: FamilyProps['d']; id: string |
           })
         : <Empty title="NOT CAST YET" body="NO CHARACTER FILLS THIS ROLE." />}
       </Panel>
-      <Panel title="CATALOGUE MATCHES" meta={`${matches.length} BY ARCHETYPE`} at={{ d: [5, 1], t: [4, 1], m: [6, 1] }} testId="casting-role-matches">
+      <Panel title="CATALOGUE MATCHES" meta={`${matches.length} BY ARCHETYPE`} at={{ d: [5, 1], t: [4, 1], m: [6, 1] }} media="MEDIA_INLINE" testId="casting-role-matches">
         {matches.length ? matches.map(actorRow) : <Empty title="NO ARCHETYPE MATCH" />}
       </Panel>
       <Panel title="ACTIONS" at={{ d: [3, 1], t: [4, 1], m: [6, 1] }} testId="casting-role-actions">
@@ -345,9 +350,9 @@ function ActorProfile({ d, id, go }: { d: FamilyProps['d']; id: string | null; g
   const plays = d.charactersForActor(a.actorId);
   return (
     <Grid rows={{ d: '1fr 0.85fr', t: '0.9fr 0.8fr 0.75fr', m: '0.85fr 0.9fr 0.8fr 0.6fr' }}>
-      <Panel title="ACTOR" meta={`${a.catalogueNumber} · ${words(a.status)}`} at={{ d: [4, 2], t: [6, 1], m: [6, 1] }} testId="casting-actor-profile" className="exf-record">
+      <Panel title="ACTOR" meta={`${a.catalogueNumber} · ${words(a.status)}`} at={{ d: [4, 2], t: [6, 1], m: [6, 1] }} media="MEDIA_LEAD" testId="casting-actor-profile" className="exf-record">
         <div className="exf-record__media">
-          <ActorFace actor={a} label={a.stageName} />
+          <ActorFace actor={a} label={a.stageName} scale="PREVIEW" />
         </div>
         <h4 className="exf-record__title">{a.stageName}</h4>
         <div className="exf-tags">

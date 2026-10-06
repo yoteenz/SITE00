@@ -60,6 +60,7 @@ SITE00/
 | ASSTS | `assts/` | Asset factory UI |
 | State | `state/` | Site00Context (preview mode, selections) |
 | Styles | `styles/` | site00.css, typography, idnty-assessment |
+| Production workspace media geometry | `config/production-workspace-media.ts`, `components/productionAuthority/WorkspaceMediaSlot.tsx`, `styles/site00-production-workspace-density.css` §8 | Media ROLE contract (10 roles → fit / crop policy / semantic aspect / focal / backdrop), media SCALE (CHIP / TILE / PREVIEW / PLATE, HUB-calibrated legibility), panel media modes (`data-panel-media`), intentional crop registry (`data-media-crop`), region-anchored focal + runtime crop guard (`useWorkspaceCropGuard`). EXPRESSION grids holding media are content-driven on phones. QA: `scripts/production-workspace/media-geometry-{audit,report,stress,board,artifacts}`. Docs `docs/site00-production-workspace/media-geometry-refinement2/`. 2026-10-06 |
 | Project runtimes | `projectRuntime/` | Registry-driven mount of an ingested project's live UI at `/production/:projectSlug/runtime/*` (isolated iframe in DESIGN → VIEWPORT). 2026-10-05 |
 
 ### Ingested product projects (`src/projects/`) — 2026-10-05

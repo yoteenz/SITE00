@@ -95,6 +95,10 @@ export function Thumb({
   slot,
   fit,
   focal,
+  role,
+  scale,
+  aspect,
+  crop,
 }: {
   slotId?: string | null;
   url?: string | null;
@@ -103,9 +107,9 @@ export function Thumb({
   plate?: string;
   className?: string;
 } & WorkspaceMediaProps) {
-  // Media slot contract: the slot (when declared) owns the box, the fit decides crop vs contain, focal
+  // Media slot contract: the slot (when declared) owns the box, the ROLE decides crop vs contain, focal
   // metadata positions the crop. Undeclared thumbs keep their composed geometry and the default cover fit.
-  const media = workspaceMediaAttrs({ slot, fit, focal });
+  const media = workspaceMediaAttrs({ slot, fit, focal, role, scale, aspect, crop });
   if (plate)
     return <span className={`pxa-thumb ${className}`} {...media} style={{ ...media.style, backgroundImage: `url(${plate})` }} aria-hidden />;
   return (

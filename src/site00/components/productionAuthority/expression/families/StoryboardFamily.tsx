@@ -58,7 +58,7 @@ export function StoryboardFamily({ d, r, go }: FamilyProps) {
       <div className="exf-frames" data-testid={testId}>
         {d.frames.map((f, i) => (
           <button key={f.frameId} type="button" className={`exf-frame${sel === i ? ' is-active' : ''}`} onClick={() => onSel(i)} aria-pressed={sel === i} data-testid="storyboard-frame">
-            <Img url={url(i)} slotId={frameSlotId(f)} label={`F${pad2(f.number)}`} slot="STRIP_THUMB" />
+            <Img url={url(i)} slotId={frameSlotId(f)} label={`F${pad2(f.number)}`} slot="STRIP_THUMB" role="VIDEO_FRAME" scale="TILE" aspect="STORYBOARD_FRAME" />
             <small>F{pad2(f.number)}</small>
           </button>
         ))}
@@ -112,7 +112,7 @@ export function StoryboardFamily({ d, r, go }: FamilyProps) {
           <Panel title="SEQUENCE NAVIGATION" meta={`${d.scenes.length} SCENES`} at={{ d: [3, 2], t: [6, 1], m: [3, 1] }} testId="storyboard-sequence-nav">
             {sequences}
           </Panel>
-          <Panel title="STORYBOARD FRAMES" meta={`${d.frames.length} PANELS · ENTRY`} at={{ d: [9, 1], t: [12, 1], m: [6, 1] }} testId="storyboard-sequence-frames">
+          <Panel title="STORYBOARD FRAMES" meta={`${d.frames.length} PANELS · ENTRY`} at={{ d: [9, 1], t: [12, 1], m: [6, 1] }} media="REFERENCE_FRAME" testId="storyboard-sequence-frames">
             {boards(frame, setFrame)}
           </Panel>
           <Panel title="APPROVAL" at={{ d: [0, 0], t: [0, 0], m: [6, 1] }} hide="d t" testId="storyboard-sequence-approval">
@@ -126,11 +126,11 @@ export function StoryboardFamily({ d, r, go }: FamilyProps) {
     case 'keyframes':
       return (
         <Grid rows={{ d: '1fr 0.62fr', t: '1fr 0.7fr', m: '1fr 0.75fr 0.7fr' }}>
-          <Panel title="KEYFRAME SEQUENCE" meta={`${d.frames.length} SOURCE FRAMES`} at={{ d: [8, 1], t: [12, 1], m: [6, 1] }} testId="storyboard-keyframes">
+          <Panel title="KEYFRAME SEQUENCE" meta={`${d.frames.length} SOURCE FRAMES`} at={{ d: [8, 1], t: [12, 1], m: [6, 1] }} media="REFERENCE_FRAME" testId="storyboard-keyframes">
             {boards(frame, setFrame, 'storyboard-keyframe-frames')}
           </Panel>
-          <Panel title="KEYFRAME AUTHORITY" meta="HUB NODE" at={{ d: [4, 2], t: [6, 1], m: [6, 1] }} testId="storyboard-keyframe-node">
-            <Img url={d.nodeArt('keyframes')} label="KEYFRAME PLATE" className="exf-fill" />
+          <Panel title="KEYFRAME AUTHORITY" meta="HUB NODE" at={{ d: [4, 2], t: [6, 1], m: [6, 1] }} media="AUTHORITY_PREVIEW" testId="storyboard-keyframe-node">
+            <Img url={d.nodeArt('keyframes')} label="KEYFRAME PLATE" className="exf-fill" role="REFERENCE_AUTHORITY" scale="PREVIEW" aspect="node:keyframes" />
             <Kv rows={[['STATUS', <Chip tone={nodeTone(kfNode?.status)}>{words(kfNode?.status ?? 'NOT_STARTED')}</Chip>], ['WHY', kfNode?.statusDetail ?? '—']]} />
           </Panel>
           <Panel title="APPROVE KEYFRAMES" at={{ d: [8, 1], t: [6, 1], m: [6, 1] }} testId="storyboard-keyframe-approval">
@@ -147,16 +147,16 @@ export function StoryboardFamily({ d, r, go }: FamilyProps) {
       const f = d.frames[frame];
       return (
         <Grid rows={{ d: '1fr 0.75fr', t: '1fr 0.8fr 0.7fr', m: '0.9fr 0.8fr 0.75fr 0.7fr' }}>
-          <Panel title="SEQUENCE NAVIGATION" meta={`${d.scenes.length} SCENES`} at={{ d: [3, 2], t: [4, 2], m: [3, 1] }} testId="storyboard-sequences">
+          <Panel title="SEQUENCE NAVIGATION" meta={`${d.scenes.length} SCENES`} at={{ d: [3, 2], t: [4, 2], m: [6, 1] }} testId="storyboard-sequences">
             {sequences}
           </Panel>
-          <Panel title="STORYBOARD BOARDS" meta={`${d.frames.length} FRAMES`} to={go('storyboard', 'keyframes')} toLabel="KEYFRAMES" at={{ d: [6, 1], t: [8, 1], m: [6, 1] }} testId="storyboard-root-boards">
+          <Panel title="STORYBOARD BOARDS" meta={`${d.frames.length} FRAMES`} to={go('storyboard', 'keyframes')} toLabel="KEYFRAMES" at={{ d: [6, 1], t: [8, 1], m: [6, 1] }} media="REFERENCE_FRAME" testId="storyboard-root-boards">
             {boards(frame, setFrame)}
           </Panel>
-          <Panel title="BOARD INSPECTOR" meta={f ? `F${pad2(f.number)}` : undefined} at={{ d: [3, 2], t: [4, 1], m: [3, 1] }} testId="storyboard-inspector">
+          <Panel title="BOARD INSPECTOR" meta={f ? `F${pad2(f.number)}` : undefined} at={{ d: [3, 2], t: [4, 1], m: [6, 1] }} media="MEDIA_LEAD" testId="storyboard-inspector">
             {f ?
               <>
-                <Img url={url(frame)} slotId={frameSlotId(f)} label={`F${pad2(f.number)}`} slot="STRIP_THUMB" className="exf-fill" />
+                <Img url={url(frame)} slotId={frameSlotId(f)} label={`F${pad2(f.number)}`} slot="STRIP_THUMB" className="exf-fill" role="VIDEO_FRAME" scale="PREVIEW" aspect="STORYBOARD_FRAME" />
                 <Kv rows={[['FRAME', `F${pad2(f.number)} OF ${d.frames.length}`], ['STATE', url(frame) ? 'RENDERED' : 'SLOT EMPTY']]} />
               </>
             : <Empty title="NO FRAME SELECTED" />}

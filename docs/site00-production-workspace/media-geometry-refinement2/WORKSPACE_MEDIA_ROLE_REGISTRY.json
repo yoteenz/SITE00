@@ -1,0 +1,2164 @@
+{
+  "sprint": "P0.SITE00.PRODUCTION-WORKSPACE.PANEL-MEDIA-GEOMETRY-REFINEMENT2",
+  "name": "WorkspaceMediaRoleRegistry",
+  "source": "src/site00/config/production-workspace-media.ts (WORKSPACE_MEDIA_ROLES) · declared at every call site through workspaceMediaAttrs / data-media-role",
+  "rule": "MEDIA MODE MUST BE EXPLICIT BY ASSET TYPE — every media element declares a role; the role decides fit, crop policy, aspect, focal, backdrop and whether text may overlay it.",
+  "roles": [
+    {
+      "role": "PORTRAIT",
+      "functional": true,
+      "purpose": "Actor / cast / character faces — identification. Face, head, hair silhouette and (when needed) upper body.",
+      "defaultFit": "PORTRAIT_COVER",
+      "allowedFits": [
+        "PORTRAIT_COVER",
+        "THUMBNAIL_CONTAIN"
+      ],
+      "crop": "FOCAL_SAFE",
+      "minVisibleAxis": 0.5,
+      "focal": {
+        "point": "face",
+        "position": "50% 19.4%",
+        "region": [
+          0.3,
+          0.12,
+          0.7,
+          0.5
+        ]
+      },
+      "aspects": [
+        "4 / 5",
+        "3 / 4",
+        "1 / 1"
+      ],
+      "backdrop": "NEUTRAL",
+      "textOverlay": "NEVER",
+      "mobile": "portrait slot (never a letterbox strip); tiles may grow and show fewer per row"
+    },
+    {
+      "role": "UI_SCREENSHOT",
+      "functional": true,
+      "purpose": "Screens / captures of an interface — the whole interface, nav / header / footer intact.",
+      "defaultFit": "UI_CAPTURE_CONTAIN",
+      "allowedFits": [
+        "UI_CAPTURE_CONTAIN"
+      ],
+      "crop": "NONE",
+      "minVisibleAxis": 1,
+      "focal": {
+        "point": "top",
+        "position": "50% 0%",
+        "region": [
+          0.1,
+          0,
+          0.9,
+          0.18
+        ]
+      },
+      "aspects": [
+        "SOURCE",
+        "9 / 16",
+        "16 / 9"
+      ],
+      "backdrop": "DARK",
+      "textOverlay": "NEVER",
+      "mobile": "contain inside a dark backdrop; the slot grows to the capture aspect"
+    },
+    {
+      "role": "LOGO_MARK",
+      "functional": true,
+      "purpose": "Logos, marks, monograms, transparent brand assets — never cropped, never stretched, clearspace kept.",
+      "defaultFit": "LOGO_CONTAIN",
+      "allowedFits": [
+        "LOGO_CONTAIN"
+      ],
+      "crop": "NONE",
+      "minVisibleAxis": 1,
+      "focal": {
+        "point": "center",
+        "position": "50% 50%",
+        "region": [
+          0.3,
+          0.3,
+          0.7,
+          0.7
+        ]
+      },
+      "aspects": [
+        "SOURCE",
+        "1 / 1"
+      ],
+      "backdrop": "NONE",
+      "textOverlay": "NEVER",
+      "mobile": "contain, centred, transparency preserved"
+    },
+    {
+      "role": "LANDSCAPE_EDITORIAL",
+      "functional": true,
+      "purpose": "Scene / environment / set / location imagery read as information (what the place or shot is).",
+      "defaultFit": "LANDSCAPE_COVER",
+      "allowedFits": [
+        "LANDSCAPE_COVER",
+        "THUMBNAIL_COVER",
+        "WIDE_SCENE_COVER",
+        "THUMBNAIL_CONTAIN"
+      ],
+      "crop": "FOCAL_SAFE",
+      "minVisibleAxis": 0.5,
+      "focal": {
+        "point": "subject",
+        "position": "50% 42.4%",
+        "region": [
+          0.3,
+          0.28,
+          0.7,
+          0.62
+        ]
+      },
+      "aspects": [
+        "16 / 9",
+        "3 / 2",
+        "16 / 10",
+        "4 / 3",
+        "1 / 1"
+      ],
+      "backdrop": "NONE",
+      "textOverlay": "APPROVED_ONLY",
+      "mobile": "cover only while the subject stays visible; otherwise a taller slot"
+    },
+    {
+      "role": "REFERENCE_AUTHORITY",
+      "functional": true,
+      "purpose": "Approved authority / reference boards and node art — must stay inspectable as a whole.",
+      "defaultFit": "AUTHORITY_PREVIEW_CONTAIN",
+      "allowedFits": [
+        "AUTHORITY_PREVIEW_CONTAIN"
+      ],
+      "crop": "CROP_SAFE",
+      "minVisibleAxis": 1,
+      "focal": {
+        "point": "center",
+        "position": "50% 50%",
+        "region": [
+          0.3,
+          0.3,
+          0.7,
+          0.7
+        ]
+      },
+      "aspects": [
+        "SOURCE"
+      ],
+      "backdrop": "NEUTRAL",
+      "textOverlay": "NEVER",
+      "mobile": "dedicated AUTHORITY_PREVIEW slot at the approved ratio; panel grows; spans the row when too narrow"
+    },
+    {
+      "role": "DECORATIVE_ART",
+      "functional": false,
+      "purpose": "Atmosphere plates, hero bands, chamber art — composition, not information.",
+      "defaultFit": "WIDE_SCENE_COVER",
+      "allowedFits": [
+        "WIDE_SCENE_COVER",
+        "LANDSCAPE_COVER",
+        "THUMBNAIL_COVER",
+        "AUTHORITY_PREVIEW_COVER"
+      ],
+      "crop": "SLOT_DEFINED",
+      "minVisibleAxis": 0,
+      "focal": {
+        "point": "subject",
+        "position": "50% 42.4%",
+        "region": [
+          0.3,
+          0.28,
+          0.7,
+          0.62
+        ]
+      },
+      "aspects": [
+        "SLOT"
+      ],
+      "backdrop": "NONE",
+      "textOverlay": "ALLOWED",
+      "mobile": "cover / crop allowed (registered); copy sits on a wash, never on raw imagery"
+    },
+    {
+      "role": "DOCUMENT_PREVIEW",
+      "functional": true,
+      "purpose": "Documents, records, sheets — page edge and header identity preserved.",
+      "defaultFit": "DOCUMENT_PREVIEW_CONTAIN",
+      "allowedFits": [
+        "DOCUMENT_PREVIEW_CONTAIN"
+      ],
+      "crop": "NONE",
+      "minVisibleAxis": 1,
+      "focal": {
+        "point": "top",
+        "position": "50% 0%",
+        "region": [
+          0.1,
+          0,
+          0.9,
+          0.18
+        ]
+      },
+      "aspects": [
+        "SOURCE",
+        "3 / 4",
+        "8.5 / 11"
+      ],
+      "backdrop": "PAPER",
+      "textOverlay": "NEVER",
+      "mobile": "contain on a paper frame"
+    },
+    {
+      "role": "VIDEO_FRAME",
+      "functional": true,
+      "purpose": "Storyboard frames, keyframes, takes — a shot is read by its full composition.",
+      "defaultFit": "VIDEO_FRAME_CONTAIN",
+      "allowedFits": [
+        "VIDEO_FRAME_CONTAIN",
+        "LANDSCAPE_COVER",
+        "THUMBNAIL_COVER"
+      ],
+      "crop": "FOCAL_SAFE",
+      "minVisibleAxis": 0.88,
+      "focal": {
+        "point": "center",
+        "position": "50% 50%",
+        "region": [
+          0.3,
+          0.3,
+          0.7,
+          0.7
+        ]
+      },
+      "aspects": [
+        "SOURCE",
+        "16 / 9",
+        "2.39 / 1"
+      ],
+      "backdrop": "DARK",
+      "textOverlay": "APPROVED_ONLY",
+      "mobile": "frame at its own aspect; cover only within a 12% trim"
+    },
+    {
+      "role": "OTHER_FUNCTIONAL",
+      "functional": true,
+      "purpose": "Any other image that carries information.",
+      "defaultFit": "THUMBNAIL_CONTAIN",
+      "allowedFits": [
+        "THUMBNAIL_CONTAIN"
+      ],
+      "crop": "NONE",
+      "minVisibleAxis": 1,
+      "focal": {
+        "point": "center",
+        "position": "50% 50%",
+        "region": [
+          0.3,
+          0.3,
+          0.7,
+          0.7
+        ]
+      },
+      "aspects": [
+        "SOURCE"
+      ],
+      "backdrop": "NEUTRAL",
+      "textOverlay": "NEVER",
+      "mobile": "contain"
+    },
+    {
+      "role": "OTHER_DECORATIVE",
+      "functional": false,
+      "purpose": "Any other ornament (textures, washes, chips).",
+      "defaultFit": "THUMBNAIL_COVER",
+      "allowedFits": [
+        "THUMBNAIL_COVER",
+        "WIDE_SCENE_COVER",
+        "LANDSCAPE_COVER"
+      ],
+      "crop": "SLOT_DEFINED",
+      "minVisibleAxis": 0,
+      "focal": {
+        "point": "center",
+        "position": "50% 50%",
+        "region": [
+          0.3,
+          0.3,
+          0.7,
+          0.7
+        ]
+      },
+      "aspects": [
+        "SLOT"
+      ],
+      "backdrop": "NONE",
+      "textOverlay": "ALLOWED",
+      "mobile": "slot-defined"
+    }
+  ],
+  "declared": {
+    "after": 3039,
+    "unclassifiedAfter": 0,
+    "unclassifiedBefore": 3039,
+    "measurementsAfter": 3039
+  },
+  "countsByRoleAfter": {
+    "PORTRAIT": 155,
+    "UI_SCREENSHOT": 15,
+    "LOGO_MARK": 30,
+    "REFERENCE_AUTHORITY": 898,
+    "DECORATIVE_ART": 1481,
+    "VIDEO_FRAME": 285,
+    "OTHER_DECORATIVE": 175
+  },
+  "usage": [
+    {
+      "tab": "ACTIVITY",
+      "panel": "—",
+      "element": "bg:iax-hero__plate",
+      "role": "DECORATIVE_ART",
+      "scale": "PLATE",
+      "fit": "WIDE_SCENE_COVER",
+      "crop": "HERO_PLATE_BAND",
+      "panelMode": null,
+      "routes": [
+        "activity",
+        "activity-approvals",
+        "activity-blockers",
+        "activity-comments",
+        "activity-updates"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 25
+    },
+    {
+      "tab": "ACTIVITY",
+      "panel": "1 / 7",
+      "element": "img:ph-img",
+      "role": "REFERENCE_AUTHORITY",
+      "scale": "PREVIEW",
+      "fit": "AUTHORITY_PREVIEW_CONTAIN",
+      "crop": null,
+      "panelMode": "MEDIA_LEAD",
+      "routes": [
+        "activity-milestone-narrative"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 5
+    },
+    {
+      "tab": "ACTIVITY",
+      "panel": "2 / 7",
+      "element": "img:ph-img",
+      "role": "REFERENCE_AUTHORITY",
+      "scale": "PREVIEW",
+      "fit": "AUTHORITY_PREVIEW_CONTAIN",
+      "crop": null,
+      "panelMode": "MEDIA_LEAD",
+      "routes": [
+        "activity-milestone-cast"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 5
+    },
+    {
+      "tab": "ACTIVITY",
+      "panel": "3 / 7",
+      "element": "img:ph-img",
+      "role": "REFERENCE_AUTHORITY",
+      "scale": "PREVIEW",
+      "fit": "AUTHORITY_PREVIEW_CONTAIN",
+      "crop": null,
+      "panelMode": "MEDIA_LEAD",
+      "routes": [
+        "activity-milestone-look"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 5
+    },
+    {
+      "tab": "ACTIVITY",
+      "panel": "6 / 7",
+      "element": "img:ph-img",
+      "role": "REFERENCE_AUTHORITY",
+      "scale": "PREVIEW",
+      "fit": "AUTHORITY_PREVIEW_CONTAIN",
+      "crop": null,
+      "panelMode": "MEDIA_LEAD",
+      "routes": [
+        "activity-milestone-storyboard"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 5
+    },
+    {
+      "tab": "ACTIVITY",
+      "panel": "activity-approval-feed",
+      "element": "img:ph-img",
+      "role": "REFERENCE_AUTHORITY",
+      "scale": "CHIP",
+      "fit": "THUMBNAIL_COVER",
+      "crop": "NODE_ART_CHIP",
+      "panelMode": null,
+      "routes": [
+        "activity-approvals"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 20
+    },
+    {
+      "tab": "ACTIVITY",
+      "panel": "activity-blockers",
+      "element": "img:ph-img",
+      "role": "REFERENCE_AUTHORITY",
+      "scale": "CHIP",
+      "fit": "THUMBNAIL_COVER",
+      "crop": "NODE_ART_CHIP",
+      "panelMode": null,
+      "routes": [
+        "activity-blockers"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 30
+    },
+    {
+      "tab": "ACTIVITY",
+      "panel": "activity-feed",
+      "element": "img:ph-img",
+      "role": "REFERENCE_AUTHORITY",
+      "scale": "CHIP",
+      "fit": "THUMBNAIL_COVER",
+      "crop": "NODE_ART_CHIP",
+      "panelMode": null,
+      "routes": [
+        "activity"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 35
+    },
+    {
+      "tab": "ACTIVITY",
+      "panel": "activity-milestone-assets",
+      "element": "img:ph-img",
+      "role": "REFERENCE_AUTHORITY",
+      "scale": "CHIP",
+      "fit": "THUMBNAIL_COVER",
+      "crop": "NODE_ART_CHIP",
+      "panelMode": null,
+      "routes": [
+        "activity-milestone-cast",
+        "activity-milestone-look",
+        "activity-milestone-narrative",
+        "activity-milestone-storyboard"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 60
+    },
+    {
+      "tab": "ACTIVITY",
+      "panel": "activity-pending-review",
+      "element": "img:ph-img",
+      "role": "REFERENCE_AUTHORITY",
+      "scale": "TILE",
+      "fit": "THUMBNAIL_COVER",
+      "crop": "NODE_ART_CARD",
+      "panelMode": null,
+      "routes": [
+        "activity-approvals"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 10
+    },
+    {
+      "tab": "ACTIVITY",
+      "panel": "activity-related",
+      "element": "img:ph-img",
+      "role": "REFERENCE_AUTHORITY",
+      "scale": "CHIP",
+      "fit": "THUMBNAIL_COVER",
+      "crop": "NODE_ART_CHIP",
+      "panelMode": null,
+      "routes": [
+        "activity-updates"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 35
+    },
+    {
+      "tab": "ACTIVITY",
+      "panel": "activity-updates",
+      "element": "img:ph-img",
+      "role": "REFERENCE_AUTHORITY",
+      "scale": "CHIP",
+      "fit": "THUMBNAIL_COVER",
+      "crop": "NODE_ART_CHIP",
+      "panelMode": null,
+      "routes": [
+        "activity-updates"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 35
+    },
+    {
+      "tab": "DESIGN",
+      "panel": "—",
+      "element": "img:pxa-chamber__atrium-art",
+      "role": "DECORATIVE_ART",
+      "scale": "PLATE",
+      "fit": null,
+      "crop": "DESIGN_CHAMBER_ART",
+      "panelMode": null,
+      "routes": [
+        "design",
+        "design-assets",
+        "design-brand",
+        "design-compiler",
+        "design-experience",
+        "design-jurnl-brand",
+        "design-surfaces",
+        "design-viewport"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 40
+    },
+    {
+      "tab": "DESIGN",
+      "panel": "—",
+      "element": "img:pxa-core",
+      "role": "DECORATIVE_ART",
+      "scale": "PLATE",
+      "fit": null,
+      "crop": "DESIGN_CHAMBER_ART",
+      "panelMode": null,
+      "routes": [
+        "design",
+        "design-assets",
+        "design-brand",
+        "design-compiler",
+        "design-experience",
+        "design-surfaces"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 30
+    },
+    {
+      "tab": "DESIGN",
+      "panel": "design-overview",
+      "element": "img:pxa-overview-panel__mark",
+      "role": "LOGO_MARK",
+      "scale": "TILE",
+      "fit": null,
+      "crop": null,
+      "panelMode": null,
+      "routes": [
+        "design",
+        "design-assets",
+        "design-brand",
+        "design-compiler",
+        "design-experience",
+        "design-surfaces"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 30
+    },
+    {
+      "tab": "DESIGN",
+      "panel": "design-overview",
+      "element": "bg:pxa-overview-panel__strip",
+      "role": "DECORATIVE_ART",
+      "scale": "PLATE",
+      "fit": "AUTHORITY_PREVIEW_COVER",
+      "crop": "DESIGN_CHAMBER_MINIATURE",
+      "panelMode": null,
+      "routes": [
+        "design",
+        "design-brand",
+        "design-jurnl-brand"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 35
+    },
+    {
+      "tab": "DESIGN",
+      "panel": "design-panel-01",
+      "element": "bg:pxa-vis",
+      "role": "DECORATIVE_ART",
+      "scale": "PLATE",
+      "fit": "AUTHORITY_PREVIEW_COVER",
+      "crop": "DESIGN_CHAMBER_MINIATURE",
+      "panelMode": null,
+      "routes": [
+        "design",
+        "design-assets",
+        "design-brand",
+        "design-compiler",
+        "design-experience",
+        "design-jurnl-brand",
+        "design-surfaces"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 85
+    },
+    {
+      "tab": "DESIGN",
+      "panel": "design-panel-02",
+      "element": "img:pxa-vis",
+      "role": "DECORATIVE_ART",
+      "scale": "PLATE",
+      "fit": null,
+      "crop": "DESIGN_CHAMBER_MINIATURE",
+      "panelMode": null,
+      "routes": [
+        "design",
+        "design-assets",
+        "design-brand",
+        "design-compiler",
+        "design-experience",
+        "design-jurnl-brand",
+        "design-surfaces"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 85
+    },
+    {
+      "tab": "DESIGN",
+      "panel": "design-panel-03",
+      "element": "bg:pxa-panel__viswrap",
+      "role": "DECORATIVE_ART",
+      "scale": "PLATE",
+      "fit": "AUTHORITY_PREVIEW_COVER",
+      "crop": "DESIGN_CHAMBER_MINIATURE",
+      "panelMode": null,
+      "routes": [
+        "design",
+        "design-assets",
+        "design-brand",
+        "design-compiler",
+        "design-experience",
+        "design-surfaces"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 55
+    },
+    {
+      "tab": "DESIGN",
+      "panel": "design-panel-04",
+      "element": "img:pxa-vis",
+      "role": "DECORATIVE_ART",
+      "scale": "PLATE",
+      "fit": null,
+      "crop": "DESIGN_CHAMBER_MINIATURE",
+      "panelMode": null,
+      "routes": [
+        "design",
+        "design-assets",
+        "design-brand",
+        "design-compiler",
+        "design-experience",
+        "design-surfaces"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 125
+    },
+    {
+      "tab": "DESIGN",
+      "panel": "design-panel-05",
+      "element": "bg:pxa-vis",
+      "role": "DECORATIVE_ART",
+      "scale": "PLATE",
+      "fit": "AUTHORITY_PREVIEW_COVER",
+      "crop": "DESIGN_CHAMBER_MINIATURE",
+      "panelMode": null,
+      "routes": [
+        "design",
+        "design-assets",
+        "design-brand",
+        "design-compiler",
+        "design-experience",
+        "design-surfaces"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 65
+    },
+    {
+      "tab": "DESIGN",
+      "panel": "design-pipeline",
+      "element": "img:pxa-stage",
+      "role": "OTHER_DECORATIVE",
+      "scale": "PLATE",
+      "fit": null,
+      "crop": null,
+      "panelMode": null,
+      "routes": [
+        "design",
+        "design-assets",
+        "design-brand",
+        "design-compiler",
+        "design-experience",
+        "design-jurnl-brand",
+        "design-surfaces"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 175
+    },
+    {
+      "tab": "DESIGN",
+      "panel": "design-table",
+      "element": "bg:pxa-tcard__img",
+      "role": "DECORATIVE_ART",
+      "scale": "PLATE",
+      "fit": "LANDSCAPE_COVER",
+      "crop": "DESIGN_TABLE_PLATE",
+      "panelMode": null,
+      "routes": [
+        "design",
+        "design-assets",
+        "design-brand",
+        "design-compiler",
+        "design-experience",
+        "design-surfaces",
+        "design-viewport"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 110
+    },
+    {
+      "tab": "DESIGN",
+      "panel": "design-table",
+      "element": "bg:pxa-tcard__img.pxa-pf-tcard__img",
+      "role": "UI_SCREENSHOT",
+      "scale": "TILE",
+      "fit": "UI_CAPTURE_CONTAIN",
+      "crop": null,
+      "panelMode": null,
+      "routes": [
+        "design-jurnl-brand"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 15
+    },
+    {
+      "tab": "EXPERIENCE",
+      "panel": "—",
+      "element": "bg:pxa-hero__bg.pxa-hero__bg--plate",
+      "role": "DECORATIVE_ART",
+      "scale": "PLATE",
+      "fit": "WIDE_SCENE_COVER",
+      "crop": "HERO_PLATE_BAND",
+      "panelMode": null,
+      "routes": [
+        "experience"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 5
+    },
+    {
+      "tab": "EXPERIENCE",
+      "panel": "—",
+      "element": "bg:pw-scroll__hero",
+      "role": "DECORATIVE_ART",
+      "scale": "PLATE",
+      "fit": "WIDE_SCENE_COVER",
+      "crop": "HERO_PLATE_BAND",
+      "panelMode": null,
+      "routes": [
+        "experience-assets",
+        "experience-environments",
+        "experience-modules",
+        "experience-review",
+        "experience-simulations",
+        "experience-world",
+        "experience-zones"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 35
+    },
+    {
+      "tab": "EXPERIENCE",
+      "panel": "—",
+      "element": "bg:pw-plate.pw-plate--set.pwa-xchild__world",
+      "role": "DECORATIVE_ART",
+      "scale": "PLATE",
+      "fit": "WIDE_SCENE_COVER",
+      "crop": "EXPERIENCE_WORLD_CROP",
+      "panelMode": null,
+      "routes": [
+        "experience-assets",
+        "experience-environments",
+        "experience-modules",
+        "experience-review",
+        "experience-simulations",
+        "experience-world",
+        "experience-zones"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 35
+    },
+    {
+      "tab": "EXPRESSION",
+      "panel": "—",
+      "element": "bg:pxa-hero__bg.pxa-hero__bg--plate",
+      "role": "DECORATIVE_ART",
+      "scale": "PLATE",
+      "fit": "WIDE_SCENE_COVER",
+      "crop": "HERO_PLATE_BAND",
+      "panelMode": null,
+      "routes": [
+        "expression",
+        "expression-campaign",
+        "expression-casting",
+        "expression-casting-actor-profile",
+        "expression-casting-actors",
+        "expression-casting-character-profile",
+        "expression-casting-characters",
+        "expression-casting-continuity",
+        "expression-casting-role-detail",
+        "expression-casting-roles",
+        "expression-format",
+        "expression-look",
+        "expression-look-accessories",
+        "expression-look-continuity",
+        "expression-look-fittings",
+        "expression-look-hair",
+        "expression-look-looks",
+        "expression-look-makeup",
+        "expression-look-outfits",
+        "expression-narrative",
+        "expression-narrative-momentum",
+        "expression-narrative-proof",
+        "expression-narrative-story",
+        "expression-narrative-structure",
+        "expression-package",
+        "expression-performance",
+        "expression-performance-beats",
+        "expression-performance-scenes",
+        "expression-performance-takes",
+        "expression-review",
+        "expression-review-approval-detail",
+        "expression-sets",
+        "expression-sets-camera",
+        "expression-sets-environments",
+        "expression-sets-graphics",
+        "expression-sets-props",
+        "expression-sets-sets",
+        "expression-sets-zones",
+        "expression-storyboard",
+        "expression-storyboard-keyframes",
+        "expression-storyboard-sequence-detail"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 205
+    },
+    {
+      "tab": "EXPRESSION",
+      "panel": "casting-actor-profile",
+      "element": "slot:exf-mono.exf-face",
+      "role": "PORTRAIT",
+      "scale": "PREVIEW",
+      "fit": "PORTRAIT_COVER",
+      "crop": "PORTRAIT_FACE_SAFE",
+      "panelMode": "MEDIA_LEAD",
+      "routes": [
+        "expression-casting-actor-profile"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 5
+    },
+    {
+      "tab": "EXPRESSION",
+      "panel": "casting-actors",
+      "element": "slot:exf-mono.exf-face",
+      "role": "PORTRAIT",
+      "scale": "CHIP",
+      "fit": "PORTRAIT_COVER",
+      "crop": "PORTRAIT_FACE_SAFE",
+      "panelMode": "MEDIA_INLINE",
+      "routes": [
+        "expression-casting-actors"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 35
+    },
+    {
+      "tab": "EXPRESSION",
+      "panel": "casting-available-talent",
+      "element": "slot:exf-mono.exf-face",
+      "role": "PORTRAIT",
+      "scale": "TILE",
+      "fit": "PORTRAIT_COVER",
+      "crop": "PORTRAIT_FACE_SAFE",
+      "panelMode": "PORTRAIT_GRID",
+      "routes": [
+        "expression-casting"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 35
+    },
+    {
+      "tab": "EXPRESSION",
+      "panel": "casting-characters",
+      "element": "slot:exf-mono.exf-face.exf-face--char",
+      "role": "PORTRAIT",
+      "scale": "CHIP",
+      "fit": "PORTRAIT_COVER",
+      "crop": "PORTRAIT_FACE_SAFE",
+      "panelMode": "MEDIA_INLINE",
+      "routes": [
+        "expression-casting-characters"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 15
+    },
+    {
+      "tab": "EXPRESSION",
+      "panel": "casting-lead-authority",
+      "element": "img:ph-img",
+      "role": "REFERENCE_AUTHORITY",
+      "scale": "PREVIEW",
+      "fit": "AUTHORITY_PREVIEW_CONTAIN",
+      "crop": null,
+      "panelMode": "AUTHORITY_PREVIEW",
+      "routes": [
+        "expression-casting"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 5
+    },
+    {
+      "tab": "EXPRESSION",
+      "panel": "casting-role-current",
+      "element": "slot:exf-mono.exf-face",
+      "role": "PORTRAIT",
+      "scale": "CHIP",
+      "fit": "PORTRAIT_COVER",
+      "crop": "PORTRAIT_FACE_SAFE",
+      "panelMode": "MEDIA_INLINE",
+      "routes": [
+        "expression-casting-role-detail"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 5
+    },
+    {
+      "tab": "EXPRESSION",
+      "panel": "casting-role-matches",
+      "element": "slot:exf-mono.exf-face",
+      "role": "PORTRAIT",
+      "scale": "CHIP",
+      "fit": "PORTRAIT_COVER",
+      "crop": "PORTRAIT_FACE_SAFE",
+      "panelMode": "MEDIA_INLINE",
+      "routes": [
+        "expression-casting-role-detail"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 10
+    },
+    {
+      "tab": "EXPRESSION",
+      "panel": "casting-role-previews",
+      "element": "slot:exf-mono.exf-face",
+      "role": "PORTRAIT",
+      "scale": "CHIP",
+      "fit": "PORTRAIT_COVER",
+      "crop": "PORTRAIT_FACE_SAFE",
+      "panelMode": "MEDIA_INLINE",
+      "routes": [
+        "expression-casting"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 15
+    },
+    {
+      "tab": "EXPRESSION",
+      "panel": "casting-roles",
+      "element": "slot:exf-mono.exf-face",
+      "role": "PORTRAIT",
+      "scale": "CHIP",
+      "fit": "PORTRAIT_COVER",
+      "crop": "PORTRAIT_FACE_SAFE",
+      "panelMode": "MEDIA_INLINE",
+      "routes": [
+        "expression-casting-roles"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 15
+    },
+    {
+      "tab": "EXPRESSION",
+      "panel": "expression-active",
+      "element": "img:ph-img",
+      "role": "REFERENCE_AUTHORITY",
+      "scale": "TILE",
+      "fit": "LANDSCAPE_COVER",
+      "crop": "NODE_ART_CARD",
+      "panelMode": null,
+      "routes": [
+        "expression"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 5
+    },
+    {
+      "tab": "EXPRESSION",
+      "panel": "expression-floors",
+      "element": "img:ph-img",
+      "role": "REFERENCE_AUTHORITY",
+      "scale": "TILE",
+      "fit": "LANDSCAPE_COVER",
+      "crop": "NODE_ART_CARD",
+      "panelMode": null,
+      "routes": [
+        "expression"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 30
+    },
+    {
+      "tab": "EXPRESSION",
+      "panel": "expression-making",
+      "element": "img:ph-img",
+      "role": "REFERENCE_AUTHORITY",
+      "scale": "TILE",
+      "fit": "PORTRAIT_COVER",
+      "crop": "NODE_ART_CARD",
+      "panelMode": null,
+      "routes": [
+        "expression"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 5
+    },
+    {
+      "tab": "EXPRESSION",
+      "panel": "expression-table",
+      "element": "img:ph-img",
+      "role": "REFERENCE_AUTHORITY",
+      "scale": "CHIP",
+      "fit": "THUMBNAIL_COVER",
+      "crop": "NODE_ART_CHIP",
+      "panelMode": null,
+      "routes": [
+        "expression"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 10
+    },
+    {
+      "tab": "EXPRESSION",
+      "panel": "expression-travel",
+      "element": "img:ph-img",
+      "role": "VIDEO_FRAME",
+      "scale": "CHIP",
+      "fit": "VIDEO_FRAME_CONTAIN",
+      "crop": "FRAME_TRIM",
+      "panelMode": null,
+      "routes": [
+        "expression"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 20
+    },
+    {
+      "tab": "EXPRESSION",
+      "panel": "look-active",
+      "element": "img:ph-img",
+      "role": "REFERENCE_AUTHORITY",
+      "scale": "PREVIEW",
+      "fit": "AUTHORITY_PREVIEW_CONTAIN",
+      "crop": null,
+      "panelMode": "MEDIA_LEAD",
+      "routes": [
+        "expression-look-accessories",
+        "expression-look-hair",
+        "expression-look-makeup",
+        "expression-look-outfits"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 20
+    },
+    {
+      "tab": "EXPRESSION",
+      "panel": "look-authority",
+      "element": "img:ph-img",
+      "role": "REFERENCE_AUTHORITY",
+      "scale": "PREVIEW",
+      "fit": "AUTHORITY_PREVIEW_CONTAIN",
+      "crop": null,
+      "panelMode": "AUTHORITY_PREVIEW",
+      "routes": [
+        "expression-look-looks"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 5
+    },
+    {
+      "tab": "EXPRESSION",
+      "panel": "look-root-active",
+      "element": "img:ph-img",
+      "role": "REFERENCE_AUTHORITY",
+      "scale": "PREVIEW",
+      "fit": "AUTHORITY_PREVIEW_CONTAIN",
+      "crop": null,
+      "panelMode": "MEDIA_LEAD",
+      "routes": [
+        "expression-look"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 5
+    },
+    {
+      "tab": "EXPRESSION",
+      "panel": "performance-art",
+      "element": "img:ph-img",
+      "role": "REFERENCE_AUTHORITY",
+      "scale": "PREVIEW",
+      "fit": "AUTHORITY_PREVIEW_CONTAIN",
+      "crop": null,
+      "panelMode": "AUTHORITY_PREVIEW",
+      "routes": [
+        "expression-performance"
+      ],
+      "viewports": [
+        "desktop",
+        "tablet"
+      ],
+      "measurements": 2
+    },
+    {
+      "tab": "EXPRESSION",
+      "panel": "performance-direction",
+      "element": "slot:exf-mono.exf-face.exf-face--char",
+      "role": "PORTRAIT",
+      "scale": "CHIP",
+      "fit": "PORTRAIT_COVER",
+      "crop": "PORTRAIT_FACE_SAFE",
+      "panelMode": "MEDIA_INLINE",
+      "routes": [
+        "expression-performance-takes"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 10
+    },
+    {
+      "tab": "EXPRESSION",
+      "panel": "performance-performers",
+      "element": "slot:exf-mono.exf-face.exf-face--char",
+      "role": "PORTRAIT",
+      "scale": "CHIP",
+      "fit": "PORTRAIT_COVER",
+      "crop": "PORTRAIT_FACE_SAFE",
+      "panelMode": "MEDIA_INLINE",
+      "routes": [
+        "expression-performance"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 10
+    },
+    {
+      "tab": "EXPRESSION",
+      "panel": "review-approval-detail",
+      "element": "img:ph-img",
+      "role": "REFERENCE_AUTHORITY",
+      "scale": "PREVIEW",
+      "fit": "AUTHORITY_PREVIEW_CONTAIN",
+      "crop": null,
+      "panelMode": "MEDIA_LEAD",
+      "routes": [
+        "expression-review-approval-detail"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 5
+    },
+    {
+      "tab": "EXPRESSION",
+      "panel": "storyboard-inspector",
+      "element": "img:ph-img",
+      "role": "VIDEO_FRAME",
+      "scale": "PREVIEW",
+      "fit": "VIDEO_FRAME_CONTAIN",
+      "crop": null,
+      "panelMode": "MEDIA_LEAD",
+      "routes": [
+        "expression-storyboard"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 5
+    },
+    {
+      "tab": "EXPRESSION",
+      "panel": "storyboard-keyframe-node",
+      "element": "img:ph-img",
+      "role": "REFERENCE_AUTHORITY",
+      "scale": "PREVIEW",
+      "fit": "AUTHORITY_PREVIEW_CONTAIN",
+      "crop": null,
+      "panelMode": "AUTHORITY_PREVIEW",
+      "routes": [
+        "expression-storyboard-keyframes"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 5
+    },
+    {
+      "tab": "EXPRESSION",
+      "panel": "storyboard-keyframes",
+      "element": "img:ph-img",
+      "role": "VIDEO_FRAME",
+      "scale": "TILE",
+      "fit": "VIDEO_FRAME_CONTAIN",
+      "crop": "FRAME_TRIM",
+      "panelMode": "REFERENCE_FRAME",
+      "routes": [
+        "expression-storyboard-keyframes"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 40
+    },
+    {
+      "tab": "EXPRESSION",
+      "panel": "storyboard-root-boards",
+      "element": "img:ph-img",
+      "role": "VIDEO_FRAME",
+      "scale": "TILE",
+      "fit": "VIDEO_FRAME_CONTAIN",
+      "crop": "FRAME_TRIM",
+      "panelMode": "REFERENCE_FRAME",
+      "routes": [
+        "expression-storyboard"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 40
+    },
+    {
+      "tab": "EXPRESSION",
+      "panel": "storyboard-sequence-frames",
+      "element": "img:ph-img",
+      "role": "VIDEO_FRAME",
+      "scale": "TILE",
+      "fit": "VIDEO_FRAME_CONTAIN",
+      "crop": "FRAME_TRIM",
+      "panelMode": "REFERENCE_FRAME",
+      "routes": [
+        "expression-storyboard-sequence-detail"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 40
+    },
+    {
+      "tab": "HUB",
+      "panel": "—",
+      "element": "bg:hubx-hero__plate",
+      "role": "DECORATIVE_ART",
+      "scale": "PLATE",
+      "fit": "WIDE_SCENE_COVER",
+      "crop": "HERO_PLATE_BAND",
+      "panelMode": null,
+      "routes": [
+        "hub"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 5
+    },
+    {
+      "tab": "HUB",
+      "panel": "hub-activity",
+      "element": "img:ph-img",
+      "role": "REFERENCE_AUTHORITY",
+      "scale": "CHIP",
+      "fit": "THUMBNAIL_COVER",
+      "crop": "NODE_ART_CHIP",
+      "panelMode": null,
+      "routes": [
+        "hub"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 25
+    },
+    {
+      "tab": "HUB",
+      "panel": "hub-authority",
+      "element": "img:ph-img",
+      "role": "VIDEO_FRAME",
+      "scale": "TILE",
+      "fit": "LANDSCAPE_COVER",
+      "crop": "HUB_MACHINE_FRAME",
+      "panelMode": null,
+      "routes": [
+        "hub-machine",
+        "hub-machine-activity"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 10
+    },
+    {
+      "tab": "HUB",
+      "panel": "hub-chamber",
+      "element": "img:ph-chamber__atmo",
+      "role": "DECORATIVE_ART",
+      "scale": "PLATE",
+      "fit": null,
+      "crop": "HUB_ATMOSPHERE",
+      "panelMode": null,
+      "routes": [
+        "hub-machine",
+        "hub-machine-activity"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 10
+    },
+    {
+      "tab": "HUB",
+      "panel": "hub-chamber",
+      "element": "img:ph-img",
+      "role": "REFERENCE_AUTHORITY",
+      "scale": "CHIP",
+      "fit": "THUMBNAIL_COVER",
+      "crop": "NODE_ART_CHIP",
+      "panelMode": null,
+      "routes": [
+        "hub-machine",
+        "hub-machine-activity"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 60
+    },
+    {
+      "tab": "HUB",
+      "panel": "hub-chamber",
+      "element": "img:ph-img",
+      "role": "VIDEO_FRAME",
+      "scale": "TILE",
+      "fit": "LANDSCAPE_COVER",
+      "crop": "HUB_MACHINE_FRAME",
+      "panelMode": null,
+      "routes": [
+        "hub-machine",
+        "hub-machine-activity"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 10
+    },
+    {
+      "tab": "HUB",
+      "panel": "hub-chamber",
+      "element": "img:ph-img",
+      "role": "VIDEO_FRAME",
+      "scale": "CHIP",
+      "fit": "THUMBNAIL_COVER",
+      "crop": "HUB_MACHINE_FRAME",
+      "panelMode": null,
+      "routes": [
+        "hub-machine",
+        "hub-machine-activity"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 120
+    },
+    {
+      "tab": "HUB",
+      "panel": "hub-entries",
+      "element": "img:ph-img",
+      "role": "REFERENCE_AUTHORITY",
+      "scale": "CHIP",
+      "fit": "THUMBNAIL_COVER",
+      "crop": "NODE_ART_CHIP",
+      "panelMode": null,
+      "routes": [
+        "hub"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 5
+    },
+    {
+      "tab": "HUB",
+      "panel": "hub-operations",
+      "element": "img:ph-img",
+      "role": "REFERENCE_AUTHORITY",
+      "scale": "CHIP",
+      "fit": "THUMBNAIL_COVER",
+      "crop": "NODE_ART_CHIP",
+      "panelMode": null,
+      "routes": [
+        "hub"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 10
+    },
+    {
+      "tab": "HUB",
+      "panel": "hub-overview",
+      "element": "img:ph-img",
+      "role": "REFERENCE_AUTHORITY",
+      "scale": "TILE",
+      "fit": "THUMBNAIL_COVER",
+      "crop": "NODE_ART_CARD",
+      "panelMode": null,
+      "routes": [
+        "hub"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 5
+    },
+    {
+      "tab": "HUB",
+      "panel": "hub-table",
+      "element": "img:ph-img",
+      "role": "REFERENCE_AUTHORITY",
+      "scale": "CHIP",
+      "fit": "THUMBNAIL_COVER",
+      "crop": "NODE_ART_CHIP",
+      "panelMode": null,
+      "routes": [
+        "hub-machine"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 10
+    },
+    {
+      "tab": "INBOX",
+      "panel": "inbox-all-list",
+      "element": "img:ph-img",
+      "role": "REFERENCE_AUTHORITY",
+      "scale": "CHIP",
+      "fit": "THUMBNAIL_COVER",
+      "crop": "NODE_ART_CHIP",
+      "panelMode": null,
+      "routes": [
+        "inbox-all"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 35
+    },
+    {
+      "tab": "INBOX",
+      "panel": "inbox-detail-attachments",
+      "element": "img:ph-img",
+      "role": "REFERENCE_AUTHORITY",
+      "scale": "TILE",
+      "fit": "THUMBNAIL_COVER",
+      "crop": "NODE_ART_CARD",
+      "panelMode": null,
+      "routes": [
+        "inbox-decision-detail"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 15
+    },
+    {
+      "tab": "INBOX",
+      "panel": "inbox-detail-card",
+      "element": "img:ph-img",
+      "role": "REFERENCE_AUTHORITY",
+      "scale": "PREVIEW",
+      "fit": "AUTHORITY_PREVIEW_CONTAIN",
+      "crop": null,
+      "panelMode": "MEDIA_LEAD",
+      "routes": [
+        "inbox-decision-detail"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 5
+    },
+    {
+      "tab": "INBOX",
+      "panel": "inbox-focus",
+      "element": "img:ph-img",
+      "role": "REFERENCE_AUTHORITY",
+      "scale": "PREVIEW",
+      "fit": "AUTHORITY_PREVIEW_CONTAIN",
+      "crop": null,
+      "panelMode": "MEDIA_LEAD",
+      "routes": [
+        "inbox"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 5
+    },
+    {
+      "tab": "INBOX",
+      "panel": "inbox-incoming",
+      "element": "img:ph-img",
+      "role": "REFERENCE_AUTHORITY",
+      "scale": "CHIP",
+      "fit": "LANDSCAPE_COVER",
+      "crop": "NODE_ART_CHIP",
+      "panelMode": null,
+      "routes": [
+        "inbox"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 15
+    },
+    {
+      "tab": "INBOX",
+      "panel": "inbox-watching-list",
+      "element": "img:ph-img",
+      "role": "REFERENCE_AUTHORITY",
+      "scale": "CHIP",
+      "fit": "THUMBNAIL_COVER",
+      "crop": "NODE_ART_CHIP",
+      "panelMode": null,
+      "routes": [
+        "inbox-watching"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 15
+    },
+    {
+      "tab": "LIBRARY",
+      "panel": "library-collections",
+      "element": "img:ph-img",
+      "role": "REFERENCE_AUTHORITY",
+      "scale": "CHIP",
+      "fit": "PORTRAIT_COVER",
+      "crop": "NODE_ART_CHIP",
+      "panelMode": null,
+      "routes": [
+        "library",
+        "library-actors",
+        "library-environment",
+        "library-graphic",
+        "library-hair",
+        "library-performance",
+        "library-prop",
+        "library-sets",
+        "library-wardrobe"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 45
+    },
+    {
+      "tab": "LIBRARY",
+      "panel": "library-collections",
+      "element": "bg:pxa-thumb",
+      "role": "DECORATIVE_ART",
+      "scale": "PLATE",
+      "fit": "WIDE_SCENE_COVER",
+      "crop": "LIBRARY_PLATE",
+      "panelMode": null,
+      "routes": [
+        "library",
+        "library-actors",
+        "library-environment",
+        "library-graphic",
+        "library-hair",
+        "library-performance",
+        "library-prop",
+        "library-sets",
+        "library-wardrobe"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 315
+    },
+    {
+      "tab": "LIBRARY",
+      "panel": "library-lineage-flow",
+      "element": "bg:pxa-thumb",
+      "role": "DECORATIVE_ART",
+      "scale": "PLATE",
+      "fit": "WIDE_SCENE_COVER",
+      "crop": "LIBRARY_PLATE",
+      "panelMode": null,
+      "routes": [
+        "library",
+        "library-actors",
+        "library-environment",
+        "library-graphic",
+        "library-hair",
+        "library-performance",
+        "library-prop",
+        "library-sets",
+        "library-wardrobe"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 45
+    },
+    {
+      "tab": "LIBRARY",
+      "panel": "library-lineage-flow",
+      "element": "img:ph-img",
+      "role": "REFERENCE_AUTHORITY",
+      "scale": "TILE",
+      "fit": "LANDSCAPE_COVER",
+      "crop": "NODE_ART_CARD",
+      "panelMode": null,
+      "routes": [
+        "library",
+        "library-actors",
+        "library-environment",
+        "library-graphic",
+        "library-hair",
+        "library-performance",
+        "library-prop",
+        "library-sets",
+        "library-wardrobe"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 90
+    },
+    {
+      "tab": "LIBRARY",
+      "panel": "library-most-used",
+      "element": "img:ph-img",
+      "role": "REFERENCE_AUTHORITY",
+      "scale": "TILE",
+      "fit": "PORTRAIT_COVER",
+      "crop": "NODE_ART_CARD",
+      "panelMode": null,
+      "routes": [
+        "library",
+        "library-actors",
+        "library-environment",
+        "library-graphic",
+        "library-hair",
+        "library-performance",
+        "library-prop",
+        "library-sets",
+        "library-wardrobe"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 45
+    },
+    {
+      "tab": "LIBRARY",
+      "panel": "library-most-used",
+      "element": "bg:pxa-thumb",
+      "role": "DECORATIVE_ART",
+      "scale": "PLATE",
+      "fit": "WIDE_SCENE_COVER",
+      "crop": "LIBRARY_PLATE",
+      "panelMode": null,
+      "routes": [
+        "library",
+        "library-actors",
+        "library-environment",
+        "library-graphic",
+        "library-hair",
+        "library-performance",
+        "library-prop",
+        "library-sets",
+        "library-wardrobe"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 126
+    },
+    {
+      "tab": "LIBRARY",
+      "panel": "library-recent",
+      "element": "img:ph-img",
+      "role": "REFERENCE_AUTHORITY",
+      "scale": "TILE",
+      "fit": "LANDSCAPE_COVER",
+      "crop": "NODE_ART_CARD",
+      "panelMode": null,
+      "routes": [
+        "library",
+        "library-actors",
+        "library-environment",
+        "library-graphic",
+        "library-hair",
+        "library-performance",
+        "library-prop",
+        "library-sets",
+        "library-wardrobe"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 171
+    },
+    {
+      "tab": "LIBRARY",
+      "panel": "library-vault",
+      "element": "bg:pxa-vault__bg.pxa-vault__bg--canon",
+      "role": "DECORATIVE_ART",
+      "scale": "PLATE",
+      "fit": "WIDE_SCENE_COVER",
+      "crop": "HERO_PLATE_BAND",
+      "panelMode": null,
+      "routes": [
+        "library",
+        "library-actors",
+        "library-environment",
+        "library-graphic",
+        "library-hair",
+        "library-performance",
+        "library-prop",
+        "library-sets",
+        "library-wardrobe"
+      ],
+      "viewports": [
+        "desktop",
+        "large",
+        "mobile",
+        "small",
+        "tablet"
+      ],
+      "measurements": 45
+    }
+  ]
+}

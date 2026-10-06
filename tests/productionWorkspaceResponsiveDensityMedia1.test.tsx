@@ -151,6 +151,9 @@ describe('media slot contract', () => {
     'AUTHORITY_PREVIEW_COVER',
     'WIDE_SCENE_COVER',
     'DOCUMENT_PREVIEW_CONTAIN',
+    // PANEL-MEDIA-GEOMETRY-REFINEMENT2: functional previews that must stay whole
+    'AUTHORITY_PREVIEW_CONTAIN',
+    'VIDEO_FRAME_CONTAIN',
   ];
 
   it('defines every fit mode with cover ⇔ intentional crop and contain ⇔ no crop', () => {
@@ -324,12 +327,13 @@ describe('internal scroll panes: the pane edge is a scroll edge, never a hard cu
 });
 
 describe('EXPRESSION family imagery declares its slot', () => {
-  it('family Img declares slot + fit (default: composed card media, centred cover); faces use the portrait focal', () => {
+  // superseded by PANEL-MEDIA-GEOMETRY-REFINEMENT2: no cover-by-default — the media ROLE decides the fit
+  it('family Img declares slot + role (fit from the role); faces use the portrait focal', () => {
     const shell = read('src/site00/components/productionAuthority/expression/ExpressionFamilyShell.tsx');
-    expect(shell).toMatch(/slot = 'CARD_MEDIA',\s*fit = 'THUMBNAIL_COVER',/);
-    expect(shell).toContain('{...workspaceMediaAttrs({ slot, fit, focal })}');
+    expect(shell).toMatch(/slot = 'CARD_MEDIA',\s*fit,/);
+    expect(shell).toContain('{...workspaceMediaAttrs({ slot, fit, focal, role, scale, aspect, crop })}');
     expect(shell).toContain('data-media-slot="HERO_PLATE" data-media-fit="WIDE_SCENE_COVER"');
-    expect(read('src/site00/components/productionAuthority/expression/families/CastingFamily.tsx')).toContain('className="exf-face" slot="ROW_THUMB" fit="PORTRAIT_COVER"');
+    expect(read('src/site00/components/productionAuthority/expression/families/CastingFamily.tsx')).toMatch(/className="exf-face" \{\.\.\.media\} fit="PORTRAIT_COVER"/);
   });
 
   it('HubImage stays attribute-free unless a caller declares a slot', () => {

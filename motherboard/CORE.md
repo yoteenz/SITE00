@@ -254,6 +254,22 @@ Canonical upstream-to-downstream layers (methodology v20+):
 - **Forbidden:** `zoom`, `transform: scale()`, root font-size shrink, page-width hacks, `overflow: hidden` without a slot / fit / focal contract, `object-fit: fill`.
 - Audit / stress tooling: `scripts/production-workspace/density-*.mjs`; artifacts: `docs/site00/production-workspace/refinements/responsive-density-media1/`.
 
+### Panel ↔ media geometry (HUB governs how panels respect their content)
+
+Contract: `src/site00/config/production-workspace-media.ts`, mirrored by density CSS §8. Artifacts: `docs/site00-production-workspace/media-geometry-refinement2/`.
+
+1. **FUNCTIONAL MEDIA INFLUENCES PANEL GEOMETRY.** TILE / PREVIEW media drive their panel's height. Only PLATE (decorative) never does.
+2. **PANELS DO NOT FORCE FUNCTIONAL MEDIA INTO ARBITRARY HEIGHTS.** EXPRESSION phone grids holding media are content-driven (`data-media-geometry="CONTENT"`). Never `minmax(0, fr)` rows or `flex: 1 1 auto` previews around functional media.
+3. **MEDIA MODE IS EXPLICIT BY ASSET TYPE.** Every call site declares `role` (10 roles), `scale` and, for a cover, `crop`. EXPRESSION `Img` has no cover default.
+4. **DECORATIVE ART MAY CROP**, but only through a registered class.
+5. **FUNCTIONAL THUMBNAILS MAY NOT CROP UNLESS THE CONTRACT ALLOWS IT.** The allowed crops are listed in `WORKSPACE_INTENTIONAL_CROPS`; anything not registered is a failure.
+   - UI, logo, document and other functional media never crop.
+   - Authority media crop only through a registered class.
+   - `useWorkspaceCropGuard` contains a declared cover that would break its bound in the box it actually got.
+6. **MOBILE MAY STACK OR GROW PANELS.** The escape order is: grow → stack → taller slot → fewer columns → next row → detail view. Never crop harder, shrink or hide overflow.
+7. **FOCAL INTEGRITY IS PART OF RESPONSIVE QA.** Focal regions are anchored per axis at r0 / (1 − h) and proven by the live audit and stress test.
+8. **"CONTAINED" IS NOT ENOUGH.** Each scale has a HUB-calibrated legibility floor; a preview is at least 120px tall or spans the full row.
+
 ---
 
 ## Workspace Experience Brain (Studio OS experience layer)

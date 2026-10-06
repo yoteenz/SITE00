@@ -1,0 +1,359 @@
+{
+  "sprint": "P0.SITE00.PRODUCTION-WORKSPACE.PANEL-MEDIA-GEOMETRY-REFINEMENT2",
+  "capture": "live Chromium (Playwright) — before = main worktree, after = this branch; mobile 393×852 @2x, tablet 834×1194 @1x, desktop 1440×900 @1x; full audit captures (98 routes × 5 widths) were taken for both runs and are summarised in WORKSPACE_MEDIA_GEOMETRY_AUDIT.json",
+  "board": "screenshots/boards/<id>.jpg — BEFORE | AFTER | role · scale · fit · panel mode · why a crop is / is not allowed",
+  "requiredCoverage": {
+    "expressionCasting": [
+      "casting-mobile",
+      "casting-desktop"
+    ],
+    "availableTalent": [
+      "casting-mobile"
+    ],
+    "leadAuthority": [
+      "casting-mobile",
+      "casting-desktop"
+    ],
+    "portraitHeavy": [
+      "portrait-actor-profile",
+      "portrait-role-detail"
+    ],
+    "uiScreenshot": [
+      "ui-screenshot-jurnl"
+    ],
+    "logoIdentity": [
+      "logo-identity-desktop"
+    ],
+    "referenceAuthority": [
+      "authority-look",
+      "authority-inbox-detail",
+      "authority-milestone",
+      "authority-inbox-detail-tablet",
+      "authority-milestone-tablet"
+    ],
+    "documentPreview": "no document media exists in the workspace today — DOCUMENT_PREVIEW is covered by the contract and the stress test (document source, all scales, 5 widths)",
+    "landscapeEditorial": [
+      "landscape-library"
+    ],
+    "videoFrames": [
+      "frames-storyboard"
+    ],
+    "hubControl": [
+      "hub-control"
+    ]
+  },
+  "boards": [
+    {
+      "id": "casting-mobile",
+      "title": "EXPRESSION → CASTING · AVAILABLE TALENT + LEAD AUTHORITY",
+      "viewport": "mobile",
+      "route": "expression-casting",
+      "board": "screenshots/boards/casting-mobile.jpg",
+      "before": {
+        "shot": "screenshots/before/casting-mobile.jpg",
+        "notes": [
+          "CASTING-LEAD-AUTHORITY · REFERENCE_AUTHORITY · PREVIEW · THUMBNAIL_COVER · — ×1 — crop 59% kept — CROP_UNREGISTERED · PANE_SLICE · LEGIBILITY",
+          "CASTING-AVAILABLE-TALENT · PORTRAIT · TILE · PORTRAIT_COVER · — ×7 — whole source — PANE_SLICE"
+        ]
+      },
+      "after": {
+        "shot": "screenshots/after/casting-mobile.jpg",
+        "notes": [
+          "CASTING-LEAD-AUTHORITY · REFERENCE_AUTHORITY · PREVIEW · AUTHORITY_PREVIEW_CONTAIN · AUTHORITY_PREVIEW ×1 — whole source — no crop",
+          "CASTING-AVAILABLE-TALENT · PORTRAIT · TILE · PORTRAIT_COVER · PORTRAIT_GRID ×7 — whole source — no crop"
+        ]
+      }
+    },
+    {
+      "id": "casting-desktop",
+      "title": "EXPRESSION → CASTING · DESKTOP (composition kept)",
+      "viewport": "desktop",
+      "route": "expression-casting",
+      "board": "screenshots/boards/casting-desktop.jpg",
+      "before": {
+        "shot": "screenshots/before/casting-desktop.jpg",
+        "notes": [
+          "CASTING-LEAD-AUTHORITY · REFERENCE_AUTHORITY · PREVIEW · THUMBNAIL_COVER · — ×1 — crop 91% kept — CROP_UNREGISTERED",
+          "CASTING-AVAILABLE-TALENT · PORTRAIT · TILE · PORTRAIT_COVER · — ×7 — whole source — no crop"
+        ]
+      },
+      "after": {
+        "shot": "screenshots/after/casting-desktop.jpg",
+        "notes": [
+          "CASTING-LEAD-AUTHORITY · REFERENCE_AUTHORITY · PREVIEW · AUTHORITY_PREVIEW_CONTAIN · AUTHORITY_PREVIEW ×1 — whole source — no crop",
+          "CASTING-AVAILABLE-TALENT · PORTRAIT · TILE · PORTRAIT_COVER · PORTRAIT_GRID ×7 — whole source — no crop"
+        ]
+      }
+    },
+    {
+      "id": "portrait-actor-profile",
+      "title": "PORTRAIT-HEAVY · ACTOR PROFILE",
+      "viewport": "mobile",
+      "route": "expression-casting-actor-profile",
+      "board": "screenshots/boards/portrait-actor-profile.jpg",
+      "before": {
+        "shot": "screenshots/before/portrait-actor-profile.jpg",
+        "notes": [
+          "CASTING-ACTOR-PROFILE · PORTRAIT · TILE · PORTRAIT_COVER · — ×1 — whole source — PANE_SLICE"
+        ]
+      },
+      "after": {
+        "shot": "screenshots/after/portrait-actor-profile.jpg",
+        "notes": [
+          "CASTING-ACTOR-PROFILE · PORTRAIT · PREVIEW · PORTRAIT_COVER · MEDIA_LEAD ×1 — whole source — no crop"
+        ]
+      }
+    },
+    {
+      "id": "portrait-role-detail",
+      "title": "PORTRAIT ROWS · ROLE DETAIL (rows never sliced)",
+      "viewport": "mobile",
+      "route": "expression-casting-role-detail",
+      "board": "screenshots/boards/portrait-role-detail.jpg",
+      "before": {
+        "shot": "screenshots/before/portrait-role-detail.jpg",
+        "notes": [
+          "CASTING-ROLE-CURRENT · PORTRAIT · CHIP · PORTRAIT_COVER · — ×1 — whole source — PANE_SLICE",
+          "CASTING-ROLE-MATCHES · PORTRAIT · CHIP · PORTRAIT_COVER · — ×2 — whole source — no crop"
+        ]
+      },
+      "after": {
+        "shot": "screenshots/after/portrait-role-detail.jpg",
+        "notes": [
+          "CASTING-ROLE-CURRENT · PORTRAIT · CHIP · PORTRAIT_COVER · MEDIA_INLINE ×1 — whole source — no crop",
+          "CASTING-ROLE-MATCHES · PORTRAIT · CHIP · PORTRAIT_COVER · MEDIA_INLINE ×2 — whole source — no crop"
+        ]
+      }
+    },
+    {
+      "id": "ui-screenshot-jurnl",
+      "title": "UI SCREENSHOT · JURNL DESIGN TABLE (approved F01 screens)",
+      "viewport": "mobile",
+      "route": "design-jurnl-brand",
+      "board": "screenshots/boards/ui-screenshot-jurnl.jpg",
+      "before": {
+        "shot": "screenshots/before/ui-screenshot-jurnl.jpg",
+        "notes": [
+          "DESIGN-TABLE · UI_SCREENSHOT · TILE · role default · — ×3 — crop 27% kept — CROP_FORBIDDEN"
+        ]
+      },
+      "after": {
+        "shot": "screenshots/after/ui-screenshot-jurnl.jpg",
+        "notes": [
+          "DESIGN-TABLE · UI_SCREENSHOT · TILE · UI_CAPTURE_CONTAIN · — ×3 — whole source — no crop"
+        ]
+      }
+    },
+    {
+      "id": "logo-identity-desktop",
+      "title": "LOGO / IDENTITY · DESIGN OVERVIEW MARK",
+      "viewport": "desktop",
+      "route": "design-brand",
+      "board": "screenshots/boards/logo-identity-desktop.jpg",
+      "before": {
+        "shot": "screenshots/before/logo-identity-desktop.jpg",
+        "notes": [
+          "DESIGN-OVERVIEW · LOGO_MARK · CHIP · LOGO_CONTAIN · — ×1 — crop 90% kept — CROP_FORBIDDEN · PANEL_CLIP",
+          "DESIGN-OVERVIEW · DECORATIVE_ART · PLATE · AUTHORITY_PREVIEW_COVER · — ×3 — crop 7% kept — crop allowed: DESIGN_CHAMBER_MINIATURE"
+        ]
+      },
+      "after": {
+        "shot": "screenshots/after/logo-identity-desktop.jpg",
+        "notes": [
+          "DESIGN-OVERVIEW · LOGO_MARK · TILE · role default · — ×1 — whole source — no crop",
+          "DESIGN-OVERVIEW · DECORATIVE_ART · PLATE · AUTHORITY_PREVIEW_COVER · — ×3 — crop 7% kept — crop allowed: DESIGN_CHAMBER_MINIATURE"
+        ]
+      }
+    },
+    {
+      "id": "authority-look",
+      "title": "REFERENCE / AUTHORITY · LOOK ROOT",
+      "viewport": "mobile",
+      "route": "expression-look",
+      "board": "screenshots/boards/authority-look.jpg",
+      "before": {
+        "shot": "screenshots/before/authority-look.jpg",
+        "notes": [
+          "LOOK-ROOT-ACTIVE · REFERENCE_AUTHORITY · PREVIEW · THUMBNAIL_COVER · — ×1 — crop 44% kept — CROP_UNREGISTERED"
+        ]
+      },
+      "after": {
+        "shot": "screenshots/after/authority-look.jpg",
+        "notes": [
+          "LOOK-ROOT-ACTIVE · REFERENCE_AUTHORITY · PREVIEW · AUTHORITY_PREVIEW_CONTAIN · MEDIA_LEAD ×1 — whole source — no crop"
+        ]
+      }
+    },
+    {
+      "id": "authority-inbox-detail",
+      "title": "REFERENCE / AUTHORITY · INBOX DECISION DETAIL",
+      "viewport": "mobile",
+      "route": "inbox-decision-detail",
+      "board": "screenshots/boards/authority-inbox-detail.jpg",
+      "before": {
+        "shot": "screenshots/before/authority-inbox-detail.jpg",
+        "notes": [
+          "INBOX-DETAIL-CARD · REFERENCE_AUTHORITY · PREVIEW · PORTRAIT_COVER · — ×1 — crop 35% kept — CROP_UNREGISTERED"
+        ]
+      },
+      "after": {
+        "shot": "screenshots/after/authority-inbox-detail.jpg",
+        "notes": [
+          "INBOX-DETAIL-CARD · REFERENCE_AUTHORITY · PREVIEW · AUTHORITY_PREVIEW_CONTAIN · MEDIA_LEAD ×1 — whole source — no crop"
+        ]
+      }
+    },
+    {
+      "id": "authority-milestone",
+      "title": "REFERENCE / AUTHORITY · ACTIVITY MILESTONE",
+      "viewport": "mobile",
+      "route": "activity-milestone-look",
+      "board": "screenshots/boards/authority-milestone.jpg",
+      "before": {
+        "shot": "screenshots/before/authority-milestone.jpg",
+        "notes": [
+          " · REFERENCE_AUTHORITY · TILE · LANDSCAPE_COVER · — ×1 — crop 43% kept — CROP_OUT_OF_BOUNDS",
+          "ACTIVITY-MILESTONE-ASSETS · REFERENCE_AUTHORITY · CHIP · THUMBNAIL_COVER · — ×2 — crop 36% kept — crop allowed: NODE_ART_CHIP"
+        ]
+      },
+      "after": {
+        "shot": "screenshots/after/authority-milestone.jpg",
+        "notes": [
+          "3 / 7 · REFERENCE_AUTHORITY · PREVIEW · AUTHORITY_PREVIEW_CONTAIN · MEDIA_LEAD ×1 — whole source — no crop",
+          "ACTIVITY-MILESTONE-ASSETS · REFERENCE_AUTHORITY · CHIP · THUMBNAIL_COVER · — ×2 — crop 36% kept — crop allowed: NODE_ART_CHIP"
+        ]
+      }
+    },
+    {
+      "id": "authority-inbox-detail-tablet",
+      "title": "REFERENCE / AUTHORITY · INBOX DECISION CARD · TABLET (no mobile stacking; art column at the PREVIEW floor)",
+      "viewport": "tablet",
+      "route": "inbox-decision-detail",
+      "board": "screenshots/boards/authority-inbox-detail-tablet.jpg",
+      "before": {
+        "shot": "screenshots/before/authority-inbox-detail-tablet.jpg",
+        "notes": [
+          "INBOX-DETAIL-CARD · REFERENCE_AUTHORITY · PREVIEW · PORTRAIT_COVER · — ×1 — crop 39% kept — CROP_UNREGISTERED"
+        ]
+      },
+      "after": {
+        "shot": "screenshots/after/authority-inbox-detail-tablet.jpg",
+        "notes": [
+          "INBOX-DETAIL-CARD · REFERENCE_AUTHORITY · PREVIEW · AUTHORITY_PREVIEW_CONTAIN · MEDIA_LEAD ×1 — whole source — no crop"
+        ]
+      }
+    },
+    {
+      "id": "authority-milestone-tablet",
+      "title": "REFERENCE / AUTHORITY · ACTIVITY MILESTONE · TABLET",
+      "viewport": "tablet",
+      "route": "activity-milestone-look",
+      "board": "screenshots/boards/authority-milestone-tablet.jpg",
+      "before": {
+        "shot": "screenshots/before/authority-milestone-tablet.jpg",
+        "notes": [
+          " · REFERENCE_AUTHORITY · TILE · LANDSCAPE_COVER · — ×1 — crop 50% kept — crop allowed: NODE_ART_CARD",
+          "ACTIVITY-MILESTONE-ASSETS · REFERENCE_AUTHORITY · CHIP · THUMBNAIL_COVER · — ×2 — crop 36% kept — crop allowed: NODE_ART_CHIP"
+        ]
+      },
+      "after": {
+        "shot": "screenshots/after/authority-milestone-tablet.jpg",
+        "notes": [
+          "3 / 7 · REFERENCE_AUTHORITY · PREVIEW · AUTHORITY_PREVIEW_CONTAIN · MEDIA_LEAD ×1 — whole source — no crop",
+          "ACTIVITY-MILESTONE-ASSETS · REFERENCE_AUTHORITY · CHIP · THUMBNAIL_COVER · — ×2 — crop 36% kept — crop allowed: NODE_ART_CHIP"
+        ]
+      }
+    },
+    {
+      "id": "frames-storyboard",
+      "title": "VIDEO FRAMES · STORYBOARD ROOT",
+      "viewport": "mobile",
+      "route": "expression-storyboard",
+      "board": "screenshots/boards/frames-storyboard.jpg",
+      "before": {
+        "shot": "screenshots/before/frames-storyboard.jpg",
+        "notes": [
+          "STORYBOARD-ROOT-BOARDS · VIDEO_FRAME · TILE · THUMBNAIL_COVER · — ×8 — crop 42% kept — CROP_OUT_OF_BOUNDS",
+          "STORYBOARD-INSPECTOR · VIDEO_FRAME · PREVIEW · THUMBNAIL_COVER · — ×1 — crop 83% kept — CROP_UNREGISTERED · LEGIBILITY"
+        ]
+      },
+      "after": {
+        "shot": "screenshots/after/frames-storyboard.jpg",
+        "notes": [
+          "STORYBOARD-ROOT-BOARDS · VIDEO_FRAME · TILE · VIDEO_FRAME_CONTAIN · REFERENCE_FRAME ×8 — whole source — no crop",
+          "STORYBOARD-INSPECTOR · VIDEO_FRAME · PREVIEW · VIDEO_FRAME_CONTAIN · MEDIA_LEAD ×1 — whole source — no crop"
+        ]
+      }
+    },
+    {
+      "id": "landscape-library",
+      "title": "LANDSCAPE / SCENE NODE ART · LIBRARY STRIPS",
+      "viewport": "mobile",
+      "route": "library",
+      "board": "screenshots/boards/landscape-library.jpg",
+      "before": {
+        "shot": "screenshots/before/landscape-library.jpg",
+        "notes": [
+          "LIBRARY-RECENT · REFERENCE_AUTHORITY · TILE · LANDSCAPE_COVER · — ×3 — crop 63% kept — crop allowed: NODE_ART_CARD",
+          "LIBRARY-LINEAGE-FLOW · DECORATIVE_ART · PLATE · LANDSCAPE_COVER · — ×1 — crop 65% kept — crop allowed: LIBRARY_PLATE",
+          "LIBRARY-LINEAGE-FLOW · REFERENCE_AUTHORITY · TILE · LANDSCAPE_COVER · — ×2 — crop 50% kept — crop allowed: NODE_ART_CARD"
+        ]
+      },
+      "after": {
+        "shot": "screenshots/after/landscape-library.jpg",
+        "notes": [
+          "LIBRARY-RECENT · REFERENCE_AUTHORITY · TILE · LANDSCAPE_COVER · — ×3 — crop 63% kept — crop allowed: NODE_ART_CARD",
+          "LIBRARY-LINEAGE-FLOW · DECORATIVE_ART · PLATE · WIDE_SCENE_COVER · — ×1 — crop 65% kept — crop allowed: LIBRARY_PLATE",
+          "LIBRARY-LINEAGE-FLOW · REFERENCE_AUTHORITY · TILE · LANDSCAPE_COVER · — ×2 — crop 50% kept — crop allowed: NODE_ART_CARD"
+        ]
+      }
+    },
+    {
+      "id": "inbox-root",
+      "title": "INBOX ROOT · FOCUS CARD + INCOMING CARDS",
+      "viewport": "mobile",
+      "route": "inbox",
+      "board": "screenshots/boards/inbox-root.jpg",
+      "before": {
+        "shot": "screenshots/before/inbox-root.jpg",
+        "notes": [
+          "INBOX-INCOMING · REFERENCE_AUTHORITY · TILE · LANDSCAPE_COVER · — ×3 — crop 43% kept — CROP_OUT_OF_BOUNDS"
+        ]
+      },
+      "after": {
+        "shot": "screenshots/after/inbox-root.jpg",
+        "notes": [
+          "INBOX-FOCUS · REFERENCE_AUTHORITY · PREVIEW · AUTHORITY_PREVIEW_CONTAIN · MEDIA_LEAD ×1 — whole source — no crop",
+          "INBOX-INCOMING · REFERENCE_AUTHORITY · CHIP · LANDSCAPE_COVER · — ×3 — crop 43% kept — crop allowed: NODE_ART_CHIP"
+        ]
+      }
+    },
+    {
+      "id": "hub-control",
+      "title": "HUB · AUTHORITY (pixel-identical)",
+      "viewport": "mobile",
+      "route": "hub",
+      "board": "screenshots/boards/hub-control.jpg",
+      "before": {
+        "shot": "screenshots/before/hub-control.jpg",
+        "notes": [
+          " · DECORATIVE_ART · PLATE · WIDE_SCENE_COVER · — ×1 — whole source — no crop",
+          "HUB-OVERVIEW · REFERENCE_AUTHORITY · TILE · THUMBNAIL_COVER · — ×1 — crop 50% kept — crop allowed: NODE_ART_CARD",
+          "HUB-ENTRIES · REFERENCE_AUTHORITY · CHIP · THUMBNAIL_COVER · — ×1 — crop 83% kept — crop allowed: NODE_ART_CHIP",
+          "HUB-OPERATIONS · REFERENCE_AUTHORITY · CHIP · THUMBNAIL_COVER · — ×2 — crop 40% kept — crop allowed: NODE_ART_CHIP",
+          "HUB-ACTIVITY · REFERENCE_AUTHORITY · CHIP · THUMBNAIL_COVER · — ×5 — crop 36% kept — crop allowed: NODE_ART_CHIP"
+        ]
+      },
+      "after": {
+        "shot": "screenshots/after/hub-control.jpg",
+        "notes": [
+          " · DECORATIVE_ART · PLATE · WIDE_SCENE_COVER · — ×1 — whole source — no crop",
+          "HUB-OVERVIEW · REFERENCE_AUTHORITY · TILE · THUMBNAIL_COVER · — ×1 — crop 50% kept — crop allowed: NODE_ART_CARD",
+          "HUB-ENTRIES · REFERENCE_AUTHORITY · CHIP · THUMBNAIL_COVER · — ×1 — crop 83% kept — crop allowed: NODE_ART_CHIP",
+          "HUB-OPERATIONS · REFERENCE_AUTHORITY · CHIP · THUMBNAIL_COVER · — ×2 — crop 40% kept — crop allowed: NODE_ART_CHIP",
+          "HUB-ACTIVITY · REFERENCE_AUTHORITY · CHIP · THUMBNAIL_COVER · — ×5 — crop 36% kept — crop allowed: NODE_ART_CHIP"
+        ]
+      }
+    }
+  ]
+}

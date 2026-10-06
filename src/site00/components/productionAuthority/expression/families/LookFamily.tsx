@@ -139,9 +139,9 @@ export function LookFamily({ d, r, go }: FamilyProps) {
     const a = ASPECTS[id]!;
     return (
       <Grid rows={{ d: '1fr 0.75fr', t: '1fr 0.8fr', m: '0.62fr 1fr 0.85fr' }}>
-        <Panel title="ACTIVE LOOK" meta={look?.label} at={{ d: [3, 2], t: [5, 2], m: [6, 1] }} testId="look-active">
+        <Panel title="ACTIVE LOOK" meta={look?.label} at={{ d: [3, 2], t: [5, 2], m: [6, 1] }} media="MEDIA_LEAD" testId="look-active">
           {picker}
-          <Img url={art} label={look ? `${look.label} · LOOK AUTHORITY` : 'LOOK AUTHORITY'} className="exf-fill" />
+          <Img url={art} label={look ? `${look.label} · LOOK AUTHORITY` : 'LOOK AUTHORITY'} className="exf-fill" role="REFERENCE_AUTHORITY" scale="PREVIEW" aspect="node:look" />
         </Panel>
         <Panel title={a.title} meta={look && a.meta ? a.meta(look) : undefined} at={{ d: [5, 2], t: [7, 1], m: [6, 1] }} testId={`look-${id}`}>
           {look ?
@@ -189,9 +189,9 @@ export function LookFamily({ d, r, go }: FamilyProps) {
               />
             : noLook}
           </Panel>
-          <Panel title="LOOK AUTHORITY" meta={look ? `${look.approvedLookAuthorityIds.length} APPROVED` : undefined} at={{ d: [3, 2], t: [7, 1], m: [6, 1] }} testId="look-authority">
+          <Panel title="LOOK AUTHORITY" meta={look ? `${look.approvedLookAuthorityIds.length} APPROVED` : undefined} at={{ d: [3, 2], t: [7, 1], m: [6, 1] }} media="AUTHORITY_PREVIEW" testId="look-authority">
             <div className="exf-tags">{status}</div>
-            <Img url={art} label="LOOK AUTHORITY" className="exf-fill" />
+            <Img url={art} label="LOOK AUTHORITY" className="exf-fill" role="REFERENCE_AUTHORITY" scale="PREVIEW" aspect="node:look" />
             {engine}
           </Panel>
         </Grid>
@@ -261,11 +261,11 @@ export function LookFamily({ d, r, go }: FamilyProps) {
     default:
       return (
         <Grid rows={{ d: '1fr 0.85fr', t: '1fr 0.75fr 0.7fr', m: '1fr 0.8fr 0.62fr' }}>
-          <Panel title="ACTIVE LOOK" meta={look?.label} at={{ d: [4, 2], t: [6, 1], m: [3, 1] }} testId="look-root-active">
-            <Img url={art} label={look ? look.label : 'LOOK AUTHORITY'} className="exf-fill" />
+          <Panel title="ACTIVE LOOK" meta={look?.label} at={{ d: [4, 2], t: [6, 1], m: [6, 1] }} media="MEDIA_LEAD" testId="look-root-active">
+            <Img url={art} label={look ? look.label : 'LOOK AUTHORITY'} className="exf-fill" role="REFERENCE_AUTHORITY" scale="PREVIEW" aspect="node:look" />
             {picker}
           </Panel>
-          <Panel title="LOOK DETAILS" to={go('look', 'looks')} toLabel="LOOKS" at={{ d: [4, 1], t: [6, 1], m: [3, 1] }} testId="look-root-details">
+          <Panel title="LOOK DETAILS" to={go('look', 'looks')} toLabel="LOOKS" at={{ d: [4, 1], t: [6, 1], m: [6, 1] }} testId="look-root-details">
             {look ?
               <Kv
                 rows={[

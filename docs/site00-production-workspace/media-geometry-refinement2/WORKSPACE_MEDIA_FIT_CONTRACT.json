@@ -1,0 +1,338 @@
+{
+  "sprint": "P0.SITE00.PRODUCTION-WORKSPACE.PANEL-MEDIA-GEOMETRY-REFINEMENT2",
+  "name": "WorkspaceMediaFitContract",
+  "source": {
+    "ts": "src/site00/config/production-workspace-media.ts",
+    "css": "src/site00/styles/site00-production-workspace-density.css §2 + §8"
+  },
+  "fitModes": {
+    "THUMBNAIL_COVER": {
+      "fit": "cover",
+      "focal": "50% 50%",
+      "crop": "INTENTIONAL",
+      "backdrop": "NONE",
+      "purpose": "Row / strip thumbnails (HUB ops + feed thumbs)."
+    },
+    "THUMBNAIL_CONTAIN": {
+      "fit": "contain",
+      "focal": "50% 50%",
+      "crop": "NONE",
+      "backdrop": "NEUTRAL",
+      "purpose": "Small previews whose whole subject must stay visible."
+    },
+    "PORTRAIT_COVER": {
+      "fit": "cover",
+      "focal": "50% 22%",
+      "crop": "INTENTIONAL",
+      "backdrop": "NONE",
+      "purpose": "Cast / actor / character portraits — keeps the face in frame."
+    },
+    "LANDSCAPE_COVER": {
+      "fit": "cover",
+      "focal": "50% 45%",
+      "crop": "INTENTIONAL",
+      "backdrop": "NONE",
+      "purpose": "Landscape tiles and card media (HUB entry / feature)."
+    },
+    "LOGO_CONTAIN": {
+      "fit": "contain",
+      "focal": "50% 50%",
+      "crop": "NONE",
+      "backdrop": "NONE",
+      "purpose": "Logos, marks, transparent brand assets — never cropped, never stretched."
+    },
+    "UI_CAPTURE_CONTAIN": {
+      "fit": "contain",
+      "focal": "50% 0%",
+      "crop": "NONE",
+      "backdrop": "NEUTRAL",
+      "purpose": "UI screenshots / authority captures — nav, title and key state stay visible."
+    },
+    "AUTHORITY_PREVIEW_COVER": {
+      "fit": "cover",
+      "focal": "50% 0%",
+      "crop": "INTENTIONAL",
+      "backdrop": "NONE",
+      "purpose": "Authority previews framed from the top so the title band survives."
+    },
+    "WIDE_SCENE_COVER": {
+      "fit": "cover",
+      "focal": "50% 42%",
+      "crop": "INTENTIONAL",
+      "backdrop": "NONE",
+      "purpose": "Environment / hero plates — crops to the visual anchor, never squashes."
+    },
+    "DOCUMENT_PREVIEW_CONTAIN": {
+      "fit": "contain",
+      "focal": "50% 50%",
+      "crop": "NONE",
+      "backdrop": "NEUTRAL",
+      "purpose": "Documents / records — page bounds preserved."
+    },
+    "AUTHORITY_PREVIEW_CONTAIN": {
+      "fit": "contain",
+      "focal": "50% 50%",
+      "crop": "NONE",
+      "backdrop": "NEUTRAL",
+      "purpose": "Authority / reference previews — the whole approved frame stays inspectable (REFINEMENT2 default for REFERENCE_AUTHORITY)."
+    },
+    "VIDEO_FRAME_CONTAIN": {
+      "fit": "contain",
+      "focal": "50% 50%",
+      "crop": "NONE",
+      "backdrop": "DARK",
+      "purpose": "Storyboard frames / keyframes / takes — the shot is read by its full composition."
+    }
+  },
+  "roleFit": {
+    "PORTRAIT": {
+      "functional": true,
+      "defaultFit": "PORTRAIT_COVER",
+      "allowedFits": [
+        "PORTRAIT_COVER",
+        "THUMBNAIL_CONTAIN"
+      ],
+      "crop": "FOCAL_SAFE",
+      "minVisibleAxis": 0.5,
+      "aspects": [
+        "4 / 5",
+        "3 / 4",
+        "1 / 1"
+      ],
+      "backdrop": "NEUTRAL",
+      "textOverlay": "NEVER"
+    },
+    "UI_SCREENSHOT": {
+      "functional": true,
+      "defaultFit": "UI_CAPTURE_CONTAIN",
+      "allowedFits": [
+        "UI_CAPTURE_CONTAIN"
+      ],
+      "crop": "NONE",
+      "minVisibleAxis": 1,
+      "aspects": [
+        "SOURCE",
+        "9 / 16",
+        "16 / 9"
+      ],
+      "backdrop": "DARK",
+      "textOverlay": "NEVER"
+    },
+    "LOGO_MARK": {
+      "functional": true,
+      "defaultFit": "LOGO_CONTAIN",
+      "allowedFits": [
+        "LOGO_CONTAIN"
+      ],
+      "crop": "NONE",
+      "minVisibleAxis": 1,
+      "aspects": [
+        "SOURCE",
+        "1 / 1"
+      ],
+      "backdrop": "NONE",
+      "textOverlay": "NEVER"
+    },
+    "LANDSCAPE_EDITORIAL": {
+      "functional": true,
+      "defaultFit": "LANDSCAPE_COVER",
+      "allowedFits": [
+        "LANDSCAPE_COVER",
+        "THUMBNAIL_COVER",
+        "WIDE_SCENE_COVER",
+        "THUMBNAIL_CONTAIN"
+      ],
+      "crop": "FOCAL_SAFE",
+      "minVisibleAxis": 0.5,
+      "aspects": [
+        "16 / 9",
+        "3 / 2",
+        "16 / 10",
+        "4 / 3",
+        "1 / 1"
+      ],
+      "backdrop": "NONE",
+      "textOverlay": "APPROVED_ONLY"
+    },
+    "REFERENCE_AUTHORITY": {
+      "functional": true,
+      "defaultFit": "AUTHORITY_PREVIEW_CONTAIN",
+      "allowedFits": [
+        "AUTHORITY_PREVIEW_CONTAIN"
+      ],
+      "crop": "CROP_SAFE",
+      "minVisibleAxis": 1,
+      "aspects": [
+        "SOURCE"
+      ],
+      "backdrop": "NEUTRAL",
+      "textOverlay": "NEVER"
+    },
+    "DECORATIVE_ART": {
+      "functional": false,
+      "defaultFit": "WIDE_SCENE_COVER",
+      "allowedFits": [
+        "WIDE_SCENE_COVER",
+        "LANDSCAPE_COVER",
+        "THUMBNAIL_COVER",
+        "AUTHORITY_PREVIEW_COVER"
+      ],
+      "crop": "SLOT_DEFINED",
+      "minVisibleAxis": 0,
+      "aspects": [
+        "SLOT"
+      ],
+      "backdrop": "NONE",
+      "textOverlay": "ALLOWED"
+    },
+    "DOCUMENT_PREVIEW": {
+      "functional": true,
+      "defaultFit": "DOCUMENT_PREVIEW_CONTAIN",
+      "allowedFits": [
+        "DOCUMENT_PREVIEW_CONTAIN"
+      ],
+      "crop": "NONE",
+      "minVisibleAxis": 1,
+      "aspects": [
+        "SOURCE",
+        "3 / 4",
+        "8.5 / 11"
+      ],
+      "backdrop": "PAPER",
+      "textOverlay": "NEVER"
+    },
+    "VIDEO_FRAME": {
+      "functional": true,
+      "defaultFit": "VIDEO_FRAME_CONTAIN",
+      "allowedFits": [
+        "VIDEO_FRAME_CONTAIN",
+        "LANDSCAPE_COVER",
+        "THUMBNAIL_COVER"
+      ],
+      "crop": "FOCAL_SAFE",
+      "minVisibleAxis": 0.88,
+      "aspects": [
+        "SOURCE",
+        "16 / 9",
+        "2.39 / 1"
+      ],
+      "backdrop": "DARK",
+      "textOverlay": "APPROVED_ONLY"
+    },
+    "OTHER_FUNCTIONAL": {
+      "functional": true,
+      "defaultFit": "THUMBNAIL_CONTAIN",
+      "allowedFits": [
+        "THUMBNAIL_CONTAIN"
+      ],
+      "crop": "NONE",
+      "minVisibleAxis": 1,
+      "aspects": [
+        "SOURCE"
+      ],
+      "backdrop": "NEUTRAL",
+      "textOverlay": "NEVER"
+    },
+    "OTHER_DECORATIVE": {
+      "functional": false,
+      "defaultFit": "THUMBNAIL_COVER",
+      "allowedFits": [
+        "THUMBNAIL_COVER",
+        "WIDE_SCENE_COVER",
+        "LANDSCAPE_COVER"
+      ],
+      "crop": "SLOT_DEFINED",
+      "minVisibleAxis": 0,
+      "aspects": [
+        "SLOT"
+      ],
+      "backdrop": "NONE",
+      "textOverlay": "ALLOWED"
+    }
+  },
+  "resolution": [
+    "role declared → fit = the call site’s fit if the role allows it, else the role default (asset-type-aware)",
+    "NONE-policy roles (UI / logo / document / other functional) contain only — a cover is replaced by the role default",
+    "REFERENCE_AUTHORITY contains by default; a cover needs an intentional-crop registry entry for that role and fit (authority metadata: CROP_SAFE)",
+    "a raw <img> that declares a no-crop role is contained by CSS (§8.6) whatever the composition CSS says"
+  ],
+  "focal": {
+    "contract": "'center' | 'top' | 'face' | 'subject' | { x, y, w?, h? } — no computer vision",
+    "named": {
+      "center": {
+        "position": "50% 50%",
+        "region": [
+          0.3,
+          0.3,
+          0.7,
+          0.7
+        ]
+      },
+      "top": {
+        "position": "50% 0%",
+        "region": [
+          0.1,
+          0,
+          0.9,
+          0.18
+        ]
+      },
+      "face": {
+        "position": "50% 19.4%",
+        "region": [
+          0.3,
+          0.12,
+          0.7,
+          0.5
+        ]
+      },
+      "subject": {
+        "position": "50% 42.4%",
+        "region": [
+          0.3,
+          0.28,
+          0.7,
+          0.62
+        ]
+      }
+    },
+    "position": "region-anchored: each axis p = r0 / (1 − h) — keeps the whole region in frame for every visible share ≥ the region size (edge-touching faces included)"
+  },
+  "cropGuard": "useWorkspaceCropGuard (HubImage, WorkspaceMediaSlot): on load and on resize, a declared functional cover that would show less than its bound or push its focal region / point out of frame is contained (data-crop-guard=\"contain\"). The source never sizes a panel — it can only stop a crop.",
+  "aspects": {
+    "approved": {
+      "STORYBOARD_FRAME": "16 / 10",
+      "ACTOR_HEADSHOT": "4 / 5",
+      "MOBILE_CAPTURE": "9 / 16",
+      "DESKTOP_CAPTURE": "16 / 9",
+      "DOCUMENT_PAGE": "3 / 4"
+    },
+    "hubNodeArt": {
+      "narrative": "138 / 60",
+      "cast": "272 / 110",
+      "look": "168 / 60",
+      "performance": "100 / 62",
+      "set": "145 / 64",
+      "storyboard": "640 / 443",
+      "keyframes": "174 / 50"
+    },
+    "rule": "semantic aspect per asset class; panel geometry never reads source pixels (node-art ratios are the receipt ledger’s approved crops, drift-checked by a test)"
+  },
+  "slotsKept": [
+    "ROW_THUMB",
+    "STRIP_THUMB",
+    "CARD_MEDIA",
+    "PORTRAIT",
+    "FEATURE_MEDIA",
+    "HERO_PLATE",
+    "LOGO_MARK",
+    "UI_CAPTURE",
+    "BOARD_PREVIEW",
+    "DOCUMENT"
+  ],
+  "states": {
+    "loading": "the slot aspect (--pw-media-aspect / slot aspect) is declared before the source loads — no layout shift (stress test LAYOUT_SHIFT = 0)",
+    "missing": "named empty slot keeps the geometry (initials tile for a missing headshot carries the same portrait slot)",
+    "error": "onError swaps to the named empty state — never the browser broken-image icon"
+  }
+}

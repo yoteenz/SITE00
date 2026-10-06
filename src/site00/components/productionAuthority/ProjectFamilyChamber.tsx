@@ -20,12 +20,12 @@ const pub = (p: string | null | undefined) => (p ? p.replace(/^public/, '') : nu
 function PanelVis({ vis }: { vis: ProjectChamberPanel['vis'] }) {
   switch (vis.kind) {
     case 'cover':
-      return <span className="pxa-vis pxa-pf-vis pxa-pf-vis--cover">{vis.src ? <img src={vis.src} alt="" loading="lazy" /> : null}</span>;
+      return <span className="pxa-vis pxa-pf-vis pxa-pf-vis--cover">{vis.src ? <img src={vis.src} alt="" loading="lazy" data-media-role="DECORATIVE_ART" data-media-scale="PLATE" /> : null}</span>;
     case 'authorities':
       return (
         <span className="pxa-vis pxa-pf-vis pxa-pf-vis--auth" data-count={vis.srcs.length}>
           {vis.srcs.map((s, i) => (
-            <img key={`${s}-${i}`} src={s} alt="" loading="lazy" />
+            <img key={`${s}-${i}`} src={s} alt="" loading="lazy" data-media-role="DECORATIVE_ART" data-media-scale="PLATE" data-media-crop="DESIGN_CHAMBER_MINIATURE" />
           ))}
         </span>
       );
@@ -121,7 +121,7 @@ export function ProjectFamilyChamber({ mode, project, families }: { mode: Produc
     <div className="pxa-design pxa-pf" data-testid="design-chamber-screen" data-mode={mode} data-project={project.slug} data-project-type={project.projectType}>
       <div className="pxa-chamber" data-testid="design-chamber" data-mode={mode}>
         <span className="pxa-chamber__atrium" aria-hidden>
-          <img className="pxa-chamber__atrium-art" alt="" src={AUTHORITY_ASSETS.designAtrium} />
+          <img className="pxa-chamber__atrium-art" alt="" src={AUTHORITY_ASSETS.designAtrium} data-media-role="DECORATIVE_ART" data-media-scale="PLATE" data-media-crop="DESIGN_CHAMBER_ART" />
           <i className="pxa-chamber__ring pxa-chamber__ring--1" />
           <i className="pxa-chamber__ring pxa-chamber__ring--2" />
           <i className="pxa-chamber__ring pxa-chamber__ring--3" />
@@ -143,7 +143,7 @@ export function ProjectFamilyChamber({ mode, project, families }: { mode: Produc
             </header>
             <div className="pxa-overview-panel__body">
               <span className="pxa-overview-panel__art pxa-pf-overview__art">
-                {cfg.art ? <img src={cfg.art} alt={`${project.displayName} PARENT AUTHORITY (REFERENCE)`} loading="lazy" /> : null}
+                {cfg.art ? <img src={cfg.art} alt={`${project.displayName} PARENT AUTHORITY (REFERENCE)`} loading="lazy" data-media-role="DECORATIVE_ART" data-media-scale="PLATE" data-media-crop="OVERVIEW_BACKDROP" /> : null}
                 <p>{cfg.lede}</p>
               </span>
               <div className="pxa-overview-panel__side">
@@ -175,7 +175,7 @@ export function ProjectFamilyChamber({ mode, project, families }: { mode: Produc
         <ol className="pxa-pipeline__steps" data-count={cfg.pipeline.length}>
           {cfg.pipeline.map((s, i) => (
             <li key={s.title} className={s.state === 'ACTIVE' ? 'is-active' : undefined} data-state={s.state}>
-              <img className="pxa-stage" src={designStage(i).src} alt="" data-stage={designStage(i).id} loading="lazy" />
+              <img className="pxa-stage" src={designStage(i).src} alt="" data-stage={designStage(i).id} loading="lazy" data-media-role="OTHER_DECORATIVE" data-media-scale="PLATE" />
               <em>{String(i + 1).padStart(2, '0')}</em>
               <b>{s.title}</b>
               <small>{s.sub}</small>
@@ -187,7 +187,7 @@ export function ProjectFamilyChamber({ mode, project, families }: { mode: Produc
         <div className="pxa-tablecards" data-count={cfg.table.length}>
           {cfg.table.map((t) => (
             <Link key={t.title} to={t.to ?? inspectHref(projectSlug, mode, t.inspect)} className="pxa-tcard" data-testid="design-table-card" data-live={t.to ? 'viewport' : undefined}>
-              <span className="pxa-tcard__img pxa-pf-tcard__img" style={t.plate ? { backgroundImage: `url(${t.plate})` } : undefined} aria-hidden />
+              <span className="pxa-tcard__img pxa-pf-tcard__img" data-media-fit="UI_CAPTURE_CONTAIN" data-media-role="UI_SCREENSHOT" data-media-scale="TILE" style={t.plate ? { backgroundImage: `url(${t.plate})` } : undefined} aria-hidden />
               <span className="pxa-tcard__copy">
                 <b>{t.title}</b>
                 <small>{t.sub}</small>
@@ -297,7 +297,7 @@ export function ProjectInspector({ project, families, tab, mode, slug }: { proje
               </ul>
               <h3>LOGO</h3>
               <p className="pxa-pf-note">
-                {project.brand.coverFile ? <img src={project.brand.coverFile} alt="" className="pxa-pf-logo" /> : null}
+                {project.brand.coverFile ? <img src={project.brand.coverFile} alt="" className="pxa-pf-logo" data-media-role="LOGO_MARK" data-media-scale="TILE" /> : null}
                 {project.brand.logo.rule}
               </p>
             </>
@@ -319,7 +319,7 @@ export function ProjectInspector({ project, families, tab, mode, slug }: { proje
               <tbody>
                 {c.screens.map((s) => (
                   <tr key={s.id} data-screen={s.id}>
-                    <td>{s.authorityFile ? <img src={pub(s.authorityFile)!} alt="" className="pxa-pf-thumb" loading="lazy" /> : null}</td>
+                    <td>{s.authorityFile ? <img src={pub(s.authorityFile)!} alt="" className="pxa-pf-thumb" loading="lazy" data-media-role="UI_SCREENSHOT" data-media-scale="CHIP" /> : null}</td>
                     <td>
                       <b>{s.id}</b> {s.name}
                     </td>

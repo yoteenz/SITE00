@@ -100,7 +100,7 @@ export function PwFrame({
         </ProductionChromeStrip>
         <div className="pw-scroll">
           {heroImage ?
-            <div className="pw-scroll__hero" data-media-slot="HERO_PLATE" data-media-fit="WIDE_SCENE_COVER" style={{ backgroundImage: `url(${heroImage})` }} aria-hidden />
+            <div className="pw-scroll__hero" data-media-slot="HERO_PLATE" data-media-fit="WIDE_SCENE_COVER" data-media-role="DECORATIVE_ART" data-media-scale="PLATE" data-media-crop="HERO_PLATE_BAND" style={{ backgroundImage: `url(${heroImage})` }} aria-hidden />
           : null}
           <div className="pw-scroll__body">{children}</div>
         </div>
@@ -124,7 +124,7 @@ export function PwFrame({
       </header>
       <div className="pw-scroll">
         {heroImage ?
-          <div className="pw-scroll__hero" data-media-slot="HERO_PLATE" data-media-fit="WIDE_SCENE_COVER" style={{ backgroundImage: `url(${heroImage})` }} aria-hidden />
+          <div className="pw-scroll__hero" data-media-slot="HERO_PLATE" data-media-fit="WIDE_SCENE_COVER" data-media-role="DECORATIVE_ART" data-media-scale="PLATE" data-media-crop="HERO_PLATE_BAND" style={{ backgroundImage: `url(${heroImage})` }} aria-hidden />
         : null}
         <div className="pw-scroll__body">{children}</div>
       </div>
