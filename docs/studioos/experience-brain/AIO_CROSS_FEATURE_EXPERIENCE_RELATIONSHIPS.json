@@ -931,6 +931,96 @@
         "MY_OFFICE": "attention cleared"
       },
       "visual_transition": "AIO IS WORKING → complete"
+    },
+    {
+      "id": "CLIENT_MIGRATION_REL_1",
+      "from_feature": "AIO.CLIENT_MIGRATION",
+      "from_state": "PREBUILT",
+      "to_feature": "AIO.VAULT",
+      "relationship": "ARCHIVES_TO",
+      "actor_effects": {
+        "CLIENT": "documents appear in the Vault once the client is active",
+        "FOUNDER_STAFF": "documents filed by class with lineage"
+      },
+      "surface_effects": {
+        "VAULT": "migrated documents with source batch"
+      },
+      "visual_transition": "batch → cabinet drawers"
+    },
+    {
+      "id": "CLIENT_MIGRATION_REL_2",
+      "from_feature": "AIO.CLIENT_MIGRATION",
+      "from_state": "PREBUILT",
+      "to_feature": "AIO.CLIENT_ACTIVATION",
+      "relationship": "UNLOCKS",
+      "actor_effects": {
+        "CLIENT": "invitation “Your AIO office is ready” can be sent",
+        "FOUNDER_STAFF": "client moves to PREBUILT NOT INVITED"
+      },
+      "surface_effects": {
+        "OFFICE": "invite task"
+      },
+      "visual_transition": "prebuilt office → invitation"
+    },
+    {
+      "id": "CLIENT_MIGRATION_REL_3",
+      "from_feature": "AIO.CLIENT_MIGRATION",
+      "from_state": "MIGRATION_REVIEW_REQUIRED",
+      "to_feature": "AIO.OFFICE_OPERATIONS",
+      "relationship": "FEEDS",
+      "actor_effects": {
+        "CLIENT": "none",
+        "FOUNDER_STAFF": "migration review appears in the founder hub"
+      },
+      "surface_effects": {
+        "OFFICE": "MIGRATION REVIEW bucket"
+      },
+      "visual_transition": "batch → review queue"
+    },
+    {
+      "id": "CLIENT_ACTIVATION_REL_1",
+      "from_feature": "AIO.CLIENT_ACTIVATION",
+      "from_state": "ACTIVE",
+      "to_feature": "AIO.MY_OFFICE",
+      "relationship": "OPENS",
+      "actor_effects": {
+        "CLIENT": "YOUR AIO OFFICE opens with active workspaces",
+        "FOUNDER_STAFF": "client counted active"
+      },
+      "surface_effects": {
+        "MY_OFFICE": "ACTIVE WITH AIO · WE ALSO KNOW ABOUT · WORKSPACES THAT MAY HELP"
+      },
+      "visual_transition": "review → office"
+    },
+    {
+      "id": "CLIENT_ACTIVATION_REL_2",
+      "from_feature": "AIO.CLIENT_ACTIVATION",
+      "from_state": "CHANGES_AWAITING_STAFF",
+      "to_feature": "AIO.OFFICE_OPERATIONS",
+      "relationship": "FEEDS",
+      "actor_effects": {
+        "CLIENT": "AIO is updating",
+        "FOUNDER_STAFF": "reconciliation work item"
+      },
+      "surface_effects": {
+        "OFFICE": "client change queue"
+      },
+      "visual_transition": "change → work item"
+    },
+    {
+      "id": "CLIENT_ACTIVATION_REL_3",
+      "from_feature": "AIO.CLIENT_ACTIVATION",
+      "from_state": "INVITED",
+      "to_feature": "AIO.ACCOUNT",
+      "relationship": "DEPENDS_ON",
+      "actor_effects": {
+        "CLIENT": "set your own password",
+        "FOUNDER_STAFF": "auth identity linked to the business"
+      },
+      "surface_effects": {
+        "ACCOUNT": "login email + password set by the client"
+      },
+      "visual_transition": "link → account"
     }
   ],
   "upstream_downstream": [
@@ -1277,6 +1367,33 @@
       "downstream": [
         "every feature (status)",
         "management reporting"
+      ]
+    },
+    {
+      "feature_id": "AIO.CLIENT_MIGRATION",
+      "upstream": [
+        "physical / scanned client files",
+        "staff knowledge",
+        "existing client records"
+      ],
+      "downstream": [
+        "AIO.VAULT (documents with lineage)",
+        "AIO.CLIENT_ACTIVATION (invite)",
+        "client profile + fleet + people records",
+        "workspace provisioning (PENDING_SETUP)"
+      ]
+    },
+    {
+      "feature_id": "AIO.CLIENT_ACTIVATION",
+      "upstream": [
+        "AIO.CLIENT_MIGRATION (prebuilt profile)",
+        "new-client intake (AIO.GET_STARTED)"
+      ],
+      "downstream": [
+        "AIO.MY_OFFICE (client office hub)",
+        "workspaces (PENDING_SETUP → ACTIVE)",
+        "founder hub (ACTIVE count)",
+        "workspace expansion (after activation)"
       ]
     }
   ]

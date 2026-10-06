@@ -86,8 +86,10 @@ export type ExpansionPlacement =
   | 'INSIGHT_MODULE'
   | 'WORKFLOW_BOUNDARY'
   | 'CLIENT_OFFICE_HUB'
-  | 'AFTER_RELATED_COMPLETION';
-export const EXPANSION_PLACEMENTS: readonly ExpansionPlacement[] = ['WORKSPACE_SWITCHER_AVAILABLE', 'EMPTY_STATE', 'INSIGHT_MODULE', 'WORKFLOW_BOUNDARY', 'CLIENT_OFFICE_HUB', 'AFTER_RELATED_COMPLETION'];
+  | 'AFTER_RELATED_COMPLETION'
+  /** First office view after a client confirms activation — never inside the review steps. */
+  | 'AFTER_ACTIVATION';
+export const EXPANSION_PLACEMENTS: readonly ExpansionPlacement[] = ['WORKSPACE_SWITCHER_AVAILABLE', 'EMPTY_STATE', 'INSIGHT_MODULE', 'WORKFLOW_BOUNDARY', 'CLIENT_OFFICE_HUB', 'AFTER_RELATED_COMPLETION', 'AFTER_ACTIVATION'];
 
 export type ExpansionRule = {
   rule_id: string;

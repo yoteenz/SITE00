@@ -6,7 +6,7 @@
     {
       "project": "AIO",
       "role": "first full proof",
-      "features": 28
+      "features": 30
     },
     {
       "project": "JURNL",
@@ -1806,6 +1806,144 @@
       "e2e_readiness": "READY",
       "functional_completion_pct": null,
       "activation_state": "live (OfficeRouteGuard; demo + office modules)",
+      "gate_failures": [],
+      "gap_count": 0
+    },
+    {
+      "project": "AIO",
+      "feature_id": "AIO.CLIENT_MIGRATION",
+      "feature_name": "Client Migration Intake + Review (founder / staff)",
+      "family": "AIO OFFICE role projection (office/clients/*)",
+      "material": true,
+      "sample": false,
+      "actors": {
+        "PUBLIC": "NOT_APPLICABLE",
+        "CLIENT": "DEFINED",
+        "FOUNDER_STAFF": "DEFINED",
+        "SYSTEM": "DEFINED"
+      },
+      "states": [
+        {
+          "id": "KNOWN_UNMIGRATED",
+          "class": "EMPTY"
+        },
+        {
+          "id": "MIGRATION_IN_PROGRESS",
+          "class": "ACTIVE"
+        },
+        {
+          "id": "PARTIAL_BATCH",
+          "class": "BLOCKED"
+        },
+        {
+          "id": "AMBIGUOUS_MATCH",
+          "class": "BLOCKED"
+        },
+        {
+          "id": "MIGRATION_REVIEW_REQUIRED",
+          "class": "REVIEW"
+        },
+        {
+          "id": "READY_TO_APPROVE",
+          "class": "APPROVAL"
+        },
+        {
+          "id": "PREBUILT",
+          "class": "COMPLETE"
+        },
+        {
+          "id": "MIGRATION_FAILED",
+          "class": "ERROR"
+        },
+        {
+          "id": "SUPERSEDED_BATCH",
+          "class": "ARCHIVED"
+        }
+      ],
+      "archetype": [
+        "PIPELINE",
+        "MATCHING_BOARD",
+        "CASE_FILE"
+      ],
+      "primary_object": "THE MIGRATION BATCH (client file → proposed facts → decisions)",
+      "declared_completion": "EXPERIENCE_COMPLETE",
+      "earned_completion": "EXPERIENCE_COMPLETE",
+      "experience_status": "EXPERIENCE_COMPLETE",
+      "authority_readiness": "READY",
+      "e2e_readiness": "READY",
+      "functional_completion_pct": null,
+      "activation_state": "architecture only (no route, no pipeline in AIO yet)",
+      "gate_failures": [],
+      "gap_count": 0
+    },
+    {
+      "project": "AIO",
+      "feature_id": "AIO.CLIENT_ACTIVATION",
+      "feature_name": "Client Activation — review what AIO knows, confirm, enter the office",
+      "family": "F18 ACCOUNT · F05 MY OFFICE threshold",
+      "material": true,
+      "sample": false,
+      "actors": {
+        "PUBLIC": "NOT_APPLICABLE",
+        "CLIENT": "DEFINED",
+        "FOUNDER_STAFF": "DEFINED",
+        "SYSTEM": "DEFINED"
+      },
+      "states": [
+        {
+          "id": "PREBUILT",
+          "class": "EMPTY"
+        },
+        {
+          "id": "INVITED",
+          "class": "ACTIVE"
+        },
+        {
+          "id": "CLIENT_REVIEW",
+          "class": "ACTIVE"
+        },
+        {
+          "id": "WHAT_CHANGED",
+          "class": "ACTIVE"
+        },
+        {
+          "id": "CLIENT_CONFIRMATION_REQUIRED",
+          "class": "APPROVAL"
+        },
+        {
+          "id": "ACTIVE",
+          "class": "COMPLETE"
+        },
+        {
+          "id": "CHANGES_AWAITING_STAFF",
+          "class": "REVIEW"
+        },
+        {
+          "id": "ACTIVATION_EXPIRED",
+          "class": "ERROR"
+        },
+        {
+          "id": "INVITE_DELIVERY_FAILED",
+          "class": "BLOCKED"
+        },
+        {
+          "id": "PAUSED",
+          "class": "ARCHIVED"
+        }
+      ],
+      "archetype": [
+        "THRESHOLD",
+        "CHECKLIST",
+        "DECISION_WINDOW"
+      ],
+      "primary_object": "WHAT AIO ALREADY KNOWS (the prepared office)",
+      "declared_completion": "EXPERIENCE_COMPLETE",
+      "earned_completion": "EXPERIENCE_COMPLETE",
+      "experience_status": "EXPERIENCE_COMPLETE",
+      "authority_readiness": "READY",
+      "e2e_readiness": "READY",
+      "functional_completion_pct": null,
+      "activation_state": "architecture only (no activation route or invitation service in AIO yet)",
       "gate_failures": [],
       "gap_count": 0
     },

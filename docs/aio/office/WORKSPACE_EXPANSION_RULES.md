@@ -38,7 +38,7 @@ Contextual expansion is **relevant, timely, explainable, non-intrusive, actionab
 
 ## Placements
 
-WORKSPACE_SWITCHER_AVAILABLE · EMPTY_STATE · INSIGHT_MODULE · WORKFLOW_BOUNDARY · CLIENT_OFFICE_HUB · AFTER_RELATED_COMPLETION. Never: interrupt a critical operation, obscure task state, replace an alert, show an irrelevant service, upsell during error recovery, or compete with a compliance-critical action.
+WORKSPACE_SWITCHER_AVAILABLE · EMPTY_STATE · INSIGHT_MODULE · WORKFLOW_BOUNDARY · CLIENT_OFFICE_HUB · AFTER_RELATED_COMPLETION · AFTER_ACTIVATION. Never: interrupt a critical operation, obscure task state, replace an alert, show an irrelevant service, upsell during error recovery, or compete with a compliance-critical action.
 
 ## Suppression
 

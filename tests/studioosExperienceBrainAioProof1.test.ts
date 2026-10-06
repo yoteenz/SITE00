@@ -40,7 +40,7 @@ describe('canonical schema', () => {
   });
 
   it('core schema modules carry no project assumptions (portability)', () => {
-    for (const f of ['schema.ts', 'validate.ts', 'query.ts', 'e2e.ts', 'registry.ts', 'operating-environment.ts']) {
+    for (const f of ['schema.ts', 'validate.ts', 'query.ts', 'e2e.ts', 'registry.ts', 'operating-environment.ts', 'client-lifecycle.ts']) {
       const src = read(`shared/studioos-experience-brain/${f}`).replace(/\/\*[\s\S]*?\*\//g, '').replace(/EXPERIENCE_BRAIN_SPRINT = '[^']*'/, ''); // provenance id only
       expect(src, f).not.toMatch(/\bAIO\b|IFTA|trucking|JURNL|Frontal/i);
     }

@@ -1,0 +1,89 @@
+{
+  "id": "AIO_MIGRATION_REVIEW_CONTRACT",
+  "sprint": "P0.AIO.CLIENT-MIGRATION-ACTIVATION-AND-OFFICE-PROVISIONING-ARCHITECTURE1",
+  "generated_by": "scripts/studioos/aio-client-migration-export.ts",
+  "source": [
+    "shared/studioos-experience-brain/client-lifecycle.ts",
+    "shared/studioos-experience-brain/projects/aio/client-migration.ts",
+    "shared/studioos-experience-brain/projects/aio/migration.ts"
+  ],
+  "audit": {
+    "repo": "yoteenz/fsbw · all-in-one-enterprises",
+    "sha": "c88a3000866d55c09c8271dd7c2cfccb32e5bf23",
+    "mode": "READ-ONLY"
+  },
+  "constraints": {
+    "page_implementation": false,
+    "new_paid_generations": 0,
+    "openart_accessed": false,
+    "ifta_lane_blocked": false,
+    "aio_code_changed": false
+  },
+  "workspace": "CLIENT MIGRATION REVIEW (founder / staff)",
+  "header": [
+    "CLIENT / CANDIDATE",
+    "MIGRATION BATCH",
+    "PROCESSING STATUS",
+    "MATCH STATUS",
+    "DOCUMENT COUNT"
+  ],
+  "summary": [
+    "PROFILE FACTS FOUND",
+    "VEHICLES FOUND",
+    "DRIVERS FOUND",
+    "SERVICES FOUND",
+    "DOCUMENTS FOUND",
+    "CONFLICTS",
+    "STALE ITEMS",
+    "UNRESOLVED ITEMS"
+  ],
+  "actions": [
+    "CONFIRM",
+    "EDIT",
+    "IGNORE",
+    "MARK_STALE",
+    "NEEDS_CLIENT_CONFIRMATION",
+    "RECLASSIFY",
+    "MATCH_TO_EXISTING",
+    "CREATE_NEW_CLIENT",
+    "REJECT_EXTRACTION"
+  ],
+  "decisions": [
+    "PENDING",
+    "CONFIRMED",
+    "EDITED",
+    "IGNORED",
+    "MARKED_STALE",
+    "NEEDS_CLIENT_CONFIRMATION",
+    "REJECTED"
+  ],
+  "primary_completion": "APPROVE MIGRATION",
+  "commit_gate": {
+    "requires": [
+      "identity MATCH_CONFIRMED (staff decision)",
+      "no fact without a decision",
+      "no unresolved conflict",
+      "complete provenance on every fact",
+      "every required prebuilt field confirmed",
+      "a canonical home for every confirmed field",
+      "an approver"
+    ],
+    "writes_only": "CONFIRMED / EDITED facts, each carrying fact id + reviewer + provenance",
+    "separately": "NEEDS CLIENT CONFIRMATION facts become client review items; IGNORED / MARKED STALE / REJECTED stay in history",
+    "result": "PREBUILT — NOT ACTIVE",
+    "targets": {
+      "organization": "aio_organizations (+ client_lifecycle, client_number proposed) · Client · RoadReadyProfile.business (demo)",
+      "identifiers": "aio_organization_regulatory_identifiers (USDOT · MC · EIN · IFTA_ACCOUNT)",
+      "people": "aio_contacts + aio_customer_organizations · OrganizationMember (demo) · aio_driver_profiles / aio_driver_credentials",
+      "vehicles": "aio_fleet_vehicles · PowerUnit (demo)",
+      "insurance": "InsurancePolicy (source document_import / staff_entry — enum values exist, unused)",
+      "documents": "aio_documents / VaultDocument (migration_batch_id · file_hash · record_lifecycle · supersedes / superseded_by)",
+      "service_relationships": "per-workspace entitlement records (AIO_WORKSPACES)",
+      "never": [
+        "RoadReadyProfile via saveRoadReadyProfile as-is (stamps every write as a customer update — roadReadyActions.ts:84)",
+        "completeRoadReadyOnboarding as-is (wipes staff verifications — roadReadyActions.ts:131)"
+      ]
+    }
+  },
+  "experience_contract": "AIO.CLIENT_MIGRATION"
+}

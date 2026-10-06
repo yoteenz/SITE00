@@ -1105,6 +1105,34 @@
         "reason": "Internal-only office."
       },
       "continuity": null
+    },
+    {
+      "feature_id": "AIO.CLIENT_MIGRATION",
+      "feature_name": "Client Migration Intake + Review (founder / staff)",
+      "public_entry": {
+        "applicable": false,
+        "reason": "Internal office workflow; clients never see migration intake."
+      },
+      "public_cta": null,
+      "perspective": {
+        "applicable": false,
+        "reason": "Internal office workflow; clients never see migration intake."
+      },
+      "continuity": null
+    },
+    {
+      "feature_id": "AIO.CLIENT_ACTIVATION",
+      "feature_name": "Client Activation — review what AIO knows, confirm, enter the office",
+      "public_entry": {
+        "applicable": false,
+        "reason": "Invitation-only: the activation link is the entry; there is no public page."
+      },
+      "public_cta": null,
+      "perspective": {
+        "applicable": false,
+        "reason": "Invitation-only: the activation link is the entry; there is no public page."
+      },
+      "continuity": null
     }
   ]
 }
