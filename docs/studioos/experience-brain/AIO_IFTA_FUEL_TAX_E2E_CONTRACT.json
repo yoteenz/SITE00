@@ -1,0 +1,214 @@
+{
+  "sprint": "P0.SITE00.WORKSPACE-EXPERIENCE-BRAIN.CANONICAL-SCHEMA-AIO-PROOF1",
+  "schema_version": "1.0.0",
+  "generated_from": "shared/studioos-experience-brain (TypeScript is the source of truth)",
+  "e2e": {
+    "feature_id": "AIO.IFTA",
+    "journey": "PUBLIC → REQUEST FILING → CLIENT QUARTER → RECEIPTS + MILEAGE → STAFF REVIEW + RECONCILE → CLIENT APPROVAL → FILED → VAULT → NEXT QUARTER",
+    "phase_order": [
+      "PUBLIC_DISCOVERY",
+      "CLIENT_ENTRY",
+      "CLIENT_ACTION",
+      "SYSTEM_PROCESSING",
+      "STAFF_REVIEW",
+      "CLIENT_APPROVAL",
+      "ARTIFACT_CREATION",
+      "DOWNSTREAM_MOVEMENT",
+      "COMPLETION",
+      "ARCHIVE",
+      "NEXT_STEP"
+    ],
+    "not_applicable": {},
+    "steps": [
+      {
+        "phase": "PUBLIC_DISCOVERY",
+        "actor": "PUBLIC",
+        "surface": "services/ifta-filing",
+        "action": "open the IFTA Filing service page",
+        "expect": [
+          "what IFTA is, who needs it, what AIO handles, what the client provides, due timing",
+          "the six-step quarter matches the workspace flow",
+          "REQUEST FILING CTA"
+        ],
+        "order": 1,
+        "derived_expect": []
+      },
+      {
+        "phase": "CLIENT_ENTRY",
+        "actor": "CLIENT",
+        "surface": "portal (My Office)",
+        "action": "open the Q{n} attention card",
+        "expect": [
+          "quarter card with state, completeness %, due date",
+          "CONTINUE FILING is the only primary action"
+        ],
+        "state_after": "QUARTER_OPEN",
+        "order": 2,
+        "derived_expect": []
+      },
+      {
+        "phase": "CLIENT_ACTION",
+        "actor": "CLIENT",
+        "surface": "portal/services/ifta",
+        "action": "take a photo, upload receipts, import from Vault, upload an ELD report, mark a duplicate",
+        "expect": [
+          "receipts classified READY / NEEDS YOU / DUPLICATE / POSSIBLE MISSING / UNREADABLE",
+          "per-truck mileage source badge shows VERIFIED vs ESTIMATED",
+          "completeness % increases"
+        ],
+        "state_after": "COLLECTING",
+        "order": 3,
+        "derived_expect": []
+      },
+      {
+        "phase": "CLIENT_ACTION",
+        "actor": "CLIENT",
+        "surface": "portal/services/ifta",
+        "action": "resolve flags and SEND QUARTER TO AIO",
+        "expect": [
+          "flags resolved inline",
+          "inputs lock and the state reads AIO reviewing"
+        ],
+        "state_after": "AIO_REVIEW",
+        "order": 4,
+        "derived_expect": []
+      },
+      {
+        "phase": "SYSTEM_PROCESSING",
+        "actor": "SYSTEM",
+        "surface": "ingest pipeline",
+        "action": "parse, duplicate-check, classify jurisdictions, recompute readiness",
+        "expect": [
+          "UNREADABLE files retained with retake request",
+          "assessIftaReadiness never READY_FOR_REPORTING with estimated-only mileage",
+          "office work item updated"
+        ],
+        "order": 5,
+        "derived_expect": [
+          "inbox: Q{n} {YYYY} fuel tax is open — start sending receipts and miles → CLIENT",
+          "inbox: {n} items need you before AIO can review your quarter → CLIENT",
+          "inbox: Your Q{n} {YYYY} IFTA return is ready for approval → CLIENT",
+          "inbox: Q{n} {YYYY} filed — confirmation is in your Vault → CLIENT"
+        ]
+      },
+      {
+        "phase": "STAFF_REVIEW",
+        "actor": "FOUNDER_STAFF",
+        "surface": "office permitting › Fuel Tax queue",
+        "action": "review records, reconcile fuel vs miles, prepare return summary, send for approval",
+        "expect": [
+          "queue sorted by due date × readiness",
+          "discrepancies listed per jurisdiction × truck",
+          "override requires a note and is audited"
+        ],
+        "state_after": "AWAITING_APPROVAL",
+        "order": 6,
+        "derived_expect": []
+      },
+      {
+        "phase": "CLIENT_APPROVAL",
+        "actor": "CLIENT",
+        "surface": "portal/services/ifta",
+        "action": "approve the return summary",
+        "expect": [
+          "decision window shows miles, gallons, MPG, tax due / credit by jurisdiction",
+          "approval recorded with timestamp"
+        ],
+        "state_after": "FILING",
+        "order": 7,
+        "derived_expect": []
+      },
+      {
+        "phase": "ARTIFACT_CREATION",
+        "actor": "FOUNDER_STAFF",
+        "surface": "office permitting › quarter case",
+        "action": "record filing confirmation and payment status",
+        "expect": [
+          "filed return + confirmation attached to the quarter"
+        ],
+        "state_after": "FILED",
+        "order": 8,
+        "derived_expect": [
+          "artifact \"Fuel receipt\" exists (VERIFIED) and is visible to CLIENT + FOUNDER_STAFF",
+          "artifact \"Jurisdiction mileage record\" exists (VERIFIED) and is visible to CLIENT + FOUNDER_STAFF",
+          "artifact \"Reconciliation notes\" exists (RESOLVED) and is visible to FOUNDER_STAFF + CLIENT (resolved summary only)",
+          "artifact \"IFTA return summary\" exists (APPROVED) and is visible to CLIENT + FOUNDER_STAFF",
+          "artifact \"Filed IFTA return\" exists (ACCEPTED | RETURNED) and is visible to CLIENT + FOUNDER_STAFF",
+          "artifact \"Filing confirmation\" exists (RECORDED) and is visible to CLIENT + FOUNDER_STAFF",
+          "artifact \"IFTA Q{n} {YYYY} filing packet\" exists (SEALED) and is visible to CLIENT + FOUNDER_STAFF"
+        ]
+      },
+      {
+        "phase": "DOWNSTREAM_MOVEMENT",
+        "actor": "SYSTEM",
+        "surface": "vault · inbox · activity · road ready · finances",
+        "action": "propagate FILED",
+        "expect": [
+          "inbox thread resolved",
+          "activity “IFTA return filed”",
+          "Road Ready IFTA item current",
+          "service fee in Money"
+        ],
+        "order": 9,
+        "derived_expect": [
+          "AIO.VAULT archives to — VAULT: receives the filing packet (receipts, mileage, summary, return, confirmation)",
+          "AIO.INBOX resolves — INBOX: resolves the quarter request thread with the confirmation attached",
+          "AIO.MY_OFFICE updates status — ACTIVITY: records FILED; MY_OFFICE: removes the quarter from attention",
+          "AIO.ROAD_READY updates status — ROAD_READY: IFTA requirement item marked current for Q{n}",
+          "AIO.IFTA opens — IFTA: opens Q{n+1} collection window",
+          "AIO.FINANCES feeds — FINANCES: AIO service fee per accepted quote",
+          "AIO.BOOKKEEPING feeds — BOOKKEEPING: fuel tax payment + fuel expense lines",
+          "AIO.IFTA feeds — IFTA: estimated mileage per truck (never filed)"
+        ]
+      },
+      {
+        "phase": "COMPLETION",
+        "actor": "CLIENT",
+        "surface": "portal/services/ifta",
+        "action": "view the filed quarter",
+        "expect": [
+          "FILED seal + confirmation number",
+          "nothing left in Needs You"
+        ],
+        "order": 10,
+        "derived_expect": [
+          "activity: Return approved by client",
+          "activity: IFTA return filed"
+        ]
+      },
+      {
+        "phase": "ARCHIVE",
+        "actor": "CLIENT",
+        "surface": "portal/vault",
+        "action": "open Vault › Fuel Tax › {YYYY} Q{n}",
+        "expect": [
+          "sealed packet with receipts, mileage, summary, return, confirmation"
+        ],
+        "state_after": "ARCHIVED",
+        "order": 11,
+        "derived_expect": [
+          "vault destination \"VAULT › Tax & Financial › Fuel Tax (tax_fuel) › {YYYY} Q{n}\" holds the final artifacts"
+        ]
+      },
+      {
+        "phase": "NEXT_STEP",
+        "actor": "CLIENT",
+        "surface": "portal (My Office)",
+        "action": "see the next quarter",
+        "expect": [
+          "Q{n+1} open with fleet pre-filled",
+          "continuous capture still on"
+        ],
+        "order": 12,
+        "derived_expect": [
+          "Next quarter’s collection window opens automatically with the fleet pre-filled; continuous capture keeps running; annual IFTA license / decal renewal is tracked in Renewals."
+        ]
+      }
+    ],
+    "coverage": {
+      "required_phases": 11,
+      "covered_phases": 11,
+      "missing": []
+    }
+  }
+}

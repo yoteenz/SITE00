@@ -1,0 +1,3296 @@
+{
+  "sprint": "P0.SITE00.WORKSPACE-EXPERIENCE-BRAIN.CANONICAL-SCHEMA-AIO-PROOF1",
+  "schema_version": "1.0.0",
+  "generated_from": "shared/studioos-experience-brain (TypeScript is the source of truth)",
+  "founder_hub_buckets": [
+    "NEEDS_REVIEW",
+    "BLOCKED",
+    "AWAITING_CLIENT",
+    "AWAITING_PROVIDER",
+    "READY_TO_FILE",
+    "READY_TO_SEND",
+    "READY_TO_LAUNCH",
+    "COMPLETE"
+  ],
+  "features": [
+    {
+      "feature_id": "AIO.ENTRY",
+      "feature_name": "Entry — Home / About / Contact",
+      "family": "F01 ENTRY",
+      "perspective": {
+        "client_context": [
+          "lead pathway + answers"
+        ],
+        "work_queue": "CRM lead queue",
+        "status_model": [
+          "FIRST_VISIT",
+          "PATHWAY_CHOSEN",
+          "CONTACTED",
+          "CONVERTED",
+          "RETURNING",
+          "UNAVAILABLE",
+          "FOLLOW_UP_NEEDED",
+          "CALL_BOOKED"
+        ],
+        "blockers": [
+          "incomplete contact"
+        ],
+        "missing_inputs": [
+          "phone / email"
+        ],
+        "system_flags": [
+          "duplicate lead"
+        ],
+        "human_review": [
+          "lead triage"
+        ],
+        "corrections": [
+          "merge duplicates"
+        ],
+        "approval": [
+          "appointment confirmation"
+        ],
+        "overrides": [
+          "manual routing"
+        ],
+        "operational_actions": [
+          "CALL",
+          "ROUTE",
+          "BOOK APPOINTMENT"
+        ],
+        "artifact_generation": [
+          "lead record"
+        ],
+        "completion": "Lead converted.",
+        "hub_buckets": {
+          "NEEDS_REVIEW": [
+            "CONTACTED"
+          ],
+          "AWAITING_CLIENT": [
+            "CALL_BOOKED",
+            "FOLLOW_UP_NEEDED"
+          ],
+          "COMPLETE": [
+            "CONVERTED"
+          ]
+        },
+        "mirror_not_copy": "Staff see a lead pipeline, not the homepage.",
+        "communication": [
+          "Entry — Home / About / Contact request thread (client)",
+          "communication engine templates",
+          "call / note log"
+        ],
+        "audit_history": [
+          "every status change with staff id + timestamp",
+          "overrides with required note",
+          "client approvals / declines",
+          "artifact versions"
+        ]
+      },
+      "staff_entry": {
+        "surface": "CRM lead capture",
+        "route": "office CRM",
+        "trigger": "contact form / pathway selection"
+      },
+      "staff_cta": "CALL LEAD",
+      "information_hierarchy": {
+        "primary_question": "Which leads need contact?",
+        "primary_status": "Lead pipeline",
+        "primary_task": "Triage",
+        "secondary_status": "Pathway mix",
+        "blocker": "Incomplete contact",
+        "next_action": "CALL",
+        "completion_proof": "Converted"
+      },
+      "human_tasks": [
+        {
+          "id": "ENTRY_TASK_1",
+          "channel": "HUMAN_TASK",
+          "trigger": "CONTACTED",
+          "audience": [
+            "FOUNDER_STAFF"
+          ],
+          "summary": "Call lead {name}"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.GET_STARTED",
+      "feature_name": "Get Started — Intake / Roadmap / Service Plan",
+      "family": "F02 GET STARTED",
+      "perspective": {
+        "client_context": [
+          "answers",
+          "unsure items"
+        ],
+        "work_queue": "Intake review queue",
+        "status_model": [
+          "NOT_STARTED",
+          "ANSWERING",
+          "ROADMAP_READY",
+          "UNSURE_ITEMS",
+          "AIO_REVIEWING",
+          "PLAN_STARTED",
+          "IN_MY_OFFICE",
+          "SUBMIT_FAILED"
+        ],
+        "blockers": [
+          "unsure answers"
+        ],
+        "missing_inputs": [
+          "incomplete answers"
+        ],
+        "system_flags": [
+          "high-complexity intake"
+        ],
+        "human_review": [
+          "intake review"
+        ],
+        "corrections": [
+          "adjust roadmap"
+        ],
+        "approval": [
+          "plan acceptance"
+        ],
+        "overrides": [
+          "manual roadmap item"
+        ],
+        "operational_actions": [
+          "CONFIRM ROADMAP",
+          "CALL"
+        ],
+        "artifact_generation": [
+          "roadmap",
+          "plan"
+        ],
+        "completion": "Plan started.",
+        "hub_buckets": {
+          "NEEDS_REVIEW": [
+            "AIO_REVIEWING"
+          ],
+          "AWAITING_CLIENT": [
+            "ROADMAP_READY"
+          ],
+          "READY_TO_LAUNCH": [
+            "PLAN_STARTED"
+          ]
+        },
+        "mirror_not_copy": "Staff see intakes needing judgement, not the questionnaire.",
+        "communication": [
+          "Get Started — Intake / Roadmap / Service Plan request thread (client)",
+          "communication engine templates",
+          "call / note log"
+        ],
+        "audit_history": [
+          "every status change with staff id + timestamp",
+          "overrides with required note",
+          "client approvals / declines",
+          "artifact versions"
+        ]
+      },
+      "staff_entry": {
+        "surface": "Intake review",
+        "route": "office intake / CRM",
+        "trigger": "request/submit"
+      },
+      "staff_cta": "CONFIRM ROADMAP",
+      "information_hierarchy": {
+        "primary_question": "Which intakes need judgement?",
+        "primary_status": "Review queue",
+        "primary_task": "Review",
+        "secondary_status": "Complexity",
+        "blocker": "Unsure answers",
+        "next_action": "CONFIRM ROADMAP",
+        "completion_proof": "Plan started"
+      },
+      "human_tasks": [
+        {
+          "id": "GET_STARTED_TASK_1",
+          "channel": "HUMAN_TASK",
+          "trigger": "AIO_REVIEWING",
+          "audience": [
+            "FOUNDER_STAFF"
+          ],
+          "summary": "Review intake for {name}"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.BUSINESS_FORMATION",
+      "feature_name": "Start Your Business — LLC / INC / EIN",
+      "family": "F03 START YOUR BUSINESS",
+      "perspective": {
+        "client_context": [
+          "owner + state",
+          "journey position",
+          "quote status"
+        ],
+        "work_queue": "Formation division queue (OfficeWorkItem)",
+        "status_model": [
+          "NOT_STARTED",
+          "INTAKE",
+          "NAME_CHECK",
+          "WAITING_ON_YOU",
+          "AIO_PREPARING",
+          "FILED_WITH_STATE",
+          "FORMED",
+          "EIN_ISSUED",
+          "REJECTED"
+        ],
+        "blockers": [
+          "waiting on client detail",
+          "name unavailable",
+          "state processing"
+        ],
+        "missing_inputs": [
+          "ID",
+          "owner info",
+          "name alternates"
+        ],
+        "system_flags": [
+          "incomplete intake",
+          "duplicate org"
+        ],
+        "human_review": [
+          "name check",
+          "filing completeness"
+        ],
+        "corrections": [
+          "request detail",
+          "correct filing after rejection"
+        ],
+        "approval": [
+          "client confirmation of filing details"
+        ],
+        "overrides": [
+          "mark formed from external evidence (note required)"
+        ],
+        "operational_actions": [
+          "FILE WITH STATE",
+          "RECORD APPROVAL",
+          "RECORD EIN",
+          "REQUEST DETAIL"
+        ],
+        "artifact_generation": [
+          "filing package",
+          "document upload to vault"
+        ],
+        "completion": "Formed + EIN recorded; journey advanced.",
+        "hub_buckets": {
+          "AWAITING_CLIENT": [
+            "WAITING_ON_YOU"
+          ],
+          "NEEDS_REVIEW": [
+            "NAME_CHECK"
+          ],
+          "READY_TO_FILE": [
+            "AIO_PREPARING"
+          ],
+          "AWAITING_PROVIDER": [
+            "FILED_WITH_STATE"
+          ],
+          "COMPLETE": [
+            "FORMED",
+            "EIN_ISSUED"
+          ]
+        },
+        "mirror_not_copy": "Staff see a CASE FILE per client filing with state processing status and the formation checklist, not the guided journey.",
+        "communication": [
+          "Start Your Business — LLC / INC / EIN request thread (client)",
+          "communication engine templates",
+          "call / note log"
+        ],
+        "audit_history": [
+          "every status change with staff id + timestamp",
+          "overrides with required note",
+          "client approvals / declines",
+          "artifact versions"
+        ]
+      },
+      "staff_entry": {
+        "surface": "Office formation queue",
+        "route": "office/* formation division",
+        "trigger": "service request submitted (business-formation workflow)"
+      },
+      "staff_cta": "OPEN FORMATION CASE",
+      "information_hierarchy": {
+        "primary_question": "What is holding this formation?",
+        "primary_status": "Case stage × days waiting",
+        "primary_task": "Prepare and file",
+        "secondary_status": "Waiting on client vs state",
+        "blocker": "Missing detail / rejection",
+        "next_action": "FILE · RECORD APPROVAL · RECORD EIN",
+        "completion_proof": "Documents verified + USDOT unlocked"
+      },
+      "human_tasks": [
+        {
+          "id": "BUSINESS_FORMATION_TASK_1",
+          "channel": "HUMAN_TASK",
+          "trigger": "NAME_CHECK",
+          "audience": [
+            "FOUNDER_STAFF"
+          ],
+          "summary": "Check name availability for {client}"
+        },
+        {
+          "id": "BUSINESS_FORMATION_TASK_2",
+          "channel": "HUMAN_TASK",
+          "trigger": "AIO_PREPARING",
+          "audience": [
+            "FOUNDER_STAFF"
+          ],
+          "summary": "Prepare and file formation for {client}"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.ROAD_READY",
+      "feature_name": "Road Ready",
+      "family": "F04 ROAD READY",
+      "perspective": {
+        "client_context": [
+          "operation type",
+          "fleet",
+          "items by status"
+        ],
+        "work_queue": "Compliance verification queue",
+        "status_model": [
+          "NO_PROFILE",
+          "SETTING_UP",
+          "NEEDS_ATTENTION",
+          "IN_VERIFICATION",
+          "ROAD_READY",
+          "RENEWAL_DUE",
+          "VERIFICATION_REJECTED"
+        ],
+        "blockers": [
+          "missing docs",
+          "rejected docs",
+          "expired items"
+        ],
+        "missing_inputs": [
+          "unanswered profile questions"
+        ],
+        "system_flags": [
+          "expiring within window",
+          "conflicting data"
+        ],
+        "human_review": [
+          "document verification"
+        ],
+        "corrections": [
+          "reject with reason",
+          "request replacement"
+        ],
+        "approval": [
+          "verification sign-off"
+        ],
+        "overrides": [
+          "not applicable with reason"
+        ],
+        "operational_actions": [
+          "VERIFY",
+          "REJECT",
+          "OPEN SERVICE REQUEST"
+        ],
+        "artifact_generation": [
+          "verification record"
+        ],
+        "completion": "Items verified; profile ROAD_READY.",
+        "hub_buckets": {
+          "NEEDS_REVIEW": [
+            "IN_VERIFICATION"
+          ],
+          "AWAITING_CLIENT": [
+            "NEEDS_ATTENTION",
+            "VERIFICATION_REJECTED"
+          ],
+          "COMPLETE": [
+            "ROAD_READY"
+          ]
+        },
+        "mirror_not_copy": "Staff see a verification QUEUE across clients with document evidence, not the client checklist.",
+        "communication": [
+          "Road Ready request thread (client)",
+          "communication engine templates",
+          "call / note log"
+        ],
+        "audit_history": [
+          "every status change with staff id + timestamp",
+          "overrides with required note",
+          "client approvals / declines",
+          "artifact versions"
+        ]
+      },
+      "staff_entry": {
+        "surface": "Office compliance view",
+        "route": "office/* road ready verification",
+        "trigger": "document uploaded / item needs verification"
+      },
+      "staff_cta": "VERIFY",
+      "information_hierarchy": {
+        "primary_question": "What needs verification?",
+        "primary_status": "Queue size × age",
+        "primary_task": "Verify documents",
+        "secondary_status": "Clients at risk",
+        "blocker": "Rejected / expired",
+        "next_action": "VERIFY · REJECT",
+        "completion_proof": "Verification recorded"
+      },
+      "human_tasks": [
+        {
+          "id": "ROAD_READY_TASK_1",
+          "channel": "HUMAN_TASK",
+          "trigger": "IN_VERIFICATION",
+          "audience": [
+            "FOUNDER_STAFF"
+          ],
+          "summary": "Verify Road Ready document for {client}"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.MY_OFFICE",
+      "feature_name": "My Office — Client Command Center",
+      "family": "F05 MY OFFICE",
+      "perspective": {
+        "client_context": [
+          "Client 360 across all features"
+        ],
+        "work_queue": "Client 360 view",
+        "status_model": [
+          "NEW_CLIENT",
+          "NEXT_ACTION",
+          "NEEDS_YOU",
+          "AIO_WORKING",
+          "DECISION_WAITING",
+          "ALL_CLEAR",
+          "QUIET_PERIOD",
+          "DATA_UNAVAILABLE"
+        ],
+        "blockers": [
+          "client-owed items aged"
+        ],
+        "missing_inputs": [
+          "aggregated"
+        ],
+        "system_flags": [
+          "stuck items",
+          "degraded sources"
+        ],
+        "human_review": [
+          "stuck item review"
+        ],
+        "corrections": [
+          "re-route work"
+        ],
+        "approval": [
+          "n/a — decisions live in features"
+        ],
+        "overrides": [
+          "escalate"
+        ],
+        "operational_actions": [
+          "ESCALATE",
+          "MESSAGE CLIENT"
+        ],
+        "artifact_generation": [
+          "none"
+        ],
+        "completion": "Client healthy.",
+        "hub_buckets": {
+          "AWAITING_CLIENT": [
+            "NEEDS_YOU",
+            "DECISION_WAITING"
+          ],
+          "NEEDS_REVIEW": [
+            "AIO_WORKING"
+          ],
+          "COMPLETE": [
+            "ALL_CLEAR"
+          ]
+        },
+        "mirror_not_copy": "Staff see a CONTROL ROOM per client (Client 360) with ageing and risk.",
+        "communication": [
+          "My Office — Client Command Center request thread (client)",
+          "communication engine templates",
+          "call / note log"
+        ],
+        "audit_history": [
+          "every status change with staff id + timestamp",
+          "overrides with required note",
+          "client approvals / declines",
+          "artifact versions"
+        ]
+      },
+      "staff_entry": {
+        "surface": "Client 360",
+        "route": "office client view",
+        "trigger": "client selected"
+      },
+      "staff_cta": "ESCALATE",
+      "information_hierarchy": {
+        "primary_question": "Is this client stuck anywhere?",
+        "primary_status": "Client 360 risk",
+        "primary_task": "Unstick",
+        "secondary_status": "Ageing items",
+        "blocker": "Stuck",
+        "next_action": "ESCALATE",
+        "completion_proof": "Healthy"
+      },
+      "human_tasks": [
+        {
+          "id": "MY_OFFICE_TASK_1",
+          "channel": "HUMAN_TASK",
+          "trigger": "AIO_WORKING",
+          "audience": [
+            "FOUNDER_STAFF"
+          ],
+          "summary": "Client 360 stuck-item review"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.SERVICES",
+      "feature_name": "Services — Catalog / Requests",
+      "family": "F06 SERVICES",
+      "perspective": {
+        "client_context": [
+          "org",
+          "request history"
+        ],
+        "work_queue": "Division queues (OfficeWorkItem)",
+        "status_model": [
+          "NO_REQUESTS",
+          "IN_PROGRESS",
+          "WAITING_ON_YOU",
+          "ALL_IN_ONE_IS_WORKING",
+          "QUOTE_DECISION",
+          "COMPLETE",
+          "HISTORY",
+          "NOT_AVAILABLE"
+        ],
+        "blockers": [
+          "waiting on customer / external"
+        ],
+        "missing_inputs": [
+          "request details"
+        ],
+        "system_flags": [
+          "unavailable jurisdiction",
+          "paused service"
+        ],
+        "human_review": [
+          "triage"
+        ],
+        "corrections": [
+          "re-route"
+        ],
+        "approval": [
+          "quote acceptance"
+        ],
+        "overrides": [
+          "manual availability"
+        ],
+        "operational_actions": [
+          "ROUTE",
+          "START",
+          "COMPLETE"
+        ],
+        "artifact_generation": [
+          "request record"
+        ],
+        "completion": "Completed.",
+        "hub_buckets": {
+          "NEEDS_REVIEW": [
+            "IN_PROGRESS"
+          ],
+          "AWAITING_CLIENT": [
+            "WAITING_ON_YOU",
+            "QUOTE_DECISION"
+          ],
+          "COMPLETE": [
+            "COMPLETE"
+          ]
+        },
+        "mirror_not_copy": "Staff see division queues with waitingOn, not the catalog.",
+        "communication": [
+          "Services — Catalog / Requests request thread (client)",
+          "communication engine templates",
+          "call / note log"
+        ],
+        "audit_history": [
+          "every status change with staff id + timestamp",
+          "overrides with required note",
+          "client approvals / declines",
+          "artifact versions"
+        ]
+      },
+      "staff_entry": {
+        "surface": "Division queues",
+        "route": "office/* queues",
+        "trigger": "request submitted"
+      },
+      "staff_cta": "START",
+      "information_hierarchy": {
+        "primary_question": "What is in my division queue?",
+        "primary_status": "Queue",
+        "primary_task": "Work requests",
+        "secondary_status": "Waiting on",
+        "blocker": "Customer wait",
+        "next_action": "START",
+        "completion_proof": "Completed"
+      },
+      "human_tasks": [
+        {
+          "id": "SERVICES_TASK_1",
+          "channel": "HUMAN_TASK",
+          "trigger": "IN_PROGRESS",
+          "audience": [
+            "FOUNDER_STAFF"
+          ],
+          "summary": "Triage request from {client}"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.AUTHORITIES",
+      "feature_name": "Authorities — USDOT / MC / MCS-150",
+      "family": "F06 SERVICES (get-road-ready) · F04 ROAD READY",
+      "perspective": {
+        "client_context": [
+          "entity + DOT / MC",
+          "fleet",
+          "Road Ready position",
+          "quote status"
+        ],
+        "work_queue": "F06 SERVICES (get-road-ready) · F04 ROAD READY division queue (OfficeWorkItem, waitingOn customer / government / partner)",
+        "status_model": [
+          "NOT_REQUESTED",
+          "REQUESTED",
+          "WAITING_ON_YOU",
+          "AIO_WORKING",
+          "WAITING_EXTERNALLY",
+          "COMPLETE",
+          "ON_FILE",
+          "RETURNED"
+        ],
+        "blockers": [
+          "waiting on customer",
+          "waiting on FMCSA"
+        ],
+        "missing_inputs": [
+          "entity documents",
+          "business address + contacts",
+          "operation type + cargo",
+          "fleet count"
+        ],
+        "system_flags": [
+          "incomplete checklist",
+          "expiring related item"
+        ],
+        "human_review": [
+          "request completeness",
+          "external result"
+        ],
+        "corrections": [
+          "request documents",
+          "correct after return"
+        ],
+        "approval": [
+          "client confirmation of submission"
+        ],
+        "overrides": [
+          "record result from external evidence (note)"
+        ],
+        "operational_actions": [
+          "START WORK",
+          "REQUEST DOCUMENTS",
+          "SUBMIT",
+          "RECORD RESULT"
+        ],
+        "artifact_generation": [
+          "submission package",
+          "result document to vault"
+        ],
+        "completion": "Result recorded, documents verified, Road Ready updated.",
+        "hub_buckets": {
+          "AWAITING_CLIENT": [
+            "WAITING_ON_YOU"
+          ],
+          "NEEDS_REVIEW": [
+            "REQUESTED"
+          ],
+          "READY_TO_FILE": [
+            "AIO_WORKING"
+          ],
+          "AWAITING_PROVIDER": [
+            "WAITING_EXTERNALLY"
+          ],
+          "BLOCKED": [
+            "RETURNED"
+          ],
+          "COMPLETE": [
+            "COMPLETE",
+            "ON_FILE"
+          ]
+        },
+        "mirror_not_copy": "Staff see a QUEUE of requests with waitingOn and due follow-ups, plus the submission package — not the client request card.",
+        "communication": [
+          "Authorities — USDOT / MC / MCS-150 request thread (client)",
+          "communication engine templates",
+          "call / note log"
+        ],
+        "audit_history": [
+          "every status change with staff id + timestamp",
+          "overrides with required note",
+          "client approvals / declines",
+          "artifact versions"
+        ]
+      },
+      "staff_entry": {
+        "surface": "Authorities — USDOT / MC / MCS-150 division queue",
+        "route": "office/* permitting / compliance queue",
+        "trigger": "service request submitted"
+      },
+      "staff_cta": "OPEN REQUEST",
+      "information_hierarchy": {
+        "primary_question": "What is holding this Authorities — USDOT / MC / MCS-150?",
+        "primary_status": "waitingOn × age",
+        "primary_task": "Prepare, submit, record",
+        "secondary_status": "Follow-ups due",
+        "blocker": "Customer / external wait",
+        "next_action": "SUBMIT · RECORD RESULT",
+        "completion_proof": "Result recorded + documents verified"
+      },
+      "human_tasks": [
+        {
+          "id": "AUTHORITIES_TASK_1",
+          "channel": "HUMAN_TASK",
+          "trigger": "REQUESTED",
+          "audience": [
+            "FOUNDER_STAFF"
+          ],
+          "summary": "Review Authorities — USDOT / MC / MCS-150 request for {client}"
+        },
+        {
+          "id": "AUTHORITIES_TASK_2",
+          "channel": "HUMAN_TASK",
+          "trigger": "WAITING_EXTERNALLY",
+          "audience": [
+            "FOUNDER_STAFF"
+          ],
+          "summary": "Follow up FMCSA on {client}"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.BOC3",
+      "feature_name": "BOC-3 Process Agent Filing",
+      "family": "F06 SERVICES (get-road-ready)",
+      "perspective": {
+        "client_context": [
+          "entity + DOT / MC",
+          "fleet",
+          "Road Ready position",
+          "quote status"
+        ],
+        "work_queue": "F06 SERVICES (get-road-ready) division queue (OfficeWorkItem, waitingOn customer / government / partner)",
+        "status_model": [
+          "NOT_REQUESTED",
+          "REQUESTED",
+          "WAITING_ON_YOU",
+          "AIO_WORKING",
+          "WAITING_EXTERNALLY",
+          "COMPLETE",
+          "ON_FILE",
+          "RETURNED"
+        ],
+        "blockers": [
+          "waiting on customer",
+          "waiting on process-agent partner"
+        ],
+        "missing_inputs": [
+          "USDOT / MC number",
+          "entity details"
+        ],
+        "system_flags": [
+          "incomplete checklist",
+          "expiring related item"
+        ],
+        "human_review": [
+          "request completeness",
+          "external result"
+        ],
+        "corrections": [
+          "request documents",
+          "correct after return"
+        ],
+        "approval": [
+          "client confirmation of submission"
+        ],
+        "overrides": [
+          "record result from external evidence (note)"
+        ],
+        "operational_actions": [
+          "START WORK",
+          "REQUEST DOCUMENTS",
+          "SUBMIT",
+          "RECORD RESULT"
+        ],
+        "artifact_generation": [
+          "submission package",
+          "result document to vault"
+        ],
+        "completion": "Result recorded, documents verified, Road Ready updated.",
+        "hub_buckets": {
+          "AWAITING_CLIENT": [
+            "WAITING_ON_YOU"
+          ],
+          "NEEDS_REVIEW": [
+            "REQUESTED"
+          ],
+          "READY_TO_FILE": [
+            "AIO_WORKING"
+          ],
+          "AWAITING_PROVIDER": [
+            "WAITING_EXTERNALLY"
+          ],
+          "BLOCKED": [
+            "RETURNED"
+          ],
+          "COMPLETE": [
+            "COMPLETE",
+            "ON_FILE"
+          ]
+        },
+        "mirror_not_copy": "Staff see a QUEUE of requests with waitingOn and due follow-ups, plus the submission package — not the client request card.",
+        "communication": [
+          "BOC-3 Process Agent Filing request thread (client)",
+          "communication engine templates",
+          "call / note log"
+        ],
+        "audit_history": [
+          "every status change with staff id + timestamp",
+          "overrides with required note",
+          "client approvals / declines",
+          "artifact versions"
+        ]
+      },
+      "staff_entry": {
+        "surface": "BOC-3 Process Agent Filing division queue",
+        "route": "office/* permitting / compliance queue",
+        "trigger": "service request submitted"
+      },
+      "staff_cta": "OPEN REQUEST",
+      "information_hierarchy": {
+        "primary_question": "What is holding this BOC-3 Process Agent Filing?",
+        "primary_status": "waitingOn × age",
+        "primary_task": "Prepare, submit, record",
+        "secondary_status": "Follow-ups due",
+        "blocker": "Customer / external wait",
+        "next_action": "SUBMIT · RECORD RESULT",
+        "completion_proof": "Result recorded + documents verified"
+      },
+      "human_tasks": [
+        {
+          "id": "BOC3_TASK_1",
+          "channel": "HUMAN_TASK",
+          "trigger": "REQUESTED",
+          "audience": [
+            "FOUNDER_STAFF"
+          ],
+          "summary": "Review BOC-3 Process Agent Filing request for {client}"
+        },
+        {
+          "id": "BOC3_TASK_2",
+          "channel": "HUMAN_TASK",
+          "trigger": "WAITING_EXTERNALLY",
+          "audience": [
+            "FOUNDER_STAFF"
+          ],
+          "summary": "Follow up process-agent partner on {client}"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.IFTA_REGISTRATION",
+      "feature_name": "IFTA Account Registration",
+      "family": "F06 SERVICES (get-road-ready)",
+      "perspective": {
+        "client_context": [
+          "entity + DOT / MC",
+          "fleet",
+          "Road Ready position",
+          "quote status"
+        ],
+        "work_queue": "F06 SERVICES (get-road-ready) division queue (OfficeWorkItem, waitingOn customer / government / partner)",
+        "status_model": [
+          "NOT_REQUESTED",
+          "REQUESTED",
+          "WAITING_ON_YOU",
+          "AIO_WORKING",
+          "WAITING_EXTERNALLY",
+          "COMPLETE",
+          "ON_FILE",
+          "RETURNED"
+        ],
+        "blockers": [
+          "waiting on customer",
+          "waiting on base jurisdiction"
+        ],
+        "missing_inputs": [
+          "entity + USDOT",
+          "base jurisdiction address",
+          "qualified vehicles"
+        ],
+        "system_flags": [
+          "incomplete checklist",
+          "expiring related item"
+        ],
+        "human_review": [
+          "request completeness",
+          "external result"
+        ],
+        "corrections": [
+          "request documents",
+          "correct after return"
+        ],
+        "approval": [
+          "client confirmation of submission"
+        ],
+        "overrides": [
+          "record result from external evidence (note)"
+        ],
+        "operational_actions": [
+          "START WORK",
+          "REQUEST DOCUMENTS",
+          "SUBMIT",
+          "RECORD RESULT"
+        ],
+        "artifact_generation": [
+          "submission package",
+          "result document to vault"
+        ],
+        "completion": "Result recorded, documents verified, Road Ready updated.",
+        "hub_buckets": {
+          "AWAITING_CLIENT": [
+            "WAITING_ON_YOU"
+          ],
+          "NEEDS_REVIEW": [
+            "REQUESTED"
+          ],
+          "READY_TO_FILE": [
+            "AIO_WORKING"
+          ],
+          "AWAITING_PROVIDER": [
+            "WAITING_EXTERNALLY"
+          ],
+          "BLOCKED": [
+            "RETURNED"
+          ],
+          "COMPLETE": [
+            "COMPLETE",
+            "ON_FILE"
+          ]
+        },
+        "mirror_not_copy": "Staff see a QUEUE of requests with waitingOn and due follow-ups, plus the submission package — not the client request card.",
+        "communication": [
+          "IFTA Account Registration request thread (client)",
+          "communication engine templates",
+          "call / note log"
+        ],
+        "audit_history": [
+          "every status change with staff id + timestamp",
+          "overrides with required note",
+          "client approvals / declines",
+          "artifact versions"
+        ]
+      },
+      "staff_entry": {
+        "surface": "IFTA Account Registration division queue",
+        "route": "office/* permitting / compliance queue",
+        "trigger": "service request submitted"
+      },
+      "staff_cta": "OPEN REQUEST",
+      "information_hierarchy": {
+        "primary_question": "What is holding this IFTA Account Registration?",
+        "primary_status": "waitingOn × age",
+        "primary_task": "Prepare, submit, record",
+        "secondary_status": "Follow-ups due",
+        "blocker": "Customer / external wait",
+        "next_action": "SUBMIT · RECORD RESULT",
+        "completion_proof": "Result recorded + documents verified"
+      },
+      "human_tasks": [
+        {
+          "id": "IFTA_REGISTRATION_TASK_1",
+          "channel": "HUMAN_TASK",
+          "trigger": "REQUESTED",
+          "audience": [
+            "FOUNDER_STAFF"
+          ],
+          "summary": "Review IFTA Account Registration request for {client}"
+        },
+        {
+          "id": "IFTA_REGISTRATION_TASK_2",
+          "channel": "HUMAN_TASK",
+          "trigger": "WAITING_EXTERNALLY",
+          "audience": [
+            "FOUNDER_STAFF"
+          ],
+          "summary": "Follow up base jurisdiction on {client}"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.IFTA",
+      "feature_name": "IFTA / Fuel Tax",
+      "family": "F06 SERVICES (permits-taxes-compliance) · F04 ROAD READY item · F16 VAULT tax_fuel",
+      "perspective": {
+        "client_context": [
+          "client + base jurisdiction + IFTA account",
+          "fleet size / qualified vehicles",
+          "previous quarters filed / late history",
+          "service plan + quote status"
+        ],
+        "work_queue": "Permitting division › Fuel Tax queue (OfficeWorkItem per client-quarter, sorted by due date × readiness)",
+        "status_model": [
+          "NOT_ENROLLED",
+          "QUARTER_OPEN",
+          "COLLECTING",
+          "NEEDS_CLIENT",
+          "OVERDUE_RISK",
+          "AIO_REVIEW",
+          "RECONCILING",
+          "AWAITING_APPROVAL",
+          "FILING",
+          "FILED",
+          "ARCHIVED",
+          "FILING_REJECTED"
+        ],
+        "blockers": [
+          "open client flags (count by class)",
+          "vehicle without mileage source",
+          "estimated-only mileage",
+          "approval pending",
+          "due date proximity"
+        ],
+        "missing_inputs": [
+          "receipts per truck per month heat strip (gaps visible)",
+          "jurisdictions with miles but no fuel"
+        ],
+        "system_flags": [
+          "DUPLICATE",
+          "UNREADABLE",
+          "POSSIBLE_MISSING",
+          "MPG outlier per vehicle",
+          "ESTIMATED mileage",
+          "readiness status per vehicle"
+        ],
+        "human_review": [
+          "receipt classification review",
+          "mileage source verification (manual_verified)",
+          "fuel vs miles reconciliation by jurisdiction"
+        ],
+        "corrections": [
+          "reclassify receipt",
+          "edit parsed fields with audit note",
+          "request correction from client (templated message)"
+        ],
+        "approval": [
+          "send return summary for client approval",
+          "see approval timestamp + approver"
+        ],
+        "overrides": [
+          "mark vehicle not operated",
+          "accept jurisdiction gap with note",
+          "file late with consent",
+          "reopen archived quarter"
+        ],
+        "operational_actions": [
+          "START RECONCILIATION",
+          "REQUEST CORRECTION",
+          "PREPARE RETURN SUMMARY",
+          "SEND FOR APPROVAL",
+          "RECORD FILING CONFIRMATION",
+          "RECORD PAYMENT STATUS",
+          "ESCALATE"
+        ],
+        "communication": [
+          "quarter request thread (client)",
+          "reminder schedule visibility",
+          "call log"
+        ],
+        "artifact_generation": [
+          "return summary from verified records",
+          "filing packet seal",
+          "reconciliation notes"
+        ],
+        "completion": "FILED with confirmation recorded and payment status (tax due paid / credit / balance) captured; packet sealed; next quarter auto-opened.",
+        "audit_history": [
+          "every classification change",
+          "every override with note + staff id",
+          "approval event",
+          "filing confirmation",
+          "amendments"
+        ],
+        "hub_buckets": {
+          "AWAITING_CLIENT": [
+            "QUARTER_OPEN",
+            "COLLECTING",
+            "NEEDS_CLIENT",
+            "AWAITING_APPROVAL"
+          ],
+          "BLOCKED": [
+            "OVERDUE_RISK",
+            "FILING_REJECTED"
+          ],
+          "NEEDS_REVIEW": [
+            "AIO_REVIEW",
+            "RECONCILING"
+          ],
+          "READY_TO_FILE": [
+            "FILING"
+          ],
+          "COMPLETE": [
+            "FILED",
+            "ARCHIVED"
+          ]
+        },
+        "mirror_not_copy": "Staff see the same quarter as a CASE FILE across many clients: due-date × readiness queue, flag counts, MPG / jurisdiction discrepancies, override + audit trail, payment status — not the client’s guided packet builder."
+      },
+      "staff_entry": {
+        "surface": "Office Fuel Tax queue (permitting division)",
+        "route": "office/* permitting queue › IFTA quarter work item",
+        "trigger": "OfficeWorkItem created when the quarter opens; re-surfaces on submission, flags, approval and filing deadlines"
+      },
+      "staff_cta": "OPEN QUARTER CASE",
+      "information_hierarchy": {
+        "primary_question": "What is blocking this filing, and who has to act?",
+        "primary_status": "Client-quarter readiness × days to due",
+        "primary_task": "Review, reconcile, send for approval, file",
+        "secondary_status": "Flag counts · MPG outliers · mileage source quality · payment status",
+        "blocker": "Waiting on client / discrepancy / jurisdiction rejection",
+        "next_action": "START RECONCILIATION · REQUEST CORRECTION · SEND FOR APPROVAL · RECORD FILING",
+        "completion_proof": "Confirmation recorded + payment status + packet sealed + next quarter opened"
+      },
+      "human_tasks": [
+        {
+          "id": "TASK_REVIEW_QUARTER",
+          "channel": "HUMAN_TASK",
+          "trigger": "AIO_REVIEW",
+          "audience": [
+            "FOUNDER_STAFF (permitting)"
+          ],
+          "summary": "Review {client} Q{n} IFTA records"
+        },
+        {
+          "id": "TASK_RECONCILE",
+          "channel": "HUMAN_TASK",
+          "trigger": "RECONCILING",
+          "audience": [
+            "FOUNDER_STAFF (permitting)"
+          ],
+          "summary": "Reconcile fuel vs miles — {n} discrepancies"
+        },
+        {
+          "id": "TASK_FILE",
+          "channel": "HUMAN_TASK",
+          "trigger": "FILING",
+          "audience": [
+            "FOUNDER_STAFF (permitting)"
+          ],
+          "summary": "File {client} Q{n} with base jurisdiction"
+        },
+        {
+          "id": "TASK_ESCALATE",
+          "channel": "HUMAN_TASK",
+          "trigger": "OVERDUE_RISK",
+          "audience": [
+            "FOUNDER_STAFF"
+          ],
+          "summary": "Deadline risk — call {client}"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.PERMITTING",
+      "feature_name": "Permitting — UCR / Trip / Temporary & Specialty Permits",
+      "family": "F06 SERVICES (permits-taxes-compliance)",
+      "perspective": {
+        "client_context": [
+          "entity + DOT / MC",
+          "fleet",
+          "Road Ready position",
+          "quote status"
+        ],
+        "work_queue": "F06 SERVICES (permits-taxes-compliance) division queue (OfficeWorkItem, waitingOn customer / government / partner)",
+        "status_model": [
+          "NOT_REQUESTED",
+          "REQUESTED",
+          "WAITING_ON_YOU",
+          "AIO_WORKING",
+          "WAITING_EXTERNALLY",
+          "COMPLETE",
+          "ON_FILE",
+          "RETURNED"
+        ],
+        "blockers": [
+          "waiting on customer",
+          "waiting on issuing jurisdiction"
+        ],
+        "missing_inputs": [
+          "unit + plate",
+          "route / jurisdictions + dates",
+          "UCR fleet size bracket"
+        ],
+        "system_flags": [
+          "incomplete checklist",
+          "expiring related item"
+        ],
+        "human_review": [
+          "request completeness",
+          "external result"
+        ],
+        "corrections": [
+          "request documents",
+          "correct after return"
+        ],
+        "approval": [
+          "client confirmation of submission"
+        ],
+        "overrides": [
+          "record result from external evidence (note)"
+        ],
+        "operational_actions": [
+          "START WORK",
+          "REQUEST DOCUMENTS",
+          "SUBMIT",
+          "RECORD RESULT"
+        ],
+        "artifact_generation": [
+          "submission package",
+          "result document to vault"
+        ],
+        "completion": "Result recorded, documents verified, Road Ready updated.",
+        "hub_buckets": {
+          "AWAITING_CLIENT": [
+            "WAITING_ON_YOU"
+          ],
+          "NEEDS_REVIEW": [
+            "REQUESTED"
+          ],
+          "READY_TO_FILE": [
+            "AIO_WORKING"
+          ],
+          "AWAITING_PROVIDER": [
+            "WAITING_EXTERNALLY"
+          ],
+          "BLOCKED": [
+            "RETURNED"
+          ],
+          "COMPLETE": [
+            "COMPLETE",
+            "ON_FILE"
+          ]
+        },
+        "mirror_not_copy": "Staff see a QUEUE of requests with waitingOn and due follow-ups, plus the submission package — not the client request card.",
+        "communication": [
+          "Permitting — UCR / Trip / Temporary & Specialty Permits request thread (client)",
+          "communication engine templates",
+          "call / note log"
+        ],
+        "audit_history": [
+          "every status change with staff id + timestamp",
+          "overrides with required note",
+          "client approvals / declines",
+          "artifact versions"
+        ]
+      },
+      "staff_entry": {
+        "surface": "Permitting — UCR / Trip / Temporary & Specialty Permits division queue",
+        "route": "office/* permitting / compliance queue",
+        "trigger": "service request submitted"
+      },
+      "staff_cta": "OPEN REQUEST",
+      "information_hierarchy": {
+        "primary_question": "What is holding this Permitting — UCR / Trip / Temporary & Specialty Permits?",
+        "primary_status": "waitingOn × age",
+        "primary_task": "Prepare, submit, record",
+        "secondary_status": "Follow-ups due",
+        "blocker": "Customer / external wait",
+        "next_action": "SUBMIT · RECORD RESULT",
+        "completion_proof": "Result recorded + documents verified"
+      },
+      "human_tasks": [
+        {
+          "id": "PERMITTING_TASK_1",
+          "channel": "HUMAN_TASK",
+          "trigger": "REQUESTED",
+          "audience": [
+            "FOUNDER_STAFF"
+          ],
+          "summary": "Review Permitting — UCR / Trip / Temporary & Specialty Permits request for {client}"
+        },
+        {
+          "id": "PERMITTING_TASK_2",
+          "channel": "HUMAN_TASK",
+          "trigger": "WAITING_EXTERNALLY",
+          "audience": [
+            "FOUNDER_STAFF"
+          ],
+          "summary": "Follow up issuing jurisdiction on {client}"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.TAGS_REGISTRATION",
+      "feature_name": "Tags / Registration — IRP / Plates / Titles",
+      "family": "F06 SERVICES (get-road-ready)",
+      "perspective": {
+        "client_context": [
+          "entity + DOT / MC",
+          "fleet",
+          "Road Ready position",
+          "quote status"
+        ],
+        "work_queue": "F06 SERVICES (get-road-ready) division queue (OfficeWorkItem, waitingOn customer / government / partner)",
+        "status_model": [
+          "NOT_REQUESTED",
+          "REQUESTED",
+          "WAITING_ON_YOU",
+          "AIO_WORKING",
+          "WAITING_EXTERNALLY",
+          "COMPLETE",
+          "ON_FILE",
+          "RETURNED"
+        ],
+        "blockers": [
+          "waiting on customer",
+          "waiting on registration office"
+        ],
+        "missing_inputs": [
+          "title / bill of sale",
+          "VIN + unit details",
+          "insurance proof",
+          "HVUT proof (2290) where required"
+        ],
+        "system_flags": [
+          "incomplete checklist",
+          "expiring related item"
+        ],
+        "human_review": [
+          "request completeness",
+          "external result"
+        ],
+        "corrections": [
+          "request documents",
+          "correct after return"
+        ],
+        "approval": [
+          "client confirmation of submission"
+        ],
+        "overrides": [
+          "record result from external evidence (note)"
+        ],
+        "operational_actions": [
+          "START WORK",
+          "REQUEST DOCUMENTS",
+          "SUBMIT",
+          "RECORD RESULT"
+        ],
+        "artifact_generation": [
+          "submission package",
+          "result document to vault"
+        ],
+        "completion": "Result recorded, documents verified, Road Ready updated.",
+        "hub_buckets": {
+          "AWAITING_CLIENT": [
+            "WAITING_ON_YOU"
+          ],
+          "NEEDS_REVIEW": [
+            "REQUESTED"
+          ],
+          "READY_TO_FILE": [
+            "AIO_WORKING"
+          ],
+          "AWAITING_PROVIDER": [
+            "WAITING_EXTERNALLY"
+          ],
+          "BLOCKED": [
+            "RETURNED"
+          ],
+          "COMPLETE": [
+            "COMPLETE",
+            "ON_FILE"
+          ]
+        },
+        "mirror_not_copy": "Staff see a QUEUE of requests with waitingOn and due follow-ups, plus the submission package — not the client request card.",
+        "communication": [
+          "Tags / Registration — IRP / Plates / Titles request thread (client)",
+          "communication engine templates",
+          "call / note log"
+        ],
+        "audit_history": [
+          "every status change with staff id + timestamp",
+          "overrides with required note",
+          "client approvals / declines",
+          "artifact versions"
+        ]
+      },
+      "staff_entry": {
+        "surface": "Tags / Registration — IRP / Plates / Titles division queue",
+        "route": "office/* permitting / compliance queue",
+        "trigger": "service request submitted"
+      },
+      "staff_cta": "OPEN REQUEST",
+      "information_hierarchy": {
+        "primary_question": "What is holding this Tags / Registration — IRP / Plates / Titles?",
+        "primary_status": "waitingOn × age",
+        "primary_task": "Prepare, submit, record",
+        "secondary_status": "Follow-ups due",
+        "blocker": "Customer / external wait",
+        "next_action": "SUBMIT · RECORD RESULT",
+        "completion_proof": "Result recorded + documents verified"
+      },
+      "human_tasks": [
+        {
+          "id": "TAGS_REGISTRATION_TASK_1",
+          "channel": "HUMAN_TASK",
+          "trigger": "REQUESTED",
+          "audience": [
+            "FOUNDER_STAFF"
+          ],
+          "summary": "Review Tags / Registration — IRP / Plates / Titles request for {client}"
+        },
+        {
+          "id": "TAGS_REGISTRATION_TASK_2",
+          "channel": "HUMAN_TASK",
+          "trigger": "WAITING_EXTERNALLY",
+          "audience": [
+            "FOUNDER_STAFF"
+          ],
+          "summary": "Follow up registration office on {client}"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.ROAD_TAX",
+      "feature_name": "Road / Highway Use Tax — HVUT 2290 & Road / Use Taxes",
+      "family": "F06 SERVICES (permits-taxes-compliance)",
+      "perspective": {
+        "client_context": [
+          "entity + DOT / MC",
+          "fleet",
+          "Road Ready position",
+          "quote status"
+        ],
+        "work_queue": "F06 SERVICES (permits-taxes-compliance) division queue (OfficeWorkItem, waitingOn customer / government / partner)",
+        "status_model": [
+          "NOT_REQUESTED",
+          "REQUESTED",
+          "WAITING_ON_YOU",
+          "AIO_WORKING",
+          "WAITING_EXTERNALLY",
+          "COMPLETE",
+          "ON_FILE",
+          "RETURNED"
+        ],
+        "blockers": [
+          "waiting on customer",
+          "waiting on tax authority"
+        ],
+        "missing_inputs": [
+          "units + taxable gross weight",
+          "first-use month",
+          "payment method"
+        ],
+        "system_flags": [
+          "incomplete checklist",
+          "expiring related item"
+        ],
+        "human_review": [
+          "request completeness",
+          "external result"
+        ],
+        "corrections": [
+          "request documents",
+          "correct after return"
+        ],
+        "approval": [
+          "client confirmation of submission"
+        ],
+        "overrides": [
+          "record result from external evidence (note)"
+        ],
+        "operational_actions": [
+          "START WORK",
+          "REQUEST DOCUMENTS",
+          "SUBMIT",
+          "RECORD RESULT"
+        ],
+        "artifact_generation": [
+          "submission package",
+          "result document to vault"
+        ],
+        "completion": "Result recorded, documents verified, Road Ready updated.",
+        "hub_buckets": {
+          "AWAITING_CLIENT": [
+            "WAITING_ON_YOU"
+          ],
+          "NEEDS_REVIEW": [
+            "REQUESTED"
+          ],
+          "READY_TO_FILE": [
+            "AIO_WORKING"
+          ],
+          "AWAITING_PROVIDER": [
+            "WAITING_EXTERNALLY"
+          ],
+          "BLOCKED": [
+            "RETURNED"
+          ],
+          "COMPLETE": [
+            "COMPLETE",
+            "ON_FILE"
+          ]
+        },
+        "mirror_not_copy": "Staff see a QUEUE of requests with waitingOn and due follow-ups, plus the submission package — not the client request card.",
+        "communication": [
+          "Road / Highway Use Tax — HVUT 2290 & Road / Use Taxes request thread (client)",
+          "communication engine templates",
+          "call / note log"
+        ],
+        "audit_history": [
+          "every status change with staff id + timestamp",
+          "overrides with required note",
+          "client approvals / declines",
+          "artifact versions"
+        ]
+      },
+      "staff_entry": {
+        "surface": "Road / Highway Use Tax — HVUT 2290 & Road / Use Taxes division queue",
+        "route": "office/* permitting / compliance queue",
+        "trigger": "service request submitted"
+      },
+      "staff_cta": "OPEN REQUEST",
+      "information_hierarchy": {
+        "primary_question": "What is holding this Road / Highway Use Tax — HVUT 2290 & Road / Use Taxes?",
+        "primary_status": "waitingOn × age",
+        "primary_task": "Prepare, submit, record",
+        "secondary_status": "Follow-ups due",
+        "blocker": "Customer / external wait",
+        "next_action": "SUBMIT · RECORD RESULT",
+        "completion_proof": "Result recorded + documents verified"
+      },
+      "human_tasks": [
+        {
+          "id": "ROAD_TAX_TASK_1",
+          "channel": "HUMAN_TASK",
+          "trigger": "REQUESTED",
+          "audience": [
+            "FOUNDER_STAFF"
+          ],
+          "summary": "Review Road / Highway Use Tax — HVUT 2290 & Road / Use Taxes request for {client}"
+        },
+        {
+          "id": "ROAD_TAX_TASK_2",
+          "channel": "HUMAN_TASK",
+          "trigger": "WAITING_EXTERNALLY",
+          "audience": [
+            "FOUNDER_STAFF"
+          ],
+          "summary": "Follow up tax authority on {client}"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.COMPLIANCE_SAFETY",
+      "feature_name": "Compliance & Safety — DOT compliance, DQ files, D&A, Clearinghouse, ELD, audits",
+      "family": "F06 SERVICES (safety-drivers)",
+      "perspective": {
+        "client_context": [
+          "entity + DOT / MC",
+          "fleet",
+          "Road Ready position",
+          "quote status"
+        ],
+        "work_queue": "F06 SERVICES (safety-drivers) division queue (OfficeWorkItem, waitingOn customer / government / partner)",
+        "status_model": [
+          "NOT_REQUESTED",
+          "REQUESTED",
+          "WAITING_ON_YOU",
+          "AIO_WORKING",
+          "WAITING_EXTERNALLY",
+          "COMPLETE",
+          "ON_FILE",
+          "RETURNED"
+        ],
+        "blockers": [
+          "waiting on customer",
+          "waiting on FMCSA / consortium / auditor"
+        ],
+        "missing_inputs": [
+          "driver documents",
+          "program enrolment details",
+          "ELD provider"
+        ],
+        "system_flags": [
+          "incomplete checklist",
+          "expiring related item"
+        ],
+        "human_review": [
+          "request completeness",
+          "external result"
+        ],
+        "corrections": [
+          "request documents",
+          "correct after return"
+        ],
+        "approval": [
+          "client confirmation of submission"
+        ],
+        "overrides": [
+          "record result from external evidence (note)"
+        ],
+        "operational_actions": [
+          "START WORK",
+          "REQUEST DOCUMENTS",
+          "SUBMIT",
+          "RECORD RESULT"
+        ],
+        "artifact_generation": [
+          "submission package",
+          "result document to vault"
+        ],
+        "completion": "Result recorded, documents verified, Road Ready updated.",
+        "hub_buckets": {
+          "AWAITING_CLIENT": [
+            "WAITING_ON_YOU"
+          ],
+          "NEEDS_REVIEW": [
+            "REQUESTED"
+          ],
+          "READY_TO_FILE": [
+            "AIO_WORKING"
+          ],
+          "AWAITING_PROVIDER": [
+            "WAITING_EXTERNALLY"
+          ],
+          "BLOCKED": [
+            "RETURNED"
+          ],
+          "COMPLETE": [
+            "COMPLETE",
+            "ON_FILE"
+          ]
+        },
+        "mirror_not_copy": "Staff see a QUEUE of requests with waitingOn and due follow-ups, plus the submission package — not the client request card.",
+        "communication": [
+          "Compliance & Safety — DOT compliance, DQ files, D&A, Clearinghouse, ELD, audits request thread (client)",
+          "communication engine templates",
+          "call / note log"
+        ],
+        "audit_history": [
+          "every status change with staff id + timestamp",
+          "overrides with required note",
+          "client approvals / declines",
+          "artifact versions"
+        ]
+      },
+      "staff_entry": {
+        "surface": "Compliance & Safety — DOT compliance, DQ files, D&A, Clearinghouse, ELD, audits division queue",
+        "route": "office/* permitting / compliance queue",
+        "trigger": "service request submitted"
+      },
+      "staff_cta": "OPEN REQUEST",
+      "information_hierarchy": {
+        "primary_question": "What is holding this Compliance & Safety — DOT compliance, DQ files, D&A, Clearinghouse, ELD, audits?",
+        "primary_status": "waitingOn × age",
+        "primary_task": "Prepare, submit, record",
+        "secondary_status": "Follow-ups due",
+        "blocker": "Customer / external wait",
+        "next_action": "SUBMIT · RECORD RESULT",
+        "completion_proof": "Result recorded + documents verified"
+      },
+      "human_tasks": [
+        {
+          "id": "COMPLIANCE_SAFETY_TASK_1",
+          "channel": "HUMAN_TASK",
+          "trigger": "REQUESTED",
+          "audience": [
+            "FOUNDER_STAFF"
+          ],
+          "summary": "Review Compliance & Safety — DOT compliance, DQ files, D&A, Clearinghouse, ELD, audits request for {client}"
+        },
+        {
+          "id": "COMPLIANCE_SAFETY_TASK_2",
+          "channel": "HUMAN_TASK",
+          "trigger": "WAITING_EXTERNALLY",
+          "audience": [
+            "FOUNDER_STAFF"
+          ],
+          "summary": "Follow up FMCSA / consortium / auditor on {client}"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.RENEWALS",
+      "feature_name": "Renewals",
+      "family": "F04 ROAD READY · F06 SERVICES (renewals)",
+      "perspective": {
+        "client_context": [
+          "items expiring by client",
+          "lapse risk"
+        ],
+        "work_queue": "Office Renewal Center",
+        "status_model": [
+          "NONE_DUE",
+          "UPCOMING",
+          "DECISION_NEEDED",
+          "WITH_AIO",
+          "OVERDUE",
+          "RENEWED",
+          "SELF_MANAGED",
+          "RENEWAL_FAILED"
+        ],
+        "blockers": [
+          "awaiting client decision",
+          "overdue items"
+        ],
+        "missing_inputs": [
+          "updated documents"
+        ],
+        "system_flags": [
+          "expired",
+          "expiring within 30 days"
+        ],
+        "human_review": [
+          "renewal result"
+        ],
+        "corrections": [
+          "request documents"
+        ],
+        "approval": [
+          "client decision recorded"
+        ],
+        "overrides": [
+          "record self-managed renewal"
+        ],
+        "operational_actions": [
+          "REMIND",
+          "START RENEWAL",
+          "RECORD RESULT"
+        ],
+        "artifact_generation": [
+          "renewed document upload"
+        ],
+        "completion": "Renewal recorded; supersede old document.",
+        "hub_buckets": {
+          "AWAITING_CLIENT": [
+            "DECISION_NEEDED"
+          ],
+          "BLOCKED": [
+            "OVERDUE",
+            "RENEWAL_FAILED"
+          ],
+          "NEEDS_REVIEW": [
+            "WITH_AIO"
+          ],
+          "COMPLETE": [
+            "RENEWED"
+          ]
+        },
+        "mirror_not_copy": "Staff see a lapse-risk QUEUE across clients, not one client’s horizon.",
+        "communication": [
+          "Renewals request thread (client)",
+          "communication engine templates",
+          "call / note log"
+        ],
+        "audit_history": [
+          "every status change with staff id + timestamp",
+          "overrides with required note",
+          "client approvals / declines",
+          "artifact versions"
+        ]
+      },
+      "staff_entry": {
+        "surface": "Office Renewal Center",
+        "route": "office/renewals",
+        "trigger": "renewal window opened"
+      },
+      "staff_cta": "START RENEWAL",
+      "information_hierarchy": {
+        "primary_question": "Which clients are about to lapse?",
+        "primary_status": "Lapse risk",
+        "primary_task": "Remind / renew",
+        "secondary_status": "Decisions pending",
+        "blocker": "Overdue",
+        "next_action": "START RENEWAL",
+        "completion_proof": "Renewal recorded"
+      },
+      "human_tasks": [
+        {
+          "id": "RENEWALS_TASK_1",
+          "channel": "HUMAN_TASK",
+          "trigger": "WITH_AIO",
+          "audience": [
+            "FOUNDER_STAFF"
+          ],
+          "summary": "Renew {item} for {client}"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.DISPATCH_OPERATIONS",
+      "feature_name": "Dispatch / Operations",
+      "family": "F07 OPERATIONS",
+      "perspective": {
+        "client_context": [
+          "carrier + trucks + lanes",
+          "enrolment + agreement status",
+          "load history"
+        ],
+        "work_queue": "Dispatch board (trucks × loads)",
+        "status_model": [
+          "NOT_ENROLLED",
+          "ONBOARDING",
+          "SEARCHING",
+          "OFFER_PENDING",
+          "BOOKED",
+          "IN_TRANSIT",
+          "POD_NEEDED",
+          "LOAD_COMPLETE",
+          "SETTLED",
+          "LOAD_PROBLEM"
+        ],
+        "blockers": [
+          "awaiting carrier approval",
+          "missing POD",
+          "load problems"
+        ],
+        "missing_inputs": [
+          "truck preferences",
+          "documents"
+        ],
+        "system_flags": [
+          "low load score",
+          "document incomplete"
+        ],
+        "human_review": [
+          "load review before offering"
+        ],
+        "corrections": [
+          "update load details",
+          "request documents"
+        ],
+        "approval": [
+          "carrier approval recorded per load"
+        ],
+        "overrides": [
+          "manual load entry (carrier-provided)"
+        ],
+        "operational_actions": [
+          "OFFER LOAD",
+          "BOOK",
+          "CHECK CALL",
+          "MARK DELIVERED",
+          "LOG PROBLEM"
+        ],
+        "artifact_generation": [
+          "rate con capture",
+          "document completeness"
+        ],
+        "completion": "Load complete; documents complete; fee billable.",
+        "hub_buckets": {
+          "AWAITING_CLIENT": [
+            "OFFER_PENDING",
+            "POD_NEEDED"
+          ],
+          "NEEDS_REVIEW": [
+            "SEARCHING"
+          ],
+          "READY_TO_SEND": [
+            "BOOKED"
+          ],
+          "BLOCKED": [
+            "LOAD_PROBLEM"
+          ],
+          "COMPLETE": [
+            "LOAD_COMPLETE",
+            "SETTLED"
+          ]
+        },
+        "mirror_not_copy": "Dispatchers see a CONTROL ROOM board across trucks and loads with check calls and exceptions; carriers see their trucks and the next decision.",
+        "communication": [
+          "Dispatch / Operations request thread (client)",
+          "communication engine templates",
+          "call / note log"
+        ],
+        "audit_history": [
+          "every status change with staff id + timestamp",
+          "overrides with required note",
+          "client approvals / declines",
+          "artifact versions"
+        ]
+      },
+      "staff_entry": {
+        "surface": "Office dispatch board",
+        "route": "office/dispatch/*",
+        "trigger": "carrier truck available / load opportunity"
+      },
+      "staff_cta": "OFFER LOAD",
+      "information_hierarchy": {
+        "primary_question": "Which trucks need loads and which loads need attention?",
+        "primary_status": "Board exceptions",
+        "primary_task": "Find, offer, book, track",
+        "secondary_status": "Check calls due",
+        "blocker": "Approval pending / problem",
+        "next_action": "OFFER · BOOK · CHECK CALL",
+        "completion_proof": "Load complete with documents"
+      },
+      "human_tasks": [
+        {
+          "id": "DISPATCH_OPERATIONS_TASK_1",
+          "channel": "HUMAN_TASK",
+          "trigger": "SEARCHING",
+          "audience": [
+            "FOUNDER_STAFF"
+          ],
+          "summary": "Find loads for {truck}"
+        },
+        {
+          "id": "DISPATCH_OPERATIONS_TASK_2",
+          "channel": "HUMAN_TASK",
+          "trigger": "IN_TRANSIT",
+          "audience": [
+            "FOUNDER_STAFF"
+          ],
+          "summary": "Check call {load #}"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.LOAD_BOARD",
+      "feature_name": "Load Board",
+      "family": "F08 LOAD BOARD",
+      "perspective": {
+        "client_context": [
+          "carrier eligibility + history"
+        ],
+        "work_queue": "Brokerage coverage queue",
+        "status_model": [
+          "NO_MATCHES",
+          "BROWSING",
+          "NEGOTIATING",
+          "OFFER_DECISION",
+          "BOOKED",
+          "CLOSED",
+          "NOT_ELIGIBLE",
+          "PUBLISH_ERROR"
+        ],
+        "blockers": [
+          "ineligible carrier"
+        ],
+        "missing_inputs": [
+          "carrier documents"
+        ],
+        "system_flags": [
+          "rate below floor",
+          "eligibility gaps"
+        ],
+        "human_review": [
+          "carrier offer review"
+        ],
+        "corrections": [
+          "withdraw / republish load"
+        ],
+        "approval": [
+          "offer acceptance"
+        ],
+        "overrides": [
+          "manual coverage"
+        ],
+        "operational_actions": [
+          "ACCEPT OFFER",
+          "COUNTER",
+          "PUBLISH",
+          "WITHDRAW"
+        ],
+        "artifact_generation": [
+          "rate confirmation"
+        ],
+        "completion": "Load covered.",
+        "hub_buckets": {
+          "NEEDS_REVIEW": [
+            "NEGOTIATING"
+          ],
+          "AWAITING_CLIENT": [
+            "OFFER_DECISION"
+          ],
+          "COMPLETE": [
+            "BOOKED"
+          ]
+        },
+        "mirror_not_copy": "Staff see coverage across loads with margin; carriers never see shipper pricing.",
+        "communication": [
+          "Load Board request thread (client)",
+          "communication engine templates",
+          "call / note log"
+        ],
+        "audit_history": [
+          "every status change with staff id + timestamp",
+          "overrides with required note",
+          "client approvals / declines",
+          "artifact versions"
+        ]
+      },
+      "staff_entry": {
+        "surface": "Office brokerage coverage",
+        "route": "office/brokerage/*",
+        "trigger": "load published for coverage"
+      },
+      "staff_cta": "ACCEPT OFFER",
+      "information_hierarchy": {
+        "primary_question": "Which loads need coverage?",
+        "primary_status": "Uncovered loads",
+        "primary_task": "Review offers",
+        "secondary_status": "Margin",
+        "blocker": "Ineligible carriers",
+        "next_action": "ACCEPT · COUNTER",
+        "completion_proof": "Covered"
+      },
+      "human_tasks": [
+        {
+          "id": "LOAD_BOARD_TASK_1",
+          "channel": "HUMAN_TASK",
+          "trigger": "NEGOTIATING",
+          "audience": [
+            "FOUNDER_STAFF"
+          ],
+          "summary": "Review carrier offer on {load}"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.BROKERAGE",
+      "feature_name": "Brokerage (Shipper)",
+      "family": "F09 BROKERAGE",
+      "perspective": {
+        "client_context": [
+          "shipper profile",
+          "lanes",
+          "credit / billing"
+        ],
+        "work_queue": "Brokerage desk (shipments × coverage)",
+        "status_model": [
+          "NOT_ONBOARDED",
+          "REQUESTED",
+          "QUOTE_READY",
+          "COVERING",
+          "IN_TRANSIT",
+          "DELIVERED",
+          "BILLED",
+          "EXCEPTION",
+          "CANCELLED"
+        ],
+        "blockers": [
+          "quote pending",
+          "uncovered load",
+          "exceptions"
+        ],
+        "missing_inputs": [
+          "shipment details"
+        ],
+        "system_flags": [
+          "margin below floor",
+          "capability gate"
+        ],
+        "human_review": [
+          "quote",
+          "carrier assignment"
+        ],
+        "corrections": [
+          "re-quote",
+          "reassign carrier"
+        ],
+        "approval": [
+          "shipper quote acceptance"
+        ],
+        "overrides": [
+          "manual coverage"
+        ],
+        "operational_actions": [
+          "ISSUE QUOTE",
+          "PUBLISH",
+          "BOOK CARRIER",
+          "LOG EXCEPTION",
+          "INVOICE"
+        ],
+        "artifact_generation": [
+          "quote",
+          "rate con",
+          "invoice"
+        ],
+        "completion": "Delivered, billed, carrier payable recorded.",
+        "hub_buckets": {
+          "NEEDS_REVIEW": [
+            "REQUESTED"
+          ],
+          "AWAITING_CLIENT": [
+            "QUOTE_READY"
+          ],
+          "AWAITING_PROVIDER": [
+            "COVERING"
+          ],
+          "BLOCKED": [
+            "EXCEPTION"
+          ],
+          "COMPLETE": [
+            "DELIVERED",
+            "BILLED"
+          ]
+        },
+        "mirror_not_copy": "Staff see shipper charge, carrier pay and margin per load — never exposed to shippers or carriers.",
+        "communication": [
+          "Brokerage (Shipper) request thread (client)",
+          "communication engine templates",
+          "call / note log"
+        ],
+        "audit_history": [
+          "every status change with staff id + timestamp",
+          "overrides with required note",
+          "client approvals / declines",
+          "artifact versions"
+        ]
+      },
+      "staff_entry": {
+        "surface": "Office brokerage",
+        "route": "office/brokerage/*",
+        "trigger": "shipment request received"
+      },
+      "staff_cta": "ISSUE QUOTE",
+      "information_hierarchy": {
+        "primary_question": "Which shipments need quoting, coverage or attention?",
+        "primary_status": "Pipeline stage counts",
+        "primary_task": "Quote / cover / resolve",
+        "secondary_status": "Margin",
+        "blocker": "Exception",
+        "next_action": "ISSUE QUOTE · BOOK CARRIER",
+        "completion_proof": "Billed + payable"
+      },
+      "human_tasks": [
+        {
+          "id": "BROKERAGE_TASK_1",
+          "channel": "HUMAN_TASK",
+          "trigger": "REQUESTED",
+          "audience": [
+            "FOUNDER_STAFF"
+          ],
+          "summary": "Quote shipment for {shipper}"
+        },
+        {
+          "id": "BROKERAGE_TASK_2",
+          "channel": "HUMAN_TASK",
+          "trigger": "COVERING",
+          "audience": [
+            "FOUNDER_STAFF"
+          ],
+          "summary": "Cover load {#}"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.FINANCES",
+      "feature_name": "Finances — Money / Billing / Quotes",
+      "family": "F10 FINANCES",
+      "perspective": {
+        "client_context": [
+          "services + quotes",
+          "payment history"
+        ],
+        "work_queue": "Billing queue",
+        "status_model": [
+          "NOTHING_DUE",
+          "QUOTE_PENDING",
+          "INVOICE_OPEN",
+          "OVERDUE",
+          "PAYMENT_PROCESSING",
+          "PAID",
+          "ARCHIVED",
+          "PAYMENT_FAILED"
+        ],
+        "blockers": [
+          "unaccepted quotes",
+          "overdue"
+        ],
+        "missing_inputs": [
+          "payment method"
+        ],
+        "system_flags": [
+          "failed payment",
+          "overdue"
+        ],
+        "human_review": [
+          "quote preparation"
+        ],
+        "corrections": [
+          "revise quote",
+          "credit"
+        ],
+        "approval": [
+          "client quote acceptance"
+        ],
+        "overrides": [
+          "credit / waive with note"
+        ],
+        "operational_actions": [
+          "ISSUE QUOTE",
+          "SEND INVOICE",
+          "APPLY CREDIT"
+        ],
+        "artifact_generation": [
+          "quotes",
+          "invoices"
+        ],
+        "completion": "Paid.",
+        "hub_buckets": {
+          "AWAITING_CLIENT": [
+            "QUOTE_PENDING",
+            "INVOICE_OPEN"
+          ],
+          "BLOCKED": [
+            "OVERDUE",
+            "PAYMENT_FAILED"
+          ],
+          "COMPLETE": [
+            "PAID"
+          ]
+        },
+        "mirror_not_copy": "Staff see receivables across clients; clients see their own ledger.",
+        "communication": [
+          "Finances — Money / Billing / Quotes request thread (client)",
+          "communication engine templates",
+          "call / note log"
+        ],
+        "audit_history": [
+          "every status change with staff id + timestamp",
+          "overrides with required note",
+          "client approvals / declines",
+          "artifact versions"
+        ]
+      },
+      "staff_entry": {
+        "surface": "Office billing",
+        "route": "office/* billing",
+        "trigger": "quote / invoice issued"
+      },
+      "staff_cta": "SEND INVOICE",
+      "information_hierarchy": {
+        "primary_question": "What is outstanding?",
+        "primary_status": "Receivables",
+        "primary_task": "Quote / invoice / follow up",
+        "secondary_status": "Ageing",
+        "blocker": "Overdue",
+        "next_action": "SEND INVOICE",
+        "completion_proof": "Paid"
+      },
+      "human_tasks": [
+        {
+          "id": "FINANCES_TASK_1",
+          "channel": "HUMAN_TASK",
+          "trigger": "OVERDUE",
+          "audience": [
+            "FOUNDER_STAFF"
+          ],
+          "summary": "Follow up overdue invoice for {client}"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.FACTORING",
+      "feature_name": "Factoring (assistance / partner)",
+      "family": "F11 FACTORING",
+      "perspective": {
+        "client_context": [
+          "enrolment status",
+          "invoice history",
+          "partner"
+        ],
+        "work_queue": "Factoring specialist queue",
+        "status_model": [
+          "NOT_ENROLLED",
+          "DOCUMENTS_NEEDED",
+          "UNDER_REVIEW",
+          "PARTNER_REVIEW",
+          "ACTIVE",
+          "FUNDED",
+          "CLOSED",
+          "DECLINED"
+        ],
+        "blockers": [
+          "documents needed",
+          "partner review"
+        ],
+        "missing_inputs": [
+          "NOA",
+          "POD"
+        ],
+        "system_flags": [
+          "packet incomplete",
+          "direct factoring disabled"
+        ],
+        "human_review": [
+          "packet review"
+        ],
+        "corrections": [
+          "request documents"
+        ],
+        "approval": [
+          "client submission confirmation"
+        ],
+        "overrides": [
+          "manual partner status"
+        ],
+        "operational_actions": [
+          "SUBMIT TO PARTNER",
+          "RECORD FUNDING",
+          "REQUEST DOCUMENTS"
+        ],
+        "artifact_generation": [
+          "freight invoice",
+          "funding report entry"
+        ],
+        "completion": "Funding recorded; closed.",
+        "hub_buckets": {
+          "AWAITING_CLIENT": [
+            "DOCUMENTS_NEEDED"
+          ],
+          "NEEDS_REVIEW": [
+            "UNDER_REVIEW"
+          ],
+          "AWAITING_PROVIDER": [
+            "PARTNER_REVIEW"
+          ],
+          "COMPLETE": [
+            "FUNDED",
+            "CLOSED"
+          ]
+        },
+        "mirror_not_copy": "Staff see packets, partner status and staff-entered funding figures; clients see invoice progress.",
+        "communication": [
+          "Factoring (assistance / partner) request thread (client)",
+          "communication engine templates",
+          "call / note log"
+        ],
+        "audit_history": [
+          "every status change with staff id + timestamp",
+          "overrides with required note",
+          "client approvals / declines",
+          "artifact versions"
+        ]
+      },
+      "staff_entry": {
+        "surface": "Office factoring",
+        "route": "office/factoring/*",
+        "trigger": "invoice submitted for review"
+      },
+      "staff_cta": "SUBMIT TO PARTNER",
+      "information_hierarchy": {
+        "primary_question": "Which packets are ready for the partner?",
+        "primary_status": "Queue by stage",
+        "primary_task": "Review / submit",
+        "secondary_status": "Partner status",
+        "blocker": "Missing docs",
+        "next_action": "SUBMIT TO PARTNER",
+        "completion_proof": "Funding recorded"
+      },
+      "human_tasks": [
+        {
+          "id": "FACTORING_TASK_1",
+          "channel": "HUMAN_TASK",
+          "trigger": "UNDER_REVIEW",
+          "audience": [
+            "FOUNDER_STAFF"
+          ],
+          "summary": "Review factoring packet for {client}"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.INSURANCE",
+      "feature_name": "Insurance (assistance / referral)",
+      "family": "F12 INSURANCE",
+      "perspective": {
+        "client_context": [
+          "operation profile",
+          "policies",
+          "partner"
+        ],
+        "work_queue": "Insurance division queue",
+        "status_model": [
+          "NO_POLICY",
+          "INTAKE",
+          "REFERRED",
+          "OPTIONS_READY",
+          "POLICY_SETUP",
+          "ACTIVE_POLICY",
+          "RENEWAL_WINDOW",
+          "DOCUMENTS_NEEDED",
+          "LAPSE_RISK"
+        ],
+        "blockers": [
+          "awaiting partner",
+          "documents needed",
+          "lapse risk"
+        ],
+        "missing_inputs": [
+          "declarations page"
+        ],
+        "system_flags": [
+          "expiring policy",
+          "capability gate demo"
+        ],
+        "human_review": [
+          "internal review",
+          "policy verification"
+        ],
+        "corrections": [
+          "request documents"
+        ],
+        "approval": [
+          "customer selection recorded"
+        ],
+        "overrides": [
+          "record policy from customer record"
+        ],
+        "operational_actions": [
+          "REFER",
+          "ENTER PARTNER QUOTES",
+          "VERIFY POLICY",
+          "COORDINATE COI"
+        ],
+        "artifact_generation": [
+          "policy record"
+        ],
+        "completion": "Active policy recorded.",
+        "hub_buckets": {
+          "NEEDS_REVIEW": [
+            "INTAKE",
+            "POLICY_SETUP"
+          ],
+          "AWAITING_PROVIDER": [
+            "REFERRED"
+          ],
+          "AWAITING_CLIENT": [
+            "OPTIONS_READY",
+            "DOCUMENTS_NEEDED"
+          ],
+          "BLOCKED": [
+            "LAPSE_RISK"
+          ],
+          "COMPLETE": [
+            "ACTIVE_POLICY"
+          ]
+        },
+        "mirror_not_copy": "Staff see referral status and lapse risk across clients; clients see their coverage.",
+        "communication": [
+          "Insurance (assistance / referral) request thread (client)",
+          "communication engine templates",
+          "call / note log"
+        ],
+        "audit_history": [
+          "every status change with staff id + timestamp",
+          "overrides with required note",
+          "client approvals / declines",
+          "artifact versions"
+        ]
+      },
+      "staff_entry": {
+        "surface": "Office insurance",
+        "route": "office/insurance/*",
+        "trigger": "request submitted"
+      },
+      "staff_cta": "VERIFY POLICY",
+      "information_hierarchy": {
+        "primary_question": "Who is at lapse risk or waiting on a partner?",
+        "primary_status": "Queue",
+        "primary_task": "Refer / verify",
+        "secondary_status": "Partner status",
+        "blocker": "Lapse risk",
+        "next_action": "VERIFY POLICY",
+        "completion_proof": "Policy recorded"
+      },
+      "human_tasks": [
+        {
+          "id": "INSURANCE_TASK_1",
+          "channel": "HUMAN_TASK",
+          "trigger": "INTAKE",
+          "audience": [
+            "FOUNDER_STAFF"
+          ],
+          "summary": "Review coverage needs for {client}"
+        },
+        {
+          "id": "INSURANCE_TASK_2",
+          "channel": "HUMAN_TASK",
+          "trigger": "POLICY_SETUP",
+          "audience": [
+            "FOUNDER_STAFF"
+          ],
+          "summary": "Verify policy for {client}"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.BOOKKEEPING",
+      "feature_name": "Bookkeeping",
+      "family": "F13 BOOKKEEPING",
+      "perspective": {
+        "client_context": [
+          "plan",
+          "months status",
+          "connected sources"
+        ],
+        "work_queue": "Monthly close queue",
+        "status_model": [
+          "NO_PLAN",
+          "MONTH_OPEN",
+          "QUESTIONS",
+          "CLOSING",
+          "REVIEW_READY",
+          "CLOSED",
+          "ARCHIVED",
+          "RESCUE_NEEDED"
+        ],
+        "blockers": [
+          "missing statements",
+          "unanswered questions"
+        ],
+        "missing_inputs": [
+          "statements"
+        ],
+        "system_flags": [
+          "uncategorised",
+          "backlog"
+        ],
+        "human_review": [
+          "close review"
+        ],
+        "corrections": [
+          "recategorise"
+        ],
+        "approval": [
+          "client month confirmation"
+        ],
+        "overrides": [
+          "recategorise with note"
+        ],
+        "operational_actions": [
+          "CLOSE MONTH",
+          "ASK CLIENT",
+          "SEND REPORTS"
+        ],
+        "artifact_generation": [
+          "P&L",
+          "balance sheet"
+        ],
+        "completion": "Month closed.",
+        "hub_buckets": {
+          "AWAITING_CLIENT": [
+            "MONTH_OPEN",
+            "QUESTIONS",
+            "REVIEW_READY"
+          ],
+          "NEEDS_REVIEW": [
+            "CLOSING"
+          ],
+          "BLOCKED": [
+            "RESCUE_NEEDED"
+          ],
+          "COMPLETE": [
+            "CLOSED"
+          ]
+        },
+        "mirror_not_copy": "Staff see the close calendar across clients; clients see their month.",
+        "communication": [
+          "Bookkeeping request thread (client)",
+          "communication engine templates",
+          "call / note log"
+        ],
+        "audit_history": [
+          "every status change with staff id + timestamp",
+          "overrides with required note",
+          "client approvals / declines",
+          "artifact versions"
+        ]
+      },
+      "staff_entry": {
+        "surface": "Office bookkeeping",
+        "route": "office/bookkeeping/*",
+        "trigger": "month open"
+      },
+      "staff_cta": "CLOSE MONTH",
+      "information_hierarchy": {
+        "primary_question": "Which months are behind?",
+        "primary_status": "Close calendar",
+        "primary_task": "Close",
+        "secondary_status": "Backlogs",
+        "blocker": "Missing statements",
+        "next_action": "CLOSE MONTH",
+        "completion_proof": "Reports sent"
+      },
+      "human_tasks": [
+        {
+          "id": "BOOKKEEPING_TASK_1",
+          "channel": "HUMAN_TASK",
+          "trigger": "CLOSING",
+          "audience": [
+            "FOUNDER_STAFF"
+          ],
+          "summary": "Close {month} for {client}"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.FLEETCARE",
+      "feature_name": "FleetCare",
+      "family": "F14 FLEETCARE",
+      "perspective": {
+        "client_context": [
+          "carrier + unit + location",
+          "provider history"
+        ],
+        "work_queue": "FleetCare office queue",
+        "status_model": [
+          "NO_TICKETS",
+          "SUBMITTED",
+          "PROVIDER_REVIEWING",
+          "ESTIMATE_DECISION",
+          "IN_REPAIR",
+          "NO_PROVIDER",
+          "COMPLETED",
+          "RECORDED",
+          "DISPUTED"
+        ],
+        "blockers": [
+          "no provider",
+          "estimate pending"
+        ],
+        "missing_inputs": [
+          "location / drivable status"
+        ],
+        "system_flags": [
+          "provider documents expired",
+          "dispute"
+        ],
+        "human_review": [
+          "manual provider assignment",
+          "dispute mediation"
+        ],
+        "corrections": [
+          "reassign provider"
+        ],
+        "approval": [
+          "client estimate approval"
+        ],
+        "overrides": [
+          "waive / refund referral fee"
+        ],
+        "operational_actions": [
+          "ASSIGN PROVIDER",
+          "MEDIATE",
+          "CLOSE"
+        ],
+        "artifact_generation": [
+          "service record"
+        ],
+        "completion": "Job complete; referral fee status recorded.",
+        "hub_buckets": {
+          "AWAITING_PROVIDER": [
+            "PROVIDER_REVIEWING",
+            "IN_REPAIR"
+          ],
+          "AWAITING_CLIENT": [
+            "ESTIMATE_DECISION"
+          ],
+          "BLOCKED": [
+            "NO_PROVIDER",
+            "DISPUTED"
+          ],
+          "COMPLETE": [
+            "COMPLETED",
+            "RECORDED"
+          ]
+        },
+        "mirror_not_copy": "Staff see provider network health, referral fees and disputes across tickets.",
+        "communication": [
+          "FleetCare request thread (client)",
+          "communication engine templates",
+          "call / note log"
+        ],
+        "audit_history": [
+          "every status change with staff id + timestamp",
+          "overrides with required note",
+          "client approvals / declines",
+          "artifact versions"
+        ]
+      },
+      "staff_entry": {
+        "surface": "Office FleetCare",
+        "route": "office/fleetcare/*",
+        "trigger": "ticket submitted"
+      },
+      "staff_cta": "ASSIGN PROVIDER",
+      "information_hierarchy": {
+        "primary_question": "Which tickets are stuck?",
+        "primary_status": "Tickets by stage",
+        "primary_task": "Assign / mediate",
+        "secondary_status": "Provider health",
+        "blocker": "No provider / dispute",
+        "next_action": "ASSIGN PROVIDER",
+        "completion_proof": "Closed with record"
+      },
+      "human_tasks": [
+        {
+          "id": "FLEETCARE_TASK_1",
+          "channel": "HUMAN_TASK",
+          "trigger": "NO_PROVIDER",
+          "audience": [
+            "FOUNDER_STAFF"
+          ],
+          "summary": "Find provider for {client} {unit}"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.DRIVERLINK",
+      "feature_name": "DriverLink",
+      "family": "F15 DRIVERLINK",
+      "perspective": {
+        "client_context": [
+          "company + jobs",
+          "driver credentials"
+        ],
+        "work_queue": "Credential verification queue",
+        "status_model": [
+          "NO_JOBS",
+          "PUBLISHED",
+          "CREDENTIALS_PENDING",
+          "CANDIDATES_READY",
+          "IN_PROCESS",
+          "HIRED",
+          "CLOSED",
+          "CREDENTIAL_REJECTED"
+        ],
+        "blockers": [
+          "credentials pending"
+        ],
+        "missing_inputs": [
+          "credential documents"
+        ],
+        "system_flags": [
+          "expiring credentials",
+          "suspended driver"
+        ],
+        "human_review": [
+          "credential verification"
+        ],
+        "corrections": [
+          "request credential update"
+        ],
+        "approval": [
+          "credential verification sign-off"
+        ],
+        "overrides": [
+          "manual match"
+        ],
+        "operational_actions": [
+          "VERIFY",
+          "REJECT",
+          "MATCH"
+        ],
+        "artifact_generation": [
+          "credential record"
+        ],
+        "completion": "Driver hired; DQ handoff.",
+        "hub_buckets": {
+          "NEEDS_REVIEW": [
+            "CREDENTIALS_PENDING"
+          ],
+          "AWAITING_CLIENT": [
+            "CANDIDATES_READY"
+          ],
+          "COMPLETE": [
+            "HIRED"
+          ]
+        },
+        "mirror_not_copy": "Staff see credential queues across drivers; companies see candidates.",
+        "communication": [
+          "DriverLink request thread (client)",
+          "communication engine templates",
+          "call / note log"
+        ],
+        "audit_history": [
+          "every status change with staff id + timestamp",
+          "overrides with required note",
+          "client approvals / declines",
+          "artifact versions"
+        ]
+      },
+      "staff_entry": {
+        "surface": "Office DriverLink",
+        "route": "office/driverlink/*",
+        "trigger": "credential uploaded / application"
+      },
+      "staff_cta": "VERIFY",
+      "information_hierarchy": {
+        "primary_question": "Which credentials need verification?",
+        "primary_status": "Queue",
+        "primary_task": "Verify",
+        "secondary_status": "Expiring",
+        "blocker": "Rejected",
+        "next_action": "VERIFY",
+        "completion_proof": "Credential recorded"
+      },
+      "human_tasks": [
+        {
+          "id": "DRIVERLINK_TASK_1",
+          "channel": "HUMAN_TASK",
+          "trigger": "CREDENTIALS_PENDING",
+          "audience": [
+            "FOUNDER_STAFF"
+          ],
+          "summary": "Verify credentials for {driver}"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.VAULT",
+      "feature_name": "Vault",
+      "family": "F16 VAULT",
+      "perspective": {
+        "client_context": [
+          "documents by status"
+        ],
+        "work_queue": "Office Document Center",
+        "status_model": [
+          "EMPTY_VAULT",
+          "ORGANISED",
+          "REQUESTED",
+          "PENDING_VERIFICATION",
+          "VERIFIED",
+          "SUPERSEDED",
+          "REJECTED",
+          "EXPIRING"
+        ],
+        "blockers": [
+          "requested docs outstanding"
+        ],
+        "missing_inputs": [
+          "requested documents"
+        ],
+        "system_flags": [
+          "expiring",
+          "file policy violations"
+        ],
+        "human_review": [
+          "verification"
+        ],
+        "corrections": [
+          "reject with reason"
+        ],
+        "approval": [
+          "verification"
+        ],
+        "overrides": [
+          "recategorise"
+        ],
+        "operational_actions": [
+          "REQUEST",
+          "VERIFY",
+          "REJECT",
+          "SUPERSEDE"
+        ],
+        "artifact_generation": [
+          "verification record"
+        ],
+        "completion": "Verified.",
+        "hub_buckets": {
+          "NEEDS_REVIEW": [
+            "PENDING_VERIFICATION"
+          ],
+          "AWAITING_CLIENT": [
+            "REQUESTED",
+            "REJECTED"
+          ],
+          "COMPLETE": [
+            "VERIFIED"
+          ]
+        },
+        "mirror_not_copy": "Staff see a verification DOCUMENT TABLE across clients.",
+        "communication": [
+          "Vault request thread (client)",
+          "communication engine templates",
+          "call / note log"
+        ],
+        "audit_history": [
+          "every status change with staff id + timestamp",
+          "overrides with required note",
+          "client approvals / declines",
+          "artifact versions"
+        ]
+      },
+      "staff_entry": {
+        "surface": "Office Document Center",
+        "route": "office/documents",
+        "trigger": "document uploaded"
+      },
+      "staff_cta": "VERIFY",
+      "information_hierarchy": {
+        "primary_question": "What needs verification?",
+        "primary_status": "Queue",
+        "primary_task": "Verify",
+        "secondary_status": "Expiring",
+        "blocker": "Requested outstanding",
+        "next_action": "VERIFY",
+        "completion_proof": "Verified"
+      },
+      "human_tasks": [
+        {
+          "id": "VAULT_TASK_1",
+          "channel": "HUMAN_TASK",
+          "trigger": "PENDING_VERIFICATION",
+          "audience": [
+            "FOUNDER_STAFF"
+          ],
+          "summary": "Verify {document} for {client}"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.INBOX",
+      "feature_name": "Inbox — Messages / Notifications / Appointments",
+      "family": "F17 INBOX",
+      "perspective": {
+        "client_context": [
+          "client + thread feature"
+        ],
+        "work_queue": "Office inbox",
+        "status_model": [
+          "EMPTY_INBOX",
+          "ACTION_THREADS",
+          "CONVERSATION",
+          "AIO_REPLYING",
+          "APPOINTMENT_PROPOSED",
+          "RESOLVED",
+          "ARCHIVED",
+          "DELIVERY_FAILED"
+        ],
+        "blockers": [
+          "unanswered client messages"
+        ],
+        "missing_inputs": [
+          "contact info"
+        ],
+        "system_flags": [
+          "bounce",
+          "consent missing"
+        ],
+        "human_review": [
+          "reply"
+        ],
+        "corrections": [
+          "update contact"
+        ],
+        "approval": [
+          "appointment confirmation"
+        ],
+        "overrides": [
+          "manual resolve"
+        ],
+        "operational_actions": [
+          "REPLY",
+          "PROPOSE TIME",
+          "RESOLVE"
+        ],
+        "artifact_generation": [
+          "templated messages"
+        ],
+        "completion": "Thread resolved.",
+        "hub_buckets": {
+          "NEEDS_REVIEW": [
+            "AIO_REPLYING"
+          ],
+          "AWAITING_CLIENT": [
+            "ACTION_THREADS",
+            "APPOINTMENT_PROPOSED"
+          ],
+          "COMPLETE": [
+            "RESOLVED"
+          ]
+        },
+        "mirror_not_copy": "Staff see SLA-ordered queue across clients.",
+        "communication": [
+          "Inbox — Messages / Notifications / Appointments request thread (client)",
+          "communication engine templates",
+          "call / note log"
+        ],
+        "audit_history": [
+          "every status change with staff id + timestamp",
+          "overrides with required note",
+          "client approvals / declines",
+          "artifact versions"
+        ]
+      },
+      "staff_entry": {
+        "surface": "Office inbox",
+        "route": "office/inbox",
+        "trigger": "client message"
+      },
+      "staff_cta": "REPLY",
+      "information_hierarchy": {
+        "primary_question": "Who is waiting on us?",
+        "primary_status": "SLA queue",
+        "primary_task": "Reply",
+        "secondary_status": "Ageing",
+        "blocker": "Overdue reply",
+        "next_action": "REPLY",
+        "completion_proof": "Resolved"
+      },
+      "human_tasks": [
+        {
+          "id": "INBOX_TASK_1",
+          "channel": "HUMAN_TASK",
+          "trigger": "AIO_REPLYING",
+          "audience": [
+            "FOUNDER_STAFF"
+          ],
+          "summary": "Reply to {client}"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.ACCOUNT",
+      "feature_name": "Account — Settings / Team / Auth",
+      "family": "F18 ACCOUNT",
+      "perspective": {
+        "client_context": [
+          "org + members + roles"
+        ],
+        "work_queue": "Support queue",
+        "status_model": [
+          "NO_ACCOUNT",
+          "ACTIVE",
+          "INVITE_PENDING",
+          "VERIFY_EMAIL",
+          "SUPPORT_REVIEW",
+          "UPDATED",
+          "DEACTIVATED",
+          "AUTH_ERROR"
+        ],
+        "blockers": [
+          "unverified email"
+        ],
+        "missing_inputs": [
+          "org details"
+        ],
+        "system_flags": [
+          "suspicious sign-in"
+        ],
+        "human_review": [
+          "support"
+        ],
+        "corrections": [
+          "role fixes"
+        ],
+        "approval": [
+          "invite acceptance"
+        ],
+        "overrides": [
+          "deactivate"
+        ],
+        "operational_actions": [
+          "RESET ACCESS",
+          "DEACTIVATE"
+        ],
+        "artifact_generation": [
+          "audit log"
+        ],
+        "completion": "Resolved.",
+        "hub_buckets": {
+          "NEEDS_REVIEW": [
+            "SUPPORT_REVIEW"
+          ],
+          "AWAITING_CLIENT": [
+            "VERIFY_EMAIL",
+            "INVITE_PENDING"
+          ],
+          "COMPLETE": [
+            "UPDATED"
+          ]
+        },
+        "mirror_not_copy": "Staff see org admin + audit, not personal settings.",
+        "communication": [
+          "Account — Settings / Team / Auth request thread (client)",
+          "communication engine templates",
+          "call / note log"
+        ],
+        "audit_history": [
+          "every status change with staff id + timestamp",
+          "overrides with required note",
+          "client approvals / declines",
+          "artifact versions"
+        ]
+      },
+      "staff_entry": {
+        "surface": "Office account admin",
+        "route": "office/* org admin",
+        "trigger": "support request"
+      },
+      "staff_cta": "RESET ACCESS",
+      "information_hierarchy": {
+        "primary_question": "Is this account healthy?",
+        "primary_status": "Org status",
+        "primary_task": "Support",
+        "secondary_status": "Audit",
+        "blocker": "Auth issues",
+        "next_action": "RESET ACCESS",
+        "completion_proof": "Resolved"
+      },
+      "human_tasks": [
+        {
+          "id": "ACCOUNT_TASK_1",
+          "channel": "HUMAN_TASK",
+          "trigger": "SUPPORT_REVIEW",
+          "audience": [
+            "FOUNDER_STAFF"
+          ],
+          "summary": "Support request from {client}"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.OFFICE_OPERATIONS",
+      "feature_name": "AIO Office Operations (founder / staff)",
+      "family": "AIO OFFICE role projection (office/*) across F05–F17",
+      "perspective": {
+        "client_context": [
+          "client 360",
+          "division"
+        ],
+        "work_queue": "Division queues + founder command center",
+        "status_model": [
+          "NEW",
+          "ASSIGNED",
+          "WAITING_ON_CUSTOMER",
+          "READY_FOR_REVIEW",
+          "AWAITING_APPROVAL",
+          "COMPLETED",
+          "CLOSED",
+          "ESCALATED"
+        ],
+        "blockers": [
+          "waiting on customer / external / internal"
+        ],
+        "missing_inputs": [
+          "per work item"
+        ],
+        "system_flags": [
+          "overdue dueAt",
+          "unassigned",
+          "escalated"
+        ],
+        "human_review": [
+          "ready-for-review work"
+        ],
+        "corrections": [
+          "return work"
+        ],
+        "approval": [
+          "internal approvals + handoffs (OFFICE_HANDOFFS_APPROVALS_ESCALATIONS)"
+        ],
+        "overrides": [
+          "reassign",
+          "reprioritise"
+        ],
+        "operational_actions": [
+          "ASSIGN",
+          "HANDOFF",
+          "APPROVE",
+          "ESCALATE",
+          "CLOSE"
+        ],
+        "artifact_generation": [
+          "audit trail"
+        ],
+        "completion": "Work completed + audited.",
+        "hub_buckets": {
+          "NEEDS_REVIEW": [
+            "READY_FOR_REVIEW"
+          ],
+          "BLOCKED": [
+            "ESCALATED"
+          ],
+          "AWAITING_CLIENT": [
+            "WAITING_ON_CUSTOMER"
+          ],
+          "READY_TO_SEND": [
+            "AWAITING_APPROVAL"
+          ],
+          "COMPLETE": [
+            "COMPLETED"
+          ]
+        },
+        "mirror_not_copy": "This IS the founder / staff mirror for every feature: queues, exceptions, audit — never the client UI.",
+        "communication": [
+          "AIO Office Operations (founder / staff) request thread (client)",
+          "communication engine templates",
+          "call / note log"
+        ],
+        "audit_history": [
+          "every status change with staff id + timestamp",
+          "overrides with required note",
+          "client approvals / declines",
+          "artifact versions"
+        ]
+      },
+      "staff_entry": {
+        "surface": "Office command center",
+        "route": "office/*",
+        "trigger": "sign in (OfficeRouteGuard)"
+      },
+      "staff_cta": "OPEN TOP ITEM",
+      "information_hierarchy": {
+        "primary_question": "What needs me right now across every client?",
+        "primary_status": "Hub buckets",
+        "primary_task": "Unblock / approve",
+        "secondary_status": "Division load",
+        "blocker": "Escalations",
+        "next_action": "OPEN TOP ITEM",
+        "completion_proof": "Work closed + audited"
+      },
+      "human_tasks": [
+        {
+          "id": "OFFICE_OPERATIONS_TASK_1",
+          "channel": "HUMAN_TASK",
+          "trigger": "NEW",
+          "audience": [
+            "FOUNDER_STAFF"
+          ],
+          "summary": "Assign new work item"
+        },
+        {
+          "id": "OFFICE_OPERATIONS_TASK_2",
+          "channel": "HUMAN_TASK",
+          "trigger": "ESCALATED",
+          "audience": [
+            "FOUNDER_STAFF"
+          ],
+          "summary": "Resolve escalation"
+        }
+      ]
+    }
+  ]
+}

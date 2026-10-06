@@ -1,0 +1,3982 @@
+{
+  "sprint": "P0.SITE00.WORKSPACE-EXPERIENCE-BRAIN.CANONICAL-SCHEMA-AIO-PROOF1",
+  "schema_version": "1.0.0",
+  "generated_from": "shared/studioos-experience-brain (TypeScript is the source of truth)",
+  "features": [
+    {
+      "feature_id": "AIO.ENTRY",
+      "feature_name": "Entry — Home / About / Contact",
+      "family": "F01 ENTRY",
+      "perspective": {
+        "parsing": [
+          "structured intake fields; uploaded documents typed via vault taxonomy"
+        ],
+        "event_creation": [
+          "OfficeWorkItem in the owning division queue",
+          "Entry — Home / About / Contact inbox thread",
+          "activity events per milestone"
+        ],
+        "notifications": [
+          "Call reminder"
+        ],
+        "vault_movement": [
+          "no vault artifacts (records live in the feature)"
+        ],
+        "inbox_movement": [
+          "CALL_BOOKED: Your call with AIO is booked"
+        ],
+        "activity_events": [
+          "Account created"
+        ],
+        "reminders": [
+          "waiting-on-client nudges after 3 days",
+          "internal follow-up dueAt on the office work item"
+        ],
+        "background_processing": [
+          "attention engine recompute (My Office)",
+          "readiness / status recompute on record change"
+        ],
+        "ingestion": [
+          "pathway",
+          "contact form"
+        ],
+        "validation": [
+          "contact completeness",
+          "dedupe"
+        ],
+        "derivation": [
+          "lead routing"
+        ],
+        "state_transitions": [
+          "visit → pathway → contact → convert"
+        ],
+        "next_cycle_creation": "Converted lead becomes an organisation with Get Started.",
+        "failure_handling": [
+          "page error → contact fallback"
+        ]
+      },
+      "system_entry": {
+        "surface": "CRM lead capture",
+        "route": null,
+        "trigger": "contact submitted / pathway chosen"
+      },
+      "derivations": [
+        {
+          "id": "LEAD_SCORE",
+          "derives": "lead routing",
+          "from": [
+            "pathway",
+            "answers"
+          ],
+          "rule": "CRM conversion engine"
+        }
+      ],
+      "automations": [],
+      "transitions": [
+        {
+          "from": "FIRST_VISIT",
+          "to": "PATHWAY_CHOSEN",
+          "trigger": "pathway selected",
+          "actor": "PUBLIC"
+        },
+        {
+          "from": "PATHWAY_CHOSEN",
+          "to": "CONTACTED",
+          "trigger": "contact submitted",
+          "actor": "PUBLIC"
+        },
+        {
+          "from": "CONTACTED",
+          "to": "FOLLOW_UP_NEEDED",
+          "trigger": "contact incomplete",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "CONTACTED",
+          "to": "CALL_BOOKED",
+          "trigger": "appointment proposed",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "CALL_BOOKED",
+          "to": "CONVERTED",
+          "trigger": "sign up",
+          "actor": "PUBLIC"
+        },
+        {
+          "from": "PATHWAY_CHOSEN",
+          "to": "CONVERTED",
+          "trigger": "sign up",
+          "actor": "PUBLIC"
+        },
+        {
+          "from": "CONVERTED",
+          "to": "RETURNING",
+          "trigger": "next visit",
+          "actor": "CLIENT"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.GET_STARTED",
+      "feature_name": "Get Started — Intake / Roadmap / Service Plan",
+      "family": "F02 GET STARTED",
+      "perspective": {
+        "parsing": [
+          "structured intake fields; uploaded documents typed via vault taxonomy"
+        ],
+        "event_creation": [
+          "OfficeWorkItem in the owning division queue",
+          "Get Started — Intake / Roadmap / Service Plan inbox thread",
+          "activity events per milestone"
+        ],
+        "notifications": [
+          "Roadmap ready"
+        ],
+        "vault_movement": [
+          "artifacts stored under VAULT › Business & Formation"
+        ],
+        "inbox_movement": [
+          "ROADMAP_READY: Your AIO roadmap is ready"
+        ],
+        "activity_events": [
+          "Plan started"
+        ],
+        "reminders": [
+          "waiting-on-client nudges after 3 days",
+          "internal follow-up dueAt on the office work item"
+        ],
+        "background_processing": [
+          "attention engine recompute (My Office)",
+          "readiness / status recompute on record change"
+        ],
+        "ingestion": [
+          "answers"
+        ],
+        "validation": [
+          "required answers"
+        ],
+        "derivation": [
+          "roadmap",
+          "plan"
+        ],
+        "state_transitions": [
+          "answering → roadmap → plan started"
+        ],
+        "next_cycle_creation": "Roadmap re-evaluates as the business changes.",
+        "failure_handling": [
+          "submit failure → retry with saved answers"
+        ]
+      },
+      "system_entry": {
+        "surface": "roadmap engine",
+        "route": null,
+        "trigger": "intake answers"
+      },
+      "derivations": [
+        {
+          "id": "ROADMAP",
+          "derives": "roadmap items + reasons",
+          "from": [
+            "answers"
+          ],
+          "rule": "roadmapEngine.ts (e.g. “You were not sure about IFTA — this may need review”)"
+        },
+        {
+          "id": "PLAN",
+          "derives": "service plan + pricing",
+          "from": [
+            "roadmap"
+          ],
+          "rule": "service catalog + pricing config"
+        }
+      ],
+      "automations": [],
+      "transitions": [
+        {
+          "from": "NOT_STARTED",
+          "to": "ANSWERING",
+          "trigger": "start",
+          "actor": "PUBLIC"
+        },
+        {
+          "from": "ANSWERING",
+          "to": "ROADMAP_READY",
+          "trigger": "answers complete",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "ANSWERING",
+          "to": "UNSURE_ITEMS",
+          "trigger": "unsure answers",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "UNSURE_ITEMS",
+          "to": "AIO_REVIEWING",
+          "trigger": "submitted for review",
+          "actor": "PUBLIC"
+        },
+        {
+          "from": "AIO_REVIEWING",
+          "to": "ROADMAP_READY",
+          "trigger": "reviewed",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "ROADMAP_READY",
+          "to": "PLAN_STARTED",
+          "trigger": "plan accepted",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "PLAN_STARTED",
+          "to": "IN_MY_OFFICE",
+          "trigger": "onboarding complete",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "ANSWERING",
+          "to": "SUBMIT_FAILED",
+          "trigger": "submit error",
+          "actor": "SYSTEM"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.BUSINESS_FORMATION",
+      "feature_name": "Start Your Business — LLC / INC / EIN",
+      "family": "F03 START YOUR BUSINESS",
+      "perspective": {
+        "parsing": [
+          "structured intake fields; uploaded documents typed via vault taxonomy"
+        ],
+        "event_creation": [
+          "OfficeWorkItem in the owning division queue",
+          "Start Your Business — LLC / INC / EIN inbox thread",
+          "activity events per milestone"
+        ],
+        "notifications": [
+          "Your business is formed",
+          "Your EIN is ready — next step: USDOT"
+        ],
+        "vault_movement": [
+          "artifacts stored under VAULT › Business & Formation"
+        ],
+        "inbox_movement": [
+          "WAITING_ON_YOU: AIO needs a detail to form your business",
+          "FORMED: Your business is formed — documents in your Vault"
+        ],
+        "activity_events": [
+          "Formation intake submitted",
+          "Business formed",
+          "EIN issued"
+        ],
+        "reminders": [
+          "waiting-on-client nudges after 3 days",
+          "internal follow-up dueAt on the office work item"
+        ],
+        "background_processing": [
+          "attention engine recompute (My Office)",
+          "readiness / status recompute on record change"
+        ],
+        "ingestion": [
+          "intake answers",
+          "uploaded ID"
+        ],
+        "validation": [
+          "required fields",
+          "duplicate organisation check"
+        ],
+        "derivation": [
+          "state filing checklist",
+          "journey dependency unlocks"
+        ],
+        "state_transitions": [
+          "NOT_STARTED → INTAKE → NAME_CHECK → AIO_PREPARING → FILED_WITH_STATE → FORMED → EIN_ISSUED"
+        ],
+        "next_cycle_creation": "Annual report / registered agent reminders tracked in Renewals where applicable; journey moves to USDOT.",
+        "failure_handling": [
+          "state rejection → REJECTED with correction path",
+          "missing details → WAITING_ON_YOU"
+        ]
+      },
+      "system_entry": {
+        "surface": "Service request engine",
+        "route": null,
+        "trigger": "formation request submitted"
+      },
+      "derivations": [
+        {
+          "id": "FORMATION_PATH",
+          "derives": "filing checklist for the state",
+          "from": [
+            "ENTITY_CHOICE",
+            "state"
+          ],
+          "rule": "workflow template business-formation"
+        },
+        {
+          "id": "NEXT_UNLOCK",
+          "derives": "USDOT readiness",
+          "from": [
+            "FORMED",
+            "EIN"
+          ],
+          "rule": "journey dependency formation → USDOT"
+        }
+      ],
+      "automations": [],
+      "transitions": [
+        {
+          "from": "NOT_STARTED",
+          "to": "INTAKE",
+          "trigger": "client starts intake",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "INTAKE",
+          "to": "NAME_CHECK",
+          "trigger": "intake submitted",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "NAME_CHECK",
+          "to": "WAITING_ON_YOU",
+          "trigger": "name unavailable / detail missing",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "WAITING_ON_YOU",
+          "to": "NAME_CHECK",
+          "trigger": "client answers",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "NAME_CHECK",
+          "to": "AIO_PREPARING",
+          "trigger": "name clear + details complete",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "AIO_PREPARING",
+          "to": "FILED_WITH_STATE",
+          "trigger": "AIO files",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "FILED_WITH_STATE",
+          "to": "FORMED",
+          "trigger": "state approval recorded",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "FILED_WITH_STATE",
+          "to": "REJECTED",
+          "trigger": "state rejects",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "REJECTED",
+          "to": "AIO_PREPARING",
+          "trigger": "correction prepared",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "FORMED",
+          "to": "EIN_ISSUED",
+          "trigger": "EIN recorded",
+          "actor": "FOUNDER_STAFF"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.ROAD_READY",
+      "feature_name": "Road Ready",
+      "family": "F04 ROAD READY",
+      "perspective": {
+        "parsing": [
+          "structured intake fields; uploaded documents typed via vault taxonomy"
+        ],
+        "event_creation": [
+          "OfficeWorkItem in the owning division queue",
+          "Road Ready inbox thread",
+          "activity events per milestone"
+        ],
+        "notifications": [
+          "A Road Ready item is expiring soon"
+        ],
+        "vault_movement": [
+          "artifacts stored under VAULT › (per requirement category)"
+        ],
+        "inbox_movement": [
+          "NEEDS_ATTENTION: Road Ready items need your attention",
+          "VERIFICATION_REJECTED: A Road Ready document was rejected"
+        ],
+        "activity_events": [
+          "Road Ready document submitted",
+          "Road Ready item verified"
+        ],
+        "reminders": [
+          "waiting-on-client nudges after 3 days",
+          "internal follow-up dueAt on the office work item"
+        ],
+        "background_processing": [
+          "attention engine recompute (My Office)",
+          "readiness / status recompute on record change"
+        ],
+        "ingestion": [
+          "profile answers",
+          "fleet",
+          "document uploads"
+        ],
+        "validation": [
+          "rule version",
+          "document type vs requirement"
+        ],
+        "derivation": [
+          "applicability",
+          "setup vs verified scores",
+          "next best action"
+        ],
+        "state_transitions": [
+          "scores recompute on every change"
+        ],
+        "next_cycle_creation": "Expiring items open renewals; rule version changes re-evaluate the profile.",
+        "failure_handling": [
+          "upload ≠ verification — never auto-verify",
+          "unknown requirement → needs review"
+        ]
+      },
+      "system_entry": {
+        "surface": "Road Ready rule engine",
+        "route": null,
+        "trigger": "profile / fleet / document change"
+      },
+      "derivations": [
+        {
+          "id": "APPLICABILITY",
+          "derives": "applicable requirement items",
+          "from": [
+            "BUSINESS_PROFILE",
+            "FLEET"
+          ],
+          "rule": "roadReadyRules.ts (rule version 2026.08)"
+        },
+        {
+          "id": "SCORES",
+          "derives": "setup progress vs verified progress",
+          "from": [
+            "items"
+          ],
+          "rule": "roadReadyScoring.ts — single source of truth"
+        },
+        {
+          "id": "NEXT_BEST",
+          "derives": "next best action",
+          "from": [
+            "items"
+          ],
+          "rule": "roadReadyPriority.ts"
+        }
+      ],
+      "automations": [
+        {
+          "id": "AUTO_RULES",
+          "trigger": "profile / fleet / document change",
+          "does": "recompute applicable items + scores",
+          "human_fallback": "staff override with reason"
+        }
+      ],
+      "transitions": [
+        {
+          "from": "NO_PROFILE",
+          "to": "SETTING_UP",
+          "trigger": "profile created",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "SETTING_UP",
+          "to": "NEEDS_ATTENTION",
+          "trigger": "item missing / expiring",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "NEEDS_ATTENTION",
+          "to": "SETTING_UP",
+          "trigger": "client acts",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "SETTING_UP",
+          "to": "IN_VERIFICATION",
+          "trigger": "documents uploaded",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "IN_VERIFICATION",
+          "to": "ROAD_READY",
+          "trigger": "all items verified",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "IN_VERIFICATION",
+          "to": "VERIFICATION_REJECTED",
+          "trigger": "document rejected",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "VERIFICATION_REJECTED",
+          "to": "SETTING_UP",
+          "trigger": "replacement uploaded",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "ROAD_READY",
+          "to": "RENEWAL_DUE",
+          "trigger": "expiration window",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "RENEWAL_DUE",
+          "to": "SETTING_UP",
+          "trigger": "renewal started",
+          "actor": "CLIENT"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.MY_OFFICE",
+      "feature_name": "My Office — Client Command Center",
+      "family": "F05 MY OFFICE",
+      "perspective": {
+        "parsing": [
+          "structured intake fields; uploaded documents typed via vault taxonomy"
+        ],
+        "event_creation": [
+          "OfficeWorkItem in the owning division queue",
+          "My Office — Client Command Center inbox thread",
+          "activity events per milestone"
+        ],
+        "notifications": [
+          "Digest of items needing you"
+        ],
+        "vault_movement": [
+          "no vault artifacts (records live in the feature)"
+        ],
+        "inbox_movement": [
+          "NEEDS_YOU: {n} items need you"
+        ],
+        "activity_events": [
+          "all feature activity events (aggregated)"
+        ],
+        "reminders": [
+          "waiting-on-client nudges after 3 days",
+          "internal follow-up dueAt on the office work item"
+        ],
+        "background_processing": [
+          "attention engine recompute (My Office)",
+          "readiness / status recompute on record change"
+        ],
+        "ingestion": [
+          "all feature events"
+        ],
+        "validation": [
+          "dedupe"
+        ],
+        "derivation": [
+          "next action",
+          "attention",
+          "health"
+        ],
+        "state_transitions": [
+          "recomputed on every event"
+        ],
+        "next_cycle_creation": "n/a — continuous.",
+        "failure_handling": [
+          "source failure → partial data with honest notice (no false confidence)"
+        ]
+      },
+      "system_entry": {
+        "surface": "attention engine",
+        "route": null,
+        "trigger": "any domain event"
+      },
+      "derivations": [
+        {
+          "id": "NEXT_BEST",
+          "derives": "deterministic next action",
+          "from": [
+            "all features"
+          ],
+          "rule": "ClientCommandCenterService"
+        },
+        {
+          "id": "ATTENTION",
+          "derives": "deduplicated attention list",
+          "from": [
+            "all features"
+          ],
+          "rule": "CLIENT_ATTENTION_ENGINE"
+        }
+      ],
+      "automations": [],
+      "transitions": [
+        {
+          "from": "NEW_CLIENT",
+          "to": "NEXT_ACTION",
+          "trigger": "plan started",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "NEXT_ACTION",
+          "to": "NEEDS_YOU",
+          "trigger": "client-owed items",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "NEEDS_YOU",
+          "to": "NEXT_ACTION",
+          "trigger": "items resolved",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "NEXT_ACTION",
+          "to": "AIO_WORKING",
+          "trigger": "nothing owed by client",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "AIO_WORKING",
+          "to": "DECISION_WAITING",
+          "trigger": "approval requested",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "DECISION_WAITING",
+          "to": "AIO_WORKING",
+          "trigger": "decided",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "AIO_WORKING",
+          "to": "ALL_CLEAR",
+          "trigger": "work complete",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "ALL_CLEAR",
+          "to": "QUIET_PERIOD",
+          "trigger": "no upcoming work",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "NEXT_ACTION",
+          "to": "DATA_UNAVAILABLE",
+          "trigger": "source failed",
+          "actor": "SYSTEM"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.SERVICES",
+      "feature_name": "Services — Catalog / Requests",
+      "family": "F06 SERVICES",
+      "perspective": {
+        "parsing": [
+          "structured intake fields; uploaded documents typed via vault taxonomy"
+        ],
+        "event_creation": [
+          "OfficeWorkItem in the owning division queue",
+          "Services — Catalog / Requests inbox thread",
+          "activity events per milestone"
+        ],
+        "notifications": [
+          "Service complete"
+        ],
+        "vault_movement": [
+          "no vault artifacts (records live in the feature)"
+        ],
+        "inbox_movement": [
+          "WAITING_ON_YOU: A request needs you"
+        ],
+        "activity_events": [
+          "Service requested",
+          "Service complete"
+        ],
+        "reminders": [
+          "waiting-on-client nudges after 3 days",
+          "internal follow-up dueAt on the office work item"
+        ],
+        "background_processing": [
+          "attention engine recompute (My Office)",
+          "readiness / status recompute on record change"
+        ],
+        "ingestion": [
+          "requests"
+        ],
+        "validation": [
+          "availability gates"
+        ],
+        "derivation": [
+          "customer-friendly states"
+        ],
+        "state_transitions": [
+          "raw workflow states mapped; never shown raw"
+        ],
+        "next_cycle_creation": "Recurring services (renewals, quarterly filings) recreate requests.",
+        "failure_handling": [
+          "unavailable → NOT_AVAILABLE with alternatives"
+        ]
+      },
+      "system_entry": {
+        "surface": "service request engine",
+        "route": null,
+        "trigger": "request submitted"
+      },
+      "derivations": [
+        {
+          "id": "AVAILABILITY",
+          "derives": "service availability",
+          "from": [
+            "catalog",
+            "jurisdiction",
+            "activation"
+          ],
+          "rule": "serviceCatalog + SERVICE_ACTIVATION_MATRIX"
+        },
+        {
+          "id": "CUSTOMER_STATE",
+          "derives": "customer-friendly state",
+          "from": [
+            "workflow state"
+          ],
+          "rule": "SERVICE_JOURNEYS mapping"
+        }
+      ],
+      "automations": [],
+      "transitions": [
+        {
+          "from": "NO_REQUESTS",
+          "to": "QUOTE_DECISION",
+          "trigger": "quote-required request",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "NO_REQUESTS",
+          "to": "IN_PROGRESS",
+          "trigger": "request submitted",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "QUOTE_DECISION",
+          "to": "IN_PROGRESS",
+          "trigger": "quote accepted",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "IN_PROGRESS",
+          "to": "WAITING_ON_YOU",
+          "trigger": "needs client",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "WAITING_ON_YOU",
+          "to": "ALL_IN_ONE_IS_WORKING",
+          "trigger": "client responds",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "IN_PROGRESS",
+          "to": "ALL_IN_ONE_IS_WORKING",
+          "trigger": "work started",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "ALL_IN_ONE_IS_WORKING",
+          "to": "COMPLETE",
+          "trigger": "completed",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "COMPLETE",
+          "to": "HISTORY",
+          "trigger": "archived",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "NO_REQUESTS",
+          "to": "NOT_AVAILABLE",
+          "trigger": "jurisdiction / activation gate",
+          "actor": "SYSTEM"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.AUTHORITIES",
+      "feature_name": "Authorities — USDOT / MC / MCS-150",
+      "family": "F06 SERVICES (get-road-ready) · F04 ROAD READY",
+      "perspective": {
+        "parsing": [
+          "structured intake fields; uploaded documents typed via vault taxonomy"
+        ],
+        "event_creation": [
+          "OfficeWorkItem in the owning division queue",
+          "Authorities — USDOT / MC / MCS-150 inbox thread",
+          "activity events per milestone"
+        ],
+        "notifications": [
+          "Authorities — USDOT / MC / MCS-150 complete",
+          "Authorities — USDOT / MC / MCS-150 renewal reminder (MCS-150 biennial update)"
+        ],
+        "vault_movement": [
+          "artifacts stored under VAULT › Registration & Permits"
+        ],
+        "inbox_movement": [
+          "WAITING_ON_YOU: AIO needs documents for Authorities — USDOT / MC / MCS-150",
+          "COMPLETE: Authorities — USDOT / MC / MCS-150 complete — documents in your Vault"
+        ],
+        "activity_events": [
+          "Authorities — USDOT / MC / MCS-150 requested",
+          "Authorities — USDOT / MC / MCS-150 complete"
+        ],
+        "reminders": [
+          "waiting-on-client nudges after 3 days",
+          "internal follow-up dueAt on the office work item"
+        ],
+        "background_processing": [
+          "attention engine recompute (My Office)",
+          "readiness / status recompute on record change"
+        ],
+        "ingestion": [
+          "request fields",
+          "uploaded documents"
+        ],
+        "validation": [
+          "checklist completeness",
+          "document type"
+        ],
+        "derivation": [
+          "customer-friendly state",
+          "Road Ready item status"
+        ],
+        "state_transitions": [
+          "REQUESTED → AIO_WORKING → WAITING_EXTERNALLY → COMPLETE → ON_FILE"
+        ],
+        "next_cycle_creation": "Renewal / next period tracked (MCS-150 biennial update).",
+        "failure_handling": [
+          "external return → RETURNED with correction path",
+          "no direct government integration unless activated — staff records results"
+        ]
+      },
+      "system_entry": {
+        "surface": "Service request engine",
+        "route": null,
+        "trigger": "request submitted / document uploaded"
+      },
+      "derivations": [
+        {
+          "id": "CHECKLIST",
+          "derives": "request checklist + completeness",
+          "from": [
+            "inputs"
+          ],
+          "rule": "workflow template for the service"
+        },
+        {
+          "id": "CUSTOMER_STATE",
+          "derives": "customer-friendly state",
+          "from": [
+            "workflow state"
+          ],
+          "rule": "SERVICE_JOURNEYS customer states (raw states never shown)"
+        }
+      ],
+      "automations": [],
+      "transitions": [
+        {
+          "from": "NOT_REQUESTED",
+          "to": "REQUESTED",
+          "trigger": "client requests (quote accepted where required)",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "REQUESTED",
+          "to": "WAITING_ON_YOU",
+          "trigger": "documents / details missing",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "WAITING_ON_YOU",
+          "to": "AIO_WORKING",
+          "trigger": "client provides",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "REQUESTED",
+          "to": "AIO_WORKING",
+          "trigger": "complete request",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "AIO_WORKING",
+          "to": "WAITING_EXTERNALLY",
+          "trigger": "submitted",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "WAITING_EXTERNALLY",
+          "to": "COMPLETE",
+          "trigger": "result recorded",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "WAITING_EXTERNALLY",
+          "to": "RETURNED",
+          "trigger": "returned / rejected",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "RETURNED",
+          "to": "AIO_WORKING",
+          "trigger": "correction prepared",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "COMPLETE",
+          "to": "ON_FILE",
+          "trigger": "documents verified in Vault",
+          "actor": "SYSTEM"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.BOC3",
+      "feature_name": "BOC-3 Process Agent Filing",
+      "family": "F06 SERVICES (get-road-ready)",
+      "perspective": {
+        "parsing": [
+          "structured intake fields; uploaded documents typed via vault taxonomy"
+        ],
+        "event_creation": [
+          "OfficeWorkItem in the owning division queue",
+          "BOC-3 Process Agent Filing inbox thread",
+          "activity events per milestone"
+        ],
+        "notifications": [
+          "BOC-3 Process Agent Filing complete",
+          "BOC-3 Process Agent Filing renewal reminder (kept with the authority)"
+        ],
+        "vault_movement": [
+          "artifacts stored under VAULT › Registration & Permits"
+        ],
+        "inbox_movement": [
+          "WAITING_ON_YOU: AIO needs documents for BOC-3 Process Agent Filing",
+          "COMPLETE: BOC-3 Process Agent Filing complete — documents in your Vault"
+        ],
+        "activity_events": [
+          "BOC-3 Process Agent Filing requested",
+          "BOC-3 Process Agent Filing complete"
+        ],
+        "reminders": [
+          "waiting-on-client nudges after 3 days",
+          "internal follow-up dueAt on the office work item"
+        ],
+        "background_processing": [
+          "attention engine recompute (My Office)",
+          "readiness / status recompute on record change"
+        ],
+        "ingestion": [
+          "request fields",
+          "uploaded documents"
+        ],
+        "validation": [
+          "checklist completeness",
+          "document type"
+        ],
+        "derivation": [
+          "customer-friendly state",
+          "Road Ready item status"
+        ],
+        "state_transitions": [
+          "REQUESTED → AIO_WORKING → WAITING_EXTERNALLY → COMPLETE → ON_FILE"
+        ],
+        "next_cycle_creation": "Renewal / next period tracked (kept with the authority).",
+        "failure_handling": [
+          "external return → RETURNED with correction path",
+          "no direct government integration unless activated — staff records results"
+        ]
+      },
+      "system_entry": {
+        "surface": "Service request engine",
+        "route": null,
+        "trigger": "request submitted / document uploaded"
+      },
+      "derivations": [
+        {
+          "id": "CHECKLIST",
+          "derives": "request checklist + completeness",
+          "from": [
+            "inputs"
+          ],
+          "rule": "workflow template for the service"
+        },
+        {
+          "id": "CUSTOMER_STATE",
+          "derives": "customer-friendly state",
+          "from": [
+            "workflow state"
+          ],
+          "rule": "SERVICE_JOURNEYS customer states (raw states never shown)"
+        }
+      ],
+      "automations": [],
+      "transitions": [
+        {
+          "from": "NOT_REQUESTED",
+          "to": "REQUESTED",
+          "trigger": "client requests (quote accepted where required)",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "REQUESTED",
+          "to": "WAITING_ON_YOU",
+          "trigger": "documents / details missing",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "WAITING_ON_YOU",
+          "to": "AIO_WORKING",
+          "trigger": "client provides",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "REQUESTED",
+          "to": "AIO_WORKING",
+          "trigger": "complete request",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "AIO_WORKING",
+          "to": "WAITING_EXTERNALLY",
+          "trigger": "submitted",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "WAITING_EXTERNALLY",
+          "to": "COMPLETE",
+          "trigger": "result recorded",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "WAITING_EXTERNALLY",
+          "to": "RETURNED",
+          "trigger": "returned / rejected",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "RETURNED",
+          "to": "AIO_WORKING",
+          "trigger": "correction prepared",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "COMPLETE",
+          "to": "ON_FILE",
+          "trigger": "documents verified in Vault",
+          "actor": "SYSTEM"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.IFTA_REGISTRATION",
+      "feature_name": "IFTA Account Registration",
+      "family": "F06 SERVICES (get-road-ready)",
+      "perspective": {
+        "parsing": [
+          "structured intake fields; uploaded documents typed via vault taxonomy"
+        ],
+        "event_creation": [
+          "OfficeWorkItem in the owning division queue",
+          "IFTA Account Registration inbox thread",
+          "activity events per milestone"
+        ],
+        "notifications": [
+          "IFTA Account Registration complete",
+          "IFTA Account Registration renewal reminder (annual license / decal renewal)"
+        ],
+        "vault_movement": [
+          "artifacts stored under VAULT › Registration & Permits (tax_fuel)"
+        ],
+        "inbox_movement": [
+          "WAITING_ON_YOU: AIO needs documents for IFTA Account Registration",
+          "COMPLETE: IFTA Account Registration complete — documents in your Vault"
+        ],
+        "activity_events": [
+          "IFTA Account Registration requested",
+          "IFTA Account Registration complete"
+        ],
+        "reminders": [
+          "waiting-on-client nudges after 3 days",
+          "internal follow-up dueAt on the office work item"
+        ],
+        "background_processing": [
+          "attention engine recompute (My Office)",
+          "readiness / status recompute on record change"
+        ],
+        "ingestion": [
+          "request fields",
+          "uploaded documents"
+        ],
+        "validation": [
+          "checklist completeness",
+          "document type"
+        ],
+        "derivation": [
+          "customer-friendly state",
+          "Road Ready item status"
+        ],
+        "state_transitions": [
+          "REQUESTED → AIO_WORKING → WAITING_EXTERNALLY → COMPLETE → ON_FILE"
+        ],
+        "next_cycle_creation": "Renewal / next period tracked (annual license / decal renewal).",
+        "failure_handling": [
+          "external return → RETURNED with correction path",
+          "no direct government integration unless activated — staff records results"
+        ]
+      },
+      "system_entry": {
+        "surface": "Service request engine",
+        "route": null,
+        "trigger": "request submitted / document uploaded"
+      },
+      "derivations": [
+        {
+          "id": "CHECKLIST",
+          "derives": "request checklist + completeness",
+          "from": [
+            "inputs"
+          ],
+          "rule": "workflow template for the service"
+        },
+        {
+          "id": "CUSTOMER_STATE",
+          "derives": "customer-friendly state",
+          "from": [
+            "workflow state"
+          ],
+          "rule": "SERVICE_JOURNEYS customer states (raw states never shown)"
+        }
+      ],
+      "automations": [],
+      "transitions": [
+        {
+          "from": "NOT_REQUESTED",
+          "to": "REQUESTED",
+          "trigger": "client requests (quote accepted where required)",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "REQUESTED",
+          "to": "WAITING_ON_YOU",
+          "trigger": "documents / details missing",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "WAITING_ON_YOU",
+          "to": "AIO_WORKING",
+          "trigger": "client provides",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "REQUESTED",
+          "to": "AIO_WORKING",
+          "trigger": "complete request",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "AIO_WORKING",
+          "to": "WAITING_EXTERNALLY",
+          "trigger": "submitted",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "WAITING_EXTERNALLY",
+          "to": "COMPLETE",
+          "trigger": "result recorded",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "WAITING_EXTERNALLY",
+          "to": "RETURNED",
+          "trigger": "returned / rejected",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "RETURNED",
+          "to": "AIO_WORKING",
+          "trigger": "correction prepared",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "COMPLETE",
+          "to": "ON_FILE",
+          "trigger": "documents verified in Vault",
+          "actor": "SYSTEM"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.IFTA",
+      "feature_name": "IFTA / Fuel Tax",
+      "family": "F06 SERVICES (permits-taxes-compliance) · F04 ROAD READY item · F16 VAULT tax_fuel",
+      "perspective": {
+        "ingestion": [
+          "receipt photo / file / vault import / continuous capture",
+          "ELD export or report upload",
+          "manual / spreadsheet mileage",
+          "fleet vehicle list"
+        ],
+        "parsing": [
+          "receipt OCR → date, station, state, gallons, amount",
+          "ELD / spreadsheet → state miles per truck"
+        ],
+        "validation": [
+          "date inside quarter",
+          "duplicate check",
+          "jurisdiction present",
+          "every vehicle has a mileage source",
+          "assessIftaReadiness verified-source rule"
+        ],
+        "derivation": [
+          "gallons per jurisdiction",
+          "miles per jurisdiction",
+          "MPG per vehicle",
+          "POSSIBLE_MISSING detection",
+          "packet completeness %",
+          "return summary (staff-prepared)"
+        ],
+        "state_transitions": [
+          "QUARTER_OPEN → COLLECTING on first record",
+          "COLLECTING ⇄ NEEDS_CLIENT on flags",
+          "→ OVERDUE_RISK inside 10 days of due date",
+          "→ AWAITING_APPROVAL only at READY_FOR_REPORTING",
+          "FILED → ARCHIVED on packet seal"
+        ],
+        "event_creation": [
+          "OfficeWorkItem per client-quarter",
+          "inbox thread per quarter",
+          "activity events per milestone"
+        ],
+        "notifications": [
+          "quarter open",
+          "due reminders 21 / 10 / 3 days",
+          "needs you",
+          "approval request",
+          "filed"
+        ],
+        "vault_movement": [
+          "receipts + mileage stored under tax_fuel › {YYYY} Q{n}",
+          "sealed packet on FILED"
+        ],
+        "inbox_movement": [
+          "thread opens at QUARTER_OPEN",
+          "approval request at AWAITING_APPROVAL",
+          "resolved at FILED"
+        ],
+        "activity_events": [
+          "receipts added",
+          "submitted",
+          "approved",
+          "filed",
+          "archived"
+        ],
+        "next_cycle_creation": "At ARCHIVED (or the quarter boundary, whichever is later) the next quarter opens with the fleet pre-filled and continuous capture continuing.",
+        "reminders": [
+          "due date ladder",
+          "stale NEEDS_YOU after 3 days",
+          "approval pending after 2 days"
+        ],
+        "background_processing": [
+          "re-parse on new OCR model",
+          "readiness recompute on record change",
+          "duplicate sweep"
+        ],
+        "failure_handling": [
+          "unparseable file → UNREADABLE (never dropped) + retake request",
+          "ingest failure → retry + staff task",
+          "jurisdiction rejection → FILING_REJECTED with correction path",
+          "no government integration: filing is a staff action (fuel-tax activation INTERNAL_ONLY)"
+        ]
+      },
+      "system_entry": {
+        "surface": "Quarter scheduler + ingestion pipeline",
+        "route": null,
+        "trigger": "Quarter boundary (Jan 1 / Apr 1 / Jul 1 / Oct 1) for enrolled clients · every receipt / mileage ingest"
+      },
+      "derivations": [
+        {
+          "id": "RECEIPT_PARSE",
+          "derives": "date, station, jurisdiction, gallons, amount, vehicle",
+          "from": [
+            "FUEL_RECEIPTS"
+          ],
+          "rule": "OCR / file parse; low confidence → NEEDS_YOU; failed → UNREADABLE"
+        },
+        {
+          "id": "DUPLICATE_CHECK",
+          "derives": "DUPLICATE flag",
+          "from": [
+            "FUEL_RECEIPTS"
+          ],
+          "rule": "same station + date + gallons ± tolerance + amount"
+        },
+        {
+          "id": "JURISDICTION_CLASSIFY",
+          "derives": "fuel gallons per jurisdiction",
+          "from": [
+            "FUEL_RECEIPTS"
+          ],
+          "rule": "station state; missing → NEEDS_YOU"
+        },
+        {
+          "id": "MILEAGE_QUALITY",
+          "derives": "IftaReadinessStatus per vehicle",
+          "from": [
+            "JURISDICTION_MILEAGE"
+          ],
+          "rule": "assessIftaReadiness(): verified sources (eld_verified, manual_verified) vs estimates"
+        },
+        {
+          "id": "POSSIBLE_MISSING",
+          "derives": "POSSIBLE_MISSING flags",
+          "from": [
+            "FUEL_RECEIPTS",
+            "JURISDICTION_MILEAGE"
+          ],
+          "rule": "miles in a jurisdiction with zero fuel, or MPG outside the vehicle’s band"
+        },
+        {
+          "id": "QUARTER_READINESS",
+          "derives": "quarter packet completeness % + readiness status",
+          "from": [
+            "FUEL_RECEIPTS",
+            "JURISDICTION_MILEAGE",
+            "QUARTER_VEHICLES"
+          ],
+          "rule": "READY_FOR_REPORTING only when every vehicle has verified miles and verified fuel"
+        },
+        {
+          "id": "RETURN_SUMMARY",
+          "derives": "per-jurisdiction miles, gallons, fleet MPG, tax due / credit",
+          "from": [
+            "verified records"
+          ],
+          "rule": "prepared by staff from verified records; estimates never enter the return"
+        }
+      ],
+      "automations": [
+        {
+          "id": "AUTO_OPEN_QUARTER",
+          "trigger": "quarter boundary",
+          "does": "opens the next quarter workspace + office work item",
+          "human_fallback": "staff can open manually"
+        },
+        {
+          "id": "AUTO_PARSE_RECEIPT",
+          "trigger": "receipt ingest",
+          "does": "parse + classify (READY / NEEDS_YOU / DUPLICATE / POSSIBLE_MISSING / UNREADABLE)",
+          "human_fallback": "staff reclassifies"
+        },
+        {
+          "id": "AUTO_READINESS",
+          "trigger": "any record change",
+          "does": "recomputes assessIftaReadiness per vehicle + quarter completeness",
+          "human_fallback": "staff override with note"
+        },
+        {
+          "id": "AUTO_REMINDERS",
+          "trigger": "due date − 21 / 10 / 3 days",
+          "does": "client reminders with completeness %",
+          "human_fallback": "staff call (TASK_ESCALATE)"
+        },
+        {
+          "id": "AUTO_SEAL_PACKET",
+          "trigger": "FILED",
+          "does": "seals the quarter packet into the Vault and resolves the inbox thread",
+          "human_fallback": "staff seals manually"
+        }
+      ],
+      "transitions": [
+        {
+          "from": "NOT_ENROLLED",
+          "to": "QUARTER_OPEN",
+          "trigger": "IFTA filing service activated (quote accepted) and IFTA account active",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "QUARTER_OPEN",
+          "to": "COLLECTING",
+          "trigger": "first receipt or mileage source received",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "COLLECTING",
+          "to": "NEEDS_CLIENT",
+          "trigger": "open NEEDS_YOU / UNREADABLE / POSSIBLE_MISSING flags or a vehicle without mileage",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "NEEDS_CLIENT",
+          "to": "COLLECTING",
+          "trigger": "client resolves the flags",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "COLLECTING",
+          "to": "OVERDUE_RISK",
+          "trigger": "due date within 10 days and readiness below READY_FOR_REPORTING",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "NEEDS_CLIENT",
+          "to": "OVERDUE_RISK",
+          "trigger": "due date within 10 days with flags open",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "OVERDUE_RISK",
+          "to": "AIO_REVIEW",
+          "trigger": "client submits the quarter",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "COLLECTING",
+          "to": "AIO_REVIEW",
+          "trigger": "client taps SEND QUARTER TO AIO (all vehicles have a mileage source)",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "AIO_REVIEW",
+          "to": "RECONCILING",
+          "trigger": "staff starts reconciliation (fuel vs miles per jurisdiction)",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "AIO_REVIEW",
+          "to": "NEEDS_CLIENT",
+          "trigger": "staff requests correction",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "RECONCILING",
+          "to": "NEEDS_CLIENT",
+          "trigger": "discrepancy only the client can resolve",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "RECONCILING",
+          "to": "AWAITING_APPROVAL",
+          "trigger": "return summary prepared (readiness READY_FOR_REPORTING)",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "AWAITING_APPROVAL",
+          "to": "RECONCILING",
+          "trigger": "client asks a question / disputes a line",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "AWAITING_APPROVAL",
+          "to": "FILING",
+          "trigger": "client approves the return",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "FILING",
+          "to": "FILED",
+          "trigger": "staff records the filing confirmation",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "FILING",
+          "to": "FILING_REJECTED",
+          "trigger": "jurisdiction rejects / returns the filing",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "FILING_REJECTED",
+          "to": "RECONCILING",
+          "trigger": "staff opens correction / amendment",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "FILED",
+          "to": "ARCHIVED",
+          "trigger": "filing packet sealed in the Vault and payment status recorded",
+          "actor": "SYSTEM"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.PERMITTING",
+      "feature_name": "Permitting — UCR / Trip / Temporary & Specialty Permits",
+      "family": "F06 SERVICES (permits-taxes-compliance)",
+      "perspective": {
+        "parsing": [
+          "structured intake fields; uploaded documents typed via vault taxonomy"
+        ],
+        "event_creation": [
+          "OfficeWorkItem in the owning division queue",
+          "Permitting — UCR / Trip / Temporary & Specialty Permits inbox thread",
+          "activity events per milestone"
+        ],
+        "notifications": [
+          "Permitting — UCR / Trip / Temporary & Specialty Permits complete",
+          "Permitting — UCR / Trip / Temporary & Specialty Permits renewal reminder (UCR annual; trip permits per trip)"
+        ],
+        "vault_movement": [
+          "artifacts stored under VAULT › Registration & Permits"
+        ],
+        "inbox_movement": [
+          "WAITING_ON_YOU: AIO needs documents for Permitting — UCR / Trip / Temporary & Specialty Permits",
+          "COMPLETE: Permitting — UCR / Trip / Temporary & Specialty Permits complete — documents in your Vault"
+        ],
+        "activity_events": [
+          "Permitting — UCR / Trip / Temporary & Specialty Permits requested",
+          "Permitting — UCR / Trip / Temporary & Specialty Permits complete"
+        ],
+        "reminders": [
+          "waiting-on-client nudges after 3 days",
+          "internal follow-up dueAt on the office work item"
+        ],
+        "background_processing": [
+          "attention engine recompute (My Office)",
+          "readiness / status recompute on record change"
+        ],
+        "ingestion": [
+          "request fields",
+          "uploaded documents"
+        ],
+        "validation": [
+          "checklist completeness",
+          "document type"
+        ],
+        "derivation": [
+          "customer-friendly state",
+          "Road Ready item status"
+        ],
+        "state_transitions": [
+          "REQUESTED → AIO_WORKING → WAITING_EXTERNALLY → COMPLETE → ON_FILE"
+        ],
+        "next_cycle_creation": "Renewal / next period tracked (UCR annual; trip permits per trip).",
+        "failure_handling": [
+          "external return → RETURNED with correction path",
+          "no direct government integration unless activated — staff records results"
+        ]
+      },
+      "system_entry": {
+        "surface": "Service request engine",
+        "route": null,
+        "trigger": "request submitted / document uploaded"
+      },
+      "derivations": [
+        {
+          "id": "CHECKLIST",
+          "derives": "request checklist + completeness",
+          "from": [
+            "inputs"
+          ],
+          "rule": "workflow template for the service"
+        },
+        {
+          "id": "CUSTOMER_STATE",
+          "derives": "customer-friendly state",
+          "from": [
+            "workflow state"
+          ],
+          "rule": "SERVICE_JOURNEYS customer states (raw states never shown)"
+        }
+      ],
+      "automations": [],
+      "transitions": [
+        {
+          "from": "NOT_REQUESTED",
+          "to": "REQUESTED",
+          "trigger": "client requests (quote accepted where required)",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "REQUESTED",
+          "to": "WAITING_ON_YOU",
+          "trigger": "documents / details missing",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "WAITING_ON_YOU",
+          "to": "AIO_WORKING",
+          "trigger": "client provides",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "REQUESTED",
+          "to": "AIO_WORKING",
+          "trigger": "complete request",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "AIO_WORKING",
+          "to": "WAITING_EXTERNALLY",
+          "trigger": "submitted",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "WAITING_EXTERNALLY",
+          "to": "COMPLETE",
+          "trigger": "result recorded",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "WAITING_EXTERNALLY",
+          "to": "RETURNED",
+          "trigger": "returned / rejected",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "RETURNED",
+          "to": "AIO_WORKING",
+          "trigger": "correction prepared",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "COMPLETE",
+          "to": "ON_FILE",
+          "trigger": "documents verified in Vault",
+          "actor": "SYSTEM"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.TAGS_REGISTRATION",
+      "feature_name": "Tags / Registration — IRP / Plates / Titles",
+      "family": "F06 SERVICES (get-road-ready)",
+      "perspective": {
+        "parsing": [
+          "structured intake fields; uploaded documents typed via vault taxonomy"
+        ],
+        "event_creation": [
+          "OfficeWorkItem in the owning division queue",
+          "Tags / Registration — IRP / Plates / Titles inbox thread",
+          "activity events per milestone"
+        ],
+        "notifications": [
+          "Tags / Registration — IRP / Plates / Titles complete",
+          "Tags / Registration — IRP / Plates / Titles renewal reminder (annual registration renewal)"
+        ],
+        "vault_movement": [
+          "artifacts stored under VAULT › Registration & Permits"
+        ],
+        "inbox_movement": [
+          "WAITING_ON_YOU: AIO needs documents for Tags / Registration — IRP / Plates / Titles",
+          "COMPLETE: Tags / Registration — IRP / Plates / Titles complete — documents in your Vault"
+        ],
+        "activity_events": [
+          "Tags / Registration — IRP / Plates / Titles requested",
+          "Tags / Registration — IRP / Plates / Titles complete"
+        ],
+        "reminders": [
+          "waiting-on-client nudges after 3 days",
+          "internal follow-up dueAt on the office work item"
+        ],
+        "background_processing": [
+          "attention engine recompute (My Office)",
+          "readiness / status recompute on record change"
+        ],
+        "ingestion": [
+          "request fields",
+          "uploaded documents"
+        ],
+        "validation": [
+          "checklist completeness",
+          "document type"
+        ],
+        "derivation": [
+          "customer-friendly state",
+          "Road Ready item status"
+        ],
+        "state_transitions": [
+          "REQUESTED → AIO_WORKING → WAITING_EXTERNALLY → COMPLETE → ON_FILE"
+        ],
+        "next_cycle_creation": "Renewal / next period tracked (annual registration renewal).",
+        "failure_handling": [
+          "external return → RETURNED with correction path",
+          "no direct government integration unless activated — staff records results"
+        ]
+      },
+      "system_entry": {
+        "surface": "Service request engine",
+        "route": null,
+        "trigger": "request submitted / document uploaded"
+      },
+      "derivations": [
+        {
+          "id": "CHECKLIST",
+          "derives": "request checklist + completeness",
+          "from": [
+            "inputs"
+          ],
+          "rule": "workflow template for the service"
+        },
+        {
+          "id": "CUSTOMER_STATE",
+          "derives": "customer-friendly state",
+          "from": [
+            "workflow state"
+          ],
+          "rule": "SERVICE_JOURNEYS customer states (raw states never shown)"
+        }
+      ],
+      "automations": [],
+      "transitions": [
+        {
+          "from": "NOT_REQUESTED",
+          "to": "REQUESTED",
+          "trigger": "client requests (quote accepted where required)",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "REQUESTED",
+          "to": "WAITING_ON_YOU",
+          "trigger": "documents / details missing",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "WAITING_ON_YOU",
+          "to": "AIO_WORKING",
+          "trigger": "client provides",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "REQUESTED",
+          "to": "AIO_WORKING",
+          "trigger": "complete request",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "AIO_WORKING",
+          "to": "WAITING_EXTERNALLY",
+          "trigger": "submitted",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "WAITING_EXTERNALLY",
+          "to": "COMPLETE",
+          "trigger": "result recorded",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "WAITING_EXTERNALLY",
+          "to": "RETURNED",
+          "trigger": "returned / rejected",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "RETURNED",
+          "to": "AIO_WORKING",
+          "trigger": "correction prepared",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "COMPLETE",
+          "to": "ON_FILE",
+          "trigger": "documents verified in Vault",
+          "actor": "SYSTEM"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.ROAD_TAX",
+      "feature_name": "Road / Highway Use Tax — HVUT 2290 & Road / Use Taxes",
+      "family": "F06 SERVICES (permits-taxes-compliance)",
+      "perspective": {
+        "parsing": [
+          "structured intake fields; uploaded documents typed via vault taxonomy"
+        ],
+        "event_creation": [
+          "OfficeWorkItem in the owning division queue",
+          "Road / Highway Use Tax — HVUT 2290 & Road / Use Taxes inbox thread",
+          "activity events per milestone"
+        ],
+        "notifications": [
+          "Road / Highway Use Tax — HVUT 2290 & Road / Use Taxes complete",
+          "Road / Highway Use Tax — HVUT 2290 & Road / Use Taxes renewal reminder (annual tax period)"
+        ],
+        "vault_movement": [
+          "artifacts stored under VAULT › Tax & Financial"
+        ],
+        "inbox_movement": [
+          "WAITING_ON_YOU: AIO needs documents for Road / Highway Use Tax — HVUT 2290 & Road / Use Taxes",
+          "COMPLETE: Road / Highway Use Tax — HVUT 2290 & Road / Use Taxes complete — documents in your Vault"
+        ],
+        "activity_events": [
+          "Road / Highway Use Tax — HVUT 2290 & Road / Use Taxes requested",
+          "Road / Highway Use Tax — HVUT 2290 & Road / Use Taxes complete"
+        ],
+        "reminders": [
+          "waiting-on-client nudges after 3 days",
+          "internal follow-up dueAt on the office work item"
+        ],
+        "background_processing": [
+          "attention engine recompute (My Office)",
+          "readiness / status recompute on record change"
+        ],
+        "ingestion": [
+          "request fields",
+          "uploaded documents"
+        ],
+        "validation": [
+          "checklist completeness",
+          "document type"
+        ],
+        "derivation": [
+          "customer-friendly state",
+          "Road Ready item status"
+        ],
+        "state_transitions": [
+          "REQUESTED → AIO_WORKING → WAITING_EXTERNALLY → COMPLETE → ON_FILE"
+        ],
+        "next_cycle_creation": "Renewal / next period tracked (annual tax period).",
+        "failure_handling": [
+          "external return → RETURNED with correction path",
+          "no direct government integration unless activated — staff records results"
+        ]
+      },
+      "system_entry": {
+        "surface": "Service request engine",
+        "route": null,
+        "trigger": "request submitted / document uploaded"
+      },
+      "derivations": [
+        {
+          "id": "CHECKLIST",
+          "derives": "request checklist + completeness",
+          "from": [
+            "inputs"
+          ],
+          "rule": "workflow template for the service"
+        },
+        {
+          "id": "CUSTOMER_STATE",
+          "derives": "customer-friendly state",
+          "from": [
+            "workflow state"
+          ],
+          "rule": "SERVICE_JOURNEYS customer states (raw states never shown)"
+        }
+      ],
+      "automations": [],
+      "transitions": [
+        {
+          "from": "NOT_REQUESTED",
+          "to": "REQUESTED",
+          "trigger": "client requests (quote accepted where required)",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "REQUESTED",
+          "to": "WAITING_ON_YOU",
+          "trigger": "documents / details missing",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "WAITING_ON_YOU",
+          "to": "AIO_WORKING",
+          "trigger": "client provides",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "REQUESTED",
+          "to": "AIO_WORKING",
+          "trigger": "complete request",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "AIO_WORKING",
+          "to": "WAITING_EXTERNALLY",
+          "trigger": "submitted",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "WAITING_EXTERNALLY",
+          "to": "COMPLETE",
+          "trigger": "result recorded",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "WAITING_EXTERNALLY",
+          "to": "RETURNED",
+          "trigger": "returned / rejected",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "RETURNED",
+          "to": "AIO_WORKING",
+          "trigger": "correction prepared",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "COMPLETE",
+          "to": "ON_FILE",
+          "trigger": "documents verified in Vault",
+          "actor": "SYSTEM"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.COMPLIANCE_SAFETY",
+      "feature_name": "Compliance & Safety — DOT compliance, DQ files, D&A, Clearinghouse, ELD, audits",
+      "family": "F06 SERVICES (safety-drivers)",
+      "perspective": {
+        "parsing": [
+          "structured intake fields; uploaded documents typed via vault taxonomy"
+        ],
+        "event_creation": [
+          "OfficeWorkItem in the owning division queue",
+          "Compliance & Safety — DOT compliance, DQ files, D&A, Clearinghouse, ELD, audits inbox thread",
+          "activity events per milestone"
+        ],
+        "notifications": [
+          "Compliance & Safety — DOT compliance, DQ files, D&A, Clearinghouse, ELD, audits complete",
+          "Compliance & Safety — DOT compliance, DQ files, D&A, Clearinghouse, ELD, audits renewal reminder (annual reviews + audit events)"
+        ],
+        "vault_movement": [
+          "artifacts stored under VAULT › Safety & Drivers"
+        ],
+        "inbox_movement": [
+          "WAITING_ON_YOU: AIO needs documents for Compliance & Safety — DOT compliance, DQ files, D&A, Clearinghouse, ELD, audits",
+          "COMPLETE: Compliance & Safety — DOT compliance, DQ files, D&A, Clearinghouse, ELD, audits complete — documents in your Vault"
+        ],
+        "activity_events": [
+          "Compliance & Safety — DOT compliance, DQ files, D&A, Clearinghouse, ELD, audits requested",
+          "Compliance & Safety — DOT compliance, DQ files, D&A, Clearinghouse, ELD, audits complete"
+        ],
+        "reminders": [
+          "waiting-on-client nudges after 3 days",
+          "internal follow-up dueAt on the office work item"
+        ],
+        "background_processing": [
+          "attention engine recompute (My Office)",
+          "readiness / status recompute on record change"
+        ],
+        "ingestion": [
+          "request fields",
+          "uploaded documents"
+        ],
+        "validation": [
+          "checklist completeness",
+          "document type"
+        ],
+        "derivation": [
+          "customer-friendly state",
+          "Road Ready item status"
+        ],
+        "state_transitions": [
+          "REQUESTED → AIO_WORKING → WAITING_EXTERNALLY → COMPLETE → ON_FILE"
+        ],
+        "next_cycle_creation": "Renewal / next period tracked (annual reviews + audit events).",
+        "failure_handling": [
+          "external return → RETURNED with correction path",
+          "no direct government integration unless activated — staff records results"
+        ]
+      },
+      "system_entry": {
+        "surface": "Service request engine",
+        "route": null,
+        "trigger": "request submitted / document uploaded"
+      },
+      "derivations": [
+        {
+          "id": "CHECKLIST",
+          "derives": "request checklist + completeness",
+          "from": [
+            "inputs"
+          ],
+          "rule": "workflow template for the service"
+        },
+        {
+          "id": "CUSTOMER_STATE",
+          "derives": "customer-friendly state",
+          "from": [
+            "workflow state"
+          ],
+          "rule": "SERVICE_JOURNEYS customer states (raw states never shown)"
+        }
+      ],
+      "automations": [],
+      "transitions": [
+        {
+          "from": "NOT_REQUESTED",
+          "to": "REQUESTED",
+          "trigger": "client requests (quote accepted where required)",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "REQUESTED",
+          "to": "WAITING_ON_YOU",
+          "trigger": "documents / details missing",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "WAITING_ON_YOU",
+          "to": "AIO_WORKING",
+          "trigger": "client provides",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "REQUESTED",
+          "to": "AIO_WORKING",
+          "trigger": "complete request",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "AIO_WORKING",
+          "to": "WAITING_EXTERNALLY",
+          "trigger": "submitted",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "WAITING_EXTERNALLY",
+          "to": "COMPLETE",
+          "trigger": "result recorded",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "WAITING_EXTERNALLY",
+          "to": "RETURNED",
+          "trigger": "returned / rejected",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "RETURNED",
+          "to": "AIO_WORKING",
+          "trigger": "correction prepared",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "COMPLETE",
+          "to": "ON_FILE",
+          "trigger": "documents verified in Vault",
+          "actor": "SYSTEM"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.RENEWALS",
+      "feature_name": "Renewals",
+      "family": "F04 ROAD READY · F06 SERVICES (renewals)",
+      "perspective": {
+        "parsing": [
+          "structured intake fields; uploaded documents typed via vault taxonomy"
+        ],
+        "event_creation": [
+          "OfficeWorkItem in the owning division queue",
+          "Renewals inbox thread",
+          "activity events per milestone"
+        ],
+        "notifications": [
+          "{item} expires in {d} days",
+          "{item} has expired"
+        ],
+        "vault_movement": [
+          "artifacts stored under VAULT › (category of the renewed item)"
+        ],
+        "inbox_movement": [
+          "DECISION_NEEDED: {item} expires {date} — renew with AIO?",
+          "RENEWED: {item} renewed"
+        ],
+        "activity_events": [
+          "Renewal started with AIO",
+          "Renewal complete"
+        ],
+        "reminders": [
+          "waiting-on-client nudges after 3 days",
+          "internal follow-up dueAt on the office work item"
+        ],
+        "background_processing": [
+          "attention engine recompute (My Office)",
+          "readiness / status recompute on record change"
+        ],
+        "ingestion": [
+          "document expiration dates"
+        ],
+        "validation": [
+          "dedupe renewals"
+        ],
+        "derivation": [
+          "renewal items + windows"
+        ],
+        "state_transitions": [
+          "window → decision → with AIO → renewed"
+        ],
+        "next_cycle_creation": "Renewed document’s expiration creates the next renewal item.",
+        "failure_handling": [
+          "missing expiration date → staff task",
+          "lapse → OVERDUE escalation"
+        ]
+      },
+      "system_entry": {
+        "surface": "renewal eligibility engine",
+        "route": null,
+        "trigger": "document expiration date approaching"
+      },
+      "derivations": [
+        {
+          "id": "ELIGIBILITY",
+          "derives": "renewal items from document expirations",
+          "from": [
+            "vault documents"
+          ],
+          "rule": "renewalService.ts build from documents + dedupe"
+        }
+      ],
+      "automations": [],
+      "transitions": [
+        {
+          "from": "NONE_DUE",
+          "to": "UPCOMING",
+          "trigger": "expiration enters window",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "UPCOMING",
+          "to": "DECISION_NEEDED",
+          "trigger": "decision requested",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "DECISION_NEEDED",
+          "to": "WITH_AIO",
+          "trigger": "start with AIO",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "DECISION_NEEDED",
+          "to": "SELF_MANAGED",
+          "trigger": "self-managed",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "UPCOMING",
+          "to": "OVERDUE",
+          "trigger": "expiration passes",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "OVERDUE",
+          "to": "WITH_AIO",
+          "trigger": "start with AIO",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "WITH_AIO",
+          "to": "RENEWED",
+          "trigger": "renewal recorded",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "WITH_AIO",
+          "to": "RENEWAL_FAILED",
+          "trigger": "renewal rejected",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "RENEWAL_FAILED",
+          "to": "WITH_AIO",
+          "trigger": "correction",
+          "actor": "FOUNDER_STAFF"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.DISPATCH_OPERATIONS",
+      "feature_name": "Dispatch / Operations",
+      "family": "F07 OPERATIONS",
+      "perspective": {
+        "parsing": [
+          "structured intake fields; uploaded documents typed via vault taxonomy"
+        ],
+        "event_creation": [
+          "OfficeWorkItem in the owning division queue",
+          "Dispatch / Operations inbox thread",
+          "activity events per milestone"
+        ],
+        "notifications": [
+          "Load offer waiting",
+          "POD needed"
+        ],
+        "vault_movement": [
+          "artifacts stored under VAULT › Loads › {load #}"
+        ],
+        "inbox_movement": [
+          "OFFER_PENDING: New load offer for {truck} — approve?",
+          "POD_NEEDED: Upload POD for load {#}"
+        ],
+        "activity_events": [
+          "Load {#} booked",
+          "Load {#} complete"
+        ],
+        "reminders": [
+          "waiting-on-client nudges after 3 days",
+          "internal follow-up dueAt on the office work item"
+        ],
+        "background_processing": [
+          "attention engine recompute (My Office)",
+          "readiness / status recompute on record change"
+        ],
+        "ingestion": [
+          "load opportunities",
+          "status updates",
+          "documents"
+        ],
+        "validation": [
+          "authority active",
+          "document completeness"
+        ],
+        "derivation": [
+          "load score",
+          "estimated IFTA miles",
+          "invoice readiness"
+        ],
+        "state_transitions": [
+          "offer → booked → in transit → complete → settled"
+        ],
+        "next_cycle_creation": "Truck re-enters SEARCHING after LOAD_COMPLETE.",
+        "failure_handling": [
+          "problem → LOAD_PROBLEM with owner",
+          "missing POD → POD_NEEDED reminders"
+        ]
+      },
+      "system_entry": {
+        "surface": "dispatch engine",
+        "route": null,
+        "trigger": "enrolment active / load status change"
+      },
+      "derivations": [
+        {
+          "id": "LOAD_SCORE",
+          "derives": "load score band + reasons",
+          "from": [
+            "rate",
+            "miles"
+          ],
+          "rule": "loadScoreEngine.ts"
+        },
+        {
+          "id": "DOC_COMPLETENESS",
+          "derives": "load document completeness",
+          "from": [
+            "BOL",
+            "POD",
+            "rate con"
+          ],
+          "rule": "documentCompleteness.ts"
+        },
+        {
+          "id": "IFTA_MILES",
+          "derives": "estimated miles per state",
+          "from": [
+            "loaded + deadhead miles"
+          ],
+          "rule": "milesFromLoadFields → AIO.IFTA (estimate only)"
+        }
+      ],
+      "automations": [],
+      "transitions": [
+        {
+          "from": "NOT_ENROLLED",
+          "to": "ONBOARDING",
+          "trigger": "dispatch request accepted",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "ONBOARDING",
+          "to": "SEARCHING",
+          "trigger": "agreement accepted + truck active",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "SEARCHING",
+          "to": "OFFER_PENDING",
+          "trigger": "dispatcher proposes a reviewed load",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "OFFER_PENDING",
+          "to": "BOOKED",
+          "trigger": "carrier approves",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "OFFER_PENDING",
+          "to": "SEARCHING",
+          "trigger": "carrier declines",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "BOOKED",
+          "to": "IN_TRANSIT",
+          "trigger": "pickup confirmed",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "IN_TRANSIT",
+          "to": "POD_NEEDED",
+          "trigger": "delivered without POD",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "POD_NEEDED",
+          "to": "LOAD_COMPLETE",
+          "trigger": "POD uploaded",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "IN_TRANSIT",
+          "to": "LOAD_COMPLETE",
+          "trigger": "delivered with POD",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "IN_TRANSIT",
+          "to": "LOAD_PROBLEM",
+          "trigger": "problem reported",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "LOAD_COMPLETE",
+          "to": "SETTLED",
+          "trigger": "invoice paid / factored and recorded",
+          "actor": "SYSTEM"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.LOAD_BOARD",
+      "feature_name": "Load Board",
+      "family": "F08 LOAD BOARD",
+      "perspective": {
+        "parsing": [
+          "structured intake fields; uploaded documents typed via vault taxonomy"
+        ],
+        "event_creation": [
+          "OfficeWorkItem in the owning division queue",
+          "Load Board inbox thread",
+          "activity events per milestone"
+        ],
+        "notifications": [
+          "New loads match your lanes"
+        ],
+        "vault_movement": [
+          "artifacts stored under VAULT › Loads"
+        ],
+        "inbox_movement": [
+          "OFFER_DECISION: Counter offer on load {#}"
+        ],
+        "activity_events": [
+          "Load {#} booked from Load Board"
+        ],
+        "reminders": [
+          "waiting-on-client nudges after 3 days",
+          "internal follow-up dueAt on the office work item"
+        ],
+        "background_processing": [
+          "attention engine recompute (My Office)",
+          "readiness / status recompute on record change"
+        ],
+        "ingestion": [
+          "published brokerage loads"
+        ],
+        "validation": [
+          "carrier eligibility",
+          "projection strips shipper rate fields"
+        ],
+        "derivation": [
+          "fit score"
+        ],
+        "state_transitions": [
+          "published → offer → booked → closed"
+        ],
+        "next_cycle_creation": "New matches notify as loads publish.",
+        "failure_handling": [
+          "withdrawn load → unavailable state"
+        ]
+      },
+      "system_entry": {
+        "surface": "publication projection",
+        "route": null,
+        "trigger": "brokerage load published"
+      },
+      "derivations": [
+        {
+          "id": "FIT",
+          "derives": "fit score vs truck + lanes",
+          "from": [
+            "load",
+            "truck profile"
+          ],
+          "rule": "loadScoreEngine.ts"
+        },
+        {
+          "id": "PROJECTION",
+          "derives": "carrier-safe load fields",
+          "from": [
+            "brokerage load"
+          ],
+          "rule": "publication projection without shipper rate fields"
+        }
+      ],
+      "automations": [],
+      "transitions": [
+        {
+          "from": "NO_MATCHES",
+          "to": "BROWSING",
+          "trigger": "eligible loads published",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "BROWSING",
+          "to": "NEGOTIATING",
+          "trigger": "carrier sends offer / requests load",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "NEGOTIATING",
+          "to": "OFFER_DECISION",
+          "trigger": "counter offered",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "OFFER_DECISION",
+          "to": "BOOKED",
+          "trigger": "carrier accepts",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "NEGOTIATING",
+          "to": "BOOKED",
+          "trigger": "offer accepted",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "BROWSING",
+          "to": "NOT_ELIGIBLE",
+          "trigger": "eligibility check fails",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "BROWSING",
+          "to": "PUBLISH_ERROR",
+          "trigger": "load withdrawn",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "BOOKED",
+          "to": "CLOSED",
+          "trigger": "load delivered / closed",
+          "actor": "SYSTEM"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.BROKERAGE",
+      "feature_name": "Brokerage (Shipper)",
+      "family": "F09 BROKERAGE",
+      "perspective": {
+        "parsing": [
+          "structured intake fields; uploaded documents typed via vault taxonomy"
+        ],
+        "event_creation": [
+          "OfficeWorkItem in the owning division queue",
+          "Brokerage (Shipper) inbox thread",
+          "activity events per milestone"
+        ],
+        "notifications": [
+          "Shipment picked up",
+          "Shipment delivered"
+        ],
+        "vault_movement": [
+          "artifacts stored under VAULT › Shipments"
+        ],
+        "inbox_movement": [
+          "QUOTE_READY: Your quote is ready",
+          "EXCEPTION: Shipment {#} needs attention"
+        ],
+        "activity_events": [
+          "Quote accepted",
+          "Shipment delivered"
+        ],
+        "reminders": [
+          "waiting-on-client nudges after 3 days",
+          "internal follow-up dueAt on the office work item"
+        ],
+        "background_processing": [
+          "attention engine recompute (My Office)",
+          "readiness / status recompute on record change"
+        ],
+        "ingestion": [
+          "shipment requests"
+        ],
+        "validation": [
+          "capability gate",
+          "shipper privacy projection"
+        ],
+        "derivation": [
+          "quote",
+          "margin",
+          "canonical load"
+        ],
+        "state_transitions": [
+          "request → quote → covered → in transit → delivered → billed"
+        ],
+        "next_cycle_creation": "Recurring freight requests can repeat a delivered shipment.",
+        "failure_handling": [
+          "exception owner + shipper message",
+          "capability gate closed → paused notice"
+        ]
+      },
+      "system_entry": {
+        "surface": "brokerage workflow",
+        "route": null,
+        "trigger": "capability gate + request"
+      },
+      "derivations": [
+        {
+          "id": "QUOTE",
+          "derives": "shipper quote",
+          "from": [
+            "shipment"
+          ],
+          "rule": "brokerageCalculations.ts"
+        },
+        {
+          "id": "MARGIN",
+          "derives": "gross margin (staff only)",
+          "from": [
+            "shipper charge",
+            "carrier pay"
+          ],
+          "rule": "separate brokerage financial domain"
+        }
+      ],
+      "automations": [],
+      "transitions": [
+        {
+          "from": "NOT_ONBOARDED",
+          "to": "REQUESTED",
+          "trigger": "shipper onboarded + request",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "REQUESTED",
+          "to": "QUOTE_READY",
+          "trigger": "quote issued",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "QUOTE_READY",
+          "to": "COVERING",
+          "trigger": "quote accepted → canonical load",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "COVERING",
+          "to": "IN_TRANSIT",
+          "trigger": "carrier booked + picked up",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "IN_TRANSIT",
+          "to": "EXCEPTION",
+          "trigger": "delay / issue",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "EXCEPTION",
+          "to": "IN_TRANSIT",
+          "trigger": "resolved",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "IN_TRANSIT",
+          "to": "DELIVERED",
+          "trigger": "POD received",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "DELIVERED",
+          "to": "BILLED",
+          "trigger": "invoice issued",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "QUOTE_READY",
+          "to": "CANCELLED",
+          "trigger": "declined / expired",
+          "actor": "CLIENT"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.FINANCES",
+      "feature_name": "Finances — Money / Billing / Quotes",
+      "family": "F10 FINANCES",
+      "perspective": {
+        "parsing": [
+          "structured intake fields; uploaded documents typed via vault taxonomy"
+        ],
+        "event_creation": [
+          "OfficeWorkItem in the owning division queue",
+          "Finances — Money / Billing / Quotes inbox thread",
+          "activity events per milestone"
+        ],
+        "notifications": [
+          "Invoice due {date}",
+          "Payment failed"
+        ],
+        "vault_movement": [
+          "artifacts stored under VAULT › Tax & Financial › Billing"
+        ],
+        "inbox_movement": [
+          "QUOTE_PENDING: Quote ready for {service}",
+          "OVERDUE: Invoice overdue"
+        ],
+        "activity_events": [
+          "Quote accepted",
+          "Payment received"
+        ],
+        "reminders": [
+          "waiting-on-client nudges after 3 days",
+          "internal follow-up dueAt on the office work item"
+        ],
+        "background_processing": [
+          "attention engine recompute (My Office)",
+          "readiness / status recompute on record change"
+        ],
+        "ingestion": [
+          "quotes",
+          "service completions",
+          "payments"
+        ],
+        "validation": [
+          "money in minor units",
+          "domain separation (no freight / factoring / brokerage money)"
+        ],
+        "derivation": [
+          "balances"
+        ],
+        "state_transitions": [
+          "quote → invoice → paid → archived"
+        ],
+        "next_cycle_creation": "Recurring plans (e.g. bookkeeping) invoice each period.",
+        "failure_handling": [
+          "failed payment → PAYMENT_FAILED + retry"
+        ]
+      },
+      "system_entry": {
+        "surface": "billing engine",
+        "route": null,
+        "trigger": "service accepted / completed"
+      },
+      "derivations": [
+        {
+          "id": "TOTALS",
+          "derives": "service-fee balance",
+          "from": [
+            "invoices",
+            "payments"
+          ],
+          "rule": "billingCalculator.ts (money in minor units)"
+        },
+        {
+          "id": "PRICING",
+          "derives": "service price",
+          "from": [
+            "service",
+            "plan"
+          ],
+          "rule": "servicePricingConfig.ts"
+        }
+      ],
+      "automations": [],
+      "transitions": [
+        {
+          "from": "NOTHING_DUE",
+          "to": "QUOTE_PENDING",
+          "trigger": "quote issued",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "QUOTE_PENDING",
+          "to": "INVOICE_OPEN",
+          "trigger": "quote accepted / service billed",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "INVOICE_OPEN",
+          "to": "PAYMENT_PROCESSING",
+          "trigger": "client pays",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "INVOICE_OPEN",
+          "to": "OVERDUE",
+          "trigger": "due date passes",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "OVERDUE",
+          "to": "PAYMENT_PROCESSING",
+          "trigger": "client pays",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "PAYMENT_PROCESSING",
+          "to": "PAID",
+          "trigger": "payment confirmed",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "PAYMENT_PROCESSING",
+          "to": "PAYMENT_FAILED",
+          "trigger": "payment fails",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "PAYMENT_FAILED",
+          "to": "INVOICE_OPEN",
+          "trigger": "method updated",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "PAID",
+          "to": "ARCHIVED",
+          "trigger": "period closes",
+          "actor": "SYSTEM"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.FACTORING",
+      "feature_name": "Factoring (assistance / partner)",
+      "family": "F11 FACTORING",
+      "perspective": {
+        "parsing": [
+          "structured intake fields; uploaded documents typed via vault taxonomy"
+        ],
+        "event_creation": [
+          "OfficeWorkItem in the owning division queue",
+          "Factoring (assistance / partner) inbox thread",
+          "activity events per milestone"
+        ],
+        "notifications": [
+          "Funding reported for invoice {#}"
+        ],
+        "vault_movement": [
+          "artifacts stored under VAULT › Tax & Financial › Factoring"
+        ],
+        "inbox_movement": [
+          "DOCUMENTS_NEEDED: Factoring needs documents",
+          "FUNDED: Invoice {#} funded"
+        ],
+        "activity_events": [
+          "Invoice submitted",
+          "Funding reported"
+        ],
+        "reminders": [
+          "waiting-on-client nudges after 3 days",
+          "internal follow-up dueAt on the office work item"
+        ],
+        "background_processing": [
+          "attention engine recompute (My Office)",
+          "readiness / status recompute on record change"
+        ],
+        "ingestion": [
+          "completed loads",
+          "documents"
+        ],
+        "validation": [
+          "packet completeness",
+          "directFactoringEnabled = false"
+        ],
+        "derivation": [
+          "packet status",
+          "estimate labels"
+        ],
+        "state_transitions": [
+          "enrolment statuses: not_enrolled → … → active"
+        ],
+        "next_cycle_creation": "Each completed load offers FACTOR THIS LOAD.",
+        "failure_handling": [
+          "declined → reasons + alternatives",
+          "never show AIO as funder"
+        ]
+      },
+      "system_entry": {
+        "surface": "factoring workflow",
+        "route": null,
+        "trigger": "freight invoice created"
+      },
+      "derivations": [
+        {
+          "id": "PACKET_COMPLETENESS",
+          "derives": "invoice packet completeness",
+          "from": [
+            "load documents"
+          ],
+          "rule": "documentCompleteness.ts"
+        },
+        {
+          "id": "FUNDING_ESTIMATE",
+          "derives": "estimated advance (demo label)",
+          "from": [
+            "invoice"
+          ],
+          "rule": "staff-entered partner reports only"
+        }
+      ],
+      "automations": [],
+      "transitions": [
+        {
+          "from": "NOT_ENROLLED",
+          "to": "DOCUMENTS_NEEDED",
+          "trigger": "application started",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "DOCUMENTS_NEEDED",
+          "to": "UNDER_REVIEW",
+          "trigger": "documents complete",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "UNDER_REVIEW",
+          "to": "PARTNER_REVIEW",
+          "trigger": "specialist approves packet",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "PARTNER_REVIEW",
+          "to": "ACTIVE",
+          "trigger": "partner approves enrolment",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "PARTNER_REVIEW",
+          "to": "DECLINED",
+          "trigger": "partner declines",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "ACTIVE",
+          "to": "UNDER_REVIEW",
+          "trigger": "invoice submitted",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "PARTNER_REVIEW",
+          "to": "FUNDED",
+          "trigger": "funding reported",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "FUNDED",
+          "to": "CLOSED",
+          "trigger": "collection closed",
+          "actor": "FOUNDER_STAFF"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.INSURANCE",
+      "feature_name": "Insurance (assistance / referral)",
+      "family": "F12 INSURANCE",
+      "perspective": {
+        "parsing": [
+          "structured intake fields; uploaded documents typed via vault taxonomy"
+        ],
+        "event_creation": [
+          "OfficeWorkItem in the owning division queue",
+          "Insurance (assistance / referral) inbox thread",
+          "activity events per milestone"
+        ],
+        "notifications": [
+          "Insurance renewal coming up"
+        ],
+        "vault_movement": [
+          "artifacts stored under VAULT › Insurance"
+        ],
+        "inbox_movement": [
+          "OPTIONS_READY: Coverage options ready",
+          "LAPSE_RISK: Your coverage may lapse"
+        ],
+        "activity_events": [
+          "Referred to partner",
+          "Policy on file"
+        ],
+        "reminders": [
+          "waiting-on-client nudges after 3 days",
+          "internal follow-up dueAt on the office work item"
+        ],
+        "background_processing": [
+          "attention engine recompute (My Office)",
+          "readiness / status recompute on record change"
+        ],
+        "ingestion": [
+          "intake",
+          "partner-reported quotes",
+          "policy documents"
+        ],
+        "validation": [
+          "capability gate",
+          "isPremiumAllInOneServiceRevenue() always false"
+        ],
+        "derivation": [
+          "coverage checklist",
+          "renewal windows"
+        ],
+        "state_transitions": [
+          "intake → referral → options → setup → active → renewal"
+        ],
+        "next_cycle_creation": "Renewal window opens before expiry.",
+        "failure_handling": [
+          "lapse risk → urgent client + staff alerts"
+        ]
+      },
+      "system_entry": {
+        "surface": "insurance workflow",
+        "route": null,
+        "trigger": "capability gate + request"
+      },
+      "derivations": [
+        {
+          "id": "COVERAGE_NEEDS",
+          "derives": "coverage checklist",
+          "from": [
+            "operation"
+          ],
+          "rule": "insurance config"
+        },
+        {
+          "id": "EXPIRY",
+          "derives": "renewal window",
+          "from": [
+            "policy dates"
+          ],
+          "rule": "renewal engine"
+        }
+      ],
+      "automations": [],
+      "transitions": [
+        {
+          "from": "NO_POLICY",
+          "to": "INTAKE",
+          "trigger": "request coverage help",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "INTAKE",
+          "to": "REFERRED",
+          "trigger": "internal review → referral",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "REFERRED",
+          "to": "OPTIONS_READY",
+          "trigger": "partner-reported quotes entered",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "OPTIONS_READY",
+          "to": "POLICY_SETUP",
+          "trigger": "customer selects externally",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "POLICY_SETUP",
+          "to": "DOCUMENTS_NEEDED",
+          "trigger": "evidence missing",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "DOCUMENTS_NEEDED",
+          "to": "POLICY_SETUP",
+          "trigger": "documents uploaded",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "POLICY_SETUP",
+          "to": "ACTIVE_POLICY",
+          "trigger": "policy verified",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "ACTIVE_POLICY",
+          "to": "RENEWAL_WINDOW",
+          "trigger": "expiration window",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "RENEWAL_WINDOW",
+          "to": "LAPSE_RISK",
+          "trigger": "no renewal near expiry",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "LAPSE_RISK",
+          "to": "INTAKE",
+          "trigger": "renewal help requested",
+          "actor": "CLIENT"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.BOOKKEEPING",
+      "feature_name": "Bookkeeping",
+      "family": "F13 BOOKKEEPING",
+      "perspective": {
+        "parsing": [
+          "structured intake fields; uploaded documents typed via vault taxonomy"
+        ],
+        "event_creation": [
+          "OfficeWorkItem in the owning division queue",
+          "Bookkeeping inbox thread",
+          "activity events per milestone"
+        ],
+        "notifications": [
+          "Send statements for {month}"
+        ],
+        "vault_movement": [
+          "artifacts stored under VAULT › Tax & Financial › Bookkeeping › {YYYY-MM}"
+        ],
+        "inbox_movement": [
+          "QUESTIONS: {n} transactions need your answer",
+          "REVIEW_READY: {month} is ready for review"
+        ],
+        "activity_events": [
+          "Statements received",
+          "Month closed"
+        ],
+        "reminders": [
+          "waiting-on-client nudges after 3 days",
+          "internal follow-up dueAt on the office work item"
+        ],
+        "background_processing": [
+          "attention engine recompute (My Office)",
+          "readiness / status recompute on record change"
+        ],
+        "ingestion": [
+          "statements",
+          "AIO domain events (loads, fees, fuel tax)"
+        ],
+        "validation": [
+          "statement period coverage"
+        ],
+        "derivation": [
+          "trucking categories",
+          "plan fit"
+        ],
+        "state_transitions": [
+          "open → questions → closing → review → closed"
+        ],
+        "next_cycle_creation": "Next month opens at the boundary.",
+        "failure_handling": [
+          "backlog → RESCUE_NEEDED (Books Rescue)"
+        ]
+      },
+      "system_entry": {
+        "surface": "bookkeeping autopilot",
+        "route": null,
+        "trigger": "month boundary"
+      },
+      "derivations": [
+        {
+          "id": "CATEGORISE",
+          "derives": "trucking categories",
+          "from": [
+            "transactions"
+          ],
+          "rule": "autopilot chartOfAccounts.ts"
+        },
+        {
+          "id": "PLAN_FIT",
+          "derives": "plan recommendation",
+          "from": [
+            "business size"
+          ],
+          "rule": "bookkeepingRecommendation.ts"
+        }
+      ],
+      "automations": [],
+      "transitions": [
+        {
+          "from": "NO_PLAN",
+          "to": "MONTH_OPEN",
+          "trigger": "plan started",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "MONTH_OPEN",
+          "to": "QUESTIONS",
+          "trigger": "uncategorised transactions",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "QUESTIONS",
+          "to": "CLOSING",
+          "trigger": "answers received",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "MONTH_OPEN",
+          "to": "CLOSING",
+          "trigger": "statements complete",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "CLOSING",
+          "to": "REVIEW_READY",
+          "trigger": "month reconciled",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "REVIEW_READY",
+          "to": "CLOSED",
+          "trigger": "client confirms",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "CLOSED",
+          "to": "ARCHIVED",
+          "trigger": "next month opens",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "MONTH_OPEN",
+          "to": "RESCUE_NEEDED",
+          "trigger": "backlog detected",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "RESCUE_NEEDED",
+          "to": "MONTH_OPEN",
+          "trigger": "Books Rescue complete",
+          "actor": "FOUNDER_STAFF"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.FLEETCARE",
+      "feature_name": "FleetCare",
+      "family": "F14 FLEETCARE",
+      "perspective": {
+        "parsing": [
+          "structured intake fields; uploaded documents typed via vault taxonomy"
+        ],
+        "event_creation": [
+          "OfficeWorkItem in the owning division queue",
+          "FleetCare inbox thread",
+          "activity events per milestone"
+        ],
+        "notifications": [
+          "Provider found",
+          "Approve estimate"
+        ],
+        "vault_movement": [
+          "artifacts stored under VAULT › Vehicles › {unit}"
+        ],
+        "inbox_movement": [
+          "ESTIMATE_DECISION: Estimate ready for {unit}",
+          "COMPLETED: {unit} repair complete"
+        ],
+        "activity_events": [
+          "FleetCare ticket submitted",
+          "Repair completed"
+        ],
+        "reminders": [
+          "waiting-on-client nudges after 3 days",
+          "internal follow-up dueAt on the office work item"
+        ],
+        "background_processing": [
+          "attention engine recompute (My Office)",
+          "readiness / status recompute on record change"
+        ],
+        "ingestion": [
+          "tickets",
+          "provider estimates / completion"
+        ],
+        "validation": [
+          "provider verification status"
+        ],
+        "derivation": [
+          "matching",
+          "maintenance intelligence"
+        ],
+        "state_transitions": [
+          "FleetCareTicketStatus: draft → submitted → searching → matched → provider_reviewing → … → completed"
+        ],
+        "next_cycle_creation": "Next service due recommendation from mileage.",
+        "failure_handling": [
+          "no provider → staff task",
+          "dispute → DISPUTED"
+        ]
+      },
+      "system_entry": {
+        "surface": "FleetCare matching",
+        "route": null,
+        "trigger": "ticket submitted"
+      },
+      "derivations": [
+        {
+          "id": "MATCH",
+          "derives": "provider shortlist",
+          "from": [
+            "issue",
+            "location"
+          ],
+          "rule": "verified providers (ProviderVerificationStatus aio_verified)"
+        },
+        {
+          "id": "MAINT_INTEL",
+          "derives": "last service mileage / next due",
+          "from": [
+            "service records"
+          ],
+          "rule": "fleetcareLoadIntelligence.ts"
+        }
+      ],
+      "automations": [],
+      "transitions": [
+        {
+          "from": "NO_TICKETS",
+          "to": "SUBMITTED",
+          "trigger": "client submits ticket",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "SUBMITTED",
+          "to": "PROVIDER_REVIEWING",
+          "trigger": "matched provider reviewing",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "PROVIDER_REVIEWING",
+          "to": "NO_PROVIDER",
+          "trigger": "provider declined / none",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "NO_PROVIDER",
+          "to": "PROVIDER_REVIEWING",
+          "trigger": "manual assignment",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "PROVIDER_REVIEWING",
+          "to": "ESTIMATE_DECISION",
+          "trigger": "estimate submitted",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "ESTIMATE_DECISION",
+          "to": "IN_REPAIR",
+          "trigger": "client approves",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "IN_REPAIR",
+          "to": "COMPLETED",
+          "trigger": "provider completes job",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "IN_REPAIR",
+          "to": "DISPUTED",
+          "trigger": "dispute raised",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "COMPLETED",
+          "to": "RECORDED",
+          "trigger": "service record written",
+          "actor": "SYSTEM"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.DRIVERLINK",
+      "feature_name": "DriverLink",
+      "family": "F15 DRIVERLINK",
+      "perspective": {
+        "parsing": [
+          "structured intake fields; uploaded documents typed via vault taxonomy"
+        ],
+        "event_creation": [
+          "OfficeWorkItem in the owning division queue",
+          "DriverLink inbox thread",
+          "activity events per milestone"
+        ],
+        "notifications": [
+          "Candidates ready"
+        ],
+        "vault_movement": [
+          "artifacts stored under VAULT › Safety & Drivers"
+        ],
+        "inbox_movement": [
+          "CANDIDATES_READY: {n} verified drivers match your job",
+          "HIRED: Driver hired"
+        ],
+        "activity_events": [
+          "Job published",
+          "Driver hired"
+        ],
+        "reminders": [
+          "waiting-on-client nudges after 3 days",
+          "internal follow-up dueAt on the office work item"
+        ],
+        "background_processing": [
+          "attention engine recompute (My Office)",
+          "readiness / status recompute on record change"
+        ],
+        "ingestion": [
+          "jobs",
+          "driver profiles",
+          "credentials"
+        ],
+        "validation": [
+          "credential verification status"
+        ],
+        "derivation": [
+          "match score"
+        ],
+        "state_transitions": [
+          "JobOpportunityStatus + DriverApplicationStatus"
+        ],
+        "next_cycle_creation": "Expiring credentials re-enter verification.",
+        "failure_handling": [
+          "rejected credential → candidate hidden + driver notified"
+        ]
+      },
+      "system_entry": {
+        "surface": "DriverLink matching",
+        "route": null,
+        "trigger": "profile / job change"
+      },
+      "derivations": [
+        {
+          "id": "MATCH_SCORE",
+          "derives": "candidate fit",
+          "from": [
+            "job",
+            "driver profile"
+          ],
+          "rule": "DriverLink matching"
+        },
+        {
+          "id": "CREDENTIAL_STATUS",
+          "derives": "verification state",
+          "from": [
+            "credentials"
+          ],
+          "rule": "DriverCredentialVerificationStatus"
+        }
+      ],
+      "automations": [],
+      "transitions": [
+        {
+          "from": "NO_JOBS",
+          "to": "PUBLISHED",
+          "trigger": "job posted",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "PUBLISHED",
+          "to": "CREDENTIALS_PENDING",
+          "trigger": "matches need verification",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "CREDENTIALS_PENDING",
+          "to": "CANDIDATES_READY",
+          "trigger": "credentials verified",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "CREDENTIALS_PENDING",
+          "to": "CREDENTIAL_REJECTED",
+          "trigger": "credential rejected",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "CANDIDATES_READY",
+          "to": "IN_PROCESS",
+          "trigger": "company invites",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "IN_PROCESS",
+          "to": "HIRED",
+          "trigger": "offer accepted",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "HIRED",
+          "to": "CLOSED",
+          "trigger": "job filled / closed",
+          "actor": "SYSTEM"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.VAULT",
+      "feature_name": "Vault",
+      "family": "F16 VAULT",
+      "perspective": {
+        "parsing": [
+          "structured intake fields; uploaded documents typed via vault taxonomy"
+        ],
+        "event_creation": [
+          "OfficeWorkItem in the owning division queue",
+          "Vault inbox thread",
+          "activity events per milestone"
+        ],
+        "notifications": [
+          "{document} expiring"
+        ],
+        "vault_movement": [
+          "artifacts stored under VAULT (self)"
+        ],
+        "inbox_movement": [
+          "REQUESTED: AIO requested {document}",
+          "REJECTED: {document} was rejected"
+        ],
+        "activity_events": [
+          "{document} verified"
+        ],
+        "reminders": [
+          "waiting-on-client nudges after 3 days",
+          "internal follow-up dueAt on the office work item"
+        ],
+        "background_processing": [
+          "attention engine recompute (My Office)",
+          "readiness / status recompute on record change"
+        ],
+        "ingestion": [
+          "uploads",
+          "feature-sealed artifacts"
+        ],
+        "validation": [
+          "file policy",
+          "type"
+        ],
+        "derivation": [
+          "category",
+          "expiry"
+        ],
+        "state_transitions": [
+          "upload ≠ verification"
+        ],
+        "next_cycle_creation": "Expiry → renewal.",
+        "failure_handling": [
+          "rejected → reason + replace",
+          "policy violation → blocked upload"
+        ]
+      },
+      "system_entry": {
+        "surface": "vault storage + taxonomy",
+        "route": null,
+        "trigger": "upload / artifact sealed"
+      },
+      "derivations": [
+        {
+          "id": "CATEGORY",
+          "derives": "taxonomy category + group",
+          "from": [
+            "document type"
+          ],
+          "rule": "vaultTaxonomy.ts"
+        },
+        {
+          "id": "EXPIRY",
+          "derives": "expiration + renewal",
+          "from": [
+            "document dates"
+          ],
+          "rule": "renewalService.ts"
+        }
+      ],
+      "automations": [],
+      "transitions": [
+        {
+          "from": "EMPTY_VAULT",
+          "to": "PENDING_VERIFICATION",
+          "trigger": "upload",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "ORGANISED",
+          "to": "REQUESTED",
+          "trigger": "document requested",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "REQUESTED",
+          "to": "PENDING_VERIFICATION",
+          "trigger": "uploaded",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "PENDING_VERIFICATION",
+          "to": "VERIFIED",
+          "trigger": "verified",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "PENDING_VERIFICATION",
+          "to": "REJECTED",
+          "trigger": "rejected",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "REJECTED",
+          "to": "PENDING_VERIFICATION",
+          "trigger": "replacement",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "VERIFIED",
+          "to": "EXPIRING",
+          "trigger": "expiration window",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "VERIFIED",
+          "to": "SUPERSEDED",
+          "trigger": "newer version verified",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "VERIFIED",
+          "to": "ORGANISED",
+          "trigger": "filed",
+          "actor": "SYSTEM"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.INBOX",
+      "feature_name": "Inbox — Messages / Notifications / Appointments",
+      "family": "F17 INBOX",
+      "perspective": {
+        "parsing": [
+          "structured intake fields; uploaded documents typed via vault taxonomy"
+        ],
+        "event_creation": [
+          "OfficeWorkItem in the owning division queue",
+          "Inbox — Messages / Notifications / Appointments inbox thread",
+          "activity events per milestone"
+        ],
+        "notifications": [
+          "New message / action"
+        ],
+        "vault_movement": [
+          "no vault artifacts (records live in the feature)"
+        ],
+        "inbox_movement": [
+          "ACTION_THREADS: aggregated feature action requests"
+        ],
+        "activity_events": [
+          "Thread resolved"
+        ],
+        "reminders": [
+          "waiting-on-client nudges after 3 days",
+          "internal follow-up dueAt on the office work item"
+        ],
+        "background_processing": [
+          "attention engine recompute (My Office)",
+          "readiness / status recompute on record change"
+        ],
+        "ingestion": [
+          "feature events",
+          "messages"
+        ],
+        "validation": [
+          "consent + preferences"
+        ],
+        "derivation": [
+          "threads",
+          "resolution"
+        ],
+        "state_transitions": [
+          "feature completion resolves threads"
+        ],
+        "next_cycle_creation": "n/a — event driven.",
+        "failure_handling": [
+          "bounce → DELIVERY_FAILED",
+          "provider failover"
+        ]
+      },
+      "system_entry": {
+        "surface": "communication + notification engines",
+        "route": null,
+        "trigger": "feature events"
+      },
+      "derivations": [
+        {
+          "id": "THREADING",
+          "derives": "feature request threads",
+          "from": [
+            "feature events"
+          ],
+          "rule": "communication engine"
+        },
+        {
+          "id": "PREFS",
+          "derives": "channel preferences + consent",
+          "from": [
+            "account"
+          ],
+          "rule": "COMMUNICATION_PREFERENCES_AND_CONSENT"
+        }
+      ],
+      "automations": [],
+      "transitions": [
+        {
+          "from": "EMPTY_INBOX",
+          "to": "CONVERSATION",
+          "trigger": "message",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "CONVERSATION",
+          "to": "ACTION_THREADS",
+          "trigger": "action requested by feature",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "ACTION_THREADS",
+          "to": "AIO_REPLYING",
+          "trigger": "client acts",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "CONVERSATION",
+          "to": "AIO_REPLYING",
+          "trigger": "client message",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "AIO_REPLYING",
+          "to": "CONVERSATION",
+          "trigger": "staff replies",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "CONVERSATION",
+          "to": "APPOINTMENT_PROPOSED",
+          "trigger": "appointment proposed",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "APPOINTMENT_PROPOSED",
+          "to": "CONVERSATION",
+          "trigger": "confirmed",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "ACTION_THREADS",
+          "to": "RESOLVED",
+          "trigger": "feature work completes",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "RESOLVED",
+          "to": "ARCHIVED",
+          "trigger": "aged",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "CONVERSATION",
+          "to": "DELIVERY_FAILED",
+          "trigger": "bounce",
+          "actor": "SYSTEM"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.ACCOUNT",
+      "feature_name": "Account — Settings / Team / Auth",
+      "family": "F18 ACCOUNT",
+      "perspective": {
+        "parsing": [
+          "structured intake fields; uploaded documents typed via vault taxonomy"
+        ],
+        "event_creation": [
+          "OfficeWorkItem in the owning division queue",
+          "Account — Settings / Team / Auth inbox thread",
+          "activity events per milestone"
+        ],
+        "notifications": [
+          "Verify your email"
+        ],
+        "vault_movement": [
+          "no vault artifacts (records live in the feature)"
+        ],
+        "inbox_movement": [
+          "INVITE_PENDING: You were invited to {org}"
+        ],
+        "activity_events": [
+          "Settings updated"
+        ],
+        "reminders": [
+          "waiting-on-client nudges after 3 days",
+          "internal follow-up dueAt on the office work item"
+        ],
+        "background_processing": [
+          "attention engine recompute (My Office)",
+          "readiness / status recompute on record change"
+        ],
+        "ingestion": [
+          "sign up",
+          "role changes"
+        ],
+        "validation": [
+          "auth",
+          "RLS"
+        ],
+        "derivation": [
+          "route access"
+        ],
+        "state_transitions": [
+          "sign up → verify → active"
+        ],
+        "next_cycle_creation": "n/a.",
+        "failure_handling": [
+          "auth error → recovery flow"
+        ]
+      },
+      "system_entry": {
+        "surface": "auth + RLS",
+        "route": null,
+        "trigger": "sign up / role change"
+      },
+      "derivations": [
+        {
+          "id": "ACCESS",
+          "derives": "route access by role",
+          "from": [
+            "roles"
+          ],
+          "rule": "routeAccess.ts + RLS"
+        }
+      ],
+      "automations": [],
+      "transitions": [
+        {
+          "from": "NO_ACCOUNT",
+          "to": "VERIFY_EMAIL",
+          "trigger": "sign up",
+          "actor": "PUBLIC"
+        },
+        {
+          "from": "VERIFY_EMAIL",
+          "to": "ACTIVE",
+          "trigger": "verified",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "ACTIVE",
+          "to": "INVITE_PENDING",
+          "trigger": "member invited",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "INVITE_PENDING",
+          "to": "ACTIVE",
+          "trigger": "accepted",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "ACTIVE",
+          "to": "UPDATED",
+          "trigger": "settings saved",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "UPDATED",
+          "to": "ACTIVE",
+          "trigger": "continue",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "ACTIVE",
+          "to": "SUPPORT_REVIEW",
+          "trigger": "support request",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "SUPPORT_REVIEW",
+          "to": "ACTIVE",
+          "trigger": "resolved",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "ACTIVE",
+          "to": "DEACTIVATED",
+          "trigger": "deactivated",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "ACTIVE",
+          "to": "AUTH_ERROR",
+          "trigger": "auth failure",
+          "actor": "SYSTEM"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.OFFICE_OPERATIONS",
+      "feature_name": "AIO Office Operations (founder / staff)",
+      "family": "AIO OFFICE role projection (office/*) across F05–F17",
+      "perspective": {
+        "parsing": [
+          "structured intake fields; uploaded documents typed via vault taxonomy"
+        ],
+        "event_creation": [
+          "OfficeWorkItem in the owning division queue",
+          "AIO Office Operations (founder / staff) inbox thread",
+          "activity events per milestone"
+        ],
+        "notifications": [
+          "Escalation (staff)"
+        ],
+        "vault_movement": [
+          "no vault artifacts (records live in the feature)"
+        ],
+        "inbox_movement": [
+          "WAITING_ON_CUSTOMER: client-facing request (via owning feature)"
+        ],
+        "activity_events": [
+          "Work completed (client-visible via feature)"
+        ],
+        "reminders": [
+          "waiting-on-client nudges after 3 days",
+          "internal follow-up dueAt on the office work item"
+        ],
+        "background_processing": [
+          "attention engine recompute (My Office)",
+          "readiness / status recompute on record change"
+        ],
+        "ingestion": [
+          "work-creating events from all features"
+        ],
+        "validation": [
+          "optimistic concurrency on assignment (version)"
+        ],
+        "derivation": [
+          "priority",
+          "metrics"
+        ],
+        "state_transitions": [
+          "OfficeWorkItem status model"
+        ],
+        "next_cycle_creation": "Recurring work (quarters, renewals, closes) recreated by features.",
+        "failure_handling": [
+          "overdue → escalation",
+          "assignment conflict → retry"
+        ]
+      },
+      "system_entry": {
+        "surface": "office work model",
+        "route": null,
+        "trigger": "any work-creating event"
+      },
+      "derivations": [
+        {
+          "id": "PRIORITY",
+          "derives": "queue priority",
+          "from": [
+            "dueAt",
+            "waitingOn",
+            "priority"
+          ],
+          "rule": "OfficeWorkItem"
+        },
+        {
+          "id": "METRICS",
+          "derives": "management metrics",
+          "from": [
+            "work items"
+          ],
+          "rule": "MANAGEMENT_METRIC_REGISTRY"
+        }
+      ],
+      "automations": [],
+      "transitions": [
+        {
+          "from": "NEW",
+          "to": "ASSIGNED",
+          "trigger": "assignment",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "ASSIGNED",
+          "to": "WAITING_ON_CUSTOMER",
+          "trigger": "needs client",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "WAITING_ON_CUSTOMER",
+          "to": "ASSIGNED",
+          "trigger": "client responds",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "ASSIGNED",
+          "to": "READY_FOR_REVIEW",
+          "trigger": "work done",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "READY_FOR_REVIEW",
+          "to": "AWAITING_APPROVAL",
+          "trigger": "handoff for approval",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "AWAITING_APPROVAL",
+          "to": "COMPLETED",
+          "trigger": "approved",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "ASSIGNED",
+          "to": "ESCALATED",
+          "trigger": "escalation",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "ESCALATED",
+          "to": "ASSIGNED",
+          "trigger": "resolved",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "COMPLETED",
+          "to": "CLOSED",
+          "trigger": "audit closed",
+          "actor": "SYSTEM"
+        }
+      ]
+    }
+  ]
+}
