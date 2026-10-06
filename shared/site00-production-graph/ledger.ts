@@ -139,7 +139,8 @@ function applyOne(m: Mutable, a: WorkspaceAction) {
   };
   m.events.push(event(a, { event_id: `${a.action_id}.verdict`, node_id: node.node_id, event_type: rejected ? 'REJECTED' : 'REVISED', prior_state: node.status, new_state: 'BLOCKED', artifact_id: null, workspace_domain: node.domain, title: `${node.label} ${rejected ? 'REJECTED' : 'SENT BACK FOR REVISION'}`, detail: a.note || blocker.reason }));
   for (const art of m.artifacts)
-    if (art.source_node_id === node.node_id && (art.status === 'IN_REVIEW' || (art.status === 'CANONICAL' && art.artifact_type.includes('AUTHORITY')))) {
+    // the verdict sends back what the node authored: authorities and spatial world assets (never shared icons / UI kit)
+    if (art.source_node_id === node.node_id && (art.status === 'IN_REVIEW' || (art.status === 'CANONICAL' && (art.artifact_type.includes('AUTHORITY') || art.artifact_type === 'WORLD_ASSET')))) {
       m.artifacts[m.artifacts.indexOf(art)] = { ...art, status: 'REVISE', authority_status: 'IN_DEVELOPMENT' };
     }
   for (const downstream of node.downstream_nodes) {

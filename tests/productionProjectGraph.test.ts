@@ -15,7 +15,9 @@ import {
   ProjectScopeViolation,
   WORK_DOMAINS,
   assembleProjectGraph,
+  buildExpressionGraphPart,
   decisionsIn,
+  expressionNodeId,
   designMethodOf,
   domainHeadline,
   experienceKinds,
@@ -193,6 +195,53 @@ describe('D — cross-tab propagation through the workspace ledger', () => {
     const g = graphOf(AIO_PROJECT_ID, [workspaceAction({ project_id: AIO_PROJECT_ID, kind: 'RESOLVE', node_id: open.node_id, item_id: open.item_id, note: 'decided', at })]);
     expect(g.decisions.find((d) => d.item_id === open.item_id)!.state).toBe('RESOLVED');
     expect(g.events.some((e) => e.event_type === 'DECIDED' && e.origin === 'WORKSPACE')).toBe(true);
+  });
+  it('EXPERIENCE world asset rejected: scene BLOCKED, scene authority REVISE, revision item WATCHING, verdict recorded, HUB blocker', () => {
+    const base = graphOf('astral-world');
+    const scene = base.nodes.find((n) => n.node_type === 'SCENE' && base.artifacts.some((a) => a.source_node_id === n.node_id))!;
+    expect(scene).toBeTruthy();
+    const g = graphOf('astral-world', [workspaceAction({ project_id: 'astral-world', kind: 'REJECT', node_id: scene.node_id, item_id: null, note: 'wrong district palette', at })]);
+    const node = g.nodes.find((n) => n.node_id === scene.node_id)!;
+    expect(node.status).toBe('BLOCKED');
+    expect(node.approval_status).toBe('REJECTED');
+    expect(g.artifacts.filter((a) => a.source_node_id === scene.node_id).every((a) => a.status === 'REVISE')).toBe(true);
+    expect(decisionsIn(g, 'WATCHING').some((d) => d.kind === 'REVIEW_REQUEST' && d.node_id === scene.node_id)).toBe(true);
+    expect(g.events.some((e) => e.event_type === 'REJECTED' && e.node_id === scene.node_id)).toBe(true);
+    // HUB reflects the blocker; every downstream node is held ("downstream scene cannot become authority-ready")
+    expect(hubSummary(g).blockers.length).toBe(hubSummary(base).blockers.length + 1 + scene.downstream_nodes.length);
+    for (const d of scene.downstream_nodes) expect(g.nodes.find((n) => n.node_id === d)!.blockers.some((b) => b.upstream === scene.node_id)).toBe(true);
+  });
+  it('EXPRESSION casting approved: casting decision resolves, cast node approved, LOOK unlocks, decision logged', () => {
+    const IDS = ['narrative', 'cast', 'look', 'performance', 'set', 'storyboard', 'keyframes'] as const;
+    const STATUS = ['COMPLETE', 'REVIEW_REQUIRED', 'LOCKED', 'LOCKED', 'LOCKED', 'LOCKED', 'LOCKED'] as const;
+    const nodes = IDS.map((id, i) => ({ id, order: i, label: id.toUpperCase(), status: STATUS[i], statusDetail: `${id} detail`, dependsOn: i ? [IDS[i - 1]] : [], unlocks: i < 6 ? [IDS[i + 1]] : [], quickActions: [], assetSlotId: null }));
+    const hubGraph = { nodes, byId: Object.fromEntries(nodes.map((n) => [n.id, n])), activeNodeId: 'cast', progressPercent: 14, completeCount: 1, blockers: [], founderGate: { open: true, nodeId: 'cast', headline: 'CASTING APPROVAL', detail: '', decidableInHub: false }, operation: { label: 'CASTING' } };
+    const part = buildExpressionGraphPart({
+      projectId: 'ndxbook',
+      productionId: 'entry-002',
+      productionLabel: 'ENTRY 002',
+      productionTitle: null,
+      graph: hubGraph as never,
+      sceneCount: 0,
+      roles: [{ roleId: 'lead', label: 'LEAD', importance: 'HERO', characterName: 'LEAD', actorName: 'SW-001', actorMissingFromCatalogue: false, route: '/production/ndxbook/expression/casting' }],
+      attention: [{ id: 'attn.cast', kind: 'FOUNDER_APPROVAL', title: 'CASTING APPROVAL', subtitle: '', priority: 'HIGH', nodeId: 'cast', why: 'Cast awaiting founder approval' }],
+      activity: [],
+      requests: [],
+      assets: [],
+      route: (sub) => `/production/ndxbook/expression${sub ? `/${sub}` : ''}`,
+      pipelineAvailable: true,
+    });
+    const g0 = assembleProjectGraph({ project_id: 'ndxbook', project_name: 'NDXBOOK', project_type: 'TEST' }, [part]);
+    const item = decisionsIn(g0, 'NEEDS_YOU')[0]!;
+    const castNode = expressionNodeId('ndxbook', 'entry-002', 'cast');
+    const lookNode = expressionNodeId('ndxbook', 'entry-002', 'look');
+    expect(item.node_id).toBe(castNode);
+    expect(g0.nodes.find((n) => n.node_id === lookNode)!.blockers.some((b) => b.upstream === castNode)).toBe(true);
+    const g = assembleProjectGraph({ project_id: 'ndxbook', project_name: 'NDXBOOK', project_type: 'TEST' }, [part], [workspaceAction({ project_id: 'ndxbook', kind: 'APPROVE', node_id: castNode, item_id: item.item_id, note: '', at })]);
+    expect(decisionsIn(g, 'NEEDS_YOU')).toEqual([]); // INBOX removes the casting decision
+    expect(g.nodes.find((n) => n.node_id === castNode)!.approval_status).toBe('APPROVED'); // casting state updates
+    expect(g.nodes.find((n) => n.node_id === lookNode)!.blockers.some((b) => b.upstream === castNode)).toBe(false); // downstream readiness
+    expect(g.events.map((e) => e.event_type)).toEqual(expect.arrayContaining(['APPROVED', 'UNLOCKED', 'RESOLVED'])); // ACTIVITY logs it
   });
   it('an action recorded for one project never changes another project', () => {
     const verdict = decisionsIn(graphOf('jurnl'), 'NEEDS_YOU')[0]!;

@@ -1,0 +1,1390 @@
+{
+  "graph_panel_contracts": [
+    {
+      "project_id": "ACTIVE_PROJECT",
+      "loading_state": "Static source truth assembles synchronously; a live part (NDXBOOK Entry 002) adds its nodes when the hub read resolves — counts never show a placeholder value.",
+      "error_state": "An adapter with no truth contributes nothing: the panel shows its project-scoped empty state, never another project.",
+      "refresh_rule": "Re-derives on project change, workspace-ledger event (site00:production-workspace-ledger) and storage sync.",
+      "visibility_rule": "Reads only useProjectGraphData() — the ACTIVE project graph; getWorkspacePanelData throws PROJECT_SCOPE_VIOLATION on a foreign graph; no fallback project.",
+      "classification": "REAL_CANONICAL",
+      "panel_id": "project-hub-head",
+      "workspace_domain": "HUB",
+      "surface": "ProjectHubBody",
+      "node_scope": "project",
+      "query_source": "graph.phase · graph.next_action",
+      "data_dependencies": [
+        "nodes.pipeline_step",
+        "decisions",
+        "blockers"
+      ],
+      "display_purpose": "Where the project is (earliest open pipeline step) and the single next action — the control-plane headline.",
+      "source_of_truth": "Project graph (adapters over the project source truth)",
+      "primary_action": "Open the next action (deep link to its node)",
+      "secondary_actions": [],
+      "state_transition": null,
+      "downstream_effects": [],
+      "empty_state": "NO PRODUCTION NODE HAS BEEN RECORDED FOR THIS PROJECT YET.",
+      "artifact_dependencies": []
+    },
+    {
+      "project_id": "ACTIVE_PROJECT",
+      "loading_state": "Static source truth assembles synchronously; a live part (NDXBOOK Entry 002) adds its nodes when the hub read resolves — counts never show a placeholder value.",
+      "error_state": "An adapter with no truth contributes nothing: the panel shows its project-scoped empty state, never another project.",
+      "refresh_rule": "Re-derives on project change, workspace-ledger event (site00:production-workspace-ledger) and storage sync.",
+      "visibility_rule": "Reads only useProjectGraphData() — the ACTIVE project graph; getWorkspacePanelData throws PROJECT_SCOPE_VIOLATION on a foreign graph; no fallback project.",
+      "classification": "REAL_CANONICAL",
+      "panel_id": "project-hub-counts",
+      "workspace_domain": "HUB",
+      "surface": "ProjectHubBody",
+      "node_scope": "project",
+      "query_source": "hubSummary(graph)",
+      "data_dependencies": [
+        "decisions NEEDS_YOU",
+        "projectBlockers",
+        "nodes REVIEW_REQUIRED",
+        "top-level COMPLETE"
+      ],
+      "display_purpose": "NEED YOU / BLOCKERS / IN REVIEW / COMPLETE — each number is a list length and links to that list.",
+      "source_of_truth": "Project graph",
+      "primary_action": "Open the counted list (INBOX / ACTIVITY blockers)",
+      "secondary_actions": [],
+      "state_transition": null,
+      "downstream_effects": [],
+      "empty_state": "Counts read 00 — never a placeholder number.",
+      "artifact_dependencies": []
+    },
+    {
+      "project_id": "ACTIVE_PROJECT",
+      "loading_state": "Static source truth assembles synchronously; a live part (NDXBOOK Entry 002) adds its nodes when the hub read resolves — counts never show a placeholder value.",
+      "error_state": "An adapter with no truth contributes nothing: the panel shows its project-scoped empty state, never another project.",
+      "refresh_rule": "Re-derives on project change, workspace-ledger event (site00:production-workspace-ledger) and storage sync.",
+      "visibility_rule": "Reads only useProjectGraphData() — the ACTIVE project graph; getWorkspacePanelData throws PROJECT_SCOPE_VIOLATION on a foreign graph; no fallback project.",
+      "classification": "REAL_CANONICAL",
+      "panel_id": "project-hub-progress",
+      "workspace_domain": "HUB",
+      "surface": "ProjectHubBody",
+      "node_scope": "top-level nodes (families / entries / worlds)",
+      "query_source": "getWorkspacePanelData('top-level') + stageBreakdown",
+      "data_dependencies": [
+        "nodes.current_stage",
+        "nodes.status"
+      ],
+      "display_purpose": "Production progress on canonical node stages (PLANNED … LIVE) with real stage counts.",
+      "source_of_truth": "Project graph",
+      "primary_action": "Open a node (ACTIVITY node detail)",
+      "secondary_actions": [],
+      "state_transition": null,
+      "downstream_effects": [],
+      "empty_state": "NO PRODUCTION NODE RECORDED FOR <PROJECT>",
+      "artifact_dependencies": [
+        "node preview artifact"
+      ]
+    },
+    {
+      "project_id": "ACTIVE_PROJECT",
+      "loading_state": "Static source truth assembles synchronously; a live part (NDXBOOK Entry 002) adds its nodes when the hub read resolves — counts never show a placeholder value.",
+      "error_state": "An adapter with no truth contributes nothing: the panel shows its project-scoped empty state, never another project.",
+      "refresh_rule": "Re-derives on project change, workspace-ledger event (site00:production-workspace-ledger) and storage sync.",
+      "visibility_rule": "Reads only useProjectGraphData() — the ACTIVE project graph; getWorkspacePanelData throws PROJECT_SCOPE_VIOLATION on a foreign graph; no fallback project.",
+      "classification": "REAL_CANONICAL",
+      "panel_id": "project-hub-domains",
+      "workspace_domain": "HUB",
+      "surface": "ProjectHubBody",
+      "node_scope": "project × work domain",
+      "query_source": "graph.domains (deriveDomainState)",
+      "data_dependencies": [
+        "domain node counts",
+        "PROJECT_DOMAIN_CAPABILITY_MAP"
+      ],
+      "display_purpose": "Which work domains are ESTABLISHED for this project (GLOBAL_TAB_AVAILABLE ≠ PROJECT_DOMAIN_ESTABLISHED).",
+      "source_of_truth": "Project graph + capability map",
+      "primary_action": "Open the domain tab (its own graph or NOT_ESTABLISHED state)",
+      "secondary_actions": [],
+      "state_transition": null,
+      "downstream_effects": [],
+      "empty_state": "Each domain row says NOT ESTABLISHED with the reason.",
+      "artifact_dependencies": []
+    },
+    {
+      "project_id": "ACTIVE_PROJECT",
+      "loading_state": "Static source truth assembles synchronously; a live part (NDXBOOK Entry 002) adds its nodes when the hub read resolves — counts never show a placeholder value.",
+      "error_state": "An adapter with no truth contributes nothing: the panel shows its project-scoped empty state, never another project.",
+      "refresh_rule": "Re-derives on project change, workspace-ledger event (site00:production-workspace-ledger) and storage sync.",
+      "visibility_rule": "Reads only useProjectGraphData() — the ACTIVE project graph; getWorkspacePanelData throws PROJECT_SCOPE_VIOLATION on a foreign graph; no fallback project.",
+      "classification": "REAL_CANONICAL",
+      "panel_id": "project-hub-needs-you",
+      "workspace_domain": "HUB",
+      "surface": "ProjectHubBody",
+      "node_scope": "decision items NEEDS_YOU",
+      "query_source": "getWorkspacePanelData('needs-you')",
+      "data_dependencies": [
+        "decisions"
+      ],
+      "display_purpose": "The founder decisions blocking the project, highest priority first.",
+      "source_of_truth": "Project graph decisions (+ workspace ledger)",
+      "primary_action": "Open the item in INBOX",
+      "secondary_actions": [],
+      "state_transition": null,
+      "downstream_effects": [],
+      "empty_state": "NOTHING NEEDS YOU",
+      "artifact_dependencies": []
+    },
+    {
+      "project_id": "ACTIVE_PROJECT",
+      "loading_state": "Static source truth assembles synchronously; a live part (NDXBOOK Entry 002) adds its nodes when the hub read resolves — counts never show a placeholder value.",
+      "error_state": "An adapter with no truth contributes nothing: the panel shows its project-scoped empty state, never another project.",
+      "refresh_rule": "Re-derives on project change, workspace-ledger event (site00:production-workspace-ledger) and storage sync.",
+      "visibility_rule": "Reads only useProjectGraphData() — the ACTIVE project graph; getWorkspacePanelData throws PROJECT_SCOPE_VIOLATION on a foreign graph; no fallback project.",
+      "classification": "REAL_CANONICAL",
+      "panel_id": "project-hub-blockers",
+      "workspace_domain": "HUB",
+      "surface": "ProjectHubBody",
+      "node_scope": "blocked nodes",
+      "query_source": "getWorkspacePanelData('blockers')",
+      "data_dependencies": [
+        "nodes.blockers"
+      ],
+      "display_purpose": "Each blocker: node, reason, upstream, severity, owner, required action, downstream effect.",
+      "source_of_truth": "Project graph",
+      "primary_action": "Open ACTIVITY → BLOCKERS",
+      "secondary_actions": [],
+      "state_transition": null,
+      "downstream_effects": [],
+      "empty_state": "NOTHING IS BLOCKED",
+      "artifact_dependencies": []
+    },
+    {
+      "project_id": "ACTIVE_PROJECT",
+      "loading_state": "Static source truth assembles synchronously; a live part (NDXBOOK Entry 002) adds its nodes when the hub read resolves — counts never show a placeholder value.",
+      "error_state": "An adapter with no truth contributes nothing: the panel shows its project-scoped empty state, never another project.",
+      "refresh_rule": "Re-derives on project change, workspace-ledger event (site00:production-workspace-ledger) and storage sync.",
+      "visibility_rule": "Reads only useProjectGraphData() — the ACTIVE project graph; getWorkspacePanelData throws PROJECT_SCOPE_VIOLATION on a foreign graph; no fallback project.",
+      "classification": "REAL_CANONICAL",
+      "panel_id": "project-hub-events",
+      "workspace_domain": "HUB",
+      "surface": "ProjectHubBody",
+      "node_scope": "project events",
+      "query_source": "getWorkspacePanelData('events')",
+      "data_dependencies": [
+        "events"
+      ],
+      "display_purpose": "The latest dated production events of this project.",
+      "source_of_truth": "Dated source records, requests, workspace ledger",
+      "primary_action": "Open ACTIVITY",
+      "secondary_actions": [],
+      "state_transition": null,
+      "downstream_effects": [],
+      "empty_state": "NO EVENTS RECORDED FOR <PROJECT> YET",
+      "artifact_dependencies": []
+    },
+    {
+      "project_id": "ACTIVE_PROJECT",
+      "loading_state": "Static source truth assembles synchronously; a live part (NDXBOOK Entry 002) adds its nodes when the hub read resolves — counts never show a placeholder value.",
+      "error_state": "An adapter with no truth contributes nothing: the panel shows its project-scoped empty state, never another project.",
+      "refresh_rule": "Re-derives on project change, workspace-ledger event (site00:production-workspace-ledger) and storage sync.",
+      "visibility_rule": "Reads only useProjectGraphData() — the ACTIVE project graph; getWorkspacePanelData throws PROJECT_SCOPE_VIOLATION on a foreign graph; no fallback project.",
+      "classification": "REAL_CANONICAL",
+      "panel_id": "project-inbox-lenses",
+      "workspace_domain": "INBOX",
+      "surface": "ProjectInboxBody",
+      "node_scope": "decision items by state",
+      "query_source": "decisionsIn(graph, 'NEEDS_YOU' | 'WATCHING' | 'RESOLVED' | 'ALL')",
+      "data_dependencies": [
+        "decisions"
+      ],
+      "display_purpose": "NEEDS YOU / WATCHING / RESOLVED / ALL — the counts are the lists.",
+      "source_of_truth": "Project graph decisions (+ ledger)",
+      "primary_action": "Switch lens (?view=, kept across a project switch)",
+      "secondary_actions": [],
+      "state_transition": null,
+      "downstream_effects": [],
+      "empty_state": "Lens with 0 renders NOTHING <STATE>",
+      "artifact_dependencies": []
+    },
+    {
+      "project_id": "ACTIVE_PROJECT",
+      "loading_state": "Static source truth assembles synchronously; a live part (NDXBOOK Entry 002) adds its nodes when the hub read resolves — counts never show a placeholder value.",
+      "error_state": "An adapter with no truth contributes nothing: the panel shows its project-scoped empty state, never another project.",
+      "refresh_rule": "Re-derives on project change, workspace-ledger event (site00:production-workspace-ledger) and storage sync.",
+      "visibility_rule": "Reads only useProjectGraphData() — the ACTIVE project graph; getWorkspacePanelData throws PROJECT_SCOPE_VIOLATION on a foreign graph; no fallback project.",
+      "classification": "REAL_CANONICAL",
+      "panel_id": "project-inbox-list",
+      "workspace_domain": "INBOX",
+      "surface": "ProjectInboxBody",
+      "node_scope": "decision items (each resolves to one node)",
+      "query_source": "getWorkspacePanelData('needs-you' | 'watching' | 'resolved')",
+      "data_dependencies": [
+        "decisions",
+        "nodes"
+      ],
+      "display_purpose": "Real human decisions only — authority verdicts, implementation acceptance, page-tree confirmation, expression gates.",
+      "source_of_truth": "Project graph decisions",
+      "primary_action": "Approve / request revision / reject / mark decided → WorkspaceAction in the project ledger",
+      "secondary_actions": [
+        "Open item detail (?item=)",
+        "Open the node in its work domain"
+      ],
+      "state_transition": "APPROVE: node APPROVED + authority LOCKED, IN_REVIEW artifacts → CANONICAL, item RESOLVED, downstream blockers UNLOCKED · REVISE/REJECT: node BLOCKED, artifacts REVISE, review request WATCHING · RESOLVE: decision DECIDED, page-tree gate recomputed",
+      "downstream_effects": [
+        "HUB",
+        "INBOX",
+        "DESIGN",
+        "EXPERIENCE",
+        "EXPRESSION",
+        "LIBRARY",
+        "ACTIVITY"
+      ],
+      "empty_state": "NOTHING NEEDS YOU · No open founder decision for <PROJECT>.",
+      "artifact_dependencies": []
+    },
+    {
+      "project_id": "ACTIVE_PROJECT",
+      "loading_state": "Static source truth assembles synchronously; a live part (NDXBOOK Entry 002) adds its nodes when the hub read resolves — counts never show a placeholder value.",
+      "error_state": "An adapter with no truth contributes nothing: the panel shows its project-scoped empty state, never another project.",
+      "refresh_rule": "Re-derives on project change, workspace-ledger event (site00:production-workspace-ledger) and storage sync.",
+      "visibility_rule": "Reads only useProjectGraphData() — the ACTIVE project graph; getWorkspacePanelData throws PROJECT_SCOPE_VIOLATION on a foreign graph; no fallback project.",
+      "classification": "REAL_CANONICAL",
+      "panel_id": "project-inbox-item",
+      "workspace_domain": "INBOX",
+      "surface": "ProjectInboxBody",
+      "node_scope": "one decision item + its node",
+      "query_source": "?item= → graph.decisions",
+      "data_dependencies": [
+        "decision",
+        "node",
+        "node.blockers",
+        "node artifacts"
+      ],
+      "display_purpose": "The decision with its node, blockers and the materials under decision.",
+      "source_of_truth": "Project graph",
+      "primary_action": "Approve / request revision / reject / mark decided → WorkspaceAction in the project ledger",
+      "secondary_actions": [
+        "OPEN IN <DOMAIN>",
+        "Open material in LIBRARY"
+      ],
+      "state_transition": "APPROVE: node APPROVED + authority LOCKED, IN_REVIEW artifacts → CANONICAL, item RESOLVED, downstream blockers UNLOCKED · REVISE/REJECT: node BLOCKED, artifacts REVISE, review request WATCHING · RESOLVE: decision DECIDED, page-tree gate recomputed",
+      "downstream_effects": [
+        "HUB",
+        "INBOX",
+        "DESIGN",
+        "EXPERIENCE",
+        "EXPRESSION",
+        "LIBRARY",
+        "ACTIVITY"
+      ],
+      "empty_state": "ITEM NOT FOUND · No decision with this id exists in <PROJECT> (a stale id from another project never resolves).",
+      "artifact_dependencies": [
+        "node artifacts"
+      ]
+    },
+    {
+      "project_id": "ACTIVE_PROJECT",
+      "loading_state": "Static source truth assembles synchronously; a live part (NDXBOOK Entry 002) adds its nodes when the hub read resolves — counts never show a placeholder value.",
+      "error_state": "An adapter with no truth contributes nothing: the panel shows its project-scoped empty state, never another project.",
+      "refresh_rule": "Re-derives on project change, workspace-ledger event (site00:production-workspace-ledger) and storage sync.",
+      "visibility_rule": "Reads only useProjectGraphData() — the ACTIVE project graph; getWorkspacePanelData throws PROJECT_SCOPE_VIOLATION on a foreign graph; no fallback project.",
+      "classification": "REAL_CANONICAL",
+      "panel_id": "project-library-artifacts",
+      "workspace_domain": "LIBRARY",
+      "surface": "ProjectLibraryBody",
+      "node_scope": "project artifacts by status",
+      "query_source": "artifactsIn(graph, status) / getWorkspacePanelData('artifacts')",
+      "data_dependencies": [
+        "artifacts"
+      ],
+      "display_purpose": "Canonical archive generated from artifact records: CANONICAL / IN REVIEW / REVISE / SUPERSEDED / REFERENCE / MISSING / ARCHIVE.",
+      "source_of_truth": "Artifact records of the project graph (authority files, asset contracts, receipts)",
+      "primary_action": "Open artifact lineage (?artifact=)",
+      "secondary_actions": [
+        "Status lens (?status=)"
+      ],
+      "state_transition": null,
+      "downstream_effects": [],
+      "empty_state": "NO ARTIFACTS RECORDED FOR <PROJECT>",
+      "artifact_dependencies": [
+        "artifact.url (public/ files)"
+      ]
+    },
+    {
+      "project_id": "ACTIVE_PROJECT",
+      "loading_state": "Static source truth assembles synchronously; a live part (NDXBOOK Entry 002) adds its nodes when the hub read resolves — counts never show a placeholder value.",
+      "error_state": "An adapter with no truth contributes nothing: the panel shows its project-scoped empty state, never another project.",
+      "refresh_rule": "Re-derives on project change, workspace-ledger event (site00:production-workspace-ledger) and storage sync.",
+      "visibility_rule": "Reads only useProjectGraphData() — the ACTIVE project graph; getWorkspacePanelData throws PROJECT_SCOPE_VIOLATION on a foreign graph; no fallback project.",
+      "classification": "REAL_CANONICAL",
+      "panel_id": "project-library-artifact",
+      "workspace_domain": "LIBRARY",
+      "surface": "ProjectLibraryBody",
+      "node_scope": "one artifact",
+      "query_source": "?artifact= → graph.artifacts",
+      "data_dependencies": [
+        "artifact",
+        "source node",
+        "source truth"
+      ],
+      "display_purpose": "Lineage: project, source node, type, status, authority, created by, derived from, supersedes, superseded by, used by, viewport, actor mode, file, source of truth.",
+      "source_of_truth": "Artifact record",
+      "primary_action": "Open the source node (ACTIVITY)",
+      "secondary_actions": [],
+      "state_transition": null,
+      "downstream_effects": [],
+      "empty_state": "ARTIFACT NOT FOUND",
+      "artifact_dependencies": [
+        "artifact.url"
+      ]
+    },
+    {
+      "project_id": "ACTIVE_PROJECT",
+      "loading_state": "Static source truth assembles synchronously; a live part (NDXBOOK Entry 002) adds its nodes when the hub read resolves — counts never show a placeholder value.",
+      "error_state": "An adapter with no truth contributes nothing: the panel shows its project-scoped empty state, never another project.",
+      "refresh_rule": "Re-derives on project change, workspace-ledger event (site00:production-workspace-ledger) and storage sync.",
+      "visibility_rule": "Reads only useProjectGraphData() — the ACTIVE project graph; getWorkspacePanelData throws PROJECT_SCOPE_VIOLATION on a foreign graph; no fallback project.",
+      "classification": "REAL_CANONICAL",
+      "panel_id": "project-activity-feed",
+      "workspace_domain": "ACTIVITY",
+      "surface": "ProjectActivityBody",
+      "node_scope": "project events",
+      "query_source": "getWorkspacePanelData('events') filtered by lens",
+      "data_dependencies": [
+        "events"
+      ],
+      "display_purpose": "Event ledger: ALL / APPROVALS / UPDATES / DECISIONS (event type, actor, time, origin, node).",
+      "source_of_truth": "Dated source records (SOURCE_TRUTH), requests (REQUEST), workspace actions (WORKSPACE)",
+      "primary_action": "Lens (?view=)",
+      "secondary_actions": [],
+      "state_transition": null,
+      "downstream_effects": [],
+      "empty_state": "NO EVENTS RECORDED FOR <PROJECT> YET",
+      "artifact_dependencies": []
+    },
+    {
+      "project_id": "ACTIVE_PROJECT",
+      "loading_state": "Static source truth assembles synchronously; a live part (NDXBOOK Entry 002) adds its nodes when the hub read resolves — counts never show a placeholder value.",
+      "error_state": "An adapter with no truth contributes nothing: the panel shows its project-scoped empty state, never another project.",
+      "refresh_rule": "Re-derives on project change, workspace-ledger event (site00:production-workspace-ledger) and storage sync.",
+      "visibility_rule": "Reads only useProjectGraphData() — the ACTIVE project graph; getWorkspacePanelData throws PROJECT_SCOPE_VIOLATION on a foreign graph; no fallback project.",
+      "classification": "REAL_CANONICAL",
+      "panel_id": "project-activity-blockers",
+      "workspace_domain": "ACTIVITY",
+      "surface": "ProjectActivityBody",
+      "node_scope": "blocked nodes",
+      "query_source": "getWorkspacePanelData('blockers')",
+      "data_dependencies": [
+        "nodes.blockers"
+      ],
+      "display_purpose": "Every real blocker with reason, upstream, severity, owner, required action, downstream effect.",
+      "source_of_truth": "Project graph",
+      "primary_action": null,
+      "secondary_actions": [],
+      "state_transition": null,
+      "downstream_effects": [],
+      "empty_state": "NOTHING IS BLOCKED",
+      "artifact_dependencies": []
+    },
+    {
+      "project_id": "ACTIVE_PROJECT",
+      "loading_state": "Static source truth assembles synchronously; a live part (NDXBOOK Entry 002) adds its nodes when the hub read resolves — counts never show a placeholder value.",
+      "error_state": "An adapter with no truth contributes nothing: the panel shows its project-scoped empty state, never another project.",
+      "refresh_rule": "Re-derives on project change, workspace-ledger event (site00:production-workspace-ledger) and storage sync.",
+      "visibility_rule": "Reads only useProjectGraphData() — the ACTIVE project graph; getWorkspacePanelData throws PROJECT_SCOPE_VIOLATION on a foreign graph; no fallback project.",
+      "classification": "REAL_CANONICAL",
+      "panel_id": "project-activity-node",
+      "workspace_domain": "ACTIVITY",
+      "surface": "ProjectActivityBody",
+      "node_scope": "one node (?node=)",
+      "query_source": "getWorkspacePanelData('node' | 'events' | 'artifacts', nodeId)",
+      "data_dependencies": [
+        "node",
+        "events",
+        "decisions",
+        "blockers",
+        "children",
+        "artifacts"
+      ],
+      "display_purpose": "Node history: state fields, events, decisions, blockers, connected nodes, artifacts.",
+      "source_of_truth": "Project graph",
+      "primary_action": "OPEN IN <DOMAIN>",
+      "secondary_actions": [
+        "Open decision in INBOX",
+        "Open artifact in LIBRARY"
+      ],
+      "state_transition": null,
+      "downstream_effects": [],
+      "empty_state": "NODE NOT FOUND",
+      "artifact_dependencies": [
+        "node artifacts"
+      ]
+    },
+    {
+      "project_id": "ACTIVE_PROJECT",
+      "loading_state": "Static source truth assembles synchronously; a live part (NDXBOOK Entry 002) adds its nodes when the hub read resolves — counts never show a placeholder value.",
+      "error_state": "An adapter with no truth contributes nothing: the panel shows its project-scoped empty state, never another project.",
+      "refresh_rule": "Re-derives on project change, workspace-ledger event (site00:production-workspace-ledger) and storage sync.",
+      "visibility_rule": "Reads only useProjectGraphData() — the ACTIVE project graph; getWorkspacePanelData throws PROJECT_SCOPE_VIOLATION on a foreign graph; no fallback project.",
+      "classification": "REAL_CANONICAL",
+      "panel_id": "project-design-method",
+      "workspace_domain": "DESIGN",
+      "surface": "ProjectDesignSurface",
+      "node_scope": "DESIGN top-level nodes",
+      "query_source": "designMethodOf(node) over topLevelNodes(graph, DESIGN)",
+      "data_dependencies": [
+        "nodes.pipeline_step",
+        "nodes.authority_status"
+      ],
+      "display_purpose": "Method 01 LOAD BRAND DNA … 08 IMPLEMENT with the real number of families at each step (03 is a rule, not a stage).",
+      "source_of_truth": "Family production contracts / visual-authority packages",
+      "primary_action": "Filter families by step (?method=)",
+      "secondary_actions": [],
+      "state_transition": null,
+      "downstream_effects": [],
+      "empty_state": "Project without DESIGN nodes → domain-empty-design",
+      "artifact_dependencies": []
+    },
+    {
+      "project_id": "ACTIVE_PROJECT",
+      "loading_state": "Static source truth assembles synchronously; a live part (NDXBOOK Entry 002) adds its nodes when the hub read resolves — counts never show a placeholder value.",
+      "error_state": "An adapter with no truth contributes nothing: the panel shows its project-scoped empty state, never another project.",
+      "refresh_rule": "Re-derives on project change, workspace-ledger event (site00:production-workspace-ledger) and storage sync.",
+      "visibility_rule": "Reads only useProjectGraphData() — the ACTIVE project graph; getWorkspacePanelData throws PROJECT_SCOPE_VIOLATION on a foreign graph; no fallback project.",
+      "classification": "REAL_CANONICAL",
+      "panel_id": "project-design-families",
+      "workspace_domain": "DESIGN",
+      "surface": "ProjectDesignSurface",
+      "node_scope": "page families",
+      "query_source": "getWorkspacePanelData('domain-nodes', DESIGN) top-level",
+      "data_dependencies": [
+        "nodes",
+        "preview artifacts"
+      ],
+      "display_purpose": "Each page family with stage, status, next action and its own authority preview.",
+      "source_of_truth": "Family production contracts / visual-authority packages",
+      "primary_action": "Open family (?family=)",
+      "secondary_actions": [],
+      "state_transition": null,
+      "downstream_effects": [],
+      "empty_state": "NO FAMILY AT THIS STEP",
+      "artifact_dependencies": [
+        "VISUAL_AUTHORITY artifacts"
+      ]
+    },
+    {
+      "project_id": "ACTIVE_PROJECT",
+      "loading_state": "Static source truth assembles synchronously; a live part (NDXBOOK Entry 002) adds its nodes when the hub read resolves — counts never show a placeholder value.",
+      "error_state": "An adapter with no truth contributes nothing: the panel shows its project-scoped empty state, never another project.",
+      "refresh_rule": "Re-derives on project change, workspace-ledger event (site00:production-workspace-ledger) and storage sync.",
+      "visibility_rule": "Reads only useProjectGraphData() — the ACTIVE project graph; getWorkspacePanelData throws PROJECT_SCOPE_VIOLATION on a foreign graph; no fallback project.",
+      "classification": "REAL_CANONICAL",
+      "panel_id": "project-design-family",
+      "workspace_domain": "DESIGN",
+      "surface": "ProjectDesignSurface",
+      "node_scope": "one page family + its children",
+      "query_source": "?family= → node + childrenOf + decisions + artifacts",
+      "data_dependencies": [
+        "node",
+        "children",
+        "decisions",
+        "blockers",
+        "artifacts"
+      ],
+      "display_purpose": "Family state, decisions (actionable), blockers, child nodes (actor modes / page tree), authorities and assets.",
+      "source_of_truth": "Family production contract / visual-authority package",
+      "primary_action": "Approve / request revision / reject / mark decided → WorkspaceAction in the project ledger",
+      "secondary_actions": [
+        "OPEN DESIGN CHAMBER (projects with a chamber)",
+        "OPEN IN VIEWPORT (implemented families of runtime projects)",
+        "NODE HISTORY"
+      ],
+      "state_transition": "APPROVE: node APPROVED + authority LOCKED, IN_REVIEW artifacts → CANONICAL, item RESOLVED, downstream blockers UNLOCKED · REVISE/REJECT: node BLOCKED, artifacts REVISE, review request WATCHING · RESOLVE: decision DECIDED, page-tree gate recomputed",
+      "downstream_effects": [
+        "HUB",
+        "INBOX",
+        "DESIGN",
+        "EXPERIENCE",
+        "EXPRESSION",
+        "LIBRARY",
+        "ACTIVITY"
+      ],
+      "empty_state": "PAGE FAMILY NOT FOUND",
+      "artifact_dependencies": [
+        "VISUAL_AUTHORITY",
+        "UI_ASSET",
+        "REFERENCE_AUTHORITY"
+      ]
+    },
+    {
+      "project_id": "ACTIVE_PROJECT",
+      "loading_state": "Static source truth assembles synchronously; a live part (NDXBOOK Entry 002) adds its nodes when the hub read resolves — counts never show a placeholder value.",
+      "error_state": "An adapter with no truth contributes nothing: the panel shows its project-scoped empty state, never another project.",
+      "refresh_rule": "Re-derives on project change, workspace-ledger event (site00:production-workspace-ledger) and storage sync.",
+      "visibility_rule": "Reads only useProjectGraphData() — the ACTIVE project graph; getWorkspacePanelData throws PROJECT_SCOPE_VIOLATION on a foreign graph; no fallback project.",
+      "classification": "REAL_CANONICAL",
+      "panel_id": "project-design-authorities",
+      "workspace_domain": "DESIGN",
+      "surface": "ProjectDesignSurface",
+      "node_scope": "DESIGN authority artifacts",
+      "query_source": "graph.artifacts (VISUAL_AUTHORITY | REFERENCE_AUTHORITY)",
+      "data_dependencies": [
+        "artifacts"
+      ],
+      "display_purpose": "The project's own visual authorities — contained previews, never another project's art.",
+      "source_of_truth": "Authority files",
+      "primary_action": "Open lineage in LIBRARY",
+      "secondary_actions": [],
+      "state_transition": null,
+      "downstream_effects": [],
+      "empty_state": "NO VISUAL AUTHORITY RECORDED YET",
+      "artifact_dependencies": [
+        "artifact.url"
+      ]
+    },
+    {
+      "project_id": "ACTIVE_PROJECT",
+      "loading_state": "Static source truth assembles synchronously; a live part (NDXBOOK Entry 002) adds its nodes when the hub read resolves — counts never show a placeholder value.",
+      "error_state": "An adapter with no truth contributes nothing: the panel shows its project-scoped empty state, never another project.",
+      "refresh_rule": "Re-derives on project change, workspace-ledger event (site00:production-workspace-ledger) and storage sync.",
+      "visibility_rule": "Reads only useProjectGraphData() — the ACTIVE project graph; getWorkspacePanelData throws PROJECT_SCOPE_VIOLATION on a foreign graph; no fallback project.",
+      "classification": "REAL_CANONICAL",
+      "panel_id": "project-experience-nodes",
+      "workspace_domain": "EXPERIENCE",
+      "surface": "ProjectExperienceSurface",
+      "node_scope": "world → scenes → spatial objects / interactions",
+      "query_source": "getWorkspacePanelData('domain-nodes', EXPERIENCE) + experienceKinds",
+      "data_dependencies": [
+        "nodes (WORLD, SCENE, ZONE, PORTAL, INTERACTION, INHABITANT …)"
+      ],
+      "display_purpose": "The world graph — scenes and spatial nodes by kind, with real counts.",
+      "source_of_truth": "World scene contracts, object / hotspot registries, reference manifest",
+      "primary_action": "Open scene (?scene=)",
+      "secondary_actions": [
+        "Kind lens (?kind=)"
+      ],
+      "state_transition": null,
+      "downstream_effects": [],
+      "empty_state": "Project without EXPERIENCE nodes → domain-empty-experience",
+      "artifact_dependencies": [
+        "SCENE / SPATIAL authority references"
+      ]
+    },
+    {
+      "project_id": "ACTIVE_PROJECT",
+      "loading_state": "Static source truth assembles synchronously; a live part (NDXBOOK Entry 002) adds its nodes when the hub read resolves — counts never show a placeholder value.",
+      "error_state": "An adapter with no truth contributes nothing: the panel shows its project-scoped empty state, never another project.",
+      "refresh_rule": "Re-derives on project change, workspace-ledger event (site00:production-workspace-ledger) and storage sync.",
+      "visibility_rule": "Reads only useProjectGraphData() — the ACTIVE project graph; getWorkspacePanelData throws PROJECT_SCOPE_VIOLATION on a foreign graph; no fallback project.",
+      "classification": "REAL_CANONICAL",
+      "panel_id": "project-experience-scene",
+      "workspace_domain": "EXPERIENCE",
+      "surface": "ProjectExperienceSurface",
+      "node_scope": "one world / scene + objects and interactions",
+      "query_source": "?scene= → node + childrenOf + artifacts",
+      "data_dependencies": [
+        "node",
+        "children",
+        "artifacts"
+      ],
+      "display_purpose": "Scene state, its objects / interactions and its authority references; OPEN LIVE SCENE when mounted.",
+      "source_of_truth": "Scene contract + immersive route",
+      "primary_action": "OPEN LIVE SCENE",
+      "secondary_actions": [
+        "NODE HISTORY"
+      ],
+      "state_transition": null,
+      "downstream_effects": [],
+      "empty_state": "SPATIAL NODE NOT FOUND",
+      "artifact_dependencies": [
+        "reference manifest publicPath"
+      ]
+    },
+    {
+      "project_id": "ACTIVE_PROJECT",
+      "loading_state": "Static source truth assembles synchronously; a live part (NDXBOOK Entry 002) adds its nodes when the hub read resolves — counts never show a placeholder value.",
+      "error_state": "An adapter with no truth contributes nothing: the panel shows its project-scoped empty state, never another project.",
+      "refresh_rule": "Re-derives on project change, workspace-ledger event (site00:production-workspace-ledger) and storage sync.",
+      "visibility_rule": "Reads only useProjectGraphData() — the ACTIVE project graph; getWorkspacePanelData throws PROJECT_SCOPE_VIOLATION on a foreign graph; no fallback project.",
+      "classification": "REAL_CANONICAL",
+      "panel_id": "domain-empty",
+      "workspace_domain": "DESIGN",
+      "surface": "DomainEmptyState (DESIGN · EXPERIENCE · EXPRESSION)",
+      "node_scope": "project × work domain",
+      "query_source": "graph.domains[domain]",
+      "data_dependencies": [
+        "domain node count",
+        "capability map"
+      ],
+      "display_purpose": "NO <DOMAIN> WORKSPACE HAS BEEN ESTABLISHED FOR <PROJECT> — project, domain, why, what would establish it.",
+      "source_of_truth": "Project graph + capability map",
+      "primary_action": "<PROJECT> HUB",
+      "secondary_actions": [],
+      "state_transition": null,
+      "downstream_effects": [],
+      "empty_state": "This panel IS the empty state.",
+      "artifact_dependencies": []
+    },
+    {
+      "project_id": "ACTIVE_PROJECT",
+      "loading_state": "Static source truth assembles synchronously; a live part (NDXBOOK Entry 002) adds its nodes when the hub read resolves — counts never show a placeholder value.",
+      "error_state": "An adapter with no truth contributes nothing: the panel shows its project-scoped empty state, never another project.",
+      "refresh_rule": "Re-derives on project change, workspace-ledger event (site00:production-workspace-ledger) and storage sync.",
+      "visibility_rule": "Rendered only when neither the URL nor the stored choice names a project.",
+      "classification": "REAL_CANONICAL",
+      "panel_id": "production-project-select",
+      "workspace_domain": "HUB",
+      "surface": "ProjectSelectState",
+      "node_scope": "none (no active project)",
+      "query_source": "listHostProductionProjects()",
+      "data_dependencies": [
+        "managed project registry"
+      ],
+      "display_purpose": "No project chosen yet → choose one; the workspace never defaults to a project.",
+      "source_of_truth": "Managed project registry",
+      "primary_action": "Open the project on the current tab",
+      "secondary_actions": [],
+      "state_transition": "ACTIVE_PROJECT := chosen project (persisted)",
+      "downstream_effects": [
+        "HUB",
+        "INBOX",
+        "DESIGN",
+        "EXPERIENCE",
+        "EXPRESSION",
+        "LIBRARY",
+        "ACTIVITY"
+      ],
+      "empty_state": "n/a",
+      "artifact_dependencies": []
+    },
+    {
+      "project_id": "ACTIVE_PROJECT",
+      "loading_state": "Static source truth assembles synchronously; a live part (NDXBOOK Entry 002) adds its nodes when the hub read resolves — counts never show a placeholder value.",
+      "error_state": "An adapter with no truth contributes nothing: the panel shows its project-scoped empty state, never another project.",
+      "refresh_rule": "Re-derives on project change, workspace-ledger event (site00:production-workspace-ledger) and storage sync.",
+      "visibility_rule": "Reads only useProjectGraphData() — the ACTIVE project graph; getWorkspacePanelData throws PROJECT_SCOPE_VIOLATION on a foreign graph; no fallback project.",
+      "classification": "REAL_CANONICAL",
+      "panel_id": "production-attention-count",
+      "workspace_domain": "HUB",
+      "surface": "ProductionWorkspaceHeader (host chrome)",
+      "node_scope": "decision items NEEDS_YOU",
+      "query_source": "decisionsIn(graph, 'NEEDS_YOU').length",
+      "data_dependencies": [
+        "decisions"
+      ],
+      "display_purpose": "ITEMS NEED YOU in the host header — the INBOX NEEDS YOU list length of the active project.",
+      "source_of_truth": "Project graph decisions",
+      "primary_action": "Open INBOX of the active project",
+      "secondary_actions": [],
+      "state_transition": null,
+      "downstream_effects": [],
+      "empty_state": "00",
+      "artifact_dependencies": []
+    }
+  ],
+  "audited_panels": [
+    {
+      "panel_id": "authority-hero",
+      "surface": "HubBody",
+      "classification": [
+        "DECORATIVE",
+        "PROJECT_LEAK"
+      ],
+      "disposition": "GATED_TO_OWN_PROJECT",
+      "note": "NDXBOOK only; other projects → project-hub-head"
+    },
+    {
+      "panel_id": "hub-live-updated",
+      "surface": "HubBody",
+      "classification": [
+        "REAL_BUT_POORLY_SCOPED"
+      ],
+      "disposition": "REWRITTEN",
+      "note": "activity now project-filtered (activityProjectOf)"
+    },
+    {
+      "panel_id": "hub-items-need-you",
+      "surface": "HubBody",
+      "classification": [
+        "PROJECT_LEAK"
+      ],
+      "disposition": "REWRITTEN",
+      "note": "attention excludes other projects’ requests; others → project-hub-counts"
+    },
+    {
+      "panel_id": "hub-active-entry",
+      "surface": "HubBody",
+      "classification": [
+        "PROJECT_LEAK"
+      ],
+      "disposition": "GATED_TO_OWN_PROJECT",
+      "note": "Entry 002 shown only under NDXBOOK"
+    },
+    {
+      "panel_id": "hub-current-phase",
+      "surface": "HubBody",
+      "classification": [
+        "REAL_BUT_POORLY_LABELLED"
+      ],
+      "disposition": "GATED_TO_OWN_PROJECT",
+      "note": "others → project-hub-head phase"
+    },
+    {
+      "panel_id": "hub-blockers",
+      "surface": "HubBody",
+      "classification": [
+        "REAL_BUT_POORLY_LABELLED"
+      ],
+      "disposition": "REWRITTEN",
+      "note": "links to ACTIVITY → BLOCKERS, the list it counts"
+    },
+    {
+      "panel_id": "hub-overview",
+      "surface": "HubBody",
+      "classification": [
+        "REAL_CANONICAL"
+      ],
+      "disposition": "GATED_TO_OWN_PROJECT",
+      "note": "others → project-hub-progress"
+    },
+    {
+      "panel_id": "hub-components",
+      "surface": "HubBody",
+      "classification": [
+        "REAL_BUT_POORLY_SCOPED"
+      ],
+      "disposition": "GATED_TO_OWN_PROJECT",
+      "note": "8 storyboard frames = 8 mounted receipts (real files)"
+    },
+    {
+      "panel_id": "hub-entries",
+      "surface": "HubBody",
+      "classification": [
+        "LEGACY",
+        "MOCK"
+      ],
+      "disposition": "GATED_TO_OWN_PROJECT",
+      "note": "NEW ENTRY tile has no create path (REMAINING)"
+    },
+    {
+      "panel_id": "hub-operations",
+      "surface": "HubBody",
+      "classification": [
+        "REAL_BUT_POORLY_SCOPED"
+      ],
+      "disposition": "GATED_TO_OWN_PROJECT",
+      "note": "others → project-hub-needs-you"
+    },
+    {
+      "panel_id": "hub-activity",
+      "surface": "HubBody",
+      "classification": [
+        "PROJECT_LEAK",
+        "REAL_BUT_POORLY_LABELLED"
+      ],
+      "disposition": "REWRITTEN",
+      "note": "7 undated synthetic NOW rows removed; dated recorded events only"
+    },
+    {
+      "panel_id": "hub-open-machine",
+      "surface": "HubBody",
+      "classification": [
+        "LEGACY"
+      ],
+      "disposition": "GATED_TO_OWN_PROJECT",
+      "note": "machine view only for NDXBOOK"
+    },
+    {
+      "panel_id": "production-chrome-project",
+      "surface": "chrome",
+      "classification": [
+        "PROJECT_LEAK"
+      ],
+      "disposition": "REWRITTEN",
+      "note": "shows the active project; switch keeps the tab"
+    },
+    {
+      "panel_id": "production-attention-count",
+      "surface": "chrome",
+      "classification": [
+        "PROJECT_LEAK"
+      ],
+      "disposition": "REWRITTEN",
+      "note": "graph NEEDS_YOU count of the active project"
+    },
+    {
+      "panel_id": "nav-activity-dot",
+      "surface": "nav",
+      "classification": [
+        "DECORATIVE"
+      ],
+      "disposition": "REWRITTEN",
+      "note": "dot only when the project has a non-source event in the last 24 h"
+    },
+    {
+      "panel_id": "nav-hrefs",
+      "surface": "nav",
+      "classification": [
+        "PROJECT_LEAK"
+      ],
+      "disposition": "REWRITTEN",
+      "note": "every tab href carries the active project"
+    },
+    {
+      "panel_id": "hub-machine",
+      "surface": "ProductionHub",
+      "classification": [
+        "LEGACY",
+        "PROJECT_LEAK"
+      ],
+      "disposition": "GATED_TO_OWN_PROJECT",
+      "note": "/production?project=ndxbook&view=machine only"
+    },
+    {
+      "panel_id": "hub-modes",
+      "surface": "ProductionHub",
+      "classification": [
+        "DECORATIVE"
+      ],
+      "disposition": "GATED_TO_OWN_PROJECT",
+      "note": ""
+    },
+    {
+      "panel_id": "hub-filmstrip",
+      "surface": "ProductionHub",
+      "classification": [
+        "REAL_BUT_POORLY_SCOPED"
+      ],
+      "disposition": "GATED_TO_OWN_PROJECT",
+      "note": "8 placeholder cells until the pipeline reports panels"
+    },
+    {
+      "panel_id": "hub-compare",
+      "surface": "ProductionHub",
+      "classification": [
+        "MOCK"
+      ],
+      "disposition": "GATED_TO_OWN_PROJECT",
+      "note": "KEY FINDINGS / CONTINUITY hard UNAVAILABLE (REMAINING)"
+    },
+    {
+      "panel_id": "hub-table",
+      "surface": "ProductionHub",
+      "classification": [
+        "DUPLICATE"
+      ],
+      "disposition": "GATED_TO_OWN_PROJECT",
+      "note": ""
+    },
+    {
+      "panel_id": "inbox-tabs",
+      "surface": "InboxBody",
+      "classification": [
+        "REAL_CANONICAL"
+      ],
+      "disposition": "GATED_TO_OWN_PROJECT",
+      "note": "others → project-inbox-lenses"
+    },
+    {
+      "panel_id": "inbox-focus",
+      "surface": "InboxBody",
+      "classification": [
+        "REAL_BUT_POORLY_SCOPED"
+      ],
+      "disposition": "GATED_TO_OWN_PROJECT",
+      "note": "others → project-inbox-needs-you"
+    },
+    {
+      "panel_id": "inbox-incoming",
+      "surface": "InboxBody",
+      "classification": [
+        "PROJECT_LEAK",
+        "DUPLICATE"
+      ],
+      "disposition": "REWRITTEN",
+      "note": "requests filtered to the project"
+    },
+    {
+      "panel_id": "inbox-attention",
+      "surface": "InboxBody",
+      "classification": [
+        "REAL_BUT_POORLY_LABELLED"
+      ],
+      "disposition": "GATED_TO_OWN_PROJECT",
+      "note": ""
+    },
+    {
+      "panel_id": "inbox-resolved-rail",
+      "surface": "InboxBody",
+      "classification": [
+        "REAL_BUT_POORLY_SCOPED"
+      ],
+      "disposition": "GATED_TO_OWN_PROJECT",
+      "note": "activity now project-filtered"
+    },
+    {
+      "panel_id": "inbox-watching",
+      "surface": "InboxBody",
+      "classification": [
+        "REAL_CANONICAL"
+      ],
+      "disposition": "GATED_TO_OWN_PROJECT",
+      "note": ""
+    },
+    {
+      "panel_id": "inbox-resolved",
+      "surface": "InboxBody",
+      "classification": [
+        "REAL_BUT_POORLY_SCOPED"
+      ],
+      "disposition": "GATED_TO_OWN_PROJECT",
+      "note": "ARCHIVED hard 0 (REMAINING)"
+    },
+    {
+      "panel_id": "inbox-messages",
+      "surface": "InboxBody",
+      "classification": [
+        "MOCK"
+      ],
+      "disposition": "GATED_TO_OWN_PROJECT",
+      "note": "messages not connected — shown as unmounted"
+    },
+    {
+      "panel_id": "inbox-system",
+      "surface": "InboxBody",
+      "classification": [
+        "REAL_BUT_POORLY_SCOPED"
+      ],
+      "disposition": "GATED_TO_OWN_PROJECT",
+      "note": ""
+    },
+    {
+      "panel_id": "inbox-item-detail",
+      "surface": "InboxBody",
+      "classification": [
+        "REAL_BUT_POORLY_SCOPED"
+      ],
+      "disposition": "GATED_TO_OWN_PROJECT",
+      "note": "others → project-inbox-item"
+    },
+    {
+      "panel_id": "inbox-thread",
+      "surface": "InboxBody",
+      "classification": [
+        "MOCK"
+      ],
+      "disposition": "GATED_TO_OWN_PROJECT",
+      "note": ""
+    },
+    {
+      "panel_id": "inbox-general-request-href",
+      "surface": "InboxBody",
+      "classification": [
+        "UNRESOLVED"
+      ],
+      "disposition": "REWRITTEN",
+      "note": "/production/<p> now resolves to the project HUB"
+    },
+    {
+      "panel_id": "design-chamber (non-ingested)",
+      "surface": "DesignChamber",
+      "classification": [
+        "MOCK",
+        "DECORATIVE",
+        "PROJECT_LEAK"
+      ],
+      "disposition": "REPLACED",
+      "note": "project-design-* overview; chamber modes only where the project has them"
+    },
+    {
+      "panel_id": "design-pipeline",
+      "surface": "DesignChamber",
+      "classification": [
+        "MOCK"
+      ],
+      "disposition": "GATED_TO_OWN_PROJECT",
+      "note": "NDXBOOK legacy chamber; hidden under a runtime project viewport"
+    },
+    {
+      "panel_id": "design-table",
+      "surface": "DesignChamber",
+      "classification": [
+        "MOCK",
+        "PROJECT_LEAK"
+      ],
+      "disposition": "GATED_TO_OWN_PROJECT",
+      "note": "cards opened NDXBOOK reconstruction workspace from JURNL viewport — hidden there"
+    },
+    {
+      "panel_id": "design-workspace (/design/<sub>)",
+      "surface": "TwinOpusDirectScreen",
+      "classification": [
+        "LEGACY",
+        "OBSOLETE_PIPELINE",
+        "PROJECT_LEAK"
+      ],
+      "disposition": "GATED_TO_OWN_PROJECT",
+      "note": "NDXBOOK only; other projects resolve to their DESIGN overview"
+    },
+    {
+      "panel_id": "design-viewport (non-runtime)",
+      "surface": "ViewportChamber",
+      "classification": [
+        "PROJECT_LEAK"
+      ],
+      "disposition": "GATED_TO_OWN_PROJECT",
+      "note": "dev fixture was NDXBOOK; VIEWPORT offered to NDXBOOK + runtime projects only"
+    },
+    {
+      "panel_id": "project-family-chamber",
+      "surface": "ProjectFamilyChamber",
+      "classification": [
+        "REAL_BUT_POORLY_SCOPED"
+      ],
+      "disposition": "OPEN",
+      "note": "uses F01 only + literal denominators (REMAINING); DESIGN overview now covers F01–F16"
+    },
+    {
+      "panel_id": "design-viewport (runtime)",
+      "surface": "ViewportChamber",
+      "classification": [
+        "REAL_CANONICAL"
+      ],
+      "disposition": "KEPT",
+      "note": ""
+    },
+    {
+      "panel_id": "experience-root",
+      "surface": "ExperienceBody",
+      "classification": [
+        "DECORATIVE",
+        "PROJECT_LEAK"
+      ],
+      "disposition": "REPLACED",
+      "note": "project-experience-* (world graph) / domain-empty-experience"
+    },
+    {
+      "panel_id": "experience-capsules",
+      "surface": "ExperienceBody",
+      "classification": [
+        "REAL_BUT_POORLY_LABELLED"
+      ],
+      "disposition": "REPLACED",
+      "note": "kinds lens with real counts"
+    },
+    {
+      "panel_id": "experience-unresolved-spatial-issues",
+      "surface": "ExperienceBody",
+      "classification": [
+        "PROJECT_LEAK"
+      ],
+      "disposition": "REMOVED",
+      "note": "showed Expression blockers as spatial issues"
+    },
+    {
+      "panel_id": "experience-children",
+      "surface": "ExperienceProductionShellPage",
+      "classification": [
+        "DECORATIVE"
+      ],
+      "disposition": "UNMOUNTED",
+      "note": "every /experience/<sub> renders the project world graph"
+    },
+    {
+      "panel_id": "expression (non-established project)",
+      "surface": "ExpressionBody + families",
+      "classification": [
+        "PROJECT_LEAK"
+      ],
+      "disposition": "REPLACED",
+      "note": "domain-empty-expression"
+    },
+    {
+      "panel_id": "expression-hero",
+      "surface": "ExpressionBody",
+      "classification": [
+        "DECORATIVE"
+      ],
+      "disposition": "GATED_TO_OWN_PROJECT",
+      "note": ""
+    },
+    {
+      "panel_id": "expression-travel formats",
+      "surface": "ExpressionBody",
+      "classification": [
+        "MOCK"
+      ],
+      "disposition": "REWRITTEN",
+      "note": "formats = entry plan format adaptations"
+    },
+    {
+      "panel_id": "expression-active NEW ENTRY",
+      "surface": "ExpressionBody",
+      "classification": [
+        "MOCK"
+      ],
+      "disposition": "OPEN",
+      "note": "no create path (REMAINING)"
+    },
+    {
+      "panel_id": "casting-root-overview",
+      "surface": "CastingFamily",
+      "classification": [
+        "UNRESOLVED"
+      ],
+      "disposition": "REWRITTEN",
+      "note": "ROLES CAST / CAST ASSIGNED count catalogued actors only"
+    },
+    {
+      "panel_id": "casting-available-talent",
+      "surface": "CastingFamily",
+      "classification": [
+        "REAL_BUT_POORLY_SCOPED"
+      ],
+      "disposition": "KEPT",
+      "note": "catalogue is global by design (studio talent); media fixed in #1400"
+    },
+    {
+      "panel_id": "casting-lead-authority",
+      "surface": "CastingFamily",
+      "classification": [
+        "REAL_CANONICAL"
+      ],
+      "disposition": "KEPT",
+      "note": "media fixed in #1400"
+    },
+    {
+      "panel_id": "expression-breadcrumb detail",
+      "surface": "ExpressionProductionShellPage",
+      "classification": [
+        "PROJECT_LEAK"
+      ],
+      "disposition": "REWRITTEN",
+      "note": "family routes render only for an established EXPRESSION project"
+    },
+    {
+      "panel_id": "expression family state",
+      "surface": "ExpressionFamilyScreen",
+      "classification": [
+        "PROJECT_LEAK"
+      ],
+      "disposition": "REWRITTEN",
+      "note": "keyed by project — child state never survives a switch"
+    },
+    {
+      "panel_id": "sets hierarchy",
+      "surface": "SetsFamily",
+      "classification": [
+        "MOCK"
+      ],
+      "disposition": "OPEN",
+      "note": "hard-coded literals (REMAINING)"
+    },
+    {
+      "panel_id": "storyboard sequence frames",
+      "surface": "StoryboardFamily",
+      "classification": [
+        "REAL_BUT_POORLY_SCOPED"
+      ],
+      "disposition": "OPEN",
+      "note": "same 8 frames for every sequence (REMAINING)"
+    },
+    {
+      "panel_id": "downstream deliverables",
+      "surface": "DeliverablesFamily",
+      "classification": [
+        "OBSOLETE_PIPELINE",
+        "MOCK"
+      ],
+      "disposition": "OPEN",
+      "note": "state hard PLANNED (REMAINING)"
+    },
+    {
+      "panel_id": "library-tabs",
+      "surface": "LibraryBody",
+      "classification": [
+        "MOCK"
+      ],
+      "disposition": "REPLACED",
+      "note": "project-library-artifacts status lenses"
+    },
+    {
+      "panel_id": "library-categories",
+      "surface": "LibraryBody",
+      "classification": [
+        "MOCK"
+      ],
+      "disposition": "REMOVED",
+      "note": "arbitrary category mapping"
+    },
+    {
+      "panel_id": "library-vault",
+      "surface": "LibraryBody",
+      "classification": [
+        "DECORATIVE",
+        "PROJECT_LEAK"
+      ],
+      "disposition": "REMOVED",
+      "note": ""
+    },
+    {
+      "panel_id": "library-facts",
+      "surface": "LibraryBody",
+      "classification": [
+        "MOCK",
+        "REAL_BUT_POORLY_LABELLED"
+      ],
+      "disposition": "REPLACED",
+      "note": "project-library-artifact lineage"
+    },
+    {
+      "panel_id": "library-open-authority",
+      "surface": "LibraryBody",
+      "classification": [
+        "PROJECT_LEAK"
+      ],
+      "disposition": "REMOVED",
+      "note": "hard /production/ndxbook/design"
+    },
+    {
+      "panel_id": "library-recent",
+      "surface": "LibraryBody",
+      "classification": [
+        "REAL_BUT_POORLY_LABELLED",
+        "PROJECT_LEAK"
+      ],
+      "disposition": "REPLACED",
+      "note": "project-library-artifacts"
+    },
+    {
+      "panel_id": "library-most-used",
+      "surface": "LibraryBody",
+      "classification": [
+        "MOCK"
+      ],
+      "disposition": "REMOVED",
+      "note": ""
+    },
+    {
+      "panel_id": "library-lineage-flow",
+      "surface": "LibraryBody",
+      "classification": [
+        "MOCK"
+      ],
+      "disposition": "REPLACED",
+      "note": "project-library-artifact lineage"
+    },
+    {
+      "panel_id": "library-collections",
+      "surface": "LibraryBody",
+      "classification": [
+        "DECORATIVE"
+      ],
+      "disposition": "REMOVED",
+      "note": ""
+    },
+    {
+      "panel_id": "library-actors",
+      "surface": "LibraryBody",
+      "classification": [
+        "REAL_BUT_POORLY_SCOPED",
+        "PROJECT_LEAK"
+      ],
+      "disposition": "REMOVED",
+      "note": "catalogue lives in EXPRESSION → CASTING"
+    },
+    {
+      "panel_id": "library-empty-categories",
+      "surface": "LibraryBody",
+      "classification": [
+        "DECORATIVE"
+      ],
+      "disposition": "REMOVED",
+      "note": ""
+    },
+    {
+      "panel_id": "activity-feed",
+      "surface": "ActivityBody",
+      "classification": [
+        "PROJECT_LEAK",
+        "REAL_BUT_POORLY_LABELLED"
+      ],
+      "disposition": "REWRITTEN",
+      "note": "no synthetic state rows; activity project-filtered"
+    },
+    {
+      "panel_id": "activity-today",
+      "surface": "ActivityBody",
+      "classification": [
+        "REAL_BUT_POORLY_LABELLED"
+      ],
+      "disposition": "REWRITTEN",
+      "note": "TODAY counts dated events only"
+    },
+    {
+      "panel_id": "activity-blockers",
+      "surface": "ActivityBody",
+      "classification": [
+        "REAL_BUT_POORLY_LABELLED"
+      ],
+      "disposition": "GATED_TO_OWN_PROJECT",
+      "note": "others → project-activity-blockers"
+    },
+    {
+      "panel_id": "activity-milestones",
+      "surface": "ActivityBody",
+      "classification": [
+        "DUPLICATE"
+      ],
+      "disposition": "GATED_TO_OWN_PROJECT",
+      "note": ""
+    },
+    {
+      "panel_id": "activity-pending-review",
+      "surface": "ActivityBody",
+      "classification": [
+        "DUPLICATE"
+      ],
+      "disposition": "GATED_TO_OWN_PROJECT",
+      "note": "INBOX is where decisions are acted on"
+    },
+    {
+      "panel_id": "activity-comment-filters",
+      "surface": "ActivityBody",
+      "classification": [
+        "DECORATIVE"
+      ],
+      "disposition": "GATED_TO_OWN_PROJECT",
+      "note": "comments unmounted, shown as such"
+    },
+    {
+      "panel_id": "activity-related",
+      "surface": "ActivityBody",
+      "classification": [
+        "DUPLICATE"
+      ],
+      "disposition": "GATED_TO_OWN_PROJECT",
+      "note": ""
+    }
+  ],
+  "totals": {
+    "graph_panels": 24,
+    "audited": 74,
+    "by_disposition": {
+      "GATED_TO_OWN_PROJECT": 33,
+      "REWRITTEN": 16,
+      "REPLACED": 8,
+      "OPEN": 5,
+      "KEPT": 3,
+      "REMOVED": 8,
+      "UNMOUNTED": 1
+    },
+    "by_classification": {
+      "DECORATIVE": 11,
+      "PROJECT_LEAK": 23,
+      "REAL_BUT_POORLY_SCOPED": 13,
+      "REAL_BUT_POORLY_LABELLED": 10,
+      "REAL_CANONICAL": 5,
+      "LEGACY": 4,
+      "MOCK": 16,
+      "DUPLICATE": 5,
+      "UNRESOLVED": 2,
+      "OBSOLETE_PIPELINE": 2
+    }
+  }
+}

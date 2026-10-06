@@ -138,7 +138,7 @@ export function ActivityBody() {
 
   const graph = data?.graph;
   const nodes = graph?.nodes ?? [];
-  const slug = data?.project.projectId ?? 'ndxbook';
+  const slug = data?.project.projectId ?? '';
   const attention = data?.attention ?? [];
   const blockerNodes = nodes.filter((n) => (graph?.blockers ?? []).some((b) => b.toUpperCase().startsWith(`${n.label.toUpperCase()}:`)));
   const gateNode = graph?.founderGate.open ? graph.founderGate.nodeId : null;
