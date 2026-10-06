@@ -1,0 +1,42 @@
+# TEMPORARY QA BUILD — lives only on cursor/qa-build-* branches, never merged.
+name: QA build (temporary, no deploy)
+on:
+  push:
+    branches: ['cursor/qa-build-*']
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - run: npm ci
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+      - name: Typecheck
+        id: tsc
+        continue-on-error: true
+        run: npx tsc --noEmit 2>&1 | tee tsc.log; exit ${PIPESTATUS[0]}
+      - name: Focused tests
+        continue-on-error: true
+        run: npx vitest run tests/workspaceResponsiveDensity.test.ts 2>&1 | tee vitest.log; exit ${PIPESTATUS[0]}
+      - name: Build
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+          VITE_SITE00_ROOT: '1'
+          VITE_API_BASE: ${{ secrets.VITE_API_BASE }}
+        run: npx vite build
+      - run: mkdir -p qa-out && cp tsc.log vitest.log qa-out/ 2>/dev/null; echo done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: qa-dist
+          path: dist/
+          retention-days: 3
+      - uses: actions/upload-artifact@v4
+        with:
+          name: qa-logs
+          path: qa-out/
+          retention-days: 3
