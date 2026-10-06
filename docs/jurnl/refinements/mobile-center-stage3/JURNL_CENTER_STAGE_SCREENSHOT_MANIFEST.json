@@ -1,0 +1,409 @@
+{
+  "sprint": "P0.JURNL.MOBILE-COMPOSITION.CENTER-STAGE-NAV-ALIGNED-REFINEMENT3",
+  "generated": "2026-10-06",
+  "required": {
+    "F01_welcome_edge_led_control": [
+      "screenshots/before/F01.00.jpg",
+      "screenshots/after/F01.00.jpg"
+    ],
+    "before_after_targets": "screenshots/before|after/{F03,F05,F09,F10,F11,F13,F15,F16}.00.jpg",
+    "comparison_board": "screenshots/boards/COMPARISON_BOARD_EDGE_LED_VS_CENTER_STAGE.jpg (EDGE_LED example, CENTER_STAGE examples, nav footprint, central safe zone, background perimeter zones)"
+  },
+  "capture": {
+    "scripts": [
+      "scripts/jurnl/center-stage-qa.mjs",
+      "scripts/jurnl/center-stage-overlay-capture.mjs",
+      "scripts/jurnl/background-blur-test.mjs",
+      "scripts/jurnl/center-stage-contrast-qa.mjs",
+      "scripts/jurnl/qa-board.mjs"
+    ],
+    "before_server": "git worktree at main 9b8137c4 on its own Vite server",
+    "after_server": "this branch"
+  },
+  "files": [
+    {
+      "file": "screenshots/overlay/after_F01.00.jpg",
+      "kind": "overlay",
+      "shows": "same capture with CENTER SAFE ZONE (dashed), NAV FOOTPRINT, + AXIS (red), PERIMETER (hatched)",
+      "bytes": 64722
+    },
+    {
+      "file": "screenshots/overlay/after_F03.00.jpg",
+      "kind": "overlay",
+      "shows": "same capture with CENTER SAFE ZONE (dashed), NAV FOOTPRINT, + AXIS (red), PERIMETER (hatched)",
+      "bytes": 58748
+    },
+    {
+      "file": "screenshots/overlay/after_F05.00.jpg",
+      "kind": "overlay",
+      "shows": "same capture with CENTER SAFE ZONE (dashed), NAV FOOTPRINT, + AXIS (red), PERIMETER (hatched)",
+      "bytes": 65061
+    },
+    {
+      "file": "screenshots/overlay/after_F09.00.jpg",
+      "kind": "overlay",
+      "shows": "same capture with CENTER SAFE ZONE (dashed), NAV FOOTPRINT, + AXIS (red), PERIMETER (hatched)",
+      "bytes": 57881
+    },
+    {
+      "file": "screenshots/overlay/after_F10.00.jpg",
+      "kind": "overlay",
+      "shows": "same capture with CENTER SAFE ZONE (dashed), NAV FOOTPRINT, + AXIS (red), PERIMETER (hatched)",
+      "bytes": 57989
+    },
+    {
+      "file": "screenshots/overlay/after_F11.00.jpg",
+      "kind": "overlay",
+      "shows": "same capture with CENTER SAFE ZONE (dashed), NAV FOOTPRINT, + AXIS (red), PERIMETER (hatched)",
+      "bytes": 59995
+    },
+    {
+      "file": "screenshots/overlay/after_F13.00.jpg",
+      "kind": "overlay",
+      "shows": "same capture with CENTER SAFE ZONE (dashed), NAV FOOTPRINT, + AXIS (red), PERIMETER (hatched)",
+      "bytes": 67520
+    },
+    {
+      "file": "screenshots/overlay/after_F15.00.jpg",
+      "kind": "overlay",
+      "shows": "same capture with CENTER SAFE ZONE (dashed), NAV FOOTPRINT, + AXIS (red), PERIMETER (hatched)",
+      "bytes": 68132
+    },
+    {
+      "file": "screenshots/overlay/after_F16.00.jpg",
+      "kind": "overlay",
+      "shows": "same capture with CENTER SAFE ZONE (dashed), NAV FOOTPRINT, + AXIS (red), PERIMETER (hatched)",
+      "bytes": 58089
+    },
+    {
+      "file": "screenshots/overlay/before_F01.00.jpg",
+      "kind": "overlay",
+      "shows": "same capture with CENTER SAFE ZONE (dashed), NAV FOOTPRINT, + AXIS (red), PERIMETER (hatched)",
+      "bytes": 64901
+    },
+    {
+      "file": "screenshots/overlay/before_F03.00.jpg",
+      "kind": "overlay",
+      "shows": "same capture with CENTER SAFE ZONE (dashed), NAV FOOTPRINT, + AXIS (red), PERIMETER (hatched)",
+      "bytes": 49415
+    },
+    {
+      "file": "screenshots/overlay/before_F05.00.jpg",
+      "kind": "overlay",
+      "shows": "same capture with CENTER SAFE ZONE (dashed), NAV FOOTPRINT, + AXIS (red), PERIMETER (hatched)",
+      "bytes": 57884
+    },
+    {
+      "file": "screenshots/overlay/before_F09.00.jpg",
+      "kind": "overlay",
+      "shows": "same capture with CENTER SAFE ZONE (dashed), NAV FOOTPRINT, + AXIS (red), PERIMETER (hatched)",
+      "bytes": 52023
+    },
+    {
+      "file": "screenshots/overlay/before_F10.00.jpg",
+      "kind": "overlay",
+      "shows": "same capture with CENTER SAFE ZONE (dashed), NAV FOOTPRINT, + AXIS (red), PERIMETER (hatched)",
+      "bytes": 51672
+    },
+    {
+      "file": "screenshots/overlay/before_F11.00.jpg",
+      "kind": "overlay",
+      "shows": "same capture with CENTER SAFE ZONE (dashed), NAV FOOTPRINT, + AXIS (red), PERIMETER (hatched)",
+      "bytes": 59991
+    },
+    {
+      "file": "screenshots/overlay/before_F13.00.jpg",
+      "kind": "overlay",
+      "shows": "same capture with CENTER SAFE ZONE (dashed), NAV FOOTPRINT, + AXIS (red), PERIMETER (hatched)",
+      "bytes": 71329
+    },
+    {
+      "file": "screenshots/overlay/before_F15.00.jpg",
+      "kind": "overlay",
+      "shows": "same capture with CENTER SAFE ZONE (dashed), NAV FOOTPRINT, + AXIS (red), PERIMETER (hatched)",
+      "bytes": 62269
+    },
+    {
+      "file": "screenshots/overlay/before_F16.00.jpg",
+      "kind": "overlay",
+      "shows": "same capture with CENTER SAFE ZONE (dashed), NAV FOOTPRINT, + AXIS (red), PERIMETER (hatched)",
+      "bytes": 47520
+    },
+    {
+      "file": "screenshots/children/F05.PLACE.jpg",
+      "kind": "children",
+      "shows": "nav-bearing child screens + ACCOUNT, CENTER_STAGE, 393×852",
+      "bytes": 38901
+    },
+    {
+      "file": "screenshots/children/F05.PLACES.jpg",
+      "kind": "children",
+      "shows": "nav-bearing child screens + ACCOUNT, CENTER_STAGE, 393×852",
+      "bytes": 43683
+    },
+    {
+      "file": "screenshots/children/F06.SOURCE.jpg",
+      "kind": "children",
+      "shows": "nav-bearing child screens + ACCOUNT, CENTER_STAGE, 393×852",
+      "bytes": 36116
+    },
+    {
+      "file": "screenshots/children/F07.ITEM.jpg",
+      "kind": "children",
+      "shows": "nav-bearing child screens + ACCOUNT, CENTER_STAGE, 393×852",
+      "bytes": 29168
+    },
+    {
+      "file": "screenshots/children/F08.INTENTION.jpg",
+      "kind": "children",
+      "shows": "nav-bearing child screens + ACCOUNT, CENTER_STAGE, 393×852",
+      "bytes": 35402
+    },
+    {
+      "file": "screenshots/children/F09.WHY.jpg",
+      "kind": "children",
+      "shows": "nav-bearing child screens + ACCOUNT, CENTER_STAGE, 393×852",
+      "bytes": 33560
+    },
+    {
+      "file": "screenshots/children/F10.OBJECT.jpg",
+      "kind": "children",
+      "shows": "nav-bearing child screens + ACCOUNT, CENTER_STAGE, 393×852",
+      "bytes": 29864
+    },
+    {
+      "file": "screenshots/children/F11.TRIP.jpg",
+      "kind": "children",
+      "shows": "nav-bearing child screens + ACCOUNT, CENTER_STAGE, 393×852",
+      "bytes": 37914
+    },
+    {
+      "file": "screenshots/children/F12.ACCOUNT.jpg",
+      "kind": "children",
+      "shows": "nav-bearing child screens + ACCOUNT, CENTER_STAGE, 393×852",
+      "bytes": 32041
+    },
+    {
+      "file": "screenshots/children/F13.WHAT_IF.jpg",
+      "kind": "children",
+      "shows": "nav-bearing child screens + ACCOUNT, CENTER_STAGE, 393×852",
+      "bytes": 56389
+    },
+    {
+      "file": "screenshots/children/F14.GOAL.jpg",
+      "kind": "children",
+      "shows": "nav-bearing child screens + ACCOUNT, CENTER_STAGE, 393×852",
+      "bytes": 39322
+    },
+    {
+      "file": "screenshots/children/F15.BRANCH.jpg",
+      "kind": "children",
+      "shows": "nav-bearing child screens + ACCOUNT, CENTER_STAGE, 393×852",
+      "bytes": 39297
+    },
+    {
+      "file": "screenshots/children/F16.DOCUMENT.jpg",
+      "kind": "children",
+      "shows": "nav-bearing child screens + ACCOUNT, CENTER_STAGE, 393×852",
+      "bytes": 31982
+    },
+    {
+      "file": "screenshots/children/GS.SETTINGS.jpg",
+      "kind": "children",
+      "shows": "nav-bearing child screens + ACCOUNT, CENTER_STAGE, 393×852",
+      "bytes": 38133
+    },
+    {
+      "file": "screenshots/design-viewport/stage_overlay_F01.jpg",
+      "kind": "design-viewport",
+      "shows": "SITE 00 → DESIGN → VIEWPORT (MOBILE) with the STAGE overlay on",
+      "bytes": 57997
+    },
+    {
+      "file": "screenshots/design-viewport/stage_overlay_F03.jpg",
+      "kind": "design-viewport",
+      "shows": "SITE 00 → DESIGN → VIEWPORT (MOBILE) with the STAGE overlay on",
+      "bytes": 49592
+    },
+    {
+      "file": "screenshots/design-viewport/stage_overlay_F09.jpg",
+      "kind": "design-viewport",
+      "shows": "SITE 00 → DESIGN → VIEWPORT (MOBILE) with the STAGE overlay on",
+      "bytes": 44614
+    },
+    {
+      "file": "screenshots/design-viewport/stage_overlay_F13.jpg",
+      "kind": "design-viewport",
+      "shows": "SITE 00 → DESIGN → VIEWPORT (MOBILE) with the STAGE overlay on",
+      "bytes": 53786
+    },
+    {
+      "file": "screenshots/boards/ALL_ROOTS_CENTER_STAGE.jpg",
+      "kind": "boards",
+      "shows": "comparison boards",
+      "bytes": 310107
+    },
+    {
+      "file": "screenshots/boards/BACKGROUND_PERIMETER_COMPOSITION.jpg",
+      "kind": "boards",
+      "shows": "comparison boards",
+      "bytes": 254686
+    },
+    {
+      "file": "screenshots/boards/BACKGROUND_SALIENCE_HEATMAPS.jpg",
+      "kind": "boards",
+      "shows": "comparison boards",
+      "bytes": 313617
+    },
+    {
+      "file": "screenshots/boards/BEFORE_AFTER_TARGETS.jpg",
+      "kind": "boards",
+      "shows": "comparison boards",
+      "bytes": 471626
+    },
+    {
+      "file": "screenshots/boards/BEFORE_AFTER_WITH_SAFE_ZONE.jpg",
+      "kind": "boards",
+      "shows": "comparison boards",
+      "bytes": 234078
+    },
+    {
+      "file": "screenshots/boards/BLUR_AND_BACKGROUND_REMOVAL_TEST.jpg",
+      "kind": "boards",
+      "shows": "comparison boards",
+      "bytes": 322236
+    },
+    {
+      "file": "screenshots/boards/CHILD_SCREENS_CENTER_STAGE.jpg",
+      "kind": "boards",
+      "shows": "comparison boards",
+      "bytes": 274728
+    },
+    {
+      "file": "screenshots/boards/COMPARISON_BOARD_EDGE_LED_VS_CENTER_STAGE.jpg",
+      "kind": "boards",
+      "shows": "comparison boards",
+      "bytes": 279715
+    },
+    {
+      "file": "screenshots/boards/DESIGN_VIEWPORT_STAGE_OVERLAY.jpg",
+      "kind": "boards",
+      "shows": "comparison boards",
+      "bytes": 165826
+    },
+    {
+      "file": "screenshots/boards/TABLET_DESKTOP_REGRESSION.jpg",
+      "kind": "boards",
+      "shows": "comparison boards",
+      "bytes": 192317
+    },
+    {
+      "file": "screenshots/before/F01.00.jpg",
+      "kind": "before",
+      "shows": "main 9b8137c4 at 393×852 (seeded device; F01 fresh)",
+      "bytes": 63365
+    },
+    {
+      "file": "screenshots/before/F03.00.jpg",
+      "kind": "before",
+      "shows": "main 9b8137c4 at 393×852 (seeded device; F01 fresh)",
+      "bytes": 46112
+    },
+    {
+      "file": "screenshots/before/F05.00.jpg",
+      "kind": "before",
+      "shows": "main 9b8137c4 at 393×852 (seeded device; F01 fresh)",
+      "bytes": 55224
+    },
+    {
+      "file": "screenshots/before/F09.00.jpg",
+      "kind": "before",
+      "shows": "main 9b8137c4 at 393×852 (seeded device; F01 fresh)",
+      "bytes": 49183
+    },
+    {
+      "file": "screenshots/before/F10.00.jpg",
+      "kind": "before",
+      "shows": "main 9b8137c4 at 393×852 (seeded device; F01 fresh)",
+      "bytes": 48585
+    },
+    {
+      "file": "screenshots/before/F11.00.jpg",
+      "kind": "before",
+      "shows": "main 9b8137c4 at 393×852 (seeded device; F01 fresh)",
+      "bytes": 57196
+    },
+    {
+      "file": "screenshots/before/F13.00.jpg",
+      "kind": "before",
+      "shows": "main 9b8137c4 at 393×852 (seeded device; F01 fresh)",
+      "bytes": 68390
+    },
+    {
+      "file": "screenshots/before/F15.00.jpg",
+      "kind": "before",
+      "shows": "main 9b8137c4 at 393×852 (seeded device; F01 fresh)",
+      "bytes": 59451
+    },
+    {
+      "file": "screenshots/before/F16.00.jpg",
+      "kind": "before",
+      "shows": "main 9b8137c4 at 393×852 (seeded device; F01 fresh)",
+      "bytes": 44133
+    },
+    {
+      "file": "screenshots/after/F01.00.jpg",
+      "kind": "after",
+      "shows": "this branch at 393×852",
+      "bytes": 63365
+    },
+    {
+      "file": "screenshots/after/F03.00.jpg",
+      "kind": "after",
+      "shows": "this branch at 393×852",
+      "bytes": 42867
+    },
+    {
+      "file": "screenshots/after/F05.00.jpg",
+      "kind": "after",
+      "shows": "this branch at 393×852",
+      "bytes": 52861
+    },
+    {
+      "file": "screenshots/after/F09.00.jpg",
+      "kind": "after",
+      "shows": "this branch at 393×852",
+      "bytes": 45174
+    },
+    {
+      "file": "screenshots/after/F10.00.jpg",
+      "kind": "after",
+      "shows": "this branch at 393×852",
+      "bytes": 45202
+    },
+    {
+      "file": "screenshots/after/F11.00.jpg",
+      "kind": "after",
+      "shows": "this branch at 393×852",
+      "bytes": 50755
+    },
+    {
+      "file": "screenshots/after/F13.00.jpg",
+      "kind": "after",
+      "shows": "this branch at 393×852",
+      "bytes": 59280
+    },
+    {
+      "file": "screenshots/after/F15.00.jpg",
+      "kind": "after",
+      "shows": "this branch at 393×852",
+      "bytes": 56503
+    },
+    {
+      "file": "screenshots/after/F16.00.jpg",
+      "kind": "after",
+      "shows": "this branch at 393×852",
+      "bytes": 42882
+    }
+  ]
+}

@@ -23,7 +23,7 @@ const ITEMS = [
 export function JurnlProductNav({ current, onGo, onAdd }: { current: 'HOME' | 'MONEY' | 'PLAN' | 'CREDIT' | 'ACTIVITY' | null; onGo: (target: string) => void; onAdd: () => void }) {
   const host = useContext(JurnlNavHostContext);
   const nav = (
-    <nav className="jrn-nav" aria-label="PRIMARY" data-jrn-zone="bottom-nav">
+    <nav className="jrn-nav" aria-label="PRIMARY" data-jrn-zone="bottom-nav" data-runtime-stage="NAV FOOTPRINT">
       {ITEMS.map((item) => {
         const active = item.id === current;
         const label = item.id === 'ADD' ? 'QUICK ADD' : item.id;

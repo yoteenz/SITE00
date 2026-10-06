@@ -1,0 +1,556 @@
+{
+  "sprint": "P0.JURNL.MOBILE-COMPOSITION.CENTER-STAGE-NAV-ALIGNED-REFINEMENT3",
+  "generated": "2026-10-06",
+  "viewport": [
+    393,
+    852
+  ],
+  "classes": [
+    "EDGE_LED",
+    "CENTER_STAGE",
+    "OVERLAY",
+    "FOCUSED_TASK",
+    "OTHER_INTENTIONAL"
+  ],
+  "routes_audited": 54,
+  "nav_bearing_routes": 28,
+  "summary": {
+    "EDGE_LED": 25,
+    "CENTER_STAGE": 28,
+    "OTHER_INTENTIONAL": 1,
+    "OVERLAY": 30,
+    "FOCUSED_TASK": 0,
+    "UNCLASSIFIED": 0
+  },
+  "nav_bearing_not_center_stage": [],
+  "same_result_at": [
+    "360×780",
+    "430×932",
+    "834×1194",
+    "1440×900"
+  ],
+  "routes": [
+    {
+      "screen_id": "F01.00",
+      "family": null,
+      "route": "entry",
+      "has_product_nav": false,
+      "declared_mode": "EDGE_LED",
+      "classification": "EDGE_LED",
+      "reason": "No product nav."
+    },
+    {
+      "screen_id": "F01.01",
+      "family": null,
+      "route": "entry/create",
+      "has_product_nav": false,
+      "declared_mode": "EDGE_LED",
+      "classification": "EDGE_LED",
+      "reason": "No product nav."
+    },
+    {
+      "screen_id": "F01.02",
+      "family": null,
+      "route": "entry/verify-email",
+      "has_product_nav": false,
+      "declared_mode": "EDGE_LED",
+      "classification": "EDGE_LED",
+      "reason": "No product nav."
+    },
+    {
+      "screen_id": "F01.03",
+      "family": null,
+      "route": "entry/sign-in",
+      "has_product_nav": false,
+      "declared_mode": "EDGE_LED",
+      "classification": "EDGE_LED",
+      "reason": "No product nav."
+    },
+    {
+      "screen_id": "F01.04",
+      "family": null,
+      "route": "entry/unlock",
+      "has_product_nav": false,
+      "declared_mode": "EDGE_LED",
+      "classification": "EDGE_LED",
+      "reason": "No product nav."
+    },
+    {
+      "screen_id": "F01.05",
+      "family": null,
+      "route": "entry/forgot-password",
+      "has_product_nav": false,
+      "declared_mode": "EDGE_LED",
+      "classification": "EDGE_LED",
+      "reason": "No product nav."
+    },
+    {
+      "screen_id": "F01.06",
+      "family": null,
+      "route": "entry/reset-sent",
+      "has_product_nav": false,
+      "declared_mode": "EDGE_LED",
+      "classification": "EDGE_LED",
+      "reason": "No product nav."
+    },
+    {
+      "screen_id": "F01.07",
+      "family": null,
+      "route": "entry/new-password",
+      "has_product_nav": false,
+      "declared_mode": "EDGE_LED",
+      "classification": "EDGE_LED",
+      "reason": "No product nav."
+    },
+    {
+      "screen_id": "F01.08",
+      "family": null,
+      "route": "entry/reset-success",
+      "has_product_nav": false,
+      "declared_mode": "EDGE_LED",
+      "classification": "EDGE_LED",
+      "reason": "No product nav."
+    },
+    {
+      "screen_id": "F01.09",
+      "family": null,
+      "route": "entry/biometric",
+      "has_product_nav": false,
+      "declared_mode": "EDGE_LED",
+      "classification": "EDGE_LED",
+      "reason": "No product nav."
+    },
+    {
+      "screen_id": "F01.10",
+      "family": null,
+      "route": "entry/device-trust",
+      "has_product_nav": false,
+      "declared_mode": "EDGE_LED",
+      "classification": "EDGE_LED",
+      "reason": "No product nav."
+    },
+    {
+      "screen_id": "F01.11",
+      "family": null,
+      "route": "entry/privacy",
+      "has_product_nav": false,
+      "declared_mode": "EDGE_LED",
+      "classification": "EDGE_LED",
+      "reason": "No product nav."
+    },
+    {
+      "screen_id": "F01.12",
+      "family": null,
+      "route": "entry/security",
+      "has_product_nav": false,
+      "declared_mode": "EDGE_LED",
+      "classification": "EDGE_LED",
+      "reason": "No product nav."
+    },
+    {
+      "screen_id": "F01.13",
+      "family": null,
+      "route": "entry/complete",
+      "has_product_nav": false,
+      "declared_mode": "EDGE_LED",
+      "classification": "EDGE_LED",
+      "reason": "No product nav."
+    },
+    {
+      "screen_id": "F02.00",
+      "family": "F02",
+      "route": "setup",
+      "has_product_nav": false,
+      "declared_mode": "EDGE_LED",
+      "classification": "EDGE_LED",
+      "reason": "Setup / onboarding opener — no product nav; left-led editorial composition."
+    },
+    {
+      "screen_id": "F02.01",
+      "family": "F02",
+      "route": "setup/household",
+      "has_product_nav": false,
+      "declared_mode": "EDGE_LED",
+      "classification": "EDGE_LED",
+      "reason": "Setup / onboarding opener — no product nav; left-led editorial composition."
+    },
+    {
+      "screen_id": "F02.02",
+      "family": "F02",
+      "route": "setup/accounts",
+      "has_product_nav": false,
+      "declared_mode": "EDGE_LED",
+      "classification": "EDGE_LED",
+      "reason": "Setup / onboarding opener — no product nav; left-led editorial composition."
+    },
+    {
+      "screen_id": "F02.03",
+      "family": "F02",
+      "route": "setup/income",
+      "has_product_nav": false,
+      "declared_mode": "EDGE_LED",
+      "classification": "EDGE_LED",
+      "reason": "Setup / onboarding opener — no product nav; left-led editorial composition."
+    },
+    {
+      "screen_id": "F02.04",
+      "family": "F02",
+      "route": "setup/commitments",
+      "has_product_nav": false,
+      "declared_mode": "EDGE_LED",
+      "classification": "EDGE_LED",
+      "reason": "Setup / onboarding opener — no product nav; left-led editorial composition."
+    },
+    {
+      "screen_id": "F02.05",
+      "family": "F02",
+      "route": "setup/priorities",
+      "has_product_nav": false,
+      "declared_mode": "EDGE_LED",
+      "classification": "EDGE_LED",
+      "reason": "Setup / onboarding opener — no product nav; left-led editorial composition."
+    },
+    {
+      "screen_id": "F02.06",
+      "family": "F02",
+      "route": "setup/protected",
+      "has_product_nav": false,
+      "declared_mode": "EDGE_LED",
+      "classification": "EDGE_LED",
+      "reason": "Setup / onboarding opener — no product nav; left-led editorial composition."
+    },
+    {
+      "screen_id": "F02.07",
+      "family": "F02",
+      "route": "setup/boundaries",
+      "has_product_nav": false,
+      "declared_mode": "EDGE_LED",
+      "classification": "EDGE_LED",
+      "reason": "Setup / onboarding opener — no product nav; left-led editorial composition."
+    },
+    {
+      "screen_id": "F02.08",
+      "family": "F02",
+      "route": "setup/ready",
+      "has_product_nav": false,
+      "declared_mode": "EDGE_LED",
+      "classification": "EDGE_LED",
+      "reason": "Setup / onboarding opener — no product nav; left-led editorial composition."
+    },
+    {
+      "screen_id": "F02.02.1",
+      "family": "F02",
+      "route": "setup/accounts/name",
+      "has_product_nav": false,
+      "declared_mode": "EDGE_LED",
+      "classification": "EDGE_LED",
+      "reason": "Setup / onboarding opener — no product nav; left-led editorial composition."
+    },
+    {
+      "screen_id": "F02.05.1",
+      "family": "F02",
+      "route": "setup/priorities/goal",
+      "has_product_nav": false,
+      "declared_mode": "EDGE_LED",
+      "classification": "EDGE_LED",
+      "reason": "Setup / onboarding opener — no product nav; left-led editorial composition."
+    },
+    {
+      "screen_id": "F03.00",
+      "family": "F03",
+      "route": "today",
+      "has_product_nav": true,
+      "declared_mode": "CENTER_STAGE",
+      "classification": "CENTER_STAGE",
+      "reason": "Carries the 5-item product nav → CENTER_STAGE (default, no override)."
+    },
+    {
+      "screen_id": "F04.00",
+      "family": "F04",
+      "route": "activity",
+      "has_product_nav": true,
+      "declared_mode": "CENTER_STAGE",
+      "classification": "CENTER_STAGE",
+      "reason": "Carries the 5-item product nav → CENTER_STAGE (default, no override)."
+    },
+    {
+      "screen_id": "GS.SETTINGS",
+      "family": "F03",
+      "route": "account",
+      "has_product_nav": true,
+      "declared_mode": "CENTER_STAGE",
+      "classification": "CENTER_STAGE",
+      "reason": "Carries the 5-item product nav → CENTER_STAGE (default, no override)."
+    },
+    {
+      "screen_id": "F05.00",
+      "family": "F05",
+      "route": "money",
+      "has_product_nav": true,
+      "declared_mode": "CENTER_STAGE",
+      "classification": "CENTER_STAGE",
+      "reason": "Carries the 5-item product nav → CENTER_STAGE (default, no override)."
+    },
+    {
+      "screen_id": "F05.ACCOUNTS",
+      "family": "F05",
+      "route": "money/places",
+      "has_product_nav": true,
+      "declared_mode": "CENTER_STAGE",
+      "classification": "CENTER_STAGE",
+      "reason": "Carries the 5-item product nav → CENTER_STAGE (default, no override)."
+    },
+    {
+      "screen_id": "F05.ACCOUNT",
+      "family": "F05",
+      "route": "money/places/:account",
+      "has_product_nav": true,
+      "declared_mode": "CENTER_STAGE",
+      "classification": "CENTER_STAGE",
+      "reason": "Carries the 5-item product nav → CENTER_STAGE (default, no override)."
+    },
+    {
+      "screen_id": "F06.00",
+      "family": "F06",
+      "route": "income",
+      "has_product_nav": true,
+      "declared_mode": "CENTER_STAGE",
+      "classification": "CENTER_STAGE",
+      "reason": "Carries the 5-item product nav → CENTER_STAGE (default, no override)."
+    },
+    {
+      "screen_id": "F06.SOURCE",
+      "family": "F06",
+      "route": "income/:income",
+      "has_product_nav": true,
+      "declared_mode": "CENTER_STAGE",
+      "classification": "CENTER_STAGE",
+      "reason": "Carries the 5-item product nav → CENTER_STAGE (default, no override)."
+    },
+    {
+      "screen_id": "F07.00",
+      "family": "F07",
+      "route": "upcoming",
+      "has_product_nav": true,
+      "declared_mode": "CENTER_STAGE",
+      "classification": "CENTER_STAGE",
+      "reason": "Carries the 5-item product nav → CENTER_STAGE (default, no override)."
+    },
+    {
+      "screen_id": "F07.ITEM",
+      "family": "F07",
+      "route": "upcoming/:obligation",
+      "has_product_nav": true,
+      "declared_mode": "CENTER_STAGE",
+      "classification": "CENTER_STAGE",
+      "reason": "Carries the 5-item product nav → CENTER_STAGE (default, no override)."
+    },
+    {
+      "screen_id": "F08.00",
+      "family": "F08",
+      "route": "plan",
+      "has_product_nav": true,
+      "declared_mode": "CENTER_STAGE",
+      "classification": "CENTER_STAGE",
+      "reason": "Carries the 5-item product nav → CENTER_STAGE (default, no override)."
+    },
+    {
+      "screen_id": "F08.ITEM",
+      "family": "F08",
+      "route": "plan/:intention",
+      "has_product_nav": true,
+      "declared_mode": "CENTER_STAGE",
+      "classification": "CENTER_STAGE",
+      "reason": "Carries the 5-item product nav → CENTER_STAGE (default, no override)."
+    },
+    {
+      "screen_id": "F09.00",
+      "family": "F09",
+      "route": "safe",
+      "has_product_nav": true,
+      "declared_mode": "CENTER_STAGE",
+      "classification": "CENTER_STAGE",
+      "reason": "Carries the 5-item product nav → CENTER_STAGE (default, no override)."
+    },
+    {
+      "screen_id": "F09.WHY",
+      "family": "F09",
+      "route": "safe/why",
+      "has_product_nav": true,
+      "declared_mode": "CENTER_STAGE",
+      "classification": "CENTER_STAGE",
+      "reason": "Carries the 5-item product nav → CENTER_STAGE (default, no override)."
+    },
+    {
+      "screen_id": "F10.00",
+      "family": "F10",
+      "route": "purchases",
+      "has_product_nav": true,
+      "declared_mode": "CENTER_STAGE",
+      "classification": "CENTER_STAGE",
+      "reason": "Carries the 5-item product nav → CENTER_STAGE (default, no override)."
+    },
+    {
+      "screen_id": "F10.OBJECT",
+      "family": "F10",
+      "route": "purchases/:purchase",
+      "has_product_nav": true,
+      "declared_mode": "CENTER_STAGE",
+      "classification": "CENTER_STAGE",
+      "reason": "Carries the 5-item product nav → CENTER_STAGE (default, no override)."
+    },
+    {
+      "screen_id": "F11.00",
+      "family": "F11",
+      "route": "trips",
+      "has_product_nav": true,
+      "declared_mode": "CENTER_STAGE",
+      "classification": "CENTER_STAGE",
+      "reason": "Carries the 5-item product nav → CENTER_STAGE (default, no override)."
+    },
+    {
+      "screen_id": "F11.TRIP",
+      "family": "F11",
+      "route": "trips/:trip",
+      "has_product_nav": true,
+      "declared_mode": "CENTER_STAGE",
+      "classification": "CENTER_STAGE",
+      "reason": "Carries the 5-item product nav → CENTER_STAGE (default, no override)."
+    },
+    {
+      "screen_id": "F12.00",
+      "family": "F12",
+      "route": "credit",
+      "has_product_nav": true,
+      "declared_mode": "CENTER_STAGE",
+      "classification": "CENTER_STAGE",
+      "reason": "Carries the 5-item product nav → CENTER_STAGE (default, no override)."
+    },
+    {
+      "screen_id": "F12.ACCOUNT",
+      "family": "F12",
+      "route": "credit/:credit",
+      "has_product_nav": true,
+      "declared_mode": "CENTER_STAGE",
+      "classification": "CENTER_STAGE",
+      "reason": "Carries the 5-item product nav → CENTER_STAGE (default, no override)."
+    },
+    {
+      "screen_id": "F13.00",
+      "family": "F13",
+      "route": "paydown",
+      "has_product_nav": true,
+      "declared_mode": "CENTER_STAGE",
+      "classification": "CENTER_STAGE",
+      "reason": "Carries the 5-item product nav → CENTER_STAGE (default, no override)."
+    },
+    {
+      "screen_id": "F13.WHAT_IF",
+      "family": "F13",
+      "route": "paydown/what-if",
+      "has_product_nav": true,
+      "declared_mode": "CENTER_STAGE",
+      "classification": "CENTER_STAGE",
+      "reason": "Carries the 5-item product nav → CENTER_STAGE (default, no override)."
+    },
+    {
+      "screen_id": "F14.00",
+      "family": "F14",
+      "route": "goals",
+      "has_product_nav": true,
+      "declared_mode": "CENTER_STAGE",
+      "classification": "CENTER_STAGE",
+      "reason": "Carries the 5-item product nav → CENTER_STAGE (default, no override)."
+    },
+    {
+      "screen_id": "F14.GOAL",
+      "family": "F14",
+      "route": "goals/:goal",
+      "has_product_nav": true,
+      "declared_mode": "CENTER_STAGE",
+      "classification": "CENTER_STAGE",
+      "reason": "Carries the 5-item product nav → CENTER_STAGE (default, no override)."
+    },
+    {
+      "screen_id": "F15.00",
+      "family": "F15",
+      "route": "ahead",
+      "has_product_nav": true,
+      "declared_mode": "CENTER_STAGE",
+      "classification": "CENTER_STAGE",
+      "reason": "Carries the 5-item product nav → CENTER_STAGE (default, no override)."
+    },
+    {
+      "screen_id": "F15.BRANCH",
+      "family": "F15",
+      "route": "ahead/base",
+      "has_product_nav": true,
+      "declared_mode": "CENTER_STAGE",
+      "classification": "CENTER_STAGE",
+      "reason": "Carries the 5-item product nav → CENTER_STAGE (default, no override)."
+    },
+    {
+      "screen_id": "F16.00",
+      "family": "F16",
+      "route": "records",
+      "has_product_nav": true,
+      "declared_mode": "CENTER_STAGE",
+      "classification": "CENTER_STAGE",
+      "reason": "Carries the 5-item product nav → CENTER_STAGE (default, no override)."
+    },
+    {
+      "screen_id": "F16.DOCUMENT",
+      "family": "F16",
+      "route": "records/:record",
+      "has_product_nav": true,
+      "declared_mode": "CENTER_STAGE",
+      "classification": "CENTER_STAGE",
+      "reason": "Carries the 5-item product nav → CENTER_STAGE (default, no override)."
+    },
+    {
+      "screen_id": "F05_F16.BOARD",
+      "family": null,
+      "route": "parents",
+      "has_product_nav": false,
+      "declared_mode": "EDGE_LED",
+      "classification": "OTHER_INTENTIONAL",
+      "reason": "Design review board (bone field, no product nav): a SITE 00 inspection surface, not a product screen."
+    }
+  ],
+  "overlays": {
+    "note": "Sheets, drawers and modals render in the overlay host with their own overlay contract (sprint §48); they do not follow the root field width.",
+    "items": [
+      "F01 terms",
+      "F01 privacy-policy",
+      "F01 social-apple",
+      "F01 mail",
+      "F01 change-email",
+      "F01 locked",
+      "F01 support",
+      "F01 faceid-unlock",
+      "F01 use-password",
+      "F01 switch-account",
+      "F01 sign-out",
+      "F01 faceid-enable",
+      "F01 biometric-denied",
+      "F01 device-learn",
+      "F01 delete-account",
+      "F01 revoke-session",
+      "F03 see-why",
+      "F03–F16 quick-add",
+      "F03–F16 ask",
+      "F04 filter",
+      "F04 detail",
+      "F05 add-place",
+      "F09 change-hold",
+      "F10 consider / decide",
+      "F11 trip-edit / fund",
+      "F12 add card or loan",
+      "F13 change-plan",
+      "F14 name-goal / set-aside",
+      "F16 add-record",
+      "GS currency"
+    ]
+  },
+  "focused_task": "No nav-less child page exists today; one would resolve to EDGE_LED (or an approved mode) automatically."
+}

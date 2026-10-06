@@ -176,6 +176,8 @@ function useBoxSize<T extends HTMLElement>(): [React.RefObject<T>, { w: number; 
 }
 
 type RuntimeRect = { x: number; y: number; w: number; h: number; label: string };
+/** STAGE overlay geometry read from the runtime: composition mode, functional safe zone, nav footprint, `+` axis. */
+type RuntimeStage = { mode: string; vw: number; vh: number; zone: RuntimeRect | null; nav: RuntimeRect | null; axis: number | null };
 
 /**
  * Project-runtime viewport state (P0.JURNL.SITE00-INGEST-F01): which project screen / state / scenario the isolated
@@ -287,6 +289,8 @@ function ViewportChamber({ cfg }: { cfg: DesignChamberConfig }) {
   const [safe, setSafe] = useState(false);
   const [grid, setGrid] = useState(false);
   const [bounds, setBounds] = useState(false);
+  const [stage, setStage] = useState(false);
+  const [stageGeo, setStageGeo] = useState<RuntimeStage | null>(null);
   const [reference, setReference] = useState(false);
   const [rects, setRects] = useState<RuntimeRect[]>([]);
   const frameRef = useRef<HTMLIFrameElement>(null);
@@ -341,6 +345,39 @@ function ViewportChamber({ cfg }: { cfg: DesignChamberConfig }) {
     const id = window.setInterval(read, 600);
     return () => window.clearInterval(id);
   }, [bounds, pr.runtime, src]);
+
+  // STAGE (design / QA only, never product UI): the runtime's composition mode, CENTER_STAGE safe zone, nav footprint,
+  // `+` axis and the perimeter zones where background salience belongs. Runtime marks: [data-runtime-stage].
+  useEffect(() => {
+    if (!stage || !pr.runtime) return;
+    const read = () => {
+      const doc = frameRef.current?.contentDocument;
+      const win = frameRef.current?.contentWindow;
+      if (!doc || !win) return;
+      const rect = (sel: string, label: string): RuntimeRect | null => {
+        const el = doc.querySelector<HTMLElement>(sel);
+        if (!el) return null;
+        const r = el.getBoundingClientRect();
+        return { x: r.left, y: r.top, w: r.width, h: r.height, label };
+      };
+      const plus = doc.querySelector<HTMLElement>('[data-runtime-stage="NAV FOOTPRINT"] [data-jrn-trigger="nav-add"]')?.getBoundingClientRect();
+      const zone = rect('[data-runtime-stage="SAFE ZONE"]', 'CENTER SAFE ZONE');
+      // the safe zone ends above the nav reserve (the reserve is clearance, not functional field)
+      const reserve = doc.querySelector<HTMLElement>('[data-runtime-stage="SAFE ZONE"] .jrn-frame__navspace')?.getBoundingClientRect().height ?? 0;
+      if (zone) zone.h = Math.max(0, zone.h - reserve);
+      setStageGeo({
+        mode: doc.querySelector<HTMLElement>('[data-jrn-composition]')?.dataset.jrnComposition ?? 'UNDECLARED',
+        vw: win.innerWidth,
+        vh: win.innerHeight,
+        zone,
+        nav: rect('[data-runtime-stage="NAV FOOTPRINT"]', 'NAV FOOTPRINT'),
+        axis: plus ? plus.left + plus.width / 2 : null,
+      });
+    };
+    read();
+    const id = window.setInterval(read, 600);
+    return () => window.clearInterval(id);
+  }, [stage, pr.runtime, src]);
 
   const select = (label: string, value: string, set: (v: string) => void, options: readonly (string | { value: string; label: string })[], cls: string, disabled = false) => (
     <label className={`pxa-field pxa-field--${cls}`}>
@@ -423,6 +460,23 @@ function ViewportChamber({ cfg }: { cfg: DesignChamberConfig }) {
             ))}
           </span>
         : null}
+        {stage && pr.runtime && stageGeo ?
+          <span className="pxa-device__stage" aria-hidden data-testid="design-viewport-stage-overlay" data-mode={stageGeo.mode}>
+            <b className="pxa-device__stage-mode">{stageGeo.mode.replace('_', ' ')}</b>
+            {stageGeo.zone && stageGeo.mode === 'CENTER_STAGE' ?
+              <>
+                {/* perimeter zones: where background salience belongs */}
+                <i className="pxa-device__stage-perimeter" data-label="PERIMETER" style={{ left: 0, top: 0, width: stageGeo.vw * scale, height: stageGeo.zone.y * scale }} />
+                <i className="pxa-device__stage-perimeter" style={{ left: 0, top: stageGeo.zone.y * scale, width: stageGeo.zone.x * scale, height: stageGeo.zone.h * scale }} />
+                <i className="pxa-device__stage-perimeter" style={{ left: (stageGeo.zone.x + stageGeo.zone.w) * scale, top: stageGeo.zone.y * scale, width: (stageGeo.vw - stageGeo.zone.x - stageGeo.zone.w) * scale, height: stageGeo.zone.h * scale }} />
+                <i className="pxa-device__stage-perimeter" style={{ left: 0, top: (stageGeo.zone.y + stageGeo.zone.h) * scale, width: stageGeo.vw * scale, height: (stageGeo.vh - stageGeo.zone.y - stageGeo.zone.h) * scale }} />
+                <i className="pxa-device__stage-zone" data-label="CENTER SAFE ZONE" style={{ left: stageGeo.zone.x * scale, top: stageGeo.zone.y * scale, width: stageGeo.zone.w * scale, height: stageGeo.zone.h * scale }} />
+              </>
+            : null}
+            {stageGeo.nav ? <i className="pxa-device__stage-nav" data-label="NAV FOOTPRINT" style={{ left: stageGeo.nav.x * scale, top: stageGeo.nav.y * scale, width: stageGeo.nav.w * scale, height: stageGeo.nav.h * scale }} /> : null}
+            {stageGeo.axis != null ? <i className="pxa-device__stage-axis" style={{ left: stageGeo.axis * scale }} /> : null}
+          </span>
+        : null}
         {bounds && pr.runtime ?
           <span className="pxa-device__bounds" aria-hidden data-testid="design-viewport-bounds" data-count={rects.length}>
             {rects.map((r, i) => (
@@ -480,6 +534,7 @@ function ViewportChamber({ cfg }: { cfg: DesignChamberConfig }) {
             <>
               {toggle('GRID', grid, setGrid, 'grid')}
               {toggle('BOUNDS', bounds, setBounds, 'bounds')}
+              {toggle('STAGE', stage, setStage, 'stage')}
               {toggle('REFERENCE', reference, setReference, 'reference')}
             </>
           : null}

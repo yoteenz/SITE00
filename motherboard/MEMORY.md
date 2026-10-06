@@ -13911,3 +13911,23 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   10. THE NAV IS ALWAYS CENTRED TO THE VIEWPORT — portal host, five equal cells, + is the centre anchor, safe area via `env(safe-area-inset-bottom)`.
 - **Composer flags (not fixed here):** F05 total had summed card/loan balances as held (UI now shows HELD / OWED); LOAN counts toward safe-to-spend cash; `createManualAccount` `Date.now()` ids collide within 1ms; default CARD shows $0 in MONEY but $5,000 used in CREDIT/PAYDOWN; records `document_date` always null; SITE00 `index.html` lacks `viewport-fit=cover`. The render-loop crash on 10/14 roots was fixed on main by Composer (`cachedRepoView`, #1391) — this sprint ships no data-layer change.
 - **Hook rule:** E2E selectors read presentation hooks (`.jrn-home__num`, `.jrn-tx`, visible copy). A recomposition must keep them (or move tests in the same PR).
+
+---
+
+## 2026-10-06 — JURNL center-stage, nav-aligned composition (P0.JURNL.MOBILE-COMPOSITION.CENTER-STAGE-NAV-ALIGNED-REFINEMENT3)
+
+- **Context:** Founder review: nav-bearing product screens kept the welcome screen's left-anchored stack (F03 TODAY in a 230px left rail, background owning the centre). Founder decision: JURNL mobile has two composition modes, and the 5-item nav decides which. Visual-only sprint; no product logic, data, route or nav-label change; no paid generation.
+- **Landed:** explicit contract `runtime/layout/compositionMode.ts` → `data-jrn-composition` (CENTER_STAGE when the product nav renders; overrides need a written reason; none exist). `jurnl-center-stage.css`: field = `--jrn-stage-w` (= nav width on phones, 560px centred on tablet / desktop), per-family plate focal anchor (LEFT `0% 50%` pushes right-side subjects out — `100%` pulls them in), crop zoom, and `.jrn-env__calm` (soft-focus copy of the same plate masked to the safe zone). F03 → operating board; F11 route down the axis; F13 diagonal descent with weight bars; ACCOUNT on the frame; DETAIL facts as a two-column ledger; DESIGN → VIEWPORT → STAGE overlay (host-only).
+- **Proof:** 28/28 nav-bearing routes CENTER_STAGE, 25 EDGE_LED, 0 unclassified; left-column drift 3/3/16/19/23 → 0 at 393/360/430/834/1440; safe-zone core salience 0.11–0.43 → 0.03–0.08; text contrast fails 3 → 0 (min 5.01:1); pagination 11/11; preview parity 14/14; containment 1098/1098; E2E 82/82. Background recomposition required later: F05, F06, F11, F13, F15.
+- **Rules (durable):**
+  1. WELCOME / ENTRY / NO-NAV SCREENS MAY USE LEFT-ANCHORED EDITORIAL COMPOSITION (EDGE_LED).
+  2. SCREENS WITH THE 5-ICON PRODUCT NAV DEFAULT TO CENTER_STAGE (resolveCompositionMode; exceptions need a documented reason).
+  3. THE MAIN FUNCTIONAL FIELD ALIGNS TO THE WIDTH / CENTRE AXIS OF THE 5-ICON NAV GROUP (`--jrn-stage-w = --jrn-nav-w` on phones; `+` is the axis).
+  4. NAV-BEARING PRODUCT SCREENS NEVER DEFAULT TO A NARROW LEFT COLUMN.
+  5. BACKGROUND IMAGERY FRAMES THE FUNCTIONAL UI.
+  6. BACKGROUND IMAGERY DOES NOT OCCUPY THE CENTRAL READING FIELD WITH HIGH-SALIENCE DETAIL (safe-zone core ≤ 0.12, hot ≤ 5%).
+  7. PRIMARY VISUAL SALIENCE MOVES TO THE FOUR CORNERS AND OUTER EDGES (focal anchor, crop zoom, perimeter-feathered calm layer).
+  8. FUNCTIONAL CONTENT OWNS THE CENTRE.
+  9. CENTER-STAGE IS NOT GENERIC CENTRED CARDS — the field is centred, text keeps its own alignment, no single white rectangle.
+  10. FAMILY-SPECIFIC COMPOSITION STAYS DISTINCT (blur + background-removal tests on every recomposition).
+- **Gotcha:** with `object-fit: cover`, `object-position` x = 0% reveals the LEFT of the image (right-side subjects move outward); 100% reveals the right (they move inward).

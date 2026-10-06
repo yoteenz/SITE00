@@ -44,7 +44,7 @@ export function ParentAuthorityScreen({ id }: { id: string }) {
   if (!spec) return null;
   const plate = PARENT_PLATES[spec.id];
   return (
-    <JurnlScreen screenId={spec.screenId} familyPlate={plate} family review>
+    <JurnlScreen screenId={spec.screenId} familyPlate={plate} family review productNav>
       <div className="jrn-home jrn-parent" data-jrn-signal={spec.viz} data-jrn-interference={spec.interference}>
         <div className="jrn-home__top" data-jrn-zone="chrome">
           <JurnlButton variant="utility" trigger={`${spec.route}-board`} onClick={() => go('parents')}>

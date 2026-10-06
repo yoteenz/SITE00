@@ -143,11 +143,11 @@ async function run() {
       await context.close();
       continue;
     }
-    await page.addStyleTag({ content: '.jrn-plate{filter:blur(22px) saturate(.55);transform:scale(1.08)}' });
+    await page.addStyleTag({ content: '.jrn-plate,.jrn-env__calm{filter:blur(22px) saturate(.55);transform:scale(1.08)}' });
     await page.waitForTimeout(250);
     const blurred = join(dir, `${family}_${route}_blurred.jpg`);
     await page.screenshot({ path: blurred, type: 'jpeg', quality: 78 });
-    await page.addStyleTag({ content: '.jrn-plate{display:none}' });
+    await page.addStyleTag({ content: '.jrn-plate,.jrn-env__calm{display:none}' });
     await page.waitForTimeout(150);
     const removed = join(dir, `${family}_${route}_removed.jpg`);
     await page.screenshot({ path: removed, type: 'jpeg', quality: 78 });

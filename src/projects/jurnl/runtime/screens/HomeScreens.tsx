@@ -89,12 +89,43 @@ export function TodayScreen() {
         </>
       }
     >
-      <FramePanel id="intro">
-        <div className="jrn-home__intro" data-jrn-zone="intro" data-jrn-state={mode.toLowerCase()} data-jrn-signal="safe-to-spend">
-          <h1 className="jrn-home__h">TODAY</h1>
-          <p className="jrn-home__sub">WHAT IS TRUE.</p>
-        </div>
-      </FramePanel>
+      {showSignal ?
+        // CENTER_STAGE operating board: the day on one side, the reading on the other, the next step under both.
+        <FramePanel id="snapshot">
+          <section className="jrn-today__snap" data-jrn-zone="intro" data-jrn-state={mode.toLowerCase()} data-jrn-signal="safe-to-spend" aria-label="TODAY">
+            <div className="jrn-today__day">
+              <h1 className="jrn-home__h">TODAY</h1>
+              <p className="jrn-home__sub">WHAT IS TRUE.</p>
+            </div>
+            <div className="jrn-home__signal jrn-today__signal" data-jrn-panel="signal">
+              <p className="jrn-home__label">SAFE TO SPEND</p>
+              <p className="jrn-home__num">{formatMoney(signal.value)}</p>
+              <p className="jrn-home__hint">A COMPUTED SIGNAL. PREVIEW.</p>
+            </div>
+            <div className="jrn-today__act">
+              <JurnlButton trigger="today-why" onClick={() => openOverlay('see-why')}>
+                SEE WHY
+              </JurnlButton>
+              {mode === 'STALE' ?
+                <JurnlButton variant="secondary" trigger="today-refresh" onClick={() => go('F03')}>
+                  REFRESH
+                </JurnlButton>
+              : null}
+              {attention ?
+                <p className="jrn-home__note" data-jrn-trigger="today-attention">
+                  {attention}
+                </p>
+              : null}
+            </div>
+          </section>
+        </FramePanel>
+      : <FramePanel id="intro">
+          <div className="jrn-home__intro" data-jrn-zone="intro" data-jrn-state={mode.toLowerCase()} data-jrn-signal="safe-to-spend">
+            <h1 className="jrn-home__h">TODAY</h1>
+            <p className="jrn-home__sub">WHAT IS TRUE.</p>
+          </div>
+        </FramePanel>
+      }
       {mode === 'LOADING' ?
         <FramePanel id="loading">
           <p className="jrn-home__wait" data-jrn-state="loading">READING TODAY</p>
@@ -129,28 +160,6 @@ export function TodayScreen() {
             <p>{draft.accounts === 'SKIPPED' ? 'ACCOUNTS WERE SKIPPED.' : 'INCOME IS STILL QUIET.'}</p>
             <p>SAFE TO SPEND STAYS UNSTATED UNTIL THOSE FACTS EXIST.</p>
           </JurnlPanel>
-        </FramePanel>
-      : null}
-      {showSignal ?
-        <FramePanel id="signal">
-          <div className="jrn-home__signal" data-jrn-panel="signal">
-            <p className="jrn-home__num">{formatMoney(signal.value)}</p>
-            <p className="jrn-home__label">SAFE TO SPEND</p>
-            <p className="jrn-home__hint">A COMPUTED SIGNAL. PREVIEW.</p>
-            <JurnlButton trigger="today-why" onClick={() => openOverlay('see-why')}>
-              SEE WHY
-            </JurnlButton>
-            {mode === 'STALE' ?
-              <JurnlButton variant="secondary" trigger="today-refresh" onClick={() => go('F03')}>
-                REFRESH
-              </JurnlButton>
-            : null}
-          </div>
-        </FramePanel>
-      : null}
-      {attention && showSignal ?
-        <FramePanel id="attention">
-          <p className="jrn-home__note" data-jrn-trigger="today-attention">{attention}</p>
         </FramePanel>
       : null}
       {showSignal || mode === 'PARTIAL' ?
@@ -264,7 +273,7 @@ export function ActivityScreen() {
   const summary = filterSummary(filter);
 
   return (
-    <JurnlScreen screenId="F04.00" familyPlate={F04_LEDGER_PLATE}>
+    <JurnlScreen screenId="F04.00" familyPlate={F04_LEDGER_PLATE} productNav>
       <div className="jrn-act" data-jrn-state={mode || 'connected'} data-jrn-expression={query ? 'investigative' : 'ledger'}>
         <div className="jrn-home__top" data-jrn-zone="chrome">
           <JurnlIconButton icon="back" label="BACK TO TODAY" trigger="activity-back" onClick={() => go('F03')} />
