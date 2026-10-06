@@ -4,7 +4,7 @@
  *
  * One route (/production/activity). Children are lenses held in the query string
  * (?view=approvals|updates|comments|blockers) and the milestone grandchild is ?milestone=<nodeId>.
- * Rows come from `buildActivityRows` (recorded activity + live production-graph state); the existing
+ * Rows come from `buildActivityRows` (the project's recorded, dated activity only); the existing
  * workspace and range filters are preserved in the filter popover. ACTIVITY → APPROVALS is history;
  * INBOX → APPROVALS is where decisions are acted on — they share data, never a route.
  */
@@ -68,18 +68,10 @@ function workspaceFor(category: HubActivityCategory, text: string): ActivityWork
   return category === 'APPROVAL' || category === 'RENDER' ? 'EXPRESSION' : 'SYSTEM';
 }
 
-const NODE_BADGE: Record<string, string> = {
-  COMPLETE: 'COMPLETE',
-  ACTIVE: 'ACTIVE',
-  REVIEW_REQUIRED: 'REVIEW',
-  BLOCKED: 'BLOCKED',
-  LOCKED: 'LOCKED',
-  NOT_STARTED: 'PENDING',
-};
-
 /**
- * Recorded activity (approvals, requests) first; the current production-graph state follows as SYSTEM rows so
- * the log always reflects what the production is doing right now. Nothing here is authored.
+ * The project's recorded activity (approvals, requests, decisions) — dated events only. Current node STATE is not
+ * an event: it lives in milestones / blockers, never as undated "NOW" rows in the feed (P0 project isolation:
+ * no synthetic activity, TODAY counts real events).
  */
 export function buildActivityRows(data: HubData | null): ActivityRow[] {
   if (!data) return [];
@@ -95,20 +87,7 @@ export function buildActivityRows(data: HubData | null): ActivityRow[] {
     slot: a.assetSlotId,
     nodeId: null,
   }));
-  const label = data.production?.label ?? 'PRODUCTION';
-  const state: ActivityRow[] = data.graph.nodes.map((n) => ({
-    id: `state.${n.id}`,
-    category: 'OTHER',
-    workspace: /cast/i.test(n.id) ? 'PEOPLE' : 'EXPRESSION',
-    badge: NODE_BADGE[n.status] ?? n.status,
-    title: `${label} · ${n.label}`,
-    detail: n.statusDetail,
-    at: null,
-    actor: 'SYSTEM',
-    slot: n.assetSlotId,
-    nodeId: n.id,
-  }));
-  return [...recorded, ...state];
+  return recorded;
 }
 
 export type ActivityLens = 'all' | 'approvals' | 'updates' | 'comments' | 'blockers';
@@ -493,7 +472,7 @@ export function ActivityBody() {
       <IaStats
         testId="activity-stats"
         stats={[
-          { icon: 'calendar', value: all.filter((r) => r.at === null || new Date(r.at).getTime() >= dayAgo).length, label: 'TODAY', sub: 'ACTIVITY ITEMS' },
+          { icon: 'calendar', value: all.filter((r) => r.at !== null && new Date(r.at).getTime() >= dayAgo).length, label: 'TODAY', sub: 'ACTIVITY ITEMS' },
           { icon: 'alert', value: attention.filter((a) => a.priority === 'HIGH').length, label: 'HIGH PRIORITY', sub: 'NEED ATTENTION' },
           { icon: 'check', value: reviewNodes.length, label: 'APPROVALS', sub: 'PENDING REVIEW', tone: 'green' },
           { icon: 'lock', value: blockerNodes.length, label: 'BLOCKED', sub: 'REQUIRE UNBLOCKS' },

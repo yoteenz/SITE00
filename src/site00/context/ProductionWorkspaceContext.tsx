@@ -45,7 +45,9 @@ export function ProductionWorkspaceProvider({ children }: { children: React.Reac
 
   const setCampaignEntry = useCallback(
     (campaignId: string | null, entryId: string | null, entryLabel?: string | null) => {
+      // The entry is recorded under the route's project (campaign / entry never belong to another project).
       const next = writeProductionWorkspaceContext({
+        ...(routeSlug ? { projectSlug: routeSlug.toLowerCase() } : {}),
         campaignId,
         entryId,
         entryLabel: entryLabel ?? null,
@@ -58,7 +60,7 @@ export function ProductionWorkspaceProvider({ children }: { children: React.Reac
       else params.delete('entry');
       setSearchParams(params, { replace: true });
     },
-    [searchParams, setSearchParams],
+    [routeSlug, searchParams, setSearchParams],
   );
 
   const value = useMemo(

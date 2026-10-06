@@ -28,9 +28,10 @@ function ActorFace({ actor, label, scale = 'CHIP' }: { actor: StudioWorldActor |
 export function CastingFamily({ d, r, go }: FamilyProps) {
   if (!d.ok) return <Empty title="NO CAMPAIGN ENTRY IN PRODUCTION" body={`${d.slug.toUpperCase()} HAS NO CASTING YET.`} testId="expression-no-entry" />;
   const roles = d.cast.requirements;
-  const castRoles = roles.filter((q) => d.charactersForRole(q.requirementId).some((c) => !!c.actorId));
+  // A role is cast only when its character is played by a CATALOGUED actor (a placeholder actor id is not a cast).
+  const castRoles = roles.filter((q) => d.charactersForRole(q.requirementId).some((c) => !!d.actor(c.actorId)));
   const unresolved = roles.length - castRoles.length;
-  const inCast = new Set(d.cast.characters.map((c) => c.actorId).filter(Boolean));
+  const inCast = new Set(d.cast.characters.map((c) => c.actorId).filter((id) => !!d.actor(id)));
   const available = d.actors.filter((a) => a.availabilityState === 'AVAILABLE');
   const castArt = d.nodeArt('cast');
 
