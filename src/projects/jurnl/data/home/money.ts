@@ -7,6 +7,7 @@ import { useSyncExternalStore } from 'react';
 import { getSetupDraft, type SetupDraft } from '../f02/setupDraft';
 import { computeSafeToSpend, setupObligationsAsUpcoming } from '../f09/safeToSpend';
 import { projectUpcoming } from '../foundation/upcomingProjection';
+import { cachedRepoView } from '../repository/cachedRepoView';
 import { getRepository } from '../repository/deviceRepository';
 import type { QuickAddQuote } from './currency';
 import { MOCK_UPCOMING } from './mockScenario';
@@ -40,7 +41,11 @@ function subscribeRepo(listener: () => void) {
 }
 
 export function addedEntries(): LedgerEntry[] {
-  return getRepository().listTransactions().filter((e) => e.source === 'ADDED');
+  return cachedRepoView('money.addedEntries', () =>
+    getRepository()
+      .listTransactions()
+      .filter((e) => e.source === 'ADDED'),
+  );
 }
 
 export function addLedgerEntry(entry: Omit<LedgerEntry, 'id' | 'source' | 'status' | 'related' | 'recurring' | 'memo'> & { memo?: string; provenance?: QuickAddQuote }): LedgerEntry {

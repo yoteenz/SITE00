@@ -1,0 +1,24 @@
+{
+  "dependencies": [
+    {
+      "id": "PRODUCTION_AUTH",
+      "class": "WAVE5_AUTH_DEPENDENCY"
+    },
+    {
+      "id": "SERVER_PERSISTENCE_RLS",
+      "class": "WAVE5_SERVER_PERSISTENCE_DEPENDENCY"
+    },
+    {
+      "id": "NATIVE_FINANCIAL_PROVIDER",
+      "class": "WAVE5_EXTERNAL_PROVIDER_DEPENDENCY"
+    },
+    {
+      "id": "F16_REMOTE_FILE_BLOB",
+      "class": "WAVE5_SERVER_PERSISTENCE_DEPENDENCY"
+    },
+    {
+      "id": "LIVE_ASK_JURNL_PROVIDER",
+      "class": "WAVE5_EXTERNAL_PROVIDER_DEPENDENCY"
+    }
+  ]
+}

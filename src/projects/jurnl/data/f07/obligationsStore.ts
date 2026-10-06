@@ -1,6 +1,7 @@
 import { useSyncExternalStore } from 'react';
 import type { CalendarDate, RecurrenceType } from '../foundation/dates';
 import type { JurnlObligation, ObligationKind } from '../foundation/obligations';
+import { cachedRepoView } from '../repository/cachedRepoView';
 import { getRepository } from '../repository/deviceRepository';
 
 function subscribe(listener: () => void) {
@@ -8,7 +9,7 @@ function subscribe(listener: () => void) {
 }
 
 export function listObligations(): JurnlObligation[] {
-  return getRepository().listObligations();
+  return cachedRepoView('f07.listObligations', () => getRepository().listObligations());
 }
 
 export function useObligations(): JurnlObligation[] {

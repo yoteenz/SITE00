@@ -1,0 +1,76 @@
+name: JURNL Full Product E2E
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'src/projects/jurnl/**'
+      - 'e2e/jurnl/**'
+      - 'playwright.config.ts'
+      - 'scripts/jurnl/run-full-product-e2e.ts'
+      - 'scripts/jurnl/write-e2e-artifacts.ts'
+      - '.github/workflows/jurnl-full-product-e2e.yml'
+  pull_request:
+    paths:
+      - 'src/projects/jurnl/**'
+      - 'e2e/jurnl/**'
+      - 'playwright.config.ts'
+      - 'scripts/jurnl/**'
+      - '.github/workflows/jurnl-full-product-e2e.yml'
+
+concurrency:
+  group: jurnl-e2e-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test -- --run tests/jurnl*.test.ts
+
+  e2e_core:
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - run: npm ci
+      - name: Install Playwright Chromium
+        env:
+          INSTALL_PLAYWRIGHT: '1'
+        run: npx playwright install chromium
+      - name: Run JURNL full-product E2E
+        env:
+          GITHUB_ACTIONS: 'true'
+        run: npm run jurnl:e2e:gate
+      - name: Upload E2E artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jurnl-e2e-artifacts
+          retention-days: 14
+          path: |
+            test-results/
+            docs/jurnl/e2e/JURNL_FULL_PRODUCT_E2E_RESULT.json
+            docs/jurnl/e2e/JURNL_FULL_PRODUCT_E2E_REPORT.md
+      - name: Job summary
+        if: always()
+        run: |
+          echo "## JURNL Full Product E2E" >> "$GITHUB_STEP_SUMMARY"
+          if [ -f docs/jurnl/e2e/JURNL_FULL_PRODUCT_E2E_RESULT.json ]; then
+            node -e "const r=require('./docs/jurnl/e2e/JURNL_FULL_PRODUCT_E2E_RESULT.json'); console.log('Gate:', r.gate_status); console.log('Passed:', r.stats?.passed); console.log('Failed:', r.stats?.failed);" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "No result JSON" >> "$GITHUB_STEP_SUMMARY"
+          fi

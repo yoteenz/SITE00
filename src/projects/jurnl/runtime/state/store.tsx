@@ -133,9 +133,11 @@ export function JurnlStoreProvider({ basePath, mode, children }: { basePath: str
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const [device, setDeviceState] = useState<DeviceState>(() => readJson(local.get(DEVICE_KEY), DEFAULT_DEVICE));
-  const [session, setSessionState] = useState<SessionState>(() =>
-    readJson(tab.get(SESSION_KEY) ?? local.get(SESSION_KEY), DEFAULT_SESSION),
-  );
+  const [session, setSessionState] = useState<SessionState>(() => {
+    const initial = readJson(tab.get(SESSION_KEY) ?? local.get(SESSION_KEY), DEFAULT_SESSION);
+    setRepositoryUserId(initial.account?.email?.trim().toUpperCase() || 'preview-guest');
+    return initial;
+  });
   const relPath = location.pathname.slice(basePath.length).replace(/^\/+/, '');
   const stateOverlay = F01_STATE_OVERLAYS[`${f01ScreenForRoute(relPath)?.id ?? ''}:${q('state') ?? ''}`] ?? null;
   const [overlay, setOverlay] = useState<string | null>(() => q('overlay') ?? stateOverlay);

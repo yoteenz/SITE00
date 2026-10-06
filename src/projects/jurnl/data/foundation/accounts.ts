@@ -6,6 +6,7 @@ import type { CurrencyCode } from '../home/currency';
 import type { AccountType } from './categories';
 import type { CalendarDate } from './dates';
 import type { SetupDraft } from '../f02/setupDraft';
+import { cachedRepoView } from '../repository/cachedRepoView';
 import { getRepository } from '../repository/deviceRepository';
 
 export type AccountStatus = 'ACTIVE' | 'ARCHIVED';
@@ -51,7 +52,9 @@ export function spendingAccounts(): JurnlAccountRecord[] {
 }
 
 export function creditAccounts(): JurnlAccountRecord[] {
-  return listActiveAccounts().filter((a) => a.account_type === 'CREDIT_CARD' || a.account_type === 'LOAN');
+  return cachedRepoView('accounts.creditAccounts', () =>
+    listActiveAccounts().filter((a) => a.account_type === 'CREDIT_CARD' || a.account_type === 'LOAN'),
+  );
 }
 
 export function safeToSpendEligibleAccounts(): JurnlAccountRecord[] {

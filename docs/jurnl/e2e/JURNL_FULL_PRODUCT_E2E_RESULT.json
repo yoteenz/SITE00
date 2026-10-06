@@ -1,0 +1,2768 @@
+{
+  "sprint": "P0.JURNL.FULL-PRODUCT-E2E-GATE1",
+  "generated_at": "2026-10-06T02:02:01.129Z",
+  "gate_status": "PASS",
+  "playwright_exit_code": 0,
+  "stats": {
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "tests": [
+      {
+        "title": "jurnl-core-mutations.e2e.ts",
+        "file": "jurnl-core-mutations.e2e.ts",
+        "column": 0,
+        "line": 0,
+        "specs": [],
+        "suites": [
+          {
+            "title": "Core mutations F05–F16",
+            "file": "jurnl-core-mutations.e2e.ts",
+            "line": 4,
+            "column": 6,
+            "specs": [
+              {
+                "title": "F10 create purchase and mark purchased",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "mobile",
+                    "projectName": "mobile",
+                    "results": [
+                      {
+                        "workerIndex": 0,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 4562,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T01:58:54.463Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "5409448b4d02deb51cff-1107553e367b88b2d31d",
+                "file": "jurnl-core-mutations.e2e.ts",
+                "line": 9,
+                "column": 3
+              },
+              {
+                "title": "F11 trip reserve affects safe to spend",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "mobile",
+                    "projectName": "mobile",
+                    "results": [
+                      {
+                        "workerIndex": 1,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 7813,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T01:58:54.467Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "5409448b4d02deb51cff-f512b7f988c607e69b45",
+                "file": "jurnl-core-mutations.e2e.ts",
+                "line": 22,
+                "column": 3
+              },
+              {
+                "title": "F08 plan assign reduces STS",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "mobile",
+                    "projectName": "mobile",
+                    "results": [
+                      {
+                        "workerIndex": 0,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 6269,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T01:58:59.132Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "5409448b4d02deb51cff-ebf7e4ca712d87585175",
+                "file": "jurnl-core-mutations.e2e.ts",
+                "line": 38,
+                "column": 3
+              },
+              {
+                "title": "F14 goal set aside reduces STS",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "mobile",
+                    "projectName": "mobile",
+                    "results": [
+                      {
+                        "workerIndex": 1,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 6525,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T01:59:02.391Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "5409448b4d02deb51cff-f74f86cd5a6f1dc10ff7",
+                "file": "jurnl-core-mutations.e2e.ts",
+                "line": 50,
+                "column": 3
+              },
+              {
+                "title": "F13 paydown what-if keeps credit balance read-only",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "mobile",
+                    "projectName": "mobile",
+                    "results": [
+                      {
+                        "workerIndex": 0,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 3803,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T01:59:05.423Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "5409448b4d02deb51cff-87a4c82e054eb533e566",
+                "file": "jurnl-core-mutations.e2e.ts",
+                "line": 63,
+                "column": 3
+              },
+              {
+                "title": "F15 ahead derived timeline",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "mobile",
+                    "projectName": "mobile",
+                    "results": [
+                      {
+                        "workerIndex": 1,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 3837,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T01:59:08.932Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "5409448b4d02deb51cff-97ffe74002058164d345",
+                "file": "jurnl-core-mutations.e2e.ts",
+                "line": 70,
+                "column": 3
+              },
+              {
+                "title": "F16 record metadata create",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "mobile",
+                    "projectName": "mobile",
+                    "results": [
+                      {
+                        "workerIndex": 0,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 4019,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T01:59:09.263Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "5409448b4d02deb51cff-466e9b95cc654a1fb00b",
+                "file": "jurnl-core-mutations.e2e.ts",
+                "line": 76,
+                "column": 3
+              },
+              {
+                "title": "F07 upcoming lists obligations",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "mobile",
+                    "projectName": "mobile",
+                    "results": [
+                      {
+                        "workerIndex": 1,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 3728,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T01:59:12.783Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "5409448b4d02deb51cff-ad0419a049633066053e",
+                "file": "jurnl-core-mutations.e2e.ts",
+                "line": 85,
+                "column": 3
+              },
+              {
+                "title": "F12 credit hub opens account",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "mobile",
+                    "projectName": "mobile",
+                    "results": [
+                      {
+                        "workerIndex": 0,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 3417,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T01:59:13.304Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "5409448b4d02deb51cff-f273ff822ef5515aab3c",
+                "file": "jurnl-core-mutations.e2e.ts",
+                "line": 91,
+                "column": 3
+              },
+              {
+                "title": "F10 create purchase and mark purchased",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 2,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 4211,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T02:00:26.719Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "5409448b4d02deb51cff-9a24d6c665bc7c293072",
+                "file": "jurnl-core-mutations.e2e.ts",
+                "line": 9,
+                "column": 3
+              },
+              {
+                "title": "F11 trip reserve affects safe to spend",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 2,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 7279,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T02:00:31.099Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "5409448b4d02deb51cff-61ab3a200ba90f41e488",
+                "file": "jurnl-core-mutations.e2e.ts",
+                "line": 22,
+                "column": 3
+              },
+              {
+                "title": "F08 plan assign reduces STS",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 3,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 6235,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T02:00:31.818Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "5409448b4d02deb51cff-9f2f0f55af7a86576323",
+                "file": "jurnl-core-mutations.e2e.ts",
+                "line": 38,
+                "column": 3
+              },
+              {
+                "title": "F14 goal set aside reduces STS",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 3,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 6002,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T02:00:38.138Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "5409448b4d02deb51cff-d826f27199bacf64d460",
+                "file": "jurnl-core-mutations.e2e.ts",
+                "line": 50,
+                "column": 3
+              },
+              {
+                "title": "F13 paydown what-if keeps credit balance read-only",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 2,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 3427,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T02:00:38.395Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "5409448b4d02deb51cff-51990e8b5271e01a6a16",
+                "file": "jurnl-core-mutations.e2e.ts",
+                "line": 63,
+                "column": 3
+              },
+              {
+                "title": "F15 ahead derived timeline",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 2,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 3305,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T02:00:41.838Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "5409448b4d02deb51cff-d1c01cffc6f4b336ec41",
+                "file": "jurnl-core-mutations.e2e.ts",
+                "line": 70,
+                "column": 3
+              },
+              {
+                "title": "F16 record metadata create",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 3,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 3673,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T02:00:44.149Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "5409448b4d02deb51cff-43fe869286a37c1ffb0a",
+                "file": "jurnl-core-mutations.e2e.ts",
+                "line": 76,
+                "column": 3
+              },
+              {
+                "title": "F07 upcoming lists obligations",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 2,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 3311,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T02:00:45.152Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "5409448b4d02deb51cff-0693508f1c384562872f",
+                "file": "jurnl-core-mutations.e2e.ts",
+                "line": 85,
+                "column": 3
+              },
+              {
+                "title": "F12 credit hub opens account",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 3,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 3288,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T02:00:47.831Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "5409448b4d02deb51cff-5939b737d5f4dd9ed13f",
+                "file": "jurnl-core-mutations.e2e.ts",
+                "line": 91,
+                "column": 3
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "jurnl-entry-setup.e2e.ts",
+        "file": "jurnl-entry-setup.e2e.ts",
+        "column": 0,
+        "line": 0,
+        "specs": [],
+        "suites": [
+          {
+            "title": "F01 entry + F02 handoff surfaces",
+            "file": "jurnl-entry-setup.e2e.ts",
+            "line": 4,
+            "column": 6,
+            "specs": [
+              {
+                "title": "F01 entry index resolves to a primary route",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "mobile",
+                    "projectName": "mobile",
+                    "results": [
+                      {
+                        "workerIndex": 1,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 2259,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T01:59:16.529Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "90d52376721333c5d158-6c92a73efd8a37164946",
+                "file": "jurnl-entry-setup.e2e.ts",
+                "line": 5,
+                "column": 3
+              },
+              {
+                "title": "F02 setup route loads when navigated directly",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "mobile",
+                    "projectName": "mobile",
+                    "results": [
+                      {
+                        "workerIndex": 0,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 2425,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T01:59:16.739Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "90d52376721333c5d158-2a9f8cfd839a6d88caa4",
+                "file": "jurnl-entry-setup.e2e.ts",
+                "line": 18,
+                "column": 3
+              },
+              {
+                "title": "F01 entry index resolves to a primary route",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 2,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 1931,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T02:00:48.480Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "90d52376721333c5d158-8b04e59f72795db91ceb",
+                "file": "jurnl-entry-setup.e2e.ts",
+                "line": 5,
+                "column": 3
+              },
+              {
+                "title": "F02 setup route loads when navigated directly",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 2,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 1940,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T02:00:50.417Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "90d52376721333c5d158-ab70e1d6242464ed9e38",
+                "file": "jurnl-entry-setup.e2e.ts",
+                "line": 18,
+                "column": 3
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "jurnl-family-reachability.e2e.ts",
+        "file": "jurnl-family-reachability.e2e.ts",
+        "column": 0,
+        "line": 0,
+        "specs": [],
+        "suites": [
+          {
+            "title": "JURNL family reachability",
+            "file": "jurnl-family-reachability.e2e.ts",
+            "line": 21,
+            "column": 6,
+            "specs": [
+              {
+                "title": "F03 root today reachable",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "mobile",
+                    "projectName": "mobile",
+                    "results": [
+                      {
+                        "workerIndex": 1,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 3521,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T01:59:18.807Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "a9ed8a2bb51e4e2969c5-f3236e4812a9240a916b",
+                "file": "jurnl-family-reachability.e2e.ts",
+                "line": 27,
+                "column": 5
+              },
+              {
+                "title": "F04 root activity reachable",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "mobile",
+                    "projectName": "mobile",
+                    "results": [
+                      {
+                        "workerIndex": 0,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 3547,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T01:59:19.178Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "a9ed8a2bb51e4e2969c5-8d4fc455784cb9f34455",
+                "file": "jurnl-family-reachability.e2e.ts",
+                "line": 27,
+                "column": 5
+              },
+              {
+                "title": "F05 root money reachable",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "mobile",
+                    "projectName": "mobile",
+                    "results": [
+                      {
+                        "workerIndex": 1,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 3707,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T01:59:22.350Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "a9ed8a2bb51e4e2969c5-1206df7c261158754238",
+                "file": "jurnl-family-reachability.e2e.ts",
+                "line": 27,
+                "column": 5
+              },
+              {
+                "title": "F06 root income reachable",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "mobile",
+                    "projectName": "mobile",
+                    "results": [
+                      {
+                        "workerIndex": 0,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 3721,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T01:59:22.732Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "a9ed8a2bb51e4e2969c5-689d014d214164c864aa",
+                "file": "jurnl-family-reachability.e2e.ts",
+                "line": 27,
+                "column": 5
+              },
+              {
+                "title": "F07 root upcoming reachable",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "mobile",
+                    "projectName": "mobile",
+                    "results": [
+                      {
+                        "workerIndex": 1,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 3855,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T01:59:26.071Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "a9ed8a2bb51e4e2969c5-fe38bd166d0832b69fff",
+                "file": "jurnl-family-reachability.e2e.ts",
+                "line": 27,
+                "column": 5
+              },
+              {
+                "title": "F08 root plan reachable",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "mobile",
+                    "projectName": "mobile",
+                    "results": [
+                      {
+                        "workerIndex": 0,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 3902,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T01:59:26.461Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "a9ed8a2bb51e4e2969c5-f0e4f3346c65c0d56447",
+                "file": "jurnl-family-reachability.e2e.ts",
+                "line": 27,
+                "column": 5
+              },
+              {
+                "title": "F09 root safe reachable",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "mobile",
+                    "projectName": "mobile",
+                    "results": [
+                      {
+                        "workerIndex": 1,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 3878,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T01:59:29.962Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "a9ed8a2bb51e4e2969c5-19fa97c4e5f8171bca31",
+                "file": "jurnl-family-reachability.e2e.ts",
+                "line": 27,
+                "column": 5
+              },
+              {
+                "title": "F10 root purchases reachable",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "mobile",
+                    "projectName": "mobile",
+                    "results": [
+                      {
+                        "workerIndex": 0,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 3924,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T01:59:30.386Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "a9ed8a2bb51e4e2969c5-8996df7ad7e4c52727f5",
+                "file": "jurnl-family-reachability.e2e.ts",
+                "line": 27,
+                "column": 5
+              },
+              {
+                "title": "F11 root trips reachable",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "mobile",
+                    "projectName": "mobile",
+                    "results": [
+                      {
+                        "workerIndex": 1,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 3918,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T01:59:33.857Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "a9ed8a2bb51e4e2969c5-b2e1fca5f341775e4c6b",
+                "file": "jurnl-family-reachability.e2e.ts",
+                "line": 27,
+                "column": 5
+              },
+              {
+                "title": "F12 root credit reachable",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "mobile",
+                    "projectName": "mobile",
+                    "results": [
+                      {
+                        "workerIndex": 0,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 3879,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T01:59:34.328Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "a9ed8a2bb51e4e2969c5-6209570b9e7777428f42",
+                "file": "jurnl-family-reachability.e2e.ts",
+                "line": 27,
+                "column": 5
+              },
+              {
+                "title": "F13 root paydown reachable",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "mobile",
+                    "projectName": "mobile",
+                    "results": [
+                      {
+                        "workerIndex": 1,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 4107,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T01:59:37.784Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "a9ed8a2bb51e4e2969c5-651f4b990365ae73b940",
+                "file": "jurnl-family-reachability.e2e.ts",
+                "line": 27,
+                "column": 5
+              },
+              {
+                "title": "F14 root goals reachable",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "mobile",
+                    "projectName": "mobile",
+                    "results": [
+                      {
+                        "workerIndex": 0,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 3851,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T01:59:38.232Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "a9ed8a2bb51e4e2969c5-142631e9ae64be8e084a",
+                "file": "jurnl-family-reachability.e2e.ts",
+                "line": 27,
+                "column": 5
+              },
+              {
+                "title": "F15 root ahead reachable",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "mobile",
+                    "projectName": "mobile",
+                    "results": [
+                      {
+                        "workerIndex": 1,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 3873,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T01:59:41.902Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "a9ed8a2bb51e4e2969c5-516b95f47562342a7c51",
+                "file": "jurnl-family-reachability.e2e.ts",
+                "line": 27,
+                "column": 5
+              },
+              {
+                "title": "F16 root records reachable",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "mobile",
+                    "projectName": "mobile",
+                    "results": [
+                      {
+                        "workerIndex": 0,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 3866,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T01:59:42.114Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "a9ed8a2bb51e4e2969c5-b4f27949b81d229eab43",
+                "file": "jurnl-family-reachability.e2e.ts",
+                "line": 27,
+                "column": 5
+              },
+              {
+                "title": "16/16 product families reachable from routes",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "mobile",
+                    "projectName": "mobile",
+                    "results": [
+                      {
+                        "workerIndex": 1,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 2456,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T01:59:45.782Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "a9ed8a2bb51e4e2969c5-4171431de9d7c6e0609e",
+                "file": "jurnl-family-reachability.e2e.ts",
+                "line": 33,
+                "column": 3
+              },
+              {
+                "title": "F03 root today reachable",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 3,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 3298,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T02:00:51.133Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "a9ed8a2bb51e4e2969c5-c8b232f3dbdf47b7e8ed",
+                "file": "jurnl-family-reachability.e2e.ts",
+                "line": 27,
+                "column": 5
+              },
+              {
+                "title": "F04 root activity reachable",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 2,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 3302,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T02:00:52.394Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "a9ed8a2bb51e4e2969c5-ec38081431155edb7ca4",
+                "file": "jurnl-family-reachability.e2e.ts",
+                "line": 27,
+                "column": 5
+              },
+              {
+                "title": "F05 root money reachable",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 3,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 3428,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T02:00:54.453Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "a9ed8a2bb51e4e2969c5-d023263c6e78b99f3244",
+                "file": "jurnl-family-reachability.e2e.ts",
+                "line": 27,
+                "column": 5
+              },
+              {
+                "title": "F06 root income reachable",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 2,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 3333,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T02:00:55.706Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "a9ed8a2bb51e4e2969c5-0f47c7ee09544b9bc1ab",
+                "file": "jurnl-family-reachability.e2e.ts",
+                "line": 27,
+                "column": 5
+              },
+              {
+                "title": "F07 root upcoming reachable",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 3,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 3414,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T02:00:57.893Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "a9ed8a2bb51e4e2969c5-885f76caf7d777ba9a23",
+                "file": "jurnl-family-reachability.e2e.ts",
+                "line": 27,
+                "column": 5
+              },
+              {
+                "title": "F08 root plan reachable",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 2,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 3382,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T02:00:59.048Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "a9ed8a2bb51e4e2969c5-c5d03109025e51c279e7",
+                "file": "jurnl-family-reachability.e2e.ts",
+                "line": 27,
+                "column": 5
+              },
+              {
+                "title": "F09 root safe reachable",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 3,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 3301,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T02:01:01.317Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "a9ed8a2bb51e4e2969c5-2121edde96244fead487",
+                "file": "jurnl-family-reachability.e2e.ts",
+                "line": 27,
+                "column": 5
+              },
+              {
+                "title": "F10 root purchases reachable",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 2,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 3397,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T02:01:02.450Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "a9ed8a2bb51e4e2969c5-e4501fa65609d5151d3a",
+                "file": "jurnl-family-reachability.e2e.ts",
+                "line": 27,
+                "column": 5
+              },
+              {
+                "title": "F11 root trips reachable",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 3,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 3473,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T02:01:04.625Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "a9ed8a2bb51e4e2969c5-52c4c0e8f2f8ee5eb7fb",
+                "file": "jurnl-family-reachability.e2e.ts",
+                "line": 27,
+                "column": 5
+              },
+              {
+                "title": "F12 root credit reachable",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 2,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 3557,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T02:01:05.864Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "a9ed8a2bb51e4e2969c5-b4e2e112721e268ac563",
+                "file": "jurnl-family-reachability.e2e.ts",
+                "line": 27,
+                "column": 5
+              },
+              {
+                "title": "F13 root paydown reachable",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 3,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 3546,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T02:01:08.108Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "a9ed8a2bb51e4e2969c5-1631fc5160d93293ec39",
+                "file": "jurnl-family-reachability.e2e.ts",
+                "line": 27,
+                "column": 5
+              },
+              {
+                "title": "F14 root goals reachable",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 2,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 3607,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T02:01:09.434Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "a9ed8a2bb51e4e2969c5-b31619397ee843c157c0",
+                "file": "jurnl-family-reachability.e2e.ts",
+                "line": 27,
+                "column": 5
+              },
+              {
+                "title": "F15 root ahead reachable",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 3,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 3371,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T02:01:11.663Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "a9ed8a2bb51e4e2969c5-73859fcc66f3c4a8f367",
+                "file": "jurnl-family-reachability.e2e.ts",
+                "line": 27,
+                "column": 5
+              },
+              {
+                "title": "F16 root records reachable",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 2,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 3521,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T02:01:13.054Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "a9ed8a2bb51e4e2969c5-340fea9c42792f526940",
+                "file": "jurnl-family-reachability.e2e.ts",
+                "line": 27,
+                "column": 5
+              },
+              {
+                "title": "16/16 product families reachable from routes",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 3,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 2035,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T02:01:15.042Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "a9ed8a2bb51e4e2969c5-7e82009856d403784302",
+                "file": "jurnl-family-reachability.e2e.ts",
+                "line": 33,
+                "column": 3
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "jurnl-global-systems.e2e.ts",
+        "file": "jurnl-global-systems.e2e.ts",
+        "column": 0,
+        "line": 0,
+        "specs": [],
+        "suites": [
+          {
+            "title": "Global systems",
+            "file": "jurnl-global-systems.e2e.ts",
+            "line": 4,
+            "column": 6,
+            "specs": [
+              {
+                "title": "Quick Add movement saves",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "mobile",
+                    "projectName": "mobile",
+                    "results": [
+                      {
+                        "workerIndex": 0,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 5645,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T01:59:45.999Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "b20ff516e9c6b9caea6c-d5e4f8443f5c1379612e",
+                "file": "jurnl-global-systems.e2e.ts",
+                "line": 9,
+                "column": 3
+              },
+              {
+                "title": "Ask Jurnl opens without provider",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "mobile",
+                    "projectName": "mobile",
+                    "results": [
+                      {
+                        "workerIndex": 1,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 3863,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T01:59:48.255Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "b20ff516e9c6b9caea6c-cc4411ef9721ac0a36e6",
+                "file": "jurnl-global-systems.e2e.ts",
+                "line": 21,
+                "column": 3
+              },
+              {
+                "title": "Settings buffer persists after reload",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "mobile",
+                    "projectName": "mobile",
+                    "results": [
+                      {
+                        "workerIndex": 0,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 5098,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T01:59:51.652Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "b20ff516e9c6b9caea6c-e31ff0ec72379a26ceb1",
+                "file": "jurnl-global-systems.e2e.ts",
+                "line": 27,
+                "column": 3
+              },
+              {
+                "title": "Quick Add movement saves",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 2,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 5516,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T02:01:16.603Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "b20ff516e9c6b9caea6c-d92e095fd7bcb93fa53a",
+                "file": "jurnl-global-systems.e2e.ts",
+                "line": 9,
+                "column": 3
+              },
+              {
+                "title": "Ask Jurnl opens without provider",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 3,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 3715,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T02:01:17.103Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "b20ff516e9c6b9caea6c-8ea7534ce9a1e4cbe4d4",
+                "file": "jurnl-global-systems.e2e.ts",
+                "line": 21,
+                "column": 3
+              },
+              {
+                "title": "Settings buffer persists after reload",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 3,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 4919,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T02:01:20.828Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "b20ff516e9c6b9caea6c-cf289eb1a210f27dce57",
+                "file": "jurnl-global-systems.e2e.ts",
+                "line": 27,
+                "column": 3
+              }
+            ]
+          },
+          {
+            "title": "Quick Add types",
+            "file": "jurnl-global-systems.e2e.ts",
+            "line": 37,
+            "column": 6,
+            "specs": [
+              {
+                "title": "Quick Add exposes MOVEMENT",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "mobile",
+                    "projectName": "mobile",
+                    "results": [
+                      {
+                        "workerIndex": 1,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 3559,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T01:59:52.130Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "b20ff516e9c6b9caea6c-b9f89bd901b639de4c06",
+                "file": "jurnl-global-systems.e2e.ts",
+                "line": 40,
+                "column": 5
+              },
+              {
+                "title": "Quick Add exposes INCOME",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "mobile",
+                    "projectName": "mobile",
+                    "results": [
+                      {
+                        "workerIndex": 1,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 3724,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T01:59:55.696Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "b20ff516e9c6b9caea6c-d99f80b6162b25260ef2",
+                "file": "jurnl-global-systems.e2e.ts",
+                "line": 40,
+                "column": 5
+              },
+              {
+                "title": "Quick Add exposes GOAL",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "mobile",
+                    "projectName": "mobile",
+                    "results": [
+                      {
+                        "workerIndex": 0,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 3707,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T01:59:56.760Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "b20ff516e9c6b9caea6c-f5c5c79cd86331144557",
+                "file": "jurnl-global-systems.e2e.ts",
+                "line": 40,
+                "column": 5
+              },
+              {
+                "title": "Quick Add exposes PURCHASE",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "mobile",
+                    "projectName": "mobile",
+                    "results": [
+                      {
+                        "workerIndex": 1,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 3642,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T01:59:59.428Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "b20ff516e9c6b9caea6c-54588a217d31c55ca5af",
+                "file": "jurnl-global-systems.e2e.ts",
+                "line": 40,
+                "column": 5
+              },
+              {
+                "title": "Quick Add exposes TRIP",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "mobile",
+                    "projectName": "mobile",
+                    "results": [
+                      {
+                        "workerIndex": 0,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 3588,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T02:00:00.491Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "b20ff516e9c6b9caea6c-c8e40a55f0cc37acbe5b",
+                "file": "jurnl-global-systems.e2e.ts",
+                "line": 40,
+                "column": 5
+              },
+              {
+                "title": "Quick Add exposes MOVEMENT",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 2,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 3673,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T02:01:22.137Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "b20ff516e9c6b9caea6c-dff318842840d606c8ef",
+                "file": "jurnl-global-systems.e2e.ts",
+                "line": 40,
+                "column": 5
+              },
+              {
+                "title": "Quick Add exposes INCOME",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 3,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 3894,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T02:01:25.761Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "b20ff516e9c6b9caea6c-e2604d4454a656c54008",
+                "file": "jurnl-global-systems.e2e.ts",
+                "line": 40,
+                "column": 5
+              },
+              {
+                "title": "Quick Add exposes GOAL",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 2,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 3741,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T02:01:25.844Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "b20ff516e9c6b9caea6c-2a88408c5fe40c29ced8",
+                "file": "jurnl-global-systems.e2e.ts",
+                "line": 40,
+                "column": 5
+              },
+              {
+                "title": "Quick Add exposes PURCHASE",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 2,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 3744,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T02:01:29.606Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "b20ff516e9c6b9caea6c-08337402165a89f5d4b6",
+                "file": "jurnl-global-systems.e2e.ts",
+                "line": 40,
+                "column": 5
+              },
+              {
+                "title": "Quick Add exposes TRIP",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 3,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 3940,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T02:01:29.663Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "b20ff516e9c6b9caea6c-a3f2164faa2e8b260aa2",
+                "file": "jurnl-global-systems.e2e.ts",
+                "line": 40,
+                "column": 5
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "jurnl-golden-journey.e2e.ts",
+        "file": "jurnl-golden-journey.e2e.ts",
+        "column": 0,
+        "line": 0,
+        "specs": [],
+        "suites": [
+          {
+            "title": "JURNL golden journey",
+            "file": "jurnl-golden-journey.e2e.ts",
+            "line": 6,
+            "column": 6,
+            "specs": [
+              {
+                "title": "F01–F16 coherent path with reload verification",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [
+                      {
+                        "type": "serial",
+                        "location": {
+                          "file": "/workspace/e2e/jurnl/jurnl-golden-journey.e2e.ts",
+                          "line": 0,
+                          "column": 0
+                        }
+                      }
+                    ],
+                    "expectedStatus": "passed",
+                    "projectId": "mobile",
+                    "projectName": "mobile",
+                    "results": [
+                      {
+                        "workerIndex": 1,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 28053,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T02:00:03.086Z",
+                        "annotations": [
+                          {
+                            "type": "serial",
+                            "location": {
+                              "file": "/workspace/e2e/jurnl/jurnl-golden-journey.e2e.ts",
+                              "line": 0,
+                              "column": 0
+                            }
+                          }
+                        ],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "e100c105d73f81ba2c88-7ab89e091e21f57c29c0",
+                "file": "jurnl-golden-journey.e2e.ts",
+                "line": 7,
+                "column": 3
+              },
+              {
+                "title": "F01–F16 coherent path with reload verification",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [
+                      {
+                        "type": "serial",
+                        "location": {
+                          "file": "/workspace/e2e/jurnl/jurnl-golden-journey.e2e.ts",
+                          "line": 0,
+                          "column": 0
+                        }
+                      }
+                    ],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 2,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 27466,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T02:01:33.376Z",
+                        "annotations": [
+                          {
+                            "type": "serial",
+                            "location": {
+                              "file": "/workspace/e2e/jurnl/jurnl-golden-journey.e2e.ts",
+                              "line": 0,
+                              "column": 0
+                            }
+                          }
+                        ],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "e100c105d73f81ba2c88-573254a8c6d78a471884",
+                "file": "jurnl-golden-journey.e2e.ts",
+                "line": 7,
+                "column": 3
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "jurnl-paydown-sts.e2e.ts",
+        "file": "jurnl-paydown-sts.e2e.ts",
+        "column": 0,
+        "line": 0,
+        "specs": [],
+        "suites": [
+          {
+            "title": "F13 paydown → F09 boundary",
+            "file": "jurnl-paydown-sts.e2e.ts",
+            "line": 4,
+            "column": 6,
+            "specs": [
+              {
+                "title": "simulated extra payment alone does not reduce STS",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "mobile",
+                    "projectName": "mobile",
+                    "results": [
+                      {
+                        "workerIndex": 0,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 7182,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T02:00:04.095Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "88bc183f2015226d35a1-0b3a4441fd7edcd09c0c",
+                "file": "jurnl-paydown-sts.e2e.ts",
+                "line": 5,
+                "column": 3
+              },
+              {
+                "title": "committed trip reserve reduces STS (contrast)",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "mobile",
+                    "projectName": "mobile",
+                    "results": [
+                      {
+                        "workerIndex": 0,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 8384,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T02:00:11.289Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "88bc183f2015226d35a1-174fc85b8e2a2a4b4b41",
+                "file": "jurnl-paydown-sts.e2e.ts",
+                "line": 16,
+                "column": 3
+              },
+              {
+                "title": "simulated extra payment alone does not reduce STS",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 3,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 6627,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T02:01:33.627Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "88bc183f2015226d35a1-e769783b82dcffa19b5b",
+                "file": "jurnl-paydown-sts.e2e.ts",
+                "line": 5,
+                "column": 3
+              },
+              {
+                "title": "committed trip reserve reduces STS (contrast)",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 3,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 8079,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T02:01:40.269Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "88bc183f2015226d35a1-6e09ecef525d1262de13",
+                "file": "jurnl-paydown-sts.e2e.ts",
+                "line": 16,
+                "column": 3
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "title": "jurnl-persistence.e2e.ts",
+        "file": "jurnl-persistence.e2e.ts",
+        "column": 0,
+        "line": 0,
+        "specs": [],
+        "suites": [
+          {
+            "title": "Persistence reload",
+            "file": "jurnl-persistence.e2e.ts",
+            "line": 5,
+            "column": 6,
+            "specs": [
+              {
+                "title": "purchase survives reload",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "mobile",
+                    "projectName": "mobile",
+                    "results": [
+                      {
+                        "workerIndex": 0,
+                        "parallelIndex": 0,
+                        "status": "passed",
+                        "duration": 6208,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T02:00:19.694Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "53148d2e329fed69b379-4cdf2d8e024681beef8d",
+                "file": "jurnl-persistence.e2e.ts",
+                "line": 6,
+                "column": 3
+              },
+              {
+                "title": "purchase survives reload",
+                "ok": true,
+                "tags": [],
+                "tests": [
+                  {
+                    "timeout": 90000,
+                    "annotations": [],
+                    "expectedStatus": "passed",
+                    "projectId": "desktop",
+                    "projectName": "desktop",
+                    "results": [
+                      {
+                        "workerIndex": 3,
+                        "parallelIndex": 1,
+                        "status": "passed",
+                        "duration": 5444,
+                        "errors": [],
+                        "stdout": [],
+                        "stderr": [],
+                        "retry": 0,
+                        "startTime": "2026-10-06T02:01:48.370Z",
+                        "annotations": [],
+                        "attachments": []
+                      }
+                    ],
+                    "status": "expected"
+                  }
+                ],
+                "id": "53148d2e329fed69b379-f86631e4c7a5d29f3432",
+                "file": "jurnl-persistence.e2e.ts",
+                "line": 6,
+                "column": 3
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "startTime": "2026-10-06T01:58:53.955Z",
+    "duration": 186992.831,
+    "expected": 76,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "workflow_name": "JURNL Full Product E2E",
+  "families_included": 16,
+  "note": "Local or CI run — GitHub Actions run id appended by workflow when available."
+}

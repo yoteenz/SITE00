@@ -1,6 +1,7 @@
 import { useSyncExternalStore } from 'react';
 import type { JurnlRecord, RecordType } from '../foundation/records';
 import type { CalendarDate } from '../foundation/dates';
+import { cachedRepoView } from '../repository/cachedRepoView';
 import { getRepository } from '../repository/deviceRepository';
 
 let seq = 0;
@@ -10,10 +11,21 @@ export function useRecords(): JurnlRecord[] {
 }
 
 export function listRecords(query?: string): JurnlRecord[] {
-  const all = getRepository().listRecords().filter((r) => r.status !== 'ARCHIVED');
-  if (!query?.trim()) return all;
-  const q = query.trim().toUpperCase();
-  return all.filter((r) => r.title.includes(q) || r.record_type.includes(q));
+  const q = query?.trim();
+  if (!q) {
+    return cachedRepoView('f16.listRecords', () =>
+      getRepository()
+        .listRecords()
+        .filter((r) => r.status !== 'ARCHIVED'),
+    );
+  }
+  const needle = q.toUpperCase();
+  return cachedRepoView(`f16.listRecords:${needle}`, () =>
+    getRepository()
+      .listRecords()
+      .filter((r) => r.status !== 'ARCHIVED')
+      .filter((r) => r.title.includes(needle) || r.record_type.includes(needle)),
+  );
 }
 
 export function recordById(id: string): JurnlRecord | null {

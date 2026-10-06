@@ -1,5 +1,6 @@
 import { useSyncExternalStore } from 'react';
 import type { JurnlPlanIntention } from '../foundation/plan';
+import { cachedRepoView } from '../repository/cachedRepoView';
 import { getRepository } from '../repository/deviceRepository';
 
 let planSeq = 0;
@@ -9,10 +10,12 @@ export function usePlanIntentions(): JurnlPlanIntention[] {
 }
 
 export function listPlanIntentions(): JurnlPlanIntention[] {
-  return getRepository()
-    .listPlanIntentions()
-    .filter((p) => p.status === 'ACTIVE')
-    .sort((a, b) => a.sort_order - b.sort_order);
+  return cachedRepoView('f08.listPlanIntentions', () =>
+    getRepository()
+      .listPlanIntentions()
+      .filter((p) => p.status === 'ACTIVE')
+      .sort((a, b) => a.sort_order - b.sort_order),
+  );
 }
 
 export function planById(id: string): JurnlPlanIntention | null {

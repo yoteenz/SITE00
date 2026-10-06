@@ -13833,6 +13833,19 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
+## 2026-10-06 — JURNL full-product E2E gate 1 (P0.JURNL.FULL-PRODUCT-E2E-GATE1)
+
+- **Context:** Before Wave 5, founder required one canonical GitHub Actions + Playwright gate covering F01–F16, global systems, cross-family propagation, persistence/reload, and golden journey — not route smoke alone.
+- **Gate landed:**
+  1. **Playwright** — `e2e/jurnl/*.e2e.ts` (reachability, mutations, global, persistence, paydown→STS, golden journey); fixture `src/projects/jurnl/e2e/fixture.ts` (synthetic `E2E@JURNL.TEST`, device repository seed).
+  2. **CI** — workflow **JURNL Full Product E2E** (`.github/workflows/jurnl-full-product-e2e.yml`); `npm run jurnl:e2e:gate` writes `docs/jurnl/e2e/JURNL_FULL_PRODUCT_E2E_RESULT.json` + matrix/report artifacts.
+  3. **Product fixes for E2E correctness (not test-only logic):** `cachedRepoView.ts` stabilizes `useSyncExternalStore` snapshots (fixes React #185 infinite re-render on Today/Activity/plan/purchases/etc.); `setRepositoryUserId` on session init (settings buffer after reload); F10/F11 detail screens subscribe via `usePurchases`/`useTrips`; E2E init script seeds once per tab (`sessionStorage` flag) so reload preserves mutations.
+- **QA doctrine (durable):** One canonical full-product E2E gate; F01–F16 must exercise mutation → propagation → persistence → reload; route reachability alone insufficient; no-op active controls forbidden; fixtures deterministic/non-destructive; Wave 5 only for production auth/server RLS/native providers/live Ask provider — classify explicitly in `JURNL_E2E_WAVE5_DEPENDENCIES.json`.
+- **Local proof:** 76/76 Playwright tests pass (mobile + desktop); gate_status **PASS** in result JSON. Live GitHub Actions run required for sprint close claim on CI.
+- **Next:** Wave 5 production hardening consumes E2E dependency report; do not start Wave 5 from old forensic lists alone.
+
+---
+
 ## 2026-10-06 — JURNL Wave 4 purchases, trips, paydown, ahead, records (P0.JURNL.WAVE4-PURCHASES-TRIPS-PAYDOWN-AHEAD-RECORDS)
 
 - **Context:** After Wave 3 (F08/F09/F12/F14), Composer implemented F10, F11, F13, F15, F16 with repository **v5** (`purchases`, `trips`, `paydownPlan`, `records`). F15 is derived-only (`aheadProjection.ts`); F16 metadata-only (no fake upload/verification). F09 formula extended with `purchaseReserved` / `tripReserved`. Quick Add adds **PURCHASE** and **TRIP** (5 types). Routes wired in `JurnlRuntimeRoot.tsx`. Blueprint functional ~**49.4%**; interactions WORKING **156**. E2E readiness contract: `docs/jurnl/e2e/JURNL_FULL_PRODUCT_E2E_READINESS.json`. **Next:** P0.JURNL.FULL-PRODUCT-E2E-GATE1 (not Wave 5).

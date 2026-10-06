@@ -58,6 +58,7 @@ export function PurchaseDetailScreen() {
   const { purchaseId } = useParams<{ purchaseId: string }>();
   const { go, openOverlay } = useJurnl();
   useCurrency();
+  usePurchases();
   const purchase = purchaseId ? purchaseById(purchaseId) : null;
   const [decideOpen, setDecideOpen] = useState(false);
   const [removeOpen, setRemoveOpen] = useState(false);
