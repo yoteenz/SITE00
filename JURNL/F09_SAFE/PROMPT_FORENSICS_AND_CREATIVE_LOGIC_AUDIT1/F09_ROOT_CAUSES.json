@@ -15,7 +15,9 @@
     "IMPLEMENTATION_LIMITATION": "The assembly / compositing step cannot reach the finish the brief asks for.",
     "MODEL_RENDERER_LIMITATION": "The model cannot do it even with a correct prompt. Must be proven (same prompt class succeeds elsewhere → not this).",
     "ASSET_LIMITATION": "A required asset (logo, font, reference, route) is missing or unreachable.",
-    "AUTHORITY_AMBIGUITY": "It is unclear which image or rule is the authority, or two authorities disagree."
+    "AUTHORITY_AMBIGUITY": "It is unclear which image or rule is the authority, or two authorities disagree.",
+    "ASSET_QUALITY_GUARD_FAILURE": "A degraded asset (preview, thumbnail, proxy, over-upscaled source) was allowed to advance into a composite or a founder-facing output (see asset-quality.ts).",
+    "BRAND_WORLD_UNDERSPECIFICATION": "The brand world is named by its vocabulary (materials, features) instead of its compositional grammar or its reference image; the model returns the genre, not the brand."
   },
   "renderer_blame_rule": "A renderer limitation is a root cause only when the same model, with a correct prompt and the right references, fails at the same task. If it succeeds on sibling authorities, the cause is upstream.",
   "root_causes": [
@@ -105,6 +107,47 @@
     },
     {
       "rank": 5,
+      "id": "RC13",
+      "cause": "Deterministic ownership expanded from exact strings, numbers, logo and nav into fixed layout: one shared blueprint skeleton (full-stage CTA from a shared helper, identical system zones, identical ownership layers and focal order) and an assembly that puts the logo, CTA, purchase module and nav at the same coordinates on all three pages. Result: three backgrounds + one product design, with the product in one flat plane.",
+      "classes": [
+        "RENDER_OWNERSHIP",
+        "PROMPT_OVER_CONSTRAINT"
+      ],
+      "evidence": [
+        "f09-composition-blueprint.ts systemZones (“identical on every F09 page”), ctaZones (CTA rect = the full 340-pt stage), sharedOwnership (L2 / L4–L7 deterministic for every territory)",
+        "scripts/jurnl/f09-art-direction-regen-assemble.mjs: logo(22–24, 24, 50) ×3 · cta 606 / 628 / 620 · purchase 664 / 686 / 678 · nav 770 / 772 / 770",
+        "L06 PRODUCT EXPRESSION content checklist rendered in list order"
+      ],
+      "confidence": "HIGH",
+      "impact": "HIGH",
+      "failures": [
+        "three concepts collapse into variants",
+        "deterministic UI is correct but visually crude",
+        "text glitches or feels pasted-on"
+      ]
+    },
+    {
+      "rank": 6,
+      "id": "RC15",
+      "cause": "The brand world was specified as Mediterranean vocabulary (arches, plaster, olive, sea, warm stone) rather than JURNL’s compositional grammar (one recurring place, inside viewpoint with a foreground occluder, lit type column against the world mass, arcade view, curated still life with an in-world JURNL object, counter-colour masses, lived-in trace). On a text-to-image route the grammar could not be inherited, so even the richer regen scenes read as generic AI interiors.",
+      "classes": [
+        "BRAND_WORLD_UNDERSPECIFICATION",
+        "REFERENCE_AMBIGUITY"
+      ],
+      "evidence": [
+        "THREE_CONCEPT_ART_DIRECTION_REGEN_CORRECTION1/SCENE_PROMPTS/*.txt (nouns + geometry; no viewpoint, frame split, still life, counter-colour or recurring place)",
+        "SCENES_PROOF previews vs REFERENCE_F01.00_WELCOME_APPROVED.jpg and F03.00_TODAY_PARENT.jpg",
+        "REGEN_RENDER_LEDGER.json (text2image: no image input)"
+      ],
+      "confidence": "MEDIUM",
+      "impact": "HIGH",
+      "failures": [
+        "outputs feel generic",
+        "Mediterranean satisfied as scenery, not as the JURNL world"
+      ]
+    },
+    {
+      "rank": 7,
       "id": "RC05",
       "cause": "The plate + overlay method was specified without an integration method: placeholders requested then left visible; UI built from app components in one flat plane; no light / plane / occlusion rules.",
       "classes": [
@@ -126,7 +169,7 @@
       ]
     },
     {
-      "rank": 6,
+      "rank": 8,
       "id": "RC06",
       "cause": "Role collapse and priority dilution: 59–75 % of each brief is process / QA / render / negatives; ~2,000-word generator prompts; the same agent wrote, rendered and passed its own QA.",
       "classes": [
@@ -145,7 +188,31 @@
       ]
     },
     {
-      "rank": 7,
+      "rank": 9,
+      "id": "RC14",
+      "cause": "No asset-quality gate. Nothing in the method measured source resolution or upscale, so when retrieval failed the run promoted 144×256 previews (≈ 10× upscale) into canvas-size layout proofs, a board headed THREE CONCEPT CANDIDATES and a zip sent to the founder. 4K lived only in the renderer profile, a 1.66× upscale had already been accepted as a recorded “exception”, the new “layout proof” class had a watermark as its only control, and the assembly gained a --proof mode that swaps in the previews.",
+      "classes": [
+        "ASSET_QUALITY_GUARD_FAILURE",
+        "PROMPT_OMISSION",
+        "PIPELINE_ORDER"
+      ],
+      "evidence": [
+        "REGEN_RENDER_LEDGER.json (retrieval BLOCKED; resolution_exception ×1.66)",
+        "creative-direction.ts checkReferences: quality mismatch waived by any non-empty renderer_exceptions (no threshold)",
+        "scripts/jurnl/f09-art-direction-regen-assemble.mjs (--proof → SCENES_PROOF/T0n_preview_144x256.jpg; seals placed by eye)",
+        "LAYOUT_PROOF/ASSEMBLY_REPORT.json scene_px 144×256 → 1179×2556",
+        "LAYOUT_PROOF/F09_FOUNDER_REVIEW_BOARD.png",
+        "F09_REGEN_LAYOUT_PROOF_3_CONCEPTS.zip (sent to the founder)"
+      ],
+      "confidence": "HIGH",
+      "impact": "HIGH",
+      "failures": [
+        "thumbnail-resolution source promoted into a founder-facing proof",
+        "a blocked run still produced visuals"
+      ]
+    },
+    {
+      "rank": 10,
       "id": "RC07",
       "cause": "Device chrome was injected by the agent’s own canonical geometry; “system chrome” was never defined.",
       "classes": [
@@ -165,7 +232,7 @@
       ]
     },
     {
-      "rank": 8,
+      "rank": 11,
       "id": "RC08",
       "cause": "Renderer access contradictions: the canonical 4K route was banned while being required; later routes could not take a reference image or deliver the file.",
       "classes": [
@@ -185,7 +252,7 @@
       ]
     },
     {
-      "rank": 9,
+      "rank": 12,
       "id": "RC09",
       "cause": "The quality bar was adjectives plus an image that never reached the agent.",
       "classes": [
@@ -202,7 +269,7 @@
       ]
     },
     {
-      "rank": 10,
+      "rank": 13,
       "id": "RC10",
       "cause": "Territories were authored as data-encoding metaphors (floor area = money, metal words, envelope thickness); depicting them literally reads as a diagram.",
       "classes": [
@@ -220,7 +287,7 @@
       ]
     },
     {
-      "rank": 11,
+      "rank": 14,
       "id": "RC11",
       "cause": "Too much exact text was given to the generator (≈ 19 strings incl. 8-pt labels) with no typographic reference.",
       "classes": [
@@ -238,7 +305,7 @@
       ]
     },
     {
-      "rank": 12,
+      "rank": 15,
       "id": "RC12",
       "cause": "Product truth drifted between rounds (QA-seed → founder payload; TRIPS → BUFFER; new date and bridge without a formula).",
       "classes": [
@@ -315,6 +382,22 @@
       "RC06",
       "RC03",
       "RC04"
+    ],
+    "three backgrounds + one product design": [
+      "RC13",
+      "RC04"
+    ],
+    "Mediterranean reads as generic AI interior, not JURNL": [
+      "RC15",
+      "RC01",
+      "RC03"
+    ],
+    "thumbnail-resolution source promoted into a founder-facing proof": [
+      "RC14"
+    ],
+    "a blocked run still produced visuals": [
+      "RC14",
+      "RC06"
     ]
   },
   "synthesis": [

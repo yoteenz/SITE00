@@ -23,6 +23,8 @@ export const PROMPT_FAILURE_CLASSES = {
   MODEL_RENDERER_LIMITATION: 'The model cannot do it even with a correct prompt. Must be proven (same prompt class succeeds elsewhere → not this).',
   ASSET_LIMITATION: 'A required asset (logo, font, reference, route) is missing or unreachable.',
   AUTHORITY_AMBIGUITY: 'It is unclear which image or rule is the authority, or two authorities disagree.',
+  ASSET_QUALITY_GUARD_FAILURE: 'A degraded asset (preview, thumbnail, proxy, over-upscaled source) was allowed to advance into a composite or a founder-facing output (see asset-quality.ts).',
+  BRAND_WORLD_UNDERSPECIFICATION: 'The brand world is named by its vocabulary (materials, features) instead of its compositional grammar or its reference image; the model returns the genre, not the brand.',
 } as const;
 export type PromptFailureClass = keyof typeof PROMPT_FAILURE_CLASSES;
 
@@ -138,6 +140,7 @@ export const ANTI_GENERIC_TEST = [
   { id: 'TEMPLATE_ANATOMY', question: 'Strip the imagery: is the page anatomy a stock fintech / card template?', fail_if: 'YES' },
   { id: 'SIBLING_SWAP', question: 'Could this be a sibling family’s screen (e.g. TODAY) with the label changed?', fail_if: 'YES' },
   { id: 'ADJECTIVE_ONLY', question: 'Is every brand claim satisfied only by palette and material nouns?', fail_if: 'YES' },
+  { id: 'CONCEPT_SKELETON', question: 'Hide the scenes: do the concepts share one product layout (same logo spot, same stack order, same CTA and module positions)?', fail_if: 'YES — three backgrounds + one product design' },
 ] as const;
 
 export const ANTI_ASSEMBLY_TEST = [

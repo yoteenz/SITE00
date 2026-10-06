@@ -16,13 +16,25 @@ The renderer was never shown the JURNL world.
 
 **Sunburst is not the bottleneck.** It produced every approved JURNL image.
 
+## Addendum: the regen run as evidence
+
+THREE-CONCEPT-ART-DIRECTION-REGEN-CORRECTION1 is now part of the audit: lineage L06b, contradiction C21, root causes RC13–RC15. It is covered in report §49–51, `F09_REGEN_ADDENDUM.json` and `ASSET_QUALITY_GATING.json`.
+
+- **Degraded asset promoted (RC14).** 144×256 previews were upscaled about 10× into 1179×2556 layout proofs, a board headed THREE CONCEPT CANDIDATES and a zip sent to the founder.
+  - The missing rule is the no-degraded-asset rule, enforced by an asset quality gate that blocks before compositing.
+  - The network block explains the missing files, not the continuation.
+- **Three backgrounds + one product design (RC13).** Deterministic ownership grew from exact strings into fixed rectangles. Logo, CTA, purchase module and nav sit at the same coordinates on all three pages.
+  - Fix: lock strings and the nav; free everything else per concept (`F09_ELEMENT_FREEDOM_MATRIX`).
+- **Mediterranean as vocabulary, not JURNL grammar (RC15).** The scenes had arches, plaster, olive, sea and stone, but not the JURNL place, viewpoint, type column, arcade view, still life or counter-colour.
+- **Blocked-run behaviour.** No founder-facing visual. Report, don't render.
+
 ## Read in this order
 
 | File | What it holds |
 |---|---|
-| `F09_PROMPT_FORENSICS_REPORT.md` | The full audit, sections 1–48, ending with the final report |
-| `F09_ROOT_CAUSES.json` | 12 ranked root causes with failure class, evidence and confidence; failure map; synthesis |
-| `F09_CONTRADICTIONS.json` | 20 contradictions (2 critical, 12 high, 5 medium, 1 low); over-constraint; under-specified words |
+| `F09_PROMPT_FORENSICS_REPORT.md` | The full audit: sections 1–48 (ending with the final report), plus addendum sections 49–51 |
+| `F09_ROOT_CAUSES.json` | 15 ranked root causes with failure class, evidence and confidence; failure map; synthesis |
+| `F09_CONTRADICTIONS.json` | 21 contradictions (2 critical, 13 high, 5 medium, 1 low); over-constraint; under-specified words |
 | `F09_PROMPT_FORENSICS_TABLE.json` | One row per prompt / sprint (section 41) |
 | `F09_RULE_DISPOSITIONS_AND_MISSING_LOGIC.json` | Survival verdicts, keep / rewrite / remove, missing logic, next-sprint spec, founder decisions |
 | `F09_PROMPT_ARCHITECTURE.json` | Prompt layers, priority tiers, generator budget, freedom budget, mandatory evidence, tests, device-chrome rule, delivery contract |
@@ -30,7 +42,9 @@ The renderer was never shown the JURNL world.
 | `F09_CREATIVE_LOGIC_AUDIT.json` | Mediterranean, richness, role collapse, distinctness, product truth, UI ownership, coherence, order, device chrome, typography |
 | `F09_INSTRUCTION_INVENTORY.json` | Every instruction line from the 4 founder briefs and 12 generator prompts, classified into 21 categories |
 | `PROMPT_DENSITY_MEASUREMENT.json` | Words by bucket, line and clause polarity, with the method and bucket tables |
-| `F09_PROMPT_LINEAGE.json` | Lineage (14 entries, 6 sprints) and pipeline |
+| `F09_PROMPT_LINEAGE.json` | Lineage (15 entries, 6 sprints) and pipeline |
+| `F09_REGEN_ADDENDUM.json` | Addendum: degraded asset, shared geometry, deterministic scope, element freedom matrix, JURNL world grammar, blocked-run audit, root-cause map for the regen run |
+| `ASSET_QUALITY_GATING.json` | The asset quality gate, JURNL thresholds, and the real assets run through it |
 | `F09_FORENSICS_VERDICT.json` | Verdict and the generation pause |
 | `SOURCES/` | The founder briefs, verbatim (01, 02, 03, 06; 07 is this audit’s own brief) |
 

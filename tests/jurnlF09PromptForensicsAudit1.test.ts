@@ -8,11 +8,14 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import {
+  ASSET_QUALITY_GATE,
+  ANTI_GENERIC_TEST,
   DEVICE_CHROME_RULE,
   GENERATOR_PROMPT_BUDGET,
   INSTRUCTION_CATEGORIES,
   PROMPT_ARCHITECTURE,
   PROMPT_FAILURE_CLASSES,
+  assessAssetQuality,
   classifyInstruction,
   jurnlF09Forensics as F,
 } from '../shared/studioos-visual-authority/index';
@@ -121,10 +124,10 @@ describe('measurements reproduce from the sources', () => {
 describe('findings', () => {
   const lineageIds = new Set(F.F09_PROMPT_LINEAGE.map((l) => l.id));
 
-  it('20 contradictions with severity, all citing real lineage entries', () => {
-    expect(F.F09_CONTRADICTIONS).toHaveLength(20);
+  it('21 contradictions with severity, all citing real lineage entries', () => {
+    expect(F.F09_CONTRADICTIONS).toHaveLength(21);
     const sev = (s: string) => F.F09_CONTRADICTIONS.filter((c) => c.severity === s).length;
-    expect([sev('CRITICAL'), sev('HIGH'), sev('MEDIUM'), sev('LOW')]).toEqual([2, 12, 5, 1]);
+    expect([sev('CRITICAL'), sev('HIGH'), sev('MEDIUM'), sev('LOW')]).toEqual([2, 13, 5, 1]);
     for (const c of F.F09_CONTRADICTIONS) for (const s of c.sources.filter((x) => /^L\d/.test(x))) expect(lineageIds.has(s), `${c.id} ${s}`).toBe(true);
     for (const r of F.F09_FORENSICS_TABLE) for (const c of r.contradictions) expect(F.F09_CONTRADICTIONS.some((x) => x.id === c), `${r.prompt} ${c}`).toBe(true);
   });
@@ -167,6 +170,58 @@ describe('findings', () => {
   });
 });
 
+describe('addendum: the regen run as evidence', () => {
+  const REGEN = 'JURNL/F09_SAFE/THREE_CONCEPT_ART_DIRECTION_REGEN_CORRECTION1';
+
+  it('the degraded-asset facts are on disk: previews → canvas-size proofs under a founder-review name', () => {
+    const report = JSON.parse(read(`${REGEN}/LAYOUT_PROOF/ASSEMBLY_REPORT.json`));
+    expect(report.proof).toBe(true);
+    expect(report.territories.map((t: { scene_px: string }) => t.scene_px)).toEqual(['144×256', '144×256', '144×256']);
+    const asm = read('scripts/jurnl/f09-art-direction-regen-assemble.mjs');
+    expect(asm).toContain('_preview_144x256.jpg');
+    expect(asm).toContain('THREE CONCEPT CANDIDATES');
+    expect(exists(`${REGEN}/LAYOUT_PROOF/F09_FOUNDER_REVIEW_BOARD.png`)).toBe(true);
+    expect(JSON.parse(read(`${REGEN}/REGEN_RENDER_LEDGER.json`)).resolution_exception).toMatch(/×1\.66/);
+    expect(read('shared/studioos-visual-authority/creative-direction.ts')).toMatch(/without a recorded exception/);
+  });
+
+  it('the asset quality gate blocks what the run did and passes the canonical JURNL 4K', () => {
+    const [proof, review, internal, canonical] = F.F09_ASSET_QUALITY_CASES.map((c) => c.result);
+    expect(proof).toMatchObject({ upscale: 9.98, highest_permitted: 'WIREFRAME_ONLY', verdict: 'BLOCK' });
+    expect(review).toMatchObject({ upscale: 1.66, verdict: 'BLOCK' });
+    expect(internal).toMatchObject({ highest_permitted: 'LAYOUT_PROOF', verdict: 'PASS' });
+    expect(canonical).toMatchObject({ upscale: 0.71, highest_permitted: 'AUTHORITY_CANDIDATE', verdict: 'PASS' });
+    expect(F.F09_REFERENCE_INPUT_CASES.map((c) => c.passes)).toEqual([true, false]);
+    // an approved exception admits 1.66× only when the founder sets the ceiling before compositing
+    expect(assessAssetQuality({ source_px: { w: 864, h: 1536 }, covers_pt: { w: 393, h: 852 }, review_scale: 3, provenance: 'FULL_RENDER', purpose: 'FOUNDER_REVIEW_EXCEPTION', founder_facing: true, founder_exception: { approved: true, max_upscale: 1.7 } }).verdict).toBe('PASS');
+    for (const k of ['SOURCE_RESOLUTION_RULE', 'UPSCALE_RULE', 'FOUNDER_REVIEW_THRESHOLD', 'LAYOUT_PROOF_THRESHOLD', 'BLOCK_CONDITION', 'NO_DEGRADED_ASSET_RULE']) expect(ASSET_QUALITY_GATE).toHaveProperty(k);
+    expect(F.F09_PREVIEW_ACCEPTANCE_ANSWER.not_the_answer).toMatch(/network/);
+    expect(F.F09_PREVIEW_ACCEPTANCE_ANSWER.missing_rule).toMatch(/NO-DEGRADED-ASSET RULE/);
+  });
+
+  it('the shared product skeleton is real: same logo, CTA, purchase and nav coordinates; full-stage CTA from one helper', () => {
+    const asm = read('scripts/jurnl/f09-art-direction-regen-assemble.mjs');
+    for (const x of ['logo(22, 24, 50)', 'logo(x, 24, 50)', 'cta(628)', 'cta(620)', 'purchase(686', 'purchase(678', 'nav(770', 'nav(772']) expect(asm, x).toContain(x);
+    const bp = read('shared/studioos-visual-authority/projects/jurnl/f09-composition-blueprint.ts');
+    expect(bp).toMatch(/zone_id: `\$\{t\}\.CTA`, role: 'CTA', layer: 'L5', rect: r\(G\.stage\.x, y, G\.stage\.w, h\)/);
+    expect(bp).toContain('identical on every F09 page');
+    expect(F.F09_DETERMINISTIC_SCOPE_AUDIT.expanded).toBe(true);
+    expect(F.F09_ELEMENT_FREEDOM_MATRIX.find((e) => e.element === 'nav')!.move).toBe('NO');
+    expect(F.F09_ELEMENT_FREEDOM_MATRIX.find((e) => e.element === 'primary CTA')!.move).not.toBe('NO');
+    expect(ANTI_GENERIC_TEST.map((t) => t.id)).toContain('CONCEPT_SKELETON');
+  });
+
+  it('new root causes are ranked into the map with the requested categories', () => {
+    const ids = F.F09_ROOT_CAUSES.map((r) => r.id);
+    expect(ids.slice(0, 5)).toEqual(['RC01', 'RC02', 'RC03', 'RC04', 'RC13']);
+    expect(ids).toEqual(expect.arrayContaining(['RC14', 'RC15']));
+    expect(F.F09_REGEN_ROOT_CAUSE_MAP.map((r) => r.category)).toEqual(['PROMPT CONTRADICTION', 'PROMPT OMISSION', 'OVER-CONSTRAINT', 'RENDER-OWNERSHIP ERROR', 'ASSET-QUALITY GUARD FAILURE', 'PIPELINE ORDER FAILURE', 'REFERENCE / BRAND-WORLD UNDER-SPECIFICATION']);
+    for (const r of F.F09_REGEN_ROOT_CAUSE_MAP) for (const ref of r.refs) expect(ids.includes(ref) || F.F09_CONTRADICTIONS.some((c) => c.id === ref), ref).toBe(true);
+    expect(F.F09_JURNL_WORLD_GRAMMAR.grammar.map((g) => g.id)).toEqual(expect.arrayContaining(['ONE_PLACE', 'INSIDE_VIEWPOINT', 'SPLIT_FRAME', 'CURATED_STILL_LIFE', 'COUNTER_COLOUR']));
+    expect(F.F09_BLOCKED_RUN_AUDIT.should_have_produced_visual).toMatch(/^NO founder-facing visual/);
+  });
+});
+
 describe('analysis only', () => {
   it('nothing generated or implemented; generation paused; not ready to rewrite before founder decisions', () => {
     expect(F.F09_FORENSICS_VERDICT.generation_performed).toBe(false);
@@ -180,11 +235,12 @@ describe('analysis only', () => {
 });
 
 describe('exports', () => {
-  it('are in sync and the report covers sections 1–48', () => {
+  it('are in sync and the report covers sections 1–51', () => {
     const files = buildF09PromptForensicsExports();
     for (const [name, body] of Object.entries(files)) expect(read(`${F.F09_FORENSICS_DIR}/${name}`), name).toBe(body);
     const report = files['F09_PROMPT_FORENSICS_REPORT.md']!;
-    for (let n = 1; n <= 48; n++) expect(report, `§${n}`).toMatch(new RegExp(`^## ${n}\\. `, 'm'));
+    for (let n = 1; n <= 51; n++) expect(report, `§${n}`).toMatch(new RegExp(`^## ${n}\\. `, 'm'));
+    expect(buildF09FinalReport()).toMatch(/ASSET QUALITY GATING:\nSOURCE_RESOLUTION_RULE[\s\S]*NO-DEGRADED-ASSET RULE[\s\S]*WHY WAS A 144×256 PREVIEW ACCEPTED\?/);
     expect(buildF09FinalReport()).toMatch(/PROMPT_SYSTEM_ROOT_CAUSE_IDENTIFIED YES\nREADY_TO_REWRITE_F09_GENERATION_PROMPT NO/);
     expect(read(`${F.F09_FORENSICS_DIR}/README.md`)).toMatch(/F09 visual generation is paused/);
   });

@@ -3,10 +3,10 @@
   "sprint": "P0.JURNL.F09.PROMPT-FORENSICS-AND-CREATIVE-LOGIC-AUDIT1",
   "generated_by": "scripts/studioos/jurnl-f09-prompt-forensics-export.ts",
   "analysis_only": true,
-  "count": 20,
+  "count": 21,
   "severity": {
     "CRITICAL": 2,
-    "HIGH": 12,
+    "HIGH": 13,
     "MEDIUM": 5,
     "LOW": 1
   },
@@ -150,7 +150,8 @@
       "sources": [
         "F09_FOUNDER_REVIEW_PAYLOAD.json",
         "L05",
-        "L06"
+        "L06",
+        "L06b"
       ]
     },
     {
@@ -262,6 +263,19 @@
       "sources": [
         "L02",
         "F03_GENERATION_LEDGER.json"
+      ]
+    },
+    {
+      "id": "C21",
+      "a": "Produce the proper 3 finished concept candidates through the correct downstream route in your environment (L06 RENDERER / EXECUTION RULE, DELIVERABLES).",
+      "b": "Sunburst 4K; finished authority quality; the founder must not see the scaffolding (L06).",
+      "why": "When the environment cannot deliver a full-size file both cannot hold, and no brief or method defined the blocked outcome — so the run kept “deliver something” and dropped “at authority quality”.",
+      "failure": "144×256 previews upscaled ≈ 10× into layout proofs, a board headed THREE CONCEPT CANDIDATES and a zip sent to the founder.",
+      "severity": "HIGH",
+      "sources": [
+        "L06",
+        "L06b",
+        "REGEN_RENDER_LEDGER.json"
       ]
     }
   ],

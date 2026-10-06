@@ -4,6 +4,7 @@
 **Status:** **BLOCKED ON SCENE RETRIEVAL.** 0 of 3 finished candidates delivered. No founder board yet.
 
 > **Superseded for planning by `P0.JURNL.F09.PROMPT-FORENSICS-AND-CREATIVE-LOGIC-AUDIT1`.** F09 generation is paused. Do not resume this round as-is: the audit found that its scene prompts are text-to-image with no world reference (`../PROMPT_FORENSICS_AND_CREATIVE_LOGIC_AUDIT1/README.md`).
+> **`LAYOUT_PROOF/` is a degraded artifact.** It was built from 144×256 previews (≈ 10× upscale), which the asset quality gate classes as WIREFRAME_ONLY. It is not for evaluation and should never have been founder-facing (audit addendum, RC14).
 
 ## What happened
 

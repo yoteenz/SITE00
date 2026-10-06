@@ -5,7 +5,7 @@
   "analysis_only": true,
   "PROMPT_SYSTEM_ROOT_CAUSE_IDENTIFIED": true,
   "READY_TO_REWRITE_F09_GENERATION_PROMPT": false,
-  "why_not_ready": "Three founder decisions (composition mode, world authority, date formula) and a render-route preflight (image2image + 4K + retrieval in the executing environment) must come first.",
+  "why_not_ready": "Three founder decisions (composition mode, world authority, date formula), a render-route preflight (image2image + 4K + retrieval in the executing environment) and the asset-quality gate in force (defined by the addendum, not yet wired into any gate) must come first.",
   "generation_performed": false,
   "implementation_performed": false,
   "generation_paused": {

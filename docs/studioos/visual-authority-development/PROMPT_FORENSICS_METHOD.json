@@ -76,7 +76,9 @@
     "IMPLEMENTATION_LIMITATION": "The assembly / compositing step cannot reach the finish the brief asks for.",
     "MODEL_RENDERER_LIMITATION": "The model cannot do it even with a correct prompt. Must be proven (same prompt class succeeds elsewhere → not this).",
     "ASSET_LIMITATION": "A required asset (logo, font, reference, route) is missing or unreachable.",
-    "AUTHORITY_AMBIGUITY": "It is unclear which image or rule is the authority, or two authorities disagree."
+    "AUTHORITY_AMBIGUITY": "It is unclear which image or rule is the authority, or two authorities disagree.",
+    "ASSET_QUALITY_GUARD_FAILURE": "A degraded asset (preview, thumbnail, proxy, over-upscaled source) was allowed to advance into a composite or a founder-facing output (see asset-quality.ts).",
+    "BRAND_WORLD_UNDERSPECIFICATION": "The brand world is named by its vocabulary (materials, features) instead of its compositional grammar or its reference image; the model returns the genre, not the brand."
   },
   "instruction_categories": [
     "PRODUCT_TRUTH",
@@ -246,6 +248,11 @@
       "id": "ADJECTIVE_ONLY",
       "question": "Is every brand claim satisfied only by palette and material nouns?",
       "fail_if": "YES"
+    },
+    {
+      "id": "CONCEPT_SKELETON",
+      "question": "Hide the scenes: do the concepts share one product layout (same logo spot, same stack order, same CTA and module positions)?",
+      "fail_if": "YES — three backgrounds + one product design"
     }
   ],
   "anti_assembly_test": [

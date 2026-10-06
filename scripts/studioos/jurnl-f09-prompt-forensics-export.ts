@@ -11,6 +11,9 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import {
   ANTI_ASSEMBLY_TEST,
+  ASSET_QUALITY_GATE,
+  BLOCKED_RUN_PROTOCOL,
+  UPSCALE_LIMITS,
   ANTI_GENERIC_TEST,
   CONCEPT_DELIVERY_CONTRACT,
   DEVICE_CHROME_RULE,
@@ -256,7 +259,7 @@ export function buildF09FinalReport(): string {
     'STATUS: COMPLETE — ANALYSIS ONLY',
     '',
     'PROMPTS AUDITED:',
-    `COUNT: ${F.F09_PROMPT_LINEAGE.length} lineage entries across 6 sprints (4 founder briefs verbatim, 2 Composer sprints reconstructed, ${generatorFiles} generator prompt files, 2 generator input-image sets, 2 rulesets)`,
+    `COUNT: ${F.F09_PROMPT_LINEAGE.length} lineage entries across 6 sprints (4 founder briefs verbatim, 2 Composer sprints reconstructed, ${generatorFiles} generator prompt files, 2 generator input-image sets, 2 rulesets, 1 regen assembly)`,
     'LIST:',
     ...F.F09_PROMPT_LINEAGE.map((l) => `  ${l.id} ${l.sprint} · ${l.kind}${l.reconstructed ? ' (reconstructed)' : ''}`),
     '',
@@ -332,6 +335,28 @@ export function buildF09FinalReport(): string {
     '',
     'NEXT SPRINT MUST NOT:',
     ...F.F09_NEXT_SPRINT_SPEC.must_not.map((m) => `- ${m}`),
+    '',
+    'ADDENDUM — THREE-CONCEPT-ART-DIRECTION-REGEN-CORRECTION1 AS EVIDENCE:',
+    '',
+    'ASSET QUALITY GATING:',
+    `SOURCE_RESOLUTION_RULE: ${F.F09_ASSET_QUALITY_THRESHOLDS.minimum_source} Measured on the decoded file by the consuming stage.`,
+    `UPSCALE_RULE: ${F.F09_ASSET_QUALITY_THRESHOLDS.allowed_upscale} Ratio measured against the generated pixels.`,
+    `FOUNDER_REVIEW_THRESHOLD: ${F.F09_ASSET_QUALITY_THRESHOLDS.founder_review_threshold}`,
+    `LAYOUT_PROOF_THRESHOLD: ${F.F09_ASSET_QUALITY_THRESHOLDS.layout_proof_permitted}`,
+    'BLOCK_CONDITION: below the size for the purpose, over the upscale limit, degraded provenance or unverifiable → BLOCKED_ON_ASSET_QUALITY before compositing; no composite, board or zip.',
+    'NO-DEGRADED-ASSET RULE: a degraded asset never advances a stage; a watermark is not a mitigation; asked for images while blocked, send what exists at native size, labelled.',
+    `REGEN CHECK: 144×256 preview → ${F.F09_ASSET_QUALITY_CASES[0].result.upscale}× → ${F.F09_ASSET_QUALITY_CASES[0].result.highest_permitted} → ${F.F09_ASSET_QUALITY_CASES[0].result.verdict}. 864×1536 for founder review → ${F.F09_ASSET_QUALITY_CASES[1].result.upscale}× → ${F.F09_ASSET_QUALITY_CASES[1].result.verdict}. 2016×3584 → ${F.F09_ASSET_QUALITY_CASES[3].result.verdict}.`,
+    '',
+    'WHY WAS A 144×256 PREVIEW ACCEPTED?',
+    `${F.F09_PREVIEW_ACCEPTANCE_ANSWER.not_the_answer} No rule tied an output’s audience to its source quality: resolution was a generation setting, a 1.66× exception had no ceiling, the “layout proof” class had no threshold or audience, the brief defined no blocked outcome, and the code was adapted to the defect.`,
+    `MISSING RULE: ${F.F09_PREVIEW_ACCEPTANCE_ANSWER.missing_rule}`,
+    '',
+    'SHARED UI GEOMETRY: THREE BACKGROUNDS + ONE PRODUCT DESIGN — logo, CTA, purchase module and nav at the same coordinates; one stack order (RC13).',
+    'DETERMINISTIC UI SCOPE: TOO BROAD — exact strings became fixed rectangles, order and CTA geometry (RC13, HIGH).',
+    'MEDITERRANEAN: VOCABULARY, NOT JURNL GRAMMAR — one place, inside view with foreground, type column vs world mass, arcade view, curated still life, counter-colour, lived-in (RC15, MEDIUM).',
+    `BLOCKED-RUN BEHAVIOUR: ${F.F09_BLOCKED_RUN_AUDIT.correct_failure_behaviour} No founder-facing visual.`,
+    'REGEN ROOT-CAUSE MAP:',
+    ...F.F09_REGEN_ROOT_CAUSE_MAP.map((r) => `  ${r.category} → ${r.refs.join(', ')} [${r.confidence}]`),
     '',
     'GENERATION PERFORMED:',
     F.F09_FORENSICS_VERDICT.generation_performed ? 'YES' : 'NO',
@@ -511,12 +536,37 @@ export function buildF09ForensicsReport(inv = buildF09InstructionInventory(), m 
 
   h(47, 'Success criteria');
   const crit: [string, string][] = [
-    ['full F09 prompt lineage audited', '§1 · F09_PROMPT_LINEAGE.json'], ['instruction inventory complete', '§3 · F09_INSTRUCTION_INVENTORY.json'], ['contradictions identified', '§4'], ['over-constraint identified', '§5'], ['under-specification identified', '§6'], ['art-direction density audited', '§9 · PROMPT_DENSITY_MEASUREMENT.json'], ['Mediterranean specificity audited', '§7'], ['environmental richness audited', '§8'], ['role-collapse audited', '§10'], ['reference usage audited', '§16–18'], ['deterministic UI scope audited', '§13 · §38'], ['plate methodology audited', '§37 · RC02 · RC05'], ['three-territory model audited', '§11 · §36'], ['prompt-length dilution audited', '§19'], ['negative-instruction saturation audited', '§20'], ['root causes ranked', '§42'], ['causal confidence reported', '§26'], ['new prompt architecture proposed', '§27–35'], ['missing logic explicitly defined', '§45'], ['no images generated', 'F09_FORENSICS_VERDICT.generation_performed = false'], ['no implementation performed', 'F09_FORENSICS_VERDICT.implementation_performed = false'], ['no next concept round started', 'F09_GENERATION_PAUSED'],
+    ['full F09 prompt lineage audited', '§1 · F09_PROMPT_LINEAGE.json'], ['instruction inventory complete', '§3 · F09_INSTRUCTION_INVENTORY.json'], ['contradictions identified', '§4'], ['over-constraint identified', '§5'], ['under-specification identified', '§6'], ['art-direction density audited', '§9 · PROMPT_DENSITY_MEASUREMENT.json'], ['Mediterranean specificity audited', '§7'], ['environmental richness audited', '§8'], ['role-collapse audited', '§10'], ['reference usage audited', '§16–18'], ['deterministic UI scope audited', '§13 · §38'], ['plate methodology audited', '§37 · RC02 · RC05'], ['three-territory model audited', '§11 · §36'], ['prompt-length dilution audited', '§19'], ['negative-instruction saturation audited', '§20'], ['root causes ranked', '§42'], ['causal confidence reported', '§26'], ['new prompt architecture proposed', '§27–35'], ['missing logic explicitly defined', '§45'], ['no images generated', 'F09_FORENSICS_VERDICT.generation_performed = false'], ['no implementation performed', 'F09_FORENSICS_VERDICT.implementation_performed = false'], ['no next concept round started', 'F09_GENERATION_PAUSED'], ['addendum: degraded-asset failsafe audited', '§49 A1 · §50'], ['addendum: shared UI geometry audited', '§49 A2'], ['addendum: deterministic scope audited', '§49 A3 · RC13'], ['addendum: Mediterranean vocabulary vs JURNL grammar', '§49 A4 · RC15'], ['addendum: blocked-run behaviour defined', '§49 A5'], ['addendum: regen run added to the root-cause map', '§49 A6'], ['addendum: asset quality gating section', '§50'], ['addendum: explicit preview question answered', '§51'],
   ];
   out.push(crit.map(([c, e]) => `- [x] ${c} — ${e}`).join('\n'));
 
   h(48, 'Final report');
-  out.push('```', buildF09FinalReport(), '```', '');
+  out.push('```', buildF09FinalReport(), '```');
+
+  const A = F.F09_REGEN_ADDENDUM;
+  h(49, 'Addendum — the regen run as forensic evidence');
+  out.push(`Run: \`${A.run}\`. ${A.mode} New: ${A.new_root_causes.join(', ')}; ${A.new_contradictions.join(', ')}; lineage ${A.lineage.join(', ')}. ${A.reranked}`);
+  out.push('', '### A1. Degraded-asset failsafe', '', list(F.F09_DEGRADED_ASSET_AUDIT.facts), '', `**Verdict:** ${F.F09_DEGRADED_ASSET_AUDIT.verdict} The missing hard rule is in §50; the explicit answer in §51.`);
+  const G = F.F09_SHARED_GEOMETRY_AUDIT;
+  out.push('', '### A2. Concept distinctness overridden by shared UI geometry', '', `Source: \`${G.source}\`.`, '', table(['Module', 'T01', 'T02', 'T03', 'Shared'], G.modules.map((m) => [m.module, m.T01, m.T02, m.T03, m.shared])), '', '**Where the skeleton comes from:**', list(G.blueprint_origin), `- ${G.brief_origin}`, '', G.approved_note, '', `**Verdict:** ${G.verdict}`);
+  out.push('', '**What stays exact and what may change, per concept:**', '', table(['Element', 'Exact', 'Locked', 'May move', 'May resize', 'May restructure', 'May transform'], F.F09_ELEMENT_FREEDOM_MATRIX.map((e) => [e.element, e.exact, e.locked, e.move, e.resize, e.restructure, e.transform])), '', `**Reading order:** ${F.F09_READING_ORDER_LOCK}`, '', `**Distinctness minimum:** ${F.F09_PRODUCT_DISTINCTNESS_MINIMUM}`);
+  const D = F.F09_DETERMINISTIC_SCOPE_AUDIT;
+  out.push('', '### A3. Deterministic UI ownership is too broad', '', `**Intended:** ${D.intended.join(' · ')}.`, '', `**Actual:** ${D.actual.join(' · ')}.`, '', `**Mechanism:** ${D.mechanism}`, '', `**Verdict:** ${D.verdict}`);
+  const W = F.F09_JURNL_WORLD_GRAMMAR;
+  out.push('', '### A4. Mediterranean as scenery, not the JURNL world', '', `**Vocabulary:** ${W.vocabulary.join(', ')}. ${W.vocabulary_verdict}`, '', table(['Grammar rule', 'Definition', 'Approved JURNL', 'Regen scenes'], W.grammar.map((g) => [g.id, g.rule, g.approved, g.regen])), '', `**Why:** ${W.why}`, '', `**Confidence:** ${W.confidence}`);
+  const B = F.F09_BLOCKED_RUN_AUDIT;
+  out.push('', '### A5. Blocked-run behaviour', '', `**Should the run have produced a visual proof?** ${B.should_have_produced_visual}`, '', '**What happened:**', list(B.what_happened), '', '**What should have happened:**', list(B.what_should_have_happened), '', `**Correct failure behaviour:** ${B.correct_failure_behaviour}`, '', '**Blocked-run protocol (any project):**', list(BLOCKED_RUN_PROTOCOL));
+  out.push('', '### A6. The run in the root-cause map', '', table(['Category', 'Failure class', 'Causes', 'Refs', 'Confidence'], F.F09_REGEN_ROOT_CAUSE_MAP.map((r) => [r.category, r.failure_class, r.causes.join(' '), r.refs.join(', '), r.confidence])));
+
+  h(50, 'Asset quality gating');
+  const AQ = F.F09_ASSET_QUALITY_THRESHOLDS;
+  out.push(table(['Rule', 'Definition (generic, asset-quality.ts)'], [['SOURCE_RESOLUTION_RULE', ASSET_QUALITY_GATE.SOURCE_RESOLUTION_RULE], ['UPSCALE_RULE', ASSET_QUALITY_GATE.UPSCALE_RULE], ['FOUNDER_REVIEW_THRESHOLD', ASSET_QUALITY_GATE.FOUNDER_REVIEW_THRESHOLD], ['LAYOUT_PROOF_THRESHOLD', ASSET_QUALITY_GATE.LAYOUT_PROOF_THRESHOLD], ['WIREFRAME / GEOMETRY ONLY', ASSET_QUALITY_GATE.WIREFRAME_THRESHOLD], ['BLOCK_CONDITION', ASSET_QUALITY_GATE.BLOCK_CONDITION], ['NO-DEGRADED-ASSET RULE', ASSET_QUALITY_GATE.NO_DEGRADED_ASSET_RULE], ['REFERENCE INPUT', ASSET_QUALITY_GATE.REFERENCE_INPUT_RULE]]));
+  out.push('', `**JURNL mobile values:** canvas ${AQ.canvas_pt.w}×${AQ.canvas_pt.h} pt at @${AQ.review_scale} = ${AQ.required_px.w}×${AQ.required_px.h} px · canonical generation ${AQ.canonical_generation_px.w}×${AQ.canonical_generation_px.h} (${AQ.canonical_source}) · upscale limits ${Object.entries(UPSCALE_LIMITS).map(([k, v]) => `${k} ${v}×`).join(' · ')}.`, '', `- Minimum source: ${AQ.minimum_source}`, `- Allowed upscale: ${AQ.allowed_upscale}`, `- Founder-review threshold: ${AQ.founder_review_threshold}`, `- Layout proof permitted: ${AQ.layout_proof_permitted}`, `- Wireframe / geometry proof only: ${AQ.wireframe_only}`, `- World reference: ${AQ.world_reference}`);
+  out.push('', '**Applied to the real assets:**', '', table(['Case', 'Upscale', 'Highest permitted', 'Verdict', 'Reasons'], F.F09_ASSET_QUALITY_CASES.map((c) => [c.case, `${c.result.upscale}×`, c.result.highest_permitted, c.result.verdict, c.result.reasons.join('; ') || '—'])), '', table(['Reference input', 'Passes'], F.F09_REFERENCE_INPUT_CASES.map((c) => [c.case, c.passes ? 'YES' : 'NO'])), '', 'Defined here; not yet wired into `evaluateAuthorityGate` or `checkCompositeAuthority`.');
+
+  h(51, 'Explicit question — why did the system think a 144×256 preview was acceptable input for a founder-facing mobile authority proof?');
+  const Q = F.F09_PREVIEW_ACCEPTANCE_ANSWER;
+  out.push(`**Not the answer:** ${Q.not_the_answer}`, '', `**Answer:** ${Q.answer}`, '', '**The chain that allowed continuation:**', Q.chain.map((c, i) => `${i + 1}. ${c}`).join('\n'), '', `**The missing methodology rule:** ${Q.missing_rule}`, '');
   return out.join('\n');
 }
 
@@ -564,6 +614,8 @@ export function buildF09PromptForensicsExports(): Record<string, string> {
     'F09_ROOT_CAUSES.json': json({ ...head('F09_ROOT_CAUSES'), failure_classes: PROMPT_FAILURE_CLASSES, renderer_blame_rule: RENDERER_BLAME_RULE, root_causes: F.F09_ROOT_CAUSES, failure_map: F.F09_FAILURE_MAP, synthesis: F.F09_SYNTHESIS }),
     'F09_PROMPT_ARCHITECTURE.json': json({ ...head('F09_PROMPT_ARCHITECTURE'), procedure: PROMPT_FORENSICS_PROCEDURE, architecture: PROMPT_ARCHITECTURE, priority_tiers: PROMPT_PRIORITY_TIERS, generator_prompt_budget: GENERATOR_PROMPT_BUDGET, freedom_budget: F.F09_FREEDOM_BUDGET, mandatory_evidence: F.F09_MANDATORY_EVIDENCE, anti_generic_test: ANTI_GENERIC_TEST, anti_assembly_test: ANTI_ASSEMBLY_TEST, reference_consumption_test: REFERENCE_CONSUMPTION_TEST, device_chrome_rule: DEVICE_CHROME_RULE, concept_delivery_contract: CONCEPT_DELIVERY_CONTRACT, fully_authored: { general: FULLY_AUTHORED_DEFINITION, f09: F.F09_FULLY_AUTHORED_REFINED }, model_responsibilities: F.F09_MODEL_RESPONSIBILITIES }),
     'F09_RULE_DISPOSITIONS_AND_MISSING_LOGIC.json': json({ ...head('F09_RULE_DISPOSITIONS_AND_MISSING_LOGIC'), survival: F.F09_SURVIVAL, rule_dispositions: F.F09_RULE_DISPOSITIONS, missing_logic: F.F09_MISSING_LOGIC, next_sprint_spec: F.F09_NEXT_SPRINT_SPEC, founder_decisions_required: F.F09_FOUNDER_DECISIONS_REQUIRED }),
+    'F09_REGEN_ADDENDUM.json': json({ ...head('F09_REGEN_ADDENDUM'), ...F.F09_REGEN_ADDENDUM, degraded_asset: F.F09_DEGRADED_ASSET_AUDIT, preview_question: F.F09_PREVIEW_ACCEPTANCE_ANSWER, blocked_run: F.F09_BLOCKED_RUN_AUDIT, shared_geometry: F.F09_SHARED_GEOMETRY_AUDIT, deterministic_scope: F.F09_DETERMINISTIC_SCOPE_AUDIT, element_freedom_matrix: F.F09_ELEMENT_FREEDOM_MATRIX, reading_order_lock: F.F09_READING_ORDER_LOCK, product_distinctness_minimum: F.F09_PRODUCT_DISTINCTNESS_MINIMUM, jurnl_world_grammar: F.F09_JURNL_WORLD_GRAMMAR, root_cause_map: F.F09_REGEN_ROOT_CAUSE_MAP }),
+    'ASSET_QUALITY_GATING.json': json({ ...head('ASSET_QUALITY_GATING'), gate: ASSET_QUALITY_GATE, upscale_limits: UPSCALE_LIMITS, blocked_run_protocol: BLOCKED_RUN_PROTOCOL, jurnl_mobile: F.F09_ASSET_QUALITY_THRESHOLDS, cases: F.F09_ASSET_QUALITY_CASES, reference_input_cases: F.F09_REFERENCE_INPUT_CASES, wired_into_gate: false }),
     'F09_FORENSICS_VERDICT.json': json({ ...head('F09_FORENSICS_VERDICT'), ...F.F09_FORENSICS_VERDICT, generation_paused: F.F09_GENERATION_PAUSED }),
     'F09_PROMPT_FORENSICS_REPORT.md': buildF09ForensicsReport(inv, m),
   };

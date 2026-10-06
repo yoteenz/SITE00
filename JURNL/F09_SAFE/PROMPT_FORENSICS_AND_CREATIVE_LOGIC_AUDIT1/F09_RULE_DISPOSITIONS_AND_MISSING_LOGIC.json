@@ -16,6 +16,10 @@
       "verdict": "NARROW",
       "why": "Keep deterministic exactness for logo, numbers, dates, small labels, CTA labels and nav. Stop using it as the visual layer: product surfaces (buttons, panels, objects carrying labels) are art-directed in the image and corrected, not pasted."
     },
+    "layout_proofs": {
+      "verdict": "REMOVE",
+      "why": "As a founder-facing artifact. Geometry checks stay internal under ASSET_QUALITY_GATE: LAYOUT_PROOF only from full renders at ≤ 2× upscale, otherwise WIREFRAME_ONLY."
+    },
     "sunburst": {
       "verdict": "NO",
       "why": "Sunburst produced every approved JURNL image (image2image, 4K). The F09 plates faithfully executed the inputs they were given. Text rendering at small sizes is a real but secondary limitation, handled by correction."
@@ -133,6 +137,26 @@
       "note": "Add: image2image from the approved world; route preflight before the sprint."
     },
     {
+      "rule": "LAYOUT PROOF (ad hoc; watermark as the only control)",
+      "disposition": "REWRITE",
+      "note": "Internal only, under ASSET_QUALITY_GATE; never founder-facing, never named candidate / board / review."
+    },
+    {
+      "rule": "RESOLUTION EXCEPTION recorded without a threshold",
+      "disposition": "REWRITE",
+      "note": "Becomes UPSCALE_RULE: ≤ 1.0× authority, ≤ 1.5× founder-approved exception, ≤ 2.0× internal layout proof, else wireframe."
+    },
+    {
+      "rule": "BLUEPRINT SHARED ZONES (full-stage CTA, identical system zones, shared focal order)",
+      "disposition": "REWRITE",
+      "note": "Lock the nav and the exact strings only; each concept owns logo placement, stack order, CTA position / width / form and module form (F09_ELEMENT_FREEDOM_MATRIX)."
+    },
+    {
+      "rule": "L06 PRODUCT EXPRESSION list",
+      "disposition": "KEEP",
+      "note": "As a content checklist (what must appear), never as a layout order."
+    },
+    {
       "rule": "CENTER_STAGE for F09",
       "disposition": "FOUNDER_DECISION",
       "note": "Canonical for nav-bearing screens, but the approved world composition is edge-led. Either grant F09 a COMPOSITION_OVERRIDES entry or define a CENTER_STAGE richness grammar (world framing all four edges)."
@@ -154,7 +178,12 @@
     "RENDER-ROUTE PREFLIGHT: confirm image2image + 4K + file retrieval in the executing environment before the sprint starts.",
     "CONCEPT_DELIVERY_CONTRACT: what counts as one concept.",
     "PROMPT BUDGETS: generator prompt ≤ 300 words, ≤ 5 negatives; methodology changes not bundled into creative sprints.",
-    "FREEDOM BUDGET declared in the brief (F09_FREEDOM_BUDGET)."
+    "FREEDOM BUDGET declared in the brief (F09_FREEDOM_BUDGET).",
+    "ASSET QUALITY GATE (asset-quality.ts): source resolution, upscale limits, founder-review threshold, layout-proof threshold, block condition, no-degraded-asset rule — measured by the consuming stage on the decoded file.",
+    "BLOCKED-RUN PROTOCOL: what a blocked run delivers (report, ledger, prompts, native-size previews) and what it never does (composite, upscale, board, zip, candidate naming).",
+    "FOUNDER-FACING DEFINITION: anything sent, shown, attached, linked, zipped or named for the founder — including delivery on a direct request.",
+    "ELEMENT FREEDOM MATRIX: exact strings, the logo asset and the nav locked; layout, order, CTA position / size / form and module form free per concept (F09_ELEMENT_FREEDOM_MATRIX).",
+    "JURNL WORLD GRAMMAR: the recurring place and its composition rules, not material vocabulary (F09_JURNL_WORLD_GRAMMAR)."
   ],
   "next_sprint_spec": {
     "must": [
@@ -166,7 +195,10 @@
       "Specify generate-whole-then-correct ownership and the exact-text strategy.",
       "Require a reference extraction sheet before generation and a benchmark side-by-side after.",
       "Define QA by someone other than the author and the delivery contract (three finished concepts or fewer, never proofs).",
-      "Keep the generator prompt ≤ 300 words and ≤ 5 negatives."
+      "Keep the generator prompt ≤ 300 words and ≤ 5 negatives.",
+      "Run ASSET_QUALITY_GATE on every photographic layer before compositing; follow BLOCKED_RUN_PROTOCOL if it fails.",
+      "Declare the element freedom matrix and pass CONCEPT_SKELETON: the three concepts may not share logo spot, stack order and CTA / module positions.",
+      "Specify the world as JURNL grammar evidence, inherited from the attached reference."
     ],
     "must_not": [
       "Add new gates, schemas or methodology layers inside the creative sprint.",
@@ -177,7 +209,9 @@
       "Use app components (bordered cards, pills, frosted boxes) as authority UI.",
       "Exceed the negative budget or paste QA lists into the generator prompt.",
       "Self-certify QA or present proofs as candidates.",
-      "Invent product truth (a date formula, new categories) without a recorded decision."
+      "Invent product truth (a date formula, new categories) without a recorded decision.",
+      "Composite, upscale or board previews / thumbnails, or send any proof to the founder.",
+      "Place the logo, CTA, purchase module or signal stack at shared coordinates across the concepts."
     ]
   },
   "founder_decisions_required": [

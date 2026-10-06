@@ -20,4 +20,5 @@ export * as jurnlF09BP from './projects/jurnl/f09-composition-blueprint.js';
 export * as jurnlGrammar from './projects/jurnl/composition-grammar.js';
 export * as jurnlF09Regen from './projects/jurnl/f09-art-direction-regen.js';
 export * from './prompt-forensics.js';
+export * from './asset-quality.js';
 export * as jurnlF09Forensics from './projects/jurnl/f09-prompt-forensics.js';

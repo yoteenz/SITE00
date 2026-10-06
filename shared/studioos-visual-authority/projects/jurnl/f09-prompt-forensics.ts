@@ -7,6 +7,7 @@
  * measurements, the generated report). Every finding cites a path.
  */
 import type { FreedomLevel, PromptFailureClass } from '../../prompt-forensics.js';
+import { assessAssetQuality, meetsReferenceInputRule } from '../../asset-quality.js';
 
 export const F09_FORENSICS_SPRINT = 'P0.JURNL.F09.PROMPT-FORENSICS-AND-CREATIVE-LOGIC-AUDIT1' as const;
 export const F09_FORENSICS_DIR = 'JURNL/F09_SAFE/PROMPT_FORENSICS_AND_CREATIVE_LOGIC_AUDIT1' as const;
@@ -42,6 +43,7 @@ export const F09_PROMPT_LINEAGE: LineageEntry[] = [
   { id: 'L05', sprint: 'THREE-DISTINCT-COMPOSITE-AUTHORITY-RERUN1', kind: 'ASSEMBLY_CODE', author: 'COMPOSER (Cursor)', source: 'scripts/jurnl/f09-three-distinct-composite-rerun.mjs · JURNL/F09_SAFE/THREE_DISTINCT_COMPOSITE_AUTHORITY_RERUN1/ · F09_FOUNDER_REVIEW_PAYLOAD.json', reconstructed: true, intended_job: 'Three finished, distinct composites without device chrome (brief reconstructed from commit 69557290, RERUN1_REPORT, MEMORY).', reached_model: 'No new generation: the execution-1 plates reused; only the overlay layout changed.', output: 'Same sparse plates, new card layouts, dashed debug border, blank brass plates visible, self-QA pass:true. Founder-rejected.' },
   { id: 'L06', sprint: 'THREE-CONCEPT-ART-DIRECTION-REGEN-CORRECTION1', kind: 'FOUNDER_BRIEF', author: 'FOUNDER', source: `${SRC}/06_THREE-CONCEPT-ART-DIRECTION-REGEN-CORRECTION1.founder-brief.txt`, reconstructed: false, intended_job: 'Fully re-authored, benchmark-rich, chrome-free candidates.', reached_model: 'Opus.', output: 'Methodology (finish audit), text-free scene prompts, 3 Figma Sunburst text2image scenes (not retrievable), layout proof only.' },
   { id: 'L06a', sprint: 'THREE-CONCEPT-ART-DIRECTION-REGEN-CORRECTION1', kind: 'GENERATOR_PROMPT', author: 'OPUS', source: 'JURNL/F09_SAFE/THREE_CONCEPT_ART_DIRECTION_REGEN_CORRECTION1/SCENE_PROMPTS/*.txt', reconstructed: false, intended_job: 'Benchmark-rich world per territory, text-free.', reached_model: 'Figma generate_image gpt-image-2.5-sunburst text2image (no image input possible), 864×1536.', output: 'Richer scenes (arches, sea, olive) but still three invented worlds, not the approved one; never reviewed.' },
+  { id: 'L06b', sprint: 'THREE-CONCEPT-ART-DIRECTION-REGEN-CORRECTION1', kind: 'ASSEMBLY_CODE', author: 'OPUS', source: 'scripts/jurnl/f09-art-direction-regen-assemble.mjs · JURNL/F09_SAFE/THREE_CONCEPT_ART_DIRECTION_REGEN_CORRECTION1/LAYOUT_PROOF/', reconstructed: false, intended_job: 'Assemble finished candidates from the full-size scenes: official logo, JURNL fonts, runtime nav icons, exact payload, finishing.', reached_model: 'No model. In --proof mode the 144×256 previews replace the missing scenes.', output: 'Three 1179×2556 layout proofs (≈ 10× upscale) and F09_FOUNDER_REVIEW_BOARD.png headed THREE CONCEPT CANDIDATES · LAYOUT PROOF — NOT FOR REVIEW; zipped and sent to the founder on request.' },
 ];
 
 /* ─────────────── 2. pipeline ─────────────── */
@@ -72,7 +74,7 @@ export const F09_CONTRADICTIONS: Contradiction[] = [
   { id: 'C08', a: 'Deterministic UI owns product truth (L03).', b: 'The final image must feel coherent and not assembled (L06).', why: 'Ownership was implemented as flat app components (bordered cards, pills, frosted boxes) in one top plane.', failure: 'UI reads as a separate construction system.', severity: 'HIGH', sources: ['L03', 'L04', 'L05'] },
   { id: 'C09', a: 'CENTER_STAGE: nav-bearing screens centre the field; background frames from the perimeter; no left-column drift (L01 §8, canonical refinement 3).', b: 'Benchmark composition: left-led editorial column with the world on the open side (F01 approved is EDGE_LED; F03 parent is IN_REVIEW and pre-dates CENTER_STAGE).', why: 'Centred product sits on the scene’s most valuable area; a rich world must then live only at the perimeter — no rule says how.', failure: 'Scenes generated with quiet empty centres → plain walls, empty floors.', severity: 'HIGH', sources: ['L01', 'docs/jurnl/refinements/mobile-center-stage3/JURNL_CENTER_STAGE_QA_REPORT.md'] },
   { id: 'C10', a: 'SYSTEM CHROME ZONE; L6 SYSTEM CHROME; overlay TOP BAR / BACK / SETTINGS / INFO (L03).', b: 'No device chrome (RERUN1, L06).', why: '“System chrome” was undefined; the agent’s own canonical geometry defined a 9:41 status bar and home indicator.', failure: 'Execution-1 composites rendered iOS chrome.', severity: 'HIGH', sources: ['L03', 'f09-creative-direction.ts F09_FRAME_GEOMETRY', 'f09-composition-blueprint.ts systemZones'] },
-  { id: 'C11', a: 'Three distinct concepts (all briefs).', b: 'One fixed payload with identical presentation: same CTA slab under the object, same purchase card, same top chrome, same label→amount→date stack, same nav (RERUN1, L06).', why: 'Presentation was locked along with truth, so only the background could differ.', failure: 'Concepts collapse into one UI stack over three backdrops.', severity: 'HIGH', sources: ['F09_FOUNDER_REVIEW_PAYLOAD.json', 'L05', 'L06'] },
+  { id: 'C11', a: 'Three distinct concepts (all briefs).', b: 'One fixed payload with identical presentation: same CTA slab under the object, same purchase card, same top chrome, same label→amount→date stack, same nav (RERUN1, L06).', why: 'Presentation was locked along with truth, so only the background could differ.', failure: 'Concepts collapse into one UI stack over three backdrops.', severity: 'HIGH', sources: ['F09_FOUNDER_REVIEW_PAYLOAD.json', 'L05', 'L06', 'L06b'] },
   { id: 'C12', a: 'Strict brand fidelity (palette / material lists, must-not lists).', b: 'Conceptual novelty: a visual idea no generic UI generator could produce (L02 §6).', why: 'Novelty was routed into data-encoding metaphors (floor area, metal words, envelope thickness); fidelity into palette nouns.', failure: 'Clever diagrams in correct colours; neither rich nor editorial.', severity: 'MEDIUM', sources: ['L02', 'f09-creative-direction.ts'] },
   { id: 'C13', a: 'Use the founder comparison concept as the quality bar; extract its lessons (L02 §15, L03 §9).', b: 'The image was never supplied to the agent or committed to the repo.', why: 'An unconsumable reference; lessons were extracted from prose only.', failure: 'The quality bar never reached the renderer.', severity: 'HIGH', sources: ['L02', 'L03'] },
   { id: 'C14', a: 'Preserve the three structural territories; do not create new concepts (L02, L03, L06).', b: 'Concepts read as diagrams / unfinished — re-author fully (L03, L06).', why: 'The premises themselves (overhead plan, wall inscription, sorting rack) demand diagrammatic depiction; preserving them preserved the failure mode.', failure: 'Each correction re-rendered the same diagram energy.', severity: 'MEDIUM', sources: ['L02', 'L03', 'L06'] },
@@ -82,6 +84,7 @@ export const F09_CONTRADICTIONS: Contradiction[] = [
   { id: 'C18', a: 'Witty, bespoke, rich (L02 §6, L06).', b: 'Anti-generic / anti-AI bans on botanicals, gold, 3D objects, gradients, glass, “material overload”, arches, sea views.', why: 'The bans cover the vocabulary of richness without defining justified use.', failure: 'Model plays safe → sparse.', severity: 'HIGH', sources: ['L02', 'creative-direction-profile.ts', 'SUNBURST_PROMPTS/T01 FORBIDDEN ELEMENTS'] },
   { id: 'C19', a: '393×852 product canvas.', b: '9:16 generation with the viewport as the central 82 % (L02 §8).', why: 'Different aspect ratios invite bleed confusion and device-shaped framing.', failure: 'Minor crop / framing drift; status-bar thinking.', severity: 'LOW', sources: ['L02'] },
   { id: 'C20', a: 'Image generation is a renderer, not the designer (L02).', b: 'Approved JURNL images were designed by reference: the renderer inherited composition, world and type from an approved image.', why: 'The rule was read as “describe everything in words”; the approved method is “show the renderer the authority”.', failure: 'Prompts grew to ~2,000 words of description instead of one attached authority.', severity: 'HIGH', sources: ['L02', 'F03_GENERATION_LEDGER.json'] },
+  { id: 'C21', a: 'Produce the proper 3 finished concept candidates through the correct downstream route in your environment (L06 RENDERER / EXECUTION RULE, DELIVERABLES).', b: 'Sunburst 4K; finished authority quality; the founder must not see the scaffolding (L06).', why: 'When the environment cannot deliver a full-size file both cannot hold, and no brief or method defined the blocked outcome — so the run kept “deliver something” and dropped “at authority quality”.', failure: '144×256 previews upscaled ≈ 10× into layout proofs, a board headed THREE CONCEPT CANDIDATES and a zip sent to the founder.', severity: 'HIGH', sources: ['L06', 'L06b', 'REGEN_RENDER_LEDGER.json'] },
 ];
 
 /* ─────────────── 5. over-constraint ─────────────── */
@@ -377,6 +380,7 @@ export const F09_FORENSICS_TABLE: ForensicsRow[] = [
   { prompt: 'L05 · THREE-DISTINCT-COMPOSITE-AUTHORITY-RERUN1 (Composer; reconstructed)', intended_job: 'Three finished, distinct, chrome-free composites.', key_instructions: ['reuse execution-1 plates', 'new overlay layouts', 'fixed founder payload', 'self-QA'], contradictions: ['C05', 'C08', 'C11'], missing_logic: ['new generation', 'independent QA'], over_constraint: ['identical product stack'], under_specification: ['distinct'], likely_failure: 'Same sparse plates, blank brass plates, dashed border; pass:true vs founder REJECTED.', severity: 'HIGH' },
   { prompt: 'L06 · THREE-CONCEPT-ART-DIRECTION-REGEN-CORRECTION1 (founder brief)', intended_job: 'Fully re-authored, benchmark-rich, chrome-free candidates.', key_instructions: ['re-author fully; scaffolding invisible', 'benchmark = approved art-driven JURNL image', 'no device chrome', 'preserve territories', 'no OpenArt from ChatGPT'], contradictions: ['C01', 'C02', 'C05', 'C07', 'C14'], missing_logic: ['image2image route that can deliver', 'which image is the world authority', 'composition mode'], over_constraint: ['preserve the three premises'], under_specification: ['fully re-authored', 'benchmark-rich'], likely_failure: 'Methodology + text2image scenes; retrieval blocked; layout proof only.', severity: 'HIGH' },
   { prompt: 'L06a · scene prompts ×3 (Figma Sunburst text2image)', intended_job: 'Benchmark-rich, text-free world per territory.', key_instructions: ['editorial architectural photograph', 'important elements in the central 80 %', 'plain empty fields reserved for the product (T01 “completely empty” centre; T02 / T03 plain walls)', 'blank book covers and spines, blank wax-seal faces', 'DO NOT INCLUDE text / UI / device frames'], contradictions: ['C03', 'C05', 'C09'], missing_logic: ['the world image as input', 'what the blank objects become'], over_constraint: ['completely empty middle third (T01)'], under_specification: ['how product and world meet'], likely_failure: 'Three richer but invented worlds, not the approved one; blank objects carried over from the plate logic.', severity: 'MEDIUM' },
+  { prompt: 'L06b · regen assembly + layout proof (Opus)', intended_job: 'Finish the candidates from the full-size scenes.', key_instructions: ['--proof mode: previews replace the scenes', 'scene scaled to the canvas height (256 → 2556 px)', 'logo, signal stack, CTA, purchase module and nav at shared coordinates', 'watermark LAYOUT PROOF · NOT AUTHORITY'], contradictions: ['C11', 'C21'], missing_logic: ['asset-quality gate', 'blocked-run protocol', 'element freedom matrix'], over_constraint: ['one product skeleton for three concepts'], under_specification: ['what a layout proof is and who may see it'], likely_failure: 'Degraded proofs reached the founder; three backgrounds + one product design.', severity: 'HIGH' },
 ];
 
 /* ─────────────── 25–26 + 42. root causes ─────────────── */
@@ -388,14 +392,17 @@ export const F09_ROOT_CAUSES: RootCause[] = [
   { rank: 2, id: 'RC02', cause: 'The wrong image was the reference: image2image from agent-drawn tonal guides / value studies, declared “the ONLY reference”. The renderer reproduced the diagrams.', classes: ['PIPELINE_ORDER', 'REFERENCE_AMBIGUITY'], evidence: ['RAW_PLATES/T01_ENVIRONMENT.png vs PLATE_GUIDES/F09_T01_PLATE_GUIDE_9x16.png', 'scripts/jurnl/f09-scene-plate-generate-one.py PREFIX'], confidence: 'HIGH', impact: 'CRITICAL', failures: ['scene plates became the design', 'plan-diagram energy', 'sparse plates'] },
   { rank: 3, id: 'RC03', cause: 'Rules forbade the benchmark’s signature: no arches, no sea-view balconies, one justified plant, olive only in the bleed, orthographic / frontal depth models, “pretty background” as the named failure.', classes: ['PROMPT_CONTRADICTION', 'PROMPT_OVER_CONSTRAINT'], evidence: ['SUNBURST_PROMPTS/T01 FORBIDDEN ELEMENTS', 'creative-direction-profile.ts anti_generic_rules', 'L01 KNOWN FAILURE'], confidence: 'HIGH', impact: 'HIGH', failures: ['weak Mediterranean identity', 'sparse / cold'] },
   { rank: 4, id: 'RC04', cause: 'Distinctness was placed in the wrong layer and presentation was locked: three different worlds demanded (≥ 8/10 creative dimensions incl. environment), while the product layer was identical across concepts.', classes: ['PROMPT_OVER_CONSTRAINT', 'PROMPT_CONTRADICTION'], evidence: ['creative-direction.ts CREATIVE_DISTINCTNESS', 'F09_FOUNDER_REVIEW_PAYLOAD.json', 'rerun composites'], confidence: 'HIGH', impact: 'HIGH', failures: ['three concepts collapse into variants', 'concepts feel unfinished'] },
-  { rank: 5, id: 'RC05', cause: 'The plate + overlay method was specified without an integration method: placeholders requested then left visible; UI built from app components in one flat plane; no light / plane / occlusion rules.', classes: ['RENDER_OWNERSHIP', 'IMPLEMENTATION_LIMITATION', 'PROMPT_CONTRADICTION'], evidence: ['PLATE_PROMPTS BLANK SURFACES', 'scripts/jurnl/f09-three-distinct-composite-rerun.mjs (bordered chips, pill seals, dashed bridge)', 'rerun FOUNDER_REVIEW_BOARD.png'], confidence: 'HIGH', impact: 'HIGH', failures: ['assembled not authored', 'deterministic UI crude', 'pasted-on text'] },
-  { rank: 6, id: 'RC06', cause: 'Role collapse and priority dilution: 59–75 % of each brief is process / QA / render / negatives; ~2,000-word generator prompts; the same agent wrote, rendered and passed its own QA.', classes: ['PROMPT_ROLE_COLLAPSE', 'PROMPT_PRIORITY_DILUTION'], evidence: ['PROMPT_DENSITY_MEASUREMENT.json', 'brand expression 19/19 PASS; RERUN1_REPORT pass:true; founder REJECTED'], confidence: 'HIGH', impact: 'HIGH', failures: ['implementation prompts over-index on mechanics', 'checklists pass, founder fails'] },
-  { rank: 7, id: 'RC07', cause: 'Device chrome was injected by the agent’s own canonical geometry; “system chrome” was never defined.', classes: ['PROMPT_OMISSION', 'AUTHORITY_AMBIGUITY'], evidence: ['f09-creative-direction.ts F09_FRAME_GEOMETRY status_bar / home_indicator', 'f09-composition-blueprint.ts systemZones', 'scripts/jurnl/f09-hybrid-composite-assemble.mjs (9:41 status row)', 'HYBRID_COMPOSITE_AUTHORITY_EXECUTION1 composites'], confidence: 'HIGH', impact: 'MEDIUM', failures: ['phone chrome in authority view'] },
-  { rank: 8, id: 'RC08', cause: 'Renderer access contradictions: the canonical 4K route was banned while being required; later routes could not take a reference image or deliver the file.', classes: ['PROMPT_CONTRADICTION', 'ASSET_LIMITATION'], evidence: ['L01 / L02 DO NOT use OpenArt vs §8 Sunburst 4K', 'REGEN_RENDER_LEDGER.json'], confidence: 'HIGH', impact: 'MEDIUM', failures: ['round 1 local renders', 'ChatGPT contamination', 'blocked regen'] },
-  { rank: 9, id: 'RC09', cause: 'The quality bar was adjectives plus an image that never reached the agent.', classes: ['REFERENCE_AMBIGUITY', 'PROMPT_OMISSION'], evidence: ['L02 §15 / L03 §9 (comparison concept described, not attached)'], confidence: 'HIGH', impact: 'MEDIUM', failures: ['“reference fidelity” language without reference-level richness'] },
-  { rank: 10, id: 'RC10', cause: 'Territories were authored as data-encoding metaphors (floor area = money, metal words, envelope thickness); depicting them literally reads as a diagram.', classes: ['PROMPT_OVER_CONSTRAINT'], evidence: ['f09-creative-direction.ts bespoke_visual_idea fields', 'round 2 renders'], confidence: 'MEDIUM', impact: 'MEDIUM', failures: ['metaphor-as-page', 'diagram energy'] },
-  { rank: 11, id: 'RC11', cause: 'Too much exact text was given to the generator (≈ 19 strings incl. 8-pt labels) with no typographic reference.', classes: ['RENDER_OWNERSHIP', 'MODEL_RENDERER_LIMITATION'], evidence: ['SUNBURST_PROMPTS TEXT THAT MUST RENDER', 'JURL / dropped TRIPS. in round 2'], confidence: 'MEDIUM', impact: 'MEDIUM', failures: ['text glitches'] },
-  { rank: 12, id: 'RC12', cause: 'Product truth drifted between rounds (QA-seed → founder payload; TRIPS → BUFFER; new date and bridge without a formula).', classes: ['AUTHORITY_AMBIGUITY'], evidence: ['F09_FOUNDER_REVIEW_PAYLOAD.json', 'safeToSpend.ts'], confidence: 'MEDIUM', impact: 'LOW', failures: ['churn, re-layout between rounds'] },
+  { rank: 5, id: 'RC13', cause: 'Deterministic ownership expanded from exact strings, numbers, logo and nav into fixed layout: one shared blueprint skeleton (full-stage CTA from a shared helper, identical system zones, identical ownership layers and focal order) and an assembly that puts the logo, CTA, purchase module and nav at the same coordinates on all three pages. Result: three backgrounds + one product design, with the product in one flat plane.', classes: ['RENDER_OWNERSHIP', 'PROMPT_OVER_CONSTRAINT'], evidence: ['f09-composition-blueprint.ts systemZones (“identical on every F09 page”), ctaZones (CTA rect = the full 340-pt stage), sharedOwnership (L2 / L4–L7 deterministic for every territory)', 'scripts/jurnl/f09-art-direction-regen-assemble.mjs: logo(22–24, 24, 50) ×3 · cta 606 / 628 / 620 · purchase 664 / 686 / 678 · nav 770 / 772 / 770', 'L06 PRODUCT EXPRESSION content checklist rendered in list order'], confidence: 'HIGH', impact: 'HIGH', failures: ['three concepts collapse into variants', 'deterministic UI is correct but visually crude', 'text glitches or feels pasted-on'] },
+  { rank: 6, id: 'RC15', cause: 'The brand world was specified as Mediterranean vocabulary (arches, plaster, olive, sea, warm stone) rather than JURNL’s compositional grammar (one recurring place, inside viewpoint with a foreground occluder, lit type column against the world mass, arcade view, curated still life with an in-world JURNL object, counter-colour masses, lived-in trace). On a text-to-image route the grammar could not be inherited, so even the richer regen scenes read as generic AI interiors.', classes: ['BRAND_WORLD_UNDERSPECIFICATION', 'REFERENCE_AMBIGUITY'], evidence: ['THREE_CONCEPT_ART_DIRECTION_REGEN_CORRECTION1/SCENE_PROMPTS/*.txt (nouns + geometry; no viewpoint, frame split, still life, counter-colour or recurring place)', 'SCENES_PROOF previews vs REFERENCE_F01.00_WELCOME_APPROVED.jpg and F03.00_TODAY_PARENT.jpg', 'REGEN_RENDER_LEDGER.json (text2image: no image input)'], confidence: 'MEDIUM', impact: 'HIGH', failures: ['outputs feel generic', 'Mediterranean satisfied as scenery, not as the JURNL world'] },
+  { rank: 7, id: 'RC05', cause: 'The plate + overlay method was specified without an integration method: placeholders requested then left visible; UI built from app components in one flat plane; no light / plane / occlusion rules.', classes: ['RENDER_OWNERSHIP', 'IMPLEMENTATION_LIMITATION', 'PROMPT_CONTRADICTION'], evidence: ['PLATE_PROMPTS BLANK SURFACES', 'scripts/jurnl/f09-three-distinct-composite-rerun.mjs (bordered chips, pill seals, dashed bridge)', 'rerun FOUNDER_REVIEW_BOARD.png'], confidence: 'HIGH', impact: 'HIGH', failures: ['assembled not authored', 'deterministic UI crude', 'pasted-on text'] },
+  { rank: 8, id: 'RC06', cause: 'Role collapse and priority dilution: 59–75 % of each brief is process / QA / render / negatives; ~2,000-word generator prompts; the same agent wrote, rendered and passed its own QA.', classes: ['PROMPT_ROLE_COLLAPSE', 'PROMPT_PRIORITY_DILUTION'], evidence: ['PROMPT_DENSITY_MEASUREMENT.json', 'brand expression 19/19 PASS; RERUN1_REPORT pass:true; founder REJECTED'], confidence: 'HIGH', impact: 'HIGH', failures: ['implementation prompts over-index on mechanics', 'checklists pass, founder fails'] },
+  { rank: 9, id: 'RC14', cause: 'No asset-quality gate. Nothing in the method measured source resolution or upscale, so when retrieval failed the run promoted 144×256 previews (≈ 10× upscale) into canvas-size layout proofs, a board headed THREE CONCEPT CANDIDATES and a zip sent to the founder. 4K lived only in the renderer profile, a 1.66× upscale had already been accepted as a recorded “exception”, the new “layout proof” class had a watermark as its only control, and the assembly gained a --proof mode that swaps in the previews.', classes: ['ASSET_QUALITY_GUARD_FAILURE', 'PROMPT_OMISSION', 'PIPELINE_ORDER'], evidence: ['REGEN_RENDER_LEDGER.json (retrieval BLOCKED; resolution_exception ×1.66)', 'creative-direction.ts checkReferences: quality mismatch waived by any non-empty renderer_exceptions (no threshold)', 'scripts/jurnl/f09-art-direction-regen-assemble.mjs (--proof → SCENES_PROOF/T0n_preview_144x256.jpg; seals placed by eye)', 'LAYOUT_PROOF/ASSEMBLY_REPORT.json scene_px 144×256 → 1179×2556', 'LAYOUT_PROOF/F09_FOUNDER_REVIEW_BOARD.png', 'F09_REGEN_LAYOUT_PROOF_3_CONCEPTS.zip (sent to the founder)'], confidence: 'HIGH', impact: 'HIGH', failures: ['thumbnail-resolution source promoted into a founder-facing proof', 'a blocked run still produced visuals'] },
+  { rank: 10, id: 'RC07', cause: 'Device chrome was injected by the agent’s own canonical geometry; “system chrome” was never defined.', classes: ['PROMPT_OMISSION', 'AUTHORITY_AMBIGUITY'], evidence: ['f09-creative-direction.ts F09_FRAME_GEOMETRY status_bar / home_indicator', 'f09-composition-blueprint.ts systemZones', 'scripts/jurnl/f09-hybrid-composite-assemble.mjs (9:41 status row)', 'HYBRID_COMPOSITE_AUTHORITY_EXECUTION1 composites'], confidence: 'HIGH', impact: 'MEDIUM', failures: ['phone chrome in authority view'] },
+  { rank: 11, id: 'RC08', cause: 'Renderer access contradictions: the canonical 4K route was banned while being required; later routes could not take a reference image or deliver the file.', classes: ['PROMPT_CONTRADICTION', 'ASSET_LIMITATION'], evidence: ['L01 / L02 DO NOT use OpenArt vs §8 Sunburst 4K', 'REGEN_RENDER_LEDGER.json'], confidence: 'HIGH', impact: 'MEDIUM', failures: ['round 1 local renders', 'ChatGPT contamination', 'blocked regen'] },
+  { rank: 12, id: 'RC09', cause: 'The quality bar was adjectives plus an image that never reached the agent.', classes: ['REFERENCE_AMBIGUITY', 'PROMPT_OMISSION'], evidence: ['L02 §15 / L03 §9 (comparison concept described, not attached)'], confidence: 'HIGH', impact: 'MEDIUM', failures: ['“reference fidelity” language without reference-level richness'] },
+  { rank: 13, id: 'RC10', cause: 'Territories were authored as data-encoding metaphors (floor area = money, metal words, envelope thickness); depicting them literally reads as a diagram.', classes: ['PROMPT_OVER_CONSTRAINT'], evidence: ['f09-creative-direction.ts bespoke_visual_idea fields', 'round 2 renders'], confidence: 'MEDIUM', impact: 'MEDIUM', failures: ['metaphor-as-page', 'diagram energy'] },
+  { rank: 14, id: 'RC11', cause: 'Too much exact text was given to the generator (≈ 19 strings incl. 8-pt labels) with no typographic reference.', classes: ['RENDER_OWNERSHIP', 'MODEL_RENDERER_LIMITATION'], evidence: ['SUNBURST_PROMPTS TEXT THAT MUST RENDER', 'JURL / dropped TRIPS. in round 2'], confidence: 'MEDIUM', impact: 'MEDIUM', failures: ['text glitches'] },
+  { rank: 15, id: 'RC12', cause: 'Product truth drifted between rounds (QA-seed → founder payload; TRIPS → BUFFER; new date and bridge without a formula).', classes: ['AUTHORITY_AMBIGUITY'], evidence: ['F09_FOUNDER_REVIEW_PAYLOAD.json', 'safeToSpend.ts'], confidence: 'MEDIUM', impact: 'LOW', failures: ['churn, re-layout between rounds'] },
 ];
 
 export const F09_FAILURE_MAP: Record<string, string[]> = {
@@ -414,6 +421,10 @@ export const F09_FAILURE_MAP: Record<string, string[]> = {
   'implementation prompts over-index on mechanics': ['RC06'],
   'mobile viewport read as phone rendering': ['RC07'],
   'corrective prompts accumulate contradictory constraints': ['RC06', 'RC03', 'RC04'],
+  'three backgrounds + one product design': ['RC13', 'RC04'],
+  'Mediterranean reads as generic AI interior, not JURNL': ['RC15', 'RC01', 'RC03'],
+  'thumbnail-resolution source promoted into a founder-facing proof': ['RC14'],
+  'a blocked run still produced visuals': ['RC14', 'RC06'],
 };
 
 /* ─────────────── 27–35. architecture for F09 ─────────────── */
@@ -442,6 +453,7 @@ export const F09_MANDATORY_EVIDENCE = [
   { category: 'ARCHITECTURAL FRAMING', minimum: 'The product zone’s quiet field is produced by architecture or light (lit wall, curtain glow, sky), not by a panel.' },
   { category: 'BRAND PRESENCE', minimum: 'Official lockup exact; ≥ 1 in-world brand cue rendered faithfully.' },
   { category: 'PRODUCT CLARITY', minimum: 'Amount legible at 25 % thumbnail; SAFE TO SPEND within one glance of the amount; CTA contrast ≥ 4.5:1; nav exact.' },
+  { category: 'JURNL WORLD GRAMMAR', minimum: 'The world authority’s recurring place (the F01 loggia unless D-F09-WORLD-AUTHORITY decides otherwise); inside viewpoint with a foreground occluder; lit type column against the world mass; arcade view ≥ 15 % of the frame; curated still life of ≥ 3 objects incl. one JURNL object; counter-colour masses ≥ 5 %; a lived-in trace (F09_JURNL_WORLD_GRAMMAR).' },
   { category: 'NO SCAFFOLDING', minimum: 'Zero blank plates / tags / guide boxes / placeholder panels; zero device chrome.' },
 ] as const;
 
@@ -470,6 +482,7 @@ export const F09_SURVIVAL = {
   three_territory_model: { verdict: 'REFINE', why: 'Three concepts remain useful for founder choice, but they must differ in page architecture and product idea while sharing the inherited JURNL world, type system and nav. Remove environment / material / depth from the distinctness test; add product-layer anatomy to it.' },
   plates: { verdict: 'REMOVE', why: 'Text-free plates + overlay is the method that produced every rejected round. Replace with reference-bound full-frame generation + targeted correction (region repaint / inpainting). Keep plate generation only for harvesting isolated assets.' },
   deterministic_ui: { verdict: 'NARROW', why: 'Keep deterministic exactness for logo, numbers, dates, small labels, CTA labels and nav. Stop using it as the visual layer: product surfaces (buttons, panels, objects carrying labels) are art-directed in the image and corrected, not pasted.' },
+  layout_proofs: { verdict: 'REMOVE', why: 'As a founder-facing artifact. Geometry checks stay internal under ASSET_QUALITY_GATE: LAYOUT_PROOF only from full renders at ≤ 2× upscale, otherwise WIREFRAME_ONLY.' },
   sunburst: { verdict: 'NO', why: 'Sunburst produced every approved JURNL image (image2image, 4K). The F09 plates faithfully executed the inputs they were given. Text rendering at small sizes is a real but secondary limitation, handled by correction.' },
 } as const;
 
@@ -498,6 +511,10 @@ export const F09_RULE_DISPOSITIONS: { rule: string; disposition: 'KEEP' | 'REWRI
   { rule: 'FINISH_QA + FOUNDER VERDICT BLOCKS', disposition: 'KEEP', note: 'Judged with crops and a benchmark side-by-side.' },
   { rule: 'GENERATOR ~2,000-WORD PROMPTS', disposition: 'REMOVE', note: 'GENERATOR_PROMPT_BUDGET: ≤ 300 words, ≤ 5 negatives, references attached.' },
   { rule: 'SUNBURST · 4K · 9:16 · AUTO-ENHANCE OFF', disposition: 'KEEP', note: 'Add: image2image from the approved world; route preflight before the sprint.' },
+  { rule: 'LAYOUT PROOF (ad hoc; watermark as the only control)', disposition: 'REWRITE', note: 'Internal only, under ASSET_QUALITY_GATE; never founder-facing, never named candidate / board / review.' },
+  { rule: 'RESOLUTION EXCEPTION recorded without a threshold', disposition: 'REWRITE', note: 'Becomes UPSCALE_RULE: ≤ 1.0× authority, ≤ 1.5× founder-approved exception, ≤ 2.0× internal layout proof, else wireframe.' },
+  { rule: 'BLUEPRINT SHARED ZONES (full-stage CTA, identical system zones, shared focal order)', disposition: 'REWRITE', note: 'Lock the nav and the exact strings only; each concept owns logo placement, stack order, CTA position / width / form and module form (F09_ELEMENT_FREEDOM_MATRIX).' },
+  { rule: 'L06 PRODUCT EXPRESSION list', disposition: 'KEEP', note: 'As a content checklist (what must appear), never as a layout order.' },
   { rule: 'CENTER_STAGE for F09', disposition: 'FOUNDER_DECISION', note: 'Canonical for nav-bearing screens, but the approved world composition is edge-led. Either grant F09 a COMPOSITION_OVERRIDES entry or define a CENTER_STAGE richness grammar (world framing all four edges).' },
 ];
 
@@ -520,6 +537,11 @@ export const F09_MISSING_LOGIC = [
   'CONCEPT_DELIVERY_CONTRACT: what counts as one concept.',
   'PROMPT BUDGETS: generator prompt ≤ 300 words, ≤ 5 negatives; methodology changes not bundled into creative sprints.',
   'FREEDOM BUDGET declared in the brief (F09_FREEDOM_BUDGET).',
+  'ASSET QUALITY GATE (asset-quality.ts): source resolution, upscale limits, founder-review threshold, layout-proof threshold, block condition, no-degraded-asset rule — measured by the consuming stage on the decoded file.',
+  'BLOCKED-RUN PROTOCOL: what a blocked run delivers (report, ledger, prompts, native-size previews) and what it never does (composite, upscale, board, zip, candidate naming).',
+  'FOUNDER-FACING DEFINITION: anything sent, shown, attached, linked, zipped or named for the founder — including delivery on a direct request.',
+  'ELEMENT FREEDOM MATRIX: exact strings, the logo asset and the nav locked; layout, order, CTA position / size / form and module form free per concept (F09_ELEMENT_FREEDOM_MATRIX).',
+  'JURNL WORLD GRAMMAR: the recurring place and its composition rules, not material vocabulary (F09_JURNL_WORLD_GRAMMAR).',
 ];
 
 /* ─────────────── 46. next-sprint spec ─────────────── */
@@ -535,6 +557,9 @@ export const F09_NEXT_SPRINT_SPEC = {
     'Require a reference extraction sheet before generation and a benchmark side-by-side after.',
     'Define QA by someone other than the author and the delivery contract (three finished concepts or fewer, never proofs).',
     'Keep the generator prompt ≤ 300 words and ≤ 5 negatives.',
+    'Run ASSET_QUALITY_GATE on every photographic layer before compositing; follow BLOCKED_RUN_PROTOCOL if it fails.',
+    'Declare the element freedom matrix and pass CONCEPT_SKELETON: the three concepts may not share logo spot, stack order and CTA / module positions.',
+    'Specify the world as JURNL grammar evidence, inherited from the attached reference.',
   ],
   must_not: [
     'Add new gates, schemas or methodology layers inside the creative sprint.',
@@ -546,6 +571,8 @@ export const F09_NEXT_SPRINT_SPEC = {
     'Exceed the negative budget or paste QA lists into the generator prompt.',
     'Self-certify QA or present proofs as candidates.',
     'Invent product truth (a date formula, new categories) without a recorded decision.',
+    'Composite, upscale or board previews / thumbnails, or send any proof to the founder.',
+    'Place the logo, CTA, purchase module or signal stack at shared coordinates across the concepts.',
   ],
 } as const;
 
@@ -569,7 +596,163 @@ export const F09_SYNTHESIS = [
 export const F09_FORENSICS_VERDICT = {
   PROMPT_SYSTEM_ROOT_CAUSE_IDENTIFIED: true,
   READY_TO_REWRITE_F09_GENERATION_PROMPT: false,
-  why_not_ready: 'Three founder decisions (composition mode, world authority, date formula) and a render-route preflight (image2image + 4K + retrieval in the executing environment) must come first.',
+  why_not_ready: 'Three founder decisions (composition mode, world authority, date formula), a render-route preflight (image2image + 4K + retrieval in the executing environment) and the asset-quality gate in force (defined by the addendum, not yet wired into any gate) must come first.',
   generation_performed: false,
   implementation_performed: false,
 } as const;
+
+/* ═══════════════ ADDENDUM — THREE-CONCEPT-ART-DIRECTION-REGEN-CORRECTION1 as forensic evidence ═══════════════ */
+
+export const F09_REGEN_ADDENDUM = {
+  run: 'P0.JURNL.F09-SAFE-TO-SPEND.THREE-CONCEPT-ART-DIRECTION-REGEN-CORRECTION1',
+  mode: 'Analysis only. No generation, no implementation; the audit is extended, not restarted.',
+  lineage: ['L06', 'L06a', 'L06b'],
+  new_root_causes: ['RC13', 'RC14', 'RC15'],
+  new_contradictions: ['C21'],
+  reranked: 'RC13 enters at rank 5, RC15 at 6 and RC14 at 9; RC05 moves from 5 to 7.',
+} as const;
+
+/* ─────────────── A1. degraded-asset failsafe ─────────────── */
+
+export const F09_ASSET_QUALITY_THRESHOLDS = {
+  canvas_pt: { w: 393, h: 852 },
+  review_scale: 3,
+  required_px: { w: 1179, h: 2556 },
+  canonical_generation_px: { w: 2016, h: 3584 },
+  canonical_source: 'F02 / F03 / F04 parents: 2016×3584, gpt-image-2.5-sunburst 4K (downsampled 0.71× to the review canvas).',
+  world_reference: 'REFERENCE_F01.00_WELCOME_APPROVED.jpg is 941×1672: a valid image-to-image REFERENCE (short side ≥ 720), not an output source.',
+  minimum_source: '≥ 1179×2556 px after crop for a full-bleed layer (≥ the device pixels the layer covers). Target 2016×3584.',
+  allowed_upscale: 'Authority 1.0× · founder-approved exception 1.5× · internal layout proof 2.0× · beyond → wireframe only.',
+  founder_review_threshold: 'AUTHORITY_CANDIDATE, or FOUNDER_REVIEW_EXCEPTION approved before compositing; 100 % crop QA.',
+  layout_proof_permitted: 'Internal only, from full renders at ≤ 2.0× upscale (≥ 590×1278 px for a full-bleed layer), watermarked, never named candidate / board / review.',
+  wireframe_only: 'Previews, thumbnails, proxies, screenshots, unknown sources, or > 2.0× upscale: flat tonal geometry at canvas size, source shown at native size beside it.',
+} as const;
+
+const T = F09_ASSET_QUALITY_THRESHOLDS;
+export const F09_ASSET_QUALITY_CASES = [
+  { case: 'Regen layout proofs as built and sent (144×256 previews)', result: assessAssetQuality({ source_px: { w: 144, h: 256 }, covers_pt: T.canvas_pt, review_scale: T.review_scale, provenance: 'PREVIEW', purpose: 'LAYOUT_PROOF', founder_facing: true }) },
+  { case: 'Regen full route as planned for founder review (864×1536, ×1.66, no recorded approval)', result: assessAssetQuality({ source_px: { w: 864, h: 1536 }, covers_pt: T.canvas_pt, review_scale: T.review_scale, provenance: 'FULL_RENDER', purpose: 'FOUNDER_REVIEW_EXCEPTION', founder_facing: true }) },
+  { case: 'Same 864×1536 as an internal layout proof', result: assessAssetQuality({ source_px: { w: 864, h: 1536 }, covers_pt: T.canvas_pt, review_scale: T.review_scale, provenance: 'FULL_RENDER', purpose: 'LAYOUT_PROOF', founder_facing: false }) },
+  { case: 'Canonical JURNL 4K (2016×3584) authority candidate', result: assessAssetQuality({ source_px: T.canonical_generation_px, covers_pt: T.canvas_pt, review_scale: T.review_scale, provenance: 'FULL_RENDER', purpose: 'AUTHORITY_CANDIDATE', founder_facing: true }) },
+] as const;
+export const F09_REFERENCE_INPUT_CASES = [
+  { case: 'F01.00 WELCOME APPROVED as world reference (941×1672)', passes: meetsReferenceInputRule({ w: 941, h: 1672 }, 'FULL_RENDER') },
+  { case: '144×256 preview as a reference', passes: meetsReferenceInputRule({ w: 144, h: 256 }, 'PREVIEW') },
+] as const;
+
+export const F09_DEGRADED_ASSET_AUDIT = {
+  facts: [
+    'The route returned 864×1536 files hosted on www.figma.com, which the network policy denies; only the 144×256 previews reached the container (REGEN_RENDER_LEDGER.json).',
+    'The assembly’s --proof mode swaps in SCENES_PROOF/T0n_preview_144x256.jpg and scales the scene to the 852-pt canvas height at @3x: 256 px → 2556 px, ≈ 10.0× linear, ≈ 100× in area (f09-art-direction-regen-assemble.mjs; LAYOUT_PROOF/ASSEMBLY_REPORT.json scene_px 144×256).',
+    'T03 seal detection cannot work on a 144-px preview (seals ≈ 4 px), so a proof-only fallback placed the seals by eye.',
+    'The board is F09_FOUNDER_REVIEW_BOARD.png, headed THREE CONCEPT CANDIDATES · 393×852 · LAYOUT PROOF — NOT FOR REVIEW.',
+    'Asked for the images, the run zipped the three 1179×2556 proofs and sent them (F09_REGEN_LAYOUT_PROOF_3_CONCEPTS.zip).',
+    'Even the unblocked route was planned at a 1.66× upscale and recorded as a resolution_exception, with no ceiling.',
+  ],
+  verdict: 'The pipeline had a guard for the final composites (non-proof mode throws when the full scene is missing) but none for the outputs’ audience. A new artifact class was created to route around that guard, and its only control was a watermark.',
+} as const;
+
+/* ─────────────── A8. the explicit question ─────────────── */
+
+export const F09_PREVIEW_ACCEPTANCE_ANSWER = {
+  question: 'WHY DID THE SYSTEM THINK A 144×256 PREVIEW WAS ACCEPTABLE INPUT FOR A FOUNDER-FACING MOBILE AUTHORITY PROOF?',
+  not_the_answer: 'The network block explains why the full-size scenes were missing. It does not explain why the run continued without them.',
+  answer: 'Because no rule tied an output’s audience to its source quality. Resolution was a generation setting (4K in the renderer profile), not an input check at compositing, and once a 1.66× upscale had been accepted as a recorded exception there was no ceiling left to stop at 10×. The run then invented an artifact class mid-sprint — the layout proof — with no definition, no threshold and no audience rule, and treated a watermark as the safeguard. The brief required three finished candidates and defined no blocked outcome, so the agent (also its own QA) chose the nearest deliverable. It adapted the code to make the preview work (--proof mode, seals placed by eye), kept founder-review naming on the board, and delivered the proofs when the founder asked for the images.',
+  chain: [
+    'NO SOURCE-RESOLUTION CHECK at compositing: FINISH_QA and COMPOSITE_AUTHORITY_QA check what is in the image, never the pixels it came from; no stage measures the decoded file.',
+    'RESOLUTION TREATED AS NEGOTIABLE: 4K lived in the renderer profile as a quality label; checkReferences (creative-direction.ts) waives a quality mismatch for any non-empty renderer_exceptions string, and the ledger normalised a 1.66× exception — no ceiling anywhere.',
+    'UNDEFINED ARTIFACT CLASS: “layout proof” had no threshold or audience; the watermark was the only control.',
+    'NO BLOCKED-RUN DELIVERABLE: the brief asked for candidates; nothing said what a blocked run returns, so continuing looked like diligence.',
+    'CODE ADAPTED TO THE DEFECT: --proof mode and the by-eye seal fallback made degraded input work instead of stopping.',
+    'NAMING NOT ENFORCED: F09_FOUNDER_REVIEW_BOARD.png and THREE CONCEPT CANDIDATES on a proof.',
+    'FOUNDER-FACING UNDEFINED: a direct request for “the images” was treated as outside the review standard.',
+    'SELF-QA (RC06): the agent that built the proof judged it useful.',
+  ],
+  missing_rule: 'NO-DEGRADED-ASSET RULE, enforced by an ASSET QUALITY GATE: each stage measures its own inputs (decoded size + provenance) against the threshold for the output’s purpose and audience, and BLOCKS BEFORE COMPOSITING. A watermark is not a mitigation.',
+} as const;
+
+/* ─────────────── A5. blocked-run behaviour ─────────────── */
+
+export const F09_BLOCKED_RUN_AUDIT = {
+  should_have_produced_visual: 'NO founder-facing visual. At most the native-size previews labelled PREVIEW (direction only) and an internal wireframe that is never sent.',
+  what_happened: ['3 generations spent before confirming the files could be retrieved', 'previews upscaled into canvas-size layout proofs', 'a board named for founder review', 'the proofs zipped and sent on request'],
+  what_should_have_happened: ['retrieval preflight before generating (stop before spending credits)', 'status BLOCKED_ON_SCENE_RETRIEVAL with 0 candidates', 'deliver: block report, ledger, prompts, assembly code tested on fixtures', 'on the founder’s request: the 144×256 previews as they are, labelled PREVIEW — not composites'],
+  correct_failure_behaviour: 'BLOCK BEFORE COMPOSITING. REPORT, DON’T RENDER (BLOCKED_RUN_PROTOCOL).',
+} as const;
+
+/* ─────────────── A2–A3. shared geometry + deterministic scope ─────────────── */
+
+export const F09_SHARED_GEOMETRY_AUDIT = {
+  source: 'scripts/jurnl/f09-art-direction-regen-assemble.mjs (t01 / t02 / t03) — pt on the 393×852 canvas',
+  modules: [
+    { module: 'logo lockup', T01: 'x 22 · y 24 · h 50', T02: 'x 24 · y 24 · h 50', T03: 'x 22 · y 24 · h 50', shared: 'YES' },
+    { module: 'SAFE TO SPEND → amount → date stack', T01: 'centred · from y ≈ 355 · 92 pt', T02: 'left column x 24 · y 108–262 · 100 pt (+ YOU CAN SPEND)', T03: 'centred · y 92–198 · 88 pt', shared: 'ORDER (alignment differs in T02)' },
+    { module: 'held categories', T01: 'survey tags on the floor perimeter', T02: 'a brass-ink sentence', T03: 'labels on the sill under the seals', shared: 'NO' },
+    { module: 'primary CTA', T01: 'full-width 340-pt emerald slab · y 606', T02: 'same · y 628', T03: 'same · y 620', shared: 'YES' },
+    { module: 'purchase bridge', T01: '340-pt frosted stone card · y 664', T02: '340-pt stone card, serif headline · y 686', T03: '340-pt paper card · y 678', shared: 'POSITION + SIZE (skin differs)' },
+    { module: 'nav', T01: 'y 770', T02: 'y 772', T03: 'y 770', shared: 'YES (correctly)' },
+  ],
+  blueprint_origin: [
+    'f09-composition-blueprint.ts systemZones: status, chrome, nav, home indicator and edge “identical on every F09 page”.',
+    'ctaZones: the CTA rect is the full 340-pt stage for every territory.',
+    'sharedOwnership: L2 signal, L4 secondary, L5 CTA, L6 chrome and L7 nav are deterministic in all three ownership maps.',
+    'visual_focal_order SIGNAL → OBJECT → SECONDARY → CTA → BRAND and depth_order are the same for all three.',
+  ],
+  brief_origin: 'L06 PRODUCT EXPRESSION lists what each concept must include; together with “quiet central functional field” the list was rendered in list order.',
+  approved_note: 'Approved JURNL screens also use a full-width emerald CTA and one panel (F01 GET STARTED / SIGN IN; F03 SEE WHY + one panel). The slab is legitimate JURNL grammar. The failure is that it is identical in all three concepts, so it cannot carry concept identity.',
+  verdict: 'THREE BACKGROUNDS + ONE PRODUCT DESIGN. Below y 606 (the bottom 29 % of the canvas) the three pages are the same component stack, the logo is in the same place on all three, and the signal stack keeps one order. The concepts differ in the scene, in how the four held categories are written, and in the alignment of one text stack.',
+} as const;
+
+export const F09_DETERMINISTIC_SCOPE_AUDIT = {
+  intended: ['exact text', 'exact numbers', 'exact logo', 'exact nav'],
+  actual: ['fixed layout (blueprint rects reused)', 'fixed module order (identical focal order)', 'fixed CTA position and width (ctaZones: full 340-pt stage)', 'fixed typographic geometry (label → amount → date stack, shared type classes)', 'fixed logo position (x 22–24, y 24)'],
+  expanded: true,
+  mechanism: 'Ownership was assigned per LAYER (L2 signal, L4 secondary, L5 CTA …) and every layer carried a rectangle, so “deterministic” came to mean “fixed rectangle” instead of “exact string”. The approved JURNL images show the opposite: exact strings inside a composition that changes per screen.',
+  verdict: 'YES — RC13 (RENDER_OWNERSHIP + PROMPT_OVER_CONSTRAINT), HIGH confidence: a direct cause of visual sameness and, with the single flat top plane, of the pasted-on composition.',
+} as const;
+
+export const F09_ELEMENT_FREEDOM_MATRIX = [
+  { element: 'logo', exact: 'official asset, never redrawn', locked: 'legible official lockup present', move: 'any corner, a masthead, or an in-world cue plus a small lockup', resize: 'YES', restructure: 'lockup ↔ mark + in-world cue', transform: 'pressed, printed or carved in the world, then corrected to the asset' },
+  { element: 'SAFE TO SPEND label', exact: 'SAFE TO SPEND', locked: 'within one glance of the amount', move: 'YES', resize: 'YES', restructure: 'above, below, beside the amount or as a running head', transform: 'set on a surface, in perspective' },
+  { element: 'amount', exact: '$1,284', locked: 'largest numeral; legible at a 25 % thumbnail; upper 60 % of the canvas', move: 'any alignment', resize: 'any scale above the legibility minimum', restructure: 'hero alone or with a headline', transform: 'type that participates in the image (scale, crop, occlusion)' },
+  { element: 'date line', exact: 'AVAILABLE THROUGH OCT 18 (sample)', locked: 'adjacent to the amount', move: 'with the amount', resize: 'YES', restructure: 'line, inscription, caption', transform: 'YES' },
+  { element: 'held categories', exact: 'BILLS · PLANS · GOALS · BUFFER (canonical order)', locked: 'all four named, legible', move: 'YES', resize: 'YES', restructure: 'list, sentence, annotations, labelled objects', transform: 'objects may carry the names (never blank objects)' },
+  { element: 'primary CTA', exact: 'SEE WHY THIS AMOUNT', locked: 'deep emerald, square-rounded (no circles / pills), ≥ 44-pt target, ≥ 4.5:1 contrast, above the nav', move: 'anywhere in the reading path after the amount', resize: 'compact to full stage', restructure: 'slab, inline with the amount, attached to the object', transform: 'material (lacquer, inlaid stone, enamel) while still reading as a button' },
+  { element: 'purchase bridge', exact: 'WANT TO SPEND ON SOMETHING? · CHECK HOW IT FITS YOUR PLAN BEFORE YOU BUY. · CHECK A PURCHASE', locked: 'subordinate to the primary CTA', move: 'YES', resize: 'YES', restructure: 'card, note, ruled line, object, inline row', transform: 'YES' },
+  { element: 'nav', exact: 'HOME · MONEY · + · PLAN · CREDIT, icons, HOME active', locked: 'canonical runtime nav: position, cells, order', move: 'NO', resize: 'NO', restructure: 'NO', transform: 'NO' },
+] as const;
+export const F09_READING_ORDER_LOCK = 'The only order that is locked: SAFE TO SPEND + amount before the primary CTA; purchase bridge after the primary CTA; nav last. Everything else is the concept’s to design.' as const;
+export const F09_PRODUCT_DISTINCTNESS_MINIMUM = 'Pairwise, any two concepts differ in at least 3 of: logo placement · signal position / alignment · CTA position / form · purchase-module form / position · categories form · type–world relationship. CONCEPT_SKELETON must not fail.' as const;
+
+/* ─────────────── A4. Mediterranean as scenery vs JURNL world ─────────────── */
+
+export const F09_JURNL_WORLD_GRAMMAR = {
+  vocabulary: ['arches', 'limewashed plaster', 'olive', 'sea', 'warm stone', 'linen', 'terracotta'],
+  vocabulary_verdict: 'Necessary, not sufficient. These nouns describe any Mediterranean interior; the regen scenes contain all of them and still read as generic AI interiors.',
+  grammar: [
+    { id: 'ONE_PLACE', rule: 'Every screen is the same place: the cliff-villa loggia (arcade, sea and cliffs, curtained terrace). Recognition comes from the place, not the materials.', approved: 'F01 and F03: the same loggia, arcade and plinth', regen: 'three different rooms (courtyard, wall, hall cabinet)' },
+    { id: 'INSIDE_VIEWPOINT', rule: 'Camera inside the loggia, eye level, close; a foreground occluder (out-of-focus olive) in ≥ 1 bottom corner.', approved: 'olive leaves blur the bottom corners', regen: 'high or frontal-distant views; no foreground plane' },
+    { id: 'SPLIT_FRAME', rule: 'A lit, quiet column carries the type; the world mass (arcade, view, still life) holds the opposite side and the lower edge.', approved: 'type column left, world right and lower right', regen: 'symmetric centred rooms; product centred over the empty middle' },
+    { id: 'VIEW_THROUGH_ARCADE', rule: 'Sea and cliffs seen through a repeated arcade, large (≥ 15 % of the frame), in the upper quadrant of the world side.', approved: 'arcade and headland, top right', regen: 'a single framed window or arch: a small picture' },
+    { id: 'CURATED_STILL_LIFE', rule: 'A staged vignette of ≥ 3 cultural objects on rough travertine, including a JURNL object.', approved: 'bust, black marble bowl, JURNL books, velvet cushions', regen: 'one functional object; blank books' },
+    { id: 'SOFT_MOTION', rule: 'A backlit sheer curtain or textile in motion: air and time.', approved: 'billowing sheer curtain', regen: 'a curtain edge in one scene at most' },
+    { id: 'COUNTER_COLOUR', rule: 'Saturated counter-masses (burgundy velvet, sea blue, olive green) ≥ 5 % of the frame against cream.', approved: 'burgundy cushions, blue sea, green leaves', regen: 'honey / beige monochrome; burgundy only as small seals' },
+    { id: 'LIVED_IN', rule: 'Evidence of a life — cushions, books, a bowl in use: “money in service of life” made visible.', approved: 'a collector’s terrace', regen: 'empty sets' },
+    { id: 'TYPE_SCALE_AGAINST_WORLD', rule: 'Display serif at hero scale set against the architecture; UI aligned to the type column’s edge.', approved: 'TODAY / A CALMER, RICHER … as heroes; CTA on the column', regen: 'type centred over scenery' },
+    { id: 'HIGH_KEY_AIR', rule: 'Bright, high-key, backlit daylight; openness.', approved: 'airy backlight', regen: 'raking or dappled light in closed rooms' },
+  ],
+  why: 'The scene prompts named materials and features and constrained geometry (empty centre, central 80 %), but never specified viewpoint, frame split, still life, counter-colour or the recurring place — and the route was text-to-image, so the grammar could not be inherited from the approved image.',
+  confidence: 'MEDIUM: the regen scenes were judged from 144×256 previews; the approved images at full size. The omission in the prompts is certain.',
+} as const;
+
+/* ─────────────── A6. the run in the root-cause map ─────────────── */
+
+export const F09_REGEN_ROOT_CAUSE_MAP: { category: string; failure_class: PromptFailureClass; causes: string[]; refs: string[]; confidence: 'HIGH' | 'MEDIUM' | 'LOW' }[] = [
+  { category: 'PROMPT CONTRADICTION', failure_class: 'PROMPT_CONTRADICTION', causes: ['Deliver three finished candidates vs 4K / authority quality, with no blocked outcome (C21).', 'Quiet central functional field vs a rich, immersive world (C09).', 'Overlay allowed vs “the founder must not see the scaffolding” with no integration method (C07).'], refs: ['C21', 'C09', 'C07'], confidence: 'HIGH' },
+  { category: 'PROMPT OMISSION', failure_class: 'PROMPT_OMISSION', causes: ['No asset-quality threshold.', 'No blocked-run deliverable.', 'No world reference attached (text-to-image route).', 'No element freedom matrix.'], refs: ['RC14', 'RC01'], confidence: 'HIGH' },
+  { category: 'OVER-CONSTRAINT', failure_class: 'PROMPT_OVER_CONSTRAINT', causes: ['Shared blueprint skeleton + fixed payload presentation + preserved premises + quiet central field: only the scene could vary.'], refs: ['RC13', 'RC04', 'C11', 'C14'], confidence: 'HIGH' },
+  { category: 'RENDER-OWNERSHIP ERROR', failure_class: 'RENDER_OWNERSHIP', causes: ['Deterministic = fixed rectangles (logo, stack, CTA, purchase module at shared coordinates).', 'The deterministic overlay used as the visual layer, flat over the scene.'], refs: ['RC13', 'RC05'], confidence: 'HIGH' },
+  { category: 'ASSET-QUALITY GUARD FAILURE', failure_class: 'ASSET_QUALITY_GUARD_FAILURE', causes: ['144×256 previews upscaled ≈ 10× into canvas-size proofs, a founder-review-named board and a founder zip.'], refs: ['RC14'], confidence: 'HIGH' },
+  { category: 'PIPELINE ORDER FAILURE', failure_class: 'PIPELINE_ORDER', causes: ['Generations spent before the retrieval preflight.', 'Product layout locked against thumbnails before any full-size scene QA.', 'Board and zip produced before a QA’d source existed.'], refs: ['RC14', 'RC08'], confidence: 'HIGH' },
+  { category: 'REFERENCE / BRAND-WORLD UNDER-SPECIFICATION', failure_class: 'BRAND_WORLD_UNDERSPECIFICATION', causes: ['Mediterranean vocabulary instead of JURNL grammar.', 'The named benchmark (F03 parent, IN_REVIEW) never reached the renderer.'], refs: ['RC15', 'RC01', 'RC09'], confidence: 'MEDIUM' },
+];

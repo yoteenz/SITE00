@@ -14409,3 +14409,32 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - a render-route preflight (image2image + 4K + retrieval)
   - then a brief written to `F09_NEXT_SPRINT_SPEC`
 - **Verdict:** PROMPT_SYSTEM_ROOT_CAUSE_IDENTIFIED YES; READY_TO_REWRITE_F09_GENERATION_PROMPT NO.
+
+## 2026-10-06 — F09 prompt forensics ADDENDUM: regen run as evidence (P0.JURNL.F09.PROMPT-FORENSICS-AND-CREATIVE-LOGIC-AUDIT1) — ANALYSIS ONLY
+
+- **Scope:** THREE-CONCEPT-ART-DIRECTION-REGEN-CORRECTION1 is now in the audit as lineage L06b, contradiction C21 and root causes RC13–RC15 (re-ranked). Report §49–51; `F09_REGEN_ADDENDUM.json`; `ASSET_QUALITY_GATING.json`.
+- **RC14 — no asset-quality gate:**
+  - 144×256 previews were upscaled 9.98× into 1179×2556 layout proofs, a board headed THREE CONCEPT CANDIDATES and a founder zip.
+  - The network block explains the missing files, not the continuation.
+  - What allowed it: resolution was only a generation setting; a 1.66× "exception" had no ceiling; "layout proof" had no threshold or audience (watermark-only); no blocked outcome was defined; the code was adapted to the defect (`--proof`, seals placed by eye).
+- **Durable rule (`shared/studioos-visual-authority/asset-quality.ts`, `ASSET_QUALITY_GATE.json`; defined, NOT wired into any gate):**
+  - Source resolution ≥ the device px a layer covers (JURNL: 1179×2556 floor, 2016×3584 target).
+  - Upscale vs generated px: authority 1.0×; founder-approved exception 1.5×; internal layout proof 2.0×; beyond → wireframe only.
+  - Previews, thumbnails, proxies, screenshots and unknown sources are never more than wireframe and never references (references need a short side ≥ 720 px).
+  - Founder-facing includes delivery on direct request.
+  - BLOCK BEFORE COMPOSITING. A watermark is not a mitigation. `BLOCKED_RUN_PROTOCOL`: report, don't render.
+- **RC13 — deterministic UI too broad:** exact strings became fixed rectangles.
+  - Blueprint: `ctaZones` gives the CTA the full 340-pt stage; `systemZones` and `sharedOwnership` are identical across territories.
+  - Assembly: logo, CTA, purchase module and nav sit at the same coordinates on all three pages → THREE BACKGROUNDS + ONE PRODUCT DESIGN.
+  - Fix: `F09_ELEMENT_FREEDOM_MATRIX` (lock strings + nav; free layout, order, CTA position / size / form, module form) and the CONCEPT_SKELETON test.
+- **RC15 — Mediterranean as vocabulary, not JURNL grammar.** `F09_JURNL_WORLD_GRAMMAR` defines the grammar:
+  - one recurring place
+  - inside viewpoint with a foreground occluder
+  - lit type column against the world mass
+  - arcade view ≥ 15 % of the frame
+  - curated still life including a JURNL object
+  - counter-colour ≥ 5 %
+  - lived-in trace
+  - high-key air
+- **New failure classes:** ASSET_QUALITY_GUARD_FAILURE, BRAND_WORLD_UNDERSPECIFICATION.
+- **Verdict unchanged:** root cause identified YES; ready to rewrite the generation prompt NO. Also needed first: the asset gate in force.

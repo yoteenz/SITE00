@@ -1,0 +1,56 @@
+{
+  "id": "ASSET_QUALITY_GATE",
+  "schema_version": "1.0.0",
+  "sprint": "P0.SITE00.PRODUCTION-METHODOLOGY.VISUAL-AUTHORITY-DEVELOPMENT-GATE1",
+  "doctrine": "UPSTREAM DEFINES INTENT. DOWNSTREAM INCREASES FIDELITY.",
+  "generated_by": "scripts/studioos/visual-authority-export.ts",
+  "source": "shared/studioos-visual-authority/asset-quality.ts",
+  "evaluator": "assessAssetQuality",
+  "wired_into_gate": false,
+  "purposes": [
+    "AUTHORITY_CANDIDATE",
+    "FOUNDER_REVIEW_EXCEPTION",
+    "LAYOUT_PROOF",
+    "WIREFRAME_ONLY"
+  ],
+  "provenance": [
+    "FULL_RENDER",
+    "SUPER_RESOLVED",
+    "PREVIEW",
+    "THUMBNAIL",
+    "PROXY",
+    "SCREENSHOT",
+    "UNKNOWN"
+  ],
+  "degraded_provenance": [
+    "PREVIEW",
+    "THUMBNAIL",
+    "PROXY",
+    "SCREENSHOT",
+    "UNKNOWN"
+  ],
+  "upscale_limits": {
+    "AUTHORITY_CANDIDATE": 1,
+    "FOUNDER_REVIEW_EXCEPTION": 1.5,
+    "LAYOUT_PROOF": 2
+  },
+  "rules": {
+    "SOURCE_RESOLUTION_RULE": "Every photographic or generated layer must be decoded on disk at ≥ the device pixels it covers on the review canvas (canvas pt × review scale, after crop). The project’s canonical generation size is the target; the canvas requirement is the floor. Measured by the consuming stage on the file itself.",
+    "UPSCALE_RULE": "Measured against the original generated pixels. AUTHORITY_CANDIDATE ≤ 1× (downsampling only). FOUNDER_REVIEW_EXCEPTION ≤ 1.5×, only with founder approval recorded before compositing (a founder may approve a higher ratio for a named run), through a dedicated super-resolution model (never browser / CSS / bilinear resampling), checked at 100 % crop. LAYOUT_PROOF ≤ 2×. Above that the photographic layer may not be shown at canvas size.",
+    "FOUNDER_REVIEW_THRESHOLD": "Any founder-facing visual meets AUTHORITY_CANDIDATE, or FOUNDER_REVIEW_EXCEPTION with the approval on record, and passes 100 % crop QA (no upsampling softness, no compression blocks, exact glyphs). Founder-facing = sent, shown, attached, linked, zipped or named for the founder, including delivery on a direct request.",
+    "LAYOUT_PROOF_THRESHOLD": "Internal only. Permitted when every photographic source is FULL_RENDER / SUPER_RESOLVED and ≤ 2× upscale; watermarked; never named candidate, board or review; never delivered to the founder. Its only job is to check placement against real scene geometry.",
+    "WIREFRAME_THRESHOLD": "Above the layout-proof limit, or from a degraded source (preview, thumbnail, proxy, screenshot, unknown): geometry only — flat tonal blocks and type boxes at the canvas size, with the source shown beside it at its native size if needed. Never a photographic composite.",
+    "BLOCK_CONDITION": "Before compositing, for each photographic layer: decoded size below the requirement for the intended purpose, upscale above its limit, degraded provenance, or dimensions not verifiable → status BLOCKED_ON_ASSET_QUALITY. Stop. Produce no canvas-size composite, board or zip; report the measured gap and the unblock routes.",
+    "NO_DEGRADED_ASSET_RULE": "A degraded asset never advances a stage. Watermarks, labels and disclaimers do not make it acceptable. Each stage verifies its own inputs (decoded size + provenance) instead of trusting the producer. Asked for “the images” while blocked, deliver what exists at native size, labelled — never upscale or composite to make it look like a candidate.",
+    "REFERENCE_INPUT_RULE": "A reference attached to a generator (image-to-image) has a short side ≥ 720 px and FULL_RENDER provenance; previews and thumbnails are never references."
+  },
+  "blocked_run_protocol": [
+    "PREFLIGHT FIRST: before spending a generation, confirm the route returns a file at the required size into the working environment. If not, stop before generating.",
+    "If blocked after generating: set status BLOCKED_ON_<REASON>; claim 0 candidates.",
+    "Deliver the block report (measured gap, why, unblock routes with cost and expiry), the render ledger and the prompts.",
+    "Optionally attach the previews at their native size, labelled PREVIEW — direction only, not for evaluation.",
+    "Do not composite, upscale, board, zip or name anything candidate / review. Internal geometry checks stay internal (WIREFRAME_ONLY).",
+    "Code and methodology may be committed and tested on fixtures; they are not visual deliverables."
+  ],
+  "first_application": "JURNL/F09_SAFE/PROMPT_FORENSICS_AND_CREATIVE_LOGIC_AUDIT1/ASSET_QUALITY_GATING.json"
+}

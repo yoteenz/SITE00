@@ -259,6 +259,10 @@
       "minimum": "Amount legible at 25 % thumbnail; SAFE TO SPEND within one glance of the amount; CTA contrast ≥ 4.5:1; nav exact."
     },
     {
+      "category": "JURNL WORLD GRAMMAR",
+      "minimum": "The world authority’s recurring place (the F01 loggia unless D-F09-WORLD-AUTHORITY decides otherwise); inside viewpoint with a foreground occluder; lit type column against the world mass; arcade view ≥ 15 % of the frame; curated still life of ≥ 3 objects incl. one JURNL object; counter-colour masses ≥ 5 %; a lived-in trace (F09_JURNL_WORLD_GRAMMAR)."
+    },
+    {
       "category": "NO SCAFFOLDING",
       "minimum": "Zero blank plates / tags / guide boxes / placeholder panels; zero device chrome."
     }
@@ -288,6 +292,11 @@
       "id": "ADJECTIVE_ONLY",
       "question": "Is every brand claim satisfied only by palette and material nouns?",
       "fail_if": "YES"
+    },
+    {
+      "id": "CONCEPT_SKELETON",
+      "question": "Hide the scenes: do the concepts share one product layout (same logo spot, same stack order, same CTA and module positions)?",
+      "fail_if": "YES — three backgrounds + one product design"
     }
   ],
   "anti_assembly_test": [

@@ -314,6 +314,33 @@
       ],
       "likely_failure": "Three richer but invented worlds, not the approved one; blank objects carried over from the plate logic.",
       "severity": "MEDIUM"
+    },
+    {
+      "prompt": "L06b · regen assembly + layout proof (Opus)",
+      "intended_job": "Finish the candidates from the full-size scenes.",
+      "key_instructions": [
+        "--proof mode: previews replace the scenes",
+        "scene scaled to the canvas height (256 → 2556 px)",
+        "logo, signal stack, CTA, purchase module and nav at shared coordinates",
+        "watermark LAYOUT PROOF · NOT AUTHORITY"
+      ],
+      "contradictions": [
+        "C11",
+        "C21"
+      ],
+      "missing_logic": [
+        "asset-quality gate",
+        "blocked-run protocol",
+        "element freedom matrix"
+      ],
+      "over_constraint": [
+        "one product skeleton for three concepts"
+      ],
+      "under_specification": [
+        "what a layout proof is and who may see it"
+      ],
+      "likely_failure": "Degraded proofs reached the founder; three backgrounds + one product design.",
+      "severity": "HIGH"
     }
   ]
 }

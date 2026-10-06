@@ -256,6 +256,17 @@
       "intended_job": "Benchmark-rich world per territory, text-free.",
       "reached_model": "Figma generate_image gpt-image-2.5-sunburst text2image (no image input possible), 864×1536.",
       "output": "Richer scenes (arches, sea, olive) but still three invented worlds, not the approved one; never reviewed."
+    },
+    {
+      "id": "L06b",
+      "sprint": "THREE-CONCEPT-ART-DIRECTION-REGEN-CORRECTION1",
+      "kind": "ASSEMBLY_CODE",
+      "author": "OPUS",
+      "source": "scripts/jurnl/f09-art-direction-regen-assemble.mjs · JURNL/F09_SAFE/THREE_CONCEPT_ART_DIRECTION_REGEN_CORRECTION1/LAYOUT_PROOF/",
+      "reconstructed": false,
+      "intended_job": "Assemble finished candidates from the full-size scenes: official logo, JURNL fonts, runtime nav icons, exact payload, finishing.",
+      "reached_model": "No model. In --proof mode the 144×256 previews replace the missing scenes.",
+      "output": "Three 1179×2556 layout proofs (≈ 10× upscale) and F09_FOUNDER_REVIEW_BOARD.png headed THREE CONCEPT CANDIDATES · LAYOUT PROOF — NOT FOR REVIEW; zipped and sent to the founder on request."
     }
   ],
   "pipeline": {

@@ -51,6 +51,8 @@ Typical signs:
 - MODEL_RENDERER_LIMITATION
 - ASSET_LIMITATION
 - AUTHORITY_AMBIGUITY
+- ASSET_QUALITY_GUARD_FAILURE (addendum)
+- BRAND_WORLD_UNDERSPECIFICATION (addendum)
 
 ## Canonical prompt architecture (`PROMPT_ARCHITECTURE`)
 
@@ -77,7 +79,7 @@ The layers of an agent brief, in this order:
 
 ## Tests
 
-- **Anti-generic** (`ANTI_GENERIC_TEST`): LOGO_SWAP · WORLD_SWAP · TEMPLATE_ANATOMY · SIBLING_SWAP · ADJECTIVE_ONLY.
+- **Anti-generic** (`ANTI_GENERIC_TEST`): LOGO_SWAP · WORLD_SWAP · TEMPLATE_ANATOMY · SIBLING_SWAP · ADJECTIVE_ONLY · CONCEPT_SKELETON (hide the scenes: do the concepts share one product layout?).
 - **Anti-assembly** (`ANTI_ASSEMBLY_TEST`): SEPARABLE_SYSTEMS · LIGHT · GRAIN_SHARPNESS · PLANE · EDGES · PLACEHOLDERS · SCALE. Answer with crops, not ticks.
 - **Reference consumption** (`REFERENCE_CONSUMPTION_TEST`):
   - Before generation, write an extraction sheet per reference.
@@ -108,6 +110,26 @@ The layers of an agent brief, in this order:
   - world specificity
   - no scaffolding
 
+## Asset quality gating (`asset-quality.ts`, addendum)
+
+Added after an F09 run turned 144×256 previews into canvas-size proofs that reached the founder. `ASSET_QUALITY_GATE.json` is generated. The gate is defined, not yet wired into any evaluator.
+
+- **Source resolution.** Every photographic or generated layer is decoded at ≥ the device pixels it covers on the review canvas (canvas pt × review scale, after crop). The consuming stage measures the file itself.
+- **Upscale limits** (`UPSCALE_LIMITS`), measured against the generated pixels:
+  - authority candidate: 1.0×
+  - founder-approved exception: 1.5×, through a super-resolution model, checked at 100 % crop
+  - internal layout proof: 2.0×
+  - beyond that: wireframe only
+- **Founder-facing** means anything sent, shown, attached, linked, zipped or named for the founder, including on a direct request. It must be an authority candidate or an approved exception.
+- **Degraded provenance** (preview, thumbnail, proxy, screenshot, unknown) is never more than wireframe and never a reference.
+- **Block before compositing.** A run that fails the gate follows `BLOCKED_RUN_PROTOCOL`:
+  - report the measured gap, with the ledger and prompts
+  - previews may be attached only at native size, labelled
+  - no composite, no board, no zip, no candidate naming
+- **A watermark is not a mitigation.**
+
+`assessAssetQuality(...)` evaluates one layer; `meetsReferenceInputRule(...)` checks a reference (short side ≥ 720 px, full render).
+
 ## What the first application found (JURNL F09)
 
 The approved JURNL world was never bound to the renderer and was actively excluded. The renderer was instead anchored to agent-drawn diagrams. The full findings are in the F09 audit directory.
@@ -120,3 +142,12 @@ The general lessons:
 - **Never let an agent-drawn guide be the only image a generator sees.**
 - **Narrow deterministic UI to exactness.** Don’t make it the visual layer.
 - **Separate the author from QA.**
+- **Specify a brand world by its grammar,** not its vocabulary:
+  - the recurring place
+  - viewpoint and foreground
+  - the type column against the world mass
+  - the view
+  - the curated still life
+  - counter-colour
+- **Lock strings, not rectangles.** Deterministic ownership is for exactness; if it fixes layout, three concepts become three backgrounds on one product design.
+- **Measure the asset before the audience sees it.**
