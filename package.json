@@ -25,6 +25,7 @@
     "jurnl:live-proof": "tsx scripts/jurnl/run-live-rls-and-sync-proof.ts",
     "jurnl:live-proof:precheck": "tsx scripts/jurnl/live-proof-prerequisite-precheck.ts",
     "jurnl:live-proof:unblock-artifacts": "tsx scripts/jurnl/write-live-proof-unblock-artifacts.ts",
+    "jurnl:functional-closure": "tsx scripts/jurnl/run-functional-closure-gate.ts",
     "strip:loader-audio": "tsx scripts/stripLoaderAnimationAudio.ts",
     "verify:loader-mobile": "tsx scripts/verifySite00LoaderMobileAnimation.ts",
     "client-app:qa:urls": "node scripts/print-client-app-qa-urls.mjs",
@@ -54,6 +55,8 @@
     "zod": "^4.6.5"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "^1.49.1",
     "@types/express": "^4.17.21",
     "@types/node": "^20.0.0",
     "@types/qrcode": "^1.5.6",
@@ -65,7 +68,6 @@
     "cross-env": "^7.0.3",
     "typescript": "~5.6.2",
     "vite": "^5.4.10",
-    "vitest": "^2.1.8",
-    "@playwright/test": "^1.49.1"
+    "vitest": "^2.1.8"
   }
 }

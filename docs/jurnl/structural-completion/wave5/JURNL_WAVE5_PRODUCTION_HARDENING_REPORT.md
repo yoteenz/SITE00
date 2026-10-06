@@ -1,9 +1,9 @@
 # JURNL Wave 5 production hardening
 
-- **Main SHA:** 9c817646ccb044891d74615a3bf24cee2779b83e
+- **Main SHA:** 683f297292c0180a664b19cec593b34303c3adcf
 - **Dependencies resolved:** 3 / 5
 - **Full product E2E:** PASS
-- **Production hardening E2E:** NOT_RUN
+- **Production hardening E2E:** PASS
 
 ## Workstreams
 
