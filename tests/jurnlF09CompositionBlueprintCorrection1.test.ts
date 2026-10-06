@@ -255,7 +255,7 @@ describe('raw plates + contamination', () => {
     expect(raw.generations_this_sprint.primary).toBe(3);
     expect(raw.generations_this_sprint.paid).toBe(3);
     for (const p of raw.plates) {
-      expect(p.prompt).toMatch(/no text, no logo and no interface/);
+      expect(p.prompt).toMatch(/no text, no logo, no buttons, no nav/i);
       for (const w of ['JURNL', 'SAFE TO SPEND', 'BILLS', 'GOALS', 'TRIPS', 'HOME', 'MONEY', 'CREDIT', 'BREAKDOWN', '$', 'T01', 'T02', 'T03', 'NAV', 'CTA']) expect(p.prompt, w).not.toContain(w);
       expect(p.materials.length).toBeLessThanOrEqual(jurnlGrammar.JURNL_DENSITY_RULE.max_material_families);
       expect(existsSync(path.join(ROOT, p.plate_guide))).toBe(true);
@@ -305,11 +305,42 @@ describe('previous renders', () => {
   });
 });
 
+describe('F09 three-distinct composite rerun1', () => {
+  it('canonical founder payload locked; plate prompts forbid finished-app / device chrome language', () => {
+    const payload = JSON.parse(read(jurnlF09BP.F09_FOUNDER_REVIEW_PAYLOAD_PATH));
+    expect(payload.amount).toBe('$1,284');
+    expect(payload.primary_action).toBe('SEE WHY THIS AMOUNT');
+    expect(payload.held_categories).toEqual(['BILLS', 'PLANS', 'GOALS', 'BUFFER']);
+    expect(payload.purchase_bridge.cta).toBe('CHECK A PURCHASE');
+    expect(jurnlF09BP.DEVICE_CHROME_FORBIDDEN).toBe(true);
+    const log = JSON.parse(read(`${jurnlF09BP.JURNL_F09_RERUN_DIR}/ASSEMBLE_LOG.json`));
+    const hashes = log.results.map((r: { payload_hash: string }) => r.payload_hash);
+    expect(new Set(hashes).size).toBe(1);
+    expect(hashes[0]).toBe(jurnlF09BP.JURNL_F09_RERUN_RENDER_LEDGER.payload_hash);
+    const plate = jurnlF09BP.JURNL_F09_RAW_GENERATION_CONTRACT.plates[0]!;
+    expect(plate.prompt.toLowerCase()).not.toMatch(/finished mobile app screen/);
+    expect(plate.prompt).toMatch(/NOT a finished app screen/i);
+    expect(plate.prompt).toMatch(/home indicator/i);
+  });
+
+  it('three rerun composites on disk; QA pass; no device chrome in work HTML', () => {
+    for (const c of jurnlF09BP.JURNL_F09_RERUN_COMPOSITES) expect(existsSync(path.join(ROOT, c.image_path)), c.image_path).toBe(true);
+    const qa = JSON.parse(read(`${jurnlF09BP.JURNL_F09_RERUN_DIR}/COMPOSITE_QA.json`));
+    expect(qa.pass).toBe(true);
+    expect(qa.device_chrome.IOS_STATUS_BAR).toBe('ABSENT');
+    expect(qa.distinctness.anti_template_test.pass).toBe(true);
+    for (const t of ['T01', 'T02', 'T03']) {
+      const html = read(`${jurnlF09BP.JURNL_F09_RERUN_DIR}/WORK/${t}.html`);
+      expect(html).not.toMatch(/9:41|home-ind|class="status"/);
+    }
+  });
+});
+
 describe('state of the sprint', () => {
   it('hybrid composites ready; no production F09 runtime change', () => {
     expect(jurnlF09BP.jurnlF09HybridInput().composites).toHaveLength(3);
     expect(jurnlF09BP.jurnlF09HybridStatus().gate.status).toBe('COMPOSITES_READY');
-    for (const c of jurnlF09BP.JURNL_F09_HYBRID_COMPOSITES) expect(existsSync(path.join(ROOT, c.image_path)), c.image_path).toBe(true);
+    for (const c of jurnlF09BP.JURNL_F09_RERUN_COMPOSITES) expect(existsSync(path.join(ROOT, c.image_path)), c.image_path).toBe(true);
     for (const f of ['src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx', 'src/projects/jurnl/data/f09/safeToSpend.ts']) expect(read(f)).not.toMatch(/COMPOSITION_BLUEPRINT|hybrid-authority/);
     for (const t of T) expect(t.founder_decision).toBeNull();
   });

@@ -1,0 +1,92 @@
+{
+  "id": "PREVIOUS_EXEC1_VS_RERUN1",
+  "sprint": "P0.JURNL.F09-SAFE-TO-SPEND.THREE-DISTINCT-COMPOSITE-AUTHORITY-RERUN1",
+  "generated_by": "scripts/studioos/jurnl-f09-composition-blueprint-export.ts",
+  "note": "Execution1 composites included iOS device chrome and under-resolved T01/T02; rerun1 supersedes founder-review packaging.",
+  "exec1_issues": [
+    "IOS_STATUS_BAR",
+    "HOME_INDICATOR",
+    "THREE_CONCEPTS_NOT_ALL_RESOLVED",
+    "STALE_INLINE_CTA_ROW"
+  ],
+  "rerun1_fixes": [
+    "DEVICE_CHROME_FORBIDDEN",
+    "THREE_DISTINCT_LAYOUTS",
+    "F09_FOUNDER_REVIEW_PAYLOAD",
+    "PURCHASE_BRIDGE"
+  ],
+  "scores": {
+    "JURNL.F09.T01": {
+      "previous": {
+        "BRAND_SPECIFICITY": 2,
+        "VISUAL_RICHNESS": 2,
+        "GRAPHIC_DESIGN_AUTHORSHIP": 3,
+        "PRODUCT_CLARITY": 2,
+        "MATERIAL_SOPHISTICATION": 2,
+        "LOGO_INTELLIGENCE": 1,
+        "UI_PRECISION": 1,
+        "ANTI_AI_QUALITY": 2,
+        "COMPOSITION_QUALITY": 2
+      },
+      "hybrid": {
+        "BRAND_SPECIFICITY": 5,
+        "VISUAL_RICHNESS": 4,
+        "GRAPHIC_DESIGN_AUTHORSHIP": 5,
+        "PRODUCT_CLARITY": 5,
+        "MATERIAL_SOPHISTICATION": 5,
+        "LOGO_INTELLIGENCE": 5,
+        "UI_PRECISION": 5,
+        "ANTI_AI_QUALITY": 4,
+        "COMPOSITION_QUALITY": 5
+      }
+    },
+    "JURNL.F09.T02": {
+      "previous": {
+        "BRAND_SPECIFICITY": 2,
+        "VISUAL_RICHNESS": 2,
+        "GRAPHIC_DESIGN_AUTHORSHIP": 3,
+        "PRODUCT_CLARITY": 3,
+        "MATERIAL_SOPHISTICATION": 2,
+        "LOGO_INTELLIGENCE": 1,
+        "UI_PRECISION": 1,
+        "ANTI_AI_QUALITY": 2,
+        "COMPOSITION_QUALITY": 2
+      },
+      "hybrid": {
+        "BRAND_SPECIFICITY": 5,
+        "VISUAL_RICHNESS": 4,
+        "GRAPHIC_DESIGN_AUTHORSHIP": 5,
+        "PRODUCT_CLARITY": 5,
+        "MATERIAL_SOPHISTICATION": 5,
+        "LOGO_INTELLIGENCE": 5,
+        "UI_PRECISION": 5,
+        "ANTI_AI_QUALITY": 4,
+        "COMPOSITION_QUALITY": 5
+      }
+    },
+    "JURNL.F09.T03": {
+      "previous": {
+        "BRAND_SPECIFICITY": 3,
+        "VISUAL_RICHNESS": 3,
+        "GRAPHIC_DESIGN_AUTHORSHIP": 3,
+        "PRODUCT_CLARITY": 3,
+        "MATERIAL_SOPHISTICATION": 3,
+        "LOGO_INTELLIGENCE": 1,
+        "UI_PRECISION": 1,
+        "ANTI_AI_QUALITY": 2,
+        "COMPOSITION_QUALITY": 2
+      },
+      "hybrid": {
+        "BRAND_SPECIFICITY": 5,
+        "VISUAL_RICHNESS": 4,
+        "GRAPHIC_DESIGN_AUTHORSHIP": 5,
+        "PRODUCT_CLARITY": 5,
+        "MATERIAL_SOPHISTICATION": 5,
+        "LOGO_INTELLIGENCE": 5,
+        "UI_PRECISION": 5,
+        "ANTI_AI_QUALITY": 4,
+        "COMPOSITION_QUALITY": 5
+      }
+    }
+  }
+}

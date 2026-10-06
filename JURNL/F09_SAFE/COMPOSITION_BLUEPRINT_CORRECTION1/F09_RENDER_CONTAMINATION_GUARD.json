@@ -62,7 +62,7 @@
         "Any other project’s or family’s image"
       ],
       "prompt_hashes": {
-        "JURNL.F09.T01.SCENE_PLATE.v1": "2d8f8b423b0b9a93e7f2ac75db635fc509fadb3374ad342eb06e54eedcf6c70c"
+        "JURNL.F09.T01.SCENE_PLATE.v1": "fb5ab4bd457082c14be0617181dfc83faadac4500b993ccac52e6ef992215e4c"
       },
       "blueprint_hash": "ce248368d03cf11c12fe40d3ad45ad82756e07e5368016743b89a4ad04046b9e",
       "run_rules": [
@@ -133,7 +133,7 @@
         "Any other project’s or family’s image"
       ],
       "prompt_hashes": {
-        "JURNL.F09.T02.SCENE_PLATE.v1": "ef09c24d6e72cbbc88068bb273d4daac34935806b39e095364e3a7c8478d9c68"
+        "JURNL.F09.T02.SCENE_PLATE.v1": "2071f99984d8ef26d2b1b735d7425beb84a4914a633e8326a078d30f9c89eb6c"
       },
       "blueprint_hash": "7f3a8fa0d158924874379748231f025e6c59b6b18703fd75d47aa290d9f1307f",
       "run_rules": [
@@ -203,7 +203,7 @@
         "Any other project’s or family’s image"
       ],
       "prompt_hashes": {
-        "JURNL.F09.T03.SCENE_PLATE.v1": "c4354698ce1d87602d5caf977e4cee75a904159b8f98d825203e786c777bed00"
+        "JURNL.F09.T03.SCENE_PLATE.v1": "b12c44d95e5411921c9a5cfec1845227eec824b2cebe75292869c78bc82cbd1b"
       },
       "blueprint_hash": "aec0bd62ef33a2590263038b34a038bed9feb74ba64f875390a61d72a7f8e251",
       "run_rules": [
