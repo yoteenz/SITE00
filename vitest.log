@@ -1,0 +1,8 @@
+
+[1m[7m[36m RUN [39m[27m[22m [36mv2.1.9 [39m[90m/home/runner/work/SITE00/SITE00[39m
+
+[2mfilter:  [22m[33mtests/workspaceResponsiveDensity.test.ts[39m
+[2minclude: [22m[33m**/*.{test,spec}.{ts,tsx}[39m
+[2mexclude:  [22m[33m**/node_modules/**[2m, [22m**/dist/**[2m, [22m**/.worktrees/**[2m, [22mtests/visualReconstructionP0VR*.test.ts[2m, [22mtests/campaignBoardP0VR*.test.ts[2m, [22mtests/projectHubReconstructionP0VR*.test.ts[2m, [22mtests/site00FounderWorkspaceSprintB59R5.test.ts[2m, [22mtests/site00FounderWorkspaceSprintB59R6.test.ts[2m, [22mtests/site00ExpressionEngineSprintB53.test.ts[2m, [22mtests/site00ExpressionEngineSprintB54.test.ts[2m, [22mtests/ndxDuplicateMenuFix.test.ts[2m, [22mtests/ndxIconSystemP0UI3.test.ts[2m, [22mtests/ndxNotificationCenterP0UI3C.test.ts[2m, [22mtests/ndxNotificationCenterP0UI3C2.test.ts[2m, [22mtests/designControlPlaneP0Bridge1.test.ts[2m, [22mtests/founderCreativeIngestionP0CB1.test.ts[2m, [22mtests/livePageMirror.test.ts[2m, [22mtests/parentChildNavigationLinkageP0PCI2.test.ts[2m, [22mtests/screenAuthorityIngestion.test.ts[2m, [22mtests/site00ExperienceEngineSprintA.test.ts[2m, [22mshared/site00-brand-lore/embodiedCharacterVisualCastingP05E4C.test.ts[39m
+[31m
+No test files found, exiting with code 1[39m

@@ -1,0 +1,1 @@
+function s(r,e,t="live-preview"){if(!e.trim())return"";try{const c=new URL(r).hostname.split(".")[0],i=e.replace(/^\/+/,"");return`https://${c}.supabase.co/storage/v1/object/public/${t}/${i}`}catch{return""}}function u(r,e="live-preview"){return s("https://hyycomvcaqxxvyrfupes.supabase.co/",r,e)}export{u as s};

@@ -1,0 +1,1 @@
+import{j as s}from"./vendor.D1FxG_Wm.js";function a(){return s.jsxs("div",{className:"site00-section-rule",role:"separator",children:[s.jsx("span",{className:"site00-section-rule__line"}),s.jsx("span",{className:"site00-diamond","aria-hidden":"true"}),s.jsx("span",{className:"site00-section-rule__line"})]})}export{a as S};

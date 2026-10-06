@@ -1,0 +1,1 @@
+import{j as s,L as r}from"./vendor.D1FxG_Wm.js";import{aA as i}from"./index.BePvP_PU.js";function n({projectSlug:a,className:t}){return s.jsx(r,{to:i(a),className:t??"site00-lab-hub-back",children:"← LAB"})}export{n as L};

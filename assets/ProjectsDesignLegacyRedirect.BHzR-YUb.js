@@ -1,0 +1,1 @@
+import{j as e,N as r,f as a,u as n}from"./vendor.D1FxG_Wm.js";import{l as i}from"./routes.TXK6G4Fh.js";function g(){return e.jsx(r,{to:"/production",replace:!0})}function l(){const{projectSlug:o="","*":t}=a(),s=n(),c=i(o,t||"",s.search);return e.jsx(r,{to:c,replace:!0})}export{g as ProjectsDesignModuleRedirect,l as ProjectsDesignProjectRedirect};

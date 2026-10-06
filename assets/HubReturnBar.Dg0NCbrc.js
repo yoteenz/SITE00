@@ -1,0 +1,1 @@
+import{c as t,j as a,L as s}from"./vendor.D1FxG_Wm.js";function e(){const[r]=t();return r.get("from")!=="hub"?null:a.jsx(s,{to:"/production",className:"pw-hubreturn","data-testid":"hub-return",children:"← RETURN TO PRODUCTION HUB"})}export{e as H};

@@ -1,0 +1,1 @@
+const I={CULTURAL_EDITORIAL:"cultural-editorial",CLINICAL_EDITORIAL:"clinical-editorial",TECHNICAL_OPERATIONS:"technical-operations",LUXURY_CLINICAL:"luxury-clinical",MINIMAL_INSTITUTIONAL:"minimal-institutional"},L={ndxbook:I.CULTURAL_EDITORIAL,"demo-doctor-health":I.CLINICAL_EDITORIAL,"all-in-one-enterprises":I.TECHNICAL_OPERATIONS};export{I as M,L as P};

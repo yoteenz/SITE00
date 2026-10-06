@@ -1,0 +1,1 @@
+import{f as a,u as r,j as c,N as n}from"./vendor.D1FxG_Wm.js";function u(){const{projectSlug:t=""}=a(),e=r(),s=t.toLowerCase(),o=e.pathname.replace(`/projects/${s}/design`,"");return c.jsx(n,{to:`/projects/design/${s}${o}${e.search}`,replace:!0})}export{u as DesignLegacyProjectDesignRedirect};

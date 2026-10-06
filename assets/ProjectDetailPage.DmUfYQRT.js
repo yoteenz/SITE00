@@ -1,0 +1,1 @@
+import{f as e,j as a,N as r}from"./vendor.D1FxG_Wm.js";import{p as o}from"./projectModules.C9Skgrco.js";function u(){const{projectSlug:t=""}=e();return a.jsx(r,{to:o(t,"OVERVIEW"),replace:!0})}export{u as default};

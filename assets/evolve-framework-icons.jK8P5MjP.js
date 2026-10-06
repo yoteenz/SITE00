@@ -1,0 +1,1 @@
+const s={master:"/assets/evolve/evolve-master.svg",refine:"/assets/evolve/evolve-refine.svg",install:"/assets/evolve/evolve-install.svg",transform:"/assets/evolve/evolve-transform.svg"};function v(e){return s[e]}export{v as s};

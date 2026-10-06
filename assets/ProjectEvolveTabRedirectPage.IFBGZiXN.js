@@ -1,0 +1,1 @@
+import{f as t,j as a,N as r}from"./vendor.D1FxG_Wm.js";import{s as o}from"./evolveSubshellRoutes.CW-5_YRo.js";function i(){const{projectSlug:e=""}=t();return a.jsx(r,{to:o(e,"CAMPAIGNS"),replace:!0})}export{i as default};

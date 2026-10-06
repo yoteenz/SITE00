@@ -1,0 +1,1 @@
+function n(t){const e=t.counts??{total:0,approved:0,needsReview:0};return(e.needsReview??0)>0?"IN REVIEW":t.status==="LOCKED"?"LOCKED":t.status==="IN_REVIEW"||t.status==="REVIEW"?"IN REVIEW":(e.approved??0)===(e.total??0)&&(e.total??0)>0?"APPROVED":t.status.replace(/_/g," ")}function s(t){const e=t.total??0,r=t.approved??0;return e>0?Math.round(r/e*100):0}export{n as a,s as b};

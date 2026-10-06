@@ -1,0 +1,1 @@
+import{j as t}from"./vendor.D1FxG_Wm.js";function n({children:s,className:a="",variant:l="glass"}){const e=l==="workflow"?"site00-glass-panel site00-glass-panel--workflow":"site00-glass-panel";return t.jsx("div",{className:`${e} ${a}`.trim(),children:s})}export{n as A};
