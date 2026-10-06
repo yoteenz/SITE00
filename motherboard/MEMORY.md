@@ -14357,3 +14357,16 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Shipped:** Git branch **`preview/tunnel`** (FF from `main` via `.github/workflows/sync-preview-tunnel-branch.yml` + `sync-preview-tunnel-branch.sh`); worktree authority tracks `origin/preview/tunnel`; `post-merge-preview-tunnel-refresh.sh`; `bootstrap-site00-cloud-preview-runtime.sh` in `environment.json` start; rule `.cursor/rules/preview-tunnel-authority.mdc`; AGENTS.md + shipping.mdc updates.
 - **Ops:** Set **`SITE00_CLOUDFLARE_TUNNEL_CANONICAL=1`** on **one** Cursor Cloud environment only; trigger environment build so agents stop booting Grok preview from stale snapshot.
 - **Agent contract:** Merge PR to `main` same session → `preview/tunnel` updates → refresh on canonical host.
+
+## 2026-10-06 — AIO IFTA three-mode live visual authority reconstruction (P0.AIO.IFTA.THREE-MODE-LIVE-VISUAL-AUTHORITY-RECONSTRUCTION1)
+
+- **Why:** The first live IFTA implementation (fsbw PR #43) was functionally right but visually wrong — text panels, a spreadsheet queue, generic cards, a missing media layer. The authority package was under-consumed.
+- **Founder decision (durable):** KEEP THE FUNCTION. REBUILD THE LOOK. The approved authority images win over current code. Recorded in CORE (Visual Authority Development Gate).
+- **Shipped in fsbw master `4e5ef963` (sync-only):**
+  - All four surfaces were rebuilt against `docs/aio/ifta/authority-bundle/source/`: public dark, client light Filing Room, staff queue as status lanes, staff case workspace.
+  - Media is only approved assets or crops of them (reproducible script); Inter Tight / Inter are self-hosted.
+  - Routes, guards, data, case identity, tabs and tax truth are unchanged.
+  - Proof: 406 AIO tests pass, 27/27 live interaction checks pass.
+  - Boards: `all-in-one-enterprises/docs/aio/ifta/visual-reconstruction/`.
+- **Not live on the founder tunnel yet:** that tunnel runs in the Cursor VM; this session's container cannot open trycloudflare (network policy).
+

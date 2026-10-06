@@ -311,6 +311,7 @@ Contract: `src/site00/config/production-workspace-media.ts`, mirrored by density
 - **Known failure / do not regress:** the legacy AIO visual shell leaked into the new experience. Legacy visuals have ZERO design authority.
 - **No false readiness:** a node is IMPLEMENTATION_READY only with experience contract + authority binding + data contracts + interactions + permissions + responsive rule (`evaluateNodeReadiness`). Visual and data status stay separate.
 - **AIO IFTA:** authority bundle ingested at `docs/aio/ifta/authority-bundle/`. Regenerate with `npx tsx scripts/studioos/aio-ifta-authority-bundle-export.ts`; source is `shared/studioos-visual-authority/projects/aio/ifta-authority/`.
+- **Implementation rule (founder, 2026-10-06 — P0.AIO.IFTA.THREE-MODE-LIVE-VISUAL-AUTHORITY-RECONSTRUCTION1):** when an approved visual authority exists, functional implementation is **not complete** until the live page reproduces the authority's hierarchy, composition, geometry, media relationships, density, material language, brand expression, actor differentiation and responsive intent. Legacy / current code is implementation evidence, never design authority — **KEEP THE FUNCTION, REBUILD THE LOOK**. Approved authority images are references and asset sources (crop / extract), never overlays or static screenshots; claim a match only after opening the live route and comparing (REFERENCE | BEFORE | AFTER boards).
 
 ## Operating environments + workspaces (Studio OS experience layer)
 
