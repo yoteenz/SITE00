@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 # Grok unified review ONLY (branch cursor/grok-plus-environment-unified-review-87ed).
-# Production workspace review after PR #1404: use serve-site00-preview-from-main.sh instead.
+# Does NOT include project-scoped production workspace (#1404). Founder review: serve-site00-preview-from-main.sh.
+if [[ "${SITE00_PREVIEW_REQUIRE_MAIN:-1}" == "1" ]]; then
+  echo "Refusing grok unified-review preview (SITE00_PREVIEW_REQUIRE_MAIN=1). Use serve-site00-preview-from-main.sh → origin/main." >&2
+  exit 1
+fi
 set -euo pipefail
 
 SCRIPT_REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
