@@ -1,0 +1,390 @@
+{
+  "id": "AIO_CLIENT_LIFECYCLE",
+  "sprint": "P0.AIO.CLIENT-MIGRATION-ACTIVATION-AND-OFFICE-PROVISIONING-ARCHITECTURE1",
+  "generated_by": "scripts/studioos/aio-client-migration-export.ts",
+  "source": [
+    "shared/studioos-experience-brain/client-lifecycle.ts",
+    "shared/studioos-experience-brain/projects/aio/client-migration.ts",
+    "shared/studioos-experience-brain/projects/aio/migration.ts"
+  ],
+  "audit": {
+    "repo": "yoteenz/fsbw · all-in-one-enterprises",
+    "sha": "c88a3000866d55c09c8271dd7c2cfccb32e5bf23",
+    "mode": "READ-ONLY"
+  },
+  "constraints": {
+    "page_implementation": false,
+    "new_paid_generations": 0,
+    "openart_accessed": false,
+    "ifta_lane_blocked": false,
+    "aio_code_changed": false
+  },
+  "invariant": "PROFILE EXISTS ≠ ACTIVE CLIENT. ACTIVE requires CLIENT_CONFIRMATION_COMPLETE (and every activation condition).",
+  "actors": {
+    "FOUNDER": {
+      "experience_actor": "FOUNDER_STAFF",
+      "does": "approves migrations, resolves ambiguous identity, overrides with a recorded reason"
+    },
+    "STAFF": {
+      "experience_actor": "FOUNDER_STAFF",
+      "does": "creates batches, uploads files, reviews facts, prepares and invites the client"
+    },
+    "EXISTING_CLIENT": {
+      "experience_actor": "CLIENT",
+      "does": "activates the invitation, reviews what is known, reports what changed, confirms"
+    },
+    "NEW_CLIENT": {
+      "experience_actor": "CLIENT",
+      "does": "signs up through intake; converges into the same identity, office and activation model"
+    },
+    "SYSTEM": {
+      "experience_actor": "SYSTEM",
+      "does": "ingests, hashes, classifies, extracts, matches and scores; proposes, never commits"
+    }
+  },
+  "domains": [
+    "MIGRATION",
+    "CLIENT_IDENTITY",
+    "CLIENT_ACTIVATION",
+    "VAULT",
+    "CLIENT_OFFICE",
+    "WORKSPACE_PROVISIONING",
+    "EXPANSION"
+  ],
+  "states": [
+    "KNOWN_UNMIGRATED",
+    "MIGRATION_IN_PROGRESS",
+    "MIGRATION_REVIEW_REQUIRED",
+    "INTAKE_IN_PROGRESS",
+    "PREBUILT",
+    "INVITED",
+    "CLIENT_CONFIRMATION_REQUIRED",
+    "ACTIVE",
+    "PAUSED",
+    "ENDED"
+  ],
+  "entry_types": [
+    "NEW_CLIENT",
+    "EXISTING_PREBUILT",
+    "EXISTING_KNOWN_NOT_MIGRATED"
+  ],
+  "activation_conditions": [
+    "CANONICAL_IDENTITY_EXISTS",
+    "REVIEW_OR_INTAKE_COMPLETE",
+    "AUTH_IDENTITY_LINKED",
+    "INVITATION_COMPLETED",
+    "CLIENT_REVIEWED_REQUIRED_SECTIONS",
+    "CLIENT_CONFIRMED_CURRENT_TRUTH",
+    "REQUIRED_CONSENTS_ACCEPTED",
+    "OFFICE_PROVISIONING_SUCCEEDED"
+  ],
+  "transitions": [
+    {
+      "from": "KNOWN_UNMIGRATED",
+      "to": "MIGRATION_IN_PROGRESS",
+      "trigger": "staff opens a migration batch for the business",
+      "actor": "STAFF",
+      "events": [
+        "MIGRATION_BATCH_CREATED"
+      ],
+      "entry_types": [
+        "EXISTING_PREBUILT",
+        "EXISTING_KNOWN_NOT_MIGRATED"
+      ]
+    },
+    {
+      "from": "MIGRATION_IN_PROGRESS",
+      "to": "MIGRATION_REVIEW_REQUIRED",
+      "trigger": "processing finished (all documents processed or marked as exceptions)",
+      "actor": "SYSTEM",
+      "events": [
+        "MATCH_PROPOSED"
+      ],
+      "entry_types": [
+        "EXISTING_PREBUILT",
+        "EXISTING_KNOWN_NOT_MIGRATED"
+      ]
+    },
+    {
+      "from": "MIGRATION_REVIEW_REQUIRED",
+      "to": "MIGRATION_IN_PROGRESS",
+      "trigger": "staff adds files to the batch",
+      "actor": "STAFF",
+      "events": [
+        "DOCUMENT_INGESTED"
+      ],
+      "entry_types": [
+        "EXISTING_PREBUILT",
+        "EXISTING_KNOWN_NOT_MIGRATED"
+      ]
+    },
+    {
+      "from": "MIGRATION_REVIEW_REQUIRED",
+      "to": "PREBUILT",
+      "trigger": "APPROVE MIGRATION (commit gate passed)",
+      "actor": "FOUNDER",
+      "events": [
+        "MIGRATION_APPROVED",
+        "CLIENT_PREBUILT"
+      ],
+      "entry_types": [
+        "EXISTING_PREBUILT",
+        "EXISTING_KNOWN_NOT_MIGRATED"
+      ]
+    },
+    {
+      "from": "INTAKE_IN_PROGRESS",
+      "to": "PREBUILT",
+      "trigger": "staff convert a qualified lead into a prepared profile (staff-created, not active)",
+      "actor": "STAFF",
+      "events": [
+        "CLIENT_PREBUILT"
+      ],
+      "entry_types": [
+        "NEW_CLIENT"
+      ]
+    },
+    {
+      "from": "INTAKE_IN_PROGRESS",
+      "to": "CLIENT_CONFIRMATION_REQUIRED",
+      "trigger": "new client submits intake from a verified sign-up",
+      "actor": "NEW_CLIENT",
+      "events": [
+        "CLIENT_REVIEW_STARTED"
+      ],
+      "entry_types": [
+        "NEW_CLIENT"
+      ]
+    },
+    {
+      "from": "PREBUILT",
+      "to": "INVITED",
+      "trigger": "staff sends the activation invitation",
+      "actor": "STAFF",
+      "events": [
+        "INVITATION_SENT"
+      ],
+      "entry_types": [
+        "NEW_CLIENT",
+        "EXISTING_PREBUILT",
+        "EXISTING_KNOWN_NOT_MIGRATED"
+      ]
+    },
+    {
+      "from": "INVITED",
+      "to": "PREBUILT",
+      "trigger": "invitation expired, failed delivery or was revoked",
+      "actor": "SYSTEM",
+      "events": [
+        "INVITATION_LAPSED"
+      ],
+      "entry_types": [
+        "NEW_CLIENT",
+        "EXISTING_PREBUILT",
+        "EXISTING_KNOWN_NOT_MIGRATED"
+      ]
+    },
+    {
+      "from": "INVITED",
+      "to": "CLIENT_CONFIRMATION_REQUIRED",
+      "trigger": "client opens the link, verifies and sets a password (or completes magic-link sign-in)",
+      "actor": "EXISTING_CLIENT",
+      "events": [
+        "CLIENT_REVIEW_STARTED"
+      ],
+      "entry_types": [
+        "NEW_CLIENT",
+        "EXISTING_PREBUILT",
+        "EXISTING_KNOWN_NOT_MIGRATED"
+      ]
+    },
+    {
+      "from": "CLIENT_CONFIRMATION_REQUIRED",
+      "to": "ACTIVE",
+      "trigger": "CONFIRM & ENTER MY OFFICE",
+      "actor": "EXISTING_CLIENT",
+      "events": [
+        "CLIENT_CONFIRMED",
+        "CLIENT_ACTIVATED"
+      ],
+      "entry_types": [
+        "NEW_CLIENT",
+        "EXISTING_PREBUILT",
+        "EXISTING_KNOWN_NOT_MIGRATED"
+      ]
+    },
+    {
+      "from": "ACTIVE",
+      "to": "PAUSED",
+      "trigger": "staff pauses the relationship",
+      "actor": "STAFF",
+      "events": [
+        "CLIENT_PAUSED"
+      ],
+      "entry_types": [
+        "NEW_CLIENT",
+        "EXISTING_PREBUILT",
+        "EXISTING_KNOWN_NOT_MIGRATED"
+      ]
+    },
+    {
+      "from": "PAUSED",
+      "to": "ACTIVE",
+      "trigger": "staff resumes the relationship",
+      "actor": "STAFF",
+      "events": [
+        "CLIENT_RESUMED"
+      ],
+      "entry_types": [
+        "NEW_CLIENT",
+        "EXISTING_PREBUILT",
+        "EXISTING_KNOWN_NOT_MIGRATED"
+      ]
+    },
+    {
+      "from": "ACTIVE",
+      "to": "ENDED",
+      "trigger": "relationship ends",
+      "actor": "STAFF",
+      "events": [
+        "CLIENT_ENDED"
+      ],
+      "entry_types": [
+        "NEW_CLIENT",
+        "EXISTING_PREBUILT",
+        "EXISTING_KNOWN_NOT_MIGRATED"
+      ]
+    },
+    {
+      "from": "PAUSED",
+      "to": "ENDED",
+      "trigger": "relationship ends",
+      "actor": "STAFF",
+      "events": [
+        "CLIENT_ENDED"
+      ],
+      "entry_types": [
+        "NEW_CLIENT",
+        "EXISTING_PREBUILT",
+        "EXISTING_KNOWN_NOT_MIGRATED"
+      ]
+    }
+  ],
+  "founder_segments": [
+    "KNOWN",
+    "MIGRATING",
+    "MIGRATION_REVIEW",
+    "MIGRATION_FAILED_NEEDS_REVIEW",
+    "PREBUILT_NOT_INVITED",
+    "INVITATION_SENT",
+    "WAITING_FOR_CLIENT",
+    "ACTIVE",
+    "PAUSED",
+    "ENDED",
+    "NEW_CLIENT_INTAKE"
+  ],
+  "audit_events": [
+    "MIGRATION_BATCH_CREATED",
+    "DOCUMENT_INGESTED",
+    "DOCUMENT_CLASSIFIED",
+    "FACT_EXTRACTED",
+    "MATCH_PROPOSED",
+    "MATCH_CONFIRMED",
+    "FACT_APPROVED",
+    "FACT_REJECTED",
+    "MIGRATION_APPROVED",
+    "CLIENT_PREBUILT",
+    "INVITATION_SENT",
+    "CLIENT_REVIEW_STARTED",
+    "CLIENT_CHANGE_REPORTED",
+    "CLIENT_CONFIRMED",
+    "CLIENT_ACTIVATED",
+    "WORKSPACE_PROVISIONED",
+    "INVITATION_LAPSED",
+    "CLIENT_PAUSED",
+    "CLIENT_RESUMED",
+    "CLIENT_ENDED"
+  ],
+  "aio": [
+    {
+      "state": "KNOWN_UNMIGRATED",
+      "client_account_status": "pending",
+      "archive_migration_status": "not_started",
+      "org_status": "pending",
+      "portal_access": "none",
+      "counted_active": false
+    },
+    {
+      "state": "MIGRATION_IN_PROGRESS",
+      "client_account_status": "pending",
+      "archive_migration_status": "in_progress",
+      "org_status": "pending",
+      "portal_access": "none",
+      "counted_active": false
+    },
+    {
+      "state": "MIGRATION_REVIEW_REQUIRED",
+      "client_account_status": "pending",
+      "archive_migration_status": "needs_review",
+      "org_status": "pending",
+      "portal_access": "none",
+      "counted_active": false
+    },
+    {
+      "state": "INTAKE_IN_PROGRESS",
+      "client_account_status": "pending",
+      "archive_migration_status": "not_started (new client)",
+      "org_status": "pending",
+      "portal_access": "intake only",
+      "counted_active": false
+    },
+    {
+      "state": "PREBUILT",
+      "client_account_status": "pending",
+      "archive_migration_status": "digitized | in_progress (independent)",
+      "org_status": "pending",
+      "portal_access": "none",
+      "counted_active": false
+    },
+    {
+      "state": "INVITED",
+      "client_account_status": "pending",
+      "archive_migration_status": "independent",
+      "org_status": "pending",
+      "portal_access": "activation link only",
+      "counted_active": false
+    },
+    {
+      "state": "CLIENT_CONFIRMATION_REQUIRED",
+      "client_account_status": "pending",
+      "archive_migration_status": "independent",
+      "org_status": "pending",
+      "portal_access": "review flow only (not the office)",
+      "counted_active": false
+    },
+    {
+      "state": "ACTIVE",
+      "client_account_status": "active",
+      "archive_migration_status": "independent",
+      "org_status": "active",
+      "portal_access": "YOUR AIO OFFICE",
+      "counted_active": true
+    },
+    {
+      "state": "PAUSED",
+      "client_account_status": "inactive",
+      "archive_migration_status": "independent",
+      "org_status": "paused",
+      "portal_access": "read-only office",
+      "counted_active": false
+    },
+    {
+      "state": "ENDED",
+      "client_account_status": "inactive",
+      "archive_migration_status": "independent",
+      "org_status": "ended",
+      "portal_access": "records export only",
+      "counted_active": false
+    }
+  ]
+}

@@ -271,7 +271,7 @@ export function buildFamilyGraphPart(projectId: string, families: readonly Famil
       last_event: null,
       next_required_action: next,
       route,
-      preview_artifact_id: artifactIds.find((id) => id.includes('.authority.')) ?? null,
+      preview_artifact_id: artifactIds.find((id) => id.includes('.authority.')) ?? artifactIds[0] ?? null,
     });
 
     /* ── founder decisions (real, resolvable) ── */

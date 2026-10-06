@@ -403,6 +403,18 @@
       "required_phases": 9,
       "covered_phases": 9,
       "missing": []
+    },
+    {
+      "feature_id": "AIO.CLIENT_MIGRATION",
+      "required_phases": 7,
+      "covered_phases": 7,
+      "missing": []
+    },
+    {
+      "feature_id": "AIO.CLIENT_ACTIVATION",
+      "required_phases": 9,
+      "covered_phases": 9,
+      "missing": []
     }
   ]
 }

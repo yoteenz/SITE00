@@ -56,12 +56,24 @@ export function DomainEmptyState({
 }) {
   return (
     <section
-      className="iax-panel pgx-empty"
+      className="iax-panel pgx-empty pgx-domain-absence"
       data-testid={`domain-empty-${state.domain.toLowerCase()}`}
       data-project={projectId}
       data-domain={state.domain}
       data-state="NOT_ESTABLISHED"
     >
+      <div className="pgx-domain-absence__band" aria-hidden>
+        <span className="pgx-media-ph pgx-domain-absence__glyph" data-media-status="AUTHORITY_NOT_ESTABLISHED">
+          <em>{projectId.slice(0, 4).toUpperCase()}</em>
+          <small>{state.domain}</small>
+        </span>
+        <ul className="pgx-domain-absence__map">
+          <li data-live="true">HUB</li>
+          <li data-live="true">DESIGN</li>
+          <li data-live={state.domain === 'EXPERIENCE' ? 'false' : 'true'}>EXPERIENCE</li>
+          <li data-live={state.domain === 'EXPRESSION' ? 'false' : 'true'}>EXPRESSION</li>
+        </ul>
+      </div>
       <header className="iax-panel__head">
         <h2>
           <i aria-hidden />
@@ -76,6 +88,11 @@ export function DomainEmptyState({
         <Link to={scopedTabHref('HUB', projectId)} className="iax-btn iax-btn--line" data-testid="domain-empty-hub">
           {projectName} HUB
         </Link>
+        {state.domain !== 'DESIGN' ?
+          <Link to={scopedTabHref('DESIGN', projectId)} className="iax-btn iax-btn--ghost" data-testid="domain-empty-design">
+            {projectName} DESIGN
+          </Link>
+        : null}
         {action ?
           <Link to={action.to} className="iax-btn iax-btn--ghost" data-testid="domain-empty-action">
             {action.label}

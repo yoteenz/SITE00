@@ -167,10 +167,11 @@ describe('gate integration (stand-in experience + brand fixtures; F09 has no Bra
     expect(evaluateAuthorityGate(input({ hybrid: h })).guard).toBe('RENDER_LAYER_OWNERSHIP_REQUIRED');
   });
 
-  it('F09 today: blueprints + ownership ready, no composites → COMPOSITE_AUTHORITY_REQUIRED (the old whole-screen candidates do not count)', () => {
+  it('F09 today: hybrid composite authorities pass the gate (full-screen Sunburst candidates do not count)', () => {
     const r = evaluateAuthorityGate(input({ hybrid: jurnlF09BP.jurnlF09HybridInput() }));
-    expect(r.guard).toBe('COMPOSITE_AUTHORITY_REQUIRED');
-    expect(r.conditions.REFERENCE_AUTHORITY_EXISTS).toBe(false);
+    expect(jurnlF09BP.jurnlF09HybridStatus().gate.status).toBe('COMPOSITES_READY');
+    expect(r.state).toBe('AUTHORITY_IN_REVIEW');
+    expect(r.conditions.REFERENCE_AUTHORITY_EXISTS).toBe(true);
   });
 
   it('with passing composites the family reaches founder review', () => {
@@ -188,11 +189,11 @@ describe('gate integration (stand-in experience + brand fixtures; F09 has no Bra
 describe('F09 blueprints at 393×852', () => {
   const s = jurnlF09BP.jurnlF09HybridStatus();
 
-  it('all three blueprints, ownership maps and densities pass; the hybrid gate waits only on composites', () => {
+  it('all three blueprints, ownership maps and densities pass; hybrid composites are COMPOSITES_READY', () => {
     expect(s.blueprints.map((b) => b.status)).toEqual(['BLUEPRINT_READY', 'BLUEPRINT_READY', 'BLUEPRINT_READY']);
     expect(s.ownership.map((o) => o.status)).toEqual(['OWNERSHIP_READY', 'OWNERSHIP_READY', 'OWNERSHIP_READY']);
     expect(s.density.map((d) => d.status)).toEqual(['DENSITY_BALANCED', 'DENSITY_BALANCED', 'DENSITY_BALANCED']);
-    expect(s.gate.status).toBe('COMPOSITE_AUTHORITY_REQUIRED');
+    expect(s.gate.status).toBe('COMPOSITES_READY');
   });
 
   it('keep the three territories; metaphors are contained (T01 OBJECT · T02 ZONE · T03 OBJECT)', () => {
@@ -251,7 +252,8 @@ describe('raw plates + contamination', () => {
 
   it('one text-free scene plate per territory; prompts carry no product, brand or copy words', () => {
     expect(raw.plates).toHaveLength(3);
-    expect(raw.generations_this_sprint).toEqual({ primary: 0, paid: 0 });
+    expect(raw.generations_this_sprint.primary).toBe(3);
+    expect(raw.generations_this_sprint.paid).toBe(3);
     for (const p of raw.plates) {
       expect(p.prompt).toMatch(/no text, no logo and no interface/);
       for (const w of ['JURNL', 'SAFE TO SPEND', 'BILLS', 'GOALS', 'TRIPS', 'HOME', 'MONEY', 'CREDIT', 'BREAKDOWN', '$', 'T01', 'T02', 'T03', 'NAV', 'CTA']) expect(p.prompt, w).not.toContain(w);
@@ -304,9 +306,10 @@ describe('previous renders', () => {
 });
 
 describe('state of the sprint', () => {
-  it('no generation, no composites, no production change', () => {
-    expect(jurnlF09BP.jurnlF09HybridInput().composites).toEqual([]);
-    expect(jurnlF09CD.JURNL_F09_CORRECTED_CANDIDATES).toHaveLength(3);
+  it('hybrid composites ready; no production F09 runtime change', () => {
+    expect(jurnlF09BP.jurnlF09HybridInput().composites).toHaveLength(3);
+    expect(jurnlF09BP.jurnlF09HybridStatus().gate.status).toBe('COMPOSITES_READY');
+    for (const c of jurnlF09BP.JURNL_F09_HYBRID_COMPOSITES) expect(existsSync(path.join(ROOT, c.image_path)), c.image_path).toBe(true);
     for (const f of ['src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx', 'src/projects/jurnl/data/f09/safeToSpend.ts']) expect(read(f)).not.toMatch(/COMPOSITION_BLUEPRINT|hybrid-authority/);
     for (const t of T) expect(t.founder_decision).toBeNull();
   });

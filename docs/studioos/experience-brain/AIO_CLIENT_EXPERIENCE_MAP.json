@@ -1934,6 +1934,138 @@
         "completion_proof": "Feature complete"
       },
       "emotional_target": "AIO is working, and I am told when I am needed."
+    },
+    {
+      "feature_id": "AIO.CLIENT_MIGRATION",
+      "feature_name": "Client Migration Intake + Review (founder / staff)",
+      "family": "AIO OFFICE role projection (office/clients/*)",
+      "perspective": {
+        "entry_point": "None during migration — the client meets the result in AIO.CLIENT_ACTIVATION.",
+        "primary_task": "None during migration.",
+        "sees_first": "Nothing until invited.",
+        "must_provide": [
+          "nothing during migration"
+        ],
+        "input_methods": [
+          "none"
+        ],
+        "system_already_knows": [
+          "everything staff confirmed from the file"
+        ],
+        "ready_signals": [
+          "activation invitation"
+        ],
+        "needs_you": [
+          "none during migration"
+        ],
+        "under_review": [
+          "AIO is preparing your office (only if invited early)"
+        ],
+        "approves": [],
+        "completion_looks_like": "An invitation to review what AIO already knows.",
+        "artifacts_received": [
+          "none until activation"
+        ],
+        "what_happens_next": "You are invited to review and confirm.",
+        "project_room": {
+          "status": "not visible",
+          "needs_you": "none during migration",
+          "next": "none",
+          "decisions": "none",
+          "files": "none until activation",
+          "messages": "Client Migration Intake + Review (founder / staff) request thread",
+          "approvals": "none",
+          "service_progress": "Known — not migrated → Migrating → Partial batch → Which business is this? → Review required → Ready to approve → Prebuilt — not active → Batch closed"
+        }
+      },
+      "client_entry": {
+        "surface": "(later) Activation invitation — “Your AIO office is ready”",
+        "route": "portal activation route (AIO.CLIENT_ACTIVATION)",
+        "trigger": "invitation link"
+      },
+      "client_cta": "ACTIVATE YOUR OFFICE (via the invitation, AIO.CLIENT_ACTIVATION)",
+      "information_hierarchy": {
+        "primary_question": "(none during migration)",
+        "primary_status": "not visible",
+        "primary_task": "none",
+        "secondary_status": "none",
+        "blocker": "none",
+        "next_action": "none",
+        "completion_proof": "invitation received later"
+      },
+      "emotional_target": "AIO already knows my business."
+    },
+    {
+      "feature_id": "AIO.CLIENT_ACTIVATION",
+      "feature_name": "Client Activation — review what AIO knows, confirm, enter the office",
+      "family": "F18 ACCOUNT · F05 MY OFFICE threshold",
+      "perspective": {
+        "entry_point": "Activation invitation link",
+        "primary_task": "Check what AIO already knows, say what changed, confirm.",
+        "sees_first": "WELCOME — HERE’S WHAT AIO ALREADY KNOWS (company name, AIO client ID).",
+        "must_provide": [
+          "own password (set by the client)",
+          "a response per section",
+          "what changed",
+          "required acknowledgements"
+        ],
+        "input_methods": [
+          "LOOKS RIGHT / NEEDS AN UPDATE / I’M NOT SURE per section",
+          "what-changed shortcuts"
+        ],
+        "system_already_knows": [
+          "company identity",
+          "people",
+          "vehicles",
+          "active services",
+          "documents on file"
+        ],
+        "ready_signals": [
+          "every section answered",
+          "changes captured"
+        ],
+        "needs_you": [
+          "sections not yet answered",
+          "updates requested but not described"
+        ],
+        "under_review": [
+          "changes AIO is reconciling"
+        ],
+        "approves": [
+          "CONFIRM & ENTER MY OFFICE"
+        ],
+        "completion_looks_like": "YOUR AIO OFFICE — ACTIVE WITH AIO.",
+        "artifacts_received": [
+          "activation record"
+        ],
+        "what_happens_next": "Your workspaces open; AIO applies the changes you reported.",
+        "project_room": {
+          "status": "Section checklist",
+          "needs_you": "sections not yet answered · updates requested but not described",
+          "next": "CONFIRM & ENTER MY OFFICE",
+          "decisions": "CONFIRM & ENTER MY OFFICE",
+          "files": "activation record",
+          "messages": "Client Activation — review what AIO knows, confirm, enter the office request thread",
+          "approvals": "CONFIRM & ENTER MY OFFICE",
+          "service_progress": "Prebuilt → Invitation sent → Reviewing → What changed? → Confirm → Active → Changes being reconciled → Invitation not delivered → Paused"
+        }
+      },
+      "client_entry": {
+        "surface": "Activation invitation — ACTIVATE YOUR OFFICE",
+        "route": "portal activation route (proposed)",
+        "trigger": "secure single-use link"
+      },
+      "client_cta": "CONFIRM & ENTER MY OFFICE",
+      "information_hierarchy": {
+        "primary_question": "Is this still my business?",
+        "primary_status": "Section checklist",
+        "primary_task": "Answer each section",
+        "secondary_status": "Documents AIO has",
+        "blocker": "Updates not yet described",
+        "next_action": "CONFIRM & ENTER MY OFFICE",
+        "completion_proof": "YOUR AIO OFFICE"
+      },
+      "emotional_target": "They already know my business — I just check it."
     }
   ]
 }

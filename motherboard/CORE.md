@@ -329,6 +329,18 @@ Contract: `src/site00/config/production-workspace-media.ts`, mirrored by density
   - IFTA is the TREE_PROVEN workspace. The IFTA tree is rebased under the offices (revision 2) with the ten decisions locked.
   - Docs: `docs/aio/office/` (`npx tsx scripts/studioos/aio-office-export.ts`); data: `shared/studioos-experience-brain/projects/aio/office.ts`.
 
+## Client lifecycle — migration → activation (Studio OS experience layer)
+
+- **Existing-client onboarding is NOT account creation.** It is reconciliation between what the business already knows and the client's current truth (`shared/studioos-experience-brain/client-lifecycle.ts`, project-agnostic).
+- Lifecycle: KNOWN_UNMIGRATED → MIGRATION_IN_PROGRESS → MIGRATION_REVIEW_REQUIRED → PREBUILT → INVITED → CLIENT_CONFIRMATION_REQUIRED → ACTIVE (· PAUSED · ENDED; new clients start at INTAKE_IN_PROGRESS).
+- **PROFILE EXISTS ≠ ACTIVE CLIENT.** Count a client active only with `isCountedActive` (lifecycle ACTIVE + all 8 activation conditions, including client confirmation). PREBUILT / INVITED / waiting clients are never in active counts.
+- Migration pipeline proposes, never commits. Facts carry lineage (source → page / region → fact → confidence → reviewer → decision → canonical field). APPROVE MIGRATION (`planMigrationCommit`) → PREBUILT, never ACTIVE.
+- Identity: uncertain matches never merge (only staff yield MATCH_CONFIRMED); creating a business beside a likely match needs a recorded reason.
+- Credentials only through a single-use activation link (token hash stored); the client sets their own password or uses a magic link. Passwords are never generated or sent.
+- Three separate measures: BUSINESS PROFILE · DOCUMENT VAULT · CLIENT REVIEW. An empty vault is never a 0 % profile.
+- Workspaces: a staff-confirmed relationship → PENDING_SETUP until ACTIVE; documents alone → WE ALSO KNOW ABOUT … REVIEW NEEDED. Expansion appears AFTER_ACTIVATION, never inside review.
+- **AIO (P0.AIO.CLIENT-MIGRATION-ACTIVATION-AND-OFFICE-PROVISIONING-ARCHITECTURE1):** mapping in `shared/studioos-experience-brain/projects/aio/client-migration.ts`; contracts AIO.CLIENT_MIGRATION + AIO.CLIENT_ACTIVATION; docs `docs/aio/client-migration/` (`npx tsx scripts/studioos/aio-client-migration-export.ts`). Extends Physical Archive Migration; client ID = AIO-CUS-######; must fix C11 / C8 / C10 / C9 / portal gating before activation ships.
+
 ---
 
 ## Docs

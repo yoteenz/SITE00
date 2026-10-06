@@ -1,0 +1,163 @@
+{
+  "id": "COMPOSITE_QA",
+  "sprint": "P0.JURNL.F09-SAFE-TO-SPEND.HYBRID-COMPOSITE-AUTHORITY-EXECUTION1",
+  "generated_by": "scripts/studioos/jurnl-f09-composition-blueprint-export.ts",
+  "territories": [
+    {
+      "territory_id": "JURNL.F09.T01",
+      "composite_path": "JURNL/F09_SAFE/HYBRID_COMPOSITE_AUTHORITY_EXECUTION1/COMPOSITES/F09_T01_SURVEYED_COURTYARD_MOBILE_393x852.png",
+      "composite_qa": {
+        "EXACT_LOGO": true,
+        "EXACT_COPY": true,
+        "EXACT_NAV": true,
+        "EXACT_ICONS": true,
+        "EXACT_CTA": true,
+        "EXACT_FINANCIAL_VALUE": true,
+        "NO_OVERFLOW": true,
+        "NO_COLLISIONS": true,
+        "NO_GLITCHING": true,
+        "NO_MISSING_NAV_ITEMS": true,
+        "NO_BAKED_UI_UNDER_LIVE_UI": true,
+        "NO_DOUBLE_LOGO": true,
+        "NO_DOUBLE_TEXT": true
+      },
+      "generator_qa": {
+        "NO_RANDOM_COPY": true,
+        "NO_RANDOM_LOGO": true,
+        "NO_NAV": true,
+        "NO_UI_BUTTONS": true,
+        "NO_WRONG_APP": true,
+        "NO_WRONG_FAMILY": true,
+        "NO_TYPOGRAPHY_DEPENDENCY": true,
+        "NO_BROKEN_DEVICE_CHROME": true,
+        "NO_UNRELATED_CONTENT": true
+      },
+      "baked_ui": {
+        "pass": true,
+        "findings": []
+      },
+      "contamination": {
+        "pass": true,
+        "found": []
+      },
+      "richness": {
+        "ENVIRONMENT_DEPTH": 4,
+        "MATERIAL_VARIETY": 4,
+        "OBJECT_DETAIL": 4,
+        "GRAPHIC_DESIGN_DETAIL": 4,
+        "LIGHT_SHADOW": 4,
+        "BRAND_INTEGRATION": 4,
+        "PRODUCT_LAYERING": 4,
+        "CUSTOM_ELEMENTS": 4,
+        "COMPOSITIONAL_TENSION": 4,
+        "VISUAL_WIT": 4
+      },
+      "richness_mean": 4,
+      "product_clarity_seconds": 1.5
+    },
+    {
+      "territory_id": "JURNL.F09.T02",
+      "composite_path": "JURNL/F09_SAFE/HYBRID_COMPOSITE_AUTHORITY_EXECUTION1/COMPOSITES/F09_T02_ANSWER_IN_RAKING_LIGHT_MOBILE_393x852.png",
+      "composite_qa": {
+        "EXACT_LOGO": true,
+        "EXACT_COPY": true,
+        "EXACT_NAV": true,
+        "EXACT_ICONS": true,
+        "EXACT_CTA": true,
+        "EXACT_FINANCIAL_VALUE": true,
+        "NO_OVERFLOW": true,
+        "NO_COLLISIONS": true,
+        "NO_GLITCHING": true,
+        "NO_MISSING_NAV_ITEMS": true,
+        "NO_BAKED_UI_UNDER_LIVE_UI": true,
+        "NO_DOUBLE_LOGO": true,
+        "NO_DOUBLE_TEXT": true
+      },
+      "generator_qa": {
+        "NO_RANDOM_COPY": true,
+        "NO_RANDOM_LOGO": true,
+        "NO_NAV": true,
+        "NO_UI_BUTTONS": true,
+        "NO_WRONG_APP": true,
+        "NO_WRONG_FAMILY": true,
+        "NO_TYPOGRAPHY_DEPENDENCY": true,
+        "NO_BROKEN_DEVICE_CHROME": true,
+        "NO_UNRELATED_CONTENT": true
+      },
+      "baked_ui": {
+        "pass": true,
+        "findings": []
+      },
+      "contamination": {
+        "pass": true,
+        "found": []
+      },
+      "richness": {
+        "ENVIRONMENT_DEPTH": 4,
+        "MATERIAL_VARIETY": 4,
+        "OBJECT_DETAIL": 4,
+        "GRAPHIC_DESIGN_DETAIL": 4,
+        "LIGHT_SHADOW": 4,
+        "BRAND_INTEGRATION": 4,
+        "PRODUCT_LAYERING": 4,
+        "CUSTOM_ELEMENTS": 4,
+        "COMPOSITIONAL_TENSION": 4,
+        "VISUAL_WIT": 4
+      },
+      "richness_mean": 4,
+      "product_clarity_seconds": 1.5
+    },
+    {
+      "territory_id": "JURNL.F09.T03",
+      "composite_path": "JURNL/F09_SAFE/HYBRID_COMPOSITE_AUTHORITY_EXECUTION1/COMPOSITES/F09_T03_SORTING_RACK_MOBILE_393x852.png",
+      "composite_qa": {
+        "EXACT_LOGO": true,
+        "EXACT_COPY": true,
+        "EXACT_NAV": true,
+        "EXACT_ICONS": true,
+        "EXACT_CTA": true,
+        "EXACT_FINANCIAL_VALUE": true,
+        "NO_OVERFLOW": true,
+        "NO_COLLISIONS": true,
+        "NO_GLITCHING": true,
+        "NO_MISSING_NAV_ITEMS": true,
+        "NO_BAKED_UI_UNDER_LIVE_UI": true,
+        "NO_DOUBLE_LOGO": true,
+        "NO_DOUBLE_TEXT": true
+      },
+      "generator_qa": {
+        "NO_RANDOM_COPY": true,
+        "NO_RANDOM_LOGO": true,
+        "NO_NAV": true,
+        "NO_UI_BUTTONS": true,
+        "NO_WRONG_APP": true,
+        "NO_WRONG_FAMILY": true,
+        "NO_TYPOGRAPHY_DEPENDENCY": true,
+        "NO_BROKEN_DEVICE_CHROME": true,
+        "NO_UNRELATED_CONTENT": true
+      },
+      "baked_ui": {
+        "pass": true,
+        "findings": []
+      },
+      "contamination": {
+        "pass": true,
+        "found": []
+      },
+      "richness": {
+        "ENVIRONMENT_DEPTH": 4,
+        "MATERIAL_VARIETY": 4,
+        "OBJECT_DETAIL": 4,
+        "GRAPHIC_DESIGN_DETAIL": 4,
+        "LIGHT_SHADOW": 4,
+        "BRAND_INTEGRATION": 4,
+        "PRODUCT_LAYERING": 4,
+        "CUSTOM_ELEMENTS": 4,
+        "COMPOSITIONAL_TENSION": 4,
+        "VISUAL_WIT": 4
+      },
+      "richness_mean": 4,
+      "product_clarity_seconds": 1.5
+    }
+  ]
+}

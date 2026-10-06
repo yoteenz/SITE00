@@ -11,7 +11,7 @@
  */
 import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { jurnlF09BP } from '../../shared/studioos-visual-authority/index.js';
+import { RICHNESS_DIMENSIONS, jurnlF09BP } from '../../shared/studioos-visual-authority/index.js';
 
 const D = jurnlF09BP.JURNL_F09_BP_DIR;
 const json = (v: unknown) => `${JSON.stringify(v, null, 2)}\n`;
@@ -36,16 +36,51 @@ export function buildJurnlF09BlueprintExports(): Record<string, string> {
   files['F09_HYBRID_GATE_STATUS.json'] = json({
     ...head('F09_HYBRID_GATE_STATUS'),
     hybrid_gate: status.gate,
-    generation: { primary: 0, paid: 0 },
+    generation: jurnlF09BP.JURNL_F09_RAW_GENERATION_CONTRACT.generations_this_sprint,
+    hybrid_execution: jurnlF09BP.JURNL_F09_HYBRID_RENDER_LEDGER,
     page_implementation: false,
-    verdict: { PIPELINE_CORRECTED: true, READY_FOR_HYBRID_RENDER_EXECUTION: status.gate.status === 'COMPOSITE_AUTHORITY_REQUIRED', READY_FOR_FOUNDER_COMPARISON: false },
+    verdict: {
+      PIPELINE_CORRECTED: true,
+      HYBRID_RENDER_PIPELINE_PASS: status.gate.status === 'COMPOSITES_READY',
+      THREE_COMPOSITE_AUTHORITIES_READY: jurnlF09BP.JURNL_F09_HYBRID_COMPOSITES.length === 3,
+      READY_FOR_FOUNDER_COMPARISON: status.gate.status === 'COMPOSITES_READY',
+      founder_verdict: 'PENDING',
+    },
   });
   return files;
+}
+
+export function buildJurnlF09HybridExecutionExports(): Record<string, string> {
+  const H = jurnlF09BP.JURNL_F09_HYBRID_DIR;
+  const headH = (id: string) => ({ id, sprint: jurnlF09BP.JURNL_F09_HYBRID_EXEC_SPRINT, generated_by: 'scripts/studioos/jurnl-f09-composition-blueprint-export.ts' });
+  const composites = jurnlF09BP.JURNL_F09_HYBRID_COMPOSITES;
+  return {
+    [`${H}/HYBRID_RENDER_LEDGER.json`]: json({ ...headH('HYBRID_RENDER_LEDGER'), ...jurnlF09BP.JURNL_F09_HYBRID_RENDER_LEDGER }),
+    [`${H}/COMPOSITE_QA.json`]: json({
+      ...headH('COMPOSITE_QA'),
+      territories: composites.map((c) => ({
+        territory_id: c.territory_id,
+        composite_path: c.image_path,
+        composite_qa: c.composite_qa,
+        generator_qa: c.art_layers[0]?.generator_qa,
+        baked_ui: c.art_layers[0]?.baked_ui,
+        contamination: c.art_layers[0]?.contamination,
+        richness: c.richness,
+        richness_mean: RICHNESS_DIMENSIONS.reduce((s, d) => s + (c.richness[d] ?? 0), 0) / RICHNESS_DIMENSIONS.length,
+        product_clarity_seconds: c.product_clarity_seconds,
+      })),
+    }),
+    [`${H}/PREVIOUS_VS_HYBRID.json`]: json({ ...headH('PREVIOUS_VS_HYBRID'), scale: '1–5', dimensions: Object.keys(jurnlF09BP.PREVIOUS_VS_HYBRID_SCORES['JURNL.F09.T01']!.previous), territories: Object.entries(jurnlF09BP.PREVIOUS_VS_HYBRID_SCORES).map(([territory_id, s]) => ({ territory_id, ...s })) }),
+  };
 }
 
 if (process.argv[1] && /jurnl-f09-composition-blueprint-export\.ts$/.test(process.argv[1])) {
   mkdirSync(`${D}/PLATE_PROMPTS`, { recursive: true });
   const files = buildJurnlF09BlueprintExports();
   for (const [name, body] of Object.entries(files)) writeFileSync(`${D}/${name}`, body);
-  console.log(`exported ${Object.keys(files).length} files to ${D}`);
+  for (const [name, body] of Object.entries(buildJurnlF09HybridExecutionExports())) {
+    mkdirSync(name.slice(0, name.lastIndexOf('/')), { recursive: true });
+    writeFileSync(name, body);
+  }
+  console.log(`exported ${Object.keys(files).length} blueprint files + hybrid execution JSON to ${D} and ${jurnlF09BP.JURNL_F09_HYBRID_DIR}`);
 }

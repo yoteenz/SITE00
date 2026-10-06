@@ -1,0 +1,1072 @@
+{
+  "id": "AIO_MIGRATION_PIPELINE_CONTRACT",
+  "sprint": "P0.AIO.CLIENT-MIGRATION-ACTIVATION-AND-OFFICE-PROVISIONING-ARCHITECTURE1",
+  "generated_by": "scripts/studioos/aio-client-migration-export.ts",
+  "source": [
+    "shared/studioos-experience-brain/client-lifecycle.ts",
+    "shared/studioos-experience-brain/projects/aio/client-migration.ts",
+    "shared/studioos-experience-brain/projects/aio/migration.ts"
+  ],
+  "audit": {
+    "repo": "yoteenz/fsbw · all-in-one-enterprises",
+    "sha": "c88a3000866d55c09c8271dd7c2cfccb32e5bf23",
+    "mode": "READ-ONLY"
+  },
+  "constraints": {
+    "page_implementation": false,
+    "new_paid_generations": 0,
+    "openart_accessed": false,
+    "ifta_lane_blocked": false,
+    "aio_code_changed": false
+  },
+  "rule": "No profile mutation before review. Every stage proposes; only APPROVE MIGRATION commits.",
+  "batch_states": [
+    "CREATED",
+    "UPLOADING",
+    "PROCESSING",
+    "PARTIAL",
+    "REVIEW_REQUIRED",
+    "APPROVED",
+    "REJECTED",
+    "FAILED"
+  ],
+  "document_states": [
+    "INGESTED",
+    "CLASSIFIED",
+    "EXTRACTED",
+    "DUPLICATE",
+    "UNREADABLE",
+    "UNSUPPORTED",
+    "EXTRACTION_FAILED"
+  ],
+  "pipeline": [
+    {
+      "stage": "INGEST",
+      "does": "accept the files (folder or multi-file upload); record filename, type, size, uploader, batch",
+      "writes_canonical": false,
+      "failure": "UNSUPPORTED_DOCUMENT"
+    },
+    {
+      "stage": "HASH",
+      "does": "sha256 of the bytes",
+      "writes_canonical": false,
+      "failure": null
+    },
+    {
+      "stage": "DUPLICATE_CHECK",
+      "does": "same hash already in this batch or in the client’s vault → DUPLICATE (kept, linked, not re-extracted)",
+      "writes_canonical": false,
+      "failure": "DUPLICATE_DOCUMENT"
+    },
+    {
+      "stage": "DOCUMENT_TYPE_DETECTION",
+      "does": "propose a document class with confidence; staff may reclassify",
+      "writes_canonical": false,
+      "failure": "UNREADABLE_DOCUMENT"
+    },
+    {
+      "stage": "TEXT_FIELD_EXTRACTION",
+      "does": "text / fields per page with regions where available",
+      "writes_canonical": false,
+      "failure": "EXTRACTION_FAILED"
+    },
+    {
+      "stage": "ENTITY_EXTRACTION",
+      "does": "business, people, vehicles, policies, accounts, dates",
+      "writes_canonical": false,
+      "failure": "EXTRACTION_FAILED"
+    },
+    {
+      "stage": "CLIENT_MATCHING",
+      "does": "match the batch to one existing business or propose a new one",
+      "writes_canonical": false,
+      "failure": "AMBIGUOUS_CLIENT_MATCH"
+    },
+    {
+      "stage": "RECORD_MATCHING",
+      "does": "match extracted vehicles / people / policies to existing records",
+      "writes_canonical": false,
+      "failure": null
+    },
+    {
+      "stage": "STALENESS_ANALYSIS",
+      "does": "expired or old evidence is marked possibly stale / stale",
+      "writes_canonical": false,
+      "failure": null
+    },
+    {
+      "stage": "CONFLICT_ANALYSIS",
+      "does": "different values for the same field are grouped as a conflict",
+      "writes_canonical": false,
+      "failure": "CONFLICTING_FACTS"
+    },
+    {
+      "stage": "CONFIDENCE_SCORING",
+      "does": "HIGH / MEDIUM / LOW per fact; CONFLICT when values disagree",
+      "writes_canonical": false,
+      "failure": null
+    },
+    {
+      "stage": "PROPOSED_PROFILE_MUTATIONS",
+      "does": "a proposed change list (create / update / no-op) against current records",
+      "writes_canonical": false,
+      "failure": null
+    },
+    {
+      "stage": "REVIEW_REQUIRED",
+      "does": "everything waits for a human decision",
+      "writes_canonical": false,
+      "failure": null
+    }
+  ],
+  "file_policy": {
+    "accepted": [
+      "PDF",
+      "JPG",
+      "JPEG",
+      "PNG",
+      "WEBP"
+    ],
+    "source": "all-in-one-enterprises/src/vault/vaultConfig.ts:33 FILE_POLICY (15 MB; pdf · jpg · jpeg · png · webp)",
+    "folder_upload": "MISSING today (multi-file upload exists: SecureDocumentUploader multiple=true) — add directory selection where the browser allows it",
+    "not_supported_today": [
+      "TIFF / HEIC / multi-page scanner formats",
+      "office documents (doc / docx / xls / xlsx)",
+      "ZIP",
+      "email (.eml / .msg)"
+    ],
+    "conflicts": [
+      "FILE_POLICY 15 MB vs Supabase storage file_size_limit 10 MiB (all-in-one-enterprises/supabase/config.toml:23)",
+      "demo stores whole files as data URLs in localStorage (twice per migrated file) — a whole client file will not fit; backend storage is not built"
+    ],
+    "note": "Office documents are accepted only after the stack supports them; an unsupported file is listed as UNSUPPORTED_DOCUMENT, never dropped."
+  },
+  "document_classes": [
+    {
+      "class_id": "COMPANY_FORMATION",
+      "vault_category": "business",
+      "document_type": "Articles of Organization | Articles of Incorporation | Operating Agreement | Business Registration",
+      "status": "EXISTING",
+      "extracts": [
+        "organization.legal_name",
+        "organization.formation_state",
+        "owners"
+      ],
+      "current_truth": true,
+      "workspace": "BUSINESS_FORMATION"
+    },
+    {
+      "class_id": "EIN",
+      "vault_category": "business",
+      "document_type": "EIN Letter",
+      "status": "EXISTING",
+      "extracts": [
+        "organization.ein",
+        "organization.legal_name"
+      ],
+      "current_truth": true,
+      "workspace": null,
+      "note": "Document type exists; the EIN value has no field today (einStatus yes/no only)."
+    },
+    {
+      "class_id": "DOT",
+      "vault_category": "authority",
+      "document_type": "USDOT Registration | MCS-150",
+      "status": "EXISTING",
+      "extracts": [
+        "organization.usdot",
+        "organization.legal_name",
+        "organization.physical_address"
+      ],
+      "current_truth": true,
+      "workspace": "COMPLIANCE"
+    },
+    {
+      "class_id": "MC_AUTHORITY",
+      "vault_category": "authority",
+      "document_type": "MC Authority",
+      "status": "EXISTING",
+      "extracts": [
+        "organization.mc",
+        "organization.legal_name"
+      ],
+      "current_truth": true,
+      "workspace": "COMPLIANCE"
+    },
+    {
+      "class_id": "BOC3",
+      "vault_category": "authority",
+      "document_type": "BOC-3",
+      "status": "EXISTING",
+      "extracts": [
+        "service.boc3_on_file"
+      ],
+      "current_truth": true,
+      "workspace": "COMPLIANCE"
+    },
+    {
+      "class_id": "W9",
+      "vault_category": "business",
+      "document_type": "Other (W-9)",
+      "status": "PARTIAL",
+      "extracts": [
+        "organization.legal_name",
+        "organization.ein"
+      ],
+      "current_truth": true,
+      "workspace": null,
+      "note": "No Vault type for W-9 (brokerage tracks w9Status only)."
+    },
+    {
+      "class_id": "IFTA_LICENSE",
+      "vault_category": "registration",
+      "document_type": "IFTA License",
+      "status": "EXISTING",
+      "extracts": [
+        "ifta.account",
+        "ifta.base_jurisdiction",
+        "document.expiration_date"
+      ],
+      "current_truth": true,
+      "workspace": "IFTA"
+    },
+    {
+      "class_id": "IFTA_RETURN",
+      "vault_category": "tax_fuel",
+      "document_type": "Tax Document (IFTA return)",
+      "status": "PARTIAL",
+      "extracts": [
+        "ifta.account",
+        "ifta.filed_quarters"
+      ],
+      "current_truth": false,
+      "workspace": "IFTA",
+      "note": "Historical returns are archive, not quarter cases (quarter cases are not backfilled from paper)."
+    },
+    {
+      "class_id": "CAB_CARD",
+      "vault_category": "registration",
+      "document_type": "IRP Cab Card",
+      "status": "EXISTING",
+      "extracts": [
+        "vehicle.vin",
+        "vehicle.plate",
+        "vehicle.unit_number",
+        "vehicle.registration_expiration"
+      ],
+      "current_truth": true,
+      "workspace": "TAGS_REGISTRATION"
+    },
+    {
+      "class_id": "REGISTRATION",
+      "vault_category": "registration",
+      "document_type": "Apportioned Registration (plain vehicle registration: Other)",
+      "status": "EXISTING",
+      "extracts": [
+        "vehicle.vin",
+        "vehicle.plate",
+        "vehicle.registration_expiration"
+      ],
+      "current_truth": true,
+      "workspace": "TAGS_REGISTRATION"
+    },
+    {
+      "class_id": "TITLE",
+      "vault_category": "supporting",
+      "document_type": "Vehicle Title",
+      "status": "EXISTING",
+      "extracts": [
+        "vehicle.vin",
+        "vehicle.ownership"
+      ],
+      "current_truth": true,
+      "workspace": "TAGS_REGISTRATION"
+    },
+    {
+      "class_id": "LEASE",
+      "vault_category": "contracts",
+      "document_type": "Lease Agreement",
+      "status": "EXISTING",
+      "extracts": [
+        "vehicle.vin",
+        "vehicle.ownership"
+      ],
+      "current_truth": true,
+      "workspace": null
+    },
+    {
+      "class_id": "INSURANCE_CERTIFICATE",
+      "vault_category": "insurance",
+      "document_type": "Certificate of Insurance",
+      "status": "EXISTING",
+      "extracts": [
+        "insurance.carrier",
+        "insurance.policy_number",
+        "insurance.effective_date",
+        "insurance.expiration_date"
+      ],
+      "current_truth": true,
+      "workspace": "INSURANCE"
+    },
+    {
+      "class_id": "INSURANCE_POLICY",
+      "vault_category": "insurance",
+      "document_type": "Policy Document | Coverage Summary",
+      "status": "EXISTING",
+      "extracts": [
+        "insurance.carrier",
+        "insurance.policy_number",
+        "insurance.expiration_date",
+        "insurance.coverage"
+      ],
+      "current_truth": true,
+      "workspace": "INSURANCE"
+    },
+    {
+      "class_id": "PERMIT",
+      "vault_category": "permits",
+      "document_type": "Trip Permit | Temporary Permit | State Permit",
+      "status": "EXISTING",
+      "extracts": [
+        "permit.type",
+        "permit.jurisdiction",
+        "document.expiration_date"
+      ],
+      "current_truth": true,
+      "workspace": "PERMITTING",
+      "note": "No structured permit record exists (Road Ready yes/no flags only)."
+    },
+    {
+      "class_id": "DRIVER_LICENSE",
+      "vault_category": "supporting",
+      "document_type": "Driver License",
+      "status": "EXISTING",
+      "extracts": [
+        "driver.name",
+        "driver.license_state",
+        "driver.license_expiration"
+      ],
+      "current_truth": true,
+      "workspace": null,
+      "note": "Vault cannot link a document to a driver (no driver entity type)."
+    },
+    {
+      "class_id": "MEDICAL_CARD",
+      "vault_category": "supporting",
+      "document_type": "Supporting ID (medical card)",
+      "status": "PARTIAL",
+      "extracts": [
+        "driver.name",
+        "driver.medical_card_expiration"
+      ],
+      "current_truth": true,
+      "workspace": "COMPLIANCE",
+      "note": "No Vault type for the DOT medical card."
+    },
+    {
+      "class_id": "DRIVER_DOCUMENT",
+      "vault_category": "supporting",
+      "document_type": "Supporting ID | Fleet Document",
+      "status": "PARTIAL",
+      "extracts": [
+        "driver.name"
+      ],
+      "current_truth": false,
+      "workspace": "COMPLIANCE"
+    },
+    {
+      "class_id": "FUEL_RECEIPT",
+      "vault_category": "tax_fuel",
+      "document_type": "Receipt",
+      "status": "PARTIAL",
+      "extracts": [],
+      "current_truth": false,
+      "workspace": "IFTA",
+      "note": "Classify UI cannot pick Receipt under tax_fuel today (taxonomy group conflict). Historical receipts are archive."
+    },
+    {
+      "class_id": "INVOICE",
+      "vault_category": "billing",
+      "document_type": "Invoice",
+      "status": "EXISTING",
+      "extracts": [],
+      "current_truth": false,
+      "workspace": null
+    },
+    {
+      "class_id": "FACTORING_DOCUMENT",
+      "vault_category": "factoring",
+      "document_type": "Factoring Document",
+      "status": "EXISTING",
+      "extracts": [
+        "service.factoring_provider"
+      ],
+      "current_truth": true,
+      "workspace": "FACTORING"
+    },
+    {
+      "class_id": "BOOKKEEPING_DOCUMENT",
+      "vault_category": "billing",
+      "document_type": "Financial Statement | Tax Document",
+      "status": "PARTIAL",
+      "extracts": [],
+      "current_truth": false,
+      "workspace": "BOOKKEEPING"
+    },
+    {
+      "class_id": "COMPLIANCE_DOCUMENT",
+      "vault_category": "authority | correspondence",
+      "document_type": "UCR | MCS-150 | Federal Correspondence | Agency Letter | Notice | Form 2290 / HVUT",
+      "status": "PARTIAL",
+      "extracts": [
+        "document.expiration_date"
+      ],
+      "current_truth": true,
+      "workspace": "COMPLIANCE"
+    },
+    {
+      "class_id": "MAINTENANCE_DOCUMENT",
+      "vault_category": "supporting",
+      "document_type": "Fleet Document (closest)",
+      "status": "MISSING",
+      "extracts": [
+        "vehicle.vin"
+      ],
+      "current_truth": false,
+      "workspace": "FLEETCARE",
+      "note": "No maintenance Vault type; FleetCare repair records need an AIO job."
+    },
+    {
+      "class_id": "OTHER",
+      "vault_category": "legacy",
+      "document_type": "Legacy Scan | Historical File | Unclassified Legacy",
+      "status": "EXISTING",
+      "extracts": [],
+      "current_truth": false,
+      "workspace": null
+    }
+  ],
+  "extraction_fields": [
+    {
+      "field": "organization.legal_name",
+      "label": "Legal business name",
+      "domain": "COMPANY",
+      "canonical_target": "aio_organizations.name · Client.companyName · RoadReadyProfile.business.legalName",
+      "target_status": "EXISTING",
+      "source_ref": "all-in-one-enterprises/src/road-ready/roadReadyTypes.ts:50",
+      "current_truth_priority": 1,
+      "required_for_prebuilt": true,
+      "required_for_activation": true,
+      "freshness_days": null
+    },
+    {
+      "field": "organization.dba",
+      "label": "DBA",
+      "domain": "COMPANY",
+      "canonical_target": "RoadReadyProfile.business.dba (Supabase column proposed)",
+      "target_status": "PARTIAL",
+      "source_ref": "all-in-one-enterprises/src/road-ready/roadReadyTypes.ts:50",
+      "current_truth_priority": 2,
+      "required_for_prebuilt": false,
+      "required_for_activation": false,
+      "freshness_days": null
+    },
+    {
+      "field": "organization.ein",
+      "label": "EIN",
+      "domain": "COMPANY",
+      "canonical_target": "aio_organization_regulatory_identifiers (type EIN)",
+      "target_status": "PARTIAL",
+      "source_ref": "all-in-one-enterprises/supabase/migrations/20260815120000_aio_identity_roles_contacts.sql:94",
+      "current_truth_priority": 1,
+      "required_for_prebuilt": false,
+      "required_for_activation": true,
+      "freshness_days": null
+    },
+    {
+      "field": "organization.usdot",
+      "label": "USDOT number",
+      "domain": "COMPANY",
+      "canonical_target": "aio_organization_regulatory_identifiers (type USDOT) · RoadReadyProfile.authority.usdotNumber",
+      "target_status": "PARTIAL",
+      "source_ref": "all-in-one-enterprises/src/road-ready/roadReadyTypes.ts:77",
+      "current_truth_priority": 1,
+      "required_for_prebuilt": false,
+      "required_for_activation": true,
+      "freshness_days": null
+    },
+    {
+      "field": "organization.mc",
+      "label": "MC number",
+      "domain": "COMPANY",
+      "canonical_target": "aio_organization_regulatory_identifiers (type MC) · RoadReadyProfile.authority.mcNumber",
+      "target_status": "PARTIAL",
+      "source_ref": "all-in-one-enterprises/src/road-ready/roadReadyTypes.ts:75",
+      "current_truth_priority": 1,
+      "required_for_prebuilt": false,
+      "required_for_activation": false,
+      "freshness_days": null
+    },
+    {
+      "field": "organization.physical_address",
+      "label": "Physical address",
+      "domain": "COMPANY",
+      "canonical_target": "RoadReadyProfile.business.address (Supabase column proposed)",
+      "target_status": "PARTIAL",
+      "source_ref": "all-in-one-enterprises/src/road-ready/roadReadyTypes.ts:50",
+      "current_truth_priority": 1,
+      "required_for_prebuilt": false,
+      "required_for_activation": true,
+      "freshness_days": 365
+    },
+    {
+      "field": "organization.mailing_address",
+      "label": "Mailing address",
+      "domain": "COMPANY",
+      "canonical_target": "RoadReadyProfile.business.mailingAddress (Supabase column proposed)",
+      "target_status": "PARTIAL",
+      "source_ref": "all-in-one-enterprises/src/road-ready/roadReadyTypes.ts:50",
+      "current_truth_priority": 2,
+      "required_for_prebuilt": false,
+      "required_for_activation": false,
+      "freshness_days": 365
+    },
+    {
+      "field": "organization.phone",
+      "label": "Business phone",
+      "domain": "COMPANY",
+      "canonical_target": "RoadReadyProfile.business.phone · Client.contactPhone",
+      "target_status": "EXISTING",
+      "source_ref": "all-in-one-enterprises/src/demo/demoTypes.ts:324",
+      "current_truth_priority": 1,
+      "required_for_prebuilt": false,
+      "required_for_activation": true,
+      "freshness_days": 365
+    },
+    {
+      "field": "organization.email",
+      "label": "Business email",
+      "domain": "COMPANY",
+      "canonical_target": "RoadReadyProfile.business.email · Client.contactEmail",
+      "target_status": "EXISTING",
+      "source_ref": "all-in-one-enterprises/src/demo/demoTypes.ts:324",
+      "current_truth_priority": 1,
+      "required_for_prebuilt": false,
+      "required_for_activation": true,
+      "freshness_days": 365
+    },
+    {
+      "field": "owners",
+      "label": "Owners / officers",
+      "domain": "PEOPLE",
+      "canonical_target": "aio_contacts + aio_customer_organizations (relationship_type owner — proposed)",
+      "target_status": "MISSING",
+      "source_ref": "all-in-one-enterprises/supabase/migrations/20260815120000_aio_identity_roles_contacts.sql:7",
+      "current_truth_priority": 1,
+      "required_for_prebuilt": false,
+      "required_for_activation": false,
+      "freshness_days": null
+    },
+    {
+      "field": "contacts.primary",
+      "label": "Primary contact",
+      "domain": "PEOPLE",
+      "canonical_target": "aio_contacts · Client.contactName / contactEmail / contactPhone",
+      "target_status": "PARTIAL",
+      "source_ref": "all-in-one-enterprises/src/demo/demoTypes.ts:324",
+      "current_truth_priority": 1,
+      "required_for_prebuilt": true,
+      "required_for_activation": true,
+      "freshness_days": 365
+    },
+    {
+      "field": "driver.name",
+      "label": "Driver",
+      "domain": "PEOPLE",
+      "canonical_target": "DriverPlaceholder · aio_driver_profiles (hired_organization_id)",
+      "target_status": "PARTIAL",
+      "source_ref": "all-in-one-enterprises/src/road-ready/roadReadyTypes.ts:139",
+      "current_truth_priority": 1,
+      "required_for_prebuilt": false,
+      "required_for_activation": false,
+      "freshness_days": null
+    },
+    {
+      "field": "driver.license_state",
+      "label": "Driver licence state",
+      "domain": "PEOPLE",
+      "canonical_target": "aio_driver_credentials (credential_type cdl)",
+      "target_status": "PARTIAL",
+      "source_ref": "all-in-one-enterprises/supabase/migrations/20260817200000_aio_driverlink.sql:68",
+      "current_truth_priority": 2,
+      "required_for_prebuilt": false,
+      "required_for_activation": false,
+      "freshness_days": null
+    },
+    {
+      "field": "driver.license_expiration",
+      "label": "Driver licence expiry",
+      "domain": "PEOPLE",
+      "canonical_target": "aio_driver_credentials.expiration_date",
+      "target_status": "PARTIAL",
+      "source_ref": "all-in-one-enterprises/supabase/migrations/20260817200000_aio_driverlink.sql:68",
+      "current_truth_priority": 2,
+      "required_for_prebuilt": false,
+      "required_for_activation": false,
+      "freshness_days": null
+    },
+    {
+      "field": "driver.medical_card_expiration",
+      "label": "Medical card expiry",
+      "domain": "PEOPLE",
+      "canonical_target": "aio_driver_credentials (credential_type medical_certificate)",
+      "target_status": "PARTIAL",
+      "source_ref": "all-in-one-enterprises/supabase/migrations/20260817200000_aio_driverlink.sql:68",
+      "current_truth_priority": 2,
+      "required_for_prebuilt": false,
+      "required_for_activation": false,
+      "freshness_days": null
+    },
+    {
+      "field": "vehicle.vin",
+      "label": "VIN",
+      "domain": "VEHICLES",
+      "canonical_target": "PowerUnit.vin · aio_fleet_vehicles.vin",
+      "target_status": "EXISTING",
+      "source_ref": "all-in-one-enterprises/src/road-ready/roadReadyTypes.ts:111",
+      "current_truth_priority": 1,
+      "required_for_prebuilt": false,
+      "required_for_activation": false,
+      "freshness_days": null
+    },
+    {
+      "field": "vehicle.unit_number",
+      "label": "Unit number",
+      "domain": "VEHICLES",
+      "canonical_target": "aio_fleet_vehicles.unit_number · PowerUnit.nickname",
+      "target_status": "PARTIAL",
+      "source_ref": "all-in-one-enterprises/supabase/migrations/20260817190000_aio_fleetcare_network.sql:86",
+      "current_truth_priority": 1,
+      "required_for_prebuilt": false,
+      "required_for_activation": false,
+      "freshness_days": null
+    },
+    {
+      "field": "vehicle.plate",
+      "label": "Plate (+ state)",
+      "domain": "VEHICLES",
+      "canonical_target": "PowerUnit.plate / plateState · aio_fleet_vehicles.license_plate",
+      "target_status": "PARTIAL",
+      "source_ref": "all-in-one-enterprises/src/road-ready/roadReadyTypes.ts:111",
+      "current_truth_priority": 1,
+      "required_for_prebuilt": false,
+      "required_for_activation": false,
+      "freshness_days": null
+    },
+    {
+      "field": "vehicle.registration_expiration",
+      "label": "Registration expiry",
+      "domain": "VEHICLES",
+      "canonical_target": "Vault document expiresAt (relatedEntityType vehicle) → Deadline / RenewalRecord.vehicleId",
+      "target_status": "PARTIAL",
+      "source_ref": "all-in-one-enterprises/src/renewals/renewalTypes.ts:42",
+      "current_truth_priority": 1,
+      "required_for_prebuilt": false,
+      "required_for_activation": false,
+      "freshness_days": null
+    },
+    {
+      "field": "vehicle.ownership",
+      "label": "Ownership (owned / financed / leased)",
+      "domain": "VEHICLES",
+      "canonical_target": "PowerUnit.ownership",
+      "target_status": "EXISTING",
+      "source_ref": "all-in-one-enterprises/src/road-ready/roadReadyTypes.ts:122",
+      "current_truth_priority": 2,
+      "required_for_prebuilt": false,
+      "required_for_activation": false,
+      "freshness_days": null
+    },
+    {
+      "field": "insurance.carrier",
+      "label": "Insurance carrier",
+      "domain": "INSURANCE",
+      "canonical_target": "InsurancePolicy.carrierName (source document_import)",
+      "target_status": "EXISTING",
+      "source_ref": "all-in-one-enterprises/src/insurance/insuranceTypes.ts:57",
+      "current_truth_priority": 1,
+      "required_for_prebuilt": false,
+      "required_for_activation": false,
+      "freshness_days": null
+    },
+    {
+      "field": "insurance.policy_number",
+      "label": "Policy number",
+      "domain": "INSURANCE",
+      "canonical_target": "InsurancePolicy.policyNumber",
+      "target_status": "EXISTING",
+      "source_ref": "all-in-one-enterprises/src/insurance/insuranceTypes.ts:57",
+      "current_truth_priority": 1,
+      "required_for_prebuilt": false,
+      "required_for_activation": false,
+      "freshness_days": null
+    },
+    {
+      "field": "insurance.effective_date",
+      "label": "Policy effective date",
+      "domain": "INSURANCE",
+      "canonical_target": "InsurancePolicy.effectiveDate",
+      "target_status": "EXISTING",
+      "source_ref": "all-in-one-enterprises/src/insurance/insuranceTypes.ts:57",
+      "current_truth_priority": 1,
+      "required_for_prebuilt": false,
+      "required_for_activation": false,
+      "freshness_days": null
+    },
+    {
+      "field": "insurance.expiration_date",
+      "label": "Policy expiry",
+      "domain": "INSURANCE",
+      "canonical_target": "InsurancePolicy.expirationDate",
+      "target_status": "EXISTING",
+      "source_ref": "all-in-one-enterprises/src/insurance/insuranceTypes.ts:57",
+      "current_truth_priority": 1,
+      "required_for_prebuilt": false,
+      "required_for_activation": false,
+      "freshness_days": null
+    },
+    {
+      "field": "insurance.coverage",
+      "label": "Coverage",
+      "domain": "INSURANCE",
+      "canonical_target": "InsurancePolicy.policyType / coverage",
+      "target_status": "PARTIAL",
+      "source_ref": "all-in-one-enterprises/src/insurance/insuranceTypes.ts:24",
+      "current_truth_priority": 2,
+      "required_for_prebuilt": false,
+      "required_for_activation": false,
+      "freshness_days": null
+    },
+    {
+      "field": "ifta.account",
+      "label": "IFTA account / licence",
+      "domain": "TAX_FUEL",
+      "canonical_target": "org-level IFTA account (proposed: regulatory identifier type IFTA_ACCOUNT); today per quarter case (IftaQuarterCase.iftaAccount)",
+      "target_status": "PARTIAL",
+      "source_ref": "all-in-one-enterprises/src/ifta/iftaTypes.ts:151",
+      "current_truth_priority": 1,
+      "required_for_prebuilt": false,
+      "required_for_activation": false,
+      "freshness_days": null
+    },
+    {
+      "field": "ifta.base_jurisdiction",
+      "label": "IFTA base jurisdiction",
+      "domain": "TAX_FUEL",
+      "canonical_target": "IftaQuarterCase.baseJurisdiction (org-level proposed)",
+      "target_status": "PARTIAL",
+      "source_ref": "all-in-one-enterprises/src/ifta/iftaTypes.ts:151",
+      "current_truth_priority": 1,
+      "required_for_prebuilt": false,
+      "required_for_activation": false,
+      "freshness_days": null
+    },
+    {
+      "field": "permit.type",
+      "label": "Permit",
+      "domain": "PERMITS",
+      "canonical_target": "Vault document (permits) + RenewalRecord (type permit); structured permit record proposed",
+      "target_status": "PARTIAL",
+      "source_ref": "all-in-one-enterprises/src/renewals/renewalTypes.ts:7",
+      "current_truth_priority": 2,
+      "required_for_prebuilt": false,
+      "required_for_activation": false,
+      "freshness_days": null
+    },
+    {
+      "field": "service.relationship",
+      "label": "Service relationship with AIO",
+      "domain": "SERVICES",
+      "canonical_target": "workspace entitlement source per workspace (AIO_WORKSPACES entitlement_sources)",
+      "target_status": "PARTIAL",
+      "source_ref": "docs/aio/office/AIO_OFFICE_WORKSPACE_REGISTRY.json (SITE00)",
+      "current_truth_priority": 1,
+      "required_for_prebuilt": false,
+      "required_for_activation": true,
+      "freshness_days": null
+    },
+    {
+      "field": "organization.formation_state",
+      "label": "Formation state",
+      "domain": "COMPANY",
+      "canonical_target": "aio_organizations.formation_state (proposed)",
+      "target_status": "PROPOSED",
+      "source_ref": "proposed — no canonical field today",
+      "current_truth_priority": 2,
+      "required_for_prebuilt": false,
+      "required_for_activation": false,
+      "freshness_days": null
+    },
+    {
+      "field": "service.boc3_on_file",
+      "label": "BOC-3 on file",
+      "domain": "SERVICES",
+      "canonical_target": "Vault BOC-3 document (current) → COMPLIANCE workspace item (proposed flag)",
+      "target_status": "PROPOSED",
+      "source_ref": "proposed — no canonical field today",
+      "current_truth_priority": 2,
+      "required_for_prebuilt": false,
+      "required_for_activation": false,
+      "freshness_days": null
+    },
+    {
+      "field": "service.factoring_provider",
+      "label": "Factoring provider",
+      "domain": "SERVICES",
+      "canonical_target": "FactoringProfile partner (proposed field)",
+      "target_status": "PROPOSED",
+      "source_ref": "proposed — no canonical field today",
+      "current_truth_priority": 2,
+      "required_for_prebuilt": false,
+      "required_for_activation": false,
+      "freshness_days": null
+    },
+    {
+      "field": "ifta.filed_quarters",
+      "label": "IFTA quarters filed (historical)",
+      "domain": "TAX_FUEL",
+      "canonical_target": "Vault archive only — historical returns are never backfilled into quarter cases",
+      "target_status": "PROPOSED",
+      "source_ref": "proposed — no canonical field today",
+      "current_truth_priority": 3,
+      "required_for_prebuilt": false,
+      "required_for_activation": false,
+      "freshness_days": null
+    },
+    {
+      "field": "permit.jurisdiction",
+      "label": "Permit jurisdiction",
+      "domain": "PERMITS",
+      "canonical_target": "RenewalRecord (type permit) jurisdiction (structured permit record proposed)",
+      "target_status": "PROPOSED",
+      "source_ref": "proposed — no canonical field today",
+      "current_truth_priority": 2,
+      "required_for_prebuilt": false,
+      "required_for_activation": false,
+      "freshness_days": null
+    },
+    {
+      "field": "document.effective_date",
+      "label": "Document effective date",
+      "domain": "DOCUMENTS",
+      "canonical_target": "VaultDocument.effectiveAt",
+      "target_status": "EXISTING",
+      "source_ref": "all-in-one-enterprises/src/vault/vaultTypes.ts:104",
+      "current_truth_priority": 2,
+      "required_for_prebuilt": false,
+      "required_for_activation": false,
+      "freshness_days": null
+    },
+    {
+      "field": "document.expiration_date",
+      "label": "Document expiry",
+      "domain": "DOCUMENTS",
+      "canonical_target": "VaultDocument.expiresAt",
+      "target_status": "EXISTING",
+      "source_ref": "all-in-one-enterprises/src/vault/vaultTypes.ts:104",
+      "current_truth_priority": 1,
+      "required_for_prebuilt": false,
+      "required_for_activation": false,
+      "freshness_days": null
+    }
+  ],
+  "confidence": {
+    "levels": [
+      "HIGH",
+      "MEDIUM",
+      "LOW",
+      "CONFLICT"
+    ],
+    "rule": "Confidence streamlines review (ordering, bulk confirm of HIGH) but never bypasses the founder’s migration approval."
+  },
+  "provenance": {
+    "sources": [
+      "DOCUMENT_EXTRACTION",
+      "STAFF_ENTRY",
+      "STAFF_KNOWLEDGE",
+      "EXISTING_RECORD",
+      "CLIENT_REPORTED"
+    ],
+    "lineage": [
+      "SOURCE DOCUMENT",
+      "PAGE / REGION (if available)",
+      "EXTRACTED FACT",
+      "CONFIDENCE",
+      "REVIEWER",
+      "REVIEW DECISION",
+      "CANONICAL PROFILE FIELD"
+    ]
+  },
+  "staleness": [
+    "CURRENT",
+    "POSSIBLY_STALE",
+    "STALE",
+    "UNKNOWN"
+  ],
+  "matching": {
+    "classes": [
+      "MATCH_CONFIRMED",
+      "LIKELY_MATCH",
+      "AMBIGUOUS",
+      "NEW_CLIENT_CANDIDATE"
+    ],
+    "signals": [
+      {
+        "kind": "USDOT",
+        "strength": "STRONG",
+        "label": "USDOT number"
+      },
+      {
+        "kind": "MC",
+        "strength": "STRONG",
+        "label": "MC / operating authority number"
+      },
+      {
+        "kind": "EIN",
+        "strength": "STRONG",
+        "label": "EIN"
+      },
+      {
+        "kind": "VIN",
+        "strength": "STRONG",
+        "label": "Vehicle VIN (owned by one business at a time)"
+      },
+      {
+        "kind": "LEGAL_NAME",
+        "strength": "WEAK",
+        "label": "Legal business name (normalised)"
+      },
+      {
+        "kind": "DBA",
+        "strength": "WEAK",
+        "label": "Doing-business-as name"
+      },
+      {
+        "kind": "PHONE",
+        "strength": "WEAK",
+        "label": "Phone"
+      },
+      {
+        "kind": "EMAIL",
+        "strength": "WEAK",
+        "label": "Email"
+      },
+      {
+        "kind": "ADDRESS",
+        "strength": "WEAK",
+        "label": "Address (normalised)"
+      },
+      {
+        "kind": "SERVICE_RECORD",
+        "strength": "WEAK",
+        "label": "Existing service record reference (request / policy / quarter)"
+      }
+    ],
+    "existing_capabilities": [
+      {
+        "what": "findDuplicateMatches — leads + clients by email (high), phone (high), exact normalised name (medium)",
+        "ref": "all-in-one-enterprises/src/crm/leadDeduplication.ts:16",
+        "status": "EXISTING",
+        "use": "weak signals (EMAIL · PHONE · LEGAL_NAME)"
+      },
+      {
+        "what": "checkDuplicateCustomer — accepts usdot / mc but ignores them; only a test calls it",
+        "ref": "all-in-one-enterprises/src/office-core/client360Service.ts:139",
+        "status": "CONFLICT",
+        "use": "extend with strong identifiers"
+      },
+      {
+        "what": "findOrCreateClientFromIntake — reuses a client by contactEmail",
+        "ref": "all-in-one-enterprises/src/demo/demoActions.ts:89",
+        "status": "PARTIAL",
+        "use": "new-client convergence (claim instead of duplicate)"
+      },
+      {
+        "what": "aio_organization_regulatory_identifiers unique(org, type, value) — unused",
+        "ref": "all-in-one-enterprises/supabase/migrations/20260815120000_aio_identity_roles_contacts.sql:94",
+        "status": "PARTIAL",
+        "use": "canonical home + match index for USDOT / MC / EIN (cross-org uniqueness proposed)"
+      },
+      {
+        "what": "findDuplicateDocuments(org, sha256)",
+        "ref": "all-in-one-enterprises/src/vault/documentHash.ts:10",
+        "status": "EXISTING",
+        "use": "DUPLICATE_CHECK (extend across the batch; link instead of storing again)"
+      },
+      {
+        "what": "runRegulatoryLookup — demo stand-in (one test number); live FMCSA not configured",
+        "ref": "all-in-one-enterprises/src/demo/integrationActions.ts:98",
+        "status": "PARTIAL",
+        "use": "optional verification of USDOT / MC during review (never auto-writes)"
+      }
+    ],
+    "rule": "The system proposes LIKELY_MATCH / AMBIGUOUS / NEW_CLIENT_CANDIDATE; only a staff decision yields MATCH_CONFIRMED. Creating a business while a likely match exists needs a recorded reason."
+  },
+  "exceptions": {
+    "UNREADABLE_DOCUMENT": {
+      "raised_at": "DOCUMENT_TYPE_DETECTION",
+      "state": "document UNREADABLE",
+      "handling": "listed in review; staff rescans, reclassifies by hand or ignores — never silently dropped"
+    },
+    "DUPLICATE_DOCUMENT": {
+      "raised_at": "DUPLICATE_CHECK",
+      "state": "document DUPLICATE",
+      "handling": "linked to the original; not re-extracted; staff may keep or discard the copy"
+    },
+    "AMBIGUOUS_CLIENT_MATCH": {
+      "raised_at": "CLIENT_MATCHING",
+      "state": "batch blocked",
+      "handling": "staff must choose MATCH TO EXISTING or CREATE NEW CLIENT; approval refused until resolved"
+    },
+    "CONFLICTING_FACTS": {
+      "raised_at": "CONFLICT_ANALYSIS",
+      "state": "fact group CONFLICT",
+      "handling": "staff confirms one value and marks the others stale / ignored, or sends it to the client"
+    },
+    "UNSUPPORTED_DOCUMENT": {
+      "raised_at": "INGEST",
+      "state": "document UNSUPPORTED",
+      "handling": "file type outside policy; listed with the reason; staff converts and re-uploads"
+    },
+    "EXTRACTION_FAILED": {
+      "raised_at": "TEXT_FIELD_EXTRACTION",
+      "state": "document EXTRACTION_FAILED",
+      "handling": "document stays in the batch for manual review; facts may be entered by staff with provenance STAFF_ENTRY"
+    },
+    "PARTIAL_BATCH": {
+      "raised_at": "INGEST",
+      "state": "batch PARTIAL",
+      "handling": "some files failed upload or processing; batch shows counts and the failed files; review may proceed on the rest"
+    },
+    "INVITE_DELIVERY_FAILED": {
+      "raised_at": "INVITATION",
+      "state": "invite DELIVERY_FAILED · lifecycle back to PREBUILT",
+      "handling": "staff fixes the address or resends; founder sees it in PREBUILT NOT INVITED"
+    },
+    "CLIENT_EMAIL_MISSING": {
+      "raised_at": "INVITATION",
+      "state": "invite blocked",
+      "handling": "no deliverable login email; staff collects one — no invite and no credentials until then"
+    },
+    "CLIENT_DECLINES_FACT": {
+      "raised_at": "CLIENT_REVIEW",
+      "state": "section NEEDS_UPDATE / fact disputed",
+      "handling": "becomes a client change for staff reconciliation; the verified value is kept in history, never silently overwritten"
+    },
+    "ACTIVATION_EXPIRED": {
+      "raised_at": "INVITATION",
+      "state": "invite EXPIRED · lifecycle back to PREBUILT",
+      "handling": "single-use link expired; staff re-invites; a new token is issued and the old one stays invalid"
+    }
+  }
+}

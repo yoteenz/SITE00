@@ -3291,6 +3291,286 @@
           "summary": "Resolve escalation"
         }
       ]
+    },
+    {
+      "feature_id": "AIO.CLIENT_MIGRATION",
+      "feature_name": "Client Migration Intake + Review (founder / staff)",
+      "family": "AIO OFFICE role projection (office/clients/*)",
+      "perspective": {
+        "client_context": [
+          "client 360",
+          "migration batch",
+          "existing records for the matched business"
+        ],
+        "work_queue": "Founder hub MIGRATION REVIEW + MIGRATION FAILED / NEEDS REVIEW buckets",
+        "status_model": [
+          "KNOWN_UNMIGRATED",
+          "MIGRATION_IN_PROGRESS",
+          "PARTIAL_BATCH",
+          "AMBIGUOUS_MATCH",
+          "MIGRATION_REVIEW_REQUIRED",
+          "READY_TO_APPROVE",
+          "PREBUILT",
+          "MIGRATION_FAILED",
+          "SUPERSEDED_BATCH"
+        ],
+        "blockers": [
+          "ambiguous identity",
+          "unresolved conflicts",
+          "undecided facts",
+          "unreadable / failed files"
+        ],
+        "missing_inputs": [
+          "current-truth fields not found in the file (shown as missing, never guessed)"
+        ],
+        "system_flags": [
+          "duplicate document",
+          "stale (expired) evidence",
+          "conflicting values",
+          "low confidence"
+        ],
+        "human_review": [
+          "every proposed fact",
+          "identity match",
+          "document class"
+        ],
+        "corrections": [
+          "edit value",
+          "reclassify document",
+          "reject extraction"
+        ],
+        "approval": [
+          "APPROVE MIGRATION (founder / authorised staff)"
+        ],
+        "overrides": [
+          "create new business despite a likely match (reason recorded)"
+        ],
+        "operational_actions": [
+          "NEW BATCH",
+          "UPLOAD",
+          "CONFIRM",
+          "EDIT",
+          "IGNORE",
+          "MARK STALE",
+          "NEEDS CLIENT CONFIRMATION",
+          "RECLASSIFY",
+          "MATCH TO EXISTING",
+          "CREATE NEW CLIENT",
+          "REJECT EXTRACTION",
+          "APPROVE MIGRATION"
+        ],
+        "artifact_generation": [
+          "vault lineage records",
+          "migration record"
+        ],
+        "completion": "Client PREBUILT with every committed field traceable to its source.",
+        "hub_buckets": {
+          "NEEDS_REVIEW": [
+            "MIGRATION_REVIEW_REQUIRED",
+            "READY_TO_APPROVE"
+          ],
+          "BLOCKED": [
+            "AMBIGUOUS_MATCH",
+            "PARTIAL_BATCH",
+            "MIGRATION_FAILED"
+          ],
+          "COMPLETE": [
+            "PREBUILT"
+          ]
+        },
+        "mirror_not_copy": "Migration is staff-only; the client sees the reviewed result as a short review flow, never the batch.",
+        "communication": [
+          "Client Migration Intake + Review (founder / staff) request thread (client)",
+          "communication engine templates",
+          "call / note log"
+        ],
+        "audit_history": [
+          "every status change with staff id + timestamp",
+          "overrides with required note",
+          "client approvals / declines",
+          "artifact versions"
+        ]
+      },
+      "staff_entry": {
+        "surface": "Client Migration Intake",
+        "route": "office/clients/migration (proposed)",
+        "trigger": "NEW MIGRATION BATCH from the client list or Client 360"
+      },
+      "staff_cta": "APPROVE MIGRATION",
+      "information_hierarchy": {
+        "primary_question": "Is this client’s file reviewed and safe to prepare?",
+        "primary_status": "Batch status + match status",
+        "primary_task": "Decide every proposed fact",
+        "secondary_status": "Conflicts · stale · unresolved counts",
+        "blocker": "Ambiguous identity / open conflicts",
+        "next_action": "APPROVE MIGRATION",
+        "completion_proof": "PREBUILT with full lineage"
+      },
+      "human_tasks": [
+        {
+          "id": "CLIENT_MIGRATION_TASK_1",
+          "channel": "HUMAN_TASK",
+          "trigger": "MIGRATION_REVIEW_REQUIRED",
+          "audience": [
+            "FOUNDER_STAFF"
+          ],
+          "summary": "Review migration batch"
+        },
+        {
+          "id": "CLIENT_MIGRATION_TASK_2",
+          "channel": "HUMAN_TASK",
+          "trigger": "AMBIGUOUS_MATCH",
+          "audience": [
+            "FOUNDER_STAFF"
+          ],
+          "summary": "Resolve client match"
+        },
+        {
+          "id": "CLIENT_MIGRATION_TASK_3",
+          "channel": "HUMAN_TASK",
+          "trigger": "PREBUILT",
+          "audience": [
+            "FOUNDER_STAFF"
+          ],
+          "summary": "Invite client to activate"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.CLIENT_ACTIVATION",
+      "feature_name": "Client Activation — review what AIO knows, confirm, enter the office",
+      "family": "F18 ACCOUNT · F05 MY OFFICE threshold",
+      "perspective": {
+        "client_context": [
+          "prebuilt profile",
+          "invitation status",
+          "section answers",
+          "reported changes"
+        ],
+        "work_queue": "Founder hub: PREBUILT NOT INVITED · INVITATION SENT · WAITING FOR CLIENT · ACTIVE",
+        "status_model": [
+          "PREBUILT",
+          "INVITED",
+          "CLIENT_REVIEW",
+          "WHAT_CHANGED",
+          "CLIENT_CONFIRMATION_REQUIRED",
+          "ACTIVE",
+          "CHANGES_AWAITING_STAFF",
+          "ACTIVATION_EXPIRED",
+          "INVITE_DELIVERY_FAILED",
+          "PAUSED"
+        ],
+        "blockers": [
+          "missing login email",
+          "undelivered invitation",
+          "expired link"
+        ],
+        "missing_inputs": [
+          "client email",
+          "client answers"
+        ],
+        "system_flags": [
+          "link expired",
+          "delivery failed",
+          "client unsure about a section",
+          "client disputes a fact"
+        ],
+        "human_review": [
+          "client-reported changes that are not low-risk"
+        ],
+        "corrections": [
+          "apply / ask / decline a reported change"
+        ],
+        "approval": [
+          "none — the client confirms their own truth"
+        ],
+        "overrides": [
+          "resend / re-invite"
+        ],
+        "operational_actions": [
+          "SEND INVITATION",
+          "RESEND",
+          "RECONCILE CHANGE"
+        ],
+        "artifact_generation": [
+          "activation record"
+        ],
+        "completion": "Client ACTIVE and counted active.",
+        "hub_buckets": {
+          "AWAITING_CLIENT": [
+            "INVITED",
+            "CLIENT_REVIEW",
+            "WHAT_CHANGED",
+            "CLIENT_CONFIRMATION_REQUIRED"
+          ],
+          "NEEDS_REVIEW": [
+            "CHANGES_AWAITING_STAFF"
+          ],
+          "BLOCKED": [
+            "INVITE_DELIVERY_FAILED",
+            "ACTIVATION_EXPIRED"
+          ],
+          "COMPLETE": [
+            "ACTIVE"
+          ]
+        },
+        "mirror_not_copy": "Staff see the invitation and confirmation status and the changes to reconcile, not the client’s review screens.",
+        "communication": [
+          "Client Activation — review what AIO knows, confirm, enter the office request thread (client)",
+          "communication engine templates",
+          "call / note log"
+        ],
+        "audit_history": [
+          "every status change with staff id + timestamp",
+          "overrides with required note",
+          "client approvals / declines",
+          "artifact versions"
+        ]
+      },
+      "staff_entry": {
+        "surface": "Client 360 / founder hub — SEND INVITATION",
+        "route": "office/clients/:clientId",
+        "trigger": "PREBUILT NOT INVITED bucket"
+      },
+      "staff_cta": "SEND INVITATION",
+      "information_hierarchy": {
+        "primary_question": "Has the client confirmed?",
+        "primary_status": "Invitation + confirmation status",
+        "primary_task": "Unblock invitations; reconcile changes",
+        "secondary_status": "Reported changes",
+        "blocker": "Delivery failed / expired",
+        "next_action": "RESEND / RECONCILE",
+        "completion_proof": "Client counted active"
+      },
+      "human_tasks": [
+        {
+          "id": "CLIENT_ACTIVATION_TASK_1",
+          "channel": "HUMAN_TASK",
+          "trigger": "CHANGES_AWAITING_STAFF",
+          "audience": [
+            "FOUNDER_STAFF"
+          ],
+          "summary": "Reconcile client-reported change"
+        },
+        {
+          "id": "CLIENT_ACTIVATION_TASK_2",
+          "channel": "HUMAN_TASK",
+          "trigger": "INVITE_DELIVERY_FAILED",
+          "audience": [
+            "FOUNDER_STAFF"
+          ],
+          "summary": "Fix client email"
+        },
+        {
+          "id": "CLIENT_ACTIVATION_TASK_3",
+          "channel": "HUMAN_TASK",
+          "trigger": "ACTIVATION_EXPIRED",
+          "audience": [
+            "FOUNDER_STAFF"
+          ],
+          "summary": "Re-invite client"
+        }
+      ]
     }
   ]
 }

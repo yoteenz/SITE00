@@ -117,7 +117,7 @@ export const AIO_EXPANSION_RULES: ExpansionRule[] = [
     requires: [{ signal: 'ifta_vehicles', op: 'gte', value: 1 }, { signal: 'registration_deadlines_open', op: 'gte', value: 1 }], relevance: 'HIGH',
     reasons: ['{ifta_vehicles} vehicles already filed through AIO IFTA', '{registration_deadlines_open} registration / IRP deadline(s) open on file'],
     message_key: 'expansion.tags.from_ifta.deadlines', headline: 'YOU’RE ALREADY MANAGING {ifta_vehicles} VEHICLES WITH AIO.', body: 'BRING REGISTRATION INTO THE SAME OFFICE — {registration_deadlines_open} REGISTRATION DEADLINE(S) ARE OPEN.',
-    cta: { label: 'EXPLORE TAGS', action: 'I.EXPLORE_WORKSPACE' }, placements: ['WORKSPACE_SWITCHER_AVAILABLE', 'CLIENT_OFFICE_HUB', 'INSIGHT_MODULE', 'AFTER_RELATED_COMPLETION'],
+    cta: { label: 'EXPLORE TAGS', action: 'I.EXPLORE_WORKSPACE' }, placements: ['WORKSPACE_SWITCHER_AVAILABLE', 'CLIENT_OFFICE_HUB', 'INSIGHT_MODULE', 'AFTER_RELATED_COMPLETION', 'AFTER_ACTIVATION'],
     grounded_in: `Same fleet units: IFTA quarter vehicles + Deadline registration_renewal / IRP (${SRC}/demo/vaultSeed.ts:220); AIO.ROAD_READY related AIO.IFTA + registration; crossSellRecommendations irp→ifta+tags (${SRC}/services/catalog/serviceNeedRecommendation.ts:28)`,
   }),
   R({
@@ -125,7 +125,7 @@ export const AIO_EXPANSION_RULES: ExpansionRule[] = [
     requires: [{ signal: 'ifta_vehicles', op: 'gte', value: 1 }], relevance: 'MEDIUM',
     reasons: ['{ifta_vehicles} vehicles already filed through AIO IFTA'],
     message_key: 'expansion.tags.from_ifta', headline: 'YOU’RE ALREADY MANAGING {ifta_vehicles} VEHICLES WITH AIO.', body: 'BRING REGISTRATION INTO THE SAME OFFICE.',
-    cta: { label: 'EXPLORE TAGS', action: 'I.EXPLORE_WORKSPACE' }, placements: ['WORKSPACE_SWITCHER_AVAILABLE', 'CLIENT_OFFICE_HUB', 'AFTER_RELATED_COMPLETION'],
+    cta: { label: 'EXPLORE TAGS', action: 'I.EXPLORE_WORKSPACE' }, placements: ['WORKSPACE_SWITCHER_AVAILABLE', 'CLIENT_OFFICE_HUB', 'AFTER_RELATED_COMPLETION', 'AFTER_ACTIVATION'],
     grounded_in: 'Same fleet units across IFTA and registration (IFTA quarter vehicles ↔ IRP / plates).',
   }),
   R({
@@ -133,7 +133,7 @@ export const AIO_EXPANSION_RULES: ExpansionRule[] = [
     requires: [TRUCKS, { signal: 'interstate_dispatch_loads', op: 'gte', value: 1 }], relevance: 'HIGH',
     reasons: ['{interstate_dispatch_loads} interstate load(s) dispatched through AIO', 'IFTA account on file: {ifta_account_reported}'],
     message_key: 'expansion.ifta.from_dispatch', headline: 'YOUR DISPATCHED LOADS ALREADY CROSS STATE LINES.', body: 'AIO CAN HANDLE THE QUARTERLY IFTA FILING IN THE SAME OFFICE.',
-    cta: { label: 'REQUEST FILING', action: 'I.SET_UP_FILING' }, placements: ['WORKSPACE_SWITCHER_AVAILABLE', 'CLIENT_OFFICE_HUB', 'AFTER_RELATED_COMPLETION'],
+    cta: { label: 'REQUEST FILING', action: 'I.SET_UP_FILING' }, placements: ['WORKSPACE_SWITCHER_AVAILABLE', 'CLIENT_OFFICE_HUB', 'AFTER_RELATED_COMPLETION', 'AFTER_ACTIVATION'],
     grounded_in: `AIO.DISPATCH_OPERATIONS related AIO.IFTA; IFTA mileage source LOAD_DERIVED_ESTIMATE from dispatch loads (${SRC}/ifta/iftaSeed.ts:122); interstate load (${SRC}/demo/dispatchSeed.ts:221)`,
   }),
   R({
@@ -141,7 +141,7 @@ export const AIO_EXPANSION_RULES: ExpansionRule[] = [
     requires: [TRUCKS, { signal: 'fuel_transactions_in_books', op: 'gte', value: 1 }], relevance: 'MEDIUM',
     reasons: ['{fuel_transactions_in_books} fuel transactions already categorised in your books'],
     message_key: 'expansion.ifta.from_bookkeeping', headline: 'YOUR FUEL AND MILEAGE RECORDS ALREADY FEED YOUR BOOKS.', body: 'AIO CAN HANDLE THE QUARTERLY FILING TOO.',
-    cta: { label: 'REQUEST FILING', action: 'I.SET_UP_FILING' }, placements: ['WORKSPACE_SWITCHER_AVAILABLE', 'CLIENT_OFFICE_HUB', 'INSIGHT_MODULE'],
+    cta: { label: 'REQUEST FILING', action: 'I.SET_UP_FILING' }, placements: ['WORKSPACE_SWITCHER_AVAILABLE', 'CLIENT_OFFICE_HUB', 'INSIGHT_MODULE', 'AFTER_ACTIVATION'],
     grounded_in: 'AIO.BOOKKEEPING related AIO.IFTA. Signal source for fuel transactions in books is not exposed per org today → REQUIRED_DATA_MISSING until it is.',
   }),
   R({
@@ -149,7 +149,7 @@ export const AIO_EXPANSION_RULES: ExpansionRule[] = [
     requires: [{ signal: 'power_units', op: 'gte', value: 1 }], relevance: 'MEDIUM',
     reasons: ['{power_units} truck(s) dispatched through AIO'],
     message_key: 'expansion.fleetcare.from_dispatch', headline: 'KEEP OPERATIONS AND MAINTENANCE CONNECTED.', body: 'A TRUCK IN REPAIR SHOWS UNAVAILABLE IN DISPATCH AUTOMATICALLY.',
-    cta: { label: 'EXPLORE FLEETCARE', action: 'I.EXPLORE_WORKSPACE' }, placements: ['WORKSPACE_SWITCHER_AVAILABLE', 'CLIENT_OFFICE_HUB'],
+    cta: { label: 'EXPLORE FLEETCARE', action: 'I.EXPLORE_WORKSPACE' }, placements: ['WORKSPACE_SWITCHER_AVAILABLE', 'CLIENT_OFFICE_HUB', 'AFTER_ACTIVATION'],
     grounded_in: 'AIO.FLEETCARE relationship IN_REPAIR → AIO.DISPATCH_OPERATIONS (truck unavailable on the board).',
   }),
   R({
@@ -157,7 +157,7 @@ export const AIO_EXPANSION_RULES: ExpansionRule[] = [
     requires: [TRUCKS, { signal: 'vehicles_without_coverage', op: 'gte', value: 1 }], relevance: 'HIGH',
     reasons: ['{vehicles_without_coverage} registered unit(s) not on an AIO-tracked policy'],
     message_key: 'expansion.insurance.from_tags', headline: 'REGISTRATION NEEDS PROOF OF COVERAGE.', body: 'AIO CAN COORDINATE COVERAGE FOR THE UNITS IT REGISTERS.',
-    cta: { label: 'EXPLORE INSURANCE', action: 'I.EXPLORE_WORKSPACE' }, placements: ['WORKSPACE_SWITCHER_AVAILABLE', 'WORKFLOW_BOUNDARY'],
+    cta: { label: 'EXPLORE INSURANCE', action: 'I.EXPLORE_WORKSPACE' }, placements: ['WORKSPACE_SWITCHER_AVAILABLE', 'WORKFLOW_BOUNDARY', 'AFTER_ACTIVATION'],
     grounded_in: `Only where legitimately relevant: insurance policy vehicles vs power units (${SRC}/demo/insuranceSeed.ts:148); AIO.INSURANCE related AIO.ROAD_READY / AIO.RENEWALS.`,
   }),
   R({
@@ -165,7 +165,7 @@ export const AIO_EXPANSION_RULES: ExpansionRule[] = [
     requires: [TRUCKS, { signal: 'factoring_ready_loads', op: 'gte', value: 1 }], relevance: 'MEDIUM',
     reasons: ['{factoring_ready_loads} delivered load(s) ready to invoice'],
     message_key: 'expansion.factoring.from_dispatch', headline: 'YOUR DELIVERED LOADS ARE READY TO INVOICE.', body: 'AIO CAN HAND THEM TO A FACTORING PARTNER.',
-    cta: { label: 'EXPLORE FACTORING', action: 'I.EXPLORE_WORKSPACE' }, placements: ['AFTER_RELATED_COMPLETION', 'WORKSPACE_SWITCHER_AVAILABLE'],
+    cta: { label: 'EXPLORE FACTORING', action: 'I.EXPLORE_WORKSPACE' }, placements: ['AFTER_RELATED_COMPLETION', 'WORKSPACE_SWITCHER_AVAILABLE', 'AFTER_ACTIVATION'],
     grounded_in: `Load.factoringHandoffStatus "ready" (${SRC}/portal/clientCommandCenterService.ts:445); crossSellRecommendations dispatch→factoring.`,
   }),
   R({
@@ -173,7 +173,7 @@ export const AIO_EXPANSION_RULES: ExpansionRule[] = [
     requires: [{ signal: 'factoring_active', op: 'truthy' }], relevance: 'MEDIUM',
     reasons: ['Factoring is active with AIO — funding fees land in your monthly close'],
     message_key: 'expansion.bookkeeping.from_factoring', headline: 'YOUR FACTORING FEES ALREADY RUN THROUGH AIO.', body: 'KEEP THE BOOKS IN THE SAME OFFICE.',
-    cta: { label: 'EXPLORE BOOKKEEPING', action: 'I.EXPLORE_WORKSPACE' }, placements: ['WORKSPACE_SWITCHER_AVAILABLE', 'CLIENT_OFFICE_HUB'],
+    cta: { label: 'EXPLORE BOOKKEEPING', action: 'I.EXPLORE_WORKSPACE' }, placements: ['WORKSPACE_SWITCHER_AVAILABLE', 'CLIENT_OFFICE_HUB', 'AFTER_ACTIVATION'],
     grounded_in: `AIO.FACTORING relationship FUNDED → AIO.BOOKKEEPING (factoring fee line); bookkeeping lead reason “You use factoring” (${SRC}/demo/bookkeepingSeed.ts:155).`,
   }),
 ];

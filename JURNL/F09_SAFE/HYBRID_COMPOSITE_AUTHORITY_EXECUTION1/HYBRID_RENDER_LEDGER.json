@@ -1,0 +1,44 @@
+{
+  "id": "HYBRID_RENDER_LEDGER",
+  "sprint": "P0.JURNL.F09-SAFE-TO-SPEND.HYBRID-COMPOSITE-AUTHORITY-EXECUTION1",
+  "generated_by": "scripts/studioos/jurnl-f09-composition-blueprint-export.ts",
+  "renderer": {
+    "provider": "OpenArt",
+    "model": "gpt-image-2.5-sunburst",
+    "resolution": "4K",
+    "aspect_ratio": "9:16",
+    "auto_enhance": false,
+    "openart_project_id": "VdiPtgVqb21sYl003uox"
+  },
+  "primary_generations": 3,
+  "retries": 0,
+  "credits_estimate": 951,
+  "territories": [
+    {
+      "territory": "T01",
+      "history_id": "d6K9fLZ8HLzpxFfKWxhE",
+      "raw_plate": "JURNL/F09_SAFE/HYBRID_COMPOSITE_AUTHORITY_EXECUTION1/RAW_PLATES/T01_ENVIRONMENT.png",
+      "raw_sha256": "0238be451e7d9f150034e753c155f3b16eb3fa546e6d6dd48701a22778d0b099",
+      "composite": "JURNL/F09_SAFE/HYBRID_COMPOSITE_AUTHORITY_EXECUTION1/COMPOSITES/F09_T01_SURVEYED_COURTYARD_MOBILE_393x852.png",
+      "composite_sha256": "061baba682e8c5fc8c868e4e254b14910c9f92dd65413917f2a5da8806d51d80"
+    },
+    {
+      "territory": "T02",
+      "history_id": "BfrmFeCAensa14V72eSr",
+      "raw_plate": "JURNL/F09_SAFE/HYBRID_COMPOSITE_AUTHORITY_EXECUTION1/RAW_PLATES/T02_ENVIRONMENT.png",
+      "raw_sha256": "020ce1625bcc1607796258752fb48ac9c44441276e1415cdd6f44a4565bc15b3",
+      "composite": "JURNL/F09_SAFE/HYBRID_COMPOSITE_AUTHORITY_EXECUTION1/COMPOSITES/F09_T02_ANSWER_IN_RAKING_LIGHT_MOBILE_393x852.png",
+      "composite_sha256": "90cbda39f3488667de5265a1645c696ab3ae0865b83f7f87256a471285bd0979"
+    },
+    {
+      "territory": "T03",
+      "history_id": "vvWAjYEBANSZu6KH2uPv",
+      "raw_plate": "JURNL/F09_SAFE/HYBRID_COMPOSITE_AUTHORITY_EXECUTION1/RAW_PLATES/T03_ENVIRONMENT.png",
+      "raw_sha256": "7cf6bcf814cc8b9a5c6175ac62c192c367c42787c240c912489a1ee3cf609bea",
+      "composite": "JURNL/F09_SAFE/HYBRID_COMPOSITE_AUTHORITY_EXECUTION1/COMPOSITES/F09_T03_SORTING_RACK_MOBILE_393x852.png",
+      "composite_sha256": "468cfd6bd0be989e9b8755842298e755fd0f3c0816eab358f3a033eb261a0aad"
+    }
+  ],
+  "assembly": "scripts/jurnl/f09-hybrid-composite-assemble.mjs",
+  "founder_review_board": "JURNL/F09_SAFE/HYBRID_COMPOSITE_AUTHORITY_EXECUTION1/FOUNDER_REVIEW_BOARD.png"
+}

@@ -3977,6 +3977,378 @@
           "actor": "SYSTEM"
         }
       ]
+    },
+    {
+      "feature_id": "AIO.CLIENT_MIGRATION",
+      "feature_name": "Client Migration Intake + Review (founder / staff)",
+      "family": "AIO OFFICE role projection (office/clients/*)",
+      "perspective": {
+        "parsing": [
+          "document class detection + field / entity extraction proposals only — no mutation before review"
+        ],
+        "event_creation": [
+          "OfficeWorkItem in the owning division queue",
+          "Client Migration Intake + Review (founder / staff) inbox thread",
+          "activity events per milestone"
+        ],
+        "notifications": [
+          "Migration review waiting (staff)",
+          "Migration failed (staff)"
+        ],
+        "vault_movement": [
+          "artifacts stored under Vault › document class folders (company, authority, vehicles, drivers, insurance, tax & fuel, permits …)"
+        ],
+        "inbox_movement": [
+          "PREBUILT: none — the client is told only by the activation invitation (AIO.CLIENT_ACTIVATION)"
+        ],
+        "activity_events": [
+          "Migration batch ready for review (staff)",
+          "Client prebuilt (staff)"
+        ],
+        "reminders": [
+          "waiting-on-client nudges after 3 days",
+          "internal follow-up dueAt on the office work item"
+        ],
+        "background_processing": [
+          "attention engine recompute (My Office)",
+          "readiness / status recompute on record change"
+        ],
+        "ingestion": [
+          "folder / multi-file upload; PDF · JPG · JPEG · PNG (+ office documents where the stack supports them)",
+          "sha256 per file"
+        ],
+        "validation": [
+          "file policy (type, size)",
+          "duplicate hash",
+          "provenance completeness per fact"
+        ],
+        "derivation": [
+          "document class",
+          "facts with page / region",
+          "match class",
+          "conflicts",
+          "staleness",
+          "confidence",
+          "proposed mutations"
+        ],
+        "state_transitions": [
+          "batch states CREATED → UPLOADING → PROCESSING → (PARTIAL) → REVIEW_REQUIRED → APPROVED",
+          "client lifecycle KNOWN_UNMIGRATED → MIGRATION_IN_PROGRESS → MIGRATION_REVIEW_REQUIRED → PREBUILT"
+        ],
+        "next_cycle_creation": "Historical archive keeps migrating in later batches; current truth first.",
+        "failure_handling": [
+          "UNREADABLE_DOCUMENT",
+          "DUPLICATE_DOCUMENT",
+          "AMBIGUOUS_CLIENT_MATCH",
+          "CONFLICTING_FACTS",
+          "UNSUPPORTED_DOCUMENT",
+          "EXTRACTION_FAILED",
+          "PARTIAL_BATCH — each listed, none silent"
+        ]
+      },
+      "system_entry": {
+        "surface": "migration pipeline",
+        "route": null,
+        "trigger": "batch upload complete"
+      },
+      "derivations": [
+        {
+          "id": "DUPLICATE",
+          "derives": "duplicate documents",
+          "from": [
+            "sha256",
+            "client vault hashes"
+          ],
+          "rule": "markDuplicates — never re-extracted"
+        },
+        {
+          "id": "MATCH",
+          "derives": "client match class",
+          "from": [
+            "DOT",
+            "MC",
+            "EIN",
+            "VIN",
+            "name / phone / email / address"
+          ],
+          "rule": "proposeClientMatch — never MATCH_CONFIRMED without staff"
+        },
+        {
+          "id": "CONFLICTS",
+          "derives": "conflicting values per field",
+          "from": [
+            "proposed facts"
+          ],
+          "rule": "analyzeConflicts"
+        },
+        {
+          "id": "STALENESS",
+          "derives": "stale / possibly stale evidence",
+          "from": [
+            "expiration date",
+            "document date",
+            "freshness window"
+          ],
+          "rule": "assessStaleness"
+        },
+        {
+          "id": "COMMIT_PLAN",
+          "derives": "canonical writes",
+          "from": [
+            "decided facts",
+            "field registry"
+          ],
+          "rule": "planMigrationCommit — PREBUILT, never ACTIVE"
+        }
+      ],
+      "automations": [
+        {
+          "id": "PIPELINE",
+          "trigger": "batch upload complete",
+          "does": "hash · duplicate check · classify · extract · match · stale · conflict · score · propose",
+          "human_fallback": "staff classify and enter facts by hand (STAFF_ENTRY provenance)"
+        }
+      ],
+      "transitions": [
+        {
+          "from": "KNOWN_UNMIGRATED",
+          "to": "MIGRATION_IN_PROGRESS",
+          "trigger": "staff creates a batch and uploads the folder",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "MIGRATION_IN_PROGRESS",
+          "to": "PARTIAL_BATCH",
+          "trigger": "some files fail ingest / extraction",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "MIGRATION_IN_PROGRESS",
+          "to": "AMBIGUOUS_MATCH",
+          "trigger": "identity signals disagree",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "MIGRATION_IN_PROGRESS",
+          "to": "MIGRATION_REVIEW_REQUIRED",
+          "trigger": "processing complete",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "PARTIAL_BATCH",
+          "to": "MIGRATION_REVIEW_REQUIRED",
+          "trigger": "staff continues with the readable files",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "AMBIGUOUS_MATCH",
+          "to": "MIGRATION_REVIEW_REQUIRED",
+          "trigger": "staff matches to an existing client or creates a new one",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "MIGRATION_REVIEW_REQUIRED",
+          "to": "READY_TO_APPROVE",
+          "trigger": "every fact decided, no open conflict",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "READY_TO_APPROVE",
+          "to": "PREBUILT",
+          "trigger": "APPROVE MIGRATION (commit gate)",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "MIGRATION_IN_PROGRESS",
+          "to": "MIGRATION_FAILED",
+          "trigger": "no file processed",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "MIGRATION_FAILED",
+          "to": "MIGRATION_IN_PROGRESS",
+          "trigger": "staff re-uploads",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "PREBUILT",
+          "to": "SUPERSEDED_BATCH",
+          "trigger": "batch closed after commit",
+          "actor": "SYSTEM"
+        }
+      ]
+    },
+    {
+      "feature_id": "AIO.CLIENT_ACTIVATION",
+      "feature_name": "Client Activation — review what AIO knows, confirm, enter the office",
+      "family": "F18 ACCOUNT · F05 MY OFFICE threshold",
+      "perspective": {
+        "parsing": [
+          "structured intake fields; uploaded documents typed via vault taxonomy"
+        ],
+        "event_creation": [
+          "OfficeWorkItem in the owning division queue",
+          "Client Activation — review what AIO knows, confirm, enter the office inbox thread",
+          "activity events per milestone"
+        ],
+        "notifications": [
+          "Your AIO office is ready (company name · AIO client ID · secure link — nothing else)",
+          "Activation link expired (staff)"
+        ],
+        "vault_movement": [
+          "no vault artifacts (records live in the feature)"
+        ],
+        "inbox_movement": [
+          "CHANGES_AWAITING_STAFF: AIO is updating what you told us",
+          "ACTIVE: Welcome to your AIO office"
+        ],
+        "activity_events": [
+          "Client activated",
+          "Client reported a change"
+        ],
+        "reminders": [
+          "waiting-on-client nudges after 3 days",
+          "internal follow-up dueAt on the office work item"
+        ],
+        "background_processing": [
+          "attention engine recompute (My Office)",
+          "readiness / status recompute on record change"
+        ],
+        "ingestion": [
+          "invitation acceptance",
+          "section answers",
+          "reported changes",
+          "consents"
+        ],
+        "validation": [
+          "single-use token (hash stored), expiry",
+          "every required section answered",
+          "NEEDS AN UPDATE carries a change",
+          "consents accepted"
+        ],
+        "derivation": [
+          "completeness (three measures)",
+          "activation conditions"
+        ],
+        "state_transitions": [
+          "lifecycle PREBUILT → INVITED → CLIENT_CONFIRMATION_REQUIRED → ACTIVE"
+        ],
+        "next_cycle_creation": "Reported changes create reconciliation work; workspaces move PENDING_SETUP → ACTIVE.",
+        "failure_handling": [
+          "INVITE_DELIVERY_FAILED",
+          "CLIENT_EMAIL_MISSING",
+          "ACTIVATION_EXPIRED",
+          "CLIENT_DECLINES_FACT — none silent"
+        ]
+      },
+      "system_entry": {
+        "surface": "activation service",
+        "route": null,
+        "trigger": "invitation accepted"
+      },
+      "derivations": [
+        {
+          "id": "COMPLETENESS",
+          "derives": "business profile · document vault · client review (three separate measures)",
+          "from": [
+            "confirmed facts",
+            "vault lineage",
+            "section answers"
+          ],
+          "rule": "computeCompleteness"
+        },
+        {
+          "id": "ACTIVATION_GATE",
+          "derives": "can the client be counted active?",
+          "from": [
+            "eight activation conditions"
+          ],
+          "rule": "evaluateActivation / isCountedActive"
+        },
+        {
+          "id": "WORKSPACES",
+          "derives": "workspace states after activation",
+          "from": [
+            "staff-confirmed service relationships"
+          ],
+          "rule": "provisionWorkspaces"
+        }
+      ],
+      "automations": [],
+      "transitions": [
+        {
+          "from": "PREBUILT",
+          "to": "INVITED",
+          "trigger": "staff sends the invitation",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "INVITED",
+          "to": "INVITE_DELIVERY_FAILED",
+          "trigger": "bounce / undeliverable",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "INVITE_DELIVERY_FAILED",
+          "to": "INVITED",
+          "trigger": "staff fixes the email and resends",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "INVITED",
+          "to": "ACTIVATION_EXPIRED",
+          "trigger": "link expires unused",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "ACTIVATION_EXPIRED",
+          "to": "INVITED",
+          "trigger": "staff re-invites (new token)",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "INVITED",
+          "to": "CLIENT_REVIEW",
+          "trigger": "client verifies the link and sets a password",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "CLIENT_REVIEW",
+          "to": "WHAT_CHANGED",
+          "trigger": "sections reviewed",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "WHAT_CHANGED",
+          "to": "CLIENT_CONFIRMATION_REQUIRED",
+          "trigger": "changes captured (or nothing changed)",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "CLIENT_CONFIRMATION_REQUIRED",
+          "to": "ACTIVE",
+          "trigger": "CONFIRM & ENTER MY OFFICE",
+          "actor": "CLIENT"
+        },
+        {
+          "from": "ACTIVE",
+          "to": "CHANGES_AWAITING_STAFF",
+          "trigger": "client-reported changes need staff",
+          "actor": "SYSTEM"
+        },
+        {
+          "from": "CHANGES_AWAITING_STAFF",
+          "to": "ACTIVE",
+          "trigger": "staff reconciled",
+          "actor": "FOUNDER_STAFF"
+        },
+        {
+          "from": "ACTIVE",
+          "to": "PAUSED",
+          "trigger": "relationship paused",
+          "actor": "FOUNDER_STAFF"
+        }
+      ]
     }
   ]
 }

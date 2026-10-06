@@ -1,0 +1,189 @@
+{
+  "id": "AIO_CLIENT_IDENTITY_AND_ACTIVATION",
+  "sprint": "P0.AIO.CLIENT-MIGRATION-ACTIVATION-AND-OFFICE-PROVISIONING-ARCHITECTURE1",
+  "generated_by": "scripts/studioos/aio-client-migration-export.ts",
+  "source": [
+    "shared/studioos-experience-brain/client-lifecycle.ts",
+    "shared/studioos-experience-brain/projects/aio/client-migration.ts",
+    "shared/studioos-experience-brain/projects/aio/migration.ts"
+  ],
+  "audit": {
+    "repo": "yoteenz/fsbw · all-in-one-enterprises",
+    "sha": "c88a3000866d55c09c8271dd7c2cfccb32e5bf23",
+    "mode": "READ-ONLY"
+  },
+  "constraints": {
+    "page_implementation": false,
+    "new_paid_generations": 0,
+    "openart_accessed": false,
+    "ifta_lane_blocked": false,
+    "aio_code_changed": false
+  },
+  "separation": "AIO CLIENT IDENTITY ≠ LOGIN EMAIL ≠ OPTIONAL AIO ALIAS",
+  "identity": {
+    "business_identity": {
+      "format": "AIO-CUS-######",
+      "rule": "Issued once per business from the existing sequence aio_next_customer_number() (AIO-CUS- + 6 digits), stored on the organisation, never reused, never derived from an email. Plain AIO-###### is already the service-request number format (aio_next_request_number), so a client ID must not use it.",
+      "refs": [
+        "all-in-one-enterprises/supabase/migrations/20260815120000_aio_identity_roles_contacts.sql:141",
+        "all-in-one-enterprises/src/data/constants.ts:22",
+        "all-in-one-enterprises/supabase/migrations/20260815110000_aio_business_data_rls.sql:414"
+      ],
+      "issued_at": "APPROVE MIGRATION (existing client) · intake completion or CRM conversion (new client)",
+      "founder_question": "Display format: AIO-CUS-001042 (existing primitive) or a shorter AIO-C-1042 — not AIO-1042 (collides with request numbers)."
+    },
+    "login_email": {
+      "rule": "The deliverable email the client signs in with (Supabase auth user). Replaceable only through a verified credential-change flow (verify the new address before switching). Never the business identity."
+    },
+    "alias": {
+      "rule": "Optional AIO-branded alias (for example an AIO mailbox name) kept as a separate attribute. Never required to authenticate; AIO does not need to run a mailbox system for clients to sign in."
+    }
+  },
+  "auth": {
+    "flow": [
+      "YOUR AIO OFFICE IS READY (email: company name · AIO client ID · secure link)",
+      "ACTIVATE YOUR OFFICE (single-use link)",
+      "server verifies the token hash + expiry",
+      "client sets their own password (updateUser) — or signs in by magic link",
+      "server links the auth user to the organisation (membership, status active)",
+      "sign in → review flow"
+    ],
+    "existing": [
+      {
+        "capability": "email + password sign-in / sign-up",
+        "ref": "all-in-one-enterprises/src/auth/authService.ts:157",
+        "status": "EXISTING"
+      },
+      {
+        "capability": "update password (updateUser)",
+        "ref": "all-in-one-enterprises/src/auth/authService.ts:180",
+        "status": "EXISTING"
+      },
+      {
+        "capability": "password reset (resetPasswordForEmail)",
+        "ref": "all-in-one-enterprises/src/auth/authService.ts:171",
+        "status": "CONFLICT",
+        "note": "redirects to /all-in-one/reset-password; the route is /reset-password"
+      },
+      {
+        "capability": "magic link (signInWithOtp)",
+        "ref": "all-in-one-enterprises/src/data/supabase/client.ts:20",
+        "status": "MISSING",
+        "note": "not used; detectSessionInUrl is on, so link sessions would be picked up"
+      },
+      {
+        "capability": "invite / generateLink (admin)",
+        "ref": "all-in-one-enterprises/src/config/env.ts:42",
+        "status": "MISSING",
+        "note": "no server function holds the service-role key yet"
+      },
+      {
+        "capability": "link an existing organisation to a new user",
+        "ref": "all-in-one-enterprises/supabase/migrations/20260815100000_aio_identity_foundation.sql:75",
+        "status": "MISSING",
+        "note": "membership user_id is NOT NULL — the membership is created at acceptance, not at invitation"
+      }
+    ],
+    "proposed": {
+      "invitation_store": "aio_client_activation_invites (organization_id, email, token_sha256, issued_at, expires_at, state, sent_by, accepted_user_id) — single use; plain token never stored",
+      "route": "/office-activation/:token (token-route precedent /quote/:secureToken; “/activate” already names the start-your-business compliance step)",
+      "server": "activation endpoint with the service-role key: verify token → create or find the auth user → membership (organization_owner, active) → lifecycle CLIENT_CONFIRMATION_REQUIRED",
+      "expiry_days": 7,
+      "magic_link": "optional sign-in method after activation (signInWithOtp); the invitation token still decides which organisation is linked"
+    },
+    "must_fix_before_activation": [
+      {
+        "id": "C11",
+        "what": "RLS lets any signed-in user insert a membership into any organisation",
+        "ref": "all-in-one-enterprises/supabase/migrations/20260815100000_aio_identity_foundation.sql:233"
+      },
+      {
+        "id": "C8",
+        "what": "Self sign-up always creates a new organisation — a migrated client who signs up would duplicate their business (route known emails to “check your invitation / contact AIO”, never auto-link without the token)",
+        "ref": "all-in-one-enterprises/src/auth/authService.ts:66"
+      },
+      {
+        "id": "C10",
+        "what": "Password-reset link points at a route that does not exist",
+        "ref": "all-in-one-enterprises/src/auth/authService.ts:171"
+      },
+      {
+        "id": "C9",
+        "what": "ensureOrganizationForUser is never called",
+        "ref": "all-in-one-enterprises/src/auth/authService.ts:126"
+      },
+      {
+        "id": "PORTAL",
+        "what": "The portal never reads account status — a pending client would get the full portal",
+        "ref": "all-in-one-enterprises/src/auth/guards/RouteGuards.tsx:8"
+      }
+    ]
+  },
+  "invitation": {
+    "states": [
+      "PENDING",
+      "SENT",
+      "DELIVERY_FAILED",
+      "OPENED",
+      "ACCEPTED",
+      "EXPIRED",
+      "REVOKED"
+    ],
+    "message_allowed": [
+      "company_name",
+      "business_identity_id",
+      "activation_link",
+      "expires_at",
+      "support_contact"
+    ],
+    "message_forbidden": [
+      "any profile fact",
+      "documents",
+      "any credential"
+    ],
+    "template": {
+      "slug": "client_office_activation",
+      "subject": "Your AIO office is ready",
+      "fields": {
+        "company_name": "{company_name}",
+        "business_identity_id": "{aio_client_id}",
+        "activation_link": "{secure_link}",
+        "expires_at": "{expires_at}",
+        "support_contact": "{aio_support_phone}"
+      },
+      "body": [
+        "YOUR AIO OFFICE IS READY",
+        "{company_name} · {aio_client_id}",
+        "ACTIVATE YOUR OFFICE → {secure_link}",
+        "This link works once and expires {expires_at}. AIO will never send you a password."
+      ],
+      "channel": "email via the communication engine (templates model communicationTypes.ts:212; provider not configured — demo adapters only)"
+    }
+  },
+  "passwords": {
+    "delivery_forbidden": [
+      "EMAIL",
+      "SMS",
+      "PHONE_NOTE",
+      "LETTER",
+      "STAFF_VERBAL"
+    ],
+    "rule": "The client sets their own password on the activation page (or signs in by magic link). AIO never generates, stores in plain text, emails, texts or reads out a password.",
+    "findings_in_aio": {
+      "today": "No temporary or generated password exists anywhere in AIO; every password is typed by the user and goes straight to Supabase Auth. Nothing emails or texts a password.",
+      "risk": "With no invite / magic-link primitive, an activation flow could be tempted to mint and send passwords. Forbidden by this contract."
+    }
+  },
+  "consents": {
+    "at_activation": [
+      "TERMS_OF_SERVICE (versioned)",
+      "PRIVACY_POLICY (versioned)",
+      "ELECTRONIC_COMMUNICATIONS (email; SMS only if opted in)"
+    ],
+    "store": "aio_consents (user_id, consent_type, version, granted_at, revoked_at — all-in-one-enterprises/supabase/migrations/20260815140000_aio_integrations_security_audit.sql:72; unused today) + CommConsentRecord for channels (all-in-one-enterprises/src/communications/communicationTypes.ts:189)",
+    "today": "Terms acceptance is validated on sign-up but never persisted in backend mode.",
+    "not_at_activation": "Service authorisations (POA · BOC-3 · IFTA authorisation) belong to the workspace that needs them, not to activation.",
+    "founder_question": "Confirm the legally required set and wording."
+  },
+  "experience_contract": "AIO.CLIENT_ACTIVATION"
+}

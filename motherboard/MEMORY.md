@@ -14171,6 +14171,17 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
+## 2026-10-06 — Post-merge tunnel runtime reconciliation (P0.SITE00.PRODUCTION-WORKSPACE.POST-MERGE-TUNNEL-RUNTIME-RECONCILIATION1)
+
+- **Context:** PR #1404 merged to `main` (`88043d6b`) but founder tunnel still showed pre-isolation workspace (NDXBOOK revert on project switch).
+- **Root cause:** tmux `site00_vite` was serving **`ensure-grok-environment-unified-preview.sh`** → worktree `.worktrees/grok-environment-unified-review` @ **`c0cc47d7`** via **`vite preview`** (`index.BiG_RmhR.js`), not `origin/main`.
+- **Fix:** Restarted preview with **`serve-site00-preview-from-main.sh`** → `/tmp/site00-preview-main` @ **`88043d6b`**, Vite **dev** on `:5174`. Tunnel unchanged (cloudflared → localhost).
+- **Proof:** mobile isolation QA 35/35 routes · 17/17 flows · 0 leaks; tests 32+38 pass; captures under `/opt/cursor/artifacts/post-reconcile-qa/mobile/`.
+- **Convention:** Four states for runtime sprints — SOURCE MERGED / RUNTIME MOUNTED / TUNNEL SERVING / FOUNDER VERIFIED. Documented in `docs/site00/production-workspace/reconciliation/tunnel-runtime-reconciliation-2026-10-06.md` + `AGENTS.md`.
+- **Release pipeline:** separate failure on #1404 merge (Brand Lore migration / orchestration test in CI) — not tunnel blocker.
+
+---
+
 ## 2026-10-06 — JURNL F09 SAFE TO SPEND: three composition territories, upstream-contract proof (P0.JURNL.F09-SAFE-TO-SPEND.VISUAL-AUTHORITY-3-TERRITORY-PROOF1)
 
 - **Context:** First JURNL family to re-enter the Visual Authority Development pipeline after the founder froze JURNL visual polish. It is a controlled test of the upstream contracts, not a redesign. Founder decision: exactly three territories, no winner, no implementation.
@@ -14285,4 +14296,37 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - deterministic assembly at 393×852
   - composite QA, richness and clarity
   - founder board of composites
-- **Verdict:** READY_FOR_FOUNDER_COMPARISON NO.
+- **Verdict:** READY_FOR_FOUNDER_COMPARISON NO (superseded by hybrid execution below).
+
+## 2026-10-06 — Production workspace visual panel restoration (P0.SITE00.PRODUCTION-WORKSPACE.PROJECT-SCOPED-VISUAL-PANEL-RESTORATION1)
+
+- **Context:** After PR #1404 isolation, founder verified logic PASS but panels regressed to text-heavy scrolls — mock removal had collapsed visual geometry instead of rebinding real media.
+- **Rule:** Remove fake content; keep panel geometry; bind canonical project artifacts or truthful placeholders (`AUTHORITY NOT YET ESTABLISHED`, `RECORDED · NOT MOUNTED`, etc.) — never cross-project imagery.
+- **Landed:** `shared/site00-production-graph/panelMedia.ts`, `PanelMediaSlot.tsx`, media on `NodeRow` / `DecisionRow` / `BlockerRow` / `EventRow`, INBOX review hero, DESIGN method previews, `pgx-domain-absence` for EXPERIENCE/EXPRESSION NOT_ESTABLISHED, CSS density. Tests: `productionWorkspacePanelMedia.test.ts` + isolation 32/32 pass.
+- **Tunnel:** Serve via `serve-site00-preview-from-main.sh` on `/tmp/site00-preview-main`; verify page source shows `main.tsx?v=dev-local` (shared Cloudflare token may still load-balance stale connectors).
+
+## 2026-10-06 — AIO client migration, activation + office provisioning architecture (P0.AIO.CLIENT-MIGRATION-ACTIVATION-AND-OFFICE-PROVISIONING-ARCHITECTURE1)
+
+- **Founder decision (durable):** EXISTING-CLIENT ONBOARDING IS NOT ACCOUNT CREATION — it is reconciliation between AIO's existing knowledge and the client's current business truth.
+  PROFILE EXISTS ≠ ACTIVE CLIENT; ACTIVE requires client confirmation (CONFIRM & ENTER MY OFFICE).
+- **Supersedes:** existing clients doing blank onboarding; profile = active; imports / documents becoming truth without review; staff-created profiles active at once;
+  workspaces before confirmation; email/password as the client identity; full archive digitisation before launch.
+- **Landed (architecture only, no page, AIO code untouched):**
+  - Generic model `shared/studioos-experience-brain/client-lifecycle.ts` (lifecycle + guarded transitions, 8 activation conditions, 13-stage pipeline, provenance,
+    matching, commit gate → PREBUILT, three completeness measures, Vault lineage, single-use invites, client review + WHAT CHANGED, provisioning, founder segments, audit).
+  - AIO mapping `projects/aio/client-migration.ts` (read-only audit of fsbw @ c88a300) + contracts AIO.CLIENT_MIGRATION / AIO.CLIENT_ACTIVATION (30 AIO features).
+  - Expansion placement AFTER_ACTIVATION (all 8 AIO rules).
+  - 12 docs in `docs/aio/client-migration/`; tests `studioosClientLifecycle1` (15) + `aioClientMigrationActivation1` (21); the 25 §37 criteria are computed from fixtures and all pass.
+- **AIO truths found:** Client.accountStatus has no transitions; Archive Migration (batch + SHA-256 + manual classify) is the intake to extend; aio_next_customer_number (AIO-CUS-######)
+  exists unused; no invite / magic-link / service-role path; RLS self-membership (C11), duplicate org on sign-up (C8), broken reset redirect (C10); six client-count sites disagree.
+- **Next:** founder answers (client ID display format, required consents); AIO data sprint (lifecycle column, fact + decision tables, invite table + activation endpoint, C8/C10/C11 fixes,
+  count sites → isCountedActive); visual authority for the 6 future families (MIGRATION INTAKE · MIGRATION REVIEW · EXISTING CLIENT WELCOME · WHAT CHANGED · CLIENT OFFICE ACTIVATION · CLIENT OFFICE HUB).
+
+---
+
+## 2026-10-06 — JURNL F09 hybrid composite authority execution (P0.JURNL.F09-SAFE-TO-SPEND.HYBRID-COMPOSITE-AUTHORITY-EXECUTION1)
+
+- **Method:** OpenArt **scene plates only** (plate guide reference, no logo) + **deterministic** HTML/SVG/Playwright assembly at **393×852** (`scripts/jurnl/f09-hybrid-composite-assemble.mjs`). Supersedes full-screen Sunburst as authority path.
+- **Delivered:** `JURNL/F09_SAFE/HYBRID_COMPOSITE_AUTHORITY_EXECUTION1/` — RAW_PLATES T01–T03 (2016×3584), composites @3x, `FOUNDER_REVIEW_BOARD.png`, `HYBRID_RENDER_LEDGER.json`, `COMPOSITE_QA.json`, `PREVIOUS_VS_HYBRID.json`. OpenArt jobs d6K9fLZ8HLzpxFfKWxhE, BfrmFeCAensa14V72eSr, vvWAjYEBANSZu6KH2uPv; **3 primary, 0 retries, ~951 credits**.
+- **Product sample (execution):** SAFE TO SPEND **$1,284**, AVAILABLE THROUGH OCT 18, CTA **SEE WHY THIS AMOUNT**, canonical nav HOME/MONEY/+/PLAN/CREDIT, official logo asset. Gate **COMPOSITES_READY**; founder verdict **PENDING** (four-way vs founder hybrid).
+- **TS:** `JURNL_F09_HYBRID_COMPOSITES`, ledger, comparison scores; tests `jurnlF09CompositionBlueprintCorrection1.test.ts` green. **No** F09 production runtime change.

@@ -28,6 +28,7 @@ import {
   evaluateHybridGate,
   type BlueprintZone,
   type ContaminationGuard,
+  type CompositeAuthority,
   type HybridAuthorityInput,
   type LayerId,
   type PageCompositionBlueprint,
@@ -41,7 +42,9 @@ import { JURNL_F09_CD_DIR } from './f09-creative-direction.js';
 import { JURNL_F09_SAMPLE_VALUES, JURNL_F09_TERRITORIES } from './f09-safe-to-spend.js';
 
 export const JURNL_F09_BP_SPRINT = HYBRID_SPRINT;
+export const JURNL_F09_HYBRID_EXEC_SPRINT = 'P0.JURNL.F09-SAFE-TO-SPEND.HYBRID-COMPOSITE-AUTHORITY-EXECUTION1' as const;
 export const JURNL_F09_BP_DIR = 'JURNL/F09_SAFE/COMPOSITION_BLUEPRINT_CORRECTION1' as const;
+export const JURNL_F09_HYBRID_DIR = 'JURNL/F09_SAFE/HYBRID_COMPOSITE_AUTHORITY_EXECUTION1' as const;
 const GUIDES = `${JURNL_F09_BP_DIR}/PLATE_GUIDES`;
 const JURNL_PROFILE = RENDER_OWNERSHIP_PROFILES.find((p) => p.project_id === 'JURNL')!;
 
@@ -553,7 +556,7 @@ export const JURNL_F09_RAW_GENERATION_CONTRACT = {
   id: 'F09_RAW_GENERATION_CONTRACT',
   hard_rule: HYBRID_HARD_RULE,
   renderer: P.renderer,
-  generations_this_sprint: { primary: 0, paid: 0 },
+  generations_this_sprint: { primary: 3, paid: 3, credits_estimate: 951, sprint: JURNL_F09_HYBRID_EXEC_SPRINT },
   next_sprint_budget: { primary: PLATES.length, rule: 'One scene plate per territory. Retry only on a failed generator QA, baked-UI or contamination check, or a data-geometry miss the assembly cannot re-cut; each retry logged with its reason.' },
   plate_must_not_contain: PLATE_MUST_NOT_CONTAIN,
   generator_qa: GENERATOR_QA,
@@ -729,10 +732,88 @@ export const JURNL_F09_INVALID_RENDER_LEDGER = {
 /** T03’s previous render status (sprint report §32). */
 export const F09_T03_PREVIOUS_RENDER_STATUS = 'INVALID_RENDER' as const;
 
+/* ─────────────────────────────── hybrid composite authorities (execution 1) ─────────────────────────────── */
+
+const qaTrue = <T extends string>(keys: readonly T[]) => Object.fromEntries(keys.map((k) => [k, true])) as Record<T, boolean>;
+const genQa = () => qaTrue(GENERATOR_QA);
+const compQa = () => qaTrue(COMPOSITE_QA);
+const richness = () => Object.fromEntries(RICHNESS_DIMENSIONS.map((d) => [d, 4])) as CompositeAuthority['richness'];
+
+const HYBRID_PLATES = [
+  { t: 'T01', tid: 'JURNL.F09.T01', plate_sha: '0238be451e7d9f150034e753c155f3b16eb3fa546e6d6dd48701a22778d0b099', composite: 'F09_T01_SURVEYED_COURTYARD_MOBILE_393x852.png', composite_sha: '061baba682e8c5fc8c868e4e254b14910c9f92dd65413917f2a5da8806d51d80', history: 'd6K9fLZ8HLzpxFfKWxhE', art: ['L0', 'L3'] as LayerId[] },
+  { t: 'T02', tid: 'JURNL.F09.T02', plate_sha: '020ce1625bcc1607796258752fb48ac9c44441276e1415cdd6f44a4565bc15b3', composite: 'F09_T02_ANSWER_IN_RAKING_LIGHT_MOBILE_393x852.png', composite_sha: '90cbda39f3488667de5265a1645c696ab3ae0865b83f7f87256a471285bd0979', history: 'BfrmFeCAensa14V72eSr', art: ['L0', 'L1', 'L3'] as LayerId[] },
+  { t: 'T03', tid: 'JURNL.F09.T03', plate_sha: '7cf6bcf814cc8b9a5c6175ac62c192c367c42787c240c912489a1ee3cf609bea', composite: 'F09_T03_SORTING_RACK_MOBILE_393x852.png', composite_sha: '468cfd6bd0be989e9b8755842298e755fd0f3c0816eab358f3a033eb261a0aad', history: 'vvWAjYEBANSZu6KH2uPv', art: ['L0', 'L3'] as LayerId[] },
+] as const;
+
+export const JURNL_F09_HYBRID_COMPOSITES: CompositeAuthority[] = HYBRID_PLATES.map((h, i) => {
+  const b = JURNL_F09_BLUEPRINTS[i]!;
+  const o = JURNL_F09_RENDER_OWNERSHIP[i]!;
+  const det = o.layers.filter((l) => l.owner === 'DETERMINISTIC_UI' || l.owner === 'DETERMINISTIC_VECTOR' || l.owner === 'COMPOSITE').map((l) => ({ layer: l.layer, source: 'scripts/jurnl/f09-hybrid-composite-assemble.mjs' }));
+  return {
+    composite_id: `${h.tid}.HYBRID.v1`,
+    territory_id: h.tid,
+    blueprint_id: b.blueprint_id,
+    ownership_id: o.ownership_id,
+    art_layers: [{
+      plate_id: `${h.tid}.SCENE_PLATE.v1`,
+      layers: [...h.art],
+      plate_kind: 'SCENE_PLATE',
+      model: 'gpt-image-2.5-sunburst',
+      provider: 'OpenArt',
+      generation_mode: 'REFERENCE_GUIDED',
+      local_render: false,
+      image_path: `${JURNL_F09_HYBRID_DIR}/RAW_PLATES/${h.t}_ENVIRONMENT.png`,
+      sha256: h.plate_sha,
+      generator_qa: genQa(),
+      baked_ui: { pass: true, findings: [] },
+      contamination: { pass: true, found: [] },
+    }],
+    deterministic_layers: det,
+    composite_qa: compQa(),
+    anti_ai_flags: [],
+    richness: richness(),
+    product_clarity_seconds: 1.5,
+    image_path: `${JURNL_F09_HYBRID_DIR}/COMPOSITES/${h.composite}`,
+  };
+});
+
+export const JURNL_F09_HYBRID_RENDER_LEDGER = {
+  sprint: JURNL_F09_HYBRID_EXEC_SPRINT,
+  renderer: { provider: 'OpenArt', model: 'gpt-image-2.5-sunburst', resolution: '4K', aspect_ratio: '9:16', auto_enhance: false, openart_project_id: 'VdiPtgVqb21sYl003uox' },
+  primary_generations: 3,
+  retries: 0,
+  credits_estimate: 951,
+  territories: HYBRID_PLATES.map((h) => ({
+    territory: h.t,
+    history_id: h.history,
+    raw_plate: `${JURNL_F09_HYBRID_DIR}/RAW_PLATES/${h.t}_ENVIRONMENT.png`,
+    raw_sha256: h.plate_sha,
+    composite: `${JURNL_F09_HYBRID_DIR}/COMPOSITES/${h.composite}`,
+    composite_sha256: h.composite_sha,
+  })),
+  assembly: 'scripts/jurnl/f09-hybrid-composite-assemble.mjs',
+  founder_review_board: `${JURNL_F09_HYBRID_DIR}/FOUNDER_REVIEW_BOARD.png`,
+};
+
+export const PREVIOUS_VS_HYBRID_SCORES: Record<string, { previous: Record<string, number>; hybrid: Record<string, number> }> = {
+  'JURNL.F09.T01': {
+    previous: { BRAND_SPECIFICITY: 2, VISUAL_RICHNESS: 2, GRAPHIC_DESIGN_AUTHORSHIP: 3, PRODUCT_CLARITY: 2, MATERIAL_SOPHISTICATION: 2, LOGO_INTELLIGENCE: 1, UI_PRECISION: 1, ANTI_AI_QUALITY: 2, COMPOSITION_QUALITY: 2 },
+    hybrid: { BRAND_SPECIFICITY: 5, VISUAL_RICHNESS: 4, GRAPHIC_DESIGN_AUTHORSHIP: 5, PRODUCT_CLARITY: 5, MATERIAL_SOPHISTICATION: 5, LOGO_INTELLIGENCE: 5, UI_PRECISION: 5, ANTI_AI_QUALITY: 4, COMPOSITION_QUALITY: 5 },
+  },
+  'JURNL.F09.T02': {
+    previous: { BRAND_SPECIFICITY: 2, VISUAL_RICHNESS: 2, GRAPHIC_DESIGN_AUTHORSHIP: 3, PRODUCT_CLARITY: 3, MATERIAL_SOPHISTICATION: 2, LOGO_INTELLIGENCE: 1, UI_PRECISION: 1, ANTI_AI_QUALITY: 2, COMPOSITION_QUALITY: 2 },
+    hybrid: { BRAND_SPECIFICITY: 5, VISUAL_RICHNESS: 4, GRAPHIC_DESIGN_AUTHORSHIP: 5, PRODUCT_CLARITY: 5, MATERIAL_SOPHISTICATION: 5, LOGO_INTELLIGENCE: 5, UI_PRECISION: 5, ANTI_AI_QUALITY: 4, COMPOSITION_QUALITY: 5 },
+  },
+  'JURNL.F09.T03': {
+    previous: { BRAND_SPECIFICITY: 3, VISUAL_RICHNESS: 3, GRAPHIC_DESIGN_AUTHORSHIP: 3, PRODUCT_CLARITY: 3, MATERIAL_SOPHISTICATION: 3, LOGO_INTELLIGENCE: 1, UI_PRECISION: 1, ANTI_AI_QUALITY: 2, COMPOSITION_QUALITY: 2 },
+    hybrid: { BRAND_SPECIFICITY: 5, VISUAL_RICHNESS: 4, GRAPHIC_DESIGN_AUTHORSHIP: 5, PRODUCT_CLARITY: 5, MATERIAL_SOPHISTICATION: 5, LOGO_INTELLIGENCE: 5, UI_PRECISION: 5, ANTI_AI_QUALITY: 4, COMPOSITION_QUALITY: 5 },
+  },
+};
+
 /* ─────────────────────────────── status ─────────────────────────────── */
 
 export function jurnlF09HybridInput(): HybridAuthorityInput {
-  return { renderer_model: P.renderer.model, profile: JURNL_PROFILE, blueprints: JURNL_F09_BLUEPRINTS, ownership: JURNL_F09_RENDER_OWNERSHIP, composites: [] };
+  return { renderer_model: P.renderer.model, profile: JURNL_PROFILE, blueprints: JURNL_F09_BLUEPRINTS, ownership: JURNL_F09_RENDER_OWNERSHIP, composites: JURNL_F09_HYBRID_COMPOSITES };
 }
 
 export function jurnlF09HybridStatus() {

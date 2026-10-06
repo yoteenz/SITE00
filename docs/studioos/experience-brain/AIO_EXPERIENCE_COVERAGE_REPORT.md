@@ -7,11 +7,11 @@ _Generated from `shared/studioos-experience-brain` — do not edit by hand._
 
 | Metric | Value |
 |---|---|
-| Total material features | 28 |
-| Experience complete | 23 |
+| Total material features | 30 |
+| Experience complete | 25 |
 | Experience partial | 5 |
 | Experience missing | 0 |
-| Public coverage | 100% (not applicable: 6 internal / authenticated-only features) |
+| Public coverage | 100% (not applicable: 8 internal / authenticated-only features) |
 | Client coverage | 100% |
 | Founder / staff coverage | 100% |
 | System coverage | 100% |
@@ -52,6 +52,8 @@ Experience completion is a separate axis from functional completion: a route, da
 | AIO.INBOX | F17 INBOX | QUEUE | THE THREAD (feature, needs-you, resolution) | EXPERIENCE_COMPLETE | READY | READY | 62 | live (provider abstraction) |
 | AIO.ACCOUNT | F18 ACCOUNT | DOCUMENT_TABLE / CHECKLIST | THE ORGANISATION (members, roles) | EXPERIENCE_COMPLETE | READY | READY | 55 | live (Supabase auth partial) |
 | AIO.OFFICE_OPERATIONS | AIO OFFICE role projection (office/*) across F05–F17 | CONTROL_ROOM / QUEUE | THE WORK ITEM (client, division, waitingOn, due) | EXPERIENCE_COMPLETE | READY | READY | — | live (OfficeRouteGuard; demo + office modules) |
+| AIO.CLIENT_MIGRATION | AIO OFFICE role projection (office/clients/*) | PIPELINE / MATCHING_BOARD / CASE_FILE | THE MIGRATION BATCH (client file → proposed facts → decisions) | EXPERIENCE_COMPLETE | READY | READY | — | architecture only (no route, no pipeline in AIO yet) |
+| AIO.CLIENT_ACTIVATION | F18 ACCOUNT · F05 MY OFFICE threshold | THRESHOLD / CHECKLIST / DECISION_WINDOW | WHAT AIO ALREADY KNOWS (the prepared office) | EXPERIENCE_COMPLETE | READY | READY | — | architecture only (no activation route or invitation service in AIO yet) |
 
 ## Service inventory (sprint §23)
 
@@ -105,7 +107,9 @@ Experience completion is a separate axis from functional completion: a route, da
 - AIO.VAULT — Private document hub.
 - AIO.INBOX — Private correspondence.
 - AIO.OFFICE_OPERATIONS — Internal-only office.
+- AIO.CLIENT_MIGRATION — Internal office workflow; clients never see migration intake.
+- AIO.CLIENT_ACTIVATION — Invitation-only: the activation link is the entry; there is no public page.
 
 ## Screen-family gate
 
-Features a generator may build screens for now: 23. Features that return EXPERIENCE_REQUIRED: AIO.BOC3, AIO.COMPLIANCE_SAFETY, AIO.LOAD_BOARD, AIO.BROKERAGE, AIO.DRIVERLINK.
+Features a generator may build screens for now: 25. Features that return EXPERIENCE_REQUIRED: AIO.BOC3, AIO.COMPLIANCE_SAFETY, AIO.LOAD_BOARD, AIO.BROKERAGE, AIO.DRIVERLINK.

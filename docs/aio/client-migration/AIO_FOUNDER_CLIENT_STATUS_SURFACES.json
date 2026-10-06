@@ -1,0 +1,226 @@
+{
+  "id": "AIO_FOUNDER_CLIENT_STATUS_SURFACES",
+  "sprint": "P0.AIO.CLIENT-MIGRATION-ACTIVATION-AND-OFFICE-PROVISIONING-ARCHITECTURE1",
+  "generated_by": "scripts/studioos/aio-client-migration-export.ts",
+  "source": [
+    "shared/studioos-experience-brain/client-lifecycle.ts",
+    "shared/studioos-experience-brain/projects/aio/client-migration.ts",
+    "shared/studioos-experience-brain/projects/aio/migration.ts"
+  ],
+  "audit": {
+    "repo": "yoteenz/fsbw · all-in-one-enterprises",
+    "sha": "c88a3000866d55c09c8271dd7c2cfccb32e5bf23",
+    "mode": "READ-ONLY"
+  },
+  "constraints": {
+    "page_implementation": false,
+    "new_paid_generations": 0,
+    "openart_accessed": false,
+    "ifta_lane_blocked": false,
+    "aio_code_changed": false
+  },
+  "segments": [
+    {
+      "segment": "ACTIVE",
+      "label": "ACTIVE CLIENTS",
+      "meaning": "confirmed, provisioned, counted"
+    },
+    {
+      "segment": "WAITING_FOR_CLIENT",
+      "label": "WAITING FOR CLIENT",
+      "meaning": "invitation accepted; review / confirmation pending"
+    },
+    {
+      "segment": "INVITATION_SENT",
+      "label": "INVITATION SENT",
+      "meaning": "link sent, not yet opened / accepted"
+    },
+    {
+      "segment": "PREBUILT_NOT_INVITED",
+      "label": "PREBUILT NOT INVITED",
+      "meaning": "office prepared; invite (or re-invite after delivery failure / expiry)"
+    },
+    {
+      "segment": "MIGRATION_REVIEW",
+      "label": "MIGRATION REVIEW",
+      "meaning": "facts waiting for a decision"
+    },
+    {
+      "segment": "MIGRATION_FAILED_NEEDS_REVIEW",
+      "label": "MIGRATION FAILED / NEEDS REVIEW",
+      "meaning": "partial or failed batch"
+    },
+    {
+      "segment": "MIGRATING",
+      "label": "MIGRATING",
+      "meaning": "files uploading / processing"
+    },
+    {
+      "segment": "KNOWN",
+      "label": "KNOWN",
+      "meaning": "known to AIO, no digital file yet"
+    },
+    {
+      "segment": "NEW_CLIENT_INTAKE",
+      "label": "NEW CLIENT INTAKE",
+      "meaning": "new client completing intake"
+    },
+    {
+      "segment": "PAUSED",
+      "label": "PAUSED",
+      "meaning": "relationship paused"
+    },
+    {
+      "segment": "ENDED",
+      "label": "ENDED",
+      "meaning": "relationship ended"
+    }
+  ],
+  "active_count_rule": "Count a client ACTIVE only when lifecycle = ACTIVE and every activation condition holds (isCountedActive). Prebuilt, invited and waiting clients are never in the active count, operational queues for active clients, or active-client metrics.",
+  "current_count_sites": [
+    {
+      "surface": "Office Command Center manager summary customersActive",
+      "logic_today": "accountStatus === 'active' (computed, not rendered)",
+      "ref": "all-in-one-enterprises/src/office-core/officeCommandCenterService.ts:232",
+      "fix": "isCountedActive"
+    },
+    {
+      "surface": "Management Executive Snapshot “Active Customers”",
+      "logic_today": "clients with an open request; falls back to ALL clients when 0",
+      "ref": "all-in-one-enterprises/src/management/managementQueryLayer.ts:92",
+      "fix": "isCountedActive; remove the fallback"
+    },
+    {
+      "surface": "Metric registry active_customers",
+      "logic_today": "definition text disagrees with the implementation",
+      "ref": "all-in-one-enterprises/src/management/managementMetricRegistry.ts:67",
+      "fix": "definition = isCountedActive"
+    },
+    {
+      "surface": "Management Customer Command Center “Total Customers”",
+      "logic_today": "every client",
+      "ref": "all-in-one-enterprises/src/management/managementQueryLayer.ts:312",
+      "fix": "segment by lifecycle"
+    },
+    {
+      "surface": "Clients list",
+      "logic_today": "every client, no status column or filter",
+      "ref": "all-in-one-enterprises/src/office/pages/ClientsListPage.tsx:18",
+      "fix": "lifecycle column + segment filter"
+    },
+    {
+      "surface": "Archive Migration dashboard totals",
+      "logic_today": "every client",
+      "ref": "all-in-one-enterprises/src/vault/documentVaultMetrics.ts:55",
+      "fix": "document-vault completeness only (not activity)"
+    }
+  ],
+  "proof": {
+    "roster": [
+      {
+        "client_ref": "client-d",
+        "name": "BlueLine Transport",
+        "lifecycle": "ACTIVE",
+        "segment": "ACTIVE",
+        "counted_active": true,
+        "note": "fixture A — confirmed and active"
+      },
+      {
+        "client_ref": "client-g",
+        "name": "RidgeLine Carriers",
+        "lifecycle": "PREBUILT",
+        "segment": "PREBUILT_NOT_INVITED",
+        "counted_active": false,
+        "note": "fixture D — prebuilt from staff knowledge"
+      },
+      {
+        "client_ref": "client-a",
+        "name": "Summit Ridge Hauling LLC",
+        "lifecycle": "INVITED",
+        "segment": "INVITATION_SENT",
+        "counted_active": false,
+        "note": "invited, link not opened"
+      },
+      {
+        "client_ref": "client-b",
+        "name": "Heartland Freight Co.",
+        "lifecycle": "CLIENT_CONFIRMATION_REQUIRED",
+        "segment": "WAITING_FOR_CLIENT",
+        "counted_active": false,
+        "note": "signed in, review not confirmed"
+      },
+      {
+        "client_ref": "client-c",
+        "name": "Pioneer Fleet Services",
+        "lifecycle": "MIGRATION_IN_PROGRESS",
+        "segment": "MIGRATION_FAILED_NEEDS_REVIEW",
+        "counted_active": false,
+        "note": "some files failed"
+      },
+      {
+        "client_ref": "client-f",
+        "name": "Delta Haul LLC",
+        "lifecycle": "KNOWN_UNMIGRATED",
+        "segment": "KNOWN",
+        "counted_active": false,
+        "note": "known, nothing started"
+      },
+      {
+        "client_ref": "client-e",
+        "name": "NorthStar Manufacturing",
+        "lifecycle": "PAUSED",
+        "segment": "PAUSED",
+        "counted_active": false,
+        "note": "was active, relationship paused"
+      },
+      {
+        "client_ref": "shipper-demo-b",
+        "name": "Lakeview Distribution Co.",
+        "lifecycle": "ACTIVE",
+        "segment": "WAITING_FOR_CLIENT",
+        "counted_active": false,
+        "note": "legacy accountStatus active from staff CRM conversion — no client confirmation, never counted"
+      },
+      {
+        "client_ref": "candidate-b",
+        "name": "Unknown batch (weak signals only)",
+        "lifecycle": "MIGRATION_REVIEW_REQUIRED",
+        "segment": "MIGRATION_REVIEW",
+        "counted_active": false,
+        "note": "fixture B — ambiguous identity"
+      },
+      {
+        "client_ref": "candidate-c",
+        "name": "Prairie Wind Logistics LLC (fixture)",
+        "lifecycle": "MIGRATION_IN_PROGRESS",
+        "segment": "MIGRATING",
+        "counted_active": false,
+        "note": "fixture C — new client candidate"
+      },
+      {
+        "client_ref": "intake-1",
+        "name": "New sign-up (fixture)",
+        "lifecycle": "INTAKE_IN_PROGRESS",
+        "segment": "NEW_CLIENT_INTAKE",
+        "counted_active": false,
+        "note": "new client completing intake"
+      }
+    ],
+    "counts": {
+      "KNOWN": 1,
+      "MIGRATING": 1,
+      "MIGRATION_REVIEW": 1,
+      "MIGRATION_FAILED_NEEDS_REVIEW": 1,
+      "PREBUILT_NOT_INVITED": 1,
+      "INVITATION_SENT": 1,
+      "WAITING_FOR_CLIENT": 2,
+      "ACTIVE": 1,
+      "PAUSED": 1,
+      "ENDED": 0,
+      "NEW_CLIENT_INTAKE": 1
+    },
+    "profiles_existing": 11,
+    "lifecycle_active_raw": 2,
+    "counted_active": 1
+  }
+}

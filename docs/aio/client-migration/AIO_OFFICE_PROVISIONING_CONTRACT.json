@@ -1,0 +1,223 @@
+{
+  "id": "AIO_OFFICE_PROVISIONING_CONTRACT",
+  "sprint": "P0.AIO.CLIENT-MIGRATION-ACTIVATION-AND-OFFICE-PROVISIONING-ARCHITECTURE1",
+  "generated_by": "scripts/studioos/aio-client-migration-export.ts",
+  "source": [
+    "shared/studioos-experience-brain/client-lifecycle.ts",
+    "shared/studioos-experience-brain/projects/aio/client-migration.ts",
+    "shared/studioos-experience-brain/projects/aio/migration.ts"
+  ],
+  "audit": {
+    "repo": "yoteenz/fsbw · all-in-one-enterprises",
+    "sha": "c88a3000866d55c09c8271dd7c2cfccb32e5bf23",
+    "mode": "READ-ONLY"
+  },
+  "constraints": {
+    "page_implementation": false,
+    "new_paid_generations": 0,
+    "openart_accessed": false,
+    "ifta_lane_blocked": false,
+    "aio_code_changed": false
+  },
+  "prebuilt": {
+    "provisions": [
+      "client identity (AIO-CUS-######)",
+      "organisation",
+      "contacts",
+      "vehicles",
+      "drivers",
+      "Vault (documents filed internal-only with lineage)",
+      "known active services",
+      "workspace eligibility",
+      "known service relationships",
+      "workspace shells (PENDING_SETUP)",
+      "review tasks (client review items + staff follow-ups)"
+    ],
+    "does_not": [
+      "activate operations that need missing mandatory truth",
+      "notify the client (no expiry notices before ACTIVE)",
+      "count the client active",
+      "open a portal session"
+    ],
+    "side_effects_held_until_active": [
+      "deadlines / renewals from migrated expiries (verifyVaultDocument side effects — archive approval bypasses them today)",
+      "Road Ready sync",
+      "client-visible activity",
+      "document visibility customer"
+    ]
+  },
+  "workspaces": {
+    "rule": "A staff-confirmed service relationship provisions the workspace shell as PENDING_SETUP; it turns ACTIVE only when the client is ACTIVE. Documents alone never activate a workspace — they surface as WE ALSO KNOW ABOUT … REVIEW NEEDED.",
+    "map": [
+      {
+        "workspace_id": "IFTA",
+        "provisioned_by": "staff-confirmed IFTA relationship (+ IFTA licence on file)",
+        "on_active": "open the current quarter case from confirmed vehicles",
+        "gap": "no “open first quarter” writer (openNextQuarter needs a previous quarter)"
+      },
+      {
+        "workspace_id": "TAGS_REGISTRATION",
+        "provisioned_by": "staff-confirmed registration relationship",
+        "on_active": "renewals / deadlines from cab card and registration expiries",
+        "gap": "registration expiry lives only on Vault documents"
+      },
+      {
+        "workspace_id": "INSURANCE",
+        "provisioned_by": "staff-confirmed relationship; a COI alone → WE ALSO KNOW ABOUT — REVIEW NEEDED",
+        "on_active": "InsurancePolicy (source document_import) becomes visible",
+        "gap": "no Supabase policy table"
+      },
+      {
+        "workspace_id": "BOOKKEEPING",
+        "provisioned_by": "staff-confirmed subscription",
+        "on_active": "subscription state from the bookkeeping record",
+        "gap": null
+      },
+      {
+        "workspace_id": "FACTORING",
+        "provisioned_by": "staff-confirmed factoring relationship",
+        "on_active": "factoring profile active",
+        "gap": null
+      },
+      {
+        "workspace_id": "COMPLIANCE",
+        "provisioned_by": "staff-confirmed authority / BOC-3 / safety relationship",
+        "on_active": "Road Ready items verified by staff (preserving verifications)",
+        "gap": "completeRoadReadyOnboarding wipes staff verifications today"
+      }
+    ]
+  },
+  "after_activation": {
+    "composition": [
+      "ACTIVE WITH AIO",
+      "WE ALSO KNOW ABOUT",
+      "WORKSPACES THAT MAY HELP"
+    ],
+    "expansion_placement": "AFTER_ACTIVATION (never inside the review steps)",
+    "proof": {
+      "client": "client-d",
+      "before_confirmation": {
+        "composed": false,
+        "reason": "client is CLIENT_CONFIRMATION_REQUIRED — the office opens only after CONFIRM & ENTER MY OFFICE",
+        "active_with_aio": [],
+        "we_also_know_about": [],
+        "workspaces_that_may_help": [],
+        "not_suggested": []
+      },
+      "after_activation": {
+        "composed": true,
+        "reason": null,
+        "active_with_aio": [
+          {
+            "workspace_id": "IFTA",
+            "name": "IFTA / FUEL TAX"
+          },
+          {
+            "workspace_id": "DISPATCH",
+            "name": "DISPATCH"
+          },
+          {
+            "workspace_id": "FACTORING",
+            "name": "FACTORING"
+          },
+          {
+            "workspace_id": "BROKERAGE",
+            "name": "BROKERAGE / AIO FREIGHT"
+          }
+        ],
+        "we_also_know_about": [
+          {
+            "workspace_id": "TAGS_REGISTRATION",
+            "label": "TAGS / REGISTRATION — REVIEW NEEDED",
+            "reason": "documents on file, no confirmed service relationship"
+          },
+          {
+            "workspace_id": "INSURANCE",
+            "label": "INSURANCE — REVIEW NEEDED",
+            "reason": "documents on file, no confirmed service relationship"
+          },
+          {
+            "workspace_id": "COMPLIANCE",
+            "label": "COMPLIANCE (AUTHORITY · BOC-3 · SAFETY) — REVIEW NEEDED",
+            "reason": "documents on file, no confirmed service relationship"
+          }
+        ],
+        "workspaces_that_may_help": [
+          {
+            "workspace_id": "BOOKKEEPING",
+            "rule_id": "X.BOOKKEEPING.FROM_FACTORING",
+            "headline": "YOUR FACTORING FEES ALREADY RUN THROUGH AIO.",
+            "body": "KEEP THE BOOKS IN THE SAME OFFICE.",
+            "reasons": [
+              "Factoring is active with AIO — funding fees land in your monthly close"
+            ],
+            "cta": {
+              "label": "EXPLORE BOOKKEEPING",
+              "action": "I.EXPLORE_WORKSPACE"
+            },
+            "relevance": "MEDIUM"
+          }
+        ],
+        "not_suggested": [
+          {
+            "workspace_id": "PERMITTING",
+            "suppressed_by": [
+              "NO_MATCHING_RULE"
+            ]
+          },
+          {
+            "workspace_id": "FLEETCARE",
+            "suppressed_by": [
+              "MISLEADING"
+            ]
+          },
+          {
+            "workspace_id": "DRIVERLINK",
+            "suppressed_by": [
+              "MISLEADING",
+              "NO_MATCHING_RULE"
+            ]
+          },
+          {
+            "workspace_id": "BUSINESS_FORMATION",
+            "suppressed_by": [
+              "NOT_APPLICABLE",
+              "NO_MATCHING_RULE"
+            ]
+          }
+        ]
+      },
+      "during_critical_state": {
+        "workspace_id": "BOOKKEEPING",
+        "suppressed_by": [
+          "CRITICAL_STATE"
+        ]
+      }
+    }
+  },
+  "new_client_convergence": {
+    "rule": "New clients keep the existing intake. They converge into the same identity (AIO-CUS-######), organisation, Vault, workspace entitlement, lifecycle and activation gate — never a second permanent client architecture.",
+    "paths": [
+      {
+        "path": "Self sign-up + Get Started intake",
+        "today": "organisation is born active at sign-up",
+        "converges": "INTAKE_IN_PROGRESS → CLIENT_CONFIRMATION_REQUIRED (review + consents at the end of intake) → ACTIVE"
+      },
+      {
+        "path": "Service request submit (/request/submit)",
+        "today": "creates Client pending",
+        "converges": "INTAKE_IN_PROGRESS until the client signs up and confirms"
+      },
+      {
+        "path": "CRM lead conversion (staff)",
+        "today": "creates Client active immediately",
+        "converges": "PREBUILT → invite → confirm → ACTIVE (staff-created profiles never count active)"
+      },
+      {
+        "path": "Self sign-up by a client AIO already knows",
+        "today": "creates a duplicate organisation",
+        "converges": "matched by email / identifiers → “check your invitation” (claim only with the invitation token)"
+      }
+    ]
+  }
+}

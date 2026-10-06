@@ -1,0 +1,209 @@
+{
+  "id": "AIO_CLIENT_MIGRATION_EVENTS_AND_EXCEPTIONS",
+  "sprint": "P0.AIO.CLIENT-MIGRATION-ACTIVATION-AND-OFFICE-PROVISIONING-ARCHITECTURE1",
+  "generated_by": "scripts/studioos/aio-client-migration-export.ts",
+  "source": [
+    "shared/studioos-experience-brain/client-lifecycle.ts",
+    "shared/studioos-experience-brain/projects/aio/client-migration.ts",
+    "shared/studioos-experience-brain/projects/aio/migration.ts"
+  ],
+  "audit": {
+    "repo": "yoteenz/fsbw · all-in-one-enterprises",
+    "sha": "c88a3000866d55c09c8271dd7c2cfccb32e5bf23",
+    "mode": "READ-ONLY"
+  },
+  "constraints": {
+    "page_implementation": false,
+    "new_paid_generations": 0,
+    "openart_accessed": false,
+    "ifta_lane_blocked": false,
+    "aio_code_changed": false
+  },
+  "audit_record_fields": [
+    "event",
+    "actor",
+    "actor_role",
+    "at",
+    "source",
+    "subject",
+    "before",
+    "after"
+  ],
+  "events": [
+    "MIGRATION_BATCH_CREATED",
+    "DOCUMENT_INGESTED",
+    "DOCUMENT_CLASSIFIED",
+    "FACT_EXTRACTED",
+    "MATCH_PROPOSED",
+    "MATCH_CONFIRMED",
+    "FACT_APPROVED",
+    "FACT_REJECTED",
+    "MIGRATION_APPROVED",
+    "CLIENT_PREBUILT",
+    "INVITATION_SENT",
+    "CLIENT_REVIEW_STARTED",
+    "CLIENT_CHANGE_REPORTED",
+    "CLIENT_CONFIRMED",
+    "CLIENT_ACTIVATED",
+    "WORKSPACE_PROVISIONED",
+    "INVITATION_LAPSED",
+    "CLIENT_PAUSED",
+    "CLIENT_RESUMED",
+    "CLIENT_ENDED"
+  ],
+  "aio_event_mapping": [
+    {
+      "event": "MIGRATION_BATCH_CREATED",
+      "aio": "security audit ARCHIVE_MIGRATION_BATCH_CREATED (exists)",
+      "ref": "all-in-one-enterprises/src/demo/archiveMigrationActions.ts:50",
+      "status": "EXISTING"
+    },
+    {
+      "event": "DOCUMENT_INGESTED",
+      "aio": "activity DOCUMENT_UPLOADED (internal) — reused today",
+      "ref": "all-in-one-enterprises/src/demo/archiveMigrationActions.ts:72",
+      "status": "PARTIAL"
+    },
+    {
+      "event": "DOCUMENT_CLASSIFIED",
+      "aio": "security audit DOCUMENT_CLASSIFIED (exists)",
+      "ref": "all-in-one-enterprises/src/security/securityTypes.ts:70",
+      "status": "EXISTING"
+    },
+    {
+      "event": "FACT_EXTRACTED",
+      "aio": "new",
+      "ref": null,
+      "status": "MISSING"
+    },
+    {
+      "event": "MATCH_PROPOSED",
+      "aio": "new",
+      "ref": null,
+      "status": "MISSING"
+    },
+    {
+      "event": "MATCH_CONFIRMED",
+      "aio": "new",
+      "ref": null,
+      "status": "MISSING"
+    },
+    {
+      "event": "FACT_APPROVED",
+      "aio": "new",
+      "ref": null,
+      "status": "MISSING"
+    },
+    {
+      "event": "FACT_REJECTED",
+      "aio": "new",
+      "ref": null,
+      "status": "MISSING"
+    },
+    {
+      "event": "MIGRATION_APPROVED",
+      "aio": "security audit ARCHIVE_MIGRATION_BATCH_APPROVED (exists; extend with commit plan)",
+      "ref": "all-in-one-enterprises/src/security/securityTypes.ts:70",
+      "status": "PARTIAL"
+    },
+    {
+      "event": "CLIENT_PREBUILT",
+      "aio": "new (CUSTOMER_CREATED exists but is never emitted)",
+      "ref": "all-in-one-enterprises/src/security/securityTypes.ts:70",
+      "status": "MISSING"
+    },
+    {
+      "event": "INVITATION_SENT",
+      "aio": "new + CommMessage status sent / delivered / failed",
+      "ref": "all-in-one-enterprises/src/communications/communicationTypes.ts:212",
+      "status": "MISSING"
+    },
+    {
+      "event": "CLIENT_REVIEW_STARTED",
+      "aio": "new",
+      "ref": null,
+      "status": "MISSING"
+    },
+    {
+      "event": "CLIENT_CHANGE_REPORTED",
+      "aio": "new",
+      "ref": null,
+      "status": "MISSING"
+    },
+    {
+      "event": "CLIENT_CONFIRMED",
+      "aio": "new",
+      "ref": null,
+      "status": "MISSING"
+    },
+    {
+      "event": "CLIENT_ACTIVATED",
+      "aio": "new",
+      "ref": null,
+      "status": "MISSING"
+    },
+    {
+      "event": "WORKSPACE_PROVISIONED",
+      "aio": "new",
+      "ref": null,
+      "status": "MISSING"
+    }
+  ],
+  "exceptions": {
+    "UNREADABLE_DOCUMENT": {
+      "raised_at": "DOCUMENT_TYPE_DETECTION",
+      "state": "document UNREADABLE",
+      "handling": "listed in review; staff rescans, reclassifies by hand or ignores — never silently dropped"
+    },
+    "DUPLICATE_DOCUMENT": {
+      "raised_at": "DUPLICATE_CHECK",
+      "state": "document DUPLICATE",
+      "handling": "linked to the original; not re-extracted; staff may keep or discard the copy"
+    },
+    "AMBIGUOUS_CLIENT_MATCH": {
+      "raised_at": "CLIENT_MATCHING",
+      "state": "batch blocked",
+      "handling": "staff must choose MATCH TO EXISTING or CREATE NEW CLIENT; approval refused until resolved"
+    },
+    "CONFLICTING_FACTS": {
+      "raised_at": "CONFLICT_ANALYSIS",
+      "state": "fact group CONFLICT",
+      "handling": "staff confirms one value and marks the others stale / ignored, or sends it to the client"
+    },
+    "UNSUPPORTED_DOCUMENT": {
+      "raised_at": "INGEST",
+      "state": "document UNSUPPORTED",
+      "handling": "file type outside policy; listed with the reason; staff converts and re-uploads"
+    },
+    "EXTRACTION_FAILED": {
+      "raised_at": "TEXT_FIELD_EXTRACTION",
+      "state": "document EXTRACTION_FAILED",
+      "handling": "document stays in the batch for manual review; facts may be entered by staff with provenance STAFF_ENTRY"
+    },
+    "PARTIAL_BATCH": {
+      "raised_at": "INGEST",
+      "state": "batch PARTIAL",
+      "handling": "some files failed upload or processing; batch shows counts and the failed files; review may proceed on the rest"
+    },
+    "INVITE_DELIVERY_FAILED": {
+      "raised_at": "INVITATION",
+      "state": "invite DELIVERY_FAILED · lifecycle back to PREBUILT",
+      "handling": "staff fixes the address or resends; founder sees it in PREBUILT NOT INVITED"
+    },
+    "CLIENT_EMAIL_MISSING": {
+      "raised_at": "INVITATION",
+      "state": "invite blocked",
+      "handling": "no deliverable login email; staff collects one — no invite and no credentials until then"
+    },
+    "CLIENT_DECLINES_FACT": {
+      "raised_at": "CLIENT_REVIEW",
+      "state": "section NEEDS_UPDATE / fact disputed",
+      "handling": "becomes a client change for staff reconciliation; the verified value is kept in history, never silently overwritten"
+    },
+    "ACTIVATION_EXPIRED": {
+      "raised_at": "INVITATION",
+      "state": "invite EXPIRED · lifecycle back to PREBUILT",
+      "handling": "single-use link expired; staff re-invites; a new token is issued and the old one stays invalid"
+    }
+  }
+}

@@ -14,8 +14,10 @@
     "local_render_allowed_as_final": false
   },
   "generations_this_sprint": {
-    "primary": 0,
-    "paid": 0
+    "primary": 3,
+    "paid": 3,
+    "credits_estimate": 951,
+    "sprint": "P0.JURNL.F09-SAFE-TO-SPEND.HYBRID-COMPOSITE-AUTHORITY-EXECUTION1"
   },
   "next_sprint_budget": {
     "primary": 3,
