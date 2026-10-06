@@ -57,6 +57,7 @@ export function TripDetailScreen() {
   const { tripId } = useParams<{ tripId: string }>();
   const { go, openOverlay } = useJurnl();
   useCurrency();
+  useTrips();
   const trip = tripId ? tripById(tripId) : null;
   const [fundOpen, setFundOpen] = useState(false);
   const [removeOpen, setRemoveOpen] = useState(false);

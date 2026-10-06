@@ -1,6 +1,7 @@
 import { useSyncExternalStore } from 'react';
 import type { CalendarDate, RecurrenceType } from '../foundation/dates';
 import type { JurnlIncomeSource } from '../foundation/income';
+import { cachedRepoView } from '../repository/cachedRepoView';
 import { getRepository } from '../repository/deviceRepository';
 
 function subscribe(listener: () => void) {
@@ -8,7 +9,7 @@ function subscribe(listener: () => void) {
 }
 
 export function listIncome(): JurnlIncomeSource[] {
-  return getRepository().listIncomeSources();
+  return cachedRepoView('f06.listIncome', () => getRepository().listIncomeSources());
 }
 
 export function useIncomeSources(): JurnlIncomeSource[] {

@@ -19,6 +19,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
+    "jurnl:e2e": "playwright test -c playwright.config.ts",
+    "jurnl:e2e:gate": "tsx scripts/jurnl/run-full-product-e2e.ts",
     "strip:loader-audio": "tsx scripts/stripLoaderAnimationAudio.ts",
     "verify:loader-mobile": "tsx scripts/verifySite00LoaderMobileAnimation.ts",
     "client-app:qa:urls": "node scripts/print-client-app-qa-urls.mjs",
@@ -59,6 +61,7 @@
     "cross-env": "^7.0.3",
     "typescript": "~5.6.2",
     "vite": "^5.4.10",
-    "vitest": "^2.1.8"
+    "vitest": "^2.1.8",
+    "@playwright/test": "^1.49.1"
   }
 }

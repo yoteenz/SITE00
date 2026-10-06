@@ -22,3 +22,6 @@ artifacts/STUDIO_WORLD_RESIDENT_FABRICATION_GEOMETRY_REVIEW_LITE.zip
 artifacts/STUDIO_WORLD_RESIDENT_AUTHORITY_RECOVERY4_REVIEW.zip
 artifacts/STUDIO_WORLD_RESIDENT_AUTHORITY_RECOVERY4_REVIEW_LITE.zip
 supabase/.temp/
+playwright-report/
+playwright-test-results/
+test-results/

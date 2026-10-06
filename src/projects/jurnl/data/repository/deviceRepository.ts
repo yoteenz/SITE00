@@ -567,6 +567,7 @@ export function resetRepositoryForDev() {
     kv.set(legacyStorageKeyV2(activeUserId), '');
     kv.set(legacyStorageKeyV3(activeUserId), '');
     kv.set(legacyStorageKeyV4(activeUserId), '');
+    kv.set(storageKey(activeUserId), '');
   }
   repo = new DeviceJurnlRepository(activeUserId);
 }

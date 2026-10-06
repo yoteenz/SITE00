@@ -2,6 +2,7 @@ import { useSyncExternalStore } from 'react';
 import type { JurnlPurchase } from '../foundation/purchases';
 import type { CalendarDate } from '../foundation/dates';
 import { addLedgerEntry } from '../home/money';
+import { cachedRepoView } from '../repository/cachedRepoView';
 import { getRepository } from '../repository/deviceRepository';
 import { computeSafeToSpend } from '../f09/safeToSpend';
 
@@ -12,7 +13,11 @@ export function usePurchases(): JurnlPurchase[] {
 }
 
 export function listPurchases(): JurnlPurchase[] {
-  return getRepository().listPurchases().filter((p) => p.status !== 'ARCHIVED');
+  return cachedRepoView('f10.listPurchases', () =>
+    getRepository()
+      .listPurchases()
+      .filter((p) => p.status !== 'ARCHIVED'),
+  );
 }
 
 export function purchaseById(id: string): JurnlPurchase | null {

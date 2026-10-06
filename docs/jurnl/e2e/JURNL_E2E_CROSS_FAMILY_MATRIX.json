@@ -1,0 +1,11 @@
+{
+  "edges": [
+    "F10→F04 transaction",
+    "F11→F09 reserve",
+    "F08→F09 assign",
+    "F14→F09 set-aside",
+    "F12→F07 credit payment",
+    "F15←derived sources"
+  ],
+  "status": "asserted in e2e"
+}

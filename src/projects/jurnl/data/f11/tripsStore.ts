@@ -1,6 +1,7 @@
 import { useSyncExternalStore } from 'react';
 import type { JurnlTrip } from '../foundation/trips';
 import type { CalendarDate } from '../foundation/dates';
+import { cachedRepoView } from '../repository/cachedRepoView';
 import { getRepository } from '../repository/deviceRepository';
 
 let seq = 0;
@@ -10,7 +11,11 @@ export function useTrips(): JurnlTrip[] {
 }
 
 export function listTrips(): JurnlTrip[] {
-  return getRepository().listTrips().filter((t) => t.status !== 'ARCHIVED');
+  return cachedRepoView('f11.listTrips', () =>
+    getRepository()
+      .listTrips()
+      .filter((t) => t.status !== 'ARCHIVED'),
+  );
 }
 
 export function tripById(id: string): JurnlTrip | null {

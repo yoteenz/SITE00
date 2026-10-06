@@ -1,0 +1,132 @@
+{
+  "families": [
+    {
+      "family_id": "F01",
+      "route_pass": "e2e/jurnl",
+      "read_pass": "e2e/jurnl",
+      "mutation_pass": "partial",
+      "persistence_pass": "jurnl-persistence.e2e.ts",
+      "cross_family_pass": "jurnl-golden-journey + propagation suites"
+    },
+    {
+      "family_id": "F02",
+      "route_pass": "e2e/jurnl",
+      "read_pass": "e2e/jurnl",
+      "mutation_pass": "partial",
+      "persistence_pass": "jurnl-persistence.e2e.ts",
+      "cross_family_pass": "jurnl-golden-journey + propagation suites"
+    },
+    {
+      "family_id": "F03",
+      "route_pass": "e2e/jurnl",
+      "read_pass": "e2e/jurnl",
+      "mutation_pass": "partial",
+      "persistence_pass": "jurnl-persistence.e2e.ts",
+      "cross_family_pass": "jurnl-golden-journey + propagation suites"
+    },
+    {
+      "family_id": "F04",
+      "route_pass": "e2e/jurnl",
+      "read_pass": "e2e/jurnl",
+      "mutation_pass": "partial",
+      "persistence_pass": "jurnl-persistence.e2e.ts",
+      "cross_family_pass": "jurnl-golden-journey + propagation suites"
+    },
+    {
+      "family_id": "F05",
+      "route_pass": "e2e/jurnl",
+      "read_pass": "e2e/jurnl",
+      "mutation_pass": "e2e/jurnl",
+      "persistence_pass": "jurnl-persistence.e2e.ts",
+      "cross_family_pass": "jurnl-golden-journey + propagation suites"
+    },
+    {
+      "family_id": "F06",
+      "route_pass": "e2e/jurnl",
+      "read_pass": "e2e/jurnl",
+      "mutation_pass": "e2e/jurnl",
+      "persistence_pass": "jurnl-persistence.e2e.ts",
+      "cross_family_pass": "jurnl-golden-journey + propagation suites"
+    },
+    {
+      "family_id": "F07",
+      "route_pass": "e2e/jurnl",
+      "read_pass": "e2e/jurnl",
+      "mutation_pass": "e2e/jurnl",
+      "persistence_pass": "jurnl-persistence.e2e.ts",
+      "cross_family_pass": "jurnl-golden-journey + propagation suites"
+    },
+    {
+      "family_id": "F08",
+      "route_pass": "e2e/jurnl",
+      "read_pass": "e2e/jurnl",
+      "mutation_pass": "e2e/jurnl",
+      "persistence_pass": "jurnl-persistence.e2e.ts",
+      "cross_family_pass": "jurnl-golden-journey + propagation suites"
+    },
+    {
+      "family_id": "F09",
+      "route_pass": "e2e/jurnl",
+      "read_pass": "e2e/jurnl",
+      "mutation_pass": "e2e/jurnl",
+      "persistence_pass": "jurnl-persistence.e2e.ts",
+      "cross_family_pass": "jurnl-golden-journey + propagation suites"
+    },
+    {
+      "family_id": "F10",
+      "route_pass": "e2e/jurnl",
+      "read_pass": "e2e/jurnl",
+      "mutation_pass": "e2e/jurnl",
+      "persistence_pass": "jurnl-persistence.e2e.ts",
+      "cross_family_pass": "jurnl-golden-journey + propagation suites"
+    },
+    {
+      "family_id": "F11",
+      "route_pass": "e2e/jurnl",
+      "read_pass": "e2e/jurnl",
+      "mutation_pass": "e2e/jurnl",
+      "persistence_pass": "jurnl-persistence.e2e.ts",
+      "cross_family_pass": "jurnl-golden-journey + propagation suites"
+    },
+    {
+      "family_id": "F12",
+      "route_pass": "e2e/jurnl",
+      "read_pass": "e2e/jurnl",
+      "mutation_pass": "e2e/jurnl",
+      "persistence_pass": "jurnl-persistence.e2e.ts",
+      "cross_family_pass": "jurnl-golden-journey + propagation suites"
+    },
+    {
+      "family_id": "F13",
+      "route_pass": "e2e/jurnl",
+      "read_pass": "e2e/jurnl",
+      "mutation_pass": "e2e/jurnl",
+      "persistence_pass": "jurnl-persistence.e2e.ts",
+      "cross_family_pass": "jurnl-golden-journey + propagation suites"
+    },
+    {
+      "family_id": "F14",
+      "route_pass": "e2e/jurnl",
+      "read_pass": "e2e/jurnl",
+      "mutation_pass": "e2e/jurnl",
+      "persistence_pass": "jurnl-persistence.e2e.ts",
+      "cross_family_pass": "jurnl-golden-journey + propagation suites"
+    },
+    {
+      "family_id": "F15",
+      "route_pass": "e2e/jurnl",
+      "read_pass": "e2e/jurnl",
+      "mutation_pass": "e2e/jurnl",
+      "persistence_pass": "jurnl-persistence.e2e.ts",
+      "cross_family_pass": "jurnl-golden-journey + propagation suites"
+    },
+    {
+      "family_id": "F16",
+      "route_pass": "e2e/jurnl",
+      "read_pass": "e2e/jurnl",
+      "mutation_pass": "e2e/jurnl",
+      "persistence_pass": "jurnl-persistence.e2e.ts",
+      "cross_family_pass": "jurnl-golden-journey + propagation suites"
+    }
+  ]
+}

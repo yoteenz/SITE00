@@ -1,0 +1,14 @@
+{
+  "user_id": "E2E@JURNL.TEST",
+  "email": "E2E@JURNL.TEST",
+  "storage_keys": {
+    "session": "jurnl.runtime.v1.session",
+    "device": "jurnl.runtime.v1.device",
+    "repositoryKey": "jurnl.repository.v5.E2E@JURNL.TEST"
+  },
+  "timezone": "UTC",
+  "base_currency": "USD",
+  "display_currency": "USD",
+  "reset": "localStorage bootstrap via Playwright init script",
+  "destructive": false
+}

@@ -1,0 +1,4 @@
+{
+  "mark_purchased_single_tx": "asserted in core mutations",
+  "simulated_paydown_not_sts": "jurnl-paydown-sts.e2e.ts"
+}

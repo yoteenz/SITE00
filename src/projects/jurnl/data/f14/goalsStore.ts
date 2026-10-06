@@ -1,6 +1,7 @@
 import { useSyncExternalStore } from 'react';
 import type { JurnlGoal } from '../foundation/goals';
 import type { CalendarDate } from '../foundation/dates';
+import { cachedRepoView } from '../repository/cachedRepoView';
 import { getRepository } from '../repository/deviceRepository';
 
 let goalSeq = 0;
@@ -10,10 +11,12 @@ export function useGoals(): JurnlGoal[] {
 }
 
 export function listGoals(): JurnlGoal[] {
-  return getRepository()
-    .listGoals()
-    .filter((g) => g.status === 'ACTIVE' || g.status === 'COMPLETE')
-    .sort((a, b) => a.title.localeCompare(b.title));
+  return cachedRepoView('f14.listGoals', () =>
+    getRepository()
+      .listGoals()
+      .filter((g) => g.status === 'ACTIVE' || g.status === 'COMPLETE')
+      .sort((a, b) => a.title.localeCompare(b.title)),
+  );
 }
 
 export function goalById(id: string): JurnlGoal | null {
