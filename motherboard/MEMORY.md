@@ -14171,6 +14171,17 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
+## 2026-10-06 — Post-merge tunnel runtime reconciliation (P0.SITE00.PRODUCTION-WORKSPACE.POST-MERGE-TUNNEL-RUNTIME-RECONCILIATION1)
+
+- **Context:** PR #1404 merged to `main` (`88043d6b`) but founder tunnel still showed pre-isolation workspace (NDXBOOK revert on project switch).
+- **Root cause:** tmux `site00_vite` was serving **`ensure-grok-environment-unified-preview.sh`** → worktree `.worktrees/grok-environment-unified-review` @ **`c0cc47d7`** via **`vite preview`** (`index.BiG_RmhR.js`), not `origin/main`.
+- **Fix:** Restarted preview with **`serve-site00-preview-from-main.sh`** → `/tmp/site00-preview-main` @ **`88043d6b`**, Vite **dev** on `:5174`. Tunnel unchanged (cloudflared → localhost).
+- **Proof:** mobile isolation QA 35/35 routes · 17/17 flows · 0 leaks; tests 32+38 pass; captures under `/opt/cursor/artifacts/post-reconcile-qa/mobile/`.
+- **Convention:** Four states for runtime sprints — SOURCE MERGED / RUNTIME MOUNTED / TUNNEL SERVING / FOUNDER VERIFIED. Documented in `docs/site00/production-workspace/reconciliation/tunnel-runtime-reconciliation-2026-10-06.md` + `AGENTS.md`.
+- **Release pipeline:** separate failure on #1404 merge (Brand Lore migration / orchestration test in CI) — not tunnel blocker.
+
+---
+
 ## 2026-10-06 — JURNL F09 SAFE TO SPEND: three composition territories, upstream-contract proof (P0.JURNL.F09-SAFE-TO-SPEND.VISUAL-AUTHORITY-3-TERRITORY-PROOF1)
 
 - **Context:** First JURNL family to re-enter the Visual Authority Development pipeline after the founder froze JURNL visual polish. It is a controlled test of the upstream contracts, not a redesign. Founder decision: exactly three territories, no winner, no implementation.

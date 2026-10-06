@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Canonical unified review: Grok authority assets + Composer environment integration.
+# Grok unified review ONLY (branch cursor/grok-plus-environment-unified-review-87ed).
+# Production workspace review after PR #1404: use serve-site00-preview-from-main.sh instead.
 set -euo pipefail
 
 SCRIPT_REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
