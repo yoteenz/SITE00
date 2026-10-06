@@ -12,7 +12,7 @@
     {
       "name": "site00-preview-tunnel",
       "command": "bash .cursor/scripts/run-site00-preview-tunnel.sh",
-      "description": "Cloudflare tunnel to localhost:5174. Auto-restarts on exit; hostname from SITE00_CLOUDFLARE_TUNNEL_HOSTNAME."
+      "description": "Cloudflare tunnel to localhost:5174 only when SITE00_CLOUDFLARE_TUNNEL_CANONICAL=1 (one environment). Otherwise skipped to avoid multi-connector load balancing."
     }
   ]
 }
