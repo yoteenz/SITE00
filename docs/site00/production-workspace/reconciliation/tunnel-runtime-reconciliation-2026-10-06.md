@@ -90,3 +90,7 @@ Any sprint affecting the founder tunnel must report:
 - DEV_SERVER_RESTARTED, TUNNEL_VERIFIED, POST_MOUNT_CAPTURES  
 
 Without these, status cannot be **READY FOR FOUNDER REVIEW**.
+
+## Multi-connector “branch switching” (2026-10-06 follow-up)
+
+If page source alternates between `main.tsx?v=dev-local` and old `index.*.js`, see **[preview-tunnel-multi-connector-2026-10-06.md](./preview-tunnel-multi-connector-2026-10-06.md)**. Remounting `origin/main` on one agent is not enough while other agents share the same tunnel token and still run `cloudflared`.

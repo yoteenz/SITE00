@@ -15,6 +15,14 @@ if [[ -z "${SITE00_CLOUDFLARE_TUNNEL_TOKEN:-}" ]]; then
   exit 1
 fi
 
+if [[ "${SITE00_CLOUDFLARE_TUNNEL_CANONICAL:-}" != "1" ]]; then
+  echo "SITE00_CLOUDFLARE_TUNNEL_CANONICAL is not 1 — this agent must not register a tunnel connector." | tee -a "$LOG"
+  echo "Set SITE00_CLOUDFLARE_TUNNEL_CANONICAL=1 on exactly ONE Cursor Cloud environment, then restart tunnel there." | tee -a "$LOG"
+  exit 1
+fi
+
+bash "$ROOT/.cursor/scripts/stop-site00-preview-tunnel-local.sh"
+
 # Stop only this repo's cloudflared (avoid broad pkill).
 while read -r pid; do
   [[ -n "$pid" ]] && kill "$pid" 2>/dev/null || true

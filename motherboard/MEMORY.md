@@ -14338,3 +14338,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Why:** HYBRID-COMPOSITE-AUTHORITY-EXECUTION1 left only one fully resolved composite, included iOS status bar / home indicator, and mixed stale inline CTAs. Founder round requires **3 finished composite authorities** at **393×852 product canvas** (not device screenshot).
 - **Rules persisted:** `DEVICE_CHROME_FORBIDDEN`; raw plates never count toward territory count; `F09_FOUNDER_REVIEW_PAYLOAD.json` is single data lock (**$1,284**, OCT 18, BILLS/PLANS/GOALS/BUFFER, **SEE WHY THIS AMOUNT**, **CHECK A PURCHASE** bridge, nav HOME/MONEY/+/PLAN/CREDIT).
 - **Delivered:** `JURNL/F09_SAFE/THREE_DISTINCT_COMPOSITE_AUTHORITY_RERUN1/` — three distinct layouts (`f09-three-distinct-composite-rerun.mjs` + `f09-product-canvas.css`), composites, `FOUNDER_REVIEW_BOARD.png` (composites only), `COMPOSITE_QA.json` (blur + anti-template pass), `RERUN1_REPORT.json`. Reused execution1 scene plates as provenance under `RAW_PLATES/` (labeled NOT A FOUNDER CONCEPT). Gate still **COMPOSITES_READY** via `JURNL_F09_RERUN_COMPOSITES`. **No** live F09 product change.
+
+---
+
+## 2026-10-06 — Preview tunnel “branch switching” (multi-connector load balance)
+
+- **Context:** Founder saw `site00.fsbw-dev.com` alternate between correct `origin/main` dev (`main.tsx?v=dev-local`) and stale prod chunks (`index.CR09zRNl.js`) despite PR #1412 main-authority preview on one agent.
+- **Root cause:** Same `SITE00_CLOUDFLARE_TUNNEL_TOKEN` on every Cursor Cloud agent; each running `cloudflared` registers a connector to **its own** `:5174`. Cloudflare **load-balances** the hostname — not git branch changes on one server. This VM had **two** tmux tunnel sessions and **two** cloudflared PIDs.
+- **Fix shipped:** `run-site00-preview-tunnel.sh` runs cloudflared only when **`SITE00_CLOUDFLARE_TUNNEL_CANONICAL=1`** in Cloud Secrets on **one** environment; `stop-site00-preview-tunnel-local.sh`; docs `preview-tunnel-multi-connector-2026-10-06.md`; AGENTS.md + `environment.json` notes.
+- **Founder ops:** Set `SITE00_CLOUDFLARE_TUNNEL_CANONICAL=1` on exactly one SITE 00 preview environment; archive idle agents; prune stale connectors in Cloudflare Zero Trust or rotate token.
+- **Verify:** Repeat `curl` public URL — single fingerprint when only one canonical connector remains; local `:5174` + `/tmp/site00-preview-runtime-lineage.txt` for this agent.
