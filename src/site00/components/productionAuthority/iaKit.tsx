@@ -79,7 +79,7 @@ export function IaHero({
         ['--plate-d' as string]: `url(${p.desktop})`,
       }}
     >
-      <span className="iax-hero__plate" data-media-slot="HERO_PLATE" data-media-fit="WIDE_SCENE_COVER" aria-hidden />
+      <span className="iax-hero__plate" data-media-slot="HERO_PLATE" data-media-fit="WIDE_SCENE_COVER" data-media-role="DECORATIVE_ART" data-media-scale="PLATE" data-media-crop="HERO_PLATE_BAND" aria-hidden />
       <div className="iax-hero__copy">
         <i aria-hidden />
         {kicker ? <small>{kicker}</small> : null}

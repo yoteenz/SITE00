@@ -88,7 +88,7 @@ export function LibraryBody() {
         <>
           <section className="pxa-vault" data-testid="library-vault">
             <div className="pxa-vault__hero">
-              <span className="pxa-vault__bg pxa-vault__bg--canon" data-media-slot="HERO_PLATE" data-media-fit="WIDE_SCENE_COVER" style={{ backgroundImage: `url(${AUTHORITY_ASSETS.libraryCanon})` }} aria-hidden />
+              <span className="pxa-vault__bg pxa-vault__bg--canon" data-media-slot="HERO_PLATE" data-media-fit="WIDE_SCENE_COVER" data-media-role="DECORATIVE_ART" data-media-scale="PLATE" data-media-crop="HERO_PLATE_BAND" style={{ backgroundImage: `url(${AUTHORITY_ASSETS.libraryCanon})` }} aria-hidden />
               <span className="pxa-hero__wash" aria-hidden />
               <h2>
                 {(production?.label ?? 'PROJECT')} CANONICAL ASSET
@@ -157,8 +157,8 @@ export function LibraryBody() {
                     return (
                       <li key={n.id}>
                         {url ?
-                          <Thumb slotId={n.assetSlotId} url={url} label={n.label} slot="STRIP_THUMB" />
-                        : <Thumb plate={AUTHORITY_ASSETS.libraryPlates[i % AUTHORITY_ASSETS.libraryPlates.length]} label={n.label} slot="STRIP_THUMB" />}
+                          <Thumb slotId={n.assetSlotId} url={url} label={n.label} slot="STRIP_THUMB" fit="LANDSCAPE_COVER" role="REFERENCE_AUTHORITY" scale="TILE" crop="NODE_ART_CARD" />
+                        : <Thumb plate={AUTHORITY_ASSETS.libraryPlates[i % AUTHORITY_ASSETS.libraryPlates.length]} label={n.label} slot="STRIP_THUMB" role="DECORATIVE_ART" scale="PLATE" crop="LIBRARY_PLATE" />}
                         <b>{n.label}</b>
                       </li>
                     );
@@ -170,7 +170,7 @@ export function LibraryBody() {
               <ul className="pxa-strip">
                 {LIBRARIES.slice(0, 5).map((l) => (
                   <li key={l.id}>
-                    {l.id === 'actors' && castUrl ? <Thumb slotId={castSlot} url={castUrl} label="CAST" slot="STRIP_THUMB" fit="PORTRAIT_COVER" /> : <Thumb plate={l.img} slot="STRIP_THUMB" />}
+                    {l.id === 'actors' && castUrl ? <Thumb slotId={castSlot} url={castUrl} label="CAST" slot="STRIP_THUMB" fit="PORTRAIT_COVER" role="REFERENCE_AUTHORITY" scale="TILE" crop="NODE_ART_CARD" /> : <Thumb plate={l.img} slot="STRIP_THUMB" role="DECORATIVE_ART" scale="PLATE" crop="LIBRARY_PLATE" />}
                     <b>{l.title}</b>
                   </li>
                 ))}
@@ -180,19 +180,19 @@ export function LibraryBody() {
           <Sec title="LINEAGE" className="pxa-card pxa-lineage" testId="library-lineage-flow">
             <ol className="pxa-flow">
               <li>
-                <Thumb plate={AUTHORITY_ASSETS.libraryPlates[0]} slot="STRIP_THUMB" />
+                <Thumb plate={AUTHORITY_ASSETS.libraryPlates[0]} slot="STRIP_THUMB" role="DECORATIVE_ART" scale="PLATE" crop="LIBRARY_PLATE" />
                 <b>PROTOTYPE 01</b>
                 <small>ANCESTOR</small>
               </li>
               <li aria-hidden className="pxa-flow__arrow">→</li>
               <li className="is-current">
-                <Thumb slotId={graph?.nodes[0]?.assetSlotId} url={data?.assetUrl(graph?.nodes[0]?.assetSlotId ?? null) ?? null} label="ENTRY" slot="STRIP_THUMB" />
+                <Thumb slotId={graph?.nodes[0]?.assetSlotId} url={data?.assetUrl(graph?.nodes[0]?.assetSlotId ?? null) ?? null} label="ENTRY" slot="STRIP_THUMB" fit="LANDSCAPE_COVER" role="REFERENCE_AUTHORITY" scale="TILE" crop="NODE_ART_CARD" />
                 <b>{production?.label ?? 'ENTRY'}</b>
                 <small>CANONICAL</small>
               </li>
               <li aria-hidden className="pxa-flow__arrow">→</li>
               <li>
-                <Thumb slotId={graph?.nodes[5]?.assetSlotId} url={data?.assetUrl(graph?.nodes[5]?.assetSlotId ?? null) ?? null} label="AUTHORITY" slot="STRIP_THUMB" />
+                <Thumb slotId={graph?.nodes[5]?.assetSlotId} url={data?.assetUrl(graph?.nodes[5]?.assetSlotId ?? null) ?? null} label="AUTHORITY" slot="STRIP_THUMB" fit="LANDSCAPE_COVER" role="REFERENCE_AUTHORITY" scale="TILE" crop="NODE_ART_CARD" />
                 <b>CURRENT AUTHORITY</b>
                 <small>LATEST</small>
               </li>
@@ -206,7 +206,7 @@ export function LibraryBody() {
                 return (
                   <div key={l.id} className="pxa-collection">
                     <button type="button" aria-expanded={expanded} onClick={() => setOpen(expanded ? null : l.id)} data-testid={`library-${l.id}`}>
-                      {live && castUrl ? <Thumb slotId={castSlot} url={castUrl} label="CAST" slot="ROW_THUMB" fit="PORTRAIT_COVER" /> : <Thumb plate={l.img} slot="ROW_THUMB" />}
+                      {live && castUrl ? <Thumb slotId={castSlot} url={castUrl} label="CAST" slot="ROW_THUMB" fit="PORTRAIT_COVER" role="REFERENCE_AUTHORITY" scale="CHIP" crop="NODE_ART_CHIP" /> : <Thumb plate={l.img} slot="ROW_THUMB" role="DECORATIVE_ART" scale="PLATE" crop="LIBRARY_PLATE" />}
                       <span>
                         <b>{l.title}</b>
                         <small>{l.sub}</small>

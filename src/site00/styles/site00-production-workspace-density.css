@@ -957,3 +957,178 @@
     }
   }
 }
+
+/* ═══ 8. MEDIA GEOMETRY — role-aware fit + content-driven panel height ═══════════════════════════════════════
+ * P0.SITE00.PRODUCTION-WORKSPACE.PANEL-MEDIA-GEOMETRY-REFINEMENT2. HUB governs how panels respect their content:
+ *   1. functional media influences panel geometry; a panel never forces functional media into an arbitrary height
+ *   2. the media ROLE (data-media-role) decides the fit: contain roles never crop, focal-safe roles crop only with
+ *      the protected region in frame, decorative crops are registered (data-media-crop) — production-workspace-media.ts
+ *   3. the media SCALE (data-media-scale) decides whether media drives its panel: TILE / PREVIEW do, CHIP / PLATE don't
+ *   4. a panel declares its media geometry (data-panel-media). On phones a content-driven panel grows and the frame
+ *      scrolls — escape order: grow → stack → taller slot → fewer columns → next row → detail view. Never: crop
+ *      harder, shrink until unreadable, hide overflow.
+ * Tablet / desktop keep their compositions: previews contain inside their authored cells.
+ * HUB declares roles for the audit only — no rule here changes HUB output.
+ */
+
+/* 8.1 backdrops for the contain fits added by this contract (a contained frame sits on a neutral / dark ground) */
+:is(.pxa, .pw)[data-density] [data-media-fit='AUTHORITY_PREVIEW_CONTAIN'] {
+  background-color: #eeeef1;
+}
+:is(.pxa, .pw)[data-density] [data-media-fit='VIDEO_FRAME_CONTAIN'] {
+  background-color: #17171a;
+}
+/* the image wrapper inside a contained slot is transparent, so the role's backdrop is what frames the source */
+:is(.pxa, .pw)[data-density] [data-media-fit$='_CONTAIN'] .ph-img:not(.ph-img--slot) {
+  background: transparent;
+}
+
+@media (max-width: 699px) {
+  /* 8.2 content-driven family grid: a grid that carries functional media (Grid marks it) sizes every panel to its
+   * content on phones — TILE / PREVIEW media set their panel's floor, media rows stay whole — and the frame scrolls
+   * instead of cutting media */
+  .pxa[data-density]:has(.exf-grid[data-media-geometry='CONTENT']) .pxa-scroll {
+    overflow-y: auto;
+  }
+  .pxa[data-density]:has(.exf-grid[data-media-geometry='CONTENT']) .pxa-body {
+    height: auto;
+    padding-bottom: 12px;
+  }
+  .pxa[data-density] .exf:has(> .exf-stage > .exf-grid[data-media-geometry='CONTENT']) {
+    height: auto;
+    overflow: visible;
+  }
+  .pxa[data-density] .exf-stage:has(> .exf-grid[data-media-geometry='CONTENT']) {
+    flex: 1 0 auto;
+    overflow: visible;
+  }
+  .pxa[data-density] .exf-grid[data-media-geometry='CONTENT'] {
+    height: auto;
+    grid-template-rows: none;
+    grid-auto-rows: auto;
+    align-content: start;
+  }
+  /* in a content-sized panel the body is not a scroll pane: no internal scroll, no scroll-edge fade (a sub-pixel
+   * overflow must never fade the last row) */
+  .pxa[data-density] .exf-grid[data-media-geometry='CONTENT'] :is(.exf-panel__body, [data-scroll='internal']) {
+    overflow: visible;
+    -webkit-mask-image: none;
+    mask-image: none;
+    animation: none;
+  }
+  /* charts that used to fill a fixed cell keep a legible block size once their panel is content-sized */
+  .pxa[data-density] .exf-grid[data-media-geometry='CONTENT'] :is(.exf-curve, .exf-bars) {
+    min-height: calc(var(--pw-u) * 300);
+  }
+  /* escape step REDUCE_COLUMNS: a media-led panel takes the whole row on phones (never a half-width strip) */
+  .pxa[data-density] .exf-grid[data-media-geometry='CONTENT'] > :is([data-panel-media='AUTHORITY_PREVIEW'], [data-panel-media='MEDIA_LEAD'], [data-panel-media='PORTRAIT_GRID'], [data-panel-media='REFERENCE_FRAME']) {
+    grid-column: 1 / -1;
+  }
+
+  /* 8.3 PREVIEW: the panel's primary media keeps its approved aspect at full width; the panel grows to it */
+  .pxa[data-density] [data-panel-media] [data-media-scale='PREVIEW'] {
+    flex: none;
+    inline-size: 100%;
+    block-size: auto;
+    min-block-size: 0;
+    max-block-size: none;
+    aspect-ratio: var(--pw-media-aspect, 16 / 10);
+  }
+  /* a portrait record is a portrait slot (4:5), never a landscape band; capped through its inline size */
+  .pxa[data-density] [data-panel-media] [data-media-scale='PREVIEW'][data-media-role='PORTRAIT'] {
+    inline-size: min(100%, calc(var(--pw-u) * 420));
+    aspect-ratio: var(--pw-media-aspect, 4 / 5);
+  }
+
+  /* 8.4 PORTRAIT_GRID: fewer, larger portrait tiles per view — the rail stays a horizontal carousel and the panel
+   * shows one whole tile row (portrait + name + archetype), never a sliced band */
+  .pxa[data-density] [data-panel-media='PORTRAIT_GRID'] .exf-rail {
+    flex: none;
+    gap: 6px;
+    grid-auto-columns: calc((100% - 12px) / 3.3);
+    overflow-y: hidden;
+  }
+  .pxa[data-density] [data-panel-media='PORTRAIT_GRID'] .exf-tile {
+    padding: 3px 3px 5px;
+  }
+  .pxa[data-density] [data-panel-media='PORTRAIT_GRID'] .exf-tile > [data-media-role='PORTRAIT'] {
+    inline-size: 100%;
+    block-size: auto;
+    aspect-ratio: var(--pw-media-aspect, 4 / 5);
+    /* initials of a missing headshot stay on the type scale (T4), whatever the tile size */
+    font-size: var(--pw-t4);
+  }
+}
+
+/* 8.5 per-tab panels mapped onto the media geometry modes (component level, not per route) */
+@media (max-width: 699px) {
+  /* INBOX focus / decision / notice cards (MEDIA_LEAD): the whole decision authority stacks above its facts at its
+   * approved aspect — no portrait crop of a landscape authority */
+  .pxa[data-density] .ibx-focus[data-panel-media='MEDIA_LEAD'] {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: 'art' 'body' 'act' 'gate';
+  }
+  .pxa[data-density] .ibx-dcard[data-panel-media='MEDIA_LEAD'] {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: 'art' 'facts' 'side';
+  }
+  .pxa[data-density] .ibx-notice .ibx-dcard[data-panel-media='MEDIA_LEAD'] {
+    grid-template-areas: 'art' 'facts';
+  }
+  .pxa[data-density] .iax-ms__head[data-panel-media='MEDIA_LEAD'] {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .pxa[data-density] [data-panel-media='MEDIA_LEAD'] > [data-media-scale='PREVIEW'] {
+    inline-size: 100%;
+    block-size: auto;
+    aspect-ratio: var(--pw-media-aspect, 16 / 10);
+  }
+}
+@media (min-width: 700px) {
+  /* tablet / desktop keep the side-by-side card: the art column keeps its authored width, the frame takes the
+   * authority's approved aspect (whole image, no crop, no letterbox) and centres against the facts */
+  .pxa[data-density] :is(.ibx-focus, .ibx-dcard, .iax-ms__head)[data-panel-media='MEDIA_LEAD'] > [data-media-scale='PREVIEW'] {
+    block-size: auto;
+    aspect-ratio: var(--pw-media-aspect, 16 / 10);
+    align-self: center;
+  }
+}
+
+/* 8.6 a raw image that declares a no-crop role always contains (UI / logo / document / other functional, and authority
+ * media without a registered crop) — the role, not the composition CSS, decides the fit */
+:is(.pxa, .pw)[data-density] :is(img, video):is([data-media-role='UI_SCREENSHOT'], [data-media-role='LOGO_MARK'], [data-media-role='DOCUMENT_PREVIEW'], [data-media-role='OTHER_FUNCTIONAL']),
+:is(.pxa, .pw)[data-density] :is(img, video)[data-media-role='REFERENCE_AUTHORITY']:not([data-media-crop]) {
+  object-fit: contain;
+}
+
+/* INBOX incoming cards: the art is as wide as its card, never wider (a source-driven min-content width let one card's
+ * art outgrow the card, which then clipped it) */
+.pxa[data-density] .ibx-incoming__rail > .ibx-card {
+  grid-template-columns: minmax(0, 1fr);
+}
+.pxa[data-density] .ibx-incoming__rail > .ibx-card > .ibx-art {
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* DESIGN overview mark (LOGO_MARK): never cropped by its art box — the mark keeps clearspace inside the box */
+.pxa[data-density] .pxa-overview-panel .pxa-overview-panel__mark[data-media-role='LOGO_MARK'] {
+  max-height: 76%;
+}
+@media (min-width: 700px) {
+  /* EXPRESSION previews in authored cells: the preview sits at its approved aspect (no letterbox bands in tall
+   * cells) and only shrinks — contained, never cropped — when the cell is shorter than the preview */
+  .pxa[data-density] .exf-panel__body > [data-media-scale='PREVIEW'] {
+    flex: 0 1 auto;
+    block-size: auto;
+    min-height: 0;
+    aspect-ratio: var(--pw-media-aspect, 16 / 10);
+  }
+}
+
+/* 8.7 crop guard: a declared functional cover that would cut its source past the contract in the box it actually got
+ * (very tall / very wide source, short cell, edge-touching focal region) is contained instead — set by
+ * useWorkspaceCropGuard on load / resize; the role's backdrop shows around it */
+:is(.pxa, .pw)[data-density] [data-media-fit] img[data-crop-guard='contain'] {
+  object-fit: contain;
+}

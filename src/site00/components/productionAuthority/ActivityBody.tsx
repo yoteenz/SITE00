@@ -18,6 +18,7 @@ import { AUTHORITY_ASSETS } from './authorityAssets';
 import { NODE_SUB } from './HubBody';
 import { IaChip, IaEmpty, IaHero, IaIcon, IaLensBar, IaPanel, IaStats, type IaLens } from './iaKit';
 import { agoLabel, Tabs, Thumb } from './primitives';
+import { workspaceAssetAspect } from '../../config/production-workspace-media';
 
 export type ActivityWorkspace = 'DESIGN' | 'EXPERIENCE' | 'EXPRESSION' | 'LIBRARY' | 'PEOPLE' | 'SYSTEM';
 type Cat = 'ALL' | ActivityWorkspace;
@@ -225,7 +226,7 @@ export function ActivityBody() {
   const feedRow = (a: ActivityRow) => (
     <li key={a.id} data-testid="activity-row">
       <time>{a.at ? agoLabel(a.at) : 'NOW'}</time>
-      <Thumb slotId={a.slot} url={data?.assetUrl(a.slot) ?? null} label="" className="iax-av" slot="ROW_THUMB" />
+      <Thumb slotId={a.slot} url={data?.assetUrl(a.slot) ?? null} label="" className="iax-av" slot="ROW_THUMB" fit="THUMBNAIL_COVER" role="REFERENCE_AUTHORITY" scale="CHIP" crop="NODE_ART_CHIP" />
       <span className="iax-feed__text">
         <b>{a.title}</b>
         <small>
@@ -330,7 +331,7 @@ export function ActivityBody() {
                       <b>{sev}</b>
                     </span>
                     <span className="iax-bitem">
-                      <Thumb slotId={n.assetSlotId} url={data?.assetUrl(n.assetSlotId) ?? null} label={n.label} slot="ROW_THUMB" />
+                      <Thumb slotId={n.assetSlotId} url={data?.assetUrl(n.assetSlotId) ?? null} label={n.label} slot="ROW_THUMB" fit="THUMBNAIL_COVER" role="REFERENCE_AUTHORITY" scale="CHIP" crop="NODE_ART_CHIP" />
                       <span>
                         <b>{n.label}</b>
                         <small>{n.statusDetail}</small>
@@ -392,7 +393,7 @@ export function ActivityBody() {
                 <ul className="iax-acards">
                   {attention.map((a) => (
                     <li key={a.id} className="iax-acard">
-                      <Thumb slotId={a.assetSlotId} url={data?.assetUrl(a.assetSlotId) ?? null} label={a.title} slot="STRIP_THUMB" />
+                      <Thumb slotId={a.assetSlotId} url={data?.assetUrl(a.assetSlotId) ?? null} label={a.title} slot="STRIP_THUMB" fit="THUMBNAIL_COVER" role="REFERENCE_AUTHORITY" scale="TILE" crop="NODE_ART_CARD" />
                       <span className="iax-acard__meta">
                         <b>{a.title}</b>
                         <small>
@@ -448,7 +449,7 @@ export function ActivityBody() {
                     </span>
                     <b>{a.title}</b>
                     <small>{a.detail}</small>
-                    <Thumb slotId={a.slot} url={data?.assetUrl(a.slot) ?? null} label="" className="iax-updates__art" slot="STRIP_THUMB" />
+                    <Thumb slotId={a.slot} url={data?.assetUrl(a.slot) ?? null} label="" className="iax-updates__art" slot="STRIP_THUMB" fit="THUMBNAIL_COVER" role="REFERENCE_AUTHORITY" scale="CHIP" crop="NODE_ART_CHIP" />
                     {a.nodeId ?
                       <Link to={activityHref('updates', a.nodeId)} className="iax-viewall">
                         OPEN MILESTONE <span aria-hidden>→</span>
@@ -466,7 +467,7 @@ export function ActivityBody() {
                 {nodes.map((n) => (
                   <li key={n.id}>
                     <Link to={productionExpressionPath(slug, NODE_SUB[n.id])}>
-                      <Thumb slotId={n.assetSlotId} url={data?.assetUrl(n.assetSlotId) ?? null} label={n.label} slot="ROW_THUMB" />
+                      <Thumb slotId={n.assetSlotId} url={data?.assetUrl(n.assetSlotId) ?? null} label={n.label} slot="ROW_THUMB" fit="THUMBNAIL_COVER" role="REFERENCE_AUTHORITY" scale="CHIP" crop="NODE_ART_CHIP" />
                       <span>
                         <b>{n.label}</b>
                         <small>EXPRESSION / {NODE_SUB[n.id].toUpperCase()}</small>
@@ -613,8 +614,8 @@ function MilestoneDetail({ nodeId }: { nodeId: HubNodeId }) {
   return (
     <div className="iax-detail iax-milestone" data-testid="activity-milestone-detail" data-node={node.id}>
       {crumbs}
-      <header className="iax-ms__head">
-        <Thumb slotId={node.assetSlotId} url={data.assetUrl(node.assetSlotId)} label={node.label} className="iax-ms__art" slot="FEATURE_MEDIA" />
+      <header className="iax-ms__head" data-panel-media="MEDIA_LEAD">
+        <Thumb slotId={node.assetSlotId} url={data.assetUrl(node.assetSlotId)} label={node.label} className="iax-ms__art" slot="FEATURE_MEDIA" role="REFERENCE_AUTHORITY" scale="PREVIEW" aspect={workspaceAssetAspect(node.assetSlotId) ?? undefined} />
         <div className="iax-ms__title">
           <IaChip tone="red">MILESTONE</IaChip>
           <h1>{node.label}</h1>
@@ -689,7 +690,7 @@ function MilestoneDetail({ nodeId }: { nodeId: HubNodeId }) {
             {[node, ...unlocks].map((n) => (
               <li key={n.id}>
                 <Link to={productionExpressionPath(slug, NODE_SUB[n.id])}>
-                  <Thumb slotId={n.assetSlotId} url={data.assetUrl(n.assetSlotId)} label={n.label} slot="ROW_THUMB" />
+                  <Thumb slotId={n.assetSlotId} url={data.assetUrl(n.assetSlotId)} label={n.label} slot="ROW_THUMB" fit="THUMBNAIL_COVER" role="REFERENCE_AUTHORITY" scale="CHIP" crop="NODE_ART_CHIP" />
                   <span>
                     <b>{n.label}</b>
                     <small>PRIMARY ART · {n.status.replace(/_/g, ' ')}</small>

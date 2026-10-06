@@ -58,7 +58,7 @@ function PanelVis({ panel }: { panel: ChamberPanel }) {
       return (
         <span className="pxa-vis pxa-vis--plates">
           {(panel.plates ?? []).map((p, i) => (
-            <i key={`${panel.n}-${i}`} data-media-slot="BOARD_PREVIEW" data-media-fit="AUTHORITY_PREVIEW_COVER" style={{ backgroundImage: `url(${p})` }} />
+            <i key={`${panel.n}-${i}`} data-media-slot="BOARD_PREVIEW" data-media-fit="AUTHORITY_PREVIEW_COVER" data-media-role="DECORATIVE_ART" data-media-scale="PLATE" data-media-crop="DESIGN_CHAMBER_MINIATURE" style={{ backgroundImage: `url(${p})` }} />
           ))}
         </span>
       );
@@ -66,7 +66,7 @@ function PanelVis({ panel }: { panel: ChamberPanel }) {
       return (
         <span className="pxa-vis pxa-vis--swatches" data-pack="swatches">
           {DESIGN_SWATCHES.slice(0, 6).map((m) => (
-            <img key={m.id} src={m.src} alt={m.label} title={m.label} loading="lazy" />
+            <img key={m.id} src={m.src} alt={m.label} title={m.label} loading="lazy" data-media-role="DECORATIVE_ART" data-media-scale="PLATE" data-media-crop="DESIGN_CHAMBER_MINIATURE" />
           ))}
         </span>
       );
@@ -74,7 +74,7 @@ function PanelVis({ panel }: { panel: ChamberPanel }) {
       return (
         <span className="pxa-vis pxa-vis--icons" data-pack="icons">
           {(panel.icons ?? []).map((id) => (
-            <img key={id} src={designIcon(id)} alt={designIconLabel(id)} title={designIconLabel(id)} loading="lazy" />
+            <img key={id} src={designIcon(id)} alt={designIconLabel(id)} title={designIconLabel(id)} loading="lazy" data-media-role="DECORATIVE_ART" data-media-scale="PLATE" />
           ))}
         </span>
       );
@@ -82,7 +82,7 @@ function PanelVis({ panel }: { panel: ChamberPanel }) {
       return (
         <span className="pxa-vis pxa-vis--devices" data-pack="devices" data-count={(panel.devices ?? []).length}>
           {(panel.devices ?? []).map((d, i) => (
-            <img key={`${d}-${i}`} src={DESIGN_DEVICES[d]} alt={`${d.toUpperCase()} FRAME`} data-device={d} loading="lazy" />
+            <img key={`${d}-${i}`} src={DESIGN_DEVICES[d]} alt={`${d.toUpperCase()} FRAME`} data-device={d} loading="lazy" data-media-role="DECORATIVE_ART" data-media-scale="PLATE" data-media-crop="DESIGN_CHAMBER_MINIATURE" />
           ))}
         </span>
       );
@@ -138,6 +138,9 @@ function Panel({ panel, side }: { panel: ChamberPanel; side: 'left' | 'right' })
           className="pxa-panel__viswrap"
           data-media-slot={panel.art && panel.vis !== 'plates' ? 'BOARD_PREVIEW' : undefined}
           data-media-fit={panel.art && panel.vis !== 'plates' ? 'AUTHORITY_PREVIEW_COVER' : undefined}
+          data-media-role={panel.art && panel.vis !== 'plates' ? 'DECORATIVE_ART' : undefined}
+          data-media-scale={panel.art && panel.vis !== 'plates' ? 'PLATE' : undefined}
+          data-media-crop={panel.art && panel.vis !== 'plates' ? 'DESIGN_CHAMBER_MINIATURE' : undefined}
           style={panel.art && panel.vis !== 'plates' ? { backgroundImage: `url(${panel.art})` } : undefined}
         >
           <PanelVis panel={panel} />
@@ -498,7 +501,7 @@ function ViewportChamber({ cfg }: { cfg: DesignChamberConfig }) {
           <span style={{ display: 'flex', gap: 18, alignItems: 'flex-end' }}>
             {device}
             <span className="pxa-vref" data-testid="design-viewport-reference">
-              <img src={authorityFile!.replace(/^public/, '')} alt={`${pr.screen!.id} AUTHORITY`} style={{ height: refHeight, width: Math.round(refHeight * 0.5621) }} />
+              <img src={authorityFile!.replace(/^public/, '')} alt={`${pr.screen!.id} AUTHORITY`} data-media-role="UI_SCREENSHOT" data-media-scale="PREVIEW" style={{ height: refHeight, width: Math.round(refHeight * 0.5621) }} />
               <small>AUTHORITY · {pr.screen!.id}</small>
             </span>
           </span>
@@ -592,6 +595,9 @@ function ChamberBackdrop({ environment = 'atrium' }: { environment?: 'atrium' | 
     <>
       <span className="pxa-chamber__atrium" aria-hidden>
         <img
+          data-media-role="DECORATIVE_ART"
+          data-media-scale="PLATE"
+          data-media-crop="DESIGN_CHAMBER_ART"
           className="pxa-chamber__atrium-art"
           alt=""
           src={environment === 'corridor' ? AUTHORITY_ASSETS.viewportCorridor : AUTHORITY_ASSETS.designAtrium}
@@ -603,7 +609,7 @@ function ChamberBackdrop({ environment = 'atrium' }: { environment?: 'atrium' | 
       </span>
       {environment === 'atrium' ?
         <span className="pxa-chamber__bg" aria-hidden>
-          <img className="pxa-core" alt="" src={AUTHORITY_ASSETS.designCore} />
+          <img className="pxa-core" alt="" src={AUTHORITY_ASSETS.designCore} data-media-role="DECORATIVE_ART" data-media-scale="PLATE" data-media-crop="DESIGN_CHAMBER_ART" />
         </span>
       : null}
       <span className="pxa-chamber__wash" aria-hidden />
@@ -644,8 +650,8 @@ export function DesignChamber({ mode }: { mode: ProductionDesignMode }) {
               </header>
               <div className="pxa-overview-panel__body">
                 <span className="pxa-overview-panel__art">
-                  <span className="pxa-overview-panel__mark" data-media-slot="LOGO_MARK" data-media-fit="LOGO_CONTAIN" aria-hidden>
-                    <img src={AUTHORITY_ASSETS.designCore} alt="" />
+                  <span className="pxa-overview-panel__mark" data-media-slot="LOGO_MARK" data-media-fit="LOGO_CONTAIN" data-media-role="LOGO_MARK" data-media-scale="TILE" aria-hidden>
+                    <img src={AUTHORITY_ASSETS.designCore} alt="" data-media-role="LOGO_MARK" />
                   </span>
                   <p>{cfg.lede}</p>
                 </span>
@@ -670,7 +676,7 @@ export function DesignChamber({ mode }: { mode: ProductionDesignMode }) {
                         .flatMap((p) => p.plates ?? [])
                         .slice(0, 3)
                         .map((u, i) => (
-                          <i key={`${u}-${i}`} data-media-slot="BOARD_PREVIEW" data-media-fit="AUTHORITY_PREVIEW_COVER" style={{ backgroundImage: `url(${u})` }} />
+                          <i key={`${u}-${i}`} data-media-slot="BOARD_PREVIEW" data-media-fit="AUTHORITY_PREVIEW_COVER" data-media-role="DECORATIVE_ART" data-media-scale="PLATE" data-media-crop="DESIGN_CHAMBER_MINIATURE" style={{ backgroundImage: `url(${u})` }} />
                         ))}
                     </span>
                   : null}
@@ -698,7 +704,7 @@ export function DesignChamber({ mode }: { mode: ProductionDesignMode }) {
         <ol className="pxa-pipeline__steps" data-count={cfg.pipeline.length}>
           {cfg.pipeline.map((s, i) => (
             <li key={s.title} className={mode === 'viewport' && i === 5 ? 'is-active' : undefined}>
-              <img className="pxa-stage" src={designStage(i).src} alt="" data-stage={designStage(i).id} loading="lazy" />
+              <img className="pxa-stage" src={designStage(i).src} alt="" data-stage={designStage(i).id} loading="lazy" data-media-role="OTHER_DECORATIVE" data-media-scale="PLATE" />
               <em>{String(i + 1).padStart(2, '0')}</em>
               <b>{s.title}</b>
               {s.sub ? <small>{s.sub}</small> : null}
@@ -710,7 +716,7 @@ export function DesignChamber({ mode }: { mode: ProductionDesignMode }) {
         <div className="pxa-tablecards" data-count={cfg.table.length}>
           {cfg.table.map((t) => (
             <Link key={t.title} to={workspace} className="pxa-tcard" data-testid="design-table-card">
-              <span className="pxa-tcard__img" data-media-slot="CARD_MEDIA" data-media-fit="LANDSCAPE_COVER" style={{ backgroundImage: `url(${t.plate})` }} aria-hidden />
+              <span className="pxa-tcard__img" data-media-slot="CARD_MEDIA" data-media-fit="LANDSCAPE_COVER" data-media-role="DECORATIVE_ART" data-media-scale="PLATE" data-media-crop="DESIGN_TABLE_PLATE" style={{ backgroundImage: `url(${t.plate})` }} aria-hidden />
               <span className="pxa-tcard__copy">
                 <b>{t.title}</b>
                 <small>{t.sub}</small>

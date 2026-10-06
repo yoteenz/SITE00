@@ -16,7 +16,7 @@ import type {
   HubStoryboardFrame,
   HubUiState,
 } from '../../../../shared/site00-production-hub/types.js';
-import { HubImage } from './HubImage';
+import { HUB_MEDIA, HubImage } from './HubImage';
 import type { InspectorView } from './inspectorContent';
 import { IcArrowR, IcChevD, IcChevR, IcClose, IcCompare, IcCube, IcExpand, IcLock, IcMenu, IcPlus, IcSwap, IcWarn } from './icons';
 
@@ -168,7 +168,7 @@ export function AuthorityPanel({
             <IcChevR style={{ transform: 'scaleX(-1)' }} width={16} height={16} />
           </button>
           <button type="button" className="ph-auth__frame" onClick={onFullscreen} aria-label="Open frame fullscreen" disabled={!frames.length}>
-            <HubImage slotId={frameSlotId} url={frameUrl} label={frames.length ? 'STORYBOARD FRAME' : 'NO STORYBOARD YET'} className="ph-auth__img" />
+            <HubImage slotId={frameSlotId} url={frameUrl} label={frames.length ? 'STORYBOARD FRAME' : 'NO STORYBOARD YET'} className="ph-auth__img" {...HUB_MEDIA.frameCard} />
           </button>
           <button type="button" className="ph-round ph-round--pale" onClick={() => onStep(1)} disabled={!frames.length} aria-label="Next frame" data-testid="authority-next">
             <IcChevR width={16} height={16} />
@@ -265,7 +265,7 @@ export function NodeInspector({
       </header>
       <div className="ph-insp__body">
         <div className="ph-insp__left">
-          <HubImage slotId={node.assetSlotId} url={imageUrl} label={slotLabel} className="ph-insp__img" />
+          <HubImage slotId={node.assetSlotId} url={imageUrl} label={slotLabel} className="ph-insp__img" {...HUB_MEDIA.nodeCard} />
           <div className="ph-insp__subject">
             <small>{view.subject.eyebrow}</small>
             <b>{view.subject.title}</b>
@@ -348,7 +348,7 @@ export function ComparisonWorkspace({
         <b>{c.title}</b>
         {c.tag ? <em>{c.tag}</em> : null}
       </header>
-      <HubImage slotId={c.slotId} url={c.url} label={c.title} className="ph-cmp__img" />
+      <HubImage slotId={c.slotId} url={c.url} label={c.title} className="ph-cmp__img" {...(c === A ? HUB_MEDIA.frameCard : HUB_MEDIA.nodeCard)} />
       <dl>
         {c.rows.map(([a, b]) => (
           <div key={a}>
@@ -458,7 +458,7 @@ export function AttentionTable({
       ) : expanded && lead ? (
         <div className="ph-table__open">
           <article className="ph-table__lead" data-testid="table-lead">
-            <HubImage slotId={lead.assetSlotId} url={urlFor(lead.assetSlotId)} label={lead.title} className="ph-table__leadimg" />
+            <HubImage slotId={lead.assetSlotId} url={urlFor(lead.assetSlotId)} label={lead.title} className="ph-table__leadimg" {...HUB_MEDIA.nodeCard} />
             <div className="ph-table__leadbody">
               <b>{lead.title}</b>
               <small>{lead.subtitle}</small>
@@ -480,7 +480,7 @@ export function AttentionTable({
             {items.filter((i) => i.id !== lead.id).map((i) => (
               <li key={i.id}>
                 <button type="button" className="ph-table__row" onClick={() => onExpandItem(i.id)}>
-                  <HubImage slotId={i.assetSlotId} url={urlFor(i.assetSlotId)} label="" className="ph-table__rowimg" />
+                  <HubImage slotId={i.assetSlotId} url={urlFor(i.assetSlotId)} label="" className="ph-table__rowimg" {...HUB_MEDIA.nodeChip} />
                   <span>
                     <b>{i.title}</b>
                     <small>{i.subtitle}</small>
@@ -497,7 +497,7 @@ export function AttentionTable({
           {items.map((i) => (
             <li key={i.id} className="ph-card">
               <button type="button" className="ph-card__thumb" onClick={() => onExpandItem(i.id)} aria-label={`Expand ${i.title}`}>
-                <HubImage slotId={i.assetSlotId} url={urlFor(i.assetSlotId)} label="" className="ph-card__img" />
+                <HubImage slotId={i.assetSlotId} url={urlFor(i.assetSlotId)} label="" className="ph-card__img" {...HUB_MEDIA.nodeChip} />
                 <i className={i.priority === 'HIGH' ? 'is-high' : ''} aria-hidden />
               </button>
               <b>{i.title}</b>
@@ -568,7 +568,7 @@ export function ActivityStrip({
         <ul className="ph-actlist" data-testid="activity-list">
           {shown.map((i) => (
             <li key={i.id}>
-              <HubImage slotId={i.assetSlotId} url={urlFor(i.assetSlotId)} label="" className="ph-actlist__img" />
+              <HubImage slotId={i.assetSlotId} url={urlFor(i.assetSlotId)} label="" className="ph-actlist__img" {...HUB_MEDIA.nodeChip} />
               <span>
                 <b>{i.title}</b>
                 <small>{i.detail}</small>
@@ -582,7 +582,7 @@ export function ActivityStrip({
         <ul className="ph-actrow" data-testid="activity-row">
           {shown.slice(0, 5).map((i) => (
             <li key={i.id}>
-              <HubImage slotId={i.assetSlotId} url={urlFor(i.assetSlotId)} label="" className="ph-actrow__img" />
+              <HubImage slotId={i.assetSlotId} url={urlFor(i.assetSlotId)} label="" className="ph-actrow__img" {...HUB_MEDIA.nodeChip} />
               <span>
                 <b>{i.title}</b>
                 <small>{agoLabel(i.at)}</small>

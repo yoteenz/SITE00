@@ -66,6 +66,9 @@ function ExperienceRoutes() {
           <div
             className="pw-plate pw-plate--set pwa-xchild__world"
             data-media-slot="CARD_MEDIA"
+            data-media-role="DECORATIVE_ART"
+            data-media-scale="PLATE"
+            data-media-crop="EXPERIENCE_WORLD_CROP"
             data-media-fit="WIDE_SCENE_COVER"
             // focal metadata: each sub-workspace frames its own part of the one Experience world
             style={{ backgroundImage: `url(${AUTHORITY_ASSETS.experienceWorld})`, ['--pw-focal' as string]: WORLD_CROP[active.id] ?? '50% 50%' }}

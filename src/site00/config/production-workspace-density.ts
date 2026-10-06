@@ -139,7 +139,10 @@ export type WorkspaceMediaFitMode =
   | 'UI_CAPTURE_CONTAIN'
   | 'AUTHORITY_PREVIEW_COVER'
   | 'WIDE_SCENE_COVER'
-  | 'DOCUMENT_PREVIEW_CONTAIN';
+  | 'DOCUMENT_PREVIEW_CONTAIN'
+  /* PANEL-MEDIA-GEOMETRY-REFINEMENT2: functional previews that must stay whole */
+  | 'AUTHORITY_PREVIEW_CONTAIN'
+  | 'VIDEO_FRAME_CONTAIN';
 
 export type WorkspaceMediaFitDef = {
   fit: 'cover' | 'contain';
@@ -162,6 +165,8 @@ export const WORKSPACE_MEDIA_FIT_MODES: Record<WorkspaceMediaFitMode, WorkspaceM
   AUTHORITY_PREVIEW_COVER: { fit: 'cover', focal: '50% 0%', crop: 'INTENTIONAL', backdrop: 'NONE', purpose: 'Authority previews framed from the top so the title band survives.' },
   WIDE_SCENE_COVER: { fit: 'cover', focal: '50% 42%', crop: 'INTENTIONAL', backdrop: 'NONE', purpose: 'Environment / hero plates — crops to the visual anchor, never squashes.' },
   DOCUMENT_PREVIEW_CONTAIN: { fit: 'contain', focal: '50% 50%', crop: 'NONE', backdrop: 'NEUTRAL', purpose: 'Documents / records — page bounds preserved.' },
+  AUTHORITY_PREVIEW_CONTAIN: { fit: 'contain', focal: '50% 50%', crop: 'NONE', backdrop: 'NEUTRAL', purpose: 'Authority / reference previews — the whole approved frame stays inspectable (REFINEMENT2 default for REFERENCE_AUTHORITY).' },
+  VIDEO_FRAME_CONTAIN: { fit: 'contain', focal: '50% 50%', crop: 'NONE', backdrop: 'DARK', purpose: 'Storyboard frames / keyframes / takes — the shot is read by its full composition.' },
 };
 
 export type WorkspaceMediaSlotType =
