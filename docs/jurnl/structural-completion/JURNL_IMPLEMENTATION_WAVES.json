@@ -312,7 +312,7 @@
           "parallelGroup": "W1-A"
         }
       ],
-      "nodes_completed": 52
+      "nodes_completed": 49
     },
     {
       "wave": 2,
@@ -477,7 +477,7 @@
           "parallelGroup": "W3-F14"
         }
       ],
-      "nodes_completed": 62
+      "nodes_completed": 46
     },
     {
       "wave": 4,
@@ -747,30 +747,30 @@
   "simulation": [
     {
       "after_wave": 0,
-      "functional_completion": 39.2,
-      "node_weighted": 55.3,
+      "functional_completion": 44.9,
+      "node_weighted": 59.1,
       "nodes_completed_in_wave": 32,
-      "strict": 31.4
+      "strict": 37.1
     },
     {
       "after_wave": 1,
-      "functional_completion": 48,
-      "node_weighted": 62.8,
-      "nodes_completed_in_wave": 52,
-      "strict": 42.7
+      "functional_completion": 52.9,
+      "node_weighted": 66.1,
+      "nodes_completed_in_wave": 49,
+      "strict": 47.6
     },
     {
       "after_wave": 2,
-      "functional_completion": 58.2,
-      "node_weighted": 70.2,
+      "functional_completion": 63.1,
+      "node_weighted": 73.5,
       "nodes_completed_in_wave": 40,
-      "strict": 54
+      "strict": 58.9
     },
     {
       "after_wave": 3,
       "functional_completion": 75.5,
       "node_weighted": 81.9,
-      "nodes_completed_in_wave": 62,
+      "nodes_completed_in_wave": 46,
       "strict": 72.9
     },
     {

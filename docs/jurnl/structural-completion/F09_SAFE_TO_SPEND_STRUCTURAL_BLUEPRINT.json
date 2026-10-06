@@ -137,17 +137,17 @@
   "interactions": [
     {
       "id": "F09.IN.PRIMARY",
-      "status": "NO_OP",
+      "status": "WORKING",
       "opens": "F09.WHY"
     },
     {
       "id": "F09.IN.OPEN_HOLD",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F09.HOLD"
     },
     {
       "id": "F09.IX.HOLD",
-      "status": "MISSING",
+      "status": "WORKING",
       "opens": "F09.MD.HOLD_CONFIRM"
     },
     {
@@ -264,12 +264,12 @@
     "AI_HIGHER_USAGE (AI)"
   ],
   "functional_status": {
-    "score": 23.7,
-    "strict": 12.5,
+    "score": 42.4,
+    "strict": 31.3,
     "gap_counts": {
-      "PLACEHOLDER": 2,
-      "MISSING": 10,
-      "COMPLETE_FUNCTIONAL": 2,
+      "PLACEHOLDER": 1,
+      "MISSING": 8,
+      "COMPLETE_FUNCTIONAL": 5,
       "LEGACY": 1,
       "PARTIAL_FUNCTIONAL": 2
     }

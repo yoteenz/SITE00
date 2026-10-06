@@ -7,10 +7,10 @@ Visual transformation runs afterwards, family by family, then founder approval, 
 
 | AFTER WAVE | FUNCTIONAL (BALANCED) | NODE-WEIGHTED | STRICT | NODES COMPLETED IN WAVE |
 |---|---|---|---|---|
-| W0 | 39.2% | 55.3% | 31.4% | 32 |
-| W1 | 48% | 62.8% | 42.7% | 52 |
-| W2 | 58.2% | 70.2% | 54% | 40 |
-| W3 | 75.5% | 81.9% | 72.9% | 62 |
+| W0 | 44.9% | 59.1% | 37.1% | 32 |
+| W1 | 52.9% | 66.1% | 47.6% | 49 |
+| W2 | 63.1% | 73.5% | 58.9% | 40 |
+| W3 | 75.5% | 81.9% | 72.9% | 46 |
 | W4 | 98.8% | 95.4% | 96.9% | 68 |
 | W5 | 100% | 100% | 100% | 65 |
 

@@ -1,5 +1,5 @@
 /**
- * F09-owned safe-to-spend formula (W0.6). F03/F04 consume; they must not recompute independently.
+ * F09-owned safe-to-spend formula (W0.6 / W3). F03/F04 consume; they must not recompute independently.
  */
 
 import type { SetupDraft } from '../f02/setupDraft';
@@ -8,21 +8,29 @@ import { MOCK_CASH, MOCK_UPCOMING } from '../home/mockScenario';
 import type { LedgerEntry, UpcomingItem } from '../home/moneyTypes';
 import { safeToSpendEligibleAccounts } from '../foundation/accounts';
 import { getRepository } from '../repository/deviceRepository';
+import { totalPlanAssigned } from '../f08/planStore';
+import { totalGoalSetAside } from '../f14/goalsStore';
 
-export type SafeToSpendCompleteness = 'COMPLETE' | 'PARTIAL' | 'UNSTATED';
+export type SafeToSpendCompleteness = 'COMPLETE' | 'PARTIAL' | 'UNSTATED' | 'NEEDS_SETUP' | 'NEEDS_ACCOUNT';
 
 export type SafeToSpendBreakdown = {
   cash: number;
   upcoming: number;
   protected: number;
+  assigned: number;
+  goalReserved: number;
+  safetyBuffer: number;
   value: number;
   cashSource: 'MOCK' | 'ACCOUNTS' | 'DERIVED';
   upcomingSource: 'MOCK' | 'SETUP' | 'DERIVED';
   protectedSource: 'SETUP' | 'DERIVED';
+  assignedSource: 'PLAN' | 'NONE';
+  goalReservedSource: 'GOALS' | 'NONE';
   valueSource: 'DERIVED';
   completeness: SafeToSpendCompleteness;
   setupObligationCount: number;
   unknownUpcoming: boolean;
+  /** @deprecated use safetyBuffer + protected — kept for transitional UI */
   userBuffer: number;
 };
 
@@ -31,6 +39,13 @@ export function protectedAmountFromSetup(draft: SetupDraft): number {
   if (!raw || draft.protectedSkipped) return 0;
   const n = Number(raw);
   return Number.isFinite(n) ? n : 0;
+}
+
+export function safetyBufferFromSettings(): number {
+  const raw = getRepository().getSettings().safeToSpendBuffer.trim();
+  if (!raw) return 0;
+  const n = Number(raw);
+  return Number.isFinite(n) && n > 0 ? n : 0;
 }
 
 export function setupObligationsAsUpcoming(draft: SetupDraft): UpcomingItem[] {
@@ -57,6 +72,9 @@ export function cashForSafeToSpend(entries: LedgerEntry[]): { cash: number; sour
 
 export function computeSafeToSpend(draft: SetupDraft = getSetupDraft(), entries: LedgerEntry[] = getRepository().listTransactions()): SafeToSpendBreakdown {
   const held = protectedAmountFromSetup(draft);
+  const safetyBuffer = safetyBufferFromSettings();
+  const assigned = totalPlanAssigned();
+  const goalReserved = totalGoalSetAside();
   const { cash, source: cashSource } = cashForSafeToSpend(entries);
 
   let upcoming = 0;
@@ -82,24 +100,32 @@ export function computeSafeToSpend(draft: SetupDraft = getSetupDraft(), entries:
   }
 
   let completeness: SafeToSpendCompleteness = 'COMPLETE';
-  if (draft.accounts === 'SKIPPED' || (!draft.cadence && !draft.amount && draft.started)) completeness = 'UNSTATED';
+  if (!draft.started) completeness = 'NEEDS_SETUP';
+  else if (draft.accounts === 'SKIPPED' && cashSource === 'MOCK') completeness = 'NEEDS_ACCOUNT';
+  else if (draft.accounts === 'SKIPPED' || (!draft.cadence && !draft.amount && draft.started)) completeness = 'UNSTATED';
   else if (unknownUpcoming || repoObligations.some((i) => i.amount <= 0)) completeness = 'PARTIAL';
 
-  const value = completeness === 'UNSTATED' ? cash - held : cash - upcoming - held;
+  const deductions = upcoming + held + safetyBuffer + assigned + goalReserved;
+  const value = completeness === 'UNSTATED' ? cash - held - safetyBuffer - assigned - goalReserved : cash - deductions;
 
   return {
     cash,
     upcoming,
     protected: held,
+    assigned,
+    goalReserved,
+    safetyBuffer,
     value,
     cashSource,
     upcomingSource,
     protectedSource: held > 0 ? 'SETUP' : 'DERIVED',
+    assignedSource: assigned > 0 ? 'PLAN' : 'NONE',
+    goalReservedSource: goalReserved > 0 ? 'GOALS' : 'NONE',
     valueSource: 'DERIVED',
     completeness,
     setupObligationCount: repoObligations.length || draft.obligations.length,
     unknownUpcoming,
-    userBuffer: held,
+    userBuffer: held + safetyBuffer,
   };
 }
 

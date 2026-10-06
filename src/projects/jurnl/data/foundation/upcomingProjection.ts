@@ -3,12 +3,13 @@
 import { compareCalendarDates, getTodayKey, parseCalendarDate, type CalendarDate } from './dates';
 import type { JurnlIncomeSource } from './income';
 import type { JurnlObligation } from './obligations';
+import { creditPaymentProjections } from '../f12/creditStore';
 
 export type UpcomingDirection = 'MONEY_IN' | 'MONEY_OUT';
 
 export type UpcomingProjectionItem = {
   upcoming_id: string;
-  source_domain: 'INCOME' | 'OBLIGATION';
+  source_domain: 'INCOME' | 'OBLIGATION' | 'CREDIT_PAYMENT';
   source_id: string;
   direction: UpcomingDirection;
   label: string;
@@ -17,7 +18,7 @@ export type UpcomingProjectionItem = {
   due_date: CalendarDate;
   status: 'OVERDUE' | 'DUE_TODAY' | 'UPCOMING';
   recurrence: string;
-  owner_family_id: 'F06' | 'F07';
+  owner_family_id: 'F06' | 'F07' | 'F12';
   is_estimated: boolean;
 };
 
@@ -32,6 +33,22 @@ export function projectUpcoming(income: JurnlIncomeSource[], obligations: JurnlO
   for (const ob of obligations) {
     if (ob.status !== 'ACTIVE') continue;
     items.push(projectObligation(ob, today));
+  }
+  for (const pay of creditPaymentProjections(today)) {
+    items.push({
+      upcoming_id: `up-cred-${pay.account_id}`,
+      source_domain: 'CREDIT_PAYMENT',
+      source_id: pay.account_id,
+      direction: 'MONEY_OUT',
+      label: pay.label,
+      amount: pay.amount,
+      currency: 'USD',
+      due_date: pay.due_date,
+      status: statusFor(pay.due_date, today),
+      recurrence: 'MONTHLY',
+      owner_family_id: 'F12',
+      is_estimated: false,
+    });
   }
   return items.sort((a, b) => compareCalendarDates(a.due_date, b.due_date));
 }

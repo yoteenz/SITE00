@@ -1,15 +1,15 @@
 /** Quick Add V2 type registry (W1.4). Only types with repository mutations are enabled. */
 
-export type QuickAddTypeId = 'TRANSACTION' | 'INCOME';
+export type QuickAddTypeId = 'TRANSACTION' | 'INCOME' | 'GOAL';
 
 export type QuickAddTypeDef = {
   type_id: QuickAddTypeId;
-  domain: 'TRANSACTION' | 'INCOME';
+  domain: 'TRANSACTION' | 'INCOME' | 'GOAL';
   label: string;
-  owner_family_id: 'F04' | 'F06';
+  owner_family_id: 'F04' | 'F06' | 'F14';
   enabled: boolean;
   required_fields: string[];
-  repository_action: 'appendTransaction' | 'upsertIncomeSource';
+  repository_action: 'appendTransaction' | 'upsertIncomeSource' | 'upsertGoal';
   suggested_from_families: string[];
 };
 
@@ -33,6 +33,16 @@ export const JURNL_QUICK_ADD_TYPES: readonly QuickAddTypeDef[] = [
     required_fields: ['source_name', 'amount', 'cadence'],
     repository_action: 'upsertIncomeSource',
     suggested_from_families: ['F06', 'F03', 'F07'],
+  },
+  {
+    type_id: 'GOAL',
+    domain: 'GOAL',
+    label: 'GOAL',
+    owner_family_id: 'F14',
+    enabled: true,
+    required_fields: ['title', 'target_amount'],
+    repository_action: 'upsertGoal',
+    suggested_from_families: ['F14', 'F08', 'F03'],
   },
 ];
 

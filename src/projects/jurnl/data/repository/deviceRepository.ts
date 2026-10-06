@@ -12,6 +12,10 @@ import { DEFAULT_JURNL_SETTINGS, type JurnlSettings } from '../foundation/settin
 import type { JurnlIncomeSource } from '../foundation/income';
 import type { JurnlObligation } from '../foundation/obligations';
 import { seedIncomeFromSetup, seedObligationsFromSetup } from './wave2Seed';
+import { seedGoalsFromSetup, seedPlansFromSetup } from './wave3Seed';
+import type { JurnlPlanIntention } from '../foundation/plan';
+import type { JurnlGoal } from '../foundation/goals';
+import type { JurnlCreditAttributes } from '../foundation/creditAttributes';
 import {
   REPOSITORY_SCHEMA_VERSION,
   type JurnlRepository,
@@ -41,6 +45,10 @@ function legacyStorageKeyV2(userId: string) {
   return `jurnl.repository.v2.${userId}`;
 }
 
+function legacyStorageKeyV3(userId: string) {
+  return `jurnl.repository.v3.${userId}`;
+}
+
 function browserLocal(): KV | null {
   if (typeof localStorage === 'undefined') return null;
   return {
@@ -62,6 +70,9 @@ function emptySnapshot(userId: string): RepositorySnapshot {
     consent: defaultConsentRecords(),
     incomeSources: [],
     obligations: [],
+    planIntentions: [],
+    goals: [],
+    creditAttributes: [],
     updatedAt: now,
   };
 }
@@ -74,11 +85,16 @@ function finalizeSnapshot(parsed: RepositorySnapshot): RepositorySnapshot {
     consent: parsed.consent ?? defaultConsentRecords(),
     incomeSources: parsed.incomeSources ?? [],
     obligations: parsed.obligations ?? [],
+    planIntentions: parsed.planIntentions ?? [],
+    goals: parsed.goals ?? [],
+    creditAttributes: parsed.creditAttributes ?? [],
   };
   return {
     ...base,
     incomeSources: seedIncomeFromSetup(base.setup, base.incomeSources),
     obligations: seedObligationsFromSetup(base.setup, base.obligations),
+    planIntentions: seedPlansFromSetup(base.setup, base.planIntentions),
+    goals: seedGoalsFromSetup(base.setup, base.goals),
   };
 }
 
@@ -102,7 +118,7 @@ function readSnapshot(userId: string): RepositorySnapshot {
           return finalized;
         }
       }
-      for (const keyFn of [legacyStorageKeyV2, legacyStorageKey]) {
+      for (const keyFn of [legacyStorageKeyV3, legacyStorageKeyV2, legacyStorageKey]) {
         const legacyRaw = kv.get(keyFn(userId));
         if (!legacyRaw) continue;
         const legacy = JSON.parse(legacyRaw) as RepositorySnapshot;
@@ -337,6 +353,82 @@ class DeviceJurnlRepository implements JurnlRepository {
     return true;
   }
 
+  listPlanIntentions(): JurnlPlanIntention[] {
+    return readSnapshot(this.userId).planIntentions;
+  }
+
+  upsertPlanIntention(plan: JurnlPlanIntention): JurnlPlanIntention {
+    const snap = readSnapshot(this.userId);
+    const idx = snap.planIntentions.findIndex((p) => p.plan_id === plan.plan_id);
+    const planIntentions = [...snap.planIntentions];
+    const next = { ...plan, updated_at: new Date().toISOString() };
+    if (idx >= 0) planIntentions[idx] = next;
+    else planIntentions.push(next);
+    persist({ ...snap, planIntentions, updatedAt: new Date().toISOString() });
+    emit(idx >= 0 ? 'PLAN_UPDATED' : 'PLAN_CREATED', plan.plan_id);
+    emit('BUDGET_UPDATED');
+    emit('SAFE_TO_SPEND_RECALCULATED');
+    return next;
+  }
+
+  deletePlanIntention(id: string): boolean {
+    const snap = readSnapshot(this.userId);
+    const idx = snap.planIntentions.findIndex((p) => p.plan_id === id);
+    if (idx < 0) return false;
+    const planIntentions = [...snap.planIntentions];
+    planIntentions[idx] = { ...planIntentions[idx], status: 'ARCHIVED', archived_at: new Date().toISOString() };
+    persist({ ...snap, planIntentions, updatedAt: new Date().toISOString() });
+    emit('PLAN_DELETED', id);
+    emit('SAFE_TO_SPEND_RECALCULATED');
+    return true;
+  }
+
+  listGoals(): JurnlGoal[] {
+    return readSnapshot(this.userId).goals;
+  }
+
+  upsertGoal(goal: JurnlGoal): JurnlGoal {
+    const snap = readSnapshot(this.userId);
+    const idx = snap.goals.findIndex((g) => g.goal_id === goal.goal_id);
+    const goals = [...snap.goals];
+    const next = { ...goal, updated_at: new Date().toISOString() };
+    if (idx >= 0) goals[idx] = next;
+    else goals.push(next);
+    persist({ ...snap, goals, updatedAt: new Date().toISOString() });
+    emit('GOAL_UPDATED', goal.goal_id);
+    emit('SAFE_TO_SPEND_RECALCULATED');
+    return next;
+  }
+
+  deleteGoal(id: string): boolean {
+    const snap = readSnapshot(this.userId);
+    const idx = snap.goals.findIndex((g) => g.goal_id === id);
+    if (idx < 0) return false;
+    const goals = [...snap.goals];
+    goals[idx] = { ...goals[idx], status: 'ARCHIVED', archived_at: new Date().toISOString() };
+    persist({ ...snap, goals, updatedAt: new Date().toISOString() });
+    emit('GOAL_UPDATED', id);
+    emit('SAFE_TO_SPEND_RECALCULATED');
+    return true;
+  }
+
+  getCreditAttributes(accountId: string): JurnlCreditAttributes | null {
+    return readSnapshot(this.userId).creditAttributes.find((c) => c.account_id === accountId) ?? null;
+  }
+
+  upsertCreditAttributes(attrs: JurnlCreditAttributes): JurnlCreditAttributes {
+    const snap = readSnapshot(this.userId);
+    const idx = snap.creditAttributes.findIndex((c) => c.account_id === attrs.account_id);
+    const creditAttributes = [...snap.creditAttributes];
+    const next = { ...attrs, updated_at: new Date().toISOString() };
+    if (idx >= 0) creditAttributes[idx] = next;
+    else creditAttributes.push(next);
+    persist({ ...snap, creditAttributes, updatedAt: new Date().toISOString() });
+    emit('DEBT_UPDATED', attrs.account_id);
+    emit('SAFE_TO_SPEND_RECALCULATED');
+    return next;
+  }
+
   onEvent(cb: (event: RepositoryEvent) => void): () => void {
     eventSubs.add(cb);
     return () => eventSubs.delete(cb);
@@ -364,6 +456,7 @@ export function resetRepositoryForDev() {
     kv.set(storageKey(activeUserId), '');
     kv.set(legacyStorageKey(activeUserId), '');
     kv.set(legacyStorageKeyV2(activeUserId), '');
+    kv.set(legacyStorageKeyV3(activeUserId), '');
   }
   repo = new DeviceJurnlRepository(activeUserId);
 }

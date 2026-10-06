@@ -7,8 +7,11 @@ import type { ConsentRecord } from '../foundation/consent';
 import type { JurnlSettings } from '../foundation/settings';
 import type { JurnlIncomeSource } from '../foundation/income';
 import type { JurnlObligation } from '../foundation/obligations';
+import type { JurnlPlanIntention } from '../foundation/plan';
+import type { JurnlGoal } from '../foundation/goals';
+import type { JurnlCreditAttributes } from '../foundation/creditAttributes';
 
-export const REPOSITORY_SCHEMA_VERSION = 3;
+export const REPOSITORY_SCHEMA_VERSION = 4;
 
 export type RepositoryEventType =
   | 'ACCOUNT_CREATED'
@@ -34,7 +37,10 @@ export type RepositoryEventType =
   | 'INCOME_UPDATED'
   | 'INCOME_DELETED'
   | 'OBLIGATION_UPDATED'
-  | 'OBLIGATION_DELETED';
+  | 'OBLIGATION_DELETED'
+  | 'PLAN_CREATED'
+  | 'PLAN_UPDATED'
+  | 'PLAN_DELETED';
 
 export type RepositoryEvent = { type: RepositoryEventType; at: string; entityId?: string };
 
@@ -48,6 +54,9 @@ export type RepositorySnapshot = {
   consent: ConsentRecord[];
   incomeSources: JurnlIncomeSource[];
   obligations: JurnlObligation[];
+  planIntentions: JurnlPlanIntention[];
+  goals: JurnlGoal[];
+  creditAttributes: JurnlCreditAttributes[];
   updatedAt: string;
 };
 
@@ -79,6 +88,14 @@ export interface JurnlRepository {
   listObligations(): JurnlObligation[];
   upsertObligation(item: JurnlObligation): JurnlObligation;
   deleteObligation(id: string): boolean;
+  listPlanIntentions(): JurnlPlanIntention[];
+  upsertPlanIntention(plan: JurnlPlanIntention): JurnlPlanIntention;
+  deletePlanIntention(id: string): boolean;
+  listGoals(): JurnlGoal[];
+  upsertGoal(goal: JurnlGoal): JurnlGoal;
+  deleteGoal(id: string): boolean;
+  getCreditAttributes(accountId: string): JurnlCreditAttributes | null;
+  upsertCreditAttributes(attrs: JurnlCreditAttributes): JurnlCreditAttributes;
   onEvent(cb: (event: RepositoryEvent) => void): () => void;
 }
 

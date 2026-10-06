@@ -8,6 +8,7 @@ import { buildAskJurnlContext, explainFromContext } from '../../data/foundation/
 import { quickAddTypesForFamily, type QuickAddTypeId } from '../../data/foundation/quickAddRegistry';
 import { getTodayKey } from '../../data/foundation/dates';
 import { createIncomeSource } from '../../data/f06/incomeStore';
+import { createGoal } from '../../data/f14/goalsStore';
 import {
   addLedgerEntry,
   formatAmountInput,
@@ -56,6 +57,7 @@ export function QuickAddV2Sheet({ familyId, onClose }: { familyId: string | null
   const valid =
     typeId === 'TRANSACTION' ? name.trim().length > 0 && quote != null && account.length > 0
     : typeId === 'INCOME' ? name.trim().length > 0 && /^\d+(\.\d{1,2})?$/.test(amount.trim())
+    : typeId === 'GOAL' ? name.trim().length > 0 && /^\d+(\.\d{1,2})?$/.test(amount.trim())
     : false;
 
   return (
@@ -76,6 +78,11 @@ export function QuickAddV2Sheet({ familyId, onClose }: { familyId: string | null
             try {
               if (typeId === 'INCOME') {
                 createIncomeSource({ source_name: name, amount: Number(amount), cadence: 'MONTHLY', next_due_date: getTodayKey() });
+                onClose();
+                return;
+              }
+              if (typeId === 'GOAL') {
+                createGoal({ title: name, target_amount: Number(amount) || 0 });
                 onClose();
                 return;
               }

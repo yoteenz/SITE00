@@ -1,0 +1,19 @@
+{
+  "sprint": "P0.JURNL.WAVE3-PLAN-SAFE-TO-SPEND-CREDIT-GOALS",
+  "functional_completion_before": 36.8,
+  "functional_completion_after": 42.5,
+  "visual_completion_after": 29.2,
+  "approval_completion_after": 0.1,
+  "launch_readiness_before": 10.1,
+  "launch_readiness_after": 10.8,
+  "interactions_working_before": 118,
+  "interactions_working_after": 137,
+  "interactions_no_op_before": 9,
+  "interactions_no_op_after": 5,
+  "interactions_missing_before": 59,
+  "interactions_missing_after": 44,
+  "quick_add_types_before": 2,
+  "quick_add_types_after": 3,
+  "repository_schema_version": 4,
+  "duplicate_safe_to_spend_formulas": 0
+}

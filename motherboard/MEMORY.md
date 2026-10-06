@@ -13803,6 +13803,20 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
+## 2026-10-06 — JURNL Wave 3 F08/F09/F12/F14 (P0.JURNL.WAVE3-PLAN-SAFE-TO-SPEND-CREDIT-GOALS)
+
+- **Context:** After Wave 2 money/income/upcoming, Composer completed plan, safe-to-spend surfaces, credit attributes, and goals on device repository v4. Zero generation.
+- **Wave 3 landed:**
+  1. **Repository v4** — `planIntentions`, `goals`, `creditAttributes`; seed plans/goals from setup via `wave3Seed.ts`
+  2. **F08 Plan** — `plan`, `plan/:intentionId`; assign/remove intentions; assigned amounts feed F09
+  3. **F09 Safe to Spend** — `safe`, `safe/why`; breakdown; hold + settings buffer; single `computeSafeToSpend` (plan assign + goal set-aside)
+  4. **F12 Credit** — `credit`, `credit/:accountId`; manual terms; utilization; F07 credit payment projection
+  5. **F14 Goals** — `goals`, `goals/:goalId`; create/edit/set-aside/archive; Quick Add GOAL
+- **Artifacts:** `docs/jurnl/structural-completion/wave3/`; blueprint ~42.5% functional; interactions WORKING 137.
+- **Next:** Wave 4 F10/F11/F13/F15/F16 — do not rework plan/credit/goal/STS ownership.
+
+---
+
 ## 2026-10-05 — JURNL Wave 2 F05/F06/F07 (P0.JURNL.WAVE2-MONEY-INCOME-UPCOMING)
 
 - **Context:** First family structural cluster after Wave 0/1 foundations. Zero generation; existing parent plates reused.

@@ -23,6 +23,10 @@ import { ParentAuthorityScreen, ParentReviewBoard } from './screens/ParentScreen
 import { MoneyHubScreen, MoneyPlaceDetailScreen, MoneyPlacesScreen } from './screens/MoneyScreens';
 import { IncomeHubScreen, IncomeSourceScreen } from './screens/IncomeScreens';
 import { UpcomingHubScreen, UpcomingItemScreen } from './screens/UpcomingScreens';
+import { PlanHubScreen, PlanIntentionScreen } from './screens/PlanScreens';
+import { SafeToSpendHubScreen, SafeToSpendWhyScreen } from './screens/SafeToSpendScreens';
+import { CreditHubScreen, CreditAccountScreen } from './screens/CreditScreens';
+import { GoalsHubScreen, GoalDetailScreen } from './screens/GoalsScreens';
 import './jurnl-runtime.css';
 import './jurnl-environment.css';
 import './jurnl-screens.css';
@@ -88,7 +92,15 @@ function JurnlRoutes() {
       <Route path="income/:sourceId" element={<IncomeSourceScreen />} />
       <Route path="upcoming" element={<UpcomingHubScreen />} />
       <Route path="upcoming/:itemId" element={<UpcomingItemScreen />} />
-      {PARENTS.filter((p) => !['F05', 'F06', 'F07'].includes(p.id)).map((parent) => (
+      <Route path="plan" element={<PlanHubScreen />} />
+      <Route path="plan/:intentionId" element={<PlanIntentionScreen />} />
+      <Route path="safe" element={<SafeToSpendHubScreen />} />
+      <Route path="safe/why" element={<SafeToSpendWhyScreen />} />
+      <Route path="credit" element={<CreditHubScreen />} />
+      <Route path="credit/:accountId" element={<CreditAccountScreen />} />
+      <Route path="goals" element={<GoalsHubScreen />} />
+      <Route path="goals/:goalId" element={<GoalDetailScreen />} />
+      {PARENTS.filter((p) => !['F05', 'F06', 'F07', 'F08', 'F09', 'F12', 'F14'].includes(p.id)).map((parent) => (
         <Route key={parent.id} path={parent.route} element={<ParentAuthorityScreen id={parent.id} />} />
       ))}
       <Route path="*" element={<EntryIndex />} />

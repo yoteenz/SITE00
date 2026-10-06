@@ -1,0 +1,1 @@
+{"family":"F08","routes":["plan","plan/:intentionId"],"persistence":"repository.snapshot.planIntentions","mutations":["createPlanIntention","updatePlanIntention","archivePlanIntention"]}
