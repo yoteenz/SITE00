@@ -1,0 +1,1127 @@
+{
+  "id": "AIO_OFFICE_WORKSPACE_REGISTRY",
+  "sprint": "P0.AIO.OFFICE-WORKSPACE-ARCHITECTURE-AND-IFTA-TREE-FOUNDER-LOCK1",
+  "generated_by": "scripts/studioos/aio-office-export.ts",
+  "source": [
+    "shared/studioos-experience-brain/operating-environment.ts",
+    "shared/studioos-experience-brain/projects/aio/office.ts"
+  ],
+  "audit": {
+    "repo": "yoteenz/fsbw · all-in-one-enterprises",
+    "sha": "20438a24c7e0f8d48782684315e4f73e82d48111",
+    "mode": "READ-ONLY"
+  },
+  "constraints": {
+    "page_implementation": false,
+    "new_paid_generations": 0,
+    "openart_accessed": false,
+    "legacy_visual_authority": "FORBIDDEN",
+    "permissions_broadened": false
+  },
+  "rule": "AIO services are WORKSPACES inside a connected business office. Only services AIO actually has are registered; no future service inflates the tree.",
+  "required_fields": [
+    "workspace_id",
+    "name",
+    "category",
+    "availability",
+    "client_eligibility_rule",
+    "founder_route",
+    "client_route",
+    "active_case_types",
+    "subcontext_types",
+    "required_permissions",
+    "shared_dependencies",
+    "adjacent_workspaces",
+    "expansion_rules",
+    "workspace_state",
+    "capabilities"
+  ],
+  "maturity": {
+    "TREE_PROVEN": "a founder-confirmable page / tab / state tree exists (IFTA)",
+    "CONTRACT_ONLY": "experience contract exists; no authority tree yet",
+    "REGISTERED": "registered only"
+  },
+  "by_maturity": {
+    "TREE_PROVEN": [
+      "IFTA"
+    ],
+    "CONTRACT_ONLY": [
+      "TAGS_REGISTRATION",
+      "PERMITTING",
+      "COMPLIANCE",
+      "INSURANCE",
+      "BOOKKEEPING",
+      "FACTORING",
+      "DISPATCH",
+      "BROKERAGE",
+      "FLEETCARE",
+      "DRIVERLINK",
+      "BUSINESS_FORMATION"
+    ],
+    "REGISTERED": []
+  },
+  "workspaces": [
+    {
+      "workspace_id": "IFTA",
+      "name": "IFTA / FUEL TAX",
+      "category": "TAX & FUEL",
+      "availability": "REQUEST / QUOTE (D-IFTA-AVAILABILITY) — sources disagree: catalog ifta-filing PREPARING · launch fuel-tax INTERNAL_ONLY · public CTA falls back to GO",
+      "availability_truth": "CONFLICT",
+      "client_can_request": true,
+      "staff_can_start": false,
+      "feature_refs": [
+        "AIO.IFTA"
+      ],
+      "client_eligibility_rule": {
+        "kind": "SIGNALS",
+        "match": "ALL",
+        "conditions": [
+          {
+            "signal": "operates_trucks",
+            "op": "truthy"
+          },
+          {
+            "signal": "interstate",
+            "op": "truthy"
+          }
+        ],
+        "explanation": "Interstate motor carriers file IFTA quarterly; shippers never do."
+      },
+      "founder_route": "/office/workspaces/ifta",
+      "client_route": "/portal/workspaces/ifta",
+      "route_status": "PROPOSED",
+      "active_case_types": [
+        "IFTA_QUARTER"
+      ],
+      "subcontext_types": [
+        "QUARTER (YYYY-Qn)"
+      ],
+      "required_permissions": [
+        "clients.read",
+        "work.read",
+        "work.manage"
+      ],
+      "shared_dependencies": [
+        "VAULT (quarter packet)",
+        "INBOX (quarter thread)",
+        "FLEET REGISTRY (vehicles)",
+        "IFTA_REGISTRATION (account prerequisite)"
+      ],
+      "adjacent_workspaces": [
+        "TAGS_REGISTRATION",
+        "DISPATCH",
+        "BOOKKEEPING",
+        "COMPLIANCE"
+      ],
+      "supported_states": [
+        "ACTIVE",
+        "AVAILABLE_NOT_ACTIVATED",
+        "NOT_APPLICABLE"
+      ],
+      "entitlement_sources": [
+        {
+          "source": "DemoStore.iftaQuarters",
+          "field": "IftaQuarterCase.organizationId (+ state)",
+          "ref": "all-in-one-enterprises/src/demo/demoTypes.ts:565 ; all-in-one-enterprises/src/ifta/iftaTypes.ts:143",
+          "status": "PARTIAL",
+          "note": "Org is IFTA-active iff it has quarter cases (demo store only; no Supabase IFTA table)."
+        },
+        {
+          "source": "IFTA experience contract",
+          "field": "IftaStateId NOT_ENROLLED",
+          "ref": "all-in-one-enterprises/src/ifta/experience/iftaExperience.ts:14",
+          "status": "EXISTING",
+          "note": "Native AVAILABLE_NOT_ACTIVATED vocabulary; no code derives it yet."
+        },
+        {
+          "source": "RoadReadyProfile.taxFuel.ifta",
+          "field": "self-reported IFTA account",
+          "ref": "all-in-one-enterprises/src/road-ready/roadReadyTypes.ts:91",
+          "status": "PARTIAL",
+          "note": "Customer fact (signal), not an AIO entitlement."
+        },
+        {
+          "source": "Client.services (demo)",
+          "field": "services: string[] (free-text titles)",
+          "ref": "all-in-one-enterprises/src/demo/demoTypes.ts:333",
+          "status": "CONFLICT",
+          "note": "Unreliable (appended only on request submit) — never used to resolve a workspace state."
+        }
+      ],
+      "workspace_state": "TREE_PROVEN",
+      "catalog_slugs": [
+        "ifta-fuel-tax-assistance",
+        "ifta-filing"
+      ],
+      "launch_refs": [
+        "all-in-one-enterprises/src/launch/serviceActivationLaunch.ts:56",
+        "all-in-one-enterprises/src/services/catalog/serviceCatalog.ts:356"
+      ],
+      "capabilities": [
+        "cross-client fuel tax queue",
+        "client-quarter case",
+        "quarter selector",
+        "request filing (quote)"
+      ],
+      "client_permission": "organisation member (CustomerRouteGuard; own organisation only)",
+      "expansion_rules": [
+        "X.IFTA.FROM_DISPATCH",
+        "X.IFTA.FROM_BOOKKEEPING"
+      ]
+    },
+    {
+      "workspace_id": "TAGS_REGISTRATION",
+      "name": "TAGS / REGISTRATION",
+      "category": "REGISTRATION",
+      "availability": "IRP LIMITED_PILOT · tag services HOLD · title / UCR PREPARING (request model)",
+      "availability_truth": "CONSISTENT",
+      "client_can_request": true,
+      "staff_can_start": false,
+      "feature_refs": [
+        "AIO.TAGS_REGISTRATION"
+      ],
+      "client_eligibility_rule": {
+        "kind": "SIGNALS",
+        "match": "ALL",
+        "conditions": [
+          {
+            "signal": "operates_trucks",
+            "op": "truthy"
+          },
+          {
+            "signal": "power_units",
+            "op": "gte",
+            "value": 1
+          }
+        ],
+        "explanation": "Registers the client’s own power units."
+      },
+      "founder_route": "/office/permitting",
+      "client_route": "/portal/renewals",
+      "route_status": "EXISTING",
+      "active_case_types": [
+        "SERVICE_REQUEST"
+      ],
+      "subcontext_types": [
+        "REGISTRATION YEAR",
+        "VEHICLE"
+      ],
+      "required_permissions": [
+        "clients.read",
+        "work.read",
+        "work.manage"
+      ],
+      "shared_dependencies": [
+        "FLEET REGISTRY",
+        "RENEWALS / DEADLINES",
+        "VAULT (cab cards)"
+      ],
+      "adjacent_workspaces": [
+        "IFTA",
+        "INSURANCE",
+        "COMPLIANCE"
+      ],
+      "supported_states": [
+        "ACTIVE",
+        "AVAILABLE_NOT_ACTIVATED",
+        "NOT_APPLICABLE"
+      ],
+      "entitlement_sources": [
+        {
+          "source": "ServiceRequest (demo store.requests) / aio_service_requests",
+          "field": "clientId | organization_id + services[].slug + status",
+          "ref": "all-in-one-enterprises/src/demo/demoTypes.ts:359 ; all-in-one-enterprises/supabase/migrations/20260815110000_aio_business_data_rls.sql:47",
+          "status": "PARTIAL",
+          "note": "A non-terminal request = an open case; no standing service record."
+        },
+        {
+          "source": "RenewalRecord / Deadline",
+          "field": "renewalType registration | irp | ucr",
+          "ref": "all-in-one-enterprises/src/renewals/renewalTypes.ts:3",
+          "status": "PARTIAL",
+          "note": "Deadlines are signals, not entitlements."
+        },
+        {
+          "source": "Client.services (demo)",
+          "field": "services: string[] (free-text titles)",
+          "ref": "all-in-one-enterprises/src/demo/demoTypes.ts:333",
+          "status": "CONFLICT",
+          "note": "Unreliable (appended only on request submit) — never used to resolve a workspace state."
+        }
+      ],
+      "workspace_state": "CONTRACT_ONLY",
+      "catalog_slugs": [
+        "irp-apportioned-registration",
+        "tag-services",
+        "title-services",
+        "ucr-registration",
+        "ucr-renewal"
+      ],
+      "launch_refs": [
+        "all-in-one-enterprises/src/launch/serviceActivationLaunch.ts:39"
+      ],
+      "capabilities": [
+        "service requests",
+        "renewals"
+      ],
+      "client_permission": "organisation member (CustomerRouteGuard; own organisation only)",
+      "expansion_rules": [
+        "X.TAGS.FROM_IFTA.DEADLINES",
+        "X.TAGS.FROM_IFTA"
+      ]
+    },
+    {
+      "workspace_id": "PERMITTING",
+      "name": "PERMITTING",
+      "category": "PERMITS",
+      "availability": "LIMITED_PILOT (trip permits) · PREPARING (temporary permits)",
+      "availability_truth": "CONSISTENT",
+      "client_can_request": true,
+      "staff_can_start": false,
+      "feature_refs": [
+        "AIO.PERMITTING"
+      ],
+      "client_eligibility_rule": {
+        "kind": "SIGNALS",
+        "match": "ALL",
+        "conditions": [
+          {
+            "signal": "operates_trucks",
+            "op": "truthy"
+          }
+        ],
+        "explanation": "Trip / temporary permits are for operating trucks."
+      },
+      "founder_route": "/office/permitting",
+      "client_route": null,
+      "route_status": "EXISTING",
+      "active_case_types": [
+        "SERVICE_REQUEST"
+      ],
+      "subcontext_types": [
+        "PERMIT"
+      ],
+      "required_permissions": [
+        "clients.read",
+        "work.read",
+        "work.manage"
+      ],
+      "shared_dependencies": [
+        "FLEET REGISTRY",
+        "DEADLINES"
+      ],
+      "adjacent_workspaces": [
+        "TAGS_REGISTRATION",
+        "COMPLIANCE"
+      ],
+      "supported_states": [
+        "ACTIVE",
+        "AVAILABLE_NOT_ACTIVATED",
+        "NOT_APPLICABLE"
+      ],
+      "entitlement_sources": [
+        {
+          "source": "ServiceRequest (demo store.requests) / aio_service_requests",
+          "field": "clientId | organization_id + services[].slug + status",
+          "ref": "all-in-one-enterprises/src/demo/demoTypes.ts:359 ; all-in-one-enterprises/supabase/migrations/20260815110000_aio_business_data_rls.sql:47",
+          "status": "PARTIAL",
+          "note": "A non-terminal request = an open case; no standing service record."
+        },
+        {
+          "source": "Portal buildActiveServices",
+          "field": "\"permitting\" entry",
+          "ref": "all-in-one-enterprises/src/portal/clientCommandCenterService.ts:534",
+          "status": "CONFLICT",
+          "note": "Hard-coded ACTIVE for every client — not used."
+        }
+      ],
+      "workspace_state": "CONTRACT_ONLY",
+      "catalog_slugs": [
+        "trip-permits",
+        "temporary-permits"
+      ],
+      "launch_refs": [
+        "all-in-one-enterprises/src/launch/serviceActivationLaunch.ts:22"
+      ],
+      "capabilities": [
+        "service requests"
+      ],
+      "client_permission": "organisation member (CustomerRouteGuard; own organisation only)",
+      "expansion_rules": []
+    },
+    {
+      "workspace_id": "COMPLIANCE",
+      "name": "COMPLIANCE (AUTHORITY · BOC-3 · SAFETY)",
+      "category": "COMPLIANCE",
+      "availability": "authorities LIMITED_PILOT · BOC-3 BLOCKED · MCS-150 COMING_SOON · safety PREPARING",
+      "availability_truth": "CONSISTENT",
+      "client_can_request": true,
+      "staff_can_start": false,
+      "feature_refs": [
+        "AIO.AUTHORITIES",
+        "AIO.BOC3",
+        "AIO.COMPLIANCE_SAFETY"
+      ],
+      "client_eligibility_rule": {
+        "kind": "SIGNALS",
+        "match": "ALL",
+        "conditions": [
+          {
+            "signal": "operates_trucks",
+            "op": "truthy"
+          }
+        ],
+        "explanation": "Operating authority and safety compliance apply to motor carriers."
+      },
+      "founder_route": "/office/permitting",
+      "client_route": "/portal/road-ready",
+      "route_status": "EXISTING",
+      "active_case_types": [
+        "SERVICE_REQUEST"
+      ],
+      "subcontext_types": [
+        "FILING (USDOT · MC · BOC-3 · MCS-150)"
+      ],
+      "required_permissions": [
+        "clients.read",
+        "work.read",
+        "work.manage"
+      ],
+      "shared_dependencies": [
+        "ROAD READY (readiness layer)",
+        "RENEWALS"
+      ],
+      "adjacent_workspaces": [
+        "IFTA",
+        "TAGS_REGISTRATION",
+        "INSURANCE"
+      ],
+      "supported_states": [
+        "ACTIVE",
+        "AVAILABLE_NOT_ACTIVATED",
+        "NOT_APPLICABLE"
+      ],
+      "entitlement_sources": [
+        {
+          "source": "ServiceRequest (demo store.requests) / aio_service_requests",
+          "field": "clientId | organization_id + services[].slug + status",
+          "ref": "all-in-one-enterprises/src/demo/demoTypes.ts:359 ; all-in-one-enterprises/supabase/migrations/20260815110000_aio_business_data_rls.sql:47",
+          "status": "PARTIAL",
+          "note": "A non-terminal request = an open case; no standing service record."
+        },
+        {
+          "source": "RoadReadyProfile.authority",
+          "field": "usdot | mc | boc3",
+          "ref": "all-in-one-enterprises/src/road-ready/roadReadyTypes.ts:75",
+          "status": "PARTIAL",
+          "note": "Readiness facts (signals)."
+        },
+        {
+          "source": "Client.services (demo)",
+          "field": "services: string[] (free-text titles)",
+          "ref": "all-in-one-enterprises/src/demo/demoTypes.ts:333",
+          "status": "CONFLICT",
+          "note": "Unreliable (appended only on request submit) — never used to resolve a workspace state."
+        }
+      ],
+      "workspace_state": "CONTRACT_ONLY",
+      "catalog_slugs": [
+        "usdot-registration",
+        "operating-authority-assistance",
+        "boc-3-assistance",
+        "mcs-150-biennial-update",
+        "compliance-support"
+      ],
+      "launch_refs": [
+        "all-in-one-enterprises/src/launch/serviceActivationLaunch.ts:89"
+      ],
+      "capabilities": [
+        "service requests",
+        "Road Ready review"
+      ],
+      "client_permission": "organisation member (CustomerRouteGuard; own organisation only)",
+      "expansion_rules": []
+    },
+    {
+      "workspace_id": "INSURANCE",
+      "name": "INSURANCE",
+      "category": "MONEY & RISK",
+      "availability": "HOLD (launch) · PARTNER_PENDING (infra) · LIMITED_PILOT (catalog, partner-provided)",
+      "availability_truth": "CONFLICT",
+      "client_can_request": true,
+      "staff_can_start": false,
+      "feature_refs": [
+        "AIO.INSURANCE"
+      ],
+      "client_eligibility_rule": {
+        "kind": "SIGNALS",
+        "match": "ALL",
+        "conditions": [
+          {
+            "signal": "operates_trucks",
+            "op": "truthy"
+          }
+        ],
+        "explanation": "Commercial auto / cargo coverage for operating trucks."
+      },
+      "founder_route": "/office/insurance",
+      "client_route": "/portal/insurance",
+      "route_status": "EXISTING",
+      "active_case_types": [
+        "POLICY",
+        "INSURANCE_REQUEST"
+      ],
+      "subcontext_types": [
+        "POLICY"
+      ],
+      "required_permissions": [
+        "clients.read",
+        "work.read",
+        "work.manage"
+      ],
+      "shared_dependencies": [
+        "FLEET REGISTRY",
+        "VAULT (COIs)",
+        "RENEWALS"
+      ],
+      "adjacent_workspaces": [
+        "TAGS_REGISTRATION",
+        "COMPLIANCE"
+      ],
+      "supported_states": [
+        "ACTIVE",
+        "AVAILABLE_NOT_ACTIVATED",
+        "NOT_APPLICABLE",
+        "PENDING_SETUP"
+      ],
+      "entitlement_sources": [
+        {
+          "source": "InsurancePolicy (demo)",
+          "field": "organizationId + status active | expiring_soon | …",
+          "ref": "all-in-one-enterprises/src/insurance/insuranceTypes.ts:30",
+          "status": "EXISTING",
+          "note": "Active / expiring policy → ACTIVE."
+        },
+        {
+          "source": "InsuranceRequest (demo)",
+          "field": "organizationId + status draft … policy_setup",
+          "ref": "all-in-one-enterprises/src/insurance/insuranceTypes.ts:109",
+          "status": "EXISTING",
+          "note": "Open request without a policy → PENDING_SETUP."
+        }
+      ],
+      "workspace_state": "CONTRACT_ONLY",
+      "catalog_slugs": [
+        "commercial-auto-liability",
+        "cargo-coverage",
+        "physical-damage"
+      ],
+      "launch_refs": [
+        "all-in-one-enterprises/src/launch/serviceActivationLaunch.ts:191"
+      ],
+      "capabilities": [
+        "requests",
+        "policies",
+        "certificates"
+      ],
+      "client_permission": "organisation member (CustomerRouteGuard; own organisation only)",
+      "expansion_rules": [
+        "X.INSURANCE.FROM_TAGS"
+      ]
+    },
+    {
+      "workspace_id": "BOOKKEEPING",
+      "name": "BOOKKEEPING",
+      "category": "MONEY",
+      "availability": "LIMITED_PILOT (launch + catalog)",
+      "availability_truth": "CONSISTENT",
+      "client_can_request": true,
+      "staff_can_start": false,
+      "feature_refs": [
+        "AIO.BOOKKEEPING"
+      ],
+      "client_eligibility_rule": {
+        "kind": "ALL_CLIENTS",
+        "explanation": "Every business keeps books."
+      },
+      "founder_route": "/office/bookkeeping",
+      "client_route": "/portal/bookkeeping",
+      "route_status": "EXISTING",
+      "active_case_types": [
+        "SUBSCRIPTION",
+        "MONTHLY_CLOSE"
+      ],
+      "subcontext_types": [
+        "MONTH"
+      ],
+      "required_permissions": [
+        "clients.read",
+        "work.read",
+        "work.manage",
+        "billing.read"
+      ],
+      "shared_dependencies": [
+        "VAULT (month folders)",
+        "BILLING"
+      ],
+      "adjacent_workspaces": [
+        "FACTORING",
+        "IFTA",
+        "DISPATCH"
+      ],
+      "supported_states": [
+        "ACTIVE",
+        "AVAILABLE_NOT_ACTIVATED",
+        "NOT_APPLICABLE",
+        "PENDING_SETUP",
+        "PAUSED",
+        "ENDED"
+      ],
+      "entitlement_sources": [
+        {
+          "source": "BookkeepingSubscription (demo)",
+          "field": "organizationId + status recommended | quoted | pending | onboarding | active | paused | cancelled",
+          "ref": "all-in-one-enterprises/src/bookkeeping/bookkeepingTypes.ts:94",
+          "status": "EXISTING",
+          "note": ""
+        },
+        {
+          "source": "aio_bookkeeping_subscriptions",
+          "field": "organization_id + status",
+          "ref": "all-in-one-enterprises/supabase/migrations/20260816170000_aio_bookkeeping.sql:4",
+          "status": "EXISTING",
+          "note": ""
+        }
+      ],
+      "workspace_state": "CONTRACT_ONLY",
+      "catalog_slugs": [
+        "bookkeeping-essentials",
+        "bookkeeping-plus",
+        "all-in-one-bookkeeping",
+        "books-rescue"
+      ],
+      "launch_refs": [
+        "all-in-one-enterprises/src/launch/serviceActivationLaunch.ts:208"
+      ],
+      "capabilities": [
+        "subscription",
+        "monthly close",
+        "books rescue"
+      ],
+      "client_permission": "organisation member (CustomerRouteGuard; own organisation only)",
+      "expansion_rules": [
+        "X.BOOKKEEPING.FROM_FACTORING"
+      ]
+    },
+    {
+      "workspace_id": "FACTORING",
+      "name": "FACTORING",
+      "category": "MONEY",
+      "availability": "HOLD (launch) · PARTNER_PENDING (infra) · LIMITED_PILOT (catalog)",
+      "availability_truth": "CONFLICT",
+      "client_can_request": true,
+      "staff_can_start": false,
+      "feature_refs": [
+        "AIO.FACTORING"
+      ],
+      "client_eligibility_rule": {
+        "kind": "SIGNALS",
+        "match": "ALL",
+        "conditions": [
+          {
+            "signal": "operates_trucks",
+            "op": "truthy"
+          }
+        ],
+        "explanation": "Carrier invoice factoring."
+      },
+      "founder_route": "/office/factoring",
+      "client_route": "/portal/factoring",
+      "route_status": "EXISTING",
+      "active_case_types": [
+        "SUBMISSION"
+      ],
+      "subcontext_types": [
+        "SUBMISSION"
+      ],
+      "required_permissions": [
+        "clients.read",
+        "work.read",
+        "work.manage",
+        "factoring_finance.read"
+      ],
+      "shared_dependencies": [
+        "DISPATCH (delivered loads)",
+        "BILLING"
+      ],
+      "adjacent_workspaces": [
+        "DISPATCH",
+        "BOOKKEEPING"
+      ],
+      "supported_states": [
+        "ACTIVE",
+        "AVAILABLE_NOT_ACTIVATED",
+        "NOT_APPLICABLE",
+        "PENDING_SETUP"
+      ],
+      "entitlement_sources": [
+        {
+          "source": "FactoringProfile (demo)",
+          "field": "organizationId + enrollmentStatus not_enrolled | interested | application_started | … | active",
+          "ref": "all-in-one-enterprises/src/factoring/factoringTypes.ts:87",
+          "status": "EXISTING",
+          "note": ""
+        },
+        {
+          "source": "Client.services (demo)",
+          "field": "services: string[] (free-text titles)",
+          "ref": "all-in-one-enterprises/src/demo/demoTypes.ts:333",
+          "status": "CONFLICT",
+          "note": "Unreliable (appended only on request submit) — never used to resolve a workspace state."
+        }
+      ],
+      "workspace_state": "CONTRACT_ONLY",
+      "catalog_slugs": [
+        "factoring-consultation",
+        "invoice-factoring"
+      ],
+      "launch_refs": [
+        "all-in-one-enterprises/src/launch/serviceActivationLaunch.ts:174"
+      ],
+      "capabilities": [
+        "submissions",
+        "invoices"
+      ],
+      "client_permission": "organisation member (CustomerRouteGuard; own organisation only)",
+      "expansion_rules": [
+        "X.FACTORING.FROM_DISPATCH"
+      ]
+    },
+    {
+      "workspace_id": "DISPATCH",
+      "name": "DISPATCH",
+      "category": "OPERATIONS",
+      "availability": "GO (launch) · ACTIVE (infra + catalog)",
+      "availability_truth": "CONSISTENT",
+      "client_can_request": true,
+      "staff_can_start": false,
+      "feature_refs": [
+        "AIO.DISPATCH_OPERATIONS"
+      ],
+      "client_eligibility_rule": {
+        "kind": "SIGNALS",
+        "match": "ALL",
+        "conditions": [
+          {
+            "signal": "operates_trucks",
+            "op": "truthy"
+          },
+          {
+            "signal": "power_units",
+            "op": "gte",
+            "value": 1
+          }
+        ],
+        "explanation": "Dispatch for the client’s own trucks."
+      },
+      "founder_route": "/office/dispatch",
+      "client_route": "/portal/dispatch",
+      "route_status": "EXISTING",
+      "active_case_types": [
+        "LOAD"
+      ],
+      "subcontext_types": [
+        "LOAD"
+      ],
+      "required_permissions": [
+        "clients.read",
+        "work.read",
+        "work.manage",
+        "management.dispatch.read"
+      ],
+      "shared_dependencies": [
+        "FLEET REGISTRY",
+        "VAULT (rate cons / PODs)"
+      ],
+      "adjacent_workspaces": [
+        "IFTA",
+        "FACTORING",
+        "FLEETCARE"
+      ],
+      "supported_states": [
+        "ACTIVE",
+        "AVAILABLE_NOT_ACTIVATED",
+        "NOT_APPLICABLE",
+        "PENDING_SETUP",
+        "PAUSED",
+        "ENDED"
+      ],
+      "entitlement_sources": [
+        {
+          "source": "DispatchEnrollment (demo)",
+          "field": "organizationId + status interested | onboarding | active | paused | suspended | ended",
+          "ref": "all-in-one-enterprises/src/dispatch/dispatchTypes.ts:115",
+          "status": "EXISTING",
+          "note": ""
+        },
+        {
+          "source": "Client.services (demo)",
+          "field": "services: string[] (free-text titles)",
+          "ref": "all-in-one-enterprises/src/demo/demoTypes.ts:333",
+          "status": "CONFLICT",
+          "note": "Unreliable (appended only on request submit) — never used to resolve a workspace state."
+        }
+      ],
+      "workspace_state": "CONTRACT_ONLY",
+      "catalog_slugs": [
+        "carrier-dispatch-support",
+        "load-coordination"
+      ],
+      "launch_refs": [
+        "all-in-one-enterprises/src/launch/serviceActivationLaunch.ts:140"
+      ],
+      "capabilities": [
+        "loads",
+        "enrollment"
+      ],
+      "client_permission": "organisation member (CustomerRouteGuard; own organisation only)",
+      "expansion_rules": []
+    },
+    {
+      "workspace_id": "BROKERAGE",
+      "name": "BROKERAGE / AIO FREIGHT",
+      "category": "OPERATIONS",
+      "availability": "BLOCKED (launch) · PAUSED (infra) · COMING_SOON (catalog)",
+      "availability_truth": "CONSISTENT",
+      "client_can_request": false,
+      "staff_can_start": false,
+      "feature_refs": [
+        "AIO.BROKERAGE"
+      ],
+      "client_eligibility_rule": {
+        "kind": "ALL_CLIENTS",
+        "explanation": "Shippers book freight; carriers join the network."
+      },
+      "founder_route": "/office/brokerage",
+      "client_route": "/portal/brokerage",
+      "route_status": "EXISTING",
+      "active_case_types": [
+        "SHIPMENT"
+      ],
+      "subcontext_types": [
+        "SHIPMENT"
+      ],
+      "required_permissions": [
+        "clients.read",
+        "work.read",
+        "work.manage",
+        "brokerage_finance.read"
+      ],
+      "shared_dependencies": [
+        "LOAD BOARD",
+        "BILLING"
+      ],
+      "adjacent_workspaces": [
+        "DISPATCH"
+      ],
+      "supported_states": [
+        "ACTIVE",
+        "AVAILABLE_NOT_ACTIVATED",
+        "NOT_APPLICABLE",
+        "PENDING_SETUP",
+        "PAUSED"
+      ],
+      "entitlement_sources": [
+        {
+          "source": "ShipperProfile (demo)",
+          "field": "organizationId + status lead | onboarding | active | paused | inactive",
+          "ref": "all-in-one-enterprises/src/brokerage/brokerageTypes.ts:25",
+          "status": "EXISTING",
+          "note": ""
+        },
+        {
+          "source": "CarrierNetworkProfile (demo)",
+          "field": "organizationId + status prospect | onboarding | approved_internal | active | hold",
+          "ref": "all-in-one-enterprises/src/brokerage/brokerageTypes.ts:229",
+          "status": "EXISTING",
+          "note": ""
+        }
+      ],
+      "workspace_state": "CONTRACT_ONLY",
+      "catalog_slugs": [
+        "freight-quote",
+        "shipment-coordination"
+      ],
+      "launch_refs": [
+        "all-in-one-enterprises/src/launch/serviceActivationLaunch.ts:157"
+      ],
+      "capabilities": [
+        "shipments",
+        "carrier network"
+      ],
+      "client_permission": "organisation member (CustomerRouteGuard; own organisation only)",
+      "expansion_rules": []
+    },
+    {
+      "workspace_id": "FLEETCARE",
+      "name": "FLEETCARE",
+      "category": "OPERATIONS",
+      "availability": "no launch / catalog entry (nav slug only)",
+      "availability_truth": "CONFLICT",
+      "client_can_request": true,
+      "staff_can_start": false,
+      "feature_refs": [
+        "AIO.FLEETCARE"
+      ],
+      "client_eligibility_rule": {
+        "kind": "SIGNALS",
+        "match": "ALL",
+        "conditions": [
+          {
+            "signal": "power_units",
+            "op": "gte",
+            "value": 1
+          }
+        ],
+        "explanation": "Maintenance for the client’s own units."
+      },
+      "founder_route": "/office/fleetcare",
+      "client_route": "/portal/fleetcare",
+      "route_status": "EXISTING",
+      "active_case_types": [
+        "MAINTENANCE_TICKET"
+      ],
+      "subcontext_types": [
+        "TICKET",
+        "VEHICLE"
+      ],
+      "required_permissions": [
+        "clients.read",
+        "work.read",
+        "work.manage"
+      ],
+      "shared_dependencies": [
+        "FLEET REGISTRY",
+        "DISPATCH (truck availability)"
+      ],
+      "adjacent_workspaces": [
+        "DISPATCH"
+      ],
+      "supported_states": [
+        "ACTIVE",
+        "AVAILABLE_NOT_ACTIVATED",
+        "NOT_APPLICABLE"
+      ],
+      "entitlement_sources": [
+        {
+          "source": "MaintenanceTicket (demo)",
+          "field": "clientOrganizationId + status",
+          "ref": "all-in-one-enterprises/src/fleetcare/fleetcareTypes.ts:148",
+          "status": "PARTIAL",
+          "note": "Ticket existence → ACTIVE (no subscription record read by the app)."
+        },
+        {
+          "source": "aio_fleetcare_client_subscriptions",
+          "field": "organization_id + status",
+          "ref": "all-in-one-enterprises/supabase/migrations/20260817190000_aio_fleetcare_network.sql:224",
+          "status": "PARTIAL",
+          "note": "Schema only, unused by app code."
+        }
+      ],
+      "workspace_state": "CONTRACT_ONLY",
+      "catalog_slugs": [],
+      "launch_refs": [],
+      "capabilities": [
+        "tickets",
+        "providers"
+      ],
+      "client_permission": "organisation member (CustomerRouteGuard; own organisation only)",
+      "expansion_rules": [
+        "X.FLEETCARE.FROM_DISPATCH"
+      ]
+    },
+    {
+      "workspace_id": "DRIVERLINK",
+      "name": "DRIVERLINK",
+      "category": "PEOPLE",
+      "availability": "no launch / catalog entry (nav slug only)",
+      "availability_truth": "CONFLICT",
+      "client_can_request": true,
+      "staff_can_start": false,
+      "feature_refs": [
+        "AIO.DRIVERLINK"
+      ],
+      "client_eligibility_rule": {
+        "kind": "SIGNALS",
+        "match": "ALL",
+        "conditions": [
+          {
+            "signal": "operates_trucks",
+            "op": "truthy"
+          }
+        ],
+        "explanation": "Driver hiring for carriers."
+      },
+      "founder_route": "/office/driverlink",
+      "client_route": "/portal/driverlink",
+      "route_status": "EXISTING",
+      "active_case_types": [
+        "JOB_OPPORTUNITY"
+      ],
+      "subcontext_types": [
+        "JOB"
+      ],
+      "required_permissions": [
+        "clients.read",
+        "work.read",
+        "work.manage"
+      ],
+      "shared_dependencies": [
+        "COMPLIANCE (DQ files)"
+      ],
+      "adjacent_workspaces": [
+        "COMPLIANCE"
+      ],
+      "supported_states": [
+        "ACTIVE",
+        "AVAILABLE_NOT_ACTIVATED",
+        "NOT_APPLICABLE"
+      ],
+      "entitlement_sources": [
+        {
+          "source": "JobOpportunity (demo)",
+          "field": "organizationId + status",
+          "ref": "all-in-one-enterprises/src/driverlink/driverlinkTypes.ts:116",
+          "status": "PARTIAL",
+          "note": "Published opportunity → ACTIVE."
+        },
+        {
+          "source": "aio_driverlink_company_subscriptions",
+          "field": "organization_id + status",
+          "ref": "all-in-one-enterprises/supabase/migrations/20260817200000_aio_driverlink.sql:154",
+          "status": "PARTIAL",
+          "note": "Schema only, unused by app code."
+        }
+      ],
+      "workspace_state": "CONTRACT_ONLY",
+      "catalog_slugs": [],
+      "launch_refs": [],
+      "capabilities": [
+        "jobs",
+        "candidates"
+      ],
+      "client_permission": "organisation member (CustomerRouteGuard; own organisation only)",
+      "expansion_rules": []
+    },
+    {
+      "workspace_id": "BUSINESS_FORMATION",
+      "name": "START YOUR BUSINESS (FORMATION)",
+      "category": "BUSINESS",
+      "availability": "LIMITED_PILOT (launch + catalog)",
+      "availability_truth": "CONSISTENT",
+      "client_can_request": true,
+      "staff_can_start": false,
+      "feature_refs": [
+        "AIO.BUSINESS_FORMATION"
+      ],
+      "client_eligibility_rule": {
+        "kind": "SIGNALS",
+        "match": "ALL",
+        "conditions": [
+          {
+            "signal": "new_entrant",
+            "op": "truthy"
+          }
+        ],
+        "explanation": "Formation applies to businesses that are not yet operating."
+      },
+      "founder_route": "/office/business-formation",
+      "client_route": "/portal/roadmap",
+      "route_status": "EXISTING",
+      "active_case_types": [
+        "SERVICE_REQUEST"
+      ],
+      "subcontext_types": [
+        "ENTITY"
+      ],
+      "required_permissions": [
+        "clients.read",
+        "work.read",
+        "work.manage"
+      ],
+      "shared_dependencies": [
+        "ROAD READY"
+      ],
+      "adjacent_workspaces": [
+        "COMPLIANCE"
+      ],
+      "supported_states": [
+        "ACTIVE",
+        "AVAILABLE_NOT_ACTIVATED",
+        "NOT_APPLICABLE"
+      ],
+      "entitlement_sources": [
+        {
+          "source": "ServiceRequest (demo store.requests) / aio_service_requests",
+          "field": "clientId | organization_id + services[].slug + status",
+          "ref": "all-in-one-enterprises/src/demo/demoTypes.ts:359 ; all-in-one-enterprises/supabase/migrations/20260815110000_aio_business_data_rls.sql:47",
+          "status": "PARTIAL",
+          "note": "A non-terminal request = an open case; no standing service record."
+        },
+        {
+          "source": "Client.services (demo)",
+          "field": "services: string[] (free-text titles)",
+          "ref": "all-in-one-enterprises/src/demo/demoTypes.ts:333",
+          "status": "CONFLICT",
+          "note": "Unreliable (appended only on request submit) — never used to resolve a workspace state."
+        }
+      ],
+      "workspace_state": "CONTRACT_ONLY",
+      "catalog_slugs": [
+        "llc-formation-assistance",
+        "ein-assistance"
+      ],
+      "launch_refs": [
+        "all-in-one-enterprises/src/launch/serviceActivationLaunch.ts:123"
+      ],
+      "capabilities": [
+        "service requests"
+      ],
+      "client_permission": "organisation member (CustomerRouteGuard; own organisation only)",
+      "expansion_rules": []
+    }
+  ],
+  "not_workspaces": [
+    {
+      "id": "ROAD_READY",
+      "reason": "Universal readiness / onboarding layer for every carrier (feeds signals to every workspace); not a sold service."
+    },
+    {
+      "id": "ROAD_TAX",
+      "reason": "Open founder question: road-tax / HVUT slugs sit beside IFTA in the catalog — inside IFTA or its own workspace."
+    },
+    {
+      "id": "LOAD_BOARD",
+      "reason": "Open founder question: carrier-side network shared by DISPATCH and BROKERAGE."
+    },
+    {
+      "id": "SAFETY_DRIVER_COMPLIANCE",
+      "reason": "Folded into COMPLIANCE (all slugs COMING_SOON / PREPARING)."
+    },
+    {
+      "id": "PAYROLL_TAX",
+      "reason": "Future (COMING_SOON) with no source record — not registered."
+    },
+    {
+      "id": "VAULT · INBOX · BILLING · RENEWALS · FLEET REGISTRY",
+      "reason": "Shared capabilities across workspaces, not workspaces."
+    }
+  ],
+  "shared_capabilities": [
+    "VAULT / DOCUMENTS",
+    "INBOX / COMMUNICATIONS",
+    "BILLING / MONEY",
+    "RENEWALS / CALENDAR / DEADLINES",
+    "FLEET REGISTRY"
+  ]
+}

@@ -51,8 +51,10 @@ JURNL today: 16 families · 12 BLOCKED (no visual authority) · 3 at founder ver
 
 Family node + actor-mode `PAGE_FAMILY_AUTHORITY` nodes (CLIENT parent at FOUNDER_VERDICT, others ACTOR_MODE_DERIVATION) +
 `PAGE_TREE` node (AUTHORITY_PACKAGE until confirmed) with an `.open-decisions` gate. Open questions → NEEDS_YOU, decided →
-RESOLVED, page-tree confirmation WATCHING until no question is open (then NEEDS_YOU). AIO today: 5 nodes, 10 NEEDS YOU,
-1 WATCHING, 7 RESOLVED, 3 verdict events, 60 artifacts.
+RESOLVED, page-tree confirmation WATCHING until no question is open (then NEEDS_YOU). AIO today (after the founder lock merged in
+#1403): 5 nodes, 17 decisions RESOLVED, 1 NEEDS YOU (confirm the page tree — the gate is `PAGE_TREE_CONFIRMATION_REQUIRED`),
+3 verdict events, 60 artifacts. The graph followed the source truth with no code change (before #1403: 10 NEEDS YOU,
+1 WATCHING, 7 RESOLVED).
 
 ### Expression production (NDXBOOK Entry 002, live) — `adapters/expressionProduction.ts`
 

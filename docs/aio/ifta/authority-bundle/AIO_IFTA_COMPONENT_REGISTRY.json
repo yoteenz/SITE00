@@ -1,6 +1,8 @@
 {
   "id": "AIO_IFTA_COMPONENT_REGISTRY",
   "sprint": "P0.AIO.IFTA.AUTHORITY-BUNDLE-INGEST-AND-PAGE-TREE-PROOF1",
+  "revision": 2,
+  "revised_in": "P0.AIO.OFFICE-WORKSPACE-ARCHITECTURE-AND-IFTA-TREE-FOUNDER-LOCK1",
   "generated_by": "scripts/studioos/aio-ifta-authority-bundle-export.ts",
   "source": "shared/studioos-visual-authority/projects/aio/ifta-authority",
   "generated_for": "2026-10-06",
@@ -13,8 +15,7 @@
   "rule": "Reusable family components = shared DESIGN. Each node binds them to its own data, interactions and states.",
   "by_authority_status": {
     "DEFINED_IN_AUTHORITY": 29,
-    "DERIVED_FROM_FAMILY": 10,
-    "MISSING_AUTHORITY": 1
+    "DERIVED_FROM_FAMILY": 14
   },
   "contract_sheet_stack": [
     "01 HERO BANNER → QUARTER_HERO",
@@ -79,7 +80,9 @@
       ],
       "used_by": [
         "AIO.IFTA.CLIENT.ROOM",
+        "AIO.IFTA.CLIENT.NOT_ENROLLED",
         "AIO.IFTA.STAFF.QUEUE",
+        "AIO.IFTA.STAFF.WORKSPACE_INACTIVE",
         "AIO.IFTA.STAFF.CASE",
         "AIO.IFTA.PUBLIC.SERVICE"
       ]
@@ -200,6 +203,7 @@
         "AIO.IFTA.CLIENT.ROOM.FILED",
         "AIO.IFTA.CLIENT.ROOM.ARCHIVED",
         "AIO.IFTA.CLIENT.ROOM.NEXT_QUARTER_OPEN",
+        "AIO.IFTA.STAFF.QUEUE",
         "AIO.IFTA.STAFF.CASE",
         "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES",
         "AIO.IFTA.STAFF.CASE.MILEAGE",
@@ -248,7 +252,6 @@
       ],
       "used_by": [
         "AIO.IFTA.CLIENT.ROOM",
-        "AIO.IFTA.CLIENT.ROOM.NOTES",
         "AIO.IFTA.CLIENT.ROOM.ARCHIVED",
         "AIO.IFTA.STAFF.CASE",
         "AIO.IFTA.STAFF.CASE.NOTES"
@@ -285,7 +288,8 @@
         "DESKTOP": "right end of the tab bar"
       },
       "used_by": [
-        "AIO.IFTA.CLIENT.ROOM"
+        "AIO.IFTA.CLIENT.ROOM",
+        "AIO.IFTA.STAFF.CASE"
       ]
     },
     {
@@ -1282,6 +1286,7 @@
         "AIO.IFTA.CLIENT.ROOM.PROGRESS.NEEDS_YOU",
         "AIO.IFTA.CLIENT.ROOM.PROGRESS.CORRECTION_FLOW",
         "AIO.IFTA.CLIENT.ROOM.RETURNED",
+        "AIO.IFTA.STAFF.QUEUE",
         "AIO.IFTA.STAFF.CASE.OVERVIEW",
         "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES",
         "AIO.IFTA.STAFF.CASE.MILEAGE",
@@ -1555,8 +1560,8 @@
       "used_by": [
         "AIO.IFTA.CLIENT.ROOM.PROGRESS.CORRECTION_FLOW",
         "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW.ASK",
-        "AIO.IFTA.CLIENT.ROOM.NOTES",
         "AIO.IFTA.CLIENT.ROOM.MESSAGES",
+        "AIO.IFTA.STAFF.CASE.NOTES",
         "AIO.IFTA.STAFF.CASE.THREAD"
       ]
     },
@@ -1592,8 +1597,8 @@
         "AIO.IFTA.CLIENT.ROOM.VEHICLES",
         "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS",
         "AIO.IFTA.CLIENT.ROOM.DOCUMENTS",
-        "AIO.IFTA.CLIENT.ROOM.NOTES",
         "AIO.IFTA.CLIENT.ROOM.NEXT_QUARTER_OPEN",
+        "AIO.IFTA.STAFF.WORKSPACE_INACTIVE",
         "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES",
         "AIO.IFTA.STAFF.CASE.MILEAGE",
         "AIO.IFTA.STAFF.CASE.VEHICLES",
@@ -1604,16 +1609,25 @@
     },
     {
       "component_id": "QUEUE_TABLE",
-      "name": "Fuel tax queue",
+      "name": "Multi-client filing queue",
       "family_role": "DATA",
-      "purpose": "Client-quarters by due date × readiness with hub buckets (AWAITING CLIENT · BLOCKED · NEEDS REVIEW · READY TO FILE · COMPLETE).",
+      "purpose": "IFTA workspace cross-client landing: one dense row per client-quarter (client · account · quarter · due date · readiness · current state · needs-you · blocker · risk · assignee · last client activity · next action) with bucket chips (NEEDS ATTENTION · WAITING ON CLIENT · WAITING ON AIO · BLOCKED · READY TO PREPARE · AWAITING APPROVAL · READY TO FILE · RETURNED / REJECTED · COMPLETE).",
       "actors": [
         "FOUNDER_STAFF"
       ],
-      "authority_refs": [],
-      "authority_status": "MISSING_AUTHORITY",
+      "authority_refs": [
+        "FOUNDER_STAFF_TABLET_DESKTOP",
+        "ACTOR_MODES_MOBILE",
+        "PAGE_COMPONENT_INTERACTION_CONTRACT",
+        "ICON_ASSET_SHEET"
+      ],
+      "authority_status": "DERIVED_FROM_FAMILY",
       "asset_refs": [
-        "SURFACE.STATUS_CHIPS"
+        "SURFACE.STATUS_CHIPS",
+        "SURFACE.DARK_OPERATIONAL_PANEL",
+        "ICON.STATUS.ATTENTION",
+        "ICON.COMM.OPEN",
+        "ICON.COMM.USERS"
       ],
       "ui_states": [
         "UI.DEFAULT",
@@ -1626,14 +1640,163 @@
       ],
       "interactions": [
         "I.OPEN_CASE",
-        "I.FILTER_QUEUE"
+        "I.FILTER_QUEUE",
+        "I.SWITCH_CLIENT"
       ],
-      "responsive": {},
+      "responsive": {
+        "MOBILE": "bucket chips → stacked client-quarter cards (client · quarter · state chip · next action)",
+        "TABLET": "bucket chips → dense table (client · quarter · due · state · next action)",
+        "DESKTOP": "metrics strip → bucket chips → full dense table with risk + assignee columns → dark operational accent panel for blockers"
+      },
       "rules": [
-        "no reference authority (gap G-STAFF-QUEUE / decision D-STAFF-QUEUE-AUTHORITY)"
+        "DERIVED_AUTHORITY — founder-authorised derivation from the staff case authority (D-STAFF-QUEUE-AUTHORITY): light body · dark accents · status chips · risk language · metrics · dense table · next-action — see AIO_IFTA_QUEUE_DERIVATION_CONTRACT.json",
+        "Primary object is the MULTI-CLIENT FILING QUEUE — never a copy of the case page (no hero per client, no tab family)",
+        "Columns render only fields with contract truth; ASSIGNEE and RISK TIER have no model today and render as absent, never invented"
       ],
       "used_by": [
         "AIO.IFTA.STAFF.QUEUE"
+      ]
+    },
+    {
+      "component_id": "WORKSPACE_SWITCHER",
+      "name": "Workspace switcher",
+      "family_role": "SHELL",
+      "purpose": "Switch workspace while keeping the client. Groups: ACTIVE · IN PROGRESS · AVAILABLE (eligible, not activated — client office only) — NOT_APPLICABLE workspaces are never listed to the client.",
+      "actors": [
+        "CLIENT",
+        "FOUNDER_STAFF"
+      ],
+      "authority_refs": [
+        "CLIENT_TABLET_DESKTOP",
+        "FOUNDER_STAFF_TABLET_DESKTOP",
+        "ICON_ASSET_SHEET"
+      ],
+      "authority_status": "DERIVED_FROM_FAMILY",
+      "asset_refs": [
+        "ICON.COMM.OPEN",
+        "SURFACE.STATUS_CHIPS",
+        "SURFACE.CARD"
+      ],
+      "ui_states": [
+        "UI.DEFAULT",
+        "UI.LOADING"
+      ],
+      "data_domains": [
+        "OFFICE_CONTEXT"
+      ],
+      "interactions": [
+        "I.SWITCH_WORKSPACE",
+        "I.EXPLORE_WORKSPACE",
+        "I.RETURN_TO_HUB"
+      ],
+      "responsive": {
+        "MOBILE": "top-nav workspace name → full-height sheet",
+        "TABLET": "top-nav dropdown",
+        "DESKTOP": "top-nav dropdown left of search"
+      },
+      "rules": [
+        "Derived from the QUARTER_SELECTOR dropdown pattern + TOP_NAV identity row; placement in the TOP_NAV is a proposal the founder confirms with the tree — the approved family composition is unchanged",
+        "Distinct from the client switcher and the subcontext (quarter) selector — never one combined selector"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.ROOM",
+        "AIO.IFTA.CLIENT.NOT_ENROLLED",
+        "AIO.IFTA.STAFF.QUEUE",
+        "AIO.IFTA.STAFF.WORKSPACE_INACTIVE",
+        "AIO.IFTA.STAFF.CASE"
+      ]
+    },
+    {
+      "component_id": "CLIENT_SWITCHER",
+      "name": "Client switcher (AIO OFFICE only)",
+      "family_role": "SHELL",
+      "purpose": "Switch client while keeping the workspace; client lookup / search. Never rendered in CLIENT OFFICE.",
+      "actors": [
+        "FOUNDER_STAFF"
+      ],
+      "authority_refs": [
+        "FOUNDER_STAFF_TABLET_DESKTOP",
+        "ICON_ASSET_SHEET"
+      ],
+      "authority_status": "DERIVED_FROM_FAMILY",
+      "asset_refs": [
+        "AVATAR.CHIP",
+        "ICON.COMM.SEARCH",
+        "ICON.COMM.OPEN"
+      ],
+      "ui_states": [
+        "UI.DEFAULT",
+        "UI.LOADING",
+        "UI.EMPTY"
+      ],
+      "data_domains": [
+        "OFFICE_CONTEXT"
+      ],
+      "interactions": [
+        "I.SWITCH_CLIENT",
+        "I.OPEN_CLIENT_OVERVIEW"
+      ],
+      "responsive": {
+        "MOBILE": "client chip in the hero → search sheet",
+        "TABLET": "client chip in the hero identity row → search dropdown",
+        "DESKTOP": "client identity in the hero (staff authority) → search dropdown"
+      },
+      "rules": [
+        "Derived from the staff authority client identity row + AVATAR.CHIP + search; placement is a proposal the founder confirms with the tree",
+        "An inactive workspace for the chosen client shows WORKSPACE NOT ACTIVE — another client is never selected silently"
+      ],
+      "used_by": [
+        "AIO.IFTA.STAFF.QUEUE",
+        "AIO.IFTA.STAFF.WORKSPACE_INACTIVE",
+        "AIO.IFTA.STAFF.CASE"
+      ]
+    },
+    {
+      "component_id": "WORKSPACE_STATE_PANEL",
+      "name": "Workspace state panel",
+      "family_role": "FEEDBACK",
+      "purpose": "Truthful workspace state for a client: staff — WORKSPACE NOT ACTIVE FOR THIS CLIENT with supported actions only; client — NOT ACTIVE YET expansion card (why it may matter · what AIO handles · what you provide · request).",
+      "actors": [
+        "CLIENT",
+        "FOUNDER_STAFF"
+      ],
+      "authority_refs": [
+        "CLIENT_TABLET_DESKTOP",
+        "FOUNDER_STAFF_TABLET_DESKTOP",
+        "ICON_ASSET_SHEET"
+      ],
+      "authority_status": "DERIVED_FROM_FAMILY",
+      "asset_refs": [
+        "SURFACE.CARD",
+        "SURFACE.STATUS_CHIPS",
+        "CTA.PRIMARY_GOLD",
+        "CTA.SECONDARY_OUTLINE"
+      ],
+      "ui_states": [
+        "UI.DEFAULT",
+        "UI.EMPTY"
+      ],
+      "data_domains": [
+        "OFFICE_CONTEXT"
+      ],
+      "interactions": [
+        "I.RETURN_TO_QUEUE",
+        "I.OPEN_CLIENT_OVERVIEW",
+        "I.VIEW_ELIGIBILITY",
+        "I.SET_UP_FILING"
+      ],
+      "responsive": {
+        "MOBILE": "single card under the hero",
+        "TABLET": "card in the body column",
+        "DESKTOP": "card in the body column + eligibility reasons beside it"
+      },
+      "rules": [
+        "Derived from the family EMPTY_STATE + card + CTA treatments",
+        "Never shows data from another client or inactive workspace content as if active"
+      ],
+      "used_by": [
+        "AIO.IFTA.CLIENT.NOT_ENROLLED",
+        "AIO.IFTA.STAFF.WORKSPACE_INACTIVE"
       ]
     },
     {

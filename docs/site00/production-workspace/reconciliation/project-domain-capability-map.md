@@ -11,7 +11,7 @@ HUB, INBOX, LIBRARY and ACTIVITY apply to every project (they project whatever t
 |---|---|---|---|---|
 | **NDXBOOK** | CONDITIONAL — only where site / interface authority is recorded · **not established** (legacy chamber + reconstruction workspace remain NDXBOOK-only) | CONDITIONAL · **not established** | PRIMARY · **established (live)** — Entry 002 narrative, casting, look, performance, sets, storyboard, keyframes | Entry 002 expression production (live hub read) |
 | **JURNL** | PRIMARY · **established** — F01–F16 page families | CONDITIONAL · not established | CONDITIONAL · **not established** (empty state, never NDX casting) | 16 family production contracts, 49 artifacts |
-| **ALL IN ONE ENTERPRISES** | PRIMARY · **established** — IFTA authority package | CONDITIONAL · not established | CONDITIONAL · not established | IFTA visual-authority package, 60 artifacts, 17 founder decisions |
+| **ALL IN ONE ENTERPRISES** | PRIMARY · **established** — IFTA authority package | CONDITIONAL · not established | CONDITIONAL · not established | IFTA visual-authority package, 60 artifacts, 17 founder decisions settled, page tree awaiting confirmation |
 | **STUDIO WORLD** | APPLICABLE · not established | PRIMARY · not established (no zone / room registry recorded) | APPLICABLE · not established | none |
 | **ASTRAL WORLD** | CONDITIONAL · not established | PRIMARY · **established** — world, 9 scenes, 19 interactions | CONDITIONAL · not established | scene contracts, objects, hotspots, 11 reference authorities |
 | **FRONTAL SLAYER** | APPLICABLE · not established | APPLICABLE · not established (Mansion has no room registry) | CONDITIONAL · not established | none |

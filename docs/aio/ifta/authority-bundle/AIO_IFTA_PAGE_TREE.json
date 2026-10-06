@@ -1,6 +1,38 @@
 {
   "id": "AIO_IFTA_PAGE_TREE",
   "sprint": "P0.AIO.IFTA.AUTHORITY-BUNDLE-INGEST-AND-PAGE-TREE-PROOF1",
+  "revision": {
+    "tree_id": "AIO.IFTA.PAGE_TREE.v1",
+    "revision": 2,
+    "revises": "revision 1 (P0.AIO.IFTA.AUTHORITY-BUNDLE-INGEST-AND-PAGE-TREE-PROOF1)",
+    "revised_in": "P0.AIO.OFFICE-WORKSPACE-ARCHITECTURE-AND-IFTA-TREE-FOUNDER-LOCK1",
+    "status_flags": [
+      "TREE_REVISED",
+      "FOUNDER_DECISIONS_LOCKED",
+      "AIO_OFFICE_MODEL_DEFINED",
+      "CLIENT_OFFICE_MODEL_DEFINED",
+      "IFTA_TREE_REBASED",
+      "AWAITING_FINAL_FOUNDER_CONFIRMATION"
+    ],
+    "changes": [
+      "AIO OFFICE / CLIENT OFFICE / PUBLIC SITE operating environments added as parents; hubs as environment nodes",
+      "IFTA is a WORKSPACE inside each office; staff: FUEL TAX QUEUE (cross-client landing) → CLIENT CONTEXT → CLIENT-QUARTER CASE; client: QUARTER SELECTOR → FILING ROOM",
+      "Staff WORKSPACE NOT ACTIVE FOR THIS CLIENT state added; client NOT_ENROLLED becomes the AVAILABLE_NOT_ACTIVATED expansion state",
+      "Client NOTES candidate removed (MESSAGE AIO); staff NOTES is a SECONDARY tab",
+      "FUEL TAX QUEUE authority: MISSING → DERIVED_AUTHORITY (founder-authorised derivation)",
+      "Interaction 09: ILLEGIBLE → RUN FAQS (identity resolved, behaviour description partial)",
+      "Every node carries operating-environment context (environment · workspace · client scope · case type · subcontext)"
+    ],
+    "material_node_ids_preserved": true,
+    "previous": {
+      "material_nodes": 64,
+      "implementation_ready": 39,
+      "reference_package": "REFERENCE_PACKAGE_INCOMPLETE",
+      "open_decisions": 10,
+      "staff_queue": "MISSING_AUTHORITY"
+    }
+  },
+  "revised_in": "P0.AIO.OFFICE-WORKSPACE-ARCHITECTURE-AND-IFTA-TREE-FOUNDER-LOCK1",
   "generated_by": "scripts/studioos/aio-ifta-authority-bundle-export.ts",
   "source": "shared/studioos-visual-authority/projects/aio/ifta-authority",
   "generated_for": "2026-10-06",
@@ -12,15 +44,18 @@
   },
   "ontology": [
     "PROJECT",
-    "FEATURE FAMILY",
+    "OPERATING ENVIRONMENT",
+    "HUB | WORKSPACE",
     "ACTOR MODE",
     "PAGE FAMILY",
+    "CONTEXT (client · quarter)",
+    "PAGE",
     "TAB FAMILY",
     "CHILD PAGE / DRAWER / MODAL / STATE",
     "COMPONENT",
     "INTERACTION"
   ],
-  "founder_decision": "TABS ARE FIRST-CLASS AUTHORITY-DESIGN NODES. SHARED DESIGN ≠ SHARED LOGIC.",
+  "founder_decision": "TABS ARE FIRST-CLASS AUTHORITY-DESIGN NODES. SHARED DESIGN ≠ SHARED LOGIC. AIO services are WORKSPACES inside a connected business office (AIO OFFICE · CLIENT OFFICE).",
   "tree_id": "AIO.IFTA.PAGE_TREE.v1",
   "status": {
     "tree_id": "AIO.IFTA.PAGE_TREE.v1",
@@ -28,19 +63,9 @@
     "produced_at": "2026-10-06",
     "confirmed_at": null,
     "founder_decision": null,
-    "open_decisions": [
-      "D-BRAND-TOKENS",
-      "D-TYPOGRAPHY",
-      "D-INTERACTION-09",
-      "D-ROUTES-SHELL",
-      "D-IFTA-AVAILABILITY",
-      "D-NOTES-TAB",
-      "D-CLIENT-DESKTOP-STAFF-MODULES",
-      "D-TAX-FIGURES",
-      "D-PUBLIC-COPY-TRUTH",
-      "D-STAFF-QUEUE-AUTHORITY"
-    ]
+    "open_decisions": []
   },
+  "context_rule": "Every node carries its operating-environment context (environment · workspace · client scope · case type · subcontext). Founder and client nodes are projections of ONE canonical client-quarter case.",
   "node_contract_fields": [
     "node_id",
     "project_id",
@@ -74,21 +99,25 @@
     "blocked_condition"
   ],
   "coverage": {
+    "operating_environments": 3,
+    "hubs": 2,
+    "workspaces": 2,
     "pages": 4,
     "sections": 7,
-    "tabs": 14,
+    "tabs": 13,
     "primary_tabs": 12,
-    "candidate_tabs": 2,
+    "secondary_tabs": 1,
+    "candidate_tabs": 0,
     "children": 2,
     "drawers": 16,
     "modals": 12,
     "flows": 4,
-    "state_views": 5,
+    "state_views": 6,
     "material_nodes": 64,
     "states": 48,
-    "interactions": 62,
-    "components": 40,
-    "data_domains": 21,
+    "interactions": 69,
+    "components": 43,
+    "data_domains": 22,
     "actor_modes": 3,
     "viewport_modes": 3,
     "page_families": 3
@@ -170,133 +199,499 @@
     "title": "ALL IN ONE ENTERPRISES INC",
     "children": [
       {
-        "node_id": "AIO.IFTA",
-        "node_type": "FEATURE_FAMILY",
-        "title": "IFTA / FUEL TAX — QUARTERLY FILING ROOM",
+        "node_id": "AIO.OFFICE",
+        "node_type": "OPERATING_ENVIRONMENT",
+        "title": "AIO OFFICE — FOUNDER / STAFF",
+        "client_scope": "CROSS_CLIENT",
         "children": [
           {
-            "node_id": "AIO.IFTA.PUBLIC",
-            "node_type": "ACTOR_MODE",
-            "title": "PUBLIC / CUSTOMER — DARK_PRIMARY",
+            "node_id": "AIO.OFFICE.HUB",
+            "node_type": "HUB",
+            "title": "AIO OFFICE HUB — CROSS-SERVICE · CROSS-CLIENT",
+            "client_scope": "CROSS_CLIENT",
+            "children": []
+          },
+          {
+            "node_id": "AIO.OFFICE.CLIENT_OVERVIEW",
+            "node_type": "CONTEXT",
+            "title": "CLIENT OVERVIEW — ONE CLIENT, EVERY WORKSPACE",
+            "client_scope": "SWITCHABLE",
+            "children": []
+          },
+          {
+            "node_id": "AIO.OFFICE.WS.IFTA",
+            "node_type": "WORKSPACE",
+            "title": "WORKSPACE · IFTA / FUEL TAX",
+            "client_scope": "CROSS_CLIENT",
             "children": [
               {
-                "node_id": "AIO.IFTA.PUBLIC.SERVICE_FAMILY",
-                "node_type": "PAGE_FAMILY",
-                "title": "IFTA FILING ROOM — PUBLIC SERVICE",
+                "node_id": "AIO.IFTA.STAFF",
+                "node_type": "ACTOR_MODE",
+                "title": "FOUNDER / STAFF — LIGHT_PRIMARY + DARK_OPERATIONAL_ACCENTS",
+                "client_scope": "CROSS_CLIENT",
                 "children": [
                   {
-                    "node_id": "AIO.IFTA.PUBLIC.SERVICE",
-                    "node_type": "PAGE",
-                    "title": "IFTA FILING ROOM — SERVICE (root)",
+                    "node_id": "AIO.IFTA.STAFF.FUEL_TAX_OFFICE",
+                    "node_type": "PAGE_FAMILY",
+                    "title": "IFTA FILING ROOM — FOUNDER / STAFF",
+                    "client_scope": "CROSS_CLIENT",
                     "children": [
                       {
-                        "node_id": "AIO.IFTA.PUBLIC.SERVICE.OVERVIEW",
-                        "node_type": "SECTION",
-                        "title": "IFTA FILING ROOM (hero)",
-                        "children": []
-                      },
-                      {
-                        "node_id": "AIO.IFTA.PUBLIC.SERVICE.WHAT_IS_IFTA",
-                        "node_type": "SECTION",
-                        "title": "WHAT IFTA IS · WHO NEEDS IT",
-                        "children": []
-                      },
-                      {
-                        "node_id": "AIO.IFTA.PUBLIC.SERVICE.HOW_IT_WORKS",
-                        "node_type": "SECTION",
-                        "title": "HOW IT WORKS — WHAT AIO HANDLES · WHAT YOU PROVIDE",
-                        "children": []
-                      },
-                      {
-                        "node_id": "AIO.IFTA.PUBLIC.SERVICE.FEATURES",
-                        "node_type": "SECTION",
-                        "title": "WHY IT IS DIFFERENT — BUILT FOR OWNER OPERATORS AND FLEETS",
-                        "children": []
-                      },
-                      {
-                        "node_id": "AIO.IFTA.PUBLIC.SERVICE.JURISDICTIONS",
-                        "node_type": "SECTION",
-                        "title": "JURISDICTIONS — ONE RETURN",
-                        "children": []
-                      },
-                      {
-                        "node_id": "AIO.IFTA.PUBLIC.SERVICE.RESOURCES",
-                        "node_type": "SECTION",
-                        "title": "RESOURCES",
-                        "children": []
-                      },
-                      {
-                        "node_id": "AIO.IFTA.PUBLIC.SERVICE.START",
-                        "node_type": "SECTION",
-                        "title": "HOW TO START",
-                        "children": []
-                      },
-                      {
-                        "node_id": "AIO.IFTA.PUBLIC.REQUEST_FILING",
-                        "node_type": "FLOW",
-                        "title": "REQUEST FILING",
-                        "children": []
+                        "node_id": "AIO.IFTA.STAFF.QUEUE",
+                        "node_type": "PAGE",
+                        "title": "FUEL TAX QUEUE — IFTA WORKSPACE LANDING",
+                        "client_scope": "CROSS_CLIENT",
+                        "children": [
+                          {
+                            "node_id": "AIO.IFTA.STAFF.CLIENT_CONTEXT",
+                            "node_type": "CONTEXT",
+                            "title": "CLIENT CONTEXT — {CLIENT} × IFTA",
+                            "client_scope": "SWITCHABLE",
+                            "children": [
+                              {
+                                "node_id": "AIO.IFTA.STAFF.WORKSPACE_INACTIVE",
+                                "node_type": "STATE_VIEW",
+                                "title": "WORKSPACE NOT ACTIVE FOR THIS CLIENT",
+                                "client_scope": "SWITCHABLE",
+                                "children": []
+                              },
+                              {
+                                "node_id": "AIO.IFTA.STAFF.CASE",
+                                "node_type": "PAGE",
+                                "title": "CLIENT-QUARTER CASE FILE (root)",
+                                "client_scope": "SWITCHABLE",
+                                "children": [
+                                  {
+                                    "node_id": "AIO.IFTA.STAFF.CASE.OVERVIEW",
+                                    "node_type": "TAB",
+                                    "title": "OVERVIEW",
+                                    "tab_class": "PRIMARY",
+                                    "client_scope": "SWITCHABLE",
+                                    "children": []
+                                  },
+                                  {
+                                    "node_id": "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES",
+                                    "node_type": "TAB",
+                                    "title": "FUEL PURCHASES",
+                                    "tab_class": "PRIMARY",
+                                    "client_scope": "SWITCHABLE",
+                                    "children": [
+                                      {
+                                        "node_id": "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES.RECEIPT_REVIEW",
+                                        "node_type": "DRAWER",
+                                        "title": "RECEIPT REVIEW",
+                                        "client_scope": "SWITCHABLE",
+                                        "children": []
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "node_id": "AIO.IFTA.STAFF.CASE.MILEAGE",
+                                    "node_type": "TAB",
+                                    "title": "MILEAGE",
+                                    "tab_class": "PRIMARY",
+                                    "client_scope": "SWITCHABLE",
+                                    "children": [
+                                      {
+                                        "node_id": "AIO.IFTA.STAFF.CASE.MILEAGE.SOURCE_VERIFY",
+                                        "node_type": "DRAWER",
+                                        "title": "VERIFY MILEAGE SOURCE",
+                                        "client_scope": "SWITCHABLE",
+                                        "children": []
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "node_id": "AIO.IFTA.STAFF.CASE.VEHICLES",
+                                    "node_type": "TAB",
+                                    "title": "VEHICLES",
+                                    "tab_class": "PRIMARY",
+                                    "client_scope": "SWITCHABLE",
+                                    "children": [
+                                      {
+                                        "node_id": "AIO.IFTA.STAFF.CASE.VEHICLES.MARK_NOT_OPERATED",
+                                        "node_type": "MODAL",
+                                        "title": "MARK NOT OPERATED",
+                                        "client_scope": "SWITCHABLE",
+                                        "children": []
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "node_id": "AIO.IFTA.STAFF.CASE.JURISDICTIONS",
+                                    "node_type": "TAB",
+                                    "title": "JURISDICTIONS",
+                                    "tab_class": "PRIMARY",
+                                    "client_scope": "SWITCHABLE",
+                                    "children": [
+                                      {
+                                        "node_id": "AIO.IFTA.STAFF.CASE.JURISDICTIONS.DISCREPANCY",
+                                        "node_type": "DRAWER",
+                                        "title": "DISCREPANCY",
+                                        "client_scope": "SWITCHABLE",
+                                        "children": []
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "node_id": "AIO.IFTA.STAFF.CASE.DOCUMENTS",
+                                    "node_type": "TAB",
+                                    "title": "DOCUMENTS",
+                                    "tab_class": "PRIMARY",
+                                    "client_scope": "SWITCHABLE",
+                                    "children": [
+                                      {
+                                        "node_id": "AIO.IFTA.STAFF.CASE.DOCUMENTS.FILE_PREVIEW",
+                                        "node_type": "DRAWER",
+                                        "title": "FILE PREVIEW",
+                                        "client_scope": "SWITCHABLE",
+                                        "children": []
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "node_id": "AIO.IFTA.STAFF.CASE.NOTES",
+                                    "node_type": "TAB",
+                                    "title": "NOTES (staff · secondary)",
+                                    "tab_class": "SECONDARY",
+                                    "client_scope": "SWITCHABLE",
+                                    "children": []
+                                  },
+                                  {
+                                    "node_id": "AIO.IFTA.STAFF.CASE.RETURN_DRAFT",
+                                    "node_type": "CHILD_PAGE",
+                                    "title": "RETURN DRAFT",
+                                    "client_scope": "SWITCHABLE",
+                                    "children": [
+                                      {
+                                        "node_id": "AIO.IFTA.STAFF.CASE.RETURN_DRAFT.SEND_CONFIRM",
+                                        "node_type": "MODAL",
+                                        "title": "SEND FOR APPROVAL",
+                                        "client_scope": "SWITCHABLE",
+                                        "children": []
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "node_id": "AIO.IFTA.STAFF.CASE.REQUEST_CORRECTION",
+                                    "node_type": "MODAL",
+                                    "title": "REQUEST CORRECTION",
+                                    "client_scope": "SWITCHABLE",
+                                    "children": []
+                                  },
+                                  {
+                                    "node_id": "AIO.IFTA.STAFF.CASE.RECORD_FILING",
+                                    "node_type": "MODAL",
+                                    "title": "FILE & CONFIRM",
+                                    "client_scope": "SWITCHABLE",
+                                    "children": []
+                                  },
+                                  {
+                                    "node_id": "AIO.IFTA.STAFF.CASE.RECORD_PAYMENT",
+                                    "node_type": "MODAL",
+                                    "title": "RECORD PAYMENT STATUS",
+                                    "client_scope": "SWITCHABLE",
+                                    "children": []
+                                  },
+                                  {
+                                    "node_id": "AIO.IFTA.STAFF.CASE.AUDIT",
+                                    "node_type": "DRAWER",
+                                    "title": "AUDIT TRAIL",
+                                    "client_scope": "SWITCHABLE",
+                                    "children": []
+                                  },
+                                  {
+                                    "node_id": "AIO.IFTA.STAFF.CASE.THREAD",
+                                    "node_type": "DRAWER",
+                                    "title": "CLIENT THREAD",
+                                    "client_scope": "SWITCHABLE",
+                                    "children": []
+                                  },
+                                  {
+                                    "node_id": "AIO.IFTA.STAFF.CASE.AMENDMENT",
+                                    "node_type": "FLOW",
+                                    "title": "REJECTED — AMENDMENT",
+                                    "client_scope": "SWITCHABLE",
+                                    "children": []
+                                  },
+                                  {
+                                    "node_id": "AIO.IFTA.STAFF.CASE.REOPEN",
+                                    "node_type": "MODAL",
+                                    "title": "REOPEN QUARTER",
+                                    "client_scope": "SWITCHABLE",
+                                    "children": []
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
                       }
                     ]
                   }
                 ]
               }
             ]
+          }
+        ]
+      },
+      {
+        "node_id": "AIO.CLIENT_OFFICE",
+        "node_type": "OPERATING_ENVIRONMENT",
+        "title": "CLIENT OFFICE — FIXED CLIENT",
+        "client_scope": "FIXED",
+        "children": [
+          {
+            "node_id": "AIO.CLIENT_OFFICE.HUB",
+            "node_type": "HUB",
+            "title": "CLIENT OFFICE HUB — ONE CLIENT · CROSS-WORKSPACE",
+            "client_scope": "FIXED",
+            "children": []
           },
           {
-            "node_id": "AIO.IFTA.CLIENT",
-            "node_type": "ACTOR_MODE",
-            "title": "CLIENT — LIGHT_PRIMARY",
+            "node_id": "AIO.CLIENT_OFFICE.WS.IFTA",
+            "node_type": "WORKSPACE",
+            "title": "WORKSPACE · IFTA / FUEL TAX",
+            "client_scope": "FIXED",
             "children": [
               {
-                "node_id": "AIO.IFTA.CLIENT.FILING_ROOM",
-                "node_type": "PAGE_FAMILY",
-                "title": "IFTA FILING ROOM — CLIENT",
+                "node_id": "AIO.IFTA.CLIENT",
+                "node_type": "ACTOR_MODE",
+                "title": "CLIENT — LIGHT_PRIMARY",
+                "client_scope": "FIXED",
                 "children": [
                   {
-                    "node_id": "AIO.IFTA.CLIENT.ROOM",
-                    "node_type": "PAGE",
-                    "title": "IFTA FILING ROOM — Q{n} {YYYY} (root)",
+                    "node_id": "AIO.IFTA.CLIENT.FILING_ROOM",
+                    "node_type": "PAGE_FAMILY",
+                    "title": "IFTA FILING ROOM — CLIENT",
+                    "client_scope": "FIXED",
                     "children": [
                       {
-                        "node_id": "AIO.IFTA.CLIENT.ROOM.PROGRESS",
-                        "node_type": "TAB",
-                        "title": "PROGRESS",
-                        "tab_class": "PRIMARY",
+                        "node_id": "AIO.IFTA.CLIENT.QUARTER_CONTEXT",
+                        "node_type": "CONTEXT",
+                        "title": "QUARTER SELECTOR — SUBCONTEXT Q{n} {YYYY}",
+                        "client_scope": "FIXED",
                         "children": [
                           {
-                            "node_id": "AIO.IFTA.CLIENT.ROOM.PROGRESS.NEEDS_YOU",
-                            "node_type": "DRAWER",
-                            "title": "NEEDS YOU — {n} ITEMS",
-                            "children": []
-                          },
-                          {
-                            "node_id": "AIO.IFTA.CLIENT.ROOM.PROGRESS.CORRECTION_FLOW",
-                            "node_type": "FLOW",
-                            "title": "CORRECTION REQUESTED",
-                            "children": []
-                          },
-                          {
-                            "node_id": "AIO.IFTA.CLIENT.ROOM.PROGRESS.SEND_CONFIRM",
-                            "node_type": "MODAL",
-                            "title": "SEND QUARTER TO AIO",
-                            "children": []
-                          },
-                          {
-                            "node_id": "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW",
-                            "node_type": "CHILD_PAGE",
-                            "title": "YOUR REVIEW & APPROVAL",
+                            "node_id": "AIO.IFTA.CLIENT.ROOM",
+                            "node_type": "PAGE",
+                            "title": "IFTA FILING ROOM — Q{n} {YYYY} (root)",
+                            "client_scope": "FIXED",
                             "children": [
                               {
-                                "node_id": "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW.APPROVE_CONFIRM",
-                                "node_type": "MODAL",
-                                "title": "APPROVE RETURN",
+                                "node_id": "AIO.IFTA.CLIENT.ROOM.PROGRESS",
+                                "node_type": "TAB",
+                                "title": "PROGRESS",
+                                "tab_class": "PRIMARY",
+                                "client_scope": "FIXED",
+                                "children": [
+                                  {
+                                    "node_id": "AIO.IFTA.CLIENT.ROOM.PROGRESS.NEEDS_YOU",
+                                    "node_type": "DRAWER",
+                                    "title": "NEEDS YOU — {n} ITEMS",
+                                    "client_scope": "FIXED",
+                                    "children": []
+                                  },
+                                  {
+                                    "node_id": "AIO.IFTA.CLIENT.ROOM.PROGRESS.CORRECTION_FLOW",
+                                    "node_type": "FLOW",
+                                    "title": "CORRECTION REQUESTED",
+                                    "client_scope": "FIXED",
+                                    "children": []
+                                  },
+                                  {
+                                    "node_id": "AIO.IFTA.CLIENT.ROOM.PROGRESS.SEND_CONFIRM",
+                                    "node_type": "MODAL",
+                                    "title": "SEND QUARTER TO AIO",
+                                    "client_scope": "FIXED",
+                                    "children": []
+                                  },
+                                  {
+                                    "node_id": "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW",
+                                    "node_type": "CHILD_PAGE",
+                                    "title": "YOUR REVIEW & APPROVAL",
+                                    "client_scope": "FIXED",
+                                    "children": [
+                                      {
+                                        "node_id": "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW.APPROVE_CONFIRM",
+                                        "node_type": "MODAL",
+                                        "title": "APPROVE RETURN",
+                                        "client_scope": "FIXED",
+                                        "children": []
+                                      },
+                                      {
+                                        "node_id": "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW.ASK",
+                                        "node_type": "DRAWER",
+                                        "title": "ASK A QUESTION",
+                                        "client_scope": "FIXED",
+                                        "children": []
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "node_id": "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES",
+                                "node_type": "TAB",
+                                "title": "FUEL PURCHASES",
+                                "tab_class": "PRIMARY",
+                                "client_scope": "FIXED",
+                                "children": [
+                                  {
+                                    "node_id": "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.UPLOAD",
+                                    "node_type": "FLOW",
+                                    "title": "UPLOAD RECEIPTS",
+                                    "client_scope": "FIXED",
+                                    "children": []
+                                  },
+                                  {
+                                    "node_id": "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.CSV_IMPORT",
+                                    "node_type": "MODAL",
+                                    "title": "IMPORT CSV",
+                                    "client_scope": "FIXED",
+                                    "children": []
+                                  },
+                                  {
+                                    "node_id": "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.IMPORT_VAULT",
+                                    "node_type": "MODAL",
+                                    "title": "IMPORT FROM VAULT",
+                                    "client_scope": "FIXED",
+                                    "children": []
+                                  },
+                                  {
+                                    "node_id": "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.RECEIPT_DETAIL",
+                                    "node_type": "DRAWER",
+                                    "title": "RECEIPT DETAIL",
+                                    "client_scope": "FIXED",
+                                    "children": []
+                                  }
+                                ]
+                              },
+                              {
+                                "node_id": "AIO.IFTA.CLIENT.ROOM.MILEAGE",
+                                "node_type": "TAB",
+                                "title": "MILEAGE",
+                                "tab_class": "PRIMARY",
+                                "client_scope": "FIXED",
+                                "children": [
+                                  {
+                                    "node_id": "AIO.IFTA.CLIENT.ROOM.MILEAGE.SOURCE_PICKER",
+                                    "node_type": "DRAWER",
+                                    "title": "ADD MILES — CHOOSE SOURCE",
+                                    "client_scope": "FIXED",
+                                    "children": []
+                                  },
+                                  {
+                                    "node_id": "AIO.IFTA.CLIENT.ROOM.MILEAGE.REPORT_IMPORT",
+                                    "node_type": "MODAL",
+                                    "title": "IMPORT MILEAGE REPORT / CSV",
+                                    "client_scope": "FIXED",
+                                    "children": []
+                                  },
+                                  {
+                                    "node_id": "AIO.IFTA.CLIENT.ROOM.MILEAGE.MANUAL_ENTRY",
+                                    "node_type": "DRAWER",
+                                    "title": "ENTER MILES BY STATE",
+                                    "client_scope": "FIXED",
+                                    "children": []
+                                  },
+                                  {
+                                    "node_id": "AIO.IFTA.CLIENT.ROOM.MILEAGE.VEHICLE_DETAIL",
+                                    "node_type": "DRAWER",
+                                    "title": "TRUCK MILEAGE",
+                                    "client_scope": "FIXED",
+                                    "children": []
+                                  }
+                                ]
+                              },
+                              {
+                                "node_id": "AIO.IFTA.CLIENT.ROOM.VEHICLES",
+                                "node_type": "TAB",
+                                "title": "VEHICLES",
+                                "tab_class": "PRIMARY",
+                                "client_scope": "FIXED",
+                                "children": [
+                                  {
+                                    "node_id": "AIO.IFTA.CLIENT.ROOM.VEHICLES.CONFIRM_FLEET",
+                                    "node_type": "MODAL",
+                                    "title": "CONFIRM TRUCKS THAT RAN",
+                                    "client_scope": "FIXED",
+                                    "children": []
+                                  },
+                                  {
+                                    "node_id": "AIO.IFTA.CLIENT.ROOM.VEHICLES.VEHICLE_DETAIL",
+                                    "node_type": "DRAWER",
+                                    "title": "VEHICLE DETAIL",
+                                    "client_scope": "FIXED",
+                                    "children": []
+                                  }
+                                ]
+                              },
+                              {
+                                "node_id": "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS",
+                                "node_type": "TAB",
+                                "title": "JURISDICTIONS",
+                                "tab_class": "PRIMARY",
+                                "client_scope": "FIXED",
+                                "children": [
+                                  {
+                                    "node_id": "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS.STATE_DETAIL",
+                                    "node_type": "DRAWER",
+                                    "title": "JURISDICTION DETAIL",
+                                    "client_scope": "FIXED",
+                                    "children": []
+                                  }
+                                ]
+                              },
+                              {
+                                "node_id": "AIO.IFTA.CLIENT.ROOM.DOCUMENTS",
+                                "node_type": "TAB",
+                                "title": "DOCUMENTS",
+                                "tab_class": "PRIMARY",
+                                "client_scope": "FIXED",
+                                "children": [
+                                  {
+                                    "node_id": "AIO.IFTA.CLIENT.ROOM.DOCUMENTS.FILE_PREVIEW",
+                                    "node_type": "DRAWER",
+                                    "title": "FILE PREVIEW",
+                                    "client_scope": "FIXED",
+                                    "children": []
+                                  }
+                                ]
+                              },
+                              {
+                                "node_id": "AIO.IFTA.CLIENT.ROOM.MESSAGES",
+                                "node_type": "DRAWER",
+                                "title": "MESSAGE YOUR AIO TEAM",
+                                "client_scope": "FIXED",
                                 "children": []
                               },
                               {
-                                "node_id": "AIO.IFTA.CLIENT.ROOM.PROGRESS.RETURN_REVIEW.ASK",
-                                "node_type": "DRAWER",
-                                "title": "ASK A QUESTION",
+                                "node_id": "AIO.IFTA.CLIENT.ROOM.FILED",
+                                "node_type": "STATE_VIEW",
+                                "title": "FILED — CONFIRMATION IN YOUR VAULT",
+                                "client_scope": "FIXED",
+                                "children": []
+                              },
+                              {
+                                "node_id": "AIO.IFTA.CLIENT.ROOM.ARCHIVED",
+                                "node_type": "STATE_VIEW",
+                                "title": "Q{n} {YYYY} FILED AND ARCHIVED",
+                                "client_scope": "FIXED",
+                                "children": []
+                              },
+                              {
+                                "node_id": "AIO.IFTA.CLIENT.ROOM.NEXT_QUARTER_OPEN",
+                                "node_type": "STATE_VIEW",
+                                "title": "Q{n+1} {YYYY} IS OPEN",
+                                "client_scope": "FIXED",
+                                "children": []
+                              },
+                              {
+                                "node_id": "AIO.IFTA.CLIENT.ROOM.RETURNED",
+                                "node_type": "STATE_VIEW",
+                                "title": "RETURNED BY JURISDICTION — AIO IS CORRECTING",
+                                "client_scope": "FIXED",
                                 "children": []
                               }
                             ]
@@ -304,324 +699,98 @@
                         ]
                       },
                       {
-                        "node_id": "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES",
-                        "node_type": "TAB",
-                        "title": "FUEL PURCHASES",
-                        "tab_class": "PRIMARY",
-                        "children": [
-                          {
-                            "node_id": "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.UPLOAD",
-                            "node_type": "FLOW",
-                            "title": "UPLOAD RECEIPTS",
-                            "children": []
-                          },
-                          {
-                            "node_id": "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.CSV_IMPORT",
-                            "node_type": "MODAL",
-                            "title": "IMPORT CSV",
-                            "children": []
-                          },
-                          {
-                            "node_id": "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.IMPORT_VAULT",
-                            "node_type": "MODAL",
-                            "title": "IMPORT FROM VAULT",
-                            "children": []
-                          },
-                          {
-                            "node_id": "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES.RECEIPT_DETAIL",
-                            "node_type": "DRAWER",
-                            "title": "RECEIPT DETAIL",
-                            "children": []
-                          }
-                        ]
-                      },
-                      {
-                        "node_id": "AIO.IFTA.CLIENT.ROOM.MILEAGE",
-                        "node_type": "TAB",
-                        "title": "MILEAGE",
-                        "tab_class": "PRIMARY",
-                        "children": [
-                          {
-                            "node_id": "AIO.IFTA.CLIENT.ROOM.MILEAGE.SOURCE_PICKER",
-                            "node_type": "DRAWER",
-                            "title": "ADD MILES — CHOOSE SOURCE",
-                            "children": []
-                          },
-                          {
-                            "node_id": "AIO.IFTA.CLIENT.ROOM.MILEAGE.REPORT_IMPORT",
-                            "node_type": "MODAL",
-                            "title": "IMPORT MILEAGE REPORT / CSV",
-                            "children": []
-                          },
-                          {
-                            "node_id": "AIO.IFTA.CLIENT.ROOM.MILEAGE.MANUAL_ENTRY",
-                            "node_type": "DRAWER",
-                            "title": "ENTER MILES BY STATE",
-                            "children": []
-                          },
-                          {
-                            "node_id": "AIO.IFTA.CLIENT.ROOM.MILEAGE.VEHICLE_DETAIL",
-                            "node_type": "DRAWER",
-                            "title": "TRUCK MILEAGE",
-                            "children": []
-                          }
-                        ]
-                      },
-                      {
-                        "node_id": "AIO.IFTA.CLIENT.ROOM.VEHICLES",
-                        "node_type": "TAB",
-                        "title": "VEHICLES",
-                        "tab_class": "PRIMARY",
-                        "children": [
-                          {
-                            "node_id": "AIO.IFTA.CLIENT.ROOM.VEHICLES.CONFIRM_FLEET",
-                            "node_type": "MODAL",
-                            "title": "CONFIRM TRUCKS THAT RAN",
-                            "children": []
-                          },
-                          {
-                            "node_id": "AIO.IFTA.CLIENT.ROOM.VEHICLES.VEHICLE_DETAIL",
-                            "node_type": "DRAWER",
-                            "title": "VEHICLE DETAIL",
-                            "children": []
-                          }
-                        ]
-                      },
-                      {
-                        "node_id": "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS",
-                        "node_type": "TAB",
-                        "title": "JURISDICTIONS",
-                        "tab_class": "PRIMARY",
-                        "children": [
-                          {
-                            "node_id": "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS.STATE_DETAIL",
-                            "node_type": "DRAWER",
-                            "title": "JURISDICTION DETAIL",
-                            "children": []
-                          }
-                        ]
-                      },
-                      {
-                        "node_id": "AIO.IFTA.CLIENT.ROOM.DOCUMENTS",
-                        "node_type": "TAB",
-                        "title": "DOCUMENTS",
-                        "tab_class": "PRIMARY",
-                        "children": [
-                          {
-                            "node_id": "AIO.IFTA.CLIENT.ROOM.DOCUMENTS.FILE_PREVIEW",
-                            "node_type": "DRAWER",
-                            "title": "FILE PREVIEW",
-                            "children": []
-                          }
-                        ]
-                      },
-                      {
-                        "node_id": "AIO.IFTA.CLIENT.ROOM.NOTES",
-                        "node_type": "TAB",
-                        "title": "NOTES (candidate)",
-                        "tab_class": "SECONDARY_CANDIDATE",
-                        "children": []
-                      },
-                      {
-                        "node_id": "AIO.IFTA.CLIENT.ROOM.MESSAGES",
-                        "node_type": "DRAWER",
-                        "title": "MESSAGE YOUR AIO TEAM",
-                        "children": []
-                      },
-                      {
-                        "node_id": "AIO.IFTA.CLIENT.ROOM.FILED",
+                        "node_id": "AIO.IFTA.CLIENT.NOT_ENROLLED",
                         "node_type": "STATE_VIEW",
-                        "title": "FILED — CONFIRMATION IN YOUR VAULT",
-                        "children": []
-                      },
-                      {
-                        "node_id": "AIO.IFTA.CLIENT.ROOM.ARCHIVED",
-                        "node_type": "STATE_VIEW",
-                        "title": "Q{n} {YYYY} FILED AND ARCHIVED",
-                        "children": []
-                      },
-                      {
-                        "node_id": "AIO.IFTA.CLIENT.ROOM.NEXT_QUARTER_OPEN",
-                        "node_type": "STATE_VIEW",
-                        "title": "Q{n+1} {YYYY} IS OPEN",
-                        "children": []
-                      },
-                      {
-                        "node_id": "AIO.IFTA.CLIENT.ROOM.RETURNED",
-                        "node_type": "STATE_VIEW",
-                        "title": "RETURNED BY JURISDICTION — AIO IS CORRECTING",
+                        "title": "SET UP IFTA FILING — IFTA IS NOT ACTIVE YET",
+                        "client_scope": "FIXED",
                         "children": []
                       }
                     ]
-                  },
-                  {
-                    "node_id": "AIO.IFTA.CLIENT.NOT_ENROLLED",
-                    "node_type": "STATE_VIEW",
-                    "title": "SET UP IFTA FILING",
-                    "children": []
                   }
                 ]
               }
             ]
-          },
+          }
+        ]
+      },
+      {
+        "node_id": "AIO.PUBLIC_SITE",
+        "node_type": "OPERATING_ENVIRONMENT",
+        "title": "PUBLIC SITE",
+        "client_scope": "NONE",
+        "children": [
           {
-            "node_id": "AIO.IFTA.STAFF",
+            "node_id": "AIO.IFTA.PUBLIC",
             "node_type": "ACTOR_MODE",
-            "title": "FOUNDER / STAFF — LIGHT_PRIMARY + DARK_OPERATIONAL_ACCENTS",
+            "title": "PUBLIC / CUSTOMER — DARK_PRIMARY",
+            "client_scope": "NONE",
             "children": [
               {
-                "node_id": "AIO.IFTA.STAFF.FUEL_TAX_OFFICE",
+                "node_id": "AIO.IFTA.PUBLIC.SERVICE_FAMILY",
                 "node_type": "PAGE_FAMILY",
-                "title": "IFTA FILING ROOM — FOUNDER / STAFF",
+                "title": "IFTA FILING ROOM — PUBLIC SERVICE",
+                "client_scope": "NONE",
                 "children": [
                   {
-                    "node_id": "AIO.IFTA.STAFF.QUEUE",
+                    "node_id": "AIO.IFTA.PUBLIC.SERVICE",
                     "node_type": "PAGE",
-                    "title": "FUEL TAX QUEUE",
-                    "children": []
-                  },
-                  {
-                    "node_id": "AIO.IFTA.STAFF.CASE",
-                    "node_type": "PAGE",
-                    "title": "CLIENT-QUARTER CASE FILE (root)",
+                    "title": "IFTA FILING ROOM — SERVICE (root)",
+                    "client_scope": "NONE",
                     "children": [
                       {
-                        "node_id": "AIO.IFTA.STAFF.CASE.OVERVIEW",
-                        "node_type": "TAB",
-                        "title": "OVERVIEW",
-                        "tab_class": "PRIMARY",
+                        "node_id": "AIO.IFTA.PUBLIC.SERVICE.OVERVIEW",
+                        "node_type": "SECTION",
+                        "title": "IFTA FILING ROOM (hero)",
+                        "client_scope": "NONE",
                         "children": []
                       },
                       {
-                        "node_id": "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES",
-                        "node_type": "TAB",
-                        "title": "FUEL PURCHASES",
-                        "tab_class": "PRIMARY",
-                        "children": [
-                          {
-                            "node_id": "AIO.IFTA.STAFF.CASE.FUEL_PURCHASES.RECEIPT_REVIEW",
-                            "node_type": "DRAWER",
-                            "title": "RECEIPT REVIEW",
-                            "children": []
-                          }
-                        ]
-                      },
-                      {
-                        "node_id": "AIO.IFTA.STAFF.CASE.MILEAGE",
-                        "node_type": "TAB",
-                        "title": "MILEAGE",
-                        "tab_class": "PRIMARY",
-                        "children": [
-                          {
-                            "node_id": "AIO.IFTA.STAFF.CASE.MILEAGE.SOURCE_VERIFY",
-                            "node_type": "DRAWER",
-                            "title": "VERIFY MILEAGE SOURCE",
-                            "children": []
-                          }
-                        ]
-                      },
-                      {
-                        "node_id": "AIO.IFTA.STAFF.CASE.VEHICLES",
-                        "node_type": "TAB",
-                        "title": "VEHICLES",
-                        "tab_class": "PRIMARY",
-                        "children": [
-                          {
-                            "node_id": "AIO.IFTA.STAFF.CASE.VEHICLES.MARK_NOT_OPERATED",
-                            "node_type": "MODAL",
-                            "title": "MARK NOT OPERATED",
-                            "children": []
-                          }
-                        ]
-                      },
-                      {
-                        "node_id": "AIO.IFTA.STAFF.CASE.JURISDICTIONS",
-                        "node_type": "TAB",
-                        "title": "JURISDICTIONS",
-                        "tab_class": "PRIMARY",
-                        "children": [
-                          {
-                            "node_id": "AIO.IFTA.STAFF.CASE.JURISDICTIONS.DISCREPANCY",
-                            "node_type": "DRAWER",
-                            "title": "DISCREPANCY",
-                            "children": []
-                          }
-                        ]
-                      },
-                      {
-                        "node_id": "AIO.IFTA.STAFF.CASE.DOCUMENTS",
-                        "node_type": "TAB",
-                        "title": "DOCUMENTS",
-                        "tab_class": "PRIMARY",
-                        "children": [
-                          {
-                            "node_id": "AIO.IFTA.STAFF.CASE.DOCUMENTS.FILE_PREVIEW",
-                            "node_type": "DRAWER",
-                            "title": "FILE PREVIEW",
-                            "children": []
-                          }
-                        ]
-                      },
-                      {
-                        "node_id": "AIO.IFTA.STAFF.CASE.NOTES",
-                        "node_type": "TAB",
-                        "title": "NOTES (candidate)",
-                        "tab_class": "SECONDARY_CANDIDATE",
+                        "node_id": "AIO.IFTA.PUBLIC.SERVICE.WHAT_IS_IFTA",
+                        "node_type": "SECTION",
+                        "title": "WHAT IFTA IS · WHO NEEDS IT",
+                        "client_scope": "NONE",
                         "children": []
                       },
                       {
-                        "node_id": "AIO.IFTA.STAFF.CASE.RETURN_DRAFT",
-                        "node_type": "CHILD_PAGE",
-                        "title": "RETURN DRAFT",
-                        "children": [
-                          {
-                            "node_id": "AIO.IFTA.STAFF.CASE.RETURN_DRAFT.SEND_CONFIRM",
-                            "node_type": "MODAL",
-                            "title": "SEND FOR APPROVAL",
-                            "children": []
-                          }
-                        ]
-                      },
-                      {
-                        "node_id": "AIO.IFTA.STAFF.CASE.REQUEST_CORRECTION",
-                        "node_type": "MODAL",
-                        "title": "REQUEST CORRECTION",
+                        "node_id": "AIO.IFTA.PUBLIC.SERVICE.HOW_IT_WORKS",
+                        "node_type": "SECTION",
+                        "title": "HOW IT WORKS — WHAT AIO HANDLES · WHAT YOU PROVIDE",
+                        "client_scope": "NONE",
                         "children": []
                       },
                       {
-                        "node_id": "AIO.IFTA.STAFF.CASE.RECORD_FILING",
-                        "node_type": "MODAL",
-                        "title": "FILE & CONFIRM",
+                        "node_id": "AIO.IFTA.PUBLIC.SERVICE.FEATURES",
+                        "node_type": "SECTION",
+                        "title": "WHY IT IS DIFFERENT — BUILT FOR OWNER OPERATORS AND FLEETS",
+                        "client_scope": "NONE",
                         "children": []
                       },
                       {
-                        "node_id": "AIO.IFTA.STAFF.CASE.RECORD_PAYMENT",
-                        "node_type": "MODAL",
-                        "title": "RECORD PAYMENT STATUS",
+                        "node_id": "AIO.IFTA.PUBLIC.SERVICE.JURISDICTIONS",
+                        "node_type": "SECTION",
+                        "title": "JURISDICTIONS — ONE RETURN",
+                        "client_scope": "NONE",
                         "children": []
                       },
                       {
-                        "node_id": "AIO.IFTA.STAFF.CASE.AUDIT",
-                        "node_type": "DRAWER",
-                        "title": "AUDIT TRAIL",
+                        "node_id": "AIO.IFTA.PUBLIC.SERVICE.RESOURCES",
+                        "node_type": "SECTION",
+                        "title": "RESOURCES",
+                        "client_scope": "NONE",
                         "children": []
                       },
                       {
-                        "node_id": "AIO.IFTA.STAFF.CASE.THREAD",
-                        "node_type": "DRAWER",
-                        "title": "CLIENT THREAD",
+                        "node_id": "AIO.IFTA.PUBLIC.SERVICE.START",
+                        "node_type": "SECTION",
+                        "title": "HOW TO START",
+                        "client_scope": "NONE",
                         "children": []
                       },
                       {
-                        "node_id": "AIO.IFTA.STAFF.CASE.AMENDMENT",
+                        "node_id": "AIO.IFTA.PUBLIC.REQUEST_FILING",
                         "node_type": "FLOW",
-                        "title": "REJECTED — AMENDMENT",
-                        "children": []
-                      },
-                      {
-                        "node_id": "AIO.IFTA.STAFF.CASE.REOPEN",
-                        "node_type": "MODAL",
-                        "title": "REOPEN QUARTER",
+                        "title": "REQUEST FILING",
+                        "client_scope": "NONE",
                         "children": []
                       }
                     ]
@@ -666,24 +835,26 @@
       "blocked_condition": "—",
       "experience_refs": [],
       "children": [
-        "AIO.IFTA"
+        "AIO.OFFICE",
+        "AIO.CLIENT_OFFICE",
+        "AIO.PUBLIC_SITE"
       ],
       "drawers": [],
       "modals": []
     },
     {
-      "node_id": "AIO.IFTA",
+      "node_id": "AIO.OFFICE",
       "project_id": "AIO",
       "feature_id": "AIO.IFTA",
-      "actor": "AIO",
+      "actor": "FOUNDER_STAFF",
       "page_family": "—",
       "tab_id": null,
       "parent_node": "AIO",
-      "node_type": "FEATURE_FAMILY",
-      "title": "IFTA / FUEL TAX — QUARTERLY FILING ROOM",
-      "purpose": "Feature family: quarterly IFTA return built from verified fuel + miles, approved by the client, filed by AIO, archived — every quarter.",
+      "node_type": "OPERATING_ENVIRONMENT",
+      "title": "AIO OFFICE — FOUNDER / STAFF",
+      "purpose": "Connected business office for AIO: switch CLIENT and WORKSPACE independently, plus the workspace subcontext.",
       "primary_object": "THE QUARTER",
-      "primary_task": "Feature family: quarterly IFTA return built from verified fuel + miles, approved by the client, filed by AIO, archived — every quarter.",
+      "primary_task": "Connected business office for AIO: switch CLIENT and WORKSPACE independently, plus the workspace subcontext.",
       "data_domains": [],
       "read_contracts": [],
       "write_contracts": [],
@@ -701,82 +872,142 @@
       "success_condition": "—",
       "blocked_condition": "—",
       "experience_refs": [],
+      "context": {
+        "environment_id": "AIO.OFFICE",
+        "workspace_id": null,
+        "client_scope": "CROSS_CLIENT",
+        "case_type": null,
+        "subcontext_type": null
+      },
       "children": [
-        "AIO.IFTA.PUBLIC",
-        "AIO.IFTA.CLIENT",
+        "AIO.OFFICE.HUB",
+        "AIO.OFFICE.CLIENT_OVERVIEW",
+        "AIO.OFFICE.WS.IFTA"
+      ],
+      "drawers": [],
+      "modals": []
+    },
+    {
+      "node_id": "AIO.OFFICE.HUB",
+      "project_id": "AIO",
+      "feature_id": "AIO.IFTA",
+      "actor": "FOUNDER_STAFF",
+      "page_family": "—",
+      "tab_id": null,
+      "parent_node": "AIO.OFFICE",
+      "node_type": "HUB",
+      "title": "AIO OFFICE HUB — CROSS-SERVICE · CROSS-CLIENT",
+      "purpose": "ALL CLIENTS · NEEDS ATTENTION · DUE / UPCOMING · BLOCKED · WAITING ON CLIENT · WAITING ON AIO · RECENT ACTIVITY · ACTIVE WORKSPACES · SERVICE HEALTH · GLOBAL SEARCH / CLIENT LOOKUP.",
+      "primary_object": "THE QUARTER",
+      "primary_task": "ALL CLIENTS · NEEDS ATTENTION · DUE / UPCOMING · BLOCKED · WAITING ON CLIENT · WAITING ON AIO · RECENT ACTIVITY · ACTIVE WORKSPACES · SERVICE HEALTH · GLOBAL SEARCH / CLIENT LOOKUP.",
+      "data_domains": [],
+      "read_contracts": [],
+      "write_contracts": [],
+      "components": [],
+      "interactions": [],
+      "states": [],
+      "responsive_modes": [],
+      "authority_refs": [],
+      "asset_refs": [],
+      "permissions": [],
+      "cross_feature_dependencies": [],
+      "vault_relationship": "—",
+      "inbox_relationship": "—",
+      "activity_relationship": "—",
+      "success_condition": "—",
+      "blocked_condition": "—",
+      "experience_refs": [],
+      "context": {
+        "environment_id": "AIO.OFFICE",
+        "workspace_id": null,
+        "client_scope": "CROSS_CLIENT",
+        "case_type": null,
+        "subcontext_type": null
+      },
+      "children": [],
+      "drawers": [],
+      "modals": []
+    },
+    {
+      "node_id": "AIO.OFFICE.CLIENT_OVERVIEW",
+      "project_id": "AIO",
+      "feature_id": "AIO.IFTA",
+      "actor": "FOUNDER_STAFF",
+      "page_family": "—",
+      "tab_id": null,
+      "parent_node": "AIO.OFFICE",
+      "node_type": "CONTEXT",
+      "title": "CLIENT OVERVIEW — ONE CLIENT, EVERY WORKSPACE",
+      "purpose": "Client-centric entry: the client’s workspace states and open cases; enters the same canonical case as the workspace queue.",
+      "primary_object": "THE QUARTER",
+      "primary_task": "Client-centric entry: the client’s workspace states and open cases; enters the same canonical case as the workspace queue.",
+      "data_domains": [],
+      "read_contracts": [],
+      "write_contracts": [],
+      "components": [],
+      "interactions": [],
+      "states": [],
+      "responsive_modes": [],
+      "authority_refs": [],
+      "asset_refs": [],
+      "permissions": [],
+      "cross_feature_dependencies": [],
+      "vault_relationship": "—",
+      "inbox_relationship": "—",
+      "activity_relationship": "—",
+      "success_condition": "—",
+      "blocked_condition": "—",
+      "experience_refs": [],
+      "context": {
+        "environment_id": "AIO.OFFICE",
+        "workspace_id": null,
+        "client_scope": "SWITCHABLE",
+        "case_type": null,
+        "subcontext_type": null
+      },
+      "children": [],
+      "drawers": [],
+      "modals": []
+    },
+    {
+      "node_id": "AIO.OFFICE.WS.IFTA",
+      "project_id": "AIO",
+      "feature_id": "AIO.IFTA",
+      "actor": "FOUNDER_STAFF",
+      "page_family": "—",
+      "tab_id": null,
+      "parent_node": "AIO.OFFICE",
+      "node_type": "WORKSPACE",
+      "title": "WORKSPACE · IFTA / FUEL TAX",
+      "purpose": "IFTA workspace inside AIO OFFICE: cross-client queue landing → client context → client-quarter case.",
+      "primary_object": "THE QUARTER",
+      "primary_task": "IFTA workspace inside AIO OFFICE: cross-client queue landing → client context → client-quarter case.",
+      "data_domains": [],
+      "read_contracts": [],
+      "write_contracts": [],
+      "components": [],
+      "interactions": [],
+      "states": [],
+      "responsive_modes": [],
+      "authority_refs": [],
+      "asset_refs": [],
+      "permissions": [],
+      "cross_feature_dependencies": [],
+      "vault_relationship": "—",
+      "inbox_relationship": "—",
+      "activity_relationship": "—",
+      "success_condition": "—",
+      "blocked_condition": "—",
+      "experience_refs": [],
+      "context": {
+        "environment_id": "AIO.OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "CROSS_CLIENT",
+        "case_type": null,
+        "subcontext_type": null
+      },
+      "children": [
         "AIO.IFTA.STAFF"
-      ],
-      "drawers": [],
-      "modals": []
-    },
-    {
-      "node_id": "AIO.IFTA.PUBLIC",
-      "project_id": "AIO",
-      "feature_id": "AIO.IFTA",
-      "actor": "PUBLIC",
-      "page_family": "—",
-      "tab_id": null,
-      "parent_node": "AIO.IFTA",
-      "node_type": "ACTOR_MODE",
-      "title": "PUBLIC / CUSTOMER — DARK_PRIMARY",
-      "purpose": "Cinematic service experience: understand IFTA filing with AIO and request it.",
-      "primary_object": "THE QUARTER",
-      "primary_task": "Cinematic service experience: understand IFTA filing with AIO and request it.",
-      "data_domains": [],
-      "read_contracts": [],
-      "write_contracts": [],
-      "components": [],
-      "interactions": [],
-      "states": [],
-      "responsive_modes": [],
-      "authority_refs": [],
-      "asset_refs": [],
-      "permissions": [],
-      "cross_feature_dependencies": [],
-      "vault_relationship": "—",
-      "inbox_relationship": "—",
-      "activity_relationship": "—",
-      "success_condition": "—",
-      "blocked_condition": "—",
-      "experience_refs": [],
-      "children": [
-        "AIO.IFTA.PUBLIC.SERVICE_FAMILY"
-      ],
-      "drawers": [],
-      "modals": []
-    },
-    {
-      "node_id": "AIO.IFTA.CLIENT",
-      "project_id": "AIO",
-      "feature_id": "AIO.IFTA",
-      "actor": "CLIENT",
-      "page_family": "—",
-      "tab_id": null,
-      "parent_node": "AIO.IFTA",
-      "node_type": "ACTOR_MODE",
-      "title": "CLIENT — LIGHT_PRIMARY",
-      "purpose": "Calm, guided quarter workspace: send fuel and miles, resolve flags, approve.",
-      "primary_object": "THE QUARTER",
-      "primary_task": "Calm, guided quarter workspace: send fuel and miles, resolve flags, approve.",
-      "data_domains": [],
-      "read_contracts": [],
-      "write_contracts": [],
-      "components": [],
-      "interactions": [],
-      "states": [],
-      "responsive_modes": [],
-      "authority_refs": [],
-      "asset_refs": [],
-      "permissions": [],
-      "cross_feature_dependencies": [],
-      "vault_relationship": "—",
-      "inbox_relationship": "—",
-      "activity_relationship": "—",
-      "success_condition": "—",
-      "blocked_condition": "—",
-      "experience_refs": [],
-      "children": [
-        "AIO.IFTA.CLIENT.FILING_ROOM"
       ],
       "drawers": [],
       "modals": []
@@ -788,7 +1019,7 @@
       "actor": "FOUNDER_STAFF",
       "page_family": "—",
       "tab_id": null,
-      "parent_node": "AIO.IFTA",
+      "parent_node": "AIO.OFFICE.WS.IFTA",
       "node_type": "ACTOR_MODE",
       "title": "FOUNDER / STAFF — LIGHT_PRIMARY + DARK_OPERATIONAL_ACCENTS",
       "purpose": "Dense case file: see what blocks each filing and act.",
@@ -811,8 +1042,418 @@
       "success_condition": "—",
       "blocked_condition": "—",
       "experience_refs": [],
+      "context": {
+        "environment_id": "AIO.OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "CROSS_CLIENT",
+        "case_type": null,
+        "subcontext_type": null
+      },
       "children": [
         "AIO.IFTA.STAFF.FUEL_TAX_OFFICE"
+      ],
+      "drawers": [],
+      "modals": []
+    },
+    {
+      "node_id": "AIO.IFTA.STAFF.FUEL_TAX_OFFICE",
+      "project_id": "AIO",
+      "feature_id": "AIO.IFTA",
+      "actor": "FOUNDER_STAFF",
+      "page_family": "AIO.IFTA.STAFF.FUEL_TAX_OFFICE",
+      "tab_id": null,
+      "parent_node": "AIO.IFTA.STAFF",
+      "node_type": "PAGE_FAMILY",
+      "title": "IFTA FILING ROOM — FOUNDER / STAFF",
+      "purpose": "Staff mirror family: fuel tax queue (cross-client landing) + client-quarter case file.",
+      "primary_object": "THE QUARTER",
+      "primary_task": "Staff mirror family: fuel tax queue (cross-client landing) + client-quarter case file.",
+      "data_domains": [],
+      "read_contracts": [],
+      "write_contracts": [],
+      "components": [],
+      "interactions": [
+        "I.RUN_FAQS"
+      ],
+      "states": [],
+      "responsive_modes": [],
+      "authority_refs": [],
+      "asset_refs": [],
+      "permissions": [],
+      "cross_feature_dependencies": [],
+      "vault_relationship": "—",
+      "inbox_relationship": "—",
+      "activity_relationship": "—",
+      "success_condition": "—",
+      "blocked_condition": "—",
+      "experience_refs": [],
+      "context": {
+        "environment_id": "AIO.OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "CROSS_CLIENT",
+        "case_type": null,
+        "subcontext_type": null
+      },
+      "notes": [
+        "Family-level contract interaction set includes 09 RUN FAQS (identity resolved, behaviour description pending — bound to no material node)."
+      ],
+      "children": [
+        "AIO.IFTA.STAFF.QUEUE"
+      ],
+      "drawers": [],
+      "modals": []
+    },
+    {
+      "node_id": "AIO.CLIENT_OFFICE",
+      "project_id": "AIO",
+      "feature_id": "AIO.IFTA",
+      "actor": "CLIENT",
+      "page_family": "—",
+      "tab_id": null,
+      "parent_node": "AIO",
+      "node_type": "OPERATING_ENVIRONMENT",
+      "title": "CLIENT OFFICE — FIXED CLIENT",
+      "purpose": "The client’s connected office: no client switcher; switch between owned / active workspaces; discover relevant workspaces truthfully.",
+      "primary_object": "THE QUARTER",
+      "primary_task": "The client’s connected office: no client switcher; switch between owned / active workspaces; discover relevant workspaces truthfully.",
+      "data_domains": [],
+      "read_contracts": [],
+      "write_contracts": [],
+      "components": [],
+      "interactions": [],
+      "states": [],
+      "responsive_modes": [],
+      "authority_refs": [],
+      "asset_refs": [],
+      "permissions": [],
+      "cross_feature_dependencies": [],
+      "vault_relationship": "—",
+      "inbox_relationship": "—",
+      "activity_relationship": "—",
+      "success_condition": "—",
+      "blocked_condition": "—",
+      "experience_refs": [],
+      "context": {
+        "environment_id": "AIO.CLIENT_OFFICE",
+        "workspace_id": null,
+        "client_scope": "FIXED",
+        "case_type": null,
+        "subcontext_type": null
+      },
+      "children": [
+        "AIO.CLIENT_OFFICE.HUB",
+        "AIO.CLIENT_OFFICE.WS.IFTA"
+      ],
+      "drawers": [],
+      "modals": []
+    },
+    {
+      "node_id": "AIO.CLIENT_OFFICE.HUB",
+      "project_id": "AIO",
+      "feature_id": "AIO.IFTA",
+      "actor": "CLIENT",
+      "page_family": "—",
+      "tab_id": null,
+      "parent_node": "AIO.CLIENT_OFFICE",
+      "node_type": "HUB",
+      "title": "CLIENT OFFICE HUB — ONE CLIENT · CROSS-WORKSPACE",
+      "purpose": "ACTIVE WORKSPACES · CURRENT ACTIONS · UPCOMING DEADLINES · DOCUMENT REQUESTS · MESSAGES · RECENT ACTIVITY · AVAILABLE RELEVANT WORKSPACES.",
+      "primary_object": "THE QUARTER",
+      "primary_task": "ACTIVE WORKSPACES · CURRENT ACTIONS · UPCOMING DEADLINES · DOCUMENT REQUESTS · MESSAGES · RECENT ACTIVITY · AVAILABLE RELEVANT WORKSPACES.",
+      "data_domains": [],
+      "read_contracts": [],
+      "write_contracts": [],
+      "components": [],
+      "interactions": [],
+      "states": [],
+      "responsive_modes": [],
+      "authority_refs": [],
+      "asset_refs": [],
+      "permissions": [],
+      "cross_feature_dependencies": [],
+      "vault_relationship": "—",
+      "inbox_relationship": "—",
+      "activity_relationship": "—",
+      "success_condition": "—",
+      "blocked_condition": "—",
+      "experience_refs": [],
+      "context": {
+        "environment_id": "AIO.CLIENT_OFFICE",
+        "workspace_id": null,
+        "client_scope": "FIXED",
+        "case_type": null,
+        "subcontext_type": null
+      },
+      "children": [],
+      "drawers": [],
+      "modals": []
+    },
+    {
+      "node_id": "AIO.CLIENT_OFFICE.WS.IFTA",
+      "project_id": "AIO",
+      "feature_id": "AIO.IFTA",
+      "actor": "CLIENT",
+      "page_family": "—",
+      "tab_id": null,
+      "parent_node": "AIO.CLIENT_OFFICE",
+      "node_type": "WORKSPACE",
+      "title": "WORKSPACE · IFTA / FUEL TAX",
+      "purpose": "IFTA workspace inside CLIENT OFFICE: quarter selector → filing room (ACTIVE) or the NOT ACTIVE YET state (AVAILABLE_NOT_ACTIVATED).",
+      "primary_object": "THE QUARTER",
+      "primary_task": "IFTA workspace inside CLIENT OFFICE: quarter selector → filing room (ACTIVE) or the NOT ACTIVE YET state (AVAILABLE_NOT_ACTIVATED).",
+      "data_domains": [],
+      "read_contracts": [],
+      "write_contracts": [],
+      "components": [],
+      "interactions": [],
+      "states": [],
+      "responsive_modes": [],
+      "authority_refs": [],
+      "asset_refs": [],
+      "permissions": [],
+      "cross_feature_dependencies": [],
+      "vault_relationship": "—",
+      "inbox_relationship": "—",
+      "activity_relationship": "—",
+      "success_condition": "—",
+      "blocked_condition": "—",
+      "experience_refs": [],
+      "context": {
+        "environment_id": "AIO.CLIENT_OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "FIXED",
+        "case_type": null,
+        "subcontext_type": null
+      },
+      "children": [
+        "AIO.IFTA.CLIENT"
+      ],
+      "drawers": [],
+      "modals": []
+    },
+    {
+      "node_id": "AIO.IFTA.CLIENT",
+      "project_id": "AIO",
+      "feature_id": "AIO.IFTA",
+      "actor": "CLIENT",
+      "page_family": "—",
+      "tab_id": null,
+      "parent_node": "AIO.CLIENT_OFFICE.WS.IFTA",
+      "node_type": "ACTOR_MODE",
+      "title": "CLIENT — LIGHT_PRIMARY",
+      "purpose": "Calm, guided quarter workspace: send fuel and miles, resolve flags, approve.",
+      "primary_object": "THE QUARTER",
+      "primary_task": "Calm, guided quarter workspace: send fuel and miles, resolve flags, approve.",
+      "data_domains": [],
+      "read_contracts": [],
+      "write_contracts": [],
+      "components": [],
+      "interactions": [],
+      "states": [],
+      "responsive_modes": [],
+      "authority_refs": [],
+      "asset_refs": [],
+      "permissions": [],
+      "cross_feature_dependencies": [],
+      "vault_relationship": "—",
+      "inbox_relationship": "—",
+      "activity_relationship": "—",
+      "success_condition": "—",
+      "blocked_condition": "—",
+      "experience_refs": [],
+      "context": {
+        "environment_id": "AIO.CLIENT_OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "FIXED",
+        "case_type": null,
+        "subcontext_type": null
+      },
+      "children": [
+        "AIO.IFTA.CLIENT.FILING_ROOM"
+      ],
+      "drawers": [],
+      "modals": []
+    },
+    {
+      "node_id": "AIO.IFTA.CLIENT.FILING_ROOM",
+      "project_id": "AIO",
+      "feature_id": "AIO.IFTA",
+      "actor": "CLIENT",
+      "page_family": "AIO.IFTA.CLIENT.FILING_ROOM",
+      "tab_id": null,
+      "parent_node": "AIO.IFTA.CLIENT",
+      "node_type": "PAGE_FAMILY",
+      "title": "IFTA FILING ROOM — CLIENT",
+      "purpose": "LIGHT ANALYTICS COMMAND parent authority family.",
+      "primary_object": "THE QUARTER",
+      "primary_task": "LIGHT ANALYTICS COMMAND parent authority family.",
+      "data_domains": [],
+      "read_contracts": [],
+      "write_contracts": [],
+      "components": [],
+      "interactions": [
+        "I.RUN_FAQS"
+      ],
+      "states": [],
+      "responsive_modes": [],
+      "authority_refs": [],
+      "asset_refs": [],
+      "permissions": [],
+      "cross_feature_dependencies": [],
+      "vault_relationship": "—",
+      "inbox_relationship": "—",
+      "activity_relationship": "—",
+      "success_condition": "—",
+      "blocked_condition": "—",
+      "experience_refs": [],
+      "context": {
+        "environment_id": "AIO.CLIENT_OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "FIXED",
+        "case_type": null,
+        "subcontext_type": null
+      },
+      "notes": [
+        "Family-level contract interaction set includes 09 RUN FAQS (identity resolved, behaviour description pending — bound to no material node)."
+      ],
+      "children": [
+        "AIO.IFTA.CLIENT.QUARTER_CONTEXT",
+        "AIO.IFTA.CLIENT.NOT_ENROLLED"
+      ],
+      "drawers": [],
+      "modals": []
+    },
+    {
+      "node_id": "AIO.IFTA.CLIENT.QUARTER_CONTEXT",
+      "project_id": "AIO",
+      "feature_id": "AIO.IFTA",
+      "actor": "CLIENT",
+      "page_family": "AIO.IFTA.CLIENT.FILING_ROOM",
+      "tab_id": null,
+      "parent_node": "AIO.IFTA.CLIENT.FILING_ROOM",
+      "node_type": "CONTEXT",
+      "title": "QUARTER SELECTOR — SUBCONTEXT Q{n} {YYYY}",
+      "purpose": "The client’s quarters in the IFTA workspace (current · next · archived); the selected quarter is the subcontext of the canonical case.",
+      "primary_object": "THE QUARTER",
+      "primary_task": "The client’s quarters in the IFTA workspace (current · next · archived); the selected quarter is the subcontext of the canonical case.",
+      "data_domains": [],
+      "read_contracts": [],
+      "write_contracts": [],
+      "components": [
+        "QUARTER_SELECTOR"
+      ],
+      "interactions": [
+        "I.SWITCH_QUARTER"
+      ],
+      "states": [],
+      "responsive_modes": [],
+      "authority_refs": [],
+      "asset_refs": [
+        "ICON.COMM.OPEN"
+      ],
+      "permissions": [],
+      "cross_feature_dependencies": [],
+      "vault_relationship": "—",
+      "inbox_relationship": "—",
+      "activity_relationship": "—",
+      "success_condition": "—",
+      "blocked_condition": "—",
+      "experience_refs": [],
+      "context": {
+        "environment_id": "AIO.CLIENT_OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "FIXED",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
+      "children": [
+        "AIO.IFTA.CLIENT.ROOM"
+      ],
+      "drawers": [],
+      "modals": []
+    },
+    {
+      "node_id": "AIO.PUBLIC_SITE",
+      "project_id": "AIO",
+      "feature_id": "AIO.IFTA",
+      "actor": "PUBLIC",
+      "page_family": "—",
+      "tab_id": null,
+      "parent_node": "AIO",
+      "node_type": "OPERATING_ENVIRONMENT",
+      "title": "PUBLIC SITE",
+      "purpose": "Public service pages: understand a service and request it. No client context, no private data.",
+      "primary_object": "THE QUARTER",
+      "primary_task": "Public service pages: understand a service and request it. No client context, no private data.",
+      "data_domains": [],
+      "read_contracts": [],
+      "write_contracts": [],
+      "components": [],
+      "interactions": [],
+      "states": [],
+      "responsive_modes": [],
+      "authority_refs": [],
+      "asset_refs": [],
+      "permissions": [],
+      "cross_feature_dependencies": [],
+      "vault_relationship": "—",
+      "inbox_relationship": "—",
+      "activity_relationship": "—",
+      "success_condition": "—",
+      "blocked_condition": "—",
+      "experience_refs": [],
+      "context": {
+        "environment_id": "AIO.PUBLIC_SITE",
+        "workspace_id": null,
+        "client_scope": "NONE",
+        "case_type": null,
+        "subcontext_type": null
+      },
+      "children": [
+        "AIO.IFTA.PUBLIC"
+      ],
+      "drawers": [],
+      "modals": []
+    },
+    {
+      "node_id": "AIO.IFTA.PUBLIC",
+      "project_id": "AIO",
+      "feature_id": "AIO.IFTA",
+      "actor": "PUBLIC",
+      "page_family": "—",
+      "tab_id": null,
+      "parent_node": "AIO.PUBLIC_SITE",
+      "node_type": "ACTOR_MODE",
+      "title": "PUBLIC / CUSTOMER — DARK_PRIMARY",
+      "purpose": "Cinematic service experience: understand IFTA filing with AIO and request it.",
+      "primary_object": "THE QUARTER",
+      "primary_task": "Cinematic service experience: understand IFTA filing with AIO and request it.",
+      "data_domains": [],
+      "read_contracts": [],
+      "write_contracts": [],
+      "components": [],
+      "interactions": [],
+      "states": [],
+      "responsive_modes": [],
+      "authority_refs": [],
+      "asset_refs": [],
+      "permissions": [],
+      "cross_feature_dependencies": [],
+      "vault_relationship": "—",
+      "inbox_relationship": "—",
+      "activity_relationship": "—",
+      "success_condition": "—",
+      "blocked_condition": "—",
+      "experience_refs": [],
+      "context": {
+        "environment_id": "AIO.PUBLIC_SITE",
+        "workspace_id": "IFTA",
+        "client_scope": "NONE",
+        "case_type": null,
+        "subcontext_type": null
+      },
+      "children": [
+        "AIO.IFTA.PUBLIC.SERVICE_FAMILY"
       ],
       "drawers": [],
       "modals": []
@@ -847,82 +1488,15 @@
       "success_condition": "—",
       "blocked_condition": "—",
       "experience_refs": [],
+      "context": {
+        "environment_id": "AIO.PUBLIC_SITE",
+        "workspace_id": "IFTA",
+        "client_scope": "NONE",
+        "case_type": null,
+        "subcontext_type": null
+      },
       "children": [
         "AIO.IFTA.PUBLIC.SERVICE"
-      ],
-      "drawers": [],
-      "modals": []
-    },
-    {
-      "node_id": "AIO.IFTA.CLIENT.FILING_ROOM",
-      "project_id": "AIO",
-      "feature_id": "AIO.IFTA",
-      "actor": "CLIENT",
-      "page_family": "AIO.IFTA.CLIENT.FILING_ROOM",
-      "tab_id": null,
-      "parent_node": "AIO.IFTA.CLIENT",
-      "node_type": "PAGE_FAMILY",
-      "title": "IFTA FILING ROOM — CLIENT",
-      "purpose": "LIGHT ANALYTICS COMMAND parent authority family.",
-      "primary_object": "THE QUARTER",
-      "primary_task": "LIGHT ANALYTICS COMMAND parent authority family.",
-      "data_domains": [],
-      "read_contracts": [],
-      "write_contracts": [],
-      "components": [],
-      "interactions": [],
-      "states": [],
-      "responsive_modes": [],
-      "authority_refs": [],
-      "asset_refs": [],
-      "permissions": [],
-      "cross_feature_dependencies": [],
-      "vault_relationship": "—",
-      "inbox_relationship": "—",
-      "activity_relationship": "—",
-      "success_condition": "—",
-      "blocked_condition": "—",
-      "experience_refs": [],
-      "children": [
-        "AIO.IFTA.CLIENT.ROOM",
-        "AIO.IFTA.CLIENT.NOT_ENROLLED"
-      ],
-      "drawers": [],
-      "modals": []
-    },
-    {
-      "node_id": "AIO.IFTA.STAFF.FUEL_TAX_OFFICE",
-      "project_id": "AIO",
-      "feature_id": "AIO.IFTA",
-      "actor": "FOUNDER_STAFF",
-      "page_family": "AIO.IFTA.STAFF.FUEL_TAX_OFFICE",
-      "tab_id": null,
-      "parent_node": "AIO.IFTA.STAFF",
-      "node_type": "PAGE_FAMILY",
-      "title": "IFTA FILING ROOM — FOUNDER / STAFF",
-      "purpose": "Staff mirror family: fuel tax queue + client-quarter case file.",
-      "primary_object": "THE QUARTER",
-      "primary_task": "Staff mirror family: fuel tax queue + client-quarter case file.",
-      "data_domains": [],
-      "read_contracts": [],
-      "write_contracts": [],
-      "components": [],
-      "interactions": [],
-      "states": [],
-      "responsive_modes": [],
-      "authority_refs": [],
-      "asset_refs": [],
-      "permissions": [],
-      "cross_feature_dependencies": [],
-      "vault_relationship": "—",
-      "inbox_relationship": "—",
-      "activity_relationship": "—",
-      "success_condition": "—",
-      "blocked_condition": "—",
-      "experience_refs": [],
-      "children": [
-        "AIO.IFTA.STAFF.QUEUE",
-        "AIO.IFTA.STAFF.CASE"
       ],
       "drawers": [],
       "modals": []
@@ -934,7 +1508,7 @@
       "actor": "CLIENT",
       "page_family": "AIO.IFTA.CLIENT.FILING_ROOM",
       "tab_id": null,
-      "parent_node": "AIO.IFTA.CLIENT.FILING_ROOM",
+      "parent_node": "AIO.IFTA.CLIENT.QUARTER_CONTEXT",
       "node_type": "PAGE",
       "title": "IFTA FILING ROOM — Q{n} {YYYY} (root)",
       "purpose": "The quarter as a live business object: identity, live metrics, the tab family of its compartments, process status, one next action, the lower brand band.",
@@ -958,6 +1532,7 @@
       ],
       "components": [
         "TOP_NAV",
+        "WORKSPACE_SWITCHER",
         "QUARTER_HERO",
         "METRICS_RAIL",
         "TAB_BAR",
@@ -970,6 +1545,8 @@
       "interactions": [
         "I.SWITCH_TAB",
         "I.SWITCH_QUARTER",
+        "I.SWITCH_WORKSPACE",
+        "I.RETURN_TO_HUB",
         "I.CONTINUE_NEXT_ACTION",
         "I.SEARCH",
         "I.OPEN_NOTIFICATIONS",
@@ -1041,15 +1618,16 @@
         "ICON.COMM.NOTIFICATION",
         "AVATAR.CHIP",
         "CTA.PRIMARY_GOLD",
+        "ICON.COMM.OPEN",
+        "SURFACE.STATUS_CHIPS",
+        "SURFACE.CARD",
         "IMAGE.HERO_TRUCK_LIGHT",
         "IMAGE.HERO_TRUCK_DARK",
-        "SURFACE.STATUS_CHIPS",
         "ICON.METRIC.MILES",
         "ICON.METRIC.FUEL",
         "ICON.METRIC.JURISDICTIONS",
         "ICON.METRIC.TAX_DUE",
         "CTA.TAB_PILL",
-        "ICON.COMM.OPEN",
         "CTA.NEXT_ACTION_RAIL",
         "ICON.COMM.MESSAGE",
         "BRAND.FULL_LOCKUP",
@@ -1073,7 +1651,7 @@
         }
       ],
       "cross_feature_dependencies": [
-        "AIO.MY_OFFICE (attention card entry)",
+        "AIO.MY_OFFICE (CLIENT OFFICE HUB attention card entry)",
         "AIO.NOTIFICATIONS (Tax & Fuel)",
         "AIO.INBOX (quarter thread)"
       ],
@@ -1089,9 +1667,13 @@
         "composition_rules",
         "client_cta"
       ],
-      "open_decisions": [
-        "D-TAX-FIGURES"
-      ],
+      "context": {
+        "environment_id": "AIO.CLIENT_OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "FIXED",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "children": [
         "AIO.IFTA.CLIENT.ROOM.PROGRESS",
         "AIO.IFTA.CLIENT.ROOM.FUEL_PURCHASES",
@@ -1099,7 +1681,6 @@
         "AIO.IFTA.CLIENT.ROOM.VEHICLES",
         "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS",
         "AIO.IFTA.CLIENT.ROOM.DOCUMENTS",
-        "AIO.IFTA.CLIENT.ROOM.NOTES",
         "AIO.IFTA.CLIENT.ROOM.FILED",
         "AIO.IFTA.CLIENT.ROOM.ARCHIVED",
         "AIO.IFTA.CLIENT.ROOM.NEXT_QUARTER_OPEN",
@@ -1273,15 +1854,19 @@
         "section_overrides.CLIENT"
       ],
       "tab_class": "PRIMARY",
-      "open_decisions": [
-        "D-CLIENT-DESKTOP-STAFF-MODULES"
-      ],
+      "context": {
+        "environment_id": "AIO.CLIENT_OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "FIXED",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "overrides": [
         "PRIMARY_TASK: readiness overview",
         "CONTENT_MODULES: checklist + workflow + map + uploads + insights + activity"
       ],
       "notes": [
-        "Desktop QUARTER TASKS / CLIENT HEALTH / account card content: decision D-CLIENT-DESKTOP-STAFF-MODULES."
+        "Desktop QUARTER TASKS slot carries client-safe quarter tasks (owner YOU / AIO); CLIENT HEALTH, the internal account card, internal QA and staff-only jurisdiction tasks never render in client mode (D-CLIENT-DESKTOP-STAFF-MODULES, DECIDED). Composition unchanged."
       ],
       "children": [
         "AIO.IFTA.CLIENT.ROOM.PROGRESS.CORRECTION_FLOW",
@@ -1447,6 +2032,13 @@
         "visual_relationships.NEEDS_CLIENT",
         "inbox_events.IFTA_NEEDS_YOU"
       ],
+      "context": {
+        "environment_id": "AIO.CLIENT_OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "FIXED",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "children": [],
       "drawers": [],
       "modals": []
@@ -1610,6 +2202,13 @@
         "perspectives.founder_staff.corrections",
         "interaction_grammar.REQUEST CORRECTION"
       ],
+      "context": {
+        "environment_id": "AIO.CLIENT_OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "FIXED",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "children": [],
       "drawers": [],
       "modals": []
@@ -1753,6 +2352,13 @@
         "interaction_grammar.SEND QUARTER TO AIO",
         "activity_events.ACT_SUBMITTED"
       ],
+      "context": {
+        "environment_id": "AIO.CLIENT_OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "FIXED",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "children": [],
       "drawers": [],
       "modals": []
@@ -1922,6 +2528,13 @@
         "output_artifacts.RETURN_SUMMARY",
         "section_overrides.CLIENT"
       ],
+      "context": {
+        "environment_id": "AIO.CLIENT_OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "FIXED",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "notes": [
         "Highest-stakes client decision; derived composition recommended for a founder spot-check at tree confirmation."
       ],
@@ -2066,6 +2679,13 @@
       "experience_refs": [
         "interaction_grammar.APPROVE"
       ],
+      "context": {
+        "environment_id": "AIO.CLIENT_OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "FIXED",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "children": [],
       "drawers": [],
       "modals": []
@@ -2209,6 +2829,13 @@
       "experience_refs": [
         "interaction_grammar.ASK A QUESTION"
       ],
+      "context": {
+        "environment_id": "AIO.CLIENT_OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "FIXED",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "children": [],
       "drawers": [],
       "modals": []
@@ -2395,6 +3022,13 @@
         "interaction_grammar.TAKE PHOTO"
       ],
       "tab_class": "PRIMARY",
+      "context": {
+        "environment_id": "AIO.CLIENT_OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "FIXED",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "overrides": [
         "PRIMARY_TASK: capture + verify receipts",
         "PRIMARY_DATA: receipts",
@@ -2547,6 +3181,13 @@
         "required_inputs.FUEL_RECEIPTS",
         "automations.AUTO_PARSE_RECEIPT"
       ],
+      "context": {
+        "environment_id": "AIO.CLIENT_OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "FIXED",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "children": [],
       "drawers": [],
       "modals": []
@@ -2688,6 +3329,13 @@
       "experience_refs": [
         "optional_inputs.FUEL_CARD_STATEMENT"
       ],
+      "context": {
+        "environment_id": "AIO.CLIENT_OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "FIXED",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "children": [],
       "drawers": [],
       "modals": []
@@ -2834,6 +3482,13 @@
       "experience_refs": [
         "perspectives.client.system_already_knows"
       ],
+      "context": {
+        "environment_id": "AIO.CLIENT_OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "FIXED",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "children": [],
       "drawers": [],
       "modals": []
@@ -2981,6 +3636,13 @@
       "experience_refs": [
         "output_artifacts.FUEL_RECEIPT"
       ],
+      "context": {
+        "environment_id": "AIO.CLIENT_OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "FIXED",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "children": [],
       "drawers": [],
       "modals": []
@@ -3168,6 +3830,13 @@
         "composition_rules"
       ],
       "tab_class": "PRIMARY",
+      "context": {
+        "environment_id": "AIO.CLIENT_OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "FIXED",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "overrides": [
         "PRIMARY_TASK: miles by state per truck",
         "PRIMARY_DATA: mileage records",
@@ -3319,6 +3988,13 @@
       "experience_refs": [
         "mobile_behavior"
       ],
+      "context": {
+        "environment_id": "AIO.CLIENT_OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "FIXED",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "notes": [
         "I.CONNECT_ELD is ROADMAP_NOT_SUPPORTED and is excluded from readiness; the picker shows it as NOT LIVE YET."
       ],
@@ -3468,6 +4144,13 @@
       "experience_refs": [
         "required_inputs.JURISDICTION_MILEAGE"
       ],
+      "context": {
+        "environment_id": "AIO.CLIENT_OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "FIXED",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "children": [],
       "drawers": [],
       "modals": []
@@ -3611,6 +4294,13 @@
       "experience_refs": [
         "required_inputs.JURISDICTION_MILEAGE"
       ],
+      "context": {
+        "environment_id": "AIO.CLIENT_OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "FIXED",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "children": [],
       "drawers": [],
       "modals": []
@@ -3755,6 +4445,13 @@
       "experience_refs": [
         "output_artifacts.JURISDICTION_MILEAGE_RECORD"
       ],
+      "context": {
+        "environment_id": "AIO.CLIENT_OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "FIXED",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "children": [],
       "drawers": [],
       "modals": []
@@ -3930,6 +4627,13 @@
         "perspectives.client.system_already_knows"
       ],
       "tab_class": "PRIMARY",
+      "context": {
+        "environment_id": "AIO.CLIENT_OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "FIXED",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "overrides": [
         "PRIMARY_TASK: participation",
         "PRIMARY_DATA: quarter vehicles",
@@ -4087,6 +4791,13 @@
         "required_inputs.QUARTER_VEHICLES",
         "interaction_grammar.VERIFY"
       ],
+      "context": {
+        "environment_id": "AIO.CLIENT_OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "FIXED",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "children": [],
       "drawers": [],
       "modals": []
@@ -4230,6 +4941,13 @@
       "experience_refs": [
         "required_inputs.QUARTER_VEHICLES"
       ],
+      "context": {
+        "environment_id": "AIO.CLIENT_OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "FIXED",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "children": [],
       "drawers": [],
       "modals": []
@@ -4405,9 +5123,13 @@
         "output_artifacts.RETURN_SUMMARY"
       ],
       "tab_class": "PRIMARY",
-      "open_decisions": [
-        "D-TAX-FIGURES"
-      ],
+      "context": {
+        "environment_id": "AIO.CLIENT_OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "FIXED",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "overrides": [
         "PRIMARY_TASK: distribution + tax relationship",
         "PRIMARY_DATA: per-jurisdiction rollup",
@@ -4564,9 +5286,13 @@
       "experience_refs": [
         "system_derivations.JURISDICTION_CLASSIFY"
       ],
-      "open_decisions": [
-        "D-TAX-FIGURES"
-      ],
+      "context": {
+        "environment_id": "AIO.CLIENT_OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "FIXED",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "children": [],
       "drawers": [],
       "modals": []
@@ -4757,6 +5483,13 @@
         "vault_destination"
       ],
       "tab_class": "PRIMARY",
+      "context": {
+        "environment_id": "AIO.CLIENT_OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "FIXED",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "overrides": [
         "PRIMARY_TASK: records",
         "PRIMARY_DATA: documents",
@@ -4916,154 +5649,13 @@
       "experience_refs": [
         "output_artifacts.FILED_RETURN"
       ],
-      "children": [],
-      "drawers": [],
-      "modals": []
-    },
-    {
-      "node_id": "AIO.IFTA.CLIENT.ROOM.NOTES",
-      "project_id": "AIO",
-      "feature_id": "AIO.IFTA",
-      "actor": "CLIENT",
-      "page_family": "AIO.IFTA.CLIENT.FILING_ROOM",
-      "tab_id": "NOTES",
-      "parent_node": "AIO.IFTA.CLIENT.ROOM",
-      "node_type": "TAB",
-      "title": "NOTES (candidate)",
-      "purpose": "Notes for AIO (context such as “truck sold mid-quarter”). Shown on the client desktop reference; absent from the approved parent’s six tabs.",
-      "primary_object": "NOTES FOR AIO",
-      "primary_task": "Tell AIO context about the quarter.",
-      "data_domains": [
-        "NOTES",
-        "MESSAGES"
-      ],
-      "read_contracts": [
-        "NOTES.read",
-        "MSG.read.thread"
-      ],
-      "write_contracts": [
-        "NOTES.write",
-        "MSG.write.postThread"
-      ],
-      "components": [
-        "TAB_BAR",
-        "MESSAGE_THREAD",
-        "EMPTY_STATE"
-      ],
-      "interactions": [
-        "I.SAVE_NOTE",
-        "I.MESSAGE_AIO"
-      ],
-      "states": [
-        "UI.DEFAULT",
-        "UI.EMPTY"
-      ],
-      "responsive_modes": [
-        {
-          "viewport": "MOBILE",
-          "rule_ref": "RESP.CLIENT.MOBILE",
-          "node_rule": "tab body stacked"
-        },
-        {
-          "viewport": "TABLET",
-          "rule_ref": "RESP.CLIENT.TABLET",
-          "node_rule": "tab body two columns"
-        },
-        {
-          "viewport": "DESKTOP",
-          "rule_ref": "RESP.CLIENT.DESKTOP",
-          "node_rule": "tab body three columns"
-        }
-      ],
-      "authority_refs": [
-        {
-          "viewport": "MOBILE",
-          "binding": "DERIVED",
-          "refs": [
-            "CLIENT_TABLET_DESKTOP",
-            "ACTOR_MODES_MOBILE",
-            "ICON_ASSET_SHEET"
-          ],
-          "derivation": {
-            "family_composition_clear": true,
-            "component_contract_clear": true,
-            "tab_logic_clear": false,
-            "asset_family_clear": true
-          },
-          "note": "Tab label only in references (no NOTES content composition); asset sheet shows the tab DISABLED."
-        },
-        {
-          "viewport": "TABLET",
-          "binding": "DERIVED",
-          "refs": [
-            "CLIENT_TABLET_DESKTOP",
-            "ICON_ASSET_SHEET"
-          ],
-          "derivation": {
-            "family_composition_clear": true,
-            "component_contract_clear": true,
-            "tab_logic_clear": false,
-            "asset_family_clear": true
-          },
-          "note": "Tab label only."
-        },
-        {
-          "viewport": "DESKTOP",
-          "binding": "DERIVED",
-          "refs": [
-            "CLIENT_TABLET_DESKTOP",
-            "ICON_ASSET_SHEET"
-          ],
-          "derivation": {
-            "family_composition_clear": true,
-            "component_contract_clear": true,
-            "tab_logic_clear": false,
-            "asset_family_clear": true
-          },
-          "note": "Tab label only."
-        }
-      ],
-      "asset_refs": [
-        "CTA.TAB_PILL",
-        "ICON.COMM.MESSAGE",
-        "AVATAR.CHIP",
-        "ICON.FILE.UPLOAD"
-      ],
-      "permissions": [
-        {
-          "actor": "CLIENT",
-          "rights": [
-            "VIEW",
-            "MESSAGE"
-          ],
-          "scope": "own organisation’s quarter; writes only while the quarter is unlocked (COLLECTION states)"
-        },
-        {
-          "actor": "FOUNDER_STAFF",
-          "rights": [
-            "VIEW"
-          ],
-          "scope": "reads the same records through the staff case file (mirror, not this surface)"
-        }
-      ],
-      "cross_feature_dependencies": [
-        "AIO.INBOX"
-      ],
-      "vault_relationship": "NONE — this node does not read or write Vault records.",
-      "inbox_relationship": "Contract method for NOTES_FOR_AIO is MESSAGE (quarter thread).",
-      "activity_relationship": "NONE — no inbox event originates here.",
-      "success_condition": "Founder decides whether NOTES is a tab (D-NOTES-TAB).",
-      "blocked_condition": "Pending founder decision; no client note model exists.",
-      "experience_refs": [
-        "optional_inputs.NOTES_FOR_AIO"
-      ],
-      "tab_class": "SECONDARY_CANDIDATE",
-      "open_decisions": [
-        "D-NOTES-TAB"
-      ],
-      "notes": [
-        "Not a primary tab: no contractual reason to add a seventh primary tab; NOTES_FOR_AIO maps to MESSAGE AIO."
-      ],
+      "context": {
+        "environment_id": "AIO.CLIENT_OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "FIXED",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "children": [],
       "drawers": [],
       "modals": []
@@ -5209,6 +5801,13 @@
         "optional_inputs.NOTES_FOR_AIO",
         "perspectives.client.project_room"
       ],
+      "context": {
+        "environment_id": "AIO.CLIENT_OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "FIXED",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "children": [],
       "drawers": [],
       "modals": []
@@ -5382,6 +5981,13 @@
         "section_overrides.CLIENT",
         "cross_feature_relationships.IFTA_FILED_TO_VAULT"
       ],
+      "context": {
+        "environment_id": "AIO.CLIENT_OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "FIXED",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "children": [],
       "drawers": [],
       "modals": []
@@ -5541,6 +6147,13 @@
         "visual_relationships.ARCHIVED",
         "activity_events.ACT_ARCHIVED"
       ],
+      "context": {
+        "environment_id": "AIO.CLIENT_OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "FIXED",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "children": [],
       "drawers": [],
       "modals": []
@@ -5706,6 +6319,13 @@
         "visual_relationships.QUARTER_OPEN",
         "inbox_events.IFTA_QUARTER_OPEN"
       ],
+      "context": {
+        "environment_id": "AIO.CLIENT_OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "FIXED",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "children": [],
       "drawers": [],
       "modals": []
@@ -5853,6 +6473,13 @@
         "visual_relationships.FILING_REJECTED",
         "error_states"
       ],
+      "context": {
+        "environment_id": "AIO.CLIENT_OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "FIXED",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "children": [],
       "drawers": [],
       "modals": []
@@ -5866,30 +6493,38 @@
       "tab_id": null,
       "parent_node": "AIO.IFTA.CLIENT.FILING_ROOM",
       "node_type": "STATE_VIEW",
-      "title": "SET UP IFTA FILING",
-      "purpose": "Threshold for a client without the service: what IFTA filing with AIO is + set up.",
-      "primary_object": "THE IFTA FILING SERVICE",
-      "primary_task": "Request IFTA filing.",
+      "title": "SET UP IFTA FILING — IFTA IS NOT ACTIVE YET",
+      "purpose": "Client workspace state AVAILABLE_NOT_ACTIVATED: the IFTA workspace is relevant but not active for this client — WORKSPACE NAME · NOT ACTIVE YET · WHY IT MAY MATTER (real signals only) · WHAT AIO HANDLES · WHAT YOU PROVIDE · REQUEST FILING (quote).",
+      "primary_object": "THE IFTA WORKSPACE (NOT ACTIVE YET)",
+      "primary_task": "Understand what IFTA filing with AIO covers and request it.",
       "data_domains": [
         "PUBLIC_CONTENT",
-        "SERVICE_ENROLLMENT_REQUESTS"
+        "SERVICE_ENROLLMENT_REQUESTS",
+        "OFFICE_CONTEXT"
       ],
       "read_contracts": [
         "PUBLIC.read.contract_copy",
-        "PUBLIC.read.availability"
+        "PUBLIC.read.availability",
+        "OFFICE.read.workspace_states",
+        "OFFICE.read.expansion_signals"
       ],
       "write_contracts": [
         "ENROLL.write.requestService"
       ],
       "components": [
+        "TOP_NAV",
+        "WORKSPACE_SWITCHER",
         "QUARTER_HERO",
+        "WORKSPACE_STATE_PANEL",
         "EXPLAINER_BAND",
         "REQUEST_FORM",
         "NEXT_ACTION_RAIL"
       ],
       "interactions": [
         "I.SET_UP_FILING",
-        "I.START_IFTA_REGISTRATION"
+        "I.START_IFTA_REGISTRATION",
+        "I.SWITCH_WORKSPACE",
+        "I.RETURN_TO_HUB"
       ],
       "states": [
         "NOT_ENROLLED",
@@ -5929,7 +6564,7 @@
             "tab_logic_clear": true,
             "asset_family_clear": true
           },
-          "note": "Parent hero with the explainer pattern from the public family (light)."
+          "note": "Parent hero + family empty-state card (WORKSPACE_STATE_PANEL) + the explainer pattern from the public family (light)."
         },
         {
           "viewport": "TABLET",
@@ -5946,7 +6581,7 @@
             "tab_logic_clear": true,
             "asset_family_clear": true
           },
-          "note": "Parent hero with the explainer pattern from the public family (light)."
+          "note": "Parent hero + family empty-state card (WORKSPACE_STATE_PANEL) + the explainer pattern from the public family (light)."
         },
         {
           "viewport": "DESKTOP",
@@ -5963,18 +6598,24 @@
             "tab_logic_clear": true,
             "asset_family_clear": true
           },
-          "note": "Parent hero with the explainer pattern from the public family (light)."
+          "note": "Parent hero + family empty-state card (WORKSPACE_STATE_PANEL) + the explainer pattern from the public family (light)."
         }
       ],
       "asset_refs": [
+        "BRAND.SIMPLE_MARK",
+        "ICON.COMM.SEARCH",
+        "ICON.COMM.NOTIFICATION",
+        "AVATAR.CHIP",
+        "CTA.PRIMARY_GOLD",
+        "ICON.COMM.OPEN",
+        "SURFACE.STATUS_CHIPS",
+        "SURFACE.CARD",
         "IMAGE.HERO_TRUCK_LIGHT",
         "IMAGE.HERO_TRUCK_DARK",
-        "SURFACE.STATUS_CHIPS",
+        "CTA.SECONDARY_OUTLINE",
         "IMAGE.ROAD_EVIDENCE",
-        "CTA.PRIMARY_GOLD",
         "CTA.TERTIARY_TEXT",
-        "CTA.NEXT_ACTION_RAIL",
-        "ICON.COMM.OPEN"
+        "CTA.NEXT_ACTION_RAIL"
       ],
       "permissions": [
         {
@@ -5995,19 +6636,27 @@
       ],
       "cross_feature_dependencies": [
         "AIO.IFTA_REGISTRATION",
-        "service request engine"
+        "service request engine",
+        "WORKSPACE_EXPANSION_CONTRACT"
       ],
       "vault_relationship": "NONE — this node does not read or write Vault records.",
       "inbox_relationship": "NONE — no inbox event originates here.",
       "activity_relationship": "Service request activity.",
-      "success_condition": "Request submitted.",
-      "blocked_condition": "Availability truth unresolved (D-IFTA-AVAILABILITY); no IFTA account → IFTA registration.",
+      "success_condition": "Request submitted (quote) — REQUEST / QUOTE model, no self-service filing claim.",
+      "blocked_condition": "Availability truth conflict (catalog PREPARING · launch INTERNAL_ONLY · CTA GO) until reconciled to the REQUEST / QUOTE decision; no IFTA account → IFTA registration. NOT_APPLICABLE clients never see this state.",
       "experience_refs": [
         "visual_relationships.NOT_ENROLLED",
         "empty_state"
       ],
-      "open_decisions": [
-        "D-IFTA-AVAILABILITY"
+      "context": {
+        "environment_id": "AIO.CLIENT_OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "FIXED",
+        "case_type": null,
+        "subcontext_type": null
+      },
+      "notes": [
+        "Inactive content never masquerades as active: no quarter, metrics or tabs render here."
       ],
       "children": [],
       "drawers": [],
@@ -6022,74 +6671,122 @@
       "tab_id": null,
       "parent_node": "AIO.IFTA.STAFF.FUEL_TAX_OFFICE",
       "node_type": "PAGE",
-      "title": "FUEL TAX QUEUE",
-      "purpose": "Every client-quarter by due date × readiness, bucketed (AWAITING CLIENT · BLOCKED · NEEDS REVIEW · READY TO FILE · COMPLETE).",
-      "primary_object": "CLIENT-QUARTERS",
-      "primary_task": "Pick the case that needs staff now.",
+      "title": "FUEL TAX QUEUE — IFTA WORKSPACE LANDING",
+      "purpose": "Cross-client IFTA landing (MULTI-CLIENT FILING QUEUE): which client-quarters need attention, what is due next, blocked, waiting on the client, waiting on AIO, ready to prepare, awaiting approval, ready to file, returned / rejected.",
+      "primary_object": "MULTI-CLIENT FILING QUEUE (CLIENT-QUARTERS)",
+      "primary_task": "Pick the client-quarter that needs staff now.",
       "data_domains": [
         "STAFF_WORK_QUEUE",
-        "QUARTER_CASE"
+        "QUARTER_CASE",
+        "OFFICE_CONTEXT"
       ],
       "read_contracts": [
         "STAFF.read.queue",
-        "QUARTER.read.derived"
+        "QUARTER.read.derived",
+        "STAFF.read.dates",
+        "OFFICE.read.clients",
+        "OFFICE.read.case_index"
       ],
       "write_contracts": [],
       "components": [
         "TOP_NAV",
+        "WORKSPACE_SWITCHER",
+        "CLIENT_SWITCHER",
+        "METRICS_RAIL",
         "QUEUE_TABLE",
         "STATUS_CHIP",
+        "RISK_FLAG_PANEL",
         "BRAND_EXIT_BAND"
       ],
       "interactions": [
         "I.OPEN_CASE",
-        "I.FILTER_QUEUE"
+        "I.FILTER_QUEUE",
+        "I.SWITCH_CLIENT",
+        "I.SWITCH_WORKSPACE",
+        "I.RETURN_TO_HUB",
+        "I.SEARCH"
       ],
       "states": [
         "AIO_REVIEWING",
         "NEEDS_YOU",
-        "OVERDUE_RISK",
+        "CORRECTION_REQUIRED",
+        "READY_FOR_AIO",
+        "CLIENT_APPROVAL_PENDING",
         "APPROVED_FOR_FILING",
+        "FILING_REJECTED",
+        "OVERDUE_RISK",
         "COMPLETE",
         "UI.DEFAULT",
         "UI.LOADING",
-        "UI.EMPTY"
+        "UI.EMPTY",
+        "UI.ERROR"
       ],
       "responsive_modes": [
         {
           "viewport": "MOBILE",
           "rule_ref": "RESP.STAFF.MOBILE",
-          "node_rule": "family shell (mobile)"
+          "node_rule": "metrics strip → bucket chips → stacked client-quarter cards"
         },
         {
           "viewport": "TABLET",
           "rule_ref": "RESP.STAFF.TABLET",
-          "node_rule": "family shell (tablet)"
+          "node_rule": "metrics strip → bucket chips → dense table (client · quarter · due · state · next action)"
         },
         {
           "viewport": "DESKTOP",
           "rule_ref": "RESP.STAFF.DESKTOP",
-          "node_rule": "family shell (desktop)"
+          "node_rule": "metrics strip → bucket chips → full dense table (all queue fields with contract truth) + blocker accent panel"
         }
       ],
       "authority_refs": [
         {
           "viewport": "MOBILE",
-          "binding": "MISSING",
-          "refs": [],
-          "note": "No queue reference in the package (G-STAFF-QUEUE)."
+          "binding": "DERIVED",
+          "refs": [
+            "ACTOR_MODES_MOBILE",
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "DERIVED_AUTHORITY (founder-authorised, D-STAFF-QUEUE-AUTHORITY): staff mobile column — bucket chips + stacked client-quarter cards with status chips and next action."
         },
         {
           "viewport": "TABLET",
-          "binding": "MISSING",
-          "refs": [],
-          "note": "No queue reference in the package."
+          "binding": "DERIVED",
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "DERIVED_AUTHORITY: staff case authority light body + dark accents → metrics strip, bucket chips, dense queue table."
         },
         {
           "viewport": "DESKTOP",
-          "binding": "MISSING",
-          "refs": [],
-          "note": "No queue reference in the package."
+          "binding": "DERIVED",
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "DERIVED_AUTHORITY: staff case authority → metrics strip, bucket chips, full dense table (risk + next-action columns), dark operational accent panel for blockers."
         }
       ],
       "asset_refs": [
@@ -6098,7 +6795,17 @@
         "ICON.COMM.NOTIFICATION",
         "AVATAR.CHIP",
         "CTA.PRIMARY_GOLD",
+        "ICON.COMM.OPEN",
         "SURFACE.STATUS_CHIPS",
+        "SURFACE.CARD",
+        "ICON.METRIC.MILES",
+        "ICON.METRIC.FUEL",
+        "ICON.METRIC.JURISDICTIONS",
+        "ICON.METRIC.TAX_DUE",
+        "SURFACE.DARK_OPERATIONAL_PANEL",
+        "ICON.STATUS.ATTENTION",
+        "ICON.COMM.USERS",
+        "ICON.STATUS.COMPLETE",
         "BRAND.FULL_LOCKUP",
         "IMAGE.BAND_LANDSCAPE"
       ],
@@ -6112,24 +6819,238 @@
         }
       ],
       "cross_feature_dependencies": [
-        "Office (permitting division)",
-        "OfficeWorkItem (none per quarter today)"
+        "AIO.OFFICE_OPERATIONS (AIO OFFICE HUB needs-attention mirrors this queue)",
+        "OfficeWorkItem (none per client-quarter today)"
       ],
       "vault_relationship": "NONE — this node does not read or write Vault records.",
       "inbox_relationship": "Staff notices link here.",
-      "activity_relationship": "NONE — no inbox event originates here.",
-      "success_condition": "Staff open the most urgent case.",
-      "blocked_condition": "Authority missing; no queue route.",
+      "activity_relationship": "Reads last client activity per client-quarter (IFTA kinds).",
+      "success_condition": "Staff open the most urgent client-quarter; the same case opens as from the client route.",
+      "blocked_condition": "No queue route registered; queue fields without contract truth (assignee, risk tier) are absent, never invented.",
       "experience_refs": [
         "perspectives.founder_staff.work_queue",
         "perspectives.founder_staff.status_model",
         "founder_staff_entry"
       ],
-      "open_decisions": [
-        "D-STAFF-QUEUE-AUTHORITY"
-      ],
+      "context": {
+        "environment_id": "AIO.OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "CROSS_CLIENT",
+        "case_type": null,
+        "subcontext_type": null
+      },
       "notes": [
-        "Reference package gap — do not invent the queue composition."
+        "Designed as the IFTA WORKSPACE CROSS-CLIENT LANDING STATE — not a duplicate of the case page (AIO_IFTA_QUEUE_DERIVATION_CONTRACT.json)."
+      ],
+      "children": [
+        "AIO.IFTA.STAFF.CLIENT_CONTEXT"
+      ],
+      "drawers": [],
+      "modals": []
+    },
+    {
+      "node_id": "AIO.IFTA.STAFF.CLIENT_CONTEXT",
+      "project_id": "AIO",
+      "feature_id": "AIO.IFTA",
+      "actor": "FOUNDER_STAFF",
+      "page_family": "AIO.IFTA.STAFF.FUEL_TAX_OFFICE",
+      "tab_id": null,
+      "parent_node": "AIO.IFTA.STAFF.QUEUE",
+      "node_type": "CONTEXT",
+      "title": "CLIENT CONTEXT — {CLIENT} × IFTA",
+      "purpose": "The selected client inside the IFTA workspace (from a queue row, the client switcher or the client overview). Resolves the canonical client-quarter case, or WORKSPACE NOT ACTIVE when the client has no IFTA service.",
+      "primary_object": "THE QUARTER",
+      "primary_task": "The selected client inside the IFTA workspace (from a queue row, the client switcher or the client overview). Resolves the canonical client-quarter case, or WORKSPACE NOT ACTIVE when the client has no IFTA service.",
+      "data_domains": [],
+      "read_contracts": [],
+      "write_contracts": [],
+      "components": [
+        "CLIENT_SWITCHER",
+        "QUARTER_SELECTOR"
+      ],
+      "interactions": [
+        "I.SWITCH_CLIENT",
+        "I.SWITCH_QUARTER"
+      ],
+      "states": [],
+      "responsive_modes": [],
+      "authority_refs": [],
+      "asset_refs": [
+        "AVATAR.CHIP",
+        "ICON.COMM.SEARCH",
+        "ICON.COMM.OPEN"
+      ],
+      "permissions": [],
+      "cross_feature_dependencies": [],
+      "vault_relationship": "—",
+      "inbox_relationship": "—",
+      "activity_relationship": "—",
+      "success_condition": "—",
+      "blocked_condition": "—",
+      "experience_refs": [],
+      "context": {
+        "environment_id": "AIO.OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "SWITCHABLE",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
+      "children": [
+        "AIO.IFTA.STAFF.WORKSPACE_INACTIVE",
+        "AIO.IFTA.STAFF.CASE"
+      ],
+      "drawers": [],
+      "modals": []
+    },
+    {
+      "node_id": "AIO.IFTA.STAFF.WORKSPACE_INACTIVE",
+      "project_id": "AIO",
+      "feature_id": "AIO.IFTA",
+      "actor": "FOUNDER_STAFF",
+      "page_family": "AIO.IFTA.STAFF.FUEL_TAX_OFFICE",
+      "tab_id": null,
+      "parent_node": "AIO.IFTA.STAFF.CLIENT_CONTEXT",
+      "node_type": "STATE_VIEW",
+      "title": "WORKSPACE NOT ACTIVE FOR THIS CLIENT",
+      "purpose": "Truthful inactive state when the selected client has no IFTA service: the client stays selected (never another client), no IFTA data renders, only supported actions.",
+      "primary_object": "THE CLIENT’S IFTA WORKSPACE STATE",
+      "primary_task": "See that IFTA is not active for this client and go where work exists.",
+      "data_domains": [
+        "OFFICE_CONTEXT"
+      ],
+      "read_contracts": [
+        "OFFICE.read.clients",
+        "OFFICE.read.workspace_states"
+      ],
+      "write_contracts": [],
+      "components": [
+        "TOP_NAV",
+        "WORKSPACE_SWITCHER",
+        "CLIENT_SWITCHER",
+        "WORKSPACE_STATE_PANEL",
+        "EMPTY_STATE"
+      ],
+      "interactions": [
+        "I.OPEN_CLIENT_OVERVIEW",
+        "I.RETURN_TO_QUEUE",
+        "I.VIEW_ELIGIBILITY",
+        "I.SWITCH_CLIENT",
+        "I.SWITCH_WORKSPACE"
+      ],
+      "states": [
+        "NOT_ENROLLED",
+        "UI.EMPTY"
+      ],
+      "responsive_modes": [
+        {
+          "viewport": "MOBILE",
+          "rule_ref": "RESP.STAFF.MOBILE",
+          "node_rule": "client identity → state card → actions (stacked)"
+        },
+        {
+          "viewport": "TABLET",
+          "rule_ref": "RESP.STAFF.TABLET",
+          "node_rule": "client identity → state card | eligibility reasons"
+        },
+        {
+          "viewport": "DESKTOP",
+          "rule_ref": "RESP.STAFF.DESKTOP",
+          "node_rule": "client identity → state card | eligibility reasons | other active workspaces"
+        }
+      ],
+      "authority_refs": [
+        {
+          "viewport": "MOBILE",
+          "binding": "DERIVED",
+          "refs": [
+            "ACTOR_MODES_MOBILE",
+            "FUEL_PURCHASES_CHILD_PROOF",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Staff case shell in its empty state: client identity row + family EMPTY_STATE card (WORKSPACE_STATE_PANEL) — no case content."
+        },
+        {
+          "viewport": "TABLET",
+          "binding": "DERIVED",
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Staff case shell in its empty state: client identity row + family EMPTY_STATE card (WORKSPACE_STATE_PANEL) — no case content."
+        },
+        {
+          "viewport": "DESKTOP",
+          "binding": "DERIVED",
+          "refs": [
+            "FOUNDER_STAFF_TABLET_DESKTOP",
+            "PAGE_COMPONENT_INTERACTION_CONTRACT",
+            "ICON_ASSET_SHEET"
+          ],
+          "derivation": {
+            "family_composition_clear": true,
+            "component_contract_clear": true,
+            "tab_logic_clear": true,
+            "asset_family_clear": true
+          },
+          "note": "Staff case shell in its empty state: client identity row + family EMPTY_STATE card (WORKSPACE_STATE_PANEL) — no case content."
+        }
+      ],
+      "asset_refs": [
+        "BRAND.SIMPLE_MARK",
+        "ICON.COMM.SEARCH",
+        "ICON.COMM.NOTIFICATION",
+        "AVATAR.CHIP",
+        "CTA.PRIMARY_GOLD",
+        "ICON.COMM.OPEN",
+        "SURFACE.STATUS_CHIPS",
+        "SURFACE.CARD",
+        "CTA.SECONDARY_OUTLINE",
+        "ICON.FILE.UPLOAD"
+      ],
+      "permissions": [
+        {
+          "actor": "FOUNDER_STAFF",
+          "rights": [
+            "VIEW"
+          ],
+          "scope": "office role (assigned staff or founder); overrides need a note and are audited"
+        }
+      ],
+      "cross_feature_dependencies": [
+        "AIO OFFICE client overview"
+      ],
+      "vault_relationship": "NONE — this node does not read or write Vault records.",
+      "inbox_relationship": "NONE — no inbox event originates here.",
+      "activity_relationship": "NONE — no inbox event originates here.",
+      "success_condition": "Staff see the truthful state and can move to the client overview or back to the queue.",
+      "blocked_condition": "START SERVICE is offered only where a staff activation writer exists (none for IFTA today — see AIO_OFFICE_WORKSPACE_REGISTRY).",
+      "experience_refs": [
+        "visual_relationships.NOT_ENROLLED",
+        "empty_state"
+      ],
+      "context": {
+        "environment_id": "AIO.OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "SWITCHABLE",
+        "case_type": null,
+        "subcontext_type": null
+      },
+      "notes": [
+        "Never shows another client’s data or inactive content as if active."
       ],
       "children": [],
       "drawers": [],
@@ -6142,7 +7063,7 @@
       "actor": "FOUNDER_STAFF",
       "page_family": "AIO.IFTA.STAFF.FUEL_TAX_OFFICE",
       "tab_id": null,
-      "parent_node": "AIO.IFTA.STAFF.FUEL_TAX_OFFICE",
+      "parent_node": "AIO.IFTA.STAFF.CLIENT_CONTEXT",
       "node_type": "PAGE",
       "title": "CLIENT-QUARTER CASE FILE (root)",
       "purpose": "The same quarter as a case file: client identity + CLIENT HEALTH, metrics vs prior quarter, the tab family, one staff next action, the lower brand band.",
@@ -6166,16 +7087,24 @@
       ],
       "components": [
         "TOP_NAV",
+        "WORKSPACE_SWITCHER",
+        "CLIENT_SWITCHER",
         "QUARTER_HERO",
         "CLIENT_HEALTH_PANEL",
         "METRICS_RAIL",
         "TAB_BAR",
+        "QUARTER_SELECTOR",
         "NEXT_ACTION_RAIL",
         "BRAND_EXIT_BAND",
         "STATUS_CHIP"
       ],
       "interactions": [
         "I.SWITCH_TAB",
+        "I.SWITCH_CLIENT",
+        "I.SWITCH_WORKSPACE",
+        "I.SWITCH_QUARTER",
+        "I.RETURN_TO_QUEUE",
+        "I.OPEN_CLIENT_OVERVIEW",
         "I.CONTINUE_NEXT_ACTION",
         "I.EXPORT_REPORT",
         "I.SEARCH",
@@ -6245,9 +7174,11 @@
         "ICON.COMM.NOTIFICATION",
         "AVATAR.CHIP",
         "CTA.PRIMARY_GOLD",
+        "ICON.COMM.OPEN",
+        "SURFACE.STATUS_CHIPS",
+        "SURFACE.CARD",
         "IMAGE.HERO_TRUCK_LIGHT",
         "IMAGE.HERO_TRUCK_DARK",
-        "SURFACE.STATUS_CHIPS",
         "SURFACE.DARK_OPERATIONAL_PANEL",
         "ICON.STATUS.COMPLETE",
         "ICON.METRIC.MILES",
@@ -6256,7 +7187,6 @@
         "ICON.METRIC.TAX_DUE",
         "CTA.TAB_PILL",
         "CTA.NEXT_ACTION_RAIL",
-        "ICON.COMM.OPEN",
         "BRAND.FULL_LOCKUP",
         "IMAGE.BAND_LANDSCAPE"
       ],
@@ -6282,7 +7212,7 @@
       "vault_relationship": "Quarter packet seals to VAULT › Tax & Fuel › IFTA › {YYYY} › Q{n} on FILED (contract vault_destination; path naming open in the scan).",
       "inbox_relationship": "Quarter request thread (one per client-quarter); inbox events IFTA_QUARTER_OPEN · IFTA_NEEDS_YOU · IFTA_APPROVAL_REQUEST · IFTA_FILED.",
       "activity_relationship": "Reads the quarter audit (client + team activity).",
-      "success_condition": "Staff see what blocks the filing and the one next action.",
+      "success_condition": "Staff see what blocks the filing and the one next action — the same canonical case whether entered from the queue or the client overview.",
       "blocked_condition": "Case not found; no route registered today.",
       "experience_refs": [
         "perspectives.founder_staff.mirror_not_copy",
@@ -6290,9 +7220,13 @@
         "staff_cta",
         "founder_staff_entry"
       ],
-      "open_decisions": [
-        "D-TAX-FIGURES"
-      ],
+      "context": {
+        "environment_id": "AIO.OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "SWITCHABLE",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "notes": [
         "Export report has no data writer (STAFF.write.exportReport MISSING)."
       ],
@@ -6472,6 +7406,13 @@
         "perspectives.founder_staff.hub_buckets"
       ],
       "tab_class": "PRIMARY",
+      "context": {
+        "environment_id": "AIO.OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "SWITCHABLE",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "overrides": [
         "PRIMARY_TASK: unblock the filing",
         "CONTENT_MODULES: tasks with assignees · important dates · team activity · risks",
@@ -6647,6 +7588,13 @@
         "perspectives.founder_staff.missing_inputs"
       ],
       "tab_class": "PRIMARY",
+      "context": {
+        "environment_id": "AIO.OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "SWITCHABLE",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "overrides": [
         "PRIMARY_TASK: classification review",
         "ACTIONS: verify · reclassify · request correction"
@@ -6788,6 +7736,13 @@
       "experience_refs": [
         "perspectives.founder_staff.corrections"
       ],
+      "context": {
+        "environment_id": "AIO.OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "SWITCHABLE",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "children": [],
       "drawers": [],
       "modals": []
@@ -6950,6 +7905,13 @@
         "system_derivations.MILEAGE_QUALITY"
       ],
       "tab_class": "PRIMARY",
+      "context": {
+        "environment_id": "AIO.OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "SWITCHABLE",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "children": [],
       "drawers": [
         "AIO.IFTA.STAFF.CASE.MILEAGE.SOURCE_VERIFY"
@@ -7082,6 +8044,13 @@
       "experience_refs": [
         "perspectives.founder_staff.human_review"
       ],
+      "context": {
+        "environment_id": "AIO.OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "SWITCHABLE",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "children": [],
       "drawers": [],
       "modals": []
@@ -7234,6 +8203,13 @@
         "perspectives.founder_staff.overrides"
       ],
       "tab_class": "PRIMARY",
+      "context": {
+        "environment_id": "AIO.OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "SWITCHABLE",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "children": [],
       "drawers": [],
       "modals": [
@@ -7364,6 +8340,13 @@
       "experience_refs": [
         "perspectives.founder_staff.overrides"
       ],
+      "context": {
+        "environment_id": "AIO.OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "SWITCHABLE",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "children": [],
       "drawers": [],
       "modals": []
@@ -7526,9 +8509,13 @@
         "section_overrides.FOUNDER_STAFF"
       ],
       "tab_class": "PRIMARY",
-      "open_decisions": [
-        "D-TAX-FIGURES"
-      ],
+      "context": {
+        "environment_id": "AIO.OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "SWITCHABLE",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "children": [],
       "drawers": [
         "AIO.IFTA.STAFF.CASE.JURISDICTIONS.DISCREPANCY"
@@ -7664,6 +8651,13 @@
       "experience_refs": [
         "founder_override_points.ACCEPT_ESTIMATE_GAP"
       ],
+      "context": {
+        "environment_id": "AIO.OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "SWITCHABLE",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "children": [],
       "drawers": [],
       "modals": []
@@ -7822,6 +8816,13 @@
         "perspectives.founder_staff.artifact_generation"
       ],
       "tab_class": "PRIMARY",
+      "context": {
+        "environment_id": "AIO.OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "SWITCHABLE",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "children": [],
       "drawers": [
         "AIO.IFTA.STAFF.CASE.DOCUMENTS.FILE_PREVIEW"
@@ -7958,6 +8959,13 @@
       "experience_refs": [
         "output_artifacts.FILED_RETURN"
       ],
+      "context": {
+        "environment_id": "AIO.OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "SWITCHABLE",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "children": [],
       "drawers": [],
       "modals": []
@@ -7971,8 +8979,8 @@
       "tab_id": "NOTES",
       "parent_node": "AIO.IFTA.STAFF.CASE",
       "node_type": "TAB",
-      "title": "NOTES (candidate)",
-      "purpose": "Internal notes + reconciliation notes on the case (staff-only).",
+      "title": "NOTES (staff · secondary)",
+      "purpose": "Internal notes + reconciliation notes on the case — staff only, never visible to the client.",
       "primary_object": "CASE NOTES",
       "primary_task": "Keep internal context on the case.",
       "data_domains": [
@@ -7989,6 +8997,7 @@
       "components": [
         "TAB_BAR",
         "ACTIVITY_TIMELINE",
+        "MESSAGE_THREAD",
         "EMPTY_STATE"
       ],
       "interactions": [
@@ -7996,7 +9005,8 @@
       ],
       "states": [
         "UI.DEFAULT",
-        "UI.EMPTY"
+        "UI.EMPTY",
+        "UI.ERROR"
       ],
       "responsive_modes": [
         {
@@ -8026,10 +9036,10 @@
           "derivation": {
             "family_composition_clear": true,
             "component_contract_clear": true,
-            "tab_logic_clear": false,
+            "tab_logic_clear": true,
             "asset_family_clear": true
           },
-          "note": "Tab label only (no NOTES content composition)."
+          "note": "Founder-valid SECONDARY tab (D-NOTES-TAB): tab label from the staff references; note list from the ACTIVITY_TIMELINE row family; composer from MESSAGE_THREAD."
         },
         {
           "viewport": "TABLET",
@@ -8041,10 +9051,10 @@
           "derivation": {
             "family_composition_clear": true,
             "component_contract_clear": true,
-            "tab_logic_clear": false,
+            "tab_logic_clear": true,
             "asset_family_clear": true
           },
-          "note": "Tab label only."
+          "note": "SECONDARY tab after the primary tabs; list + composer from family parts."
         },
         {
           "viewport": "DESKTOP",
@@ -8056,16 +9066,17 @@
           "derivation": {
             "family_composition_clear": true,
             "component_contract_clear": true,
-            "tab_logic_clear": false,
+            "tab_logic_clear": true,
             "asset_family_clear": true
           },
-          "note": "Tab label only."
+          "note": "SECONDARY tab after the primary tabs; list + composer from family parts."
         }
       ],
       "asset_refs": [
         "CTA.TAB_PILL",
         "AVATAR.CHIP",
         "ICON.FILE.PDF",
+        "ICON.COMM.MESSAGE",
         "ICON.FILE.UPLOAD"
       ],
       "permissions": [
@@ -8082,14 +9093,21 @@
       "vault_relationship": "NONE — this node does not read or write Vault records.",
       "inbox_relationship": "NONE — no inbox event originates here.",
       "activity_relationship": "Internal only — must never reach client activity.",
-      "success_condition": "Founder decides (D-NOTES-TAB).",
-      "blocked_condition": "No IFTA-linked note model.",
+      "success_condition": "Note saved on the case.",
+      "blocked_condition": "No IFTA-linked note model (NOTES.read / NOTES.write MISSING).",
       "experience_refs": [
         "output_artifacts.DISCREPANCY_LOG"
       ],
-      "tab_class": "SECONDARY_CANDIDATE",
-      "open_decisions": [
-        "D-NOTES-TAB"
+      "tab_class": "SECONDARY",
+      "context": {
+        "environment_id": "AIO.OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "SWITCHABLE",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
+      "notes": [
+        "The client has no NOTES tab; client notes travel through MESSAGE AIO (D-NOTES-TAB)."
       ],
       "children": [],
       "drawers": [],
@@ -8247,6 +9265,13 @@
         "perspectives.founder_staff.operational_actions",
         "visual_relationships.RECONCILING"
       ],
+      "context": {
+        "environment_id": "AIO.OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "SWITCHABLE",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "children": [],
       "drawers": [],
       "modals": [
@@ -8378,6 +9403,13 @@
       "experience_refs": [
         "interaction_grammar.SEND FOR APPROVAL"
       ],
+      "context": {
+        "environment_id": "AIO.OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "SWITCHABLE",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "children": [],
       "drawers": [],
       "modals": []
@@ -8516,6 +9548,13 @@
         "interaction_grammar.REQUEST CORRECTION",
         "human_review_points.STAFF_QUARTER_REVIEW"
       ],
+      "context": {
+        "environment_id": "AIO.OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "SWITCHABLE",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "children": [],
       "drawers": [],
       "modals": []
@@ -8654,6 +9693,13 @@
         "interaction_grammar.FILE",
         "automations.AUTO_SEAL_PACKET"
       ],
+      "context": {
+        "environment_id": "AIO.OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "SWITCHABLE",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "children": [],
       "drawers": [],
       "modals": []
@@ -8788,6 +9834,13 @@
       "experience_refs": [
         "perspectives.founder_staff.completion"
       ],
+      "context": {
+        "environment_id": "AIO.OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "SWITCHABLE",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "children": [],
       "drawers": [],
       "modals": []
@@ -8915,6 +9968,13 @@
       "experience_refs": [
         "perspectives.founder_staff.audit_history"
       ],
+      "context": {
+        "environment_id": "AIO.OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "SWITCHABLE",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "children": [],
       "drawers": [],
       "modals": []
@@ -9047,6 +10107,13 @@
       "experience_refs": [
         "perspectives.founder_staff.communication"
       ],
+      "context": {
+        "environment_id": "AIO.OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "SWITCHABLE",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "children": [],
       "drawers": [],
       "modals": []
@@ -9180,6 +10247,13 @@
         "error_states",
         "visual_relationships.FILING_REJECTED"
       ],
+      "context": {
+        "environment_id": "AIO.OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "SWITCHABLE",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "children": [],
       "drawers": [],
       "modals": []
@@ -9308,6 +10382,13 @@
       "experience_refs": [
         "founder_override_points.REOPEN_QUARTER"
       ],
+      "context": {
+        "environment_id": "AIO.OFFICE",
+        "workspace_id": "IFTA",
+        "client_scope": "SWITCHABLE",
+        "case_type": "IFTA_QUARTER",
+        "subcontext_type": "QUARTER"
+      },
       "children": [],
       "drawers": [],
       "modals": []
@@ -9431,10 +10512,13 @@
         "information_hierarchy.PUBLIC",
         "emotional_target.PUBLIC"
       ],
-      "open_decisions": [
-        "D-IFTA-AVAILABILITY",
-        "D-PUBLIC-COPY-TRUTH"
-      ],
+      "context": {
+        "environment_id": "AIO.PUBLIC_SITE",
+        "workspace_id": "IFTA",
+        "client_scope": "NONE",
+        "case_type": null,
+        "subcontext_type": null
+      },
       "children": [
         "AIO.IFTA.PUBLIC.SERVICE.OVERVIEW",
         "AIO.IFTA.PUBLIC.SERVICE.WHAT_IS_IFTA",
@@ -9545,6 +10629,13 @@
       "experience_refs": [
         "perspectives.public.workspace_continuity"
       ],
+      "context": {
+        "environment_id": "AIO.PUBLIC_SITE",
+        "workspace_id": "IFTA",
+        "client_scope": "NONE",
+        "case_type": null,
+        "subcontext_type": null
+      },
       "children": [],
       "drawers": [],
       "modals": []
@@ -9669,6 +10760,13 @@
         "perspectives.public.who_its_for",
         "perspectives.public.timing"
       ],
+      "context": {
+        "environment_id": "AIO.PUBLIC_SITE",
+        "workspace_id": "IFTA",
+        "client_scope": "NONE",
+        "case_type": null,
+        "subcontext_type": null
+      },
       "children": [],
       "drawers": [],
       "modals": []
@@ -9772,9 +10870,13 @@
         "perspectives.public.what_we_handle",
         "perspectives.public.what_client_provides"
       ],
-      "open_decisions": [
-        "D-PUBLIC-COPY-TRUTH"
-      ],
+      "context": {
+        "environment_id": "AIO.PUBLIC_SITE",
+        "workspace_id": "IFTA",
+        "client_scope": "NONE",
+        "case_type": null,
+        "subcontext_type": null
+      },
       "children": [],
       "drawers": [],
       "modals": []
@@ -9869,9 +10971,13 @@
       "experience_refs": [
         "perspectives.public.outcome"
       ],
-      "open_decisions": [
-        "D-PUBLIC-COPY-TRUTH"
-      ],
+      "context": {
+        "environment_id": "AIO.PUBLIC_SITE",
+        "workspace_id": "IFTA",
+        "client_scope": "NONE",
+        "case_type": null,
+        "subcontext_type": null
+      },
       "children": [],
       "drawers": [],
       "modals": []
@@ -9966,9 +11072,13 @@
       "experience_refs": [
         "perspectives.public.must_understand"
       ],
-      "open_decisions": [
-        "D-PUBLIC-COPY-TRUTH"
-      ],
+      "context": {
+        "environment_id": "AIO.PUBLIC_SITE",
+        "workspace_id": "IFTA",
+        "client_scope": "NONE",
+        "case_type": null,
+        "subcontext_type": null
+      },
       "children": [],
       "drawers": [],
       "modals": []
@@ -10092,6 +11202,13 @@
         "perspectives.public.timing",
         "perspectives.public.pricing_relationship"
       ],
+      "context": {
+        "environment_id": "AIO.PUBLIC_SITE",
+        "workspace_id": "IFTA",
+        "client_scope": "NONE",
+        "case_type": null,
+        "subcontext_type": null
+      },
       "children": [],
       "drawers": [],
       "modals": []
@@ -10193,6 +11310,13 @@
         "public_cta",
         "information_hierarchy.PUBLIC"
       ],
+      "context": {
+        "environment_id": "AIO.PUBLIC_SITE",
+        "workspace_id": "IFTA",
+        "client_scope": "NONE",
+        "case_type": null,
+        "subcontext_type": null
+      },
       "children": [],
       "drawers": [],
       "modals": []
@@ -10328,9 +11452,13 @@
         "perspectives.public.pricing_relationship",
         "transitions"
       ],
-      "open_decisions": [
-        "D-IFTA-AVAILABILITY"
-      ],
+      "context": {
+        "environment_id": "AIO.PUBLIC_SITE",
+        "workspace_id": "IFTA",
+        "client_scope": "NONE",
+        "case_type": null,
+        "subcontext_type": null
+      },
       "children": [],
       "drawers": [],
       "modals": []
