@@ -14377,3 +14377,12 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - Boards: `all-in-one-enterprises/docs/aio/ifta/visual-reconstruction/`.
 - **Not live on the founder tunnel yet:** that tunnel runs in the Cursor VM; this session's container cannot open trycloudflare (network policy).
 
+---
+
+## 2026-10-06 — JURNL F09 approved authority live reconstruction (P0.JURNL.F09.SAFE-TO-SPEND.APPROVED-AUTHORITY-LIVE-RECONSTRUCTION1)
+
+- **Authority:** Founder image is the F09 parent visual target (Mediterranean arch, $1,284 sample, folio BILLS/PLANS/GOALS/BUFFER, SEE WHY THIS AMOUNT, CHECK A PURCHASE, HOME/MONEY/+/PLAN/CREDIT). Not the courtyard / raking-light / sorting-rack concept rounds.
+- **Live:** `SafeToSpendHubScreen` at route `safe` (`F09.00`) rebuilt as layered React/CSS over existing `F09_ENVIRONMENT_LOGGIA.jpg` and the official logo. Formula stays `computeSafeToSpend` (preview shows live money, not a hardcoded $1,284). Why route and purchase route kept. Hold editor moved to the why screen so the parent matches the authority.
+- **Asset gap:** No repo plate matches the approved olive / vase / sofa / photographed folio. Generation was not authorized, and the authority JPEG was not used as a full-page screenshot. `ENV.LOGGIA` is the environment.
+- **Also this chat:** three-distinct composite rerun merged (#1411); OpenArt project for F09 plates is **JURNL F09 Safe to Spend** (`VdiPtgVqb21sYl003uox`); composites are local assembly, not OpenArt creations.
+

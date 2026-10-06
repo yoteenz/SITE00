@@ -242,6 +242,9 @@ export default defineConfig(({ mode, command }) => {
       port: 5174,
       host: '0.0.0.0',
       strictPort: true,
+      watch: {
+        ignored: ['**/.worktrees/**', '**/dist/**', '**/JURNL/**'],
+      },
       allowedHosts: ['.trycloudflare.com', ...(tunnelAllowedHost ? [tunnelAllowedHost] : [])],
       hmr: cloudMobilePreview
         ? false
