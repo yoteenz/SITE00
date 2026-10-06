@@ -39,6 +39,9 @@ const FAMILIES = (process.env.VIEWPORTS ?? 'mobile').split(',');
 const ONLY = process.env.ONLY ? new Set(process.env.ONLY.split(',')) : null;
 const SHOTS = process.env.SHOTS === '1';
 const CHROME = process.env.CHROME ?? '/opt/pw-browsers/chromium';
+// one file per viewport set, so viewports can run as parallel processes (the report merges media-audit-*.json);
+// written after every route so an interrupted run keeps what it measured
+const OUT_FILE = `${OUT}/media-audit-${FAMILIES.join('_')}${process.env.SUFFIX ?? ''}.json`;
 
 const ROUTES = [...ROOT_TABS.map((r) => ({ ...r, kind: 'root' })), ...CHILD_PAGES.map((r) => ({ ...r, kind: 'child' }))];
 const CONTRACT = {
@@ -77,70 +80,84 @@ for (const vpName of FAMILIES) {
   await page.waitForTimeout(2500);
   for (const r of ROUTES) {
     if (ONLY && !ONLY.has(r.id)) continue;
-    errors = [];
-    let route = r.route;
-    if (r.discover) {
-      await nav(page, '/production/activity?__hop=1');
-      await page.waitForTimeout(250);
-      await nav(page, r.discover.from);
-      await page.waitForTimeout(1800);
-      const href = await page.locator(r.discover.selector).first().getAttribute('href', { timeout: 6000 }).catch(() => null);
-      if (!href) {
-        rows.push({ viewport: vpName, ...r, route: null, errors: ['discover: no link'], media: [] });
-        console.log(`${vpName.padEnd(7)} ${r.id.padEnd(34)} DISCOVER FAILED`);
-        continue;
+    // a page reload mid-measurement (dev server restart / HMR) retries the route once instead of losing the run
+    for (let attempt = 0; ; attempt++) {
+      try {
+        errors = [];
+        let route = r.route;
+        if (r.discover) {
+          await nav(page, '/production/activity?__hop=1');
+          await page.waitForTimeout(250);
+          await nav(page, r.discover.from);
+          await page.waitForTimeout(1800);
+          const href = await page.locator(r.discover.selector).first().getAttribute('href', { timeout: 6000 }).catch(() => null);
+          if (!href) {
+            rows.push({ viewport: vpName, ...r, route: null, errors: ['discover: no link'], media: [] });
+            console.log(`${vpName.padEnd(7)} ${r.id.padEnd(34)} DISCOVER FAILED`);
+            break;
+          }
+          route = href;
+        }
+        await nav(page, '/production/activity?__hop=1');
+        await page.waitForTimeout(250);
+        await nav(page, route);
+        await page.waitForSelector('[data-testid="production-authority-frame"], [data-testid="production-workspace-shell"]', { timeout: 20000 }).catch(() => {});
+        await page.waitForTimeout(1700);
+        if (r.click) {
+          await page.locator(r.click).first().click({ timeout: 8000 }).catch((e) => errors.push(`click ${String(e).slice(0, 80)}`));
+          await page.waitForTimeout(1200);
+        }
+        // let lazy images inside the first screens decode
+        await page.evaluate(() =>
+          Promise.all(
+            [...document.images]
+              .filter((i) => !i.complete && i.getBoundingClientRect().top < window.innerHeight && i.getBoundingClientRect().bottom > 0)
+              .map((i) => new Promise((res) => { i.onload = i.onerror = res; setTimeout(res, 2500); })),
+          ),
+        );
+        const data = await page.evaluate(measure, { where: WORKSPACE_INTENTIONAL_CROPS.map((c) => ({ id: c.id, where: c.where })) });
+        // roles / scales / crop classes inferred host-side for undeclared elements (same contract module)
+        for (const m of data.media) {
+          const hints = { ...m.hints, src: m.srcFull };
+          if (!m.role) {
+            m.role = inferWorkspaceMediaRole(hints);
+            m.roleSource = 'inferred';
+          } else m.roleSource = 'declared';
+          if (!m.scale) {
+            m.scale = inferWorkspaceMediaScale({ ...hints, role: m.role, box: m.box });
+            m.scaleSource = 'inferred';
+          } else m.scaleSource = 'declared';
+          if (!m.cropId) {
+            m.cropId = inferWorkspaceCrop(m.role, m.scale, m.matchedCrops);
+            m.cropSource = m.cropId ? 'inferred' : null;
+          } else m.cropSource = 'declared';
+          delete m.srcFull;
+        }
+        let shot = null;
+        if (SHOTS) {
+          shot = `${vpName}/${r.id}.png`;
+          await page.screenshot({ path: `${OUT}/${shot}` });
+        }
+        rows.push({ viewport: vpName, family: vp.family, width: vp.width, id: r.id, tab: r.tab, kind: r.kind, route, errors, shot, ...data });
+        console.log(`${vpName.padEnd(7)} ${r.id.padEnd(34)} media=${String(data.media.length).padStart(3)} overflowX=${data.overflowCount} err=${errors.length}`);
+        break;
+      } catch (e) {
+        if (attempt >= 1) {
+          rows.push({ viewport: vpName, family: vp.family, width: vp.width, id: r.id, tab: r.tab, kind: r.kind, route: r.route, errors: [`audit: ${String(e).slice(0, 120)}`], media: [] });
+          console.log(`${vpName.padEnd(7)} ${r.id.padEnd(34)} FAILED ${String(e).slice(0, 80)}`);
+          break;
+        }
+        console.log(`${vpName.padEnd(7)} ${r.id.padEnd(34)} retry (${String(e).slice(0, 60)})`);
+        await page.waitForTimeout(3000);
       }
-      route = href;
     }
-    await nav(page, '/production/activity?__hop=1');
-    await page.waitForTimeout(250);
-    await nav(page, route);
-    await page.waitForSelector('[data-testid="production-authority-frame"], [data-testid="production-workspace-shell"]', { timeout: 20000 }).catch(() => {});
-    await page.waitForTimeout(1700);
-    if (r.click) {
-      await page.locator(r.click).first().click({ timeout: 8000 }).catch((e) => errors.push(`click ${String(e).slice(0, 80)}`));
-      await page.waitForTimeout(1200);
-    }
-    // let lazy images inside the first screens decode
-    await page.evaluate(() =>
-      Promise.all(
-        [...document.images]
-          .filter((i) => !i.complete && i.getBoundingClientRect().top < window.innerHeight && i.getBoundingClientRect().bottom > 0)
-          .map((i) => new Promise((res) => { i.onload = i.onerror = res; setTimeout(res, 2500); })),
-      ),
-    );
-    const data = await page.evaluate(measure, { where: WORKSPACE_INTENTIONAL_CROPS.map((c) => ({ id: c.id, where: c.where })) });
-    // roles / scales / crop classes inferred host-side for undeclared elements (same contract module)
-    for (const m of data.media) {
-      const hints = { ...m.hints, src: m.srcFull };
-      if (!m.role) {
-        m.role = inferWorkspaceMediaRole(hints);
-        m.roleSource = 'inferred';
-      } else m.roleSource = 'declared';
-      if (!m.scale) {
-        m.scale = inferWorkspaceMediaScale({ ...hints, role: m.role, box: m.box });
-        m.scaleSource = 'inferred';
-      } else m.scaleSource = 'declared';
-      if (!m.cropId) {
-        m.cropId = inferWorkspaceCrop(m.role, m.scale, m.matchedCrops);
-        m.cropSource = m.cropId ? 'inferred' : null;
-      } else m.cropSource = 'declared';
-      delete m.srcFull;
-    }
-    let shot = null;
-    if (SHOTS) {
-      shot = `${vpName}/${r.id}.png`;
-      await page.screenshot({ path: `${OUT}/${shot}` });
-    }
-    rows.push({ viewport: vpName, family: vp.family, width: vp.width, id: r.id, tab: r.tab, kind: r.kind, route, errors, shot, ...data });
-    console.log(`${vpName.padEnd(7)} ${r.id.padEnd(34)} media=${String(data.media.length).padStart(3)} overflowX=${data.overflowCount} err=${errors.length}`);
+    writeFileSync(OUT_FILE, JSON.stringify(rows, null, 1));
   }
   await page.close();
   await ctx.close();
 }
 await browser.close();
-// one file per viewport set, so viewports can run as parallel processes (the report merges media-audit-*.json)
-writeFileSync(`${OUT}/media-audit-${FAMILIES.join('_')}.json`, JSON.stringify(rows, null, 1));
+writeFileSync(OUT_FILE, JSON.stringify(rows, null, 1));
 
 /* ───────────────────────────────────────── in-page measurement ───────────────────────────────────────── */
 async function measure({ where }) {
