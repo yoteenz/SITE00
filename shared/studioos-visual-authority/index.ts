@@ -11,3 +11,4 @@ export * from './tree.js';
 export * as aio from './projects/aio/ifta.js';
 export * as aioIfta from './projects/aio/ifta-authority/index.js';
 export * as samples from './projects/samples/portability.js';
+export * as jurnlF09 from './projects/jurnl/f09-safe-to-spend.js';

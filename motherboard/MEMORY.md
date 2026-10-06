@@ -14097,3 +14097,38 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   1. The founder confirms the tree and settles the decisions.
   2. Authority-driven implementation of the ready nodes.
   3. In parallel, an AIO data-contract completion sprint.
+
+---
+
+## 2026-10-06 — JURNL F09 SAFE TO SPEND: three composition territories, upstream-contract proof (P0.JURNL.F09-SAFE-TO-SPEND.VISUAL-AUTHORITY-3-TERRITORY-PROOF1)
+
+- **Context:** First JURNL family to re-enter the Visual Authority Development pipeline after the founder froze JURNL visual polish. It is a controlled test of the upstream contracts, not a redesign. Founder decision: exactly three territories, no winner, no implementation.
+- **Firewall method (reusable):** An isolated agent read the current F09 screens and reported function only (routes, states, values, actions, copy, a11y, tests). The territory author never opened the legacy screen, its CSS, the ENV.LOGGIA plate or refinement screenshots. The refinement-2 TENSION_THRESHOLD composition text was used only as a negative anti-convergence check. CENTER_STAGE, nav and chrome are declared `PARTIAL_AUTHORITY` (NAV_VISUALS + GEOMETRY), with the sprint as the founder decision. Result: LEGACY_VISUAL_LEAK 0.
+- **Territories (all IN_REVIEW, verdict PENDING):**
+  - **T01 THE OPEN FLOOR:** a plan-view room. Width = cash, walls = held back, open floor = value. The figure sits on the floor; the door leads to the breakdown.
+  - **T02 THE PLAIN ANSWER:** one generated sentence inscribed in travertine. The figure is a word, and each held-back field is an openable word.
+  - **T03 THE OPEN ENVELOPE:** an open envelope with the figure on its slip, and sealed labelled envelopes per held-back field.
+  - Gate `checkTerritoryDistinctness`: 6/6 on every pair. Blur test: PASS ×3.
+- **References:** 3 mobile 393×852 candidates, WIREFRAME_PLUS_BRAND_RENDER (HTML/CSS/SVG rendered by local Chromium), 0 credits, no provider. Script: `scripts/jurnl/f09-territory-proof-render.mjs`.
+  - **Gotcha:** `visibility:hidden` on an `<svg>` root still paints filtered children in Chromium. Use `display:none` for imagery removal.
+  - **Gotcha:** `page.setContent` cannot load `file://` images. Embed data URIs.
+- **Gate:**
+  - Formal state: **EXPERIENCE_REQUIRED** (JURNL has no Workspace Experience Brain contract, only a non-material sample).
+  - Brand check: **BRAND_CONTEXT_REQUIRED (audience)**.
+  - Legacy, territory and reference checks all pass.
+- **Upstream verdict: PARTIAL.**
+  - Scores: BRAND PARTIAL · EXPERIENCE MISSING · FAMILY PARTIAL · STATE PARTIAL · INTERACTION PARTIAL · DATA SUFFICIENT · RESPONSIVE PARTIAL · EXPRESSION PARTIAL.
+  - Upstream fixed what F09 must say, feel and refuse. It did not say what the page *is*: all three primary objects were invented by the author.
+  - The expression brief is plate-centric (loggia, arch and sea, left rail), not composition-centric.
+- **Repo truth gaps:**
+  - The sprint lines MONEY IN SERVICE OF LIFE / FINANCIAL LIFE, BEAUTIFULLY ORGANIZED exist in neither repo.
+  - No JURNL audience and no voice avoid list.
+  - The matrix says SAFE_TO_SPEND_FIGURE is owned by F03.
+- **Open decisions:** D-F09-UNSTATED-NUMBER · RECOVERY-ACTIONS · PRIMARY-ACTION-LABEL · BILLS-LABEL (the formula has no date window) · FIGURE-OWNERSHIP · WHY-COMPLETENESS · BRAND-CANON.
+- **Landed:**
+  - `JURNL/F09_SAFE/VISUAL_AUTHORITY_3_TERRITORY_PROOF1/`: source map, experience summary, firewall, 3 contracts, distinctness matrix, scorecard, founder review pack, ledger, references, blur test.
+  - `shared/studioos-visual-authority/projects/jurnl/f09-safe-to-spend.ts` (exported as `jurnlF09`).
+  - Export: `scripts/studioos/jurnl-f09-territory-proof-export.ts`.
+  - Test: `tests/jurnlF09VisualAuthorityTerritoryProof1.test.ts`.
+- **Unchanged:** no production JURNL UI, F09 logic, schema or RLS changed. The older F09 manifests are untouched.
+- **Next:** The founder reviews the three F09 territories (LOVE_IT / REVISE / REJECT / COMBINE / FOURTH). Before the next family, author a canonical JURNL experience contract and composition-centric briefs.
