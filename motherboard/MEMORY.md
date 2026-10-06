@@ -14168,3 +14168,20 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Proof:** 55 new tests (graph + render A–H); live QA 105/105 routes · 49/49 flows · 0 leaks · 0 overflow at 393 / 834 / 1440.
 - **Next:** NDXBOOK DESIGN truth (twin golden master) and EXPERIENCE registries for Studio World / Frontal Slayer Mansion;
   ProjectFamilyChamber beyond F01; continuity as graph nodes; expression deliverables pipeline.
+
+## 2026-10-06 — AIO client migration, activation + office provisioning architecture (P0.AIO.CLIENT-MIGRATION-ACTIVATION-AND-OFFICE-PROVISIONING-ARCHITECTURE1)
+
+- **Founder decision (durable):** EXISTING-CLIENT ONBOARDING IS NOT ACCOUNT CREATION — it is reconciliation between AIO's existing knowledge and the client's current business truth.
+  PROFILE EXISTS ≠ ACTIVE CLIENT; ACTIVE requires client confirmation (CONFIRM & ENTER MY OFFICE).
+- **Supersedes:** existing clients doing blank onboarding; profile = active; imports / documents becoming truth without review; staff-created profiles active at once;
+  workspaces before confirmation; email/password as the client identity; full archive digitisation before launch.
+- **Landed (architecture only, no page, AIO code untouched):**
+  - Generic model `shared/studioos-experience-brain/client-lifecycle.ts` (lifecycle + guarded transitions, 8 activation conditions, 13-stage pipeline, provenance,
+    matching, commit gate → PREBUILT, three completeness measures, Vault lineage, single-use invites, client review + WHAT CHANGED, provisioning, founder segments, audit).
+  - AIO mapping `projects/aio/client-migration.ts` (read-only audit of fsbw @ c88a300) + contracts AIO.CLIENT_MIGRATION / AIO.CLIENT_ACTIVATION (30 AIO features).
+  - Expansion placement AFTER_ACTIVATION (all 8 AIO rules).
+  - 12 docs in `docs/aio/client-migration/`; tests `studioosClientLifecycle1` (15) + `aioClientMigrationActivation1` (21); the 25 §37 criteria are computed from fixtures and all pass.
+- **AIO truths found:** Client.accountStatus has no transitions; Archive Migration (batch + SHA-256 + manual classify) is the intake to extend; aio_next_customer_number (AIO-CUS-######)
+  exists unused; no invite / magic-link / service-role path; RLS self-membership (C11), duplicate org on sign-up (C8), broken reset redirect (C10); six client-count sites disagree.
+- **Next:** founder answers (client ID display format, required consents); AIO data sprint (lifecycle column, fact + decision tables, invite table + activation endpoint, C8/C10/C11 fixes,
+  count sites → isCountedActive); visual authority for the 6 future families (MIGRATION INTAKE · MIGRATION REVIEW · EXISTING CLIENT WELCOME · WHAT CHANGED · CLIENT OFFICE ACTIVATION · CLIENT OFFICE HUB).

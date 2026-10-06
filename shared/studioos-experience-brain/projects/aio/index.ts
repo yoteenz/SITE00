@@ -1,6 +1,6 @@
 /**
  * ALL IN ONE ENTERPRISES INC — first full proof of the Workspace Experience Brain.
- * 28 material features across F01–F18 + the AIO OFFICE projection; IFTA / Fuel Tax is the canonical deepest proof.
+ * 30 material features across F01–F18 + the AIO OFFICE projection + client migration / activation; IFTA / Fuel Tax is the canonical deepest proof.
  */
 import type { CrossFeatureRelationship, ExperienceContract } from '../../schema.js';
 import { AIO_ACCOUNT, AIO_ENTRY, AIO_GET_STARTED, AIO_INBOX, AIO_MY_OFFICE, AIO_OFFICE_OPERATIONS, AIO_SERVICES, AIO_VAULT } from './platform.js';
@@ -8,12 +8,15 @@ import { AIO_AUTHORITIES, AIO_BOC3, AIO_BUSINESS_FORMATION, AIO_COMPLIANCE_SAFET
 import { AIO_BROKERAGE, AIO_DISPATCH_OPERATIONS, AIO_DRIVERLINK, AIO_FLEETCARE, AIO_LOAD_BOARD } from './operations.js';
 import { AIO_BOOKKEEPING, AIO_FACTORING, AIO_FINANCES, AIO_INSURANCE } from './money.js';
 import { AIO_IFTA_CONTRACT } from './ifta.js';
+import { AIO_CLIENT_ACTIVATION, AIO_CLIENT_MIGRATION } from './migration.js';
 
 export { AIO_DNA, AIO_SOURCE_REPO } from './dna.js';
 export { AIO_IFTA_CONTRACT, AIO_IFTA_MILEAGE_SOURCES, AIO_IFTA_RECEIPT_CLASSES } from './ifta.js';
 export * from './office.js';
+export { AIO_CLIENT_ACTIVATION, AIO_CLIENT_MIGRATION } from './migration.js';
+export * from './client-migration.js';
 
-/** Canonical AIO feature inventory, in family order (F01 → F18, then the AIO OFFICE projection). */
+/** Canonical AIO feature inventory, in family order (F01 → F18, then the AIO OFFICE projection, then client migration + activation). */
 export const AIO_EXPERIENCE_CONTRACTS: ExperienceContract[] = [
   AIO_ENTRY,
   AIO_GET_STARTED,
@@ -43,6 +46,8 @@ export const AIO_EXPERIENCE_CONTRACTS: ExperienceContract[] = [
   AIO_INBOX,
   AIO_ACCOUNT,
   AIO_OFFICE_OPERATIONS,
+  AIO_CLIENT_MIGRATION,
+  AIO_CLIENT_ACTIVATION,
 ];
 
 /** Sprint §23 service inventory → feature ids (proves the minimum list is covered without inventing services). */
@@ -88,11 +93,11 @@ export const AIO_FAMILY_MAP: Record<string, string[]> = {
   'F15 DRIVERLINK': ['AIO.DRIVERLINK'],
   'F16 VAULT': ['AIO.VAULT'],
   'F17 INBOX': ['AIO.INBOX'],
-  'F18 ACCOUNT': ['AIO.ACCOUNT'],
+  'F18 ACCOUNT': ['AIO.ACCOUNT', 'AIO.CLIENT_ACTIVATION'],
   'ROLE: SHIPPER': ['AIO.BROKERAGE'],
   'ROLE: DRIVER': ['AIO.DRIVERLINK', 'AIO.DISPATCH_OPERATIONS'],
   'ROLE: FLEETCARE PROVIDER': ['AIO.FLEETCARE'],
-  'ROLE: AIO OFFICE': ['AIO.OFFICE_OPERATIONS'],
+  'ROLE: AIO OFFICE': ['AIO.OFFICE_OPERATIONS', 'AIO.CLIENT_MIGRATION'],
 };
 
 /** Every cross-feature experience relationship across AIO (the experience graph, not only dependencies). */

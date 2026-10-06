@@ -1,0 +1,175 @@
+{
+  "id": "AIO_VAULT_MIGRATION_LINEAGE",
+  "sprint": "P0.AIO.CLIENT-MIGRATION-ACTIVATION-AND-OFFICE-PROVISIONING-ARCHITECTURE1",
+  "generated_by": "scripts/studioos/aio-client-migration-export.ts",
+  "source": [
+    "shared/studioos-experience-brain/client-lifecycle.ts",
+    "shared/studioos-experience-brain/projects/aio/client-migration.ts",
+    "shared/studioos-experience-brain/projects/aio/migration.ts"
+  ],
+  "audit": {
+    "repo": "yoteenz/fsbw · all-in-one-enterprises",
+    "sha": "c88a3000866d55c09c8271dd7c2cfccb32e5bf23",
+    "mode": "READ-ONLY"
+  },
+  "constraints": {
+    "page_implementation": false,
+    "new_paid_generations": 0,
+    "openart_accessed": false,
+    "ifta_lane_blocked": false,
+    "aio_code_changed": false
+  },
+  "doctrine": [
+    "CURRENT OPERATING TRUTH FIRST.",
+    "HISTORICAL ARCHIVE SECOND.",
+    "Never delete a historical source file because a newer record exists.",
+    "Vault completeness is not business-profile completeness."
+  ],
+  "lineage_fields": [
+    "client_id",
+    "organization_id",
+    "document_type",
+    "source_migration_batch",
+    "original_filename",
+    "sha256",
+    "ingested_at",
+    "document_date",
+    "effective_date",
+    "expiration_date",
+    "classification",
+    "review_status",
+    "canonical_status",
+    "superseded_by",
+    "extracted_fact_ids",
+    "workspace_relationships"
+  ],
+  "canonical_statuses": [
+    "UNVERIFIED",
+    "CURRENT",
+    "SUPERSEDED",
+    "HISTORICAL",
+    "REJECTED"
+  ],
+  "completeness_states": [
+    "NOT_STARTED",
+    "MIGRATION_IN_PROGRESS",
+    "CURRENT_DOCUMENTS_ON_FILE",
+    "ARCHIVE_COMPLETE"
+  ],
+  "aio_vault": [
+    {
+      "lineage_field": "client_id / organization_id",
+      "aio": "VaultDocument.organizationId (clientId deprecated)",
+      "ref": "all-in-one-enterprises/src/vault/vaultTypes.ts:88",
+      "status": "EXISTING"
+    },
+    {
+      "lineage_field": "document_type / classification",
+      "aio": "category (VaultCategory) + documentType; proposed class + confidence in classificationConfidence / suggestedMetadata",
+      "ref": "all-in-one-enterprises/src/vault/vaultTypes.ts:89",
+      "status": "PARTIAL"
+    },
+    {
+      "lineage_field": "source_migration_batch",
+      "aio": "batchId / migrationBatchFileId · aio_documents.migration_batch_id",
+      "ref": "all-in-one-enterprises/src/vault/vaultTypes.ts:130",
+      "status": "EXISTING"
+    },
+    {
+      "lineage_field": "original_filename · sha256",
+      "aio": "fileName · fileHash",
+      "ref": "all-in-one-enterprises/src/vault/vaultTypes.ts:100",
+      "status": "EXISTING"
+    },
+    {
+      "lineage_field": "ingested_at",
+      "aio": "uploadedAt (uploadedBy is never filled today)",
+      "ref": "all-in-one-enterprises/src/vault/vaultTypes.ts:107",
+      "status": "PARTIAL"
+    },
+    {
+      "lineage_field": "document_date · effective_date · expiration_date",
+      "aio": "issuedAt · effectiveAt · expiresAt",
+      "ref": "all-in-one-enterprises/src/vault/vaultTypes.ts:104",
+      "status": "EXISTING"
+    },
+    {
+      "lineage_field": "review_status",
+      "aio": "reviewStatus (pending | approved | needs_attention) + verificationStatus",
+      "ref": "all-in-one-enterprises/src/vault/vaultTypes.ts:54",
+      "status": "EXISTING"
+    },
+    {
+      "lineage_field": "canonical_status",
+      "aio": "recordLifecycle (current | historical | superseded | expired | pending | needs_review | archived)",
+      "ref": "all-in-one-enterprises/src/vault/vaultTypes.ts:28",
+      "status": "EXISTING"
+    },
+    {
+      "lineage_field": "superseded_by",
+      "aio": "supersededByDocumentId / supersedesDocumentId / isCurrent (supersedeDocument exists; no UI calls it)",
+      "ref": "all-in-one-enterprises/src/demo/vaultActions.ts:250",
+      "status": "PARTIAL"
+    },
+    {
+      "lineage_field": "extracted_fact_ids",
+      "aio": "MISSING — new fact table keyed by document id",
+      "ref": "all-in-one-enterprises/src/vault/vaultTypes.ts:133",
+      "status": "MISSING"
+    },
+    {
+      "lineage_field": "workspace_relationships",
+      "aio": "relatedServiceId / relatedEntityType (no driver / policy / person entity types)",
+      "ref": "all-in-one-enterprises/src/vault/vaultTypes.ts:67",
+      "status": "PARTIAL"
+    },
+    {
+      "lineage_field": "visibility before activation",
+      "aio": "visibility 'internal' until ACTIVE; the expiration notifier ignores visibility today and must not notify a pre-active client",
+      "ref": "all-in-one-enterprises/src/notifications/notificationScheduler.ts:25",
+      "status": "CONFLICT"
+    }
+  ],
+  "current_truth_priority": [
+    {
+      "priority": 1,
+      "domain": "Company identity (legal name · USDOT · MC · EIN · address · phone · email)",
+      "required_for_activation": true
+    },
+    {
+      "priority": 1,
+      "domain": "Primary contact + login email",
+      "required_for_activation": true
+    },
+    {
+      "priority": 1,
+      "domain": "Current service relationships (what AIO handles today)",
+      "required_for_activation": true
+    },
+    {
+      "priority": 2,
+      "domain": "Current vehicles (VIN · unit · plate · registration expiry)",
+      "required_for_activation": false
+    },
+    {
+      "priority": 2,
+      "domain": "Current drivers",
+      "required_for_activation": false
+    },
+    {
+      "priority": 2,
+      "domain": "Current insurance · permits · tags · IFTA account state",
+      "required_for_activation": false
+    },
+    {
+      "priority": 2,
+      "domain": "Current required documents (cab cards · COI · IFTA licence · authority)",
+      "required_for_activation": false
+    },
+    {
+      "priority": 3,
+      "domain": "Historical archive (old returns · receipts · expired documents · correspondence)",
+      "required_for_activation": false
+    }
+  ]
+}

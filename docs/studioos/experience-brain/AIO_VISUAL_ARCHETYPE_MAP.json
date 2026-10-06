@@ -701,6 +701,66 @@
         "copying client UI for staff",
         "vanity metrics over exceptions"
       ]
+    },
+    {
+      "feature_id": "AIO.CLIENT_MIGRATION",
+      "primary_metaphor": "THE CLIENT FILE ON THE DESK",
+      "secondary_metaphor": "sorting a folder into a verified cabinet",
+      "visual_archetype": [
+        "PIPELINE",
+        "MATCHING_BOARD",
+        "CASE_FILE"
+      ],
+      "primary_visual_object": "THE MIGRATION BATCH (client file → proposed facts → decisions)",
+      "secondary_visual_objects": [
+        "source documents with class + lineage",
+        "proposed facts with confidence",
+        "conflict groups",
+        "match candidates"
+      ],
+      "composition_rules": [
+        "Header: client / candidate · batch · processing status · match status · document count.",
+        "Summary: profile facts · vehicles · drivers · services · documents · conflicts · stale · unresolved.",
+        "One primary completion: APPROVE MIGRATION."
+      ],
+      "density_target": "DENSE",
+      "avoid_list": [
+        "auto-committing extraction",
+        "auto-merging uncertain identities",
+        "creating a duplicate business",
+        "deleting historical files",
+        "treating an empty vault as an empty profile",
+        "requiring the full archive before activation"
+      ]
+    },
+    {
+      "feature_id": "AIO.CLIENT_ACTIVATION",
+      "primary_metaphor": "THE KEYS TO A PREPARED OFFICE",
+      "secondary_metaphor": "a short walk-through before you move in",
+      "visual_archetype": [
+        "THRESHOLD",
+        "CHECKLIST",
+        "DECISION_WINDOW"
+      ],
+      "primary_visual_object": "WHAT AIO ALREADY KNOWS (the prepared office)",
+      "secondary_visual_objects": [
+        "section cards (company · people · vehicles · services · documents)",
+        "what-changed shortcuts",
+        "the confirm action"
+      ],
+      "composition_rules": [
+        "One section per screen on mobile; each section is a summary with three answers, never a form.",
+        "Confirm is the single decision; expansion appears only after entering the office."
+      ],
+      "density_target": "SPARSE",
+      "avoid_list": [
+        "blank onboarding forms for existing clients",
+        "field-by-field editing when a section is right",
+        "fake completeness",
+        "profile data in the invitation email",
+        "emailed or texted passwords",
+        "upsell cards inside the review"
+      ]
     }
   ]
 }
