@@ -419,3 +419,15 @@ The founder and ChatGPT use them to test-run 3 territories per actor.
 - start implementation of a material page family without an approved authority
 - make territories purely aesthetic
 - run paid generation
+
+## 17. Prompt forensics (P0.JURNL.F09.PROMPT-FORENSICS-AND-CREATIVE-LOGIC-AUDIT1)
+
+When approved creative intent and model output keep diverging, audit the prompt system before writing another prompt. The method is in [PROMPT_FORENSICS_METHOD.md](PROMPT_FORENSICS_METHOD.md); its source is `prompt-forensics.ts`.
+
+The first application (JURNL F09) recommends changes to steps 03, 04 and 05 above. **They are recorded, not applied.** The audit was analysis only, and the changes wait for founder decisions:
+
+- Step 03 should firewall legacy UI, never the approved brand world.
+- Step 04 should put distinctness in page structure inside one shared world.
+- Step 05 should become whole-frame, reference-bound generation plus targeted correction, replacing plate + overlay.
+
+See `JURNL/F09_SAFE/PROMPT_FORENSICS_AND_CREATIVE_LOGIC_AUDIT1/F09_RULE_DISPOSITIONS_AND_MISSING_LOGIC.json`.

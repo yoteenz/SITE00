@@ -14372,3 +14372,40 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - Figma's route caps below 4K. OpenArt isn't connected; Weave isn't linked.
   - 0 candidates delivered.
 - **Next:** allow `www.figma.com` (fast, below 4K) or connect OpenArt (4K). Then QA the scenes at full size, run `f09-art-direction-regen-assemble.mjs`, write the finish audit + forensic notes + pass/fail table, and build the founder board.
+
+## 2026-10-06 — JURNL F09 prompt forensics + creative-logic audit (P0.JURNL.F09.PROMPT-FORENSICS-AND-CREATIVE-LOGIC-AUDIT1) — ANALYSIS ONLY
+
+- **Mode:** no image generated, no implementation, no concept round, no territory chosen. **F09 visual generation is PAUSED** (`F09_GENERATION_PAUSED`).
+- **Root cause:** the renderer was never shown the JURNL world.
+  - Every approved JURNL screen is image2image from `REFERENCE_F01.00_WELCOME_APPROVED.jpg`.
+  - F09 never attached it. The sprint-1 legacy firewall covered backgrounds and materials, and the contamination guard forbade F01 references.
+  - Prompts banned the benchmark's signature (arches, sea views, more than one plant, depth).
+  - From round 3 the only reference was the agent-drawn plate guide ("ONLY geometry authority"), so the plates reproduced the diagrams.
+  - Flat app UI and an OS status bar were laid on top, identical across concepts.
+  - Self-certified QA passed every round.
+  - **Sunburst is NOT the bottleneck.**
+- **Findings:**
+  - 20 contradictions: 2 critical, 12 high, 5 medium, 1 low.
+  - 12 ranked root causes (RC01–RC09 HIGH confidence).
+  - Three-territory model **REFINE** (shared world, distinct page structure).
+  - Plates **REMOVE** (as the authority method).
+  - Deterministic UI **NARROW** (exactness only).
+- **Durable method:** `shared/studioos-visual-authority/prompt-forensics.ts` + `docs/studioos/visual-authority-development/PROMPT_FORENSICS_METHOD.md`. It provides:
+  - an 11-step audit
+  - 12 failure classes
+  - 21 instruction categories with `classifyInstruction`
+  - prompt layers D→C→A→B→F→E→G→H→I→J
+  - priority tiers
+  - the generator budget (≤ 300 words, ≤ 5 negatives, ≤ 4 exact strings)
+  - anti-generic / anti-assembly / reference-consumption tests
+  - `DEVICE_CHROME_RULE` (product canvas, not phone screenshot; never write "system chrome")
+  - `CONCEPT_DELIVERY_CONTRACT`
+  - `FULLY_AUTHORED_DEFINITION`
+  - the renderer-blame rule
+- **F09 data:** `projects/jurnl/f09-prompt-forensics.ts`. Export: `scripts/studioos/jurnl-f09-prompt-forensics-export.ts`. It writes 12 files plus the report to `JURNL/F09_SAFE/PROMPT_FORENSICS_AND_CREATIVE_LOGIC_AUDIT1/`; verbatim founder briefs are in `SOURCES/`. Test: `jurnlF09PromptForensicsAudit1`.
+- **Gate doc:** §17 records the recommended changes to steps 03 / 04 / 05. They are not applied.
+- **Before the next F09 generation:**
+  - founder decisions D-F09-COMPOSITION-MODE (CENTER_STAGE vs edge-led), D-F09-WORLD-AUTHORITY (F01 approved vs F03 IN_REVIEW) and D-F09-AVAILABLE-DATE-FORMULA
+  - a render-route preflight (image2image + 4K + retrieval)
+  - then a brief written to `F09_NEXT_SPRINT_SPEC`
+- **Verdict:** PROMPT_SYSTEM_ROOT_CAUSE_IDENTIFIED YES; READY_TO_REWRITE_F09_GENERATION_PROMPT NO.

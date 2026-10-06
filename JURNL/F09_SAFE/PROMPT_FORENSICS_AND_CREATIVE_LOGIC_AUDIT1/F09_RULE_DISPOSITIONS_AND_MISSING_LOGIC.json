@@ -1,0 +1,197 @@
+{
+  "id": "F09_RULE_DISPOSITIONS_AND_MISSING_LOGIC",
+  "sprint": "P0.JURNL.F09.PROMPT-FORENSICS-AND-CREATIVE-LOGIC-AUDIT1",
+  "generated_by": "scripts/studioos/jurnl-f09-prompt-forensics-export.ts",
+  "analysis_only": true,
+  "survival": {
+    "three_territory_model": {
+      "verdict": "REFINE",
+      "why": "Three concepts remain useful for founder choice, but they must differ in page architecture and product idea while sharing the inherited JURNL world, type system and nav. Remove environment / material / depth from the distinctness test; add product-layer anatomy to it."
+    },
+    "plates": {
+      "verdict": "REMOVE",
+      "why": "Text-free plates + overlay is the method that produced every rejected round. Replace with reference-bound full-frame generation + targeted correction (region repaint / inpainting). Keep plate generation only for harvesting isolated assets."
+    },
+    "deterministic_ui": {
+      "verdict": "NARROW",
+      "why": "Keep deterministic exactness for logo, numbers, dates, small labels, CTA labels and nav. Stop using it as the visual layer: product surfaces (buttons, panels, objects carrying labels) are art-directed in the image and corrected, not pasted."
+    },
+    "sunburst": {
+      "verdict": "NO",
+      "why": "Sunburst produced every approved JURNL image (image2image, 4K). The F09 plates faithfully executed the inputs they were given. Text rendering at small sizes is a real but secondary limitation, handled by correction."
+    }
+  },
+  "rule_dispositions": [
+    {
+      "rule": "REFERENCE = DESIGN AUTHORITY",
+      "disposition": "REWRITE",
+      "note": "Typed references with one role each; the approved JURNL world is a mandatory WORLD authority bound by image2image."
+    },
+    {
+      "rule": "LEGACY VISUAL FIREWALL",
+      "disposition": "REWRITE",
+      "note": "Firewall legacy UI layout and components; never the approved brand world."
+    },
+    {
+      "rule": "THREE TERRITORIES",
+      "disposition": "REWRITE",
+      "note": "Distinct in structure, shared in world."
+    },
+    {
+      "rule": "CREATIVE DISTINCTNESS ≥ 8/10 (incl. environment, material, depth)",
+      "disposition": "REMOVE",
+      "note": "Replace with product-layer anatomy distinctness."
+    },
+    {
+      "rule": "RAW PLATES",
+      "disposition": "REMOVE",
+      "note": "As the authority method."
+    },
+    {
+      "rule": "PLATE GUIDE AS THE ONLY REFERENCE",
+      "disposition": "REMOVE",
+      "note": "Agent-drawn guides transfer style."
+    },
+    {
+      "rule": "BLANK SURFACES / PLACEHOLDERS",
+      "disposition": "REMOVE",
+      "note": "Objects either carry composited text or carry none."
+    },
+    {
+      "rule": "DETERMINISTIC UI",
+      "disposition": "REWRITE",
+      "note": "Narrow to exactness; art-direct product surfaces."
+    },
+    {
+      "rule": "COMPOSITE AUTHORITY",
+      "disposition": "REWRITE",
+      "note": "Composite = whole-frame generation + correction, not plate + overlay."
+    },
+    {
+      "rule": "NO DEVICE CHROME",
+      "disposition": "KEEP",
+      "note": "With DEVICE_CHROME_RULE wording; delete status bar / home indicator from all F09 geometry."
+    },
+    {
+      "rule": "BLUR TEST",
+      "disposition": "KEEP",
+      "note": "Structure must carry identity — but it must never be used to suppress the world. Pair with the benchmark-richness test."
+    },
+    {
+      "rule": "ANTI-TEMPLATE TEST",
+      "disposition": "REWRITE",
+      "note": "Becomes ANTI_GENERIC_TEST + ANTI_ASSEMBLY_TEST with crops as evidence."
+    },
+    {
+      "rule": "METAPHOR CONTAINMENT",
+      "disposition": "KEEP",
+      "note": "OBJECT / ZONE default stands."
+    },
+    {
+      "rule": "FIXED PRODUCT PAYLOAD",
+      "disposition": "REWRITE",
+      "note": "Lock values and copy; free the presentation; record formula status (date has none)."
+    },
+    {
+      "rule": "JURNL PROFILE: no sea-view balconies; single justified plant",
+      "disposition": "REMOVE",
+      "note": "Contradicts the approved world."
+    },
+    {
+      "rule": "T01 FORBIDDEN: arches",
+      "disposition": "REMOVE",
+      "note": "Imported from a legacy anti-convergence note."
+    },
+    {
+      "rule": "ANTI-AI FLAGS",
+      "disposition": "KEEP",
+      "note": "As an audit after rendering; not as generator-prompt content."
+    },
+    {
+      "rule": "CONTAMINATION GUARD",
+      "disposition": "REWRITE",
+      "note": "Guard copy and concept bleed; allow world references by role (WORLD, not COPY)."
+    },
+    {
+      "rule": "BRAND EXPRESSION CHECKLIST (self-attested)",
+      "disposition": "REWRITE",
+      "note": "Evidence-based minimums judged by someone other than the author."
+    },
+    {
+      "rule": "FINISH_QA + FOUNDER VERDICT BLOCKS",
+      "disposition": "KEEP",
+      "note": "Judged with crops and a benchmark side-by-side."
+    },
+    {
+      "rule": "GENERATOR ~2,000-WORD PROMPTS",
+      "disposition": "REMOVE",
+      "note": "GENERATOR_PROMPT_BUDGET: ≤ 300 words, ≤ 5 negatives, references attached."
+    },
+    {
+      "rule": "SUNBURST · 4K · 9:16 · AUTO-ENHANCE OFF",
+      "disposition": "KEEP",
+      "note": "Add: image2image from the approved world; route preflight before the sprint."
+    },
+    {
+      "rule": "CENTER_STAGE for F09",
+      "disposition": "FOUNDER_DECISION",
+      "note": "Canonical for nav-bearing screens, but the approved world composition is edge-led. Either grant F09 a COMPOSITION_OVERRIDES entry or define a CENTER_STAGE richness grammar (world framing all four edges)."
+    }
+  ],
+  "missing_logic": [
+    "WORLD BINDING: the approved JURNL world (F01.00 WELCOME APPROVED; same-world family parents) is attached as image2image WORLD authority for every F09 generation.",
+    "LEGACY ≠ BRAND WORLD: a rule separating legacy UI (firewalled) from approved brand-world authority (inherited).",
+    "WHERE DISTINCTNESS LIVES: shared world + type system + nav; distinct page anatomy, product object, type–world relationship, CTA form.",
+    "COUNTABLE VISUAL EVIDENCE: depth planes, arch / view, foreground botanical, material contrast, accent masses, in-world brand (F09_MANDATORY_EVIDENCE).",
+    "A PRODUCT ↔ WORLD COMPOSITION MODEL: where the quiet field comes from and how the world frames the product (edge-led or centre-stage-with-rich-edges, by founder decision).",
+    "ORDER: composition comp over the approved world → whole-frame generation → targeted correction → QA.",
+    "EXACT-TEXT STRATEGY: which ≤ 4 large strings the generator renders; everything else corrected by region repaint in the scene’s light; repair loop with OCR.",
+    "INTEGRATION RULES for corrections: light direction, grain, perspective, occlusion; no app-component styling in authority images.",
+    "PRODUCT TRUTH RECORD: one payload with provenance and formula status (AVAILABLE THROUGH has no formula yet; BUFFER vs safetyBuffer naming).",
+    "REFERENCE CONSUMPTION: an extraction sheet per reference before generation; QA against it.",
+    "INDEPENDENT QA: not the author; benchmark side-by-side; crops as evidence.",
+    "DEVICE_CHROME_RULE wording everywhere; delete status bar / home indicator from F09 geometry.",
+    "RENDER-ROUTE PREFLIGHT: confirm image2image + 4K + file retrieval in the executing environment before the sprint starts.",
+    "CONCEPT_DELIVERY_CONTRACT: what counts as one concept.",
+    "PROMPT BUDGETS: generator prompt ≤ 300 words, ≤ 5 negatives; methodology changes not bundled into creative sprints.",
+    "FREEDOM BUDGET declared in the brief (F09_FREEDOM_BUDGET)."
+  ],
+  "next_sprint_spec": {
+    "must": [
+      "Resolve D-F09-COMPOSITION-MODE, D-F09-WORLD-AUTHORITY and D-F09-AVAILABLE-DATE-FORMULA first.",
+      "Attach the approved world as WORLD authority — F01.00 WELCOME APPROVED unless D-F09-WORLD-AUTHORITY decides otherwise, optionally with the same-world parents — image2image, in an environment that can deliver 4K files.",
+      "State one thesis per concept and the product-layer anatomy that makes it distinct; share world, type system and nav.",
+      "Include the exact payload with provenance; lock strings, not forms.",
+      "Declare the freedom budget and the mandatory visual evidence.",
+      "Specify generate-whole-then-correct ownership and the exact-text strategy.",
+      "Require a reference extraction sheet before generation and a benchmark side-by-side after.",
+      "Define QA by someone other than the author and the delivery contract (three finished concepts or fewer, never proofs).",
+      "Keep the generator prompt ≤ 300 words and ≤ 5 negatives."
+    ],
+    "must_not": [
+      "Add new gates, schemas or methodology layers inside the creative sprint.",
+      "Use plates, plate guides or value studies as generator references.",
+      "Ask the generator for blank surfaces or placeholders.",
+      "Ban arches, sea views or botanicals; demand different worlds per concept.",
+      "Include status bar, home indicator or “system chrome” language.",
+      "Use app components (bordered cards, pills, frosted boxes) as authority UI.",
+      "Exceed the negative budget or paste QA lists into the generator prompt.",
+      "Self-certify QA or present proofs as candidates.",
+      "Invent product truth (a date formula, new categories) without a recorded decision."
+    ]
+  },
+  "founder_decisions_required": [
+    {
+      "id": "D-F09-COMPOSITION-MODE",
+      "question": "May F09 leave CENTER_STAGE for an edge-led editorial composition like the approved world (COMPOSITION_OVERRIDES), or must it stay centre-stage with a world framing all four edges?"
+    },
+    {
+      "id": "D-F09-WORLD-AUTHORITY",
+      "question": "Is F01.00 WELCOME APPROVED the world authority for F09 (the explicitly approved image), with F02 / F03 / F04 parents as same-world examples? (The previous round named the F03 parent, which is IN_REVIEW.)"
+    },
+    {
+      "id": "D-F09-AVAILABLE-DATE-FORMULA",
+      "question": "AVAILABLE THROUGH OCT 18 is a sample with no formula in computeSafeToSpend. Keep it as an authority sample only, or define the horizon?"
+    }
+  ]
+}

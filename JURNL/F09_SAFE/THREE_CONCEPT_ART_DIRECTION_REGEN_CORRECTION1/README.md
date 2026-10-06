@@ -3,6 +3,8 @@
 **Sprint:** `P0.JURNL.F09-SAFE-TO-SPEND.THREE-CONCEPT-ART-DIRECTION-REGEN-CORRECTION1` · 2026-10-06
 **Status:** **BLOCKED ON SCENE RETRIEVAL.** 0 of 3 finished candidates delivered. No founder board yet.
 
+> **Superseded for planning by `P0.JURNL.F09.PROMPT-FORENSICS-AND-CREATIVE-LOGIC-AUDIT1`.** F09 generation is paused. Do not resume this round as-is: the audit found that its scene prompts are text-to-image with no world reference (`../PROMPT_FORENSICS_AND_CREATIVE_LOGIC_AUDIT1/README.md`).
+
 ## What happened
 
 1. The three scenes were re-authored and generated: `gpt-image-2.5-sunburst` via Figma, text-free, art-directed to the F03 benchmark (`SCENE_PROMPTS/`).

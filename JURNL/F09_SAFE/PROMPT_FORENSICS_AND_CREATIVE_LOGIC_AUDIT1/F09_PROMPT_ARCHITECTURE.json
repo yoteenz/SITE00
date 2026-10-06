@@ -1,0 +1,402 @@
+{
+  "id": "F09_PROMPT_ARCHITECTURE",
+  "sprint": "P0.JURNL.F09.PROMPT-FORENSICS-AND-CREATIVE-LOGIC-AUDIT1",
+  "generated_by": "scripts/studioos/jurnl-f09-prompt-forensics-export.ts",
+  "analysis_only": true,
+  "procedure": [
+    {
+      "step": 1,
+      "id": "COLLECT_LINEAGE",
+      "does": "Recover every brief and every model-facing prompt from primary sources (transcripts, repo, commits, generation payloads). Mark anything reconstructed."
+    },
+    {
+      "step": 2,
+      "id": "RECONSTRUCT_PIPELINE",
+      "does": "Write the pipeline the methodology believes in, then the pipeline that actually produced the outputs (which inputs reached the model)."
+    },
+    {
+      "step": 3,
+      "id": "INVENTORY",
+      "does": "Extract every instruction line; classify (INSTRUCTION_CATEGORIES); do not merge similar instructions."
+    },
+    {
+      "step": 4,
+      "id": "CONTRADICTIONS",
+      "does": "Pair instructions that cannot both hold; name the output failure each causes and its severity."
+    },
+    {
+      "step": 5,
+      "id": "CONSTRAINT_BUDGET",
+      "does": "Per variable: locked / guided / free. If free space is only the background, concepts will collapse into backdrop swaps."
+    },
+    {
+      "step": 6,
+      "id": "ADJECTIVE_GROUNDING",
+      "does": "For every quality adjective: visual meaning, minimum evidence, structural consequence, and how a model satisfies the word but not the founder."
+    },
+    {
+      "step": 7,
+      "id": "DENSITY_AND_POLARITY",
+      "does": "Measure words by bucket (creative / product truth / process / render / QA / negative) and negative vs positive creative lines."
+    },
+    {
+      "step": 8,
+      "id": "REFERENCE_AUDIT",
+      "does": "List every reference: role, whether it was actually attached, and what the model could extract from it. Compare against the strongest approved references."
+    },
+    {
+      "step": 9,
+      "id": "OUTPUT_TRACE",
+      "does": "Put each output beside the exact input that produced it (prompt + attached image). If the output reproduces the input, the input is the cause."
+    },
+    {
+      "step": 10,
+      "id": "ROOT_CAUSES",
+      "does": "Assign a failure class per observed failure with evidence and HIGH / MEDIUM / LOW confidence. Blame the renderer only with proof."
+    },
+    {
+      "step": 11,
+      "id": "ARCHITECTURE",
+      "does": "Rewrite the prompt architecture (layers, priority tiers, freedom budget, evidence minimums, tests) — not the next prompt."
+    }
+  ],
+  "architecture": [
+    {
+      "layer": "D",
+      "id": "REFERENCE_AUTHORITY",
+      "order": 1,
+      "rule": "First. Each reference has one role (WORLD · BRAND · COMPOSITION · TYPOGRAPHY · PRODUCT · QUALITY_BAR), is actually attached, and comes with an extraction sheet (REFERENCE_CONSUMPTION_TEST)."
+    },
+    {
+      "layer": "C",
+      "id": "BRAND_WORLD",
+      "order": 2,
+      "rule": "The inherited world, named as a place with mandatory visual evidence — not adjectives."
+    },
+    {
+      "layer": "A",
+      "id": "CREATIVE_BRIEF",
+      "order": 3,
+      "rule": "One thesis per concept in plain positive language; what makes it this concept and not its siblings."
+    },
+    {
+      "layer": "B",
+      "id": "NON_NEGOTIABLE_PRODUCT_TRUTH",
+      "order": 4,
+      "rule": "Exact values and copy with provenance. Locks truth, not presentation."
+    },
+    {
+      "layer": "F",
+      "id": "COMPOSITION_REQUIREMENTS",
+      "order": 5,
+      "rule": "How product and world relate in space (frame, planes, where the quiet field comes from), for this concept."
+    },
+    {
+      "layer": "E",
+      "id": "TERRITORY_FREEDOM",
+      "order": 6,
+      "rule": "Declared LOCKED / GUIDED / FREE per variable."
+    },
+    {
+      "layer": "G",
+      "id": "ART_DIRECTION_MINIMUMS",
+      "order": 7,
+      "rule": "Mandatory visual evidence with countable minimums."
+    },
+    {
+      "layer": "H",
+      "id": "RENDER_OWNERSHIP",
+      "order": 8,
+      "rule": "Generate the whole; correct the parts. Deterministic only where exactness requires it."
+    },
+    {
+      "layer": "I",
+      "id": "DELIVERY_CONTRACT",
+      "order": 9,
+      "rule": "What counts as one concept (CONCEPT_DELIVERY_CONTRACT)."
+    },
+    {
+      "layer": "J",
+      "id": "QA",
+      "order": 10,
+      "rule": "Benchmark side-by-side, anti-generic, anti-assembly, reference-consumption, product clarity."
+    }
+  ],
+  "priority_tiers": [
+    {
+      "tier": 0,
+      "id": "HARD_TRUTH",
+      "holds": "Exact product data and copy, nav items and order, official logo asset, no device chrome, project hard rules (e.g. uppercase, no circular controls)."
+    },
+    {
+      "tier": 1,
+      "id": "VISUAL_AUTHORITY",
+      "holds": "The approved world / design-system references, attached and bound (image-to-image where the renderer supports it), and the approved finish level."
+    },
+    {
+      "tier": 2,
+      "id": "CREATIVE_INTENT",
+      "holds": "One compositional thesis per concept: what the page is, what the eye does, what the idea is."
+    },
+    {
+      "tier": 3,
+      "id": "CONCEPT_FREEDOM",
+      "holds": "What each concept may change (declared freedom budget)."
+    },
+    {
+      "tier": 4,
+      "id": "RENDER_EXECUTION",
+      "holds": "Route, model, resolution, ownership of exact layers, correction method."
+    },
+    {
+      "tier": 5,
+      "id": "QA",
+      "holds": "Evidence tests run after rendering. QA items are never pasted into the generator prompt."
+    }
+  ],
+  "generator_prompt_budget": {
+    "max_words": 300,
+    "max_negatives": 5,
+    "max_exact_strings_rendered_by_generator": 4,
+    "order": [
+      "attached references and their roles",
+      "scene / world",
+      "composition and planes",
+      "concept object",
+      "exact large strings (if any)",
+      "critical negatives"
+    ],
+    "exclude": [
+      "methodology names and gate ids",
+      "rationale for humans",
+      "QA lists",
+      "hex codes beyond the accent",
+      "percent geometry for more than the 3 main zones",
+      "sample-data provenance"
+    ]
+  },
+  "freedom_budget": {
+    "layout": {
+      "level": "GUIDED",
+      "rule": "Edge-led editorial or CENTER_STAGE per the founder decision below; nav zone and 2-second clarity fixed."
+    },
+    "primary_object": {
+      "level": "FREE",
+      "rule": "Each concept its own — inside the inherited world."
+    },
+    "logo_placement": {
+      "level": "GUIDED",
+      "rule": "Official asset; lockup top-left by default; one in-world brand cue allowed (book spine, seal, stationery)."
+    },
+    "amount_placement": {
+      "level": "GUIDED",
+      "rule": "Largest numeral, in the upper 60 %, any alignment or scale."
+    },
+    "cta_placement": {
+      "level": "GUIDED",
+      "rule": "Label locked; square-rounded; position and material free above the nav."
+    },
+    "category_visualization": {
+      "level": "FREE",
+      "rule": "Names locked (BILLS · PLANS · GOALS · BUFFER); form free; never blank objects."
+    },
+    "brand_framing": {
+      "level": "GUIDED",
+      "rule": "Lockup + in-world cue; never a box."
+    },
+    "environment": {
+      "level": "LOCKED",
+      "rule": "The JURNL world (F01.00 WELCOME APPROVED family) — viewpoint, room and time of day may vary."
+    },
+    "materials": {
+      "level": "GUIDED",
+      "rule": "World palette incl. burgundy and sea-blue masses; rough / sheer / soft contrast required."
+    },
+    "typography": {
+      "level": "GUIDED",
+      "rule": "JURNL fonts and uppercase locked; scale, crop and relation to the world free."
+    },
+    "nav": {
+      "level": "LOCKED",
+      "rule": "Runtime nav, HOME active."
+    },
+    "secondary_modules": {
+      "level": "GUIDED",
+      "rule": "Purchase bridge copy locked; form free (card, note, object, inline)."
+    }
+  },
+  "mandatory_evidence": [
+    {
+      "category": "MEDITERRANEAN EVIDENCE",
+      "minimum": "≥ 1 arch or arcade; ≥ 1 view out to sea / coast or sunlit exterior; limewash or rough travertine visible; directional sun with cast shadows."
+    },
+    {
+      "category": "ENVIRONMENTAL DEPTH",
+      "minimum": "≥ 3 planes: a foreground element (out-of-focus olive, drape), a mid-ground still life or object, a background (architecture / view)."
+    },
+    {
+      "category": "MATERIAL RICHNESS",
+      "minimum": "≥ 4 materials incl. 1 rough mineral, 1 soft textile, 1 translucent; ≥ 1 accent colour mass (burgundy / rose / sea blue)."
+    },
+    {
+      "category": "EDITORIAL DESIGN",
+      "minimum": "One display element ≥ 56 pt (word or figure); a tracked deck; one deliberate asymmetry; type participates in the image."
+    },
+    {
+      "category": "BOTANICAL / NATURAL PRESENCE",
+      "minimum": "Olive or greenery in ≥ 2 places, one of them foreground."
+    },
+    {
+      "category": "ARCHITECTURAL FRAMING",
+      "minimum": "The product zone’s quiet field is produced by architecture or light (lit wall, curtain glow, sky), not by a panel."
+    },
+    {
+      "category": "BRAND PRESENCE",
+      "minimum": "Official lockup exact; ≥ 1 in-world brand cue rendered faithfully."
+    },
+    {
+      "category": "PRODUCT CLARITY",
+      "minimum": "Amount legible at 25 % thumbnail; SAFE TO SPEND within one glance of the amount; CTA contrast ≥ 4.5:1; nav exact."
+    },
+    {
+      "category": "NO SCAFFOLDING",
+      "minimum": "Zero blank plates / tags / guide boxes / placeholder panels; zero device chrome."
+    }
+  ],
+  "anti_generic_test": [
+    {
+      "id": "LOGO_SWAP",
+      "question": "Replace the logo with another finance brand. Is the page still plausible for that brand?",
+      "fail_if": "YES"
+    },
+    {
+      "id": "WORLD_SWAP",
+      "question": "Could this environment belong to a hotel, wellness or generic luxury app?",
+      "fail_if": "YES — the world lacks the project’s own signifiers"
+    },
+    {
+      "id": "TEMPLATE_ANATOMY",
+      "question": "Strip the imagery: is the page anatomy a stock fintech / card template?",
+      "fail_if": "YES"
+    },
+    {
+      "id": "SIBLING_SWAP",
+      "question": "Could this be a sibling family’s screen (e.g. TODAY) with the label changed?",
+      "fail_if": "YES"
+    },
+    {
+      "id": "ADJECTIVE_ONLY",
+      "question": "Is every brand claim satisfied only by palette and material nouns?",
+      "fail_if": "YES"
+    }
+  ],
+  "anti_assembly_test": [
+    {
+      "id": "SEPARABLE_SYSTEMS",
+      "question": "Can a viewer point to background plate, text layer and UI layer as separate construction systems?",
+      "fail_if": "YES"
+    },
+    {
+      "id": "LIGHT",
+      "question": "Do UI shadows / highlights follow the scene’s light direction and softness?",
+      "fail_if": "NO"
+    },
+    {
+      "id": "GRAIN_SHARPNESS",
+      "question": "Do UI and scene share grain, sharpness and colour grade?",
+      "fail_if": "NO"
+    },
+    {
+      "id": "PLANE",
+      "question": "Does at least one product element sit on, in or behind a scene surface (occlusion, perspective, material) rather than floating above everything?",
+      "fail_if": "NO"
+    },
+    {
+      "id": "EDGES",
+      "question": "Are there box edges, borders or panels unrelated to scene geometry?",
+      "fail_if": "YES"
+    },
+    {
+      "id": "PLACEHOLDERS",
+      "question": "Is any blank plate, tag, card, guide box or empty mockup surface visible?",
+      "fail_if": "YES"
+    },
+    {
+      "id": "SCALE",
+      "question": "Is UI scale consistent with the scene’s scale and viewpoint?",
+      "fail_if": "NO"
+    }
+  ],
+  "reference_consumption_test": {
+    "rule": "Before generation the agent writes an extraction sheet per reference; the generator prompt cites the items it applies; QA checks the output against the sheet (≥ 80 % of WORLD and COMPOSITION items visibly present).",
+    "extract": [
+      "composition (where product sits relative to world; planes; quiet field source)",
+      "environment inventory (architecture, view, foreground, still life)",
+      "material inventory (rough / smooth / soft / translucent / accent)",
+      "brand rules (lockup position, in-world brand cue)",
+      "density (objects per plane, empty vs designed space)",
+      "type scale (headline / figure / deck sizes and alignment)"
+    ]
+  },
+  "device_chrome_rule": {
+    "canvas": "A mobile authority is a PRODUCT CANVAS (e.g. JURNL 393×852 pt), not a phone screenshot.",
+    "excluded": [
+      "OS status bar (time, signal, Wi-Fi, battery)",
+      "dynamic island / notch",
+      "home indicator",
+      "phone frame or bezel",
+      "browser chrome (URL bar, tabs)",
+      "keyboard"
+    ],
+    "included": [
+      "product-owned chrome only when an approved authority defines it (e.g. a product back / ask button, the product nav)"
+    ],
+    "geometry": "OS safe-area insets may reserve empty space in the canvas; they never render content that imitates the OS.",
+    "term": "\"System chrome\" is ambiguous and must not appear in briefs; say DEVICE CHROME (excluded) or PRODUCT CHROME (named items)."
+  },
+  "concept_delivery_contract": {
+    "is": "One founder-review-ready authority image of the full product canvas: world, composition, exact product truth and brand, finished at the approved finish level, passing the anti-generic and anti-assembly tests.",
+    "is_not": [
+      "raw plate",
+      "scene without product",
+      "partial layout",
+      "material study",
+      "prompt",
+      "wireframe",
+      "blueprint or zone map",
+      "background",
+      "layout proof",
+      "process artifact",
+      "a variant that shares its page anatomy with a sibling concept"
+    ]
+  },
+  "fully_authored": {
+    "general": [
+      "One compositional thesis that a viewer can state in a sentence.",
+      "Intentional foreground, midground and background (≥ 3 planes) or a declared flat thesis that is itself designed.",
+      "A purposeful hierarchy: one figure, one action, everything else subordinate.",
+      "Typography that participates in the image (scale, placement, relation to surfaces) rather than floating on it.",
+      "Negative space that comes from the scene (a lit wall, a sky, a drape), not from an empty box.",
+      "Material and light continuity across product and world.",
+      "World specificity: signifiers that belong to this brand, not a genre.",
+      "No visible scaffolding and no generic filler."
+    ],
+    "f09": [
+      "Stated thesis in one sentence, visible without the copy.",
+      "≥ 3 planes, including a foreground that frames the product.",
+      "The product zone’s quiet field comes from the world (light, architecture), not a box.",
+      "Type is part of the image: scale, crop, alignment to architecture; at least one product element shares a surface, plane or occlusion with the world.",
+      "One light: shadows, grain and colour grade continuous across product and world.",
+      "JURNL-world specificity: arch / view / still life / burgundy / book — not a genre.",
+      "Zero scaffolding, zero device chrome, zero filler."
+    ]
+  },
+  "model_responsibilities": {
+    "OPUS": "Creative direction, world inheritance, concept theses, composition comps over the approved world, generator briefs, reference extraction sheets.",
+    "IMAGE_MODEL": "Full-frame image bound to the approved world: environment, objects, UI surfaces and the few large exact strings.",
+    "COMPOSITOR": "Exactness only: logo swap, small text, nav, numbers — by region repaint with the scene’s light, grain and perspective.",
+    "COMPOSER": "Production implementation after authority lock; never authority rendering.",
+    "QA": "An agent or person other than the author: benchmark side-by-side, anti-generic, anti-assembly, reference consumption; the founder verdict is final.",
+    "correction": "The division in the methodology is right in principle; it failed because the image model was never given the world and the compositor was asked to create the integration instead of correcting a whole image."
+  }
+}

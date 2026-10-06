@@ -1,0 +1,1027 @@
+SPRINT:
+P0.JURNL.F09-SAFE-TO-SPEND.VISUAL-AUTHORITY-3-TERRITORY-PROOF1
+
+AGENT:
+OPUS
+
+MODE:
+CREATIVE ARCHITECTURE + VISUAL AUTHORITY DEVELOPMENT + UPSTREAM-CONTRACT PROOF
+
+PRIORITY:
+P0
+
+==================================================
+CONVERSATION CONTEXT / WHY THIS SPRINT EXISTS
+==================================================
+
+JURNL has completed its major structural and functional product progression:
+
+Wave0
+Wave1
+Wave2
+Wave3
+Wave4
+FULL-PRODUCT-E2E-GATE1
+Wave5 production hardening
+Wave5 live RLS / production-sync proof
+
+The founder later confirmed:
+“THE JURNL TEST PASSED.”
+
+JURNL's functional product is sufficiently mature for the current phase.
+
+However, the founder froze further JURNL visual polishing after recognizing that the previous design process allowed existing implementation to become an implicit design authority.
+
+A new Visual Authority Development methodology was then proven through AIO IFTA:
+
+BRAND DNA
+→ EXPERIENCE CONTRACT
+→ IGNORE LEGACY VISUALS
+→ 3 DISTINCT COMPOSITION TERRITORIES
+→ REFERENCE AUTHORITIES
+→ FOUNDER VERDICT
+→ PAGE-FAMILY AUTHORITY
+→ RESPONSIVE / ACTOR DERIVATION
+→ PAGE / COMPONENT / INTERACTION CONTRACT
+→ ASSET PACKAGE
+→ IMPLEMENTATION
+→ REFINEMENT
+→ LIVE AUTHORITY
+
+The founder now wants to test whether the SAME upstream methodology can produce genuinely strong JURNL concepts WITHOUT relying on the old JURNL implementation.
+
+The selected proof family is:
+
+JURNL
+F09
+SAFE TO SPEND
+
+THIS IS A CONTROLLED CONCEPTUALIZATION TEST.
+
+The purpose is NOT to redesign all of JURNL.
+
+The purpose is to answer:
+
+CAN THE EXISTING JURNL BRAND DNA + EXPERIENCE CONTRACT + PRODUCT/FAMILY CONTRACT + FUNCTIONAL TRUTH PRODUCE THREE STRONG, DISTINCT, BRAND-TRUE VISUAL COMPOSITION TERRITORIES FOR SAFE TO SPEND WITHOUT LEGACY VISUAL LEAKAGE?
+
+==================================================
+FOUNDER DECISION
+==================================================
+
+USE F09 SAFE TO SPEND AS THE FIRST JURNL FAMILY TO RE-ENTER THE NEW VISUAL AUTHORITY PIPELINE.
+
+GENERATE EXACTLY THREE DISTINCT COMPOSITION TERRITORIES.
+
+DO NOT IMPLEMENT ANY OF THEM.
+
+DO NOT SELECT A WINNER.
+
+THE FOUNDER WILL CHOOSE / REVISE / COMBINE / REJECT AFTER REVIEW.
+
+==================================================
+SUPERSEDES
+==================================================
+
+This sprint supersedes any assumption that:
+
+- the current SAFE TO SPEND implementation is visual authority
+- the previous JURNL visual composition must be preserved
+- an existing screenshot should determine layout
+- SAFE TO SPEND should default to stacked cards
+- JURNL families may be beautified directly without authority development
+- three territories may merely be cosmetic skins of the same composition
+
+This sprint does NOT supersede:
+
+- current JURNL functionality
+- F09 business logic
+- F09 data truth
+- JURNL brand DNA
+- JURNL voice
+- JURNL navigation
+- JURNL functional relationships
+- JURNL accessibility requirements
+- JURNL responsive behavior requirements
+- CENTER_STAGE mobile composition rule where canonically applicable
+- established no-circular-tappable-buttons rule
+- JURNL uppercase user-facing typography rule
+
+==================================================
+DO NOT REGRESS
+==================================================
+
+DO NOT:
+
+- implement a page
+- modify production JURNL UI
+- rewrite F09 business logic
+- alter database/schema/RLS
+- change SAFE TO SPEND calculations
+- introduce invented financial metrics
+- invent financial advice
+- use old JURNL UI as visual authority
+- trace existing card geometry
+- preserve existing visual structures out of convenience
+- produce three versions of the same layout
+- create generic fintech dashboards
+- create generic banking-app UI
+- create generic SaaS cards
+- use circular tappable buttons
+- violate the bottom-nav composition contract
+- place primary content in a cramped left column
+- let decorative imagery overpower financial comprehension
+- make editorial copy carry the primary functional meaning
+- treat visual collage as a substitute for product hierarchy
+- use OpenArt
+- access/query/search/browse OpenArt
+- perform broad JURNL redesign
+- create tablet/desktop final authorities before founder selection unless required only for conceptual proof
+- infer founder approval
+
+==================================================
+KNOWN FAILURE THAT CAUSED THIS
+==================================================
+
+Previous JURNL visual work frequently converged on:
+
+PRETTY BACKGROUND
++
+TEXT
++
+STACKED CARDS
+
+That produced attractive surfaces but insufficient family differentiation.
+
+The founder established a stronger principle:
+
+A JURNL FAMILY SHOULD REMAIN IDENTIFIABLE EVEN IF ITS IMAGERY IS BLURRED OR REMOVED.
+
+Family identity must come from:
+
+- composition
+- information hierarchy
+- spatial rhythm
+- primary object
+- interaction model
+- functional metaphor
+- state behavior
+
+not merely background art.
+
+Examples of intended family differentiation previously established include:
+
+MONEY
+= financial wardrobe / cabinet
+
+SAFE TO SPEND
+= its own functional/spatial identity
+
+PURCHASES
+= object under consideration
+
+TRIPS
+= destination / route / horizon
+
+PAYDOWN
+= descending load / progression
+
+AHEAD
+= forward horizon / scenario path
+
+RECORDS
+= archive / index / drawer
+
+IMPORTANT:
+
+Do not blindly treat these phrases as visual instructions unless they are present in canonical upstream JURNL source truth.
+
+The purpose of this sprint is to test the upstream contracts.
+
+If a concept such as “threshold” or “protected zone” is already encoded canonically, it may emerge naturally.
+
+Do not import extra creative direction from this prompt to force that result.
+
+==================================================
+MOTHERBOARD INTENT
+==================================================
+
+This sprint tests the new methodology itself.
+
+If successful:
+
+JURNL family redesign should proceed:
+
+FAMILY
+→ upstream truth
+→ 3 territories
+→ founder selection
+→ authority lock
+→ derivations
+→ implementation
+
+If unsuccessful:
+
+DO NOT compensate by manually beautifying F09.
+
+Instead identify which upstream contract lacks sufficient creative/experience intelligence.
+
+The output must reveal whether the intelligence upstream is strong enough.
+
+==================================================
+1. SOURCE-TRUTH DISCOVERY
+==================================================
+
+Before conceptualizing anything, locate and inspect the current canonical JURNL sources.
+
+Find the most current truth for:
+
+JURNL BRAND DNA
+JURNL F09 SAFE TO SPEND family contract
+Experience Brain records
+page/product tree
+routes
+states
+interactions
+data contracts
+responsive rules
+navigation contract
+voice/copy contract
+brand materials
+asset rules
+functional implementation
+E2E tests
+approval records
+production-hardening artifacts
+
+Do not rely on filename assumptions from this prompt.
+
+For every source used, record:
+
+SOURCE
+ROLE
+CANONICAL STATUS
+WHAT IT CONTRIBUTES
+
+==================================================
+2. LEGACY VISUAL FIREWALL
+==================================================
+
+Audit current/previous SAFE TO SPEND UI.
+
+Classify it as:
+
+FUNCTIONAL_REFERENCE_ONLY
+
+Legacy/current implementation MAY inform:
+
+- functionality
+- route behavior
+- actual data
+- interactions
+- states
+- accessibility
+- navigation
+- field/component inventory
+- existing functional edge cases
+
+Legacy/current implementation MAY NOT inform unless explicitly founder-promoted:
+
+- composition
+- panel geometry
+- spatial hierarchy
+- visual metaphor
+- image placement
+- card layout
+- spacing
+- typography sizing
+- visual rhythm
+- decorative structure
+- background treatment
+- materials
+
+Required result:
+
+LEGACY_VISUAL_LEAK = 0
+
+==================================================
+3. JURNL BRAND DNA — LOAD BEFORE CONCEPTING
+==================================================
+
+Load actual canonical JURNL brand truth.
+
+Known governing identity should be verified against repo truth, including:
+
+MONEY IN SERVICE OF LIFE.
+FINANCIAL LIFE, BEAUTIFULLY ORGANIZED.
+
+TAGLINE:
+PLAN TODAY. GROW FREELY.
+
+VOICE:
+quietly assured
+smart + human
+calm confidence
+clear
+precise
+conversational
+direct
+easy to understand
+
+Avoid:
+poetic everyday UX
+finance-bro language
+corporate language
+robotic language
+slang-heavy language
+unnecessary wit
+
+VISUAL WORLD:
+bone
+cream
+ivory
+greige
+taupe
+blush
+muted rose
+deep emerald
+burgundy
+champagne
+obsidian
+plaster
+travertine
+paper
+textile
+Mediterranean / coastal influence
+editorial collage
+architectural lifestyle
+
+LOGO:
+vertical botanical book-spine treatment
+
+USER-FACING COPY:
+UPPERCASE
+
+TAPPABLE CONTROLS:
+NO CIRCULAR BUTTONS
+
+Do not rely on this prompt when repo/source truth is more specific.
+
+==================================================
+4. LOAD F09 EXPERIENCE CONTRACT
+==================================================
+
+Do not start visual ideation until the complete F09 SAFE TO SPEND contract is understood.
+
+Determine:
+
+PRIMARY USER QUESTION
+PRIMARY DECISION
+PRIMARY OBJECT
+PRIMARY ACTION
+SECONDARY ACTIONS
+DATA INPUTS
+DERIVED VALUES
+DEPENDENCIES
+UPSTREAM FAMILIES
+DOWNSTREAM FAMILIES
+STATES
+EMPTY STATES
+LOADING STATES
+ERROR STATES
+EDGE CASES
+USER CONFIDENCE REQUIREMENTS
+EXPLANATION REQUIREMENTS
+ASK JURNL RELATIONSHIP
+QUICK ADD RELATIONSHIP
+NAVIGATION RELATIONSHIP
+MUTATIONS
+PERSISTENCE
+RESPONSIVE BEHAVIOR
+
+Explicitly answer:
+
+WHAT DOES SAFE TO SPEND ACTUALLY HELP THE USER DECIDE?
+
+WHAT INFORMATION MUST BE UNDERSTOOD IN UNDER FIVE SECONDS?
+
+WHAT INFORMATION SHOULD ONLY APPEAR ON INSPECTION?
+
+WHAT IS THE MOST IMPORTANT NUMBER / STATE / RELATIONSHIP?
+
+WHAT CAN CHANGE THAT NUMBER?
+
+WHAT DOES THE USER DO NEXT?
+
+==================================================
+5. DO NOT ASSUME THE PRIMARY OBJECT
+==================================================
+
+This is critical.
+
+Do not begin with:
+
+“SAFE TO SPEND should look like X.”
+
+Infer the primary visual/functional object from:
+
+BRAND DNA
++
+EXPERIENCE CONTRACT
++
+FUNCTIONAL TRUTH
++
+USER DECISION
+
+The three territories should be genuine alternative interpretations of that truth.
+
+==================================================
+6. THREE TERRITORIES — EXACTLY THREE
+==================================================
+
+Create exactly:
+
+TERRITORY 01
+TERRITORY 02
+TERRITORY 03
+
+They must be materially different in:
+
+PRIMARY OBJECT
+PRIMARY COMPOSITION
+SPATIAL METAPHOR
+INFORMATION SEQUENCING
+USER ATTENTION FLOW
+DATA VISUALIZATION LOGIC
+ACTION PLACEMENT
+EDITORIAL INTEGRATION
+BACKGROUND / PERIMETER RELATIONSHIP
+PANEL BEHAVIOR
+
+A color change does NOT create a new territory.
+
+Different card arrangements do NOT necessarily create a new territory.
+
+The territories should still clearly belong to the SAME JURNL product.
+
+==================================================
+7. TERRITORY DISTINCTNESS TEST
+==================================================
+
+For every pair:
+
+01 ↔ 02
+01 ↔ 03
+02 ↔ 03
+
+prove they differ structurally.
+
+Provide a distinctness matrix covering:
+
+PRIMARY OBJECT
+LAYOUT GRAMMAR
+SPATIAL AXIS
+DATA HIERARCHY
+USER ENTRY POINT
+PRIMARY ACTION LOCATION
+SECONDARY DATA TREATMENT
+EDITORIAL ROLE
+IMAGERY ROLE
+INTERACTION RHYTHM
+
+If two territories are materially similar:
+replace one before founder review.
+
+==================================================
+8. MOBILE FIRST
+==================================================
+
+Use the canonical JURNL mobile viewport:
+
+393 × 852
+
+SAFE TO SPEND is a normal nav-bearing screen unless canonical source truth says otherwise.
+
+Therefore apply the established JURNL mobile composition contract:
+
+CENTER_STAGE
+
+Meaning:
+
+- main field centered to viewport
+- content width aligned to 5-icon bottom-nav span
+- no persistent left-column drift
+- background/perimeter imagery must not obstruct the financial field
+- primary functional zone remains visually quiet enough to understand immediately
+- full panels paginate atomically
+- no clipped partial panels
+- bottom navigation remains clear
+- + remains center navigation anchor
+- context-aware back behavior preserved
+
+Do not interpret CENTER_STAGE as:
+“put a stack of centered cards in the middle.”
+
+CENTER_STAGE controls geometry, not creative composition.
+
+==================================================
+9. BOTTOM NAV CONTRACT
+==================================================
+
+Preserve:
+
+HOME
+MONEY
++
+PLAN
+CREDIT
+
+ASK JURNL remains globally available according to canonical behavior.
+
+Do not redesign navigation during this sprint.
+
+==================================================
+10. FUNCTION BEFORE EDITORIAL EXPRESSION
+==================================================
+
+Apply:
+
+1. FUNCTION LABEL
+2. STATE / TASK STATEMENT
+3. EDITORIAL EXPRESSION
+
+The user must understand SAFE TO SPEND before reading expressive copy.
+
+Editorial imagery/text may enrich meaning.
+
+It cannot explain the core financial state by itself.
+
+==================================================
+11. BLUR TEST
+==================================================
+
+For each territory:
+
+remove or blur decorative imagery.
+
+Ask:
+
+CAN A USER STILL IDENTIFY THIS AS SAFE TO SPEND FROM COMPOSITION, HIERARCHY, DATA RELATIONSHIP, AND INTERACTION ALONE?
+
+PASS required.
+
+If the page becomes a generic finance dashboard without its imagery:
+territory fails.
+
+==================================================
+12. DATA INTEGRITY
+==================================================
+
+Every number/label/state displayed in a concept must correspond to a real F09 contract/data concept.
+
+Do not invent:
+
+- balances
+- available amounts
+- protected amounts
+- percentages
+- bills
+- dates
+- account states
+- savings allocations
+- categories
+
+unless clearly marked as representational sample values corresponding to real fields.
+
+No fake functionality.
+
+==================================================
+13. CONCEPTUAL FREEDOM
+==================================================
+
+You are allowed to be visually ambitious.
+
+JURNL should feel like a designed financial-life object, not a template.
+
+Explore:
+
+- spatial hierarchy
+- architectural composition
+- editorial framing
+- material surfaces
+- quiet negative space
+- environmental/lifestyle integration
+- dimensional layering
+- tactile information objects
+- visual thresholds
+- protected regions
+- movement/progression
+- intentional asymmetry
+- scale relationships
+- surprising but usable information structures
+
+ONLY where derived naturally from the upstream contract.
+
+Do not force all these ideas into each concept.
+
+==================================================
+14. DO NOT PRE-BIAS THE THREE CONCEPTS
+==================================================
+
+This prompt intentionally does NOT provide names or visual concepts for Territories 01–03.
+
+That is the test.
+
+Opus must derive them from JURNL source truth.
+
+Do not copy territory concepts from:
+AIO
+NDXBOOK
+SITE 00
+Frontal Slayer
+Astral World
+generic Dribbble fintech
+generic banking apps
+
+==================================================
+15. TERRITORY OUTPUT CONTRACT
+==================================================
+
+For each territory provide:
+
+TERRITORY ID
+
+CONCEPT NAME
+
+ONE-SENTENCE PREMISE
+
+SOURCE-TRUTH DERIVATION
+- which brand principles
+- which F09 contract facts
+- which user decision
+- which state logic
+
+PRIMARY OBJECT
+
+PRIMARY COMPOSITION
+
+MAJOR ZONES
+
+CORE HIERARCHY
+
+PRIMARY METRIC / STATE TREATMENT
+
+PROTECTED / RESERVED INFORMATION TREATMENT
+
+CTA HIERARCHY
+
+INTERACTION RHYTHM
+
+ASK JURNL PLACEMENT LOGIC
+
+QUICK ADD RELATIONSHIP IF RELEVANT
+
+BACKGROUND / PERIMETER STRATEGY
+
+EDITORIAL ROLE
+
+MATERIAL / SURFACE LANGUAGE
+
+MOTION / TRANSITION IDEA
+concept only — no implementation
+
+WHY THIS IS SPECIFICALLY JURNL
+
+WHY THIS IS SPECIFICALLY SAFE TO SPEND
+
+HOW IT DIFFERS FROM THE OTHER TWO
+
+BLUR-TEST RESULT
+
+LEGACY VISUAL DEPENDENCIES:
+must be NONE
+
+==================================================
+16. REFERENCE AUTHORITY CANDIDATES
+==================================================
+
+After the three concepts are fully defined:
+
+produce ONE mobile reference-authority candidate for each territory.
+
+Exactly:
+
+01 = one 393×852 candidate
+02 = one 393×852 candidate
+03 = one 393×852 candidate
+
+These are conceptual authorities for founder review.
+
+They are NOT runtime assets.
+They are NOT final page designs.
+They are NOT implementation screenshots.
+
+Do not create tablet/desktop versions yet.
+
+Do not iterate repeatedly before founder review.
+
+==================================================
+17. GENERATION / COST CONTROL
+==================================================
+
+Use the most appropriate available visual-authority rendering workflow in Opus's environment.
+
+NO OpenArt access from ChatGPT.
+
+For this sprint:
+
+MAXIMUM PRIMARY AUTHORITY CANDIDATES:
+3
+
+one per territory
+
+Do not fan out into:
+- 3 variants per territory
+- tablet
+- desktop
+- alternate colorways
+- asset sheets
+- child states
+
+unless required to correct a failed render.
+
+Track:
+GENERATION COUNT
+CREDITS / COST if measurable
+RETRIES
+REASON FOR RETRY
+
+==================================================
+18. AUTHORITY CANDIDATE QUALITY
+==================================================
+
+The reference candidate must visibly demonstrate:
+
+- primary composition
+- hierarchy
+- major zones
+- content density
+- JURNL material language
+- functional state
+- CTA hierarchy
+- safe-to-spend identity
+- mobile geometry
+- bottom-nav relationship
+
+It should be detailed enough for founder judgment.
+
+It does NOT need to answer every downstream component detail.
+
+==================================================
+19. NO AUTHORITY LOCK
+==================================================
+
+Do NOT create:
+
+PAGE_FAMILY_AUTHORITY = LOCKED
+
+Do NOT set:
+
+LOVE_IT
+REVISE
+REJECT
+COMBINE
+
+Those belong to founder review.
+
+End state should be:
+
+3 TERRITORIES PRODUCED
+3 REFERENCE CANDIDATES PRODUCED
+FOUNDER REVIEW REQUIRED
+
+==================================================
+20. FAILURE ANALYSIS — IMPORTANT
+==================================================
+
+This sprint is testing the UPSTREAM CONTRACTS.
+
+Therefore evaluate the quality of the inputs.
+
+For each territory record whether the upstream system gave sufficient information for:
+
+FUNCTION
+HIERARCHY
+USER INTENT
+COMPOSITION
+EMOTIONAL TARGET
+BRAND EXPRESSION
+DATA PRIORITY
+INTERACTION
+RESPONSIVE BEHAVIOR
+
+Classify each:
+
+SUFFICIENT
+PARTIAL
+MISSING
+
+If Opus had to invent a material concept because upstream truth was insufficient:
+say so.
+
+Do NOT hide the weakness by making an attractive design anyway.
+
+==================================================
+21. UPSTREAM CONTRACT SCORECARD
+==================================================
+
+Produce a scorecard:
+
+BRAND DNA
+EXPERIENCE CONTRACT
+FAMILY CONTRACT
+STATE CONTRACT
+INTERACTION CONTRACT
+DATA CONTRACT
+RESPONSIVE CONTRACT
+EXPRESSION GUIDANCE
+
+For each:
+
+SUFFICIENT / PARTIAL / MISSING
+
+Then answer:
+
+DID THE UPSTREAM SYSTEM PRODUCE ENOUGH INTELLIGENCE TO CREATE THREE STRONG TERRITORIES WITHOUT RELYING ON LEGACY UI?
+
+YES / PARTIAL / NO
+
+This is one of the primary deliverables.
+
+==================================================
+22. CURRENT IMPLEMENTATION FIREWALL
+==================================================
+
+If the current JURNL SAFE TO SPEND page is inspected for functional forensics:
+
+record exactly what was read from it.
+
+Example allowed:
+
+ROUTE
+STATE
+ACTION
+VALUE
+DEPENDENCY
+
+Example forbidden:
+
+CURRENT PAGE USES A LARGE CARD, SO TERRITORY 01 USES A LARGE CARD.
+
+Prove no visual inheritance.
+
+==================================================
+23. DELIVERABLES
+==================================================
+
+Create durable artifacts using repo conventions.
+
+At minimum preserve:
+
+JURNL F09 SOURCE MAP
+JURNL F09 EXPERIENCE SUMMARY
+JURNL F09 LEGACY VISUAL FIREWALL
+JURNL F09 TERRITORY 01 CONTRACT
+JURNL F09 TERRITORY 02 CONTRACT
+JURNL F09 TERRITORY 03 CONTRACT
+TERRITORY DISTINCTNESS MATRIX
+UPSTREAM CONTRACT SCORECARD
+FOUNDER REVIEW PACK
+3 MOBILE REFERENCE AUTHORITY CANDIDATES
+
+Do not overwrite older JURNL artifacts destructively.
+
+Preserve lineage / supersession relationships.
+
+==================================================
+24. SUCCESS CRITERIA
+==================================================
+
+PASS ONLY IF:
+
+[ ] canonical JURNL source truth inspected
+[ ] canonical F09 contract identified
+[ ] current implementation classified FUNCTIONAL_REFERENCE_ONLY
+[ ] LEGACY_VISUAL_LEAK = 0
+[ ] exactly 3 composition territories exist
+[ ] all 3 have materially different primary objects/compositions
+[ ] all 3 preserve the same F09 functional truth
+[ ] no territory is just a reskin
+[ ] all 3 are recognizably JURNL
+[ ] all 3 are recognizably SAFE TO SPEND
+[ ] function remains understandable without decorative imagery
+[ ] CENTER_STAGE mobile rule respected
+[ ] bottom navigation respected
+[ ] no circular tappable buttons
+[ ] user-facing copy remains uppercase
+[ ] no invented financial functionality
+[ ] exactly 3 primary mobile authority candidates produced
+[ ] no tablet/desktop derivation yet
+[ ] no implementation performed
+[ ] no production UI changed
+[ ] no founder verdict inferred
+[ ] upstream contract strengths/weaknesses reported honestly
+[ ] founder review pack ready
+
+==================================================
+25. FINAL REPORT
+==================================================
+
+Return:
+
+SPRINT
+STATUS
+BRANCH
+SHA_BEFORE
+SHA_AFTER
+PR
+MERGE_STATUS
+
+SOURCE TRUTH:
+BRAND DNA SOURCE
+F09 FAMILY CONTRACT SOURCE
+EXPERIENCE CONTRACT SOURCE
+STATE SOURCE
+INTERACTION SOURCE
+DATA SOURCE
+RESPONSIVE SOURCE
+
+LEGACY FIREWALL:
+LEGACY SURFACES INSPECTED
+FUNCTIONAL FACTS RETAINED
+VISUAL FACTS RETAINED
+LEGACY_VISUAL_LEAK COUNT
+
+TERRITORY 01:
+NAME
+PREMISE
+PRIMARY OBJECT
+PRIMARY COMPOSITION
+CORE DIFFERENCE
+REFERENCE CANDIDATE PATH
+
+TERRITORY 02:
+NAME
+PREMISE
+PRIMARY OBJECT
+PRIMARY COMPOSITION
+CORE DIFFERENCE
+REFERENCE CANDIDATE PATH
+
+TERRITORY 03:
+NAME
+PREMISE
+PRIMARY OBJECT
+PRIMARY COMPOSITION
+CORE DIFFERENCE
+REFERENCE CANDIDATE PATH
+
+DISTINCTNESS:
+01 VS 02
+01 VS 03
+02 VS 03
+PASS / FAIL
+
+BLUR TEST:
+01
+02
+03
+
+UPSTREAM CONTRACT SCORECARD:
+BRAND DNA
+EXPERIENCE
+FAMILY
+STATE
+INTERACTION
+DATA
+RESPONSIVE
+EXPRESSION
+
+UPSTREAM INTELLIGENCE VERDICT:
+YES / PARTIAL / NO
+
+GENERATIONS:
+PRIMARY CANDIDATES
+RETRIES
+COST / CREDITS
+
+PAGE IMPLEMENTATION:
+NO
+
+PRODUCTION JURNL CHANGES:
+NONE
+
+FOUNDER VERDICT:
+PENDING
+
+NEXT STEP:
+FOUNDER REVIEWS THE THREE F09 SAFE TO SPEND TERRITORIES

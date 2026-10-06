@@ -1,0 +1,1062 @@
+SPRINT:
+P0.JURNL.F09-SAFE-TO-SPEND.COMPOSITION-BLUEPRINT-RENDER-OWNERSHIP-CORRECTION1
+
+AGENT:
+OPUS
+
+MODE:
+METHODOLOGY CORRECTION + PAGE COMPOSITION BLUEPRINT + HYBRID RENDER ARCHITECTURE
+
+PRIORITY:
+P0
+
+==================================================
+CONVERSATION CONTEXT / WHY THIS SPRINT EXISTS
+==================================================
+
+Two consecutive F09 SAFE TO SPEND authority rounds exposed a deeper pipeline defect.
+
+ROUND 1:
+Produced structurally intelligent but visually underdeveloped territories.
+
+ROUND 2:
+Added:
+- Creative Direction Gate
+- Brand Expression Gate
+- JURNL identity load
+- anti-generic rules
+- anti-AI rules
+- Sunburst prompts
+- 4K / 9:16 requirements
+
+However, the generated candidates still failed founder review.
+
+Observed founder failures:
+
+1. VISUAL LANGUAGE STILL NOT EXECUTED AT THE REQUIRED LEVEL
+The renders used JURNL materials and colors but did not reproduce the richer compositional grammar of the approved comparison concept.
+
+They behaved like:
+“plaster + brass + green + editorial”
+
+rather than:
+a fully authored JURNL product composition.
+
+2. PAGE COMPOSITION DIRECTION WAS WRONG
+The metaphor was allowed to become the whole page.
+
+Examples:
+- courtyard/floor-plan concept became a literal architectural diagram
+- raking-light concept became mostly wall typography
+- sorting-rack/open-envelope concept drifted into a journal/onboarding-like composition
+
+The renderer translated:
+
+METAPHOR
+→ ENTIRE PAGE
+
+instead of:
+
+PRODUCT JOB
++ METAPHOR
++ BRAND WORLD
++ PRODUCT UI
+→ BESPOKE PRODUCT COMPOSITION
+
+3. IMAGE GENERATOR WAS GIVEN TOO MUCH RESPONSIBILITY
+The renderer was allowed to generate:
+- exact text
+- navigation
+- logo
+- buttons
+- iconography
+- product chrome
+- financial values
+- bottom nav
+
+This caused:
+- blank bottom navigation controls
+- inconsistent nav
+- mutated/incorrect logo behavior
+- fake or unrelated copy
+- inconsistent controls
+- page-level product drift
+
+4. THE THIRD CANDIDATE WAS INVALID
+It introduced:
+- “A QUIETER YOU”
+- “BEGIN YOUR JOURNEY”
+- journal-cover composition
+- broken bottom navigation
+- wrong product framing
+
+This is not a simple aesthetic miss.
+It indicates renderer contamination or uncontrolled generation scope.
+
+==================================================
+FOUNDER DECISION
+==================================================
+
+DO NOT RUN ANOTHER AESTHETIC CONCEPT ROUND.
+
+DO NOT REWRITE THE THREE TERRITORIES.
+
+THE STRUCTURAL TERRITORIES REMAIN VALID INPUTS.
+
+THE PIPELINE MUST NOW ADD TWO NEW REQUIRED LAYERS:
+
+1. PAGE COMPOSITION BLUEPRINT
+2. RENDER-LAYER OWNERSHIP
+
+New canonical chain:
+
+STRUCTURAL TERRITORY
+→ CREATIVE DIRECTION
+→ BRAND EXPRESSION
+→ PAGE COMPOSITION BLUEPRINT
+→ RENDER-LAYER OWNERSHIP
+→ IMAGE-GENERATED ART LAYERS
+→ DETERMINISTIC UI / BRAND ASSEMBLY
+→ COMPOSITE AUTHORITY
+→ FOUNDER REVIEW
+
+==================================================
+SUPERSEDES
+==================================================
+
+This sprint supersedes the assumption that:
+
+A COMPLETE SUNBURST PROMPT
+=
+A COMPLETE PRODUCT AUTHORITY
+
+It also supersedes:
+
+IMAGE GENERATOR
+=
+SOLE RENDERER OF THE FINISHED PRODUCT SCREEN
+
+New rule:
+
+IMAGE GENERATOR CONTRIBUTES ART-DIRECTED VISUAL LAYERS.
+
+DETERMINISTIC PRODUCT ASSEMBLY RENDERS PRECISION UI.
+
+==================================================
+DO NOT REGRESS
+==================================================
+
+DO NOT:
+
+- create new territory concepts
+- discard THE OPEN FLOOR
+- discard THE PLAIN ANSWER
+- discard THE OPEN ENVELOPE
+- copy the founder comparison concept directly
+- generate final screens in this sprint
+- implement production JURNL
+- use legacy F09 visual structure as authority
+- flatten JURNL into static poster design
+- treat Mediterranean environment as decorative wallpaper
+- let a metaphor consume the whole product page
+- allow AI to invent navigation
+- allow AI to invent exact logo geometry
+- allow AI to invent financial values
+- allow AI to invent product labels
+- allow AI to invent buttons
+- allow AI to invent exact app chrome
+- allow AI to invent page states
+- allow AI to generate final authority alone
+- let local HTML/CSS approximation become the artistic authority
+- use generic card layouts
+- use generic fintech
+- use generic luxury app patterns
+- use generic moodboard composition
+- use OpenArt in this sprint
+- perform paid generations in this sprint
+
+==================================================
+KNOWN FAILURE THAT CAUSED THIS
+==================================================
+
+The previous methodology defined:
+
+WHAT THE TERRITORY MEANS
+
+and:
+
+WHAT THE BRAND SHOULD FEEL LIKE
+
+but did not define with enough precision:
+
+HOW THE PAGE IS ACTUALLY COMPOSED
+
+nor:
+
+WHICH RENDERER OWNS WHICH VISUAL LAYER.
+
+As a result, the image model had to infer:
+
+- page architecture
+- product hierarchy
+- UI geometry
+- brand placement
+- navigation
+- typography
+- environmental composition
+- signature object
+- supporting modules
+
+That inference surface was too large.
+
+The model then over-expanded the metaphor and under-delivered the product.
+
+==================================================
+MOTHERBOARD INTENT
+==================================================
+
+Create a durable methodology where:
+
+PRODUCT INTELLIGENCE
+defines function
+
+CREATIVE DIRECTION
+defines expressive idea
+
+PAGE COMPOSITION BLUEPRINT
+defines spatial orchestration
+
+RENDER OWNERSHIP
+defines which system renders which layer
+
+IMAGE GENERATION
+renders art-directed visual assets
+
+DETERMINISTIC ASSEMBLY
+renders exact product truth
+
+COMPOSITE AUTHORITY
+combines both
+
+This methodology must be reusable across:
+
+JURNL
+AIO
+SITE 00
+FRONTAL SLAYER
+ASTRAL WORLD
+NDXBOOK
+
+while remaining project-specific.
+
+==================================================
+1. NEW REQUIRED GATES
+==================================================
+
+Add:
+
+PAGE_COMPOSITION_BLUEPRINT_REQUIRED
+RENDER_LAYER_OWNERSHIP_REQUIRED
+COMPOSITE_AUTHORITY_REQUIRED
+
+A reference candidate cannot become:
+
+AUTHORITY_READY
+
+without all three.
+
+==================================================
+2. PAGE COMPOSITION BLUEPRINT
+==================================================
+
+For every territory, create a formal composition blueprint.
+
+The blueprint must not be prose-only.
+
+It must define:
+
+FRAME
+SAFE AREAS
+TOP BRAND ZONE
+PRIMARY SIGNAL ZONE
+SIGNATURE OBJECT ZONE
+SECONDARY PRODUCT ZONE
+CTA ZONE
+SYSTEM CHROME ZONE
+NAV ZONE
+ENVIRONMENT ZONES
+PERIMETER ZONES
+NEGATIVE SPACE ZONES
+OVERLAP RELATIONSHIPS
+DEPTH ORDER
+VISUAL FOCAL ORDER
+SCROLL / NO-SCROLL BEHAVIOR
+RESPONSIVE COMPOSITION LOGIC
+
+Use normalized geometry or explicit mobile viewport measurements.
+
+Canonical mobile logic:
+393 × 852
+
+==================================================
+3. COMPOSITION LAYERS
+==================================================
+
+Use a canonical layer model.
+
+At minimum:
+
+L0 ENVIRONMENT
+L1 BRAND FRAME
+L2 PRIMARY PRODUCT SIGNAL
+L3 SIGNATURE PHYSICAL / GRAPHIC OBJECT
+L4 SECONDARY PRODUCT MODULE
+L5 ACTION / CTA
+L6 SYSTEM CHROME
+L7 NAVIGATION
+L8 OVERLAYS / SHEETS / TRANSIENT STATES
+
+Not every page needs every layer.
+
+But every authority must explicitly declare which layers exist.
+
+==================================================
+4. RENDER-LAYER OWNERSHIP
+==================================================
+
+For each layer, declare one owner:
+
+IMAGE_GENERATOR
+DETERMINISTIC_UI
+DETERMINISTIC_VECTOR
+COMPOSITE
+NO_RENDER
+
+No ambiguity.
+
+Example:
+
+L0 ENVIRONMENT:
+IMAGE_GENERATOR
+
+L1 BRAND FRAME:
+DETERMINISTIC_UI / VECTOR
+
+L2 PRIMARY PRODUCT SIGNAL:
+DETERMINISTIC_UI
+
+L3 SIGNATURE PHYSICAL OBJECT:
+IMAGE_GENERATOR + COMPOSITE
+
+L4 SECONDARY PRODUCT MODULE:
+DETERMINISTIC_UI
+
+L5 CTA:
+DETERMINISTIC_UI
+
+L6 SYSTEM CHROME:
+DETERMINISTIC_UI
+
+L7 NAVIGATION:
+DETERMINISTIC_UI
+
+==================================================
+5. NEW CANONICAL RULE
+==================================================
+
+ADD THIS AS A HARD METHODOLOGY RULE:
+
+AN IMAGE GENERATOR MAY CONTRIBUTE TO A PRODUCT AUTHORITY,
+BUT IT MAY NOT BE THE SOLE RENDERER OF PRECISION PRODUCT UI.
+
+Precision UI includes:
+
+- exact copy
+- exact numbers
+- logo geometry
+- icons
+- navigation
+- buttons
+- tab labels
+- state labels
+- status values
+- progress
+- financial values
+- spacing/grid
+- interaction chrome
+
+==================================================
+6. ART VS PRODUCT TRUTH
+==================================================
+
+Define:
+
+ART-DIRECTED VISUAL TRUTH
+
+Examples:
+- architecture
+- lighting
+- materiality
+- paper objects
+- folders
+- envelopes
+- stone structures
+- branded physical metaphors
+- scene depth
+- shadow
+- environmental foliage
+- tactile objects
+
+PRODUCT TRUTH
+
+Examples:
+- SAFE TO SPEND
+- $1,284
+- AVAILABLE THROUGH OCT 18
+- WHY THIS AMOUNT
+- CHECK A PURCHASE
+- HOME / MONEY / + / PLAN / CREDIT
+- exact active state
+- exact button geometry
+- exact logo
+- exact icons
+
+Product truth must be deterministic.
+
+==================================================
+7. COMPOSITE AUTHORITY MODEL
+==================================================
+
+A final authority should be assembled as:
+
+GENERATED ART PLATE
++
+GENERATED SIGNATURE OBJECT ASSET(S)
++
+DETERMINISTIC TYPOGRAPHY
++
+DETERMINISTIC LOGO
++
+DETERMINISTIC PRODUCT SIGNAL
++
+DETERMINISTIC CONTROLS
++
+DETERMINISTIC NAV
++
+DETERMINISTIC ICONS
+=
+COMPOSITE AUTHORITY
+
+==================================================
+8. JURNL COMPOSITION GRAMMAR
+==================================================
+
+Formalize the missing JURNL composition grammar.
+
+JURNL should not be reduced to:
+colors + plaster + serif + botanical.
+
+It must express:
+
+ARCHITECTURAL FRAME
++
+TACTILE FINANCIAL OBJECT
++
+EDITORIAL INFORMATION HIERARCHY
++
+QUIET CENTRAL PRODUCT CLARITY
++
+PERIPHERAL ENVIRONMENTAL RICHNESS
++
+CONTROLLED MATERIAL LAYERING
++
+BESPOKE GRAPHIC DESIGN
++
+FUNCTIONAL NEGATIVE SPACE
++
+SUBTLE VISUAL WIT
+
+The environment and object must support product understanding.
+
+==================================================
+9. APPROVED COMPARISON CONCEPT — QUALITY LESSONS
+==================================================
+
+Do not copy the founder comparison concept.
+
+Extract its compositional lessons:
+
+- environmental richness exists around the product
+- product answer remains immediately readable
+- physical organizer object supports the logic
+- architecture does not replace the interface
+- product and environment coexist
+- branding is integrated, not stamped on
+- hierarchy is layered
+- page contains more than one designed visual system
+- CTA bridge has product meaning
+- bottom navigation remains exact
+- the whole composition feels authored
+
+Convert these into methodology rules.
+
+==================================================
+10. METAPHOR CONTAINMENT RULE
+==================================================
+
+Add:
+
+THE METAPHOR MAY DEFINE A SIGNATURE OBJECT OR ZONE.
+
+IT SHOULD NOT AUTOMATICALLY DEFINE THE ENTIRE PAGE.
+
+For each territory, declare:
+
+METAPHOR_SCOPE:
+OBJECT
+ZONE
+ENVIRONMENT
+BACKGROUND
+INTERACTION
+WHOLE_PAGE
+
+WHOLE_PAGE requires explicit founder/authority justification.
+
+Default:
+OBJECT or ZONE.
+
+==================================================
+11. TERRITORY 01 — THE OPEN FLOOR
+==================================================
+
+PRESERVE:
+
+STRUCTURAL:
+THE OPEN FLOOR
+
+CREATIVE DIRECTION:
+THE SURVEYED COURTYARD
+
+CURRENT FAILURE:
+The courtyard consumed the entire page and became a diagram.
+
+CORRECTION:
+
+The courtyard/floor logic should become a controlled signature spatial object or major compositional zone.
+
+It should not replace the entire product UI.
+
+Define a composition blueprint where:
+
+- SAFE TO SPEND remains primary product signal
+- courtyard/open-floor device visualizes the relationship between available and held money
+- brand identity has its own intentional zone
+- environment provides depth/richness
+- product actions remain deterministic
+- nav remains deterministic
+
+Explicitly define:
+METAPHOR_SCOPE
+
+==================================================
+12. TERRITORY 02 — THE PLAIN ANSWER
+==================================================
+
+PRESERVE:
+
+STRUCTURAL:
+THE PLAIN ANSWER
+
+CREATIVE DIRECTION:
+THE ANSWER IN RAKING LIGHT
+
+CURRENT FAILURE:
+The page became a wall typography poster.
+
+CORRECTION:
+
+The typographic/material device should remain a signature graphic element.
+
+It must not replace the full product composition.
+
+Define:
+
+- primary answer zone
+- supporting environment
+- secondary held-money device
+- brand frame
+- CTA region
+- deterministic product interactions
+- system chrome
+
+Maintain strongest directness of all territories.
+
+==================================================
+13. TERRITORY 03 — THE OPEN ENVELOPE
+==================================================
+
+PRESERVE:
+
+STRUCTURAL:
+THE OPEN ENVELOPE
+
+CREATIVE DIRECTION:
+THE SORTING RACK
+
+CURRENT FAILURE:
+Renderer drifted into unrelated journal/onboarding composition.
+
+Candidate should be classified:
+
+INVALID_RENDER
+
+not:
+WEAK_VISUAL
+
+Correction:
+
+The sorting rack / sealed-vs-released concept must live as a financial organizing object inside the F09 product composition.
+
+No:
+journal cover
+self-care messaging
+journey language
+generic onboarding copy
+
+Define:
+
+- signature sorting object
+- one released/open spendable item
+- contained held-money items
+- deterministic SAFE TO SPEND signal
+- deterministic CTA
+- deterministic nav
+- JURNL environment
+
+==================================================
+14. CONTAMINATION GUARD
+==================================================
+
+Add prompt/reference contamination checks.
+
+Before generation verify:
+
+TERRITORY_ID
+FAMILY_ID
+PRODUCT_JOB
+REQUIRED_COPY
+FORBIDDEN_COPY
+ALLOWED_REFERENCE_ASSETS
+FORBIDDEN_REFERENCE_ASSETS
+ASSET_HASHES
+PROMPT_HASH
+COMPOSITION_BLUEPRINT_HASH
+
+If generation includes unrelated product copy or concept:
+
+INVALIDATE.
+
+==================================================
+15. FORBIDDEN COPY
+==================================================
+
+For F09 generation, explicitly forbid unrelated phrases such as:
+
+A QUIETER YOU
+BEGIN YOUR JOURNEY
+REFLECT
+ALIGN
+GROW
+
+unless they are part of an explicitly approved F09 authority.
+
+Do not allow concept bleed from other JURNL surfaces.
+
+==================================================
+16. EXACT UI OWNERSHIP
+==================================================
+
+The image generator must NOT render final:
+
+TOP BAR
+BACK BUTTON
+SETTINGS
+INFO
+JURNL WORDMARK
+TAGLINE
+SAFE TO SPEND LABEL
+AMOUNT
+AVAILABLE DATE
+WHY THIS AMOUNT
+CHECK A PURCHASE
+BOTTOM NAV
+ACTIVE NAV STATE
+ICONOGRAPHY
+
+These should be overlaid deterministically.
+
+The generator may create negative space/placeholders for them.
+
+==================================================
+17. IMAGE-GENERATOR OUTPUT CONTRACT
+==================================================
+
+For each territory, the generator should output one or more of:
+
+ENVIRONMENT_PLATE
+SIGNATURE_OBJECT_PLATE
+MATERIAL_OBJECT_ASSET
+BACKGROUND_DEPTH_LAYER
+
+These outputs should contain:
+
+NO FINAL NAV
+NO FINAL BUTTON COPY
+NO EXACT FINANCIAL TEXT
+NO FINAL LOGO
+NO SYSTEM ICONS
+
+unless specifically used as non-canonical texture only.
+
+==================================================
+18. DETERMINISTIC ASSEMBLY CONTRACT
+==================================================
+
+Define how Composer should later assemble the authority.
+
+Required deterministic assets:
+
+OFFICIAL JURNL LOGO
+APPROVED TYPE SYSTEM
+APPROVED NAV
+APPROVED ICONS
+EXACT COPY
+EXACT DATA
+BUTTON COMPONENTS
+TAB COMPONENTS
+SYSTEM CHROME
+
+Use real product components where appropriate for authority composition.
+
+==================================================
+19. MOBILE FIRST
+==================================================
+
+Create blueprints for:
+
+393 × 852
+
+Do not generate tablet/desktop yet.
+
+The blueprint should specify:
+
+top inset
+brand zone
+primary signal zone
+signature object zone
+secondary action zone
+bottom nav zone
+
+Prevent overlap with system/nav areas.
+
+==================================================
+20. COMPOSITION DENSITY
+==================================================
+
+Add a density rule.
+
+JURNL should avoid:
+
+TOO EMPTY
+or
+TOO BUSY
+
+Authority should balance:
+
+PRIMARY SIGNAL
+SIGNATURE OBJECT
+ENVIRONMENT
+PRODUCT ACTION
+
+The generated art must not force all product content into the top or bottom third.
+
+==================================================
+21. VISUAL RICHNESS CHECK
+==================================================
+
+Add a required richness audit.
+
+Evaluate:
+
+ENVIRONMENT DEPTH
+MATERIAL VARIETY
+OBJECT DETAIL
+GRAPHIC DESIGN DETAIL
+LIGHT / SHADOW
+BRAND INTEGRATION
+PRODUCT LAYERING
+CUSTOM ELEMENTS
+COMPOSITIONAL TENSION
+VISUAL WIT
+
+A sparse layout with correct colors is not sufficient.
+
+==================================================
+22. PRODUCT CLARITY CHECK
+==================================================
+
+Even with visual richness:
+
+SAFE TO SPEND must be understood in under 2 seconds.
+
+The screen should not require interpreting the metaphor to understand the amount.
+
+==================================================
+23. HYBRID RENDERING PIPELINE
+==================================================
+
+Formalize:
+
+STEP 1
+LOCK COMPOSITION BLUEPRINT
+
+STEP 2
+LOCK RENDER OWNERSHIP
+
+STEP 3
+GENERATE ENVIRONMENT / SIGNATURE OBJECT LAYERS
+
+STEP 4
+QA ART LAYERS
+
+STEP 5
+ASSEMBLE DETERMINISTIC UI
+
+STEP 6
+QA EXACT PRODUCT TRUTH
+
+STEP 7
+CREATE COMPOSITE AUTHORITY
+
+STEP 8
+FOUNDER REVIEW
+
+==================================================
+24. AUTHORITY REVIEW BOARD
+==================================================
+
+Future board should show:
+
+FINAL COMPOSITE AUTHORITY
+
+not raw image-generation plate.
+
+Raw generator outputs may be included as provenance only.
+
+==================================================
+25. GENERATOR QA
+==================================================
+
+Generated art layer QA:
+
+NO RANDOM COPY
+NO RANDOM LOGO
+NO NAV
+NO UI BUTTONS
+NO WRONG APP
+NO WRONG FAMILY
+NO TYPOGRAPHY DEPENDENCY
+NO BROKEN DEVICE CHROME
+NO UNRELATED CONTENT
+
+==================================================
+26. COMPOSITE QA
+==================================================
+
+Composite QA:
+
+EXACT LOGO
+EXACT COPY
+EXACT NAV
+EXACT ICONS
+EXACT CTA
+EXACT FINANCIAL VALUE
+NO OVERFLOW
+NO COLLISIONS
+NO GLITCHING
+NO MISSING NAV ITEMS
+NO BAKED UI UNDER LIVE UI
+NO DOUBLE LOGO
+NO DOUBLE TEXT
+
+==================================================
+27. BAKED-UI GUARD
+==================================================
+
+Critical:
+
+If generated art contains baked UI in a region where deterministic UI will be overlaid, reject the plate.
+
+Avoid:
+UI-on-UI
+duplicate buttons
+duplicate logo
+duplicate nav
+ghost labels
+
+==================================================
+28. METHODOLOGY PORTABILITY
+==================================================
+
+Define project-specific render ownership profiles.
+
+JURNL:
+environment/object generation heavy
+precision UI deterministic
+
+AIO:
+possibly more deterministic UI, selective imagery
+
+FRONTAL SLAYER:
+high generated environment/product imagery + deterministic commerce UI
+
+ASTRAL WORLD:
+world generation heavy + deterministic interaction overlay
+
+NDXBOOK:
+editorial asset generation + deterministic workspace/product UI
+
+Do not force one ratio across brands.
+
+==================================================
+29. DELIVERABLES
+==================================================
+
+Create:
+
+PAGE_COMPOSITION_BLUEPRINT_GATE.md/json
+RENDER_LAYER_OWNERSHIP_GATE.md/json
+HYBRID_AUTHORITY_RENDERING_METHOD.md/json
+BAKED_UI_GUARD.md/json
+COMPOSITE_AUTHORITY_QA.md/json
+JURNL_COMPOSITION_GRAMMAR.md/json
+
+F09:
+
+F09_T01_COMPOSITION_BLUEPRINT.json
+F09_T01_RENDER_OWNERSHIP.json
+
+F09_T02_COMPOSITION_BLUEPRINT.json
+F09_T02_RENDER_OWNERSHIP.json
+
+F09_T03_COMPOSITION_BLUEPRINT.json
+F09_T03_RENDER_OWNERSHIP.json
+
+F09_RENDER_CONTAMINATION_GUARD.json
+F09_RAW_GENERATION_CONTRACT.json
+F09_COMPOSITE_ASSEMBLY_CONTRACT.json
+F09_INVALID_RENDER_LEDGER.json
+
+==================================================
+30. NO NEW GENERATION
+==================================================
+
+PRIMARY GENERATIONS:
+0
+
+PAID GENERATIONS:
+0
+
+This sprint repairs the pipeline before another render attempt.
+
+==================================================
+31. SUCCESS CRITERIA
+==================================================
+
+PASS ONLY IF:
+
+[ ] composition blueprint gate added
+[ ] render ownership gate added
+[ ] hybrid rendering methodology added
+[ ] image generator no longer owns exact UI
+[ ] deterministic UI owns precision product truth
+[ ] metaphor containment rule added
+[ ] baked-UI guard added
+[ ] contamination guard added
+[ ] unrelated copy invalidation added
+[ ] T01 blueprint complete
+[ ] T02 blueprint complete
+[ ] T03 blueprint complete
+[ ] T03 previous render classified INVALID_RENDER
+[ ] JURNL composition grammar formalized
+[ ] founder comparison concept lessons translated into rules without copying
+[ ] raw art plate contract defined
+[ ] deterministic assembly contract defined
+[ ] composite authority QA defined
+[ ] mobile 393×852 geometry defined
+[ ] no generation
+[ ] no implementation
+
+==================================================
+32. FINAL REPORT
+==================================================
+
+Return:
+
+SPRINT
+STATUS
+BRANCH
+SHA_BEFORE
+SHA_AFTER
+PR
+MERGE_STATUS
+
+METHODOLOGY:
+PAGE_COMPOSITION_BLUEPRINT_GATE
+RENDER_LAYER_OWNERSHIP_GATE
+HYBRID_RENDERING_METHOD
+BAKED_UI_GUARD
+COMPOSITE_AUTHORITY_GATE
+
+JURNL COMPOSITION GRAMMAR:
+STATUS
+CORE RULES
+
+TERRITORY 01:
+METAPHOR_SCOPE
+COMPOSITION_BLUEPRINT
+IMAGE_GENERATOR_OWNERSHIP
+DETERMINISTIC_UI_OWNERSHIP
+COMPOSITE_PLAN
+
+TERRITORY 02:
+METAPHOR_SCOPE
+COMPOSITION_BLUEPRINT
+IMAGE_GENERATOR_OWNERSHIP
+DETERMINISTIC_UI_OWNERSHIP
+COMPOSITE_PLAN
+
+TERRITORY 03:
+METAPHOR_SCOPE
+COMPOSITION_BLUEPRINT
+IMAGE_GENERATOR_OWNERSHIP
+DETERMINISTIC_UI_OWNERSHIP
+COMPOSITE_PLAN
+PREVIOUS_RENDER_STATUS
+
+CONTAMINATION:
+GUARD_STATUS
+FORBIDDEN_COPY
+REFERENCE_LOCKING
+
+GENERATION:
+NEW_GENERATIONS 0
+COST 0
+
+PAGE_IMPLEMENTATION:
+NO
+
+FINAL VERDICT:
+PIPELINE_CORRECTED YES / NO
+READY_FOR_HYBRID_RENDER_EXECUTION YES / NO
+READY_FOR_FOUNDER_COMPARISON NO

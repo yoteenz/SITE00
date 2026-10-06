@@ -1,0 +1,294 @@
+{
+  "id": "F09_PROMPT_LINEAGE",
+  "sprint": "P0.JURNL.F09.PROMPT-FORENSICS-AND-CREATIVE-LOGIC-AUDIT1",
+  "generated_by": "scripts/studioos/jurnl-f09-prompt-forensics-export.ts",
+  "analysis_only": true,
+  "sources": {
+    "briefs": [
+      {
+        "lineage": "L01",
+        "file": "JURNL/F09_SAFE/PROMPT_FORENSICS_AND_CREATIVE_LOGIC_AUDIT1/SOURCES/01_VISUAL-AUTHORITY-3-TERRITORY-PROOF1.founder-brief.txt",
+        "words": 2796
+      },
+      {
+        "lineage": "L02",
+        "file": "JURNL/F09_SAFE/PROMPT_FORENSICS_AND_CREATIVE_LOGIC_AUDIT1/SOURCES/02_CREATIVE-DIRECTION-BRAND-EXPRESSION-CORRECTION1.founder-brief.txt",
+        "words": 2948
+      },
+      {
+        "lineage": "L03",
+        "file": "JURNL/F09_SAFE/PROMPT_FORENSICS_AND_CREATIVE_LOGIC_AUDIT1/SOURCES/03_COMPOSITION-BLUEPRINT-RENDER-OWNERSHIP-CORRECTION1.founder-brief.txt",
+        "words": 2533
+      },
+      {
+        "lineage": "L06",
+        "file": "JURNL/F09_SAFE/PROMPT_FORENSICS_AND_CREATIVE_LOGIC_AUDIT1/SOURCES/06_THREE-CONCEPT-ART-DIRECTION-REGEN-CORRECTION1.founder-brief.txt",
+        "words": 1544
+      }
+    ],
+    "generator_prompts": [
+      {
+        "lineage": "L02b",
+        "format": "SECTIONS",
+        "file": "JURNL/F09_SAFE/CREATIVE_DIRECTION_CORRECTION1/SUNBURST_PROMPTS/T01_OPEN_FLOOR.txt",
+        "words": 2074
+      },
+      {
+        "lineage": "L02b",
+        "format": "SECTIONS",
+        "file": "JURNL/F09_SAFE/CREATIVE_DIRECTION_CORRECTION1/SUNBURST_PROMPTS/T02_PLAIN_ANSWER.txt",
+        "words": 2019
+      },
+      {
+        "lineage": "L02b",
+        "format": "SECTIONS",
+        "file": "JURNL/F09_SAFE/CREATIVE_DIRECTION_CORRECTION1/SUNBURST_PROMPTS/T03_OPEN_ENVELOPE.txt",
+        "words": 2028
+      },
+      {
+        "lineage": "L02d",
+        "format": "SECTIONS",
+        "file": "JURNL/F09_SAFE/CREATIVE_DIRECTION_CORRECTION1/CHATGPT_PROMPTS/T01_OPEN_FLOOR_CHATGPT.txt",
+        "words": 2194
+      },
+      {
+        "lineage": "L02d",
+        "format": "SECTIONS",
+        "file": "JURNL/F09_SAFE/CREATIVE_DIRECTION_CORRECTION1/CHATGPT_PROMPTS/T02_PLAIN_ANSWER_CHATGPT.txt",
+        "words": 2137
+      },
+      {
+        "lineage": "L02d",
+        "format": "SECTIONS",
+        "file": "JURNL/F09_SAFE/CREATIVE_DIRECTION_CORRECTION1/CHATGPT_PROMPTS/T03_OPEN_ENVELOPE_CHATGPT.txt",
+        "words": 2146
+      },
+      {
+        "lineage": "L03a",
+        "format": "SECTIONS",
+        "file": "JURNL/F09_SAFE/COMPOSITION_BLUEPRINT_CORRECTION1/PLATE_PROMPTS/T01_SCENE_PLATE.txt",
+        "words": 437
+      },
+      {
+        "lineage": "L03a",
+        "format": "SECTIONS",
+        "file": "JURNL/F09_SAFE/COMPOSITION_BLUEPRINT_CORRECTION1/PLATE_PROMPTS/T02_SCENE_PLATE.txt",
+        "words": 448
+      },
+      {
+        "lineage": "L03a",
+        "format": "SECTIONS",
+        "file": "JURNL/F09_SAFE/COMPOSITION_BLUEPRINT_CORRECTION1/PLATE_PROMPTS/T03_SCENE_PLATE.txt",
+        "words": 480
+      },
+      {
+        "lineage": "L06a",
+        "format": "LABELS",
+        "file": "JURNL/F09_SAFE/THREE_CONCEPT_ART_DIRECTION_REGEN_CORRECTION1/SCENE_PROMPTS/T01_SURVEYED_COURTYARD.txt",
+        "words": 409
+      },
+      {
+        "lineage": "L06a",
+        "format": "LABELS",
+        "file": "JURNL/F09_SAFE/THREE_CONCEPT_ART_DIRECTION_REGEN_CORRECTION1/SCENE_PROMPTS/T02_ANSWER_IN_RAKING_LIGHT.txt",
+        "words": 382
+      },
+      {
+        "lineage": "L06a",
+        "format": "LABELS",
+        "file": "JURNL/F09_SAFE/THREE_CONCEPT_ART_DIRECTION_REGEN_CORRECTION1/SCENE_PROMPTS/T03_SORTING_RACK.txt",
+        "words": 381
+      }
+    ],
+    "audit_brief": "JURNL/F09_SAFE/PROMPT_FORENSICS_AND_CREATIVE_LOGIC_AUDIT1/SOURCES/07_PROMPT-FORENSICS-AND-CREATIVE-LOGIC-AUDIT1.founder-brief.txt"
+  },
+  "lineage": [
+    {
+      "id": "L01",
+      "sprint": "VISUAL-AUTHORITY-3-TERRITORY-PROOF1",
+      "kind": "FOUNDER_BRIEF",
+      "author": "FOUNDER",
+      "source": "JURNL/F09_SAFE/PROMPT_FORENSICS_AND_CREATIVE_LOGIC_AUDIT1/SOURCES/01_VISUAL-AUTHORITY-3-TERRITORY-PROOF1.founder-brief.txt",
+      "reconstructed": false,
+      "intended_job": "Test whether upstream contracts alone produce three distinct, brand-true territories without legacy leakage.",
+      "reached_model": "Opus only (no image model: OpenArt banned, local renders used).",
+      "output": "Three structural territories + local HTML/CSS 393×852 candidates (founder: good concepts, clean UI studies, not JURNL)."
+    },
+    {
+      "id": "L02",
+      "sprint": "CREATIVE-DIRECTION-BRAND-EXPRESSION-CORRECTION1",
+      "kind": "FOUNDER_BRIEF",
+      "author": "FOUNDER",
+      "source": "JURNL/F09_SAFE/PROMPT_FORENSICS_AND_CREATIVE_LOGIC_AUDIT1/SOURCES/02_CREATIVE-DIRECTION-BRAND-EXPRESSION-CORRECTION1.founder-brief.txt",
+      "reconstructed": false,
+      "intended_job": "Insert creative direction + brand expression gates; regenerate three 4K Sunburst candidates.",
+      "reached_model": "Opus (methodology + prompts); renderer blocked in-session.",
+      "output": "Gates, 22-field translations, Sunburst prompts, value studies."
+    },
+    {
+      "id": "L02a",
+      "sprint": "CREATIVE-DIRECTION-BRAND-EXPRESSION-CORRECTION1",
+      "kind": "METHOD_RULESET",
+      "author": "OPUS",
+      "source": "shared/studioos-visual-authority/projects/jurnl/creative-direction-profile.ts",
+      "reconstructed": false,
+      "intended_job": "JURNL creative-direction profile (identity load).",
+      "reached_model": "Embedded into every Sunburst / ChatGPT prompt (anti-generic, anti-AI, renderer).",
+      "output": "Rules incl. “no sea-view balconies”, “a single justified plant”."
+    },
+    {
+      "id": "L02b",
+      "sprint": "CREATIVE-DIRECTION-BRAND-EXPRESSION-CORRECTION1",
+      "kind": "GENERATOR_PROMPT",
+      "author": "OPUS",
+      "source": "JURNL/F09_SAFE/CREATIVE_DIRECTION_CORRECTION1/SUNBURST_PROMPTS/*.txt",
+      "reconstructed": false,
+      "intended_job": "Full-screen Sunburst prompt per territory (renderer executes the locked translation).",
+      "reached_model": "OpenArt gpt-image-2.5-sunburst image2image (Composer, SUNBURST-3-TERRITORY-RENDER1), ≈ 2,000 words each.",
+      "output": "Three 4K whole-screen renders: JURL wordmark, dropped TRIPS., invented 3-leaf mark, metaphor-as-page, iPhone status bar."
+    },
+    {
+      "id": "L02c",
+      "sprint": "CREATIVE-DIRECTION-BRAND-EXPRESSION-CORRECTION1",
+      "kind": "GENERATOR_INPUT_IMAGE",
+      "author": "OPUS",
+      "source": "JURNL/F09_SAFE/CREATIVE_DIRECTION_CORRECTION1/COMPOSITION_LOCKS/*_VALUE_STUDY_9x16.png",
+      "reconstructed": false,
+      "intended_job": "Tonal composition reference for reference-guided rendering.",
+      "reached_model": "Attached as the image2image reference (with the logo) in the OpenArt render and the founder ChatGPT run.",
+      "output": "Composition followed; world as thin as the study."
+    },
+    {
+      "id": "L02d",
+      "sprint": "CREATIVE-DIRECTION-BRAND-EXPRESSION-CORRECTION1",
+      "kind": "GENERATOR_PROMPT",
+      "author": "OPUS",
+      "source": "JURNL/F09_SAFE/CREATIVE_DIRECTION_CORRECTION1/CHATGPT_PROMPTS/*.txt",
+      "reconstructed": false,
+      "intended_job": "Same prompts phrased for a founder-run ChatGPT pass.",
+      "reached_model": "ChatGPT image generation (founder), value study + logo attached, inside a chat that had other JURNL context.",
+      "output": "RUN A: T03 contaminated (A QUIETER YOU, BEGIN YOUR JOURNEY, journal cover), blank / broken nav."
+    },
+    {
+      "id": "L03",
+      "sprint": "COMPOSITION-BLUEPRINT-RENDER-OWNERSHIP-CORRECTION1",
+      "kind": "FOUNDER_BRIEF",
+      "author": "FOUNDER",
+      "source": "JURNL/F09_SAFE/PROMPT_FORENSICS_AND_CREATIVE_LOGIC_AUDIT1/SOURCES/03_COMPOSITION-BLUEPRINT-RENDER-OWNERSHIP-CORRECTION1.founder-brief.txt",
+      "reconstructed": false,
+      "intended_job": "Add page blueprint + render ownership; generator renders art layers only.",
+      "reached_model": "Opus (methodology).",
+      "output": "Blueprints at 393×852 (incl. a 9:41 status bar + home indicator), ownership L0–L8, plate prompts, plate guides, contamination guard."
+    },
+    {
+      "id": "L03a",
+      "sprint": "COMPOSITION-BLUEPRINT-RENDER-OWNERSHIP-CORRECTION1",
+      "kind": "GENERATOR_PROMPT",
+      "author": "OPUS",
+      "source": "JURNL/F09_SAFE/COMPOSITION_BLUEPRINT_CORRECTION1/PLATE_PROMPTS/*.txt (later edited by Composer)",
+      "reconstructed": false,
+      "intended_job": "Text-free scene plate prompt with BLANK SURFACES and QUIET REGIONS.",
+      "reached_model": "OpenArt image2image (Composer scripts/jurnl/f09-scene-plate-generate-one.py) with the PREFIX “The attached image is the ONLY geometry authority (tonal blocking — not style)”.",
+      "output": "Plates that photographically reproduce the guides: empty courtyard frame, blank brass tag and plate, blank paper slip and plaques."
+    },
+    {
+      "id": "L03b",
+      "sprint": "COMPOSITION-BLUEPRINT-RENDER-OWNERSHIP-CORRECTION1",
+      "kind": "GENERATOR_INPUT_IMAGE",
+      "author": "OPUS",
+      "source": "JURNL/F09_SAFE/COMPOSITION_BLUEPRINT_CORRECTION1/PLATE_GUIDES/*.png",
+      "reconstructed": false,
+      "intended_job": "Geometry-only guide; declared “the only reference”.",
+      "reached_model": "The only image the plate generator ever saw.",
+      "output": "Became the de-facto style authority (flat tonal blocks → flat sparse plates)."
+    },
+    {
+      "id": "L03c",
+      "sprint": "COMPOSITION-BLUEPRINT-RENDER-OWNERSHIP-CORRECTION1",
+      "kind": "METHOD_RULESET",
+      "author": "OPUS",
+      "source": "JURNL/F09_SAFE/COMPOSITION_BLUEPRINT_CORRECTION1/F09_RENDER_CONTAMINATION_GUARD.json",
+      "reconstructed": false,
+      "intended_job": "Stop copy contamination.",
+      "reached_model": "Governed which references could be attached.",
+      "output": "Forbade “JURNL F01 entry / journal / onboarding references” — i.e. the approved world reference."
+    },
+    {
+      "id": "L04",
+      "sprint": "HYBRID-COMPOSITE-AUTHORITY-EXECUTION1",
+      "kind": "ASSEMBLY_CODE",
+      "author": "COMPOSER (Cursor)",
+      "source": "scripts/jurnl/f09-hybrid-composite-assemble.mjs · JURNL/F09_SAFE/HYBRID_COMPOSITE_AUTHORITY_EXECUTION1/",
+      "reconstructed": true,
+      "intended_job": "Execute the hybrid method: plates + deterministic UI at 393×852 (brief not in repo; reconstructed from commit 5e1daf53, ledger, MEMORY).",
+      "reached_model": "OpenArt plates as above; HTML/CSS overlay.",
+      "output": "Composites with iOS status bar + home indicator, sparse plates, UI cards over photos; only one concept resolved. Founder-rejected."
+    },
+    {
+      "id": "L05",
+      "sprint": "THREE-DISTINCT-COMPOSITE-AUTHORITY-RERUN1",
+      "kind": "ASSEMBLY_CODE",
+      "author": "COMPOSER (Cursor)",
+      "source": "scripts/jurnl/f09-three-distinct-composite-rerun.mjs · JURNL/F09_SAFE/THREE_DISTINCT_COMPOSITE_AUTHORITY_RERUN1/ · F09_FOUNDER_REVIEW_PAYLOAD.json",
+      "reconstructed": true,
+      "intended_job": "Three finished, distinct composites without device chrome (brief reconstructed from commit 69557290, RERUN1_REPORT, MEMORY).",
+      "reached_model": "No new generation: the execution-1 plates reused; only the overlay layout changed.",
+      "output": "Same sparse plates, new card layouts, dashed debug border, blank brass plates visible, self-QA pass:true. Founder-rejected."
+    },
+    {
+      "id": "L06",
+      "sprint": "THREE-CONCEPT-ART-DIRECTION-REGEN-CORRECTION1",
+      "kind": "FOUNDER_BRIEF",
+      "author": "FOUNDER",
+      "source": "JURNL/F09_SAFE/PROMPT_FORENSICS_AND_CREATIVE_LOGIC_AUDIT1/SOURCES/06_THREE-CONCEPT-ART-DIRECTION-REGEN-CORRECTION1.founder-brief.txt",
+      "reconstructed": false,
+      "intended_job": "Fully re-authored, benchmark-rich, chrome-free candidates.",
+      "reached_model": "Opus.",
+      "output": "Methodology (finish audit), text-free scene prompts, 3 Figma Sunburst text2image scenes (not retrievable), layout proof only."
+    },
+    {
+      "id": "L06a",
+      "sprint": "THREE-CONCEPT-ART-DIRECTION-REGEN-CORRECTION1",
+      "kind": "GENERATOR_PROMPT",
+      "author": "OPUS",
+      "source": "JURNL/F09_SAFE/THREE_CONCEPT_ART_DIRECTION_REGEN_CORRECTION1/SCENE_PROMPTS/*.txt",
+      "reconstructed": false,
+      "intended_job": "Benchmark-rich world per territory, text-free.",
+      "reached_model": "Figma generate_image gpt-image-2.5-sunburst text2image (no image input possible), 864×1536.",
+      "output": "Richer scenes (arches, sea, olive) but still three invented worlds, not the approved one; never reviewed."
+    }
+  ],
+  "pipeline": {
+    "believed": [
+      "BRAND DNA",
+      "EXPERIENCE CONTRACT",
+      "FAMILY CONTRACT",
+      "STRUCTURAL TERRITORY ×3",
+      "CREATIVE DIRECTION",
+      "BRAND EXPRESSION",
+      "PAGE COMPOSITION BLUEPRINT",
+      "RENDER-LAYER OWNERSHIP",
+      "TEXT-FREE ART PLATE",
+      "DETERMINISTIC UI",
+      "COMPOSITE AUTHORITY",
+      "FOUNDER REVIEW"
+    ],
+    "actual": [
+      "TERRITORY METAPHOR (data-encoding object)",
+      "→ prose translation (adjectives + material nouns)",
+      "→ tonal guide drawn by the agent",
+      "→ image2image from the guide (the ONLY reference)",
+      "→ plate = photographed guide",
+      "→ app-style HTML cards on top",
+      "→ self-certified QA",
+      "→ founder rejects"
+    ],
+    "approved_jurnl_pipeline": [
+      "APPROVED WORLD AUTHORITY (F01.00 WELCOME APPROVED)",
+      "→ image2image Sunburst 4K, full screen (world + UI in one pass)",
+      "→ family authority (F02 / F03 / F04 share the world; structure and type differ)"
+    ],
+    "coherent": false,
+    "why": "Every step is locally sensible, but the chain never connects the output to the one input that carries JURNL’s richness — the approved world image. The richness the founder asks for lives in that image; the pipeline only ever passes adjectives and agent-drawn diagrams to the renderer."
+  }
+}

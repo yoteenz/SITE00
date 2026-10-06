@@ -1,0 +1,478 @@
+{
+  "id": "F09_CREATIVE_LOGIC_AUDIT",
+  "sprint": "P0.JURNL.F09.PROMPT-FORENSICS-AND-CREATIVE-LOGIC-AUDIT1",
+  "generated_by": "scripts/studioos/jurnl-f09-prompt-forensics-export.ts",
+  "analysis_only": true,
+  "mediterranean": [
+    {
+      "cue": "Arched architecture",
+      "L02_sunburst": "FORBIDDEN",
+      "L03_plates": "ABSENT",
+      "L06_scenes": "OPTIONAL",
+      "benchmark": "Arcade of arches framing the sea (every approved image)."
+    },
+    {
+      "cue": "View out to sea / coast",
+      "L02_sunburst": "FORBIDDEN",
+      "L03_plates": "ABSENT",
+      "L06_scenes": "OPTIONAL",
+      "benchmark": "Amalfi-style cliffs and sea through the arches."
+    },
+    {
+      "cue": "Limewashed plaster",
+      "L02_sunburst": "MANDATORY",
+      "L03_plates": "MANDATORY",
+      "L06_scenes": "MANDATORY",
+      "benchmark": "Present, but secondary to the view and objects."
+    },
+    {
+      "cue": "Travertine / limestone with irregular texture",
+      "L02_sunburst": "OPTIONAL",
+      "L03_plates": "OPTIONAL",
+      "L06_scenes": "OPTIONAL",
+      "benchmark": "Rough-hewn travertine plinth, heavy texture."
+    },
+    {
+      "cue": "Olive / plant life",
+      "L02_sunburst": "FORBIDDEN",
+      "L03_plates": "OPTIONAL",
+      "L06_scenes": "OPTIONAL",
+      "benchmark": "Out-of-focus olive leaves framing both bottom corners + plants on the terrace."
+    },
+    {
+      "cue": "Coastal light",
+      "L02_sunburst": "MANDATORY",
+      "L03_plates": "MANDATORY",
+      "L06_scenes": "MANDATORY",
+      "benchmark": "Bright exterior light through openings, warm interior bounce."
+    },
+    {
+      "cue": "Mediterranean shadow behaviour",
+      "L02_sunburst": "OPTIONAL",
+      "L03_plates": "OPTIONAL",
+      "L06_scenes": "OPTIONAL",
+      "benchmark": "Curtain and arch shadows across surfaces."
+    },
+    {
+      "cue": "Warm mineral palette",
+      "L02_sunburst": "MANDATORY",
+      "L03_plates": "MANDATORY",
+      "L06_scenes": "MANDATORY",
+      "benchmark": "Plus burgundy and sea-blue counter-masses."
+    },
+    {
+      "cue": "Architectural depth",
+      "L02_sunburst": "FORBIDDEN",
+      "L03_plates": "FORBIDDEN",
+      "L06_scenes": "OPTIONAL",
+      "benchmark": "Deep perspective: foreground leaves → still life → arcade → sea → sky."
+    },
+    {
+      "cue": "Sun-washed surfaces",
+      "L02_sunburst": "MANDATORY",
+      "L03_plates": "MANDATORY",
+      "L06_scenes": "MANDATORY",
+      "benchmark": "Sheer curtain glowing with backlight."
+    },
+    {
+      "cue": "Material irregularity",
+      "L02_sunburst": "ABSENT",
+      "L03_plates": "ABSENT",
+      "L06_scenes": "ABSENT",
+      "benchmark": "Rough stone, crumpled velvet, carved bust."
+    },
+    {
+      "cue": "Natural wood",
+      "L02_sunburst": "OPTIONAL",
+      "L03_plates": "OPTIONAL",
+      "L06_scenes": "OPTIONAL",
+      "benchmark": "Not essential."
+    },
+    {
+      "cue": "Linen / paper tactility",
+      "L02_sunburst": "OPTIONAL",
+      "L03_plates": "OPTIONAL",
+      "L06_scenes": "OPTIONAL",
+      "benchmark": "Sheer linen curtain; books."
+    },
+    {
+      "cue": "Coastal / estate spatial cues",
+      "L02_sunburst": "FORBIDDEN",
+      "L03_plates": "ABSENT",
+      "L06_scenes": "OPTIONAL",
+      "benchmark": "Terrace loggia of a cliff villa."
+    }
+  ],
+  "richness": {
+    "audit": [
+      {
+        "element": "Foreground",
+        "status": "ABSENT in every F09 prompt",
+        "benchmark": "Blurred olive leaves at both bottom corners"
+      },
+      {
+        "element": "Midground",
+        "status": "One metaphor object only",
+        "benchmark": "Staged still life: bust, marble bowl, JURNL book, velvet cushions on a travertine plinth"
+      },
+      {
+        "element": "Background",
+        "status": "Plain wall / overhead floor",
+        "benchmark": "Arcade, sea, cliffs, sky"
+      },
+      {
+        "element": "Material layering",
+        "status": "≤ 4 smooth materials, mostly beige",
+        "benchmark": "Rough / smooth / soft / translucent + burgundy and blue masses"
+      },
+      {
+        "element": "Light / shadow",
+        "status": "Described; present",
+        "benchmark": "Backlit curtain, directional sun"
+      },
+      {
+        "element": "Spatial depth",
+        "status": "Designed out (orthographic, frontal, “shallow relief”)",
+        "benchmark": "Deep perspective"
+      },
+      {
+        "element": "Environmental framing",
+        "status": "Bleed only",
+        "benchmark": "Curtain + arch + leaves frame the type column"
+      },
+      {
+        "element": "Object relationships",
+        "status": "Single functional object",
+        "benchmark": "Culturally coded objects in relation (bust ↔ book ↔ bowl)"
+      },
+      {
+        "element": "Editorial staging",
+        "status": "ABSENT",
+        "benchmark": "Still-life staging like a magazine set"
+      },
+      {
+        "element": "Peripheral interest",
+        "status": "One olive canopy in the bleed",
+        "benchmark": "Every edge carries something"
+      }
+    ],
+    "why": "Outputs became blank plaster + single object + text + card because the prompts made the object the only content, banned or omitted the view, the foreground and the still life, reserved “quiet regions” for every product zone, and (from round 3) anchored the renderer to a flat agent-drawn guide."
+  },
+  "role_collapse": {
+    "verdict": "YES",
+    "roles_per_sprint": {
+      "L01": [
+        "source auditor",
+        "experience analyst",
+        "creative director",
+        "renderer (local HTML)",
+        "methodology scorer",
+        "QA"
+      ],
+      "L02": [
+        "methodology engineer (gates, schemas, docs)",
+        "creative director",
+        "prompt engineer",
+        "renderer operator",
+        "QA / anti-AI auditor",
+        "board designer"
+      ],
+      "L03": [
+        "methodology engineer (6 gates, 13 artifacts)",
+        "layout geometer",
+        "prompt engineer",
+        "pipeline architect",
+        "QA"
+      ],
+      "L06": [
+        "methodology engineer",
+        "creative director",
+        "prompt engineer",
+        "renderer operator",
+        "compositor",
+        "QA",
+        "board designer"
+      ]
+    },
+    "effect": "Every corrective sprint spent most of its output on methodology (gates, schemas, exports, tests) and the least on the image. Creative decisions were made last, by geometry, and then self-certified by the same agent.",
+    "decision_levels": {
+      "CREATIVE_DIRECTION": [
+        "which world (inherit the approved one)",
+        "concept thesis",
+        "what makes the concept different",
+        "in-world brand cue"
+      ],
+      "COMPOSITION": [
+        "where product sits relative to world",
+        "planes",
+        "figure scale and position",
+        "quiet field source"
+      ],
+      "RENDER": [
+        "route, model, resolution, references attached",
+        "what the generator renders vs what is corrected"
+      ],
+      "IMPLEMENTATION": [
+        "runtime components, tokens, states — after authority lock only"
+      ],
+      "QA": [
+        "benchmark side-by-side",
+        "anti-generic / anti-assembly",
+        "exact text and logo",
+        "founder verdict"
+      ]
+    }
+  },
+  "distinctness": {
+    "attributes": [
+      {
+        "attribute": "PRIMARY OBJECT",
+        "shared": false,
+        "note": "courtyard · inscription · rack"
+      },
+      {
+        "attribute": "SILHOUETTE",
+        "shared": false,
+        "note": "square frame · text column · row of slots"
+      },
+      {
+        "attribute": "SPATIAL MODEL",
+        "shared": false,
+        "note": "overhead · frontal wall · frontal still life"
+      },
+      {
+        "attribute": "TYPOGRAPHIC MODEL",
+        "shared": true,
+        "note": "Same fonts and the same label → figure → date stack in all three (T02 slightly more editorial)."
+      },
+      {
+        "attribute": "MEDIA MODEL",
+        "shared": true,
+        "note": "Photographic plate + flat overlay in all three."
+      },
+      {
+        "attribute": "CTA PLACEMENT",
+        "shared": true,
+        "note": "Full-width emerald slab below the object, purchase card below it."
+      },
+      {
+        "attribute": "BRAND PLACEMENT",
+        "shared": true,
+        "note": "Top-left in the rerun and regen."
+      },
+      {
+        "attribute": "NAV RELATIONSHIP",
+        "shared": true,
+        "note": "Canonical (correctly shared)."
+      },
+      {
+        "attribute": "INFORMATION DENSITY",
+        "shared": true,
+        "note": "Same modules, same count."
+      },
+      {
+        "attribute": "INTERACTION EMPHASIS",
+        "shared": true,
+        "note": "Same CTA, same bridge."
+      }
+    ],
+    "distinct_count": 3,
+    "verdict": "Distinctness collapses: 3 of 10 attributes differ, and all three differences live in the object / background. The product layer — where SAFE TO SPEND identity should live — is identical."
+  },
+  "product_truth_pressure": {
+    "must_be_exact": [
+      "$1,284",
+      "AVAILABLE THROUGH OCT 18 (sample; no formula yet)",
+      "SAFE TO SPEND label",
+      "SEE WHY THIS AMOUNT",
+      "WANT TO SPEND ON SOMETHING? / CHECK HOW IT FITS YOUR PLAN BEFORE YOU BUY. / CHECK A PURCHASE",
+      "BILLS · PLANS · GOALS · BUFFER",
+      "nav items, order, HOME active, icons",
+      "official logo asset"
+    ],
+    "wrongly_locked_as_identical": [
+      "CTA as a full-width slab below the object",
+      "purchase module as a bordered card under the CTA",
+      "top chrome row",
+      "label → figure → date vertical order",
+      "category presentation as a caption list",
+      "blueprint pt rectangles reused as a layout"
+    ],
+    "rule": "Lock the string, not the form. Each concept chooses where and how the amount, CTA, categories and bridge appear, within the priority tiers."
+  },
+  "ui_ownership": {
+    "elements": [
+      {
+        "element": "logo",
+        "ownership": [
+          "MUST_BE_DETERMINISTIC",
+          "SHOULD_BE_ART_DIRECTED"
+        ],
+        "note": "Asset exact; placement, scale and surface art-directed."
+      },
+      {
+        "element": "amount",
+        "ownership": [
+          "MUST_BE_DETERMINISTIC",
+          "SHOULD_BE_ART_DIRECTED"
+        ],
+        "note": "Exact digits set deterministically, but designed as image (scale, crop, relation to surfaces)."
+      },
+      {
+        "element": "date",
+        "ownership": [
+          "MUST_BE_DETERMINISTIC"
+        ],
+        "note": "Exact string."
+      },
+      {
+        "element": "labels (SAFE TO SPEND)",
+        "ownership": [
+          "SHOULD_BE_DETERMINISTIC"
+        ],
+        "note": "Short; may be generated large if verified."
+      },
+      {
+        "element": "navigation",
+        "ownership": [
+          "MUST_BE_DETERMINISTIC"
+        ],
+        "note": "Runtime nav; never generated."
+      },
+      {
+        "element": "CTA",
+        "ownership": [
+          "MUST_BE_DETERMINISTIC",
+          "SHOULD_BE_ART_DIRECTED"
+        ],
+        "note": "Label exact; shape square-rounded; material and position art-directed."
+      },
+      {
+        "element": "category names",
+        "ownership": [
+          "SHOULD_BE_DETERMINISTIC",
+          "CAN_BE_COMPOSITED"
+        ],
+        "note": "Exact strings; may sit on scene surfaces with perspective."
+      },
+      {
+        "element": "material signage",
+        "ownership": [
+          "CAN_BE_COMPOSITED",
+          "CAN_BE_GENERATED"
+        ],
+        "note": "Non-product lettering only if verified."
+      },
+      {
+        "element": "editorial typography (headline)",
+        "ownership": [
+          "SHOULD_BE_ART_DIRECTED",
+          "SHOULD_BE_DETERMINISTIC"
+        ],
+        "note": "The biggest lever for “authored”; may be occluded by objects."
+      },
+      {
+        "element": "physical labels (plates, tags, seals)",
+        "ownership": [
+          "CAN_BE_COMPOSITED"
+        ],
+        "note": "Never left blank; if the text cannot be composited convincingly, the object should not carry text."
+      },
+      {
+        "element": "decorative lettering",
+        "ownership": [
+          "CAN_BE_GENERATED"
+        ],
+        "note": "Avoid unless verified; never product copy."
+      }
+    ],
+    "verdict": "Ownership was right about exactness and wrong about scope: it put every product element in one flat top plane, styled as app components, over a world that had been emptied to receive it. That is the pasted-on look."
+  },
+  "coherence": [
+    {
+      "cause": "Scene generated before the composition it serves",
+      "evidence": "Plates made from guides whose product zones were “quiet regions” — no designed relationship between type and world.",
+      "confidence": "HIGH"
+    },
+    {
+      "cause": "Placeholders requested, then left visible",
+      "evidence": "BLANK SURFACES in plate prompts; blank plates / tags / slip in RAW_PLATES and composites.",
+      "confidence": "HIGH"
+    },
+    {
+      "cause": "App components used as authority UI",
+      "evidence": "Rerun composites: bordered chips and panels, 999-px pill seals, translucent boxes and a dashed bridge border (scripts/jurnl/f09-three-distinct-composite-rerun.mjs, built on f09-product-canvas.css).",
+      "confidence": "HIGH"
+    },
+    {
+      "cause": "No shared light / plane / occlusion rule",
+      "evidence": "No brief or contract specifies shadow direction, perspective or occlusion for overlays.",
+      "confidence": "HIGH"
+    },
+    {
+      "cause": "Perspective mismatch",
+      "evidence": "T01 overhead floor with frontal flat type; T03 three-quarter objects with flat labels.",
+      "confidence": "MEDIUM"
+    },
+    {
+      "cause": "Typographic flatness",
+      "evidence": "Type never interacts with the world (no occlusion, no surface).",
+      "confidence": "MEDIUM"
+    }
+  ],
+  "order_of_operations": {
+    "current": "Concept → prose → geometry → plate from guide → overlay → QA.",
+    "approved_jurnl": "Approved world image → full-screen image2image (world + UI together) → founder review.",
+    "recommended": "World authority + composition comp first (an annotated layout over the approved world), then reference-bound full-frame generation with UI geometry and the few large exact strings, then targeted correction (logo swap, exact text and nav repaint by region / inpainting), then QA. Generate the whole; correct the parts.",
+    "answer": "Yes — generation must happen after the final composition is designed, and from the approved world reference, not from an agent-drawn guide."
+  },
+  "device_chrome": {
+    "definitions": {
+      "MOBILE_VIEWPORT": "The 393×852 pt JURNL product canvas: everything JURNL draws, edge to edge. The authority format.",
+      "PHONE_SCREENSHOT": "A capture of a device screen including the OS. Never an authority format.",
+      "DEVICE_CHROME": "UI owned by the OS, browser or hardware (status bar, island / notch, home indicator, bezel, URL bar, keyboard). Always excluded.",
+      "PRODUCT_CHROME": "Persistent UI owned by JURNL (bottom nav, lockup, product buttons such as back / ask). Included only as an approved authority or contract defines it."
+    },
+    "origin": [
+      "L02 §8 framed generation as 9:16 with the viewport as the central 82 % (device-shaped thinking).",
+      "The agent’s own canonical geometry defined status_bar (9:41) and home_indicator rows (f09-creative-direction.ts F09_FRAME_GEOMETRY), reused by the blueprints (systemZones).",
+      "L03 named a SYSTEM CHROME ZONE / L6 SYSTEM CHROME without defining it; the Sunburst prompts asked for an “iPhone status bar”.",
+      "Execution-1 assembly rendered a 9:41 status row (scripts/jurnl/f09-hybrid-composite-assemble.mjs)."
+    ],
+    "approved_evidence": "None of the approved JURNL authorities (F01 WELCOME, F02 / F03 / F04 parents) shows device chrome."
+  },
+  "type_integration": {
+    "why_glitches": [
+      "Round 2 asked the generator for ≈ 19 exact strings including 8-pt labels, with no typographic reference (JURL wordmark, dropped TRIPS.).",
+      "The official logo was attached as an image to reproduce; the generator redrew it (3-leaf sprig).",
+      "The founder ChatGPT pass ran in a chat holding other JURNL context → onboarding copy leaked (A QUIETER YOU, BEGIN YOUR JOURNEY)."
+    ],
+    "why_pasted_on": [
+      "From round 3 every string sat in one flat top plane over a finished plate: no shared light, grain, perspective or occlusion.",
+      "Type was styled as app UI (small labels, chips, bordered panels), never as a display element — no headline hero as in the approved F03 / F04 parents.",
+      "The plates reserved quiet regions for text, so type floats in emptiness instead of relating to architecture."
+    ],
+    "separate": {
+      "EXACT_TEXT_RENDERING": "Whether every letter and digit is right. Owner: correction (deterministic setting / region repaint) or the generator for ≤ 4 large strings verified by OCR.",
+      "TYPOGRAPHIC_ART_DIRECTION": "Scale, crop, placement, alignment to architecture, relation to surfaces and objects. Owner: creative direction — decided in the composition comp over the approved world, before generation."
+    },
+    "recommendations": [
+      "Design the type in the composition comp (over the approved world) before any generation.",
+      "Let the generator render the large display strings in place so they share the scene’s light; correct letters afterwards by region repaint, not by pasting a layer.",
+      "At least one product element shares a surface, plane or occlusion with the world (a figure behind a curtain edge, a label on stone in perspective).",
+      "Small labels stay deterministic but align to the architecture’s lines and use the scene’s grade.",
+      "No app-component chrome (borders, pills, frosted boxes) around authority type.",
+      "Logo: the generator places the lockup; the compositor swaps in the official asset at the same position, scale and light. An in-world cue (book spine, seal) is rendered and then corrected against the asset."
+    ]
+  },
+  "quality_bar": {
+    "current": "Adjectives (high fidelity, rich, premium, bespoke, editorial) + an unavailable comparison image + self-attested checklists (brand expression 19/19, Composer pass:true).",
+    "verdict": "NOT GROUNDED. Every checklist passed and the founder rejected every round.",
+    "recommended": [
+      "Attach the approved world image and judge side-by-side at the same size.",
+      "Countable visual evidence (MANDATORY EVIDENCE).",
+      "Anti-generic and anti-assembly tests answered with crops, not ticks.",
+      "QA by an agent or person other than the author; founder verdict final."
+    ]
+  }
+}

@@ -1,0 +1,180 @@
+{
+  "id": "F09_REFERENCE_AUDIT",
+  "sprint": "P0.JURNL.F09.PROMPT-FORENSICS-AND-CREATIVE-LOGIC-AUDIT1",
+  "generated_by": "scripts/studioos/jurnl-f09-prompt-forensics-export.ts",
+  "analysis_only": true,
+  "references": [
+    {
+      "reference": "Official logo (jurnl-logo-official.png)",
+      "intended_role": [
+        "BRAND"
+      ],
+      "actual_effect": "Correct where composited; redrawn as a 3-leaf sprig when the generator saw it as an attachment.",
+      "attached": true
+    },
+    {
+      "reference": "Value studies / lock boards (round 2)",
+      "intended_role": [
+        "COMPOSITION"
+      ],
+      "actual_effect": "Became STYLE authority: tonal blocking transferred.",
+      "attached": true
+    },
+    {
+      "reference": "Plate guides (round 3+)",
+      "intended_role": [
+        "COMPOSITION"
+      ],
+      "actual_effect": "Declared “geometry only, not style”, but image2image transfers style: the plates are photographs of the guides.",
+      "attached": true
+    },
+    {
+      "reference": "Runtime components / CSS",
+      "intended_role": [
+        "PRODUCT"
+      ],
+      "actual_effect": "Used as VISUAL authority for the overlay → app-card look.",
+      "attached": true
+    },
+    {
+      "reference": "Founder comparison concept",
+      "intended_role": [
+        "QUALITY_BAR"
+      ],
+      "actual_effect": "Never supplied; described in prose only.",
+      "attached": false
+    },
+    {
+      "reference": "F03.00 TODAY parent (named benchmark in REGEN)",
+      "intended_role": [
+        "WORLD",
+        "QUALITY_BAR"
+      ],
+      "actual_effect": "Text2image route could not take it as input; status IN_REVIEW, not approved.",
+      "attached": false
+    },
+    {
+      "reference": "F01.00 WELCOME APPROVED (the approved world)",
+      "intended_role": [
+        "WORLD",
+        "BRAND",
+        "TYPOGRAPHY"
+      ],
+      "actual_effect": "Never used; forbidden by the contamination guard (“F01 entry / journal / onboarding references”).",
+      "attached": false
+    },
+    {
+      "reference": "REFERENCE_MASTER_VISUAL_AUTHORITY (locked design system board)",
+      "intended_role": [
+        "STYLE",
+        "TYPOGRAPHY",
+        "MATERIAL"
+      ],
+      "actual_effect": "Never consulted by any F09 prompt.",
+      "attached": false
+    },
+    {
+      "reference": "F09.00 SAFE parent plate (loggia)",
+      "intended_role": [
+        "WORLD"
+      ],
+      "actual_effect": "Firewalled as legacy; “image not opened”.",
+      "attached": false
+    }
+  ],
+  "verdict": "AMBIGUOUS AND INVERTED: the references that reached the model were agent-drawn diagrams; the references that carry JURNL were never attached, and one was actively forbidden.",
+  "strongest_references": {
+    "approved_world": "JURNL/F01_ENTRY/PARENT/REFERENCE_F01.00_WELCOME_APPROVED.jpg",
+    "same_world_family_parents": [
+      "src/projects/jurnl/families/F02_SETUP/AUTHORITIES/F02.00_SETUP_PARENT.jpg",
+      "src/projects/jurnl/families/F03_TODAY/AUTHORITIES/F03.00_TODAY_PARENT.jpg (IN_REVIEW)",
+      "src/projects/jurnl/families/F04_ACTIVITY/AUTHORITIES/F04.00_ACTIVITY_PARENT.jpg"
+    ],
+    "design_system": "JURNL/F01_ENTRY/ASSETS/REFERENCE_MASTER_VISUAL_AUTHORITY.jpg",
+    "method": "gpt-image-2.5-sunburst image2image from REFERENCE_F01.00_WELCOME_APPROVED (F03_GENERATION_LEDGER.json; F01 openart_generation_log.json). The text-only F03 attempt was invalidated under REFERENCE_BINDING_FAILURE_F02_F03_2026: “TEXT ONLY. NOT THE REFERENCE WORLD.”",
+    "comparison": [
+      {
+        "dimension": "ENVIRONMENT",
+        "approved": "Cliff-villa loggia: arcade of arches, sea and cliffs, sheer curtains",
+        "f09": "A wall, an overhead courtyard or a cabinet; no view"
+      },
+      {
+        "dimension": "DEPTH",
+        "approved": "Foreground leaves → still life → arcade → sea → sky",
+        "f09": "One plane"
+      },
+      {
+        "dimension": "MATERIAL",
+        "approved": "Rough travertine, sheer linen, burgundy velvet, marble, plaster bust, paper books",
+        "f09": "Smooth plaster, honed stone, brass"
+      },
+      {
+        "dimension": "COLOR",
+        "approved": "Cream + burgundy masses + sea blue + olive green",
+        "f09": "Beige + one emerald CTA"
+      },
+      {
+        "dimension": "ARCHITECTURE",
+        "approved": "Arches, columns, balustrade",
+        "f09": "Arches forbidden (T01); a window (T02)"
+      },
+      {
+        "dimension": "BOTANICAL PRESENCE",
+        "approved": "Olive leaves framing the bottom corners; terrace plants",
+        "f09": "One olive canopy in the bleed"
+      },
+      {
+        "dimension": "TYPE",
+        "approved": "Huge condensed serif word as hero (TODAY / ACTIVITY), tracked deck, figure in serif",
+        "f09": "Small label + figure; no headline hero"
+      },
+      {
+        "dimension": "LOGO",
+        "approved": "Lockup top-left + JURNL on a book spine in the scene",
+        "f09": "Top-left stamp; in-scene attempts mutated"
+      },
+      {
+        "dimension": "SPATIAL FRAME",
+        "approved": "Product column on the quiet lit side, world on the open side and bottom",
+        "f09": "Product centred over an emptied scene"
+      },
+      {
+        "dimension": "VISUAL DENSITY",
+        "approved": "Dense world, quiet column",
+        "f09": "Sparse everywhere"
+      },
+      {
+        "dimension": "OBJECT RELATIONSHIPS",
+        "approved": "Bust ↔ bowl ↔ books ↔ cushions staged",
+        "f09": "Single functional object"
+      },
+      {
+        "dimension": "NEGATIVE SPACE",
+        "approved": "From light: curtain glow, sky, lit wall",
+        "f09": "Blank plaster boxes"
+      },
+      {
+        "dimension": "EDITORIAL CHARACTER",
+        "approved": "Magazine cover",
+        "f09": "Diagram / annotation"
+      },
+      {
+        "dimension": "FUNCTIONAL CLARITY",
+        "approved": "Clear: word, figure, CTA, one panel",
+        "f09": "Clear (the one dimension F09 matched)"
+      }
+    ]
+  },
+  "implicit_success_factors": [
+    "ONE INHERITED WORLD: every approved JURNL screen is the same place — the cliff-villa loggia of F01.00 WELCOME APPROVED — bound by image2image. F09 tried to invent a new place per concept from words.",
+    "A VIEW OUT: an arched opening to sea and cliffs (horizon + architecture). F09 prompts forbade arches (T01) and “sea-view balconies”.",
+    "THREE PLANES WITH A BOTANICAL FOREGROUND: out-of-focus olive leaves in the bottom corners, a staged still life mid-ground, arcade and sea behind. No F09 prompt asked for a foreground; two designed depth out.",
+    "EDITORIAL STILL LIFE WITH CULTURAL OBJECTS: classical bust, marble bowl, JURNL-stamped books, burgundy velvet on rough travertine. F09 replaced still life with a single data-encoding object.",
+    "MATERIAL AND COLOUR CONTRAST: rough vs sheer vs velvet; burgundy and sea-blue masses against cream. F09 specified smooth beige materials and one emerald accent.",
+    "AN EDGE-LED EDITORIAL FRAME: product in a column on the quiet lit side; world on the open side. F09 centred product over the world (CENTER_STAGE) and emptied the centre.",
+    "A MAGAZINE-COVER TYPE SYSTEM: one huge condensed serif word as hero, tracked deck, figure. F09 had no headline hero.",
+    "IN-WORLD BRAND: JURNL on a book spine inside the scene, plus the lockup top-left. F09’s in-world attempts were composited plates or mutated marks.",
+    "UI AND WORLD IN ONE PASS: the approved images were rendered whole, from a reference that already held UI in that world, so light, grain and scale match. F09 split them into plate + overlay.",
+    "NO DEVICE CHROME: none of the approved images has a status bar. F09’s own geometry introduced one."
+  ]
+}

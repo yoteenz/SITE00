@@ -1,0 +1,979 @@
+{
+  "id": "PROMPT_DENSITY_MEASUREMENT",
+  "sprint": "P0.JURNL.F09.PROMPT-FORENSICS-AND-CREATIVE-LOGIC-AUDIT1",
+  "generated_by": "scripts/studioos/jurnl-f09-prompt-forensics-export.ts",
+  "analysis_only": true,
+  "method": {
+    "briefs": "Each founder-brief section is assigned one bucket (CREATIVE / PRODUCT_TRUTH / RENDER_MECHANICS / QA_GATES / NEGATIVE / PROCESS; the section → bucket tables are exported below as audit judgments) and its words counted.",
+    "generators": "Each generator-prompt section (## heading, or LABEL: paragraph for scene prompts) is bucketed by its heading and its words counted. ChatGPT prompts duplicate the Sunburst sections and are not measured twice.",
+    "line_polarity": "Brief lines inside DO NOT / FAIL / Avoid blocks or opening with a negation count as negative; other lines that name a creative subject (composition, environment, material, light, world …) count as creative-positive.",
+    "clause_polarity": "Generator text split into clauses on . ; newline ·; a clause with no / not / never / without / avoid / forbidden / don’t / must not is negative.",
+    "bucket_tables": {
+      "briefs_01_03": {
+        "01": [
+          [
+            "CONVERSATION",
+            "PROCESS"
+          ],
+          [
+            "FOUNDER DECISION",
+            "PROCESS"
+          ],
+          [
+            "SUPERSEDES",
+            "PROCESS"
+          ],
+          [
+            "DO NOT REGRESS",
+            "NEGATIVE"
+          ],
+          [
+            "KNOWN FAILURE",
+            "PROCESS"
+          ],
+          [
+            "MOTHERBOARD",
+            "PROCESS"
+          ],
+          [
+            "1.",
+            "PROCESS"
+          ],
+          [
+            "2.",
+            "NEGATIVE"
+          ],
+          [
+            "3.",
+            "CREATIVE"
+          ],
+          [
+            "4.",
+            "PRODUCT_TRUTH"
+          ],
+          [
+            "5.",
+            "PROCESS"
+          ],
+          [
+            "6.",
+            "CREATIVE"
+          ],
+          [
+            "7.",
+            "QA_GATES"
+          ],
+          [
+            "8.",
+            "PRODUCT_TRUTH"
+          ],
+          [
+            "9.",
+            "PRODUCT_TRUTH"
+          ],
+          [
+            "10.",
+            "PRODUCT_TRUTH"
+          ],
+          [
+            "11.",
+            "QA_GATES"
+          ],
+          [
+            "12.",
+            "PRODUCT_TRUTH"
+          ],
+          [
+            "13.",
+            "CREATIVE"
+          ],
+          [
+            "14.",
+            "PROCESS"
+          ],
+          [
+            "15.",
+            "PROCESS"
+          ],
+          [
+            "16.",
+            "RENDER_MECHANICS"
+          ],
+          [
+            "17.",
+            "RENDER_MECHANICS"
+          ],
+          [
+            "18.",
+            "CREATIVE"
+          ],
+          [
+            "19.",
+            "PROCESS"
+          ],
+          [
+            "20.",
+            "PROCESS"
+          ],
+          [
+            "21.",
+            "PROCESS"
+          ],
+          [
+            "22.",
+            "NEGATIVE"
+          ],
+          [
+            "23.",
+            "PROCESS"
+          ],
+          [
+            "24.",
+            "QA_GATES"
+          ],
+          [
+            "25.",
+            "PROCESS"
+          ]
+        ],
+        "02": [
+          [
+            "CONVERSATION",
+            "PROCESS"
+          ],
+          [
+            "FOUNDER DECISION",
+            "CREATIVE"
+          ],
+          [
+            "SUPERSEDES",
+            "PROCESS"
+          ],
+          [
+            "DO NOT REGRESS",
+            "NEGATIVE"
+          ],
+          [
+            "KNOWN FAILURE",
+            "PROCESS"
+          ],
+          [
+            "MOTHERBOARD",
+            "PROCESS"
+          ],
+          [
+            "1.",
+            "PROCESS"
+          ],
+          [
+            "2.",
+            "CREATIVE"
+          ],
+          [
+            "3.",
+            "CREATIVE"
+          ],
+          [
+            "4.",
+            "CREATIVE"
+          ],
+          [
+            "5.",
+            "CREATIVE"
+          ],
+          [
+            "6.",
+            "CREATIVE"
+          ],
+          [
+            "7.",
+            "NEGATIVE"
+          ],
+          [
+            "8.",
+            "RENDER_MECHANICS"
+          ],
+          [
+            "9.",
+            "RENDER_MECHANICS"
+          ],
+          [
+            "10.",
+            "RENDER_MECHANICS"
+          ],
+          [
+            "11.",
+            "QA_GATES"
+          ],
+          [
+            "12.",
+            "CREATIVE"
+          ],
+          [
+            "13.",
+            "CREATIVE"
+          ],
+          [
+            "14.",
+            "CREATIVE"
+          ],
+          [
+            "15.",
+            "CREATIVE"
+          ],
+          [
+            "16.",
+            "QA_GATES"
+          ],
+          [
+            "17.",
+            "QA_GATES"
+          ],
+          [
+            "18.",
+            "RENDER_MECHANICS"
+          ],
+          [
+            "19.",
+            "RENDER_MECHANICS"
+          ],
+          [
+            "20.",
+            "PROCESS"
+          ],
+          [
+            "21.",
+            "QA_GATES"
+          ],
+          [
+            "22.",
+            "PROCESS"
+          ],
+          [
+            "23.",
+            "CREATIVE"
+          ],
+          [
+            "24.",
+            "PROCESS"
+          ],
+          [
+            "25.",
+            "PROCESS"
+          ],
+          [
+            "26.",
+            "PROCESS"
+          ],
+          [
+            "27.",
+            "QA_GATES"
+          ],
+          [
+            "28.",
+            "PROCESS"
+          ]
+        ],
+        "03": [
+          [
+            "CONVERSATION",
+            "PROCESS"
+          ],
+          [
+            "FOUNDER DECISION",
+            "PROCESS"
+          ],
+          [
+            "SUPERSEDES",
+            "RENDER_MECHANICS"
+          ],
+          [
+            "DO NOT REGRESS",
+            "NEGATIVE"
+          ],
+          [
+            "KNOWN FAILURE",
+            "PROCESS"
+          ],
+          [
+            "MOTHERBOARD",
+            "PROCESS"
+          ],
+          [
+            "1.",
+            "QA_GATES"
+          ],
+          [
+            "2.",
+            "CREATIVE"
+          ],
+          [
+            "3.",
+            "RENDER_MECHANICS"
+          ],
+          [
+            "4.",
+            "RENDER_MECHANICS"
+          ],
+          [
+            "5.",
+            "RENDER_MECHANICS"
+          ],
+          [
+            "6.",
+            "RENDER_MECHANICS"
+          ],
+          [
+            "7.",
+            "RENDER_MECHANICS"
+          ],
+          [
+            "8.",
+            "CREATIVE"
+          ],
+          [
+            "9.",
+            "CREATIVE"
+          ],
+          [
+            "10.",
+            "CREATIVE"
+          ],
+          [
+            "11.",
+            "CREATIVE"
+          ],
+          [
+            "12.",
+            "CREATIVE"
+          ],
+          [
+            "13.",
+            "CREATIVE"
+          ],
+          [
+            "14.",
+            "NEGATIVE"
+          ],
+          [
+            "15.",
+            "NEGATIVE"
+          ],
+          [
+            "16.",
+            "RENDER_MECHANICS"
+          ],
+          [
+            "17.",
+            "RENDER_MECHANICS"
+          ],
+          [
+            "18.",
+            "RENDER_MECHANICS"
+          ],
+          [
+            "19.",
+            "PRODUCT_TRUTH"
+          ],
+          [
+            "20.",
+            "CREATIVE"
+          ],
+          [
+            "21.",
+            "QA_GATES"
+          ],
+          [
+            "22.",
+            "QA_GATES"
+          ],
+          [
+            "23.",
+            "RENDER_MECHANICS"
+          ],
+          [
+            "24.",
+            "PROCESS"
+          ],
+          [
+            "25.",
+            "QA_GATES"
+          ],
+          [
+            "26.",
+            "QA_GATES"
+          ],
+          [
+            "27.",
+            "NEGATIVE"
+          ],
+          [
+            "28.",
+            "RENDER_MECHANICS"
+          ],
+          [
+            "29.",
+            "PROCESS"
+          ],
+          [
+            "30.",
+            "PROCESS"
+          ],
+          [
+            "31.",
+            "QA_GATES"
+          ],
+          [
+            "32.",
+            "PROCESS"
+          ]
+        ]
+      },
+      "brief_06": [
+        [
+          "CONVERSATION CONTEXT",
+          "PROCESS"
+        ],
+        [
+          "FOUNDER DECISION",
+          "CREATIVE"
+        ],
+        [
+          "SUPERSEDES",
+          "PROCESS"
+        ],
+        [
+          "DO NOT REGRESS",
+          "NEGATIVE"
+        ],
+        [
+          "KNOWN FAILURE",
+          "PROCESS"
+        ],
+        [
+          "MOTHERBOARD INTENT",
+          "PROCESS"
+        ],
+        [
+          "OBJECTIVE",
+          "CREATIVE"
+        ],
+        [
+          "THE 3 TERRITORIES",
+          "CREATIVE"
+        ],
+        [
+          "QUALITY BAR",
+          "CREATIVE"
+        ],
+        [
+          "STRICT CREATIVE REQUIREMENTS",
+          "CREATIVE"
+        ],
+        [
+          "GLOBAL",
+          "PRODUCT_TRUTH"
+        ],
+        [
+          "VISUAL WORLD",
+          "CREATIVE"
+        ],
+        [
+          "TYPOGRAPHY / LOGO",
+          "CREATIVE"
+        ],
+        [
+          "PRODUCT EXPRESSION",
+          "PRODUCT_TRUTH"
+        ],
+        [
+          "CONCEPT-SPECIFIC INTENT",
+          "CREATIVE"
+        ],
+        [
+          "RENDERER / EXECUTION RULE",
+          "RENDER_MECHANICS"
+        ],
+        [
+          "CRITICAL PIPELINE RULE",
+          "RENDER_MECHANICS"
+        ],
+        [
+          "DELIVERABLES",
+          "PROCESS"
+        ],
+        [
+          "SUCCESS CRITERIA",
+          "QA_GATES"
+        ],
+        [
+          "FAIL CONDITIONS",
+          "NEGATIVE"
+        ]
+      ],
+      "generator_sections": {
+        "IMAGE": "CREATIVE",
+        "RENDER SETTINGS": "RENDER_MECHANICS",
+        "JURNL BRAND WORLD": "CREATIVE",
+        "F09 PRODUCT JOB": "PRODUCT_TRUTH",
+        "TERRITORY STRUCTURE": "CREATIVE",
+        "PRIMARY OBJECT": "CREATIVE",
+        "MOBILE COMPOSITION": "GEOMETRY_CHROME",
+        "LOGO / LOCKUP PLACEMENT": "LOGO",
+        "SAFE TO SPEND SIGNAL": "PRODUCT_TRUTH",
+        "SECONDARY BREAKDOWN": "PRODUCT_TRUTH",
+        "ENVIRONMENT": "CREATIVE",
+        "MATERIALS": "CREATIVE",
+        "LIGHTING": "CREATIVE",
+        "GRAPHIC DESIGN ELEMENTS": "CREATIVE",
+        "TACTILE OBJECTS": "CREATIVE",
+        "BOTTOM NAV": "PRODUCT_UI",
+        "CTA": "PRODUCT_UI",
+        "ANTI-GENERIC RULES": "NEGATIVE",
+        "ANTI-AI RULES": "NEGATIVE",
+        "TEXT THAT MUST RENDER": "EXACT_TEXT",
+        "TEXT THAT MAY BE REPRESENTATIONAL": "EXACT_TEXT",
+        "FORBIDDEN ELEMENTS": "NEGATIVE",
+        "PLATE": "RENDER_MECHANICS",
+        "VIEW": "CREATIVE",
+        "SCENE": "CREATIVE",
+        "LIGHT": "CREATIVE",
+        "MATERIALS (no others)": "CREATIVE",
+        "BLANK SURFACES (left empty; exact typography and the real logo are added later)": "PLACEHOLDER",
+        "GEOMETRY": "GEOMETRY_CHROME",
+        "QUIET REGIONS (material and light only)": "GEOMETRY_CHROME",
+        "MUST NOT CONTAIN": "NEGATIVE"
+      },
+      "scene_labels": {
+        "SUBJECT": "CREATIVE",
+        "COMPOSITION": "CREATIVE",
+        "COMPOSITION, TOP TO BOTTOM": "CREATIVE",
+        "LIGHT": "CREATIVE",
+        "PALETTE": "CREATIVE",
+        "MATERIALS": "CREATIVE",
+        "DO NOT INCLUDE": "NEGATIVE"
+      }
+    }
+  },
+  "briefs": {
+    "L01": {
+      "file": "JURNL/F09_SAFE/PROMPT_FORENSICS_AND_CREATIVE_LOGIC_AUDIT1/SOURCES/01_VISUAL-AUTHORITY-3-TERRITORY-PROOF1.founder-brief.txt",
+      "words_by_bucket": {
+        "PROCESS": 1260,
+        "NEGATIVE": 283,
+        "CREATIVE": 315,
+        "PRODUCT_TRUTH": 341,
+        "QA_GATES": 256,
+        "RENDER_MECHANICS": 136
+      },
+      "share": {
+        "PROCESS": 0.49,
+        "NEGATIVE": 0.11,
+        "CREATIVE": 0.12,
+        "PRODUCT_TRUTH": 0.13,
+        "QA_GATES": 0.1,
+        "RENDER_MECHANICS": 0.05
+      },
+      "line_polarity": {
+        "creative_positive_lines": 65,
+        "negative_lines": 60
+      }
+    },
+    "L02": {
+      "file": "JURNL/F09_SAFE/PROMPT_FORENSICS_AND_CREATIVE_LOGIC_AUDIT1/SOURCES/02_CREATIVE-DIRECTION-BRAND-EXPRESSION-CORRECTION1.founder-brief.txt",
+      "words_by_bucket": {
+        "PROCESS": 859,
+        "CREATIVE": 924,
+        "NEGATIVE": 225,
+        "RENDER_MECHANICS": 266,
+        "QA_GATES": 434
+      },
+      "share": {
+        "PROCESS": 0.32,
+        "CREATIVE": 0.34,
+        "NEGATIVE": 0.08,
+        "RENDER_MECHANICS": 0.1,
+        "QA_GATES": 0.16
+      },
+      "line_polarity": {
+        "creative_positive_lines": 170,
+        "negative_lines": 84
+      }
+    },
+    "L03": {
+      "file": "JURNL/F09_SAFE/PROMPT_FORENSICS_AND_CREATIVE_LOGIC_AUDIT1/SOURCES/03_COMPOSITION-BLUEPRINT-RENDER-OWNERSHIP-CORRECTION1.founder-brief.txt",
+      "words_by_bucket": {
+        "PROCESS": 608,
+        "RENDER_MECHANICS": 566,
+        "NEGATIVE": 262,
+        "QA_GATES": 276,
+        "CREATIVE": 545,
+        "PRODUCT_TRUTH": 36
+      },
+      "share": {
+        "PROCESS": 0.27,
+        "RENDER_MECHANICS": 0.25,
+        "NEGATIVE": 0.11,
+        "QA_GATES": 0.12,
+        "CREATIVE": 0.24,
+        "PRODUCT_TRUTH": 0.02
+      },
+      "line_polarity": {
+        "creative_positive_lines": 145,
+        "negative_lines": 59
+      }
+    },
+    "L06": {
+      "file": "JURNL/F09_SAFE/PROMPT_FORENSICS_AND_CREATIVE_LOGIC_AUDIT1/SOURCES/06_THREE-CONCEPT-ART-DIRECTION-REGEN-CORRECTION1.founder-brief.txt",
+      "words_by_bucket": {
+        "PROCESS": 441,
+        "CREATIVE": 488,
+        "NEGATIVE": 199,
+        "PRODUCT_TRUTH": 123,
+        "RENDER_MECHANICS": 178,
+        "QA_GATES": 69
+      },
+      "share": {
+        "PROCESS": 0.29,
+        "CREATIVE": 0.33,
+        "NEGATIVE": 0.13,
+        "PRODUCT_TRUTH": 0.08,
+        "RENDER_MECHANICS": 0.12,
+        "QA_GATES": 0.05
+      },
+      "line_polarity": {
+        "creative_positive_lines": 69,
+        "negative_lines": 34
+      }
+    }
+  },
+  "generators": {
+    "JURNL/F09_SAFE/CREATIVE_DIRECTION_CORRECTION1/SUNBURST_PROMPTS/T01_OPEN_FLOOR.txt": {
+      "lineage": "L02b",
+      "words": 2074,
+      "words_by_bucket": {
+        "CREATIVE": 889,
+        "RENDER_MECHANICS": 72,
+        "PRODUCT_TRUTH": 176,
+        "GEOMETRY_CHROME": 245,
+        "LOGO": 134,
+        "PRODUCT_UI": 176,
+        "NEGATIVE": 231,
+        "EXACT_TEXT": 78
+      },
+      "share": {
+        "CREATIVE": 0.44,
+        "RENDER_MECHANICS": 0.04,
+        "PRODUCT_TRUTH": 0.09,
+        "GEOMETRY_CHROME": 0.12,
+        "LOGO": 0.07,
+        "PRODUCT_UI": 0.09,
+        "NEGATIVE": 0.12,
+        "EXACT_TEXT": 0.04
+      },
+      "clause_polarity": {
+        "clauses": 181,
+        "negative_clauses": 34,
+        "negative_share": 0.19,
+        "negation_tokens": 52
+      }
+    },
+    "JURNL/F09_SAFE/CREATIVE_DIRECTION_CORRECTION1/SUNBURST_PROMPTS/T02_PLAIN_ANSWER.txt": {
+      "lineage": "L02b",
+      "words": 2019,
+      "words_by_bucket": {
+        "CREATIVE": 854,
+        "RENDER_MECHANICS": 72,
+        "PRODUCT_TRUTH": 189,
+        "GEOMETRY_CHROME": 241,
+        "LOGO": 124,
+        "PRODUCT_UI": 163,
+        "NEGATIVE": 218,
+        "EXACT_TEXT": 85
+      },
+      "share": {
+        "CREATIVE": 0.44,
+        "RENDER_MECHANICS": 0.04,
+        "PRODUCT_TRUTH": 0.1,
+        "GEOMETRY_CHROME": 0.12,
+        "LOGO": 0.06,
+        "PRODUCT_UI": 0.08,
+        "NEGATIVE": 0.11,
+        "EXACT_TEXT": 0.04
+      },
+      "clause_polarity": {
+        "clauses": 181,
+        "negative_clauses": 35,
+        "negative_share": 0.19,
+        "negation_tokens": 52
+      }
+    },
+    "JURNL/F09_SAFE/CREATIVE_DIRECTION_CORRECTION1/SUNBURST_PROMPTS/T03_OPEN_ENVELOPE.txt": {
+      "lineage": "L02b",
+      "words": 2028,
+      "words_by_bucket": {
+        "CREATIVE": 857,
+        "RENDER_MECHANICS": 72,
+        "PRODUCT_TRUTH": 187,
+        "GEOMETRY_CHROME": 239,
+        "LOGO": 117,
+        "PRODUCT_UI": 168,
+        "NEGATIVE": 237,
+        "EXACT_TEXT": 78
+      },
+      "share": {
+        "CREATIVE": 0.44,
+        "RENDER_MECHANICS": 0.04,
+        "PRODUCT_TRUTH": 0.1,
+        "GEOMETRY_CHROME": 0.12,
+        "LOGO": 0.06,
+        "PRODUCT_UI": 0.09,
+        "NEGATIVE": 0.12,
+        "EXACT_TEXT": 0.04
+      },
+      "clause_polarity": {
+        "clauses": 179,
+        "negative_clauses": 33,
+        "negative_share": 0.18,
+        "negation_tokens": 50
+      }
+    },
+    "JURNL/F09_SAFE/COMPOSITION_BLUEPRINT_CORRECTION1/PLATE_PROMPTS/T01_SCENE_PLATE.txt": {
+      "lineage": "L03a",
+      "words": 437,
+      "words_by_bucket": {
+        "RENDER_MECHANICS": 79,
+        "CREATIVE": 110,
+        "PLACEHOLDER": 24,
+        "GEOMETRY_CHROME": 126,
+        "NEGATIVE": 56
+      },
+      "share": {
+        "RENDER_MECHANICS": 0.2,
+        "CREATIVE": 0.28,
+        "PLACEHOLDER": 0.06,
+        "GEOMETRY_CHROME": 0.32,
+        "NEGATIVE": 0.14
+      },
+      "clause_polarity": {
+        "clauses": 59,
+        "negative_clauses": 6,
+        "negative_share": 0.1,
+        "negation_tokens": 15
+      }
+    },
+    "JURNL/F09_SAFE/COMPOSITION_BLUEPRINT_CORRECTION1/PLATE_PROMPTS/T02_SCENE_PLATE.txt": {
+      "lineage": "L03a",
+      "words": 448,
+      "words_by_bucket": {
+        "RENDER_MECHANICS": 79,
+        "CREATIVE": 122,
+        "PLACEHOLDER": 22,
+        "GEOMETRY_CHROME": 127,
+        "NEGATIVE": 56
+      },
+      "share": {
+        "RENDER_MECHANICS": 0.19,
+        "CREATIVE": 0.3,
+        "PLACEHOLDER": 0.05,
+        "GEOMETRY_CHROME": 0.31,
+        "NEGATIVE": 0.14
+      },
+      "clause_polarity": {
+        "clauses": 58,
+        "negative_clauses": 5,
+        "negative_share": 0.09,
+        "negation_tokens": 14
+      }
+    },
+    "JURNL/F09_SAFE/COMPOSITION_BLUEPRINT_CORRECTION1/PLATE_PROMPTS/T03_SCENE_PLATE.txt": {
+      "lineage": "L03a",
+      "words": 480,
+      "words_by_bucket": {
+        "RENDER_MECHANICS": 79,
+        "CREATIVE": 150,
+        "PLACEHOLDER": 22,
+        "GEOMETRY_CHROME": 131,
+        "NEGATIVE": 56
+      },
+      "share": {
+        "RENDER_MECHANICS": 0.18,
+        "CREATIVE": 0.34,
+        "PLACEHOLDER": 0.05,
+        "GEOMETRY_CHROME": 0.3,
+        "NEGATIVE": 0.13
+      },
+      "clause_polarity": {
+        "clauses": 63,
+        "negative_clauses": 7,
+        "negative_share": 0.11,
+        "negation_tokens": 16
+      }
+    },
+    "JURNL/F09_SAFE/THREE_CONCEPT_ART_DIRECTION_REGEN_CORRECTION1/SCENE_PROMPTS/T01_SURVEYED_COURTYARD.txt": {
+      "lineage": "L06a",
+      "words": 409,
+      "words_by_bucket": {
+        "CREATIVE": 380,
+        "NEGATIVE": 29
+      },
+      "share": {
+        "CREATIVE": 0.93,
+        "NEGATIVE": 0.07
+      },
+      "clause_polarity": {
+        "clauses": 25,
+        "negative_clauses": 5,
+        "negative_share": 0.2,
+        "negation_tokens": 10
+      }
+    },
+    "JURNL/F09_SAFE/THREE_CONCEPT_ART_DIRECTION_REGEN_CORRECTION1/SCENE_PROMPTS/T02_ANSWER_IN_RAKING_LIGHT.txt": {
+      "lineage": "L06a",
+      "words": 382,
+      "words_by_bucket": {
+        "CREATIVE": 353,
+        "NEGATIVE": 29
+      },
+      "share": {
+        "CREATIVE": 0.92,
+        "NEGATIVE": 0.08
+      },
+      "clause_polarity": {
+        "clauses": 24,
+        "negative_clauses": 4,
+        "negative_share": 0.17,
+        "negation_tokens": 10
+      }
+    },
+    "JURNL/F09_SAFE/THREE_CONCEPT_ART_DIRECTION_REGEN_CORRECTION1/SCENE_PROMPTS/T03_SORTING_RACK.txt": {
+      "lineage": "L06a",
+      "words": 381,
+      "words_by_bucket": {
+        "CREATIVE": 346,
+        "NEGATIVE": 35
+      },
+      "share": {
+        "CREATIVE": 0.91,
+        "NEGATIVE": 0.09
+      },
+      "clause_polarity": {
+        "clauses": 22,
+        "negative_clauses": 3,
+        "negative_share": 0.14,
+        "negation_tokens": 4
+      }
+    }
+  },
+  "summary": {
+    "briefs_creative_share": {
+      "L01": 0.12,
+      "L02": 0.34,
+      "L03": 0.24,
+      "L06": 0.33
+    },
+    "sunburst_avg_share": {
+      "creative": 0.44,
+      "product_ui_text_logo": 0.29,
+      "geometry_chrome": 0.12,
+      "negative": 0.12
+    },
+    "plate_avg_share": {
+      "creative": 0.31,
+      "geometry": 0.31,
+      "placeholder": 0.05,
+      "negative": 0.14,
+      "render": 0.19
+    },
+    "scene_avg_share": {
+      "creative": 0.92,
+      "negative": 0.08
+    }
+  },
+  "interpretation": {
+    "method": "Founder briefs split by section and bucketed (creative / product truth / process / render / QA / negative); generator prompts split by section. Counts are words.",
+    "briefs_creative_share": {
+      "L01": 0.12,
+      "L02": 0.34,
+      "L03": 0.24,
+      "L06": 0.33
+    },
+    "briefs_process_qa_render_negative_share": {
+      "L01": 0.75,
+      "L02": 0.66,
+      "L03": 0.75,
+      "L06": 0.59
+    },
+    "sunburst_prompt": {
+      "words": 2000,
+      "creative_share": 0.44,
+      "product_ui_text_logo_share": 0.29,
+      "geometry_chrome_share": 0.12,
+      "negative_share": 0.12,
+      "note": "A third of the “creative” words are rationale for humans (“No UI generator puts the answer in the empty space”)."
+    },
+    "plate_prompt": {
+      "words": 455,
+      "creative_share": 0.31,
+      "geometry_share": 0.31,
+      "placeholder_share": 0.05,
+      "negative_share": 0.14,
+      "render_share": 0.19
+    },
+    "regen_scene_prompt": {
+      "words": 391,
+      "creative_share": 0.92,
+      "note": "Creative, but text2image with no world reference."
+    },
+    "verdict": "STRUCTURALLY BIASED TOWARD CORRECTNESS. Creative direction is 12–34 % of every founder brief and ~30–44 % of generator prompts; the decisive creative input (the approved world image) is 0 %."
+  },
+  "negative_saturation": {
+    "founder_briefs": {
+      "L01": "65 creative-positive : 60 negative lines",
+      "L02": "170 : 84",
+      "L03": "145 : 59",
+      "L06": "69 : 34"
+    },
+    "sunburst_prompt": "34 of 181 clauses negative (19 %); 52 negation tokens",
+    "plate_prompt": "6 of 59 clauses (10 %)",
+    "regen_scene_prompt": "5 of 25 clauses (20 %)",
+    "verdict": "MODERATE IN VOLUME, HIGH IN EFFECT. Negatives are 1:1 to 1:2.5 against creative lines, but they target the richness vocabulary itself (arches, sea views, botanicals, gold, 3D objects, “pretty background”, “decorative imagery”). Avoidance dominated exactly where creation was needed."
+  },
+  "priority_dilution": {
+    "sunburst_prompt_sections": 22,
+    "critical_missing": [
+      "attach the approved world",
+      "foreground / depth",
+      "view out",
+      "still life",
+      "edge-led frame"
+    ],
+    "classification": {
+      "CRITICAL": [
+        "IMAGE brief (first)",
+        "primary object",
+        "exact large strings"
+      ],
+      "IMPORTANT": [
+        "environment",
+        "materials",
+        "lighting",
+        "logo placement"
+      ],
+      "SUPPORTING": [
+        "colour hierarchy",
+        "CTA / nav spec"
+      ],
+      "NOISE": [
+        "hex codes for 11 colours",
+        "percent geometry for 15 zones",
+        "rationale prose",
+        "sample-data provenance (“QA-seed”)",
+        "anti-AI audit vocabulary",
+        "19 exact strings incl. 8-pt labels",
+        "status-bar description"
+      ]
+    },
+    "verdict": "YES. At ~2,000 words and 22 sections the decisive visual instructions are a minority, and the most decisive input (an image) is absent."
+  }
+}
