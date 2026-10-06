@@ -1,0 +1,72 @@
+{
+  "id": "F09_T03_RENDER_OWNERSHIP",
+  "sprint": "P0.JURNL.F09-SAFE-TO-SPEND.COMPOSITION-BLUEPRINT-RENDER-OWNERSHIP-CORRECTION1",
+  "generated_by": "scripts/studioos/jurnl-f09-composition-blueprint-export.ts",
+  "ownership_id": "JURNL.F09.T03.OWNERSHIP.v1",
+  "project_id": "JURNL",
+  "territory_id": "JURNL.F09.T03",
+  "blueprint_id": "JURNL.F09.T03.BLUEPRINT.v1",
+  "profile_id": "JURNL.RENDER_OWNERSHIP.v1",
+  "layers": [
+    {
+      "layer": "L0",
+      "owner": "IMAGE_GENERATOR",
+      "renders": "Scene plate: environment, light, perimeter, reserved quiet regions.",
+      "source": "F09_RAW_GENERATION_CONTRACT"
+    },
+    {
+      "layer": "L1",
+      "owner": "DETERMINISTIC_VECTOR",
+      "renders": "Letterhead: official lockup + tagline printed on the slip.",
+      "source": "public/site00/projects/jurnl/brand/jurnl-logo-official.png"
+    },
+    {
+      "layer": "L2",
+      "owner": "DETERMINISTIC_UI",
+      "renders": "Letterpress on the released slip: SAFE TO SPEND, state line, CLEAR TO SPEND, the figure in emerald.",
+      "source": "src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx (STATE_LINE, labels, actions); src/projects/jurnl/data/f09/safeToSpend.ts computeSafeToSpend (QA seed sample values); public/site00/projects/jurnl/fonts/{instrument-serif-400,barlow-semi-condensed-300,barlow-semi-condensed-400,barlow-semi-condensed-500}.woff2"
+    },
+    {
+      "layer": "L3",
+      "owner": "COMPOSITE",
+      "renders": "Slip + sorting rack.",
+      "generated_part": "Blank slip, oak rack, blank brass plates, linen envelopes, blank wax seals and fragments, window light (scene plate).",
+      "deterministic_part": "Envelope thickness ∝ amount, slot order, plate labels, botanical emboss on the seals (official mark).",
+      "source": "F09_COMPOSITE_ASSEMBLY_CONTRACT.data_geometry.T03"
+    },
+    {
+      "layer": "L4",
+      "owner": "DETERMINISTIC_UI",
+      "renders": "Held-back line engraved on the brass strip.",
+      "source": "src/projects/jurnl/data/f09/safeToSpend.ts computeSafeToSpend (QA seed sample values); public/site00/projects/jurnl/fonts/{instrument-serif-400,barlow-semi-condensed-300,barlow-semi-condensed-400,barlow-semi-condensed-500}.woff2"
+    },
+    {
+      "layer": "L5",
+      "owner": "DETERMINISTIC_UI",
+      "renders": "Primary CTA + inline actions, exact copy.",
+      "source": "src/projects/jurnl/runtime/components/primitives.tsx (JurnlButton, JurnlInlineAction)"
+    },
+    {
+      "layer": "L6",
+      "owner": "DETERMINISTIC_UI",
+      "renders": "Status bar, chrome icon buttons, home indicator.",
+      "source": "src/projects/jurnl/runtime/components/FamilyChrome.tsx (icon buttons only)"
+    },
+    {
+      "layer": "L7",
+      "owner": "DETERMINISTIC_UI",
+      "renders": "JURNL product nav, HOME active.",
+      "source": "src/projects/jurnl/runtime/components/ProductNav.tsx + icons.tsx"
+    },
+    {
+      "layer": "L8",
+      "owner": "NO_RENDER",
+      "renders": "Hold sheet, quick add and Ask JURNL are separate state authorities; nothing on the hub page."
+    }
+  ],
+  "check": {
+    "territory_id": "JURNL.F09.T03",
+    "status": "OWNERSHIP_READY",
+    "issues": []
+  }
+}

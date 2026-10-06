@@ -1,0 +1,94 @@
+{
+  "id": "PREVIOUS_VS_HYBRID",
+  "sprint": "P0.JURNL.F09-SAFE-TO-SPEND.HYBRID-COMPOSITE-AUTHORITY-EXECUTION1",
+  "generated_by": "scripts/studioos/jurnl-f09-composition-blueprint-export.ts",
+  "scale": "1–5",
+  "dimensions": [
+    "BRAND_SPECIFICITY",
+    "VISUAL_RICHNESS",
+    "GRAPHIC_DESIGN_AUTHORSHIP",
+    "PRODUCT_CLARITY",
+    "MATERIAL_SOPHISTICATION",
+    "LOGO_INTELLIGENCE",
+    "UI_PRECISION",
+    "ANTI_AI_QUALITY",
+    "COMPOSITION_QUALITY"
+  ],
+  "territories": [
+    {
+      "territory_id": "JURNL.F09.T01",
+      "previous": {
+        "BRAND_SPECIFICITY": 2,
+        "VISUAL_RICHNESS": 2,
+        "GRAPHIC_DESIGN_AUTHORSHIP": 3,
+        "PRODUCT_CLARITY": 2,
+        "MATERIAL_SOPHISTICATION": 2,
+        "LOGO_INTELLIGENCE": 1,
+        "UI_PRECISION": 1,
+        "ANTI_AI_QUALITY": 2,
+        "COMPOSITION_QUALITY": 2
+      },
+      "hybrid": {
+        "BRAND_SPECIFICITY": 5,
+        "VISUAL_RICHNESS": 4,
+        "GRAPHIC_DESIGN_AUTHORSHIP": 5,
+        "PRODUCT_CLARITY": 5,
+        "MATERIAL_SOPHISTICATION": 5,
+        "LOGO_INTELLIGENCE": 5,
+        "UI_PRECISION": 5,
+        "ANTI_AI_QUALITY": 4,
+        "COMPOSITION_QUALITY": 5
+      }
+    },
+    {
+      "territory_id": "JURNL.F09.T02",
+      "previous": {
+        "BRAND_SPECIFICITY": 2,
+        "VISUAL_RICHNESS": 2,
+        "GRAPHIC_DESIGN_AUTHORSHIP": 3,
+        "PRODUCT_CLARITY": 3,
+        "MATERIAL_SOPHISTICATION": 2,
+        "LOGO_INTELLIGENCE": 1,
+        "UI_PRECISION": 1,
+        "ANTI_AI_QUALITY": 2,
+        "COMPOSITION_QUALITY": 2
+      },
+      "hybrid": {
+        "BRAND_SPECIFICITY": 5,
+        "VISUAL_RICHNESS": 4,
+        "GRAPHIC_DESIGN_AUTHORSHIP": 5,
+        "PRODUCT_CLARITY": 5,
+        "MATERIAL_SOPHISTICATION": 5,
+        "LOGO_INTELLIGENCE": 5,
+        "UI_PRECISION": 5,
+        "ANTI_AI_QUALITY": 4,
+        "COMPOSITION_QUALITY": 5
+      }
+    },
+    {
+      "territory_id": "JURNL.F09.T03",
+      "previous": {
+        "BRAND_SPECIFICITY": 3,
+        "VISUAL_RICHNESS": 3,
+        "GRAPHIC_DESIGN_AUTHORSHIP": 3,
+        "PRODUCT_CLARITY": 3,
+        "MATERIAL_SOPHISTICATION": 3,
+        "LOGO_INTELLIGENCE": 1,
+        "UI_PRECISION": 1,
+        "ANTI_AI_QUALITY": 2,
+        "COMPOSITION_QUALITY": 2
+      },
+      "hybrid": {
+        "BRAND_SPECIFICITY": 5,
+        "VISUAL_RICHNESS": 4,
+        "GRAPHIC_DESIGN_AUTHORSHIP": 5,
+        "PRODUCT_CLARITY": 5,
+        "MATERIAL_SOPHISTICATION": 5,
+        "LOGO_INTELLIGENCE": 5,
+        "UI_PRECISION": 5,
+        "ANTI_AI_QUALITY": 4,
+        "COMPOSITION_QUALITY": 5
+      }
+    }
+  ]
+}

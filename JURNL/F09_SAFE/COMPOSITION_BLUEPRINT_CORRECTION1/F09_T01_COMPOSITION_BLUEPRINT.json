@@ -1,0 +1,707 @@
+{
+  "id": "F09_T01_COMPOSITION_BLUEPRINT",
+  "sprint": "P0.JURNL.F09-SAFE-TO-SPEND.COMPOSITION-BLUEPRINT-RENDER-OWNERSHIP-CORRECTION1",
+  "generated_by": "scripts/studioos/jurnl-f09-composition-blueprint-export.ts",
+  "blueprint_id": "JURNL.F09.T01.BLUEPRINT.v1",
+  "project_id": "JURNL",
+  "territory_id": "JURNL.F09.T01",
+  "translation_id": "JURNL.F09.T01.CD.v1",
+  "frame": {
+    "width": 393,
+    "height": 852,
+    "unit": "pt",
+    "generated_aspect": "9:16",
+    "generated_frame_mapping": "9:16 plate: height = 852 pt; the 393-pt viewport is the central 82 % of the plate width (x 9–91 %); the outer 9 % each side is environment bleed only."
+  },
+  "safe_areas": {
+    "top": 108,
+    "bottom": 32,
+    "stage": {
+      "x": 26.5,
+      "w": 340
+    },
+    "nav_reserve_top": 714
+  },
+  "metaphor_scope": "OBJECT",
+  "metaphor_scope_justification": "The courtyard is one object in the middle of the page (≈ 41 % of the stage). Its open floor is still the money you can spend and its walls are still what is held back, but the signal, the held-back line, the actions and the nav sit outside it on a quiet terrace, so the product reads before the metaphor.",
+  "founder_whole_page_decision": null,
+  "layers_present": [
+    "L0",
+    "L1",
+    "L2",
+    "L3",
+    "L4",
+    "L5",
+    "L6",
+    "L7",
+    "L8"
+  ],
+  "zones": [
+    {
+      "zone_id": "T01.STATUS",
+      "role": "SYSTEM_STATUS",
+      "layer": "L6",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 393,
+        "h": 54
+      },
+      "slots": [
+        {
+          "slot_id": "time",
+          "kinds": [
+            "STATUS_VALUE",
+            "EXACT_COPY"
+          ],
+          "content": "9:41",
+          "decision": "DECIDED"
+        },
+        {
+          "slot_id": "glyphs",
+          "kinds": [
+            "ICON"
+          ],
+          "content": "signal · wi-fi · battery",
+          "decision": "DECIDED"
+        }
+      ]
+    },
+    {
+      "zone_id": "T01.CHROME",
+      "role": "SYSTEM_CHROME",
+      "layer": "L6",
+      "rect": {
+        "x": 26.5,
+        "y": 59,
+        "w": 340,
+        "h": 36
+      },
+      "note": "Square-rounded 34-pt icon buttons on bone with a hairline greige border. No centred wordmark: the lockup lives in the scene (sprint 2 founder direction).",
+      "slots": [
+        {
+          "slot_id": "back",
+          "kinds": [
+            "ICON",
+            "BUTTON",
+            "INTERACTION_CHROME"
+          ],
+          "content": "BACK (chevron; aria-label BACK TO TODAY)",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 26.5,
+            "y": 60,
+            "w": 34,
+            "h": 34
+          }
+        },
+        {
+          "slot_id": "account",
+          "kinds": [
+            "ICON",
+            "BUTTON",
+            "INTERACTION_CHROME"
+          ],
+          "content": "ACCOUNT (gear)",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 294.5,
+            "y": 60,
+            "w": 34,
+            "h": 34
+          }
+        },
+        {
+          "slot_id": "ask",
+          "kinds": [
+            "ICON",
+            "BUTTON",
+            "INTERACTION_CHROME"
+          ],
+          "content": "ASK JURNL (i)",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 332.5,
+            "y": 60,
+            "w": 34,
+            "h": 34
+          }
+        }
+      ]
+    },
+    {
+      "zone_id": "T01.NAV",
+      "role": "NAV",
+      "layer": "L7",
+      "rect": {
+        "x": 26.5,
+        "y": 762,
+        "w": 340,
+        "h": 44
+      },
+      "note": "JurnlProductNav: five equal square-rounded cells, 4-pt gaps, HOME active (deep emerald fill, bone glyph).",
+      "slots": [
+        {
+          "slot_id": "home",
+          "kinds": [
+            "NAVIGATION",
+            "ICON",
+            "TAB_LABEL"
+          ],
+          "content": "HOME (person) — active",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 26.5,
+            "y": 762,
+            "w": 64.8,
+            "h": 44
+          }
+        },
+        {
+          "slot_id": "money",
+          "kinds": [
+            "NAVIGATION",
+            "ICON",
+            "TAB_LABEL"
+          ],
+          "content": "MONEY (banknote)",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 95.3,
+            "y": 762,
+            "w": 64.8,
+            "h": 44
+          }
+        },
+        {
+          "slot_id": "add",
+          "kinds": [
+            "NAVIGATION",
+            "ICON"
+          ],
+          "content": "+ QUICK ADD (no label)",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 164.1,
+            "y": 762,
+            "w": 64.8,
+            "h": 44
+          }
+        },
+        {
+          "slot_id": "plan",
+          "kinds": [
+            "NAVIGATION",
+            "ICON",
+            "TAB_LABEL"
+          ],
+          "content": "PLAN (clock)",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 232.89999999999998,
+            "y": 762,
+            "w": 64.8,
+            "h": 44
+          }
+        },
+        {
+          "slot_id": "credit",
+          "kinds": [
+            "NAVIGATION",
+            "ICON",
+            "TAB_LABEL"
+          ],
+          "content": "CREDIT (document)",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 301.7,
+            "y": 762,
+            "w": 64.8,
+            "h": 44
+          }
+        }
+      ]
+    },
+    {
+      "zone_id": "T01.HOME_INDICATOR",
+      "role": "SYSTEM_STATUS",
+      "layer": "L6",
+      "rect": {
+        "x": 0,
+        "y": 820,
+        "w": 393,
+        "h": 32
+      },
+      "slots": [
+        {
+          "slot_id": "bar",
+          "kinds": [
+            "INTERACTION_CHROME"
+          ],
+          "content": "system home indicator",
+          "decision": "DECIDED"
+        }
+      ]
+    },
+    {
+      "zone_id": "T01.ENVIRONMENT",
+      "role": "ENVIRONMENT",
+      "layer": "L0",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 393,
+        "h": 852
+      },
+      "slots": [
+        {
+          "slot_id": "scene",
+          "kinds": [
+            "ARCHITECTURE",
+            "LIGHTING",
+            "MATERIALITY",
+            "SCENE_DEPTH"
+          ],
+          "content": "Overhead view of a sunlit limewashed terrace in bone and greige plaster; even, quiet light across the centre; the courtyard object sits in it.",
+          "decision": "DECIDED"
+        }
+      ]
+    },
+    {
+      "zone_id": "T01.EDGE",
+      "role": "NEGATIVE_SPACE",
+      "layer": "L0",
+      "rect": {
+        "x": 26.5,
+        "y": 714,
+        "w": 340,
+        "h": 40
+      },
+      "note": "Job: separates the page from the nav.",
+      "slots": [
+        {
+          "slot_id": "quiet",
+          "kinds": [
+            "MATERIALITY"
+          ],
+          "content": "plain surface, no content",
+          "decision": "DECIDED"
+        }
+      ]
+    },
+    {
+      "zone_id": "T01.SIGNAL",
+      "role": "PRIMARY_SIGNAL",
+      "layer": "L2",
+      "rect": {
+        "x": 26.5,
+        "y": 120,
+        "w": 340,
+        "h": 140
+      },
+      "note": "Centred column on the quiet plaster field above the courtyard (reserved region).",
+      "slots": [
+        {
+          "slot_id": "function",
+          "kinds": [
+            "EXACT_COPY",
+            "STATE_LABEL"
+          ],
+          "content": "SAFE TO SPEND",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 26.5,
+            "y": 120,
+            "w": 340,
+            "h": 14
+          }
+        },
+        {
+          "slot_id": "state_line",
+          "kinds": [
+            "EXACT_COPY",
+            "STATE_LABEL"
+          ],
+          "content": "STATE_LINE[completeness] — COMPLETE: WHAT YOU CAN SPEND NOW WITHOUT TOUCHING BILLS, PLANS OR WHAT YOU’RE HOLDING.",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 46.5,
+            "y": 140,
+            "w": 300,
+            "h": 24
+          }
+        },
+        {
+          "slot_id": "clear_label",
+          "kinds": [
+            "STATE_LABEL"
+          ],
+          "content": "CLEAR TO SPEND (value ≥ 0) · OVER BY (value < 0)",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 26.5,
+            "y": 176,
+            "w": 340,
+            "h": 12
+          }
+        },
+        {
+          "slot_id": "value",
+          "kinds": [
+            "FINANCIAL_VALUE",
+            "EXACT_NUMBER"
+          ],
+          "content": "formatMoney(|breakdown.value|) — sample $24,885; dark bronze, display serif",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 26.5,
+            "y": 192,
+            "w": 340,
+            "h": 62
+          }
+        }
+      ]
+    },
+    {
+      "zone_id": "T01.OBJECT",
+      "role": "SIGNATURE_OBJECT",
+      "layer": "L3",
+      "rect": {
+        "x": 41.5,
+        "y": 276,
+        "w": 310,
+        "h": 270
+      },
+      "note": "The surveyed courtyard seen from directly above. Scene-plate material masked into data-true geometry.",
+      "slots": [
+        {
+          "slot_id": "courtyard",
+          "kinds": [
+            "ARCHITECTURE",
+            "STONE_STRUCTURE",
+            "MATERIALITY",
+            "LIGHTING",
+            "SHADOW"
+          ],
+          "content": "Travertine floor; limewashed walls of four limestone courses (honey, cream, grey, faint rose); oak door leaf; short inner-face shadows from the upper right.",
+          "decision": "DECIDED"
+        },
+        {
+          "slot_id": "courses",
+          "kinds": [
+            "PROGRESS"
+          ],
+          "content": "Wall courses clockwise from the door ∝ held amounts (wall 14.93 pt; floor = 80.4 % of the room): BILLS 30.9 % · PLAN 39.5 % · GOALS 14.8 % · TRIPS 14.8 %",
+          "decision": "DECIDED"
+        },
+        {
+          "slot_id": "plates",
+          "kinds": [
+            "EXACT_COPY",
+            "TAB_LABEL"
+          ],
+          "content": "BILLS · PLAN · GOALS · TRIPS — one brass plate per course, names only (why stays closed)",
+          "decision": "DECIDED"
+        },
+        {
+          "slot_id": "door",
+          "kinds": [
+            "ARCHITECTURE"
+          ],
+          "content": "Closed oak door on the axis in the bottom wall (gap 37.2 pt)",
+          "decision": "DECIDED"
+        },
+        {
+          "slot_id": "tagline",
+          "kinds": [
+            "EXACT_COPY"
+          ],
+          "content": "PLAN TODAY. GROW FREELY. — engraved small on the outer face of the bottom wall, left of the door",
+          "decision": "DECIDED"
+        }
+      ]
+    },
+    {
+      "zone_id": "T01.BRAND",
+      "role": "BRAND_FRAME",
+      "layer": "L1",
+      "rect": {
+        "x": 41.5,
+        "y": 276,
+        "w": 46,
+        "h": 56
+      },
+      "note": "Cornerstone: the plate leaves a blank limestone block; the official lockup is composited onto it (deterministic engrave filter).",
+      "slots": [
+        {
+          "slot_id": "lockup",
+          "kinds": [
+            "LOGO_GEOMETRY"
+          ],
+          "content": "Official vertical lockup (botanical mark + JURNL), 44 pt tall",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 50.8,
+            "y": 282,
+            "w": 27.4,
+            "h": 44
+          }
+        }
+      ]
+    },
+    {
+      "zone_id": "T01.FLOOR",
+      "role": "NEGATIVE_SPACE",
+      "layer": "L3",
+      "rect": {
+        "x": 56.4,
+        "y": 290.9,
+        "w": 280.1,
+        "h": 240.1
+      },
+      "note": "Job: the open floor is the money you can spend. Evenly lit, empty.",
+      "slots": [
+        {
+          "slot_id": "floor",
+          "kinds": [
+            "MATERIALITY",
+            "LIGHTING"
+          ],
+          "content": "open travertine floor, no inlay, no objects",
+          "decision": "DECIDED"
+        }
+      ]
+    },
+    {
+      "zone_id": "T01.SECONDARY",
+      "role": "SECONDARY_PRODUCT",
+      "layer": "L4",
+      "rect": {
+        "x": 26.5,
+        "y": 558,
+        "w": 340,
+        "h": 40
+      },
+      "note": "The survey’s scale bar: CASH measured, the clear share open, the held share in the four course stones.",
+      "slots": [
+        {
+          "slot_id": "held_line",
+          "kinds": [
+            "EXACT_COPY",
+            "FINANCIAL_VALUE",
+            "EXACT_NUMBER"
+          ],
+          "content": "HELD BACK $6,075 OF $30,960 CASH",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 26.5,
+            "y": 558,
+            "w": 340,
+            "h": 14
+          }
+        },
+        {
+          "slot_id": "scale_bar",
+          "kinds": [
+            "PROGRESS",
+            "SPACING_GRID"
+          ],
+          "content": "Scale bar 340 pt = CASH: 80.4 % open (bone), then BILLS · PLAN · GOALS · TRIPS segments in their course stones (no labels), end ticks",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 26.5,
+            "y": 580,
+            "w": 340,
+            "h": 8
+          }
+        }
+      ]
+    },
+    {
+      "zone_id": "T01.CTA",
+      "role": "CTA",
+      "layer": "L5",
+      "rect": {
+        "x": 26.5,
+        "y": 616,
+        "w": 340,
+        "h": 48
+      },
+      "note": "JurnlButton primary: deep emerald #0F3D32, 8-pt corners, bone tracked uppercase label.",
+      "slots": [
+        {
+          "slot_id": "primary",
+          "kinds": [
+            "BUTTON",
+            "EXACT_COPY"
+          ],
+          "content": "SEE THE FULL BREAKDOWN",
+          "decision": "D-F09-PRIMARY-ACTION-LABEL",
+          "rect": {
+            "x": 26.5,
+            "y": 616,
+            "w": 340,
+            "h": 48
+          }
+        }
+      ]
+    },
+    {
+      "zone_id": "T01.INLINE",
+      "role": "CTA",
+      "layer": "L5",
+      "rect": {
+        "x": 26.5,
+        "y": 672,
+        "w": 340,
+        "h": 32
+      },
+      "note": "JurnlInlineAction ×2 on one row: tracked label, fine taupe rule, thin chevron. Never pills.",
+      "slots": [
+        {
+          "slot_id": "change_held",
+          "kinds": [
+            "BUTTON",
+            "EXACT_COPY"
+          ],
+          "content": "CHANGE WHAT’S HELD ›",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 26.5,
+            "y": 672,
+            "w": 170,
+            "h": 32
+          }
+        },
+        {
+          "slot_id": "plan",
+          "kinds": [
+            "BUTTON",
+            "EXACT_COPY"
+          ],
+          "content": "PLAN ›",
+          "decision": "DECIDED",
+          "rect": {
+            "x": 286.5,
+            "y": 672,
+            "w": 80,
+            "h": 32
+          }
+        }
+      ]
+    },
+    {
+      "zone_id": "T01.BLEED_L",
+      "role": "PERIMETER",
+      "layer": "L0",
+      "rect": {
+        "x": 0,
+        "y": 108,
+        "w": 26.5,
+        "h": 606
+      },
+      "note": "Outside the 340-pt stage: environment only.",
+      "slots": [
+        {
+          "slot_id": "bleed",
+          "kinds": [
+            "MATERIALITY",
+            "SHADOW"
+          ],
+          "content": "environment bleed",
+          "decision": "DECIDED"
+        }
+      ]
+    },
+    {
+      "zone_id": "T01.BLEED_R",
+      "role": "PERIMETER",
+      "layer": "L0",
+      "rect": {
+        "x": 366.5,
+        "y": 108,
+        "w": 26.5,
+        "h": 606
+      },
+      "note": "Outside the 340-pt stage: environment only.",
+      "slots": [
+        {
+          "slot_id": "bleed",
+          "kinds": [
+            "MATERIALITY",
+            "SHADOW"
+          ],
+          "content": "environment bleed",
+          "decision": "DECIDED"
+        }
+      ]
+    },
+    {
+      "zone_id": "T01.OLIVE",
+      "role": "PERIMETER",
+      "layer": "L0",
+      "rect": {
+        "x": 346,
+        "y": 96,
+        "w": 47,
+        "h": 84
+      },
+      "note": "Olive canopy enters from the top-right bleed only (GROW FREELY); tips stay outside the signal’s reserved region.",
+      "slots": [
+        {
+          "slot_id": "olive",
+          "kinds": [
+            "ENVIRONMENTAL_FOLIAGE",
+            "SHADOW"
+          ],
+          "content": "olive canopy + soft leaf shadow",
+          "decision": "DECIDED"
+        }
+      ]
+    }
+  ],
+  "overlap_relationships": [
+    {
+      "a": "T01.BRAND",
+      "b": "T01.OBJECT",
+      "relation": "Official lockup (L1) composited onto the blank cornerstone at the courtyard’s top-left outer corner."
+    }
+  ],
+  "depth_order": [
+    "L0",
+    "L3",
+    "L1",
+    "L2",
+    "L4",
+    "L5",
+    "L6",
+    "L7",
+    "L8"
+  ],
+  "visual_focal_order": [
+    "T01.SIGNAL",
+    "T01.OBJECT",
+    "T01.SECONDARY",
+    "T01.CTA",
+    "T01.BRAND"
+  ],
+  "scroll_behavior": "NO_SCROLL",
+  "responsive_logic": "Authority viewport 393×852. Shorter phones (≥ 667 pt): the signature object scales down first (to 70 % minimum), then the inline-action row moves under the CTA tighter; the signal, CTA, chrome and nav never scale. Wider phones (430 pt): the 340-pt stage stays centred and the plate bleed fills the extra width. Tablet and desktop need their own authority (RESPONSIVE_AUTHORITY_REQUIRED); never stretch this one.",
+  "density_intent": "Signal on a quiet terrace; the courtyard is the one rich object; the scale bar adds product depth; richness lives in the stone, the light and the olive at the edge.",
+  "check": {
+    "territory_id": "JURNL.F09.T01",
+    "status": "BLUEPRINT_READY",
+    "issues": []
+  },
+  "density": {
+    "blueprint_id": "JURNL.F09.T01.BLUEPRINT.v1",
+    "status": "DENSITY_BALANCED",
+    "metrics": {
+      "product_span": 0.964,
+      "signature_object_share": 0.406,
+      "negative_space_share": 0.392
+    },
+    "issues": []
+  },
+  "zone_map": "ZONE_MAPS/F09_T01_BLUEPRINT_ZONE_MAP.png"
+}

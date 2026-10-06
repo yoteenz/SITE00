@@ -1,0 +1,467 @@
+{
+  "id": "F09_COMPOSITE_ASSEMBLY_CONTRACT",
+  "sprint": "P0.JURNL.F09-SAFE-TO-SPEND.COMPOSITION-BLUEPRINT-RENDER-OWNERSHIP-CORRECTION1",
+  "generated_by": "scripts/studioos/jurnl-f09-composition-blueprint-export.ts",
+  "method": "Deterministic HTML/SVG assembly at 393×852 pt over the accepted scene plate, rendered in Chromium (Playwright). Layers stack in each blueprint’s depth_order. Material looks on exact content (engrave, emboss, letterpress, enamel, brass fill) are deterministic filters or masks over plate material, lit from the plate’s light direction.",
+  "outputs": [
+    {
+      "file": "F09_T0n_COMPOSITE_393x852@3x.png",
+      "size": "1179×2556",
+      "use": "the page authority"
+    },
+    {
+      "file": "F09_T0n_COMPOSITE_9x16_4K.png",
+      "size": "2016×3584",
+      "use": "presentation: viewport at the central 82 % with plate bleed"
+    }
+  ],
+  "logo": {
+    "path": "public/site00/projects/jurnl/brand/jurnl-logo-official.png",
+    "rule": "The official raster lockup (319×512) is placed, never redrawn, traced, regenerated or recoloured. Scale proportionally; minimum height 28 pt. Engrave / print / emboss = deterministic filters on the official asset."
+  },
+  "type": {
+    "display": "public/site00/projects/jurnl/fonts/instrument-serif-400.woff2",
+    "functional": [
+      "public/site00/projects/jurnl/fonts/barlow-semi-condensed-300.woff2",
+      "public/site00/projects/jurnl/fonts/barlow-semi-condensed-400.woff2",
+      "public/site00/projects/jurnl/fonts/barlow-semi-condensed-500.woff2"
+    ],
+    "rules": [
+      "All uppercase.",
+      "One display figure per page.",
+      "At most five type sizes on the stage (chrome and nav excluded)."
+    ]
+  },
+  "type_scale": {
+    "JURNL.F09.T01": [
+      62,
+      14,
+      11,
+      10,
+      8
+    ],
+    "JURNL.F09.T02": [
+      88,
+      26,
+      13,
+      11,
+      8
+    ],
+    "JURNL.F09.T03": [
+      60,
+      13,
+      11,
+      10,
+      8
+    ]
+  },
+  "chrome": {
+    "source": "src/projects/jurnl/runtime/components/FamilyChrome.tsx (icon buttons only)",
+    "rule": "BACK · ACCOUNT · ASK JURNL as square-rounded icon buttons; no centred wordmark."
+  },
+  "nav": {
+    "source": "src/projects/jurnl/runtime/components/ProductNav.tsx + icons.tsx",
+    "cells": [
+      "HOME (active)",
+      "MONEY",
+      "+ (QUICK ADD)",
+      "PLAN",
+      "CREDIT"
+    ],
+    "rule": "Exact runtime nav. Never circles or pills, never a sixth item, never blank cells."
+  },
+  "components": "src/projects/jurnl/runtime/components/primitives.tsx (JurnlButton, JurnlInlineAction)",
+  "copy": {
+    "canonical": {
+      "FUNCTION_LABEL": "SAFE TO SPEND",
+      "STATE_LINE_COMPLETE": "WHAT YOU CAN SPEND NOW WITHOUT TOUCHING BILLS, PLANS OR WHAT YOU’RE HOLDING.",
+      "CLEAR": "CLEAR TO SPEND",
+      "OVER": "OVER BY",
+      "VALUE": "$24,885",
+      "HELD_LINE": "HELD BACK $6,075 OF $30,960 CASH",
+      "PRIMARY_ACTION": "SEE THE FULL BREAKDOWN",
+      "SECONDARY_ACTION": "CHANGE WHAT’S HELD",
+      "PLAN_LINK": "PLAN",
+      "NAV": [
+        "HOME",
+        "MONEY",
+        "PLAN",
+        "CREDIT"
+      ],
+      "STATUS_TIME": "9:41"
+    },
+    "brand": {
+      "tagline": "PLAN TODAY. GROW FREELY.",
+      "descriptor": "FINANCIAL LIFE, BEAUTIFULLY ORGANIZED."
+    },
+    "territory": {
+      "JURNL.F09.T02": {
+        "lede": "YOU CAN SPEND",
+        "clause": [
+          "NOW, AFTER",
+          "BILLS, YOUR PLAN,",
+          "GOALS AND TRIPS."
+        ],
+        "tag": "$2,400 ASSIGNED"
+      }
+    },
+    "retired": [
+      "A FULL READING",
+      "A FULL READING. EVERY BILL HAS AN AMOUNT.",
+      "FULL READING (stamp)",
+      "CASH $30,960 (survey rule — the cash figure now lives once, in the held-back line)"
+    ],
+    "rule": "Only contract copy renders. Territory copy is reviewed by the founder at comparison; retired strings were invented by earlier rounds and are not runtime copy."
+  },
+  "data": {
+    "formula": "src/projects/jurnl/data/f09/safeToSpend.ts computeSafeToSpend (QA seed sample values)",
+    "sample": {
+      "source": "scripts/jurnl/mobile-composition-qa.mjs seedPopulated → figures quoted in docs/jurnl/refinements/mobile-creative-composition2/JURNL_FAMILY_LANGUAGE_CLARITY_AUDIT.json",
+      "fields": {
+        "cash": 30960,
+        "upcoming": 1875,
+        "assigned": 2400,
+        "goalReserved": 900,
+        "tripReserved": 900,
+        "purchaseReserved": 0,
+        "protected": 0,
+        "safetyBuffer": 0,
+        "value": 24885
+      },
+      "held_back": 6075,
+      "state_shown": "COMPLETE (representational; the seed device itself was not set up)",
+      "caveat": "The seed cash includes a LOAN balance (open functional flag: LOAN counts toward safe-to-spend cash). Representational only."
+    },
+    "bindings": {
+      "value": "breakdown.value",
+      "cash": "breakdown.cash",
+      "held": "cash − value",
+      "completeness": "breakdown.completeness → STATE_LINE",
+      "items": "non-zero of upcoming · protected · assigned · goalReserved · purchaseReserved · tripReserved · safetyBuffer (canonical order); the sample has BILLS · PLAN · GOALS · TRIPS"
+    }
+  },
+  "data_geometry": {
+    "JURNL.F09.T01": {
+      "courtyard": {
+        "room": {
+          "x": 41.5,
+          "y": 276,
+          "w": 310,
+          "h": 270
+        },
+        "wall_thickness": 14.93,
+        "floor": {
+          "x": 56.4,
+          "y": 290.9,
+          "w": 280.1,
+          "h": 240.1
+        },
+        "floor_share": 0.8038,
+        "door_gap": 37.2,
+        "door_axis_x": 196.5,
+        "courses": [
+          {
+            "course": "BILLS",
+            "amount": 1875,
+            "share": 0.3086,
+            "length": 328.1,
+            "polyline": [
+              [
+                177.9,
+                538.5
+              ],
+              [
+                49,
+                538.5
+              ],
+              [
+                49,
+                339.4
+              ]
+            ]
+          },
+          {
+            "course": "PLAN",
+            "amount": 2400,
+            "share": 0.3951,
+            "length": 420,
+            "polyline": [
+              [
+                49,
+                339.4
+              ],
+              [
+                49,
+                283.5
+              ],
+              [
+                344,
+                283.5
+              ],
+              [
+                344,
+                352.5
+              ]
+            ]
+          },
+          {
+            "course": "GOALS",
+            "amount": 900,
+            "share": 0.1481,
+            "length": 157.5,
+            "polyline": [
+              [
+                344,
+                352.5
+              ],
+              [
+                344,
+                510
+              ]
+            ]
+          },
+          {
+            "course": "TRIPS",
+            "amount": 900,
+            "share": 0.1481,
+            "length": 157.5,
+            "polyline": [
+              [
+                344,
+                510
+              ],
+              [
+                344,
+                538.5
+              ],
+              [
+                215.1,
+                538.5
+              ]
+            ]
+          }
+        ]
+      },
+      "scale_bar": {
+        "rule": {
+          "x": 26.5,
+          "y": 580,
+          "w": 340,
+          "h": 8
+        },
+        "clear": {
+          "x": 26.5,
+          "y": 580,
+          "w": 273.28,
+          "h": 8
+        },
+        "clear_share": 0.8038,
+        "held": [
+          {
+            "item": "BILLS",
+            "rect": {
+              "x": 299.78,
+              "y": 580,
+              "w": 20.59,
+              "h": 8
+            }
+          },
+          {
+            "item": "PLAN",
+            "rect": {
+              "x": 320.38,
+              "y": 580,
+              "w": 26.36,
+              "h": 8
+            }
+          },
+          {
+            "item": "GOALS",
+            "rect": {
+              "x": 346.73,
+              "y": 580,
+              "w": 9.88,
+              "h": 8
+            }
+          },
+          {
+            "item": "TRIPS",
+            "rect": {
+              "x": 356.62,
+              "y": 580,
+              "w": 9.88,
+              "h": 8
+            }
+          }
+        ]
+      }
+    },
+    "JURNL.F09.T02": {
+      "rule": {
+        "rule": {
+          "x": 26.5,
+          "y": 452,
+          "w": 300,
+          "h": 8
+        },
+        "clear": {
+          "x": 26.5,
+          "y": 452,
+          "w": 241.13,
+          "h": 8
+        },
+        "clear_share": 0.8038,
+        "held": [
+          {
+            "item": "BILLS",
+            "rect": {
+              "x": 267.63,
+              "y": 452,
+              "w": 18.17,
+              "h": 8
+            }
+          },
+          {
+            "item": "PLAN",
+            "rect": {
+              "x": 285.8,
+              "y": 452,
+              "w": 23.26,
+              "h": 8
+            }
+          },
+          {
+            "item": "GOALS",
+            "rect": {
+              "x": 309.06,
+              "y": 452,
+              "w": 8.72,
+              "h": 8
+            }
+          },
+          {
+            "item": "TRIPS",
+            "rect": {
+              "x": 317.78,
+              "y": 452,
+              "w": 8.72,
+              "h": 8
+            }
+          }
+        ]
+      }
+    },
+    "JURNL.F09.T03": {
+      "rack": {
+        "rack": {
+          "x": 36.5,
+          "y": 304,
+          "w": 320,
+          "h": 204
+        },
+        "slot_width": 52.8,
+        "slots": [
+          {
+            "slot": 1,
+            "item": "RELEASED (empty — broken seal fragments rest here)",
+            "amount": 24885,
+            "x": 48.5,
+            "envelope_thickness": 0,
+            "plate_label": null
+          },
+          {
+            "slot": 2,
+            "item": "BILLS",
+            "amount": 1875,
+            "x": 109.3,
+            "envelope_thickness": 9.38,
+            "plate_label": "BILLS"
+          },
+          {
+            "slot": 3,
+            "item": "PLAN",
+            "amount": 2400,
+            "x": 170.1,
+            "envelope_thickness": 12,
+            "plate_label": "PLAN"
+          },
+          {
+            "slot": 4,
+            "item": "GOALS",
+            "amount": 900,
+            "x": 230.9,
+            "envelope_thickness": 4.5,
+            "plate_label": "GOALS"
+          },
+          {
+            "slot": 5,
+            "item": "TRIPS",
+            "amount": 900,
+            "x": 291.7,
+            "envelope_thickness": 4.5,
+            "plate_label": "TRIPS"
+          }
+        ],
+        "rule": "Envelope top-edge thickness = 12 pt × amount ÷ largest amount (strictly proportional). Zero fields get no envelope and no slot."
+      }
+    }
+  },
+  "pending_decisions": [
+    {
+      "id": "D-F09-PRIMARY-ACTION-LABEL",
+      "slot": "primary CTA",
+      "current": "SEE THE FULL BREAKDOWN",
+      "proposal": "WHY THIS AMOUNT (founder example)",
+      "behaviour": "Render the current canonical label; the CTA zone is sized for either (≤ 22 characters)."
+    },
+    {
+      "id": "D-F09-PURCHASES-BRIDGE",
+      "slot": "inline action row",
+      "current": "not on the page",
+      "proposal": "CHECK A PURCHASE → F10",
+      "behaviour": "No slot rendered. If approved it replaces PLAN › in the inline row; no new zone."
+    },
+    {
+      "id": "D-F09-AVAILABLE-DATE",
+      "slot": "state line",
+      "current": "not on the page",
+      "proposal": "AVAILABLE THROUGH {date}",
+      "behaviour": "Not rendered: computeSafeToSpend has no horizon, so no date may be invented. Needs a formula decision first."
+    }
+  ],
+  "composite_qa": [
+    "EXACT_LOGO",
+    "EXACT_COPY",
+    "EXACT_NAV",
+    "EXACT_ICONS",
+    "EXACT_CTA",
+    "EXACT_FINANCIAL_VALUE",
+    "NO_OVERFLOW",
+    "NO_COLLISIONS",
+    "NO_GLITCHING",
+    "NO_MISSING_NAV_ITEMS",
+    "NO_BAKED_UI_UNDER_LIVE_UI",
+    "NO_DOUBLE_LOGO",
+    "NO_DOUBLE_TEXT"
+  ],
+  "richness_dimensions": [
+    "ENVIRONMENT_DEPTH",
+    "MATERIAL_VARIETY",
+    "OBJECT_DETAIL",
+    "GRAPHIC_DESIGN_DETAIL",
+    "LIGHT_SHADOW",
+    "BRAND_INTEGRATION",
+    "PRODUCT_LAYERING",
+    "CUSTOM_ELEMENTS",
+    "COMPOSITIONAL_TENSION",
+    "VISUAL_WIT"
+  ],
+  "forbidden": [
+    "text baked into the plate under live text",
+    "a redrawn or generated logo",
+    "a non-canonical nav or chrome",
+    "copy outside the contract",
+    "data geometry eyeballed instead of computed"
+  ],
+  "logo_sha256": "d0f706ebcd132562f233ed955e5670c0ff9309d9db6ef85c9d2650b72a16e188"
+}

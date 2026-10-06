@@ -3,6 +3,7 @@
   "sprint": "P0.JURNL.F09-SAFE-TO-SPEND.CREATIVE-DIRECTION-BRAND-EXPRESSION-CORRECTION1",
   "generated_by": "scripts/studioos/jurnl-f09-creative-direction-export.ts",
   "scale": "1–5 founder-review scale (5 = authority-grade).",
+  "corrected_round_status": "SUPERSEDED — renders invalidated; see JURNL/F09_SAFE/COMPOSITION_BLUEPRINT_CORRECTION1/F09_INVALID_RENDER_LEDGER.json",
   "dimensions": [
     "BRAND_SPECIFICITY",
     "VISUAL_RICHNESS",

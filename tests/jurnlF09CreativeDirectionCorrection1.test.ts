@@ -131,11 +131,14 @@ describe('ChatGPT hand-off prompts (founder-run interim)', () => {
 });
 
 describe('state of the round', () => {
-  it('Sunburst corrected candidates ready for founder review; no production implementation', () => {
+  it('Sunburst corrected candidates exist but fail the audit (corrected by the composition-blueprint sprint); no production implementation', () => {
     expect(jurnlF09CD.JURNL_F09_CORRECTED_CANDIDATES).toHaveLength(3);
     expect(jurnlF09CD.JURNL_F09_CD_GENERATION_LEDGER.primary_generations).toBe(3);
     expect(jurnlF09CD.JURNL_F09_CD_GENERATION_LEDGER.openart_accessed).toBe(true);
-    expect(jurnlF09CD.jurnlF09CreativeStatus().gate.status).toBe('REFERENCE_AUTHORITIES_READY');
+    // The render sprint recorded empty audits; the visible defects (JURL, dropped TRIPS., invented mark, metaphor as page) are now recorded.
+    const gate = jurnlF09CD.jurnlF09CreativeStatus().gate;
+    expect(gate.status).toBe('ANTI_AI_FAILURE');
+    expect(gate.per_territory.every((p) => p.status !== 'REFERENCE_AUTHORITY_READY')).toBe(true);
     for (const t of T) expect(t.founder_decision).toBeNull();
     for (const c of jurnlF09CD.JURNL_F09_CORRECTED_CANDIDATES) {
       expect(existsSync(path.join(ROOT, c.image_path)), c.image_path).toBe(true);

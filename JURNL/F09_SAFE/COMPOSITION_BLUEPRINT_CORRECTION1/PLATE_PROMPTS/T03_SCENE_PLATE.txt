@@ -1,0 +1,40 @@
+## PLATE
+An art plate for compositing: environment and object in one light. It is not a finished screen and contains no text, no logo and no interface of any kind.
+
+## VIEW
+Frontal still life, camera square to the wall, very slightly above the rack.
+
+## SCENE
+A limewashed plaster wall. Near the top, one blank cotton-rag slip of paper with soft fold creases, held flat to the wall, frontal. Below it, a natural oak sorting rack with five slots: the first slot on the left is empty with two small broken blank burgundy wax-seal fragments resting in it; slots two to five each hold one sealed linen envelope (bone, greige, ivory, pale blush) closed with a blank burgundy wax seal, the envelopes’ thicknesses exactly as drawn in the plate guide. A blank brushed-brass plate under each slot, and one long blank brass strip fixed to the wall under the rack.
+
+## LIGHT
+Soft morning window light from the upper left (window off-frame); gentle long shadows of the envelopes and slip on the wall.
+
+## MATERIALS (no others)
+limewashed plaster · paper and linen · oak · brass and wax
+
+## BLANK SURFACES (left empty; exact typography and the real logo are added later)
+- the released slip (no printing)
+- five blank slot plates
+- the blank brass strip
+- blank wax seals (no emboss)
+
+## GEOMETRY
+Follow the attached plate guide exactly. The main object occupies x 16.6–83.4 %, y 35.7–59.6 %; its proportions in the guide are measurements, so do not resize, move or even them out. The outer 9 % on each side is environment bleed.
+
+## QUIET REGIONS (material and light only)
+- x 9.0–91.0 %, y 0.0–6.3 %: plain plaster
+- x 14.5–85.4 %, y 6.9–11.1 %: plain plaster
+- x 14.5–85.4 %, y 89.4–94.6 %: plain plaster
+- x 9.0–91.0 %, y 96.2–100.0 %: plain plaster
+- x 18.7–81.3 %, y 12.7–34.3 %: blank paper of the slip
+- x 21.1–58.7 %, y 13.8–17.3 %: blank paper of the slip
+- x 18.7–81.3 %, y 61.0–64.3 %: the blank brass strip
+- x 14.5–85.4 %, y 73.5–78.7 %: plain plaster
+- x 14.5–85.4 %, y 79.6–82.9 %: plain plaster
+
+## MUST NOT CONTAIN
+Any letters, numbers, symbols or glyphs; any logo, monogram or emblem; any button, pill, card, panel, icon, tab bar, status bar, phone frame or interface element; engraving or printing on any plate, paper, tag or seal; people, furniture, flowers, candles, pens or other props.
+
+## RENDER SETTINGS
+gpt-image-2.5-sunburst · quality 4K · aspect ratio 9:16 · auto-enhance OFF · reference-guided with the attached plate guide only.

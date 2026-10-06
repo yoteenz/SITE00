@@ -13,6 +13,7 @@
  */
 import type { ExperienceActor, ExperienceContract, Viewport } from '../studioos-experience-brain/schema.js';
 import type { CreativeDirectionGateInput } from './creative-direction.js';
+import type { HybridAuthorityInput } from './hybrid-authority.js';
 
 export const VISUAL_AUTHORITY_SCHEMA_VERSION = '1.0.0' as const;
 export const VISUAL_AUTHORITY_SPRINT = 'P0.SITE00.PRODUCTION-METHODOLOGY.VISUAL-AUTHORITY-DEVELOPMENT-GATE1' as const;
@@ -37,7 +38,9 @@ export const AUTHORITY_DEVELOPMENT_SEQUENCE: readonly { step: string; id: string
   { step: '04', id: 'CREATE_3_COMPOSITION_TERRITORIES', does: 'Author three territories that differ in spatial logic, primary zone, hierarchy, interaction emphasis, density and media relationship.', produces: 'CompositionTerritory[3] (checked by checkTerritoryDistinctness)' },
   { step: '04A', id: 'CREATIVE_DIRECTION_TRANSLATION', does: 'Translate each structural territory into this project’s brand world through its own CreativeDirectionProfile: art-direction premise, world, graphic-design language, environment, materials, tactile objects, type, logo / lockup, colour, light, depth, tension, negative space, wit, custom element, bespoke detail, imagery role, focal priority, motion, anti-generic and anti-AI rules — and lock object, zones, hierarchy, text, logo, nav, CTA, focal points, materials, negative space and environment before any generation.', produces: 'CreativeDirectionTranslation per territory (checkCreativeDirection → CREATIVE_DIRECTION_READY)' },
   { step: '04B', id: 'BRAND_EXPRESSION_GATE', does: 'Pre-generation proof that each translation carries the whole brand, not palette + font: world, philosophy, family logic, custom graphic idea, bespoke object, environment role, art-directed logo, taglines, unmistakable signal, no dashboard / card stack / AI default, brand evident with the logo hidden.', produces: 'BrandExpressionCheck per territory (checkBrandExpression → BRAND_EXPRESSION_READY)' },
-  { step: '05', id: 'GENERATE_OR_ASSEMBLE_REFERENCE_AUTHORITIES', does: 'One reference authority per territory that shows real composition, hierarchy, zones, media relationship, interaction emphasis and actor intent. Since the creative-direction correction the candidate is rendered by the profile’s image renderer from the locked translation (the renderer executes; it never designs), then passes the anti-AI visual audit and the typography guard before it counts (checkCandidateAuthority → REFERENCE_AUTHORITY_READY).', produces: 'ReferenceAuthority per territory' },
+  { step: '04C', id: 'PAGE_COMPOSITION_BLUEPRINT', does: 'Before any generation, lock how the page is composed as geometry: frame and safe areas, every zone (status, chrome, brand frame, primary signal, signature object, secondary product, CTA, nav, environment, perimeter, negative space) with its layer and slots, declared overlaps, depth and focal order, scroll and responsive logic, density intent. The metaphor is contained (OBJECT or ZONE by default; WHOLE_PAGE only with a founder decision).', produces: 'PageCompositionBlueprint per territory (checkCompositionBlueprint → BLUEPRINT_READY)' },
+  { step: '04D', id: 'RENDER_LAYER_OWNERSHIP', does: 'Assign exactly one renderer to each layer L0–L8 within the project’s render-ownership profile. Precision product UI (copy, figures, logo geometry, icons, nav, buttons, labels, data geometry) is deterministic; the image generator owns art only; a COMPOSITE layer names its generated and deterministic parts.', produces: 'RenderOwnershipMap per territory (checkRenderOwnership → OWNERSHIP_READY)' },
+  { step: '05', id: 'GENERATE_OR_ASSEMBLE_REFERENCE_AUTHORITIES', does: 'One reference authority per territory that shows real composition, hierarchy, zones, media relationship, interaction emphasis and actor intent. Since the composition-blueprint correction the reference authority is a COMPOSITE: text-free art plates from the profile renderer (generator QA, baked-UI guard, contamination guard) plus deterministic assembly of every precision layer, passing composite QA, the richness audit and the 2-second product-clarity check (checkCompositeAuthority → AUTHORITY_READY). An image generator may contribute to a product authority but may not be its sole renderer.', produces: 'ReferenceAuthority per territory' },
   { step: '06', id: 'FOUNDER_CHOOSES_OR_REVISES', does: 'Founder: LOVE_IT · REVISE · REJECT · COMBINE · REQUEST_FOURTH_TERRITORY.', produces: 'FounderAuthorityDecision' },
   { step: '07', id: 'LOCK_PAGE_FAMILY_AUTHORITY', does: 'Lock approved page logic: core logic locks + flexible implementation areas + lineage. Other actors / viewports may DERIVE from the locked parent authority (AuthorityDerivation) instead of running their own territories.', produces: 'PageFamilyAuthority (PAGE_FAMILY_AUTHORITY level)' },
   { step: '07A', id: 'PRODUCE_PAGE_TAB_STATE_TREE', does: 'The Brain ingests brand DNA + experience contract + authority package + page / tab / data / interaction / asset contracts and produces the page / tab / state tree. Tabs are first-class nodes; every material node carries a node contract, authority binding and readiness.', produces: 'Experience tree (tree.ts) + PageTreeConfirmation PRODUCED' },
@@ -90,12 +93,16 @@ export type AuthorityGuardStatus =
   | 'AUTHORITY_AS_RUNTIME_ASSET'
   | 'PAGE_TREE_CONFIRMATION_REQUIRED'
   | 'CREATIVE_DIRECTION_REQUIRED'
-  | 'BRAND_EXPRESSION_REQUIRED';
+  | 'BRAND_EXPRESSION_REQUIRED'
+  | 'PAGE_COMPOSITION_BLUEPRINT_REQUIRED'
+  | 'RENDER_LAYER_OWNERSHIP_REQUIRED'
+  | 'COMPOSITE_AUTHORITY_REQUIRED';
 
 export const AUTHORITY_GUARD_STATUSES: readonly AuthorityGuardStatus[] = [
   'FAMILY_LOCK_REQUIRED', 'VISUAL_AUTHORITY_REQUIRED', 'LEGACY_VISUAL_LEAK', 'TERRITORY_DISTINCTNESS_FAILURE',
   'REFERENCE_AUTHORITY_REQUIRED', 'FOUNDER_REVIEW_REQUIRED', 'RESPONSIVE_AUTHORITY_REQUIRED', 'AUTHORITY_AS_RUNTIME_ASSET',
   'PAGE_TREE_CONFIRMATION_REQUIRED', 'CREATIVE_DIRECTION_REQUIRED', 'BRAND_EXPRESSION_REQUIRED',
+  'PAGE_COMPOSITION_BLUEPRINT_REQUIRED', 'RENDER_LAYER_OWNERSHIP_REQUIRED', 'COMPOSITE_AUTHORITY_REQUIRED',
 ];
 
 /** The durable rule (motherboard): all eight must hold before a material page family moves to implementation. */
@@ -431,6 +438,11 @@ export type AuthorityGateInput = {
    * material family except the explicitly grandfathered ones (CREATIVE_DIRECTION_GRANDFATHERED).
    */
   creative_direction?: CreativeDirectionGateInput | null;
+  /**
+   * Page composition blueprint → render-layer ownership → composite authority (composition-blueprint correction). Same
+   * scope as creative_direction: every non-grandfathered material family. The reference authority is the COMPOSITE.
+   */
+  hybrid?: HybridAuthorityInput | null;
   implementation?: ImplementationReport | null;
 };
 

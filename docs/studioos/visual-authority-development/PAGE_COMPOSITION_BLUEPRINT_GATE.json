@@ -1,0 +1,103 @@
+{
+  "id": "PAGE_COMPOSITION_BLUEPRINT_GATE",
+  "schema_version": "1.0.0",
+  "sprint": "P0.JURNL.F09-SAFE-TO-SPEND.COMPOSITION-BLUEPRINT-RENDER-OWNERSHIP-CORRECTION1",
+  "doctrine": "UPSTREAM DEFINES INTENT. DOWNSTREAM INCREASES FIDELITY.",
+  "generated_by": "scripts/studioos/visual-authority-export.ts",
+  "supersedes": "A COMPLETE SUNBURST PROMPT = A COMPLETE PRODUCT AUTHORITY",
+  "gate_status": {
+    "ready": "BLUEPRINT_READY",
+    "blocked": "PAGE_COMPOSITION_BLUEPRINT_REQUIRED"
+  },
+  "evaluator": "checkCompositionBlueprint(blueprint, territory)",
+  "position": "After creative direction + brand expression, before render ownership and before any generation.",
+  "layers": {
+    "L0": "ENVIRONMENT",
+    "L1": "BRAND FRAME",
+    "L2": "PRIMARY PRODUCT SIGNAL",
+    "L3": "SIGNATURE PHYSICAL / GRAPHIC OBJECT",
+    "L4": "SECONDARY PRODUCT MODULE",
+    "L5": "ACTION / CTA",
+    "L6": "SYSTEM CHROME",
+    "L7": "NAVIGATION",
+    "L8": "OVERLAYS / SHEETS / TRANSIENT STATES"
+  },
+  "zone_roles": [
+    "SYSTEM_STATUS",
+    "SYSTEM_CHROME",
+    "BRAND_FRAME",
+    "PRIMARY_SIGNAL",
+    "SIGNATURE_OBJECT",
+    "SECONDARY_PRODUCT",
+    "CTA",
+    "NAV",
+    "ENVIRONMENT",
+    "PERIMETER",
+    "NEGATIVE_SPACE",
+    "OVERLAY"
+  ],
+  "required_zone_roles": [
+    "SYSTEM_CHROME",
+    "BRAND_FRAME",
+    "PRIMARY_SIGNAL",
+    "SIGNATURE_OBJECT",
+    "SECONDARY_PRODUCT",
+    "CTA",
+    "NAV",
+    "ENVIRONMENT",
+    "PERIMETER",
+    "NEGATIVE_SPACE"
+  ],
+  "product_zone_roles": [
+    "BRAND_FRAME",
+    "PRIMARY_SIGNAL",
+    "SECONDARY_PRODUCT",
+    "CTA"
+  ],
+  "system_zone_roles": [
+    "SYSTEM_STATUS",
+    "SYSTEM_CHROME",
+    "NAV"
+  ],
+  "blueprint_fields": [
+    "frame (pt + generated aspect + frame mapping)",
+    "safe_areas (top, bottom, stage x/w, nav_reserve_top)",
+    "metaphor_scope + justification (+ founder decision for WHOLE_PAGE)",
+    "layers_present",
+    "zones (role, layer, rect, slots with precision kinds and decisions)",
+    "overlap_relationships",
+    "depth_order",
+    "visual_focal_order",
+    "scroll_behavior",
+    "responsive_logic",
+    "density_intent"
+  ],
+  "metaphor_containment": {
+    "rule": "THE METAPHOR MAY DEFINE A SIGNATURE OBJECT OR ZONE. IT SHOULD NOT AUTOMATICALLY DEFINE THE ENTIRE PAGE.",
+    "scopes": [
+      "OBJECT",
+      "ZONE",
+      "ENVIRONMENT",
+      "BACKGROUND",
+      "INTERACTION",
+      "WHOLE_PAGE"
+    ],
+    "default": [
+      "OBJECT",
+      "ZONE"
+    ],
+    "whole_page": "Only with a recorded founder decision."
+  },
+  "checks": [
+    "every required zone role present",
+    "every zone inside the frame and on a declared layer",
+    "product and signature zones never collide with status, chrome or nav",
+    "product zones intersect only with a declared relationship",
+    "product zones stay inside the stage width and between the top inset and the nav reserve",
+    "signature object 12–50 % of the stage (unless WHOLE_PAGE by founder decision)",
+    "primary signal centred in the upper 60 % of the frame; focal order starts there",
+    "product content not crammed into one third of the frame",
+    "≥ 6 % of the stage reserved as named negative space",
+    "depth order covers every layer present; responsive logic stated"
+  ]
+}

@@ -47,7 +47,9 @@ The compiler's creative gates say *which* archetypes need new authority. This ga
 | 04 | CREATE 3 DISTINCT COMPOSITION TERRITORIES | `checkTerritoryDistinctness` → TERRITORY_DISTINCTNESS_FAILURE |
 | 04A | CREATIVE DIRECTION TRANSLATION (project-specific profile; locks before generation) | `checkCreativeDirection` → CREATIVE_DIRECTION_REQUIRED · [CREATIVE_DIRECTION_GATE.md](CREATIVE_DIRECTION_GATE.md) |
 | 04B | BRAND EXPRESSION GATE (19-item checklist, brand evident with the logo hidden) | `checkBrandExpression` → BRAND_EXPRESSION_REQUIRED · [BRAND_EXPRESSION_GATE.md](BRAND_EXPRESSION_GATE.md) |
-| 05 | GENERATE / ASSEMBLE REFERENCE AUTHORITIES (profile renderer executes the locked translation; anti-AI audit + typography guard) | `checkReferences` + `checkCandidateAuthority` → REFERENCE_AUTHORITY_REQUIRED |
+| 04C | PAGE COMPOSITION BLUEPRINT (zones, layers, overlaps, focal order, density; metaphor contained) | `checkCompositionBlueprint` → PAGE_COMPOSITION_BLUEPRINT_REQUIRED · [PAGE_COMPOSITION_BLUEPRINT_GATE.md](PAGE_COMPOSITION_BLUEPRINT_GATE.md) |
+| 04D | RENDER-LAYER OWNERSHIP (one owner per layer L0–L8; precision UI deterministic) | `checkRenderOwnership` → RENDER_LAYER_OWNERSHIP_REQUIRED · [RENDER_LAYER_OWNERSHIP_GATE.md](RENDER_LAYER_OWNERSHIP_GATE.md) |
+| 05 | GENERATE / ASSEMBLE REFERENCE AUTHORITIES: text-free art plates + deterministic assembly = the **composite** authority | `checkReferences` + `checkCompositeAuthority` → COMPOSITE_AUTHORITY_REQUIRED · [HYBRID_AUTHORITY_RENDERING_METHOD.md](HYBRID_AUTHORITY_RENDERING_METHOD.md) |
 | 06 | FOUNDER CHOOSES / REVISES | founder verdict |
 | 07 | LOCK PAGE-FAMILY AUTHORITY (other actors / viewports may **derive** from the locked parent) | `checkAuthorityLock` · `checkDerivation` |
 | 07A | BRAIN PRODUCES THE PAGE / TAB / STATE TREE (tabs are first-class nodes) | `tree.ts` → `buildExperienceTree` · `evaluateNodeReadiness` · `treeCoverage` |
@@ -78,6 +80,29 @@ References count only when each territory is `REFERENCE_AUTHORITY_READY`, which 
 **Grandfathered:** AIO IFTA (locked before this gate).
 
 **New guards:** `CREATIVE_DIRECTION_REQUIRED` and `BRAND_EXPRESSION_REQUIRED`.
+
+### 3.2 Composition blueprint + render ownership correction (P0.JURNL.F09-SAFE-TO-SPEND.COMPOSITION-BLUEPRINT-RENDER-OWNERSHIP-CORRECTION1)
+
+> **An image generator may contribute to a product authority, but it may not be the sole renderer of precision product UI.**
+
+Two F09 rounds failed the same way. The image model had to infer the page architecture and render every word, figure, logo and nav cell. The metaphor took over the page, and the product came out inexact.
+
+Superseded:
+- A COMPLETE SUNBURST PROMPT = A COMPLETE PRODUCT AUTHORITY
+- IMAGE GENERATOR = SOLE RENDERER OF THE SCREEN
+
+After 04A and 04B, every non-grandfathered material family now passes:
+- **04C Page Composition Blueprint:** geometry, not prose. The metaphor scope defaults to OBJECT or ZONE.
+- **04D Render-Layer Ownership:** L0–L8, one owner each, inside a per-project profile.
+
+The reference authority is then a **composite**:
+- text-free art plates, checked by generator QA, the [baked-UI guard](BAKED_UI_GUARD.md) and the contamination guard
+- deterministic assembly of every precision layer
+- passing [composite QA](COMPOSITE_AUTHORITY_QA.md), the richness audit and the 2-second product-clarity check
+
+A whole-screen render no longer counts as the authority. JURNL's composition rules are in [JURNL_COMPOSITION_GRAMMAR.md](JURNL_COMPOSITION_GRAMMAR.md).
+
+**New guards:** `PAGE_COMPOSITION_BLUEPRINT_REQUIRED`, `RENDER_LAYER_OWNERSHIP_REQUIRED` and `COMPOSITE_AUTHORITY_REQUIRED`.
 
 ## 4. Durable rule
 
@@ -124,6 +149,9 @@ These guards can stop the line at any state:
 - PAGE_TREE_CONFIRMATION_REQUIRED
 - CREATIVE_DIRECTION_REQUIRED
 - BRAND_EXPRESSION_REQUIRED
+- PAGE_COMPOSITION_BLUEPRINT_REQUIRED
+- RENDER_LAYER_OWNERSHIP_REQUIRED
+- COMPOSITE_AUTHORITY_REQUIRED
 
 Full transitions are in `VISUAL_AUTHORITY_STATE_MODEL.json`.
 

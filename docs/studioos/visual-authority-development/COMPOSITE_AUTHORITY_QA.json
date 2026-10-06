@@ -1,0 +1,51 @@
+{
+  "id": "COMPOSITE_AUTHORITY_QA",
+  "schema_version": "1.0.0",
+  "sprint": "P0.JURNL.F09-SAFE-TO-SPEND.COMPOSITION-BLUEPRINT-RENDER-OWNERSHIP-CORRECTION1",
+  "doctrine": "UPSTREAM DEFINES INTENT. DOWNSTREAM INCREASES FIDELITY.",
+  "generated_by": "scripts/studioos/visual-authority-export.ts",
+  "gate_status": {
+    "ready": "AUTHORITY_READY",
+    "blocked": "COMPOSITE_AUTHORITY_REQUIRED"
+  },
+  "evaluator": "checkCompositeAuthority({ blueprint, ownership, profile, composite, renderer_model })",
+  "art_layers": "One accepted plate per generator / COMPOSITE layer, from the profile renderer (never a local approximation), passing generator QA, the baked-UI guard and contamination.",
+  "composite_qa": [
+    "EXACT_LOGO",
+    "EXACT_COPY",
+    "EXACT_NAV",
+    "EXACT_ICONS",
+    "EXACT_CTA",
+    "EXACT_FINANCIAL_VALUE",
+    "NO_OVERFLOW",
+    "NO_COLLISIONS",
+    "NO_GLITCHING",
+    "NO_MISSING_NAV_ITEMS",
+    "NO_BAKED_UI_UNDER_LIVE_UI",
+    "NO_DOUBLE_LOGO",
+    "NO_DOUBLE_TEXT"
+  ],
+  "anti_ai": "The creative-direction anti-AI flags apply to the composite; a MATERIAL flag blocks.",
+  "richness": {
+    "dimensions": [
+      "ENVIRONMENT_DEPTH",
+      "MATERIAL_VARIETY",
+      "OBJECT_DETAIL",
+      "GRAPHIC_DESIGN_DETAIL",
+      "LIGHT_SHADOW",
+      "BRAND_INTEGRATION",
+      "PRODUCT_LAYERING",
+      "CUSTOM_ELEMENTS",
+      "COMPOSITIONAL_TENSION",
+      "VISUAL_WIT"
+    ],
+    "scale": "1–5",
+    "min_each": 3,
+    "min_mean": 3.8,
+    "rule": "A sparse layout with correct colours is not rich."
+  },
+  "product_clarity": {
+    "max_seconds": 2,
+    "rule": "The primary signal is understood without interpreting the metaphor."
+  }
+}

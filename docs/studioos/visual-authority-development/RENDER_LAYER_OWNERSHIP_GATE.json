@@ -1,0 +1,297 @@
+{
+  "id": "RENDER_LAYER_OWNERSHIP_GATE",
+  "schema_version": "1.0.0",
+  "sprint": "P0.JURNL.F09-SAFE-TO-SPEND.COMPOSITION-BLUEPRINT-RENDER-OWNERSHIP-CORRECTION1",
+  "doctrine": "UPSTREAM DEFINES INTENT. DOWNSTREAM INCREASES FIDELITY.",
+  "generated_by": "scripts/studioos/visual-authority-export.ts",
+  "supersedes": "IMAGE GENERATOR = SOLE RENDERER OF THE SCREEN",
+  "hard_rule": "AN IMAGE GENERATOR MAY CONTRIBUTE TO A PRODUCT AUTHORITY, BUT IT MAY NOT BE THE SOLE RENDERER OF PRECISION PRODUCT UI.",
+  "gate_status": {
+    "ready": "OWNERSHIP_READY",
+    "blocked": "RENDER_LAYER_OWNERSHIP_REQUIRED"
+  },
+  "evaluator": "checkRenderOwnership(ownership, blueprint, profile)",
+  "owners": [
+    "IMAGE_GENERATOR",
+    "DETERMINISTIC_UI",
+    "DETERMINISTIC_VECTOR",
+    "COMPOSITE",
+    "NO_RENDER"
+  ],
+  "precision_ui": [
+    "EXACT_COPY",
+    "EXACT_NUMBER",
+    "LOGO_GEOMETRY",
+    "ICON",
+    "NAVIGATION",
+    "BUTTON",
+    "TAB_LABEL",
+    "STATE_LABEL",
+    "STATUS_VALUE",
+    "PROGRESS",
+    "FINANCIAL_VALUE",
+    "SPACING_GRID",
+    "INTERACTION_CHROME"
+  ],
+  "art_truth": [
+    "ARCHITECTURE",
+    "LIGHTING",
+    "MATERIALITY",
+    "PAPER_OBJECT",
+    "FOLDER",
+    "ENVELOPE",
+    "STONE_STRUCTURE",
+    "BRANDED_PHYSICAL_METAPHOR",
+    "SCENE_DEPTH",
+    "SHADOW",
+    "ENVIRONMENTAL_FOLIAGE",
+    "TACTILE_OBJECT"
+  ],
+  "deterministic_layers": [
+    "L2",
+    "L4",
+    "L5",
+    "L6",
+    "L7"
+  ],
+  "rules": [
+    "Exactly one owner per layer present in the blueprint.",
+    "L2, L4, L5, L6, L7 are deterministic (DETERMINISTIC_UI / DETERMINISTIC_VECTOR / NO_RENDER).",
+    "L1 brand frame is never generator-owned: logo geometry is the official asset.",
+    "A COMPOSITE layer names its generated_part and its deterministic_part.",
+    "No zone with a precision slot sits on a generator-owned layer.",
+    "Owners stay within the project’s render-ownership profile."
+  ],
+  "profiles": [
+    {
+      "profile_id": "JURNL.RENDER_OWNERSHIP.v1",
+      "project_id": "JURNL",
+      "status": "READY",
+      "stance": "Environment / object generation heavy; precision UI deterministic.",
+      "allowed": {
+        "L0": [
+          "IMAGE_GENERATOR"
+        ],
+        "L1": [
+          "DETERMINISTIC_VECTOR",
+          "DETERMINISTIC_UI",
+          "COMPOSITE"
+        ],
+        "L2": [
+          "DETERMINISTIC_UI"
+        ],
+        "L3": [
+          "COMPOSITE",
+          "IMAGE_GENERATOR"
+        ],
+        "L4": [
+          "DETERMINISTIC_UI"
+        ],
+        "L5": [
+          "DETERMINISTIC_UI"
+        ],
+        "L6": [
+          "DETERMINISTIC_UI"
+        ],
+        "L7": [
+          "DETERMINISTIC_UI"
+        ],
+        "L8": [
+          "DETERMINISTIC_UI",
+          "NO_RENDER"
+        ]
+      }
+    },
+    {
+      "profile_id": "AIO.RENDER_OWNERSHIP.draft",
+      "project_id": "AIO",
+      "status": "DRAFT_NEEDS_FOUNDER",
+      "stance": "Mostly deterministic operational UI; selective cinematic imagery (L0 optional).",
+      "allowed": {
+        "L0": [
+          "IMAGE_GENERATOR",
+          "NO_RENDER"
+        ],
+        "L1": [
+          "DETERMINISTIC_VECTOR"
+        ],
+        "L2": [
+          "DETERMINISTIC_UI"
+        ],
+        "L3": [
+          "DETERMINISTIC_UI",
+          "COMPOSITE",
+          "NO_RENDER"
+        ],
+        "L4": [
+          "DETERMINISTIC_UI"
+        ],
+        "L5": [
+          "DETERMINISTIC_UI"
+        ],
+        "L6": [
+          "DETERMINISTIC_UI"
+        ],
+        "L7": [
+          "DETERMINISTIC_UI"
+        ],
+        "L8": [
+          "DETERMINISTIC_UI",
+          "NO_RENDER"
+        ]
+      }
+    },
+    {
+      "profile_id": "FRONTAL_SLAYER.RENDER_OWNERSHIP.draft",
+      "project_id": "FRONTAL_SLAYER",
+      "status": "DRAFT_NEEDS_FOUNDER",
+      "stance": "High generated environment and product imagery; deterministic commerce UI (price, cart, variants).",
+      "allowed": {
+        "L0": [
+          "IMAGE_GENERATOR"
+        ],
+        "L1": [
+          "DETERMINISTIC_VECTOR"
+        ],
+        "L2": [
+          "DETERMINISTIC_UI"
+        ],
+        "L3": [
+          "IMAGE_GENERATOR",
+          "COMPOSITE"
+        ],
+        "L4": [
+          "DETERMINISTIC_UI"
+        ],
+        "L5": [
+          "DETERMINISTIC_UI"
+        ],
+        "L6": [
+          "DETERMINISTIC_UI"
+        ],
+        "L7": [
+          "DETERMINISTIC_UI"
+        ],
+        "L8": [
+          "DETERMINISTIC_UI",
+          "NO_RENDER"
+        ]
+      }
+    },
+    {
+      "profile_id": "ASTRAL_WORLD.RENDER_OWNERSHIP.draft",
+      "project_id": "ASTRAL_WORLD",
+      "status": "DRAFT_NEEDS_FOUNDER",
+      "stance": "World generation heavy; deterministic interaction overlay.",
+      "allowed": {
+        "L0": [
+          "IMAGE_GENERATOR"
+        ],
+        "L1": [
+          "DETERMINISTIC_VECTOR",
+          "COMPOSITE"
+        ],
+        "L2": [
+          "DETERMINISTIC_UI"
+        ],
+        "L3": [
+          "IMAGE_GENERATOR",
+          "COMPOSITE"
+        ],
+        "L4": [
+          "DETERMINISTIC_UI"
+        ],
+        "L5": [
+          "DETERMINISTIC_UI"
+        ],
+        "L6": [
+          "DETERMINISTIC_UI"
+        ],
+        "L7": [
+          "DETERMINISTIC_UI"
+        ],
+        "L8": [
+          "DETERMINISTIC_UI",
+          "NO_RENDER"
+        ]
+      }
+    },
+    {
+      "profile_id": "NDXBOOK.RENDER_OWNERSHIP.draft",
+      "project_id": "NDXBOOK",
+      "status": "DRAFT_NEEDS_FOUNDER",
+      "stance": "Editorial asset generation; deterministic workspace / product UI.",
+      "allowed": {
+        "L0": [
+          "IMAGE_GENERATOR",
+          "NO_RENDER"
+        ],
+        "L1": [
+          "DETERMINISTIC_VECTOR"
+        ],
+        "L2": [
+          "DETERMINISTIC_UI"
+        ],
+        "L3": [
+          "IMAGE_GENERATOR",
+          "COMPOSITE"
+        ],
+        "L4": [
+          "DETERMINISTIC_UI"
+        ],
+        "L5": [
+          "DETERMINISTIC_UI"
+        ],
+        "L6": [
+          "DETERMINISTIC_UI"
+        ],
+        "L7": [
+          "DETERMINISTIC_UI"
+        ],
+        "L8": [
+          "DETERMINISTIC_UI",
+          "NO_RENDER"
+        ]
+      }
+    },
+    {
+      "profile_id": "SITE00.RENDER_OWNERSHIP.draft",
+      "project_id": "SITE00",
+      "status": "DRAFT_NEEDS_FOUNDER",
+      "stance": "Host / operator UI is deterministic; generation only for client-facing media.",
+      "allowed": {
+        "L0": [
+          "NO_RENDER",
+          "IMAGE_GENERATOR"
+        ],
+        "L1": [
+          "DETERMINISTIC_VECTOR"
+        ],
+        "L2": [
+          "DETERMINISTIC_UI"
+        ],
+        "L3": [
+          "DETERMINISTIC_UI",
+          "COMPOSITE",
+          "NO_RENDER"
+        ],
+        "L4": [
+          "DETERMINISTIC_UI"
+        ],
+        "L5": [
+          "DETERMINISTIC_UI"
+        ],
+        "L6": [
+          "DETERMINISTIC_UI"
+        ],
+        "L7": [
+          "DETERMINISTIC_UI"
+        ],
+        "L8": [
+          "DETERMINISTIC_UI",
+          "NO_RENDER"
+        ]
+      }
+    }
+  ]
+}

@@ -14257,6 +14257,47 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
+## 2026-10-06 — JURNL F09 composition blueprint + render ownership (P0.JURNL.F09-SAFE-TO-SPEND.COMPOSITION-BLUEPRINT-RENDER-OWNERSHIP-CORRECTION1)
+
+- **Hard rule (methodology):** AN IMAGE GENERATOR MAY CONTRIBUTE TO A PRODUCT AUTHORITY, BUT IT MAY NOT BE THE SOLE RENDERER OF PRECISION PRODUCT UI.
+  - Superseded: "a complete Sunburst prompt = a complete product authority" and "image generator = sole renderer of the screen".
+- **New gates** in `shared/studioos-visual-authority/hybrid-authority.ts`, wired into `evaluateAuthorityGate` after 04A/04B, before references:
+  - 04C `PAGE_COMPOSITION_BLUEPRINT_REQUIRED` (`checkCompositionBlueprint`)
+  - 04D `RENDER_LAYER_OWNERSHIP_REQUIRED` (`checkRenderOwnership`)
+  - 05 `COMPOSITE_AUTHORITY_REQUIRED` (`checkCompositeAuthority`): the composite, not a whole-screen render, is the reference authority.
+  - Layers are L0–L8 with one owner each. L2 and L4–L7 are deterministic; L1 is never generated.
+  - Metaphor scope defaults to OBJECT or ZONE; WHOLE_PAGE needs a founder decision.
+  - Also: baked-UI guard (OCR + reserved-region edge score ≤ 0.12), contamination guard, richness audit (each ≥ 3, mean ≥ 3.8) and 2-second clarity.
+  - Render-ownership profiles: JURNL is READY; AIO, FRONTAL_SLAYER, ASTRAL_WORLD, NDXBOOK and SITE00 are drafts for the founder. AIO IFTA stays grandfathered.
+  - Docs (6 md + 6 generated json) are in `docs/studioos/visual-authority-development/`; the export count is 22.
+- **JURNL composition grammar** (`projects/jurnl/composition-grammar.ts`):
+  - nine rules G01–G09
+  - the comparison-concept lessons as rules
+  - density rule `checkJurnlDensity`
+  - the shared 393×852 geometry
+- **F09 package** `JURNL/F09_SAFE/COMPOSITION_BLUEPRINT_CORRECTION1/`, from `projects/jurnl/f09-composition-blueprint.ts`:
+  - three blueprints, all BLUEPRINT_READY: T01 OBJECT courtyard ≈ 41 % of the stage; T02 ZONE brass after-clause; T03 OBJECT rack, with the released slip at the top carrying the signal
+  - three ownership maps, all OWNERSHIP_READY
+  - data geometry computed from the formula (courses, rule, envelope thickness)
+  - one text-free scene plate per territory (prompts with no product or brand words) plus plate guides
+  - assembly contract, contamination guard (with hashes) and invalid-render ledger
+  - zone maps stamped BLUEPRINT — NOT AUTHORITY
+- **Corrected the render sprint's QA.** The OpenArt renders' audits were empty or PASS. Recorded defects:
+  - T01: "JURL" wordmark; metaphor consumed the page; courses not data-true
+  - T02: "TRIPS." dropped and the tag misplaced; wall-as-poster
+  - all three: the mark redrawn as a three-leaf sprig
+  - T03: envelope thickness not data-true
+  - The creative gate is now ANTI_AI_FAILURE. CORRECTED_ROUND_SCORES are superseded. TYPOGRAPHY_DEFECTS gained MISSING_COPY and MUTATED_MARK; ANTI_AI_FLAGS gained METAPHOR_CONSUMED_PAGE and DATA_NOT_ENCODED.
+  - The founder-reported T03 contamination ("A QUIETER YOU", "BEGIN YOUR JOURNEY", journal cover, broken nav) came from the founder-run ChatGPT pass (RUN A, not ingested). It is not in the OpenArt T03.
+  - T03 previous render: INVALID_RENDER. SUNBURST_PROMPTS and CHATGPT_PROMPTS are SUPERSEDED.
+- **Not done (by design):** 0 generations, 0 paid, no OpenArt use, no production JURNL change.
+- **Next:** hybrid render execution:
+  - 3 scene plates (attach only the plate guide, in a fresh session, with hashes checked)
+  - deterministic assembly at 393×852
+  - composite QA, richness and clarity
+  - founder board of composites
+- **Verdict:** READY_FOR_FOUNDER_COMPARISON NO (superseded by hybrid execution below).
+
 ## 2026-10-06 — Production workspace visual panel restoration (P0.SITE00.PRODUCTION-WORKSPACE.PROJECT-SCOPED-VISUAL-PANEL-RESTORATION1)
 
 - **Context:** After PR #1404 isolation, founder verified logic PASS but panels regressed to text-heavy scrolls — mock removal had collapsed visual geometry instead of rebinding real media.
@@ -14280,3 +14321,12 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   exists unused; no invite / magic-link / service-role path; RLS self-membership (C11), duplicate org on sign-up (C8), broken reset redirect (C10); six client-count sites disagree.
 - **Next:** founder answers (client ID display format, required consents); AIO data sprint (lifecycle column, fact + decision tables, invite table + activation endpoint, C8/C10/C11 fixes,
   count sites → isCountedActive); visual authority for the 6 future families (MIGRATION INTAKE · MIGRATION REVIEW · EXISTING CLIENT WELCOME · WHAT CHANGED · CLIENT OFFICE ACTIVATION · CLIENT OFFICE HUB).
+
+---
+
+## 2026-10-06 — JURNL F09 hybrid composite authority execution (P0.JURNL.F09-SAFE-TO-SPEND.HYBRID-COMPOSITE-AUTHORITY-EXECUTION1)
+
+- **Method:** OpenArt **scene plates only** (plate guide reference, no logo) + **deterministic** HTML/SVG/Playwright assembly at **393×852** (`scripts/jurnl/f09-hybrid-composite-assemble.mjs`). Supersedes full-screen Sunburst as authority path.
+- **Delivered:** `JURNL/F09_SAFE/HYBRID_COMPOSITE_AUTHORITY_EXECUTION1/` — RAW_PLATES T01–T03 (2016×3584), composites @3x, `FOUNDER_REVIEW_BOARD.png`, `HYBRID_RENDER_LEDGER.json`, `COMPOSITE_QA.json`, `PREVIOUS_VS_HYBRID.json`. OpenArt jobs d6K9fLZ8HLzpxFfKWxhE, BfrmFeCAensa14V72eSr, vvWAjYEBANSZu6KH2uPv; **3 primary, 0 retries, ~951 credits**.
+- **Product sample (execution):** SAFE TO SPEND **$1,284**, AVAILABLE THROUGH OCT 18, CTA **SEE WHY THIS AMOUNT**, canonical nav HOME/MONEY/+/PLAN/CREDIT, official logo asset. Gate **COMPOSITES_READY**; founder verdict **PENDING** (four-way vs founder hybrid).
+- **TS:** `JURNL_F09_HYBRID_COMPOSITES`, ledger, comparison scores; tests `jurnlF09CompositionBlueprintCorrection1.test.ts` green. **No** F09 production runtime change.

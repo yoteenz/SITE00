@@ -154,7 +154,7 @@ export const VISUAL_AUTHORITY_STATE_MODEL = {
     EXPERIENCE_REQUIRED: 'Experience contract missing or not experience-ready (validateExperienceContract) or ingest fields missing.',
     EXPERIENCE_COMPLETE: 'Experience contract experience-ready and ingest complete.',
     BRAND_CONTEXT_REQUIRED: 'Brand DNA missing or a required brand field is empty (too thin).',
-    AUTHORITY_TERRITORIES_REQUIRED: 'Brand + experience loaded, legacy classified; fewer than 3 live territories, territories not distinct, creative direction / brand expression not ready, or reference authorities missing / not authority-ready (renderer, anti-AI, typography) — or, for a derived actor, the parent authority is not locked / derived references are missing.',
+    AUTHORITY_TERRITORIES_REQUIRED: 'Brand + experience loaded, legacy classified; fewer than 3 live territories, territories not distinct, creative direction / brand expression not ready, blueprint or render ownership not ready, or reference authorities missing / composite authority not ready — or, for a derived actor, the parent authority is not locked / derived references are missing.',
     AUTHORITY_IN_REVIEW: '3 distinct territories each with a reference authority; founder verdict absent or REVISE / REJECT / REQUEST_FOURTH_TERRITORY.',
     AUTHORITY_APPROVED: 'Founder verdict LOVE_IT or COMBINE; page-family authority not yet fully locked — or locked while the page / tab / state tree is not founder-confirmed (guard PAGE_TREE_CONFIRMATION_REQUIRED).',
     IMPLEMENTATION_READY: 'Authority locked (founder APPROVED, ≥ PAGE_FAMILY_AUTHORITY, required core locks, flexible areas, viewports, state coverage, lineage) AND the page / tab / state tree is founder-confirmed.',
@@ -175,6 +175,9 @@ export const VISUAL_AUTHORITY_STATE_MODEL = {
     PAGE_TREE_CONFIRMATION_REQUIRED: 'Authority locked but the page / tab / state tree is not produced or not founder-confirmed — implementation may not begin.',
     CREATIVE_DIRECTION_REQUIRED: 'A structural territory has no creative-direction translation bound to its own project profile, or the translation is incomplete / unlocked. A strong functional concept is not yet a visual authority.',
     BRAND_EXPRESSION_REQUIRED: 'A translation has not passed the brand-expression checklist (incl. BRAND_EVIDENT_WITH_LOGO_HIDDEN) — no generation may start.',
+    PAGE_COMPOSITION_BLUEPRINT_REQUIRED: 'A territory has no page composition blueprint, or the blueprint fails geometry (zones missing / colliding with chrome or nav, metaphor not contained, density out of balance) — no generation may start.',
+    RENDER_LAYER_OWNERSHIP_REQUIRED: 'A layer has no single owner, or precision product UI is owned by the image generator — no generation may start.',
+    COMPOSITE_AUTHORITY_REQUIRED: 'No composite authority yet, or it fails: art plates from the wrong renderer, baked UI, contamination, inexact logo / copy / nav / value, thin richness, or product not clear in 2 seconds.',
   } as Record<string, string>)[g]])),
   durable_rule: {
     statement: 'No material page family moves from experience contract to implementation unless all eight conditions hold (authority package + founder-confirmed page / tab / state tree); otherwise STATUS: VISUAL_AUTHORITY_REQUIRED or PAGE_TREE_CONFIRMATION_REQUIRED.',

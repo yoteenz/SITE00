@@ -44,6 +44,7 @@ export function buildJurnlF09CreativeExports(): Record<string, string> {
   files['PREVIOUS_VS_CORRECTED_COMPARISON.json'] = json({
     ...head('PREVIOUS_VS_CORRECTED_COMPARISON'),
     scale: '1–5 founder-review scale (5 = authority-grade).',
+    corrected_round_status: jurnlF09CD.CORRECTED_ROUND_SCORES_STATUS,
     dimensions: jurnlF09CD.COMPARISON_DIMENSIONS,
     territories: jurnlF09CD.JURNL_F09_CREATIVE_DIRECTIONS.map((t) => ({
       territory_id: t.territory_id,
