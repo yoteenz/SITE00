@@ -1,0 +1,85 @@
+{
+  "id": "ANTI_AI_VISUAL_AUDIT",
+  "sprint": "P0.JURNL.F09-SAFE-TO-SPEND.CREATIVE-DIRECTION-BRAND-EXPRESSION-CORRECTION1",
+  "generated_by": "scripts/studioos/jurnl-f09-creative-direction-export.ts",
+  "previous_round": {
+    "note": "Territory proof 1 (local HTML/CSS renders) audited as the baseline.",
+    "audits": [
+      {
+        "candidate_id": "JURNL.F09.T01.REF.MOBILE.PROOF1",
+        "territory_id": "JURNL.F09.T01",
+        "flags": [
+          {
+            "flag": "GENERIC_LUXURY_APP",
+            "severity": "MINOR",
+            "note": "Beige plaster field + diagram reads as a clean UI study, not a JURNL world."
+          },
+          {
+            "flag": "OVERLY_CENTERED_AI_LAYOUT",
+            "severity": "MINOR",
+            "note": "Drawing, button and legend all centred on one axis."
+          }
+        ],
+        "typography_defects": []
+      },
+      {
+        "candidate_id": "JURNL.F09.T02.REF.MOBILE.PROOF1",
+        "territory_id": "JURNL.F09.T02",
+        "flags": [
+          {
+            "flag": "GENERIC_PROMO_LAYOUT",
+            "severity": "MINOR",
+            "note": "Hero number + sentence + full-width button on a texture is close to a promo layout."
+          },
+          {
+            "flag": "GENERIC_LUXURY_APP",
+            "severity": "MINOR",
+            "note": "Travertine texture alone carries the brand."
+          }
+        ],
+        "typography_defects": []
+      },
+      {
+        "candidate_id": "JURNL.F09.T03.REF.MOBILE.PROOF1",
+        "territory_id": "JURNL.F09.T03",
+        "flags": [
+          {
+            "flag": "CARD_STACK_DRIFT",
+            "severity": "MINOR",
+            "note": "The sealed row of four equal envelopes drifts toward a card grid."
+          },
+          {
+            "flag": "GENERIC_LUXURY_APP",
+            "severity": "MINOR",
+            "note": "Stationery motif without a JURNL world around it."
+          }
+        ],
+        "typography_defects": []
+      }
+    ],
+    "brand_expression_failures": {
+      "JURNL.F09.T01": [
+        "LOGO_PLACEMENT_ART_DIRECTED",
+        "TAGLINE_DESCRIPTORS_HANDLED",
+        "MEANINGFUL_ENVIRONMENTAL_ROLE",
+        "BRAND_EVIDENT_WITH_LOGO_HIDDEN",
+        "BESPOKE_MATERIAL_OBJECT_PRESENT"
+      ],
+      "JURNL.F09.T02": [
+        "LOGO_PLACEMENT_ART_DIRECTED",
+        "TAGLINE_DESCRIPTORS_HANDLED",
+        "MEANINGFUL_ENVIRONMENTAL_ROLE",
+        "BRAND_EVIDENT_WITH_LOGO_HIDDEN",
+        "BESPOKE_MATERIAL_OBJECT_PRESENT",
+        "CUSTOM_GRAPHIC_DESIGN_IDEA_PRESENT"
+      ],
+      "JURNL.F09.T03": [
+        "LOGO_PLACEMENT_ART_DIRECTED",
+        "TAGLINE_DESCRIPTORS_HANDLED",
+        "MEANINGFUL_ENVIRONMENTAL_ROLE",
+        "BRAND_EVIDENT_WITH_LOGO_HIDDEN"
+      ]
+    }
+  },
+  "corrected_round": "PENDING_GENERATION"
+}

@@ -1,0 +1,169 @@
+{
+  "id": "F09_CREATIVE_GATE_STATUS",
+  "sprint": "P0.JURNL.F09-SAFE-TO-SPEND.CREATIVE-DIRECTION-BRAND-EXPRESSION-CORRECTION1",
+  "generated_by": "scripts/studioos/jurnl-f09-creative-direction-export.ts",
+  "corrected_round": {
+    "status": "CANDIDATE_REQUIRED",
+    "per_territory": [
+      {
+        "territory_id": "JURNL.F09.T01",
+        "status": "CANDIDATE_REQUIRED",
+        "reasons": [
+          "no generated candidate yet"
+        ]
+      },
+      {
+        "territory_id": "JURNL.F09.T02",
+        "status": "CANDIDATE_REQUIRED",
+        "reasons": [
+          "no generated candidate yet"
+        ]
+      },
+      {
+        "territory_id": "JURNL.F09.T03",
+        "status": "CANDIDATE_REQUIRED",
+        "reasons": [
+          "no generated candidate yet"
+        ]
+      }
+    ],
+    "distinctness": {
+      "status": "CREATIVE_DIRECTIONS_DISTINCT",
+      "pairs": [
+        {
+          "a": "JURNL.F09.T01",
+          "b": "JURNL.F09.T02",
+          "differing": [
+            "art_direction_premise",
+            "environmental_strategy",
+            "material_strategy",
+            "object_language",
+            "typographic_strategy",
+            "depth_model",
+            "brand_lockup_strategy",
+            "visual_wit",
+            "data_encoding",
+            "cta_expression"
+          ],
+          "distinct": true
+        },
+        {
+          "a": "JURNL.F09.T01",
+          "b": "JURNL.F09.T03",
+          "differing": [
+            "art_direction_premise",
+            "environmental_strategy",
+            "material_strategy",
+            "object_language",
+            "typographic_strategy",
+            "depth_model",
+            "brand_lockup_strategy",
+            "visual_wit",
+            "data_encoding",
+            "cta_expression"
+          ],
+          "distinct": true
+        },
+        {
+          "a": "JURNL.F09.T02",
+          "b": "JURNL.F09.T03",
+          "differing": [
+            "art_direction_premise",
+            "environmental_strategy",
+            "material_strategy",
+            "object_language",
+            "typographic_strategy",
+            "depth_model",
+            "brand_lockup_strategy",
+            "visual_wit",
+            "data_encoding",
+            "cta_expression"
+          ],
+          "distinct": true
+        }
+      ]
+    }
+  },
+  "previous_round": {
+    "status": "CREATIVE_DIRECTION_REQUIRED",
+    "per_territory": [
+      {
+        "territory_id": "JURNL.F09.T01",
+        "status": "CREATIVE_DIRECTION_REQUIRED",
+        "reasons": [
+          "translation"
+        ]
+      },
+      {
+        "territory_id": "JURNL.F09.T02",
+        "status": "CREATIVE_DIRECTION_REQUIRED",
+        "reasons": [
+          "translation"
+        ]
+      },
+      {
+        "territory_id": "JURNL.F09.T03",
+        "status": "CREATIVE_DIRECTION_REQUIRED",
+        "reasons": [
+          "translation"
+        ]
+      }
+    ],
+    "distinctness": {
+      "status": "CREATIVE_DIRECTIONS_DISTINCT",
+      "pairs": [
+        {
+          "a": "JURNL.F09.T01",
+          "b": "JURNL.F09.T02",
+          "differing": [
+            "art_direction_premise",
+            "environmental_strategy",
+            "material_strategy",
+            "object_language",
+            "typographic_strategy",
+            "depth_model",
+            "brand_lockup_strategy",
+            "visual_wit",
+            "data_encoding",
+            "cta_expression"
+          ],
+          "distinct": true
+        },
+        {
+          "a": "JURNL.F09.T01",
+          "b": "JURNL.F09.T03",
+          "differing": [
+            "art_direction_premise",
+            "environmental_strategy",
+            "material_strategy",
+            "object_language",
+            "typographic_strategy",
+            "depth_model",
+            "brand_lockup_strategy",
+            "visual_wit",
+            "data_encoding",
+            "cta_expression"
+          ],
+          "distinct": true
+        },
+        {
+          "a": "JURNL.F09.T02",
+          "b": "JURNL.F09.T03",
+          "differing": [
+            "art_direction_premise",
+            "environmental_strategy",
+            "material_strategy",
+            "object_language",
+            "typographic_strategy",
+            "depth_model",
+            "brand_lockup_strategy",
+            "visual_wit",
+            "data_encoding",
+            "cta_expression"
+          ],
+          "distinct": true
+        }
+      ]
+    }
+  }
+}

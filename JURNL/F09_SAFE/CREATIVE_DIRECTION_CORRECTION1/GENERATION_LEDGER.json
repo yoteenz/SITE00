@@ -1,0 +1,50 @@
+{
+  "id": "GENERATION_LEDGER",
+  "sprint": "P0.JURNL.F09-SAFE-TO-SPEND.CREATIVE-DIRECTION-BRAND-EXPRESSION-CORRECTION1",
+  "generated_by": "scripts/studioos/jurnl-f09-creative-direction-export.ts",
+  "renderer_spec": {
+    "model": "gpt-image-2.5-sunburst",
+    "quality": "4K",
+    "aspect_ratio": "9:16",
+    "auto_enhance": false,
+    "viewport_mapping": "The 9:16 frame height equals the 852-pt JURNL mobile viewport height; the 393-pt viewport is the central 82.05% of the frame width (43-pt environment bleed each side — the same crop the runtime applies to 9:16 plates). All UI, text and data objects stay inside the central 82%; the side bleed carries environment only.",
+    "generation_mode": "REFERENCE_GUIDED",
+    "forbidden_providers": [],
+    "local_render_allowed_as_final": false
+  },
+  "status": "BLOCKED_ON_RENDERER_ROUTE",
+  "primary_generations": 0,
+  "retries": 0,
+  "credits_spent": 0,
+  "openart_accessed": false,
+  "routes_checked": [
+    {
+      "route": "OpenArt (JURNL’s canonical provider: per-family projects, gpt-image-2-5-sunburst, 4K, image2image)",
+      "status": "NOT USED — this sprint forbids OpenArt access; the founder asked how to grant OpenArt access, which would override that rule. Needs an OpenArt credential or connector available to a NEW session."
+    },
+    {
+      "route": "Figma MCP generate_image (model gpt-image-2.5-sunburst)",
+      "status": "AVAILABLE NOW — text-only (no reference image), max 2048 px per side (≈1152×2048 at 9:16, not 4K), paid Figma AI credits on the founder’s starter plan. Breaks JURNL REFERENCE_GUIDED canon and the 4K spec unless the founder records an exception."
+    },
+    {
+      "route": "Figma Weave model run",
+      "status": "UNAVAILABLE — the Figma account is not linked to Weave."
+    },
+    {
+      "route": "Repo provider gateway (FAL / Railway)",
+      "status": "NOT AVAILABLE in this session (no provider credential; production systems out of scope)."
+    }
+  ],
+  "reference_inputs_ready": [
+    "COMPOSITION_LOCKS/F09_T01_SURVEYED_COURTYARD_VALUE_STUDY_9x16.png",
+    "COMPOSITION_LOCKS/F09_T02_ANSWER_IN_RAKING_LIGHT_VALUE_STUDY_9x16.png",
+    "COMPOSITION_LOCKS/F09_T03_SORTING_RACK_VALUE_STUDY_9x16.png",
+    "public/site00/projects/jurnl/brand/jurnl-logo-official.png"
+  ],
+  "plan": [
+    "One primary generation per territory (3 total) from SUNBURST_PROMPTS/*.txt, reference-guided with the territory value study (+ the official logo) where the route allows.",
+    "Inspect every word against text_must_render; regenerate or repair (composite the official logo / canonical nav, recorded) on any typography defect.",
+    "Corrective retries only for: typography corruption, broken logo, malformed object, wrong ratio, nav corruption, composition failure, major brand-expression failure. Each retry logged with its reason.",
+    "Then: anti-AI audit per candidate, founder review board, previous-vs-corrected scores."
+  ]
+}

@@ -14203,3 +14203,32 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - Test: `tests/jurnlF09VisualAuthorityTerritoryProof1.test.ts`.
 - **Unchanged:** no production JURNL UI, F09 logic, schema or RLS changed. The older F09 manifests are untouched.
 - **Next:** The founder reviews the three F09 territories (LOVE_IT / REVISE / REJECT / COMBINE / FOURTH). Before the next family, author a canonical JURNL experience contract and composition-centric briefs.
+
+---
+
+## 2026-10-06 — JURNL F09: creative-direction + brand-expression correction (P0.JURNL.F09-SAFE-TO-SPEND.CREATIVE-DIRECTION-BRAND-EXPRESSION-CORRECTION1)
+
+- **Founder finding:** the three F09 territories were structurally right but read as GOOD PRODUCT CONCEPTS + CLEAN UI STUDIES. The pipeline went straight from structural territory to reference candidate. Durable rule: **a strong functional concept is not yet a visual authority. Image generation is a renderer, not the designer.**
+- **Methodology (portable, `shared/studioos-visual-authority/creative-direction.ts`):** new steps **04A CREATIVE DIRECTION TRANSLATION** and **04B BRAND EXPRESSION GATE**.
+  - Guards: `CREATIVE_DIRECTION_REQUIRED` and `BRAND_EXPRESSION_REQUIRED`.
+  - Profiles: every project has its own `CreativeDirectionProfile`; no universal luxury layer. JURNL is READY; AIO, SITE00, Frontal Slayer, Astral World and NDXBOOK each still need theirs.
+  - Translation: 22 fields + bespoke visual idea + render brief + ≥ 4 authorship devices + 12 locks + exact text.
+  - Brand expression: 19-item checklist (critical: brand evident with the logo hidden).
+  - Candidate authority: profile renderer, no material anti-AI flag (18 flags), no unrepaired typography defect. Local HTML renders are never final.
+  - Creative distinctness: ≥ 8/10 dimensions, including premise / depth / material.
+  - Gate integration: every non-grandfathered material family stops before references. Grandfathered list = AIO IFTA only.
+  - Docs: `CREATIVE_DIRECTION_GATE.md/json` and `BRAND_EXPRESSION_GATE.md/json` in `docs/studioos/visual-authority-development/`.
+- **F09 (`JURNL/F09_SAFE/CREATIVE_DIRECTION_CORRECTION1/`):** territories preserved and translated.
+  - **T01 THE SURVEYED COURTYARD:** overhead courtyard; negative space is the money; bronze floor inlay; cornerstone lockup.
+  - **T02 THE ANSWER IN RAKING LIGHT:** carved sentence; only words that hold money are metal; brass tag; maker's plate.
+  - **T03 THE SORTING RACK:** oak letter rack; envelope thickness = amount; the broken seal; letterhead + seal emboss. Kept independent of the founder hybrid folio.
+  - All three: CREATIVE_DIRECTION_READY, BRAND_EXPRESSION_READY, 10/10 creative distinctness.
+  - Also landed: Sunburst prompts (IMAGE brief first + 20 sections), 9:16 composition locks and value studies.
+  - Chrome: no centred wordmark (the lockup lives in the scene).
+- **Renderer blocker:**
+  - The spec is GPT IMAGE 2.5 SUNBURST · 4K · 9:16 · AUTO-ENHANCE OFF, reference-guided per JURNL canon.
+  - OpenArt is the canonical route but is forbidden by the sprint. The founder asked how to grant access; that needs a credential or connector plus a NEW session.
+  - Figma `generate_image` offers `gpt-image-2.5-sunburst` today, but it is text-only, capped at 2048 px and paid; using it needs a founder exception.
+  - Weave is not linked.
+  - 0 generations, 0 credits.
+- **Next:** pick the renderer route, generate 3 candidates, then anti-AI audit, review board, previous-vs-corrected scores and founder verdict.

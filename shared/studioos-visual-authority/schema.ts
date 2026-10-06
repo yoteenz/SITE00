@@ -12,6 +12,7 @@
  * Core is project-agnostic: projects supply brand context, legacy surfaces, territories and authorities as data.
  */
 import type { ExperienceActor, ExperienceContract, Viewport } from '../studioos-experience-brain/schema.js';
+import type { CreativeDirectionGateInput } from './creative-direction.js';
 
 export const VISUAL_AUTHORITY_SCHEMA_VERSION = '1.0.0' as const;
 export const VISUAL_AUTHORITY_SPRINT = 'P0.SITE00.PRODUCTION-METHODOLOGY.VISUAL-AUTHORITY-DEVELOPMENT-GATE1' as const;
@@ -34,7 +35,9 @@ export const AUTHORITY_DEVELOPMENT_SEQUENCE: readonly { step: string; id: string
   { step: '02', id: 'LOAD_EXPERIENCE_CONTRACT', does: 'Load the Workspace Experience Brain contract (purpose, promise, actor, task, states, mirror, metaphor, archetype, hierarchy, E2E).', produces: 'ExperienceIngest (checked by validateExperienceContract)' },
   { step: '03', id: 'EXCLUDE_LEGACY_VISUALS', does: 'Classify every existing surface; non-approved legacy may inform function, never layout.', produces: 'LegacySurface[] (LEGACY_VISUAL_AUTHORITY_POLICY)' },
   { step: '04', id: 'CREATE_3_COMPOSITION_TERRITORIES', does: 'Author three territories that differ in spatial logic, primary zone, hierarchy, interaction emphasis, density and media relationship.', produces: 'CompositionTerritory[3] (checked by checkTerritoryDistinctness)' },
-  { step: '05', id: 'GENERATE_OR_ASSEMBLE_REFERENCE_AUTHORITIES', does: 'One reference authority per territory that shows real composition, hierarchy, zones, media relationship, interaction emphasis and actor intent.', produces: 'ReferenceAuthority per territory' },
+  { step: '04A', id: 'CREATIVE_DIRECTION_TRANSLATION', does: 'Translate each structural territory into this project’s brand world through its own CreativeDirectionProfile: art-direction premise, world, graphic-design language, environment, materials, tactile objects, type, logo / lockup, colour, light, depth, tension, negative space, wit, custom element, bespoke detail, imagery role, focal priority, motion, anti-generic and anti-AI rules — and lock object, zones, hierarchy, text, logo, nav, CTA, focal points, materials, negative space and environment before any generation.', produces: 'CreativeDirectionTranslation per territory (checkCreativeDirection → CREATIVE_DIRECTION_READY)' },
+  { step: '04B', id: 'BRAND_EXPRESSION_GATE', does: 'Pre-generation proof that each translation carries the whole brand, not palette + font: world, philosophy, family logic, custom graphic idea, bespoke object, environment role, art-directed logo, taglines, unmistakable signal, no dashboard / card stack / AI default, brand evident with the logo hidden.', produces: 'BrandExpressionCheck per territory (checkBrandExpression → BRAND_EXPRESSION_READY)' },
+  { step: '05', id: 'GENERATE_OR_ASSEMBLE_REFERENCE_AUTHORITIES', does: 'One reference authority per territory that shows real composition, hierarchy, zones, media relationship, interaction emphasis and actor intent. Since the creative-direction correction the candidate is rendered by the profile’s image renderer from the locked translation (the renderer executes; it never designs), then passes the anti-AI visual audit and the typography guard before it counts (checkCandidateAuthority → REFERENCE_AUTHORITY_READY).', produces: 'ReferenceAuthority per territory' },
   { step: '06', id: 'FOUNDER_CHOOSES_OR_REVISES', does: 'Founder: LOVE_IT · REVISE · REJECT · COMBINE · REQUEST_FOURTH_TERRITORY.', produces: 'FounderAuthorityDecision' },
   { step: '07', id: 'LOCK_PAGE_FAMILY_AUTHORITY', does: 'Lock approved page logic: core logic locks + flexible implementation areas + lineage. Other actors / viewports may DERIVE from the locked parent authority (AuthorityDerivation) instead of running their own territories.', produces: 'PageFamilyAuthority (PAGE_FAMILY_AUTHORITY level)' },
   { step: '07A', id: 'PRODUCE_PAGE_TAB_STATE_TREE', does: 'The Brain ingests brand DNA + experience contract + authority package + page / tab / data / interaction / asset contracts and produces the page / tab / state tree. Tabs are first-class nodes; every material node carries a node contract, authority binding and readiness.', produces: 'Experience tree (tree.ts) + PageTreeConfirmation PRODUCED' },
@@ -85,12 +88,14 @@ export type AuthorityGuardStatus =
   | 'FOUNDER_REVIEW_REQUIRED'
   | 'RESPONSIVE_AUTHORITY_REQUIRED'
   | 'AUTHORITY_AS_RUNTIME_ASSET'
-  | 'PAGE_TREE_CONFIRMATION_REQUIRED';
+  | 'PAGE_TREE_CONFIRMATION_REQUIRED'
+  | 'CREATIVE_DIRECTION_REQUIRED'
+  | 'BRAND_EXPRESSION_REQUIRED';
 
 export const AUTHORITY_GUARD_STATUSES: readonly AuthorityGuardStatus[] = [
   'FAMILY_LOCK_REQUIRED', 'VISUAL_AUTHORITY_REQUIRED', 'LEGACY_VISUAL_LEAK', 'TERRITORY_DISTINCTNESS_FAILURE',
   'REFERENCE_AUTHORITY_REQUIRED', 'FOUNDER_REVIEW_REQUIRED', 'RESPONSIVE_AUTHORITY_REQUIRED', 'AUTHORITY_AS_RUNTIME_ASSET',
-  'PAGE_TREE_CONFIRMATION_REQUIRED',
+  'PAGE_TREE_CONFIRMATION_REQUIRED', 'CREATIVE_DIRECTION_REQUIRED', 'BRAND_EXPRESSION_REQUIRED',
 ];
 
 /** The durable rule (motherboard): all eight must hold before a material page family moves to implementation. */
@@ -421,6 +426,11 @@ export type AuthorityGateInput = {
   derivation?: AuthorityDerivation | null;
   /** The page / tab / state tree; FOUNDER_CONFIRMED is required before implementation. */
   page_tree?: PageTreeConfirmation | null;
+  /**
+   * Creative direction → brand expression → generated candidate (creative-direction correction). Required for every
+   * material family except the explicitly grandfathered ones (CREATIVE_DIRECTION_GRANDFATHERED).
+   */
+  creative_direction?: CreativeDirectionGateInput | null;
   implementation?: ImplementationReport | null;
 };
 

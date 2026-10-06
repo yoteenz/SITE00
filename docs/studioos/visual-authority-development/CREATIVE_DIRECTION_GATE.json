@@ -1,0 +1,184 @@
+{
+  "id": "CREATIVE_DIRECTION_GATE",
+  "schema_version": "1.0.0",
+  "sprint": "P0.JURNL.F09-SAFE-TO-SPEND.CREATIVE-DIRECTION-BRAND-EXPRESSION-CORRECTION1",
+  "doctrine": "A STRONG FUNCTIONAL CONCEPT IS NOT YET A VISUAL AUTHORITY. IMAGE GENERATION IS A RENDERER, NOT THE DESIGNER.",
+  "generated_by": "scripts/studioos/visual-authority-export.ts",
+  "pipeline": [
+    "BRAND DNA",
+    "EXPERIENCE CONTRACT",
+    "FAMILY CONTRACT",
+    "STRUCTURAL TERRITORIES",
+    "CREATIVE DIRECTION TRANSLATION",
+    "BRAND EXPRESSION GATE",
+    "IMAGE-GENERATED AUTHORITY CANDIDATES",
+    "FOUNDER REVIEW",
+    "FAMILY AUTHORITY LOCK",
+    "RESPONSIVE / STATE EXPLOSION",
+    "IMPLEMENTATION"
+  ],
+  "layers": {
+    "STRUCTURAL_TERRITORY": "What the page IS: primary object, page logic, zones, structural dimensions (CompositionTerritory). Proven by checkTerritoryDistinctness.",
+    "CREATIVE_DIRECTION": "How the territory becomes this brand: art-direction premise, world, materials, objects, type, logo, light, depth, wit, locks (CreativeDirectionTranslation). Proven by checkCreativeDirection → CREATIVE_DIRECTION_READY.",
+    "BRAND_EXPRESSION": "Pre-generation proof the direction carries the whole brand, not palette + font (BrandExpressionCheck). Proven by checkBrandExpression → BRAND_EXPRESSION_READY.",
+    "REFERENCE_AUTHORITY": "The rendered candidate (image-generated, renderer only) that passed the anti-AI audit and typography guard. Proven by checkCandidateAuthority → REFERENCE_AUTHORITY_READY."
+  },
+  "gate_status": {
+    "ready": "CREATIVE_DIRECTION_READY",
+    "blocked": "CREATIVE_DIRECTION_REQUIRED"
+  },
+  "evaluator": "checkCreativeDirection(translation, territory, profile)",
+  "profile": {
+    "required_fields": [
+      "brand_lines",
+      "product_philosophy",
+      "logo_system",
+      "tagline_system",
+      "color_world",
+      "material_world",
+      "environment_world",
+      "object_language",
+      "typography_direction",
+      "graphic_design_rules",
+      "wit_definition",
+      "must_not_become",
+      "anti_generic_rules",
+      "anti_ai_rules",
+      "renderer"
+    ],
+    "rule": "Project-specific. A profile with a generic / universal id or another project’s id fails. Coverage below.",
+    "coverage": [
+      {
+        "project_id": "JURNL",
+        "status": "PROFILE_READY",
+        "profile": "shared/studioos-visual-authority/projects/jurnl/creative-direction-profile.ts",
+        "must_know": "Financial organisation, calm confidence, editorial restraint, Mediterranean / coastal world, tactile financial objects, natural light, plaster / stone / paper / textile, botanical language, quiet intentional wit, custom hierarchy."
+      },
+      {
+        "project_id": "AIO",
+        "status": "PROFILE_REQUIRED",
+        "must_know": "The business office behind the truck: executive industrial × modern infrastructure, operational luxury, black / gold / silver / obsidian, road and filing-room objects. (AIO IFTA is grandfathered.)"
+      },
+      {
+        "project_id": "SITE00",
+        "status": "PROFILE_REQUIRED",
+        "must_know": "Host / studio operator identity (Martian Mono host UI) — never a client brand."
+      },
+      {
+        "project_id": "FRONTAL_SLAYER",
+        "status": "PROFILE_REQUIRED",
+        "must_know": "Its own beauty / wig commerce world from the fsbw brand bible."
+      },
+      {
+        "project_id": "ASTRAL_WORLD",
+        "status": "PROFILE_REQUIRED",
+        "must_know": "Its own world identity (family lock pending)."
+      },
+      {
+        "project_id": "NDXBOOK",
+        "status": "PROFILE_REQUIRED",
+        "must_know": "Its own creative lineage (docs/ndxbook-creative-lineage.md)."
+      }
+    ]
+  },
+  "translation": {
+    "carried_from_territory": [
+      "structural_premise",
+      "primary_object (unchanged)",
+      "functional_metaphor"
+    ],
+    "required_fields": [
+      "art_direction_premise",
+      "brand_world_translation",
+      "graphic_design_language",
+      "environmental_role",
+      "material_language",
+      "tactile_object_language",
+      "typographic_art_direction",
+      "logo_behavior",
+      "brand_lockup_behavior",
+      "color_hierarchy",
+      "lighting_direction",
+      "depth_model",
+      "compositional_tension",
+      "negative_space_strategy",
+      "editorial_wit",
+      "custom_designed_element",
+      "bespoke_detail",
+      "imagery_role",
+      "focal_priority",
+      "motion_implication",
+      "anti_generic_rules",
+      "anti_ai_look_rules"
+    ],
+    "bespoke_visual_idea": "Required: the one visual idea a generic UI generator could not have produced (recorded verbatim).",
+    "authorship_devices": {
+      "options": [
+        "BESPOKE_TYPOGRAPHIC_RELATIONSHIP",
+        "EDITORIAL_SCALE_CONTRAST",
+        "CUSTOM_MATERIAL_INFORMATION_OBJECT",
+        "DESIGNED_PHYSICAL_METAPHOR",
+        "INTENTIONAL_GRID_BREAK",
+        "BESPOKE_LABELS_TABS",
+        "CUSTOM_HIERARCHY",
+        "TACTILE_DATA_ENCODING",
+        "CONTROLLED_OBJECT_COMPOSITION",
+        "LAYERED_PHYSICAL_GRAPHIC_STRUCTURE",
+        "ASYMMETRIC_BRANDED_FRAMING",
+        "ENVIRONMENT_INTERFACE_TENSION",
+        "CUSTOM_STATE_TRANSITION"
+      ],
+      "minimum": 4,
+      "rule": "Never simply place UI cards over an image."
+    },
+    "locks_before_generation": [
+      "primary_object",
+      "major_zones",
+      "visual_hierarchy",
+      "text_hierarchy",
+      "logo_placement",
+      "bottom_nav_placement",
+      "cta_placement",
+      "image_focal_points",
+      "material_hierarchy",
+      "negative_space_regions",
+      "environmental_geometry",
+      "custom_object_logic"
+    ],
+    "text": [
+      "text_must_render (exact)",
+      "text_representational",
+      "forbidden_elements"
+    ],
+    "prompt": "Built from the locked translation; renderer executes, never designs."
+  },
+  "distinctness": {
+    "dimensions": [
+      "art_direction_premise",
+      "environmental_strategy",
+      "material_strategy",
+      "object_language",
+      "typographic_strategy",
+      "depth_model",
+      "brand_lockup_strategy",
+      "visual_wit",
+      "data_encoding",
+      "cta_expression"
+    ],
+    "min_differing": 8,
+    "anchors": [
+      "art_direction_premise",
+      "depth_model",
+      "material_strategy"
+    ],
+    "on_failure": "CREATIVE_DIRECTION_COLLAPSE"
+  },
+  "grandfathered": [
+    {
+      "project_id": "AIO",
+      "feature_id": "AIO.IFTA",
+      "reason": "AIO IFTA authority bundle founder-approved and locked before the creative-direction gate (2026-10-06). The next AIO family enters the corrected pipeline."
+    }
+  ],
+  "wit": "WITTY = a smart visual idea, a meaningful metaphor, a subtle relationship, a composition that rewards attention. Never jokes, cute copy or novelty UI."
+}

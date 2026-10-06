@@ -1,0 +1,143 @@
+{
+  "id": "JURNL_CREATIVE_DIRECTION_PROFILE",
+  "sprint": "P0.JURNL.F09-SAFE-TO-SPEND.CREATIVE-DIRECTION-BRAND-EXPRESSION-CORRECTION1",
+  "generated_by": "scripts/studioos/jurnl-f09-creative-direction-export.ts",
+  "profile_id": "JURNL.CREATIVE_DIRECTION.v1",
+  "project_id": "JURNL",
+  "brand_lines": [
+    "MONEY IN SERVICE OF LIFE.",
+    "FINANCIAL LIFE, BEAUTIFULLY ORGANIZED.",
+    "PLAN TODAY. GROW FREELY."
+  ],
+  "product_philosophy": [
+    "Money is organised so life can be lived: the screen shows what is free, not what is restricted.",
+    "Calm confidence: one clear answer, then the reasons on request.",
+    "Things already decided are put away carefully — held, sealed, built in — never hidden or scolded.",
+    "Clarity overrides poetic ambiguity: the function label and state carry meaning; editorial expression only enriches it."
+  ],
+  "logo_system": {
+    "marks": [
+      "BOTANICAL MARK — a single stem with five leaves in muted rose",
+      "JURNL WORDMARK — high-contrast serif capitals, set vertically as a book spine beside the stem (official lockup) or horizontally with generous tracking"
+    ],
+    "lockups": [
+      "BOTANICAL MARK + JURNL (official vertical book-spine lockup)",
+      "BOTANICAL MARK + JURNL + descriptor FINANCIAL LIFE, BEAUTIFULLY ORGANIZED.",
+      "BOTANICAL MARK + JURNL + tagline PLAN TODAY. GROW FREELY."
+    ],
+    "placement_rules": [
+      "The lockup is placed inside the composition as an object of the scene (carved, cast, printed, embossed) — never generic app chrome.",
+      "Do not default to a centred top-nav wordmark; an asymmetric placement is preferred when the composition supports it.",
+      "The descriptor or tagline lives in a secondary architectural zone, never beside the primary SAFE TO SPEND signal.",
+      "Legible at phone scale; never competes with the figure.",
+      "Never fabricate alternate letterforms. If a render mutates the mark or wordmark, repair it by compositing the official asset (recorded) or regenerate."
+    ],
+    "forbidden": [
+      "mutated JURNL letterforms",
+      "invented second logo",
+      "logo as hero",
+      "gold-foil logo cliché",
+      "circular badge logo"
+    ],
+    "asset_paths": [
+      "public/site00/projects/jurnl/brand/jurnl-logo-official.png",
+      "JURNL/F01_ENTRY/REFERENCE (REFERENCE_JURNL_LOGO_OFFICIAL.jpg)"
+    ]
+  },
+  "tagline_system": [
+    "PLAN TODAY. GROW FREELY. — the promise; may be engraved, printed or set on a secondary surface.",
+    "FINANCIAL LIFE, BEAUTIFULLY ORGANIZED. — the descriptor; pairs with the lockup on maker’s plates, letterheads and labels.",
+    "MONEY IN SERVICE OF LIFE. — the belief; never rendered as UI copy on a functional screen unless the founder places it."
+  ],
+  "color_world": [
+    "BONE / CREAM #F9F6EF and IVORY #F3EDE2 — the field",
+    "GREIGE #D2C8BA and TAUPE #B6A594 — material shadow, borders, quiet text",
+    "BLUSH #EBCFC8 and MUTED ROSE #C9949A — the brand mark and soft warmth, used sparingly",
+    "DEEP EMERALD #0F3D32 — the primary action and the one decisive figure",
+    "BURGUNDY #6E1F2D — seals, error, wax; never decoration",
+    "CHAMPAGNE #C6A676 — soft metal details only where they do a job (plates, rules, inlays)",
+    "OBSIDIAN — deep ink for type, never a dark theme"
+  ],
+  "material_world": [
+    "plaster / limewash",
+    "travertine",
+    "limestone",
+    "paper (cotton rag, letterpress)",
+    "linen",
+    "textile",
+    "stone",
+    "soft metal (brushed brass, bronze — functional)",
+    "natural oak where appropriate",
+    "wax"
+  ],
+  "environment_world": [
+    "Mediterranean / coastal architecture",
+    "natural light with a direction and a time of day",
+    "quiet luxury with human warmth",
+    "architectural lifestyle",
+    "considered object placement",
+    "visual breathing room"
+  ],
+  "object_language": [
+    "Financial things are organised physical objects: courses of stone, inlays, plates, rules, letters, seals, racks, folios.",
+    "Every object either carries data or frames it — no prop is decoration only.",
+    "Objects are made, not rendered: joints, grain, fold creases, tool marks."
+  ],
+  "typography_direction": [
+    "DISPLAY: Instrument Serif character — fashion-condensed, high-contrast, used for the one figure and the large statement.",
+    "FUNCTIONAL: Barlow Semi Condensed character — tracked uppercase labels.",
+    "ALL user-facing text UPPERCASE.",
+    "Type may be carved, inlaid, cast, printed or debossed — the medium is part of the meaning."
+  ],
+  "graphic_design_rules": [
+    "One unmistakable SAFE TO SPEND figure; everything else is secondary by scale, value and material.",
+    "Editorial scale contrast between the figure and the hairline labels.",
+    "Custom information objects encode the data (area, thickness, inlay, seal), not charts pasted on.",
+    "Bespoke labels (plates, tabs, engraved captions) instead of generic pills.",
+    "Asymmetric branded framing; centring only where CENTER_STAGE requires the functional field to sit on the + axis.",
+    "Square-rounded controls only; no circular tappable buttons; the 5-item nav HOME · MONEY · + · PLAN · CREDIT is preserved exactly."
+  ],
+  "wit_definition": "A smart visual idea that rewards attention: a meaningful metaphor or a subtle relationship between material and money (what is open vs held, metal vs stone, sealed vs released). Never jokes, cute copy or novelty UI.",
+  "must_not_become": [
+    "generic beige luxury",
+    "Pinterest Mediterranean",
+    "luxury hotel app",
+    "fashion editorial without product meaning",
+    "dark bank vault",
+    "futuristic tech",
+    "industrial loft"
+  ],
+  "anti_generic_rules": [
+    "No card stacks over a pretty background.",
+    "No fintech dashboard grammar (KPI tiles, donut charts, sparkline rows).",
+    "No glassmorphism, no excessive gradients, no random gold accents.",
+    "No generic serif + sans pairing without the brand logic above.",
+    "No stock-feeling lifestyle photography; no tourist postcard Mediterranean (no pools, loungers, sea-view balconies).",
+    "No botanical flourish unless it is the JURNL mark or a single justified plant in the scene.",
+    "No weak floating pill controls."
+  ],
+  "anti_ai_rules": [
+    "No mutated letterforms, fake words, random labels or duplicated nav items.",
+    "Every visible word is specified in the prompt; anything else is forbidden.",
+    "No symmetric AI-default composition; follow the locked zones.",
+    "No HDR glow, no plastic 3D, no over-sharpened textures, no material overload.",
+    "No photoreal scene with UI pasted on — the information object belongs to the scene.",
+    "The renderer executes the locked translation; it never invents layout, hierarchy or extra elements."
+  ],
+  "renderer": {
+    "model": "gpt-image-2.5-sunburst",
+    "quality": "4K",
+    "aspect_ratio": "9:16",
+    "auto_enhance": false,
+    "viewport_mapping": "The 9:16 frame height equals the 852-pt JURNL mobile viewport height; the 393-pt viewport is the central 82.05% of the frame width (43-pt environment bleed each side — the same crop the runtime applies to 9:16 plates). All UI, text and data objects stay inside the central 82%; the side bleed carries environment only.",
+    "generation_mode": "REFERENCE_GUIDED",
+    "forbidden_providers": [],
+    "local_render_allowed_as_final": false
+  },
+  "provenance": [
+    "repo: src/projects/jurnl/data/jurnlProject.ts — palette with roles, type pair, UPPERCASE_ONLY, NO_CIRCULAR_CONTROLS, LOGO_SMALL, tagline, voice",
+    "repo: JURNL/MANIFEST expression matrices — world traits, square-rounded geometry, forbidden departures (FUTURISTIC_TECH, INDUSTRIAL_LOFT, DARK_BANK_VAULT)",
+    "repo: motherboard/CORE.md — JURNL generation is reference-guided; text-to-image is INVALID_GENERATION_MODE; 9:16 plate crop at 393",
+    "founder sprint directive (CREATIVE-DIRECTION-BRAND-EXPRESSION-CORRECTION1): MONEY IN SERVICE OF LIFE. / FINANCIAL LIFE, BEAUTIFULLY ORGANIZED. as brand lines; lockup system; obsidian; limestone / linen / soft metal / oak; anti-generic and anti-AI rules; renderer GPT IMAGE 2.5 SUNBURST · 4K · AUTO-ENHANCE OFF · 9:16"
+  ]
+}

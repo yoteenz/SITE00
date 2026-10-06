@@ -41,9 +41,21 @@
       "produces": "CompositionTerritory[3] (checked by checkTerritoryDistinctness)"
     },
     {
+      "step": "04A",
+      "id": "CREATIVE_DIRECTION_TRANSLATION",
+      "does": "Translate each structural territory into this project’s brand world through its own CreativeDirectionProfile: art-direction premise, world, graphic-design language, environment, materials, tactile objects, type, logo / lockup, colour, light, depth, tension, negative space, wit, custom element, bespoke detail, imagery role, focal priority, motion, anti-generic and anti-AI rules — and lock object, zones, hierarchy, text, logo, nav, CTA, focal points, materials, negative space and environment before any generation.",
+      "produces": "CreativeDirectionTranslation per territory (checkCreativeDirection → CREATIVE_DIRECTION_READY)"
+    },
+    {
+      "step": "04B",
+      "id": "BRAND_EXPRESSION_GATE",
+      "does": "Pre-generation proof that each translation carries the whole brand, not palette + font: world, philosophy, family logic, custom graphic idea, bespoke object, environment role, art-directed logo, taglines, unmistakable signal, no dashboard / card stack / AI default, brand evident with the logo hidden.",
+      "produces": "BrandExpressionCheck per territory (checkBrandExpression → BRAND_EXPRESSION_READY)"
+    },
+    {
       "step": "05",
       "id": "GENERATE_OR_ASSEMBLE_REFERENCE_AUTHORITIES",
-      "does": "One reference authority per territory that shows real composition, hierarchy, zones, media relationship, interaction emphasis and actor intent.",
+      "does": "One reference authority per territory that shows real composition, hierarchy, zones, media relationship, interaction emphasis and actor intent. Since the creative-direction correction the candidate is rendered by the profile’s image renderer from the locked translation (the renderer executes; it never designs), then passes the anti-AI visual audit and the typography guard before it counts (checkCandidateAuthority → REFERENCE_AUTHORITY_READY).",
       "produces": "ReferenceAuthority per territory"
     },
     {
