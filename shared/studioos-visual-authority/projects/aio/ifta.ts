@@ -42,8 +42,8 @@ const SRC = aio.AIO_SOURCE_REPO;
 
 /**
  * Brand context — updated from the founder-approved AIO IFTA AUTHORITY BUNDLE (00_BRAND + 06_CONTRACTS): palette,
- * uppercase typography, the LOCKED logo rule and the actor themes. Questions the bundle answered are closed; the
- * bundle's own internal conflicts are carried as open questions (decisions D-BRAND-TOKENS · D-TYPOGRAPHY).
+ * uppercase typography, the LOCKED logo rule and the actor themes. The bundle's internal conflicts were settled by the
+ * founder (D-BRAND-TOKENS · D-TYPOGRAPHY, P0.AIO.OFFICE-WORKSPACE-ARCHITECTURE-AND-IFTA-TREE-FOUNDER-LOCK1).
  */
 export const AIO_BRAND_CONTEXT: BrandContext = {
   brand_context_id: AIO_BRAND_CONTEXT_ID,
@@ -51,9 +51,9 @@ export const AIO_BRAND_CONTEXT: BrandContext = {
   positioning: `${aio.AIO_DNA.brand.tagline} ${aio.AIO_DNA.brand.positioning} ${aio.AIO_DNA.brand.promise}`,
   audience: 'Owner-operators, small and growing fleets, office managers and shippers — interstate carriers who need the business side of trucking handled.',
   voice: aio.AIO_DNA.brand.voice,
-  color: [...AIO_BRAND_AUTHORITY.palette.map((t) => `${t.token} ${t.hex} — ${t.role}`), ...AIO_BRAND_AUTHORITY.material_world.map((m) => `material world: ${m}`)],
+  color: [...AIO_BRAND_AUTHORITY.palette.map((t) => `${t.token} ${t.hex} — ${t.role}`), ...AIO_BRAND_AUTHORITY.resolved_tokens.functional_tokens.map((t) => `functional ${t.token} ${t.hex} — ${t.role}`), ...AIO_BRAND_AUTHORITY.material_world.map((m) => `material world: ${m}`)],
   materials: [...AIO_BRAND_AUTHORITY.materials, 'brushed / satin metal (silver)', 'obsidian glass', 'charcoal steel', 'stone', 'champagne-gold accents', 'clean light operational surfaces (authenticated workspaces)'],
-  typography: 'UPPERCASE PRIMARY (locked). Brand DNA board: MONUMENT EXTENDED (headline) · INTER (secondary) · BEBAS NEUE (accent / label). IFTA asset sheet: INTER TIGHT headings · INTER body (+2% tracking). Display face open (D-TYPOGRAPHY). Code tokens Plus Jakarta Sans / DM Sans carry no authority.',
+  typography: 'UPPERCASE PRIMARY (locked). Client / staff UI: INTER TIGHT headings · INTER body (D-TYPOGRAPHY). MONUMENT EXTENDED reserved for PUBLIC / HERO display only if licensed and approved; the runtime never depends on an unavailable commercial font. Code tokens Plus Jakarta Sans / DM Sans carry no authority.',
   logo_rules: 'LOCKED: SIMPLE AIO MARK ONLY in tight / top navigation (also app launchers, favicons) — never the full text lockup there. FULL LOCKUP only in spacious lower brand bands / footer / exit regions.',
   mood: 'OPERATIONAL LUXURY — executive industrial × modern infrastructure; calm control over a moving operation. Actor themes: PUBLIC DARK_PRIMARY cinematic · CLIENT LIGHT_PRIMARY · FOUNDER / STAFF LIGHT_PRIMARY + DARK_OPERATIONAL_ACCENTS.',
   references: [bundleFile('BRAND_DNA_BOARD').path, bundleFile('FULL_LOGO_LOCKUP').path, bundleFile('SIMPLE_NAV_MARK').path, bundleFile('ICON_ASSET_SHEET').path, `Photography direction: ${AIO_BRAND_AUTHORITY.photography.join(' · ')} (cinematic truck-on-highway perimeters per the IFTA authorities)`],
@@ -71,10 +71,10 @@ export const AIO_BRAND_CONTEXT: BrandContext = {
     'Actor themes: PUBLIC DARK_PRIMARY · CLIENT LIGHT_PRIMARY · FOUNDER / STAFF LIGHT_PRIMARY + DARK_OPERATIONAL_ACCENTS',
     'IFTA client parent authority: LIGHT ANALYTICS COMMAND',
     'Legacy AIO visuals have ZERO design authority',
+    'D-BRAND-TOKENS: brand DNA board wins every shared brand role (OBSIDIAN #050505 · CHARCOAL #1A1A1A · SIGNATURE GOLD #D4A853 · CHAMPAGNE #EBD9B7 · PLATINUM #C0C6CC · STONE WHITE #F6F6F4); asset-sheet functional tokens only where the board is silent',
+    'D-TYPOGRAPHY: INTER TIGHT headings + INTER body for client / staff UI; MONUMENT EXTENDED public / hero only if licensed',
   ],
   open_brand_questions: [
-    'D-BRAND-TOKENS — brand DNA board vs IFTA asset sheet values for gold (#D4A853 vs #F4B223), charcoal (#1A1A1A vs #1F2937), darkest ink (#050505 vs #0B0B0B), light background (#F6F6F4 vs #FFFFFF).',
-    'D-TYPOGRAPHY — display face MONUMENT EXTENDED (+ BEBAS NEUE labels; commercial licence) vs INTER TIGHT.',
     'Production brand assets not in the package: light-theme / transparent simple mark, transparent full lockups, approved hero photographs (reference images are not runtime assets).',
   ],
 };

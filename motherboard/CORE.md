@@ -295,6 +295,23 @@ Contract: `src/site00/config/production-workspace-media.ts`, mirrored by density
 - **No false readiness:** a node is IMPLEMENTATION_READY only with experience contract + authority binding + data contracts + interactions + permissions + responsive rule (`evaluateNodeReadiness`). Visual and data status stay separate.
 - **AIO IFTA:** authority bundle ingested at `docs/aio/ifta/authority-bundle/`. Regenerate with `npx tsx scripts/studioos/aio-ifta-authority-bundle-export.ts`; source is `shared/studioos-visual-authority/projects/aio/ifta-authority/`.
 
+## Operating environments + workspaces (Studio OS experience layer)
+
+- A project's services are **WORKSPACES inside an OPERATING ENVIRONMENT** (`shared/studioos-experience-brain/operating-environment.ts`, project-agnostic).
+  - Internal office = CLIENT × WORKSPACE × SUBCONTEXT.
+  - Client office = FIXED CLIENT × WORKSPACE × SUBCONTEXT (no client switcher).
+  - CASE = PROJECT + CLIENT + WORKSPACE + CASE TYPE + SUBCONTEXT: one canonical identity, one record, many projections.
+- Global navigation, workspace switcher, client switcher and subcontext selector are **distinct controls**. A context change re-resolves every scoped domain (no stale state).
+- Workspace states: ACTIVE · AVAILABLE_NOT_ACTIVATED · NOT_APPLICABLE (optional states only when a record supports them).
+  - Inactive internal → truthful inactive state (never another client).
+  - Inactive client → expansion state.
+  - NOT_APPLICABLE → hidden.
+- **Expansion is a contract, not advertising:** rules over recorded signals; named suppressions; no rule → nothing shown; conflicting availability → MISLEADING.
+- **AIO (founder decision 2026-10-06, P0.AIO.OFFICE-WORKSPACE-ARCHITECTURE-AND-IFTA-TREE-FOUNDER-LOCK1):**
+  - AIO OFFICE (founder / staff) and CLIENT OFFICE (client).
+  - IFTA is the TREE_PROVEN workspace. The IFTA tree is rebased under the offices (revision 2) with the ten decisions locked.
+  - Docs: `docs/aio/office/` (`npx tsx scripts/studioos/aio-office-export.ts`); data: `shared/studioos-experience-brain/projects/aio/office.ts`.
+
 ---
 
 ## Docs

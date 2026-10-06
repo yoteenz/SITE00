@@ -42,6 +42,11 @@
       "CHAMPAGNE #EBD9B7 — supporting accent",
       "PLATINUM #C0C6CC — secondary metallic",
       "STONE_WHITE #F6F6F4 — light background (authenticated workspaces)",
+      "functional WHITE #FFFFFF — functional white surface (cards / panels on light bodies) — not the brand light background",
+      "functional SOFT_GRAY #E5E7EB — borders, dividers",
+      "functional SUCCESS_GREEN #10B981 — complete, success states",
+      "functional IN_PROGRESS_BLUE #3B82F6 — in progress, active states",
+      "functional WARNING_AMBER #F59E0B — attention, warnings",
       "material world: BLACK",
       "material world: GOLD",
       "material world: SILVER",
@@ -75,7 +80,7 @@
       "champagne-gold accents",
       "clean light operational surfaces (authenticated workspaces)"
     ],
-    "typography": "UPPERCASE PRIMARY (locked). Brand DNA board: MONUMENT EXTENDED (headline) · INTER (secondary) · BEBAS NEUE (accent / label). IFTA asset sheet: INTER TIGHT headings · INTER body (+2% tracking). Display face open (D-TYPOGRAPHY). Code tokens Plus Jakarta Sans / DM Sans carry no authority.",
+    "typography": "UPPERCASE PRIMARY (locked). Client / staff UI: INTER TIGHT headings · INTER body (D-TYPOGRAPHY). MONUMENT EXTENDED reserved for PUBLIC / HERO display only if licensed and approved; the runtime never depends on an unavailable commercial font. Code tokens Plus Jakarta Sans / DM Sans carry no authority.",
     "mood": "OPERATIONAL LUXURY — executive industrial × modern infrastructure; calm control over a moving operation. Actor themes: PUBLIC DARK_PRIMARY cinematic · CLIENT LIGHT_PRIMARY · FOUNDER / STAFF LIGHT_PRIMARY + DARK_OPERATIONAL_ACCENTS.",
     "imagery": "cinematic trucking / infrastructure context — highways, yards, cabs, fuel islands, office light; never stock smiles",
     "architectural_language": "The business office behind the truck: a command office over road infrastructure — rooms, desks, filed packets, ledgers, gauges; never a generic SaaS dashboard.",
@@ -93,8 +98,6 @@
       "legacy AIO shell visuals"
     ],
     "open_brand_questions": [
-      "D-BRAND-TOKENS — brand DNA board vs IFTA asset sheet values for gold (#D4A853 vs #F4B223), charcoal (#1A1A1A vs #1F2937), darkest ink (#050505 vs #0B0B0B), light background (#F6F6F4 vs #FFFFFF).",
-      "D-TYPOGRAPHY — display face MONUMENT EXTENDED (+ BEBAS NEUE labels; commercial licence) vs INTER TIGHT.",
       "Production brand assets not in the package: light-theme / transparent simple mark, transparent full lockups, approved hero photographs (reference images are not runtime assets)."
     ]
   },

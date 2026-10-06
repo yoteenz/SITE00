@@ -1,6 +1,8 @@
 {
   "id": "AIO_IFTA_TAB_TREE",
   "sprint": "P0.AIO.IFTA.AUTHORITY-BUNDLE-INGEST-AND-PAGE-TREE-PROOF1",
+  "revision": 2,
+  "revised_in": "P0.AIO.OFFICE-WORKSPACE-ARCHITECTURE-AND-IFTA-TREE-FOUNDER-LOCK1",
   "generated_by": "scripts/studioos/aio-ifta-authority-bundle-export.ts",
   "source": "shared/studioos-visual-authority/projects/aio/ifta-authority",
   "generated_for": "2026-10-06",
@@ -19,9 +21,36 @@
     "JURISDICTIONS",
     "DOCUMENTS"
   ],
-  "candidate_tabs": {
-    "NOTES": "Appears in client desktop + every staff reference + 3-actor mobile; absent from the approved parent; asset sheet shows it disabled → SECONDARY_CANDIDATE pending D-NOTES-TAB. No new primary tab without contractual reason."
-  },
+  "secondary_tabs": [
+    {
+      "tab_id": "NOTES",
+      "decision": "D-NOTES-TAB",
+      "actors": [
+        "FOUNDER_STAFF"
+      ],
+      "staff_node": "AIO.IFTA.STAFF.CASE.NOTES",
+      "client_node": null,
+      "purpose": "Internal + reconciliation notes on the client-quarter case (staff only).",
+      "client_alternative": "MESSAGE AIO (quarter thread) — the contract method for NOTES_FOR_AIO.",
+      "own_logic": {
+        "data_ownership": "AIO staff.",
+        "mutations": [
+          "NOTES.write"
+        ],
+        "validation": [
+          "non-empty note"
+        ],
+        "error_conditions": [
+          "no note model (MISSING)"
+        ],
+        "actor_rights": "Staff create / read; never client-visible.",
+        "system_relationships": [
+          "AUDIT_TRAIL"
+        ]
+      }
+    }
+  ],
+  "notes_decision": "D-NOTES-TAB (DECIDED): STAFF NOTES is a SECONDARY staff tab; the client has no NOTES tab (MESSAGE AIO); the client keeps six primary tabs.",
   "families": {
     "CLIENT": {
       "page": "AIO.IFTA.CLIENT.ROOM",
@@ -289,25 +318,21 @@
             "PRIMARY_TASK: readiness overview",
             "CONTENT_MODULES: checklist + workflow + map + uploads + insights + activity"
           ],
-          "open_decisions": [
-            "D-CLIENT-DESKTOP-STAFF-MODULES"
-          ],
+          "open_decisions": [],
           "readiness": {
             "node_id": "AIO.IFTA.CLIENT.ROOM.PROGRESS",
             "node_type": "TAB",
             "actor": "CLIENT",
             "EXPERIENCE_READY": true,
-            "AUTHORITY_READY": false,
+            "AUTHORITY_READY": true,
             "DATA_READY": true,
             "INTERACTION_READY": true,
             "PERMISSIONS_KNOWN": true,
             "RESPONSIVE_RULE_EXISTS": true,
-            "IMPLEMENTATION_READY": false,
+            "IMPLEMENTATION_READY": true,
             "visual_status": "VISUALLY_DEFINED",
             "functional_status": "FUNCTIONALLY_PARTIAL",
-            "blockers": [
-              "authority: open decision D-CLIENT-DESKTOP-STAFF-MODULES"
-            ]
+            "blockers": []
           }
         },
         {
@@ -1418,25 +1443,21 @@
             "ACTIONS: open jurisdiction (client read-only)",
             "STATES: jurisdiction quality"
           ],
-          "open_decisions": [
-            "D-TAX-FIGURES"
-          ],
+          "open_decisions": [],
           "readiness": {
             "node_id": "AIO.IFTA.CLIENT.ROOM.JURISDICTIONS",
             "node_type": "TAB",
             "actor": "CLIENT",
             "EXPERIENCE_READY": true,
             "AUTHORITY_READY": true,
-            "DATA_READY": false,
+            "DATA_READY": true,
             "INTERACTION_READY": true,
             "PERMISSIONS_KNOWN": true,
             "RESPONSIVE_RULE_EXISTS": true,
-            "IMPLEMENTATION_READY": false,
+            "IMPLEMENTATION_READY": true,
             "visual_status": "VISUALLY_DERIVED",
             "functional_status": "FUNCTIONALLY_PARTIAL",
-            "blockers": [
-              "data: decision D-TAX-FIGURES"
-            ]
+            "blockers": []
           }
         },
         {
@@ -1702,116 +1723,6 @@
             "visual_status": "VISUALLY_DERIVED",
             "functional_status": "FUNCTIONALLY_PARTIAL",
             "blockers": []
-          }
-        },
-        {
-          "node_id": "AIO.IFTA.CLIENT.ROOM.NOTES",
-          "tab_id": "NOTES",
-          "tab_class": "SECONDARY_CANDIDATE",
-          "title": "NOTES (candidate)",
-          "purpose": "Notes for AIO (context such as “truck sold mid-quarter”). Shown on the client desktop reference; absent from the approved parent’s six tabs.",
-          "primary_task": "Tell AIO context about the quarter.",
-          "sprint_contract": null,
-          "components": [
-            "TAB_BAR",
-            "MESSAGE_THREAD",
-            "EMPTY_STATE"
-          ],
-          "interactions": [
-            "I.SAVE_NOTE",
-            "I.MESSAGE_AIO"
-          ],
-          "states": [
-            "UI.DEFAULT",
-            "UI.EMPTY"
-          ],
-          "data_domains": [
-            "NOTES",
-            "MESSAGES"
-          ],
-          "read_contracts": [
-            "NOTES.read",
-            "MSG.read.thread"
-          ],
-          "write_contracts": [
-            "NOTES.write",
-            "MSG.write.postThread"
-          ],
-          "children": [],
-          "drawers": [],
-          "modals": [],
-          "descendants": [],
-          "authority_refs": [
-            {
-              "viewport": "MOBILE",
-              "binding": "DERIVED",
-              "refs": [
-                "CLIENT_TABLET_DESKTOP",
-                "ACTOR_MODES_MOBILE",
-                "ICON_ASSET_SHEET"
-              ],
-              "derivation": {
-                "family_composition_clear": true,
-                "component_contract_clear": true,
-                "tab_logic_clear": false,
-                "asset_family_clear": true
-              },
-              "note": "Tab label only in references (no NOTES content composition); asset sheet shows the tab DISABLED."
-            },
-            {
-              "viewport": "TABLET",
-              "binding": "DERIVED",
-              "refs": [
-                "CLIENT_TABLET_DESKTOP",
-                "ICON_ASSET_SHEET"
-              ],
-              "derivation": {
-                "family_composition_clear": true,
-                "component_contract_clear": true,
-                "tab_logic_clear": false,
-                "asset_family_clear": true
-              },
-              "note": "Tab label only."
-            },
-            {
-              "viewport": "DESKTOP",
-              "binding": "DERIVED",
-              "refs": [
-                "CLIENT_TABLET_DESKTOP",
-                "ICON_ASSET_SHEET"
-              ],
-              "derivation": {
-                "family_composition_clear": true,
-                "component_contract_clear": true,
-                "tab_logic_clear": false,
-                "asset_family_clear": true
-              },
-              "note": "Tab label only."
-            }
-          ],
-          "overrides": [],
-          "open_decisions": [
-            "D-NOTES-TAB"
-          ],
-          "readiness": {
-            "node_id": "AIO.IFTA.CLIENT.ROOM.NOTES",
-            "node_type": "TAB",
-            "actor": "CLIENT",
-            "EXPERIENCE_READY": true,
-            "AUTHORITY_READY": false,
-            "DATA_READY": false,
-            "INTERACTION_READY": false,
-            "PERMISSIONS_KNOWN": true,
-            "RESPONSIVE_RULE_EXISTS": true,
-            "IMPLEMENTATION_READY": false,
-            "visual_status": "VISUALLY_MISSING",
-            "functional_status": "FUNCTIONALLY_PARTIAL",
-            "blockers": [
-              "authority: no usable binding for MOBILE, TABLET, DESKTOP",
-              "authority: open decision D-NOTES-TAB",
-              "data: NOTES.read MISSING, NOTES.write MISSING",
-              "interaction: I.SAVE_NOTE CANDIDATE_FOUNDER_DECISION"
-            ]
           }
         }
       ]
@@ -3088,25 +2999,21 @@
             }
           ],
           "overrides": [],
-          "open_decisions": [
-            "D-TAX-FIGURES"
-          ],
+          "open_decisions": [],
           "readiness": {
             "node_id": "AIO.IFTA.STAFF.CASE.JURISDICTIONS",
             "node_type": "TAB",
             "actor": "FOUNDER_STAFF",
             "EXPERIENCE_READY": true,
             "AUTHORITY_READY": true,
-            "DATA_READY": false,
+            "DATA_READY": true,
             "INTERACTION_READY": true,
             "PERMISSIONS_KNOWN": true,
             "RESPONSIVE_RULE_EXISTS": true,
-            "IMPLEMENTATION_READY": false,
+            "IMPLEMENTATION_READY": true,
             "visual_status": "VISUALLY_DERIVED",
             "functional_status": "FUNCTIONALLY_PARTIAL",
-            "blockers": [
-              "data: decision D-TAX-FIGURES"
-            ]
+            "blockers": []
           }
         },
         {
@@ -3357,14 +3264,15 @@
         {
           "node_id": "AIO.IFTA.STAFF.CASE.NOTES",
           "tab_id": "NOTES",
-          "tab_class": "SECONDARY_CANDIDATE",
-          "title": "NOTES (candidate)",
-          "purpose": "Internal notes + reconciliation notes on the case (staff-only).",
+          "tab_class": "SECONDARY",
+          "title": "NOTES (staff · secondary)",
+          "purpose": "Internal notes + reconciliation notes on the case — staff only, never visible to the client.",
           "primary_task": "Keep internal context on the case.",
           "sprint_contract": null,
           "components": [
             "TAB_BAR",
             "ACTIVITY_TIMELINE",
+            "MESSAGE_THREAD",
             "EMPTY_STATE"
           ],
           "interactions": [
@@ -3372,7 +3280,8 @@
           ],
           "states": [
             "UI.DEFAULT",
-            "UI.EMPTY"
+            "UI.EMPTY",
+            "UI.ERROR"
           ],
           "data_domains": [
             "NOTES",
@@ -3400,10 +3309,10 @@
               "derivation": {
                 "family_composition_clear": true,
                 "component_contract_clear": true,
-                "tab_logic_clear": false,
+                "tab_logic_clear": true,
                 "asset_family_clear": true
               },
-              "note": "Tab label only (no NOTES content composition)."
+              "note": "Founder-valid SECONDARY tab (D-NOTES-TAB): tab label from the staff references; note list from the ACTIVITY_TIMELINE row family; composer from MESSAGE_THREAD."
             },
             {
               "viewport": "TABLET",
@@ -3415,10 +3324,10 @@
               "derivation": {
                 "family_composition_clear": true,
                 "component_contract_clear": true,
-                "tab_logic_clear": false,
+                "tab_logic_clear": true,
                 "asset_family_clear": true
               },
-              "note": "Tab label only."
+              "note": "SECONDARY tab after the primary tabs; list + composer from family parts."
             },
             {
               "viewport": "DESKTOP",
@@ -3430,34 +3339,29 @@
               "derivation": {
                 "family_composition_clear": true,
                 "component_contract_clear": true,
-                "tab_logic_clear": false,
+                "tab_logic_clear": true,
                 "asset_family_clear": true
               },
-              "note": "Tab label only."
+              "note": "SECONDARY tab after the primary tabs; list + composer from family parts."
             }
           ],
           "overrides": [],
-          "open_decisions": [
-            "D-NOTES-TAB"
-          ],
+          "open_decisions": [],
           "readiness": {
             "node_id": "AIO.IFTA.STAFF.CASE.NOTES",
             "node_type": "TAB",
             "actor": "FOUNDER_STAFF",
             "EXPERIENCE_READY": true,
-            "AUTHORITY_READY": false,
+            "AUTHORITY_READY": true,
             "DATA_READY": false,
-            "INTERACTION_READY": false,
+            "INTERACTION_READY": true,
             "PERMISSIONS_KNOWN": true,
             "RESPONSIVE_RULE_EXISTS": true,
             "IMPLEMENTATION_READY": false,
-            "visual_status": "VISUALLY_MISSING",
+            "visual_status": "VISUALLY_DERIVED",
             "functional_status": "FUNCTIONALLY_PARTIAL",
             "blockers": [
-              "authority: no usable binding for MOBILE, TABLET, DESKTOP",
-              "authority: open decision D-NOTES-TAB",
-              "data: NOTES.read MISSING, NOTES.write MISSING",
-              "interaction: I.SAVE_NOTE CANDIDATE_FOUNDER_DECISION"
+              "data: NOTES.read MISSING, NOTES.write MISSING"
             ]
           }
         }
@@ -3517,16 +3421,14 @@
             "actor": "PUBLIC",
             "EXPERIENCE_READY": true,
             "AUTHORITY_READY": true,
-            "DATA_READY": false,
+            "DATA_READY": true,
             "INTERACTION_READY": true,
             "PERMISSIONS_KNOWN": true,
             "RESPONSIVE_RULE_EXISTS": true,
-            "IMPLEMENTATION_READY": false,
+            "IMPLEMENTATION_READY": true,
             "visual_status": "VISUALLY_DEFINED",
             "functional_status": "FUNCTIONALLY_COMPLETE",
-            "blockers": [
-              "data: decision D-PUBLIC-COPY-TRUTH"
-            ]
+            "blockers": []
           }
         },
         {
@@ -3539,16 +3441,14 @@
             "actor": "PUBLIC",
             "EXPERIENCE_READY": true,
             "AUTHORITY_READY": true,
-            "DATA_READY": false,
+            "DATA_READY": true,
             "INTERACTION_READY": true,
             "PERMISSIONS_KNOWN": true,
             "RESPONSIVE_RULE_EXISTS": true,
-            "IMPLEMENTATION_READY": false,
+            "IMPLEMENTATION_READY": true,
             "visual_status": "VISUALLY_DEFINED",
             "functional_status": "FUNCTIONALLY_COMPLETE",
-            "blockers": [
-              "data: decision D-PUBLIC-COPY-TRUTH"
-            ]
+            "blockers": []
           }
         },
         {
@@ -3561,16 +3461,14 @@
             "actor": "PUBLIC",
             "EXPERIENCE_READY": true,
             "AUTHORITY_READY": true,
-            "DATA_READY": false,
+            "DATA_READY": true,
             "INTERACTION_READY": true,
             "PERMISSIONS_KNOWN": true,
             "RESPONSIVE_RULE_EXISTS": true,
-            "IMPLEMENTATION_READY": false,
+            "IMPLEMENTATION_READY": true,
             "visual_status": "VISUALLY_DEFINED",
             "functional_status": "FUNCTIONALLY_COMPLETE",
-            "blockers": [
-              "data: decision D-PUBLIC-COPY-TRUTH"
-            ]
+            "blockers": []
           }
         },
         {
@@ -3628,10 +3526,9 @@
         "MODELED": 7,
         "MODELED_DATA_PARTIAL": 4
       },
-      "client_node_ready": false,
+      "client_node_ready": true,
       "staff_node_ready": false,
       "blockers": [
-        "ROOM.PROGRESS: authority: open decision D-CLIENT-DESKTOP-STAFF-MODULES",
         "CASE.OVERVIEW: data: STAFF.write.escalate MISSING"
       ]
     },
@@ -3684,19 +3581,16 @@
     },
     {
       "tab_id": "JURISDICTIONS",
-      "status": "PARTIAL",
+      "status": "PASS",
       "must_items": 10,
       "modeled": 10,
       "by_status": {
         "MODELED_DATA_PARTIAL": 2,
         "MODELED": 8
       },
-      "client_node_ready": false,
-      "staff_node_ready": false,
-      "blockers": [
-        "ROOM.JURISDICTIONS: data: decision D-TAX-FIGURES",
-        "CASE.JURISDICTIONS: data: decision D-TAX-FIGURES"
-      ]
+      "client_node_ready": true,
+      "staff_node_ready": true,
+      "blockers": []
     },
     {
       "tab_id": "DOCUMENTS",

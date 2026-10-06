@@ -1,6 +1,8 @@
 {
   "id": "AIO_IFTA_RESPONSIVE_AUTHORITY_MAP",
   "sprint": "P0.AIO.IFTA.AUTHORITY-BUNDLE-INGEST-AND-PAGE-TREE-PROOF1",
+  "revision": 2,
+  "revised_in": "P0.AIO.OFFICE-WORKSPACE-ARCHITECTURE-AND-IFTA-TREE-FOUNDER-LOCK1",
   "generated_by": "scripts/studioos/aio-ifta-authority-bundle-export.ts",
   "source": "shared/studioos-visual-authority/projects/aio/ifta-authority",
   "generated_for": "2026-10-06",
@@ -777,26 +779,6 @@
       ]
     },
     {
-      "node_id": "AIO.IFTA.CLIENT.ROOM.NOTES",
-      "modes": [
-        {
-          "viewport": "MOBILE",
-          "rule_ref": "RESP.CLIENT.MOBILE",
-          "node_rule": "tab body stacked"
-        },
-        {
-          "viewport": "TABLET",
-          "rule_ref": "RESP.CLIENT.TABLET",
-          "node_rule": "tab body two columns"
-        },
-        {
-          "viewport": "DESKTOP",
-          "rule_ref": "RESP.CLIENT.DESKTOP",
-          "node_rule": "tab body three columns"
-        }
-      ]
-    },
-    {
       "node_id": "AIO.IFTA.CLIENT.ROOM.MESSAGES",
       "modes": [
         {
@@ -922,17 +904,37 @@
         {
           "viewport": "MOBILE",
           "rule_ref": "RESP.STAFF.MOBILE",
-          "node_rule": "family shell (mobile)"
+          "node_rule": "metrics strip → bucket chips → stacked client-quarter cards"
         },
         {
           "viewport": "TABLET",
           "rule_ref": "RESP.STAFF.TABLET",
-          "node_rule": "family shell (tablet)"
+          "node_rule": "metrics strip → bucket chips → dense table (client · quarter · due · state · next action)"
         },
         {
           "viewport": "DESKTOP",
           "rule_ref": "RESP.STAFF.DESKTOP",
-          "node_rule": "family shell (desktop)"
+          "node_rule": "metrics strip → bucket chips → full dense table (all queue fields with contract truth) + blocker accent panel"
+        }
+      ]
+    },
+    {
+      "node_id": "AIO.IFTA.STAFF.WORKSPACE_INACTIVE",
+      "modes": [
+        {
+          "viewport": "MOBILE",
+          "rule_ref": "RESP.STAFF.MOBILE",
+          "node_rule": "client identity → state card → actions (stacked)"
+        },
+        {
+          "viewport": "TABLET",
+          "rule_ref": "RESP.STAFF.TABLET",
+          "node_rule": "client identity → state card | eligibility reasons"
+        },
+        {
+          "viewport": "DESKTOP",
+          "rule_ref": "RESP.STAFF.DESKTOP",
+          "node_rule": "client identity → state card | eligibility reasons | other active workspaces"
         }
       ]
     },
