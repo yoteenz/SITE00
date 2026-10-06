@@ -13,6 +13,7 @@ import { describe, expect, it } from 'vitest';
 import { InboxBody, inboxHref, INBOX_LENSES } from '../src/site00/components/productionAuthority/InboxBody';
 import { buildInboxObjects, INBOX_STATES, INBOX_TYPES } from '../src/site00/components/productionAuthority/inboxModel';
 import { ProductionAuthorityDataContext } from '../src/site00/components/productionAuthority/ProductionAuthorityData';
+import { workspaceTabOf } from '../shared/site00-production-graph/projectScope';
 import type { HubData } from '../src/site00/components/productionHub/useProductionHubData';
 
 const root = path.resolve(__dirname, '..');
@@ -114,7 +115,9 @@ describe('one parent family (10–14)', () => {
     expect(strip(read('src/site00/styles/site00-production-inbox-family.css'))).not.toMatch(/\.pxh-|\.ph-top|\.ph-nav|prod-chrome|production-workspace-header/);
   });
   it('13 INBOX is the active Production tab on the Inbox route', () => {
-    expect(read('src/site00/components/productionHub/chrome.tsx')).toMatch(/pathname\.startsWith\('\/production\/queue'\)\)\s*\{\s*brand = 'INBOX';\s*active = 'inbox'/);
+    // P0 project isolation: the active tab is resolved from the route by workspaceTabOf (/production/queue → INBOX).
+    expect(workspaceTabOf('/production/queue')).toBe('INBOX');
+    expect(read('src/site00/components/productionHub/chrome.tsx')).toMatch(/tab === 'INBOX'\)\s*\{\s*brand = 'INBOX';\s*active = 'inbox'/);
   });
   it('14 lifecycle tabs: NEEDS YOU · WATCHING · RESOLVED; children under NEEDS YOU keep it active', () => {
     for (const [lens, active] of [

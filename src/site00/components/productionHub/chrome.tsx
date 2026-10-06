@@ -136,14 +136,18 @@ function ProductionMenuPanel({
   onClose,
   title = 'MENU',
   testId = 'production-menu',
+  projectId = null,
 }: {
   items: MenuItem[];
   className: string;
   onClose: () => void;
   title?: string;
   testId?: string;
+  /** Active project: production tab items are scoped to it. */
+  projectId?: string | null;
 }) {
   const { pathname } = useLocation();
+  const scoped = scopeMenuItems(items, projectId ?? null);
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
     const onDown = (e: PointerEvent) => {
@@ -167,8 +171,8 @@ function ProductionMenuPanel({
         </button>
       </header>
       <nav className="pxm__list">
-        {items.map((it, i) => {
-          const current = it.current ?? it.to === pathname;
+        {scoped.map((it, i) => {
+          const current = it.current ?? it.to.split('?')[0] === pathname;
           return (
             <Link key={it.to} to={it.to} onClick={onClose} className={current ? 'is-current' : undefined} aria-current={current ? 'page' : undefined} data-testid={`${testId}-item`}>
               {it.thumb !== undefined ?
@@ -187,14 +191,24 @@ function ProductionMenuPanel({
   );
 }
 
-function menuItems(projectId: string | null, phone: boolean): MenuItem[] {
-  const hub = projectId ? scopedTabHref('HUB', projectId) : '/production';
-  const inbox = projectId ? scopedTabHref('INBOX', projectId) : '/production/queue';
-  return [
-    { to: hub, title: 'PRODUCTION HUB', sub: phone ? 'RETURN TO CHAMBER' : 'PROJECT COMMAND' },
-    { to: inbox, title: 'INBOX', sub: 'DECISIONS' },
-    { to: '/control', title: 'CONTROL', sub: 'ACCOUNT' },
-  ];
+const MENU_PHONE: MenuItem[] = [
+  { to: '/production', title: 'PRODUCTION HUB', sub: 'RETURN TO CHAMBER' },
+  { to: '/production/queue', title: 'INBOX', sub: 'DECISIONS' },
+  { to: '/control', title: 'CONTROL', sub: 'ACCOUNT' },
+];
+const MENU_HOST: MenuItem[] = [
+  { to: '/production', title: 'PRODUCTION HUB', sub: 'PROJECT COMMAND' },
+  { to: '/production/queue', title: 'INBOX', sub: 'DECISIONS' },
+  { to: '/control', title: 'CONTROL', sub: 'ACCOUNT' },
+];
+
+/** Production tab destinations carry the active project (`?project=`); other destinations are unchanged. */
+function scopeMenuItems(items: MenuItem[], projectId: string | null): MenuItem[] {
+  if (!projectId) return items;
+  return items.map((it) => {
+    const tab = workspaceTabOf(it.to);
+    return tab ? { ...it, to: scopedTabHref(tab, projectId) } : it;
+  });
 }
 
 /** Project switcher: real project selection; keeps the current TAB (never redirects to a populated tab). */
@@ -257,7 +271,7 @@ export function ProductionWorkspaceHeader() {
       <button type="button" className="ph-top__menu" aria-label="Menu" aria-expanded={menu} onClick={() => setMenu((v) => !v)}>
         <IcMenu width={22} height={22} />
       </button>
-      {menu ? <ProductionMenuPanel items={menuItems(projectId, true)} className="prod-chrome-pop" onClose={closeMenu} /> : null}
+      {menu ? <ProductionMenuPanel items={MENU_PHONE} className="prod-chrome-pop" projectId={projectId} onClose={closeMenu} /> : null}
       {projects ?
         <ProductionMenuPanel items={projectItems} title="PROJECTS" testId="production-project-menu" className="prod-chrome-pop pxm--projects" onClose={closeProjects} />
       : null}
@@ -306,7 +320,7 @@ function ProductionHostTop({ projectId, projectName, queued }: { projectId: stri
       <button type="button" className="pxh-top__menu" aria-label="Menu" aria-expanded={menu} onClick={() => setMenu((v) => !v)} data-testid="production-host-menu">
         <IcMenu width={24} height={24} />
       </button>
-      {menu ? <ProductionMenuPanel items={menuItems(projectId, false)} className="pxh-pop" onClose={closeMenu} /> : null}
+      {menu ? <ProductionMenuPanel items={MENU_HOST} className="pxh-pop" projectId={projectId} onClose={closeMenu} /> : null}
       {projects ?
         <ProductionMenuPanel items={projectItems} title="PROJECTS" testId="production-project-menu" className="pxh-pop pxm--projects" onClose={closeProjects} />
       : null}

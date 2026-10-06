@@ -24,7 +24,7 @@ export function ProductionWorkspaceProvider({ children }: { children: React.Reac
     const campaign = searchParams.get('campaign');
     const entry = searchParams.get('entry');
     return writeProductionWorkspaceContext({
-      projectSlug: routeSlug?.toLowerCase() ?? stored?.projectSlug ?? 'ndxbook',
+      projectSlug: routeSlug?.toLowerCase() ?? stored?.projectSlug ?? '',
       activeWorkspace: stored?.activeWorkspace ?? 'DESIGN',
       campaignId: campaign ?? stored?.campaignId ?? null,
       entryId: entry ?? stored?.entryId ?? null,

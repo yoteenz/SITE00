@@ -1,11 +1,11 @@
-import { LibraryBody } from '../../components/productionAuthority/LibraryBody';
 import { ProductionAuthorityFrame } from '../../components/productionAuthority/ProductionAuthorityFrame';
+import { LibrarySurface } from '../../production/WorkspaceSurfaces';
 
-/** /production/libraries — full-width canon vault. */
+/** /production/libraries?project=<p> — LIBRARY: the active project's artifact archive with lineage. */
 export function ProductionLibrariesPage() {
   return (
     <ProductionAuthorityFrame screen="library">
-      <LibraryBody />
+      <LibrarySurface />
     </ProductionAuthorityFrame>
   );
 }

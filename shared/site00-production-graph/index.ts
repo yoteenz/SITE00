@@ -4,6 +4,7 @@ export * from './graph.js';
 export * from './ledger.js';
 export * from './query.js';
 export * from './projectScope.js';
+export * from './methods.js';
 export { buildFamilyGraphPart, familyNodeId, publicUrl, type FamilyContractInput } from './adapters/familyContracts.js';
 export { buildVisualAuthorityGraphPart, type VisualAuthorityFeatureInput } from './adapters/visualAuthority.js';
 export { buildExpressionGraphPart, expressionNodeId, type ExpressionProductionInput, type ExpressionRoleFact, type ExpressionAssetFact } from './adapters/expressionProduction.js';
