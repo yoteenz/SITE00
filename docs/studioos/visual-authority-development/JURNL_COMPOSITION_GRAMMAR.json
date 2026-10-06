@@ -182,5 +182,19 @@
       "h": 32
     },
     "generated_frame_mapping": "9:16 plate: height = 852 pt; the 393-pt viewport is the central 82 % of the plate width (x 9–91 %); the outer 9 % each side is environment bleed only."
+  },
+  "richness_benchmark": {
+    "path": "src/projects/jurnl/families/F03_TODAY/AUTHORITIES/F03.00_TODAY_PARENT.jpg",
+    "measures": [
+      "richness",
+      "Mediterranean environmental credibility",
+      "calm editorial luxury",
+      "material sophistication",
+      "custom-designed feel",
+      "logo intelligence",
+      "balanced stage composition",
+      "product clarity"
+    ],
+    "rule": "Every JURNL concept round must meet or exceed this finish level. It is not copied literally."
   }
 }

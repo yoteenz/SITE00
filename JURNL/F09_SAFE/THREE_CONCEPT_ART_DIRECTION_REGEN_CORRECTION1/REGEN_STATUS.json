@@ -1,0 +1,45 @@
+{
+  "id": "REGEN_STATUS",
+  "sprint": "P0.JURNL.F09-SAFE-TO-SPEND.THREE-CONCEPT-ART-DIRECTION-REGEN-CORRECTION1",
+  "generated_by": "scripts/studioos/jurnl-f09-art-direction-regen-export.ts",
+  "status": "BLOCKED_ON_SCENE_RETRIEVAL",
+  "candidates_delivered": 0,
+  "layout_proof": "JURNL/F09_SAFE/THREE_CONCEPT_ART_DIRECTION_REGEN_CORRECTION1/LAYOUT_PROOF/F09_FOUNDER_REVIEW_BOARD.png",
+  "layout_proof_rule": "Built on the 144×256 previews to lock layout against the real scene compositions. Watermarked LAYOUT PROOF · NOT AUTHORITY; never a candidate.",
+  "assembly": "node scripts/jurnl/f09-art-direction-regen-assemble.mjs (expects SCENES/T0n_SCENE.png; --proof for the layout proof)",
+  "unblock": [
+    "Allow www.figma.com in this environment’s network access → download the three scenes (assets valid until 2026-10-13), QA them at full size, assemble, audit, board. Below 4K (see resolution_exception).",
+    "Or connect OpenArt to this environment (credential + network) → regenerate the three scenes at 4K from SCENE_PROMPTS/, then the same assembly."
+  ],
+  "device_chrome": "NONE by construction (no status bar, home indicator, phone or browser frame in the assembly).",
+  "standard": {
+    "rule": "COMPOSITION INTENT + BRAND WORLD + OFFICIAL LOGO/TYPE + BESPOKE ART DIRECTION + DETERMINISTIC PRODUCT UI = FINISHED AUTHORITY. SCENE PLATE + OVERLAY IS NOT.",
+    "finish_qa": [
+      "NO_VISIBLE_SCAFFOLDING",
+      "NO_DEVICE_CHROME",
+      "OBJECT_FULLY_REALIZED",
+      "WORLD_AT_BENCHMARK",
+      "UNIFIED_LIGHT_GRADE_GRAIN",
+      "TYPE_INTEGRITY",
+      "LOGO_OFFICIAL_INTEGRATED",
+      "CONCEPT_DISTINCT"
+    ],
+    "benchmark": {
+      "path": "src/projects/jurnl/families/F03_TODAY/AUTHORITIES/F03.00_TODAY_PARENT.jpg",
+      "measures": [
+        "richness",
+        "Mediterranean environmental credibility",
+        "calm editorial luxury",
+        "material sophistication",
+        "custom-designed feel",
+        "logo intelligence",
+        "balanced stage composition",
+        "product clarity"
+      ],
+      "rule": "Every JURNL concept round must meet or exceed this finish level. It is not copied literally."
+    },
+    "scene_rule": "The generator paints a finished world with the signature object fully realised and no text. Blank plates, tags, panels or mockup zones are never visible in the final image.",
+    "product_layer_rule": "Type, logo and controls are set in the scene’s light: multiply-blended ink on plaster and stone, frosted material panels, shadows from the scene’s light direction, one grain over the whole page.",
+    "review_rule": "Only finished candidates reach the founder board; previews, plates and proofs never do."
+  }
+}

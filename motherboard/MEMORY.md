@@ -14338,3 +14338,37 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Why:** HYBRID-COMPOSITE-AUTHORITY-EXECUTION1 left only one fully resolved composite, included iOS status bar / home indicator, and mixed stale inline CTAs. Founder round requires **3 finished composite authorities** at **393×852 product canvas** (not device screenshot).
 - **Rules persisted:** `DEVICE_CHROME_FORBIDDEN`; raw plates never count toward territory count; `F09_FOUNDER_REVIEW_PAYLOAD.json` is single data lock (**$1,284**, OCT 18, BILLS/PLANS/GOALS/BUFFER, **SEE WHY THIS AMOUNT**, **CHECK A PURCHASE** bridge, nav HOME/MONEY/+/PLAN/CREDIT).
 - **Delivered:** `JURNL/F09_SAFE/THREE_DISTINCT_COMPOSITE_AUTHORITY_RERUN1/` — three distinct layouts (`f09-three-distinct-composite-rerun.mjs` + `f09-product-canvas.css`), composites, `FOUNDER_REVIEW_BOARD.png` (composites only), `COMPOSITE_QA.json` (blur + anti-template pass), `RERUN1_REPORT.json`. Reused execution1 scene plates as provenance under `RAW_PLATES/` (labeled NOT A FOUNDER CONCEPT). Gate still **COMPOSITES_READY** via `JURNL_F09_RERUN_COMPOSITES`. **No** live F09 product change.
+
+---
+
+## 2026-10-06 — JURNL F09 three-concept art-direction regen (P0.JURNL.F09-SAFE-TO-SPEND.THREE-CONCEPT-ART-DIRECTION-REGEN-CORRECTION1) — BLOCKED
+
+- **Founder verdict:** HYBRID-COMPOSITE-AUTHORITY-EXECUTION1 and THREE-DISTINCT-COMPOSITE-AUTHORITY-RERUN1 are REJECTED. Reasons:
+  - plate-literal construction
+  - glitched type
+  - not Mediterranean / editorial enough
+  - generic and unfinished
+  - shoddy assembly
+  - device chrome
+  - not three fully realized concepts
+  - Recorded as `founder_verdict: 'REJECTED'` on both composite sets. The hybrid gate is now COMPOSITE_AUTHORITY_REQUIRED (it read COMPOSITES_READY before).
+- **Durable rule (methodology, `hybrid-authority.ts`):** `AUTHORED_AUTHORITY_RULE`. SCENE PLATE + OVERLAY ≠ FINISHED AUTHORITY.
+  - The `FINISH_QA` audit is required on every composite: no visible scaffolding, no device chrome, object fully realized, world at benchmark, unified light / grade / grain, type integrity, official logo integrated, concept distinct.
+  - A founder REJECTED verdict blocks authority even if all mechanical QA passes.
+  - The JURNL richness benchmark is `F03.00_TODAY_PARENT.jpg` (`JURNL_RICHNESS_BENCHMARK`).
+  - Docs updated: COMPOSITE_AUTHORITY_QA, HYBRID_AUTHORITY_RENDERING_METHOD, JURNL_COMPOSITION_GRAMMAR.
+- **F09 decisions settled by the brief:**
+  - primary action SEE WHY THIS AMOUNT
+  - purchase bridge included
+  - AVAILABLE THROUGH OCT 18 included (sample; implementation needs a formula horizon)
+- **Done:**
+  - three text-free scene prompts at benchmark richness
+  - 3 Sunburst generations via Figma MCP (864×1536)
+  - the assembly / finishing script (official logo hi-res from the 1254-px reference, JURNL fonts, runtime nav icons, multiply ink, frosted panels, grain, seal-mark emboss, floor and seal detection)
+  - layout proof (watermarked)
+  - module `projects/jurnl/f09-art-direction-regen.ts`, export, test `jurnlF09ArtDirectionRegenCorrection1`
+- **Blocked:**
+  - The network policy denies `www.figma.com`, so the full-res scenes can't be downloaded. Their asset URLs are in REGEN_RENDER_LEDGER and expire 2026-10-13.
+  - Figma's route caps below 4K. OpenArt isn't connected; Weave isn't linked.
+  - 0 candidates delivered.
+- **Next:** allow `www.figma.com` (fast, below 4K) or connect OpenArt (4K). Then QA the scenes at full size, run `f09-art-direction-regen-assemble.mjs`, write the finish audit + forensic notes + pass/fail table, and build the founder board.

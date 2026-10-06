@@ -14,6 +14,7 @@ import { aio as brain } from '../shared/studioos-experience-brain/index';
 import {
   COMPOSITE_QA,
   DETERMINISTIC_LAYERS,
+  FINISH_QA,
   GENERATOR_QA,
   HYBRID_HARD_RULE,
   PRECISION_UI_KINDS,
@@ -61,6 +62,7 @@ function composite(b: PageCompositionBlueprint, o: RenderOwnershipMap, over: Par
     richness: Object.fromEntries(RICHNESS_DIMENSIONS.map((d) => [d, 4])) as CompositeAuthority['richness'],
     product_clarity_seconds: 1.5,
     image_path: 'fixture-composite.png',
+    finish: Object.fromEntries(FINISH_QA.map((q) => [q, true])) as NonNullable<CompositeAuthority['finish']>,
     ...over,
   };
 }
@@ -167,11 +169,18 @@ describe('gate integration (stand-in experience + brand fixtures; F09 has no Bra
     expect(evaluateAuthorityGate(input({ hybrid: h })).guard).toBe('RENDER_LAYER_OWNERSHIP_REQUIRED');
   });
 
-  it('F09 today: hybrid composite authorities pass the gate (full-screen Sunburst candidates do not count)', () => {
+  it('F09 today: the composite rounds passed mechanical QA but the founder rejected them → COMPOSITE_AUTHORITY_REQUIRED', () => {
     const r = evaluateAuthorityGate(input({ hybrid: jurnlF09BP.jurnlF09HybridInput() }));
-    expect(jurnlF09BP.jurnlF09HybridStatus().gate.status).toBe('COMPOSITES_READY');
-    expect(r.state).toBe('AUTHORITY_IN_REVIEW');
-    expect(r.conditions.REFERENCE_AUTHORITY_EXISTS).toBe(true);
+    expect(jurnlF09BP.jurnlF09HybridStatus().gate.status).toBe('COMPOSITE_AUTHORITY_REQUIRED');
+    expect(r.guard).toBe('COMPOSITE_AUTHORITY_REQUIRED');
+    expect(r.conditions.REFERENCE_AUTHORITY_EXISTS).toBe(false);
+    expect(jurnlF09BP.jurnlF09HybridStatus().gate.composites.every((c) => c.issues.some((i) => /founder rejected/.test(i)))).toBe(true);
+  });
+
+  it('a composite without the authored-authority finish audit, or with scaffolding / device chrome, is not ready', () => {
+    const c = composite(BP[0]!, OWN[0]!);
+    expect(checkCompositeAuthority(args(0, { ...c, finish: undefined })).issues).toContain('finish audit missing (authored-authority standard)');
+    expect(checkCompositeAuthority(args(0, { ...c, finish: { ...c.finish!, NO_VISIBLE_SCAFFOLDING: false, NO_DEVICE_CHROME: false } })).issues.join(' ')).toMatch(/finish failed NO_VISIBLE_SCAFFOLDING, NO_DEVICE_CHROME/);
   });
 
   it('with passing composites the family reaches founder review', () => {
@@ -189,11 +198,11 @@ describe('gate integration (stand-in experience + brand fixtures; F09 has no Bra
 describe('F09 blueprints at 393×852', () => {
   const s = jurnlF09BP.jurnlF09HybridStatus();
 
-  it('all three blueprints, ownership maps and densities pass; hybrid composites are COMPOSITES_READY', () => {
+  it('all three blueprints, ownership maps and densities pass; the rejected composites keep the gate at COMPOSITE_AUTHORITY_REQUIRED', () => {
     expect(s.blueprints.map((b) => b.status)).toEqual(['BLUEPRINT_READY', 'BLUEPRINT_READY', 'BLUEPRINT_READY']);
     expect(s.ownership.map((o) => o.status)).toEqual(['OWNERSHIP_READY', 'OWNERSHIP_READY', 'OWNERSHIP_READY']);
     expect(s.density.map((d) => d.status)).toEqual(['DENSITY_BALANCED', 'DENSITY_BALANCED', 'DENSITY_BALANCED']);
-    expect(s.gate.status).toBe('COMPOSITES_READY');
+    expect(s.gate.status).toBe('COMPOSITE_AUTHORITY_REQUIRED');
   });
 
   it('keep the three territories; metaphors are contained (T01 OBJECT · T02 ZONE · T03 OBJECT)', () => {
@@ -337,9 +346,10 @@ describe('F09 three-distinct composite rerun1', () => {
 });
 
 describe('state of the sprint', () => {
-  it('hybrid composites ready; no production F09 runtime change', () => {
+  it('rerun composites recorded as founder-rejected; no production F09 runtime change', () => {
     expect(jurnlF09BP.jurnlF09HybridInput().composites).toHaveLength(3);
-    expect(jurnlF09BP.jurnlF09HybridStatus().gate.status).toBe('COMPOSITES_READY');
+    expect(jurnlF09BP.jurnlF09HybridInput().composites.every((c) => c.founder_verdict === 'REJECTED')).toBe(true);
+    expect(jurnlF09BP.jurnlF09HybridStatus().gate.status).toBe('COMPOSITE_AUTHORITY_REQUIRED');
     for (const c of jurnlF09BP.JURNL_F09_RERUN_COMPOSITES) expect(existsSync(path.join(ROOT, c.image_path)), c.image_path).toBe(true);
     for (const f of ['src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx', 'src/projects/jurnl/data/f09/safeToSpend.ts']) expect(read(f)).not.toMatch(/COMPOSITION_BLUEPRINT|hybrid-authority/);
     for (const t of T) expect(t.founder_decision).toBeNull();

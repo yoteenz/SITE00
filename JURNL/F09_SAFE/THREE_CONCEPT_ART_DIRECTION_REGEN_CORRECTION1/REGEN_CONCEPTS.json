@@ -1,0 +1,73 @@
+{
+  "id": "REGEN_CONCEPTS",
+  "sprint": "P0.JURNL.F09-SAFE-TO-SPEND.THREE-CONCEPT-ART-DIRECTION-REGEN-CORRECTION1",
+  "generated_by": "scripts/studioos/jurnl-f09-art-direction-regen-export.ts",
+  "supersedes": [
+    "P0.JURNL.F09-SAFE-TO-SPEND.VISUAL-AUTHORITY-3-TERRITORY-PROOF1",
+    "P0.JURNL.F09-SAFE-TO-SPEND.CREATIVE-DIRECTION-BRAND-EXPRESSION-CORRECTION1",
+    "P0.JURNL.F09-SAFE-TO-SPEND.COMPOSITION-BLUEPRINT-RENDER-OWNERSHIP-CORRECTION1",
+    "P0.JURNL.F09-SAFE-TO-SPEND.HYBRID-COMPOSITE-AUTHORITY-EXECUTION1"
+  ],
+  "decisions_settled": [
+    {
+      "id": "D-F09-PRIMARY-ACTION-LABEL",
+      "decision": "SEE WHY THIS AMOUNT",
+      "source": "REGEN-CORRECTION1 brief: \"primary CTA equivalent to WHY / SEE WHY THIS AMOUNT\" + F09_FOUNDER_REVIEW_PAYLOAD.json"
+    },
+    {
+      "id": "D-F09-PURCHASES-BRIDGE",
+      "decision": "INCLUDED — WANT TO SPEND ON SOMETHING? / CHECK HOW IT FITS YOUR PLAN BEFORE YOU BUY. / CHECK A PURCHASE",
+      "source": "brief: \"secondary purchase-check module\""
+    },
+    {
+      "id": "D-F09-AVAILABLE-DATE",
+      "decision": "INCLUDED — AVAILABLE THROUGH OCT 18 (sample)",
+      "source": "brief: \"available-through date\"",
+      "implementation_note": "computeSafeToSpend has no horizon yet; implementation needs a formula decision for the date. The authority shows the founder sample."
+    }
+  ],
+  "concepts": [
+    {
+      "territory_id": "JURNL.F09.T01",
+      "name": "THE SURVEYED COURTYARD",
+      "preserved_intent": "Spendable area vs held-back perimeter: the open, sunlit floor is the money; the shaded edges hold the commitments.",
+      "art_direction": "A real courtyard of a limewashed cliff villa seen from the upper loggia: far wall with an arched opening to the sea, an olive spilling over, a linen-cushioned limestone bench, a stone basin, terracotta planters with lemon and lavender, a sheer curtain at the near edge. The sunlit centre is bounded by the arcade’s shade on all four sides.",
+      "scene_prompt": "JURNL/F09_SAFE/THREE_CONCEPT_ART_DIRECTION_REGEN_CORRECTION1/SCENE_PROMPTS/T01_SURVEYED_COURTYARD.txt",
+      "composition": "Figure set in the sunlit square (the money sits in the open area); survey corner ticks measure the square; the commitments are annotated on the shaded perimeter; actions and nav rest on the near loggia floor in shade.",
+      "held_clarity": "BILLS (bench side), PLANS (basin side), GOALS (planter side), BUFFER (step side) annotated on the perimeter, plus HELD FOR BILLS, PLANS, GOALS & BUFFER under the figure.",
+      "logo": "Official vertical lockup top-left over the plain far wall, multiplied into the plaster.",
+      "purchase_module": "Frosted limestone panel, one row: question + line left, outlined CHECK A PURCHASE right.",
+      "wit": "The emptiest, brightest part of the page is the money you can spend.",
+      "distinct_by": "High overhead architectural view; centred figure inside the scene; survey annotation grammar.",
+      "previous_round_failure": "An empty plan-diagram frame floating on blank paving, labels misplaced and doubled, logo in a pasted box."
+    },
+    {
+      "territory_id": "JURNL.F09.T02",
+      "name": "THE ANSWER IN RAKING LIGHT",
+      "preserved_intent": "The editorial answer: one plain sentence answers the question, set where the morning light falls.",
+      "art_direction": "One thick limestone wall seen square-on, early sun raking through a deep arched window with an oak casement, sea and cypress outside, a lifting linen curtain; a travertine ledge with an olive branch in a hand-thrown vase and blank linen books.",
+      "scene_prompt": "JURNL/F09_SAFE/THREE_CONCEPT_ART_DIRECTION_REGEN_CORRECTION1/SCENE_PROMPTS/T02_ANSWER_IN_RAKING_LIGHT.txt",
+      "composition": "Left editorial column inside the light patch: SAFE TO SPEND → YOU CAN SPEND → $1,284 (the largest thing on the page) → AVAILABLE THROUGH OCT 18 → hairline → AFTER BILLS, PLANS, GOALS & BUFFER. The window carries the world on the right; actions sit below the ledge.",
+      "held_clarity": "The sentence names all four holds; the held words are set in brass ink — only the words that hold money are metal.",
+      "logo": "Official vertical lockup as the column’s masthead, top-left.",
+      "purchase_module": "Limestone band with an editorial serif question and an outlined CHECK A PURCHASE.",
+      "wit": "Metal means “this is held”: the material of a word says what it is.",
+      "distinct_by": "Frontal elevation; typographic hero; asymmetric column against the window.",
+      "previous_round_failure": "Text dropped onto a pale wall with an empty hanging brass tag and a placeholder maker’s plate."
+    },
+    {
+      "territory_id": "JURNL.F09.T03",
+      "name": "THE SORTING RACK",
+      "preserved_intent": "Sorting by category: what is held stays sealed; what you can spend is the only letter opened.",
+      "art_direction": "A bespoke built-in cabinet of five arched oak-lined niches carved into a limewashed entrance-hall wall, a continuous limestone sill, four sealed linen envelopes with burgundy wax, the centre niche empty in a beam of light with the broken seal on its sill; a travertine console with a hand-thrown bowl and olive sprig; a glimpse of sea at the window edge.",
+      "scene_prompt": "JURNL/F09_SAFE/THREE_CONCEPT_ART_DIRECTION_REGEN_CORRECTION1/SCENE_PROMPTS/T03_SORTING_RACK.txt",
+      "composition": "Symmetric: the figure centred on the plain upper wall, a fine thread drops to the open centre niche; categories engraved on the sill under each sealed niche; actions on the shaded lower wall.",
+      "held_clarity": "BILLS · PLANS · GOALS · BUFFER under their sealed envelopes; the official botanical mark pressed into each seal.",
+      "logo": "Official vertical lockup top-left, and the official botanical mark embossed into every wax seal (deterministic emboss of the official asset, never redrawn).",
+      "purchase_module": "A cream stationery card with a letterpress edge.",
+      "wit": "The empty niche and its broken seal: the only envelope opened is the money you can spend.",
+      "distinct_by": "Frontal still life; classical symmetry; object grid with sealed / opened states.",
+      "previous_round_failure": "A plain mail-rack with blank brass plates, a dashed debug border around the purchase module, clipped labels."
+    }
+  ]
+}

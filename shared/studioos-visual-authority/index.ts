@@ -18,3 +18,4 @@ export * as jurnlF09CD from './projects/jurnl/f09-creative-direction.js';
 export { JURNL_CREATIVE_DIRECTION_PROFILE } from './projects/jurnl/creative-direction-profile.js';
 export * as jurnlF09BP from './projects/jurnl/f09-composition-blueprint.js';
 export * as jurnlGrammar from './projects/jurnl/composition-grammar.js';
+export * as jurnlF09Regen from './projects/jurnl/f09-art-direction-regen.js';

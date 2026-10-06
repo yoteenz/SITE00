@@ -4,6 +4,20 @@
   "sprint": "P0.JURNL.F09-SAFE-TO-SPEND.COMPOSITION-BLUEPRINT-RENDER-OWNERSHIP-CORRECTION1",
   "doctrine": "UPSTREAM DEFINES INTENT. DOWNSTREAM INCREASES FIDELITY.",
   "generated_by": "scripts/studioos/visual-authority-export.ts",
+  "authored_authority": {
+    "rule": "COMPOSITION INTENT + BRAND WORLD + OFFICIAL LOGO/TYPE + BESPOKE ART DIRECTION + DETERMINISTIC PRODUCT UI = FINISHED AUTHORITY. SCENE PLATE + OVERLAY IS NOT.",
+    "finish_qa": [
+      "NO_VISIBLE_SCAFFOLDING",
+      "NO_DEVICE_CHROME",
+      "OBJECT_FULLY_REALIZED",
+      "WORLD_AT_BENCHMARK",
+      "UNIFIED_LIGHT_GRADE_GRAIN",
+      "TYPE_INTEGRITY",
+      "LOGO_OFFICIAL_INTEGRATED",
+      "CONCEPT_DISTINCT"
+    ],
+    "founder_verdict": "A founder REJECTED verdict blocks authority even when every mechanical check passes."
+  },
   "gate_status": {
     "ready": "AUTHORITY_READY",
     "blocked": "COMPOSITE_AUTHORITY_REQUIRED"

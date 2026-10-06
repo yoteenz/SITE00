@@ -87,6 +87,16 @@ export const JURNL_DENSITY_RULE = {
   too_busy: 'Text competing with texture, an object that eats the stage, more than one focal point above the fold.',
 } as const;
 
+/**
+ * The founder-approved art-driven JURNL image: the bar for finish level and world credibility (loggia arches, sea, sheer
+ * linen, travertine, olive, classical still life, the lockup top-left). A benchmark, never a template to copy.
+ */
+export const JURNL_RICHNESS_BENCHMARK = {
+  path: 'src/projects/jurnl/families/F03_TODAY/AUTHORITIES/F03.00_TODAY_PARENT.jpg',
+  measures: ['richness', 'Mediterranean environmental credibility', 'calm editorial luxury', 'material sophistication', 'custom-designed feel', 'logo intelligence', 'balanced stage composition', 'product clarity'],
+  rule: 'Every JURNL concept round must meet or exceed this finish level. It is not copied literally.',
+} as const;
+
 /** JURNL fixed page geometry (pt), shared by every F09 blueprint. Source: FamilyChrome / ProductNav runtime + F09_FRAME_GEOMETRY. */
 export const JURNL_MOBILE_GEOMETRY = {
   frame: { width: 393, height: 852 },
@@ -134,4 +144,5 @@ export const JURNL_COMPOSITION_GRAMMAR_CONTRACT = {
   comparison_lessons: JURNL_COMPARISON_LESSONS,
   density: JURNL_DENSITY_RULE,
   geometry: JURNL_MOBILE_GEOMETRY,
+  richness_benchmark: JURNL_RICHNESS_BENCHMARK,
 };

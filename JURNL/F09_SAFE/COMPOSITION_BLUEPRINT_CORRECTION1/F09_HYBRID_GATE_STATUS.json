@@ -3,7 +3,7 @@
   "sprint": "P0.JURNL.F09-SAFE-TO-SPEND.COMPOSITION-BLUEPRINT-RENDER-OWNERSHIP-CORRECTION1",
   "generated_by": "scripts/studioos/jurnl-f09-composition-blueprint-export.ts",
   "hybrid_gate": {
-    "status": "COMPOSITES_READY",
+    "status": "COMPOSITE_AUTHORITY_REQUIRED",
     "blueprints": [
       {
         "territory_id": "JURNL.F09.T01",
@@ -41,18 +41,27 @@
     "composites": [
       {
         "territory_id": "JURNL.F09.T01",
-        "status": "AUTHORITY_READY",
-        "issues": []
+        "status": "COMPOSITE_AUTHORITY_REQUIRED",
+        "issues": [
+          "finish audit missing (authored-authority standard)",
+          "founder rejected: Built too literally from scene plates instead of re-authored into finished authority images; Typography / text rendering glitched; The world did not read as richly Mediterranean / architectural / editorial as the approved art-driven JURNL image"
+        ]
       },
       {
         "territory_id": "JURNL.F09.T02",
-        "status": "AUTHORITY_READY",
-        "issues": []
+        "status": "COMPOSITE_AUTHORITY_REQUIRED",
+        "issues": [
+          "finish audit missing (authored-authority standard)",
+          "founder rejected: Built too literally from scene plates instead of re-authored into finished authority images; Typography / text rendering glitched; The world did not read as richly Mediterranean / architectural / editorial as the approved art-driven JURNL image"
+        ]
       },
       {
         "territory_id": "JURNL.F09.T03",
-        "status": "AUTHORITY_READY",
-        "issues": []
+        "status": "COMPOSITE_AUTHORITY_REQUIRED",
+        "issues": [
+          "finish audit missing (authored-authority standard)",
+          "founder rejected: Built too literally from scene plates instead of re-authored into finished authority images; Typography / text rendering glitched; The world did not read as richly Mediterranean / architectural / editorial as the approved art-driven JURNL image"
+        ]
       }
     ]
   },
@@ -143,10 +152,10 @@
   "page_implementation": false,
   "verdict": {
     "PIPELINE_CORRECTED": true,
-    "HYBRID_RENDER_PIPELINE_PASS": true,
+    "HYBRID_RENDER_PIPELINE_PASS": false,
     "THREE_COMPOSITE_AUTHORITIES_READY": true,
     "DEVICE_CHROME_CLEAN": true,
-    "READY_FOR_FOUNDER_COMPARISON": true,
+    "READY_FOR_FOUNDER_COMPARISON": false,
     "founder_verdict": "PENDING"
   }
 }
