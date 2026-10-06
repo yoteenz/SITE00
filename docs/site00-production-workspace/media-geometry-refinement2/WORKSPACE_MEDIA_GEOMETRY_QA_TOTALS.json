@@ -1,0 +1,493 @@
+{
+  "sprint": "P0.SITE00.PRODUCTION-WORKSPACE.PANEL-MEDIA-GEOMETRY-REFINEMENT2",
+  "before": {
+    "elements": 2769,
+    "functional": 1208,
+    "decorative": 1561,
+    "unclassified": 2769,
+    "cropped": 2112,
+    "intentionalCrops": 1946,
+    "unintentionalCrops": 166,
+    "functionalMediaCropFailures": 194,
+    "fixedPanelMediaConflicts": 91,
+    "distortion": 0,
+    "portraitFocalFailures": 0,
+    "uiScreenshotCropFailures": 15,
+    "logoCropFailures": 7,
+    "authorityPreviewCropFailures": 90,
+    "documentCropFailures": 0,
+    "legibility": 56,
+    "textOverlay": 0,
+    "failing": 243
+  },
+  "after": {
+    "elements": 2769,
+    "functional": 1128,
+    "decorative": 1641,
+    "unclassified": 0,
+    "cropped": 1876,
+    "intentionalCrops": 1876,
+    "unintentionalCrops": 0,
+    "functionalMediaCropFailures": 0,
+    "fixedPanelMediaConflicts": 0,
+    "distortion": 0,
+    "portraitFocalFailures": 0,
+    "uiScreenshotCropFailures": 0,
+    "logoCropFailures": 0,
+    "authorityPreviewCropFailures": 0,
+    "documentCropFailures": 0,
+    "legibility": 0,
+    "textOverlay": 0,
+    "failing": 0
+  },
+  "hubAuthority": {
+    "before": {
+      "elements": 270,
+      "functional": 255,
+      "decorative": 15,
+      "unclassified": 270,
+      "cropped": 265,
+      "intentionalCrops": 265,
+      "unintentionalCrops": 0,
+      "functionalMediaCropFailures": 0,
+      "fixedPanelMediaConflicts": 9,
+      "distortion": 0,
+      "portraitFocalFailures": 0,
+      "uiScreenshotCropFailures": 0,
+      "logoCropFailures": 0,
+      "authorityPreviewCropFailures": 0,
+      "documentCropFailures": 0,
+      "legibility": 9,
+      "textOverlay": 0,
+      "failing": 9,
+      "deviations": [
+        {
+          "route": "hub-machine",
+          "ctx": "hub-node-narrative",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "codes": "LEGIBILITY",
+          "viewports": [
+            "small"
+          ],
+          "minShortPx": 13.8
+        },
+        {
+          "route": "hub-machine",
+          "ctx": "hub-node-cast",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "codes": "LEGIBILITY",
+          "viewports": [
+            "small"
+          ],
+          "minShortPx": 13.3
+        },
+        {
+          "route": "hub-machine",
+          "ctx": "hub-node-look",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "codes": "LEGIBILITY",
+          "viewports": [
+            "small"
+          ],
+          "minShortPx": 14.4
+        },
+        {
+          "route": "hub-machine",
+          "ctx": "hub-node-performance",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "codes": "LEGIBILITY",
+          "viewports": [
+            "small"
+          ],
+          "minShortPx": 13.8
+        },
+        {
+          "route": "hub-machine-activity",
+          "ctx": "hub-node-narrative",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "codes": "LEGIBILITY",
+          "viewports": [
+            "small"
+          ],
+          "minShortPx": 13.8
+        },
+        {
+          "route": "hub-machine-activity",
+          "ctx": "hub-node-cast",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "codes": "LEGIBILITY",
+          "viewports": [
+            "small"
+          ],
+          "minShortPx": 13.3
+        },
+        {
+          "route": "hub-machine-activity",
+          "ctx": "hub-node-look",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "codes": "LEGIBILITY",
+          "viewports": [
+            "small"
+          ],
+          "minShortPx": 14.4
+        },
+        {
+          "route": "hub-machine-activity",
+          "ctx": "hub-node-performance",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "codes": "LEGIBILITY",
+          "viewports": [
+            "small"
+          ],
+          "minShortPx": 13.8
+        },
+        {
+          "route": "hub",
+          "ctx": "hub-entry-active",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "TILE",
+          "codes": "LEGIBILITY",
+          "viewports": [
+            "tablet"
+          ],
+          "minShortPx": 43.7
+        }
+      ]
+    },
+    "after": {
+      "elements": 270,
+      "functional": 255,
+      "decorative": 15,
+      "unclassified": 0,
+      "cropped": 265,
+      "intentionalCrops": 265,
+      "unintentionalCrops": 0,
+      "functionalMediaCropFailures": 0,
+      "fixedPanelMediaConflicts": 8,
+      "distortion": 0,
+      "portraitFocalFailures": 0,
+      "uiScreenshotCropFailures": 0,
+      "logoCropFailures": 0,
+      "authorityPreviewCropFailures": 0,
+      "documentCropFailures": 0,
+      "legibility": 8,
+      "textOverlay": 0,
+      "failing": 8,
+      "deviations": [
+        {
+          "route": "hub-machine",
+          "ctx": "hub-node-narrative",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "codes": "LEGIBILITY",
+          "viewports": [
+            "small"
+          ],
+          "minShortPx": 13.8
+        },
+        {
+          "route": "hub-machine",
+          "ctx": "hub-node-cast",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "codes": "LEGIBILITY",
+          "viewports": [
+            "small"
+          ],
+          "minShortPx": 13.3
+        },
+        {
+          "route": "hub-machine",
+          "ctx": "hub-node-look",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "codes": "LEGIBILITY",
+          "viewports": [
+            "small"
+          ],
+          "minShortPx": 14.4
+        },
+        {
+          "route": "hub-machine",
+          "ctx": "hub-node-performance",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "codes": "LEGIBILITY",
+          "viewports": [
+            "small"
+          ],
+          "minShortPx": 13.8
+        },
+        {
+          "route": "hub-machine-activity",
+          "ctx": "hub-node-narrative",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "codes": "LEGIBILITY",
+          "viewports": [
+            "small"
+          ],
+          "minShortPx": 13.8
+        },
+        {
+          "route": "hub-machine-activity",
+          "ctx": "hub-node-cast",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "codes": "LEGIBILITY",
+          "viewports": [
+            "small"
+          ],
+          "minShortPx": 13.3
+        },
+        {
+          "route": "hub-machine-activity",
+          "ctx": "hub-node-look",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "codes": "LEGIBILITY",
+          "viewports": [
+            "small"
+          ],
+          "minShortPx": 14.4
+        },
+        {
+          "route": "hub-machine-activity",
+          "ctx": "hub-node-performance",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "codes": "LEGIBILITY",
+          "viewports": [
+            "small"
+          ],
+          "minShortPx": 13.8
+        }
+      ]
+    }
+  },
+  "allTotals": {
+    "before": {
+      "elements": 3039,
+      "functional": 1463,
+      "decorative": 1576,
+      "unclassified": 3039,
+      "cropped": 2377,
+      "intentionalCrops": 2211,
+      "unintentionalCrops": 166,
+      "functionalMediaCropFailures": 194,
+      "fixedPanelMediaConflicts": 100,
+      "distortion": 0,
+      "portraitFocalFailures": 0,
+      "uiScreenshotCropFailures": 15,
+      "logoCropFailures": 7,
+      "authorityPreviewCropFailures": 90,
+      "documentCropFailures": 0,
+      "legibility": 65,
+      "textOverlay": 0,
+      "failing": 252
+    },
+    "after": {
+      "elements": 3039,
+      "functional": 1383,
+      "decorative": 1656,
+      "unclassified": 0,
+      "cropped": 2141,
+      "intentionalCrops": 2141,
+      "unintentionalCrops": 0,
+      "functionalMediaCropFailures": 0,
+      "fixedPanelMediaConflicts": 8,
+      "distortion": 0,
+      "portraitFocalFailures": 0,
+      "uiScreenshotCropFailures": 0,
+      "logoCropFailures": 0,
+      "authorityPreviewCropFailures": 0,
+      "documentCropFailures": 0,
+      "legibility": 8,
+      "textOverlay": 0,
+      "failing": 8
+    }
+  },
+  "routes": {
+    "before": {
+      "rootTabs": 7,
+      "childPagesAudited": 78,
+      "childPagesWithMedia": 75
+    },
+    "after": {
+      "rootTabs": 7,
+      "childPagesAudited": 78,
+      "childPagesWithMedia": 75
+    }
+  },
+  "overflowXAfter": 0,
+  "stress": {
+    "cases": 195,
+    "pass": 195
+  },
+  "hubPixelDiff": {
+    "hub mobile": 0,
+    "machine mobile": 0,
+    "machine-activity mobile": 0,
+    "hub small": 0,
+    "machine small": 0,
+    "machine-activity small": 0,
+    "hub large": 0,
+    "machine large": 0,
+    "machine-activity large": 0,
+    "hub tablet": 0,
+    "machine tablet": 0,
+    "machine-activity tablet": 0,
+    "hub desktop": 0,
+    "machine desktop": 0,
+    "machine-activity desktop": 0
+  },
+  "typography": {
+    "method": "density-audit.mjs on main (before) and this branch (after), mobile 393×852 / tablet 834×1194 / desktop 1440×900, every root tab and child page; each visible text node matched by element + class + string and its computed font-size / weight / line-height / letter-spacing compared",
+    "routesCompared": 75,
+    "textNodesMatched": 5063,
+    "styleChanged": 0,
+    "onlyBefore": 0,
+    "onlyAfter": 0,
+    "maxFontSizePx": {
+      "before": 62,
+      "after": 62
+    },
+    "oversized": {
+      "mobile": {
+        "rootTitleTabs": [
+          0,
+          0
+        ],
+        "rootLayers": [
+          0,
+          0
+        ],
+        "childLayers": [
+          0,
+          0
+        ],
+        "textClips": [
+          10,
+          10
+        ]
+      },
+      "tablet": {
+        "rootTitleTabs": [
+          1,
+          1
+        ],
+        "rootLayers": [
+          11,
+          11
+        ],
+        "childLayers": [
+          34,
+          34
+        ],
+        "textClips": [
+          23,
+          23
+        ]
+      },
+      "desktop": {
+        "rootTitleTabs": [
+          1,
+          1
+        ],
+        "rootLayers": [
+          8,
+          8
+        ],
+        "childLayers": [
+          7,
+          7
+        ],
+        "textClips": [
+          30,
+          30
+        ]
+      }
+    },
+    "changes": [],
+    "summary": "5063 text nodes matched across 75 route×viewport pages — 0 with a changed font-size / weight / line-height / letter-spacing; max font-size 62px → 62px; mobile: root titles 0→0, child layers 0→0, text clips 10→10; tablet: root titles 1→1, child layers 34→34, text clips 23→23; desktop: root titles 1→1, child layers 7→7, text clips 30→30"
+  },
+  "unitTests": {
+    "command": "vitest run (full suite, 1 worker) on this branch; failing files re-run on main (merge base 0e118a98)",
+    "files": 2202,
+    "tests": 10501,
+    "passed": 10395,
+    "failedTests": 106,
+    "failedOnMainToo": 106,
+    "newFailures": 0
+  },
+  "registryUses": [
+    {
+      "id": "HERO_PLATE_BAND",
+      "uses": 315
+    },
+    {
+      "id": "LIBRARY_PLATE",
+      "uses": 432
+    },
+    {
+      "id": "STAGE_FLOOR_CROP",
+      "uses": 0
+    },
+    {
+      "id": "DESIGN_CHAMBER_ART",
+      "uses": 40
+    },
+    {
+      "id": "DESIGN_CHAMBER_MINIATURE",
+      "uses": 293
+    },
+    {
+      "id": "DESIGN_TABLE_PLATE",
+      "uses": 107
+    },
+    {
+      "id": "OVERVIEW_BACKDROP",
+      "uses": 5
+    },
+    {
+      "id": "EXPERIENCE_WORLD_CROP",
+      "uses": 35
+    },
+    {
+      "id": "NODE_ART_CHIP",
+      "uses": 444
+    },
+    {
+      "id": "NODE_ART_CARD",
+      "uses": 320
+    },
+    {
+      "id": "HUB_MACHINE_FRAME",
+      "uses": 140
+    },
+    {
+      "id": "HUB_ATMOSPHERE",
+      "uses": 10
+    },
+    {
+      "id": "PORTRAIT_FACE_SAFE",
+      "uses": 0
+    },
+    {
+      "id": "SCENE_SUBJECT_SAFE",
+      "uses": 0
+    },
+    {
+      "id": "FRAME_TRIM",
+      "uses": 0
+    }
+  ]
+}

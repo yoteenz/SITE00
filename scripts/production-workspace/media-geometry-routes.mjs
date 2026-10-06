@@ -69,3 +69,22 @@ export const VIEWPORTS = {
   tablet: { width: 834, height: 1194, deviceScaleFactor: 1, isMobile: false, hasTouch: true, family: 'tablet' },
   desktop: { width: 1440, height: 900, deviceScaleFactor: 1, isMobile: false, hasTouch: false, family: 'desktop' },
 };
+
+/** Founder review boards — [board id, viewport, route id, title, focus panel test ids]. */
+export const REVIEW_BOARDS = [
+  ['casting-mobile', 'mobile', 'expression-casting', 'EXPRESSION → CASTING · AVAILABLE TALENT + LEAD AUTHORITY', ['casting-available-talent', 'casting-lead-authority']],
+  ['casting-desktop', 'desktop', 'expression-casting', 'EXPRESSION → CASTING · DESKTOP (composition kept)', ['casting-available-talent', 'casting-lead-authority']],
+  ['portrait-actor-profile', 'mobile', 'expression-casting-actor-profile', 'PORTRAIT-HEAVY · ACTOR PROFILE', ['casting-actor-profile']],
+  ['portrait-role-detail', 'mobile', 'expression-casting-role-detail', 'PORTRAIT ROWS · ROLE DETAIL (rows never sliced)', ['casting-role-current', 'casting-role-matches']],
+  ['ui-screenshot-jurnl', 'mobile', 'design-jurnl-brand', 'UI SCREENSHOT · JURNL DESIGN TABLE (approved F01 screens)', ['design-table']],
+  ['logo-identity-desktop', 'desktop', 'design-brand', 'LOGO / IDENTITY · DESIGN OVERVIEW MARK', ['design-overview']],
+  ['authority-look', 'mobile', 'expression-look', 'REFERENCE / AUTHORITY · LOOK ROOT', ['look-root-active']],
+  ['authority-inbox-detail', 'mobile', 'inbox-decision-detail', 'REFERENCE / AUTHORITY · INBOX DECISION DETAIL', ['inbox-detail-card']],
+  ['authority-milestone', 'mobile', 'activity-milestone-look', 'REFERENCE / AUTHORITY · ACTIVITY MILESTONE', []],
+  ['authority-inbox-detail-tablet', 'tablet', 'inbox-decision-detail', 'REFERENCE / AUTHORITY · INBOX DECISION CARD · TABLET (no mobile stacking; art column at the PREVIEW floor)', ['inbox-detail-card']],
+  ['authority-milestone-tablet', 'tablet', 'activity-milestone-look', 'REFERENCE / AUTHORITY · ACTIVITY MILESTONE · TABLET', []],
+  ['frames-storyboard', 'mobile', 'expression-storyboard', 'VIDEO FRAMES · STORYBOARD ROOT', ['storyboard-root-boards', 'storyboard-inspector']],
+  ['landscape-library', 'mobile', 'library', 'LANDSCAPE / SCENE NODE ART · LIBRARY STRIPS', ['library-recent', 'library-lineage-flow']],
+  ['inbox-root', 'mobile', 'inbox', 'INBOX ROOT · FOCUS CARD + INCOMING CARDS', ['inbox-focus', 'inbox-incoming']],
+  ['hub-control', 'mobile', 'hub', 'HUB · AUTHORITY (pixel-identical)', []],
+];

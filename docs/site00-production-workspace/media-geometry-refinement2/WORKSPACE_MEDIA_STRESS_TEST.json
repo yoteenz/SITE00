@@ -1,0 +1,3205 @@
+{
+  "sprint": "P0.SITE00.PRODUCTION-WORKSPACE.PANEL-MEDIA-GEOMETRY-REFINEMENT2",
+  "method": "role-declared media (real workspaceMediaAttrs) mounted in a real EXPRESSION family grid with real CSS and the runtime crop guard; sources generated in-page (no network, no paid generation)",
+  "sources": [
+    "very_tall_portrait",
+    "very_wide_landscape",
+    "square",
+    "transparent_logo",
+    "tiny_source",
+    "source_4k",
+    "ui_screenshot",
+    "document",
+    "authority_board",
+    "face_near_top",
+    "face_near_bottom",
+    "missing",
+    "broken"
+  ],
+  "scales": [
+    "CHIP",
+    "TILE",
+    "PREVIEW"
+  ],
+  "totals": {
+    "cases": 195,
+    "pass": 195
+  },
+  "viewports": {
+    "mobile": {
+      "width": 393,
+      "cases": 39,
+      "pass": 39,
+      "failures": [],
+      "results": [
+        {
+          "id": "very_tall_portrait:CHIP",
+          "role": "PORTRAIT",
+          "scale": "CHIP",
+          "crop": "PORTRAIT_FACE_SAFE",
+          "box": [
+            24,
+            24
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": "contain",
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "very_tall_portrait:TILE",
+          "role": "PORTRAIT",
+          "scale": "TILE",
+          "crop": "PORTRAIT_FACE_SAFE",
+          "box": [
+            85,
+            53
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": "contain",
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "very_tall_portrait:PREVIEW",
+          "role": "PORTRAIT",
+          "scale": "PREVIEW",
+          "crop": "PORTRAIT_FACE_SAFE",
+          "box": [
+            147,
+            880
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            1,
+            0.999
+          ]
+        },
+        {
+          "id": "very_wide_landscape:CHIP",
+          "role": "LANDSCAPE_EDITORIAL",
+          "scale": "CHIP",
+          "crop": "SCENE_SUBJECT_SAFE",
+          "box": [
+            24,
+            24
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": "contain",
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "very_wide_landscape:TILE",
+          "role": "LANDSCAPE_EDITORIAL",
+          "scale": "TILE",
+          "crop": "SCENE_SUBJECT_SAFE",
+          "box": [
+            85,
+            53
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": "contain",
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "very_wide_landscape:PREVIEW",
+          "role": "LANDSCAPE_EDITORIAL",
+          "scale": "PREVIEW",
+          "crop": "SCENE_SUBJECT_SAFE",
+          "box": [
+            359,
+            77
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            0.999,
+            1
+          ]
+        },
+        {
+          "id": "square:CHIP",
+          "role": "LANDSCAPE_EDITORIAL",
+          "scale": "CHIP",
+          "crop": "SCENE_SUBJECT_SAFE",
+          "box": [
+            24,
+            24
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "square:TILE",
+          "role": "LANDSCAPE_EDITORIAL",
+          "scale": "TILE",
+          "crop": "SCENE_SUBJECT_SAFE",
+          "box": [
+            85,
+            53
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            1,
+            0.624
+          ]
+        },
+        {
+          "id": "square:PREVIEW",
+          "role": "LANDSCAPE_EDITORIAL",
+          "scale": "PREVIEW",
+          "crop": "SCENE_SUBJECT_SAFE",
+          "box": [
+            359,
+            359
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "transparent_logo:CHIP",
+          "role": "LOGO_MARK",
+          "scale": "CHIP",
+          "crop": null,
+          "box": [
+            24,
+            24
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "transparent_logo:TILE",
+          "role": "LOGO_MARK",
+          "scale": "TILE",
+          "crop": null,
+          "box": [
+            85,
+            53
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "transparent_logo:PREVIEW",
+          "role": "LOGO_MARK",
+          "scale": "PREVIEW",
+          "crop": null,
+          "box": [
+            359,
+            120
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "tiny_source:CHIP",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "crop": "NODE_ART_CHIP",
+          "box": [
+            24,
+            24
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            0.75,
+            1
+          ]
+        },
+        {
+          "id": "tiny_source:TILE",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "TILE",
+          "crop": null,
+          "box": [
+            85,
+            53
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "tiny_source:PREVIEW",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "PREVIEW",
+          "crop": null,
+          "box": [
+            359,
+            269
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "source_4k:CHIP",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "crop": "NODE_ART_CHIP",
+          "box": [
+            24,
+            24
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            0.563,
+            1
+          ]
+        },
+        {
+          "id": "source_4k:TILE",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "TILE",
+          "crop": null,
+          "box": [
+            85,
+            53
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "source_4k:PREVIEW",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "PREVIEW",
+          "crop": null,
+          "box": [
+            359,
+            202
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "ui_screenshot:CHIP",
+          "role": "UI_SCREENSHOT",
+          "scale": "CHIP",
+          "crop": null,
+          "box": [
+            24,
+            24
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "ui_screenshot:TILE",
+          "role": "UI_SCREENSHOT",
+          "scale": "TILE",
+          "crop": null,
+          "box": [
+            85,
+            53
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "ui_screenshot:PREVIEW",
+          "role": "UI_SCREENSHOT",
+          "scale": "PREVIEW",
+          "crop": null,
+          "box": [
+            359,
+            778
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "document:CHIP",
+          "role": "DOCUMENT_PREVIEW",
+          "scale": "CHIP",
+          "crop": null,
+          "box": [
+            24,
+            24
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "document:TILE",
+          "role": "DOCUMENT_PREVIEW",
+          "scale": "TILE",
+          "crop": null,
+          "box": [
+            85,
+            53
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "document:PREVIEW",
+          "role": "DOCUMENT_PREVIEW",
+          "scale": "PREVIEW",
+          "crop": null,
+          "box": [
+            359,
+            465
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "authority_board:CHIP",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "crop": "NODE_ART_CHIP",
+          "box": [
+            24,
+            24
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            0.6,
+            1
+          ]
+        },
+        {
+          "id": "authority_board:TILE",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "TILE",
+          "crop": null,
+          "box": [
+            85,
+            53
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "authority_board:PREVIEW",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "PREVIEW",
+          "crop": null,
+          "box": [
+            359,
+            215
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "face_near_top:CHIP",
+          "role": "PORTRAIT",
+          "scale": "CHIP",
+          "crop": "PORTRAIT_FACE_SAFE",
+          "box": [
+            24,
+            24
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            1,
+            0.8
+          ]
+        },
+        {
+          "id": "face_near_top:TILE",
+          "role": "PORTRAIT",
+          "scale": "TILE",
+          "crop": "PORTRAIT_FACE_SAFE",
+          "box": [
+            85,
+            53
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            1,
+            0.499
+          ]
+        },
+        {
+          "id": "face_near_top:PREVIEW",
+          "role": "PORTRAIT",
+          "scale": "PREVIEW",
+          "crop": "PORTRAIT_FACE_SAFE",
+          "box": [
+            147,
+            183
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            1,
+            0.996
+          ]
+        },
+        {
+          "id": "face_near_bottom:CHIP",
+          "role": "PORTRAIT",
+          "scale": "CHIP",
+          "crop": "PORTRAIT_FACE_SAFE",
+          "box": [
+            24,
+            24
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            1,
+            0.8
+          ]
+        },
+        {
+          "id": "face_near_bottom:TILE",
+          "role": "PORTRAIT",
+          "scale": "TILE",
+          "crop": "PORTRAIT_FACE_SAFE",
+          "box": [
+            85,
+            53
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            1,
+            0.499
+          ]
+        },
+        {
+          "id": "face_near_bottom:PREVIEW",
+          "role": "PORTRAIT",
+          "scale": "PREVIEW",
+          "crop": "PORTRAIT_FACE_SAFE",
+          "box": [
+            147,
+            183
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            1,
+            0.996
+          ]
+        },
+        {
+          "id": "missing:CHIP",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "crop": "NODE_ART_CHIP",
+          "box": [
+            24,
+            24
+          ],
+          "issues": []
+        },
+        {
+          "id": "missing:TILE",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "TILE",
+          "crop": null,
+          "box": [
+            85,
+            53
+          ],
+          "issues": []
+        },
+        {
+          "id": "missing:PREVIEW",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "PREVIEW",
+          "crop": null,
+          "box": [
+            359,
+            224
+          ],
+          "issues": []
+        },
+        {
+          "id": "broken:CHIP",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "crop": "NODE_ART_CHIP",
+          "box": [
+            24,
+            24
+          ],
+          "issues": []
+        },
+        {
+          "id": "broken:TILE",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "TILE",
+          "crop": null,
+          "box": [
+            85,
+            53
+          ],
+          "issues": []
+        },
+        {
+          "id": "broken:PREVIEW",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "PREVIEW",
+          "crop": null,
+          "box": [
+            359,
+            224
+          ],
+          "issues": []
+        }
+      ]
+    },
+    "small": {
+      "width": 360,
+      "cases": 39,
+      "pass": 39,
+      "failures": [],
+      "results": [
+        {
+          "id": "very_tall_portrait:CHIP",
+          "role": "PORTRAIT",
+          "scale": "CHIP",
+          "crop": "PORTRAIT_FACE_SAFE",
+          "box": [
+            24,
+            24
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": "contain",
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "very_tall_portrait:TILE",
+          "role": "PORTRAIT",
+          "scale": "TILE",
+          "crop": "PORTRAIT_FACE_SAFE",
+          "box": [
+            77,
+            48
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": "contain",
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "very_tall_portrait:PREVIEW",
+          "role": "PORTRAIT",
+          "scale": "PREVIEW",
+          "crop": "PORTRAIT_FACE_SAFE",
+          "box": [
+            134,
+            806
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            0.996,
+            1
+          ]
+        },
+        {
+          "id": "very_wide_landscape:CHIP",
+          "role": "LANDSCAPE_EDITORIAL",
+          "scale": "CHIP",
+          "crop": "SCENE_SUBJECT_SAFE",
+          "box": [
+            24,
+            24
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": "contain",
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "very_wide_landscape:TILE",
+          "role": "LANDSCAPE_EDITORIAL",
+          "scale": "TILE",
+          "crop": "SCENE_SUBJECT_SAFE",
+          "box": [
+            77,
+            48
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": "contain",
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "very_wide_landscape:PREVIEW",
+          "role": "LANDSCAPE_EDITORIAL",
+          "scale": "PREVIEW",
+          "crop": "SCENE_SUBJECT_SAFE",
+          "box": [
+            326,
+            70
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            0.998,
+            1
+          ]
+        },
+        {
+          "id": "square:CHIP",
+          "role": "LANDSCAPE_EDITORIAL",
+          "scale": "CHIP",
+          "crop": "SCENE_SUBJECT_SAFE",
+          "box": [
+            24,
+            24
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "square:TILE",
+          "role": "LANDSCAPE_EDITORIAL",
+          "scale": "TILE",
+          "crop": "SCENE_SUBJECT_SAFE",
+          "box": [
+            77,
+            48
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            1,
+            0.623
+          ]
+        },
+        {
+          "id": "square:PREVIEW",
+          "role": "LANDSCAPE_EDITORIAL",
+          "scale": "PREVIEW",
+          "crop": "SCENE_SUBJECT_SAFE",
+          "box": [
+            326,
+            326
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "transparent_logo:CHIP",
+          "role": "LOGO_MARK",
+          "scale": "CHIP",
+          "crop": null,
+          "box": [
+            24,
+            24
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "transparent_logo:TILE",
+          "role": "LOGO_MARK",
+          "scale": "TILE",
+          "crop": null,
+          "box": [
+            77,
+            48
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "transparent_logo:PREVIEW",
+          "role": "LOGO_MARK",
+          "scale": "PREVIEW",
+          "crop": null,
+          "box": [
+            326,
+            109
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "tiny_source:CHIP",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "crop": "NODE_ART_CHIP",
+          "box": [
+            24,
+            24
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            0.75,
+            1
+          ]
+        },
+        {
+          "id": "tiny_source:TILE",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "TILE",
+          "crop": null,
+          "box": [
+            77,
+            48
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "tiny_source:PREVIEW",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "PREVIEW",
+          "crop": null,
+          "box": [
+            326,
+            245
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "source_4k:CHIP",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "crop": "NODE_ART_CHIP",
+          "box": [
+            24,
+            24
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            0.563,
+            1
+          ]
+        },
+        {
+          "id": "source_4k:TILE",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "TILE",
+          "crop": null,
+          "box": [
+            77,
+            48
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "source_4k:PREVIEW",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "PREVIEW",
+          "crop": null,
+          "box": [
+            326,
+            183
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "ui_screenshot:CHIP",
+          "role": "UI_SCREENSHOT",
+          "scale": "CHIP",
+          "crop": null,
+          "box": [
+            24,
+            24
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "ui_screenshot:TILE",
+          "role": "UI_SCREENSHOT",
+          "scale": "TILE",
+          "crop": null,
+          "box": [
+            77,
+            48
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "ui_screenshot:PREVIEW",
+          "role": "UI_SCREENSHOT",
+          "scale": "PREVIEW",
+          "crop": null,
+          "box": [
+            326,
+            707
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "document:CHIP",
+          "role": "DOCUMENT_PREVIEW",
+          "scale": "CHIP",
+          "crop": null,
+          "box": [
+            24,
+            24
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "document:TILE",
+          "role": "DOCUMENT_PREVIEW",
+          "scale": "TILE",
+          "crop": null,
+          "box": [
+            77,
+            48
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "document:PREVIEW",
+          "role": "DOCUMENT_PREVIEW",
+          "scale": "PREVIEW",
+          "crop": null,
+          "box": [
+            326,
+            422
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "authority_board:CHIP",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "crop": "NODE_ART_CHIP",
+          "box": [
+            24,
+            24
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            0.6,
+            1
+          ]
+        },
+        {
+          "id": "authority_board:TILE",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "TILE",
+          "crop": null,
+          "box": [
+            77,
+            48
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "authority_board:PREVIEW",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "PREVIEW",
+          "crop": null,
+          "box": [
+            326,
+            196
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "face_near_top:CHIP",
+          "role": "PORTRAIT",
+          "scale": "CHIP",
+          "crop": "PORTRAIT_FACE_SAFE",
+          "box": [
+            24,
+            24
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            1,
+            0.8
+          ]
+        },
+        {
+          "id": "face_near_top:TILE",
+          "role": "PORTRAIT",
+          "scale": "TILE",
+          "crop": "PORTRAIT_FACE_SAFE",
+          "box": [
+            77,
+            48
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            1,
+            0.499
+          ]
+        },
+        {
+          "id": "face_near_top:PREVIEW",
+          "role": "PORTRAIT",
+          "scale": "PREVIEW",
+          "crop": "PORTRAIT_FACE_SAFE",
+          "box": [
+            134,
+            168
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            0.997,
+            1
+          ]
+        },
+        {
+          "id": "face_near_bottom:CHIP",
+          "role": "PORTRAIT",
+          "scale": "CHIP",
+          "crop": "PORTRAIT_FACE_SAFE",
+          "box": [
+            24,
+            24
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            1,
+            0.8
+          ]
+        },
+        {
+          "id": "face_near_bottom:TILE",
+          "role": "PORTRAIT",
+          "scale": "TILE",
+          "crop": "PORTRAIT_FACE_SAFE",
+          "box": [
+            77,
+            48
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            1,
+            0.499
+          ]
+        },
+        {
+          "id": "face_near_bottom:PREVIEW",
+          "role": "PORTRAIT",
+          "scale": "PREVIEW",
+          "crop": "PORTRAIT_FACE_SAFE",
+          "box": [
+            134,
+            168
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            0.997,
+            1
+          ]
+        },
+        {
+          "id": "missing:CHIP",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "crop": "NODE_ART_CHIP",
+          "box": [
+            24,
+            24
+          ],
+          "issues": []
+        },
+        {
+          "id": "missing:TILE",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "TILE",
+          "crop": null,
+          "box": [
+            77,
+            48
+          ],
+          "issues": []
+        },
+        {
+          "id": "missing:PREVIEW",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "PREVIEW",
+          "crop": null,
+          "box": [
+            326,
+            204
+          ],
+          "issues": []
+        },
+        {
+          "id": "broken:CHIP",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "crop": "NODE_ART_CHIP",
+          "box": [
+            24,
+            24
+          ],
+          "issues": []
+        },
+        {
+          "id": "broken:TILE",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "TILE",
+          "crop": null,
+          "box": [
+            77,
+            48
+          ],
+          "issues": []
+        },
+        {
+          "id": "broken:PREVIEW",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "PREVIEW",
+          "crop": null,
+          "box": [
+            326,
+            204
+          ],
+          "issues": []
+        }
+      ]
+    },
+    "large": {
+      "width": 430,
+      "cases": 39,
+      "pass": 39,
+      "failures": [],
+      "results": [
+        {
+          "id": "very_tall_portrait:CHIP",
+          "role": "PORTRAIT",
+          "scale": "CHIP",
+          "crop": "PORTRAIT_FACE_SAFE",
+          "box": [
+            24,
+            24
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": "contain",
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "very_tall_portrait:TILE",
+          "role": "PORTRAIT",
+          "scale": "TILE",
+          "crop": "PORTRAIT_FACE_SAFE",
+          "box": [
+            94,
+            59
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": "contain",
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "very_tall_portrait:PREVIEW",
+          "role": "PORTRAIT",
+          "scale": "PREVIEW",
+          "crop": "PORTRAIT_FACE_SAFE",
+          "box": [
+            161,
+            963
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            1,
+            0.998
+          ]
+        },
+        {
+          "id": "very_wide_landscape:CHIP",
+          "role": "LANDSCAPE_EDITORIAL",
+          "scale": "CHIP",
+          "crop": "SCENE_SUBJECT_SAFE",
+          "box": [
+            24,
+            24
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": "contain",
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "very_wide_landscape:TILE",
+          "role": "LANDSCAPE_EDITORIAL",
+          "scale": "TILE",
+          "crop": "SCENE_SUBJECT_SAFE",
+          "box": [
+            94,
+            59
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": "contain",
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "very_wide_landscape:PREVIEW",
+          "role": "LANDSCAPE_EDITORIAL",
+          "scale": "PREVIEW",
+          "crop": "SCENE_SUBJECT_SAFE",
+          "box": [
+            396,
+            85
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            0.999,
+            1
+          ]
+        },
+        {
+          "id": "square:CHIP",
+          "role": "LANDSCAPE_EDITORIAL",
+          "scale": "CHIP",
+          "crop": "SCENE_SUBJECT_SAFE",
+          "box": [
+            24,
+            24
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "square:TILE",
+          "role": "LANDSCAPE_EDITORIAL",
+          "scale": "TILE",
+          "crop": "SCENE_SUBJECT_SAFE",
+          "box": [
+            94,
+            59
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            1,
+            0.628
+          ]
+        },
+        {
+          "id": "square:PREVIEW",
+          "role": "LANDSCAPE_EDITORIAL",
+          "scale": "PREVIEW",
+          "crop": "SCENE_SUBJECT_SAFE",
+          "box": [
+            396,
+            396
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "transparent_logo:CHIP",
+          "role": "LOGO_MARK",
+          "scale": "CHIP",
+          "crop": null,
+          "box": [
+            24,
+            24
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "transparent_logo:TILE",
+          "role": "LOGO_MARK",
+          "scale": "TILE",
+          "crop": null,
+          "box": [
+            94,
+            59
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "transparent_logo:PREVIEW",
+          "role": "LOGO_MARK",
+          "scale": "PREVIEW",
+          "crop": null,
+          "box": [
+            396,
+            132
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "tiny_source:CHIP",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "crop": "NODE_ART_CHIP",
+          "box": [
+            24,
+            24
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            0.75,
+            1
+          ]
+        },
+        {
+          "id": "tiny_source:TILE",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "TILE",
+          "crop": null,
+          "box": [
+            94,
+            59
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "tiny_source:PREVIEW",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "PREVIEW",
+          "crop": null,
+          "box": [
+            396,
+            297
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "source_4k:CHIP",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "crop": "NODE_ART_CHIP",
+          "box": [
+            24,
+            24
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            0.563,
+            1
+          ]
+        },
+        {
+          "id": "source_4k:TILE",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "TILE",
+          "crop": null,
+          "box": [
+            94,
+            59
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "source_4k:PREVIEW",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "PREVIEW",
+          "crop": null,
+          "box": [
+            396,
+            223
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "ui_screenshot:CHIP",
+          "role": "UI_SCREENSHOT",
+          "scale": "CHIP",
+          "crop": null,
+          "box": [
+            24,
+            24
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "ui_screenshot:TILE",
+          "role": "UI_SCREENSHOT",
+          "scale": "TILE",
+          "crop": null,
+          "box": [
+            94,
+            59
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "ui_screenshot:PREVIEW",
+          "role": "UI_SCREENSHOT",
+          "scale": "PREVIEW",
+          "crop": null,
+          "box": [
+            396,
+            859
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "document:CHIP",
+          "role": "DOCUMENT_PREVIEW",
+          "scale": "CHIP",
+          "crop": null,
+          "box": [
+            24,
+            24
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "document:TILE",
+          "role": "DOCUMENT_PREVIEW",
+          "scale": "TILE",
+          "crop": null,
+          "box": [
+            94,
+            59
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "document:PREVIEW",
+          "role": "DOCUMENT_PREVIEW",
+          "scale": "PREVIEW",
+          "crop": null,
+          "box": [
+            396,
+            512
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "authority_board:CHIP",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "crop": "NODE_ART_CHIP",
+          "box": [
+            24,
+            24
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            0.6,
+            1
+          ]
+        },
+        {
+          "id": "authority_board:TILE",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "TILE",
+          "crop": null,
+          "box": [
+            94,
+            59
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "authority_board:PREVIEW",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "PREVIEW",
+          "crop": null,
+          "box": [
+            396,
+            238
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "face_near_top:CHIP",
+          "role": "PORTRAIT",
+          "scale": "CHIP",
+          "crop": "PORTRAIT_FACE_SAFE",
+          "box": [
+            24,
+            24
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            1,
+            0.8
+          ]
+        },
+        {
+          "id": "face_near_top:TILE",
+          "role": "PORTRAIT",
+          "scale": "TILE",
+          "crop": "PORTRAIT_FACE_SAFE",
+          "box": [
+            94,
+            59
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            1,
+            0.502
+          ]
+        },
+        {
+          "id": "face_near_top:PREVIEW",
+          "role": "PORTRAIT",
+          "scale": "PREVIEW",
+          "crop": "PORTRAIT_FACE_SAFE",
+          "box": [
+            161,
+            201
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            1,
+            0.999
+          ]
+        },
+        {
+          "id": "face_near_bottom:CHIP",
+          "role": "PORTRAIT",
+          "scale": "CHIP",
+          "crop": "PORTRAIT_FACE_SAFE",
+          "box": [
+            24,
+            24
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            1,
+            0.8
+          ]
+        },
+        {
+          "id": "face_near_bottom:TILE",
+          "role": "PORTRAIT",
+          "scale": "TILE",
+          "crop": "PORTRAIT_FACE_SAFE",
+          "box": [
+            94,
+            59
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            1,
+            0.502
+          ]
+        },
+        {
+          "id": "face_near_bottom:PREVIEW",
+          "role": "PORTRAIT",
+          "scale": "PREVIEW",
+          "crop": "PORTRAIT_FACE_SAFE",
+          "box": [
+            161,
+            201
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            1,
+            0.999
+          ]
+        },
+        {
+          "id": "missing:CHIP",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "crop": "NODE_ART_CHIP",
+          "box": [
+            24,
+            24
+          ],
+          "issues": []
+        },
+        {
+          "id": "missing:TILE",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "TILE",
+          "crop": null,
+          "box": [
+            94,
+            59
+          ],
+          "issues": []
+        },
+        {
+          "id": "missing:PREVIEW",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "PREVIEW",
+          "crop": null,
+          "box": [
+            396,
+            248
+          ],
+          "issues": []
+        },
+        {
+          "id": "broken:CHIP",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "crop": "NODE_ART_CHIP",
+          "box": [
+            24,
+            24
+          ],
+          "issues": []
+        },
+        {
+          "id": "broken:TILE",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "TILE",
+          "crop": null,
+          "box": [
+            94,
+            59
+          ],
+          "issues": []
+        },
+        {
+          "id": "broken:PREVIEW",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "PREVIEW",
+          "crop": null,
+          "box": [
+            396,
+            248
+          ],
+          "issues": []
+        }
+      ]
+    },
+    "tablet": {
+      "width": 834,
+      "cases": 39,
+      "pass": 39,
+      "failures": [],
+      "results": [
+        {
+          "id": "very_tall_portrait:CHIP",
+          "role": "PORTRAIT",
+          "scale": "CHIP",
+          "crop": "PORTRAIT_FACE_SAFE",
+          "box": [
+            34,
+            34
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": "contain",
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "very_tall_portrait:TILE",
+          "role": "PORTRAIT",
+          "scale": "TILE",
+          "crop": "PORTRAIT_FACE_SAFE",
+          "box": [
+            100,
+            62
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": "contain",
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "very_tall_portrait:PREVIEW",
+          "role": "PORTRAIT",
+          "scale": "PREVIEW",
+          "crop": "PORTRAIT_FACE_SAFE",
+          "box": [
+            748,
+            174
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": "contain",
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "very_wide_landscape:CHIP",
+          "role": "LANDSCAPE_EDITORIAL",
+          "scale": "CHIP",
+          "crop": "SCENE_SUBJECT_SAFE",
+          "box": [
+            34,
+            34
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": "contain",
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "very_wide_landscape:TILE",
+          "role": "LANDSCAPE_EDITORIAL",
+          "scale": "TILE",
+          "crop": "SCENE_SUBJECT_SAFE",
+          "box": [
+            100,
+            62
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": "contain",
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "very_wide_landscape:PREVIEW",
+          "role": "LANDSCAPE_EDITORIAL",
+          "scale": "PREVIEW",
+          "crop": "SCENE_SUBJECT_SAFE",
+          "box": [
+            748,
+            160
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            1,
+            0.998
+          ]
+        },
+        {
+          "id": "square:CHIP",
+          "role": "LANDSCAPE_EDITORIAL",
+          "scale": "CHIP",
+          "crop": "SCENE_SUBJECT_SAFE",
+          "box": [
+            34,
+            34
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "square:TILE",
+          "role": "LANDSCAPE_EDITORIAL",
+          "scale": "TILE",
+          "crop": "SCENE_SUBJECT_SAFE",
+          "box": [
+            100,
+            62
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            1,
+            0.62
+          ]
+        },
+        {
+          "id": "square:PREVIEW",
+          "role": "LANDSCAPE_EDITORIAL",
+          "scale": "PREVIEW",
+          "crop": "SCENE_SUBJECT_SAFE",
+          "box": [
+            748,
+            174
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": "contain",
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "transparent_logo:CHIP",
+          "role": "LOGO_MARK",
+          "scale": "CHIP",
+          "crop": null,
+          "box": [
+            34,
+            34
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "transparent_logo:TILE",
+          "role": "LOGO_MARK",
+          "scale": "TILE",
+          "crop": null,
+          "box": [
+            100,
+            62
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "transparent_logo:PREVIEW",
+          "role": "LOGO_MARK",
+          "scale": "PREVIEW",
+          "crop": null,
+          "box": [
+            748,
+            174
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "tiny_source:CHIP",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "crop": "NODE_ART_CHIP",
+          "box": [
+            34,
+            34
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            0.75,
+            1
+          ]
+        },
+        {
+          "id": "tiny_source:TILE",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "TILE",
+          "crop": null,
+          "box": [
+            100,
+            62
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "tiny_source:PREVIEW",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "PREVIEW",
+          "crop": null,
+          "box": [
+            748,
+            174
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "source_4k:CHIP",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "crop": "NODE_ART_CHIP",
+          "box": [
+            34,
+            34
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            0.563,
+            1
+          ]
+        },
+        {
+          "id": "source_4k:TILE",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "TILE",
+          "crop": null,
+          "box": [
+            100,
+            62
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "source_4k:PREVIEW",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "PREVIEW",
+          "crop": null,
+          "box": [
+            748,
+            174
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "ui_screenshot:CHIP",
+          "role": "UI_SCREENSHOT",
+          "scale": "CHIP",
+          "crop": null,
+          "box": [
+            34,
+            34
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "ui_screenshot:TILE",
+          "role": "UI_SCREENSHOT",
+          "scale": "TILE",
+          "crop": null,
+          "box": [
+            100,
+            62
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "ui_screenshot:PREVIEW",
+          "role": "UI_SCREENSHOT",
+          "scale": "PREVIEW",
+          "crop": null,
+          "box": [
+            748,
+            174
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "document:CHIP",
+          "role": "DOCUMENT_PREVIEW",
+          "scale": "CHIP",
+          "crop": null,
+          "box": [
+            34,
+            34
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "document:TILE",
+          "role": "DOCUMENT_PREVIEW",
+          "scale": "TILE",
+          "crop": null,
+          "box": [
+            100,
+            62
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "document:PREVIEW",
+          "role": "DOCUMENT_PREVIEW",
+          "scale": "PREVIEW",
+          "crop": null,
+          "box": [
+            748,
+            174
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "authority_board:CHIP",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "crop": "NODE_ART_CHIP",
+          "box": [
+            34,
+            34
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            0.6,
+            1
+          ]
+        },
+        {
+          "id": "authority_board:TILE",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "TILE",
+          "crop": null,
+          "box": [
+            100,
+            62
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "authority_board:PREVIEW",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "PREVIEW",
+          "crop": null,
+          "box": [
+            748,
+            174
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "face_near_top:CHIP",
+          "role": "PORTRAIT",
+          "scale": "CHIP",
+          "crop": "PORTRAIT_FACE_SAFE",
+          "box": [
+            34,
+            34
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            1,
+            0.8
+          ]
+        },
+        {
+          "id": "face_near_top:TILE",
+          "role": "PORTRAIT",
+          "scale": "TILE",
+          "crop": "PORTRAIT_FACE_SAFE",
+          "box": [
+            100,
+            62
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            1,
+            0.496
+          ]
+        },
+        {
+          "id": "face_near_top:PREVIEW",
+          "role": "PORTRAIT",
+          "scale": "PREVIEW",
+          "crop": "PORTRAIT_FACE_SAFE",
+          "box": [
+            748,
+            174
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": "contain",
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "face_near_bottom:CHIP",
+          "role": "PORTRAIT",
+          "scale": "CHIP",
+          "crop": "PORTRAIT_FACE_SAFE",
+          "box": [
+            34,
+            34
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            1,
+            0.8
+          ]
+        },
+        {
+          "id": "face_near_bottom:TILE",
+          "role": "PORTRAIT",
+          "scale": "TILE",
+          "crop": "PORTRAIT_FACE_SAFE",
+          "box": [
+            100,
+            62
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            1,
+            0.496
+          ]
+        },
+        {
+          "id": "face_near_bottom:PREVIEW",
+          "role": "PORTRAIT",
+          "scale": "PREVIEW",
+          "crop": "PORTRAIT_FACE_SAFE",
+          "box": [
+            748,
+            174
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": "contain",
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "missing:CHIP",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "crop": "NODE_ART_CHIP",
+          "box": [
+            34,
+            34
+          ],
+          "issues": []
+        },
+        {
+          "id": "missing:TILE",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "TILE",
+          "crop": null,
+          "box": [
+            100,
+            62
+          ],
+          "issues": []
+        },
+        {
+          "id": "missing:PREVIEW",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "PREVIEW",
+          "crop": null,
+          "box": [
+            748,
+            174
+          ],
+          "issues": []
+        },
+        {
+          "id": "broken:CHIP",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "crop": "NODE_ART_CHIP",
+          "box": [
+            34,
+            34
+          ],
+          "issues": []
+        },
+        {
+          "id": "broken:TILE",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "TILE",
+          "crop": null,
+          "box": [
+            100,
+            62
+          ],
+          "issues": []
+        },
+        {
+          "id": "broken:PREVIEW",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "PREVIEW",
+          "crop": null,
+          "box": [
+            748,
+            174
+          ],
+          "issues": []
+        }
+      ]
+    },
+    "desktop": {
+      "width": 1440,
+      "cases": 39,
+      "pass": 39,
+      "failures": [],
+      "results": [
+        {
+          "id": "very_tall_portrait:CHIP",
+          "role": "PORTRAIT",
+          "scale": "CHIP",
+          "crop": "PORTRAIT_FACE_SAFE",
+          "box": [
+            34,
+            34
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": "contain",
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "very_tall_portrait:TILE",
+          "role": "PORTRAIT",
+          "scale": "TILE",
+          "crop": "PORTRAIT_FACE_SAFE",
+          "box": [
+            95,
+            59
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": "contain",
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "very_tall_portrait:PREVIEW",
+          "role": "PORTRAIT",
+          "scale": "PREVIEW",
+          "crop": "PORTRAIT_FACE_SAFE",
+          "box": [
+            1330,
+            129
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": "contain",
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "very_wide_landscape:CHIP",
+          "role": "LANDSCAPE_EDITORIAL",
+          "scale": "CHIP",
+          "crop": "SCENE_SUBJECT_SAFE",
+          "box": [
+            34,
+            34
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": "contain",
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "very_wide_landscape:TILE",
+          "role": "LANDSCAPE_EDITORIAL",
+          "scale": "TILE",
+          "crop": "SCENE_SUBJECT_SAFE",
+          "box": [
+            95,
+            59
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": "contain",
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "very_wide_landscape:PREVIEW",
+          "role": "LANDSCAPE_EDITORIAL",
+          "scale": "PREVIEW",
+          "crop": "SCENE_SUBJECT_SAFE",
+          "box": [
+            1330,
+            129
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": "contain",
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "square:CHIP",
+          "role": "LANDSCAPE_EDITORIAL",
+          "scale": "CHIP",
+          "crop": "SCENE_SUBJECT_SAFE",
+          "box": [
+            34,
+            34
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "square:TILE",
+          "role": "LANDSCAPE_EDITORIAL",
+          "scale": "TILE",
+          "crop": "SCENE_SUBJECT_SAFE",
+          "box": [
+            95,
+            59
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            1,
+            0.621
+          ]
+        },
+        {
+          "id": "square:PREVIEW",
+          "role": "LANDSCAPE_EDITORIAL",
+          "scale": "PREVIEW",
+          "crop": "SCENE_SUBJECT_SAFE",
+          "box": [
+            1330,
+            129
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": "contain",
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "transparent_logo:CHIP",
+          "role": "LOGO_MARK",
+          "scale": "CHIP",
+          "crop": null,
+          "box": [
+            34,
+            34
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "transparent_logo:TILE",
+          "role": "LOGO_MARK",
+          "scale": "TILE",
+          "crop": null,
+          "box": [
+            95,
+            59
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "transparent_logo:PREVIEW",
+          "role": "LOGO_MARK",
+          "scale": "PREVIEW",
+          "crop": null,
+          "box": [
+            1330,
+            129
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "tiny_source:CHIP",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "crop": "NODE_ART_CHIP",
+          "box": [
+            34,
+            34
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            0.75,
+            1
+          ]
+        },
+        {
+          "id": "tiny_source:TILE",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "TILE",
+          "crop": null,
+          "box": [
+            95,
+            59
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "tiny_source:PREVIEW",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "PREVIEW",
+          "crop": null,
+          "box": [
+            1330,
+            129
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "source_4k:CHIP",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "crop": "NODE_ART_CHIP",
+          "box": [
+            34,
+            34
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            0.563,
+            1
+          ]
+        },
+        {
+          "id": "source_4k:TILE",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "TILE",
+          "crop": null,
+          "box": [
+            95,
+            59
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "source_4k:PREVIEW",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "PREVIEW",
+          "crop": null,
+          "box": [
+            1330,
+            129
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "ui_screenshot:CHIP",
+          "role": "UI_SCREENSHOT",
+          "scale": "CHIP",
+          "crop": null,
+          "box": [
+            34,
+            34
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "ui_screenshot:TILE",
+          "role": "UI_SCREENSHOT",
+          "scale": "TILE",
+          "crop": null,
+          "box": [
+            95,
+            59
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "ui_screenshot:PREVIEW",
+          "role": "UI_SCREENSHOT",
+          "scale": "PREVIEW",
+          "crop": null,
+          "box": [
+            1330,
+            129
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "document:CHIP",
+          "role": "DOCUMENT_PREVIEW",
+          "scale": "CHIP",
+          "crop": null,
+          "box": [
+            34,
+            34
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "document:TILE",
+          "role": "DOCUMENT_PREVIEW",
+          "scale": "TILE",
+          "crop": null,
+          "box": [
+            95,
+            59
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "document:PREVIEW",
+          "role": "DOCUMENT_PREVIEW",
+          "scale": "PREVIEW",
+          "crop": null,
+          "box": [
+            1330,
+            129
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "authority_board:CHIP",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "crop": "NODE_ART_CHIP",
+          "box": [
+            34,
+            34
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            0.6,
+            1
+          ]
+        },
+        {
+          "id": "authority_board:TILE",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "TILE",
+          "crop": null,
+          "box": [
+            95,
+            59
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "authority_board:PREVIEW",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "PREVIEW",
+          "crop": null,
+          "box": [
+            1330,
+            129
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": null,
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "face_near_top:CHIP",
+          "role": "PORTRAIT",
+          "scale": "CHIP",
+          "crop": "PORTRAIT_FACE_SAFE",
+          "box": [
+            34,
+            34
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            1,
+            0.8
+          ]
+        },
+        {
+          "id": "face_near_top:TILE",
+          "role": "PORTRAIT",
+          "scale": "TILE",
+          "crop": "PORTRAIT_FACE_SAFE",
+          "box": [
+            95,
+            59
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            1,
+            0.497
+          ]
+        },
+        {
+          "id": "face_near_top:PREVIEW",
+          "role": "PORTRAIT",
+          "scale": "PREVIEW",
+          "crop": "PORTRAIT_FACE_SAFE",
+          "box": [
+            1330,
+            129
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": "contain",
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "face_near_bottom:CHIP",
+          "role": "PORTRAIT",
+          "scale": "CHIP",
+          "crop": "PORTRAIT_FACE_SAFE",
+          "box": [
+            34,
+            34
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            1,
+            0.8
+          ]
+        },
+        {
+          "id": "face_near_bottom:TILE",
+          "role": "PORTRAIT",
+          "scale": "TILE",
+          "crop": "PORTRAIT_FACE_SAFE",
+          "box": [
+            95,
+            59
+          ],
+          "issues": [],
+          "fit": "cover",
+          "guard": null,
+          "visible": [
+            1,
+            0.497
+          ]
+        },
+        {
+          "id": "face_near_bottom:PREVIEW",
+          "role": "PORTRAIT",
+          "scale": "PREVIEW",
+          "crop": "PORTRAIT_FACE_SAFE",
+          "box": [
+            1330,
+            129
+          ],
+          "issues": [],
+          "fit": "contain",
+          "guard": "contain",
+          "visible": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": "missing:CHIP",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "crop": "NODE_ART_CHIP",
+          "box": [
+            34,
+            34
+          ],
+          "issues": []
+        },
+        {
+          "id": "missing:TILE",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "TILE",
+          "crop": null,
+          "box": [
+            95,
+            59
+          ],
+          "issues": []
+        },
+        {
+          "id": "missing:PREVIEW",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "PREVIEW",
+          "crop": null,
+          "box": [
+            1330,
+            129
+          ],
+          "issues": []
+        },
+        {
+          "id": "broken:CHIP",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "CHIP",
+          "crop": "NODE_ART_CHIP",
+          "box": [
+            34,
+            34
+          ],
+          "issues": []
+        },
+        {
+          "id": "broken:TILE",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "TILE",
+          "crop": null,
+          "box": [
+            95,
+            59
+          ],
+          "issues": []
+        },
+        {
+          "id": "broken:PREVIEW",
+          "role": "REFERENCE_AUTHORITY",
+          "scale": "PREVIEW",
+          "crop": null,
+          "box": [
+            1330,
+            129
+          ],
+          "issues": []
+        }
+      ]
+    }
+  }
+}

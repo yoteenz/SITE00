@@ -1,0 +1,209 @@
+{
+  "sprint": "P0.SITE00.PRODUCTION-WORKSPACE.PANEL-MEDIA-GEOMETRY-REFINEMENT2",
+  "name": "WorkspacePanelMediaGeometryContract",
+  "rule": "FUNCTIONAL MEDIA INFLUENCES PANEL GEOMETRY — media ratio / minimum visual height + copy + controls → panel height (never fixed panel → image forced into slot → crop)",
+  "panelModes": {
+    "MEDIA_LEAD": {
+      "mode": "MEDIA_LEAD",
+      "scale": "PREVIEW",
+      "height": "CONTENT_DRIVEN",
+      "geometry": "media first at full panel width and its own aspect, copy below",
+      "mobile": "stack, panel grows",
+      "tablet": "stack or side-by-side by container width",
+      "desktop": "side-by-side allowed"
+    },
+    "MEDIA_INLINE": {
+      "mode": "MEDIA_INLINE",
+      "scale": "CHIP",
+      "height": "COMPOSITION",
+      "geometry": "chip thumbnail inline with a row (HUB row grammar: thumb · text · action)",
+      "mobile": "fixed chip from the HUB unit; the grid is content-driven so whole rows show (never a row sliced by a short pane)",
+      "tablet": "rows scroll inside their authored pane",
+      "desktop": "same as tablet"
+    },
+    "MEDIA_STACK": {
+      "mode": "MEDIA_STACK",
+      "scale": "TILE",
+      "height": "CONTENT_DRIVEN",
+      "geometry": "media beside copy while the panel is wide enough, stacked above it below the stack width",
+      "mobile": "stacked (container query)",
+      "tablet": "side-by-side when ≥ 300px",
+      "desktop": "side-by-side"
+    },
+    "AUTHORITY_PREVIEW": {
+      "mode": "AUTHORITY_PREVIEW",
+      "scale": "PREVIEW",
+      "height": "CONTENT_DRIVEN",
+      "geometry": "dedicated authority slot: whole frame at the approved ratio (contain), inspectable",
+      "mobile": "spans the full row, panel grows to the preview",
+      "tablet": "keeps its span; grows to the preview",
+      "desktop": "keeps its span; grows to the preview"
+    },
+    "PORTRAIT_GRID": {
+      "mode": "PORTRAIT_GRID",
+      "scale": "TILE",
+      "height": "CONTENT_DRIVEN",
+      "geometry": "portrait tiles (4:5) with caption; rail or grid",
+      "mobile": "fewer, larger tiles per view; the rail stays a horizontal carousel; panel shows one whole tile row",
+      "tablet": "more tiles per row",
+      "desktop": "denser, never cropped"
+    },
+    "REFERENCE_FRAME": {
+      "mode": "REFERENCE_FRAME",
+      "scale": "TILE",
+      "height": "CONTENT_DRIVEN",
+      "geometry": "frames / references at their own aspect (contain or ≤12% trim)",
+      "mobile": "fewer columns, panel grows",
+      "tablet": "multi-column",
+      "desktop": "denser grid"
+    }
+  },
+  "workspacePanelLayouts": {
+    "existing": [
+      "MEDIA_LEFT_TEXT_RIGHT",
+      "MEDIA_TOP_TEXT_BOTTOM",
+      "THUMBNAIL_INLINE",
+      "FULL_BLEED_MEDIA_WITH_OVERLAY",
+      "MEDIA_ONLY_PREVIEW",
+      "METADATA_WITH_SMALL_THUMBNAIL"
+    ],
+    "verdict": "Kept. The six WorkspacePanel layouts describe arrangement; they did not describe how media drives height. Every tab panel (EXPRESSION exf-panel, INBOX cards, ACTIVITY milestone header, WorkspacePanel) now declares a semantic media geometry mode (data-panel-media) — six modes, no one-off pixel modes."
+  },
+  "scales": {
+    "CHIP": {
+      "scale": "CHIP",
+      "drivesPanelHeight": false,
+      "minPx": {
+        "mobile": 16,
+        "tablet": 16,
+        "desktop": 16
+      },
+      "maxAspectError": 0.35,
+      "purpose": "inline identification chip (HUB --op-thumb scale)"
+    },
+    "TILE": {
+      "scale": "TILE",
+      "drivesPanelHeight": true,
+      "minPx": {
+        "mobile": 44,
+        "tablet": 48,
+        "desktop": 48
+      },
+      "maxAspectError": 0.35,
+      "purpose": "tile / card media with a caption (HUB feature / entry card scale)"
+    },
+    "PREVIEW": {
+      "scale": "PREVIEW",
+      "drivesPanelHeight": true,
+      "minPx": {
+        "mobile": 120,
+        "tablet": 120,
+        "desktop": 120
+      },
+      "minInlinePx": {
+        "mobile": 300,
+        "tablet": 240,
+        "desktop": 240
+      },
+      "maxAspectError": 0.15,
+      "purpose": "primary media of its panel, inspectable (≥120px tall, or the full row on phones)"
+    },
+    "PLATE": {
+      "scale": "PLATE",
+      "drivesPanelHeight": false,
+      "minPx": {
+        "mobile": 0,
+        "tablet": 0,
+        "desktop": 0
+      },
+      "maxAspectError": null,
+      "purpose": "decorative plate / band / background"
+    }
+  },
+  "legibility": {
+    "CHIP": "short side ≥ HUB row chip (≈18px at 360)",
+    "TILE": "short side ≥ HUB smallest card media (≈49px phones, ≈53px tablet / desktop)",
+    "PREVIEW": "block ≥ 120px, at the approved aspect; full row on phones"
+  },
+  "mobileEscapeOrder": [
+    "INCREASE_PANEL_HEIGHT",
+    "STACK_MEDIA_ABOVE_COPY",
+    "TALLER_MEDIA_SLOT",
+    "REDUCE_COLUMNS",
+    "MOVE_SECONDARY_CONTENT_TO_NEXT_ROW",
+    "CONTINUATION_OR_DETAIL_VIEW"
+  ],
+  "contentPriority": [
+    "FUNCTIONAL_MEDIA",
+    "PRIMARY_LABEL",
+    "PRIMARY_STATUS",
+    "PRIMARY_ACTION",
+    "SECONDARY_METADATA"
+  ],
+  "implementations": [
+    {
+      "where": "EXPRESSION family grid (all 40 routes)",
+      "mobile": "Grid marks data-media-geometry=\"CONTENT\" when a panel composed on phones declares functional media: rows become content-sized, the frame scrolls, media-led panels take the full row (REDUCE_COLUMNS)",
+      "tabletDesktop": "fractional composition kept; PREVIEW media sit at their approved aspect and only shrink — contained, never cropped — in a short cell"
+    },
+    {
+      "where": "EXPRESSION → CASTING · AVAILABLE TALENT",
+      "mode": "PORTRAIT_GRID",
+      "mobile": "≈3.3 portrait tiles (4:5 headshot slot) per view in the horizontal carousel; panel shows one whole tile row",
+      "tabletDesktop": "unchanged tiles (never sliced)"
+    },
+    {
+      "where": "EXPRESSION → CASTING · LEAD AUTHORITY",
+      "mode": "AUTHORITY_PREVIEW",
+      "mobile": "full row, whole cast node art at 272:110",
+      "tabletDesktop": "whole node art at its ratio inside the authored cell"
+    },
+    {
+      "where": "EXPRESSION look / review / storyboard / performance previews",
+      "mode": "MEDIA_LEAD / AUTHORITY_PREVIEW / REFERENCE_FRAME",
+      "rule": "node art contained at its approved ratio; storyboard frames VIDEO_FRAME contained on dark"
+    },
+    {
+      "where": "INBOX focus / decision / notice cards",
+      "mode": "MEDIA_LEAD",
+      "mobile": "whole decision authority stacked above the facts",
+      "tabletDesktop": "art column kept, frame takes the approved aspect"
+    },
+    {
+      "where": "INBOX incoming cards",
+      "mode": "TILE (NODE_ART_CARD)",
+      "mobile": "3:2 frame so node art keeps ≥ half of each axis"
+    },
+    {
+      "where": "ACTIVITY milestone header",
+      "mode": "MEDIA_LEAD",
+      "mobile": "whole node art stacked above the title",
+      "tabletDesktop": "art column kept, approved aspect"
+    },
+    {
+      "where": "DESIGN overview mark",
+      "role": "LOGO_MARK",
+      "rule": "block size capped so the mark never leaves its art box (clearspace)"
+    },
+    {
+      "where": "JURNL DESIGN table cards",
+      "role": "UI_SCREENSHOT",
+      "rule": "approved F01 screens contained on dark (whole interface)"
+    }
+  ],
+  "flexGridMinSize": {
+    "reviewed": [
+      "min-width: 0",
+      "min-height: 0",
+      "grid-auto-rows",
+      "align-stretch",
+      "flex-shrink"
+    ],
+    "findings": [
+      "EXPRESSION grids used minmax(0, Nfr) rows on phones: a media panel could be compressed to any height → replaced by content-driven rows when functional media is present",
+      "EXPRESSION .exf-fill previews were flex: 1 1 auto; min-height: 40px — the image took whatever was left (shallow strip) → PREVIEW media are flex: none at their aspect on phones, flex: 0 1 auto (contained) in authored cells",
+      "the talent rail was flex: 1 1 auto; min-height: 0 inside a scrolling body shorter than one tile → rail flex: none, the panel grows to one tile row",
+      "INBOX / ACTIVITY art used fixed heights (104×122, 150×168, 210×200, 100–150px) → the authority’s approved aspect sets the block size"
+    ]
+  }
+}

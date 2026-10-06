@@ -301,6 +301,9 @@ describe('panels respect their media (content-driven geometry)', () => {
       expect(widths.length, sel).toBeGreaterThan(0);
       for (const w of widths) expect(w, sel).toBeGreaterThanOrEqual(floor.tablet);
     }
+    // phones: the ACTIVITY attention card's node-art tile grows to the TILE floor instead of a 16:10 sliver
+    const acard = /\.iax-acard > \.pxa-thumb\[data-media-scale='TILE'\] \{\s*min-block-size: (\d+)px/.exec(css);
+    expect(Number(acard?.[1])).toBeGreaterThanOrEqual(WORKSPACE_MEDIA_SCALES.TILE.minPx.mobile);
   });
 
   it('CSS: a raw image that declares a no-crop role always contains; the media geometry layer never hides overflow or covers', () => {

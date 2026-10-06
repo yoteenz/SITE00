@@ -1078,6 +1078,11 @@
   .pxa[data-density] .iax-ms__head[data-panel-media='MEDIA_LEAD'] {
     grid-template-columns: minmax(0, 1fr);
   }
+  /* ACTIVITY attention cards (PENDING YOUR REVIEW): escape step TALLER_MEDIA_SLOT — the node-art tile keeps the
+   * TILE floor instead of a 16:10 sliver of its narrow column; the two-row card already has the height */
+  .pxa[data-density] .iax-acard > .pxa-thumb[data-media-scale='TILE'] {
+    min-block-size: 48px;
+  }
   .pxa[data-density] [data-panel-media='MEDIA_LEAD'] > [data-media-scale='PREVIEW'] {
     inline-size: 100%;
     block-size: auto;

@@ -5,10 +5,12 @@
  * For each review page: BEFORE (main) | AFTER (this branch) screenshot, plus a side column naming the media ROLE,
  * FIT MODE, PANEL MODE and WHY a crop is / is not allowed — read from the two media reports.
  *
- *   node scripts/production-workspace/media-geometry-board.mjs <beforeDir> <afterDir> <outDir>
+ *   [SHOTS_BEFORE=<dir> SHOTS_AFTER=<dir>] node scripts/production-workspace/media-geometry-board.mjs <beforeDir> <afterDir> <outDir>
+ * SHOTS_* = audit runs with FOCUS_SHOTS=1 (captures scrolled to the reviewed panels); notes come from the reports.
  */
 import sharp from 'sharp';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { REVIEW_BOARDS } from './media-geometry-routes.mjs';
 
 const [beforeDir, afterDir, outDir] = process.argv.slice(2);
 mkdirSync(`${outDir}/boards`, { recursive: true });
@@ -16,24 +18,7 @@ const report = (dir) => JSON.parse(readFileSync(`${dir}/media-report.json`, 'utf
 const B = report(beforeDir);
 const A = report(afterDir);
 
-/** [board id, viewport, route id, title, focus panel test ids (for the notes)] */
-export const BOARD = [
-  ['casting-mobile', 'mobile', 'expression-casting', 'EXPRESSION → CASTING · AVAILABLE TALENT + LEAD AUTHORITY', ['casting-available-talent', 'casting-lead-authority']],
-  ['casting-desktop', 'desktop', 'expression-casting', 'EXPRESSION → CASTING · DESKTOP (composition kept)', ['casting-available-talent', 'casting-lead-authority']],
-  ['portrait-actor-profile', 'mobile', 'expression-casting-actor-profile', 'PORTRAIT-HEAVY · ACTOR PROFILE', ['casting-actor-profile']],
-  ['portrait-role-detail', 'mobile', 'expression-casting-role-detail', 'PORTRAIT ROWS · ROLE DETAIL (rows never sliced)', ['casting-role-current', 'casting-role-matches']],
-  ['ui-screenshot-jurnl', 'mobile', 'design-jurnl-brand', 'UI SCREENSHOT · JURNL DESIGN TABLE (approved F01 screens)', ['design-table']],
-  ['logo-identity-desktop', 'desktop', 'design-brand', 'LOGO / IDENTITY · DESIGN OVERVIEW MARK', ['design-overview']],
-  ['authority-look', 'mobile', 'expression-look', 'REFERENCE / AUTHORITY · LOOK ROOT', ['look-root-active']],
-  ['authority-inbox-detail', 'mobile', 'inbox-decision-detail', 'REFERENCE / AUTHORITY · INBOX DECISION DETAIL', ['inbox-detail-card']],
-  ['authority-milestone', 'mobile', 'activity-milestone-look', 'REFERENCE / AUTHORITY · ACTIVITY MILESTONE', []],
-  ['authority-inbox-detail-tablet', 'tablet', 'inbox-decision-detail', 'REFERENCE / AUTHORITY · INBOX DECISION CARD · TABLET (no mobile stacking; art column at the PREVIEW floor)', ['inbox-detail-card']],
-  ['authority-milestone-tablet', 'tablet', 'activity-milestone-look', 'REFERENCE / AUTHORITY · ACTIVITY MILESTONE · TABLET', []],
-  ['frames-storyboard', 'mobile', 'expression-storyboard', 'VIDEO FRAMES · STORYBOARD ROOT', ['storyboard-root-boards', 'storyboard-inspector']],
-  ['landscape-library', 'mobile', 'library', 'LANDSCAPE / SCENE NODE ART · LIBRARY STRIPS', ['library-recent', 'library-lineage-flow']],
-  ['inbox-root', 'mobile', 'inbox', 'INBOX ROOT · FOCUS CARD + INCOMING CARDS', ['inbox-focus', 'inbox-incoming']],
-  ['hub-control', 'mobile', 'hub', 'HUB · AUTHORITY (pixel-identical)', []],
-];
+const BOARD = REVIEW_BOARDS;
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 function notes(rep, vp, route, focus) {
@@ -58,11 +43,30 @@ function notes(rep, vp, route, focus) {
 const W = { mobile: 393, tablet: 560, desktop: 640 };
 const label = (text, w, h = 30, size = 13, bg = '#111114') =>
   Buffer.from(`<svg width="${w}" height="${h}" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="${bg}"/><text x="12" y="${h / 2 + size / 3}" font-family="Helvetica, Arial, sans-serif" font-size="${size}" letter-spacing="1.2" fill="#ffffff">${esc(text)}</text></svg>`);
+const wrap = (text, max = 84) => {
+  const out = [];
+  let line = '';
+  for (const part of text.split(' · ')) {
+    const next = line ? `${line} · ${part}` : part;
+    if (next.length > max && line) {
+      out.push(`${line} ·`);
+      line = part;
+    } else line = next;
+  }
+  if (line) out.push(line);
+  return out;
+};
 const notesSvg = (title, lines, w, h) => {
+  let y = 70;
   const body = lines
-    .map((l, i) => {
-      const words = l.split(' — ');
-      return `<text x="14" y="${70 + i * 58}" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#111114">${esc(words[0])}</text><text x="14" y="${88 + i * 58}" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="${/FAIL|CROP_|SLICE|CLIP|LEGIB/.test(words.slice(1).join(' ')) ? '#c8161b' : '#1d7a43'}">${esc(words.slice(1).join(' — '))}</text>`;
+    .map((l) => {
+      const [head, ...rest] = l.split(' — ');
+      const tail = rest.join(' — ');
+      const bad = /FAIL|CROP_|SLICE|CLIP|LEGIB/.test(tail);
+      const rows = [...wrap(head).map((t) => [t, '#111114']), ...wrap(tail).map((t) => [t, bad ? '#c8161b' : '#1d7a43'])];
+      const svg = rows.map(([t, c], i) => `<text x="14" y="${y + i * 17}" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="${c}">${esc(t)}</text>`).join('');
+      y += rows.length * 17 + 16;
+      return svg;
     })
     .join('');
   return Buffer.from(`<svg width="${w}" height="${h}" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="#ffffff"/><text x="14" y="30" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="700" letter-spacing="1.2" fill="#111114">${esc(title)}</text>${body}</svg>`);
@@ -70,8 +74,9 @@ const notesSvg = (title, lines, w, h) => {
 
 const manifest = [];
 for (const [id, vp, route, title, focus] of BOARD) {
-  const bShot = `${beforeDir}/${vp}/${route}.png`;
-  const aShot = `${afterDir}/${vp}/${route}.png`;
+  const pick = (shotsDir, dir) => [`${shotsDir}/${vp}/${route}--focus.png`, `${shotsDir}/${vp}/${route}.png`, `${dir}/${vp}/${route}.png`].find((p) => shotsDir && existsSync(p)) ?? `${dir}/${vp}/${route}.png`;
+  const bShot = pick(process.env.SHOTS_BEFORE, beforeDir);
+  const aShot = pick(process.env.SHOTS_AFTER, afterDir);
   if (!existsSync(bShot) || !existsSync(aShot)) {
     console.log('skip', id);
     continue;
@@ -79,7 +84,7 @@ for (const [id, vp, route, title, focus] of BOARD) {
   const cw = W[vp] ?? 393;
   const [bb, ab] = await Promise.all([bShot, aShot].map((p) => sharp(p).resize({ width: cw }).png().toBuffer()));
   const h = Math.max((await sharp(bb).metadata()).height, (await sharp(ab).metadata()).height);
-  const nw = 560;
+  const nw = 700;
   const bl = notes(B, vp, route, focus);
   const al = notes(A, vp, route, focus);
   const nh = Math.max(h, 120 + 58 * Math.max(bl.length, al.length) * 2);

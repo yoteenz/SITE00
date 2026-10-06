@@ -23,7 +23,7 @@
  */
 import { chromium } from 'playwright';
 import { mkdirSync, writeFileSync } from 'node:fs';
-import { CHILD_PAGES, ROOT_TABS, VIEWPORTS } from './media-geometry-routes.mjs';
+import { CHILD_PAGES, REVIEW_BOARDS, ROOT_TABS, VIEWPORTS } from './media-geometry-routes.mjs';
 import {
   WORKSPACE_INTENTIONAL_CROPS,
   WORKSPACE_MEDIA_ROLES,
@@ -38,6 +38,8 @@ const OUT = process.env.OUT ?? 'media-geometry-audit';
 const FAMILIES = (process.env.VIEWPORTS ?? 'mobile').split(',');
 const ONLY = process.env.ONLY ? new Set(process.env.ONLY.split(',')) : null;
 const SHOTS = process.env.SHOTS === '1';
+// review-board captures: also shoot each board route scrolled to its reviewed panels (`<id>--focus.png`)
+const FOCUS_SHOTS = process.env.FOCUS_SHOTS === '1';
 const CHROME = process.env.CHROME ?? '/opt/pw-browsers/chromium';
 // one file per viewport set, so viewports can run as parallel processes (the report merges media-audit-*.json);
 // written after every route so an interrupted run keeps what it measured
@@ -137,6 +139,23 @@ for (const vpName of FAMILIES) {
         if (SHOTS) {
           shot = `${vpName}/${r.id}.png`;
           await page.screenshot({ path: `${OUT}/${shot}` });
+          const focus = REVIEW_BOARDS.find(([, bvp, id, , f]) => bvp === vpName && id === r.id && f.length)?.[4];
+          if (FOCUS_SHOTS && focus) {
+            // the first reviewed panel's top sits just under the header; everything that follows it is in frame
+            await page.evaluate((testId) => {
+              const el = document.querySelector(`[data-testid="${testId}"]`);
+              if (!el) return;
+              el.scrollIntoView({ block: 'start' });
+              for (let a = el.parentElement; a; a = a.parentElement) {
+                if (a.scrollHeight > a.clientHeight + 1 && /auto|scroll/.test(getComputedStyle(a).overflowY)) {
+                  a.scrollTop = Math.max(0, a.scrollTop - 64);
+                  break;
+                }
+              }
+            }, focus[0]);
+            await page.waitForTimeout(500);
+            await page.screenshot({ path: `${OUT}/${vpName}/${r.id}--focus.png` });
+          }
         }
         rows.push({ viewport: vpName, family: vp.family, width: vp.width, id: r.id, tab: r.tab, kind: r.kind, route, errors, shot, ...data });
         console.log(`${vpName.padEnd(7)} ${r.id.padEnd(34)} media=${String(data.media.length).padStart(3)} overflowX=${data.overflowCount} err=${errors.length}`);

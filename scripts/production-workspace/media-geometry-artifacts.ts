@@ -4,7 +4,7 @@
  * Contracts come from the single source (src/site00/config/production-workspace-media.ts + -density.ts); measured
  * numbers from the before / after media reports (media-geometry-report.mjs) and the stress test.
  *
- *   npx tsx scripts/production-workspace/media-geometry-artifacts.ts <beforeDir> <afterDir> <stressDir> [hubDiff.json] [typeRegression.json]
+ *   npx tsx scripts/production-workspace/media-geometry-artifacts.ts <beforeDir> <afterDir> <stressDir> [hubDiff.json] [typeRegression.json] [unitTests.json]
  */
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { WORKSPACE_MEDIA_FIT_MODES, WORKSPACE_MEDIA_SLOTS } from '../../src/site00/config/production-workspace-density';
@@ -21,7 +21,7 @@ import {
 } from '../../src/site00/config/production-workspace-media';
 import { WORKSPACE_PANEL_DEFAULT_SLOT } from '../../src/site00/components/productionAuthority/WorkspacePanel';
 
-const [beforeDir, afterDir, stressDir, hubDiffPath, typePath] = process.argv.slice(2);
+const [beforeDir, afterDir, stressDir, hubDiffPath, typePath, unitPath] = process.argv.slice(2);
 const DIR = 'docs/site00-production-workspace/media-geometry-refinement2';
 const SPRINT = 'P0.SITE00.PRODUCTION-WORKSPACE.PANEL-MEDIA-GEOMETRY-REFINEMENT2';
 mkdirSync(DIR, { recursive: true });
@@ -59,6 +59,7 @@ const after: Report = read(`${afterDir}/media-report.json`);
 const stress = read(`${stressDir}/media-stress.json`);
 const hubDiff = hubDiffPath && existsSync(hubDiffPath) ? read(hubDiffPath) : null;
 const typeReg = typePath && existsSync(typePath) ? read(typePath) : null;
+const unitTests = unitPath && existsSync(unitPath) ? read(unitPath) : null;
 
 const FAILS = ['CROP_UNREGISTERED', 'CROP_OUT_OF_BOUNDS', 'CROP_FORBIDDEN', 'FOCAL_FAIL', 'PANE_SLICE', 'PANEL_CLIP', 'LEGIBILITY', 'DISTORTION', 'TEXT_OVERLAY'];
 const fails = (e: El) => e.codes.filter((c) => FAILS.includes(c));
@@ -165,7 +166,7 @@ write('WORKSPACE_INTENTIONAL_CROP_REGISTRY.json', {
   source: 'src/site00/config/production-workspace-media.ts (WORKSPACE_INTENTIONAL_CROPS); call sites carry data-media-crop',
   entries: WORKSPACE_INTENTIONAL_CROPS.map((c) => {
     const u = usesAfter(c.id);
-    return { ...c, measuredAfter: { crops: u.length, routes: uniq(u.map((e) => e.route)).length, minVisibleAxisMeasured: u.length ? Math.min(...u.map((e) => e.minAxis)) : null, failures: u.filter((e) => fails(e).length).length } };
+    return { ...c, measuredAfter: { crops: u.length, routes: uniq(u.map((e) => e.route)).length, minVisibleAxisMeasured: u.length ? Math.min(...u.map((e) => e.minAxis)) : null, failures: u.filter((e) => fails(e).some((c) => c.startsWith('CROP_') || c === 'FOCAL_FAIL')).length } };
   }),
   previousClassificationReview: {
     designDecorativeArtCrops23: 'Re-reviewed live: all are DESIGN chamber miniatures (board strips, swatches, device outlines inside the floating panels) or chamber atmosphere — composition, 12–80px, never the inspectable object. Kept as DESIGN_CHAMBER_MINIATURE / DESIGN_CHAMBER_ART. Two classes were NOT decorative and are now fixed: the JURNL table cards (approved F01 screens → UI_SCREENSHOT, contained) and the DESIGN overview mark (LOGO_MARK, was clipped ≈10% on tablet / desktop).',
@@ -281,6 +282,7 @@ write('WORKSPACE_MEDIA_GEOMETRY_QA_TOTALS.json', {
   stress: stress.totals,
   hubPixelDiff: hubDiff,
   typography: typeReg,
+  unitTests,
   registryUses: WORKSPACE_INTENTIONAL_CROPS.map((c) => ({ id: c.id, uses: usesAfter(c.id).length })),
 });
 console.log('artifacts written to', DIR);

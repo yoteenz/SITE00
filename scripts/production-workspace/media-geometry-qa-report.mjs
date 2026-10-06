@@ -103,7 +103,7 @@ ${VP.map((v) => `| ${v} ${W[v]} | ${AUDIT.byViewport.after[v]?.elements ?? '—'
 - **Unclassified:** ${hb.unclassified} → ${ha.unclassified}. The machine view now declares every media role (data attributes only).
 - **Crop failures:** ${hb.functionalMediaCropFailures} → ${ha.functionalMediaCropFailures}. HUB's own crop classes are registered: \`HUB_MACHINE_FRAME\`, \`HUB_ATMOSPHERE\`, \`NODE_ART_CHIP\` and \`NODE_ART_CARD\`.
 - **Below the workspace legibility floor:** ${ha.legibility} (${hb.legibility} before). These are HUB's own sizes and are not changed by rule:
-${(ha.deviations ?? []).map((d) => `  - ${d.ctx} (${d.role} ${d.scale}) at ${d.viewports.join(' / ')}: ${d.minShortPx}px short side, ${d.codes}.`).join('\n')}
+${(ha.deviations ?? []).map((d) => `  - ${d.route} · ${d.ctx} (${d.role} ${d.scale}) at ${d.viewports.join(' / ')}: ${d.minShortPx}px short side, ${d.codes}. HUB's machine schematic scales down at 360px; the same glyphs measure 16.9px or more at 393px and above (CHIP floor 16px).`).join('\n')}
 - **Pixel diff vs main:** see §6.
 
 **Coverage.**
@@ -135,7 +135,7 @@ Each case asserts:
 
 ## 5. Intentional crop registry (${REG.entries.length} classes; anything else is a failure)
 
-| Class | Role | Bound | Focal | Measured uses (after) | Failures |
+| Class | Role | Bound | Focal | Measured uses (after) | Crop / focal failures |
 |---|---|---|---|---|---|
 ${REG.entries.map((c) => `| ${c.id} | ${c.role} | ${c.minVisibleAxis} | ${c.focal} | ${c.measuredAfter.crops} | ${c.measuredAfter.failures} |`).join('\n')}
 
@@ -153,7 +153,7 @@ ${REG.entries.map((c) => `| ${c.id} | ${c.role} | ${c.minVisibleAxis} | ${c.foca
 | Typography (density audit, mobile / tablet / desktop) | ${typo ? typo.summary : 'see QA totals'} |
 | Type tokens | T0–T6 and METRIC unchanged. The only new font-size is the missing-headshot initials, which use the T4 token. |
 | Routing / navigation / data / product logic | unchanged: no route, data or store edits |
-| Unit tests | \`tests/productionWorkspacePanelMediaGeometry2.test.tsx\` plus the updated REFINEMENT1 guards |
+| Unit tests | \`tests/productionWorkspacePanelMediaGeometry2.test.tsx\` plus the updated REFINEMENT1 guards. ${T.unitTests ? `Full suite: ${T.unitTests.files} files, ${T.unitTests.tests} tests. ${T.unitTests.failedTests} fail, and they are the identical set on main (merge base); ${T.unitTests.newFailures} new failures.` : ''} |
 
 ## 7. Founder review notes
 
