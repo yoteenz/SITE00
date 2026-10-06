@@ -1,0 +1,289 @@
+{
+  "sprint": "P0.SITE00.PRODUCTION-WORKSPACE.RESPONSIVE-DENSITY-MEDIA-FRAMING-REFINEMENT1",
+  "name": "WorkspaceTypeScale",
+  "authority": "HUB (site00-production-hub-reconstruction.css) — one authority px = container width / artboard",
+  "source": {
+    "ts": "src/site00/config/production-workspace-density.ts",
+    "css": "src/site00/styles/site00-production-workspace-density.css"
+  },
+  "formula": "size = max(floorPx, authorityUnits × min(width, maxScaleWidth) / artboard)",
+  "artboard": {
+    "mobile": 1125,
+    "tablet": 1792,
+    "desktop": 2000
+  },
+  "maxScaleWidth": 2200,
+  "deviationLimit": 1.15,
+  "rules": [
+    "T6 (display) is rare: at most one hero title per ROOT tab, never above HUB’s own display size.",
+    "Root tabs and child pages otherwise top out at T5 (workspace page title).",
+    "Child pages may change composition / content / hierarchy but never reset the scale.",
+    "No zoom, no transform: scale, no root font-size shrink — every internal layer is mapped to a tier."
+  ],
+  "tiers": [
+    {
+      "tier": "T0",
+      "token": "--pw-t0",
+      "role": "MICRO / SYSTEM LABEL — timestamps, legends, VIEW ALL, chips, meta",
+      "hubSource": ".hubx-viewall, .hubx-legend li, .hubx-feed__list time (--f-sub)",
+      "perFamily": {
+        "mobile": {
+          "authorityUnits": 17,
+          "floorPx": 6.5,
+          "px": {
+            "360": 6.5,
+            "393": 6.5,
+            "430": 6.5
+          }
+        },
+        "tablet": {
+          "authorityUnits": 18.5,
+          "floorPx": 8,
+          "px": {
+            "834": 8.61,
+            "1024": 10.57
+          }
+        },
+        "desktop": {
+          "authorityUnits": 16.5,
+          "floorPx": 10,
+          "px": {
+            "1440": 11.88,
+            "1920": 15.84
+          }
+        }
+      }
+    },
+    {
+      "tier": "T1",
+      "token": "--pw-t1",
+      "role": "SUPPORTING LABEL — kickers, field labels, status captions",
+      "hubSource": ".hubx-hero__copy small, .hubx-status__cell small (--f-label / --f-kicker)",
+      "perFamily": {
+        "mobile": {
+          "authorityUnits": 19,
+          "floorPx": 7,
+          "px": {
+            "360": 7,
+            "393": 7,
+            "430": 7.26
+          }
+        },
+        "tablet": {
+          "authorityUnits": 19,
+          "floorPx": 8.5,
+          "px": {
+            "834": 8.84,
+            "1024": 10.86
+          }
+        },
+        "desktop": {
+          "authorityUnits": 17,
+          "floorPx": 10.5,
+          "px": {
+            "1440": 12.24,
+            "1920": 16.32
+          }
+        }
+      }
+    },
+    {
+      "tier": "T2",
+      "token": "--pw-t2",
+      "role": "BODY / CONTROL — row titles, body copy, buttons, tabs, inputs",
+      "hubSource": ".hubx-ops__list b, .hubx-status__cell b (--f-main)",
+      "perFamily": {
+        "mobile": {
+          "authorityUnits": 19,
+          "floorPx": 7,
+          "px": {
+            "360": 7,
+            "393": 7,
+            "430": 7.26
+          }
+        },
+        "tablet": {
+          "authorityUnits": 22,
+          "floorPx": 9.5,
+          "px": {
+            "834": 10.24,
+            "1024": 12.57
+          }
+        },
+        "desktop": {
+          "authorityUnits": 20,
+          "floorPx": 12,
+          "px": {
+            "1440": 14.4,
+            "1920": 19.2
+          }
+        }
+      }
+    },
+    {
+      "tier": "T3",
+      "token": "--pw-t3",
+      "role": "PANEL TITLE — card / panel heads",
+      "hubSource": ".hubx-head h2 (--f-sec)",
+      "perFamily": {
+        "mobile": {
+          "authorityUnits": 24,
+          "floorPx": 8.5,
+          "px": {
+            "360": 8.5,
+            "393": 8.5,
+            "430": 9.17
+          }
+        },
+        "tablet": {
+          "authorityUnits": 28,
+          "floorPx": 11,
+          "px": {
+            "834": 13.03,
+            "1024": 16
+          }
+        },
+        "desktop": {
+          "authorityUnits": 24,
+          "floorPx": 14,
+          "px": {
+            "1440": 17.28,
+            "1920": 23.04
+          }
+        }
+      }
+    },
+    {
+      "tier": "T4",
+      "token": "--pw-t4",
+      "role": "SECTION / FEATURE TITLE — featured item, section lead",
+      "hubSource": ".hubx-feature b (--f-feature)",
+      "perFamily": {
+        "mobile": {
+          "authorityUnits": 28,
+          "floorPx": 9.5,
+          "px": {
+            "360": 9.5,
+            "393": 9.78,
+            "430": 10.7
+          }
+        },
+        "tablet": {
+          "authorityUnits": 28,
+          "floorPx": 12,
+          "px": {
+            "834": 13.03,
+            "1024": 16
+          }
+        },
+        "desktop": {
+          "authorityUnits": 26,
+          "floorPx": 15,
+          "px": {
+            "1440": 18.72,
+            "1920": 24.96
+          }
+        }
+      }
+    },
+    {
+      "tier": "T5",
+      "token": "--pw-t5",
+      "role": "WORKSPACE PAGE TITLE — root/child page title outside a hero",
+      "hubSource": ".hubx-hero__copy strong (--f-entry)",
+      "perFamily": {
+        "mobile": {
+          "authorityUnits": 38,
+          "floorPx": 12,
+          "px": {
+            "360": 12.16,
+            "393": 13.27,
+            "430": 14.52
+          }
+        },
+        "tablet": {
+          "authorityUnits": 50,
+          "floorPx": 20,
+          "px": {
+            "834": 23.27,
+            "1024": 28.57
+          }
+        },
+        "desktop": {
+          "authorityUnits": 44,
+          "floorPx": 24,
+          "px": {
+            "1440": 31.68,
+            "1920": 42.24
+          }
+        }
+      }
+    },
+    {
+      "tier": "T6",
+      "token": "--pw-t6",
+      "role": "RARE DISPLAY TITLE — one per root hero plate at most",
+      "hubSource": ".hubx-hero__copy h1 (--f-title)",
+      "perFamily": {
+        "mobile": {
+          "authorityUnits": 58,
+          "floorPx": 18,
+          "px": {
+            "360": 18.56,
+            "393": 20.26,
+            "430": 22.17
+          }
+        },
+        "tablet": {
+          "authorityUnits": 74,
+          "floorPx": 30,
+          "px": {
+            "834": 34.44,
+            "1024": 42.29
+          }
+        },
+        "desktop": {
+          "authorityUnits": 66,
+          "floorPx": 36,
+          "px": {
+            "1440": 47.52,
+            "1920": 63.36
+          }
+        }
+      }
+    },
+    {
+      "tier": "METRIC",
+      "token": "--pw-metric",
+      "role": "METRIC / NUMBER — counts, percentages, KPI values",
+      "hubSource": ".hubx-status__cell strong, .hubx-ring b (--f-num / --f-ring)",
+      "perFamily": {
+        "mobile": {
+          "authorityUnits": 34,
+          "floorPx": 11,
+          "px": {
+            "360": 11,
+            "393": 11.88,
+            "430": 13
+          }
+        },
+        "tablet": {
+          "authorityUnits": 38,
+          "floorPx": 16,
+          "px": {
+            "834": 17.69,
+            "1024": 21.71
+          }
+        },
+        "desktop": {
+          "authorityUnits": 34,
+          "floorPx": 20,
+          "px": {
+            "1440": 24.48,
+            "1920": 32.64
+          }
+        }
+      }
+    }
+  ]
+}

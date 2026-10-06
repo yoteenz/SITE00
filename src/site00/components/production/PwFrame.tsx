@@ -12,6 +12,7 @@ import { ProductionChromeStrip, ProductionWorkspaceHeader, ProductionWorkspaceNa
 import { IconGlyph } from './PwPrimitives';
 import '../../styles/site00-production-mobile.css';
 import '../../styles/site00-production-descendants-opus2.css';
+import '../../styles/site00-production-workspace-density.css';
 
 type NavItem = { id: string; label: string; href: string; icon: string; match: (p: string) => boolean };
 
@@ -93,13 +94,13 @@ export function PwFrame({
   // Portal to <body>: host page CSS (uppercase/letter-spacing rules on .site00-page etc.) must not leak in.
   if (variant === 'production') {
     return createPortal(
-      <div className="pw pw--production pw--authority" data-testid="pw-frame-production">
+      <div className="pw pw--production pw--authority" data-testid="pw-frame-production" data-density="hub-authority">
         <ProductionChromeStrip host>
           <ProductionWorkspaceHeader />
         </ProductionChromeStrip>
         <div className="pw-scroll">
           {heroImage ?
-            <div className="pw-scroll__hero" style={{ backgroundImage: `url(${heroImage})` }} aria-hidden />
+            <div className="pw-scroll__hero" data-media-slot="HERO_PLATE" data-media-fit="WIDE_SCENE_COVER" style={{ backgroundImage: `url(${heroImage})` }} aria-hidden />
           : null}
           <div className="pw-scroll__body">{children}</div>
         </div>
@@ -123,7 +124,7 @@ export function PwFrame({
       </header>
       <div className="pw-scroll">
         {heroImage ?
-          <div className="pw-scroll__hero" style={{ backgroundImage: `url(${heroImage})` }} aria-hidden />
+          <div className="pw-scroll__hero" data-media-slot="HERO_PLATE" data-media-fit="WIDE_SCENE_COVER" style={{ backgroundImage: `url(${heroImage})` }} aria-hidden />
         : null}
         <div className="pw-scroll__body">{children}</div>
       </div>

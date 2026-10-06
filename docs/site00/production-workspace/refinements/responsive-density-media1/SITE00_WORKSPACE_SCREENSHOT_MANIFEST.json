@@ -1,0 +1,2625 @@
+[
+  {
+    "state": "before",
+    "family": "mobile",
+    "id": "hub",
+    "kind": "root",
+    "route": "/production",
+    "file": "screenshots/sheets/mobile-hub.jpg#hub-1:before",
+    "region": {
+      "x": 0,
+      "y": 24,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 0,
+    "viewport": "393x852"
+  },
+  {
+    "state": "before",
+    "family": "mobile",
+    "id": "inbox",
+    "kind": "root",
+    "route": "/production/queue",
+    "file": "screenshots/sheets/mobile-inbox.jpg#inbox-1:before",
+    "region": {
+      "x": 0,
+      "y": 24,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 26.84,
+    "viewport": "393x852"
+  },
+  {
+    "state": "before",
+    "family": "mobile",
+    "id": "design",
+    "kind": "root",
+    "route": "/production/ndxbook/design",
+    "file": "screenshots/sheets/mobile-design.jpg#design-1:before",
+    "region": {
+      "x": 0,
+      "y": 24,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 8.48,
+    "viewport": "393x852"
+  },
+  {
+    "state": "before",
+    "family": "mobile",
+    "id": "experience",
+    "kind": "root",
+    "route": "/production/ndxbook/experience",
+    "file": "screenshots/sheets/mobile-experience.jpg#experience-1:before",
+    "region": {
+      "x": 0,
+      "y": 24,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 63.8,
+    "viewport": "393x852"
+  },
+  {
+    "state": "before",
+    "family": "mobile",
+    "id": "experience",
+    "kind": "root",
+    "route": "/production/ndxbook/experience",
+    "file": null,
+    "region": null,
+    "pixelDiffPct": null,
+    "viewport": "393x852"
+  },
+  {
+    "state": "before",
+    "family": "mobile",
+    "id": "expression",
+    "kind": "root",
+    "route": "/production/ndxbook/expression",
+    "file": "screenshots/sheets/mobile-expression.jpg#expression-1:before",
+    "region": {
+      "x": 0,
+      "y": 24,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 43.33,
+    "viewport": "393x852"
+  },
+  {
+    "state": "before",
+    "family": "mobile",
+    "id": "expression",
+    "kind": "root",
+    "route": "/production/ndxbook/expression",
+    "file": "screenshots/sheets/mobile-expression.jpg#expression-2:before",
+    "region": {
+      "x": 0,
+      "y": 900,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 47.11,
+    "viewport": "393x852"
+  },
+  {
+    "state": "before",
+    "family": "mobile",
+    "id": "library",
+    "kind": "root",
+    "route": "/production/libraries",
+    "file": "screenshots/sheets/mobile-library.jpg#library-1:before",
+    "region": {
+      "x": 0,
+      "y": 24,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 48.9,
+    "viewport": "393x852"
+  },
+  {
+    "state": "before",
+    "family": "mobile",
+    "id": "library",
+    "kind": "root",
+    "route": "/production/libraries",
+    "file": "screenshots/sheets/mobile-library.jpg#library-2:before",
+    "region": {
+      "x": 0,
+      "y": 900,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 40.57,
+    "viewport": "393x852"
+  },
+  {
+    "state": "before",
+    "family": "mobile",
+    "id": "activity",
+    "kind": "root",
+    "route": "/production/activity",
+    "file": "screenshots/sheets/mobile-activity.jpg#activity-1:before",
+    "region": {
+      "x": 0,
+      "y": 24,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 31.97,
+    "viewport": "393x852"
+  },
+  {
+    "state": "before",
+    "family": "mobile",
+    "id": "activity",
+    "kind": "root",
+    "route": "/production/activity",
+    "file": "screenshots/sheets/mobile-activity.jpg#activity-2:before",
+    "region": {
+      "x": 0,
+      "y": 900,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 18.12,
+    "viewport": "393x852"
+  },
+  {
+    "state": "before",
+    "family": "mobile",
+    "id": "design-brand",
+    "kind": "child",
+    "route": "/production/ndxbook/design?mode=brand",
+    "file": "screenshots/sheets/mobile-design.jpg#design-brand-1:before",
+    "region": {
+      "x": 0,
+      "y": 1776,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 8.48,
+    "viewport": "393x852"
+  },
+  {
+    "state": "before",
+    "family": "mobile",
+    "id": "design-surfaces",
+    "kind": "child",
+    "route": "/production/ndxbook/design?mode=surfaces",
+    "file": "screenshots/sheets/mobile-design.jpg#design-surfaces-1:before",
+    "region": {
+      "x": 0,
+      "y": 2652,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 5.72,
+    "viewport": "393x852"
+  },
+  {
+    "state": "before",
+    "family": "mobile",
+    "id": "design-assets",
+    "kind": "child",
+    "route": "/production/ndxbook/design?mode=assets",
+    "file": "screenshots/sheets/mobile-design.jpg#design-assets-1:before",
+    "region": {
+      "x": 0,
+      "y": 900,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 6,
+    "viewport": "393x852"
+  },
+  {
+    "state": "before",
+    "family": "mobile",
+    "id": "design-viewport",
+    "kind": "child",
+    "route": "/production/ndxbook/design?mode=viewport",
+    "file": "screenshots/sheets/mobile-design.jpg#design-viewport-1:before",
+    "region": {
+      "x": 0,
+      "y": 3528,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 7.41,
+    "viewport": "393x852"
+  },
+  {
+    "state": "before",
+    "family": "mobile",
+    "id": "experience-world",
+    "kind": "child",
+    "route": "/production/ndxbook/experience/world",
+    "file": "screenshots/sheets/mobile-experience.jpg#experience-world-1:before",
+    "region": {
+      "x": 0,
+      "y": 1776,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 42.46,
+    "viewport": "393x852"
+  },
+  {
+    "state": "before",
+    "family": "mobile",
+    "id": "experience-environments",
+    "kind": "child",
+    "route": "/production/ndxbook/experience/environments",
+    "file": "screenshots/sheets/mobile-experience.jpg#experience-environments-1:before",
+    "region": {
+      "x": 0,
+      "y": 900,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 43.36,
+    "viewport": "393x852"
+  },
+  {
+    "state": "before",
+    "family": "mobile",
+    "id": "expression-narrative",
+    "kind": "child",
+    "route": "/production/ndxbook/expression/narrative",
+    "file": "screenshots/sheets/mobile-expression.jpg#expression-narrative-1:before",
+    "region": {
+      "x": 0,
+      "y": 2652,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 21.8,
+    "viewport": "393x852"
+  },
+  {
+    "state": "before",
+    "family": "mobile",
+    "id": "expression-casting-actors",
+    "kind": "child",
+    "route": "/production/ndxbook/expression/casting/actors",
+    "file": "screenshots/sheets/mobile-expression.jpg#expression-casting-actors-1:before",
+    "region": {
+      "x": 0,
+      "y": 1776,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 21.93,
+    "viewport": "393x852"
+  },
+  {
+    "state": "before",
+    "family": "mobile",
+    "id": "expression-wardrobe-looks",
+    "kind": "child",
+    "route": "/production/ndxbook/expression/wardrobe/looks",
+    "file": "screenshots/sheets/mobile-expression.jpg#expression-wardrobe-looks-1:before",
+    "region": {
+      "x": 0,
+      "y": 5280,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 20.69,
+    "viewport": "393x852"
+  },
+  {
+    "state": "before",
+    "family": "mobile",
+    "id": "expression-sets-environments",
+    "kind": "child",
+    "route": "/production/ndxbook/expression/sets/environments",
+    "file": "screenshots/sheets/mobile-expression.jpg#expression-sets-environments-1:before",
+    "region": {
+      "x": 0,
+      "y": 3528,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 18.32,
+    "viewport": "393x852"
+  },
+  {
+    "state": "before",
+    "family": "mobile",
+    "id": "expression-storyboard",
+    "kind": "child",
+    "route": "/production/ndxbook/expression/storyboard",
+    "file": "screenshots/sheets/mobile-expression.jpg#expression-storyboard-1:before",
+    "region": {
+      "x": 0,
+      "y": 4404,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 27.4,
+    "viewport": "393x852"
+  },
+  {
+    "state": "before",
+    "family": "mobile",
+    "id": "library-collection-open",
+    "kind": "child",
+    "route": "/production/libraries",
+    "file": "screenshots/sheets/mobile-library.jpg#library-collection-open-1:before",
+    "region": {
+      "x": 0,
+      "y": 1776,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 33.05,
+    "viewport": "393x852"
+  },
+  {
+    "state": "before",
+    "family": "mobile",
+    "id": "library-collection-open",
+    "kind": "child",
+    "route": "/production/libraries",
+    "file": "screenshots/sheets/mobile-library.jpg#library-collection-open-2:before",
+    "region": {
+      "x": 0,
+      "y": 2652,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 35.89,
+    "viewport": "393x852"
+  },
+  {
+    "state": "before",
+    "family": "mobile",
+    "id": "library-in-review",
+    "kind": "child",
+    "route": "/production/libraries",
+    "file": "screenshots/sheets/mobile-library.jpg#library-in-review-1:before",
+    "region": {
+      "x": 0,
+      "y": 3528,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 12.72,
+    "viewport": "393x852"
+  },
+  {
+    "state": "before",
+    "family": "mobile",
+    "id": "activity-approvals",
+    "kind": "child",
+    "route": "/production/activity?view=approvals",
+    "file": "screenshots/sheets/mobile-activity.jpg#activity-approvals-1:before",
+    "region": {
+      "x": 0,
+      "y": 1776,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 33.21,
+    "viewport": "393x852"
+  },
+  {
+    "state": "before",
+    "family": "mobile",
+    "id": "activity-approvals",
+    "kind": "child",
+    "route": "/production/activity?view=approvals",
+    "file": "screenshots/sheets/mobile-activity.jpg#activity-approvals-2:before",
+    "region": {
+      "x": 0,
+      "y": 2652,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 20.53,
+    "viewport": "393x852"
+  },
+  {
+    "state": "before",
+    "family": "mobile",
+    "id": "activity-milestone",
+    "kind": "child",
+    "route": "/production/activity?milestone=narrative",
+    "file": "screenshots/sheets/mobile-activity.jpg#activity-milestone-1:before",
+    "region": {
+      "x": 0,
+      "y": 3528,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 28.88,
+    "viewport": "393x852"
+  },
+  {
+    "state": "before",
+    "family": "mobile",
+    "id": "activity-milestone",
+    "kind": "child",
+    "route": "/production/activity?milestone=narrative",
+    "file": "screenshots/sheets/mobile-activity.jpg#activity-milestone-2:before",
+    "region": {
+      "x": 0,
+      "y": 4404,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 19.88,
+    "viewport": "393x852"
+  },
+  {
+    "state": "before",
+    "family": "mobile",
+    "id": "inbox-watching",
+    "kind": "child",
+    "route": "/production/queue?view=watching",
+    "file": "screenshots/sheets/mobile-inbox.jpg#inbox-watching-1:before",
+    "region": {
+      "x": 0,
+      "y": 2652,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 19.25,
+    "viewport": "393x852"
+  },
+  {
+    "state": "before",
+    "family": "mobile",
+    "id": "inbox-all",
+    "kind": "child",
+    "route": "/production/queue?view=all",
+    "file": "screenshots/sheets/mobile-inbox.jpg#inbox-all-1:before",
+    "region": {
+      "x": 0,
+      "y": 900,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 21.57,
+    "viewport": "393x852"
+  },
+  {
+    "state": "before",
+    "family": "mobile",
+    "id": "inbox-decision-detail",
+    "kind": "child",
+    "route": "/production/queue",
+    "file": "screenshots/sheets/mobile-inbox.jpg#inbox-decision-detail-1:before",
+    "region": {
+      "x": 0,
+      "y": 1776,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 22.36,
+    "viewport": "393x852"
+  },
+  {
+    "state": "before",
+    "family": "tablet",
+    "id": "hub",
+    "kind": "root",
+    "route": "/production",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "before",
+    "family": "tablet",
+    "id": "inbox",
+    "kind": "root",
+    "route": "/production/queue",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "before",
+    "family": "tablet",
+    "id": "design",
+    "kind": "root",
+    "route": "/production/ndxbook/design",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "before",
+    "family": "tablet",
+    "id": "experience",
+    "kind": "root",
+    "route": "/production/ndxbook/experience",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "before",
+    "family": "tablet",
+    "id": "expression",
+    "kind": "root",
+    "route": "/production/ndxbook/expression",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "before",
+    "family": "tablet",
+    "id": "library",
+    "kind": "root",
+    "route": "/production/libraries",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "before",
+    "family": "tablet",
+    "id": "activity",
+    "kind": "root",
+    "route": "/production/activity",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "before",
+    "family": "tablet",
+    "id": "activity",
+    "kind": "root",
+    "route": "/production/activity",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "before",
+    "family": "tablet",
+    "id": "design-brand",
+    "kind": "child",
+    "route": "/production/ndxbook/design?mode=brand",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "before",
+    "family": "tablet",
+    "id": "design-surfaces",
+    "kind": "child",
+    "route": "/production/ndxbook/design?mode=surfaces",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "before",
+    "family": "tablet",
+    "id": "design-assets",
+    "kind": "child",
+    "route": "/production/ndxbook/design?mode=assets",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "before",
+    "family": "tablet",
+    "id": "design-viewport",
+    "kind": "child",
+    "route": "/production/ndxbook/design?mode=viewport",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "before",
+    "family": "tablet",
+    "id": "experience-world",
+    "kind": "child",
+    "route": "/production/ndxbook/experience/world",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "before",
+    "family": "tablet",
+    "id": "experience-environments",
+    "kind": "child",
+    "route": "/production/ndxbook/experience/environments",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "before",
+    "family": "tablet",
+    "id": "expression-narrative",
+    "kind": "child",
+    "route": "/production/ndxbook/expression/narrative",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "before",
+    "family": "tablet",
+    "id": "expression-casting-actors",
+    "kind": "child",
+    "route": "/production/ndxbook/expression/casting/actors",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "before",
+    "family": "tablet",
+    "id": "expression-wardrobe-looks",
+    "kind": "child",
+    "route": "/production/ndxbook/expression/wardrobe/looks",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "before",
+    "family": "tablet",
+    "id": "expression-sets-environments",
+    "kind": "child",
+    "route": "/production/ndxbook/expression/sets/environments",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "before",
+    "family": "tablet",
+    "id": "expression-storyboard",
+    "kind": "child",
+    "route": "/production/ndxbook/expression/storyboard",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "before",
+    "family": "tablet",
+    "id": "library-collection-open",
+    "kind": "child",
+    "route": "/production/libraries",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "before",
+    "family": "tablet",
+    "id": "library-collection-open",
+    "kind": "child",
+    "route": "/production/libraries",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "before",
+    "family": "tablet",
+    "id": "library-in-review",
+    "kind": "child",
+    "route": "/production/libraries",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "before",
+    "family": "tablet",
+    "id": "activity-approvals",
+    "kind": "child",
+    "route": "/production/activity?view=approvals",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "before",
+    "family": "tablet",
+    "id": "activity-approvals",
+    "kind": "child",
+    "route": "/production/activity?view=approvals",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "before",
+    "family": "tablet",
+    "id": "activity-milestone",
+    "kind": "child",
+    "route": "/production/activity?milestone=narrative",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "before",
+    "family": "tablet",
+    "id": "activity-milestone",
+    "kind": "child",
+    "route": "/production/activity?milestone=narrative",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "before",
+    "family": "tablet",
+    "id": "inbox-watching",
+    "kind": "child",
+    "route": "/production/queue?view=watching",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "before",
+    "family": "tablet",
+    "id": "inbox-all",
+    "kind": "child",
+    "route": "/production/queue?view=all",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "before",
+    "family": "tablet",
+    "id": "inbox-decision-detail",
+    "kind": "child",
+    "route": "/production/queue",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "before",
+    "family": "desktop",
+    "id": "hub",
+    "kind": "root",
+    "route": "/production",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "before",
+    "family": "desktop",
+    "id": "inbox",
+    "kind": "root",
+    "route": "/production/queue",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "before",
+    "family": "desktop",
+    "id": "design",
+    "kind": "root",
+    "route": "/production/ndxbook/design",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "before",
+    "family": "desktop",
+    "id": "experience",
+    "kind": "root",
+    "route": "/production/ndxbook/experience",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "before",
+    "family": "desktop",
+    "id": "expression",
+    "kind": "root",
+    "route": "/production/ndxbook/expression",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "before",
+    "family": "desktop",
+    "id": "expression",
+    "kind": "root",
+    "route": "/production/ndxbook/expression",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "before",
+    "family": "desktop",
+    "id": "library",
+    "kind": "root",
+    "route": "/production/libraries",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "before",
+    "family": "desktop",
+    "id": "library",
+    "kind": "root",
+    "route": "/production/libraries",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "before",
+    "family": "desktop",
+    "id": "activity",
+    "kind": "root",
+    "route": "/production/activity",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "before",
+    "family": "desktop",
+    "id": "activity",
+    "kind": "root",
+    "route": "/production/activity",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "before",
+    "family": "desktop",
+    "id": "design-brand",
+    "kind": "child",
+    "route": "/production/ndxbook/design?mode=brand",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "before",
+    "family": "desktop",
+    "id": "design-surfaces",
+    "kind": "child",
+    "route": "/production/ndxbook/design?mode=surfaces",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "before",
+    "family": "desktop",
+    "id": "design-assets",
+    "kind": "child",
+    "route": "/production/ndxbook/design?mode=assets",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "before",
+    "family": "desktop",
+    "id": "design-viewport",
+    "kind": "child",
+    "route": "/production/ndxbook/design?mode=viewport",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "before",
+    "family": "desktop",
+    "id": "experience-world",
+    "kind": "child",
+    "route": "/production/ndxbook/experience/world",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "before",
+    "family": "desktop",
+    "id": "experience-environments",
+    "kind": "child",
+    "route": "/production/ndxbook/experience/environments",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "before",
+    "family": "desktop",
+    "id": "expression-narrative",
+    "kind": "child",
+    "route": "/production/ndxbook/expression/narrative",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "before",
+    "family": "desktop",
+    "id": "expression-casting-actors",
+    "kind": "child",
+    "route": "/production/ndxbook/expression/casting/actors",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "before",
+    "family": "desktop",
+    "id": "expression-wardrobe-looks",
+    "kind": "child",
+    "route": "/production/ndxbook/expression/wardrobe/looks",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "before",
+    "family": "desktop",
+    "id": "expression-sets-environments",
+    "kind": "child",
+    "route": "/production/ndxbook/expression/sets/environments",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "before",
+    "family": "desktop",
+    "id": "expression-storyboard",
+    "kind": "child",
+    "route": "/production/ndxbook/expression/storyboard",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "before",
+    "family": "desktop",
+    "id": "library-collection-open",
+    "kind": "child",
+    "route": "/production/libraries",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "before",
+    "family": "desktop",
+    "id": "library-collection-open",
+    "kind": "child",
+    "route": "/production/libraries",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "before",
+    "family": "desktop",
+    "id": "library-in-review",
+    "kind": "child",
+    "route": "/production/libraries",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "before",
+    "family": "desktop",
+    "id": "activity-approvals",
+    "kind": "child",
+    "route": "/production/activity?view=approvals",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "before",
+    "family": "desktop",
+    "id": "activity-approvals",
+    "kind": "child",
+    "route": "/production/activity?view=approvals",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "before",
+    "family": "desktop",
+    "id": "activity-milestone",
+    "kind": "child",
+    "route": "/production/activity?milestone=narrative",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "before",
+    "family": "desktop",
+    "id": "activity-milestone",
+    "kind": "child",
+    "route": "/production/activity?milestone=narrative",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "before",
+    "family": "desktop",
+    "id": "inbox-watching",
+    "kind": "child",
+    "route": "/production/queue?view=watching",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "before",
+    "family": "desktop",
+    "id": "inbox-all",
+    "kind": "child",
+    "route": "/production/queue?view=all",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "before",
+    "family": "desktop",
+    "id": "inbox-decision-detail",
+    "kind": "child",
+    "route": "/production/queue",
+    "file": null,
+    "note": "not stored: pixel diff vs after 0%",
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "after",
+    "family": "mobile",
+    "id": "hub",
+    "kind": "root",
+    "route": "/production",
+    "file": "screenshots/sheets/mobile-hub.jpg#hub-1:after",
+    "region": {
+      "x": 405,
+      "y": 24,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 0,
+    "viewport": "393x852"
+  },
+  {
+    "state": "after",
+    "family": "mobile",
+    "id": "inbox",
+    "kind": "root",
+    "route": "/production/queue",
+    "file": "screenshots/sheets/mobile-inbox.jpg#inbox-1:after",
+    "region": {
+      "x": 405,
+      "y": 24,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 26.84,
+    "viewport": "393x852"
+  },
+  {
+    "state": "after",
+    "family": "mobile",
+    "id": "design",
+    "kind": "root",
+    "route": "/production/ndxbook/design",
+    "file": "screenshots/sheets/mobile-design.jpg#design-1:after",
+    "region": {
+      "x": 405,
+      "y": 24,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 8.48,
+    "viewport": "393x852"
+  },
+  {
+    "state": "after",
+    "family": "mobile",
+    "id": "experience",
+    "kind": "root",
+    "route": "/production/ndxbook/experience",
+    "file": "screenshots/sheets/mobile-experience.jpg#experience-1:after",
+    "region": {
+      "x": 405,
+      "y": 24,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 63.8,
+    "viewport": "393x852"
+  },
+  {
+    "state": "after",
+    "family": "mobile",
+    "id": "expression",
+    "kind": "root",
+    "route": "/production/ndxbook/expression",
+    "file": "screenshots/sheets/mobile-expression.jpg#expression-1:after",
+    "region": {
+      "x": 405,
+      "y": 24,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 43.33,
+    "viewport": "393x852"
+  },
+  {
+    "state": "after",
+    "family": "mobile",
+    "id": "expression",
+    "kind": "root",
+    "route": "/production/ndxbook/expression",
+    "file": "screenshots/sheets/mobile-expression.jpg#expression-2:after",
+    "region": {
+      "x": 405,
+      "y": 900,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 47.11,
+    "viewport": "393x852"
+  },
+  {
+    "state": "after",
+    "family": "mobile",
+    "id": "library",
+    "kind": "root",
+    "route": "/production/libraries",
+    "file": "screenshots/sheets/mobile-library.jpg#library-1:after",
+    "region": {
+      "x": 405,
+      "y": 24,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 48.9,
+    "viewport": "393x852"
+  },
+  {
+    "state": "after",
+    "family": "mobile",
+    "id": "library",
+    "kind": "root",
+    "route": "/production/libraries",
+    "file": "screenshots/sheets/mobile-library.jpg#library-2:after",
+    "region": {
+      "x": 405,
+      "y": 900,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 40.57,
+    "viewport": "393x852"
+  },
+  {
+    "state": "after",
+    "family": "mobile",
+    "id": "activity",
+    "kind": "root",
+    "route": "/production/activity",
+    "file": "screenshots/sheets/mobile-activity.jpg#activity-1:after",
+    "region": {
+      "x": 405,
+      "y": 24,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 31.97,
+    "viewport": "393x852"
+  },
+  {
+    "state": "after",
+    "family": "mobile",
+    "id": "activity",
+    "kind": "root",
+    "route": "/production/activity",
+    "file": "screenshots/sheets/mobile-activity.jpg#activity-2:after",
+    "region": {
+      "x": 405,
+      "y": 900,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 18.12,
+    "viewport": "393x852"
+  },
+  {
+    "state": "after",
+    "family": "mobile",
+    "id": "design-brand",
+    "kind": "child",
+    "route": "/production/ndxbook/design?mode=brand",
+    "file": "screenshots/sheets/mobile-design.jpg#design-brand-1:after",
+    "region": {
+      "x": 405,
+      "y": 1776,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 8.48,
+    "viewport": "393x852"
+  },
+  {
+    "state": "after",
+    "family": "mobile",
+    "id": "design-surfaces",
+    "kind": "child",
+    "route": "/production/ndxbook/design?mode=surfaces",
+    "file": "screenshots/sheets/mobile-design.jpg#design-surfaces-1:after",
+    "region": {
+      "x": 405,
+      "y": 2652,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 5.72,
+    "viewport": "393x852"
+  },
+  {
+    "state": "after",
+    "family": "mobile",
+    "id": "design-assets",
+    "kind": "child",
+    "route": "/production/ndxbook/design?mode=assets",
+    "file": "screenshots/sheets/mobile-design.jpg#design-assets-1:after",
+    "region": {
+      "x": 405,
+      "y": 900,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 6,
+    "viewport": "393x852"
+  },
+  {
+    "state": "after",
+    "family": "mobile",
+    "id": "design-viewport",
+    "kind": "child",
+    "route": "/production/ndxbook/design?mode=viewport",
+    "file": "screenshots/sheets/mobile-design.jpg#design-viewport-1:after",
+    "region": {
+      "x": 405,
+      "y": 3528,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 7.41,
+    "viewport": "393x852"
+  },
+  {
+    "state": "after",
+    "family": "mobile",
+    "id": "experience-world",
+    "kind": "child",
+    "route": "/production/ndxbook/experience/world",
+    "file": "screenshots/sheets/mobile-experience.jpg#experience-world-1:after",
+    "region": {
+      "x": 405,
+      "y": 1776,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 42.46,
+    "viewport": "393x852"
+  },
+  {
+    "state": "after",
+    "family": "mobile",
+    "id": "experience-environments",
+    "kind": "child",
+    "route": "/production/ndxbook/experience/environments",
+    "file": "screenshots/sheets/mobile-experience.jpg#experience-environments-1:after",
+    "region": {
+      "x": 405,
+      "y": 900,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 43.36,
+    "viewport": "393x852"
+  },
+  {
+    "state": "after",
+    "family": "mobile",
+    "id": "expression-narrative",
+    "kind": "child",
+    "route": "/production/ndxbook/expression/narrative",
+    "file": "screenshots/sheets/mobile-expression.jpg#expression-narrative-1:after",
+    "region": {
+      "x": 405,
+      "y": 2652,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 21.8,
+    "viewport": "393x852"
+  },
+  {
+    "state": "after",
+    "family": "mobile",
+    "id": "expression-casting-actors",
+    "kind": "child",
+    "route": "/production/ndxbook/expression/casting/actors",
+    "file": "screenshots/sheets/mobile-expression.jpg#expression-casting-actors-1:after",
+    "region": {
+      "x": 405,
+      "y": 1776,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 21.93,
+    "viewport": "393x852"
+  },
+  {
+    "state": "after",
+    "family": "mobile",
+    "id": "expression-wardrobe-looks",
+    "kind": "child",
+    "route": "/production/ndxbook/expression/wardrobe/looks",
+    "file": "screenshots/sheets/mobile-expression.jpg#expression-wardrobe-looks-1:after",
+    "region": {
+      "x": 405,
+      "y": 5280,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 20.69,
+    "viewport": "393x852"
+  },
+  {
+    "state": "after",
+    "family": "mobile",
+    "id": "expression-sets-environments",
+    "kind": "child",
+    "route": "/production/ndxbook/expression/sets/environments",
+    "file": "screenshots/sheets/mobile-expression.jpg#expression-sets-environments-1:after",
+    "region": {
+      "x": 405,
+      "y": 3528,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 18.32,
+    "viewport": "393x852"
+  },
+  {
+    "state": "after",
+    "family": "mobile",
+    "id": "expression-storyboard",
+    "kind": "child",
+    "route": "/production/ndxbook/expression/storyboard",
+    "file": "screenshots/sheets/mobile-expression.jpg#expression-storyboard-1:after",
+    "region": {
+      "x": 405,
+      "y": 4404,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 27.4,
+    "viewport": "393x852"
+  },
+  {
+    "state": "after",
+    "family": "mobile",
+    "id": "library-collection-open",
+    "kind": "child",
+    "route": "/production/libraries",
+    "file": "screenshots/sheets/mobile-library.jpg#library-collection-open-1:after",
+    "region": {
+      "x": 405,
+      "y": 1776,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 33.05,
+    "viewport": "393x852"
+  },
+  {
+    "state": "after",
+    "family": "mobile",
+    "id": "library-collection-open",
+    "kind": "child",
+    "route": "/production/libraries",
+    "file": "screenshots/sheets/mobile-library.jpg#library-collection-open-2:after",
+    "region": {
+      "x": 405,
+      "y": 2652,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 35.89,
+    "viewport": "393x852"
+  },
+  {
+    "state": "after",
+    "family": "mobile",
+    "id": "library-in-review",
+    "kind": "child",
+    "route": "/production/libraries",
+    "file": "screenshots/sheets/mobile-library.jpg#library-in-review-1:after",
+    "region": {
+      "x": 405,
+      "y": 3528,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 12.72,
+    "viewport": "393x852"
+  },
+  {
+    "state": "after",
+    "family": "mobile",
+    "id": "activity-approvals",
+    "kind": "child",
+    "route": "/production/activity?view=approvals",
+    "file": "screenshots/sheets/mobile-activity.jpg#activity-approvals-1:after",
+    "region": {
+      "x": 405,
+      "y": 1776,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 33.21,
+    "viewport": "393x852"
+  },
+  {
+    "state": "after",
+    "family": "mobile",
+    "id": "activity-approvals",
+    "kind": "child",
+    "route": "/production/activity?view=approvals",
+    "file": "screenshots/sheets/mobile-activity.jpg#activity-approvals-2:after",
+    "region": {
+      "x": 405,
+      "y": 2652,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 20.53,
+    "viewport": "393x852"
+  },
+  {
+    "state": "after",
+    "family": "mobile",
+    "id": "activity-milestone",
+    "kind": "child",
+    "route": "/production/activity?milestone=narrative",
+    "file": "screenshots/sheets/mobile-activity.jpg#activity-milestone-1:after",
+    "region": {
+      "x": 405,
+      "y": 3528,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 28.88,
+    "viewport": "393x852"
+  },
+  {
+    "state": "after",
+    "family": "mobile",
+    "id": "activity-milestone",
+    "kind": "child",
+    "route": "/production/activity?milestone=narrative",
+    "file": "screenshots/sheets/mobile-activity.jpg#activity-milestone-2:after",
+    "region": {
+      "x": 405,
+      "y": 4404,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 19.88,
+    "viewport": "393x852"
+  },
+  {
+    "state": "after",
+    "family": "mobile",
+    "id": "inbox-watching",
+    "kind": "child",
+    "route": "/production/queue?view=watching",
+    "file": "screenshots/sheets/mobile-inbox.jpg#inbox-watching-1:after",
+    "region": {
+      "x": 405,
+      "y": 2652,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 19.25,
+    "viewport": "393x852"
+  },
+  {
+    "state": "after",
+    "family": "mobile",
+    "id": "inbox-all",
+    "kind": "child",
+    "route": "/production/queue?view=all",
+    "file": "screenshots/sheets/mobile-inbox.jpg#inbox-all-1:after",
+    "region": {
+      "x": 405,
+      "y": 900,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 21.57,
+    "viewport": "393x852"
+  },
+  {
+    "state": "after",
+    "family": "mobile",
+    "id": "inbox-decision-detail",
+    "kind": "child",
+    "route": "/production/queue",
+    "file": "screenshots/sheets/mobile-inbox.jpg#inbox-decision-detail-1:after",
+    "region": {
+      "x": 405,
+      "y": 1776,
+      "w": 393,
+      "h": 852
+    },
+    "pixelDiffPct": 22.36,
+    "viewport": "393x852"
+  },
+  {
+    "state": "after",
+    "family": "tablet",
+    "id": "hub",
+    "kind": "root",
+    "route": "/production",
+    "file": "screenshots/sheets/tablet-after.jpg#hub-1:after",
+    "region": {
+      "x": 0,
+      "y": 2540,
+      "w": 417,
+      "h": 597
+    },
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "after",
+    "family": "tablet",
+    "id": "inbox",
+    "kind": "root",
+    "route": "/production/queue",
+    "file": "screenshots/sheets/tablet-after.jpg#inbox-1:after",
+    "region": {
+      "x": 425,
+      "y": 2540,
+      "w": 417,
+      "h": 597
+    },
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "after",
+    "family": "tablet",
+    "id": "design",
+    "kind": "root",
+    "route": "/production/ndxbook/design",
+    "file": "screenshots/sheets/tablet-after.jpg#design-1:after",
+    "region": {
+      "x": 425,
+      "y": 653,
+      "w": 417,
+      "h": 597
+    },
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "after",
+    "family": "tablet",
+    "id": "experience",
+    "kind": "root",
+    "route": "/production/ndxbook/experience",
+    "file": "screenshots/sheets/tablet-after.jpg#experience-1:after",
+    "region": {
+      "x": 425,
+      "y": 1282,
+      "w": 417,
+      "h": 597
+    },
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "after",
+    "family": "tablet",
+    "id": "expression",
+    "kind": "root",
+    "route": "/production/ndxbook/expression",
+    "file": "screenshots/sheets/tablet-after.jpg#expression-1:after",
+    "region": {
+      "x": 1700,
+      "y": 1282,
+      "w": 417,
+      "h": 597
+    },
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "after",
+    "family": "tablet",
+    "id": "library",
+    "kind": "root",
+    "route": "/production/libraries",
+    "file": "screenshots/sheets/tablet-after.jpg#library-1:after",
+    "region": {
+      "x": 0,
+      "y": 3169,
+      "w": 417,
+      "h": 597
+    },
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "after",
+    "family": "tablet",
+    "id": "activity",
+    "kind": "root",
+    "route": "/production/activity",
+    "file": "screenshots/sheets/tablet-after.jpg#activity-1:after",
+    "region": {
+      "x": 0,
+      "y": 24,
+      "w": 417,
+      "h": 597
+    },
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "after",
+    "family": "tablet",
+    "id": "activity",
+    "kind": "root",
+    "route": "/production/activity",
+    "file": "screenshots/sheets/tablet-after.jpg#activity-2:after",
+    "region": {
+      "x": 425,
+      "y": 24,
+      "w": 417,
+      "h": 597
+    },
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "after",
+    "family": "tablet",
+    "id": "design-brand",
+    "kind": "child",
+    "route": "/production/ndxbook/design?mode=brand",
+    "file": "screenshots/sheets/tablet-after.jpg#design-brand-1:after",
+    "region": {
+      "x": 1275,
+      "y": 653,
+      "w": 417,
+      "h": 597
+    },
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "after",
+    "family": "tablet",
+    "id": "design-surfaces",
+    "kind": "child",
+    "route": "/production/ndxbook/design?mode=surfaces",
+    "file": "screenshots/sheets/tablet-after.jpg#design-surfaces-1:after",
+    "region": {
+      "x": 1700,
+      "y": 653,
+      "w": 417,
+      "h": 597
+    },
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "after",
+    "family": "tablet",
+    "id": "design-assets",
+    "kind": "child",
+    "route": "/production/ndxbook/design?mode=assets",
+    "file": "screenshots/sheets/tablet-after.jpg#design-assets-1:after",
+    "region": {
+      "x": 850,
+      "y": 653,
+      "w": 417,
+      "h": 597
+    },
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "after",
+    "family": "tablet",
+    "id": "design-viewport",
+    "kind": "child",
+    "route": "/production/ndxbook/design?mode=viewport",
+    "file": "screenshots/sheets/tablet-after.jpg#design-viewport-1:after",
+    "region": {
+      "x": 0,
+      "y": 1282,
+      "w": 417,
+      "h": 597
+    },
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "after",
+    "family": "tablet",
+    "id": "experience-world",
+    "kind": "child",
+    "route": "/production/ndxbook/experience/world",
+    "file": "screenshots/sheets/tablet-after.jpg#experience-world-1:after",
+    "region": {
+      "x": 1275,
+      "y": 1282,
+      "w": 417,
+      "h": 597
+    },
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "after",
+    "family": "tablet",
+    "id": "experience-environments",
+    "kind": "child",
+    "route": "/production/ndxbook/experience/environments",
+    "file": "screenshots/sheets/tablet-after.jpg#experience-environments-1:after",
+    "region": {
+      "x": 850,
+      "y": 1282,
+      "w": 417,
+      "h": 597
+    },
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "after",
+    "family": "tablet",
+    "id": "expression-narrative",
+    "kind": "child",
+    "route": "/production/ndxbook/expression/narrative",
+    "file": "screenshots/sheets/tablet-after.jpg#expression-narrative-1:after",
+    "region": {
+      "x": 425,
+      "y": 1911,
+      "w": 417,
+      "h": 597
+    },
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "after",
+    "family": "tablet",
+    "id": "expression-casting-actors",
+    "kind": "child",
+    "route": "/production/ndxbook/expression/casting/actors",
+    "file": "screenshots/sheets/tablet-after.jpg#expression-casting-actors-1:after",
+    "region": {
+      "x": 0,
+      "y": 1911,
+      "w": 417,
+      "h": 597
+    },
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "after",
+    "family": "tablet",
+    "id": "expression-wardrobe-looks",
+    "kind": "child",
+    "route": "/production/ndxbook/expression/wardrobe/looks",
+    "file": "screenshots/sheets/tablet-after.jpg#expression-wardrobe-looks-1:after",
+    "region": {
+      "x": 1700,
+      "y": 1911,
+      "w": 417,
+      "h": 597
+    },
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "after",
+    "family": "tablet",
+    "id": "expression-sets-environments",
+    "kind": "child",
+    "route": "/production/ndxbook/expression/sets/environments",
+    "file": "screenshots/sheets/tablet-after.jpg#expression-sets-environments-1:after",
+    "region": {
+      "x": 850,
+      "y": 1911,
+      "w": 417,
+      "h": 597
+    },
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "after",
+    "family": "tablet",
+    "id": "expression-storyboard",
+    "kind": "child",
+    "route": "/production/ndxbook/expression/storyboard",
+    "file": "screenshots/sheets/tablet-after.jpg#expression-storyboard-1:after",
+    "region": {
+      "x": 1275,
+      "y": 1911,
+      "w": 417,
+      "h": 597
+    },
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "after",
+    "family": "tablet",
+    "id": "library-collection-open",
+    "kind": "child",
+    "route": "/production/libraries",
+    "file": "screenshots/sheets/tablet-after.jpg#library-collection-open-1:after",
+    "region": {
+      "x": 425,
+      "y": 3169,
+      "w": 417,
+      "h": 597
+    },
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "after",
+    "family": "tablet",
+    "id": "library-collection-open",
+    "kind": "child",
+    "route": "/production/libraries",
+    "file": "screenshots/sheets/tablet-after.jpg#library-collection-open-2:after",
+    "region": {
+      "x": 850,
+      "y": 3169,
+      "w": 417,
+      "h": 597
+    },
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "after",
+    "family": "tablet",
+    "id": "library-in-review",
+    "kind": "child",
+    "route": "/production/libraries",
+    "file": "screenshots/sheets/tablet-after.jpg#library-in-review-1:after",
+    "region": {
+      "x": 1275,
+      "y": 3169,
+      "w": 417,
+      "h": 597
+    },
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "after",
+    "family": "tablet",
+    "id": "activity-approvals",
+    "kind": "child",
+    "route": "/production/activity?view=approvals",
+    "file": "screenshots/sheets/tablet-after.jpg#activity-approvals-1:after",
+    "region": {
+      "x": 850,
+      "y": 24,
+      "w": 417,
+      "h": 597
+    },
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "after",
+    "family": "tablet",
+    "id": "activity-approvals",
+    "kind": "child",
+    "route": "/production/activity?view=approvals",
+    "file": "screenshots/sheets/tablet-after.jpg#activity-approvals-2:after",
+    "region": {
+      "x": 1275,
+      "y": 24,
+      "w": 417,
+      "h": 597
+    },
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "after",
+    "family": "tablet",
+    "id": "activity-milestone",
+    "kind": "child",
+    "route": "/production/activity?milestone=narrative",
+    "file": "screenshots/sheets/tablet-after.jpg#activity-milestone-1:after",
+    "region": {
+      "x": 1700,
+      "y": 24,
+      "w": 417,
+      "h": 597
+    },
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "after",
+    "family": "tablet",
+    "id": "activity-milestone",
+    "kind": "child",
+    "route": "/production/activity?milestone=narrative",
+    "file": "screenshots/sheets/tablet-after.jpg#activity-milestone-2:after",
+    "region": {
+      "x": 0,
+      "y": 653,
+      "w": 417,
+      "h": 597
+    },
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "after",
+    "family": "tablet",
+    "id": "inbox-watching",
+    "kind": "child",
+    "route": "/production/queue?view=watching",
+    "file": "screenshots/sheets/tablet-after.jpg#inbox-watching-1:after",
+    "region": {
+      "x": 1700,
+      "y": 2540,
+      "w": 417,
+      "h": 597
+    },
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "after",
+    "family": "tablet",
+    "id": "inbox-all",
+    "kind": "child",
+    "route": "/production/queue?view=all",
+    "file": "screenshots/sheets/tablet-after.jpg#inbox-all-1:after",
+    "region": {
+      "x": 850,
+      "y": 2540,
+      "w": 417,
+      "h": 597
+    },
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "after",
+    "family": "tablet",
+    "id": "inbox-decision-detail",
+    "kind": "child",
+    "route": "/production/queue",
+    "file": "screenshots/sheets/tablet-after.jpg#inbox-decision-detail-1:after",
+    "region": {
+      "x": 1275,
+      "y": 2540,
+      "w": 417,
+      "h": 597
+    },
+    "pixelDiffPct": 0,
+    "viewport": "834x1194"
+  },
+  {
+    "state": "after",
+    "family": "desktop",
+    "id": "hub",
+    "kind": "root",
+    "route": "/production",
+    "file": "screenshots/sheets/desktop-after.jpg#hub-1:after",
+    "region": {
+      "x": 488,
+      "y": 1352,
+      "w": 480,
+      "h": 300
+    },
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "after",
+    "family": "desktop",
+    "id": "inbox",
+    "kind": "root",
+    "route": "/production/queue",
+    "file": "screenshots/sheets/desktop-after.jpg#inbox-1:after",
+    "region": {
+      "x": 976,
+      "y": 1352,
+      "w": 480,
+      "h": 300
+    },
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "after",
+    "family": "desktop",
+    "id": "design",
+    "kind": "root",
+    "route": "/production/ndxbook/design",
+    "file": "screenshots/sheets/desktop-after.jpg#design-1:after",
+    "region": {
+      "x": 488,
+      "y": 356,
+      "w": 480,
+      "h": 300
+    },
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "after",
+    "family": "desktop",
+    "id": "experience",
+    "kind": "root",
+    "route": "/production/ndxbook/experience",
+    "file": "screenshots/sheets/desktop-after.jpg#experience-1:after",
+    "region": {
+      "x": 488,
+      "y": 688,
+      "w": 480,
+      "h": 300
+    },
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "after",
+    "family": "desktop",
+    "id": "expression",
+    "kind": "root",
+    "route": "/production/ndxbook/expression",
+    "file": "screenshots/sheets/desktop-after.jpg#expression-1:after",
+    "region": {
+      "x": 1952,
+      "y": 688,
+      "w": 480,
+      "h": 300
+    },
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "after",
+    "family": "desktop",
+    "id": "expression",
+    "kind": "root",
+    "route": "/production/ndxbook/expression",
+    "file": "screenshots/sheets/desktop-after.jpg#expression-2:after",
+    "region": {
+      "x": 0,
+      "y": 1020,
+      "w": 480,
+      "h": 300
+    },
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "after",
+    "family": "desktop",
+    "id": "library",
+    "kind": "root",
+    "route": "/production/libraries",
+    "file": "screenshots/sheets/desktop-after.jpg#library-1:after",
+    "region": {
+      "x": 488,
+      "y": 1684,
+      "w": 480,
+      "h": 300
+    },
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "after",
+    "family": "desktop",
+    "id": "library",
+    "kind": "root",
+    "route": "/production/libraries",
+    "file": "screenshots/sheets/desktop-after.jpg#library-2:after",
+    "region": {
+      "x": 976,
+      "y": 1684,
+      "w": 480,
+      "h": 300
+    },
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "after",
+    "family": "desktop",
+    "id": "activity",
+    "kind": "root",
+    "route": "/production/activity",
+    "file": "screenshots/sheets/desktop-after.jpg#activity-1:after",
+    "region": {
+      "x": 0,
+      "y": 24,
+      "w": 480,
+      "h": 300
+    },
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "after",
+    "family": "desktop",
+    "id": "activity",
+    "kind": "root",
+    "route": "/production/activity",
+    "file": "screenshots/sheets/desktop-after.jpg#activity-2:after",
+    "region": {
+      "x": 488,
+      "y": 24,
+      "w": 480,
+      "h": 300
+    },
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "after",
+    "family": "desktop",
+    "id": "design-brand",
+    "kind": "child",
+    "route": "/production/ndxbook/design?mode=brand",
+    "file": "screenshots/sheets/desktop-after.jpg#design-brand-1:after",
+    "region": {
+      "x": 1464,
+      "y": 356,
+      "w": 480,
+      "h": 300
+    },
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "after",
+    "family": "desktop",
+    "id": "design-surfaces",
+    "kind": "child",
+    "route": "/production/ndxbook/design?mode=surfaces",
+    "file": "screenshots/sheets/desktop-after.jpg#design-surfaces-1:after",
+    "region": {
+      "x": 1952,
+      "y": 356,
+      "w": 480,
+      "h": 300
+    },
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "after",
+    "family": "desktop",
+    "id": "design-assets",
+    "kind": "child",
+    "route": "/production/ndxbook/design?mode=assets",
+    "file": "screenshots/sheets/desktop-after.jpg#design-assets-1:after",
+    "region": {
+      "x": 976,
+      "y": 356,
+      "w": 480,
+      "h": 300
+    },
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "after",
+    "family": "desktop",
+    "id": "design-viewport",
+    "kind": "child",
+    "route": "/production/ndxbook/design?mode=viewport",
+    "file": "screenshots/sheets/desktop-after.jpg#design-viewport-1:after",
+    "region": {
+      "x": 0,
+      "y": 688,
+      "w": 480,
+      "h": 300
+    },
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "after",
+    "family": "desktop",
+    "id": "experience-world",
+    "kind": "child",
+    "route": "/production/ndxbook/experience/world",
+    "file": "screenshots/sheets/desktop-after.jpg#experience-world-1:after",
+    "region": {
+      "x": 1464,
+      "y": 688,
+      "w": 480,
+      "h": 300
+    },
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "after",
+    "family": "desktop",
+    "id": "experience-environments",
+    "kind": "child",
+    "route": "/production/ndxbook/experience/environments",
+    "file": "screenshots/sheets/desktop-after.jpg#experience-environments-1:after",
+    "region": {
+      "x": 976,
+      "y": 688,
+      "w": 480,
+      "h": 300
+    },
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "after",
+    "family": "desktop",
+    "id": "expression-narrative",
+    "kind": "child",
+    "route": "/production/ndxbook/expression/narrative",
+    "file": "screenshots/sheets/desktop-after.jpg#expression-narrative-1:after",
+    "region": {
+      "x": 976,
+      "y": 1020,
+      "w": 480,
+      "h": 300
+    },
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "after",
+    "family": "desktop",
+    "id": "expression-casting-actors",
+    "kind": "child",
+    "route": "/production/ndxbook/expression/casting/actors",
+    "file": "screenshots/sheets/desktop-after.jpg#expression-casting-actors-1:after",
+    "region": {
+      "x": 488,
+      "y": 1020,
+      "w": 480,
+      "h": 300
+    },
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "after",
+    "family": "desktop",
+    "id": "expression-wardrobe-looks",
+    "kind": "child",
+    "route": "/production/ndxbook/expression/wardrobe/looks",
+    "file": "screenshots/sheets/desktop-after.jpg#expression-wardrobe-looks-1:after",
+    "region": {
+      "x": 0,
+      "y": 1352,
+      "w": 480,
+      "h": 300
+    },
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "after",
+    "family": "desktop",
+    "id": "expression-sets-environments",
+    "kind": "child",
+    "route": "/production/ndxbook/expression/sets/environments",
+    "file": "screenshots/sheets/desktop-after.jpg#expression-sets-environments-1:after",
+    "region": {
+      "x": 1464,
+      "y": 1020,
+      "w": 480,
+      "h": 300
+    },
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "after",
+    "family": "desktop",
+    "id": "expression-storyboard",
+    "kind": "child",
+    "route": "/production/ndxbook/expression/storyboard",
+    "file": "screenshots/sheets/desktop-after.jpg#expression-storyboard-1:after",
+    "region": {
+      "x": 1952,
+      "y": 1020,
+      "w": 480,
+      "h": 300
+    },
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "after",
+    "family": "desktop",
+    "id": "library-collection-open",
+    "kind": "child",
+    "route": "/production/libraries",
+    "file": "screenshots/sheets/desktop-after.jpg#library-collection-open-1:after",
+    "region": {
+      "x": 1464,
+      "y": 1684,
+      "w": 480,
+      "h": 300
+    },
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "after",
+    "family": "desktop",
+    "id": "library-collection-open",
+    "kind": "child",
+    "route": "/production/libraries",
+    "file": "screenshots/sheets/desktop-after.jpg#library-collection-open-2:after",
+    "region": {
+      "x": 1952,
+      "y": 1684,
+      "w": 480,
+      "h": 300
+    },
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "after",
+    "family": "desktop",
+    "id": "library-in-review",
+    "kind": "child",
+    "route": "/production/libraries",
+    "file": "screenshots/sheets/desktop-after.jpg#library-in-review-1:after",
+    "region": {
+      "x": 0,
+      "y": 2016,
+      "w": 480,
+      "h": 300
+    },
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "after",
+    "family": "desktop",
+    "id": "activity-approvals",
+    "kind": "child",
+    "route": "/production/activity?view=approvals",
+    "file": "screenshots/sheets/desktop-after.jpg#activity-approvals-1:after",
+    "region": {
+      "x": 976,
+      "y": 24,
+      "w": 480,
+      "h": 300
+    },
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "after",
+    "family": "desktop",
+    "id": "activity-approvals",
+    "kind": "child",
+    "route": "/production/activity?view=approvals",
+    "file": "screenshots/sheets/desktop-after.jpg#activity-approvals-2:after",
+    "region": {
+      "x": 1464,
+      "y": 24,
+      "w": 480,
+      "h": 300
+    },
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "after",
+    "family": "desktop",
+    "id": "activity-milestone",
+    "kind": "child",
+    "route": "/production/activity?milestone=narrative",
+    "file": "screenshots/sheets/desktop-after.jpg#activity-milestone-1:after",
+    "region": {
+      "x": 1952,
+      "y": 24,
+      "w": 480,
+      "h": 300
+    },
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "after",
+    "family": "desktop",
+    "id": "activity-milestone",
+    "kind": "child",
+    "route": "/production/activity?milestone=narrative",
+    "file": "screenshots/sheets/desktop-after.jpg#activity-milestone-2:after",
+    "region": {
+      "x": 0,
+      "y": 356,
+      "w": 480,
+      "h": 300
+    },
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "after",
+    "family": "desktop",
+    "id": "inbox-watching",
+    "kind": "child",
+    "route": "/production/queue?view=watching",
+    "file": "screenshots/sheets/desktop-after.jpg#inbox-watching-1:after",
+    "region": {
+      "x": 0,
+      "y": 1684,
+      "w": 480,
+      "h": 300
+    },
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "after",
+    "family": "desktop",
+    "id": "inbox-all",
+    "kind": "child",
+    "route": "/production/queue?view=all",
+    "file": "screenshots/sheets/desktop-after.jpg#inbox-all-1:after",
+    "region": {
+      "x": 1464,
+      "y": 1352,
+      "w": 480,
+      "h": 300
+    },
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  },
+  {
+    "state": "after",
+    "family": "desktop",
+    "id": "inbox-decision-detail",
+    "kind": "child",
+    "route": "/production/queue",
+    "file": "screenshots/sheets/desktop-after.jpg#inbox-decision-detail-1:after",
+    "region": {
+      "x": 1952,
+      "y": 1352,
+      "w": 480,
+      "h": 300
+    },
+    "pixelDiffPct": 0,
+    "viewport": "1440x900"
+  }
+]

@@ -1,0 +1,1549 @@
+{
+  "sprint": "P0.SITE00.PRODUCTION-WORKSPACE.RESPONSIVE-DENSITY-MEDIA-FRAMING-REFINEMENT1",
+  "deviationLimit": 1.15,
+  "rows": [
+    {
+      "family": "mobile",
+      "id": "hub",
+      "tab": "HUB",
+      "route": "/production",
+      "hubReference": {
+        "pageTitle": 20.26,
+        "sectionTitle": 13.27,
+        "body": 7,
+        "label": 6.5,
+        "control": 6.5,
+        "metric": 11.88
+      },
+      "before": {
+        "pageTitle": 20.26,
+        "sectionTitle": 13.27,
+        "body": 7,
+        "label": 6.5,
+        "control": 6.5,
+        "metric": 11.88,
+        "maxText": 20.26,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 10,
+        "mediaUndeclared": 10,
+        "mediaCropWithoutSlot": 9,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": 20.26,
+        "sectionTitle": 13.27,
+        "body": 7,
+        "label": 6.5,
+        "control": 6.5,
+        "metric": 11.88,
+        "maxText": 20.26,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 10,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS (UNCHANGED AUTHORITY — pixel-identical)",
+      "screenshots": {
+        "before": [
+          "screenshots/sheets/mobile-hub.jpg#hub-1:before"
+        ],
+        "after": [
+          "screenshots/sheets/mobile-hub.jpg#hub-1:after"
+        ],
+        "pixelDiff": {
+          "mobile/hub-1.png": 0
+        }
+      }
+    },
+    {
+      "family": "mobile",
+      "id": "inbox",
+      "tab": "INBOX",
+      "route": "/production/queue",
+      "hubReference": {
+        "pageTitle": 20.26,
+        "sectionTitle": 13.27,
+        "body": 7,
+        "label": 6.5,
+        "control": 6.5,
+        "metric": 11.88
+      },
+      "before": {
+        "pageTitle": null,
+        "sectionTitle": 9.5,
+        "body": 9,
+        "label": 10,
+        "control": 10,
+        "metric": 24,
+        "maxText": 24,
+        "contentScreens": 1,
+        "oversizedLayers": 10,
+        "oversizedSamples": [
+          "a.is-active 14px \"NEEDS YOU\"",
+          "a 14px \"WATCHING\"",
+          "a 14px \"RESOLVED\"",
+          "dt 10px \"SOURCE\"",
+          "dt 10px \"AREA\"",
+          "dt 10px \"REQUEST\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 4,
+        "mediaUndeclared": 4,
+        "mediaCropWithoutSlot": 4,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": null,
+        "sectionTitle": 8.5,
+        "body": 7,
+        "label": 7,
+        "control": 7,
+        "metric": 11.88,
+        "maxText": 11.88,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 4,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": [
+          "screenshots/sheets/mobile-inbox.jpg#inbox-1:before"
+        ],
+        "after": [
+          "screenshots/sheets/mobile-inbox.jpg#inbox-1:after"
+        ],
+        "pixelDiff": {
+          "mobile/inbox-1.png": 26.84
+        }
+      }
+    },
+    {
+      "family": "mobile",
+      "id": "design",
+      "tab": "DESIGN",
+      "route": "/production/ndxbook/design",
+      "hubReference": {
+        "pageTitle": 20.26,
+        "sectionTitle": 13.27,
+        "body": 7,
+        "label": 6.5,
+        "control": 6.5,
+        "metric": 11.88
+      },
+      "before": {
+        "pageTitle": null,
+        "sectionTitle": 11,
+        "body": 5,
+        "label": 6,
+        "control": 7.5,
+        "metric": null,
+        "maxText": 11,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 3,
+        "horizontalOverflow": 0,
+        "media": 30,
+        "mediaUndeclared": 30,
+        "mediaCropWithoutSlot": 17,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": null,
+        "sectionTitle": 8.5,
+        "body": 5,
+        "label": 6.5,
+        "control": 7,
+        "metric": null,
+        "maxText": 10,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 2,
+        "horizontalOverflow": 0,
+        "media": 30,
+        "mediaUndeclared": 16,
+        "mediaCropWithoutSlot": 7,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": [
+          "screenshots/sheets/mobile-design.jpg#design-1:before"
+        ],
+        "after": [
+          "screenshots/sheets/mobile-design.jpg#design-1:after"
+        ],
+        "pixelDiff": {
+          "mobile/design-1.png": 8.48
+        }
+      }
+    },
+    {
+      "family": "mobile",
+      "id": "experience",
+      "tab": "EXPERIENCE",
+      "route": "/production/ndxbook/experience",
+      "hubReference": {
+        "pageTitle": 20.26,
+        "sectionTitle": 13.27,
+        "body": 7,
+        "label": 6.5,
+        "control": 6.5,
+        "metric": 11.88
+      },
+      "before": {
+        "pageTitle": 24,
+        "sectionTitle": null,
+        "body": 8,
+        "label": 8.5,
+        "control": 7.5,
+        "metric": null,
+        "maxText": 24,
+        "contentScreens": 1.25,
+        "oversizedLayers": 2,
+        "oversizedSamples": [
+          "small 11px \"PROJECT\"",
+          "h1 24px \"NDXBOOK EXPERIENCE\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 1,
+        "mediaUndeclared": 1,
+        "mediaCropWithoutSlot": 1,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": 20.26,
+        "sectionTitle": null,
+        "body": 6.5,
+        "label": 6.5,
+        "control": 7,
+        "metric": null,
+        "maxText": 20.26,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 1,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": [
+          "screenshots/sheets/mobile-experience.jpg#experience-1:before",
+          null
+        ],
+        "after": [
+          "screenshots/sheets/mobile-experience.jpg#experience-1:after"
+        ],
+        "pixelDiff": {
+          "mobile/experience-1.png": 63.8
+        }
+      }
+    },
+    {
+      "family": "mobile",
+      "id": "expression",
+      "tab": "EXPRESSION",
+      "route": "/production/ndxbook/expression",
+      "hubReference": {
+        "pageTitle": 20.26,
+        "sectionTitle": 13.27,
+        "body": 7,
+        "label": 6.5,
+        "control": 6.5,
+        "metric": 11.88
+      },
+      "before": {
+        "pageTitle": 24,
+        "sectionTitle": 11,
+        "body": 8.5,
+        "label": 9,
+        "control": 9,
+        "metric": 20,
+        "maxText": 24,
+        "contentScreens": 2.08,
+        "oversizedLayers": 8,
+        "oversizedSamples": [
+          "small 11px \"PROJECT EXPRESSION\"",
+          "h1 24px \"PRODUCTION FLOOR\"",
+          "small 10px \"ENTRY 002\"",
+          "b 13px \"OH, NOW IT WAS FUN?\"",
+          "small 10px \"PHASE · NARRATIVE\"",
+          "small 10px \"AUTHORITY\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 15,
+        "mediaUndeclared": 15,
+        "mediaCropWithoutSlot": 13,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": 20.26,
+        "sectionTitle": 8.5,
+        "body": 7,
+        "label": 6.5,
+        "control": 7,
+        "metric": 11.88,
+        "maxText": 20.26,
+        "contentScreens": 1.83,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 15,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": [
+          "screenshots/sheets/mobile-expression.jpg#expression-1:before",
+          "screenshots/sheets/mobile-expression.jpg#expression-2:before"
+        ],
+        "after": [
+          "screenshots/sheets/mobile-expression.jpg#expression-1:after",
+          "screenshots/sheets/mobile-expression.jpg#expression-2:after"
+        ],
+        "pixelDiff": {
+          "mobile/expression-1.png": 43.33,
+          "mobile/expression-2.png": 47.11
+        }
+      }
+    },
+    {
+      "family": "mobile",
+      "id": "library",
+      "tab": "LIBRARY",
+      "route": "/production/libraries",
+      "hubReference": {
+        "pageTitle": 20.26,
+        "sectionTitle": 13.27,
+        "body": 7,
+        "label": 6.5,
+        "control": 6.5,
+        "metric": 11.88
+      },
+      "before": {
+        "pageTitle": null,
+        "sectionTitle": 22,
+        "body": 10.5,
+        "label": 10,
+        "control": 9.5,
+        "metric": null,
+        "maxText": 22,
+        "contentScreens": 2.11,
+        "oversizedLayers": 17,
+        "oversizedSamples": [
+          "h2 22px \"ENTRY 002 CANONICAL ASSE\"",
+          "small 10px \"RED GEOMETRY · STUDIO WO\"",
+          "small 10px \"STATUS\"",
+          "small 10px \"SOURCE\"",
+          "small 10px \"VERSION\"",
+          "small 10px \"USED BY\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 18,
+        "mediaUndeclared": 18,
+        "mediaCropWithoutSlot": 16,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": null,
+        "sectionTitle": 13.27,
+        "body": 7,
+        "label": 6.5,
+        "control": 7,
+        "metric": null,
+        "maxText": 13.27,
+        "contentScreens": 1.77,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 18,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": [
+          "screenshots/sheets/mobile-library.jpg#library-1:before",
+          "screenshots/sheets/mobile-library.jpg#library-2:before"
+        ],
+        "after": [
+          "screenshots/sheets/mobile-library.jpg#library-1:after",
+          "screenshots/sheets/mobile-library.jpg#library-2:after"
+        ],
+        "pixelDiff": {
+          "mobile/library-1.png": 48.9,
+          "mobile/library-2.png": 40.57
+        }
+      }
+    },
+    {
+      "family": "mobile",
+      "id": "activity",
+      "tab": "ACTIVITY",
+      "route": "/production/activity",
+      "hubReference": {
+        "pageTitle": 20.26,
+        "sectionTitle": 13.27,
+        "body": 7,
+        "label": 6.5,
+        "control": 6.5,
+        "metric": 11.88
+      },
+      "before": {
+        "pageTitle": 34,
+        "sectionTitle": 15,
+        "body": 13,
+        "label": 11,
+        "control": 10.5,
+        "metric": 22,
+        "maxText": 34,
+        "contentScreens": 2.2,
+        "oversizedLayers": 53,
+        "oversizedSamples": [
+          "h1 34px \"ACTIVITY\"",
+          "b 22px \"07\"",
+          "b 22px \"01\"",
+          "b 22px \"04\"",
+          "b 22px \"06\"",
+          "time 11px \"NOW\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 8,
+        "mediaUndeclared": 8,
+        "mediaCropWithoutSlot": 8,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": 20.26,
+        "sectionTitle": 8.5,
+        "body": 7,
+        "label": 6.5,
+        "control": 6.5,
+        "metric": 11.88,
+        "maxText": 20.26,
+        "contentScreens": 1.56,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 8,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": [
+          "screenshots/sheets/mobile-activity.jpg#activity-1:before",
+          "screenshots/sheets/mobile-activity.jpg#activity-2:before"
+        ],
+        "after": [
+          "screenshots/sheets/mobile-activity.jpg#activity-1:after",
+          "screenshots/sheets/mobile-activity.jpg#activity-2:after"
+        ],
+        "pixelDiff": {
+          "mobile/activity-1.png": 31.97,
+          "mobile/activity-2.png": 18.12
+        }
+      }
+    },
+    {
+      "family": "tablet",
+      "id": "hub",
+      "tab": "HUB",
+      "route": "/production",
+      "hubReference": {
+        "pageTitle": 34.44,
+        "sectionTitle": 23.27,
+        "body": 8.14,
+        "label": 7.45,
+        "control": 8.84,
+        "metric": 17.69
+      },
+      "before": {
+        "pageTitle": 34.44,
+        "sectionTitle": 23.27,
+        "body": 8.14,
+        "label": 7.45,
+        "control": 8.84,
+        "metric": 17.69,
+        "maxText": 34.44,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 10,
+        "mediaUndeclared": 10,
+        "mediaCropWithoutSlot": 9,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": 34.44,
+        "sectionTitle": 23.27,
+        "body": 8.14,
+        "label": 7.45,
+        "control": 8.84,
+        "metric": 17.69,
+        "maxText": 34.44,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 10,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS (UNCHANGED AUTHORITY — pixel-identical)",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/tablet-after.jpg#hub-1:after"
+        ],
+        "pixelDiff": {
+          "tablet/hub-1.png": 0
+        }
+      }
+    },
+    {
+      "family": "tablet",
+      "id": "inbox",
+      "tab": "INBOX",
+      "route": "/production/queue",
+      "hubReference": {
+        "pageTitle": 34.44,
+        "sectionTitle": 23.27,
+        "body": 8.14,
+        "label": 7.45,
+        "control": 8.84,
+        "metric": 17.69
+      },
+      "before": {
+        "pageTitle": null,
+        "sectionTitle": 15,
+        "body": 11,
+        "label": 12,
+        "control": 12,
+        "metric": 32,
+        "maxText": 32,
+        "contentScreens": 1,
+        "oversizedLayers": 2,
+        "oversizedSamples": [
+          "b 32px \"06\"",
+          "b 32px \"02\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 4,
+        "mediaUndeclared": 4,
+        "mediaCropWithoutSlot": 4,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": null,
+        "sectionTitle": 15,
+        "body": 11,
+        "label": 12,
+        "control": 12,
+        "metric": 32,
+        "maxText": 32,
+        "contentScreens": 1,
+        "oversizedLayers": 2,
+        "oversizedSamples": [
+          "b 32px \"06\"",
+          "b 32px \"02\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 4,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "UNCHANGED (regression target, pixel-identical to main)",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/tablet-after.jpg#inbox-1:after"
+        ],
+        "pixelDiff": {
+          "tablet/inbox-1.png": 0
+        }
+      }
+    },
+    {
+      "family": "tablet",
+      "id": "design",
+      "tab": "DESIGN",
+      "route": "/production/ndxbook/design",
+      "hubReference": {
+        "pageTitle": 34.44,
+        "sectionTitle": 23.27,
+        "body": 8.14,
+        "label": 7.45,
+        "control": 8.84,
+        "metric": 17.69
+      },
+      "before": {
+        "pageTitle": null,
+        "sectionTitle": 15,
+        "body": 8.69,
+        "label": 9,
+        "control": 10.5,
+        "metric": 15.28,
+        "maxText": 19.45,
+        "contentScreens": 1,
+        "oversizedLayers": 1,
+        "oversizedSamples": [
+          "b 19.45px \"Aa\""
+        ],
+        "textClips": 5,
+        "horizontalOverflow": 0,
+        "media": 30,
+        "mediaUndeclared": 30,
+        "mediaCropWithoutSlot": 16,
+        "mediaAncestorClip": 2,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": null,
+        "sectionTitle": 15,
+        "body": 8.69,
+        "label": 9,
+        "control": 10.5,
+        "metric": 15.28,
+        "maxText": 19.45,
+        "contentScreens": 1,
+        "oversizedLayers": 1,
+        "oversizedSamples": [
+          "b 19.45px \"Aa\""
+        ],
+        "textClips": 5,
+        "horizontalOverflow": 0,
+        "media": 30,
+        "mediaUndeclared": 16,
+        "mediaCropWithoutSlot": 6,
+        "mediaAncestorClip": 2,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "UNCHANGED (regression target, pixel-identical to main)",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/tablet-after.jpg#design-1:after"
+        ],
+        "pixelDiff": {
+          "tablet/design-1.png": 0
+        }
+      }
+    },
+    {
+      "family": "tablet",
+      "id": "experience",
+      "tab": "EXPERIENCE",
+      "route": "/production/ndxbook/experience",
+      "hubReference": {
+        "pageTitle": 34.44,
+        "sectionTitle": 23.27,
+        "body": 8.14,
+        "label": 7.45,
+        "control": 8.84,
+        "metric": 17.69
+      },
+      "before": {
+        "pageTitle": 38,
+        "sectionTitle": null,
+        "body": 13,
+        "label": 8.5,
+        "control": 10,
+        "metric": null,
+        "maxText": 38,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 1,
+        "mediaUndeclared": 1,
+        "mediaCropWithoutSlot": 1,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": 38,
+        "sectionTitle": null,
+        "body": 13,
+        "label": 8.5,
+        "control": 10,
+        "metric": null,
+        "maxText": 38,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 1,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/tablet-after.jpg#experience-1:after"
+        ],
+        "pixelDiff": {
+          "tablet/experience-1.png": 0
+        }
+      }
+    },
+    {
+      "family": "tablet",
+      "id": "expression",
+      "tab": "EXPRESSION",
+      "route": "/production/ndxbook/expression",
+      "hubReference": {
+        "pageTitle": 34.44,
+        "sectionTitle": 23.27,
+        "body": 8.14,
+        "label": 7.45,
+        "control": 8.84,
+        "metric": 17.69
+      },
+      "before": {
+        "pageTitle": 38,
+        "sectionTitle": 15,
+        "body": 10.5,
+        "label": 9,
+        "control": 9,
+        "metric": 24,
+        "maxText": 38,
+        "contentScreens": 1,
+        "oversizedLayers": 2,
+        "oversizedSamples": [
+          "b.pxa-red.pxa-num 24px \"02\"",
+          "b.pxa-red.pxa-num 24px \"06\""
+        ],
+        "textClips": 3,
+        "horizontalOverflow": 0,
+        "media": 15,
+        "mediaUndeclared": 15,
+        "mediaCropWithoutSlot": 13,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": 38,
+        "sectionTitle": 15,
+        "body": 10.5,
+        "label": 9,
+        "control": 9,
+        "metric": 24,
+        "maxText": 38,
+        "contentScreens": 1,
+        "oversizedLayers": 2,
+        "oversizedSamples": [
+          "b.pxa-red.pxa-num 24px \"02\"",
+          "b.pxa-red.pxa-num 24px \"06\""
+        ],
+        "textClips": 3,
+        "horizontalOverflow": 0,
+        "media": 15,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "UNCHANGED (regression target, pixel-identical to main)",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/tablet-after.jpg#expression-1:after"
+        ],
+        "pixelDiff": {
+          "tablet/expression-1.png": 0
+        }
+      }
+    },
+    {
+      "family": "tablet",
+      "id": "library",
+      "tab": "LIBRARY",
+      "route": "/production/libraries",
+      "hubReference": {
+        "pageTitle": 34.44,
+        "sectionTitle": 23.27,
+        "body": 8.14,
+        "label": 7.45,
+        "control": 8.84,
+        "metric": 17.69
+      },
+      "before": {
+        "pageTitle": null,
+        "sectionTitle": 22,
+        "body": 10.5,
+        "label": 10,
+        "control": 10,
+        "metric": null,
+        "maxText": 22,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 22,
+        "mediaUndeclared": 22,
+        "mediaCropWithoutSlot": 21,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": null,
+        "sectionTitle": 22,
+        "body": 10.5,
+        "label": 10,
+        "control": 10,
+        "metric": null,
+        "maxText": 22,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 22,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/tablet-after.jpg#library-1:after"
+        ],
+        "pixelDiff": {
+          "tablet/library-1.png": 0
+        }
+      }
+    },
+    {
+      "family": "tablet",
+      "id": "activity",
+      "tab": "ACTIVITY",
+      "route": "/production/activity",
+      "hubReference": {
+        "pageTitle": 34.44,
+        "sectionTitle": 23.27,
+        "body": 8.14,
+        "label": 7.45,
+        "control": 8.84,
+        "metric": 17.69
+      },
+      "before": {
+        "pageTitle": 54,
+        "sectionTitle": 16,
+        "body": 13,
+        "label": 11,
+        "control": 10.5,
+        "metric": 24,
+        "maxText": 54,
+        "contentScreens": 1.02,
+        "oversizedLayers": 6,
+        "oversizedSamples": [
+          "h1 54px \"ACTIVITY\"",
+          "p 15px \"TRACK. COLLABORATE. KEEP\"",
+          "b 24px \"07\"",
+          "b 24px \"01\"",
+          "b 24px \"04\"",
+          "b 24px \"06\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 8,
+        "mediaUndeclared": 8,
+        "mediaCropWithoutSlot": 8,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": 54,
+        "sectionTitle": 16,
+        "body": 13,
+        "label": 11,
+        "control": 10.5,
+        "metric": 24,
+        "maxText": 54,
+        "contentScreens": 1.02,
+        "oversizedLayers": 6,
+        "oversizedSamples": [
+          "h1 54px \"ACTIVITY\"",
+          "p 15px \"TRACK. COLLABORATE. KEEP\"",
+          "b 24px \"07\"",
+          "b 24px \"01\"",
+          "b 24px \"04\"",
+          "b 24px \"06\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 8,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "UNCHANGED (regression target, pixel-identical to main)",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/tablet-after.jpg#activity-1:after",
+          "screenshots/sheets/tablet-after.jpg#activity-2:after"
+        ],
+        "pixelDiff": {
+          "tablet/activity-1.png": 0,
+          "tablet/activity-2.png": 0
+        }
+      }
+    },
+    {
+      "family": "desktop",
+      "id": "hub",
+      "tab": "HUB",
+      "route": "/production",
+      "hubReference": {
+        "pageTitle": 47.52,
+        "sectionTitle": 31.68,
+        "body": 12.24,
+        "label": 10.8,
+        "control": 12.24,
+        "metric": 24.48
+      },
+      "before": {
+        "pageTitle": 47.52,
+        "sectionTitle": 31.68,
+        "body": 12.24,
+        "label": 10.8,
+        "control": 12.24,
+        "metric": 24.48,
+        "maxText": 47.52,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 10,
+        "mediaUndeclared": 10,
+        "mediaCropWithoutSlot": 9,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": 47.52,
+        "sectionTitle": 31.68,
+        "body": 12.24,
+        "label": 10.8,
+        "control": 12.24,
+        "metric": 24.48,
+        "maxText": 47.52,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 10,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS (UNCHANGED AUTHORITY — pixel-identical)",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/desktop-after.jpg#hub-1:after"
+        ],
+        "pixelDiff": {
+          "desktop/hub-1.png": 0
+        }
+      }
+    },
+    {
+      "family": "desktop",
+      "id": "inbox",
+      "tab": "INBOX",
+      "route": "/production/queue",
+      "hubReference": {
+        "pageTitle": 47.52,
+        "sectionTitle": 31.68,
+        "body": 12.24,
+        "label": 10.8,
+        "control": 12.24,
+        "metric": 24.48
+      },
+      "before": {
+        "pageTitle": null,
+        "sectionTitle": 16,
+        "body": 11,
+        "label": 14,
+        "control": 13.5,
+        "metric": 36,
+        "maxText": 36,
+        "contentScreens": 1,
+        "oversizedLayers": 2,
+        "oversizedSamples": [
+          "b 36px \"06\"",
+          "b 36px \"02\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 4,
+        "mediaUndeclared": 4,
+        "mediaCropWithoutSlot": 3,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": null,
+        "sectionTitle": 16,
+        "body": 11,
+        "label": 14,
+        "control": 13.5,
+        "metric": 36,
+        "maxText": 36,
+        "contentScreens": 1,
+        "oversizedLayers": 2,
+        "oversizedSamples": [
+          "b 36px \"06\"",
+          "b 36px \"02\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 4,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "UNCHANGED (regression target, pixel-identical to main)",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/desktop-after.jpg#inbox-1:after"
+        ],
+        "pixelDiff": {
+          "desktop/inbox-1.png": 0
+        }
+      }
+    },
+    {
+      "family": "desktop",
+      "id": "design",
+      "tab": "DESIGN",
+      "route": "/production/ndxbook/design",
+      "hubReference": {
+        "pageTitle": 47.52,
+        "sectionTitle": 31.68,
+        "body": 12.24,
+        "label": 10.8,
+        "control": 12.24,
+        "metric": 24.48
+      },
+      "before": {
+        "pageTitle": null,
+        "sectionTitle": 15,
+        "body": 9,
+        "label": 9,
+        "control": 10.5,
+        "metric": 20.69,
+        "maxText": 25.73,
+        "contentScreens": 1,
+        "oversizedLayers": 1,
+        "oversizedSamples": [
+          "b 25.73px \"Aa\""
+        ],
+        "textClips": 6,
+        "horizontalOverflow": 0,
+        "media": 30,
+        "mediaUndeclared": 30,
+        "mediaCropWithoutSlot": 13,
+        "mediaAncestorClip": 6,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": null,
+        "sectionTitle": 15,
+        "body": 9,
+        "label": 9,
+        "control": 10.5,
+        "metric": 20.69,
+        "maxText": 25.73,
+        "contentScreens": 1,
+        "oversizedLayers": 1,
+        "oversizedSamples": [
+          "b 25.73px \"Aa\""
+        ],
+        "textClips": 6,
+        "horizontalOverflow": 0,
+        "media": 30,
+        "mediaUndeclared": 16,
+        "mediaCropWithoutSlot": 6,
+        "mediaAncestorClip": 6,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "UNCHANGED (regression target, pixel-identical to main)",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/desktop-after.jpg#design-1:after"
+        ],
+        "pixelDiff": {
+          "desktop/design-1.png": 0
+        }
+      }
+    },
+    {
+      "family": "desktop",
+      "id": "experience",
+      "tab": "EXPERIENCE",
+      "route": "/production/ndxbook/experience",
+      "hubReference": {
+        "pageTitle": 47.52,
+        "sectionTitle": 31.68,
+        "body": 12.24,
+        "label": 10.8,
+        "control": 12.24,
+        "metric": 24.48
+      },
+      "before": {
+        "pageTitle": 40,
+        "sectionTitle": null,
+        "body": 13,
+        "label": 8.5,
+        "control": 10,
+        "metric": null,
+        "maxText": 40,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 1,
+        "mediaUndeclared": 1,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": 40,
+        "sectionTitle": null,
+        "body": 13,
+        "label": 8.5,
+        "control": 10,
+        "metric": null,
+        "maxText": 40,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 1,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/desktop-after.jpg#experience-1:after"
+        ],
+        "pixelDiff": {
+          "desktop/experience-1.png": 0
+        }
+      }
+    },
+    {
+      "family": "desktop",
+      "id": "expression",
+      "tab": "EXPRESSION",
+      "route": "/production/ndxbook/expression",
+      "hubReference": {
+        "pageTitle": 47.52,
+        "sectionTitle": 31.68,
+        "body": 12.24,
+        "label": 10.8,
+        "control": 12.24,
+        "metric": 24.48
+      },
+      "before": {
+        "pageTitle": 40,
+        "sectionTitle": 15,
+        "body": 11,
+        "label": 9,
+        "control": 9,
+        "metric": 24,
+        "maxText": 40,
+        "contentScreens": 1.04,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 15,
+        "mediaUndeclared": 15,
+        "mediaCropWithoutSlot": 12,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": 40,
+        "sectionTitle": 15,
+        "body": 11,
+        "label": 9,
+        "control": 9,
+        "metric": 24,
+        "maxText": 40,
+        "contentScreens": 1.04,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 15,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/desktop-after.jpg#expression-1:after",
+          "screenshots/sheets/desktop-after.jpg#expression-2:after"
+        ],
+        "pixelDiff": {
+          "desktop/expression-1.png": 0,
+          "desktop/expression-2.png": 0
+        }
+      }
+    },
+    {
+      "family": "desktop",
+      "id": "library",
+      "tab": "LIBRARY",
+      "route": "/production/libraries",
+      "hubReference": {
+        "pageTitle": 47.52,
+        "sectionTitle": 31.68,
+        "body": 12.24,
+        "label": 10.8,
+        "control": 12.24,
+        "metric": 24.48
+      },
+      "before": {
+        "pageTitle": null,
+        "sectionTitle": 22,
+        "body": 10.5,
+        "label": 10,
+        "control": 10,
+        "metric": null,
+        "maxText": 22,
+        "contentScreens": 1.27,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 22,
+        "mediaUndeclared": 22,
+        "mediaCropWithoutSlot": 19,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": null,
+        "sectionTitle": 22,
+        "body": 10.5,
+        "label": 10,
+        "control": 10,
+        "metric": null,
+        "maxText": 22,
+        "contentScreens": 1.27,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 22,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/desktop-after.jpg#library-1:after",
+          "screenshots/sheets/desktop-after.jpg#library-2:after"
+        ],
+        "pixelDiff": {
+          "desktop/library-1.png": 0,
+          "desktop/library-2.png": 0
+        }
+      }
+    },
+    {
+      "family": "desktop",
+      "id": "activity",
+      "tab": "ACTIVITY",
+      "route": "/production/activity",
+      "hubReference": {
+        "pageTitle": 47.52,
+        "sectionTitle": 31.68,
+        "body": 12.24,
+        "label": 10.8,
+        "control": 12.24,
+        "metric": 24.48
+      },
+      "before": {
+        "pageTitle": 62,
+        "sectionTitle": 18,
+        "body": 13,
+        "label": 11,
+        "control": 10.5,
+        "metric": 30,
+        "maxText": 62,
+        "contentScreens": 1.44,
+        "oversizedLayers": 5,
+        "oversizedSamples": [
+          "h1 62px \"ACTIVITY\"",
+          "b 30px \"07\"",
+          "b 30px \"01\"",
+          "b 30px \"04\"",
+          "b 30px \"06\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 8,
+        "mediaUndeclared": 8,
+        "mediaCropWithoutSlot": 8,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": 62,
+        "sectionTitle": 18,
+        "body": 13,
+        "label": 11,
+        "control": 10.5,
+        "metric": 30,
+        "maxText": 62,
+        "contentScreens": 1.44,
+        "oversizedLayers": 5,
+        "oversizedSamples": [
+          "h1 62px \"ACTIVITY\"",
+          "b 30px \"07\"",
+          "b 30px \"01\"",
+          "b 30px \"04\"",
+          "b 30px \"06\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 8,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "UNCHANGED (regression target, pixel-identical to main)",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/desktop-after.jpg#activity-1:after",
+          "screenshots/sheets/desktop-after.jpg#activity-2:after"
+        ],
+        "pixelDiff": {
+          "desktop/activity-1.png": 0,
+          "desktop/activity-2.png": 0
+        }
+      }
+    }
+  ]
+}

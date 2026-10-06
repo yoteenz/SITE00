@@ -62,9 +62,9 @@ export function AuthorityHero({
   return (
     <div className="pxa-hero" data-testid={testId}>
       {plate ?
-        <span className="pxa-hero__bg pxa-hero__bg--plate" style={{ backgroundImage: `url(${plate})` }} aria-hidden />
+        <span className="pxa-hero__bg pxa-hero__bg--plate" data-media-slot="HERO_PLATE" data-media-fit="WIDE_SCENE_COVER" style={{ backgroundImage: `url(${plate})` }} aria-hidden />
       : (
-        <span className="pxa-hero__bg" aria-hidden>
+        <span className="pxa-hero__bg" data-media-slot="HERO_PLATE" data-media-fit="WIDE_SCENE_COVER" aria-hidden>
           <HubImage slotId={slotId} url={url} label="CHAMBER ATMOSPHERE" />
         </span>
       )}
@@ -266,7 +266,7 @@ export function HubBody() {
           ['--hero-desktop' as string]: `url(${AUTHORITY_ASSETS.hubHero.desktop})`,
         }}
       >
-        <span className="hubx-hero__plate" aria-hidden />
+        <span className="hubx-hero__plate" data-media-slot="HERO_PLATE" data-media-fit="WIDE_SCENE_COVER" aria-hidden />
         <div className="hubx-hero__copy">
           <i aria-hidden />
           <small>PROJECT</small>
@@ -336,7 +336,7 @@ export function HubBody() {
               </ul>
               {production ?
                 <Link to={expression} className="hubx-feature" data-testid="hub-entry-card">
-                  <Thumb slotId={entryArt} url={data.assetUrl(entryArt)} label={production.label} />
+                  <Thumb slotId={entryArt} url={data.assetUrl(entryArt)} label={production.label} slot="CARD_MEDIA" fit="THUMBNAIL_COVER" />
                   <b>{production.label}</b>
                   <small>
                     {cast ? `${cast.characters.length} CHARACTERS` : '—'} <i aria-hidden>|</i> {scenes.length} SCENES
@@ -381,7 +381,7 @@ export function HubBody() {
               {production ?
                 <Link to={expression} className="hubx-entry is-active" data-testid="hub-entry-active">
                   <b>{production.label}</b>
-                  <Thumb slotId={entryArt} url={data.assetUrl(entryArt)} label="ENTRY" />
+                  <Thumb slotId={entryArt} url={data.assetUrl(entryArt)} label="ENTRY" slot="STRIP_THUMB" fit="THUMBNAIL_COVER" />
                   <small>{active?.label ?? 'PRODUCTION'}</small>
                   <span className="hubx-entry__bar">
                     <span className="hubx-meter" aria-hidden>
@@ -410,7 +410,7 @@ export function HubBody() {
                       <li key={a.id}>
                         <Link to="/production/queue">
                           <em>{pad2(i + 1)}</em>
-                          <Thumb slotId={slot} url={data.assetUrl(slot)} label={a.nodeId ?? ''} />
+                          <Thumb slotId={slot} url={data.assetUrl(slot)} label={a.nodeId ?? ''} slot="ROW_THUMB" fit="THUMBNAIL_COVER" />
                           <span>
                             <b>{a.title}</b>
                             <small>{a.subtitle}</small>
@@ -438,7 +438,7 @@ export function HubBody() {
                     return (
                       <li key={a.id}>
                         <i className="hubx-feed__node" aria-hidden />
-                        <Thumb slotId={slot} url={data.assetUrl(slot)} label="" />
+                        <Thumb slotId={slot} url={data.assetUrl(slot)} label="" slot="ROW_THUMB" fit="THUMBNAIL_COVER" />
                         <span>
                           <b>{a.title}</b>
                           <small>{a.detail}</small>

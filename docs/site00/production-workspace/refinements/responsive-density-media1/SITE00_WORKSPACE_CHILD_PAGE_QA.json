@@ -1,0 +1,3478 @@
+{
+  "sprint": "P0.SITE00.PRODUCTION-WORKSPACE.RESPONSIVE-DENSITY-MEDIA-FRAMING-REFINEMENT1",
+  "deviationLimit": 1.15,
+  "rows": [
+    {
+      "family": "mobile",
+      "id": "design-brand",
+      "tab": "DESIGN",
+      "route": "/production/ndxbook/design?mode=brand",
+      "before": {
+        "pageTitle": null,
+        "sectionTitle": 11,
+        "body": 5,
+        "label": 6,
+        "control": 7.5,
+        "metric": null,
+        "maxText": 11,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 3,
+        "horizontalOverflow": 0,
+        "media": 30,
+        "mediaUndeclared": 30,
+        "mediaCropWithoutSlot": 17,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": null,
+        "sectionTitle": 8.5,
+        "body": 5,
+        "label": 6.5,
+        "control": 7,
+        "metric": null,
+        "maxText": 10,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 2,
+        "horizontalOverflow": 0,
+        "media": 30,
+        "mediaUndeclared": 16,
+        "mediaCropWithoutSlot": 7,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": [
+          "screenshots/sheets/mobile-design.jpg#design-brand-1:before"
+        ],
+        "after": [
+          "screenshots/sheets/mobile-design.jpg#design-brand-1:after"
+        ],
+        "pixelDiff": {
+          "mobile/design-brand-1.png": 8.48
+        }
+      }
+    },
+    {
+      "family": "mobile",
+      "id": "design-surfaces",
+      "tab": "DESIGN",
+      "route": "/production/ndxbook/design?mode=surfaces",
+      "before": {
+        "pageTitle": null,
+        "sectionTitle": 11,
+        "body": 3.8,
+        "label": 6,
+        "control": 7.5,
+        "metric": null,
+        "maxText": 11,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 1,
+        "horizontalOverflow": 0,
+        "media": 19,
+        "mediaUndeclared": 19,
+        "mediaCropWithoutSlot": 6,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": null,
+        "sectionTitle": 8.5,
+        "body": 3.8,
+        "label": 6.5,
+        "control": 7,
+        "metric": null,
+        "maxText": 9.68,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 19,
+        "mediaUndeclared": 13,
+        "mediaCropWithoutSlot": 1,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": [
+          "screenshots/sheets/mobile-design.jpg#design-surfaces-1:before"
+        ],
+        "after": [
+          "screenshots/sheets/mobile-design.jpg#design-surfaces-1:after"
+        ],
+        "pixelDiff": {
+          "mobile/design-surfaces-1.png": 5.72
+        }
+      }
+    },
+    {
+      "family": "mobile",
+      "id": "design-assets",
+      "tab": "DESIGN",
+      "route": "/production/ndxbook/design?mode=assets",
+      "before": {
+        "pageTitle": null,
+        "sectionTitle": 11,
+        "body": 3.8,
+        "label": 6,
+        "control": 7.5,
+        "metric": null,
+        "maxText": 11,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 34,
+        "mediaUndeclared": 34,
+        "mediaCropWithoutSlot": 18,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": null,
+        "sectionTitle": 8.5,
+        "body": 3.8,
+        "label": 6.5,
+        "control": 7,
+        "metric": null,
+        "maxText": 9.68,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 34,
+        "mediaUndeclared": 22,
+        "mediaCropWithoutSlot": 7,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": [
+          "screenshots/sheets/mobile-design.jpg#design-assets-1:before"
+        ],
+        "after": [
+          "screenshots/sheets/mobile-design.jpg#design-assets-1:after"
+        ],
+        "pixelDiff": {
+          "mobile/design-assets-1.png": 6
+        }
+      }
+    },
+    {
+      "family": "mobile",
+      "id": "design-viewport",
+      "tab": "DESIGN",
+      "route": "/production/ndxbook/design?mode=viewport",
+      "before": {
+        "pageTitle": null,
+        "sectionTitle": 11,
+        "body": 5.5,
+        "label": 6.5,
+        "control": 7.5,
+        "metric": null,
+        "maxText": 11,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 5,
+        "mediaUndeclared": 5,
+        "mediaCropWithoutSlot": 5,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": null,
+        "sectionTitle": 8.5,
+        "body": 5.5,
+        "label": 6.5,
+        "control": 7,
+        "metric": null,
+        "maxText": 8.5,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 5,
+        "mediaUndeclared": 1,
+        "mediaCropWithoutSlot": 1,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": [
+          "screenshots/sheets/mobile-design.jpg#design-viewport-1:before"
+        ],
+        "after": [
+          "screenshots/sheets/mobile-design.jpg#design-viewport-1:after"
+        ],
+        "pixelDiff": {
+          "mobile/design-viewport-1.png": 7.41
+        }
+      }
+    },
+    {
+      "family": "mobile",
+      "id": "experience-world",
+      "tab": "EXPERIENCE",
+      "route": "/production/ndxbook/experience/world",
+      "before": {
+        "pageTitle": 27.2,
+        "sectionTitle": 10.88,
+        "body": 11,
+        "label": 10,
+        "control": 9,
+        "metric": null,
+        "maxText": 27.2,
+        "contentScreens": 1,
+        "oversizedLayers": 3,
+        "oversizedSamples": [
+          "h1.pw-head__title 27.2px \"World Architecture\"",
+          "b 15px \"WORLD\"",
+          "small 10px \"WORLD ARCHITECTURE\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 2,
+        "mediaUndeclared": 2,
+        "mediaCropWithoutSlot": 1,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": 13.27,
+        "sectionTitle": 7,
+        "body": 7,
+        "label": 6.5,
+        "control": 7,
+        "metric": null,
+        "maxText": 13.27,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 2,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": [
+          "screenshots/sheets/mobile-experience.jpg#experience-world-1:before"
+        ],
+        "after": [
+          "screenshots/sheets/mobile-experience.jpg#experience-world-1:after"
+        ],
+        "pixelDiff": {
+          "mobile/experience-world-1.png": 42.46
+        }
+      }
+    },
+    {
+      "family": "mobile",
+      "id": "experience-environments",
+      "tab": "EXPERIENCE",
+      "route": "/production/ndxbook/experience/environments",
+      "before": {
+        "pageTitle": 27.2,
+        "sectionTitle": 10.88,
+        "body": 11,
+        "label": 10,
+        "control": 9,
+        "metric": null,
+        "maxText": 27.2,
+        "contentScreens": 1,
+        "oversizedLayers": 3,
+        "oversizedSamples": [
+          "h1.pw-head__title 27.2px \"Environments\"",
+          "b 15px \"PATHS\"",
+          "small 10px \"ENVIRONMENT SYSTEMS\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 2,
+        "mediaUndeclared": 2,
+        "mediaCropWithoutSlot": 1,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": 13.27,
+        "sectionTitle": 7,
+        "body": 7,
+        "label": 6.5,
+        "control": 7,
+        "metric": null,
+        "maxText": 13.27,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 2,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": [
+          "screenshots/sheets/mobile-experience.jpg#experience-environments-1:before"
+        ],
+        "after": [
+          "screenshots/sheets/mobile-experience.jpg#experience-environments-1:after"
+        ],
+        "pixelDiff": {
+          "mobile/experience-environments-1.png": 43.36
+        }
+      }
+    },
+    {
+      "family": "mobile",
+      "id": "expression-narrative",
+      "tab": "EXPRESSION",
+      "route": "/production/ndxbook/expression/narrative",
+      "before": {
+        "pageTitle": 19,
+        "sectionTitle": 10.5,
+        "body": 7,
+        "label": 6.5,
+        "control": 6.5,
+        "metric": 15.3,
+        "maxText": 19,
+        "contentScreens": 1,
+        "oversizedLayers": 6,
+        "oversizedSamples": [
+          "h1 19px \"EXPRESSION\"",
+          "b 15.3px \"07\"",
+          "b 15.3px \"03\"",
+          "b 15.3px \"2/3\"",
+          "b 15.3px \"02\""
+        ],
+        "textClips": 6,
+        "horizontalOverflow": 0,
+        "media": 1,
+        "mediaUndeclared": 1,
+        "mediaCropWithoutSlot": 1,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": 13.27,
+        "sectionTitle": 9.78,
+        "body": 7,
+        "label": 6.5,
+        "control": 6.5,
+        "metric": 11.88,
+        "maxText": 13.27,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 6,
+        "horizontalOverflow": 0,
+        "media": 1,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": [
+          "screenshots/sheets/mobile-expression.jpg#expression-narrative-1:before"
+        ],
+        "after": [
+          "screenshots/sheets/mobile-expression.jpg#expression-narrative-1:after"
+        ],
+        "pixelDiff": {
+          "mobile/expression-narrative-1.png": 21.8
+        }
+      }
+    },
+    {
+      "family": "mobile",
+      "id": "expression-casting-actors",
+      "tab": "EXPRESSION",
+      "route": "/production/ndxbook/expression/casting/actors",
+      "before": {
+        "pageTitle": 19,
+        "sectionTitle": 10.5,
+        "body": 8.64,
+        "label": 6.5,
+        "control": 6.5,
+        "metric": 15.3,
+        "maxText": 19,
+        "contentScreens": 1,
+        "oversizedLayers": 4,
+        "oversizedSamples": [
+          "h1 19px \"EXPRESSION\"",
+          "b 15.3px \"01\"",
+          "b 15.3px \"05\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 1,
+        "mediaUndeclared": 1,
+        "mediaCropWithoutSlot": 1,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": 13.27,
+        "sectionTitle": 9.78,
+        "body": 7,
+        "label": 6.5,
+        "control": 6.5,
+        "metric": 11.88,
+        "maxText": 13.27,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 1,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": [
+          "screenshots/sheets/mobile-expression.jpg#expression-casting-actors-1:before"
+        ],
+        "after": [
+          "screenshots/sheets/mobile-expression.jpg#expression-casting-actors-1:after"
+        ],
+        "pixelDiff": {
+          "mobile/expression-casting-actors-1.png": 21.93
+        }
+      }
+    },
+    {
+      "family": "mobile",
+      "id": "expression-wardrobe-looks",
+      "tab": "EXPRESSION",
+      "route": "/production/ndxbook/expression/wardrobe/looks",
+      "before": {
+        "pageTitle": 19,
+        "sectionTitle": 10.5,
+        "body": 7,
+        "label": 6.5,
+        "control": 6.5,
+        "metric": 13,
+        "maxText": 19,
+        "contentScreens": 1,
+        "oversizedLayers": 1,
+        "oversizedSamples": [
+          "h1 19px \"EXPRESSION\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 2,
+        "mediaUndeclared": 2,
+        "mediaCropWithoutSlot": 2,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": 13.27,
+        "sectionTitle": 9.78,
+        "body": 7,
+        "label": 6.5,
+        "control": 6.5,
+        "metric": null,
+        "maxText": 13.27,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 2,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": [
+          "screenshots/sheets/mobile-expression.jpg#expression-wardrobe-looks-1:before"
+        ],
+        "after": [
+          "screenshots/sheets/mobile-expression.jpg#expression-wardrobe-looks-1:after"
+        ],
+        "pixelDiff": {
+          "mobile/expression-wardrobe-looks-1.png": 20.69
+        }
+      }
+    },
+    {
+      "family": "mobile",
+      "id": "expression-sets-environments",
+      "tab": "EXPRESSION",
+      "route": "/production/ndxbook/expression/sets/environments",
+      "before": {
+        "pageTitle": 19,
+        "sectionTitle": 10.5,
+        "body": 7,
+        "label": 6.5,
+        "control": 7,
+        "metric": 13,
+        "maxText": 19,
+        "contentScreens": 1,
+        "oversizedLayers": 1,
+        "oversizedSamples": [
+          "h1 19px \"EXPRESSION\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 1,
+        "mediaUndeclared": 1,
+        "mediaCropWithoutSlot": 1,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": 13.27,
+        "sectionTitle": 9.78,
+        "body": 7,
+        "label": 6.5,
+        "control": 7,
+        "metric": null,
+        "maxText": 13.27,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 1,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": [
+          "screenshots/sheets/mobile-expression.jpg#expression-sets-environments-1:before"
+        ],
+        "after": [
+          "screenshots/sheets/mobile-expression.jpg#expression-sets-environments-1:after"
+        ],
+        "pixelDiff": {
+          "mobile/expression-sets-environments-1.png": 18.32
+        }
+      }
+    },
+    {
+      "family": "mobile",
+      "id": "expression-storyboard",
+      "tab": "EXPRESSION",
+      "route": "/production/ndxbook/expression/storyboard",
+      "before": {
+        "pageTitle": 19,
+        "sectionTitle": 10.5,
+        "body": 9,
+        "label": 6.5,
+        "control": 6.5,
+        "metric": 13,
+        "maxText": 19,
+        "contentScreens": 1,
+        "oversizedLayers": 1,
+        "oversizedSamples": [
+          "h1 19px \"EXPRESSION\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 10,
+        "mediaUndeclared": 10,
+        "mediaCropWithoutSlot": 6,
+        "mediaAncestorClip": 4,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": 13.27,
+        "sectionTitle": 9.78,
+        "body": 7,
+        "label": 6.5,
+        "control": 6.5,
+        "metric": null,
+        "maxText": 13.27,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 10,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 4,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": [
+          "screenshots/sheets/mobile-expression.jpg#expression-storyboard-1:before"
+        ],
+        "after": [
+          "screenshots/sheets/mobile-expression.jpg#expression-storyboard-1:after"
+        ],
+        "pixelDiff": {
+          "mobile/expression-storyboard-1.png": 27.4
+        }
+      }
+    },
+    {
+      "family": "mobile",
+      "id": "library-collection-open",
+      "tab": "LIBRARY",
+      "route": "/production/libraries",
+      "before": {
+        "pageTitle": null,
+        "sectionTitle": 22,
+        "body": 10,
+        "label": 10,
+        "control": 9.5,
+        "metric": null,
+        "maxText": 22,
+        "contentScreens": 2.46,
+        "oversizedLayers": 17,
+        "oversizedSamples": [
+          "h2 22px \"ENTRY 002 CANONICAL ASSE\"",
+          "small 10px \"RED GEOMETRY · STUDIO WO\"",
+          "small 10px \"STATUS\"",
+          "small 10px \"SOURCE\"",
+          "small 10px \"VERSION\"",
+          "small 10px \"USED BY\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 18,
+        "mediaUndeclared": 18,
+        "mediaCropWithoutSlot": 16,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": null,
+        "sectionTitle": 13.27,
+        "body": 7,
+        "label": 6.5,
+        "control": 7,
+        "metric": null,
+        "maxText": 13.27,
+        "contentScreens": 2.03,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 18,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": [
+          "screenshots/sheets/mobile-library.jpg#library-collection-open-1:before",
+          "screenshots/sheets/mobile-library.jpg#library-collection-open-2:before"
+        ],
+        "after": [
+          "screenshots/sheets/mobile-library.jpg#library-collection-open-1:after",
+          "screenshots/sheets/mobile-library.jpg#library-collection-open-2:after"
+        ],
+        "pixelDiff": {
+          "mobile/library-collection-open-1.png": 33.05,
+          "mobile/library-collection-open-2.png": 35.89
+        }
+      }
+    },
+    {
+      "family": "mobile",
+      "id": "library-in-review",
+      "tab": "LIBRARY",
+      "route": "/production/libraries",
+      "before": {
+        "pageTitle": null,
+        "sectionTitle": null,
+        "body": 13,
+        "label": null,
+        "control": 9.5,
+        "metric": null,
+        "maxText": 13,
+        "contentScreens": 1,
+        "oversizedLayers": 1,
+        "oversizedSamples": [
+          "b 13px \"NOTHING IN REVIEW\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 0,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": null,
+        "sectionTitle": null,
+        "body": 7,
+        "label": null,
+        "control": 7,
+        "metric": null,
+        "maxText": 8.5,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 0,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": [
+          "screenshots/sheets/mobile-library.jpg#library-in-review-1:before"
+        ],
+        "after": [
+          "screenshots/sheets/mobile-library.jpg#library-in-review-1:after"
+        ],
+        "pixelDiff": {
+          "mobile/library-in-review-1.png": 12.72
+        }
+      }
+    },
+    {
+      "family": "mobile",
+      "id": "activity-approvals",
+      "tab": "ACTIVITY",
+      "route": "/production/activity?view=approvals",
+      "before": {
+        "pageTitle": 34,
+        "sectionTitle": 18,
+        "body": 13,
+        "label": 11,
+        "control": 11,
+        "metric": 22,
+        "maxText": 34,
+        "contentScreens": 2.02,
+        "oversizedLayers": 43,
+        "oversizedSamples": [
+          "h1 34px \"ACTIVITY\"",
+          "strong 18px \"APPROVALS\"",
+          "b 22px \"04\"",
+          "b 22px \"00\"",
+          "b 22px \"06\"",
+          "time 11px \"NOW\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 7,
+        "mediaUndeclared": 7,
+        "mediaCropWithoutSlot": 7,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": 20.26,
+        "sectionTitle": 9.78,
+        "body": 7,
+        "label": 6.5,
+        "control": 7,
+        "metric": 11.88,
+        "maxText": 20.26,
+        "contentScreens": 1.46,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 7,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "rootLens": true,
+      "screenshots": {
+        "before": [
+          "screenshots/sheets/mobile-activity.jpg#activity-approvals-1:before",
+          "screenshots/sheets/mobile-activity.jpg#activity-approvals-2:before"
+        ],
+        "after": [
+          "screenshots/sheets/mobile-activity.jpg#activity-approvals-1:after",
+          "screenshots/sheets/mobile-activity.jpg#activity-approvals-2:after"
+        ],
+        "pixelDiff": {
+          "mobile/activity-approvals-1.png": 33.21,
+          "mobile/activity-approvals-2.png": 20.53
+        }
+      }
+    },
+    {
+      "family": "mobile",
+      "id": "activity-milestone",
+      "tab": "ACTIVITY",
+      "route": "/production/activity?milestone=narrative",
+      "before": {
+        "pageTitle": 24,
+        "sectionTitle": 15,
+        "body": 13,
+        "label": 10.5,
+        "control": 11,
+        "metric": 18,
+        "maxText": 24,
+        "contentScreens": 2.63,
+        "oversizedLayers": 47,
+        "oversizedSamples": [
+          "h1 24px \"NARRATIVE\"",
+          "p 13px \"Narrative awaiting found\"",
+          "small 10.5px \"STAGE\"",
+          "b 18px \"1 / 7\"",
+          "a.iax-btn.iax-btn--line 12px \"VIEW IN PROJECT\"",
+          "dt 10.5px \"PROJECT\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 5,
+        "mediaUndeclared": 5,
+        "mediaCropWithoutSlot": 5,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": 13.27,
+        "sectionTitle": 9.78,
+        "body": 7,
+        "label": 6.5,
+        "control": 7,
+        "metric": 11.88,
+        "maxText": 13.27,
+        "contentScreens": 2.25,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 5,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": [
+          "screenshots/sheets/mobile-activity.jpg#activity-milestone-1:before",
+          "screenshots/sheets/mobile-activity.jpg#activity-milestone-2:before"
+        ],
+        "after": [
+          "screenshots/sheets/mobile-activity.jpg#activity-milestone-1:after",
+          "screenshots/sheets/mobile-activity.jpg#activity-milestone-2:after"
+        ],
+        "pixelDiff": {
+          "mobile/activity-milestone-1.png": 28.88,
+          "mobile/activity-milestone-2.png": 19.88
+        }
+      }
+    },
+    {
+      "family": "mobile",
+      "id": "inbox-watching",
+      "tab": "INBOX",
+      "route": "/production/queue?view=watching",
+      "before": {
+        "pageTitle": null,
+        "sectionTitle": null,
+        "body": 10.5,
+        "label": 10,
+        "control": 10,
+        "metric": 21,
+        "maxText": 21,
+        "contentScreens": 1,
+        "oversizedLayers": 19,
+        "oversizedSamples": [
+          "a 14px \"NEEDS YOU\"",
+          "a.is-active 14px \"WATCHING\"",
+          "a 14px \"RESOLVED\"",
+          "b 21px \"03\"",
+          "b 21px \"00\"",
+          "b 14px \"SET — LOCKED\""
+        ],
+        "textClips": 9,
+        "horizontalOverflow": 0,
+        "media": 3,
+        "mediaUndeclared": 3,
+        "mediaCropWithoutSlot": 3,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": null,
+        "sectionTitle": null,
+        "body": 7,
+        "label": 6.5,
+        "control": 7,
+        "metric": 11.88,
+        "maxText": 11.88,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 3,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": [
+          "screenshots/sheets/mobile-inbox.jpg#inbox-watching-1:before"
+        ],
+        "after": [
+          "screenshots/sheets/mobile-inbox.jpg#inbox-watching-1:after"
+        ],
+        "pixelDiff": {
+          "mobile/inbox-watching-1.png": 19.25
+        }
+      }
+    },
+    {
+      "family": "mobile",
+      "id": "inbox-all",
+      "tab": "INBOX",
+      "route": "/production/queue?view=all",
+      "before": {
+        "pageTitle": 22,
+        "sectionTitle": null,
+        "body": 10,
+        "label": 9.5,
+        "control": 10,
+        "metric": null,
+        "maxText": 22,
+        "contentScreens": 1,
+        "oversizedLayers": 11,
+        "oversizedSamples": [
+          "a.is-active 14px \"NEEDS YOU\"",
+          "a 14px \"WATCHING\"",
+          "a 14px \"RESOLVED\"",
+          "h1 22px \"ALL INBOX\"",
+          "b 14px \"NARRATIVE APPROVAL\"",
+          "b 14px \"LOOK — REVIEW REQUIRED\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 7,
+        "mediaUndeclared": 7,
+        "mediaCropWithoutSlot": 7,
+        "mediaAncestorClip": 1,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": 13.27,
+        "sectionTitle": null,
+        "body": 7,
+        "label": 6.5,
+        "control": 6.5,
+        "metric": null,
+        "maxText": 13.27,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 7,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": [
+          "screenshots/sheets/mobile-inbox.jpg#inbox-all-1:before"
+        ],
+        "after": [
+          "screenshots/sheets/mobile-inbox.jpg#inbox-all-1:after"
+        ],
+        "pixelDiff": {
+          "mobile/inbox-all-1.png": 21.57
+        }
+      }
+    },
+    {
+      "family": "mobile",
+      "id": "inbox-decision-detail",
+      "tab": "INBOX",
+      "route": "/production/queue",
+      "before": {
+        "pageTitle": 19,
+        "sectionTitle": 17,
+        "body": 12,
+        "label": 10,
+        "control": 10.5,
+        "metric": 12,
+        "maxText": 19,
+        "contentScreens": 1,
+        "oversizedLayers": 23,
+        "oversizedSamples": [
+          "span 11.5px \"INBOX\"",
+          "b 11.5px \"NEEDS YOU\"",
+          "h1 19px \"ENTRY 002 — NARRATIVE AP\"",
+          "dt 10px \"SOURCE\"",
+          "dd 12px \"ENTRY 002\"",
+          "dt 10px \"AREA\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 4,
+        "mediaUndeclared": 4,
+        "mediaCropWithoutSlot": 3,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": 13.27,
+        "sectionTitle": 8.5,
+        "body": 7,
+        "label": 6.5,
+        "control": 7,
+        "metric": null,
+        "maxText": 13.27,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 4,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": [
+          "screenshots/sheets/mobile-inbox.jpg#inbox-decision-detail-1:before"
+        ],
+        "after": [
+          "screenshots/sheets/mobile-inbox.jpg#inbox-decision-detail-1:after"
+        ],
+        "pixelDiff": {
+          "mobile/inbox-decision-detail-1.png": 22.36
+        }
+      }
+    },
+    {
+      "family": "tablet",
+      "id": "design-brand",
+      "tab": "DESIGN",
+      "route": "/production/ndxbook/design?mode=brand",
+      "before": {
+        "pageTitle": null,
+        "sectionTitle": 15,
+        "body": 8.69,
+        "label": 9,
+        "control": 10.5,
+        "metric": 15.28,
+        "maxText": 19.45,
+        "contentScreens": 1,
+        "oversizedLayers": 1,
+        "oversizedSamples": [
+          "b 19.45px \"Aa\""
+        ],
+        "textClips": 5,
+        "horizontalOverflow": 0,
+        "media": 30,
+        "mediaUndeclared": 30,
+        "mediaCropWithoutSlot": 16,
+        "mediaAncestorClip": 2,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": null,
+        "sectionTitle": 15,
+        "body": 8.69,
+        "label": 9,
+        "control": 10.5,
+        "metric": 15.28,
+        "maxText": 19.45,
+        "contentScreens": 1,
+        "oversizedLayers": 1,
+        "oversizedSamples": [
+          "b 19.45px \"Aa\""
+        ],
+        "textClips": 5,
+        "horizontalOverflow": 0,
+        "media": 30,
+        "mediaUndeclared": 16,
+        "mediaCropWithoutSlot": 6,
+        "mediaAncestorClip": 2,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "UNCHANGED (regression target, pixel-identical to main)",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/tablet-after.jpg#design-brand-1:after"
+        ],
+        "pixelDiff": {
+          "tablet/design-brand-1.png": 0
+        }
+      }
+    },
+    {
+      "family": "tablet",
+      "id": "design-surfaces",
+      "tab": "DESIGN",
+      "route": "/production/ndxbook/design?mode=surfaces",
+      "before": {
+        "pageTitle": null,
+        "sectionTitle": 15,
+        "body": 6.28,
+        "label": 9,
+        "control": 10.5,
+        "metric": 15.28,
+        "maxText": 15.28,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 3,
+        "horizontalOverflow": 0,
+        "media": 19,
+        "mediaUndeclared": 19,
+        "mediaCropWithoutSlot": 5,
+        "mediaAncestorClip": 1,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": null,
+        "sectionTitle": 15,
+        "body": 6.28,
+        "label": 9,
+        "control": 10.5,
+        "metric": 15.28,
+        "maxText": 15.28,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 3,
+        "horizontalOverflow": 0,
+        "media": 19,
+        "mediaUndeclared": 13,
+        "mediaCropWithoutSlot": 1,
+        "mediaAncestorClip": 1,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/tablet-after.jpg#design-surfaces-1:after"
+        ],
+        "pixelDiff": {
+          "tablet/design-surfaces-1.png": 0
+        }
+      }
+    },
+    {
+      "family": "tablet",
+      "id": "design-assets",
+      "tab": "DESIGN",
+      "route": "/production/ndxbook/design?mode=assets",
+      "before": {
+        "pageTitle": null,
+        "sectionTitle": 15,
+        "body": 6.28,
+        "label": 9,
+        "control": 10.5,
+        "metric": 15.28,
+        "maxText": 15.28,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 1,
+        "horizontalOverflow": 0,
+        "media": 34,
+        "mediaUndeclared": 34,
+        "mediaCropWithoutSlot": 15,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": null,
+        "sectionTitle": 15,
+        "body": 6.28,
+        "label": 9,
+        "control": 10.5,
+        "metric": 15.28,
+        "maxText": 15.28,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 1,
+        "horizontalOverflow": 0,
+        "media": 34,
+        "mediaUndeclared": 22,
+        "mediaCropWithoutSlot": 6,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/tablet-after.jpg#design-assets-1:after"
+        ],
+        "pixelDiff": {
+          "tablet/design-assets-1.png": 0
+        }
+      }
+    },
+    {
+      "family": "tablet",
+      "id": "design-viewport",
+      "tab": "DESIGN",
+      "route": "/production/ndxbook/design?mode=viewport",
+      "before": {
+        "pageTitle": null,
+        "sectionTitle": 15,
+        "body": 9,
+        "label": 9,
+        "control": 10.5,
+        "metric": 11,
+        "maxText": 15,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 5,
+        "mediaUndeclared": 5,
+        "mediaCropWithoutSlot": 5,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": null,
+        "sectionTitle": 15,
+        "body": 9,
+        "label": 9,
+        "control": 10.5,
+        "metric": 11,
+        "maxText": 15,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 5,
+        "mediaUndeclared": 1,
+        "mediaCropWithoutSlot": 1,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/tablet-after.jpg#design-viewport-1:after"
+        ],
+        "pixelDiff": {
+          "tablet/design-viewport-1.png": 0
+        }
+      }
+    },
+    {
+      "family": "tablet",
+      "id": "experience-world",
+      "tab": "EXPERIENCE",
+      "route": "/production/ndxbook/experience/world",
+      "before": {
+        "pageTitle": 34,
+        "sectionTitle": 10.88,
+        "body": 11,
+        "label": 10,
+        "control": 10.5,
+        "metric": null,
+        "maxText": 34,
+        "contentScreens": 1,
+        "oversizedLayers": 2,
+        "oversizedSamples": [
+          "h1.pw-head__title 34px \"World Architecture\"",
+          "b 15px \"WORLD\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 2,
+        "mediaUndeclared": 2,
+        "mediaCropWithoutSlot": 2,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": 34,
+        "sectionTitle": 10.88,
+        "body": 11,
+        "label": 10,
+        "control": 10.5,
+        "metric": null,
+        "maxText": 34,
+        "contentScreens": 1,
+        "oversizedLayers": 2,
+        "oversizedSamples": [
+          "h1.pw-head__title 34px \"World Architecture\"",
+          "b 15px \"WORLD\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 2,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "UNCHANGED (regression target, pixel-identical to main)",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/tablet-after.jpg#experience-world-1:after"
+        ],
+        "pixelDiff": {
+          "tablet/experience-world-1.png": 0
+        }
+      }
+    },
+    {
+      "family": "tablet",
+      "id": "experience-environments",
+      "tab": "EXPERIENCE",
+      "route": "/production/ndxbook/experience/environments",
+      "before": {
+        "pageTitle": 34,
+        "sectionTitle": 10.88,
+        "body": 11,
+        "label": 10,
+        "control": 10.5,
+        "metric": null,
+        "maxText": 34,
+        "contentScreens": 1,
+        "oversizedLayers": 2,
+        "oversizedSamples": [
+          "h1.pw-head__title 34px \"Environments\"",
+          "b 15px \"PATHS\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 2,
+        "mediaUndeclared": 2,
+        "mediaCropWithoutSlot": 2,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": 34,
+        "sectionTitle": 10.88,
+        "body": 11,
+        "label": 10,
+        "control": 10.5,
+        "metric": null,
+        "maxText": 34,
+        "contentScreens": 1,
+        "oversizedLayers": 2,
+        "oversizedSamples": [
+          "h1.pw-head__title 34px \"Environments\"",
+          "b 15px \"PATHS\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 2,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "UNCHANGED (regression target, pixel-identical to main)",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/tablet-after.jpg#experience-environments-1:after"
+        ],
+        "pixelDiff": {
+          "tablet/experience-environments-1.png": 0
+        }
+      }
+    },
+    {
+      "family": "tablet",
+      "id": "expression-narrative",
+      "tab": "EXPRESSION",
+      "route": "/production/ndxbook/expression/narrative",
+      "before": {
+        "pageTitle": 32,
+        "sectionTitle": 17,
+        "body": 11,
+        "label": 8.5,
+        "control": 8.5,
+        "metric": 24,
+        "maxText": 32,
+        "contentScreens": 1,
+        "oversizedLayers": 3,
+        "oversizedSamples": [
+          "h1 32px \"EXPRESSION\"",
+          "b.pxa-red.pxa-num 24px \"02\"",
+          "b.pxa-red.pxa-num 24px \"06\""
+        ],
+        "textClips": 6,
+        "horizontalOverflow": 0,
+        "media": 1,
+        "mediaUndeclared": 1,
+        "mediaCropWithoutSlot": 1,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": 32,
+        "sectionTitle": 17,
+        "body": 11,
+        "label": 8.5,
+        "control": 8.5,
+        "metric": 24,
+        "maxText": 32,
+        "contentScreens": 1,
+        "oversizedLayers": 3,
+        "oversizedSamples": [
+          "h1 32px \"EXPRESSION\"",
+          "b.pxa-red.pxa-num 24px \"02\"",
+          "b.pxa-red.pxa-num 24px \"06\""
+        ],
+        "textClips": 6,
+        "horizontalOverflow": 0,
+        "media": 1,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "UNCHANGED (regression target, pixel-identical to main)",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/tablet-after.jpg#expression-narrative-1:after"
+        ],
+        "pixelDiff": {
+          "tablet/expression-narrative-1.png": 0
+        }
+      }
+    },
+    {
+      "family": "tablet",
+      "id": "expression-casting-actors",
+      "tab": "EXPRESSION",
+      "route": "/production/ndxbook/expression/casting/actors",
+      "before": {
+        "pageTitle": 32,
+        "sectionTitle": 17,
+        "body": 11,
+        "label": 9.5,
+        "control": 10,
+        "metric": 24,
+        "maxText": 32,
+        "contentScreens": 1,
+        "oversizedLayers": 3,
+        "oversizedSamples": [
+          "h1 32px \"EXPRESSION\"",
+          "b.pxa-red.pxa-num 24px \"02\"",
+          "b.pxa-red.pxa-num 24px \"06\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 1,
+        "mediaUndeclared": 1,
+        "mediaCropWithoutSlot": 1,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": 32,
+        "sectionTitle": 17,
+        "body": 11,
+        "label": 9.5,
+        "control": 10,
+        "metric": 24,
+        "maxText": 32,
+        "contentScreens": 1,
+        "oversizedLayers": 3,
+        "oversizedSamples": [
+          "h1 32px \"EXPRESSION\"",
+          "b.pxa-red.pxa-num 24px \"02\"",
+          "b.pxa-red.pxa-num 24px \"06\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 1,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "UNCHANGED (regression target, pixel-identical to main)",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/tablet-after.jpg#expression-casting-actors-1:after"
+        ],
+        "pixelDiff": {
+          "tablet/expression-casting-actors-1.png": 0
+        }
+      }
+    },
+    {
+      "family": "tablet",
+      "id": "expression-wardrobe-looks",
+      "tab": "EXPRESSION",
+      "route": "/production/ndxbook/expression/wardrobe/looks",
+      "before": {
+        "pageTitle": 32,
+        "sectionTitle": 17,
+        "body": 11,
+        "label": 8.5,
+        "control": 10,
+        "metric": 24,
+        "maxText": 32,
+        "contentScreens": 1,
+        "oversizedLayers": 3,
+        "oversizedSamples": [
+          "h1 32px \"EXPRESSION\"",
+          "b.pxa-red.pxa-num 24px \"02\"",
+          "b.pxa-red.pxa-num 24px \"06\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 2,
+        "mediaUndeclared": 2,
+        "mediaCropWithoutSlot": 2,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": 32,
+        "sectionTitle": 17,
+        "body": 11,
+        "label": 8.5,
+        "control": 10,
+        "metric": 24,
+        "maxText": 32,
+        "contentScreens": 1,
+        "oversizedLayers": 3,
+        "oversizedSamples": [
+          "h1 32px \"EXPRESSION\"",
+          "b.pxa-red.pxa-num 24px \"02\"",
+          "b.pxa-red.pxa-num 24px \"06\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 2,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "UNCHANGED (regression target, pixel-identical to main)",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/tablet-after.jpg#expression-wardrobe-looks-1:after"
+        ],
+        "pixelDiff": {
+          "tablet/expression-wardrobe-looks-1.png": 0
+        }
+      }
+    },
+    {
+      "family": "tablet",
+      "id": "expression-sets-environments",
+      "tab": "EXPRESSION",
+      "route": "/production/ndxbook/expression/sets/environments",
+      "before": {
+        "pageTitle": 32,
+        "sectionTitle": 17,
+        "body": 10.5,
+        "label": 8.5,
+        "control": 11,
+        "metric": 24,
+        "maxText": 32,
+        "contentScreens": 1,
+        "oversizedLayers": 3,
+        "oversizedSamples": [
+          "h1 32px \"EXPRESSION\"",
+          "b.pxa-red.pxa-num 24px \"02\"",
+          "b.pxa-red.pxa-num 24px \"06\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 1,
+        "mediaUndeclared": 1,
+        "mediaCropWithoutSlot": 1,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": 32,
+        "sectionTitle": 17,
+        "body": 10.5,
+        "label": 8.5,
+        "control": 11,
+        "metric": 24,
+        "maxText": 32,
+        "contentScreens": 1,
+        "oversizedLayers": 3,
+        "oversizedSamples": [
+          "h1 32px \"EXPRESSION\"",
+          "b.pxa-red.pxa-num 24px \"02\"",
+          "b.pxa-red.pxa-num 24px \"06\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 1,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "UNCHANGED (regression target, pixel-identical to main)",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/tablet-after.jpg#expression-sets-environments-1:after"
+        ],
+        "pixelDiff": {
+          "tablet/expression-sets-environments-1.png": 0
+        }
+      }
+    },
+    {
+      "family": "tablet",
+      "id": "expression-storyboard",
+      "tab": "EXPRESSION",
+      "route": "/production/ndxbook/expression/storyboard",
+      "before": {
+        "pageTitle": 32,
+        "sectionTitle": 17,
+        "body": 11,
+        "label": 8.5,
+        "control": 10,
+        "metric": 24,
+        "maxText": 32,
+        "contentScreens": 1,
+        "oversizedLayers": 3,
+        "oversizedSamples": [
+          "h1 32px \"EXPRESSION\"",
+          "b.pxa-red.pxa-num 24px \"02\"",
+          "b.pxa-red.pxa-num 24px \"06\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 10,
+        "mediaUndeclared": 10,
+        "mediaCropWithoutSlot": 6,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": 32,
+        "sectionTitle": 17,
+        "body": 11,
+        "label": 8.5,
+        "control": 10,
+        "metric": 24,
+        "maxText": 32,
+        "contentScreens": 1,
+        "oversizedLayers": 3,
+        "oversizedSamples": [
+          "h1 32px \"EXPRESSION\"",
+          "b.pxa-red.pxa-num 24px \"02\"",
+          "b.pxa-red.pxa-num 24px \"06\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 10,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "UNCHANGED (regression target, pixel-identical to main)",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/tablet-after.jpg#expression-storyboard-1:after"
+        ],
+        "pixelDiff": {
+          "tablet/expression-storyboard-1.png": 0
+        }
+      }
+    },
+    {
+      "family": "tablet",
+      "id": "library-collection-open",
+      "tab": "LIBRARY",
+      "route": "/production/libraries",
+      "before": {
+        "pageTitle": null,
+        "sectionTitle": 22,
+        "body": 10,
+        "label": 10,
+        "control": 10,
+        "metric": null,
+        "maxText": 22,
+        "contentScreens": 1.2,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 22,
+        "mediaUndeclared": 22,
+        "mediaCropWithoutSlot": 21,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": null,
+        "sectionTitle": 22,
+        "body": 10,
+        "label": 10,
+        "control": 10,
+        "metric": null,
+        "maxText": 22,
+        "contentScreens": 1.2,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 22,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/tablet-after.jpg#library-collection-open-1:after",
+          "screenshots/sheets/tablet-after.jpg#library-collection-open-2:after"
+        ],
+        "pixelDiff": {
+          "tablet/library-collection-open-1.png": 0,
+          "tablet/library-collection-open-2.png": 0
+        }
+      }
+    },
+    {
+      "family": "tablet",
+      "id": "library-in-review",
+      "tab": "LIBRARY",
+      "route": "/production/libraries",
+      "before": {
+        "pageTitle": null,
+        "sectionTitle": null,
+        "body": 13,
+        "label": null,
+        "control": 10,
+        "metric": null,
+        "maxText": 13,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 0,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": null,
+        "sectionTitle": null,
+        "body": 13,
+        "label": null,
+        "control": 10,
+        "metric": null,
+        "maxText": 13,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 0,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/tablet-after.jpg#library-in-review-1:after"
+        ],
+        "pixelDiff": {
+          "tablet/library-in-review-1.png": 0
+        }
+      }
+    },
+    {
+      "family": "tablet",
+      "id": "activity-approvals",
+      "tab": "ACTIVITY",
+      "route": "/production/activity?view=approvals",
+      "before": {
+        "pageTitle": 54,
+        "sectionTitle": 26,
+        "body": 13,
+        "label": 11,
+        "control": 11,
+        "metric": 24,
+        "maxText": 54,
+        "contentScreens": 1.07,
+        "oversizedLayers": 6,
+        "oversizedSamples": [
+          "h1 54px \"ACTIVITY\"",
+          "p 15px \"TRACK REVIEW CYCLES. SEE\"",
+          "b 24px \"04\"",
+          "b 24px \"00\"",
+          "b 24px \"06\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 7,
+        "mediaUndeclared": 7,
+        "mediaCropWithoutSlot": 7,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": 54,
+        "sectionTitle": 26,
+        "body": 13,
+        "label": 11,
+        "control": 11,
+        "metric": 24,
+        "maxText": 54,
+        "contentScreens": 1.07,
+        "oversizedLayers": 6,
+        "oversizedSamples": [
+          "h1 54px \"ACTIVITY\"",
+          "p 15px \"TRACK REVIEW CYCLES. SEE\"",
+          "b 24px \"04\"",
+          "b 24px \"00\"",
+          "b 24px \"06\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 7,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "UNCHANGED (regression target, pixel-identical to main)",
+      "rootLens": true,
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/tablet-after.jpg#activity-approvals-1:after",
+          "screenshots/sheets/tablet-after.jpg#activity-approvals-2:after"
+        ],
+        "pixelDiff": {
+          "tablet/activity-approvals-1.png": 0,
+          "tablet/activity-approvals-2.png": 0
+        }
+      }
+    },
+    {
+      "family": "tablet",
+      "id": "activity-milestone",
+      "tab": "ACTIVITY",
+      "route": "/production/activity?milestone=narrative",
+      "before": {
+        "pageTitle": 32,
+        "sectionTitle": 20,
+        "body": 13,
+        "label": 10.5,
+        "control": 12,
+        "metric": 18,
+        "maxText": 32,
+        "contentScreens": 1.26,
+        "oversizedLayers": 1,
+        "oversizedSamples": [
+          "h1 32px \"NARRATIVE\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 5,
+        "mediaUndeclared": 5,
+        "mediaCropWithoutSlot": 5,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": 32,
+        "sectionTitle": 20,
+        "body": 13,
+        "label": 10.5,
+        "control": 12,
+        "metric": 18,
+        "maxText": 32,
+        "contentScreens": 1.26,
+        "oversizedLayers": 1,
+        "oversizedSamples": [
+          "h1 32px \"NARRATIVE\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 5,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "UNCHANGED (regression target, pixel-identical to main)",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/tablet-after.jpg#activity-milestone-1:after",
+          "screenshots/sheets/tablet-after.jpg#activity-milestone-2:after"
+        ],
+        "pixelDiff": {
+          "tablet/activity-milestone-1.png": 0,
+          "tablet/activity-milestone-2.png": 0
+        }
+      }
+    },
+    {
+      "family": "tablet",
+      "id": "inbox-watching",
+      "tab": "INBOX",
+      "route": "/production/queue?view=watching",
+      "before": {
+        "pageTitle": null,
+        "sectionTitle": null,
+        "body": 10.5,
+        "label": 10,
+        "control": 10,
+        "metric": 24,
+        "maxText": 24,
+        "contentScreens": 1,
+        "oversizedLayers": 4,
+        "oversizedSamples": [
+          "b 24px \"03\"",
+          "b 24px \"00\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 3,
+        "mediaUndeclared": 3,
+        "mediaCropWithoutSlot": 2,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": null,
+        "sectionTitle": null,
+        "body": 10.5,
+        "label": 10,
+        "control": 10,
+        "metric": 24,
+        "maxText": 24,
+        "contentScreens": 1,
+        "oversizedLayers": 4,
+        "oversizedSamples": [
+          "b 24px \"03\"",
+          "b 24px \"00\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 3,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "UNCHANGED (regression target, pixel-identical to main)",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/tablet-after.jpg#inbox-watching-1:after"
+        ],
+        "pixelDiff": {
+          "tablet/inbox-watching-1.png": 0
+        }
+      }
+    },
+    {
+      "family": "tablet",
+      "id": "inbox-all",
+      "tab": "INBOX",
+      "route": "/production/queue?view=all",
+      "before": {
+        "pageTitle": 22,
+        "sectionTitle": null,
+        "body": 10,
+        "label": 9.5,
+        "control": 10,
+        "metric": null,
+        "maxText": 22,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 7,
+        "mediaUndeclared": 7,
+        "mediaCropWithoutSlot": 7,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": 22,
+        "sectionTitle": null,
+        "body": 10,
+        "label": 9.5,
+        "control": 10,
+        "metric": null,
+        "maxText": 22,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 7,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/tablet-after.jpg#inbox-all-1:after"
+        ],
+        "pixelDiff": {
+          "tablet/inbox-all-1.png": 0
+        }
+      }
+    },
+    {
+      "family": "tablet",
+      "id": "inbox-decision-detail",
+      "tab": "INBOX",
+      "route": "/production/queue",
+      "before": {
+        "pageTitle": 22,
+        "sectionTitle": 15,
+        "body": 12,
+        "label": 10,
+        "control": 10.5,
+        "metric": 16,
+        "maxText": 22,
+        "contentScreens": 1,
+        "oversizedLayers": 3,
+        "oversizedSamples": [
+          "b 16px \"CAST + SET + STORYBOARD\"",
+          "b 16px \"—\"",
+          "em 15px \"( 3 )\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 4,
+        "mediaUndeclared": 4,
+        "mediaCropWithoutSlot": 3,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": 22,
+        "sectionTitle": 15,
+        "body": 12,
+        "label": 10,
+        "control": 10.5,
+        "metric": 16,
+        "maxText": 22,
+        "contentScreens": 1,
+        "oversizedLayers": 3,
+        "oversizedSamples": [
+          "b 16px \"CAST + SET + STORYBOARD\"",
+          "b 16px \"—\"",
+          "em 15px \"( 3 )\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 4,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "UNCHANGED (regression target, pixel-identical to main)",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/tablet-after.jpg#inbox-decision-detail-1:after"
+        ],
+        "pixelDiff": {
+          "tablet/inbox-decision-detail-1.png": 0
+        }
+      }
+    },
+    {
+      "family": "desktop",
+      "id": "design-brand",
+      "tab": "DESIGN",
+      "route": "/production/ndxbook/design?mode=brand",
+      "before": {
+        "pageTitle": null,
+        "sectionTitle": 15,
+        "body": 9,
+        "label": 9,
+        "control": 10.5,
+        "metric": 20.69,
+        "maxText": 25.73,
+        "contentScreens": 1,
+        "oversizedLayers": 1,
+        "oversizedSamples": [
+          "b 25.73px \"Aa\""
+        ],
+        "textClips": 6,
+        "horizontalOverflow": 0,
+        "media": 30,
+        "mediaUndeclared": 30,
+        "mediaCropWithoutSlot": 13,
+        "mediaAncestorClip": 6,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": null,
+        "sectionTitle": 15,
+        "body": 9,
+        "label": 9,
+        "control": 10.5,
+        "metric": 20.69,
+        "maxText": 25.73,
+        "contentScreens": 1,
+        "oversizedLayers": 1,
+        "oversizedSamples": [
+          "b 25.73px \"Aa\""
+        ],
+        "textClips": 6,
+        "horizontalOverflow": 0,
+        "media": 30,
+        "mediaUndeclared": 16,
+        "mediaCropWithoutSlot": 6,
+        "mediaAncestorClip": 6,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "UNCHANGED (regression target, pixel-identical to main)",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/desktop-after.jpg#design-brand-1:after"
+        ],
+        "pixelDiff": {
+          "desktop/design-brand-1.png": 0
+        }
+      }
+    },
+    {
+      "family": "desktop",
+      "id": "design-surfaces",
+      "tab": "DESIGN",
+      "route": "/production/ndxbook/design?mode=surfaces",
+      "before": {
+        "pageTitle": null,
+        "sectionTitle": 15,
+        "body": 8.71,
+        "label": 9,
+        "control": 10.5,
+        "metric": 20.69,
+        "maxText": 20.69,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 6,
+        "horizontalOverflow": 0,
+        "media": 19,
+        "mediaUndeclared": 19,
+        "mediaCropWithoutSlot": 5,
+        "mediaAncestorClip": 2,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": null,
+        "sectionTitle": 15,
+        "body": 8.71,
+        "label": 9,
+        "control": 10.5,
+        "metric": 20.69,
+        "maxText": 20.69,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 6,
+        "horizontalOverflow": 0,
+        "media": 19,
+        "mediaUndeclared": 13,
+        "mediaCropWithoutSlot": 1,
+        "mediaAncestorClip": 2,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/desktop-after.jpg#design-surfaces-1:after"
+        ],
+        "pixelDiff": {
+          "desktop/design-surfaces-1.png": 0
+        }
+      }
+    },
+    {
+      "family": "desktop",
+      "id": "design-assets",
+      "tab": "DESIGN",
+      "route": "/production/ndxbook/design?mode=assets",
+      "before": {
+        "pageTitle": null,
+        "sectionTitle": 15,
+        "body": 8.71,
+        "label": 9,
+        "control": 10.5,
+        "metric": 20.69,
+        "maxText": 20.69,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 6,
+        "horizontalOverflow": 0,
+        "media": 34,
+        "mediaUndeclared": 34,
+        "mediaCropWithoutSlot": 17,
+        "mediaAncestorClip": 4,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": null,
+        "sectionTitle": 15,
+        "body": 8.71,
+        "label": 9,
+        "control": 10.5,
+        "metric": 20.69,
+        "maxText": 20.69,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 6,
+        "horizontalOverflow": 0,
+        "media": 34,
+        "mediaUndeclared": 22,
+        "mediaCropWithoutSlot": 6,
+        "mediaAncestorClip": 4,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/desktop-after.jpg#design-assets-1:after"
+        ],
+        "pixelDiff": {
+          "desktop/design-assets-1.png": 0
+        }
+      }
+    },
+    {
+      "family": "desktop",
+      "id": "design-viewport",
+      "tab": "DESIGN",
+      "route": "/production/ndxbook/design?mode=viewport",
+      "before": {
+        "pageTitle": null,
+        "sectionTitle": 15,
+        "body": 9,
+        "label": 9,
+        "control": 10.5,
+        "metric": 11,
+        "maxText": 15,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 5,
+        "mediaUndeclared": 5,
+        "mediaCropWithoutSlot": 5,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": null,
+        "sectionTitle": 15,
+        "body": 9,
+        "label": 9,
+        "control": 10.5,
+        "metric": 11,
+        "maxText": 15,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 5,
+        "mediaUndeclared": 1,
+        "mediaCropWithoutSlot": 1,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/desktop-after.jpg#design-viewport-1:after"
+        ],
+        "pixelDiff": {
+          "desktop/design-viewport-1.png": 0
+        }
+      }
+    },
+    {
+      "family": "desktop",
+      "id": "experience-world",
+      "tab": "EXPERIENCE",
+      "route": "/production/ndxbook/experience/world",
+      "before": {
+        "pageTitle": 34,
+        "sectionTitle": 13,
+        "body": 13,
+        "label": 10,
+        "control": 10.5,
+        "metric": null,
+        "maxText": 34,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 2,
+        "mediaUndeclared": 2,
+        "mediaCropWithoutSlot": 2,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": 34,
+        "sectionTitle": 13,
+        "body": 13,
+        "label": 10,
+        "control": 10.5,
+        "metric": null,
+        "maxText": 34,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 2,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/desktop-after.jpg#experience-world-1:after"
+        ],
+        "pixelDiff": {
+          "desktop/experience-world-1.png": 0
+        }
+      }
+    },
+    {
+      "family": "desktop",
+      "id": "experience-environments",
+      "tab": "EXPERIENCE",
+      "route": "/production/ndxbook/experience/environments",
+      "before": {
+        "pageTitle": 34,
+        "sectionTitle": 13,
+        "body": 13,
+        "label": 10,
+        "control": 10.5,
+        "metric": null,
+        "maxText": 34,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 2,
+        "mediaUndeclared": 2,
+        "mediaCropWithoutSlot": 2,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": 34,
+        "sectionTitle": 13,
+        "body": 13,
+        "label": 10,
+        "control": 10.5,
+        "metric": null,
+        "maxText": 34,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 2,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/desktop-after.jpg#experience-environments-1:after"
+        ],
+        "pixelDiff": {
+          "desktop/experience-environments-1.png": 0
+        }
+      }
+    },
+    {
+      "family": "desktop",
+      "id": "expression-narrative",
+      "tab": "EXPRESSION",
+      "route": "/production/ndxbook/expression/narrative",
+      "before": {
+        "pageTitle": 32,
+        "sectionTitle": 17,
+        "body": 11,
+        "label": 8.5,
+        "control": 8.5,
+        "metric": 24,
+        "maxText": 32,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 6,
+        "horizontalOverflow": 0,
+        "media": 1,
+        "mediaUndeclared": 1,
+        "mediaCropWithoutSlot": 1,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": 32,
+        "sectionTitle": 17,
+        "body": 11,
+        "label": 8.5,
+        "control": 8.5,
+        "metric": 24,
+        "maxText": 32,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 6,
+        "horizontalOverflow": 0,
+        "media": 1,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/desktop-after.jpg#expression-narrative-1:after"
+        ],
+        "pixelDiff": {
+          "desktop/expression-narrative-1.png": 0
+        }
+      }
+    },
+    {
+      "family": "desktop",
+      "id": "expression-casting-actors",
+      "tab": "EXPRESSION",
+      "route": "/production/ndxbook/expression/casting/actors",
+      "before": {
+        "pageTitle": 32,
+        "sectionTitle": 17,
+        "body": 11,
+        "label": 9.5,
+        "control": 10,
+        "metric": 24,
+        "maxText": 32,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 1,
+        "mediaUndeclared": 1,
+        "mediaCropWithoutSlot": 1,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": 32,
+        "sectionTitle": 17,
+        "body": 11,
+        "label": 9.5,
+        "control": 10,
+        "metric": 24,
+        "maxText": 32,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 1,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/desktop-after.jpg#expression-casting-actors-1:after"
+        ],
+        "pixelDiff": {
+          "desktop/expression-casting-actors-1.png": 0
+        }
+      }
+    },
+    {
+      "family": "desktop",
+      "id": "expression-wardrobe-looks",
+      "tab": "EXPRESSION",
+      "route": "/production/ndxbook/expression/wardrobe/looks",
+      "before": {
+        "pageTitle": 32,
+        "sectionTitle": 17,
+        "body": 11,
+        "label": 8.5,
+        "control": 10,
+        "metric": 24,
+        "maxText": 32,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 2,
+        "mediaUndeclared": 2,
+        "mediaCropWithoutSlot": 2,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": 32,
+        "sectionTitle": 17,
+        "body": 11,
+        "label": 8.5,
+        "control": 10,
+        "metric": 24,
+        "maxText": 32,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 2,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/desktop-after.jpg#expression-wardrobe-looks-1:after"
+        ],
+        "pixelDiff": {
+          "desktop/expression-wardrobe-looks-1.png": 0
+        }
+      }
+    },
+    {
+      "family": "desktop",
+      "id": "expression-sets-environments",
+      "tab": "EXPRESSION",
+      "route": "/production/ndxbook/expression/sets/environments",
+      "before": {
+        "pageTitle": 32,
+        "sectionTitle": 17,
+        "body": 10.5,
+        "label": 8.5,
+        "control": 11,
+        "metric": 24,
+        "maxText": 32,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 1,
+        "mediaUndeclared": 1,
+        "mediaCropWithoutSlot": 1,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": 32,
+        "sectionTitle": 17,
+        "body": 10.5,
+        "label": 8.5,
+        "control": 11,
+        "metric": 24,
+        "maxText": 32,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 1,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/desktop-after.jpg#expression-sets-environments-1:after"
+        ],
+        "pixelDiff": {
+          "desktop/expression-sets-environments-1.png": 0
+        }
+      }
+    },
+    {
+      "family": "desktop",
+      "id": "expression-storyboard",
+      "tab": "EXPRESSION",
+      "route": "/production/ndxbook/expression/storyboard",
+      "before": {
+        "pageTitle": 32,
+        "sectionTitle": 17,
+        "body": 11,
+        "label": 8.5,
+        "control": 10,
+        "metric": 24,
+        "maxText": 32,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 10,
+        "mediaUndeclared": 10,
+        "mediaCropWithoutSlot": 6,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": 32,
+        "sectionTitle": 17,
+        "body": 11,
+        "label": 8.5,
+        "control": 10,
+        "metric": 24,
+        "maxText": 32,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 10,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/desktop-after.jpg#expression-storyboard-1:after"
+        ],
+        "pixelDiff": {
+          "desktop/expression-storyboard-1.png": 0
+        }
+      }
+    },
+    {
+      "family": "desktop",
+      "id": "library-collection-open",
+      "tab": "LIBRARY",
+      "route": "/production/libraries",
+      "before": {
+        "pageTitle": null,
+        "sectionTitle": 22,
+        "body": 10,
+        "label": 10,
+        "control": 10,
+        "metric": null,
+        "maxText": 22,
+        "contentScreens": 1.6,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 22,
+        "mediaUndeclared": 22,
+        "mediaCropWithoutSlot": 19,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": null,
+        "sectionTitle": 22,
+        "body": 10,
+        "label": 10,
+        "control": 10,
+        "metric": null,
+        "maxText": 22,
+        "contentScreens": 1.6,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 22,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/desktop-after.jpg#library-collection-open-1:after",
+          "screenshots/sheets/desktop-after.jpg#library-collection-open-2:after"
+        ],
+        "pixelDiff": {
+          "desktop/library-collection-open-1.png": 0,
+          "desktop/library-collection-open-2.png": 0
+        }
+      }
+    },
+    {
+      "family": "desktop",
+      "id": "library-in-review",
+      "tab": "LIBRARY",
+      "route": "/production/libraries",
+      "before": {
+        "pageTitle": null,
+        "sectionTitle": null,
+        "body": 13,
+        "label": null,
+        "control": 10,
+        "metric": null,
+        "maxText": 13,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 0,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": null,
+        "sectionTitle": null,
+        "body": 13,
+        "label": null,
+        "control": 10,
+        "metric": null,
+        "maxText": 13,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 0,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/desktop-after.jpg#library-in-review-1:after"
+        ],
+        "pixelDiff": {
+          "desktop/library-in-review-1.png": 0
+        }
+      }
+    },
+    {
+      "family": "desktop",
+      "id": "activity-approvals",
+      "tab": "ACTIVITY",
+      "route": "/production/activity?view=approvals",
+      "before": {
+        "pageTitle": 62,
+        "sectionTitle": 30,
+        "body": 13,
+        "label": 11,
+        "control": 11,
+        "metric": 30,
+        "maxText": 62,
+        "contentScreens": 1.49,
+        "oversizedLayers": 5,
+        "oversizedSamples": [
+          "h1 62px \"ACTIVITY\"",
+          "b 30px \"04\"",
+          "b 30px \"00\"",
+          "b 30px \"06\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 7,
+        "mediaUndeclared": 7,
+        "mediaCropWithoutSlot": 7,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": 62,
+        "sectionTitle": 30,
+        "body": 13,
+        "label": 11,
+        "control": 11,
+        "metric": 30,
+        "maxText": 62,
+        "contentScreens": 1.49,
+        "oversizedLayers": 5,
+        "oversizedSamples": [
+          "h1 62px \"ACTIVITY\"",
+          "b 30px \"04\"",
+          "b 30px \"00\"",
+          "b 30px \"06\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 7,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "UNCHANGED (regression target, pixel-identical to main)",
+      "rootLens": true,
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/desktop-after.jpg#activity-approvals-1:after",
+          "screenshots/sheets/desktop-after.jpg#activity-approvals-2:after"
+        ],
+        "pixelDiff": {
+          "desktop/activity-approvals-1.png": 0,
+          "desktop/activity-approvals-2.png": 0
+        }
+      }
+    },
+    {
+      "family": "desktop",
+      "id": "activity-milestone",
+      "tab": "ACTIVITY",
+      "route": "/production/activity?milestone=narrative",
+      "before": {
+        "pageTitle": 40,
+        "sectionTitle": 20,
+        "body": 13,
+        "label": 10.5,
+        "control": 12,
+        "metric": 18,
+        "maxText": 40,
+        "contentScreens": 1.56,
+        "oversizedLayers": 1,
+        "oversizedSamples": [
+          "h1 40px \"NARRATIVE\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 5,
+        "mediaUndeclared": 5,
+        "mediaCropWithoutSlot": 5,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": 40,
+        "sectionTitle": 20,
+        "body": 13,
+        "label": 10.5,
+        "control": 12,
+        "metric": 18,
+        "maxText": 40,
+        "contentScreens": 1.56,
+        "oversizedLayers": 1,
+        "oversizedSamples": [
+          "h1 40px \"NARRATIVE\""
+        ],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 5,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "UNCHANGED (regression target, pixel-identical to main)",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/desktop-after.jpg#activity-milestone-1:after",
+          "screenshots/sheets/desktop-after.jpg#activity-milestone-2:after"
+        ],
+        "pixelDiff": {
+          "desktop/activity-milestone-1.png": 0,
+          "desktop/activity-milestone-2.png": 0
+        }
+      }
+    },
+    {
+      "family": "desktop",
+      "id": "inbox-watching",
+      "tab": "INBOX",
+      "route": "/production/queue?view=watching",
+      "before": {
+        "pageTitle": null,
+        "sectionTitle": null,
+        "body": 10.5,
+        "label": 10,
+        "control": 10,
+        "metric": 28,
+        "maxText": 28,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 3,
+        "mediaUndeclared": 3,
+        "mediaCropWithoutSlot": 3,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": null,
+        "sectionTitle": null,
+        "body": 10.5,
+        "label": 10,
+        "control": 10,
+        "metric": 28,
+        "maxText": 28,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 3,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/desktop-after.jpg#inbox-watching-1:after"
+        ],
+        "pixelDiff": {
+          "desktop/inbox-watching-1.png": 0
+        }
+      }
+    },
+    {
+      "family": "desktop",
+      "id": "inbox-all",
+      "tab": "INBOX",
+      "route": "/production/queue?view=all",
+      "before": {
+        "pageTitle": 22,
+        "sectionTitle": null,
+        "body": 10,
+        "label": 9.5,
+        "control": 10,
+        "metric": null,
+        "maxText": 22,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 7,
+        "mediaUndeclared": 7,
+        "mediaCropWithoutSlot": 7,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": 22,
+        "sectionTitle": null,
+        "body": 10,
+        "label": 9.5,
+        "control": 10,
+        "metric": null,
+        "maxText": 22,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 7,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/desktop-after.jpg#inbox-all-1:after"
+        ],
+        "pixelDiff": {
+          "desktop/inbox-all-1.png": 0
+        }
+      }
+    },
+    {
+      "family": "desktop",
+      "id": "inbox-decision-detail",
+      "tab": "INBOX",
+      "route": "/production/queue",
+      "before": {
+        "pageTitle": 26,
+        "sectionTitle": 16,
+        "body": 12,
+        "label": 10,
+        "control": 10.5,
+        "metric": 16,
+        "maxText": 26,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 4,
+        "mediaUndeclared": 4,
+        "mediaCropWithoutSlot": 3,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "after": {
+        "pageTitle": 26,
+        "sectionTitle": 16,
+        "body": 12,
+        "label": 10,
+        "control": 10.5,
+        "metric": 16,
+        "maxText": 26,
+        "contentScreens": 1,
+        "oversizedLayers": 0,
+        "oversizedSamples": [],
+        "textClips": 0,
+        "horizontalOverflow": 0,
+        "media": 4,
+        "mediaUndeclared": 0,
+        "mediaCropWithoutSlot": 0,
+        "mediaAncestorClip": 0,
+        "mediaDistorted": 0,
+        "mediaBroken": 0,
+        "mediaSourceDriven": 0,
+        "errors": 0
+      },
+      "verdict": "PASS",
+      "screenshots": {
+        "before": "pixel-identical to after (see pixelDiff)",
+        "after": [
+          "screenshots/sheets/desktop-after.jpg#inbox-decision-detail-1:after"
+        ],
+        "pixelDiff": {
+          "desktop/inbox-decision-detail-1.png": 0
+        }
+      }
+    }
+  ]
+}

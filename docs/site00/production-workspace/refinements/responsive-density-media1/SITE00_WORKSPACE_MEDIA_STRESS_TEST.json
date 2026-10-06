@@ -1,0 +1,5220 @@
+{
+  "sprint": "P0.SITE00.PRODUCTION-WORKSPACE.RESPONSIVE-DENSITY-MEDIA-FRAMING-REFINEMENT1",
+  "families": {
+    "mobile": {
+      "viewport": 393,
+      "cases": 63,
+      "independence": {
+        "ROW_THUMB": {
+          "cases": 11,
+          "slotW": [
+            20.3,
+            20.3
+          ],
+          "slotH": [
+            20.3,
+            20.3
+          ],
+          "stable": true
+        },
+        "FEATURE_MEDIA": {
+          "cases": 11,
+          "slotW": [
+            136.9,
+            136.9
+          ],
+          "slotH": [
+            91.3,
+            91.3
+          ],
+          "stable": true
+        },
+        "CARD_MEDIA": {
+          "cases": 11,
+          "slotW": [
+            360.3,
+            360.3
+          ],
+          "slotH": [
+            202.6,
+            202.6
+          ],
+          "stable": true
+        },
+        "PORTRAIT": {
+          "cases": 4,
+          "slotW": [
+            156.5,
+            156.5
+          ],
+          "slotH": [
+            195.6,
+            195.6
+          ],
+          "stable": true
+        },
+        "LOGO_MARK": {
+          "cases": 1,
+          "slotW": [
+            20.3,
+            20.3
+          ],
+          "slotH": [
+            20.3,
+            20.3
+          ],
+          "stable": true
+        },
+        "UI_CAPTURE": {
+          "cases": 1,
+          "slotW": [
+            110,
+            110
+          ],
+          "slotH": [
+            195.6,
+            195.6
+          ],
+          "stable": true
+        },
+        "DOCUMENT": {
+          "cases": 1,
+          "slotW": [
+            146.7,
+            146.7
+          ],
+          "slotH": [
+            195.6,
+            195.6
+          ],
+          "stable": true
+        },
+        "HERO_PLATE": {
+          "cases": 1,
+          "slotW": [
+            377,
+            377
+          ],
+          "slotH": [
+            105.5,
+            105.5
+          ],
+          "stable": true
+        },
+        "STACK": {
+          "cases": 1,
+          "slotW": [
+            223.3,
+            223.3
+          ],
+          "slotH": [
+            148.8,
+            148.8
+          ],
+          "stable": true
+        },
+        "PRIMITIVE_STRIP_THUMB": {
+          "cases": 3,
+          "slotW": [
+            54.8,
+            54.8
+          ],
+          "slotH": [
+            34.2,
+            34.2
+          ],
+          "stable": true
+        },
+        "PRIMITIVE_CARD_MEDIA": {
+          "cases": 3,
+          "slotW": [
+            93.1,
+            93.1
+          ],
+          "slotH": [
+            52.4,
+            52.4
+          ],
+          "stable": true
+        },
+        "PRIMITIVE_FEATURE_MEDIA": {
+          "cases": 3,
+          "slotW": [
+            293.4,
+            293.4
+          ],
+          "slotH": [
+            195.6,
+            195.6
+          ],
+          "stable": true
+        },
+        "PRIMITIVE_PORTRAIT": {
+          "cases": 3,
+          "slotW": [
+            78.3,
+            78.3
+          ],
+          "slotH": [
+            97.8,
+            97.8
+          ],
+          "stable": true
+        },
+        "PRIMITIVE_DOCUMENT": {
+          "cases": 3,
+          "slotW": [
+            73.4,
+            73.4
+          ],
+          "slotH": [
+            97.8,
+            97.8
+          ],
+          "stable": true
+        },
+        "PRIMITIVE_UI_CAPTURE": {
+          "cases": 3,
+          "slotW": [
+            90.4,
+            90.4
+          ],
+          "slotH": [
+            160.7,
+            160.7
+          ],
+          "stable": true
+        },
+        "PRIMITIVE_ROW_THUMB": {
+          "cases": 3,
+          "slotW": [
+            20.3,
+            20.3
+          ],
+          "slotH": [
+            20.3,
+            20.3
+          ],
+          "stable": true
+        }
+      },
+      "fails": [],
+      "pass": true,
+      "rows": [
+        {
+          "id": "row-thumb/square_1x1",
+          "group": "ROW_THUMB",
+          "slotType": "ROW_THUMB",
+          "slot": {
+            "w": 20.3,
+            "h": 20.3
+          },
+          "declaredAspect": 1,
+          "renderedAspect": 1,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 38
+          },
+          "natural": {
+            "w": 800,
+            "h": 800
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 3,
+          "viewportOverflow": false
+        },
+        {
+          "id": "feature/square_1x1",
+          "group": "FEATURE_MEDIA",
+          "slotType": "FEATURE_MEDIA",
+          "slot": {
+            "w": 136.9,
+            "h": 91.3
+          },
+          "declaredAspect": 1.5,
+          "renderedAspect": 1.5,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 108
+          },
+          "natural": {
+            "w": 800,
+            "h": 800
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 45%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 2,
+          "viewportOverflow": false
+        },
+        {
+          "id": "card/square_1x1",
+          "group": "CARD_MEDIA",
+          "slotType": "CARD_MEDIA",
+          "slot": {
+            "w": 360.3,
+            "h": 202.6
+          },
+          "declaredAspect": 1.778,
+          "renderedAspect": 1.778,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 259
+          },
+          "natural": {
+            "w": 800,
+            "h": 800
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 45%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "row-thumb/portrait_4x5",
+          "group": "ROW_THUMB",
+          "slotType": "ROW_THUMB",
+          "slot": {
+            "w": 20.3,
+            "h": 20.3
+          },
+          "declaredAspect": 1,
+          "renderedAspect": 1,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 38
+          },
+          "natural": {
+            "w": 800,
+            "h": 1000
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 3,
+          "viewportOverflow": false
+        },
+        {
+          "id": "feature/portrait_4x5",
+          "group": "FEATURE_MEDIA",
+          "slotType": "FEATURE_MEDIA",
+          "slot": {
+            "w": 136.9,
+            "h": 91.3
+          },
+          "declaredAspect": 1.5,
+          "renderedAspect": 1.5,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 108
+          },
+          "natural": {
+            "w": 800,
+            "h": 1000
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 45%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 2,
+          "viewportOverflow": false
+        },
+        {
+          "id": "card/portrait_4x5",
+          "group": "CARD_MEDIA",
+          "slotType": "CARD_MEDIA",
+          "slot": {
+            "w": 360.3,
+            "h": 202.6
+          },
+          "declaredAspect": 1.778,
+          "renderedAspect": 1.778,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 259
+          },
+          "natural": {
+            "w": 800,
+            "h": 1000
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 45%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "row-thumb/portrait_3x4",
+          "group": "ROW_THUMB",
+          "slotType": "ROW_THUMB",
+          "slot": {
+            "w": 20.3,
+            "h": 20.3
+          },
+          "declaredAspect": 1,
+          "renderedAspect": 1,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 38
+          },
+          "natural": {
+            "w": 750,
+            "h": 1000
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 3,
+          "viewportOverflow": false
+        },
+        {
+          "id": "feature/portrait_3x4",
+          "group": "FEATURE_MEDIA",
+          "slotType": "FEATURE_MEDIA",
+          "slot": {
+            "w": 136.9,
+            "h": 91.3
+          },
+          "declaredAspect": 1.5,
+          "renderedAspect": 1.5,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 108
+          },
+          "natural": {
+            "w": 750,
+            "h": 1000
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 45%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 2,
+          "viewportOverflow": false
+        },
+        {
+          "id": "card/portrait_3x4",
+          "group": "CARD_MEDIA",
+          "slotType": "CARD_MEDIA",
+          "slot": {
+            "w": 360.3,
+            "h": 202.6
+          },
+          "declaredAspect": 1.778,
+          "renderedAspect": 1.778,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 259
+          },
+          "natural": {
+            "w": 750,
+            "h": 1000
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 45%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "row-thumb/landscape_16x9",
+          "group": "ROW_THUMB",
+          "slotType": "ROW_THUMB",
+          "slot": {
+            "w": 20.3,
+            "h": 20.3
+          },
+          "declaredAspect": 1,
+          "renderedAspect": 1,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 38
+          },
+          "natural": {
+            "w": 1600,
+            "h": 900
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 3,
+          "viewportOverflow": false
+        },
+        {
+          "id": "feature/landscape_16x9",
+          "group": "FEATURE_MEDIA",
+          "slotType": "FEATURE_MEDIA",
+          "slot": {
+            "w": 136.9,
+            "h": 91.3
+          },
+          "declaredAspect": 1.5,
+          "renderedAspect": 1.5,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 108
+          },
+          "natural": {
+            "w": 1600,
+            "h": 900
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 45%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 2,
+          "viewportOverflow": false
+        },
+        {
+          "id": "card/landscape_16x9",
+          "group": "CARD_MEDIA",
+          "slotType": "CARD_MEDIA",
+          "slot": {
+            "w": 360.3,
+            "h": 202.6
+          },
+          "declaredAspect": 1.778,
+          "renderedAspect": 1.778,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 259
+          },
+          "natural": {
+            "w": 1600,
+            "h": 900
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 45%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "row-thumb/wide_21x9",
+          "group": "ROW_THUMB",
+          "slotType": "ROW_THUMB",
+          "slot": {
+            "w": 20.3,
+            "h": 20.3
+          },
+          "declaredAspect": 1,
+          "renderedAspect": 1,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 38
+          },
+          "natural": {
+            "w": 1600,
+            "h": 686
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 3,
+          "viewportOverflow": false
+        },
+        {
+          "id": "feature/wide_21x9",
+          "group": "FEATURE_MEDIA",
+          "slotType": "FEATURE_MEDIA",
+          "slot": {
+            "w": 136.9,
+            "h": 91.3
+          },
+          "declaredAspect": 1.5,
+          "renderedAspect": 1.5,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 108
+          },
+          "natural": {
+            "w": 1600,
+            "h": 686
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 45%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 2,
+          "viewportOverflow": false
+        },
+        {
+          "id": "card/wide_21x9",
+          "group": "CARD_MEDIA",
+          "slotType": "CARD_MEDIA",
+          "slot": {
+            "w": 360.3,
+            "h": 202.6
+          },
+          "declaredAspect": 1.778,
+          "renderedAspect": 1.778,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 259
+          },
+          "natural": {
+            "w": 1600,
+            "h": 686
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 45%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "row-thumb/very_tall",
+          "group": "ROW_THUMB",
+          "slotType": "ROW_THUMB",
+          "slot": {
+            "w": 20.3,
+            "h": 20.3
+          },
+          "declaredAspect": 1,
+          "renderedAspect": 1,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 38
+          },
+          "natural": {
+            "w": 267,
+            "h": 1600
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 3,
+          "viewportOverflow": false
+        },
+        {
+          "id": "feature/very_tall",
+          "group": "FEATURE_MEDIA",
+          "slotType": "FEATURE_MEDIA",
+          "slot": {
+            "w": 136.9,
+            "h": 91.3
+          },
+          "declaredAspect": 1.5,
+          "renderedAspect": 1.5,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 108
+          },
+          "natural": {
+            "w": 267,
+            "h": 1600
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 45%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 2,
+          "viewportOverflow": false
+        },
+        {
+          "id": "card/very_tall",
+          "group": "CARD_MEDIA",
+          "slotType": "CARD_MEDIA",
+          "slot": {
+            "w": 360.3,
+            "h": 202.6
+          },
+          "declaredAspect": 1.778,
+          "renderedAspect": 1.778,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 259
+          },
+          "natural": {
+            "w": 267,
+            "h": 1600
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 45%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "row-thumb/very_large",
+          "group": "ROW_THUMB",
+          "slotType": "ROW_THUMB",
+          "slot": {
+            "w": 20.3,
+            "h": 20.3
+          },
+          "declaredAspect": 1,
+          "renderedAspect": 1,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 38
+          },
+          "natural": {
+            "w": 1600,
+            "h": 1067
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 3,
+          "viewportOverflow": false
+        },
+        {
+          "id": "feature/very_large",
+          "group": "FEATURE_MEDIA",
+          "slotType": "FEATURE_MEDIA",
+          "slot": {
+            "w": 136.9,
+            "h": 91.3
+          },
+          "declaredAspect": 1.5,
+          "renderedAspect": 1.5,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 108
+          },
+          "natural": {
+            "w": 1600,
+            "h": 1067
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 45%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 2,
+          "viewportOverflow": false
+        },
+        {
+          "id": "card/very_large",
+          "group": "CARD_MEDIA",
+          "slotType": "CARD_MEDIA",
+          "slot": {
+            "w": 360.3,
+            "h": 202.6
+          },
+          "declaredAspect": 1.778,
+          "renderedAspect": 1.778,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 259
+          },
+          "natural": {
+            "w": 1600,
+            "h": 1067
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 45%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "row-thumb/transparent_logo",
+          "group": "ROW_THUMB",
+          "slotType": "ROW_THUMB",
+          "slot": {
+            "w": 20.3,
+            "h": 20.3
+          },
+          "declaredAspect": 1,
+          "renderedAspect": 1,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 38
+          },
+          "natural": {
+            "w": 600,
+            "h": 200
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 3,
+          "viewportOverflow": false
+        },
+        {
+          "id": "feature/transparent_logo",
+          "group": "FEATURE_MEDIA",
+          "slotType": "FEATURE_MEDIA",
+          "slot": {
+            "w": 136.9,
+            "h": 91.3
+          },
+          "declaredAspect": 1.5,
+          "renderedAspect": 1.5,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 108
+          },
+          "natural": {
+            "w": 600,
+            "h": 200
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 45%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 2,
+          "viewportOverflow": false
+        },
+        {
+          "id": "card/transparent_logo",
+          "group": "CARD_MEDIA",
+          "slotType": "CARD_MEDIA",
+          "slot": {
+            "w": 360.3,
+            "h": 202.6
+          },
+          "declaredAspect": 1.778,
+          "renderedAspect": 1.778,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 259
+          },
+          "natural": {
+            "w": 600,
+            "h": 200
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 45%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "row-thumb/ui_screenshot",
+          "group": "ROW_THUMB",
+          "slotType": "ROW_THUMB",
+          "slot": {
+            "w": 20.3,
+            "h": 20.3
+          },
+          "declaredAspect": 1,
+          "renderedAspect": 1,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 38
+          },
+          "natural": {
+            "w": 738,
+            "h": 1600
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 3,
+          "viewportOverflow": false
+        },
+        {
+          "id": "feature/ui_screenshot",
+          "group": "FEATURE_MEDIA",
+          "slotType": "FEATURE_MEDIA",
+          "slot": {
+            "w": 136.9,
+            "h": 91.3
+          },
+          "declaredAspect": 1.5,
+          "renderedAspect": 1.5,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 108
+          },
+          "natural": {
+            "w": 738,
+            "h": 1600
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 45%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 2,
+          "viewportOverflow": false
+        },
+        {
+          "id": "card/ui_screenshot",
+          "group": "CARD_MEDIA",
+          "slotType": "CARD_MEDIA",
+          "slot": {
+            "w": 360.3,
+            "h": 202.6
+          },
+          "declaredAspect": 1.778,
+          "renderedAspect": 1.778,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 259
+          },
+          "natural": {
+            "w": 738,
+            "h": 1600
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 45%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "row-thumb/missing",
+          "group": "ROW_THUMB",
+          "slotType": "ROW_THUMB",
+          "slot": {
+            "w": 20.3,
+            "h": 20.3
+          },
+          "declaredAspect": 1,
+          "renderedAspect": 1,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 38
+          },
+          "natural": null,
+          "state": "missing",
+          "fit": null,
+          "focal": null,
+          "imgFillsSlot": null,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 3,
+          "viewportOverflow": false
+        },
+        {
+          "id": "feature/missing",
+          "group": "FEATURE_MEDIA",
+          "slotType": "FEATURE_MEDIA",
+          "slot": {
+            "w": 136.9,
+            "h": 91.3
+          },
+          "declaredAspect": 1.5,
+          "renderedAspect": 1.5,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 108
+          },
+          "natural": null,
+          "state": "missing",
+          "fit": null,
+          "focal": null,
+          "imgFillsSlot": null,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 2,
+          "viewportOverflow": false
+        },
+        {
+          "id": "card/missing",
+          "group": "CARD_MEDIA",
+          "slotType": "CARD_MEDIA",
+          "slot": {
+            "w": 360.3,
+            "h": 202.6
+          },
+          "declaredAspect": 1.778,
+          "renderedAspect": 1.778,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 259
+          },
+          "natural": null,
+          "state": "missing",
+          "fit": null,
+          "focal": null,
+          "imgFillsSlot": null,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "row-thumb/broken",
+          "group": "ROW_THUMB",
+          "slotType": "ROW_THUMB",
+          "slot": {
+            "w": 20.3,
+            "h": 20.3
+          },
+          "declaredAspect": 1,
+          "renderedAspect": 1,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 38
+          },
+          "natural": null,
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 3,
+          "viewportOverflow": false
+        },
+        {
+          "id": "feature/broken",
+          "group": "FEATURE_MEDIA",
+          "slotType": "FEATURE_MEDIA",
+          "slot": {
+            "w": 136.9,
+            "h": 91.3
+          },
+          "declaredAspect": 1.5,
+          "renderedAspect": 1.5,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 108
+          },
+          "natural": null,
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 45%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 2,
+          "viewportOverflow": false
+        },
+        {
+          "id": "card/broken",
+          "group": "CARD_MEDIA",
+          "slotType": "CARD_MEDIA",
+          "slot": {
+            "w": 360.3,
+            "h": 202.6
+          },
+          "declaredAspect": 1.778,
+          "renderedAspect": 1.778,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 259
+          },
+          "natural": null,
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 45%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "portrait/portrait_4x5",
+          "group": "PORTRAIT",
+          "slotType": "PORTRAIT",
+          "slot": {
+            "w": 156.5,
+            "h": 195.6
+          },
+          "declaredAspect": 0.8,
+          "renderedAspect": 0.8,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 242
+          },
+          "natural": {
+            "w": 800,
+            "h": 1000
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 22%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "portrait/portrait_3x4",
+          "group": "PORTRAIT",
+          "slotType": "PORTRAIT",
+          "slot": {
+            "w": 156.5,
+            "h": 195.6
+          },
+          "declaredAspect": 0.8,
+          "renderedAspect": 0.8,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 242
+          },
+          "natural": {
+            "w": 750,
+            "h": 1000
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 22%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "portrait/square_1x1",
+          "group": "PORTRAIT",
+          "slotType": "PORTRAIT",
+          "slot": {
+            "w": 156.5,
+            "h": 195.6
+          },
+          "declaredAspect": 0.8,
+          "renderedAspect": 0.8,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 242
+          },
+          "natural": {
+            "w": 800,
+            "h": 800
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 22%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "portrait/very_tall",
+          "group": "PORTRAIT",
+          "slotType": "PORTRAIT",
+          "slot": {
+            "w": 156.5,
+            "h": 195.6
+          },
+          "declaredAspect": 0.8,
+          "renderedAspect": 0.8,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 242
+          },
+          "natural": {
+            "w": 267,
+            "h": 1600
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 22%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "logo/transparent_logo",
+          "group": "LOGO_MARK",
+          "slotType": "LOGO_MARK",
+          "slot": {
+            "w": 20.3,
+            "h": 20.3
+          },
+          "declaredAspect": 1,
+          "renderedAspect": 1,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 37
+          },
+          "natural": {
+            "w": 600,
+            "h": 200
+          },
+          "state": "filled",
+          "fit": "contain",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": false,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 3,
+          "viewportOverflow": false
+        },
+        {
+          "id": "ui/ui_screenshot",
+          "group": "UI_CAPTURE",
+          "slotType": "UI_CAPTURE",
+          "slot": {
+            "w": 110,
+            "h": 195.6
+          },
+          "declaredAspect": 0.563,
+          "renderedAspect": 0.563,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 242
+          },
+          "natural": {
+            "w": 738,
+            "h": 1600
+          },
+          "state": "filled",
+          "fit": "contain",
+          "focal": "50% 0%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": false,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "document/portrait_3x4",
+          "group": "DOCUMENT",
+          "slotType": "DOCUMENT",
+          "slot": {
+            "w": 146.7,
+            "h": 195.6
+          },
+          "declaredAspect": 0.75,
+          "renderedAspect": 0.75,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 242
+          },
+          "natural": {
+            "w": 750,
+            "h": 1000
+          },
+          "state": "filled",
+          "fit": "contain",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": false,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "hero/wide_21x9",
+          "group": "HERO_PLATE",
+          "slotType": "HERO_PLATE",
+          "slot": {
+            "w": 377,
+            "h": 105.5
+          },
+          "declaredAspect": 3.571,
+          "renderedAspect": 3.572,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 106
+          },
+          "natural": {
+            "w": 1600,
+            "h": 686
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "30% 40%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "stack/narrow-feature",
+          "group": "STACK",
+          "slotType": "FEATURE_MEDIA",
+          "slot": {
+            "w": 223.3,
+            "h": 148.8
+          },
+          "declaredAspect": 1.5,
+          "renderedAspect": 1.5,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 240,
+            "h": 223
+          },
+          "natural": {
+            "w": 1600,
+            "h": 900
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 45%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "primitive/STRIP_THUMB/landscape_16x9",
+          "group": "PRIMITIVE_STRIP_THUMB",
+          "slotType": "STRIP_THUMB",
+          "slot": {
+            "w": 54.8,
+            "h": 34.2
+          },
+          "declaredAspect": 1.6,
+          "renderedAspect": 1.6,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 34
+          },
+          "natural": {
+            "w": 1600,
+            "h": 900
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 45%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": null,
+          "viewportOverflow": false
+        },
+        {
+          "id": "primitive/STRIP_THUMB/very_tall",
+          "group": "PRIMITIVE_STRIP_THUMB",
+          "slotType": "STRIP_THUMB",
+          "slot": {
+            "w": 54.8,
+            "h": 34.2
+          },
+          "declaredAspect": 1.6,
+          "renderedAspect": 1.6,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 34
+          },
+          "natural": {
+            "w": 267,
+            "h": 1600
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 45%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": null,
+          "viewportOverflow": false
+        },
+        {
+          "id": "primitive/STRIP_THUMB/missing",
+          "group": "PRIMITIVE_STRIP_THUMB",
+          "slotType": "STRIP_THUMB",
+          "slot": {
+            "w": 54.8,
+            "h": 34.2
+          },
+          "declaredAspect": 1.6,
+          "renderedAspect": 1.6,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 34
+          },
+          "natural": null,
+          "state": "missing",
+          "fit": null,
+          "focal": null,
+          "imgFillsSlot": null,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": null,
+          "viewportOverflow": false
+        },
+        {
+          "id": "primitive/CARD_MEDIA/landscape_16x9",
+          "group": "PRIMITIVE_CARD_MEDIA",
+          "slotType": "CARD_MEDIA",
+          "slot": {
+            "w": 93.1,
+            "h": 52.4
+          },
+          "declaredAspect": 1.778,
+          "renderedAspect": 1.778,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 52
+          },
+          "natural": {
+            "w": 1600,
+            "h": 900
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 45%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": null,
+          "viewportOverflow": false
+        },
+        {
+          "id": "primitive/CARD_MEDIA/very_tall",
+          "group": "PRIMITIVE_CARD_MEDIA",
+          "slotType": "CARD_MEDIA",
+          "slot": {
+            "w": 93.1,
+            "h": 52.4
+          },
+          "declaredAspect": 1.778,
+          "renderedAspect": 1.778,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 52
+          },
+          "natural": {
+            "w": 267,
+            "h": 1600
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 45%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": null,
+          "viewportOverflow": false
+        },
+        {
+          "id": "primitive/CARD_MEDIA/missing",
+          "group": "PRIMITIVE_CARD_MEDIA",
+          "slotType": "CARD_MEDIA",
+          "slot": {
+            "w": 93.1,
+            "h": 52.4
+          },
+          "declaredAspect": 1.778,
+          "renderedAspect": 1.778,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 52
+          },
+          "natural": null,
+          "state": "missing",
+          "fit": null,
+          "focal": null,
+          "imgFillsSlot": null,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": null,
+          "viewportOverflow": false
+        },
+        {
+          "id": "primitive/FEATURE_MEDIA/landscape_16x9",
+          "group": "PRIMITIVE_FEATURE_MEDIA",
+          "slotType": "FEATURE_MEDIA",
+          "slot": {
+            "w": 293.4,
+            "h": 195.6
+          },
+          "declaredAspect": 1.5,
+          "renderedAspect": 1.5,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 196
+          },
+          "natural": {
+            "w": 1600,
+            "h": 900
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 45%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": null,
+          "viewportOverflow": false
+        },
+        {
+          "id": "primitive/FEATURE_MEDIA/very_tall",
+          "group": "PRIMITIVE_FEATURE_MEDIA",
+          "slotType": "FEATURE_MEDIA",
+          "slot": {
+            "w": 293.4,
+            "h": 195.6
+          },
+          "declaredAspect": 1.5,
+          "renderedAspect": 1.5,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 196
+          },
+          "natural": {
+            "w": 267,
+            "h": 1600
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 45%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": null,
+          "viewportOverflow": false
+        },
+        {
+          "id": "primitive/FEATURE_MEDIA/missing",
+          "group": "PRIMITIVE_FEATURE_MEDIA",
+          "slotType": "FEATURE_MEDIA",
+          "slot": {
+            "w": 293.4,
+            "h": 195.6
+          },
+          "declaredAspect": 1.5,
+          "renderedAspect": 1.5,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 196
+          },
+          "natural": null,
+          "state": "missing",
+          "fit": null,
+          "focal": null,
+          "imgFillsSlot": null,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": null,
+          "viewportOverflow": false
+        },
+        {
+          "id": "primitive/PORTRAIT/landscape_16x9",
+          "group": "PRIMITIVE_PORTRAIT",
+          "slotType": "PORTRAIT",
+          "slot": {
+            "w": 78.3,
+            "h": 97.8
+          },
+          "declaredAspect": 0.8,
+          "renderedAspect": 0.8,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 98
+          },
+          "natural": {
+            "w": 1600,
+            "h": 900
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 22%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": null,
+          "viewportOverflow": false
+        },
+        {
+          "id": "primitive/PORTRAIT/very_tall",
+          "group": "PRIMITIVE_PORTRAIT",
+          "slotType": "PORTRAIT",
+          "slot": {
+            "w": 78.3,
+            "h": 97.8
+          },
+          "declaredAspect": 0.8,
+          "renderedAspect": 0.8,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 98
+          },
+          "natural": {
+            "w": 267,
+            "h": 1600
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 22%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": null,
+          "viewportOverflow": false
+        },
+        {
+          "id": "primitive/PORTRAIT/missing",
+          "group": "PRIMITIVE_PORTRAIT",
+          "slotType": "PORTRAIT",
+          "slot": {
+            "w": 78.3,
+            "h": 97.8
+          },
+          "declaredAspect": 0.8,
+          "renderedAspect": 0.8,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 98
+          },
+          "natural": null,
+          "state": "missing",
+          "fit": null,
+          "focal": null,
+          "imgFillsSlot": null,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": null,
+          "viewportOverflow": false
+        },
+        {
+          "id": "primitive/DOCUMENT/landscape_16x9",
+          "group": "PRIMITIVE_DOCUMENT",
+          "slotType": "DOCUMENT",
+          "slot": {
+            "w": 73.4,
+            "h": 97.8
+          },
+          "declaredAspect": 0.75,
+          "renderedAspect": 0.75,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 98
+          },
+          "natural": {
+            "w": 1600,
+            "h": 900
+          },
+          "state": "filled",
+          "fit": "contain",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": false,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": null,
+          "viewportOverflow": false
+        },
+        {
+          "id": "primitive/DOCUMENT/very_tall",
+          "group": "PRIMITIVE_DOCUMENT",
+          "slotType": "DOCUMENT",
+          "slot": {
+            "w": 73.4,
+            "h": 97.8
+          },
+          "declaredAspect": 0.75,
+          "renderedAspect": 0.75,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 98
+          },
+          "natural": {
+            "w": 267,
+            "h": 1600
+          },
+          "state": "filled",
+          "fit": "contain",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": false,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": null,
+          "viewportOverflow": false
+        },
+        {
+          "id": "primitive/DOCUMENT/missing",
+          "group": "PRIMITIVE_DOCUMENT",
+          "slotType": "DOCUMENT",
+          "slot": {
+            "w": 73.4,
+            "h": 97.8
+          },
+          "declaredAspect": 0.75,
+          "renderedAspect": 0.75,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 98
+          },
+          "natural": null,
+          "state": "missing",
+          "fit": null,
+          "focal": null,
+          "imgFillsSlot": null,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": null,
+          "viewportOverflow": false
+        },
+        {
+          "id": "primitive/UI_CAPTURE/landscape_16x9",
+          "group": "PRIMITIVE_UI_CAPTURE",
+          "slotType": "UI_CAPTURE",
+          "slot": {
+            "w": 90.4,
+            "h": 160.7
+          },
+          "declaredAspect": 0.563,
+          "renderedAspect": 0.563,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 161
+          },
+          "natural": {
+            "w": 1600,
+            "h": 900
+          },
+          "state": "filled",
+          "fit": "contain",
+          "focal": "50% 0%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": false,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": null,
+          "viewportOverflow": false
+        },
+        {
+          "id": "primitive/UI_CAPTURE/very_tall",
+          "group": "PRIMITIVE_UI_CAPTURE",
+          "slotType": "UI_CAPTURE",
+          "slot": {
+            "w": 90.4,
+            "h": 160.7
+          },
+          "declaredAspect": 0.563,
+          "renderedAspect": 0.563,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 161
+          },
+          "natural": {
+            "w": 267,
+            "h": 1600
+          },
+          "state": "filled",
+          "fit": "contain",
+          "focal": "50% 0%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": false,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": null,
+          "viewportOverflow": false
+        },
+        {
+          "id": "primitive/UI_CAPTURE/missing",
+          "group": "PRIMITIVE_UI_CAPTURE",
+          "slotType": "UI_CAPTURE",
+          "slot": {
+            "w": 90.4,
+            "h": 160.7
+          },
+          "declaredAspect": 0.563,
+          "renderedAspect": 0.563,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 161
+          },
+          "natural": null,
+          "state": "missing",
+          "fit": null,
+          "focal": null,
+          "imgFillsSlot": null,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": null,
+          "viewportOverflow": false
+        },
+        {
+          "id": "primitive/ROW_THUMB/landscape_16x9",
+          "group": "PRIMITIVE_ROW_THUMB",
+          "slotType": "ROW_THUMB",
+          "slot": {
+            "w": 20.3,
+            "h": 20.3
+          },
+          "declaredAspect": 1,
+          "renderedAspect": 1,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 20
+          },
+          "natural": {
+            "w": 1600,
+            "h": 900
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": null,
+          "viewportOverflow": false
+        },
+        {
+          "id": "primitive/ROW_THUMB/very_tall",
+          "group": "PRIMITIVE_ROW_THUMB",
+          "slotType": "ROW_THUMB",
+          "slot": {
+            "w": 20.3,
+            "h": 20.3
+          },
+          "declaredAspect": 1,
+          "renderedAspect": 1,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 20
+          },
+          "natural": {
+            "w": 267,
+            "h": 1600
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": null,
+          "viewportOverflow": false
+        },
+        {
+          "id": "primitive/ROW_THUMB/missing",
+          "group": "PRIMITIVE_ROW_THUMB",
+          "slotType": "ROW_THUMB",
+          "slot": {
+            "w": 20.3,
+            "h": 20.3
+          },
+          "declaredAspect": 1,
+          "renderedAspect": 1,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 377,
+            "h": 20
+          },
+          "natural": null,
+          "state": "missing",
+          "fit": null,
+          "focal": null,
+          "imgFillsSlot": null,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": null,
+          "viewportOverflow": false
+        }
+      ]
+    },
+    "tablet": {
+      "viewport": 834,
+      "cases": 42,
+      "independence": {
+        "ROW_THUMB": {
+          "cases": 11,
+          "slotW": [
+            22.3,
+            22.3
+          ],
+          "slotH": [
+            22.3,
+            22.3
+          ],
+          "stable": true
+        },
+        "FEATURE_MEDIA": {
+          "cases": 11,
+          "slotW": [
+            304.5,
+            304.5
+          ],
+          "slotH": [
+            203,
+            203
+          ],
+          "stable": true
+        },
+        "CARD_MEDIA": {
+          "cases": 11,
+          "slotW": [
+            801.3,
+            801.3
+          ],
+          "slotH": [
+            450.7,
+            450.7
+          ],
+          "stable": true
+        },
+        "PORTRAIT": {
+          "cases": 4,
+          "slotW": [
+            74.5,
+            74.5
+          ],
+          "slotH": [
+            93.1,
+            93.1
+          ],
+          "stable": true
+        },
+        "LOGO_MARK": {
+          "cases": 1,
+          "slotW": [
+            22.3,
+            22.3
+          ],
+          "slotH": [
+            22.3,
+            22.3
+          ],
+          "stable": true
+        },
+        "UI_CAPTURE": {
+          "cases": 1,
+          "slotW": [
+            52.3,
+            52.3
+          ],
+          "slotH": [
+            93,
+            93
+          ],
+          "stable": true
+        },
+        "DOCUMENT": {
+          "cases": 1,
+          "slotW": [
+            69.8,
+            69.8
+          ],
+          "slotH": [
+            93.1,
+            93.1
+          ],
+          "stable": true
+        },
+        "HERO_PLATE": {
+          "cases": 1,
+          "slotW": [
+            818,
+            818
+          ],
+          "slotH": [
+            229,
+            229
+          ],
+          "stable": true
+        },
+        "STACK": {
+          "cases": 1,
+          "slotW": [
+            223.3,
+            223.3
+          ],
+          "slotH": [
+            148.8,
+            148.8
+          ],
+          "stable": true
+        }
+      },
+      "fails": [],
+      "pass": true,
+      "rows": [
+        {
+          "id": "row-thumb/square_1x1",
+          "group": "ROW_THUMB",
+          "slotType": "ROW_THUMB",
+          "slot": {
+            "w": 22.3,
+            "h": 22.3
+          },
+          "declaredAspect": 1,
+          "renderedAspect": 1,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 818,
+            "h": 46
+          },
+          "natural": {
+            "w": 800,
+            "h": 800
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 3,
+          "viewportOverflow": false
+        },
+        {
+          "id": "feature/square_1x1",
+          "group": "FEATURE_MEDIA",
+          "slotType": "FEATURE_MEDIA",
+          "slot": {
+            "w": 304.5,
+            "h": 203
+          },
+          "declaredAspect": 1.5,
+          "renderedAspect": 1.5,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 818,
+            "h": 220
+          },
+          "natural": {
+            "w": 800,
+            "h": 800
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 2,
+          "viewportOverflow": false
+        },
+        {
+          "id": "card/square_1x1",
+          "group": "CARD_MEDIA",
+          "slotType": "CARD_MEDIA",
+          "slot": {
+            "w": 801.3,
+            "h": 450.7
+          },
+          "declaredAspect": 1.778,
+          "renderedAspect": 1.778,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 818,
+            "h": 505
+          },
+          "natural": {
+            "w": 800,
+            "h": 800
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "row-thumb/portrait_4x5",
+          "group": "ROW_THUMB",
+          "slotType": "ROW_THUMB",
+          "slot": {
+            "w": 22.3,
+            "h": 22.3
+          },
+          "declaredAspect": 1,
+          "renderedAspect": 1,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 818,
+            "h": 46
+          },
+          "natural": {
+            "w": 800,
+            "h": 1000
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 3,
+          "viewportOverflow": false
+        },
+        {
+          "id": "feature/portrait_4x5",
+          "group": "FEATURE_MEDIA",
+          "slotType": "FEATURE_MEDIA",
+          "slot": {
+            "w": 304.5,
+            "h": 203
+          },
+          "declaredAspect": 1.5,
+          "renderedAspect": 1.5,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 818,
+            "h": 220
+          },
+          "natural": {
+            "w": 800,
+            "h": 1000
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 2,
+          "viewportOverflow": false
+        },
+        {
+          "id": "card/portrait_4x5",
+          "group": "CARD_MEDIA",
+          "slotType": "CARD_MEDIA",
+          "slot": {
+            "w": 801.3,
+            "h": 450.7
+          },
+          "declaredAspect": 1.778,
+          "renderedAspect": 1.778,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 818,
+            "h": 505
+          },
+          "natural": {
+            "w": 800,
+            "h": 1000
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "row-thumb/portrait_3x4",
+          "group": "ROW_THUMB",
+          "slotType": "ROW_THUMB",
+          "slot": {
+            "w": 22.3,
+            "h": 22.3
+          },
+          "declaredAspect": 1,
+          "renderedAspect": 1,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 818,
+            "h": 46
+          },
+          "natural": {
+            "w": 750,
+            "h": 1000
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 3,
+          "viewportOverflow": false
+        },
+        {
+          "id": "feature/portrait_3x4",
+          "group": "FEATURE_MEDIA",
+          "slotType": "FEATURE_MEDIA",
+          "slot": {
+            "w": 304.5,
+            "h": 203
+          },
+          "declaredAspect": 1.5,
+          "renderedAspect": 1.5,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 818,
+            "h": 220
+          },
+          "natural": {
+            "w": 750,
+            "h": 1000
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 2,
+          "viewportOverflow": false
+        },
+        {
+          "id": "card/portrait_3x4",
+          "group": "CARD_MEDIA",
+          "slotType": "CARD_MEDIA",
+          "slot": {
+            "w": 801.3,
+            "h": 450.7
+          },
+          "declaredAspect": 1.778,
+          "renderedAspect": 1.778,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 818,
+            "h": 505
+          },
+          "natural": {
+            "w": 750,
+            "h": 1000
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "row-thumb/landscape_16x9",
+          "group": "ROW_THUMB",
+          "slotType": "ROW_THUMB",
+          "slot": {
+            "w": 22.3,
+            "h": 22.3
+          },
+          "declaredAspect": 1,
+          "renderedAspect": 1,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 818,
+            "h": 46
+          },
+          "natural": {
+            "w": 1600,
+            "h": 900
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 3,
+          "viewportOverflow": false
+        },
+        {
+          "id": "feature/landscape_16x9",
+          "group": "FEATURE_MEDIA",
+          "slotType": "FEATURE_MEDIA",
+          "slot": {
+            "w": 304.5,
+            "h": 203
+          },
+          "declaredAspect": 1.5,
+          "renderedAspect": 1.5,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 818,
+            "h": 220
+          },
+          "natural": {
+            "w": 1600,
+            "h": 900
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 2,
+          "viewportOverflow": false
+        },
+        {
+          "id": "card/landscape_16x9",
+          "group": "CARD_MEDIA",
+          "slotType": "CARD_MEDIA",
+          "slot": {
+            "w": 801.3,
+            "h": 450.7
+          },
+          "declaredAspect": 1.778,
+          "renderedAspect": 1.778,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 818,
+            "h": 505
+          },
+          "natural": {
+            "w": 1600,
+            "h": 900
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "row-thumb/wide_21x9",
+          "group": "ROW_THUMB",
+          "slotType": "ROW_THUMB",
+          "slot": {
+            "w": 22.3,
+            "h": 22.3
+          },
+          "declaredAspect": 1,
+          "renderedAspect": 1,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 818,
+            "h": 46
+          },
+          "natural": {
+            "w": 1600,
+            "h": 686
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 3,
+          "viewportOverflow": false
+        },
+        {
+          "id": "feature/wide_21x9",
+          "group": "FEATURE_MEDIA",
+          "slotType": "FEATURE_MEDIA",
+          "slot": {
+            "w": 304.5,
+            "h": 203
+          },
+          "declaredAspect": 1.5,
+          "renderedAspect": 1.5,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 818,
+            "h": 220
+          },
+          "natural": {
+            "w": 1600,
+            "h": 686
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 2,
+          "viewportOverflow": false
+        },
+        {
+          "id": "card/wide_21x9",
+          "group": "CARD_MEDIA",
+          "slotType": "CARD_MEDIA",
+          "slot": {
+            "w": 801.3,
+            "h": 450.7
+          },
+          "declaredAspect": 1.778,
+          "renderedAspect": 1.778,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 818,
+            "h": 505
+          },
+          "natural": {
+            "w": 1600,
+            "h": 686
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "row-thumb/very_tall",
+          "group": "ROW_THUMB",
+          "slotType": "ROW_THUMB",
+          "slot": {
+            "w": 22.3,
+            "h": 22.3
+          },
+          "declaredAspect": 1,
+          "renderedAspect": 1,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 818,
+            "h": 46
+          },
+          "natural": {
+            "w": 267,
+            "h": 1600
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 3,
+          "viewportOverflow": false
+        },
+        {
+          "id": "feature/very_tall",
+          "group": "FEATURE_MEDIA",
+          "slotType": "FEATURE_MEDIA",
+          "slot": {
+            "w": 304.5,
+            "h": 203
+          },
+          "declaredAspect": 1.5,
+          "renderedAspect": 1.5,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 818,
+            "h": 220
+          },
+          "natural": {
+            "w": 267,
+            "h": 1600
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 2,
+          "viewportOverflow": false
+        },
+        {
+          "id": "card/very_tall",
+          "group": "CARD_MEDIA",
+          "slotType": "CARD_MEDIA",
+          "slot": {
+            "w": 801.3,
+            "h": 450.7
+          },
+          "declaredAspect": 1.778,
+          "renderedAspect": 1.778,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 818,
+            "h": 505
+          },
+          "natural": {
+            "w": 267,
+            "h": 1600
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "row-thumb/very_large",
+          "group": "ROW_THUMB",
+          "slotType": "ROW_THUMB",
+          "slot": {
+            "w": 22.3,
+            "h": 22.3
+          },
+          "declaredAspect": 1,
+          "renderedAspect": 1,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 818,
+            "h": 46
+          },
+          "natural": {
+            "w": 1600,
+            "h": 1067
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 3,
+          "viewportOverflow": false
+        },
+        {
+          "id": "feature/very_large",
+          "group": "FEATURE_MEDIA",
+          "slotType": "FEATURE_MEDIA",
+          "slot": {
+            "w": 304.5,
+            "h": 203
+          },
+          "declaredAspect": 1.5,
+          "renderedAspect": 1.5,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 818,
+            "h": 220
+          },
+          "natural": {
+            "w": 1600,
+            "h": 1067
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 2,
+          "viewportOverflow": false
+        },
+        {
+          "id": "card/very_large",
+          "group": "CARD_MEDIA",
+          "slotType": "CARD_MEDIA",
+          "slot": {
+            "w": 801.3,
+            "h": 450.7
+          },
+          "declaredAspect": 1.778,
+          "renderedAspect": 1.778,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 818,
+            "h": 505
+          },
+          "natural": {
+            "w": 1600,
+            "h": 1067
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "row-thumb/transparent_logo",
+          "group": "ROW_THUMB",
+          "slotType": "ROW_THUMB",
+          "slot": {
+            "w": 22.3,
+            "h": 22.3
+          },
+          "declaredAspect": 1,
+          "renderedAspect": 1,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 818,
+            "h": 46
+          },
+          "natural": {
+            "w": 600,
+            "h": 200
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 3,
+          "viewportOverflow": false
+        },
+        {
+          "id": "feature/transparent_logo",
+          "group": "FEATURE_MEDIA",
+          "slotType": "FEATURE_MEDIA",
+          "slot": {
+            "w": 304.5,
+            "h": 203
+          },
+          "declaredAspect": 1.5,
+          "renderedAspect": 1.5,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 818,
+            "h": 220
+          },
+          "natural": {
+            "w": 600,
+            "h": 200
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 2,
+          "viewportOverflow": false
+        },
+        {
+          "id": "card/transparent_logo",
+          "group": "CARD_MEDIA",
+          "slotType": "CARD_MEDIA",
+          "slot": {
+            "w": 801.3,
+            "h": 450.7
+          },
+          "declaredAspect": 1.778,
+          "renderedAspect": 1.778,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 818,
+            "h": 505
+          },
+          "natural": {
+            "w": 600,
+            "h": 200
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "row-thumb/ui_screenshot",
+          "group": "ROW_THUMB",
+          "slotType": "ROW_THUMB",
+          "slot": {
+            "w": 22.3,
+            "h": 22.3
+          },
+          "declaredAspect": 1,
+          "renderedAspect": 1,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 818,
+            "h": 46
+          },
+          "natural": {
+            "w": 738,
+            "h": 1600
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 3,
+          "viewportOverflow": false
+        },
+        {
+          "id": "feature/ui_screenshot",
+          "group": "FEATURE_MEDIA",
+          "slotType": "FEATURE_MEDIA",
+          "slot": {
+            "w": 304.5,
+            "h": 203
+          },
+          "declaredAspect": 1.5,
+          "renderedAspect": 1.5,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 818,
+            "h": 220
+          },
+          "natural": {
+            "w": 738,
+            "h": 1600
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 2,
+          "viewportOverflow": false
+        },
+        {
+          "id": "card/ui_screenshot",
+          "group": "CARD_MEDIA",
+          "slotType": "CARD_MEDIA",
+          "slot": {
+            "w": 801.3,
+            "h": 450.7
+          },
+          "declaredAspect": 1.778,
+          "renderedAspect": 1.778,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 818,
+            "h": 505
+          },
+          "natural": {
+            "w": 738,
+            "h": 1600
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "row-thumb/missing",
+          "group": "ROW_THUMB",
+          "slotType": "ROW_THUMB",
+          "slot": {
+            "w": 22.3,
+            "h": 22.3
+          },
+          "declaredAspect": 1,
+          "renderedAspect": 1,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 818,
+            "h": 46
+          },
+          "natural": null,
+          "state": "missing",
+          "fit": null,
+          "focal": null,
+          "imgFillsSlot": null,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 3,
+          "viewportOverflow": false
+        },
+        {
+          "id": "feature/missing",
+          "group": "FEATURE_MEDIA",
+          "slotType": "FEATURE_MEDIA",
+          "slot": {
+            "w": 304.5,
+            "h": 203
+          },
+          "declaredAspect": 1.5,
+          "renderedAspect": 1.5,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 818,
+            "h": 220
+          },
+          "natural": null,
+          "state": "missing",
+          "fit": null,
+          "focal": null,
+          "imgFillsSlot": null,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 2,
+          "viewportOverflow": false
+        },
+        {
+          "id": "card/missing",
+          "group": "CARD_MEDIA",
+          "slotType": "CARD_MEDIA",
+          "slot": {
+            "w": 801.3,
+            "h": 450.7
+          },
+          "declaredAspect": 1.778,
+          "renderedAspect": 1.778,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 818,
+            "h": 505
+          },
+          "natural": null,
+          "state": "missing",
+          "fit": null,
+          "focal": null,
+          "imgFillsSlot": null,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "row-thumb/broken",
+          "group": "ROW_THUMB",
+          "slotType": "ROW_THUMB",
+          "slot": {
+            "w": 22.3,
+            "h": 22.3
+          },
+          "declaredAspect": 1,
+          "renderedAspect": 1,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 818,
+            "h": 46
+          },
+          "natural": null,
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 3,
+          "viewportOverflow": false
+        },
+        {
+          "id": "feature/broken",
+          "group": "FEATURE_MEDIA",
+          "slotType": "FEATURE_MEDIA",
+          "slot": {
+            "w": 304.5,
+            "h": 203
+          },
+          "declaredAspect": 1.5,
+          "renderedAspect": 1.5,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 818,
+            "h": 220
+          },
+          "natural": null,
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 2,
+          "viewportOverflow": false
+        },
+        {
+          "id": "card/broken",
+          "group": "CARD_MEDIA",
+          "slotType": "CARD_MEDIA",
+          "slot": {
+            "w": 801.3,
+            "h": 450.7
+          },
+          "declaredAspect": 1.778,
+          "renderedAspect": 1.778,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 818,
+            "h": 505
+          },
+          "natural": null,
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "portrait/portrait_4x5",
+          "group": "PORTRAIT",
+          "slotType": "PORTRAIT",
+          "slot": {
+            "w": 74.5,
+            "h": 93.1
+          },
+          "declaredAspect": 0.8,
+          "renderedAspect": 0.8,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 818,
+            "h": 147
+          },
+          "natural": {
+            "w": 800,
+            "h": 1000
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 22%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "portrait/portrait_3x4",
+          "group": "PORTRAIT",
+          "slotType": "PORTRAIT",
+          "slot": {
+            "w": 74.5,
+            "h": 93.1
+          },
+          "declaredAspect": 0.8,
+          "renderedAspect": 0.8,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 818,
+            "h": 147
+          },
+          "natural": {
+            "w": 750,
+            "h": 1000
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 22%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "portrait/square_1x1",
+          "group": "PORTRAIT",
+          "slotType": "PORTRAIT",
+          "slot": {
+            "w": 74.5,
+            "h": 93.1
+          },
+          "declaredAspect": 0.8,
+          "renderedAspect": 0.8,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 818,
+            "h": 147
+          },
+          "natural": {
+            "w": 800,
+            "h": 800
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 22%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "portrait/very_tall",
+          "group": "PORTRAIT",
+          "slotType": "PORTRAIT",
+          "slot": {
+            "w": 74.5,
+            "h": 93.1
+          },
+          "declaredAspect": 0.8,
+          "renderedAspect": 0.8,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 818,
+            "h": 147
+          },
+          "natural": {
+            "w": 267,
+            "h": 1600
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 22%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "logo/transparent_logo",
+          "group": "LOGO_MARK",
+          "slotType": "LOGO_MARK",
+          "slot": {
+            "w": 22.3,
+            "h": 22.3
+          },
+          "declaredAspect": 1,
+          "renderedAspect": 1,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 818,
+            "h": 43
+          },
+          "natural": {
+            "w": 600,
+            "h": 200
+          },
+          "state": "filled",
+          "fit": "contain",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": false,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 3,
+          "viewportOverflow": false
+        },
+        {
+          "id": "ui/ui_screenshot",
+          "group": "UI_CAPTURE",
+          "slotType": "UI_CAPTURE",
+          "slot": {
+            "w": 52.3,
+            "h": 93
+          },
+          "declaredAspect": 0.563,
+          "renderedAspect": 0.563,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 818,
+            "h": 147
+          },
+          "natural": {
+            "w": 738,
+            "h": 1600
+          },
+          "state": "filled",
+          "fit": "contain",
+          "focal": "50% 0%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": false,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "document/portrait_3x4",
+          "group": "DOCUMENT",
+          "slotType": "DOCUMENT",
+          "slot": {
+            "w": 69.8,
+            "h": 93.1
+          },
+          "declaredAspect": 0.75,
+          "renderedAspect": 0.75,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 818,
+            "h": 147
+          },
+          "natural": {
+            "w": 750,
+            "h": 1000
+          },
+          "state": "filled",
+          "fit": "contain",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": false,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "hero/wide_21x9",
+          "group": "HERO_PLATE",
+          "slotType": "HERO_PLATE",
+          "slot": {
+            "w": 818,
+            "h": 229
+          },
+          "declaredAspect": 3.571,
+          "renderedAspect": 3.572,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 818,
+            "h": 229
+          },
+          "natural": {
+            "w": 1600,
+            "h": 686
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "30% 40%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "stack/narrow-feature",
+          "group": "STACK",
+          "slotType": "FEATURE_MEDIA",
+          "slot": {
+            "w": 223.3,
+            "h": 148.8
+          },
+          "declaredAspect": 1.5,
+          "renderedAspect": 1.5,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 240,
+            "h": 242
+          },
+          "natural": {
+            "w": 1600,
+            "h": 900
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        }
+      ]
+    },
+    "desktop": {
+      "viewport": 1440,
+      "cases": 42,
+      "independence": {
+        "ROW_THUMB": {
+          "cases": 11,
+          "slotW": [
+            33.1,
+            33.1
+          ],
+          "slotH": [
+            33.1,
+            33.1
+          ],
+          "stable": true
+        },
+        "FEATURE_MEDIA": {
+          "cases": 11,
+          "slotW": [
+            531.3,
+            531.3
+          ],
+          "slotH": [
+            354.2,
+            354.2
+          ],
+          "stable": true
+        },
+        "CARD_MEDIA": {
+          "cases": 11,
+          "slotW": [
+            1398.1,
+            1398.1
+          ],
+          "slotH": [
+            786.4,
+            786.4
+          ],
+          "stable": true
+        },
+        "PORTRAIT": {
+          "cases": 4,
+          "slotW": [
+            102.5,
+            102.5
+          ],
+          "slotH": [
+            128.1,
+            128.1
+          ],
+          "stable": true
+        },
+        "LOGO_MARK": {
+          "cases": 1,
+          "slotW": [
+            33.1,
+            33.1
+          ],
+          "slotH": [
+            33.1,
+            33.1
+          ],
+          "stable": true
+        },
+        "UI_CAPTURE": {
+          "cases": 1,
+          "slotW": [
+            72.1,
+            72.1
+          ],
+          "slotH": [
+            128.1,
+            128.1
+          ],
+          "stable": true
+        },
+        "DOCUMENT": {
+          "cases": 1,
+          "slotW": [
+            96.1,
+            96.1
+          ],
+          "slotH": [
+            128.1,
+            128.1
+          ],
+          "stable": true
+        },
+        "HERO_PLATE": {
+          "cases": 1,
+          "slotW": [
+            1424,
+            1424
+          ],
+          "slotH": [
+            398.7,
+            398.7
+          ],
+          "stable": true
+        },
+        "STACK": {
+          "cases": 1,
+          "slotW": [
+            214.1,
+            214.1
+          ],
+          "slotH": [
+            142.7,
+            142.7
+          ],
+          "stable": true
+        }
+      },
+      "fails": [],
+      "pass": true,
+      "rows": [
+        {
+          "id": "row-thumb/square_1x1",
+          "group": "ROW_THUMB",
+          "slotType": "ROW_THUMB",
+          "slot": {
+            "w": 33.1,
+            "h": 33.1
+          },
+          "declaredAspect": 1,
+          "renderedAspect": 1,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 1424,
+            "h": 65
+          },
+          "natural": {
+            "w": 800,
+            "h": 800
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 3,
+          "viewportOverflow": false
+        },
+        {
+          "id": "feature/square_1x1",
+          "group": "FEATURE_MEDIA",
+          "slotType": "FEATURE_MEDIA",
+          "slot": {
+            "w": 531.3,
+            "h": 354.2
+          },
+          "declaredAspect": 1.5,
+          "renderedAspect": 1.5,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 1424,
+            "h": 380
+          },
+          "natural": {
+            "w": 800,
+            "h": 800
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 2,
+          "viewportOverflow": false
+        },
+        {
+          "id": "card/square_1x1",
+          "group": "CARD_MEDIA",
+          "slotType": "CARD_MEDIA",
+          "slot": {
+            "w": 1398.1,
+            "h": 786.4
+          },
+          "declaredAspect": 1.778,
+          "renderedAspect": 1.778,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 1424,
+            "h": 864
+          },
+          "natural": {
+            "w": 800,
+            "h": 800
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "row-thumb/portrait_4x5",
+          "group": "ROW_THUMB",
+          "slotType": "ROW_THUMB",
+          "slot": {
+            "w": 33.1,
+            "h": 33.1
+          },
+          "declaredAspect": 1,
+          "renderedAspect": 1,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 1424,
+            "h": 65
+          },
+          "natural": {
+            "w": 800,
+            "h": 1000
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 3,
+          "viewportOverflow": false
+        },
+        {
+          "id": "feature/portrait_4x5",
+          "group": "FEATURE_MEDIA",
+          "slotType": "FEATURE_MEDIA",
+          "slot": {
+            "w": 531.3,
+            "h": 354.2
+          },
+          "declaredAspect": 1.5,
+          "renderedAspect": 1.5,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 1424,
+            "h": 380
+          },
+          "natural": {
+            "w": 800,
+            "h": 1000
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 2,
+          "viewportOverflow": false
+        },
+        {
+          "id": "card/portrait_4x5",
+          "group": "CARD_MEDIA",
+          "slotType": "CARD_MEDIA",
+          "slot": {
+            "w": 1398.1,
+            "h": 786.4
+          },
+          "declaredAspect": 1.778,
+          "renderedAspect": 1.778,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 1424,
+            "h": 864
+          },
+          "natural": {
+            "w": 800,
+            "h": 1000
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "row-thumb/portrait_3x4",
+          "group": "ROW_THUMB",
+          "slotType": "ROW_THUMB",
+          "slot": {
+            "w": 33.1,
+            "h": 33.1
+          },
+          "declaredAspect": 1,
+          "renderedAspect": 1,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 1424,
+            "h": 65
+          },
+          "natural": {
+            "w": 750,
+            "h": 1000
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 3,
+          "viewportOverflow": false
+        },
+        {
+          "id": "feature/portrait_3x4",
+          "group": "FEATURE_MEDIA",
+          "slotType": "FEATURE_MEDIA",
+          "slot": {
+            "w": 531.3,
+            "h": 354.2
+          },
+          "declaredAspect": 1.5,
+          "renderedAspect": 1.5,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 1424,
+            "h": 380
+          },
+          "natural": {
+            "w": 750,
+            "h": 1000
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 2,
+          "viewportOverflow": false
+        },
+        {
+          "id": "card/portrait_3x4",
+          "group": "CARD_MEDIA",
+          "slotType": "CARD_MEDIA",
+          "slot": {
+            "w": 1398.1,
+            "h": 786.4
+          },
+          "declaredAspect": 1.778,
+          "renderedAspect": 1.778,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 1424,
+            "h": 864
+          },
+          "natural": {
+            "w": 750,
+            "h": 1000
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "row-thumb/landscape_16x9",
+          "group": "ROW_THUMB",
+          "slotType": "ROW_THUMB",
+          "slot": {
+            "w": 33.1,
+            "h": 33.1
+          },
+          "declaredAspect": 1,
+          "renderedAspect": 1,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 1424,
+            "h": 65
+          },
+          "natural": {
+            "w": 1600,
+            "h": 900
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 3,
+          "viewportOverflow": false
+        },
+        {
+          "id": "feature/landscape_16x9",
+          "group": "FEATURE_MEDIA",
+          "slotType": "FEATURE_MEDIA",
+          "slot": {
+            "w": 531.3,
+            "h": 354.2
+          },
+          "declaredAspect": 1.5,
+          "renderedAspect": 1.5,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 1424,
+            "h": 380
+          },
+          "natural": {
+            "w": 1600,
+            "h": 900
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 2,
+          "viewportOverflow": false
+        },
+        {
+          "id": "card/landscape_16x9",
+          "group": "CARD_MEDIA",
+          "slotType": "CARD_MEDIA",
+          "slot": {
+            "w": 1398.1,
+            "h": 786.4
+          },
+          "declaredAspect": 1.778,
+          "renderedAspect": 1.778,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 1424,
+            "h": 864
+          },
+          "natural": {
+            "w": 1600,
+            "h": 900
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "row-thumb/wide_21x9",
+          "group": "ROW_THUMB",
+          "slotType": "ROW_THUMB",
+          "slot": {
+            "w": 33.1,
+            "h": 33.1
+          },
+          "declaredAspect": 1,
+          "renderedAspect": 1,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 1424,
+            "h": 65
+          },
+          "natural": {
+            "w": 1600,
+            "h": 686
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 3,
+          "viewportOverflow": false
+        },
+        {
+          "id": "feature/wide_21x9",
+          "group": "FEATURE_MEDIA",
+          "slotType": "FEATURE_MEDIA",
+          "slot": {
+            "w": 531.3,
+            "h": 354.2
+          },
+          "declaredAspect": 1.5,
+          "renderedAspect": 1.5,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 1424,
+            "h": 380
+          },
+          "natural": {
+            "w": 1600,
+            "h": 686
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 2,
+          "viewportOverflow": false
+        },
+        {
+          "id": "card/wide_21x9",
+          "group": "CARD_MEDIA",
+          "slotType": "CARD_MEDIA",
+          "slot": {
+            "w": 1398.1,
+            "h": 786.4
+          },
+          "declaredAspect": 1.778,
+          "renderedAspect": 1.778,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 1424,
+            "h": 864
+          },
+          "natural": {
+            "w": 1600,
+            "h": 686
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "row-thumb/very_tall",
+          "group": "ROW_THUMB",
+          "slotType": "ROW_THUMB",
+          "slot": {
+            "w": 33.1,
+            "h": 33.1
+          },
+          "declaredAspect": 1,
+          "renderedAspect": 1,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 1424,
+            "h": 65
+          },
+          "natural": {
+            "w": 267,
+            "h": 1600
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 3,
+          "viewportOverflow": false
+        },
+        {
+          "id": "feature/very_tall",
+          "group": "FEATURE_MEDIA",
+          "slotType": "FEATURE_MEDIA",
+          "slot": {
+            "w": 531.3,
+            "h": 354.2
+          },
+          "declaredAspect": 1.5,
+          "renderedAspect": 1.5,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 1424,
+            "h": 380
+          },
+          "natural": {
+            "w": 267,
+            "h": 1600
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 2,
+          "viewportOverflow": false
+        },
+        {
+          "id": "card/very_tall",
+          "group": "CARD_MEDIA",
+          "slotType": "CARD_MEDIA",
+          "slot": {
+            "w": 1398.1,
+            "h": 786.4
+          },
+          "declaredAspect": 1.778,
+          "renderedAspect": 1.778,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 1424,
+            "h": 864
+          },
+          "natural": {
+            "w": 267,
+            "h": 1600
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "row-thumb/very_large",
+          "group": "ROW_THUMB",
+          "slotType": "ROW_THUMB",
+          "slot": {
+            "w": 33.1,
+            "h": 33.1
+          },
+          "declaredAspect": 1,
+          "renderedAspect": 1,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 1424,
+            "h": 65
+          },
+          "natural": {
+            "w": 1600,
+            "h": 1067
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 3,
+          "viewportOverflow": false
+        },
+        {
+          "id": "feature/very_large",
+          "group": "FEATURE_MEDIA",
+          "slotType": "FEATURE_MEDIA",
+          "slot": {
+            "w": 531.3,
+            "h": 354.2
+          },
+          "declaredAspect": 1.5,
+          "renderedAspect": 1.5,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 1424,
+            "h": 380
+          },
+          "natural": {
+            "w": 1600,
+            "h": 1067
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 2,
+          "viewportOverflow": false
+        },
+        {
+          "id": "card/very_large",
+          "group": "CARD_MEDIA",
+          "slotType": "CARD_MEDIA",
+          "slot": {
+            "w": 1398.1,
+            "h": 786.4
+          },
+          "declaredAspect": 1.778,
+          "renderedAspect": 1.778,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 1424,
+            "h": 864
+          },
+          "natural": {
+            "w": 1600,
+            "h": 1067
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "row-thumb/transparent_logo",
+          "group": "ROW_THUMB",
+          "slotType": "ROW_THUMB",
+          "slot": {
+            "w": 33.1,
+            "h": 33.1
+          },
+          "declaredAspect": 1,
+          "renderedAspect": 1,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 1424,
+            "h": 65
+          },
+          "natural": {
+            "w": 600,
+            "h": 200
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 3,
+          "viewportOverflow": false
+        },
+        {
+          "id": "feature/transparent_logo",
+          "group": "FEATURE_MEDIA",
+          "slotType": "FEATURE_MEDIA",
+          "slot": {
+            "w": 531.3,
+            "h": 354.2
+          },
+          "declaredAspect": 1.5,
+          "renderedAspect": 1.5,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 1424,
+            "h": 380
+          },
+          "natural": {
+            "w": 600,
+            "h": 200
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 2,
+          "viewportOverflow": false
+        },
+        {
+          "id": "card/transparent_logo",
+          "group": "CARD_MEDIA",
+          "slotType": "CARD_MEDIA",
+          "slot": {
+            "w": 1398.1,
+            "h": 786.4
+          },
+          "declaredAspect": 1.778,
+          "renderedAspect": 1.778,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 1424,
+            "h": 864
+          },
+          "natural": {
+            "w": 600,
+            "h": 200
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "row-thumb/ui_screenshot",
+          "group": "ROW_THUMB",
+          "slotType": "ROW_THUMB",
+          "slot": {
+            "w": 33.1,
+            "h": 33.1
+          },
+          "declaredAspect": 1,
+          "renderedAspect": 1,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 1424,
+            "h": 65
+          },
+          "natural": {
+            "w": 738,
+            "h": 1600
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 3,
+          "viewportOverflow": false
+        },
+        {
+          "id": "feature/ui_screenshot",
+          "group": "FEATURE_MEDIA",
+          "slotType": "FEATURE_MEDIA",
+          "slot": {
+            "w": 531.3,
+            "h": 354.2
+          },
+          "declaredAspect": 1.5,
+          "renderedAspect": 1.5,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 1424,
+            "h": 380
+          },
+          "natural": {
+            "w": 738,
+            "h": 1600
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 2,
+          "viewportOverflow": false
+        },
+        {
+          "id": "card/ui_screenshot",
+          "group": "CARD_MEDIA",
+          "slotType": "CARD_MEDIA",
+          "slot": {
+            "w": 1398.1,
+            "h": 786.4
+          },
+          "declaredAspect": 1.778,
+          "renderedAspect": 1.778,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 1424,
+            "h": 864
+          },
+          "natural": {
+            "w": 738,
+            "h": 1600
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "row-thumb/missing",
+          "group": "ROW_THUMB",
+          "slotType": "ROW_THUMB",
+          "slot": {
+            "w": 33.1,
+            "h": 33.1
+          },
+          "declaredAspect": 1,
+          "renderedAspect": 1,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 1424,
+            "h": 65
+          },
+          "natural": null,
+          "state": "missing",
+          "fit": null,
+          "focal": null,
+          "imgFillsSlot": null,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 3,
+          "viewportOverflow": false
+        },
+        {
+          "id": "feature/missing",
+          "group": "FEATURE_MEDIA",
+          "slotType": "FEATURE_MEDIA",
+          "slot": {
+            "w": 531.3,
+            "h": 354.2
+          },
+          "declaredAspect": 1.5,
+          "renderedAspect": 1.5,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 1424,
+            "h": 380
+          },
+          "natural": null,
+          "state": "missing",
+          "fit": null,
+          "focal": null,
+          "imgFillsSlot": null,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 2,
+          "viewportOverflow": false
+        },
+        {
+          "id": "card/missing",
+          "group": "CARD_MEDIA",
+          "slotType": "CARD_MEDIA",
+          "slot": {
+            "w": 1398.1,
+            "h": 786.4
+          },
+          "declaredAspect": 1.778,
+          "renderedAspect": 1.778,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 1424,
+            "h": 864
+          },
+          "natural": null,
+          "state": "missing",
+          "fit": null,
+          "focal": null,
+          "imgFillsSlot": null,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "row-thumb/broken",
+          "group": "ROW_THUMB",
+          "slotType": "ROW_THUMB",
+          "slot": {
+            "w": 33.1,
+            "h": 33.1
+          },
+          "declaredAspect": 1,
+          "renderedAspect": 1,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 1424,
+            "h": 65
+          },
+          "natural": null,
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 3,
+          "viewportOverflow": false
+        },
+        {
+          "id": "feature/broken",
+          "group": "FEATURE_MEDIA",
+          "slotType": "FEATURE_MEDIA",
+          "slot": {
+            "w": 531.3,
+            "h": 354.2
+          },
+          "declaredAspect": 1.5,
+          "renderedAspect": 1.5,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 1424,
+            "h": 380
+          },
+          "natural": null,
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 2,
+          "viewportOverflow": false
+        },
+        {
+          "id": "card/broken",
+          "group": "CARD_MEDIA",
+          "slotType": "CARD_MEDIA",
+          "slot": {
+            "w": 1398.1,
+            "h": 786.4
+          },
+          "declaredAspect": 1.778,
+          "renderedAspect": 1.778,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 1424,
+            "h": 864
+          },
+          "natural": null,
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "portrait/portrait_4x5",
+          "group": "PORTRAIT",
+          "slotType": "PORTRAIT",
+          "slot": {
+            "w": 102.5,
+            "h": 128.1
+          },
+          "declaredAspect": 0.8,
+          "renderedAspect": 0.8,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 1424,
+            "h": 206
+          },
+          "natural": {
+            "w": 800,
+            "h": 1000
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 22%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "portrait/portrait_3x4",
+          "group": "PORTRAIT",
+          "slotType": "PORTRAIT",
+          "slot": {
+            "w": 102.5,
+            "h": 128.1
+          },
+          "declaredAspect": 0.8,
+          "renderedAspect": 0.8,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 1424,
+            "h": 206
+          },
+          "natural": {
+            "w": 750,
+            "h": 1000
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 22%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "portrait/square_1x1",
+          "group": "PORTRAIT",
+          "slotType": "PORTRAIT",
+          "slot": {
+            "w": 102.5,
+            "h": 128.1
+          },
+          "declaredAspect": 0.8,
+          "renderedAspect": 0.8,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 1424,
+            "h": 206
+          },
+          "natural": {
+            "w": 800,
+            "h": 800
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 22%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "portrait/very_tall",
+          "group": "PORTRAIT",
+          "slotType": "PORTRAIT",
+          "slot": {
+            "w": 102.5,
+            "h": 128.1
+          },
+          "declaredAspect": 0.8,
+          "renderedAspect": 0.8,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 1424,
+            "h": 206
+          },
+          "natural": {
+            "w": 267,
+            "h": 1600
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 22%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "logo/transparent_logo",
+          "group": "LOGO_MARK",
+          "slotType": "LOGO_MARK",
+          "slot": {
+            "w": 33.1,
+            "h": 33.1
+          },
+          "declaredAspect": 1,
+          "renderedAspect": 1,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 1424,
+            "h": 61
+          },
+          "natural": {
+            "w": 600,
+            "h": 200
+          },
+          "state": "filled",
+          "fit": "contain",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": false,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 3,
+          "viewportOverflow": false
+        },
+        {
+          "id": "ui/ui_screenshot",
+          "group": "UI_CAPTURE",
+          "slotType": "UI_CAPTURE",
+          "slot": {
+            "w": 72.1,
+            "h": 128.1
+          },
+          "declaredAspect": 0.563,
+          "renderedAspect": 0.563,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 1424,
+            "h": 206
+          },
+          "natural": {
+            "w": 738,
+            "h": 1600
+          },
+          "state": "filled",
+          "fit": "contain",
+          "focal": "50% 0%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": false,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "document/portrait_3x4",
+          "group": "DOCUMENT",
+          "slotType": "DOCUMENT",
+          "slot": {
+            "w": 96.1,
+            "h": 128.1
+          },
+          "declaredAspect": 0.75,
+          "renderedAspect": 0.75,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 1424,
+            "h": 206
+          },
+          "natural": {
+            "w": 750,
+            "h": 1000
+          },
+          "state": "filled",
+          "fit": "contain",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": false,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "hero/wide_21x9",
+          "group": "HERO_PLATE",
+          "slotType": "HERO_PLATE",
+          "slot": {
+            "w": 1424,
+            "h": 398.7
+          },
+          "declaredAspect": 3.571,
+          "renderedAspect": 3.571,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 1424,
+            "h": 399
+          },
+          "natural": {
+            "w": 1600,
+            "h": 686
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "30% 40%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        },
+        {
+          "id": "stack/narrow-feature",
+          "group": "STACK",
+          "slotType": "FEATURE_MEDIA",
+          "slot": {
+            "w": 214.1,
+            "h": 142.7
+          },
+          "declaredAspect": 1.5,
+          "renderedAspect": 1.5,
+          "aspectHeld": true,
+          "missingLabelClipped": false,
+          "panel": {
+            "w": 240,
+            "h": 273
+          },
+          "natural": {
+            "w": 1600,
+            "h": 900
+          },
+          "state": "filled",
+          "fit": "cover",
+          "focal": "50% 50%",
+          "imgFillsSlot": true,
+          "distorted": false,
+          "containCropped": null,
+          "panelOverflow": false,
+          "slotOutsidePanel": false,
+          "textOutsidePanel": false,
+          "titleCollidesMedia": false,
+          "columns": 1,
+          "viewportOverflow": false
+        }
+      ]
+    }
+  },
+  "pass": true
+}

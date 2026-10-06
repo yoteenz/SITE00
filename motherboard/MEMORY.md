@@ -13911,3 +13911,28 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   10. THE NAV IS ALWAYS CENTRED TO THE VIEWPORT — portal host, five equal cells, + is the centre anchor, safe area via `env(safe-area-inset-bottom)`.
 - **Composer flags (not fixed here):** F05 total had summed card/loan balances as held (UI now shows HELD / OWED); LOAN counts toward safe-to-spend cash; `createManualAccount` `Date.now()` ids collide within 1ms; default CARD shows $0 in MONEY but $5,000 used in CREDIT/PAYDOWN; records `document_date` always null; SITE00 `index.html` lacks `viewport-fit=cover`. The render-loop crash on 10/14 roots was fixed on main by Composer (`cachedRepoView`, #1391) — this sprint ships no data-layer change.
 - **Hook rule:** E2E selectors read presentation hooks (`.jrn-home__num`, `.jrn-tx`, visible copy). A recomposition must keep them (or move tests in the same PR).
+
+---
+
+## 2026-10-06 — SITE00 production workspace: HUB-authority responsive density + media framing (P0.SITE00.PRODUCTION-WORKSPACE.RESPONSIVE-DENSITY-MEDIA-FRAMING-REFINEMENT1)
+
+- **Context:** Founder decision — HUB is the responsive density authority (type scale, panel density, media / thumbnail framing, mobile child-page behaviour). Non-HUB tabs and child pages felt like desktop designs forced into mobile (oversized titles, blown-out children, thumbnails clipped instead of framed). Fix = normalize each tab's INTERNAL layers to HUB scale while every tab keeps its own composition. No IA / route / nav / data / product-logic change; zero paid generation.
+- **Landed:**
+  1. **Contract (single source)** — `src/site00/config/production-workspace-density.ts`: T0–T6 + METRIC tiers in HUB authority units per family (mobile ÷1125, tablet ÷1792, desktop ÷2000, HUB floors), panel density tokens, 9 media fit modes, 10 slot types, frame ownership.
+  2. **Density layer** — `src/site00/styles/site00-production-workspace-density.css`, loaded LAST by `ProductionAuthorityFrame` + `PwFrame` (`data-density="hub-authority"`). Tokens `--pw-t0…--pw-t6`, `--pw-metric`, `--pw-pad/--pw-gap/--pw-target/--pw-thumb-*/--pw-media-*` at every width; layer mapping + panel density are the **mobile (≤699px)** contract; tablet / desktop stay pixel-identical to main.
+  3. **Primitives** — `WorkspaceMediaSlot` (slot + fit + focal + missing state), `WorkspacePanel` (6 layout modes, container-query stacking), `Thumb` takes `slot / fit / focal`. Call sites in INBOX / ACTIVITY / EXPRESSION / LIBRARY / DESIGN / HUB / Experience children declare slot + fit.
+  4. **Tooling** — `scripts/production-workspace/density-*.mjs` (live audit, report, media stress test, screenshot pack, contract export).
+- **Measured (mobile 393×852, live):** non-HUB root tabs with oversized titles 4 → 0; oversized layers root 90 → 0, child 180 → 0; text clips 22 → 10 (DESIGN chamber miniatures, intentional); media distortion 0, source-driven media 0, horizontal overflow 0; media stress test 147 / 147 cases pass (mobile / tablet / desktop). HUB, tablet and desktop: 0.00% pixel diff vs main.
+- **Durable rules (motherboard):**
+  1. HUB is the responsive typographic scale authority.
+  2. HUB is the responsive panel-density authority.
+  3. HUB is the media / thumbnail framing authority.
+  4. Other tabs may keep distinct compositions.
+  5. Mobile typography must not exceed the workspace scale without an explicit design reason (roots: one T6 display title at HUB's own display size; children top out at T5).
+  6. Media-bearing panels must declare a media slot (`data-media-slot` + `data-media-fit`, focal via `--pw-focal`).
+  7. Source asset dimensions must not control panel geometry.
+  8. Accidental thumbnail clipping is a failure — a size cap never crushes a frame (caps go through the inline size, aspect holds).
+  9. Child pages inherit the same responsive density system as root tabs.
+  10. Responsive normalization happens at the internal-layer level — never `zoom`, `transform: scale()`, root font-size shrink or page-width hacks.
+- **Gotchas:** cover fits and default focal points are zero-specificity (`:where`) so art-directed crops (zoom + position) survive; contain fits and explicit `--pw-focal` are strong. Slot GEOMETRY drives the shared primitive (`.pw-media`); retrofitted composition frames keep their authored box. Internal scroll panes (Expression families, INBOX) fade their last 18px while they overflow (scroll-driven) — a cut row reads as "more below", not clipped.
+- **Next:** tablet / desktop normalization is a separate sprint (pre-existing tablet / desktop titles above the HUB-equivalent ceiling are recorded in `SITE00_WORKSPACE_ROOT_TAB_QA.json`). Artifacts: `docs/site00/production-workspace/refinements/responsive-density-media1/`.

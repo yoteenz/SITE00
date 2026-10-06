@@ -50,7 +50,7 @@ export function ExpressionBody({ entry }: { entry: string }) {
         <Sec title="CURRENTLY MAKING" className="pxa-card pxa-making" testId="expression-making">
           {production ?
             <div className="pxa-making__body" data-testid="expression-campaign-context">
-              <Thumb slotId={graph?.nodes[5]?.assetSlotId} url={data?.assetUrl(graph?.nodes[5]?.assetSlotId ?? null) ?? null} label="ENTRY" className="pxa-making__img" />
+              <Thumb slotId={graph?.nodes[5]?.assetSlotId} url={data?.assetUrl(graph?.nodes[5]?.assetSlotId ?? null) ?? null} label="ENTRY" className="pxa-making__img" slot="PORTRAIT" />
               <div className="pxa-making__copy">
                 <small>{production.label}</small>
                 <b>{production.subtitle}</b>
@@ -77,7 +77,7 @@ export function ExpressionBody({ entry }: { entry: string }) {
           <div className="pxa-entries">
             {production ?
               <Link to={href('review')} className="pxa-entry is-active">
-                <Thumb slotId={graph?.nodes[0]?.assetSlotId} url={data?.assetUrl(graph?.nodes[0]?.assetSlotId ?? null) ?? null} label="ENTRY" />
+                <Thumb slotId={graph?.nodes[0]?.assetSlotId} url={data?.assetUrl(graph?.nodes[0]?.assetSlotId ?? null) ?? null} label="ENTRY" slot="STRIP_THUMB" />
                 <b>{production.label}</b>
                 <small>{active?.label ?? 'PRODUCTION'}</small>
                 <span className="pxa-bar">
@@ -136,7 +136,7 @@ export function ExpressionBody({ entry }: { entry: string }) {
               <b>CONTENT PACKAGE</b>
               <div className="pxa-frames">
                 {(data?.frames ?? []).slice(0, 4).map((f) => (
-                  <HubImage key={f.frameId} slotId={frameSlotId(f)} url={data?.assetUrl(frameSlotId(f)) ?? null} label={`F${f.number}`} />
+                  <HubImage key={f.frameId} slotId={frameSlotId(f)} url={data?.assetUrl(frameSlotId(f)) ?? null} label={`F${f.number}`} slot="STRIP_THUMB" fit="THUMBNAIL_COVER" />
                 ))}
               </div>
             </div>
@@ -155,7 +155,7 @@ export function ExpressionBody({ entry }: { entry: string }) {
               {attention.slice(0, 3).map((a) => (
                 <li key={a.id}>
                   <Link to={a.nodeId ? href(NODE_SUB[a.nodeId]) : href('review')}>
-                    <Thumb slotId={a.assetSlotId} url={data?.assetUrl(a.assetSlotId) ?? null} label={a.kind} />
+                    <Thumb slotId={a.assetSlotId} url={data?.assetUrl(a.assetSlotId) ?? null} label={a.kind} slot="ROW_THUMB" />
                     <span>
                       <b>{a.title}</b>
                       <small>{a.subtitle}</small>
@@ -174,12 +174,15 @@ export function ExpressionBody({ entry }: { entry: string }) {
 }
 
 function FloorPlate({ floor, slotId, url }: { floor: (typeof FLOORS)[number]; slotId: string | null; url: string | null }) {
-  if (url) return <Thumb slotId={slotId} url={url} label={floor.node.toUpperCase()} className="pxa-floor__art" />;
+  if (url) return <Thumb slotId={slotId} url={url} label={floor.node.toUpperCase()} className="pxa-floor__art" slot="CARD_MEDIA" />;
   return (
     <span
       className="pxa-thumb pxa-floor__art pxa-floor__art--stage"
       data-floor-art="stage"
-      style={{ backgroundImage: `url(${AUTHORITY_ASSETS.expressionStage})`, backgroundPosition: floor.crop }}
+      data-media-slot="CARD_MEDIA"
+      data-media-fit="WIDE_SCENE_COVER"
+      // focal metadata: each floor frames its own part of the one stage plate
+      style={{ backgroundImage: `url(${AUTHORITY_ASSETS.expressionStage})`, ['--pw-focal' as string]: floor.crop }}
       aria-hidden
     />
   );

@@ -1,0 +1,148 @@
+{
+  "sprint": "P0.SITE00.PRODUCTION-WORKSPACE.RESPONSIVE-DENSITY-MEDIA-FRAMING-REFINEMENT1",
+  "name": "WorkspaceMediaSlot",
+  "centralRule": "Panel geometry defines the media slot; the source never sizes the panel. Media adapts to the panel.",
+  "declaration": "data-media-slot (box) + data-media-fit (cover / contain + default focal) + --pw-focal (explicit focal metadata)",
+  "scope": {
+    "geometryDefaults": "mobile (≤699px), shared primitive (.pw-media) — tablet / desktop compositions keep their approved media boxes",
+    "caps": "a max size is enforced through the inline size: min(100%, maxBlock × aspect) — the aspect always holds, a cap never crushes a frame into an undeclared strip",
+    "containFits": "all widths, strong (a declared no-crop beats an inherited cover)",
+    "coverAndDefaultFocal": "zero-specificity defaults (art-directed crops keep zoom + position)",
+    "explicitFocal": "all widths, strong"
+  },
+  "frameOwnership": {
+    "primitive": "SLOT — aspect + capped size from WORKSPACE_MEDIA_SLOTS (mobile), panel layout at every width",
+    "composition": "COMPOSITION — authored frame (tab CSS / density layer per tab); fit, focal, radius and missing state from the slot contract"
+  },
+  "missingAsset": "slot keeps its geometry and renders the named empty state (data-asset-state=\"missing\"); no broken-image icon; row-scale slots (ROW_THUMB / LOGO_MARK) keep the hatched state and move the name to the tooltip",
+  "slots": {
+    "ROW_THUMB": {
+      "type": "ROW_THUMB",
+      "aspect": "1 / 1",
+      "defaultFit": "THUMBNAIL_COVER",
+      "mobile": {
+        "inline": "var(--pw-thumb-row)"
+      },
+      "overflow": "CLIP_TO_SLOT",
+      "radius": "var(--pw-media-radius)",
+      "frame": "NONE",
+      "responsive": "fixed square that scales with the HUB unit; never grows with the source",
+      "hubSource": ".hubx-ops__list .pxa-thumb (--op-thumb 58)"
+    },
+    "STRIP_THUMB": {
+      "type": "STRIP_THUMB",
+      "aspect": "16 / 10",
+      "defaultFit": "LANDSCAPE_COVER",
+      "mobile": {
+        "maxBlock": "var(--pw-thumb-strip)"
+      },
+      "overflow": "CLIP_TO_SLOT",
+      "radius": "var(--pw-media-radius)",
+      "frame": "NONE",
+      "responsive": "fills its cell up to the cap; block size from the aspect (aspect holds under the cap)",
+      "hubSource": ".hubx-entry .pxa-thumb (--entry-img 98)"
+    },
+    "CARD_MEDIA": {
+      "type": "CARD_MEDIA",
+      "aspect": "16 / 9",
+      "defaultFit": "LANDSCAPE_COVER",
+      "mobile": {
+        "maxBlock": "var(--pw-media-card)"
+      },
+      "overflow": "CLIP_TO_SLOT",
+      "radius": "var(--pw-media-radius)",
+      "frame": "NONE",
+      "responsive": "media on top of a card; capped (aspect holds) so text stays the primary read",
+      "hubSource": ".hubx-feature .pxa-thumb (--feature-h 140)"
+    },
+    "PORTRAIT": {
+      "type": "PORTRAIT",
+      "aspect": "4 / 5",
+      "defaultFit": "PORTRAIT_COVER",
+      "mobile": {
+        "maxBlock": "var(--pw-media-portrait)"
+      },
+      "overflow": "CLIP_TO_SLOT",
+      "radius": "var(--pw-media-radius)",
+      "frame": "NONE",
+      "responsive": "portrait slot with upper-third focal point",
+      "hubSource": "HUB cast thumbs (face-led crops)"
+    },
+    "FEATURE_MEDIA": {
+      "type": "FEATURE_MEDIA",
+      "aspect": "3 / 2",
+      "defaultFit": "LANDSCAPE_COVER",
+      "mobile": {
+        "maxBlock": "var(--pw-media-feature)"
+      },
+      "overflow": "CLIP_TO_SLOT",
+      "radius": "var(--pw-media-radius)",
+      "frame": "NONE",
+      "responsive": "side media of a featured panel; stacks above text on narrow phones",
+      "hubSource": ".hubx-feature (feature card media)"
+    },
+    "HERO_PLATE": {
+      "type": "HERO_PLATE",
+      "aspect": "1125 / 315",
+      "defaultFit": "WIDE_SCENE_COVER",
+      "mobile": {
+        "maxBlock": "var(--pw-hero-h)"
+      },
+      "overflow": "CLIP_TO_SLOT",
+      "radius": "0",
+      "frame": "NONE",
+      "responsive": "band height from the HUB hero (--hero-h); copy sits on a wash, never on raw imagery",
+      "hubSource": ".hubx-hero (--hero-h 315)"
+    },
+    "LOGO_MARK": {
+      "type": "LOGO_MARK",
+      "aspect": "1 / 1",
+      "defaultFit": "LOGO_CONTAIN",
+      "mobile": {
+        "inline": "var(--pw-thumb-row)"
+      },
+      "overflow": "CLIP_TO_SLOT",
+      "radius": "0",
+      "frame": "NONE",
+      "responsive": "contain, centred, transparency preserved",
+      "hubSource": "host project mark"
+    },
+    "UI_CAPTURE": {
+      "type": "UI_CAPTURE",
+      "aspect": "9 / 16",
+      "defaultFit": "UI_CAPTURE_CONTAIN",
+      "mobile": {
+        "maxBlock": "var(--pw-media-capture)"
+      },
+      "overflow": "CLIP_TO_SLOT",
+      "radius": "var(--pw-media-radius)",
+      "frame": "DARK_BACKDROP",
+      "responsive": "contain inside a backdrop; whole capture legible",
+      "hubSource": "DESIGN viewport device frames"
+    },
+    "BOARD_PREVIEW": {
+      "type": "BOARD_PREVIEW",
+      "aspect": "COMPOSED",
+      "defaultFit": "AUTHORITY_PREVIEW_COVER",
+      "mobile": {},
+      "overflow": "CLIP_TO_SLOT",
+      "radius": "composition",
+      "frame": "NONE",
+      "responsive": "miniature board / plate preview inside the DESIGN chamber; the chamber composition owns the box, the slot owns the fit",
+      "hubSource": "DESIGN chamber authority panels"
+    },
+    "DOCUMENT": {
+      "type": "DOCUMENT",
+      "aspect": "3 / 4",
+      "defaultFit": "DOCUMENT_PREVIEW_CONTAIN",
+      "mobile": {
+        "maxBlock": "var(--pw-media-portrait)"
+      },
+      "overflow": "CLIP_TO_SLOT",
+      "radius": "var(--pw-media-radius)",
+      "frame": "HAIRLINE",
+      "responsive": "contain; page edges always visible",
+      "hubSource": "narrative / document records"
+    }
+  }
+}
