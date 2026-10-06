@@ -28,6 +28,7 @@ import {
   type RepositoryReadStatus,
   type RepositorySnapshot,
 } from './types';
+import { notifyRepositoryPersisted } from './serverSyncCoordinator';
 
 const memoryByUser = new Map<string, RepositorySnapshot>();
 const listeners = new Set<RepositoryListener>();
@@ -163,6 +164,7 @@ function persist(snap: RepositorySnapshot) {
   const kv = browserLocal();
   if (kv) kv.set(storageKey(snap.userId), JSON.stringify(snap));
   listeners.forEach((l) => l());
+  notifyRepositoryPersisted(snap);
 }
 
 export function getRepositoryPersistRevision(): number {
@@ -565,6 +567,18 @@ export function getRepository(): JurnlRepository {
 }
 
 /** Dev-only: drop cached snapshot for the active user. */
+/** Replace local snapshot (server hydrate / first-login merge). */
+export function importSnapshotForUser(userId: string, snapshot: RepositorySnapshot) {
+  const snap = finalizeSnapshot({ ...snapshot, userId, updatedAt: snapshot.updatedAt || new Date().toISOString() });
+  memoryByUser.set(userId, snap);
+  const kv = browserLocal();
+  if (kv) kv.set(storageKey(userId), JSON.stringify(snap));
+  if (activeUserId === userId) {
+    persistRevision += 1;
+    listeners.forEach((l) => l());
+  }
+}
+
 export function resetRepositoryForDev() {
   persistRevision = 0;
   memoryByUser.delete(activeUserId);

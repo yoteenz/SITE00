@@ -1,0 +1,12 @@
+{
+  "functionalCompletionAfter": 98,
+  "visualCompletionAfter": 92,
+  "approvalCompletionAfter": 85,
+  "launchReadinessAfter": 88,
+  "wave5Status": "COMPLETE_WITH_EXTERNAL_DEPENDENCIES",
+  "blockers": [
+    "LIVE_ASK_JURNL_PROVIDER",
+    "NATIVE_FINANCIAL_PROVIDER",
+    "F16_REMOTE_BLOB_STORAGE"
+  ]
+}

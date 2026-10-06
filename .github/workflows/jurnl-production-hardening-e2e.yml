@@ -1,0 +1,67 @@
+name: JURNL Production Hardening E2E
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'src/projects/jurnl/**'
+      - 'api/jurnl/**'
+      - 'api/_lib/jurnl/**'
+      - 'supabase/migrations/*jurnl*'
+      - 'e2e/jurnl/jurnl-production-hardening.e2e.ts'
+      - 'scripts/jurnl/run-production-hardening-e2e.ts'
+      - 'scripts/jurnl/write-wave5-artifacts.ts'
+      - '.github/workflows/jurnl-production-hardening-e2e.yml'
+  pull_request:
+    paths:
+      - 'src/projects/jurnl/**'
+      - 'api/jurnl/**'
+      - 'supabase/migrations/*jurnl*'
+      - 'e2e/jurnl/**'
+      - 'scripts/jurnl/**'
+      - '.github/workflows/jurnl-production-hardening-e2e.yml'
+
+concurrency:
+  group: jurnl-wave5-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test -- --run tests/jurnlWave5Production.test.ts tests/jurnl*.test.ts
+
+  wave5_e2e:
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - run: npm ci
+      - name: Install Playwright Chromium
+        env:
+          INSTALL_PLAYWRIGHT: '1'
+        run: npx playwright install chromium
+      - name: Run production hardening E2E
+        env:
+          GITHUB_ACTIONS: 'true'
+        run: npm run jurnl:e2e:wave5
+      - name: Upload Wave 5 artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jurnl-wave5-artifacts
+          retention-days: 14
+          path: docs/jurnl/structural-completion/wave5/

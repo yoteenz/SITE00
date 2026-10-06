@@ -1,0 +1,10 @@
+{
+  "failClosedProduction": true,
+  "demoFallbackInProduction": false,
+  "requiredForServerSync": [
+    "VITE_JURNL_SERVER_PERSISTENCE",
+    "VITE_SUPABASE_URL",
+    "VITE_SUPABASE_ANON_KEY",
+    "VITE_API_BASE"
+  ]
+}

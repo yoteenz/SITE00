@@ -1,0 +1,5 @@
+{
+  "deviceRepository": "DEVICE kind canonical for UI",
+  "serverSync": "Debounced PUT /api/jurnl/repository when VITE_JURNL_SERVER_PERSISTENCE=1",
+  "ownership": "Single RepositorySnapshot JSON preserves F05–F16 domain owners"
+}

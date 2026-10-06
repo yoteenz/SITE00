@@ -11,7 +11,10 @@ import { f04ScreenForRoute } from '../../data/f04/screens';
 import { F01_FAMILY_BOUNDARY, F01_SCREENS, F01_STATE_OVERLAYS, f01ScreenForRoute } from '../../data/f01/screens';
 import { f02ScreenForRoute, F02_SCREENS } from '../../data/f02/screens';
 import { resolveFamilyRoute } from '../../data/foundation/familyRegistry';
-import { setRepositoryUserId } from '../../data/repository/deviceRepository';
+import { importSnapshotForUser, setRepositoryUserId } from '../../data/repository/deviceRepository';
+import { configureServerSync, pullServerSnapshotForHydrate, subscribeServerSync, type ServerSyncState } from '../../data/repository/serverSyncCoordinator';
+import { resolveJurnlProductionConfig, type JurnlProductionConfig } from '../../data/production/productionConfig';
+import { getSupabase } from '../../../../utils/supabase';
 import {
   browserKV,
   createDesignPreviewAuthAdapter,
@@ -24,6 +27,7 @@ import {
   type JurnlNativeBridge,
   type JurnlScenario,
 } from './adapters';
+import { createSupabaseJurnlAuthAdapter } from './supabaseAuthAdapter';
 
 export type AiKey = 'personalizedInsights' | 'smartCategorization' | 'budgetRecommendations' | 'naturalLanguage' | 'marketTrends';
 
@@ -66,6 +70,8 @@ const PREVIEW_ACCOUNTS_KEY = 'jurnl.runtime.v1.preview-accounts';
 type Ctx = {
   basePath: string;
   mode: 'design-preview' | 'production';
+  productionConfig: JurnlProductionConfig;
+  serverSyncState: ServerSyncState;
   scenario: JurnlScenario;
   auth: JurnlAuthAdapter;
   bridge: JurnlNativeBridge;
@@ -149,10 +155,14 @@ export function JurnlStoreProvider({ basePath, mode, children }: { basePath: str
     window.parent.postMessage({ source: 'site00-project-runtime', projectId: 'jurnl', ...message }, window.location.origin);
   }, []);
 
-  const auth = useMemo(
-    () => (mode === 'design-preview' ? createDesignPreviewAuthAdapter({ kv: local, scenario }) : createUnconfiguredAuthAdapter()),
-    [mode, local, scenario],
-  );
+  const productionConfig = useMemo(() => resolveJurnlProductionConfig(mode), [mode]);
+  const [serverSyncState, setServerSyncState] = useState<ServerSyncState>('idle');
+
+  const auth = useMemo(() => {
+    if (mode === 'design-preview') return createDesignPreviewAuthAdapter({ kv: local, scenario });
+    if (productionConfig.supabaseConfigured) return createSupabaseJurnlAuthAdapter();
+    return createUnconfiguredAuthAdapter();
+  }, [mode, local, scenario, productionConfig.supabaseConfigured]);
   const bridge = useMemo(
     () =>
       mode === 'design-preview' ?
@@ -181,8 +191,10 @@ export function JurnlStoreProvider({ basePath, mode, children }: { basePath: str
     [local, tab],
   );
   const signOut = useCallback(() => {
+    if (mode === 'production') void getSupabase()?.auth.signOut();
     setSession({ ...DEFAULT_SESSION });
-  }, [setSession]);
+    setRepositoryUserId('preview-guest');
+  }, [setSession, mode]);
 
   const showToast = useCallback((t: Omit<Toast, 'id'>) => setToast({ ...t, id: ++toastSeq.current }), []);
   const dismissToast = useCallback(() => setToast(null), []);
@@ -240,14 +252,63 @@ export function JurnlStoreProvider({ basePath, mode, children }: { basePath: str
   }, [overlayParam, location.pathname]);
 
   useEffect(() => {
+    configureServerSync(mode);
+    return subscribeServerSync((state, detail) => {
+      setServerSyncState(state);
+      if (state === 'error' && detail) {
+        showToast({ tone: 'error', title: 'SAVE FAILED', body: detail, testId: 'jurnl-sync-error' });
+      }
+    });
+  }, [mode, showToast]);
+
+  useEffect(() => {
+    if (mode === 'production' && auth.kind === 'SUPABASE') return;
     const uid = session.account?.email?.trim().toUpperCase() || 'preview-guest';
     setRepositoryUserId(uid);
-  }, [session.account?.email]);
+  }, [session.account?.email, mode, auth.kind]);
+
+  useEffect(() => {
+    if (mode !== 'production' || auth.kind !== 'SUPABASE') return;
+    const sb = getSupabase();
+    if (!sb) return;
+
+    const applySession = async (user: { id: string; email?: string | null; user_metadata?: Record<string, unknown>; email_confirmed_at?: string }) => {
+      const meta = user.user_metadata ?? {};
+      const account: JurnlAccount = {
+        firstName: String(meta.first_name ?? meta.firstName ?? 'JURNL').trim().toUpperCase() || 'JURNL',
+        lastName: String(meta.last_name ?? meta.lastName ?? 'USER').trim().toUpperCase() || 'USER',
+        email: (user.email ?? '').trim().toUpperCase(),
+        emailVerified: Boolean(user.email_confirmed_at),
+      };
+      setRepositoryUserId(user.id);
+      const { snapshot } = await pullServerSnapshotForHydrate(mode);
+      if (snapshot) importSnapshotForUser(user.id, snapshot);
+      setSession({ account, status: 'ACTIVE' });
+    };
+
+    void sb.auth.getSession().then(({ data }) => {
+      if (data.session?.user) void applySession(data.session.user);
+    });
+
+    const { data: sub } = sb.auth.onAuthStateChange((event, sess) => {
+      if (event === 'SIGNED_OUT') {
+        setSession({ ...DEFAULT_SESSION });
+        setRepositoryUserId('preview-guest');
+        return;
+      }
+      if (sess?.user && (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED' || event === 'INITIAL_SESSION')) {
+        void applySession(sess.user);
+      }
+    });
+    return () => sub.subscription.unsubscribe();
+  }, [mode, auth.kind, setSession]);
 
   const value = useMemo<Ctx>(
     () => ({
       basePath,
       mode,
+      productionConfig,
+      serverSyncState,
       scenario,
       auth,
       bridge,
@@ -266,7 +327,27 @@ export function JurnlStoreProvider({ basePath, mode, children }: { basePath: str
       forcedState: q('state'),
       postToHost,
     }),
-    [basePath, mode, scenario, auth, bridge, device, session, setDevice, setSession, signOut, overlay, toast, showToast, dismissToast, go, params, postToHost],
+    [
+      basePath,
+      mode,
+      productionConfig,
+      serverSyncState,
+      scenario,
+      auth,
+      bridge,
+      device,
+      session,
+      setDevice,
+      setSession,
+      signOut,
+      overlay,
+      toast,
+      showToast,
+      dismissToast,
+      go,
+      params,
+      postToHost,
+    ],
   );
   return <JurnlCtx.Provider value={value}>{children}</JurnlCtx.Provider>;
 }

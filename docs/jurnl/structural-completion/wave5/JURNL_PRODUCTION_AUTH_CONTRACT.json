@@ -1,0 +1,12 @@
+{
+  "states": [
+    "UNAUTHENTICATED",
+    "AUTHENTICATED_NOT_SETUP",
+    "AUTHENTICATED_SETUP_COMPLETE",
+    "SESSION_EXPIRED",
+    "AUTH_ERROR",
+    "OFFLINE"
+  ],
+  "productionAdapter": "SUPABASE when VITE_SUPABASE_* configured",
+  "previewLeak": "design-preview seed accounts gated to design-preview mode only"
+}
