@@ -11,9 +11,14 @@ import { projectFromUrl, resolveActiveProject } from '../../../shared/site00-pro
 
 const KEY = 'site00.production.active-project.v1';
 
+/**
+ * The remembered choice is per browser tab first (sessionStorage), then the last choice in any tab (localStorage):
+ * an unscoped production link in one tab never resolves to the project another tab switched to.
+ */
 export function readStoredActiveProject(): string | null {
+  if (typeof window === 'undefined') return null;
   try {
-    return typeof window === 'undefined' ? null : window.localStorage.getItem(KEY);
+    return window.sessionStorage.getItem(KEY) ?? window.localStorage.getItem(KEY);
   } catch {
     return null;
   }
@@ -21,6 +26,7 @@ export function readStoredActiveProject(): string | null {
 
 export function writeStoredActiveProject(projectId: string): void {
   try {
+    window.sessionStorage.setItem(KEY, projectId.toLowerCase());
     window.localStorage.setItem(KEY, projectId.toLowerCase());
   } catch {
     /* storage unavailable */
