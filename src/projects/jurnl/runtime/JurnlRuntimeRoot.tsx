@@ -11,6 +11,7 @@ import { F01_SCREENS } from '../data/f01/screens';
 import { F02_SCREENS } from '../data/f02/screens';
 import { JurnlOverlayHostContext, JurnlSuccessBanner } from './components/primitives';
 import { JurnlEntitlementsProvider } from './monetization/JurnlEntitlements';
+import { JurnlNavHostContext } from './components/ProductNav';
 import { JurnlProductionServiceScreen } from './components/JurnlProductionServiceScreen';
 import { JurnlRuntimeChrome } from './components/JurnlRuntimeChrome';
 import { jurnlProductionFailClosed } from '../data/production/productionConfig';
@@ -42,6 +43,8 @@ import './jurnl-setup.css';
 import './jurnl-home.css';
 import './jurnl-expression.css';
 import './jurnl-parents.css';
+import './jurnl-frame.css';
+import './jurnl-archetypes.css';
 
 /** Screen id → runtime component. Every F01 screen in the contract must appear here (tests enforce it). */
 export const JURNL_F01_SCREEN_COMPONENTS = {
@@ -128,11 +131,13 @@ function JurnlRoutes() {
 
 export default function JurnlRuntimeRoot({ basePath, mode }: ProjectRuntimeProps) {
   const [overlayHost, setOverlayHost] = useState<HTMLElement | null>(null);
+  const [navHost, setNavHost] = useState<HTMLElement | null>(null);
   if (mode === 'production' && jurnlProductionFailClosed(mode)) {
     return <JurnlProductionServiceScreen />;
   }
   return (
     <div className="jrn" data-project-runtime="jurnl" data-runtime-mode={mode} data-jrn-app-stage="canvas" lang="en">
+      <JurnlNavHostContext.Provider value={navHost}>
       <JurnlOverlayHostContext.Provider value={overlayHost}>
         {/* Entitlements context only (no DOM): future families query capabilities; F01 never renders monetization UI. */}
         <JurnlEntitlementsProvider mode={mode}>
@@ -143,6 +148,9 @@ export default function JurnlRuntimeRoot({ basePath, mode }: ProjectRuntimeProps
           </JurnlStoreProvider>
         </JurnlEntitlementsProvider>
       </JurnlOverlayHostContext.Provider>
+      </JurnlNavHostContext.Provider>
+      {/* Viewport dock: the nav is centered to the viewport, outside every screen, column and animation. */}
+      <div className="jrn-nav-host" ref={setNavHost} data-jrn-nav-host />
       <div className="jrn-overlay-host" ref={setOverlayHost} data-jrn-overlay-host />
     </div>
   );

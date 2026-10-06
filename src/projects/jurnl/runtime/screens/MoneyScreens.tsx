@@ -11,8 +11,8 @@ import { parentById } from '../../data/parents/catalog';
 import { FamilyChrome } from '../components/FamilyChrome';
 import { JurnlProductNav } from '../components/ProductNav';
 import { AskJurnlSheet, QuickAddV2Sheet } from '../global/GlobalSheets';
-import { JurnlButton, JurnlDrawer, JurnlInput, JurnlPanel } from '../components/primitives';
-import { JurnlScreen } from './JurnlScreen';
+import { JurnlButton, JurnlDrawer, JurnlInlineAction, JurnlInput, JurnlPanel } from '../components/primitives';
+import { FramePanel, JurnlFamilyFrame, JurnlFamilyShell } from '../components/FamilyFrame';
 import { useJurnl } from '../state/store';
 import { honestAccountsConnectionLabel } from '../../data/foundation/connectionProvider';
 import { useSetup } from '../../data/f02/setupDraft';
@@ -21,55 +21,145 @@ import type { AccountType } from '../../data/foundation/categories';
 function MoneyShell({ screenId, children, nav }: { screenId: string; children: ReactNode; nav: 'MONEY' }) {
   const { go, overlay, openOverlay, closeOverlay } = useJurnl();
   return (
-    <JurnlScreen screenId={screenId} familyPlate={PARENT_PLATES.F05} family>
-      <div className="jrn-home jrn-parent">{children}</div>
-      <JurnlProductNav current={nav} onGo={go} onAdd={() => openOverlay('quick-add')} />
-      {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F05" onClose={closeOverlay} /> : null}
-      {overlay === 'ask' ? <AskJurnlSheet familyId="F05" nodeId={screenId} onClose={closeOverlay} /> : null}
-    </JurnlScreen>
+    <JurnlFamilyShell
+      screenId={screenId}
+      familyId="F05"
+      familyPlate={PARENT_PLATES.F05}
+      nav={<JurnlProductNav current={nav} onGo={go} onAdd={() => openOverlay('quick-add')} />}
+      overlays={
+        <>
+          {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F05" onClose={closeOverlay} /> : null}
+          {overlay === 'ask' ? <AskJurnlSheet familyId="F05" nodeId={screenId} onClose={closeOverlay} /> : null}
+        </>
+      }
+    >
+      {children}
+    </JurnlFamilyShell>
   );
 }
 
+type Shelf = { id: string; label: string; caption: string; types: AccountType[] };
+
+/** Cabinet shelves: places grouped by what they are. Grouping is presentation only; every value is the place's own. */
+const SHELVES: Shelf[] = [
+  { id: 'EVERYDAY', label: 'EVERYDAY', caption: 'CHECKING + CASH', types: ['CHECKING', 'CASH'] },
+  { id: 'SAVED', label: 'SAVED', caption: 'SAVINGS + INVESTMENTS', types: ['SAVINGS', 'INVESTMENT'] },
+  { id: 'OWED', label: 'OWED', caption: 'CARDS + LOANS', types: ['CREDIT_CARD', 'LOAN'] },
+  { id: 'OTHER', label: 'OTHER', caption: 'BUSINESS + OTHER', types: ['BUSINESS', 'OTHER'] },
+];
+
+const KIND_LABEL: Record<AccountType, string> = {
+  CHECKING: 'CHECKING',
+  SAVINGS: 'SAVINGS',
+  CREDIT_CARD: 'CARD',
+  CASH: 'CASH',
+  INVESTMENT: 'INVESTMENT',
+  LOAN: 'LOAN',
+  BUSINESS: 'BUSINESS',
+  OTHER: 'OTHER',
+};
+
+/** F05 MONEY — CONTAINER / CABINET. A financial wardrobe: shelves by kind, places as drawers you open. */
 export function MoneyHubScreen() {
-  const { go, openOverlay } = useJurnl();
+  const { go, openOverlay, closeOverlay, overlay } = useJurnl();
   const draft = useSetup();
   useCurrency();
   const accounts = listActiveAccounts();
   const spec = parentById('F05')!;
-  const total = accounts.filter((a) => a.include_in_net_worth).reduce((s, a) => s + a.available_balance, 0);
+  const [addOpen, setAddOpen] = useState(false);
+  const shelves = SHELVES.map((shelf) => ({ ...shelf, places: accounts.filter((a) => shelf.types.includes(a.account_type)) })).filter((s) => s.places.length);
+  const sum = (types: AccountType[]) => accounts.filter((a) => types.includes(a.account_type)).reduce((t, a) => t + a.available_balance, 0);
+  const held = sum(['CHECKING', 'CASH', 'SAVINGS', 'INVESTMENT', 'BUSINESS', 'OTHER']);
+  const owed = sum(['CREDIT_CARD', 'LOAN']);
+  // No bank aggregation provider exists (JURNL_BANK_CONNECTION_PROVIDER): say so plainly instead of a status code.
+  const source = draft.accounts === 'CONNECTED' ? honestAccountsConnectionLabel(draft.accounts) : 'NO BANK CONNECTED · BALANCES ARE WHAT YOU ENTERED';
+  const count = accounts.length;
   return (
-    <MoneyShell screenId="F05.00" nav="MONEY">
-      <FamilyChrome familyId="F05" nodeId="F05.00" backLabel="BACK TO TODAY" onBack={() => go('F03')} onAsk={() => openOverlay('ask')} />
-      <div className="jrn-home__intro" data-jrn-zone="intro">
-        <h1 className="jrn-home__h">{spec.name}</h1>
-        <p className="jrn-home__sub">{spec.question}</p>
-      </div>
-      <div className="jrn-parent__rail" data-jrn-zone="content-rail">
-        <div className="jrn-home__signal" data-jrn-panel="signal">
-          <p className="jrn-home__num">{formatMoney(total)}</p>
-          <p className="jrn-home__hint">{accounts.length} PLACES · {honestAccountsConnectionLabel(draft.accounts)}</p>
+    <JurnlFamilyFrame
+      screenId="F05.00"
+      familyId="F05"
+      familyPlate={PARENT_PLATES.F05}
+      label="MONEY"
+      archetype="CONTAINER_CABINET"
+      chrome={<FamilyChrome familyId="F05" nodeId="F05.00" backLabel="BACK TO TODAY" onBack={() => go('F03')} onAsk={() => openOverlay('ask')} />}
+      nav={<JurnlProductNav current="MONEY" onGo={go} onAdd={() => openOverlay('quick-add')} />}
+      overlays={
+        <>
+          {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F05" onClose={closeOverlay} /> : null}
+          {overlay === 'ask' ? <AskJurnlSheet familyId="F05" nodeId="F05.00" onClose={closeOverlay} /> : null}
+          {addOpen ? <AddPlaceSheet onClose={() => setAddOpen(false)} onSaved={(id) => { setAddOpen(false); go(`money/places/${id}`); }} /> : null}
+        </>
+      }
+    >
+      <FramePanel id="plaque">
+        <header className="jrn-cab__plaque" data-jrn-zone="intro">
+          <div className="jrn-cab__label">
+            <h1 className="jrn-cab__h">MONEY</h1>
+            <p className="jrn-lang__state">{count ? `YOUR MONEY IS IN ${count} ${count === 1 ? 'PLACE' : 'PLACES'}.` : 'NO PLACES YET.'}</p>
+          </div>
+          {count ?
+            <dl className="jrn-cab__figures">
+              <div>
+                <dt>HELD</dt>
+                <dd>{formatMoney(held)}</dd>
+              </div>
+              <div>
+                <dt>OWED</dt>
+                <dd>{formatMoney(owed)}</dd>
+              </div>
+            </dl>
+          : null}
+          <p className="jrn-lang__task">{count ? 'OPEN A DRAWER TO SEE A PLACE’S BALANCE AND MOVEMENTS.' : 'ADD WHERE YOUR MONEY LIVES: CHECKING, SAVINGS, CASH OR A CARD. NO BANK CONNECTION NEEDED.'}</p>
+          <p className="jrn-lang__editorial">{spec.question}</p>
+        </header>
+      </FramePanel>
+      {shelves.map((shelf) => (
+        <FramePanel key={shelf.id} id={`shelf-${shelf.id}`}>
+          <section className="jrn-cab__shelf" aria-label={`${shelf.label} — ${shelf.places.length} ${shelf.places.length === 1 ? 'PLACE' : 'PLACES'}`} data-jrn-shelf={shelf.id}>
+            <span className="jrn-cab__edge" aria-hidden>
+              {shelf.label}
+            </span>
+            <div className="jrn-cab__body">
+              <p className="jrn-cab__shelfhead">
+                <span>{shelf.caption}</span>
+                <b>{formatMoney(shelf.places.reduce((t, a) => t + a.available_balance, 0))}</b>
+              </p>
+              {shelf.places.map((a) => (
+                <button key={a.account_id} type="button" className="jrn-cab__drawer" data-jrn-trigger={`money-open-${a.account_id}`} onClick={() => go(`money/places/${a.account_id}`)}>
+                  <i className="jrn-cab__pull" aria-hidden />
+                  <span className="jrn-cab__name">{a.display_name}</span>
+                  <span className="jrn-cab__kind">
+                    {KIND_LABEL[a.account_type]} · {a.is_manual ? 'BY HAND' : a.is_connected ? 'PREVIEW LINK' : 'REGISTRY'}
+                  </span>
+                  <span className="jrn-cab__amt">{formatMoney(a.available_balance)}</span>
+                </button>
+              ))}
+            </div>
+          </section>
+        </FramePanel>
+      ))}
+      <FramePanel id="base">
+        <div className="jrn-cab__base" data-jrn-zone="cabinet-base">
+          <button type="button" className="jrn-cab__slot" data-jrn-trigger="money-add-place-slot" data-primary={count ? 'false' : 'true'} onClick={() => setAddOpen(true)}>
+            <span>ADD A PLACE</span>
+          </button>
+          {count ?
+            <JurnlButton variant="secondary" trigger="money-open-places" onClick={() => go('money/places')}>
+              SEE ALL PLACES
+            </JurnlButton>
+          : null}
+          <p className="jrn-cab__source">{source}</p>
         </div>
-        <JurnlPanel role="editorial" className="jrn-home__panel">
-          <b>PLACES</b>
-          {accounts.length === 0 ?
-            <p>NO ACCOUNTS YET. ADD A MANUAL PLACE.</p>
-          : accounts.slice(0, 4).map((a) => (
-              <JurnlButton key={a.account_id} variant="secondary" trigger={`money-open-${a.account_id}`} onClick={() => go(`money/places/${a.account_id}`)}>
-                {a.display_name} · {formatMoney(a.available_balance)}
-              </JurnlButton>
-            ))}
-        </JurnlPanel>
-        <JurnlButton trigger="money-open-places" onClick={() => go('money/places')}>
-          OPEN A PLACE
-        </JurnlButton>
-        <JurnlButton variant="secondary" trigger="money-open-income" onClick={() => go('income')}>
-          INCOME
-        </JurnlButton>
-        <JurnlButton variant="secondary" trigger="money-open-activity" onClick={() => go('activity')}>
-          ACTIVITY
-        </JurnlButton>
-      </div>
-    </MoneyShell>
+      </FramePanel>
+      <FramePanel id="also">
+        <nav className="jrn-cab__also" aria-label="ALSO IN MONEY">
+          <span>ALSO IN MONEY</span>
+          <JurnlInlineAction trigger="money-open-income" onClick={() => go('income')}>INCOME</JurnlInlineAction>
+          <JurnlInlineAction trigger="money-open-activity" onClick={() => go('activity')}>ACTIVITY</JurnlInlineAction>
+          <JurnlInlineAction trigger="discovery-F05-F16" onClick={() => go('F16')}>RECORDS</JurnlInlineAction>
+        </nav>
+      </FramePanel>
+    </JurnlFamilyFrame>
   );
 }
 

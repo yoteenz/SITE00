@@ -9,52 +9,85 @@ import { parentById } from '../../data/parents/catalog';
 import { FamilyChrome } from '../components/FamilyChrome';
 import { JurnlProductNav } from '../components/ProductNav';
 import { AskJurnlSheet, QuickAddV2Sheet } from '../global/GlobalSheets';
-import { JurnlButton, JurnlDrawer, JurnlInput, JurnlPanel } from '../components/primitives';
-import { JurnlScreen } from './JurnlScreen';
+import { JurnlButton, JurnlDrawer, JurnlInlineAction, JurnlInput, JurnlPanel } from '../components/primitives';
+import { FramePanel, JurnlFamilyFrame, JurnlFamilyShell } from '../components/FamilyFrame';
 import { useJurnl } from '../state/store';
 
 function GoalsShell({ screenId, children }: { screenId: string; children: ReactNode }) {
   const { go, overlay, openOverlay, closeOverlay } = useJurnl();
   return (
-    <JurnlScreen screenId={screenId} familyPlate={PARENT_PLATES.F14} family>
-      <div className="jrn-home jrn-parent">{children}</div>
-      <JurnlProductNav current="HOME" onGo={go} onAdd={() => openOverlay('quick-add')} />
-      {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F14" onClose={closeOverlay} /> : null}
-      {overlay === 'ask' ? <AskJurnlSheet familyId="F14" nodeId={screenId} onClose={closeOverlay} /> : null}
-    </JurnlScreen>
+    <JurnlFamilyShell
+      screenId={screenId}
+      familyId="F14"
+      familyPlate={PARENT_PLATES.F14}
+      nav={<JurnlProductNav current="HOME" onGo={go} onAdd={() => openOverlay('quick-add')} />}
+      overlays={
+        <>
+          {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F14" onClose={closeOverlay} /> : null}
+          {overlay === 'ask' ? <AskJurnlSheet familyId="F14" nodeId={screenId} onClose={closeOverlay} /> : null}
+        </>
+      }
+    >
+      {children}
+    </JurnlFamilyShell>
   );
 }
 
+/** F14 GOALS — EDITORIAL SPREAD. Each goal is a page: what it is, how much is set aside, how far there is to go. */
 export function GoalsHubScreen() {
-  const { go, openOverlay } = useJurnl();
+  const { go, openOverlay, closeOverlay, overlay } = useJurnl();
   useCurrency();
   const goals = useGoals();
   const spec = parentById('F14')!;
   const [addOpen, setAddOpen] = useState(false);
+  const setAside = goals.reduce((t, g) => t + g.set_aside_amount, 0);
   return (
-    <GoalsShell screenId="F14.00">
-      <FamilyChrome familyId="F14" nodeId="F14.00" backLabel="BACK TO PLAN" onBack={() => go('plan')} onAsk={() => openOverlay('ask')} />
-      <div className="jrn-home__intro" data-jrn-zone="intro">
-        <h1 className="jrn-home__h">{spec.name}</h1>
-        <p className="jrn-home__sub">{spec.question}</p>
-      </div>
-      <div className="jrn-parent__rail" data-jrn-zone="content-rail">
-        {goals.length === 0 ?
-          <JurnlPanel role="empty" className="jrn-home__panel"><b>NOTHING IS NAMED</b><p>NAME ONE GOAL.</p></JurnlPanel>
-        : goals.map((g) => (
-            <button key={g.goal_id} type="button" className="jrn-tx jrn-row" data-jrn-trigger={`goal-${g.goal_id}`} onClick={() => go(`goals/${g.goal_id}`)}>
-              <span className="jrn-tx__copy">
-                <span className="jrn-tx__name">{g.title}</span>
-                <small>{g.status}</small>
+    <JurnlFamilyFrame
+      screenId="F14.00"
+      familyId="F14"
+      familyPlate={PARENT_PLATES.F14}
+      label="GOALS"
+      archetype="EDITORIAL_SPREAD"
+      chrome={<FamilyChrome familyId="F14" nodeId="F14.00" backLabel="BACK TO PLAN" onBack={() => go('plan')} onAsk={() => openOverlay('ask')} />}
+      nav={<JurnlProductNav current="PLAN" onGo={go} onAdd={() => openOverlay('quick-add')} />}
+      overlays={
+        <>
+          {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F14" onClose={closeOverlay} /> : null}
+          {overlay === 'ask' ? <AskJurnlSheet familyId="F14" nodeId="F14.00" onClose={closeOverlay} /> : null}
+          {addOpen ? <NameGoalSheet onClose={() => setAddOpen(false)} /> : null}
+        </>
+      }
+    >
+      <FramePanel id="intro">
+        <header className="jrn-spread__intro" data-jrn-zone="intro">
+          <h1 className="jrn-spread__h">GOALS</h1>
+          <p className="jrn-lang__state">{goals.length ? `${goals.length} ${goals.length === 1 ? 'GOAL' : 'GOALS'}. ${formatMoney(setAside)} SET ASIDE SO FAR.` : 'NO GOAL IS NAMED YET.'}</p>
+          <p className="jrn-lang__task">{goals.length ? 'OPEN A GOAL TO SET MORE ASIDE OR CHANGE ITS TARGET.' : 'NAME SOMETHING YOU’RE SAVING TOWARD AND SET MONEY ASIDE FOR IT.'}</p>
+          <p className="jrn-lang__editorial">{spec.question}</p>
+        </header>
+      </FramePanel>
+      {goals.map((g) => {
+        const share = g.target_amount > 0 ? Math.min(1, g.set_aside_amount / g.target_amount) : 0;
+        return (
+          <FramePanel key={g.goal_id} id={`goal-${g.goal_id}`}>
+            <button type="button" className="jrn-spread" data-jrn-trigger={`goal-${g.goal_id}`} onClick={() => go(`goals/${g.goal_id}`)} style={{ ['--share' as string]: share }}>
+              <span className="jrn-spread__title">{g.title}</span>
+              <span className="jrn-spread__line" aria-hidden />
+              <span className="jrn-spread__figs">
+                <b>{formatMoney(g.set_aside_amount)}</b> SET ASIDE OF {formatMoney(g.target_amount)}
               </span>
-              <span className="jrn-tx__amt">{formatMoney(g.set_aside_amount)}</span>
+              <span className="jrn-spread__meta">{g.status === 'COMPLETE' ? 'REACHED' : g.horizon ?? (g.target_date ? g.target_date : 'NO DATE SET')}</span>
             </button>
-          ))}
-        <JurnlButton trigger="goal-add" onClick={() => setAddOpen(true)}>NAME ONE</JurnlButton>
-        <JurnlButton variant="secondary" trigger="goal-plan" onClick={() => go('plan')}>PLAN</JurnlButton>
-      </div>
-      {addOpen ? <NameGoalSheet onClose={() => setAddOpen(false)} /> : null}
-    </GoalsShell>
+          </FramePanel>
+        );
+      })}
+      <FramePanel id="actions">
+        <div className="jrn-spread__actions">
+          <JurnlButton trigger="goal-add" onClick={() => setAddOpen(true)}>NAME A GOAL</JurnlButton>
+          <JurnlInlineAction trigger="goal-plan" onClick={() => go('plan')}>PLAN</JurnlInlineAction>
+        </div>
+      </FramePanel>
+    </JurnlFamilyFrame>
   );
 }
 

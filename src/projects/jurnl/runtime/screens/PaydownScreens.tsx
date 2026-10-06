@@ -12,65 +12,118 @@ import { FamilyChrome } from '../components/FamilyChrome';
 import { JurnlProductNav } from '../components/ProductNav';
 import { AskJurnlSheet, QuickAddV2Sheet } from '../global/GlobalSheets';
 import { JurnlButton, JurnlDrawer, JurnlInput, JurnlPanel } from '../components/primitives';
-import { JurnlScreen } from './JurnlScreen';
+import { FramePanel, JurnlFamilyFrame, JurnlFamilyShell } from '../components/FamilyFrame';
 import { useJurnl } from '../state/store';
 
 function Shell({ screenId, children }: { screenId: string; children: ReactNode }) {
   const { go, overlay, openOverlay, closeOverlay } = useJurnl();
   return (
-    <JurnlScreen screenId={screenId} familyPlate={PARENT_PLATES.F13} family>
-      <div className="jrn-home jrn-parent">{children}</div>
-      <JurnlProductNav current="CREDIT" onGo={go} onAdd={() => openOverlay('quick-add')} />
-      {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F13" onClose={closeOverlay} /> : null}
-      {overlay === 'ask' ? <AskJurnlSheet familyId="F13" nodeId={screenId} onClose={closeOverlay} /> : null}
-    </JurnlScreen>
+    <JurnlFamilyShell
+      screenId={screenId}
+      familyId="F13"
+      familyPlate={PARENT_PLATES.F13}
+      nav={<JurnlProductNav current="CREDIT" onGo={go} onAdd={() => openOverlay('quick-add')} />}
+      overlays={
+        <>
+          {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F13" onClose={closeOverlay} /> : null}
+          {overlay === 'ask' ? <AskJurnlSheet familyId="F13" nodeId={screenId} onClose={closeOverlay} /> : null}
+        </>
+      }
+    >
+      {children}
+    </JurnlFamilyShell>
   );
 }
 
+const STRATEGY: Record<PaydownStrategy, { name: string; rule: string }> = {
+  AVALANCHE: { name: 'AVALANCHE', rule: 'HIGHEST INTEREST RATE FIRST' },
+  SNOWBALL: { name: 'SNOWBALL', rule: 'SMALLEST BALANCE FIRST' },
+  MANUAL_ORDER: { name: 'YOUR ORDER', rule: 'IN THE ORDER YOU CHOSE' },
+};
+
+/** F13 PAYDOWN — SEQUENTIAL STEPS. The plan is the landing; each debt is a step down, in the plan's order. */
 export function PaydownHubScreen() {
-  const { go, openOverlay } = useJurnl();
+  const { go, openOverlay, closeOverlay, overlay } = useJurnl();
   useCurrency();
   const spec = parentById('F13')!;
   const plan = usePaydownPlan();
   const accounts = creditAccounts();
   const sim = simulatePaydownProjection();
   const [changeOpen, setChangeOpen] = useState(false);
+  const order = plan?.account_order?.length ? plan.account_order : accounts.map((a) => a.account_id);
+  const steps = [...accounts].sort((a, b) => {
+    const ia = order.indexOf(a.account_id);
+    const ib = order.indexOf(b.account_id);
+    return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
+  });
+  const payment = (id: string) => sim.lines.find((l) => l.account_id === id) ?? null;
+  const strategy = plan ? STRATEGY[plan.strategy_type] : null;
   return (
-    <Shell screenId="F13.00">
-      <FamilyChrome familyId="F13" nodeId="F13.00" backLabel="BACK TO CREDIT" onBack={() => go('credit')} onAsk={() => openOverlay('ask')} />
-      <div className="jrn-home__intro" data-jrn-zone="intro"><h1 className="jrn-home__h">{spec.name}</h1><p className="jrn-home__sub">{spec.question}</p></div>
-      <div className="jrn-parent__rail" data-jrn-zone="content-rail">
-        {accounts.length === 0 ?
-          <JurnlPanel role="empty" className="jrn-home__panel"><b>NOTHING OWED</b></JurnlPanel>
-        : accounts.map((a) => {
-            const s = creditSummary(a);
-            return (
-              <button key={a.account_id} type="button" className="jrn-tx jrn-row" data-jrn-trigger={`paydown-${a.account_id}`} onClick={() => go(`credit/${a.account_id}`)}>
-                <span className="jrn-tx__copy"><span className="jrn-tx__name">{a.display_name}</span><small>BALANCE</small></span>
-                <span className="jrn-tx__amt">{formatMoney(s.used)}</span>
-              </button>
-            );
-          })}
-        {plan ?
-          <JurnlPanel role="detail" className="jrn-home__panel">
-            <b>STRATEGY</b>
-            <p>{plan.strategy_type}</p>
-            <b>EXTRA / PERIOD</b>
-            <p>{formatMoney(plan.extra_payment)}</p>
-          </JurnlPanel>
-        : null}
-        {sim.partial ? <p className="jrn-currency__note" role="status">PARTIAL · SOME TERMS MISSING</p> : null}
-        {sim.lines.map((line) => (
-          <JurnlPanel key={line.account_id} role="detail" className="jrn-home__panel">
-            <b>{line.label}</b>
-            <p>{formatMoney(line.amount)} · {line.certainty}</p>
-          </JurnlPanel>
-        ))}
-        <JurnlButton trigger="paydown-change" onClick={() => setChangeOpen(true)}>CHANGE THE PATH</JurnlButton>
-        <JurnlButton variant="secondary" trigger="paydown-what-if" onClick={() => go('paydown/what-if')}>WHAT IF</JurnlButton>
-      </div>
-      {changeOpen ? <ChangePathSheet onClose={() => setChangeOpen(false)} /> : null}
-    </Shell>
+    <JurnlFamilyFrame
+      screenId="F13.00"
+      familyId="F13"
+      familyPlate={PARENT_PLATES.F13}
+      label="PAYDOWN"
+      archetype="SEQUENTIAL_STEPS"
+      chrome={<FamilyChrome familyId="F13" nodeId="F13.00" backLabel="BACK TO CREDIT" onBack={() => go('credit')} onAsk={() => openOverlay('ask')} />}
+      nav={<JurnlProductNav current="CREDIT" onGo={go} onAdd={() => openOverlay('quick-add')} />}
+      overlays={
+        <>
+          {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F13" onClose={closeOverlay} /> : null}
+          {overlay === 'ask' ? <AskJurnlSheet familyId="F13" nodeId="F13.00" onClose={closeOverlay} /> : null}
+          {changeOpen ? <ChangePathSheet onClose={() => setChangeOpen(false)} /> : null}
+        </>
+      }
+    >
+      <FramePanel id="landing">
+        <header className="jrn-stair__landing" data-jrn-zone="intro">
+          <h1 className="jrn-stair__fn">PAYDOWN</h1>
+          <p className="jrn-lang__state">
+            {!steps.length ? 'NOTHING IS OWED. NO CARDS OR LOANS ARE ADDED.' : strategy ? `YOUR PLAN: ${strategy.name} — ${strategy.rule}.` : 'YOUR DEBT PLAN ISN’T SET YET.'}
+          </p>
+          <p className="jrn-lang__task">
+            {!steps.length ?
+              'ADD A CARD OR LOAN IN MONEY TO PLAN A PAYDOWN.'
+            : plan ?
+              `${formatMoney(plan.extra_payment)} EXTRA EACH MONTH, SPREAD ACROSS ${steps.length} ${steps.length === 1 ? 'BALANCE' : 'BALANCES'}.`
+            : 'CHOOSE HOW YOU WANT TO PAY DOWN YOUR BALANCES.'}
+          </p>
+          {steps.length ?
+            <JurnlButton trigger="paydown-change" onClick={() => setChangeOpen(true)}>{plan ? 'CHANGE THE PLAN' : 'SET A PLAN'}</JurnlButton>
+          : <JurnlButton trigger="paydown-add-debt" onClick={() => go('money/places')}>ADD A CARD OR LOAN</JurnlButton>}
+        </header>
+      </FramePanel>
+      {steps.length ?
+        <FramePanel id="steps">
+          <ol className="jrn-stair" aria-label={`PAYDOWN ORDER — ${steps.length} ${steps.length === 1 ? 'STEP' : 'STEPS'}`}>
+            {steps.map((a, i) => {
+              const s = creditSummary(a);
+              const pay = payment(a.account_id);
+              return (
+                <li key={a.account_id} className="jrn-stair__step" style={{ ['--step' as string]: i }}>
+                  <span className="jrn-stair__index" aria-hidden>{String(i + 1).padStart(2, '0')}</span>
+                  <button type="button" className="jrn-stair__tread" data-jrn-trigger={`paydown-${a.account_id}`} onClick={() => go(`credit/${a.account_id}`)}>
+                    <span className="jrn-stair__name">{a.display_name}</span>
+                    <span className="jrn-stair__meta">
+                      {s.attrs?.apr != null ? `${s.attrs.apr}% APR` : 'RATE NOT SET'}
+                      {pay ? ` · NEXT ${formatMoney(pay.amount)}` : ' · NO MINIMUM SET'}
+                    </span>
+                    <span className="jrn-stair__amt">{formatMoney(s.used)}</span>
+                  </button>
+                </li>
+              );
+            })}
+          </ol>
+          {sim.partial ? <p className="jrn-lang__task jrn-stair__note" role="status">SOME MINIMUM PAYMENTS ARE MISSING, SO THIS PLAN IS PARTIAL.</p> : null}
+        </FramePanel>
+      : null}
+      <FramePanel id="foot">
+        <div className="jrn-stair__foot">
+          {steps.length ? <JurnlButton variant="secondary" trigger="paydown-what-if" onClick={() => go('paydown/what-if')}>TRY AN EXTRA PAYMENT</JurnlButton> : null}
+          <p className="jrn-lang__editorial">THE DESCENT · {spec.question}</p>
+        </div>
+      </FramePanel>
+    </JurnlFamilyFrame>
   );
 }
 

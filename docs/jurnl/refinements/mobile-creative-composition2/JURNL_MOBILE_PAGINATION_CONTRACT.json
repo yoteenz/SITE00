@@ -1,0 +1,25 @@
+{
+  "sprint": "P0.JURNL.MOBILE-COMPOSITION-CREATIVE-LANGUAGE-PAGINATION-REFINEMENT2",
+  "generated": "2026-10-06",
+  "primitive": {
+    "pure": "src/projects/jurnl/runtime/layout/paginate.ts (paginatePanels, clampScreen)",
+    "component": "JurnlPanelStack in FamilyFrame.tsx",
+    "panel": "<FramePanel id> — one atomic panel; JurnlFamilyShell lifts existing child-screen panels automatically"
+  },
+  "algorithm": "Greedy, in order. A panel joins the current screen if used + gap + height ≤ available (+0.5px tolerance); otherwise it moves WHOLE to the next screen. Screen 1 has the full content rect; continuation screens subtract the caption height and one gap.",
+  "rules": {
+    "ATOMIC": "A panel is never split across screens.",
+    "ORDER": "Panel order is preserved; every panel appears on exactly one screen.",
+    "OVERSIZE_PANEL": "A panel taller than a whole screen gets a screen of its own, is flagged data-jrn-oversize, is clamped to the rect and scrolls inside itself (overflow-y: auto; overscroll-behavior: contain). Its natural height is re-measured from scrollHeight so the flag is stable.",
+    "ZERO_HEIGHT": "Zero-height slots (sheets rendering into the overlay host, empty conditionals) take no space and no gap.",
+    "OFFSCREEN_PANELS": "Stay laid out at the same width so they remain measurable: position absolute, visibility hidden, pointer-events none, aria-hidden, inert.",
+    "REPAGINATION": "ResizeObserver on the content rect and on every slot, document.fonts.ready, and a change in the panel id list. The screen holding the panel being read is kept (clampScreen anchors on the first panel of the current screen).",
+    "KEYBOARD": "While a field inside the rect has focus and the rect shrinks (software keyboard), pagination freezes; it recomputes on blur.",
+    "STATE": "Presentation state only (FrameProvider, keyed by pathname): no route, no query param, no history entry. A route change starts at screen 1.",
+    "CONTINUATION_CAPTION": "“{FAMILY} · CONTINUED” at the top of screens 2+.",
+    "FORWARD": "NEXT control at the right end of the composition edge (data-jrn-trigger=\"frame-next\"); absent on the last screen; screen marks at the left end.",
+    "BODY_SCROLL": "Never. Internal scroll only for an OVERSIZE panel."
+  },
+  "unit_tests": "tests/jurnlMobileComposition.test.tsx (24 tests: fit, whole-panel move, 3+ screens, continuation height, oversize, zero-height, anchor clamp; frame + archetype on 13 roots; nav contract)",
+  "live_qa": "scripts/jurnl/mobile-pagination-qa.mjs → JURNL_MOBILE_PAGINATION_QA.json"
+}

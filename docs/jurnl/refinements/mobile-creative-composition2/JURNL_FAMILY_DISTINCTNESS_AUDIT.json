@@ -1,0 +1,422 @@
+{
+  "sprint": "P0.JURNL.MOBILE-COMPOSITION-CREATIVE-LANGUAGE-PAGINATION-REFINEMENT2",
+  "generated": "2026-10-06",
+  "success_criteria": {
+    "differentiation_not_primarily_background_based": "PASS",
+    "target_families_distinct_archetypes": "PASS — 7 archetypes for 7 targets",
+    "adjacent_archetype_repeats_F03_F16": [],
+    "max_2_adjacent_rule": "PASS",
+    "target_roots_share_text_card_button_stack": "AFTER: NO. BEFORE: YES — all 7 targets opened with the same DISPLAY 40PX LEFT H1 + question, a left rail of cards (left dependence 0.92–0.99) and a left-aligned button stack; F10/F11 were fully identical (1.0 / 1.0 / 1.0)."
+  },
+  "archetype_sequence": [
+    {
+      "family": "F03",
+      "archetype": "FOCUS_REVEAL"
+    },
+    {
+      "family": "F04",
+      "archetype": "LEDGER_LIST (UNCHANGED, NOT ON THE FRAME)"
+    },
+    {
+      "family": "F05",
+      "archetype": "CONTAINER_CABINET"
+    },
+    {
+      "family": "F06",
+      "archetype": "LEDGER_GRID"
+    },
+    {
+      "family": "F07",
+      "archetype": "TIMELINE"
+    },
+    {
+      "family": "F08",
+      "archetype": "ROOM_ZONE"
+    },
+    {
+      "family": "F09",
+      "archetype": "TENSION_THRESHOLD"
+    },
+    {
+      "family": "F10",
+      "archetype": "OBJECT_FOCUS"
+    },
+    {
+      "family": "F11",
+      "archetype": "MAP_ROUTE"
+    },
+    {
+      "family": "F12",
+      "archetype": "LEDGER_GRID"
+    },
+    {
+      "family": "F13",
+      "archetype": "SEQUENTIAL_STEPS"
+    },
+    {
+      "family": "F14",
+      "archetype": "EDITORIAL_SPREAD"
+    },
+    {
+      "family": "F15",
+      "archetype": "HORIZON_PATH"
+    },
+    {
+      "family": "F16",
+      "archetype": "ARCHIVE_INDEX"
+    }
+  ],
+  "targets": [
+    {
+      "family_id": "F05",
+      "family_name": "MONEY",
+      "archetype": "CONTAINER_CABINET",
+      "previous_family": {
+        "id": "F04",
+        "archetype": "LEDGER_LIST (UNCHANGED, NOT ON THE FRAME)"
+      },
+      "next_family": {
+        "id": "F06",
+        "archetype": "LEDGER_GRID"
+      },
+      "same_layout": false,
+      "same_card_position": false,
+      "same_typographic_stack": false,
+      "same_button_stack": false,
+      "left_column_dependence": {
+        "before": 0.96,
+        "after": 0.64
+      },
+      "h1_before": {
+        "text": "MONEY",
+        "font": "DISPLAY",
+        "size": 40,
+        "align": "start",
+        "tracking": "0.8px",
+        "italic": false
+      },
+      "h1_after": {
+        "text": "MONEY",
+        "font": "DISPLAY",
+        "size": 30,
+        "align": "start",
+        "tracking": "7.2px",
+        "italic": false
+      },
+      "most_similar_family_after": {
+        "pair": "F05/F10",
+        "occupancy_jaccard": 0.81,
+        "type_stack_similarity": 0.45,
+        "control_stack_similarity": 0.4
+      },
+      "feels_like": "A cabinet / wardrobe: places are drawers on labelled shelves.",
+      "verdict": "DISTINCT"
+    },
+    {
+      "family_id": "F09",
+      "family_name": "SAFE TO SPEND",
+      "archetype": "TENSION_THRESHOLD",
+      "previous_family": {
+        "id": "F08",
+        "archetype": "ROOM_ZONE"
+      },
+      "next_family": {
+        "id": "F10",
+        "archetype": "OBJECT_FOCUS"
+      },
+      "same_layout": false,
+      "same_card_position": false,
+      "same_typographic_stack": false,
+      "same_button_stack": false,
+      "left_column_dependence": {
+        "before": 0.97,
+        "after": 0.63
+      },
+      "h1_before": {
+        "text": "SAFE TO SPEND",
+        "font": "DISPLAY",
+        "size": 40,
+        "align": "start",
+        "tracking": "0.8px",
+        "italic": false
+      },
+      "h1_after": {
+        "text": "SAFE TO SPEND",
+        "font": "SANS",
+        "size": 12,
+        "align": "center",
+        "tracking": "4.08px",
+        "italic": false
+      },
+      "most_similar_family_after": {
+        "pair": "F06/F09",
+        "occupancy_jaccard": 0.69,
+        "type_stack_similarity": 0.17,
+        "control_stack_similarity": 0.67
+      },
+      "feels_like": "A threshold / protected zone: clear to spend above the line, held back below it.",
+      "verdict": "DISTINCT"
+    },
+    {
+      "family_id": "F10",
+      "family_name": "PURCHASES",
+      "archetype": "OBJECT_FOCUS",
+      "previous_family": {
+        "id": "F09",
+        "archetype": "TENSION_THRESHOLD"
+      },
+      "next_family": {
+        "id": "F11",
+        "archetype": "MAP_ROUTE"
+      },
+      "same_layout": false,
+      "same_card_position": false,
+      "same_typographic_stack": false,
+      "same_button_stack": false,
+      "left_column_dependence": {
+        "before": 0.93,
+        "after": 0.67
+      },
+      "h1_before": {
+        "text": "PURCHASES",
+        "font": "DISPLAY",
+        "size": 40,
+        "align": "start",
+        "tracking": "0.8px",
+        "italic": false
+      },
+      "h1_after": {
+        "text": "PURCHASES",
+        "font": "SANS",
+        "size": 11,
+        "align": "start",
+        "tracking": "3.52px",
+        "italic": false
+      },
+      "most_similar_family_after": {
+        "pair": "F05/F10",
+        "occupancy_jaccard": 0.81,
+        "type_stack_similarity": 0.45,
+        "control_stack_similarity": 0.4
+      },
+      "feels_like": "One object on a plinth; consequences orbit it.",
+      "verdict": "DISTINCT"
+    },
+    {
+      "family_id": "F11",
+      "family_name": "TRIPS",
+      "archetype": "MAP_ROUTE",
+      "previous_family": {
+        "id": "F10",
+        "archetype": "OBJECT_FOCUS"
+      },
+      "next_family": {
+        "id": "F12",
+        "archetype": "LEDGER_GRID"
+      },
+      "same_layout": false,
+      "same_card_position": false,
+      "same_typographic_stack": false,
+      "same_button_stack": false,
+      "left_column_dependence": {
+        "before": 0.92,
+        "after": 0.67
+      },
+      "h1_before": {
+        "text": "TRIPS",
+        "font": "DISPLAY",
+        "size": 40,
+        "align": "start",
+        "tracking": "0.8px",
+        "italic": false
+      },
+      "h1_after": {
+        "text": "TRIPS",
+        "font": "DISPLAY",
+        "size": 34,
+        "align": "start",
+        "tracking": "2.72px",
+        "italic": false
+      },
+      "most_similar_family_after": {
+        "pair": "F11/F13",
+        "occupancy_jaccard": 0.81,
+        "type_stack_similarity": 0.5,
+        "control_stack_similarity": 0.4
+      },
+      "feels_like": "A route from here to a destination; funding fills the line.",
+      "verdict": "DISTINCT"
+    },
+    {
+      "family_id": "F13",
+      "family_name": "PAYDOWN",
+      "archetype": "SEQUENTIAL_STEPS",
+      "previous_family": {
+        "id": "F12",
+        "archetype": "LEDGER_GRID"
+      },
+      "next_family": {
+        "id": "F14",
+        "archetype": "EDITORIAL_SPREAD"
+      },
+      "same_layout": false,
+      "same_card_position": false,
+      "same_typographic_stack": false,
+      "same_button_stack": false,
+      "left_column_dependence": {
+        "before": 0.97,
+        "after": 0.6
+      },
+      "h1_before": {
+        "text": "PAYDOWN",
+        "font": "DISPLAY",
+        "size": 40,
+        "align": "start",
+        "tracking": "0.8px",
+        "italic": false
+      },
+      "h1_after": {
+        "text": "PAYDOWN",
+        "font": "DISPLAY",
+        "size": 34,
+        "align": "start",
+        "tracking": "2.04px",
+        "italic": false
+      },
+      "most_similar_family_after": {
+        "pair": "F12/F13",
+        "occupancy_jaccard": 0.83,
+        "type_stack_similarity": 0.67,
+        "control_stack_similarity": 0.33
+      },
+      "feels_like": "A staircase: balances in paydown order.",
+      "verdict": "DISTINCT"
+    },
+    {
+      "family_id": "F15",
+      "family_name": "AHEAD",
+      "archetype": "HORIZON_PATH",
+      "previous_family": {
+        "id": "F14",
+        "archetype": "EDITORIAL_SPREAD"
+      },
+      "next_family": {
+        "id": "F16",
+        "archetype": "ARCHIVE_INDEX"
+      },
+      "same_layout": false,
+      "same_card_position": false,
+      "same_typographic_stack": false,
+      "same_button_stack": false,
+      "left_column_dependence": {
+        "before": 0.99,
+        "after": 0.62
+      },
+      "h1_before": {
+        "text": "AHEAD",
+        "font": "DISPLAY",
+        "size": 40,
+        "align": "start",
+        "tracking": "0.8px",
+        "italic": false
+      },
+      "h1_after": {
+        "text": "AHEAD",
+        "font": "DISPLAY",
+        "size": 30,
+        "align": "start",
+        "tracking": "12.6px",
+        "italic": false
+      },
+      "most_similar_family_after": {
+        "pair": "F05/F15",
+        "occupancy_jaccard": 0.87,
+        "type_stack_similarity": 0.58,
+        "control_stack_similarity": 0.2
+      },
+      "feels_like": "A forward horizon with dated windows and a scenario fork.",
+      "verdict": "DISTINCT"
+    },
+    {
+      "family_id": "F16",
+      "family_name": "RECORDS",
+      "archetype": "ARCHIVE_INDEX",
+      "previous_family": {
+        "id": "F15",
+        "archetype": "HORIZON_PATH"
+      },
+      "next_family": null,
+      "same_layout": false,
+      "same_card_position": false,
+      "same_typographic_stack": false,
+      "same_button_stack": false,
+      "left_column_dependence": {
+        "before": 0.97,
+        "after": 0.63
+      },
+      "h1_before": {
+        "text": "RECORDS",
+        "font": "DISPLAY",
+        "size": 40,
+        "align": "start",
+        "tracking": "0.8px",
+        "italic": false
+      },
+      "h1_after": {
+        "text": "RECORDS",
+        "font": "SANS",
+        "size": 20,
+        "align": "start",
+        "tracking": "7.2px",
+        "italic": false
+      },
+      "most_similar_family_after": {
+        "pair": "F05/F16",
+        "occupancy_jaccard": 0.92,
+        "type_stack_similarity": 0.4,
+        "control_stack_similarity": 0.13
+      },
+      "feels_like": "An archive: label holder, folders with tabs, index cards.",
+      "verdict": "DISTINCT"
+    }
+  ],
+  "audited_non_targets": [
+    {
+      "family_id": "F03",
+      "archetype": "FOCUS_REVEAL",
+      "note": "LOW — audit only; composition unchanged apart from the frame."
+    },
+    {
+      "family_id": "F04",
+      "archetype": "LEDGER_LIST (UNCHANGED, NOT ON THE FRAME)",
+      "note": "LOW — audit only. Nav now viewport-centred; content clears the nav (measured)."
+    },
+    {
+      "family_id": "F06",
+      "archetype": "LEDGER_GRID",
+      "note": "MEDIUM with F12 by design (same archetype, not adjacent; F12 adds the utilization meter)."
+    },
+    {
+      "family_id": "F07",
+      "archetype": "TIMELINE",
+      "note": "LOW."
+    },
+    {
+      "family_id": "F08",
+      "archetype": "ROOM_ZONE",
+      "note": "LOW–MEDIUM — occupancy close to F12 (0.97) since both are full-width; controls differ (0.13)."
+    },
+    {
+      "family_id": "F12",
+      "archetype": "LEDGER_GRID",
+      "note": "MEDIUM with F06 by design (not adjacent)."
+    },
+    {
+      "family_id": "F14",
+      "archetype": "EDITORIAL_SPREAD",
+      "note": "LOW."
+    }
+  ],
+  "creative_variety_within_brand": "Variety comes from composition (shelves, threshold, plinth, route, stair, horizon, index) while the material system (paper, rules, emerald / wine / champagne, display + tracked sans, square-rounded controls, the plate) stays shared.",
+  "overdesign_risk": "LOW–MEDIUM. Each archetype uses at most one signature device (drawer pull, threshold line, plinth, route line, step indent, horizon band, folder tab). No new paid assets, no animation effects, no decorative-only panels; every device encodes data (share, order, funding, status)."
+}

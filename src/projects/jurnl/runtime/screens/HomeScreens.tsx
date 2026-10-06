@@ -30,6 +30,7 @@ import { JurnlProductNav } from '../components/ProductNav';
 import { JurnlTransactionRow } from '../components/TransactionRow';
 import { JurnlButton, JurnlDrawer, JurnlErrorPanel, JurnlIconButton, JurnlInlineAction, JurnlInput, JurnlPanel } from '../components/primitives';
 import { JurnlScreen } from './JurnlScreen';
+import { FramePanel, JurnlFamilyFrame, useFrameBack } from '../components/FamilyFrame';
 import { useJurnl } from '../state/store';
 import { FamilyDiscoveryLinks } from '../components/FamilyDiscovery';
 import { accountDisplayOptions } from '../../data/foundation/accounts';
@@ -39,6 +40,19 @@ function useHomeOverlay() {
   const j = useJurnl();
   const overlay = j.overlay;
   return { ...j, overlay };
+}
+
+/** Today's chrome: the original controls, with context-aware back (continuation screens first, then setup). */
+function TodayChrome({ onBack, onAccount, onAsk }: { onBack: () => void; onAccount: () => void; onAsk: () => void }) {
+  const frame = useFrameBack();
+  return (
+    <div className="jrn-home__top" data-jrn-zone="chrome">
+      <JurnlIconButton icon="back" label={frame.screenIndex > 0 ? `BACK TO SCREEN ${frame.screenIndex}` : 'BACK TO SETUP'} trigger="today-back" onClick={() => (frame.back() ? undefined : onBack())} />
+      <span className="jrn-home__mark">JURNL</span>
+      <JurnlIconButton icon="gear" label="ACCOUNT" trigger="today-account" onClick={onAccount} />
+      <JurnlIconButton icon="info" label="ASK JURNL" trigger="today-ask" onClick={onAsk} />
+    </div>
+  );
 }
 
 export function TodayScreen() {
@@ -59,21 +73,35 @@ export function TodayScreen() {
     : null;
 
   return (
-    <JurnlScreen screenId="F03.00" familyPlate={F03_DAY_PLATE} family>
-      <div className="jrn-home" data-jrn-state={mode.toLowerCase()} data-jrn-signal="safe-to-spend">
-        <div className="jrn-home__top" data-jrn-zone="chrome">
-          <JurnlIconButton icon="back" label="BACK TO SETUP" trigger="today-back" onClick={() => go('F02.08')} />
-          <span className="jrn-home__mark">JURNL</span>
-          <JurnlIconButton icon="gear" label="ACCOUNT" trigger="today-account" onClick={() => go('account')} />
-          <JurnlIconButton icon="info" label="ASK JURNL" trigger="today-ask" onClick={() => openOverlay('ask')} />
-        </div>
-        <div className="jrn-home__intro" data-jrn-zone="intro">
+    <JurnlFamilyFrame
+      screenId="F03.00"
+      familyId="F03"
+      familyPlate={F03_DAY_PLATE}
+      label="TODAY"
+      archetype="FOCUS_REVEAL"
+      chrome={<TodayChrome onAccount={() => go('account')} onAsk={() => openOverlay('ask')} onBack={() => go('F02.08')} />}
+      nav={<JurnlProductNav current="HOME" onGo={go} onAdd={() => openOverlay('quick-add')} />}
+      overlays={
+        <>
+          {overlay === 'see-why' ? <SeeWhySheet onClose={closeOverlay} /> : null}
+          {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F03" onClose={closeOverlay} /> : null}
+          {overlay === 'ask' ? <AskJurnlSheet familyId="F03" nodeId="F03.00" onClose={closeOverlay} /> : null}
+        </>
+      }
+    >
+      <FramePanel id="intro">
+        <div className="jrn-home__intro" data-jrn-zone="intro" data-jrn-state={mode.toLowerCase()} data-jrn-signal="safe-to-spend">
           <h1 className="jrn-home__h">TODAY</h1>
           <p className="jrn-home__sub">WHAT IS TRUE.</p>
         </div>
-        <div className="jrn-home__rail" data-jrn-zone="content-rail">
-        {mode === 'LOADING' ? <p className="jrn-home__wait" data-jrn-state="loading">READING TODAY</p> : null}
-        {mode === 'ERROR' ? (
+      </FramePanel>
+      {mode === 'LOADING' ?
+        <FramePanel id="loading">
+          <p className="jrn-home__wait" data-jrn-state="loading">READING TODAY</p>
+        </FramePanel>
+      : null}
+      {mode === 'ERROR' ?
+        <FramePanel id="error">
           <JurnlErrorPanel
             block
             testId="today-error"
@@ -81,8 +109,10 @@ export function TodayScreen() {
             body="THE HOME IS STILL HERE. TRY THE READING AGAIN."
             action={{ label: 'RETRY', trigger: 'today-retry', onClick: () => go('F03') }}
           />
-        ) : null}
-        {mode === 'EMPTY' ? (
+        </FramePanel>
+      : null}
+      {mode === 'EMPTY' ?
+        <FramePanel id="empty">
           <JurnlPanel role="empty" className="jrn-home__panel" data-jrn-trigger="today-empty">
             <b>NO ACCOUNTS YET</b>
             <p>THIS HOME NEEDS A MONEY SOURCE. NOTHING HERE IS A BALANCE.</p>
@@ -90,15 +120,19 @@ export function TodayScreen() {
               RETURN TO ACCOUNTS
             </JurnlButton>
           </JurnlPanel>
-        ) : null}
-        {mode === 'PARTIAL' ? (
+        </FramePanel>
+      : null}
+      {mode === 'PARTIAL' ?
+        <FramePanel id="partial">
           <JurnlPanel role="editorial" className="jrn-home__panel" data-jrn-trigger="today-partial">
             <b>STILL LEARNING</b>
             <p>{draft.accounts === 'SKIPPED' ? 'ACCOUNTS WERE SKIPPED.' : 'INCOME IS STILL QUIET.'}</p>
             <p>SAFE TO SPEND STAYS UNSTATED UNTIL THOSE FACTS EXIST.</p>
           </JurnlPanel>
-        ) : null}
-        {showSignal ? (
+        </FramePanel>
+      : null}
+      {showSignal ?
+        <FramePanel id="signal">
           <div className="jrn-home__signal" data-jrn-panel="signal">
             <p className="jrn-home__num">{formatMoney(signal.value)}</p>
             <p className="jrn-home__label">SAFE TO SPEND</p>
@@ -106,16 +140,22 @@ export function TodayScreen() {
             <JurnlButton trigger="today-why" onClick={() => openOverlay('see-why')}>
               SEE WHY
             </JurnlButton>
-            {mode === 'STALE' ? (
+            {mode === 'STALE' ?
               <JurnlButton variant="secondary" trigger="today-refresh" onClick={() => go('F03')}>
                 REFRESH
               </JurnlButton>
-            ) : null}
+            : null}
           </div>
-        ) : null}
-        {attention && showSignal ? <p className="jrn-home__note" data-jrn-trigger="today-attention">{attention}</p> : null}
-        {showSignal || mode === 'PARTIAL' ? (
-          <JurnlPanel role="editorial" className="jrn-home__panel" data-jrn-rhythm={openUpcoming ? 'sequence' : 'rest'}>
+        </FramePanel>
+      : null}
+      {attention && showSignal ?
+        <FramePanel id="attention">
+          <p className="jrn-home__note" data-jrn-trigger="today-attention">{attention}</p>
+        </FramePanel>
+      : null}
+      {showSignal || mode === 'PARTIAL' ?
+        <FramePanel id="coming">
+          <JurnlPanel role="editorial" className="jrn-home__panel" data-jrn-zone="content-rail" data-jrn-rhythm={openUpcoming ? 'sequence' : 'rest'}>
             <div className="jrn-home__sec">
               <span>COMING</span>
               <JurnlInlineAction trigger="today-upcoming" expanded={openUpcoming} onClick={() => setOpenUpcoming((v) => !v)}>
@@ -139,32 +179,35 @@ export function TodayScreen() {
               ))}
               {!upcoming.length && mode === 'PARTIAL' ? <li className="jrn-home__quiet">NO OBLIGATIONS YET</li> : null}
             </ul>
-            {showSignal ? (
-              <>
-                <div className="jrn-home__sec">
-                  <span>MOVED</span>
-                  <JurnlInlineAction trigger="today-activity" onClick={() => go('F04')}>
-                    ACTIVITY
-                  </JurnlInlineAction>
-                </div>
-                <div role="list" className="jrn-home__list">
-                  {recent.map((entry) => (
-                    <JurnlTransactionRow key={entry.id} entry={entry} onOpen={() => go('F04')} />
-                  ))}
-                </div>
-              </>
-            ) : null}
-            {draft.priorities[0] ? <p className="jrn-home__goal">{draft.priorities[0]} FIRST</p> : null}
-            <FamilyDiscoveryLinks hubFamily="F03" onGo={go} />
           </JurnlPanel>
-        ) : null}
-        </div>
-        <JurnlProductNav current="HOME" onGo={go} onAdd={() => openOverlay('quick-add')} />
-      </div>
-      {overlay === 'see-why' ? <SeeWhySheet onClose={closeOverlay} /> : null}
-      {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F03" onClose={closeOverlay} /> : null}
-      {overlay === 'ask' ? <AskJurnlSheet familyId="F03" nodeId="F03.00" onClose={closeOverlay} /> : null}
-    </JurnlScreen>
+        </FramePanel>
+      : null}
+      {showSignal ?
+        <FramePanel id="moved">
+          <JurnlPanel role="editorial" className="jrn-home__panel">
+            <div className="jrn-home__sec">
+              <span>MOVED</span>
+              <JurnlInlineAction trigger="today-activity" onClick={() => go('F04')}>
+                ACTIVITY
+              </JurnlInlineAction>
+            </div>
+            <div role="list" className="jrn-home__list">
+              {recent.map((entry) => (
+                <JurnlTransactionRow key={entry.id} entry={entry} onOpen={() => go('F04')} />
+              ))}
+            </div>
+            {draft.priorities[0] ? <p className="jrn-home__goal">{draft.priorities[0]} FIRST</p> : null}
+          </JurnlPanel>
+        </FramePanel>
+      : null}
+      {showSignal || mode === 'PARTIAL' ?
+        <FramePanel id="more">
+          <div className="jrn-home__panel jrn-home__more">
+            <FamilyDiscoveryLinks hubFamily="F03" onGo={go} />
+          </div>
+        </FramePanel>
+      : null}
+    </JurnlFamilyFrame>
   );
 }
 
@@ -190,6 +233,8 @@ function SeeWhySheet({ onClose }: { onClose: () => void }) {
     </JurnlDrawer>
   );
 }
+
+/** @deprecated import QuickAddV2Sheet — kept for parent imports during Wave 1. */
 
 /** @deprecated import QuickAddV2Sheet — kept for parent imports during Wave 1. */
 export function QuickAddSheet({ onClose, familyId = 'F04' }: { onClose: () => void; familyId?: string }) {

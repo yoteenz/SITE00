@@ -13890,3 +13890,24 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   6. **Reachability** — `GS.FAMILY_DISCOVERY` hub links; blueprint `family_parents_unreachable_today: []`
 - **Artifacts:** `docs/jurnl/structural-completion/wave0/` + regenerated structural-completion JSON (functional ~31.7% estimated).
 - **Doctrine unchanged:** structural completion first; paid generation off the functional critical path; B18/B19 remain Wave 5.
+
+---
+
+## 2026-10-06 — JURNL mobile composition, language clarity and pagination (P0.JURNL.MOBILE-COMPOSITION-CREATIVE-LANGUAGE-PAGINATION-REFINEMENT2)
+
+- **Context:** Every F05–F16 root shared one composition (display H1 + question + left rail of cards + left button stack; F10 and F11 measured identical), meaning sat in metaphors and status codes (`NEEDS_SETUP`, `READ FROM F09`), and the mobile stack had no floor (F15 scrolled the body 809px, content under the nav; tablet/desktop hubs docked the nav 105 / 435px off centre). Presentation-only sprint behind the Composer firewall; no product logic, routes, repositories or paid generation.
+- **Landed:** `JurnlFamilyFrame` / `JurnlFamilyShell` (finite content rect → 40px composition edge → `--jrn-nav-reserve`), atomic panel pagination (`paginate.ts`, `JurnlPanelStack`, NEXT + context-aware back, presentation state only), viewport nav host (portal, centred, five equal cells, safe area). Seven targets recomposed: F05 CONTAINER_CABINET · F09 TENSION_THRESHOLD · F10 OBJECT_FOCUS · F11 MAP_ROUTE · F13 SEQUENTIAL_STEPS · F15 HORIZON_PATH · F16 ARCHIVE_INDEX; F06/F12 LEDGER_GRID, F07 TIMELINE, F08 ROOM_ZONE (PLAN AROUND re-links F09/F10/F11/F14/F15), F14 EDITORIAL_SPREAD, F03 FOCUS_REVEAL on the frame. Copy in three layers (function → state/task → editorial).
+- **Proof:** live pagination QA 11/11; nav + plus offset 0 on 84/84 measurements; preview parity 14/14; blur test PASS (left dependence 0.92–0.99 → 0.60–0.67, identical target pairs 1 → 0); containment 1098/1098; Composer E2E 82/82 (merged with Wave 5) after restoring hooks `.jrn-home__num` (F09), `.jrn-tx` (F07), text SAFE TO SPEND NOW (F15). Artifacts `docs/jurnl/refinements/mobile-creative-composition2/`.
+- **Rules (durable):**
+  1. FAMILY DIFFERENTIATION HAPPENS AT THE COMPOSITION LEVEL, NOT THE IMAGE LEVEL — the plate may never be the only thing that tells two families apart (blur test).
+  2. DISTINCT INFORMATION HIERARCHY per family.
+  3. DISTINCT SPATIAL GRAMMAR per family (one archetype from the library; ≤2 adjacent families may share one).
+  4. DISTINCT RHYTHM per family.
+  5. DISTINCT INTERACTION EMPHASIS per family.
+  6. SAME JURNL WORLD — paper, rules, emerald/wine/champagne, display + tracked sans, square-rounded controls, the family plate.
+  7. CLARITY OVERRIDES POETIC AMBIGUITY — no enum, family id or registry word in UI copy; only real values.
+  8. EDITORIAL IS THE SECONDARY LAYER — function label + state/task must stand without the question.
+  9. MOBILE PANEL STACKS USE A FINITE FRAME WITH PAGINATED OVERFLOW — atomic panels, NEXT + context-aware back, no body scroll, no shrink / z-index / bottom-padding cheats.
+  10. THE NAV IS ALWAYS CENTRED TO THE VIEWPORT — portal host, five equal cells, + is the centre anchor, safe area via `env(safe-area-inset-bottom)`.
+- **Composer flags (not fixed here):** F05 total had summed card/loan balances as held (UI now shows HELD / OWED); LOAN counts toward safe-to-spend cash; `createManualAccount` `Date.now()` ids collide within 1ms; default CARD shows $0 in MONEY but $5,000 used in CREDIT/PAYDOWN; records `document_date` always null; SITE00 `index.html` lacks `viewport-fit=cover`. The render-loop crash on 10/14 roots was fixed on main by Composer (`cachedRepoView`, #1391) — this sprint ships no data-layer change.
+- **Hook rule:** E2E selectors read presentation hooks (`.jrn-home__num`, `.jrn-tx`, visible copy). A recomposition must keep them (or move tests in the same PR).

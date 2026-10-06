@@ -1,0 +1,1426 @@
+{
+  "sprint": "P0.JURNL.MOBILE-COMPOSITION-CREATIVE-LANGUAGE-PAGINATION-REFINEMENT2",
+  "generated": "2026-10-06",
+  "method": "Live runtime at 393×852 on a seeded device. The family plate <img> is blurred (filter: blur(22px) saturate(.55)) and then removed (display:none), and each root is captured both ways. A DOM fingerprint is then read with the plate gone: a 12×20 occupancy grid of opaque surfaces, the top-to-bottom type stack (display/sans · size band · ink position), the control stack (full/half/inline/input · position), and left-column dependence (share of panel area in the left 62%). Every pair of families is compared: Jaccard on occupancy, normalised LCS on the type and control stacks.",
+  "script": "node scripts/jurnl/background-blur-test.mjs <runtimeBase> <outDir> <before|after> populated",
+  "before_baseline": "main @ dd8bdeca plus only the render-loop crash fix (otherwise 10 of 14 roots do not render).",
+  "result": "PASS",
+  "summary": {
+    "before": {
+      "h1_all_roots": "DISPLAY · LEFT · 40PX ON ALL 14 ROOTS",
+      "type_stack_all_targets": [
+        "DXL:L SS:L"
+      ],
+      "left_dependence_targets": {
+        "F05": 0.96,
+        "F09": 0.97,
+        "F10": 0.93,
+        "F11": 0.92,
+        "F13": 0.97,
+        "F15": 0.99,
+        "F16": 0.97
+      },
+      "control_stack_targets": {
+        "F05": [
+          "inline:L",
+          "inline:L",
+          "inline:L",
+          "inline:L",
+          "inline:L",
+          "inline:L",
+          "inline:L"
+        ],
+        "F09": [
+          "inline:L",
+          "inline:L"
+        ],
+        "F10": [
+          "inline:L",
+          "inline:L",
+          "inline:L",
+          "inline:L"
+        ],
+        "F11": [
+          "inline:L",
+          "inline:L",
+          "inline:L",
+          "inline:L"
+        ],
+        "F13": [
+          "inline:L",
+          "inline:L",
+          "inline:L"
+        ],
+        "F15": [],
+        "F16": [
+          "I:L",
+          "inline:L",
+          "inline:L",
+          "inline:L",
+          "inline:L",
+          "inline:L",
+          "inline:L",
+          "inline:L",
+          "inline:L"
+        ]
+      },
+      "identical_target_pairs": [
+        "F10/F11"
+      ],
+      "same_type_and_control_stack_target_pairs": [
+        "F10/F11"
+      ]
+    },
+    "after": {
+      "h1_targets": {
+        "F05": {
+          "text": "MONEY",
+          "font": "DISPLAY",
+          "size": 30,
+          "align": "start",
+          "tracking": "7.2px",
+          "italic": false
+        },
+        "F09": {
+          "text": "SAFE TO SPEND",
+          "font": "SANS",
+          "size": 12,
+          "align": "center",
+          "tracking": "4.08px",
+          "italic": false
+        },
+        "F10": {
+          "text": "PURCHASES",
+          "font": "SANS",
+          "size": 11,
+          "align": "start",
+          "tracking": "3.52px",
+          "italic": false
+        },
+        "F11": {
+          "text": "TRIPS",
+          "font": "DISPLAY",
+          "size": 34,
+          "align": "start",
+          "tracking": "2.72px",
+          "italic": false
+        },
+        "F13": {
+          "text": "PAYDOWN",
+          "font": "DISPLAY",
+          "size": 34,
+          "align": "start",
+          "tracking": "2.04px",
+          "italic": false
+        },
+        "F15": {
+          "text": "AHEAD",
+          "font": "DISPLAY",
+          "size": 30,
+          "align": "start",
+          "tracking": "12.6px",
+          "italic": false
+        },
+        "F16": {
+          "text": "RECORDS",
+          "font": "SANS",
+          "size": 20,
+          "align": "start",
+          "tracking": "7.2px",
+          "italic": false
+        }
+      },
+      "left_dependence_targets": {
+        "F05": 0.64,
+        "F09": 0.63,
+        "F10": 0.67,
+        "F11": 0.67,
+        "F13": 0.6,
+        "F15": 0.62,
+        "F16": 0.63
+      },
+      "identical_target_pairs": [],
+      "same_type_and_control_stack_target_pairs": [],
+      "distinct_archetypes_targets": 7
+    }
+  },
+  "target_pairs_before": [
+    {
+      "a": "F05",
+      "b": "F09",
+      "adjacent": false,
+      "occupancy_jaccard": 0.7,
+      "type_stack_similarity": 1,
+      "control_stack_similarity": 0.29
+    },
+    {
+      "a": "F05",
+      "b": "F10",
+      "adjacent": false,
+      "occupancy_jaccard": 0.51,
+      "type_stack_similarity": 0.5,
+      "control_stack_similarity": 0.57
+    },
+    {
+      "a": "F05",
+      "b": "F11",
+      "adjacent": false,
+      "occupancy_jaccard": 0.51,
+      "type_stack_similarity": 0.5,
+      "control_stack_similarity": 0.57
+    },
+    {
+      "a": "F05",
+      "b": "F13",
+      "adjacent": false,
+      "occupancy_jaccard": 0.77,
+      "type_stack_similarity": 0.5,
+      "control_stack_similarity": 0.43
+    },
+    {
+      "a": "F05",
+      "b": "F15",
+      "adjacent": false,
+      "occupancy_jaccard": 0.76,
+      "type_stack_similarity": 0.67,
+      "control_stack_similarity": 0
+    },
+    {
+      "a": "F05",
+      "b": "F16",
+      "adjacent": false,
+      "occupancy_jaccard": 0.77,
+      "type_stack_similarity": 0.5,
+      "control_stack_similarity": 0.78
+    },
+    {
+      "a": "F09",
+      "b": "F10",
+      "adjacent": true,
+      "occupancy_jaccard": 0.31,
+      "type_stack_similarity": 0.5,
+      "control_stack_similarity": 0.5
+    },
+    {
+      "a": "F09",
+      "b": "F11",
+      "adjacent": false,
+      "occupancy_jaccard": 0.31,
+      "type_stack_similarity": 0.5,
+      "control_stack_similarity": 0.5
+    },
+    {
+      "a": "F09",
+      "b": "F13",
+      "adjacent": false,
+      "occupancy_jaccard": 0.83,
+      "type_stack_similarity": 0.5,
+      "control_stack_similarity": 0.67
+    },
+    {
+      "a": "F09",
+      "b": "F15",
+      "adjacent": false,
+      "occupancy_jaccard": 0.94,
+      "type_stack_similarity": 0.67,
+      "control_stack_similarity": 0
+    },
+    {
+      "a": "F09",
+      "b": "F16",
+      "adjacent": false,
+      "occupancy_jaccard": 0.73,
+      "type_stack_similarity": 0.5,
+      "control_stack_similarity": 0.22
+    },
+    {
+      "a": "F10",
+      "b": "F11",
+      "adjacent": true,
+      "occupancy_jaccard": 1,
+      "type_stack_similarity": 1,
+      "control_stack_similarity": 1
+    },
+    {
+      "a": "F10",
+      "b": "F13",
+      "adjacent": false,
+      "occupancy_jaccard": 0.48,
+      "type_stack_similarity": 1,
+      "control_stack_similarity": 0.75
+    },
+    {
+      "a": "F10",
+      "b": "F15",
+      "adjacent": false,
+      "occupancy_jaccard": 0.37,
+      "type_stack_similarity": 0.33,
+      "control_stack_similarity": 0
+    },
+    {
+      "a": "F10",
+      "b": "F16",
+      "adjacent": false,
+      "occupancy_jaccard": 0.48,
+      "type_stack_similarity": 1,
+      "control_stack_similarity": 0.44
+    },
+    {
+      "a": "F11",
+      "b": "F13",
+      "adjacent": false,
+      "occupancy_jaccard": 0.48,
+      "type_stack_similarity": 1,
+      "control_stack_similarity": 0.75
+    },
+    {
+      "a": "F11",
+      "b": "F15",
+      "adjacent": false,
+      "occupancy_jaccard": 0.37,
+      "type_stack_similarity": 0.33,
+      "control_stack_similarity": 0
+    },
+    {
+      "a": "F11",
+      "b": "F16",
+      "adjacent": false,
+      "occupancy_jaccard": 0.48,
+      "type_stack_similarity": 1,
+      "control_stack_similarity": 0.44
+    },
+    {
+      "a": "F13",
+      "b": "F15",
+      "adjacent": false,
+      "occupancy_jaccard": 0.89,
+      "type_stack_similarity": 0.33,
+      "control_stack_similarity": 0
+    },
+    {
+      "a": "F13",
+      "b": "F16",
+      "adjacent": false,
+      "occupancy_jaccard": 0.89,
+      "type_stack_similarity": 1,
+      "control_stack_similarity": 0.33
+    },
+    {
+      "a": "F15",
+      "b": "F16",
+      "adjacent": true,
+      "occupancy_jaccard": 0.78,
+      "type_stack_similarity": 0.33,
+      "control_stack_similarity": 0
+    }
+  ],
+  "target_pairs_after": [
+    {
+      "a": "F05",
+      "b": "F09",
+      "adjacent": false,
+      "occupancy_jaccard": 0.81,
+      "type_stack_similarity": 0.3,
+      "control_stack_similarity": 0
+    },
+    {
+      "a": "F05",
+      "b": "F10",
+      "adjacent": false,
+      "occupancy_jaccard": 0.81,
+      "type_stack_similarity": 0.45,
+      "control_stack_similarity": 0.4
+    },
+    {
+      "a": "F05",
+      "b": "F11",
+      "adjacent": false,
+      "occupancy_jaccard": 0.85,
+      "type_stack_similarity": 0.1,
+      "control_stack_similarity": 0
+    },
+    {
+      "a": "F05",
+      "b": "F13",
+      "adjacent": false,
+      "occupancy_jaccard": 0.84,
+      "type_stack_similarity": 0.1,
+      "control_stack_similarity": 0.4
+    },
+    {
+      "a": "F05",
+      "b": "F15",
+      "adjacent": false,
+      "occupancy_jaccard": 0.87,
+      "type_stack_similarity": 0.58,
+      "control_stack_similarity": 0.2
+    },
+    {
+      "a": "F05",
+      "b": "F16",
+      "adjacent": false,
+      "occupancy_jaccard": 0.92,
+      "type_stack_similarity": 0.4,
+      "control_stack_similarity": 0.13
+    },
+    {
+      "a": "F09",
+      "b": "F10",
+      "adjacent": true,
+      "occupancy_jaccard": 0.67,
+      "type_stack_similarity": 0.45,
+      "control_stack_similarity": 0.25
+    },
+    {
+      "a": "F09",
+      "b": "F11",
+      "adjacent": false,
+      "occupancy_jaccard": 0.81,
+      "type_stack_similarity": 0.33,
+      "control_stack_similarity": 0
+    },
+    {
+      "a": "F09",
+      "b": "F13",
+      "adjacent": false,
+      "occupancy_jaccard": 0.85,
+      "type_stack_similarity": 0.33,
+      "control_stack_similarity": 0.2
+    },
+    {
+      "a": "F09",
+      "b": "F15",
+      "adjacent": false,
+      "occupancy_jaccard": 0.74,
+      "type_stack_similarity": 0.25,
+      "control_stack_similarity": 0
+    },
+    {
+      "a": "F09",
+      "b": "F16",
+      "adjacent": false,
+      "occupancy_jaccard": 0.78,
+      "type_stack_similarity": 0.43,
+      "control_stack_similarity": 0
+    },
+    {
+      "a": "F10",
+      "b": "F11",
+      "adjacent": true,
+      "occupancy_jaccard": 0.78,
+      "type_stack_similarity": 0.27,
+      "control_stack_similarity": 0.2
+    },
+    {
+      "a": "F10",
+      "b": "F13",
+      "adjacent": false,
+      "occupancy_jaccard": 0.72,
+      "type_stack_similarity": 0.18,
+      "control_stack_similarity": 0.4
+    },
+    {
+      "a": "F10",
+      "b": "F15",
+      "adjacent": false,
+      "occupancy_jaccard": 0.86,
+      "type_stack_similarity": 0.33,
+      "control_stack_similarity": 0
+    },
+    {
+      "a": "F10",
+      "b": "F16",
+      "adjacent": false,
+      "occupancy_jaccard": 0.83,
+      "type_stack_similarity": 0.27,
+      "control_stack_similarity": 0.13
+    },
+    {
+      "a": "F11",
+      "b": "F13",
+      "adjacent": false,
+      "occupancy_jaccard": 0.81,
+      "type_stack_similarity": 0.5,
+      "control_stack_similarity": 0.4
+    },
+    {
+      "a": "F11",
+      "b": "F15",
+      "adjacent": false,
+      "occupancy_jaccard": 0.84,
+      "type_stack_similarity": 0.08,
+      "control_stack_similarity": 0
+    },
+    {
+      "a": "F11",
+      "b": "F16",
+      "adjacent": false,
+      "occupancy_jaccard": 0.89,
+      "type_stack_similarity": 0.29,
+      "control_stack_similarity": 0.13
+    },
+    {
+      "a": "F13",
+      "b": "F15",
+      "adjacent": false,
+      "occupancy_jaccard": 0.73,
+      "type_stack_similarity": 0.08,
+      "control_stack_similarity": 0
+    },
+    {
+      "a": "F13",
+      "b": "F16",
+      "adjacent": false,
+      "occupancy_jaccard": 0.77,
+      "type_stack_similarity": 0.14,
+      "control_stack_similarity": 0.13
+    },
+    {
+      "a": "F15",
+      "b": "F16",
+      "adjacent": true,
+      "occupancy_jaccard": 0.94,
+      "type_stack_similarity": 0.33,
+      "control_stack_similarity": 0.13
+    }
+  ],
+  "families": [
+    {
+      "family_id": "F03",
+      "family_name": "TODAY",
+      "target": false,
+      "before": {
+        "h1": {
+          "text": "TODAY",
+          "font": "DISPLAY",
+          "size": 40,
+          "align": "start",
+          "tracking": "0.8px",
+          "italic": false
+        },
+        "type_stack": [
+          "DXL:L",
+          "SS:L",
+          "DXL:L",
+          "SS:L"
+        ],
+        "controls": [
+          "inline:L",
+          "inline:C",
+          "inline:C",
+          "half:L",
+          "half:L",
+          "inline:L"
+        ],
+        "left_dependence": 0.98,
+        "occupancy_ratio": 0.51
+      },
+      "after": {
+        "archetype": "FOCUS_REVEAL",
+        "h1": {
+          "text": "TODAY",
+          "font": "DISPLAY",
+          "size": 40,
+          "align": "start",
+          "tracking": "0.8px",
+          "italic": false
+        },
+        "type_stack": [
+          "DXL:L",
+          "SS:L",
+          "DXL:L",
+          "SS:L"
+        ],
+        "controls": [
+          "inline:L",
+          "inline:C",
+          "inline:C",
+          "half:L",
+          "half:L",
+          "inline:R"
+        ],
+        "left_dependence": 0.95,
+        "occupancy_ratio": 0.47
+      },
+      "after_closest_target_pair": null,
+      "recognizable_with_plate_blurred": null,
+      "recognized_by": "Only family led by a single live figure with a left-anchored narrative rail.",
+      "screenshots": {
+        "blurred": "screenshots/boards/BLUR_TEST_TARGETS.jpg",
+        "removed": "screenshots/boards/BLUR_TEST_ALL_ROOTS_PLATE_REMOVED.jpg"
+      }
+    },
+    {
+      "family_id": "F04",
+      "family_name": "ACTIVITY",
+      "target": false,
+      "before": {
+        "h1": {
+          "text": "ACTIVITY",
+          "font": "DISPLAY",
+          "size": 40,
+          "align": "start",
+          "tracking": "0.8px",
+          "italic": false
+        },
+        "type_stack": [
+          "DXL:L",
+          "SS:L"
+        ],
+        "controls": [
+          "I:L",
+          "inline:C",
+          "half:L",
+          "half:L",
+          "half:L",
+          "half:L",
+          "half:L",
+          "half:L"
+        ],
+        "left_dependence": 0.87,
+        "occupancy_ratio": 0.43
+      },
+      "after": {
+        "archetype": null,
+        "h1": {
+          "text": "ACTIVITY",
+          "font": "DISPLAY",
+          "size": 40,
+          "align": "start",
+          "tracking": "0.8px",
+          "italic": false
+        },
+        "type_stack": [
+          "DXL:L",
+          "SS:L"
+        ],
+        "controls": [
+          "I:L",
+          "inline:C",
+          "half:L",
+          "half:L",
+          "half:L",
+          "half:L",
+          "half:L",
+          "half:L"
+        ],
+        "left_dependence": 0.87,
+        "occupancy_ratio": 0.43
+      },
+      "after_closest_target_pair": null,
+      "recognizable_with_plate_blurred": null,
+      "recognized_by": "Search-first investigative ledger.",
+      "screenshots": {
+        "blurred": "screenshots/boards/BLUR_TEST_TARGETS.jpg",
+        "removed": "screenshots/boards/BLUR_TEST_ALL_ROOTS_PLATE_REMOVED.jpg"
+      }
+    },
+    {
+      "family_id": "F05",
+      "family_name": "MONEY",
+      "target": true,
+      "before": {
+        "h1": {
+          "text": "MONEY",
+          "font": "DISPLAY",
+          "size": 40,
+          "align": "start",
+          "tracking": "0.8px",
+          "italic": false
+        },
+        "type_stack": [
+          "DXL:L",
+          "SS:L",
+          "DXL:L",
+          "SS:L"
+        ],
+        "controls": [
+          "inline:L",
+          "inline:L",
+          "inline:L",
+          "inline:L",
+          "inline:L",
+          "inline:L",
+          "inline:L"
+        ],
+        "left_dependence": 0.96,
+        "occupancy_ratio": 0.28
+      },
+      "after": {
+        "archetype": "CONTAINER_CABINET",
+        "h1": {
+          "text": "MONEY",
+          "font": "DISPLAY",
+          "size": 30,
+          "align": "start",
+          "tracking": "7.2px",
+          "italic": false
+        },
+        "type_stack": [
+          "DL:C",
+          "SS:C",
+          "DL:L",
+          "DL:C",
+          "SS:C",
+          "DMi:L",
+          "SS:C",
+          "SS:R",
+          "SS:C",
+          "SS:R"
+        ],
+        "controls": [
+          "half:C",
+          "half:C",
+          "half:C",
+          "half:C",
+          "inline:R"
+        ],
+        "left_dependence": 0.64,
+        "occupancy_ratio": 0.78
+      },
+      "after_closest_target_pair": {
+        "a": "F05",
+        "b": "F10",
+        "adjacent": false,
+        "occupancy_jaccard": 0.81,
+        "type_stack_similarity": 0.45,
+        "control_stack_similarity": 0.4
+      },
+      "recognizable_with_plate_blurred": true,
+      "recognized_by": "Only family organised as labelled containers with vertical shelf labels and drawer pulls.",
+      "screenshots": {
+        "blurred": "screenshots/boards/BLUR_TEST_TARGETS.jpg",
+        "removed": "screenshots/boards/BLUR_TEST_ALL_ROOTS_PLATE_REMOVED.jpg"
+      }
+    },
+    {
+      "family_id": "F06",
+      "family_name": "INCOME",
+      "target": false,
+      "before": {
+        "h1": {
+          "text": "INCOME",
+          "font": "DISPLAY",
+          "size": 40,
+          "align": "start",
+          "tracking": "0.8px",
+          "italic": false
+        },
+        "type_stack": [
+          "DXL:L",
+          "SS:L"
+        ],
+        "controls": [
+          "inline:L",
+          "inline:L",
+          "inline:L"
+        ],
+        "left_dependence": 0.92,
+        "occupancy_ratio": 0.18
+      },
+      "after": {
+        "archetype": "LEDGER_GRID",
+        "h1": {
+          "text": "INCOME",
+          "font": "DISPLAY",
+          "size": 34,
+          "align": "start",
+          "tracking": "1.36px",
+          "italic": false
+        },
+        "type_stack": [
+          "DXL:L",
+          "SS:C",
+          "DMi:L"
+        ],
+        "controls": [
+          "full:C",
+          "half:L",
+          "half:R"
+        ],
+        "left_dependence": 0.65,
+        "occupancy_ratio": 0.46
+      },
+      "after_closest_target_pair": null,
+      "recognizable_with_plate_blurred": null,
+      "recognized_by": "Ruled column ledger with a double wine border.",
+      "screenshots": {
+        "blurred": "screenshots/boards/BLUR_TEST_TARGETS.jpg",
+        "removed": "screenshots/boards/BLUR_TEST_ALL_ROOTS_PLATE_REMOVED.jpg"
+      }
+    },
+    {
+      "family_id": "F07",
+      "family_name": "UPCOMING",
+      "target": false,
+      "before": {
+        "h1": {
+          "text": "UPCOMING",
+          "font": "DISPLAY",
+          "size": 40,
+          "align": "start",
+          "tracking": "0.8px",
+          "italic": false
+        },
+        "type_stack": [
+          "DXL:L",
+          "SS:L"
+        ],
+        "controls": [
+          "inline:L",
+          "inline:L",
+          "inline:L",
+          "inline:L",
+          "inline:L"
+        ],
+        "left_dependence": 0.98,
+        "occupancy_ratio": 0.36
+      },
+      "after": {
+        "archetype": "TIMELINE",
+        "h1": {
+          "text": "UPCOMING",
+          "font": "SANS",
+          "size": 22,
+          "align": "start",
+          "tracking": "6.6px",
+          "italic": false
+        },
+        "type_stack": [
+          "SL:L",
+          "SS:L",
+          "SS:C",
+          "DMi:L",
+          "SS:L"
+        ],
+        "controls": [
+          "half:C",
+          "half:C",
+          "half:C",
+          "half:C",
+          "half:C",
+          "half:C",
+          "inline:L",
+          "inline:C"
+        ],
+        "left_dependence": 0.66,
+        "occupancy_ratio": 0.7
+      },
+      "after_closest_target_pair": null,
+      "recognizable_with_plate_blurred": null,
+      "recognized_by": "Date column + spine.",
+      "screenshots": {
+        "blurred": "screenshots/boards/BLUR_TEST_TARGETS.jpg",
+        "removed": "screenshots/boards/BLUR_TEST_ALL_ROOTS_PLATE_REMOVED.jpg"
+      }
+    },
+    {
+      "family_id": "F08",
+      "family_name": "PLAN",
+      "target": false,
+      "before": {
+        "h1": {
+          "text": "PLAN",
+          "font": "DISPLAY",
+          "size": 40,
+          "align": "start",
+          "tracking": "0.8px",
+          "italic": false
+        },
+        "type_stack": [
+          "DXL:L",
+          "SS:L",
+          "DXL:L",
+          "SS:L"
+        ],
+        "controls": [
+          "inline:L",
+          "inline:L",
+          "inline:L",
+          "inline:L",
+          "inline:L"
+        ],
+        "left_dependence": 0.94,
+        "occupancy_ratio": 0.22
+      },
+      "after": {
+        "archetype": "ROOM_ZONE",
+        "h1": {
+          "text": "PLAN",
+          "font": "DISPLAY",
+          "size": 44,
+          "align": "start",
+          "tracking": "0.88px",
+          "italic": false
+        },
+        "type_stack": [
+          "DXL:L",
+          "SS:C",
+          "SS:L",
+          "DMi:L"
+        ],
+        "controls": [
+          "inline:L",
+          "inline:R",
+          "inline:L",
+          "inline:C",
+          "inline:R",
+          "inline:L",
+          "inline:C",
+          "inline:C"
+        ],
+        "left_dependence": 0.66,
+        "occupancy_ratio": 0.61
+      },
+      "after_closest_target_pair": null,
+      "recognizable_with_plate_blurred": null,
+      "recognized_by": "Proportional plan band.",
+      "screenshots": {
+        "blurred": "screenshots/boards/BLUR_TEST_TARGETS.jpg",
+        "removed": "screenshots/boards/BLUR_TEST_ALL_ROOTS_PLATE_REMOVED.jpg"
+      }
+    },
+    {
+      "family_id": "F09",
+      "family_name": "SAFE TO SPEND",
+      "target": true,
+      "before": {
+        "h1": {
+          "text": "SAFE TO SPEND",
+          "font": "DISPLAY",
+          "size": 40,
+          "align": "start",
+          "tracking": "0.8px",
+          "italic": false
+        },
+        "type_stack": [
+          "DXL:L",
+          "SS:L",
+          "DXL:L",
+          "SS:L"
+        ],
+        "controls": [
+          "inline:L",
+          "inline:L"
+        ],
+        "left_dependence": 0.97,
+        "occupancy_ratio": 0.3
+      },
+      "after": {
+        "archetype": "TENSION_THRESHOLD",
+        "h1": {
+          "text": "SAFE TO SPEND",
+          "font": "SANS",
+          "size": 12,
+          "align": "center",
+          "tracking": "4.08px",
+          "italic": false
+        },
+        "type_stack": [
+          "SS:C",
+          "DXL:C",
+          "SS:C",
+          "SS:R",
+          "SM:C",
+          "DMi:C"
+        ],
+        "controls": [
+          "half:L",
+          "half:R",
+          "inline:C"
+        ],
+        "left_dependence": 0.63,
+        "occupancy_ratio": 0.67
+      },
+      "after_closest_target_pair": {
+        "a": "F09",
+        "b": "F13",
+        "adjacent": false,
+        "occupancy_jaccard": 0.85,
+        "type_stack_similarity": 0.33,
+        "control_stack_similarity": 0.2
+      },
+      "recognizable_with_plate_blurred": true,
+      "recognized_by": "Only centred, symmetric family; only one with a threshold line and hatched held bands.",
+      "screenshots": {
+        "blurred": "screenshots/boards/BLUR_TEST_TARGETS.jpg",
+        "removed": "screenshots/boards/BLUR_TEST_ALL_ROOTS_PLATE_REMOVED.jpg"
+      }
+    },
+    {
+      "family_id": "F10",
+      "family_name": "PURCHASES",
+      "target": true,
+      "before": {
+        "h1": {
+          "text": "PURCHASES",
+          "font": "DISPLAY",
+          "size": 40,
+          "align": "start",
+          "tracking": "0.8px",
+          "italic": false
+        },
+        "type_stack": [
+          "DXL:L",
+          "SS:L"
+        ],
+        "controls": [
+          "inline:L",
+          "inline:L",
+          "inline:L",
+          "inline:L"
+        ],
+        "left_dependence": 0.93,
+        "occupancy_ratio": 0.18
+      },
+      "after": {
+        "archetype": "OBJECT_FOCUS",
+        "h1": {
+          "text": "PURCHASES",
+          "font": "SANS",
+          "size": 11,
+          "align": "start",
+          "tracking": "3.52px",
+          "italic": false
+        },
+        "type_stack": [
+          "SS:L",
+          "SS:C",
+          "DL:C",
+          "SM:C",
+          "SS:C",
+          "SS:L",
+          "SS:R",
+          "SS:C",
+          "SS:L",
+          "SM:C",
+          "DMi:C"
+        ],
+        "controls": [
+          "half:C",
+          "full:C",
+          "half:C",
+          "inline:C"
+        ],
+        "left_dependence": 0.67,
+        "occupancy_ratio": 0.83
+      },
+      "after_closest_target_pair": {
+        "a": "F05",
+        "b": "F10",
+        "adjacent": false,
+        "occupancy_jaccard": 0.81,
+        "type_stack_similarity": 0.45,
+        "control_stack_similarity": 0.4
+      },
+      "recognizable_with_plate_blurred": true,
+      "recognized_by": "Only family with one centred focal object and an orbit of consequences.",
+      "screenshots": {
+        "blurred": "screenshots/boards/BLUR_TEST_TARGETS.jpg",
+        "removed": "screenshots/boards/BLUR_TEST_ALL_ROOTS_PLATE_REMOVED.jpg"
+      }
+    },
+    {
+      "family_id": "F11",
+      "family_name": "TRIPS",
+      "target": true,
+      "before": {
+        "h1": {
+          "text": "TRIPS",
+          "font": "DISPLAY",
+          "size": 40,
+          "align": "start",
+          "tracking": "0.8px",
+          "italic": false
+        },
+        "type_stack": [
+          "DXL:L",
+          "SS:L"
+        ],
+        "controls": [
+          "inline:L",
+          "inline:L",
+          "inline:L",
+          "inline:L"
+        ],
+        "left_dependence": 0.92,
+        "occupancy_ratio": 0.18
+      },
+      "after": {
+        "archetype": "MAP_ROUTE",
+        "h1": {
+          "text": "TRIPS",
+          "font": "DISPLAY",
+          "size": 34,
+          "align": "start",
+          "tracking": "2.72px",
+          "italic": false
+        },
+        "type_stack": [
+          "DXL:L",
+          "SS:C",
+          "DXL:L",
+          "SS:L",
+          "SM:L",
+          "DMi:C"
+        ],
+        "controls": [
+          "inline:L",
+          "inline:L",
+          "full:C",
+          "inline:L",
+          "inline:L"
+        ],
+        "left_dependence": 0.67,
+        "occupancy_ratio": 0.75
+      },
+      "after_closest_target_pair": {
+        "a": "F11",
+        "b": "F13",
+        "adjacent": false,
+        "occupancy_jaccard": 0.81,
+        "type_stack_similarity": 0.5,
+        "control_stack_similarity": 0.4
+      },
+      "recognizable_with_plate_blurred": true,
+      "recognized_by": "Only family with a vertical route and destination as the end point.",
+      "screenshots": {
+        "blurred": "screenshots/boards/BLUR_TEST_TARGETS.jpg",
+        "removed": "screenshots/boards/BLUR_TEST_ALL_ROOTS_PLATE_REMOVED.jpg"
+      }
+    },
+    {
+      "family_id": "F12",
+      "family_name": "CREDIT",
+      "target": false,
+      "before": {
+        "h1": {
+          "text": "CREDIT",
+          "font": "DISPLAY",
+          "size": 40,
+          "align": "start",
+          "tracking": "0.8px",
+          "italic": false
+        },
+        "type_stack": [
+          "DXL:L",
+          "SS:L"
+        ],
+        "controls": [
+          "inline:L",
+          "inline:L",
+          "inline:L",
+          "inline:L",
+          "inline:L",
+          "inline:L"
+        ],
+        "left_dependence": 0.96,
+        "occupancy_ratio": 0.26
+      },
+      "after": {
+        "archetype": "LEDGER_GRID",
+        "h1": {
+          "text": "CREDIT",
+          "font": "DISPLAY",
+          "size": 34,
+          "align": "start",
+          "tracking": "4.08px",
+          "italic": false
+        },
+        "type_stack": [
+          "DXL:L",
+          "SS:C",
+          "DMi:L"
+        ],
+        "controls": [
+          "full:C",
+          "full:C",
+          "full:C",
+          "half:L",
+          "half:R",
+          "inline:L"
+        ],
+        "left_dependence": 0.65,
+        "occupancy_ratio": 0.63
+      },
+      "after_closest_target_pair": null,
+      "recognizable_with_plate_blurred": null,
+      "recognized_by": "Utilization meter per account.",
+      "screenshots": {
+        "blurred": "screenshots/boards/BLUR_TEST_TARGETS.jpg",
+        "removed": "screenshots/boards/BLUR_TEST_ALL_ROOTS_PLATE_REMOVED.jpg"
+      }
+    },
+    {
+      "family_id": "F13",
+      "family_name": "PAYDOWN",
+      "target": true,
+      "before": {
+        "h1": {
+          "text": "PAYDOWN",
+          "font": "DISPLAY",
+          "size": 40,
+          "align": "start",
+          "tracking": "0.8px",
+          "italic": false
+        },
+        "type_stack": [
+          "DXL:L",
+          "SS:L"
+        ],
+        "controls": [
+          "inline:L",
+          "inline:L",
+          "inline:L"
+        ],
+        "left_dependence": 0.97,
+        "occupancy_ratio": 0.36
+      },
+      "after": {
+        "archetype": "SEQUENTIAL_STEPS",
+        "h1": {
+          "text": "PAYDOWN",
+          "font": "DISPLAY",
+          "size": 34,
+          "align": "start",
+          "tracking": "2.04px",
+          "italic": false
+        },
+        "type_stack": [
+          "DXL:L",
+          "SS:C",
+          "DMi:C"
+        ],
+        "controls": [
+          "inline:L",
+          "full:C",
+          "half:C",
+          "half:C",
+          "half:R"
+        ],
+        "left_dependence": 0.6,
+        "occupancy_ratio": 0.66
+      },
+      "after_closest_target_pair": {
+        "a": "F11",
+        "b": "F13",
+        "adjacent": false,
+        "occupancy_jaccard": 0.81,
+        "type_stack_similarity": 0.5,
+        "control_stack_similarity": 0.4
+      },
+      "recognizable_with_plate_blurred": true,
+      "recognized_by": "Only family with indented steps and index numerals.",
+      "screenshots": {
+        "blurred": "screenshots/boards/BLUR_TEST_TARGETS.jpg",
+        "removed": "screenshots/boards/BLUR_TEST_ALL_ROOTS_PLATE_REMOVED.jpg"
+      }
+    },
+    {
+      "family_id": "F14",
+      "family_name": "GOALS",
+      "target": false,
+      "before": {
+        "h1": {
+          "text": "GOALS",
+          "font": "DISPLAY",
+          "size": 40,
+          "align": "start",
+          "tracking": "0.8px",
+          "italic": false
+        },
+        "type_stack": [
+          "DXL:L",
+          "SS:L"
+        ],
+        "controls": [
+          "inline:L",
+          "inline:L",
+          "inline:L"
+        ],
+        "left_dependence": 0.91,
+        "occupancy_ratio": 0.15
+      },
+      "after": {
+        "archetype": "EDITORIAL_SPREAD",
+        "h1": {
+          "text": "GOALS",
+          "font": "DISPLAY",
+          "size": 40,
+          "align": "start",
+          "tracking": "0.8px",
+          "italic": true
+        },
+        "type_stack": [
+          "DXLi:L",
+          "SS:L",
+          "SS:C",
+          "DMi:L",
+          "SS:L"
+        ],
+        "controls": [
+          "full:C",
+          "inline:L",
+          "inline:C"
+        ],
+        "left_dependence": 0.68,
+        "occupancy_ratio": 0.42
+      },
+      "after_closest_target_pair": null,
+      "recognizable_with_plate_blurred": null,
+      "recognized_by": "Only italic display family; spread pages.",
+      "screenshots": {
+        "blurred": "screenshots/boards/BLUR_TEST_TARGETS.jpg",
+        "removed": "screenshots/boards/BLUR_TEST_ALL_ROOTS_PLATE_REMOVED.jpg"
+      }
+    },
+    {
+      "family_id": "F15",
+      "family_name": "AHEAD",
+      "target": true,
+      "before": {
+        "h1": {
+          "text": "AHEAD",
+          "font": "DISPLAY",
+          "size": 40,
+          "align": "start",
+          "tracking": "0.8px",
+          "italic": false
+        },
+        "type_stack": [
+          "DXL:L",
+          "SS:L",
+          "DXL:L",
+          "SS:L",
+          "DL:L",
+          "SS:L"
+        ],
+        "controls": [],
+        "left_dependence": 0.99,
+        "occupancy_ratio": 0.32
+      },
+      "after": {
+        "archetype": "HORIZON_PATH",
+        "h1": {
+          "text": "AHEAD",
+          "font": "DISPLAY",
+          "size": 30,
+          "align": "start",
+          "tracking": "12.6px",
+          "italic": false
+        },
+        "type_stack": [
+          "DL:L",
+          "SS:C",
+          "DM:L",
+          "DM:C",
+          "DMi:R",
+          "DMi:L",
+          "SS:C",
+          "SS:R",
+          "SS:C",
+          "SS:R",
+          "SS:C",
+          "SS:R"
+        ],
+        "controls": [
+          "inline:R"
+        ],
+        "left_dependence": 0.62,
+        "occupancy_ratio": 0.9
+      },
+      "after_closest_target_pair": {
+        "a": "F05",
+        "b": "F15",
+        "adjacent": false,
+        "occupancy_jaccard": 0.87,
+        "type_stack_similarity": 0.58,
+        "control_stack_similarity": 0.2
+      },
+      "recognizable_with_plate_blurred": true,
+      "recognized_by": "Only family with a horizontal time band and dated window panels.",
+      "screenshots": {
+        "blurred": "screenshots/boards/BLUR_TEST_TARGETS.jpg",
+        "removed": "screenshots/boards/BLUR_TEST_ALL_ROOTS_PLATE_REMOVED.jpg"
+      }
+    },
+    {
+      "family_id": "F16",
+      "family_name": "RECORDS",
+      "target": true,
+      "before": {
+        "h1": {
+          "text": "RECORDS",
+          "font": "DISPLAY",
+          "size": 40,
+          "align": "start",
+          "tracking": "0.8px",
+          "italic": false
+        },
+        "type_stack": [
+          "DXL:L",
+          "SS:L"
+        ],
+        "controls": [
+          "I:L",
+          "inline:L",
+          "inline:L",
+          "inline:L",
+          "inline:L",
+          "inline:L",
+          "inline:L",
+          "inline:L",
+          "inline:L"
+        ],
+        "left_dependence": 0.97,
+        "occupancy_ratio": 0.36
+      },
+      "after": {
+        "archetype": "ARCHIVE_INDEX",
+        "h1": {
+          "text": "RECORDS",
+          "font": "SANS",
+          "size": 20,
+          "align": "start",
+          "tracking": "7.2px",
+          "italic": false
+        },
+        "type_stack": [
+          "SM:L",
+          "DM:R",
+          "SS:C",
+          "DMi:L",
+          "SS:L",
+          "SS:C",
+          "SS:R"
+        ],
+        "controls": [
+          "I:L",
+          "inline:R",
+          "full:C",
+          "full:C",
+          "full:C",
+          "full:C",
+          "full:C",
+          "inline:R"
+        ],
+        "left_dependence": 0.63,
+        "occupancy_ratio": 0.85
+      },
+      "after_closest_target_pair": {
+        "a": "F05",
+        "b": "F16",
+        "adjacent": false,
+        "occupancy_jaccard": 0.92,
+        "type_stack_similarity": 0.4,
+        "control_stack_similarity": 0.13
+      },
+      "recognizable_with_plate_blurred": true,
+      "recognized_by": "Only family with staggered folder tabs and a label holder.",
+      "screenshots": {
+        "blurred": "screenshots/boards/BLUR_TEST_TARGETS.jpg",
+        "removed": "screenshots/boards/BLUR_TEST_ALL_ROOTS_PLATE_REMOVED.jpg"
+      }
+    }
+  ]
+}

@@ -1,0 +1,550 @@
+{
+  "sprint": "P0.JURNL.MOBILE-COMPOSITION-CREATIVE-LANGUAGE-PAGINATION-REFINEMENT2",
+  "generated": "2026-10-06",
+  "capture": {
+    "tool": "Playwright + pre-installed Chromium against the live Vite runtime",
+    "viewports": {
+      "mobile": [
+        393,
+        852
+      ],
+      "tablet": [
+        834,
+        1194
+      ],
+      "desktop": [
+        1440,
+        900
+      ]
+    },
+    "scenarios": {
+      "EMPTY": "fresh device (?reset=1)",
+      "POPULATED": "seedPopulated(): 5 places, income, 3 bills, plan, goal, 2 purchases, 2 trips, paydown plan, 7 records"
+    },
+    "scripts": [
+      "scripts/jurnl/mobile-composition-qa.mjs",
+      "scripts/jurnl/mobile-pagination-qa.mjs",
+      "scripts/jurnl/mobile-viewport-parity-qa.mjs",
+      "scripts/jurnl/background-blur-test.mjs",
+      "scripts/jurnl/qa-board.mjs"
+    ]
+  },
+  "required_proof": {
+    "before_after_targets": "screenshots/before/* + screenshots/after/* (F05 F09 F10 F11 F13 F15 F16 × EMPTY/POPULATED)",
+    "multi_screen_continuation": [
+      "screenshots/pagination/multiscreen_F16_screen1.jpg",
+      "screenshots/pagination/multiscreen_F16_screen2.jpg",
+      "screenshots/pagination/multiscreen_F16_screen3.jpg",
+      "screenshots/pagination/continuation_F05_screen1.jpg",
+      "screenshots/pagination/continuation_F05_screen2.jpg"
+    ],
+    "nav_centering_proof": "screenshots/boards/NAV_CENTERING_PROOF.jpg",
+    "comparison_board": "screenshots/boards/COMPARISON_ALL_ROOTS_AFTER.jpg"
+  },
+  "files": [
+    {
+      "file": "screenshots/pagination/continuation_F05_screen1.jpg",
+      "kind": "pagination",
+      "bytes": 55224
+    },
+    {
+      "file": "screenshots/pagination/continuation_F05_screen2.jpg",
+      "kind": "pagination",
+      "bytes": 50852
+    },
+    {
+      "file": "screenshots/pagination/continuation_F15_desktop_screen2.jpg",
+      "kind": "pagination",
+      "bytes": 101124
+    },
+    {
+      "file": "screenshots/pagination/continuation_F15_tablet_screen2.jpg",
+      "kind": "pagination",
+      "bytes": 128585
+    },
+    {
+      "file": "screenshots/pagination/dynamic_F16_no_results.jpg",
+      "kind": "pagination",
+      "bytes": 39099
+    },
+    {
+      "file": "screenshots/pagination/multiscreen_F16_screen1.jpg",
+      "kind": "pagination",
+      "bytes": 41002
+    },
+    {
+      "file": "screenshots/pagination/multiscreen_F16_screen2.jpg",
+      "kind": "pagination",
+      "bytes": 39614
+    },
+    {
+      "file": "screenshots/pagination/multiscreen_F16_screen3.jpg",
+      "kind": "pagination",
+      "bytes": 33791
+    },
+    {
+      "file": "screenshots/pagination/nav_center_money_screen2.jpg",
+      "kind": "pagination",
+      "bytes": 51839
+    },
+    {
+      "file": "screenshots/pagination/nav_center_records_screen2.jpg",
+      "kind": "pagination",
+      "bytes": 32686
+    },
+    {
+      "file": "screenshots/pagination/nav_center_safe_screen1.jpg",
+      "kind": "pagination",
+      "bytes": 50203
+    },
+    {
+      "file": "screenshots/pagination/nav_center_trips_screen1.jpg",
+      "kind": "pagination",
+      "bytes": 58215
+    },
+    {
+      "file": "screenshots/pagination/oversize_F16_statement_folder.jpg",
+      "kind": "pagination",
+      "bytes": 40397
+    },
+    {
+      "file": "screenshots/pagination/safe_area_F05_inset34.jpg",
+      "kind": "pagination",
+      "bytes": 56779
+    },
+    {
+      "file": "screenshots/boards/BEFORE_AFTER_TARGETS_EMPTY.jpg",
+      "kind": "boards",
+      "bytes": 364746
+    },
+    {
+      "file": "screenshots/boards/BEFORE_AFTER_TARGETS_POPULATED.jpg",
+      "kind": "boards",
+      "bytes": 375557
+    },
+    {
+      "file": "screenshots/boards/BLUR_TEST_ALL_ROOTS_PLATE_REMOVED.jpg",
+      "kind": "boards",
+      "bytes": 265754
+    },
+    {
+      "file": "screenshots/boards/BLUR_TEST_TARGETS.jpg",
+      "kind": "boards",
+      "bytes": 278990
+    },
+    {
+      "file": "screenshots/boards/COMPARISON_ALL_ROOTS_AFTER.jpg",
+      "kind": "boards",
+      "bytes": 357556
+    },
+    {
+      "file": "screenshots/boards/COMPARISON_ALL_ROOTS_AFTER_EMPTY.jpg",
+      "kind": "boards",
+      "bytes": 347171
+    },
+    {
+      "file": "screenshots/boards/NAV_CENTERING_PROOF.jpg",
+      "kind": "boards",
+      "bytes": 141094
+    },
+    {
+      "file": "screenshots/boards/PAGINATION_CONTINUATION_PROOF.jpg",
+      "kind": "boards",
+      "bytes": 223003
+    },
+    {
+      "file": "screenshots/boards/REGRESSION_DESKTOP_1440.jpg",
+      "kind": "boards",
+      "bytes": 200691
+    },
+    {
+      "file": "screenshots/boards/REGRESSION_TABLET_834.jpg",
+      "kind": "boards",
+      "bytes": 241564
+    },
+    {
+      "file": "screenshots/before/F05_money_empty.jpg",
+      "kind": "before",
+      "bytes": 46797,
+      "family": "F05",
+      "route": "money",
+      "scenario": "EMPTY",
+      "viewport": [
+        393,
+        852
+      ],
+      "source": "live runtime; before = main dd8bdeca + crash fix only"
+    },
+    {
+      "file": "screenshots/before/F05_money_populated.jpg",
+      "kind": "before",
+      "bytes": 49300,
+      "family": "F05",
+      "route": "money",
+      "scenario": "POPULATED",
+      "viewport": [
+        393,
+        852
+      ],
+      "source": "live runtime; before = main dd8bdeca + crash fix only"
+    },
+    {
+      "file": "screenshots/before/F09_safe_empty.jpg",
+      "kind": "before",
+      "bytes": 44900,
+      "family": "F09",
+      "route": "safe",
+      "scenario": "EMPTY",
+      "viewport": [
+        393,
+        852
+      ],
+      "source": "live runtime; before = main dd8bdeca + crash fix only"
+    },
+    {
+      "file": "screenshots/before/F09_safe_populated.jpg",
+      "kind": "before",
+      "bytes": 45406,
+      "family": "F09",
+      "route": "safe",
+      "scenario": "POPULATED",
+      "viewport": [
+        393,
+        852
+      ],
+      "source": "live runtime; before = main dd8bdeca + crash fix only"
+    },
+    {
+      "file": "screenshots/before/F10_purchases_empty.jpg",
+      "kind": "before",
+      "bytes": 43335,
+      "family": "F10",
+      "route": "purchases",
+      "scenario": "EMPTY",
+      "viewport": [
+        393,
+        852
+      ],
+      "source": "live runtime; before = main dd8bdeca + crash fix only"
+    },
+    {
+      "file": "screenshots/before/F10_purchases_populated.jpg",
+      "kind": "before",
+      "bytes": 42978,
+      "family": "F10",
+      "route": "purchases",
+      "scenario": "POPULATED",
+      "viewport": [
+        393,
+        852
+      ],
+      "source": "live runtime; before = main dd8bdeca + crash fix only"
+    },
+    {
+      "file": "screenshots/before/F11_trips_empty.jpg",
+      "kind": "before",
+      "bytes": 59622,
+      "family": "F11",
+      "route": "trips",
+      "scenario": "EMPTY",
+      "viewport": [
+        393,
+        852
+      ],
+      "source": "live runtime; before = main dd8bdeca + crash fix only"
+    },
+    {
+      "file": "screenshots/before/F11_trips_populated.jpg",
+      "kind": "before",
+      "bytes": 60312,
+      "family": "F11",
+      "route": "trips",
+      "scenario": "POPULATED",
+      "viewport": [
+        393,
+        852
+      ],
+      "source": "live runtime; before = main dd8bdeca + crash fix only"
+    },
+    {
+      "file": "screenshots/before/F13_paydown_empty.jpg",
+      "kind": "before",
+      "bytes": 76118,
+      "family": "F13",
+      "route": "paydown",
+      "scenario": "EMPTY",
+      "viewport": [
+        393,
+        852
+      ],
+      "source": "live runtime; before = main dd8bdeca + crash fix only"
+    },
+    {
+      "file": "screenshots/before/F13_paydown_populated.jpg",
+      "kind": "before",
+      "bytes": 78934,
+      "family": "F13",
+      "route": "paydown",
+      "scenario": "POPULATED",
+      "viewport": [
+        393,
+        852
+      ],
+      "source": "live runtime; before = main dd8bdeca + crash fix only"
+    },
+    {
+      "file": "screenshots/before/F15_ahead_empty.jpg",
+      "kind": "before",
+      "bytes": 55725,
+      "family": "F15",
+      "route": "ahead",
+      "scenario": "EMPTY",
+      "viewport": [
+        393,
+        852
+      ],
+      "source": "live runtime; before = main dd8bdeca + crash fix only"
+    },
+    {
+      "file": "screenshots/before/F15_ahead_populated.jpg",
+      "kind": "before",
+      "bytes": 56245,
+      "family": "F15",
+      "route": "ahead",
+      "scenario": "POPULATED",
+      "viewport": [
+        393,
+        852
+      ],
+      "source": "live runtime; before = main dd8bdeca + crash fix only"
+    },
+    {
+      "file": "screenshots/before/F16_records_empty.jpg",
+      "kind": "before",
+      "bytes": 31582,
+      "family": "F16",
+      "route": "records",
+      "scenario": "EMPTY",
+      "viewport": [
+        393,
+        852
+      ],
+      "source": "live runtime; before = main dd8bdeca + crash fix only"
+    },
+    {
+      "file": "screenshots/before/F16_records_populated.jpg",
+      "kind": "before",
+      "bytes": 39842,
+      "family": "F16",
+      "route": "records",
+      "scenario": "POPULATED",
+      "viewport": [
+        393,
+        852
+      ],
+      "source": "live runtime; before = main dd8bdeca + crash fix only"
+    },
+    {
+      "file": "screenshots/after/F05_money_empty.jpg",
+      "kind": "after",
+      "bytes": 53391,
+      "family": "F05",
+      "route": "money",
+      "scenario": "EMPTY",
+      "viewport": [
+        393,
+        852
+      ],
+      "source": "live runtime on this branch (merged with main 9c817646)"
+    },
+    {
+      "file": "screenshots/after/F05_money_populated.jpg",
+      "kind": "after",
+      "bytes": 52957,
+      "family": "F05",
+      "route": "money",
+      "scenario": "POPULATED",
+      "viewport": [
+        393,
+        852
+      ],
+      "source": "live runtime on this branch (merged with main 9c817646)"
+    },
+    {
+      "file": "screenshots/after/F09_safe_empty.jpg",
+      "kind": "after",
+      "bytes": 42433,
+      "family": "F09",
+      "route": "safe",
+      "scenario": "EMPTY",
+      "viewport": [
+        393,
+        852
+      ],
+      "source": "live runtime on this branch (merged with main 9c817646)"
+    },
+    {
+      "file": "screenshots/after/F09_safe_populated.jpg",
+      "kind": "after",
+      "bytes": 46889,
+      "family": "F09",
+      "route": "safe",
+      "scenario": "POPULATED",
+      "viewport": [
+        393,
+        852
+      ],
+      "source": "live runtime on this branch (merged with main 9c817646)"
+    },
+    {
+      "file": "screenshots/after/F10_purchases_empty.jpg",
+      "kind": "after",
+      "bytes": 43731,
+      "family": "F10",
+      "route": "purchases",
+      "scenario": "EMPTY",
+      "viewport": [
+        393,
+        852
+      ],
+      "source": "live runtime on this branch (merged with main 9c817646)"
+    },
+    {
+      "file": "screenshots/after/F10_purchases_populated.jpg",
+      "kind": "after",
+      "bytes": 46401,
+      "family": "F10",
+      "route": "purchases",
+      "scenario": "POPULATED",
+      "viewport": [
+        393,
+        852
+      ],
+      "source": "live runtime on this branch (merged with main 9c817646)"
+    },
+    {
+      "file": "screenshots/after/F11_trips_empty.jpg",
+      "kind": "after",
+      "bytes": 57659,
+      "family": "F11",
+      "route": "trips",
+      "scenario": "EMPTY",
+      "viewport": [
+        393,
+        852
+      ],
+      "source": "live runtime on this branch (merged with main 9c817646)"
+    },
+    {
+      "file": "screenshots/after/F11_trips_populated.jpg",
+      "kind": "after",
+      "bytes": 54675,
+      "family": "F11",
+      "route": "trips",
+      "scenario": "POPULATED",
+      "viewport": [
+        393,
+        852
+      ],
+      "source": "live runtime on this branch (merged with main 9c817646)"
+    },
+    {
+      "file": "screenshots/after/F13_paydown_empty.jpg",
+      "kind": "after",
+      "bytes": 68566,
+      "family": "F13",
+      "route": "paydown",
+      "scenario": "EMPTY",
+      "viewport": [
+        393,
+        852
+      ],
+      "source": "live runtime on this branch (merged with main 9c817646)"
+    },
+    {
+      "file": "screenshots/after/F13_paydown_populated.jpg",
+      "kind": "after",
+      "bytes": 65337,
+      "family": "F13",
+      "route": "paydown",
+      "scenario": "POPULATED",
+      "viewport": [
+        393,
+        852
+      ],
+      "source": "live runtime on this branch (merged with main 9c817646)"
+    },
+    {
+      "file": "screenshots/after/F15_ahead_empty.jpg",
+      "kind": "after",
+      "bytes": 56053,
+      "family": "F15",
+      "route": "ahead",
+      "scenario": "EMPTY",
+      "viewport": [
+        393,
+        852
+      ],
+      "source": "live runtime on this branch (merged with main 9c817646)"
+    },
+    {
+      "file": "screenshots/after/F15_ahead_populated.jpg",
+      "kind": "after",
+      "bytes": 56866,
+      "family": "F15",
+      "route": "ahead",
+      "scenario": "POPULATED",
+      "viewport": [
+        393,
+        852
+      ],
+      "source": "live runtime on this branch (merged with main 9c817646)"
+    },
+    {
+      "file": "screenshots/after/F16_records_empty.jpg",
+      "kind": "after",
+      "bytes": 34698,
+      "family": "F16",
+      "route": "records",
+      "scenario": "EMPTY",
+      "viewport": [
+        393,
+        852
+      ],
+      "source": "live runtime on this branch (merged with main 9c817646)"
+    },
+    {
+      "file": "screenshots/after/F16_records_populated.jpg",
+      "kind": "after",
+      "bytes": 42421,
+      "family": "F16",
+      "route": "records",
+      "scenario": "POPULATED",
+      "viewport": [
+        393,
+        852
+      ],
+      "source": "live runtime on this branch (merged with main 9c817646)"
+    },
+    {
+      "file": "screenshots/preview/preview_F05_mobile.jpg",
+      "kind": "preview",
+      "bytes": 48790
+    },
+    {
+      "file": "screenshots/preview/preview_F05_populated_screen2.jpg",
+      "kind": "preview",
+      "bytes": 45183
+    },
+    {
+      "file": "screenshots/preview/preview_F09_mobile.jpg",
+      "kind": "preview",
+      "bytes": 39567
+    },
+    {
+      "file": "screenshots/preview/preview_F16_mobile.jpg",
+      "kind": "preview",
+      "bytes": 32415
+    }
+  ]
+}

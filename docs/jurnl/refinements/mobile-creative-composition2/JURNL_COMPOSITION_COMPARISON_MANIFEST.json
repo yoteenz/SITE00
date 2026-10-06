@@ -1,0 +1,75 @@
+{
+  "sprint": "P0.JURNL.MOBILE-COMPOSITION-CREATIVE-LANGUAGE-PAGINATION-REFINEMENT2",
+  "generated": "2026-10-06",
+  "purpose": "Detect SAME LAYOUT / SAME CARD POSITION / SAME TYPOGRAPHIC STACK / SAME BUTTON STACK / SAME LEFT-COLUMN DEPENDENCE across target roots.",
+  "boards": [
+    {
+      "file": "screenshots/boards/BEFORE_AFTER_TARGETS_POPULATED.jpg",
+      "shows": "7 targets, before (top) / after (bottom), seeded device, 393×852"
+    },
+    {
+      "file": "screenshots/boards/BEFORE_AFTER_TARGETS_EMPTY.jpg",
+      "shows": "7 targets, before / after, new device"
+    },
+    {
+      "file": "screenshots/boards/COMPARISON_ALL_ROOTS_AFTER.jpg",
+      "shows": "All 14 roots F03 → F16 side by side, seeded device"
+    },
+    {
+      "file": "screenshots/boards/COMPARISON_ALL_ROOTS_AFTER_EMPTY.jpg",
+      "shows": "All 14 roots, new device"
+    },
+    {
+      "file": "screenshots/boards/BLUR_TEST_TARGETS.jpg",
+      "shows": "Plate blurred, before / after"
+    },
+    {
+      "file": "screenshots/boards/BLUR_TEST_ALL_ROOTS_PLATE_REMOVED.jpg",
+      "shows": "All roots with the plate removed"
+    }
+  ],
+  "detection": {
+    "SAME_LAYOUT": {
+      "before": "YES — every target was intro + left rail of cards + buttons",
+      "after": "NO"
+    },
+    "SAME_CARD_POSITION": {
+      "before": "YES — cards in the left 62% on every root",
+      "after": "NO — full-width shelves, centred arch, centred plinth, route column, indented steps, band + windows, folders"
+    },
+    "SAME_TYPOGRAPHIC_STACK": {
+      "before": "YES — DISPLAY 40px LEFT H1 + small question on all 14 roots",
+      "after": "NO — H1s: F05 DISPLAY/30, F09 SANS/12, F10 SANS/11, F11 DISPLAY/34, F13 DISPLAY/34, F15 DISPLAY/30, F16 SANS/20"
+    },
+    "SAME_BUTTON_STACK": {
+      "before": "YES — left inline/secondary stack on every target",
+      "after": "NO — F05 half:C half:C half:C, F09 half:L half:R inline:C, F10 half:C full:C half:C, F11 inline:L inline:L full:C, F13 inline:L full:C half:C, F15 inline:R, F16 I:L inline:R full:C"
+    },
+    "SAME_LEFT_COLUMN_DEPENDENCE": {
+      "before": {
+        "F05": 0.96,
+        "F09": 0.97,
+        "F10": 0.93,
+        "F11": 0.92,
+        "F13": 0.97,
+        "F15": 0.99,
+        "F16": 0.97
+      },
+      "after": {
+        "F05": 0.64,
+        "F09": 0.63,
+        "F10": 0.67,
+        "F11": 0.67,
+        "F13": 0.6,
+        "F15": 0.62,
+        "F16": 0.63
+      }
+    },
+    "IDENTICAL_TARGET_PAIRS": {
+      "before": [
+        "F10/F11"
+      ],
+      "after": []
+    }
+  }
+}

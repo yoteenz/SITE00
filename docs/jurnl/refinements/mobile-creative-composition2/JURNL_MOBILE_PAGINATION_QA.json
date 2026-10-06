@@ -1,0 +1,1030 @@
+{
+  "sprint": "P0.JURNL.MOBILE-COMPOSITION-CREATIVE-LANGUAGE-PAGINATION-REFINEMENT2",
+  "generated": "2026-10-06",
+  "viewport": [
+    393,
+    852
+  ],
+  "runtime": "live Vite dev runtime (same source as production build)",
+  "script": "node scripts/jurnl/mobile-pagination-qa.mjs <runtimeBase> <outDir>",
+  "result": "11/11 PASS",
+  "coverage": {
+    "ALL FIT": "ALL_FIT_F09_EMPTY",
+    "OVERFLOW 1 PANEL": "OVERFLOW_ONE_PANEL_F05_NEXT_BACK",
+    "OVERFLOW MULTIPLE PANELS / 3+ CONTINUATION SCREENS": "THREE_PLUS_SCREENS_F16",
+    "OVERSIZE PANEL": "OVERSIZE_PANEL_INTERNAL_SCROLL_F16",
+    "ERROR EXPANSION": "DYNAMIC_EXPANSION_SEARCH_NO_RESULTS_F16",
+    "DYNAMIC STATE CHANGE": "DYNAMIC_DATA_CHANGE_ON_SCREEN_2_F05",
+    "KEYBOARD": "KEYBOARD_DOES_NOT_REPAGINATE_F16",
+    "BACK / NEXT": "OVERFLOW_ONE_PANEL_F05_NEXT_BACK + THREE_PLUS_SCREENS_F16",
+    "NAV CENTERING": "NAV_CENTERED_ALL_ROOTS_ALL_SCREENS_MOBILE",
+    "SAFE AREA": "SAFE_AREA_INSET_EMULATED",
+    "NO CLIPPING": "split_or_clipped_panels = [] in every case",
+    "TABLET / DESKTOP": "CONTINUATION_TABLET_F15 + CONTINUATION_DESKTOP_F15"
+  },
+  "defect_found_and_fixed_during_qa": "OVERSIZE panels lost their flag after the first layout (re-measured at their clamped height) and were clipped. Fixed: oversize slots are measured by scrollHeight. Also: the QA under-nav probe now clips each element by its overflow ancestors and a separate clipped-panel check was added, so a panel cut by the rect cannot hide.",
+  "pagination_across_roots_after": {
+    "mobile": {
+      "F03": 2,
+      "F05": 2,
+      "F06": 1,
+      "F07": 1,
+      "F08": 1,
+      "F09": 1,
+      "F10": 1,
+      "F11": 1,
+      "F12": 1,
+      "F13": 1,
+      "F14": 1,
+      "F15": 2,
+      "F16": 2
+    },
+    "tablet": {
+      "F03": 1,
+      "F05": 1,
+      "F06": 1,
+      "F07": 1,
+      "F08": 1,
+      "F09": 1,
+      "F10": 1,
+      "F11": 1,
+      "F12": 1,
+      "F13": 1,
+      "F14": 1,
+      "F15": 2,
+      "F16": 1
+    },
+    "desktop": {
+      "F03": 1,
+      "F05": 2,
+      "F06": 1,
+      "F07": 1,
+      "F08": 1,
+      "F09": 1,
+      "F10": 1,
+      "F11": 1,
+      "F12": 1,
+      "F13": 1,
+      "F14": 1,
+      "F15": 2,
+      "F16": 2
+    }
+  },
+  "cases": [
+    {
+      "case": "ALL_FIT_F09_EMPTY",
+      "pass": true,
+      "state": {
+        "index": 0,
+        "count": 1,
+        "region_label": "SAFE TO SPEND",
+        "live": "",
+        "caption": null,
+        "next_label": null,
+        "back_label": "BACK TO TODAY",
+        "focus_on_region": false,
+        "shown_panels": [
+          "threshold",
+          "held",
+          "actions",
+          "editorial"
+        ],
+        "panel_screens": [
+          [
+            "threshold",
+            0
+          ],
+          [
+            "held",
+            0
+          ],
+          [
+            "actions",
+            0
+          ],
+          [
+            "editorial",
+            0
+          ]
+        ],
+        "oversize": [],
+        "split_or_clipped_panels": [],
+        "offscreen_not_inert": 0,
+        "content_bottom": 748,
+        "edge_top": 748,
+        "edge_bottom": 788,
+        "nav_top": 796,
+        "nav_rect": {
+          "x": 26.5,
+          "w": 340,
+          "top": 796,
+          "bottom": 840
+        },
+        "edge_clear_of_nav": true,
+        "path": "/production/jurnl/runtime/safe",
+        "history_length": 2
+      }
+    },
+    {
+      "case": "OVERFLOW_ONE_PANEL_F05_NEXT_BACK",
+      "pass": true,
+      "screen1": {
+        "index": 0,
+        "count": 2,
+        "region_label": "MONEY — SCREEN 1 OF 2",
+        "live": "SCREEN 1 OF 2",
+        "caption": null,
+        "next_label": "NEXT — MONEY, SCREEN 2 OF 2",
+        "back_label": "BACK TO TODAY",
+        "focus_on_region": false,
+        "shown_panels": [
+          "plaque",
+          "shelf-EVERYDAY",
+          "shelf-SAVED"
+        ],
+        "panel_screens": [
+          [
+            "plaque",
+            0
+          ],
+          [
+            "shelf-EVERYDAY",
+            0
+          ],
+          [
+            "shelf-SAVED",
+            0
+          ],
+          [
+            "shelf-OWED",
+            1
+          ],
+          [
+            "base",
+            1
+          ],
+          [
+            "also",
+            1
+          ]
+        ],
+        "oversize": [],
+        "split_or_clipped_panels": [],
+        "offscreen_not_inert": 0,
+        "content_bottom": 748,
+        "edge_top": 748,
+        "edge_bottom": 788,
+        "nav_top": 796,
+        "nav_rect": {
+          "x": 26.5,
+          "w": 340,
+          "top": 796,
+          "bottom": 840
+        },
+        "edge_clear_of_nav": true,
+        "path": "/production/jurnl/runtime/money",
+        "history_length": 3
+      },
+      "screen2": {
+        "index": 1,
+        "count": 2,
+        "region_label": "MONEY — SCREEN 2 OF 2",
+        "live": "SCREEN 2 OF 2",
+        "caption": "MONEY · CONTINUED",
+        "next_label": null,
+        "back_label": "BACK TO SCREEN 1",
+        "focus_on_region": true,
+        "shown_panels": [
+          "shelf-OWED",
+          "base",
+          "also"
+        ],
+        "panel_screens": [
+          [
+            "plaque",
+            0
+          ],
+          [
+            "shelf-EVERYDAY",
+            0
+          ],
+          [
+            "shelf-SAVED",
+            0
+          ],
+          [
+            "shelf-OWED",
+            1
+          ],
+          [
+            "base",
+            1
+          ],
+          [
+            "also",
+            1
+          ]
+        ],
+        "oversize": [],
+        "split_or_clipped_panels": [],
+        "offscreen_not_inert": 0,
+        "content_bottom": 748,
+        "edge_top": 748,
+        "edge_bottom": 788,
+        "nav_top": 796,
+        "nav_rect": {
+          "x": 26.5,
+          "w": 340,
+          "top": 796,
+          "bottom": 840
+        },
+        "edge_clear_of_nav": true,
+        "path": "/production/jurnl/runtime/money",
+        "history_length": 3
+      },
+      "back_to_screen1": {
+        "index": 0,
+        "count": 2,
+        "region_label": "MONEY — SCREEN 1 OF 2",
+        "live": "SCREEN 1 OF 2",
+        "caption": null,
+        "next_label": "NEXT — MONEY, SCREEN 2 OF 2",
+        "back_label": "BACK TO TODAY",
+        "focus_on_region": true,
+        "shown_panels": [
+          "plaque",
+          "shelf-EVERYDAY",
+          "shelf-SAVED"
+        ],
+        "panel_screens": [
+          [
+            "plaque",
+            0
+          ],
+          [
+            "shelf-EVERYDAY",
+            0
+          ],
+          [
+            "shelf-SAVED",
+            0
+          ],
+          [
+            "shelf-OWED",
+            1
+          ],
+          [
+            "base",
+            1
+          ],
+          [
+            "also",
+            1
+          ]
+        ],
+        "oversize": [],
+        "split_or_clipped_panels": [],
+        "offscreen_not_inert": 0,
+        "content_bottom": 748,
+        "edge_top": 748,
+        "edge_bottom": 788,
+        "nav_top": 796,
+        "nav_rect": {
+          "x": 26.5,
+          "w": 340,
+          "top": 796,
+          "bottom": 840
+        },
+        "edge_clear_of_nav": true,
+        "path": "/production/jurnl/runtime/money",
+        "history_length": 3
+      },
+      "route_after_second_back": "/production/jurnl/runtime/today"
+    },
+    {
+      "case": "THREE_PLUS_SCREENS_F16",
+      "pass": true,
+      "screen_count": 3,
+      "screens": [
+        {
+          "index": 0,
+          "count": 3,
+          "region_label": "RECORDS — SCREEN 1 OF 3",
+          "live": "SCREEN 1 OF 3",
+          "caption": null,
+          "next_label": "NEXT — RECORDS, SCREEN 2 OF 3",
+          "back_label": "BACK TO MONEY",
+          "focus_on_region": false,
+          "shown_panels": [
+            "label",
+            "find",
+            "folder-STATEMENT"
+          ],
+          "panel_screens": [
+            [
+              "label",
+              0
+            ],
+            [
+              "find",
+              0
+            ],
+            [
+              "folder-STATEMENT",
+              0
+            ],
+            [
+              "folder-RECEIPT",
+              1
+            ],
+            [
+              "folder-INVOICE",
+              1
+            ],
+            [
+              "folder-PAYSTUB",
+              1
+            ],
+            [
+              "folder-TAX",
+              2
+            ],
+            [
+              "folder-OTHER",
+              2
+            ]
+          ],
+          "oversize": [],
+          "split_or_clipped_panels": [],
+          "offscreen_not_inert": 0,
+          "content_bottom": 748,
+          "edge_top": 748,
+          "edge_bottom": 788,
+          "nav_top": 796,
+          "nav_rect": {
+            "x": 26.5,
+            "w": 340,
+            "top": 796,
+            "bottom": 840
+          },
+          "edge_clear_of_nav": true,
+          "path": "/production/jurnl/runtime/records",
+          "history_length": 3
+        },
+        {
+          "index": 1,
+          "count": 3,
+          "region_label": "RECORDS — SCREEN 2 OF 3",
+          "live": "SCREEN 2 OF 3",
+          "caption": "RECORDS · CONTINUED",
+          "next_label": "NEXT — RECORDS, SCREEN 3 OF 3",
+          "back_label": "BACK TO SCREEN 1",
+          "focus_on_region": true,
+          "shown_panels": [
+            "folder-RECEIPT",
+            "folder-INVOICE",
+            "folder-PAYSTUB"
+          ],
+          "panel_screens": [
+            [
+              "label",
+              0
+            ],
+            [
+              "find",
+              0
+            ],
+            [
+              "folder-STATEMENT",
+              0
+            ],
+            [
+              "folder-RECEIPT",
+              1
+            ],
+            [
+              "folder-INVOICE",
+              1
+            ],
+            [
+              "folder-PAYSTUB",
+              1
+            ],
+            [
+              "folder-TAX",
+              2
+            ],
+            [
+              "folder-OTHER",
+              2
+            ]
+          ],
+          "oversize": [],
+          "split_or_clipped_panels": [],
+          "offscreen_not_inert": 0,
+          "content_bottom": 748,
+          "edge_top": 748,
+          "edge_bottom": 788,
+          "nav_top": 796,
+          "nav_rect": {
+            "x": 26.5,
+            "w": 340,
+            "top": 796,
+            "bottom": 840
+          },
+          "edge_clear_of_nav": true,
+          "path": "/production/jurnl/runtime/records",
+          "history_length": 3
+        },
+        {
+          "index": 2,
+          "count": 3,
+          "region_label": "RECORDS — SCREEN 3 OF 3",
+          "live": "SCREEN 3 OF 3",
+          "caption": "RECORDS · CONTINUED",
+          "next_label": null,
+          "back_label": "BACK TO SCREEN 2",
+          "focus_on_region": true,
+          "shown_panels": [
+            "folder-TAX",
+            "folder-OTHER"
+          ],
+          "panel_screens": [
+            [
+              "label",
+              0
+            ],
+            [
+              "find",
+              0
+            ],
+            [
+              "folder-STATEMENT",
+              0
+            ],
+            [
+              "folder-RECEIPT",
+              1
+            ],
+            [
+              "folder-INVOICE",
+              1
+            ],
+            [
+              "folder-PAYSTUB",
+              1
+            ],
+            [
+              "folder-TAX",
+              2
+            ],
+            [
+              "folder-OTHER",
+              2
+            ]
+          ],
+          "oversize": [],
+          "split_or_clipped_panels": [],
+          "offscreen_not_inert": 0,
+          "content_bottom": 748,
+          "edge_top": 748,
+          "edge_bottom": 788,
+          "nav_top": 796,
+          "nav_rect": {
+            "x": 26.5,
+            "w": 340,
+            "top": 796,
+            "bottom": 840
+          },
+          "edge_clear_of_nav": true,
+          "path": "/production/jurnl/runtime/records",
+          "history_length": 3
+        }
+      ],
+      "back_sequence": [
+        1,
+        0
+      ],
+      "route_after_last_back": "/production/jurnl/runtime/money"
+    },
+    {
+      "case": "OVERSIZE_PANEL_INTERNAL_SCROLL_F16",
+      "pass": true,
+      "screen": {
+        "index": 1,
+        "count": 3,
+        "region_label": "RECORDS — SCREEN 2 OF 3",
+        "live": "SCREEN 2 OF 3",
+        "caption": "RECORDS · CONTINUED",
+        "next_label": "NEXT — RECORDS, SCREEN 3 OF 3",
+        "back_label": "BACK TO SCREEN 1",
+        "focus_on_region": true,
+        "shown_panels": [
+          "folder-STATEMENT"
+        ],
+        "panel_screens": [
+          [
+            "label",
+            0
+          ],
+          [
+            "find",
+            0
+          ],
+          [
+            "folder-STATEMENT",
+            1
+          ],
+          [
+            "folder-RECEIPT",
+            2
+          ]
+        ],
+        "oversize": [
+          {
+            "id": "folder-STATEMENT",
+            "scroll_h": 1208,
+            "client_h": 654,
+            "overflow_y": "auto"
+          }
+        ],
+        "split_or_clipped_panels": [],
+        "offscreen_not_inert": 0,
+        "content_bottom": 748,
+        "edge_top": 748,
+        "edge_bottom": 788,
+        "nav_top": 796,
+        "nav_rect": {
+          "x": 26.5,
+          "w": 340,
+          "top": 796,
+          "bottom": 840
+        },
+        "edge_clear_of_nav": true,
+        "path": "/production/jurnl/runtime/records",
+        "history_length": 3
+      },
+      "attribute_mutations_while_idle_1500ms": 0,
+      "inner_scroll_top_after_scroll": 200,
+      "column_scroll": 0
+    },
+    {
+      "case": "DYNAMIC_EXPANSION_SEARCH_NO_RESULTS_F16",
+      "pass": true,
+      "before": 2,
+      "no_results": {
+        "index": 0,
+        "count": 1,
+        "region_label": "RECORDS",
+        "live": "",
+        "caption": null,
+        "next_label": null,
+        "back_label": "BACK TO MONEY",
+        "focus_on_region": false,
+        "shown_panels": [
+          "label",
+          "find",
+          "no-results"
+        ],
+        "panel_screens": [
+          [
+            "label",
+            0
+          ],
+          [
+            "find",
+            0
+          ],
+          [
+            "no-results",
+            0
+          ]
+        ],
+        "oversize": [],
+        "split_or_clipped_panels": [],
+        "offscreen_not_inert": 0,
+        "content_bottom": 748,
+        "edge_top": 748,
+        "edge_bottom": 788,
+        "nav_top": 796,
+        "nav_rect": {
+          "x": 26.5,
+          "w": 340,
+          "top": 796,
+          "bottom": 840
+        },
+        "edge_clear_of_nav": true,
+        "path": "/production/jurnl/runtime/records",
+        "history_length": 3
+      },
+      "restored": 2
+    },
+    {
+      "case": "DYNAMIC_DATA_CHANGE_ON_SCREEN_2_F05",
+      "pass": true,
+      "anchor": "shelf-OWED",
+      "before": {
+        "index": 1,
+        "count": 2,
+        "region_label": "MONEY — SCREEN 2 OF 2",
+        "live": "SCREEN 2 OF 2",
+        "caption": "MONEY · CONTINUED",
+        "next_label": null,
+        "back_label": "BACK TO SCREEN 1",
+        "focus_on_region": true,
+        "shown_panels": [
+          "shelf-OWED",
+          "base",
+          "also"
+        ],
+        "panel_screens": [
+          [
+            "plaque",
+            0
+          ],
+          [
+            "shelf-EVERYDAY",
+            0
+          ],
+          [
+            "shelf-SAVED",
+            0
+          ],
+          [
+            "shelf-OWED",
+            1
+          ],
+          [
+            "base",
+            1
+          ],
+          [
+            "also",
+            1
+          ]
+        ],
+        "oversize": [],
+        "split_or_clipped_panels": [],
+        "offscreen_not_inert": 0,
+        "content_bottom": 748,
+        "edge_top": 748,
+        "edge_bottom": 788,
+        "nav_top": 796,
+        "nav_rect": {
+          "x": 26.5,
+          "w": 340,
+          "top": 796,
+          "bottom": 840
+        },
+        "edge_clear_of_nav": true,
+        "path": "/production/jurnl/runtime/money",
+        "history_length": 3
+      },
+      "after": {
+        "index": 1,
+        "count": 2,
+        "region_label": "MONEY — SCREEN 2 OF 2",
+        "live": "SCREEN 2 OF 2",
+        "caption": "MONEY · CONTINUED",
+        "next_label": null,
+        "back_label": "BACK TO SCREEN 1",
+        "focus_on_region": true,
+        "shown_panels": [
+          "shelf-OWED",
+          "base",
+          "also"
+        ],
+        "panel_screens": [
+          [
+            "plaque",
+            0
+          ],
+          [
+            "shelf-EVERYDAY",
+            0
+          ],
+          [
+            "shelf-SAVED",
+            0
+          ],
+          [
+            "shelf-OWED",
+            1
+          ],
+          [
+            "base",
+            1
+          ],
+          [
+            "also",
+            1
+          ]
+        ],
+        "oversize": [],
+        "split_or_clipped_panels": [],
+        "offscreen_not_inert": 0,
+        "content_bottom": 748,
+        "edge_top": 748,
+        "edge_bottom": 788,
+        "nav_top": 796,
+        "nav_rect": {
+          "x": 26.5,
+          "w": 340,
+          "top": 796,
+          "bottom": 840
+        },
+        "edge_clear_of_nav": true,
+        "path": "/production/jurnl/runtime/money",
+        "history_length": 3
+      }
+    },
+    {
+      "case": "KEYBOARD_DOES_NOT_REPAGINATE_F16",
+      "pass": true,
+      "before": [
+        [
+          "label",
+          0
+        ],
+        [
+          "find",
+          0
+        ],
+        [
+          "folder-STATEMENT",
+          0
+        ],
+        [
+          "folder-RECEIPT",
+          0
+        ],
+        [
+          "folder-TAX",
+          0
+        ],
+        [
+          "folder-OTHER",
+          1
+        ]
+      ],
+      "while_typing": [
+        [
+          "label",
+          0
+        ],
+        [
+          "find",
+          0
+        ],
+        [
+          "folder-STATEMENT",
+          0
+        ],
+        [
+          "folder-RECEIPT",
+          0
+        ],
+        [
+          "folder-TAX",
+          0
+        ],
+        [
+          "folder-OTHER",
+          1
+        ]
+      ],
+      "restored": [
+        [
+          "label",
+          0
+        ],
+        [
+          "find",
+          0
+        ],
+        [
+          "folder-STATEMENT",
+          0
+        ],
+        [
+          "folder-RECEIPT",
+          0
+        ],
+        [
+          "folder-TAX",
+          0
+        ],
+        [
+          "folder-OTHER",
+          1
+        ]
+      ]
+    },
+    {
+      "case": "NAV_CENTERED_ALL_ROOTS_ALL_SCREENS_MOBILE",
+      "pass": true,
+      "distinct_nav_rects": [
+        "{\"x\":26.5,\"w\":340,\"top\":796,\"bottom\":840,\"center_offset\":0}"
+      ],
+      "distinct_button_widths": [
+        64.8
+      ]
+    },
+    {
+      "case": "SAFE_AREA_INSET_EMULATED",
+      "pass": true,
+      "cdp_override_supported": true,
+      "base": {
+        "nav_bottom_gap": 12,
+        "reserve": 64
+      },
+      "inset": {
+        "nav_bottom_gap": 46,
+        "reserve": 98,
+        "rule": "46px"
+      },
+      "nav_lift_px": 34,
+      "reserve_growth_px": 34,
+      "frame": {
+        "index": 0,
+        "count": 2,
+        "region_label": "MONEY — SCREEN 1 OF 2",
+        "live": "SCREEN 1 OF 2",
+        "caption": null,
+        "next_label": "NEXT — MONEY, SCREEN 2 OF 2",
+        "back_label": "BACK TO TODAY",
+        "focus_on_region": false,
+        "shown_panels": [
+          "plaque",
+          "shelf-EVERYDAY",
+          "shelf-SAVED"
+        ],
+        "panel_screens": [
+          [
+            "plaque",
+            0
+          ],
+          [
+            "shelf-EVERYDAY",
+            0
+          ],
+          [
+            "shelf-SAVED",
+            0
+          ],
+          [
+            "shelf-OWED",
+            1
+          ],
+          [
+            "base",
+            1
+          ],
+          [
+            "also",
+            1
+          ]
+        ],
+        "oversize": [],
+        "split_or_clipped_panels": [],
+        "offscreen_not_inert": 0,
+        "content_bottom": 714,
+        "edge_top": 714,
+        "edge_bottom": 754,
+        "nav_top": 762,
+        "nav_rect": {
+          "x": 26.5,
+          "w": 340,
+          "top": 762,
+          "bottom": 806
+        },
+        "edge_clear_of_nav": true,
+        "path": "/production/jurnl/runtime/money",
+        "history_length": 3
+      }
+    },
+    {
+      "case": "CONTINUATION_TABLET_F15",
+      "pass": true,
+      "count": 2,
+      "screen2": {
+        "index": 1,
+        "count": 2,
+        "region_label": "AHEAD — SCREEN 2 OF 2",
+        "live": "SCREEN 2 OF 2",
+        "caption": "AHEAD · CONTINUED",
+        "next_label": null,
+        "back_label": "BACK TO SCREEN 1",
+        "focus_on_region": true,
+        "shown_panels": [
+          "fork"
+        ],
+        "panel_screens": [
+          [
+            "horizon",
+            0
+          ],
+          [
+            "window-week",
+            0
+          ],
+          [
+            "window-next",
+            0
+          ],
+          [
+            "window-month",
+            0
+          ],
+          [
+            "window-undated",
+            0
+          ],
+          [
+            "fork",
+            1
+          ]
+        ],
+        "oversize": [],
+        "split_or_clipped_panels": [],
+        "offscreen_not_inert": 0,
+        "content_bottom": 1090,
+        "edge_top": 1090,
+        "edge_bottom": 1130,
+        "nav_top": 1138,
+        "nav_rect": {
+          "x": 207,
+          "w": 420,
+          "top": 1138,
+          "bottom": 1182
+        },
+        "edge_clear_of_nav": true,
+        "path": "/production/jurnl/runtime/ahead",
+        "history_length": 3
+      },
+      "back": 0
+    },
+    {
+      "case": "CONTINUATION_DESKTOP_F15",
+      "pass": true,
+      "count": 2,
+      "screen2": {
+        "index": 1,
+        "count": 2,
+        "region_label": "AHEAD — SCREEN 2 OF 2",
+        "live": "SCREEN 2 OF 2",
+        "caption": "AHEAD · CONTINUED",
+        "next_label": null,
+        "back_label": "BACK TO SCREEN 1",
+        "focus_on_region": true,
+        "shown_panels": [
+          "window-undated",
+          "fork"
+        ],
+        "panel_screens": [
+          [
+            "horizon",
+            0
+          ],
+          [
+            "window-week",
+            0
+          ],
+          [
+            "window-next",
+            0
+          ],
+          [
+            "window-month",
+            0
+          ],
+          [
+            "window-undated",
+            1
+          ],
+          [
+            "fork",
+            1
+          ]
+        ],
+        "oversize": [],
+        "split_or_clipped_panels": [],
+        "offscreen_not_inert": 0,
+        "content_bottom": 796,
+        "edge_top": 796,
+        "edge_bottom": 836,
+        "nav_top": 844,
+        "nav_rect": {
+          "x": 490,
+          "w": 460,
+          "top": 844,
+          "bottom": 888
+        },
+        "edge_clear_of_nav": true,
+        "path": "/production/jurnl/runtime/ahead",
+        "history_length": 3
+      },
+      "back": 0
+    }
+  ]
+}

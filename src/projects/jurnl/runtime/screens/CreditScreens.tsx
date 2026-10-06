@@ -11,63 +11,97 @@ import { parentById } from '../../data/parents/catalog';
 import { FamilyChrome } from '../components/FamilyChrome';
 import { JurnlProductNav } from '../components/ProductNav';
 import { AskJurnlSheet, QuickAddV2Sheet } from '../global/GlobalSheets';
-import { JurnlButton, JurnlDrawer, JurnlInput, JurnlPanel } from '../components/primitives';
-import { JurnlScreen } from './JurnlScreen';
+import { JurnlButton, JurnlDrawer, JurnlInlineAction, JurnlInput, JurnlPanel } from '../components/primitives';
+import { FramePanel, JurnlFamilyFrame, JurnlFamilyShell } from '../components/FamilyFrame';
 import { useJurnl } from '../state/store';
 
 function CreditShell({ screenId, children }: { screenId: string; children: ReactNode }) {
   const { go, overlay, openOverlay, closeOverlay } = useJurnl();
   return (
-    <JurnlScreen screenId={screenId} familyPlate={PARENT_PLATES.F12} family>
-      <div className="jrn-home jrn-parent">{children}</div>
-      <JurnlProductNav current="CREDIT" onGo={go} onAdd={() => openOverlay('quick-add')} />
-      {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F12" onClose={closeOverlay} /> : null}
-      {overlay === 'ask' ? <AskJurnlSheet familyId="F12" nodeId={screenId} onClose={closeOverlay} /> : null}
-    </JurnlScreen>
+    <JurnlFamilyShell
+      screenId={screenId}
+      familyId="F12"
+      familyPlate={PARENT_PLATES.F12}
+      nav={<JurnlProductNav current="CREDIT" onGo={go} onAdd={() => openOverlay('quick-add')} />}
+      overlays={
+        <>
+          {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F12" onClose={closeOverlay} /> : null}
+          {overlay === 'ask' ? <AskJurnlSheet familyId="F12" nodeId={screenId} onClose={closeOverlay} /> : null}
+        </>
+      }
+    >
+      {children}
+    </JurnlFamilyShell>
   );
 }
 
+/** F12 CREDIT — LEDGER / GRID with utilization meters. A quiet reading of what's used against each limit. */
 export function CreditHubScreen() {
-  const { go, openOverlay } = useJurnl();
+  const { go, openOverlay, closeOverlay, overlay } = useJurnl();
   useCurrency();
   const accounts = useCreditAccounts();
   const spec = parentById('F12')!;
   const [utilOpen, setUtilOpen] = useState(false);
   const [addOpen, setAddOpen] = useState(false);
+  const owed = accounts.reduce((t, a) => t + creditSummary(a).used, 0);
   return (
-    <CreditShell screenId="F12.00">
-      <FamilyChrome familyId="F12" nodeId="F12.00" backLabel="BACK TO MONEY" onBack={() => go('money')} onAsk={() => openOverlay('ask')} />
-      <div className="jrn-home__intro" data-jrn-zone="intro">
-        <h1 className="jrn-home__h">{spec.name}</h1>
-        <p className="jrn-home__sub">{spec.question}</p>
-      </div>
-      <div className="jrn-parent__rail" data-jrn-zone="content-rail">
-        {accounts.length === 0 ?
-          <JurnlPanel role="empty" className="jrn-home__panel"><b>QUIET</b><p>NO CARD OR LOAN PLACES.</p></JurnlPanel>
-        : accounts.map((a) => {
-            const s = creditSummary(a);
-            return (
-              <button key={a.account_id} type="button" className="jrn-tx jrn-row" data-jrn-trigger={`credit-${a.account_id}`} onClick={() => go(`credit/${a.account_id}`)}>
-                <span className="jrn-tx__copy">
-                  <span className="jrn-tx__name">{a.display_name}</span>
-                  <small>{s.util != null ? `${s.util}% USED` : 'MANUAL TERMS'}</small>
-                </span>
-                <span className="jrn-tx__amt">{formatMoney(s.used)}</span>
-              </button>
-            );
-          })}
-        <JurnlButton trigger="credit-utilization" onClick={() => setUtilOpen(true)}>UTILIZATION</JurnlButton>
-        <JurnlButton variant="secondary" trigger="credit-add" onClick={() => setAddOpen(true)}>ADD A CARD OR LOAN</JurnlButton>
-        <JurnlButton variant="secondary" trigger="credit-paydown" onClick={() => go('paydown')}>PAYDOWN</JurnlButton>
-      </div>
-      {utilOpen ? <UtilizationSheet accounts={accounts} onClose={() => setUtilOpen(false)} /> : null}
-      {addOpen ?
-        <JurnlDrawer expression="form" size="long" testId="credit-add" title="ADD A CARD OR LOAN" onClose={() => setAddOpen(false)}
-          footer={<JurnlButton trigger="credit-add-save" onClick={() => { const ac = createManualAccount('NEW CARD', 'CREDIT_CARD', 0); upsertCreditTerms(ac.account_id, { credit_limit: 5000, current_balance: 0, payment_due_day: 15, minimum_payment: 25 }); setAddOpen(false); go(`credit/${ac.account_id}`); }}>SAVE</JurnlButton>}>
-          <p>CREATES A MANUAL CREDIT PLACE IN THE REGISTRY.</p>
-        </JurnlDrawer>
+    <JurnlFamilyFrame
+      screenId="F12.00"
+      familyId="F12"
+      familyPlate={PARENT_PLATES.F12}
+      label="CREDIT"
+      archetype="LEDGER_GRID"
+      chrome={<FamilyChrome familyId="F12" nodeId="F12.00" backLabel="BACK TO MONEY" onBack={() => go('money')} onAsk={() => openOverlay('ask')} />}
+      nav={<JurnlProductNav current="CREDIT" onGo={go} onAdd={() => openOverlay('quick-add')} />}
+      overlays={
+        <>
+          {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F12" onClose={closeOverlay} /> : null}
+          {overlay === 'ask' ? <AskJurnlSheet familyId="F12" nodeId="F12.00" onClose={closeOverlay} /> : null}
+          {utilOpen ? <UtilizationSheet accounts={accounts} onClose={() => setUtilOpen(false)} /> : null}
+          {addOpen ?
+            <JurnlDrawer expression="form" size="long" testId="credit-add" title="ADD A CARD OR LOAN" onClose={() => setAddOpen(false)}
+              footer={<JurnlButton trigger="credit-add-save" onClick={() => { const ac = createManualAccount('NEW CARD', 'CREDIT_CARD', 0); upsertCreditTerms(ac.account_id, { credit_limit: 5000, current_balance: 0, payment_due_day: 15, minimum_payment: 25 }); setAddOpen(false); go(`credit/${ac.account_id}`); }}>SAVE</JurnlButton>}>
+              <p>CREATES A MANUAL CREDIT PLACE IN THE REGISTRY.</p>
+            </JurnlDrawer>
+          : null}
+        </>
+      }
+    >
+      <FramePanel id="intro">
+        <header className="jrn-cred__intro" data-jrn-zone="intro">
+          <h1 className="jrn-cred__h">CREDIT</h1>
+          <p className="jrn-lang__state">
+            {accounts.length ? `${accounts.length} ${accounts.length === 1 ? 'CARD OR LOAN' : 'CARDS AND LOANS'}. ${formatMoney(owed)} USED IN TOTAL.` : 'NO CARDS OR LOANS ARE ADDED.'}
+          </p>
+          <p className="jrn-lang__task">{accounts.length ? 'OPEN ONE TO SET ITS LIMIT, RATE AND DUE DAY.' : 'ADD ONE TO TRACK WHAT’S USED AND WHEN IT’S DUE.'}</p>
+          <p className="jrn-lang__editorial">{spec.question}</p>
+        </header>
+      </FramePanel>
+      {accounts.length ?
+        <FramePanel id="accounts">
+          <section className="jrn-cred" aria-label="CARDS AND LOANS">
+            {accounts.map((a) => {
+              const s = creditSummary(a);
+              return (
+                <button key={a.account_id} type="button" className="jrn-cred__row" data-jrn-trigger={`credit-${a.account_id}`} onClick={() => go(`credit/${a.account_id}`)} style={{ ['--util' as string]: s.util != null ? Math.min(1, s.util / 100) : 0 }}>
+                  <span className="jrn-cred__name">{a.display_name}</span>
+                  <span className="jrn-cred__amt">{formatMoney(s.used)}</span>
+                  <span className="jrn-cred__meter" aria-hidden />
+                  <span className="jrn-cred__util">{s.util != null ? `${s.util}% OF THE LIMIT USED` : 'NO LIMIT SET'}</span>
+                </button>
+              );
+            })}
+          </section>
+        </FramePanel>
       : null}
-    </CreditShell>
+      <FramePanel id="actions">
+        <div className="jrn-cred__actions">
+          {accounts.length ? <JurnlButton variant="secondary" trigger="credit-utilization" onClick={() => setUtilOpen(true)}>HOW MUCH IS USED</JurnlButton> : null}
+          <JurnlButton variant={accounts.length ? 'secondary' : 'primary'} trigger="credit-add" onClick={() => setAddOpen(true)}>ADD A CARD OR LOAN</JurnlButton>
+          <JurnlInlineAction trigger="credit-paydown" onClick={() => go('paydown')}>PAYDOWN</JurnlInlineAction>
+        </div>
+      </FramePanel>
+    </JurnlFamilyFrame>
   );
 }
 

@@ -2,7 +2,7 @@
 
 import { useMemo, useState, type ReactNode } from 'react';
 import { useParams } from 'react-router-dom';
-import { getTodayKey, type RecurrenceType } from '../../data/foundation/dates';
+import { formatRelativeDate, getTodayKey, type RecurrenceType } from '../../data/foundation/dates';
 import { groupUpcoming, projectUpcoming } from '../../data/foundation/upcomingProjection';
 import { createObligation, obligationById, useObligations } from '../../data/f07/obligationsStore';
 import { useIncomeSources } from '../../data/f06/incomeStore';
@@ -13,24 +13,33 @@ import { getRepository } from '../../data/repository/deviceRepository';
 import { FamilyChrome } from '../components/FamilyChrome';
 import { JurnlProductNav } from '../components/ProductNav';
 import { AskJurnlSheet, QuickAddV2Sheet } from '../global/GlobalSheets';
-import { JurnlButton, JurnlDrawer, JurnlInput, JurnlPanel } from '../components/primitives';
-import { JurnlScreen } from './JurnlScreen';
+import { JurnlButton, JurnlDrawer, JurnlInlineAction, JurnlInput, JurnlPanel } from '../components/primitives';
+import { FramePanel, JurnlFamilyFrame, JurnlFamilyShell } from '../components/FamilyFrame';
 import { useJurnl } from '../state/store';
 
 function UpcomingShell({ screenId, children }: { screenId: string; children: ReactNode }) {
   const { go, overlay, openOverlay, closeOverlay } = useJurnl();
   return (
-    <JurnlScreen screenId={screenId} familyPlate={PARENT_PLATES.F07} family>
-      <div className="jrn-home jrn-parent">{children}</div>
-      <JurnlProductNav current="HOME" onGo={go} onAdd={() => openOverlay('quick-add')} />
-      {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F07" onClose={closeOverlay} /> : null}
-      {overlay === 'ask' ? <AskJurnlSheet familyId="F07" nodeId={screenId} onClose={closeOverlay} /> : null}
-    </JurnlScreen>
+    <JurnlFamilyShell
+      screenId={screenId}
+      familyId="F07"
+      familyPlate={PARENT_PLATES.F07}
+      nav={<JurnlProductNav current="HOME" onGo={go} onAdd={() => openOverlay('quick-add')} />}
+      overlays={
+        <>
+          {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F07" onClose={closeOverlay} /> : null}
+          {overlay === 'ask' ? <AskJurnlSheet familyId="F07" nodeId={screenId} onClose={closeOverlay} /> : null}
+        </>
+      }
+    >
+      {children}
+    </JurnlFamilyShell>
   );
 }
 
+/** F07 UPCOMING — TIMELINE. A dated sequence, not a calendar grid: overdue, today, this week, later. */
 export function UpcomingHubScreen() {
-  const { go, openOverlay } = useJurnl();
+  const { go, openOverlay, closeOverlay, overlay } = useJurnl();
   useCurrency();
   const income = useIncomeSources();
   const obligations = useObligations();
@@ -38,46 +47,70 @@ export function UpcomingHubScreen() {
   const items = useMemo(() => projectUpcoming(income, obligations), [income, obligations]);
   const groups = useMemo(() => groupUpcoming(items), [items]);
   const [addOpen, setAddOpen] = useState(false);
-
-  const renderGroup = (title: string, list: typeof items) =>
-    list.length ?
-      <JurnlPanel role="editorial" className="jrn-home__panel" key={title}>
-        <b>{title}</b>
-        {list.map((item) => (
-          <button key={item.upcoming_id} type="button" className="jrn-tx jrn-row" data-jrn-trigger={`upcoming-${item.upcoming_id}`} onClick={() => go(`upcoming/${item.source_id}`)}>
-            <span className="jrn-tx__copy">
-              <span className="jrn-tx__name">{item.label}</span>
-              <small>{item.due_date} · {item.direction}</small>
-            </span>
-            <span className={`jrn-tx__amt${item.direction === 'MONEY_IN' ? ' jrn-tx__amt--in' : ''}`}>{formatMoney(item.amount, item.direction === 'MONEY_IN')}</span>
-          </button>
-        ))}
-      </JurnlPanel>
-    : null;
-
+  const today = getTodayKey();
+  const first = [...items].sort((a, b) => a.due_date.localeCompare(b.due_date))[0] ?? null;
+  const sections = (
+    [
+      ['OVERDUE', 'OVERDUE', groups.OVERDUE],
+      ['TODAY', 'TODAY', groups.TODAY],
+      ['THIS_WEEK', 'THIS WEEK', groups.THIS_WEEK],
+      ['LATER', 'LATER', groups.LATER],
+    ] as const
+  ).filter(([, , list]) => list.length);
   return (
-    <UpcomingShell screenId="F07.00">
-      <FamilyChrome familyId="F07" nodeId="F07.00" backLabel="BACK TO TODAY" onBack={() => go('F03')} onAsk={() => openOverlay('ask')} />
-      <div className="jrn-home__intro" data-jrn-zone="intro">
-        <h1 className="jrn-home__h">{spec.name}</h1>
-        <p className="jrn-home__sub">{spec.question}</p>
-      </div>
-      <div className="jrn-parent__rail" data-jrn-zone="content-rail">
-        {items.length === 0 ?
-          <JurnlPanel role="empty" className="jrn-home__panel" data-jrn-trigger="upcoming-empty">
-            <b>NOTHING APPROACHING</b>
-            <p>ADD INCOME OR OBLIGATIONS.</p>
-          </JurnlPanel>
-        : null}
-        {renderGroup('OVERDUE', groups.OVERDUE)}
-        {renderGroup('TODAY', groups.TODAY)}
-        {renderGroup('THIS WEEK', groups.THIS_WEEK)}
-        {renderGroup('LATER', groups.LATER)}
-        <JurnlButton trigger="upcoming-add" onClick={() => setAddOpen(true)}>ADD WHAT REPEATS</JurnlButton>
-        <JurnlButton variant="secondary" trigger="upcoming-income" onClick={() => go('income')}>INCOME</JurnlButton>
-      </div>
-      {addOpen ? <AddObligationSheet onClose={() => setAddOpen(false)} /> : null}
-    </UpcomingShell>
+    <JurnlFamilyFrame
+      screenId="F07.00"
+      familyId="F07"
+      familyPlate={PARENT_PLATES.F07}
+      label="UPCOMING"
+      archetype="TIMELINE"
+      chrome={<FamilyChrome familyId="F07" nodeId="F07.00" backLabel="BACK TO TODAY" onBack={() => go('F03')} onAsk={() => openOverlay('ask')} />}
+      nav={<JurnlProductNav current="HOME" onGo={go} onAdd={() => openOverlay('quick-add')} />}
+      overlays={
+        <>
+          {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F07" onClose={closeOverlay} /> : null}
+          {overlay === 'ask' ? <AskJurnlSheet familyId="F07" nodeId="F07.00" onClose={closeOverlay} /> : null}
+          {addOpen ? <AddObligationSheet onClose={() => setAddOpen(false)} /> : null}
+        </>
+      }
+    >
+      <FramePanel id="intro">
+        <header className="jrn-tl__intro" data-jrn-zone="intro">
+          <h1 className="jrn-tl__h">UPCOMING</h1>
+          <p className="jrn-lang__state">
+            {first ?
+              `${groups.OVERDUE.length ? `${groups.OVERDUE.length} OVERDUE. ` : ''}NEXT: ${first.label}, ${formatRelativeDate(first.due_date, today)}.`
+            : 'NOTHING IS COMING UP YET.'}
+          </p>
+          <p className="jrn-lang__task">{first ? 'BILLS, SUBSCRIPTIONS AND INCOME IN THE ORDER THEY ARRIVE.' : 'ADD BILLS AND SUBSCRIPTIONS THAT REPEAT, AND INCOME THAT ARRIVES.'}</p>
+          <p className="jrn-lang__editorial">{spec.question}</p>
+        </header>
+      </FramePanel>
+      {sections.map(([id, title, list]) => (
+        <FramePanel key={id} id={`when-${id}`}>
+          <section className="jrn-tl" aria-label={title} data-when={id}>
+            <p className="jrn-tl__when">{title}</p>
+            <ol className="jrn-tl__list">
+              {list.map((item) => (
+                <li key={item.upcoming_id}>
+                  <button type="button" className="jrn-tl__item jrn-tx" data-direction={item.direction} data-jrn-trigger={`upcoming-${item.upcoming_id}`} onClick={() => go(`upcoming/${item.source_id}`)}>
+                    <span className="jrn-tl__date">{formatRelativeDate(item.due_date, today)}</span>
+                    <span className="jrn-tl__label">{item.label}</span>
+                    <span className="jrn-tl__amt">{formatMoney(item.amount, item.direction === 'MONEY_IN')}</span>
+                  </button>
+                </li>
+              ))}
+            </ol>
+          </section>
+        </FramePanel>
+      ))}
+      <FramePanel id="actions">
+        <div className="jrn-tl__actions">
+          <JurnlButton trigger="upcoming-add" onClick={() => setAddOpen(true)}>ADD WHAT REPEATS</JurnlButton>
+          <JurnlInlineAction trigger="upcoming-income" onClick={() => go('income')}>INCOME</JurnlInlineAction>
+        </div>
+      </FramePanel>
+    </JurnlFamilyFrame>
   );
 }
 

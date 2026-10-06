@@ -1,6 +1,16 @@
-/** Primary nav. HOME is Today. The plus mark is the shared quick add. No MORE tab. */
+/**
+ * Primary nav. HOME is Today. The plus mark is the shared quick add. No MORE tab.
+ * The dock renders into the runtime's viewport-level nav host, so its geometry never depends on the screen, the
+ * column, the content width or the screen-enter animation. Five equal cells: the plus is the geometric center.
+ * Without a host (server render, or the first commit before the host attaches) it renders in place.
+ */
 
+import { createContext, useContext } from 'react';
+import { createPortal } from 'react-dom';
 import { JurnlIcon } from './icons';
+
+/** Viewport-level dock host. `undefined` = no runtime root (render in place). */
+export const JurnlNavHostContext = createContext<HTMLElement | null | undefined>(undefined);
 
 const ITEMS = [
   { id: 'HOME', target: 'F03', icon: 'account' as const },
@@ -11,7 +21,8 @@ const ITEMS = [
 ];
 
 export function JurnlProductNav({ current, onGo, onAdd }: { current: 'HOME' | 'MONEY' | 'PLAN' | 'CREDIT' | 'ACTIVITY' | null; onGo: (target: string) => void; onAdd: () => void }) {
-  return (
+  const host = useContext(JurnlNavHostContext);
+  const nav = (
     <nav className="jrn-nav" aria-label="PRIMARY" data-jrn-zone="bottom-nav">
       {ITEMS.map((item) => {
         const active = item.id === current;
@@ -34,4 +45,5 @@ export function JurnlProductNav({ current, onGo, onAdd }: { current: 'HOME' | 'M
       })}
     </nav>
   );
+  return host ? createPortal(nav, host) : nav;
 }

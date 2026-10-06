@@ -1,0 +1,59 @@
+{
+  "sprint": "P0.JURNL.MOBILE-COMPOSITION-CREATIVE-LANGUAGE-PAGINATION-REFINEMENT2",
+  "generated": "2026-10-06",
+  "primitive": "JurnlProductNav portals into the viewport-level .jrn-nav-host (JurnlRuntimeRoot → JurnlNavHostContext). It is no longer a child of any column, so no family, content width or screen can move it.",
+  "taxonomy": [
+    "HOME",
+    "MONEY",
+    "+",
+    "PLAN",
+    "CREDIT"
+  ],
+  "geometry": {
+    "position": "absolute in .jrn-nav-host (inset: 0 of the .jrn stage)",
+    "left": "50%",
+    "transform": "translateX(-50%)",
+    "width": "var(--jrn-nav-w): min(100% − 32px, 340px) phone · min(100% − 32px, 420px) ≥600px · 460px ≥1100px",
+    "height": "44px",
+    "grid": "repeat(5, minmax(0, 1fr)) — five equal cells; + is cell 3 = the geometric centre",
+    "bottom": "calc(var(--jrn-nav-gutter) + env(safe-area-inset-bottom, 0px))",
+    "labels": "nowrap, clipped to the cell — label width can never move an icon"
+  },
+  "reserve": "Content ends above var(--jrn-nav-reserve); the nav never overlays content.",
+  "measured_after": {
+    "mobile": {
+      "x": 26.5,
+      "w": 340,
+      "center_offset_px": 0,
+      "plus_center_offset_px": 0,
+      "cell_widths_px": [
+        64.8,
+        64.8,
+        64.8,
+        64.8,
+        64.8
+      ]
+    },
+    "tablet": {
+      "w": 420,
+      "center_offset_px": 0
+    },
+    "desktop": {
+      "w": 460,
+      "center_offset_px": 0
+    }
+  },
+  "measured_before": {
+    "tablet_family_hubs_center_offset_px": -105,
+    "desktop_family_hubs_center_offset_px": -435.2,
+    "note": "F05–F16 hubs docked the nav to the content column; F03/F04 were centred."
+  },
+  "safe_area": {
+    "rule": "bottom and reserve both include env(safe-area-inset-bottom)",
+    "emulated_inset_34px": {
+      "nav_lift_px": 34,
+      "reserve_growth_px": 34
+    },
+    "note": "SITE00 index.html has no viewport-fit=cover, so iOS Safari reports 0 and keeps the page above the home indicator itself; with cover (standalone/PWA) the rule applies as proven by the CDP emulation."
+  }
+}

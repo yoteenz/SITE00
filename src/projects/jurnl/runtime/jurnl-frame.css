@@ -1,0 +1,277 @@
+/* JURNL MOBILE COMPOSITION FRAME + VIEWPORT NAV GEOMETRY.
+   One finite screen: top safe area → chrome → content rect → composition edge → nav reserve.
+   The nav owns a shared reserved height; content knows it before layout. No family-specific magic numbers. */
+
+.jrn {
+  --jrn-nav-h: 44px;
+  --jrn-nav-gutter: 12px;
+  --jrn-nav-gap-above: 8px;
+  --jrn-nav-w: min(calc(100% - 32px), 340px);
+  --jrn-nav-reserve: calc(var(--jrn-nav-h) + var(--jrn-nav-gutter) + var(--jrn-nav-gap-above) + env(safe-area-inset-bottom, 0px));
+  --jrn-frame-edge-h: 40px;
+  --jrn-frame-caption-h: 20px;
+  --jrn-frame-gap: 10px;
+  --jrn-frame-pad-x: 20px;
+  --jrn-frame-max: none;
+  --jrn-frame-line: rgba(182, 165, 148, 0.85);
+  --jrn-frame-paper: rgba(249, 246, 239, 0.94);
+}
+
+/* ─── viewport dock ─── */
+.jrn .jrn-nav-host {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+}
+.jrn .jrn-nav-host > .jrn-nav {
+  pointer-events: auto;
+}
+/* Centered to the viewport, never to a column. Five equal cells: the plus is the geometric center anchor and label
+   width can never move an icon. */
+.jrn .jrn-nav {
+  position: absolute;
+  left: 50%;
+  right: auto;
+  bottom: calc(var(--jrn-nav-gutter) + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  width: var(--jrn-nav-w);
+  height: var(--jrn-nav-h);
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 4px;
+  z-index: 3;
+}
+.jrn .jrn-nav__btn {
+  min-width: 0;
+  min-height: var(--jrn-nav-h);
+  height: var(--jrn-nav-h);
+}
+.jrn .jrn-nav__btn span {
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* ─── frame ─── */
+.jrn .jrn-screen[data-jrn-frame='family'] .jrn-col {
+  left: 0;
+  right: 0;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: calc(14px + env(safe-area-inset-top, 0px)) var(--jrn-frame-pad-x) 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.jrn .jrn-screen[data-jrn-frame='family'] .jrn-col > * {
+  max-width: none;
+}
+.jrn .jrn-frame {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: var(--jrn-frame-max);
+}
+.jrn .jrn-frame > .jrn-home__top {
+  flex: none;
+}
+.jrn .jrn-frame__content {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  row-gap: var(--jrn-frame-gap);
+  margin-top: 12px;
+  overflow: hidden;
+  outline: none;
+}
+.jrn .jrn-frame__content:focus-visible {
+  outline: 1px dashed var(--jrn-emerald);
+  outline-offset: 2px;
+}
+.jrn .jrn-frame__slot {
+  flex: none;
+  min-width: 0;
+}
+/* Off-screen panels stay laid out at the same width so they can be measured, but are invisible and inert. */
+.jrn .jrn-frame__slot[data-jrn-stage='offscreen'] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+/* OVERSIZE_PANEL: one panel taller than the whole content rect scrolls inside itself; the page never does. */
+.jrn .jrn-frame__slot[data-jrn-oversize='true'] {
+  flex: 0 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.jrn .jrn-frame__caption {
+  flex: none;
+  display: flex;
+  align-items: center;
+  height: var(--jrn-frame-caption-h);
+  margin: 0;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  color: var(--jrn-ink-3);
+}
+
+/* ─── composition edge: the lower frame border. A double hairline with square end caps, like the plate frames. ─── */
+.jrn .jrn-frame__edge {
+  flex: none;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  height: var(--jrn-frame-edge-h);
+}
+.jrn .jrn-frame__rule {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 4px;
+  transform: translateY(-50%);
+  border-top: 1px solid var(--jrn-frame-line);
+  border-bottom: 1px solid rgba(182, 165, 148, 0.4);
+  pointer-events: none;
+}
+.jrn .jrn-frame__rule::before,
+.jrn .jrn-frame__rule::after {
+  content: '';
+  position: absolute;
+  top: -3px;
+  width: 6px;
+  height: 8px;
+  background: var(--jrn-frame-line);
+  border-radius: 1px;
+}
+.jrn .jrn-frame__rule::before {
+  left: 0;
+}
+.jrn .jrn-frame__rule::after {
+  right: 0;
+}
+.jrn .jrn-frame__marks {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-right: auto;
+  margin-left: 14px;
+  padding: 0 6px;
+  height: 12px;
+  background: var(--jrn-bone);
+  border-radius: 2px;
+}
+.jrn .jrn-frame__marks i {
+  display: block;
+  width: 12px;
+  height: 2px;
+  background: var(--jrn-taupe);
+}
+.jrn .jrn-frame__marks i[data-current='true'] {
+  width: 22px;
+  background: var(--jrn-emerald);
+}
+.jrn .jrn-frame__next {
+  position: relative;
+  width: auto;
+  min-width: 0;
+  min-height: 34px;
+  height: 34px;
+  margin-right: 14px;
+  padding: 0 10px 0 14px;
+  gap: 6px;
+  background: var(--jrn-emerald);
+  color: var(--jrn-bone);
+  border: 1px solid var(--jrn-emerald);
+  border-radius: 8px;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+}
+.jrn .jrn-frame__next::after {
+  /* 44px hit area without growing the control */
+  content: '';
+  position: absolute;
+  inset: -5px -4px;
+}
+.jrn .jrn-frame__live {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.jrn .jrn-frame__navspace {
+  flex: none;
+  height: var(--jrn-nav-reserve);
+}
+
+/* ─── shared editorial language layers (function label · state · task · editorial) ─── */
+.jrn .jrn-lang__fn {
+  margin: 0;
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  color: var(--jrn-ink-3);
+}
+.jrn .jrn-lang__state {
+  margin: 0;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  line-height: 1.35;
+  color: var(--jrn-ink);
+}
+.jrn .jrn-lang__task {
+  margin: 0;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  line-height: 1.4;
+  color: var(--jrn-ink-3);
+}
+.jrn .jrn-lang__editorial {
+  margin: 0;
+  font-family: var(--jrn-display);
+  font-style: italic;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  line-height: 1.25;
+  color: var(--jrn-ink-3);
+}
+
+/* ─── TABLET / DESKTOP: same frame, wider stage. The dock stays on the viewport center. ─── */
+@media (min-width: 600px) {
+  .jrn {
+    --jrn-nav-w: min(calc(100% - 32px), 420px);
+    --jrn-frame-pad-x: 56px;
+    --jrn-frame-max: 560px;
+    --jrn-frame-gap: 12px;
+  }
+  .jrn .jrn-screen[data-jrn-frame='family'] .jrn-col {
+    padding-top: calc(28px + env(safe-area-inset-top, 0px));
+  }
+}
+@media (min-width: 1100px) {
+  .jrn {
+    --jrn-nav-w: 460px;
+    --jrn-frame-pad-x: 9vw;
+    --jrn-frame-max: 540px;
+  }
+  .jrn .jrn-screen[data-jrn-frame='family'] .jrn-col {
+    padding-top: 28px;
+  }
+}

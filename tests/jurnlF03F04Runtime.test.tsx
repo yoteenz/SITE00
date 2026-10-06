@@ -133,7 +133,7 @@ describe('F03 and F04 live routes', () => {
     expect(money).toContain('data-jrn-screen="F05.00"');
     expect(money).toContain('data-asset-id="MONEY.ENVIRONMENT.CABINET.001"');
     expect(money).toContain('data-jrn-trigger="money-open-places"');
-    expect(money).toContain('OPEN A PLACE');
+    expect(money).toContain('SEE ALL PLACES');
     expect(money).toContain('PLACES');
     expect(renderRuntime('plan')).toContain('data-jrn-screen="F08.00"');
     expect(renderRuntime('credit')).toContain('data-jrn-screen="F12.00"');

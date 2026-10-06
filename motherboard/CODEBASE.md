@@ -69,6 +69,7 @@ SITE00/
 | Firewall rules | `src/projects/README.md` | `data/` = data only (host may import); `runtime/` = lazy via `src/site00/projectRuntime/` only, CSS scoped to the project root |
 | Registry | `src/projects/registry.ts`, `families.ts` | Ingested project records + family contracts for the DESIGN workspace |
 | JURNL | `src/projects/jurnl/` | PERSONAL / FOUNDER; F01 ENTRY live runtime (`.jrn` scope); docs `docs/jurnl/` |
+| JURNL mobile composition frame | `src/projects/jurnl/runtime/components/FamilyFrame.tsx`, `runtime/layout/paginate.ts`, `runtime/jurnl-frame.css`, `runtime/jurnl-archetypes.css` | Every family root/child renders on `JurnlFamilyFrame` / `JurnlFamilyShell`: finite content rect → composition edge → `--jrn-nav-reserve`; atomic panel pagination (`<FramePanel id>`, NEXT, context-aware back via `useFrameBack`); nav portaled to the viewport `.jrn-nav-host`, centred, five equal cells. One composition archetype per family (`data-jrn-archetype`). Live QA: `scripts/jurnl/mobile-{composition,pagination,viewport-parity}-qa.mjs`, `background-blur-test.mjs`. Docs `docs/jurnl/refinements/mobile-creative-composition2/`. 2026-10-06 |
 | JURNL structural blueprint | `scripts/jurnl/structural-blueprint/` | Canonical F01–F16 product graph + functional / visual / approval / launch metrics → `docs/jurnl/structural-completion/` (`--check` for drift). 2026-10-05 |
 | Shared contracts | `shared/site00-product-families/`, `shared/site00-project-ingestion/` | Project-agnostic family production contract, family gate, asset-first policy, budget contract |
 

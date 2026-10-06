@@ -2,7 +2,7 @@
 
 import { useState, type ReactNode } from 'react';
 import { useParams } from 'react-router-dom';
-import { getTodayKey, type RecurrenceType } from '../../data/foundation/dates';
+import { formatRelativeDate, getTodayKey, type RecurrenceType } from '../../data/foundation/dates';
 import { createIncomeSource, incomeById, receiveIncome, useIncomeSources } from '../../data/f06/incomeStore';
 import { formatMoney, useCurrency } from '../../data/home/money';
 import { PARENT_PLATES } from '../../data/parents/plates';
@@ -13,54 +13,95 @@ import { FamilyChrome } from '../components/FamilyChrome';
 import { JurnlProductNav } from '../components/ProductNav';
 import { AskJurnlSheet, QuickAddV2Sheet } from '../global/GlobalSheets';
 import { JurnlButton, JurnlDrawer, JurnlInput, JurnlPanel } from '../components/primitives';
-import { JurnlScreen } from './JurnlScreen';
+import { FramePanel, JurnlFamilyFrame, JurnlFamilyShell } from '../components/FamilyFrame';
 import { useJurnl } from '../state/store';
 
 function IncomeShell({ screenId, children }: { screenId: string; children: ReactNode }) {
   const { go, overlay, openOverlay, closeOverlay } = useJurnl();
   return (
-    <JurnlScreen screenId={screenId} familyPlate={PARENT_PLATES.F06} family>
-      <div className="jrn-home jrn-parent">{children}</div>
-      <JurnlProductNav current="HOME" onGo={go} onAdd={() => openOverlay('quick-add')} />
-      {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F06" onClose={closeOverlay} /> : null}
-      {overlay === 'ask' ? <AskJurnlSheet familyId="F06" nodeId={screenId} onClose={closeOverlay} /> : null}
-    </JurnlScreen>
+    <JurnlFamilyShell
+      screenId={screenId}
+      familyId="F06"
+      familyPlate={PARENT_PLATES.F06}
+      nav={<JurnlProductNav current="HOME" onGo={go} onAdd={() => openOverlay('quick-add')} />}
+      overlays={
+        <>
+          {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F06" onClose={closeOverlay} /> : null}
+          {overlay === 'ask' ? <AskJurnlSheet familyId="F06" nodeId={screenId} onClose={closeOverlay} /> : null}
+        </>
+      }
+    >
+      {children}
+    </JurnlFamilyShell>
   );
 }
 
+const CADENCE: Record<string, string> = { NONE: 'ONCE', WEEKLY: 'WEEKLY', BIWEEKLY: 'EVERY 2 WEEKS', MONTHLY: 'MONTHLY', ANNUAL: 'YEARLY', IRREGULAR: 'IRREGULAR' };
+
+/** F06 INCOME — LEDGER / GRID. An arrivals ledger: source, rhythm, next date, amount — ruled like a ledger page. */
 export function IncomeHubScreen() {
-  const { go, openOverlay } = useJurnl();
+  const { go, openOverlay, closeOverlay, overlay } = useJurnl();
   useCurrency();
   const sources = useIncomeSources();
   const spec = parentById('F06')!;
   const [addOpen, setAddOpen] = useState(false);
+  const today = getTodayKey();
+  const next = [...sources].sort((a, b) => a.next_due_date.localeCompare(b.next_due_date))[0] ?? null;
   return (
-    <IncomeShell screenId="F06.00">
-      <FamilyChrome familyId="F06" nodeId="F06.00" backLabel="BACK TO MONEY" onBack={() => go('money')} onAsk={() => openOverlay('ask')} />
-      <div className="jrn-home__intro" data-jrn-zone="intro">
-        <h1 className="jrn-home__h">{spec.name}</h1>
-        <p className="jrn-home__sub">{spec.question}</p>
-      </div>
-      <div className="jrn-parent__rail" data-jrn-zone="content-rail">
-        {sources.length === 0 ?
-          <JurnlPanel role="empty" className="jrn-home__panel" data-jrn-trigger="income-empty">
-            <b>NO INCOME SOURCES</b>
-            <p>ADD WHAT ARRIVES.</p>
-          </JurnlPanel>
-        : sources.map((s) => (
-            <button key={s.income_id} type="button" className="jrn-tx jrn-row" data-jrn-trigger={`income-${s.income_id}`} onClick={() => go(`income/${s.income_id}`)}>
-              <span className="jrn-tx__copy">
-                <span className="jrn-tx__name">{s.source_name}</span>
-                <small>{s.cadence} · {s.status}</small>
-              </span>
-              <span className="jrn-tx__amt jrn-tx__amt--in">{formatMoney(s.amount, true)}</span>
-            </button>
-          ))}
-        <JurnlButton trigger="income-add" onClick={() => setAddOpen(true)}>ADD A SOURCE</JurnlButton>
-        <JurnlButton variant="secondary" trigger="income-upcoming" onClick={() => go('upcoming')}>UPCOMING</JurnlButton>
-      </div>
-      {addOpen ? <AddIncomeSheet onClose={() => setAddOpen(false)} /> : null}
-    </IncomeShell>
+    <JurnlFamilyFrame
+      screenId="F06.00"
+      familyId="F06"
+      familyPlate={PARENT_PLATES.F06}
+      label="INCOME"
+      archetype="LEDGER_GRID"
+      chrome={<FamilyChrome familyId="F06" nodeId="F06.00" backLabel="BACK TO MONEY" onBack={() => go('money')} onAsk={() => openOverlay('ask')} />}
+      nav={<JurnlProductNav current="MONEY" onGo={go} onAdd={() => openOverlay('quick-add')} />}
+      overlays={
+        <>
+          {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F06" onClose={closeOverlay} /> : null}
+          {overlay === 'ask' ? <AskJurnlSheet familyId="F06" nodeId="F06.00" onClose={closeOverlay} /> : null}
+          {addOpen ? <AddIncomeSheet onClose={() => setAddOpen(false)} /> : null}
+        </>
+      }
+    >
+      <FramePanel id="intro">
+        <header className="jrn-ledg__intro" data-jrn-zone="intro">
+          <h1 className="jrn-ledg__h">INCOME</h1>
+          <p className="jrn-lang__state">
+            {sources.length ?
+              `${sources.length} INCOME ${sources.length === 1 ? 'SOURCE' : 'SOURCES'}. NEXT: ${next!.source_name}, ${formatRelativeDate(next!.next_due_date, today)}.`
+            : 'NO INCOME IS ADDED YET.'}
+          </p>
+          <p className="jrn-lang__task">{sources.length ? 'OPEN A SOURCE TO SEE ITS PATTERN AND WHAT HAS ARRIVED.' : 'ADD EACH PLACE MONEY COMES FROM SO JURNL CAN PLAN AROUND IT.'}</p>
+          <p className="jrn-lang__editorial">{spec.question}</p>
+        </header>
+      </FramePanel>
+      {sources.length ?
+        <FramePanel id="ledger">
+          <section className="jrn-ledg" aria-label="INCOME SOURCES">
+            <p className="jrn-ledg__head" aria-hidden>
+              <span>SOURCE</span>
+              <span>NEXT</span>
+              <span>AMOUNT</span>
+            </p>
+            {sources.map((s) => (
+              <button key={s.income_id} type="button" className="jrn-ledg__row" data-jrn-trigger={`income-${s.income_id}`} onClick={() => go(`income/${s.income_id}`)}>
+                <span className="jrn-ledg__name">{s.source_name}</span>
+                <span className="jrn-ledg__sub">{CADENCE[s.cadence] ?? s.cadence} · {s.status}</span>
+                <span className="jrn-ledg__date">{formatRelativeDate(s.next_due_date, today)}</span>
+                <span className="jrn-ledg__amt">{formatMoney(s.amount, true)}</span>
+              </button>
+            ))}
+          </section>
+        </FramePanel>
+      : null}
+      <FramePanel id="actions">
+        <div className="jrn-ledg__actions">
+          <JurnlButton trigger="income-add" onClick={() => setAddOpen(true)}>ADD A SOURCE</JurnlButton>
+          <JurnlButton variant="secondary" trigger="income-upcoming" onClick={() => go('upcoming')}>UPCOMING</JurnlButton>
+        </div>
+      </FramePanel>
+    </JurnlFamilyFrame>
   );
 }
 

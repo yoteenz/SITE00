@@ -22,5 +22,6 @@ Family 01 ENTRY (F01.00–F01.13) runs as live UI inside the DESIGN workspace.
 | [F01_LIVE_VIEWPORT_DELIVERY.md](F01_LIVE_VIEWPORT_DELIVERY.md) | Live viewport delivery: how to open, hosting audit, viewport QA (163/163) |
 | [monetization/MONETIZATION_FOUNDATION.md](monetization/MONETIZATION_FOUNDATION.md) | Monetization foundation: plans, capabilities, entitlements, billing boundary, trust rules (no prices, no checkout) |
 | [monetization/DRAFT_16_FAMILY_ENTITLEMENT_MAP.md](monetization/DRAFT_16_FAMILY_ENTITLEMENT_MAP.md) | Draft 16-family entitlement map — for founder review |
+| [refinements/mobile-creative-composition2/](refinements/mobile-creative-composition2/JURNL_CREATIVE_COMPOSITION_REFINEMENT_REPORT.md) | Mobile composition frame, atomic pagination, viewport-centred nav, one composition archetype per family, language clarity — report, contracts, QA, screenshots |
 
 Firewall rules for any project runtime: `src/projects/README.md`.
