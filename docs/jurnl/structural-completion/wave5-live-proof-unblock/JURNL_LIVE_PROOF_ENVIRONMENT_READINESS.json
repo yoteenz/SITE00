@@ -1,0 +1,17 @@
+{
+  "generated_at": "2026-10-06T11:13:55.544Z",
+  "prerequisite_gate": "PREREQUISITE_BLOCKED",
+  "secrets_present": 3,
+  "secrets_missing": 4,
+  "missing_secret_names": [
+    "JURNL_QA_USER_A_EMAIL",
+    "JURNL_QA_USER_A_PASSWORD",
+    "JURNL_QA_USER_B_EMAIL",
+    "JURNL_QA_USER_B_PASSWORD"
+  ],
+  "workflow_secret_wiring": "PASS",
+  "user_a_ready": false,
+  "user_b_ready": false,
+  "rls_schema_ready": null,
+  "auth_method": "email_password_supabase"
+}

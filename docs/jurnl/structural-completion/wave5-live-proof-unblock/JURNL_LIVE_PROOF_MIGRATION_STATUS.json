@@ -1,0 +1,15 @@
+{
+  "generated_at": "2026-10-06T11:13:55.544Z",
+  "required_migration": "supabase/migrations/20261006103000_jurnl_production_persistence.sql",
+  "purpose": "JURNL user snapshots, record file metadata, mutation idempotency + RLS owner policies",
+  "tables": [
+    "jurnl_user_snapshots",
+    "jurnl_record_files",
+    "jurnl_mutation_idempotency"
+  ],
+  "local": true,
+  "remote_status": "UNKNOWN",
+  "remote_tables_present": null,
+  "safe_non_destructive": true,
+  "applied_this_sprint": false
+}
