@@ -63,7 +63,7 @@ On EXPRESSION → CASTING at 393×852:
 - **EXPRESSION phone grids.** Content-driven when a panel declares media. Media-led panels take the full row.
 - **PREVIEW.** Held at its approved aspect.
 - **PORTRAIT_GRID.** About 3.3 portrait tiles (4:5) per view.
-- **INBOX cards and the ACTIVITY milestone header.** MEDIA_LEAD: the whole authority is stacked on phones and shown at its approved aspect on tablet and desktop.
+- **INBOX cards and the ACTIVITY milestone header.** These are MEDIA_LEAD. The whole authority stacks on phones. On tablet and desktop it shows at its approved aspect, in an art column widened to the PREVIEW floor (240px).
 - **Raw images with a no-crop role.** Always contained.
 - **Tablet and desktop.** Compositions kept.
 
@@ -158,6 +158,7 @@ ${REG.entries.map((c) => `| ${c.id} | ${c.role} | ${c.minVisibleAxis} | ${c.foca
 ## 7. Founder review notes
 
 - **INBOX root focus card on phones.** The decision authority now stacks above the facts instead of a 4:5 crop. The alternative, containing it in the old 4:5 frame, renders a 2.3:1 authority as a 104×45 strip with 85px of empty ground. This is the only root-tab change, and it is internal to that card.
+- **INBOX decision / notice cards and the ACTIVITY milestone header on tablet and desktop.** The lead art column grows from 150–210px to 240px, the PREVIEW floor, so the whole authority reads at 240×97–104 instead of a cropped thumbnail. On tablet, the decision card's side summary (affects / dependencies / reviewers) moves to its own row, the phone card's three-cell strip. That removes the facts column's mid-word breaks seen on main (\`STORYBOA / RD\`).
 - **EXPRESSION root frame strip.** Storyboard frames are contained on dark: F04 and F08 are portrait frames and were cut to about 55%.
 - **Soft sources.** Node art and storyboard frames are 42–640px pixel crops from the authority screens, so some full-width previews are soft. That is source resolution, not framing. A later sprint can re-cut larger crops from the same authority screens without new art.
 - **No actor headshots in the catalogue yet.** AVAILABLE TALENT shows the initials state in the 4:5 portrait slot. Real headshots will drop into the same slot under the face-safe crop and the crop guard.

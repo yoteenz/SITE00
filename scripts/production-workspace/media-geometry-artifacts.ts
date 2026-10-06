@@ -238,7 +238,7 @@ write('WORKSPACE_MEDIA_STRESS_TEST.json', {
 const boards = existsSync(`${DIR}/screenshots/boards/index.json`) ? read(`${DIR}/screenshots/boards/index.json`) : [];
 write('WORKSPACE_MEDIA_GEOMETRY_SCREENSHOT_MANIFEST.json', {
   sprint: SPRINT,
-  capture: 'live Chromium (Playwright) — before = main worktree, after = this branch; mobile 393×852 @2x, desktop 1440×900 @1x; full audit captures (98 routes × 5 widths) were taken for both runs and are summarised in WORKSPACE_MEDIA_GEOMETRY_AUDIT.json',
+  capture: 'live Chromium (Playwright) — before = main worktree, after = this branch; mobile 393×852 @2x, tablet 834×1194 @1x, desktop 1440×900 @1x; full audit captures (98 routes × 5 widths) were taken for both runs and are summarised in WORKSPACE_MEDIA_GEOMETRY_AUDIT.json',
   board: 'screenshots/boards/<id>.jpg — BEFORE | AFTER | role · scale · fit · panel mode · why a crop is / is not allowed',
   requiredCoverage: {
     expressionCasting: ['casting-mobile', 'casting-desktop'],
@@ -247,7 +247,7 @@ write('WORKSPACE_MEDIA_GEOMETRY_SCREENSHOT_MANIFEST.json', {
     portraitHeavy: ['portrait-actor-profile', 'portrait-role-detail'],
     uiScreenshot: ['ui-screenshot-jurnl'],
     logoIdentity: ['logo-identity-desktop'],
-    referenceAuthority: ['authority-look', 'authority-inbox-detail', 'authority-milestone'],
+    referenceAuthority: ['authority-look', 'authority-inbox-detail', 'authority-milestone', 'authority-inbox-detail-tablet', 'authority-milestone-tablet'],
     documentPreview: 'no document media exists in the workspace today — DOCUMENT_PREVIEW is covered by the contract and the stress test (document source, all scales, 5 widths)',
     landscapeEditorial: ['landscape-library'],
     videoFrames: ['frames-storyboard'],

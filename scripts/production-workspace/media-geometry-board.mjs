@@ -27,6 +27,8 @@ export const BOARD = [
   ['authority-look', 'mobile', 'expression-look', 'REFERENCE / AUTHORITY · LOOK ROOT', ['look-root-active']],
   ['authority-inbox-detail', 'mobile', 'inbox-decision-detail', 'REFERENCE / AUTHORITY · INBOX DECISION DETAIL', ['inbox-detail-card']],
   ['authority-milestone', 'mobile', 'activity-milestone-look', 'REFERENCE / AUTHORITY · ACTIVITY MILESTONE', []],
+  ['authority-inbox-detail-tablet', 'tablet', 'inbox-decision-detail', 'REFERENCE / AUTHORITY · INBOX DECISION CARD · TABLET (no mobile stacking; art column at the PREVIEW floor)', ['inbox-detail-card']],
+  ['authority-milestone-tablet', 'tablet', 'activity-milestone-look', 'REFERENCE / AUTHORITY · ACTIVITY MILESTONE · TABLET', []],
   ['frames-storyboard', 'mobile', 'expression-storyboard', 'VIDEO FRAMES · STORYBOARD ROOT', ['storyboard-root-boards', 'storyboard-inspector']],
   ['landscape-library', 'mobile', 'library', 'LANDSCAPE / SCENE NODE ART · LIBRARY STRIPS', ['library-recent', 'library-lineage-flow']],
   ['inbox-root', 'mobile', 'inbox', 'INBOX ROOT · FOCUS CARD + INCOMING CARDS', ['inbox-focus', 'inbox-incoming']],
@@ -53,7 +55,7 @@ function notes(rep, vp, route, focus) {
   });
 }
 
-const W = { mobile: 393, desktop: 640 };
+const W = { mobile: 393, tablet: 560, desktop: 640 };
 const label = (text, w, h = 30, size = 13, bg = '#111114') =>
   Buffer.from(`<svg width="${w}" height="${h}" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="${bg}"/><text x="12" y="${h / 2 + size / 3}" font-family="Helvetica, Arial, sans-serif" font-size="${size}" letter-spacing="1.2" fill="#ffffff">${esc(text)}</text></svg>`);
 const notesSvg = (title, lines, w, h) => {
