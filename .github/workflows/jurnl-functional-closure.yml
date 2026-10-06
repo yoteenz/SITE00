@@ -1,0 +1,39 @@
+name: JURNL Functional Closure Gate
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'src/projects/jurnl/**'
+      - 'e2e/jurnl/**'
+      - 'playwright.config.ts'
+      - 'scripts/jurnl/run-functional-closure-gate.ts'
+      - 'scripts/jurnl/write-functional-closure-artifacts.ts'
+      - '.github/workflows/jurnl-functional-closure.yml'
+
+concurrency:
+  group: jurnl-functional-closure-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  closure:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - run: npm ci
+      - name: Functional closure gate
+        env:
+          GITHUB_ACTIONS: 'true'
+          JURNL_LIVE_PROOF_REUSE: '1'
+        run: npm run jurnl:functional-closure
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: jurnl-functional-closure
+          path: docs/jurnl/functional-closure/

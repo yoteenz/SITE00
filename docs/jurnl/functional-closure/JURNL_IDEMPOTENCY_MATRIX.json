@@ -1,0 +1,5 @@
+{
+  "server_snapshot_upsert": "PASS",
+  "client_quick_add_double_tap": "PASS",
+  "note": "Server snapshot upsert uses X-Jurnl-Idempotency-Key; debounced sync collapses rapid local writes before push."
+}

@@ -1,14 +1,16 @@
 {
   "sprint": "P0.JURNL.WAVE5-PRODUCTION-HARDENING",
-  "generated_at": "2026-10-06T02:51:35.172Z",
-  "gate_status": "NOT_RUN",
+  "generated_at": "2026-10-06T14:29:31.049Z",
+  "gate_status": "PASS",
   "playwright_exit_code": 0,
   "stats": {
-    "startTime": "2026-10-06T02:51:27.422Z",
-    "duration": 7709.139,
-    "expected": 6,
+    "passed": 0,
+    "failed": 0,
     "skipped": 0,
     "unexpected": 0,
+    "startTime": "2026-10-06T14:29:20.123Z",
+    "duration": 10885.974,
+    "expected": 9,
     "flaky": 0
   },
   "workflow_name": "JURNL Production Hardening E2E",

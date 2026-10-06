@@ -200,11 +200,13 @@ export function TodayScreen() {
                 ACTIVITY
               </JurnlInlineAction>
             </div>
-            <div role="list" className="jrn-home__list">
+            <ul className="jrn-home__list">
               {recent.map((entry) => (
-                <JurnlTransactionRow key={entry.id} entry={entry} onOpen={() => go('F04')} />
+                <li key={entry.id}>
+                  <JurnlTransactionRow entry={entry} onOpen={() => go('F04')} />
+                </li>
               ))}
-            </div>
+            </ul>
             {draft.priorities[0] ? <p className="jrn-home__goal">{draft.priorities[0]} FIRST</p> : null}
           </JurnlPanel>
         </FramePanel>
@@ -315,40 +317,43 @@ export function ActivityScreen() {
         {mode !== 'loading' && mode !== 'error' ? (
           <JurnlPanel role="ledger" className="jrn-ledger" data-jrn-zone="ledger">
             {mode !== 'empty' && shown.length > 0 ? <p className="jrn-ledger__count">{shown.length} MOVEMENTS</p> : null}
-            <div className="jrn-act__list" role="list" aria-label="ACTIVITY">
-              {mode === 'empty' ? (
-                <div className="jrn-ledger__empty" data-jrn-panel="empty" data-jrn-trigger="activity-empty">
-                  <b>NO MOVEMENT YET</b>
-                  <p>THE LEDGER IS QUIET.</p>
-                </div>
-              ) : null}
-              {mode !== 'empty' && shown.length === 0 ? (
-                <div className="jrn-ledger__empty" data-jrn-panel="empty" data-jrn-trigger="activity-none">
-                  <b>NO MATCHES</b>
-                  <p>NOTHING IN THIS LEDGER FITS.</p>
-                  {query ? (
-                    <button type="button" className="jrn-btn jrn-btn--secondary" data-jrn-trigger="activity-clear-search-empty" onClick={() => setQuery('')}>
-                      CLEAR SEARCH
-                    </button>
-                  ) : null}
-                  {filterIsActive(filter) ? (
-                    <button type="button" className="jrn-btn jrn-btn--secondary" data-jrn-trigger="activity-clear-filter-empty" onClick={() => setFilter(EMPTY_FILTER)}>
-                      CLEAR FILTERS
-                    </button>
-                  ) : null}
-                </div>
-              ) : null}
-              {shown.map((entry) => (
-                <JurnlTransactionRow
-                  key={entry.id}
-                  entry={entry}
-                  onOpen={(item) => {
-                    setSelected(item);
-                    openOverlay('detail');
-                  }}
-                />
-              ))}
-            </div>
+            {mode === 'empty' ? (
+              <div className="jrn-ledger__empty" data-jrn-panel="empty" data-jrn-trigger="activity-empty">
+                <b>NO MOVEMENT YET</b>
+                <p>THE LEDGER IS QUIET.</p>
+              </div>
+            ) : null}
+            {mode !== 'empty' && shown.length === 0 ? (
+              <div className="jrn-ledger__empty" data-jrn-panel="empty" data-jrn-trigger="activity-none">
+                <b>NO MATCHES</b>
+                <p>NOTHING IN THIS LEDGER FITS.</p>
+                {query ? (
+                  <button type="button" className="jrn-btn jrn-btn--secondary" data-jrn-trigger="activity-clear-search-empty" onClick={() => setQuery('')}>
+                    CLEAR SEARCH
+                  </button>
+                ) : null}
+                {filterIsActive(filter) ? (
+                  <button type="button" className="jrn-btn jrn-btn--secondary" data-jrn-trigger="activity-clear-filter-empty" onClick={() => setFilter(EMPTY_FILTER)}>
+                    CLEAR FILTERS
+                  </button>
+                ) : null}
+              </div>
+            ) : null}
+            {shown.length > 0 ? (
+              <ul className="jrn-act__list" aria-label="ACTIVITY">
+                {shown.map((entry) => (
+                  <li key={entry.id}>
+                    <JurnlTransactionRow
+                      entry={entry}
+                      onOpen={(item) => {
+                        setSelected(item);
+                        openOverlay('detail');
+                      }}
+                    />
+                  </li>
+                ))}
+              </ul>
+            ) : null}
           </JurnlPanel>
         ) : null}
         </div>

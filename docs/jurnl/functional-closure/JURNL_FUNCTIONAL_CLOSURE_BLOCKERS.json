@@ -1,0 +1,14 @@
+{
+  "blockers": [
+    {
+      "id": "MANUAL_SCREEN_READER_FULL",
+      "disposition": "NON_BLOCKING_DEFERRED",
+      "note": "Automated axe covers core routes; full SR audit deferred to pre-launch polish."
+    },
+    {
+      "id": "F16_REMOTE_BLOB_UPLOAD",
+      "disposition": "NON_BLOCKING_DEFERRED",
+      "note": "Metadata-only records; uploadGuard ready; remote blob pipeline external dependency."
+    }
+  ]
+}

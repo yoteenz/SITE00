@@ -30,17 +30,18 @@ function main() {
     exitCode = 1;
   }
 
-  let stats = { passed: 0, failed: 0, skipped: 0 };
+  let stats = { passed: 0, failed: 0, skipped: 0, unexpected: 0 };
   if (existsSync(reportJson)) {
     try {
-      const parsed = JSON.parse(readFileSync(reportJson, 'utf8')) as { stats?: typeof stats };
-      if (parsed.stats) stats = parsed.stats;
+      const parsed = JSON.parse(readFileSync(reportJson, 'utf8')) as { stats?: Record<string, number> };
+      if (parsed.stats) stats = { ...stats, ...parsed.stats };
     } catch {
       /* ignore */
     }
   }
 
-  const gateStatus = exitCode === 0 && stats.failed === 0 ? 'PASS' : stats.failed > 0 ? 'FAIL' : 'NOT_RUN';
+  const failedCount = stats.failed || stats.unexpected || 0;
+  const gateStatus = exitCode === 0 && failedCount === 0 ? 'PASS' : failedCount > 0 ? 'FAIL' : 'NOT_RUN';
 
   const result = {
     sprint: 'P0.JURNL.WAVE5-PRODUCTION-HARDENING',

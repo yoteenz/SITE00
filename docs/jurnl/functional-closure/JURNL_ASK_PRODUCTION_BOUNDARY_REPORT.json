@@ -1,0 +1,6 @@
+{
+  "consent": "PASS",
+  "minimization": "PASS",
+  "server_side_secrets": "PASS",
+  "live_ai": "EXTERNAL_DEFERRED"
+}
