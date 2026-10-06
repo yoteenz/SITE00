@@ -9,6 +9,8 @@ on:
       - 'e2e/jurnl/**'
       - 'playwright.config.ts'
       - 'scripts/jurnl/run-full-product-e2e.ts'
+      - 'supabase/migrations/*jurnl*'
+      - 'api/jurnl/**'
       - 'scripts/jurnl/write-e2e-artifacts.ts'
       - '.github/workflows/jurnl-full-product-e2e.yml'
   pull_request:

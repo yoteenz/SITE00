@@ -28,6 +28,8 @@ import site00ClientAppHandler from '../api/site00/client-app.js';
 import site00WorldIntakeHandler from '../api/site00/world-intake.js';
 import site00AstralWorldGenerationHandler from '../api/admin/site00-astral-world-generation.js';
 import jurnlProductionHandler from '../api/admin/jurnl-production.js';
+import jurnlRepositoryHandler from '../api/jurnl/repository.js';
+import jurnlAskContextHandler from '../api/jurnl/ask-context.js';
 import site00AstralWorldAssetsHandler from '../api/site00/astral-world-assets.js';
 import site00AstralWorldReaderAccountHandler from '../api/site00/astral-world-reader-account.js';
 import site00AstralWorldAvatarLibraryHandler from '../api/site00/astral-world-avatar-library.js';
@@ -95,6 +97,8 @@ export const API_ROUTES: ReadonlyArray<{ path: string; handler: ApiHandler }> = 
   { path: '/api/admin/site00-client-intakes', handler: site00ClientIntakesAdminHandler },
   { path: '/api/admin/site00-astral-world-generation', handler: site00AstralWorldGenerationHandler },
   { path: '/api/admin/jurnl-production', handler: jurnlProductionHandler },
+  { path: '/api/jurnl/repository', handler: jurnlRepositoryHandler },
+  { path: '/api/jurnl/ask-context', handler: jurnlAskContextHandler },
   { path: '/api/site00/astral-world-assets', handler: site00AstralWorldAssetsHandler },
   { path: '/api/site00/astral-world-reader-account', handler: site00AstralWorldReaderAccountHandler },
   { path: '/api/site00/astral-world-avatar-library', handler: site00AstralWorldAvatarLibraryHandler },

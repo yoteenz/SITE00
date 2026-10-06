@@ -1,0 +1,5 @@
+{
+  "endpoint": "POST /api/jurnl/ask-context",
+  "minimization": "familyId, nodeId, route, counts — no raw ledger",
+  "consent": "consentGranted required for READY state"
+}

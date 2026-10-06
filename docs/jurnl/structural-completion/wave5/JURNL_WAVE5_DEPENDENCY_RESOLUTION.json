@@ -1,0 +1,36 @@
+{
+  "generated_at": "2026-10-06T02:51:35.490Z",
+  "main_sha": "9c817646ccb044891d74615a3bf24cee2779b83e",
+  "dependencies": [
+    {
+      "id": "PRODUCTION_AUTH",
+      "class": "WAVE5_AUTH_DEPENDENCY",
+      "status": "IMPLEMENTED_PARTIAL",
+      "note": "Supabase auth adapter + snapshot API + migration"
+    },
+    {
+      "id": "SERVER_PERSISTENCE_RLS",
+      "class": "WAVE5_SERVER_PERSISTENCE_DEPENDENCY",
+      "status": "IMPLEMENTED_PARTIAL",
+      "note": "Supabase auth adapter + snapshot API + migration"
+    },
+    {
+      "id": "NATIVE_FINANCIAL_PROVIDER",
+      "class": "WAVE5_EXTERNAL_PROVIDER_DEPENDENCY",
+      "status": "EXTERNAL_DEFERRED",
+      "note": "UI must not claim connected without provider contract"
+    },
+    {
+      "id": "F16_REMOTE_FILE_BLOB",
+      "class": "WAVE5_SERVER_PERSISTENCE_DEPENDENCY",
+      "status": "SCHEMA_ONLY",
+      "note": "jurnl_record_files metadata + RLS; blob storage not wired"
+    },
+    {
+      "id": "LIVE_ASK_JURNL_PROVIDER",
+      "class": "WAVE5_EXTERNAL_PROVIDER_DEPENDENCY",
+      "status": "EXTERNAL_DEFERRED",
+      "note": "Server ask-context validates minimized payload; live AI optional"
+    }
+  ]
+}

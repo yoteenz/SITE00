@@ -27,7 +27,7 @@ export type JurnlSession = { id: string; label: string; detail: string; current:
 export type SocialProvider = 'APPLE' | 'GOOGLE';
 
 export type JurnlAuthAdapter = {
-  kind: 'DESIGN_PREVIEW' | 'UNCONFIGURED';
+  kind: 'DESIGN_PREVIEW' | 'UNCONFIGURED' | 'SUPABASE';
   signUp(input: { firstName: string; lastName: string; email: string; password: string }): Promise<AuthResult<JurnlAccount>>;
   signIn(email: string, password: string): Promise<AuthResult<JurnlAccount>>;
   resendVerification(email: string): Promise<AuthResult>;

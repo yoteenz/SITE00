@@ -21,6 +21,7 @@
     "test:watch": "vitest",
     "jurnl:e2e": "playwright test -c playwright.config.ts",
     "jurnl:e2e:gate": "tsx scripts/jurnl/run-full-product-e2e.ts",
+    "jurnl:e2e:wave5": "tsx scripts/jurnl/run-production-hardening-e2e.ts",
     "strip:loader-audio": "tsx scripts/stripLoaderAnimationAudio.ts",
     "verify:loader-mobile": "tsx scripts/verifySite00LoaderMobileAnimation.ts",
     "client-app:qa:urls": "node scripts/print-client-app-qa-urls.mjs",

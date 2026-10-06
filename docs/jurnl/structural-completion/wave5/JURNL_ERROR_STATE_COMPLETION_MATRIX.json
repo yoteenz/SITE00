@@ -1,0 +1,19 @@
+{
+  "target": 12,
+  "complete": 12,
+  "states": [
+    "AUTH_ERROR",
+    "SESSION_EXPIRED",
+    "READ_FAILURE",
+    "WRITE_FAILURE",
+    "SYNC_FAILURE",
+    "ASK_JURNL_FAILURE",
+    "OFFLINE",
+    "INVALID_FORM",
+    "PROVIDER_TIMEOUT",
+    "UPLOAD_FAILURE",
+    "STALE_DATA",
+    "DELETE_FAILURE"
+  ],
+  "note": "Production sync surfaces SAVE FAILED toast; service screen for unconfigured plane; auth adapter returns honest codes."
+}
