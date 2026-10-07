@@ -200,12 +200,19 @@
   color: #2a2622;
 }
 
+/* Tab words, placed per tab in plate space (the box is the 1760×3840 plate).
+   Measured on the plate: visible face of each tab and the top of its rounded tab.
+     BILLS  x 1078–1182, top 1739 · PLANS x 1183–1300, top 1782
+     GOALS  x 1300–1407, top 1832 · BUFFER x 1407–1520, top 1872
+   Matched to IMAGE 1: each word is centered on its face, starts 1.2 face widths below
+   its own tab top (so the words step down with the tabs), cap height is 22% of the face
+   width (34 plate px type), tracking 0.32em, near-black ink on the light tabs. */
 .jrn .jrn-f09a__tabs {
   position: absolute;
-  top: 47.4%;
+  top: 0;
   left: 0;
   width: 100%;
-  height: 6.4%;
+  height: 100%;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -214,29 +221,27 @@
 }
 .jrn .jrn-f09a__tabs li {
   position: absolute;
-  top: 0;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
   writing-mode: vertical-rl;
   text-orientation: mixed;
-  transform: none;
-  font: 500 7px/1 'JURNL Sans', sans-serif;
-  letter-spacing: 0.16em;
-  color: #6b4f38;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font: 500 calc(var(--f09-img-h) * 34 / 3840) / 1 'JURNL Sans', sans-serif;
+  letter-spacing: 0.32em;
+  color: #312c24;
 }
-.jrn .jrn-f09a__tabs li[data-tab='bills'] { left: 62.2%; width: 5.2%; color: #6b4f38; }
-.jrn .jrn-f09a__tabs li[data-tab='plans'] { left: 68.4%; width: 4.8%; color: #5a524a; }
-.jrn .jrn-f09a__tabs li[data-tab='goals'] { left: 73.6%; width: 5.4%; color: #3e4432; }
-.jrn .jrn-f09a__tabs li[data-tab='buffer'] { left: 80.0%; width: 6.4%; color: #c6dba8; }
+.jrn .jrn-f09a__tabs li[data-tab='bills'] { left: 64.2%; top: 48.54%; color: #312c24; }
+.jrn .jrn-f09a__tabs li[data-tab='plans'] { left: 70.5%; top: 50.03%; color: #1f1c1a; }
+.jrn .jrn-f09a__tabs li[data-tab='goals'] { left: 76.9%; top: 51.04%; color: #21221c; }
+.jrn .jrn-f09a__tabs li[data-tab='buffer'] { left: 83.1%; top: 52.29%; color: #e6ede0; }
 .jrn .jrn-f09a__folio {
   position: absolute;
   top: 54.6%;
   left: 20.5%;
   width: 43%;
+  /* Bottom of the amounts row: 1.2 tab widths above the folder's bottom edge (plate y ≈ 2728), as in IMAGE 1. */
   height: min(
-    calc(0.155 * var(--f09-img-h)),
+    calc(0.133 * var(--f09-img-h)),
     max(78px, calc(100cqh - var(--f09-above-dock) - 0.546 * var(--f09-img-h)))
   );
   container-type: size;
@@ -272,6 +277,9 @@
     padding-top: 4px;
   }
 }
+/* Amounts row as in IMAGE 1: tracked label over a serif figure, hairline column rules, no top rule.
+   Sizes use the folio's own cqw (the folio is a size container, 43% of the plate width):
+   1cqw = 0.0043 plate widths, so 58 plate px type = 7.66cqw. */
 .jrn .jrn-f09a__folio-copy ul {
   list-style: none;
   margin: 0;
@@ -279,27 +287,30 @@
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 0;
-  border-top: 1px solid rgba(70, 58, 44, 0.16);
+  border-top: 0;
 }
 .jrn .jrn-f09a__folio-copy li {
   display: flex;
   flex-direction: column;
-  gap: 3px;
-  padding-left: 6px;
-  border-left: 1px solid rgba(70, 58, 44, 0.16);
+  gap: 2.9cqw;
+  padding-left: 5.4cqw;
+  border-left: 1px solid rgba(58, 50, 40, 0.42);
 }
 .jrn .jrn-f09a__folio-copy li:first-child {
   padding-left: 0;
   border-left: 0;
 }
 .jrn .jrn-f09a__folio-copy li span {
-  font: 500 7px/1 'JURNL Sans', sans-serif;
-  letter-spacing: 0.1em;
-  color: #6a6258;
+  font: 500 3.83cqw/1 'JURNL Sans', sans-serif;
+  letter-spacing: 0.3em;
+  white-space: nowrap;
+  color: #3b3630;
 }
 .jrn .jrn-f09a__folio-copy li b {
-  font: 500 10px/1 'JURNL Sans', sans-serif;
-  letter-spacing: 0.03em;
+  font: 400 7.66cqw/1 'JURNL Display', serif;
+  letter-spacing: 0;
+  white-space: nowrap;
+  color: #1d1a17;
 }
 
 .jrn .jrn-f09a__bridge {

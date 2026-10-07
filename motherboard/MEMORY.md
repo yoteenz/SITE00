@@ -14586,3 +14586,15 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - high-key air
 - **New failure classes:** ASSET_QUALITY_GUARD_FAILURE, BRAND_WORLD_UNDERSPECIFICATION.
 - **Verdict unchanged:** root cause identified YES; ready to rewrite the generation prompt NO. Also needed first: the asset gate in force.
+
+## 2026-10-07 — JURNL F09 folder words matched to IMAGE 1 (tabs + amounts row)
+
+- **Founder ask:** align the text on the folders so it looks identical to the reference (IMAGE 1 crop: tab words BILLS / PLANS / GOALS / BUFFER and the GOALS $600 · BUFFER $500 row).
+- **Measured, not guessed:** the four tab faces on the plate are BILLS x 1078–1182 (top 1739), PLANS 1183–1300 (1782), GOALS 1300–1407 (1832), BUFFER 1407–1520 (1872), in 1760×3840 plate px. On IMAGE 1, each word is centered on its face and starts 1.2 face widths below its own tab top, so the words step down with the tabs. Cap height is about 22% of the face width, and tracking is about 0.32em. Ink is near-black on the light tabs and light on BUFFER.
+- **Fix (`jurnl-f09-authority.css`):**
+  - The tab list now spans the whole plate box. Each word has its own `left` (face centre) and `top` (tab top + 1.2 face widths): 64.2/48.54, 70.5/50.03, 76.9/51.04, 83.1/52.29 %.
+  - Type is `calc(var(--f09-img-h) * 34 / 3840)` with 0.32em tracking.
+  - Inks: BILLS `#312c24`, PLANS `#1f1c1a`, GOALS `#21221c`, BUFFER `#e6ede0` (light green-white, not cream).
+  - Amounts row: tracked label (3.83cqw, 0.3em) over a serif figure (JURNL Display 7.66cqw), visible hairline column rules, no top rule. The folio height is `0.133 × plate` so the figures sit 1.2 tab widths above the folder's bottom edge.
+- **Gotcha:** inside `.jrn-f09a__folio` (a size container) `var(--f09-img-h)` resolves its `cqh/cqw` against the folio, not the screen. Size folio text with the folio's own `cqw` (1cqw = 0.0043 plate widths).
+- **Not changed:** the plate, the signal, the dock, the nav marks, routes, or `computeSafeToSpend`. Checked at 402×874, 393×852 and 375×667 (amounts clear the purchase card).
