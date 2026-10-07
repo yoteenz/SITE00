@@ -14815,6 +14815,15 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Fix:** `.jrn-f09a__menu` top is `+ 20px` on the phone (was `+ 30px`), `+ 6px` on tablet (was `+ 16px`), and `+ 4px` on desktop (was `+ 14px`). Left edge stays. Measured: phone 402×874 menu x=22.5 y=20; tablet 834×1194 y=6; desktop 1440×900 y=4.
 - **Do not repeat:** Do not put the phone menu back to `+ 30px`. Do not move the desktop account mark with it. Do not change the phone plate from `top: -10%`.
 
+---
+
+## 2026-10-07 — JURNL F09 see-why and spend bar share the Check a Purchase border
+
+- **Context:** Safe to Spend phone plate stays `top: -10%`. The hamburger stays at phone `top: safe-area + 20px`. The founder asked for the same button border that is already on CHECK A PURCHASE to go around SEE WHY THIS AMOUNT and the WANT TO SPEND ON SOMETHING bar. Pill radii stay as they were.
+- **Fix:** CHECK A PURCHASE is `border: 1px solid rgba(40, 32, 24, 0.1)`. SEE WHY had a white `rgba(255, 255, 255, 0.8)` stroke; that is now the same brown hairline. The spend bar had no border; it now has the same stroke. Radii stay 12px / 26px on the phone and 14px / 28px on tablet and desktop. Measured on 402×874, 834×1194, and 1440×900: all three controls compute that same border.
+- **Do not repeat:** Do not put the white stroke back on SEE WHY. Do not drop the bar border. Do not change the bar radius to match the button. Do not thicken the 10% hairline unless the founder asks.
+
+
 
 ## 2026-10-06 — JURNL F09 three-concept art-direction regen (P0.JURNL.F09-SAFE-TO-SPEND.THREE-CONCEPT-ART-DIRECTION-REGEN-CORRECTION1) — BLOCKED
 
