@@ -476,7 +476,15 @@
   color: #fff;
 }
 
-/* ACCOUNT drawer: its own photograph slides in over the current screen. */
+/* ACCOUNT drawer: its own photograph slides in over the current screen, from the hamburger on any app screen. */
+.jrn .jrn-account-drawer-host {
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  overflow: hidden;
+  background: #efe9e1;
+  pointer-events: auto;
+}
 .jrn .jrn-ref__drawer {
   position: absolute;
   inset: 0;
