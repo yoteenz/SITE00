@@ -44,6 +44,8 @@ export function useCornerMenu(open: () => void, covered: boolean) {
   }, [api, covered]);
 }
 
+const ROOT_HUBS = new Set(['today', 'money', 'plan', 'credit']);
+
 function appRoute(pathname: string): string {
   const mark = '/runtime/';
   const i = pathname.indexOf(mark);
@@ -54,7 +56,8 @@ function JurnlCornerChrome({ menu, hidden }: { menu: (() => void) | null; hidden
   const { go } = useJurnl();
   const { pathname } = useLocation();
   const rel = appRoute(pathname);
-  const skip = rel === '' || rel.startsWith('entry') || rel.startsWith('setup');
+  // The four root hubs follow their founder references (P0.JURNL.ROOT-PARENTS...RECONSTRUCTION1): lockup, no corner chips.
+  const skip = rel === '' || rel.startsWith('entry') || rel.startsWith('setup') || ROOT_HUBS.has(rel);
   if (skip || hidden) return null;
   const onToday = rel === 'today';
   return (

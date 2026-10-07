@@ -63,12 +63,14 @@ export function JurnlProductNav({ current, onGo, onAdd, marks }: { current: 'HOM
           >
             {marks === 'authority' || marks === 'parent' ? (
               item.id === 'ADD'
-                ? <span className="jrn-nav__plus"><AuthorityGlyph name="plus" /></span>
+                ? marks === 'parent'
+                  ? <span className="jrn-nav__plus"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden><path d="M12 3.5v17M3.5 12h17" fill="none" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" /></svg></span>
+                  : <span className="jrn-nav__plus"><AuthorityGlyph name="plus" /></span>
                 : <span className="jrn-nav__glyph"><AuthorityGlyph name={AUTHORITY_GLYPH[item.id as 'HOME' | 'MONEY' | 'PLAN' | 'CREDIT']} /></span>
             ) : (
               <JurnlIcon name={item.icon} size={item.id === 'ADD' ? 18 : 16} />
             )}
-            {item.id === 'ADD' && marks !== 'authority' ? null : <span>{item.id === 'ADD' ? 'ADD' : item.id}</span>}
+            {item.id === 'ADD' && marks !== 'authority' && marks !== 'parent' ? null : <span>{item.id === 'ADD' ? 'ADD' : item.id}</span>}
           </button>
         );
       })}

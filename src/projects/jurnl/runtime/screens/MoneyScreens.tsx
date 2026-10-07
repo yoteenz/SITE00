@@ -8,12 +8,18 @@ import { archiveAccount, createManualAccount } from '../../data/foundation/accou
 import { formatMoney, ledgerEntries, useCurrency } from '../../data/home/money';
 import { PARENT_PLATES } from '../../data/parents/plates';
 import { SIDEKICK_PLATES } from '../../data/parents/sidekickPlates';
-import { ParentAuthorityStage } from '../components/ParentAuthorityStage';
+import { RA_REF_W, RaLayer, RaPara, RaRule, RootAuthorityStage, hangY, objectTransform, shellY, spreadB, spreadT, wallTransform } from '../components/RootAuthorityStage';
+import { ReferenceLockup } from '../components/ReferenceLockup';
+import { RefIcon, RefText, at } from '../components/ReferenceStage';
+import { RA_MONEY } from '../layout/rootAuthorityLayout';
+import { MONEY_FOOT, MONEY_LEAF, MONEY_SCENE } from '../layout/rootAuthorityScene';
+import type { RefBox } from '../layout/referenceLayout';
+import sprig from '../../families/F09_SAFE/REFERENCE_REPLICA/assets/LOCKUP_SPRIG.png';
 import { parentById } from '../../data/parents/catalog';
 import { FamilyChrome } from '../components/FamilyChrome';
 import { JurnlProductNav } from '../components/ProductNav';
 import { AskJurnlSheet, QuickAddV2Sheet } from '../global/GlobalSheets';
-import { JurnlButton, JurnlDrawer, JurnlInlineAction, JurnlInput, JurnlPanel } from '../components/primitives';
+import { JurnlButton, JurnlDrawer, JurnlInput, JurnlPanel } from '../components/primitives';
 import { JurnlFamilyShell } from '../components/FamilyFrame';
 import { useJurnl } from '../state/store';
 import { honestAccountsConnectionLabel } from '../../data/foundation/connectionProvider';
@@ -62,6 +68,8 @@ const KIND_LABEL: Record<AccountType, string> = {
 };
 
 /** F05 MONEY — CONTAINER / CABINET. A financial wardrobe: shelves by kind, places as drawers you open. */
+const ML = RA_MONEY.wall;
+
 export function MoneyHubScreen() {
   const { go, openOverlay, closeOverlay, overlay } = useJurnl();
   const draft = useSetup();
@@ -74,12 +82,23 @@ export function MoneyHubScreen() {
   const held = sum(['CHECKING', 'CASH', 'SAVINGS', 'INVESTMENT', 'BUSINESS', 'OTHER']);
   const owed = sum(['CREDIT_CARD', 'LOAN']);
   // No bank aggregation provider exists (JURNL_BANK_CONNECTION_PROVIDER): say so plainly instead of a status code.
-  const source = draft.accounts === 'CONNECTED' ? honestAccountsConnectionLabel(draft.accounts) : 'NO BANK CONNECTED · BALANCES ARE WHAT YOU ENTERED';
+  const source = draft.accounts === 'CONNECTED' ? [honestAccountsConnectionLabel(draft.accounts)] : ['NO BANK CONNECTED.', 'BALANCES ARE WHAT YOU ENTERED.'];
   const count = accounts.length;
+  const T = ML.text;
+  const B = ML.box;
+  // The cabinet has two lined drawers and a third to add a place, as the reference draws it. Every place stays one tap
+  // away under SEE ALL PLACES; a drawer names its lead place and how many it holds.
+  const drawers = [
+    { insert: MONEY_SCENE.objects.insert1!, front: MONEY_SCENE.objects.front1!, cap: T.cap1, name: T.name1, sub: T.sub1, amt: T.amt1, front_t: T.front1, div: B.div1, line: B.line1, leaf: MONEY_LEAF.insert1 },
+    { insert: MONEY_SCENE.objects.insert2!, front: MONEY_SCENE.objects.front2!, cap: T.cap2, name: T.name2, sub: T.sub2, amt: T.amt2, front_t: T.front2, div: B.div2, line: B.line2, leaf: MONEY_LEAF.insert2 },
+  ];
+  const front3 = MONEY_SCENE.objects.front3!;
+  const next = B.next;
   return (
-    <ParentAuthorityStage
+    <RootAuthorityStage
       screenId="F05.00"
       plate={SIDEKICK_PLATES.F05}
+      framing={MONEY_SCENE.framing}
       nav={<JurnlProductNav marks="parent" current="MONEY" onGo={go} onAdd={() => openOverlay('quick-add')} />}
       overlays={
         <>
@@ -89,47 +108,106 @@ export function MoneyHubScreen() {
         </>
       }
     >
-      <header data-jrn-zone="intro">
-        <h1 className="jrn-pa__h">MONEY</h1>
-        <p className="jrn-pa__kicker">{count ? `YOUR MONEY IS IN ${count} ${count === 1 ? 'PLACE' : 'PLACES'}.` : 'NO PLACES YET.'}</p>
-        {count ?
-          <div className="jrn-pa__split">
-            <div><span>HELD</span><b>{formatMoney(held)}</b></div>
-            <div><span>OWED</span><b>{formatMoney(owed)}</b></div>
-          </div>
-        : null}
-        <p className="jrn-pa__line">{spec.question}</p>
-        {count ? null : <p className="jrn-pa__line">ADD WHERE YOUR MONEY LIVES: CHECKING, SAVINGS, CASH OR A CARD. NO BANK CONNECTION NEEDED.</p>}
-      </header>
-      <section data-jrn-zone="content-rail" aria-label="PLACES">
-        {shelves.map((shelf) => (
-          <div key={shelf.id} data-jrn-shelf={shelf.id}>
-            <p className="jrn-pa__kicker">{shelf.caption}</p>
-            {shelf.places.map((a) => (
-              <button key={a.account_id} type="button" className="jrn-pa__slip" data-jrn-trigger={`money-open-${a.account_id}`} onClick={() => go(`money/places/${a.account_id}`)}>
-                <span>{a.display_name}</span>
-                <b>{formatMoney(a.available_balance)}</b>
-                <small>{KIND_LABEL[a.account_type]} · {a.is_manual ? 'BY HAND' : a.is_connected ? 'PREVIEW LINK' : 'REGISTRY'}</small>
+      {(fit) => (
+        <>
+          <RaLayer transform={wallTransform(fit, 0, 0)} className="jrn-ra__layer--top">
+            <ReferenceLockup L={{ box: { sprig: B.sprig, word: B.word }, text: { desc1: T.desc1, desc2: T.desc2 } }} />
+          </RaLayer>
+          <RaLayer transform={wallTransform(fit, fit.W - RA_REF_W * fit.u, 0)} className="jrn-ra__layer--top">
+            <RefText t={T.tag1} as="span">PLAN TODAY.</RefText>
+            <RefText t={T.tag2} as="span">GROW FREELY.</RefText>
+          </RaLayer>
+
+          <RaLayer transform={wallTransform(fit, 0, hangY(fit, MONEY_SCENE.hang))} data-jrn-zone="intro">
+            <RefText t={T.title} as="h1">MONEY</RefText>
+            <span className="jrn-ra__rule" aria-hidden style={{ ...at(B.titleRule), height: 2 }} />
+            <RefText t={T.sub} as="p">{count ? `YOUR MONEY IS IN ${count} ${count === 1 ? 'PLACE' : 'PLACES'}.` : 'NO PLACES YET.'}</RefText>
+            {count ?
+              <div data-jrn-panel="signal">
+                <span className="jrn-ra__rule" aria-hidden style={{ ...at(B.heldRule), width: 2 }} />
+                <RefText t={T.heldLbl} as="span">HELD</RefText>
+                <RefText t={T.held} as="b">{formatMoney(held)}</RefText>
+                <span className="jrn-ra__rule" aria-hidden style={{ ...at(B.owedRule), width: 2 }} />
+                <RefText t={T.owedLbl} as="span">OWED</RefText>
+                <RefText t={T.owed} as="b">{formatMoney(owed)}</RefText>
+              </div>
+            : null}
+            <RefText t={T.question} as="p">{spec.question}</RefText>
+            {count ? null : <RaPara t={{ ...T.question, top: T.question.top + 34, size: 15, ls: 4 }} width={560} className="jrn-ra__soft">ADD WHERE YOUR MONEY LIVES: CHECKING, SAVINGS, CASH OR A CARD. NO BANK CONNECTION NEEDED.</RaPara>}
+          </RaLayer>
+
+          {/* The cabinet: each reference drawer mapped onto the same drawer of the shell. */}
+          <div data-jrn-zone="content-rail" aria-label="PLACES">
+            {drawers.map((d, i) => {
+              const shelf = shelves[i];
+              const lead = shelf?.places[0];
+              const insertBox: RefBox = [d.insert.from[0] - 10, d.insert.from[1] + 6, d.leaf[2] + 6, spreadT(d.sub, d.insert).ink[3] + 14];
+              return (
+                <div key={i} data-jrn-shelf={shelf?.id ?? `empty-${i + 1}`}>
+                  <RaLayer transform={objectTransform(fit, d.insert)}>
+                    {shelf && lead ?
+                      <button type="button" className="jrn-ra__hit" data-jrn-trigger={`money-open-${lead.account_id}`} onClick={() => go(`money/places/${lead.account_id}`)} style={at(insertBox)}>
+                        <RefText t={spreadT(d.cap, d.insert)} origin={insertBox} as="span" className="jrn-ra__soft">{shelf.places.length > 1 ? `${shelf.caption} · ${shelf.places.length}` : shelf.caption}</RefText>
+                        <RefText t={spreadT(d.name, d.insert)} origin={insertBox} as="span">{lead.display_name}</RefText>
+                        <RefText t={spreadT(d.sub, d.insert)} origin={insertBox} as="span" className="jrn-ra__soft">{`${KIND_LABEL[lead.account_type]} · ${lead.is_manual ? 'BY HAND' : lead.is_connected ? 'PREVIEW LINK' : 'REGISTRY'}`}</RefText>
+                        <span className="jrn-ra__rule jrn-ra__rule--soft" aria-hidden style={{ ...at(spreadB(d.div, d.insert), insertBox), width: 2 }} />
+                        <RefText t={spreadT(d.amt, d.insert)} origin={insertBox} as="b">{formatMoney(lead.available_balance)}</RefText>
+                        <img className="jrn-ra__img jrn-ra__leaf" src={sprig} alt="" draggable={false} style={at(spreadB(d.leaf, d.insert), insertBox)} />
+                      </button>
+                    : null}
+                  </RaLayer>
+                  <RaLayer transform={objectTransform(fit, d.front)}>
+                    {shelf ?
+                      <>
+                        <RefText t={d.front_t} as="p">{shelf.label}</RefText>
+                        <RaRule from={[d.line[0], (d.line[1] + d.line[3]) / 2]} to={[d.line[2], (d.line[1] + d.line[3]) / 2]} />
+                      </>
+                    : null}
+                  </RaLayer>
+                </div>
+              );
+            })}
+            <RaLayer transform={objectTransform(fit, front3)}>
+              <button type="button" className="jrn-ra__hit" data-jrn-trigger="money-add-place-slot" data-primary={count ? 'false' : 'true'} onClick={() => setAddOpen(true)} style={at([front3.from[0] + 20, front3.from[1] + 18, B.plus[2] + 30, front3.from[1] + 100])}>
+                <RefText t={T.front3} origin={[front3.from[0] + 20, front3.from[1] + 18, 0, 0]} as="span">ADD A PLACE</RefText>
+                <RaRule from={[B.line3[0] - front3.from[0] - 20, (B.line3[1] + B.line3[3]) / 2 - front3.from[1] - 18]} to={[B.line3[2] - front3.from[0] - 20, (B.line3[1] + B.line3[3]) / 2 - front3.from[1] - 18]} />
+                {(() => {
+                  const ox = front3.from[0] + 20;
+                  const oy = front3.from[1] + 18;
+                  const cx = (B.plus[0] + B.plus[2]) / 2 - ox;
+                  const cy = (B.plus[1] + B.plus[3]) / 2 - oy;
+                  const r = (B.plus[2] - B.plus[0]) / 2;
+                  return (
+                    <>
+                      <RaRule from={[cx - r, cy]} to={[cx + r, cy]} />
+                      <RaRule from={[cx, cy - r]} to={[cx, cy + r]} />
+                    </>
+                  );
+                })()}
               </button>
-            ))}
-            <p className="jrn-pa__note">{shelf.label}</p>
+            </RaLayer>
+
+            <RaLayer transform={wallTransform(fit, 0, Math.min(shellY(fit, MONEY_FOOT.shell) - fit.u * MONEY_FOOT.ref, fit.H - fit.dock - 8 - fit.u * MONEY_FOOT.last))}>
+              <button type="button" className="jrn-ra__hit" data-jrn-trigger="money-open-places" onClick={() => go('money/places')} style={at([T.see.ink[0] - 10, T.see.ink[1] - 14, T.see.ink[2] + 10, B.seeRule[3] + 8])}>
+                <RefText t={T.see} origin={[T.see.ink[0] - 10, T.see.ink[1] - 14, 0, 0]} as="span">SEE ALL PLACES.</RefText>
+              </button>
+              <span className="jrn-ra__rule" aria-hidden style={{ ...at(B.seeRule), height: 2 }} />
+              <RefText t={T.note1} as="p" className="jrn-ra__soft">{source[0]}</RefText>
+              {source[1] ? <RefText t={T.note2} as="p" className="jrn-ra__soft">{source[1]}</RefText> : null}
+              <button type="button" className="jrn-ra__cta" data-jrn-trigger="money-next" onClick={() => go('money/places')} style={at(next)}>
+                <RefText t={T.next} origin={next} as="span">NEXT</RefText>
+                <RefIcon name="arrow" box={B.nextArrow} origin={next} stroke={2} />
+              </button>
+              <nav className="jrn-ra__also" aria-label="ALSO IN MONEY" style={{ left: B.seeRule[2] + 22, top: B.seeRule[1] - 36, width: 300 }}>
+                <button type="button" className="jrn-ra__link" data-jrn-trigger="money-open-income" onClick={() => go('income')}>INCOME</button>
+                <button type="button" className="jrn-ra__link" data-jrn-trigger="money-open-activity" onClick={() => go('activity')}>ACTIVITY</button>
+                <button type="button" className="jrn-ra__link" data-jrn-trigger="discovery-F05-F16" onClick={() => go('F16')}>RECORDS</button>
+              </nav>
+            </RaLayer>
           </div>
-        ))}
-        <button type="button" className="jrn-pa__slip" data-jrn-trigger="money-add-place-slot" data-primary={count ? 'false' : 'true'} onClick={() => setAddOpen(true)}>
-          <span>ADD A PLACE</span>
-        </button>
-        <div className="jrn-pa__actions">
-          <button type="button" className="jrn-pa__btn jrn-pa__btn--line" data-jrn-trigger="money-open-places" onClick={() => go('money/places')}>SEE ALL PLACES</button>
-          <button type="button" className="jrn-pa__btn jrn-pa__btn--mark" data-jrn-trigger="money-next" onClick={() => go('money/places')}>NEXT</button>
-        </div>
-        <p className="jrn-pa__note">{source}</p>
-        <nav className="jrn-pa__foot" aria-label="ALSO IN MONEY">
-          <JurnlInlineAction trigger="money-open-income" onClick={() => go('income')}>INCOME</JurnlInlineAction>
-          <JurnlInlineAction trigger="money-open-activity" onClick={() => go('activity')}>ACTIVITY</JurnlInlineAction>
-          <JurnlInlineAction trigger="discovery-F05-F16" onClick={() => go('F16')}>RECORDS</JurnlInlineAction>
-        </nav>
-      </section>
-    </ParentAuthorityStage>
+        </>
+      )}
+    </RootAuthorityStage>
   );
 }
 

@@ -1,0 +1,260 @@
+/* Root authority hubs: TODAY, MONEY, PLAN, CREDIT (RootAuthorityStage.tsx).
+   The clean shell is the only photograph and covers the screen. Live type is drawn on the shell's own objects
+   (layers are transformed in JS from one fit). No cards, no second plate, no letterbox on a phone. */
+
+.jrn .jrn-ra {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  color: #15130f;
+  text-transform: uppercase;
+}
+.jrn .jrn-ra__layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  transform-origin: 0 0;
+}
+.jrn .jrn-ra__layer--top {
+  top: env(safe-area-inset-top, 0px);
+}
+.jrn .jrn-ra .jrn-ra__img {
+  position: absolute;
+  display: block;
+  max-width: none;
+  pointer-events: none;
+  user-select: none;
+}
+.jrn .jrn-ra .jrn-ra__rule {
+  position: absolute;
+  height: 2px;
+  background: rgba(40, 34, 26, 0.55);
+  transform-origin: 0 50%;
+}
+.jrn .jrn-ra .jrn-ra__rule--soft {
+  background: rgba(60, 50, 40, 0.38);
+}
+.jrn .jrn-ra .jrn-ra__soft {
+  color: #3b362f;
+}
+
+.jrn .jrn-ra .jrn-ra__leaf {
+  opacity: 0.6;
+  mix-blend-mode: multiply;
+}
+.jrn .jrn-ra .jrn-ra__also {
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+.jrn .jrn-ra button.jrn-ra__link {
+  margin: 0;
+  padding: 30px 0;
+  border: 0;
+  background: transparent;
+  color: #3b362f;
+  font: 500 12.9px/1 'JURNL Authority Sans', 'JURNL Sans', sans-serif;
+  letter-spacing: 4.6px;
+  cursor: pointer;
+}
+
+/* Controls keep the reference geometry: absolute, square-rounded, no web chrome. */
+.jrn .jrn-ra button.jrn-ra__hit {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-transform: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.jrn .jrn-ra button.jrn-ra__hit:focus-visible {
+  outline: 2px solid rgba(57, 63, 39, 0.65);
+  outline-offset: 2px;
+}
+.jrn .jrn-ra button.jrn-ra__cta {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 11px;
+  background: #393f27;
+  color: #f4f0e6;
+  font: inherit;
+  text-transform: inherit;
+  cursor: pointer;
+  box-shadow: 0 6px 14px rgba(40, 34, 20, 0.16);
+}
+.jrn .jrn-ra button.jrn-ra__cta .jrn-ref__icon {
+  color: #f4f0e6;
+}
+.jrn .jrn-ra .jrn-ra__cta-div {
+  position: absolute;
+  width: 2px;
+  background: rgba(244, 240, 230, 0.5);
+}
+.jrn .jrn-ra button.jrn-ra__line {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  border: 1.5px solid rgba(57, 63, 39, 0.55);
+  border-radius: 11px;
+  background: rgba(247, 243, 236, 0.92);
+  color: #1d1b15;
+  font: inherit;
+  text-transform: inherit;
+  cursor: pointer;
+}
+.jrn .jrn-ra .jrn-ref__icon {
+  color: #1d1b15;
+}
+
+.jrn .jrn-ra .jrn-ra__dossier {
+  filter: drop-shadow(0 14px 18px rgba(60, 38, 20, 0.28));
+}
+.jrn .jrn-ra .jrn-ra__meter {
+  position: absolute;
+  background: rgba(40, 34, 26, 0.38);
+}
+.jrn .jrn-ra .jrn-ra__meter--fill {
+  background: #1d1b15;
+}
+
+/* PLAN index tabs: paper tabs pushed into the planner's edge. */
+.jrn .jrn-ra button.jrn-ra__tab {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 3px 14px 14px 3px;
+  box-shadow: inset -2px 0 0 rgba(255, 255, 255, 0.18), 3px 4px 8px rgba(40, 28, 18, 0.22);
+  font: inherit;
+  text-transform: inherit;
+  cursor: pointer;
+}
+.jrn .jrn-ra .jrn-ra__aside {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+}
+
+/* Parent dock: the four root references share one dock. Fixed px, identical on every hub. */
+.jrn .jrn-nav[data-jrn-nav='parent'] {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: auto;
+  transform: none;
+  padding: 10px 4px max(26px, env(safe-area-inset-bottom, 0px));
+  border-radius: 0;
+  border-top: 0;
+  background: #f4f1ec;
+  box-shadow: none;
+  gap: 0;
+}
+.jrn .jrn-nav[data-jrn-nav='parent'] .jrn-nav__btn,
+.jrn .jrn-nav[data-jrn-nav='parent'] .jrn-nav__btn--mark {
+  min-height: 0;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 4px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #2b2c22;
+  font: 400 8.4px/1 'JURNL Authority Sans', 'JURNL Sans', sans-serif;
+  letter-spacing: 0.17em;
+}
+.jrn .jrn-nav[data-jrn-nav='parent'] .jrn-nav__btn > span:last-child {
+  padding-left: 0.17em;
+}
+.jrn .jrn-nav[data-jrn-nav='parent'] .jrn-nav__glyph,
+.jrn .jrn-nav[data-jrn-nav='parent'] .jrn-nav__plus {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 32px;
+  border-radius: 8px;
+  background: transparent;
+  color: #23251c;
+}
+.jrn .jrn-nav[data-jrn-nav='parent'] .jrn-nav__plus {
+  background: #e9e5df;
+  color: #3a3b32;
+}
+.jrn .jrn-nav[data-jrn-nav='parent'] .jrn-nav__btn[data-active='true'] {
+  background: transparent;
+  color: #15160f;
+  font-weight: 600;
+}
+.jrn .jrn-nav[data-jrn-nav='parent'] .jrn-nav__btn[data-active='true'] .jrn-nav__glyph {
+  background: #2f3527;
+  color: #f4f1ec;
+}
+.jrn .jrn-nav[data-jrn-nav='parent'] svg {
+  width: auto;
+  height: 18px;
+}
+.jrn .jrn-nav[data-jrn-nav='parent'] .jrn-nav__plus svg {
+  height: 18px;
+}
+
+/* The plate is placed by RootAuthorityStage (object-position / scale inline); no zoom from center-stage. */
+.jrn .jrn-screen[data-jrn-parent-authority][data-jrn-composition='CENTER_STAGE'] {
+  --jrn-plate-zoom: 1;
+}
+/* The tablet and desktop column rules (jurnl-screens.css) do not apply: the stage is the viewport. */
+.jrn .jrn-screen[data-jrn-parent-authority] .jrn-col {
+  position: absolute;
+  inset: 0;
+  width: auto;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+.jrn .jrn-screen[data-jrn-parent-authority] .jrn-col > .jrn-ra {
+  max-width: none;
+}
+
+/* Wider than 3:5 (tablet landscape, desktop): no wider shell was supplied, and covering a wide screen with a 9:16
+   shell would crop the primary object. The composition keeps its full height in a centred column; the sides take the
+   shell's own edge tones so the room continues. The plate is still the only photograph. */
+.jrn .jrn-screen[data-jrn-parent-authority='F03'] { background: linear-gradient(90deg, #a17e61, #a9876a); }
+.jrn .jrn-screen[data-jrn-parent-authority='F05'] { background: linear-gradient(90deg, #cfb1a2, #997760); }
+.jrn .jrn-screen[data-jrn-parent-authority='F08'] { background: linear-gradient(90deg, #a18168, #8f6a4c); }
+.jrn .jrn-screen[data-jrn-parent-authority='F12'] { background: linear-gradient(90deg, #e6c9af, #a37c5d); }
+@media (min-width: 1100px) {
+  .jrn .jrn-nav[data-jrn-nav='parent'] {
+    border-radius: 0;
+  }
+}
+@media (min-aspect-ratio: 3/5) {
+  .jrn .jrn-screen[data-jrn-parent-authority] .jrn-env,
+  .jrn .jrn-screen[data-jrn-parent-authority] .jrn-col > .jrn-ra {
+    left: 50%;
+    right: auto;
+    width: min(100%, 60dvh);
+    transform: translateX(-50%);
+  }
+  .jrn .jrn-nav[data-jrn-nav='parent'] {
+    left: 50%;
+    right: auto;
+    bottom: 0;
+    width: min(100%, 60dvh);
+    border-radius: 0;
+    transform: translateX(-50%);
+  }
+}
