@@ -1,0 +1,46 @@
+{
+  "sprint": "P0.JURNL.STS.LOCKED-SHELL-DERIVATION-CORRECTION1",
+  "canvas": [
+    853,
+    1844
+  ],
+  "parent": "07_CHECK_A_PURCHASE.jpg",
+  "parentSource": [
+    711,
+    1536
+  ],
+  "scale": 1.2005208333333333,
+  "topLock": 408,
+  "navStart": 1640,
+  "plate": "STS_ENVIRONMENT_PLATE_LOCKED_4K.png",
+  "screens": [
+    {
+      "id": "PURCHASE_RESULT_GOOD_TO_GO",
+      "topDiff": 0,
+      "navDiff": 0,
+      "width": 853,
+      "height": 1844,
+      "topLock": 408,
+      "navStart": 1640
+    },
+    {
+      "id": "PURCHASE_RESULT_QUICK_CHECK_IN",
+      "topDiff": 0,
+      "navDiff": 0,
+      "width": 853,
+      "height": 1844,
+      "topLock": 408,
+      "navStart": 1640
+    },
+    {
+      "id": "PURCHASE_RESULT_DOESNT_FIT",
+      "topDiff": 0,
+      "navDiff": 0,
+      "width": 853,
+      "height": 1844,
+      "topLock": 408,
+      "navStart": 1640
+    }
+  ],
+  "pass": true
+}
