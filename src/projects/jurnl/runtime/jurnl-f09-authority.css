@@ -128,9 +128,9 @@ body:has([data-jrn-screen='F09.00']),
      iOS clips a fixed image to the gap between the status bar and the toolbar
      and paints #1c1915 in the rest of the screen. */
   position: absolute;
-  /* The env box stays put. The photograph sits 20% above the
-     top of that box, 10% lower than the previous -30% lift. */
-  top: -20%;
+  /* The env box stays put. The photograph sits 10% above the
+     top of that box, 10% lower than the previous -20% lift. */
+  top: -10%;
   right: 0;
   bottom: auto;
   left: 0;
@@ -172,14 +172,15 @@ body:has([data-jrn-screen='F09.00']),
   transform: none;
   pointer-events: none;
 }
-/* Phone plate is top: -20% (20lvh above the env box). These nodes are the
-   type on the artwork. Buttons are not in this list. */
+/* Phone plate is top: -10% (10lvh above the env box). These nodes are the
+   type on the artwork, including the words on the folders. Buttons are not
+   in this list and stay on the screen. */
 .jrn .jrn-f09a__signal h1,
 .jrn .jrn-f09a__amount,
 .jrn .jrn-f09a__through,
 .jrn .jrn-f09a__tabs,
 .jrn .jrn-f09a__folio {
-  transform: translateY(-20lvh);
+  transform: translateY(-10lvh);
 }
 .jrn .jrn-f09a__art .jrn-f09a__menu,
 .jrn .jrn-f09a__art .jrn-f09a__account,

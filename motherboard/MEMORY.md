@@ -14619,3 +14619,12 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Fix:** `.jrn-f09a__art` is `top: 0` again. On the phone, `translateY(-20lvh)` applies only to the signal heading, the amount, the date line, the folder tab words, and the folio copy. SEE WHY, the menu, the desktop account mark, the lockup, the tagline, the purchase bridge, and the nav stay at their screen positions. Tablet and desktop clear that translate and keep the plate at `top: 0`. Measured on 393×852: plate top -171px, menu y=40, lockup y=36, SEE WHY y=265, bridge y=717, nav 52px. Amount and folio sit about 170px higher with the plate.
 - **Do not repeat:** Do not put `top: -20%` back on `.jrn-f09a__art`. Do not translate `.jrn-f09a__why`, `.jrn-f09a__menu`, `.jrn-f09a__account`, the lockup, or the bridge with the plate. Do not change the phone plate offset from `-20%`.
 
+---
+
+## 2026-10-07 — JURNL F09 phone plate and folder type down another 10%
+
+- **Context:** This chat rebuilt F09 Safe to Spend. The phone plate was at `top: -20%`, with `translateY(-20lvh)` on the heading, amount, date, tab words, and folio copy. Buttons, the lockup, and the tagline stay on the screen. Live money stays `computeSafeToSpend` (preview `$6,500`, bills `$1,920`).
+- **What the founder asked:** Move the plate and the text on the folders down another 10%. Do not move any buttons down.
+- **Fix:** Phone plate is `top: -10%`. The same type nodes use `translateY(-10lvh)`, so the heading, amount, date, tab words, and folio copy stay on the artwork. SEE WHY stays at y=265, the menu at y=40, the lockup at y=36, the purchase bridge at y=717, and the nav at the bottom. On 393×852 the plate top measures -85px. Tablet and desktop stay at `top: 0` with no translate.
+- **Do not repeat:** Do not put the phone plate back to `top: -20%` or `top: -30%`. Do not translate the menu, SEE WHY, the account mark, the lockup, the tagline, the purchase bridge, or the nav with the plate.
+
