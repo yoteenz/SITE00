@@ -22,3 +22,5 @@ export * as jurnlF09Regen from './projects/jurnl/f09-art-direction-regen.js';
 export * from './prompt-forensics.js';
 export * from './asset-quality.js';
 export * as jurnlF09Forensics from './projects/jurnl/f09-prompt-forensics.js';
+export * from './parent-child-derivation.js';
+export * as jurnlStsFamily from './projects/jurnl/safe-to-spend-family.js';

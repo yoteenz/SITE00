@@ -14818,3 +14818,19 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - Amounts row: tracked label (3.83cqw, 0.3em) over a serif figure (JURNL Display 7.66cqw), visible hairline column rules, no top rule. The folio height is `0.133 × plate` so the figures sit 1.2 tab widths above the folder's bottom edge.
 - **Gotcha:** inside `.jrn-f09a__folio` (a size container) `var(--f09-img-h)` resolves its `cqh/cqw` against the folio, not the screen. Size folio text with the folio's own `cqw` (1cqw = 0.0043 plate widths).
 - **Not changed:** the plate, the signal, the dock, the nav marks, routes, or `computeSafeToSpend`. Checked at 402×874, 393×852 and 375×667 (amounts clear the purchase card).
+
+## 2026-10-07 — JURNL Parent → Child Visual Derivation Protocol + PAY WITH drawer spec (P0.JURNL.PARENT-CHILD.VISUAL-DERIVATION.PROTOCOL1 + P0.JURNL.CHECK-PURCHASE.PAY-WITH-DRAWER.MATCH-CATEGORY-DRAWER1)
+
+- **Protocol (durable, any project):** `shared/studioos-visual-authority/parent-child-derivation.ts` + `docs/studioos/visual-authority-development/PARENT_CHILD_DERIVATION_PROTOCOL.md` (JSON generated).
+  - **Core rule:** absorb the current screen's information, not its look, and re-express it through the approved parent.
+  - **Authority hierarchy:** approved parent (visual) > approved child exploration (subordinate) > current screen (information only).
+  - **Rules:** inherited DNA, family constants (brand / type / decorative logo / shell / ratio), a 4-step method, content absorption, family levels, full page ↔ drawer siblings, continuation.
+  - **Selection-sheet sizing system:** `SelectionSheetSystem`, with `checkSiblingSheets` (MATCHED / DRIFT, tolerances) to enforce it.
+  - **Brief builder:** `buildChildDerivationBrief` works inside the prompt-forensics budget (references first, ≤ 300 words, ≤ 5 negatives, exact strings over 4 flagged for post-generation checks).
+- **JURNL family:** `projects/jurnl/safe-to-spend-family.ts`; exports in `JURNL/F09_SAFE/PARENT_CHILD_DERIVATION_PROTOCOL1/`.
+  - **Tree:** parent SAFE TO SPEND → WHY THIS NUMBER, CHECK A PURCHASE, ACCOUNT (full page + drawer) → SELECT A CATEGORY and PAY WITH drawers (siblings).
+  - **Constants:** uppercase only; PLAN TODAY. GROW FREELY.; decorative lockup; dock shell, no device chrome; ratio ≈ 0.46 (402×874 captures / 393×852 canvas).
+- **PAY WITH / SELECT AN ACCOUNT drawer:** copy, six accounts (CHECKING, SAVINGS, CREDIT CARD, DEBIT CARD, CASH, JOINT ACCOUNT) with picture briefs, structure, and a 298-word brief (`PAY_WITH_DERIVATION_BRIEF.txt`).
+  - **Sizing:** UNMEASURED.
+  - **Status:** AWAITING_FOUNDER_INPUTS. The approved CHECK A PURCHASE screen, the approved SELECT A CATEGORY drawer and the current SELECT AN ACCOUNT drawer are founder-held, not in the repo. Neither drawer exists in the runtime (Quick Add only has a button row of accounts).
+- **Also:** the branch merged main 6a8b1bda. Main's own folder alignment (#1450 / #1451) supersedes this branch's earlier CSS fix (4e5955db), so main's CSS is kept.

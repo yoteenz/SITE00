@@ -1,0 +1,150 @@
+{
+  "id": "PAY_WITH_DRAWER_SPEC",
+  "sprint": "P0.JURNL.PARENT-CHILD.VISUAL-DERIVATION.PROTOCOL1",
+  "generated_by": "scripts/studioos/jurnl-parent-child-derivation-export.ts",
+  "drawer": {
+    "id": "F09.CHECK.PAY_WITH",
+    "title": "SELECT AN ACCOUNT",
+    "subtext": "CHOOSE THE ACCOUNT YOU WANT TO USE FOR THIS PURCHASE.",
+    "accounts": [
+      {
+        "label": "CHECKING",
+        "imagery": "a linen ledger and brass pen on a sunlit travertine desk"
+      },
+      {
+        "label": "SAVINGS",
+        "imagery": "a still sea horizon through a limewashed arch"
+      },
+      {
+        "label": "CREDIT CARD",
+        "imagery": "a matte ivory card with a blind emboss on pale marble"
+      },
+      {
+        "label": "DEBIT CARD",
+        "imagery": "a slim sage card beside a leather wallet"
+      },
+      {
+        "label": "CASH",
+        "imagery": "folded banknotes in a shallow marble bowl"
+      },
+      {
+        "label": "JOINT ACCOUNT",
+        "imagery": "two matching espresso cups side by side on a stone ledge"
+      }
+    ],
+    "structure": [
+      "drag handle at the top, as on SELECT A CATEGORY",
+      "centered title and centered supporting line at SELECT A CATEGORY’s sizes",
+      "close button where SELECT A CATEGORY has it",
+      "tile grid with SELECT A CATEGORY’s columns, tile size, crop, corner radius and gaps",
+      "uppercase label under each tile at SELECT A CATEGORY’s label size and tracking"
+    ],
+    "expansion": "More accounts continue the same grid (same tile size and gaps) using SELECT A CATEGORY’s overflow behaviour, never smaller tiles.",
+    "sizing_source": "F09.CHECK.CATEGORY",
+    "sizing": "UNMEASURED — measured from the approved SELECT A CATEGORY drawer once it is supplied (SelectionSheetSystem), then checked with checkSiblingSheets.",
+    "status": "AWAITING_FOUNDER_INPUTS",
+    "inputs_required": [
+      {
+        "role": "APPROVED_PARENT",
+        "what": "approved CHECK A PURCHASE parent screen"
+      },
+      {
+        "role": "APPROVED_SIBLING",
+        "what": "approved SELECT A CATEGORY drawer (the sizing template)"
+      },
+      {
+        "role": "CURRENT_SCREEN",
+        "what": "current SELECT AN ACCOUNT drawer (information only)"
+      }
+    ]
+  },
+  "derivation_spec": {
+    "family": "JURNL SAFE TO SPEND / CHECK A PURCHASE",
+    "child": "SELECT AN ACCOUNT",
+    "level": "SECONDARY_DESCENDANT",
+    "expression": "DRAWER",
+    "job": "It opens from PAY WITH so the person can choose the account for this purchase. It is the sibling of IMAGE 2: same template, different content.",
+    "references": [
+      {
+        "file": "CHECK_A_PURCHASE_APPROVED",
+        "kind": "APPROVED_PARENT",
+        "role": "world, materials, sheet panel, radius, type and dock; the drawer opens over it"
+      },
+      {
+        "file": "SELECT_A_CATEGORY_APPROVED",
+        "kind": "APPROVED_SIBLING",
+        "role": "the sizing template: handle, header, tiles, crop, radius, gaps, columns, labels"
+      },
+      {
+        "file": "SELECT_AN_ACCOUNT_CURRENT",
+        "kind": "CURRENT_SCREEN",
+        "role": "what the drawer lists only; ignore its sizes and spacing"
+      }
+    ],
+    "parent_dna": [
+      "the sunlit Mediterranean world softly visible behind the sheet",
+      "plaster, stone and olive",
+      "the white-beige sheet and its corner radius",
+      "serif title over spaced uppercase support text"
+    ],
+    "structure": [
+      "handle, centered title, centered supporting line, close button, tile grid and labels exactly as IMAGE 2"
+    ],
+    "exact_strings": [
+      "SELECT AN ACCOUNT",
+      "CHOOSE THE ACCOUNT YOU WANT TO USE FOR THIS PURCHASE.",
+      "CHECKING",
+      "SAVINGS",
+      "CREDIT CARD",
+      "DEBIT CARD",
+      "CASH",
+      "JOINT ACCOUNT"
+    ],
+    "content": [
+      {
+        "label": "CHECKING",
+        "imagery": "a linen ledger and brass pen on a sunlit travertine desk"
+      },
+      {
+        "label": "SAVINGS",
+        "imagery": "a still sea horizon through a limewashed arch"
+      },
+      {
+        "label": "CREDIT CARD",
+        "imagery": "a matte ivory card with a blind emboss on pale marble"
+      },
+      {
+        "label": "DEBIT CARD",
+        "imagery": "a slim sage card beside a leather wallet"
+      },
+      {
+        "label": "CASH",
+        "imagery": "folded banknotes in a shallow marble bowl"
+      },
+      {
+        "label": "JOINT ACCOUNT",
+        "imagery": "two matching espresso cups side by side on a stone ledge"
+      }
+    ],
+    "sizing_rule": "same tile size, crop, radius, gaps, columns and label size as IMAGE 2. Only pictures and words change.",
+    "negatives": [
+      "phone status bar, home indicator or device frame",
+      "lowercase or mixed-case text",
+      "tiles larger, smaller or looser than IMAGE 2",
+      "legible card numbers, bank names or logos inside the tile pictures",
+      "a visual style that does not match IMAGE 1"
+    ]
+  },
+  "brief": {
+    "words": 298,
+    "within_budget": true,
+    "negatives": 5,
+    "exact_strings": 8,
+    "check_after_generation": [
+      "CREDIT CARD",
+      "DEBIT CARD",
+      "CASH",
+      "JOINT ACCOUNT"
+    ]
+  }
+}

@@ -277,7 +277,7 @@ describe('AIO IFTA input packages + portability', () => {
 describe('exports stay generated from the TypeScript source', () => {
   it('every exported deliverable on disk matches the generator', () => {
     const files = buildVisualAuthorityExports();
-    expect(Object.keys(files)).toHaveLength(24);
+    expect(Object.keys(files)).toHaveLength(25);
     for (const [name, body] of Object.entries(files)) expect(read(`${VISUAL_AUTHORITY_DOCS_DIR}/${name}`), name).toBe(body);
     expect(read(`${VISUAL_AUTHORITY_DOCS_DIR}/VISUAL_AUTHORITY_DEVELOPMENT_GATE.md`)).toMatch(/UPSTREAM DEFINES INTENT\. DOWNSTREAM INCREASES FIDELITY\./);
   });
