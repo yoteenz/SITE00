@@ -15012,6 +15012,30 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
+## 2026-10-07 — JURNL F09 parent folder type mirrors founder reference 01 (phone)
+
+- **Ask:** fix the text on the folder on the parent SAFE TO SPEND page (`/safe`) so it mirrors its reference, `JURNL/F09_SAFE/REFERENCE_REPLICA1/REFERENCES/01_SAFE_TO_SPEND.png`.
+- **What was off:** the phone folder type was placed with %, lvh and px nudges (folio `translateY(calc(-3lvh + 36px))`, tabs `- 20px`, headline `-4px`), tuned at 402×874.
+  - At 393×852 THEN YOURS. and the amounts row fell off the folder onto the stone.
+  - The type was Barlow and Instrument Serif at fixed px, not reference 01's geometric sans and Didone.
+  - There was no short hairline under the headline.
+- **Measured:** reference 01's folder is the phone plate's folder scaled by 1 / 2.0698. Plate px = 2.0698 × reference px + (2.6, 0).
+  - Fitted to the face's left, right, top and bottom edges. Residuals are ≤ 2.5 plate px.
+  - The plate's tabs sit up to 7 plate px left of and 11 plate px above the mapped reference tabs, so each tab word carries its own offset: BILLS (-1, 0), PLANS (-3.2, -5.3), GOALS (-3.4, -1.4), BUFFER (-3.5, 0) reference px.
+- **Fix (`jurnl-f09-authority.css`, `@media (max-width: 599.98px)` only):**
+  - `.jrn-f09a__tabs` and `.jrn-f09a__folio` cover the drawn plate (object-fit: cover, top -10%) in reference px. `--f09-ref-px` is an `@property` length, `2.0698 × max(100cqw / 1760, 100cqh / 3840)`.
+  - Every line takes reference 01's left, top, size and tracking from `REF_PARENT` (the same numbers `/safe/reference` uses) in `JURNL Authority Sans` / `JURNL Authority Serif`.
+  - The labels and figures are four absolute columns with 2 px column rules and an 86 px hairline under the headline.
+  - The phone translate nudges on the folio, tabs, kicker and headline are reset. Figures stay live (`computeSafeToSpend`).
+- **Checked:** ink boxes at 393×852, 402×874, 375×667, 430×932 and 360×800 land within 0.6 px of reference 01 for YOUR MONEY, both headline lines and all four labels.
+  - The tab words sit centered on their tabs at the reference's distance from each tab top.
+  - The amounts row clears the CHECK A PURCHASE card at 375×667.
+  - 600×960, 834×1194 and 1440×900 are pixel-identical to before.
+- **Do not repeat:** do not put px or lvh nudges back on the phone folio or tab words; move the plate and the type together through `--f09-ref-px`. Do not change the phone plate from `top: -10%` without refitting. Do not hardcode reference 01's sample dollars.
+- **Tests:** F09 and center-stage suites: 163 pass. The 2 failures (`copy is canonical`, center-stage `safe`) fail identically on main.
+
+---
+
 ## 2026-10-07 — STS parent hamburger matches the Why This Number button
 
 - **Context:** The Safe to Spend parent menu was three bare lines. WHY THIS NUMBER draws the same mark inside a cream rounded square (`rgba(244, 240, 236, 0.94)`, white hairline, soft shadow). The founder asked for that button on the parent instead of lines floating on the photograph. The menu stays on the left.

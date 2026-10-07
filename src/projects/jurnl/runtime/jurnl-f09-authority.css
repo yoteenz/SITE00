@@ -525,6 +525,141 @@ body:has([data-jrn-screen='F09.00']),
   color: #f6f1e8;
 }
 
+/* Phone folder type mirrors founder reference 01 (JURNL/F09_SAFE/REFERENCE_REPLICA1/REFERENCES/01_SAFE_TO_SPEND.png).
+   Reference 01's folder is this plate's folder at 1 / 2.0698: plate px = 2.0698 × reference px + (2.6, 0),
+   fitted to the face's left, right, top and bottom edges (residuals ≤ 2.5 plate px).
+   The tab words and the folio cover the drawn plate (1760×3840, object-fit: cover, top -10%) in
+   reference px, so every line keeps reference 01's left, top, size and tracking (REF_PARENT in
+   layout/referenceLayout.ts, fitted in the same faces) at any phone size. Each tab word also moves
+   by its own tab's measured offset on this plate, so it keeps reference 01's place on that tab.
+   This replaces the phone's px / lvh nudges for the folder only. Tablet and desktop are unchanged. */
+@property --f09-ref-px {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0px;
+}
+@media (max-width: 599.98px) {
+  .jrn .jrn-f09a__tabs,
+  .jrn .jrn-f09a__folio {
+    --f09-ref-px: calc(2.0698 * max(100cqw / 1760, 100cqh / 3840));
+    position: absolute;
+    left: calc(50cqw - 877.39 * max(100cqw / 1760, 100cqh / 3840));
+    top: -10cqh;
+    width: calc(853 * var(--f09-ref-px));
+    height: calc(1844 * var(--f09-ref-px));
+    margin: 0;
+    padding: 0;
+    transform: none;
+    container-type: normal;
+  }
+  .jrn .jrn-f09a__tabs li {
+    display: block;
+    width: auto;
+    height: auto;
+    writing-mode: horizontal-tb;
+    white-space: pre;
+    font: 500 calc(14.15 * var(--f09-ref-px)) / 1 'JURNL Authority Sans', 'JURNL Sans', sans-serif;
+    transform: rotate(90deg);
+    transform-origin: 50% 50%;
+  }
+  .jrn .jrn-f09a__tabs li[data-tab='bills'] { left: calc(511.9 * var(--f09-ref-px)); top: calc(929.02 * var(--f09-ref-px)); width: auto; letter-spacing: calc(6 * var(--f09-ref-px)); color: #3a2f22; }
+  .jrn .jrn-f09a__tabs li[data-tab='plans'] { left: calc(563.23 * var(--f09-ref-px)); top: calc(940.19 * var(--f09-ref-px)); width: auto; letter-spacing: calc(4.94 * var(--f09-ref-px)); color: #0b0908; }
+  .jrn .jrn-f09a__tabs li[data-tab='goals'] { left: calc(614.84 * var(--f09-ref-px)); top: calc(975.28 * var(--f09-ref-px)); width: auto; letter-spacing: calc(5.33 * var(--f09-ref-px)); color: #14150f; }
+  .jrn .jrn-f09a__tabs li[data-tab='buffer'] { left: calc(662.75 * var(--f09-ref-px)); top: calc(1002.67 * var(--f09-ref-px)); width: auto; letter-spacing: calc(7.08 * var(--f09-ref-px)); color: #fdfdfb; }
+  .jrn .jrn-f09a__folio-copy {
+    position: absolute;
+    inset: 0;
+    height: auto;
+    display: block;
+    color: #0e0d0b;
+  }
+  .jrn .jrn-f09a__kicker {
+    position: absolute;
+    left: calc(180 * var(--f09-ref-px));
+    top: calc(1017.62 * var(--f09-ref-px));
+    margin: 0;
+    transform: none;
+    white-space: pre;
+    font: 500 calc(16.75 * var(--f09-ref-px)) / 1 'JURNL Authority Sans', 'JURNL Sans', sans-serif;
+    letter-spacing: calc(4.79 * var(--f09-ref-px));
+    color: #0e0d0b;
+  }
+  /* Two lines 52 reference px apart: a 52px line box puts each line's glyphs 1px below a 50px box,
+     so the block starts at ORGANIZED.'s fitted top minus 1. */
+  .jrn .jrn-f09a__headline {
+    position: absolute;
+    left: calc(177 * var(--f09-ref-px));
+    top: calc(1048.5 * var(--f09-ref-px));
+    margin: 0;
+    transform: none;
+    white-space: nowrap;
+    font-family: 'JURNL Authority Serif', 'JURNL Display', serif;
+    font-size: calc(50 * var(--f09-ref-px));
+    font-weight: 600;
+    line-height: calc(52 * var(--f09-ref-px));
+    letter-spacing: calc(-1.4 * var(--f09-ref-px));
+    color: #050505;
+    -webkit-text-stroke: 0;
+  }
+  .jrn .jrn-f09a__folio-copy ul {
+    position: absolute;
+    inset: 0;
+    display: block;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+  /* Short hairline under the headline. */
+  .jrn .jrn-f09a__folio-copy ul::before {
+    content: '';
+    position: absolute;
+    left: calc(178 * var(--f09-ref-px));
+    top: calc(1182 * var(--f09-ref-px));
+    width: calc(86 * var(--f09-ref-px));
+    height: calc(3 * var(--f09-ref-px));
+    background: rgba(150, 120, 90, 0.3);
+  }
+  .jrn .jrn-f09a__folio-copy li {
+    position: absolute;
+    top: 0;
+    display: block;
+    padding: 0;
+    border: 0;
+  }
+  .jrn .jrn-f09a__folio-copy li:nth-child(1) { left: calc(178 * var(--f09-ref-px)); --f09-lbl-top: 1212.11; --f09-lbl-ls: 3.17; --f09-amt-top: 1240.28; --f09-amt-dx: -1; }
+  .jrn .jrn-f09a__folio-copy li:nth-child(2) { left: calc(310 * var(--f09-ref-px)); --f09-lbl-top: 1214.11; --f09-lbl-ls: 2.68; --f09-amt-top: 1241.28; --f09-amt-dx: -1; --f09-rule-dx: -32; }
+  .jrn .jrn-f09a__folio-copy li:nth-child(3) { left: calc(432 * var(--f09-ref-px)); --f09-lbl-top: 1214.11; --f09-lbl-ls: 2.34; --f09-amt-top: 1242.28; --f09-amt-dx: -1; --f09-rule-dx: -33; }
+  .jrn .jrn-f09a__folio-copy li:nth-child(4) { left: calc(553 * var(--f09-ref-px)); --f09-lbl-top: 1214.11; --f09-lbl-ls: 3.1; --f09-amt-top: 1242.28; --f09-amt-dx: 0; --f09-rule-dx: -32; }
+  /* Column rules between the four amounts. */
+  .jrn .jrn-f09a__folio-copy li + li::before {
+    content: '';
+    position: absolute;
+    left: calc(var(--f09-rule-dx) * var(--f09-ref-px));
+    top: calc(1213 * var(--f09-ref-px));
+    width: calc(2 * var(--f09-ref-px));
+    height: calc(55 * var(--f09-ref-px));
+    background: rgba(120, 95, 75, 0.32);
+  }
+  .jrn .jrn-f09a__folio-copy li span {
+    position: absolute;
+    left: 0;
+    top: calc(var(--f09-lbl-top) * var(--f09-ref-px));
+    white-space: pre;
+    font: 500 calc(13.78 * var(--f09-ref-px)) / 1 'JURNL Authority Sans', 'JURNL Sans', sans-serif;
+    letter-spacing: calc(var(--f09-lbl-ls) * var(--f09-ref-px));
+    color: #0e0d0b;
+  }
+  .jrn .jrn-f09a__folio-copy li b {
+    position: absolute;
+    left: calc(var(--f09-amt-dx) * var(--f09-ref-px));
+    top: calc(var(--f09-amt-top) * var(--f09-ref-px));
+    white-space: pre;
+    font: 500 calc(21.45 * var(--f09-ref-px)) / 1 'JURNL Authority Serif', 'JURNL Display', serif;
+    letter-spacing: calc(3.6 * var(--f09-ref-px));
+    color: #0e0d0b;
+  }
+}
+
 /* Tablet authority (IMAGE 2). Portrait plate 2400×3440 fills 834×1194.
    Bottom nav stays the mobile dock. Positions are this plate, not the phone plate. */
 @media (min-width: 600px) {
