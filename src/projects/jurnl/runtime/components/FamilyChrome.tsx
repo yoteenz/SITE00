@@ -1,8 +1,7 @@
-/** Shared top chrome for F05–F16 family screens. Back is context-aware inside a paginated frame. */
+/** Shared top chrome for F05–F16 family screens. Back returns to the previous route. */
 
 import { JurnlIconButton } from './primitives';
 import { useJurnl } from '../state/store';
-import { useFrameBack } from './FamilyFrame';
 
 export function FamilyChrome({
   familyId,
@@ -17,13 +16,12 @@ export function FamilyChrome({
   onBack: () => void;
   onAsk: () => void;
 }) {
-  const { go } = useJurnl();
-  // Context-aware back: inside a paginated frame it walks continuation screens before leaving the route.
-  const frame = useFrameBack();
-  const label = frame.screenIndex > 0 ? `BACK TO SCREEN ${frame.screenIndex}` : backLabel;
+  const { go, back, hasPrevious } = useJurnl();
+  // Previous route, not the family's continuation screens. onBack is only the direct-open fallback.
+  const label = hasPrevious ? 'BACK' : backLabel;
   return (
     <div className="jrn-home__top" data-jrn-zone="chrome">
-      <JurnlIconButton icon="back" label={label} trigger={`${familyId.toLowerCase()}-back`} onClick={() => (frame.back() ? undefined : onBack())} />
+      <JurnlIconButton icon="back" label={label} trigger={`${familyId.toLowerCase()}-back`} onClick={() => { if (!back()) onBack(); }} />
       <span className="jrn-home__mark">JURNL</span>
       <JurnlIconButton icon="gear" label="ACCOUNT" trigger={`${familyId.toLowerCase()}-account`} onClick={() => go('account')} />
       <JurnlIconButton icon="info" label="ASK JURNL" trigger={`${familyId.toLowerCase()}-ask`} onClick={onAsk} data-family-node={nodeId} />
