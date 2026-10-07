@@ -14741,3 +14741,11 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Fix:** Phone `.jrn-f09a__tabs` is `translateY(calc(-3lvh - 20px))`. It was `- 30px`. The folio copy stays `translateY(calc(-3lvh + 36px))`. Tablet and desktop still clear the tab translate. Measured on 402×874: the four flap labels share y=368. The folio stays at y=487. The menu stays at x=23, y=34.
 - **Do not repeat:** Do not put the 10px drop on the folio block. Do not return the flap words to `- 30px`. Do not change the phone plate from `top: -10%`.
 
+---
+
+## 2026-10-07 — JURNL authority ADD plus reduced
+
+- **Context:** Safe to Spend phone plate stays `top: -10%`. The hamburger is on the left. Folder flap words are `translateY(calc(-3lvh - 20px))`. The founder sent the phone dock and said the ADD plus was too big: its label sat below the other labels, and the bottom of the square was clipped.
+- **Fix:** On the phone the authority plus svg is `height: 11px` (was 18px). The other marks stay 10px. Measured on 402×874: HOME/MONEY/PLAN/CREDIT labels y=856.5, ADD label y=857. Plus box is 11×14, bottom y=854, inside the 42px dock that ends at 874.
+- **Do not repeat:** Do not put the plus back to 18px on the phone. Do not shrink the other nav marks with it. Desktop still resets those svg heights to auto.
+

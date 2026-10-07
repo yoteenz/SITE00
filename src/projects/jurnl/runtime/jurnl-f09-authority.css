@@ -482,7 +482,9 @@ body:has([data-jrn-screen='F09.00']),
   width: auto;
 }
 .jrn .jrn-nav[data-jrn-nav='authority'] .jrn-nav__plus svg {
-  height: 18px;
+  /* Same slot as the other marks so ADD sits on their label row and the square is not clipped. */
+  height: 11px;
+  width: auto;
 }
 .jrn .jrn-nav[data-jrn-nav='authority'] .jrn-nav__btn {
   min-height: 0;
