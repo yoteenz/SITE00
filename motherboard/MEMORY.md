@@ -14725,3 +14725,11 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Files:** `JURNL/F09_SAFE/PURCHASE_OUTCOMES_INCREMENT1/` — `PURCHASE_RESULT_GOOD_TO_GO.png`, `PURCHASE_RESULT_QUICK_CHECK_IN.png`, `PURCHASE_RESULT_DOESNT_FIT.png`. No device chrome. Same loggia, lockup, cream cards, HOME/MONEY/ADD/PLAN/CREDIT nav.
 - **Live app:** A coded `purchases/checked` screen already exists on main from a later rebuild. These PNGs are visual authorities for founder review, not a replacement of that runtime.
 
+---
+
+## 2026-10-07 — JURNL F09 hamburger moved to the left
+
+- **Context:** Safe to Spend phone plate stays `top: -10%`. The parent logo and PLAN TODAY. GROW FREELY. stay off F09.00. Live money stays `computeSafeToSpend`. Child docks use the authority bar. The founder asked to move the STS hamburger to the left side and nudge it up 6px.
+- **Fix:** `.jrn-f09a__menu` is `left: 5.6%` and `top: calc(safe-area + 34px)` on the phone (was `right: 5.6%` and `+ 40px`). Tablet is `left: 22px` and `+ 20px`. Desktop is `left: 28px` and `+ 18px`. The desktop JL account mark stays on the right. Measured on 402×874: menu x=23, y=34, 28×22.
+- **Do not repeat:** Do not put the STS menu back on the right. Do not move the desktop account mark with it. Do not change the phone plate from `top: -10%`.
+

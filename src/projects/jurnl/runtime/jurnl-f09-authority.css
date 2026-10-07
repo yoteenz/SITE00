@@ -244,8 +244,9 @@ body:has([data-jrn-screen='F09.00']),
 .jrn .jrn-f09a__menu {
   pointer-events: auto;
   position: absolute;
-  right: 5.6%;
-  top: calc(env(safe-area-inset-top, 0px) + 40px + var(--f09-bleed));
+  left: 5.6%;
+  right: auto;
+  top: calc(env(safe-area-inset-top, 0px) + 34px + var(--f09-bleed));
   width: 28px;
   height: 22px;
   display: flex;
@@ -568,8 +569,9 @@ body:has([data-jrn-screen='F09.00']),
     letter-spacing: 0.16em;
   }
   .jrn .jrn-f09a__menu {
-    right: 22px;
-    top: calc(env(safe-area-inset-top, 0px) + 26px);
+    left: 22px;
+    right: auto;
+    top: calc(env(safe-area-inset-top, 0px) + 20px);
     width: 32px;
     height: 24px;
   }
@@ -711,8 +713,9 @@ body:has([data-jrn-screen='F09.00']),
     letter-spacing: 0.04em;
   }
   .jrn .jrn-f09a__menu {
-    right: 28px;
-    top: calc(env(safe-area-inset-top, 0px) + 24px);
+    left: 28px;
+    right: auto;
+    top: calc(env(safe-area-inset-top, 0px) + 18px);
   }
   .jrn .jrn-f09a__signal {
     left: 24%;
