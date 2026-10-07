@@ -14537,3 +14537,12 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Fix:** `vite.config.ts` preview now marks hashed `/assets/` files and JURNL `.woff2` fonts `public, max-age=31536000, immutable`, and gives HTML `Cache-Control: no-cache` plus `CDN-Cache-Control: public, max-age=120`. The preview process on port 5174 was restarted onto that config. After one warm fetch, the JURNL CSS and the phone plate are Cloudflare `HIT`. A full load of the safe route then returned 200 for the document, the JURNL CSS, and the plate, and painted the approved screen.
 - **Do not repeat:** Do not put `CDN-Cache-Control: no-store` back on hashed preview assets. Do not treat a 429-dropped stylesheet as a geometry bug. Do not roll the tunnel back to `4e5955db`.
 
+---
+
+## 2026-10-07 — JURNL F09 mobile viewport was boxing the plate
+
+- **Context:** This chat rebuilt F09 Safe to Spend (approved plate, beige dock, arch signal, right-facing tabs, traced marks, tablet and desktop plates, bottom nav on every breakpoint). Live money stays `computeSafeToSpend` (preview `$6,500`, bills `$1,920`). The founder said the approved screenshots were right and the preview route was not, then said nothing changed and the mobile view was constricting the plate. It had been full-bleed before that box.
+- **Cause:** `useF09VisualStage` wrote `visualViewport` width and height onto `.jrn` (right and bottom `auto`). The phone plate was also sized with `max(100%, 100cqh * 1760/3840)` and centered. A short mobile browser is a smaller box than the screen, so the photograph sat inside it and the page color showed around it.
+- **Fix:** That pin is gone. The F09 stage is `100lvh` and the plate is `inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 0%`. Measured at 393×852, 390×844, 390×700, and 430×932: the plate box matches the viewport. Top row is the photograph. Bottom row is the beige dock.
+- **Do not repeat:** Do not pin F09 `.jrn` to `visualViewport`. Do not size the phone plate to `100cqh * 1760/3840` and center it. Do not bring back `height: 100dvh` on F09 `.jrn`.
+

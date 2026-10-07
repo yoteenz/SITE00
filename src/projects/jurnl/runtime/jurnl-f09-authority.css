@@ -29,10 +29,12 @@ body:has([data-jrn-screen='F09.00']),
   right: 0;
   bottom: 0;
   left: 0;
-  width: auto;
-  height: auto;
+  /* Fill the screen. Do not take the mobile visual viewport's width or height —
+     that box is shorter than the phone and leaves bands around the plate. */
+  width: 100%;
+  height: 100lvh;
   max-height: none;
-  min-height: 0;
+  min-height: 100lvh;
   margin: 0;
   padding: 0;
   overflow: hidden;
@@ -57,7 +59,7 @@ body:has([data-jrn-screen='F09.00']),
   animation: none;
   overflow: visible;
   --f09-bleed: 0px;
-  --f09-img-h: max(100%, 100cqh, calc(100cqw * 3840 / 1760));
+  --f09-img-h: 100%;
   /* Purchase card plus the dock, so folder type stays above the card. */
   --f09-above-dock: calc(148px + env(safe-area-inset-bottom, 0px));
 }
@@ -108,19 +110,21 @@ body:has([data-jrn-screen='F09.00']),
 }
 .jrn .jrn-screen[data-jrn-screen='F09.00'][data-jrn-composition='CENTER_STAGE'] .jrn-plate {
   position: absolute;
+  inset: 0;
   top: 0;
-  right: auto;
-  bottom: auto;
-  left: 50%;
-  width: max(100%, 100cqw, calc(100cqh * 1760 / 3840));
-  height: var(--f09-img-h);
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   max-width: none;
   max-height: none;
+  min-width: 100%;
+  min-height: 100%;
   margin: 0;
   object-fit: cover;
   object-position: 50% 0%;
-  transform: translateX(-50%);
-  transform-origin: 50% 0%;
+  transform: none;
   z-index: 0;
 }
 
@@ -133,11 +137,14 @@ body:has([data-jrn-screen='F09.00']),
 /* Tracks the cover plate (top-anchored, centered when the screen is taller than the photo). */
 .jrn .jrn-f09a__art {
   position: absolute;
+  inset: 0;
   top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: max(100%, 100cqw, calc(100cqh * 1760 / 3840));
-  height: var(--f09-img-h);
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: none;
   pointer-events: none;
 }
 .jrn .jrn-f09a__art .jrn-f09a__menu,
