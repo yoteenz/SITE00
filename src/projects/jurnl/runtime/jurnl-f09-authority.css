@@ -10,10 +10,8 @@
    · .jrn-screen[data-jrn-frame=family] .jrn-col overflow:hidden + padding, including the 600px/1100px padding-top
    · CENTER_STAGE .jrn-plate transform:scale (jurnl-center-stage.css) — a containing block
    The stage is in the document (not position:fixed, not 100dvh) and is not a size container.
-   Scroll stays on. A non-scrolling page makes iOS size the layout viewport to the gap
-   between the status bar and the Safari toolbar, and #1c1915 shows in those gaps.
-   The plate fills the large viewport inside that scroll. The dock stays position:fixed
-   on the visible viewport so it does not slide under the toolbar. */
+   Scroll is off. The page is one viewport tall and does not pan. The plate stays
+   top: -10% inside that viewport. The dock stays position:fixed on the bottom. */
 
 html:has([data-jrn-screen='F09.00']),
 body:has([data-jrn-screen='F09.00']),
@@ -21,11 +19,11 @@ body:has([data-jrn-screen='F09.00']),
   margin: 0;
   padding: 0;
   width: 100%;
-  height: auto;
-  min-height: 100%;
-  min-height: 100lvh;
-  overflow-x: hidden;
-  overflow-y: auto;
+  height: 100%;
+  height: 100lvh;
+  max-height: 100lvh;
+  min-height: 0;
+  overflow: hidden;
   background: #f6f3ee;
 }
 .jrn:has([data-jrn-screen='F09.00']) {
@@ -38,15 +36,12 @@ body:has([data-jrn-screen='F09.00']),
   /* In the scrolling document, at least the large viewport. An explicit height
      drops bottom: 0, and container-type would trap fixed descendants (the dock). */
   width: 100%;
-  height: auto;
-  max-height: none;
-  /* 1px past the large viewport so the document can scroll even when 100lvh
-     still equals the visible window. That scroll is what lets iOS paint the
-     plate through the status bar and the browser toolbar. */
-  min-height: calc(100lvh + 1px);
+  height: 100lvh;
+  max-height: 100lvh;
+  min-height: 0;
   margin: 0;
   padding: 0;
-  overflow: visible;
+  overflow: hidden;
   background: #f6f3ee;
 }
 .jrn:has([data-jrn-screen='F09.00']) .jrn-overlay-host {
@@ -474,7 +469,8 @@ body:has([data-jrn-screen='F09.00']),
   height: auto;
   transform: none;
   bottom: 0;
-  padding: 6px 2px calc(4px + env(safe-area-inset-bottom, 0px));
+  /* 20% shorter than the 52px phone dock. Desktop resets this block. */
+  padding: 5px 2px calc(3px + env(safe-area-inset-bottom, 0px));
   border-radius: 0;
   background: #f6f3ee;
   border-top: 0;
@@ -482,15 +478,15 @@ body:has([data-jrn-screen='F09.00']),
   gap: 0;
 }
 .jrn:has([data-jrn-screen='F09.00']) .jrn-nav svg {
-  height: 13px;
+  height: 10px;
   width: auto;
 }
 .jrn:has([data-jrn-screen='F09.00']) .jrn-nav__plus svg {
-  height: 22px;
+  height: 18px;
 }
 .jrn:has([data-jrn-screen='F09.00']) .jrn-nav__btn {
   min-height: 0;
-  height: 42px;
+  height: 34px;
   border: 0;
   background: transparent;
   border-radius: 0;
@@ -507,7 +503,7 @@ body:has([data-jrn-screen='F09.00']),
 .jrn:has([data-jrn-screen='F09.00']) .jrn-nav__btn--mark {
   align-self: stretch;
   width: auto;
-  height: 42px;
+  height: 34px;
   min-height: 0;
   margin: 0;
   border-radius: 0;
