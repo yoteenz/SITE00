@@ -54,8 +54,9 @@ describe('root hubs: reference + clean shell', () => {
       expect(nav).toMatch(new RegExp(`data-active="true"[^>]*data-jrn-trigger="${hub.nav}"`));
       expect(nav.match(/data-active="true"/g)?.length).toBe(1);
       expect(visible(nav)).toContain('ADD');
-      // The root hubs follow their references: lockup, no corner back/menu chips.
-      expect(html).not.toContain('data-jrn-corner="app"');
+      // Root hubs keep the menu chip (account drawer) but no back chip: the reference draws the lockup in that corner.
+      expect(html).toContain('data-jrn-trigger="f09-menu"');
+      expect(html).not.toContain('data-jrn-trigger="f09-back"');
     });
   }
 

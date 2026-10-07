@@ -145,73 +145,6 @@
   margin: 0;
 }
 
-/* Parent dock: the four root references share one dock. Fixed px, identical on every hub. */
-.jrn .jrn-nav[data-jrn-nav='parent'] {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100%;
-  height: auto;
-  transform: none;
-  padding: 10px 4px max(26px, env(safe-area-inset-bottom, 0px));
-  border-radius: 0;
-  border-top: 0;
-  background: #f4f1ec;
-  box-shadow: none;
-  gap: 0;
-}
-.jrn .jrn-nav[data-jrn-nav='parent'] .jrn-nav__btn,
-.jrn .jrn-nav[data-jrn-nav='parent'] .jrn-nav__btn--mark {
-  min-height: 0;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 4px;
-  padding: 0;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  color: #2b2c22;
-  font: 400 8.4px/1 'JURNL Authority Sans', 'JURNL Sans', sans-serif;
-  letter-spacing: 0.17em;
-}
-.jrn .jrn-nav[data-jrn-nav='parent'] .jrn-nav__btn > span:last-child {
-  padding-left: 0.17em;
-}
-.jrn .jrn-nav[data-jrn-nav='parent'] .jrn-nav__glyph,
-.jrn .jrn-nav[data-jrn-nav='parent'] .jrn-nav__plus {
-  display: grid;
-  place-items: center;
-  width: 38px;
-  height: 32px;
-  border-radius: 8px;
-  background: transparent;
-  color: #23251c;
-}
-.jrn .jrn-nav[data-jrn-nav='parent'] .jrn-nav__plus {
-  background: #e9e5df;
-  color: #3a3b32;
-}
-.jrn .jrn-nav[data-jrn-nav='parent'] .jrn-nav__btn[data-active='true'] {
-  background: transparent;
-  color: #15160f;
-  font-weight: 600;
-}
-.jrn .jrn-nav[data-jrn-nav='parent'] .jrn-nav__btn[data-active='true'] .jrn-nav__glyph {
-  background: #2f3527;
-  color: #f4f1ec;
-}
-.jrn .jrn-nav[data-jrn-nav='parent'] svg {
-  width: auto;
-  height: 18px;
-}
-.jrn .jrn-nav[data-jrn-nav='parent'] .jrn-nav__plus svg {
-  height: 18px;
-}
-
 /* The plate is placed by RootAuthorityStage (object-position / scale inline); no zoom from center-stage. */
 .jrn .jrn-screen[data-jrn-parent-authority][data-jrn-composition='CENTER_STAGE'] {
   --jrn-plate-zoom: 1;
@@ -236,11 +169,6 @@
 .jrn .jrn-screen[data-jrn-parent-authority='F05'] { background: linear-gradient(90deg, #cfb1a2, #997760); }
 .jrn .jrn-screen[data-jrn-parent-authority='F08'] { background: linear-gradient(90deg, #a18168, #8f6a4c); }
 .jrn .jrn-screen[data-jrn-parent-authority='F12'] { background: linear-gradient(90deg, #e6c9af, #a37c5d); }
-@media (min-width: 1100px) {
-  .jrn .jrn-nav[data-jrn-nav='parent'] {
-    border-radius: 0;
-  }
-}
 @media (min-aspect-ratio: 3/5) {
   .jrn .jrn-screen[data-jrn-parent-authority] .jrn-env,
   .jrn .jrn-screen[data-jrn-parent-authority] .jrn-col > .jrn-ra {
@@ -249,12 +177,11 @@
     width: min(100%, 60dvh);
     transform: translateX(-50%);
   }
+  /* The parent dock (jurnl-nav.css) stays within the column. */
   .jrn .jrn-nav[data-jrn-nav='parent'] {
     left: 50%;
     right: auto;
-    bottom: 0;
-    width: min(100%, 60dvh);
-    border-radius: 0;
+    width: min(100%, 60dvh, 640px);
     transform: translateX(-50%);
   }
 }

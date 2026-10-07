@@ -1,0 +1,81 @@
+{
+  "SCREEN_ID": "PURCHASE_OUTCOME",
+  "AUTHORITY_SOURCE": "authority-source.jpg",
+  "PLATE": "environment-plate.jpg",
+  "OBJECTS": [
+    "receipt-card.png"
+  ],
+  "OVERLAYS": [],
+  "THUMBNAILS": [],
+  "CANONICAL_WIDTH": 2016,
+  "CANONICAL_HEIGHT": 3584,
+  "ASPECT_RATIO": "9:16",
+  "OPENART_MODEL": "gpt-image-2-5-sunburst",
+  "AUTO_ENHANCE": false,
+  "RESOLUTION_TIER": "4k",
+  "QUALITY": "high",
+  "HISTORY": {
+    "env_id": "npvdcuB1WnIgYoEeZj0i",
+    "obj_id": "j2yfbPDoeLEs0IQP2p6O"
+  },
+  "ANCHORS": {
+    "primary_object": {
+      "x": 0.0317,
+      "y": 0.3742,
+      "w": 0.9519,
+      "h": 0.3407,
+      "px": [
+        64,
+        1341,
+        1919,
+        1221
+      ]
+    },
+    "safe_title_region": {
+      "x": 0.08,
+      "y": 0.1,
+      "w": 0.7,
+      "h": 0.16
+    },
+    "cta_region": {
+      "x": 0.08,
+      "y": 0.72,
+      "w": 0.84,
+      "h": 0.14
+    },
+    "nav_boundary": {
+      "y": 0.9
+    },
+    "object_content_region": {
+      "x": 0.0317,
+      "y": 0.3742,
+      "w": 0.9519,
+      "h": 0.3407,
+      "px": [
+        64,
+        1341,
+        1919,
+        1221
+      ]
+    }
+  },
+  "LIVE_UI_EXCLUSIONS": [
+    "YOU'RE GOOD TO GO",
+    "THIS PURCHASE FITS",
+    "AMOUNT",
+    "$125",
+    "FASHION",
+    "PAY WITH",
+    "CREDIT CARD",
+    "IMPACT",
+    "$1,159",
+    "DONE",
+    "ADD ANOTHER PURCHASE",
+    "logo",
+    "close",
+    "status bar",
+    "bottom nav"
+  ],
+  "ALPHA": "Chroma key #00FF00 removed locally. Objects are RGBA PNG aligned to the plate frame.",
+  "STACK": "environment-plate, then object PNG, then overlay PNG, then live HTML. Do not use authority-source.jpg as the page."
+}

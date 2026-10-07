@@ -1,0 +1,101 @@
+{
+  "SCREEN_ID": "SELECT_AN_ACCOUNT",
+  "AUTHORITY_SOURCE": "authority-source.jpg",
+  "PLATE": "environment-plate.jpg",
+  "PLATE_SHARED_FROM": "SELECT_A_CATEGORY",
+  "OBJECTS": [],
+  "OVERLAYS": [],
+  "THUMBNAILS": [
+    {
+      "id": "CHECKING",
+      "file": "THUMBNAILS/ACCOUNTS/checking.jpg",
+      "px": [
+        861,
+        403
+      ]
+    },
+    {
+      "id": "SAVINGS",
+      "file": "THUMBNAILS/ACCOUNTS/savings.jpg",
+      "px": [
+        861,
+        407
+      ]
+    },
+    {
+      "id": "CREDIT_CARD",
+      "file": "THUMBNAILS/ACCOUNTS/credit-card.jpg",
+      "px": [
+        861,
+        410
+      ]
+    },
+    {
+      "id": "DEBIT_CARD",
+      "file": "THUMBNAILS/ACCOUNTS/debit-card.jpg",
+      "px": [
+        861,
+        410
+      ]
+    },
+    {
+      "id": "CASH",
+      "file": "THUMBNAILS/ACCOUNTS/cash.jpg",
+      "px": [
+        861,
+        417
+      ]
+    },
+    {
+      "id": "JOINT_ACCOUNT",
+      "file": "THUMBNAILS/ACCOUNTS/joint-account.jpg",
+      "px": [
+        861,
+        413
+      ]
+    }
+  ],
+  "CANONICAL_WIDTH": 2016,
+  "CANONICAL_HEIGHT": 3584,
+  "ASPECT_RATIO": "9:16",
+  "OPENART_MODEL": "gpt-image-2-5-sunburst",
+  "AUTO_ENHANCE": false,
+  "HISTORY": {
+    "shared_environment": "QrxOOpxbZRpcUAnuw3Da"
+  },
+  "ANCHORS": {
+    "safe_title_region": {
+      "x": 0.06,
+      "y": 0.08,
+      "w": 0.8,
+      "h": 0.16
+    },
+    "cta_region": {
+      "x": 0.08,
+      "y": 0.78,
+      "w": 0.84,
+      "h": 0.08
+    },
+    "nav_boundary": {
+      "y": 0.9
+    }
+  },
+  "LIVE_UI_EXCLUSIONS": [
+    "SELECT AN ACCOUNT",
+    "CHOOSE THE ACCOUNT",
+    "CHECKING",
+    "SAVINGS",
+    "CREDIT CARD",
+    "DEBIT CARD",
+    "CASH",
+    "JOINT ACCOUNT",
+    "balances",
+    "APPLY ACCOUNT",
+    "logo",
+    "close",
+    "status bar",
+    "bottom nav"
+  ],
+  "STACK": "Shared photographic plate. Do not regenerate a near-duplicate terrace.",
+  "THUMBNAIL_SOURCE": "Cropped from a 4K Sunburst board of the approved authority photographs, labels removed. Not cropped from a flattened UI screenshot."
+}

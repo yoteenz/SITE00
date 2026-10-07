@@ -169,10 +169,10 @@
 
 .jrn .jrn-ref__panel {
   position: absolute;
-  /* Opaque. The plate under these cards used to be a blurred clear, and a translucent fill let that haze show through. */
+  /* Opaque, and no shadow. A blurred shadow read as haze behind the cards. */
   background: #f7f3ee;
   border-radius: 22px;
-  box-shadow: 0 6px 18px rgba(70, 50, 30, 0.1);
+  box-shadow: none;
 }
 .jrn .jrn-ref__field {
   background: var(--ref-field);
@@ -476,7 +476,15 @@
   color: #fff;
 }
 
-/* ACCOUNT drawer: its own photograph slides in over the current screen. */
+/* ACCOUNT drawer: its own photograph slides in over the current screen, from the hamburger on any app screen. */
+.jrn .jrn-account-drawer-host {
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  overflow: hidden;
+  background: #efe9e1;
+  pointer-events: auto;
+}
 .jrn .jrn-ref__drawer {
   position: absolute;
   inset: 0;

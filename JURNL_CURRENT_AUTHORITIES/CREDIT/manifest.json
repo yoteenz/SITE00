@@ -1,0 +1,94 @@
+{
+  "SCREEN_ID": "CREDIT",
+  "AUTHORITY_SOURCE": "authority-source.jpg",
+  "PLATE": "environment-plate.jpg",
+  "OBJECTS": [
+    "credit-dossier.png"
+  ],
+  "OVERLAYS": [
+    "editorial-overlay.png"
+  ],
+  "THUMBNAILS": [],
+  "CANONICAL_WIDTH": 2016,
+  "CANONICAL_HEIGHT": 3584,
+  "ASPECT_RATIO": "9:16",
+  "OPENART_MODEL": "gpt-image-2-5-sunburst",
+  "AUTO_ENHANCE": false,
+  "RESOLUTION_TIER": "4k",
+  "QUALITY": "high",
+  "HISTORY": {
+    "env_id": "f9Pr0zxfXSjQkYmZDkDg",
+    "obj_id": "ZUb5rkmv8QlPwww7uOfS",
+    "fg_id": "UklyS3Q9qfmZi5JDzsZX"
+  },
+  "ANCHORS": {
+    "primary_object": {
+      "x": 0.1379,
+      "y": 0.4121,
+      "w": 0.7803,
+      "h": 0.2746,
+      "px": [
+        278,
+        1477,
+        1573,
+        984
+      ]
+    },
+    "overlay": {
+      "x": 0.5228,
+      "y": 0.2838,
+      "w": 0.4772,
+      "h": 0.3756,
+      "px": [
+        1054,
+        1017,
+        962,
+        1346
+      ]
+    },
+    "safe_title_region": {
+      "x": 0.06,
+      "y": 0.08,
+      "w": 0.7,
+      "h": 0.28
+    },
+    "cta_region": {
+      "x": 0.06,
+      "y": 0.72,
+      "w": 0.88,
+      "h": 0.16
+    },
+    "nav_boundary": {
+      "y": 0.905
+    },
+    "object_content_region": {
+      "x": 0.1379,
+      "y": 0.4121,
+      "w": 0.7803,
+      "h": 0.2746,
+      "px": [
+        278,
+        1477,
+        1573,
+        984
+      ]
+    }
+  },
+  "LIVE_UI_EXCLUSIONS": [
+    "CREDIT",
+    "1 CARD OR LOAN",
+    "$5,000 USED IN TOTAL",
+    "OPEN ONE TO SET ITS LIMIT",
+    "WHAT IS HAPPENING, AND WHAT MATTERS?",
+    "CARD",
+    "100% OF THE LIMIT USED",
+    "HOW MUCH IS USED",
+    "ADD A CARD OR LOAN",
+    "PAYDOWN",
+    "logo",
+    "tagline",
+    "bottom nav"
+  ],
+  "ALPHA": "Chroma key #00FF00 removed locally. Objects are RGBA PNG aligned to the plate frame.",
+  "STACK": "environment-plate, then object PNG, then overlay PNG, then live HTML. Do not use authority-source.jpg as the page."
+}

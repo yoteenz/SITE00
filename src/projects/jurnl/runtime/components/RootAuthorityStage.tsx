@@ -28,8 +28,8 @@ export type RootFraming = { readonly px: number; readonly py: number; readonly z
 /** s: screen px per shell px; (x0, y0): shell origin on screen; u: screen px per reference px for wall type; dock: nav height. */
 export type RootFit = { W: number; H: number; s: number; x0: number; y0: number; u: number; dock: number };
 
-/** Parent dock height when it has not been measured yet (jurnl-root-authority.css). */
-export const ROOT_DOCK = 80;
+/** Parent dock height when it has not been measured yet (jurnl-nav.css; --jrn-nav-h). */
+export const ROOT_DOCK = 56;
 
 export function rootFit(W: number, H: number, f: RootFraming, dock = ROOT_DOCK): RootFit {
   const z = f.zoom ?? 1;
@@ -114,7 +114,8 @@ export function RootAuthorityStage({
     const update = () => {
       if (!el.clientWidth || !el.clientHeight) return;
       const nav = document.querySelector<HTMLElement>(".jrn-nav[data-jrn-nav='parent']");
-      const dock = nav ? Math.ceil(nav.getBoundingClientRect().height) : ROOT_DOCK;
+      // Everything from the dock's top edge down (a floating desktop dock sits above the screen's foot).
+      const dock = nav ? Math.ceil(el.getBoundingClientRect().bottom - nav.getBoundingClientRect().top) : ROOT_DOCK;
       setFit(rootFit(el.clientWidth, el.clientHeight, framing, dock));
     };
     update();

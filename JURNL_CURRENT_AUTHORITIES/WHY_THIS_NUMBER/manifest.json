@@ -1,0 +1,84 @@
+{
+  "SCREEN_ID": "WHY_THIS_NUMBER",
+  "AUTHORITY_SOURCE": "authority-source.jpg",
+  "PLATE": "environment-plate.jpg",
+  "OBJECTS": [
+    "explanatory-dossier.png"
+  ],
+  "OVERLAYS": [],
+  "THUMBNAILS": [],
+  "CANONICAL_WIDTH": 1632,
+  "CANONICAL_HEIGHT": 3808,
+  "ASPECT_RATIO": "9:21",
+  "OPENART_MODEL": "gpt-image-2-5-sunburst",
+  "AUTO_ENHANCE": false,
+  "RESOLUTION_TIER": "4k",
+  "QUALITY": "high",
+  "HISTORY": {
+    "env_id": "4QVFxZsBMjfgYoHhpqp1",
+    "obj_id": "WSeC5YDEKZ8UuD4gnCOO"
+  },
+  "ANCHORS": {
+    "primary_object": {
+      "x": 0.027,
+      "y": 0.2153,
+      "w": 0.9479,
+      "h": 0.5756,
+      "px": [
+        44,
+        820,
+        1547,
+        2192
+      ]
+    },
+    "safe_title_region": {
+      "x": 0.06,
+      "y": 0.06,
+      "w": 0.7,
+      "h": 0.18
+    },
+    "cta_region": {
+      "x": 0.08,
+      "y": 0.72,
+      "w": 0.84,
+      "h": 0.14
+    },
+    "nav_boundary": {
+      "y": 0.9
+    },
+    "object_content_region": {
+      "x": 0.027,
+      "y": 0.2153,
+      "w": 0.9479,
+      "h": 0.5756,
+      "px": [
+        44,
+        820,
+        1547,
+        2192
+      ]
+    }
+  },
+  "LIVE_UI_EXCLUSIONS": [
+    "WHY THIS NUMBER",
+    "$6,500",
+    "AN ESTIMATE",
+    "HERE'S HOW YOUR NUMBER COMES TOGETHER",
+    "CASH",
+    "UPCOMING",
+    "HELD",
+    "ASSIGNED",
+    "GOAL SET ASIDE",
+    "SAFETY BUFFER",
+    "COMPLETENESS",
+    "CHANGE WHAT'S HELD",
+    "LEARN MORE",
+    "row amounts",
+    "logo",
+    "status bar",
+    "bottom nav"
+  ],
+  "ALPHA": "Chroma key #00FF00 removed locally. Objects are RGBA PNG aligned to the plate frame.",
+  "STACK": "environment-plate, then object PNG, then overlay PNG, then live HTML. Do not use authority-source.jpg as the page.",
+  "ENV_NOTE": "Environment is the collage with the dossier removed. Place explanatory-dossier.png on top. Do not also draw a second sheet."
+}

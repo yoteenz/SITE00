@@ -1,0 +1,78 @@
+{
+  "SCREEN_ID": "MENU",
+  "AUTHORITY_SOURCE": "authority-source.jpg",
+  "PLATE": "environment-plate.jpg",
+  "PLATE_SHARED_FROM": "ACCOUNT_SETTINGS",
+  "OBJECTS": [
+    "menu-sheet.png"
+  ],
+  "OVERLAYS": [],
+  "THUMBNAILS": [],
+  "CANONICAL_WIDTH": 2016,
+  "CANONICAL_HEIGHT": 3584,
+  "ASPECT_RATIO": "9:16",
+  "OPENART_MODEL": "gpt-image-2-5-sunburst",
+  "AUTO_ENHANCE": false,
+  "HISTORY": {
+    "shared_environment": "BGd6FerMtyUdcJ6E53P9",
+    "obj_id": "KN7mDk1jTwQVuIBRPk1l"
+  },
+  "ANCHORS": {
+    "safe_title_region": {
+      "x": 0.28,
+      "y": 0.06,
+      "w": 0.6,
+      "h": 0.12
+    },
+    "cta_region": {
+      "x": 0.22,
+      "y": 0.2,
+      "w": 0.72,
+      "h": 0.7
+    },
+    "nav_boundary": {
+      "y": 0.92
+    },
+    "primary_object": {
+      "x": 0.3467,
+      "y": 0.0033,
+      "w": 0.6533,
+      "h": 0.9961,
+      "px": [
+        699,
+        12,
+        1317,
+        3570
+      ]
+    },
+    "object_content_region": {
+      "x": 0.3467,
+      "y": 0.0033,
+      "w": 0.6533,
+      "h": 0.9961,
+      "px": [
+        699,
+        12,
+        1317,
+        3570
+      ]
+    }
+  },
+  "LIVE_UI_EXCLUSIONS": [
+    "HOME",
+    "MONEY",
+    "ADD",
+    "PLAN",
+    "CREDIT",
+    "ACCOUNT",
+    "WHY THIS NUMBER",
+    "CHECK A PURCHASE",
+    "PRIVACY & CONSENTS",
+    "HELP & SUPPORT",
+    "SIGN OUT",
+    "close mark",
+    "logo",
+    "tagline"
+  ],
+  "STACK": "Dim the shared Account settings plate, then place menu-sheet.png. Labels are live."
+}

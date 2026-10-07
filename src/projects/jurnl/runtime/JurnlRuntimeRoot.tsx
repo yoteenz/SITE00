@@ -51,6 +51,7 @@ import './jurnl-frame.css';
 import './jurnl-archetypes.css';
 import './jurnl-center-stage.css';
 import './jurnl-f09-authority.css';
+import './jurnl-nav.css';
 import './jurnl-root-authority.css';
 import './jurnl-f10-checked.css';
 import './jurnl-reference.css';

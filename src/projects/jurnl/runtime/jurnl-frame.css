@@ -3,7 +3,7 @@
    The nav owns a shared reserved height; content knows it before layout. No family-specific magic numbers. */
 
 .jrn {
-  --jrn-nav-h: 44px;
+  --jrn-nav-h: 56px;
   --jrn-nav-gutter: 12px;
   --jrn-nav-gap-above: 8px;
   --jrn-nav-w: min(calc(100% - 32px), 340px);

@@ -9,7 +9,7 @@
  * Rows whose feature does not exist yet say so instead of pretending.
  */
 
-import { useCallback, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { consentGranted } from '../../data/foundation/consent';
 import { honestAccountsConnectionLabel } from '../../data/foundation/connectionProvider';
 import { getRepository } from '../../data/repository/deviceRepository';
@@ -29,7 +29,6 @@ import { ReferenceLockup } from '../components/ReferenceLockup';
 import { JurnlDrawer, JurnlToggle } from '../components/primitives';
 import { AskJurnlSheet, QuickAddV2Sheet } from '../global/GlobalSheets';
 import { CurrencySheet } from './SettingsScreens';
-import { useCornerMenu } from '../components/JurnlCornerChrome';
 import { useJurnl } from '../state/store';
 
 const ACCOUNT_PLATE = { src: accountPlate, assetId: 'SAFE.REFERENCE_REPLICA.ACCOUNT_PLATE.INTERIM' };
@@ -150,9 +149,6 @@ export function AccountScreen() {
   const s = useAccountState();
   const [page, setPage] = useState(0);
   const [sheet, setSheet] = useState<'currency' | 'consents' | null>(null);
-  const [drawer, setDrawer] = useState(false);
-  const openDrawer = useCallback(() => setDrawer(true), []);
-  useCornerMenu(openDrawer, drawer);
   const A = REF_ACCT1;
   const card = (k: 'profile' | 'currency' | 'connection' | 'ask' | 'buffer') => A.box[k] as RefBox;
   return (
@@ -263,7 +259,6 @@ export function AccountScreen() {
         ) : null}
       </div>
 
-      {drawer ? <AccountDrawer onClose={() => setDrawer(false)} /> : null}
     </ReferenceStage>
   );
 }
@@ -284,7 +279,7 @@ export function AccountDrawer({ onClose }: { onClose: () => void }) {
       <button type="button" className="jrn-ref__drawer-out" aria-label="CLOSE ACCOUNT" data-jrn-trigger="account-drawer-close" onClick={onClose} style={at([0, 0, 296, 1844])} />
       <div className="jrn-ref__drawer-panel">
         <ReferenceLockup L={D} />
-        <RefText t={D.text.title} as="h2">ACCOUNT</RefText>
+        <RefText t={D.text.title} as="button" data-jrn-trigger="drawer-account" aria-label="ACCOUNT" onClick={() => { onClose(); go('account'); }}>ACCOUNT</RefText>
 
         <button type="button" className="jrn-ref__card jrn-ref__card--drawer" data-jrn-trigger="drawer-profile" onClick={() => { onClose(); go('account'); }} style={at(c('profile'))}>
           <img className="jrn-ref__thumb" src={profileArch} alt="" draggable={false} style={at(D.box.thumb, c('profile'))} />

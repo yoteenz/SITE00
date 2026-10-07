@@ -198,7 +198,7 @@ export function MoneyHubScreen() {
                 <RefText t={T.next} origin={next} as="span">NEXT</RefText>
                 <RefIcon name="arrow" box={B.nextArrow} origin={next} stroke={2} />
               </button>
-              <nav className="jrn-ra__also" aria-label="ALSO IN MONEY" style={{ left: B.seeRule[2] + 22, top: B.seeRule[1] - 36, width: 300 }}>
+              <nav className="jrn-ra__also" aria-label="ALSO IN MONEY" style={{ left: T.see.ink[2] + 26, top: T.see.top - 30, width: next[0] - T.see.ink[2] - 46 }}>
                 <button type="button" className="jrn-ra__link" data-jrn-trigger="money-open-income" onClick={() => go('income')}>INCOME</button>
                 <button type="button" className="jrn-ra__link" data-jrn-trigger="money-open-activity" onClick={() => go('activity')}>ACTIVITY</button>
                 <button type="button" className="jrn-ra__link" data-jrn-trigger="discovery-F05-F16" onClick={() => go('F16')}>RECORDS</button>
