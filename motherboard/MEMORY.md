@@ -14394,3 +14394,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **OpenArt** GPT Image 2.5 Sunburst, 4K, auto-enhance off, project `VdiPtgVqb21sYl003uox`. Environment history `cIp2ZXwxeAG8odEt0kpe` (2016×3584). Folio history `p2VNavEtTiq8Bev8kWtV` (cropped to 2160×1820 from 3072×2048). No baked amounts or UI. Live overlay still uses `computeSafeToSpend` ($6,500 / bills $1,920 / plans, goals, buffer $0) and AVAILABLE THROUGH OCT 18.
 - **Files:** `F09_ENVIRONMENT_AUTHORITY_TERRACE.png`, `F09_FOLIO_SIDEKICK.png`, `jurnl-f09-authority.css`, `SafeToSpendHubScreen`. Old loggia remains for other F09 surfaces.
 
+---
+
+## 2026-10-07 — JURNL F09 creative logo treatment (R2 addendum)
+
+- **Context:** This chat rebuilt F09 Safe to Spend against the founder-approved authority: three-distinct composite rerun, then live reconstruction R1 (loggia + CSS folio), then R2 (Sunburst terrace `cIp2ZXwxeAG8odEt0kpe` and folio `p2VNavEtTiq8Bev8kWtV`, live `$6,500` / bills `$1,920`). The founder then required the screen to match IMAGE 1, including a creative logo treatment. Do not restart. Do not redesign. Mobile 393×852 only.
+- **Decision:** The official asset stays the identity source (`public/site00/projects/jurnl/brand/jurnl-logo-official.png`). Do not type “JURNL” and do not draw a new mark. IMAGE 1 stages a horizontal wordmark with the botanical above it on the left plaster, the descriptor under it, and “PLAN TODAY. / GROW FREELY.” inside the arch. The file itself is a vertical rose lockup, so the parent masks that file: each letter and the upper branch are slices of the official pixels, set horizontally, inked in the scene’s charcoal so the lockup belongs to the plaster.
+- **Placement:** Left plaster, not a navbar. Menu stays on the right pier and still routes to account. Tagline sits in the arch with the lockup as one top composition. The amount stays the primary signal. F09 plate position `42% 46%` now wins over the generic center-stage crop so the arch and olive leave room for that lockup.
+- **Not changed:** `computeSafeToSpend`, routes, purchase bridge, nav behavior, hold-on-why, tablet/desktop.
+- **Fail rule:** If it still reads as a generic app-header logo, it fails. The staged lockup is an editorial mark in the scene.
+

@@ -11,7 +11,7 @@ import { getRepository } from '../../data/repository/deviceRepository';
 import { FamilyChrome } from '../components/FamilyChrome';
 import { JurnlProductNav } from '../components/ProductNav';
 import { AskJurnlSheet, QuickAddV2Sheet } from '../global/GlobalSheets';
-import { JurnlButton, JurnlDrawer, JurnlInput, JurnlLogo, JurnlPanel } from '../components/primitives';
+import { JurnlButton, JurnlDrawer, JurnlInput, JurnlPanel } from '../components/primitives';
 import { JurnlFamilyShell } from '../components/FamilyFrame';
 import { JurnlScreen } from './JurnlScreen';
 import { useJurnl } from '../state/store';
@@ -95,12 +95,20 @@ export function SafeToSpendHubScreen() {
   return (
     <JurnlScreen screenId="F09.00" familyPlate={F09_TERRACE_PLATE} family productNav>
       <div className="jrn-f09a" data-jrn-authority="F09-APPROVED-IMAGE-1" data-jrn-zone="intro">
-        <header className="jrn-f09a__top">
-          <JurnlLogo small label="JURNL" />
-          <p className="jrn-f09a__tag">PLAN TODAY.<br />GROW FREELY.</p>
+        <header className="jrn-f09a__brand">
+          <div className="jrn-f09a__lockup">
+            <div className="jrn-f09a__mark" role="img" aria-label="JURNL" data-jrn-logo="official-staged">
+              <span className="jrn-f09a__sprig" aria-hidden />
+              <span className="jrn-f09a__word" aria-hidden>
+                <i data-letter="J" /><i data-letter="U" /><i data-letter="R" /><i data-letter="N" /><i data-letter="L" />
+              </span>
+            </div>
+            <p className="jrn-f09a__descriptor">FINANCIAL LIFE.<br />BEAUTIFULLY ORGANIZED.</p>
+          </div>
           <button type="button" className="jrn-f09a__menu" aria-label="MENU" data-jrn-trigger="f09-menu" onClick={() => go('account')}>
             <span /><span /><span />
           </button>
+          <p className="jrn-f09a__tag">PLAN TODAY.<br />GROW FREELY.</p>
         </header>
         <section className="jrn-f09a__signal" data-jrn-panel="signal" data-below={below ? 'true' : 'false'}>
           <h1>{below ? 'OVER BY' : 'SAFE TO SPEND'}</h1>
