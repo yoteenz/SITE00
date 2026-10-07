@@ -14610,3 +14610,12 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Fix:** Phone plate and `.jrn-f09a__art` are `top: -20%`. On 852px the plate top measures -171px. The type stays on the artwork. The purchase bridge stays. Tablet and desktop stay at `top: 0`.
 - **Do not repeat:** Do not put the F09 phone plate back to `top: -30%` or `top: 30%`. The current phone offset is `-20%`.
 
+---
+
+## 2026-10-07 — JURNL F09 buttons stay, only plate type moves
+
+- **Context:** This chat rebuilt F09 Safe to Spend, then moved the phone plate to `top: -20%` and shifted the whole `.jrn-f09a__art` layer with it. That also moved the menu, the lockup, the tagline, and SEE WHY. Live money stays `computeSafeToSpend` (preview `$6,500`, bills `$1,920`).
+- **What the founder asked:** Move only the plate and the text layered on it. Restore every button and everything else that rode along.
+- **Fix:** `.jrn-f09a__art` is `top: 0` again. On the phone, `translateY(-20lvh)` applies only to the signal heading, the amount, the date line, the folder tab words, and the folio copy. SEE WHY, the menu, the desktop account mark, the lockup, the tagline, the purchase bridge, and the nav stay at their screen positions. Tablet and desktop clear that translate and keep the plate at `top: 0`. Measured on 393×852: plate top -171px, menu y=40, lockup y=36, SEE WHY y=265, bridge y=717, nav 52px. Amount and folio sit about 170px higher with the plate.
+- **Do not repeat:** Do not put `top: -20%` back on `.jrn-f09a__art`. Do not translate `.jrn-f09a__why`, `.jrn-f09a__menu`, `.jrn-f09a__account`, the lockup, or the bridge with the plate. Do not change the phone plate offset from `-20%`.
+
