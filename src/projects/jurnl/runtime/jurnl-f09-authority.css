@@ -1,23 +1,71 @@
-/* F09 parent — approved authority reconstruction. Live layers over ENV.LOGGIA. No OS chrome. */
+/* F09 parent — approved authority reconstruction. Live layers over the plate. No OS chrome.
+   The tan bands were ancestor backgrounds showing because the plate was clipped.
+   These rules beat every container that insets, clips, or shortens the photograph:
+   · html/body/#root default margin and the boot canvas
+   · .jrn (jurnl-runtime.css) position:fixed + height:100dvh + max-height:100dvh + overflow:hidden
+     — an explicit height drops bottom:0, so the box is shorter than the visual viewport
+   · .jrn .jrn-screen overflow:hidden and the family enter animation (transform / filter)
+   · .jrn .jrn-env overflow:hidden (jurnl-environment.css)
+   · .jrn .jrn-col overflow + safe-area padding (jurnl-runtime.css)
+   · .jrn-screen[data-jrn-frame=family] .jrn-col overflow:hidden + padding, including the 600px/1100px padding-top
+   · CENTER_STAGE .jrn-plate transform:scale (jurnl-center-stage.css) — a containing block
+   The stage is in the document (not position:fixed, not 100dvh) and is not a size container.
+   Scroll is off. The page is one viewport tall and does not pan. The plate stays
+   top: -10% inside that viewport. The dock stays position:fixed on the bottom. */
 
-.jrn:has([data-jrn-screen='F09.00']) {
-  background: #c9b49a;
-  container-type: size;
-  container-name: jrn;
+html:has([data-jrn-screen='F09.00']),
+body:has([data-jrn-screen='F09.00']),
+#root:has([data-jrn-screen='F09.00']) {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  height: 100lvh;
+  max-height: 100lvh;
+  min-height: 0;
   overflow: hidden;
-  height: 100dvh;
-  max-height: none;
-  min-height: 100%;
+  background: #f6f3ee;
+}
+.jrn:has([data-jrn-screen='F09.00']) {
+  position: relative;
+  inset: auto;
+  top: auto;
+  right: auto;
+  bottom: auto;
+  left: auto;
+  /* In the scrolling document, at least the large viewport. An explicit height
+     drops bottom: 0, and container-type would trap fixed descendants (the dock). */
+  width: 100%;
+  height: 100lvh;
+  max-height: 100lvh;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: #f6f3ee;
+}
+.jrn:has([data-jrn-screen='F09.00']) .jrn-overlay-host {
+  position: fixed;
+  inset: 0;
 }
 .jrn .jrn-screen[data-jrn-screen='F09.00'] {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: auto;
+  height: auto;
+  max-height: none;
+  min-height: 0;
+  margin: 0;
   transform: none;
+  filter: none;
+  animation: none;
   overflow: visible;
-  --f09-bleed: 28px;
-  --f09-img-h: max(calc(100cqh + 2 * var(--f09-bleed)), calc(100cqw * 3840 / 1760));
+  --f09-bleed: 0px;
+  --f09-img-h: 100%;
   /* Purchase card plus the dock, so folder type stays above the card. */
   --f09-above-dock: calc(148px + env(safe-area-inset-bottom, 0px));
 }
@@ -34,31 +82,64 @@
 }
 .jrn .jrn-screen[data-jrn-screen='F09.00'] .jrn-env {
   inset: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: auto;
+  height: auto;
+  margin: 0;
   overflow: visible;
+  transform: none;
+  filter: none;
 }
-.jrn .jrn-screen[data-jrn-screen='F09.00'] .jrn-col {
+.jrn .jrn-screen[data-jrn-screen='F09.00'] .jrn-col,
+.jrn .jrn-screen[data-jrn-screen='F09.00'][data-jrn-frame='family'] .jrn-col {
   z-index: 1;
-}
-.jrn .jrn-screen[data-jrn-screen='F09.00'][data-jrn-composition='CENTER_STAGE'] .jrn-plate {
-  position: absolute;
-  top: calc(-1 * var(--f09-bleed));
-  left: 50%;
-  width: max(100cqw, calc((100cqh + 2 * var(--f09-bleed)) * 1760 / 3840));
-  height: var(--f09-img-h);
-  max-width: none;
-  max-height: none;
-  object-fit: fill;
-  object-position: 50% 0%;
-  transform: translateX(-50%);
-  z-index: 0;
-}
-.jrn .jrn-screen[data-jrn-screen='F09.00'] .jrn-col {
   padding: 0;
+  margin: 0;
   overflow: visible;
   left: 0;
   right: 0;
-  width: 100%;
+  top: 0;
+  bottom: 0;
+  width: auto;
+  height: auto;
   max-width: none;
+  max-height: none;
+}
+/* Desktop screens.css caps every column child at 440px. The F09 scene is the viewport. */
+.jrn .jrn-screen[data-jrn-screen='F09.00'] .jrn-col > .jrn-f09a {
+  max-width: none;
+  width: auto;
+  align-self: stretch;
+}
+/* The picture must not become a box around the plate. */
+.jrn .jrn-screen[data-jrn-screen='F09.00'] picture {
+  display: contents;
+}
+.jrn .jrn-screen[data-jrn-screen='F09.00'][data-jrn-composition='CENTER_STAGE'] .jrn-plate {
+  /* In the scrolling document, the large viewport tall. Not position:fixed:
+     iOS clips a fixed image to the gap between the status bar and the toolbar
+     and paints #1c1915 in the rest of the screen. */
+  position: absolute;
+  /* The env box stays put. The photograph sits 10% above the
+     top of that box, 10% lower than the previous -20% lift. */
+  top: -10%;
+  right: 0;
+  bottom: auto;
+  left: 0;
+  width: 100%;
+  height: 100lvh;
+  max-width: none;
+  max-height: none;
+  min-width: 100%;
+  min-height: 100lvh;
+  margin: 0;
+  object-fit: cover;
+  object-position: 50% 0%;
+  transform: none;
+  z-index: 0;
 }
 
 .jrn .jrn-f09a {
@@ -66,20 +147,57 @@
   inset: 0;
   color: #1c1915;
   text-transform: uppercase;
+  /* Folio height uses cqh. The container stays on the overlay, not on .jrn,
+     so it cannot trap the plate. */
+  container-type: size;
+  container-name: jrn;
 }
-/* Tracks the cover plate (top-anchored, centered when the screen is taller than the photo). */
+/* The overlay stays on the screen. Only the photograph and the type painted
+   on it shift. Buttons, the lockup, and the tagline keep their screen positions.
+   The purchase bridge is outside this layer. */
 .jrn .jrn-f09a__art {
   position: absolute;
-  top: calc(-1 * var(--f09-bleed));
-  left: 50%;
-  transform: translateX(-50%);
-  width: max(100cqw, calc((100cqh + 2 * var(--f09-bleed)) * 1760 / 3840));
-  height: var(--f09-img-h);
+  inset: 0;
+  top: 0;
+  right: 0;
+  bottom: auto;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: none;
   pointer-events: none;
 }
+/* Phone plate stays at top: -10%. These offsets put the type on the
+   reference's marks: heading, amount, and date in the arch; tab words and
+   folio copy on the folder. SEE WHY, the menu, the lockup, and the bridge
+   are not in this list. */
+.jrn .jrn-f09a__signal h1 {
+  transform: translateY(-6lvh);
+}
+.jrn .jrn-f09a__amount {
+  transform: translateY(-5.2lvh);
+}
+.jrn .jrn-f09a__through {
+  transform: translateY(-3.4lvh);
+}
+/* The folio copy sits lower on the card than the plate shift alone.
+   -3lvh keeps it with the photograph; +36px drops the whole block
+   onto the reference's place under the sprig. */
+.jrn .jrn-f09a__folio {
+  transform: translateY(calc(-3lvh + 36px));
+}
+/* Tab words sit on the protruding tabs. -3lvh follows the plate; the extra
+   30px lifts them to the reference's place on each tab face. */
+.jrn .jrn-f09a__tabs {
+  transform: translateY(calc(-3lvh - 30px));
+}
 .jrn .jrn-f09a__art .jrn-f09a__menu,
+.jrn .jrn-f09a__art .jrn-f09a__account,
 .jrn .jrn-f09a__art .jrn-f09a__why {
   pointer-events: auto;
+}
+.jrn .jrn-f09a__account {
+  display: none;
 }
 
 /* Creative lockup: official jurnl-logo-official.png staged as IMAGE 1
@@ -198,21 +316,15 @@
   font: 500 11px/1 'JURNL Sans', sans-serif;
   letter-spacing: 0.14em;
   color: #2a2622;
+  transform: translateY(-26px);
 }
 
-/* Tab words, placed per tab in plate space (the box is the 1760×3840 plate).
-   Measured on the plate: visible face of each tab and the top of its rounded tab.
-     BILLS  x 1078–1182, top 1739 · PLANS x 1183–1300, top 1782
-     GOALS  x 1300–1407, top 1832 · BUFFER x 1407–1520, top 1872
-   Matched to IMAGE 1: each word is centered on its face, starts 1.2 face widths below
-   its own tab top (so the words step down with the tabs), cap height is 22% of the face
-   width (34 plate px type), tracking 0.32em, near-black ink on the light tabs. */
 .jrn .jrn-f09a__tabs {
   position: absolute;
-  top: 0;
+  top: 47.4%;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 6.4%;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -221,29 +333,28 @@
 }
 .jrn .jrn-f09a__tabs li {
   position: absolute;
-  display: block;
+  top: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   writing-mode: vertical-rl;
   text-orientation: mixed;
-  transform: translateX(-50%);
-  white-space: nowrap;
-  font: 500 calc(var(--f09-img-h) * 34 / 3840) / 1 'JURNL Sans', sans-serif;
-  letter-spacing: 0.32em;
-  color: #312c24;
+  transform: none;
+  font: 500 7px/1 'JURNL Sans', sans-serif;
+  letter-spacing: 0.38em;
+  color: #6b4f38;
 }
-.jrn .jrn-f09a__tabs li[data-tab='bills'] { left: 64.2%; top: 48.54%; color: #312c24; }
-.jrn .jrn-f09a__tabs li[data-tab='plans'] { left: 70.5%; top: 50.03%; color: #1f1c1a; }
-.jrn .jrn-f09a__tabs li[data-tab='goals'] { left: 76.9%; top: 51.04%; color: #21221c; }
-.jrn .jrn-f09a__tabs li[data-tab='buffer'] { left: 83.1%; top: 52.29%; color: #e6ede0; }
+.jrn .jrn-f09a__tabs li[data-tab='bills'] { left: 62.2%; width: 5.2%; color: #6b4f38; }
+.jrn .jrn-f09a__tabs li[data-tab='plans'] { left: 68.4%; width: 4.8%; color: #5a524a; }
+.jrn .jrn-f09a__tabs li[data-tab='goals'] { left: 73.6%; width: 5.4%; color: #3e4432; }
+.jrn .jrn-f09a__tabs li[data-tab='buffer'] { left: 80.0%; width: 6.4%; color: #f3f0e8; }
 .jrn .jrn-f09a__folio {
   position: absolute;
   top: 54.6%;
   left: 20.5%;
   width: 43%;
-  /* Bottom of the amounts row: 1.2 tab widths above the folder's bottom edge (plate y ≈ 2728), as in IMAGE 1. */
-  height: min(
-    calc(0.133 * var(--f09-img-h)),
-    max(78px, calc(100cqh - var(--f09-above-dock) - 0.546 * var(--f09-img-h)))
-  );
+  height: 118px;
   container-type: size;
 }
 .jrn .jrn-f09a__folio-copy {
@@ -251,72 +362,61 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   color: #2a2620;
 }
 .jrn .jrn-f09a__kicker {
   margin: 0;
-  font: 500 8px/1 'JURNL Sans', sans-serif;
-  letter-spacing: 0.2em;
-  color: #6a6258;
+  font: 500 10px/1 'JURNL Sans', sans-serif;
+  letter-spacing: 0.22em;
+  color: #5c564e;
 }
 .jrn .jrn-f09a__headline {
   margin: 8px 0 0;
   font-family: 'JURNL Display', serif;
-  font-size: 24px;
-  line-height: 0.92;
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 0.9;
   letter-spacing: 0.01em;
   text-transform: uppercase;
+  color: #141210;
+  -webkit-text-stroke: 0.45px #141210;
 }
-@container (max-height: 100px) {
-  .jrn .jrn-f09a__headline {
-    margin-top: 4px;
-    font-size: 20px;
-  }
-  .jrn .jrn-f09a__folio-copy ul {
-    padding-top: 4px;
-  }
-}
-/* Amounts row as in IMAGE 1: tracked label over a serif figure, hairline column rules, no top rule.
-   Sizes use the folio's own cqw (the folio is a size container, 43% of the plate width):
-   1cqw = 0.0043 plate widths, so 58 plate px type = 7.66cqw. */
 .jrn .jrn-f09a__folio-copy ul {
   list-style: none;
-  margin: 0;
+  margin: auto 0 0;
   padding: 8px 0 0;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 0;
-  border-top: 0;
+  border-top: 1px solid rgba(70, 58, 44, 0.16);
 }
 .jrn .jrn-f09a__folio-copy li {
   display: flex;
   flex-direction: column;
-  gap: 2.9cqw;
-  padding-left: 5.4cqw;
-  border-left: 1px solid rgba(58, 50, 40, 0.42);
+  gap: 3px;
+  padding-left: 6px;
+  border-left: 1px solid rgba(70, 58, 44, 0.16);
 }
 .jrn .jrn-f09a__folio-copy li:first-child {
   padding-left: 0;
   border-left: 0;
 }
 .jrn .jrn-f09a__folio-copy li span {
-  font: 500 3.83cqw/1 'JURNL Sans', sans-serif;
-  letter-spacing: 0.3em;
-  white-space: nowrap;
-  color: #3b3630;
+  font: 500 8px/1 'JURNL Sans', sans-serif;
+  letter-spacing: 0.12em;
+  color: #5c564e;
 }
 .jrn .jrn-f09a__folio-copy li b {
-  font: 400 7.66cqw/1 'JURNL Display', serif;
-  letter-spacing: 0;
-  white-space: nowrap;
-  color: #1d1a17;
+  font: 500 13px/1 'JURNL Sans', sans-serif;
+  letter-spacing: 0.02em;
+  color: #141210;
 }
 
 .jrn .jrn-f09a__bridge {
   position: absolute;
   top: auto;
-  bottom: calc(84px + env(safe-area-inset-bottom, 0px));
+  bottom: calc(90px + env(safe-area-inset-bottom, 0px));
   left: 3.6%;
   width: 92.8%;
   display: grid;
@@ -361,22 +461,31 @@
 }
 
 .jrn:has([data-jrn-screen='F09.00']) .jrn-nav {
+  position: fixed;
   left: 0;
   right: 0;
   width: 100%;
   height: auto;
   transform: none;
   bottom: 0;
-  padding: 14px 2px calc(12px + env(safe-area-inset-bottom, 0px));
+  /* 20% shorter than the 52px phone dock. Desktop resets this block. */
+  padding: 5px 2px calc(3px + env(safe-area-inset-bottom, 0px));
   border-radius: 0;
   background: #f6f3ee;
   border-top: 0;
   box-shadow: none;
   gap: 0;
 }
+.jrn:has([data-jrn-screen='F09.00']) .jrn-nav svg {
+  height: 10px;
+  width: auto;
+}
+.jrn:has([data-jrn-screen='F09.00']) .jrn-nav__plus svg {
+  height: 18px;
+}
 .jrn:has([data-jrn-screen='F09.00']) .jrn-nav__btn {
-  min-height: 52px;
-  height: auto;
+  min-height: 0;
+  height: 34px;
   border: 0;
   background: transparent;
   border-radius: 0;
@@ -393,8 +502,8 @@
 .jrn:has([data-jrn-screen='F09.00']) .jrn-nav__btn--mark {
   align-self: stretch;
   width: auto;
-  height: auto;
-  min-height: 52px;
+  height: 34px;
+  min-height: 0;
   margin: 0;
   border-radius: 0;
   background: transparent;
@@ -411,4 +520,280 @@
   border-radius: 0;
   background: transparent;
   color: #f6f1e8;
+}
+
+/* Tablet authority (IMAGE 2). Portrait plate 2400×3440 fills 834×1194.
+   Bottom nav stays the mobile dock. Positions are this plate, not the phone plate. */
+@media (min-width: 600px) {
+  .jrn .jrn-screen[data-jrn-screen='F09.00'] {
+    --f09-img-h: 100%;
+    --f09-above-dock: calc(176px + env(safe-area-inset-bottom, 0px));
+    --jrn-plate-tablet: 50% 50%;
+  }
+  .jrn .jrn-screen[data-jrn-screen='F09.00'][data-jrn-composition='CENTER_STAGE'] .jrn-plate {
+    top: 0;
+    object-position: 50% 50%;
+  }
+  .jrn .jrn-f09a__art {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: none;
+  }
+  .jrn .jrn-f09a__signal h1,
+  .jrn .jrn-f09a__amount,
+  .jrn .jrn-f09a__through,
+  .jrn .jrn-f09a__tabs,
+  .jrn .jrn-f09a__folio {
+    transform: none;
+  }
+  .jrn .jrn-f09a__lockup {
+    left: 4.5%;
+    top: calc(env(safe-area-inset-top, 0px) + 22px);
+  }
+  .jrn .jrn-f09a__lockup-img {
+    width: 156px;
+  }
+  .jrn .jrn-f09a__descriptor {
+    max-width: 220px;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+  }
+  .jrn .jrn-f09a__tag {
+    right: 64px;
+    top: calc(env(safe-area-inset-top, 0px) + 28px);
+    width: 150px;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+  }
+  .jrn .jrn-f09a__menu {
+    right: 22px;
+    top: calc(env(safe-area-inset-top, 0px) + 26px);
+    width: 32px;
+    height: 24px;
+  }
+  .jrn .jrn-f09a__signal {
+    left: 32%;
+    width: 42%;
+    top: 15%;
+  }
+  .jrn .jrn-f09a__signal h1 {
+    font-size: 13px;
+    letter-spacing: 0.32em;
+  }
+  .jrn .jrn-f09a__amount {
+    margin-top: 8px;
+    font-size: 84px;
+  }
+  .jrn .jrn-f09a__through {
+    margin-top: 10px;
+    font-size: 12px;
+    letter-spacing: 0.22em;
+  }
+  .jrn .jrn-f09a__why {
+    margin-top: 16px;
+    min-height: 46px;
+    padding: 0 18px;
+    font-size: 12px;
+    border-radius: 14px;
+    transform: none;
+  }
+  .jrn .jrn-f09a__tabs {
+    top: 55.6%;
+    height: 6.2%;
+  }
+  .jrn .jrn-f09a__tabs li {
+    font-size: 9px;
+    letter-spacing: 0.14em;
+  }
+  .jrn .jrn-f09a__tabs li[data-tab='bills'] { left: 66.4%; width: 3.4%; }
+  .jrn .jrn-f09a__tabs li[data-tab='plans'] { left: 70.2%; width: 3.2%; }
+  .jrn .jrn-f09a__tabs li[data-tab='goals'] { left: 73.8%; width: 3.2%; }
+  .jrn .jrn-f09a__tabs li[data-tab='buffer'] { left: 77.6%; width: 3.6%; }
+  .jrn .jrn-f09a__folio {
+    top: 59.2%;
+    left: 21%;
+    width: 44%;
+    height: 22.5%;
+  }
+  .jrn .jrn-f09a__folio-copy {
+    justify-content: space-between;
+    padding-top: 46px;
+  }
+  .jrn .jrn-f09a__folio-copy ul {
+    margin-top: 0;
+  }
+  .jrn .jrn-f09a__kicker {
+    margin-left: 6px;
+    font-size: 11px;
+  }
+  .jrn .jrn-f09a__headline {
+    margin-top: 10px;
+    font-size: 40px;
+    color: inherit;
+    -webkit-text-stroke: 0;
+  }
+  .jrn .jrn-f09a__folio-copy ul {
+    padding-top: 12px;
+  }
+  .jrn .jrn-f09a__folio-copy li span {
+    font-size: 10px;
+  }
+  .jrn .jrn-f09a__folio-copy li b {
+    font-size: 15px;
+  }
+  .jrn .jrn-f09a__bridge {
+    left: 4%;
+    width: 92%;
+    bottom: calc(92px + env(safe-area-inset-bottom, 0px));
+    padding: 12px 16px 12px 18px;
+    border-radius: 28px;
+    grid-template-columns: 18px minmax(0, 1fr) auto;
+    gap: 12px;
+  }
+  .jrn .jrn-f09a__bridge p,
+  .jrn .jrn-f09a__spark {
+    transform: none;
+  }
+  .jrn .jrn-f09a__bridge p {
+    font-size: 11px;
+  }
+  .jrn .jrn-f09a__bridge button {
+    min-height: 42px;
+    padding: 0 16px;
+    font-size: 11px;
+    border-radius: 14px;
+    transform: none;
+  }
+}
+
+/* Desktop authority (IMAGE 1). Wide plate 3072×2048, cover-centered on 1440×900.
+   Nav moves to a centered editorial dock. No side rail. */
+@media (min-width: 1100px) {
+  .jrn .jrn-screen[data-jrn-screen='F09.00'] {
+    --jrn-plate-desktop: 50% 46%;
+  }
+  .jrn .jrn-screen[data-jrn-screen='F09.00'][data-jrn-composition='CENTER_STAGE'] .jrn-plate {
+    top: 0;
+    object-position: 50% 46%;
+  }
+  .jrn .jrn-f09a__lockup {
+    left: 36px;
+    top: calc(env(safe-area-inset-top, 0px) + 18px);
+  }
+  .jrn .jrn-f09a__lockup-img {
+    width: 168px;
+  }
+  .jrn .jrn-f09a__descriptor {
+    font-size: 10px;
+  }
+  .jrn .jrn-f09a__tag {
+    right: 132px;
+    top: calc(env(safe-area-inset-top, 0px) + 26px);
+    width: 160px;
+    font-size: 12px;
+  }
+  .jrn .jrn-f09a__account {
+    display: grid;
+    place-items: center;
+    position: absolute;
+    right: 72px;
+    top: calc(env(safe-area-inset-top, 0px) + 18px);
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 1.5px solid rgba(36, 32, 26, 0.55);
+    border-radius: 50%;
+    background: transparent;
+    color: #1c1915;
+    font: 500 12px/1 'JURNL Sans', sans-serif;
+    letter-spacing: 0.04em;
+  }
+  .jrn .jrn-f09a__menu {
+    right: 28px;
+    top: calc(env(safe-area-inset-top, 0px) + 24px);
+  }
+  .jrn .jrn-f09a__signal {
+    left: 24%;
+    width: 34%;
+    top: 13%;
+  }
+  .jrn .jrn-f09a__signal h1 {
+    font-size: 14px;
+  }
+  .jrn .jrn-f09a__amount {
+    font-size: 96px;
+  }
+  .jrn .jrn-f09a__through {
+    font-size: 13px;
+  }
+  .jrn .jrn-f09a__why {
+    min-height: 48px;
+    font-size: 12px;
+  }
+  .jrn .jrn-f09a__tabs {
+    top: 46.8%;
+    height: 5.6%;
+  }
+  .jrn .jrn-f09a__tabs li {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+  }
+  .jrn .jrn-f09a__tabs li[data-tab='bills'] { left: 57.2%; width: 2.1%; }
+  .jrn .jrn-f09a__tabs li[data-tab='plans'] { left: 60.0%; width: 2.0%; }
+  .jrn .jrn-f09a__tabs li[data-tab='goals'] { left: 62.8%; width: 2.1%; }
+  .jrn .jrn-f09a__tabs li[data-tab='buffer'] { left: 65.8%; width: 2.4%; }
+  .jrn .jrn-f09a__folio {
+    top: 52.4%;
+    left: 27.2%;
+    width: 29%;
+    height: 22%;
+  }
+  .jrn .jrn-f09a__folio-copy {
+    padding-top: 28px;
+    padding-left: 4px;
+  }
+  .jrn .jrn-f09a__kicker {
+    margin-left: 0;
+    font-size: 12px;
+  }
+  .jrn .jrn-f09a__headline {
+    font-size: 44px;
+  }
+  .jrn .jrn-f09a__folio-copy li b {
+    font-size: 16px;
+  }
+  .jrn .jrn-f09a__bridge {
+    left: 50%;
+    width: min(920px, 68%);
+    transform: translateX(-50%);
+    bottom: calc(112px + env(safe-area-inset-bottom, 0px));
+    padding: 14px 18px 14px 22px;
+  }
+  .jrn .jrn-f09a__bridge p {
+    font-size: 12px;
+  }
+  .jrn:has([data-jrn-screen='F09.00']) .jrn-nav {
+    left: 50%;
+    right: auto;
+    width: min(640px, 48%);
+    transform: translateX(-50%);
+    bottom: 16px;
+    padding: 10px 8px 12px;
+    border-radius: 18px;
+    background: rgba(246, 243, 238, 0.94);
+  }
+  .jrn:has([data-jrn-screen='F09.00']) .jrn-nav__btn,
+  .jrn:has([data-jrn-screen='F09.00']) .jrn-nav__btn--mark {
+    min-height: 48px;
+    height: auto;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+  }
+  .jrn:has([data-jrn-screen='F09.00']) .jrn-nav svg,
+  .jrn:has([data-jrn-screen='F09.00']) .jrn-nav__plus svg {
+    height: auto;
+    width: auto;
+  }
 }

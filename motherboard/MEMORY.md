@@ -14489,6 +14489,224 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Not changed:** the plate file, the arch-centered signal, routes, or `computeSafeToSpend`.
 - **Do not repeat:** Do not leave the F09 nav without its beige dock. Do not paint BUFFER cream. Do not shift the plate without shifting `.jrn-f09a__art` by the same bleed.
 
+---
+
+## 2026-10-07 — JURNL F09 plate was clipped by the stage, not the image
+
+- **Context:** This chat rebuilt F09 Safe to Spend on `/production/jurnl/runtime/safe` against the approved authority. One OpenArt plate (history `PQTsHqqy3Pf0ZpQJougi`, 1760×3840). Live money stays `computeSafeToSpend` (preview `$6,500`, bills `$1,920`). The signal sits in the arch (`left: 31%; width: 56%`). Tab words face right (`writing-mode: vertical-rl`, no 180° rotate) in tab ink (BUFFER `#c6dba8`). Nav marks are the traced authority glyphs. The dock is solid `#f6f3ee`.
+- **What the founder saw:** Tan still peeking above and below the plate on the phone (photo at 9:43, `site00.fsbw-dev.com`). The bands are flat CSS fill, about 11px under the status bar and about 13px under the dock, matching `.jrn` background `#c9b49a`, not the photograph (plate top std is ~11–22).
+- **Cause:** The stage was shorter than the visual viewport, and the plate’s negative bleed was clipped so it never covered the gap. Overrides that did it:
+  - `.jrn` in `jurnl-runtime.css`: `position: fixed; inset: 0` plus `height: 100dvh` and `max-height: 100dvh`. The explicit height drops `bottom: 0`, so the box does not stretch to the visual viewport. `overflow: hidden`. Background `#f1e3cf`.
+  - F09 itself had re-set `height: 100dvh`, `overflow: hidden`, and background `#c9b49a`, and pulled the plate up with `--f09-bleed: 28px`. `.jrn` clipped that bleed.
+  - `.jrn .jrn-screen` `overflow: hidden` plus the family animation (`filter: blur`, `animation-fill-mode: both`).
+  - `.jrn .jrn-env` `overflow: hidden`.
+  - `.jrn .jrn-col` overflow and safe-area padding, and the family-frame column rule (including the 600px/1100px `padding-top`).
+  - CENTER_STAGE `transform: scale()` on `.jrn-plate`.
+  - `html` / `body` / `#root` had no margin reset.
+- **Fix:** For F09 only, the stage is stretched with `top`/`bottom`/`left`/`right` and `height: auto` (no `100dvh`). The hub also pins `.jrn` to `visualViewport` (offset, width, height) and clears those inline styles on leave. The plate and `.jrn-f09a__art` are top-anchored (`--f09-bleed: 0`) and at least the stage in both axes (`max(100%, 100cqh, width × 3840/1760)`), `object-fit: cover`, `object-position: 50% 0%`. Screen animation/filter/transform are none. Env and the family column are `overflow: visible` with padding 0. `html`, `body`, and `#root` are `margin: 0; overflow: hidden` while F09 is mounted. Measured on 393×852 and 390×700: stage and dock meet the viewport edges; the top row is the photograph (std ~11), the bottom row is the beige dock.
+- **Not changed:** the plate file, arch signal, tab direction and colors, traced marks, beige dock, routes, menu to account, hold-on-why, purchase target, or `computeSafeToSpend`.
+- **Do not repeat:** Do not set F09 `.jrn` back to `height: 100dvh` while `inset: 0` is set — that is the clip. Do not bring back a negative `--f09-bleed` unless the art box moves with it and the stage itself fills the visual viewport. Do not paint the F09 stage `#c9b49a` or plaster and expect the bleed to hide it.
+
+---
+
+## 2026-10-07 — JURNL F09 tablet and desktop authorities, bottom nav
+
+- **Context:** The F09 Safe to Spend parent is live at `/production/jurnl/runtime/safe`. Mobile was already approved (plate history `PQTsHqqy3Pf0ZpQJougi`, arch signal, right-facing tabs, traced nav marks, solid `#f6f3ee` dock, `computeSafeToSpend`). This sprint extends that family to tablet and desktop from two new authorities. It does not change the formula, routes, CTA meaning, child screens, or the mobile layout.
+- **Authorities:** IMAGE 2 is the tablet composition (portrait arch, large folio). IMAGE 1 is the desktop composition (wide terrace). Both pictures still show a left rail. The written decision supersedes that rail. Canonical F09 nav is bottom on mobile, tablet, and desktop. Do not put the side rail back.
+- **Plates:** The phone plate is 1760×3840. A cover crop of it cannot keep both the arch and the folio on a 1440×900 screen. New OpenArt GPT Image 2.5 Sunburst plates, image2image, auto-enhance off, high, 4k, project `VdiPtgVqb21sYl003uox`. Tablet history `OVMaDl8ByEBZKw70HFG1`, 2400×3440, `F09_ENVIRONMENT_TABLET_PLATE.png`. Desktop history `RQxfgcBWYfJtT7nvntJQ`, 3072×2048, `F09_ENVIRONMENT_DESKTOP_PLATE.png`. Blank physical folio, no baked UI. `FamilyPlate` may carry `tabletSrc` and `desktopSrc`. The hub uses a `<picture>` so 393 keeps the phone plate. Breakpoints stay 600 and 1100.
+- **Layout:** Tablet keeps the full-width beige dock. Desktop nav is a centered editorial dock (`min(640px, 48%)`), not edge to edge, under the purchase bridge. Desktop also shows the account monogram (live initials when signed in, otherwise the authority mark JL) beside the menu. Both go to account. Live preview money stays `$6,500`, bills `$1,920`, plans/goals/buffer `$0`, date line AVAILABLE THROUGH OCT 18.
+- **Do not repeat:** Do not scale the phone plate up to desktop. Do not cap `.jrn-f09a` with the desktop `.jrn-col > * { max-width: 440px }` rule. Do not move F09 tablet or desktop navigation back to a left rail.
+
+---
+
+## 2026-10-07 — JURNL F09 live tunnel already matches the full-bleed build
+
+- **Context:** The founder saw a full-bleed F09 capture and a live route that still looked banded. A caption named main `5a81808f` plus folder-text commit `4e5955db`, and said that fix was not on the tunnel until merged.
+- **What `4e5955db` is:** It exists only on `origin/claude/safe-to-spend-territories-g62f6l`. Parent chain includes `5a81808f`. It is not an ancestor of `main`. The commit edits folder tab and amount padding in `jurnl-f09-authority.css`. It is not the viewport bleed fix.
+- **What is live:** `origin/main` and `origin/preview/tunnel` are `288efce6`. The founder preview host serves dist `site00-v272-2b8f781`, bundle `index.B6PXxXbE.js`, the same bytes as the local preview on port 5174. The JURNL chunk includes `visualViewport` and `--f09-bleed: 0` from the plate-clip commit `813de5ba`. Vite preview cwd is `/workspace`. No restart was required.
+- **Proof:** After the plate PNG finishes loading, a 393×852 capture of the public route is pixel-identical to the local full-bleed artifact (mean difference 0). A shot taken before the PNG decodes shows the stage color `#1c1915` and is not the settled frame. The bottom beige dock is the nav, not an extra band.
+- **Do not repeat:** Do not roll the tunnel back to `4e5955db`. Do not add another full-bleed override while the live bundle already matches `main`.
+
+---
+
+## 2026-10-07 — JURNL F09 preview tunnel was dropping the plate and the layout CSS
+
+- **Context:** This chat rebuilt F09 Safe to Spend through the approved mobile plate, beige dock, arch signal, right-facing tabs, traced nav marks, then tablet and desktop plates with bottom nav on every breakpoint. Live money stays `computeSafeToSpend` (preview `$6,500`, bills `$1,920`). The founder then said the approved screenshots were correct and the founder preview route `/production/jurnl/runtime/safe` was not showing them.
+- **What was already true:** `main` serves dist `site00-v272-2b8f781`, bundle `index.B6PXxXbE.js`. A patient load of that route paints the approved full-bleed screen. Commit `4e5955db` is still not the bleed fix and is still not on `main`.
+- **What the phone was hitting:** Cloudflare answered some asset requests with `429` and `cf-int-tunnel-request-limit-hit: global`. Vite preview sent `CDN-Cache-Control: no-store` on every file, so the layout CSS, JS, fonts, and the 8.2MB plate all counted against that tunnel limit. When `JurnlRuntimeRoot.*.css` was dropped, the DOM still showed `$6,500` but the authority layout was gone (the account mark `JL` became visible at phone width). When the plate was dropped, the photograph never painted.
+- **Fix:** `vite.config.ts` preview now marks hashed `/assets/` files and JURNL `.woff2` fonts `public, max-age=31536000, immutable`, and gives HTML `Cache-Control: no-cache` plus `CDN-Cache-Control: public, max-age=120`. The preview process on port 5174 was restarted onto that config. After one warm fetch, the JURNL CSS and the phone plate are Cloudflare `HIT`. A full load of the safe route then returned 200 for the document, the JURNL CSS, and the plate, and painted the approved screen.
+- **Do not repeat:** Do not put `CDN-Cache-Control: no-store` back on hashed preview assets. Do not treat a 429-dropped stylesheet as a geometry bug. Do not roll the tunnel back to `4e5955db`.
+
+---
+
+## 2026-10-07 — JURNL F09 mobile viewport was boxing the plate
+
+- **Context:** This chat rebuilt F09 Safe to Spend (approved plate, beige dock, arch signal, right-facing tabs, traced marks, tablet and desktop plates, bottom nav on every breakpoint). Live money stays `computeSafeToSpend` (preview `$6,500`, bills `$1,920`). The founder said the approved screenshots were right and the preview route was not, then said nothing changed and the mobile view was constricting the plate. It had been full-bleed before that box.
+- **Cause:** `useF09VisualStage` wrote `visualViewport` width and height onto `.jrn` (right and bottom `auto`). The phone plate was also sized with `max(100%, 100cqh * 1760/3840)` and centered. A short mobile browser is a smaller box than the screen, so the photograph sat inside it and the page color showed around it.
+- **Fix:** That pin is gone. The F09 stage is `100lvh` and the plate is `inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 0%`. Measured at 393×852, 390×844, 390×700, and 430×932: the plate box matches the viewport. Top row is the photograph. Bottom row is the beige dock.
+- **Do not repeat:** Do not pin F09 `.jrn` to `visualViewport`. Do not size the phone plate to `100cqh * 1760/3840` and center it. Do not bring back `height: 100dvh` on F09 `.jrn`.
+
+---
+
+## 2026-10-07 — JURNL F09 plate leaves the stage box
+
+- **Context:** This chat rebuilt F09 Safe to Spend (approved plate, beige dock, arch signal, right-facing tabs, traced marks, tablet and desktop plates, bottom nav). Live money stays `computeSafeToSpend` (preview `$6,500`, bills `$1,920`). The founder said the phone still showed the photograph clipped and nestled inside a container, including under the Quick Add sheet.
+- **Cause:** F09 `.jrn` used an explicit `height: 100lvh` (which drops `bottom: 0`) plus `overflow: hidden` and `container-type: size`. That containment box is the containing block for fixed descendants, so the plate could not reach the screen edges.
+- **Fix:** `.jrn` stretches with top and bottom (`height: auto`), overflow visible, and is not a size container. The size container moved to `.jrn-f09a` so folio `cqh` still resolves. The plate is `position: fixed` on the viewport (`width/height: 100%`, `object-fit: cover`). `picture` is `display: contents` so it is not a box around the image. Measured plate boxes: 393×852, 834×1194, and 1440×900, each matching the viewport at 0,0. Quick Add still opens over the plate; SAVE sits inside the 852px height.
+- **Do not repeat:** Do not set `height: 100lvh` or `height: 100dvh` on F09 `.jrn`. Do not put `container-type` on `.jrn` or any ancestor of the plate. Do not put the plate back to `position: absolute` inside `.jrn-env`. Do not pin `.jrn` to `visualViewport`.
+
+---
+
+## 2026-10-07 — JURNL F09 plate continues behind the phone browser bar
+
+- **Context:** This chat rebuilt F09 Safe to Spend and then tried to stop the phone from boxing the plate. The founder sent a fresh phone shot of the preview route and said nothing had changed.
+- **What the shot shows:** The new bundle was already live. The photograph and the beige dock stop together, and a full-width band of stage color `#1c1915` fills the screen under the dock, behind the browser toolbar. The plate rule was `top/bottom: 0` and `height: 100%`, which is only the visible viewport.
+- **Fix:** The plate stays `position: fixed`, with `bottom: auto` and `height: calc(100lvh + safe-area top + safe-area bottom)`, shifted up by the top safe area. The stage and the dock stay on the visible viewport so the nav does not slide under the toolbar. Desktop Chromium still measures the plate at the viewport: 393×852, 834×1194, 1440×900.
+- **Do not repeat:** Do not pin the F09 plate with `bottom: 0` and `height: 100%`. Do not put `height: 100lvh` on `.jrn`. Do not move the dock onto the large viewport.
+
+---
+
+## 2026-10-07 — JURNL F09 phone bands are #1c1915, scroll restored
+
+- **Context:** This chat rebuilt F09 Safe to Spend on `/production/jurnl/runtime/safe`. One plate per breakpoint (phone history `PQTsHqqy3Pf0ZpQJougi` 1760×3840, tablet `OVMaDl8ByEBZKw70HFG1` 2400×3440, desktop `RQxfgcBWYfJtT7nvntJQ` 3072×2048). Live money stays `computeSafeToSpend` (preview `$6,500`, bills `$1,920`, plans/goals/buffer `$0`, date line AVAILABLE THROUGH OCT 18). Beige dock `#f6f3ee`, arch signal, right-facing tabs, traced nav marks, bottom nav on mobile, tablet, and desktop. Menu and the desktop account mark go to account.
+- **Phone is the measurement.** Desktop Chromium has no status bar and no Safari toolbar, so it cannot show the bands. A 12:19 phone shot (1206×2622, 402×874 CSS at 3×) still showed them after the v45 plate rule (`index.BCoOvZLL.js`). Top y 0–186 (0–62 CSS px) and the strip under the dock from y 2328 to the bottom of the screen (776–874 CSS px, about 98 CSS px) are flat rgb(28, 25, 20), standard deviation 0. That is CSS `#1c1915`. The photograph starts at y 186 and is about rgb(207, 187, 169) with variation. The dock is `#f6f3ee`. Safari’s toolbar is drawn on top of the bottom fill; the left and right edges stay `#1c1915`.
+- **What paints it:** `background: #1c1915` on `html`, `body`, `#root`, and `.jrn` in `jurnl-f09-authority.css`. The plate and the dock both stop at the visible page, so the stage fill shows in the status-bar inset and behind the browser bar.
+- **What was already tried and did not remove the phone bands:** removing `useF09VisualStage`; stage `100lvh`; removing `container-type` and explicit height from `.jrn`; plate `position: fixed` with `bottom: 0` and `height: 100%`; then plate `bottom: auto` and `height: calc(100lvh + safe-area-top + safe-area-bottom)`. The plate has no `container-type`. The only size container is `.jrn-f09a` (`container-name: jrn`), a sibling overlay, plus the folio.
+- **This change:** The founder asked to put scroll back. F09 `html` / `body` / `#root` are `overflow-y: auto` again (they had been `overflow: hidden`, then `overflow: visible` with `height: 100%`, which does not scroll). `.jrn` is back in the document (`position: relative`, `min-height: calc(100lvh + 1px)`, `overflow: visible`), not `position: fixed`. The plate is `position: absolute`, `height: 100lvh`, inside that scroll, so iOS can paint it through the status bar and the toolbar instead of clipping a fixed image to the gap between them. The dock is `position: fixed; bottom: 0` so it stays on the visible viewport. The overlay host is `position: fixed` so Quick Add stays on screen. Desktop Chromium still cannot prove the phone bands are gone.
+- **Do not repeat:** Do not lock F09 `html` / `body` to `overflow: hidden`. Do not put the plate back to `position: fixed` if the phone still shows `#1c1915` at the top and bottom. Do not treat a desktop screenshot as proof those bands are gone. Do not put `container-type` on `.jrn`. Do not pin `.jrn` to `visualViewport`. Do not set `height: 100dvh` or `height: 100lvh` on F09 `.jrn`.
+
+---
+
+## 2026-10-07 — JURNL F09 beige stage, shorter dock, plate offset flipped
+
+- **Context:** This chat rebuilt F09 Safe to Spend, then traced the phone bands to CSS `#1c1915` on `html`, `body`, `#root`, and `.jrn`. Scroll was restored so the document can extend through the phone browser bars. Live money stays `computeSafeToSpend` (preview `$6,500`, bills `$1,920`).
+- **What the founder asked:** Shorten only the bottom dock by about 35%. Paint the area above and behind the plate the same beige as the dock (`#f6f3ee`) so the band is less obvious. Move the plate 30% inside its box, without resizing the box, so the purchase button clears the folders.
+- **Direction:** A `top: -30%` offset moved the photograph up (its top landed at -256px on a 852px screen) and a beige gap opened underneath. The founder said that was the wrong direction and the numbers were inverted. The folder labels were put back at `47.4%` and `54.6%`. The plate offset is now `top: 30%` on mobile only, so the photograph starts 256px down and the beige shows above it. Tablet and desktop plates stay at `top: 0`.
+- **Dock:** Phone and tablet dock height is 52px, down from about 81px. Desktop dock stays the centered editorial bar.
+- **Do not repeat:** Do not use `top: -30%` on the F09 phone plate if the founder wants this lower offset. Do not paint the F09 stage `#1c1915` again while the bands are being disguised. Do not shrink the desktop dock when shortening the phone dock.
+
+---
+
+## 2026-10-07 — JURNL F09 type follows the lowered phone plate
+
+- **Context:** This chat rebuilt F09 Safe to Spend, then shortened the phone dock, painted the stage `#f6f3ee`, and set the mobile plate to `top: 30%`. Live money stays `computeSafeToSpend` (preview `$6,500`, bills `$1,920`).
+- **What was wrong:** The plate moved down and the type stayed on the screen, so the logo, the amount, and the folder words floated off the artwork.
+- **Fix:** On the phone, `.jrn-f09a__art` uses the same `top: 30%` as the plate. The lockup, signal, tab words, and folio copy move with the photograph. The purchase bridge stays where it was. Tablet and desktop reset that layer to `top: 0` with their plates.
+- **Do not repeat:** Do not leave the F09 phone type at `top: 0` while the plate is `top: 30%`. Do not move the purchase bridge with the plate unless the founder asks.
+
+---
+
+## 2026-10-07 — JURNL F09 phone plate moves up
+
+- **Context:** This chat rebuilt F09 Safe to Spend. The phone plate was then set to `top: 30%`, which starts the photograph lower on the screen. The founder said that was still down and asked for up. Live money stays `computeSafeToSpend` (preview `$6,500`, bills `$1,920`).
+- **Fix:** On the phone, the plate and `.jrn-f09a__art` are `top: -30%`. The photograph and the type that sits on it (lockup, amount, tab words, folio copy) lift together. The purchase bridge stays. Tablet and desktop stay at `top: 0`. On an 852px screen the plate top measures -256px.
+- **Do not repeat:** Do not set the F09 phone plate back to `top: 30%`. That offset is the downward one.
+
+---
+
+## 2026-10-07 — JURNL F09 phone plate lowered 10%
+
+- **Context:** The phone plate and its type were `top: -30%`, which put the photograph 256px above an 852px screen. The founder said that was too high and asked for about 10% lower. Live money stays `computeSafeToSpend` (preview `$6,500`, bills `$1,920`).
+- **Fix:** Phone plate and `.jrn-f09a__art` are `top: -20%`. On 852px the plate top measures -171px. The type stays on the artwork. The purchase bridge stays. Tablet and desktop stay at `top: 0`.
+- **Do not repeat:** Do not put the F09 phone plate back to `top: -30%` or `top: 30%`. The current phone offset is `-20%`.
+
+---
+
+## 2026-10-07 — JURNL F09 buttons stay, only plate type moves
+
+- **Context:** This chat rebuilt F09 Safe to Spend, then moved the phone plate to `top: -20%` and shifted the whole `.jrn-f09a__art` layer with it. That also moved the menu, the lockup, the tagline, and SEE WHY. Live money stays `computeSafeToSpend` (preview `$6,500`, bills `$1,920`).
+- **What the founder asked:** Move only the plate and the text layered on it. Restore every button and everything else that rode along.
+- **Fix:** `.jrn-f09a__art` is `top: 0` again. On the phone, `translateY(-20lvh)` applies only to the signal heading, the amount, the date line, the folder tab words, and the folio copy. SEE WHY, the menu, the desktop account mark, the lockup, the tagline, the purchase bridge, and the nav stay at their screen positions. Tablet and desktop clear that translate and keep the plate at `top: 0`. Measured on 393×852: plate top -171px, menu y=40, lockup y=36, SEE WHY y=265, bridge y=717, nav 52px. Amount and folio sit about 170px higher with the plate.
+- **Do not repeat:** Do not put `top: -20%` back on `.jrn-f09a__art`. Do not translate `.jrn-f09a__why`, `.jrn-f09a__menu`, `.jrn-f09a__account`, the lockup, or the bridge with the plate. Do not change the phone plate offset from `-20%`.
+
+---
+
+## 2026-10-07 — JURNL F09 phone plate and folder type down another 10%
+
+- **Context:** This chat rebuilt F09 Safe to Spend. The phone plate was at `top: -20%`, with `translateY(-20lvh)` on the heading, amount, date, tab words, and folio copy. Buttons, the lockup, and the tagline stay on the screen. Live money stays `computeSafeToSpend` (preview `$6,500`, bills `$1,920`).
+- **What the founder asked:** Move the plate and the text on the folders down another 10%. Do not move any buttons down.
+- **Fix:** Phone plate is `top: -10%`. The same type nodes use `translateY(-10lvh)`, so the heading, amount, date, tab words, and folio copy stay on the artwork. SEE WHY stays at y=265, the menu at y=40, the lockup at y=36, the purchase bridge at y=717, and the nav at the bottom. On 393×852 the plate top measures -85px. Tablet and desktop stay at `top: 0` with no translate.
+- **Do not repeat:** Do not put the phone plate back to `top: -20%` or `top: -30%`. Do not translate the menu, SEE WHY, the account mark, the lockup, the tagline, the purchase bridge, or the nav with the plate.
+
+---
+
+## 2026-10-07 — JURNL F09 phone text aligned to the reference
+
+- **Context:** This chat rebuilt F09 Safe to Spend. The founder accepted the phone plate at `top: -10%` and asked for the type to match the reference screen. Live money stays `computeSafeToSpend` (preview `$6,500`, bills `$1,920`). The reference sample `$1,284` is not hardcoded.
+- **What was off:** A shared `translateY(-10lvh)` pulled the heading, amount, and date up into the logo and tagline, and dropped the folder amounts below the card. SEE WHY, the menu, the lockup, the purchase bridge, and the nav were already at their screen positions.
+- **Fix:** On the phone the heading is `translateY(-6lvh)`, the amount `-5.2lvh`, the date `-3.4lvh`, and the tab words and folio `-3lvh`. The folio box is 86px tall so the amounts row stays on the card. Measured on 393×852: heading y=111, amount y=136, date y=212, SEE WHY y=265, folio y=440, amounts y=497. Tablet and desktop clear the translates. The plate stays `top: -10%`.
+- **Do not repeat:** Do not put `translateY(-10lvh)` back on the phone type. Do not move SEE WHY, the menu, the lockup, the tagline, the purchase bridge, or the nav when aligning the arch and folder type. Do not change the phone plate from `top: -10%`.
+
+---
+
+## 2026-10-07 — JURNL F09 purchase button up 6px
+
+- **Context:** This chat rebuilt F09 Safe to Spend and aligned the phone type to the reference. The plate stays `top: -10%`. Live money stays `computeSafeToSpend` (preview `$6,500`, bills `$1,920`).
+- **What the founder asked:** Move the CHECK A PURCHASE button only, upwards 6px.
+- **Fix:** On the phone the bridge button is `translateY(-6px)`. The bridge panel, its copy, SEE WHY, the menu, the lockup, and the nav stay. Measured on 393×852: button y=720, bridge y=717, bridge copy y=730, nav y=800. Tablet and desktop reset that translate to none.
+- **Do not repeat:** Do not move the purchase bridge panel when nudging the button. Do not apply the 6px lift on tablet or desktop.
+
+---
+
+## 2026-10-07 — JURNL F09 scroll off, phone dock 20% shorter
+
+- **Context:** This chat rebuilt F09 Safe to Spend. The phone plate stays `top: -10%`. The CHECK A PURCHASE button stays `translateY(-6px)`. Live money stays `computeSafeToSpend` (preview `$6,500`, bills `$1,920`).
+- **What the founder asked:** Remove the scroll. Lower only the bottom dock height by 20% so it covers less of the plate.
+- **Fix:** F09 `html`, `body`, `#root`, and `.jrn` are `overflow: hidden` and `height: 100lvh`. The extra `1px` min-height that forced a scroll range is gone. On 393×852, `scrollHeight` equals `clientHeight` (852). The phone and tablet dock is 42px, down from 52px. Desktop dock stays 79×640. The plate top is still -85px.
+- **Do not repeat:** Do not put the F09 `+1px` scroll height back. Do not shrink the desktop dock when shortening the phone dock. Do not change the phone plate from `top: -10%`.
+
+---
+
+## 2026-10-07 — JURNL F09 want-to-spend line up 6px
+
+- **Context:** This chat rebuilt F09 Safe to Spend. Scroll is off. The phone dock is 42px. The CHECK A PURCHASE button is already `translateY(-6px)`. The plate stays `top: -10%`. Live money stays `computeSafeToSpend` (preview `$6,500`, bills `$1,920`).
+- **What the founder asked:** Move the want-to-spend button only, upwards 6px.
+- **Fix:** On the phone the bridge copy (`WANT TO SPEND ON SOMETHING?`) and its spark are `translateY(-6px)`. The CHECK A PURCHASE button stays at its existing 6px lift. The bridge panel and the nav do not move. Measured on 393×852: copy y=723, spark y=720, button y=719, bridge y=716, nav y=810. Tablet and desktop clear the new translate.
+- **Do not repeat:** Do not move the bridge panel or the CHECK A PURCHASE button when nudging the want-to-spend line. Do not apply this 6px lift on tablet or desktop.
+
+---
+
+## 2026-10-07 — JURNL F09 SEE WHY button up 12px
+
+- **Context:** This chat rebuilt F09 Safe to Spend. Scroll is off. The phone dock is 42px. The want-to-spend line and the CHECK A PURCHASE button are each already up 6px. The plate stays `top: -10%`. Live money stays `computeSafeToSpend` (preview `$6,500`, bills `$1,920`).
+- **What the founder asked:** Move the SEE WHY THIS AMOUNT button only, upwards 12px.
+- **Fix:** On the phone `.jrn-f09a__why` is `translateY(-12px)`. The date, the folder, the purchase bridge, and the nav do not move. Measured on 393×852: SEE WHY y=253, date y=212, folio y=440, bridge y=716, nav y=810. Tablet and desktop clear that translate.
+- **Do not repeat:** Do not move the date or the folder when nudging SEE WHY. Do not apply the 12px lift on tablet or desktop.
+
+---
+
+## 2026-10-07 — JURNL F09 want-to-spend bar rises with the line
+
+- **Context:** This chat rebuilt F09 Safe to Spend. The phone plate stays `top: -10%`. Scroll is off. The phone dock is 42px. Live money stays `computeSafeToSpend` (preview `$6,500`, bills `$1,920`). A prior turn moved only the want-to-spend words and spark `translateY(-6px)` inside a stationary bridge, and a later turn had started lifting the inner CHECK A PURCHASE control to `-12px`. The founder said the button the text sits in did not move with the text. They also asked to move SEE WHY THIS AMOUNT up another 14px.
+- **Fix:** On the phone the bridge bar `bottom` is `calc(90px + env(safe-area-inset-bottom))`, 6px higher than 84px. The paragraph and spark have no transform, so the line rides inside the bar. The inner CHECK A PURCHASE control also has no transform, so it stays centered with that line instead of floating another 6px. SEE WHY is `translateY(-26px)` (the shipped 12px plus the extra 14px). Measured on 393×852: bridge y=710, copy y=723, spark y=720, purchase control y=719, SEE WHY y=239, nav y=810 h=42, plate y=-85. Tablet bridge stays `bottom: 92px`. Desktop bridge stays `bottom: 112px` and the dock stays about 79×640. Document scroll height is still 852.
+- **Do not repeat:** Do not translate the want-to-spend paragraph inside a stationary bridge. Move the bar with the line. Do not put `translateY(-12px)` back on the inner purchase control. Do not apply the phone bar lift or the SEE WHY lift on tablet or desktop. Do not change the phone plate from `top: -10%`.
+
+---
+
+## 2026-10-07 — JURNL F09 parent logo and tagline removed
+
+- **Context:** This chat rebuilt F09 Safe to Spend. The phone plate stays `top: -10%`. The want-to-spend bar rises with its line. SEE WHY on the phone is `translateY(-26px)`. Live money stays `computeSafeToSpend` (preview `$6,500`, bills `$1,920`).
+- **What the founder asked:** Remove the logo from the Safe to Spend parent page only, and remove the PLAN TODAY. GROW FREELY. line at the top.
+- **Fix:** `SafeToSpendHubScreen` no longer renders the lockup (wordmark and FINANCIAL LIFE. BEAUTIFULLY ORGANIZED.) or `.jrn-f09a__tag`. The menu stays, and on desktop the JL account mark stays. The why screen still uses its own chrome and still shows JURNL. Measured on the parent at 393×852 and 1440×900: no lockup, no PLAN TODAY, amount `$6,500`, menu present.
+- **Do not repeat:** Do not put the lockup or PLAN TODAY. GROW FREELY. back on F09.00. Do not remove that tagline from other families.
+
+---
+
+## 2026-10-07 — JURNL F09 folder tab words match the reference
+
+- **Context:** This chat rebuilt F09 Safe to Spend. The phone plate stays `top: -10%`. The parent logo and PLAN TODAY. GROW FREELY. are gone. Live money stays `computeSafeToSpend` (preview `$6,500`, bills `$1,920`). The founder sent a phone crop of the live tabs and the reference crop (sample BUFFER `$500`) and said the folder words were still not pixel-aligned.
+- **What was off:** On the phone the words were tight (`letter-spacing: 0.16em`) and sat about 30px too low on the tabs. BUFFER was pale green `#c6dba8`. The reference tracks the words out and sets BUFFER in warm white, starting about 1.3 tab-widths below the tab top.
+- **Fix:** Phone tabs only: `translateY(calc(-3lvh - 30px))`. The folio stays at `translateY(-3lvh)`. Phone letter-spacing is `0.38em`. BUFFER color is `#f3f0e8`. Measured on 402×874: BUFFER glyph y=367 h=38, which matches the reference ratio. Tablet and desktop clear the translate and keep their own tracking. The folio did not move.
+- **Do not repeat:** Do not put the folder-word translate back on the folio. Do not return BUFFER to `#c6dba8` on the phone. Do not change the phone plate from `top: -10%`.
+
+---
+
+## 2026-10-07 — JURNL F09 folio copy block lowered and enlarged
+
+- **Context:** This chat rebuilt F09 Safe to Spend. The phone plate stays `top: -10%`. Live money stays `computeSafeToSpend` (preview `$6,500`, bills `$1,920`). The sample reference amounts (`$1,284`, `$2,310`, `$950`, `$600`, `$500`) are not hardcoded. The founder circled YOUR MONEY / ORGANIZED. THEN YOURS. / the amounts row and said that whole block must move down to the reference, and the size and weight must match.
+- **Fix:** On the phone the folio is `translateY(calc(-3lvh + 36px))` and `height: 118px`. The headline is 28px Instrument Serif, color `#141210`, with a `0.45px` stroke so it reads at the reference weight. The kicker is 10px. The amount labels are 8px and the figures are 13px. Tablet and desktop clear the translate, reset the stroke, and keep their own sizes. Measured at 402×760: headline y=446, amounts y=513, still on the card just above the stone.
+- **Do not repeat:** Do not put the folio copy back to `translateY(-3lvh)` or the 86px box. Do not shrink the phone headline back to 20px. Do not hardcode the reference sample dollars.
+
 ## 2026-10-06 — JURNL F09 three-concept art-direction regen (P0.JURNL.F09-SAFE-TO-SPEND.THREE-CONCEPT-ART-DIRECTION-REGEN-CORRECTION1) — BLOCKED
 
 - **Founder verdict:** HYBRID-COMPOSITE-AUTHORITY-EXECUTION1 and THREE-DISTINCT-COMPOSITE-AUTHORITY-RERUN1 are REJECTED. Reasons:
@@ -14587,7 +14805,9 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **New failure classes:** ASSET_QUALITY_GUARD_FAILURE, BRAND_WORLD_UNDERSPECIFICATION.
 - **Verdict unchanged:** root cause identified YES; ready to rewrite the generation prompt NO. Also needed first: the asset gate in force.
 
-## 2026-10-07 — JURNL F09 folder words matched to IMAGE 1 (tabs + amounts row)
+## 2026-10-07 — JURNL F09 folder words matched to IMAGE 1 (tabs + amounts row) — SUPERSEDED by main #1450 / #1451
+
+- **Status:** superseded. `main` shipped its own founder-reviewed folder alignment (#1450 tab words, #1451 folio copy), and that version is kept. The plate measurements below remain valid reference data.
 
 - **Founder ask:** align the text on the folders so it looks identical to the reference (IMAGE 1 crop: tab words BILLS / PLANS / GOALS / BUFFER and the GOALS $600 · BUFFER $500 row).
 - **Measured, not guessed:** the four tab faces on the plate are BILLS x 1078–1182 (top 1739), PLANS 1183–1300 (1782), GOALS 1300–1407 (1832), BUFFER 1407–1520 (1872), in 1760×3840 plate px. On IMAGE 1, each word is centered on its face and starts 1.2 face widths below its own tab top, so the words step down with the tabs. Cap height is about 22% of the face width, and tracking is about 0.32em. Ink is near-black on the light tabs and light on BUFFER.
