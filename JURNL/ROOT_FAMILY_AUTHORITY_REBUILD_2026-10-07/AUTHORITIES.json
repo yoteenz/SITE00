@@ -1,0 +1,58 @@
+{
+  "sprint": "P0.JURNL.ROOT-FAMILY.AUTHORITY-REBUILD-PLAN-CREDIT-MONEY-TODAY1",
+  "status": "READY_FOR_FOUNDER_REVIEW",
+  "child_production": "BLOCKED",
+  "mounted_in_runtime": false,
+  "model": "gpt-image-2-5-sunburst",
+  "mode": "image2image",
+  "openart_label": "HQ STARBURST 4K",
+  "settings": {
+    "resolutionTier": "4k",
+    "aspectRatio": "9:16",
+    "quality": "high",
+    "autoEnhancePrompt": false,
+    "outputFormat": "png",
+    "delivered_size": "2016x3584"
+  },
+  "visual_authorities": ["STS", "QUICK ADD"],
+  "old_screens_used_for": "FUNCTION / CONTENT ONLY",
+  "credits_spent": 1280,
+  "screens": [
+    {
+      "screen": "PLAN",
+      "family_id": "F08",
+      "provider_project_id": "d9ZoZo4gUWHNO7GSifZa",
+      "primary_object": "Open planning folio on a sunlit writing table",
+      "history_id": "mvRg4WFYNkArs4Ex6yWt",
+      "resource_id": "B7LpG7Om7JXMBmKqiLSU",
+      "url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791408017668_86316c93.png"
+    },
+    {
+      "screen": "CREDIT",
+      "family_id": "F12",
+      "provider_project_id": "nCNdLAPPEv0tktgrsK0y",
+      "primary_object": "Upright credit dossier with a burgundy spine",
+      "history_id": "pk37YvK1YZQGRtWf4Vzy",
+      "resource_id": "dYK3hWbIjy78cHdQ2JG2",
+      "url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791408015513_8e4eb0a8.png"
+    },
+    {
+      "screen": "MONEY",
+      "family_id": "F05",
+      "provider_project_id": "ga30cJVwkccjlXta8io5",
+      "primary_object": "Stone-and-oak money cabinet with open drawers",
+      "history_id": "7n034ACVumViDGOfKYjr",
+      "resource_id": "SmpNu4lVXsIjac2sMZlE",
+      "url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791408024757_8f01a321.png"
+    },
+    {
+      "screen": "TODAY",
+      "family_id": "F03",
+      "provider_project_id": "Aa0fKSPeX0SJ4DICt0aI",
+      "primary_object": "Clipped morning ledger on a linen blotter",
+      "history_id": "S67TZv2RgqgCtqEAwfre",
+      "resource_id": "I1d7ULp9C5m6zgQGW7Xm",
+      "url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791408026729_b71b72f5.png"
+    }
+  ]
+}
