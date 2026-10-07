@@ -14690,3 +14690,12 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Fix:** `SafeToSpendHubScreen` no longer renders the lockup (wordmark and FINANCIAL LIFE. BEAUTIFULLY ORGANIZED.) or `.jrn-f09a__tag`. The menu stays, and on desktop the JL account mark stays. The why screen still uses its own chrome and still shows JURNL. Measured on the parent at 393×852 and 1440×900: no lockup, no PLAN TODAY, amount `$6,500`, menu present.
 - **Do not repeat:** Do not put the lockup or PLAN TODAY. GROW FREELY. back on F09.00. Do not remove that tagline from other families.
 
+---
+
+## 2026-10-07 — JURNL F09 folder tab words match the reference
+
+- **Context:** This chat rebuilt F09 Safe to Spend. The phone plate stays `top: -10%`. The parent logo and PLAN TODAY. GROW FREELY. are gone. Live money stays `computeSafeToSpend` (preview `$6,500`, bills `$1,920`). The founder sent a phone crop of the live tabs and the reference crop (sample BUFFER `$500`) and said the folder words were still not pixel-aligned.
+- **What was off:** On the phone the words were tight (`letter-spacing: 0.16em`) and sat about 30px too low on the tabs. BUFFER was pale green `#c6dba8`. The reference tracks the words out and sets BUFFER in warm white, starting about 1.3 tab-widths below the tab top.
+- **Fix:** Phone tabs only: `translateY(calc(-3lvh - 30px))`. The folio stays at `translateY(-3lvh)`. Phone letter-spacing is `0.38em`. BUFFER color is `#f3f0e8`. Measured on 402×874: BUFFER glyph y=367 h=38, which matches the reference ratio. Tablet and desktop clear the translate and keep their own tracking. The folio did not move.
+- **Do not repeat:** Do not put the folder-word translate back on the folio. Do not return BUFFER to `#c6dba8` on the phone. Do not change the phone plate from `top: -10%`.
+

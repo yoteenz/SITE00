@@ -180,9 +180,13 @@ body:has([data-jrn-screen='F09.00']),
 .jrn .jrn-f09a__through {
   transform: translateY(-3.4lvh);
 }
-.jrn .jrn-f09a__tabs,
 .jrn .jrn-f09a__folio {
   transform: translateY(-3lvh);
+}
+/* Tab words sit on the protruding tabs. -3lvh follows the plate; the extra
+   30px lifts them to the reference's place on each tab face. */
+.jrn .jrn-f09a__tabs {
+  transform: translateY(calc(-3lvh - 30px));
 }
 .jrn .jrn-f09a__art .jrn-f09a__menu,
 .jrn .jrn-f09a__art .jrn-f09a__account,
@@ -335,13 +339,13 @@ body:has([data-jrn-screen='F09.00']),
   text-orientation: mixed;
   transform: none;
   font: 500 7px/1 'JURNL Sans', sans-serif;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.38em;
   color: #6b4f38;
 }
 .jrn .jrn-f09a__tabs li[data-tab='bills'] { left: 62.2%; width: 5.2%; color: #6b4f38; }
 .jrn .jrn-f09a__tabs li[data-tab='plans'] { left: 68.4%; width: 4.8%; color: #5a524a; }
 .jrn .jrn-f09a__tabs li[data-tab='goals'] { left: 73.6%; width: 5.4%; color: #3e4432; }
-.jrn .jrn-f09a__tabs li[data-tab='buffer'] { left: 80.0%; width: 6.4%; color: #c6dba8; }
+.jrn .jrn-f09a__tabs li[data-tab='buffer'] { left: 80.0%; width: 6.4%; color: #f3f0e8; }
 .jrn .jrn-f09a__folio {
   position: absolute;
   top: 54.6%;
