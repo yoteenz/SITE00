@@ -33,6 +33,7 @@ import { CreditHubScreen, CreditAccountScreen } from './screens/CreditScreens';
 import { GoalsHubScreen, GoalDetailScreen } from './screens/GoalsScreens';
 import { PurchasesHubScreen, PurchaseDetailScreen } from './screens/PurchasesScreens';
 import { PurchaseCheckedScreen } from './screens/PurchaseCheckedScreen';
+import { LockedPurchaseResultScreen } from './screens/LockedPurchaseResultScreen';
 import { TripsHubScreen, TripDetailScreen } from './screens/TripsScreens';
 import { PaydownHubScreen, PaydownWhatIfScreen } from './screens/PaydownScreens';
 import { AheadHubScreen, AheadBranchScreen } from './screens/AheadScreens';
@@ -117,6 +118,9 @@ function JurnlRoutes() {
       <Route path="goals/:goalId" element={<GoalDetailScreen />} />
       <Route path="purchases" element={<PurchasesHubScreen />} />
       <Route path="purchases/checked" element={<PurchaseCheckedScreen />} />
+      <Route path="purchases/result/good-to-go" element={<LockedPurchaseResultScreen screenId="F09.RESULT.GOOD" />} />
+      <Route path="purchases/result/quick-check-in" element={<LockedPurchaseResultScreen screenId="F09.RESULT.CHECK_IN" />} />
+      <Route path="purchases/result/doesnt-fit" element={<LockedPurchaseResultScreen screenId="F09.RESULT.OVER" />} />
       <Route path="purchases/:purchaseId" element={<PurchaseDetailScreen />} />
       <Route path="trips" element={<TripsHubScreen />} />
       <Route path="trips/:tripId" element={<TripDetailScreen />} />

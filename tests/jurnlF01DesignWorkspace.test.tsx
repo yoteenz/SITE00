@@ -153,6 +153,13 @@ describe('VIEWPORT renders the JURNL project runtime', () => {
     expect(f09Route).toContain('>F09.00 SAFE TO SPEND</option>');
     expect(f09Route).toContain('value="F09.WHY"');
     expect(f09Route).toContain('>F09.WHY WHY THIS NUMBER</option>');
+    expect(f09Route).toContain('value="F09.RESULT.GOOD"');
+    expect(f09Route).toContain('GOOD TO GO');
+    expect(f09Route).toContain('A QUICK CHECK-IN');
+    expect(f09Route).toContain('value="F09.RESULT.OVER"');
+    expect(f09Route).toContain('DOESN');
+    const good = render('jurnl', 'viewport', '&screen=F09.RESULT.GOOD');
+    expect(good).toMatch(/src="\/production\/jurnl\/runtime\/purchases\/result\/good-to-go"/);
     expect(f09Route).not.toContain('BOUNDARY');
     expect(f09Route).not.toContain('value="F05"');
     expect(f09Route).not.toContain('F10.00');
@@ -172,6 +179,8 @@ describe('VIEWPORT renders the JURNL project runtime', () => {
   });
   it('live child paths report the screen in that family, with exact routes ahead of param routes', () => {
     expect(jurnlFamilyScreenForPath('safe/why')?.id).toBe('F09.WHY');
+    expect(jurnlFamilyScreenForPath('purchases/result/good-to-go')?.id).toBe('F09.RESULT.GOOD');
+    expect(jurnlFamilyScreenForPath('purchases/result/doesnt-fit')?.id).toBe('F09.RESULT.OVER');
     expect(jurnlFamilyScreenForPath('safe')?.id).toBe('F09.00');
     expect(jurnlFamilyScreenForPath('purchases/checked')?.id).toBe('F10.CHECKED');
     expect(jurnlFamilyScreenForPath('purchases/preview')?.id).toBe('F10.OBJECT');
