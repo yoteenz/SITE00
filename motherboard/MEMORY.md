@@ -15033,3 +15033,11 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - 600×960, 834×1194 and 1440×900 are pixel-identical to before.
 - **Do not repeat:** do not put px or lvh nudges back on the phone folio or tab words; move the plate and the type together through `--f09-ref-px`. Do not change the phone plate from `top: -10%` without refitting. Do not hardcode reference 01's sample dollars.
 - **Tests:** F09 and center-stage suites: 163 pass. The 2 failures (`copy is canonical`, center-stage `safe`) fail identically on main.
+
+---
+
+## 2026-10-07 — STS parent hamburger matches the Why This Number button
+
+- **Context:** The Safe to Spend parent menu was three bare lines. WHY THIS NUMBER draws the same mark inside a cream rounded square (`rgba(244, 240, 236, 0.94)`, white hairline, soft shadow). The founder asked for that button on the parent instead of lines floating on the photograph. The menu stays on the left.
+- **Fix:** `.jrn-f09a__menu` is that plate. Phone 36×34, radius 9px, mark centered where the old lines sat (top `+14px`, was `+20px` on a 22px hit). Tablet 50×48, radius 12px. Desktop 35×33, radius 9px. The glyph is the WHY menu path. Measured on 402×874: parent button 36×34 at x=22.5 y=14, same fill and border as the WHY button (35.9×34.4).
+- **Do not repeat:** Do not put the transparent three-line menu back. Do not move this button to the right. Do not change the WHY square.

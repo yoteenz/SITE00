@@ -246,25 +246,23 @@ body:has([data-jrn-screen='F09.00']),
   position: absolute;
   left: 5.6%;
   right: auto;
-  top: calc(env(safe-area-inset-top, 0px) + 20px + var(--f09-bleed));
-  width: 28px;
-  height: 22px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 4px;
+  /* 34px plate, mark centered on the old 22px line cluster (top was +20px). */
+  top: calc(env(safe-area-inset-top, 0px) + 14px + var(--f09-bleed));
+  width: 36px;
+  height: 34px;
+  display: grid;
+  place-items: center;
   padding: 0;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 9px;
+  background: rgba(244, 240, 236, 0.94);
+  box-shadow: 0 3px 7px rgba(50, 36, 20, 0.12);
   color: #1c1915;
 }
-.jrn .jrn-f09a__menu span {
+.jrn .jrn-f09a__menu svg {
   display: block;
-  height: 1.25px;
-  width: 18px;
-  background: currentColor;
-  border-radius: 1px;
+  width: 15px;
+  height: 12px;
 }
 
 .jrn .jrn-f09a__signal {
@@ -713,8 +711,13 @@ body:has([data-jrn-screen='F09.00']),
     left: 22px;
     right: auto;
     top: calc(env(safe-area-inset-top, 0px) + 6px);
-    width: 32px;
-    height: 24px;
+    width: 50px;
+    height: 48px;
+    border-radius: 12px;
+  }
+  .jrn .jrn-f09a__menu svg {
+    width: 21px;
+    height: 17px;
   }
   .jrn .jrn-f09a__signal {
     left: 32%;
@@ -857,6 +860,13 @@ body:has([data-jrn-screen='F09.00']),
     left: 28px;
     right: auto;
     top: calc(env(safe-area-inset-top, 0px) + 4px);
+    width: 35px;
+    height: 33px;
+    border-radius: 9px;
+  }
+  .jrn .jrn-f09a__menu svg {
+    width: 15px;
+    height: 12px;
   }
   .jrn .jrn-f09a__signal {
     left: 24%;
