@@ -5,7 +5,7 @@ import { computeSafeToSpend, type SafeToSpendBreakdown } from '../../data/f09/sa
 import { patchSetup, useSetup } from '../../data/f02/setupDraft';
 import { formatMoney, useCurrency } from '../../data/home/money';
 import { PARENT_PLATES } from '../../data/parents/plates';
-import f09Plate from '../../families/F09_SAFE/ENVIRONMENTS/F09_ENVIRONMENT_AUTHORITY_PLATE.jpg';
+import f09Plate from '../../families/F09_SAFE/ENVIRONMENTS/F09_ENVIRONMENT_AUTHORITY_PLATE.png';
 import { getRepository } from '../../data/repository/deviceRepository';
 import { FamilyChrome } from '../components/FamilyChrome';
 import { JurnlProductNav } from '../components/ProductNav';
@@ -18,12 +18,14 @@ import { useJurnl } from '../state/store';
 /** Founder-approved availability line on the F09 parent authority. The formula has no horizon field. */
 const AUTHORITY_THROUGH = 'AVAILABLE THROUGH OCT 18';
 
-/** One plate: the approved authority photograph, scenery and folders together. UI text is live. */
+/** One plate: OpenArt Sunburst replica of the approved scene, scenery and folders together. UI text is live. */
 const F09_AUTHORITY_PLATE = {
   family: 'F09',
   scene: 'ENV.AUTHORITY_PLATE',
   src: f09Plate,
   assetId: 'SAFE.ENVIRONMENT.AUTHORITY_PLATE.001',
+  width: 1760,
+  height: 3840,
 };
 
 function SafeShell({ screenId, children }: { screenId: string; children: ReactNode }) {
