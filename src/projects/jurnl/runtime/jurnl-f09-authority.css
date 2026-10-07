@@ -1,27 +1,19 @@
 /* F09 parent — approved authority reconstruction. Live layers over ENV.LOGGIA. No OS chrome. */
 
 .jrn:has([data-jrn-screen='F09.00']) {
-  background: #efe8df;
+  background: #e7dfd4;
+  container-type: size;
+  container-name: jrn;
 }
-/* Keep the authority aspect on a short phone browser so the olive stays below the lockup
-   and the folio text stays on the folder. Side gaps use the same pale floor tone. */
 .jrn .jrn-screen[data-jrn-screen='F09.00'] {
   position: absolute;
-  inset: auto;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: min(100vw, calc(100dvh * 393 / 852));
-  height: min(100dvh, calc(100vw * 852 / 393));
-}
-.jrn:has([data-jrn-screen='F09.00']) .jrn-nav-host {
-  position: absolute;
-  inset: auto;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: min(100vw, calc(100dvh * 393 / 852));
-  height: min(100dvh, calc(100vw * 852 / 393));
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: none;
+  --f09-img-h: calc(100cqw * 3840 / 1760);
+  /* Purchase card plus the dock, so folder type stays above the card. */
+  --f09-above-dock: calc(148px + env(safe-area-inset-bottom, 0px));
 }
 .jrn .jrn-screen[data-jrn-screen='F09.00'],
 .jrn .jrn-screen[data-jrn-screen='F09.00'][data-jrn-composition='CENTER_STAGE'] {
@@ -61,6 +53,20 @@
   inset: 0;
   color: #1c1915;
   text-transform: uppercase;
+}
+/* Tracks the cover plate (top-anchored, centered when the screen is taller than the photo). */
+.jrn .jrn-f09a__art {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: max(100cqw, calc(100cqh * 1760 / 3840));
+  height: max(100cqh, calc(100cqw * 3840 / 1760));
+  pointer-events: none;
+}
+.jrn .jrn-f09a__art .jrn-f09a__menu,
+.jrn .jrn-f09a__art .jrn-f09a__why {
+  pointer-events: auto;
 }
 
 /* Creative lockup: official jurnl-logo-official.png staged as IMAGE 1
@@ -179,26 +185,33 @@
 
 .jrn .jrn-f09a__tabs {
   position: absolute;
-  top: 51.6%;
-  left: 69%;
-  width: 22%;
-  height: 13%;
+  top: 48.6%;
+  left: 0;
+  width: 100%;
+  height: 6.4%;
   margin: 0;
   padding: 0;
   list-style: none;
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
   pointer-events: none;
   z-index: 2;
 }
 .jrn .jrn-f09a__tabs li {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   writing-mode: vertical-rl;
   transform: rotate(180deg);
-  text-align: center;
   font: 500 7px/1 'JURNL Sans', sans-serif;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.16em;
   color: #3c3832;
 }
+.jrn .jrn-f09a__tabs li[data-tab='bills'] { left: 62.2%; width: 5.2%; }
+.jrn .jrn-f09a__tabs li[data-tab='plans'] { left: 68.4%; width: 4.8%; }
+.jrn .jrn-f09a__tabs li[data-tab='goals'] { left: 73.6%; width: 5.4%; }
+.jrn .jrn-f09a__tabs li[data-tab='buffer'] { left: 80.0%; width: 6.4%; }
 .jrn .jrn-f09a__tabs li[data-tab='goals'] {
   color: #243028;
 }
@@ -207,12 +220,21 @@
 }
 .jrn .jrn-f09a__folio {
   position: absolute;
-  top: 54.2%;
-  left: 16%;
-  width: 48%;
+  top: 54.6%;
+  left: 20.5%;
+  width: 43%;
+  height: min(
+    calc(0.155 * var(--f09-img-h)),
+    max(78px, calc(100cqh - var(--f09-above-dock) - 0.546 * var(--f09-img-h)))
+  );
+  container-type: size;
 }
 .jrn .jrn-f09a__folio-copy {
   position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   color: #2a2620;
 }
 .jrn .jrn-f09a__kicker {
@@ -222,26 +244,41 @@
   color: #6a6258;
 }
 .jrn .jrn-f09a__headline {
-  margin: 4px 0 8px;
+  margin: 8px 0 0;
   font-family: 'JURNL Display', serif;
-  font-size: 22px;
-  line-height: 0.95;
-  letter-spacing: 0.02em;
+  font-size: 24px;
+  line-height: 0.92;
+  letter-spacing: 0.01em;
   text-transform: uppercase;
+}
+@container (max-height: 100px) {
+  .jrn .jrn-f09a__headline {
+    margin-top: 4px;
+    font-size: 20px;
+  }
+  .jrn .jrn-f09a__folio-copy ul {
+    padding-top: 4px;
+  }
 }
 .jrn .jrn-f09a__folio-copy ul {
   list-style: none;
   margin: 0;
-  padding: 6px 0 0;
+  padding: 8px 0 0;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 4px;
-  border-top: 1px solid rgba(90, 70, 50, 0.18);
+  gap: 0;
+  border-top: 1px solid rgba(70, 58, 44, 0.16);
 }
 .jrn .jrn-f09a__folio-copy li {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
+  padding-left: 6px;
+  border-left: 1px solid rgba(70, 58, 44, 0.16);
+}
+.jrn .jrn-f09a__folio-copy li:first-child {
+  padding-left: 0;
+  border-left: 0;
 }
 .jrn .jrn-f09a__folio-copy li span {
   font: 500 7px/1 'JURNL Sans', sans-serif;
@@ -255,14 +292,15 @@
 
 .jrn .jrn-f09a__bridge {
   position: absolute;
-  top: 76.6%;
+  top: auto;
+  bottom: calc(84px + env(safe-area-inset-bottom, 0px));
   left: 3.6%;
   width: 92.8%;
   display: grid;
   grid-template-columns: 16px minmax(0, 1fr) auto;
   gap: 8px;
   align-items: center;
-  padding: 13px 12px 13px 14px;
+  padding: 9px 12px 9px 14px;
   border-radius: 26px;
   background: rgba(245, 240, 236, 0.9);
   box-shadow: 0 10px 24px rgba(50, 36, 20, 0.08);
@@ -288,7 +326,7 @@
   color: #1c1915;
 }
 .jrn .jrn-f09a__bridge button {
-  min-height: 38px;
+  min-height: 34px;
   padding: 0 12px;
   border: 1px solid rgba(40, 32, 24, 0.1);
   border-radius: 12px;
@@ -306,10 +344,11 @@
   height: auto;
   transform: none;
   bottom: 0;
-  padding: 8px 4px calc(12px + env(safe-area-inset-bottom, 0px));
+  padding: 10px 2px calc(16px + env(safe-area-inset-bottom, 0px));
   border-radius: 0;
-  background: transparent;
-  box-shadow: none;
+  background: #f6f3ee;
+  border-top: 1px solid rgba(255, 252, 248, 0.9);
+  box-shadow: 0 -10px 24px rgba(90, 70, 48, 0.06);
   gap: 0;
 }
 .jrn:has([data-jrn-screen='F09.00']) .jrn-nav__btn {

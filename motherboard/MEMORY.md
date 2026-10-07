@@ -14449,3 +14449,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Fix:** The F09 screen keeps the authority aspect (393×852). On a shorter browser it scales to the height and stays centered, so the olive stays below the lockup and the folio type stays on the folder. The plate is anchored to the top. The lockup, tagline, and menu clear `safe-area-inset-top`. Side margins use the pale floor tone. A full-height phone still fills the width.
 - **Not changed:** the pale-floor plate, the nav marks, the purchase sparkle, or `computeSafeToSpend`.
 
+---
+
+## 2026-10-07 — JURNL F09 full-bleed plate, folder type, and nav dock
+
+- **Context:** This chat rebuilt F09 Safe to Spend against the approved authority: three-distinct composite, live reconstruction, one OpenArt plate (history `PQTsHqqy3Pf0ZpQJougi`, 1760×3840, pale floor), creative lockup from the official asset, authority nav marks, and a short-Safari aspect-fit stage so the olive would not cover JURNL. The founder then rejected that stage.
+- **What the founder saw:** A full frame of page color around the plate on the phone. Folder type sitting too high (amounts mid-card, empty face below, tab words off the colored tabs). Bottom nav as floating icons with no dock.
+- **Fix:** The F09 screen is edge to edge again (`inset: 0`, plate `object-fit: cover`, `object-position: 50% 0%`). No side pillarbox. Folder words and tab labels live in an image-space box that matches the cover plate, so YOUR MONEY / ORGANIZED. THEN YOURS. / the amount row sit on the folder face (amounts near the bottom, column rules) and BILLS PLANS GOALS BUFFER sit on the four tabs. On a short browser the folio height stops above the purchase card so the card does not cover the amounts. The purchase card stays just above the dock. The dock is a solid full-width panel `#f6f3ee` behind HOME MONEY ADD PLAN CREDIT. Other screens keep the icon pack.
+- **Not changed:** `computeSafeToSpend` (preview `$6,500`, bills `$1,920`), routes, menu to account, hold-on-why, purchase target, or the plate file.
+- **Do not repeat:** Do not put the F09 plate back in a centered 393×852 stage. That frame is what the founder rejected. Do not leave the nav transparent on this screen.
+
