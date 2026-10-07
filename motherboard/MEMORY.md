@@ -15156,6 +15156,16 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
+## 2026-10-07 — Dock marks traced to the HQ sheet pixels
+
+- **Context:** This chat put Why, Check, and Account on one plate (PR #1469, v74), generated four root authorities for review only (PR #1470), shipped sidekick plates and parent hubs (PR #1472, v76, `index.rbL2Erl8.js`), wired the hamburger to the account drawer (PR #1473), built the current-authority kits (PR #1474), cleared the Check haze (PR #1475), then replaced the live dock with the HQ sheet (PR #1476, v79, `index.DLUA125F.js`) and restarted the preview tunnel. The founder said the PLAN icons were wrong. That leaf was corrected to the diagonal olive leaf (PR #1478, v80, `index.DiSZ3Of9.js`). The founder then said to match all of the marks to the sheet, pixel for pixel.
+- **Topics covered:** One shared terrace. Review-only root images. Sidekick environments. Drawer versus `/account`. OpenArt kits left unmounted. Check haze. HQ chips and 20px marks. Tunnel restart. Diagonal PLAN leaf. Then a pixel trace of every default-row glyph on the sheet.
+- **Decisions / outcomes:** Each mark was fitted to the sheet crop. HOME is a filled house whose arched door cuts through the floor, with a bowed roof and almost no eave. MONEY is a shallow-radius card, a full-width stripe in the upper quarter, and a dash that starts on the left stroke. ADD is a thinner plus in a 26px square with a 3px corner, not a 7px squircle. PLAN stays the diagonal leaf, retuned onto the sheet stroke. CREDIT is four thin round-cap bars, bottoms aligned, heights about one quarter, one half, three quarters, and full. Strokes follow the sheet weight (about 1.1–1.2 in the 24 box). Chip colors are unchanged. Zero credits. `ReferenceDock` is unchanged.
+- **Changes:** `hqNavIcons.tsx`. Plus corner radius in `jurnl-parent-authority.css` and `jurnl-f09-authority.css`.
+- **Conventions:** Trace the next icon change from the sheet pixels. Do not put the overhanging house, the floating money dash, the thick credit bars, or the 7px ADD corner back. Do not regenerate plates for icons.
+
+---
+
 ## 2026-10-07 — Root parents rebuilt from reference + clean shell (TODAY, MONEY, PLAN, CREDIT)
 
 - **Sprint:** P0.JURNL.ROOT-PARENTS.REFERENCE-PLUS-SHELL-OPUS-RECONSTRUCTION1. Reference = design authority, clean OpenArt shell = the only plate, current hubs = functional source only. Supersedes the earlier hub layouts (`ParentAuthorityStage`, deleted).
