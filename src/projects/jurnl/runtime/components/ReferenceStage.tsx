@@ -6,8 +6,9 @@
  * interface is drawn over it in the same reference pixels (layout/referenceLayout.ts). The stage scales to the
  * viewport as one piece, so every element stays where the reference has it.
  *
- * Phones fill the screen (at most 4 % of the stage is cropped). Other ratios show the whole stage over a blurred copy
- * of the plate. No device chrome: the status bar and home indicator in the references belong to the phone, not JURNL.
+ * The stage covers the viewport. There is no letterbox: extra width or height is cropped, and the bottom of the
+ * reference (just above its old dock) sits on the parent Safe to Spend dock. No device chrome: the status bar and
+ * home indicator in the references belong to the phone, not JURNL.
  */
 
 import { useLayoutEffect, useRef, useState, type CSSProperties, type ElementType, type ReactNode } from 'react';
@@ -20,10 +21,24 @@ export const REF_H = 1844;
 
 export type ReferencePlate = { src: string; assetId: string };
 
-export function referenceScale(w: number, h: number): number {
-  const contain = Math.min(w / REF_W, h / REF_H);
-  const cover = Math.max(w / REF_W, h / REF_H);
-  return cover / contain <= 1.04 ? cover : contain;
+/** Reference y where the painted dock began. Live UI stays above this; the parent dock covers the rest. */
+export const REF_DOCK_TOP = 1668;
+/** Status-bar band, in reference pixels, that a full-bleed crop may remove. */
+const TITLE_SAFE = 140;
+
+export function referenceFit(w: number, h: number, dock = 0): { k: number; top: number } {
+  const avail = Math.max(1, h - Math.max(0, dock));
+  const coverW = w / REF_W;
+  const fitH = avail / REF_DOCK_TOP;
+  let k = Math.max(coverW, fitH);
+  let top = avail - REF_DOCK_TOP * k;
+  const cropped = top < 0 ? -top / k : 0;
+  if (cropped > TITLE_SAFE) {
+    k = Math.min(coverW, fitH);
+    const scaled = REF_DOCK_TOP * k;
+    top = Math.max(0, (avail - scaled) / 2);
+  }
+  return { k, top };
 }
 
 export function ReferenceStage({
@@ -44,12 +59,21 @@ export function ReferenceStage({
   outside?: ReactNode;
 }) {
   const ref = useRef<HTMLElement>(null);
-  const [k, setK] = useState(() => (typeof window === 'undefined' ? 393 / REF_W : referenceScale(window.innerWidth, window.innerHeight)));
+  const [fit, setFit] = useState(() => referenceFit(typeof window === 'undefined' ? 393 : window.innerWidth, typeof window === 'undefined' ? 852 : window.innerHeight, 48));
   useLayoutEffect(() => {
     const el = ref.current;
     if (!el) return;
     const update = () => {
-      if (el.clientWidth && el.clientHeight) setK(referenceScale(el.clientWidth, el.clientHeight));
+      if (!el.clientWidth || !el.clientHeight) return;
+      const nav = document.querySelector<HTMLElement>(".jrn-nav[data-jrn-nav='authority']");
+      let dock = el.clientWidth >= 1100 ? 112 : 48;
+      if (nav) {
+        const box = nav.getBoundingClientRect();
+        const bottom = Number.parseFloat(getComputedStyle(nav).bottom) || 0;
+        dock = Math.ceil(box.height + bottom);
+      }
+      const next = referenceFit(el.clientWidth, el.clientHeight, dock);
+      setFit((prev) => (prev.k === next.k && prev.top === next.top ? prev : next));
     };
     update();
     if (typeof ResizeObserver === 'undefined') {
@@ -63,7 +87,7 @@ export function ReferenceStage({
   return (
     <section ref={ref} className="jrn-screen jrn-ref" data-transition="family" data-jrn-screen={screenId} data-jrn-family={family} data-jrn-composition={resolveCompositionMode({ screenId, hasProductNav: true })} aria-label={label}>
       <div className="jrn-ref__backdrop" aria-hidden style={{ backgroundImage: `url("${plate.src}")` }} />
-      <div className="jrn-ref__stage" style={{ '--k': k } as CSSProperties} data-runtime-stage="SAFE ZONE">
+      <div className="jrn-ref__stage" style={{ '--k': fit.k, '--ref-top': `${fit.top}px` } as CSSProperties} data-runtime-stage="SAFE ZONE">
         <img className="jrn-ref__plate" src={plate.src} alt="" width={REF_W} height={REF_H} draggable={false} data-asset-id={plate.assetId} />
         {children}
       </div>

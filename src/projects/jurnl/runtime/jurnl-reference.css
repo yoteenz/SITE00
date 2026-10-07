@@ -2,8 +2,8 @@
    Type: JURNL Authority Sans (Jost) and JURNL Authority Serif (Playfair Display with lining figures), the faces the
    references are set in. Both OFL; licences sit next to the files.
    One lifted photograph per screen (the plate) at 853 × 1844 reference pixels. The interface is drawn over it
-   in the same reference pixels; positions and type come from layout/referenceLayout.ts. The stage is scaled
-   to the viewport as one piece. Uppercase only. No device chrome. */
+   in the same reference pixels; positions and type come from layout/referenceLayout.ts. The stage covers the
+   viewport (no letterbox). The parent Safe to Spend dock is the bottom nav. Uppercase only. No device chrome. */
 
 @font-face {
   font-family: 'JURNL Authority Sans';
@@ -74,19 +74,18 @@
 }
 .jrn .jrn-ref__backdrop {
   position: absolute;
-  inset: -48px;
+  inset: 0;
   background-size: cover;
-  background-position: 50% 50%;
-  filter: blur(26px) saturate(1.05);
+  background-position: 50% 42%;
 }
 .jrn .jrn-ref__stage {
   position: absolute;
   left: 50%;
-  top: 50%;
+  top: var(--ref-top, 0px);
   width: 853px;
   height: 1844px;
-  transform: translate(-50%, -50%) scale(var(--k, 0.4607));
-  transform-origin: 50% 50%;
+  transform: translateX(-50%) scale(var(--k, 0.4607));
+  transform-origin: 50% 0;
   color: var(--ref-ink);
   text-transform: uppercase;
   overflow: hidden;
