@@ -14699,3 +14699,11 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Fix:** Phone tabs only: `translateY(calc(-3lvh - 30px))`. The folio stays at `translateY(-3lvh)`. Phone letter-spacing is `0.38em`. BUFFER color is `#f3f0e8`. Measured on 402×874: BUFFER glyph y=367 h=38, which matches the reference ratio. Tablet and desktop clear the translate and keep their own tracking. The folio did not move.
 - **Do not repeat:** Do not put the folder-word translate back on the folio. Do not return BUFFER to `#c6dba8` on the phone. Do not change the phone plate from `top: -10%`.
 
+---
+
+## 2026-10-07 — JURNL F09 folio copy block lowered and enlarged
+
+- **Context:** This chat rebuilt F09 Safe to Spend. The phone plate stays `top: -10%`. Live money stays `computeSafeToSpend` (preview `$6,500`, bills `$1,920`). The sample reference amounts (`$1,284`, `$2,310`, `$950`, `$600`, `$500`) are not hardcoded. The founder circled YOUR MONEY / ORGANIZED. THEN YOURS. / the amounts row and said that whole block must move down to the reference, and the size and weight must match.
+- **Fix:** On the phone the folio is `translateY(calc(-3lvh + 36px))` and `height: 118px`. The headline is 28px Instrument Serif, color `#141210`, with a `0.45px` stroke so it reads at the reference weight. The kicker is 10px. The amount labels are 8px and the figures are 13px. Tablet and desktop clear the translate, reset the stroke, and keep their own sizes. Measured at 402×760: headline y=446, amounts y=513, still on the card just above the stone.
+- **Do not repeat:** Do not put the folio copy back to `translateY(-3lvh)` or the 86px box. Do not shrink the phone headline back to 20px. Do not hardcode the reference sample dollars.
+

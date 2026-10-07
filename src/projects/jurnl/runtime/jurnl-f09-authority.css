@@ -180,8 +180,11 @@ body:has([data-jrn-screen='F09.00']),
 .jrn .jrn-f09a__through {
   transform: translateY(-3.4lvh);
 }
+/* The folio copy sits lower on the card than the plate shift alone.
+   -3lvh keeps it with the photograph; +36px drops the whole block
+   onto the reference's place under the sprig. */
 .jrn .jrn-f09a__folio {
-  transform: translateY(-3lvh);
+  transform: translateY(calc(-3lvh + 36px));
 }
 /* Tab words sit on the protruding tabs. -3lvh follows the plate; the extra
    30px lifts them to the reference's place on each tab face. */
@@ -351,10 +354,7 @@ body:has([data-jrn-screen='F09.00']),
   top: 54.6%;
   left: 20.5%;
   width: 43%;
-  height: min(
-    86px,
-    max(78px, calc(100cqh - var(--f09-above-dock) - 0.546 * var(--f09-img-h)))
-  );
+  height: 118px;
   container-type: size;
 }
 .jrn .jrn-f09a__folio-copy {
@@ -367,26 +367,20 @@ body:has([data-jrn-screen='F09.00']),
 }
 .jrn .jrn-f09a__kicker {
   margin: 0;
-  font: 500 8px/1 'JURNL Sans', sans-serif;
-  letter-spacing: 0.2em;
-  color: #6a6258;
+  font: 500 10px/1 'JURNL Sans', sans-serif;
+  letter-spacing: 0.22em;
+  color: #5c564e;
 }
 .jrn .jrn-f09a__headline {
-  margin: 6px 0 0;
+  margin: 8px 0 0;
   font-family: 'JURNL Display', serif;
-  font-size: 22px;
-  line-height: 0.92;
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 0.9;
   letter-spacing: 0.01em;
   text-transform: uppercase;
-}
-@container (max-height: 100px) {
-  .jrn .jrn-f09a__headline {
-    margin-top: 4px;
-    font-size: 20px;
-  }
-  .jrn .jrn-f09a__folio-copy ul {
-    padding-top: 4px;
-  }
+  color: #141210;
+  -webkit-text-stroke: 0.45px #141210;
 }
 .jrn .jrn-f09a__folio-copy ul {
   list-style: none;
@@ -409,13 +403,14 @@ body:has([data-jrn-screen='F09.00']),
   border-left: 0;
 }
 .jrn .jrn-f09a__folio-copy li span {
-  font: 500 7px/1 'JURNL Sans', sans-serif;
-  letter-spacing: 0.1em;
-  color: #6a6258;
+  font: 500 8px/1 'JURNL Sans', sans-serif;
+  letter-spacing: 0.12em;
+  color: #5c564e;
 }
 .jrn .jrn-f09a__folio-copy li b {
-  font: 500 10px/1 'JURNL Sans', sans-serif;
-  letter-spacing: 0.03em;
+  font: 500 13px/1 'JURNL Sans', sans-serif;
+  letter-spacing: 0.02em;
+  color: #141210;
 }
 
 .jrn .jrn-f09a__bridge {
@@ -636,6 +631,8 @@ body:has([data-jrn-screen='F09.00']),
   .jrn .jrn-f09a__headline {
     margin-top: 10px;
     font-size: 40px;
+    color: inherit;
+    -webkit-text-stroke: 0;
   }
   .jrn .jrn-f09a__folio-copy ul {
     padding-top: 12px;
