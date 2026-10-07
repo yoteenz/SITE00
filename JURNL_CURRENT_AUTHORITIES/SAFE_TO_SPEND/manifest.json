@@ -1,0 +1,82 @@
+{
+  "SCREEN_ID": "SAFE_TO_SPEND",
+  "AUTHORITY_SOURCE": "authority-source.jpg",
+  "PLATE": "environment-plate.jpg",
+  "OBJECTS": [
+    "folio-object.png"
+  ],
+  "OVERLAYS": [],
+  "THUMBNAILS": [],
+  "CANONICAL_WIDTH": 1632,
+  "CANONICAL_HEIGHT": 3808,
+  "ASPECT_RATIO": "9:21",
+  "OPENART_MODEL": "gpt-image-2-5-sunburst",
+  "AUTO_ENHANCE": false,
+  "RESOLUTION_TIER": "4k",
+  "QUALITY": "high",
+  "HISTORY": {
+    "env_id": "dJ2xbURuYTmswDxUjyUr",
+    "obj_id": "nNcufTWsMpZGrBpdPxPy"
+  },
+  "ANCHORS": {
+    "primary_object": {
+      "x": 0.0833,
+      "y": 0.3403,
+      "w": 0.8585,
+      "h": 0.3222,
+      "px": [
+        136,
+        1296,
+        1401,
+        1227
+      ]
+    },
+    "safe_title_region": {
+      "x": 0.08,
+      "y": 0.08,
+      "w": 0.84,
+      "h": 0.22
+    },
+    "cta_region": {
+      "x": 0.06,
+      "y": 0.72,
+      "w": 0.88,
+      "h": 0.12
+    },
+    "nav_boundary": {
+      "y": 0.9
+    },
+    "object_content_region": {
+      "x": 0.0833,
+      "y": 0.3403,
+      "w": 0.8585,
+      "h": 0.3222,
+      "px": [
+        136,
+        1296,
+        1401,
+        1227
+      ]
+    }
+  },
+  "LIVE_UI_EXCLUSIONS": [
+    "SAFE TO SPEND",
+    "$1,284",
+    "AVAILABLE THROUGH OCT 18",
+    "SEE WHY THIS AMOUNT",
+    "YOUR MONEY ORGANIZED, THEN YOURS",
+    "BILLS",
+    "PLANS",
+    "GOALS",
+    "BUFFER",
+    "amounts",
+    "CHECK A PURCHASE",
+    "logo",
+    "tagline",
+    "status bar",
+    "bottom nav"
+  ],
+  "ALPHA": "Chroma key #00FF00 removed locally. Objects are RGBA PNG aligned to the plate frame.",
+  "STACK": "environment-plate, then object PNG, then overlay PNG, then live HTML. Do not use authority-source.jpg as the page.",
+  "RATIO_NOTE": "Phone-crop authority is 374x990 (0.378). Sunburst nearest ratio is 9:21, output 1632x3808. Not converted to 9:16."
+}

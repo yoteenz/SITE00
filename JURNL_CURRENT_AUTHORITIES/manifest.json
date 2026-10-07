@@ -1,0 +1,55 @@
+{
+  "SPRINT": "P0.JURNL.CURRENT-AUTHORITIES.OPENART-PRODUCTION-ASSET-FABRICATION1",
+  "OPENART_MODEL": "gpt-image-2-5-sunburst",
+  "AUTO_ENHANCE": false,
+  "QUALITY": "high",
+  "RESOLUTION_TIER": "4k",
+  "PROJECT_ID": "9kGVFADt81F9Q66uSUiJ",
+  "FUNCTIONAL_UI_BAKED_INTO_PLATES": false,
+  "PHONE_OR_BROWSER_UX_IN_ASSETS": false,
+  "QUICK_ADD": "Not attached in this sprint. Not fabricated.",
+  "SCREENS": [
+    "TODAY",
+    "MONEY",
+    "PLAN",
+    "CREDIT",
+    "SAFE_TO_SPEND",
+    "WHY_THIS_NUMBER",
+    "ACCOUNT_SETTINGS",
+    "ACCOUNT_PROFILE",
+    "ACCOUNT_NOTIFICATIONS",
+    "CHECK_A_PURCHASE",
+    "SELECT_A_CATEGORY",
+    "SELECT_AN_ACCOUNT",
+    "PURCHASE_OUTCOME",
+    "MENU"
+  ],
+  "CATEGORY_THUMBNAILS": [
+    "FASHION",
+    "BEAUTY",
+    "HOME",
+    "TRAVEL",
+    "WELLNESS",
+    "DINING",
+    "GROCERIES",
+    "GIFTS",
+    "TECH",
+    "TRANSPORT",
+    "EVENTS",
+    "OTHER"
+  ],
+  "ACCOUNT_THUMBNAILS": [
+    "CHECKING",
+    "SAVINGS",
+    "CREDIT_CARD",
+    "DEBIT_CARD",
+    "CASH",
+    "JOINT_ACCOUNT"
+  ],
+  "RATIO": {
+    "artboards": "941x1672 authority (0.5628) delivered 2016x3584 (9:16).",
+    "phone_boards": "Crops near 0.38 delivered at Sunburst 9:21 (1632x3808), the nearest supported ratio. Not forced to 9:16."
+  },
+  "WHY_ENV_HISTORY": "4QVFxZsBMjfgYoHhpqp1",
+  "ACCOUNT_PHONE_ENV_HISTORY": "Gznl9OubL8xJxV5NldaR"
+}

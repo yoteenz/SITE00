@@ -1,0 +1,52 @@
+{
+  "SCREEN_ID": "SELECT_AN_ACCOUNT",
+  "AUTHORITY_SOURCE": "authority-source.jpg",
+  "PLATE": "environment-plate.jpg",
+  "PLATE_SHARED_FROM": "ACCOUNT_PROFILE",
+  "OBJECTS": [],
+  "OVERLAYS": [],
+  "THUMBNAILS": [],
+  "CANONICAL_WIDTH": 1632,
+  "CANONICAL_HEIGHT": 3808,
+  "ASPECT_RATIO": "9:21",
+  "OPENART_MODEL": "gpt-image-2-5-sunburst",
+  "AUTO_ENHANCE": false,
+  "HISTORY": {
+    "shared_environment": "LbQhCU6b2HaNkLs2OTPp",
+    "env_id": "Gznl9OubL8xJxV5NldaR"
+  },
+  "ANCHORS": {
+    "safe_title_region": {
+      "x": 0.06,
+      "y": 0.08,
+      "w": 0.8,
+      "h": 0.16
+    },
+    "cta_region": {
+      "x": 0.08,
+      "y": 0.78,
+      "w": 0.84,
+      "h": 0.08
+    },
+    "nav_boundary": {
+      "y": 0.9
+    }
+  },
+  "LIVE_UI_EXCLUSIONS": [
+    "SELECT AN ACCOUNT",
+    "CHOOSE THE ACCOUNT",
+    "CHECKING",
+    "SAVINGS",
+    "CREDIT CARD",
+    "DEBIT CARD",
+    "CASH",
+    "JOINT ACCOUNT",
+    "balances",
+    "APPLY ACCOUNT",
+    "logo",
+    "close",
+    "status bar",
+    "bottom nav"
+  ],
+  "STACK": "Shared photographic plate. Do not regenerate a near-duplicate terrace."
+}

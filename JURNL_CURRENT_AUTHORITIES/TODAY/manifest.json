@@ -1,0 +1,101 @@
+{
+  "SCREEN_ID": "TODAY",
+  "AUTHORITY_SOURCE": "authority-source.jpg",
+  "PLATE": "environment-plate.jpg",
+  "OBJECTS": [
+    "daily-brief-object.png"
+  ],
+  "OVERLAYS": [
+    "foreground-overlay.png"
+  ],
+  "THUMBNAILS": [],
+  "CANONICAL_WIDTH": 2016,
+  "CANONICAL_HEIGHT": 3584,
+  "ASPECT_RATIO": "9:16",
+  "OPENART_MODEL": "gpt-image-2-5-sunburst",
+  "AUTO_ENHANCE": false,
+  "RESOLUTION_TIER": "4k",
+  "QUALITY": "high",
+  "HISTORY": {
+    "env_id": "YqwACMd8j15CAPtZ3BPg",
+    "obj_id": "32KmrEshaLMN2aaw3BIb",
+    "fg_id": "a6wpgxD8dKAspGpxspW7"
+  },
+  "ANCHORS": {
+    "primary_object": {
+      "x": 0.058,
+      "y": 0.4269,
+      "w": 0.942,
+      "h": 0.4886,
+      "px": [
+        117,
+        1530,
+        1899,
+        1751
+      ]
+    },
+    "overlay": {
+      "x": 0.0,
+      "y": 0.3719,
+      "w": 0.9658,
+      "h": 0.3993,
+      "px": [
+        0,
+        1333,
+        1947,
+        1431
+      ]
+    },
+    "safe_title_region": {
+      "x": 0.06,
+      "y": 0.07,
+      "w": 0.62,
+      "h": 0.16
+    },
+    "cta_region": {
+      "x": 0.06,
+      "y": 0.3,
+      "w": 0.55,
+      "h": 0.07
+    },
+    "nav_boundary": {
+      "y": 0.905
+    },
+    "object_content_region": {
+      "x": 0.058,
+      "y": 0.4269,
+      "w": 0.942,
+      "h": 0.4886,
+      "px": [
+        117,
+        1530,
+        1899,
+        1751
+      ]
+    }
+  },
+  "LIVE_UI_EXCLUSIONS": [
+    "TODAY",
+    "WHAT IS TRUE",
+    "SAFE TO SPEND",
+    "$6,500",
+    "A COMPUTED SIGNAL. PREVIEW.",
+    "SEE WHY",
+    "COMING",
+    "MOVED",
+    "RENT",
+    "GROCERIES",
+    "ATELIER",
+    "MARKET",
+    "dollar amounts",
+    "MORE",
+    "ACTIVITY",
+    "UPCOMING",
+    "RENT IS CLOSE",
+    "logo lockup",
+    "PLAN TODAY. GROW FREELY.",
+    "bottom nav"
+  ],
+  "ALPHA": "Chroma key #00FF00 removed locally. Objects are RGBA PNG aligned to the plate frame.",
+  "STACK": "environment-plate, then object PNG, then overlay PNG, then live HTML. Do not use authority-source.jpg as the page."
+}
