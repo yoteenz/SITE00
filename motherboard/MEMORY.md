@@ -14766,3 +14766,11 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Fix:** Phone `.jrn-f09a__kicker` and `.jrn-f09a__headline` are `translateY(-4px)`. The amount row, the flap words, and the folio box do not move. Tablet and desktop clear that translate. Measured on 402×874: kicker y=483 (was 487), headline y=501 (was 505), amounts y=572, tabs y=368.
 - **Do not repeat:** Do not put the 4px lift on the amount row or the flap words. Do not move the folio box for this nudge.
 
+---
+
+## 2026-10-07 — JURNL F09 want-to-spend spark centered in the bar
+
+- **Context:** This chat aligned child docks with the Safe to Spend parent, added the three purchase-check states, then phone nudges: hamburger left and up 6px, flap words down 10px, ADD plus to 11px, and YOUR MONEY / ORGANIZED. / THEN YOURS. up 4px (merged as #1456, bundle `index.B2l8uYk9.js`). The founder then asked to lower the spark left of WANT TO SPEND ON SOMETHING? so it is centered vertically in the bar.
+- **Fix:** `.jrn-f09a__spark` is `align-self: center`. The old `align-self: start` and `margin-top: 1px` are gone. Copy and the CHECK A PURCHASE button do not move. Measured centers match the bar: phone 402×874 spark y=750 (was 742), bar center y=758; tablet 834×1194 spark center y=1069; desktop 1440×900 spark center y=753.
+- **Do not repeat:** Do not pin the spark back to the top of the bar. Do not move the headline, the amount row, the flap words, or the button to center the icon.
+

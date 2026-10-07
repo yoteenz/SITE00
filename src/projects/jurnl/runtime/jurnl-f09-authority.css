@@ -435,8 +435,7 @@ body:has([data-jrn-screen='F09.00']),
   display: grid;
   place-items: center;
   color: #1c1915;
-  align-self: start;
-  margin-top: 1px;
+  align-self: center;
 }
 .jrn .jrn-f09a__bridge p {
   margin: 0;
