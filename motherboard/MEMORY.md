@@ -14602,3 +14602,11 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Fix:** On the phone, the plate and `.jrn-f09a__art` are `top: -30%`. The photograph and the type that sits on it (lockup, amount, tab words, folio copy) lift together. The purchase bridge stays. Tablet and desktop stay at `top: 0`. On an 852px screen the plate top measures -256px.
 - **Do not repeat:** Do not set the F09 phone plate back to `top: 30%`. That offset is the downward one.
 
+---
+
+## 2026-10-07 — JURNL F09 phone plate lowered 10%
+
+- **Context:** The phone plate and its type were `top: -30%`, which put the photograph 256px above an 852px screen. The founder said that was too high and asked for about 10% lower. Live money stays `computeSafeToSpend` (preview `$6,500`, bills `$1,920`).
+- **Fix:** Phone plate and `.jrn-f09a__art` are `top: -20%`. On 852px the plate top measures -171px. The type stays on the artwork. The purchase bridge stays. Tablet and desktop stay at `top: 0`.
+- **Do not repeat:** Do not put the F09 phone plate back to `top: -30%` or `top: 30%`. The current phone offset is `-20%`.
+
