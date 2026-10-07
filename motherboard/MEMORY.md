@@ -14546,3 +14546,12 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Fix:** That pin is gone. The F09 stage is `100lvh` and the plate is `inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 0%`. Measured at 393×852, 390×844, 390×700, and 430×932: the plate box matches the viewport. Top row is the photograph. Bottom row is the beige dock.
 - **Do not repeat:** Do not pin F09 `.jrn` to `visualViewport`. Do not size the phone plate to `100cqh * 1760/3840` and center it. Do not bring back `height: 100dvh` on F09 `.jrn`.
 
+---
+
+## 2026-10-07 — JURNL F09 plate leaves the stage box
+
+- **Context:** This chat rebuilt F09 Safe to Spend (approved plate, beige dock, arch signal, right-facing tabs, traced marks, tablet and desktop plates, bottom nav). Live money stays `computeSafeToSpend` (preview `$6,500`, bills `$1,920`). The founder said the phone still showed the photograph clipped and nestled inside a container, including under the Quick Add sheet.
+- **Cause:** F09 `.jrn` used an explicit `height: 100lvh` (which drops `bottom: 0`) plus `overflow: hidden` and `container-type: size`. That containment box is the containing block for fixed descendants, so the plate could not reach the screen edges.
+- **Fix:** `.jrn` stretches with top and bottom (`height: auto`), overflow visible, and is not a size container. The size container moved to `.jrn-f09a` so folio `cqh` still resolves. The plate is `position: fixed` on the viewport (`width/height: 100%`, `object-fit: cover`). `picture` is `display: contents` so it is not a box around the image. Measured plate boxes: 393×852, 834×1194, and 1440×900, each matching the viewport at 0,0. Quick Add still opens over the plate; SAVE sits inside the 852px height.
+- **Do not repeat:** Do not set `height: 100lvh` or `height: 100dvh` on F09 `.jrn`. Do not put `container-type` on `.jrn` or any ancestor of the plate. Do not put the plate back to `position: absolute` inside `.jrn-env`. Do not pin `.jrn` to `visualViewport`.
+

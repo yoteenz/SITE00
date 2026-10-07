@@ -9,8 +9,8 @@
    · .jrn .jrn-col overflow + safe-area padding (jurnl-runtime.css)
    · .jrn-screen[data-jrn-frame=family] .jrn-col overflow:hidden + padding, including the 600px/1100px padding-top
    · CENTER_STAGE .jrn-plate transform:scale (jurnl-center-stage.css) — a containing block
-   The stage is stretched with top and bottom (height:auto), not 100dvh. The plate is top-anchored
-   and at least the stage in both axes, so overflow:hidden on .jrn crops spare image, not the viewport. */
+   The stage stretches with top and bottom (height:auto). It is not 100dvh or 100lvh, and it is
+   not a size container. The plate is position:fixed on the viewport, so no ancestor box can nest it. */
 
 html:has([data-jrn-screen='F09.00']),
 body:has([data-jrn-screen='F09.00']),
@@ -19,7 +19,7 @@ body:has([data-jrn-screen='F09.00']),
   padding: 0;
   width: 100%;
   height: 100%;
-  overflow: hidden;
+  overflow: visible;
   background: #1c1915;
 }
 .jrn:has([data-jrn-screen='F09.00']) {
@@ -29,18 +29,17 @@ body:has([data-jrn-screen='F09.00']),
   right: 0;
   bottom: 0;
   left: 0;
-  /* Fill the screen. Do not take the mobile visual viewport's width or height —
-     that box is shorter than the phone and leaves bands around the plate. */
-  width: 100%;
-  height: 100lvh;
+  /* Stretch with the viewport edges. An explicit height drops bottom: 0 and
+     container-type traps position:fixed inside this box, so the plate sits
+     nested inside the stage instead of on the screen. */
+  width: auto;
+  height: auto;
   max-height: none;
-  min-height: 100lvh;
+  min-height: 0;
   margin: 0;
   padding: 0;
-  overflow: hidden;
+  overflow: visible;
   background: #1c1915;
-  container-type: size;
-  container-name: jrn;
 }
 .jrn .jrn-screen[data-jrn-screen='F09.00'] {
   position: absolute;
@@ -108,8 +107,13 @@ body:has([data-jrn-screen='F09.00']),
   width: auto;
   align-self: stretch;
 }
+/* The picture must not become a box around the plate. */
+.jrn .jrn-screen[data-jrn-screen='F09.00'] picture {
+  display: contents;
+}
 .jrn .jrn-screen[data-jrn-screen='F09.00'][data-jrn-composition='CENTER_STAGE'] .jrn-plate {
-  position: absolute;
+  /* Viewport, not the stage. No ancestor height, overflow, or container can inset it. */
+  position: fixed;
   inset: 0;
   top: 0;
   right: 0;
@@ -133,6 +137,10 @@ body:has([data-jrn-screen='F09.00']),
   inset: 0;
   color: #1c1915;
   text-transform: uppercase;
+  /* Folio height uses cqh. The container stays on the overlay, not on .jrn,
+     so it cannot trap the plate. */
+  container-type: size;
+  container-name: jrn;
 }
 /* Tracks the cover plate (top-anchored, centered when the screen is taller than the photo). */
 .jrn .jrn-f09a__art {
@@ -485,12 +493,15 @@ body:has([data-jrn-screen='F09.00']),
     --jrn-plate-tablet: 50% 50%;
   }
   .jrn .jrn-screen[data-jrn-screen='F09.00'][data-jrn-composition='CENTER_STAGE'] .jrn-plate {
+    position: fixed;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
     width: 100%;
     height: 100%;
+    min-width: 100%;
+    min-height: 100%;
     object-fit: cover;
     object-position: 50% 50%;
     transform: none;
@@ -617,6 +628,15 @@ body:has([data-jrn-screen='F09.00']),
     --jrn-plate-desktop: 50% 46%;
   }
   .jrn .jrn-screen[data-jrn-screen='F09.00'][data-jrn-composition='CENTER_STAGE'] .jrn-plate {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    min-width: 100%;
+    min-height: 100%;
     object-position: 50% 46%;
   }
   .jrn .jrn-f09a__lockup {
