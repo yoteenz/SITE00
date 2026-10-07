@@ -1,47 +1,61 @@
 /**
  * The Safe to Spend parent corner controls, pinned to the viewport on every app screen.
- * Back opens today. The menu opens account, unless the current screen registers its own menu (the account drawer).
+ * Back opens today. The hamburger opens the account drawer over the current screen.
+ * The word ACCOUNT in that drawer opens the full account page.
  */
 
-import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import { useLocation } from 'react-router-dom';
+import { AccountDrawer } from '../screens/AccountScreens';
+import { referenceFit } from './ReferenceStage';
 import { useJurnl } from '../state/store';
 
-type CornerApi = {
-  setMenu: (fn: (() => void) | null) => void;
-  setHidden: (hidden: boolean) => void;
-};
-
-const CornerApiContext = createContext<CornerApi | null>(null);
-
 export function JurnlCornerChromeProvider({ children }: { children: ReactNode }) {
-  const [menu, setMenuState] = useState<(() => void) | null>(null);
-  const [hidden, setHidden] = useState(false);
-  const api = useMemo<CornerApi>(() => ({
-    setMenu: (fn) => setMenuState(() => fn),
-    setHidden,
-  }), []);
+  const [drawer, setDrawer] = useState(false);
   return (
-    <CornerApiContext.Provider value={api}>
-      <JurnlCornerChrome menu={menu} hidden={hidden} />
+    <>
+      <JurnlCornerChrome hidden={drawer} onMenu={() => setDrawer(true)} />
       {children}
-    </CornerApiContext.Provider>
+      {drawer ? <AccountDrawerHost onClose={() => setDrawer(false)} /> : null}
+    </>
   );
 }
 
-/** Account (and any other screen that owns a drawer) takes the shared menu button. `covered` hides the buttons while that drawer is open. */
-export function useCornerMenu(open: () => void, covered: boolean) {
-  const api = useContext(CornerApiContext);
-  useEffect(() => {
-    if (!api) return;
-    api.setMenu(() => open());
-    return () => api.setMenu(null);
-  }, [api, open]);
-  useEffect(() => {
-    if (!api) return;
-    api.setHidden(covered);
-    return () => api.setHidden(false);
-  }, [api, covered]);
+/** The drawer photograph is 853 × 1844. Scale it the same way a reference stage does, over whatever screen is open. */
+function AccountDrawerHost({ onClose }: { onClose: () => void }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [fit, setFit] = useState(() => referenceFit(typeof window === 'undefined' ? 393 : window.innerWidth, typeof window === 'undefined' ? 852 : window.innerHeight, 48));
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const update = () => {
+      if (!el.clientWidth || !el.clientHeight) return;
+      const nav = document.querySelector<HTMLElement>(".jrn-nav[data-jrn-nav='authority'], .jrn-nav");
+      let dock = 48;
+      if (nav) {
+        const box = nav.getBoundingClientRect();
+        const bottom = Number.parseFloat(getComputedStyle(nav).bottom) || 0;
+        dock = Math.ceil(box.height + bottom);
+      }
+      const next = referenceFit(el.clientWidth, el.clientHeight, dock);
+      setFit((prev) => (prev.k === next.k && prev.top === next.top && prev.bleed === next.bleed ? prev : next));
+    };
+    update();
+    if (typeof ResizeObserver === 'undefined') {
+      window.addEventListener('resize', update);
+      return () => window.removeEventListener('resize', update);
+    }
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+  return (
+    <div ref={ref} className="jrn-ref jrn-account-drawer-host" data-jrn-account-drawer-host>
+      <div className="jrn-ref__stage" style={{ '--k': fit.k, '--ref-top': `${fit.top}px` } as CSSProperties}>
+        <AccountDrawer onClose={onClose} />
+      </div>
+    </div>
+  );
 }
 
 function appRoute(pathname: string): string {
@@ -50,7 +64,7 @@ function appRoute(pathname: string): string {
   return i === -1 ? '' : pathname.slice(i + mark.length);
 }
 
-function JurnlCornerChrome({ menu, hidden }: { menu: (() => void) | null; hidden: boolean }) {
+function JurnlCornerChrome({ hidden, onMenu }: { hidden: boolean; onMenu: () => void }) {
   const { go } = useJurnl();
   const { pathname } = useLocation();
   const rel = appRoute(pathname);
@@ -66,7 +80,7 @@ function JurnlCornerChrome({ menu, hidden }: { menu: (() => void) | null; hidden
           </svg>
         </button>
       )}
-      <button type="button" className="jrn-f09a__menu" aria-label="MENU" data-jrn-trigger="f09-menu" onClick={() => (menu ? menu() : go('account'))}>
+      <button type="button" className="jrn-f09a__menu" aria-label="MENU" data-jrn-trigger="f09-menu" onClick={onMenu}>
         <svg viewBox="0 0 40 26" aria-hidden>
           <path d="M0 1.5h40M0 13h40M0 24.5h40" fill="none" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" />
         </svg>
