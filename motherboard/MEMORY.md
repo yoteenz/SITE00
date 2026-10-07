@@ -14749,3 +14749,11 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Fix:** On the phone the authority plus svg is `height: 11px` (was 18px). The other marks stay 10px. Measured on 402×874: HOME/MONEY/PLAN/CREDIT labels y=856.5, ADD label y=857. Plus box is 11×14, bottom y=854, inside the 42px dock that ends at 874.
 - **Do not repeat:** Do not put the plus back to 18px on the phone. Do not shrink the other nav marks with it. Desktop still resets those svg heights to auto.
 
+---
+
+## 2026-10-07 — JURNL F09 folder headline raised 4px
+
+- **Context:** Safe to Spend phone plate stays `top: -10%`. Flap words stay at `translateY(calc(-3lvh - 20px))`. The ADD plus is 11px. The founder asked to move only YOUR MONEY / ORGANIZED. / THEN YOURS. up 4px on the folder.
+- **Fix:** Phone `.jrn-f09a__kicker` and `.jrn-f09a__headline` are `translateY(-4px)`. The amount row, the flap words, and the folio box do not move. Tablet and desktop clear that translate. Measured on 402×874: kicker y=483 (was 487), headline y=501 (was 505), amounts y=572, tabs y=368.
+- **Do not repeat:** Do not put the 4px lift on the amount row or the flap words. Do not move the folio box for this nudge.
+

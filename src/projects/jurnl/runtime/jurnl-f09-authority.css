@@ -371,9 +371,11 @@ body:has([data-jrn-screen='F09.00']),
   font: 500 10px/1 'JURNL Sans', sans-serif;
   letter-spacing: 0.22em;
   color: #5c564e;
+  transform: translateY(-4px);
 }
 .jrn .jrn-f09a__headline {
   margin: 8px 0 0;
+  transform: translateY(-4px);
   font-family: 'JURNL Display', serif;
   font-size: 28px;
   font-weight: 400;
@@ -548,7 +550,9 @@ body:has([data-jrn-screen='F09.00']),
   .jrn .jrn-f09a__amount,
   .jrn .jrn-f09a__through,
   .jrn .jrn-f09a__tabs,
-  .jrn .jrn-f09a__folio {
+  .jrn .jrn-f09a__folio,
+  .jrn .jrn-f09a__kicker,
+  .jrn .jrn-f09a__headline {
     transform: none;
   }
   .jrn .jrn-f09a__lockup {
