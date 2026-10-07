@@ -461,7 +461,8 @@ body:has([data-jrn-screen='F09.00']),
   letter-spacing: 0.08em;
   color: #1c1915;
   white-space: nowrap;
-  transform: translateY(-6px);
+  /* The want-to-spend line is also -6px. This keeps the button with that line. */
+  transform: translateY(-12px);
 }
 
 .jrn:has([data-jrn-screen='F09.00']) .jrn-nav {
