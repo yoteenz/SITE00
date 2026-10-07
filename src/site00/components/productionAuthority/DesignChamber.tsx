@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { getIngestedProject } from '../../../projects/registry';
 import { projectFamilies } from '../../../projects/families';
+import { jurnlFamilyOfScreen, jurnlFamilyRouteNodes, jurnlFamilyScreenForPath, jurnlRuntimeRoute } from '../../../projects/jurnl/data/familyRouteTree';
 import { hasProjectRuntime, isProjectRuntimeMessage, projectRuntimeUrl } from '../../projectRuntime/projectRuntimeRegistry';
 import { ProjectFamilyChamber } from './ProjectFamilyChamber';
 import {
@@ -242,7 +243,13 @@ function useProjectRuntimeViewport(projectSlug: string) {
   const runtime = project && hasProjectRuntime(projectSlug) ? project : null;
   const entries = useMemo(() => (runtime ? projectFamilies(projectSlug) : []), [runtime, projectSlug]);
   const boundaries = (runtime?.families ?? []).filter((f) => f.status === 'NOT_STARTED' && f.entryRoute);
-  const entryFor = (id: string) => entries.find((e) => e.contract.familyId === id || e.contract.screens.some((s) => s.id === id)) ?? null;
+  const treeOn = projectSlug === 'jurnl';
+  const entryFor = (id: string) => {
+    const direct = entries.find((e) => e.contract.familyId === id || e.contract.screens.some((s) => s.id === id));
+    if (direct) return direct;
+    const owner = treeOn ? jurnlFamilyOfScreen(id) : null;
+    return owner ? entries.find((e) => e.contract.familyId === owner) ?? null : null;
+  };
   const firstScreen = (familyId: string) => {
     const c = entries.find((e) => e.contract.familyId === familyId)?.contract;
     return c ? (c.screens.find((s) => s.id === c.parentScreen) ?? c.screens[0])?.id ?? '' : familyId;
@@ -260,7 +267,11 @@ function useProjectRuntimeViewport(projectSlug: string) {
   const family = familyEntry ?? entries[0] ?? null;
   const shownBoundary = boundaries.find((b) => b.familyId === shown.screenId) ?? null;
   const familyId = shownBoundary?.familyId ?? familyEntry?.contract.familyId ?? '';
-  const screens = familyEntry?.contract.screens ?? [];
+  const contractScreens = familyEntry?.contract.screens ?? [];
+  const screens = [
+    ...contractScreens,
+    ...(treeOn ? jurnlFamilyRouteNodes(familyId).filter((n) => !contractScreens.some((s) => s.id === n.id)) : []),
+  ];
   const screen = familyEntry?.contract.screens.find((s) => s.id === shown.screenId) ?? null;
   const states = familyEntry?.contract.states.filter((s) => s.screenId === shown.screenId) ?? [];
   const overlays = familyEntry?.overlays[shown.screenId] ?? [];
@@ -274,7 +285,12 @@ function useProjectRuntimeViewport(projectSlug: string) {
   const selBoundary = boundaries.find((b) => b.familyId === sel.screenId) ?? null;
   const sc = runtime?.runtime.scenarios.find((x) => x.id === sel.scenario) ?? null;
   const [kind, value] = sel.variant === 'DEFAULT' ? ['', ''] : (sel.variant.split(':') as [string, string]);
-  const selRoute = sc?.route ?? selBoundary?.entryRoute ?? selEntry?.contract.screens.find((s) => s.id === sel.screenId)?.runtimeRoute ?? runtime?.runtime.defaultRoute ?? '';
+  const selRoute = sc?.route
+    ?? selEntry?.contract.screens.find((s) => s.id === sel.screenId)?.runtimeRoute
+    ?? (treeOn ? jurnlRuntimeRoute(sel.screenId) : null)
+    ?? selBoundary?.entryRoute
+    ?? runtime?.runtime.defaultRoute
+    ?? '';
   const src = runtime ? projectRuntimeUrl(projectSlug, selRoute, { ...(kind === 'state' ? { state: value } : {}), ...(kind === 'overlay' ? { overlay: value } : {}), ...(sc?.query ?? {}) }) : null;
   // Direct preview = the SAME runtime route outside the workspace; follows live navigation.
   const directHref = runtime ? (live.path && live.path !== selRoute ? projectRuntimeUrl(projectSlug, live.path) : src) : null;
@@ -289,8 +305,11 @@ function useProjectRuntimeViewport(projectSlug: string) {
   /** Runtime → host: the controls follow what the founder clicked to, without reloading the runtime. */
   const boundariesRef = useRef(boundaries);
   boundariesRef.current = boundaries;
+  const treeOnRef = useRef(treeOn);
+  treeOnRef.current = treeOn;
   const followLive = useCallback((screenId: string | null, path: string) => {
-    const target = screenId ?? boundariesRef.current.find((b) => b.entryRoute === path)?.familyId ?? null;
+    const fromPath = treeOnRef.current ? jurnlFamilyScreenForPath(path)?.id ?? null : null;
+    const target = screenId ?? fromPath ?? boundariesRef.current.find((b) => b.entryRoute === path)?.familyId ?? null;
     if (target) setShown((cur) => (cur.screenId === target ? cur : { screenId: target, variant: 'DEFAULT' }));
   }, []);
 
@@ -300,7 +319,6 @@ function useProjectRuntimeViewport(projectSlug: string) {
     familyId,
     families,
     screens,
-    boundaries,
     screenId: shown.screenId,
     variant: shown.variant,
     scenario: sel.scenario,
@@ -557,7 +575,7 @@ function ViewportChamber({ cfg }: { cfg: DesignChamberConfig }) {
               'ROUTE',
               pr.screenId,
               (v) => pr.navigate(v),
-              [...pr.screens.map((s) => ({ value: s.id, label: `${s.id} ${s.name}` })), ...pr.boundaries.map((b) => ({ value: b.familyId, label: `${b.familyId} ${b.familyName} BOUNDARY` }))],
+              pr.screens.map((s) => ({ value: s.id, label: `${s.id} ${s.name}` })),
               'route',
             )
           : select('ROUTE', route, setRoute, Object.keys(VIEWPORT_ROUTES), 'route')}

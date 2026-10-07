@@ -14774,3 +14774,12 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Fix:** `.jrn-f09a__spark` is `align-self: center`. The old `align-self: start` and `margin-top: 1px` are gone. Copy and the CHECK A PURCHASE button do not move. Measured centers match the bar: phone 402×874 spark y=750 (was 742), bar center y=758; tablet 834×1194 spark center y=1069; desktop 1440×900 spark center y=753.
 - **Do not repeat:** Do not pin the spark back to the top of the bar. Do not move the headline, the amount row, the flap words, or the button to center the icon.
 
+---
+
+## 2026-10-07 — Design viewport route lists the selected family’s screen tree
+
+- **Context:** This chat covered the preview tunnel (one shared Cloudflare token load-balancing many agents; canonical connector is `SITE00_CLOUDFLARE_TUNNEL_CANONICAL=1` on exactly one environment), the production nav that puts DESIGN in the center, the three Check a Purchase authorities, and the locked-shell correction (one plate, brand, and nav). The founder then opened the DESIGN viewport on F09 and the ROUTE menu listed other families’ parent pages (`F05 MONEY BOUNDARY` through `F13 PAYDOWN BOUNDARY`) under `F09.00 SAFE TO SPEND`.
+- **Decision:** FAMILY stays the list of families. ROUTE is only that family’s screens: the parent once, then its live children and grandchildren. F05–F16 production contracts stay parent-only. The tree lives in `src/projects/jurnl/data/familyRouteTree.ts`. Param routes open a `preview` segment. `purchases/checked` outranks `purchases/:purchaseId`. The runtime posts the child screen id so the control follows in-iframe navigation.
+- **F09:** `F09.00 SAFE TO SPEND` and `F09.WHY WHY THIS NUMBER` (`safe/why`). F05 is `F05.00 MONEY`, `F05.ACCOUNTS PLACES`, `F05.ACCOUNT PLACE`. F10 adds `F10.CHECKED CHECK A PURCHASE` and `F10.OBJECT PURCHASE`. F01 stays `F01.00`–`F01.13`.
+- **Do not repeat:** Do not append `NOT_STARTED` families onto the ROUTE menu as `BOUNDARY`. Do not expand the F05–F16 parent contracts to hold these children. Sheets such as `F09.HOLD` are not routes.
+
