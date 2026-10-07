@@ -133,7 +133,7 @@ export function SafeToSpendHubScreen() {
         </article>
         <section className="jrn-f09a__bridge" aria-label="CHECK A PURCHASE">
           <span className="jrn-f09a__spark" aria-hidden>
-            <svg viewBox="0 0 24 24" width="15" height="15"><path d="M12 1.2 13.5 9.1 21.2 12 13.5 14.9 12 22.8 10.5 14.9 2.8 12 10.5 9.1Z" fill="currentColor" /></svg>
+            <svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 1.4 13.8 9.2 21.6 12 13.8 14.8 12 22.6 10.2 14.8 2.4 12 10.2 9.2Z" fill="none" stroke="#6a5c42" strokeWidth="1.35" strokeLinejoin="round" /></svg>
           </span>
           <p><b>WANT TO SPEND ON SOMETHING?</b> CHECK HOW IT FITS YOUR PLAN BEFORE YOU BUY.</p>
           <button type="button" data-jrn-trigger="safe-check-purchase" onClick={() => go('purchases')}>
