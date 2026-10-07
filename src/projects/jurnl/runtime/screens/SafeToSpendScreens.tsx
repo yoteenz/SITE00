@@ -5,6 +5,8 @@ import { computeSafeToSpend, type SafeToSpendBreakdown } from '../../data/f09/sa
 import { patchSetup, useSetup } from '../../data/f02/setupDraft';
 import { formatMoney, useCurrency } from '../../data/home/money';
 import { PARENT_PLATES } from '../../data/parents/plates';
+import f09Terrace from '../../families/F09_SAFE/ENVIRONMENTS/F09_ENVIRONMENT_AUTHORITY_TERRACE.png';
+import f09Folio from '../../families/F09_SAFE/ENVIRONMENTS/F09_FOLIO_SIDEKICK.png';
 import { getRepository } from '../../data/repository/deviceRepository';
 import { FamilyChrome } from '../components/FamilyChrome';
 import { JurnlProductNav } from '../components/ProductNav';
@@ -16,6 +18,14 @@ import { useJurnl } from '../state/store';
 
 /** Founder-approved availability line on the F09 parent authority. The formula has no horizon field. */
 const AUTHORITY_THROUGH = 'AVAILABLE THROUGH OCT 18';
+
+/** R2 environment: Sunburst 2016×3584, mounted 1:1 cover (no upscale). */
+const F09_TERRACE_PLATE = {
+  family: 'F09',
+  scene: 'ENV.AUTHORITY_TERRACE',
+  src: f09Terrace,
+  assetId: 'SAFE.ENVIRONMENT.AUTHORITY_TERRACE.001',
+};
 
 function SafeShell({ screenId, children }: { screenId: string; children: ReactNode }) {
   const { go, overlay, openOverlay, closeOverlay } = useJurnl();
@@ -83,7 +93,7 @@ export function SafeToSpendHubScreen() {
     { id: 'buffer', label: 'BUFFER', amount: formatMoney(signal.safetyBuffer) },
   ];
   return (
-    <JurnlScreen screenId="F09.00" familyPlate={PARENT_PLATES.F09} family productNav>
+    <JurnlScreen screenId="F09.00" familyPlate={F09_TERRACE_PLATE} family productNav>
       <div className="jrn-f09a" data-jrn-authority="F09-APPROVED-IMAGE-1" data-jrn-zone="intro">
         <header className="jrn-f09a__top">
           <JurnlLogo small label="JURNL" />
@@ -101,11 +111,8 @@ export function SafeToSpendHubScreen() {
           </button>
         </section>
         <article className="jrn-f09a__folio" aria-label="YOUR MONEY">
-          <div className="jrn-f09a__tabs" aria-hidden>
-            {folio.map((row) => <i key={row.id} data-tab={row.id}>{row.label}</i>)}
-          </div>
-          <div className="jrn-f09a__board">
-            <JurnlLogo small label="" />
+          <img className="jrn-f09a__folio-img" src={f09Folio} alt="" width={2160} height={1820} draggable={false} />
+          <div className="jrn-f09a__folio-copy">
             <p className="jrn-f09a__kicker">YOUR MONEY</p>
             <p className="jrn-f09a__headline">ORGANIZED.<br />THEN YOURS.</p>
             <ul>
@@ -113,6 +120,9 @@ export function SafeToSpendHubScreen() {
                 <li key={row.id}><span>{row.label}</span><b>{row.amount}</b></li>
               ))}
             </ul>
+          </div>
+          <div className="jrn-f09a__tabwords" aria-hidden>
+            {folio.map((row) => <span key={row.id}>{row.label}</span>)}
           </div>
         </article>
         <section className="jrn-f09a__bridge" aria-label="CHECK A PURCHASE">
