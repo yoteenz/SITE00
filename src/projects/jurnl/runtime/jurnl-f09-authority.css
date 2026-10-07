@@ -186,10 +186,10 @@ body:has([data-jrn-screen='F09.00']),
 .jrn .jrn-f09a__folio {
   transform: translateY(calc(-3lvh + 36px));
 }
-/* Tab words sit on the protruding tabs. -3lvh follows the plate; the extra
-   30px lifts them to the reference's place on each tab face. */
+/* Tab words sit on the protruding tabs. -3lvh follows the plate; 20px of
+   lift remains after the founder moved the words down 10px onto the flaps. */
 .jrn .jrn-f09a__tabs {
-  transform: translateY(calc(-3lvh - 30px));
+  transform: translateY(calc(-3lvh - 20px));
 }
 .jrn .jrn-f09a__art .jrn-f09a__menu,
 .jrn .jrn-f09a__art .jrn-f09a__account,

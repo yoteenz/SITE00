@@ -14733,3 +14733,11 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Fix:** `.jrn-f09a__menu` is `left: 5.6%` and `top: calc(safe-area + 34px)` on the phone (was `right: 5.6%` and `+ 40px`). Tablet is `left: 22px` and `+ 20px`. Desktop is `left: 28px` and `+ 18px`. The desktop JL account mark stays on the right. Measured on 402×874: menu x=23, y=34, 28×22.
 - **Do not repeat:** Do not put the STS menu back on the right. Do not move the desktop account mark with it. Do not change the phone plate from `top: -10%`.
 
+---
+
+## 2026-10-07 — JURNL F09 folder flap words moved down 10px
+
+- **Context:** Safe to Spend phone plate stays `top: -10%`. The hamburger is on the left. Live money stays `computeSafeToSpend`. The founder said the BILLS / PLANS / GOALS / BUFFER words on the folder flaps were still floating above the folders and should move down 10px, on that page only.
+- **Fix:** Phone `.jrn-f09a__tabs` is `translateY(calc(-3lvh - 20px))`. It was `- 30px`. The folio copy stays `translateY(calc(-3lvh + 36px))`. Tablet and desktop still clear the tab translate. Measured on 402×874: the four flap labels share y=368. The folio stays at y=487. The menu stays at x=23, y=34.
+- **Do not repeat:** Do not put the 10px drop on the folio block. Do not return the flap words to `- 30px`. Do not change the phone plate from `top: -10%`.
+
