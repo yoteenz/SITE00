@@ -434,12 +434,14 @@ body:has([data-jrn-screen='F09.00']),
   color: #1c1915;
   align-self: start;
   margin-top: 1px;
+  transform: translateY(-6px);
 }
 .jrn .jrn-f09a__bridge p {
   margin: 0;
   font: 400 8.5px/1.35 'JURNL Sans', sans-serif;
   letter-spacing: 0.06em;
   color: #4a433c;
+  transform: translateY(-6px);
 }
 .jrn .jrn-f09a__bridge b {
   display: block;
@@ -649,6 +651,10 @@ body:has([data-jrn-screen='F09.00']),
     border-radius: 28px;
     grid-template-columns: 18px minmax(0, 1fr) auto;
     gap: 12px;
+  }
+  .jrn .jrn-f09a__bridge p,
+  .jrn .jrn-f09a__spark {
+    transform: none;
   }
   .jrn .jrn-f09a__bridge p {
     font-size: 11px;
