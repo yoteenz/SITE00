@@ -14727,6 +14727,15 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
+## 2026-10-07 — STS locked shell: one plate, brand, and nav for every descendant
+
+- **Context:** This chat covered the preview tunnel (one shared Cloudflare token was load-balancing many agents; canonical connector gate and the preview/tunnel branch), the production nav swap that puts DESIGN in the center, then the three Check a Purchase outcome authorities. Increment 1 (Sunburst 9:16 image-to-image) wrote the right copy but the Mediterranean plate, the JURNL lockup, and the tagline drifted between the three descendants.
+- **Founder rule:** For every STS descendant, lock the background, the top brand region, and the bottom nav. Only the middle may change. Direct parent is `07_CHECK_A_PURCHASE`. Canvas is 853×1844. No 9:16, no device chrome, no letterboxing.
+- **Correction:** `scripts/jurnl/sts-locked-shell-derive.mjs` scales that parent once, clears the headline and the form, and saves `JURNL/F09_SAFE/PURCHASE_OUTCOMES_INCREMENT1/STS_ENVIRONMENT_PLATE_LOCKED_4K.png`. Each result stamps the parent’s top rows and the HOME/MONEY/ADD/PLAN/CREDIT dock back on. QA is `topDiff` 0 and `navDiff` 0 on all three. The coded `purchases/checked` runtime is unchanged.
+- **Do not repeat:** Do not regenerate these states with a full-page image model. Do not move the logo, tagline, arch, or dock to make room for descendant copy. Do not start a new plate for a child of this branch.
+
+---
+
 ## 2026-10-07 — JURNL F09 hamburger moved to the left
 
 - **Context:** Safe to Spend phone plate stays `top: -10%`. The parent logo and PLAN TODAY. GROW FREELY. stay off F09.00. Live money stays `computeSafeToSpend`. Child docks use the authority bar. The founder asked to move the STS hamburger to the left side and nudge it up 6px.
