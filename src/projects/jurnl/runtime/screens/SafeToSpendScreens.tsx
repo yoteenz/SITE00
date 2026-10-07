@@ -6,6 +6,8 @@ import { patchSetup, useSetup } from '../../data/f02/setupDraft';
 import { formatMoney, useCurrency } from '../../data/home/money';
 import { PARENT_PLATES } from '../../data/parents/plates';
 import f09Plate from '../../families/F09_SAFE/ENVIRONMENTS/F09_ENVIRONMENT_AUTHORITY_PLATE.png';
+import f09TabletPlate from '../../families/F09_SAFE/ENVIRONMENTS/F09_ENVIRONMENT_TABLET_PLATE.png';
+import f09DesktopPlate from '../../families/F09_SAFE/ENVIRONMENTS/F09_ENVIRONMENT_DESKTOP_PLATE.png';
 import f09Lockup from '../../families/F09_SAFE/ENVIRONMENTS/F09_LOCKUP.png';
 import { getRepository } from '../../data/repository/deviceRepository';
 import { FamilyChrome } from '../components/FamilyChrome';
@@ -14,16 +16,23 @@ import { AskJurnlSheet, QuickAddV2Sheet } from '../global/GlobalSheets';
 import { JurnlButton, JurnlDrawer, JurnlInput, JurnlPanel } from '../components/primitives';
 import { JurnlFamilyShell } from '../components/FamilyFrame';
 import { JurnlScreen } from './JurnlScreen';
-import { useJurnl } from '../state/store';
+import { initialsOf, useJurnl } from '../state/store';
 
 /** Founder-approved availability line on the F09 parent authority. The formula has no horizon field. */
 const AUTHORITY_THROUGH = 'AVAILABLE THROUGH OCT 18';
 
-/** One plate: OpenArt Sunburst replica of the approved scene, scenery and folders together. UI text is live. */
+/**
+ * One plate per breakpoint. Scenery and the blank physical folio are in the photograph.
+ * UI text stays live. Mobile plate is unchanged (history PQTsHqqy3Pf0ZpQJougi).
+ * Tablet: OpenArt history OVMaDl8ByEBZKw70HFG1, 2400×3440.
+ * Desktop: OpenArt history RQxfgcBWYfJtT7nvntJQ, 3072×2048.
+ */
 const F09_AUTHORITY_PLATE = {
   family: 'F09',
   scene: 'ENV.AUTHORITY_PLATE',
   src: f09Plate,
+  tabletSrc: f09TabletPlate,
+  desktopSrc: f09DesktopPlate,
   assetId: 'SAFE.ENVIRONMENT.AUTHORITY_PLATE.001',
   width: 1760,
   height: 3840,
@@ -134,7 +143,8 @@ function useF09VisualStage() {
 
 /** F09 parent — founder-approved authority reconstruction (IMAGE 1). Live formula, live nav, live routes. */
 export function SafeToSpendHubScreen() {
-  const { go, openOverlay, closeOverlay, overlay } = useJurnl();
+  const { go, openOverlay, closeOverlay, overlay, session } = useJurnl();
+  const monogram = session.account ? initialsOf(session.account) : 'JL';
   const draft = useSetup();
   useCurrency();
   useF09VisualStage();
@@ -157,6 +167,9 @@ export function SafeToSpendHubScreen() {
             <img className="jrn-f09a__lockup-img" src={f09Lockup} alt="JURNL" data-jrn-logo="authority-lockup" draggable={false} />
             <p className="jrn-f09a__descriptor">FINANCIAL LIFE.<br />BEAUTIFULLY ORGANIZED.</p>
           </div>
+          <button type="button" className="jrn-f09a__account" aria-label="ACCOUNT" data-jrn-trigger="f09-account" onClick={() => go('account')}>
+            {monogram}
+          </button>
           <button type="button" className="jrn-f09a__menu" aria-label="MENU" data-jrn-trigger="f09-menu" onClick={() => go('account')}>
             <span /><span /><span />
           </button>

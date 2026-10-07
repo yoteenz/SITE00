@@ -9,7 +9,17 @@ import { JurnlEnvironment, type JurnlScene } from '../components/Environment';
 import { F02_PLATES, type F02PlateId } from '../../data/f02/plates';
 import { resolveCompositionMode, type JurnlCompositionMode } from '../layout/compositionMode';
 
-export type FamilyPlate = { family: string; scene: string; src: string; assetId: string; width?: number; height?: number };
+export type FamilyPlate = {
+  family: string;
+  scene: string;
+  src: string;
+  assetId: string;
+  width?: number;
+  height?: number;
+  /** Wider crops of the same scene. Mobile keeps `src`. */
+  tabletSrc?: string;
+  desktopSrc?: string;
+};
 
 export function JurnlScreen({
   screenId,
@@ -59,7 +69,11 @@ export function JurnlScreen({
         </div>
       : familyPlate ?
         <div className="jrn-env" data-scene={familyPlate.scene} data-asset-id={familyPlate.assetId} aria-hidden data-testid="jurnl-environment">
-          <img className="jrn-plate" src={familyPlate.src} alt="" width={familyPlate.width ?? 2016} height={familyPlate.height ?? 3584} data-asset-id={familyPlate.assetId} draggable={false} />
+          <picture>
+            {familyPlate.desktopSrc ? <source media="(min-width: 1100px)" srcSet={familyPlate.desktopSrc} /> : null}
+            {familyPlate.tabletSrc ? <source media="(min-width: 600px)" srcSet={familyPlate.tabletSrc} /> : null}
+            <img className="jrn-plate" src={familyPlate.src} alt="" width={familyPlate.width ?? 2016} height={familyPlate.height ?? 3584} data-asset-id={familyPlate.assetId} draggable={false} />
+          </picture>
           {calm}
         </div>
       : field === 'bone' ?
