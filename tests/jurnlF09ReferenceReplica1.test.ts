@@ -103,6 +103,12 @@ describe('runtime', () => {
     const hub = render('safe');
     expect(hub).not.toContain('jrn-ref__plate');
     expect(hub).toContain('safe-check-purchase');
+    expect(hub).toContain('data-jrn-trigger="f09-back"');
+    expect(hub).toContain('aria-label="BACK TO TODAY"');
+    expect(hub).toContain('data-jrn-trigger="f09-menu"');
+    const css = read('src/projects/jurnl/runtime/jurnl-f09-authority.css');
+    expect(css).toMatch(/\.jrn \.jrn-f09a__back \{\s*left: 5\.6%;\s*right: auto;/);
+    expect(css).toMatch(/\.jrn \.jrn-f09a__menu \{\s*left: auto;\s*right: 5\.6%;/);
   });
 
   it('no device chrome and uppercase-only copy in the replica sources', () => {
