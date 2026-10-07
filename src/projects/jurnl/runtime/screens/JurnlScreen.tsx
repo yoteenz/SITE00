@@ -32,6 +32,7 @@ export function JurnlScreen({
   review = false,
   frame = false,
   productNav = false,
+  singlePlate = false,
   composition,
   children,
 }: {
@@ -51,6 +52,8 @@ export function JurnlScreen({
   frame?: boolean;
   /** The screen renders the 5-item product nav → CENTER_STAGE by default. */
   productNav?: boolean;
+  /** One photographic plate. Skips the soft second copy used on other center-stage screens. */
+  singlePlate?: boolean;
   /** Route-authority override of the composition mode (must be documented in COMPOSITION_OVERRIDES). */
   composition?: JurnlCompositionMode;
   children: ReactNode;
@@ -60,9 +63,9 @@ export function JurnlScreen({
   const mode = resolveCompositionMode({ screenId, hasProductNav: productNav, override: composition });
   // CENTER_STAGE: design at the perimeter, function in the centre. A calm, soft-focus copy of the same plate sits over
   // the functional safe zone and feathers out, so the corners and outer edges keep the photograph's detail.
-  const calm = mode === 'CENTER_STAGE' && !f02 && familyPlate ? <span className="jrn-env__calm" aria-hidden data-jrn-calm={familyPlate.family} style={{ ['--jrn-calm-src' as string]: `url("${familyPlate.src}")` } as CSSProperties} /> : null;
+  const calm = mode === 'CENTER_STAGE' && !singlePlate && !f02 && familyPlate ? <span className="jrn-env__calm" aria-hidden data-jrn-calm={familyPlate.family} style={{ ['--jrn-calm-src' as string]: `url("${familyPlate.src}")` } as CSSProperties} /> : null;
   return (
-    <section className="jrn-screen" data-transition={family ? 'family' : 'push'} data-jrn-screen={screenId} data-jrn-family={familyId} data-jrn-plate={f02 ? plate : undefined} data-jrn-field={field} data-jrn-review={review ? 'parent' : undefined} data-jrn-frame={frame ? 'family' : undefined} data-jrn-composition={mode}>
+    <section className="jrn-screen" data-transition={family ? 'family' : 'push'} data-jrn-screen={screenId} data-jrn-family={familyId} data-jrn-plate={f02 ? plate : undefined} data-jrn-field={field} data-jrn-review={review ? 'parent' : undefined} data-jrn-frame={frame ? 'family' : undefined} data-jrn-composition={mode} data-jrn-parent-authority={singlePlate ? familyId : undefined}>
       {f02 ?
         <div className="jrn-env" data-scene={plate} data-asset-id={f02.assetId} aria-hidden data-testid="jurnl-environment">
           <img className="jrn-plate" src={f02.src} alt="" width={2016} height={3584} data-asset-id={f02.assetId} draggable={false} />

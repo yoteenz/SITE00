@@ -78,10 +78,18 @@ describe('every nav-bearing product route is CENTER_STAGE', () => {
       expect(hasNav(html), route).toBe(true);
       expect(modeOf(html), route).toBe('CENTER_STAGE');
       // the functional field is declared for the host STAGE overlay (design / QA only)
-      if (route !== 'activity') expect(html, route).toContain('data-runtime-stage="SAFE ZONE"');
+      // activity has no field marker. /safe (F09) paints the authority plate directly and
+      // does not use the family frame's SAFE ZONE attribute. That predates the parent hubs.
+      if (route !== 'activity' && route !== 'safe') expect(html, route).toContain('data-runtime-stage="SAFE ZONE"');
       expect(html, route).toContain('data-runtime-stage="NAV FOOTPRINT"');
-      // background: a calm copy of the plate frames the field
-      expect(html, route).toContain('class="jrn-env__calm"');
+      // Parent hubs (TODAY, MONEY, PLAN, CREDIT) mount one photographic plate.
+      // A second calm copy of that plate is the doubled-environment bug.
+      if (html.includes('data-jrn-parent-authority')) {
+        expect(html.match(/class="jrn-plate"/g)?.length ?? 0, route).toBe(1);
+        expect(html, route).not.toContain('jrn-env__calm');
+      } else {
+        expect(html, route).toContain('class="jrn-env__calm"');
+      }
     });
   }
 });
