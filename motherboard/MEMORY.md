@@ -14782,3 +14782,11 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Fix:** `.jrn-f09a__menu` top is `+ 30px` on the phone (was `+ 34px`), `+ 16px` on tablet (was `+ 20px`), and `+ 14px` on desktop (was `+ 18px`). Left edge stays. Measured: phone 402×874 menu x=22.5 y=30; tablet 834×1194 y=16; desktop 1440×900 y=14.
 - **Do not repeat:** Do not put the menu back to `+ 34px`. Do not move the desktop account mark with it. Do not change the phone plate from `top: -10%`.
 
+---
+
+## 2026-10-07 — JURNL back returns to the previous route
+
+- **Context:** The founder said the back button was trailing through family page screens. Family chrome, Today, and Account used `useFrameBack()`, so on a paginated family page the label became BACK TO SCREEN N and each press stepped to the previous continuation screen before the hardcoded parent (Today, Money, and so on). The Safe to Spend hamburger opens Account, which has two continuation screens.
+- **Fix:** The runtime store keeps the route trail. `back()` pops it and calls `navigate(-1)`. Continuation screens are not trail entries. NEXT still moves inside the page. If the screen was opened directly, back uses the old parent fallback. Proven: Account screen 2 (CONTINUED) opened from Safe returns to F09.00 in one press. See Why, Purchases, and Money opened from Safe also return to Safe. A direct open of Money still falls back to Today.
+- **Do not repeat:** Do not wire the chrome back button to `useFrameBack()` or label it BACK TO SCREEN N. Do not make back walk Money → Places → Account when the user did not open those routes.
+

@@ -9,16 +9,16 @@ import { useSetup, patchSetup } from '../../data/f02/setupDraft';
 import { CURRENCIES, setCurrency, useCurrency } from '../../data/home/money';
 import { F03_DAY_PLATE } from '../../data/f03/plates';
 import { JurnlProductNav } from '../components/ProductNav';
-import { FramePanel, JurnlFamilyFrame, useFrameBack } from '../components/FamilyFrame';
+import { FramePanel, JurnlFamilyFrame } from '../components/FamilyFrame';
 import { JurnlButton, JurnlDrawer, JurnlIconButton, JurnlInput, JurnlPanel, JurnlToggle } from '../components/primitives';
 import { useJurnl } from '../state/store';
 
-/** Settings chrome: back walks continuation screens before leaving for Today. */
+/** Settings chrome. Back returns to the previous route, then Today when Account was opened directly. */
 function SettingsChrome({ onBack }: { onBack: () => void }) {
-  const frame = useFrameBack();
+  const { back, hasPrevious } = useJurnl();
   return (
     <div className="jrn-home__top" data-jrn-zone="chrome">
-      <JurnlIconButton icon="back" label={frame.screenIndex > 0 ? `BACK TO SCREEN ${frame.screenIndex}` : 'BACK TO TODAY'} trigger="settings-back" onClick={() => (frame.back() ? undefined : onBack())} />
+      <JurnlIconButton icon="back" label={hasPrevious ? 'BACK' : 'BACK TO TODAY'} trigger="settings-back" onClick={() => { if (!back()) onBack(); }} />
       <span className="jrn-home__mark">JURNL</span>
       <span className="jrn-home__mark" aria-hidden />
     </div>

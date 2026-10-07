@@ -3,8 +3,9 @@
  *
  * The frame is finite: chrome → content rect → composition edge → nav reserve. Nothing renders under the nav and the
  * page body never scrolls. Panels are atomic: when the next panel does not fit the content rect it moves whole to a
- * continuation screen. Continuation is presentation state (no route, no history entry). Back walks screens first,
- * then the route. Each family keeps its own composition inside the frame; the frame only owns geometry.
+ * continuation screen. Continuation is presentation state (no route, no history entry). NEXT moves between those
+ * screens. The chrome back button does not: it returns to the previous route. Each family keeps its own composition
+ * inside the frame; the frame only owns geometry.
  */
 
 import {
