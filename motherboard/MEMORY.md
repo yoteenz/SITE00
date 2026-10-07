@@ -14386,3 +14386,11 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Asset gap:** No repo plate matches the approved olive / vase / sofa / photographed folio. Generation was not authorized, and the authority JPEG was not used as a full-page screenshot. `ENV.LOGGIA` is the environment.
 - **Also this chat:** three-distinct composite rerun merged (#1411); OpenArt project for F09 plates is **JURNL F09 Safe to Spend** (`VdiPtgVqb21sYl003uox`); composites are local assembly, not OpenArt creations.
 
+---
+
+## 2026-10-06 — JURNL F09 approved authority live reconstruction R2
+
+- **Kept** the first-pass parent layout (signal, CTA, purchase bridge, nav, brand). Replaced only the environment and the folio.
+- **OpenArt** GPT Image 2.5 Sunburst, 4K, auto-enhance off, project `VdiPtgVqb21sYl003uox`. Environment history `cIp2ZXwxeAG8odEt0kpe` (2016×3584). Folio history `p2VNavEtTiq8Bev8kWtV` (cropped to 2160×1820 from 3072×2048). No baked amounts or UI. Live overlay still uses `computeSafeToSpend` ($6,500 / bills $1,920 / plans, goals, buffer $0) and AVAILABLE THROUGH OCT 18.
+- **Files:** `F09_ENVIRONMENT_AUTHORITY_TERRACE.png`, `F09_FOLIO_SIDEKICK.png`, `jurnl-f09-authority.css`, `SafeToSpendHubScreen`. Old loggia remains for other F09 surfaces.
+
