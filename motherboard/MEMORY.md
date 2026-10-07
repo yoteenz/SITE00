@@ -14423,3 +14423,12 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Mount:** `F09_ENVIRONMENT_AUTHORITY_PLATE.png` replaces the JPEG. `SafeToSpendHubScreen` uses it at object-fit cover, object-position `50% 50%`, zoom 1, so the file fills `393×852`. Live overlay unchanged: staged official logo, `computeSafeToSpend` (`$6,500`, bills `$1,920`), AVAILABLE THROUGH OCT 18, SEE WHY THIS AMOUNT, folder copy, CHECK A PURCHASE, product nav.
 - **Do not repeat:** Do not inpaint or crop the founder JPEG into the live plate. Do not letterbox the plate. Do not put the folders back as a second image.
 
+---
+
+## 2026-10-07 — JURNL F09 authority alignment (logo, icons, panel, full-bleed)
+
+- **Founder correction:** Matching the OpenArt plate is not enough. The bottom panel, logo and its text, buttons, and the icons on those buttons must align with the approved authority image. The photograph must fill the mobile viewport. No letterbox bars at the top or bottom. Phone chrome (status bar, home indicator, browser toolbar) is not part of the product image.
+- **Plate:** `F09_ENVIRONMENT_AUTHORITY_PLATE.png` (OpenArt history `Uzixf5pS3FQjG2CxY9Ar`, 1760×3840) stays the single scenery-and-folders photograph. It is `object-fit: cover` at `50% 50%` and bleeds 1px past the frame so the plaster background cannot show as a bar. Viewport meta is `viewport-fit=cover` so the stage can run to the screen edges. Live money stays `computeSafeToSpend` (`$6,500`, bills `$1,920`), not the sample `$1,284`.
+- **Overlay matched to the authority:** lockup is a cut of the approved sprig and JURNL word (`F09_LOCKUP.png`) with the descriptor set under it. Purchase panel has the sparkle, the two-line line, and CHECK A PURCHASE. Nav marks on this screen are house, card, plus, leaf, and bars, with ADD under the plus. Tab words BILLS / PLANS / GOALS / BUFFER sit on the four colored tabs. Other screens keep the existing icon pack.
+- **Do not draw** a status bar, home indicator, or browser chrome into the F09 screen.
+
