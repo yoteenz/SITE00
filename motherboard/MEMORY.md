@@ -14441,3 +14441,11 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Marks:** F09 nav only. House is a filled silhouette with a door. Money is a wallet outline with a left slot. Plan is a tilted leaf. Credit is four rising bars. The plus square is olive `#5b5e4b`. The purchase sparkle is an open four-point star, not a filled star. Other screens keep the icon pack.
 - **Panel fills:** SEE WHY `#fdfaf5`. Purchase card `rgba(245,240,236,0.9)`. CHECK A PURCHASE `#f9f5f4`. Live money stays `computeSafeToSpend`.
 
+---
+
+## 2026-10-07 — JURNL F09 lockup stays clear of the olive on a phone
+
+- **What the founder saw:** On the phone browser the lockup was cut off and the olive covered JURNL. A short Safari viewport was cover-cropping the top of the plate, so the clear plaster above the tree was gone and the wordmark landed in the leaves.
+- **Fix:** The F09 screen keeps the authority aspect (393×852). On a shorter browser it scales to the height and stays centered, so the olive stays below the lockup and the folio type stays on the folder. The plate is anchored to the top. The lockup, tagline, and menu clear `safe-area-inset-top`. Side margins use the pale floor tone. A full-height phone still fills the width.
+- **Not changed:** the pale-floor plate, the nav marks, the purchase sparkle, or `computeSafeToSpend`.
+
