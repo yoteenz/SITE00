@@ -6,9 +6,10 @@
  * interface is drawn over it in the same reference pixels (layout/referenceLayout.ts). The stage scales to the
  * viewport as one piece, so every element stays where the reference has it.
  *
- * The stage covers the viewport. There is no letterbox: extra width or height is cropped, and the bottom of the
- * reference (just above its old dock) sits on the parent Safe to Spend dock. No device chrome: the status bar and
- * home indicator in the references belong to the phone, not JURNL.
+ * The stage covers the viewport. There is one photograph: the plate image inside the stage. It is not copied
+ * behind itself to fill gaps. A short or wide viewport crops that same photograph. The bottom of the reference
+ * (just above its old dock) sits on the parent Safe to Spend dock. No device chrome: the status bar and the home
+ * indicator in the references belong to the phone, not JURNL.
  */
 
 import { useLayoutEffect, useRef, useState, type CSSProperties, type ElementType, type ReactNode } from 'react';
@@ -23,22 +24,28 @@ export type ReferencePlate = { src: string; assetId: string };
 
 /** Reference y where the painted dock began. Live UI stays above this; the parent dock covers the rest. */
 export const REF_DOCK_TOP = 1668;
-/** Status-bar band, in reference pixels, that a full-bleed crop may remove. */
+/** Status-bar band, in reference pixels, that a full-bleed crop may remove before the title leaves the screen. */
 const TITLE_SAFE = 140;
 
-export function referenceFit(w: number, h: number, dock = 0): { k: number; top: number } {
+/**
+ * One plate covers the viewport. The live UI shares that crop while the title stays on screen.
+ * When a wider viewport would crop the title off, the UI scales down and the same photograph
+ * stays full-bleed behind it. A second copy of the photograph is never painted into the gaps.
+ */
+export function referenceFit(w: number, h: number, dock = 0): { k: number; top: number; bleed: boolean } {
   const avail = Math.max(1, h - Math.max(0, dock));
   const coverW = w / REF_W;
   const fitH = avail / REF_DOCK_TOP;
   let k = Math.max(coverW, fitH);
   let top = avail - REF_DOCK_TOP * k;
   const cropped = top < 0 ? -top / k : 0;
-  if (cropped > TITLE_SAFE) {
+  const bleed = cropped > TITLE_SAFE;
+  if (bleed) {
     k = Math.min(coverW, fitH);
     const scaled = REF_DOCK_TOP * k;
     top = Math.max(0, (avail - scaled) / 2);
   }
-  return { k, top };
+  return { k, top, bleed };
 }
 
 export function ReferenceStage({
@@ -73,7 +80,7 @@ export function ReferenceStage({
         dock = Math.ceil(box.height + bottom);
       }
       const next = referenceFit(el.clientWidth, el.clientHeight, dock);
-      setFit((prev) => (prev.k === next.k && prev.top === next.top ? prev : next));
+      setFit((prev) => (prev.k === next.k && prev.top === next.top && prev.bleed === next.bleed ? prev : next));
     };
     update();
     if (typeof ResizeObserver === 'undefined') {
@@ -86,9 +93,9 @@ export function ReferenceStage({
   }, []);
   return (
     <section ref={ref} className="jrn-screen jrn-ref" data-transition="family" data-jrn-screen={screenId} data-jrn-family={family} data-jrn-composition={resolveCompositionMode({ screenId, hasProductNav: true })} aria-label={label}>
-      <div className="jrn-ref__backdrop" aria-hidden style={{ backgroundImage: `url("${plate.src}")` }} />
+      {fit.bleed ? <img className="jrn-ref__plate jrn-ref__plate--bleed" src={plate.src} alt="" draggable={false} data-asset-id={plate.assetId} /> : null}
       <div className="jrn-ref__stage" style={{ '--k': fit.k, '--ref-top': `${fit.top}px` } as CSSProperties} data-runtime-stage="SAFE ZONE">
-        <img className="jrn-ref__plate" src={plate.src} alt="" width={REF_W} height={REF_H} draggable={false} data-asset-id={plate.assetId} />
+        {fit.bleed ? null : <img className="jrn-ref__plate" src={plate.src} alt="" width={REF_W} height={REF_H} draggable={false} data-asset-id={plate.assetId} />}
         {children}
       </div>
       {outside}
