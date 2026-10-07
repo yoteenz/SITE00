@@ -14799,3 +14799,11 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **F09:** `F09.00 SAFE TO SPEND` and `F09.WHY WHY THIS NUMBER` (`safe/why`). F05 is `F05.00 MONEY`, `F05.ACCOUNTS PLACES`, `F05.ACCOUNT PLACE`. F10 adds `F10.CHECKED CHECK A PURCHASE` and `F10.OBJECT PURCHASE`. F01 stays `F01.00`–`F01.13`.
 - **Do not repeat:** Do not append `NOT_STARTED` families onto the ROUTE menu as `BOUNDARY`. Do not expand the F05–F16 parent contracts to hold these children. Sheets such as `F09.HOLD` are not routes.
 
+---
+
+## 2026-10-07 — Locked-shell purchase results are visible on the F09 route menu
+
+- **Context:** The locked-shell Check a Purchase screens (one plate from `07_CHECK_A_PURCHASE`, shared logo, tagline, arch, horizon, and dock) were review PNGs only. `live_runtime_replaced` stayed false, and the tunnel checkout the founder was viewing was still `3301dad5`, which does not contain those files. The coded `purchases/checked` screen is a separate live composition.
+- **Fix:** F09’s design-viewport route list now includes `YOU'RE GOOD TO GO`, `A QUICK CHECK-IN`, and `THIS DOESN'T FIT`. Those routes render the locked-shell PNGs full-bleed: `purchases/result/good-to-go`, `purchases/result/quick-check-in`, `purchases/result/doesnt-fit`. The coded Check a Purchase screen stays on `purchases/checked`.
+- **Do not repeat:** Do not treat the review ZIP as something the tunnel shows by itself. Do not replace `PurchaseCheckedScreen` with the still image.
+

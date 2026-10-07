@@ -1,5 +1,40 @@
 /* F10 purchase-check results. Same stage and dock as the F09 parent.
-   The photograph is the Safe to Spend plate. The card, type, and buttons are live. */
+   The photograph is the Safe to Spend plate. The card, type, and buttons are live.
+   F09.RESULT.* is the locked-shell photograph itself (logo, arch, dock already in the pixels). */
+
+html:has([data-jrn-screen^='F09.RESULT.']),
+body:has([data-jrn-screen^='F09.RESULT.']),
+#root:has([data-jrn-screen^='F09.RESULT.']) {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  height: 100lvh;
+  max-height: 100lvh;
+  overflow: hidden;
+  background: #f6f3ee;
+}
+.jrn:has([data-jrn-screen^='F09.RESULT.']) {
+  width: 100%;
+  height: 100lvh;
+  max-height: 100lvh;
+  margin: 0;
+  overflow: hidden;
+  background: #f6f3ee;
+}
+.jrn-locked-result {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  background: #f6f3ee;
+}
+.jrn-locked-result img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center top;
+}
 
 html:has([data-jrn-screen='F10.CHECKED']),
 body:has([data-jrn-screen='F10.CHECKED']),
