@@ -1,6 +1,6 @@
 /** F09 SAFE TO SPEND — Wave 3 surfaces around canonical formula. */
 
-import { useLayoutEffect, useState, type ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import { computeSafeToSpend, type SafeToSpendBreakdown } from '../../data/f09/safeToSpend';
 import { patchSetup, useSetup } from '../../data/f02/setupDraft';
 import { formatMoney, useCurrency } from '../../data/home/money';
@@ -88,66 +88,12 @@ const STATE_LINE: Record<SafeToSpendBreakdown['completeness'], string> = {
   UNSTATED: 'NOT ENOUGH IS KNOWN YET TO SAY.',
 };
 
-/**
- * Pin the app stage to the visual viewport. `height: 100dvh` on `.jrn` drops `bottom: 0`,
- * so iOS leaves the stage background above and below the plate. Inline size wins over that.
- */
-function useF09VisualStage() {
-  useLayoutEffect(() => {
-    const root = document.querySelector('.jrn');
-    if (!(root instanceof HTMLElement)) return;
-    const apply = () => {
-      const vv = window.visualViewport;
-      root.style.position = 'fixed';
-      root.style.margin = '0';
-      root.style.maxHeight = 'none';
-      root.style.minHeight = '0';
-      if (!vv) {
-        root.style.top = '0px';
-        root.style.left = '0px';
-        root.style.width = '100%';
-        root.style.height = '100%';
-        root.style.right = '0px';
-        root.style.bottom = '0px';
-        return;
-      }
-      root.style.top = `${vv.offsetTop}px`;
-      root.style.left = `${vv.offsetLeft}px`;
-      root.style.width = `${vv.width}px`;
-      root.style.height = `${vv.height}px`;
-      root.style.right = 'auto';
-      root.style.bottom = 'auto';
-    };
-    apply();
-    const vv = window.visualViewport;
-    vv?.addEventListener('resize', apply);
-    vv?.addEventListener('scroll', apply);
-    window.addEventListener('orientationchange', apply);
-    return () => {
-      vv?.removeEventListener('resize', apply);
-      vv?.removeEventListener('scroll', apply);
-      window.removeEventListener('orientationchange', apply);
-      root.style.position = '';
-      root.style.margin = '';
-      root.style.maxHeight = '';
-      root.style.minHeight = '';
-      root.style.top = '';
-      root.style.left = '';
-      root.style.width = '';
-      root.style.height = '';
-      root.style.right = '';
-      root.style.bottom = '';
-    };
-  }, []);
-}
-
 /** F09 parent — founder-approved authority reconstruction (IMAGE 1). Live formula, live nav, live routes. */
 export function SafeToSpendHubScreen() {
   const { go, openOverlay, closeOverlay, overlay, session } = useJurnl();
   const monogram = session.account ? initialsOf(session.account) : 'JL';
   const draft = useSetup();
   useCurrency();
-  useF09VisualStage();
   const signal = computeSafeToSpend(draft);
   const below = signal.value < 0;
   const amount = formatMoney(below ? -signal.value : signal.value);
