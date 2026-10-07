@@ -128,9 +128,9 @@ body:has([data-jrn-screen='F09.00']),
      iOS clips a fixed image to the gap between the status bar and the toolbar
      and paints #1c1915 in the rest of the screen. */
   position: absolute;
-  /* Opposite of the previous offset. The env box stays put.
-     The photograph sits 30% lower inside it. */
-  top: 30%;
+  /* The env box stays put. Negative top lifts the photograph
+     30% above the top of that box. */
+  top: -30%;
   right: 0;
   bottom: auto;
   left: 0;
@@ -157,13 +157,13 @@ body:has([data-jrn-screen='F09.00']),
   container-type: size;
   container-name: jrn;
 }
-/* Tracks the cover plate. On the phone the plate is top: 30%, so this layer
+/* Tracks the cover plate. On the phone the plate is top: -30%, so this layer
    uses the same offset and the type stays on the artwork. The purchase
    bridge is outside this layer and does not move. */
 .jrn .jrn-f09a__art {
   position: absolute;
   inset: 0;
-  top: 30%;
+  top: -30%;
   right: 0;
   bottom: auto;
   left: 0;
