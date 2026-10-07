@@ -33,6 +33,7 @@ export function JurnlScreen({
   frame = false,
   productNav = false,
   singlePlate = false,
+  plateStyle,
   composition,
   children,
 }: {
@@ -54,6 +55,8 @@ export function JurnlScreen({
   productNav?: boolean;
   /** One photographic plate. Skips the soft second copy used on other center-stage screens. */
   singlePlate?: boolean;
+  /** Crop and zoom of the plate image (root authority hubs place live type on the plate's own objects). */
+  plateStyle?: CSSProperties;
   /** Route-authority override of the composition mode (must be documented in COMPOSITION_OVERRIDES). */
   composition?: JurnlCompositionMode;
   children: ReactNode;
@@ -75,7 +78,7 @@ export function JurnlScreen({
           <picture>
             {familyPlate.desktopSrc ? <source media="(min-width: 1100px)" srcSet={familyPlate.desktopSrc} /> : null}
             {familyPlate.tabletSrc ? <source media="(min-width: 600px)" srcSet={familyPlate.tabletSrc} /> : null}
-            <img className="jrn-plate" src={familyPlate.src} alt="" width={familyPlate.width ?? 2016} height={familyPlate.height ?? 3584} data-asset-id={familyPlate.assetId} draggable={false} />
+            <img className="jrn-plate" src={familyPlate.src} alt="" width={familyPlate.width ?? 2016} height={familyPlate.height ?? 3584} data-asset-id={familyPlate.assetId} draggable={false} style={plateStyle} />
           </picture>
           {calm}
         </div>

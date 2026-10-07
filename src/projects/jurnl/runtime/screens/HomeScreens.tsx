@@ -23,16 +23,22 @@ import {
   type TodayMode,
 } from '../../data/home/money';
 import { SIDEKICK_PLATES } from '../../data/parents/sidekickPlates';
-import { ParentAuthorityStage } from '../components/ParentAuthorityStage';
+import { RA_REF_W, RaLayer, RaPara, RaRule, RootAuthorityStage, hangY, objectTransform, spreadT, wallTransform } from '../components/RootAuthorityStage';
+import { ReferenceLockup } from '../components/ReferenceLockup';
+import { RefIcon, RefText, at } from '../components/ReferenceStage';
+import { RA_TODAY } from '../layout/rootAuthorityLayout';
+import { TODAY_SCENE, TODAY_SLIP } from '../layout/rootAuthorityScene';
+import type { RefType } from '../layout/referenceLayout';
+import { JURNL_FAMILY_DISCOVERY } from '../../data/foundation/familyRegistry';
+import todaySlip from '../../families/F03_TODAY/ROOT_AUTHORITY/TODAY_ATTENTION_SLIP.png';
 import { F04_LEDGER_PLATE } from '../../data/f04/plates';
 import { useSetup } from '../../data/f02/setupDraft';
 import { JurnlIcon } from '../components/icons';
 import { JurnlProductNav } from '../components/ProductNav';
 import { JurnlTransactionRow } from '../components/TransactionRow';
-import { JurnlButton, JurnlDrawer, JurnlErrorPanel, JurnlIconButton, JurnlInlineAction, JurnlInput, JurnlPanel } from '../components/primitives';
+import { JurnlButton, JurnlDrawer, JurnlErrorPanel, JurnlIconButton, JurnlInput, JurnlPanel } from '../components/primitives';
 import { JurnlScreen } from './JurnlScreen';
 import { useJurnl } from '../state/store';
-import { FamilyDiscoveryLinks } from '../components/FamilyDiscovery';
 import { accountDisplayOptions } from '../../data/foundation/accounts';
 import { AskJurnlSheet, QuickAddV2Sheet } from '../global/GlobalSheets';
 
@@ -42,6 +48,13 @@ function useHomeOverlay() {
   return { ...j, overlay };
 }
 
+const TL = RA_TODAY;
+const TODAY_SHEET = TODAY_SCENE.objects.sheet!;
+const onSheet = (t: RefType) => spreadT(t, TODAY_SHEET);
+const sheetY = (y: number) => TODAY_SHEET.from[1] + (y - TODAY_SHEET.from[1]) * (TODAY_SHEET.stretch ?? 1);
+/** Compact rows for the opened COMING list: pitch in sheet px, below the COMING rule. */
+const OPEN_PITCH = 74;
+
 export function TodayScreen() {
   const { go, openOverlay, closeOverlay, overlay, forcedState } = useHomeOverlay();
   useAddedEntries();
@@ -49,7 +62,8 @@ export function TodayScreen() {
   const draft = useSetup();
   const mode: TodayMode = todayModeFromQuery(forcedState, draft);
   const signal = safeToSpend(draft);
-  const upcoming = upcomingFor(draft).slice(0, mode === 'EMPTY' ? 0 : 3);
+  // The reference sheet holds two COMING rows and two MOVED rows; MORE opens the rest of COMING on the same sheet.
+  const upcoming = upcomingFor(draft).slice(0, mode === 'EMPTY' ? 0 : 2);
   const recent = ledgerEntries().slice(0, 2);
   const [openUpcoming, setOpenUpcoming] = useState(false);
   const showSignal = mode === 'CONNECTED' || mode === 'CAUGHT_UP' || mode === 'ATTENTION' || mode === 'STALE';
@@ -58,12 +72,26 @@ export function TodayScreen() {
     : mode === 'ATTENTION' || (showSignal && upcoming.some((item) => item.name === 'RENT')) ? 'RENT IS CLOSE'
     : mode === 'STALE' ? 'THIS READING IS STALE'
     : null;
+  const W = TL.wall.text;
+  const S = TL.sheet;
+  const rows = S.text;
+  const slot = [
+    { n: rows.n1, w: rows.w1, a: rows.a1 },
+    { n: rows.n2, w: rows.w2, a: rows.a2 },
+  ];
+  const moved = [
+    { n: rows.n3, w: rows.w3, a: rows.a3 },
+    { n: rows.n4, w: rows.w4, a: rows.a4 },
+  ];
+  const openList = upcomingFor(draft).slice(0, 5);
+  const footer = JURNL_FAMILY_DISCOVERY.F03 ?? [];
+  const why = TL.wall.box.why;
 
   return (
-    <ParentAuthorityStage
+    <RootAuthorityStage
       screenId="F03.00"
       plate={SIDEKICK_PLATES.F03}
-      tagline
+      framing={TODAY_SCENE.framing}
       nav={<JurnlProductNav marks="parent" current="HOME" onGo={go} onAdd={() => openOverlay('quick-add')} />}
       overlays={
         <>
@@ -73,85 +101,148 @@ export function TodayScreen() {
         </>
       }
     >
-      <section data-jrn-zone="intro" data-jrn-state={mode.toLowerCase()} data-jrn-signal="safe-to-spend" aria-label="TODAY">
-        <h1 className="jrn-pa__h">TODAY</h1>
-        <p className="jrn-pa__kicker">WHAT IS TRUE.</p>
-        {showSignal ?
-          <div data-jrn-panel="signal">
-            <p className="jrn-pa__line">SAFE TO SPEND</p>
-            <p className="jrn-pa__num">{formatMoney(signal.value)}</p>
-            <p className="jrn-pa__line">A COMPUTED SIGNAL. PREVIEW.</p>
-            <div className="jrn-pa__actions">
-              <button type="button" className="jrn-pa__btn jrn-pa__btn--mark" data-jrn-trigger="today-why" onClick={() => openOverlay('see-why')}>SEE WHY</button>
-              {mode === 'STALE' ?
-                <button type="button" className="jrn-pa__btn jrn-pa__btn--line" data-jrn-trigger="today-refresh" onClick={() => go('F03')}>REFRESH</button>
-              : null}
-            </div>
-          </div>
-        : null}
-      </section>
-      {mode === 'LOADING' ? <p className="jrn-pa__line" data-jrn-state="loading">READING TODAY</p> : null}
-      {mode === 'ERROR' ?
-        <JurnlErrorPanel
-          block
-          testId="today-error"
-          title="COULD NOT READ TODAY"
-          body="THE HOME IS STILL HERE. TRY THE READING AGAIN."
-          action={{ label: 'RETRY', trigger: 'today-retry', onClick: () => go('F03') }}
-        />
-      : null}
-      {mode === 'EMPTY' ?
-        <section className="jrn-pa__sheet" data-jrn-trigger="today-empty">
-          <b>NO ACCOUNTS YET</b>
-          <p className="jrn-pa__line">THIS HOME NEEDS A MONEY SOURCE. NOTHING HERE IS A BALANCE.</p>
-          <button type="button" className="jrn-pa__btn jrn-pa__btn--line" data-jrn-trigger="today-empty-setup" onClick={() => go('F02.02')}>RETURN TO ACCOUNTS</button>
-        </section>
-      : null}
-      {mode === 'PARTIAL' ?
-        <section className="jrn-pa__sheet" data-jrn-trigger="today-partial">
-          <b>STILL LEARNING</b>
-          <p className="jrn-pa__line">{draft.accounts === 'SKIPPED' ? 'ACCOUNTS WERE SKIPPED.' : 'INCOME IS STILL QUIET.'}</p>
-          <p className="jrn-pa__line">SAFE TO SPEND STAYS UNSTATED UNTIL THOSE FACTS EXIST.</p>
-        </section>
-      : null}
-      {showSignal || mode === 'PARTIAL' ?
-        <section className="jrn-pa__sheet" data-jrn-zone="content-rail" data-jrn-rhythm={openUpcoming ? 'sequence' : 'rest'}>
-          {attention ? <p className="jrn-pa__note jrn-pa__note--edge" data-jrn-trigger="today-attention">{attention}</p> : null}
-          <div className="jrn-pa__cols">
-            <div>
-              <div className="jrn-pa__sec">
-                <span>COMING</span>
-                <JurnlInlineAction trigger="today-upcoming" expanded={openUpcoming} onClick={() => setOpenUpcoming((v) => !v)}>
-                  {openUpcoming ? 'LESS' : 'MORE'}
-                </JurnlInlineAction>
-              </div>
-              {(openUpcoming ? upcomingFor(draft) : upcoming).map((item) => (
-                <div key={item.id} className="jrn-pa__row">
-                  <span>{item.name}</span>
-                  <b>{item.amount ? formatMoney(item.amount) : '—'}</b>
-                  <small>{item.when} · {item.kind}</small>
-                </div>
-              ))}
-              {!upcoming.length && mode === 'PARTIAL' ? <p className="jrn-pa__line">NO OBLIGATIONS YET</p> : null}
-            </div>
+      {(fit) => (
+        <>
+          <RaLayer transform={wallTransform(fit, 0, 0)} className="jrn-ra__layer--top">
+            <ReferenceLockup L={{ box: { sprig: TL.wall.box.sprig, word: TL.wall.box.word }, text: { desc1: W.desc1, desc2: W.desc2 } }} />
+          </RaLayer>
+          <RaLayer transform={wallTransform(fit, fit.W - RA_REF_W * fit.u, 0)} className="jrn-ra__layer--top">
+            <RefText t={W.tag1} as="span">PLAN TODAY.</RefText>
+            <RefText t={W.tag2} as="span">GROW FREELY.</RefText>
+          </RaLayer>
+
+          {/* Headline and signal hang from the clipboard: the reference keeps SEE WHY just above the clip. */}
+          <RaLayer
+            transform={wallTransform(fit, 0, hangY(fit, TODAY_SCENE.hang))}
+            data-jrn-zone="intro"
+            data-jrn-state={mode.toLowerCase()}
+            data-jrn-signal="safe-to-spend"
+            aria-label="TODAY"
+          >
+            <RefText t={W.kicker} as="h1">TODAY</RefText>
+            <RefText t={W.head} as="p">WHAT IS TRUE.</RefText>
             {showSignal ?
-              <div>
-                <div className="jrn-pa__sec">
-                  <span>MOVED</span>
-                  <JurnlInlineAction trigger="today-activity" onClick={() => go('F04')}>ACTIVITY</JurnlInlineAction>
-                </div>
-                {recent.map((entry) => (
-                  <JurnlTransactionRow key={entry.id} entry={entry} onOpen={() => go('F04')} />
-                ))}
+              <div data-jrn-panel="signal">
+                <RefText t={W.label} as="p">SAFE TO SPEND</RefText>
+                <RefText t={W.amount} as="p">{formatMoney(signal.value)}</RefText>
+                <RefText t={W.status} as="p">A COMPUTED SIGNAL. PREVIEW.</RefText>
+                <button type="button" className="jrn-ra__cta" data-jrn-trigger="today-why" onClick={() => openOverlay('see-why')} style={at(why)}>
+                  <RefText t={W.why} origin={why} as="span">SEE WHY</RefText>
+                  <span className="jrn-ra__cta-div" aria-hidden style={at(TL.wall.box.whyDiv, why)} />
+                  <RefIcon name="arrow" box={TL.wall.box.whyArrow} origin={why} stroke={2} />
+                </button>
               </div>
             : null}
-          </div>
-          <div className="jrn-pa__foot">
-            <FamilyDiscoveryLinks hubFamily="F03" onGo={go} />
-          </div>
-        </section>
-      : null}
-    </ParentAuthorityStage>
+            {attention ?
+              <div className="jrn-ra__slip" data-jrn-trigger="today-attention">
+                <img className="jrn-ra__img" src={todaySlip} alt="" draggable={false} style={{ left: TODAY_SLIP.box[0], top: TODAY_SLIP.box[1], width: TODAY_SLIP.box[2] - TODAY_SLIP.box[0], height: TODAY_SLIP.box[3] - TODAY_SLIP.box[1] }} />
+                <div className="jrn-ra__layer" style={{ transform: `translate(${TODAY_SLIP.turn.at[0]}px, ${TODAY_SLIP.turn.at[1]}px) rotate(${TODAY_SLIP.turn.deg}deg) translate(${-TODAY_SLIP.turn.at[0]}px, ${-TODAY_SLIP.turn.at[1]}px)` }}>
+                  <RefText t={TL.slip.text.note} as="p">{`${attention}.`}</RefText>
+                  {mode === 'STALE' ?
+                    <button type="button" className="jrn-ra__hit" data-jrn-trigger="today-refresh" onClick={() => go('F03')} style={at([TL.slip.box.noteRule[0] - 20, TL.slip.box.noteRule[1] - 14, TL.slip.box.noteRule[2] + 40, TL.slip.box.noteRule[3] + 22])}>
+                      <RefText t={{ ...TL.slip.text.note, size: 15, ls: 4, top: 7, left: 20 }} as="span">REFRESH</RefText>
+                    </button>
+                  : <RaRule from={[TL.slip.box.noteRule[0], TL.slip.box.noteRule[1] + 1.5]} to={[TL.slip.box.noteRule[2], TL.slip.box.noteRule[1] + 1.5]} soft />}
+                </div>
+              </div>
+            : null}
+          </RaLayer>
+
+          {/* The clipboard sheet: reference 01's sheet straightened, turned and scaled onto the shell's sheet. */}
+          <RaLayer transform={objectTransform(fit, TODAY_SHEET)} data-jrn-zone="content-rail" data-jrn-rhythm={openUpcoming ? 'sequence' : 'rest'}>
+            {mode === 'LOADING' ? <RefText t={onSheet(rows.coming)} as="p" data-jrn-state="loading">READING TODAY</RefText> : null}
+            {mode === 'ERROR' ?
+              <div data-testid="today-error">
+                <RefText t={onSheet(rows.n1)} as="p">COULD NOT READ TODAY</RefText>
+                <RaPara t={onSheet(rows.w1)} width={560} className="jrn-ra__soft">THE HOME IS STILL HERE. TRY THE READING AGAIN.</RaPara>
+                <button type="button" className="jrn-ra__line" data-jrn-trigger="today-retry" onClick={() => go('F03')} style={at([rows.n2.left, sheetY(1086), rows.n2.left + 260, sheetY(1086) + 70])}>
+                  <RefText t={{ ...rows.more, top: 24, left: 70 }} as="span">RETRY</RefText>
+                </button>
+              </div>
+            : null}
+            {mode === 'EMPTY' ?
+              <div data-jrn-trigger="today-empty">
+                <RefText t={onSheet(rows.n1)} as="p">NO ACCOUNTS YET</RefText>
+                <RaPara t={onSheet(rows.w1)} width={560} className="jrn-ra__soft">THIS HOME NEEDS A MONEY SOURCE. NOTHING HERE IS A BALANCE.</RaPara>
+                <button type="button" className="jrn-ra__line" data-jrn-trigger="today-empty-setup" onClick={() => go('F02.02')} style={at([rows.n2.left, sheetY(1086), rows.n2.left + 420, sheetY(1086) + 70])}>
+                  <RefText t={{ ...rows.more, top: 24, left: 46 }} as="span">RETURN TO ACCOUNTS</RefText>
+                </button>
+              </div>
+            : null}
+            {showSignal || mode === 'PARTIAL' ?
+              <>
+                <RefText t={onSheet(rows.coming)} as="p">COMING</RefText>
+                <RaRule from={[S.box.comingRule[0], sheetY(S.box.comingRule[1]) + 1.5]} to={[S.box.comingRule[2], sheetY(S.box.comingRule[1]) + 1.5]} />
+                {openUpcoming ?
+                  openList.map((item, i) => {
+                    const top = sheetY(rows.n1.top) + i * OPEN_PITCH;
+                    return (
+                      <div key={item.id} data-jrn-row={item.id}>
+                        <RefText t={{ ...rows.n1, top }} as="span">{item.name}</RefText>
+                        <RefText t={{ ...rows.w1, top: top + 30, size: 15 }} as="span" className="jrn-ra__soft">{`${item.when} · ${item.kind}`}</RefText>
+                        <RefText t={{ ...rows.a1, size: 30, top: top + 2, left: 410 }} as="b">{item.amount ? formatMoney(item.amount) : '—'}</RefText>
+                      </div>
+                    );
+                  })
+                : upcoming.map((item, i) => (
+                    <div key={item.id} data-jrn-row={item.id}>
+                      <RefText t={onSheet(slot[i]!.n)} as="span">{item.name}</RefText>
+                      <RefText t={onSheet(slot[i]!.w)} as="span" className="jrn-ra__soft">{`${item.when} · ${item.kind}`}</RefText>
+                      <RefText t={onSheet(slot[i]!.a)} as="b">{item.amount ? formatMoney(item.amount) : '—'}</RefText>
+                    </div>
+                  ))}
+                {!openUpcoming && upcoming.length > 1 ? <RaRule from={[S.box.rule1[0], sheetY(S.box.rule1[1]) + 3]} to={[S.box.rule1[2], sheetY(S.box.rule1[1]) + 3]} soft /> : null}
+                {!upcoming.length && mode === 'PARTIAL' ? <RefText t={onSheet(rows.w1)} as="p" className="jrn-ra__soft">NO OBLIGATIONS YET</RefText> : null}
+                <button type="button" className="jrn-ra__hit" data-jrn-role="panel_header_action" data-jrn-trigger="today-upcoming" data-expanded={openUpcoming ? 'true' : undefined} onClick={() => setOpenUpcoming((v) => !v)} style={at([rows.more.ink[0] - 14, sheetY(rows.more.ink[1]) - 16, S.box.moreArrow[2] + 14, sheetY(rows.more.ink[1]) + 32])}>
+                  <RefText t={{ ...rows.more, top: 16 - (rows.more.ink[1] - rows.more.top), left: 14 }} as="span">{openUpcoming ? 'LESS' : 'MORE'}</RefText>
+                  <RefIcon name="arrow" box={[S.box.moreArrow[0] - rows.more.ink[0] + 14, 18, S.box.moreArrow[2] - rows.more.ink[0] + 14, 32]} stroke={2} />
+                </button>
+                <RaRule from={[S.box.vdiv[0] + 2, sheetY(S.box.vdiv[1])]} to={[S.box.vdiv[2] - 2, sheetY(S.box.vdiv[3])]} soft />
+                {mode === 'PARTIAL' ?
+                  <div data-jrn-trigger="today-partial">
+                    <RefText t={onSheet(rows.moved)} as="p">STILL LEARNING</RefText>
+                    <RaPara t={onSheet(rows.w3)} width={230} className="jrn-ra__soft">{draft.accounts === 'SKIPPED' ? 'ACCOUNTS WERE SKIPPED.' : 'INCOME IS STILL QUIET.'}</RaPara>
+                    <RaPara t={{ ...onSheet(rows.w4), top: sheetY(rows.w4.top) - 40 }} width={230} className="jrn-ra__soft">SAFE TO SPEND STAYS UNSTATED UNTIL THOSE FACTS EXIST.</RaPara>
+                  </div>
+                : null}
+                {showSignal ?
+                  <>
+                    <RefText t={onSheet(rows.moved)} as="p">MOVED</RefText>
+                    <RaRule from={[S.box.movedRule[0], sheetY(S.box.movedRule[1]) + 1.5]} to={[S.box.movedRule[2], sheetY(S.box.movedRule[1]) + 1.5]} />
+                    {recent.map((entry, i) => (
+                      <button key={entry.id} type="button" className="jrn-ra__hit" data-jrn-trigger={`tx-${entry.id}`} data-jrn-tx={entry.id} data-direction={entry.direction} data-status={entry.status} onClick={() => go('F04')} style={at([moved[i]!.n.ink[0] - 12, sheetY(moved[i]!.n.ink[1]) - 12, S.box.rule2[2], sheetY(moved[i]!.a.ink[3]) + 12])}>
+                        <RefText t={{ ...moved[i]!.n, left: 12, top: 12 - (moved[i]!.n.ink[1] - moved[i]!.n.top) }} as="span">{entry.merchant}</RefText>
+                        <RefText t={{ ...moved[i]!.w, left: 12 + moved[i]!.w.left! - moved[i]!.n.ink[0], top: sheetY(moved[i]!.w.top) - sheetY(moved[i]!.n.ink[1]) + 12 }} as="span" className="jrn-ra__soft">{entry.when}</RefText>
+                        <RefText t={{ ...moved[i]!.a, left: 12 + moved[i]!.a.left! - moved[i]!.n.ink[0], top: sheetY(moved[i]!.a.top) - sheetY(moved[i]!.n.ink[1]) + 12 }} as="b">{formatMoney(entry.amount, entry.direction === 'INCOME')}</RefText>
+                      </button>
+                    ))}
+                    {recent.length > 1 ? <RaRule from={[S.box.rule2[0], sheetY(S.box.rule2[1]) + 3]} to={[S.box.rule2[2], sheetY(S.box.rule2[1]) + 3]} soft /> : null}
+                    <button type="button" className="jrn-ra__hit" data-jrn-role="panel_header_action" data-jrn-trigger="today-activity" onClick={() => go('F04')} style={at([rows.activity.ink[0] - 14, sheetY(rows.activity.ink[1]) - 16, S.box.activityArrow[2] + 14, sheetY(rows.activity.ink[1]) + 32])}>
+                      <RefText t={{ ...rows.activity, top: 16 - (rows.activity.ink[1] - rows.activity.top), left: 14 }} as="span">ACTIVITY</RefText>
+                      <RefIcon name="arrow" box={[S.box.activityArrow[0] - rows.activity.ink[0] + 14, 18, S.box.activityArrow[2] - rows.activity.ink[0] + 14, 32]} stroke={2} />
+                    </button>
+                  </>
+                : null}
+                <RaRule from={[S.box.footRule[0], sheetY(1325)]} to={[S.box.footRule[2], sheetY(1325)]} soft />
+                <nav aria-label="ALSO TODAY" data-jrn-zone="discovery">
+                  {footer.map((link, i) => {
+                    const t = i === 0 ? rows.f1 : rows.f2;
+                    return (
+                      <button key={link.targetFamily} type="button" className="jrn-ra__hit" data-jrn-role="panel_header_action" data-jrn-trigger={`discovery-F03-${link.targetFamily}`} onClick={() => go(link.targetFamily)} style={at([t.ink[0] - 16, sheetY(t.ink[1]) - 16, t.ink[2] + 16, sheetY(t.ink[1]) + 30])}>
+                        <RefText t={{ ...t, left: 16, top: 16 - (t.ink[1] - t.top) }} as="span">{link.label}</RefText>
+                      </button>
+                    );
+                  })}
+                  <RefText t={onSheet(rows.f3)} as="span">MORE</RefText>
+                  <RaRule from={[S.box.fdiv1[0] + 1, sheetY(S.box.fdiv1[1])]} to={[S.box.fdiv1[0] + 1, sheetY(S.box.fdiv1[3])]} soft />
+                  <RaRule from={[S.box.fdiv2[0] + 1, sheetY(S.box.fdiv2[1])]} to={[S.box.fdiv2[0] + 1, sheetY(S.box.fdiv2[3])]} soft />
+                </nav>
+              </>
+            : null}
+          </RaLayer>
+        </>
+      )}
+    </RootAuthorityStage>
   );
 }
 
