@@ -38,6 +38,9 @@
   align-items: center;
   justify-content: space-between;
   min-height: 32px;
+  /* Clear the viewport back and menu, which sit on the same line as this row. */
+  padding-left: 52px;
+  padding-right: 52px;
 }
 .jrn .jrn-home__mark {
   font-family: var(--jrn-display);

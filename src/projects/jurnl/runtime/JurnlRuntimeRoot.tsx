@@ -14,6 +14,7 @@ import { JurnlEntitlementsProvider } from './monetization/JurnlEntitlements';
 import { JurnlNavHostContext } from './components/ProductNav';
 import { JurnlProductionServiceScreen } from './components/JurnlProductionServiceScreen';
 import { JurnlRuntimeChrome } from './components/JurnlRuntimeChrome';
+import { JurnlCornerChromeProvider } from './components/JurnlCornerChrome';
 import { jurnlProductionFailClosed } from '../data/production/productionConfig';
 import { JurnlStoreProvider, useJurnl } from './state/store';
 import { CreateAccountScreen, ReturningUnlockScreen, SignInScreen, VerifyEmailScreen, WelcomeScreen } from './screens/EntryScreens';
@@ -155,9 +156,11 @@ export default function JurnlRuntimeRoot({ basePath, mode }: ProjectRuntimeProps
         {/* Entitlements context only (no DOM): future families query capabilities; F01 never renders monetization UI. */}
         <JurnlEntitlementsProvider mode={mode}>
           <JurnlStoreProvider basePath={basePath} mode={mode}>
+            <JurnlCornerChromeProvider>
             <JurnlRuntimeChrome />
             <JurnlRoutes />
             <Toast />
+            </JurnlCornerChromeProvider>
           </JurnlStoreProvider>
         </JurnlEntitlementsProvider>
       </JurnlOverlayHostContext.Provider>

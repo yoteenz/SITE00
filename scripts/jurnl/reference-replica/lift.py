@@ -50,9 +50,8 @@ if algo=='telea':
     out=cv2.inpaint(bgr,mask,6,cv2.INPAINT_TELEA) if mask.any() else bgr.copy()
     if big.any():
         out=pushpull(out,big,src=SOURCES.get(name))
-        # soften the fill so it reads as out-of-focus photograph, not flat paint
-        blur=cv2.GaussianBlur(out,(0,0),6); m=cv2.GaussianBlur((big>0).astype(np.float32),(0,0),3)[...,None]
-        out=(out*(1-m)+blur*m).astype(np.uint8)
+        # The card holes are covered by the live panels. Do not blur them.
+        # A gaussian on these rects is the fog that shows around the panels.
 elif algo=='ns':
     out=cv2.inpaint(bgr,mask,6,cv2.INPAINT_NS)
 else:

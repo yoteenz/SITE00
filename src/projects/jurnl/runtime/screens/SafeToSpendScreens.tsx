@@ -23,7 +23,6 @@ import whySprig from '../../families/F09_SAFE/REFERENCE_REPLICA/assets/WHY_SPRIG
 import lockupWord from '../../families/F09_SAFE/REFERENCE_REPLICA/assets/LOCKUP_WORD.png';
 import { ReferenceStage, RefIcon, RefText, at } from '../components/ReferenceStage';
 import { ReferenceLockup } from '../components/ReferenceLockup';
-import { AccountDrawer } from './AccountScreens';
 
 /** Founder-approved availability line on the F09 parent authority. The formula has no horizon field. */
 const AUTHORITY_THROUGH = 'AVAILABLE THROUGH OCT 18';
@@ -87,7 +86,6 @@ function useParentFigures() {
 export function SafeToSpendReferenceScreen() {
   const { go, openOverlay, closeOverlay, overlay } = useJurnl();
   const { below, amount, folio } = useParentFigures();
-  const [drawer, setDrawer] = useState(false);
   const L = REF_PARENT;
   return (
     <ReferenceStage
@@ -104,9 +102,6 @@ export function SafeToSpendReferenceScreen() {
     >
       <div className="jrn-ref__root" data-jrn-authority="F09-REFERENCE-IMAGE-1" data-jrn-zone="intro">
         <ReferenceLockup L={L} />
-        <button type="button" aria-label="MENU" data-jrn-trigger="f09-menu" onClick={() => setDrawer(true)} style={at([L.box.menu[0] - 14, L.box.menu[1] - 14, L.box.menu[2] + 14, L.box.menu[3] + 14])}>
-          <RefIcon name="menu" box={[14, 14, 14 + L.box.menu[2] - L.box.menu[0], 14 + L.box.menu[3] - L.box.menu[1]]} stroke={2.2} />
-        </button>
         <section data-jrn-panel="signal" data-below={below ? 'true' : 'false'}>
           <RefText t={L.text.signal} as="h1">{below ? 'OVER BY' : 'SAFE TO SPEND'}</RefText>
           <RefText t={L.text.amount} className="jrn-ref__amount-hero">{amount}</RefText>
@@ -147,7 +142,6 @@ export function SafeToSpendReferenceScreen() {
           </button>
         </section>
       </div>
-      {drawer ? <AccountDrawer onClose={() => setDrawer(false)} /> : null}
     </ReferenceStage>
   );
 }
@@ -173,18 +167,8 @@ function SafeToSpendAuthority() {
       <div className="jrn-f09a" data-jrn-authority="F09-APPROVED-IMAGE-1" data-jrn-zone="intro">
         <div className="jrn-f09a__art">
         <header className="jrn-f09a__brand">
-          <button type="button" className="jrn-f09a__back" aria-label="BACK TO TODAY" data-jrn-trigger="f09-back" onClick={() => go('today')}>
-            <svg viewBox="0 0 16 28" aria-hidden>
-              <path d="M14 2 2 14l12 12" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
           <button type="button" className="jrn-f09a__account" aria-label="ACCOUNT" data-jrn-trigger="f09-account" onClick={() => go('account')}>
             {monogram}
-          </button>
-          <button type="button" className="jrn-f09a__menu" aria-label="MENU" data-jrn-trigger="f09-menu" onClick={() => go('account')}>
-            <svg viewBox="0 0 40 26" aria-hidden>
-              <path d="M0 1.5h40M0 13h40M0 24.5h40" fill="none" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" />
-            </svg>
           </button>
         </header>
         <section className="jrn-f09a__signal" data-jrn-panel="signal" data-below={below ? 'true' : 'false'}>
@@ -234,12 +218,11 @@ const WHY_DOT: Record<string, string> = { Cash: '#767158', Upcoming: '#dec5b1', 
 
 /** F09.WHY — WHY THIS NUMBER, founder reference IMAGE 2. Live breakdown rows; the hold sheet stays functional. */
 export function SafeToSpendWhyScreen() {
-  const { go, back, openOverlay, closeOverlay, overlay } = useJurnl();
+  const { go, openOverlay, closeOverlay, overlay } = useJurnl();
   const draft = useSetup();
   useCurrency();
   const signal = computeSafeToSpend(draft);
   const [holdOpen, setHoldOpen] = useState(false);
-  const [drawer, setDrawer] = useState(false);
   const W = REF_WHY;
   const rows = [
     { id: 'Cash', label: 'CASH', amount: formatMoney(signal.cash), source: signal.cashSource },
@@ -263,12 +246,6 @@ export function SafeToSpendWhyScreen() {
         </>
       }
     >
-      <button type="button" className="jrn-ref__square" aria-label="BACK" data-jrn-trigger="family-back" onClick={() => { if (!back()) go('safe'); }} style={at(W.box.back)}>
-        <RefIcon name="chevron-left" box={W.box.backIcon} origin={W.box.back} stroke={2.6} />
-      </button>
-      <button type="button" className="jrn-ref__square" aria-label="MENU" data-jrn-trigger="why-menu" onClick={() => setDrawer(true)} style={at(W.box.menu)}>
-        <RefIcon name="menu" box={W.box.menuIcon} origin={W.box.menu} stroke={2.4} />
-      </button>
       <div className="jrn-ref__lockup" role="img" aria-label="JURNL">
         <img src={whySprig} alt="" draggable={false} style={at(W.box.sprigOlive)} />
         <img src={lockupWord} alt="" draggable={false} style={{ left: W.box.word[0], top: W.box.word[1], width: ((W.box.word[2] - W.box.word[0]) * 196) / 192, height: ((W.box.word[3] - W.box.word[1]) * 42) / 40 }} />
@@ -324,7 +301,6 @@ export function SafeToSpendWhyScreen() {
           <RefIcon name="arrow" box={W.box.learnArrow} origin={W.box.learn} stroke={2} />
         </button>
       </section>
-      {drawer ? <AccountDrawer onClose={() => setDrawer(false)} /> : null}
     </ReferenceStage>
   );
 }
