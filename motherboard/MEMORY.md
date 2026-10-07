@@ -14507,3 +14507,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Not changed:** the plate file, arch signal, tab direction and colors, traced marks, beige dock, routes, menu to account, hold-on-why, purchase target, or `computeSafeToSpend`.
 - **Do not repeat:** Do not set F09 `.jrn` back to `height: 100dvh` while `inset: 0` is set — that is the clip. Do not bring back a negative `--f09-bleed` unless the art box moves with it and the stage itself fills the visual viewport. Do not paint the F09 stage `#c9b49a` or plaster and expect the bleed to hide it.
 
+---
+
+## 2026-10-07 — JURNL F09 tablet and desktop authorities, bottom nav
+
+- **Context:** The F09 Safe to Spend parent is live at `/production/jurnl/runtime/safe`. Mobile was already approved (plate history `PQTsHqqy3Pf0ZpQJougi`, arch signal, right-facing tabs, traced nav marks, solid `#f6f3ee` dock, `computeSafeToSpend`). This sprint extends that family to tablet and desktop from two new authorities. It does not change the formula, routes, CTA meaning, child screens, or the mobile layout.
+- **Authorities:** IMAGE 2 is the tablet composition (portrait arch, large folio). IMAGE 1 is the desktop composition (wide terrace). Both pictures still show a left rail. The written decision supersedes that rail. Canonical F09 nav is bottom on mobile, tablet, and desktop. Do not put the side rail back.
+- **Plates:** The phone plate is 1760×3840. A cover crop of it cannot keep both the arch and the folio on a 1440×900 screen. New OpenArt GPT Image 2.5 Sunburst plates, image2image, auto-enhance off, high, 4k, project `VdiPtgVqb21sYl003uox`. Tablet history `OVMaDl8ByEBZKw70HFG1`, 2400×3440, `F09_ENVIRONMENT_TABLET_PLATE.png`. Desktop history `RQxfgcBWYfJtT7nvntJQ`, 3072×2048, `F09_ENVIRONMENT_DESKTOP_PLATE.png`. Blank physical folio, no baked UI. `FamilyPlate` may carry `tabletSrc` and `desktopSrc`. The hub uses a `<picture>` so 393 keeps the phone plate. Breakpoints stay 600 and 1100.
+- **Layout:** Tablet keeps the full-width beige dock. Desktop nav is a centered editorial dock (`min(640px, 48%)`), not edge to edge, under the purchase bridge. Desktop also shows the account monogram (live initials when signed in, otherwise the authority mark JL) beside the menu. Both go to account. Live preview money stays `$6,500`, bills `$1,920`, plans/goals/buffer `$0`, date line AVAILABLE THROUGH OCT 18.
+- **Do not repeat:** Do not scale the phone plate up to desktop. Do not cap `.jrn-f09a` with the desktop `.jrn-col > * { max-width: 440px }` rule. Do not move F09 tablet or desktop navigation back to a left rail.
+
