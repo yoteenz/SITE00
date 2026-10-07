@@ -1,6 +1,7 @@
 /* F09 parent — approved authority reconstruction. Live layers over ENV.LOGGIA. No OS chrome. */
 
-.jrn .jrn-screen[data-jrn-screen='F09.00'] {
+.jrn .jrn-screen[data-jrn-screen='F09.00'],
+.jrn .jrn-screen[data-jrn-screen='F09.00'][data-jrn-composition='CENTER_STAGE'] {
   --jrn-plate-zoom: 1;
   --jrn-plate-origin: 42% 50%;
   --jrn-plate-mobile: 42% 46%;
@@ -28,37 +29,126 @@
   text-transform: uppercase;
 }
 
-.jrn .jrn-f09a__top {
-  display: grid;
-  grid-template-columns: auto 1fr 36px;
-  align-items: start;
-  gap: 10px;
+/* Creative lockup: official jurnl-logo-official.png staged as IMAGE 1
+   (sprig over a horizontal wordmark on the left plaster, tagline in the arch).
+   Letterforms and botanical are masks of that asset — not typed, not redrawn. */
+.jrn .jrn-f09a__brand {
+  position: absolute;
+  z-index: 3;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 168px;
+  pointer-events: none;
 }
-.jrn .jrn-f09a__top .jrn-logo {
-  height: 52px;
-  width: auto;
-  margin: 0;
-  filter: drop-shadow(0 1px 0 rgba(255, 250, 242, 0.35));
+.jrn .jrn-f09a__lockup {
+  position: absolute;
+  left: 34px;
+  top: 6px;
+  width: 150px;
+}
+.jrn .jrn-f09a__mark {
+  --f09-logo: url('/site00/projects/jurnl/brand/jurnl-logo-official.png');
+  --k: 0.21;
+  position: relative;
+  width: 108px;
+  height: 64px;
+}
+.jrn .jrn-f09a__sprig,
+.jrn .jrn-f09a__word i {
+  background-color: #1a1714;
+  -webkit-mask-image: var(--f09-logo);
+  mask-image: var(--f09-logo);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+.jrn .jrn-f09a__sprig {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 30px;
+  height: 42px;
+  -webkit-mask-size: calc(319px * 0.175) calc(512px * 0.175);
+  mask-size: calc(319px * 0.175) calc(512px * 0.175);
+  -webkit-mask-position: 0 0;
+  mask-position: 0 0;
+}
+.jrn .jrn-f09a__word {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  align-items: flex-end;
+  gap: 1.5px;
+  height: 18px;
+}
+.jrn .jrn-f09a__word i {
+  display: block;
+  -webkit-mask-size: calc(319px * var(--k)) calc(512px * var(--k));
+  mask-size: calc(319px * var(--k)) calc(512px * var(--k));
+}
+.jrn .jrn-f09a__word i[data-letter='J'] {
+  width: calc(47px * var(--k));
+  height: calc(88px * var(--k));
+  -webkit-mask-position: calc(-242px * var(--k)) calc(-2px * var(--k));
+  mask-position: calc(-242px * var(--k)) calc(-2px * var(--k));
+}
+.jrn .jrn-f09a__word i[data-letter='U'] {
+  width: calc(78px * var(--k));
+  height: calc(83px * var(--k));
+  -webkit-mask-position: calc(-239px * var(--k)) calc(-115px * var(--k));
+  mask-position: calc(-239px * var(--k)) calc(-115px * var(--k));
+}
+.jrn .jrn-f09a__word i[data-letter='R'] {
+  width: calc(78px * var(--k));
+  height: calc(82px * var(--k));
+  -webkit-mask-position: calc(-240px * var(--k)) calc(-220px * var(--k));
+  mask-position: calc(-240px * var(--k)) calc(-220px * var(--k));
+}
+.jrn .jrn-f09a__word i[data-letter='N'] {
+  width: calc(79px * var(--k));
+  height: calc(80px * var(--k));
+  -webkit-mask-position: calc(-239px * var(--k)) calc(-326px * var(--k));
+  mask-position: calc(-239px * var(--k)) calc(-326px * var(--k));
+}
+.jrn .jrn-f09a__word i[data-letter='L'] {
+  width: calc(70px * var(--k));
+  height: calc(81px * var(--k));
+  -webkit-mask-position: calc(-241px * var(--k)) calc(-429px * var(--k));
+  mask-position: calc(-241px * var(--k)) calc(-429px * var(--k));
+}
+.jrn .jrn-f09a__descriptor {
+  margin: 4px 0 0;
+  max-width: 132px;
+  font: 500 7px/1.4 'JURNL Sans', sans-serif;
+  letter-spacing: 0.11em;
+  color: #2e2923;
 }
 .jrn .jrn-f09a__tag {
-  margin: 8px 0 0;
-  justify-self: end;
+  position: absolute;
+  right: 78px;
+  top: 62px;
+  width: 112px;
+  margin: 0;
   text-align: right;
-  font: 500 9px/1.35 'JURNL Sans', sans-serif;
-  letter-spacing: 0.16em;
-  color: #3a342c;
+  font: 500 8.5px/1.45 'JURNL Sans', sans-serif;
+  letter-spacing: 0.14em;
+  color: #2c2824;
 }
 .jrn .jrn-f09a__menu {
-  width: 34px;
-  height: 34px;
-  margin-top: 2px;
+  pointer-events: auto;
+  position: absolute;
+  right: 16px;
+  top: 18px;
+  width: 28px;
+  height: 22px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 4px;
-  padding: 0 8px;
+  padding: 0;
   border: 0;
-  border-radius: 8px;
+  border-radius: 0;
   background: transparent;
   color: #1c1915;
 }
@@ -70,7 +160,7 @@
 }
 
 .jrn .jrn-f09a__signal {
-  margin-top: 18px;
+  margin-top: 152px;
   text-align: center;
   text-shadow: 0 1px 0 rgba(255, 250, 242, 0.35);
 }
