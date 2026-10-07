@@ -97,6 +97,7 @@ export function SafeToSpendHubScreen() {
   return (
     <JurnlScreen screenId="F09.00" familyPlate={F09_AUTHORITY_PLATE} family productNav>
       <div className="jrn-f09a" data-jrn-authority="F09-APPROVED-IMAGE-1" data-jrn-zone="intro">
+        <div className="jrn-f09a__art">
         <header className="jrn-f09a__brand">
           <div className="jrn-f09a__lockup">
             <img className="jrn-f09a__lockup-img" src={f09Lockup} alt="JURNL" data-jrn-logo="authority-lockup" draggable={false} />
@@ -131,6 +132,7 @@ export function SafeToSpendHubScreen() {
             </ul>
           </div>
         </article>
+        </div>
         <section className="jrn-f09a__bridge" aria-label="CHECK A PURCHASE">
           <span className="jrn-f09a__spark" aria-hidden>
             <svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 1.4 13.8 9.2 21.6 12 13.8 14.8 12 22.6 10.2 14.8 2.4 12 10.2 9.2Z" fill="none" stroke="#6a5c42" strokeWidth="1.35" strokeLinejoin="round" /></svg>
