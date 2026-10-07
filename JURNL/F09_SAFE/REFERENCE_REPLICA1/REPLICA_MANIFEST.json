@@ -79,14 +79,14 @@
   "screens": [
     {
       "node": "F09.00",
-      "name": "SAFE TO SPEND",
-      "route": "/production/jurnl/runtime/safe",
+      "name": "SAFE TO SPEND (reference 01)",
+      "route": "/production/jurnl/runtime/safe/reference",
       "references": [
         "01_SAFE_TO_SPEND.png"
       ],
       "plate": "plates/F09_PARENT_PLATE.jpg",
-      "component": "SafeToSpendScreens.tsx · SafeToSpendReference",
-      "note": "Phones. Tablet and desktop keep the approved wide plates. The menu opens the ACCOUNT drawer."
+      "component": "SafeToSpendScreens.tsx · SafeToSpendReferenceScreen",
+      "note": "Beside /safe, which keeps the founder-tuned parent from main. The menu opens the ACCOUNT drawer."
     },
     {
       "node": "F09.WHY",
@@ -1390,8 +1390,8 @@
     },
     {
       "id": "PARENT_LOCKUP",
-      "found": "main #1449 removed the lockup and tagline from the F09 parent; reference 01 shows them.",
-      "built": "Phones show them, as the reference does. Tablet and desktop are unchanged."
+      "found": "main records the founder rule “do not put the lockup back on F09.00”; reference 01 shows the lockup and tagline.",
+      "built": "/safe keeps main’s founder-tuned parent. The reference 01 replica, lockup included, is at /safe/reference until the founder picks one."
     },
     {
       "id": "MIXED_CASE",

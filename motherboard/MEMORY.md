@@ -14707,6 +14707,115 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Fix:** On the phone the folio is `translateY(calc(-3lvh + 36px))` and `height: 118px`. The headline is 28px Instrument Serif, color `#141210`, with a `0.45px` stroke so it reads at the reference weight. The kicker is 10px. The amount labels are 8px and the figures are 13px. Tablet and desktop clear the translate, reset the stroke, and keep their own sizes. Measured at 402×760: headline y=446, amounts y=513, still on the card just above the stone.
 - **Do not repeat:** Do not put the folio copy back to `translateY(-3lvh)` or the 86px box. Do not shrink the phone headline back to 20px. Do not hardcode the reference sample dollars.
 
+---
+
+## 2026-10-07 — JURNL child nav matches the Safe to Spend dock, plus purchase-check states
+
+- **Context:** This chat rebuilt F09 Safe to Spend. The phone plate stays `top: -10%`. The parent logo and PLAN TODAY. GROW FREELY. stay off F09.00. Live money stays `computeSafeToSpend` (preview `$6,500`, bills `$1,920`). The founder asked to align the bottom bar on the Safe to Spend child pages with the parent dock, then to include the three purchase-result states (good to go, quick check-in, doesn’t fit).
+- **Nav:** The beige full-bleed dock was keyed only to F09.00, and the children rendered the generic pill. The dock rules now target `.jrn .jrn-nav[data-jrn-nav='authority']`. Why, purchases, purchase detail, account, and the new check-result screen pass `marks="authority"`. Other families keep the generic pill. Measured on 402×874: parent, why, purchases, account, and the three result states are all x=0, y=832, 402×42, `#f6f3ee`, radius 0. Today stays the centered pill.
+- **Result screens:** Route `purchases/checked`. Tone comes from live safe-to-spend and category history: fits, higher than the category average, or over. DECIDE on a purchase opens that screen. The plate is the terrace (no baked folder). Sample reference dollars are not hardcoded. Thumbnails are isolated crops of the authority (fashion, dining, travel).
+- **Do not repeat:** Do not pass `marks="authority"` on families outside this Safe to Spend set. Do not put the lockup back on F09.00. Do not put the parent folder plate behind the check-result card. Do not hardcode `$125`, `$1,159`, or `-$275`.
+
+---
+
+## 2026-10-07 — JURNL purchase-check outcome authorities (INCREMENT1)
+
+- **Sprint:** P0.JURNL.STS.PURCHASE-OUTCOMES.INCREMENT1. Generate only the three missing Check a Purchase results from the lean ZIP. Do not regenerate 01–09.
+- **Method:** OpenArt GPT Image 2.5 Sunburst image-to-image, 4K, 9:16, quality high, auto-enhance off, project `VdiPtgVqb21sYl003uox`. Parent reference `07_CHECK_A_PURCHASE.jpg`. Supporting `01`, `08`, `09`. Three jobs, 317 credits each, 0 retries.
+- **Files:** `JURNL/F09_SAFE/PURCHASE_OUTCOMES_INCREMENT1/` — `PURCHASE_RESULT_GOOD_TO_GO.png`, `PURCHASE_RESULT_QUICK_CHECK_IN.png`, `PURCHASE_RESULT_DOESNT_FIT.png`. No device chrome. Same loggia, lockup, cream cards, HOME/MONEY/ADD/PLAN/CREDIT nav.
+- **Live app:** A coded `purchases/checked` screen already exists on main from a later rebuild. These PNGs are visual authorities for founder review, not a replacement of that runtime.
+
+---
+
+## 2026-10-07 — STS locked shell: one plate, brand, and nav for every descendant
+
+- **Context:** This chat covered the preview tunnel (one shared Cloudflare token was load-balancing many agents; canonical connector gate and the preview/tunnel branch), the production nav swap that puts DESIGN in the center, then the three Check a Purchase outcome authorities. Increment 1 (Sunburst 9:16 image-to-image) wrote the right copy but the Mediterranean plate, the JURNL lockup, and the tagline drifted between the three descendants.
+- **Founder rule:** For every STS descendant, lock the background, the top brand region, and the bottom nav. Only the middle may change. Direct parent is `07_CHECK_A_PURCHASE`. Canvas is 853×1844. No 9:16, no device chrome, no letterboxing.
+- **Correction:** `scripts/jurnl/sts-locked-shell-derive.mjs` scales that parent once, clears the headline and the form, and saves `JURNL/F09_SAFE/PURCHASE_OUTCOMES_INCREMENT1/STS_ENVIRONMENT_PLATE_LOCKED_4K.png`. Each result stamps the parent’s top rows and the HOME/MONEY/ADD/PLAN/CREDIT dock back on. QA is `topDiff` 0 and `navDiff` 0 on all three. The coded `purchases/checked` runtime is unchanged.
+- **Do not repeat:** Do not regenerate these states with a full-page image model. Do not move the logo, tagline, arch, or dock to make room for descendant copy. Do not start a new plate for a child of this branch.
+
+---
+
+## 2026-10-07 — JURNL F09 hamburger moved to the left
+
+- **Context:** Safe to Spend phone plate stays `top: -10%`. The parent logo and PLAN TODAY. GROW FREELY. stay off F09.00. Live money stays `computeSafeToSpend`. Child docks use the authority bar. The founder asked to move the STS hamburger to the left side and nudge it up 6px.
+- **Fix:** `.jrn-f09a__menu` is `left: 5.6%` and `top: calc(safe-area + 34px)` on the phone (was `right: 5.6%` and `+ 40px`). Tablet is `left: 22px` and `+ 20px`. Desktop is `left: 28px` and `+ 18px`. The desktop JL account mark stays on the right. Measured on 402×874: menu x=23, y=34, 28×22.
+- **Do not repeat:** Do not put the STS menu back on the right. Do not move the desktop account mark with it. Do not change the phone plate from `top: -10%`.
+
+---
+
+## 2026-10-07 — JURNL F09 folder flap words moved down 10px
+
+- **Context:** Safe to Spend phone plate stays `top: -10%`. The hamburger is on the left. Live money stays `computeSafeToSpend`. The founder said the BILLS / PLANS / GOALS / BUFFER words on the folder flaps were still floating above the folders and should move down 10px, on that page only.
+- **Fix:** Phone `.jrn-f09a__tabs` is `translateY(calc(-3lvh - 20px))`. It was `- 30px`. The folio copy stays `translateY(calc(-3lvh + 36px))`. Tablet and desktop still clear the tab translate. Measured on 402×874: the four flap labels share y=368. The folio stays at y=487. The menu stays at x=23, y=34.
+- **Do not repeat:** Do not put the 10px drop on the folio block. Do not return the flap words to `- 30px`. Do not change the phone plate from `top: -10%`.
+
+---
+
+## 2026-10-07 — JURNL authority ADD plus reduced
+
+- **Context:** Safe to Spend phone plate stays `top: -10%`. The hamburger is on the left. Folder flap words are `translateY(calc(-3lvh - 20px))`. The founder sent the phone dock and said the ADD plus was too big: its label sat below the other labels, and the bottom of the square was clipped.
+- **Fix:** On the phone the authority plus svg is `height: 11px` (was 18px). The other marks stay 10px. Measured on 402×874: HOME/MONEY/PLAN/CREDIT labels y=856.5, ADD label y=857. Plus box is 11×14, bottom y=854, inside the 42px dock that ends at 874.
+- **Do not repeat:** Do not put the plus back to 18px on the phone. Do not shrink the other nav marks with it. Desktop still resets those svg heights to auto.
+
+---
+
+## 2026-10-07 — JURNL F09 folder headline raised 4px
+
+- **Context:** Safe to Spend phone plate stays `top: -10%`. Flap words stay at `translateY(calc(-3lvh - 20px))`. The ADD plus is 11px. The founder asked to move only YOUR MONEY / ORGANIZED. / THEN YOURS. up 4px on the folder.
+- **Fix:** Phone `.jrn-f09a__kicker` and `.jrn-f09a__headline` are `translateY(-4px)`. The amount row, the flap words, and the folio box do not move. Tablet and desktop clear that translate. Measured on 402×874: kicker y=483 (was 487), headline y=501 (was 505), amounts y=572, tabs y=368.
+- **Do not repeat:** Do not put the 4px lift on the amount row or the flap words. Do not move the folio box for this nudge.
+
+---
+
+## 2026-10-07 — JURNL F09 want-to-spend spark centered in the bar
+
+- **Context:** This chat aligned child docks with the Safe to Spend parent, added the three purchase-check states, then phone nudges: hamburger left and up 6px, flap words down 10px, ADD plus to 11px, and YOUR MONEY / ORGANIZED. / THEN YOURS. up 4px (merged as #1456, bundle `index.B2l8uYk9.js`). The founder then asked to lower the spark left of WANT TO SPEND ON SOMETHING? so it is centered vertically in the bar.
+- **Fix:** `.jrn-f09a__spark` is `align-self: center`. The old `align-self: start` and `margin-top: 1px` are gone. Copy and the CHECK A PURCHASE button do not move. Measured centers match the bar: phone 402×874 spark y=750 (was 742), bar center y=758; tablet 834×1194 spark center y=1069; desktop 1440×900 spark center y=753.
+- **Do not repeat:** Do not pin the spark back to the top of the bar. Do not move the headline, the amount row, the flap words, or the button to center the icon.
+
+---
+
+## 2026-10-07 — JURNL F09 hamburger raised another 4px
+
+- **Context:** Safe to Spend phone plate stays `top: -10%`. The hamburger is already on the left. The prior nudge put the phone menu at `top: safe-area + 34px` (y=34 on 402×874). The founder asked to nudge that hamburger up another 4px. The spark stays centered in the want-to-spend bar. The three purchase-check screens stay on `purchases/checked`, not on the empty purchases list or on Money.
+- **Fix:** `.jrn-f09a__menu` top is `+ 30px` on the phone (was `+ 34px`), `+ 16px` on tablet (was `+ 20px`), and `+ 14px` on desktop (was `+ 18px`). Left edge stays. Measured: phone 402×874 menu x=22.5 y=30; tablet 834×1194 y=16; desktop 1440×900 y=14.
+- **Do not repeat:** Do not put the menu back to `+ 34px`. Do not move the desktop account mark with it. Do not change the phone plate from `top: -10%`.
+
+---
+
+## 2026-10-07 — JURNL back returns to the previous route
+
+- **Context:** The founder said the back button was trailing through family page screens. Family chrome, Today, and Account used `useFrameBack()`, so on a paginated family page the label became BACK TO SCREEN N and each press stepped to the previous continuation screen before the hardcoded parent (Today, Money, and so on). The Safe to Spend hamburger opens Account, which has two continuation screens.
+- **Fix:** The runtime store keeps the route trail. `back()` pops it and calls `navigate(-1)`. Continuation screens are not trail entries. NEXT still moves inside the page. If the screen was opened directly, back uses the old parent fallback. Proven: Account screen 2 (CONTINUED) opened from Safe returns to F09.00 in one press. See Why, Purchases, and Money opened from Safe also return to Safe. A direct open of Money still falls back to Today.
+- **Do not repeat:** Do not wire the chrome back button to `useFrameBack()` or label it BACK TO SCREEN N. Do not make back walk Money → Places → Account when the user did not open those routes.
+
+---
+
+## 2026-10-07 — Design viewport route lists the selected family’s screen tree
+
+- **Context:** This chat covered the preview tunnel (one shared Cloudflare token load-balancing many agents; canonical connector is `SITE00_CLOUDFLARE_TUNNEL_CANONICAL=1` on exactly one environment), the production nav that puts DESIGN in the center, the three Check a Purchase authorities, and the locked-shell correction (one plate, brand, and nav). The founder then opened the DESIGN viewport on F09 and the ROUTE menu listed other families’ parent pages (`F05 MONEY BOUNDARY` through `F13 PAYDOWN BOUNDARY`) under `F09.00 SAFE TO SPEND`.
+- **Decision:** FAMILY stays the list of families. ROUTE is only that family’s screens: the parent once, then its live children and grandchildren. F05–F16 production contracts stay parent-only. The tree lives in `src/projects/jurnl/data/familyRouteTree.ts`. Param routes open a `preview` segment. `purchases/checked` outranks `purchases/:purchaseId`. The runtime posts the child screen id so the control follows in-iframe navigation.
+- **F09:** `F09.00 SAFE TO SPEND` and `F09.WHY WHY THIS NUMBER` (`safe/why`). F05 is `F05.00 MONEY`, `F05.ACCOUNTS PLACES`, `F05.ACCOUNT PLACE`. F10 adds `F10.CHECKED CHECK A PURCHASE` and `F10.OBJECT PURCHASE`. F01 stays `F01.00`–`F01.13`.
+- **Do not repeat:** Do not append `NOT_STARTED` families onto the ROUTE menu as `BOUNDARY`. Do not expand the F05–F16 parent contracts to hold these children. Sheets such as `F09.HOLD` are not routes.
+
+---
+
+## 2026-10-07 — Locked-shell purchase results are visible on the F09 route menu
+
+- **Context:** The locked-shell Check a Purchase screens (one plate from `07_CHECK_A_PURCHASE`, shared logo, tagline, arch, horizon, and dock) were review PNGs only. `live_runtime_replaced` stayed false, and the tunnel checkout the founder was viewing was still `3301dad5`, which does not contain those files. The coded `purchases/checked` screen is a separate live composition.
+- **Fix:** F09’s design-viewport route list now includes `YOU'RE GOOD TO GO`, `A QUICK CHECK-IN`, and `THIS DOESN'T FIT`. Those routes render the locked-shell PNGs full-bleed: `purchases/result/good-to-go`, `purchases/result/quick-check-in`, `purchases/result/doesnt-fit`. The coded Check a Purchase screen stays on `purchases/checked`.
+- **Do not repeat:** Do not treat the review ZIP as something the tunnel shows by itself. Do not replace `PurchaseCheckedScreen` with the still image.
+
+---
+
+## 2026-10-07 — JURNL F09 hamburger raised another 10px
+
+- **Context:** Safe to Spend phone plate stays `top: -10%`. The hamburger is on the left. The previous nudge left the phone menu at `top: safe-area + 30px` (y=30 on 402×874). The founder asked to nudge it up another 10px. See Why, Check a Purchase, and Account stay on their routes. The preview worktree had been behind `preview/tunnel` until it was checked out to `7b9f219b`.
+- **Fix:** `.jrn-f09a__menu` top is `+ 20px` on the phone (was `+ 30px`), `+ 6px` on tablet (was `+ 16px`), and `+ 4px` on desktop (was `+ 14px`). Left edge stays. Measured: phone 402×874 menu x=22.5 y=20; tablet 834×1194 y=6; desktop 1440×900 y=4.
+- **Do not repeat:** Do not put the phone menu back to `+ 30px`. Do not move the desktop account mark with it. Do not change the phone plate from `top: -10%`.
+
+
 ## 2026-10-06 — JURNL F09 three-concept art-direction regen (P0.JURNL.F09-SAFE-TO-SPEND.THREE-CONCEPT-ART-DIRECTION-REGEN-CORRECTION1) — BLOCKED
 
 - **Founder verdict:** HYBRID-COMPOSITE-AUTHORITY-EXECUTION1 and THREE-DISTINCT-COMPOSITE-AUTHORITY-RERUN1 are REJECTED. Reasons:
@@ -14845,14 +14954,15 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - `ReferenceStage` is one 853 × 1844 stage, plate plus interface, scaled as a unit. It fills phones; other ratios get a blurred plate behind it.
   - `layout/referenceLayout.ts` is generated: measured boxes, and type fitted to the reference ink (size, tracking, line top, anchor; rotated tab words).
   - Screens:
-    - `/safe`: phones get the replica, tablet and desktop keep main's wide authority (`useWideViewport`).
+    - `/safe` keeps main's founder-tuned parent (main's rule: no lockup on F09.00). The reference 01 replica is at `/safe/reference` (screen `F09.00.REFERENCE`).
     - `/safe/why`
     - `/safe/check` (new route): the CHECK A PURCHASE bridge now goes here.
     - `/account`: 3 continuation pages, BACK / NEXT / dots.
     - The ACCOUNT drawer opens from the menu.
-  - CHECK PURCHASE gives a live verdict through `amountAffordability`, split out of `purchaseAffordability`.
+  - CHECK PURCHASE opens main's `purchases/checked` result flow with the amount, category and account entered.
   - `AccountSettingsScreen` was replaced. `CurrencySheet` is still exported from SettingsScreens; the setup consents moved into a sheet.
-  - Composition mode `REFERENCE_STAGE`, with documented overrides for F09.00, F09.WHY, F09.CHECK and GS.SETTINGS. The center-stage test was updated, and its pre-existing `safe` failure is gone.
+  - Composition mode `REFERENCE_STAGE`, with documented overrides for F09.00.REFERENCE, F09.WHY, F09.CHECK and GS.SETTINGS.
+  - The design-viewport route tree lists CHECK A PURCHASE, ACCOUNT and SAFE TO SPEND · REFERENCE 01 under F09.
 - **Type:** the references use a Didone serif and a geometric sans; Instrument Serif and Barlow are visibly condensed.
   - New faces: `JURNL Authority Serif` (Playfair Display with the lnum glyphs mapped as default digits, renamed because of the OFL Reserved Font Name) and `JURNL Authority Sans` (Jost 300–600). OFL texts sit beside them in `public/site00/projects/jurnl/fonts`.
 - **Selection sheets:** SELECT A CATEGORY is measured as `CATEGORY_SHEET_SYSTEM`: 4 cols, 183 px tiles, photos 183 × 178 (row 3 is 171 as drawn), r12, gaps 17 / 15, 12 px labels.
@@ -14871,7 +14981,7 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - Status READY_TO_RUN. OpenArt is not connected and there was no Grok route in this session.
 - **Decisions flagged (`REPLICA_DECISIONS`):**
   - The status bar and home indicator are not drawn.
-  - The parent lockup returns on phones, against main #1449.
+  - The parent lockup appears only on `/safe/reference`; `/safe` keeps main's no-lockup parent until the founder picks one.
   - The drawer's mixed-case line is uppercased.
   - The account drawer has 4 columns, not 2.
   - Page 1's ACCOUNT shell is kept on all pages.

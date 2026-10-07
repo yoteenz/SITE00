@@ -97,8 +97,12 @@ describe('runtime', () => {
     for (const s of ['CHECK A PURCHASE', 'PURCHASE AMOUNT', 'PURCHASE CATEGORY', 'PAY WITH', 'SELECT A CATEGORY', 'SELECT ACCOUNT', 'CHECK PURCHASE']) expect(check, s).toContain(s);
     expect(render('safe/why')).toContain('WHY THIS');
     expect(render('account')).toContain('ONE SETTINGS OWNER.');
-    const parent = render('safe');
-    for (const s of ['SAFE TO SPEND', 'SEE WHY THIS AMOUNT', 'ORGANIZED.', 'WANT TO SPEND ON SOMETHING?', 'safe-check-purchase']) expect(parent, s).toContain(s);
+    const parent = render('safe/reference');
+    for (const s of ['SAFE TO SPEND', 'SEE WHY THIS AMOUNT', 'ORGANIZED.', 'WANT TO SPEND ON SOMETHING?', 'safe-check-purchase', 'jrn-ref__plate', 'PLAN TODAY.']) expect(parent, s).toContain(s);
+    // /safe stays main's founder-tuned parent, and its bridge opens the new CHECK A PURCHASE page
+    const hub = render('safe');
+    expect(hub).not.toContain('jrn-ref__plate');
+    expect(hub).toContain('safe-check-purchase');
   });
 
   it('no device chrome and uppercase-only copy in the replica sources', () => {

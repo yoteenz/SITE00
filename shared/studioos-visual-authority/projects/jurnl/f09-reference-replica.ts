@@ -24,7 +24,7 @@ export const REPLICA_STAGE = { reference_px: { w: 853, h: 1844 }, runtime_pt: { 
 export type ReplicaScreen = { node: string; name: string; route: string; references: string[]; plate: string; component: string; note: string };
 
 export const REPLICA_SCREENS: ReplicaScreen[] = [
-  { node: 'F09.00', name: 'SAFE TO SPEND', route: '/production/jurnl/runtime/safe', references: ['01_SAFE_TO_SPEND.png'], plate: 'plates/F09_PARENT_PLATE.jpg', component: 'SafeToSpendScreens.tsx · SafeToSpendReference', note: 'Phones. Tablet and desktop keep the approved wide plates. The menu opens the ACCOUNT drawer.' },
+  { node: 'F09.00', name: 'SAFE TO SPEND (reference 01)', route: '/production/jurnl/runtime/safe/reference', references: ['01_SAFE_TO_SPEND.png'], plate: 'plates/F09_PARENT_PLATE.jpg', component: 'SafeToSpendScreens.tsx · SafeToSpendReferenceScreen', note: 'Beside /safe, which keeps the founder-tuned parent from main. The menu opens the ACCOUNT drawer.' },
   { node: 'F09.WHY', name: 'WHY THIS NUMBER', route: '/production/jurnl/runtime/safe/why', references: ['02_WHY_THIS_NUMBER.png'], plate: 'plates/F09_WHY_PLATE.jpg', component: 'SafeToSpendScreens.tsx · SafeToSpendWhyScreen', note: 'Live breakdown rows; CHANGE WHAT’S HELD opens the hold sheet; LEARN MORE opens Ask JURNL.' },
   { node: 'F09.CHECK', name: 'CHECK A PURCHASE', route: '/production/jurnl/runtime/safe/check', references: ['07_CHECK_A_PURCHASE.png'], plate: 'plates/F09_CHECK_PLATE.jpg', component: 'CheckPurchaseScreens.tsx · CheckPurchaseScreen', note: 'Amount field and chips, category and account pickers, live verdict on CHECK PURCHASE.' },
   { node: 'F09.CHECK.CATEGORY', name: 'SELECT A CATEGORY', route: '/production/jurnl/runtime/safe/check (sheet)', references: ['08_SELECT_A_CATEGORY.png'], plate: 'plates/F09_CHECK_PLATE.jpg', component: 'CheckPurchaseScreens.tsx · SelectionSheet', note: 'Opens over CHECK A PURCHASE with the reference’s 50 % scrim.' },
@@ -149,7 +149,7 @@ export const REGEN_JOBS: RegenJob[] = REPLICA_ASSETS.map(jobFor).filter((j): j i
 
 export const REPLICA_DECISIONS = [
   { id: 'DEVICE_CHROME', found: 'References 01–09 draw an iOS status bar (9:41) and a home indicator.', built: 'Not drawn — they belong to the phone (family rule: no device chrome).' },
-  { id: 'PARENT_LOCKUP', found: 'main #1449 removed the lockup and tagline from the F09 parent; reference 01 shows them.', built: 'Phones show them, as the reference does. Tablet and desktop are unchanged.' },
+  { id: 'PARENT_LOCKUP', found: 'main records the founder rule “do not put the lockup back on F09.00”; reference 01 shows the lockup and tagline.', built: '/safe keeps main’s founder-tuned parent. The reference 01 replica, lockup included, is at /safe/reference until the founder picks one.' },
   { id: 'MIXED_CASE', found: 'The drawer’s privacy card line is mixed case in reference 06.', built: 'Uppercase (family rule): MANAGE YOUR PRIVACY / SETTINGS AND DATA CONSENTS.' },
   { id: 'PAY_WITH_GRID', found: 'Reference 09 lists the accounts in 2 columns of 373 px tiles.', built: 'Four columns on SELECT A CATEGORY’s measured system (sprint rule); its tile photos re-cropped to 183 × 178. Apply button APPLY ACCOUNT, sibling of APPLY CATEGORY.' },
   { id: 'ACCOUNT_SHELL', found: 'References 04 and 05 move the menu, tagline and title by up to 33 px and redraw the photograph.', built: 'Page 1’s photograph and shell on all three pages (CONTINUATION_RULE); each page’s cards follow its own reference.' },

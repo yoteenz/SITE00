@@ -10,6 +10,7 @@ import { f03ScreenForRoute } from '../../data/f03/screens';
 import { f04ScreenForRoute } from '../../data/f04/screens';
 import { F01_FAMILY_BOUNDARY, F01_SCREENS, F01_STATE_OVERLAYS, f01ScreenForRoute } from '../../data/f01/screens';
 import { f02ScreenForRoute, F02_SCREENS } from '../../data/f02/screens';
+import { jurnlFamilyScreenForPath } from '../../data/familyRouteTree';
 import { resolveFamilyRoute } from '../../data/foundation/familyRegistry';
 import { decideDeviceServerMerge } from '../../data/repository/deviceServerMerge';
 import { importSnapshotForUser, peekDeviceSnapshot, setRepositoryUserId } from '../../data/repository/deviceRepository';
@@ -95,6 +96,10 @@ type Ctx = {
   showToast: (t: Omit<Toast, 'id'>) => void;
   dismissToast: () => void;
   go: (target: string, query?: Record<string, string>) => void;
+  /** Returns to the previous JURNL route. False when this screen was opened directly. */
+  back: () => boolean;
+  /** True when back() has a previous route to return to. */
+  hasPrevious: boolean;
   /** Forced state from `?state=` (design-workspace inspection). */
   forcedState: string | null;
   postToHost: (message: Record<string, unknown>) => void;
@@ -227,11 +232,40 @@ export function JurnlStoreProvider({ basePath, mode, children }: { basePath: str
     [basePath, navigate, params, inspect],
   );
 
+  // In-app route trail. Continuation screens inside a family page do not get entries.
+  // Back pops this trail and the browser history so it returns to the screen the user left.
+  const trail = useRef<string[]>([]);
+  const suppressTrail = useRef(false);
+  const [hasPrevious, setHasPrevious] = useState(false);
+  const locationKey = location.pathname + location.search;
+  useEffect(() => {
+    if (suppressTrail.current) {
+      suppressTrail.current = false;
+      const top = trail.current[trail.current.length - 1];
+      if (top !== locationKey) {
+        const idx = trail.current.lastIndexOf(locationKey);
+        trail.current = idx >= 0 ? trail.current.slice(0, idx + 1) : [locationKey];
+      }
+    } else if (trail.current[trail.current.length - 1] !== locationKey) {
+      trail.current.push(locationKey);
+    }
+    setHasPrevious(trail.current.length > 1);
+  }, [locationKey]);
+
+  const back = useCallback(() => {
+    if (trail.current.length < 2) return false;
+    trail.current.pop();
+    setHasPrevious(trail.current.length > 1);
+    suppressTrail.current = true;
+    navigate(-1);
+    return true;
+  }, [navigate]);
+
   // Route → host. F02 → F03 posts only on the step from setup/ready into today.
   const prevRel = useRef<string | null>(null);
   useEffect(() => {
     const rel = location.pathname.slice(basePath.length).replace(/^\/+/, '');
-    const screen = f01ScreenForRoute(rel) ?? f02ScreenForRoute(rel) ?? f03ScreenForRoute(rel) ?? f04ScreenForRoute(rel);
+    const screen = f01ScreenForRoute(rel) ?? f02ScreenForRoute(rel) ?? f03ScreenForRoute(rel) ?? f04ScreenForRoute(rel) ?? jurnlFamilyScreenForPath(rel);
     const parentId =
       rel === 'parents' ? 'F05_F16.BOARD'
       : rel === 'money' ? 'F05.00'
@@ -371,6 +405,8 @@ export function JurnlStoreProvider({ basePath, mode, children }: { basePath: str
       showToast,
       dismissToast,
       go,
+      back,
+      hasPrevious,
       forcedState: q('state'),
       postToHost,
     }),
@@ -392,6 +428,8 @@ export function JurnlStoreProvider({ basePath, mode, children }: { basePath: str
       showToast,
       dismissToast,
       go,
+      back,
+      hasPrevious,
       params,
       postToHost,
     ],

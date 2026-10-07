@@ -186,10 +186,10 @@ body:has([data-jrn-screen='F09.00']),
 .jrn .jrn-f09a__folio {
   transform: translateY(calc(-3lvh + 36px));
 }
-/* Tab words sit on the protruding tabs. -3lvh follows the plate; the extra
-   30px lifts them to the reference's place on each tab face. */
+/* Tab words sit on the protruding tabs. -3lvh follows the plate; 20px of
+   lift remains after the founder moved the words down 10px onto the flaps. */
 .jrn .jrn-f09a__tabs {
-  transform: translateY(calc(-3lvh - 30px));
+  transform: translateY(calc(-3lvh - 20px));
 }
 .jrn .jrn-f09a__art .jrn-f09a__menu,
 .jrn .jrn-f09a__art .jrn-f09a__account,
@@ -244,8 +244,9 @@ body:has([data-jrn-screen='F09.00']),
 .jrn .jrn-f09a__menu {
   pointer-events: auto;
   position: absolute;
-  right: 5.6%;
-  top: calc(env(safe-area-inset-top, 0px) + 40px + var(--f09-bleed));
+  left: 5.6%;
+  right: auto;
+  top: calc(env(safe-area-inset-top, 0px) + 20px + var(--f09-bleed));
   width: 28px;
   height: 22px;
   display: flex;
@@ -370,9 +371,11 @@ body:has([data-jrn-screen='F09.00']),
   font: 500 10px/1 'JURNL Sans', sans-serif;
   letter-spacing: 0.22em;
   color: #5c564e;
+  transform: translateY(-4px);
 }
 .jrn .jrn-f09a__headline {
   margin: 8px 0 0;
+  transform: translateY(-4px);
   font-family: 'JURNL Display', serif;
   font-size: 28px;
   font-weight: 400;
@@ -432,8 +435,7 @@ body:has([data-jrn-screen='F09.00']),
   display: grid;
   place-items: center;
   color: #1c1915;
-  align-self: start;
-  margin-top: 1px;
+  align-self: center;
 }
 .jrn .jrn-f09a__bridge p {
   margin: 0;
@@ -460,7 +462,7 @@ body:has([data-jrn-screen='F09.00']),
   white-space: nowrap;
 }
 
-.jrn:has([data-jrn-screen='F09.00']) .jrn-nav {
+.jrn .jrn-nav[data-jrn-nav='authority'] {
   position: fixed;
   left: 0;
   right: 0;
@@ -476,14 +478,16 @@ body:has([data-jrn-screen='F09.00']),
   box-shadow: none;
   gap: 0;
 }
-.jrn:has([data-jrn-screen='F09.00']) .jrn-nav svg {
+.jrn .jrn-nav[data-jrn-nav='authority'] svg {
   height: 10px;
   width: auto;
 }
-.jrn:has([data-jrn-screen='F09.00']) .jrn-nav__plus svg {
-  height: 18px;
+.jrn .jrn-nav[data-jrn-nav='authority'] .jrn-nav__plus svg {
+  /* Same slot as the other marks so ADD sits on their label row and the square is not clipped. */
+  height: 11px;
+  width: auto;
 }
-.jrn:has([data-jrn-screen='F09.00']) .jrn-nav__btn {
+.jrn .jrn-nav[data-jrn-nav='authority'] .jrn-nav__btn {
   min-height: 0;
   height: 34px;
   border: 0;
@@ -494,12 +498,12 @@ body:has([data-jrn-screen='F09.00']),
   font: 500 8px/1 'JURNL Sans', sans-serif;
   letter-spacing: 0.12em;
 }
-.jrn:has([data-jrn-screen='F09.00']) .jrn-nav__btn[data-active='true'] {
+.jrn .jrn-nav[data-jrn-nav='authority'] .jrn-nav__btn[data-active='true'] {
   background: transparent;
   color: #1c1915;
   border: 0;
 }
-.jrn:has([data-jrn-screen='F09.00']) .jrn-nav__btn--mark {
+.jrn .jrn-nav[data-jrn-nav='authority'] .jrn-nav__btn--mark {
   align-self: stretch;
   width: auto;
   height: 34px;
@@ -509,10 +513,10 @@ body:has([data-jrn-screen='F09.00']),
   background: transparent;
   color: #1c1915;
 }
-.jrn:has([data-jrn-screen='F09.00']) .jrn-nav__btn--mark::after {
+.jrn .jrn-nav[data-jrn-nav='authority'] .jrn-nav__btn--mark::after {
   content: none;
 }
-.jrn:has([data-jrn-screen='F09.00']) .jrn-nav__plus {
+.jrn .jrn-nav[data-jrn-nav='authority'] .jrn-nav__plus {
   width: auto;
   height: auto;
   display: grid;
@@ -545,7 +549,9 @@ body:has([data-jrn-screen='F09.00']),
   .jrn .jrn-f09a__amount,
   .jrn .jrn-f09a__through,
   .jrn .jrn-f09a__tabs,
-  .jrn .jrn-f09a__folio {
+  .jrn .jrn-f09a__folio,
+  .jrn .jrn-f09a__kicker,
+  .jrn .jrn-f09a__headline {
     transform: none;
   }
   .jrn .jrn-f09a__lockup {
@@ -568,8 +574,9 @@ body:has([data-jrn-screen='F09.00']),
     letter-spacing: 0.16em;
   }
   .jrn .jrn-f09a__menu {
-    right: 22px;
-    top: calc(env(safe-area-inset-top, 0px) + 26px);
+    left: 22px;
+    right: auto;
+    top: calc(env(safe-area-inset-top, 0px) + 6px);
     width: 32px;
     height: 24px;
   }
@@ -711,8 +718,9 @@ body:has([data-jrn-screen='F09.00']),
     letter-spacing: 0.04em;
   }
   .jrn .jrn-f09a__menu {
-    right: 28px;
-    top: calc(env(safe-area-inset-top, 0px) + 24px);
+    left: 28px;
+    right: auto;
+    top: calc(env(safe-area-inset-top, 0px) + 4px);
   }
   .jrn .jrn-f09a__signal {
     left: 24%;
@@ -774,7 +782,7 @@ body:has([data-jrn-screen='F09.00']),
   .jrn .jrn-f09a__bridge p {
     font-size: 12px;
   }
-  .jrn:has([data-jrn-screen='F09.00']) .jrn-nav {
+  .jrn .jrn-nav[data-jrn-nav='authority'] {
     left: 50%;
     right: auto;
     width: min(640px, 48%);
@@ -784,15 +792,15 @@ body:has([data-jrn-screen='F09.00']),
     border-radius: 18px;
     background: rgba(246, 243, 238, 0.94);
   }
-  .jrn:has([data-jrn-screen='F09.00']) .jrn-nav__btn,
-  .jrn:has([data-jrn-screen='F09.00']) .jrn-nav__btn--mark {
+  .jrn .jrn-nav[data-jrn-nav='authority'] .jrn-nav__btn,
+  .jrn .jrn-nav[data-jrn-nav='authority'] .jrn-nav__btn--mark {
     min-height: 48px;
     height: auto;
     font-size: 10px;
     letter-spacing: 0.16em;
   }
-  .jrn:has([data-jrn-screen='F09.00']) .jrn-nav svg,
-  .jrn:has([data-jrn-screen='F09.00']) .jrn-nav__plus svg {
+  .jrn .jrn-nav[data-jrn-nav='authority'] svg,
+  .jrn .jrn-nav[data-jrn-nav='authority'] .jrn-nav__plus svg {
     height: auto;
     width: auto;
   }

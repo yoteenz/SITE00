@@ -42,7 +42,7 @@
       "route": "/production/jurnl/runtime/safe",
       "authority": "APPROVED",
       "authority_source": "REFERENCES/01_SAFE_TO_SPEND.png",
-      "note": "The family’s visual authority. Phones render the replica; tablet and desktop keep the approved wide plates."
+      "note": "The family’s visual authority. /safe keeps main’s founder-tuned parent (no lockup, founder rule); the reference 01 replica is at /safe/reference."
     },
     {
       "id": "F09.WHY",

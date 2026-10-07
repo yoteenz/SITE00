@@ -1,6 +1,6 @@
 /**
- * F09 SAFE TO SPEND — the parent and WHY THIS NUMBER around the canonical formula. Phones render the founder
- * reference replicas (P0.JURNL.F09.REFERENCE-REPLICA1); tablet and desktop keep the approved wide parent.
+ * F09 SAFE TO SPEND — the parent and WHY THIS NUMBER around the canonical formula. WHY THIS NUMBER and /safe/reference
+ * are founder reference replicas (P0.JURNL.F09.REFERENCE-REPLICA1); /safe keeps the founder-tuned authority.
  */
 
 import { useState } from 'react';
@@ -21,7 +21,7 @@ import { REF_DOCK_WHY, REF_PARENT, REF_WHY } from '../layout/referenceLayout';
 import whyPlate from '../../families/F09_SAFE/REFERENCE_REPLICA/plates/F09_WHY_PLATE.jpg';
 import whySprig from '../../families/F09_SAFE/REFERENCE_REPLICA/assets/WHY_SPRIG_OLIVE.png';
 import lockupWord from '../../families/F09_SAFE/REFERENCE_REPLICA/assets/LOCKUP_WORD.png';
-import { ReferenceDock, ReferenceStage, RefIcon, RefText, at, useWideViewport } from '../components/ReferenceStage';
+import { ReferenceDock, ReferenceStage, RefIcon, RefText, at } from '../components/ReferenceStage';
 import { ReferenceLockup } from '../components/ReferenceLockup';
 import { AccountDrawer } from './AccountScreens';
 
@@ -54,12 +54,9 @@ const STATE_LINE: Record<SafeToSpendBreakdown['completeness'], string> = {
   UNSTATED: 'NOT ENOUGH IS KNOWN YET TO SAY.',
 };
 
-/**
- * F09 parent. Phones: the founder reference replica (one lifted photograph, live interface in the reference's own
- * pixels). Tablet and desktop keep their approved wide compositions.
- */
+/** F09 parent (/safe): the founder-tuned authority reconstruction on main. */
 export function SafeToSpendHubScreen() {
-  return useWideViewport() ? <SafeToSpendWideAuthority /> : <SafeToSpendReference />;
+  return <SafeToSpendAuthority />;
 }
 
 const PARENT_PLATE = { src: parentPlate, assetId: 'SAFE.REFERENCE_REPLICA.PARENT_PLATE.INTERIM' };
@@ -83,15 +80,18 @@ function useParentFigures() {
   };
 }
 
-/** F09.00 on phones — founder reference IMAGE 1. */
-function SafeToSpendReference() {
+/**
+ * F09.00 as founder reference 01 draws it (/safe/reference). Kept beside /safe because main records the founder rule
+ * that the lockup stays off F09.00, while reference 01 shows it. The founder chooses which one becomes the parent.
+ */
+export function SafeToSpendReferenceScreen() {
   const { go, openOverlay, closeOverlay, overlay } = useJurnl();
   const { below, amount, folio } = useParentFigures();
   const [drawer, setDrawer] = useState(false);
   const L = REF_PARENT;
   return (
     <ReferenceStage
-      screenId="F09.00"
+      screenId="F09.00.REFERENCE"
       plate={PARENT_PLATE}
       label="SAFE TO SPEND"
       outside={
@@ -152,8 +152,8 @@ function SafeToSpendReference() {
   );
 }
 
-/** F09 parent, tablet and desktop — founder-approved authority reconstruction. Live formula, live nav, live routes. */
-function SafeToSpendWideAuthority() {
+/** F09 parent — founder-approved authority reconstruction. Live formula, live nav, live routes. */
+function SafeToSpendAuthority() {
   const { go, openOverlay, closeOverlay, overlay, session } = useJurnl();
   const monogram = session.account ? initialsOf(session.account) : 'JL';
   const draft = useSetup();
@@ -169,7 +169,7 @@ function SafeToSpendWideAuthority() {
     { id: 'buffer', label: 'BUFFER', amount: formatMoney(signal.safetyBuffer) },
   ];
   return (
-    <JurnlScreen screenId="F09.00" familyPlate={F09_AUTHORITY_PLATE} family productNav composition="CENTER_STAGE">
+    <JurnlScreen screenId="F09.00" familyPlate={F09_AUTHORITY_PLATE} family productNav>
       <div className="jrn-f09a" data-jrn-authority="F09-APPROVED-IMAGE-1" data-jrn-zone="intro">
         <div className="jrn-f09a__art">
         <header className="jrn-f09a__brand">
@@ -227,7 +227,7 @@ const WHY_DOT: Record<string, string> = { Cash: '#767158', Upcoming: '#dec5b1', 
 
 /** F09.WHY — WHY THIS NUMBER, founder reference IMAGE 2. Live breakdown rows; the hold sheet stays functional. */
 export function SafeToSpendWhyScreen() {
-  const { go, openOverlay, closeOverlay, overlay } = useJurnl();
+  const { go, back, openOverlay, closeOverlay, overlay } = useJurnl();
   const draft = useSetup();
   useCurrency();
   const signal = computeSafeToSpend(draft);
@@ -255,7 +255,7 @@ export function SafeToSpendWhyScreen() {
         </>
       }
     >
-      <button type="button" className="jrn-ref__square" aria-label="BACK TO SAFE" data-jrn-trigger="family-back" onClick={() => go('safe')} style={at(W.box.back)}>
+      <button type="button" className="jrn-ref__square" aria-label="BACK" data-jrn-trigger="family-back" onClick={() => { if (!back()) go('safe'); }} style={at(W.box.back)}>
         <RefIcon name="chevron-left" box={W.box.backIcon} origin={W.box.back} stroke={2.6} />
       </button>
       <button type="button" className="jrn-ref__square" aria-label="MENU" data-jrn-trigger="why-menu" onClick={() => setDrawer(true)} style={at(W.box.menu)}>

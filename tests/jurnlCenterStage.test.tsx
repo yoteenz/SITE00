@@ -28,7 +28,7 @@ const modeOf = (html: string) => html.match(/data-jrn-composition="([A-Z_]+)"/)?
 const hasNav = (html: string) => html.includes('data-jrn-zone="bottom-nav"');
 
 /** Founder reference replicas (P0.JURNL.F09.REFERENCE-REPLICA1): documented REFERENCE_STAGE overrides. */
-const REFERENCE_ROUTES = ['account', 'safe', 'safe/why', 'safe/check'];
+const REFERENCE_ROUTES = ['account', 'safe/why', 'safe/check', 'safe/reference'];
 
 const PRODUCT_ROUTES = [
   'today',
@@ -42,6 +42,7 @@ const PRODUCT_ROUTES = [
   'upcoming/any',
   'plan',
   'plan/any',
+  'safe',
   'purchases',
   'purchases/any',
   'trips',
@@ -97,7 +98,7 @@ describe('founder reference replicas are REFERENCE_STAGE (documented override)',
     });
   }
   it('every REFERENCE_STAGE override names its reason', () => {
-    for (const id of ['F09.00', 'F09.WHY', 'F09.CHECK', 'GS.SETTINGS']) {
+    for (const id of ['F09.00.REFERENCE', 'F09.WHY', 'F09.CHECK', 'GS.SETTINGS']) {
       expect(COMPOSITION_OVERRIDES[id]?.mode, id).toBe('REFERENCE_STAGE');
       expect(COMPOSITION_OVERRIDES[id]?.reason, id).toMatch(/REFERENCE-REPLICA1/);
     }

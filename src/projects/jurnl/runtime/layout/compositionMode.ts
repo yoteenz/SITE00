@@ -22,7 +22,7 @@ const REFERENCE_REASON = 'Founder reference image is the route authority: one li
 
 /** Route-authority overrides, keyed by screen id. Each one carries its documented reason. */
 export const COMPOSITION_OVERRIDES: Readonly<Record<string, CompositionOverride>> = Object.freeze({
-  'F09.00': { mode: 'REFERENCE_STAGE', reason: `${REFERENCE_REASON} Phones only; tablet and desktop keep the wide authority.` },
+  'F09.00.REFERENCE': { mode: 'REFERENCE_STAGE', reason: `${REFERENCE_REASON} Reference 01 beside the founder-tuned /safe parent.` },
   'F09.WHY': { mode: 'REFERENCE_STAGE', reason: REFERENCE_REASON },
   'F09.CHECK': { mode: 'REFERENCE_STAGE', reason: REFERENCE_REASON },
   'GS.SETTINGS': { mode: 'REFERENCE_STAGE', reason: `${REFERENCE_REASON} ACCOUNT full page and drawer.` },

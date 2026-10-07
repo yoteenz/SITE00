@@ -1,0 +1,39 @@
+{
+  "sprint": "P0.JURNL.STS.LOCKED-SHELL-DERIVATION-CORRECTION1",
+  "status": "CORRECTED",
+  "canvas": [853, 1844],
+  "parent": "07_CHECK_A_PURCHASE.jpg",
+  "plate": "STS_ENVIRONMENT_PLATE_LOCKED_4K.png",
+  "derivation": "One scale of the direct parent. Headline glyphs cleared from clean sky and pier rows. The occluded form is filled from the parent's own left pavement. Top brand rows and the bottom nav are bitwise copies of that scaled parent on every descendant.",
+  "locked": {
+    "background": "STS_ENVIRONMENT_PLATE_LOCKED_4K.png",
+    "top_brand": "pixel copy, y 0–408",
+    "bottom_nav": "pixel copy, y 1640–1844",
+    "middle_only": true
+  },
+  "qa": {
+    "file": "LOCKED_SHELL_QA.json",
+    "top_diff": 0,
+    "nav_diff": 0,
+    "pass": true,
+    "device_chrome_present": false
+  },
+  "screens": [
+    "PURCHASE_RESULT_GOOD_TO_GO.png",
+    "PURCHASE_RESULT_QUICK_CHECK_IN.png",
+    "PURCHASE_RESULT_DOESNT_FIT.png"
+  ],
+  "supersedes": {
+    "sprint": "P0.JURNL.STS.PURCHASE-OUTCOMES.INCREMENT1",
+    "reason": "Sunburst 9:16 image-to-image moved the plate, the logo, and the tagline between descendants.",
+    "openart_model": "gpt-image-2.5-sunburst",
+    "delivered_size": "2016x3584",
+    "history_ids": {
+      "PURCHASE_RESULT_GOOD_TO_GO": "PuXXT9BnFRDFIpVzSarz",
+      "PURCHASE_RESULT_QUICK_CHECK_IN": "YODfWvDKVwbbcSe9r7kT",
+      "PURCHASE_RESULT_DOESNT_FIT": "RvVK9g4xoXmuYKERUQks"
+    }
+  },
+  "ready_for_founder_review": true,
+  "live_runtime_replaced": false
+}

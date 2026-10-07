@@ -1,0 +1,387 @@
+/* F10 purchase-check results. Same stage and dock as the F09 parent.
+   The photograph is the Safe to Spend plate. The card, type, and buttons are live.
+   F09.RESULT.* is the locked-shell photograph itself (logo, arch, dock already in the pixels). */
+
+html:has([data-jrn-screen^='F09.RESULT.']),
+body:has([data-jrn-screen^='F09.RESULT.']),
+#root:has([data-jrn-screen^='F09.RESULT.']) {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  height: 100lvh;
+  max-height: 100lvh;
+  overflow: hidden;
+  background: #f6f3ee;
+}
+.jrn:has([data-jrn-screen^='F09.RESULT.']) {
+  width: 100%;
+  height: 100lvh;
+  max-height: 100lvh;
+  margin: 0;
+  overflow: hidden;
+  background: #f6f3ee;
+}
+.jrn-locked-result {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  background: #f6f3ee;
+}
+.jrn-locked-result img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center top;
+}
+
+html:has([data-jrn-screen='F10.CHECKED']),
+body:has([data-jrn-screen='F10.CHECKED']),
+#root:has([data-jrn-screen='F10.CHECKED']) {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  height: 100lvh;
+  max-height: 100lvh;
+  min-height: 0;
+  overflow: hidden;
+  background: #f6f3ee;
+}
+.jrn:has([data-jrn-screen='F10.CHECKED']) {
+  position: relative;
+  inset: auto;
+  top: auto;
+  right: auto;
+  bottom: auto;
+  left: auto;
+  width: 100%;
+  height: 100lvh;
+  max-height: 100lvh;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: #f6f3ee;
+}
+.jrn:has([data-jrn-screen='F10.CHECKED']) .jrn-overlay-host {
+  position: fixed;
+  inset: 0;
+}
+.jrn .jrn-screen[data-jrn-screen='F10.CHECKED'] {
+  position: absolute;
+  inset: 0;
+  width: auto;
+  height: auto;
+  max-height: none;
+  min-height: 0;
+  margin: 0;
+  transform: none;
+  filter: none;
+  animation: none;
+  overflow: visible;
+}
+.jrn .jrn-screen[data-jrn-screen='F10.CHECKED'] .jrn-env__calm {
+  display: none;
+}
+.jrn .jrn-screen[data-jrn-screen='F10.CHECKED'] .jrn-env {
+  inset: 0;
+  width: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  transform: none;
+  filter: none;
+}
+.jrn .jrn-screen[data-jrn-screen='F10.CHECKED'] picture {
+  display: contents;
+}
+.jrn .jrn-screen[data-jrn-screen='F10.CHECKED'] .jrn-plate {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: auto;
+  left: 0;
+  width: 100%;
+  height: 100lvh;
+  max-width: none;
+  max-height: none;
+  min-width: 100%;
+  min-height: 100lvh;
+  margin: 0;
+  object-fit: cover;
+  object-position: 46% 6%;
+  transform: none;
+  z-index: 0;
+}
+.jrn .jrn-screen[data-jrn-screen='F10.CHECKED'] .jrn-col {
+  z-index: 1;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: auto;
+  height: auto;
+  max-width: none;
+  max-height: none;
+}
+.jrn .jrn-screen[data-jrn-screen='F10.CHECKED'] .jrn-col > .jrn-f10c {
+  max-width: none;
+  width: auto;
+  align-self: stretch;
+}
+
+.jrn .jrn-f10c {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: calc(14px + env(safe-area-inset-top, 0px)) 16px calc(50px + env(safe-area-inset-bottom, 0px));
+  color: #1c1915;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+.jrn .jrn-f10c__brand,
+.jrn .jrn-f10c__verdict,
+.jrn .jrn-f10c__stack,
+.jrn .jrn-f10c__actions {
+  width: min(420px, 100%);
+  pointer-events: auto;
+}
+.jrn .jrn-f10c__brand {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  min-height: 78px;
+}
+.jrn .jrn-f10c__sprig {
+  display: block;
+  width: 58px;
+  height: 22px;
+  margin-left: 2px;
+}
+.jrn .jrn-f10c__word {
+  margin: 0;
+  font: 400 22px/0.9 'JURNL Display', serif;
+  letter-spacing: 0.22em;
+  color: #1a1814;
+}
+.jrn .jrn-f10c__desc {
+  margin: 4px 0 0;
+  max-width: 148px;
+  font: 500 7px/1.35 'JURNL Sans', sans-serif;
+  letter-spacing: 0.14em;
+  color: #2a261f;
+}
+.jrn .jrn-f10c__tag {
+  margin: 10px 8px 0 0;
+  text-align: right;
+  font: 500 8px/1.35 'JURNL Sans', sans-serif;
+  letter-spacing: 0.16em;
+  color: #2a261f;
+}
+.jrn .jrn-f10c__verdict {
+  margin-top: 8px;
+  text-align: center;
+}
+.jrn .jrn-f10c__kicker {
+  margin: 0;
+  font: 500 10px/1 'JURNL Sans', sans-serif;
+  letter-spacing: 0.22em;
+  color: #3a342c;
+}
+.jrn .jrn-f10c__verdict h1 {
+  margin: 8px 0 0;
+  font: 400 34px/0.92 'JURNL Display', serif;
+  letter-spacing: 0.01em;
+  color: #141210;
+}
+.jrn .jrn-f10c__sub {
+  margin: 8px auto 0;
+  max-width: 280px;
+  font: 500 10px/1.35 'JURNL Sans', sans-serif;
+  letter-spacing: 0.12em;
+  color: #3a342c;
+}
+.jrn .jrn-f10c__stack {
+  position: relative;
+  margin-top: 46px;
+}
+.jrn .jrn-f10c__badge {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  transform: translate(-50%, -46%);
+  background: #3e4a36;
+  box-shadow: 0 8px 18px rgba(40, 32, 20, 0.16);
+}
+.jrn .jrn-f10c__badge svg {
+  width: 26px;
+  height: 26px;
+}
+.jrn .jrn-f10c__badge b {
+  font: 500 28px/1 'JURNL Display', serif;
+  color: #f6f3ee;
+}
+.jrn .jrn-f10c__badge[data-tone='CHECK_IN'] {
+  background: #c6a15a;
+}
+.jrn .jrn-f10c__badge[data-tone='OVER'] {
+  background: #a33b32;
+}
+.jrn .jrn-f10c__card {
+  border-radius: 22px;
+  background: #f7f4ee;
+  box-shadow: 0 16px 40px rgba(40, 30, 16, 0.12);
+  padding: 16px 14px 14px;
+}
+.jrn .jrn-f10c__buy {
+  display: grid;
+  grid-template-columns: 42% 1fr;
+  gap: 12px;
+  align-items: center;
+}
+.jrn .jrn-f10c__photo {
+  width: 100%;
+  height: 148px;
+  object-fit: cover;
+  border-radius: 14px;
+}
+.jrn .jrn-f10c__buy dl {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.jrn .jrn-f10c__buy dt {
+  font: 500 8px/1 'JURNL Sans', sans-serif;
+  letter-spacing: 0.16em;
+  color: #6a6258;
+}
+.jrn .jrn-f10c__buy dd {
+  margin: 3px 0 0;
+  font: 500 18px/1 'JURNL Display', serif;
+  letter-spacing: 0.02em;
+  color: #141210;
+}
+.jrn .jrn-f10c__pay {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 8px;
+}
+.jrn .jrn-f10c__chip {
+  flex: 0 0 auto;
+  width: 42px;
+  height: 28px;
+  border-radius: 4px;
+  background: linear-gradient(160deg, #f7f3ea, #e7decd);
+  box-shadow: 0 1px 3px rgba(40, 30, 16, 0.18);
+  display: grid;
+  place-items: center;
+}
+.jrn .jrn-f10c__chip i {
+  width: 9px;
+  height: 7px;
+  border-radius: 1px;
+  background: #c6a15a;
+}
+.jrn .jrn-f10c__impact {
+  display: grid;
+  grid-template-columns: 22px 1fr auto;
+  gap: 8px;
+  align-items: start;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(60, 48, 32, 0.1);
+}
+.jrn .jrn-f10c__leaf {
+  width: 20px;
+  height: 26px;
+  margin-top: 2px;
+}
+.jrn .jrn-f10c__notice {
+  margin: 0 0 4px;
+  font: 500 9px/1.2 'JURNL Sans', sans-serif;
+  letter-spacing: 0.12em;
+}
+.jrn .jrn-f10c__impact-copy p {
+  margin: 0;
+  font: 400 9px/1.35 'JURNL Sans', sans-serif;
+  letter-spacing: 0.06em;
+  color: #3a342c;
+}
+.jrn .jrn-f10c__figure {
+  text-align: right;
+  padding-left: 8px;
+  border-left: 1px solid rgba(60, 48, 32, 0.12);
+  min-width: 92px;
+}
+.jrn .jrn-f10c__figure b {
+  display: block;
+  font: 400 26px/1 'JURNL Display', serif;
+  color: #141210;
+}
+.jrn .jrn-f10c__figure span {
+  display: block;
+  margin-top: 4px;
+  font: 500 7px/1.3 'JURNL Sans', sans-serif;
+  letter-spacing: 0.1em;
+  color: #6a6258;
+}
+.jrn .jrn-f10c__figure[data-tone='OVER'] b,
+.jrn .jrn-f10c__figure[data-tone='OVER'] span {
+  color: #a33b32;
+}
+.jrn .jrn-f10c__actions {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 12px;
+}
+.jrn .jrn-f10c__primary,
+.jrn .jrn-f10c__secondary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 46px;
+  padding: 0 16px;
+  border-radius: 14px;
+  font: 500 11px/1 'JURNL Sans', sans-serif;
+  letter-spacing: 0.14em;
+  cursor: pointer;
+}
+.jrn .jrn-f10c__primary {
+  border: 0;
+  background: #3e4a36;
+  color: #f6f3ee;
+}
+.jrn .jrn-f10c__secondary {
+  border: 1px solid rgba(40, 32, 24, 0.16);
+  background: rgba(251, 248, 243, 0.92);
+  color: #1c1915;
+}
+
+@media (min-width: 600px) {
+  .jrn .jrn-f10c__verdict h1 {
+    font-size: 40px;
+  }
+  .jrn .jrn-f10c__photo {
+    height: 168px;
+  }
+}

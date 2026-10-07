@@ -8,8 +8,7 @@
  */
 
 import { useState } from 'react';
-import { amountAffordability } from '../../data/f10/purchasesStore';
-import { formatMoney, useCurrency } from '../../data/home/money';
+import { useCurrency } from '../../data/home/money';
 import checkPlate from '../../families/F09_SAFE/REFERENCE_REPLICA/plates/F09_CHECK_PLATE.jpg';
 import catFashion from '../../families/F09_SAFE/REFERENCE_REPLICA/tiles/CATEGORY_FASHION.jpg';
 import catBeauty from '../../families/F09_SAFE/REFERENCE_REPLICA/tiles/CATEGORY_BEAUTY.jpg';
@@ -33,7 +32,6 @@ import { REF_CATEGORY, REF_CHECK, type RefBox, type RefType } from '../layout/re
 import { ReferenceDock, ReferenceStage, RefIcon, RefText, at } from '../components/ReferenceStage';
 import { ReferenceLockup } from '../components/ReferenceLockup';
 import { AskJurnlSheet, QuickAddV2Sheet } from '../global/GlobalSheets';
-import { PURCHASE_VERDICT } from './PurchasesScreens';
 import { useJurnl } from '../state/store';
 
 export type SelectionTile = { id: string; label: string; src: string };
@@ -155,13 +153,13 @@ export function CheckPurchaseScreen() {
     setPick(which === 'category' ? category : account);
     setSheet(which);
   };
+  /** CHECK PURCHASE opens the purchase-result flow (purchases/checked) with what was entered here. */
   const check = () => {
     if (value <= 0) {
       showToast({ tone: 'error', title: 'ENTER AN AMOUNT', body: 'ADD WHAT IT COSTS TO SEE HOW IT FITS.', testId: 'toast-check-amount' });
       return;
     }
-    const fit = amountAffordability(value);
-    showToast({ tone: fit.verdict === 'NOW' ? 'success' : 'error', title: PURCHASE_VERDICT[fit.verdict].short, body: `${PURCHASE_VERDICT[fit.verdict].line} AFTER: ${formatMoney(fit.after)}.`, testId: 'toast-check-verdict' });
+    go('purchases/checked', { amount: String(value), category: categoryLabel ?? 'OTHER', pay: accountLabel ?? 'CHECKING' });
   };
   const input = L.box.input as RefBox;
   return (

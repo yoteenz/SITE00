@@ -10,7 +10,7 @@
  * of the plate. No device chrome: the status bar and home indicator in the references belong to the phone, not JURNL.
  */
 
-import { useLayoutEffect, useRef, useState, useSyncExternalStore, type CSSProperties, type ElementType, type ReactNode } from 'react';
+import { useLayoutEffect, useRef, useState, type CSSProperties, type ElementType, type ReactNode } from 'react';
 import { REF_DOCK, type RefBox, type RefType } from '../layout/referenceLayout';
 import { AUTHORITY_MARK } from './authorityNavMarks';
 import { resolveCompositionMode } from '../layout/compositionMode';
@@ -24,20 +24,6 @@ export function referenceScale(w: number, h: number): number {
   const contain = Math.min(w / REF_W, h / REF_H);
   const cover = Math.max(w / REF_W, h / REF_H);
   return cover / contain <= 1.04 ? cover : contain;
-}
-
-/** True on tablet and desktop widths. Server renders and tests take the phone composition. */
-export function useWideViewport(): boolean {
-  return useSyncExternalStore(
-    (notify) => {
-      if (typeof window === 'undefined' || !window.matchMedia) return () => {};
-      const q = window.matchMedia('(min-width: 600px)');
-      q.addEventListener('change', notify);
-      return () => q.removeEventListener('change', notify);
-    },
-    () => (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(min-width: 600px)').matches : false),
-    () => false,
-  );
 }
 
 export function ReferenceStage({

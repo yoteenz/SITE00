@@ -16,6 +16,7 @@ import { applyProjectViewportSize, resolveViewportTarget } from '../src/site00/c
 import { PW_IMG } from '../src/site00/components/production/productionImagery';
 import { ProductionWorkspaceHeader } from '../src/site00/components/productionHub/chrome';
 import { getIngestedProject } from '../src/projects/registry';
+import { jurnlFamilyScreenForPath } from '../src/projects/jurnl/data/familyRouteTree';
 
 const root = path.resolve(__dirname, '..');
 const read = (rel: string) => readFileSync(path.join(root, rel), 'utf8');
@@ -122,6 +123,7 @@ describe('VIEWPORT renders the JURNL project runtime', () => {
     for (let i = 0; i < 14; i++) expect(html).toContain(`value="F01.${String(i).padStart(2, '0')}"`);
     expect(html).toContain('F02 SETUP');
     expect(html).not.toContain('F02 SETUP BOUNDARY');
+    expect(html).not.toContain('MONEY BOUNDARY');
     expect(html).toContain('href="/production/jurnl/design?mode=compiler&amp;inspect=gate"');
     expect(html).not.toContain('fixture-app-ndxbook');
   });
@@ -143,6 +145,48 @@ describe('VIEWPORT renders the JURNL project runtime', () => {
     expect(applyProjectViewportSize(resolveViewportTarget('TABLET', 'PORTRAIT'), j.TABLET)).toMatchObject({ w: 834, h: 1194 });
     expect(applyProjectViewportSize(resolveViewportTarget('DESKTOP', 'PORTRAIT'), j.DESKTOP)).toMatchObject({ w: 1440, h: 900, orientationLocked: true });
     expect(resolveViewportTarget('MOBILE', 'PORTRAIT')).toMatchObject({ w: 390, h: 844 });
+  });
+  it('ROUTE lists that family’s screen tree, not the other families’ parent pages', () => {
+    const routeOf = (html: string) => html.match(/<select[^>]*data-testid="design-viewport-route"[^>]*>[\s\S]*?<\/select>/)?.[0] ?? '';
+    const f09 = render('jurnl', 'viewport', '&family=F09');
+    const f09Route = routeOf(f09);
+    expect(f09Route).toContain('>F09.00 SAFE TO SPEND</option>');
+    expect(f09Route).toContain('value="F09.WHY"');
+    expect(f09Route).toContain('>F09.WHY WHY THIS NUMBER</option>');
+    expect(f09Route).toContain('value="F09.RESULT.GOOD"');
+    expect(f09Route).toContain('GOOD TO GO');
+    expect(f09Route).toContain('A QUICK CHECK-IN');
+    expect(f09Route).toContain('value="F09.RESULT.OVER"');
+    expect(f09Route).toContain('DOESN');
+    const good = render('jurnl', 'viewport', '&screen=F09.RESULT.GOOD');
+    expect(good).toMatch(/src="\/production\/jurnl\/runtime\/purchases\/result\/good-to-go"/);
+    expect(f09Route).not.toContain('BOUNDARY');
+    expect(f09Route).not.toContain('value="F05"');
+    expect(f09Route).not.toContain('F10.00');
+    expect(f09).toContain('value="F05"');
+    const why = render('jurnl', 'viewport', '&screen=F09.WHY');
+    expect(why).toMatch(/src="\/production\/jurnl\/runtime\/safe\/why"/);
+    expect(why).toMatch(/<option value="F09" selected="">F09 SAFE TO SPEND<\/option>/);
+    const place = render('jurnl', 'viewport', '&screen=F05.ACCOUNT');
+    expect(place).toMatch(/src="\/production\/jurnl\/runtime\/money\/places\/preview"/);
+    expect(place).toContain('>F05.ACCOUNTS PLACES</option>');
+    expect(place).toContain('>F05.ACCOUNT PLACE</option>');
+    const checked = render('jurnl', 'viewport', '&family=F10&screen=F10.CHECKED');
+    expect(checked).toMatch(/src="\/production\/jurnl\/runtime\/purchases\/checked"/);
+    expect(checked).toContain('>F10.CHECKED CHECK A PURCHASE</option>');
+    expect(checked).toContain('>F10.OBJECT PURCHASE</option>');
+    expect(checked).not.toContain('SAFE TO SPEND BOUNDARY');
+  });
+  it('live child paths report the screen in that family, with exact routes ahead of param routes', () => {
+    expect(jurnlFamilyScreenForPath('safe/why')?.id).toBe('F09.WHY');
+    expect(jurnlFamilyScreenForPath('purchases/result/good-to-go')?.id).toBe('F09.RESULT.GOOD');
+    expect(jurnlFamilyScreenForPath('purchases/result/doesnt-fit')?.id).toBe('F09.RESULT.OVER');
+    expect(jurnlFamilyScreenForPath('safe')?.id).toBe('F09.00');
+    expect(jurnlFamilyScreenForPath('purchases/checked')?.id).toBe('F10.CHECKED');
+    expect(jurnlFamilyScreenForPath('purchases/preview')?.id).toBe('F10.OBJECT');
+    expect(jurnlFamilyScreenForPath('money/places/checking')?.id).toBe('F05.ACCOUNT');
+    expect(jurnlFamilyScreenForPath('money/places')?.id).toBe('F05.ACCOUNTS');
+    expect(jurnlFamilyScreenForPath('entry/sign-in')).toBeNull();
   });
   it('FAMILY selector lists the project families: F01 ENTRY live, F02 SETUP as its boundary (not hard-wired to one family)', () => {
     const html = render('jurnl', 'viewport');

@@ -28,11 +28,13 @@ import { MoneyHubScreen, MoneyPlaceDetailScreen, MoneyPlacesScreen } from './scr
 import { IncomeHubScreen, IncomeSourceScreen } from './screens/IncomeScreens';
 import { UpcomingHubScreen, UpcomingItemScreen } from './screens/UpcomingScreens';
 import { PlanHubScreen, PlanIntentionScreen } from './screens/PlanScreens';
-import { SafeToSpendHubScreen, SafeToSpendWhyScreen } from './screens/SafeToSpendScreens';
+import { SafeToSpendHubScreen, SafeToSpendReferenceScreen, SafeToSpendWhyScreen } from './screens/SafeToSpendScreens';
 import { CheckPurchaseScreen } from './screens/CheckPurchaseScreens';
 import { CreditHubScreen, CreditAccountScreen } from './screens/CreditScreens';
 import { GoalsHubScreen, GoalDetailScreen } from './screens/GoalsScreens';
 import { PurchasesHubScreen, PurchaseDetailScreen } from './screens/PurchasesScreens';
+import { PurchaseCheckedScreen } from './screens/PurchaseCheckedScreen';
+import { LockedPurchaseResultScreen } from './screens/LockedPurchaseResultScreen';
 import { TripsHubScreen, TripDetailScreen } from './screens/TripsScreens';
 import { PaydownHubScreen, PaydownWhatIfScreen } from './screens/PaydownScreens';
 import { AheadHubScreen, AheadBranchScreen } from './screens/AheadScreens';
@@ -48,6 +50,7 @@ import './jurnl-frame.css';
 import './jurnl-archetypes.css';
 import './jurnl-center-stage.css';
 import './jurnl-f09-authority.css';
+import './jurnl-f10-checked.css';
 import './jurnl-reference.css';
 
 /** Screen id → runtime component. Every F01 screen in the contract must appear here (tests enforce it). */
@@ -112,11 +115,16 @@ function JurnlRoutes() {
       <Route path="safe" element={<SafeToSpendHubScreen />} />
       <Route path="safe/why" element={<SafeToSpendWhyScreen />} />
       <Route path="safe/check" element={<CheckPurchaseScreen />} />
+      <Route path="safe/reference" element={<SafeToSpendReferenceScreen />} />
       <Route path="credit" element={<CreditHubScreen />} />
       <Route path="credit/:accountId" element={<CreditAccountScreen />} />
       <Route path="goals" element={<GoalsHubScreen />} />
       <Route path="goals/:goalId" element={<GoalDetailScreen />} />
       <Route path="purchases" element={<PurchasesHubScreen />} />
+      <Route path="purchases/checked" element={<PurchaseCheckedScreen />} />
+      <Route path="purchases/result/good-to-go" element={<LockedPurchaseResultScreen screenId="F09.RESULT.GOOD" />} />
+      <Route path="purchases/result/quick-check-in" element={<LockedPurchaseResultScreen screenId="F09.RESULT.CHECK_IN" />} />
+      <Route path="purchases/result/doesnt-fit" element={<LockedPurchaseResultScreen screenId="F09.RESULT.OVER" />} />
       <Route path="purchases/:purchaseId" element={<PurchaseDetailScreen />} />
       <Route path="trips" element={<TripsHubScreen />} />
       <Route path="trips/:tripId" element={<TripDetailScreen />} />
