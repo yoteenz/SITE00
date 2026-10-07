@@ -8,7 +8,6 @@ import { PARENT_PLATES } from '../../data/parents/plates';
 import f09Plate from '../../families/F09_SAFE/ENVIRONMENTS/F09_ENVIRONMENT_AUTHORITY_PLATE.png';
 import f09TabletPlate from '../../families/F09_SAFE/ENVIRONMENTS/F09_ENVIRONMENT_TABLET_PLATE.png';
 import f09DesktopPlate from '../../families/F09_SAFE/ENVIRONMENTS/F09_ENVIRONMENT_DESKTOP_PLATE.png';
-import f09Lockup from '../../families/F09_SAFE/ENVIRONMENTS/F09_LOCKUP.png';
 import { getRepository } from '../../data/repository/deviceRepository';
 import { FamilyChrome } from '../components/FamilyChrome';
 import { JurnlProductNav } from '../components/ProductNav';
@@ -109,17 +108,12 @@ export function SafeToSpendHubScreen() {
       <div className="jrn-f09a" data-jrn-authority="F09-APPROVED-IMAGE-1" data-jrn-zone="intro">
         <div className="jrn-f09a__art">
         <header className="jrn-f09a__brand">
-          <div className="jrn-f09a__lockup">
-            <img className="jrn-f09a__lockup-img" src={f09Lockup} alt="JURNL" data-jrn-logo="authority-lockup" draggable={false} />
-            <p className="jrn-f09a__descriptor">FINANCIAL LIFE.<br />BEAUTIFULLY ORGANIZED.</p>
-          </div>
           <button type="button" className="jrn-f09a__account" aria-label="ACCOUNT" data-jrn-trigger="f09-account" onClick={() => go('account')}>
             {monogram}
           </button>
           <button type="button" className="jrn-f09a__menu" aria-label="MENU" data-jrn-trigger="f09-menu" onClick={() => go('account')}>
             <span /><span /><span />
           </button>
-          <p className="jrn-f09a__tag">PLAN TODAY.<br />GROW FREELY.</p>
         </header>
         <section className="jrn-f09a__signal" data-jrn-panel="signal" data-below={below ? 'true' : 'false'}>
           <h1>{below ? 'OVER BY' : 'SAFE TO SPEND'}</h1>
