@@ -14807,3 +14807,11 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Fix:** F09’s design-viewport route list now includes `YOU'RE GOOD TO GO`, `A QUICK CHECK-IN`, and `THIS DOESN'T FIT`. Those routes render the locked-shell PNGs full-bleed: `purchases/result/good-to-go`, `purchases/result/quick-check-in`, `purchases/result/doesnt-fit`. The coded Check a Purchase screen stays on `purchases/checked`.
 - **Do not repeat:** Do not treat the review ZIP as something the tunnel shows by itself. Do not replace `PurchaseCheckedScreen` with the still image.
 
+---
+
+## 2026-10-07 — JURNL F09 hamburger raised another 10px
+
+- **Context:** Safe to Spend phone plate stays `top: -10%`. The hamburger is on the left. The previous nudge left the phone menu at `top: safe-area + 30px` (y=30 on 402×874). The founder asked to nudge it up another 10px. See Why, Check a Purchase, and Account stay on their routes. The preview worktree had been behind `preview/tunnel` until it was checked out to `7b9f219b`.
+- **Fix:** `.jrn-f09a__menu` top is `+ 20px` on the phone (was `+ 30px`), `+ 6px` on tablet (was `+ 16px`), and `+ 4px` on desktop (was `+ 14px`). Left edge stays. Measured: phone 402×874 menu x=22.5 y=20; tablet 834×1194 y=6; desktop 1440×900 y=4.
+- **Do not repeat:** Do not put the phone menu back to `+ 30px`. Do not move the desktop account mark with it. Do not change the phone plate from `top: -10%`.
+
