@@ -14776,6 +14776,22 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
+## 2026-10-07 — JURNL F09 hamburger raised another 4px
+
+- **Context:** Safe to Spend phone plate stays `top: -10%`. The hamburger is already on the left. The prior nudge put the phone menu at `top: safe-area + 34px` (y=34 on 402×874). The founder asked to nudge that hamburger up another 4px. The spark stays centered in the want-to-spend bar. The three purchase-check screens stay on `purchases/checked`, not on the empty purchases list or on Money.
+- **Fix:** `.jrn-f09a__menu` top is `+ 30px` on the phone (was `+ 34px`), `+ 16px` on tablet (was `+ 20px`), and `+ 14px` on desktop (was `+ 18px`). Left edge stays. Measured: phone 402×874 menu x=22.5 y=30; tablet 834×1194 y=16; desktop 1440×900 y=14.
+- **Do not repeat:** Do not put the menu back to `+ 34px`. Do not move the desktop account mark with it. Do not change the phone plate from `top: -10%`.
+
+---
+
+## 2026-10-07 — JURNL back returns to the previous route
+
+- **Context:** The founder said the back button was trailing through family page screens. Family chrome, Today, and Account used `useFrameBack()`, so on a paginated family page the label became BACK TO SCREEN N and each press stepped to the previous continuation screen before the hardcoded parent (Today, Money, and so on). The Safe to Spend hamburger opens Account, which has two continuation screens.
+- **Fix:** The runtime store keeps the route trail. `back()` pops it and calls `navigate(-1)`. Continuation screens are not trail entries. NEXT still moves inside the page. If the screen was opened directly, back uses the old parent fallback. Proven: Account screen 2 (CONTINUED) opened from Safe returns to F09.00 in one press. See Why, Purchases, and Money opened from Safe also return to Safe. A direct open of Money still falls back to Today.
+- **Do not repeat:** Do not wire the chrome back button to `useFrameBack()` or label it BACK TO SCREEN N. Do not make back walk Money → Places → Account when the user did not open those routes.
+
+---
+
 ## 2026-10-07 — Design viewport route lists the selected family’s screen tree
 
 - **Context:** This chat covered the preview tunnel (one shared Cloudflare token load-balancing many agents; canonical connector is `SITE00_CLOUDFLARE_TUNNEL_CANONICAL=1` on exactly one environment), the production nav that puts DESIGN in the center, the three Check a Purchase authorities, and the locked-shell correction (one plate, brand, and nav). The founder then opened the DESIGN viewport on F09 and the ROUTE menu listed other families’ parent pages (`F05 MONEY BOUNDARY` through `F13 PAYDOWN BOUNDARY`) under `F09.00 SAFE TO SPEND`.

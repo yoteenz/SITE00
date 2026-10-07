@@ -30,7 +30,7 @@ import { JurnlProductNav } from '../components/ProductNav';
 import { JurnlTransactionRow } from '../components/TransactionRow';
 import { JurnlButton, JurnlDrawer, JurnlErrorPanel, JurnlIconButton, JurnlInlineAction, JurnlInput, JurnlPanel } from '../components/primitives';
 import { JurnlScreen } from './JurnlScreen';
-import { FramePanel, JurnlFamilyFrame, useFrameBack } from '../components/FamilyFrame';
+import { FramePanel, JurnlFamilyFrame } from '../components/FamilyFrame';
 import { useJurnl } from '../state/store';
 import { FamilyDiscoveryLinks } from '../components/FamilyDiscovery';
 import { accountDisplayOptions } from '../../data/foundation/accounts';
@@ -42,12 +42,12 @@ function useHomeOverlay() {
   return { ...j, overlay };
 }
 
-/** Today's chrome: the original controls, with context-aware back (continuation screens first, then setup). */
+/** Today's chrome. Back returns to the previous route, then setup when Today was opened directly. */
 function TodayChrome({ onBack, onAccount, onAsk }: { onBack: () => void; onAccount: () => void; onAsk: () => void }) {
-  const frame = useFrameBack();
+  const { back, hasPrevious } = useJurnl();
   return (
     <div className="jrn-home__top" data-jrn-zone="chrome">
-      <JurnlIconButton icon="back" label={frame.screenIndex > 0 ? `BACK TO SCREEN ${frame.screenIndex}` : 'BACK TO SETUP'} trigger="today-back" onClick={() => (frame.back() ? undefined : onBack())} />
+      <JurnlIconButton icon="back" label={hasPrevious ? 'BACK' : 'BACK TO SETUP'} trigger="today-back" onClick={() => { if (!back()) onBack(); }} />
       <span className="jrn-home__mark">JURNL</span>
       <JurnlIconButton icon="gear" label="ACCOUNT" trigger="today-account" onClick={onAccount} />
       <JurnlIconButton icon="info" label="ASK JURNL" trigger="today-ask" onClick={onAsk} />
@@ -257,7 +257,7 @@ export function AskSheet({ onClose, familyId = 'F03', nodeId = 'F03.00' }: { onC
 }
 
 export function ActivityScreen() {
-  const { go, openOverlay, closeOverlay, overlay, forcedState } = useHomeOverlay();
+  const { go, back, hasPrevious, openOverlay, closeOverlay, overlay, forcedState } = useHomeOverlay();
   const added = useAddedEntries();
   useCurrency();
   const [query, setQuery] = useState('');
@@ -278,7 +278,7 @@ export function ActivityScreen() {
     <JurnlScreen screenId="F04.00" familyPlate={F04_LEDGER_PLATE} productNav>
       <div className="jrn-act" data-jrn-state={mode || 'connected'} data-jrn-expression={query ? 'investigative' : 'ledger'}>
         <div className="jrn-home__top" data-jrn-zone="chrome">
-          <JurnlIconButton icon="back" label="BACK TO TODAY" trigger="activity-back" onClick={() => go('F03')} />
+          <JurnlIconButton icon="back" label={hasPrevious ? 'BACK' : 'BACK TO TODAY'} trigger="activity-back" onClick={() => { if (!back()) go('F03'); }} />
           <span className="jrn-home__mark">JURNL</span>
           <JurnlIconButton icon="gear" label="ACCOUNT" trigger="activity-account" onClick={() => go('account')} />
           <JurnlIconButton icon="info" label="ASK JURNL" trigger="activity-ask" onClick={() => openOverlay('ask')} />
