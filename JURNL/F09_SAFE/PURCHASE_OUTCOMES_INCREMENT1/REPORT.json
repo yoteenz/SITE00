@@ -1,0 +1,47 @@
+{
+  "sprint": "P0.JURNL.STS.PURCHASE-OUTCOMES.INCREMENT1",
+  "status": "GENERATED",
+  "openart_model": "gpt-image-2.5-sunburst",
+  "mode": "image2image",
+  "resolution": "4k",
+  "aspect_ratio": "9:16",
+  "quality": "high",
+  "auto_enhance": false,
+  "delivered_size": "2016x3584",
+  "provider_project_id": "VdiPtgVqb21sYl003uox",
+  "credits_per_job": 317,
+  "jobs": 3,
+  "retries": 0,
+  "reference_authority": "07_CHECK_A_PURCHASE.jpg",
+  "supporting_references": [
+    "01_SAFE_TO_SPEND_PARENT.jpg",
+    "08_SELECT_A_CATEGORY_DRAWER.jpg",
+    "09_SELECT_AN_ACCOUNT_DRAWER.jpg"
+  ],
+  "image_to_image_used": true,
+  "existing_zip_screens_regenerated": false,
+  "screens": [
+    {
+      "id": "PURCHASE_RESULT_GOOD_TO_GO",
+      "file": "PURCHASE_RESULT_GOOD_TO_GO.png",
+      "history_id": "PuXXT9BnFRDFIpVzSarz",
+      "resource_id": "Rl2dW9QGq0skgcADhQZZ"
+    },
+    {
+      "id": "PURCHASE_RESULT_QUICK_CHECK_IN",
+      "file": "PURCHASE_RESULT_QUICK_CHECK_IN.png",
+      "history_id": "YODfWvDKVwbbcSe9r7kT",
+      "resource_id": "92U0gomgMaTaQeiOKJbh"
+    },
+    {
+      "id": "PURCHASE_RESULT_DOESNT_FIT",
+      "file": "PURCHASE_RESULT_DOESNT_FIT.png",
+      "history_id": "RvVK9g4xoXmuYKERUQks",
+      "resource_id": "V4ekqw4bVZ7dt3iVocOu"
+    }
+  ],
+  "device_chrome_present": false,
+  "visual_fidelity": "PASS",
+  "ready_for_founder_review": true,
+  "notes": "Same loggia plate, JURNL lockup, cream cards, and HOME/MONEY/ADD/PLAN/CREDIT nav as 07_CHECK_A_PURCHASE. State color, copy, and CTAs differ. Sample figures: $86 groceries / $1,198; $240 dining / $1,044; $1,560 dining / over by $276 against $1,284."
+}
