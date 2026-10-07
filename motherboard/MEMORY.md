@@ -14716,3 +14716,12 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Result screens:** Route `purchases/checked`. Tone comes from live safe-to-spend and category history: fits, higher than the category average, or over. DECIDE on a purchase opens that screen. The plate is the terrace (no baked folder). Sample reference dollars are not hardcoded. Thumbnails are isolated crops of the authority (fashion, dining, travel).
 - **Do not repeat:** Do not pass `marks="authority"` on families outside this Safe to Spend set. Do not put the lockup back on F09.00. Do not put the parent folder plate behind the check-result card. Do not hardcode `$125`, `$1,159`, or `-$275`.
 
+---
+
+## 2026-10-07 — JURNL purchase-check outcome authorities (INCREMENT1)
+
+- **Sprint:** P0.JURNL.STS.PURCHASE-OUTCOMES.INCREMENT1. Generate only the three missing Check a Purchase results from the lean ZIP. Do not regenerate 01–09.
+- **Method:** OpenArt GPT Image 2.5 Sunburst image-to-image, 4K, 9:16, quality high, auto-enhance off, project `VdiPtgVqb21sYl003uox`. Parent reference `07_CHECK_A_PURCHASE.jpg`. Supporting `01`, `08`, `09`. Three jobs, 317 credits each, 0 retries.
+- **Files:** `JURNL/F09_SAFE/PURCHASE_OUTCOMES_INCREMENT1/` — `PURCHASE_RESULT_GOOD_TO_GO.png`, `PURCHASE_RESULT_QUICK_CHECK_IN.png`, `PURCHASE_RESULT_DOESNT_FIT.png`. No device chrome. Same loggia, lockup, cream cards, HOME/MONEY/ADD/PLAN/CREDIT nav.
+- **Live app:** A coded `purchases/checked` screen already exists on main from a later rebuild. These PNGs are visual authorities for founder review, not a replacement of that runtime.
+
