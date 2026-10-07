@@ -9,8 +9,11 @@
    · .jrn .jrn-col overflow + safe-area padding (jurnl-runtime.css)
    · .jrn-screen[data-jrn-frame=family] .jrn-col overflow:hidden + padding, including the 600px/1100px padding-top
    · CENTER_STAGE .jrn-plate transform:scale (jurnl-center-stage.css) — a containing block
-   The stage stretches with top and bottom (height:auto). It is not 100dvh or 100lvh, and it is
-   not a size container. The plate is position:fixed on the viewport, so no ancestor box can nest it. */
+   The stage is in the document (not position:fixed, not 100dvh) and is not a size container.
+   Scroll stays on. A non-scrolling page makes iOS size the layout viewport to the gap
+   between the status bar and the Safari toolbar, and #1c1915 shows in those gaps.
+   The plate fills the large viewport inside that scroll. The dock stays position:fixed
+   on the visible viewport so it does not slide under the toolbar. */
 
 html:has([data-jrn-screen='F09.00']),
 body:has([data-jrn-screen='F09.00']),
@@ -18,28 +21,37 @@ body:has([data-jrn-screen='F09.00']),
   margin: 0;
   padding: 0;
   width: 100%;
-  height: 100%;
-  overflow: visible;
+  height: auto;
+  min-height: 100%;
+  min-height: 100lvh;
+  overflow-x: hidden;
+  overflow-y: auto;
   background: #1c1915;
 }
 .jrn:has([data-jrn-screen='F09.00']) {
-  position: fixed;
-  inset: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  /* Stretch with the viewport edges. An explicit height drops bottom: 0 and
-     container-type traps position:fixed inside this box, so the plate sits
-     nested inside the stage instead of on the screen. */
-  width: auto;
+  position: relative;
+  inset: auto;
+  top: auto;
+  right: auto;
+  bottom: auto;
+  left: auto;
+  /* In the scrolling document, at least the large viewport. An explicit height
+     drops bottom: 0, and container-type would trap fixed descendants (the dock). */
+  width: 100%;
   height: auto;
   max-height: none;
-  min-height: 0;
+  /* 1px past the large viewport so the document can scroll even when 100lvh
+     still equals the visible window. That scroll is what lets iOS paint the
+     plate through the status bar and the browser toolbar. */
+  min-height: calc(100lvh + 1px);
   margin: 0;
   padding: 0;
   overflow: visible;
   background: #1c1915;
+}
+.jrn:has([data-jrn-screen='F09.00']) .jrn-overlay-host {
+  position: fixed;
+  inset: 0;
 }
 .jrn .jrn-screen[data-jrn-screen='F09.00'] {
   position: absolute;
@@ -112,18 +124,19 @@ body:has([data-jrn-screen='F09.00']),
   display: contents;
 }
 .jrn .jrn-screen[data-jrn-screen='F09.00'][data-jrn-composition='CENTER_STAGE'] .jrn-plate {
-  /* The large viewport, not the box above Safari. bottom:0 pins the photo to the
-     visible viewport and leaves the stage color in the band under the dock. */
-  position: fixed;
-  top: calc(-1 * env(safe-area-inset-top, 0px));
+  /* In the scrolling document, the large viewport tall. Not position:fixed:
+     iOS clips a fixed image to the gap between the status bar and the toolbar
+     and paints #1c1915 in the rest of the screen. */
+  position: absolute;
+  top: 0;
   right: 0;
   bottom: auto;
   left: 0;
-  width: 100vw;
-  height: calc(100lvh + env(safe-area-inset-top, 0px) + env(safe-area-inset-bottom, 0px));
+  width: 100%;
+  height: 100lvh;
   max-width: none;
   max-height: none;
-  min-width: 100vw;
+  min-width: 100%;
   min-height: 100lvh;
   margin: 0;
   object-fit: cover;
@@ -432,6 +445,7 @@ body:has([data-jrn-screen='F09.00']),
 }
 
 .jrn:has([data-jrn-screen='F09.00']) .jrn-nav {
+  position: fixed;
   left: 0;
   right: 0;
   width: 100%;
