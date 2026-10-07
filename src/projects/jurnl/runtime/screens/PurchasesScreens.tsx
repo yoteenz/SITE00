@@ -4,7 +4,6 @@ import { useState, type ReactNode } from 'react';
 import { useParams } from 'react-router-dom';
 import { archivePurchase, createPurchase, markPurchaseBought, purchaseAffordability, purchaseById, usePurchases } from '../../data/f10/purchasesStore';
 import { accountDisplayOptions } from '../../data/foundation/accounts';
-import { computeSafeToSpend } from '../../data/f09/safeToSpend';
 import { formatMoney, useCurrency } from '../../data/home/money';
 import { PARENT_PLATES } from '../../data/parents/plates';
 import { parentById } from '../../data/parents/catalog';
@@ -22,7 +21,7 @@ function Shell({ screenId, children }: { screenId: string; children: ReactNode }
       screenId={screenId}
       familyId="F10"
       familyPlate={PARENT_PLATES.F10}
-      nav={<JurnlProductNav current="HOME" onGo={go} onAdd={() => openOverlay('quick-add')} />}
+      nav={<JurnlProductNav marks="authority" current="HOME" onGo={go} onAdd={() => openOverlay('quick-add')} />}
       overlays={
         <>
           {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F10" onClose={closeOverlay} /> : null}
@@ -62,7 +61,7 @@ export function PurchasesHubScreen() {
       label="PURCHASES"
       archetype="OBJECT_FOCUS"
       chrome={<FamilyChrome familyId="F10" nodeId="F10.00" backLabel="BACK TO TODAY" onBack={() => go('today')} onAsk={() => openOverlay('ask')} />}
-      nav={<JurnlProductNav current="HOME" onGo={go} onAdd={() => openOverlay('quick-add')} />}
+      nav={<JurnlProductNav marks="authority" current="HOME" onGo={go} onAdd={() => openOverlay('quick-add')} />}
       overlays={
         <>
           {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F10" onClose={closeOverlay} /> : null}
@@ -149,7 +148,6 @@ export function PurchaseDetailScreen() {
   useCurrency();
   usePurchases();
   const purchase = purchaseId ? purchaseById(purchaseId) : null;
-  const [decideOpen, setDecideOpen] = useState(false);
   const [removeOpen, setRemoveOpen] = useState(false);
   if (!purchase) {
     return (
@@ -159,25 +157,18 @@ export function PurchaseDetailScreen() {
       </Shell>
     );
   }
-  const afford = purchaseAffordability(purchase);
+  const pay = accountDisplayOptions()[0]?.label ?? 'CHECKING';
   return (
     <Shell screenId="F10.OBJECT">
       <FamilyChrome familyId="F10" nodeId="F10.OBJECT" backLabel="BACK" onBack={() => go('purchases')} onAsk={() => openOverlay('ask')} />
       <div className="jrn-home__intro" data-jrn-zone="intro"><h1 className="jrn-home__h">{purchase.title}</h1><p className="jrn-home__sub">{formatMoney(purchase.target_amount)}</p></div>
       <div className="jrn-parent__rail" data-jrn-zone="content-rail">
-        <JurnlButton trigger="purchase-decide" onClick={() => setDecideOpen(true)}>DECIDE</JurnlButton>
+        <JurnlButton trigger="purchase-decide" onClick={() => go('purchases/checked', { amount: String(purchase.target_amount), category: 'OTHER', pay })}>DECIDE</JurnlButton>
         {purchase.status !== 'PURCHASED' ?
           <JurnlButton variant="secondary" trigger="purchase-bought" onClick={() => markPurchaseBought(purchase.purchase_id, accountDisplayOptions()[0]?.id ?? 'CHECKING')}>I BOUGHT IT</JurnlButton>
         : <p>LINKED · {purchase.linked_transaction_id}</p>}
         <JurnlButton variant="secondary" trigger="purchase-remove" onClick={() => setRemoveOpen(true)}>LET IT GO</JurnlButton>
       </div>
-      {decideOpen ?
-        <JurnlDrawer expression="analysis" size="long" testId="purchase-decision" title="DECISION" onClose={() => setDecideOpen(false)}>
-          <p>NOW STS · {formatMoney(computeSafeToSpend().value)}</p>
-          <p>AFTER · {formatMoney(afford.after)}</p>
-          <p>VERDICT · {afford.verdict}</p>
-        </JurnlDrawer>
-      : null}
       {removeOpen ?
         <JurnlDrawer expression="confirmation" size="long" testId="purchase-remove" title="LET IT GO" onClose={() => setRemoveOpen(false)}
           footer={<JurnlButton trigger="purchase-remove-ok" onClick={() => { archivePurchase(purchase.purchase_id); setRemoveOpen(false); go('purchases'); }}>REMOVE</JurnlButton>}>

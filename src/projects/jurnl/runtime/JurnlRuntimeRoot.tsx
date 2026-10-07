@@ -32,6 +32,7 @@ import { SafeToSpendHubScreen, SafeToSpendWhyScreen } from './screens/SafeToSpen
 import { CreditHubScreen, CreditAccountScreen } from './screens/CreditScreens';
 import { GoalsHubScreen, GoalDetailScreen } from './screens/GoalsScreens';
 import { PurchasesHubScreen, PurchaseDetailScreen } from './screens/PurchasesScreens';
+import { PurchaseCheckedScreen } from './screens/PurchaseCheckedScreen';
 import { TripsHubScreen, TripDetailScreen } from './screens/TripsScreens';
 import { PaydownHubScreen, PaydownWhatIfScreen } from './screens/PaydownScreens';
 import { AheadHubScreen, AheadBranchScreen } from './screens/AheadScreens';
@@ -47,6 +48,7 @@ import './jurnl-frame.css';
 import './jurnl-archetypes.css';
 import './jurnl-center-stage.css';
 import './jurnl-f09-authority.css';
+import './jurnl-f10-checked.css';
 
 /** Screen id → runtime component. Every F01 screen in the contract must appear here (tests enforce it). */
 export const JURNL_F01_SCREEN_COMPONENTS = {
@@ -114,6 +116,7 @@ function JurnlRoutes() {
       <Route path="goals" element={<GoalsHubScreen />} />
       <Route path="goals/:goalId" element={<GoalDetailScreen />} />
       <Route path="purchases" element={<PurchasesHubScreen />} />
+      <Route path="purchases/checked" element={<PurchaseCheckedScreen />} />
       <Route path="purchases/:purchaseId" element={<PurchaseDetailScreen />} />
       <Route path="trips" element={<TripsHubScreen />} />
       <Route path="trips/:tripId" element={<TripDetailScreen />} />
