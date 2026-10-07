@@ -14594,3 +14594,11 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Fix:** On the phone, `.jrn-f09a__art` uses the same `top: 30%` as the plate. The lockup, signal, tab words, and folio copy move with the photograph. The purchase bridge stays where it was. Tablet and desktop reset that layer to `top: 0` with their plates.
 - **Do not repeat:** Do not leave the F09 phone type at `top: 0` while the plate is `top: 30%`. Do not move the purchase bridge with the plate unless the founder asks.
 
+---
+
+## 2026-10-07 — JURNL F09 phone plate moves up
+
+- **Context:** This chat rebuilt F09 Safe to Spend. The phone plate was then set to `top: 30%`, which starts the photograph lower on the screen. The founder said that was still down and asked for up. Live money stays `computeSafeToSpend` (preview `$6,500`, bills `$1,920`).
+- **Fix:** On the phone, the plate and `.jrn-f09a__art` are `top: -30%`. The photograph and the type that sits on it (lockup, amount, tab words, folio copy) lift together. The purchase bridge stays. Tablet and desktop stay at `top: 0`. On an 852px screen the plate top measures -256px.
+- **Do not repeat:** Do not set the F09 phone plate back to `top: 30%`. That offset is the downward one.
+
