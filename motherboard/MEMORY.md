@@ -14479,3 +14479,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Not changed:** the plate, the dock, the tab direction, the traced marks, routes, or `computeSafeToSpend`.
 - **Do not repeat:** Do not center the F09 signal on the full image width. The arch is right of center. Do not set the why button back to 280px.
 
+---
+
+## 2026-10-07 — JURNL F09 beige dock, full-bleed plate, folder ink
+
+- **Context:** This chat rebuilt F09 Safe to Spend on `/production/jurnl/runtime/safe`. One OpenArt plate (history `PQTsHqqy3Pf0ZpQJougi`). Live money stays `computeSafeToSpend` (preview `$6,500`, bills `$1,920`). The signal sits in the arch. Tab words face right. Nav marks are traced from the approved glyphs.
+- **What the founder saw:** The nav icons were floating because the dock wash was too transparent. A page-color strip still showed at the top and bottom of the photograph. Folder words sat low, and BUFFER was cream on dark green instead of a light green.
+- **Fix:** The dock is a solid beige container again (`#f6f3ee`), full width, layered on the photograph. The plate and the overlay art share a 28px bleed (`--f09-bleed`) so the photograph covers the viewport and the folder words stay on the tabs. Tab words sit higher (`top: 47.4%`). Ink is a dark or light version of each tab: BILLS `#6b4f38`, PLANS `#5a524a`, GOALS `#3e4432`, BUFFER `#c6dba8`.
+- **Not changed:** the plate file, the arch-centered signal, routes, or `computeSafeToSpend`.
+- **Do not repeat:** Do not leave the F09 nav without its beige dock. Do not paint BUFFER cream. Do not shift the plate without shifting `.jrn-f09a__art` by the same bleed.
+
