@@ -15051,3 +15051,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decisions / outcomes:** On `/safe` (`SafeToSpendAuthority`, F09.00) the cream menu chip moves back to the right (phone `right: 5.6%`, tablet `right: 22px`, desktop `right: 28px`) and still opens account. A matching chip with the Why chevron (`M14 2 2 14l12 12`) sits in the old left slot and calls `go('today')`. It does not use `back()`, so it does not return to the previous family. WHY THIS NUMBER is unchanged (back left, menu right).
 - **Changes:** `SafeToSpendScreens.tsx` (`jrn-f09a__back`, trigger `f09-back`), `jurnl-f09-authority.css`, `tests/jurnlF09ReferenceReplica1.test.ts`. Measured on 402×874: back x=23, menu x=344, both 36×34, same fill and border as WHY. Click lands on `/production/jurnl/runtime/today` (`F03.00`). Tablet 768: back x=22, menu inset 22px from the right. Desktop 1440: back x=28, menu inset 28px, clear of the JL monogram.
 - **Conventions:** The earlier note that the STS menu must stay on the left is superseded. Do not send this back control through the route trail. Do not start a second tunnel connector from a non-canonical agent. After merge, `preview/tunnel` is fast-forwarded by `post-merge-preview-tunnel-refresh.sh`.
+
+---
+
+## 2026-10-07 — One photographic plate on the Safe to Spend reference screens
+
+- **Context:** The founder asked for the authority photograph to be the page, with the live UI on top of it. Why This Number, Check a Purchase, and Account were painting the same terrace twice: a full-viewport backdrop and the stage image. That read as a framed photograph inside another photograph. A follow-up asked to isolate plates and regenerate them at 4K. The correction was explicit: do not regenerate pages that are 90% the same terrace, and do not spend credits on that.
+- **Topics covered:** The doubled plate was `ReferenceStage` (backdrop plus `.jrn-ref__plate`). Check, Why, and Account already share that terrace with only hair-level crop differences. The clean parent plate and the terrace plate already exist. No OpenArt job was submitted.
+- **Decisions / outcomes:** One photograph per screen. The backdrop is gone. On the phone the stage image is that photograph and it covers the viewport (402×874, stage x=−11.7). On a wider or shorter viewport the same file fills the screen once (`object-fit: cover`) and the live UI stays on screen, including WHY THIS NUMBER. Existing plate files stay. Zero credits.
+- **Changes:** `ReferenceStage.tsx`, `jurnl-reference.css`.
+- **Conventions:** Do not put `.jrn-ref__backdrop` back. Do not generate a new Sunburst plate for Why, Check, and Account separately. They are one environment.

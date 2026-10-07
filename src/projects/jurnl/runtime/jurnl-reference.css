@@ -3,7 +3,8 @@
    references are set in. Both OFL; licences sit next to the files.
    One lifted photograph per screen (the plate) at 853 × 1844 reference pixels. The interface is drawn over it
    in the same reference pixels; positions and type come from layout/referenceLayout.ts. The stage covers the
-   viewport (no letterbox). The parent Safe to Spend dock is the bottom nav. Uppercase only. No device chrome. */
+   viewport. One plate image, no second copy behind it. The parent Safe to Spend dock is the bottom nav.
+   Uppercase only. No device chrome. */
 
 @font-face {
   font-family: 'JURNL Authority Sans';
@@ -72,12 +73,6 @@
   overflow: hidden;
   background: #efe9e1;
 }
-.jrn .jrn-ref__backdrop {
-  position: absolute;
-  inset: 0;
-  background-size: cover;
-  background-position: 50% 42%;
-}
 .jrn .jrn-ref__stage {
   position: absolute;
   left: 50%;
@@ -99,6 +94,17 @@
   max-width: none;
   user-select: none;
   pointer-events: none;
+}
+/* Wider than the reference: the same photograph fills the viewport. The UI is not a second copy of it. */
+.jrn .jrn-ref__plate--bleed {
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 28%;
+}
+.jrn .jrn-ref__stage {
+  z-index: 1;
 }
 
 /* Type: one absolutely placed line per fitted run. */
