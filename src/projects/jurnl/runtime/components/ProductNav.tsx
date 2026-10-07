@@ -43,10 +43,10 @@ function AuthorityGlyph({ name }: { name: 'house' | 'card' | 'leaf' | 'chart' | 
 
 const AUTHORITY_GLYPH = { HOME: 'house', MONEY: 'card', ADD: 'plus', PLAN: 'leaf', CREDIT: 'chart' } as const;
 
-export function JurnlProductNav({ current, onGo, onAdd, marks }: { current: 'HOME' | 'MONEY' | 'PLAN' | 'CREDIT' | 'ACTIVITY' | null; onGo: (target: string) => void; onAdd: () => void; marks?: 'authority' }) {
+export function JurnlProductNav({ current, onGo, onAdd, marks }: { current: 'HOME' | 'MONEY' | 'PLAN' | 'CREDIT' | 'ACTIVITY' | null; onGo: (target: string) => void; onAdd: () => void; marks?: 'authority' | 'parent' }) {
   const host = useContext(JurnlNavHostContext);
   const nav = (
-    <nav className="jrn-nav" aria-label="PRIMARY" data-jrn-zone="bottom-nav" data-runtime-stage="NAV FOOTPRINT" data-jrn-nav={marks}>
+    <nav className="jrn-nav" aria-label="PRIMARY" data-jrn-zone="bottom-nav" data-runtime-stage="NAV FOOTPRINT" data-jrn-nav={marks === 'parent' ? 'parent' : marks}>
       {ITEMS.map((item) => {
         const active = item.id === current;
         const label = item.id === 'ADD' ? 'QUICK ADD' : item.id;
@@ -61,10 +61,10 @@ export function JurnlProductNav({ current, onGo, onAdd, marks }: { current: 'HOM
             data-jrn-trigger={`nav-${item.id.toLowerCase()}`}
             onClick={() => (item.id === 'ADD' ? onAdd() : onGo(item.target))}
           >
-            {marks === 'authority' ? (
+            {marks === 'authority' || marks === 'parent' ? (
               item.id === 'ADD'
                 ? <span className="jrn-nav__plus"><AuthorityGlyph name="plus" /></span>
-                : <AuthorityGlyph name={AUTHORITY_GLYPH[item.id as 'HOME' | 'MONEY' | 'PLAN' | 'CREDIT']} />
+                : <span className="jrn-nav__glyph"><AuthorityGlyph name={AUTHORITY_GLYPH[item.id as 'HOME' | 'MONEY' | 'PLAN' | 'CREDIT']} /></span>
             ) : (
               <JurnlIcon name={item.icon} size={item.id === 'ADD' ? 18 : 16} />
             )}

@@ -7,12 +7,14 @@ import { listActiveAccounts, accountById } from '../../data/foundation/accounts'
 import { archiveAccount, createManualAccount } from '../../data/foundation/accountMutations';
 import { formatMoney, ledgerEntries, useCurrency } from '../../data/home/money';
 import { PARENT_PLATES } from '../../data/parents/plates';
+import { SIDEKICK_PLATES } from '../../data/parents/sidekickPlates';
+import { ParentAuthorityStage } from '../components/ParentAuthorityStage';
 import { parentById } from '../../data/parents/catalog';
 import { FamilyChrome } from '../components/FamilyChrome';
 import { JurnlProductNav } from '../components/ProductNav';
 import { AskJurnlSheet, QuickAddV2Sheet } from '../global/GlobalSheets';
 import { JurnlButton, JurnlDrawer, JurnlInlineAction, JurnlInput, JurnlPanel } from '../components/primitives';
-import { FramePanel, JurnlFamilyFrame, JurnlFamilyShell } from '../components/FamilyFrame';
+import { JurnlFamilyShell } from '../components/FamilyFrame';
 import { useJurnl } from '../state/store';
 import { honestAccountsConnectionLabel } from '../../data/foundation/connectionProvider';
 import { useSetup } from '../../data/f02/setupDraft';
@@ -75,14 +77,10 @@ export function MoneyHubScreen() {
   const source = draft.accounts === 'CONNECTED' ? honestAccountsConnectionLabel(draft.accounts) : 'NO BANK CONNECTED · BALANCES ARE WHAT YOU ENTERED';
   const count = accounts.length;
   return (
-    <JurnlFamilyFrame
+    <ParentAuthorityStage
       screenId="F05.00"
-      familyId="F05"
-      familyPlate={PARENT_PLATES.F05}
-      label="MONEY"
-      archetype="CONTAINER_CABINET"
-      chrome={<FamilyChrome familyId="F05" nodeId="F05.00" backLabel="BACK TO TODAY" onBack={() => go('F03')} onAsk={() => openOverlay('ask')} />}
-      nav={<JurnlProductNav current="MONEY" onGo={go} onAdd={() => openOverlay('quick-add')} />}
+      plate={SIDEKICK_PLATES.F05}
+      nav={<JurnlProductNav marks="parent" current="MONEY" onGo={go} onAdd={() => openOverlay('quick-add')} />}
       overlays={
         <>
           {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F05" onClose={closeOverlay} /> : null}
@@ -91,75 +89,47 @@ export function MoneyHubScreen() {
         </>
       }
     >
-      <FramePanel id="plaque">
-        <header className="jrn-cab__plaque" data-jrn-zone="intro">
-          <div className="jrn-cab__label">
-            <h1 className="jrn-cab__h">MONEY</h1>
-            <p className="jrn-lang__state">{count ? `YOUR MONEY IS IN ${count} ${count === 1 ? 'PLACE' : 'PLACES'}.` : 'NO PLACES YET.'}</p>
+      <header data-jrn-zone="intro">
+        <h1 className="jrn-pa__h">MONEY</h1>
+        <p className="jrn-pa__kicker">{count ? `YOUR MONEY IS IN ${count} ${count === 1 ? 'PLACE' : 'PLACES'}.` : 'NO PLACES YET.'}</p>
+        {count ?
+          <div className="jrn-pa__split">
+            <div><span>HELD</span><b>{formatMoney(held)}</b></div>
+            <div><span>OWED</span><b>{formatMoney(owed)}</b></div>
           </div>
-          {count ?
-            <dl className="jrn-cab__figures">
-              <div>
-                <dt>HELD</dt>
-                <dd>{formatMoney(held)}</dd>
-              </div>
-              <div>
-                <dt>OWED</dt>
-                <dd>{formatMoney(owed)}</dd>
-              </div>
-            </dl>
-          : null}
-          <p className="jrn-lang__task">{count ? 'OPEN A DRAWER TO SEE A PLACE’S BALANCE AND MOVEMENTS.' : 'ADD WHERE YOUR MONEY LIVES: CHECKING, SAVINGS, CASH OR A CARD. NO BANK CONNECTION NEEDED.'}</p>
-          <p className="jrn-lang__editorial">{spec.question}</p>
-        </header>
-      </FramePanel>
-      {shelves.map((shelf) => (
-        <FramePanel key={shelf.id} id={`shelf-${shelf.id}`}>
-          <section className="jrn-cab__shelf" aria-label={`${shelf.label} — ${shelf.places.length} ${shelf.places.length === 1 ? 'PLACE' : 'PLACES'}`} data-jrn-shelf={shelf.id}>
-            <span className="jrn-cab__edge" aria-hidden>
-              {shelf.label}
-            </span>
-            <div className="jrn-cab__body">
-              <p className="jrn-cab__shelfhead">
-                <span>{shelf.caption}</span>
-                <b>{formatMoney(shelf.places.reduce((t, a) => t + a.available_balance, 0))}</b>
-              </p>
-              {shelf.places.map((a) => (
-                <button key={a.account_id} type="button" className="jrn-cab__drawer" data-jrn-trigger={`money-open-${a.account_id}`} onClick={() => go(`money/places/${a.account_id}`)}>
-                  <i className="jrn-cab__pull" aria-hidden />
-                  <span className="jrn-cab__name">{a.display_name}</span>
-                  <span className="jrn-cab__kind">
-                    {KIND_LABEL[a.account_type]} · {a.is_manual ? 'BY HAND' : a.is_connected ? 'PREVIEW LINK' : 'REGISTRY'}
-                  </span>
-                  <span className="jrn-cab__amt">{formatMoney(a.available_balance)}</span>
-                </button>
-              ))}
-            </div>
-          </section>
-        </FramePanel>
-      ))}
-      <FramePanel id="base">
-        <div className="jrn-cab__base" data-jrn-zone="cabinet-base">
-          <button type="button" className="jrn-cab__slot" data-jrn-trigger="money-add-place-slot" data-primary={count ? 'false' : 'true'} onClick={() => setAddOpen(true)}>
-            <span>ADD A PLACE</span>
-          </button>
-          {count ?
-            <JurnlButton variant="secondary" trigger="money-open-places" onClick={() => go('money/places')}>
-              SEE ALL PLACES
-            </JurnlButton>
-          : null}
-          <p className="jrn-cab__source">{source}</p>
+        : null}
+        <p className="jrn-pa__line">{spec.question}</p>
+        {count ? null : <p className="jrn-pa__line">ADD WHERE YOUR MONEY LIVES: CHECKING, SAVINGS, CASH OR A CARD. NO BANK CONNECTION NEEDED.</p>}
+      </header>
+      <section data-jrn-zone="content-rail" aria-label="PLACES">
+        {shelves.map((shelf) => (
+          <div key={shelf.id} data-jrn-shelf={shelf.id}>
+            <p className="jrn-pa__kicker">{shelf.caption}</p>
+            {shelf.places.map((a) => (
+              <button key={a.account_id} type="button" className="jrn-pa__slip" data-jrn-trigger={`money-open-${a.account_id}`} onClick={() => go(`money/places/${a.account_id}`)}>
+                <span>{a.display_name}</span>
+                <b>{formatMoney(a.available_balance)}</b>
+                <small>{KIND_LABEL[a.account_type]} · {a.is_manual ? 'BY HAND' : a.is_connected ? 'PREVIEW LINK' : 'REGISTRY'}</small>
+              </button>
+            ))}
+            <p className="jrn-pa__note">{shelf.label}</p>
+          </div>
+        ))}
+        <button type="button" className="jrn-pa__slip" data-jrn-trigger="money-add-place-slot" data-primary={count ? 'false' : 'true'} onClick={() => setAddOpen(true)}>
+          <span>ADD A PLACE</span>
+        </button>
+        <div className="jrn-pa__actions">
+          <button type="button" className="jrn-pa__btn jrn-pa__btn--line" data-jrn-trigger="money-open-places" onClick={() => go('money/places')}>SEE ALL PLACES</button>
+          <button type="button" className="jrn-pa__btn jrn-pa__btn--mark" data-jrn-trigger="money-next" onClick={() => go('money/places')}>NEXT</button>
         </div>
-      </FramePanel>
-      <FramePanel id="also">
-        <nav className="jrn-cab__also" aria-label="ALSO IN MONEY">
-          <span>ALSO IN MONEY</span>
+        <p className="jrn-pa__note">{source}</p>
+        <nav className="jrn-pa__foot" aria-label="ALSO IN MONEY">
           <JurnlInlineAction trigger="money-open-income" onClick={() => go('income')}>INCOME</JurnlInlineAction>
           <JurnlInlineAction trigger="money-open-activity" onClick={() => go('activity')}>ACTIVITY</JurnlInlineAction>
           <JurnlInlineAction trigger="discovery-F05-F16" onClick={() => go('F16')}>RECORDS</JurnlInlineAction>
         </nav>
-      </FramePanel>
-    </JurnlFamilyFrame>
+      </section>
+    </ParentAuthorityStage>
   );
 }
 

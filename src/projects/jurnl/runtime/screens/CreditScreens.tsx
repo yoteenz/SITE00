@@ -7,12 +7,14 @@ import { creditAttributesFor, creditSummary, upsertCreditTerms, useCreditAccount
 import { createManualAccount } from '../../data/foundation/accountMutations';
 import { formatMoney, useCurrency } from '../../data/home/money';
 import { PARENT_PLATES } from '../../data/parents/plates';
+import { SIDEKICK_PLATES } from '../../data/parents/sidekickPlates';
+import { ParentAuthorityStage } from '../components/ParentAuthorityStage';
 import { parentById } from '../../data/parents/catalog';
 import { FamilyChrome } from '../components/FamilyChrome';
 import { JurnlProductNav } from '../components/ProductNav';
 import { AskJurnlSheet, QuickAddV2Sheet } from '../global/GlobalSheets';
-import { JurnlButton, JurnlDrawer, JurnlInlineAction, JurnlInput, JurnlPanel } from '../components/primitives';
-import { FramePanel, JurnlFamilyFrame, JurnlFamilyShell } from '../components/FamilyFrame';
+import { JurnlButton, JurnlDrawer, JurnlInput, JurnlPanel } from '../components/primitives';
+import { JurnlFamilyShell } from '../components/FamilyFrame';
 import { useJurnl } from '../state/store';
 
 function CreditShell({ screenId, children }: { screenId: string; children: ReactNode }) {
@@ -44,15 +46,13 @@ export function CreditHubScreen() {
   const [utilOpen, setUtilOpen] = useState(false);
   const [addOpen, setAddOpen] = useState(false);
   const owed = accounts.reduce((t, a) => t + creditSummary(a).used, 0);
+  const lead = accounts[0];
+  const leadSummary = lead ? creditSummary(lead) : null;
   return (
-    <JurnlFamilyFrame
+    <ParentAuthorityStage
       screenId="F12.00"
-      familyId="F12"
-      familyPlate={PARENT_PLATES.F12}
-      label="CREDIT"
-      archetype="LEDGER_GRID"
-      chrome={<FamilyChrome familyId="F12" nodeId="F12.00" backLabel="BACK TO MONEY" onBack={() => go('money')} onAsk={() => openOverlay('ask')} />}
-      nav={<JurnlProductNav current="CREDIT" onGo={go} onAdd={() => openOverlay('quick-add')} />}
+      plate={SIDEKICK_PLATES.F12}
+      nav={<JurnlProductNav marks="parent" current="CREDIT" onGo={go} onAdd={() => openOverlay('quick-add')} />}
       overlays={
         <>
           {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F12" onClose={closeOverlay} /> : null}
@@ -67,41 +67,40 @@ export function CreditHubScreen() {
         </>
       }
     >
-      <FramePanel id="intro">
-        <header className="jrn-cred__intro" data-jrn-zone="intro">
-          <h1 className="jrn-cred__h">CREDIT</h1>
-          <p className="jrn-lang__state">
-            {accounts.length ? `${accounts.length} ${accounts.length === 1 ? 'CARD OR LOAN' : 'CARDS AND LOANS'}. ${formatMoney(owed)} USED IN TOTAL.` : 'NO CARDS OR LOANS ARE ADDED.'}
-          </p>
-          <p className="jrn-lang__task">{accounts.length ? 'OPEN ONE TO SET ITS LIMIT, RATE AND DUE DAY.' : 'ADD ONE TO TRACK WHAT’S USED AND WHEN IT’S DUE.'}</p>
-          <p className="jrn-lang__editorial">{spec.question}</p>
-        </header>
-      </FramePanel>
-      {accounts.length ?
-        <FramePanel id="accounts">
-          <section className="jrn-cred" aria-label="CARDS AND LOANS">
-            {accounts.map((a) => {
-              const s = creditSummary(a);
-              return (
-                <button key={a.account_id} type="button" className="jrn-cred__row" data-jrn-trigger={`credit-${a.account_id}`} onClick={() => go(`credit/${a.account_id}`)} style={{ ['--util' as string]: s.util != null ? Math.min(1, s.util / 100) : 0 }}>
-                  <span className="jrn-cred__name">{a.display_name}</span>
-                  <span className="jrn-cred__amt">{formatMoney(s.used)}</span>
-                  <span className="jrn-cred__meter" aria-hidden />
-                  <span className="jrn-cred__util">{s.util != null ? `${s.util}% OF THE LIMIT USED` : 'NO LIMIT SET'}</span>
-                </button>
-              );
-            })}
-          </section>
-        </FramePanel>
-      : null}
-      <FramePanel id="actions">
-        <div className="jrn-cred__actions">
-          {accounts.length ? <JurnlButton variant="secondary" trigger="credit-utilization" onClick={() => setUtilOpen(true)}>HOW MUCH IS USED</JurnlButton> : null}
-          <JurnlButton variant={accounts.length ? 'secondary' : 'primary'} trigger="credit-add" onClick={() => setAddOpen(true)}>ADD A CARD OR LOAN</JurnlButton>
-          <JurnlInlineAction trigger="credit-paydown" onClick={() => go('paydown')}>PAYDOWN</JurnlInlineAction>
+      <header data-jrn-zone="intro">
+        <h1 className="jrn-pa__h">CREDIT</h1>
+        <p className="jrn-pa__kicker">
+          {accounts.length ? `${accounts.length} ${accounts.length === 1 ? 'CARD OR LOAN' : 'CARDS AND LOANS'}. ${formatMoney(owed)} USED IN TOTAL.` : 'NO CARDS OR LOANS ARE ADDED.'}
+        </p>
+        <p className="jrn-pa__line">{accounts.length ? 'OPEN ONE TO SET ITS LIMIT, RATE AND DUE DAY.' : 'ADD ONE TO TRACK WHAT’S USED AND WHEN IT’S DUE.'}</p>
+        <p className="jrn-pa__line">{spec.question}</p>
+      </header>
+      <section data-jrn-zone="content-rail" aria-label="CARDS AND LOANS">
+        {lead && leadSummary ?
+          <button type="button" className="jrn-pa__sleeve" data-jrn-trigger={`credit-${lead.account_id}`} onClick={() => go(`credit/${lead.account_id}`)} style={{ ['--util' as string]: leadSummary.util != null ? Math.min(1, leadSummary.util / 100) : 0 }}>
+            <span>{lead.display_name}</span>
+            <p className="jrn-pa__num">{formatMoney(leadSummary.used)}</p>
+            <p className="jrn-pa__line">{leadSummary.util != null ? `${leadSummary.util}% OF THE LIMIT USED` : 'NO LIMIT SET'}</p>
+            <span className="jrn-pa__meter" aria-hidden><i /></span>
+          </button>
+        : null}
+        {accounts.slice(1).map((a) => {
+          const s = creditSummary(a);
+          return (
+            <button key={a.account_id} type="button" className="jrn-pa__slip" data-jrn-trigger={`credit-${a.account_id}`} onClick={() => go(`credit/${a.account_id}`)}>
+              <span>{a.display_name}</span>
+              <b>{formatMoney(s.used)}</b>
+              <small>{s.util != null ? `${s.util}% OF THE LIMIT USED` : 'NO LIMIT SET'}</small>
+            </button>
+          );
+        })}
+        <div className="jrn-pa__actions">
+          {accounts.length ? <button type="button" className="jrn-pa__btn jrn-pa__btn--line jrn-pa__btn--mark" data-jrn-trigger="credit-utilization" onClick={() => setUtilOpen(true)}>HOW MUCH IS USED</button> : null}
+          <button type="button" className="jrn-pa__btn jrn-pa__btn--line jrn-pa__btn--mark" data-jrn-trigger="credit-add" onClick={() => setAddOpen(true)}>ADD A CARD OR LOAN</button>
+          <button type="button" className="jrn-pa__btn jrn-pa__btn--wide jrn-pa__btn--mark" data-jrn-trigger="credit-paydown" onClick={() => go('paydown')}>PAYDOWN</button>
         </div>
-      </FramePanel>
-    </JurnlFamilyFrame>
+      </section>
+    </ParentAuthorityStage>
   );
 }
 

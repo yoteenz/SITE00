@@ -81,7 +81,8 @@ describe('F03 and F04 live routes', () => {
     expect(html).toContain('data-jrn-zone="content-rail"');
     expect(html).toContain('data-jrn-zone="bottom-nav"');
     const add = html.match(/data-jrn-trigger="nav-add"[\s\S]*?<\/button>/)?.[0] ?? '';
-    expect(add.match(/data-jrn-icon="plus"/g)?.length).toBe(1);
+    const plusMarks = (add.match(/data-jrn-icon="plus"/g)?.length ?? 0) + (add.includes('jrn-nav__plus') ? 1 : 0);
+    expect(plusMarks).toBe(1);
     expect(add).not.toMatch(/>\s*\+\s*</);
     expect(html.match(/data-jrn-role="panel_header_action"/g)?.length).toBe(4);
     expect(html).toContain('data-jrn-trigger="today-why"');
