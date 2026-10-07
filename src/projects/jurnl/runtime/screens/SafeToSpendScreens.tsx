@@ -177,7 +177,9 @@ function SafeToSpendAuthority() {
             {monogram}
           </button>
           <button type="button" className="jrn-f09a__menu" aria-label="MENU" data-jrn-trigger="f09-menu" onClick={() => go('account')}>
-            <span /><span /><span />
+            <svg viewBox="0 0 40 26" aria-hidden>
+              <path d="M0 1.5h40M0 13h40M0 24.5h40" fill="none" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" />
+            </svg>
           </button>
         </header>
         <section className="jrn-f09a__signal" data-jrn-panel="signal" data-below={below ? 'true' : 'false'}>
