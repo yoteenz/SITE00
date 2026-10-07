@@ -10,6 +10,7 @@ import { f03ScreenForRoute } from '../../data/f03/screens';
 import { f04ScreenForRoute } from '../../data/f04/screens';
 import { F01_FAMILY_BOUNDARY, F01_SCREENS, F01_STATE_OVERLAYS, f01ScreenForRoute } from '../../data/f01/screens';
 import { f02ScreenForRoute, F02_SCREENS } from '../../data/f02/screens';
+import { jurnlFamilyScreenForPath } from '../../data/familyRouteTree';
 import { resolveFamilyRoute } from '../../data/foundation/familyRegistry';
 import { decideDeviceServerMerge } from '../../data/repository/deviceServerMerge';
 import { importSnapshotForUser, peekDeviceSnapshot, setRepositoryUserId } from '../../data/repository/deviceRepository';
@@ -264,7 +265,7 @@ export function JurnlStoreProvider({ basePath, mode, children }: { basePath: str
   const prevRel = useRef<string | null>(null);
   useEffect(() => {
     const rel = location.pathname.slice(basePath.length).replace(/^\/+/, '');
-    const screen = f01ScreenForRoute(rel) ?? f02ScreenForRoute(rel) ?? f03ScreenForRoute(rel) ?? f04ScreenForRoute(rel);
+    const screen = f01ScreenForRoute(rel) ?? f02ScreenForRoute(rel) ?? f03ScreenForRoute(rel) ?? f04ScreenForRoute(rel) ?? jurnlFamilyScreenForPath(rel);
     const parentId =
       rel === 'parents' ? 'F05_F16.BOARD'
       : rel === 'money' ? 'F05.00'

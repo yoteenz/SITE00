@@ -14790,3 +14790,12 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Fix:** The runtime store keeps the route trail. `back()` pops it and calls `navigate(-1)`. Continuation screens are not trail entries. NEXT still moves inside the page. If the screen was opened directly, back uses the old parent fallback. Proven: Account screen 2 (CONTINUED) opened from Safe returns to F09.00 in one press. See Why, Purchases, and Money opened from Safe also return to Safe. A direct open of Money still falls back to Today.
 - **Do not repeat:** Do not wire the chrome back button to `useFrameBack()` or label it BACK TO SCREEN N. Do not make back walk Money → Places → Account when the user did not open those routes.
 
+---
+
+## 2026-10-07 — Design viewport route lists the selected family’s screen tree
+
+- **Context:** This chat covered the preview tunnel (one shared Cloudflare token load-balancing many agents; canonical connector is `SITE00_CLOUDFLARE_TUNNEL_CANONICAL=1` on exactly one environment), the production nav that puts DESIGN in the center, the three Check a Purchase authorities, and the locked-shell correction (one plate, brand, and nav). The founder then opened the DESIGN viewport on F09 and the ROUTE menu listed other families’ parent pages (`F05 MONEY BOUNDARY` through `F13 PAYDOWN BOUNDARY`) under `F09.00 SAFE TO SPEND`.
+- **Decision:** FAMILY stays the list of families. ROUTE is only that family’s screens: the parent once, then its live children and grandchildren. F05–F16 production contracts stay parent-only. The tree lives in `src/projects/jurnl/data/familyRouteTree.ts`. Param routes open a `preview` segment. `purchases/checked` outranks `purchases/:purchaseId`. The runtime posts the child screen id so the control follows in-iframe navigation.
+- **F09:** `F09.00 SAFE TO SPEND` and `F09.WHY WHY THIS NUMBER` (`safe/why`). F05 is `F05.00 MONEY`, `F05.ACCOUNTS PLACES`, `F05.ACCOUNT PLACE`. F10 adds `F10.CHECKED CHECK A PURCHASE` and `F10.OBJECT PURCHASE`. F01 stays `F01.00`–`F01.13`.
+- **Do not repeat:** Do not append `NOT_STARTED` families onto the ROUTE menu as `BOUNDARY`. Do not expand the F05–F16 parent contracts to hold these children. Sheets such as `F09.HOLD` are not routes.
+
