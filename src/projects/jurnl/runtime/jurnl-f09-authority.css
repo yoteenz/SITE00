@@ -157,13 +157,13 @@ body:has([data-jrn-screen='F09.00']),
   container-type: size;
   container-name: jrn;
 }
-/* Tracks the cover plate. On the phone the plate is top: -20%, so this layer
-   uses the same offset and the type stays on the artwork. The purchase
-   bridge is outside this layer and does not move. */
+/* The overlay stays on the screen. Only the photograph and the type painted
+   on it shift. Buttons, the lockup, and the tagline keep their screen positions.
+   The purchase bridge is outside this layer. */
 .jrn .jrn-f09a__art {
   position: absolute;
   inset: 0;
-  top: -20%;
+  top: 0;
   right: 0;
   bottom: auto;
   left: 0;
@@ -171,6 +171,15 @@ body:has([data-jrn-screen='F09.00']),
   height: 100%;
   transform: none;
   pointer-events: none;
+}
+/* Phone plate is top: -20% (20lvh above the env box). These nodes are the
+   type on the artwork. Buttons are not in this list. */
+.jrn .jrn-f09a__signal h1,
+.jrn .jrn-f09a__amount,
+.jrn .jrn-f09a__through,
+.jrn .jrn-f09a__tabs,
+.jrn .jrn-f09a__folio {
+  transform: translateY(-20lvh);
 }
 .jrn .jrn-f09a__art .jrn-f09a__menu,
 .jrn .jrn-f09a__art .jrn-f09a__account,
@@ -526,6 +535,13 @@ body:has([data-jrn-screen='F09.00']),
     left: 0;
     width: 100%;
     height: 100%;
+    transform: none;
+  }
+  .jrn .jrn-f09a__signal h1,
+  .jrn .jrn-f09a__amount,
+  .jrn .jrn-f09a__through,
+  .jrn .jrn-f09a__tabs,
+  .jrn .jrn-f09a__folio {
     transform: none;
   }
   .jrn .jrn-f09a__lockup {
