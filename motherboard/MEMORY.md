@@ -14655,3 +14655,12 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Fix:** F09 `html`, `body`, `#root`, and `.jrn` are `overflow: hidden` and `height: 100lvh`. The extra `1px` min-height that forced a scroll range is gone. On 393×852, `scrollHeight` equals `clientHeight` (852). The phone and tablet dock is 42px, down from 52px. Desktop dock stays 79×640. The plate top is still -85px.
 - **Do not repeat:** Do not put the F09 `+1px` scroll height back. Do not shrink the desktop dock when shortening the phone dock. Do not change the phone plate from `top: -10%`.
 
+---
+
+## 2026-10-07 — JURNL F09 want-to-spend line up 6px
+
+- **Context:** This chat rebuilt F09 Safe to Spend. Scroll is off. The phone dock is 42px. The CHECK A PURCHASE button is already `translateY(-6px)`. The plate stays `top: -10%`. Live money stays `computeSafeToSpend` (preview `$6,500`, bills `$1,920`).
+- **What the founder asked:** Move the want-to-spend button only, upwards 6px.
+- **Fix:** On the phone the bridge copy (`WANT TO SPEND ON SOMETHING?`) and its spark are `translateY(-6px)`. The CHECK A PURCHASE button stays at its existing 6px lift. The bridge panel and the nav do not move. Measured on 393×852: copy y=723, spark y=720, button y=719, bridge y=716, nav y=810. Tablet and desktop clear the new translate.
+- **Do not repeat:** Do not move the bridge panel or the CHECK A PURCHASE button when nudging the want-to-spend line. Do not apply this 6px lift on tablet or desktop.
+
