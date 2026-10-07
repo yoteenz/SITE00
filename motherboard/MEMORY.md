@@ -14469,3 +14469,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Not changed:** the plate file, `computeSafeToSpend`, routes, menu to account, hold-on-why, or the purchase target.
 - **Do not repeat:** Do not put a solid cream slab behind the F09 nav. That slab is the bottom border the founder rejected. Do not rotate the tab words 180°. Do not redraw these five marks as generic line icons.
 
+---
+
+## 2026-10-07 — JURNL F09 signal sits inside the arch
+
+- **Context:** This chat rebuilt F09 Safe to Spend on `/production/jurnl/runtime/safe` against the approved authority. One OpenArt plate (history `PQTsHqqy3Pf0ZpQJougi`). Live money stays `computeSafeToSpend` (preview `$6,500`, bills `$1,920`). The dock overlays the marble. Tab words face right. Nav marks are traced from the approved glyphs.
+- **What the founder saw:** SAFE TO SPEND, the amount, the date line, and SEE WHY THIS AMOUNT sat on the left stone of the arch. The button was too wide (`min(78%, 280px)`, about 280px) and crossed the arch.
+- **Fix:** The arch opening on the plate is about 31%–87% of the image, centered near 59%. `.jrn-f09a__signal` is that box (`left: 31%; width: 56%`) with the type centered inside it. The why button sizes to its label (`width: auto; max-width: 100%`) instead of a fixed wide pill. Measured on 393×852: the amount center is 58.9% and the button runs 38%–79%, inside the opening.
+- **Not changed:** the plate, the dock, the tab direction, the traced marks, routes, or `computeSafeToSpend`.
+- **Do not repeat:** Do not center the F09 signal on the full image width. The arch is right of center. Do not set the why button back to 280px.
+
