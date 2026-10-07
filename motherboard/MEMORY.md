@@ -14489,3 +14489,21 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Not changed:** the plate file, the arch-centered signal, routes, or `computeSafeToSpend`.
 - **Do not repeat:** Do not leave the F09 nav without its beige dock. Do not paint BUFFER cream. Do not shift the plate without shifting `.jrn-f09a__art` by the same bleed.
 
+---
+
+## 2026-10-07 — JURNL F09 plate was clipped by the stage, not the image
+
+- **Context:** This chat rebuilt F09 Safe to Spend on `/production/jurnl/runtime/safe` against the approved authority. One OpenArt plate (history `PQTsHqqy3Pf0ZpQJougi`, 1760×3840). Live money stays `computeSafeToSpend` (preview `$6,500`, bills `$1,920`). The signal sits in the arch (`left: 31%; width: 56%`). Tab words face right (`writing-mode: vertical-rl`, no 180° rotate) in tab ink (BUFFER `#c6dba8`). Nav marks are the traced authority glyphs. The dock is solid `#f6f3ee`.
+- **What the founder saw:** Tan still peeking above and below the plate on the phone (photo at 9:43, `site00.fsbw-dev.com`). The bands are flat CSS fill, about 11px under the status bar and about 13px under the dock, matching `.jrn` background `#c9b49a`, not the photograph (plate top std is ~11–22).
+- **Cause:** The stage was shorter than the visual viewport, and the plate’s negative bleed was clipped so it never covered the gap. Overrides that did it:
+  - `.jrn` in `jurnl-runtime.css`: `position: fixed; inset: 0` plus `height: 100dvh` and `max-height: 100dvh`. The explicit height drops `bottom: 0`, so the box does not stretch to the visual viewport. `overflow: hidden`. Background `#f1e3cf`.
+  - F09 itself had re-set `height: 100dvh`, `overflow: hidden`, and background `#c9b49a`, and pulled the plate up with `--f09-bleed: 28px`. `.jrn` clipped that bleed.
+  - `.jrn .jrn-screen` `overflow: hidden` plus the family animation (`filter: blur`, `animation-fill-mode: both`).
+  - `.jrn .jrn-env` `overflow: hidden`.
+  - `.jrn .jrn-col` overflow and safe-area padding, and the family-frame column rule (including the 600px/1100px `padding-top`).
+  - CENTER_STAGE `transform: scale()` on `.jrn-plate`.
+  - `html` / `body` / `#root` had no margin reset.
+- **Fix:** For F09 only, the stage is stretched with `top`/`bottom`/`left`/`right` and `height: auto` (no `100dvh`). The hub also pins `.jrn` to `visualViewport` (offset, width, height) and clears those inline styles on leave. The plate and `.jrn-f09a__art` are top-anchored (`--f09-bleed: 0`) and at least the stage in both axes (`max(100%, 100cqh, width × 3840/1760)`), `object-fit: cover`, `object-position: 50% 0%`. Screen animation/filter/transform are none. Env and the family column are `overflow: visible` with padding 0. `html`, `body`, and `#root` are `margin: 0; overflow: hidden` while F09 is mounted. Measured on 393×852 and 390×700: stage and dock meet the viewport edges; the top row is the photograph (std ~11), the bottom row is the beige dock.
+- **Not changed:** the plate file, arch signal, tab direction and colors, traced marks, beige dock, routes, menu to account, hold-on-why, purchase target, or `computeSafeToSpend`.
+- **Do not repeat:** Do not set F09 `.jrn` back to `height: 100dvh` while `inset: 0` is set — that is the clip. Do not bring back a negative `--f09-bleed` unless the art box moves with it and the stage itself fills the visual viewport. Do not paint the F09 stage `#c9b49a` or plaster and expect the bleed to hide it.
+
