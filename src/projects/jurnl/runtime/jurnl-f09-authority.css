@@ -157,13 +157,15 @@ body:has([data-jrn-screen='F09.00']),
   container-type: size;
   container-name: jrn;
 }
-/* Tracks the cover plate (top-anchored, centered when the screen is taller than the photo). */
+/* Tracks the cover plate. On the phone the plate is top: 30%, so this layer
+   uses the same offset and the type stays on the artwork. The purchase
+   bridge is outside this layer and does not move. */
 .jrn .jrn-f09a__art {
   position: absolute;
   inset: 0;
-  top: 0;
+  top: 30%;
   right: 0;
-  bottom: 0;
+  bottom: auto;
   left: 0;
   width: 100%;
   height: 100%;

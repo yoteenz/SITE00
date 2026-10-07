@@ -14585,3 +14585,12 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Dock:** Phone and tablet dock height is 52px, down from about 81px. Desktop dock stays the centered editorial bar.
 - **Do not repeat:** Do not use `top: -30%` on the F09 phone plate if the founder wants this lower offset. Do not paint the F09 stage `#1c1915` again while the bands are being disguised. Do not shrink the desktop dock when shortening the phone dock.
 
+---
+
+## 2026-10-07 — JURNL F09 type follows the lowered phone plate
+
+- **Context:** This chat rebuilt F09 Safe to Spend, then shortened the phone dock, painted the stage `#f6f3ee`, and set the mobile plate to `top: 30%`. Live money stays `computeSafeToSpend` (preview `$6,500`, bills `$1,920`).
+- **What was wrong:** The plate moved down and the type stayed on the screen, so the logo, the amount, and the folder words floated off the artwork.
+- **Fix:** On the phone, `.jrn-f09a__art` uses the same `top: 30%` as the plate. The lockup, signal, tab words, and folio copy move with the photograph. The purchase bridge stays where it was. Tablet and desktop reset that layer to `top: 0` with their plates.
+- **Do not repeat:** Do not leave the F09 phone type at `top: 0` while the plate is `top: 30%`. Do not move the purchase bridge with the plate unless the founder asks.
+
