@@ -1,0 +1,125 @@
+{
+  "id": "ASSET_QUALITY_GATING",
+  "sprint": "P0.JURNL.F09.PROMPT-FORENSICS-AND-CREATIVE-LOGIC-AUDIT1",
+  "generated_by": "scripts/studioos/jurnl-f09-prompt-forensics-export.ts",
+  "analysis_only": true,
+  "gate": {
+    "SOURCE_RESOLUTION_RULE": "Every photographic or generated layer must be decoded on disk at ≥ the device pixels it covers on the review canvas (canvas pt × review scale, after crop). The project’s canonical generation size is the target; the canvas requirement is the floor. Measured by the consuming stage on the file itself.",
+    "UPSCALE_RULE": "Measured against the original generated pixels. AUTHORITY_CANDIDATE ≤ 1× (downsampling only). FOUNDER_REVIEW_EXCEPTION ≤ 1.5×, only with founder approval recorded before compositing (a founder may approve a higher ratio for a named run), through a dedicated super-resolution model (never browser / CSS / bilinear resampling), checked at 100 % crop. LAYOUT_PROOF ≤ 2×. Above that the photographic layer may not be shown at canvas size.",
+    "FOUNDER_REVIEW_THRESHOLD": "Any founder-facing visual meets AUTHORITY_CANDIDATE, or FOUNDER_REVIEW_EXCEPTION with the approval on record, and passes 100 % crop QA (no upsampling softness, no compression blocks, exact glyphs). Founder-facing = sent, shown, attached, linked, zipped or named for the founder, including delivery on a direct request.",
+    "LAYOUT_PROOF_THRESHOLD": "Internal only. Permitted when every photographic source is FULL_RENDER / SUPER_RESOLVED and ≤ 2× upscale; watermarked; never named candidate, board or review; never delivered to the founder. Its only job is to check placement against real scene geometry.",
+    "WIREFRAME_THRESHOLD": "Above the layout-proof limit, or from a degraded source (preview, thumbnail, proxy, screenshot, unknown): geometry only — flat tonal blocks and type boxes at the canvas size, with the source shown beside it at its native size if needed. Never a photographic composite.",
+    "BLOCK_CONDITION": "Before compositing, for each photographic layer: decoded size below the requirement for the intended purpose, upscale above its limit, degraded provenance, or dimensions not verifiable → status BLOCKED_ON_ASSET_QUALITY. Stop. Produce no canvas-size composite, board or zip; report the measured gap and the unblock routes.",
+    "NO_DEGRADED_ASSET_RULE": "A degraded asset never advances a stage. Watermarks, labels and disclaimers do not make it acceptable. Each stage verifies its own inputs (decoded size + provenance) instead of trusting the producer. Asked for “the images” while blocked, deliver what exists at native size, labelled — never upscale or composite to make it look like a candidate.",
+    "REFERENCE_INPUT_RULE": "A reference attached to a generator (image-to-image) has a short side ≥ 720 px and FULL_RENDER provenance; previews and thumbnails are never references."
+  },
+  "upscale_limits": {
+    "AUTHORITY_CANDIDATE": 1,
+    "FOUNDER_REVIEW_EXCEPTION": 1.5,
+    "LAYOUT_PROOF": 2
+  },
+  "blocked_run_protocol": [
+    "PREFLIGHT FIRST: before spending a generation, confirm the route returns a file at the required size into the working environment. If not, stop before generating.",
+    "If blocked after generating: set status BLOCKED_ON_<REASON>; claim 0 candidates.",
+    "Deliver the block report (measured gap, why, unblock routes with cost and expiry), the render ledger and the prompts.",
+    "Optionally attach the previews at their native size, labelled PREVIEW — direction only, not for evaluation.",
+    "Do not composite, upscale, board, zip or name anything candidate / review. Internal geometry checks stay internal (WIREFRAME_ONLY).",
+    "Code and methodology may be committed and tested on fixtures; they are not visual deliverables."
+  ],
+  "jurnl_mobile": {
+    "canvas_pt": {
+      "w": 393,
+      "h": 852
+    },
+    "review_scale": 3,
+    "required_px": {
+      "w": 1179,
+      "h": 2556
+    },
+    "canonical_generation_px": {
+      "w": 2016,
+      "h": 3584
+    },
+    "canonical_source": "F02 / F03 / F04 parents: 2016×3584, gpt-image-2.5-sunburst 4K (downsampled 0.71× to the review canvas).",
+    "world_reference": "REFERENCE_F01.00_WELCOME_APPROVED.jpg is 941×1672: a valid image-to-image REFERENCE (short side ≥ 720), not an output source.",
+    "minimum_source": "≥ 1179×2556 px after crop for a full-bleed layer (≥ the device pixels the layer covers). Target 2016×3584.",
+    "allowed_upscale": "Authority 1.0× · founder-approved exception 1.5× · internal layout proof 2.0× · beyond → wireframe only.",
+    "founder_review_threshold": "AUTHORITY_CANDIDATE, or FOUNDER_REVIEW_EXCEPTION approved before compositing; 100 % crop QA.",
+    "layout_proof_permitted": "Internal only, from full renders at ≤ 2.0× upscale (≥ 590×1278 px for a full-bleed layer), watermarked, never named candidate / board / review.",
+    "wireframe_only": "Previews, thumbnails, proxies, screenshots, unknown sources, or > 2.0× upscale: flat tonal geometry at canvas size, source shown at native size beside it."
+  },
+  "cases": [
+    {
+      "case": "Regen layout proofs as built and sent (144×256 previews)",
+      "result": {
+        "upscale": 9.98,
+        "required_px": {
+          "w": 1179,
+          "h": 2556
+        },
+        "highest_permitted": "WIREFRAME_ONLY",
+        "verdict": "BLOCK",
+        "reasons": [
+          "degraded provenance: PREVIEW",
+          "upscale 9.98× (source 144×256 → required 1179×2556)",
+          "requested LAYOUT_PROOF; highest permitted WIREFRAME_ONLY",
+          "LAYOUT_PROOF is never founder-facing"
+        ]
+      }
+    },
+    {
+      "case": "Regen full route as planned for founder review (864×1536, ×1.66, no recorded approval)",
+      "result": {
+        "upscale": 1.66,
+        "required_px": {
+          "w": 1179,
+          "h": 2556
+        },
+        "highest_permitted": "LAYOUT_PROOF",
+        "verdict": "BLOCK",
+        "reasons": [
+          "upscale 1.66× (source 864×1536 → required 1179×2556)",
+          "requested FOUNDER_REVIEW_EXCEPTION; highest permitted LAYOUT_PROOF",
+          "founder exception not approved before compositing"
+        ]
+      }
+    },
+    {
+      "case": "Same 864×1536 as an internal layout proof",
+      "result": {
+        "upscale": 1.66,
+        "required_px": {
+          "w": 1179,
+          "h": 2556
+        },
+        "highest_permitted": "LAYOUT_PROOF",
+        "verdict": "PASS",
+        "reasons": []
+      }
+    },
+    {
+      "case": "Canonical JURNL 4K (2016×3584) authority candidate",
+      "result": {
+        "upscale": 0.71,
+        "required_px": {
+          "w": 1179,
+          "h": 2556
+        },
+        "highest_permitted": "AUTHORITY_CANDIDATE",
+        "verdict": "PASS",
+        "reasons": []
+      }
+    }
+  ],
+  "reference_input_cases": [
+    {
+      "case": "F01.00 WELCOME APPROVED as world reference (941×1672)",
+      "passes": true
+    },
+    {
+      "case": "144×256 preview as a reference",
+      "passes": false
+    }
+  ],
+  "wired_into_gate": false
+}

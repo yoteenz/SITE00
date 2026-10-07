@@ -14823,3 +14823,181 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Fix:** CHECK A PURCHASE is `border: 1px solid rgba(40, 32, 24, 0.1)`. SEE WHY had a white `rgba(255, 255, 255, 0.8)` stroke; that is now the same brown hairline. The spend bar had no border; it now has the same stroke. Radii stay 12px / 26px on the phone and 14px / 28px on tablet and desktop. Measured on 402×874, 834×1194, and 1440×900: all three controls compute that same border.
 - **Do not repeat:** Do not put the white stroke back on SEE WHY. Do not drop the bar border. Do not change the bar radius to match the button. Do not thicken the 10% hairline unless the founder asks.
 
+
+
+## 2026-10-06 — JURNL F09 three-concept art-direction regen (P0.JURNL.F09-SAFE-TO-SPEND.THREE-CONCEPT-ART-DIRECTION-REGEN-CORRECTION1) — BLOCKED
+
+- **Founder verdict:** HYBRID-COMPOSITE-AUTHORITY-EXECUTION1 and THREE-DISTINCT-COMPOSITE-AUTHORITY-RERUN1 are REJECTED. Reasons:
+  - plate-literal construction
+  - glitched type
+  - not Mediterranean / editorial enough
+  - generic and unfinished
+  - shoddy assembly
+  - device chrome
+  - not three fully realized concepts
+  - Recorded as `founder_verdict: 'REJECTED'` on both composite sets. The hybrid gate is now COMPOSITE_AUTHORITY_REQUIRED (it read COMPOSITES_READY before).
+- **Durable rule (methodology, `hybrid-authority.ts`):** `AUTHORED_AUTHORITY_RULE`. SCENE PLATE + OVERLAY ≠ FINISHED AUTHORITY.
+  - The `FINISH_QA` audit is required on every composite: no visible scaffolding, no device chrome, object fully realized, world at benchmark, unified light / grade / grain, type integrity, official logo integrated, concept distinct.
+  - A founder REJECTED verdict blocks authority even if all mechanical QA passes.
+  - The JURNL richness benchmark is `F03.00_TODAY_PARENT.jpg` (`JURNL_RICHNESS_BENCHMARK`).
+  - Docs updated: COMPOSITE_AUTHORITY_QA, HYBRID_AUTHORITY_RENDERING_METHOD, JURNL_COMPOSITION_GRAMMAR.
+- **F09 decisions settled by the brief:**
+  - primary action SEE WHY THIS AMOUNT
+  - purchase bridge included
+  - AVAILABLE THROUGH OCT 18 included (sample; implementation needs a formula horizon)
+- **Done:**
+  - three text-free scene prompts at benchmark richness
+  - 3 Sunburst generations via Figma MCP (864×1536)
+  - the assembly / finishing script (official logo hi-res from the 1254-px reference, JURNL fonts, runtime nav icons, multiply ink, frosted panels, grain, seal-mark emboss, floor and seal detection)
+  - layout proof (watermarked)
+  - module `projects/jurnl/f09-art-direction-regen.ts`, export, test `jurnlF09ArtDirectionRegenCorrection1`
+- **Blocked:**
+  - The network policy denies `www.figma.com`, so the full-res scenes can't be downloaded. Their asset URLs are in REGEN_RENDER_LEDGER and expire 2026-10-13.
+  - Figma's route caps below 4K. OpenArt isn't connected; Weave isn't linked.
+  - 0 candidates delivered.
+- **Next:** allow `www.figma.com` (fast, below 4K) or connect OpenArt (4K). Then QA the scenes at full size, run `f09-art-direction-regen-assemble.mjs`, write the finish audit + forensic notes + pass/fail table, and build the founder board.
+
+## 2026-10-06 — JURNL F09 prompt forensics + creative-logic audit (P0.JURNL.F09.PROMPT-FORENSICS-AND-CREATIVE-LOGIC-AUDIT1) — ANALYSIS ONLY
+
+- **Mode:** no image generated, no implementation, no concept round, no territory chosen. **F09 visual generation is PAUSED** (`F09_GENERATION_PAUSED`).
+- **Root cause:** the renderer was never shown the JURNL world.
+  - Every approved JURNL screen is image2image from `REFERENCE_F01.00_WELCOME_APPROVED.jpg`.
+  - F09 never attached it. The sprint-1 legacy firewall covered backgrounds and materials, and the contamination guard forbade F01 references.
+  - Prompts banned the benchmark's signature (arches, sea views, more than one plant, depth).
+  - From round 3 the only reference was the agent-drawn plate guide ("ONLY geometry authority"), so the plates reproduced the diagrams.
+  - Flat app UI and an OS status bar were laid on top, identical across concepts.
+  - Self-certified QA passed every round.
+  - **Sunburst is NOT the bottleneck.**
+- **Findings:**
+  - 20 contradictions: 2 critical, 12 high, 5 medium, 1 low.
+  - 12 ranked root causes (RC01–RC09 HIGH confidence).
+  - Three-territory model **REFINE** (shared world, distinct page structure).
+  - Plates **REMOVE** (as the authority method).
+  - Deterministic UI **NARROW** (exactness only).
+- **Durable method:** `shared/studioos-visual-authority/prompt-forensics.ts` + `docs/studioos/visual-authority-development/PROMPT_FORENSICS_METHOD.md`. It provides:
+  - an 11-step audit
+  - 12 failure classes
+  - 21 instruction categories with `classifyInstruction`
+  - prompt layers D→C→A→B→F→E→G→H→I→J
+  - priority tiers
+  - the generator budget (≤ 300 words, ≤ 5 negatives, ≤ 4 exact strings)
+  - anti-generic / anti-assembly / reference-consumption tests
+  - `DEVICE_CHROME_RULE` (product canvas, not phone screenshot; never write "system chrome")
+  - `CONCEPT_DELIVERY_CONTRACT`
+  - `FULLY_AUTHORED_DEFINITION`
+  - the renderer-blame rule
+- **F09 data:** `projects/jurnl/f09-prompt-forensics.ts`. Export: `scripts/studioos/jurnl-f09-prompt-forensics-export.ts`. It writes 12 files plus the report to `JURNL/F09_SAFE/PROMPT_FORENSICS_AND_CREATIVE_LOGIC_AUDIT1/`; verbatim founder briefs are in `SOURCES/`. Test: `jurnlF09PromptForensicsAudit1`.
+- **Gate doc:** §17 records the recommended changes to steps 03 / 04 / 05. They are not applied.
+- **Before the next F09 generation:**
+  - founder decisions D-F09-COMPOSITION-MODE (CENTER_STAGE vs edge-led), D-F09-WORLD-AUTHORITY (F01 approved vs F03 IN_REVIEW) and D-F09-AVAILABLE-DATE-FORMULA
+  - a render-route preflight (image2image + 4K + retrieval)
+  - then a brief written to `F09_NEXT_SPRINT_SPEC`
+- **Verdict:** PROMPT_SYSTEM_ROOT_CAUSE_IDENTIFIED YES; READY_TO_REWRITE_F09_GENERATION_PROMPT NO.
+
+## 2026-10-06 — F09 prompt forensics ADDENDUM: regen run as evidence (P0.JURNL.F09.PROMPT-FORENSICS-AND-CREATIVE-LOGIC-AUDIT1) — ANALYSIS ONLY
+
+- **Scope:** THREE-CONCEPT-ART-DIRECTION-REGEN-CORRECTION1 is now in the audit as lineage L06b, contradiction C21 and root causes RC13–RC15 (re-ranked). Report §49–51; `F09_REGEN_ADDENDUM.json`; `ASSET_QUALITY_GATING.json`.
+- **RC14 — no asset-quality gate:**
+  - 144×256 previews were upscaled 9.98× into 1179×2556 layout proofs, a board headed THREE CONCEPT CANDIDATES and a founder zip.
+  - The network block explains the missing files, not the continuation.
+  - What allowed it: resolution was only a generation setting; a 1.66× "exception" had no ceiling; "layout proof" had no threshold or audience (watermark-only); no blocked outcome was defined; the code was adapted to the defect (`--proof`, seals placed by eye).
+- **Durable rule (`shared/studioos-visual-authority/asset-quality.ts`, `ASSET_QUALITY_GATE.json`; defined, NOT wired into any gate):**
+  - Source resolution ≥ the device px a layer covers (JURNL: 1179×2556 floor, 2016×3584 target).
+  - Upscale vs generated px: authority 1.0×; founder-approved exception 1.5×; internal layout proof 2.0×; beyond → wireframe only.
+  - Previews, thumbnails, proxies, screenshots and unknown sources are never more than wireframe and never references (references need a short side ≥ 720 px).
+  - Founder-facing includes delivery on direct request.
+  - BLOCK BEFORE COMPOSITING. A watermark is not a mitigation. `BLOCKED_RUN_PROTOCOL`: report, don't render.
+- **RC13 — deterministic UI too broad:** exact strings became fixed rectangles.
+  - Blueprint: `ctaZones` gives the CTA the full 340-pt stage; `systemZones` and `sharedOwnership` are identical across territories.
+  - Assembly: logo, CTA, purchase module and nav sit at the same coordinates on all three pages → THREE BACKGROUNDS + ONE PRODUCT DESIGN.
+  - Fix: `F09_ELEMENT_FREEDOM_MATRIX` (lock strings + nav; free layout, order, CTA position / size / form, module form) and the CONCEPT_SKELETON test.
+- **RC15 — Mediterranean as vocabulary, not JURNL grammar.** `F09_JURNL_WORLD_GRAMMAR` defines the grammar:
+  - one recurring place
+  - inside viewpoint with a foreground occluder
+  - lit type column against the world mass
+  - arcade view ≥ 15 % of the frame
+  - curated still life including a JURNL object
+  - counter-colour ≥ 5 %
+  - lived-in trace
+  - high-key air
+- **New failure classes:** ASSET_QUALITY_GUARD_FAILURE, BRAND_WORLD_UNDERSPECIFICATION.
+- **Verdict unchanged:** root cause identified YES; ready to rewrite the generation prompt NO. Also needed first: the asset gate in force.
+
+## 2026-10-07 — JURNL F09 folder words matched to IMAGE 1 (tabs + amounts row) — SUPERSEDED by main #1450 / #1451
+
+- **Status:** superseded. `main` shipped its own founder-reviewed folder alignment (#1450 tab words, #1451 folio copy), and that version is kept. The plate measurements below remain valid reference data.
+
+- **Founder ask:** align the text on the folders so it looks identical to the reference (IMAGE 1 crop: tab words BILLS / PLANS / GOALS / BUFFER and the GOALS $600 · BUFFER $500 row).
+- **Measured, not guessed:** the four tab faces on the plate are BILLS x 1078–1182 (top 1739), PLANS 1183–1300 (1782), GOALS 1300–1407 (1832), BUFFER 1407–1520 (1872), in 1760×3840 plate px. On IMAGE 1, each word is centered on its face and starts 1.2 face widths below its own tab top, so the words step down with the tabs. Cap height is about 22% of the face width, and tracking is about 0.32em. Ink is near-black on the light tabs and light on BUFFER.
+- **Fix (`jurnl-f09-authority.css`):**
+  - The tab list now spans the whole plate box. Each word has its own `left` (face centre) and `top` (tab top + 1.2 face widths): 64.2/48.54, 70.5/50.03, 76.9/51.04, 83.1/52.29 %.
+  - Type is `calc(var(--f09-img-h) * 34 / 3840)` with 0.32em tracking.
+  - Inks: BILLS `#312c24`, PLANS `#1f1c1a`, GOALS `#21221c`, BUFFER `#e6ede0` (light green-white, not cream).
+  - Amounts row: tracked label (3.83cqw, 0.3em) over a serif figure (JURNL Display 7.66cqw), visible hairline column rules, no top rule. The folio height is `0.133 × plate` so the figures sit 1.2 tab widths above the folder's bottom edge.
+- **Gotcha:** inside `.jrn-f09a__folio` (a size container) `var(--f09-img-h)` resolves its `cqh/cqw` against the folio, not the screen. Size folio text with the folio's own `cqw` (1cqw = 0.0043 plate widths).
+- **Not changed:** the plate, the signal, the dock, the nav marks, routes, or `computeSafeToSpend`. Checked at 402×874, 393×852 and 375×667 (amounts clear the purchase card).
+
+## 2026-10-07 — JURNL Parent → Child Visual Derivation Protocol + PAY WITH drawer spec (P0.JURNL.PARENT-CHILD.VISUAL-DERIVATION.PROTOCOL1 + P0.JURNL.CHECK-PURCHASE.PAY-WITH-DRAWER.MATCH-CATEGORY-DRAWER1)
+
+- **Protocol (durable, any project):** `shared/studioos-visual-authority/parent-child-derivation.ts` + `docs/studioos/visual-authority-development/PARENT_CHILD_DERIVATION_PROTOCOL.md` (JSON generated).
+  - **Core rule:** absorb the current screen's information, not its look, and re-express it through the approved parent.
+  - **Authority hierarchy:** approved parent (visual) > approved child exploration (subordinate) > current screen (information only).
+  - **Rules:** inherited DNA, family constants (brand / type / decorative logo / shell / ratio), a 4-step method, content absorption, family levels, full page ↔ drawer siblings, continuation.
+  - **Selection-sheet sizing system:** `SelectionSheetSystem`, with `checkSiblingSheets` (MATCHED / DRIFT, tolerances) to enforce it.
+  - **Brief builder:** `buildChildDerivationBrief` works inside the prompt-forensics budget (references first, ≤ 300 words, ≤ 5 negatives, exact strings over 4 flagged for post-generation checks).
+- **JURNL family:** `projects/jurnl/safe-to-spend-family.ts`; exports in `JURNL/F09_SAFE/PARENT_CHILD_DERIVATION_PROTOCOL1/`.
+  - **Tree:** parent SAFE TO SPEND → WHY THIS NUMBER, CHECK A PURCHASE, ACCOUNT (full page + drawer) → SELECT A CATEGORY and PAY WITH drawers (siblings).
+  - **Constants:** uppercase only; PLAN TODAY. GROW FREELY.; decorative lockup; dock shell, no device chrome; ratio ≈ 0.46 (402×874 captures / 393×852 canvas).
+- **PAY WITH / SELECT AN ACCOUNT drawer:** copy, six accounts (CHECKING, SAVINGS, CREDIT CARD, DEBIT CARD, CASH, JOINT ACCOUNT) with picture briefs, structure, and a 298-word brief (`PAY_WITH_DERIVATION_BRIEF.txt`).
+  - **Sizing:** UNMEASURED.
+  - **Status:** AWAITING_FOUNDER_INPUTS. The approved CHECK A PURCHASE screen, the approved SELECT A CATEGORY drawer and the current SELECT AN ACCOUNT drawer are founder-held, not in the repo. Neither drawer exists in the runtime (Quick Add only has a button row of accounts).
+- **Also:** the branch merged main 6a8b1bda. Main's own folder alignment (#1450 / #1451) supersedes this branch's earlier CSS fix (4e5955db), so main's CSS is kept.
+
+## 2026-10-07 — JURNL SAFE TO SPEND family built as replicas of the founder's 9 references (P0.JURNL.F09.REFERENCE-REPLICA1)
+
+- **Ask:** build the attached references as exact replicas, including assets, thumbnails, icons, type, placement and weight. Lift each reference's photograph out (type and controls cleared) and use it as the only plate. Prepare Grok isolation and OpenArt Sunburst 4K regeneration for the imagery.
+- **References:** `JURNL/F09_SAFE/REFERENCE_REPLICA1/REFERENCES/01–09`.
+  - 01 parent, 02 WHY, 03–05 ACCOUNT pages, 06 ACCOUNT drawer, 07 CHECK A PURCHASE, 08 SELECT A CATEGORY, 09 current SELECT AN ACCOUNT.
+  - All are 853 × 1844, except 01 at 852 × 1847.
+- **Runtime:**
+  - `ReferenceStage` is one 853 × 1844 stage, plate plus interface, scaled as a unit. It fills phones; other ratios get a blurred plate behind it.
+  - `layout/referenceLayout.ts` is generated: measured boxes, and type fitted to the reference ink (size, tracking, line top, anchor; rotated tab words).
+  - Screens:
+    - `/safe` keeps main's founder-tuned parent (main's rule: no lockup on F09.00). The reference 01 replica is at `/safe/reference` (screen `F09.00.REFERENCE`).
+    - `/safe/why`
+    - `/safe/check` (new route): the CHECK A PURCHASE bridge now goes here.
+    - `/account`: 3 continuation pages, BACK / NEXT / dots.
+    - The ACCOUNT drawer opens from the menu.
+  - CHECK PURCHASE opens main's `purchases/checked` result flow with the amount, category and account entered.
+  - `AccountSettingsScreen` was replaced. `CurrencySheet` is still exported from SettingsScreens; the setup consents moved into a sheet.
+  - Composition mode `REFERENCE_STAGE`, with documented overrides for F09.00.REFERENCE, F09.WHY, F09.CHECK and GS.SETTINGS.
+  - The design-viewport route tree lists CHECK A PURCHASE, ACCOUNT and SAFE TO SPEND · REFERENCE 01 under F09.
+- **Type:** the references use a Didone serif and a geometric sans; Instrument Serif and Barlow are visibly condensed.
+  - New faces: `JURNL Authority Serif` (Playfair Display with the lnum glyphs mapped as default digits, renamed because of the OFL Reserved Font Name) and `JURNL Authority Sans` (Jost 300–600). OFL texts sit beside them in `public/site00/projects/jurnl/fonts`.
+- **Selection sheets:** SELECT A CATEGORY is measured as `CATEGORY_SHEET_SYSTEM`: 4 cols, 183 px tiles, photos 183 × 178 (row 3 is 171 as drawn), r12, gaps 17 / 15, 12 px labels.
+  - SELECT AN ACCOUNT uses the same `SelectionSheet`: 4 cols, sheet top one row lower, APPLY ACCOUNT.
+  - `PAY_WITH_SIBLING_CHECK`: current DRIFT, built MATCHED.
+- **Plates and assets:** `src/projects/jurnl/families/F09_SAFE/REFERENCE_REPLICA/{plates,tiles,assets}`, made by `scripts/jurnl/reference-replica` (Python + OpenCV, Node fitter).
+  - Type is Telea-inpainted. Panels and the dock are push-pull filled and softened, because coded panels cover them.
+  - The drawer fill is restricted to its stone slab.
+  - Tiles are native crops. Account tiles are re-cropped to 183 × 178.
+  - Botanicals and the WHY olive sprig are difference mattes.
+  - The lockup is two layers cut from the approved `F09_LOCKUP.png` (haze removed), placed per screen.
+  - Re-running the toolchain reproduces every file byte for byte.
+- **Quality, stated plainly:**
+  - Every interim asset is ≤ 853 px wide (1.38× upscale at 3×) and of unknown provenance, so `assessAssetQuality` gives BLOCK as authority material.
+  - `REGEN_4K_JOBS.md` holds 28 Grok isolate + OpenArt Sunburst prompts. Targets: plates 2160 × 4670, tiles about 1024 px.
+  - Status READY_TO_RUN. OpenArt is not connected and there was no Grok route in this session.
+- **Decisions flagged (`REPLICA_DECISIONS`):**
+  - The status bar and home indicator are not drawn.
+  - The parent lockup appears only on `/safe/reference`; `/safe` keeps main's no-lockup parent until the founder picks one.
+  - The drawer's mixed-case line is uppercased.
+  - The account drawer has 4 columns, not 2.
+  - Page 1's ACCOUNT shell is kept on all pages.
+  - Figures are live.
+  - Rows without features say NOT IN THIS PREVIEW YET.
+- **Tests:** `tests/jurnlF09ReferenceReplica1.test.ts` (10) and `jurnlParentChildDerivationProtocol1` (8) pass, and center-stage passes 61/61.
+  - The full suite has no new failures: the 40 failures in 28 files are identical on a clean HEAD worktree.
+- **Gotchas:**
+  - `.jrn .jrn-ref button` resets beat single-class rules. Give control styles 3-class selectors (the scrim was invisible until fixed).
+  - Playfair defaults to old-style figures, so canvas fitting and the page disagree unless the font maps lining digits.

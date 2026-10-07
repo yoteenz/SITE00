@@ -1,0 +1,1258 @@
+SPRINT:
+P0.JURNL.F09.PROMPT-FORENSICS-AND-CREATIVE-LOGIC-AUDIT1
+
+AGENT:
+OPUS
+
+MODE:
+ANALYSIS ONLY · PROMPT FORENSICS · CREATIVE-LOGIC AUDIT · NO GENERATION · NO IMPLEMENTATION
+
+PRIORITY:
+P0
+
+==================================================
+CONVERSATION CONTEXT / WHY THIS SPRINT EXISTS
+==================================================
+
+JURNL F09 SAFE TO SPEND has gone through multiple rounds of:
+
+- concept development
+- creative-direction correction
+- composition-blueprint correction
+- render-ownership correction
+- hybrid composite execution
+- three-concept rerun
+- visual implementation correction
+
+Yet the visual results are still repeatedly missing the founder’s intended quality bar.
+
+Observed failures include:
+
+- outputs feel generic
+- Mediterranean identity is weak
+- environmental richness is missing
+- compositions feel assembled rather than authored
+- scene plates become the design instead of supporting it
+- deterministic UI is technically correct but visually crude
+- text glitches or feels pasted-on
+- concepts feel unfinished
+- three concepts collapse into variants rather than genuinely distinct authorities
+- generated backgrounds are treated as finished visual thought
+- authority images are under-consumed
+- “reference fidelity” language does not consistently produce reference-level richness
+- implementation prompts over-index on mechanics and under-index on visual authorship
+- mobile viewport instructions have sometimes been misread as phone/device rendering
+- successive corrective prompts have accumulated constraints that may now be contradicting each other
+
+The founder now believes the actual problem may be upstream:
+
+THE PROMPTS THEMSELVES MAY BE LOGICALLY INCOMPLETE, CONTRADICTORY, OVER-CONSTRAINED, OR OPERATING AT THE WRONG ABSTRACTION LEVEL.
+
+This sprint exists to audit the prompt system itself before another visual attempt is made.
+
+==================================================
+FOUNDER DECISION
+==================================================
+
+DO NOT GENERATE ANY NEW JURNL IMAGE.
+
+DO NOT IMPLEMENT ANY SCREEN.
+
+DO NOT CREATE ANOTHER CONCEPT ROUND.
+
+DO NOT TRY TO “FIX” F09 VISUALLY YET.
+
+FIRST:
+
+AUDIT THE PROMPTS.
+
+The goal is to determine:
+
+WHAT IS THE CURRENT PROMPT LOGIC ACTUALLY ASKING THE MODEL TO DO?
+
+WHERE DOES THAT LOGIC BREAK?
+
+WHAT IS MISSING?
+
+WHAT IS CONTRADICTORY?
+
+WHAT IS OVER-CONSTRAINED?
+
+WHAT IS UNDER-SPECIFIED?
+
+WHAT SHOULD THE NEW CANONICAL PROMPT ARCHITECTURE BE?
+
+==================================================
+SUPERSEDES
+==================================================
+
+This sprint does NOT supersede any approved JURNL product or brand truth.
+
+It temporarily pauses:
+
+- further F09 visual generation
+- further F09 implementation
+- further corrective render attempts
+
+until prompt logic has been audited.
+
+==================================================
+DO NOT REGRESS
+==================================================
+
+DO NOT:
+
+- generate images
+- write image prompts for immediate execution
+- implement React/CSS
+- alter F09 product logic
+- alter JURNL brand canon
+- choose a final visual territory
+- invent new F09 data
+- re-interpret approved founder decisions casually
+- blame renderer quality without proving prompt causality
+- assume prior prompts are correct
+- protect previous methodology merely because it is already documented
+- summarize prompts superficially
+- produce generic “best practices” advice
+- recommend another regeneration round before identifying concrete prompt defects
+
+==================================================
+KNOWN FAILURE THAT CAUSED THIS
+==================================================
+
+The current JURNL F09 prompt stack evolved incrementally.
+
+Each corrective sprint added more constraints:
+
+- territory separation
+- brand expression
+- composition blueprints
+- render ownership
+- deterministic UI
+- plate generation
+- contamination guards
+- exact product truth
+- anti-template rules
+- device-chrome prohibitions
+- authority-fidelity rules
+- founder-review contracts
+
+This may have created a prompt system that is technically thorough but creatively self-defeating.
+
+The prompt may now be:
+
+TOO CONSTRAINED TO CREATE
+TOO VAGUE TO ART DIRECT
+TOO TECHNICAL TO COMPOSE
+TOO SPLIT ACROSS LAYERS TO FEEL COHERENT
+
+This sprint must determine whether that is true.
+
+==================================================
+MOTHERBOARD INTENT
+==================================================
+
+Create a durable methodology for prompt auditing when:
+
+APPROVED CREATIVE INTENT
+≠
+MODEL OUTPUT
+
+Instead of repeatedly adding corrective instructions, the system should be able to determine whether failure comes from:
+
+PROMPT LOGIC
+PROMPT HIERARCHY
+PROMPT CONTRADICTION
+PROMPT OMISSION
+RENDERER LIMITATION
+IMPLEMENTATION LIMITATION
+ASSET LIMITATION
+AUTHORITY AMBIGUITY
+
+The result should become reusable beyond F09.
+
+==================================================
+1. COLLECT THE FULL F09 PROMPT LINEAGE
+==================================================
+
+Locate and reconstruct the complete F09 prompt chain.
+
+At minimum include:
+
+P0.JURNL.F09-SAFE-TO-SPEND.VISUAL-AUTHORITY-3-TERRITORY-PROOF1
+
+P0.JURNL.F09-SAFE-TO-SPEND.CREATIVE-DIRECTION-BRAND-EXPRESSION-CORRECTION1
+
+P0.JURNL.F09-SAFE-TO-SPEND.COMPOSITION-BLUEPRINT-RENDER-OWNERSHIP-CORRECTION1
+
+P0.JURNL.F09-SAFE-TO-SPEND.HYBRID-COMPOSITE-AUTHORITY-EXECUTION1
+
+P0.JURNL.F09-SAFE-TO-SPEND.THREE-DISTINCT-COMPOSITE-AUTHORITY-RERUN1
+
+P0.JURNL.F09-SAFE-TO-SPEND.THREE-CONCEPT-ART-DIRECTION-REGEN-CORRECTION1
+
+plus any intermediate implementation/render prompts that materially affected execution.
+
+Do not rely on memory alone.
+
+Use actual repository/history/artifacts where available.
+
+==================================================
+2. RECONSTRUCT THE INTENDED PIPELINE
+==================================================
+
+Document what the current methodology believes the pipeline is.
+
+For example:
+
+BRAND TRUTH
+→ PRODUCT TRUTH
+→ TERRITORY
+→ CREATIVE DIRECTION
+→ COMPOSITION BLUEPRINT
+→ RENDER OWNERSHIP
+→ ART PLATE
+→ DETERMINISTIC UI
+→ COMPOSITE
+→ FOUNDER REVIEW
+
+Then determine whether that pipeline is actually coherent.
+
+==================================================
+3. BUILD A PROMPT-INSTRUCTION INVENTORY
+==================================================
+
+Extract every meaningful instruction from the F09 prompt lineage.
+
+Classify each instruction into one of:
+
+PRODUCT_TRUTH
+BRAND_TRUTH
+VISUAL_AUTHORITY
+COMPOSITION
+CONCEPT_FREEDOM
+RESPONSIVE
+RENDER_OWNERSHIP
+TYPOGRAPHY
+LOGO
+DATA
+CTA
+NAVIGATION
+MATERIALS
+ENVIRONMENT
+IMAGE_GENERATION
+DETERMINISTIC_UI
+QA
+DELIVERY
+ANTI_FAILURE
+PROCESS
+IMPLEMENTATION
+
+Do not collapse similar instructions prematurely.
+
+==================================================
+4. IDENTIFY CONTRADICTIONS
+==================================================
+
+Find instructions that conflict directly or indirectly.
+
+Examples to investigate:
+
+REFERENCE IS DESIGN AUTHORITY
+vs
+INVENT THREE DISTINCT NEW TERRITORIES
+
+IMAGE GENERATOR IS NOT THE FINAL DESIGNER
+vs
+PRODUCE FULLY RE-AUTHORED FINISHED AUTHORITY
+
+RAW PLATES ARE SUBORDINATE
+vs
+PRESERVE PLATE-SPECIFIC METAPHORS
+
+DETERMINISTIC UI MUST OWN PRODUCT TRUTH
+vs
+FINAL IMAGE MUST FEEL COHERENT AND NOT ASSEMBLED
+
+NO DEVICE CHROME
+vs
+APPROVED REFERENCES THAT MAY INCLUDE DEVICE-LIKE ELEMENTS
+
+THREE DISTINCT CONCEPTS
+vs
+LOCKED IDENTICAL PRODUCT HIERARCHY / CTA / NAV / DATA / VIEWPORT
+
+STRICT BRAND FIDELITY
+vs
+CONCEPTUAL NOVELTY
+
+Record each contradiction as:
+
+INSTRUCTION_A
+INSTRUCTION_B
+WHY THEY CONFLICT
+LIKELY OUTPUT FAILURE CAUSED
+SEVERITY
+
+==================================================
+5. IDENTIFY OVER-CONSTRAINT
+==================================================
+
+Find areas where too many locked rules reduce creative freedom.
+
+Determine whether the model is effectively being asked to:
+
+CREATE SOMETHING NEW
+while
+NOT CHANGING ANYTHING IMPORTANT
+
+For every over-constrained area, report:
+
+LOCKED VARIABLES
+VARIABLES STILL FREE
+WHETHER FREE SPACE IS SUFFICIENT
+FAILURE MODE
+
+==================================================
+6. IDENTIFY UNDER-SPECIFICATION
+==================================================
+
+Find places where critical creative goals are expressed only as adjectives.
+
+Examples:
+
+MEDITERRANEAN
+EDITORIAL
+LUXURY
+CALM
+RICH
+BESPOKE
+ARTISTIC
+ANTI-AI
+CUSTOM-DESIGNED
+
+For each, ask:
+
+WHAT DOES THIS MEAN VISUALLY?
+WHAT MINIMUM EVIDENCE MUST APPEAR?
+WHAT STRUCTURAL CONSEQUENCE SHOULD IT HAVE?
+HOW COULD A MODEL SATISFY THE WORD WITHOUT SATISFYING THE FOUNDER?
+
+This is critical.
+
+==================================================
+7. AUDIT “MEDITERRANEAN” SPECIFICITY
+==================================================
+
+Determine whether the existing prompts make Mediterranean identity:
+
+OPTIONAL ATMOSPHERE
+
+or
+
+MANDATORY VISUAL STRUCTURE.
+
+Audit whether prompts explicitly require enough of:
+
+arched architecture
+limewashed plaster
+travertine / limestone
+olive/plant life
+coastal light
+Mediterranean shadow behavior
+warm mineral palette
+architectural depth
+sun-washed surfaces
+material irregularity
+natural wood
+linen/paper tactility
+coastal/estate spatial cues
+
+Do not assume adjectives are sufficient.
+
+==================================================
+8. AUDIT ENVIRONMENTAL RICHNESS
+==================================================
+
+Determine whether the prompts structurally require:
+
+foreground
+midground
+background
+material layering
+light/shadow
+spatial depth
+environmental framing
+object relationships
+editorial staging
+peripheral visual interest
+
+or merely mention them aspirationally.
+
+Identify why prior outputs became:
+
+blank plaster
+single object
+text overlay
+simple card
+
+==================================================
+9. AUDIT ART-DIRECTION DENSITY
+==================================================
+
+Compare:
+
+HOW MUCH PROMPT SPACE IS DEVOTED TO:
+- data correctness
+- route logic
+- exact text
+- render mechanics
+- QA rules
+
+versus:
+
+HOW MUCH PROMPT SPACE IS DEVOTED TO:
+- composition
+- spatial rhythm
+- graphic design
+- art direction
+- environmental storytelling
+- visual wit
+- image sequencing
+- material specificity
+- typography as image
+- brand-world authorship
+
+Quantify approximately.
+
+Determine whether the prompt is structurally biased toward correctness over creative quality.
+
+==================================================
+10. AUDIT ABSTRACTION LEVEL
+==================================================
+
+Determine whether Opus is being asked to think simultaneously as:
+
+creative director
+product designer
+prompt engineer
+renderer
+frontend implementer
+QA engineer
+data validator
+
+If yes, determine whether this is causing role collapse.
+
+Identify which decisions belong at:
+
+CREATIVE-DIRECTION LEVEL
+COMPOSITION LEVEL
+RENDER LEVEL
+IMPLEMENTATION LEVEL
+QA LEVEL
+
+==================================================
+11. AUDIT TERRITORY DISTINCTNESS LOGIC
+==================================================
+
+Determine whether T01/T02/T03 are truly independent creative territories or merely different metaphors wrapped around the same composition.
+
+Audit:
+
+PRIMARY OBJECT
+SILHOUETTE
+SPATIAL MODEL
+TYPOGRAPHIC MODEL
+MEDIA MODEL
+CTA PLACEMENT
+BRAND PLACEMENT
+NAV RELATIONSHIP
+INFORMATION DENSITY
+INTERACTION EMPHASIS
+
+If too many are shared, document why distinctness collapses.
+
+==================================================
+12. AUDIT PRODUCT-TRUTH PRESSURE
+==================================================
+
+Determine whether exact product truth has been made too visually dominant.
+
+Separate:
+
+MUST BE EXACT
+from
+MUST BE VISUALLY IDENTICAL ACROSS CONCEPTS
+
+These are not the same thing.
+
+For example:
+
+$1,284 must be exact
+
+but:
+
+location
+scale
+surrounding hierarchy
+graphic treatment
+
+may differ.
+
+Identify where current prompts mistakenly lock presentation instead of truth.
+
+==================================================
+13. AUDIT DETERMINISTIC UI LOGIC
+==================================================
+
+Determine whether deterministic UI is being used too broadly.
+
+Classify each element as:
+
+MUST_BE_DETERMINISTIC
+SHOULD_BE_DETERMINISTIC
+CAN_BE_COMPOSITED
+CAN_BE_GENERATED
+SHOULD_BE_ART_DIRECTED
+
+Audit:
+
+logo
+amount
+date
+labels
+navigation
+CTA
+category names
+material signage
+editorial typography
+physical labels
+decorative lettering
+
+Determine whether current ownership rules are causing the pasted-on look.
+
+==================================================
+14. AUDIT COMPOSITE COHERENCE
+==================================================
+
+Investigate why:
+
+ART PLATE
++
+DETERMINISTIC UI
+
+looks assembled instead of unified.
+
+Possible causes:
+
+lighting mismatch
+scale mismatch
+perspective mismatch
+typographic flatness
+material mismatch
+insufficient occlusion
+no shared compositional grid
+UI not spatially integrated
+scene generated before UI geometry is known
+object framing not designed around text
+
+Identify actual causes from prompt logic.
+
+==================================================
+15. AUDIT ORDER OF OPERATIONS
+==================================================
+
+Determine whether the current pipeline order is wrong.
+
+Example question:
+
+SHOULD WE CREATE ART PLATE FIRST
+THEN PLACE UI?
+
+or
+
+SHOULD WE DESIGN FULL COMPOSITION FIRST
+THEN GENERATE ONLY THE VISUAL REGIONS NEEDED?
+
+Assess whether generation should happen AFTER final composition geometry is locked.
+
+==================================================
+16. AUDIT REFERENCE USAGE
+==================================================
+
+Determine how references are currently used.
+
+Classify each reference type:
+
+STYLE AUTHORITY
+COMPOSITION AUTHORITY
+BRAND AUTHORITY
+MATERIAL AUTHORITY
+TYPOGRAPHY AUTHORITY
+WORLD AUTHORITY
+PRODUCT AUTHORITY
+
+Identify whether the prompt currently treats all references ambiguously.
+
+==================================================
+17. AUDIT THE STRONGEST JURNL REFERENCES
+==================================================
+
+Locate the strongest approved JURNL visual references.
+
+Do not only inspect failed F09 outputs.
+
+Analyze what successful JURNL references contain that failed F09 outputs do not.
+
+At minimum compare:
+
+ENVIRONMENT
+DEPTH
+MATERIAL
+COLOR
+ARCHITECTURE
+BOTANICAL PRESENCE
+TYPE
+LOGO
+SPATIAL FRAME
+VISUAL DENSITY
+OBJECT RELATIONSHIPS
+NEGATIVE SPACE
+EDITORIAL CHARACTER
+FUNCTIONAL CLARITY
+
+==================================================
+18. EXPLICIT QUESTION
+==================================================
+
+Answer:
+
+WHAT DID THE SUCCESSFUL JURNL IMAGES IMPLICITLY HAVE THAT THE F09 PROMPTS NEVER MADE MANDATORY?
+
+This answer must be specific.
+
+==================================================
+19. AUDIT PROMPT LENGTH / PRIORITY DILUTION
+==================================================
+
+Determine whether prompts have become so long that high-priority creative instructions are diluted.
+
+Identify:
+
+CRITICAL
+IMPORTANT
+SUPPORTING
+NOISE
+
+Determine whether repeated DO NOT lists are overpowering positive creative direction.
+
+==================================================
+20. AUDIT NEGATIVE-INSTRUCTION SATURATION
+==================================================
+
+Count approximate ratio of:
+
+POSITIVE CREATIVE INSTRUCTIONS
+
+to
+
+NEGATIVE / FAILURE / DO-NOT INSTRUCTIONS
+
+Determine whether model attention is being dominated by avoidance rather than creation.
+
+==================================================
+21. AUDIT QUALITY-BAR COMMUNICATION
+==================================================
+
+Determine whether:
+
+“high fidelity”
+“rich”
+“premium”
+“bespoke”
+“editorial”
+
+are sufficiently grounded.
+
+Recommend a more objective quality bar using:
+
+visual evidence
+minimum composition features
+reference comparisons
+specific finish criteria
+
+==================================================
+22. AUDIT DEVICE-CHROME LOGIC
+==================================================
+
+Resolve the confusion between:
+
+MOBILE VIEWPORT
+PHONE SCREENSHOT
+DEVICE CHROME
+PRODUCT CHROME
+
+Create canonical rule.
+
+Example:
+
+393×852 = product canvas
+
+OS/browser chrome excluded
+
+unless a specific approved authority explicitly defines product-owned chrome.
+
+Make the distinction exact.
+
+==================================================
+23. AUDIT LOGO / TYPOGRAPHY INTEGRATION
+==================================================
+
+Determine why typography often feels pasted on or glitches.
+
+Separate:
+
+EXACT TEXT RENDERING
+from
+TYPOGRAPHIC ART DIRECTION.
+
+Recommend how exact text can still participate spatially in the composition.
+
+==================================================
+24. AUDIT THREE-CONCEPT DELIVERY CONTRACT
+==================================================
+
+Define exactly what counts as:
+
+ONE CONCEPT.
+
+Required:
+
+one fully resolved founder-review-ready authority
+
+not:
+
+raw plate
+partial layout
+material study
+prompt
+wireframe
+background
+process artifact
+
+Define this canonically.
+
+==================================================
+25. ROOT-CAUSE MAP
+==================================================
+
+Produce a root-cause map with categories:
+
+PROMPT CONTRADICTION
+PROMPT OMISSION
+PROMPT OVER-CONSTRAINT
+PROMPT PRIORITY DILUTION
+PROMPT ROLE COLLAPSE
+PIPELINE ORDER
+RENDER OWNERSHIP
+REFERENCE AMBIGUITY
+IMPLEMENTATION LIMITATION
+MODEL/RENDERER LIMITATION
+
+For each observed F09 failure, assign probable causes.
+
+==================================================
+26. CAUSAL CONFIDENCE
+==================================================
+
+For every root cause, report:
+
+HIGH CONFIDENCE
+MEDIUM CONFIDENCE
+LOW CONFIDENCE
+
+Do not overclaim.
+
+==================================================
+27. BUILD A NEW CANONICAL PROMPT ARCHITECTURE
+==================================================
+
+After audit, propose a new prompt structure.
+
+DO NOT write the final next-generation F09 prompt yet.
+
+Instead define the architecture.
+
+Recommended layers to evaluate:
+
+A. CREATIVE BRIEF
+B. NON-NEGOTIABLE PRODUCT TRUTH
+C. BRAND WORLD
+D. REFERENCE AUTHORITY
+E. TERRITORY FREEDOM
+F. COMPOSITION REQUIREMENTS
+G. ART-DIRECTION MINIMUMS
+H. RENDER OWNERSHIP
+I. DELIVERY CONTRACT
+J. QA
+
+Determine the correct order.
+
+==================================================
+28. PROMPT PRIORITY MODEL
+==================================================
+
+Create a hierarchy such as:
+
+TIER 0 — HARD TRUTH
+TIER 1 — VISUAL AUTHORITY
+TIER 2 — CREATIVE INTENT
+TIER 3 — TERRITORY FREEDOM
+TIER 4 — RENDER EXECUTION
+TIER 5 — QA
+
+Instructions from lower tiers must not override higher tiers.
+
+==================================================
+29. DEFINE CREATIVE FREEDOM BUDGET
+==================================================
+
+Explicitly define:
+
+LOCKED
+GUIDED
+FREE
+
+for:
+
+layout
+primary object
+logo placement
+amount placement
+CTA placement
+category visualization
+brand framing
+environment
+materials
+typography
+nav
+secondary modules
+
+This should prevent hidden over-constraint.
+
+==================================================
+30. DEFINE MANDATORY VISUAL EVIDENCE
+==================================================
+
+Create a checklist of visible evidence required for JURNL.
+
+Example categories:
+
+MEDITERRANEAN EVIDENCE
+ENVIRONMENTAL DEPTH
+MATERIAL RICHNESS
+EDITORIAL DESIGN
+BOTANICAL / NATURAL PRESENCE
+ARCHITECTURAL FRAMING
+BRAND PRESENCE
+PRODUCT CLARITY
+
+Each should have objective minimums.
+
+==================================================
+31. DEFINE ANTI-GENERIC TEST
+==================================================
+
+Create a test stronger than:
+
+“does this look premium?”
+
+Ask:
+
+Could this visual plausibly belong to another finance app if the logo changed?
+
+If YES:
+FAIL.
+
+Define multiple anti-generic criteria.
+
+==================================================
+32. DEFINE ANTI-ASSEMBLY TEST
+==================================================
+
+Ask:
+
+Can the viewer visibly distinguish:
+
+background plate
+text layer
+UI layer
+
+as separate construction systems?
+
+If YES:
+FAIL.
+
+Define visual-coherence requirements.
+
+==================================================
+33. DEFINE REFERENCE-CONSUMPTION TEST
+==================================================
+
+The next prompt must require evidence that the model actually extracted:
+
+composition rules
+material rules
+environment rules
+brand rules
+density rules
+
+from references before generating.
+
+==================================================
+34. DEFINE MODEL RESPONSIBILITIES
+==================================================
+
+Separate responsibility by agent/stage.
+
+For example:
+
+OPUS:
+creative logic
+territory
+composition
+authority specification
+
+IMAGE MODEL:
+environment/material/object generation
+
+COMPOSITOR:
+exact text/logo/UI
+
+COMPOSER:
+production implementation
+
+QA:
+fidelity verification
+
+Determine whether this division is correct.
+
+==================================================
+35. DEFINE “FULLY AUTHORED” PRECISELY
+==================================================
+
+Create operational definition.
+
+A fully authored visual should have:
+
+one compositional thesis
+intentional foreground/midground/background
+purposeful visual hierarchy
+integrated typography
+controlled negative space
+material continuity
+light continuity
+brand-world specificity
+no visible scaffolding
+no generic filler
+
+Refine this definition.
+
+==================================================
+36. DETERMINE WHETHER THE THREE-TERRITORY MODEL SHOULD SURVIVE
+==================================================
+
+Do not assume T01/T02/T03 must remain.
+
+Evaluate whether:
+
+three territories are still useful
+
+or whether the territory framework itself is causing artificial concept separation.
+
+Return:
+
+KEEP
+REFINE
+REPLACE
+
+with reasoning.
+
+==================================================
+37. DETERMINE WHETHER PLATES SHOULD SURVIVE
+==================================================
+
+Evaluate the plate methodology.
+
+Return:
+
+KEEP
+REFINE
+REMOVE
+
+Possible alternatives:
+
+full composition first
+region-based generation
+inpainting
+scene blocks
+component-level art
+spatial collage
+environmental asset assembly
+
+Do not generate yet.
+
+==================================================
+38. DETERMINE WHETHER DETERMINISTIC UI SHOULD SURVIVE
+==================================================
+
+Evaluate scope.
+
+Return:
+
+KEEP
+NARROW
+EXPAND
+REPLACE
+
+with element-level ownership recommendations.
+
+==================================================
+39. DETERMINE WHETHER SUNBURST IS ACTUALLY THE BOTTLENECK
+==================================================
+
+Separate:
+
+PROMPT FAILURE
+from
+MODEL FAILURE.
+
+Do not recommend renderer change unless evidence supports it.
+
+==================================================
+40. FINAL SYNTHESIS
+==================================================
+
+The audit must produce a concise answer to:
+
+WHY DID THE F09 VISUAL PROCESS KEEP FAILING?
+
+Answer in causal order.
+
+Not:
+
+“the prompts were too vague.”
+
+Be specific.
+
+==================================================
+41. DELIVERABLE — PROMPT FORENSICS TABLE
+==================================================
+
+Create a table with columns:
+
+PROMPT / SPRINT
+INTENDED JOB
+KEY INSTRUCTIONS
+CONTRADICTIONS
+MISSING LOGIC
+OVER-CONSTRAINT
+UNDER-SPECIFICATION
+LIKELY FAILURE CAUSED
+SEVERITY
+
+==================================================
+42. DELIVERABLE — ROOT CAUSE RANKING
+==================================================
+
+Rank top causes:
+
+01
+02
+03
+04
+05
+...
+
+with:
+
+EVIDENCE
+CONFIDENCE
+IMPACT
+
+==================================================
+43. DELIVERABLE — NEW PROMPT ARCHITECTURE
+==================================================
+
+Return the recommended canonical prompt structure.
+
+Do not yet write the next visual sprint.
+
+==================================================
+44. DELIVERABLE — REMOVE / KEEP / REWRITE
+==================================================
+
+For major existing methodology rules classify:
+
+KEEP
+REWRITE
+REMOVE
+
+Examples:
+
+REFERENCE = DESIGN AUTHORITY
+THREE TERRITORIES
+RAW PLATES
+DETERMINISTIC UI
+COMPOSITE AUTHORITY
+NO DEVICE CHROME
+BLUR TEST
+ANTI-TEMPLATE TEST
+METAPHOR CONTAINMENT
+FIXED PRODUCT PAYLOAD
+
+==================================================
+45. DELIVERABLE — MISSING LOGIC
+==================================================
+
+Return a section:
+
+MISSING LOGIC WE MUST ADD BEFORE NEXT GENERATION
+
+This is one of the most important outputs.
+
+==================================================
+46. DELIVERABLE — NEXT-SPRINT SPEC
+==================================================
+
+Do NOT write the next sprint itself.
+
+Instead define exactly what the next sprint must contain and what it must omit.
+
+==================================================
+47. SUCCESS CRITERIA
+==================================================
+
+PASS ONLY IF:
+
+[ ] full F09 prompt lineage audited
+[ ] instruction inventory complete
+[ ] contradictions identified
+[ ] over-constraint identified
+[ ] under-specification identified
+[ ] art-direction density audited
+[ ] Mediterranean specificity audited
+[ ] environmental richness audited
+[ ] role-collapse audited
+[ ] reference usage audited
+[ ] deterministic UI scope audited
+[ ] plate methodology audited
+[ ] three-territory model audited
+[ ] prompt-length dilution audited
+[ ] negative-instruction saturation audited
+[ ] root causes ranked
+[ ] causal confidence reported
+[ ] new prompt architecture proposed
+[ ] missing logic explicitly defined
+[ ] no images generated
+[ ] no implementation performed
+[ ] no next concept round started
+
+==================================================
+48. FINAL REPORT
+==================================================
+
+Return:
+
+SPRINT
+STATUS
+
+PROMPTS AUDITED:
+COUNT
+LIST
+
+CURRENT PIPELINE:
+SUMMARY
+
+TOP ROOT CAUSES:
+01
+02
+03
+04
+05
+
+PROMPT CONTRADICTIONS:
+COUNT
+SEVERITY
+
+OVER-CONSTRAINT:
+RESULT
+
+UNDER-SPECIFICATION:
+RESULT
+
+ART-DIRECTION DENSITY:
+RESULT
+
+MEDITERRANEAN SPECIFICITY:
+RESULT
+
+ENVIRONMENTAL RICHNESS:
+RESULT
+
+ROLE COLLAPSE:
+RESULT
+
+REFERENCE USAGE:
+RESULT
+
+THREE-TERRITORY MODEL:
+KEEP / REFINE / REPLACE
+
+PLATE METHODOLOGY:
+KEEP / REFINE / REMOVE
+
+DETERMINISTIC UI:
+KEEP / NARROW / EXPAND / REPLACE
+
+SUNBURST:
+BOTTLENECK YES / NO / UNCERTAIN
+
+DEVICE CHROME RULE:
+CANONICAL RULE
+
+NEW PROMPT ARCHITECTURE:
+SUMMARY
+
+CREATIVE FREEDOM BUDGET:
+LOCKED
+GUIDED
+FREE
+
+MANDATORY VISUAL EVIDENCE:
+LIST
+
+MISSING LOGIC WE MUST ADD:
+LIST
+
+EXISTING RULES:
+KEEP
+REWRITE
+REMOVE
+
+NEXT SPRINT MUST:
+LIST
+
+NEXT SPRINT MUST NOT:
+LIST
+
+GENERATION PERFORMED:
+NO
+
+IMPLEMENTATION PERFORMED:
+NO
+
+FINAL VERDICT:
+PROMPT_SYSTEM_ROOT_CAUSE_IDENTIFIED YES / NO
+READY_TO_REWRITE_F09_GENERATION_PROMPT YES / NO

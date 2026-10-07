@@ -1,0 +1,46 @@
+{
+  "id": "REGEN_RENDER_LEDGER",
+  "sprint": "P0.JURNL.F09-SAFE-TO-SPEND.THREE-CONCEPT-ART-DIRECTION-REGEN-CORRECTION1",
+  "generated_by": "scripts/studioos/jurnl-f09-art-direction-regen-export.ts",
+  "renderer": {
+    "model": "gpt-image-2.5-sunburst",
+    "aspect": "9:16",
+    "auto_enhance": "not exposed by the route",
+    "text": "none rendered by the generator (scenes are text-free)"
+  },
+  "route": "Figma MCP generate_image (team plan) — the only gpt-image-2.5-sunburst route reachable in this environment",
+  "routes_unavailable": [
+    "OpenArt: not connected in this environment (no credential / connector).",
+    "Figma Weave (upscaling): account not linked to Weave."
+  ],
+  "generations": [
+    {
+      "territory_id": "JURNL.F09.T01",
+      "requested": "1152×2048",
+      "returned": "864×1536",
+      "asset": "https://www.figma.com/api/mcp/asset/7657f6dc-45c7-4099-a0ef-0295f1f3c45e.png",
+      "preview": "JURNL/F09_SAFE/THREE_CONCEPT_ART_DIRECTION_REGEN_CORRECTION1/SCENES_PROOF/T01_preview_144x256.jpg"
+    },
+    {
+      "territory_id": "JURNL.F09.T02",
+      "requested": "1152×2048",
+      "returned": "864×1536",
+      "asset": "https://www.figma.com/api/mcp/asset/8a6f59f2-e48c-4bbe-8337-b9bc8de97e2e.png",
+      "preview": "JURNL/F09_SAFE/THREE_CONCEPT_ART_DIRECTION_REGEN_CORRECTION1/SCENES_PROOF/T02_preview_144x256.jpg"
+    },
+    {
+      "territory_id": "JURNL.F09.T03",
+      "requested": "1152×2048",
+      "returned": "864×1536",
+      "asset": "https://www.figma.com/api/mcp/asset/57e04fbe-51c5-4d37-8b7a-55c5d76c7121.png",
+      "preview": "JURNL/F09_SAFE/THREE_CONCEPT_ART_DIRECTION_REGEN_CORRECTION1/SCENES_PROOF/T03_preview_144x256.jpg"
+    }
+  ],
+  "generated_at": "2026-10-06T22:06Z",
+  "assets_expire": "2026-10-13",
+  "primary_generations": 3,
+  "retries": 0,
+  "paid": "Figma AI credits, 3 calls",
+  "retrieval": "BLOCKED — the environment network policy denies www.figma.com, so the full-resolution scenes cannot be downloaded into the container. Only the 144×256 previews returned with the tool call are on disk.",
+  "resolution_exception": "This route returns 864×1536 (requested 1152×2048; cap 2048). The 4K spec cannot be met here. With retrieval enabled the photographic layer is upscaled ×1.66 to the 1179×2556 (@3x) canvas; type, logo and UI render natively at @3x. True 4K needs OpenArt connected to this environment."
+}

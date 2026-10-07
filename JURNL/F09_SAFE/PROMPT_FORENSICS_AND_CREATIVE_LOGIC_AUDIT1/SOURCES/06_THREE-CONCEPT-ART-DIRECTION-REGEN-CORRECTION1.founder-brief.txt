@@ -1,0 +1,260 @@
+SPRINT: P0.JURNL.F09-SAFE-TO-SPEND.THREE-CONCEPT-ART-DIRECTION-REGEN-CORRECTION1
+
+AGENT: OPUS
+
+CONVERSATION CONTEXT / WHY THIS SPRINT EXISTS
+
+The previous F09 SAFE TO SPEND “hybrid composite authority” round failed founder review.
+
+Although the sprint technically produced three outputs, the founder rejected the quality and execution logic for the following reasons:
+
+1. The concepts were constructed too literally from scene plates rather than being fully re-authored into finished authority images.
+2. Typography/text rendering glitched.
+3. The visual world did not read as richly Mediterranean / architectural / editorial in the same way the approved art-driven JURNL image did.
+4. The overall compositions felt generic, unfinished, underdesigned, and not bespoke enough.
+5. The outputs looked like shoddy assemblies instead of complete founder-review-ready authorities.
+6. The round also violated a key presentation rule by incorrectly including phone/device UX chrome in the generated authority view.
+7. The founder originally asked for 3 distinct concept directions. The returned set did not feel sufficiently fully realized as 3 separate, finished, high-authority concept candidates.
+
+This sprint exists to CORRECT THE CREATIVE-DIRECTION EXECUTION LAYER and RE-RUN F09 properly.
+
+FOUNDER DECISION
+
+The three F09 concepts must be re-done as FULLY RE-AUTHORED, HIGH-FIDELITY, BESPOKE AUTHORITY IMAGES.
+
+The new round must:
+- preserve the legitimate structural intention of each concept territory
+- but NOT preserve the failed composite treatment
+- use the approved art-driven JURNL image quality as the richness benchmark
+- produce 3 separate, distinct, founder-review-ready concept candidates
+- remove device chrome from the authority image
+- use the official JURNL logo logic/placement correctly
+- read as refined, Mediterranean, editorial, intentional, and custom-designed
+- avoid looking AI-generic, flat, collage-cheated, or placeholder-built
+
+SUPERSEDES
+
+- P0.JURNL.F09-SAFE-TO-SPEND.VISUAL-AUTHORITY-3-TERRITORY-PROOF1
+- P0.JURNL.F09-SAFE-TO-SPEND.CREATIVE-DIRECTION-BRAND-EXPRESSION-CORRECTION1
+- P0.JURNL.F09-SAFE-TO-SPEND.COMPOSITION-BLUEPRINT-RENDER-OWNERSHIP-CORRECTION1
+- P0.JURNL.F09-SAFE-TO-SPEND.HYBRID-COMPOSITE-AUTHORITY-EXECUTION1
+
+DO NOT REGRESS
+
+- Do not fall back to generic finance-app card stacks.
+- Do not flatten SAFE TO SPEND into “pretty background + amount + button.”
+- Do not treat raw plates as final design.
+- Do not use placeholder brass plates / empty wall zones / unfinished mockup structures as visible final output.
+- Do not include iPhone/browser/device chrome in the authority image.
+- Do not allow text glitching, warped typography, or approximate logo recreation.
+- Do not let the scene become sparse, cold, or abstract to the point of losing JURNL’s warmth and environmental richness.
+- Do not produce three minor variations of one same layout.
+- Do not implement the screen in product yet.
+- Do not explode authority.
+- Do not use OpenArt from ChatGPT. If rendering is needed, Opus may direct the proper downstream renderer in its own environment.
+
+KNOWN FAILURE THAT CAUSED THIS
+
+The previous pipeline over-protected the scene plates and under-owned the final image as a fully authored authority composition.
+
+The system behaved as if:
+SCENE PLATE + OVERLAY = FINISHED AUTHORITY
+
+That is incorrect.
+
+For JURNL F09, the correct logic is:
+COMPOSITION INTENT + BRAND WORLD + OFFICIAL LOGO/TYPE + BESPOKE ART DIRECTION + DETERMINISTIC PRODUCT UI = FINISHED AUTHORITY
+
+The failed round also treated blank composition primitives as visible final artifacts, which made the output read unfinished and generic.
+
+MOTHERBOARD INTENT
+
+Record that F09 SAFE TO SPEND requires a stricter creative-direction execution standard:
+
+- composition blueprints may guide geometry
+- but final authority must feel fully authored, not assembled
+- scene generation must be subordinate to brand world and product meaning
+- official logo/typography rules are non-negotiable
+- no device chrome inside authority views
+- JURNL concept rounds must preserve bespoke visual authorship and avoid AI-generic outcomes
+
+OBJECTIVE
+
+Produce 3 DISTINCT, FULLY REALIZED, MOBILE-VIEWPORT F09 SAFE TO SPEND AUTHORITY CANDIDATES that preserve the spirit of the three territories while materially improving composition, richness, Mediterranean identity, typographic integrity, and product clarity.
+
+THE 3 TERRITORIES STILL REQUIRED
+
+01 THE SURVEYED COURTYARD
+02 THE ANSWER IN RAKING LIGHT
+03 THE SORTING RACK
+
+But they must now be treated as:
+- distinct creative territories
+- fully finished authority candidates
+- not partial constructions
+- not low-fidelity assemblies
+- not plate demonstrations
+
+QUALITY BAR
+
+Use the founder-approved art-driven JURNL screen as the quality benchmark for:
+- richness
+- Mediterranean environmental credibility
+- calm editorial luxury
+- material sophistication
+- custom-designed feel
+- logo intelligence
+- balanced stage composition
+- product clarity
+
+That approved benchmark is not to be copied literally, but it is the benchmark for FINISH LEVEL and WORLD BELIEVABILITY.
+
+STRICT CREATIVE REQUIREMENTS
+
+GLOBAL
+- mobile viewport ratio only
+- no device shell or browser chrome in the image
+- official JURNL logo logic only
+- all user-facing copy uppercase
+- square-rounded controls only
+- JURNL should feel like MONEY IN SERVICE OF LIFE, not fintech SaaS
+- SAFE TO SPEND must read within 2 seconds
+- every concept must feel complete, not provisional
+
+VISUAL WORLD
+- Mediterranean architecture/material logic must be obvious
+- warm plaster / limestone / travertine / linen / paper / oak / soft brass / natural light
+- editorial still-life intelligence
+- spatial calm
+- intentional shadow play
+- believable crafted surfaces
+- no dead blank areas unless compositionally purposeful
+- no cheap mockup aesthetic
+
+TYPOGRAPHY / LOGO
+- use official JURNL logo logic and correct placement hierarchy
+- no warped or hallucinated text
+- no decorative fake type
+- no broken kerning that undermines authority
+- logo must feel integrated and deliberate, not pasted or incidental
+
+PRODUCT EXPRESSION
+Each concept must clearly include:
+- SAFE TO SPEND label
+- main amount
+- available-through date
+- primary CTA equivalent to WHY / SEE WHY THIS AMOUNT
+- secondary purchase-check module
+- bottom nav with correct five-item logic
+- high clarity around what is held for BILLS / PLANS / GOALS / BUFFER
+- quiet central functional field
+- immersive but readable presentation
+
+CONCEPT-SPECIFIC INTENT
+
+01 THE SURVEYED COURTYARD
+- preserve the idea of “spendable area vs held-back perimeter”
+- but the courtyard must feel like a finished, elegant, designed scene
+- avoid empty unfinished plan-diagram energy
+- if the spatial metaphor is used, it must be beautiful, resolved, and immediately legible
+- the object can be architectural, sculptural, or inlaid, but must feel premium and intentional
+
+02 THE ANSWER IN RAKING LIGHT
+- preserve the editorial-answer premise
+- this should feel the most elegant and typographically authoritative
+- but it still needs enough world richness and material design to avoid becoming just text on a wall
+- the answer should feel authored, not laid out generically
+- this territory should carry the most graphic-design intelligence
+
+03 THE SORTING RACK
+- preserve the category-sorting premise
+- but the object must feel elevated and finished, not crafty or generic
+- the sealed-category logic should feel premium and conceptually tight
+- the full-reading / purchase-check logic should be elegantly integrated
+- the composition should not collapse into a simplistic mail rack mockup
+
+RENDERER / EXECUTION RULE
+
+You are not being asked to merely produce prompts.
+
+You must correct the authority-development execution logic and then produce the proper 3 finished concept candidates through the correct downstream route in your environment.
+
+If renderer routing is needed:
+- use GPT IMAGE 2.5 SUNBURST
+- 4K
+- 9:16
+- auto-enhance OFF
+- no device chrome
+- no OpenArt browsing from ChatGPT context
+- retrieve necessary internal references from the existing authority/library/project artifacts in the working environment if available
+
+CRITICAL PIPELINE RULE
+
+The image generator must not be treated as the final designer by itself.
+
+You must author the concepts so that:
+- the composition is intentional
+- the scene is rich
+- the brand world is correct
+- the typography is exact
+- the product meaning is clear
+- the final image looks like a bespoke authority candidate, not an AI-generated comp
+
+If necessary, use:
+- scene generation for environmental/world richness
+- deterministic overlay/compositing for exact logo/type/UI
+- but only if the final output reads as one coherent finished authority image
+
+The founder should not be able to see the scaffolding.
+
+DELIVERABLES
+
+Return ALL of the following:
+
+1. THREE separate finished F09 mobile authority candidates
+   - one per territory
+   - 393×852 authority canvas or equivalent mobile ratio presentation
+   - no device chrome
+
+2. A founder review board that places all 3 side by side
+
+3. A short forensic note per concept covering:
+   - what changed from the failed round
+   - how Mediterranean identity was strengthened
+   - how product clarity was improved
+   - how logo/type was controlled
+   - why this version is now founder-review-ready
+
+4. A pass/fail table for:
+   - brand richness
+   - Mediterranean world credibility
+   - bespoke art direction
+   - product clarity
+   - typographic integrity
+   - logo intelligence
+   - anti-generic quality
+   - anti-AI quality
+   - concept distinctness
+
+SUCCESS CRITERIA
+
+This sprint only passes if:
+- exactly 3 finished concept candidates are delivered
+- they feel materially different
+- they feel fully authored
+- none include phone/browser chrome
+- none contain glitched or warped text
+- none feel like unfinished plate composites
+- all feel more refined and more Mediterranean than the failed round
+- at least one is plausibly strong enough for founder selection without another structural reset
+
+FAIL CONDITIONS
+
+Immediate fail if any of the following happen:
+- outputs still look like plate assemblies
+- text glitches remain
+- logo is approximate or inconsistent
+- concepts feel generic / unfinished / AI-ish
+- the three outputs are not clearly distinct
+- phone chrome appears again
+- concept richness is lower than the approved art-driven JURNL benchmark

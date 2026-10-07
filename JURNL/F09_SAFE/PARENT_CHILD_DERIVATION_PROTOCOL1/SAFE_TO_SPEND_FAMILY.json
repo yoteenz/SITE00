@@ -1,0 +1,120 @@
+{
+  "id": "SAFE_TO_SPEND_FAMILY",
+  "sprint": "P0.JURNL.PARENT-CHILD.VISUAL-DERIVATION.PROTOCOL1",
+  "generated_by": "scripts/studioos/jurnl-parent-child-derivation-export.ts",
+  "constants": {
+    "BRAND": [
+      "JURNL identity stays the same on every screen.",
+      "Tagline: PLAN TODAY. GROW FREELY.",
+      "Tone: quiet, confident, elegant, clear."
+    ],
+    "TYPOGRAPHY": [
+      "Uppercase only. No mixed-case UI language.",
+      "Large serif display moments (JURNL Display) against refined, spaced uppercase support text (JURNL Sans).",
+      "The SAFE TO SPEND references are set in a Didone serif and a round geometric sans: the replicas use JURNL Authority Serif (Playfair Display, lining figures) and JURNL Authority Sans (Jost).",
+      "No casual or generic SaaS type behaviour."
+    ],
+    "DECORATIVE_LOGO": [
+      "Never reduce JURNL to plain text.",
+      "Follow the approved composed treatment: official mark, botanical accent, lockup built from the official asset.",
+      "Decorative is not glowing, tacky or randomly embellished."
+    ],
+    "SHELL": [
+      "Mobile application shell.",
+      "Bottom navigation dock unless the screen type replaces it.",
+      "The immersive world stays behind the UI.",
+      "No device chrome, no browser chrome, no phone UX at the top unless requested."
+    ],
+    "RATIO": [
+      "Founder captures: 402×874 pt (1206×2622 @3x). Reference images: 853×1844. Runtime authority canvas: 393×852 pt. All ≈ 0.46 (9 : 19.5).",
+      "Fill the frame: no black bands, no letterbox, no careless crop."
+    ]
+  },
+  "family": [
+    {
+      "id": "F09.00",
+      "name": "SAFE TO SPEND",
+      "level": "PARENT",
+      "parent": null,
+      "expressions": [
+        "FULL_PAGE"
+      ],
+      "route": "/production/jurnl/runtime/safe",
+      "authority": "APPROVED",
+      "authority_source": "REFERENCES/01_SAFE_TO_SPEND.png",
+      "note": "The family’s visual authority. /safe keeps main’s founder-tuned parent (no lockup, founder rule); the reference 01 replica is at /safe/reference."
+    },
+    {
+      "id": "F09.WHY",
+      "name": "WHY THIS NUMBER",
+      "level": "DIRECT_DESCENDANT",
+      "parent": "F09.00",
+      "expressions": [
+        "FULL_PAGE"
+      ],
+      "route": "/production/jurnl/runtime/safe/why",
+      "authority": "APPROVED",
+      "authority_source": "REFERENCES/02_WHY_THIS_NUMBER.png",
+      "note": "Live breakdown rows on the folder from the reference."
+    },
+    {
+      "id": "F09.CHECK",
+      "name": "CHECK A PURCHASE",
+      "level": "DIRECT_DESCENDANT",
+      "parent": "F09.00",
+      "expressions": [
+        "FULL_PAGE"
+      ],
+      "route": "/production/jurnl/runtime/safe/check",
+      "authority": "APPROVED",
+      "authority_source": "REFERENCES/07_CHECK_A_PURCHASE.png",
+      "note": "Derives from SAFE TO SPEND, not from ACCOUNT. Opens from the parent’s bridge; the F10 PURCHASES hub stays its own family."
+    },
+    {
+      "id": "F09.ACCOUNT",
+      "name": "ACCOUNT",
+      "level": "DIRECT_DESCENDANT",
+      "parent": "F09.00",
+      "expressions": [
+        "FULL_PAGE",
+        "DRAWER"
+      ],
+      "route": "/production/jurnl/runtime/account",
+      "authority": "APPROVED",
+      "authority_source": "REFERENCES/03–06 (three continuation pages + drawer)",
+      "note": "Full page and drawer are siblings (EXPRESSION_PAIR_RULE). The menu opens the drawer. Its page logic must not leak into CHECK A PURCHASE."
+    },
+    {
+      "id": "F09.CHECK.CATEGORY",
+      "name": "SELECT A CATEGORY",
+      "level": "SECONDARY_DESCENDANT",
+      "parent": "F09.CHECK",
+      "expressions": [
+        "DRAWER"
+      ],
+      "route": null,
+      "authority": "APPROVED",
+      "authority_source": "REFERENCES/08_SELECT_A_CATEGORY.png",
+      "note": "The sizing template for every selection sheet in this flow (CATEGORY_SHEET_SYSTEM)."
+    },
+    {
+      "id": "F09.CHECK.PAY_WITH",
+      "name": "PAY WITH / SELECT AN ACCOUNT",
+      "level": "SECONDARY_DESCENDANT",
+      "parent": "F09.CHECK",
+      "expressions": [
+        "DRAWER"
+      ],
+      "route": null,
+      "authority": "CURRENT",
+      "authority_source": "REFERENCES/09_SELECT_AN_ACCOUNT_CURRENT.png (information only)",
+      "note": "Sibling of SELECT A CATEGORY, built on its measured system; only the content differs."
+    }
+  ],
+  "sibling_sheets": [
+    [
+      "F09.CHECK.CATEGORY",
+      "F09.CHECK.PAY_WITH"
+    ]
+  ]
+}

@@ -209,6 +209,26 @@ export const MIN_RICHNESS_MEAN = 3.8;
 /** SAFE TO SPEND–class product clarity (sprint §22): the primary signal understood without interpreting the metaphor. */
 export const MAX_PRODUCT_CLARITY_SECONDS = 2;
 
+/**
+ * Authored-authority standard (P0.JURNL.F09-SAFE-TO-SPEND.THREE-CONCEPT-ART-DIRECTION-REGEN-CORRECTION1). Two F09 rounds
+ * passed every mechanical check and still failed the founder: they read as scene plates with UI laid on top.
+ * SCENE PLATE + OVERLAY ≠ FINISHED AUTHORITY. A blueprint may guide geometry; the final image must feel authored.
+ */
+export const AUTHORED_AUTHORITY_RULE = 'COMPOSITION INTENT + BRAND WORLD + OFFICIAL LOGO/TYPE + BESPOKE ART DIRECTION + DETERMINISTIC PRODUCT UI = FINISHED AUTHORITY. SCENE PLATE + OVERLAY IS NOT.' as const;
+
+/** Finish audit — every item must pass, judged on the composite at review size and at 100 %. */
+export const FINISH_QA = [
+  'NO_VISIBLE_SCAFFOLDING', // no blank plates / tags / panels, empty mockup zones, guide boxes, debug borders, placeholder primitives
+  'NO_DEVICE_CHROME', // no status bar, home indicator, phone or browser frame inside the authority view
+  'OBJECT_FULLY_REALIZED', // the signature object is finished and premium, not a blank construction
+  'WORLD_AT_BENCHMARK', // environment richness and credibility at or above the project's approved art-driven benchmark
+  'UNIFIED_LIGHT_GRADE_GRAIN', // overlays share the scene's light direction, colour grade and grain; nothing reads pasted
+  'TYPE_INTEGRITY', // exact copy, no warped / glitched / hallucinated letters, no broken kerning
+  'LOGO_OFFICIAL_INTEGRATED', // the official asset, placed with intent and blended into its surface
+  'CONCEPT_DISTINCT', // a different page from its siblings, not a variation of one layout
+] as const;
+export type FinishQaItem = (typeof FINISH_QA)[number];
+
 export type BakedUiGuard = {
   method: string[];
   reserved_region_rule: string;
@@ -271,6 +291,11 @@ export type CompositeAuthority = {
   richness: Record<RichnessDimension, number>;
   product_clarity_seconds: number;
   image_path: string;
+  /** Authored-authority finish audit (FINISH_QA). Missing = not audited = not ready. */
+  finish?: Record<FinishQaItem, boolean>;
+  /** The founder's verdict on this composite, once reviewed. REJECTED blocks authority whatever the mechanical QA says. */
+  founder_verdict?: 'PENDING' | 'APPROVED' | 'REJECTED';
+  founder_findings?: string[];
 };
 
 /* ─────────────────────────────── evaluators ─────────────────────────────── */
@@ -411,6 +436,12 @@ export function checkCompositeAuthority(args: {
     if (!a.contamination.pass) issues.push(`${a.plate_id}: contamination ${a.contamination.found.join(', ')}`);
   }
   for (const f of c.anti_ai_flags.filter((x) => x.severity === 'MATERIAL')) issues.push(`anti-AI ${f.flag}: ${f.note}`);
+  if (!c.finish) issues.push('finish audit missing (authored-authority standard)');
+  else {
+    const unfinished = FINISH_QA.filter((q) => !c.finish![q]);
+    if (unfinished.length) issues.push(`finish failed ${unfinished.join(', ')}`);
+  }
+  if (c.founder_verdict === 'REJECTED') issues.push(`founder rejected: ${(c.founder_findings ?? []).slice(0, 3).join('; ') || 'see review'}`);
   const qa = COMPOSITE_QA.filter((q) => !c.composite_qa[q]);
   if (qa.length) issues.push(`composite QA failed ${qa.join(', ')}`);
   const low = RICHNESS_DIMENSIONS.filter((d) => (c.richness[d] ?? 0) < MIN_RICHNESS_SCORE);
@@ -546,6 +577,7 @@ export const BAKED_UI_GUARD_CONTRACT = {
 export const COMPOSITE_AUTHORITY_QA_CONTRACT = {
   id: 'COMPOSITE_AUTHORITY_QA',
   sprint: HYBRID_SPRINT,
+  authored_authority: { rule: AUTHORED_AUTHORITY_RULE, finish_qa: FINISH_QA, founder_verdict: 'A founder REJECTED verdict blocks authority even when every mechanical check passes.' },
   gate_status: { ready: 'AUTHORITY_READY', blocked: 'COMPOSITE_AUTHORITY_REQUIRED' },
   evaluator: 'checkCompositeAuthority({ blueprint, ownership, profile, composite, renderer_model })',
   art_layers: 'One accepted plate per generator / COMPOSITE layer, from the profile renderer (never a local approximation), passing generator QA, the baked-UI guard and contamination.',

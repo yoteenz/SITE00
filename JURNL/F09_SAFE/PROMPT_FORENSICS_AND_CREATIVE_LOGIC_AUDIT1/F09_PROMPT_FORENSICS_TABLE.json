@@ -1,0 +1,346 @@
+{
+  "id": "F09_PROMPT_FORENSICS_TABLE",
+  "sprint": "P0.JURNL.F09.PROMPT-FORENSICS-AND-CREATIVE-LOGIC-AUDIT1",
+  "generated_by": "scripts/studioos/jurnl-f09-prompt-forensics-export.ts",
+  "analysis_only": true,
+  "rows": [
+    {
+      "prompt": "L01 · VISUAL-AUTHORITY-3-TERRITORY-PROOF1 (founder brief)",
+      "intended_job": "Three brand-true structural territories from upstream contracts, no legacy leakage.",
+      "key_instructions": [
+        "legacy visual firewall (composition, image placement, background, materials)",
+        "KNOWN FAILURE: pretty background + text + stacked cards",
+        "distinct by structure; blur test",
+        "CENTER_STAGE",
+        "every number maps to an F09 field",
+        "do not use OpenArt"
+      ],
+      "contradictions": [
+        "C01",
+        "C02",
+        "C06",
+        "C09",
+        "C15"
+      ],
+      "missing_logic": [
+        "legacy UI ≠ approved brand world",
+        "world binding",
+        "a render route"
+      ],
+      "over_constraint": [
+        "firewall extends to backgrounds and materials"
+      ],
+      "under_specification": [
+        "brand-true",
+        "JURNL world"
+      ],
+      "likely_failure": "Clean UI studies that are not JURNL; sets the world-exclusion that persists.",
+      "severity": "CRITICAL"
+    },
+    {
+      "prompt": "L02 · CREATIVE-DIRECTION-BRAND-EXPRESSION-CORRECTION1 (founder brief)",
+      "intended_job": "Creative direction + brand expression gates; three 4K Sunburst candidates.",
+      "key_instructions": [
+        "22-field creative translation per territory",
+        "creative distinctness ≥ 8/10 incl. environment, material, depth",
+        "Sunburst 4K, 9:16, viewport = central 82 %",
+        "generator renders full screen with locked text / logo / nav / CTA",
+        "anti-generic + anti-AI rules",
+        "comparison concept as quality bar",
+        "do not use OpenArt"
+      ],
+      "contradictions": [
+        "C03",
+        "C04",
+        "C06",
+        "C12",
+        "C13",
+        "C16",
+        "C18",
+        "C19",
+        "C20"
+      ],
+      "missing_logic": [
+        "attach the approved world",
+        "exact-text budget",
+        "what makes richness legitimate"
+      ],
+      "over_constraint": [
+        "distinctness in the world layer",
+        "bans on richness vocabulary"
+      ],
+      "under_specification": [
+        "witty",
+        "bespoke",
+        "rich",
+        "editorial",
+        "Mediterranean"
+      ],
+      "likely_failure": "Metaphor-as-page renders; JURL wordmark, dropped TRIPS.; status bar.",
+      "severity": "HIGH"
+    },
+    {
+      "prompt": "L02b · Sunburst prompts ×3 (≈ 2,000 words, 22 sections)",
+      "intended_job": "Execute the locked translation as one full-screen render.",
+      "key_instructions": [
+        "orthographic overhead courtyard / frontal wall / frontal rack",
+        "iPhone status bar 9:41 + square icon buttons",
+        "19 strings that must render",
+        "hex codes for 11 colours; percent geometry for ~15 zones",
+        "FORBIDDEN: arches, sea-view balconies, more than one plant"
+      ],
+      "contradictions": [
+        "C04",
+        "C10",
+        "C18",
+        "C19",
+        "C20"
+      ],
+      "missing_logic": [
+        "the world image",
+        "foreground / depth",
+        "a view out"
+      ],
+      "over_constraint": [
+        "22 sections",
+        "zone geometry to the percent"
+      ],
+      "under_specification": [
+        "environment in one paragraph of nouns"
+      ],
+      "likely_failure": "Diagrammatic pages in correct colours; text errors; device chrome.",
+      "severity": "HIGH"
+    },
+    {
+      "prompt": "L02d · ChatGPT prompts ×3 (founder run)",
+      "intended_job": "Same render via the founder’s ChatGPT.",
+      "key_instructions": [
+        "value study = composition lock",
+        "logo = reproduce exactly",
+        "render only listed words"
+      ],
+      "contradictions": [
+        "C06",
+        "C13"
+      ],
+      "missing_logic": [
+        "a clean context (fresh chat)",
+        "the world image"
+      ],
+      "over_constraint": [
+        "as L02b"
+      ],
+      "under_specification": [
+        "as L02b"
+      ],
+      "likely_failure": "Copy contamination (A QUIETER YOU, BEGIN YOUR JOURNEY), blank / broken nav.",
+      "severity": "MEDIUM"
+    },
+    {
+      "prompt": "L03 · COMPOSITION-BLUEPRINT-RENDER-OWNERSHIP-CORRECTION1 (founder brief)",
+      "intended_job": "Page blueprint + render ownership; generator renders art layers only.",
+      "key_instructions": [
+        "blueprint at 393×852",
+        "ownership L0–L8",
+        "generator may not render precision UI",
+        "generator may create negative space / placeholders",
+        "metaphor contained to OBJECT / ZONE",
+        "SYSTEM CHROME ZONE"
+      ],
+      "contradictions": [
+        "C04",
+        "C05",
+        "C07",
+        "C08",
+        "C10",
+        "C13",
+        "C16",
+        "C17"
+      ],
+      "missing_logic": [
+        "integration rules (light, plane, occlusion)",
+        "definition of chrome",
+        "the world image"
+      ],
+      "over_constraint": [
+        "pt rectangles per zone"
+      ],
+      "under_specification": [
+        "composite",
+        "authority",
+        "finished"
+      ],
+      "likely_failure": "Establishes plate + overlay; status bar in blueprints.",
+      "severity": "HIGH"
+    },
+    {
+      "prompt": "L03a/b · plate prompts ×3 + plate guides (image2image, “ONLY geometry authority”)",
+      "intended_job": "Text-free scene plates matching the blueprint.",
+      "key_instructions": [
+        "BLANK SURFACES",
+        "QUIET REGIONS",
+        "MATERIALS (no others)",
+        "MUST NOT CONTAIN",
+        "guide = the only reference (PREFIX)"
+      ],
+      "contradictions": [
+        "C05",
+        "C18"
+      ],
+      "missing_logic": [
+        "the world image",
+        "foreground",
+        "what fills the blanks"
+      ],
+      "over_constraint": [
+        "material whitelist",
+        "quiet region per product zone"
+      ],
+      "under_specification": [
+        "richness",
+        "view"
+      ],
+      "likely_failure": "Plates are photographs of the diagrams, with blank tags and plaques.",
+      "severity": "CRITICAL"
+    },
+    {
+      "prompt": "L04 · HYBRID-COMPOSITE-AUTHORITY-EXECUTION1 (Composer; reconstructed)",
+      "intended_job": "Plates + deterministic UI at 393×852.",
+      "key_instructions": [
+        "assemble HTML/CSS over plates",
+        "render the blueprint’s system zones"
+      ],
+      "contradictions": [
+        "C07",
+        "C08",
+        "C10"
+      ],
+      "missing_logic": [
+        "integration rules",
+        "independent QA"
+      ],
+      "over_constraint": [
+        "blueprint rectangles"
+      ],
+      "under_specification": [
+        "finished"
+      ],
+      "likely_failure": "iOS chrome, cards over photos, one concept resolved.",
+      "severity": "HIGH"
+    },
+    {
+      "prompt": "L05 · THREE-DISTINCT-COMPOSITE-AUTHORITY-RERUN1 (Composer; reconstructed)",
+      "intended_job": "Three finished, distinct, chrome-free composites.",
+      "key_instructions": [
+        "reuse execution-1 plates",
+        "new overlay layouts",
+        "fixed founder payload",
+        "self-QA"
+      ],
+      "contradictions": [
+        "C05",
+        "C08",
+        "C11"
+      ],
+      "missing_logic": [
+        "new generation",
+        "independent QA"
+      ],
+      "over_constraint": [
+        "identical product stack"
+      ],
+      "under_specification": [
+        "distinct"
+      ],
+      "likely_failure": "Same sparse plates, blank brass plates, dashed border; pass:true vs founder REJECTED.",
+      "severity": "HIGH"
+    },
+    {
+      "prompt": "L06 · THREE-CONCEPT-ART-DIRECTION-REGEN-CORRECTION1 (founder brief)",
+      "intended_job": "Fully re-authored, benchmark-rich, chrome-free candidates.",
+      "key_instructions": [
+        "re-author fully; scaffolding invisible",
+        "benchmark = approved art-driven JURNL image",
+        "no device chrome",
+        "preserve territories",
+        "no OpenArt from ChatGPT"
+      ],
+      "contradictions": [
+        "C01",
+        "C02",
+        "C05",
+        "C07",
+        "C14"
+      ],
+      "missing_logic": [
+        "image2image route that can deliver",
+        "which image is the world authority",
+        "composition mode"
+      ],
+      "over_constraint": [
+        "preserve the three premises"
+      ],
+      "under_specification": [
+        "fully re-authored",
+        "benchmark-rich"
+      ],
+      "likely_failure": "Methodology + text2image scenes; retrieval blocked; layout proof only.",
+      "severity": "HIGH"
+    },
+    {
+      "prompt": "L06a · scene prompts ×3 (Figma Sunburst text2image)",
+      "intended_job": "Benchmark-rich, text-free world per territory.",
+      "key_instructions": [
+        "editorial architectural photograph",
+        "important elements in the central 80 %",
+        "plain empty fields reserved for the product (T01 “completely empty” centre; T02 / T03 plain walls)",
+        "blank book covers and spines, blank wax-seal faces",
+        "DO NOT INCLUDE text / UI / device frames"
+      ],
+      "contradictions": [
+        "C03",
+        "C05",
+        "C09"
+      ],
+      "missing_logic": [
+        "the world image as input",
+        "what the blank objects become"
+      ],
+      "over_constraint": [
+        "completely empty middle third (T01)"
+      ],
+      "under_specification": [
+        "how product and world meet"
+      ],
+      "likely_failure": "Three richer but invented worlds, not the approved one; blank objects carried over from the plate logic.",
+      "severity": "MEDIUM"
+    },
+    {
+      "prompt": "L06b · regen assembly + layout proof (Opus)",
+      "intended_job": "Finish the candidates from the full-size scenes.",
+      "key_instructions": [
+        "--proof mode: previews replace the scenes",
+        "scene scaled to the canvas height (256 → 2556 px)",
+        "logo, signal stack, CTA, purchase module and nav at shared coordinates",
+        "watermark LAYOUT PROOF · NOT AUTHORITY"
+      ],
+      "contradictions": [
+        "C11",
+        "C21"
+      ],
+      "missing_logic": [
+        "asset-quality gate",
+        "blocked-run protocol",
+        "element freedom matrix"
+      ],
+      "over_constraint": [
+        "one product skeleton for three concepts"
+      ],
+      "under_specification": [
+        "what a layout proof is and who may see it"
+      ],
+      "likely_failure": "Degraded proofs reached the founder; three backgrounds + one product design.",
+      "severity": "HIGH"
+    }
+  ]
+}

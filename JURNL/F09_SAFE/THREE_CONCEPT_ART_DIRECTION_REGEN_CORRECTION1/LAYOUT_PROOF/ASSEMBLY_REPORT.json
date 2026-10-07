@@ -1,0 +1,61 @@
+{
+  "proof": true,
+  "payload": "JURNL/F09_SAFE/F09_FOUNDER_REVIEW_PAYLOAD.json",
+  "device_chrome": "NONE",
+  "territories": [
+    {
+      "territory": "T01",
+      "scene": "JURNL/F09_SAFE/THREE_CONCEPT_ART_DIRECTION_REGEN_CORRECTION1/SCENES_PROOF/T01_preview_144x256.jpg",
+      "scene_px": "144×256",
+      "crop_left_px": 13,
+      "measured": {
+        "floor": {
+          "x": 16.78125,
+          "y": 302.859375,
+          "w": 336.140625,
+          "h": 259.59375
+        }
+      },
+      "composite": "JURNL/F09_SAFE/THREE_CONCEPT_ART_DIRECTION_REGEN_CORRECTION1/LAYOUT_PROOF/F09_T01_SURVEYED_COURTYARD_393x852@3x.png"
+    },
+    {
+      "territory": "T02",
+      "scene": "JURNL/F09_SAFE/THREE_CONCEPT_ART_DIRECTION_REGEN_CORRECTION1/SCENES_PROOF/T02_preview_144x256.jpg",
+      "scene_px": "144×256",
+      "crop_left_px": 13,
+      "measured": {},
+      "composite": "JURNL/F09_SAFE/THREE_CONCEPT_ART_DIRECTION_REGEN_CORRECTION1/LAYOUT_PROOF/F09_T02_ANSWER_IN_RAKING_LIGHT_393x852@3x.png"
+    },
+    {
+      "territory": "T03",
+      "scene": "JURNL/F09_SAFE/THREE_CONCEPT_ART_DIRECTION_REGEN_CORRECTION1/SCENES_PROOF/T03_preview_144x256.jpg",
+      "scene_px": "144×256",
+      "crop_left_px": 9,
+      "measured": {
+        "seals": [
+          {
+            "x": 64,
+            "y": 372,
+            "d": 20
+          },
+          {
+            "x": 140,
+            "y": 372,
+            "d": 20
+          },
+          {
+            "x": 254,
+            "y": 372,
+            "d": 20
+          },
+          {
+            "x": 330,
+            "y": 372,
+            "d": 20
+          }
+        ]
+      },
+      "composite": "JURNL/F09_SAFE/THREE_CONCEPT_ART_DIRECTION_REGEN_CORRECTION1/LAYOUT_PROOF/F09_T03_SORTING_RACK_393x852@3x.png"
+    }
+  ]
+}

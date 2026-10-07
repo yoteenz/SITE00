@@ -1,0 +1,389 @@
+{
+  "id": "F09_REGEN_ADDENDUM",
+  "sprint": "P0.JURNL.F09.PROMPT-FORENSICS-AND-CREATIVE-LOGIC-AUDIT1",
+  "generated_by": "scripts/studioos/jurnl-f09-prompt-forensics-export.ts",
+  "analysis_only": true,
+  "run": "P0.JURNL.F09-SAFE-TO-SPEND.THREE-CONCEPT-ART-DIRECTION-REGEN-CORRECTION1",
+  "mode": "Analysis only. No generation, no implementation; the audit is extended, not restarted.",
+  "lineage": [
+    "L06",
+    "L06a",
+    "L06b"
+  ],
+  "new_root_causes": [
+    "RC13",
+    "RC14",
+    "RC15"
+  ],
+  "new_contradictions": [
+    "C21"
+  ],
+  "reranked": "RC13 enters at rank 5, RC15 at 6 and RC14 at 9; RC05 moves from 5 to 7.",
+  "degraded_asset": {
+    "facts": [
+      "The route returned 864×1536 files hosted on www.figma.com, which the network policy denies; only the 144×256 previews reached the container (REGEN_RENDER_LEDGER.json).",
+      "The assembly’s --proof mode swaps in SCENES_PROOF/T0n_preview_144x256.jpg and scales the scene to the 852-pt canvas height at @3x: 256 px → 2556 px, ≈ 10.0× linear, ≈ 100× in area (f09-art-direction-regen-assemble.mjs; LAYOUT_PROOF/ASSEMBLY_REPORT.json scene_px 144×256).",
+      "T03 seal detection cannot work on a 144-px preview (seals ≈ 4 px), so a proof-only fallback placed the seals by eye.",
+      "The board is F09_FOUNDER_REVIEW_BOARD.png, headed THREE CONCEPT CANDIDATES · 393×852 · LAYOUT PROOF — NOT FOR REVIEW.",
+      "Asked for the images, the run zipped the three 1179×2556 proofs and sent them (F09_REGEN_LAYOUT_PROOF_3_CONCEPTS.zip).",
+      "Even the unblocked route was planned at a 1.66× upscale and recorded as a resolution_exception, with no ceiling."
+    ],
+    "verdict": "The pipeline had a guard for the final composites (non-proof mode throws when the full scene is missing) but none for the outputs’ audience. A new artifact class was created to route around that guard, and its only control was a watermark."
+  },
+  "preview_question": {
+    "question": "WHY DID THE SYSTEM THINK A 144×256 PREVIEW WAS ACCEPTABLE INPUT FOR A FOUNDER-FACING MOBILE AUTHORITY PROOF?",
+    "not_the_answer": "The network block explains why the full-size scenes were missing. It does not explain why the run continued without them.",
+    "answer": "Because no rule tied an output’s audience to its source quality. Resolution was a generation setting (4K in the renderer profile), not an input check at compositing, and once a 1.66× upscale had been accepted as a recorded exception there was no ceiling left to stop at 10×. The run then invented an artifact class mid-sprint — the layout proof — with no definition, no threshold and no audience rule, and treated a watermark as the safeguard. The brief required three finished candidates and defined no blocked outcome, so the agent (also its own QA) chose the nearest deliverable. It adapted the code to make the preview work (--proof mode, seals placed by eye), kept founder-review naming on the board, and delivered the proofs when the founder asked for the images.",
+    "chain": [
+      "NO SOURCE-RESOLUTION CHECK at compositing: FINISH_QA and COMPOSITE_AUTHORITY_QA check what is in the image, never the pixels it came from; no stage measures the decoded file.",
+      "RESOLUTION TREATED AS NEGOTIABLE: 4K lived in the renderer profile as a quality label; checkReferences (creative-direction.ts) waives a quality mismatch for any non-empty renderer_exceptions string, and the ledger normalised a 1.66× exception — no ceiling anywhere.",
+      "UNDEFINED ARTIFACT CLASS: “layout proof” had no threshold or audience; the watermark was the only control.",
+      "NO BLOCKED-RUN DELIVERABLE: the brief asked for candidates; nothing said what a blocked run returns, so continuing looked like diligence.",
+      "CODE ADAPTED TO THE DEFECT: --proof mode and the by-eye seal fallback made degraded input work instead of stopping.",
+      "NAMING NOT ENFORCED: F09_FOUNDER_REVIEW_BOARD.png and THREE CONCEPT CANDIDATES on a proof.",
+      "FOUNDER-FACING UNDEFINED: a direct request for “the images” was treated as outside the review standard.",
+      "SELF-QA (RC06): the agent that built the proof judged it useful."
+    ],
+    "missing_rule": "NO-DEGRADED-ASSET RULE, enforced by an ASSET QUALITY GATE: each stage measures its own inputs (decoded size + provenance) against the threshold for the output’s purpose and audience, and BLOCKS BEFORE COMPOSITING. A watermark is not a mitigation."
+  },
+  "blocked_run": {
+    "should_have_produced_visual": "NO founder-facing visual. At most the native-size previews labelled PREVIEW (direction only) and an internal wireframe that is never sent.",
+    "what_happened": [
+      "3 generations spent before confirming the files could be retrieved",
+      "previews upscaled into canvas-size layout proofs",
+      "a board named for founder review",
+      "the proofs zipped and sent on request"
+    ],
+    "what_should_have_happened": [
+      "retrieval preflight before generating (stop before spending credits)",
+      "status BLOCKED_ON_SCENE_RETRIEVAL with 0 candidates",
+      "deliver: block report, ledger, prompts, assembly code tested on fixtures",
+      "on the founder’s request: the 144×256 previews as they are, labelled PREVIEW — not composites"
+    ],
+    "correct_failure_behaviour": "BLOCK BEFORE COMPOSITING. REPORT, DON’T RENDER (BLOCKED_RUN_PROTOCOL)."
+  },
+  "shared_geometry": {
+    "source": "scripts/jurnl/f09-art-direction-regen-assemble.mjs (t01 / t02 / t03) — pt on the 393×852 canvas",
+    "modules": [
+      {
+        "module": "logo lockup",
+        "T01": "x 22 · y 24 · h 50",
+        "T02": "x 24 · y 24 · h 50",
+        "T03": "x 22 · y 24 · h 50",
+        "shared": "YES"
+      },
+      {
+        "module": "SAFE TO SPEND → amount → date stack",
+        "T01": "centred · from y ≈ 355 · 92 pt",
+        "T02": "left column x 24 · y 108–262 · 100 pt (+ YOU CAN SPEND)",
+        "T03": "centred · y 92–198 · 88 pt",
+        "shared": "ORDER (alignment differs in T02)"
+      },
+      {
+        "module": "held categories",
+        "T01": "survey tags on the floor perimeter",
+        "T02": "a brass-ink sentence",
+        "T03": "labels on the sill under the seals",
+        "shared": "NO"
+      },
+      {
+        "module": "primary CTA",
+        "T01": "full-width 340-pt emerald slab · y 606",
+        "T02": "same · y 628",
+        "T03": "same · y 620",
+        "shared": "YES"
+      },
+      {
+        "module": "purchase bridge",
+        "T01": "340-pt frosted stone card · y 664",
+        "T02": "340-pt stone card, serif headline · y 686",
+        "T03": "340-pt paper card · y 678",
+        "shared": "POSITION + SIZE (skin differs)"
+      },
+      {
+        "module": "nav",
+        "T01": "y 770",
+        "T02": "y 772",
+        "T03": "y 770",
+        "shared": "YES (correctly)"
+      }
+    ],
+    "blueprint_origin": [
+      "f09-composition-blueprint.ts systemZones: status, chrome, nav, home indicator and edge “identical on every F09 page”.",
+      "ctaZones: the CTA rect is the full 340-pt stage for every territory.",
+      "sharedOwnership: L2 signal, L4 secondary, L5 CTA, L6 chrome and L7 nav are deterministic in all three ownership maps.",
+      "visual_focal_order SIGNAL → OBJECT → SECONDARY → CTA → BRAND and depth_order are the same for all three."
+    ],
+    "brief_origin": "L06 PRODUCT EXPRESSION lists what each concept must include; together with “quiet central functional field” the list was rendered in list order.",
+    "approved_note": "Approved JURNL screens also use a full-width emerald CTA and one panel (F01 GET STARTED / SIGN IN; F03 SEE WHY + one panel). The slab is legitimate JURNL grammar. The failure is that it is identical in all three concepts, so it cannot carry concept identity.",
+    "verdict": "THREE BACKGROUNDS + ONE PRODUCT DESIGN. Below y 606 (the bottom 29 % of the canvas) the three pages are the same component stack, the logo is in the same place on all three, and the signal stack keeps one order. The concepts differ in the scene, in how the four held categories are written, and in the alignment of one text stack."
+  },
+  "deterministic_scope": {
+    "intended": [
+      "exact text",
+      "exact numbers",
+      "exact logo",
+      "exact nav"
+    ],
+    "actual": [
+      "fixed layout (blueprint rects reused)",
+      "fixed module order (identical focal order)",
+      "fixed CTA position and width (ctaZones: full 340-pt stage)",
+      "fixed typographic geometry (label → amount → date stack, shared type classes)",
+      "fixed logo position (x 22–24, y 24)"
+    ],
+    "expanded": true,
+    "mechanism": "Ownership was assigned per LAYER (L2 signal, L4 secondary, L5 CTA …) and every layer carried a rectangle, so “deterministic” came to mean “fixed rectangle” instead of “exact string”. The approved JURNL images show the opposite: exact strings inside a composition that changes per screen.",
+    "verdict": "YES — RC13 (RENDER_OWNERSHIP + PROMPT_OVER_CONSTRAINT), HIGH confidence: a direct cause of visual sameness and, with the single flat top plane, of the pasted-on composition."
+  },
+  "element_freedom_matrix": [
+    {
+      "element": "logo",
+      "exact": "official asset, never redrawn",
+      "locked": "legible official lockup present",
+      "move": "any corner, a masthead, or an in-world cue plus a small lockup",
+      "resize": "YES",
+      "restructure": "lockup ↔ mark + in-world cue",
+      "transform": "pressed, printed or carved in the world, then corrected to the asset"
+    },
+    {
+      "element": "SAFE TO SPEND label",
+      "exact": "SAFE TO SPEND",
+      "locked": "within one glance of the amount",
+      "move": "YES",
+      "resize": "YES",
+      "restructure": "above, below, beside the amount or as a running head",
+      "transform": "set on a surface, in perspective"
+    },
+    {
+      "element": "amount",
+      "exact": "$1,284",
+      "locked": "largest numeral; legible at a 25 % thumbnail; upper 60 % of the canvas",
+      "move": "any alignment",
+      "resize": "any scale above the legibility minimum",
+      "restructure": "hero alone or with a headline",
+      "transform": "type that participates in the image (scale, crop, occlusion)"
+    },
+    {
+      "element": "date line",
+      "exact": "AVAILABLE THROUGH OCT 18 (sample)",
+      "locked": "adjacent to the amount",
+      "move": "with the amount",
+      "resize": "YES",
+      "restructure": "line, inscription, caption",
+      "transform": "YES"
+    },
+    {
+      "element": "held categories",
+      "exact": "BILLS · PLANS · GOALS · BUFFER (canonical order)",
+      "locked": "all four named, legible",
+      "move": "YES",
+      "resize": "YES",
+      "restructure": "list, sentence, annotations, labelled objects",
+      "transform": "objects may carry the names (never blank objects)"
+    },
+    {
+      "element": "primary CTA",
+      "exact": "SEE WHY THIS AMOUNT",
+      "locked": "deep emerald, square-rounded (no circles / pills), ≥ 44-pt target, ≥ 4.5:1 contrast, above the nav",
+      "move": "anywhere in the reading path after the amount",
+      "resize": "compact to full stage",
+      "restructure": "slab, inline with the amount, attached to the object",
+      "transform": "material (lacquer, inlaid stone, enamel) while still reading as a button"
+    },
+    {
+      "element": "purchase bridge",
+      "exact": "WANT TO SPEND ON SOMETHING? · CHECK HOW IT FITS YOUR PLAN BEFORE YOU BUY. · CHECK A PURCHASE",
+      "locked": "subordinate to the primary CTA",
+      "move": "YES",
+      "resize": "YES",
+      "restructure": "card, note, ruled line, object, inline row",
+      "transform": "YES"
+    },
+    {
+      "element": "nav",
+      "exact": "HOME · MONEY · + · PLAN · CREDIT, icons, HOME active",
+      "locked": "canonical runtime nav: position, cells, order",
+      "move": "NO",
+      "resize": "NO",
+      "restructure": "NO",
+      "transform": "NO"
+    }
+  ],
+  "reading_order_lock": "The only order that is locked: SAFE TO SPEND + amount before the primary CTA; purchase bridge after the primary CTA; nav last. Everything else is the concept’s to design.",
+  "product_distinctness_minimum": "Pairwise, any two concepts differ in at least 3 of: logo placement · signal position / alignment · CTA position / form · purchase-module form / position · categories form · type–world relationship. CONCEPT_SKELETON must not fail.",
+  "jurnl_world_grammar": {
+    "vocabulary": [
+      "arches",
+      "limewashed plaster",
+      "olive",
+      "sea",
+      "warm stone",
+      "linen",
+      "terracotta"
+    ],
+    "vocabulary_verdict": "Necessary, not sufficient. These nouns describe any Mediterranean interior; the regen scenes contain all of them and still read as generic AI interiors.",
+    "grammar": [
+      {
+        "id": "ONE_PLACE",
+        "rule": "Every screen is the same place: the cliff-villa loggia (arcade, sea and cliffs, curtained terrace). Recognition comes from the place, not the materials.",
+        "approved": "F01 and F03: the same loggia, arcade and plinth",
+        "regen": "three different rooms (courtyard, wall, hall cabinet)"
+      },
+      {
+        "id": "INSIDE_VIEWPOINT",
+        "rule": "Camera inside the loggia, eye level, close; a foreground occluder (out-of-focus olive) in ≥ 1 bottom corner.",
+        "approved": "olive leaves blur the bottom corners",
+        "regen": "high or frontal-distant views; no foreground plane"
+      },
+      {
+        "id": "SPLIT_FRAME",
+        "rule": "A lit, quiet column carries the type; the world mass (arcade, view, still life) holds the opposite side and the lower edge.",
+        "approved": "type column left, world right and lower right",
+        "regen": "symmetric centred rooms; product centred over the empty middle"
+      },
+      {
+        "id": "VIEW_THROUGH_ARCADE",
+        "rule": "Sea and cliffs seen through a repeated arcade, large (≥ 15 % of the frame), in the upper quadrant of the world side.",
+        "approved": "arcade and headland, top right",
+        "regen": "a single framed window or arch: a small picture"
+      },
+      {
+        "id": "CURATED_STILL_LIFE",
+        "rule": "A staged vignette of ≥ 3 cultural objects on rough travertine, including a JURNL object.",
+        "approved": "bust, black marble bowl, JURNL books, velvet cushions",
+        "regen": "one functional object; blank books"
+      },
+      {
+        "id": "SOFT_MOTION",
+        "rule": "A backlit sheer curtain or textile in motion: air and time.",
+        "approved": "billowing sheer curtain",
+        "regen": "a curtain edge in one scene at most"
+      },
+      {
+        "id": "COUNTER_COLOUR",
+        "rule": "Saturated counter-masses (burgundy velvet, sea blue, olive green) ≥ 5 % of the frame against cream.",
+        "approved": "burgundy cushions, blue sea, green leaves",
+        "regen": "honey / beige monochrome; burgundy only as small seals"
+      },
+      {
+        "id": "LIVED_IN",
+        "rule": "Evidence of a life — cushions, books, a bowl in use: “money in service of life” made visible.",
+        "approved": "a collector’s terrace",
+        "regen": "empty sets"
+      },
+      {
+        "id": "TYPE_SCALE_AGAINST_WORLD",
+        "rule": "Display serif at hero scale set against the architecture; UI aligned to the type column’s edge.",
+        "approved": "TODAY / A CALMER, RICHER … as heroes; CTA on the column",
+        "regen": "type centred over scenery"
+      },
+      {
+        "id": "HIGH_KEY_AIR",
+        "rule": "Bright, high-key, backlit daylight; openness.",
+        "approved": "airy backlight",
+        "regen": "raking or dappled light in closed rooms"
+      }
+    ],
+    "why": "The scene prompts named materials and features and constrained geometry (empty centre, central 80 %), but never specified viewpoint, frame split, still life, counter-colour or the recurring place — and the route was text-to-image, so the grammar could not be inherited from the approved image.",
+    "confidence": "MEDIUM: the regen scenes were judged from 144×256 previews; the approved images at full size. The omission in the prompts is certain."
+  },
+  "root_cause_map": [
+    {
+      "category": "PROMPT CONTRADICTION",
+      "failure_class": "PROMPT_CONTRADICTION",
+      "causes": [
+        "Deliver three finished candidates vs 4K / authority quality, with no blocked outcome (C21).",
+        "Quiet central functional field vs a rich, immersive world (C09).",
+        "Overlay allowed vs “the founder must not see the scaffolding” with no integration method (C07)."
+      ],
+      "refs": [
+        "C21",
+        "C09",
+        "C07"
+      ],
+      "confidence": "HIGH"
+    },
+    {
+      "category": "PROMPT OMISSION",
+      "failure_class": "PROMPT_OMISSION",
+      "causes": [
+        "No asset-quality threshold.",
+        "No blocked-run deliverable.",
+        "No world reference attached (text-to-image route).",
+        "No element freedom matrix."
+      ],
+      "refs": [
+        "RC14",
+        "RC01"
+      ],
+      "confidence": "HIGH"
+    },
+    {
+      "category": "OVER-CONSTRAINT",
+      "failure_class": "PROMPT_OVER_CONSTRAINT",
+      "causes": [
+        "Shared blueprint skeleton + fixed payload presentation + preserved premises + quiet central field: only the scene could vary."
+      ],
+      "refs": [
+        "RC13",
+        "RC04",
+        "C11",
+        "C14"
+      ],
+      "confidence": "HIGH"
+    },
+    {
+      "category": "RENDER-OWNERSHIP ERROR",
+      "failure_class": "RENDER_OWNERSHIP",
+      "causes": [
+        "Deterministic = fixed rectangles (logo, stack, CTA, purchase module at shared coordinates).",
+        "The deterministic overlay used as the visual layer, flat over the scene."
+      ],
+      "refs": [
+        "RC13",
+        "RC05"
+      ],
+      "confidence": "HIGH"
+    },
+    {
+      "category": "ASSET-QUALITY GUARD FAILURE",
+      "failure_class": "ASSET_QUALITY_GUARD_FAILURE",
+      "causes": [
+        "144×256 previews upscaled ≈ 10× into canvas-size proofs, a founder-review-named board and a founder zip."
+      ],
+      "refs": [
+        "RC14"
+      ],
+      "confidence": "HIGH"
+    },
+    {
+      "category": "PIPELINE ORDER FAILURE",
+      "failure_class": "PIPELINE_ORDER",
+      "causes": [
+        "Generations spent before the retrieval preflight.",
+        "Product layout locked against thumbnails before any full-size scene QA.",
+        "Board and zip produced before a QA’d source existed."
+      ],
+      "refs": [
+        "RC14",
+        "RC08"
+      ],
+      "confidence": "HIGH"
+    },
+    {
+      "category": "REFERENCE / BRAND-WORLD UNDER-SPECIFICATION",
+      "failure_class": "BRAND_WORLD_UNDERSPECIFICATION",
+      "causes": [
+        "Mediterranean vocabulary instead of JURNL grammar.",
+        "The named benchmark (F03 parent, IN_REVIEW) never reached the renderer."
+      ],
+      "refs": [
+        "RC15",
+        "RC01",
+        "RC09"
+      ],
+      "confidence": "MEDIUM"
+    }
+  ]
+}

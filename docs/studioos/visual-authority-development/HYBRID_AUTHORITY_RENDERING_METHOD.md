@@ -5,6 +5,16 @@
 
 Generated art supplies the art-directed visual truth. Deterministic assembly renders the product truth. The **composite** combines the two, and it is the authority the founder reviews.
 
+## Correction: authored, not assembled (P0.JURNL.F09-SAFE-TO-SPEND.THREE-CONCEPT-ART-DIRECTION-REGEN-CORRECTION1)
+
+The first F09 executions of this method were founder-rejected. They read as sparse scene plates with UI cards on top: blank brass plates, empty mockup zones, a debug border, device chrome and glitched type were all visible. The method stands, but its execution standard is now explicit:
+
+- The scene is a **finished world** at the project's richness benchmark, and the signature object is **fully realised** by the generator. Nothing blank is ever visible.
+- The product layer is **set in the scene's light**: multiply-blended ink on plaster and stone, frosted material panels, shadows from the scene's light direction, and one grain over the whole page.
+- **No device chrome** inside an authority view.
+- Composites pass the **finish audit** (`FINISH_QA`) and the founder verdict before they count. See [COMPOSITE_AUTHORITY_QA.md](COMPOSITE_AUTHORITY_QA.md).
+- Proofs, plates and previews never reach the founder board.
+
 ## Pipeline
 
 ```

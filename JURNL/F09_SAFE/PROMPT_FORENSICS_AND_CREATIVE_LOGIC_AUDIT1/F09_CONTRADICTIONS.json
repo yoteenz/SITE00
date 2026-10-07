@@ -1,0 +1,429 @@
+{
+  "id": "F09_CONTRADICTIONS",
+  "sprint": "P0.JURNL.F09.PROMPT-FORENSICS-AND-CREATIVE-LOGIC-AUDIT1",
+  "generated_by": "scripts/studioos/jurnl-f09-prompt-forensics-export.ts",
+  "analysis_only": true,
+  "count": 21,
+  "severity": {
+    "CRITICAL": 2,
+    "HIGH": 13,
+    "MEDIUM": 5,
+    "LOW": 1
+  },
+  "contradictions": [
+    {
+      "id": "C01",
+      "a": "Legacy firewall: prior JURNL visuals may not inform composition, image placement, background treatment or materials (L01 §2).",
+      "b": "Use the approved art-driven JURNL image as the richness benchmark (L06).",
+      "why": "The firewall did not separate legacy UI layout (to exclude) from approved brand-world authority (to inherit); the benchmark is prior JURNL visual work.",
+      "failure": "The approved world was never consumed; three thinner worlds were invented from text.",
+      "severity": "CRITICAL",
+      "sources": [
+        "L01",
+        "L06",
+        "shared/.../f09-safe-to-spend.ts (PLATE_LOGGIA “image not opened”)"
+      ]
+    },
+    {
+      "id": "C02",
+      "a": "Known failure = PRETTY BACKGROUND + TEXT + STACKED CARDS; do not let decorative imagery overpower comprehension; no card stacks on pretty backgrounds (L01, L02).",
+      "b": "The benchmark (F01 / F03 world) is a rich photographic background + display type + one panel (L06).",
+      "why": "The named anti-pattern and the benchmark are visually the same genre; the line between “pretty background” (bad) and “environmental richness” (good) was never defined.",
+      "failure": "Environment systematically suppressed → blank plaster, single object.",
+      "severity": "CRITICAL",
+      "sources": [
+        "L01",
+        "L02",
+        "L06"
+      ]
+    },
+    {
+      "id": "C03",
+      "a": "Family identity must survive blurred imagery; distinctness is structural (L01 §11).",
+      "b": "Creative distinctness ≥ 8/10 dimensions incl. environment, material and depth strategy (L02 §17).",
+      "why": "Approved JURNL families share one world and differ in structure; the gate forced three different worlds.",
+      "failure": "Each concept had to invent a new world from text; none reached the shared world’s richness.",
+      "severity": "HIGH",
+      "sources": [
+        "L01",
+        "L02",
+        "creative-direction.ts CREATIVE_DISTINCTNESS"
+      ]
+    },
+    {
+      "id": "C04",
+      "a": "Lock text, logo, nav and CTA; the generator renders the full screen (L02 §9–10).",
+      "b": "The generator may not render precision UI (L03 §5).",
+      "why": "Sequential reversal: L02 gave the generator ~19 exact strings incl. tiny labels; L03 removed text entirely. Neither tried the method that produced the approved images (reference-bound full screen + exact-text correction).",
+      "failure": "Round 2 typography failures; round 3+ lost UI–world integration.",
+      "severity": "HIGH",
+      "sources": [
+        "L02",
+        "L03",
+        "L02b"
+      ]
+    },
+    {
+      "id": "C05",
+      "a": "The generator may create negative space / placeholders for UI (L03 §16) → plate BLANK SURFACES.",
+      "b": "Do not use placeholder brass plates / empty wall zones as visible final output (L06).",
+      "why": "Placeholders were requested upstream and forbidden downstream; the assembly could not convincingly fill them.",
+      "failure": "Blank tags, plaques, slips and strips visible in composites.",
+      "severity": "HIGH",
+      "sources": [
+        "L03",
+        "L03a",
+        "L05",
+        "L06"
+      ]
+    },
+    {
+      "id": "C06",
+      "a": "Do not use / access OpenArt (L01 DO NOT; L02 DO NOT).",
+      "b": "Use Sunburst 4K (L02 §8); use the most appropriate workflow in Opus’s environment; “no OpenArt from ChatGPT” (L01 §17, L06).",
+      "why": "The only 4K Sunburst route was banned in the same brief; the ban was later clarified as ChatGPT-only.",
+      "failure": "Round 1 local HTML renders; round 2 blocked → founder ChatGPT pass (contamination); later routes without reference input.",
+      "severity": "HIGH",
+      "sources": [
+        "L01",
+        "L02",
+        "L06"
+      ]
+    },
+    {
+      "id": "C07",
+      "a": "The image generator is not the final designer (L03, L06).",
+      "b": "Produce a fully re-authored finished authority; the founder must not see the scaffolding (L06).",
+      "why": "No method was specified that makes a plate + overlay read as one image (no shared light, plane or occlusion rules).",
+      "failure": "Assembled, pasted-on look.",
+      "severity": "HIGH",
+      "sources": [
+        "L03",
+        "L06"
+      ]
+    },
+    {
+      "id": "C08",
+      "a": "Deterministic UI owns product truth (L03).",
+      "b": "The final image must feel coherent and not assembled (L06).",
+      "why": "Ownership was implemented as flat app components (bordered cards, pills, frosted boxes) in one top plane.",
+      "failure": "UI reads as a separate construction system.",
+      "severity": "HIGH",
+      "sources": [
+        "L03",
+        "L04",
+        "L05"
+      ]
+    },
+    {
+      "id": "C09",
+      "a": "CENTER_STAGE: nav-bearing screens centre the field; background frames from the perimeter; no left-column drift (L01 §8, canonical refinement 3).",
+      "b": "Benchmark composition: left-led editorial column with the world on the open side (F01 approved is EDGE_LED; F03 parent is IN_REVIEW and pre-dates CENTER_STAGE).",
+      "why": "Centred product sits on the scene’s most valuable area; a rich world must then live only at the perimeter — no rule says how.",
+      "failure": "Scenes generated with quiet empty centres → plain walls, empty floors.",
+      "severity": "HIGH",
+      "sources": [
+        "L01",
+        "docs/jurnl/refinements/mobile-center-stage3/JURNL_CENTER_STAGE_QA_REPORT.md"
+      ]
+    },
+    {
+      "id": "C10",
+      "a": "SYSTEM CHROME ZONE; L6 SYSTEM CHROME; overlay TOP BAR / BACK / SETTINGS / INFO (L03).",
+      "b": "No device chrome (RERUN1, L06).",
+      "why": "“System chrome” was undefined; the agent’s own canonical geometry defined a 9:41 status bar and home indicator.",
+      "failure": "Execution-1 composites rendered iOS chrome.",
+      "severity": "HIGH",
+      "sources": [
+        "L03",
+        "f09-creative-direction.ts F09_FRAME_GEOMETRY",
+        "f09-composition-blueprint.ts systemZones"
+      ]
+    },
+    {
+      "id": "C11",
+      "a": "Three distinct concepts (all briefs).",
+      "b": "One fixed payload with identical presentation: same CTA slab under the object, same purchase card, same top chrome, same label→amount→date stack, same nav (RERUN1, L06).",
+      "why": "Presentation was locked along with truth, so only the background could differ.",
+      "failure": "Concepts collapse into one UI stack over three backdrops.",
+      "severity": "HIGH",
+      "sources": [
+        "F09_FOUNDER_REVIEW_PAYLOAD.json",
+        "L05",
+        "L06",
+        "L06b"
+      ]
+    },
+    {
+      "id": "C12",
+      "a": "Strict brand fidelity (palette / material lists, must-not lists).",
+      "b": "Conceptual novelty: a visual idea no generic UI generator could produce (L02 §6).",
+      "why": "Novelty was routed into data-encoding metaphors (floor area, metal words, envelope thickness); fidelity into palette nouns.",
+      "failure": "Clever diagrams in correct colours; neither rich nor editorial.",
+      "severity": "MEDIUM",
+      "sources": [
+        "L02",
+        "f09-creative-direction.ts"
+      ]
+    },
+    {
+      "id": "C13",
+      "a": "Use the founder comparison concept as the quality bar; extract its lessons (L02 §15, L03 §9).",
+      "b": "The image was never supplied to the agent or committed to the repo.",
+      "why": "An unconsumable reference; lessons were extracted from prose only.",
+      "failure": "The quality bar never reached the renderer.",
+      "severity": "HIGH",
+      "sources": [
+        "L02",
+        "L03"
+      ]
+    },
+    {
+      "id": "C14",
+      "a": "Preserve the three structural territories; do not create new concepts (L02, L03, L06).",
+      "b": "Concepts read as diagrams / unfinished — re-author fully (L03, L06).",
+      "why": "The premises themselves (overhead plan, wall inscription, sorting rack) demand diagrammatic depiction; preserving them preserved the failure mode.",
+      "failure": "Each correction re-rendered the same diagram energy.",
+      "severity": "MEDIUM",
+      "sources": [
+        "L02",
+        "L03",
+        "L06"
+      ]
+    },
+    {
+      "id": "C15",
+      "a": "Do not pre-bias the concepts; every number must map to a real F09 field (L01 §12, §14).",
+      "b": "The comparison concept’s features became the payload: AVAILABLE THROUGH OCT 18, BUFFER, CHECK A PURCHASE, $1,284 (L03 §6 examples, RERUN1 payload).",
+      "why": "Product truth was imported from a concept image outside the data contract (no date horizon exists in computeSafeToSpend).",
+      "failure": "Product-truth churn between rounds; not the visual failure itself.",
+      "severity": "MEDIUM",
+      "sources": [
+        "L01",
+        "L03",
+        "F09_FOUNDER_REVIEW_PAYLOAD.json",
+        "src/projects/jurnl/data/f09/safeToSpend.ts"
+      ]
+    },
+    {
+      "id": "C16",
+      "a": "The environment IS the data object (L02 translation T01).",
+      "b": "Metaphor contained to OBJECT or ZONE (L03 §10).",
+      "why": "Sequential reversal of where the metaphor lives.",
+      "failure": "Round 2 metaphor-as-page; round 3 object floating in an empty world.",
+      "severity": "MEDIUM",
+      "sources": [
+        "L02",
+        "L03"
+      ]
+    },
+    {
+      "id": "C17",
+      "a": "Logo integrated in the scene — carved, cast, embossed (profile).",
+      "b": "The generator may not render logo geometry (L03).",
+      "why": "In-scene branding then requires compositing onto 3D surfaces, which the assembly could not do well.",
+      "failure": "Logo as a flat stamp or pasted box; mutated marks when the generator tried.",
+      "severity": "MEDIUM",
+      "sources": [
+        "creative-direction-profile.ts",
+        "L03"
+      ]
+    },
+    {
+      "id": "C18",
+      "a": "Witty, bespoke, rich (L02 §6, L06).",
+      "b": "Anti-generic / anti-AI bans on botanicals, gold, 3D objects, gradients, glass, “material overload”, arches, sea views.",
+      "why": "The bans cover the vocabulary of richness without defining justified use.",
+      "failure": "Model plays safe → sparse.",
+      "severity": "HIGH",
+      "sources": [
+        "L02",
+        "creative-direction-profile.ts",
+        "SUNBURST_PROMPTS/T01 FORBIDDEN ELEMENTS"
+      ]
+    },
+    {
+      "id": "C19",
+      "a": "393×852 product canvas.",
+      "b": "9:16 generation with the viewport as the central 82 % (L02 §8).",
+      "why": "Different aspect ratios invite bleed confusion and device-shaped framing.",
+      "failure": "Minor crop / framing drift; status-bar thinking.",
+      "severity": "LOW",
+      "sources": [
+        "L02"
+      ]
+    },
+    {
+      "id": "C20",
+      "a": "Image generation is a renderer, not the designer (L02).",
+      "b": "Approved JURNL images were designed by reference: the renderer inherited composition, world and type from an approved image.",
+      "why": "The rule was read as “describe everything in words”; the approved method is “show the renderer the authority”.",
+      "failure": "Prompts grew to ~2,000 words of description instead of one attached authority.",
+      "severity": "HIGH",
+      "sources": [
+        "L02",
+        "F03_GENERATION_LEDGER.json"
+      ]
+    },
+    {
+      "id": "C21",
+      "a": "Produce the proper 3 finished concept candidates through the correct downstream route in your environment (L06 RENDERER / EXECUTION RULE, DELIVERABLES).",
+      "b": "Sunburst 4K; finished authority quality; the founder must not see the scaffolding (L06).",
+      "why": "When the environment cannot deliver a full-size file both cannot hold, and no brief or method defined the blocked outcome — so the run kept “deliver something” and dropped “at authority quality”.",
+      "failure": "144×256 previews upscaled ≈ 10× into layout proofs, a board headed THREE CONCEPT CANDIDATES and a zip sent to the founder.",
+      "severity": "HIGH",
+      "sources": [
+        "L06",
+        "L06b",
+        "REGEN_RENDER_LEDGER.json"
+      ]
+    }
+  ],
+  "over_constraint": [
+    {
+      "area": "PRODUCT LAYER",
+      "locked": [
+        "copy",
+        "amount",
+        "date line",
+        "CTA label + full-width emerald slab",
+        "purchase module copy + card form",
+        "top chrome",
+        "label → amount → date order",
+        "nav",
+        "blueprint pt rectangles"
+      ],
+      "free": [
+        "background"
+      ],
+      "sufficient": false,
+      "failure": "Concepts become backdrop swaps under one UI stack."
+    },
+    {
+      "area": "WORLD",
+      "locked": [
+        "no arches (T01)",
+        "no sea-view balconies",
+        "one justified plant / olive only in the bleed",
+        "no gold, glass, gradients, 3D objects",
+        "≤ 4 material families",
+        "orthographic or frontal depth models",
+        "environment must differ per territory"
+      ],
+      "free": [
+        "which smooth beige surface"
+      ],
+      "sufficient": false,
+      "failure": "Sparse, cold, generic Mediterranean-by-noun."
+    },
+    {
+      "area": "COMPOSITION",
+      "locked": [
+        "CENTER_STAGE",
+        "stage x 26.5–366.5",
+        "nav footprint",
+        "reserved quiet regions per zone",
+        "signature object 12–50 % of stage",
+        "density metrics"
+      ],
+      "free": [
+        "object choice inside the centre"
+      ],
+      "sufficient": false,
+      "failure": "No editorial layouts possible; the world is pushed into thin perimeters."
+    },
+    {
+      "area": "TYPOGRAPHY",
+      "locked": [
+        "two fonts",
+        "uppercase",
+        "≤ 5 sizes",
+        "colours"
+      ],
+      "free": [
+        "scale",
+        "placement"
+      ],
+      "sufficient": true,
+      "failure": "None in itself — but type was never allowed to touch the world (all text in one top plane)."
+    },
+    {
+      "area": "LOGO",
+      "locked": [
+        "official asset",
+        "never redrawn",
+        "not generator-rendered"
+      ],
+      "free": [
+        "position"
+      ],
+      "sufficient": true,
+      "failure": "In practice locked to a top-left stamp; in-world brand cues (book spine, seal) impossible without compositing skill."
+    }
+  ],
+  "under_specified": [
+    {
+      "word": "MEDITERRANEAN",
+      "visual": "Arched architecture opening to sea / coast; limewash and rough travertine; olive; hard warm sun with long shadows.",
+      "minimum": "≥ 1 arch, ≥ 1 view out, ≥ 2 botanical placements, a directional sun shadow.",
+      "structure": "The world has an inside and an outside (a view).",
+      "satisfied_badly_by": "Beige plaster wall + one olive sprig."
+    },
+    {
+      "word": "EDITORIAL",
+      "visual": "Magazine-cover grammar: masthead lockup, one huge condensed serif word or figure, a tracked deck, a staged still life.",
+      "minimum": "Display element ≥ 56 pt; a tracked deck; one deliberate asymmetry.",
+      "structure": "Type is the hero of one zone; the image is the hero of another.",
+      "satisfied_badly_by": "Serif headline centred over a photo."
+    },
+    {
+      "word": "LUXURY / QUIET LUXURY",
+      "visual": "Material contrast (rough stone vs sheer linen vs velvet), restraint in UI, generous space that is lit, not empty.",
+      "minimum": "≥ 4 materials incl. 1 soft, 1 rough, 1 translucent.",
+      "structure": "Space comes from light and architecture, not from blank areas.",
+      "satisfied_badly_by": "Generic beige minimalism."
+    },
+    {
+      "word": "CALM",
+      "visual": "Few focal points, soft light, slow rhythm, no competing objects near the figure.",
+      "minimum": "≤ 2 focal points above the fold.",
+      "structure": "Calm product zone, rich world zone — not calm everywhere.",
+      "satisfied_badly_by": "Empty."
+    },
+    {
+      "word": "RICH",
+      "visual": "Depth planes, object relationships, texture, accent colour masses.",
+      "minimum": "≥ 3 planes; ≥ 5 distinct objects in the world; ≥ 1 accent colour mass (burgundy / sea blue / olive).",
+      "structure": "Richness concentrated in the world zone and the foreground frame.",
+      "satisfied_badly_by": "“Rich” palette words with a single object."
+    },
+    {
+      "word": "BESPOKE / CUSTOM-DESIGNED",
+      "visual": "Something drawn for this page that a template would not contain (a cut, a crop, a type–object relationship).",
+      "minimum": "1 element whose form only makes sense for SAFE TO SPEND.",
+      "structure": "Designed at composition level, not as a data metaphor.",
+      "satisfied_badly_by": "A clever data diagram."
+    },
+    {
+      "word": "ARTISTIC / WITTY",
+      "visual": "A visual relationship that rewards a second look.",
+      "minimum": "1 relationship, stated in one sentence, that is visible without reading copy.",
+      "structure": "Lives in the world or the type–world relationship.",
+      "satisfied_badly_by": "An explanation in the prompt the viewer never sees."
+    },
+    {
+      "word": "ANTI-AI",
+      "visual": "Exact letters, physically plausible light, no plastic surfaces, no symmetric default layout.",
+      "minimum": "Zero glyph errors; light consistent across product and world.",
+      "structure": "Exactness via correction, not via banning content.",
+      "satisfied_badly_by": "Removing everything that could fail."
+    },
+    {
+      "word": "FULLY AUTHORED / FINISHED",
+      "visual": "One image, one light, no seams (FULLY_AUTHORED_DEFINITION).",
+      "minimum": "Passes ANTI_ASSEMBLY_TEST.",
+      "structure": "Generate whole, correct parts.",
+      "satisfied_badly_by": "Checklist PASS on a visibly assembled image."
+    }
+  ]
+}

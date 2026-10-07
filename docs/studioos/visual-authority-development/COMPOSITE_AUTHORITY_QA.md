@@ -5,6 +5,8 @@
 
 `checkCompositeAuthority({ blueprint, ownership, profile, composite, renderer_model })` → `AUTHORITY_READY` | `COMPOSITE_AUTHORITY_REQUIRED`.
 
+> **SCENE PLATE + OVERLAY IS NOT A FINISHED AUTHORITY.** Composition intent + brand world + official logo / type + bespoke art direction + deterministic product UI is. (Added by P0.JURNL.F09-SAFE-TO-SPEND.THREE-CONCEPT-ART-DIRECTION-REGEN-CORRECTION1, after two F09 composite rounds passed every mechanical check and were founder-rejected.)
+
 ## What must hold
 
 1. **The blueprint and the ownership map are ready.**
@@ -25,6 +27,13 @@
 
    A sparse layout with the right colours is not rich.
 7. **Product clarity ≤ 2 seconds.** On a SAFE TO SPEND-class page, the primary signal is understood without interpreting the metaphor.
+8. **Finish audit (authored-authority standard).** Every item passes; a composite with no finish audit is not ready:
+   - NO_VISIBLE_SCAFFOLDING: no blank plates, tags or panels, empty mockup zones, guide boxes, debug borders or placeholder primitives in the final image
+   - NO_DEVICE_CHROME: no status bar, home indicator, phone or browser frame inside the authority view
+   - OBJECT_FULLY_REALIZED · WORLD_AT_BENCHMARK (at or above the project's approved art-driven image)
+   - UNIFIED_LIGHT_GRADE_GRAIN: overlays share the scene's light direction, grade and grain
+   - TYPE_INTEGRITY · LOGO_OFFICIAL_INTEGRATED · CONCEPT_DISTINCT
+9. **Founder verdict.** A REJECTED verdict blocks authority even when every check above passes.
 
 ## Typography defects (creative-direction audit)
 

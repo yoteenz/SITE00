@@ -745,6 +745,17 @@ const genQa = () => qaTrue(GENERATOR_QA);
 const compQa = () => qaTrue(COMPOSITE_QA);
 const richness = () => Object.fromEntries(RICHNESS_DIMENSIONS.map((d) => [d, 4])) as CompositeAuthority['richness'];
 
+/** Founder review of HYBRID-COMPOSITE-AUTHORITY-EXECUTION1 + THREE-DISTINCT-COMPOSITE-AUTHORITY-RERUN1 (REGEN-CORRECTION1 brief). */
+export const F09_COMPOSITE_ROUND_FOUNDER_FINDINGS = [
+  'Built too literally from scene plates instead of re-authored into finished authority images',
+  'Typography / text rendering glitched',
+  'The world did not read as richly Mediterranean / architectural / editorial as the approved art-driven JURNL image',
+  'Compositions generic, unfinished, underdesigned, not bespoke',
+  'Read as shoddy assemblies, not founder-review-ready authorities',
+  'Phone / device UX chrome included in the authority view',
+  'The three concepts did not feel like three separate, fully realized candidates',
+] as const;
+
 const HYBRID_PLATES = [
   { t: 'T01', tid: 'JURNL.F09.T01', plate_sha: '0238be451e7d9f150034e753c155f3b16eb3fa546e6d6dd48701a22778d0b099', composite: 'F09_T01_SURVEYED_COURTYARD_MOBILE_393x852.png', composite_sha: '061baba682e8c5fc8c868e4e254b14910c9f92dd65413917f2a5da8806d51d80', history: 'd6K9fLZ8HLzpxFfKWxhE', art: ['L0', 'L3'] as LayerId[] },
   { t: 'T02', tid: 'JURNL.F09.T02', plate_sha: '020ce1625bcc1607796258752fb48ac9c44441276e1415cdd6f44a4565bc15b3', composite: 'F09_T02_ANSWER_IN_RAKING_LIGHT_MOBILE_393x852.png', composite_sha: '90cbda39f3488667de5265a1645c696ab3ae0865b83f7f87256a471285bd0979', history: 'BfrmFeCAensa14V72eSr', art: ['L0', 'L1', 'L3'] as LayerId[] },
@@ -780,6 +791,8 @@ export const JURNL_F09_HYBRID_COMPOSITES: CompositeAuthority[] = HYBRID_PLATES.m
     richness: richness(),
     product_clarity_seconds: 1.5,
     image_path: `${JURNL_F09_HYBRID_DIR}/COMPOSITES/${h.composite}`,
+    founder_verdict: 'REJECTED',
+    founder_findings: [...F09_COMPOSITE_ROUND_FOUNDER_FINDINGS],
   };
 });
 
@@ -818,6 +831,8 @@ export const JURNL_F09_RERUN_COMPOSITES: CompositeAuthority[] = RERUN_PLATES.map
     richness: richness(),
     product_clarity_seconds: 1.2,
     image_path: `${JURNL_F09_RERUN_DIR}/COMPOSITES/${h.composite}`,
+    founder_verdict: 'REJECTED',
+    founder_findings: [...F09_COMPOSITE_ROUND_FOUNDER_FINDINGS],
   };
 });
 

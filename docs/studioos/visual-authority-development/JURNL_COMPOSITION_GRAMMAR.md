@@ -5,6 +5,15 @@
 
 The JURNL creative-direction profile says what JURNL is made of. This grammar says how those things are arranged on a 393×852 page, so the product reads first and the world enriches it.
 
+## Richness benchmark
+
+`src/projects/jurnl/families/F03_TODAY/AUTHORITIES/F03.00_TODAY_PARENT.jpg` is the founder-approved art-driven JURNL image. It sets the bar for:
+- richness and Mediterranean environmental credibility (loggia arches, sea, sheer linen, travertine, olive, classical still life)
+- calm editorial luxury, material sophistication and a custom-designed feel
+- logo intelligence (the lockup top-left), balanced stage composition and product clarity
+
+Every JURNL concept round must meet or exceed it. It is never copied literally.
+
 ## Rules
 
 | # | Rule | In practice |

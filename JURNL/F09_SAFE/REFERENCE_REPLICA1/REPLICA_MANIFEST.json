@@ -1,0 +1,1432 @@
+{
+  "id": "REPLICA_MANIFEST",
+  "sprint": "P0.JURNL.F09.REFERENCE-REPLICA1",
+  "generated_by": "scripts/studioos/jurnl-f09-reference-replica-export.ts",
+  "stage": {
+    "reference_px": {
+      "w": 853,
+      "h": 1844
+    },
+    "runtime_pt": {
+      "w": 393,
+      "h": 852
+    },
+    "review_scale": 3,
+    "scale": 0.46072684642438455
+  },
+  "references": {
+    "dir": "JURNL/F09_SAFE/REFERENCE_REPLICA1/REFERENCES",
+    "files": [
+      {
+        "node": "F09.00",
+        "file": "01_SAFE_TO_SPEND.png",
+        "role": "APPROVED",
+        "note": "Parent. Shows the lockup, tagline and menu; the 9:41 status bar and home indicator are the phone, not JURNL."
+      },
+      {
+        "node": "F09.WHY",
+        "file": "02_WHY_THIS_NUMBER.png",
+        "role": "APPROVED",
+        "note": "Direct descendant, full page."
+      },
+      {
+        "node": "F09.ACCOUNT",
+        "file": "03_ACCOUNT_PAGE_1.png",
+        "role": "APPROVED",
+        "note": "Full page, continuation 1 of 3. Its shell is the shell of all three."
+      },
+      {
+        "node": "F09.ACCOUNT",
+        "file": "04_ACCOUNT_PAGE_2.png",
+        "role": "APPROVED",
+        "note": "Continuation 2 of 3."
+      },
+      {
+        "node": "F09.ACCOUNT",
+        "file": "05_ACCOUNT_PAGE_3.png",
+        "role": "APPROVED",
+        "note": "Continuation 3 of 3."
+      },
+      {
+        "node": "F09.ACCOUNT",
+        "file": "06_ACCOUNT_DRAWER.png",
+        "role": "APPROVED",
+        "note": "Drawer expression. One line is mixed case in the image; built uppercase (family rule)."
+      },
+      {
+        "node": "F09.CHECK",
+        "file": "07_CHECK_A_PURCHASE.png",
+        "role": "APPROVED",
+        "note": "Direct descendant; parent of both selection sheets."
+      },
+      {
+        "node": "F09.CHECK.CATEGORY",
+        "file": "08_SELECT_A_CATEGORY.png",
+        "role": "APPROVED",
+        "note": "The sizing template (CATEGORY_SHEET_SYSTEM)."
+      },
+      {
+        "node": "F09.CHECK.PAY_WITH",
+        "file": "09_SELECT_AN_ACCOUNT_CURRENT.png",
+        "role": "CURRENT",
+        "note": "Information only: what the drawer lists. Its 2-column, 373 px tiles are the drift being corrected."
+      }
+    ]
+  },
+  "layout": "src/projects/jurnl/runtime/layout/referenceLayout.ts",
+  "runtime_assets": "src/projects/jurnl/families/F09_SAFE/REFERENCE_REPLICA",
+  "tools": "scripts/jurnl/reference-replica",
+  "screens": [
+    {
+      "node": "F09.00",
+      "name": "SAFE TO SPEND (reference 01)",
+      "route": "/production/jurnl/runtime/safe/reference",
+      "references": [
+        "01_SAFE_TO_SPEND.png"
+      ],
+      "plate": "plates/F09_PARENT_PLATE.jpg",
+      "component": "SafeToSpendScreens.tsx · SafeToSpendReferenceScreen",
+      "note": "Beside /safe, which keeps the founder-tuned parent from main. The menu opens the ACCOUNT drawer."
+    },
+    {
+      "node": "F09.WHY",
+      "name": "WHY THIS NUMBER",
+      "route": "/production/jurnl/runtime/safe/why",
+      "references": [
+        "02_WHY_THIS_NUMBER.png"
+      ],
+      "plate": "plates/F09_WHY_PLATE.jpg",
+      "component": "SafeToSpendScreens.tsx · SafeToSpendWhyScreen",
+      "note": "Live breakdown rows; CHANGE WHAT’S HELD opens the hold sheet; LEARN MORE opens Ask JURNL."
+    },
+    {
+      "node": "F09.CHECK",
+      "name": "CHECK A PURCHASE",
+      "route": "/production/jurnl/runtime/safe/check",
+      "references": [
+        "07_CHECK_A_PURCHASE.png"
+      ],
+      "plate": "plates/F09_CHECK_PLATE.jpg",
+      "component": "CheckPurchaseScreens.tsx · CheckPurchaseScreen",
+      "note": "Amount field and chips, category and account pickers, live verdict on CHECK PURCHASE."
+    },
+    {
+      "node": "F09.CHECK.CATEGORY",
+      "name": "SELECT A CATEGORY",
+      "route": "/production/jurnl/runtime/safe/check (sheet)",
+      "references": [
+        "08_SELECT_A_CATEGORY.png"
+      ],
+      "plate": "plates/F09_CHECK_PLATE.jpg",
+      "component": "CheckPurchaseScreens.tsx · SelectionSheet",
+      "note": "Opens over CHECK A PURCHASE with the reference’s 50 % scrim."
+    },
+    {
+      "node": "F09.CHECK.PAY_WITH",
+      "name": "SELECT AN ACCOUNT",
+      "route": "/production/jurnl/runtime/safe/check (sheet)",
+      "references": [
+        "09_SELECT_AN_ACCOUNT_CURRENT.png",
+        "08_SELECT_A_CATEGORY.png"
+      ],
+      "plate": "plates/F09_CHECK_PLATE.jpg",
+      "component": "CheckPurchaseScreens.tsx · SelectionSheet",
+      "note": "Content from the current drawer, sizes from SELECT A CATEGORY (sprint rule)."
+    },
+    {
+      "node": "F09.ACCOUNT",
+      "name": "ACCOUNT (full page, 3 continuation screens)",
+      "route": "/production/jurnl/runtime/account",
+      "references": [
+        "03_ACCOUNT_PAGE_1.png",
+        "04_ACCOUNT_PAGE_2.png",
+        "05_ACCOUNT_PAGE_3.png"
+      ],
+      "plate": "plates/F09_ACCOUNT_PLATE.jpg",
+      "component": "AccountScreens.tsx · AccountScreen",
+      "note": "Page 1’s photograph and shell on all three pages (CONTINUATION_RULE); each page’s cards from its own reference."
+    },
+    {
+      "node": "F09.ACCOUNT",
+      "name": "ACCOUNT (drawer)",
+      "route": "menu on SAFE TO SPEND, WHY THIS NUMBER and ACCOUNT",
+      "references": [
+        "06_ACCOUNT_DRAWER.png"
+      ],
+      "plate": "plates/F09_ACCOUNT_DRAWER_PLATE.jpg",
+      "component": "AccountScreens.tsx · AccountDrawer",
+      "note": "The stone panel is part of the photograph. Tapping outside it closes the drawer."
+    }
+  ],
+  "assets": [
+    {
+      "file": "plates/F09_PARENT_PLATE.jpg",
+      "kind": "PLATE",
+      "reference": "01_SAFE_TO_SPEND.png",
+      "source_box": [
+        0,
+        0,
+        853,
+        1844
+      ],
+      "px": {
+        "w": 853,
+        "h": 1844
+      },
+      "method": "LIFTED: type and controls masked; small holes Telea-inpainted, panel areas push-pull filled and softened (they sit under opaque coded panels)",
+      "subject": "a sunlit limewashed Mediterranean loggia: a tall arch open to a calm blue sea and a rocky headland, olive trees in terracotta-and-stone urns at both sides, a terrazzo floor with soft leaf shadows; centre foreground, a cream stone folder standing on a speckled granite plinth with four tabs at its back — sand, ivory, sage and deep green — and a small painted olive sprig printed near its top-left corner, nothing written on it",
+      "target_px": {
+        "w": 2160,
+        "h": 4670
+      },
+      "covers_pt": {
+        "w": 393,
+        "h": 849.6
+      }
+    },
+    {
+      "file": "plates/F09_WHY_PLATE.jpg",
+      "kind": "PLATE",
+      "reference": "02_WHY_THIS_NUMBER.png",
+      "source_box": [
+        0,
+        0,
+        853,
+        1844
+      ],
+      "px": {
+        "w": 853,
+        "h": 1844
+      },
+      "method": "LIFTED: type and controls masked; small holes Telea-inpainted, panel areas push-pull filled and softened (they sit under opaque coded panels)",
+      "subject": "the same sunlit loggia seen closer: a pale stone arch on the right opening to the sea and cliffs, olive branches top right and lower left, speckled stone urns on stepped terrazzo; centre, a tall cream stone folder with five tabs behind it — sand, ivory, pale stone, sage and deep green — and a painted olive sprig near its top-left corner, nothing written on it",
+      "target_px": {
+        "w": 2160,
+        "h": 4670
+      },
+      "covers_pt": {
+        "w": 393,
+        "h": 849.6
+      }
+    },
+    {
+      "file": "plates/F09_CHECK_PLATE.jpg",
+      "kind": "PLATE",
+      "reference": "07_CHECK_A_PURCHASE.png",
+      "source_box": [
+        0,
+        0,
+        853,
+        1844
+      ],
+      "px": {
+        "w": 853,
+        "h": 1844
+      },
+      "method": "LIFTED: type and controls masked; small holes Telea-inpainted, panel areas push-pull filled and softened (they sit under opaque coded panels)",
+      "subject": "a sunlit limewashed loggia with one tall arch open to a calm sea and a headland, an olive tree in a large speckled urn on the left, a woven throw and stone bench on the right, a pale terrazzo floor in dappled shade",
+      "target_px": {
+        "w": 2160,
+        "h": 4670
+      },
+      "covers_pt": {
+        "w": 393,
+        "h": 849.6
+      }
+    },
+    {
+      "file": "plates/F09_ACCOUNT_PLATE.jpg",
+      "kind": "PLATE",
+      "reference": "03_ACCOUNT_PAGE_1.png",
+      "source_box": [
+        0,
+        0,
+        853,
+        1844
+      ],
+      "px": {
+        "w": 853,
+        "h": 1844
+      },
+      "method": "LIFTED: type and controls masked; small holes Telea-inpainted, panel areas push-pull filled and softened (they sit under opaque coded panels)",
+      "subject": "a bright Mediterranean terrace: a limewashed arch framing blue sky, clouds, a cypress and a rocky coast, an olive tree and tall speckled stone vases on the left, stone steps, a cushioned bench with a woven throw on the right, a terrazzo floor with lattice shadows",
+      "target_px": {
+        "w": 2160,
+        "h": 4670
+      },
+      "covers_pt": {
+        "w": 393,
+        "h": 849.6
+      }
+    },
+    {
+      "file": "plates/F09_ACCOUNT_DRAWER_PLATE.jpg",
+      "kind": "PLATE",
+      "reference": "06_ACCOUNT_DRAWER.png",
+      "source_box": [
+        0,
+        0,
+        853,
+        1844
+      ],
+      "px": {
+        "w": 853,
+        "h": 1844
+      },
+      "method": "LIFTED: type and controls masked; small holes Telea-inpainted, panel areas push-pull filled and softened (they sit under opaque coded panels)",
+      "subject": "on the left, a sunlit arch opening to sea and mountains, an olive tree and a speckled urn on a terrazzo floor with lattice shadows; on the right, filling most of the frame, a tall smooth plaster slab with softly rounded top corners standing on a curved plinth, an olive branch overhanging its top-right corner and casting soft shadows across it; the slab face is blank",
+      "target_px": {
+        "w": 2160,
+        "h": 4670
+      },
+      "covers_pt": {
+        "w": 393,
+        "h": 849.6
+      }
+    },
+    {
+      "file": "tiles/CATEGORY_FASHION.jpg",
+      "kind": "TILE",
+      "reference": "08_SELECT_A_CATEGORY.png",
+      "source_box": [
+        35,
+        1027,
+        218,
+        1205
+      ],
+      "px": {
+        "w": 183,
+        "h": 178
+      },
+      "method": "CROP of the tile photo at native size",
+      "subject": "a woven straw tote with a cream linen scarf and tortoiseshell sunglasses on a travertine ledge, olive leaves at the edge",
+      "target_px": {
+        "w": 1024,
+        "h": 996
+      },
+      "covers_pt": {
+        "w": 84.3,
+        "h": 82
+      }
+    },
+    {
+      "file": "tiles/CATEGORY_BEAUTY.jpg",
+      "kind": "TILE",
+      "reference": "08_SELECT_A_CATEGORY.png",
+      "source_box": [
+        235,
+        1027,
+        418,
+        1205
+      ],
+      "px": {
+        "w": 183,
+        "h": 178
+      },
+      "method": "CROP of the tile photo at native size",
+      "subject": "a gold-capped perfume bottle and a cream tube on a speckled stone tray, olive sprigs beside them",
+      "target_px": {
+        "w": 1024,
+        "h": 996
+      },
+      "covers_pt": {
+        "w": 84.3,
+        "h": 82
+      }
+    },
+    {
+      "file": "tiles/CATEGORY_HOME.jpg",
+      "kind": "TILE",
+      "reference": "08_SELECT_A_CATEGORY.png",
+      "source_box": [
+        436,
+        1027,
+        619,
+        1205
+      ],
+      "px": {
+        "w": 183,
+        "h": 178
+      },
+      "method": "CROP of the tile photo at native size",
+      "subject": "a speckled ceramic vase with olive branches and a textured cream cushion and knit throw on a stone bench",
+      "target_px": {
+        "w": 1024,
+        "h": 996
+      },
+      "covers_pt": {
+        "w": 84.3,
+        "h": 82
+      }
+    },
+    {
+      "file": "tiles/CATEGORY_TRAVEL.jpg",
+      "kind": "TILE",
+      "reference": "08_SELECT_A_CATEGORY.png",
+      "source_box": [
+        637,
+        1027,
+        820,
+        1205
+      ],
+      "px": {
+        "w": 183,
+        "h": 178
+      },
+      "method": "CROP of the tile photo at native size",
+      "subject": "a straw hat on a cream hard-shell suitcase on a terrace above the sea, olive branches overhead",
+      "target_px": {
+        "w": 1024,
+        "h": 996
+      },
+      "covers_pt": {
+        "w": 84.3,
+        "h": 82
+      }
+    },
+    {
+      "file": "tiles/CATEGORY_WELLNESS.jpg",
+      "kind": "TILE",
+      "reference": "08_SELECT_A_CATEGORY.png",
+      "source_box": [
+        35,
+        1266,
+        218,
+        1444
+      ],
+      "px": {
+        "w": 183,
+        "h": 178
+      },
+      "method": "CROP of the tile photo at native size",
+      "subject": "a rolled taupe yoga mat and a clear glass water bottle on a stone ledge, olive leaves",
+      "target_px": {
+        "w": 1024,
+        "h": 996
+      },
+      "covers_pt": {
+        "w": 84.3,
+        "h": 82
+      }
+    },
+    {
+      "file": "tiles/CATEGORY_DINING.jpg",
+      "kind": "TILE",
+      "reference": "08_SELECT_A_CATEGORY.png",
+      "source_box": [
+        235,
+        1266,
+        418,
+        1444
+      ],
+      "px": {
+        "w": 183,
+        "h": 178
+      },
+      "method": "CROP of the tile photo at native size",
+      "subject": "a plate of pasta and a glass of white wine on a stone table by a window to the sea",
+      "target_px": {
+        "w": 1024,
+        "h": 996
+      },
+      "covers_pt": {
+        "w": 84.3,
+        "h": 82
+      }
+    },
+    {
+      "file": "tiles/CATEGORY_GROCERIES.jpg",
+      "kind": "TILE",
+      "reference": "08_SELECT_A_CATEGORY.png",
+      "source_box": [
+        436,
+        1266,
+        619,
+        1444
+      ],
+      "px": {
+        "w": 183,
+        "h": 178
+      },
+      "method": "CROP of the tile photo at native size",
+      "subject": "a mesh market bag with greens, lemons and baguettes on a stone counter",
+      "target_px": {
+        "w": 1024,
+        "h": 996
+      },
+      "covers_pt": {
+        "w": 84.3,
+        "h": 82
+      }
+    },
+    {
+      "file": "tiles/CATEGORY_GIFTS.jpg",
+      "kind": "TILE",
+      "reference": "08_SELECT_A_CATEGORY.png",
+      "source_box": [
+        637,
+        1266,
+        820,
+        1444
+      ],
+      "px": {
+        "w": 183,
+        "h": 178
+      },
+      "method": "CROP of the tile photo at native size",
+      "subject": "a parcel in textured cream paper tied with an olive-green ribbon, olive branches behind it",
+      "target_px": {
+        "w": 1024,
+        "h": 996
+      },
+      "covers_pt": {
+        "w": 84.3,
+        "h": 82
+      }
+    },
+    {
+      "file": "tiles/CATEGORY_TECH.jpg",
+      "kind": "TILE",
+      "reference": "08_SELECT_A_CATEGORY.png",
+      "source_box": [
+        35,
+        1505,
+        218,
+        1676
+      ],
+      "px": {
+        "w": 183,
+        "h": 171
+      },
+      "method": "CROP of the tile photo at native size",
+      "subject": "an open laptop with a dark screen beside a coffee cup and a small vase of olive branches on a stone desk",
+      "target_px": {
+        "w": 1024,
+        "h": 957
+      },
+      "covers_pt": {
+        "w": 84.3,
+        "h": 78.8
+      }
+    },
+    {
+      "file": "tiles/CATEGORY_TRANSPORT.jpg",
+      "kind": "TILE",
+      "reference": "08_SELECT_A_CATEGORY.png",
+      "source_box": [
+        235,
+        1505,
+        418,
+        1676
+      ],
+      "px": {
+        "w": 183,
+        "h": 171
+      },
+      "method": "CROP of the tile photo at native size",
+      "subject": "the cream front wing of a vintage car on a coastal road lined with olive trees above the sea",
+      "target_px": {
+        "w": 1024,
+        "h": 957
+      },
+      "covers_pt": {
+        "w": 84.3,
+        "h": 78.8
+      }
+    },
+    {
+      "file": "tiles/CATEGORY_EVENTS.jpg",
+      "kind": "TILE",
+      "reference": "08_SELECT_A_CATEGORY.png",
+      "source_box": [
+        436,
+        1505,
+        619,
+        1676
+      ],
+      "px": {
+        "w": 183,
+        "h": 171
+      },
+      "method": "CROP of the tile photo at native size",
+      "subject": "lit pillar candles, a glass of white wine and small bites on a stone table under string lights",
+      "target_px": {
+        "w": 1024,
+        "h": 957
+      },
+      "covers_pt": {
+        "w": 84.3,
+        "h": 78.8
+      }
+    },
+    {
+      "file": "tiles/CATEGORY_OTHER.jpg",
+      "kind": "TILE",
+      "reference": "08_SELECT_A_CATEGORY.png",
+      "source_box": [
+        637,
+        1505,
+        820,
+        1676
+      ],
+      "px": {
+        "w": 183,
+        "h": 171
+      },
+      "method": "CROP of the tile photo at native size",
+      "subject": "a branch of olives with dark fruit casting shadows on a warm plaster wall",
+      "target_px": {
+        "w": 1024,
+        "h": 957
+      },
+      "covers_pt": {
+        "w": 84.3,
+        "h": 78.8
+      }
+    },
+    {
+      "file": "tiles/ACCOUNT_CHECKING.jpg",
+      "kind": "TILE",
+      "reference": "09_SELECT_AN_ACCOUNT_CURRENT.png",
+      "source_box": [
+        99,
+        902,
+        331,
+        1128
+      ],
+      "px": {
+        "w": 183,
+        "h": 178
+      },
+      "method": "CROP of the current 373 px tile photo around its subject, resampled to the category tile (183 × 178)",
+      "subject": "a closed leather ledger with a black pen beside a speckled stone cup on a travertine desk, an olive sprig in a vase behind",
+      "target_px": {
+        "w": 1024,
+        "h": 996
+      },
+      "covers_pt": {
+        "w": 106.9,
+        "h": 104.1
+      }
+    },
+    {
+      "file": "tiles/ACCOUNT_SAVINGS.jpg",
+      "kind": "TILE",
+      "reference": "09_SELECT_AN_ACCOUNT_CURRENT.png",
+      "source_box": [
+        561,
+        902,
+        793,
+        1128
+      ],
+      "px": {
+        "w": 183,
+        "h": 178
+      },
+      "method": "CROP of the current 373 px tile photo around its subject, resampled to the category tile (183 × 178)",
+      "subject": "a still sea and a rocky headland seen past a small stone pool and an olive tree in a speckled urn",
+      "target_px": {
+        "w": 1024,
+        "h": 996
+      },
+      "covers_pt": {
+        "w": 106.9,
+        "h": 104.1
+      }
+    },
+    {
+      "file": "tiles/ACCOUNT_CREDIT_CARD.jpg",
+      "kind": "TILE",
+      "reference": "09_SELECT_AN_ACCOUNT_CURRENT.png",
+      "source_box": [
+        134,
+        1205,
+        360,
+        1425
+      ],
+      "px": {
+        "w": 183,
+        "h": 178
+      },
+      "method": "CROP of the current 373 px tile photo around its subject, resampled to the category tile (183 × 178)",
+      "subject": "a matte ivory card with a gold chip resting on pale veined stone, olive leaves at the edge, no numbers or names",
+      "target_px": {
+        "w": 1024,
+        "h": 996
+      },
+      "covers_pt": {
+        "w": 104.1,
+        "h": 101.4
+      }
+    },
+    {
+      "file": "tiles/ACCOUNT_DEBIT_CARD.jpg",
+      "kind": "TILE",
+      "reference": "09_SELECT_AN_ACCOUNT_CURRENT.png",
+      "source_box": [
+        511,
+        1205,
+        737,
+        1425
+      ],
+      "px": {
+        "w": 183,
+        "h": 178
+      },
+      "method": "CROP of the current 373 px tile photo around its subject, resampled to the category tile (183 × 178)",
+      "subject": "a slim sage-green card with a gold chip on travertine beside olive leaves, no numbers or names",
+      "target_px": {
+        "w": 1024,
+        "h": 996
+      },
+      "covers_pt": {
+        "w": 104.1,
+        "h": 101.4
+      }
+    },
+    {
+      "file": "tiles/ACCOUNT_CASH.jpg",
+      "kind": "TILE",
+      "reference": "09_SELECT_AN_ACCOUNT_CURRENT.png",
+      "source_box": [
+        119,
+        1503,
+        351,
+        1729
+      ],
+      "px": {
+        "w": 183,
+        "h": 178
+      },
+      "method": "CROP of the current 373 px tile photo around its subject, resampled to the category tile (183 × 178)",
+      "subject": "folded banknotes in a shallow speckled stone bowl, olive leaves overhead, no legible denominations",
+      "target_px": {
+        "w": 1024,
+        "h": 996
+      },
+      "covers_pt": {
+        "w": 106.9,
+        "h": 104.1
+      }
+    },
+    {
+      "file": "tiles/ACCOUNT_JOINT_ACCOUNT.jpg",
+      "kind": "TILE",
+      "reference": "09_SELECT_AN_ACCOUNT_CURRENT.png",
+      "source_box": [
+        566,
+        1503,
+        798,
+        1729
+      ],
+      "px": {
+        "w": 183,
+        "h": 178
+      },
+      "method": "CROP of the current 373 px tile photo around its subject, resampled to the category tile (183 × 178)",
+      "subject": "two matching speckled espresso cups side by side on a stone ledge above the sea, olive branches",
+      "target_px": {
+        "w": 1024,
+        "h": 996
+      },
+      "covers_pt": {
+        "w": 106.9,
+        "h": 104.1
+      }
+    },
+    {
+      "file": "assets/PROFILE_ARCH.jpg",
+      "kind": "THUMBNAIL",
+      "reference": "06_ACCOUNT_DRAWER.png",
+      "source_box": [
+        330,
+        447,
+        472,
+        589
+      ],
+      "px": {
+        "w": 142,
+        "h": 142
+      },
+      "method": "CROP; drawn round in CSS",
+      "subject": "a limewashed arch opening onto a calm sea, an olive tree in a stone urn and a low stone ledge, seen straight on, centred for a circular crop",
+      "target_px": {
+        "w": 1024,
+        "h": 1024
+      },
+      "covers_pt": {
+        "w": 65.4,
+        "h": 65.4
+      }
+    },
+    {
+      "file": "assets/PRIVACY_CARD.jpg",
+      "kind": "IMAGE_CARD",
+      "reference": "06_ACCOUNT_DRAWER.png",
+      "source_box": [
+        313,
+        1411,
+        831,
+        1594
+      ],
+      "px": {
+        "w": 518,
+        "h": 183
+      },
+      "method": "CROP; its type and arrow Telea-inpainted",
+      "subject": "a warm plaster wall in soft sun, a stone plinth on the right holding a speckled terrazzo pot with an olive plant; the left two thirds stay quiet and empty",
+      "target_px": {
+        "w": 2048,
+        "h": 724
+      },
+      "covers_pt": {
+        "w": 238.7,
+        "h": 84.3
+      }
+    },
+    {
+      "file": "assets/PILL_BOTANICAL_RIGHT.png",
+      "kind": "DECORATION",
+      "reference": "03_ACCOUNT_PAGE_1.png",
+      "source_box": [
+        699,
+        1533,
+        760,
+        1606
+      ],
+      "px": {
+        "w": 61,
+        "h": 73
+      },
+      "method": "DIFFERENCE MATTE against the pill’s cream fill (single tan colour + alpha)",
+      "subject": "a softly painted leafy sprig in pale tan, watercolour edges, on transparency",
+      "target_px": {
+        "w": 512,
+        "h": 612
+      },
+      "covers_pt": {
+        "w": 28.1,
+        "h": 33.6
+      }
+    },
+    {
+      "file": "assets/PILL_BOTANICAL_LEFT.png",
+      "kind": "DECORATION",
+      "reference": "04_ACCOUNT_PAGE_2.png",
+      "source_box": [
+        106,
+        1486,
+        172,
+        1565
+      ],
+      "px": {
+        "w": 66,
+        "h": 79
+      },
+      "method": "DIFFERENCE MATTE against the pill’s cream fill (single tan colour + alpha)",
+      "subject": "a softly painted leafy sprig in pale tan, watercolour edges, mirrored for the left end of a pill, on transparency",
+      "target_px": {
+        "w": 512,
+        "h": 612
+      },
+      "covers_pt": {
+        "w": 30.4,
+        "h": 36.4
+      }
+    },
+    {
+      "file": "assets/WHY_SPRIG_OLIVE.png",
+      "kind": "DECORATION",
+      "reference": "02_WHY_THIS_NUMBER.png",
+      "source_box": [
+        366,
+        70,
+        493,
+        138
+      ],
+      "px": {
+        "w": 127,
+        "h": 68
+      },
+      "method": "DIFFERENCE MATTE against the lifted plate",
+      "subject": "a painted olive sprig with seven slender grey-green leaves and one green olive, lying horizontally, on transparency",
+      "target_px": {
+        "w": 1024,
+        "h": 548
+      },
+      "covers_pt": {
+        "w": 58.5,
+        "h": 31.3
+      }
+    },
+    {
+      "file": "assets/LOCKUP_SPRIG.png",
+      "kind": "LOCKUP_LAYER",
+      "reference": "F09_LOCKUP.png (approved cut)",
+      "source_box": [
+        0,
+        0,
+        82,
+        78
+      ],
+      "px": {
+        "w": 82,
+        "h": 78
+      },
+      "method": "Layer of the approved sprig-and-word cut, haze removed",
+      "subject": "BRAND — not regenerated",
+      "target_px": null,
+      "covers_pt": {
+        "w": 37.8,
+        "h": 35.9
+      }
+    },
+    {
+      "file": "assets/LOCKUP_WORD.png",
+      "kind": "LOCKUP_LAYER",
+      "reference": "F09_LOCKUP.png (approved cut)",
+      "source_box": [
+        0,
+        78,
+        196,
+        120
+      ],
+      "px": {
+        "w": 196,
+        "h": 42
+      },
+      "method": "Layer of the approved sprig-and-word cut, haze removed",
+      "subject": "BRAND — not regenerated",
+      "target_px": null,
+      "covers_pt": {
+        "w": 90.3,
+        "h": 19.4
+      }
+    }
+  ],
+  "asset_quality": [
+    {
+      "file": "plates/F09_PARENT_PLATE.jpg",
+      "result": {
+        "upscale": 1.38,
+        "required_px": {
+          "w": 1179,
+          "h": 2549
+        },
+        "highest_permitted": "WIREFRAME_ONLY",
+        "verdict": "BLOCK",
+        "reasons": [
+          "degraded provenance: UNKNOWN",
+          "upscale 1.38× (source 853×1844 → required 1179×2549)",
+          "requested AUTHORITY_CANDIDATE; highest permitted WIREFRAME_ONLY"
+        ]
+      }
+    },
+    {
+      "file": "plates/F09_WHY_PLATE.jpg",
+      "result": {
+        "upscale": 1.38,
+        "required_px": {
+          "w": 1179,
+          "h": 2549
+        },
+        "highest_permitted": "WIREFRAME_ONLY",
+        "verdict": "BLOCK",
+        "reasons": [
+          "degraded provenance: UNKNOWN",
+          "upscale 1.38× (source 853×1844 → required 1179×2549)",
+          "requested AUTHORITY_CANDIDATE; highest permitted WIREFRAME_ONLY"
+        ]
+      }
+    },
+    {
+      "file": "plates/F09_CHECK_PLATE.jpg",
+      "result": {
+        "upscale": 1.38,
+        "required_px": {
+          "w": 1179,
+          "h": 2549
+        },
+        "highest_permitted": "WIREFRAME_ONLY",
+        "verdict": "BLOCK",
+        "reasons": [
+          "degraded provenance: UNKNOWN",
+          "upscale 1.38× (source 853×1844 → required 1179×2549)",
+          "requested AUTHORITY_CANDIDATE; highest permitted WIREFRAME_ONLY"
+        ]
+      }
+    },
+    {
+      "file": "plates/F09_ACCOUNT_PLATE.jpg",
+      "result": {
+        "upscale": 1.38,
+        "required_px": {
+          "w": 1179,
+          "h": 2549
+        },
+        "highest_permitted": "WIREFRAME_ONLY",
+        "verdict": "BLOCK",
+        "reasons": [
+          "degraded provenance: UNKNOWN",
+          "upscale 1.38× (source 853×1844 → required 1179×2549)",
+          "requested AUTHORITY_CANDIDATE; highest permitted WIREFRAME_ONLY"
+        ]
+      }
+    },
+    {
+      "file": "plates/F09_ACCOUNT_DRAWER_PLATE.jpg",
+      "result": {
+        "upscale": 1.38,
+        "required_px": {
+          "w": 1179,
+          "h": 2549
+        },
+        "highest_permitted": "WIREFRAME_ONLY",
+        "verdict": "BLOCK",
+        "reasons": [
+          "degraded provenance: UNKNOWN",
+          "upscale 1.38× (source 853×1844 → required 1179×2549)",
+          "requested AUTHORITY_CANDIDATE; highest permitted WIREFRAME_ONLY"
+        ]
+      }
+    },
+    {
+      "file": "tiles/CATEGORY_FASHION.jpg",
+      "result": {
+        "upscale": 1.38,
+        "required_px": {
+          "w": 253,
+          "h": 246
+        },
+        "highest_permitted": "WIREFRAME_ONLY",
+        "verdict": "BLOCK",
+        "reasons": [
+          "degraded provenance: UNKNOWN",
+          "upscale 1.38× (source 183×178 → required 253×246)",
+          "requested AUTHORITY_CANDIDATE; highest permitted WIREFRAME_ONLY"
+        ]
+      }
+    },
+    {
+      "file": "tiles/CATEGORY_BEAUTY.jpg",
+      "result": {
+        "upscale": 1.38,
+        "required_px": {
+          "w": 253,
+          "h": 246
+        },
+        "highest_permitted": "WIREFRAME_ONLY",
+        "verdict": "BLOCK",
+        "reasons": [
+          "degraded provenance: UNKNOWN",
+          "upscale 1.38× (source 183×178 → required 253×246)",
+          "requested AUTHORITY_CANDIDATE; highest permitted WIREFRAME_ONLY"
+        ]
+      }
+    },
+    {
+      "file": "tiles/CATEGORY_HOME.jpg",
+      "result": {
+        "upscale": 1.38,
+        "required_px": {
+          "w": 253,
+          "h": 246
+        },
+        "highest_permitted": "WIREFRAME_ONLY",
+        "verdict": "BLOCK",
+        "reasons": [
+          "degraded provenance: UNKNOWN",
+          "upscale 1.38× (source 183×178 → required 253×246)",
+          "requested AUTHORITY_CANDIDATE; highest permitted WIREFRAME_ONLY"
+        ]
+      }
+    },
+    {
+      "file": "tiles/CATEGORY_TRAVEL.jpg",
+      "result": {
+        "upscale": 1.38,
+        "required_px": {
+          "w": 253,
+          "h": 246
+        },
+        "highest_permitted": "WIREFRAME_ONLY",
+        "verdict": "BLOCK",
+        "reasons": [
+          "degraded provenance: UNKNOWN",
+          "upscale 1.38× (source 183×178 → required 253×246)",
+          "requested AUTHORITY_CANDIDATE; highest permitted WIREFRAME_ONLY"
+        ]
+      }
+    },
+    {
+      "file": "tiles/CATEGORY_WELLNESS.jpg",
+      "result": {
+        "upscale": 1.38,
+        "required_px": {
+          "w": 253,
+          "h": 246
+        },
+        "highest_permitted": "WIREFRAME_ONLY",
+        "verdict": "BLOCK",
+        "reasons": [
+          "degraded provenance: UNKNOWN",
+          "upscale 1.38× (source 183×178 → required 253×246)",
+          "requested AUTHORITY_CANDIDATE; highest permitted WIREFRAME_ONLY"
+        ]
+      }
+    },
+    {
+      "file": "tiles/CATEGORY_DINING.jpg",
+      "result": {
+        "upscale": 1.38,
+        "required_px": {
+          "w": 253,
+          "h": 246
+        },
+        "highest_permitted": "WIREFRAME_ONLY",
+        "verdict": "BLOCK",
+        "reasons": [
+          "degraded provenance: UNKNOWN",
+          "upscale 1.38× (source 183×178 → required 253×246)",
+          "requested AUTHORITY_CANDIDATE; highest permitted WIREFRAME_ONLY"
+        ]
+      }
+    },
+    {
+      "file": "tiles/CATEGORY_GROCERIES.jpg",
+      "result": {
+        "upscale": 1.38,
+        "required_px": {
+          "w": 253,
+          "h": 246
+        },
+        "highest_permitted": "WIREFRAME_ONLY",
+        "verdict": "BLOCK",
+        "reasons": [
+          "degraded provenance: UNKNOWN",
+          "upscale 1.38× (source 183×178 → required 253×246)",
+          "requested AUTHORITY_CANDIDATE; highest permitted WIREFRAME_ONLY"
+        ]
+      }
+    },
+    {
+      "file": "tiles/CATEGORY_GIFTS.jpg",
+      "result": {
+        "upscale": 1.38,
+        "required_px": {
+          "w": 253,
+          "h": 246
+        },
+        "highest_permitted": "WIREFRAME_ONLY",
+        "verdict": "BLOCK",
+        "reasons": [
+          "degraded provenance: UNKNOWN",
+          "upscale 1.38× (source 183×178 → required 253×246)",
+          "requested AUTHORITY_CANDIDATE; highest permitted WIREFRAME_ONLY"
+        ]
+      }
+    },
+    {
+      "file": "tiles/CATEGORY_TECH.jpg",
+      "result": {
+        "upscale": 1.38,
+        "required_px": {
+          "w": 253,
+          "h": 236
+        },
+        "highest_permitted": "WIREFRAME_ONLY",
+        "verdict": "BLOCK",
+        "reasons": [
+          "degraded provenance: UNKNOWN",
+          "upscale 1.38× (source 183×171 → required 253×236)",
+          "requested AUTHORITY_CANDIDATE; highest permitted WIREFRAME_ONLY"
+        ]
+      }
+    },
+    {
+      "file": "tiles/CATEGORY_TRANSPORT.jpg",
+      "result": {
+        "upscale": 1.38,
+        "required_px": {
+          "w": 253,
+          "h": 236
+        },
+        "highest_permitted": "WIREFRAME_ONLY",
+        "verdict": "BLOCK",
+        "reasons": [
+          "degraded provenance: UNKNOWN",
+          "upscale 1.38× (source 183×171 → required 253×236)",
+          "requested AUTHORITY_CANDIDATE; highest permitted WIREFRAME_ONLY"
+        ]
+      }
+    },
+    {
+      "file": "tiles/CATEGORY_EVENTS.jpg",
+      "result": {
+        "upscale": 1.38,
+        "required_px": {
+          "w": 253,
+          "h": 236
+        },
+        "highest_permitted": "WIREFRAME_ONLY",
+        "verdict": "BLOCK",
+        "reasons": [
+          "degraded provenance: UNKNOWN",
+          "upscale 1.38× (source 183×171 → required 253×236)",
+          "requested AUTHORITY_CANDIDATE; highest permitted WIREFRAME_ONLY"
+        ]
+      }
+    },
+    {
+      "file": "tiles/CATEGORY_OTHER.jpg",
+      "result": {
+        "upscale": 1.38,
+        "required_px": {
+          "w": 253,
+          "h": 236
+        },
+        "highest_permitted": "WIREFRAME_ONLY",
+        "verdict": "BLOCK",
+        "reasons": [
+          "degraded provenance: UNKNOWN",
+          "upscale 1.38× (source 183×171 → required 253×236)",
+          "requested AUTHORITY_CANDIDATE; highest permitted WIREFRAME_ONLY"
+        ]
+      }
+    },
+    {
+      "file": "tiles/ACCOUNT_CHECKING.jpg",
+      "result": {
+        "upscale": 1.75,
+        "required_px": {
+          "w": 321,
+          "h": 312
+        },
+        "highest_permitted": "WIREFRAME_ONLY",
+        "verdict": "BLOCK",
+        "reasons": [
+          "degraded provenance: UNKNOWN",
+          "upscale 1.75× (source 183×178 → required 321×312)",
+          "requested AUTHORITY_CANDIDATE; highest permitted WIREFRAME_ONLY"
+        ]
+      }
+    },
+    {
+      "file": "tiles/ACCOUNT_SAVINGS.jpg",
+      "result": {
+        "upscale": 1.75,
+        "required_px": {
+          "w": 321,
+          "h": 312
+        },
+        "highest_permitted": "WIREFRAME_ONLY",
+        "verdict": "BLOCK",
+        "reasons": [
+          "degraded provenance: UNKNOWN",
+          "upscale 1.75× (source 183×178 → required 321×312)",
+          "requested AUTHORITY_CANDIDATE; highest permitted WIREFRAME_ONLY"
+        ]
+      }
+    },
+    {
+      "file": "tiles/ACCOUNT_CREDIT_CARD.jpg",
+      "result": {
+        "upscale": 1.71,
+        "required_px": {
+          "w": 312,
+          "h": 304
+        },
+        "highest_permitted": "WIREFRAME_ONLY",
+        "verdict": "BLOCK",
+        "reasons": [
+          "degraded provenance: UNKNOWN",
+          "upscale 1.71× (source 183×178 → required 312×304)",
+          "requested AUTHORITY_CANDIDATE; highest permitted WIREFRAME_ONLY"
+        ]
+      }
+    },
+    {
+      "file": "tiles/ACCOUNT_DEBIT_CARD.jpg",
+      "result": {
+        "upscale": 1.71,
+        "required_px": {
+          "w": 312,
+          "h": 304
+        },
+        "highest_permitted": "WIREFRAME_ONLY",
+        "verdict": "BLOCK",
+        "reasons": [
+          "degraded provenance: UNKNOWN",
+          "upscale 1.71× (source 183×178 → required 312×304)",
+          "requested AUTHORITY_CANDIDATE; highest permitted WIREFRAME_ONLY"
+        ]
+      }
+    },
+    {
+      "file": "tiles/ACCOUNT_CASH.jpg",
+      "result": {
+        "upscale": 1.75,
+        "required_px": {
+          "w": 321,
+          "h": 312
+        },
+        "highest_permitted": "WIREFRAME_ONLY",
+        "verdict": "BLOCK",
+        "reasons": [
+          "degraded provenance: UNKNOWN",
+          "upscale 1.75× (source 183×178 → required 321×312)",
+          "requested AUTHORITY_CANDIDATE; highest permitted WIREFRAME_ONLY"
+        ]
+      }
+    },
+    {
+      "file": "tiles/ACCOUNT_JOINT_ACCOUNT.jpg",
+      "result": {
+        "upscale": 1.75,
+        "required_px": {
+          "w": 321,
+          "h": 312
+        },
+        "highest_permitted": "WIREFRAME_ONLY",
+        "verdict": "BLOCK",
+        "reasons": [
+          "degraded provenance: UNKNOWN",
+          "upscale 1.75× (source 183×178 → required 321×312)",
+          "requested AUTHORITY_CANDIDATE; highest permitted WIREFRAME_ONLY"
+        ]
+      }
+    },
+    {
+      "file": "assets/PROFILE_ARCH.jpg",
+      "result": {
+        "upscale": 1.38,
+        "required_px": {
+          "w": 196,
+          "h": 196
+        },
+        "highest_permitted": "WIREFRAME_ONLY",
+        "verdict": "BLOCK",
+        "reasons": [
+          "degraded provenance: UNKNOWN",
+          "upscale 1.38× (source 142×142 → required 196×196)",
+          "requested AUTHORITY_CANDIDATE; highest permitted WIREFRAME_ONLY"
+        ]
+      }
+    },
+    {
+      "file": "assets/PRIVACY_CARD.jpg",
+      "result": {
+        "upscale": 1.38,
+        "required_px": {
+          "w": 716,
+          "h": 253
+        },
+        "highest_permitted": "WIREFRAME_ONLY",
+        "verdict": "BLOCK",
+        "reasons": [
+          "degraded provenance: UNKNOWN",
+          "upscale 1.38× (source 518×183 → required 716×253)",
+          "requested AUTHORITY_CANDIDATE; highest permitted WIREFRAME_ONLY"
+        ]
+      }
+    },
+    {
+      "file": "assets/PILL_BOTANICAL_RIGHT.png",
+      "result": {
+        "upscale": 1.38,
+        "required_px": {
+          "w": 84,
+          "h": 101
+        },
+        "highest_permitted": "WIREFRAME_ONLY",
+        "verdict": "BLOCK",
+        "reasons": [
+          "degraded provenance: UNKNOWN",
+          "upscale 1.38× (source 61×73 → required 84×101)",
+          "requested AUTHORITY_CANDIDATE; highest permitted WIREFRAME_ONLY"
+        ]
+      }
+    },
+    {
+      "file": "assets/PILL_BOTANICAL_LEFT.png",
+      "result": {
+        "upscale": 1.38,
+        "required_px": {
+          "w": 91,
+          "h": 109
+        },
+        "highest_permitted": "WIREFRAME_ONLY",
+        "verdict": "BLOCK",
+        "reasons": [
+          "degraded provenance: UNKNOWN",
+          "upscale 1.38× (source 66×79 → required 91×109)",
+          "requested AUTHORITY_CANDIDATE; highest permitted WIREFRAME_ONLY"
+        ]
+      }
+    },
+    {
+      "file": "assets/WHY_SPRIG_OLIVE.png",
+      "result": {
+        "upscale": 1.39,
+        "required_px": {
+          "w": 176,
+          "h": 94
+        },
+        "highest_permitted": "WIREFRAME_ONLY",
+        "verdict": "BLOCK",
+        "reasons": [
+          "degraded provenance: UNKNOWN",
+          "upscale 1.39× (source 127×68 → required 176×94)",
+          "requested AUTHORITY_CANDIDATE; highest permitted WIREFRAME_ONLY"
+        ]
+      }
+    }
+  ],
+  "decisions": [
+    {
+      "id": "DEVICE_CHROME",
+      "found": "References 01–09 draw an iOS status bar (9:41) and a home indicator.",
+      "built": "Not drawn — they belong to the phone (family rule: no device chrome)."
+    },
+    {
+      "id": "PARENT_LOCKUP",
+      "found": "main records the founder rule “do not put the lockup back on F09.00”; reference 01 shows the lockup and tagline.",
+      "built": "/safe keeps main’s founder-tuned parent. The reference 01 replica, lockup included, is at /safe/reference until the founder picks one."
+    },
+    {
+      "id": "MIXED_CASE",
+      "found": "The drawer’s privacy card line is mixed case in reference 06.",
+      "built": "Uppercase (family rule): MANAGE YOUR PRIVACY / SETTINGS AND DATA CONSENTS."
+    },
+    {
+      "id": "PAY_WITH_GRID",
+      "found": "Reference 09 lists the accounts in 2 columns of 373 px tiles.",
+      "built": "Four columns on SELECT A CATEGORY’s measured system (sprint rule); its tile photos re-cropped to 183 × 178. Apply button APPLY ACCOUNT, sibling of APPLY CATEGORY."
+    },
+    {
+      "id": "ACCOUNT_SHELL",
+      "found": "References 04 and 05 move the menu, tagline and title by up to 33 px and redraw the photograph.",
+      "built": "Page 1’s photograph and shell on all three pages (CONTINUATION_RULE); each page’s cards follow its own reference."
+    },
+    {
+      "id": "TYPEFACES",
+      "found": "The references are set in a Didone serif and a round geometric sans; the runtime’s JURNL Display / Sans are Instrument Serif and Barlow Semi Condensed.",
+      "built": "Replica screens use JURNL Authority Serif (Playfair Display, lining figures, renamed per its OFL Reserved Font Name) and JURNL Authority Sans (Jost). Other families unchanged."
+    },
+    {
+      "id": "LIVE_FIGURES",
+      "found": "The references carry sample figures ($1,284 on the parent, $6,500 on WHY).",
+      "built": "Live formula values; positions and type follow the reference."
+    },
+    {
+      "id": "CATEGORY_ROW_3",
+      "found": "Row 3 photos in reference 08 are 171 px tall, rows 1–2 are 178 px.",
+      "built": "Kept as drawn."
+    },
+    {
+      "id": "MISSING_FEATURES",
+      "found": "PROFILE, NOTIFICATIONS, SECURITY, CALENDAR PREFERENCES, DATA EXPORT, HELP & SUPPORT and LEGAL have no feature behind them yet.",
+      "built": "Each says NOT IN THIS PREVIEW YET. CURRENCY, CONNECTION, ASK CONTEXT, BUFFER, PRIVACY & CONSENTS and SIGN OUT work."
+    }
+  ]
+}

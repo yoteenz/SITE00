@@ -1,0 +1,411 @@
+{
+  "id": "F09_ROOT_CAUSES",
+  "sprint": "P0.JURNL.F09.PROMPT-FORENSICS-AND-CREATIVE-LOGIC-AUDIT1",
+  "generated_by": "scripts/studioos/jurnl-f09-prompt-forensics-export.ts",
+  "analysis_only": true,
+  "failure_classes": {
+    "PROMPT_CONTRADICTION": "Two instructions cannot both be satisfied; the model satisfies one and silently drops the other.",
+    "PROMPT_OMISSION": "The decisive requirement was never stated (often because it lived only in an image the prompt did not attach).",
+    "PROMPT_OVER_CONSTRAINT": "Locked variables leave no meaningful creative freedom; the model varies whatever is still free (usually the background).",
+    "PROMPT_PRIORITY_DILUTION": "Critical instructions are buried among process, QA, rationale and negatives; the model weights them like noise.",
+    "PROMPT_ROLE_COLLAPSE": "One agent is asked to be creative director, methodology engineer, renderer operator, compositor and QA at once; creative decisions lose.",
+    "PIPELINE_ORDER": "Steps happen in an order that prevents the intended result (e.g. art generated before the composition it must serve).",
+    "RENDER_OWNERSHIP": "The wrong system owns a layer (the generator drawing exact text, or flat UI owning what should be in-world).",
+    "REFERENCE_AMBIGUITY": "References are attached without a role, the wrong reference is attached, or the right one is named but never supplied.",
+    "IMPLEMENTATION_LIMITATION": "The assembly / compositing step cannot reach the finish the brief asks for.",
+    "MODEL_RENDERER_LIMITATION": "The model cannot do it even with a correct prompt. Must be proven (same prompt class succeeds elsewhere → not this).",
+    "ASSET_LIMITATION": "A required asset (logo, font, reference, route) is missing or unreachable.",
+    "AUTHORITY_AMBIGUITY": "It is unclear which image or rule is the authority, or two authorities disagree.",
+    "ASSET_QUALITY_GUARD_FAILURE": "A degraded asset (preview, thumbnail, proxy, over-upscaled source) was allowed to advance into a composite or a founder-facing output (see asset-quality.ts).",
+    "BRAND_WORLD_UNDERSPECIFICATION": "The brand world is named by its vocabulary (materials, features) instead of its compositional grammar or its reference image; the model returns the genre, not the brand."
+  },
+  "renderer_blame_rule": "A renderer limitation is a root cause only when the same model, with a correct prompt and the right references, fails at the same task. If it succeeds on sibling authorities, the cause is upstream.",
+  "root_causes": [
+    {
+      "rank": 1,
+      "id": "RC01",
+      "cause": "The approved JURNL world was never bound — and was actively excluded. Every approved JURNL image is image2image from F01.00 WELCOME APPROVED; F09 never attached it, the legacy firewall banned prior background / material treatment, and the contamination guard forbade F01 references.",
+      "classes": [
+        "PROMPT_OMISSION",
+        "REFERENCE_AMBIGUITY",
+        "PROMPT_CONTRADICTION"
+      ],
+      "evidence": [
+        "F03_GENERATION_LEDGER.json (REFERENCE_BINDING_FAILURE_F02_F03_2026)",
+        "F01 openart_generation_log.json",
+        "F09_RENDER_CONTAMINATION_GUARD.json",
+        "f09-safe-to-spend.ts PLATE_LOGGIA “image not opened”"
+      ],
+      "confidence": "HIGH",
+      "impact": "CRITICAL",
+      "failures": [
+        "generic",
+        "weak Mediterranean identity",
+        "missing richness",
+        "below benchmark"
+      ]
+    },
+    {
+      "rank": 2,
+      "id": "RC02",
+      "cause": "The wrong image was the reference: image2image from agent-drawn tonal guides / value studies, declared “the ONLY reference”. The renderer reproduced the diagrams.",
+      "classes": [
+        "PIPELINE_ORDER",
+        "REFERENCE_AMBIGUITY"
+      ],
+      "evidence": [
+        "RAW_PLATES/T01_ENVIRONMENT.png vs PLATE_GUIDES/F09_T01_PLATE_GUIDE_9x16.png",
+        "scripts/jurnl/f09-scene-plate-generate-one.py PREFIX"
+      ],
+      "confidence": "HIGH",
+      "impact": "CRITICAL",
+      "failures": [
+        "scene plates became the design",
+        "plan-diagram energy",
+        "sparse plates"
+      ]
+    },
+    {
+      "rank": 3,
+      "id": "RC03",
+      "cause": "Rules forbade the benchmark’s signature: no arches, no sea-view balconies, one justified plant, olive only in the bleed, orthographic / frontal depth models, “pretty background” as the named failure.",
+      "classes": [
+        "PROMPT_CONTRADICTION",
+        "PROMPT_OVER_CONSTRAINT"
+      ],
+      "evidence": [
+        "SUNBURST_PROMPTS/T01 FORBIDDEN ELEMENTS",
+        "creative-direction-profile.ts anti_generic_rules",
+        "L01 KNOWN FAILURE"
+      ],
+      "confidence": "HIGH",
+      "impact": "HIGH",
+      "failures": [
+        "weak Mediterranean identity",
+        "sparse / cold"
+      ]
+    },
+    {
+      "rank": 4,
+      "id": "RC04",
+      "cause": "Distinctness was placed in the wrong layer and presentation was locked: three different worlds demanded (≥ 8/10 creative dimensions incl. environment), while the product layer was identical across concepts.",
+      "classes": [
+        "PROMPT_OVER_CONSTRAINT",
+        "PROMPT_CONTRADICTION"
+      ],
+      "evidence": [
+        "creative-direction.ts CREATIVE_DISTINCTNESS",
+        "F09_FOUNDER_REVIEW_PAYLOAD.json",
+        "rerun composites"
+      ],
+      "confidence": "HIGH",
+      "impact": "HIGH",
+      "failures": [
+        "three concepts collapse into variants",
+        "concepts feel unfinished"
+      ]
+    },
+    {
+      "rank": 5,
+      "id": "RC13",
+      "cause": "Deterministic ownership expanded from exact strings, numbers, logo and nav into fixed layout: one shared blueprint skeleton (full-stage CTA from a shared helper, identical system zones, identical ownership layers and focal order) and an assembly that puts the logo, CTA, purchase module and nav at the same coordinates on all three pages. Result: three backgrounds + one product design, with the product in one flat plane.",
+      "classes": [
+        "RENDER_OWNERSHIP",
+        "PROMPT_OVER_CONSTRAINT"
+      ],
+      "evidence": [
+        "f09-composition-blueprint.ts systemZones (“identical on every F09 page”), ctaZones (CTA rect = the full 340-pt stage), sharedOwnership (L2 / L4–L7 deterministic for every territory)",
+        "scripts/jurnl/f09-art-direction-regen-assemble.mjs: logo(22–24, 24, 50) ×3 · cta 606 / 628 / 620 · purchase 664 / 686 / 678 · nav 770 / 772 / 770",
+        "L06 PRODUCT EXPRESSION content checklist rendered in list order"
+      ],
+      "confidence": "HIGH",
+      "impact": "HIGH",
+      "failures": [
+        "three concepts collapse into variants",
+        "deterministic UI is correct but visually crude",
+        "text glitches or feels pasted-on"
+      ]
+    },
+    {
+      "rank": 6,
+      "id": "RC15",
+      "cause": "The brand world was specified as Mediterranean vocabulary (arches, plaster, olive, sea, warm stone) rather than JURNL’s compositional grammar (one recurring place, inside viewpoint with a foreground occluder, lit type column against the world mass, arcade view, curated still life with an in-world JURNL object, counter-colour masses, lived-in trace). On a text-to-image route the grammar could not be inherited, so even the richer regen scenes read as generic AI interiors.",
+      "classes": [
+        "BRAND_WORLD_UNDERSPECIFICATION",
+        "REFERENCE_AMBIGUITY"
+      ],
+      "evidence": [
+        "THREE_CONCEPT_ART_DIRECTION_REGEN_CORRECTION1/SCENE_PROMPTS/*.txt (nouns + geometry; no viewpoint, frame split, still life, counter-colour or recurring place)",
+        "SCENES_PROOF previews vs REFERENCE_F01.00_WELCOME_APPROVED.jpg and F03.00_TODAY_PARENT.jpg",
+        "REGEN_RENDER_LEDGER.json (text2image: no image input)"
+      ],
+      "confidence": "MEDIUM",
+      "impact": "HIGH",
+      "failures": [
+        "outputs feel generic",
+        "Mediterranean satisfied as scenery, not as the JURNL world"
+      ]
+    },
+    {
+      "rank": 7,
+      "id": "RC05",
+      "cause": "The plate + overlay method was specified without an integration method: placeholders requested then left visible; UI built from app components in one flat plane; no light / plane / occlusion rules.",
+      "classes": [
+        "RENDER_OWNERSHIP",
+        "IMPLEMENTATION_LIMITATION",
+        "PROMPT_CONTRADICTION"
+      ],
+      "evidence": [
+        "PLATE_PROMPTS BLANK SURFACES",
+        "scripts/jurnl/f09-three-distinct-composite-rerun.mjs (bordered chips, pill seals, dashed bridge)",
+        "rerun FOUNDER_REVIEW_BOARD.png"
+      ],
+      "confidence": "HIGH",
+      "impact": "HIGH",
+      "failures": [
+        "assembled not authored",
+        "deterministic UI crude",
+        "pasted-on text"
+      ]
+    },
+    {
+      "rank": 8,
+      "id": "RC06",
+      "cause": "Role collapse and priority dilution: 59–75 % of each brief is process / QA / render / negatives; ~2,000-word generator prompts; the same agent wrote, rendered and passed its own QA.",
+      "classes": [
+        "PROMPT_ROLE_COLLAPSE",
+        "PROMPT_PRIORITY_DILUTION"
+      ],
+      "evidence": [
+        "PROMPT_DENSITY_MEASUREMENT.json",
+        "brand expression 19/19 PASS; RERUN1_REPORT pass:true; founder REJECTED"
+      ],
+      "confidence": "HIGH",
+      "impact": "HIGH",
+      "failures": [
+        "implementation prompts over-index on mechanics",
+        "checklists pass, founder fails"
+      ]
+    },
+    {
+      "rank": 9,
+      "id": "RC14",
+      "cause": "No asset-quality gate. Nothing in the method measured source resolution or upscale, so when retrieval failed the run promoted 144×256 previews (≈ 10× upscale) into canvas-size layout proofs, a board headed THREE CONCEPT CANDIDATES and a zip sent to the founder. 4K lived only in the renderer profile, a 1.66× upscale had already been accepted as a recorded “exception”, the new “layout proof” class had a watermark as its only control, and the assembly gained a --proof mode that swaps in the previews.",
+      "classes": [
+        "ASSET_QUALITY_GUARD_FAILURE",
+        "PROMPT_OMISSION",
+        "PIPELINE_ORDER"
+      ],
+      "evidence": [
+        "REGEN_RENDER_LEDGER.json (retrieval BLOCKED; resolution_exception ×1.66)",
+        "creative-direction.ts checkReferences: quality mismatch waived by any non-empty renderer_exceptions (no threshold)",
+        "scripts/jurnl/f09-art-direction-regen-assemble.mjs (--proof → SCENES_PROOF/T0n_preview_144x256.jpg; seals placed by eye)",
+        "LAYOUT_PROOF/ASSEMBLY_REPORT.json scene_px 144×256 → 1179×2556",
+        "LAYOUT_PROOF/F09_FOUNDER_REVIEW_BOARD.png",
+        "F09_REGEN_LAYOUT_PROOF_3_CONCEPTS.zip (sent to the founder)"
+      ],
+      "confidence": "HIGH",
+      "impact": "HIGH",
+      "failures": [
+        "thumbnail-resolution source promoted into a founder-facing proof",
+        "a blocked run still produced visuals"
+      ]
+    },
+    {
+      "rank": 10,
+      "id": "RC07",
+      "cause": "Device chrome was injected by the agent’s own canonical geometry; “system chrome” was never defined.",
+      "classes": [
+        "PROMPT_OMISSION",
+        "AUTHORITY_AMBIGUITY"
+      ],
+      "evidence": [
+        "f09-creative-direction.ts F09_FRAME_GEOMETRY status_bar / home_indicator",
+        "f09-composition-blueprint.ts systemZones",
+        "scripts/jurnl/f09-hybrid-composite-assemble.mjs (9:41 status row)",
+        "HYBRID_COMPOSITE_AUTHORITY_EXECUTION1 composites"
+      ],
+      "confidence": "HIGH",
+      "impact": "MEDIUM",
+      "failures": [
+        "phone chrome in authority view"
+      ]
+    },
+    {
+      "rank": 11,
+      "id": "RC08",
+      "cause": "Renderer access contradictions: the canonical 4K route was banned while being required; later routes could not take a reference image or deliver the file.",
+      "classes": [
+        "PROMPT_CONTRADICTION",
+        "ASSET_LIMITATION"
+      ],
+      "evidence": [
+        "L01 / L02 DO NOT use OpenArt vs §8 Sunburst 4K",
+        "REGEN_RENDER_LEDGER.json"
+      ],
+      "confidence": "HIGH",
+      "impact": "MEDIUM",
+      "failures": [
+        "round 1 local renders",
+        "ChatGPT contamination",
+        "blocked regen"
+      ]
+    },
+    {
+      "rank": 12,
+      "id": "RC09",
+      "cause": "The quality bar was adjectives plus an image that never reached the agent.",
+      "classes": [
+        "REFERENCE_AMBIGUITY",
+        "PROMPT_OMISSION"
+      ],
+      "evidence": [
+        "L02 §15 / L03 §9 (comparison concept described, not attached)"
+      ],
+      "confidence": "HIGH",
+      "impact": "MEDIUM",
+      "failures": [
+        "“reference fidelity” language without reference-level richness"
+      ]
+    },
+    {
+      "rank": 13,
+      "id": "RC10",
+      "cause": "Territories were authored as data-encoding metaphors (floor area = money, metal words, envelope thickness); depicting them literally reads as a diagram.",
+      "classes": [
+        "PROMPT_OVER_CONSTRAINT"
+      ],
+      "evidence": [
+        "f09-creative-direction.ts bespoke_visual_idea fields",
+        "round 2 renders"
+      ],
+      "confidence": "MEDIUM",
+      "impact": "MEDIUM",
+      "failures": [
+        "metaphor-as-page",
+        "diagram energy"
+      ]
+    },
+    {
+      "rank": 14,
+      "id": "RC11",
+      "cause": "Too much exact text was given to the generator (≈ 19 strings incl. 8-pt labels) with no typographic reference.",
+      "classes": [
+        "RENDER_OWNERSHIP",
+        "MODEL_RENDERER_LIMITATION"
+      ],
+      "evidence": [
+        "SUNBURST_PROMPTS TEXT THAT MUST RENDER",
+        "JURL / dropped TRIPS. in round 2"
+      ],
+      "confidence": "MEDIUM",
+      "impact": "MEDIUM",
+      "failures": [
+        "text glitches"
+      ]
+    },
+    {
+      "rank": 15,
+      "id": "RC12",
+      "cause": "Product truth drifted between rounds (QA-seed → founder payload; TRIPS → BUFFER; new date and bridge without a formula).",
+      "classes": [
+        "AUTHORITY_AMBIGUITY"
+      ],
+      "evidence": [
+        "F09_FOUNDER_REVIEW_PAYLOAD.json",
+        "safeToSpend.ts"
+      ],
+      "confidence": "MEDIUM",
+      "impact": "LOW",
+      "failures": [
+        "churn, re-layout between rounds"
+      ]
+    }
+  ],
+  "failure_map": {
+    "outputs feel generic": [
+      "RC01",
+      "RC03",
+      "RC09"
+    ],
+    "Mediterranean identity is weak": [
+      "RC01",
+      "RC03"
+    ],
+    "environmental richness is missing": [
+      "RC01",
+      "RC02",
+      "RC03"
+    ],
+    "compositions feel assembled rather than authored": [
+      "RC05",
+      "RC02"
+    ],
+    "scene plates become the design": [
+      "RC02"
+    ],
+    "deterministic UI is correct but visually crude": [
+      "RC05"
+    ],
+    "text glitches or feels pasted-on": [
+      "RC11",
+      "RC05"
+    ],
+    "concepts feel unfinished": [
+      "RC05",
+      "RC04",
+      "RC02"
+    ],
+    "three concepts collapse into variants": [
+      "RC04"
+    ],
+    "generated backgrounds treated as finished visual thought": [
+      "RC02",
+      "RC06"
+    ],
+    "authority images are under-consumed": [
+      "RC01",
+      "RC09"
+    ],
+    "“reference fidelity” does not produce reference-level richness": [
+      "RC01",
+      "RC09",
+      "RC02"
+    ],
+    "implementation prompts over-index on mechanics": [
+      "RC06"
+    ],
+    "mobile viewport read as phone rendering": [
+      "RC07"
+    ],
+    "corrective prompts accumulate contradictory constraints": [
+      "RC06",
+      "RC03",
+      "RC04"
+    ],
+    "three backgrounds + one product design": [
+      "RC13",
+      "RC04"
+    ],
+    "Mediterranean reads as generic AI interior, not JURNL": [
+      "RC15",
+      "RC01",
+      "RC03"
+    ],
+    "thumbnail-resolution source promoted into a founder-facing proof": [
+      "RC14"
+    ],
+    "a blocked run still produced visuals": [
+      "RC14",
+      "RC06"
+    ]
+  },
+  "synthesis": [
+    "1. JURNL’s richness lives in one approved image — the F01 Welcome cliff-villa loggia — and every successful JURNL screen was rendered from it, image to image.",
+    "2. F09 never gave that image to the renderer. Sprint 1 firewalled prior visuals (including backgrounds and materials) and named “pretty background + text + cards” as the failure; the contamination guard later forbade F01 references outright.",
+    "3. Without it, every round tried to invent a JURNL world in words. The words that would have recovered it were banned (arches, sea views, botanicals, depth), and the distinctness gate demanded three different worlds.",
+    "4. From round 3 the only image the renderer saw was the agent’s own tonal guide, declared “the only reference”; image-to-image copied it, so the plates were photographs of diagrams with blank placeholders.",
+    "5. Product truth was then laid on top as app components in one flat plane with an OS status bar, in an identical stack for all three concepts — assembled, not authored, and not distinct.",
+    "6. Each correction added methodology and negatives rather than restoring the reference, and the same agent certified its own checklists, so every round passed QA and failed the founder."
+  ]
+}

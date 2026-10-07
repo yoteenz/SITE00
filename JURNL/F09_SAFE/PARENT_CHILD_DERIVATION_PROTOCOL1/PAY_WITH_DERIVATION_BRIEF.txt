@@ -1,0 +1,15 @@
+ATTACH, IN THIS ORDER:
+  IMAGE 1: CHECK A PURCHASE APPROVED
+  IMAGE 2: SELECT A CATEGORY APPROVED
+  IMAGE 3: SELECT AN ACCOUNT CURRENT
+
+IMAGE 1 (CHECK_A_PURCHASE_APPROVED): APPROVED PARENT — world, materials, sheet panel, radius, type and dock; the drawer opens over it.
+IMAGE 2 (SELECT_A_CATEGORY_APPROVED): APPROVED SIBLING — the sizing template: handle, header, tiles, crop, radius, gaps, columns, labels.
+IMAGE 3 (SELECT_AN_ACCOUNT_CURRENT): CURRENT SCREEN — what the drawer lists only; ignore its sizes and spacing.
+Create the SELECT AN ACCOUNT drawer for JURNL SAFE TO SPEND / CHECK A PURCHASE, derived from IMAGE 1. It opens from PAY WITH so the person can choose the account for this purchase. It is the sibling of IMAGE 2: same template, different content.
+Keep from the parent: the sunlit Mediterranean world softly visible behind the sheet; plaster, stone and olive; the white-beige sheet and its corner radius; serif title over spaced uppercase support text.
+Structure: handle, centered title, centered supporting line, close button, tile grid and labels exactly as IMAGE 2.
+Sizing: same tile size, crop, radius, gaps, columns and label size as IMAGE 2. Only pictures and words change.
+Pictures: CHECKING: a linen ledger and brass pen on a sunlit travertine desk; SAVINGS: a still sea horizon through a limewashed arch; CREDIT CARD: a matte ivory card with a blind emboss on pale marble; DEBIT CARD: a slim sage card beside a leather wallet; CASH: folded banknotes in a shallow marble bowl; JOINT ACCOUNT: two matching espresso cups side by side on a stone ledge.
+Text, uppercase, spelled exactly: “SELECT AN ACCOUNT”, “CHOOSE THE ACCOUNT YOU WANT TO USE FOR THIS PURCHASE.”, “CHECKING”, “SAVINGS”, “CREDIT CARD”, “DEBIT CARD”, “CASH”, “JOINT ACCOUNT”.
+Do not: phone status bar, home indicator or device frame; lowercase or mixed-case text; tiles larger, smaller or looser than IMAGE 2; legible card numbers, bank names or logos inside the tile pictures; a visual style that does not match IMAGE 1.

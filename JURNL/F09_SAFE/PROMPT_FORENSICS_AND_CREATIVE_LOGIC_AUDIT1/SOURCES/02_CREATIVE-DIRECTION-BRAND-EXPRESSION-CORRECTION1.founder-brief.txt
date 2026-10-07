@@ -1,0 +1,1114 @@
+SPRINT:
+P0.JURNL.F09-SAFE-TO-SPEND.CREATIVE-DIRECTION-BRAND-EXPRESSION-CORRECTION1
+
+AGENT:
+OPUS
+
+MODE:
+METHODOLOGY CORRECTION + BRAND EXPRESSION GATE + CREATIVE DIRECTION + AUTHORITY REGENERATION
+
+PRIORITY:
+P0
+
+==================================================
+CONVERSATION CONTEXT / WHY THIS SPRINT EXISTS
+==================================================
+
+The previous sprint:
+
+P0.JURNL.F09-SAFE-TO-SPEND.VISUAL-AUTHORITY-3-TERRITORY-PROOF1
+
+successfully produced three structurally distinct F09 SAFE TO SPEND territories:
+
+01 THE OPEN FLOOR
+02 THE PLAIN ANSWER
+03 THE OPEN ENVELOPE
+
+and proved:
+
+- LEGACY_VISUAL_LEAK = 0
+- 3/3 distinct territories
+- blur-test PASS
+- no implementation changes
+- no production changes
+- strong product/data grounding
+- correct family distinction
+
+However, founder review identified a critical methodology gap.
+
+The three concepts were structurally cohesive, but they did NOT contain enough of JURNL’s complete visual identity, graphic-design richness, bespoke art direction, or branded world-building character.
+
+They read as:
+
+GOOD PRODUCT CONCEPTS
++
+CLEAN UI STUDIES
+
+rather than:
+
+FULLY CREATIVE-DIRECTED JURNL AUTHORITY CANDIDATES
+
+The founder identified that the pipeline currently jumps too directly from:
+
+UPSTREAM CONTRACTS
+→ STRUCTURAL TERRITORIES
+→ REFERENCE CANDIDATES
+
+without a sufficient intermediate:
+
+CREATIVE DIRECTION / BRAND EXPRESSION TRANSLATION GATE
+
+This caused several deficiencies:
+
+- insufficient environmental richness
+- insufficient tactile/material richness
+- insufficient graphic-design authorship
+- insufficient bespoke visual composition
+- weak integration of JURNL’s full brand identity
+- outdated/underdeveloped logo presentation
+- insufficient art-direction logic
+- insufficient use of custom-designed visual objects
+- visual results that risk reading as AI-generated design studies
+- reference candidates rendered through local HTML/CSS/SVG instead of the preferred high-fidelity image-generation workflow
+- no Sunburst / 4K image-generation pass
+- incomplete translation from product logic to art-directed branded expression
+
+This sprint corrects that methodology gap.
+
+==================================================
+FOUNDER DECISION
+==================================================
+
+THE THREE STRUCTURAL TERRITORIES FROM THE PREVIOUS SPRINT ARE VALID INPUTS.
+
+DO NOT THROW THEM AWAY.
+
+DO NOT RESTART F09 FROM ZERO.
+
+INSERT A NEW REQUIRED PIPELINE LAYER:
+
+STRUCTURAL TERRITORY
+→ CREATIVE DIRECTION / BRAND EXPRESSION TRANSLATION
+→ VISUAL AUTHORITY CANDIDATE
+
+Then regenerate the three mobile candidates through that layer.
+
+The founder’s standard is:
+
+BESPOKE
+ARTISTIC
+WITTY
+CUSTOM-DESIGNED
+BRAND-SPECIFIC
+EDITORIALLY INTELLIGENT
+TACTILE
+MEMORABLE
+VISUALLY RICH
+
+The final result must not look like:
+
+AI-GENERATED GRAPHIC DESIGN
+GENERIC FINTECH
+GENERIC LUXURY APP
+GENERIC MEDITERRANEAN MOODBOARD
+DRIBBBLE
+TEMPLATE UI
+CARD STACKS ON PRETTY BACKGROUNDS
+
+==================================================
+SUPERSEDES
+==================================================
+
+This sprint supersedes the assumption that:
+
+STRUCTURAL TERRITORY
+→ REFERENCE CANDIDATE
+
+is sufficient.
+
+New canonical requirement:
+
+STRUCTURAL TERRITORY
+→ CREATIVE DIRECTION PASS
+→ BRAND EXPRESSION PASS
+→ IMAGE-GENERATED AUTHORITY CANDIDATE
+→ FOUNDER REVIEW
+
+This sprint does NOT supersede:
+
+- F09 product logic
+- F09 data truth
+- F09 state model
+- F09 interaction truth
+- three approved structural territory concepts
+- CENTER_STAGE mobile rule
+- JURNL brand palette/material world
+- no circular tappable controls
+- bottom navigation
+- user-facing uppercase rule
+- legacy visual firewall
+- existing family distinctness
+- no implementation rule
+
+==================================================
+DO NOT REGRESS
+==================================================
+
+DO NOT:
+
+- rewrite F09 functionality
+- create new product logic
+- invent financial values beyond representational sample values
+- reintroduce legacy composition
+- make all three concepts visually similar
+- collapse three territories into one look
+- use generic card stacks
+- use a generic fintech dashboard aesthetic
+- use flat SaaS UI
+- use generic luxury minimalism
+- use a plain beige interface and call it JURNL
+- use decorative Mediterranean imagery with no functional relationship
+- let lifestyle imagery become wallpaper only
+- use circular tappable buttons
+- use AI-default glass cards
+- use excessive gradients
+- use random gold accents
+- use fake editorial copy to compensate for weak composition
+- center everything by default
+- use weak floating pill controls
+- use generic serif + sans pairings without brand logic
+- use stock-feeling photography
+- use generic botanical flourishes
+- generate generic icons
+- make image generation decide the product hierarchy
+- distort or omit the correct JURNL navigation
+- use local HTML/CSS render as the final authority candidate
+- use OpenArt
+- access/query/search/browse OpenArt
+- implement the page
+- explode child states before founder review
+
+==================================================
+KNOWN FAILURE THAT CAUSED THIS
+==================================================
+
+The previous sprint’s own scorecard showed:
+
+BRAND DNA       PARTIAL
+EXPERIENCE      MISSING
+FAMILY          PARTIAL
+STATE           PARTIAL
+INTERACTION     PARTIAL
+DATA            SUFFICIENT
+RESPONSIVE      PARTIAL
+EXPRESSION      PARTIAL
+
+UPSTREAM INTELLIGENCE VERDICT:
+PARTIAL
+
+The concepts therefore had enough information to invent structurally valid solutions, but not enough creative-intelligence depth to produce authority-grade JURNL expression.
+
+This is not a territory failure.
+
+This is a METHODOLOGY / CREATIVE DIRECTION GATE failure.
+
+==================================================
+MOTHERBOARD INTENT
+==================================================
+
+Add a durable methodology distinction between:
+
+CONCEPT TERRITORY
+
+and:
+
+CREATIVE-DIRECTED AUTHORITY CANDIDATE
+
+The system must understand:
+
+A strong functional concept is not yet a visual authority.
+
+Before authority generation, every territory must pass through a brand-expression translation layer that defines:
+
+- brand-world integration
+- logo behavior
+- editorial hierarchy
+- tactile/material treatment
+- graphic-design logic
+- image-generation direction
+- bespoke visual object design
+- composition richness
+- art-direction wit
+- family-specific expression
+- anti-generic constraints
+- anti-AI-generated-look constraints
+
+==================================================
+1. NEW CANONICAL PIPELINE GATE
+==================================================
+
+Insert:
+
+BRAND DNA
+→ EXPERIENCE CONTRACT
+→ FAMILY CONTRACT
+→ STRUCTURAL TERRITORIES
+→ CREATIVE DIRECTION TRANSLATION
+→ BRAND EXPRESSION GATE
+→ IMAGE-GENERATED AUTHORITY CANDIDATES
+→ FOUNDER REVIEW
+→ FAMILY AUTHORITY LOCK
+→ RESPONSIVE/STATE EXPLOSION
+→ IMPLEMENTATION
+
+The new gates are:
+
+CREATIVE_DIRECTION_READY
+BRAND_EXPRESSION_READY
+
+A candidate cannot be considered:
+
+REFERENCE_AUTHORITY_READY
+
+without both.
+
+==================================================
+2. CREATIVE DIRECTION TRANSLATION CONTRACT
+==================================================
+
+For each territory, define:
+
+TERRITORY_ID
+STRUCTURAL_PREMISE
+PRIMARY_OBJECT
+FUNCTIONAL_METAPHOR
+
+then add:
+
+ART_DIRECTION_PREMISE
+BRAND_WORLD_TRANSLATION
+GRAPHIC_DESIGN_LANGUAGE
+ENVIRONMENTAL_ROLE
+MATERIAL_LANGUAGE
+TACTILE_OBJECT_LANGUAGE
+TYPOGRAPHIC_ART_DIRECTION
+LOGO_BEHAVIOR
+BRAND_LOCKUP_BEHAVIOR
+COLOR_HIERARCHY
+LIGHTING_DIRECTION
+DEPTH_MODEL
+COMPOSITIONAL_TENSION
+NEGATIVE_SPACE_STRATEGY
+EDITORIAL_WIT
+CUSTOM_DESIGNED_ELEMENT
+BESPOKE_DETAIL
+IMAGERY_ROLE
+FOCAL_PRIORITY
+MOTION_IMPLICATION
+ANTI_GENERIC_RULES
+ANTI_AI_LOOK_RULES
+
+This translation must happen before image generation.
+
+==================================================
+3. JURNL BRAND IDENTITY — FULL EXPRESSION LOAD
+==================================================
+
+Do not use only the palette and font category.
+
+Load and apply JURNL as a full visual world.
+
+Known canonical characteristics include:
+
+MONEY IN SERVICE OF LIFE.
+FINANCIAL LIFE, BEAUTIFULLY ORGANIZED.
+
+TAGLINE:
+PLAN TODAY. GROW FREELY.
+
+VISUAL WORLD:
+bone
+cream
+ivory
+greige
+taupe
+blush
+muted rose
+deep emerald
+burgundy
+champagne
+obsidian
+
+MATERIAL WORLD:
+plaster
+travertine
+limestone
+paper
+linen
+textile
+stone
+soft metal
+natural wood where appropriate
+
+ATMOSPHERE:
+Mediterranean / coastal
+natural light
+quiet luxury
+editorial restraint
+architectural lifestyle
+considered object placement
+tactile materials
+human warmth
+visual breathing room
+
+But:
+
+JURNL MUST NOT BECOME:
+generic beige luxury
+Pinterest Mediterranean
+luxury hotel app
+fashion editorial without product meaning
+
+==================================================
+4. CREATIVE LOGO / LOCKUP SYSTEM
+==================================================
+
+The previous authority candidates underused the logo.
+
+Founder has now creatively directed the JURNL identity placement.
+
+Use a richer brand-lockup logic.
+
+Current preferred creative direction includes:
+
+BOTANICAL MARK
++
+JURNL WORDMARK
++
+OPTIONAL DESCRIPTOR:
+FINANCIAL LIFE,
+BEAUTIFULLY ORGANIZED.
+
+and/or:
+
+PLAN TODAY.
+GROW FREELY.
+
+Rules:
+
+- logo must feel intentionally placed inside the composition
+- do not default to centered top-nav wordmark
+- do not treat logo as generic app chrome
+- brand lockup may participate architecturally in the scene
+- top/header mark can be asymmetrical if compositionally appropriate
+- tagline may live in a secondary architectural zone
+- brand placement should feel editorial, not templated
+- do not clutter the primary SAFE TO SPEND signal
+- logo treatment must remain legible
+- do not fabricate alternate logo letterforms
+- preserve JURNL identity while creatively directing placement
+
+==================================================
+5. GRAPHIC DESIGN AUTHORSHIP
+==================================================
+
+Each candidate must show clear graphic-design authorship.
+
+Require at least several of the following, where appropriate:
+
+- bespoke typographic relationship
+- editorial scale contrast
+- custom material information object
+- designed physical metaphor
+- intentional grid break
+- bespoke labels/tabs
+- custom hierarchy
+- tactile data encoding
+- unusual but controlled object composition
+- layered physical/graphic information structure
+- asymmetric branded framing
+- controlled tension between environment and interface
+- custom transition between family states
+
+DO NOT simply:
+place UI cards over an image.
+
+==================================================
+6. BESPOKE / ARTISTIC / WITTY RULE
+==================================================
+
+Creative direction must remain:
+
+BESPOKE
+ARTISTIC
+WITTY
+CUSTOM-DESIGNED
+
+WITTY does NOT mean:
+jokes
+cute copy
+novelty UI
+
+WITTY means:
+a smart visual idea
+a meaningful metaphor
+a subtle visual relationship
+a composition that rewards attention
+a detail that feels authored rather than generated
+
+Every territory must contain at least one:
+
+VISUAL IDEA THAT COULD NOT HAVE BEEN PRODUCED BY A GENERIC UI GENERATOR.
+
+Record that idea explicitly.
+
+==================================================
+7. ANTI-AI-GENERATED-GRAPHICS GUARD
+==================================================
+
+Add an explicit anti-AI visual audit.
+
+Flag:
+
+GENERIC_LUXURY_APP
+GENERIC_FINTECH
+GENERIC_MEDITERRANEAN
+CARD_STACK_DRIFT
+GLASSMORPHISM_DEFAULT
+OVERLY_CENTERED_AI_LAYOUT
+DECORATIVE_ICON_NOISE
+RANDOM_BOTANICALS
+RANDOM_GOLD_ACCENTS
+FAKE_EDITORIAL_COPY
+MATERIAL_OVERLOAD
+UNJUSTIFIED_3D_OBJECT
+PHOTOREAL_SCENE_WITH_UI_PASTED_ON
+AI_TYPOGRAPHY_ARTIFACTS
+ILLEGIBLE_TEXT
+GENERIC_PROMO_LAYOUT
+TEMPLATE_DASHBOARD
+MOODBOARD_NOT_PRODUCT
+
+A candidate with material anti-AI flags is NOT authority-ready.
+
+==================================================
+8. IMAGE GENERATION WORKFLOW
+==================================================
+
+Final visual-authority candidates must use the preferred image-generation workflow.
+
+MODEL:
+GPT IMAGE 2.5 SUNBURST
+
+QUALITY:
+4K
+
+AUTO-ENHANCE:
+OFF
+
+TARGET:
+MOBILE AUTHORITY
+
+ASPECT RATIO:
+9:16
+
+CANONICAL MOBILE VIEWPORT LOGIC:
+393 × 852
+
+The generated image does not need literal 393×852 pixel dimensions if Sunburst generation uses higher resolution,
+but the composition MUST map cleanly to the canonical JURNL mobile viewport geometry.
+
+Generate at high resolution suitable for inspection and downstream authority extraction.
+
+==================================================
+9. IMAGE GENERATION IS A RENDERER, NOT THE DESIGNER
+==================================================
+
+Before calling Sunburst:
+
+LOCK:
+
+- primary object
+- major zones
+- visual hierarchy
+- text hierarchy
+- logo placement
+- bottom-nav placement
+- CTA placement
+- image focal points
+- material hierarchy
+- negative-space regions
+- environmental geometry
+- custom-designed object logic
+
+The image model must execute the direction.
+
+It must not invent the page.
+
+==================================================
+10. PROMPT CONSTRUCTION FOR SUNBURST
+==================================================
+
+For each territory, create a complete production prompt containing:
+
+JURNL BRAND WORLD
+F09 PRODUCT JOB
+TERRITORY STRUCTURE
+PRIMARY OBJECT
+MOBILE COMPOSITION
+LOGO / LOCKUP PLACEMENT
+SAFE TO SPEND SIGNAL
+SECONDARY BREAKDOWN
+ENVIRONMENT
+MATERIALS
+LIGHTING
+GRAPHIC DESIGN ELEMENTS
+TACTILE OBJECTS
+BOTTOM NAV
+CTA
+ANTI-GENERIC RULES
+ANTI-AI RULES
+TEXT THAT MUST RENDER
+TEXT THAT MAY BE REPRESENTATIONAL
+FORBIDDEN ELEMENTS
+
+Do not use vague prompts such as:
+
+“luxury finance app in Mediterranean style.”
+
+==================================================
+11. TYPOGRAPHY + TEXT RENDERING GUARD
+==================================================
+
+Sunburst text must be inspected carefully.
+
+Required visible copy should include only text necessary for the concept.
+
+If generation introduces malformed type:
+
+REGENERATE OR REPAIR.
+
+Do not accept:
+
+misspellings
+fake words
+random labels
+duplicated nav items
+mutated JURNL wordmark
+garbled amounts
+broken tagline
+
+No candidate passes with obvious AI typography defects.
+
+==================================================
+12. TERRITORY 01 — THE OPEN FLOOR
+==================================================
+
+PRESERVE STRUCTURAL IDEA:
+
+What you can spend is the open floor.
+Everything held back defines the boundary.
+
+Creative-direction task:
+
+Elevate this from a diagram into a JURNL-authored spatial/graphic experience.
+
+Do NOT merely show:
+a floorplan graphic.
+
+Explore:
+- architectural floor logic
+- tactile stone geometry
+- subtle boundary encoding
+- editorial value placement
+- bespoke spatial marker
+- environmental integration
+- JURNL materiality
+
+Maintain:
+clear one-answer hierarchy.
+
+==================================================
+13. TERRITORY 02 — THE PLAIN ANSWER
+==================================================
+
+PRESERVE STRUCTURAL IDEA:
+
+One plain answer.
+Secondary held-back factors remain inspectable.
+
+Creative-direction task:
+
+Elevate this from text-on-stone minimalism into a richer JURNL branded composition without compromising clarity.
+
+Explore:
+- editorial typography
+- controlled environmental framing
+- material surface
+- bespoke text/object relationship
+- brand lockup integration
+- physical or graphic restraint
+- intelligent use of negative space
+
+Do not overdecorate.
+
+This territory should remain the most direct.
+
+==================================================
+14. TERRITORY 03 — THE OPEN ENVELOPE
+==================================================
+
+PRESERVE STRUCTURAL IDEA:
+
+One open financial object contains the spendable amount.
+Held-back categories remain sealed/contained.
+
+Creative-direction task:
+
+Elevate the envelope metaphor into a tactile JURNL financial-organizing system.
+
+Avoid literal stationery gimmickry.
+
+Explore:
+- paper folio
+- file system
+- physical organizer
+- layered slips
+- archive-style tabs
+- bespoke financial object
+- material sequencing
+- sealed vs released logic
+- meaningful category edges
+- JURNL environmental integration
+
+This territory is currently the closest conceptual relative to the founder-created hybrid.
+
+Do not copy the founder hybrid directly.
+
+Maintain independence.
+
+==================================================
+15. FOUNDER-CREATED COMPARISON AUTHORITY
+==================================================
+
+The founder has created a separate approved comparison concept outside this Opus sprint.
+
+It includes:
+
+- richer Mediterranean architectural environment
+- creatively directed botanical JURNL lockup
+- one clear SAFE TO SPEND amount
+- strong editorial hierarchy
+- tactile organized financial folio
+- BILLS / PLANS / GOALS / BUFFER physical organization
+- explicit bridge to PURCHASES
+- bespoke physical-object design
+- richer graphic-design composition
+- mobile 9:16 framing
+- tan secondary CTA treatment
+- green retained selectively elsewhere
+- custom brand placement
+
+DO NOT copy this visual into the three Opus concepts.
+
+DO use it only as a QUALITY BAR for:
+
+VISUAL RICHNESS
+BRAND SPECIFICITY
+GRAPHIC DESIGN AUTHORSHIP
+MATERIAL SOPHISTICATION
+LOGO INTELLIGENCE
+CUSTOM DESIGN
+ART-DIRECTION DEPTH
+
+==================================================
+16. BRAND EXPRESSION CHECKLIST
+==================================================
+
+Before generation, each territory must explicitly pass:
+
+[ ] JURNL visual world present
+[ ] JURNL product philosophy present
+[ ] family-specific logic present
+[ ] custom graphic-design idea present
+[ ] bespoke material object present where appropriate
+[ ] meaningful environmental role
+[ ] logo placement intentionally art-directed
+[ ] tagline/descriptors intentionally handled
+[ ] primary financial signal remains unmistakable
+[ ] secondary data does not compete
+[ ] no generic dashboard composition
+[ ] no generic card stack
+[ ] no default AI composition
+[ ] no unrelated decoration
+[ ] visual idea survives without marketing copy
+[ ] mobile geometry works
+[ ] bottom navigation works
+[ ] no circular tappable buttons
+[ ] brand identity is evident even if JURNL logo is hidden
+
+Last item is critical:
+
+IF THE LOGO IS HIDDEN,
+THE SCREEN SHOULD STILL FEEL LIKE JURNL.
+
+==================================================
+17. CREATIVE-DIRECTION DISTINCTNESS
+==================================================
+
+The three territories must remain distinct not only structurally, but artistically.
+
+Compare:
+
+ART-DIRECTION PREMISE
+ENVIRONMENTAL STRATEGY
+MATERIAL STRATEGY
+OBJECT LANGUAGE
+TYPOGRAPHIC STRATEGY
+DEPTH MODEL
+BRAND LOCKUP STRATEGY
+VISUAL WIT
+DATA ENCODING
+CTA EXPRESSION
+
+All three must differ meaningfully.
+
+==================================================
+18. GENERATION COUNT
+==================================================
+
+Generate:
+
+1 primary 4K Sunburst mobile candidate per territory
+
+TOTAL:
+3 primary candidates
+
+Allow limited corrective retries only for:
+
+- typography corruption
+- broken logo
+- malformed object
+- wrong viewport ratio
+- nav corruption
+- composition failure
+- major brand-expression failure
+
+Do not endlessly fan out variants.
+
+Track all retries.
+
+==================================================
+19. COST CONTROL
+==================================================
+
+Record:
+
+MODEL
+RESOLUTION
+ASPECT RATIO
+GENERATIONS
+RETRIES
+REASON FOR RETRY
+COST / CREDITS if measurable
+
+No unnecessary paid generations.
+
+==================================================
+20. QUALITY REVIEW BOARD
+==================================================
+
+Produce one founder review board containing:
+
+01 THE OPEN FLOOR
+02 THE PLAIN ANSWER
+03 THE OPEN ENVELOPE
+
+Each at equal scale.
+
+Under each include:
+
+STRUCTURAL PREMISE
+CREATIVE-DIRECTION PREMISE
+PRIMARY OBJECT
+CUSTOM-DESIGNED ELEMENT
+BRAND EXPRESSION SCORE
+ANTI-AI AUDIT
+KEY STRENGTH
+KEY RISK
+
+Do not select a winner.
+
+==================================================
+21. COMPARISON AGAINST PREVIOUS ROUND
+==================================================
+
+For each territory compare:
+
+PREVIOUS CANDIDATE
+vs
+CREATIVE-DIRECTED CANDIDATE
+
+Evaluate:
+
+BRAND SPECIFICITY
+VISUAL RICHNESS
+PRODUCT CLARITY
+GRAPHIC DESIGN AUTHORSHIP
+ENVIRONMENTAL INTELLIGENCE
+LOGO INTELLIGENCE
+MATERIAL SOPHISTICATION
+CUSTOM-DESIGN QUALITY
+ANTI-AI QUALITY
+FAMILY DISTINCTNESS
+
+The corrective round must materially outperform the previous round.
+
+==================================================
+22. UPSTREAM METHODOLOGY CORRECTION
+==================================================
+
+Update the methodology artifacts so future families do not repeat this failure.
+
+The methodology must distinguish:
+
+STRUCTURAL TERRITORY
+CREATIVE DIRECTION
+BRAND EXPRESSION
+REFERENCE AUTHORITY
+
+Add required fields for all future projects/families.
+
+This should be portable to:
+
+JURNL
+AIO
+SITE 00
+FRONTAL SLAYER
+ASTRAL WORLD
+NDXBOOK
+
+while allowing each brand’s creative-direction rules to remain distinct.
+
+==================================================
+23. PROJECT-SPECIFIC CREATIVE DIRECTION
+==================================================
+
+DO NOT create one universal “luxury creative direction” layer.
+
+The gate should load project-specific identity.
+
+For JURNL, the layer must know:
+
+financial organization
+calm confidence
+editorial restraint
+Mediterranean/coastal world
+tactile financial objects
+natural light
+plaster/stone/paper/textile
+botanical language
+quiet but intentional wit
+custom-designed hierarchy
+
+AIO would need a different translation.
+Frontal Slayer would need a different translation.
+NDXBOOK would need a different translation.
+
+==================================================
+24. NO AUTHORITY EXPLOSION YET
+==================================================
+
+DO NOT generate:
+
+tablet
+desktop
+child states
+WHY sheet
+HOLD sheet
+empty state
+error state
+icon sheet
+component sheet
+
+until founder chooses or combines a territory.
+
+This is still founder concept review.
+
+==================================================
+25. NO IMPLEMENTATION
+==================================================
+
+Do not modify:
+
+JURNL runtime
+routes
+styles
+components
+production assets
+data
+Supabase
+E2E functionality
+
+This sprint produces authority candidates and methodology correction only.
+
+==================================================
+26. DELIVERABLES
+==================================================
+
+Create durable artifacts using repo conventions.
+
+At minimum:
+
+CREATIVE_DIRECTION_GATE.md/json
+BRAND_EXPRESSION_GATE.md/json
+F09_T01_CREATIVE_DIRECTION.json
+F09_T02_CREATIVE_DIRECTION.json
+F09_T03_CREATIVE_DIRECTION.json
+
+SUNBURST_PROMPTS/
+  T01_OPEN_FLOOR.txt
+  T02_PLAIN_ANSWER.txt
+  T03_OPEN_ENVELOPE.txt
+
+REFERENCE_CANDIDATES_4K/
+  T01
+  T02
+  T03
+
+PREVIOUS_VS_CORRECTED_COMPARISON.json
+ANTI_AI_VISUAL_AUDIT.json
+CREATIVE_DIRECTION_DISTINCTNESS_MATRIX.json
+FOUNDER_REVIEW_BOARD
+GENERATION_LEDGER.json
+
+Update global methodology artifacts where appropriate.
+
+==================================================
+27. SUCCESS CRITERIA
+==================================================
+
+PASS ONLY IF:
+
+[ ] previous three structural territories preserved
+[ ] creative-direction gate added
+[ ] brand-expression gate added
+[ ] JURNL full identity loaded beyond palette/fonts
+[ ] logo/lockup behavior explicitly art-directed
+[ ] every territory includes a bespoke visual idea
+[ ] every territory includes meaningful graphic-design authorship
+[ ] every territory includes brand-specific environmental/material logic
+[ ] no generic fintech result
+[ ] no generic luxury result
+[ ] no generic Mediterranean result
+[ ] no AI-default card stack
+[ ] no obvious AI graphic-design artifacts
+[ ] no malformed brand wordmark
+[ ] no illegible key copy
+[ ] Sunburst used
+[ ] 4K used
+[ ] Auto-Enhance OFF
+[ ] 9:16 mobile ratio used
+[ ] canonical 393×852 composition logic respected
+[ ] 3 corrected candidates generated
+[ ] corrected candidates materially outperform previous round
+[ ] candidates remain structurally distinct
+[ ] no implementation
+[ ] no authority explosion
+[ ] founder verdict remains pending
+
+==================================================
+28. FINAL REPORT
+==================================================
+
+Return:
+
+SPRINT
+STATUS
+BRANCH
+SHA_BEFORE
+SHA_AFTER
+PR
+MERGE_STATUS
+
+METHODOLOGY:
+CREATIVE_DIRECTION_GATE
+BRAND_EXPRESSION_GATE
+STRUCTURAL_TERRITORY_SEPARATION
+REFERENCE_AUTHORITY_GATE
+
+JURNL IDENTITY LOAD:
+BRAND DNA
+LOGO SYSTEM
+TAGLINE SYSTEM
+MATERIAL WORLD
+ENVIRONMENT WORLD
+GRAPHIC DESIGN RULES
+ANTI_GENERIC RULES
+ANTI_AI RULES
+
+TERRITORY 01:
+STRUCTURAL CONCEPT
+CREATIVE-DIRECTION CONCEPT
+CUSTOM-DESIGNED IDEA
+LOGO STRATEGY
+SUNBURST PROMPT PATH
+4K CANDIDATE PATH
+ANTI-AI RESULT
+
+TERRITORY 02:
+STRUCTURAL CONCEPT
+CREATIVE-DIRECTION CONCEPT
+CUSTOM-DESIGNED IDEA
+LOGO STRATEGY
+SUNBURST PROMPT PATH
+4K CANDIDATE PATH
+ANTI-AI RESULT
+
+TERRITORY 03:
+STRUCTURAL CONCEPT
+CREATIVE-DIRECTION CONCEPT
+CUSTOM-DESIGNED IDEA
+LOGO STRATEGY
+SUNBURST PROMPT PATH
+4K CANDIDATE PATH
+ANTI-AI RESULT
+
+GENERATION:
+MODEL
+SUNBURST STATUS
+RESOLUTION
+ASPECT RATIO
+AUTO-ENHANCE
+PRIMARY GENERATIONS
+RETRIES
+COST
+
+PREVIOUS VS CORRECTED:
+BRAND SPECIFICITY
+VISUAL RICHNESS
+GRAPHIC DESIGN AUTHORSHIP
+PRODUCT CLARITY
+MATERIAL SOPHISTICATION
+LOGO INTELLIGENCE
+ANTI-AI QUALITY
+
+DISTINCTNESS:
+01 VS 02
+01 VS 03
+02 VS 03
+
+PAGE IMPLEMENTATION:
+NO
+
+AUTHORITY EXPLOSION:
+NO
+
+FOUNDER VERDICT:
+PENDING
+
+FINAL VERDICT:
+CREATIVE DIRECTION LAYER PASS / FAIL
+BRAND EXPRESSION LAYER PASS / FAIL
+SUNBURST AUTHORITY QUALITY PASS / FAIL
+READY_FOR_FOUNDER_COMPARISON YES / NO

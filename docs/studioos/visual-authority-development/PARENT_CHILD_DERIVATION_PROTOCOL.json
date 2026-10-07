@@ -1,0 +1,184 @@
+{
+  "id": "PARENT_CHILD_DERIVATION_PROTOCOL",
+  "schema_version": "1.0.0",
+  "sprint": "P0.SITE00.PRODUCTION-METHODOLOGY.VISUAL-AUTHORITY-DEVELOPMENT-GATE1",
+  "doctrine": "UPSTREAM DEFINES INTENT. DOWNSTREAM INCREASES FIDELITY.",
+  "generated_by": "scripts/studioos/visual-authority-export.ts",
+  "source": "shared/studioos-visual-authority/parent-child-derivation.ts",
+  "core_rule": {
+    "rule": "ABSORB THE INFORMATION ARCHITECTURE OF THE CURRENT SCREEN. DO NOT COPY ITS VISUAL TREATMENT. RE-EXPRESS THAT INFORMATION THROUGH THE APPROVED PARENT AUTHORITY.",
+    "keep": [
+      "product meaning",
+      "route meaning",
+      "interaction meaning",
+      "content hierarchy",
+      "shell logic where relevant"
+    ],
+    "target": "Same app family, same world, same DNA, different screen.",
+    "not": [
+      "the same content pasted into a different pretty mockup",
+      "the old weak design with small cosmetic improvements"
+    ]
+  },
+  "authority_hierarchy": [
+    {
+      "rank": 1,
+      "kind": "APPROVED_PARENT",
+      "governs": "VISUAL",
+      "rule": "Top visual authority for the whole family. Attached to every child generation as the world / brand / type reference."
+    },
+    {
+      "rank": 2,
+      "kind": "APPROVED_CHILD_EXPLORATION",
+      "governs": "VISUAL_SUBORDINATE",
+      "rule": "May set direction for one specific child. Never overrides the parent."
+    },
+    {
+      "rank": 3,
+      "kind": "CURRENT_SCREEN",
+      "governs": "INFORMATION",
+      "rule": "Defines what content, actions and states must exist. Its layout and styling are not inherited unless the founder says so."
+    }
+  ],
+  "inherited_dna": [
+    "the world (environment, era, place)",
+    "architectural framing and openness",
+    "material language",
+    "palette and accent",
+    "depth and physical environment",
+    "the product feeling (luxury / editorial level)",
+    "panel language (fill, edge, translucency)",
+    "spacing rhythm",
+    "button style family",
+    "corner radius family",
+    "panel stacking logic",
+    "navigation dock language",
+    "balance between editorial drama and utility clarity"
+  ],
+  "family_constant_keys": [
+    "BRAND",
+    "TYPOGRAPHY",
+    "DECORATIVE_LOGO",
+    "SHELL",
+    "RATIO"
+  ],
+  "method": [
+    {
+      "step": 1,
+      "id": "IDENTIFY_PARENT_DNA",
+      "ask": [
+        "main object metaphor",
+        "composition strategy",
+        "material language",
+        "what makes it special",
+        "visual grammar"
+      ]
+    },
+    {
+      "step": 2,
+      "id": "IDENTIFY_CHILD_JOB",
+      "ask": [
+        "function",
+        "information it must communicate",
+        "actions it must support",
+        "expression: FULL_PAGE · DRAWER · MODAL · CONTINUATION · OVERLAY"
+      ]
+    },
+    {
+      "step": 3,
+      "id": "TRANSLATE_NOT_COPY",
+      "ask": [
+        "how this function would exist inside the parent’s world",
+        "which parent motifs stay literal",
+        "which become abstracted",
+        "which become component logic"
+      ]
+    },
+    {
+      "step": 4,
+      "id": "PRESERVE_FAMILY_RECOGNITION",
+      "ask": [
+        "is it recognisably the same family before any text is read?"
+      ]
+    }
+  ],
+  "content_absorption": {
+    "trigger": "The founder supplies a current design and says “absorb its info & derive its visual language from the mobile authority”.",
+    "must": [
+      "read the content structure",
+      "list every panel, section, action and state",
+      "keep that meaning",
+      "rebuild the screen from the approved authority"
+    ],
+    "must_not": [
+      "repaint the old screen",
+      "flatten the parent into generic cards",
+      "copy a weak hierarchy 1:1 when the parent suggests a stronger one"
+    ]
+  },
+  "family_levels": [
+    {
+      "level": "PARENT",
+      "rule": "The approved root authority screen."
+    },
+    {
+      "level": "DIRECT_DESCENDANT",
+      "rule": "Launched from the parent. Closest tie to the parent: same world, panel and type system at full strength."
+    },
+    {
+      "level": "SECONDARY_DESCENDANT",
+      "rule": "Launched from a child (drawers, continuations). May simplify, never leaves the family."
+    }
+  ],
+  "expression_pair": {
+    "when": "A child is asked for as both a full page and a drawer.",
+    "drawer": "A compact extension of the system.",
+    "full_page": "A fuller, more complete expression of the same concept.",
+    "rule": "Siblings: not replicas, not unrelated."
+  },
+  "continuation": [
+    "Keep the shell and the composition system fixed across continuation screens.",
+    "Split overflow into continuation screens with BACK / NEXT.",
+    "Continuation controls are integrated, never floating.",
+    "A lone BACK or NEXT takes its own single-control position without drift.",
+    "Do not overload the first screen with panels."
+  ],
+  "selection_sheet_required": [
+    "header (title + subtext)",
+    "close affordance",
+    "drag handle when the sheet drags",
+    "tile size",
+    "tile aspect and crop logic",
+    "corner radius",
+    "column and row gaps",
+    "row density (columns × visible rows)",
+    "label size and tracking",
+    "sheet padding"
+  ],
+  "sibling_sheet_rule": "Two selection sheets in the same parent flow share one sizing system unless the founder asks otherwise. Only the content differs.",
+  "sibling_tolerance": {
+    "tile_width": 0.06,
+    "tile_aspect": 0.06,
+    "radius": 0.25,
+    "gap": 0.15,
+    "label_cap_height": 0.1,
+    "tracking_em": 0.25,
+    "padding": 0.15
+  },
+  "quality_check": [
+    "Does it clearly belong to the parent family before any text is read?",
+    "Does it keep the parent’s world, materials, palette and panel language?",
+    "Is the information architecture of the current screen complete?",
+    "Is the typography uppercase only, with the family’s display / support contrast?",
+    "Is the decorative logo rule respected where a logo appears?",
+    "Is the shell kept (dock, world behind UI) with no device chrome or phone UX?",
+    "Is the ratio the family’s ratio, with no bands, letterbox or careless crop?",
+    "For a sibling sheet: does checkSiblingSheets return MATCHED?",
+    "Did it avoid generic app drift and redesign drift?"
+  ],
+  "evaluators": [
+    "checkSiblingSheets",
+    "buildChildDerivationBrief"
+  ],
+  "first_application": "JURNL/F09_SAFE/PARENT_CHILD_DERIVATION_PROTOCOL1"
+}
