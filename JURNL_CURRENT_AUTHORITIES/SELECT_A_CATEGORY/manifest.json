@@ -1,0 +1,146 @@
+{
+  "SCREEN_ID": "SELECT_A_CATEGORY",
+  "AUTHORITY_SOURCE": "authority-source.jpg",
+  "PLATE": "environment-plate.jpg",
+  "OBJECTS": [],
+  "OVERLAYS": [],
+  "THUMBNAILS": [
+    {
+      "id": "FASHION",
+      "file": "THUMBNAILS/CATEGORIES/fashion.jpg",
+      "px": [
+        438,
+        623
+      ]
+    },
+    {
+      "id": "BEAUTY",
+      "file": "THUMBNAILS/CATEGORIES/beauty.jpg",
+      "px": [
+        445,
+        623
+      ]
+    },
+    {
+      "id": "HOME",
+      "file": "THUMBNAILS/CATEGORIES/home.jpg",
+      "px": [
+        446,
+        623
+      ]
+    },
+    {
+      "id": "TRAVEL",
+      "file": "THUMBNAILS/CATEGORIES/travel.jpg",
+      "px": [
+        441,
+        623
+      ]
+    },
+    {
+      "id": "WELLNESS",
+      "file": "THUMBNAILS/CATEGORIES/wellness.jpg",
+      "px": [
+        438,
+        616
+      ]
+    },
+    {
+      "id": "DINING",
+      "file": "THUMBNAILS/CATEGORIES/dining.jpg",
+      "px": [
+        445,
+        616
+      ]
+    },
+    {
+      "id": "GROCERIES",
+      "file": "THUMBNAILS/CATEGORIES/groceries.jpg",
+      "px": [
+        446,
+        616
+      ]
+    },
+    {
+      "id": "GIFTS",
+      "file": "THUMBNAILS/CATEGORIES/gifts.jpg",
+      "px": [
+        441,
+        615
+      ]
+    },
+    {
+      "id": "TECH",
+      "file": "THUMBNAILS/CATEGORIES/tech.jpg",
+      "px": [
+        439,
+        615
+      ]
+    },
+    {
+      "id": "TRANSPORT",
+      "file": "THUMBNAILS/CATEGORIES/transport.jpg",
+      "px": [
+        445,
+        615
+      ]
+    },
+    {
+      "id": "EVENTS",
+      "file": "THUMBNAILS/CATEGORIES/events.jpg",
+      "px": [
+        446,
+        615
+      ]
+    },
+    {
+      "id": "OTHER",
+      "file": "THUMBNAILS/CATEGORIES/other.jpg",
+      "px": [
+        441,
+        615
+      ]
+    }
+  ],
+  "CANONICAL_WIDTH": 2016,
+  "CANONICAL_HEIGHT": 3584,
+  "ASPECT_RATIO": "9:16",
+  "OPENART_MODEL": "gpt-image-2-5-sunburst",
+  "AUTO_ENHANCE": false,
+  "RESOLUTION_TIER": "4k",
+  "QUALITY": "high",
+  "HISTORY": {
+    "env_id": "QrxOOpxbZRpcUAnuw3Da"
+  },
+  "ANCHORS": {
+    "safe_title_region": {
+      "x": 0.06,
+      "y": 0.08,
+      "w": 0.7,
+      "h": 0.16
+    },
+    "cta_region": {
+      "x": 0.08,
+      "y": 0.78,
+      "w": 0.84,
+      "h": 0.08
+    },
+    "nav_boundary": {
+      "y": 0.9
+    },
+    "object_content_region": null
+  },
+  "LIVE_UI_EXCLUSIONS": [
+    "SELECT A CATEGORY",
+    "CHOOSE THE CATEGORY",
+    "category names",
+    "APPLY CATEGORY",
+    "logo",
+    "close",
+    "status bar",
+    "bottom nav"
+  ],
+  "ALPHA": "Chroma key #00FF00 removed locally. Objects are RGBA PNG aligned to the plate frame.",
+  "STACK": "environment-plate, then object PNG, then overlay PNG, then live HTML. Do not use authority-source.jpg as the page.",
+  "THUMBNAIL_SOURCE": "Cropped from a 4K Sunburst board of the approved authority photographs, labels removed. Not cropped from a flattened UI screenshot."
+}

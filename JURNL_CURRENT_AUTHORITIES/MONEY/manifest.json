@@ -1,0 +1,84 @@
+{
+  "SCREEN_ID": "MONEY",
+  "AUTHORITY_SOURCE": "authority-source.jpg",
+  "PLATE": "environment-plate.jpg",
+  "OBJECTS": [
+    "money-cabinet.png"
+  ],
+  "OVERLAYS": [],
+  "THUMBNAILS": [],
+  "CANONICAL_WIDTH": 2016,
+  "CANONICAL_HEIGHT": 3584,
+  "ASPECT_RATIO": "9:16",
+  "OPENART_MODEL": "gpt-image-2-5-sunburst",
+  "AUTO_ENHANCE": false,
+  "RESOLUTION_TIER": "4k",
+  "QUALITY": "high",
+  "HISTORY": {
+    "env_id": "CYyoH6CvQiUaMWiTgmiq",
+    "obj_id": "Ve7JUxLvN6fFt2eH67DM"
+  },
+  "ANCHORS": {
+    "primary_object": {
+      "x": 0.0,
+      "y": 0.0,
+      "w": 1.0,
+      "h": 0.7907,
+      "px": [
+        0,
+        0,
+        2016,
+        2834
+      ]
+    },
+    "safe_title_region": {
+      "x": 0.06,
+      "y": 0.08,
+      "w": 0.88,
+      "h": 0.18
+    },
+    "cta_region": {
+      "x": 0.08,
+      "y": 0.78,
+      "w": 0.84,
+      "h": 0.1
+    },
+    "nav_boundary": {
+      "y": 0.905
+    },
+    "object_content_region": {
+      "x": 0.0,
+      "y": 0.0,
+      "w": 1.0,
+      "h": 0.7907,
+      "px": [
+        0,
+        0,
+        2016,
+        2834
+      ]
+    }
+  },
+  "LIVE_UI_EXCLUSIONS": [
+    "MONEY",
+    "YOUR MONEY IS IN 2 PLACES",
+    "HELD",
+    "OWED",
+    "$8,420",
+    "$0",
+    "WHAT DO I HAVE, AND WHERE IS IT?",
+    "CHECKING",
+    "CARD",
+    "EVERYDAY",
+    "ADD A PLACE",
+    "SEE ALL PLACES",
+    "NEXT",
+    "NO BANK CONNECTED",
+    "logo",
+    "tagline",
+    "bottom nav"
+  ],
+  "ALPHA": "Chroma key #00FF00 removed locally. Objects are RGBA PNG aligned to the plate frame.",
+  "STACK": "environment-plate, then object PNG, then overlay PNG, then live HTML. Do not use authority-source.jpg as the page.",
+  "COLLAGE_NOTE": "The framed coastal photograph, vase, and books stay on the cabinet object. They are not a separate file."
+}

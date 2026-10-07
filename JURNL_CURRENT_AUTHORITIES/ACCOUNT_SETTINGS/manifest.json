@@ -1,0 +1,56 @@
+{
+  "SCREEN_ID": "ACCOUNT_SETTINGS",
+  "AUTHORITY_SOURCE": "authority-source.jpg",
+  "PLATE": "environment-plate.jpg",
+  "OBJECTS": [],
+  "OVERLAYS": [],
+  "THUMBNAILS": [],
+  "CANONICAL_WIDTH": 2016,
+  "CANONICAL_HEIGHT": 3584,
+  "ASPECT_RATIO": "9:16",
+  "OPENART_MODEL": "gpt-image-2-5-sunburst",
+  "AUTO_ENHANCE": false,
+  "RESOLUTION_TIER": "4k",
+  "QUALITY": "high",
+  "HISTORY": {
+    "env_id": "BGd6FerMtyUdcJ6E53P9"
+  },
+  "ANCHORS": {
+    "safe_title_region": {
+      "x": 0.06,
+      "y": 0.08,
+      "w": 0.8,
+      "h": 0.16
+    },
+    "cta_region": {
+      "x": 0.08,
+      "y": 0.28,
+      "w": 0.84,
+      "h": 0.55
+    },
+    "nav_boundary": {
+      "y": 0.905
+    },
+    "object_content_region": null
+  },
+  "LIVE_UI_EXCLUSIONS": [
+    "ACCOUNT",
+    "ONE SETTINGS OWNER",
+    "DATA EXPORT",
+    "DOWNLOAD YOUR DATA",
+    "HELP & SUPPORT",
+    "GET SUPPORT",
+    "LEGAL",
+    "TERMS & POLICIES",
+    "SIGN OUT",
+    "BACK",
+    "pagination",
+    "logo",
+    "tagline",
+    "bottom nav"
+  ],
+  "ALPHA": "Chroma key #00FF00 removed locally. Objects are RGBA PNG aligned to the plate frame.",
+  "STACK": "environment-plate, then object PNG, then overlay PNG, then live HTML. Do not use authority-source.jpg as the page.",
+  "PROP_NOTE": "The clothbound book keeps the word JOURNEY on its spine. That is a physical prop from the authority, not a control.",
+  "SURFACE_NOTE": "Settings rows are live paper cards. No card stack was baked."
+}

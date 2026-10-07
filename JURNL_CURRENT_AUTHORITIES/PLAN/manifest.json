@@ -1,0 +1,95 @@
+{
+  "SCREEN_ID": "PLAN",
+  "AUTHORITY_SOURCE": "authority-source.jpg",
+  "PLATE": "environment-plate.jpg",
+  "OBJECTS": [
+    "planner-object.png"
+  ],
+  "OVERLAYS": [
+    "editorial-overlay.png"
+  ],
+  "THUMBNAILS": [],
+  "CANONICAL_WIDTH": 2016,
+  "CANONICAL_HEIGHT": 3584,
+  "ASPECT_RATIO": "9:16",
+  "OPENART_MODEL": "gpt-image-2-5-sunburst",
+  "AUTO_ENHANCE": false,
+  "RESOLUTION_TIER": "4k",
+  "QUALITY": "high",
+  "HISTORY": {
+    "env_id": "GNjA0lxsrI0OwT8P5oy5",
+    "obj_id": "2fFjde0XrvuCnnEobfnl",
+    "fg_id": "UOz2AO8x8fn0wiDrY38U"
+  },
+  "ANCHORS": {
+    "primary_object": {
+      "x": 0.0,
+      "y": 0.3206,
+      "w": 1.0,
+      "h": 0.4866,
+      "px": [
+        0,
+        1149,
+        2016,
+        1744
+      ]
+    },
+    "overlay": {
+      "x": 0.0045,
+      "y": 0.3265,
+      "w": 0.9301,
+      "h": 0.6083,
+      "px": [
+        9,
+        1170,
+        1875,
+        2180
+      ]
+    },
+    "safe_title_region": {
+      "x": 0.06,
+      "y": 0.08,
+      "w": 0.8,
+      "h": 0.18
+    },
+    "cta_region": {
+      "x": 0.28,
+      "y": 0.48,
+      "w": 0.62,
+      "h": 0.08
+    },
+    "nav_boundary": {
+      "y": 0.905
+    },
+    "object_content_region": {
+      "x": 0.0,
+      "y": 0.3206,
+      "w": 1.0,
+      "h": 0.4866,
+      "px": [
+        0,
+        1149,
+        2016,
+        1744
+      ]
+    }
+  },
+  "LIVE_UI_EXCLUSIONS": [
+    "PLAN",
+    "YOUR MONEY HAS A PLAN",
+    "HERE IS WHAT YOU ARE ARRANGING",
+    "A CLEARER TOMORROW BEGINS HERE",
+    "NOTHING IS ARRANGED YET",
+    "WHAT DO I WANT IT TO DO?",
+    "ADD AN INTENTION",
+    "GOALS",
+    "PURCHASES",
+    "TRIPS",
+    "AHEAD",
+    "logo",
+    "tagline",
+    "bottom nav"
+  ],
+  "ALPHA": "Chroma key #00FF00 removed locally. Objects are RGBA PNG aligned to the plate frame.",
+  "STACK": "environment-plate, then object PNG, then overlay PNG, then live HTML. Do not use authority-source.jpg as the page."
+}

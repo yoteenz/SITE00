@@ -1,0 +1,57 @@
+{
+  "SCREEN_ID": "ACCOUNT_PROFILE",
+  "AUTHORITY_SOURCE": "authority-source.jpg",
+  "PLATE": "environment-plate.jpg",
+  "OBJECTS": [],
+  "OVERLAYS": [],
+  "THUMBNAILS": [],
+  "CANONICAL_WIDTH": 1632,
+  "CANONICAL_HEIGHT": 3808,
+  "ASPECT_RATIO": "9:21",
+  "OPENART_MODEL": "gpt-image-2-5-sunburst",
+  "AUTO_ENHANCE": false,
+  "RESOLUTION_TIER": "4k",
+  "QUALITY": "high",
+  "HISTORY": {
+    "env_id": "Gznl9OubL8xJxV5NldaR"
+  },
+  "ANCHORS": {
+    "safe_title_region": {
+      "x": 0.08,
+      "y": 0.08,
+      "w": 0.7,
+      "h": 0.16
+    },
+    "cta_region": {
+      "x": 0.06,
+      "y": 0.22,
+      "w": 0.88,
+      "h": 0.62
+    },
+    "nav_boundary": {
+      "y": 0.9
+    },
+    "object_content_region": null
+  },
+  "LIVE_UI_EXCLUSIONS": [
+    "ACCOUNT",
+    "ONE SETTINGS OWNER",
+    "PROFILE",
+    "PREVIEW GUEST",
+    "DISPLAY CURRENCY",
+    "CONNECTION",
+    "ASK JURNL",
+    "SAFE TO SPEND BUFFER",
+    "$500",
+    "NEXT",
+    "logo",
+    "status bar",
+    "bottom nav"
+  ],
+  "ALPHA": "Chroma key #00FF00 removed locally. Objects are RGBA PNG aligned to the plate frame.",
+  "STACK": "environment-plate, then object PNG, then overlay PNG, then live HTML. Do not use authority-source.jpg as the page.",
+  "RATIO_NOTE": "Phone-crop authority is about 0.376. Delivered at Sunburst 9:21. Shared by ACCOUNT_NOTIFICATIONS.",
+  "SHARED_WITH": [
+    "ACCOUNT_NOTIFICATIONS"
+  ]
+}
