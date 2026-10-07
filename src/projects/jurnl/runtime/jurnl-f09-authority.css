@@ -1,15 +1,35 @@
 /* F09 parent — approved authority reconstruction. Live layers over ENV.LOGGIA. No OS chrome. */
 
 .jrn:has([data-jrn-screen='F09.00']) {
-  background: #cbb59a;
+  background: #efe8df;
+}
+/* Keep the authority aspect on a short phone browser so the olive stays below the lockup
+   and the folio text stays on the folder. Side gaps use the same pale floor tone. */
+.jrn .jrn-screen[data-jrn-screen='F09.00'] {
+  position: absolute;
+  inset: auto;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(100vw, calc(100dvh * 393 / 852));
+  height: min(100dvh, calc(100vw * 852 / 393));
+}
+.jrn:has([data-jrn-screen='F09.00']) .jrn-nav-host {
+  position: absolute;
+  inset: auto;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(100vw, calc(100dvh * 393 / 852));
+  height: min(100dvh, calc(100vw * 852 / 393));
 }
 .jrn .jrn-screen[data-jrn-screen='F09.00'],
 .jrn .jrn-screen[data-jrn-screen='F09.00'][data-jrn-composition='CENTER_STAGE'] {
   --jrn-plate-zoom: 1;
   --jrn-plate-origin: 50% 50%;
-  --jrn-plate-mobile: 50% 50%;
-  --jrn-plate-tablet: 50% 50%;
-  --jrn-plate-desktop: 50% 50%;
+  --jrn-plate-mobile: 50% 0%;
+  --jrn-plate-tablet: 50% 0%;
+  --jrn-plate-desktop: 50% 0%;
 }
 .jrn .jrn-screen[data-jrn-screen='F09.00'] .jrn-env__calm {
   display: none;
@@ -24,7 +44,7 @@
   max-width: none;
   max-height: none;
   object-fit: cover;
-  object-position: 50% 50%;
+  object-position: 50% 0%;
   transform: none;
 }
 .jrn .jrn-screen[data-jrn-screen='F09.00'] .jrn-col {
@@ -57,13 +77,13 @@
 }
 .jrn .jrn-f09a__lockup {
   position: absolute;
-  left: 8%;
-  top: 8.6%;
+  left: 9%;
+  top: calc(env(safe-area-inset-top, 0px) + 36px);
   width: 46%;
 }
 .jrn .jrn-f09a__lockup-img {
   display: block;
-  width: 132px;
+  width: 118px;
   height: auto;
 }
 .jrn .jrn-f09a__descriptor {
@@ -75,8 +95,8 @@
 }
 .jrn .jrn-f09a__tag {
   position: absolute;
-  right: 20%;
-  top: 13.4%;
+  right: 18%;
+  top: calc(env(safe-area-inset-top, 0px) + 52px);
   width: 112px;
   margin: 0;
   text-align: right;
@@ -87,8 +107,8 @@
 .jrn .jrn-f09a__menu {
   pointer-events: auto;
   position: absolute;
-  right: 5.4%;
-  top: 10.2%;
+  right: 5.6%;
+  top: calc(env(safe-area-inset-top, 0px) + 40px);
   width: 28px;
   height: 22px;
   display: flex;
