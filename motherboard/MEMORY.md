@@ -14459,3 +14459,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Not changed:** `computeSafeToSpend` (preview `$6,500`, bills `$1,920`), routes, menu to account, hold-on-why, purchase target, or the plate file.
 - **Do not repeat:** Do not put the F09 plate back in a centered 393×852 stage. That frame is what the founder rejected. Do not leave the nav transparent on this screen.
 
+---
+
+## 2026-10-07 — JURNL F09 dock overlays the plate, tab words face right, traced nav marks
+
+- **Context:** This chat rebuilt F09 Safe to Spend against the approved authority through the live route `/production/jurnl/runtime/safe`. One OpenArt plate (history `PQTsHqqy3Pf0ZpQJougi`, pale floor). Live money stays `computeSafeToSpend` (preview `$6,500`, bills `$1,920`). The previous turn shipped a full-bleed plate, folder type on the card, and a solid cream dock (`#f6f3ee`).
+- **What the founder saw:** Borders at the top and bottom. The solid dock ended the photograph and pushed it up. Folder tab words faced left. The bottom nav marks were still approximate icons, not the approved glyphs.
+- **Fix:** The plate overscans the viewport (`top: -16px`, height `100% + 32px`, `object-fit: cover`, `object-position: 50% 0%`) so the plaster page color cannot show as a strip. The dock is layered on that photograph: no border, no shadow, a light wash only (`rgba(246,243,238,0)` to `0.45`) so the marble continues under HOME MONEY ADD PLAN CREDIT. Tab words use `writing-mode: vertical-rl` with no 180° rotation, so the tops of the letters point right (B at the top), matching the authority. F09 marks are traced from the approved glyphs (`authorityNavMarks.ts`): filled house with a wide door, wallet with a full flap and a left slot, olive rounded plus, tilted leaf with one vein, four rising bars. Other screens keep the icon pack.
+- **Not changed:** the plate file, `computeSafeToSpend`, routes, menu to account, hold-on-why, or the purchase target.
+- **Do not repeat:** Do not put a solid cream slab behind the F09 nav. That slab is the bottom border the founder rejected. Do not rotate the tab words 180°. Do not redraw these five marks as generic line icons.
+
