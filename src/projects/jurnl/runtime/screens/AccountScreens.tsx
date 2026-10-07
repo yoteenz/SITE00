@@ -22,8 +22,9 @@ import leafRight from '../../families/F09_SAFE/REFERENCE_REPLICA/assets/PILL_BOT
 import leafLeft from '../../families/F09_SAFE/REFERENCE_REPLICA/assets/PILL_BOTANICAL_LEFT.png';
 import profileArch from '../../families/F09_SAFE/REFERENCE_REPLICA/assets/PROFILE_ARCH.jpg';
 import privacyCard from '../../families/F09_SAFE/REFERENCE_REPLICA/assets/PRIVACY_CARD.jpg';
-import { REF_ACCT1, REF_ACCT2, REF_ACCT3, REF_DOCK_ACCT, REF_DRAWER, type RefBox, type RefType } from '../layout/referenceLayout';
-import { ReferenceDock, ReferenceStage, RefIcon, RefText, at, type RefIconName } from '../components/ReferenceStage';
+import { REF_ACCT1, REF_ACCT2, REF_ACCT3, REF_DRAWER, type RefBox, type RefType } from '../layout/referenceLayout';
+import { JurnlProductNav } from '../components/ProductNav';
+import { ReferenceStage, RefIcon, RefText, at, type RefIconName } from '../components/ReferenceStage';
 import { ReferenceLockup } from '../components/ReferenceLockup';
 import { JurnlDrawer, JurnlToggle } from '../components/primitives';
 import { AskJurnlSheet, QuickAddV2Sheet } from '../global/GlobalSheets';
@@ -159,6 +160,7 @@ export function AccountScreen() {
       label="ACCOUNT"
       outside={
         <>
+          <JurnlProductNav marks="authority" current="HOME" onGo={go} onAdd={() => openOverlay('quick-add')} />
           {sheet === 'currency' ? <CurrencySheet onClose={() => setSheet(null)} /> : null}
           {sheet === 'consents' ? <ConsentsSheet onClose={() => setSheet(null)} /> : null}
           {overlay === 'quick-add' ? <QuickAddV2Sheet familyId={null} onClose={closeOverlay} /> : null}
@@ -261,7 +263,6 @@ export function AccountScreen() {
         ) : null}
       </div>
 
-      <ReferenceDock L={REF_DOCK_ACCT} top={1654} radius={40} active="HOME" onGo={go} onAdd={() => openOverlay('quick-add')} />
       {drawer ? <AccountDrawer onClose={() => setDrawer(false)} /> : null}
     </ReferenceStage>
   );

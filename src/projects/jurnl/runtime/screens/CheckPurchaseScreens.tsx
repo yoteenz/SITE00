@@ -29,7 +29,8 @@ import accDebit from '../../families/F09_SAFE/REFERENCE_REPLICA/tiles/ACCOUNT_DE
 import accCash from '../../families/F09_SAFE/REFERENCE_REPLICA/tiles/ACCOUNT_CASH.jpg';
 import accJoint from '../../families/F09_SAFE/REFERENCE_REPLICA/tiles/ACCOUNT_JOINT_ACCOUNT.jpg';
 import { REF_CATEGORY, REF_CHECK, type RefBox, type RefType } from '../layout/referenceLayout';
-import { ReferenceDock, ReferenceStage, RefIcon, RefText, at } from '../components/ReferenceStage';
+import { JurnlProductNav } from '../components/ProductNav';
+import { ReferenceStage, RefIcon, RefText, at } from '../components/ReferenceStage';
 import { ReferenceLockup } from '../components/ReferenceLockup';
 import { AskJurnlSheet, QuickAddV2Sheet } from '../global/GlobalSheets';
 import { useJurnl } from '../state/store';
@@ -169,6 +170,7 @@ export function CheckPurchaseScreen() {
       label="CHECK A PURCHASE"
       outside={
         <>
+          <JurnlProductNav marks="authority" current="HOME" onGo={go} onAdd={() => openOverlay('quick-add')} />
           {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F09" onClose={closeOverlay} /> : null}
           {overlay === 'ask' ? <AskJurnlSheet familyId="F09" nodeId="F09.CHECK" onClose={closeOverlay} /> : null}
         </>
@@ -234,8 +236,6 @@ export function CheckPurchaseScreen() {
         <RefIcon name="arrow-left" box={L.box.backArrow as RefBox} origin={L.box.back as RefBox} stroke={2.2} />
         <RefText t={L.text.back} origin={L.box.back as RefBox} as="span">BACK</RefText>
       </button>
-
-      <ReferenceDock top={1630} dy={0} active="HOME" onGo={go} onAdd={() => openOverlay('quick-add')} />
 
       {sheet === 'category' ? (
         <SelectionSheet
