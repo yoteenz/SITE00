@@ -15001,3 +15001,11 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Gotchas:**
   - `.jrn .jrn-ref button` resets beat single-class rules. Give control styles 3-class selectors (the scrim was invisible until fixed).
   - Playfair defaults to old-style figures, so canvas fitting and the page disagree unless the font maps lining digits.
+
+---
+
+## 2026-10-07 — Reference screens use the parent Safe to Spend dock, no letterbox
+
+- **Context:** PR #1464 added the founder reference screens (`/safe/reference`, `/safe/why`, `/safe/check`, `/account`). They scaled an 853×1844 stage and, when the viewport was wider than that frame, showed a blurred plate in the side bars. Each screen also drew its own dock inside the stage (WHY and ACCOUNT used a 40px corner radius and a green ADD square). The founder asked to remove that letterboxing and to use the parent Safe to Spend bottom nav so the pages share one dock.
+- **Fix:** The phone stage covers the viewport (side gaps are a crop, not bars). The blurred backdrop is gone. WHY, CHECK A PURCHASE, the reference parent, and ACCOUNT render `JurnlProductNav` with `marks="authority"`, the same dock as `/safe`. Measured on 402×874: dock x=0, y=832, 402×42, radius 0, beige `#f6f3ee`, matching the parent. On tablet and desktop the whole composition stays visible and the same authority dock spans the viewport (desktop keeps the centered parent pill).
+- **Do not repeat:** Do not put `ReferenceDock` back on these screens. Do not restore the blurred letterbox backdrop. Do not give WHY or ACCOUNT a separate rounded dock.

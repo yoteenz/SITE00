@@ -17,11 +17,11 @@ import { JurnlButton, JurnlDrawer, JurnlInput } from '../components/primitives';
 import { JurnlScreen } from './JurnlScreen';
 import { initialsOf, useJurnl } from '../state/store';
 import parentPlate from '../../families/F09_SAFE/REFERENCE_REPLICA/plates/F09_PARENT_PLATE.jpg';
-import { REF_DOCK_WHY, REF_PARENT, REF_WHY } from '../layout/referenceLayout';
+import { REF_PARENT, REF_WHY } from '../layout/referenceLayout';
 import whyPlate from '../../families/F09_SAFE/REFERENCE_REPLICA/plates/F09_WHY_PLATE.jpg';
 import whySprig from '../../families/F09_SAFE/REFERENCE_REPLICA/assets/WHY_SPRIG_OLIVE.png';
 import lockupWord from '../../families/F09_SAFE/REFERENCE_REPLICA/assets/LOCKUP_WORD.png';
-import { ReferenceDock, ReferenceStage, RefIcon, RefText, at } from '../components/ReferenceStage';
+import { ReferenceStage, RefIcon, RefText, at } from '../components/ReferenceStage';
 import { ReferenceLockup } from '../components/ReferenceLockup';
 import { AccountDrawer } from './AccountScreens';
 
@@ -96,6 +96,7 @@ export function SafeToSpendReferenceScreen() {
       label="SAFE TO SPEND"
       outside={
         <>
+          <JurnlProductNav marks="authority" current="HOME" onGo={go} onAdd={() => openOverlay('quick-add')} />
           {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F09" onClose={closeOverlay} /> : null}
           {overlay === 'ask' ? <AskJurnlSheet familyId="F09" nodeId="F09.00" onClose={closeOverlay} /> : null}
         </>
@@ -146,7 +147,6 @@ export function SafeToSpendReferenceScreen() {
           </button>
         </section>
       </div>
-      <ReferenceDock top={1632} dy={3} active="HOME" onGo={go} onAdd={() => openOverlay('quick-add')} />
       {drawer ? <AccountDrawer onClose={() => setDrawer(false)} /> : null}
     </ReferenceStage>
   );
@@ -249,6 +249,7 @@ export function SafeToSpendWhyScreen() {
       label="WHY THIS NUMBER"
       outside={
         <>
+          <JurnlProductNav marks="authority" current="HOME" onGo={go} onAdd={() => openOverlay('quick-add')} />
           {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F09" onClose={closeOverlay} /> : null}
           {overlay === 'ask' ? <AskJurnlSheet familyId="F09" nodeId="F09.WHY" onClose={closeOverlay} /> : null}
           {holdOpen ? <HoldSheet onClose={() => setHoldOpen(false)} /> : null}
@@ -316,7 +317,6 @@ export function SafeToSpendWhyScreen() {
           <RefIcon name="arrow" box={W.box.learnArrow} origin={W.box.learn} stroke={2} />
         </button>
       </section>
-      <ReferenceDock L={REF_DOCK_WHY} top={1668} radius={40} active="HOME" onGo={go} onAdd={() => openOverlay('quick-add')} />
       {drawer ? <AccountDrawer onClose={() => setDrawer(false)} /> : null}
     </ReferenceStage>
   );
