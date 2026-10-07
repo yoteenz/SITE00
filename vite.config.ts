@@ -140,6 +140,62 @@ export default defineConfig(({ mode, command }) => {
     }
   }
 
+  /**
+   * Hashed preview assets must be cacheable at the Cloudflare edge.
+   * Blanket `CDN-Cache-Control: no-store` forces every JS, CSS, font, and plate
+   * through the tunnel. The tunnel then answers `429` with
+   * `cf-int-tunnel-request-limit-hit: global`, and the phone drops the layout
+   * CSS or the plate. HTML stays no-store. Filenames are content hashes.
+   */
+  function cloudPreviewAssetCachePlugin() {
+    const cache = 'public, max-age=31536000, immutable';
+    return {
+      name: 'site00-cloud-preview-asset-cache',
+      configurePreviewServer(server: {
+        middlewares: { use: (fn: (req: { url?: string }, res: { setHeader: (k: string, v: string) => void; writeHead: (...args: unknown[]) => unknown }, next: () => void) => void) => void };
+      }) {
+        server.middlewares.use((req, res, next) => {
+          const pathOnly = (req.url || '').split('?')[0];
+          const cacheable =
+            /^\/assets\/.+\.[A-Za-z0-9_-]{6,}\.[a-z0-9]+$/i.test(pathOnly) ||
+            /^\/site00\/projects\/jurnl\/fonts\/.+\.woff2$/i.test(pathOnly);
+          if (!cacheable) {
+            next();
+            return;
+          }
+          const origSet = res.setHeader.bind(res);
+          const origWrite = res.writeHead.bind(res);
+          const apply = (name: string, value: unknown) => {
+            const key = name.toLowerCase();
+            if (key === 'cache-control' || key === 'cdn-cache-control') return origSet(name, cache);
+            if (key === 'surrogate-control') return origSet(name, 'max-age=31536000');
+            if (key === 'pragma') return origSet(name, '');
+            return origSet(name, value as string);
+          };
+          res.setHeader = apply;
+          res.writeHead = (...args: unknown[]) => {
+            const last = args[args.length - 1];
+            if (last && typeof last === 'object' && !Array.isArray(last)) {
+              const headers = last as Record<string, unknown>;
+              for (const key of Object.keys(headers)) {
+                const folded = key.toLowerCase();
+                if (folded === 'cache-control' || folded === 'cdn-cache-control') headers[key] = cache;
+                else if (folded === 'surrogate-control') headers[key] = 'max-age=31536000';
+                else if (folded === 'pragma') delete headers[key];
+              }
+              headers['Cache-Control'] = cache;
+              headers['CDN-Cache-Control'] = cache;
+            }
+            return origWrite(...args);
+          };
+          origSet('Cache-Control', cache);
+          origSet('CDN-Cache-Control', cache);
+          next();
+        });
+      },
+    };
+  }
+
   function cloudPreviewNoCachePlugin() {
     const previewCommit = readPreviewCommitStamp();
     return {
@@ -201,6 +257,7 @@ export default defineConfig(({ mode, command }) => {
       ],
     },
     plugins: [
+      cloudPreviewAssetCachePlugin(),
       react(cloudPreviewDevServer ? { fastRefresh: false } : undefined),
       ...(command === 'serve' ? [site00LocalApiPlugin()] : []),
       ...(cloudPreviewDevServer && previewSessionId
@@ -232,10 +289,11 @@ export default defineConfig(({ mode, command }) => {
       host: '0.0.0.0',
       strictPort: true,
       headers: {
-        'Cache-Control': 'no-store, no-cache, must-revalidate',
-        Pragma: 'no-cache',
-        'CDN-Cache-Control': 'no-store',
-        'Surrogate-Control': 'no-store',
+        // Browsers revalidate. The edge may keep a short copy so a burst of
+        // document requests does not trip the tunnel's global request limit.
+        'Cache-Control': 'no-cache',
+        'CDN-Cache-Control': 'public, max-age=120',
+        'Surrogate-Control': 'max-age=120',
       },
     },
     server: {

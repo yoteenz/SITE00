@@ -14527,3 +14527,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Proof:** After the plate PNG finishes loading, a 393×852 capture of the public route is pixel-identical to the local full-bleed artifact (mean difference 0). A shot taken before the PNG decodes shows the stage color `#1c1915` and is not the settled frame. The bottom beige dock is the nav, not an extra band.
 - **Do not repeat:** Do not roll the tunnel back to `4e5955db`. Do not add another full-bleed override while the live bundle already matches `main`.
 
+---
+
+## 2026-10-07 — JURNL F09 preview tunnel was dropping the plate and the layout CSS
+
+- **Context:** This chat rebuilt F09 Safe to Spend through the approved mobile plate, beige dock, arch signal, right-facing tabs, traced nav marks, then tablet and desktop plates with bottom nav on every breakpoint. Live money stays `computeSafeToSpend` (preview `$6,500`, bills `$1,920`). The founder then said the approved screenshots were correct and the founder preview route `/production/jurnl/runtime/safe` was not showing them.
+- **What was already true:** `main` serves dist `site00-v272-2b8f781`, bundle `index.B6PXxXbE.js`. A patient load of that route paints the approved full-bleed screen. Commit `4e5955db` is still not the bleed fix and is still not on `main`.
+- **What the phone was hitting:** Cloudflare answered some asset requests with `429` and `cf-int-tunnel-request-limit-hit: global`. Vite preview sent `CDN-Cache-Control: no-store` on every file, so the layout CSS, JS, fonts, and the 8.2MB plate all counted against that tunnel limit. When `JurnlRuntimeRoot.*.css` was dropped, the DOM still showed `$6,500` but the authority layout was gone (the account mark `JL` became visible at phone width). When the plate was dropped, the photograph never painted.
+- **Fix:** `vite.config.ts` preview now marks hashed `/assets/` files and JURNL `.woff2` fonts `public, max-age=31536000, immutable`, and gives HTML `Cache-Control: no-cache` plus `CDN-Cache-Control: public, max-age=120`. The preview process on port 5174 was restarted onto that config. After one warm fetch, the JURNL CSS and the phone plate are Cloudflare `HIT`. A full load of the safe route then returned 200 for the document, the JURNL CSS, and the plate, and painted the approved screen.
+- **Do not repeat:** Do not put `CDN-Cache-Control: no-store` back on hashed preview assets. Do not treat a 429-dropped stylesheet as a geometry bug. Do not roll the tunnel back to `4e5955db`.
+
