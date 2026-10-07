@@ -14404,3 +14404,12 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Not changed:** `computeSafeToSpend`, routes, purchase bridge, nav behavior, hold-on-why, tablet/desktop.
 - **Fail rule:** If it still reads as a generic app-header logo, it fails. The staged lockup is an editorial mark in the scene.
 
+---
+
+## 2026-10-07 — JURNL F09 one plate (scenery and folders together)
+
+- **Founder correction:** The F09 parent plate is one photograph. It includes the terrace and the folders. The folders are not a second image layered on top. Only live text and buttons sit on that plate.
+- **Plate:** `F09_ENVIRONMENT_AUTHORITY_PLATE.jpg` is the approved authority image with the interface cleared (status bar, lockup, signal, why pill, folder amounts, purchase card, nav glyphs). Scenery, vase, olive, arch, sofa, and the physical folders (sprig, tabs, paper) stay in that one file. `SafeToSpendHubScreen` mounts it full-frame. The separate folio `<img>` is gone.
+- **Live overlay:** official staged logo, tagline, menu, `computeSafeToSpend` (`$6,500`, bills `$1,920`), AVAILABLE THROUGH OCT 18, SEE WHY THIS AMOUNT, folder headline and column amounts, CHECK A PURCHASE, product nav. Tab names remain in the photograph.
+- **Still unused on the hub:** `F09_ENVIRONMENT_AUTHORITY_TERRACE.png` and `F09_FOLIO_SIDEKICK.png` from R2.
+
