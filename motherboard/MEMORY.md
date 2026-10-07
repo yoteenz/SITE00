@@ -14575,3 +14575,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **This change:** The founder asked to put scroll back. F09 `html` / `body` / `#root` are `overflow-y: auto` again (they had been `overflow: hidden`, then `overflow: visible` with `height: 100%`, which does not scroll). `.jrn` is back in the document (`position: relative`, `min-height: calc(100lvh + 1px)`, `overflow: visible`), not `position: fixed`. The plate is `position: absolute`, `height: 100lvh`, inside that scroll, so iOS can paint it through the status bar and the toolbar instead of clipping a fixed image to the gap between them. The dock is `position: fixed; bottom: 0` so it stays on the visible viewport. The overlay host is `position: fixed` so Quick Add stays on screen. Desktop Chromium still cannot prove the phone bands are gone.
 - **Do not repeat:** Do not lock F09 `html` / `body` to `overflow: hidden`. Do not put the plate back to `position: fixed` if the phone still shows `#1c1915` at the top and bottom. Do not treat a desktop screenshot as proof those bands are gone. Do not put `container-type` on `.jrn`. Do not pin `.jrn` to `visualViewport`. Do not set `height: 100dvh` or `height: 100lvh` on F09 `.jrn`.
 
+---
+
+## 2026-10-07 — JURNL F09 beige stage, shorter dock, plate offset flipped
+
+- **Context:** This chat rebuilt F09 Safe to Spend, then traced the phone bands to CSS `#1c1915` on `html`, `body`, `#root`, and `.jrn`. Scroll was restored so the document can extend through the phone browser bars. Live money stays `computeSafeToSpend` (preview `$6,500`, bills `$1,920`).
+- **What the founder asked:** Shorten only the bottom dock by about 35%. Paint the area above and behind the plate the same beige as the dock (`#f6f3ee`) so the band is less obvious. Move the plate 30% inside its box, without resizing the box, so the purchase button clears the folders.
+- **Direction:** A `top: -30%` offset moved the photograph up (its top landed at -256px on a 852px screen) and a beige gap opened underneath. The founder said that was the wrong direction and the numbers were inverted. The folder labels were put back at `47.4%` and `54.6%`. The plate offset is now `top: 30%` on mobile only, so the photograph starts 256px down and the beige shows above it. Tablet and desktop plates stay at `top: 0`.
+- **Dock:** Phone and tablet dock height is 52px, down from about 81px. Desktop dock stays the centered editorial bar.
+- **Do not repeat:** Do not use `top: -30%` on the F09 phone plate if the founder wants this lower offset. Do not paint the F09 stage `#1c1915` again while the bands are being disguised. Do not shrink the desktop dock when shortening the phone dock.
+

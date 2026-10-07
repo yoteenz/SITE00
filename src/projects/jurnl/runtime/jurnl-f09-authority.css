@@ -26,7 +26,7 @@ body:has([data-jrn-screen='F09.00']),
   min-height: 100lvh;
   overflow-x: hidden;
   overflow-y: auto;
-  background: #1c1915;
+  background: #f6f3ee;
 }
 .jrn:has([data-jrn-screen='F09.00']) {
   position: relative;
@@ -47,7 +47,7 @@ body:has([data-jrn-screen='F09.00']),
   margin: 0;
   padding: 0;
   overflow: visible;
-  background: #1c1915;
+  background: #f6f3ee;
 }
 .jrn:has([data-jrn-screen='F09.00']) .jrn-overlay-host {
   position: fixed;
@@ -128,7 +128,9 @@ body:has([data-jrn-screen='F09.00']),
      iOS clips a fixed image to the gap between the status bar and the toolbar
      and paints #1c1915 in the rest of the screen. */
   position: absolute;
-  top: 0;
+  /* Opposite of the previous offset. The env box stays put.
+     The photograph sits 30% lower inside it. */
+  top: 30%;
   right: 0;
   bottom: auto;
   left: 0;
@@ -452,16 +454,23 @@ body:has([data-jrn-screen='F09.00']),
   height: auto;
   transform: none;
   bottom: 0;
-  padding: 14px 2px calc(12px + env(safe-area-inset-bottom, 0px));
+  padding: 6px 2px calc(4px + env(safe-area-inset-bottom, 0px));
   border-radius: 0;
   background: #f6f3ee;
   border-top: 0;
   box-shadow: none;
   gap: 0;
 }
+.jrn:has([data-jrn-screen='F09.00']) .jrn-nav svg {
+  height: 13px;
+  width: auto;
+}
+.jrn:has([data-jrn-screen='F09.00']) .jrn-nav__plus svg {
+  height: 22px;
+}
 .jrn:has([data-jrn-screen='F09.00']) .jrn-nav__btn {
-  min-height: 52px;
-  height: auto;
+  min-height: 0;
+  height: 42px;
   border: 0;
   background: transparent;
   border-radius: 0;
@@ -478,8 +487,8 @@ body:has([data-jrn-screen='F09.00']),
 .jrn:has([data-jrn-screen='F09.00']) .jrn-nav__btn--mark {
   align-self: stretch;
   width: auto;
-  height: auto;
-  min-height: 52px;
+  height: 42px;
+  min-height: 0;
   margin: 0;
   border-radius: 0;
   background: transparent;
@@ -507,6 +516,7 @@ body:has([data-jrn-screen='F09.00']),
     --jrn-plate-tablet: 50% 50%;
   }
   .jrn .jrn-screen[data-jrn-screen='F09.00'][data-jrn-composition='CENTER_STAGE'] .jrn-plate {
+    top: 0;
     object-position: 50% 50%;
   }
   .jrn .jrn-f09a__art {
@@ -631,6 +641,7 @@ body:has([data-jrn-screen='F09.00']),
     --jrn-plate-desktop: 50% 46%;
   }
   .jrn .jrn-screen[data-jrn-screen='F09.00'][data-jrn-composition='CENTER_STAGE'] .jrn-plate {
+    top: 0;
     object-position: 50% 46%;
   }
   .jrn .jrn-f09a__lockup {
@@ -742,7 +753,13 @@ body:has([data-jrn-screen='F09.00']),
   .jrn:has([data-jrn-screen='F09.00']) .jrn-nav__btn,
   .jrn:has([data-jrn-screen='F09.00']) .jrn-nav__btn--mark {
     min-height: 48px;
+    height: auto;
     font-size: 10px;
     letter-spacing: 0.16em;
+  }
+  .jrn:has([data-jrn-screen='F09.00']) .jrn-nav svg,
+  .jrn:has([data-jrn-screen='F09.00']) .jrn-nav__plus svg {
+    height: auto;
+    width: auto;
   }
 }
