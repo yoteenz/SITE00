@@ -14555,3 +14555,12 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Fix:** `.jrn` stretches with top and bottom (`height: auto`), overflow visible, and is not a size container. The size container moved to `.jrn-f09a` so folio `cqh` still resolves. The plate is `position: fixed` on the viewport (`width/height: 100%`, `object-fit: cover`). `picture` is `display: contents` so it is not a box around the image. Measured plate boxes: 393×852, 834×1194, and 1440×900, each matching the viewport at 0,0. Quick Add still opens over the plate; SAVE sits inside the 852px height.
 - **Do not repeat:** Do not set `height: 100lvh` or `height: 100dvh` on F09 `.jrn`. Do not put `container-type` on `.jrn` or any ancestor of the plate. Do not put the plate back to `position: absolute` inside `.jrn-env`. Do not pin `.jrn` to `visualViewport`.
 
+---
+
+## 2026-10-07 — JURNL F09 plate continues behind the phone browser bar
+
+- **Context:** This chat rebuilt F09 Safe to Spend and then tried to stop the phone from boxing the plate. The founder sent a fresh phone shot of the preview route and said nothing had changed.
+- **What the shot shows:** The new bundle was already live. The photograph and the beige dock stop together, and a full-width band of stage color `#1c1915` fills the screen under the dock, behind the browser toolbar. The plate rule was `top/bottom: 0` and `height: 100%`, which is only the visible viewport.
+- **Fix:** The plate stays `position: fixed`, with `bottom: auto` and `height: calc(100lvh + safe-area top + safe-area bottom)`, shifted up by the top safe area. The stage and the dock stay on the visible viewport so the nav does not slide under the toolbar. Desktop Chromium still measures the plate at the viewport: 393×852, 834×1194, 1440×900.
+- **Do not repeat:** Do not pin the F09 plate with `bottom: 0` and `height: 100%`. Do not put `height: 100lvh` on `.jrn`. Do not move the dock onto the large viewport.
+
