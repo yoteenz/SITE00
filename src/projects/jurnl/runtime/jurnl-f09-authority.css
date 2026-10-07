@@ -309,6 +309,7 @@ body:has([data-jrn-screen='F09.00']),
   font: 500 11px/1 'JURNL Sans', sans-serif;
   letter-spacing: 0.14em;
   color: #2a2622;
+  transform: translateY(-12px);
 }
 
 .jrn .jrn-f09a__tabs {
@@ -600,6 +601,7 @@ body:has([data-jrn-screen='F09.00']),
     padding: 0 18px;
     font-size: 12px;
     border-radius: 14px;
+    transform: none;
   }
   .jrn .jrn-f09a__tabs {
     top: 55.6%;

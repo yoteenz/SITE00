@@ -14664,3 +14664,12 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Fix:** On the phone the bridge copy (`WANT TO SPEND ON SOMETHING?`) and its spark are `translateY(-6px)`. The CHECK A PURCHASE button stays at its existing 6px lift. The bridge panel and the nav do not move. Measured on 393×852: copy y=723, spark y=720, button y=719, bridge y=716, nav y=810. Tablet and desktop clear the new translate.
 - **Do not repeat:** Do not move the bridge panel or the CHECK A PURCHASE button when nudging the want-to-spend line. Do not apply this 6px lift on tablet or desktop.
 
+---
+
+## 2026-10-07 — JURNL F09 SEE WHY button up 12px
+
+- **Context:** This chat rebuilt F09 Safe to Spend. Scroll is off. The phone dock is 42px. The want-to-spend line and the CHECK A PURCHASE button are each already up 6px. The plate stays `top: -10%`. Live money stays `computeSafeToSpend` (preview `$6,500`, bills `$1,920`).
+- **What the founder asked:** Move the SEE WHY THIS AMOUNT button only, upwards 12px.
+- **Fix:** On the phone `.jrn-f09a__why` is `translateY(-12px)`. The date, the folder, the purchase bridge, and the nav do not move. Measured on 393×852: SEE WHY y=253, date y=212, folio y=440, bridge y=716, nav y=810. Tablet and desktop clear that translate.
+- **Do not repeat:** Do not move the date or the folder when nudging SEE WHY. Do not apply the 12px lift on tablet or desktop.
+
