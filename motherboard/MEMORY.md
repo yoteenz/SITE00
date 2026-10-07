@@ -14628,3 +14628,12 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Fix:** Phone plate is `top: -10%`. The same type nodes use `translateY(-10lvh)`, so the heading, amount, date, tab words, and folio copy stay on the artwork. SEE WHY stays at y=265, the menu at y=40, the lockup at y=36, the purchase bridge at y=717, and the nav at the bottom. On 393×852 the plate top measures -85px. Tablet and desktop stay at `top: 0` with no translate.
 - **Do not repeat:** Do not put the phone plate back to `top: -20%` or `top: -30%`. Do not translate the menu, SEE WHY, the account mark, the lockup, the tagline, the purchase bridge, or the nav with the plate.
 
+---
+
+## 2026-10-07 — JURNL F09 phone text aligned to the reference
+
+- **Context:** This chat rebuilt F09 Safe to Spend. The founder accepted the phone plate at `top: -10%` and asked for the type to match the reference screen. Live money stays `computeSafeToSpend` (preview `$6,500`, bills `$1,920`). The reference sample `$1,284` is not hardcoded.
+- **What was off:** A shared `translateY(-10lvh)` pulled the heading, amount, and date up into the logo and tagline, and dropped the folder amounts below the card. SEE WHY, the menu, the lockup, the purchase bridge, and the nav were already at their screen positions.
+- **Fix:** On the phone the heading is `translateY(-6lvh)`, the amount `-5.2lvh`, the date `-3.4lvh`, and the tab words and folio `-3lvh`. The folio box is 86px tall so the amounts row stays on the card. Measured on 393×852: heading y=111, amount y=136, date y=212, SEE WHY y=265, folio y=440, amounts y=497. Tablet and desktop clear the translates. The plate stays `top: -10%`.
+- **Do not repeat:** Do not put `translateY(-10lvh)` back on the phone type. Do not move SEE WHY, the menu, the lockup, the tagline, the purchase bridge, or the nav when aligning the arch and folder type. Do not change the phone plate from `top: -10%`.
+
