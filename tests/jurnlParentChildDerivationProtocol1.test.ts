@@ -2,7 +2,8 @@
  * P0.JURNL.PARENT-CHILD.VISUAL-DERIVATION.PROTOCOL1 + P0.JURNL.CHECK-PURCHASE.PAY-WITH-DRAWER.MATCH-CATEGORY-DRAWER1.
  * Proves: the parent is the only top visual authority and current screens are information only; sibling sheets are
  * checked against one sizing system; the derivation brief stays inside the prompt budget; the SAFE TO SPEND family tree
- * and the PAY WITH drawer spec are recorded honestly (sizing unmeasured until the founder images arrive); exports in sync.
+ * and the PAY WITH drawer spec are recorded (SELECT A CATEGORY measured from its reference; the current account drawer
+ * DRIFTs, the built one MATCHES); exports in sync.
  */
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
@@ -67,9 +68,20 @@ describe('SAFE TO SPEND family', () => {
     expect(J.PAY_WITH_DRAWER.subtext).toBe('CHOOSE THE ACCOUNT YOU WANT TO USE FOR THIS PURCHASE.');
     expect(J.PAY_WITH_ACCOUNTS.map((a) => a.label)).toEqual(['CHECKING', 'SAVINGS', 'CREDIT CARD', 'DEBIT CARD', 'CASH', 'JOINT ACCOUNT']);
     expect(J.PAY_WITH_DRAWER.sizing_source).toBe('F09.CHECK.CATEGORY');
-    expect(J.PAY_WITH_DRAWER.sizing).toMatch(/^UNMEASURED/);
-    expect(J.PAY_WITH_DRAWER.status).toBe('AWAITING_FOUNDER_INPUTS');
+    expect(J.PAY_WITH_DRAWER.sizing).toMatch(/^MEASURED/);
+    expect(J.PAY_WITH_DRAWER.status).toBe('BUILT_IN_RUNTIME');
     expect(J.PAY_WITH_DRAWER.inputs_required).toHaveLength(3);
+    for (const i of J.PAY_WITH_DRAWER.inputs_required) expect(J.REFERENCE_FILES.map((r) => `REFERENCES/${r.file}`), i.what).toContain(i.received);
+  });
+
+  it('SELECT A CATEGORY is measured; the current account drawer drifts, the built one matches', () => {
+    expect(J.CATEGORY_SHEET_SYSTEM.grid.columns).toBe(4);
+    expect(J.CATEGORY_SHEET_SYSTEM.tile.width).toBeCloseTo(183 / 785, 3);
+    expect(J.PAY_WITH_SIBLING_CHECK.built).toEqual({ verdict: 'MATCHED', drift: [] });
+    expect(J.PAY_WITH_SIBLING_CHECK.current.verdict).toBe('DRIFT');
+    for (const k of ['grid.columns', 'tile.width', 'gap.column']) expect(J.PAY_WITH_SIBLING_CHECK.current.drift.join(' '), k).toContain(k);
+    const byId = Object.fromEntries(J.SAFE_TO_SPEND_FAMILY.map((n) => [n.id, n]));
+    expect(byId['F09.CHECK']!.route).toBe('/production/jurnl/runtime/safe/check');
   });
 
   it('the derivation brief puts references first and stays inside the prompt budget', () => {

@@ -59,10 +59,15 @@ export function archivePurchase(id: string): boolean {
 }
 
 export function purchaseAffordability(purchase: JurnlPurchase): { after: number; verdict: 'NOW' | 'WAIT' | 'NOT_YET' } {
+  return amountAffordability(purchase.target_amount);
+}
+
+/** The same verdict for an amount that is not saved as a purchase (CHECK A PURCHASE). */
+export function amountAffordability(amount: number): { after: number; verdict: 'NOW' | 'WAIT' | 'NOT_YET' } {
   const sts = computeSafeToSpend();
-  const after = sts.value - purchase.target_amount;
+  const after = sts.value - amount;
   if (after >= 0) return { after, verdict: 'NOW' };
-  if (after > -purchase.target_amount * 0.25) return { after, verdict: 'WAIT' };
+  if (after > -amount * 0.25) return { after, verdict: 'WAIT' };
   return { after, verdict: 'NOT_YET' };
 }
 

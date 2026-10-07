@@ -1,21 +1,29 @@
-/** F09 SAFE TO SPEND — Wave 3 surfaces around canonical formula. */
+/**
+ * F09 SAFE TO SPEND — the parent and WHY THIS NUMBER around the canonical formula. Phones render the founder
+ * reference replicas (P0.JURNL.F09.REFERENCE-REPLICA1); tablet and desktop keep the approved wide parent.
+ */
 
-import { useState, type ReactNode } from 'react';
+import { useState } from 'react';
 import { computeSafeToSpend, type SafeToSpendBreakdown } from '../../data/f09/safeToSpend';
 import { patchSetup, useSetup } from '../../data/f02/setupDraft';
 import { formatMoney, useCurrency } from '../../data/home/money';
-import { PARENT_PLATES } from '../../data/parents/plates';
 import f09Plate from '../../families/F09_SAFE/ENVIRONMENTS/F09_ENVIRONMENT_AUTHORITY_PLATE.png';
 import f09TabletPlate from '../../families/F09_SAFE/ENVIRONMENTS/F09_ENVIRONMENT_TABLET_PLATE.png';
 import f09DesktopPlate from '../../families/F09_SAFE/ENVIRONMENTS/F09_ENVIRONMENT_DESKTOP_PLATE.png';
 import { getRepository } from '../../data/repository/deviceRepository';
-import { FamilyChrome } from '../components/FamilyChrome';
 import { JurnlProductNav } from '../components/ProductNav';
 import { AskJurnlSheet, QuickAddV2Sheet } from '../global/GlobalSheets';
-import { JurnlButton, JurnlDrawer, JurnlInput, JurnlPanel } from '../components/primitives';
-import { JurnlFamilyShell } from '../components/FamilyFrame';
+import { JurnlButton, JurnlDrawer, JurnlInput } from '../components/primitives';
 import { JurnlScreen } from './JurnlScreen';
 import { initialsOf, useJurnl } from '../state/store';
+import parentPlate from '../../families/F09_SAFE/REFERENCE_REPLICA/plates/F09_PARENT_PLATE.jpg';
+import { REF_DOCK_WHY, REF_PARENT, REF_WHY } from '../layout/referenceLayout';
+import whyPlate from '../../families/F09_SAFE/REFERENCE_REPLICA/plates/F09_WHY_PLATE.jpg';
+import whySprig from '../../families/F09_SAFE/REFERENCE_REPLICA/assets/WHY_SPRIG_OLIVE.png';
+import lockupWord from '../../families/F09_SAFE/REFERENCE_REPLICA/assets/LOCKUP_WORD.png';
+import { ReferenceDock, ReferenceStage, RefIcon, RefText, at, useWideViewport } from '../components/ReferenceStage';
+import { ReferenceLockup } from '../components/ReferenceLockup';
+import { AccountDrawer } from './AccountScreens';
 
 /** Founder-approved availability line on the F09 parent authority. The formula has no horizon field. */
 const AUTHORITY_THROUGH = 'AVAILABLE THROUGH OCT 18';
@@ -37,47 +45,6 @@ const F09_AUTHORITY_PLATE = {
   height: 3840,
 };
 
-function SafeShell({ screenId, children }: { screenId: string; children: ReactNode }) {
-  const { go, overlay, openOverlay, closeOverlay } = useJurnl();
-  return (
-    <JurnlFamilyShell
-      screenId={screenId}
-      familyId="F09"
-      familyPlate={PARENT_PLATES.F09}
-      nav={<JurnlProductNav current="HOME" onGo={go} onAdd={() => openOverlay('quick-add')} />}
-      overlays={
-        <>
-          {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F09" onClose={closeOverlay} /> : null}
-          {overlay === 'ask' ? <AskJurnlSheet familyId="F09" nodeId={screenId} onClose={closeOverlay} /> : null}
-        </>
-      }
-    >
-      {children}
-    </JurnlFamilyShell>
-  );
-}
-
-function BreakdownPanel({ signal }: { signal: SafeToSpendBreakdown }) {
-  return (
-    <JurnlPanel role="detail" className="jrn-home__panel" data-jrn-panel="sts-breakdown">
-      <b>CASH</b>
-      <p>{formatMoney(signal.cash)} · {signal.cashSource}</p>
-      <b>UPCOMING</b>
-      <p>{formatMoney(signal.upcoming)} · {signal.upcomingSource}</p>
-      <b>HELD</b>
-      <p>{formatMoney(signal.protected)}</p>
-      <b>ASSIGNED</b>
-      <p>{formatMoney(signal.assigned)} · {signal.assignedSource}</p>
-      <b>GOAL SET ASIDE</b>
-      <p>{formatMoney(signal.goalReserved)} · {signal.goalReservedSource}</p>
-      <b>SAFETY BUFFER</b>
-      <p>{formatMoney(signal.safetyBuffer)}</p>
-      <b>COMPLETENESS</b>
-      <p>{signal.completeness}</p>
-    </JurnlPanel>
-  );
-}
-
 /** Plain state line for each completeness level. The number never stands alone without saying how sure it is. */
 const STATE_LINE: Record<SafeToSpendBreakdown['completeness'], string> = {
   COMPLETE: 'WHAT YOU CAN SPEND NOW WITHOUT TOUCHING BILLS, PLANS OR WHAT YOU’RE HOLDING.',
@@ -87,8 +54,106 @@ const STATE_LINE: Record<SafeToSpendBreakdown['completeness'], string> = {
   UNSTATED: 'NOT ENOUGH IS KNOWN YET TO SAY.',
 };
 
-/** F09 parent — founder-approved authority reconstruction (IMAGE 1). Live formula, live nav, live routes. */
+/**
+ * F09 parent. Phones: the founder reference replica (one lifted photograph, live interface in the reference's own
+ * pixels). Tablet and desktop keep their approved wide compositions.
+ */
 export function SafeToSpendHubScreen() {
+  return useWideViewport() ? <SafeToSpendWideAuthority /> : <SafeToSpendReference />;
+}
+
+const PARENT_PLATE = { src: parentPlate, assetId: 'SAFE.REFERENCE_REPLICA.PARENT_PLATE.INTERIM' };
+
+/** Live figures for the parent: the formula's value and the four folio amounts. */
+function useParentFigures() {
+  const draft = useSetup();
+  useCurrency();
+  const signal = computeSafeToSpend(draft);
+  const below = signal.value < 0;
+  const bills = signal.completeness === 'UNSTATED' ? 0 : signal.upcoming;
+  return {
+    below,
+    amount: formatMoney(below ? -signal.value : signal.value),
+    folio: [
+      { id: 'Bills', label: 'BILLS', amount: formatMoney(bills) },
+      { id: 'Plans', label: 'PLANS', amount: formatMoney(signal.assigned) },
+      { id: 'Goals', label: 'GOALS', amount: formatMoney(signal.goalReserved) },
+      { id: 'Buffer', label: 'BUFFER', amount: formatMoney(signal.safetyBuffer) },
+    ] as const,
+  };
+}
+
+/** F09.00 on phones — founder reference IMAGE 1. */
+function SafeToSpendReference() {
+  const { go, openOverlay, closeOverlay, overlay } = useJurnl();
+  const { below, amount, folio } = useParentFigures();
+  const [drawer, setDrawer] = useState(false);
+  const L = REF_PARENT;
+  return (
+    <ReferenceStage
+      screenId="F09.00"
+      plate={PARENT_PLATE}
+      label="SAFE TO SPEND"
+      outside={
+        <>
+          {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F09" onClose={closeOverlay} /> : null}
+          {overlay === 'ask' ? <AskJurnlSheet familyId="F09" nodeId="F09.00" onClose={closeOverlay} /> : null}
+        </>
+      }
+    >
+      <div className="jrn-ref__root" data-jrn-authority="F09-REFERENCE-IMAGE-1" data-jrn-zone="intro">
+        <ReferenceLockup L={L} />
+        <button type="button" aria-label="MENU" data-jrn-trigger="f09-menu" onClick={() => setDrawer(true)} style={at([L.box.menu[0] - 14, L.box.menu[1] - 14, L.box.menu[2] + 14, L.box.menu[3] + 14])}>
+          <RefIcon name="menu" box={[14, 14, 14 + L.box.menu[2] - L.box.menu[0], 14 + L.box.menu[3] - L.box.menu[1]]} stroke={2.2} />
+        </button>
+        <section data-jrn-panel="signal" data-below={below ? 'true' : 'false'}>
+          <RefText t={L.text.signal} as="h1">{below ? 'OVER BY' : 'SAFE TO SPEND'}</RefText>
+          <RefText t={L.text.amount} className="jrn-ref__amount-hero">{amount}</RefText>
+          <RefText t={L.text.through} className="jrn-ref__soft">{AUTHORITY_THROUGH}</RefText>
+          <button type="button" className="jrn-ref__ghost jrn-ref__why" data-jrn-trigger="safe-see-why" onClick={() => go('safe/why')} style={at(L.box.why)}>
+            <RefText t={L.text.why} origin={L.box.why} as="span">SEE WHY THIS AMOUNT</RefText>
+            <RefIcon name="arrow" box={L.box.whyArrow} origin={L.box.why} stroke={2} />
+          </button>
+        </section>
+        <ol className="jrn-ref__tabs" aria-hidden>
+          {folio.map((row) => (
+            <RefText key={row.id} t={L.text[`tab${row.id}`]} as="li" data-tab={row.id.toLowerCase()}>{row.label}</RefText>
+          ))}
+        </ol>
+        <article aria-label="YOUR MONEY" data-jrn-panel="folio">
+          <RefText t={L.text.kicker}>YOUR MONEY</RefText>
+          <RefText t={L.text.head1} className="jrn-ref__headline">ORGANIZED.</RefText>
+          <RefText t={L.text.head2} className="jrn-ref__headline">THEN YOURS.</RefText>
+          <span className="jrn-ref__rule" style={at(L.box.rule)} />
+          {[L.box.div1, L.box.div2, L.box.div3].map((b, i) => <span key={i} className="jrn-ref__divider" style={at(b)} />)}
+          <ul>
+            {folio.map((row) => (
+              <li key={row.id}>
+                <RefText t={L.text[`lbl${row.id}`]} as="span">{row.label}</RefText>
+                <RefText t={L.text[`amt${row.id}`]} as="b">{row.amount}</RefText>
+              </li>
+            ))}
+          </ul>
+        </article>
+        <section className="jrn-ref__panel jrn-ref__bridge" aria-label="CHECK A PURCHASE" style={at(L.box.bridge)}>
+          <RefIcon name="spark" box={L.box.spark} origin={L.box.bridge} stroke={2} className="jrn-ref__spark" />
+          <RefText t={L.text.want} origin={L.box.bridge}>WANT TO SPEND ON SOMETHING?</RefText>
+          <RefText t={L.text.g1} origin={L.box.bridge} className="jrn-ref__muted">CHECK HOW IT FITS YOUR PLAN</RefText>
+          <RefText t={L.text.g2} origin={L.box.bridge} className="jrn-ref__muted">BEFORE YOU BUY.</RefText>
+          <button type="button" className="jrn-ref__pill" data-jrn-trigger="safe-check-purchase" onClick={() => go('safe/check')} style={at(L.box.pill, L.box.bridge)}>
+            <RefText t={L.text.pill} origin={L.box.pill} as="span">CHECK A PURCHASE</RefText>
+            <RefIcon name="arrow" box={L.box.pillArrow} origin={L.box.pill} stroke={2} />
+          </button>
+        </section>
+      </div>
+      <ReferenceDock top={1632} dy={3} active="HOME" onGo={go} onAdd={() => openOverlay('quick-add')} />
+      {drawer ? <AccountDrawer onClose={() => setDrawer(false)} /> : null}
+    </ReferenceStage>
+  );
+}
+
+/** F09 parent, tablet and desktop — founder-approved authority reconstruction. Live formula, live nav, live routes. */
+function SafeToSpendWideAuthority() {
   const { go, openOverlay, closeOverlay, overlay, session } = useJurnl();
   const monogram = session.account ? initialsOf(session.account) : 'JL';
   const draft = useSetup();
@@ -104,7 +169,7 @@ export function SafeToSpendHubScreen() {
     { id: 'buffer', label: 'BUFFER', amount: formatMoney(signal.safetyBuffer) },
   ];
   return (
-    <JurnlScreen screenId="F09.00" familyPlate={F09_AUTHORITY_PLATE} family productNav>
+    <JurnlScreen screenId="F09.00" familyPlate={F09_AUTHORITY_PLATE} family productNav composition="CENTER_STAGE">
       <div className="jrn-f09a" data-jrn-authority="F09-APPROVED-IMAGE-1" data-jrn-zone="intro">
         <div className="jrn-f09a__art">
         <header className="jrn-f09a__brand">
@@ -145,7 +210,7 @@ export function SafeToSpendHubScreen() {
             <svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 1.4 13.8 9.2 21.6 12 13.8 14.8 12 22.6 10.2 14.8 2.4 12 10.2 9.2Z" fill="none" stroke="#6a5c42" strokeWidth="1.35" strokeLinejoin="round" /></svg>
           </span>
           <p><b>WANT TO SPEND ON SOMETHING?</b> CHECK HOW IT FITS YOUR PLAN BEFORE YOU BUY.</p>
-          <button type="button" data-jrn-trigger="safe-check-purchase" onClick={() => go('purchases')}>
+          <button type="button" data-jrn-trigger="safe-check-purchase" onClick={() => go('safe/check')}>
             CHECK A PURCHASE <span aria-hidden>→</span>
           </button>
         </section>
@@ -157,27 +222,112 @@ export function SafeToSpendHubScreen() {
   );
 }
 
+const WHY_PLATE = { src: whyPlate, assetId: 'SAFE.REFERENCE_REPLICA.WHY_PLATE.INTERIM' };
+const WHY_DOT: Record<string, string> = { Cash: '#767158', Upcoming: '#dec5b1', Held: '#a16346', Assigned: '#b1a990', Goal: '#8a9395', Buffer: '#545948' };
+
+/** F09.WHY — WHY THIS NUMBER, founder reference IMAGE 2. Live breakdown rows; the hold sheet stays functional. */
 export function SafeToSpendWhyScreen() {
-  const { go, openOverlay } = useJurnl();
+  const { go, openOverlay, closeOverlay, overlay } = useJurnl();
   const draft = useSetup();
   useCurrency();
   const signal = computeSafeToSpend(draft);
   const [holdOpen, setHoldOpen] = useState(false);
+  const [drawer, setDrawer] = useState(false);
+  const W = REF_WHY;
+  const rows = [
+    { id: 'Cash', label: 'CASH', amount: formatMoney(signal.cash), source: signal.cashSource },
+    { id: 'Upcoming', label: 'UPCOMING', amount: formatMoney(signal.upcoming), source: signal.upcomingSource },
+    { id: 'Held', label: 'HELD', amount: formatMoney(signal.protected), source: signal.protected > 0 ? signal.protectedSource : 'NONE' },
+    { id: 'Assigned', label: 'ASSIGNED', amount: formatMoney(signal.assigned), source: signal.assignedSource },
+    { id: 'Goal', label: 'GOAL SET ASIDE', amount: formatMoney(signal.goalReserved), source: signal.goalReservedSource },
+    { id: 'Buffer', label: 'SAFETY BUFFER', amount: signal.safetyBuffer > 0 ? formatMoney(signal.safetyBuffer) : null, source: null },
+  ] as const;
   return (
-    <SafeShell screenId="F09.WHY">
-      <FamilyChrome familyId="F09" nodeId="F09.WHY" backLabel="BACK TO SAFE" onBack={() => go('safe')} onAsk={() => openOverlay('ask')} />
-      <div className="jrn-home__intro" data-jrn-zone="intro">
-        <h1 className="jrn-home__h">WHY THIS NUMBER</h1>
-        <p className="jrn-home__sub">{formatMoney(signal.value)}</p>
-        <p className="jrn-lang__state">{STATE_LINE[signal.completeness]}</p>
+    <ReferenceStage
+      screenId="F09.WHY"
+      plate={WHY_PLATE}
+      label="WHY THIS NUMBER"
+      outside={
+        <>
+          {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F09" onClose={closeOverlay} /> : null}
+          {overlay === 'ask' ? <AskJurnlSheet familyId="F09" nodeId="F09.WHY" onClose={closeOverlay} /> : null}
+          {holdOpen ? <HoldSheet onClose={() => setHoldOpen(false)} /> : null}
+        </>
+      }
+    >
+      <button type="button" className="jrn-ref__square" aria-label="BACK TO SAFE" data-jrn-trigger="family-back" onClick={() => go('safe')} style={at(W.box.back)}>
+        <RefIcon name="chevron-left" box={W.box.backIcon} origin={W.box.back} stroke={2.6} />
+      </button>
+      <button type="button" className="jrn-ref__square" aria-label="MENU" data-jrn-trigger="why-menu" onClick={() => setDrawer(true)} style={at(W.box.menu)}>
+        <RefIcon name="menu" box={W.box.menuIcon} origin={W.box.menu} stroke={2.4} />
+      </button>
+      <div className="jrn-ref__lockup" role="img" aria-label="JURNL">
+        <img src={whySprig} alt="" draggable={false} style={at(W.box.sprigOlive)} />
+        <img src={lockupWord} alt="" draggable={false} style={{ left: W.box.word[0], top: W.box.word[1], width: ((W.box.word[2] - W.box.word[0]) * 196) / 192, height: ((W.box.word[3] - W.box.word[1]) * 42) / 40 }} />
+        <span className="jrn-ref__gold-rule" style={at(W.box.ruleL)} />
+        <span className="jrn-ref__gold-rule" style={at(W.box.ruleR)} />
       </div>
-      <div className="jrn-parent__rail" data-jrn-zone="content-rail">
-        <BreakdownPanel signal={signal} />
-        <JurnlButton variant="secondary" trigger="safe-change-hold" onClick={() => setHoldOpen(true)}>CHANGE WHAT’S HELD</JurnlButton>
+      <div data-jrn-zone="intro">
+        <RefText t={W.text.title1} as="h1">WHY THIS</RefText>
+        <RefText t={W.text.title2} aria-hidden>NUMBER</RefText>
+        <RefText t={W.text.amount} className="jrn-ref__amount-hero">{formatMoney(signal.value)}</RefText>
+        {splitLine(STATE_LINE[signal.completeness]).map((line, i) => (
+          <RefText key={i} t={i === 0 ? W.text.state1 : W.text.state2} className="jrn-ref__soft">{line}</RefText>
+        ))}
       </div>
-      {holdOpen ? <HoldSheet onClose={() => setHoldOpen(false)} /> : null}
-    </SafeShell>
+      <ol className="jrn-ref__tabs" aria-hidden>
+        {(['Accounts', 'Upcoming', 'Held', 'Goals', 'Buffer'] as const).map((id) => (
+          <RefText key={id} t={W.text[`tab${id}`]} as="li" data-tab={id.toLowerCase()}>{id.toUpperCase()}</RefText>
+        ))}
+      </ol>
+      <article aria-label="HERE’S HOW YOUR NUMBER COMES TOGETHER." data-jrn-panel="sts-breakdown">
+        <RefText t={W.text.copy1}>HERE’S HOW</RefText>
+        <RefText t={W.text.copy2}>YOUR NUMBER</RefText>
+        <RefText t={W.text.copy3}>COMES TOGETHER.</RefText>
+        {(['sep0', 'sep1', 'sep2', 'sep3', 'sep4', 'sep5', 'sep6'] as const).map((k) => <span key={k} className="jrn-ref__divider" style={at(W.box[k])} />)}
+        <dl>
+          {rows.map((r) => (
+            <div key={r.id} data-row={r.id.toLowerCase()}>
+              <span className="jrn-ref__dot-mark" style={{ ...at(W.box[`dot${r.id}`]), background: WHY_DOT[r.id] }} />
+              <RefText t={W.text[`lbl${r.id}`]} as="dt">{r.label}</RefText>
+              {r.amount ? <RefText t={r.id === 'Buffer' ? { ...W.text.amtCash, top: W.text.lblBuffer.top - 6 } : W.text[`amt${r.id as 'Cash'}`]} as="dd">{r.amount}</RefText> : null}
+              {r.source ? <RefText t={W.text[`src${r.id as 'Cash'}`]} as="dd" className="jrn-ref__muted">{r.source}</RefText> : null}
+              <RefIcon name="chevron" box={W.box[`chev${r.id}`]} stroke={2} />
+            </div>
+          ))}
+          <div data-row="completeness">
+            <RefText t={W.text.lblComplete} as="dt">COMPLETENESS</RefText>
+            <RefText t={W.text.valComplete} as="dd" className="jrn-ref__muted">{signal.completeness}</RefText>
+            <RefIcon name="chevron" box={W.box.chevComplete} stroke={2} />
+          </div>
+        </dl>
+      </article>
+      <button type="button" className="jrn-ref__ghost jrn-ref__why" data-jrn-trigger="safe-change-hold" onClick={() => setHoldOpen(true)} style={at(W.box.hold)}>
+        <RefText t={W.text.hold} origin={W.box.hold} as="span">CHANGE WHAT’S HELD</RefText>
+        <RefIcon name="arrow" box={W.box.holdArrow} origin={W.box.hold} stroke={2.2} />
+      </button>
+      <section className="jrn-ref__panel jrn-ref__bridge" aria-label="THIS UPDATES YOUR SAFE TO SPEND." style={at(W.box.bar)}>
+        <RefIcon name="spark" box={W.box.spark} origin={W.box.bar} stroke={2} className="jrn-ref__spark" />
+        <RefText t={W.text.bar1} origin={W.box.bar}>THIS UPDATES YOUR SAFE TO SPEND.</RefText>
+        <RefText t={W.text.bar2} origin={W.box.bar} className="jrn-ref__muted">CHANGES HERE WILL ADJUST</RefText>
+        <RefText t={W.text.bar3} origin={W.box.bar} className="jrn-ref__muted">YOUR NUMBER.</RefText>
+        <button type="button" className="jrn-ref__pill" data-jrn-trigger="why-learn-more" onClick={() => openOverlay('ask')} style={at(W.box.learn, W.box.bar)}>
+          <RefText t={W.text.learn} origin={W.box.learn} as="span">LEARN MORE</RefText>
+          <RefIcon name="arrow" box={W.box.learnArrow} origin={W.box.learn} stroke={2} />
+        </button>
+      </section>
+      <ReferenceDock L={REF_DOCK_WHY} top={1668} radius={40} active="HOME" onGo={go} onAdd={() => openOverlay('quick-add')} />
+      {drawer ? <AccountDrawer onClose={() => setDrawer(false)} /> : null}
+    </ReferenceStage>
   );
+}
+
+/** Splits a state line at the space nearest its middle (the reference breaks NEEDS_SETUP after SETUP). */
+function splitLine(line: string): [string, string] {
+  const mid = line.length / 2;
+  let at = -1;
+  for (let i = 0; i < line.length; i += 1) if (line[i] === ' ' && (at < 0 || Math.abs(i - mid) < Math.abs(at - mid))) at = i;
+  return at < 0 ? [line, ''] : [line.slice(0, at), line.slice(at + 1)];
 }
 
 function HoldSheet({ onClose }: { onClose: () => void }) {

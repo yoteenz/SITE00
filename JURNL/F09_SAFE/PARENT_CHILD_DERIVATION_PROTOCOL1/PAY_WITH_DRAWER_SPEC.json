@@ -41,20 +41,26 @@
     ],
     "expansion": "More accounts continue the same grid (same tile size and gaps) using SELECT A CATEGORY’s overflow behaviour, never smaller tiles.",
     "sizing_source": "F09.CHECK.CATEGORY",
-    "sizing": "UNMEASURED — measured from the approved SELECT A CATEGORY drawer once it is supplied (SelectionSheetSystem), then checked with checkSiblingSheets.",
-    "status": "AWAITING_FOUNDER_INPUTS",
+    "sizing": "MEASURED — CATEGORY_SHEET_SYSTEM (4 columns, 183 px tiles, 12 px radius, 17 / 15 px gaps, 12 px uppercase labels). The current 2-column drawer is DRIFT; the runtime drawer is MATCHED.",
+    "status": "BUILT_IN_RUNTIME",
+    "runtime": "src/projects/jurnl/runtime/screens/CheckPurchaseScreens.tsx (SelectionSheet) at /production/jurnl/runtime/safe/check",
+    "apply_label": "APPLY ACCOUNT",
+    "apply_label_note": "Sibling of APPLY CATEGORY; the current drawer has no apply button. Founder can rename it.",
     "inputs_required": [
       {
         "role": "APPROVED_PARENT",
-        "what": "approved CHECK A PURCHASE parent screen"
+        "what": "approved CHECK A PURCHASE parent screen",
+        "received": "REFERENCES/07_CHECK_A_PURCHASE.png"
       },
       {
         "role": "APPROVED_SIBLING",
-        "what": "approved SELECT A CATEGORY drawer (the sizing template)"
+        "what": "approved SELECT A CATEGORY drawer (the sizing template)",
+        "received": "REFERENCES/08_SELECT_A_CATEGORY.png"
       },
       {
         "role": "CURRENT_SCREEN",
-        "what": "current SELECT AN ACCOUNT drawer (information only)"
+        "what": "current SELECT AN ACCOUNT drawer (information only)",
+        "received": "REFERENCES/09_SELECT_AN_ACCOUNT_CURRENT.png"
       }
     ]
   },

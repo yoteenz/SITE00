@@ -14834,3 +14834,51 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - **Sizing:** UNMEASURED.
   - **Status:** AWAITING_FOUNDER_INPUTS. The approved CHECK A PURCHASE screen, the approved SELECT A CATEGORY drawer and the current SELECT AN ACCOUNT drawer are founder-held, not in the repo. Neither drawer exists in the runtime (Quick Add only has a button row of accounts).
 - **Also:** the branch merged main 6a8b1bda. Main's own folder alignment (#1450 / #1451) supersedes this branch's earlier CSS fix (4e5955db), so main's CSS is kept.
+
+## 2026-10-07 — JURNL SAFE TO SPEND family built as replicas of the founder's 9 references (P0.JURNL.F09.REFERENCE-REPLICA1)
+
+- **Ask:** build the attached references as exact replicas, including assets, thumbnails, icons, type, placement and weight. Lift each reference's photograph out (type and controls cleared) and use it as the only plate. Prepare Grok isolation and OpenArt Sunburst 4K regeneration for the imagery.
+- **References:** `JURNL/F09_SAFE/REFERENCE_REPLICA1/REFERENCES/01–09`.
+  - 01 parent, 02 WHY, 03–05 ACCOUNT pages, 06 ACCOUNT drawer, 07 CHECK A PURCHASE, 08 SELECT A CATEGORY, 09 current SELECT AN ACCOUNT.
+  - All are 853 × 1844, except 01 at 852 × 1847.
+- **Runtime:**
+  - `ReferenceStage` is one 853 × 1844 stage, plate plus interface, scaled as a unit. It fills phones; other ratios get a blurred plate behind it.
+  - `layout/referenceLayout.ts` is generated: measured boxes, and type fitted to the reference ink (size, tracking, line top, anchor; rotated tab words).
+  - Screens:
+    - `/safe`: phones get the replica, tablet and desktop keep main's wide authority (`useWideViewport`).
+    - `/safe/why`
+    - `/safe/check` (new route): the CHECK A PURCHASE bridge now goes here.
+    - `/account`: 3 continuation pages, BACK / NEXT / dots.
+    - The ACCOUNT drawer opens from the menu.
+  - CHECK PURCHASE gives a live verdict through `amountAffordability`, split out of `purchaseAffordability`.
+  - `AccountSettingsScreen` was replaced. `CurrencySheet` is still exported from SettingsScreens; the setup consents moved into a sheet.
+  - Composition mode `REFERENCE_STAGE`, with documented overrides for F09.00, F09.WHY, F09.CHECK and GS.SETTINGS. The center-stage test was updated, and its pre-existing `safe` failure is gone.
+- **Type:** the references use a Didone serif and a geometric sans; Instrument Serif and Barlow are visibly condensed.
+  - New faces: `JURNL Authority Serif` (Playfair Display with the lnum glyphs mapped as default digits, renamed because of the OFL Reserved Font Name) and `JURNL Authority Sans` (Jost 300–600). OFL texts sit beside them in `public/site00/projects/jurnl/fonts`.
+- **Selection sheets:** SELECT A CATEGORY is measured as `CATEGORY_SHEET_SYSTEM`: 4 cols, 183 px tiles, photos 183 × 178 (row 3 is 171 as drawn), r12, gaps 17 / 15, 12 px labels.
+  - SELECT AN ACCOUNT uses the same `SelectionSheet`: 4 cols, sheet top one row lower, APPLY ACCOUNT.
+  - `PAY_WITH_SIBLING_CHECK`: current DRIFT, built MATCHED.
+- **Plates and assets:** `src/projects/jurnl/families/F09_SAFE/REFERENCE_REPLICA/{plates,tiles,assets}`, made by `scripts/jurnl/reference-replica` (Python + OpenCV, Node fitter).
+  - Type is Telea-inpainted. Panels and the dock are push-pull filled and softened, because coded panels cover them.
+  - The drawer fill is restricted to its stone slab.
+  - Tiles are native crops. Account tiles are re-cropped to 183 × 178.
+  - Botanicals and the WHY olive sprig are difference mattes.
+  - The lockup is two layers cut from the approved `F09_LOCKUP.png` (haze removed), placed per screen.
+  - Re-running the toolchain reproduces every file byte for byte.
+- **Quality, stated plainly:**
+  - Every interim asset is ≤ 853 px wide (1.38× upscale at 3×) and of unknown provenance, so `assessAssetQuality` gives BLOCK as authority material.
+  - `REGEN_4K_JOBS.md` holds 28 Grok isolate + OpenArt Sunburst prompts. Targets: plates 2160 × 4670, tiles about 1024 px.
+  - Status READY_TO_RUN. OpenArt is not connected and there was no Grok route in this session.
+- **Decisions flagged (`REPLICA_DECISIONS`):**
+  - The status bar and home indicator are not drawn.
+  - The parent lockup returns on phones, against main #1449.
+  - The drawer's mixed-case line is uppercased.
+  - The account drawer has 4 columns, not 2.
+  - Page 1's ACCOUNT shell is kept on all pages.
+  - Figures are live.
+  - Rows without features say NOT IN THIS PREVIEW YET.
+- **Tests:** `tests/jurnlF09ReferenceReplica1.test.ts` (10) and `jurnlParentChildDerivationProtocol1` (8) pass, and center-stage passes 61/61.
+  - The full suite has no new failures: the 40 failures in 28 files are identical on a clean HEAD worktree.
+- **Gotchas:**
+  - `.jrn .jrn-ref button` resets beat single-class rules. Give control styles 3-class selectors (the scrim was invisible until fixed).
+  - Playfair defaults to old-style figures, so canvas fitting and the page disagree unless the font maps lining digits.

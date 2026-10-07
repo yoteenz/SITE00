@@ -1,0 +1,515 @@
+/* JURNL SAFE TO SPEND family — founder reference replicas (P0.JURNL.F09.REFERENCE-REPLICA1).
+   Type: JURNL Authority Sans (Jost) and JURNL Authority Serif (Playfair Display with lining figures), the faces the
+   references are set in. Both OFL; licences sit next to the files.
+   One lifted photograph per screen (the plate) at 853 × 1844 reference pixels. The interface is drawn over it
+   in the same reference pixels; positions and type come from layout/referenceLayout.ts. The stage is scaled
+   to the viewport as one piece. Uppercase only. No device chrome. */
+
+@font-face {
+  font-family: 'JURNL Authority Sans';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('/site00/projects/jurnl/fonts/jost-300.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'JURNL Authority Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/site00/projects/jurnl/fonts/jost-400.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'JURNL Authority Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/site00/projects/jurnl/fonts/jost-500.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'JURNL Authority Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/site00/projects/jurnl/fonts/jost-600.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'JURNL Authority Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/site00/projects/jurnl/fonts/jurnl-authority-serif-400.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'JURNL Authority Serif';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/site00/projects/jurnl/fonts/jurnl-authority-serif-500.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'JURNL Authority Serif';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/site00/projects/jurnl/fonts/jurnl-authority-serif-600.woff2') format('woff2');
+}
+
+.jrn .jrn-ref {
+  --ref-ink: #0e0d0b;
+  --ref-ink-soft: #3f3d3b;
+  --ref-panel: rgba(247, 243, 238, 0.97);
+  --ref-field: #f8f5f0;
+  --ref-chip: #ebe3da;
+  --ref-well: #e9e1d7;
+  --ref-olive: #4b4d38;
+  --ref-olive-dock: #50523c;
+  --ref-sheet: #f8f4ef;
+  --ref-strip: #f1eae1;
+  --ref-line: rgba(118, 102, 86, 0.2);
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #efe9e1;
+}
+.jrn .jrn-ref__backdrop {
+  position: absolute;
+  inset: -48px;
+  background-size: cover;
+  background-position: 50% 50%;
+  filter: blur(26px) saturate(1.05);
+}
+.jrn .jrn-ref__stage {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 853px;
+  height: 1844px;
+  transform: translate(-50%, -50%) scale(var(--k, 0.4607));
+  transform-origin: 50% 50%;
+  color: var(--ref-ink);
+  text-transform: uppercase;
+  overflow: hidden;
+}
+.jrn .jrn-ref__plate {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 853px;
+  height: 1844px;
+  max-width: none;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Type: one absolutely placed line per fitted run. */
+.jrn .jrn-ref__t {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+  white-space: pre;
+  color: inherit;
+  text-transform: uppercase;
+}
+.jrn .jrn-ref__t--sans {
+  font-family: 'JURNL Authority Sans', 'JURNL Sans', sans-serif;
+}
+.jrn .jrn-ref__t--serif {
+  font-family: 'JURNL Authority Serif', 'JURNL Display', serif;
+}
+.jrn .jrn-ref__icon {
+  position: absolute;
+  overflow: visible;
+  color: var(--ref-ink);
+}
+.jrn .jrn-ref__abs {
+  position: absolute;
+  display: block;
+}
+
+/* Controls: every control is absolutely placed in reference pixels. */
+.jrn .jrn-ref button,
+.jrn .jrn-ref input {
+  appearance: none;
+  -webkit-appearance: none;
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  min-height: 0;
+  min-width: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  font: inherit;
+  color: inherit;
+  text-transform: uppercase;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.jrn .jrn-ref button:focus-visible {
+  outline: 3px solid rgba(75, 77, 56, 0.55);
+  outline-offset: 3px;
+}
+
+.jrn .jrn-ref__lockup {
+  pointer-events: none;
+}
+.jrn .jrn-ref__lockup img {
+  position: absolute;
+  display: block;
+  max-width: none;
+}
+
+.jrn .jrn-ref__panel {
+  position: absolute;
+  background: var(--ref-panel);
+  border-radius: 22px;
+  box-shadow: 0 6px 18px rgba(70, 50, 30, 0.1);
+}
+.jrn .jrn-ref__field {
+  background: var(--ref-field);
+  border: 1.5px solid var(--ref-line);
+  border-radius: 12px;
+}
+.jrn .jrn-ref .jrn-ref__chip {
+  background: var(--ref-chip);
+  border-radius: 12px;
+}
+.jrn .jrn-ref .jrn-ref__chip[aria-pressed='true'] {
+  box-shadow: inset 0 0 0 2px var(--ref-olive);
+}
+.jrn .jrn-ref__well {
+  position: absolute;
+  background: var(--ref-well);
+  border-radius: 50%;
+}
+.jrn .jrn-ref .jrn-ref__select {
+  background: var(--ref-field);
+  border: 1.5px solid var(--ref-line);
+  border-radius: 12px;
+}
+.jrn .jrn-ref .jrn-ref__cta {
+  background: var(--ref-olive);
+  border-radius: 18px;
+  color: #fff;
+}
+.jrn .jrn-ref__cta .jrn-ref__icon {
+  color: #fff;
+}
+.jrn .jrn-ref .jrn-ref__ghost {
+  background: rgba(247, 242, 237, 0.92);
+  border: 1.5px solid rgba(110, 95, 80, 0.32);
+  border-radius: 18px;
+}
+
+/* CHECK A PURCHASE amount: the fitted figure is drawn; a transparent input takes the typing. The caret is the
+   reference's grey bar after the figure, shown at rest when empty and blinking while focused. */
+.jrn .jrn-ref .jrn-ref__amount-input {
+  cursor: text;
+  color: transparent;
+  caret-color: transparent;
+  background: transparent;
+  outline: none;
+  font-size: 16px;
+}
+.jrn .jrn-ref__amount[data-caret='on']::after {
+  content: '';
+  display: inline-block;
+  width: 3px;
+  height: 84px;
+  margin-left: 6.5px;
+  vertical-align: -9px;
+  background: #6f6a63;
+  border-radius: 1px;
+}
+.jrn .jrn-ref__amount[data-focused='true']::after {
+  animation: jrn-ref-caret 1.06s steps(1) infinite;
+}
+@keyframes jrn-ref-caret {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Dock */
+.jrn .jrn-ref__dock {
+  position: absolute;
+  background: #f7f4ef;
+  box-shadow: 0 -1px 0 rgba(120, 105, 90, 0.12);
+}
+.jrn .jrn-ref .jrn-ref__dock-btn {
+  color: var(--ref-ink);
+}
+.jrn .jrn-ref__dock-mark {
+  position: absolute;
+}
+.jrn .jrn-ref__dock-square {
+  position: absolute;
+  background: var(--ref-olive-dock);
+  border-radius: 14px;
+}
+.jrn .jrn-ref__dock-plus {
+  position: absolute;
+  background: #f3efe6;
+  border-radius: 1px;
+}
+
+/* Selection sheets (SELECT A CATEGORY / SELECT AN ACCOUNT): one sizing system. */
+.jrn .jrn-ref .jrn-ref__scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(16, 14, 12, 0.5);
+  animation: jrn-ref-fade 0.24s ease both;
+}
+.jrn .jrn-ref__sheet {
+  position: absolute;
+  left: 0;
+  width: 853px;
+  background: var(--ref-sheet);
+  border-radius: 28px 28px 0 0;
+  box-shadow: 0 -10px 30px rgba(20, 16, 12, 0.12);
+  animation: jrn-ref-rise 0.32s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.jrn .jrn-ref__handle {
+  position: absolute;
+  background: #c8c3be;
+  border-radius: 4px;
+}
+.jrn .jrn-ref__sheet-sub {
+  color: var(--ref-ink-soft);
+}
+.jrn .jrn-ref .jrn-ref__tile {
+  background: var(--ref-strip);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.jrn .jrn-ref .jrn-ref__tile[aria-pressed='true'] {
+  box-shadow: 0 0 0 3px var(--ref-olive);
+}
+.jrn .jrn-ref__tile-img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: block;
+  object-fit: cover;
+  border-radius: 12px 12px 8px 8px;
+}
+@keyframes jrn-ref-fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes jrn-ref-rise {
+  from {
+    transform: translateY(40%);
+  }
+}
+
+/* Lists inside the stage carry no list chrome; their lines are placed absolutely. */
+.jrn .jrn-ref ol,
+.jrn .jrn-ref ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.jrn .jrn-ref h1,
+.jrn .jrn-ref h2 {
+  font-weight: inherit;
+}
+.jrn .jrn-ref__muted {
+  color: #8f8a85;
+}
+.jrn .jrn-ref__soft {
+  color: #1d1c14;
+}
+
+/* SAFE TO SPEND (F09.00) */
+.jrn .jrn-ref__amount-hero {
+  color: #17190d;
+}
+.jrn .jrn-ref .jrn-ref__why {
+  background: rgba(243, 238, 232, 0.96);
+  border: 1.5px solid rgba(255, 255, 255, 0.85);
+  border-radius: 16px;
+  box-shadow: 0 10px 22px rgba(60, 40, 20, 0.1);
+}
+.jrn .jrn-ref__tabs [data-tab='bills'] {
+  color: #3a2f22;
+}
+.jrn .jrn-ref__tabs [data-tab='plans'] {
+  color: #0b0908;
+}
+.jrn .jrn-ref__tabs [data-tab='goals'] {
+  color: #14150f;
+}
+.jrn .jrn-ref__tabs [data-tab='buffer'] {
+  color: #fdfdfb;
+}
+.jrn .jrn-ref__headline {
+  color: #050505;
+}
+.jrn .jrn-ref__rule {
+  position: absolute;
+  background: rgba(150, 120, 90, 0.3);
+}
+.jrn .jrn-ref__divider {
+  position: absolute;
+  background: rgba(120, 95, 75, 0.32);
+}
+.jrn .jrn-ref .jrn-ref__bridge {
+  background: rgba(246, 243, 238, 0.95);
+  border-radius: 40px;
+  box-shadow: 0 12px 28px rgba(50, 36, 20, 0.1);
+}
+.jrn .jrn-ref .jrn-ref__spark {
+  color: #6f522d;
+}
+.jrn .jrn-ref .jrn-ref__pill {
+  background: #f7f5f3;
+  border: 1.5px solid rgba(60, 50, 40, 0.1);
+  border-radius: 999px;
+  box-shadow: 0 6px 14px rgba(50, 36, 20, 0.08);
+}
+
+/* ACCOUNT */
+.jrn .jrn-ref .jrn-ref__card {
+  position: absolute;
+  background: rgba(246, 240, 233, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 18px;
+  box-shadow: 0 8px 18px rgba(60, 40, 20, 0.1);
+  text-align: left;
+  overflow: hidden;
+}
+.jrn .jrn-ref .jrn-ref__card--drawer {
+  background: rgba(247, 242, 236, 0.9);
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(60, 40, 20, 0.06);
+}
+.jrn .jrn-ref .jrn-ref__card--image img {
+  position: absolute;
+  display: block;
+  max-width: none;
+  object-fit: cover;
+}
+.jrn .jrn-ref__card-title {
+  color: #050505;
+}
+.jrn .jrn-ref .jrn-ref__inline {
+  background: transparent;
+}
+.jrn .jrn-ref__vrule {
+  position: absolute;
+  background: rgba(120, 100, 80, 0.28);
+}
+.jrn .jrn-ref .jrn-ref__cta--pill {
+  border-radius: 999px;
+}
+.jrn .jrn-ref .jrn-ref__cta--drawer {
+  border-radius: 12px;
+}
+.jrn .jrn-ref .jrn-ref__money-input {
+  cursor: text;
+  color: transparent;
+  caret-color: var(--ref-ink);
+  background: transparent;
+  outline: none;
+  font-size: 16px;
+}
+.jrn .jrn-ref .jrn-ref__toggle {
+  background: #e3dbd1;
+  border-radius: 999px;
+  transition: background 0.2s ease;
+}
+.jrn .jrn-ref .jrn-ref__toggle[data-on='true'] {
+  background: #4b4d38;
+}
+.jrn .jrn-ref__toggle-knob {
+  position: absolute;
+  border-radius: 50%;
+  background: #fbf9f6;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  transition: left 0.2s ease;
+}
+.jrn .jrn-ref__thumb {
+  position: absolute;
+  display: block;
+  max-width: none;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.jrn .jrn-ref .jrn-ref__pill--leaf {
+  background: #f6f0e9;
+  border: 2px solid #c9b29a;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.72), 0 6px 14px rgba(50, 36, 20, 0.1);
+  overflow: hidden;
+}
+.jrn .jrn-ref__leaf {
+  position: absolute;
+  display: block;
+  max-width: none;
+  pointer-events: none;
+}
+.jrn .jrn-ref .jrn-ref__dot {
+  background: transparent;
+}
+.jrn .jrn-ref__dot span {
+  position: absolute;
+  border-radius: 50%;
+  background: #b5aea6;
+}
+.jrn .jrn-ref__dot[aria-selected='true'] span {
+  background: #2d2d26;
+}
+.jrn .jrn-ref__page {
+  animation: jrn-ref-fade 0.24s ease both;
+}
+.jrn .jrn-ref .jrn-ref__icon--light {
+  color: #fff;
+}
+
+/* ACCOUNT drawer: its own photograph slides in over the current screen. */
+.jrn .jrn-ref__drawer {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  animation: jrn-ref-drawer 0.36s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.jrn .jrn-ref .jrn-ref__drawer-out {
+  background: transparent;
+  cursor: default;
+}
+@keyframes jrn-ref-drawer {
+  from {
+    transform: translateX(34%);
+    opacity: 0;
+  }
+}
+
+/* WHY THIS NUMBER */
+.jrn .jrn-ref .jrn-ref__square {
+  background: rgba(244, 240, 236, 0.94);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 18px;
+  box-shadow: 0 6px 14px rgba(50, 36, 20, 0.12);
+}
+.jrn .jrn-ref__gold-rule {
+  position: absolute;
+  background: #946d3b;
+  border-radius: 1px;
+}
+.jrn .jrn-ref__dot-mark {
+  position: absolute;
+  border-radius: 50%;
+}
+.jrn .jrn-ref dl,
+.jrn .jrn-ref dd {
+  margin: 0;
+}
+.jrn .jrn-ref__tabs [data-tab='accounts'],
+.jrn .jrn-ref__tabs [data-tab='upcoming'],
+.jrn .jrn-ref__tabs [data-tab='held'] {
+  color: #1d1a16;
+}

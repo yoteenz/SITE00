@@ -24,3 +24,4 @@ export * from './asset-quality.js';
 export * as jurnlF09Forensics from './projects/jurnl/f09-prompt-forensics.js';
 export * from './parent-child-derivation.js';
 export * as jurnlStsFamily from './projects/jurnl/safe-to-spend-family.js';
+export * as jurnlF09Replica from './projects/jurnl/f09-reference-replica.js';

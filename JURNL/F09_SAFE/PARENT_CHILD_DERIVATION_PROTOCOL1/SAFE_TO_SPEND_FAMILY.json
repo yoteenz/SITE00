@@ -11,6 +11,7 @@
     "TYPOGRAPHY": [
       "Uppercase only. No mixed-case UI language.",
       "Large serif display moments (JURNL Display) against refined, spaced uppercase support text (JURNL Sans).",
+      "The SAFE TO SPEND references are set in a Didone serif and a round geometric sans: the replicas use JURNL Authority Serif (Playfair Display, lining figures) and JURNL Authority Sans (Jost).",
       "No casual or generic SaaS type behaviour."
     ],
     "DECORATIVE_LOGO": [
@@ -25,7 +26,7 @@
       "No device chrome, no browser chrome, no phone UX at the top unless requested."
     ],
     "RATIO": [
-      "Founder captures: 402×874 pt (1206×2622 @3x). Runtime authority canvas: 393×852 pt. Both ≈ 0.46 (9 : 19.5).",
+      "Founder captures: 402×874 pt (1206×2622 @3x). Reference images: 853×1844. Runtime authority canvas: 393×852 pt. All ≈ 0.46 (9 : 19.5).",
       "Fill the frame: no black bands, no letterbox, no careless crop."
     ]
   },
@@ -40,8 +41,8 @@
       ],
       "route": "/production/jurnl/runtime/safe",
       "authority": "APPROVED",
-      "authority_source": "IMAGE 1 (founder-held) · live route on main",
-      "note": "The family’s visual authority. The live route reconstructs IMAGE 1."
+      "authority_source": "REFERENCES/01_SAFE_TO_SPEND.png",
+      "note": "The family’s visual authority. Phones render the replica; tablet and desktop keep the approved wide plates."
     },
     {
       "id": "F09.WHY",
@@ -52,9 +53,9 @@
         "FULL_PAGE"
       ],
       "route": "/production/jurnl/runtime/safe/why",
-      "authority": "TO_DERIVE",
-      "authority_source": "runtime (information only)",
-      "note": "The runtime page still uses the generic family chrome and panels; it is an information authority, not a visual one."
+      "authority": "APPROVED",
+      "authority_source": "REFERENCES/02_WHY_THIS_NUMBER.png",
+      "note": "Live breakdown rows on the folder from the reference."
     },
     {
       "id": "F09.CHECK",
@@ -64,10 +65,10 @@
       "expressions": [
         "FULL_PAGE"
       ],
-      "route": "/production/jurnl/runtime/purchases",
+      "route": "/production/jurnl/runtime/safe/check",
       "authority": "APPROVED",
-      "authority_source": "approved CHECK A PURCHASE parent screen (founder-held)",
-      "note": "Derives from SAFE TO SPEND, not from ACCOUNT. The runtime route still renders the older F10 PURCHASES page."
+      "authority_source": "REFERENCES/07_CHECK_A_PURCHASE.png",
+      "note": "Derives from SAFE TO SPEND, not from ACCOUNT. Opens from the parent’s bridge; the F10 PURCHASES hub stays its own family."
     },
     {
       "id": "F09.ACCOUNT",
@@ -79,9 +80,9 @@
         "DRAWER"
       ],
       "route": "/production/jurnl/runtime/account",
-      "authority": "TO_DERIVE",
-      "authority_source": "menu on the parent",
-      "note": "Full page and drawer are siblings (EXPRESSION_PAIR_RULE). Its page logic must not leak into CHECK A PURCHASE."
+      "authority": "APPROVED",
+      "authority_source": "REFERENCES/03–06 (three continuation pages + drawer)",
+      "note": "Full page and drawer are siblings (EXPRESSION_PAIR_RULE). The menu opens the drawer. Its page logic must not leak into CHECK A PURCHASE."
     },
     {
       "id": "F09.CHECK.CATEGORY",
@@ -93,8 +94,8 @@
       ],
       "route": null,
       "authority": "APPROVED",
-      "authority_source": "approved SELECT A CATEGORY drawer (founder-held)",
-      "note": "The sizing template for every selection sheet in this flow."
+      "authority_source": "REFERENCES/08_SELECT_A_CATEGORY.png",
+      "note": "The sizing template for every selection sheet in this flow (CATEGORY_SHEET_SYSTEM)."
     },
     {
       "id": "F09.CHECK.PAY_WITH",
@@ -106,8 +107,8 @@
       ],
       "route": null,
       "authority": "CURRENT",
-      "authority_source": "current SELECT AN ACCOUNT drawer (founder-held)",
-      "note": "Sibling of SELECT A CATEGORY. Must share its sizing system; only the content differs."
+      "authority_source": "REFERENCES/09_SELECT_AN_ACCOUNT_CURRENT.png (information only)",
+      "note": "Sibling of SELECT A CATEGORY, built on its measured system; only the content differs."
     }
   ],
   "sibling_sheets": [

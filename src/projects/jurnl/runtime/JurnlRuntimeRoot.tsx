@@ -22,13 +22,14 @@ import { BiometricSetupScreen, DeviceTrustScreen, EntryCompleteScreen, PrivacyPr
 import { JURNL_F02_SCREEN_COMPONENTS } from './screens/SetupScreens';
 import { PARENTS } from '../data/parents/catalog';
 import { ActivityScreen, TodayScreen } from './screens/HomeScreens';
-import { AccountSettingsScreen } from './screens/SettingsScreens';
+import { AccountScreen } from './screens/AccountScreens';
 import { ParentAuthorityScreen, ParentReviewBoard } from './screens/ParentScreens';
 import { MoneyHubScreen, MoneyPlaceDetailScreen, MoneyPlacesScreen } from './screens/MoneyScreens';
 import { IncomeHubScreen, IncomeSourceScreen } from './screens/IncomeScreens';
 import { UpcomingHubScreen, UpcomingItemScreen } from './screens/UpcomingScreens';
 import { PlanHubScreen, PlanIntentionScreen } from './screens/PlanScreens';
 import { SafeToSpendHubScreen, SafeToSpendWhyScreen } from './screens/SafeToSpendScreens';
+import { CheckPurchaseScreen } from './screens/CheckPurchaseScreens';
 import { CreditHubScreen, CreditAccountScreen } from './screens/CreditScreens';
 import { GoalsHubScreen, GoalDetailScreen } from './screens/GoalsScreens';
 import { PurchasesHubScreen, PurchaseDetailScreen } from './screens/PurchasesScreens';
@@ -47,6 +48,7 @@ import './jurnl-frame.css';
 import './jurnl-archetypes.css';
 import './jurnl-center-stage.css';
 import './jurnl-f09-authority.css';
+import './jurnl-reference.css';
 
 /** Screen id → runtime component. Every F01 screen in the contract must appear here (tests enforce it). */
 export const JURNL_F01_SCREEN_COMPONENTS = {
@@ -96,7 +98,7 @@ function JurnlRoutes() {
       })}
       <Route path="today" element={<TodayScreen />} />
       <Route path="activity" element={<ActivityScreen />} />
-      <Route path="account" element={<AccountSettingsScreen />} />
+      <Route path="account" element={<AccountScreen />} />
       <Route path="parents" element={<ParentReviewBoard />} />
       <Route path="money" element={<MoneyHubScreen />} />
       <Route path="money/places" element={<MoneyPlacesScreen />} />
@@ -109,6 +111,7 @@ function JurnlRoutes() {
       <Route path="plan/:intentionId" element={<PlanIntentionScreen />} />
       <Route path="safe" element={<SafeToSpendHubScreen />} />
       <Route path="safe/why" element={<SafeToSpendWhyScreen />} />
+      <Route path="safe/check" element={<CheckPurchaseScreen />} />
       <Route path="credit" element={<CreditHubScreen />} />
       <Route path="credit/:accountId" element={<CreditAccountScreen />} />
       <Route path="goals" element={<GoalsHubScreen />} />

@@ -8,12 +8,12 @@
 
 | Level | Screen | Expression | Visual authority |
 |---|---|---|---|
-| Parent | SAFE TO SPEND | full page | IMAGE 1 (founder-held); the live route reconstructs it |
-| Direct | WHY THIS NUMBER | full page | to derive (the runtime page is information only) |
-| Direct | CHECK A PURCHASE | full page | approved CHECK A PURCHASE screen (founder-held). Derives from SAFE TO SPEND, not from ACCOUNT |
-| Direct | ACCOUNT | full page + drawer (siblings) | to derive |
-| Secondary | SELECT A CATEGORY | drawer | approved (founder-held). The sizing template for every selection sheet in this flow |
-| Secondary | PAY WITH / SELECT AN ACCOUNT | drawer | current version (founder-held). It must share SELECT A CATEGORY's sizing system |
+| Parent | SAFE TO SPEND | full page | `REFERENCES/01` (built on phones) |
+| Direct | WHY THIS NUMBER | full page | `REFERENCES/02` (built) |
+| Direct | CHECK A PURCHASE | full page | `REFERENCES/07` (built at `/safe/check`). Derives from SAFE TO SPEND, not from ACCOUNT |
+| Direct | ACCOUNT | full page + drawer (siblings) | `REFERENCES/03–06` (built) |
+| Secondary | SELECT A CATEGORY | drawer | `REFERENCES/08`. The sizing template for every selection sheet in this flow |
+| Secondary | PAY WITH / SELECT AN ACCOUNT | drawer | `REFERENCES/09` (information only). Built on SELECT A CATEGORY's sizing system |
 
 The JURNL constants are:
 
@@ -35,11 +35,11 @@ The JURNL constants are:
   - JOINT ACCOUNT: two espresso cups on a stone ledge
 - **Structure:** the handle, centered title, centered supporting line, close button, tile grid and labels all follow SELECT A CATEGORY.
 - **More accounts** continue the same grid. Tiles never shrink.
-- **Status: waiting for the three founder images.**
-  - The approved CHECK A PURCHASE screen.
-  - The approved SELECT A CATEGORY drawer.
-  - The current SELECT AN ACCOUNT drawer.
-  - None of them is in the repository. The category drawer's sizes are measured from its image, then the new drawer is checked against them with `checkSiblingSheets`.
+- **Status: built in the runtime** (`/production/jurnl/runtime/safe/check` → PAY WITH).
+  - The three founder images are now in `JURNL/F09_SAFE/REFERENCE_REPLICA1/REFERENCES` (`07`, `08`, `09`).
+  - SELECT A CATEGORY is measured as `CATEGORY_SHEET_SYSTEM`: 4 columns, 183 px tiles, 12 px radius, 17 / 15 px gaps and 12 px labels.
+  - `checkSiblingSheets` returns DRIFT for the current 2-column drawer and MATCHED for the built one.
+  - The apply button reads APPLY ACCOUNT, as the sibling of APPLY CATEGORY. The founder can rename it.
 
 ## Brief (`PAY_WITH_DERIVATION_BRIEF.txt`)
 

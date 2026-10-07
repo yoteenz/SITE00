@@ -35,7 +35,7 @@ function Shell({ screenId, children }: { screenId: string; children: ReactNode }
   );
 }
 
-const VERDICT: Record<'NOW' | 'WAIT' | 'NOT_YET', { short: string; line: string }> = {
+export const PURCHASE_VERDICT: Record<'NOW' | 'WAIT' | 'NOT_YET', { short: string; line: string }> = {
   NOW: { short: 'FITS NOW', line: 'BUYING IT NOW KEEPS SAFE TO SPEND ABOVE ZERO.' },
   WAIT: { short: 'CLOSE', line: 'CLOSE. BUYING NOW TAKES SAFE TO SPEND SLIGHTLY BELOW ZERO.' },
   NOT_YET: { short: 'NOT YET', line: 'NOT YET. BUYING NOW TAKES SAFE TO SPEND WELL BELOW ZERO.' },
@@ -101,7 +101,7 @@ export function PurchasesHubScreen() {
             <dl className="jrn-obj__orbit">
               <div>
                 <dt>FITS?</dt>
-                <dd data-verdict={fit.verdict}>{VERDICT[fit.verdict].short}</dd>
+                <dd data-verdict={fit.verdict}>{PURCHASE_VERDICT[fit.verdict].short}</dd>
               </div>
               <div>
                 <dt>SAFE TO SPEND AFTER</dt>
@@ -113,7 +113,7 @@ export function PurchasesHubScreen() {
               </div>
             </dl>
           : null}
-          {focus && fit ? <p className="jrn-lang__task jrn-obj__line">{VERDICT[fit.verdict].line}</p> : null}
+          {focus && fit ? <p className="jrn-lang__task jrn-obj__line">{PURCHASE_VERDICT[fit.verdict].line}</p> : null}
         </section>
       </FramePanel>
       {others.length ?

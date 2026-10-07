@@ -27,10 +27,12 @@ const render = (route: string) =>
 const modeOf = (html: string) => html.match(/data-jrn-composition="([A-Z_]+)"/)?.[1] ?? null;
 const hasNav = (html: string) => html.includes('data-jrn-zone="bottom-nav"');
 
+/** Founder reference replicas (P0.JURNL.F09.REFERENCE-REPLICA1): documented REFERENCE_STAGE overrides. */
+const REFERENCE_ROUTES = ['account', 'safe', 'safe/why', 'safe/check'];
+
 const PRODUCT_ROUTES = [
   'today',
   'activity',
-  'account',
   'money',
   'money/places',
   'money/places/any',
@@ -40,8 +42,6 @@ const PRODUCT_ROUTES = [
   'upcoming/any',
   'plan',
   'plan/any',
-  'safe',
-  'safe/why',
   'purchases',
   'purchases/any',
   'trips',
@@ -83,6 +83,25 @@ describe('every nav-bearing product route is CENTER_STAGE', () => {
       expect(html, route).toContain('class="jrn-env__calm"');
     });
   }
+});
+
+describe('founder reference replicas are REFERENCE_STAGE (documented override)', () => {
+  for (const route of REFERENCE_ROUTES) {
+    it(route, () => {
+      const html = render(route);
+      expect(hasNav(html), route).toBe(true);
+      expect(modeOf(html), route).toBe('REFERENCE_STAGE');
+      expect(html, route).toContain('class="jrn-ref__plate"');
+      expect(html, route).toContain('data-runtime-stage="NAV FOOTPRINT"');
+      expect(html, route).not.toContain('jrn-env__calm');
+    });
+  }
+  it('every REFERENCE_STAGE override names its reason', () => {
+    for (const id of ['F09.00', 'F09.WHY', 'F09.CHECK', 'GS.SETTINGS']) {
+      expect(COMPOSITION_OVERRIDES[id]?.mode, id).toBe('REFERENCE_STAGE');
+      expect(COMPOSITION_OVERRIDES[id]?.reason, id).toMatch(/REFERENCE-REPLICA1/);
+    }
+  });
 });
 
 describe('entry, welcome and setup screens stay EDGE_LED', () => {
