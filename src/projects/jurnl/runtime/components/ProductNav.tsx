@@ -85,7 +85,7 @@ export function JurnlProductNav({ current, onGo, onAdd, marks }: { current: 'HOM
             {marks === 'authority' ? (
               item.id === 'ADD'
                 ? <span className="jrn-nav__plus"><AuthorityGlyph name="plus" /></span>
-                : <AuthorityGlyph name={AUTHORITY_GLYPH[item.id]} />
+                : <AuthorityGlyph name={AUTHORITY_GLYPH[item.id as 'HOME' | 'MONEY' | 'PLAN' | 'CREDIT']} />
             ) : (
               <JurnlIcon name={item.icon} size={item.id === 'ADD' ? 18 : 16} />
             )}
