@@ -14681,3 +14681,12 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Fix:** On the phone the bridge bar `bottom` is `calc(90px + env(safe-area-inset-bottom))`, 6px higher than 84px. The paragraph and spark have no transform, so the line rides inside the bar. The inner CHECK A PURCHASE control also has no transform, so it stays centered with that line instead of floating another 6px. SEE WHY is `translateY(-26px)` (the shipped 12px plus the extra 14px). Measured on 393×852: bridge y=710, copy y=723, spark y=720, purchase control y=719, SEE WHY y=239, nav y=810 h=42, plate y=-85. Tablet bridge stays `bottom: 92px`. Desktop bridge stays `bottom: 112px` and the dock stays about 79×640. Document scroll height is still 852.
 - **Do not repeat:** Do not translate the want-to-spend paragraph inside a stationary bridge. Move the bar with the line. Do not put `translateY(-12px)` back on the inner purchase control. Do not apply the phone bar lift or the SEE WHY lift on tablet or desktop. Do not change the phone plate from `top: -10%`.
 
+---
+
+## 2026-10-07 — JURNL F09 parent logo and tagline removed
+
+- **Context:** This chat rebuilt F09 Safe to Spend. The phone plate stays `top: -10%`. The want-to-spend bar rises with its line. SEE WHY on the phone is `translateY(-26px)`. Live money stays `computeSafeToSpend` (preview `$6,500`, bills `$1,920`).
+- **What the founder asked:** Remove the logo from the Safe to Spend parent page only, and remove the PLAN TODAY. GROW FREELY. line at the top.
+- **Fix:** `SafeToSpendHubScreen` no longer renders the lockup (wordmark and FINANCIAL LIFE. BEAUTIFULLY ORGANIZED.) or `.jrn-f09a__tag`. The menu stays, and on desktop the JL account mark stays. The why screen still uses its own chrome and still shows JURNL. Measured on the parent at 393×852 and 1440×900: no lockup, no PLAN TODAY, amount `$6,500`, menu present.
+- **Do not repeat:** Do not put the lockup or PLAN TODAY. GROW FREELY. back on F09.00. Do not remove that tagline from other families.
+
