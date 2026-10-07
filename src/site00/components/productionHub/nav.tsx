@@ -1,6 +1,7 @@
 /** Canonical Production bottom navigation — Production owns its own nav (no global SITE 00 mobile bar). */
 import { Link } from 'react-router-dom';
 import { scopedTabHref, type WorkspaceDomain } from '../../../../shared/site00-production-graph/index.js';
+import { PRODUCTION_GLOBAL_TAB_ORDER, type ProductionGlobalTab } from '../../config/production-authority-registry';
 import { ProductionNavIcon } from './productionNavIcon';
 
 export type ProductionNavId = 'hub' | 'inbox' | 'design' | 'experience' | 'expression' | 'library' | 'activity';
@@ -20,15 +21,20 @@ export function productionNavHref(id: ProductionNavId, projectId: string | null)
   return projectId ? scopedTabHref(NAV_TAB[id], projectId) : '/production';
 }
 
-const ITEMS: { id: ProductionNavId; label: string }[] = [
-  { id: 'hub', label: 'HUB' },
-  { id: 'inbox', label: 'INBOX' },
-  { id: 'design', label: 'DESIGN' },
-  { id: 'experience', label: 'EXPERIENCE' },
-  { id: 'expression', label: 'EXPRESSION' },
-  { id: 'library', label: 'LIBRARY' },
-  { id: 'activity', label: 'ACTIVITY' },
-];
+const NAV_LABEL: Record<ProductionGlobalTab, string> = {
+  hub: 'HUB',
+  inbox: 'INBOX',
+  design: 'DESIGN',
+  experience: 'EXPERIENCE',
+  expression: 'EXPRESSION',
+  library: 'LIBRARY',
+  activity: 'ACTIVITY',
+};
+
+const ITEMS: { id: ProductionNavId; label: string }[] = PRODUCTION_GLOBAL_TAB_ORDER.map((id) => ({
+  id,
+  label: NAV_LABEL[id],
+}));
 
 /**
  * Tablet + desktop host nav: one full-width panel, each item is a horizontal [ICON] LABEL pair.

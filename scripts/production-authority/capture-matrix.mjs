@@ -39,7 +39,7 @@ const SCREENS = [
   { id: 'design-viewport', route: '/production/ndxbook/design?mode=viewport', nav: 'design', mode: 'viewport', files: ['5975', '6014', '5987'] },
 ];
 const FAMILIES = ['mobile', 'tablet', 'desktop'];
-const NAV_ORDER = ['hub', 'inbox', 'design', 'experience', 'expression', 'library', 'activity'];
+const NAV_ORDER = ['hub', 'inbox', 'experience', 'design', 'expression', 'library', 'activity'];
 
 mkdirSync(OUT, { recursive: true });
 const browser = await chromium.launch({ executablePath: CHROME, args: ['--no-sandbox'] });

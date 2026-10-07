@@ -14341,6 +14341,154 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
+## 2026-10-06 — Preview tunnel “branch switching” (multi-connector load balance)
+
+- **Context:** Founder saw `site00.fsbw-dev.com` alternate between correct `origin/main` dev (`main.tsx?v=dev-local`) and stale prod chunks (`index.CR09zRNl.js`) despite PR #1412 main-authority preview on one agent.
+- **Root cause:** Same `SITE00_CLOUDFLARE_TUNNEL_TOKEN` on every Cursor Cloud agent; each running `cloudflared` registers a connector to **its own** `:5174`. Cloudflare **load-balances** the hostname — not git branch changes on one server. This VM had **two** tmux tunnel sessions and **two** cloudflared PIDs.
+- **Fix shipped:** `run-site00-preview-tunnel.sh` runs cloudflared only when **`SITE00_CLOUDFLARE_TUNNEL_CANONICAL=1`** in Cloud Secrets on **one** environment; `stop-site00-preview-tunnel-local.sh`; docs `preview-tunnel-multi-connector-2026-10-06.md`; AGENTS.md + `environment.json` notes.
+- **Founder ops:** Set `SITE00_CLOUDFLARE_TUNNEL_CANONICAL=1` on exactly one SITE 00 preview environment; archive idle agents; prune stale connectors in Cloudflare Zero Trust or rotate token.
+- **Verify:** Repeat `curl` public URL — single fingerprint when only one canonical connector remains; local `:5174` + `/tmp/site00-preview-runtime-lineage.txt` for this agent.
+
+---
+
+## 2026-10-06 — preview/tunnel branch + canonical routing (founder request)
+
+- **Context:** Founder wanted one canonical preview tunnel and all agent work (incl. Opus) visible on tunnel — not scattered on `cursor/*` branches / random connectors.
+- **Shipped:** Git branch **`preview/tunnel`** (FF from `main` via `.github/workflows/sync-preview-tunnel-branch.yml` + `sync-preview-tunnel-branch.sh`); worktree authority tracks `origin/preview/tunnel`; `post-merge-preview-tunnel-refresh.sh`; `bootstrap-site00-cloud-preview-runtime.sh` in `environment.json` start; rule `.cursor/rules/preview-tunnel-authority.mdc`; AGENTS.md + shipping.mdc updates.
+- **Ops:** Set **`SITE00_CLOUDFLARE_TUNNEL_CANONICAL=1`** on **one** Cursor Cloud environment only; trigger environment build so agents stop booting Grok preview from stale snapshot.
+- **Agent contract:** Merge PR to `main` same session → `preview/tunnel` updates → refresh on canonical host.
+
+---
+
+## 2026-10-06 — Production workspace nav: DESIGN tab centered
+
+- **Request:** Swap DESIGN and EXPERIENCE in bottom nav so DESIGN is the center (4th of 7) tab.
+- **Change:** `PRODUCTION_GLOBAL_TAB_ORDER` → hub, inbox, experience, design, expression, library, activity; `nav.tsx` derives ITEMS from registry; `WORKSPACE_DOMAINS` / panel contracts aligned.
+
+## 2026-10-06 — AIO IFTA three-mode live visual authority reconstruction (P0.AIO.IFTA.THREE-MODE-LIVE-VISUAL-AUTHORITY-RECONSTRUCTION1)
+
+- **Why:** The first live IFTA implementation (fsbw PR #43) was functionally right but visually wrong — text panels, a spreadsheet queue, generic cards, a missing media layer. The authority package was under-consumed.
+- **Founder decision (durable):** KEEP THE FUNCTION. REBUILD THE LOOK. The approved authority images win over current code. Recorded in CORE (Visual Authority Development Gate).
+- **Shipped in fsbw master `4e5ef963` (sync-only):**
+  - All four surfaces were rebuilt against `docs/aio/ifta/authority-bundle/source/`: public dark, client light Filing Room, staff queue as status lanes, staff case workspace.
+  - Media is only approved assets or crops of them (reproducible script); Inter Tight / Inter are self-hosted.
+  - Routes, guards, data, case identity, tabs and tax truth are unchanged.
+  - Proof: 406 AIO tests pass, 27/27 live interaction checks pass.
+  - Boards: `all-in-one-enterprises/docs/aio/ifta/visual-reconstruction/`.
+- **Not live on the founder tunnel yet:** that tunnel runs in the Cursor VM; this session's container cannot open trycloudflare (network policy).
+
+---
+
+## 2026-10-06 — JURNL F09 approved authority live reconstruction (P0.JURNL.F09.SAFE-TO-SPEND.APPROVED-AUTHORITY-LIVE-RECONSTRUCTION1)
+
+- **Authority:** Founder image is the F09 parent visual target (Mediterranean arch, $1,284 sample, folio BILLS/PLANS/GOALS/BUFFER, SEE WHY THIS AMOUNT, CHECK A PURCHASE, HOME/MONEY/+/PLAN/CREDIT). Not the courtyard / raking-light / sorting-rack concept rounds.
+- **Live:** `SafeToSpendHubScreen` at route `safe` (`F09.00`) rebuilt as layered React/CSS over existing `F09_ENVIRONMENT_LOGGIA.jpg` and the official logo. Formula stays `computeSafeToSpend` (preview shows live money, not a hardcoded $1,284). Why route and purchase route kept. Hold editor moved to the why screen so the parent matches the authority.
+- **Asset gap:** No repo plate matches the approved olive / vase / sofa / photographed folio. Generation was not authorized, and the authority JPEG was not used as a full-page screenshot. `ENV.LOGGIA` is the environment.
+- **Also this chat:** three-distinct composite rerun merged (#1411); OpenArt project for F09 plates is **JURNL F09 Safe to Spend** (`VdiPtgVqb21sYl003uox`); composites are local assembly, not OpenArt creations.
+
+---
+
+## 2026-10-06 — JURNL F09 approved authority live reconstruction R2
+
+- **Kept** the first-pass parent layout (signal, CTA, purchase bridge, nav, brand). Replaced only the environment and the folio.
+- **OpenArt** GPT Image 2.5 Sunburst, 4K, auto-enhance off, project `VdiPtgVqb21sYl003uox`. Environment history `cIp2ZXwxeAG8odEt0kpe` (2016×3584). Folio history `p2VNavEtTiq8Bev8kWtV` (cropped to 2160×1820 from 3072×2048). No baked amounts or UI. Live overlay still uses `computeSafeToSpend` ($6,500 / bills $1,920 / plans, goals, buffer $0) and AVAILABLE THROUGH OCT 18.
+- **Files:** `F09_ENVIRONMENT_AUTHORITY_TERRACE.png`, `F09_FOLIO_SIDEKICK.png`, `jurnl-f09-authority.css`, `SafeToSpendHubScreen`. Old loggia remains for other F09 surfaces.
+
+---
+
+## 2026-10-07 — JURNL F09 creative logo treatment (R2 addendum)
+
+- **Context:** This chat rebuilt F09 Safe to Spend against the founder-approved authority: three-distinct composite rerun, then live reconstruction R1 (loggia + CSS folio), then R2 (Sunburst terrace `cIp2ZXwxeAG8odEt0kpe` and folio `p2VNavEtTiq8Bev8kWtV`, live `$6,500` / bills `$1,920`). The founder then required the screen to match IMAGE 1, including a creative logo treatment. Do not restart. Do not redesign. Mobile 393×852 only.
+- **Decision:** The official asset stays the identity source (`public/site00/projects/jurnl/brand/jurnl-logo-official.png`). Do not type “JURNL” and do not draw a new mark. IMAGE 1 stages a horizontal wordmark with the botanical above it on the left plaster, the descriptor under it, and “PLAN TODAY. / GROW FREELY.” inside the arch. The file itself is a vertical rose lockup, so the parent masks that file: each letter and the upper branch are slices of the official pixels, set horizontally, inked in the scene’s charcoal so the lockup belongs to the plaster.
+- **Placement:** Left plaster, not a navbar. Menu stays on the right pier and still routes to account. Tagline sits in the arch with the lockup as one top composition. The amount stays the primary signal. F09 plate position `42% 46%` now wins over the generic center-stage crop so the arch and olive leave room for that lockup.
+- **Not changed:** `computeSafeToSpend`, routes, purchase bridge, nav behavior, hold-on-why, tablet/desktop.
+- **Fail rule:** If it still reads as a generic app-header logo, it fails. The staged lockup is an editorial mark in the scene.
+
+---
+
+## 2026-10-07 — JURNL F09 one plate (scenery and folders together)
+
+- **Founder correction:** The F09 parent plate is one photograph. It includes the terrace and the folders. The folders are not a second image layered on top. Only live text and buttons sit on that plate.
+- **Plate:** `F09_ENVIRONMENT_AUTHORITY_PLATE.jpg` is the approved authority image with the interface cleared (status bar, lockup, signal, why pill, folder amounts, purchase card, nav glyphs). Scenery, vase, olive, arch, sofa, and the physical folders (sprig, tabs, paper) stay in that one file. `SafeToSpendHubScreen` mounts it full-frame. The separate folio `<img>` is gone.
+- **Live overlay:** official staged logo, tagline, menu, `computeSafeToSpend` (`$6,500`, bills `$1,920`), AVAILABLE THROUGH OCT 18, SEE WHY THIS AMOUNT, folder headline and column amounts, CHECK A PURCHASE, product nav. Tab names remain in the photograph.
+- **Still unused on the hub:** `F09_ENVIRONMENT_AUTHORITY_TERRACE.png` and `F09_FOLIO_SIDEKICK.png` from R2.
+
+---
+
+## 2026-10-07 — JURNL F09 full-bleed OpenArt plate (not a crop)
+
+- **Context:** This chat ran the F09 Safe to Spend sequence: three-distinct composite rerun, live reconstruction R1 (loggia + CSS folio), R2 (Sunburst terrace `cIp2ZXwxeAG8odEt0kpe` and folio `p2VNavEtTiq8Bev8kWtV`), creative logo from the official asset, then a single-plate request. The single-plate turn inpainted the founder JPEG into `F09_ENVIRONMENT_AUTHORITY_PLATE.jpg`. The founder rejected that method.
+- **Founder correction:** The plate is one full image with no letterboxing at the top or the bottom. It is not a crop or cleanup of the original JPEG. Regenerate a full high-quality replica of the reference background plate through OpenArt. Scenery and the physical folders are in that one photograph. Only live text and buttons sit on top.
+- **Generation:** GPT Image 2.5 Sunburst, image2image, 4K, quality high, auto-enhance off, project `VdiPtgVqb21sYl003uox`. Reference upload `bc4wWZDBBtpBxw2MvM9k`. History `Uzixf5pS3FQjG2CxY9Ar`. Result `1760×3840` PNG, edge-to-edge plaster, arch, sea, olive, amphora, stone floor, and a blank physical folio with four colored tabs. No baked words, amounts, status bar, or nav.
+- **Mount:** `F09_ENVIRONMENT_AUTHORITY_PLATE.png` replaces the JPEG. `SafeToSpendHubScreen` uses it at object-fit cover, object-position `50% 50%`, zoom 1, so the file fills `393×852`. Live overlay unchanged: staged official logo, `computeSafeToSpend` (`$6,500`, bills `$1,920`), AVAILABLE THROUGH OCT 18, SEE WHY THIS AMOUNT, folder copy, CHECK A PURCHASE, product nav.
+- **Do not repeat:** Do not inpaint or crop the founder JPEG into the live plate. Do not letterbox the plate. Do not put the folders back as a second image.
+
+---
+
+## 2026-10-07 — JURNL F09 authority alignment (logo, icons, panel, full-bleed)
+
+- **Founder correction:** Matching the OpenArt plate is not enough. The bottom panel, logo and its text, buttons, and the icons on those buttons must align with the approved authority image. The photograph must fill the mobile viewport. No letterbox bars at the top or bottom. Phone chrome (status bar, home indicator, browser toolbar) is not part of the product image.
+- **Plate:** `F09_ENVIRONMENT_AUTHORITY_PLATE.png` (OpenArt history `Uzixf5pS3FQjG2CxY9Ar`, 1760×3840) stays the single scenery-and-folders photograph. It is `object-fit: cover` at `50% 50%` and bleeds 1px past the frame so the plaster background cannot show as a bar. Viewport meta is `viewport-fit=cover` so the stage can run to the screen edges. Live money stays `computeSafeToSpend` (`$6,500`, bills `$1,920`), not the sample `$1,284`.
+- **Overlay matched to the authority:** lockup is a cut of the approved sprig and JURNL word (`F09_LOCKUP.png`) with the descriptor set under it. Purchase panel has the sparkle, the two-line line, and CHECK A PURCHASE. Nav marks on this screen are house, card, plus, leaf, and bars, with ADD under the plus. Tab words BILLS / PLANS / GOALS / BUFFER sit on the four colored tabs. Other screens keep the existing icon pack.
+- **Do not draw** a status bar, home indicator, or browser chrome into the F09 screen.
+
+---
+
+## 2026-10-07 — JURNL F09 pale floor, panel, and authority icons
+
+- **Founder correction:** Text, logo, and buttons were still off. Button fills were wrong. The purchase panel had no floor to blend into because the marble at the bottom of the plate was too dark. The nav icons and the sparkle on the purchase line did not match the authority.
+- **Plate:** Regenerated through OpenArt GPT Image 2.5 Sunburst, image2image, history `PQTsHqqy3Pf0ZpQJougi`, 1760×3840, project `VdiPtgVqb21sYl003uox`. Same loggia and physical folio, with a pale sun-bleached travertine foreground (floor under the card near rgb 237,226,217) so the cream panel sits in the marble. Replaces `F09_ENVIRONMENT_AUTHORITY_PLATE.png`. No baked UI, no letterbox.
+- **Marks:** F09 nav only. House is a filled silhouette with a door. Money is a wallet outline with a left slot. Plan is a tilted leaf. Credit is four rising bars. The plus square is olive `#5b5e4b`. The purchase sparkle is an open four-point star, not a filled star. Other screens keep the icon pack.
+- **Panel fills:** SEE WHY `#fdfaf5`. Purchase card `rgba(245,240,236,0.9)`. CHECK A PURCHASE `#f9f5f4`. Live money stays `computeSafeToSpend`.
+
+---
+
+## 2026-10-07 — JURNL F09 lockup stays clear of the olive on a phone
+
+- **What the founder saw:** On the phone browser the lockup was cut off and the olive covered JURNL. A short Safari viewport was cover-cropping the top of the plate, so the clear plaster above the tree was gone and the wordmark landed in the leaves.
+- **Fix:** The F09 screen keeps the authority aspect (393×852). On a shorter browser it scales to the height and stays centered, so the olive stays below the lockup and the folio type stays on the folder. The plate is anchored to the top. The lockup, tagline, and menu clear `safe-area-inset-top`. Side margins use the pale floor tone. A full-height phone still fills the width.
+- **Not changed:** the pale-floor plate, the nav marks, the purchase sparkle, or `computeSafeToSpend`.
+
+---
+
+## 2026-10-07 — JURNL F09 full-bleed plate, folder type, and nav dock
+
+- **Context:** This chat rebuilt F09 Safe to Spend against the approved authority: three-distinct composite, live reconstruction, one OpenArt plate (history `PQTsHqqy3Pf0ZpQJougi`, 1760×3840, pale floor), creative lockup from the official asset, authority nav marks, and a short-Safari aspect-fit stage so the olive would not cover JURNL. The founder then rejected that stage.
+- **What the founder saw:** A full frame of page color around the plate on the phone. Folder type sitting too high (amounts mid-card, empty face below, tab words off the colored tabs). Bottom nav as floating icons with no dock.
+- **Fix:** The F09 screen is edge to edge again (`inset: 0`, plate `object-fit: cover`, `object-position: 50% 0%`). No side pillarbox. Folder words and tab labels live in an image-space box that matches the cover plate, so YOUR MONEY / ORGANIZED. THEN YOURS. / the amount row sit on the folder face (amounts near the bottom, column rules) and BILLS PLANS GOALS BUFFER sit on the four tabs. On a short browser the folio height stops above the purchase card so the card does not cover the amounts. The purchase card stays just above the dock. The dock is a solid full-width panel `#f6f3ee` behind HOME MONEY ADD PLAN CREDIT. Other screens keep the icon pack.
+- **Not changed:** `computeSafeToSpend` (preview `$6,500`, bills `$1,920`), routes, menu to account, hold-on-why, purchase target, or the plate file.
+- **Do not repeat:** Do not put the F09 plate back in a centered 393×852 stage. That frame is what the founder rejected. Do not leave the nav transparent on this screen.
+
+---
+
+## 2026-10-07 — JURNL F09 dock overlays the plate, tab words face right, traced nav marks
+
+- **Context:** This chat rebuilt F09 Safe to Spend against the approved authority through the live route `/production/jurnl/runtime/safe`. One OpenArt plate (history `PQTsHqqy3Pf0ZpQJougi`, pale floor). Live money stays `computeSafeToSpend` (preview `$6,500`, bills `$1,920`). The previous turn shipped a full-bleed plate, folder type on the card, and a solid cream dock (`#f6f3ee`).
+- **What the founder saw:** Borders at the top and bottom. The solid dock ended the photograph and pushed it up. Folder tab words faced left. The bottom nav marks were still approximate icons, not the approved glyphs.
+- **Fix:** The plate overscans the viewport (`top: -16px`, height `100% + 32px`, `object-fit: cover`, `object-position: 50% 0%`) so the plaster page color cannot show as a strip. The dock is layered on that photograph: no border, no shadow, a light wash only (`rgba(246,243,238,0)` to `0.45`) so the marble continues under HOME MONEY ADD PLAN CREDIT. Tab words use `writing-mode: vertical-rl` with no 180° rotation, so the tops of the letters point right (B at the top), matching the authority. F09 marks are traced from the approved glyphs (`authorityNavMarks.ts`): filled house with a wide door, wallet with a full flap and a left slot, olive rounded plus, tilted leaf with one vein, four rising bars. Other screens keep the icon pack.
+- **Not changed:** the plate file, `computeSafeToSpend`, routes, menu to account, hold-on-why, or the purchase target.
+- **Do not repeat:** Do not put a solid cream slab behind the F09 nav. That slab is the bottom border the founder rejected. Do not rotate the tab words 180°. Do not redraw these five marks as generic line icons.
+
+---
+
+## 2026-10-07 — JURNL F09 signal sits inside the arch
+
+- **Context:** This chat rebuilt F09 Safe to Spend on `/production/jurnl/runtime/safe` against the approved authority. One OpenArt plate (history `PQTsHqqy3Pf0ZpQJougi`). Live money stays `computeSafeToSpend` (preview `$6,500`, bills `$1,920`). The dock overlays the marble. Tab words face right. Nav marks are traced from the approved glyphs.
+- **What the founder saw:** SAFE TO SPEND, the amount, the date line, and SEE WHY THIS AMOUNT sat on the left stone of the arch. The button was too wide (`min(78%, 280px)`, about 280px) and crossed the arch.
+- **Fix:** The arch opening on the plate is about 31%–87% of the image, centered near 59%. `.jrn-f09a__signal` is that box (`left: 31%; width: 56%`) with the type centered inside it. The why button sizes to its label (`width: auto; max-width: 100%`) instead of a fixed wide pill. Measured on 393×852: the amount center is 58.9% and the button runs 38%–79%, inside the opening.
+- **Not changed:** the plate, the dock, the tab direction, the traced marks, routes, or `computeSafeToSpend`.
+- **Do not repeat:** Do not center the F09 signal on the full image width. The arch is right of center. Do not set the why button back to 280px.
+
+---
+
+## 2026-10-07 — JURNL F09 beige dock, full-bleed plate, folder ink
+
+- **Context:** This chat rebuilt F09 Safe to Spend on `/production/jurnl/runtime/safe`. One OpenArt plate (history `PQTsHqqy3Pf0ZpQJougi`). Live money stays `computeSafeToSpend` (preview `$6,500`, bills `$1,920`). The signal sits in the arch. Tab words face right. Nav marks are traced from the approved glyphs.
+- **What the founder saw:** The nav icons were floating because the dock wash was too transparent. A page-color strip still showed at the top and bottom of the photograph. Folder words sat low, and BUFFER was cream on dark green instead of a light green.
+- **Fix:** The dock is a solid beige container again (`#f6f3ee`), full width, layered on the photograph. The plate and the overlay art share a 28px bleed (`--f09-bleed`) so the photograph covers the viewport and the folder words stay on the tabs. Tab words sit higher (`top: 47.4%`). Ink is a dark or light version of each tab: BILLS `#6b4f38`, PLANS `#5a524a`, GOALS `#3e4432`, BUFFER `#c6dba8`.
+- **Not changed:** the plate file, the arch-centered signal, routes, or `computeSafeToSpend`.
+- **Do not repeat:** Do not leave the F09 nav without its beige dock. Do not paint BUFFER cream. Do not shift the plate without shifting `.jrn-f09a__art` by the same bleed.
+
 ## 2026-10-06 — JURNL F09 three-concept art-direction regen (P0.JURNL.F09-SAFE-TO-SPEND.THREE-CONCEPT-ART-DIRECTION-REGEN-CORRECTION1) — BLOCKED
 
 - **Founder verdict:** HYBRID-COMPOSITE-AUTHORITY-EXECUTION1 and THREE-DISTINCT-COMPOSITE-AUTHORITY-RERUN1 are REJECTED. Reasons:

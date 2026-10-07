@@ -7,6 +7,7 @@
 
 import { createContext, useContext } from 'react';
 import { createPortal } from 'react-dom';
+import { AUTHORITY_MARK } from './authorityNavMarks';
 import { JurnlIcon } from './icons';
 
 /** Viewport-level dock host. `undefined` = no runtime root (render in place). */
@@ -20,10 +21,32 @@ const ITEMS = [
   { id: 'CREDIT', target: 'F12', icon: 'document' as const },
 ];
 
-export function JurnlProductNav({ current, onGo, onAdd }: { current: 'HOME' | 'MONEY' | 'PLAN' | 'CREDIT' | 'ACTIVITY' | null; onGo: (target: string) => void; onAdd: () => void }) {
+/** F09 parent authority marks, traced from the approved glyphs. Other screens keep the icon pack. */
+function AuthorityGlyph({ name }: { name: 'house' | 'card' | 'leaf' | 'chart' | 'plus' }) {
+  const key = name === 'chart' ? 'bars' : name;
+  const mark = AUTHORITY_MARK[key];
+  if (key === 'plus') {
+    const plus = AUTHORITY_MARK.plus;
+    return (
+      <svg viewBox={`0 0 ${plus.w} ${plus.h}`} width={plus.dw} height={plus.dh} aria-hidden>
+        <path fill="#5b5e4b" fillRule="evenodd" d={plus.d} />
+        <path fill="#f6f3ee" d={plus.plus} />
+      </svg>
+    );
+  }
+  return (
+    <svg viewBox={`0 0 ${mark.w} ${mark.h}`} width={mark.dw} height={mark.dh} aria-hidden>
+      <path fill="currentColor" fillRule="evenodd" d={mark.d} />
+    </svg>
+  );
+}
+
+const AUTHORITY_GLYPH = { HOME: 'house', MONEY: 'card', ADD: 'plus', PLAN: 'leaf', CREDIT: 'chart' } as const;
+
+export function JurnlProductNav({ current, onGo, onAdd, marks }: { current: 'HOME' | 'MONEY' | 'PLAN' | 'CREDIT' | 'ACTIVITY' | null; onGo: (target: string) => void; onAdd: () => void; marks?: 'authority' }) {
   const host = useContext(JurnlNavHostContext);
   const nav = (
-    <nav className="jrn-nav" aria-label="PRIMARY" data-jrn-zone="bottom-nav" data-runtime-stage="NAV FOOTPRINT">
+    <nav className="jrn-nav" aria-label="PRIMARY" data-jrn-zone="bottom-nav" data-runtime-stage="NAV FOOTPRINT" data-jrn-nav={marks}>
       {ITEMS.map((item) => {
         const active = item.id === current;
         const label = item.id === 'ADD' ? 'QUICK ADD' : item.id;
@@ -38,8 +61,14 @@ export function JurnlProductNav({ current, onGo, onAdd }: { current: 'HOME' | 'M
             data-jrn-trigger={`nav-${item.id.toLowerCase()}`}
             onClick={() => (item.id === 'ADD' ? onAdd() : onGo(item.target))}
           >
-            <JurnlIcon name={item.icon} size={item.id === 'ADD' ? 18 : 16} />
-            {item.id === 'ADD' ? null : <span>{item.id}</span>}
+            {marks === 'authority' ? (
+              item.id === 'ADD'
+                ? <span className="jrn-nav__plus"><AuthorityGlyph name="plus" /></span>
+                : <AuthorityGlyph name={AUTHORITY_GLYPH[item.id as 'HOME' | 'MONEY' | 'PLAN' | 'CREDIT']} />
+            ) : (
+              <JurnlIcon name={item.icon} size={item.id === 'ADD' ? 18 : 16} />
+            )}
+            {item.id === 'ADD' && marks !== 'authority' ? null : <span>{item.id === 'ADD' ? 'ADD' : item.id}</span>}
           </button>
         );
       })}

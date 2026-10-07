@@ -5,14 +5,29 @@ import { computeSafeToSpend, type SafeToSpendBreakdown } from '../../data/f09/sa
 import { patchSetup, useSetup } from '../../data/f02/setupDraft';
 import { formatMoney, useCurrency } from '../../data/home/money';
 import { PARENT_PLATES } from '../../data/parents/plates';
-import { parentById } from '../../data/parents/catalog';
+import f09Plate from '../../families/F09_SAFE/ENVIRONMENTS/F09_ENVIRONMENT_AUTHORITY_PLATE.png';
+import f09Lockup from '../../families/F09_SAFE/ENVIRONMENTS/F09_LOCKUP.png';
 import { getRepository } from '../../data/repository/deviceRepository';
 import { FamilyChrome } from '../components/FamilyChrome';
 import { JurnlProductNav } from '../components/ProductNav';
 import { AskJurnlSheet, QuickAddV2Sheet } from '../global/GlobalSheets';
-import { JurnlButton, JurnlDrawer, JurnlInlineAction, JurnlInput, JurnlPanel } from '../components/primitives';
-import { FramePanel, JurnlFamilyFrame, JurnlFamilyShell } from '../components/FamilyFrame';
+import { JurnlButton, JurnlDrawer, JurnlInput, JurnlPanel } from '../components/primitives';
+import { JurnlFamilyShell } from '../components/FamilyFrame';
+import { JurnlScreen } from './JurnlScreen';
 import { useJurnl } from '../state/store';
+
+/** Founder-approved availability line on the F09 parent authority. The formula has no horizon field. */
+const AUTHORITY_THROUGH = 'AVAILABLE THROUGH OCT 18';
+
+/** One plate: OpenArt Sunburst replica of the approved scene, scenery and folders together. UI text is live. */
+const F09_AUTHORITY_PLATE = {
+  family: 'F09',
+  scene: 'ENV.AUTHORITY_PLATE',
+  src: f09Plate,
+  assetId: 'SAFE.ENVIRONMENT.AUTHORITY_PLATE.001',
+  width: 1760,
+  height: 3840,
+};
 
 function SafeShell({ screenId, children }: { screenId: string; children: ReactNode }) {
   const { go, overlay, openOverlay, closeOverlay } = useJurnl();
@@ -64,84 +79,74 @@ const STATE_LINE: Record<SafeToSpendBreakdown['completeness'], string> = {
   UNSTATED: 'NOT ENOUGH IS KNOWN YET TO SAY.',
 };
 
-/** F09 SAFE TO SPEND — TENSION / THRESHOLD. Open space above the line, held territory below it. */
+/** F09 parent — founder-approved authority reconstruction (IMAGE 1). Live formula, live nav, live routes. */
 export function SafeToSpendHubScreen() {
   const { go, openOverlay, closeOverlay, overlay } = useJurnl();
   const draft = useSetup();
   useCurrency();
   const signal = computeSafeToSpend(draft);
-  const spec = parentById('F09')!;
-  const [holdOpen, setHoldOpen] = useState(false);
-  const heldTotal = Math.max(0, signal.cash - signal.value);
-  const bands = [
-    // UNSTATED readings do not deduct upcoming bills (see computeSafeToSpend); show only what was held.
-    { id: 'upcoming', label: 'BILLS BEFORE NEXT INCOME', amount: signal.completeness === 'UNSTATED' ? 0 : signal.upcoming },
-    { id: 'protected', label: 'PROTECTED', amount: signal.protected },
-    { id: 'assigned', label: 'ASSIGNED IN PLAN', amount: signal.assigned },
-    { id: 'goals', label: 'SET ASIDE FOR GOALS', amount: signal.goalReserved },
-    { id: 'purchases', label: 'RESERVED FOR PURCHASES', amount: signal.purchaseReserved },
-    { id: 'trips', label: 'RESERVED FOR TRIPS', amount: signal.tripReserved },
-    { id: 'buffer', label: 'SAFETY BUFFER', amount: signal.safetyBuffer },
-  ].filter((b) => b.amount > 0);
-  const share = (amount: number) => (signal.cash > 0 ? Math.min(1, amount / signal.cash) : 0);
   const below = signal.value < 0;
+  const amount = formatMoney(below ? -signal.value : signal.value);
+  const bills = signal.completeness === 'UNSTATED' ? 0 : signal.upcoming;
+  const folio = [
+    { id: 'bills', label: 'BILLS', amount: formatMoney(bills) },
+    { id: 'plans', label: 'PLANS', amount: formatMoney(signal.assigned) },
+    { id: 'goals', label: 'GOALS', amount: formatMoney(signal.goalReserved) },
+    { id: 'buffer', label: 'BUFFER', amount: formatMoney(signal.safetyBuffer) },
+  ];
   return (
-    <JurnlFamilyFrame
-      screenId="F09.00"
-      familyId="F09"
-      familyPlate={PARENT_PLATES.F09}
-      label="SAFE TO SPEND"
-      archetype="TENSION_THRESHOLD"
-      chrome={<FamilyChrome familyId="F09" nodeId="F09.00" backLabel="BACK TO TODAY" onBack={() => go('today')} onAsk={() => openOverlay('ask')} />}
-      nav={<JurnlProductNav current="HOME" onGo={go} onAdd={() => openOverlay('quick-add')} />}
-      overlays={
-        <>
-          {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F09" onClose={closeOverlay} /> : null}
-          {overlay === 'ask' ? <AskJurnlSheet familyId="F09" nodeId="F09.00" onClose={closeOverlay} /> : null}
-          {holdOpen ? <HoldSheet onClose={() => setHoldOpen(false)} /> : null}
-        </>
-      }
-    >
-      <FramePanel id="threshold">
-        <section className="jrn-thr" data-jrn-zone="intro" data-below={below ? 'true' : 'false'}>
-          <h1 className="jrn-thr__fn">SAFE TO SPEND</h1>
-          <p className="jrn-lang__state jrn-thr__state">{STATE_LINE[signal.completeness]}</p>
-          <div className="jrn-thr__open" data-jrn-panel="signal">
-            <span className="jrn-thr__above">{below ? 'OVER BY' : 'CLEAR TO SPEND'}</span>
-            <p className="jrn-thr__num jrn-home__num">{formatMoney(below ? -signal.value : signal.value)}</p>
+    <JurnlScreen screenId="F09.00" familyPlate={F09_AUTHORITY_PLATE} family productNav>
+      <div className="jrn-f09a" data-jrn-authority="F09-APPROVED-IMAGE-1" data-jrn-zone="intro">
+        <div className="jrn-f09a__art">
+        <header className="jrn-f09a__brand">
+          <div className="jrn-f09a__lockup">
+            <img className="jrn-f09a__lockup-img" src={f09Lockup} alt="JURNL" data-jrn-logo="authority-lockup" draggable={false} />
+            <p className="jrn-f09a__descriptor">FINANCIAL LIFE.<br />BEAUTIFULLY ORGANIZED.</p>
           </div>
-          <span className="jrn-thr__line" aria-hidden />
-          <p className="jrn-thr__below">
-            HELD BACK <b>{formatMoney(heldTotal)}</b> OF <b>{formatMoney(signal.cash)}</b> CASH
-          </p>
+          <button type="button" className="jrn-f09a__menu" aria-label="MENU" data-jrn-trigger="f09-menu" onClick={() => go('account')}>
+            <span /><span /><span />
+          </button>
+          <p className="jrn-f09a__tag">PLAN TODAY.<br />GROW FREELY.</p>
+        </header>
+        <section className="jrn-f09a__signal" data-jrn-panel="signal" data-below={below ? 'true' : 'false'}>
+          <h1>{below ? 'OVER BY' : 'SAFE TO SPEND'}</h1>
+          <p className="jrn-f09a__amount">{amount}</p>
+          <p className="jrn-f09a__through">{AUTHORITY_THROUGH}</p>
+          <button type="button" className="jrn-f09a__why" data-jrn-trigger="safe-see-why" onClick={() => go('safe/why')}>
+            SEE WHY THIS AMOUNT <span aria-hidden>→</span>
+          </button>
         </section>
-      </FramePanel>
-      <FramePanel id="held">
-        <section className="jrn-thr__held" aria-label="WHAT IS HELD BACK" data-jrn-panel="sts-breakdown">
-          {bands.length ?
-            bands.map((b) => (
-              <div key={b.id} className="jrn-thr__band" data-band={b.id}>
-                <span className="jrn-thr__bandlabel">{b.label}</span>
-                <b className="jrn-thr__bandamt">{formatMoney(b.amount)}</b>
-                <i className="jrn-thr__bar" style={{ ['--share' as string]: share(b.amount) }} aria-hidden />
-              </div>
-            ))
-          : <p className="jrn-lang__task">NOTHING IS HELD BACK YET. BILLS, PLANS AND RESERVES WILL APPEAR HERE.</p>}
-        </section>
-      </FramePanel>
-      <FramePanel id="actions">
-        <div className="jrn-thr__actions">
-          <JurnlButton trigger="safe-see-why" onClick={() => go('safe/why')}>SEE THE FULL BREAKDOWN</JurnlButton>
-          <JurnlButton variant="secondary" trigger="safe-change-hold" onClick={() => setHoldOpen(true)}>CHANGE WHAT’S HELD</JurnlButton>
-          <p className="jrn-thr__links">
-            <JurnlInlineAction trigger="safe-open-plan" onClick={() => go('plan')}>PLAN</JurnlInlineAction>
-          </p>
+        <ol className="jrn-f09a__tabs" aria-hidden>
+          {folio.map((row) => (
+            <li key={row.id} data-tab={row.id}>{row.label}</li>
+          ))}
+        </ol>
+        <article className="jrn-f09a__folio" aria-label="YOUR MONEY">
+          <div className="jrn-f09a__folio-copy">
+            <p className="jrn-f09a__kicker">YOUR MONEY</p>
+            <p className="jrn-f09a__headline">ORGANIZED.<br />THEN YOURS.</p>
+            <ul>
+              {folio.map((row) => (
+                <li key={row.id}><span>{row.label}</span><b>{row.amount}</b></li>
+              ))}
+            </ul>
+          </div>
+        </article>
         </div>
-      </FramePanel>
-      <FramePanel id="editorial">
-        <p className="jrn-lang__editorial jrn-thr__editorial">{spec.question}</p>
-      </FramePanel>
-    </JurnlFamilyFrame>
+        <section className="jrn-f09a__bridge" aria-label="CHECK A PURCHASE">
+          <span className="jrn-f09a__spark" aria-hidden>
+            <svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 1.4 13.8 9.2 21.6 12 13.8 14.8 12 22.6 10.2 14.8 2.4 12 10.2 9.2Z" fill="none" stroke="#6a5c42" strokeWidth="1.35" strokeLinejoin="round" /></svg>
+          </span>
+          <p><b>WANT TO SPEND ON SOMETHING?</b> CHECK HOW IT FITS YOUR PLAN BEFORE YOU BUY.</p>
+          <button type="button" data-jrn-trigger="safe-check-purchase" onClick={() => go('purchases')}>
+            CHECK A PURCHASE <span aria-hidden>→</span>
+          </button>
+        </section>
+      </div>
+      <JurnlProductNav marks="authority" current="HOME" onGo={go} onAdd={() => openOverlay('quick-add')} />
+      {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F09" onClose={closeOverlay} /> : null}
+      {overlay === 'ask' ? <AskJurnlSheet familyId="F09" nodeId="F09.00" onClose={closeOverlay} /> : null}
+    </JurnlScreen>
   );
 }
 
@@ -150,16 +155,20 @@ export function SafeToSpendWhyScreen() {
   const draft = useSetup();
   useCurrency();
   const signal = computeSafeToSpend(draft);
+  const [holdOpen, setHoldOpen] = useState(false);
   return (
     <SafeShell screenId="F09.WHY">
       <FamilyChrome familyId="F09" nodeId="F09.WHY" backLabel="BACK TO SAFE" onBack={() => go('safe')} onAsk={() => openOverlay('ask')} />
       <div className="jrn-home__intro" data-jrn-zone="intro">
         <h1 className="jrn-home__h">WHY THIS NUMBER</h1>
         <p className="jrn-home__sub">{formatMoney(signal.value)}</p>
+        <p className="jrn-lang__state">{STATE_LINE[signal.completeness]}</p>
       </div>
       <div className="jrn-parent__rail" data-jrn-zone="content-rail">
         <BreakdownPanel signal={signal} />
+        <JurnlButton variant="secondary" trigger="safe-change-hold" onClick={() => setHoldOpen(true)}>CHANGE WHAT’S HELD</JurnlButton>
       </div>
+      {holdOpen ? <HoldSheet onClose={() => setHoldOpen(false)} /> : null}
     </SafeShell>
   );
 }
