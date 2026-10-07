@@ -9,7 +9,7 @@ import { JurnlEnvironment, type JurnlScene } from '../components/Environment';
 import { F02_PLATES, type F02PlateId } from '../../data/f02/plates';
 import { resolveCompositionMode, type JurnlCompositionMode } from '../layout/compositionMode';
 
-export type FamilyPlate = { family: string; scene: string; src: string; assetId: string };
+export type FamilyPlate = { family: string; scene: string; src: string; assetId: string; width?: number; height?: number };
 
 export function JurnlScreen({
   screenId,
@@ -59,7 +59,7 @@ export function JurnlScreen({
         </div>
       : familyPlate ?
         <div className="jrn-env" data-scene={familyPlate.scene} data-asset-id={familyPlate.assetId} aria-hidden data-testid="jurnl-environment">
-          <img className="jrn-plate" src={familyPlate.src} alt="" width={2016} height={3584} data-asset-id={familyPlate.assetId} draggable={false} />
+          <img className="jrn-plate" src={familyPlate.src} alt="" width={familyPlate.width ?? 2016} height={familyPlate.height ?? 3584} data-asset-id={familyPlate.assetId} draggable={false} />
           {calm}
         </div>
       : field === 'bone' ?
