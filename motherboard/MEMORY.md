@@ -15061,3 +15061,14 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decisions / outcomes:** One photograph per screen. The backdrop is gone. On the phone the stage image is that photograph and it covers the viewport (402×874, stage x=−11.7). On a wider or shorter viewport the same file fills the screen once (`object-fit: cover`) and the live UI stays on screen, including WHY THIS NUMBER. Existing plate files stay. Zero credits.
 - **Changes:** `ReferenceStage.tsx`, `jurnl-reference.css`.
 - **Conventions:** Do not put `.jrn-ref__backdrop` back. Do not generate a new Sunburst plate for Why, Check, and Account separately. They are one environment.
+
+---
+
+## 2026-10-07 — Four JURNL root authorities: PLAN, CREDIT, MONEY, TODAY
+
+- **Context:** This chat first corrected the Safe to Spend reference screens so Why, Check, and Account use one photographic plate. The doubled terrace was a shared `ReferenceStage` backdrop, removed without OpenArt. That shipped as PR #1469 (`27871296`), bundle `index.CQDszlOG.js`, release `site00-deploy-2026-10-07-v74`. The founder then forbade regenerating those near-duplicate terraces. The current sprint is the opposite job: four new root authorities, one image each.
+- **Topics covered:** One-plate correction (zero credits). Then PLAN, CREDIT, MONEY, and TODAY rebuilt from Safe to Spend and Quick Add as design DNA. The old PLAN, CREDIT, MONEY, and TODAY screenshots were content, labels, and routes only.
+- **Decisions / outcomes:** Four HQ Starburst 4K image-to-image screens, 9:16, 2016×3584, quality high, auto-enhance off. References were the approved Safe to Spend parent and Quick Add sheet. Each screen has its own room and object: an open planning folio (PLAN), an upright burgundy-spined dossier (CREDIT), a stone-and-oak drawer cabinet (MONEY), a clipped morning ledger (TODAY). They do not reuse the Safe to Spend folder stack, the sea-arch plate, or the Quick Add form drawer. User-facing words are uppercase. Children were not generated. Nothing was mounted in the runtime.
+- **Generations:** PLAN `mvRg4WFYNkArs4Ex6yWt` (F08). CREDIT `pk37YvK1YZQGRtWf4Vzy` (F12). MONEY `7n034ACVumViDGOfKYjr` (F05). TODAY `S67TZv2RgqgCtqEAwfre` (F03). Ledger: `JURNL/ROOT_FAMILY_AUTHORITY_REBUILD_2026-10-07/AUTHORITIES.json`. Spend 1,280 credits (54,568 → 53,288).
+- **Changes:** Review ledger only. No `src/` change. No new production ZIP.
+- **Conventions:** Do not explode PLAN, CREDIT, MONEY, or TODAY children until the founder reviews these four roots. Do not spend credits regenerating Why, Check, and Account. Do not treat the old dashboard screenshots as visual authority.
