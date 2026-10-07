@@ -1,23 +1,63 @@
-/* F09 parent — approved authority reconstruction. Live layers over ENV.LOGGIA. No OS chrome. */
+/* F09 parent — approved authority reconstruction. Live layers over the plate. No OS chrome.
+   The tan bands were ancestor backgrounds showing because the plate was clipped.
+   These rules beat every container that insets, clips, or shortens the photograph:
+   · html/body/#root default margin and the boot canvas
+   · .jrn (jurnl-runtime.css) position:fixed + height:100dvh + max-height:100dvh + overflow:hidden
+     — an explicit height drops bottom:0, so the box is shorter than the visual viewport
+   · .jrn .jrn-screen overflow:hidden and the family enter animation (transform / filter)
+   · .jrn .jrn-env overflow:hidden (jurnl-environment.css)
+   · .jrn .jrn-col overflow + safe-area padding (jurnl-runtime.css)
+   · .jrn-screen[data-jrn-frame=family] .jrn-col overflow:hidden + padding, including the 600px/1100px padding-top
+   · CENTER_STAGE .jrn-plate transform:scale (jurnl-center-stage.css) — a containing block
+   The stage is stretched with top and bottom (height:auto), not 100dvh. The plate is top-anchored
+   and at least the stage in both axes, so overflow:hidden on .jrn crops spare image, not the viewport. */
 
+html:has([data-jrn-screen='F09.00']),
+body:has([data-jrn-screen='F09.00']),
+#root:has([data-jrn-screen='F09.00']) {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #1c1915;
+}
 .jrn:has([data-jrn-screen='F09.00']) {
-  background: #c9b49a;
+  position: fixed;
+  inset: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: auto;
+  height: auto;
+  max-height: none;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: #1c1915;
   container-type: size;
   container-name: jrn;
-  overflow: hidden;
-  height: 100dvh;
-  max-height: none;
-  min-height: 100%;
 }
 .jrn .jrn-screen[data-jrn-screen='F09.00'] {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: auto;
+  height: auto;
+  max-height: none;
+  min-height: 0;
+  margin: 0;
   transform: none;
+  filter: none;
+  animation: none;
   overflow: visible;
-  --f09-bleed: 28px;
-  --f09-img-h: max(calc(100cqh + 2 * var(--f09-bleed)), calc(100cqw * 3840 / 1760));
+  --f09-bleed: 0px;
+  --f09-img-h: max(100%, 100cqh, calc(100cqw * 3840 / 1760));
   /* Purchase card plus the dock, so folder type stays above the card. */
   --f09-above-dock: calc(148px + env(safe-area-inset-bottom, 0px));
 }
@@ -34,31 +74,48 @@
 }
 .jrn .jrn-screen[data-jrn-screen='F09.00'] .jrn-env {
   inset: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: auto;
+  height: auto;
+  margin: 0;
   overflow: visible;
+  transform: none;
+  filter: none;
 }
-.jrn .jrn-screen[data-jrn-screen='F09.00'] .jrn-col {
+.jrn .jrn-screen[data-jrn-screen='F09.00'] .jrn-col,
+.jrn .jrn-screen[data-jrn-screen='F09.00'][data-jrn-frame='family'] .jrn-col {
   z-index: 1;
-}
-.jrn .jrn-screen[data-jrn-screen='F09.00'][data-jrn-composition='CENTER_STAGE'] .jrn-plate {
-  position: absolute;
-  top: calc(-1 * var(--f09-bleed));
-  left: 50%;
-  width: max(100cqw, calc((100cqh + 2 * var(--f09-bleed)) * 1760 / 3840));
-  height: var(--f09-img-h);
-  max-width: none;
-  max-height: none;
-  object-fit: fill;
-  object-position: 50% 0%;
-  transform: translateX(-50%);
-  z-index: 0;
-}
-.jrn .jrn-screen[data-jrn-screen='F09.00'] .jrn-col {
   padding: 0;
+  margin: 0;
   overflow: visible;
   left: 0;
   right: 0;
-  width: 100%;
+  top: 0;
+  bottom: 0;
+  width: auto;
+  height: auto;
   max-width: none;
+  max-height: none;
+}
+.jrn .jrn-screen[data-jrn-screen='F09.00'][data-jrn-composition='CENTER_STAGE'] .jrn-plate {
+  position: absolute;
+  top: 0;
+  right: auto;
+  bottom: auto;
+  left: 50%;
+  width: max(100%, 100cqw, calc(100cqh * 1760 / 3840));
+  height: var(--f09-img-h);
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  object-fit: cover;
+  object-position: 50% 0%;
+  transform: translateX(-50%);
+  transform-origin: 50% 0%;
+  z-index: 0;
 }
 
 .jrn .jrn-f09a {
@@ -70,10 +127,10 @@
 /* Tracks the cover plate (top-anchored, centered when the screen is taller than the photo). */
 .jrn .jrn-f09a__art {
   position: absolute;
-  top: calc(-1 * var(--f09-bleed));
+  top: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: max(100cqw, calc((100cqh + 2 * var(--f09-bleed)) * 1760 / 3840));
+  width: max(100%, 100cqw, calc(100cqh * 1760 / 3840));
   height: var(--f09-img-h);
   pointer-events: none;
 }
