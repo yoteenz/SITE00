@@ -31,8 +31,9 @@ export function HqNavIcon({ name }: { name: 'home' | 'money' | 'add' | 'plan' | 
       ) : null}
       {name === 'plan' ? (
         <g fill="none" stroke="currentColor" strokeWidth="1.55" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M12 21.15c-2.65-2.55-4.65-6.35-4.05-11.05C8.45 6.15 10.05 3.55 12 2.35c1.95 1.2 3.55 3.8 4.05 7.75.6 4.7-1.4 8.5-4.05 11.05z" />
-          <path d="M12 19.35V4.55" />
+          <path d="M20.36 2.41C8.3 5.15 4.21 7.85 5.23 19.51 15.87 19.17 21.93 15.57 20.36 2.41" />
+          <path d="M5.23 19.51 3.4 21.59" />
+          <path d="M14.61 8.91 9.47 14.72" />
         </g>
       ) : null}
       {name === 'credit' ? (
