@@ -14734,3 +14734,35 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Correction:** `scripts/jurnl/sts-locked-shell-derive.mjs` scales that parent once, clears the headline and the form, and saves `JURNL/F09_SAFE/PURCHASE_OUTCOMES_INCREMENT1/STS_ENVIRONMENT_PLATE_LOCKED_4K.png`. Each result stamps the parent’s top rows and the HOME/MONEY/ADD/PLAN/CREDIT dock back on. QA is `topDiff` 0 and `navDiff` 0 on all three. The coded `purchases/checked` runtime is unchanged.
 - **Do not repeat:** Do not regenerate these states with a full-page image model. Do not move the logo, tagline, arch, or dock to make room for descendant copy. Do not start a new plate for a child of this branch.
 
+---
+
+## 2026-10-07 — JURNL F09 hamburger moved to the left
+
+- **Context:** Safe to Spend phone plate stays `top: -10%`. The parent logo and PLAN TODAY. GROW FREELY. stay off F09.00. Live money stays `computeSafeToSpend`. Child docks use the authority bar. The founder asked to move the STS hamburger to the left side and nudge it up 6px.
+- **Fix:** `.jrn-f09a__menu` is `left: 5.6%` and `top: calc(safe-area + 34px)` on the phone (was `right: 5.6%` and `+ 40px`). Tablet is `left: 22px` and `+ 20px`. Desktop is `left: 28px` and `+ 18px`. The desktop JL account mark stays on the right. Measured on 402×874: menu x=23, y=34, 28×22.
+- **Do not repeat:** Do not put the STS menu back on the right. Do not move the desktop account mark with it. Do not change the phone plate from `top: -10%`.
+
+---
+
+## 2026-10-07 — JURNL F09 folder flap words moved down 10px
+
+- **Context:** Safe to Spend phone plate stays `top: -10%`. The hamburger is on the left. Live money stays `computeSafeToSpend`. The founder said the BILLS / PLANS / GOALS / BUFFER words on the folder flaps were still floating above the folders and should move down 10px, on that page only.
+- **Fix:** Phone `.jrn-f09a__tabs` is `translateY(calc(-3lvh - 20px))`. It was `- 30px`. The folio copy stays `translateY(calc(-3lvh + 36px))`. Tablet and desktop still clear the tab translate. Measured on 402×874: the four flap labels share y=368. The folio stays at y=487. The menu stays at x=23, y=34.
+- **Do not repeat:** Do not put the 10px drop on the folio block. Do not return the flap words to `- 30px`. Do not change the phone plate from `top: -10%`.
+
+---
+
+## 2026-10-07 — JURNL authority ADD plus reduced
+
+- **Context:** Safe to Spend phone plate stays `top: -10%`. The hamburger is on the left. Folder flap words are `translateY(calc(-3lvh - 20px))`. The founder sent the phone dock and said the ADD plus was too big: its label sat below the other labels, and the bottom of the square was clipped.
+- **Fix:** On the phone the authority plus svg is `height: 11px` (was 18px). The other marks stay 10px. Measured on 402×874: HOME/MONEY/PLAN/CREDIT labels y=856.5, ADD label y=857. Plus box is 11×14, bottom y=854, inside the 42px dock that ends at 874.
+- **Do not repeat:** Do not put the plus back to 18px on the phone. Do not shrink the other nav marks with it. Desktop still resets those svg heights to auto.
+
+---
+
+## 2026-10-07 — JURNL F09 folder headline raised 4px
+
+- **Context:** Safe to Spend phone plate stays `top: -10%`. Flap words stay at `translateY(calc(-3lvh - 20px))`. The ADD plus is 11px. The founder asked to move only YOUR MONEY / ORGANIZED. / THEN YOURS. up 4px on the folder.
+- **Fix:** Phone `.jrn-f09a__kicker` and `.jrn-f09a__headline` are `translateY(-4px)`. The amount row, the flap words, and the folio box do not move. Tablet and desktop clear that translate. Measured on 402×874: kicker y=483 (was 487), headline y=501 (was 505), amounts y=572, tabs y=368.
+- **Do not repeat:** Do not put the 4px lift on the amount row or the flap words. Do not move the folio box for this nudge.
+

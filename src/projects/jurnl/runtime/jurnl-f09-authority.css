@@ -186,10 +186,10 @@ body:has([data-jrn-screen='F09.00']),
 .jrn .jrn-f09a__folio {
   transform: translateY(calc(-3lvh + 36px));
 }
-/* Tab words sit on the protruding tabs. -3lvh follows the plate; the extra
-   30px lifts them to the reference's place on each tab face. */
+/* Tab words sit on the protruding tabs. -3lvh follows the plate; 20px of
+   lift remains after the founder moved the words down 10px onto the flaps. */
 .jrn .jrn-f09a__tabs {
-  transform: translateY(calc(-3lvh - 30px));
+  transform: translateY(calc(-3lvh - 20px));
 }
 .jrn .jrn-f09a__art .jrn-f09a__menu,
 .jrn .jrn-f09a__art .jrn-f09a__account,
@@ -244,8 +244,9 @@ body:has([data-jrn-screen='F09.00']),
 .jrn .jrn-f09a__menu {
   pointer-events: auto;
   position: absolute;
-  right: 5.6%;
-  top: calc(env(safe-area-inset-top, 0px) + 40px + var(--f09-bleed));
+  left: 5.6%;
+  right: auto;
+  top: calc(env(safe-area-inset-top, 0px) + 34px + var(--f09-bleed));
   width: 28px;
   height: 22px;
   display: flex;
@@ -370,9 +371,11 @@ body:has([data-jrn-screen='F09.00']),
   font: 500 10px/1 'JURNL Sans', sans-serif;
   letter-spacing: 0.22em;
   color: #5c564e;
+  transform: translateY(-4px);
 }
 .jrn .jrn-f09a__headline {
   margin: 8px 0 0;
+  transform: translateY(-4px);
   font-family: 'JURNL Display', serif;
   font-size: 28px;
   font-weight: 400;
@@ -481,7 +484,9 @@ body:has([data-jrn-screen='F09.00']),
   width: auto;
 }
 .jrn .jrn-nav[data-jrn-nav='authority'] .jrn-nav__plus svg {
-  height: 18px;
+  /* Same slot as the other marks so ADD sits on their label row and the square is not clipped. */
+  height: 11px;
+  width: auto;
 }
 .jrn .jrn-nav[data-jrn-nav='authority'] .jrn-nav__btn {
   min-height: 0;
@@ -545,7 +550,9 @@ body:has([data-jrn-screen='F09.00']),
   .jrn .jrn-f09a__amount,
   .jrn .jrn-f09a__through,
   .jrn .jrn-f09a__tabs,
-  .jrn .jrn-f09a__folio {
+  .jrn .jrn-f09a__folio,
+  .jrn .jrn-f09a__kicker,
+  .jrn .jrn-f09a__headline {
     transform: none;
   }
   .jrn .jrn-f09a__lockup {
@@ -568,8 +575,9 @@ body:has([data-jrn-screen='F09.00']),
     letter-spacing: 0.16em;
   }
   .jrn .jrn-f09a__menu {
-    right: 22px;
-    top: calc(env(safe-area-inset-top, 0px) + 26px);
+    left: 22px;
+    right: auto;
+    top: calc(env(safe-area-inset-top, 0px) + 20px);
     width: 32px;
     height: 24px;
   }
@@ -711,8 +719,9 @@ body:has([data-jrn-screen='F09.00']),
     letter-spacing: 0.04em;
   }
   .jrn .jrn-f09a__menu {
-    right: 28px;
-    top: calc(env(safe-area-inset-top, 0px) + 24px);
+    left: 28px;
+    right: auto;
+    top: calc(env(safe-area-inset-top, 0px) + 18px);
   }
   .jrn .jrn-f09a__signal {
     left: 24%;
