@@ -14646,3 +14646,12 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Fix:** On the phone the bridge button is `translateY(-6px)`. The bridge panel, its copy, SEE WHY, the menu, the lockup, and the nav stay. Measured on 393×852: button y=720, bridge y=717, bridge copy y=730, nav y=800. Tablet and desktop reset that translate to none.
 - **Do not repeat:** Do not move the purchase bridge panel when nudging the button. Do not apply the 6px lift on tablet or desktop.
 
+---
+
+## 2026-10-07 — JURNL F09 scroll off, phone dock 20% shorter
+
+- **Context:** This chat rebuilt F09 Safe to Spend. The phone plate stays `top: -10%`. The CHECK A PURCHASE button stays `translateY(-6px)`. Live money stays `computeSafeToSpend` (preview `$6,500`, bills `$1,920`).
+- **What the founder asked:** Remove the scroll. Lower only the bottom dock height by 20% so it covers less of the plate.
+- **Fix:** F09 `html`, `body`, `#root`, and `.jrn` are `overflow: hidden` and `height: 100lvh`. The extra `1px` min-height that forced a scroll range is gone. On 393×852, `scrollHeight` equals `clientHeight` (852). The phone and tablet dock is 42px, down from 52px. Desktop dock stays 79×640. The plate top is still -85px.
+- **Do not repeat:** Do not put the F09 `+1px` scroll height back. Do not shrink the desktop dock when shortening the phone dock. Do not change the phone plate from `top: -10%`.
+
