@@ -269,6 +269,17 @@ body:has([data-jrn-screen='F09.00']),
   left: auto;
   right: 5.6%;
 }
+.jrn .jrn-corner {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  pointer-events: none;
+  --f09-bleed: 0px;
+}
+.jrn .jrn-corner .jrn-f09a__back,
+.jrn .jrn-corner .jrn-f09a__menu {
+  pointer-events: auto;
+}
 .jrn .jrn-f09a__back svg {
   display: block;
   width: 8px;

@@ -169,7 +169,8 @@
 
 .jrn .jrn-ref__panel {
   position: absolute;
-  background: var(--ref-panel);
+  /* Opaque. The plate under these cards used to be a blurred clear, and a translucent fill let that haze show through. */
+  background: #f7f3ee;
   border-radius: 22px;
   box-shadow: 0 6px 18px rgba(70, 50, 30, 0.1);
 }
@@ -381,7 +382,7 @@
 /* ACCOUNT */
 .jrn .jrn-ref .jrn-ref__card {
   position: absolute;
-  background: rgba(246, 240, 233, 0.95);
+  background: #f6f0e9;
   border: 1px solid rgba(255, 255, 255, 0.55);
   border-radius: 18px;
   box-shadow: 0 8px 18px rgba(60, 40, 20, 0.1);
@@ -389,7 +390,7 @@
   overflow: hidden;
 }
 .jrn .jrn-ref .jrn-ref__card--drawer {
-  background: rgba(247, 242, 236, 0.9);
+  background: #f7f2ec;
   border-radius: 16px;
   box-shadow: 0 4px 12px rgba(60, 40, 20, 0.06);
 }

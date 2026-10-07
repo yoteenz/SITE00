@@ -9,7 +9,7 @@
  * Rows whose feature does not exist yet say so instead of pretending.
  */
 
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { consentGranted } from '../../data/foundation/consent';
 import { honestAccountsConnectionLabel } from '../../data/foundation/connectionProvider';
 import { getRepository } from '../../data/repository/deviceRepository';
@@ -29,6 +29,7 @@ import { ReferenceLockup } from '../components/ReferenceLockup';
 import { JurnlDrawer, JurnlToggle } from '../components/primitives';
 import { AskJurnlSheet, QuickAddV2Sheet } from '../global/GlobalSheets';
 import { CurrencySheet } from './SettingsScreens';
+import { useCornerMenu } from '../components/JurnlCornerChrome';
 import { useJurnl } from '../state/store';
 
 const ACCOUNT_PLATE = { src: accountPlate, assetId: 'SAFE.REFERENCE_REPLICA.ACCOUNT_PLATE.INTERIM' };
@@ -150,6 +151,8 @@ export function AccountScreen() {
   const [page, setPage] = useState(0);
   const [sheet, setSheet] = useState<'currency' | 'consents' | null>(null);
   const [drawer, setDrawer] = useState(false);
+  const openDrawer = useCallback(() => setDrawer(true), []);
+  useCornerMenu(openDrawer, drawer);
   const A = REF_ACCT1;
   const card = (k: 'profile' | 'currency' | 'connection' | 'ask' | 'buffer') => A.box[k] as RefBox;
   return (
@@ -169,9 +172,6 @@ export function AccountScreen() {
       }
     >
       <ReferenceLockup L={A} />
-      <button type="button" aria-label="MENU" data-jrn-trigger="account-menu" onClick={() => setDrawer(true)} style={at([A.box.menu[0] - 14, A.box.menu[1] - 14, A.box.menu[2] + 14, A.box.menu[3] + 14])}>
-        <RefIcon name="menu" box={[14, 14, 14 + A.box.menu[2] - A.box.menu[0], 14 + A.box.menu[3] - A.box.menu[1]]} stroke={3} />
-      </button>
       <RefText t={A.text.title} as="h1">ACCOUNT</RefText>
       <RefText t={A.text.sub}>ONE SETTINGS OWNER.</RefText>
 
