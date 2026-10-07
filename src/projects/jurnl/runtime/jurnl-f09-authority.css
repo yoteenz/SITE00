@@ -172,15 +172,22 @@ body:has([data-jrn-screen='F09.00']),
   transform: none;
   pointer-events: none;
 }
-/* Phone plate is top: -10% (10lvh above the env box). These nodes are the
-   type on the artwork, including the words on the folders. Buttons are not
-   in this list and stay on the screen. */
-.jrn .jrn-f09a__signal h1,
-.jrn .jrn-f09a__amount,
-.jrn .jrn-f09a__through,
+/* Phone plate stays at top: -10%. These offsets put the type on the
+   reference's marks: heading, amount, and date in the arch; tab words and
+   folio copy on the folder. SEE WHY, the menu, the lockup, and the bridge
+   are not in this list. */
+.jrn .jrn-f09a__signal h1 {
+  transform: translateY(-6lvh);
+}
+.jrn .jrn-f09a__amount {
+  transform: translateY(-5.2lvh);
+}
+.jrn .jrn-f09a__through {
+  transform: translateY(-3.4lvh);
+}
 .jrn .jrn-f09a__tabs,
 .jrn .jrn-f09a__folio {
-  transform: translateY(-10lvh);
+  transform: translateY(-3lvh);
 }
 .jrn .jrn-f09a__art .jrn-f09a__menu,
 .jrn .jrn-f09a__art .jrn-f09a__account,
@@ -345,7 +352,7 @@ body:has([data-jrn-screen='F09.00']),
   left: 20.5%;
   width: 43%;
   height: min(
-    calc(0.155 * var(--f09-img-h)),
+    86px,
     max(78px, calc(100cqh - var(--f09-above-dock) - 0.546 * var(--f09-img-h)))
   );
   container-type: size;
@@ -355,7 +362,7 @@ body:has([data-jrn-screen='F09.00']),
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   color: #2a2620;
 }
 .jrn .jrn-f09a__kicker {
@@ -365,9 +372,9 @@ body:has([data-jrn-screen='F09.00']),
   color: #6a6258;
 }
 .jrn .jrn-f09a__headline {
-  margin: 8px 0 0;
+  margin: 6px 0 0;
   font-family: 'JURNL Display', serif;
-  font-size: 24px;
+  font-size: 22px;
   line-height: 0.92;
   letter-spacing: 0.01em;
   text-transform: uppercase;
@@ -383,7 +390,7 @@ body:has([data-jrn-screen='F09.00']),
 }
 .jrn .jrn-f09a__folio-copy ul {
   list-style: none;
-  margin: 0;
+  margin: auto 0 0;
   padding: 8px 0 0;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -614,7 +621,11 @@ body:has([data-jrn-screen='F09.00']),
     height: 22.5%;
   }
   .jrn .jrn-f09a__folio-copy {
+    justify-content: space-between;
     padding-top: 46px;
+  }
+  .jrn .jrn-f09a__folio-copy ul {
+    margin-top: 0;
   }
   .jrn .jrn-f09a__kicker {
     margin-left: 6px;
