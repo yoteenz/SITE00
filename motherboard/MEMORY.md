@@ -14637,3 +14637,12 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Fix:** On the phone the heading is `translateY(-6lvh)`, the amount `-5.2lvh`, the date `-3.4lvh`, and the tab words and folio `-3lvh`. The folio box is 86px tall so the amounts row stays on the card. Measured on 393×852: heading y=111, amount y=136, date y=212, SEE WHY y=265, folio y=440, amounts y=497. Tablet and desktop clear the translates. The plate stays `top: -10%`.
 - **Do not repeat:** Do not put `translateY(-10lvh)` back on the phone type. Do not move SEE WHY, the menu, the lockup, the tagline, the purchase bridge, or the nav when aligning the arch and folder type. Do not change the phone plate from `top: -10%`.
 
+---
+
+## 2026-10-07 — JURNL F09 purchase button up 6px
+
+- **Context:** This chat rebuilt F09 Safe to Spend and aligned the phone type to the reference. The plate stays `top: -10%`. Live money stays `computeSafeToSpend` (preview `$6,500`, bills `$1,920`).
+- **What the founder asked:** Move the CHECK A PURCHASE button only, upwards 6px.
+- **Fix:** On the phone the bridge button is `translateY(-6px)`. The bridge panel, its copy, SEE WHY, the menu, the lockup, and the nav stay. Measured on 393×852: button y=720, bridge y=717, bridge copy y=730, nav y=800. Tablet and desktop reset that translate to none.
+- **Do not repeat:** Do not move the purchase bridge panel when nudging the button. Do not apply the 6px lift on tablet or desktop.
+
