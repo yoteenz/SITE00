@@ -14413,3 +14413,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Live overlay:** official staged logo, tagline, menu, `computeSafeToSpend` (`$6,500`, bills `$1,920`), AVAILABLE THROUGH OCT 18, SEE WHY THIS AMOUNT, folder headline and column amounts, CHECK A PURCHASE, product nav. Tab names remain in the photograph.
 - **Still unused on the hub:** `F09_ENVIRONMENT_AUTHORITY_TERRACE.png` and `F09_FOLIO_SIDEKICK.png` from R2.
 
+---
+
+## 2026-10-07 — JURNL F09 full-bleed OpenArt plate (not a crop)
+
+- **Context:** This chat ran the F09 Safe to Spend sequence: three-distinct composite rerun, live reconstruction R1 (loggia + CSS folio), R2 (Sunburst terrace `cIp2ZXwxeAG8odEt0kpe` and folio `p2VNavEtTiq8Bev8kWtV`), creative logo from the official asset, then a single-plate request. The single-plate turn inpainted the founder JPEG into `F09_ENVIRONMENT_AUTHORITY_PLATE.jpg`. The founder rejected that method.
+- **Founder correction:** The plate is one full image with no letterboxing at the top or the bottom. It is not a crop or cleanup of the original JPEG. Regenerate a full high-quality replica of the reference background plate through OpenArt. Scenery and the physical folders are in that one photograph. Only live text and buttons sit on top.
+- **Generation:** GPT Image 2.5 Sunburst, image2image, 4K, quality high, auto-enhance off, project `VdiPtgVqb21sYl003uox`. Reference upload `bc4wWZDBBtpBxw2MvM9k`. History `Uzixf5pS3FQjG2CxY9Ar`. Result `1760×3840` PNG, edge-to-edge plaster, arch, sea, olive, amphora, stone floor, and a blank physical folio with four colored tabs. No baked words, amounts, status bar, or nav.
+- **Mount:** `F09_ENVIRONMENT_AUTHORITY_PLATE.png` replaces the JPEG. `SafeToSpendHubScreen` uses it at object-fit cover, object-position `50% 50%`, zoom 1, so the file fills `393×852`. Live overlay unchanged: staged official logo, `computeSafeToSpend` (`$6,500`, bills `$1,920`), AVAILABLE THROUGH OCT 18, SEE WHY THIS AMOUNT, folder copy, CHECK A PURCHASE, product nav.
+- **Do not repeat:** Do not inpaint or crop the founder JPEG into the live plate. Do not letterbox the plate. Do not put the folders back as a second image.
+
