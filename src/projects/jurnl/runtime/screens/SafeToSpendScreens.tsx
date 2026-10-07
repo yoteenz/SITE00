@@ -44,7 +44,7 @@ function SafeShell({ screenId, children }: { screenId: string; children: ReactNo
       screenId={screenId}
       familyId="F09"
       familyPlate={PARENT_PLATES.F09}
-      nav={<JurnlProductNav current="HOME" onGo={go} onAdd={() => openOverlay('quick-add')} />}
+      nav={<JurnlProductNav marks="authority" current="HOME" onGo={go} onAdd={() => openOverlay('quick-add')} />}
       overlays={
         <>
           {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F09" onClose={closeOverlay} /> : null}

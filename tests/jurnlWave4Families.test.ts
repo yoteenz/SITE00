@@ -1,5 +1,6 @@
 import { describe, expect, it, beforeEach } from 'vitest';
 import { createPurchase, markPurchaseBought, updatePurchase } from '../src/projects/jurnl/data/f10/purchasesStore';
+import { classifyPurchaseCheck } from '../src/projects/jurnl/data/f10/purchaseCheck';
 import { createTrip, updateTrip } from '../src/projects/jurnl/data/f11/tripsStore';
 import { upsertPaydownPlan, simulatePaydownProjection } from '../src/projects/jurnl/data/f13/paydownStore';
 import { projectAhead } from '../src/projects/jurnl/data/f15/aheadProjection';
@@ -30,6 +31,16 @@ describe('JURNL Wave 4 F10/F11/F13/F15/F16', () => {
     expect(bought?.status).toBe('PURCHASED');
     expect(bought?.linked_transaction_id).toBeTruthy();
     expect(getRepository().listTransactions().some((t) => t.id === bought?.linked_transaction_id)).toBe(true);
+  });
+
+  it('F10 purchase check picks fit, check-in, and over from live money', () => {
+    const sts = computeSafeToSpend().value;
+    expect(classifyPurchaseCheck(125, 'FASHION').tone).toBe('FIT');
+    expect(classifyPurchaseCheck(125, 'DINING').tone).toBe('CHECK_IN');
+    const over = classifyPurchaseCheck(sts + 275, 'TRAVEL');
+    expect(over.tone).toBe('OVER');
+    expect(over.overBy).toBe(275);
+    expect(over.after).toBe(-275);
   });
 
   it('F10 reserved purchase reduces safe to spend', () => {

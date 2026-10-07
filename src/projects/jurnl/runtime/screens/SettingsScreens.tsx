@@ -42,7 +42,7 @@ export function AccountSettingsScreen() {
       label="ACCOUNT"
       archetype="DETAIL"
       chrome={<SettingsChrome onBack={() => go('F03')} />}
-      nav={<JurnlProductNav current="HOME" onGo={go} onAdd={() => go('F03')} />}
+      nav={<JurnlProductNav marks="authority" current="HOME" onGo={go} onAdd={() => go('F03')} />}
       overlays={currencyOpen ? <CurrencySheet onClose={() => setCurrencyOpen(false)} /> : null}
     >
       <FramePanel id="intro">

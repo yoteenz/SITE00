@@ -14707,3 +14707,12 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Fix:** On the phone the folio is `translateY(calc(-3lvh + 36px))` and `height: 118px`. The headline is 28px Instrument Serif, color `#141210`, with a `0.45px` stroke so it reads at the reference weight. The kicker is 10px. The amount labels are 8px and the figures are 13px. Tablet and desktop clear the translate, reset the stroke, and keep their own sizes. Measured at 402×760: headline y=446, amounts y=513, still on the card just above the stone.
 - **Do not repeat:** Do not put the folio copy back to `translateY(-3lvh)` or the 86px box. Do not shrink the phone headline back to 20px. Do not hardcode the reference sample dollars.
 
+---
+
+## 2026-10-07 — JURNL child nav matches the Safe to Spend dock, plus purchase-check states
+
+- **Context:** This chat rebuilt F09 Safe to Spend. The phone plate stays `top: -10%`. The parent logo and PLAN TODAY. GROW FREELY. stay off F09.00. Live money stays `computeSafeToSpend` (preview `$6,500`, bills `$1,920`). The founder asked to align the bottom bar on the Safe to Spend child pages with the parent dock, then to include the three purchase-result states (good to go, quick check-in, doesn’t fit).
+- **Nav:** The beige full-bleed dock was keyed only to F09.00, and the children rendered the generic pill. The dock rules now target `.jrn .jrn-nav[data-jrn-nav='authority']`. Why, purchases, purchase detail, account, and the new check-result screen pass `marks="authority"`. Other families keep the generic pill. Measured on 402×874: parent, why, purchases, account, and the three result states are all x=0, y=832, 402×42, `#f6f3ee`, radius 0. Today stays the centered pill.
+- **Result screens:** Route `purchases/checked`. Tone comes from live safe-to-spend and category history: fits, higher than the category average, or over. DECIDE on a purchase opens that screen. The plate is the terrace (no baked folder). Sample reference dollars are not hardcoded. Thumbnails are isolated crops of the authority (fashion, dining, travel).
+- **Do not repeat:** Do not pass `marks="authority"` on families outside this Safe to Spend set. Do not put the lockup back on F09.00. Do not put the parent folder plate behind the check-result card. Do not hardcode `$125`, `$1,159`, or `-$275`.
+
