@@ -15135,3 +15135,11 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decisions / outcomes:** Every `JurnlProductNav` uses the clean 24-unit marks (`HqNavIcon`), painted at 20px. The ADD square is CSS, olive `#464736`, cream plus, 26px, and it stays filled while the cell is idle. Selected, hover, and pressed chips wrap the icon and the label (selected `#464736` / cream, hover `#ede8e1` / ink, pressed `#8f8d7f` / cream). Hover is pointer-fine only. ADD is labeled on every dock and is 64px wide. The traced `AUTHORITY_MARK` paths stay on `ReferenceDock` only. Zero OpenArt credits.
 - **Changes:** `hqNavIcons.tsx`, `ProductNav.tsx`, `jurnl-f09-authority.css`, `jurnl-parent-authority.css`, `jurnl-frame.css` (`--jrn-nav-h: 56px`). Parent content padding-bottom is 84px so the taller dock stays clear of the sheet.
 - **Conventions:** Do not put the traced blob paths back on the live dock. Do not paint the ADD square only when the tab is selected. Do not retarget `ReferenceDock` to these marks unless the founder asks to change that replica. Do not mount the authority kits as the page. Do not put the Check card shadow back.
+
+---
+
+## 2026-10-07 — Preview tunnel restarted on merged main
+
+- **Context:** After the HQ bottom-nav icons landed on main (`f869d119`, bundle `index.DLUA125F.js`, release v79), the founder asked to restart the tunnel. The preview worktree was still on an older checkout.
+- **Decisions / outcomes:** `preview/tunnel` was fast-forwarded to that main commit. The preview worktree at `/tmp/site00-preview-main` was detached there and Vite was restarted on port 5174 in dev mode. The local connector was stopped, then started again with the canonical flag set and without a login shell. The public preview returned 200. Zero credits.
+- **Conventions:** Restart the connector only when this environment is the canonical one. Do not start it from a login shell. Do not put the preview hostname or tunnel token in git or in the session close.
