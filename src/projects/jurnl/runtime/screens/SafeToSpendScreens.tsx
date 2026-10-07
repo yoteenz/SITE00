@@ -173,6 +173,11 @@ function SafeToSpendAuthority() {
       <div className="jrn-f09a" data-jrn-authority="F09-APPROVED-IMAGE-1" data-jrn-zone="intro">
         <div className="jrn-f09a__art">
         <header className="jrn-f09a__brand">
+          <button type="button" className="jrn-f09a__back" aria-label="BACK TO TODAY" data-jrn-trigger="f09-back" onClick={() => go('today')}>
+            <svg viewBox="0 0 16 28" aria-hidden>
+              <path d="M14 2 2 14l12 12" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
           <button type="button" className="jrn-f09a__account" aria-label="ACCOUNT" data-jrn-trigger="f09-account" onClick={() => go('account')}>
             {monogram}
           </button>
