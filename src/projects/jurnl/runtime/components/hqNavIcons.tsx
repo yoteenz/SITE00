@@ -9,39 +9,38 @@ export function HqNavIcon({ name }: { name: 'home' | 'money' | 'add' | 'plan' | 
       {name === 'home' ? (
         <path
           fill="currentColor"
-          fillRule="evenodd"
-          d="M12 3.05 20.7 10.15h-2.35V19.4c0 .75-.6 1.35-1.35 1.35H7c-.75 0-1.35-.6-1.35-1.35v-9.25H3.3L12 3.05zm-2.2 17.7v-5.05c0-1.2.98-2.15 2.2-2.15s2.2.95 2.2 2.15v5.05H9.8z"
+          d="M11.7 2.38Q4.22 6.53 2.2 10.69v9.51q0 1.42 1.36 1.42h4.82l.11-5.46q0-2.38 3.21-2.38 3.21 0 3.21 2.38l.12 5.46h5.41q1.36 0 1.36-1.42v-9.51q-2.62-4.16-10.1-8.31z"
         />
       ) : null}
       {name === 'money' ? (
-        <g fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-          <rect x="3.15" y="6.55" width="17.7" height="11.15" rx="2.25" />
-          <path d="M3.15 10.45h17.7" />
-          <path d="M8.05 14.25h4.15" />
+        <g fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="2.8" y="4.51" width="18.4" height="14.97" rx="1.61" />
+          <path d="M2.8 8.53h18.4" />
+          <path d="M2.8 11.56h6.46" />
         </g>
       ) : null}
       {name === 'add' ? (
         <path
           fill="none"
           stroke="currentColor"
-          strokeWidth="1.7"
+          strokeWidth="1.2"
           strokeLinecap="round"
-          d="M12 5.1v13.8M5.1 12h13.8"
+          d="M12 4.2v15.6M4.2 12h15.6"
         />
       ) : null}
       {name === 'plan' ? (
-        <g fill="none" stroke="currentColor" strokeWidth="1.55" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M20.36 2.41C8.3 5.15 4.21 7.85 5.23 19.51 15.87 19.17 21.93 15.57 20.36 2.41" />
-          <path d="M5.23 19.51 3.4 21.59" />
-          <path d="M14.61 8.91 9.47 14.72" />
+        <g fill="none" stroke="currentColor" strokeWidth="1.13" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M20.06 2.76C8.43 5.4 4.5 8 5.48 19.24 15.73 18.91 21.56 15.44 20.06 2.76" />
+          <path d="M5.48 19.24 3.71 21.24" />
+          <path d="M14.52 9.03 9.56 14.63" />
         </g>
       ) : null}
       {name === 'credit' ? (
-        <g fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round">
-          <path d="M5.6 19.35V14.2" />
-          <path d="M9.85 19.35V10.85" />
-          <path d="M14.15 19.35V7.45" />
-          <path d="M18.4 19.35V4.15" />
+        <g fill="none" stroke="currentColor" strokeWidth="1.18" strokeLinecap="round">
+          <path d="M4.35 21V16.96" />
+          <path d="M9.45 21V13.03" />
+          <path d="M14.55 21V7.93" />
+          <path d="M19.65 21V2.82" />
         </g>
       ) : null}
     </svg>

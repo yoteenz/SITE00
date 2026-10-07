@@ -555,7 +555,7 @@ body:has([data-jrn-screen='F09.00']),
   height: 26px;
   display: grid;
   place-items: center;
-  border-radius: 7px;
+  border-radius: 3px;
   background: #464736;
   color: #f7f4ee;
 }
