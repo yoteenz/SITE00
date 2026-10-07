@@ -14517,3 +14517,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Layout:** Tablet keeps the full-width beige dock. Desktop nav is a centered editorial dock (`min(640px, 48%)`), not edge to edge, under the purchase bridge. Desktop also shows the account monogram (live initials when signed in, otherwise the authority mark JL) beside the menu. Both go to account. Live preview money stays `$6,500`, bills `$1,920`, plans/goals/buffer `$0`, date line AVAILABLE THROUGH OCT 18.
 - **Do not repeat:** Do not scale the phone plate up to desktop. Do not cap `.jrn-f09a` with the desktop `.jrn-col > * { max-width: 440px }` rule. Do not move F09 tablet or desktop navigation back to a left rail.
 
+---
+
+## 2026-10-07 — JURNL F09 live tunnel already matches the full-bleed build
+
+- **Context:** The founder saw a full-bleed F09 capture and a live route that still looked banded. A caption named main `5a81808f` plus folder-text commit `4e5955db`, and said that fix was not on the tunnel until merged.
+- **What `4e5955db` is:** It exists only on `origin/claude/safe-to-spend-territories-g62f6l`. Parent chain includes `5a81808f`. It is not an ancestor of `main`. The commit edits folder tab and amount padding in `jurnl-f09-authority.css`. It is not the viewport bleed fix.
+- **What is live:** `origin/main` and `origin/preview/tunnel` are `288efce6`. The founder preview host serves dist `site00-v272-2b8f781`, bundle `index.B6PXxXbE.js`, the same bytes as the local preview on port 5174. The JURNL chunk includes `visualViewport` and `--f09-bleed: 0` from the plate-clip commit `813de5ba`. Vite preview cwd is `/workspace`. No restart was required.
+- **Proof:** After the plate PNG finishes loading, a 393×852 capture of the public route is pixel-identical to the local full-bleed artifact (mean difference 0). A shot taken before the PNG decodes shows the stage color `#1c1915` and is not the settled frame. The bottom beige dock is the nav, not an extra band.
+- **Do not repeat:** Do not roll the tunnel back to `4e5955db`. Do not add another full-bleed override while the live bundle already matches `main`.
+
