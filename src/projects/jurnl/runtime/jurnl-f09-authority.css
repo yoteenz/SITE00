@@ -309,7 +309,7 @@ body:has([data-jrn-screen='F09.00']),
   font: 500 11px/1 'JURNL Sans', sans-serif;
   letter-spacing: 0.14em;
   color: #2a2622;
-  transform: translateY(-12px);
+  transform: translateY(-26px);
 }
 
 .jrn .jrn-f09a__tabs {
@@ -417,7 +417,7 @@ body:has([data-jrn-screen='F09.00']),
 .jrn .jrn-f09a__bridge {
   position: absolute;
   top: auto;
-  bottom: calc(84px + env(safe-area-inset-bottom, 0px));
+  bottom: calc(90px + env(safe-area-inset-bottom, 0px));
   left: 3.6%;
   width: 92.8%;
   display: grid;
@@ -435,14 +435,12 @@ body:has([data-jrn-screen='F09.00']),
   color: #1c1915;
   align-self: start;
   margin-top: 1px;
-  transform: translateY(-6px);
 }
 .jrn .jrn-f09a__bridge p {
   margin: 0;
   font: 400 8.5px/1.35 'JURNL Sans', sans-serif;
   letter-spacing: 0.06em;
   color: #4a433c;
-  transform: translateY(-6px);
 }
 .jrn .jrn-f09a__bridge b {
   display: block;
@@ -461,8 +459,6 @@ body:has([data-jrn-screen='F09.00']),
   letter-spacing: 0.08em;
   color: #1c1915;
   white-space: nowrap;
-  /* The want-to-spend line is also -6px. This keeps the button with that line. */
-  transform: translateY(-12px);
 }
 
 .jrn:has([data-jrn-screen='F09.00']) .jrn-nav {

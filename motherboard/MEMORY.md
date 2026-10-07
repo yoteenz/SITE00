@@ -14673,3 +14673,11 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Fix:** On the phone `.jrn-f09a__why` is `translateY(-12px)`. The date, the folder, the purchase bridge, and the nav do not move. Measured on 393×852: SEE WHY y=253, date y=212, folio y=440, bridge y=716, nav y=810. Tablet and desktop clear that translate.
 - **Do not repeat:** Do not move the date or the folder when nudging SEE WHY. Do not apply the 12px lift on tablet or desktop.
 
+---
+
+## 2026-10-07 — JURNL F09 want-to-spend bar rises with the line
+
+- **Context:** This chat rebuilt F09 Safe to Spend. The phone plate stays `top: -10%`. Scroll is off. The phone dock is 42px. Live money stays `computeSafeToSpend` (preview `$6,500`, bills `$1,920`). A prior turn moved only the want-to-spend words and spark `translateY(-6px)` inside a stationary bridge, and a later turn had started lifting the inner CHECK A PURCHASE control to `-12px`. The founder said the button the text sits in did not move with the text. They also asked to move SEE WHY THIS AMOUNT up another 14px.
+- **Fix:** On the phone the bridge bar `bottom` is `calc(90px + env(safe-area-inset-bottom))`, 6px higher than 84px. The paragraph and spark have no transform, so the line rides inside the bar. The inner CHECK A PURCHASE control also has no transform, so it stays centered with that line instead of floating another 6px. SEE WHY is `translateY(-26px)` (the shipped 12px plus the extra 14px). Measured on 393×852: bridge y=710, copy y=723, spark y=720, purchase control y=719, SEE WHY y=239, nav y=810 h=42, plate y=-85. Tablet bridge stays `bottom: 92px`. Desktop bridge stays `bottom: 112px` and the dock stays about 79×640. Document scroll height is still 852.
+- **Do not repeat:** Do not translate the want-to-spend paragraph inside a stationary bridge. Move the bar with the line. Do not put `translateY(-12px)` back on the inner purchase control. Do not apply the phone bar lift or the SEE WHY lift on tablet or desktop. Do not change the phone plate from `top: -10%`.
+
