@@ -14774,3 +14774,11 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Fix:** `.jrn-f09a__spark` is `align-self: center`. The old `align-self: start` and `margin-top: 1px` are gone. Copy and the CHECK A PURCHASE button do not move. Measured centers match the bar: phone 402×874 spark y=750 (was 742), bar center y=758; tablet 834×1194 spark center y=1069; desktop 1440×900 spark center y=753.
 - **Do not repeat:** Do not pin the spark back to the top of the bar. Do not move the headline, the amount row, the flap words, or the button to center the icon.
 
+---
+
+## 2026-10-07 — JURNL F09 hamburger raised another 4px
+
+- **Context:** Safe to Spend phone plate stays `top: -10%`. The hamburger is already on the left. The prior nudge put the phone menu at `top: safe-area + 34px` (y=34 on 402×874). The founder asked to nudge that hamburger up another 4px. The spark stays centered in the want-to-spend bar. The three purchase-check screens stay on `purchases/checked`, not on the empty purchases list or on Money.
+- **Fix:** `.jrn-f09a__menu` top is `+ 30px` on the phone (was `+ 34px`), `+ 16px` on tablet (was `+ 20px`), and `+ 14px` on desktop (was `+ 18px`). Left edge stays. Measured: phone 402×874 menu x=22.5 y=30; tablet 834×1194 y=16; desktop 1440×900 y=14.
+- **Do not repeat:** Do not put the menu back to `+ 34px`. Do not move the desktop account mark with it. Do not change the phone plate from `top: -10%`.
+

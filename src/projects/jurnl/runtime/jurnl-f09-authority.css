@@ -246,7 +246,7 @@ body:has([data-jrn-screen='F09.00']),
   position: absolute;
   left: 5.6%;
   right: auto;
-  top: calc(env(safe-area-inset-top, 0px) + 34px + var(--f09-bleed));
+  top: calc(env(safe-area-inset-top, 0px) + 30px + var(--f09-bleed));
   width: 28px;
   height: 22px;
   display: flex;
@@ -576,7 +576,7 @@ body:has([data-jrn-screen='F09.00']),
   .jrn .jrn-f09a__menu {
     left: 22px;
     right: auto;
-    top: calc(env(safe-area-inset-top, 0px) + 20px);
+    top: calc(env(safe-area-inset-top, 0px) + 16px);
     width: 32px;
     height: 24px;
   }
@@ -720,7 +720,7 @@ body:has([data-jrn-screen='F09.00']),
   .jrn .jrn-f09a__menu {
     left: 28px;
     right: auto;
-    top: calc(env(safe-area-inset-top, 0px) + 18px);
+    top: calc(env(safe-area-inset-top, 0px) + 14px);
   }
   .jrn .jrn-f09a__signal {
     left: 24%;
