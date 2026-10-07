@@ -1,10 +1,13 @@
 /* F09 parent — approved authority reconstruction. Live layers over ENV.LOGGIA. No OS chrome. */
 
 .jrn:has([data-jrn-screen='F09.00']) {
-  background: #d2bba5;
+  background: #c9b49a;
   container-type: size;
   container-name: jrn;
   overflow: hidden;
+  height: 100dvh;
+  max-height: none;
+  min-height: 100%;
 }
 .jrn .jrn-screen[data-jrn-screen='F09.00'] {
   position: absolute;
@@ -12,8 +15,9 @@
   width: 100%;
   height: 100%;
   transform: none;
-  overflow: hidden;
-  --f09-img-h: calc(100cqw * 3840 / 1760);
+  overflow: visible;
+  --f09-bleed: 28px;
+  --f09-img-h: max(calc(100cqh + 2 * var(--f09-bleed)), calc(100cqw * 3840 / 1760));
   /* Purchase card plus the dock, so folder type stays above the card. */
   --f09-above-dock: calc(148px + env(safe-area-inset-bottom, 0px));
 }
@@ -30,27 +34,27 @@
 }
 .jrn .jrn-screen[data-jrn-screen='F09.00'] .jrn-env {
   inset: 0;
-  overflow: hidden;
+  overflow: visible;
 }
 .jrn .jrn-screen[data-jrn-screen='F09.00'] .jrn-col {
   z-index: 1;
 }
 .jrn .jrn-screen[data-jrn-screen='F09.00'][data-jrn-composition='CENTER_STAGE'] .jrn-plate {
   position: absolute;
-  left: -2px;
-  top: -16px;
-  width: calc(100% + 4px);
-  height: calc(100% + 32px);
+  top: calc(-1 * var(--f09-bleed));
+  left: 50%;
+  width: max(100cqw, calc((100cqh + 2 * var(--f09-bleed)) * 1760 / 3840));
+  height: var(--f09-img-h);
   max-width: none;
   max-height: none;
-  object-fit: cover;
+  object-fit: fill;
   object-position: 50% 0%;
-  transform: none;
+  transform: translateX(-50%);
   z-index: 0;
 }
 .jrn .jrn-screen[data-jrn-screen='F09.00'] .jrn-col {
   padding: 0;
-  overflow: hidden;
+  overflow: visible;
   left: 0;
   right: 0;
   width: 100%;
@@ -66,11 +70,11 @@
 /* Tracks the cover plate (top-anchored, centered when the screen is taller than the photo). */
 .jrn .jrn-f09a__art {
   position: absolute;
-  top: 0;
+  top: calc(-1 * var(--f09-bleed));
   left: 50%;
   transform: translateX(-50%);
-  width: max(100cqw, calc(100cqh * 1760 / 3840));
-  height: max(100cqh, calc(100cqw * 3840 / 1760));
+  width: max(100cqw, calc((100cqh + 2 * var(--f09-bleed)) * 1760 / 3840));
+  height: var(--f09-img-h);
   pointer-events: none;
 }
 .jrn .jrn-f09a__art .jrn-f09a__menu,
@@ -93,7 +97,7 @@
 .jrn .jrn-f09a__lockup {
   position: absolute;
   left: 9%;
-  top: calc(env(safe-area-inset-top, 0px) + 36px);
+  top: calc(env(safe-area-inset-top, 0px) + 36px + var(--f09-bleed));
   width: 46%;
 }
 .jrn .jrn-f09a__lockup-img {
@@ -111,7 +115,7 @@
 .jrn .jrn-f09a__tag {
   position: absolute;
   right: 18%;
-  top: calc(env(safe-area-inset-top, 0px) + 52px);
+  top: calc(env(safe-area-inset-top, 0px) + 52px + var(--f09-bleed));
   width: 112px;
   margin: 0;
   text-align: right;
@@ -123,7 +127,7 @@
   pointer-events: auto;
   position: absolute;
   right: 5.6%;
-  top: calc(env(safe-area-inset-top, 0px) + 40px);
+  top: calc(env(safe-area-inset-top, 0px) + 40px + var(--f09-bleed));
   width: 28px;
   height: 22px;
   display: flex;
@@ -198,7 +202,7 @@
 
 .jrn .jrn-f09a__tabs {
   position: absolute;
-  top: 48.6%;
+  top: 47.4%;
   left: 0;
   width: 100%;
   height: 6.4%;
@@ -220,18 +224,12 @@
   transform: none;
   font: 500 7px/1 'JURNL Sans', sans-serif;
   letter-spacing: 0.16em;
-  color: #3c3832;
+  color: #6b4f38;
 }
-.jrn .jrn-f09a__tabs li[data-tab='bills'] { left: 62.2%; width: 5.2%; }
-.jrn .jrn-f09a__tabs li[data-tab='plans'] { left: 68.4%; width: 4.8%; }
-.jrn .jrn-f09a__tabs li[data-tab='goals'] { left: 73.6%; width: 5.4%; }
-.jrn .jrn-f09a__tabs li[data-tab='buffer'] { left: 80.0%; width: 6.4%; }
-.jrn .jrn-f09a__tabs li[data-tab='goals'] {
-  color: #243028;
-}
-.jrn .jrn-f09a__tabs li[data-tab='buffer'] {
-  color: #f4f0e6;
-}
+.jrn .jrn-f09a__tabs li[data-tab='bills'] { left: 62.2%; width: 5.2%; color: #6b4f38; }
+.jrn .jrn-f09a__tabs li[data-tab='plans'] { left: 68.4%; width: 4.8%; color: #5a524a; }
+.jrn .jrn-f09a__tabs li[data-tab='goals'] { left: 73.6%; width: 5.4%; color: #3e4432; }
+.jrn .jrn-f09a__tabs li[data-tab='buffer'] { left: 80.0%; width: 6.4%; color: #c6dba8; }
 .jrn .jrn-f09a__folio {
   position: absolute;
   top: 54.6%;
@@ -358,10 +356,9 @@
   height: auto;
   transform: none;
   bottom: 0;
-  padding: 16px 2px calc(10px + env(safe-area-inset-bottom, 0px));
+  padding: 14px 2px calc(12px + env(safe-area-inset-bottom, 0px));
   border-radius: 0;
-  /* The photograph continues under the dock. A light wash keeps the marks readable without a hard slab. */
-  background: linear-gradient(180deg, rgba(246, 243, 238, 0) 0%, rgba(246, 243, 238, 0.22) 46%, rgba(246, 243, 238, 0.45) 100%);
+  background: #f6f3ee;
   border-top: 0;
   box-shadow: none;
   gap: 0;
