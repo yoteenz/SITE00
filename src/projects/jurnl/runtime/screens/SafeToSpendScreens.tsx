@@ -6,6 +6,7 @@ import { patchSetup, useSetup } from '../../data/f02/setupDraft';
 import { formatMoney, useCurrency } from '../../data/home/money';
 import { PARENT_PLATES } from '../../data/parents/plates';
 import f09Plate from '../../families/F09_SAFE/ENVIRONMENTS/F09_ENVIRONMENT_AUTHORITY_PLATE.png';
+import f09Lockup from '../../families/F09_SAFE/ENVIRONMENTS/F09_LOCKUP.png';
 import { getRepository } from '../../data/repository/deviceRepository';
 import { FamilyChrome } from '../components/FamilyChrome';
 import { JurnlProductNav } from '../components/ProductNav';
@@ -98,12 +99,7 @@ export function SafeToSpendHubScreen() {
       <div className="jrn-f09a" data-jrn-authority="F09-APPROVED-IMAGE-1" data-jrn-zone="intro">
         <header className="jrn-f09a__brand">
           <div className="jrn-f09a__lockup">
-            <div className="jrn-f09a__mark" role="img" aria-label="JURNL" data-jrn-logo="official-staged">
-              <span className="jrn-f09a__sprig" aria-hidden />
-              <span className="jrn-f09a__word" aria-hidden>
-                <i data-letter="J" /><i data-letter="U" /><i data-letter="R" /><i data-letter="N" /><i data-letter="L" />
-              </span>
-            </div>
+            <img className="jrn-f09a__lockup-img" src={f09Lockup} alt="JURNL" data-jrn-logo="authority-lockup" draggable={false} />
             <p className="jrn-f09a__descriptor">FINANCIAL LIFE.<br />BEAUTIFULLY ORGANIZED.</p>
           </div>
           <button type="button" className="jrn-f09a__menu" aria-label="MENU" data-jrn-trigger="f09-menu" onClick={() => go('account')}>
@@ -119,6 +115,11 @@ export function SafeToSpendHubScreen() {
             SEE WHY THIS AMOUNT <span aria-hidden>→</span>
           </button>
         </section>
+        <ol className="jrn-f09a__tabs" aria-hidden>
+          {folio.map((row) => (
+            <li key={row.id} data-tab={row.id}>{row.label}</li>
+          ))}
+        </ol>
         <article className="jrn-f09a__folio" aria-label="YOUR MONEY">
           <div className="jrn-f09a__folio-copy">
             <p className="jrn-f09a__kicker">YOUR MONEY</p>
@@ -131,13 +132,16 @@ export function SafeToSpendHubScreen() {
           </div>
         </article>
         <section className="jrn-f09a__bridge" aria-label="CHECK A PURCHASE">
+          <span className="jrn-f09a__spark" aria-hidden>
+            <svg viewBox="0 0 24 24" width="15" height="15"><path d="M12 1.2 13.5 9.1 21.2 12 13.5 14.9 12 22.8 10.5 14.9 2.8 12 10.5 9.1Z" fill="currentColor" /></svg>
+          </span>
           <p><b>WANT TO SPEND ON SOMETHING?</b> CHECK HOW IT FITS YOUR PLAN BEFORE YOU BUY.</p>
           <button type="button" data-jrn-trigger="safe-check-purchase" onClick={() => go('purchases')}>
             CHECK A PURCHASE <span aria-hidden>→</span>
           </button>
         </section>
       </div>
-      <JurnlProductNav current="HOME" onGo={go} onAdd={() => openOverlay('quick-add')} />
+      <JurnlProductNav marks="authority" current="HOME" onGo={go} onAdd={() => openOverlay('quick-add')} />
       {overlay === 'quick-add' ? <QuickAddV2Sheet familyId="F09" onClose={closeOverlay} /> : null}
       {overlay === 'ask' ? <AskJurnlSheet familyId="F09" nodeId="F09.00" onClose={closeOverlay} /> : null}
     </JurnlScreen>
