@@ -15064,10 +15064,21 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
+## 2026-10-07 — Four JURNL root authorities: PLAN, CREDIT, MONEY, TODAY
+
+- **Context:** This chat first corrected the Safe to Spend reference screens so Why, Check, and Account use one photographic plate. The doubled terrace was a shared `ReferenceStage` backdrop, removed without OpenArt. That shipped as PR #1469 (`27871296`), bundle `index.CQDszlOG.js`, release `site00-deploy-2026-10-07-v74`. The founder then forbade regenerating those near-duplicate terraces. The current sprint is the opposite job: four new root authorities, one image each.
+- **Topics covered:** One-plate correction (zero credits). Then PLAN, CREDIT, MONEY, and TODAY rebuilt from Safe to Spend and Quick Add as design DNA. The old PLAN, CREDIT, MONEY, and TODAY screenshots were content, labels, and routes only.
+- **Decisions / outcomes:** Four HQ Starburst 4K image-to-image screens, 9:16, 2016×3584, quality high, auto-enhance off. References were the approved Safe to Spend parent and Quick Add sheet. Each screen has its own room and object: an open planning folio (PLAN), an upright burgundy-spined dossier (CREDIT), a stone-and-oak drawer cabinet (MONEY), a clipped morning ledger (TODAY). They do not reuse the Safe to Spend folder stack, the sea-arch plate, or the Quick Add form drawer. User-facing words are uppercase. Children were not generated. Nothing was mounted in the runtime.
+- **Generations:** PLAN `mvRg4WFYNkArs4Ex6yWt` (F08). CREDIT `pk37YvK1YZQGRtWf4Vzy` (F12). MONEY `7n034ACVumViDGOfKYjr` (F05). TODAY `S67TZv2RgqgCtqEAwfre` (F03). Ledger: `JURNL/ROOT_FAMILY_AUTHORITY_REBUILD_2026-10-07/AUTHORITIES.json`. Spend 1,280 credits (54,568 → 53,288).
+- **Changes:** Review ledger only. No `src/` change. No new production ZIP.
+- **Conventions:** Do not explode PLAN, CREDIT, MONEY, or TODAY children until the founder reviews these four roots. Do not spend credits regenerating Why, Check, and Account. Do not treat the old dashboard screenshots as visual authority.
+
+---
+
 ## 2026-10-07 — Corner chrome matches Safe to Spend; check haze removed
 
 - **Context:** After the menu moved to the right on Safe to Spend, the founder said no new background plates had been made and the hamburger drawer background was still wrong. The back button and the menu must sit in the same place as on the Safe to Spend parent, on every app screen. They also asked why Check a Purchase has a blur behind the panels.
-- **Topics covered:** The whole chat: tunnel connector, DESIGN tab, purchase outcomes, locked shell, family route tree, locked-shell routes, then the Safe to Spend header. This turn is the header applied everywhere, plus the check-plate haze.
+- **Topics covered:** The whole chat: tunnel connector, DESIGN tab, purchase outcomes, locked shell, family route tree, locked-shell routes, then the Safe to Spend header. This turn is the header applied everywhere, plus the plate haze on Check, Account, Why, and the account drawer.
 - **Decisions / outcomes:** The blur is not a live CSS filter. `lift.py` filled the old interface rectangles and then gaussian-blurred those rectangles, and the cards were slightly translucent, so the fog showed around the panels. The plates are rebuilt from the original sharp references (`03_ACCOUNT_PAGE_1.png`, `06_ACCOUNT_DRAWER.png`, `07_CHECK_A_PURCHASE.png`, `02_WHY_THIS_NUMBER.png`) with that blur step removed. The photograph around the panels is the reference again. The cards are solid. No OpenArt job: a new generation would invent another room. Back and the menu are one viewport control (`JurnlCornerChrome`) at the parent position (phone: back x=23 y=14, menu x=344 y=14) on Safe to Spend, Check a Purchase, Why This Number, Account, and Money. Back opens today. The menu opens account, and on account it opens the drawer and the corner controls hide while the drawer covers them. Entry and setup do not get the control. Today has the menu only.
 - **Changes:** `JurnlCornerChrome.tsx`, `JurnlRuntimeRoot.tsx`, `SafeToSpendScreens.tsx`, `AccountScreens.tsx`, `FamilyChrome.tsx`, `jurnl-f09-authority.css`, `jurnl-reference.css`, `jurnl-home.css`, `lift.py`, `F09_CHECK_PLATE.jpg`, `F09_ACCOUNT_PLATE.jpg`, `F09_ACCOUNT_DRAWER_PLATE.jpg`, `F09_WHY_PLATE.jpg`.
 - **Conventions:** Do not put a second back or menu inside a scaled reference stage. Do not send this back through the route trail. Do not paint a blurred clear behind live panels. Do not start a tunnel connector from a non-canonical agent.
