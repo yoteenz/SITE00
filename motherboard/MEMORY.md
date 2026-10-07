@@ -14432,3 +14432,12 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Overlay matched to the authority:** lockup is a cut of the approved sprig and JURNL word (`F09_LOCKUP.png`) with the descriptor set under it. Purchase panel has the sparkle, the two-line line, and CHECK A PURCHASE. Nav marks on this screen are house, card, plus, leaf, and bars, with ADD under the plus. Tab words BILLS / PLANS / GOALS / BUFFER sit on the four colored tabs. Other screens keep the existing icon pack.
 - **Do not draw** a status bar, home indicator, or browser chrome into the F09 screen.
 
+---
+
+## 2026-10-07 — JURNL F09 pale floor, panel, and authority icons
+
+- **Founder correction:** Text, logo, and buttons were still off. Button fills were wrong. The purchase panel had no floor to blend into because the marble at the bottom of the plate was too dark. The nav icons and the sparkle on the purchase line did not match the authority.
+- **Plate:** Regenerated through OpenArt GPT Image 2.5 Sunburst, image2image, history `PQTsHqqy3Pf0ZpQJougi`, 1760×3840, project `VdiPtgVqb21sYl003uox`. Same loggia and physical folio, with a pale sun-bleached travertine foreground (floor under the card near rgb 237,226,217) so the cream panel sits in the marble. Replaces `F09_ENVIRONMENT_AUTHORITY_PLATE.png`. No baked UI, no letterbox.
+- **Marks:** F09 nav only. House is a filled silhouette with a door. Money is a wallet outline with a left slot. Plan is a tilted leaf. Credit is four rising bars. The plus square is olive `#5b5e4b`. The purchase sparkle is an open four-point star, not a filled star. Other screens keep the icon pack.
+- **Panel fills:** SEE WHY `#fdfaf5`. Purchase card `rgba(245,240,236,0.9)`. CHECK A PURCHASE `#f9f5f4`. Live money stays `computeSafeToSpend`.
+

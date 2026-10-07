@@ -22,42 +22,40 @@ const ITEMS = [
 
 /** F09 parent authority marks: house, card, plus, leaf, bars. Other screens keep the icon pack. */
 function AuthorityGlyph({ name }: { name: 'house' | 'card' | 'leaf' | 'chart' | 'plus' }) {
-  const stroke = { fill: 'none', stroke: 'currentColor', strokeWidth: 1.7, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const };
+  const stroke = { fill: 'none', stroke: 'currentColor', strokeWidth: 1.8, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const };
   if (name === 'house') {
     return (
       <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden>
-        <path {...stroke} d="M3.2 11.2 12 4l8.8 7.2" />
-        <path {...stroke} d="M6 10.4V19.2h12V10.4" />
-        <path {...stroke} d="M10 19.2v-5h4v5" />
+        <path fill="currentColor" fillRule="evenodd" d="M12 3.1 20.8 11v10.2H3.2V11L12 3.1zm-1.55 18.1v-5.1c0-1.05.75-1.85 1.55-1.85s1.55.8 1.55 1.85v5.1h-3.1z" />
       </svg>
     );
   }
   if (name === 'card') {
     return (
       <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden>
-        <rect x="3.2" y="6" width="17.6" height="12" rx="2" {...stroke} />
-        <path {...stroke} d="M3.2 10.2h17.6" />
+        <rect x="2.8" y="6.4" width="18.4" height="11.6" rx="2.4" {...stroke} />
+        <path {...stroke} d="M2.8 11.6h5.2" />
       </svg>
     );
   }
   if (name === 'leaf') {
     return (
       <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden>
-        <path {...stroke} d="M12 4.2c3 2.4 4.6 5.4 4.6 8.6 0 2.6-1.8 4.6-4.6 5.6-2.8-1-4.6-3-4.6-5.6C7.4 9.6 9 6.6 12 4.2z" />
-        <path {...stroke} d="M12 18.2V7.2" />
+        <path {...stroke} d="M6.2 18.6c1.4-5.2 5-9.4 11.6-11.6.2 5.4-2.6 10.6-8.2 12.4-1.3.4-2.6-.1-3.4-.8z" />
+        <path {...stroke} strokeWidth={1.5} d="M9.2 16.4c1.8-1.7 3.6-3.1 5.6-4" />
       </svg>
     );
   }
   if (name === 'chart') {
     return (
       <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden>
-        <path {...stroke} d="M5 19.5V12M12 19.5V7.5M19 19.5V4.5" />
+        <path {...stroke} strokeWidth={2.15} d="M4.2 19V15.2M8.7 19V11.4M13.2 19V7.6M17.8 19V4.2" />
       </svg>
     );
   }
   return (
     <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden>
-      <path {...stroke} strokeWidth={1.8} d="M12 5v14M5 12h14" />
+      <path stroke="#f4f1ea" strokeWidth={1.8} strokeLinecap="round" d="M12 5.2v13.6M5.2 12h13.6" />
     </svg>
   );
 }
