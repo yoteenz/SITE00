@@ -15594,3 +15594,18 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - Grammar now forbids exploding an unapproved parent, and forbids SETUP courtroom or masculine-study drift.
 - **Changes:** `SETUP v1/` parent authorities, review board, and manifest. Creative grammar source, JSON manifest, cursor rule, grammar test, `motherboard/CORE.md`. No React, CSS, routes, ENTRY, TODAY, ACTIVITY, or email files.
 - **Conventions:** SETUP must feel like a private sanctuary, not a law office. Feminine means softness, elegance, and grace, not pink decoration. Do not generate sidekicks, components, overlays, or plates until the founder approves the parent. Do not merge this review. Do not upload SETUP images to GoDaddy.
+
+---
+
+## 2026-10-08 — SETUP parents gain a lived-in world layer
+
+- **Context:** This chat returned the parent dock to plaster beige (already on main), classified merge conflicts (simple MEMORY unions fixed; grammar PR #1499 left open), then filed a torn-editorial brand correction for the first eight emails as a draft review. The founder then asked for a world-layer expansion of the 16 SETUP parents. The softer editorial board stays the material reference. It is not approved. This pass only replaces the shallow wall-and-olive environment.
+- **Topics covered:** Dock beige. Conflict classification. Email botanical mark and torn paper (review only). SETUP architecture, depth, rooms, thresholds, and environmental storytelling. Parents and one review board only.
+- **Decisions / outcomes:**
+  - Each SETUP parent is now a place plus a ritual plus a large paper artifact. Intro is a threshold. Profile is a personal desk. Money In arrives through a slot. Money Held sits in deep niches. Money Owed is a shaded corner with a blank ledger. Upcoming runs down a corridor. Plans and Goals look outward. Safe to Spend returns to the sea loggia. Buffer is a lined drawer. Connection is a desk between two openings, not a poster. By Hand, Notifications, and Ask JURNL are private rooms. Review gathers papers on a deep table. Complete is an open threshold.
+  - Image-to-image from the current parents plus the approved Safe to Spend loggia and the ENTRY welcome salon. Model `gpt-image-2-5-sunburst`, 9:16, 2k, high, 172 credits each. Empty rules only. No baked sentences. Classical busts copied from the references were removed.
+  - Prior softer parents live under `authority/SUPERSEDED/parent-only-bespoke-lock1/`. Older reconstruction files and existing plates were not touched. Zero children, sidekicks, plates, or components.
+  - Status: `FOUNDER_REVIEW_REQUIRED`. Do not merge. Do not extract. Do not upload SETUP images to GoDaddy. No new production ZIP. Live bundle stays `index.CAZ_F7j5.js`.
+  - Email brand-layer review stays on its own draft branch and is not merged from this turn. Grammar PR #1499 stays unmerged.
+- **Changes:** `SETUP v1/` parent authorities, `SETUP v1/REVIEW/setup-v1-world-layer-expansion1.png`, `SETUP v1/MANIFESTS/setup-parent-authority-manifest.json`. No React, CSS, routes, or HTML.
+- **Conventions:** Plaster, olive, and sunlight are not a world by themselves. Keep the paper artifact large. Do not copy classical busts into new parents. Safe to Spend keeps the sea-facing loggia. Connection is a place, not a poster. Complete is arrival.
