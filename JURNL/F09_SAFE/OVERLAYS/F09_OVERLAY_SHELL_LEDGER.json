@@ -1,0 +1,46 @@
+{
+  "id": "F09_OVERLAY_SHELL_LEDGER",
+  "familyId": "F09",
+  "provider": "OpenArt",
+  "providerProjectId": "VdiPtgVqb21sYl003uox",
+  "providerProjectName": "JURNL F09 Safe to Spend",
+  "model": "gpt-image-2-5-sunburst",
+  "mode": "image2image",
+  "generationMode": "REFERENCE_GUIDED",
+  "generationClass": "SPECIAL_PANEL",
+  "autoEnhancePrompt": false,
+  "aspectRatio": "9:16",
+  "resolutionTier": "4k",
+  "quality": "high",
+  "outputFormat": "png",
+  "outputDimensions": "2016x3584",
+  "creditsEach": 317,
+  "creditsSpent": 951,
+  "mountedInRuntime": false,
+  "shells": [
+    {
+      "assetId": "F09_ACCOUNT_DRAWER_OVERLAY_SHELL",
+      "visualId": "F09.ACCOUNT.DRAWER.SHELL",
+      "screenId": "F09.ACCOUNT.DRAWER",
+      "path": "JURNL/F09_SAFE/OVERLAYS/F09_ACCOUNT_DRAWER_OVERLAY_SHELL.png",
+      "sourcePath": "JURNL/F09_SAFE/AUTHORITIES/F09_ACCOUNT_DRAWER_OVERLAY_SOURCE.jpg",
+      "sourceAuthorityId": "F09_ACCOUNT_DRAWER_OVERLAY_SOURCE",
+      "acceptedHistoryId": "qDbm2TKCzUMrQeIh9Yl1",
+      "acceptedResourceId": "JJc7wtGFYRCd1LWX6ZLf",
+      "supersededHistoryId": "YCnEZUrQdSwcjpBnSyfy",
+      "supersededReason": "Pass 1 left the flat JURNL olive-leaf logo on the upper-left paper. Pass 2, image-to-image from that shell, removed only that mark.",
+      "kept": "Torn cream sheet, deckled edge, green paper fragments, classical bust, hanging olive branch, left-edge sprig, manuscript inside the tear, marble terrace, arch, sea, vase, column."
+    },
+    {
+      "assetId": "F09_QUICK_ADD_OVERLAY_SHELL",
+      "visualId": "F09.QUICK_ADD.SHELL",
+      "screenId": "F09.QUICK_ADD",
+      "path": "JURNL/F09_SAFE/OVERLAYS/F09_QUICK_ADD_OVERLAY_SHELL.png",
+      "sourcePath": "JURNL/F09_SAFE/AUTHORITIES/F09_QUICK_ADD_OVERLAY_SOURCE.jpg",
+      "sourceAuthorityId": "F09_QUICK_ADD_OVERLAY_SOURCE",
+      "acceptedHistoryId": "5xIriWqiA9MeSiC0Y6t2",
+      "acceptedResourceId": "fpQLW8XyVwVVfGvWq0UP",
+      "kept": "Arch, sea, olive, vase, and the torn cream sheet with the left olive sprig. The Safe to Spend photograph is clear above the sheet."
+    }
+  ]
+}
