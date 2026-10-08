@@ -10,6 +10,7 @@ This sprint delivers UX authority and a data contract. It is not an implementati
 - **Estimator:** `src/studioos/estimation/` v1.0.0 is unchanged. A test asserts its reference outputs.
 - **Public prices:** no public price or public page was changed.
 - **Builder:** no route renders the new Builder. `src/site00/builder-experience/` is a contract with tests, ready for the implementation sprint.
+- **Update (Hybrid Spatial Studio V1):** the founder-approved four rooms + Blueprint are now implemented at `/bldr/builder` behind `VITE_SITE00_TEMPLATE_SYSTEM_V1` (off by default). See `HYBRID_SPATIAL_STUDIO_V1.md`. The contract in `src/site00/builder-experience/` is unchanged.
 
 ## Outputs
 

@@ -81,6 +81,7 @@ const Site00EvolvePage = lazy(() => import('../site00/pages/EvolvePage'));
 const Site00EvolveStatePage = lazy(() => import('../site00/pages/EvolveStatePage'));
 const ExistingLocationEntryPage = lazy(() => import('../site00/pages/existing-location/ExistingLocationEntryPage'));
 const ExistingLocationCasePage = lazy(() => import('../site00/pages/existing-location/ExistingLocationCasePage'));
+const BuilderStudioPage = lazy(() => import('../site00/pages/builder/BuilderStudioPage'));
 const DigitalFoundationArtifactPage = lazy(
   () => import('../site00/pages/foundation/DigitalFoundationArtifactPage'),
 );
@@ -2335,6 +2336,16 @@ export function Site00Routes() {
         }
       />
       {Site00PublicPageRoutes(SITE00_ROUTES.bldrStart, BldrStartPage)}
+      <Route
+        path={`${SITE00_ROUTES.bldrBuilder}/*`}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <BuilderStudioPage />
+            </Site00Suspense>
+          </Site00Layout>
+        }
+      />
       <Route
         path="/bldr/:classSlug/*"
         element={
