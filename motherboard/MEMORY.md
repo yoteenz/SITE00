@@ -15579,3 +15579,19 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Changes:** `src/studioos/estimation/`, internal page `/admin/site00/estimator`, `docs/site00/SITE00_ESTIMATION_ENGINE.md`. Twelve engine tests pass. The public builder is unchanged. Client estimate preview stays off.
 - **Conventions:** Do not estimate by page count. Do not call priority production “rush.” Do not show family units to clients. Do not treat an estimate as a quote. Do not auto-adjust coefficients from calibration records. Do not invent visual-system sample images.
 
+---
+
+## 2026-10-08 — First eight JURNL email authorities
+
+- **Context:** This chat also recomposed the SETUP v1 parents as workshop stations on a separate review branch. That branch was not merged. This turn produces the first eight JURNL email visual authorities from the existing email engine. Nothing is sent, and no template is implemented.
+- **Topics covered:** Editorial correspondence, not app screenshots. Contract copy and consent classes from `shared/jurnl-email-engine`. Mobile 375 and desktop 640. Blank photographs, then type set from the contract.
+- **Decisions / outcomes:**
+  - Eight emails: welcome, verify, finish setup, Safe to Spend ready, weekly brief, purchase second look, milestone, reset access.
+  - Headlines and buttons follow the contract draft. A04 stays family E01, the engine classification.
+  - Names, email addresses, amounts, dates, and links are empty live zones. No figure is printed in a photograph.
+  - Verify and reset share the security lineage and do not offer unsubscribe. They do not share a picture: one is a sealed envelope, the other a letter on dark marble.
+  - Safe to Spend reuses the arrival still life. The purchase slip stays in the desk-note family.
+  - The official JURNL mark is the existing logo file, placed in the header, not redrawn.
+  - Implementation stays blocked until founder review.
+- **Changes:** `JURNL EMAILS v1/A01_WELCOME_TO_JURNL/` through `A08_RESET_YOUR_ACCESS/`, `JURNL EMAILS v1/MANIFESTS/first-8-email-authority-manifest.json`, `JURNL EMAILS v1/REVIEW/first-8-*.png`, and the image allowance in `tests/jurnlEmailEngine1.test.ts`. No React, provider, or consent change.
+- **Conventions:** Email photographs do not carry live copy or live figures. The contract remains the copy source. Do not infer founder approval of these eight emails.
