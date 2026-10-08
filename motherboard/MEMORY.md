@@ -15699,3 +15699,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decisions / outcomes:** Estimator unchanged; founder submission snapshot always includes estimate; public preview flag still gates client display; production activation remains gated via `builderProjectActivationHint`.
 - **Changes:** `spatialStudio/intakeDraft.ts`, `useBuilderSpatialIntakeSession.ts`, `intakeService.submitIntake` BUILDER spatial branch, `submitBuilderSpatialIntake.ts`, tests `spatialIntakeSubmit.test.ts`, docs `BUILDER_SPATIAL_INTAKE_BINDING_V1.md`.
 - **Conventions:** Opus keeps visual layer; Composer owns intake contracts; do not treat localStorage as system of record when server sync succeeded.
+
+---
+
+## 2026-10-08 — Builder preview feature flags (fsbw-dev tunnel only)
+
+- **Context:** Sprint `P0.SITE00.BUILDER.HYBRID-SPATIAL-STUDIO.V1-DEV-PREVIEW-FEATURE-FLAG-ACTIVATION1` — founder `/bldr/studio` blocked by `VITE_SITE00_TEMPLATE_SYSTEM_V1` on site00.fsbw-dev.com.
+- **Topics covered:** Cloud preview dev server (`SITE00_CLOUD_PREVIEW_MODE=dev`) now exports template + client estimate preview flags; production deploy workflows unchanged; AGENTS.md note.
+- **Decisions / outcomes:** Not enabled on `npm run build` / GoDaddy; restart Vite preview terminal after merge for flags to take effect.
+- **Changes:** `.cursor/scripts/run-site00-cloud-preview-server.sh`, `.env.example`, `AGENTS.md`.
+- **Conventions:** Do not add these flags to site00-production-deploy.yml without explicit founder release approval.

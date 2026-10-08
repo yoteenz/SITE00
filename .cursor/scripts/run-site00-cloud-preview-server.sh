@@ -44,7 +44,11 @@ fi
 
 if [[ "$MODE" == "dev" ]]; then
   log "Starting Vite DEV on :$PORT (SITE00_CLOUD_PREVIEW_MODE=dev)"
+  # Hybrid Spatial Studio + Blueprint estimate preview — cloud tunnel (site00.fsbw-dev.com) ONLY.
+  # Not set on production GoDaddy/Railway builds (see site00-production-deploy.yml).
   exec env SITE00_CLOUD_MOBILE_PREVIEW=1 SITE00_CLIENT_REVIEW_PREVIEW_MODE=1 \
+    VITE_SITE00_TEMPLATE_SYSTEM_V1=1 \
+    VITE_SITE00_CLIENT_ESTIMATE_PREVIEW_V1=1 \
     npm run dev -- --port "$PORT" --host
 fi
 
