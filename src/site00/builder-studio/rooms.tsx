@@ -1,11 +1,10 @@
 /** Room controls for 01 PLACE · 02 FEEL · 03 WORK · 04 PACE. */
 import { useMemo, useState } from 'react';
-import { CAPABILITY_BY_ID, EXPERIENCE_BY_ID, builderEstimateView, builderNotices, chosenExperiences, deriveBuildLevel } from '../builder-experience';
+import { EXPERIENCE_BY_ID, builderEstimateView, builderNotices, chosenExperiences, deriveBuildLevel } from '../builder-experience';
 import type { BuilderSelection } from '../builder-experience';
 import { compose } from './buildObject/composition';
 import { BuildThumbnail } from './buildObject/BuildObjectStage';
 import {
-  AnalyticsIcon,
   CheckIcon,
   ChevronDownIcon,
   ChevronLeftIcon,
@@ -14,27 +13,16 @@ import {
   FlexibleIcon,
   MobileIcon,
   PlusIcon,
-  SeoIcon,
   StandardIcon,
   WebsiteIcon,
 } from './icons';
-import {
-  CORE_INCLUDED,
-  FEEL_BY_ID,
-  FEEL_OPTIONS,
-  PACE_OPTIONS,
-  PATH_OPTIONS,
-  WORK_MODULES,
-  isWorldPath,
-  moduleLevelCheck,
-  moduleUnavailableReason,
-} from './studioModel';
-import type { CoreIncludedId, StudioDraft, StudioPace, StudioPath, WorkModuleId } from './studioModel';
+import { CORE_INCLUDED, FEEL_BY_ID, FEEL_OPTIONS, PACE_OPTIONS, PATH_OPTIONS, WORK_MODULES, moduleLevelCheck } from './studioModel';
+import type { CoreIncludedId, PacePreferenceId, PlacePathId, SpatialBuilderState, WorkModuleId } from './studioModel';
 
-type RoomProps = {
-  draft: StudioDraft;
+export type RoomProps = {
+  state: SpatialBuilderState;
   selection: BuilderSelection;
-  update: (patch: Partial<StudioDraft> | ((d: StudioDraft) => StudioDraft)) => void;
+  update: (patch: Partial<SpatialBuilderState> | ((s: SpatialBuilderState) => SpatialBuilderState)) => void;
 };
 
 function cycle<T>(list: readonly T[], current: T | null, step: 1 | -1): T {
@@ -58,28 +46,23 @@ export function StageArrows({ label, onPrev, onNext }: { label: string; onPrev: 
 
 /* ─────────────────────────────── 01 PLACE ─────────────────────────────── */
 
-export function choosePath(path: StudioPath): (d: StudioDraft) => StudioDraft {
-  // A new path resets the SIMPLE-path decision; a WORLD has no site grammar.
-  return (d) => ({ ...d, path, acceptedLevelRaise: false, structure: path === 'WORLD' ? null : d.structure });
-}
-
-export function PlaceStageArrows({ draft, update }: RoomProps) {
+export function PlaceStageArrows({ state, update }: RoomProps) {
   const ids = PATH_OPTIONS.map((p) => p.id);
   return (
     <StageArrows
       label="BUILD"
-      onPrev={() => update(choosePath(cycle(ids, draft.path, -1)))}
-      onNext={() => update(choosePath(cycle(ids, draft.path, 1)))}
+      onPrev={() => update({ placePath: cycle<PlacePathId>(ids, state.placePath, -1) })}
+      onNext={() => update({ placePath: cycle<PlacePathId>(ids, state.placePath, 1) })}
     />
   );
 }
 
-export function PlaceControls({ draft, update }: RoomProps) {
+export function PlaceControls({ state, update }: RoomProps) {
   return (
     <div className="bs-cards" role="radiogroup" aria-label="WHAT ARE WE CREATING">
       {PATH_OPTIONS.map((option) => {
-        const selected = draft.path === option.id;
-        const thumb = compose('place', { path: option.id, feel: draft.feel, modules: [], pace: draft.pace });
+        const selected = state.placePath === option.id;
+        const thumb = compose('place', { path: option.id, feel: state.feelVibe, modules: [], pace: state.pace });
         return (
           <button
             key={option.id}
@@ -87,7 +70,7 @@ export function PlaceControls({ draft, update }: RoomProps) {
             role="radio"
             aria-checked={selected}
             className={`bs-card${selected ? ' is-selected' : ''}`}
-            onClick={() => update(choosePath(option.id))}
+            onClick={() => update({ placePath: option.id })}
             title={option.plain}
           >
             <BuildThumbnail composition={thumb} width={176} height={88} alt="" />
@@ -102,32 +85,32 @@ export function PlaceControls({ draft, update }: RoomProps) {
 
 /* ─────────────────────────────── 02 FEEL ─────────────────────────────── */
 
-export function FeelStageArrows({ draft, update }: RoomProps) {
+export function FeelStageArrows({ state, update }: RoomProps) {
   const ids = FEEL_OPTIONS.map((f) => f.id);
   return (
     <StageArrows
       label="DIRECTION"
-      onPrev={() => update({ feel: cycle(ids, draft.feel, -1) })}
-      onNext={() => update({ feel: cycle(ids, draft.feel, 1) })}
+      onPrev={() => update({ feelVibe: cycle(ids, state.feelVibe, -1) })}
+      onNext={() => update({ feelVibe: cycle(ids, state.feelVibe, 1) })}
     />
   );
 }
 
-export function FeelControls({ draft, update }: RoomProps) {
-  const focused = draft.feel ? FEEL_BY_ID[draft.feel] : null;
+export function FeelControls({ state, update }: RoomProps) {
+  const focused = state.feelVibe ? FEEL_BY_ID[state.feelVibe] : null;
   return (
     <>
       <div className="bs-feel-caption" aria-live="polite">
         <p className="bs-feel-caption__label">{focused ? focused.label : 'YOUR DIRECTION'}</p>
         <p className="bs-feel-caption__sub">{focused ? focused.descriptor : 'CHOOSE ONE BELOW'}</p>
-        {draft.path === 'CUSTOM' && draft.feel ? (
-          <p className="bs-feel-caption__note">YOUR STARTING INFLUENCE FOR A CUSTOM DIRECTION</p>
+        {state.placePath === 'CUSTOM' && state.feelVibe ? (
+          <p className="bs-feel-caption__note">A STARTING REFERENCE FOR YOUR CUSTOM DIRECTION</p>
         ) : null}
       </div>
       <div className="bs-strip" role="radiogroup" aria-label="VISUAL DIRECTION">
         {FEEL_OPTIONS.map((option) => {
-          const selected = draft.feel === option.id;
-          const thumb = compose('feel', { path: draft.path, feel: option.id, modules: [], pace: draft.pace });
+          const selected = state.feelVibe === option.id;
+          const thumb = compose('feel', { path: state.placePath, feel: option.id, modules: [], pace: state.pace });
           return (
             <button
               key={option.id}
@@ -135,7 +118,7 @@ export function FeelControls({ draft, update }: RoomProps) {
               role="radio"
               aria-checked={selected}
               className={`bs-strip__item${selected ? ' is-selected' : ''}`}
-              onClick={() => update({ feel: option.id })}
+              onClick={() => update({ feelVibe: option.id })}
               title={`${option.label} · ${option.systemLabel}`}
             >
               <BuildThumbnail composition={thumb} width={160} height={126} alt="" />
@@ -152,38 +135,36 @@ export function FeelControls({ draft, update }: RoomProps) {
 
 type PendingRaise = { module: WorkModuleId; reason: string } | null;
 
-export function useWorkModules(props: RoomProps) {
-  const { draft, update } = props;
+export function useWorkModules({ state, update }: RoomProps) {
   const [pending, setPending] = useState<PendingRaise>(null);
   const toggle = (id: WorkModuleId) => {
-    if (moduleUnavailableReason(draft, id)) return;
-    if (draft.modules.includes(id)) {
-      update((d) => ({ ...d, modules: d.modules.filter((m) => m !== id) }));
+    if (state.workModules.includes(id)) {
+      update((s) => ({ ...s, workModules: s.workModules.filter((m) => m !== id) }));
       setPending(null);
       return;
     }
-    const check = moduleLevelCheck(draft, id);
+    const check = moduleLevelCheck(state, id);
     if (check.raises) {
       setPending({ module: id, reason: check.reason });
       return;
     }
-    update((d) => ({ ...d, modules: [...d.modules, id] }));
+    update((s) => ({ ...s, workModules: [...s.workModules, id] }));
   };
+  // The contract resolves "part of an advanced build" by moving the build to the ADVANCED path.
   const keep = () => {
     if (!pending) return;
     const id = pending.module;
-    update((d) => ({ ...d, modules: [...d.modules, id], acceptedLevelRaise: true }));
+    update((s) => ({ ...s, placePath: 'ADVANCED', workModules: [...s.workModules, id] }));
     setPending(null);
   };
   return { pending, toggle, keep, dismiss: () => setPending(null) };
 }
 
-export function WorkStageToggles({ draft, toggle, pending }: RoomProps & { toggle: (id: WorkModuleId) => void; pending: PendingRaise }) {
+export function WorkStageToggles({ state, toggle, pending }: RoomProps & { toggle: (id: WorkModuleId) => void; pending: PendingRaise }) {
   return (
     <div className="bs-modules" role="group" aria-label="CAPABILITIES">
       {WORK_MODULES.map((module) => {
-        const on = draft.modules.includes(module.id);
-        const unavailable = moduleUnavailableReason(draft, module.id);
+        const on = state.workModules.includes(module.id);
         const asking = pending?.module === module.id;
         return (
           <div key={module.id} className={`bs-module bs-module--${module.side} bs-module--row${module.row}`}>
@@ -195,8 +176,7 @@ export function WorkStageToggles({ draft, toggle, pending }: RoomProps & { toggl
               className={`bs-module__toggle${on ? ' is-on' : ''}${asking ? ' is-asking' : ''}`}
               aria-pressed={on}
               aria-labelledby={`bs-module-${module.id}`}
-              aria-disabled={unavailable ? true : undefined}
-              title={unavailable ?? module.plain}
+              title={module.plain}
               onClick={() => toggle(module.id)}
             >
               {on ? <CheckIcon size={16} /> : <PlusIcon size={18} />}
@@ -211,18 +191,15 @@ export function WorkStageToggles({ draft, toggle, pending }: RoomProps & { toggl
 const CORE_ICONS: Record<CoreIncludedId, typeof WebsiteIcon> = {
   WEBSITE: WebsiteIcon,
   MOBILE: MobileIcon,
-  SEO: SeoIcon,
-  ANALYTICS: AnalyticsIcon,
 };
 
 export function WorkControls(props: RoomProps & { pending: PendingRaise; keep: () => void; dismiss: () => void }) {
-  const { draft, selection, pending, keep, dismiss } = props;
+  const { state, selection, pending, keep, dismiss } = props;
   const [open, setOpen] = useState(false);
-  const world = isWorldPath(draft);
+  const world = state.placePath === 'WORLD';
   const { level } = deriveBuildLevel(selection);
   const pages = useMemo(() => (world ? [] : chosenExperiences(selection, level).map((c) => EXPERIENCE_BY_ID[c.id].label)), [selection, level, world]);
   const comesWith = builderNotices(selection).filter((n) => n.kind === 'COMES_WITH');
-  const added = draft.modules.filter((id) => !moduleUnavailableReason(draft, id));
   return (
     <>
       {pending ? (
@@ -230,7 +207,7 @@ export function WorkControls(props: RoomProps & { pending: PendingRaise; keep: (
           <p className="bs-decision__text">{pending.reason}</p>
           <div className="bs-decision__actions">
             <button type="button" className="bs-btn bs-btn--small bs-btn--red" onClick={keep}>
-              ADD IT · ADVANCED BUILD
+              ADD IT · MOVE TO ADVANCED
             </button>
             <button type="button" className="bs-btn bs-btn--small bs-btn--ghost" onClick={dismiss}>
               NOT NOW
@@ -259,7 +236,7 @@ export function WorkControls(props: RoomProps & { pending: PendingRaise; keep: (
             {pages.length ? <p><strong>PAGES</strong> {pages.join(' · ').toUpperCase()}</p> : <p><strong>PLACES</strong> SHAPED WITH YOU AT BLUEPRINT REVIEW</p>}
             <p>
               <strong>ADDED</strong>{' '}
-              {added.length ? added.map((id) => WORK_MODULES.find((m) => m.id === id)!.label).join(' · ') : 'NOTHING YET'}
+              {state.workModules.length ? state.workModules.map((id) => WORK_MODULES.find((m) => m.id === id)!.label).join(' · ') : 'NOTHING YET'}
             </p>
           </div>
         ) : null}
@@ -269,14 +246,14 @@ export function WorkControls(props: RoomProps & { pending: PendingRaise; keep: (
           {comesWith.map((n) => `+ ${n.message.split(':')[0].toUpperCase()}`).join('  ·  ')}
         </p>
       ) : null}
-      {world ? <p className="bs-note">PAGES AND BLOG ARE NOT PART OF A WORLD BUILD.</p> : null}
+      {state.workModules.length === 0 ? <p className="bs-note">CHOOSE AT LEAST ONE CAPABILITY TO CONTINUE.</p> : null}
     </>
   );
 }
 
 /* ─────────────────────────────── 04 PACE ─────────────────────────────── */
 
-const PACE_ICONS: Record<StudioPace, typeof StandardIcon> = {
+const PACE_ICONS: Record<PacePreferenceId, typeof StandardIcon> = {
   STANDARD: StandardIcon,
   EXPEDITED: ExpeditedIcon,
   FLEXIBLE: FlexibleIcon,
@@ -294,7 +271,7 @@ export function usePriorityAvailability(selection: BuilderSelection): { availabl
   }, [selection]);
 }
 
-export function PaceControls({ draft, selection, update }: RoomProps) {
+export function PaceControls({ state, selection, update }: RoomProps) {
   const priority = usePriorityAvailability(selection);
   const expeditedBlocked = !priority.available;
   return (
@@ -302,7 +279,7 @@ export function PaceControls({ draft, selection, update }: RoomProps) {
       <div className="bs-pace" role="radiogroup" aria-label="HOW SHOULD WE BUILD IT">
         {PACE_OPTIONS.map((option) => {
           const IconCmp = PACE_ICONS[option.id];
-          const selected = draft.pace === option.id;
+          const selected = state.pace === option.id;
           const disabled = option.id === 'EXPEDITED' && expeditedBlocked;
           return (
             <button
@@ -327,24 +304,20 @@ export function PaceControls({ draft, selection, update }: RoomProps) {
           );
         })}
       </div>
-      {draft.pace === 'EXPEDITED' && expeditedBlocked ? (
+      {state.pace === 'EXPEDITED' && expeditedBlocked ? (
         <p className="bs-note">{(priority.reason ?? 'PRIORITY DOES NOT SHORTEN THIS SCOPE.').toUpperCase()}</p>
       ) : null}
       <label className="bs-notes">
-        <span className="bs-visually-hidden">PROJECT NOTES (OPTIONAL)</span>
+        <span className="bs-visually-hidden">{state.placePath === 'CUSTOM' ? 'YOUR CUSTOM DIRECTION (OPTIONAL)' : 'PROJECT NOTES (OPTIONAL)'}</span>
         <textarea
           rows={1}
           maxLength={2000}
-          value={draft.notes}
-          placeholder="ADD A NOTE FOR SITE 00 (OPTIONAL)"
-          onChange={(event) => update({ notes: event.target.value })}
+          value={state.paceNotes}
+          placeholder={state.placePath === 'CUSTOM' ? 'DESCRIBE YOUR CUSTOM DIRECTION (OPTIONAL)' : 'ADD A NOTE FOR SITE 00 (OPTIONAL)'}
+          onChange={(event) => update({ paceNotes: event.target.value })}
         />
       </label>
     </>
   );
 }
 
-export function capabilityPlain(verb: string): string {
-  const match = Object.values(CAPABILITY_BY_ID).find((c) => c.verb === verb);
-  return match?.plain ?? '';
-}

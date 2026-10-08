@@ -12,8 +12,7 @@
  *
  * Elements carry stable ids so the renderer can move, add and remove them instead of swapping images.
  */
-import type { VisualSystemId } from '../../../studioos/estimation/types';
-import type { StudioDraft, StudioPace, StudioPath, WorkModuleId } from '../studioModel';
+import type { BuildSpec, FeelVibeId, PacePreferenceId, PlacePathId, WorkModuleId } from '../studioModel';
 
 export type BuildMaterial =
   | 'glass'
@@ -70,20 +69,19 @@ export type BuildPalette = {
 
 const NEUTRAL: BuildPalette = { structure: 'glass', accent: 'red', mass: 'stone', plinth: 'marble', study: ['stone', 'glass', 'red', 'glass', 'marble'] };
 
-export const FEEL_PALETTES: Record<VisualSystemId, BuildPalette> = {
-  ARCHITECTURAL_MINIMAL: { structure: 'glass', accent: 'red', mass: 'stone', plinth: 'marble', study: ['darkMarble', 'stone', 'glass', 'red', 'red', 'marble', 'glass'] },
-  POP_EDITORIAL: { structure: 'glassTint', accent: 'redSolid', mass: 'concrete', plinth: 'marble', study: ['redSolid', 'glass', 'darkMarble', 'redSolid', 'red', 'concrete', 'redSolid'] },
-  EDITORIAL_OBJECT: { structure: 'glass', accent: 'red', mass: 'marble', plinth: 'marble', study: ['marble', 'glass', 'darkMarble', 'marble', 'red', 'glass', 'marble'] },
-  CINEMATIC_LUXURY: { structure: 'darkGlass', accent: 'red', mass: 'darkMarble', plinth: 'darkMarble', study: ['darkMarble', 'darkGlass', 'red', 'darkMarble', 'red', 'darkGlass', 'darkMarble'] },
-  SOFT_ORGANIC: { structure: 'glassTint', accent: 'red', mass: 'travertine', plinth: 'travertine', study: ['travertine', 'glassTint', 'travertine', 'red', 'glass', 'travertine', 'glassTint'] },
-  INDUSTRIAL_COMMAND: { structure: 'glass', accent: 'red', mass: 'steel', plinth: 'concrete', study: ['steel', 'concrete', 'glass', 'red', 'steel', 'glass', 'concrete'] },
+/** One palette per FEEL direction (the contract's four: MODERN · BOLD · EDITORIAL · IMMERSIVE). */
+export const FEEL_PALETTES: Record<FeelVibeId, BuildPalette> = {
+  MODERN: { structure: 'glass', accent: 'red', mass: 'stone', plinth: 'marble', study: ['darkMarble', 'stone', 'glass', 'red', 'red', 'marble', 'glass'] },
+  BOLD: { structure: 'glassTint', accent: 'redSolid', mass: 'concrete', plinth: 'marble', study: ['redSolid', 'glass', 'darkMarble', 'redSolid', 'red', 'concrete', 'redSolid'] },
+  EDITORIAL: { structure: 'glass', accent: 'red', mass: 'marble', plinth: 'marble', study: ['marble', 'glass', 'darkMarble', 'marble', 'red', 'glass', 'marble'] },
+  IMMERSIVE: { structure: 'darkGlass', accent: 'red', mass: 'darkMarble', plinth: 'darkMarble', study: ['darkMarble', 'darkGlass', 'red', 'darkMarble', 'red', 'darkGlass', 'darkMarble'] },
 };
 
-export function paletteFor(feel: VisualSystemId | null): BuildPalette {
+export function paletteFor(feel: FeelVibeId | null): BuildPalette {
   return feel ? FEEL_PALETTES[feel] : NEUTRAL;
 }
 
-type Spec = Pick<StudioDraft, 'path' | 'feel' | 'modules' | 'pace'>;
+type Spec = BuildSpec;
 
 const box = (
   id: string,
@@ -116,7 +114,7 @@ function plinth(prefix: string, palette: BuildPalette, w: number, d: number): { 
 
 /* ─────────────────────────────── PLACE ─────────────────────────────── */
 
-function placeComposition(path: StudioPath | null, palette: BuildPalette): BuildElement[] {
+function placeComposition(path: PlacePathId | null, palette: BuildPalette): BuildElement[] {
   const { elements, top: t } = plinth('main', palette, 4.6, 3.4);
   const s = palette.structure;
   switch (path) {
@@ -232,7 +230,7 @@ function workComposition(spec: Spec, palette: BuildPalette): BuildElement[] {
 
 function assembled(spec: Spec, palette: BuildPalette, resolved: boolean): BuildElement[] {
   const world = spec.path === 'WORLD';
-  const pace: StudioPace = spec.pace;
+  const pace: PacePreferenceId = spec.pace ?? 'STANDARD';
   const spread = pace === 'FLEXIBLE' ? 1.18 : 1;
   const coreH = (spec.path === 'CUSTOM' ? 3.3 : spec.path === 'ADVANCED' ? 3.0 : 2.6) + (pace === 'EXPEDITED' ? 0.5 : 0);
   const { elements, top: t } = plinth('main', palette, (world ? 6.4 : 5.2) * (resolved ? 1.08 : 1), world ? 4.6 : 3.6);
@@ -298,6 +296,6 @@ export function compose(view: BuildView, spec: Spec): BuildComposition {
       if (spec.path === 'WORLD') camera.distance += 1.8;
       break;
   }
-  const key = `${view}|${spec.path ?? '-'}|${spec.feel ?? '-'}|${[...spec.modules].sort().join(',')}|${spec.pace}`;
+  const key = `${view}|${spec.path ?? '-'}|${spec.feel ?? '-'}|${[...spec.modules].sort().join(',')}|${spec.pace ?? '-'}`;
   return { key, elements, camera };
 }

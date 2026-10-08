@@ -49,6 +49,8 @@ export function useBuilderSpatialIntakeSession() {
   const [hydrationStatus, setHydrationStatus] = useState<'pending' | 'done'>('pending');
   const [conflictReason, setConflictReason] = useState<string | null>(null);
   const [submitPhase, setSubmitPhase] = useState<'idle' | 'submitting' | 'submitted' | 'failed'>('idle');
+  // Bumped by resetSession so the bootstrap runs again and a fresh intake is started.
+  const [bootToken, setBootToken] = useState(0);
   const startedRef = useRef(false);
 
   const intakeStatus = intakeSync.serverIntake ? normalizeIntakeStatus(intakeSync.serverIntake.status) : null;
@@ -148,9 +150,12 @@ export function useBuilderSpatialIntakeSession() {
 
     return () => {
       cancelled = true;
+      // Re-arm: a cancelled bootstrap (StrictMode double-mount, or resetSession) must run again on the next mount.
+      // ensureStarted de-duplicates the in-flight start, so this never creates a second intake.
+      startedRef.current = false;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- one-time bootstrap
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- bootstrap once per session (resetSession re-arms it)
+  }, [bootToken]);
 
   const selection = useMemo(() => spatialSelectionToBuilder(state), [state]);
   const showEstimate = revealEstimateForRoom(state.room, clientEstimatePreviewEnabled());
@@ -185,6 +190,8 @@ export function useBuilderSpatialIntakeSession() {
     startedRef.current = false;
     setHydrationStatus('pending');
     setSubmitPhase('idle');
+    setConflictReason(null);
+    setBootToken((n) => n + 1);
   }, [intakeSync, persistLocal]);
 
   const submitForReview = useCallback(async () => {
@@ -200,11 +207,16 @@ export function useBuilderSpatialIntakeSession() {
     const prev = parseBuilderSpatialDraft(intakeSync.serverIntake?.draftPayload);
     const envelope = envelopeFromSpatialState(state, prev);
     try {
-      await intakeSync.flushAutosave({
+      // Submit only what the server confirmed it holds: a failed flush would submit an older draft.
+      const flushed = await intakeSync.flushAutosave({
         currentStep: 'spatial:BLUEPRINT',
         totalSteps: 5,
         draftPayload: draftPayloadFromEnvelope(envelope),
       });
+      if (!flushed) {
+        setSubmitPhase('failed');
+        return null;
+      }
       const result = await intakeSync.submit();
       if (!result) {
         setSubmitPhase('failed');

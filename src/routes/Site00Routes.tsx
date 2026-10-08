@@ -81,7 +81,6 @@ const Site00EvolvePage = lazy(() => import('../site00/pages/EvolvePage'));
 const Site00EvolveStatePage = lazy(() => import('../site00/pages/EvolveStatePage'));
 const ExistingLocationEntryPage = lazy(() => import('../site00/pages/existing-location/ExistingLocationEntryPage'));
 const ExistingLocationCasePage = lazy(() => import('../site00/pages/existing-location/ExistingLocationCasePage'));
-const BuilderStudioPage = lazy(() => import('../site00/pages/builder/BuilderStudioPage'));
 const DigitalFoundationArtifactPage = lazy(
   () => import('../site00/pages/foundation/DigitalFoundationArtifactPage'),
 );
@@ -2337,14 +2336,22 @@ export function Site00Routes() {
         }
       />
       {Site00PublicPageRoutes(SITE00_ROUTES.bldrStart, BldrStartPage)}
-      {Site00PublicPageRoutes(SITE00_ROUTES.bldrSpatialStudio, BldrSpatialStudioPage)}
+      {/* Hybrid Spatial Studio: full-bleed (no public phone-artboard shell); rooms are sub-paths. */}
       <Route
-        path={`${SITE00_ROUTES.bldrBuilder}/*`}
+        path={`${SITE00_ROUTES.bldrSpatialStudio}/*`}
         element={
           <Site00Layout>
             <Site00Suspense>
-              <BuilderStudioPage />
+              <BldrSpatialStudioPage />
             </Site00Suspense>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={site00PublicDesktopPath(SITE00_ROUTES.bldrSpatialStudio)}
+        element={
+          <Site00Layout>
+            <Site00PublicDesktopLegacyRedirect />
           </Site00Layout>
         }
       />

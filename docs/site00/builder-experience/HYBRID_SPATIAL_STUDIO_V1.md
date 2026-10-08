@@ -6,6 +6,11 @@
 
 > ONE CONTINUOUS ENVIRONMENT. FOUR DISTINCT ROOMS. ONE BLUEPRINT REVEAL.
 
+> **Superseded in part (founder-review sprint):** the studio now lives at **`/bldr/studio/:room`** and runs on Composer's
+> server-backed session (`useBuilderSpatialIntakeSession`). The on-device draft engine (`useStudioDraft`), the
+> `/bldr/builder` route and the separate submission adapter described below were removed. Current state:
+> `HYBRID_SPATIAL_STUDIO_FOUNDER_REVIEW_V1.md`. The visual system, Build Object and fidelity notes below still apply.
+
 ---
 
 ## 1. Status

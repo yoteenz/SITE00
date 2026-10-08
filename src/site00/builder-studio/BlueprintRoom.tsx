@@ -1,10 +1,8 @@
-/** 05 BLUEPRINT — the reveal, its five inspection sections, and submission. */
-import { useEffect, useId, useMemo, useRef, useState, type RefObject } from 'react';
-import { clientEstimatePreviewEnabled } from '../../studioos/estimation/flags';
-import { saveEstimateLocally } from '../../studioos/estimation/persistence';
-import { STRUCTURES, WORLD_FORMS, builderBlueprint, builderEstimateView, CAPABILITY_BY_ID } from '../builder-experience';
-import type { BuilderSelection, BuilderEstimateView } from '../builder-experience';
-import type { StructuralArchetypeId, WorldArchetypeId } from '../../studioos/estimation/types';
+/** 05 BLUEPRINT — the reveal, its five inspection sections, the review status, and submission. */
+import { useEffect, useId, useRef, useState, type RefObject } from 'react';
+import { normalizeIntakeStatus } from '../../../shared/site00-intakes/types';
+import { IntakeGuestAccessCapture } from '../components/intake/IntakeGuestAccessCapture';
+import type { BlueprintSessionSnapshot } from '../builder-experience/spatialStudio';
 import { compose } from './buildObject/composition';
 import { BuildThumbnail } from './buildObject/BuildObjectStage';
 import {
@@ -22,27 +20,25 @@ import {
   CORE_INCLUDED,
   FEEL_BY_ID,
   PACE_OPTIONS,
-  STUDIO_ESTIMATE_RECORD_KEY,
+  blockerCopy,
+  buildSpec,
   buildTypeSummary,
+  capabilityPlain,
   expandInvestment,
   featureCount,
   spacedRange,
-  studioReadiness,
-  suggestedStructure,
 } from './studioModel';
-import type { StudioDraft, StudioRoomId } from './studioModel';
-import { blueprintEstimateRecord, useBlueprintSubmission } from './submitBlueprint';
+import type { SpatialBuilderState, StudioRoomId } from './studioModel';
+import { spatialSubmission, versionFacts } from './reviewModel';
+import type { StudioSession } from './useStudioSession';
 
 export type BlueprintTab = 'OVERVIEW' | 'STRUCTURE' | 'PAGES' | 'FEATURES' | 'TIMELINE';
 export const BLUEPRINT_TABS: BlueprintTab[] = ['OVERVIEW', 'STRUCTURE', 'PAGES', 'FEATURES', 'TIMELINE'];
 
 type Props = {
-  draft: StudioDraft;
-  selection: BuilderSelection;
-  update: (patch: Partial<StudioDraft> | ((d: StudioDraft) => StudioDraft)) => void;
+  session: StudioSession;
   goToRoom: (room: StudioRoomId) => void;
   openMenu: () => void;
-  saveNow: () => boolean;
   tab: BlueprintTab;
   setTab: (tab: BlueprintTab) => void;
 };
@@ -107,26 +103,80 @@ export function BlueprintStageControls({
   );
 }
 
-/* ─────────────────────────────── panel ─────────────────────────────── */
+/* ─────────────────────────────── review status ─────────────────────────────── */
 
-function useEstimate(selection: BuilderSelection): BuilderEstimateView | null {
-  return useMemo(() => {
-    try {
-      return builderEstimateView(selection);
-    } catch {
-      return null;
-    }
-  }, [selection]);
+function formatDate(iso: string | null): string {
+  if (!iso) return '';
+  return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase();
 }
 
+/** Where this Blueprint stands with SITE 00. Rendered only for states the intake record supports. */
+export function ReviewStatus({ session }: { session: StudioSession }) {
+  const { review, submitted, serverIntake } = session;
+  const [showSubmitted, setShowSubmitted] = useState(false);
+  if (review.stage === 'DRAFT' || !serverIntake) return null;
+  const facts = submitted ? versionFacts(submitted.current) : null;
+  return (
+    <section className={`bs-review bs-review--${review.stage.toLowerCase()}`} aria-label="REVIEW STATUS" aria-live="polite">
+      <p className="bs-review__eyebrow">
+        {serverIntake.publicReference}
+        {review.version ? ` · VERSION ${review.version}` : ''}
+        {review.submittedAt ? ` · SUBMITTED ${formatDate(review.submittedAt)}` : ''}
+      </p>
+      <p className="bs-review__label">
+        <span className="bs-review__dot" aria-hidden="true" />
+        {review.label}
+      </p>
+      <p className="bs-review__sub">{review.sub}</p>
+      {review.stage === 'REVISION_REQUESTED' ? (
+        <div className="bs-review__request">
+          <p className="bs-review__request-label">FROM SITE 00{review.request ? ` · ${formatDate(review.request.requestedAt)}` : ''}</p>
+          <p className="bs-review__request-text">{review.request?.message ?? 'SITE 00 REOPENED YOUR BLUEPRINT FOR CHANGES.'}</p>
+          <p className="bs-review__hint">
+            EDIT YOUR CHOICES, THEN RESUBMIT. VERSION {review.version} STAYS ON RECORD EXACTLY AS YOU SENT IT.
+          </p>
+        </div>
+      ) : null}
+      {review.stage === 'ACCEPTED' && review.projectId ? (
+        <a className="bs-btn bs-btn--outline-dark" href={`/projects/${review.projectId}`}>
+          OPEN YOUR PROJECT
+        </a>
+      ) : null}
+      {facts && review.stage === 'REVISION_REQUESTED' ? (
+        <>
+          <button type="button" className="bs-link" aria-expanded={showSubmitted} onClick={() => setShowSubmitted((v) => !v)}>
+            {showSubmitted ? 'HIDE' : 'VIEW'} SUBMITTED VERSION {facts.version}
+          </button>
+          {showSubmitted ? (
+            <dl className="bs-lines bs-lines--compact">
+              {[
+                ['PLACE', facts.place],
+                ['FEEL', facts.feel],
+                ['WORK', facts.modules],
+                ['PACE', facts.pace],
+                ['NOTE', facts.notes || '—'],
+              ].map(([k, v]) => (
+                <div key={k} className="bs-line">
+                  <dt>{k}</dt>
+                  <dd>{v}</dd>
+                </div>
+              ))}
+            </dl>
+          ) : null}
+        </>
+      ) : null}
+    </section>
+  );
+}
+
+/* ─────────────────────────────── panel ─────────────────────────────── */
+
 export function BlueprintPanel(props: Props) {
-  const { selection, tab, setTab } = props;
-  const estimate = useEstimate(selection);
-  const blueprint = useMemo(() => builderBlueprint(selection), [selection]);
-  const preview = clientEstimatePreviewEnabled();
+  const { tab, setTab } = props;
   const ids = useId();
   return (
     <div className="bs-blueprint">
+      <ReviewStatus session={props.session} />
       <div className="bs-tabs" role="tablist" aria-label="BLUEPRINT SECTIONS">
         {BLUEPRINT_TABS.map((t) => (
           <button
@@ -144,20 +194,20 @@ export function BlueprintPanel(props: Props) {
         ))}
       </div>
       <div className="bs-tabpanel" role="tabpanel" id={`${ids}-panel`} aria-labelledby={`${ids}-tab-${tab}`}>
-        {tab === 'OVERVIEW' ? <OverviewTab {...props} estimate={estimate} preview={preview} /> : null}
-        {tab === 'STRUCTURE' ? <StructureTab {...props} blueprint={blueprint} /> : null}
-        {tab === 'PAGES' ? <PagesTab {...props} blueprint={blueprint} /> : null}
-        {tab === 'FEATURES' ? <FeaturesTab {...props} blueprint={blueprint} estimate={estimate} /> : null}
-        {tab === 'TIMELINE' ? <TimelineTab {...props} estimate={estimate} preview={preview} /> : null}
+        {tab === 'OVERVIEW' ? <OverviewTab {...props} /> : null}
+        {tab === 'STRUCTURE' ? <StructureTab {...props} /> : null}
+        {tab === 'PAGES' ? <PagesTab {...props} /> : null}
+        {tab === 'FEATURES' ? <FeaturesTab {...props} /> : null}
+        {tab === 'TIMELINE' ? <TimelineTab {...props} /> : null}
       </div>
     </div>
   );
 }
 
 /** "Initial range. Based on your current selections and requirements." — the canonical confidence label stays visible. */
-function rangeNote(estimate: BuilderEstimateView | null, preview: boolean): string {
+function rangeNote(snapshot: BlueprintSessionSnapshot, preview: boolean): string {
   if (!preview) return 'Shared at Blueprint review.';
-  const label = estimate?.confidence.label ?? 'INITIAL RANGE';
+  const label = snapshot.estimate?.confidence.label ?? 'INITIAL RANGE';
   return `${label.charAt(0)}${label.slice(1).toLowerCase()}. Based on your current selections and requirements.`;
 }
 
@@ -166,17 +216,47 @@ function EstimateFigure({ value, preview }: { value: string | null; preview: boo
   return <span className="bs-figure">{value ?? '—'}</span>;
 }
 
-function OverviewTab({ draft, selection, setTab, goToRoom, openMenu, estimate, preview }: Props & { estimate: BuilderEstimateView | null; preview: boolean }) {
-  const build = buildTypeSummary(draft, selection);
-  const feel = draft.feel ? FEEL_BY_ID[draft.feel] : null;
-  const pages = estimate?.included.experiences.length ?? 0;
-  const pace = PACE_OPTIONS.find((p) => p.id === draft.pace)!;
-  const spec = { path: draft.path, feel: draft.feel, modules: draft.modules, pace: draft.pace };
+function ChangeLink({ session, room, goToRoom }: { session: StudioSession; room: StudioRoomId; goToRoom: (room: StudioRoomId) => void }) {
+  if (session.locked) return null;
+  const label = { place: '01 · PLACE', feel: '02 · FEEL', work: '03 · WORK', pace: '04 · PACE', blueprint: '' }[room];
+  return (
+    <button type="button" className="bs-link" onClick={() => goToRoom(room)}>
+      CHANGE IN ROOM {label}
+    </button>
+  );
+}
+
+function OverviewTab({ session, setTab, goToRoom, openMenu }: Props) {
+  const { state, snapshot } = session.view;
+  const preview = session.preview;
+  const selection = snapshot.selection;
+  const estimate = snapshot.estimate;
+  const build = buildTypeSummary(state.placePath, selection);
+  const feel = state.feelVibe ? FEEL_BY_ID[state.feelVibe] : null;
+  const pages = snapshot.blueprint.experiences.reduce((n, g) => n + g.items.length, 0);
+  const pace = PACE_OPTIONS.find((p) => p.id === state.pace);
+  const spec = buildSpec(state);
+  const features = featureCount(selection);
+  const world = state.placePath === 'WORLD';
   const cards: { key: string; label: string; value: string; thumb: ReturnType<typeof compose>; onOpen: () => void; hint: string }[] = [
-    { key: 'feel', label: 'VISUAL DIRECTION', value: feel?.label ?? 'NOT CHOSEN', thumb: compose('feel', spec), onOpen: () => goToRoom('feel'), hint: 'CHANGE IN ROOM 02' },
-    { key: 'pages', label: draft.path === 'WORLD' ? 'PLACES' : 'PAGES', value: draft.path === 'WORLD' ? 'AT REVIEW' : `${pages} PAGES`, thumb: compose('work', { ...spec, modules: draft.modules.filter((m) => m === 'PAGES' || m === 'BLOG') }), onOpen: () => setTab('PAGES'), hint: 'OPEN PAGES' },
-    { key: 'features', label: 'FEATURES', value: `${featureCount(selection)} ${featureCount(selection) === 1 ? 'FEATURE' : 'FEATURES'}`, thumb: compose('work', spec), onOpen: () => setTab('FEATURES'), hint: 'OPEN FEATURES' },
-    { key: 'pace', label: 'PRIORITY', value: pace.label, thumb: compose('pace', spec), onOpen: () => setTab('TIMELINE'), hint: 'OPEN TIMELINE' },
+    {
+      key: 'feel',
+      label: 'VISUAL DIRECTION',
+      value: feel?.label ?? 'NOT CHOSEN',
+      thumb: compose('feel', spec),
+      onOpen: () => (session.locked ? setTab('STRUCTURE') : goToRoom('feel')),
+      hint: session.locked ? 'OPEN STRUCTURE' : 'CHANGE IN ROOM 02',
+    },
+    {
+      key: 'pages',
+      label: world ? 'PLACES' : 'PAGES',
+      value: world ? 'AT REVIEW' : `${pages} ${pages === 1 ? 'PAGE' : 'PAGES'}`,
+      thumb: compose('work', { ...spec, modules: spec.modules.filter((m) => m === 'PAGES' || m === 'BLOG') }),
+      onOpen: () => setTab('PAGES'),
+      hint: 'OPEN PAGES',
+    },
+    { key: 'features', label: 'FEATURES', value: `${features} ${features === 1 ? 'FEATURE' : 'FEATURES'}`, thumb: compose('work', spec), onOpen: () => setTab('FEATURES'), hint: 'OPEN FEATURES' },
+    { key: 'pace', label: 'PRIORITY', value: pace?.label ?? 'NOT CHOSEN', thumb: compose('pace', spec), onOpen: () => setTab('TIMELINE'), hint: 'OPEN TIMELINE' },
   ];
   return (
     <>
@@ -191,20 +271,24 @@ function OverviewTab({ draft, selection, setTab, goToRoom, openMenu, estimate, p
           <ClockIcon size={22} />
           <span className="bs-fact__label">ESTIMATED TIMELINE</span>
           <EstimateFigure value={estimate ? spacedRange(estimate.productionWindow) : null} preview={preview} />
-          <span className="bs-fact__sub">{rangeNote(estimate, preview)}</span>
+          <span className="bs-fact__sub">{rangeNote(snapshot, preview)}</span>
         </div>
         <div className="bs-fact">
           <InvestmentIcon size={22} />
           <span className="bs-fact__label">ESTIMATED INVESTMENT</span>
           <EstimateFigure value={estimate ? expandInvestment(estimate.investment) : null} preview={preview} />
-          <span className="bs-fact__sub">{rangeNote(estimate, preview)}</span>
+          <span className="bs-fact__sub">{rangeNote(snapshot, preview)}</span>
         </div>
       </div>
       <div className="bs-config-head">
-        <h2>YOUR CONFIGURATION</h2>
-        <button type="button" className="bs-btn bs-btn--outline-dark" onClick={openMenu}>
-          <SlidersIcon size={15} /> EDIT SELECTIONS
-        </button>
+        <h2>{session.view.fromSubmission ? `VERSION ${session.review.version ?? ''} AS SUBMITTED` : 'YOUR CONFIGURATION'}</h2>
+        {session.locked ? (
+          <span className="bs-config-head__locked">LOCKED FOR REVIEW</span>
+        ) : (
+          <button type="button" className="bs-btn bs-btn--outline-dark" onClick={openMenu}>
+            <SlidersIcon size={15} /> EDIT SELECTIONS
+          </button>
+        )}
       </div>
       <ul className="bs-config">
         {cards.map((card) => (
@@ -223,82 +307,53 @@ function OverviewTab({ draft, selection, setTab, goToRoom, openMenu, estimate, p
   );
 }
 
-function StructureTab({ draft, selection, update, blueprint }: Props & { blueprint: ReturnType<typeof builderBlueprint> }) {
-  const build = buildTypeSummary(draft, selection);
-  const world = draft.path === 'WORLD';
-  const currentStructure = selection.structure;
-  const currentWorld = selection.world?.form ?? null;
+const COMMERCIAL_LINES = ['COMMERCE', 'PLATFORM', 'PLATFORM_USAGE', 'PAYMENT_PROCESSING', 'ONGOING_SUPPORT'];
+
+function StructureTab({ session, goToRoom }: Props) {
+  const { state, snapshot } = session.view;
+  const build = buildTypeSummary(state.placePath, snapshot.selection);
+  const custom = state.placePath === 'CUSTOM';
   return (
     <div className="bs-sheet">
       <p className="bs-sheet__lead">
         <strong>{build.label} BUILD</strong> {build.reasons.length ? build.reasons.join(' ').toUpperCase() : 'EVERY CHOICE FITS A SIMPLE BUILD.'}
       </p>
       <dl className="bs-lines">
-        {blueprint.lines
-          .filter((line) => !['COMMERCE', 'PLATFORM', 'PLATFORM_USAGE', 'PAYMENT_PROCESSING', 'ONGOING_SUPPORT'].includes(line.key))
+        {snapshot.blueprint.lines
+          .filter((line) => !COMMERCIAL_LINES.includes(line.key))
           .map((line) => (
-            <div key={line.key} className="bs-line">
+            <div key={line.key} className={`bs-line${line.open ? ' is-open' : ''}`}>
               <dt>{line.label}</dt>
               <dd>
-                {line.value ? line.value.toUpperCase() : draft.path === 'CUSTOM' ? 'DEVELOPED IN CREATIVE DIRECTION' : 'NOT CHOSEN'}
+                {line.value ? line.value.toUpperCase() : custom ? 'TO BE DEFINED IN YOUR CUSTOM DIRECTION' : 'NOT CHOSEN'}
                 {line.fromSystem && line.value ? <em> FROM SYSTEM</em> : null}
               </dd>
             </div>
           ))}
       </dl>
-      <h3 className="bs-sheet__title">{world ? 'WORLD FORM' : 'STRUCTURE'}</h3>
-      {!world && !draft.structure ? <p className="bs-sheet__hint">SUGGESTED FROM YOUR CHOICES. CHOOSE ANOTHER IF IT FITS BETTER.</p> : null}
-      <div className="bs-options" role="radiogroup" aria-label={world ? 'WORLD FORM' : 'STRUCTURE'}>
-        {world
-          ? WORLD_FORMS.filter((f) => f.id !== 'HYBRID_WORLD').map((form) => (
-              <button
-                key={form.id}
-                type="button"
-                role="radio"
-                aria-checked={currentWorld === form.id}
-                className={`bs-option${currentWorld === form.id ? ' is-selected' : ''}`}
-                onClick={() => update({ worldForm: form.id as WorldArchetypeId })}
-              >
-                <span className="bs-option__label">{form.label.toUpperCase()}</span>
-                <span className="bs-option__sub">{form.movement}</span>
-              </button>
-            ))
-          : STRUCTURES.filter((s) => s.id !== 'HYBRID').map((structure) => (
-              <button
-                key={structure.id}
-                type="button"
-                role="radio"
-                aria-checked={currentStructure === structure.id}
-                className={`bs-option${currentStructure === structure.id ? ' is-selected' : ''}`}
-                onClick={() =>
-                  update({ structure: structure.id === suggestedStructure(draft.modules) ? null : (structure.id as StructuralArchetypeId) })
-                }
-              >
-                <span className="bs-option__label">{structure.label.toUpperCase()}</span>
-                <span className="bs-option__sub">{structure.compositionLogic}</span>
-              </button>
-            ))}
-      </div>
+      <p className="bs-sheet__hint">THE STRUCTURE FOLLOWS FROM WHAT YOU ARE CREATING. SITE 00 CONFIRMS IT AT BLUEPRINT REVIEW.</p>
+      <ChangeLink session={session} room="place" goToRoom={goToRoom} />
     </div>
   );
 }
 
-function PagesTab({ draft, goToRoom, blueprint }: Props & { blueprint: ReturnType<typeof builderBlueprint> }) {
-  if (draft.path === 'WORLD') {
+function PagesTab({ session, goToRoom }: Props) {
+  const { state, snapshot } = session.view;
+  if (state.placePath === 'WORLD') {
     return (
       <div className="bs-sheet">
         <p className="bs-sheet__lead">A WORLD IS DESIGNED AS PLACES, NOT PAGES. ITS PLACES, MOMENTS AND THINGS TO DO ARE SHAPED WITH YOU AT BLUEPRINT REVIEW.</p>
+        <ChangeLink session={session} room="work" goToRoom={goToRoom} />
       </div>
     );
   }
-  const total = blueprint.experiences.reduce((n, g) => n + g.items.length, 0);
+  const total = snapshot.blueprint.experiences.reduce((n, g) => n + g.items.length, 0);
   return (
     <div className="bs-sheet">
       <p className="bs-sheet__lead">
-        <strong>{total} PAGES</strong>
-        {draft.modules.includes('PAGES') ? ' EACH DESIGNED IN MORE DEPTH.' : ' ASSEMBLED FROM YOUR STRUCTURE AND FEATURES.'}
+        <strong>{total} PAGES</strong> ASSEMBLED FROM YOUR STRUCTURE AND FEATURES.
       </p>
-      {blueprint.experiences.map((group) => (
+      {snapshot.blueprint.experiences.map((group) => (
         <div key={group.group} className="bs-group">
           <h3 className="bs-group__title">{group.group}</h3>
           <ul>
@@ -311,178 +366,104 @@ function PagesTab({ draft, goToRoom, blueprint }: Props & { blueprint: ReturnTyp
           </ul>
         </div>
       ))}
-      <button type="button" className="bs-link" onClick={() => goToRoom('work')}>
-        CHANGE IN ROOM 03 · WORK
-      </button>
+      <ChangeLink session={session} room="work" goToRoom={goToRoom} />
     </div>
   );
 }
 
-function FeaturesTab({ draft, goToRoom, blueprint, estimate }: Props & { blueprint: ReturnType<typeof builderBlueprint>; estimate: BuilderEstimateView | null }) {
+function FeaturesTab({ session, goToRoom }: Props) {
+  const { state, snapshot } = session.view;
+  const estimate = snapshot.estimate;
   return (
     <div className="bs-sheet">
       <ul className="bs-features">
-        {blueprint.capabilities.map((cap) => {
-          const plain = Object.values(CAPABILITY_BY_ID).find((c) => c.verb === cap.verb)?.plain ?? '';
-          return (
-            <li key={cap.verb}>
-              <span className="bs-features__verb">{cap.verb}</span>
-              <span className="bs-features__plain">{plain}</span>
-              {cap.comesWith ? <em>COMES WITH YOUR CHOICES</em> : null}
-            </li>
-          );
-        })}
+        {snapshot.blueprint.capabilities.map((cap) => (
+          <li key={cap.verb}>
+            <span className="bs-features__verb">{cap.verb}</span>
+            <span className="bs-features__plain">{capabilityPlain(cap.verb)}</span>
+            {cap.comesWith ? <em>COMES WITH YOUR CHOICES</em> : null}
+          </li>
+        ))}
       </ul>
       <h3 className="bs-sheet__title">CORE INCLUDED</h3>
-      <p className="bs-sheet__hint">{CORE_INCLUDED.map((c) => (draft.path === 'WORLD' ? c.worldLabel : c.label)).join(' · ')}</p>
+      <p className="bs-sheet__hint">{CORE_INCLUDED.map((c) => (state.placePath === 'WORLD' ? c.worldLabel : c.label)).join(' · ')}</p>
       {estimate?.platformUsage.applicable ? (
         <p className="bs-sheet__hint">
           <strong>{estimate.platformUsage.label}</strong> {estimate.platformUsage.summary}
         </p>
       ) : null}
-      <button type="button" className="bs-link" onClick={() => goToRoom('work')}>
-        CHANGE IN ROOM 03 · WORK
-      </button>
+      <ChangeLink session={session} room="work" goToRoom={goToRoom} />
     </div>
   );
 }
 
-function TimelineTab({ draft, goToRoom, estimate, preview }: Props & { estimate: BuilderEstimateView | null; preview: boolean }) {
-  const pace = PACE_OPTIONS.find((p) => p.id === draft.pace)!;
-  if (!estimate) return <p className="bs-sheet__lead">THE ESTIMATE IS UNAVAILABLE FOR THIS CONFIGURATION.</p>;
-  const priority = estimate.delivery.priority;
+function TimelineTab({ session, goToRoom }: Props) {
+  const { state, snapshot } = session.view;
+  const estimate = snapshot.estimate;
+  const pace = PACE_OPTIONS.find((p) => p.id === state.pace);
+  const note = state.paceNotes.trim();
   return (
     <div className="bs-sheet">
       <p className="bs-sheet__lead">
-        <strong>{pace.label}</strong> {pace.plain.toUpperCase()}
+        <strong>{pace?.label ?? 'NO PACE CHOSEN'}</strong> {pace ? pace.plain.toUpperCase() : ''}
       </p>
-      {preview ? (
-        <dl className="bs-lines">
-          <div className="bs-line">
-            <dt>STANDARD</dt>
-            <dd>
-              {spacedRange(estimate.delivery.standard.window)} · {expandInvestment(estimate.delivery.standard.investment)}
-            </dd>
-          </div>
-          <div className="bs-line">
-            <dt>EXPEDITED</dt>
-            <dd>
-              {priority.available
-                ? `${spacedRange(priority.window)} · ${expandInvestment(priority.investment)} · ${priority.sooner}`
-                : 'NOT AVAILABLE FOR THIS SCOPE'}
-            </dd>
-          </div>
-          <div className="bs-line">
-            <dt>RANGE</dt>
-            <dd>{estimate.confidence.label}</dd>
-          </div>
-        </dl>
+      {estimate ? (
+        <>
+          <dl className="bs-lines">
+            <div className="bs-line">
+              <dt>STANDARD</dt>
+              <dd>
+                {spacedRange(estimate.delivery.standard.window)} · {expandInvestment(estimate.delivery.standard.investment)}
+              </dd>
+            </div>
+            <div className="bs-line">
+              <dt>EXPEDITED</dt>
+              <dd>
+                {estimate.delivery.priority.available
+                  ? `${spacedRange(estimate.delivery.priority.window)} · ${expandInvestment(estimate.delivery.priority.investment)} · ${estimate.delivery.priority.sooner}`
+                  : 'NOT AVAILABLE FOR THIS SCOPE'}
+              </dd>
+            </div>
+            <div className="bs-line">
+              <dt>RANGE</dt>
+              <dd>{estimate.confidence.label}</dd>
+            </div>
+          </dl>
+          <p className="bs-sheet__hint">
+            {(estimate.delivery.priority.available ? estimate.delivery.priority.whyNotHalf : estimate.delivery.priority.reason).toUpperCase()}
+          </p>
+          <p className="bs-sheet__hint">{estimate.timelineNote.toUpperCase()}</p>
+          <h3 className="bs-sheet__title">WHAT COMES FIRST</h3>
+          <ul className="bs-bullets">
+            {estimate.dependencies.map((d) => (
+              <li key={d}>{d}</li>
+            ))}
+          </ul>
+          <h3 className="bs-sheet__title">WHAT HAPPENS NEXT</h3>
+          <ol className="bs-bullets">
+            {estimate.whatHappensNext.map((step) => (
+              <li key={step}>{step}</li>
+            ))}
+          </ol>
+          <p className="bs-fineprint">
+            {estimate.notAQuote} {estimate.reference}
+          </p>
+        </>
       ) : (
         <p className="bs-sheet__hint">YOUR TIMELINE AND INVESTMENT RANGE ARE SHARED AT BLUEPRINT REVIEW.</p>
       )}
-      {priority.available ? <p className="bs-sheet__hint">{priority.whyNotHalf.toUpperCase()}</p> : <p className="bs-sheet__hint">{priority.reason.toUpperCase()}</p>}
-      <p className="bs-sheet__hint">{estimate.timelineNote.toUpperCase()}</p>
-      <h3 className="bs-sheet__title">WHAT COMES FIRST</h3>
-      <ul className="bs-bullets">
-        {estimate.dependencies.map((d) => (
-          <li key={d}>{d}</li>
-        ))}
-      </ul>
-      <h3 className="bs-sheet__title">ASSUMPTIONS</h3>
-      <ul className="bs-bullets">
-        {estimate.assumptions.map((a) => (
-          <li key={a}>{a}</li>
-        ))}
-      </ul>
-      <h3 className="bs-sheet__title">WHAT HAPPENS NEXT</h3>
-      <ol className="bs-bullets">
-        {estimate.whatHappensNext.map((step) => (
-          <li key={step}>{step}</li>
-        ))}
-      </ol>
-      {draft.notes.trim() ? (
+      {note ? (
         <>
-          <h3 className="bs-sheet__title">YOUR NOTE</h3>
-          <p className="bs-sheet__hint">{draft.notes}</p>
+          <h3 className="bs-sheet__title">{state.placePath === 'CUSTOM' ? 'YOUR CUSTOM DIRECTION' : 'YOUR NOTE'}</h3>
+          <p className="bs-sheet__hint">{note}</p>
         </>
       ) : null}
-      <p className="bs-fineprint">
-        {estimate.notAQuote} {estimate.reference}
-      </p>
-      <button type="button" className="bs-link" onClick={() => goToRoom('pace')}>
-        CHANGE IN ROOM 04 · PACE
-      </button>
+      <ChangeLink session={session} room="pace" goToRoom={goToRoom} />
     </div>
   );
 }
 
-/* ─────────────────────────────── actions + submission ─────────────────────────────── */
-
-export function BlueprintActions({ draft, selection, update, saveNow, goToRoom }: Props) {
-  const readiness = studioReadiness(draft, selection);
-  const [sheetOpen, setSheetOpen] = useState(false);
-  const [savedNote, setSavedNote] = useState<string | null>(null);
-  const submitted = draft.submission !== null;
-
-  const save = () => {
-    const ok = saveNow();
-    try {
-      saveEstimateLocally(STUDIO_ESTIMATE_RECORD_KEY, blueprintEstimateRecord(selection));
-    } catch {
-      /* the draft itself is saved; the record is a convenience */
-    }
-    setSavedNote(ok ? `SAVED ON THIS DEVICE · ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}` : 'THIS BROWSER BLOCKED SAVING. KEEP THIS TAB OPEN.');
-  };
-
-  return (
-    <>
-      {readiness.decisions.length ? (
-        <div className="bs-decision" role="alert">
-          {readiness.decisions.map((d) => (
-            <p key={d.id} className="bs-decision__text">
-              {d.message.toUpperCase()}
-            </p>
-          ))}
-          <div className="bs-decision__actions">
-            {draft.path === 'SIMPLE' ? (
-              <button type="button" className="bs-btn bs-btn--small bs-btn--red" onClick={() => update({ acceptedLevelRaise: true })}>
-                KEEP IT · ADVANCED BUILD
-              </button>
-            ) : null}
-            <button type="button" className="bs-btn bs-btn--small bs-btn--ghost" onClick={() => goToRoom('work')}>
-              CHANGE MY CHOICES
-            </button>
-          </div>
-        </div>
-      ) : null}
-      <button
-        type="button"
-        className="bs-cta"
-        disabled={!readiness.ready || submitted}
-        onClick={() => setSheetOpen(true)}
-      >
-        {submitted ? 'SUBMITTED FOR REVIEW' : 'CONFIRM & SUBMIT FOR REVIEW'}
-        {!submitted ? <ArrowGlyph /> : null}
-      </button>
-      <button type="button" className="bs-cta bs-cta--outline" onClick={save}>
-        SAVE FOR LATER
-      </button>
-      <p className="bs-status" aria-live="polite">
-        {submitted
-          ? `SENT ${new Date(draft.submission!.submittedAt).toLocaleDateString()} · REFERENCE ${draft.submission!.intakeId.slice(0, 8).toUpperCase()}`
-          : savedNote ?? ''}
-      </p>
-      {sheetOpen ? (
-        <SubmitSheet
-          draft={draft}
-          selection={selection}
-          onClose={() => setSheetOpen(false)}
-          onSubmitted={(intakeId) => update({ submission: { intakeId, submittedAt: new Date().toISOString() } })}
-        />
-      ) : null}
-    </>
-  );
-}
+/* ─────────────────────────────── actions ─────────────────────────────── */
 
 function ArrowGlyph() {
   return (
@@ -492,72 +473,277 @@ function ArrowGlyph() {
   );
 }
 
-function SubmitSheet({ draft, selection, onClose, onSubmitted }: { draft: StudioDraft; selection: BuilderSelection; onClose: () => void; onSubmitted: (intakeId: string) => void }) {
-  const { state, submit } = useBlueprintSubmission();
-  const [email, setEmail] = useState('');
-  const inputRef = useRef<HTMLInputElement>(null);
-  const titleId = useId();
+/** CTA wording for each stage. Never claims a state the record does not hold. */
+function ctaFor(session: StudioSession): { label: string; arrow: boolean } {
+  const { review, submitted, syncStatus } = session;
+  if (syncStatus === 'submitting') return { label: 'SUBMITTING…', arrow: false };
+  switch (review.stage) {
+    case 'SUBMISSION_RECEIVED':
+    case 'REVISION_SUBMITTED':
+      return { label: `VERSION ${review.version ?? ''} SUBMITTED`.replace('  ', ' '), arrow: false };
+    case 'UNDER_REVIEW':
+      return { label: 'UNDER REVIEW', arrow: false };
+    case 'ACCEPTED':
+      return { label: 'ACCEPTED', arrow: false };
+    case 'CLOSED':
+      return { label: 'CLOSED', arrow: false };
+    case 'REVISION_REQUESTED':
+      return { label: `RESUBMIT AS VERSION ${(submitted?.current.version ?? 0) + 1}`, arrow: true };
+    default:
+      return { label: 'CONFIRM & SUBMIT FOR REVIEW', arrow: true };
+  }
+}
+
+/** Why SUBMIT is unavailable right now, in the client's words. Empty when it is available. */
+export function submitBlockers(session: StudioSession): { text: string; room: StudioRoomId | null }[] {
+  const out: { text: string; room: StudioRoomId | null }[] = [];
+  const { snapshot, state } = session;
+  const open = snapshot.blueprint.lines.filter((line) => line.open).map((line) => line.label);
+  for (const code of snapshot.submission_blockers) {
+    if (code === 'BLUEPRINT_INCOMPLETE') {
+      if (snapshot.blueprint.decisions.length) continue; // shown as a decision with its own actions
+      if (state.placePath === 'CUSTOM' && open.length) {
+        out.push({
+          text: `A CUSTOM DIRECTION CANNOT BE SUBMITTED FROM THE STUDIO YET: ${open.join(', ')} ARE DEFINED WITH SITE 00. YOUR BLUEPRINT STAYS SAVED.`,
+          room: null,
+        });
+        continue;
+      }
+    }
+    out.push(blockerCopy(code));
+  }
+  if (!session.serverIntakeId && session.syncStatus !== 'restoring') {
+    out.push({ text: 'SITE 00 IS NOT REACHABLE, SO NOTHING CAN BE SUBMITTED YET. YOUR CHOICES ARE SAVED ON THIS DEVICE.', room: null });
+  }
+  return out;
+}
+
+export function BlueprintActions({ session, goToRoom }: Props) {
+  const { snapshot, state, review, locked, update } = session;
+  const [sheet, setSheet] = useState<'submit' | 'save' | null>(null);
+  const decisions = locked ? [] : snapshot.blueprint.decisions;
+  const blockers = locked ? [] : submitBlockers(session);
+  const cta = ctaFor(session);
+  const canSubmit = !locked && snapshot.submission_ready && Boolean(session.serverIntakeId) && session.syncStatus !== 'submitting';
+
+  return (
+    <>
+      {decisions.length ? (
+        <div className="bs-decision" role="alert">
+          {decisions.map((d) => (
+            <p key={d.id} className="bs-decision__text">
+              {d.message.toUpperCase()}
+            </p>
+          ))}
+          <div className="bs-decision__actions">
+            {state.placePath === 'SIMPLE' ? (
+              <button type="button" className="bs-btn bs-btn--small bs-btn--red" onClick={() => update({ placePath: 'ADVANCED' })}>
+                KEEP IT · MOVE TO ADVANCED
+              </button>
+            ) : null}
+            <button type="button" className="bs-btn bs-btn--small bs-btn--ghost" onClick={() => goToRoom('work')}>
+              CHANGE MY CHOICES
+            </button>
+          </div>
+        </div>
+      ) : null}
+      {blockers.length ? (
+        <ul className="bs-blockers" aria-live="polite">
+          {blockers.map((b) => (
+            <li key={b.text}>
+              {b.text}
+              {b.room ? (
+                <button type="button" className="bs-link" onClick={() => goToRoom(b.room!)}>
+                  GO TO {b.room.toUpperCase()}
+                </button>
+              ) : null}
+            </li>
+          ))}
+        </ul>
+      ) : null}
+      <button type="button" className="bs-cta" disabled={!canSubmit} onClick={() => setSheet('submit')}>
+        {cta.label}
+        {cta.arrow ? <ArrowGlyph /> : null}
+      </button>
+      {!locked ? (
+        <button type="button" className="bs-cta bs-cta--outline" onClick={() => setSheet('save')}>
+          SAVE FOR LATER
+        </button>
+      ) : null}
+      <p className="bs-status" aria-live="polite">
+        {review.stage === 'DRAFT' || review.stage === 'REVISION_REQUESTED'
+          ? session.indicator.detail ?? ''
+          : 'SITE 00 REPLIES BY EMAIL. YOUR BLUEPRINT STAYS HERE, EXACTLY AS SUBMITTED.'}
+      </p>
+      {sheet === 'submit' ? <SubmitSheet session={session} onClose={() => setSheet(null)} /> : null}
+      {sheet === 'save' ? <SaveSheet session={session} onClose={() => setSheet(null)} /> : null}
+    </>
+  );
+}
+
+/* ─────────────────────────────── sheets ─────────────────────────────── */
+
+function useDialog(onClose: () => void) {
+  const closeRef = useRef<HTMLButtonElement>(null);
   useEffect(() => {
-    inputRef.current?.focus();
+    closeRef.current?.focus();
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [onClose]);
-  const send = async () => {
-    const id = await submit({ email, draft, selection });
-    if (id) onSubmitted(id);
-  };
+  return closeRef;
+}
+
+/** A guest needs an email on the intake so SITE 00 can reply and they can come back from any device. */
+function needsEmail(session: StudioSession): boolean {
+  const intake = session.serverIntake;
+  if (!intake) return true;
+  return intake.ownerKind !== 'AUTHENTICATED' && !intake.email;
+}
+
+function Summary({ state, snapshot, preview }: { state: SpatialBuilderState; snapshot: BlueprintSessionSnapshot; preview: boolean }) {
+  const rows: [string, string][] = [
+    ['PLACE', state.placePath ?? '—'],
+    ['LEVEL', snapshot.scope.buildLevel],
+    ['FEEL', state.feelVibe ? FEEL_BY_ID[state.feelVibe].label : '—'],
+    ['WORK', state.workModules.join(' · ').replace(/_/g, ' ') || '—'],
+    ['PACE', state.pace ?? '—'],
+  ];
+  if (preview && snapshot.estimate) {
+    rows.push(['INITIAL RANGE', `${expandInvestment(snapshot.estimate.investment)} · ${spacedRange(snapshot.estimate.productionWindow)}`]);
+  }
   return (
-    <div className="bs-sheet-backdrop" role="presentation" onClick={onClose}>
+    <dl className="bs-lines bs-lines--compact">
+      {rows.map(([k, v]) => (
+        <div key={k} className="bs-line">
+          <dt>{k}</dt>
+          <dd>{v}</dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
+
+function SubmitSheet({ session, onClose }: { session: StudioSession; onClose: () => void }) {
+  const closeRef = useDialog(onClose);
+  const titleId = useId();
+  const [phase, setPhase] = useState<'confirm' | 'submitting' | 'received' | 'failed'>('confirm');
+  const [received, setReceived] = useState<{ version: number; reference: string } | null>(null);
+  const nextVersion = (session.submitted?.current.version ?? 0) + 1;
+  const email = needsEmail(session);
+
+  const submit = async () => {
+    if (phase === 'submitting') return;
+    setPhase('submitting');
+    const result = await session.submitForReview();
+    const confirmed = result && normalizeIntakeStatus(result.status) === 'SUBMITTED' ? spatialSubmission(result) : null;
+    if (result && confirmed) {
+      setReceived({ version: confirmed.current.version, reference: result.publicReference });
+      setPhase('received');
+    } else {
+      setPhase('failed');
+    }
+  };
+
+  return (
+    <div className="bs-sheet-backdrop" role="presentation" onClick={phase === 'submitting' ? undefined : onClose}>
       <div className="bs-dialog" role="dialog" aria-modal="true" aria-labelledby={titleId} onClick={(e) => e.stopPropagation()}>
-        <button type="button" className="bs-dialog__close" onClick={onClose} aria-label="CLOSE">
+        <button ref={closeRef} type="button" className="bs-dialog__close" onClick={onClose} aria-label="CLOSE" disabled={phase === 'submitting'}>
           <CloseIcon size={18} />
         </button>
-        {state.status === 'sent' ? (
+        {phase === 'received' && received ? (
           <>
             <h2 id={titleId} className="bs-dialog__title">
-              SENT FOR REVIEW<span className="bs-dot">.</span>
+              SUBMISSION RECEIVED<span className="bs-dot">.</span>
             </h2>
-            <p className="bs-dialog__text">SITE 00 REVIEWS YOUR BLUEPRINT WITH YOU AND REPLIES WITH A REFINED RANGE. NOTHING IS CHARGED AND THIS IS NOT A QUOTE.</p>
-            <p className="bs-dialog__ref">REFERENCE {state.intakeId.slice(0, 8).toUpperCase()}</p>
+            <p className="bs-dialog__ref">
+              {received.reference} · VERSION {received.version}
+            </p>
+            <p className="bs-dialog__text">
+              AWAITING FOUNDER REVIEW. SITE 00 REVIEWS YOUR BLUEPRINT AND REPLIES BY EMAIL. NOTHING IS CHARGED AND THE RANGE IS NOT A QUOTE.
+            </p>
             <button type="button" className="bs-cta" onClick={onClose}>
-              DONE
+              VIEW MY BLUEPRINT
             </button>
           </>
         ) : (
           <>
             <h2 id={titleId} className="bs-dialog__title">
-              SEND YOUR BLUEPRINT<span className="bs-dot">.</span>
+              {nextVersion > 1 ? `RESUBMIT AS VERSION ${nextVersion}` : 'SUBMIT YOUR BLUEPRINT'}
+              <span className="bs-dot">.</span>
             </h2>
-            <p className="bs-dialog__text">WHERE SHOULD SITE 00 REPLY? YOUR SELECTIONS AND INITIAL RANGE TRAVEL WITH IT. THIS IS NOT A QUOTE.</p>
-            <label className="bs-field">
-              <span>EMAIL</span>
-              <input
-                ref={inputRef}
-                type="email"
-                inputMode="email"
-                autoComplete="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="YOU@YOURBUSINESS.COM"
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') void send();
-                }}
-              />
-            </label>
-            {state.status === 'error' ? (
+            <Summary state={session.state} snapshot={session.snapshot} preview={session.preview} />
+            {nextVersion > 1 ? (
+              <p className="bs-dialog__text">VERSION {nextVersion - 1} STAYS ON RECORD. SITE 00 SEES WHAT CHANGED.</p>
+            ) : (
+              <p className="bs-dialog__text">SITE 00 RECEIVES THIS EXACT VERSION WITH ITS INITIAL RANGE. THIS IS NOT A QUOTE.</p>
+            )}
+            {email ? (
+              <div className="bs-dialog__email">
+                <IntakeGuestAccessCapture intakeType="BUILDER" onRequestAccess={session.intakeSync.requestGuestAccess} alreadyIssued={false} />
+              </div>
+            ) : null}
+            {phase === 'failed' ? (
               <p className="bs-dialog__error" role="alert">
-                {state.message} YOUR BLUEPRINT IS STILL SAVED ON THIS DEVICE.
+                NOT SUBMITTED. {(session.intakeSync.errorMessage ?? 'SITE 00 DID NOT CONFIRM THE SUBMISSION.').toUpperCase()}{' '}
+                {session.intakeSync.saveState === 'error' ? 'YOUR LATEST CHOICES ARE ON THIS DEVICE.' : 'YOUR DRAFT IS SAVED WITH SITE 00.'}
               </p>
             ) : null}
-            <button type="button" className="bs-cta" disabled={state.status === 'sending'} onClick={() => void send()}>
-              {state.status === 'sending' ? 'SENDING…' : 'SEND FOR REVIEW'}
-              {state.status === 'sending' ? null : <ArrowGlyph />}
+            <button type="button" className="bs-cta" disabled={email || phase === 'submitting'} onClick={() => void submit()}>
+              {phase === 'submitting' ? 'SUBMITTING…' : phase === 'failed' ? 'TRY AGAIN' : nextVersion > 1 ? `SUBMIT VERSION ${nextVersion}` : 'SUBMIT FOR REVIEW'}
+              {phase === 'submitting' ? null : <ArrowGlyph />}
             </button>
+            {email ? <p className="bs-dialog__text bs-dialog__text--small">ADD YOUR EMAIL ABOVE SO SITE 00 CAN REPLY.</p> : null}
           </>
         )}
+      </div>
+    </div>
+  );
+}
+
+function SaveSheet({ session, onClose }: { session: StudioSession; onClose: () => void }) {
+  const closeRef = useDialog(onClose);
+  const titleId = useId();
+  const [result, setResult] = useState<'saving' | 'saved' | 'local' | null>(null);
+  useEffect(() => {
+    let cancelled = false;
+    setResult('saving');
+    void session.retrySave().then((ok) => {
+      if (!cancelled) setResult(ok ? 'saved' : 'local');
+    });
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- one save per opening
+  }, []);
+  const time = session.intakeSync.lastSavedAt ? new Date(session.intakeSync.lastSavedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+  return (
+    <div className="bs-sheet-backdrop" role="presentation" onClick={onClose}>
+      <div className="bs-dialog" role="dialog" aria-modal="true" aria-labelledby={titleId} onClick={(e) => e.stopPropagation()}>
+        <button ref={closeRef} type="button" className="bs-dialog__close" onClick={onClose} aria-label="CLOSE">
+          <CloseIcon size={18} />
+        </button>
+        <h2 id={titleId} className="bs-dialog__title">
+          {result === 'saved' ? 'SAVED' : result === 'local' ? 'LOCAL ONLY' : 'SAVING'}
+          <span className="bs-dot">.</span>
+        </h2>
+        <p className="bs-dialog__text" aria-live="polite">
+          {result === 'saved'
+            ? `YOUR BLUEPRINT IS SAVED WITH SITE 00${time ? ` AT ${time}` : ''}. ${session.serverIntake?.publicReference ?? ''}`
+            : result === 'local'
+              ? `SITE 00 DID NOT CONFIRM THE SAVE. YOUR CHOICES ARE ON THIS DEVICE ONLY.${session.intakeSync.errorMessage ? ` ${session.intakeSync.errorMessage.toUpperCase()}` : ''}`
+              : 'SAVING YOUR BLUEPRINT WITH SITE 00…'}
+        </p>
+        {result === 'saved' && needsEmail(session) ? (
+          <div className="bs-dialog__email">
+            <IntakeGuestAccessCapture intakeType="BUILDER" onRequestAccess={session.intakeSync.requestGuestAccess} alreadyIssued={false} />
+          </div>
+        ) : null}
+        <button type="button" className="bs-cta" onClick={onClose}>
+          DONE
+        </button>
       </div>
     </div>
   );

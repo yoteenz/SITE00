@@ -1337,6 +1337,222 @@ body.bs-body {
 
 /* ─────────────────────────────── tablet ─────────────────────────────── */
 
+/* ─────────────────────────────── save status ─────────────────────────────── */
+
+/* Truthful save state from the server-backed session: SAVED only after SITE 00 confirmed the write. */
+.bs-save {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 6px 10px 0 auto;
+  font-size: 7.8px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  line-height: 1;
+  color: var(--bs-muted);
+  white-space: nowrap;
+}
+
+.bs-save__dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.bs-save--ok .bs-save__dot { background: #2f8a55; }
+.bs-save--busy .bs-save__dot { animation: bs-save-pulse 1s ease-in-out infinite; }
+.bs-save--warn { color: #8a5a00; }
+.bs-save--error { color: var(--bs-red-deep); }
+.bs-save__retry {
+  margin-left: 2px;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  letter-spacing: inherit;
+}
+
+.bs-menu .bs-save { margin: 14px 0 0; }
+
+@keyframes bs-save-pulse {
+  50% { opacity: 0.3; }
+}
+
+/* ─────────────────────────────── review status ─────────────────────────────── */
+
+.bs-review {
+  margin: 0 0 12px;
+  padding: 12px 14px 12px;
+  border: 1px solid var(--bs-line-strong);
+  border-left: 3px solid var(--bs-ink);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.62);
+}
+
+.bs-review--revision_requested { border-left-color: var(--bs-red); }
+.bs-review--accepted { border-left-color: #2f8a55; }
+
+.bs-review__eyebrow {
+  margin: 0 0 6px;
+  font-size: 8px;
+  letter-spacing: 0.2em;
+  color: var(--bs-muted);
+}
+
+.bs-review__label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-family: var(--bs-display);
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.04em;
+}
+
+.bs-review__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--bs-ink);
+}
+
+.bs-review--revision_requested .bs-review__dot { background: var(--bs-red); }
+.bs-review--accepted .bs-review__dot { background: #2f8a55; }
+
+.bs-review__sub {
+  margin: 5px 0 0;
+  font-size: 8.8px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: var(--bs-ink-2);
+}
+
+.bs-review__request {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--bs-line);
+}
+
+.bs-review__request-label {
+  margin: 0 0 4px;
+  font-size: 8px;
+  letter-spacing: 0.2em;
+  color: var(--bs-red-deep);
+}
+
+.bs-review__request-text {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  color: var(--bs-ink);
+}
+
+.bs-review__hint {
+  margin: 8px 0 0;
+  font-size: 8.4px;
+  line-height: 1.55;
+  letter-spacing: 0.14em;
+  color: var(--bs-muted);
+}
+
+.bs-review .bs-btn { margin-top: 10px; }
+.bs-review .bs-link { display: block; margin-top: 10px; }
+
+.bs-lines--compact .bs-line { grid-template-columns: 96px 1fr; padding: 5px 0; }
+.bs-line.is-open dd { color: var(--bs-muted); font-weight: 500; }
+
+.bs-config-head__locked {
+  font-size: 8.2px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--bs-muted);
+  white-space: nowrap;
+}
+
+.bs-blockers {
+  margin: 0 0 8px;
+  padding: 0;
+  list-style: none;
+}
+
+.bs-blockers li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 10px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--bs-line);
+  font-size: 8.8px;
+  line-height: 1.5;
+  letter-spacing: 0.13em;
+  color: var(--bs-ink-2);
+}
+
+.bs-blockers .bs-link { margin: 0; font-size: 8.6px; }
+
+.bs-root.is-locked .bs-cta:disabled {
+  background: var(--bs-ink);
+  color: #fff;
+  opacity: 0.9;
+}
+
+/* Email capture inside the submit sheet (reused IntakeGuestAccessCapture, styled for the studio). */
+.bs-dialog__email .site00-intake-guest-access {
+  margin: 0 0 14px;
+  padding: 0;
+  border: 0;
+  background: none;
+}
+.bs-dialog__email .site00-intake-guest-access__label,
+.bs-dialog__email .site00-intake-guest-access__btn,
+.bs-dialog__email .site00-intake-guest-access__error,
+.bs-dialog__email .site00-intake-guest-access__confirmation { font-family: var(--bs-sans); }
+.bs-dialog__email .site00-intake-guest-access__label {
+  margin: 0 0 6px;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+}
+.bs-dialog__email .site00-intake-guest-access__row { display: flex; gap: 8px; }
+.bs-dialog__email .site00-intake-guest-access__input {
+  flex: 1 1 160px;
+  min-width: 0;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid var(--bs-line-strong);
+  border-radius: 3px;
+  background: #fff;
+  font-family: var(--bs-sans);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  color: var(--bs-ink);
+}
+.bs-dialog__email .site00-intake-guest-access__btn {
+  height: 40px;
+  border: 0;
+  padding: 0 12px;
+  border-radius: 3px;
+  background: var(--bs-ink);
+  color: #fff;
+  font-size: 8.6px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  white-space: nowrap;
+}
+.bs-dialog__email .site00-intake-guest-access__error,
+.bs-dialog__email .site00-intake-guest-access__confirmation {
+  margin: 8px 0 0;
+  font-size: 8.6px;
+  line-height: 1.5;
+  letter-spacing: 0.14em;
+  color: var(--bs-ink-2);
+}
+.bs-dialog__email .site00-intake-guest-access__error { color: var(--bs-red-deep); }
+.bs-dialog__text--small { margin: 10px 0 0; font-size: 8.6px; text-align: center; color: var(--bs-muted); }
+.bs-dialog .bs-lines { margin: 14px 0 0; }
+
 @media (min-width: 700px) {
   .bs-root {
     --bs-gutter: 40px;
@@ -1353,7 +1569,7 @@ body.bs-body {
   .bs-stage--blueprint { --bs-stage-h: min(50vh, 480px); }
   .bs-cards { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .bs-card .bs-thumb { height: 92px; }
-  .bs-strip__item { flex-basis: calc((100% - 30px) / 6); }
+  .bs-strip__item { flex-basis: calc((100% - 18px) / 4); }
   .bs-module { width: 120px; }
   .bs-module--left { left: 18%; }
   .bs-module--right { right: 18%; }
@@ -1419,7 +1635,7 @@ body.bs-body {
   .bs-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
   .bs-card .bs-thumb { height: 96px; }
   .bs-strip { margin-inline: 0; padding-inline: 0; flex-wrap: wrap; overflow: visible; }
-  .bs-strip__item { flex-basis: calc((100% - 12px) / 3); }
+  .bs-strip__item { flex-basis: calc((100% - 18px) / 4); }
   .bs-strip__item .bs-thumb { height: 74px; }
   .bs-module--left { left: 22%; }
   .bs-module--right { right: 22%; }

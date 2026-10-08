@@ -1,37 +1,164 @@
 # Grok asset request manifest — Builder Hybrid Spatial Studio
 
-**Sprint:** `P0.SITE00.BUILDER.HYBRID-SPATIAL-STUDIO.V1-OPUS-APPROVED-EXPERIENCE-DESIGN-AND-VISUAL-IMPLEMENTATION1`
-**Status:** requested, not generated. Grok acts only when directed.
+**Sprints:** `…VISUAL-IMPLEMENTATION1` (first issue) · `…APPROVED-VISUAL-IMPLEMENTATION-AND-FOUNDER-REVIEW1` (this revision)
+**Status:** requested, **not generated**. Grok acts only when directed. No asset in the repo matches the approved language (clear glass, translucent red acrylic, white Carrara plinths, white architectural space). The Build Object is a live three.js scene with procedural materials (`src/site00/builder-studio/buildObject/engine.ts`).
 
-## Why these assets
+**Rule for every asset:** an asset feeds the live object or covers what the live object cannot. **No asset replaces the state-driven Build Object with a still.** Every room keeps reacting to the client's choices.
 
-No asset in the repo matches the approved architectural language: clear glass, translucent red acrylic, white marble plinths, white architectural space. The closest families (`public/site00/production-authority-assets/production-library-red-geometry-*`, `docs/site00/public-redesign/GROK_ASSET_PACK/*BLDR*`) use crystals, pyramids, dark scenes or organic red-striped interiors.
+## Status legend
 
-The Build Object is therefore a real-time three.js scene with **procedural** materials (`src/site00/builder-studio/buildObject/engine.ts`). That keeps it state-driven, but it cannot reach the photoreal reflections and stone of the references.
+| Status | Meaning |
+|---|---|
+| **ASSET BLOCKED** | Essential for reference fidelity. The procedural stand-in visibly misses the reference. |
+| **ASSET PARTIAL** | The procedural stand-in is acceptable for review, and the asset would refine it. |
+| **DEFERRED** | Not needed until a later decision. |
 
-None of the assets below replaces the live object with a still. Each one feeds the live object, or covers a gap the live object cannot.
+## Shared scene facts (all assets)
 
-## Requests
+| Fact | Value |
+|---|---|
+| Room cameras | Fitted to the composition bounds. PLACE az −30° / el 8° · FEEL az −14° / el 5° · WORK az −32° / el 13° · PACE az −26° / el 12° · BLUEPRINT az −24° / el 13°. Perspective, ~35 mm feel. |
+| Light | Soft daylight from upper left. Faint warm floor bounce. Neutral tone mapping. No coloured light. |
+| Colour | Warm white page `#F2F0EC`. Ink `#0C0C0C`. SITE 00 red `#D8121F` (acrylic reads `#E5222A` lit, `#B70C17` in shadow). |
+| FEEL palettes | MODERN (glass / red / stone / marble) · BOLD (tinted glass / solid red / concrete) · EDITORIAL (glass / red / marble) · IMMERSIVE (dark glass / red / nero marble) |
 
-| ID | Asset | Target | Purpose | Visual requirements | Size / ratio | Transparency | Format | Destination | Priority |
-|---|---|---|---|---|---|---|---|---|---|
-| **GA-01** | White architectural atrium HDRI | All five screens (scene environment) | Real reflections on glass and red acrylic, replacing the generic `RoomEnvironment` | White gallery atrium, soft daylight from top-left, faint warm floor bounce, no colour casts, no people, no red | 2048×1024 equirect | n/a | `.hdr` (RGBE) + 1K `.hdr` for mobile | `public/site00/builder-studio/env/atrium-2k.hdr`, `atrium-1k.hdr` | **P1** |
-| **GA-02** | Carrara marble PBR set | Plinths and slabs (`marble`) | Replace the procedural marble with the references' grey-veined white marble | Seamless, white ground, grey veins of varied weight, no repeats visible at 3 m, matte-polished | 2048² (1024² mobile) | No | `.webp` albedo + roughness + normal | `public/site00/builder-studio/materials/marble-carrara/` | **P1** |
-| **GA-03** | Nero marquina PBR set | FEEL study, IMMERSIVE direction (`darkMarble`) | The dark veined stone in the FEEL reference | Seamless, near-black ground, white veins | 1024² | No | `.webp` set | `…/materials/marble-nero/` | P2 |
-| **GA-04** | Concrete + light stone PBR sets | Walls, floor slabs (`stone`, `concrete`) | Board-formed concrete and pale limestone | Seamless, fine grain, no stains | 1024² | No | `.webp` set | `…/materials/concrete/`, `…/materials/limestone/` | P2 |
-| **GA-05** | Background atmosphere plates (×5) | Behind the object, one per room | The soft white architecture and distant red glass behind each reference object | Out of focus, very low contrast, white columns, one distant red glass mass upper right, matching each room's reference | 3000×1000 (3:1) | No | `.webp` | `public/site00/builder-studio/backdrops/{place,feel,work,pace,blueprint}.webp` | P2 |
-| **GA-06** | Scale figures | All compositions | Replace the procedural capsule figures | Two standing adults, dark grey matte, 300–600 tris each, origin at feet, 1.75 m | n/a | n/a | `.glb` | `public/site00/builder-studio/models/figures.glb` | P3 |
-| **GA-07** | Path still renders (SIMPLE / ADVANCED / CUSTOM / WORLD) | No-WebGL fallback, social preview | When WebGL is unavailable the stage shows text only. A still keeps the composition | Photoreal render of each PLACE composition (`compose('place', …)`) in the reference style, camera as `CAMERAS.place` | 1600×1000 | Yes (object on alpha) | `.webp` | `public/site00/builder-studio/stills/place-{simple,advanced,custom,world}.webp` | P2 |
-| **GA-08** | Red acrylic micro-surface | Red elements (`red`, `redSolid`) | The subtle edge glow and internal depth of the reference acrylic | Very subtle roughness / normal variation, polished | 512² | No | `.webp` roughness + normal | `…/materials/acrylic-red/` | P3 |
-| **GA-09** | AR export (per Blueprint) | Blueprint AR affordance (deferred) | The reference shows an AR button. AR needs a model of the client's composition | Not an image: an export pipeline from `BuildComposition` to `.glb` + `.usdz`. **Needs Composer** | n/a | n/a | `.glb` + `.usdz` | — | P3 (deferred) |
+---
 
-## Reference images
+### GA-01 · White architectural atrium HDRI — **ASSET BLOCKED**
 
-Founder references (attached to the sprint): REFERENCE 01 (four rooms), REFERENCE 02 (Blueprint). Side-by-side crops are in `comparisons/*-reference-vs-implementation.jpg`.
+| Field | Value |
+|---|---|
+| Source | Grok (render or synthesis), founder-approved before use |
+| Room | All five (scene environment) |
+| Purpose | Real reflections on glass and red acrylic, replacing the generic `RoomEnvironment` |
+| Geometry | Interior gallery atrium: tall white walls, column rhythm, high clerestory light, no furniture |
+| Materials | Matte white plaster, pale stone floor |
+| Lighting | Overcast daylight through upper-left clerestory. Soft, no hard sun patches. |
+| Colour | Neutral white (D65); faint warm floor bounce. No red. No people. |
+| Camera | Equirectangular from object height (~1.2 m) |
+| Dimensions | 2048×1024 (desktop), 1024×512 (mobile) |
+| Aspect | 2:1 |
+| Transparency | n/a |
+| Crops | none (full sphere) |
+| Format | `.hdr` (RGBE), plus a 1K version |
+| Destination | `public/site00/builder-studio/env/atrium-2k.hdr`, `atrium-1k.hdr` |
+| Usage rules | Environment only; never shown as a background. `environmentIntensity` 0.5–0.7. Keep the procedural `RoomEnvironment` as the fallback while loading. |
 
-## Injection notes (for whoever wires them)
+### GA-02 · Carrara marble PBR set — **ASSET BLOCKED**
 
-- **GA-01:** load with `RGBELoader`, then pass through `PMREMGenerator.fromEquirectangular` → `scene.environment` in `buildStage()`. Keep `environmentIntensity` near 0.5–0.7 so the white page does not blow out.
-- **GA-02 to GA-04, GA-08:** swap the `stoneCanvas` textures in `createMaterials()` for loaded textures. Keep the procedural versions as the fallback while loading.
-- **GA-05:** a large plane behind the object, `fog: false`, depth-write off, or a CSS layer behind the canvas with the canvas cleared to transparent.
-- **Constraint:** the mobile bundle must stay light. Every asset needs a mobile size, and the page must stay usable while the assets load.
+| Field | Value |
+|---|---|
+| Source | Grok texture synthesis |
+| Room | All (plinths and slabs, material `marble`) |
+| Purpose | The references' grey-veined white plinths |
+| Geometry | Flat tileable surface |
+| Materials | Polished-honed Carrara: white ground, grey veins of varied weight |
+| Lighting | Flat, unlit albedo (no baked light) |
+| Colour | Ground `#F4F3F0`; veins `#9A9893`–`#5E5C59` |
+| Camera | Orthographic top-down |
+| Dimensions | 2048² (desktop), 1024² (mobile) |
+| Aspect | 1:1, seamless |
+| Transparency | no |
+| Crops | Seamless tile, with no visible repeat at 3 m |
+| Format | `.webp` albedo + roughness + normal |
+| Destination | `public/site00/builder-studio/materials/marble-carrara/` |
+| Usage rules | Swap into `createMaterials()`; the procedural canvas stays the fallback. |
+
+### GA-03 · Nero marquina PBR set — **ASSET PARTIAL**
+
+| Field | Value |
+|---|---|
+| Source / Room / Purpose | Grok · 02 FEEL (IMMERSIVE study), blueprint mass · the dark veined stone in the FEEL reference |
+| Geometry / Materials | Tileable; near-black marble with white veins |
+| Lighting / Colour | Unlit albedo · ground `#141414`, veins `#E6E4E0` |
+| Camera / Dimensions / Aspect | Orthographic · 1024² · 1:1 seamless |
+| Transparency / Crops / Format | no · seamless · `.webp` set |
+| Destination | `public/site00/builder-studio/materials/marble-nero/` |
+| Usage rules | IMMERSIVE palette (`darkMarble`) only |
+
+### GA-04 · Board-formed concrete + pale limestone PBR sets — **ASSET PARTIAL**
+
+| Field | Value |
+|---|---|
+| Source / Room / Purpose | Grok · all (`stone`, `concrete`) · walls and floor slabs |
+| Geometry / Materials | Tileable; fine-grain concrete with faint board marks; pale limestone |
+| Lighting / Colour | Unlit · concrete `#C9C6C1`, limestone `#E7E2D8` |
+| Camera / Dimensions / Aspect | Orthographic · 1024² · 1:1 seamless |
+| Transparency / Crops / Format | no · seamless · `.webp` set |
+| Destination | `…/materials/concrete/`, `…/materials/limestone/` |
+| Usage rules | Swap in `createMaterials()` with the procedural fallback |
+
+### GA-05 · Atmosphere plates ×5 (one per room) — **ASSET BLOCKED**
+
+| Field | Value |
+|---|---|
+| Source | Grok render, matched to each reference room |
+| Room | 01 PLACE · 02 FEEL · 03 WORK · 04 PACE · 05 BLUEPRINT |
+| Purpose | The soft white architecture and the distant red glass mass behind each reference object |
+| Geometry | Out-of-focus colonnade and walls. One distant red glass volume, upper right. No foreground object. |
+| Materials | White plaster, glass, red acrylic |
+| Lighting | Same as GA-01 |
+| Colour | Very low contrast; red only in the distant mass |
+| Camera | That room's camera above, with a long-lens depth-of-field blur |
+| Dimensions | 3000×1000 (desktop), 1500×500 (mobile) |
+| Aspect | 3:1 |
+| Transparency | no |
+| Crops | Safe centre band of 60% height. The object occupies the centre third. |
+| Format | `.webp` |
+| Destination | `public/site00/builder-studio/backdrops/{place,feel,work,pace,blueprint}.webp` |
+| Usage rules | CSS layer behind a transparent canvas, or a far plane with `fog: false`. Never carries text or UI. |
+
+### GA-06 · Scale figures — **ASSET PARTIAL**
+
+| Field | Value |
+|---|---|
+| Source / Room / Purpose | Grok model · all compositions · replace the procedural capsule figures |
+| Geometry | Two standing adults, neutral pose, 300–600 tris each, origin at feet, 1.75 m |
+| Materials / Lighting / Colour | Matte dark grey `#2B2B2B`, no texture · scene light · single colour |
+| Camera / Dimensions / Aspect | n/a · n/a · n/a |
+| Transparency / Crops / Format | n/a · n/a · `.glb` |
+| Destination | `public/site00/builder-studio/models/figures.glb` |
+| Usage rules | Scale only; never a character |
+
+### GA-07 · Path stills (SIMPLE · ADVANCED · CUSTOM · WORLD) — **ASSET PARTIAL**
+
+| Field | Value |
+|---|---|
+| Source / Room / Purpose | Grok photoreal render of `compose('place', …)` · 01 PLACE · fallback when WebGL is unavailable, and social preview |
+| Geometry / Materials | Exactly the PLACE compositions in `buildObject/composition.ts`, MODERN palette |
+| Lighting / Colour / Camera | GA-01 light · shared colours · PLACE camera (az −30°, el 8°) |
+| Dimensions / Aspect | 1600×1000 · 8:5 |
+| Transparency / Crops | Object on alpha · object centred with a 10% margin |
+| Format / Destination | `.webp` · `public/site00/builder-studio/stills/place-{simple,advanced,custom,world}.webp` |
+| Usage rules | Only when WebGL is unavailable. Never replaces the live object where WebGL works. |
+
+### GA-08 · Red acrylic micro-surface — **ASSET PARTIAL**
+
+| Field | Value |
+|---|---|
+| Source / Room / Purpose | Grok · all red elements (`red`, `redSolid`) · subtle edge glow and internal depth |
+| Geometry / Materials | Tileable micro-surface; polished acrylic |
+| Lighting / Colour | Unlit · n/a (roughness and normal only) |
+| Camera / Dimensions / Aspect | Orthographic · 512² · 1:1 seamless |
+| Transparency / Crops / Format | no · seamless · `.webp` roughness + normal |
+| Destination | `public/site00/builder-studio/materials/acrylic-red/` |
+| Usage rules | Very subtle; the colour stays `#D8121F` |
+
+### GA-09 · AR export (per Blueprint) — **DEFERRED**
+
+| Field | Value |
+|---|---|
+| Source / Room / Purpose | Not an image: an export pipeline `BuildComposition` → `.glb` + `.usdz` · 05 BLUEPRINT · the reference's AR control |
+| Remaining fields | n/a until founder and Composer decide on AR (the Build Object data contract has no AR field) |
+| Destination / Usage rules | — · No inert AR button ships before this exists |
+
+## Founder review surfaces
+
+The founder Blueprint review uses the same live Build Object (`BuildThumbnail`) for each submitted version. **No separate asset is requested for it.**
+
+## Injection notes
+
+- **GA-01:** `RGBELoader` → `PMREMGenerator.fromEquirectangular` → `scene.environment` in `buildStage()`.
+- **GA-02 to GA-04 and GA-08:** load textures into `createMaterials()`, keeping the procedural canvases as the loading fallback.
+- **GA-05:** a CSS layer behind a transparent canvas (preferred), or a far plane.
+- **Mobile budget:** every asset needs a mobile size, and the page must stay usable while assets load. The three.js chunk is already lazy (530 kB / 133 kB gzip).

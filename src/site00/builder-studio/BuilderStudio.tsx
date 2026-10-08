@@ -3,10 +3,11 @@
  *
  * ONE CONTINUOUS ENVIRONMENT. FOUR DISTINCT ROOMS. ONE BLUEPRINT REVEAL.
  * The shell, the stage and the Build Object persist across rooms; each room changes the question, the controls
- * and what the object shows. Rooms are routes (`/bldr/builder/:room`) so device back and forward work.
+ * and what the object shows. Rooms are routes (`/bldr/studio/:room`) so device back and forward work. The
+ * configuration itself lives in Composer's server-backed session (`useBuilderSpatialIntakeSession`).
  */
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { SITE00_ROUTES } from '../config/routes';
 import { compose } from './buildObject/composition';
 import { BuildObjectStage } from './buildObject/BuildObjectStage';
@@ -25,27 +26,32 @@ import {
 import {
   CONFIG_ROOMS,
   FEEL_BY_ID,
+  PACE_OPTIONS,
   PATH_OPTIONS,
   STUDIO_ROOMS,
   STUDIO_ROOM_BY_ID,
   WORK_MODULE_BY_ID,
-  advanceFurthest,
-  canEnterRoom,
-  firstOpenRoom,
-  roomComplete,
+  buildSpec,
+  canEnterStudioRoom,
+  furthestOpenRoom,
+  roomAnswered,
+  roomCanContinue,
   roomOrder,
+  spatialRoom,
+  studioRoomFromSpatial,
 } from './studioModel';
-import type { StudioDraft, StudioRoomId } from './studioModel';
-import { useStudioDraft } from './useStudioDraft';
+import type { SpatialBuilderState, StudioRoomId } from './studioModel';
+import { useStudioSession, type SaveIndicator, type StudioSession } from './useStudioSession';
 
-export function builderRoomPath(room: StudioRoomId): string {
-  return `${SITE00_ROUTES.bldrBuilder}/${room}`;
+export function studioRoomPath(room: StudioRoomId, search = ''): string {
+  return `${SITE00_ROUTES.bldrSpatialStudio}/${room}${search}`;
 }
 
-function objectDescription(room: StudioRoomId, draft: StudioDraft): string {
-  const path = draft.path ? PATH_OPTIONS.find((p) => p.id === draft.path)!.label : 'NO BUILD CHOSEN';
-  const feel = draft.feel ? FEEL_BY_ID[draft.feel].label : 'NO DIRECTION CHOSEN';
-  const modules = draft.modules.map((id) => WORK_MODULE_BY_ID[id].label).join(', ') || 'CORE FLOORS ONLY';
+function objectDescription(room: StudioRoomId, state: SpatialBuilderState): string {
+  const path = state.placePath ? PATH_OPTIONS.find((p) => p.id === state.placePath)!.label : 'NO BUILD CHOSEN';
+  const feel = state.feelVibe ? FEEL_BY_ID[state.feelVibe].label : 'NO DIRECTION CHOSEN';
+  const modules = state.workModules.map((id) => WORK_MODULE_BY_ID[id].label).join(', ') || 'CORE FLOORS ONLY';
+  const pace = state.pace ? PACE_OPTIONS.find((p) => p.id === state.pace)!.label : 'AN UNCHOSEN';
   switch (room) {
     case 'place':
       return `ARCHITECTURAL MODEL OF A ${path} BUILD: GLASS VOLUMES AND A RED ACRYLIC CORE ON A MARBLE PLINTH.`;
@@ -54,72 +60,99 @@ function objectDescription(room: StudioRoomId, draft: StudioDraft): string {
     case 'work':
       return `STRUCTURE WITH A FLOOR FOR EACH CAPABILITY. ADDED: ${modules}.`;
     case 'pace':
-      return `THE ASSEMBLED STRUCTURE AT ${draft.pace} PACE.`;
+      return `THE ASSEMBLED STRUCTURE AT ${pace} PACE.`;
     case 'blueprint':
-      return `YOUR PROPOSED DIGITAL LOCATION: ${path}, ${feel}, ${modules}, ${draft.pace} PACE.`;
+      return `YOUR PROPOSED DIGITAL LOCATION: ${path}, ${feel}, ${modules}, ${pace} PACE.`;
   }
 }
 
-function ctaEnabled(room: StudioRoomId, draft: StudioDraft): boolean {
-  if (room === 'place') return draft.path !== null;
-  if (room === 'feel') return draft.feel !== null;
-  return true;
+export function SaveStatusChip({ indicator, onRetry }: { indicator: SaveIndicator; onRetry?: () => void }) {
+  if (!indicator.label) return null;
+  return (
+    <p className={`bs-save bs-save--${indicator.tone}`} role="status" title={indicator.detail ?? undefined} data-sync={indicator.status}>
+      <span className="bs-save__dot" aria-hidden="true" />
+      <span className="bs-save__label">{indicator.label}</span>
+      {indicator.retry && onRetry ? (
+        <button type="button" className="bs-save__retry" onClick={onRetry}>
+          RETRY
+        </button>
+      ) : null}
+    </p>
+  );
 }
 
 export function BuilderStudio({ room: requested }: { room: StudioRoomId | null }) {
   const navigate = useNavigate();
-  const { draft, selection, update, saveNow, reset } = useStudioDraft();
+  const location = useLocation();
+  const session = useStudioSession();
+  const { state, locked, submitted, syncStatus, update } = session;
+  const hydrated = syncStatus !== 'restoring';
   const [menuOpen, setMenuOpen] = useState(false);
   const [tab, setTab] = useState<BlueprintTab>('OVERVIEW');
   const [inspecting, setInspecting] = useState(false);
   const [resetToken, setResetToken] = useState(0);
   const stageWrapRef = useRef<HTMLDivElement>(null);
-  const work = useWorkModules({ draft, selection, update });
+  const roomProps = { state, selection: session.selection, update };
+  const work = useWorkModules(roomProps);
 
-  // Resolve the room: an unknown or locked room sends the client to where they can continue.
+  // Resolve the room. A submitted, locked Blueprint opens on the Blueprint; a room the contract does not let the
+  // client enter yet sends them to the furthest one they can.
   const room: StudioRoomId = useMemo(() => {
-    const target = requested ?? draft.furthestRoom;
-    if (canEnterRoom(draft, target)) return target;
-    return firstOpenRoom(draft) ?? 'place';
-  }, [requested, draft]);
+    if (locked && submitted) return 'blueprint';
+    const target = requested ?? studioRoomFromSpatial(state.room);
+    if (canEnterStudioRoom(state, target)) return target;
+    return furthestOpenRoom(state);
+  }, [requested, state, locked, submitted]);
 
   useEffect(() => {
-    if (requested !== room) navigate(builderRoomPath(room), { replace: true });
-  }, [requested, room, navigate]);
+    if (!hydrated) return;
+    if (requested !== room) navigate(studioRoomPath(room, location.search), { replace: true });
+  }, [hydrated, requested, room, navigate, location.search]);
+
+  // Keep the session's room in step with the route (the contract only accepts a submission from BLUEPRINT).
+  useEffect(() => {
+    if (!hydrated || locked) return;
+    if (spatialRoom(room) !== state.room) session.goRoom(spatialRoom(room));
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- goRoom identity changes with state
+  }, [hydrated, locked, room, state.room]);
 
   useEffect(() => {
-    update((d) => advanceFurthest(d, room));
     setMenuOpen(false);
     setInspecting(false);
     window.scrollTo({ top: 0 });
-  }, [room, update]);
+  }, [room]);
 
   const goToRoom = useCallback(
     (next: StudioRoomId) => {
-      if (!canEnterRoom(draft, next)) return;
-      navigate(builderRoomPath(next));
+      if (locked && next !== 'blueprint') return;
+      if (!canEnterStudioRoom(state, next)) return;
+      navigate(studioRoomPath(next, location.search));
     },
-    [draft, navigate],
+    [locked, state, navigate, location.search],
   );
 
-  const spec = useMemo(
-    () => ({ path: draft.path, feel: draft.feel, modules: draft.modules, pace: draft.pace }),
-    [draft.path, draft.feel, draft.modules, draft.pace],
-  );
+  const shown = session.view.state;
+  const spec = useMemo(() => buildSpec(shown), [shown]);
   const composition = useMemo(() => compose(room, spec), [room, spec]);
 
   const meta = STUDIO_ROOM_BY_ID[room];
   const configIndex = CONFIG_ROOMS.indexOf(room);
   const nextRoom = STUDIO_ROOMS[roomOrder(room) + 1]?.id ?? null;
-  const roomProps = { draft, selection, update };
+  const retry = () => void session.retrySave();
 
   return (
-    <div className={`bs-root bs-room--${room}`} data-room={room}>
+    <div
+      className={`bs-root bs-room--${room}${locked ? ' is-locked' : ''}`}
+      data-room={room}
+      data-sync={session.indicator.status}
+      data-stage={session.review.stage}
+    >
       <header className="bs-header">
         <a className="bs-wordmark" href={SITE00_ROUTES.bldr} aria-label="SITE 00 BUILDER — EXIT TO BLDR">
           <span className="bs-wordmark__site">SITE 00</span>
           <span className="bs-wordmark__product">BUILDER</span>
         </a>
+        <SaveStatusChip indicator={session.indicator} onRetry={retry} />
         <button type="button" className="bs-menu-btn" aria-label="OPEN BUILDER MENU" aria-expanded={menuOpen} onClick={() => setMenuOpen(true)}>
           <MenuIcon size={34} />
         </button>
@@ -145,7 +178,7 @@ export function BuilderStudio({ room: requested }: { room: StudioRoomId | null }
       <div className="bs-stage-wrap" ref={stageWrapRef}>
         <BuildObjectStage
           composition={composition}
-          description={objectDescription(room, draft)}
+          description={objectDescription(room, shown)}
           interactive={room === 'blueprint' && inspecting}
           resetToken={resetToken}
           className={`bs-stage bs-stage--${room}`}
@@ -171,21 +204,16 @@ export function BuilderStudio({ room: requested }: { room: StudioRoomId | null }
         {room === 'work' ? <WorkControls {...roomProps} pending={work.pending} keep={work.keep} dismiss={work.dismiss} /> : null}
         {room === 'pace' ? <PaceControls {...roomProps} /> : null}
         {room === 'blueprint' ? (
-          <BlueprintPanel {...roomProps} goToRoom={goToRoom} openMenu={() => setMenuOpen(true)} saveNow={saveNow} tab={tab} setTab={setTab} />
+          <BlueprintPanel session={session} goToRoom={goToRoom} openMenu={() => setMenuOpen(true)} tab={tab} setTab={setTab} />
         ) : null}
       </section>
 
       <footer className="bs-footer">
         {room === 'blueprint' ? (
-          <BlueprintActions {...roomProps} goToRoom={goToRoom} openMenu={() => setMenuOpen(true)} saveNow={saveNow} tab={tab} setTab={setTab} />
+          <BlueprintActions session={session} goToRoom={goToRoom} openMenu={() => setMenuOpen(true)} tab={tab} setTab={setTab} />
         ) : (
           <>
-            <button
-              type="button"
-              className="bs-cta"
-              disabled={!ctaEnabled(room, draft)}
-              onClick={() => nextRoom && goToRoom(nextRoom)}
-            >
+            <button type="button" className="bs-cta" disabled={!roomCanContinue(state, room)} onClick={() => nextRoom && goToRoom(nextRoom)}>
               {meta.cta}
               <ArrowRightIcon size={26} />
             </button>
@@ -201,9 +229,9 @@ export function BuilderStudio({ room: requested }: { room: StudioRoomId | null }
                     key={id}
                     type="button"
                     className={`bs-rail__seg${i <= configIndex ? ' is-filled' : ''}`}
-                    aria-label={`${STUDIO_ROOM_BY_ID[id].index} ${STUDIO_ROOM_BY_ID[id].label}${roomComplete(draft, id) ? ' — DONE' : ''}`}
+                    aria-label={`${STUDIO_ROOM_BY_ID[id].index} ${STUDIO_ROOM_BY_ID[id].label}${roomAnswered(state, id) ? ' — ANSWERED' : ''}`}
                     aria-current={id === room ? 'step' : undefined}
-                    disabled={!canEnterRoom(draft, id)}
+                    disabled={!canEnterStudioRoom(state, id)}
                     onClick={() => goToRoom(id)}
                   />
                 ))}
@@ -215,15 +243,14 @@ export function BuilderStudio({ room: requested }: { room: StudioRoomId | null }
 
       {menuOpen ? (
         <StudioMenu
-          draft={draft}
+          session={session}
           room={room}
           onClose={() => setMenuOpen(false)}
           goToRoom={goToRoom}
-          saveNow={saveNow}
-          reset={() => {
-            reset();
+          startOver={() => {
             setMenuOpen(false);
-            navigate(builderRoomPath('place'));
+            navigate(studioRoomPath('place'));
+            session.resetSession();
           }}
         />
       ) : null}
@@ -232,22 +259,21 @@ export function BuilderStudio({ room: requested }: { room: StudioRoomId | null }
 }
 
 function StudioMenu({
-  draft,
+  session,
   room,
   onClose,
   goToRoom,
-  saveNow,
-  reset,
+  startOver,
 }: {
-  draft: StudioDraft;
+  session: StudioSession;
   room: StudioRoomId;
   onClose: () => void;
   goToRoom: (room: StudioRoomId) => void;
-  saveNow: () => boolean;
-  reset: () => void;
+  startOver: () => void;
 }) {
+  const { state, locked } = session;
   const [confirmReset, setConfirmReset] = useState(false);
-  const [saved, setSaved] = useState<string | null>(null);
+  const [saveNote, setSaveNote] = useState<string | null>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   useEffect(() => {
     closeRef.current?.focus();
@@ -257,6 +283,11 @@ function StudioMenu({
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [onClose]);
+  const save = async () => {
+    setSaveNote('SAVING…');
+    const ok = await session.retrySave();
+    setSaveNote(ok ? 'SAVED WITH SITE 00.' : 'SITE 00 DID NOT CONFIRM THE SAVE. YOUR CHOICES ARE ON THIS DEVICE ONLY.');
+  };
   return (
     <div className="bs-menu" role="dialog" aria-modal="true" aria-label="BUILDER MENU">
       <div className="bs-menu__head">
@@ -270,8 +301,9 @@ function StudioMenu({
       </div>
       <ol className="bs-menu__rooms">
         {STUDIO_ROOMS.map((item) => {
-          const enterable = canEnterRoom(draft, item.id);
-          const status = item.id === room ? 'YOU ARE HERE' : roomComplete(draft, item.id) ? 'DONE' : enterable ? 'OPEN' : 'LOCKED';
+          const enterable = (!locked || item.id === 'blueprint') && canEnterStudioRoom(state, item.id);
+          const status =
+            item.id === room ? 'YOU ARE HERE' : locked && item.id !== 'blueprint' ? 'LOCKED FOR REVIEW' : roomAnswered(state, item.id) ? 'ANSWERED' : enterable ? 'OPEN' : 'LOCKED';
           return (
             <li key={item.id}>
               <button type="button" disabled={!enterable} aria-current={item.id === room ? 'page' : undefined} onClick={() => goToRoom(item.id)}>
@@ -284,17 +316,15 @@ function StudioMenu({
         })}
       </ol>
       <div className="bs-menu__actions">
-        <button
-          type="button"
-          className="bs-btn bs-btn--outline-dark"
-          onClick={() => setSaved(saveNow() ? 'SAVED ON THIS DEVICE.' : 'THIS BROWSER BLOCKED SAVING.')}
-        >
-          SAVE FOR LATER
-        </button>
+        {!locked ? (
+          <button type="button" className="bs-btn bs-btn--outline-dark" onClick={() => void save()}>
+            SAVE FOR LATER
+          </button>
+        ) : null}
         {confirmReset ? (
           <span className="bs-menu__confirm">
-            CLEAR EVERY CHOICE?
-            <button type="button" className="bs-btn bs-btn--small bs-btn--red" onClick={reset}>
+            {session.submitted ? 'START A NEW BLUEPRINT? THE SUBMITTED ONE STAYS WITH SITE 00.' : 'CLEAR EVERY CHOICE?'}
+            <button type="button" className="bs-btn bs-btn--small bs-btn--red" onClick={startOver}>
               START OVER
             </button>
             <button type="button" className="bs-btn bs-btn--small bs-btn--ghost" onClick={() => setConfirmReset(false)}>
@@ -303,15 +333,16 @@ function StudioMenu({
           </span>
         ) : (
           <button type="button" className="bs-btn bs-btn--ghost" onClick={() => setConfirmReset(true)}>
-            START OVER
+            {session.submitted ? 'START A NEW BLUEPRINT' : 'START OVER'}
           </button>
         )}
         <a className="bs-btn bs-btn--ghost" href={SITE00_ROUTES.bldr}>
           EXIT BUILDER
         </a>
       </div>
+      <SaveStatusChip indicator={session.indicator} />
       <p className="bs-status" aria-live="polite">
-        {saved ?? (draft.savedAt ? `LAST SAVED ${new Date(draft.savedAt).toLocaleString()}` : 'YOUR CHOICES SAVE ON THIS DEVICE AS YOU GO.')}
+        {saveNote ?? session.indicator.detail ?? (session.serverIntake ? `${session.serverIntake.publicReference} · SAVES AS YOU GO.` : '')}
       </p>
     </div>
   );
