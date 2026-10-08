@@ -15579,3 +15579,17 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Changes:** `src/studioos/estimation/`, internal page `/admin/site00/estimator`, `docs/site00/SITE00_ESTIMATION_ENGINE.md`. Twelve engine tests pass. The public builder is unchanged. Client estimate preview stays off.
 - **Conventions:** Do not estimate by page count. Do not call priority production “rush.” Do not show family units to clients. Do not treat an estimate as a quote. Do not auto-adjust coefficients from calibration records. Do not invent visual-system sample images.
 
+---
+
+## 2026-10-08 — TODAY and ACTIVITY parents, then the brand-fidelity rebuild
+
+- **Context:** This chat built the first 14 TODAY and ACTIVITY parent authorities, rebuilt them after the founder rejected the masculine archive drift and the weak mark, resolved a merge with main, then rebuilt them again from the approved ENTRY authorities.
+- **Topics covered:** Parent-only generation. Official vertical logo versus the ENTRY welcome lockup. Image-to-image from ENTRY welcome, value, and benefits. No plates on this last pass.
+- **Decisions / outcomes:**
+  - The first batch and the reconstruction pass are superseded. Their files stay in `SUPERSEDED_DRAFT` and `SUPERSEDED_RECONSTRUCTION1`.
+  - The visual truth for this pass is the ENTRY welcome, value, and benefits authorities. Generations were image-to-image against those photographs.
+  - The lockup on every parent is the ENTRY welcome treatment: olive sprig, horizontal JURNL, and the line FINANCIAL LIFE. BEAUTIFULLY ORGANIZED.
+  - TODAY stays the lighter present reading. ACTIVITY stays the record, in the same warm room, without filing cabinets.
+  - No plates, sidekicks, or descendants were generated on this pass.
+- **Changes:** `TODAY v1/` and `ACTIVITY v1/` parent authorities and review boards. Manifests `today-brand-fidelity1.json` and `activity-brand-fidelity1.json`.
+- **Conventions:** When a JURNL parent is corrected for brand, anchor image-to-image to the approved ENTRY authorities and use the welcome lockup. Do not invent a filing-cabinet world for the record.
