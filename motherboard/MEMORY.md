@@ -15513,3 +15513,32 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - The Safe to Spend buffer displays grouped thousands (`6,500`) the way Quick Add does. The stored value stays ungrouped.
 - **Changes:** `src/projects/jurnl/runtime/jurnl-overlays.css`, `jurnl-runtime.css`, `jurnl-reference.css`, `AccountScreens.tsx`, `GlobalSheets.tsx`, `SafeToSpendScreens.tsx`, `tests/jurnlOverlayReplica1.test.tsx`. Email files are on the other branch.
 - **Conventions:** A JURNL drawer, sheet, or popup blurs the screen behind it the same way the account menu does. Money typed into the buffer is shown with commas. Do not upload email review images to GoDaddy.
+
+---
+
+## 2026-10-08 — ENTRY is one flow from WELCOME to SETUP
+
+- **Context:** The founder saw the seven ENTRY v2 pages on the tunnel but said they were not linked to the rest of the pages. They also said QUICK ADD and the hamburger menu changes had disappeared from the tunnel.
+- **Findings (main @ 10d7a25b, design preview, 393 × 852):**
+  - **Sign-up dead end.** OPEN EMAIL APP and the reset email closed their handoff and left the page where it was. The preview has no inbox, and the emailed link could only be opened by typing `?link=valid` or `entry/new-password` into the address bar. So a new account never got past CHECK YOUR EMAIL, and a reset never reached CREATE NEW PASSWORD. The same was true before ENTRY v2.
+  - **Sign-in works.** `EMMA@EXAMPLE.COM` / `Jurnl-2026` walks F01.03 → F01.09 → F01.10 → F01.11 → F01.12 → F01.13 → SETUP F02.00–F02.08 → TODAY.
+  - **QUICK ADD and the account drawer are on main.** They open on TODAY, SAFE TO SPEND, MONEY, PLAN and CREDIT with `F09_QUICK_ADD_OVERLAY_SOURCE` and `F09_ACCOUNT_DRAWER_OVERLAY_SOURCE`. No commit after #1492 touches them. The menu is hidden on `entry*` and `setup*` by design, so it cannot be seen until ENTRY and SETUP are done. A tunnel that shows an older drawer is answered by a stale backend (see `docs/site00/production-workspace/reconciliation/preview-tunnel-multi-connector-2026-10-06.md`); that can only be fixed from the canonical Cursor environment.
+- **Decisions / outcomes:**
+  - **Email link:** `MailHandoff` takes `onLink`. In the design preview only, confirming the handoff follows the emailed link:
+    - CHECK YOUR EMAIL → `entry/verify-email?link=valid` → the verified state → CONTINUE → F01.09.
+    - RESET EMAIL SENT → F01.07.
+    - A phone still returns through the real link; production behaviour is unchanged.
+  - **Workspace:** `F01_FLOW_SCREENS` (WELCOME, F01.14–F01.16, then the package screens) feeds `JURNL_F01_CONTRACT.screens` and `JURNL_F01_COVERAGE.screens`.
+    - The design workspace lists 17 ENTRY screens.
+    - The NEW ACCOUNT journey reads 00 → 14 → 15 → 16 → 01 → 02 → 09 → 10 → 11 → 12 → 13.
+    - The seven ENTRY v2 pages are reviewed against `public/site00/projects/jurnl/f01/authorities/entry-v2/ENTRY_V2_<screen>.jpg` (787 × 1400 copies of the approved authorities, for review only, never mounted).
+    - `F01_SCREENS` (the 14-screen package) and the interaction manifest are unchanged.
+  - **Still old visuals:** F01.04–F01.13 keep the package look. ENTRY v2 parents 08–14 and the descendant tree are `FOUNDER_REVIEW_REQUIRED`, and implementation is blocked until the founder approves them.
+- **Tests:**
+  - `tests/jurnlEntryV2FirstSeven1.test.tsx` adds the family order, review authorities and handoff wiring.
+  - `tests/jurnlF01ProjectIngestion.test.ts` now expects 16 children, and `tests/jurnlF01DesignWorkspace.test.tsx` expects 17 screens and the new journey.
+  - `e2e/jurnl/jurnl-entry-setup.e2e.ts` walks a new account from WELCOME to SETUP and a reset to CREATE NEW PASSWORD, on mobile, tablet and desktop.
+  - The structural blueprint generator (`scripts/jurnl/structural-blueprint/build.ts`) gains criteria, notes and the ENTRY v2 edges for F01.14–F01.16. `docs/jurnl/structural-completion/` is regenerated (147 F01 nodes).
+- **Conventions:**
+  - Walk a flow end to end in the preview before calling it linked: every page needs a way on that a person can reach without editing the URL.
+  - When the tunnel "loses" a change that is on main, check main in a browser first, then the tunnel's connectors.
