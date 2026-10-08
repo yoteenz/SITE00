@@ -18,6 +18,15 @@ function isBrowserCloudPreviewTunnel(): boolean {
 export function resolveSite00ClientApiBase(): string {
   if (typeof window !== 'undefined') {
     if (isBrowserCloudPreviewTunnel()) {
+      // Vite dev on the cloud tunnel (HMR founder preview): same-origin /api via cloudflared → :5174.
+      // Production `vite preview` / GoDaddy builds keep Railway (import.meta.env.DEV is false).
+      const previewLocalApi =
+        typeof import.meta !== 'undefined' &&
+        import.meta.env?.DEV === true &&
+        import.meta.env?.VITE_SITE00_PREVIEW_LOCAL_API === '1';
+      if (previewLocalApi) {
+        return window.location.origin.replace(/\/$/, '');
+      }
       return 'https://api.site00.com';
     }
     const host = window.location.hostname.toLowerCase();
