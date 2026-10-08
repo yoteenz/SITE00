@@ -687,8 +687,8 @@ function SubmitSheet({ session, onClose }: { session: StudioSession; onClose: ()
             ) : null}
             {phase === 'failed' ? (
               <p className="bs-dialog__error" role="alert">
-                NOT SUBMITTED. {(session.intakeSync.errorMessage ?? 'SITE 00 DID NOT CONFIRM THE SUBMISSION.').toUpperCase()}{' '}
-                {session.intakeSync.saveState === 'error' ? 'YOUR LATEST CHOICES ARE ON THIS DEVICE.' : 'YOUR DRAFT IS SAVED WITH SITE 00.'}
+                NOT SUBMITTED — {(session.intakeSync.errorMessage ?? 'SITE 00 DID NOT CONFIRM THE SUBMISSION').toUpperCase().replace(/\.$/, '')}.{' '}
+                {session.serverHasChoices ? 'YOUR CHOICES ARE SAVED WITH SITE 00. TRY AGAIN.' : 'YOUR LATEST CHOICES ARE ON THIS DEVICE. TRY AGAIN.'}
               </p>
             ) : null}
             <button type="button" className="bs-cta" disabled={email || phase === 'submitting'} onClick={() => void submit()}>

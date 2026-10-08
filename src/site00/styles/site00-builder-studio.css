@@ -1515,9 +1515,10 @@ body.bs-body {
   font-weight: 600;
   letter-spacing: 0.2em;
 }
-.bs-dialog__email .site00-intake-guest-access__row { display: flex; gap: 8px; }
+/* The global capture stacks its row on narrow screens; in the sheet it stays one line (input + button). */
+.bs-dialog__email .site00-intake-guest-access__row { display: flex; flex-direction: row; flex-wrap: nowrap; gap: 8px; }
 .bs-dialog__email .site00-intake-guest-access__input {
-  flex: 1 1 160px;
+  flex: 1 1 auto;
   min-width: 0;
   height: 40px;
   padding: 0 12px;
@@ -1530,6 +1531,8 @@ body.bs-body {
   color: var(--bs-ink);
 }
 .bs-dialog__email .site00-intake-guest-access__btn {
+  flex: 0 0 auto;
+  width: auto;
   height: 40px;
   border: 0;
   padding: 0 12px;

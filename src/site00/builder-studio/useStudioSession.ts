@@ -192,7 +192,7 @@ export function useStudioSession() {
     return intakeSync.flushAutosave({ currentStep: `spatial:${current.room}`, totalSteps: 5, draftPayload: draftPayloadFromEnvelope(envelope) });
   }, [canEdit, intakeSync]);
 
-  return { ...session, update, submitted, review, locked, view, readiness, indicator, retrySave, preview };
+  return { ...session, update, submitted, review, locked, view, readiness, indicator, retrySave, preview, serverHasChoices: !serverBehind };
 }
 
 export type StudioSession = ReturnType<typeof useStudioSession>;

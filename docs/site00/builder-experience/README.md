@@ -10,7 +10,7 @@ This sprint delivers UX authority and a data contract. It is not an implementati
 - **Estimator:** `src/studioos/estimation/` v1.0.0 is unchanged. A test asserts its reference outputs.
 - **Public prices:** no public price or public page was changed.
 - **Builder:** no route renders the new Builder. `src/site00/builder-experience/` is a contract with tests, ready for the implementation sprint.
-- **Update (Hybrid Spatial Studio — founder review):** the four rooms + Blueprint run at `/bldr/studio/:room` on Composer's server-backed session (`useBuilderSpatialIntakeSession`), with submission, client review states, revision/resubmission and a founder Blueprint review in the admin intake inbox. Gated by `VITE_SITE00_TEMPLATE_SYSTEM_V1` (off by default). See `HYBRID_SPATIAL_STUDIO_FOUNDER_REVIEW_V1.md`.
+- **Update (Hybrid Spatial Studio — founder review):** the four rooms + Blueprint run at `/bldr/studio/:room` on Composer's server-backed session (`useBuilderSpatialIntakeSession`), with submission, client review states, revision/resubmission and a founder Blueprint review in the admin intake inbox. Gated by `VITE_SITE00_TEMPLATE_SYSTEM_V1` (off by default). See `HYBRID_SPATIAL_STUDIO_FOUNDER_REVIEW_V1.md`; recovery onto current `main`, live QA and the founder-preview deployment handoff: `HYBRID_SPATIAL_STUDIO_RECOVERY_AND_PREVIEW_V1.md`.
 
 ## Outputs
 

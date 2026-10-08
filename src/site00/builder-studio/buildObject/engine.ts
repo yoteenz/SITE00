@@ -13,6 +13,8 @@ import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js
 import type { BuildCamera, BuildComposition, BuildElement, BuildMaterial } from './composition';
 
 const BACKGROUND = 0xf2f0ec;
+const FOG_NEAR = 14;
+const FOG_FAR = 34;
 const TWEEN_MS = 760;
 const DEG = Math.PI / 180;
 const FOV = 26;
@@ -207,7 +209,7 @@ const FIGURE_BODY = (() => {
 
 function buildStage(scene: THREE.Scene, renderer: THREE.WebGLRenderer, mobile: boolean) {
   scene.background = new THREE.Color(BACKGROUND);
-  scene.fog = new THREE.Fog(BACKGROUND, 14, 34);
+  scene.fog = new THREE.Fog(BACKGROUND, FOG_NEAR, FOG_FAR);
   const pmrem = new THREE.PMREMGenerator(renderer);
   scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
   scene.environmentIntensity = 0.5;
@@ -562,6 +564,12 @@ export function createBuildObjectEngine(container: HTMLElement, options: { reduc
       const view = { ...currentCamera, elevation: Math.max(2, Math.min(55, currentCamera.elevation + dragElevation)) };
       camera.position.copy(cameraPosition(view, sway + dragAzimuth));
       camera.lookAt(...view.target);
+      // The atmosphere fog is tuned for the room stages. A tall stage (portrait fullscreen) fits the camera much
+      // further back, so the fog recedes with it instead of swallowing the object; the room-stage values are the floor.
+      if (scene.fog instanceof THREE.Fog) {
+        scene.fog.near = Math.max(FOG_NEAR, view.distance * 1.05);
+        scene.fog.far = Math.max(FOG_FAR, view.distance * 2.5);
+      }
     }
     renderer.render(scene, camera);
     if (animating) requestFrame();
