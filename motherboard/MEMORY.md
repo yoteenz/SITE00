@@ -15258,3 +15258,12 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decisions / outcomes:** Each authority was edited in place on HQ Sunburst 4K, auto-enhance off. Copy and artifact type stayed. Welcome gained a fluted cornice, green marble plinth, and heavier velvet. Value is installed on stone with a pinned column engraving. Benefits sits on a ledger. Get Started gained a brass weight and a cropped capital. Create Account gained linen and an index tab, and the form stays the clearest page. Email gained a postcard and a letter opener. Sign In sits on green marble with a relief fragment. All seven plates are `REGENERATE_EXISTING`. The value plate needed one extra edit to put the oxblood square back. Prior files stay under `SUPERSEDED/`, with the graphic refinement prefixed `refinement2-`. Nothing is mounted. No new production ZIP.
 - **Changes:** `ENTRY v2/` authorities, plates, both manifests, and `review/entry-v2-environment-art-direction-refinement3.png`. This MEMORY note.
 - **Conventions:** Do not mount this batch. Do not start ENTRY 08–14 until the founder reviews the set. Do not delete superseded ENTRY files. Do not treat these review images as a GoDaddy upload. The sidekick plate has to carry the room once the type is gone.
+
+---
+
+## 2026-10-08 — ENTRY v2 environment pack as a lean zip
+
+- **Context:** This chat shipped the HQ dock, the first ENTRY v2 batch and its zip, the graphic refinement, then the environment enrichment (PR #1488). The founder asked for those enriched images in one organized lean zip.
+- **Decisions / outcomes:** The zip is JPEG quality 92 at 2016×3584. Seven folders, each with `AUTHORITY.jpg` and `PLATE.jpg`. Contact sheet and the two manifests sit beside them. About 22MB. Release tag `jurnl-entry-v2-env3-2026-10-08`. Superseded generations are not in the zip. The PNGs stay in `ENTRY v2/`. The zip is not a site deploy and is not committed.
+- **Changes:** This MEMORY note only.
+- **Conventions:** Send ENTRY review packs as a GitHub release zip of JPEGs. Do not upload that zip to GoDaddy. Do not treat it as the production bundle `index.DmvbEdGf.js`.
