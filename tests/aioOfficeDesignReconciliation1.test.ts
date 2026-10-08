@@ -131,7 +131,8 @@ describe('Brand, roles, responsive, decisions', () => {
     }
   });
   it('leaves every decision open for the founder; nine block regeneration', () => {
-    expect(REC.decisions.every((d) => d.status === 'OPEN' && d.options.length >= 2 && d.recommendation.length > 0)).toBe(true);
+    expect(REC.decisions.every((d) => d.status === 'OPEN' && d.options.length >= 2 && d.recommendation.length > 0 && d.recommended_option >= 0 && d.recommended_option < d.options.length)).toBe(true);
+    expect(REC.decisions.filter((d) => d.recommended_option !== 0).map((d) => d.decision_id)).toEqual(['D-HERO-SCALE', 'D-WORK-CARD-SIGNALS', 'D-PHOTOGRAPHY']);
     expect(REC.decisions.filter((d) => d.priority === 'BEFORE_REGENERATION').map((d) => d.decision_id)).toEqual(['D-HERO-SCALE', 'D-HOME-ATTENTION', 'D-WORK-CARD-SIGNALS', 'D-PHOTOGRAPHY', 'D-REPORTS-OVERVIEW', 'D-REPORTS-STAFF', 'D-MORE-GROUPS', 'D-DESKTOP-SHELL', 'D-CREATIVE-PROFILE']);
   });
   it('records the uppercase law and the privacy touchpoints', () => {

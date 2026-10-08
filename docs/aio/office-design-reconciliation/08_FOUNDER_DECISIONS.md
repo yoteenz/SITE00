@@ -14,11 +14,11 @@
 
 Every page opens with a large photograph that takes about a third of the phone screen, so the first piece of real work sits below the fold. How much hero do you want?
 
-| Option | What it means |
-|---|---|
-| Keep all four large | Most cinematic; staff scroll before every task. |
-| HOME keeps a shorter hero, the other three use a slim photo band | HOME still greets; WORK, REPORTS and MORE show their content in the first screen. |
-| Slim photo band on all four | Most practical; HOME loses its welcome moment. |
+| Option | What it means |  |
+|---|---|---|
+| Keep all four large | Most cinematic; staff scroll before every task. |  |
+| HOME keeps a shorter hero, the other three use a slim photo band | HOME still greets; WORK, REPORTS and MORE show their content in the first screen. | RECOMMENDED |
+| Slim photo band on all four | Most practical; HOME loses its welcome moment. |  |
 
 **Recommendation:** HOME keeps a shorter hero (about 60% of today’s height, so the three attention cards sit in the first screen); WORK, REPORTS and MORE use a slim photo band.
 
@@ -28,11 +28,11 @@ Every page opens with a large photograph that takes about a third of the phone s
 
 HOME needs NEEDS ATTENTION, DEADLINES and BLOCKERS as real lists, not only numbers. How should they fit without making HOME long?
 
-| Option | What it means |
-|---|---|
-| Cards become tabs of one list underneath | Same three cards; tapping one shows its items (client, what is wrong, where to fix it). One list, three views. |
-| Three separate lists below the cards | Everything visible at once; HOME grows by about a screen. |
-| Numbers only, open a separate page | Shortest HOME; the next action is one tap further away. |
+| Option | What it means |  |
+|---|---|---|
+| Cards become tabs of one list underneath | Same three cards; tapping one shows its items (client, what is wrong, where to fix it). One list, three views. | RECOMMENDED |
+| Three separate lists below the cards | Everything visible at once; HOME grows by about a screen. |  |
+| Numbers only, open a separate page | Shortest HOME; the next action is one tap further away. |  |
 
 **Recommendation:** Cards become tabs of one list underneath, showing the top five items of the selected card.
 
@@ -42,11 +42,11 @@ Proceeds with the recommendation unless you change it. Pages: HOME
 
 The drawing has no quick actions. Where should they go?
 
-| Option | What it means |
-|---|---|
-| Phone: behind a “+” in the header · tablet and desktop: a visible row / column | The phone’s first screen stays for attention (contract order); wider screens show the actions in parallel. |
-| A row of four under the attention list on every device | Always visible; pushes the work summary down on phones. |
-| None on HOME | Cleanest; staff go through WORK and INTAKE. |
+| Option | What it means |  |
+|---|---|---|
+| Phone: behind a “+” in the header · tablet and desktop: a visible row / column | The phone’s first screen stays for attention (contract order); wider screens show the actions in parallel. | RECOMMENDED |
+| A row of four under the attention list on every device | Always visible; pushes the work summary down on phones. |  |
+| None on HOME | Cleanest; staff go through WORK and INTAKE. |  |
 
 **Recommendation:** Phone: a “+” in the header opens four role-aware actions — START MIGRATION, MY WORK, VIEW DEADLINES, MESSAGE A CLIENT (plus CREATE INVOICE and NEW LEAD for people with the billing or CRM grant). Tablet: a row after recent activity. Desktop: the top of the context column.
 
@@ -56,11 +56,11 @@ The drawing has no quick actions. Where should they go?
 
 Each lane card shows one number today. What should a card tell you at a glance?
 
-| Option | What it means |
-|---|---|
-| One number, as drawn | Simple; says little about urgency. |
-| Needs-attention count plus a BLOCKED marker when the lane has one | Cards point at what to do first; lanes that cannot report say NOT CONNECTED YET. |
-| No numbers until they are production data | Truthful; the grid feels static. |
+| Option | What it means |  |
+|---|---|---|
+| One number, as drawn | Simple; says little about urgency. |  |
+| Needs-attention count plus a BLOCKED marker when the lane has one | Cards point at what to do first; lanes that cannot report say NOT CONNECTED YET. | RECOMMENDED |
+| No numbers until they are production data | Truthful; the grid feels static. |  |
 
 **Recommendation:** Needs-attention count plus a BLOCKED marker, taken from the lane’s own summary (the same figure HOME shows). Lanes without that data say NOT CONNECTED YET; VEHICLES & FLEET says NO STAFF SCREEN YET.
 
@@ -70,11 +70,11 @@ Proceeds with the recommendation unless you change it. Pages: WORK
 
 Creating a case or “client project” does not exist yet, and assigning is for managers. What should the banner at the bottom of WORK be?
 
-| Option | What it means |
-|---|---|
-| Replace it with MY WORK | Shows what is assigned to you — something that exists today. |
-| Keep it for later | Draws a feature the system cannot do yet. |
-| Remove it | Cleaner page. |
+| Option | What it means |  |
+|---|---|---|
+| Replace it with MY WORK | Shows what is assigned to you — something that exists today. | RECOMMENDED |
+| Keep it for later | Draws a feature the system cannot do yet. |  |
+| Remove it | Cleaner page. |  |
 
 **Recommendation:** Replace it with a MY WORK strip near the top of WORK (assigned to me, due soon), and keep “create case” out until it exists.
 
@@ -84,11 +84,11 @@ Creating a case or “client project” does not exist yet, and assigning is for
 
 Several photos contain fake text (PERMITS, DOT, INSURANCE, garbled ledgers), an invented logo on the MORE notebook, a masked driver, and two near-identical road shots. How should we fix them?
 
-| Option | What it means |
-|---|---|
-| Controlled asset pass: same subjects, clean high-resolution versions | Keeps your choices; removes the AI tells. |
-| Reuse existing approved photos where they fit, new ones for the rest | Faster and consistent with IFTA (fleet yard for VEHICLES & FLEET, light-trail road for FILING, AIO truck for DISPATCH). |
-| Keep them as drawn | Fastest; the artifacts would ship. |
+| Option | What it means |  |
+|---|---|---|
+| Controlled asset pass: same subjects, clean high-resolution versions | Keeps your choices; removes the AI tells. |  |
+| Reuse existing approved photos where they fit, new ones for the rest | Faster and consistent with IFTA (fleet yard for VEHICLES & FLEET, light-trail road for FILING, AIO truck for DISPATCH). | RECOMMENDED |
+| Keep them as drawn | Fastest; the artifacts would ship. |  |
 
 **Recommendation:** Reuse the four approved plates that fit, and run a controlled asset pass for the rest with the same subjects and no legible generated text.
 
@@ -98,11 +98,11 @@ Several photos contain fake text (PERMITS, DOT, INSURANCE, garbled ledgers), an 
 
 Of the four drawn numbers, only some can be backed: client growth and the percentage changes cannot be computed, and “estimated revenue” does not exist. What should the overview lead with?
 
-| Option | What it means |
-|---|---|
-| Only figures we can back, no trend lines yet | ACTIVE CLIENTS, FILINGS FILED (with last period), ACTIVE WORK, COLLECTED REVENUE (founder / finance only). Unbacked ones show a clear “not connected yet”. |
-| Keep the drawn tiles and label them “sample” | Looks finished; teaches staff to ignore numbers. |
-| Hide the overview until data is production-backed | Truthful; REPORTS looks empty. |
+| Option | What it means |  |
+|---|---|---|
+| Only figures we can back, no trend lines yet | ACTIVE CLIENTS, FILINGS FILED (with last period), ACTIVE WORK, COLLECTED REVENUE (founder / finance only). Unbacked ones show a clear “not connected yet”. | RECOMMENDED |
+| Keep the drawn tiles and label them “sample” | Looks finished; teaches staff to ignore numbers. |  |
+| Hide the overview until data is production-backed | Truthful; REPORTS looks empty. |  |
 
 **Recommendation:** Lead with the four figures we can back, no sparklines until history exists, and an honest “not connected yet” panel where CLIENT GROWTH is drawn.
 
@@ -112,11 +112,11 @@ Proceeds with the recommendation unless you change it. Pages: REPORTS
 
 The drawing has five tabs; REPORTS has ten areas. How should people move between them?
 
-| Option | What it means |
-|---|---|
-| Phone: overview plus a list of the ten areas; desktop: a side list | All ten reachable, nothing squeezed. |
-| Ten scrolling tabs | Familiar; most tabs hide off-screen on a phone. |
-| Group into four tabs | Compact; areas get buried inside groups. |
+| Option | What it means |  |
+|---|---|---|
+| Phone: overview plus a list of the ten areas; desktop: a side list | All ten reachable, nothing squeezed. | RECOMMENDED |
+| Ten scrolling tabs | Familiar; most tabs hide off-screen on a phone. |  |
+| Group into four tabs | Compact; areas get buried inside groups. |  |
 
 **Recommendation:** Phone: OVERVIEW first, then a list of all ten areas with their state; tablet: two rows of tabs; desktop: a side list beside the report.
 
@@ -126,10 +126,10 @@ The drawing has five tabs; REPORTS has ten areas. How should people move between
 
 Reporting is founder-class; staff see it only by grant. The dock must keep exactly five items. What does a staff member without the grant see on REPORTS?
 
-| Option | What it means |
-|---|---|
-| Keep the tab; show only the areas they are granted, or a clear “ask a founder for access” page | Same dock for everyone; no hidden surprises. |
-| Hide REPORTS for them | Breaks the fixed five-item dock. |
+| Option | What it means |  |
+|---|---|---|
+| Keep the tab; show only the areas they are granted, or a clear “ask a founder for access” page | Same dock for everyone; no hidden surprises. | RECOMMENDED |
+| Hide REPORTS for them | Breaks the fixed five-item dock. |  |
 
 **Recommendation:** Keep the tab for everyone. Staff see only the areas they are granted; with none, a clear “reporting is by grant” page.
 
@@ -139,11 +139,11 @@ Reporting is founder-class; staff see it only by grant. The dock must keep exact
 
 MORE needs eleven entries (three are missing: GROWTH / CRM, BILLING, ACCOUNT). One long list or groups?
 
-| Option | What it means |
-|---|---|
-| Four groups | CLIENTS & RECORDS (Clients, Documents & Vault, Messages) · BUSINESS (Growth / CRM, Billing, Service Catalog) · PEOPLE & NETWORK (Team & Staff, Mechanic Network) · SYSTEM (System Settings, Help & Support, Account). |
-| One list of eleven in canonical order | Simple; long on a phone. |
-| Two groups (Business · Office) | Fewer headings; less meaningful. |
+| Option | What it means |  |
+|---|---|---|
+| Four groups | CLIENTS & RECORDS (Clients, Documents & Vault, Messages) · BUSINESS (Growth / CRM, Billing, Service Catalog) · PEOPLE & NETWORK (Team & Staff, Mechanic Network) · SYSTEM (System Settings, Help & Support, Account). | RECOMMENDED |
+| One list of eleven in canonical order | Simple; long on a phone. |  |
+| Two groups (Business · Office) | Fewer headings; less meaningful. |  |
 
 **Recommendation:** Four groups, with the group names open for your wording. The heading “ADDITIONAL TOOLS” goes.
 
@@ -153,10 +153,10 @@ Proceeds with the recommendation unless you change it. Pages: MORE
 
 It repeats the Help & Support row right above it. Keep it?
 
-| Option | What it means |
-|---|---|
-| Remove it | One way to reach help. |
-| Keep it as the only help entry and drop the row | Friendlier; breaks the directory pattern. |
+| Option | What it means |  |
+|---|---|---|
+| Remove it | One way to reach help. | RECOMMENDED |
+| Keep it as the only help entry and drop the row | Friendlier; breaks the directory pattern. |  |
 
 **Recommendation:** Remove the card; Help & Support stays as an entry.
 
@@ -166,10 +166,10 @@ Proceeds with the recommendation unless you change it. Pages: MORE
 
 ACCOUNT (your own profile) belongs in MORE. Should the avatar in the header also open it?
 
-| Option | What it means |
-|---|---|
-| Both: MORE entry and avatar menu open the same page | Expected behaviour; one page. |
-| MORE only | Strict; the avatar does nothing. |
+| Option | What it means |  |
+|---|---|---|
+| Both: MORE entry and avatar menu open the same page | Expected behaviour; one page. | RECOMMENDED |
+| MORE only | Strict; the avatar does nothing. |  |
 
 **Recommendation:** Both open the same MORE → ACCOUNT page.
 
@@ -179,10 +179,10 @@ Proceeds with the recommendation unless you change it. Pages: HOME · WORK · RE
 
 The drawing shows “JORDAN L. · AIO STAFF”; the approved migration masters show “ALEX R. · STAFF”. What should the authority set show?
 
-| Option | What it means |
-|---|---|
-| One sample person across all AIO authorities, role line from the role | Consistent; FOUNDER shows as FOUNDER for founders. |
-| Name only, no role line | Simpler; hides who has founder powers. |
+| Option | What it means |  |
+|---|---|---|
+| One sample person across all AIO authorities, role line from the role | Consistent; FOUNDER shows as FOUNDER for founders. | RECOMMENDED |
+| Name only, no role line | Simpler; hides who has founder powers. |  |
 
 **Recommendation:** One sample person across the AIO authority sets, and a role line that reads the person’s role (FOUNDER, or the staff role).
 
@@ -192,10 +192,10 @@ The drawing shows “JORDAN L. · AIO STAFF”; the approved migration masters s
 
 There is an approved AIO OFFICE desktop and tablet frame from the migration work (header bar, left side menu on desktop, bottom dock on tablet). Use it for all four pages?
 
-| Option | What it means |
-|---|---|
-| Yes, with WORK in place of FILING | One consistent office on every device. |
-| Design a new desktop frame | Fresh; two frames for one office. |
+| Option | What it means |  |
+|---|---|---|
+| Yes, with WORK in place of FILING | One consistent office on every device. | RECOMMENDED |
+| Design a new desktop frame | Fresh; two frames for one office. |  |
 
 **Recommendation:** Yes: the approved frame, with WORK replacing FILING in the side menu and dock.
 
@@ -205,9 +205,9 @@ There is an approved AIO OFFICE desktop and tablet frame from the migration work
 
 The studio’s design pipeline needs an AIO creative-direction profile before any new AIO page family is generated (only IFTA was exempt). Should your four-screen language become that profile?
 
-| Option | What it means |
-|---|---|
-| Yes: your four screens are the basis of the AIO profile | Every later AIO page inherits this look. |
-| Only for AIO OFFICE | Other AIO families may diverge. |
+| Option | What it means |  |
+|---|---|---|
+| Yes: your four screens are the basis of the AIO profile | Every later AIO page inherits this look. | RECOMMENDED |
+| Only for AIO OFFICE | Other AIO families may diverge. |  |
 
 **Recommendation:** Yes: record your four-screen language (photography, black-and-gold dock, ivory surfaces, editorial headlines) as the AIO creative-direction profile.

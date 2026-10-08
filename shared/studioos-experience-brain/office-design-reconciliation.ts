@@ -99,6 +99,8 @@ export interface DesignDecision {
   /** The question in everyday English. */
   question: string;
   options: { option: string; effect: string }[];
+  /** Index into options of the recommended choice; recommendation explains it. */
+  recommended_option: number;
   recommendation: string;
   roots: string[];
   /** BEFORE_REGENERATION blocks the second delivery; CAN_DEFAULT proceeds with the recommendation unless the founder says otherwise. */
@@ -247,6 +249,7 @@ export function validateDesignReconciliation(rec: DesignReconciliation, c: Offic
   for (const d of rec.decisions) {
     if (d.options.length < 2) v.push(`decision ${d.decision_id}: fewer than two options`);
     if (!d.recommendation) v.push(`decision ${d.decision_id}: no recommendation`);
+    if (!Number.isInteger(d.recommended_option) || d.recommended_option < 0 || d.recommended_option >= d.options.length) v.push(`decision ${d.decision_id}: recommended option out of range`);
     if (d.status !== 'OPEN') v.push(`decision ${d.decision_id}: decided inside the reconciliation (only the founder decides)`);
   }
   for (const r of c.roots) for (const vp of DESIGN_VIEWPORTS) {

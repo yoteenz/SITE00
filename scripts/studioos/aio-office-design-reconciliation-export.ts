@@ -199,7 +199,7 @@ function decisionsMd() {
       `## ${d.decision_id} — ${d.title}`, '',
       `${d.priority === 'BEFORE_REGENERATION' ? '**Decide before regeneration.**' : 'Proceeds with the recommendation unless you change it.'} Pages: ${d.roots.map(short).join(' · ')}`, '',
       d.question, '',
-      table(['Option', 'What it means'], d.options.map((o) => [o.option, o.effect])), '',
+      table(['Option', 'What it means', ''], d.options.map((o, i) => [o.option, o.effect, i === d.recommended_option ? 'RECOMMENDED' : ''])), '',
       `**Recommendation:** ${d.recommendation}`, '',
     ]),
   ].join('\n');

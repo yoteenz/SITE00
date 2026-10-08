@@ -2199,6 +2199,7 @@
           "effect": "Most practical; HOME loses its welcome moment."
         }
       ],
+      "recommended_option": 1,
       "recommendation": "HOME keeps a shorter hero (about 60% of today’s height, so the three attention cards sit in the first screen); WORK, REPORTS and MORE use a slim photo band.",
       "roots": [
         "AIO_OFFICE.HOME",
@@ -2227,6 +2228,7 @@
           "effect": "Shortest HOME; the next action is one tap further away."
         }
       ],
+      "recommended_option": 0,
       "recommendation": "Cards become tabs of one list underneath, showing the top five items of the selected card.",
       "roots": [
         "AIO_OFFICE.HOME"
@@ -2252,6 +2254,7 @@
           "effect": "Cleanest; staff go through WORK and INTAKE."
         }
       ],
+      "recommended_option": 0,
       "recommendation": "Phone: a “+” in the header opens four role-aware actions — START MIGRATION, MY WORK, VIEW DEADLINES, MESSAGE A CLIENT (plus CREATE INVOICE and NEW LEAD for people with the billing or CRM grant). Tablet: a row after recent activity. Desktop: the top of the context column.",
       "roots": [
         "AIO_OFFICE.HOME"
@@ -2277,6 +2280,7 @@
           "effect": "Truthful; the grid feels static."
         }
       ],
+      "recommended_option": 1,
       "recommendation": "Needs-attention count plus a BLOCKED marker, taken from the lane’s own summary (the same figure HOME shows). Lanes without that data say NOT CONNECTED YET; VEHICLES & FLEET says NO STAFF SCREEN YET.",
       "roots": [
         "AIO_OFFICE.WORK",
@@ -2303,6 +2307,7 @@
           "effect": "Cleaner page."
         }
       ],
+      "recommended_option": 0,
       "recommendation": "Replace it with a MY WORK strip near the top of WORK (assigned to me, due soon), and keep “create case” out until it exists.",
       "roots": [
         "AIO_OFFICE.WORK"
@@ -2328,6 +2333,7 @@
           "effect": "Fastest; the artifacts would ship."
         }
       ],
+      "recommended_option": 1,
       "recommendation": "Reuse the four approved plates that fit, and run a controlled asset pass for the rest with the same subjects and no legible generated text.",
       "roots": [
         "AIO_OFFICE.WORK",
@@ -2356,6 +2362,7 @@
           "effect": "Truthful; REPORTS looks empty."
         }
       ],
+      "recommended_option": 0,
       "recommendation": "Lead with the four figures we can back, no sparklines until history exists, and an honest “not connected yet” panel where CLIENT GROWTH is drawn.",
       "roots": [
         "AIO_OFFICE.REPORTS"
@@ -2381,6 +2388,7 @@
           "effect": "Compact; areas get buried inside groups."
         }
       ],
+      "recommended_option": 0,
       "recommendation": "Phone: OVERVIEW first, then a list of all ten areas with their state; tablet: two rows of tabs; desktop: a side list beside the report.",
       "roots": [
         "AIO_OFFICE.REPORTS"
@@ -2402,6 +2410,7 @@
           "effect": "Breaks the fixed five-item dock."
         }
       ],
+      "recommended_option": 0,
       "recommendation": "Keep the tab for everyone. Staff see only the areas they are granted; with none, a clear “reporting is by grant” page.",
       "roots": [
         "AIO_OFFICE.REPORTS"
@@ -2427,6 +2436,7 @@
           "effect": "Fewer headings; less meaningful."
         }
       ],
+      "recommended_option": 0,
       "recommendation": "Four groups, with the group names open for your wording. The heading “ADDITIONAL TOOLS” goes.",
       "roots": [
         "AIO_OFFICE.MORE"
@@ -2448,6 +2458,7 @@
           "effect": "Friendlier; breaks the directory pattern."
         }
       ],
+      "recommended_option": 0,
       "recommendation": "Remove the card; Help & Support stays as an entry.",
       "roots": [
         "AIO_OFFICE.MORE"
@@ -2469,6 +2480,7 @@
           "effect": "Strict; the avatar does nothing."
         }
       ],
+      "recommended_option": 0,
       "recommendation": "Both open the same MORE → ACCOUNT page.",
       "roots": [
         "AIO_OFFICE.MORE"
@@ -2490,6 +2502,7 @@
           "effect": "Simpler; hides who has founder powers."
         }
       ],
+      "recommended_option": 0,
       "recommendation": "One sample person across the AIO authority sets, and a role line that reads the person’s role (FOUNDER, or the staff role).",
       "roots": [
         "AIO_OFFICE.HOME",
@@ -2514,6 +2527,7 @@
           "effect": "Fresh; two frames for one office."
         }
       ],
+      "recommended_option": 0,
       "recommendation": "Yes: the approved frame, with WORK replacing FILING in the side menu and dock.",
       "roots": [
         "AIO_OFFICE.HOME",
@@ -2538,6 +2552,7 @@
           "effect": "Other AIO families may diverge."
         }
       ],
+      "recommended_option": 0,
       "recommendation": "Yes: record your four-screen language (photography, black-and-gold dock, ivory surfaces, editorial headlines) as the AIO creative-direction profile.",
       "roots": [
         "AIO_OFFICE.HOME",

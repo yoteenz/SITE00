@@ -15660,3 +15660,29 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - Only the owning root declares a state-changing action (the validator rejects a cross-root EXECUTE or ADMINISTER).
   - A metric that cannot be backed is classified, never drawn.
   - A NOT STARTED surface stays NOT_IMPLEMENTED until code proves otherwise.
+
+---
+
+## 2026-10-08 — AIO office: founder four-screen design reconciled (first delivery, awaiting founder)
+
+- **Sprint:** P0.AIO.OFFICE.FOUNDER-HOME-WORK-REPORTS-MORE.EXISTING-DESIGN-RECONCILIATION1. Review only. No image was generated, nothing is approved, and nothing in the live app changed.
+- **Where:**
+  - Generic layer: `shared/studioos-experience-brain/office-design-reconciliation.ts`. It holds the reference inventory, the computed coverage (`referenceCoverage`, `drawnFigures`) and the validator.
+  - AIO data: `projects/aio/office-design-reconciliation.ts`.
+  - Docs: `docs/aio/office-design-reconciliation/` (01–10, JSON, gate). The founder's image is in `reference/`, byte for byte (sha256 `47343139…`).
+  - Tests: `tests/aioOfficeDesignReconciliation1.test.ts` (21).
+- **Computed from the drawing:**
+  - HOME draws 6 of 8 regions; Quick Actions and Business Pulse are missing.
+  - HOME → Work Across AIO draws 7 of 12 lanes, plus INTAKE.
+  - WORK draws 11 of 12 lanes: Vehicles & Fleet is missing and INTAKE is drawn as a lane.
+  - REPORTS reaches 6 of 10 areas; MORE draws 8 of 11 entries (no CRM, Billing or Account).
+  - 52 drawn figures, none production-backed.
+- **Proposals:**
+  - WORK keeps the 3 × 4 photo grid; INTAKE's slot goes to Vehicles & Fleet (fleet-yard plate).
+  - HOME keeps the three cards as tabs of one list.
+  - REPORTS shows only figures the system can back; client growth, deltas and "Revenue (Est.)" become honest states.
+  - MORE splits into four groups.
+  - Tablet and desktop use the approved migration staff frame, with WORK in place of FILING.
+- **Brand:** the header lockup matches the approved `public/migration/brand-lockup.png` (no dot). The older `public/brand/aio-logo-lockup.png` has a gold dot above the I and is DO_NOT_USE. The MORE notebook shows an invented AIO mark.
+- **Open:** 15 founder decisions, 9 of them before regeneration. AIO still needs a creative-direction profile (D-CREATIVE-PROFILE).
+- **Review page:** https://claude.ai/artifact/VSZe1RfFzQQhUU82KH18uG. Its decision picker copies the founder's answers back as text.
