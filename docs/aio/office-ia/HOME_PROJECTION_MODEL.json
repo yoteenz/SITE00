@@ -199,7 +199,7 @@
         }
       ],
       "evidence": [
-        "all-in-one-enterprises/src/demo/demoTypes.ts:389 Deadline (deadlineType incl. ifta_filing)",
+        "all-in-one-enterprises/src/demo/demoTypes.ts:408 Deadline (deadlineType incl. ifta_filing)",
         "all-in-one-enterprises/src/office/pages/OperationsPages.tsx:47-113"
       ],
       "notes": ""
@@ -268,7 +268,7 @@
       "evidence": [
         "all-in-one-enterprises/src/office-core/officeWorkTypes.ts:111 OfficeWorkItem",
         "all-in-one-enterprises/src/ifta/iftaDerive.ts:528 staffBucket BLOCKED",
-        "all-in-one-enterprises/src/office-core/client360Service.ts:29 customerWaitingOn / allInOneWaitingOn"
+        "all-in-one-enterprises/src/office-core/client360Service.ts:42-43 customerWaitingOn / allInOneWaitingOn"
       ],
       "notes": "No IFTA OfficeWorkItem domain; waiting-on is per client only (no cross-client rollup)."
     },

@@ -233,7 +233,7 @@
       "implementation": "IMPLEMENTATION_PARTIAL",
       "depth": "FUNCTIONAL_DEMO",
       "evidence": [
-        "all-in-one-enterprises/src/demo/demoTypes.ts:389 Deadline (deadlineType incl. ifta_filing)",
+        "all-in-one-enterprises/src/demo/demoTypes.ts:408 Deadline (deadlineType incl. ifta_filing)",
         "all-in-one-enterprises/src/office/pages/OperationsPages.tsx:47-113"
       ],
       "routes": [
@@ -283,7 +283,7 @@
       "evidence": [
         "all-in-one-enterprises/src/office-core/officeWorkTypes.ts:111 OfficeWorkItem",
         "all-in-one-enterprises/src/ifta/iftaDerive.ts:528 staffBucket BLOCKED",
-        "all-in-one-enterprises/src/office-core/client360Service.ts:29 customerWaitingOn / allInOneWaitingOn"
+        "all-in-one-enterprises/src/office-core/client360Service.ts:42-43 customerWaitingOn / allInOneWaitingOn"
       ],
       "routes": [],
       "service_ids": [],
@@ -1658,7 +1658,7 @@
         {
           "path": "/office/workspaces/ifta",
           "status": "EXISTING",
-          "evidence": "all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:189 IftaStaffQueuePage (cross-client FUEL TAX QUEUE)"
+          "evidence": "all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:189-190 IftaStaffQueuePage (cross-client FUEL TAX QUEUE)"
         }
       ],
       "service_ids": [
@@ -2345,7 +2345,7 @@
       "evidence": [
         "all-in-one-enterprises/src/brokerage/brokerageWorkflow.ts",
         "all-in-one-enterprises/src/freight/supabaseFreightRepository.ts",
-        "all-in-one-enterprises/src/infrastructure/serviceActivation.ts:28 PAUSED"
+        "all-in-one-enterprises/src/infrastructure/serviceActivation.ts:29 PAUSED"
       ],
       "routes": [
         {
@@ -7893,7 +7893,7 @@
     },
     {
       "repo": "yoteenz/fsbw",
-      "ref": "all-in-one-enterprises/src/office-core/officeWorkTypes.ts:4-16 OfficeStaffRole · all-in-one-enterprises/src/office-core/officeContext.ts:74 ROLE_PERMISSIONS · all-in-one-enterprises/supabase/migrations/20260815100000_aio_identity_foundation.sql:29 aio_internal_role",
+      "ref": "all-in-one-enterprises/src/office-core/officeWorkTypes.ts:4-16 OfficeStaffRole · all-in-one-enterprises/src/office-core/officeContext.ts:74 ROLE_PERMISSIONS · all-in-one-enterprises/supabase/migrations/20260815100000_aio_identity_foundation.sql:28-29 aio_internal_role",
       "what": "Staff roles (owner, admin, …) and Supabase internal roles (super_admin, administrator, …); no FOUNDER role",
       "classification": "MIGRATE_LATER",
       "target_node_ids": [],
@@ -7951,8 +7951,8 @@
     },
     {
       "repo": "yoteenz/fsbw",
-      "ref": "all-in-one-enterprises/src/utils/paths.ts:217-218 officePermittingFuelTax",
-      "what": "Old staff fuel-tax helper (redirects to /office/workspaces/ifta)",
+      "ref": "all-in-one-enterprises/src/utils/paths.ts:226-227 officeFuelTax · officeFuelTaxCase · all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:193-194 OfficeFuelTaxLegacyRedirect",
+      "what": "Old staff fuel-tax paths (point at /office/workspaces/ifta) and the permitting/fuel-tax redirect routes",
       "classification": "KEEP",
       "target_node_ids": [
         "AIO_OFFICE.WORK.FILING_FUEL_TAXES.IFTA"
@@ -8497,7 +8497,7 @@
           "note": "Defined per action in the authority-contract sprint."
         }
       ],
-      "current_code_mapping": "No FOUNDER role in code yet. Nearest today: OfficeStaffRole owner (all-in-one-enterprises/src/office-core/officeWorkTypes.ts:4-16; ROLE_PERMISSIONS all-in-one-enterprises/src/office-core/officeContext.ts:74) and Supabase aio_internal_role super_admin (all-in-one-enterprises/supabase/migrations/20260815100000_aio_identity_foundation.sql:29). No founder identity is hard-coded."
+      "current_code_mapping": "No FOUNDER role in code yet. Nearest today: OfficeStaffRole owner (all-in-one-enterprises/src/office-core/officeWorkTypes.ts:4-16; ROLE_PERMISSIONS all-in-one-enterprises/src/office-core/officeContext.ts:74) and Supabase aio_internal_role super_admin (all-in-one-enterprises/supabase/migrations/20260815100000_aio_identity_foundation.sql:28-29). No founder identity is hard-coded."
     },
     {
       "actor": "STAFF",
@@ -8787,7 +8787,7 @@
       "depth": "FUNCTIONAL_DEMO",
       "evidence": [
         "all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:279",
-        "all-in-one-enterprises/src/demo/demoTypes.ts:389 Deadline"
+        "all-in-one-enterprises/src/demo/demoTypes.ts:408 Deadline"
       ],
       "note": "Deadline Center spans services (incl. ifta_filing)."
     },

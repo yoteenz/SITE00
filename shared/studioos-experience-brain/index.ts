@@ -11,5 +11,6 @@ export * from './registry.js';
 export * from './operating-environment.js';
 export * from './client-lifecycle.js';
 export * from './office-information-architecture.js';
+export * from './office-root-contracts.js';
 export * as aio from './projects/aio/index.js';
 export * as samples from './projects/samples/portability.js';
