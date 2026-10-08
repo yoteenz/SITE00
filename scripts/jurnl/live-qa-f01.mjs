@@ -257,6 +257,8 @@ await shot(page, 'flows', 'f0102-mail-handoff');
 await page.click(sel('mail-continue'));
 await wait(page);
 check('HANDOFF', 'handoff continues and returns to JURNL', !(await page.locator('[data-jrn-overlay="mail"]').count()));
+await page.waitForSelector(sel('verify-success-continue'), { timeout: 6000 });
+check('FLOW', 'design preview follows the emailed link: verified, CONTINUE onward', true);
 await page.goto(`${RT}/entry/verify-email?link=expired`);
 await page.waitForSelector(sel('verify-error-expired'), { timeout: 6000 });
 check('ERROR', 'expired verification link panel', true);
