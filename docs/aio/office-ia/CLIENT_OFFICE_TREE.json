@@ -47,17 +47,114 @@
     "children": [
       {
         "node_id": "CLIENT_OFFICE.HUB",
-        "label": "Client Office Hub",
+        "label": "Hub / Overview",
         "kind": "LANDING",
-        "role": "LANDING",
-        "architecture": "CANDIDATE_UNRESOLVED",
+        "role": "PROJECTION",
+        "architecture": "ARCHITECTURALLY_CANONICAL",
         "implementation": "IMPLEMENTATION_PARTIAL",
         "depth": "FUNCTIONAL_DEMO",
         "client_resolution": "ALWAYS",
         "routes": [
           "/portal"
         ],
-        "children": []
+        "children": [
+          {
+            "node_id": "CLIENT_OFFICE.HUB.BUSINESS_STATUS",
+            "label": "Business Status",
+            "kind": "REGION",
+            "role": "PROJECTION",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "client_resolution": "ALWAYS",
+            "routes": [],
+            "children": []
+          },
+          {
+            "node_id": "CLIENT_OFFICE.HUB.WORK_IN_PROGRESS",
+            "label": "Work in Progress",
+            "kind": "REGION",
+            "role": "PROJECTION",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "client_resolution": "ALWAYS",
+            "routes": [],
+            "children": []
+          },
+          {
+            "node_id": "CLIENT_OFFICE.HUB.ITEMS_NEEDING_APPROVAL",
+            "label": "Items Needing Approval",
+            "kind": "REGION",
+            "role": "PROJECTION",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "client_resolution": "ALWAYS",
+            "routes": [],
+            "children": []
+          },
+          {
+            "node_id": "CLIENT_OFFICE.HUB.UPCOMING_DEADLINES",
+            "label": "Upcoming Deadlines",
+            "kind": "REGION",
+            "role": "PROJECTION",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "client_resolution": "ALWAYS",
+            "routes": [],
+            "children": []
+          },
+          {
+            "node_id": "CLIENT_OFFICE.HUB.RECENT_MESSAGES",
+            "label": "Recent Messages",
+            "kind": "REGION",
+            "role": "PROJECTION",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "client_resolution": "ALWAYS",
+            "routes": [],
+            "children": []
+          },
+          {
+            "node_id": "CLIENT_OFFICE.HUB.ACTIVE_SERVICES",
+            "label": "Active Services",
+            "kind": "REGION",
+            "role": "PROJECTION",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "client_resolution": "ALWAYS",
+            "routes": [],
+            "children": []
+          },
+          {
+            "node_id": "CLIENT_OFFICE.HUB.RECENT_DOCUMENTS",
+            "label": "Recent Documents",
+            "kind": "REGION",
+            "role": "PROJECTION",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "client_resolution": "ALWAYS",
+            "routes": [],
+            "children": []
+          },
+          {
+            "node_id": "CLIENT_OFFICE.HUB.CONTEXTUAL_NEXT_ACTION",
+            "label": "Contextual Next Action",
+            "kind": "REGION",
+            "role": "PROJECTION",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "client_resolution": "ALWAYS",
+            "routes": [],
+            "children": []
+          }
+        ]
       },
       {
         "node_id": "CLIENT_OFFICE.ACTIVATION",
@@ -72,6 +169,7 @@
           "/office-activation/:token",
           "/portal/activation/review"
         ],
+        "shown_when": "Lifecycle INVITED or CLIENT_CONFIRMATION_REQUIRED",
         "children": []
       },
       {
@@ -357,6 +455,35 @@
             ],
             "services": [
               "MECHANIC_MAINTENANCE"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "CLIENT_OFFICE.OPERATIONS.ROAD_READY",
+            "label": "Road Ready",
+            "kind": "SECTION",
+            "role": "CLIENT_WORKSPACE",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "client_resolution": "STATE",
+            "routes": [
+              "/portal/road-ready",
+              "/portal/onboarding"
+            ],
+            "services": [
+              "ROAD_READY"
+            ],
+            "shown_when": "Road Ready engagement ACTIVE",
+            "potential_children": [
+              "Business Setup",
+              "Authorities",
+              "Compliance",
+              "Documents",
+              "Insurance",
+              "Vehicle / Driver Readiness",
+              "Filing / Tax Readiness",
+              "Launch Readiness"
             ],
             "children": []
           }
@@ -732,6 +859,22 @@
             "routes": [
               "/portal/requests"
             ],
+            "children": []
+          },
+          {
+            "node_id": "CLIENT_OFFICE.SERVICES.ROAD_READY",
+            "label": "Road Ready",
+            "kind": "SECTION",
+            "role": "DISCOVERY",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_NOT_STARTED",
+            "depth": "NONE",
+            "client_resolution": "STATE",
+            "routes": [],
+            "services": [
+              "ROAD_READY"
+            ],
+            "shown_when": "Road Ready AVAILABLE and not active · after completion: ROAD READY · COMPLETED (status only)",
             "children": []
           }
         ]

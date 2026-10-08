@@ -100,6 +100,20 @@
         "AIO_OFFICE.WORK.FILING_FUEL_TAXES.IFTA"
       ],
       "reason": "IFTA NOTES is a staff tab; clients write through MESSAGE AIO."
+    },
+    {
+      "item": "Internal margin, commission, profitability, staff-only financial data",
+      "node_ids": [
+        "AIO_OFFICE.REPORTS.FINANCIAL_REVENUE"
+      ],
+      "reason": "Clients see only client-safe billing in FINANCES → FEES / PAYMENTS (D-GROWTH-BILLING)."
+    },
+    {
+      "item": "Growth / CRM (leads, pipeline, sales activity)",
+      "node_ids": [
+        "AIO_OFFICE.MORE.GROWTH_CRM"
+      ],
+      "reason": "Internal sales data."
     }
   ],
   "nodes": [
@@ -114,6 +128,7 @@
       "client_safe_projection": null,
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -127,6 +142,7 @@
       "client_safe_projection": null,
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -140,6 +156,7 @@
       "client_safe_projection": null,
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -153,6 +170,7 @@
       "client_safe_projection": null,
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -166,6 +184,7 @@
       "client_safe_projection": null,
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -179,6 +198,7 @@
       "client_safe_projection": null,
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -192,6 +212,7 @@
       "client_safe_projection": null,
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -205,6 +226,7 @@
       "client_safe_projection": null,
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -218,6 +240,7 @@
       "client_safe_projection": null,
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -231,6 +254,7 @@
       "client_safe_projection": null,
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -244,6 +268,7 @@
       "client_safe_projection": null,
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -257,6 +282,7 @@
       "client_safe_projection": null,
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -270,6 +296,7 @@
       "client_safe_projection": null,
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -283,6 +310,7 @@
       "client_safe_projection": null,
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -296,6 +324,7 @@
       "client_safe_projection": null,
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -309,6 +338,7 @@
       "client_safe_projection": null,
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": "Founder review of the migrated profile (staff prepare it; they do not inherit the review)",
       "staff_gate": null
     },
     {
@@ -322,6 +352,7 @@
       "client_safe_projection": null,
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": "PREBUILT review / approval (APPROVE MIGRATION)",
       "staff_gate": null
     },
     {
@@ -335,6 +366,7 @@
       "client_safe_projection": null,
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": "Activation authority (sending the activation invite); client confirmation stays the gate before ACTIVE",
       "staff_gate": null
     },
     {
@@ -348,6 +380,7 @@
       "client_safe_projection": null,
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -361,6 +394,7 @@
       "client_safe_projection": null,
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -374,6 +408,7 @@
       "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.PERMITTING_AUTHORITIES",
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -387,6 +422,7 @@
       "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.PERMITTING_AUTHORITIES",
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -400,6 +436,7 @@
       "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.PERMITTING_AUTHORITIES",
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -413,6 +450,7 @@
       "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.PERMITTING_AUTHORITIES",
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -426,6 +464,7 @@
       "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.PERMITTING_AUTHORITIES",
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -439,6 +478,7 @@
       "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.PERMITTING_AUTHORITIES",
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -452,6 +492,7 @@
       "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.PERMITTING_AUTHORITIES",
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -465,6 +506,7 @@
       "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.FILING_IFTA",
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -478,6 +520,7 @@
       "client_safe_projection": null,
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -491,6 +534,7 @@
       "client_safe_projection": null,
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -504,6 +548,7 @@
       "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.FILING_IFTA",
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -517,6 +562,7 @@
       "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.FILING_IFTA",
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -530,6 +576,7 @@
       "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.FILING_IFTA",
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -543,6 +590,7 @@
       "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.COMPLIANCE",
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -556,6 +604,7 @@
       "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.COMPLIANCE",
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -569,6 +618,7 @@
       "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.COMPLIANCE",
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -582,6 +632,7 @@
       "client_safe_projection": null,
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -595,6 +646,21 @@
       "client_safe_projection": null,
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.VEHICLES_FLEET",
+      "path": "AIO OFFICE → WORK → Vehicles & Fleet",
+      "kind": "SERVICE_LANE",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.VEHICLE_MANAGEMENT",
+      "staff_reach": null,
+      "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -608,6 +674,7 @@
       "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.DISPATCH",
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -621,6 +688,7 @@
       "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.DISPATCH",
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -634,6 +702,7 @@
       "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.DISPATCH",
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -647,6 +716,7 @@
       "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.DISPATCH",
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -660,6 +730,7 @@
       "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.DISPATCH",
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -673,6 +744,7 @@
       "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.DISPATCH",
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -686,6 +758,7 @@
       "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.BROKERAGE",
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -699,6 +772,7 @@
       "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.BROKERAGE",
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -712,6 +786,7 @@
       "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.BROKERAGE",
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -725,6 +800,7 @@
       "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.BROKERAGE",
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -738,6 +814,7 @@
       "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.BROKERAGE",
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -745,13 +822,14 @@
       "path": "AIO OFFICE → WORK → Brokerage → Load Financials",
       "kind": "LANE_SECTION",
       "FOUNDER": "FULL",
-      "STAFF": "FULL",
+      "STAFF": "BY_GRANT",
       "CLIENT": "HIDDEN",
       "firewall": true,
       "client_safe_projection": null,
       "staff_reach": null,
       "client_resolution": null,
-      "staff_gate": null
+      "founder_authority": null,
+      "staff_gate": "brokerage_finance.read (ROLE_PERMISSIONS)"
     },
     {
       "node_id": "AIO_OFFICE.WORK.INSURANCE",
@@ -764,6 +842,7 @@
       "client_safe_projection": "CLIENT_OFFICE.FINANCES.INSURANCE",
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -777,6 +856,7 @@
       "client_safe_projection": "CLIENT_OFFICE.FINANCES.INSURANCE",
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -790,6 +870,7 @@
       "client_safe_projection": "CLIENT_OFFICE.FINANCES.INSURANCE",
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -803,6 +884,7 @@
       "client_safe_projection": "CLIENT_OFFICE.FINANCES.INSURANCE",
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -816,6 +898,7 @@
       "client_safe_projection": "CLIENT_OFFICE.FINANCES.INSURANCE",
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -829,6 +912,7 @@
       "client_safe_projection": "CLIENT_OFFICE.FINANCES.FACTORING",
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -842,6 +926,7 @@
       "client_safe_projection": "CLIENT_OFFICE.FINANCES.BOOKKEEPING",
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -855,6 +940,7 @@
       "client_safe_projection": "CLIENT_OFFICE.FINANCES.BOOKKEEPING",
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -868,6 +954,7 @@
       "client_safe_projection": "CLIENT_OFFICE.FINANCES.BOOKKEEPING",
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -881,6 +968,7 @@
       "client_safe_projection": "CLIENT_OFFICE.FINANCES.BOOKKEEPING",
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -894,6 +982,7 @@
       "client_safe_projection": "CLIENT_OFFICE.FINANCES.BOOKKEEPING",
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -907,6 +996,7 @@
       "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.DRIVER_MANAGEMENT",
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -920,6 +1010,7 @@
       "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.DRIVER_MANAGEMENT",
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -933,6 +1024,7 @@
       "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.DRIVER_MANAGEMENT",
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -946,6 +1038,7 @@
       "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.DRIVER_MANAGEMENT",
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -959,6 +1052,7 @@
       "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.MAINTENANCE",
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -972,6 +1066,7 @@
       "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.MAINTENANCE",
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -985,6 +1080,7 @@
       "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.MAINTENANCE",
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -998,6 +1094,7 @@
       "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.MAINTENANCE",
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1011,6 +1108,7 @@
       "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.MAINTENANCE",
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1024,6 +1122,7 @@
       "client_safe_projection": null,
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1031,25 +1130,27 @@
       "path": "AIO OFFICE → REPORTS",
       "kind": "ROOT_DESTINATION",
       "FOUNDER": "FULL",
-      "STAFF": "FULL",
+      "STAFF": "BY_GRANT",
       "CLIENT": "HIDDEN",
       "firewall": true,
       "client_safe_projection": null,
       "staff_reach": null,
       "client_resolution": null,
-      "staff_gate": null
+      "founder_authority": "Reporting (founder-class; staff only by grant)",
+      "staff_gate": "reports.read · management.*.read (ROLE_PERMISSIONS; all-in-one-enterprises/src/office/pages/ManagementPages.tsx:643 ManagementGate)"
     },
     {
       "node_id": "AIO_OFFICE.REPORTS.OVERVIEW",
       "path": "AIO OFFICE → REPORTS → Overview",
       "kind": "REPORT_DOMAIN",
       "FOUNDER": "FULL",
-      "STAFF": "FULL",
+      "STAFF": "BY_GRANT",
       "CLIENT": "HIDDEN",
       "firewall": false,
       "client_safe_projection": null,
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1057,12 +1158,13 @@
       "path": "AIO OFFICE → REPORTS → Clients",
       "kind": "REPORT_DOMAIN",
       "FOUNDER": "FULL",
-      "STAFF": "FULL",
+      "STAFF": "BY_GRANT",
       "CLIENT": "HIDDEN",
       "firewall": true,
       "client_safe_projection": null,
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1070,12 +1172,13 @@
       "path": "AIO OFFICE → REPORTS → Services",
       "kind": "REPORT_DOMAIN",
       "FOUNDER": "FULL",
-      "STAFF": "FULL",
+      "STAFF": "BY_GRANT",
       "CLIENT": "HIDDEN",
       "firewall": false,
       "client_safe_projection": null,
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1083,25 +1186,27 @@
       "path": "AIO OFFICE → REPORTS → Financial / Revenue",
       "kind": "REPORT_DOMAIN",
       "FOUNDER": "FULL",
-      "STAFF": "FULL",
+      "STAFF": "BY_GRANT",
       "CLIENT": "HIDDEN",
-      "firewall": false,
+      "firewall": true,
       "client_safe_projection": null,
       "staff_reach": null,
       "client_resolution": null,
-      "staff_gate": "existing management permissions (ROLE_PERMISSIONS)"
+      "founder_authority": "Internal financial visibility",
+      "staff_gate": "management.financial.read (all-in-one-enterprises/src/office/pages/ManagementPages.tsx:98,158,199 ManagementGate)"
     },
     {
       "node_id": "AIO_OFFICE.REPORTS.FILING_HISTORY",
       "path": "AIO OFFICE → REPORTS → Filing History",
       "kind": "REPORT_DOMAIN",
       "FOUNDER": "FULL",
-      "STAFF": "FULL",
+      "STAFF": "BY_GRANT",
       "CLIENT": "HIDDEN",
       "firewall": false,
       "client_safe_projection": null,
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1109,12 +1214,13 @@
       "path": "AIO OFFICE → REPORTS → Compliance",
       "kind": "REPORT_DOMAIN",
       "FOUNDER": "FULL",
-      "STAFF": "FULL",
+      "STAFF": "BY_GRANT",
       "CLIENT": "HIDDEN",
       "firewall": false,
       "client_safe_projection": null,
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1122,12 +1228,13 @@
       "path": "AIO OFFICE → REPORTS → Dispatch / Brokerage",
       "kind": "REPORT_DOMAIN",
       "FOUNDER": "FULL",
-      "STAFF": "FULL",
+      "STAFF": "BY_GRANT",
       "CLIENT": "HIDDEN",
       "firewall": false,
       "client_safe_projection": null,
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1135,12 +1242,13 @@
       "path": "AIO OFFICE → REPORTS → Bookkeeping",
       "kind": "REPORT_DOMAIN",
       "FOUNDER": "FULL",
-      "STAFF": "FULL",
+      "STAFF": "BY_GRANT",
       "CLIENT": "HIDDEN",
       "firewall": false,
       "client_safe_projection": null,
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1148,12 +1256,13 @@
       "path": "AIO OFFICE → REPORTS → Migration",
       "kind": "REPORT_DOMAIN",
       "FOUNDER": "FULL",
-      "STAFF": "FULL",
+      "STAFF": "BY_GRANT",
       "CLIENT": "HIDDEN",
       "firewall": false,
       "client_safe_projection": null,
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1161,12 +1270,13 @@
       "path": "AIO OFFICE → REPORTS → Exports",
       "kind": "REPORT_DOMAIN",
       "FOUNDER": "FULL",
-      "STAFF": "FULL",
+      "STAFF": "BY_GRANT",
       "CLIENT": "HIDDEN",
       "firewall": false,
       "client_safe_projection": null,
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1180,6 +1290,7 @@
       "client_safe_projection": null,
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1193,6 +1304,7 @@
       "client_safe_projection": null,
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1206,7 +1318,36 @@
       "client_safe_projection": null,
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.MORE.GROWTH_CRM",
+      "path": "AIO OFFICE → MORE → Growth / CRM",
+      "kind": "DIRECTORY_ENTRY",
+      "FOUNDER": "FULL",
+      "STAFF": "BY_GRANT",
+      "CLIENT": "HIDDEN",
+      "firewall": true,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "founder_authority": null,
+      "staff_gate": "crm.* (ROLE_PERMISSIONS CRM_FULL / CRM_SALES)"
+    },
+    {
+      "node_id": "AIO_OFFICE.MORE.BILLING",
+      "path": "AIO OFFICE → MORE → Billing",
+      "kind": "DIRECTORY_ENTRY",
+      "FOUNDER": "FULL",
+      "STAFF": "BY_GRANT",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": "CLIENT_OFFICE.FINANCES.FEES_PAYMENTS",
+      "staff_reach": null,
+      "client_resolution": null,
+      "founder_authority": null,
+      "staff_gate": "billing.read · billing.manage (ROLE_PERMISSIONS)"
     },
     {
       "node_id": "AIO_OFFICE.MORE.TEAM_STAFF",
@@ -1219,7 +1360,8 @@
       "client_safe_projection": null,
       "staff_reach": null,
       "client_resolution": null,
-      "staff_gate": "workload.read (workload)"
+      "founder_authority": "Staff / permission administration (roles and grants)",
+      "staff_gate": "workload.read · team.manage (ROLE_PERMISSIONS)"
     },
     {
       "node_id": "AIO_OFFICE.MORE.SERVICE_CATALOG",
@@ -1232,6 +1374,7 @@
       "client_safe_projection": null,
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": "Service configuration (activation, pricing)",
       "staff_gate": null
     },
     {
@@ -1245,6 +1388,7 @@
       "client_safe_projection": null,
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1258,6 +1402,7 @@
       "client_safe_projection": null,
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1265,12 +1410,13 @@
       "path": "AIO OFFICE → MORE → System Settings",
       "kind": "DIRECTORY_ENTRY",
       "FOUNDER": "FULL",
-      "STAFF": "FULL",
+      "STAFF": "BY_GRANT",
       "CLIENT": "HIDDEN",
       "firewall": false,
       "client_safe_projection": null,
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": "System configuration",
       "staff_gate": "canStaffAccessSystemAdmin (auth/routeAccess.ts:63-65) where enforced"
     },
     {
@@ -1284,6 +1430,7 @@
       "client_safe_projection": null,
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1297,11 +1444,12 @@
       "client_safe_projection": null,
       "staff_reach": null,
       "client_resolution": null,
+      "founder_authority": null,
       "staff_gate": null
     },
     {
       "node_id": "CLIENT_OFFICE.HUB",
-      "path": "CLIENT OFFICE → Client Office Hub",
+      "path": "CLIENT OFFICE → Hub / Overview",
       "kind": "LANDING",
       "FOUNDER": "VIA_AIO_OFFICE",
       "STAFF": "VIA_AIO_OFFICE",
@@ -1312,6 +1460,135 @@
         "AIO_OFFICE.MORE.CLIENTS"
       ],
       "client_resolution": "ALWAYS",
+      "founder_authority": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.HUB.BUSINESS_STATUS",
+      "path": "CLIENT OFFICE → Hub / Overview → Business Status",
+      "kind": "REGION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.MORE.CLIENTS"
+      ],
+      "client_resolution": "ALWAYS",
+      "founder_authority": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.HUB.WORK_IN_PROGRESS",
+      "path": "CLIENT OFFICE → Hub / Overview → Work in Progress",
+      "kind": "REGION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.MORE.CLIENTS"
+      ],
+      "client_resolution": "ALWAYS",
+      "founder_authority": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.HUB.ITEMS_NEEDING_APPROVAL",
+      "path": "CLIENT OFFICE → Hub / Overview → Items Needing Approval",
+      "kind": "REGION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.MORE.CLIENTS"
+      ],
+      "client_resolution": "ALWAYS",
+      "founder_authority": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.HUB.UPCOMING_DEADLINES",
+      "path": "CLIENT OFFICE → Hub / Overview → Upcoming Deadlines",
+      "kind": "REGION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.MORE.CLIENTS"
+      ],
+      "client_resolution": "ALWAYS",
+      "founder_authority": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.HUB.RECENT_MESSAGES",
+      "path": "CLIENT OFFICE → Hub / Overview → Recent Messages",
+      "kind": "REGION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.MORE.CLIENTS"
+      ],
+      "client_resolution": "ALWAYS",
+      "founder_authority": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.HUB.ACTIVE_SERVICES",
+      "path": "CLIENT OFFICE → Hub / Overview → Active Services",
+      "kind": "REGION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.MORE.CLIENTS"
+      ],
+      "client_resolution": "ALWAYS",
+      "founder_authority": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.HUB.RECENT_DOCUMENTS",
+      "path": "CLIENT OFFICE → Hub / Overview → Recent Documents",
+      "kind": "REGION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.MORE.CLIENTS"
+      ],
+      "client_resolution": "ALWAYS",
+      "founder_authority": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.HUB.CONTEXTUAL_NEXT_ACTION",
+      "path": "CLIENT OFFICE → Hub / Overview → Contextual Next Action",
+      "kind": "REGION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.MORE.CLIENTS"
+      ],
+      "client_resolution": "ALWAYS",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1327,6 +1604,7 @@
         "AIO_OFFICE.MORE.CLIENTS"
       ],
       "client_resolution": "STATE",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1342,6 +1620,7 @@
         "AIO_OFFICE.MORE.CLIENTS"
       ],
       "client_resolution": "ALWAYS",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1357,6 +1636,7 @@
         "AIO_OFFICE.MORE.CLIENTS"
       ],
       "client_resolution": "ALWAYS",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1372,6 +1652,7 @@
         "AIO_OFFICE.MORE.CLIENTS"
       ],
       "client_resolution": "ALWAYS",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1387,6 +1668,7 @@
         "AIO_OFFICE.WORK.DRIVERS_CARRIERS"
       ],
       "client_resolution": "APPLICABILITY",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1399,11 +1681,10 @@
       "firewall": false,
       "client_safe_projection": null,
       "staff_reach": [
-        "AIO_OFFICE.WORK.DISPATCH.TRUCKS",
-        "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE.MAINTENANCE_STATUS",
-        "AIO_OFFICE.MORE.CLIENTS"
+        "AIO_OFFICE.WORK.VEHICLES_FLEET"
       ],
       "client_resolution": "APPLICABILITY",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1419,6 +1700,7 @@
         "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES"
       ],
       "client_resolution": "APPLICABILITY",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1434,6 +1716,7 @@
         "AIO_OFFICE.MORE.CLIENTS"
       ],
       "client_resolution": "ALWAYS",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1449,6 +1732,7 @@
         "AIO_OFFICE.MORE.CLIENTS"
       ],
       "client_resolution": "ENTITLEMENT",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1464,6 +1748,7 @@
         "AIO_OFFICE.WORK.COMPLIANCE"
       ],
       "client_resolution": "ENTITLEMENT",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1479,6 +1764,7 @@
         "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES"
       ],
       "client_resolution": "ENTITLEMENT",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1494,6 +1780,7 @@
         "AIO_OFFICE.WORK.FILING_FUEL_TAXES"
       ],
       "client_resolution": "ENTITLEMENT",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1509,6 +1796,7 @@
         "AIO_OFFICE.WORK.DISPATCH"
       ],
       "client_resolution": "ENTITLEMENT",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1524,6 +1812,7 @@
         "AIO_OFFICE.WORK.BROKERAGE"
       ],
       "client_resolution": "ENTITLEMENT",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1539,6 +1828,7 @@
         "AIO_OFFICE.WORK.DRIVERS_CARRIERS"
       ],
       "client_resolution": "ENTITLEMENT",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1551,11 +1841,10 @@
       "firewall": false,
       "client_safe_projection": null,
       "staff_reach": [
-        "AIO_OFFICE.WORK.DISPATCH.TRUCKS",
-        "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE.MAINTENANCE_STATUS",
-        "AIO_OFFICE.MORE.CLIENTS"
+        "AIO_OFFICE.WORK.VEHICLES_FLEET"
       ],
       "client_resolution": "APPLICABILITY",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1571,6 +1860,23 @@
         "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE"
       ],
       "client_resolution": "ENTITLEMENT",
+      "founder_authority": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.OPERATIONS.ROAD_READY",
+      "path": "CLIENT OFFICE → OPERATIONS → Road Ready",
+      "kind": "SECTION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.WORK.ROAD_READY"
+      ],
+      "client_resolution": "STATE",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1586,6 +1892,7 @@
         "AIO_OFFICE.MORE.CLIENTS"
       ],
       "client_resolution": "ENTITLEMENT",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1601,6 +1908,7 @@
         "AIO_OFFICE.WORK.BOOKKEEPING"
       ],
       "client_resolution": "ENTITLEMENT",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1616,6 +1924,7 @@
         "AIO_OFFICE.WORK.FACTORING"
       ],
       "client_resolution": "ENTITLEMENT",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1631,6 +1940,7 @@
         "AIO_OFFICE.WORK.INSURANCE"
       ],
       "client_resolution": "ENTITLEMENT",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1647,6 +1957,7 @@
         "AIO_OFFICE.WORK.FILING_FUEL_TAXES.IFTA"
       ],
       "client_resolution": "ENTITLEMENT",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1659,9 +1970,10 @@
       "firewall": false,
       "client_safe_projection": null,
       "staff_reach": [
-        "AIO_OFFICE.MORE.CLIENTS"
+        "AIO_OFFICE.MORE.BILLING"
       ],
       "client_resolution": "ALWAYS",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1677,6 +1989,7 @@
         "AIO_OFFICE.MORE.DOCUMENTS_VAULT"
       ],
       "client_resolution": "ALWAYS",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1692,6 +2005,7 @@
         "AIO_OFFICE.MORE.DOCUMENTS_VAULT"
       ],
       "client_resolution": "ALWAYS",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1707,6 +2021,7 @@
         "AIO_OFFICE.MORE.DOCUMENTS_VAULT"
       ],
       "client_resolution": "ALWAYS",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1722,6 +2037,7 @@
         "AIO_OFFICE.MORE.DOCUMENTS_VAULT"
       ],
       "client_resolution": "ALWAYS",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1737,6 +2053,7 @@
         "AIO_OFFICE.MORE.DOCUMENTS_VAULT"
       ],
       "client_resolution": "ALWAYS",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1752,6 +2069,7 @@
         "AIO_OFFICE.MORE.DOCUMENTS_VAULT"
       ],
       "client_resolution": "ALWAYS",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1770,6 +2088,7 @@
         "AIO_OFFICE.MORE.DOCUMENTS_VAULT"
       ],
       "client_resolution": "ALWAYS",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1785,6 +2104,7 @@
         "AIO_OFFICE.MORE.MESSAGES"
       ],
       "client_resolution": "ALWAYS",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1800,6 +2120,7 @@
         "AIO_OFFICE.MORE.MESSAGES"
       ],
       "client_resolution": "ALWAYS",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1815,6 +2136,7 @@
         "AIO_OFFICE.MORE.MESSAGES"
       ],
       "client_resolution": "ALWAYS",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1830,6 +2152,7 @@
         "AIO_OFFICE.MORE.MESSAGES"
       ],
       "client_resolution": "ALWAYS",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1845,6 +2168,7 @@
         "AIO_OFFICE.MORE.MESSAGES"
       ],
       "client_resolution": "ALWAYS",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1860,6 +2184,7 @@
         "AIO_OFFICE.MORE.MESSAGES"
       ],
       "client_resolution": "ALWAYS",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1875,6 +2200,7 @@
         "AIO_OFFICE.MORE.CLIENTS"
       ],
       "client_resolution": "ALWAYS",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1890,6 +2216,7 @@
         "AIO_OFFICE.MORE.CLIENTS"
       ],
       "client_resolution": "ALWAYS",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1905,6 +2232,7 @@
         "AIO_OFFICE.MORE.CLIENTS"
       ],
       "client_resolution": "ALWAYS",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1920,6 +2248,7 @@
         "AIO_OFFICE.MORE.CLIENTS"
       ],
       "client_resolution": "ALWAYS",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1935,6 +2264,23 @@
         "AIO_OFFICE.MORE.CLIENTS"
       ],
       "client_resolution": "ALWAYS",
+      "founder_authority": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.SERVICES.ROAD_READY",
+      "path": "CLIENT OFFICE → SERVICES → Road Ready",
+      "kind": "SECTION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.WORK.ROAD_READY"
+      ],
+      "client_resolution": "STATE",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1950,6 +2296,7 @@
         "AIO_OFFICE.MORE.CLIENTS"
       ],
       "client_resolution": "ALWAYS",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1965,6 +2312,7 @@
         "AIO_OFFICE.MORE.CLIENTS"
       ],
       "client_resolution": "ALWAYS",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1980,6 +2328,7 @@
         "AIO_OFFICE.MORE.CLIENTS"
       ],
       "client_resolution": "ALWAYS",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -1995,6 +2344,7 @@
         "AIO_OFFICE.MORE.CLIENTS"
       ],
       "client_resolution": "ALWAYS",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -2010,6 +2360,7 @@
         "AIO_OFFICE.MORE.CLIENTS"
       ],
       "client_resolution": "ALWAYS",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -2025,6 +2376,7 @@
         "AIO_OFFICE.MORE.CLIENTS"
       ],
       "client_resolution": "ALWAYS",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -2040,6 +2392,7 @@
         "AIO_OFFICE.MORE.CLIENTS"
       ],
       "client_resolution": "ALWAYS",
+      "founder_authority": null,
       "staff_gate": null
     },
     {
@@ -2055,6 +2408,7 @@
         "AIO_OFFICE.MORE.CLIENTS"
       ],
       "client_resolution": "ALWAYS",
+      "founder_authority": null,
       "staff_gate": null
     }
   ]

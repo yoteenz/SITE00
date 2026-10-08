@@ -333,9 +333,7 @@
       "service_id": "VEHICLE_MANAGEMENT",
       "SERVICE": "Vehicle Management",
       "STAFF LOCATION": [
-        "AIO OFFICE → WORK → Dispatch → Trucks",
-        "AIO OFFICE → WORK → Mechanic / Maintenance → Maintenance Status",
-        "AIO OFFICE → MORE → Clients"
+        "AIO OFFICE → WORK → Vehicles & Fleet"
       ],
       "CLIENT LOCATION": [
         "CLIENT OFFICE → OPERATIONS → Vehicle Management",
@@ -345,11 +343,13 @@
       "CURRENT IMPLEMENTATION STATUS": {
         "architecture": "ARCHITECTURALLY_CANONICAL",
         "implementation": "IMPLEMENTATION_PARTIAL",
-        "detail": "Client fleet pages read-mostly; staff side not started (no /office/fleet; Client 360 fleet tab is placeholder text).",
-        "not_started_nodes": []
+        "detail": "Client fleet pages read-mostly; the staff lane WORK → VEHICLES & FLEET is not started (no /office fleet surface; Client 360 fleet tab is placeholder text).",
+        "not_started_nodes": [
+          "Vehicles & Fleet"
+        ]
       },
       "CANONICAL DATA SOURCE": "PowerUnit · Trailer (all-in-one-enterprises/src/road-ready/roadReadyTypes.ts:113,129) · store.powerUnits · Supabase aio_fleet_vehicles (written by migration approve only)",
-      "NOTES": "No staff lane in the founder tree: vehicles are reached through DISPATCH → TRUCKS, MECHANIC → MAINTENANCE STATUS and the client record (Q-STAFF-VEHICLES).",
+      "NOTES": "Staff lane by founder decision (D-VEHICLES-FLEET-LANE). It owns the vehicle record and cross-links registration, documents, driver, insurance, IFTA, compliance and maintenance to their owning lanes (AIO_VEHICLES_FLEET_SCOPE).",
       "workspace_ids": [],
       "feature_refs": [],
       "evidence": [
@@ -393,16 +393,21 @@
       "STAFF LOCATION": [
         "AIO OFFICE → WORK → Road Ready"
       ],
-      "CLIENT LOCATION": [],
-      "CLIENT VISIBILITY": "APPLICABILITY — Universal for carriers; client destination unresolved in the founder tree (today /portal/onboarding · /portal/road-ready under MY BUSINESS) — C-CLIENT-ROAD-READY.",
+      "CLIENT LOCATION": [
+        "CLIENT OFFICE → OPERATIONS → Road Ready",
+        "CLIENT OFFICE → SERVICES → Road Ready"
+      ],
+      "CLIENT VISIBILITY": "STATE — Placement follows the engagement (D-ROAD-READY-PLACEMENT): SERVICES while available, OPERATIONS while active; once completed its records live in MY BUSINESS, VAULT, OPERATIONS and FINANCES.",
       "CURRENT IMPLEMENTATION STATUS": {
         "architecture": "ARCHITECTURALLY_CANONICAL",
         "implementation": "IMPLEMENTATION_PARTIAL",
-        "detail": "Functional demo on both sides; Supabase aio_road_ready_* unqueried (roadmaps / intake sessions are used).",
-        "not_started_nodes": []
+        "detail": "Functional demo on both sides; Supabase aio_road_ready_* unqueried (roadmaps / intake sessions are used). No per-client engagement state (AVAILABLE / ACTIVE / COMPLETED) yet, so the placement rule waits on it; SERVICES lists no Road Ready entry.",
+        "not_started_nodes": [
+          "Road Ready"
+        ]
       },
       "CANONICAL DATA SOURCE": "all-in-one-enterprises/src/road-ready/* · all-in-one-enterprises/src/demo/roadReadyActions.ts",
-      "NOTES": "Not a sold service and not a workspace; it feeds signals to every workspace.",
+      "NOTES": "Not a sold workspace in the Brain registry; it feeds signals to every workspace. Exact program structure follows its later product definition.",
       "workspace_ids": [],
       "feature_refs": [
         "AIO.ROAD_READY"

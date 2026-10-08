@@ -14,7 +14,7 @@ Source graph: yoteenz/fsbw all-in-one-enterprises/src/product-graph/generated/ru
 
 | Graph container | IA node | Disposition | Note |
 |---|---|---|---|
-| MY_OFFICE | CLIENT OFFICE → Client Office Hub | REMAPPED | The client office landing, not one of the seven root destinations (Q-CLIENT-HUB). |
+| MY_OFFICE | CLIENT OFFICE → Hub / Overview | REMAPPED | The HUB / OVERVIEW: shell landing, not a root destination (D-CLIENT-HUB). |
 | MY_BUSINESS | CLIENT OFFICE → MY BUSINESS | KEPT | Loses F12 Insurance to FINANCES. |
 | OPERATIONS | CLIENT OFFICE → OPERATIONS | KEPT | — |
 | FINANCES | CLIENT OFFICE → FINANCES | KEPT | Gains F12 Insurance. |
@@ -30,8 +30,8 @@ Source graph: yoteenz/fsbw all-in-one-enterprises/src/product-graph/generated/ru
 | F01 | Entry | — (public) | — | — | Public site (AIO.PUBLIC_SITE) — outside both offices. |
 | F02 | Get Started | — (public) | — | — | Public site (AIO.PUBLIC_SITE) — outside both offices. |
 | F03 | Start Your Business | MY BUSINESS | CLIENT OFFICE → SERVICES → Request a Service | AIO OFFICE → WORK → Permitting & Authorities → LLC / Inc | Candidate placement (C-CLIENT-START-BUSINESS). |
-| F04 | Road Ready | MY BUSINESS | CLIENT OFFICE → MY BUSINESS | AIO OFFICE → WORK → Road Ready | Client placement unresolved (Q-CLIENT-ROAD-READY); recommended MY BUSINESS. |
-| F05 | My Office | MY OFFICE | CLIENT OFFICE → Client Office Hub | — | Landing, not a root destination. |
+| F04 | Road Ready | MY BUSINESS | CLIENT OFFICE → OPERATIONS → Road Ready | AIO OFFICE → WORK → Road Ready | REMAPPED out of MY BUSINESS: OPERATIONS while active, SERVICES while available (D-ROAD-READY-PLACEMENT). |
+| F05 | My Office | MY OFFICE | CLIENT OFFICE → Hub / Overview | — | The HUB / OVERVIEW landing, not a root destination (D-CLIENT-HUB). |
 | F06 | Services | SERVICES | CLIENT OFFICE → SERVICES | AIO OFFICE → WORK → Permitting & Authorities | F06 also carries IFTA (WORK → FILING & FUEL TAXES) and compliance (WORK → COMPLIANCE). |
 | F07 | Operations | OPERATIONS | CLIENT OFFICE → OPERATIONS → Dispatch | AIO OFFICE → WORK → Dispatch | — |
 | F08 | Load Board | OPERATIONS | CLIENT OFFICE → OPERATIONS → Dispatch | AIO OFFICE → WORK → Dispatch | — |

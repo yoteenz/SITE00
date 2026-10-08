@@ -58,7 +58,7 @@
     {
       "key": "FULL_AIO_SERVICE_SCOPE_REPRESENTED",
       "value": "YES",
-      "evidence": "14 required services mapped · 11 WORK lanes"
+      "evidence": "14 required services mapped · 12 WORK lanes"
     },
     {
       "key": "HOME_DEFINED_AS_PROJECTION",
@@ -78,7 +78,7 @@
     {
       "key": "MORE_DEFINED_AS_SECONDARY",
       "value": "YES",
-      "evidence": "9 entries, none PRODUCTION / ENTRY / COMMAND / PROJECTION"
+      "evidence": "11 entries, none PRODUCTION / ENTRY / COMMAND / PROJECTION"
     },
     {
       "key": "CLIENT_SERVICE_ENTITLEMENT_MODEL_PRESERVED",
@@ -109,6 +109,46 @@
       "key": "PRODUCT_GRAPH_UPDATED",
       "value": "YES",
       "evidence": "AIO_IA_PRODUCT_GRAPH_MAP (8 containers · 18 families · 4 role projections); vendored to fsbw src/product-graph as an overlay"
+    },
+    {
+      "key": "STAFF_SERVICE_LANES",
+      "value": "12",
+      "evidence": "Permitting & Authorities · Filing & Fuel Taxes · Compliance · Vehicles & Fleet · Dispatch · Brokerage · Insurance · Factoring · Bookkeeping · Drivers & Carriers · Mechanic / Maintenance · Road Ready"
+    },
+    {
+      "key": "CLIENT_HUB_IS_LANDING_NOT_ROOT",
+      "value": "YES",
+      "evidence": "D-CLIENT-HUB · 8 projection regions over the seven destinations; root nav still seven"
+    },
+    {
+      "key": "COMPLIANCE_SINGLE_LANE",
+      "value": "YES",
+      "evidence": "D-COMPLIANCE-ONE-LANE · one lane, one workspace"
+    },
+    {
+      "key": "VEHICLES_FLEET_LANE",
+      "value": "YES",
+      "evidence": "D-VEHICLES-FLEET-LANE · owns 3, cross-links 9 (no duplicated source truth)"
+    },
+    {
+      "key": "FOUNDER_IS_ROLE_NOT_IDENTITY",
+      "value": "YES",
+      "evidence": "D-FOUNDER-ROLE · 8 founder-only acts · 15 nodes staff see only by grant"
+    },
+    {
+      "key": "GROWTH_CRM_AND_BILLING_IN_MORE",
+      "value": "YES",
+      "evidence": "D-GROWTH-BILLING · HOME projects CRM, REPORTS aggregates billing, clients see client-safe billing only"
+    },
+    {
+      "key": "ROAD_READY_STATE_PLACEMENT",
+      "value": "YES",
+      "evidence": "D-ROAD-READY-PLACEMENT · SERVICES while available, OPERATIONS while active, records distributed on completion"
+    },
+    {
+      "key": "OPEN_QUESTIONS_DECIDED",
+      "value": "6 of 6",
+      "evidence": "D-CLIENT-HUB · D-COMPLIANCE-ONE-LANE · D-VEHICLES-FLEET-LANE · D-FOUNDER-ROLE · D-GROWTH-BILLING · D-ROAD-READY-PLACEMENT"
     },
     {
       "key": "VISUAL_REDESIGN_PERFORMED",

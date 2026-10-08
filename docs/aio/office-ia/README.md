@@ -13,6 +13,17 @@ FILING is no longer a root item: it is **AIO OFFICE → WORK → Filing & Fuel T
 
 HOME = projection · WORK = production · REPORTS = oversight · MORE = secondary. Architecture only — no page, nav, route, schema, lifecycle or auth change; no image generated; no visual authority modified.
 
+## Founder decisions (2026-10-08)
+
+| Decision | In short |
+|---|---|
+| D-CLIENT-HUB | CLIENT OFFICE opens on HUB / OVERVIEW — the shell landing, not a root tab. It projects the seven destinations. |
+| D-COMPLIANCE-ONE-LANE | One COMPLIANCE lane (DOT / Safety · Expirations · Audit / Corrective Work · Compliance Cases). |
+| D-VEHICLES-FLEET-LANE | WORK → VEHICLES & FLEET added: 12 lanes. It owns the vehicle record and cross-links the rest. |
+| D-FOUNDER-ROLE | FOUNDER is a privileged actor class, never a person; staff never inherit it or self-elevate. |
+| D-GROWTH-BILLING | MORE → GROWTH / CRM and MORE → BILLING. HOME may project CRM; REPORTS aggregates billing. |
+| D-ROAD-READY-PLACEMENT | Road Ready: SERVICES while available, OPERATIONS while active, records distributed on completion. |
+
 ## Artifacts
 
 | File | What |
@@ -30,7 +41,8 @@ HOME = projection · WORK = production · REPORTS = oversight · MORE = secondar
 | [11_PRODUCT_GRAPH_UPDATES.md](11_PRODUCT_GRAPH_UPDATES.md) | Product graph updates |
 | [SERVICE_CROSSWALK.md](SERVICE_CROSSWALK.md) | Service crosswalk table (+ SERVICE_CROSSWALK.json) |
 | [LEGACY_RECONCILIATION.md](LEGACY_RECONCILIATION.md) | KEEP / REMAP / SUPERSEDE / MIGRATE_LATER / REMOVE_WHEN_IMPLEMENTED |
-| [CANDIDATES_AND_OPEN_QUESTIONS.md](CANDIDATES_AND_OPEN_QUESTIONS.md) | What the founder tree does not name + open questions |
+| [FOUNDER_DECISIONS.md](FOUNDER_DECISIONS.md) | The six founder decisions of 2026-10-08 and what each changed |
+| [CANDIDATES_AND_OPEN_QUESTIONS.md](CANDIDATES_AND_OPEN_QUESTIONS.md) | What the founder tree does not name + the questions (all decided) |
 | [AIO_OFFICE_IA.json](AIO_OFFICE_IA.json) | The whole architecture as data (the fsbw product-graph overlay) |
 | [QUALITY_GATE.json](QUALITY_GATE.json) | The founder gate, computed |
 
@@ -44,17 +56,25 @@ HOME = projection · WORK = production · REPORTS = oversight · MORE = secondar
 | FILING_REHOMED_UNDER_WORK | YES | AIO OFFICE → WORK → Filing & Fuel Taxes → IFTA |
 | INTAKE_STAFF_ONLY | YES | every INTAKE node CLIENT = HIDDEN; INTAKE is a firewall item |
 | CLIENT_INTAKE_EXPOSURE | NO | no ENTRY role and no /office route in the client shell (validator) |
-| FULL_AIO_SERVICE_SCOPE_REPRESENTED | YES | 14 required services mapped · 11 WORK lanes |
+| FULL_AIO_SERVICE_SCOPE_REPRESENTED | YES | 14 required services mapped · 12 WORK lanes |
 | HOME_DEFINED_AS_PROJECTION | YES | 7 regions, every one PROJECTION with named owners |
 | WORK_DEFINED_AS_PRODUCTION | YES | WORK and every lane / section role = PRODUCTION |
 | REPORTS_DEFINED_AS_OVERSIGHT | YES | 10 domains, each with a data status |
-| MORE_DEFINED_AS_SECONDARY | YES | 9 entries, none PRODUCTION / ENTRY / COMMAND / PROJECTION |
+| MORE_DEFINED_AS_SECONDARY | YES | 11 entries, none PRODUCTION / ENTRY / COMMAND / PROJECTION |
 | CLIENT_SERVICE_ENTITLEMENT_MODEL_PRESERVED | YES | 11 client workspace nodes resolve through the Brain workspace resolver (ACTIVE · AVAILABLE_NOT_ACTIVATED · NOT_APPLICABLE) + 8 expansion rules |
 | PREBUILT_NOT_ACTIVE | YES | AIO_LIFECYCLE_MAPPING PREBUILT counted_active = false; CLIENT_OFFICE.ACTIVATION gate unchanged |
 | IFTA_AUTHORITY_PRESERVED | YES | IFTA tree nodes unchanged and re-associated (WORK → FILING & FUEL TAXES → IFTA · OPERATIONS → FILING / IFTA) |
 | MIGRATION_AUTHORITY_PRESERVED | YES | 40 approved + 1 under founder review re-associated once (staff → INTAKE, client → activation gate); 1 superseded draft kept as lineage |
 | EXPERIENCE_BRAIN_UPDATED | YES | office-information-architecture.ts + projects/aio/office-ia.ts · validator violations 0 |
 | PRODUCT_GRAPH_UPDATED | YES | AIO_IA_PRODUCT_GRAPH_MAP (8 containers · 18 families · 4 role projections); vendored to fsbw src/product-graph as an overlay |
+| STAFF_SERVICE_LANES | 12 | Permitting & Authorities · Filing & Fuel Taxes · Compliance · Vehicles & Fleet · Dispatch · Brokerage · Insurance · Factoring · Bookkeeping · Drivers & Carriers · Mechanic / Maintenance · Road Ready |
+| CLIENT_HUB_IS_LANDING_NOT_ROOT | YES | D-CLIENT-HUB · 8 projection regions over the seven destinations; root nav still seven |
+| COMPLIANCE_SINGLE_LANE | YES | D-COMPLIANCE-ONE-LANE · one lane, one workspace |
+| VEHICLES_FLEET_LANE | YES | D-VEHICLES-FLEET-LANE · owns 3, cross-links 9 (no duplicated source truth) |
+| FOUNDER_IS_ROLE_NOT_IDENTITY | YES | D-FOUNDER-ROLE · 8 founder-only acts · 15 nodes staff see only by grant |
+| GROWTH_CRM_AND_BILLING_IN_MORE | YES | D-GROWTH-BILLING · HOME projects CRM, REPORTS aggregates billing, clients see client-safe billing only |
+| ROAD_READY_STATE_PLACEMENT | YES | D-ROAD-READY-PLACEMENT · SERVICES while available, OPERATIONS while active, records distributed on completion |
+| OPEN_QUESTIONS_DECIDED | 6 of 6 | D-CLIENT-HUB · D-COMPLIANCE-ONE-LANE · D-VEHICLES-FLEET-LANE · D-FOUNDER-ROLE · D-GROWTH-BILLING · D-ROAD-READY-PLACEMENT |
 | VISUAL_REDESIGN_PERFORMED | NO | no page, image or visual authority touched |
 | LIVE_IMPLEMENTATION_CHANGED | NO | no route, nav, schema, lifecycle or auth change |
 

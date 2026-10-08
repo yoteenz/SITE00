@@ -15599,3 +15599,35 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - A client node never routes into `/office`.
   - A HOME region only projects; it opens the WORK / INTAKE owner.
 - **Correction (same sprint):** The migration authority set is 42 plates: 40 APPROVED_AUTHORITY, COMPLETE-002 FOUNDER_REVIEW_REQUIRED and COMPLETE-001 SUPERSEDED by 002. So 41 current authorities are re-associated, and COMPLETE-001 is lineage only, attached to no node (`AIO_MIGRATION_AUTHORITY_SET`).
+
+---
+
+## 2026-10-08 — AIO office IA: founder decisions on the six open questions
+
+- **Context:** The founder answered every open question from the office IA sprint. The answers are recorded in `AIO_IA_DECISIONS` and the questions are now marked DECIDED; lineage is kept.
+- **Decisions:**
+  - **Client hub:** CLIENT OFFICE opens on HUB / OVERVIEW, the shell landing. It is not a root tab.
+    - It has eight projection regions over the seven destinations.
+    - MY BUSINESS is not the dashboard.
+  - **Compliance:** stays one lane with four sections, and one workspace.
+  - **Vehicles:** new lane WORK → VEHICLES & FLEET, so 12 lanes.
+    - It owns the roster, profiles and availability.
+    - It cross-links the rest to the owning lanes (`AIO_VEHICLES_FLEET_SCOPE`).
+  - **Founder:** FOUNDER is a privileged actor class (`AIO_IA_ACTORS`). It is a role, never a person or email, and there can be more than one.
+    - Staff never inherit it and cannot self-elevate.
+    - Founder-only acts are marked per node.
+    - Reporting, internal financials, billing, CRM and system settings are BY_GRANT for staff.
+  - **Growth / CRM and Billing:** both sit in MORE.
+    - HOME may project CRM.
+    - REPORTS → FINANCIAL / REVENUE aggregates billing.
+    - Clients see client-safe billing only, in FINANCES → FEES / PAYMENTS.
+  - **Road Ready:** sits in SERVICES while available and OPERATIONS while active. On completion its records go to MY BUSINESS, VAULT, OPERATIONS and FINANCES.
+- **Generic layer additions:**
+  - BY_GRANT visibility, `founder_authority`, `shown_when` and `potential_children` on nodes.
+  - `state_placements` on services.
+  - Actor definitions and decisions, with validator rules for each.
+- **Truth gaps recorded, not invented:**
+  - No per-client Road Ready engagement state exists yet.
+  - No FOUNDER role exists in code yet (nearest: OfficeStaffRole owner, Supabase super_admin). No founder identity is hard-coded.
+  - VEHICLES & FLEET has no staff surface.
+- **Tests:** 51 IA tests. The exported docs are now 25 files (adds FOUNDER_DECISIONS.md).

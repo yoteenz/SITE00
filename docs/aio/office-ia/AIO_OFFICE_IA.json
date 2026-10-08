@@ -85,6 +85,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -105,6 +106,8 @@
       ],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -125,6 +128,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -147,6 +151,8 @@
       ],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [
         "AIO_OFFICE.INTAKE",
         "AIO_OFFICE.WORK"
@@ -170,6 +176,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -183,11 +190,14 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [
         "AIO_OFFICE.INTAKE",
         "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES",
         "AIO_OFFICE.WORK.FILING_FUEL_TAXES",
         "AIO_OFFICE.WORK.COMPLIANCE",
+        "AIO_OFFICE.WORK.VEHICLES_FLEET",
         "AIO_OFFICE.WORK.DISPATCH",
         "AIO_OFFICE.WORK.BROKERAGE",
         "AIO_OFFICE.WORK.INSURANCE",
@@ -195,11 +205,12 @@
         "AIO_OFFICE.WORK.BOOKKEEPING",
         "AIO_OFFICE.WORK.DRIVERS_CARRIERS",
         "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE",
-        "AIO_OFFICE.WORK.ROAD_READY"
+        "AIO_OFFICE.WORK.ROAD_READY",
+        "AIO_OFFICE.MORE.GROWTH_CRM"
       ],
       "aggregates": [],
       "data_status": null,
-      "notes": "The attention engine has no IFTA, bookkeeping, FleetCare or DriverLink candidates yet."
+      "notes": "The attention engine has no IFTA, bookkeeping, FleetCare or DriverLink candidates yet. May show CRM follow-ups due and opportunities needing attention (D-GROWTH-BILLING); HOME owns no CRM state."
     },
     {
       "node_id": "AIO_OFFICE.HOME.DEADLINES",
@@ -216,6 +227,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -236,6 +248,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [
         "AIO_OFFICE.WORK.FILING_FUEL_TAXES",
         "AIO_OFFICE.WORK.COMPLIANCE.EXPIRATIONS",
@@ -261,6 +275,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -276,10 +291,13 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [
         "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES",
         "AIO_OFFICE.WORK.FILING_FUEL_TAXES",
         "AIO_OFFICE.WORK.COMPLIANCE",
+        "AIO_OFFICE.WORK.VEHICLES_FLEET",
         "AIO_OFFICE.WORK.DISPATCH",
         "AIO_OFFICE.WORK.BROKERAGE",
         "AIO_OFFICE.WORK.INSURANCE",
@@ -309,6 +327,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -334,10 +353,13 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [
         "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES",
         "AIO_OFFICE.WORK.FILING_FUEL_TAXES",
         "AIO_OFFICE.WORK.COMPLIANCE",
+        "AIO_OFFICE.WORK.VEHICLES_FLEET",
         "AIO_OFFICE.WORK.DISPATCH",
         "AIO_OFFICE.WORK.BROKERAGE",
         "AIO_OFFICE.WORK.INSURANCE",
@@ -366,6 +388,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -380,6 +403,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [
         "AIO_OFFICE.INTAKE",
         "AIO_OFFICE.MORE.CLIENTS"
@@ -403,6 +428,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -422,13 +448,16 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [
         "AIO_OFFICE.INTAKE",
-        "AIO_OFFICE.WORK"
+        "AIO_OFFICE.WORK",
+        "AIO_OFFICE.MORE.GROWTH_CRM"
       ],
       "aggregates": [],
       "data_status": null,
-      "notes": ""
+      "notes": "May include new leads and conversions from GROWTH / CRM (D-GROWTH-BILLING)."
     },
     {
       "node_id": "AIO_OFFICE.HOME.QUICK_ACTIONS",
@@ -445,6 +474,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -460,6 +490,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [
         "AIO_OFFICE.INTAKE.EXISTING_CLIENT_FILE",
         "AIO_OFFICE.INTAKE.NEW_CLIENT_FILE",
@@ -485,6 +517,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -514,6 +547,8 @@
         "AIO-MIG-ROOT-001"
       ],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -534,6 +569,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -567,6 +603,8 @@
         "AIO-MIG-EXISTING-RECEIVED-001"
       ],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -587,6 +625,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -626,6 +665,8 @@
         "AIO-MIG-NEW-RECORDS-001"
       ],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -646,6 +687,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -697,6 +739,8 @@
         "AIO-MIG-BATCH-COMPLETE-001"
       ],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -717,6 +761,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -736,6 +781,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -756,6 +803,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -789,6 +837,8 @@
         "AIO-MIG-BATCH-PROCESSING-001"
       ],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -809,6 +859,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -842,6 +893,8 @@
         "AIO-MIG-BATCH-CONFLICTS-001"
       ],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -862,6 +915,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": "Founder review of the migrated profile (staff prepare it; they do not inherit the review)",
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -889,6 +943,8 @@
         "AIO-MIG-NEW-REVIEW-001"
       ],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -909,6 +965,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": "PREBUILT review / approval (APPROVE MIGRATION)",
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -960,6 +1017,8 @@
         "AIO-MIG-BATCH-RUN-001"
       ],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -980,6 +1039,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": "Activation authority (sending the activation invite); client confirmation stays the gate before ACTIVE",
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -1021,6 +1081,8 @@
         "AIO-MIG-NEW-CONFIRM-001"
       ],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -1041,6 +1103,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -1060,6 +1123,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -1080,6 +1145,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -1112,6 +1178,8 @@
       ],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -1132,6 +1200,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": "CLIENT_OFFICE.OPERATIONS.PERMITTING_AUTHORITIES",
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -1181,6 +1250,8 @@
       ],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -1201,6 +1272,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -1221,6 +1293,8 @@
       ],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -1241,6 +1315,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -1261,6 +1336,8 @@
       ],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -1281,6 +1358,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -1301,10 +1379,12 @@
       ],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
-      "notes": "Lane ≠ workspace: authority work is entitled through the COMPLIANCE workspace (AUTHORITY · BOC-3 · SAFETY) until the split question is decided (Q-COMPLIANCE-SPLIT)."
+      "notes": "Lane ≠ workspace: authority work is entitled through the one COMPLIANCE workspace (AUTHORITY · BOC-3 · SAFETY), which stays unsplit (D-COMPLIANCE-ONE-LANE)."
     },
     {
       "node_id": "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES.BOC3",
@@ -1321,6 +1401,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_NOT_STARTED",
@@ -1340,6 +1421,8 @@
       ],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -1360,6 +1443,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -1391,6 +1475,8 @@
       ],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -1411,6 +1497,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -1428,6 +1515,8 @@
       ],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -1448,6 +1537,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": "CLIENT_OFFICE.OPERATIONS.FILING_IFTA",
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -1475,6 +1565,8 @@
       ],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -1495,6 +1587,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -1531,6 +1624,8 @@
         "AIO.IFTA.STAFF.QUEUE"
       ],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -1551,6 +1646,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -1576,6 +1672,8 @@
         "AIO.IFTA.STAFF.QUEUE"
       ],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -1596,6 +1694,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -1614,6 +1713,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -1634,6 +1735,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -1652,6 +1754,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -1672,6 +1776,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -1689,6 +1794,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -1702,13 +1809,14 @@
       "label": "Compliance",
       "kind": "SERVICE_LANE",
       "role": "PRODUCTION",
-      "semantics": "",
+      "semantics": "One canonical compliance lane: these functions share client, vehicle, driver, document, deadline and case context. Split only if operational volume proves a separate lane is needed (D-COMPLIANCE-ONE-LANE).",
       "visibility": {
         "FOUNDER": "FULL",
         "STAFF": "FULL",
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": "CLIENT_OFFICE.OPERATIONS.COMPLIANCE",
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -1743,6 +1851,8 @@
       ],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -1763,6 +1873,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_NOT_STARTED",
@@ -1780,6 +1891,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -1800,6 +1913,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -1828,6 +1942,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -1848,6 +1964,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_NOT_STARTED",
@@ -1863,6 +1980,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -1883,6 +2002,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_NOT_STARTED",
@@ -1898,16 +2018,58 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
       "notes": ""
     },
     {
-      "node_id": "AIO_OFFICE.WORK.DISPATCH",
+      "node_id": "AIO_OFFICE.WORK.VEHICLES_FLEET",
       "shell_id": "AIO_OFFICE",
       "parent": "AIO_OFFICE.WORK",
       "order": 3,
+      "label": "Vehicles & Fleet",
+      "kind": "SERVICE_LANE",
+      "role": "PRODUCTION",
+      "semantics": "The operational vehicle backbone (D-VEHICLES-FLEET-LANE): the vehicle record and a vehicle-centred view of everything about it. Owns the roster, profiles and availability; shows registration, documents, driver, insurance, IFTA, compliance and maintenance state by cross-link to the lane that owns each (AIO_VEHICLES_FLEET_SCOPE) — never a second copy.",
+      "visibility": {
+        "FOUNDER": "FULL",
+        "STAFF": "FULL",
+        "CLIENT": "HIDDEN"
+      },
+      "staff_gate": null,
+      "founder_authority": null,
+      "client_projection": "CLIENT_OFFICE.OPERATIONS.VEHICLE_MANAGEMENT",
+      "architecture": "ARCHITECTURALLY_CANONICAL",
+      "implementation": "IMPLEMENTATION_NOT_STARTED",
+      "depth": "NONE",
+      "evidence": [
+        "all-in-one-enterprises/src/office/pages/ClientDetailPage.tsx:184-186 (Client 360 fleet tab: placeholder text)",
+        "all-in-one-enterprises/src/road-ready/roadReadyTypes.ts:113 PowerUnit",
+        "all-in-one-enterprises/src/road-ready/roadReadyTypes.ts:129 Trailer"
+      ],
+      "routes": [],
+      "service_ids": [
+        "VEHICLE_MANAGEMENT"
+      ],
+      "workspace_ids": [],
+      "feature_refs": [],
+      "authority_refs": [],
+      "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
+      "projects": [],
+      "aggregates": [],
+      "data_status": null,
+      "notes": "Not a workspace (the fleet registry is a shared capability, office.ts AIO_NOT_WORKSPACES). No staff fleet surface exists yet; vehicle data lives in the Road Ready profile and the demo store (Supabase aio_fleet_vehicles is written by migration approve only)."
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.DISPATCH",
+      "shell_id": "AIO_OFFICE",
+      "parent": "AIO_OFFICE.WORK",
+      "order": 4,
       "label": "Dispatch",
       "kind": "SERVICE_LANE",
       "role": "PRODUCTION",
@@ -1918,6 +2080,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": "CLIENT_OFFICE.OPERATIONS.DISPATCH",
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -1945,6 +2108,8 @@
       ],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -1965,6 +2130,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -1986,6 +2152,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -2006,6 +2174,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -2024,6 +2193,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -2044,6 +2215,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -2065,6 +2237,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -2085,6 +2259,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -2102,6 +2277,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -2122,6 +2299,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_NOT_STARTED",
@@ -2137,6 +2315,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -2146,7 +2326,7 @@
       "node_id": "AIO_OFFICE.WORK.BROKERAGE",
       "shell_id": "AIO_OFFICE",
       "parent": "AIO_OFFICE.WORK",
-      "order": 4,
+      "order": 5,
       "label": "Brokerage",
       "kind": "SERVICE_LANE",
       "role": "PRODUCTION",
@@ -2157,6 +2337,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": "CLIENT_OFFICE.OPERATIONS.BROKERAGE",
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -2185,6 +2366,8 @@
       ],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -2205,6 +2388,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -2222,6 +2406,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -2242,6 +2428,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -2263,6 +2450,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -2283,6 +2472,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -2305,6 +2495,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -2325,6 +2517,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -2342,6 +2535,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -2358,10 +2553,11 @@
       "semantics": "",
       "visibility": {
         "FOUNDER": "FULL",
-        "STAFF": "FULL",
+        "STAFF": "BY_GRANT",
         "CLIENT": "HIDDEN"
       },
-      "staff_gate": null,
+      "staff_gate": "brokerage_finance.read (ROLE_PERMISSIONS)",
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -2383,16 +2579,18 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
-      "notes": "Internal margin / carrier pay — staff only (firewall)."
+      "notes": "Internal margin / carrier pay — staff only (firewall), and only with a brokerage finance grant (internal financial visibility is founder-class)."
     },
     {
       "node_id": "AIO_OFFICE.WORK.INSURANCE",
       "shell_id": "AIO_OFFICE",
       "parent": "AIO_OFFICE.WORK",
-      "order": 5,
+      "order": 6,
       "label": "Insurance",
       "kind": "SERVICE_LANE",
       "role": "PRODUCTION",
@@ -2403,6 +2601,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": "CLIENT_OFFICE.FINANCES.INSURANCE",
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -2428,6 +2627,8 @@
       ],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -2448,6 +2649,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -2465,6 +2667,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -2485,6 +2689,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -2502,6 +2707,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -2522,6 +2729,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -2539,6 +2747,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -2559,6 +2769,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -2580,6 +2791,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -2589,7 +2802,7 @@
       "node_id": "AIO_OFFICE.WORK.FACTORING",
       "shell_id": "AIO_OFFICE",
       "parent": "AIO_OFFICE.WORK",
-      "order": 6,
+      "order": 7,
       "label": "Factoring",
       "kind": "SERVICE_LANE",
       "role": "PRODUCTION",
@@ -2600,6 +2813,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": "CLIENT_OFFICE.FINANCES.FACTORING",
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -2626,6 +2840,8 @@
       ],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -2635,7 +2851,7 @@
       "node_id": "AIO_OFFICE.WORK.BOOKKEEPING",
       "shell_id": "AIO_OFFICE",
       "parent": "AIO_OFFICE.WORK",
-      "order": 7,
+      "order": 8,
       "label": "Bookkeeping",
       "kind": "SERVICE_LANE",
       "role": "PRODUCTION",
@@ -2646,6 +2862,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": "CLIENT_OFFICE.FINANCES.BOOKKEEPING",
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -2671,6 +2888,8 @@
       ],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -2691,6 +2910,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -2708,6 +2928,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -2728,6 +2950,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -2745,6 +2968,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -2765,6 +2990,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_NOT_STARTED",
@@ -2780,6 +3006,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -2800,6 +3028,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_NOT_STARTED",
@@ -2815,6 +3044,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -2824,7 +3055,7 @@
       "node_id": "AIO_OFFICE.WORK.DRIVERS_CARRIERS",
       "shell_id": "AIO_OFFICE",
       "parent": "AIO_OFFICE.WORK",
-      "order": 8,
+      "order": 9,
       "label": "Drivers & Carriers",
       "kind": "SERVICE_LANE",
       "role": "PRODUCTION",
@@ -2835,6 +3066,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": "CLIENT_OFFICE.OPERATIONS.DRIVER_MANAGEMENT",
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -2865,6 +3097,8 @@
       ],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -2885,6 +3119,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -2903,6 +3138,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -2923,6 +3160,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_NOT_STARTED",
@@ -2940,6 +3178,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -2960,6 +3200,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_NOT_STARTED",
@@ -2975,6 +3216,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -2984,7 +3227,7 @@
       "node_id": "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE",
       "shell_id": "AIO_OFFICE",
       "parent": "AIO_OFFICE.WORK",
-      "order": 9,
+      "order": 10,
       "label": "Mechanic / Maintenance",
       "kind": "SERVICE_LANE",
       "role": "PRODUCTION",
@@ -2995,6 +3238,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": "CLIENT_OFFICE.OPERATIONS.MAINTENANCE",
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -3020,6 +3264,8 @@
       ],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -3040,6 +3286,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -3055,6 +3302,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -3075,6 +3324,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -3092,6 +3342,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -3112,6 +3364,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -3127,6 +3380,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -3147,6 +3402,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -3163,6 +3419,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -3172,7 +3430,7 @@
       "node_id": "AIO_OFFICE.WORK.ROAD_READY",
       "shell_id": "AIO_OFFICE",
       "parent": "AIO_OFFICE.WORK",
-      "order": 10,
+      "order": 11,
       "label": "Road Ready",
       "kind": "SERVICE_LANE",
       "role": "PRODUCTION",
@@ -3183,6 +3441,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -3212,6 +3471,8 @@
       ],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -3228,10 +3489,11 @@
       "semantics": "Internal oversight + history + exports: what happened, how work is performing, what can be reviewed / exported. Aggregates WORK and INTAKE; never replaces active production.",
       "visibility": {
         "FOUNDER": "FULL",
-        "STAFF": "FULL",
+        "STAFF": "BY_GRANT",
         "CLIENT": "HIDDEN"
       },
-      "staff_gate": null,
+      "staff_gate": "reports.read · management.*.read (ROLE_PERMISSIONS; all-in-one-enterprises/src/office/pages/ManagementPages.tsx:643 ManagementGate)",
+      "founder_authority": "Reporting (founder-class; staff only by grant)",
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -3254,6 +3516,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [
         "AIO_OFFICE.WORK",
@@ -3273,10 +3537,11 @@
       "semantics": "",
       "visibility": {
         "FOUNDER": "FULL",
-        "STAFF": "FULL",
+        "STAFF": "BY_GRANT",
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -3294,6 +3559,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [
         "AIO_OFFICE.WORK",
@@ -3313,10 +3580,11 @@
       "semantics": "",
       "visibility": {
         "FOUNDER": "FULL",
-        "STAFF": "FULL",
+        "STAFF": "BY_GRANT",
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -3334,6 +3602,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [
         "AIO_OFFICE.MORE.CLIENTS",
@@ -3353,10 +3623,11 @@
       "semantics": "",
       "visibility": {
         "FOUNDER": "FULL",
-        "STAFF": "FULL",
+        "STAFF": "BY_GRANT",
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -3374,11 +3645,14 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [
         "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES",
         "AIO_OFFICE.WORK.FILING_FUEL_TAXES",
         "AIO_OFFICE.WORK.COMPLIANCE",
+        "AIO_OFFICE.WORK.VEHICLES_FLEET",
         "AIO_OFFICE.WORK.DISPATCH",
         "AIO_OFFICE.WORK.BROKERAGE",
         "AIO_OFFICE.WORK.INSURANCE",
@@ -3402,10 +3676,11 @@
       "semantics": "",
       "visibility": {
         "FOUNDER": "FULL",
-        "STAFF": "FULL",
+        "STAFF": "BY_GRANT",
         "CLIENT": "HIDDEN"
       },
-      "staff_gate": "existing management permissions (ROLE_PERMISSIONS)",
+      "staff_gate": "management.financial.read (all-in-one-enterprises/src/office/pages/ManagementPages.tsx:98,158,199 ManagementGate)",
+      "founder_authority": "Internal financial visibility",
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -3423,14 +3698,17 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [
+        "AIO_OFFICE.MORE.BILLING",
         "AIO_OFFICE.WORK.BROKERAGE.LOAD_FINANCIALS",
         "AIO_OFFICE.WORK.FACTORING",
         "AIO_OFFICE.WORK.BOOKKEEPING"
       ],
       "data_status": "PARTIAL_DATA",
-      "notes": "Billing Desk (quotes, invoices, payments) is a candidate source (C-BILLING-DESK)."
+      "notes": "Aggregates billing for oversight; owns no invoice or payment production (MORE → BILLING, D-GROWTH-BILLING)."
     },
     {
       "node_id": "AIO_OFFICE.REPORTS.FILING_HISTORY",
@@ -3443,10 +3721,11 @@
       "semantics": "",
       "visibility": {
         "FOUNDER": "FULL",
-        "STAFF": "FULL",
+        "STAFF": "BY_GRANT",
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_NOT_STARTED",
@@ -3458,6 +3737,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [
         "AIO_OFFICE.WORK.FILING_FUEL_TAXES"
@@ -3476,10 +3757,11 @@
       "semantics": "",
       "visibility": {
         "FOUNDER": "FULL",
-        "STAFF": "FULL",
+        "STAFF": "BY_GRANT",
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -3497,6 +3779,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [
         "AIO_OFFICE.WORK.COMPLIANCE"
@@ -3515,10 +3799,11 @@
       "semantics": "",
       "visibility": {
         "FOUNDER": "FULL",
-        "STAFF": "FULL",
+        "STAFF": "BY_GRANT",
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -3541,6 +3826,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [
         "AIO_OFFICE.WORK.DISPATCH",
@@ -3560,10 +3847,11 @@
       "semantics": "",
       "visibility": {
         "FOUNDER": "FULL",
-        "STAFF": "FULL",
+        "STAFF": "BY_GRANT",
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_NOT_STARTED",
@@ -3575,6 +3863,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [
         "AIO_OFFICE.WORK.BOOKKEEPING"
@@ -3593,10 +3883,11 @@
       "semantics": "",
       "visibility": {
         "FOUNDER": "FULL",
-        "STAFF": "FULL",
+        "STAFF": "BY_GRANT",
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -3611,6 +3902,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [
         "AIO_OFFICE.INTAKE"
@@ -3629,10 +3922,11 @@
       "semantics": "",
       "visibility": {
         "FOUNDER": "FULL",
-        "STAFF": "FULL",
+        "STAFF": "BY_GRANT",
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_NOT_STARTED",
@@ -3644,6 +3938,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": "NOT_YET_IMPLEMENTED",
@@ -3664,6 +3960,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_NOT_STARTED",
@@ -3681,6 +3978,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -3701,6 +4000,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -3725,6 +4025,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -3745,6 +4047,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -3774,16 +4077,180 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
       "notes": ""
     },
     {
-      "node_id": "AIO_OFFICE.MORE.TEAM_STAFF",
+      "node_id": "AIO_OFFICE.MORE.GROWTH_CRM",
       "shell_id": "AIO_OFFICE",
       "parent": "AIO_OFFICE.MORE",
       "order": 2,
+      "label": "Growth / CRM",
+      "kind": "DIRECTORY_ENTRY",
+      "role": "SECONDARY",
+      "semantics": "Internal growth and sales: leads to clients. Not client-service production, so not in WORK (D-GROWTH-BILLING). HOME may project new leads, follow-ups due, conversions and opportunities needing attention; HOME owns no CRM state.",
+      "visibility": {
+        "FOUNDER": "FULL",
+        "STAFF": "BY_GRANT",
+        "CLIENT": "HIDDEN"
+      },
+      "staff_gate": "crm.* (ROLE_PERMISSIONS CRM_FULL / CRM_SALES)",
+      "founder_authority": null,
+      "client_projection": null,
+      "architecture": "ARCHITECTURALLY_CANONICAL",
+      "implementation": "IMPLEMENTATION_PARTIAL",
+      "depth": "FUNCTIONAL_DEMO",
+      "evidence": [
+        "all-in-one-enterprises/src/office/pages/CrmPages.tsx",
+        "all-in-one-enterprises/src/office-core/officeContext.ts:58 CRM_FULL permissions"
+      ],
+      "routes": [
+        {
+          "path": "/office/crm",
+          "status": "EXISTING",
+          "evidence": "all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:263"
+        },
+        {
+          "path": "/office/crm/leads",
+          "status": "EXISTING",
+          "evidence": "all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:264"
+        },
+        {
+          "path": "/office/crm/leads/:leadId",
+          "status": "EXISTING",
+          "evidence": "all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:265"
+        },
+        {
+          "path": "/office/crm/pipeline",
+          "status": "EXISTING",
+          "evidence": "all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:266"
+        },
+        {
+          "path": "/office/crm/opportunities/:opportunityId",
+          "status": "EXISTING",
+          "evidence": "all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:267"
+        },
+        {
+          "path": "/office/crm/calendar",
+          "status": "EXISTING",
+          "evidence": "all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:268"
+        },
+        {
+          "path": "/office/crm/reports",
+          "status": "EXISTING",
+          "evidence": "all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:269"
+        },
+        {
+          "path": "/office/settings/crm",
+          "status": "EXISTING",
+          "evidence": "all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:270"
+        }
+      ],
+      "service_ids": [],
+      "workspace_ids": [],
+      "feature_refs": [],
+      "authority_refs": [],
+      "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [
+        "Leads",
+        "Prospects",
+        "Pipeline",
+        "Follow-ups",
+        "Referrals",
+        "Sales Activity",
+        "Service Opportunities"
+      ],
+      "projects": [],
+      "aggregates": [],
+      "data_status": null,
+      "notes": "Root-nav status is reconsidered only from usage data."
+    },
+    {
+      "node_id": "AIO_OFFICE.MORE.BILLING",
+      "shell_id": "AIO_OFFICE",
+      "parent": "AIO_OFFICE.MORE",
+      "order": 3,
+      "label": "Billing",
+      "kind": "DIRECTORY_ENTRY",
+      "role": "SECONDARY",
+      "semantics": "Billing operations: what clients are charged and what they paid. REPORTS → FINANCIAL / REVENUE aggregates it for oversight but owns no invoice or payment production (D-GROWTH-BILLING).",
+      "visibility": {
+        "FOUNDER": "FULL",
+        "STAFF": "BY_GRANT",
+        "CLIENT": "HIDDEN"
+      },
+      "staff_gate": "billing.read · billing.manage (ROLE_PERMISSIONS)",
+      "founder_authority": null,
+      "client_projection": "CLIENT_OFFICE.FINANCES.FEES_PAYMENTS",
+      "architecture": "ARCHITECTURALLY_CANONICAL",
+      "implementation": "IMPLEMENTATION_PARTIAL",
+      "depth": "FUNCTIONAL_DEMO",
+      "evidence": [
+        "all-in-one-enterprises/src/office/pages/BillingPages.tsx",
+        "all-in-one-enterprises/src/office/pages/ClientDetailPage.tsx:177 billing tab gated by billing.read"
+      ],
+      "routes": [
+        {
+          "path": "/office/billing",
+          "status": "EXISTING",
+          "evidence": "all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:339"
+        },
+        {
+          "path": "/office/invoices",
+          "status": "EXISTING",
+          "evidence": "all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:336"
+        },
+        {
+          "path": "/office/invoices/:invoiceId",
+          "status": "EXISTING",
+          "evidence": "all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:337"
+        },
+        {
+          "path": "/office/payments",
+          "status": "EXISTING",
+          "evidence": "all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:338"
+        },
+        {
+          "path": "/office/quotes",
+          "status": "EXISTING",
+          "evidence": "all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:340"
+        },
+        {
+          "path": "/office/quotes/:quoteId",
+          "status": "EXISTING",
+          "evidence": "all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:341"
+        }
+      ],
+      "service_ids": [],
+      "workspace_ids": [],
+      "feature_refs": [],
+      "authority_refs": [],
+      "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [
+        "Client Billing",
+        "Invoices",
+        "Payments",
+        "Balances",
+        "Service Charges",
+        "Subscriptions / Recurring Services",
+        "Credits / Adjustments"
+      ],
+      "projects": [],
+      "aggregates": [],
+      "data_status": null,
+      "notes": "Clients see only client-safe billing in FINANCES → FEES / PAYMENTS — never internal margin, commission, profitability or staff-only financial data. Quotes sit here until the MORE authority contract places them."
+    },
+    {
+      "node_id": "AIO_OFFICE.MORE.TEAM_STAFF",
+      "shell_id": "AIO_OFFICE",
+      "parent": "AIO_OFFICE.MORE",
+      "order": 4,
       "label": "Team & Staff",
       "kind": "DIRECTORY_ENTRY",
       "role": "SECONDARY",
@@ -3793,7 +4260,8 @@
         "STAFF": "FULL",
         "CLIENT": "HIDDEN"
       },
-      "staff_gate": "workload.read (workload)",
+      "staff_gate": "workload.read · team.manage (ROLE_PERMISSIONS)",
+      "founder_authority": "Staff / permission administration (roles and grants)",
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -3816,6 +4284,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -3825,7 +4295,7 @@
       "node_id": "AIO_OFFICE.MORE.SERVICE_CATALOG",
       "shell_id": "AIO_OFFICE",
       "parent": "AIO_OFFICE.MORE",
-      "order": 3,
+      "order": 5,
       "label": "Service Catalog",
       "kind": "DIRECTORY_ENTRY",
       "role": "SECONDARY",
@@ -3836,6 +4306,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": "Service configuration (activation, pricing)",
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -3861,6 +4332,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -3870,7 +4343,7 @@
       "node_id": "AIO_OFFICE.MORE.MECHANIC_NETWORK",
       "shell_id": "AIO_OFFICE",
       "parent": "AIO_OFFICE.MORE",
-      "order": 4,
+      "order": 6,
       "label": "Mechanic Network",
       "kind": "DIRECTORY_ENTRY",
       "role": "SECONDARY",
@@ -3881,6 +4354,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -3898,6 +4372,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -3907,7 +4383,7 @@
       "node_id": "AIO_OFFICE.MORE.MESSAGES",
       "shell_id": "AIO_OFFICE",
       "parent": "AIO_OFFICE.MORE",
-      "order": 5,
+      "order": 7,
       "label": "Messages",
       "kind": "DIRECTORY_ENTRY",
       "role": "SECONDARY",
@@ -3918,6 +4394,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -3942,6 +4419,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -3951,17 +4430,18 @@
       "node_id": "AIO_OFFICE.MORE.SYSTEM_SETTINGS",
       "shell_id": "AIO_OFFICE",
       "parent": "AIO_OFFICE.MORE",
-      "order": 6,
+      "order": 8,
       "label": "System Settings",
       "kind": "DIRECTORY_ENTRY",
       "role": "SECONDARY",
       "semantics": "",
       "visibility": {
         "FOUNDER": "FULL",
-        "STAFF": "FULL",
+        "STAFF": "BY_GRANT",
         "CLIENT": "HIDDEN"
       },
       "staff_gate": "canStaffAccessSystemAdmin (auth/routeAccess.ts:63-65) where enforced",
+      "founder_authority": "System configuration",
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -3989,6 +4469,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -3998,7 +4480,7 @@
       "node_id": "AIO_OFFICE.MORE.HELP_SUPPORT",
       "shell_id": "AIO_OFFICE",
       "parent": "AIO_OFFICE.MORE",
-      "order": 7,
+      "order": 9,
       "label": "Help & Support",
       "kind": "DIRECTORY_ENTRY",
       "role": "SECONDARY",
@@ -4009,6 +4491,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -4031,6 +4514,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -4040,7 +4525,7 @@
       "node_id": "AIO_OFFICE.MORE.ACCOUNT",
       "shell_id": "AIO_OFFICE",
       "parent": "AIO_OFFICE.MORE",
-      "order": 8,
+      "order": 10,
       "label": "Account",
       "kind": "DIRECTORY_ENTRY",
       "role": "SECONDARY",
@@ -4051,6 +4536,7 @@
         "CLIENT": "HIDDEN"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_NOT_STARTED",
@@ -4064,6 +4550,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -4084,6 +4572,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -4103,6 +4592,8 @@
       ],
       "authority_refs": [],
       "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -4113,18 +4604,19 @@
       "shell_id": "CLIENT_OFFICE",
       "parent": "CLIENT_OFFICE",
       "order": 0,
-      "label": "Client Office Hub",
+      "label": "Hub / Overview",
       "kind": "LANDING",
-      "role": "LANDING",
-      "semantics": "Where the client office opens today (MY OFFICE: current actions, deadlines, document requests, messages, active workspaces).",
+      "role": "PROJECTION",
+      "semantics": "The shell-level landing of CLIENT OFFICE: the client enters here. Projection and orientation across the seven destinations, which are the actual workspaces. Not a persistent root-nav tab (D-CLIENT-HUB).",
       "visibility": {
         "FOUNDER": "VIA_AIO_OFFICE",
         "STAFF": "VIA_AIO_OFFICE",
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
-      "architecture": "CANDIDATE_UNRESOLVED",
+      "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
       "depth": "FUNCTIONAL_DEMO",
       "evidence": [],
@@ -4143,10 +4635,331 @@
       ],
       "authority_refs": [],
       "client_resolution": "ALWAYS",
-      "projects": [],
+      "shown_when": null,
+      "potential_children": [],
+      "projects": [
+        "CLIENT_OFFICE.MY_BUSINESS",
+        "CLIENT_OFFICE.OPERATIONS",
+        "CLIENT_OFFICE.FINANCES",
+        "CLIENT_OFFICE.VAULT",
+        "CLIENT_OFFICE.INBOX",
+        "CLIENT_OFFICE.SERVICES",
+        "CLIENT_OFFICE.ACCOUNT"
+      ],
       "aggregates": [],
       "data_status": null,
-      "notes": "The founder root lists seven destinations and no hub; today’s MY OFFICE container is recorded here, not as an eighth destination (Q-CLIENT-HUB)."
+      "notes": "Today’s MY OFFICE command center. Added to the root nav only if future UX testing proves it necessary. MY BUSINESS stays a root destination and is not the dashboard."
+    },
+    {
+      "node_id": "CLIENT_OFFICE.HUB.BUSINESS_STATUS",
+      "shell_id": "CLIENT_OFFICE",
+      "parent": "CLIENT_OFFICE.HUB",
+      "order": 0,
+      "label": "Business Status",
+      "kind": "REGION",
+      "role": "PROJECTION",
+      "semantics": "",
+      "visibility": {
+        "FOUNDER": "VIA_AIO_OFFICE",
+        "STAFF": "VIA_AIO_OFFICE",
+        "CLIENT": "FULL"
+      },
+      "staff_gate": null,
+      "founder_authority": null,
+      "client_projection": null,
+      "architecture": "ARCHITECTURALLY_CANONICAL",
+      "implementation": "IMPLEMENTATION_PARTIAL",
+      "depth": "FUNCTIONAL_DEMO",
+      "evidence": [
+        "all-in-one-enterprises/src/portal/clientCommandCenterService.ts:693 businessStatus",
+        "all-in-one-enterprises/src/pages/PortalPage.tsx:56 BusinessHealthGrid"
+      ],
+      "routes": [],
+      "service_ids": [],
+      "workspace_ids": [],
+      "feature_refs": [],
+      "authority_refs": [],
+      "client_resolution": "ALWAYS",
+      "shown_when": null,
+      "potential_children": [],
+      "projects": [
+        "CLIENT_OFFICE.MY_BUSINESS"
+      ],
+      "aggregates": [],
+      "data_status": null,
+      "notes": ""
+    },
+    {
+      "node_id": "CLIENT_OFFICE.HUB.WORK_IN_PROGRESS",
+      "shell_id": "CLIENT_OFFICE",
+      "parent": "CLIENT_OFFICE.HUB",
+      "order": 1,
+      "label": "Work in Progress",
+      "kind": "REGION",
+      "role": "PROJECTION",
+      "semantics": "",
+      "visibility": {
+        "FOUNDER": "VIA_AIO_OFFICE",
+        "STAFF": "VIA_AIO_OFFICE",
+        "CLIENT": "FULL"
+      },
+      "staff_gate": null,
+      "founder_authority": null,
+      "client_projection": null,
+      "architecture": "ARCHITECTURALLY_CANONICAL",
+      "implementation": "IMPLEMENTATION_PARTIAL",
+      "depth": "FUNCTIONAL_DEMO",
+      "evidence": [
+        "all-in-one-enterprises/src/pages/PortalPage.tsx:54 ActiveJourneysPanel",
+        "all-in-one-enterprises/src/pages/PortalPage.tsx:57 CurrentLoadHero"
+      ],
+      "routes": [],
+      "service_ids": [],
+      "workspace_ids": [],
+      "feature_refs": [],
+      "authority_refs": [],
+      "client_resolution": "ALWAYS",
+      "shown_when": null,
+      "potential_children": [],
+      "projects": [
+        "CLIENT_OFFICE.OPERATIONS",
+        "CLIENT_OFFICE.FINANCES"
+      ],
+      "aggregates": [],
+      "data_status": null,
+      "notes": ""
+    },
+    {
+      "node_id": "CLIENT_OFFICE.HUB.ITEMS_NEEDING_APPROVAL",
+      "shell_id": "CLIENT_OFFICE",
+      "parent": "CLIENT_OFFICE.HUB",
+      "order": 2,
+      "label": "Items Needing Approval",
+      "kind": "REGION",
+      "role": "PROJECTION",
+      "semantics": "",
+      "visibility": {
+        "FOUNDER": "VIA_AIO_OFFICE",
+        "STAFF": "VIA_AIO_OFFICE",
+        "CLIENT": "FULL"
+      },
+      "staff_gate": null,
+      "founder_authority": null,
+      "client_projection": null,
+      "architecture": "ARCHITECTURALLY_CANONICAL",
+      "implementation": "IMPLEMENTATION_PARTIAL",
+      "depth": "FUNCTIONAL_DEMO",
+      "evidence": [
+        "all-in-one-enterprises/src/pages/PortalPage.tsx:50 AttentionCenter"
+      ],
+      "routes": [],
+      "service_ids": [],
+      "workspace_ids": [],
+      "feature_refs": [],
+      "authority_refs": [],
+      "client_resolution": "ALWAYS",
+      "shown_when": null,
+      "potential_children": [],
+      "projects": [
+        "CLIENT_OFFICE.INBOX.APPROVALS_NEEDED"
+      ],
+      "aggregates": [],
+      "data_status": null,
+      "notes": "Attention items mix every kind of action; there is no approvals-only view yet."
+    },
+    {
+      "node_id": "CLIENT_OFFICE.HUB.UPCOMING_DEADLINES",
+      "shell_id": "CLIENT_OFFICE",
+      "parent": "CLIENT_OFFICE.HUB",
+      "order": 3,
+      "label": "Upcoming Deadlines",
+      "kind": "REGION",
+      "role": "PROJECTION",
+      "semantics": "",
+      "visibility": {
+        "FOUNDER": "VIA_AIO_OFFICE",
+        "STAFF": "VIA_AIO_OFFICE",
+        "CLIENT": "FULL"
+      },
+      "staff_gate": null,
+      "founder_authority": null,
+      "client_projection": null,
+      "architecture": "ARCHITECTURALLY_CANONICAL",
+      "implementation": "IMPLEMENTATION_PARTIAL",
+      "depth": "FUNCTIONAL_DEMO",
+      "evidence": [
+        "all-in-one-enterprises/src/pages/PortalPage.tsx:85 UpcomingList"
+      ],
+      "routes": [],
+      "service_ids": [],
+      "workspace_ids": [],
+      "feature_refs": [],
+      "authority_refs": [],
+      "client_resolution": "ALWAYS",
+      "shown_when": null,
+      "potential_children": [],
+      "projects": [
+        "CLIENT_OFFICE.OPERATIONS.COMPLIANCE",
+        "CLIENT_OFFICE.OPERATIONS.FILING_IFTA"
+      ],
+      "aggregates": [],
+      "data_status": null,
+      "notes": ""
+    },
+    {
+      "node_id": "CLIENT_OFFICE.HUB.RECENT_MESSAGES",
+      "shell_id": "CLIENT_OFFICE",
+      "parent": "CLIENT_OFFICE.HUB",
+      "order": 4,
+      "label": "Recent Messages",
+      "kind": "REGION",
+      "role": "PROJECTION",
+      "semantics": "",
+      "visibility": {
+        "FOUNDER": "VIA_AIO_OFFICE",
+        "STAFF": "VIA_AIO_OFFICE",
+        "CLIENT": "FULL"
+      },
+      "staff_gate": null,
+      "founder_authority": null,
+      "client_projection": null,
+      "architecture": "ARCHITECTURALLY_CANONICAL",
+      "implementation": "IMPLEMENTATION_PARTIAL",
+      "depth": "FUNCTIONAL_DEMO",
+      "evidence": [
+        "all-in-one-enterprises/src/pages/PortalPage.tsx:47 NotificationDigest (unread counts only)"
+      ],
+      "routes": [],
+      "service_ids": [],
+      "workspace_ids": [],
+      "feature_refs": [],
+      "authority_refs": [],
+      "client_resolution": "ALWAYS",
+      "shown_when": null,
+      "potential_children": [],
+      "projects": [
+        "CLIENT_OFFICE.INBOX.MESSAGES_FROM_AIO"
+      ],
+      "aggregates": [],
+      "data_status": null,
+      "notes": ""
+    },
+    {
+      "node_id": "CLIENT_OFFICE.HUB.ACTIVE_SERVICES",
+      "shell_id": "CLIENT_OFFICE",
+      "parent": "CLIENT_OFFICE.HUB",
+      "order": 5,
+      "label": "Active Services",
+      "kind": "REGION",
+      "role": "PROJECTION",
+      "semantics": "",
+      "visibility": {
+        "FOUNDER": "VIA_AIO_OFFICE",
+        "STAFF": "VIA_AIO_OFFICE",
+        "CLIENT": "FULL"
+      },
+      "staff_gate": null,
+      "founder_authority": null,
+      "client_projection": null,
+      "architecture": "ARCHITECTURALLY_CANONICAL",
+      "implementation": "IMPLEMENTATION_PARTIAL",
+      "depth": "FUNCTIONAL_DEMO",
+      "evidence": [
+        "all-in-one-enterprises/src/portal/clientCommandCenterService.ts:707 activeServices (heuristic)"
+      ],
+      "routes": [],
+      "service_ids": [],
+      "workspace_ids": [],
+      "feature_refs": [],
+      "authority_refs": [],
+      "client_resolution": "ALWAYS",
+      "shown_when": null,
+      "potential_children": [],
+      "projects": [
+        "CLIENT_OFFICE.SERVICES.ACTIVE_SERVICES"
+      ],
+      "aggregates": [],
+      "data_status": null,
+      "notes": "Reads the heuristic builder today; the canonical workspace resolver replaces it."
+    },
+    {
+      "node_id": "CLIENT_OFFICE.HUB.RECENT_DOCUMENTS",
+      "shell_id": "CLIENT_OFFICE",
+      "parent": "CLIENT_OFFICE.HUB",
+      "order": 6,
+      "label": "Recent Documents",
+      "kind": "REGION",
+      "role": "PROJECTION",
+      "semantics": "",
+      "visibility": {
+        "FOUNDER": "VIA_AIO_OFFICE",
+        "STAFF": "VIA_AIO_OFFICE",
+        "CLIENT": "FULL"
+      },
+      "staff_gate": null,
+      "founder_authority": null,
+      "client_projection": null,
+      "architecture": "ARCHITECTURALLY_CANONICAL",
+      "implementation": "IMPLEMENTATION_PARTIAL",
+      "depth": "FUNCTIONAL_DEMO",
+      "evidence": [
+        "all-in-one-enterprises/src/pages/PortalPage.tsx:88 Documents panel"
+      ],
+      "routes": [],
+      "service_ids": [],
+      "workspace_ids": [],
+      "feature_refs": [],
+      "authority_refs": [],
+      "client_resolution": "ALWAYS",
+      "shown_when": null,
+      "potential_children": [],
+      "projects": [
+        "CLIENT_OFFICE.VAULT.CURRENT_DOCUMENTS"
+      ],
+      "aggregates": [],
+      "data_status": null,
+      "notes": ""
+    },
+    {
+      "node_id": "CLIENT_OFFICE.HUB.CONTEXTUAL_NEXT_ACTION",
+      "shell_id": "CLIENT_OFFICE",
+      "parent": "CLIENT_OFFICE.HUB",
+      "order": 7,
+      "label": "Contextual Next Action",
+      "kind": "REGION",
+      "role": "PROJECTION",
+      "semantics": "",
+      "visibility": {
+        "FOUNDER": "VIA_AIO_OFFICE",
+        "STAFF": "VIA_AIO_OFFICE",
+        "CLIENT": "FULL"
+      },
+      "staff_gate": null,
+      "founder_authority": null,
+      "client_projection": null,
+      "architecture": "ARCHITECTURALLY_CANONICAL",
+      "implementation": "IMPLEMENTATION_PARTIAL",
+      "depth": "FUNCTIONAL_DEMO",
+      "evidence": [
+        "all-in-one-enterprises/src/pages/PortalPage.tsx:48 NextActionHero",
+        "all-in-one-enterprises/src/portal/clientCommandCenterService.ts:626 selectNextAction"
+      ],
+      "routes": [],
+      "service_ids": [],
+      "workspace_ids": [],
+      "feature_refs": [],
+      "authority_refs": [],
+      "client_resolution": "ALWAYS",
+      "shown_when": null,
+      "potential_children": [],
+      "projects": [
+        "CLIENT_OFFICE.INBOX.REQUESTS",
+        "CLIENT_OFFICE.INBOX.APPROVALS_NEEDED",
+        "CLIENT_OFFICE.SERVICES.RECOMMENDED_CONTEXTUAL"
+      ],
+      "aggregates": [],
+      "data_status": null,
+      "notes": "A service suggestion appears only under the expansion rules (suppressed while urgent work is open)."
     },
     {
       "node_id": "CLIENT_OFFICE.ACTIVATION",
@@ -4163,6 +4976,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -4202,6 +5016,8 @@
         "AIO-MIG-ACTIVATION-COMPLETE-002"
       ],
       "client_resolution": "STATE",
+      "shown_when": "Lifecycle INVITED or CLIENT_CONFIRMATION_REQUIRED",
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -4215,13 +5031,14 @@
       "label": "MY BUSINESS",
       "kind": "ROOT_DESTINATION",
       "role": "CLIENT_RECORD",
-      "semantics": "The client’s company record and business identity.",
+      "semantics": "The client’s company record and business identity — a destination, not the client dashboard (the HUB orients).",
       "visibility": {
         "FOUNDER": "VIA_AIO_OFFICE",
         "STAFF": "VIA_AIO_OFFICE",
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -4244,6 +5061,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": "ALWAYS",
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -4264,6 +5083,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -4281,6 +5101,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": "ALWAYS",
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -4301,6 +5123,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -4318,6 +5141,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": "ALWAYS",
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -4338,6 +5163,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -4353,6 +5179,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": "APPLICABILITY",
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -4373,6 +5201,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -4397,6 +5226,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": "APPLICABILITY",
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -4417,6 +5248,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -4441,6 +5273,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": "APPLICABILITY",
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -4461,6 +5295,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -4478,6 +5313,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": "ALWAYS",
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -4498,6 +5335,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -4515,6 +5353,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": "ENTITLEMENT",
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -4535,6 +5375,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -4561,10 +5402,12 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": "ENTITLEMENT",
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
-      "notes": ""
+      "notes": "Client-safe subsections only; internal audits, corrective work and compliance cases stay in AIO OFFICE."
     },
     {
       "node_id": "CLIENT_OFFICE.OPERATIONS.PERMITTING_AUTHORITIES",
@@ -4581,6 +5424,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -4615,6 +5459,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": "ENTITLEMENT",
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -4635,6 +5481,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -4660,6 +5507,8 @@
         "AIO.CLIENT_OFFICE.WS.IFTA"
       ],
       "client_resolution": "ENTITLEMENT",
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -4680,6 +5529,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -4706,6 +5556,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": "ENTITLEMENT",
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -4726,6 +5578,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -4747,6 +5600,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": "ENTITLEMENT",
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -4767,6 +5622,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -4788,6 +5644,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": "ENTITLEMENT",
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -4808,6 +5666,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -4827,10 +5686,12 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": "APPLICABILITY",
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
-      "notes": "Fleet registry is a shared capability, not a workspace (office.ts AIO_NOT_WORKSPACES)."
+      "notes": "Fleet registry is a shared capability, not a workspace (office.ts AIO_NOT_WORKSPACES). Staff counterpart: WORK → VEHICLES & FLEET."
     },
     {
       "node_id": "CLIENT_OFFICE.OPERATIONS.MAINTENANCE",
@@ -4847,6 +5708,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -4868,10 +5730,72 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": "ENTITLEMENT",
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
       "notes": ""
+    },
+    {
+      "node_id": "CLIENT_OFFICE.OPERATIONS.ROAD_READY",
+      "shell_id": "CLIENT_OFFICE",
+      "parent": "CLIENT_OFFICE.OPERATIONS",
+      "order": 8,
+      "label": "Road Ready",
+      "kind": "SECTION",
+      "role": "CLIENT_WORKSPACE",
+      "semantics": "The active Road Ready engagement workspace (D-ROAD-READY-PLACEMENT). On completion its records move into MY BUSINESS, VAULT, OPERATIONS and FINANCES; the engagement stays reachable through service history.",
+      "visibility": {
+        "FOUNDER": "VIA_AIO_OFFICE",
+        "STAFF": "VIA_AIO_OFFICE",
+        "CLIENT": "FULL"
+      },
+      "staff_gate": null,
+      "founder_authority": null,
+      "client_projection": null,
+      "architecture": "ARCHITECTURALLY_CANONICAL",
+      "implementation": "IMPLEMENTATION_PARTIAL",
+      "depth": "FUNCTIONAL_DEMO",
+      "evidence": [
+        "all-in-one-enterprises/src/road-ready/roadReadyTypes.ts:12 RoadReadyItemStatus"
+      ],
+      "routes": [
+        {
+          "path": "/portal/road-ready",
+          "status": "EXISTING",
+          "evidence": "all-in-one-enterprises/src/routes/AioCoreRoutes.tsx:301"
+        },
+        {
+          "path": "/portal/onboarding",
+          "status": "EXISTING",
+          "evidence": "all-in-one-enterprises/src/routes/AioCoreRoutes.tsx:300 RoadReadyOnboardingPage"
+        }
+      ],
+      "service_ids": [
+        "ROAD_READY"
+      ],
+      "workspace_ids": [],
+      "feature_refs": [
+        "AIO.ROAD_READY"
+      ],
+      "authority_refs": [],
+      "client_resolution": "STATE",
+      "shown_when": "Road Ready engagement ACTIVE",
+      "potential_children": [
+        "Business Setup",
+        "Authorities",
+        "Compliance",
+        "Documents",
+        "Insurance",
+        "Vehicle / Driver Readiness",
+        "Filing / Tax Readiness",
+        "Launch Readiness"
+      ],
+      "projects": [],
+      "aggregates": [],
+      "data_status": null,
+      "notes": "Today the page renders for every carrier (graph nav MY BUSINESS) whatever the state: there is no per-client engagement state (AVAILABLE / ACTIVE / COMPLETED) yet, only per-item statuses. Stages follow the later Road Ready product definition."
     },
     {
       "node_id": "CLIENT_OFFICE.FINANCES",
@@ -4888,6 +5812,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -4905,6 +5830,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": "ENTITLEMENT",
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -4925,6 +5852,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -4946,6 +5874,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": "ENTITLEMENT",
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -4966,6 +5896,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -4987,6 +5918,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": "ENTITLEMENT",
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -5007,6 +5940,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -5028,6 +5962,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": "ENTITLEMENT",
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -5048,6 +5984,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_NOT_STARTED",
@@ -5063,6 +6000,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": "ENTITLEMENT",
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -5083,6 +6022,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -5105,10 +6045,12 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": "ALWAYS",
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
-      "notes": "Where supported."
+      "notes": "Client-safe billing projected from MORE → BILLING. Never internal margin, commission, profitability or staff-only financial data."
     },
     {
       "node_id": "CLIENT_OFFICE.FINANCES.FINANCIAL_DOCUMENTS",
@@ -5125,6 +6067,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_NOT_STARTED",
@@ -5138,6 +6081,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": "ALWAYS",
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -5158,6 +6103,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -5182,6 +6128,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": "ALWAYS",
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -5202,6 +6150,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -5215,6 +6164,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": "ALWAYS",
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -5235,6 +6186,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -5248,6 +6200,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": "ALWAYS",
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -5268,6 +6222,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -5283,6 +6238,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": "ALWAYS",
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -5303,6 +6260,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_NOT_STARTED",
@@ -5316,6 +6274,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": "ALWAYS",
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -5336,6 +6296,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -5351,6 +6312,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": "ALWAYS",
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -5371,6 +6334,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -5390,6 +6354,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": "ALWAYS",
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -5410,6 +6376,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -5429,6 +6396,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": "ALWAYS",
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -5449,6 +6418,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -5471,6 +6441,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": "ALWAYS",
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -5491,6 +6463,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -5502,6 +6475,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": "ALWAYS",
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -5522,6 +6497,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -5539,6 +6515,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": "ALWAYS",
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -5559,6 +6537,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -5576,6 +6555,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": "ALWAYS",
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -5596,6 +6577,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -5613,6 +6595,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": "ALWAYS",
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -5633,6 +6617,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -5646,6 +6631,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": "ALWAYS",
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -5666,6 +6653,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -5677,6 +6665,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": "ALWAYS",
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -5697,6 +6687,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_NOT_STARTED",
@@ -5708,6 +6699,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": "ALWAYS",
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -5728,6 +6721,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -5745,6 +6739,46 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": "ALWAYS",
+      "shown_when": null,
+      "potential_children": [],
+      "projects": [],
+      "aggregates": [],
+      "data_status": null,
+      "notes": ""
+    },
+    {
+      "node_id": "CLIENT_OFFICE.SERVICES.ROAD_READY",
+      "shell_id": "CLIENT_OFFICE",
+      "parent": "CLIENT_OFFICE.SERVICES",
+      "order": 4,
+      "label": "Road Ready",
+      "kind": "SECTION",
+      "role": "DISCOVERY",
+      "semantics": "Road Ready as a service the client can start. After completion SERVICES may show ROAD READY · COMPLETED but never holds the completed records (D-ROAD-READY-PLACEMENT).",
+      "visibility": {
+        "FOUNDER": "VIA_AIO_OFFICE",
+        "STAFF": "VIA_AIO_OFFICE",
+        "CLIENT": "FULL"
+      },
+      "staff_gate": null,
+      "founder_authority": null,
+      "client_projection": null,
+      "architecture": "ARCHITECTURALLY_CANONICAL",
+      "implementation": "IMPLEMENTATION_NOT_STARTED",
+      "depth": "NONE",
+      "evidence": [
+        "all-in-one-enterprises/src/pages/portal/ClientPortalPages.tsx:266 ServicesCenterPage (no Road Ready entry)"
+      ],
+      "routes": [],
+      "service_ids": [
+        "ROAD_READY"
+      ],
+      "workspace_ids": [],
+      "feature_refs": [],
+      "authority_refs": [],
+      "client_resolution": "STATE",
+      "shown_when": "Road Ready AVAILABLE and not active · after completion: ROAD READY · COMPLETED (status only)",
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -5765,6 +6799,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -5782,6 +6817,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": "ALWAYS",
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -5802,6 +6839,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -5819,6 +6857,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": "ALWAYS",
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -5839,6 +6879,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -5856,6 +6897,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": "ALWAYS",
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -5876,6 +6919,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -5893,6 +6937,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": "ALWAYS",
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -5913,6 +6959,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -5930,6 +6977,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": "ALWAYS",
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -5950,6 +6999,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
@@ -5967,6 +7017,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": "ALWAYS",
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -5987,6 +7039,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_NOT_STARTED",
@@ -5998,6 +7051,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": "ALWAYS",
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -6018,6 +7073,7 @@
         "CLIENT": "FULL"
       },
       "staff_gate": null,
+      "founder_authority": null,
       "client_projection": null,
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTED",
@@ -6031,6 +7087,8 @@
       "feature_refs": [],
       "authority_refs": [],
       "client_resolution": "ALWAYS",
+      "shown_when": null,
+      "potential_children": [],
       "projects": [],
       "aggregates": [],
       "data_status": null,
@@ -6303,9 +7361,7 @@
       "service_id": "VEHICLE_MANAGEMENT",
       "name": "Vehicle Management",
       "staff_nodes": [
-        "AIO_OFFICE.WORK.DISPATCH.TRUCKS",
-        "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE.MAINTENANCE_STATUS",
-        "AIO_OFFICE.MORE.CLIENTS"
+        "AIO_OFFICE.WORK.VEHICLES_FLEET"
       ],
       "client_nodes": [
         "CLIENT_OFFICE.OPERATIONS.VEHICLE_MANAGEMENT",
@@ -6317,13 +7373,13 @@
       "feature_refs": [],
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
-      "implementation_detail": "Client fleet pages read-mostly; staff side not started (no /office/fleet; Client 360 fleet tab is placeholder text).",
+      "implementation_detail": "Client fleet pages read-mostly; the staff lane WORK → VEHICLES & FLEET is not started (no /office fleet surface; Client 360 fleet tab is placeholder text).",
       "canonical_data_source": "PowerUnit · Trailer (all-in-one-enterprises/src/road-ready/roadReadyTypes.ts:113,129) · store.powerUnits · Supabase aio_fleet_vehicles (written by migration approve only)",
       "evidence": [
         "all-in-one-enterprises/src/routes/AioCoreRoutes.tsx:302-303",
         "all-in-one-enterprises/src/office/pages/ClientDetailPage.tsx:184-186"
       ],
-      "notes": "No staff lane in the founder tree: vehicles are reached through DISPATCH → TRUCKS, MECHANIC → MAINTENANCE STATUS and the client record (Q-STAFF-VEHICLES)."
+      "notes": "Staff lane by founder decision (D-VEHICLES-FLEET-LANE). It owns the vehicle record and cross-links registration, documents, driver, insurance, IFTA, compliance and maintenance to their owning lanes (AIO_VEHICLES_FLEET_SCOPE)."
     },
     {
       "service_id": "MECHANIC_MAINTENANCE",
@@ -6359,23 +7415,58 @@
       "staff_nodes": [
         "AIO_OFFICE.WORK.ROAD_READY"
       ],
-      "client_nodes": [],
-      "client_visibility": "APPLICABILITY",
-      "client_visibility_note": "Universal for carriers; client destination unresolved in the founder tree (today /portal/onboarding · /portal/road-ready under MY BUSINESS) — C-CLIENT-ROAD-READY.",
+      "client_nodes": [
+        "CLIENT_OFFICE.OPERATIONS.ROAD_READY",
+        "CLIENT_OFFICE.SERVICES.ROAD_READY"
+      ],
+      "client_visibility": "STATE",
+      "client_visibility_note": "Placement follows the engagement (D-ROAD-READY-PLACEMENT): SERVICES while available, OPERATIONS while active; once completed its records live in MY BUSINESS, VAULT, OPERATIONS and FINANCES.",
+      "state_placements": [
+        {
+          "state": "AVAILABLE_NOT_ACTIVATED",
+          "client_nodes": [
+            "CLIENT_OFFICE.SERVICES.ROAD_READY"
+          ],
+          "note": "Offered as a service."
+        },
+        {
+          "state": "ACTIVE",
+          "client_nodes": [
+            "CLIENT_OFFICE.OPERATIONS.ROAD_READY"
+          ],
+          "note": "OPERATIONS holds the actual engagement workspace."
+        },
+        {
+          "state": "COMPLETED",
+          "client_nodes": [
+            "CLIENT_OFFICE.SERVICES.ROAD_READY",
+            "CLIENT_OFFICE.MY_BUSINESS",
+            "CLIENT_OFFICE.VAULT",
+            "CLIENT_OFFICE.OPERATIONS",
+            "CLIENT_OFFICE.FINANCES"
+          ],
+          "note": "SERVICES may show ROAD READY · COMPLETED (status only) and is never the permanent container; resulting records are distributed to MY BUSINESS, VAULT, OPERATIONS and FINANCES; the engagement stays in service history."
+        },
+        {
+          "state": "NOT_APPLICABLE",
+          "client_nodes": [],
+          "note": "Not promoted."
+        }
+      ],
       "workspace_ids": [],
       "feature_refs": [
         "AIO.ROAD_READY"
       ],
       "architecture": "ARCHITECTURALLY_CANONICAL",
       "implementation": "IMPLEMENTATION_PARTIAL",
-      "implementation_detail": "Functional demo on both sides; Supabase aio_road_ready_* unqueried (roadmaps / intake sessions are used).",
+      "implementation_detail": "Functional demo on both sides; Supabase aio_road_ready_* unqueried (roadmaps / intake sessions are used). No per-client engagement state (AVAILABLE / ACTIVE / COMPLETED) yet, so the placement rule waits on it; SERVICES lists no Road Ready entry.",
       "canonical_data_source": "all-in-one-enterprises/src/road-ready/* · all-in-one-enterprises/src/demo/roadReadyActions.ts",
       "evidence": [
         "all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:272",
         "all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:275",
         "all-in-one-enterprises/src/routes/AioCoreRoutes.tsx:300-301"
       ],
-      "notes": "Not a sold service and not a workspace; it feeds signals to every workspace."
+      "notes": "Not a sold workspace in the Brain registry; it feeds signals to every workspace. Exact program structure follows its later product definition."
     },
     {
       "service_id": "DOCUMENTS_VAULT",
@@ -6624,7 +7715,85 @@
       "new_node_ids": [
         "CLIENT_OFFICE.HUB"
       ],
-      "note": "Not one of the seven client root destinations; recorded as the client office landing (Q-CLIENT-HUB)."
+      "note": "The CLIENT OFFICE HUB / OVERVIEW: the shell landing, not one of the seven root destinations (D-CLIENT-HUB)."
+    },
+    {
+      "lineage_id": "SUPERSEDED_BY_AIO_OFFICE_WORK_TREE1",
+      "old_structure": "CLIENT OFFICE hub responsibilities (office.ts AIO_CLIENT_OFFICE_HUB_RESPONSIBILITIES)",
+      "old_item": "ACTIVE WORKSPACES",
+      "old_target": "hub",
+      "disposition": "RENAMED",
+      "new_node_ids": [
+        "CLIENT_OFFICE.HUB.ACTIVE_SERVICES"
+      ],
+      "note": ""
+    },
+    {
+      "lineage_id": "SUPERSEDED_BY_AIO_OFFICE_WORK_TREE1",
+      "old_structure": "CLIENT OFFICE hub responsibilities (office.ts AIO_CLIENT_OFFICE_HUB_RESPONSIBILITIES)",
+      "old_item": "CURRENT ACTIONS",
+      "old_target": "hub",
+      "disposition": "REMAPPED",
+      "new_node_ids": [
+        "CLIENT_OFFICE.HUB.CONTEXTUAL_NEXT_ACTION",
+        "CLIENT_OFFICE.HUB.ITEMS_NEEDING_APPROVAL"
+      ],
+      "note": "Split into the next action and the approvals waiting on the client."
+    },
+    {
+      "lineage_id": "SUPERSEDED_BY_AIO_OFFICE_WORK_TREE1",
+      "old_structure": "CLIENT OFFICE hub responsibilities (office.ts AIO_CLIENT_OFFICE_HUB_RESPONSIBILITIES)",
+      "old_item": "UPCOMING DEADLINES",
+      "old_target": "hub",
+      "disposition": "KEPT",
+      "new_node_ids": [
+        "CLIENT_OFFICE.HUB.UPCOMING_DEADLINES"
+      ],
+      "note": ""
+    },
+    {
+      "lineage_id": "SUPERSEDED_BY_AIO_OFFICE_WORK_TREE1",
+      "old_structure": "CLIENT OFFICE hub responsibilities (office.ts AIO_CLIENT_OFFICE_HUB_RESPONSIBILITIES)",
+      "old_item": "DOCUMENT REQUESTS",
+      "old_target": "hub",
+      "disposition": "REMAPPED",
+      "new_node_ids": [
+        "CLIENT_OFFICE.HUB.CONTEXTUAL_NEXT_ACTION"
+      ],
+      "note": "A document request is a next action; the request itself is owned by INBOX → REQUESTS."
+    },
+    {
+      "lineage_id": "SUPERSEDED_BY_AIO_OFFICE_WORK_TREE1",
+      "old_structure": "CLIENT OFFICE hub responsibilities (office.ts AIO_CLIENT_OFFICE_HUB_RESPONSIBILITIES)",
+      "old_item": "MESSAGES",
+      "old_target": "hub",
+      "disposition": "RENAMED",
+      "new_node_ids": [
+        "CLIENT_OFFICE.HUB.RECENT_MESSAGES"
+      ],
+      "note": ""
+    },
+    {
+      "lineage_id": "SUPERSEDED_BY_AIO_OFFICE_WORK_TREE1",
+      "old_structure": "CLIENT OFFICE hub responsibilities (office.ts AIO_CLIENT_OFFICE_HUB_RESPONSIBILITIES)",
+      "old_item": "RECENT ACTIVITY",
+      "old_target": "hub",
+      "disposition": "REMAPPED",
+      "new_node_ids": [
+        "CLIENT_OFFICE.HUB.WORK_IN_PROGRESS"
+      ],
+      "note": "The hub shows work in progress; the activity feed is INBOX → ACTIVITY UPDATES."
+    },
+    {
+      "lineage_id": "SUPERSEDED_BY_AIO_OFFICE_WORK_TREE1",
+      "old_structure": "CLIENT OFFICE hub responsibilities (office.ts AIO_CLIENT_OFFICE_HUB_RESPONSIBILITIES)",
+      "old_item": "AVAILABLE RELEVANT WORKSPACES",
+      "old_target": "hub",
+      "disposition": "REMAPPED",
+      "new_node_ids": [
+        "CLIENT_OFFICE.HUB.CONTEXTUAL_NEXT_ACTION"
+      ],
+      "note": "Only under the expansion rules."
     },
     {
       "lineage_id": "SUPERSEDED_BY_AIO_OFFICE_WORK_TREE1",
@@ -6720,7 +7889,15 @@
         "AIO_OFFICE.REPORTS",
         "AIO_OFFICE.MORE"
       ],
-      "note": "Regroup into the five roots in the implementation sprint; items without a founder-tree home are candidates (see candidates)."
+      "note": "Regroup into the five roots in the implementation sprint: Growth (CRM) → MORE → GROWTH / CRM, the Finance group’s billing desk → MORE → BILLING; items without a founder-tree home stay candidates."
+    },
+    {
+      "repo": "yoteenz/fsbw",
+      "ref": "all-in-one-enterprises/src/office-core/officeWorkTypes.ts:4-16 OfficeStaffRole · all-in-one-enterprises/src/office-core/officeContext.ts:74 ROLE_PERMISSIONS · all-in-one-enterprises/supabase/migrations/20260815100000_aio_identity_foundation.sql:29 aio_internal_role",
+      "what": "Staff roles (owner, admin, …) and Supabase internal roles (super_admin, administrator, …); no FOUNDER role",
+      "classification": "MIGRATE_LATER",
+      "target_node_ids": [],
+      "note": "Map the FOUNDER actor class onto a role in the permissions sprint (D-FOUNDER-ROLE). No founder identity is hard-coded today (no name or email checks found); keep it that way."
     },
     {
       "repo": "yoteenz/fsbw",
@@ -6732,7 +7909,7 @@
         "CLIENT_OFFICE.FINANCES.INSURANCE",
         "CLIENT_OFFICE.SERVICES"
       ],
-      "note": "Already container-aligned. Remap Insurance to FINANCES, add SERVICES as a root, MY OFFICE → client hub (pending Q-CLIENT-HUB). MIGRATE with the client nav sprint."
+      "note": "Already container-aligned. Remap Insurance to FINANCES, add SERVICES as a root, MY OFFICE → the HUB / OVERVIEW landing (not a nav section), Road Ready out of MY BUSINESS (SERVICES while available, OPERATIONS while active). MIGRATE with the client nav sprint."
     },
     {
       "repo": "yoteenz/fsbw",
@@ -6874,7 +8051,8 @@
       ],
       "recommended_node": "AIO_OFFICE.WORK",
       "rationale": "Cross-lane staff work views: production → WORK (cross-client filters), surfaced on HOME as projections.",
-      "status": "CANDIDATE_UNRESOLVED"
+      "status": "CANDIDATE_UNRESOLVED",
+      "resolution": null
     },
     {
       "candidate_id": "C-SERVICE-REQUESTS",
@@ -6885,7 +8063,8 @@
       ],
       "recommended_node": "AIO_OFFICE.WORK",
       "rationale": "The universal service-request queue is production for lanes without a case model.",
-      "status": "CANDIDATE_UNRESOLVED"
+      "status": "CANDIDATE_UNRESOLVED",
+      "resolution": null
     },
     {
       "candidate_id": "C-CRM-GROWTH",
@@ -6893,9 +8072,10 @@
       "observed": [
         "all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:263-270"
       ],
-      "recommended_node": null,
-      "rationale": "Sales / growth is daily work for some staff but not a client service lane. Founder decision: WORK lane, MORE entry, or a later root.",
-      "status": "CANDIDATE_UNRESOLVED"
+      "recommended_node": "AIO_OFFICE.MORE.GROWTH_CRM",
+      "rationale": "Sales / growth is daily work for some staff but not a client service lane.",
+      "status": "RESOLVED",
+      "resolution": "D-GROWTH-BILLING: MORE → GROWTH / CRM; HOME may project it."
     },
     {
       "candidate_id": "C-BILLING-DESK",
@@ -6903,9 +8083,10 @@
       "observed": [
         "all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:336-342"
       ],
-      "recommended_node": "AIO_OFFICE.REPORTS.FINANCIAL_REVENUE",
-      "rationale": "Billing operations are production (invoicing) and a revenue source; recommend a WORK lane or MORE entry for operations and REPORTS for revenue.",
-      "status": "CANDIDATE_UNRESOLVED"
+      "recommended_node": "AIO_OFFICE.MORE.BILLING",
+      "rationale": "Billing operations are invoicing production and a revenue source.",
+      "status": "RESOLVED",
+      "resolution": "D-GROWTH-BILLING: MORE → BILLING for operations; REPORTS → FINANCIAL / REVENUE aggregates it."
     },
     {
       "candidate_id": "C-WORKFLOWS-AUTOMATION",
@@ -6915,7 +8096,8 @@
       ],
       "recommended_node": "AIO_OFFICE.MORE.SYSTEM_SETTINGS",
       "rationale": "Templates and rules are administration (MORE); automation exceptions are production blockers (HOME → BLOCKERS).",
-      "status": "CANDIDATE_UNRESOLVED"
+      "status": "CANDIDATE_UNRESOLVED",
+      "resolution": null
     },
     {
       "candidate_id": "C-MANAGEMENT",
@@ -6925,7 +8107,8 @@
       ],
       "recommended_node": "AIO_OFFICE.REPORTS",
       "rationale": "Oversight → REPORTS; launch / activation administration → MORE.",
-      "status": "CANDIDATE_UNRESOLVED"
+      "status": "CANDIDATE_UNRESOLVED",
+      "resolution": null
     },
     {
       "candidate_id": "C-SECURITY-SYSTEM",
@@ -6935,7 +8118,8 @@
       ],
       "recommended_node": "AIO_OFFICE.MORE.SYSTEM_SETTINGS",
       "rationale": "Administration and lower-frequency tools.",
-      "status": "CANDIDATE_UNRESOLVED"
+      "status": "CANDIDATE_UNRESOLVED",
+      "resolution": null
     },
     {
       "candidate_id": "C-OVERSIGHT-AUDIT",
@@ -6945,7 +8129,8 @@
       ],
       "recommended_node": "AIO_OFFICE.REPORTS",
       "rationale": "Oversight; recent activity also feeds HOME.",
-      "status": "CANDIDATE_UNRESOLVED"
+      "status": "CANDIDATE_UNRESOLVED",
+      "resolution": null
     },
     {
       "candidate_id": "C-DOCUMENT-REVIEW",
@@ -6955,7 +8140,8 @@
       ],
       "recommended_node": "AIO_OFFICE.MORE.DOCUMENTS_VAULT",
       "rationale": "Review of uploaded documents is production per lane; until lanes own their document checks it sits with DOCUMENTS & VAULT.",
-      "status": "CANDIDATE_UNRESOLVED"
+      "status": "CANDIDATE_UNRESOLVED",
+      "resolution": null
     },
     {
       "candidate_id": "C-RENEWALS-DEADLINES",
@@ -6966,7 +8152,8 @@
       ],
       "recommended_node": "AIO_OFFICE.WORK.COMPLIANCE.EXPIRATIONS",
       "rationale": "Production lives in COMPLIANCE → EXPIRATIONS; HOME → DEADLINES projects it.",
-      "status": "CANDIDATE_UNRESOLVED"
+      "status": "CANDIDATE_UNRESOLVED",
+      "resolution": null
     },
     {
       "candidate_id": "C-LEGACY-INBOX-DOCS",
@@ -6978,7 +8165,8 @@
       ],
       "recommended_node": "AIO_OFFICE.MORE.MESSAGES",
       "rationale": "Legacy surfaces superseded by Communications and the Document Vault; retire when lanes absorb them.",
-      "status": "CANDIDATE_UNRESOLVED"
+      "status": "CANDIDATE_UNRESOLVED",
+      "resolution": null
     },
     {
       "candidate_id": "C-APPOINTMENTS",
@@ -6988,7 +8176,8 @@
       ],
       "recommended_node": "AIO_OFFICE.MORE.MESSAGES",
       "rationale": "Client scheduling sits with communication.",
-      "status": "CANDIDATE_UNRESOLVED"
+      "status": "CANDIDATE_UNRESOLVED",
+      "resolution": null
     },
     {
       "candidate_id": "C-CLIENT-ROAD-READY",
@@ -6997,9 +8186,10 @@
         "all-in-one-enterprises/src/routes/AioCoreRoutes.tsx:300-301",
         "all-in-one-enterprises/src/product-graph/generated/runtimeProductGraph.json families F04 nav MY BUSINESS"
       ],
-      "recommended_node": "CLIENT_OFFICE.MY_BUSINESS",
-      "rationale": "Readiness of the business record; the founder client tree does not name it.",
-      "status": "CANDIDATE_UNRESOLVED"
+      "recommended_node": "CLIENT_OFFICE.OPERATIONS.ROAD_READY",
+      "rationale": "Road Ready is an engagement with a state, not a permanent record.",
+      "status": "RESOLVED",
+      "resolution": "D-ROAD-READY-PLACEMENT: SERVICES → ROAD READY while available, OPERATIONS → ROAD READY while active; completed records go to MY BUSINESS, VAULT, OPERATIONS, FINANCES."
     },
     {
       "candidate_id": "C-CLIENT-START-BUSINESS",
@@ -7009,7 +8199,8 @@
       ],
       "recommended_node": "CLIENT_OFFICE.SERVICES.REQUEST_A_SERVICE",
       "rationale": "Public / pre-client journey; inside the client office it is a requestable service.",
-      "status": "CANDIDATE_UNRESOLVED"
+      "status": "CANDIDATE_UNRESOLVED",
+      "resolution": null
     },
     {
       "candidate_id": "C-CLIENT-CALENDAR",
@@ -7019,7 +8210,8 @@
       ],
       "recommended_node": "CLIENT_OFFICE.OPERATIONS.COMPLIANCE",
       "rationale": "Dates are compliance work for the client; notifications live in INBOX.",
-      "status": "CANDIDATE_UNRESOLVED"
+      "status": "CANDIDATE_UNRESOLVED",
+      "resolution": null
     },
     {
       "candidate_id": "C-SHIPPER-DRIVER-PROVIDER",
@@ -7029,7 +8221,8 @@
       ],
       "recommended_node": null,
       "rationale": "Separate role projections (product graph role_projections), not CLIENT OFFICE destinations.",
-      "status": "CANDIDATE_UNRESOLVED"
+      "status": "CANDIDATE_UNRESOLVED",
+      "resolution": null
     }
   ],
   "firewall": [
@@ -7108,6 +8301,20 @@
         "AIO_OFFICE.WORK.FILING_FUEL_TAXES.IFTA"
       ],
       "reason": "IFTA NOTES is a staff tab; clients write through MESSAGE AIO."
+    },
+    {
+      "item": "Internal margin, commission, profitability, staff-only financial data",
+      "node_ids": [
+        "AIO_OFFICE.REPORTS.FINANCIAL_REVENUE"
+      ],
+      "reason": "Clients see only client-safe billing in FINANCES → FEES / PAYMENTS (D-GROWTH-BILLING)."
+    },
+    {
+      "item": "Growth / CRM (leads, pipeline, sales activity)",
+      "node_ids": [
+        "AIO_OFFICE.MORE.GROWTH_CRM"
+      ],
+      "reason": "Internal sales data."
     }
   ],
   "more_rules": {
@@ -7121,7 +8328,7 @@
       "COMMAND",
       "PROJECTION"
     ],
-    "rule": "If an item drives daily production it belongs in WORK. If it is administration, a directory, a tool, settings or lower-frequency, it may live in MORE. Root-nav space is never a reason to move production into MORE.",
+    "rule": "If an item drives daily client-service production it belongs in WORK. If it is administration, a directory, a tool, settings or lower-frequency, it may live in MORE. Internal business operations that are not client-service production — GROWTH / CRM and BILLING — live in MORE by founder decision (HOME may project them, REPORTS may aggregate them; root status only from usage data). Root-nav space is never a reason to move client-service production into MORE.",
     "exclusions": [
       {
         "item": "Mechanic / maintenance tickets",
@@ -7155,37 +8362,263 @@
       "question_id": "Q-CLIENT-HUB",
       "question": "Is the client hub (today MY OFFICE at /portal) the CLIENT OFFICE landing outside the seven roots, or should a hub be a destination?",
       "recommendation": "Landing outside the roots (recorded as CLIENT_OFFICE.HUB, CANDIDATE_UNRESOLVED).",
-      "blocks": "client nav implementation"
+      "blocks": "client nav implementation",
+      "status": "DECIDED",
+      "decision_id": "D-CLIENT-HUB"
     },
     {
       "question_id": "Q-COMPLIANCE-SPLIT",
       "question": "The Brain COMPLIANCE workspace bundles operating authority + BOC-3 + safety, but the founder tree puts authority and BOC-3 under PERMITTING & AUTHORITIES. Split the workspace?",
       "recommendation": "Split into AUTHORITIES (authority · BOC-3) and COMPLIANCE (safety) in the data sprint; until then the lane maps to the COMPLIANCE workspace.",
-      "blocks": "entitlement resolution for the PERMITTING & AUTHORITIES lane"
+      "blocks": "entitlement resolution for the PERMITTING & AUTHORITIES lane",
+      "status": "DECIDED",
+      "decision_id": "D-COMPLIANCE-ONE-LANE"
     },
     {
       "question_id": "Q-STAFF-VEHICLES",
       "question": "Vehicle management has a client destination but no staff lane. Keep it distributed (Dispatch → Trucks, Mechanic → Maintenance Status, Client 360) or add a lane?",
       "recommendation": "Keep distributed; add a client-record fleet tab in Client 360.",
-      "blocks": "nothing in this sprint"
+      "blocks": "nothing in this sprint",
+      "status": "DECIDED",
+      "decision_id": "D-VEHICLES-FLEET-LANE"
     },
     {
       "question_id": "Q-FOUNDER-ROLE",
       "question": "No founder role exists. Founder = OfficeStaffRole owner / Supabase super_admin?",
       "recommendation": "Founder = owner (open since the office architecture sprint).",
-      "blocks": "founder-only visibility (none is asserted in this IA; founder and staff see the same tree)"
+      "blocks": "founder-only visibility (none is asserted in this IA; founder and staff see the same tree)",
+      "status": "DECIDED",
+      "decision_id": "D-FOUNDER-ROLE"
     },
     {
       "question_id": "Q-GROWTH-BILLING",
       "question": "Where do Growth (CRM) and the Billing Desk live: WORK lanes, MORE entries or REPORTS sources?",
       "recommendation": "Billing operations and CRM as WORK lanes if they drive daily production; revenue in REPORTS.",
-      "blocks": "desktop sidebar regrouping"
+      "blocks": "desktop sidebar regrouping",
+      "status": "DECIDED",
+      "decision_id": "D-GROWTH-BILLING"
     },
     {
       "question_id": "Q-CLIENT-ROAD-READY",
       "question": "Where does Road Ready live in the client office?",
       "recommendation": "MY BUSINESS (readiness of the business record).",
-      "blocks": "client nav implementation"
+      "blocks": "client nav implementation",
+      "status": "DECIDED",
+      "decision_id": "D-ROAD-READY-PLACEMENT"
+    }
+  ],
+  "actors": [
+    {
+      "actor": "FOUNDER",
+      "actor_class": "PRIVILEGED_INTERNAL",
+      "multiplicity": "ONE_OR_MORE",
+      "inherits": [
+        "STAFF"
+      ],
+      "can_self_elevate": false,
+      "definition": "An explicitly authorized company principal with company-wide authority across AIO OFFICE.",
+      "identity_rule": "A role / actor class granted explicitly — never a hard-coded person, name or email. More than one founder / principal is possible without redesigning permissions.",
+      "privileges": [
+        {
+          "privilege": "All-client visibility",
+          "node_ids": [
+            "AIO_OFFICE.MORE.CLIENTS",
+            "AIO_OFFICE.HOME"
+          ],
+          "note": ""
+        },
+        {
+          "privilege": "All-service visibility",
+          "node_ids": [
+            "AIO_OFFICE.WORK"
+          ],
+          "note": ""
+        },
+        {
+          "privilege": "Founder review",
+          "node_ids": [
+            "AIO_OFFICE.INTAKE.FOUNDER_REVIEW"
+          ],
+          "note": ""
+        },
+        {
+          "privilege": "PREBUILT review / activation authority",
+          "node_ids": [
+            "AIO_OFFICE.INTAKE.PREBUILT_CLIENT",
+            "AIO_OFFICE.INTAKE.ACTIVATION_INVITE"
+          ],
+          "note": "Client confirmation remains the gate before ACTIVE."
+        },
+        {
+          "privilege": "High-risk overrides",
+          "node_ids": [],
+          "note": "Defined per action in the authority-contract sprint."
+        },
+        {
+          "privilege": "Internal financial visibility",
+          "node_ids": [
+            "AIO_OFFICE.REPORTS.FINANCIAL_REVENUE",
+            "AIO_OFFICE.MORE.BILLING",
+            "AIO_OFFICE.WORK.BROKERAGE.LOAD_FINANCIALS"
+          ],
+          "note": "Staff only by grant."
+        },
+        {
+          "privilege": "Reporting",
+          "node_ids": [
+            "AIO_OFFICE.REPORTS"
+          ],
+          "note": "Staff only by grant."
+        },
+        {
+          "privilege": "Staff / permission administration",
+          "node_ids": [
+            "AIO_OFFICE.MORE.TEAM_STAFF"
+          ],
+          "note": ""
+        },
+        {
+          "privilege": "System configuration",
+          "node_ids": [
+            "AIO_OFFICE.MORE.SYSTEM_SETTINGS"
+          ],
+          "note": ""
+        },
+        {
+          "privilege": "Service configuration",
+          "node_ids": [
+            "AIO_OFFICE.MORE.SERVICE_CATALOG"
+          ],
+          "note": ""
+        },
+        {
+          "privilege": "Founder-only approvals where defined",
+          "node_ids": [],
+          "note": "Defined per action in the authority-contract sprint."
+        }
+      ],
+      "current_code_mapping": "No FOUNDER role in code yet. Nearest today: OfficeStaffRole owner (all-in-one-enterprises/src/office-core/officeWorkTypes.ts:4-16; ROLE_PERMISSIONS all-in-one-enterprises/src/office-core/officeContext.ts:74) and Supabase aio_internal_role super_admin (all-in-one-enterprises/supabase/migrations/20260815100000_aio_identity_foundation.sql:29). No founder identity is hard-coded."
+    },
+    {
+      "actor": "STAFF",
+      "actor_class": "INTERNAL",
+      "multiplicity": "MANY",
+      "inherits": [],
+      "can_self_elevate": false,
+      "definition": "AIO team members working in AIO OFFICE within the permissions granted to them.",
+      "identity_rule": "Staff role plus explicit permission grants. Never inherits FOUNDER authority; BY_GRANT nodes need a grant.",
+      "privileges": [],
+      "current_code_mapping": "OfficeStaffRole + ROLE_PERMISSIONS (all-in-one-enterprises/src/office-core/officeContext.ts:74) · Supabase aio_internal_role."
+    },
+    {
+      "actor": "CLIENT",
+      "actor_class": "CLIENT",
+      "multiplicity": "MANY",
+      "inherits": [],
+      "can_self_elevate": false,
+      "definition": "Users of one client organisation, inside CLIENT OFFICE only.",
+      "identity_rule": "Authenticated membership of the client organisation (the session organisation is the only client).",
+      "privileges": [],
+      "current_code_mapping": "CustomerRouteGuard + ClientPortalLifecycleGuard (all-in-one-enterprises/src/auth/guards/ClientPortalLifecycleGuard.tsx:22-40)."
+    }
+  ],
+  "decisions": [
+    {
+      "decision_id": "D-CLIENT-HUB",
+      "question_id": "Q-CLIENT-HUB",
+      "decided_on": "2026-10-08",
+      "decision": "The CLIENT HUB / OVERVIEW is the shell-level landing of CLIENT OFFICE, not an eighth root tab. The client enters through it; it projects the seven destinations (business status, work in progress, items needing approval, upcoming deadlines, recent messages, active services, recent documents, contextual next action). MY BUSINESS stays a root destination and is not the dashboard. HUB = projection / orientation; destinations = workspaces.",
+      "consequences": [
+        "CLIENT_OFFICE.HUB is ARCHITECTURALLY_CANONICAL (LANDING, role PROJECTION) with eight regions",
+        "Client root nav unchanged: seven destinations",
+        "Added to the root nav only if future UX testing proves it necessary"
+      ],
+      "node_ids": [
+        "CLIENT_OFFICE.HUB",
+        "CLIENT_OFFICE.MY_BUSINESS"
+      ]
+    },
+    {
+      "decision_id": "D-COMPLIANCE-ONE-LANE",
+      "question_id": "Q-COMPLIANCE-SPLIT",
+      "decided_on": "2026-10-08",
+      "decision": "No split: one canonical COMPLIANCE lane (DOT / Safety · Expirations · Audit / Corrective Work · Compliance Cases), because these functions share client, vehicle, driver, document, deadline and case context. Split later only if operational volume proves a separate lane is needed. CLIENT OFFICE → OPERATIONS → COMPLIANCE shows client-safe subsections only.",
+      "consequences": [
+        "One COMPLIANCE lane and one COMPLIANCE workspace; the authority / BOC-3 sections in PERMITTING & AUTHORITIES keep entitling through it"
+      ],
+      "node_ids": [
+        "AIO_OFFICE.WORK.COMPLIANCE",
+        "CLIENT_OFFICE.OPERATIONS.COMPLIANCE",
+        "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES.OPERATING_AUTHORITIES"
+      ]
+    },
+    {
+      "decision_id": "D-VEHICLES-FLEET-LANE",
+      "question_id": "Q-STAFF-VEHICLES",
+      "decided_on": "2026-10-08",
+      "decision": "Yes: WORK → VEHICLES & FLEET is a canonical staff lane — the operational vehicle backbone, not a subsection of Dispatch or Compliance. It cross-links rather than duplicates source truth with DISPATCH, COMPLIANCE, IFTA / FUEL TAX, INSURANCE, MECHANIC / MAINTENANCE and DRIVERS & CARRIERS. Staff service lanes go from 11 to 12. Client equivalent stays OPERATIONS → VEHICLE MANAGEMENT.",
+      "consequences": [
+        "New lane AIO_OFFICE.WORK.VEHICLES_FLEET (implementation not started)",
+        "Vehicle Management service now has a staff home",
+        "AIO_VEHICLES_FLEET_SCOPE: what the lane owns vs shows by cross-link"
+      ],
+      "node_ids": [
+        "AIO_OFFICE.WORK.VEHICLES_FLEET",
+        "CLIENT_OFFICE.OPERATIONS.VEHICLE_MANAGEMENT"
+      ]
+    },
+    {
+      "decision_id": "D-FOUNDER-ROLE",
+      "question_id": "Q-FOUNDER-ROLE",
+      "decided_on": "2026-10-08",
+      "decision": "FOUNDER is an explicit privileged internal actor class — an explicitly authorized company principal with company-wide authority across AIO OFFICE — never a hard-coded person, name or email. STAFF does not inherit FOUNDER authority and cannot self-elevate. More than one founder / principal must be possible without redesigning permissions.",
+      "consequences": [
+        "AIO_IA_ACTORS defines FOUNDER / STAFF / CLIENT",
+        "Founder-only acts recorded per node (founder_authority)",
+        "Founder-class visibility (reporting, internal financials, system settings) is BY_GRANT for staff"
+      ],
+      "node_ids": [
+        "AIO_OFFICE.INTAKE.FOUNDER_REVIEW",
+        "AIO_OFFICE.INTAKE.PREBUILT_CLIENT",
+        "AIO_OFFICE.INTAKE.ACTIVATION_INVITE",
+        "AIO_OFFICE.REPORTS",
+        "AIO_OFFICE.REPORTS.FINANCIAL_REVENUE",
+        "AIO_OFFICE.MORE.TEAM_STAFF",
+        "AIO_OFFICE.MORE.SYSTEM_SETTINGS",
+        "AIO_OFFICE.MORE.SERVICE_CATALOG"
+      ]
+    },
+    {
+      "decision_id": "D-GROWTH-BILLING",
+      "question_id": "Q-GROWTH-BILLING",
+      "decided_on": "2026-10-08",
+      "decision": "Neither is a client-service production lane. GROWTH / CRM lives at MORE → GROWTH / CRM (HOME may project new leads, follow-ups due, conversions, opportunities; HOME owns no CRM state). BILLING lives at MORE → BILLING; REPORTS → FINANCIAL / REVENUE may aggregate it but owns no invoice or payment production. Client-facing billing, when supported, is FINANCES with client-safe information only — never internal margin, commission, profitability or staff-only financial data.",
+      "consequences": [
+        "MORE gains GROWTH / CRM and BILLING (11 entries)",
+        "Candidates C-CRM-GROWTH and C-BILLING-DESK resolved",
+        "Root-nav status reconsidered only from usage data"
+      ],
+      "node_ids": [
+        "AIO_OFFICE.MORE.GROWTH_CRM",
+        "AIO_OFFICE.MORE.BILLING",
+        "AIO_OFFICE.REPORTS.FINANCIAL_REVENUE",
+        "CLIENT_OFFICE.FINANCES.FEES_PAYMENTS"
+      ]
+    },
+    {
+      "decision_id": "D-ROAD-READY-PLACEMENT",
+      "question_id": "Q-CLIENT-ROAD-READY",
+      "decided_on": "2026-10-08",
+      "decision": "Road Ready placement depends on state. Available but not active: SERVICES → ROAD READY. Active: OPERATIONS → ROAD READY (the actual workspace). Completed: historically accessible through service history, with resulting records distributed into MY BUSINESS, VAULT, OPERATIONS and FINANCES; SERVICES may show ROAD READY · COMPLETED but is never the permanent container.",
+      "consequences": [
+        "New client nodes OPERATIONS.ROAD_READY and SERVICES.ROAD_READY (STATE)",
+        "Road Ready service state placements",
+        "Candidate C-CLIENT-ROAD-READY resolved"
+      ],
+      "node_ids": [
+        "CLIENT_OFFICE.OPERATIONS.ROAD_READY",
+        "CLIENT_OFFICE.SERVICES.ROAD_READY"
+      ]
     }
   ],
   "migration_authority_set": {
@@ -7269,10 +8702,22 @@
       "owner": "AIO_OFFICE.WORK.BOOKKEEPING.RECONCILIATION"
     },
     {
+      "surface": "HOME",
+      "says": "Follow-ups due",
+      "region": "AIO_OFFICE.HOME.NEEDS_ATTENTION",
+      "owner": "AIO_OFFICE.MORE.GROWTH_CRM"
+    },
+    {
       "surface": "REPORTS",
       "says": "Brokerage historical performance / volume / exports",
       "region": "AIO_OFFICE.REPORTS.DISPATCH_BROKERAGE",
       "owner": "AIO_OFFICE.WORK.BROKERAGE.SHIPMENTS"
+    },
+    {
+      "surface": "REPORTS",
+      "says": "Revenue from billing over time",
+      "region": "AIO_OFFICE.REPORTS.FINANCIAL_REVENUE",
+      "owner": "AIO_OFFICE.MORE.BILLING"
     }
   ],
   "work_capabilities": [
@@ -7283,7 +8728,7 @@
       "evidence": [
         "all-in-one-enterprises/src/office/layouts/AIOOfficeLayout.tsx:13-118 (sidebar groups)"
       ],
-      "note": "Each lane has its own /office routes in the desktop sidebar; nothing groups the eleven lanes under WORK."
+      "note": "Each lane has its own /office routes in the desktop sidebar (VEHICLES & FLEET has none yet); nothing groups the twelve lanes under WORK."
     },
     {
       "capability": "Cross-client filtering",
@@ -7366,6 +8811,80 @@
       "note": "Only IFTA has a canonical case route (AIO:{client}:IFTA:IFTA_QUARTER:{YYYY-Qn}); other lanes open generic request ids."
     }
   ],
+  "vehicles_fleet_scope": [
+    {
+      "item": "Vehicle roster",
+      "relation": "OWNS",
+      "source_of_truth": "AIO_OFFICE.WORK.VEHICLES_FLEET",
+      "note": "PowerUnit / Trailer records."
+    },
+    {
+      "item": "Vehicle profiles",
+      "relation": "OWNS",
+      "source_of_truth": "AIO_OFFICE.WORK.VEHICLES_FLEET",
+      "note": "VIN, plate, GVWR, ownership."
+    },
+    {
+      "item": "Availability / out-of-service state",
+      "relation": "OWNS",
+      "source_of_truth": "AIO_OFFICE.WORK.VEHICLES_FLEET",
+      "note": "PowerUnit.status active / inactive / sold (roadReadyTypes.ts:125); Dispatch reads it; out-of-service orders come from COMPLIANCE → DOT / SAFETY."
+    },
+    {
+      "item": "Registration state",
+      "relation": "CROSS_LINK",
+      "source_of_truth": "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES.TAGS_REGISTRATION",
+      "note": ""
+    },
+    {
+      "item": "Credentials / documents",
+      "relation": "CROSS_LINK",
+      "source_of_truth": "AIO_OFFICE.MORE.DOCUMENTS_VAULT",
+      "note": ""
+    },
+    {
+      "item": "Assigned driver",
+      "relation": "CROSS_LINK",
+      "source_of_truth": "AIO_OFFICE.WORK.DRIVERS_CARRIERS",
+      "note": ""
+    },
+    {
+      "item": "Insurance state",
+      "relation": "CROSS_LINK",
+      "source_of_truth": "AIO_OFFICE.WORK.INSURANCE.POLICIES",
+      "note": ""
+    },
+    {
+      "item": "IFTA relevance",
+      "relation": "CROSS_LINK",
+      "source_of_truth": "AIO_OFFICE.WORK.FILING_FUEL_TAXES.IFTA",
+      "note": ""
+    },
+    {
+      "item": "Compliance status",
+      "relation": "CROSS_LINK",
+      "source_of_truth": "AIO_OFFICE.WORK.COMPLIANCE",
+      "note": ""
+    },
+    {
+      "item": "Maintenance state",
+      "relation": "CROSS_LINK",
+      "source_of_truth": "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE.MAINTENANCE_STATUS",
+      "note": ""
+    },
+    {
+      "item": "Service history",
+      "relation": "CROSS_LINK",
+      "source_of_truth": "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE.TICKETS",
+      "note": ""
+    },
+    {
+      "item": "Warnings / expirations",
+      "relation": "CROSS_LINK",
+      "source_of_truth": "AIO_OFFICE.WORK.COMPLIANCE.EXPIRATIONS",
+      "note": ""
+    }
+  ],
   "expansion_criteria": [
     {
       "founder_rule": "relevant",
@@ -7430,7 +8949,7 @@
         "container": "MY_OFFICE",
         "ia_node": "CLIENT_OFFICE.HUB",
         "disposition": "REMAPPED",
-        "note": "The client office landing, not one of the seven root destinations (Q-CLIENT-HUB)."
+        "note": "The HUB / OVERVIEW: shell landing, not a root destination (D-CLIENT-HUB)."
       },
       {
         "container": "MY_BUSINESS",
@@ -7504,9 +9023,9 @@
         "family": "F04",
         "name": "Road Ready",
         "graph_nav": "MY BUSINESS",
-        "client_node": "CLIENT_OFFICE.MY_BUSINESS",
+        "client_node": "CLIENT_OFFICE.OPERATIONS.ROAD_READY",
         "staff_node": "AIO_OFFICE.WORK.ROAD_READY",
-        "note": "Client placement unresolved (Q-CLIENT-ROAD-READY); recommended MY BUSINESS."
+        "note": "REMAPPED out of MY BUSINESS: OPERATIONS while active, SERVICES while available (D-ROAD-READY-PLACEMENT)."
       },
       {
         "family": "F05",
@@ -7514,7 +9033,7 @@
         "graph_nav": "MY OFFICE",
         "client_node": "CLIENT_OFFICE.HUB",
         "staff_node": null,
-        "note": "Landing, not a root destination."
+        "note": "The HUB / OVERVIEW landing, not a root destination (D-CLIENT-HUB)."
       },
       {
         "family": "F06",
@@ -7721,9 +9240,25 @@
       "Recent Activity",
       "Quick Actions"
     ],
+    "WORK_LANES": [
+      "Permitting & Authorities",
+      "Filing & Fuel Taxes",
+      "Compliance",
+      "Vehicles & Fleet",
+      "Dispatch",
+      "Brokerage",
+      "Insurance",
+      "Factoring",
+      "Bookkeeping",
+      "Drivers & Carriers",
+      "Mechanic / Maintenance",
+      "Road Ready"
+    ],
     "MORE_ENTRIES": [
       "Clients",
       "Documents & Vault",
+      "Growth / CRM",
+      "Billing",
       "Team & Staff",
       "Service Catalog",
       "Mechanic Network",
@@ -7731,6 +9266,16 @@
       "System Settings",
       "Help & Support",
       "Account"
+    ],
+    "CLIENT_HUB_REGIONS": [
+      "Business Status",
+      "Work in Progress",
+      "Items Needing Approval",
+      "Upcoming Deadlines",
+      "Recent Messages",
+      "Active Services",
+      "Recent Documents",
+      "Contextual Next Action"
     ],
     "REQUIRED_SERVICES": [
       "PERMITTING_AUTHORITIES",

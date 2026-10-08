@@ -6,23 +6,25 @@
 **Lineage:** `SUPERSEDED_BY_AIO_OFFICE_WORK_TREE1`  
 **Audit:** yoteenz/fsbw @ `750b1246` (read-only)
 
-**Rule:** If an item drives daily production it belongs in WORK. If it is administration, a directory, a tool, settings or lower-frequency, it may live in MORE. Root-nav space is never a reason to move production into MORE.
+**Rule:** If an item drives daily client-service production it belongs in WORK. If it is administration, a directory, a tool, settings or lower-frequency, it may live in MORE. Internal business operations that are not client-service production — GROWTH / CRM and BILLING — live in MORE by founder decision (HOME may project them, REPORTS may aggregate them; root status only from usage data). Root-nav space is never a reason to move client-service production into MORE.
 
 May contain roles: SECONDARY · must not contain: PRODUCTION, ENTRY, COMMAND, PROJECTION (enforced by the validator).
 
 ## Included
 
-| Entry | What it holds | Routes today | Implementation | Gate / notes |
-|---|---|---|---|---|
-| Clients | Directory + Client 360 (client overview: every workspace for one client). | `/office/clients` · `/office/clients/:clientId` | PARTIAL · FUNCTIONAL_DEMO | all-in-one-enterprises/src/office/pages/ClientsListPage.tsx:13 |
-| Documents & Vault | — | `/office/documents/vault` · `/office/clients/:clientId/documents` · `/office/documents/review` | PARTIAL · FUNCTIONAL_DEMO | all-in-one-enterprises/src/vault/vaultStorage.ts:26-31 (backend storage not configured) |
-| Team & Staff | — | `/office/team` · `/office/workload` | PARTIAL · READ_ONLY | gate: workload.read (workload) |
-| Service Catalog | — | `/office/management/launch/services` · `/office/settings/pricing` | PARTIAL · READ_ONLY | all-in-one-enterprises/src/services/catalog/serviceCatalog.ts · all-in-one-enterprises/src/launch/serviceActivationLaunch.ts:8-223 |
-| Mechanic Network | Provider directory / network administration. Ticket production stays in WORK → MECHANIC / MAINTENANCE. | `/office/fleetcare/providers` | PARTIAL · READ_ONLY | — |
-| Messages | Two message models (comm* and legacy messages); backend not started. | `/office/communications` · `/office/appointments` | PARTIAL · FUNCTIONAL_DEMO | all-in-one-enterprises/src/communications |
-| System Settings | — | `/office/settings/*` · `/office/security` · `/office/system/*` | PARTIAL · FUNCTIONAL_DEMO | gate: canStaffAccessSystemAdmin (auth/routeAccess.ts:63-65) where enforced |
-| Help & Support | — | `/office/training` · `/office/training/sops` | PARTIAL · READ_ONLY | — |
-| Account | No staff account / profile page. | — | NOT STARTED | all-in-one-enterprises/src/office/layouts/AIOOfficeLayout.tsx:181-189 (demo staff selector only) |
+| Entry | What it holds | Potential children (founder) | Routes today | Implementation | Staff | Founder act | Gate / evidence |
+|---|---|---|---|---|---|---|---|
+| Clients | Directory + Client 360 (client overview: every workspace for one client). | — | `/office/clients` · `/office/clients/:clientId` | PARTIAL · FUNCTIONAL_DEMO | full | — | all-in-one-enterprises/src/office/pages/ClientsListPage.tsx:13 |
+| Documents & Vault | — | — | `/office/documents/vault` · `/office/clients/:clientId/documents` · `/office/documents/review` | PARTIAL · FUNCTIONAL_DEMO | full | — | all-in-one-enterprises/src/vault/vaultStorage.ts:26-31 (backend storage not configured) |
+| Growth / CRM | Internal growth and sales: leads to clients. Not client-service production, so not in WORK (D-GROWTH-BILLING). HOME may project new leads, follow-ups due, conversions and opportunities needing attention; HOME owns no CRM state. | Leads · Prospects · Pipeline · Follow-ups · Referrals · Sales Activity · Service Opportunities | `/office/crm` · `/office/crm/leads` · `/office/crm/leads/:leadId` · `/office/crm/pipeline` · `/office/crm/opportunities/:opportunityId` · `/office/crm/calendar` · `/office/crm/reports` · `/office/settings/crm` | PARTIAL · FUNCTIONAL_DEMO | by grant | — | gate: crm.* (ROLE_PERMISSIONS CRM_FULL / CRM_SALES) · all-in-one-enterprises/src/office/pages/CrmPages.tsx · all-in-one-enterprises/src/office-core/officeContext.ts:58 CRM_FULL permissions |
+| Billing | Billing operations: what clients are charged and what they paid. REPORTS → FINANCIAL / REVENUE aggregates it for oversight but owns no invoice or payment production (D-GROWTH-BILLING). | Client Billing · Invoices · Payments · Balances · Service Charges · Subscriptions / Recurring Services · Credits / Adjustments | `/office/billing` · `/office/invoices` · `/office/invoices/:invoiceId` · `/office/payments` · `/office/quotes` · `/office/quotes/:quoteId` | PARTIAL · FUNCTIONAL_DEMO | by grant | — | gate: billing.read · billing.manage (ROLE_PERMISSIONS) · all-in-one-enterprises/src/office/pages/BillingPages.tsx · all-in-one-enterprises/src/office/pages/ClientDetailPage.tsx:177 billing tab gated by billing.read |
+| Team & Staff | — | — | `/office/team` · `/office/workload` | PARTIAL · READ_ONLY | full | Staff / permission administration (roles and grants) | gate: workload.read · team.manage (ROLE_PERMISSIONS) |
+| Service Catalog | — | — | `/office/management/launch/services` · `/office/settings/pricing` | PARTIAL · READ_ONLY | full | Service configuration (activation, pricing) | all-in-one-enterprises/src/services/catalog/serviceCatalog.ts · all-in-one-enterprises/src/launch/serviceActivationLaunch.ts:8-223 |
+| Mechanic Network | Provider directory / network administration. Ticket production stays in WORK → MECHANIC / MAINTENANCE. | — | `/office/fleetcare/providers` | PARTIAL · READ_ONLY | full | — | — |
+| Messages | Two message models (comm* and legacy messages); backend not started. | — | `/office/communications` · `/office/appointments` | PARTIAL · FUNCTIONAL_DEMO | full | — | all-in-one-enterprises/src/communications |
+| System Settings | — | — | `/office/settings/*` · `/office/security` · `/office/system/*` | PARTIAL · FUNCTIONAL_DEMO | by grant | System configuration | gate: canStaffAccessSystemAdmin (auth/routeAccess.ts:63-65) where enforced |
+| Help & Support | — | — | `/office/training` · `/office/training/sops` | PARTIAL · READ_ONLY | full | — | — |
+| Account | No staff account / profile page. | — | — | NOT STARTED | full | — | all-in-one-enterprises/src/office/layouts/AIOOfficeLayout.tsx:181-189 (demo staff selector only) |
 
 ## Excluded (belongs elsewhere)
 
@@ -34,14 +36,16 @@ May contain roles: SECONDARY · must not contain: PRODUCTION, ENTRY, COMMAND, PR
 | Migration intake | AIO OFFICE → INTAKE | Entry work has its own root. |
 | Client document review per service | AIO OFFICE → WORK | Production of the owning lane; the vault directory stays in MORE. |
 
-## Candidates recommended into MORE (founder decision pending)
+## Candidates recommended into MORE
 
-| Candidate | Recommended | Rationale |
-|---|---|---|
-| Workflows · Workflow Health · Automation Exceptions · Workflow / Automation settings | AIO OFFICE → MORE → System Settings | Templates and rules are administration (MORE); automation exceptions are production blockers (HOME → BLOCKERS). |
-| Security · Privacy · Production readiness / config · System data / QA · Integrations | AIO OFFICE → MORE → System Settings | Administration and lower-frequency tools. |
-| Document Review queue | AIO OFFICE → MORE → Documents & Vault | Review of uploaded documents is production per lane; until lanes own their document checks it sits with DOCUMENTS & VAULT. |
-| Legacy Inbox · Legacy Documents | AIO OFFICE → MORE → Messages | Legacy surfaces superseded by Communications and the Document Vault; retire when lanes absorb them. |
-| Appointments | AIO OFFICE → MORE → Messages | Client scheduling sits with communication. |
+| Candidate | Status | Recommended | Rationale |
+|---|---|---|---|
+| Growth (CRM · Leads · Pipeline · CRM Calendar · CRM Reports) | RESOLVED — D-GROWTH-BILLING: MORE → GROWTH / CRM; HOME may project it. | AIO OFFICE → MORE → Growth / CRM | Sales / growth is daily work for some staff but not a client service lane. |
+| Billing Desk (Quotes · Invoices · Payments · Pricing) | RESOLVED — D-GROWTH-BILLING: MORE → BILLING for operations; REPORTS → FINANCIAL / REVENUE aggregates it. | AIO OFFICE → MORE → Billing | Billing operations are invoicing production and a revenue source. |
+| Workflows · Workflow Health · Automation Exceptions · Workflow / Automation settings | founder decision pending | AIO OFFICE → MORE → System Settings | Templates and rules are administration (MORE); automation exceptions are production blockers (HOME → BLOCKERS). |
+| Security · Privacy · Production readiness / config · System data / QA · Integrations | founder decision pending | AIO OFFICE → MORE → System Settings | Administration and lower-frequency tools. |
+| Document Review queue | founder decision pending | AIO OFFICE → MORE → Documents & Vault | Review of uploaded documents is production per lane; until lanes own their document checks it sits with DOCUMENTS & VAULT. |
+| Legacy Inbox · Legacy Documents | founder decision pending | AIO OFFICE → MORE → Messages | Legacy surfaces superseded by Communications and the Document Vault; retire when lanes absorb them. |
+| Appointments | founder decision pending | AIO OFFICE → MORE → Messages | Client scheduling sits with communication. |
 
 The MORE directory surface itself is NOT STARTED: its entries exist today as separate routes.

@@ -6,9 +6,58 @@
 **Lineage:** `SUPERSEDED_BY_AIO_OFFICE_WORK_TREE1`  
 **Audit:** yoteenz/fsbw @ `750b1246` (read-only)
 
-**FULL** — the actor works in it · **CLIENT_SAFE_PROJECTION** — the actor sees an approved client-safe projection · **VIA_AIO_OFFICE** — staff reach the same client data from AIO OFFICE (client context), never by entering the client shell · **HIDDEN** — never shown.
+**FULL** — the actor works in it · **BY_GRANT** — staff see it only with an explicit permission grant · **CLIENT_SAFE_PROJECTION** — the actor sees an approved client-safe projection · **VIA_AIO_OFFICE** — staff reach the same client data from AIO OFFICE (client context), never by entering the client shell · **HIDDEN** — never shown.
 
-FOUNDER and STAFF share the internal office (ExperienceActor FOUNDER_STAFF). No founder-only node is asserted until a founder role exists (Q-FOUNDER-ROLE); existing office permissions keep gating where they already do (never broadened).
+## Actors (D-FOUNDER-ROLE)
+
+| Actor | Class | What it is | Identity | Inherits | Self-elevate | Code today |
+|---|---|---|---|---|---|---|
+| FOUNDER | PRIVILEGED_INTERNAL | An explicitly authorized company principal with company-wide authority across AIO OFFICE. | A role / actor class granted explicitly — never a hard-coded person, name or email. More than one founder / principal is possible without redesigning permissions. (one or more) | STAFF | never | No FOUNDER role in code yet. Nearest today: OfficeStaffRole owner (all-in-one-enterprises/src/office-core/officeWorkTypes.ts:4-16; ROLE_PERMISSIONS all-in-one-enterprises/src/office-core/officeContext.ts:74) and Supabase aio_internal_role super_admin (all-in-one-enterprises/supabase/migrations/20260815100000_aio_identity_foundation.sql:29). No founder identity is hard-coded. |
+| STAFF | INTERNAL | AIO team members working in AIO OFFICE within the permissions granted to them. | Staff role plus explicit permission grants. Never inherits FOUNDER authority; BY_GRANT nodes need a grant. (many) | — | never | OfficeStaffRole + ROLE_PERMISSIONS (all-in-one-enterprises/src/office-core/officeContext.ts:74) · Supabase aio_internal_role. |
+| CLIENT | CLIENT | Users of one client organisation, inside CLIENT OFFICE only. | Authenticated membership of the client organisation (the session organisation is the only client). (many) | — | never | CustomerRouteGuard + ClientPortalLifecycleGuard (all-in-one-enterprises/src/auth/guards/ClientPortalLifecycleGuard.tsx:22-40). |
+
+### Founder privileges
+
+| Privilege | Where | Note |
+|---|---|---|
+| All-client visibility | AIO OFFICE → MORE → Clients · AIO OFFICE → HOME | — |
+| All-service visibility | AIO OFFICE → WORK | — |
+| Founder review | AIO OFFICE → INTAKE → Founder Review | — |
+| PREBUILT review / activation authority | AIO OFFICE → INTAKE → Prebuilt Client · AIO OFFICE → INTAKE → Activation Invite | Client confirmation remains the gate before ACTIVE. |
+| High-risk overrides | — (per action) | Defined per action in the authority-contract sprint. |
+| Internal financial visibility | AIO OFFICE → REPORTS → Financial / Revenue · AIO OFFICE → MORE → Billing · AIO OFFICE → WORK → Brokerage → Load Financials | Staff only by grant. |
+| Reporting | AIO OFFICE → REPORTS | Staff only by grant. |
+| Staff / permission administration | AIO OFFICE → MORE → Team & Staff | — |
+| System configuration | AIO OFFICE → MORE → System Settings | — |
+| Service configuration | AIO OFFICE → MORE → Service Catalog | — |
+| Founder-only approvals where defined | — (per action) | Defined per action in the authority-contract sprint. |
+
+### Founder-only acts and grant-only views
+
+| Node | Founder act | Staff |
+|---|---|---|
+| AIO OFFICE → INTAKE → Founder Review | Founder review of the migrated profile (staff prepare it; they do not inherit the review) | sees it; the act is the founder’s |
+| AIO OFFICE → INTAKE → Prebuilt Client | PREBUILT review / approval (APPROVE MIGRATION) | sees it; the act is the founder’s |
+| AIO OFFICE → INTAKE → Activation Invite | Activation authority (sending the activation invite); client confirmation stays the gate before ACTIVE | sees it; the act is the founder’s |
+| AIO OFFICE → WORK → Brokerage → Load Financials | — | by grant (brokerage_finance.read (ROLE_PERMISSIONS)) |
+| AIO OFFICE → REPORTS | Reporting (founder-class; staff only by grant) | by grant (reports.read · management.*.read (ROLE_PERMISSIONS; all-in-one-enterprises/src/office/pages/ManagementPages.tsx:643 ManagementGate)) |
+| AIO OFFICE → REPORTS → Overview | — | by grant |
+| AIO OFFICE → REPORTS → Clients | — | by grant |
+| AIO OFFICE → REPORTS → Services | — | by grant |
+| AIO OFFICE → REPORTS → Financial / Revenue | Internal financial visibility | by grant (management.financial.read (all-in-one-enterprises/src/office/pages/ManagementPages.tsx:98,158,199 ManagementGate)) |
+| AIO OFFICE → REPORTS → Filing History | — | by grant |
+| AIO OFFICE → REPORTS → Compliance | — | by grant |
+| AIO OFFICE → REPORTS → Dispatch / Brokerage | — | by grant |
+| AIO OFFICE → REPORTS → Bookkeeping | — | by grant |
+| AIO OFFICE → REPORTS → Migration | — | by grant |
+| AIO OFFICE → REPORTS → Exports | — | by grant |
+| AIO OFFICE → MORE → Growth / CRM | — | by grant (crm.* (ROLE_PERMISSIONS CRM_FULL / CRM_SALES)) |
+| AIO OFFICE → MORE → Billing | — | by grant (billing.read · billing.manage (ROLE_PERMISSIONS)) |
+| AIO OFFICE → MORE → Team & Staff | Staff / permission administration (roles and grants) | sees it; the act is the founder’s |
+| AIO OFFICE → MORE → Service Catalog | Service configuration (activation, pricing) | sees it; the act is the founder’s |
+| AIO OFFICE → MORE → System Settings | System configuration | by grant (canStaffAccessSystemAdmin (auth/routeAccess.ts:63-65) where enforced) |
+
+Existing office permissions keep gating where they already do; nothing here broadens a permission.
 
 ## Root destinations
 
@@ -17,7 +66,7 @@ FOUNDER and STAFF share the internal office (ExperienceActor FOUNDER_STAFF). No 
 | AIO OFFICE → HOME | FULL | FULL | HIDDEN | nothing (firewall) |
 | AIO OFFICE → INTAKE | FULL | FULL | HIDDEN | nothing (firewall) |
 | AIO OFFICE → WORK | FULL | FULL | HIDDEN | nothing (firewall) |
-| AIO OFFICE → REPORTS | FULL | FULL | HIDDEN | nothing (firewall) |
+| AIO OFFICE → REPORTS | FULL | BY_GRANT | HIDDEN | nothing (firewall) |
 | AIO OFFICE → MORE | FULL | FULL | HIDDEN | nothing |
 | CLIENT OFFICE → MY BUSINESS | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | staff: AIO OFFICE → MORE → Clients |
 | CLIENT OFFICE → OPERATIONS | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | staff: AIO OFFICE → MORE → Clients |
@@ -41,150 +90,165 @@ FOUNDER and STAFF share the internal office (ExperienceActor FOUNDER_STAFF). No 
 | Cross-client views | AIO OFFICE → HOME · AIO OFFICE → MORE → Clients · AIO OFFICE → REPORTS → Clients | A client sees only itself. |
 | Staff operations metrics | AIO OFFICE → REPORTS · AIO OFFICE → MORE → Team & Staff | Internal performance. |
 | Staff notes | AIO OFFICE → WORK → Filing & Fuel Taxes → IFTA | IFTA NOTES is a staff tab; clients write through MESSAGE AIO. |
+| Internal margin, commission, profitability, staff-only financial data | AIO OFFICE → REPORTS → Financial / Revenue | Clients see only client-safe billing in FINANCES → FEES / PAYMENTS (D-GROWTH-BILLING). |
+| Growth / CRM (leads, pipeline, sales activity) | AIO OFFICE → MORE → Growth / CRM | Internal sales data. |
 
 ## Every node
 
-| Node | FOUNDER | STAFF | CLIENT | Client-safe projection | Staff reach (client nodes) | Client resolution | Existing gate |
-|---|---|---|---|---|---|---|---|
-| AIO OFFICE → HOME | FULL | FULL | HIDDEN (firewall) | — | — | — | — |
-| AIO OFFICE → HOME → Needs Attention | FULL | FULL | HIDDEN | — | — | — | — |
-| AIO OFFICE → HOME → Deadlines | FULL | FULL | HIDDEN | — | — | — | — |
-| AIO OFFICE → HOME → Blockers | FULL | FULL | HIDDEN (firewall) | — | — | — | — |
-| AIO OFFICE → HOME → Work Across AIO | FULL | FULL | HIDDEN | — | — | — | — |
-| AIO OFFICE → HOME → Clients in Motion | FULL | FULL | HIDDEN | — | — | — | — |
-| AIO OFFICE → HOME → Recent Activity | FULL | FULL | HIDDEN | — | — | — | — |
-| AIO OFFICE → HOME → Quick Actions | FULL | FULL | HIDDEN | — | — | — | — |
-| AIO OFFICE → INTAKE | FULL | FULL | HIDDEN (firewall) | — | — | — | — |
-| AIO OFFICE → INTAKE → Existing Client File | FULL | FULL | HIDDEN | — | — | — | — |
-| AIO OFFICE → INTAKE → New Client File | FULL | FULL | HIDDEN | — | — | — | — |
-| AIO OFFICE → INTAKE → Bulk Batch Migration | FULL | FULL | HIDDEN | — | — | — | — |
-| AIO OFFICE → INTAKE → Migration Status | FULL | FULL | HIDDEN | — | — | — | — |
-| AIO OFFICE → INTAKE → Extraction / Classification | FULL | FULL | HIDDEN (firewall) | — | — | — | — |
-| AIO OFFICE → INTAKE → Match / Reconcile | FULL | FULL | HIDDEN (firewall) | — | — | — | — |
-| AIO OFFICE → INTAKE → Founder Review | FULL | FULL | HIDDEN (firewall) | — | — | — | — |
-| AIO OFFICE → INTAKE → Prebuilt Client | FULL | FULL | HIDDEN | — | — | — | — |
-| AIO OFFICE → INTAKE → Activation Invite | FULL | FULL | HIDDEN | — | — | — | — |
-| AIO OFFICE → INTAKE → Migration History | FULL | FULL | HIDDEN | — | — | — | — |
-| AIO OFFICE → WORK | FULL | FULL | HIDDEN (firewall) | — | — | — | — |
-| AIO OFFICE → WORK → Permitting & Authorities | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Permitting / Authorities | — | — | — |
-| AIO OFFICE → WORK → Permitting & Authorities → Tags / Registration | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Permitting / Authorities | — | — | — |
-| AIO OFFICE → WORK → Permitting & Authorities → Fuel / Road Tax Permits | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Permitting / Authorities | — | — | — |
-| AIO OFFICE → WORK → Permitting & Authorities → Operating Authorities | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Permitting / Authorities | — | — | — |
-| AIO OFFICE → WORK → Permitting & Authorities → BOC-3 | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Permitting / Authorities | — | — | — |
-| AIO OFFICE → WORK → Permitting & Authorities → LLC / Inc | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Permitting / Authorities | — | — | — |
-| AIO OFFICE → WORK → Permitting & Authorities → Other Permits | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Permitting / Authorities | — | — | — |
-| AIO OFFICE → WORK → Filing & Fuel Taxes | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Filing / IFTA | — | — | — |
-| AIO OFFICE → WORK → Filing & Fuel Taxes → IFTA | FULL | FULL | HIDDEN (firewall) | — | — | — | — |
-| AIO OFFICE → WORK → Filing & Fuel Taxes → Filing Queue | FULL | FULL | HIDDEN (firewall) | — | — | — | — |
-| AIO OFFICE → WORK → Filing & Fuel Taxes → Client Approval | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Filing / IFTA | — | — | — |
-| AIO OFFICE → WORK → Filing & Fuel Taxes → Submitted / Filed | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Filing / IFTA | — | — | — |
-| AIO OFFICE → WORK → Filing & Fuel Taxes → Filing History | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Filing / IFTA | — | — | — |
-| AIO OFFICE → WORK → Compliance | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Compliance | — | — | — |
-| AIO OFFICE → WORK → Compliance → DOT / Safety | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Compliance | — | — | — |
-| AIO OFFICE → WORK → Compliance → Expirations | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Compliance | — | — | — |
-| AIO OFFICE → WORK → Compliance → Audit / Corrective Work | FULL | FULL | HIDDEN (firewall) | — | — | — | — |
-| AIO OFFICE → WORK → Compliance → Compliance Cases | FULL | FULL | HIDDEN (firewall) | — | — | — | — |
-| AIO OFFICE → WORK → Dispatch | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Dispatch | — | — | — |
-| AIO OFFICE → WORK → Dispatch → Active Clients | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Dispatch | — | — | — |
-| AIO OFFICE → WORK → Dispatch → Trucks | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Dispatch | — | — | — |
-| AIO OFFICE → WORK → Dispatch → Loads | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Dispatch | — | — | — |
-| AIO OFFICE → WORK → Dispatch → Status / Exceptions | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Dispatch | — | — | — |
-| AIO OFFICE → WORK → Dispatch → My Loads / My Trucks | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Dispatch | — | — | — |
-| AIO OFFICE → WORK → Brokerage | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Brokerage | — | — | — |
-| AIO OFFICE → WORK → Brokerage → Quotes | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Brokerage | — | — | — |
-| AIO OFFICE → WORK → Brokerage → Shipments | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Brokerage | — | — | — |
-| AIO OFFICE → WORK → Brokerage → Carrier Offers | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Brokerage | — | — | — |
-| AIO OFFICE → WORK → Brokerage → Stops / Status | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Brokerage | — | — | — |
-| AIO OFFICE → WORK → Brokerage → Load Financials | FULL | FULL | HIDDEN (firewall) | — | — | — | — |
-| AIO OFFICE → WORK → Insurance | FULL | FULL | HIDDEN | CLIENT OFFICE → FINANCES → Insurance | — | — | — |
-| AIO OFFICE → WORK → Insurance → Intake | FULL | FULL | HIDDEN | CLIENT OFFICE → FINANCES → Insurance | — | — | — |
-| AIO OFFICE → WORK → Insurance → Quotes | FULL | FULL | HIDDEN | CLIENT OFFICE → FINANCES → Insurance | — | — | — |
-| AIO OFFICE → WORK → Insurance → Policies | FULL | FULL | HIDDEN | CLIENT OFFICE → FINANCES → Insurance | — | — | — |
-| AIO OFFICE → WORK → Insurance → Renewals | FULL | FULL | HIDDEN | CLIENT OFFICE → FINANCES → Insurance | — | — | — |
-| AIO OFFICE → WORK → Factoring | FULL | FULL | HIDDEN | CLIENT OFFICE → FINANCES → Factoring | — | — | — |
-| AIO OFFICE → WORK → Bookkeeping | FULL | FULL | HIDDEN | CLIENT OFFICE → FINANCES → Bookkeeping | — | — | — |
-| AIO OFFICE → WORK → Bookkeeping → Monthly Clients | FULL | FULL | HIDDEN | CLIENT OFFICE → FINANCES → Bookkeeping | — | — | — |
-| AIO OFFICE → WORK → Bookkeeping → Annual Clients | FULL | FULL | HIDDEN | CLIENT OFFICE → FINANCES → Bookkeeping | — | — | — |
-| AIO OFFICE → WORK → Bookkeeping → Reconciliation | FULL | FULL | HIDDEN | CLIENT OFFICE → FINANCES → Bookkeeping | — | — | — |
-| AIO OFFICE → WORK → Bookkeeping → Deliverables | FULL | FULL | HIDDEN | CLIENT OFFICE → FINANCES → Bookkeeping | — | — | — |
-| AIO OFFICE → WORK → Drivers & Carriers | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Driver Management | — | — | — |
-| AIO OFFICE → WORK → Drivers & Carriers → Matching | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Driver Management | — | — | — |
-| AIO OFFICE → WORK → Drivers & Carriers → Credentials | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Driver Management | — | — | — |
-| AIO OFFICE → WORK → Drivers & Carriers → Approvals | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Driver Management | — | — | — |
-| AIO OFFICE → WORK → Mechanic / Maintenance | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Maintenance | — | — | — |
-| AIO OFFICE → WORK → Mechanic / Maintenance → Tickets | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Maintenance | — | — | — |
-| AIO OFFICE → WORK → Mechanic / Maintenance → Referrals | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Maintenance | — | — | — |
-| AIO OFFICE → WORK → Mechanic / Maintenance → Providers | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Maintenance | — | — | — |
-| AIO OFFICE → WORK → Mechanic / Maintenance → Maintenance Status | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Maintenance | — | — | — |
-| AIO OFFICE → WORK → Road Ready | FULL | FULL | HIDDEN | — | — | — | — |
-| AIO OFFICE → REPORTS | FULL | FULL | HIDDEN (firewall) | — | — | — | — |
-| AIO OFFICE → REPORTS → Overview | FULL | FULL | HIDDEN | — | — | — | — |
-| AIO OFFICE → REPORTS → Clients | FULL | FULL | HIDDEN (firewall) | — | — | — | — |
-| AIO OFFICE → REPORTS → Services | FULL | FULL | HIDDEN | — | — | — | — |
-| AIO OFFICE → REPORTS → Financial / Revenue | FULL | FULL | HIDDEN | — | — | — | existing management permissions (ROLE_PERMISSIONS) |
-| AIO OFFICE → REPORTS → Filing History | FULL | FULL | HIDDEN | — | — | — | — |
-| AIO OFFICE → REPORTS → Compliance | FULL | FULL | HIDDEN | — | — | — | — |
-| AIO OFFICE → REPORTS → Dispatch / Brokerage | FULL | FULL | HIDDEN | — | — | — | — |
-| AIO OFFICE → REPORTS → Bookkeeping | FULL | FULL | HIDDEN | — | — | — | — |
-| AIO OFFICE → REPORTS → Migration | FULL | FULL | HIDDEN | — | — | — | — |
-| AIO OFFICE → REPORTS → Exports | FULL | FULL | HIDDEN | — | — | — | — |
-| AIO OFFICE → MORE | FULL | FULL | HIDDEN | — | — | — | — |
-| AIO OFFICE → MORE → Clients | FULL | FULL | HIDDEN (firewall) | — | — | — | — |
-| AIO OFFICE → MORE → Documents & Vault | FULL | FULL | HIDDEN | — | — | — | — |
-| AIO OFFICE → MORE → Team & Staff | FULL | FULL | HIDDEN (firewall) | — | — | — | workload.read (workload) |
-| AIO OFFICE → MORE → Service Catalog | FULL | FULL | HIDDEN | — | — | — | — |
-| AIO OFFICE → MORE → Mechanic Network | FULL | FULL | HIDDEN | — | — | — | — |
-| AIO OFFICE → MORE → Messages | FULL | FULL | HIDDEN | — | — | — | — |
-| AIO OFFICE → MORE → System Settings | FULL | FULL | HIDDEN | — | — | — | canStaffAccessSystemAdmin (auth/routeAccess.ts:63-65) where enforced |
-| AIO OFFICE → MORE → Help & Support | FULL | FULL | HIDDEN | — | — | — | — |
-| AIO OFFICE → MORE → Account | FULL | FULL | HIDDEN | — | — | — | — |
-| CLIENT OFFICE → Client Office Hub | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ALWAYS | — |
-| CLIENT OFFICE → Client Activation | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | STATE | — |
-| CLIENT OFFICE → MY BUSINESS | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ALWAYS | — |
-| CLIENT OFFICE → MY BUSINESS → Company Profile | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ALWAYS | — |
-| CLIENT OFFICE → MY BUSINESS → Owners / Contacts | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ALWAYS | — |
-| CLIENT OFFICE → MY BUSINESS → Drivers | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → WORK → Drivers & Carriers | APPLICABILITY | — |
-| CLIENT OFFICE → MY BUSINESS → Vehicles | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → WORK → Dispatch → Trucks · AIO OFFICE → WORK → Mechanic / Maintenance → Maintenance Status · AIO OFFICE → MORE → Clients | APPLICABILITY | — |
-| CLIENT OFFICE → MY BUSINESS → Authorities / Registrations | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → WORK → Permitting & Authorities | APPLICABILITY | — |
-| CLIENT OFFICE → MY BUSINESS → Business Details | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ALWAYS | — |
-| CLIENT OFFICE → OPERATIONS | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ENTITLEMENT | — |
-| CLIENT OFFICE → OPERATIONS → Compliance | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → WORK → Compliance | ENTITLEMENT | — |
-| CLIENT OFFICE → OPERATIONS → Permitting / Authorities | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → WORK → Permitting & Authorities | ENTITLEMENT | — |
-| CLIENT OFFICE → OPERATIONS → Filing / IFTA | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → WORK → Filing & Fuel Taxes | ENTITLEMENT | — |
-| CLIENT OFFICE → OPERATIONS → Dispatch | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → WORK → Dispatch | ENTITLEMENT | — |
-| CLIENT OFFICE → OPERATIONS → Brokerage | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → WORK → Brokerage | ENTITLEMENT | — |
-| CLIENT OFFICE → OPERATIONS → Driver Management | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → WORK → Drivers & Carriers | ENTITLEMENT | — |
-| CLIENT OFFICE → OPERATIONS → Vehicle Management | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → WORK → Dispatch → Trucks · AIO OFFICE → WORK → Mechanic / Maintenance → Maintenance Status · AIO OFFICE → MORE → Clients | APPLICABILITY | — |
-| CLIENT OFFICE → OPERATIONS → Maintenance | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → WORK → Mechanic / Maintenance | ENTITLEMENT | — |
-| CLIENT OFFICE → FINANCES | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ENTITLEMENT | — |
-| CLIENT OFFICE → FINANCES → Bookkeeping | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → WORK → Bookkeeping | ENTITLEMENT | — |
-| CLIENT OFFICE → FINANCES → Factoring | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → WORK → Factoring | ENTITLEMENT | — |
-| CLIENT OFFICE → FINANCES → Insurance | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → WORK → Insurance | ENTITLEMENT | — |
-| CLIENT OFFICE → FINANCES → Filing / Tax Summaries | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → WORK → Filing & Fuel Taxes · AIO OFFICE → WORK → Filing & Fuel Taxes → IFTA | ENTITLEMENT | — |
-| CLIENT OFFICE → FINANCES → Fees / Payments | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ALWAYS | — |
-| CLIENT OFFICE → FINANCES → Financial Documents | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Documents & Vault | ALWAYS | — |
-| CLIENT OFFICE → VAULT | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Documents & Vault | ALWAYS | — |
-| CLIENT OFFICE → VAULT → Current Documents | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Documents & Vault | ALWAYS | — |
-| CLIENT OFFICE → VAULT → Historical Documents | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Documents & Vault | ALWAYS | — |
-| CLIENT OFFICE → VAULT → Uploads | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Documents & Vault | ALWAYS | — |
-| CLIENT OFFICE → VAULT → Generated Documents | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Documents & Vault | ALWAYS | — |
-| CLIENT OFFICE → VAULT → Filing / Compliance Records | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → WORK → Filing & Fuel Taxes · AIO OFFICE → WORK → Filing & Fuel Taxes → IFTA · AIO OFFICE → WORK → Compliance · AIO OFFICE → MORE → Documents & Vault | ALWAYS | — |
-| CLIENT OFFICE → INBOX | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Messages | ALWAYS | — |
-| CLIENT OFFICE → INBOX → Messages from AIO | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Messages | ALWAYS | — |
-| CLIENT OFFICE → INBOX → Requests | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Messages | ALWAYS | — |
-| CLIENT OFFICE → INBOX → Approvals Needed | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Messages | ALWAYS | — |
-| CLIENT OFFICE → INBOX → Notifications | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Messages | ALWAYS | — |
-| CLIENT OFFICE → INBOX → Activity Updates | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Messages | ALWAYS | — |
-| CLIENT OFFICE → SERVICES | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ALWAYS | — |
-| CLIENT OFFICE → SERVICES → Active Services | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ALWAYS | — |
-| CLIENT OFFICE → SERVICES → Available Services | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ALWAYS | — |
-| CLIENT OFFICE → SERVICES → Recommended / Contextual Services | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ALWAYS | — |
-| CLIENT OFFICE → SERVICES → Request a Service | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ALWAYS | — |
-| CLIENT OFFICE → ACCOUNT | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ALWAYS | — |
-| CLIENT OFFICE → ACCOUNT → Profile | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ALWAYS | — |
-| CLIENT OFFICE → ACCOUNT → Users / Access | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ALWAYS | — |
-| CLIENT OFFICE → ACCOUNT → Notifications | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ALWAYS | — |
-| CLIENT OFFICE → ACCOUNT → Security | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ALWAYS | — |
-| CLIENT OFFICE → ACCOUNT → Preferences | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ALWAYS | — |
-| CLIENT OFFICE → ACCOUNT → Help | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ALWAYS | — |
-| CLIENT OFFICE → ACCOUNT → Sign Out | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ALWAYS | — |
+| Node | FOUNDER | STAFF | CLIENT | Client-safe projection | Staff reach (client nodes) | Client resolution | Founder act | Existing gate |
+|---|---|---|---|---|---|---|---|---|
+| AIO OFFICE → HOME | FULL | FULL | HIDDEN (firewall) | — | — | — | — | — |
+| AIO OFFICE → HOME → Needs Attention | FULL | FULL | HIDDEN | — | — | — | — | — |
+| AIO OFFICE → HOME → Deadlines | FULL | FULL | HIDDEN | — | — | — | — | — |
+| AIO OFFICE → HOME → Blockers | FULL | FULL | HIDDEN (firewall) | — | — | — | — | — |
+| AIO OFFICE → HOME → Work Across AIO | FULL | FULL | HIDDEN | — | — | — | — | — |
+| AIO OFFICE → HOME → Clients in Motion | FULL | FULL | HIDDEN | — | — | — | — | — |
+| AIO OFFICE → HOME → Recent Activity | FULL | FULL | HIDDEN | — | — | — | — | — |
+| AIO OFFICE → HOME → Quick Actions | FULL | FULL | HIDDEN | — | — | — | — | — |
+| AIO OFFICE → INTAKE | FULL | FULL | HIDDEN (firewall) | — | — | — | — | — |
+| AIO OFFICE → INTAKE → Existing Client File | FULL | FULL | HIDDEN | — | — | — | — | — |
+| AIO OFFICE → INTAKE → New Client File | FULL | FULL | HIDDEN | — | — | — | — | — |
+| AIO OFFICE → INTAKE → Bulk Batch Migration | FULL | FULL | HIDDEN | — | — | — | — | — |
+| AIO OFFICE → INTAKE → Migration Status | FULL | FULL | HIDDEN | — | — | — | — | — |
+| AIO OFFICE → INTAKE → Extraction / Classification | FULL | FULL | HIDDEN (firewall) | — | — | — | — | — |
+| AIO OFFICE → INTAKE → Match / Reconcile | FULL | FULL | HIDDEN (firewall) | — | — | — | — | — |
+| AIO OFFICE → INTAKE → Founder Review | FULL | FULL | HIDDEN (firewall) | — | — | — | Founder review of the migrated profile (staff prepare it; they do not inherit the review) | — |
+| AIO OFFICE → INTAKE → Prebuilt Client | FULL | FULL | HIDDEN | — | — | — | PREBUILT review / approval (APPROVE MIGRATION) | — |
+| AIO OFFICE → INTAKE → Activation Invite | FULL | FULL | HIDDEN | — | — | — | Activation authority (sending the activation invite); client confirmation stays the gate before ACTIVE | — |
+| AIO OFFICE → INTAKE → Migration History | FULL | FULL | HIDDEN | — | — | — | — | — |
+| AIO OFFICE → WORK | FULL | FULL | HIDDEN (firewall) | — | — | — | — | — |
+| AIO OFFICE → WORK → Permitting & Authorities | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Permitting / Authorities | — | — | — | — |
+| AIO OFFICE → WORK → Permitting & Authorities → Tags / Registration | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Permitting / Authorities | — | — | — | — |
+| AIO OFFICE → WORK → Permitting & Authorities → Fuel / Road Tax Permits | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Permitting / Authorities | — | — | — | — |
+| AIO OFFICE → WORK → Permitting & Authorities → Operating Authorities | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Permitting / Authorities | — | — | — | — |
+| AIO OFFICE → WORK → Permitting & Authorities → BOC-3 | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Permitting / Authorities | — | — | — | — |
+| AIO OFFICE → WORK → Permitting & Authorities → LLC / Inc | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Permitting / Authorities | — | — | — | — |
+| AIO OFFICE → WORK → Permitting & Authorities → Other Permits | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Permitting / Authorities | — | — | — | — |
+| AIO OFFICE → WORK → Filing & Fuel Taxes | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Filing / IFTA | — | — | — | — |
+| AIO OFFICE → WORK → Filing & Fuel Taxes → IFTA | FULL | FULL | HIDDEN (firewall) | — | — | — | — | — |
+| AIO OFFICE → WORK → Filing & Fuel Taxes → Filing Queue | FULL | FULL | HIDDEN (firewall) | — | — | — | — | — |
+| AIO OFFICE → WORK → Filing & Fuel Taxes → Client Approval | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Filing / IFTA | — | — | — | — |
+| AIO OFFICE → WORK → Filing & Fuel Taxes → Submitted / Filed | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Filing / IFTA | — | — | — | — |
+| AIO OFFICE → WORK → Filing & Fuel Taxes → Filing History | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Filing / IFTA | — | — | — | — |
+| AIO OFFICE → WORK → Compliance | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Compliance | — | — | — | — |
+| AIO OFFICE → WORK → Compliance → DOT / Safety | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Compliance | — | — | — | — |
+| AIO OFFICE → WORK → Compliance → Expirations | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Compliance | — | — | — | — |
+| AIO OFFICE → WORK → Compliance → Audit / Corrective Work | FULL | FULL | HIDDEN (firewall) | — | — | — | — | — |
+| AIO OFFICE → WORK → Compliance → Compliance Cases | FULL | FULL | HIDDEN (firewall) | — | — | — | — | — |
+| AIO OFFICE → WORK → Vehicles & Fleet | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Vehicle Management | — | — | — | — |
+| AIO OFFICE → WORK → Dispatch | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Dispatch | — | — | — | — |
+| AIO OFFICE → WORK → Dispatch → Active Clients | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Dispatch | — | — | — | — |
+| AIO OFFICE → WORK → Dispatch → Trucks | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Dispatch | — | — | — | — |
+| AIO OFFICE → WORK → Dispatch → Loads | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Dispatch | — | — | — | — |
+| AIO OFFICE → WORK → Dispatch → Status / Exceptions | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Dispatch | — | — | — | — |
+| AIO OFFICE → WORK → Dispatch → My Loads / My Trucks | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Dispatch | — | — | — | — |
+| AIO OFFICE → WORK → Brokerage | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Brokerage | — | — | — | — |
+| AIO OFFICE → WORK → Brokerage → Quotes | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Brokerage | — | — | — | — |
+| AIO OFFICE → WORK → Brokerage → Shipments | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Brokerage | — | — | — | — |
+| AIO OFFICE → WORK → Brokerage → Carrier Offers | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Brokerage | — | — | — | — |
+| AIO OFFICE → WORK → Brokerage → Stops / Status | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Brokerage | — | — | — | — |
+| AIO OFFICE → WORK → Brokerage → Load Financials | FULL | BY_GRANT | HIDDEN (firewall) | — | — | — | — | brokerage_finance.read (ROLE_PERMISSIONS) |
+| AIO OFFICE → WORK → Insurance | FULL | FULL | HIDDEN | CLIENT OFFICE → FINANCES → Insurance | — | — | — | — |
+| AIO OFFICE → WORK → Insurance → Intake | FULL | FULL | HIDDEN | CLIENT OFFICE → FINANCES → Insurance | — | — | — | — |
+| AIO OFFICE → WORK → Insurance → Quotes | FULL | FULL | HIDDEN | CLIENT OFFICE → FINANCES → Insurance | — | — | — | — |
+| AIO OFFICE → WORK → Insurance → Policies | FULL | FULL | HIDDEN | CLIENT OFFICE → FINANCES → Insurance | — | — | — | — |
+| AIO OFFICE → WORK → Insurance → Renewals | FULL | FULL | HIDDEN | CLIENT OFFICE → FINANCES → Insurance | — | — | — | — |
+| AIO OFFICE → WORK → Factoring | FULL | FULL | HIDDEN | CLIENT OFFICE → FINANCES → Factoring | — | — | — | — |
+| AIO OFFICE → WORK → Bookkeeping | FULL | FULL | HIDDEN | CLIENT OFFICE → FINANCES → Bookkeeping | — | — | — | — |
+| AIO OFFICE → WORK → Bookkeeping → Monthly Clients | FULL | FULL | HIDDEN | CLIENT OFFICE → FINANCES → Bookkeeping | — | — | — | — |
+| AIO OFFICE → WORK → Bookkeeping → Annual Clients | FULL | FULL | HIDDEN | CLIENT OFFICE → FINANCES → Bookkeeping | — | — | — | — |
+| AIO OFFICE → WORK → Bookkeeping → Reconciliation | FULL | FULL | HIDDEN | CLIENT OFFICE → FINANCES → Bookkeeping | — | — | — | — |
+| AIO OFFICE → WORK → Bookkeeping → Deliverables | FULL | FULL | HIDDEN | CLIENT OFFICE → FINANCES → Bookkeeping | — | — | — | — |
+| AIO OFFICE → WORK → Drivers & Carriers | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Driver Management | — | — | — | — |
+| AIO OFFICE → WORK → Drivers & Carriers → Matching | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Driver Management | — | — | — | — |
+| AIO OFFICE → WORK → Drivers & Carriers → Credentials | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Driver Management | — | — | — | — |
+| AIO OFFICE → WORK → Drivers & Carriers → Approvals | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Driver Management | — | — | — | — |
+| AIO OFFICE → WORK → Mechanic / Maintenance | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Maintenance | — | — | — | — |
+| AIO OFFICE → WORK → Mechanic / Maintenance → Tickets | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Maintenance | — | — | — | — |
+| AIO OFFICE → WORK → Mechanic / Maintenance → Referrals | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Maintenance | — | — | — | — |
+| AIO OFFICE → WORK → Mechanic / Maintenance → Providers | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Maintenance | — | — | — | — |
+| AIO OFFICE → WORK → Mechanic / Maintenance → Maintenance Status | FULL | FULL | HIDDEN | CLIENT OFFICE → OPERATIONS → Maintenance | — | — | — | — |
+| AIO OFFICE → WORK → Road Ready | FULL | FULL | HIDDEN | — | — | — | — | — |
+| AIO OFFICE → REPORTS | FULL | BY_GRANT | HIDDEN (firewall) | — | — | — | Reporting (founder-class; staff only by grant) | reports.read · management.*.read (ROLE_PERMISSIONS; all-in-one-enterprises/src/office/pages/ManagementPages.tsx:643 ManagementGate) |
+| AIO OFFICE → REPORTS → Overview | FULL | BY_GRANT | HIDDEN | — | — | — | — | — |
+| AIO OFFICE → REPORTS → Clients | FULL | BY_GRANT | HIDDEN (firewall) | — | — | — | — | — |
+| AIO OFFICE → REPORTS → Services | FULL | BY_GRANT | HIDDEN | — | — | — | — | — |
+| AIO OFFICE → REPORTS → Financial / Revenue | FULL | BY_GRANT | HIDDEN (firewall) | — | — | — | Internal financial visibility | management.financial.read (all-in-one-enterprises/src/office/pages/ManagementPages.tsx:98,158,199 ManagementGate) |
+| AIO OFFICE → REPORTS → Filing History | FULL | BY_GRANT | HIDDEN | — | — | — | — | — |
+| AIO OFFICE → REPORTS → Compliance | FULL | BY_GRANT | HIDDEN | — | — | — | — | — |
+| AIO OFFICE → REPORTS → Dispatch / Brokerage | FULL | BY_GRANT | HIDDEN | — | — | — | — | — |
+| AIO OFFICE → REPORTS → Bookkeeping | FULL | BY_GRANT | HIDDEN | — | — | — | — | — |
+| AIO OFFICE → REPORTS → Migration | FULL | BY_GRANT | HIDDEN | — | — | — | — | — |
+| AIO OFFICE → REPORTS → Exports | FULL | BY_GRANT | HIDDEN | — | — | — | — | — |
+| AIO OFFICE → MORE | FULL | FULL | HIDDEN | — | — | — | — | — |
+| AIO OFFICE → MORE → Clients | FULL | FULL | HIDDEN (firewall) | — | — | — | — | — |
+| AIO OFFICE → MORE → Documents & Vault | FULL | FULL | HIDDEN | — | — | — | — | — |
+| AIO OFFICE → MORE → Growth / CRM | FULL | BY_GRANT | HIDDEN (firewall) | — | — | — | — | crm.* (ROLE_PERMISSIONS CRM_FULL / CRM_SALES) |
+| AIO OFFICE → MORE → Billing | FULL | BY_GRANT | HIDDEN | CLIENT OFFICE → FINANCES → Fees / Payments | — | — | — | billing.read · billing.manage (ROLE_PERMISSIONS) |
+| AIO OFFICE → MORE → Team & Staff | FULL | FULL | HIDDEN (firewall) | — | — | — | Staff / permission administration (roles and grants) | workload.read · team.manage (ROLE_PERMISSIONS) |
+| AIO OFFICE → MORE → Service Catalog | FULL | FULL | HIDDEN | — | — | — | Service configuration (activation, pricing) | — |
+| AIO OFFICE → MORE → Mechanic Network | FULL | FULL | HIDDEN | — | — | — | — | — |
+| AIO OFFICE → MORE → Messages | FULL | FULL | HIDDEN | — | — | — | — | — |
+| AIO OFFICE → MORE → System Settings | FULL | BY_GRANT | HIDDEN | — | — | — | System configuration | canStaffAccessSystemAdmin (auth/routeAccess.ts:63-65) where enforced |
+| AIO OFFICE → MORE → Help & Support | FULL | FULL | HIDDEN | — | — | — | — | — |
+| AIO OFFICE → MORE → Account | FULL | FULL | HIDDEN | — | — | — | — | — |
+| CLIENT OFFICE → Hub / Overview | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ALWAYS | — | — |
+| CLIENT OFFICE → Hub / Overview → Business Status | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ALWAYS | — | — |
+| CLIENT OFFICE → Hub / Overview → Work in Progress | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ALWAYS | — | — |
+| CLIENT OFFICE → Hub / Overview → Items Needing Approval | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ALWAYS | — | — |
+| CLIENT OFFICE → Hub / Overview → Upcoming Deadlines | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ALWAYS | — | — |
+| CLIENT OFFICE → Hub / Overview → Recent Messages | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ALWAYS | — | — |
+| CLIENT OFFICE → Hub / Overview → Active Services | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ALWAYS | — | — |
+| CLIENT OFFICE → Hub / Overview → Recent Documents | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ALWAYS | — | — |
+| CLIENT OFFICE → Hub / Overview → Contextual Next Action | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ALWAYS | — | — |
+| CLIENT OFFICE → Client Activation | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | STATE | — | — |
+| CLIENT OFFICE → MY BUSINESS | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ALWAYS | — | — |
+| CLIENT OFFICE → MY BUSINESS → Company Profile | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ALWAYS | — | — |
+| CLIENT OFFICE → MY BUSINESS → Owners / Contacts | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ALWAYS | — | — |
+| CLIENT OFFICE → MY BUSINESS → Drivers | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → WORK → Drivers & Carriers | APPLICABILITY | — | — |
+| CLIENT OFFICE → MY BUSINESS → Vehicles | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → WORK → Vehicles & Fleet | APPLICABILITY | — | — |
+| CLIENT OFFICE → MY BUSINESS → Authorities / Registrations | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → WORK → Permitting & Authorities | APPLICABILITY | — | — |
+| CLIENT OFFICE → MY BUSINESS → Business Details | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ALWAYS | — | — |
+| CLIENT OFFICE → OPERATIONS | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ENTITLEMENT | — | — |
+| CLIENT OFFICE → OPERATIONS → Compliance | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → WORK → Compliance | ENTITLEMENT | — | — |
+| CLIENT OFFICE → OPERATIONS → Permitting / Authorities | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → WORK → Permitting & Authorities | ENTITLEMENT | — | — |
+| CLIENT OFFICE → OPERATIONS → Filing / IFTA | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → WORK → Filing & Fuel Taxes | ENTITLEMENT | — | — |
+| CLIENT OFFICE → OPERATIONS → Dispatch | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → WORK → Dispatch | ENTITLEMENT | — | — |
+| CLIENT OFFICE → OPERATIONS → Brokerage | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → WORK → Brokerage | ENTITLEMENT | — | — |
+| CLIENT OFFICE → OPERATIONS → Driver Management | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → WORK → Drivers & Carriers | ENTITLEMENT | — | — |
+| CLIENT OFFICE → OPERATIONS → Vehicle Management | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → WORK → Vehicles & Fleet | APPLICABILITY | — | — |
+| CLIENT OFFICE → OPERATIONS → Maintenance | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → WORK → Mechanic / Maintenance | ENTITLEMENT | — | — |
+| CLIENT OFFICE → OPERATIONS → Road Ready | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → WORK → Road Ready | STATE | — | — |
+| CLIENT OFFICE → FINANCES | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ENTITLEMENT | — | — |
+| CLIENT OFFICE → FINANCES → Bookkeeping | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → WORK → Bookkeeping | ENTITLEMENT | — | — |
+| CLIENT OFFICE → FINANCES → Factoring | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → WORK → Factoring | ENTITLEMENT | — | — |
+| CLIENT OFFICE → FINANCES → Insurance | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → WORK → Insurance | ENTITLEMENT | — | — |
+| CLIENT OFFICE → FINANCES → Filing / Tax Summaries | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → WORK → Filing & Fuel Taxes · AIO OFFICE → WORK → Filing & Fuel Taxes → IFTA | ENTITLEMENT | — | — |
+| CLIENT OFFICE → FINANCES → Fees / Payments | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Billing | ALWAYS | — | — |
+| CLIENT OFFICE → FINANCES → Financial Documents | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Documents & Vault | ALWAYS | — | — |
+| CLIENT OFFICE → VAULT | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Documents & Vault | ALWAYS | — | — |
+| CLIENT OFFICE → VAULT → Current Documents | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Documents & Vault | ALWAYS | — | — |
+| CLIENT OFFICE → VAULT → Historical Documents | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Documents & Vault | ALWAYS | — | — |
+| CLIENT OFFICE → VAULT → Uploads | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Documents & Vault | ALWAYS | — | — |
+| CLIENT OFFICE → VAULT → Generated Documents | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Documents & Vault | ALWAYS | — | — |
+| CLIENT OFFICE → VAULT → Filing / Compliance Records | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → WORK → Filing & Fuel Taxes · AIO OFFICE → WORK → Filing & Fuel Taxes → IFTA · AIO OFFICE → WORK → Compliance · AIO OFFICE → MORE → Documents & Vault | ALWAYS | — | — |
+| CLIENT OFFICE → INBOX | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Messages | ALWAYS | — | — |
+| CLIENT OFFICE → INBOX → Messages from AIO | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Messages | ALWAYS | — | — |
+| CLIENT OFFICE → INBOX → Requests | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Messages | ALWAYS | — | — |
+| CLIENT OFFICE → INBOX → Approvals Needed | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Messages | ALWAYS | — | — |
+| CLIENT OFFICE → INBOX → Notifications | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Messages | ALWAYS | — | — |
+| CLIENT OFFICE → INBOX → Activity Updates | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Messages | ALWAYS | — | — |
+| CLIENT OFFICE → SERVICES | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ALWAYS | — | — |
+| CLIENT OFFICE → SERVICES → Active Services | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ALWAYS | — | — |
+| CLIENT OFFICE → SERVICES → Available Services | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ALWAYS | — | — |
+| CLIENT OFFICE → SERVICES → Recommended / Contextual Services | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ALWAYS | — | — |
+| CLIENT OFFICE → SERVICES → Request a Service | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ALWAYS | — | — |
+| CLIENT OFFICE → SERVICES → Road Ready | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → WORK → Road Ready | STATE | — | — |
+| CLIENT OFFICE → ACCOUNT | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ALWAYS | — | — |
+| CLIENT OFFICE → ACCOUNT → Profile | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ALWAYS | — | — |
+| CLIENT OFFICE → ACCOUNT → Users / Access | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ALWAYS | — | — |
+| CLIENT OFFICE → ACCOUNT → Notifications | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ALWAYS | — | — |
+| CLIENT OFFICE → ACCOUNT → Security | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ALWAYS | — | — |
+| CLIENT OFFICE → ACCOUNT → Preferences | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ALWAYS | — | — |
+| CLIENT OFFICE → ACCOUNT → Help | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ALWAYS | — | — |
+| CLIENT OFFICE → ACCOUNT → Sign Out | VIA_AIO_OFFICE | VIA_AIO_OFFICE | FULL | — | AIO OFFICE → MORE → Clients | ALWAYS | — | — |

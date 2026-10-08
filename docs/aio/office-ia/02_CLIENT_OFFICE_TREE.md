@@ -21,26 +21,56 @@ INTAKE is never part of the client office. The client meets only the activation 
 | ALWAYS | Every client. |
 | APPLICABILITY | Only where the client’s type makes it real (a shipper has no trucks). |
 | ENTITLEMENT | Through the Brain workspace resolver: ACTIVE → shown in its destination · AVAILABLE_NOT_ACTIVATED → SERVICES and approved contextual placements only (expansion rules) · NOT_APPLICABLE → never promoted. |
-| STATE | Only while a lifecycle state holds (the activation gate: INVITED · CLIENT_CONFIRMATION_REQUIRED). PREBUILT is not ACTIVE. |
+| STATE | Only while a stated condition holds: the activation gate (INVITED · CLIENT_CONFIRMATION_REQUIRED; PREBUILT is not ACTIVE) and Road Ready (SERVICES while available, OPERATIONS while active). |
 
-The landing (today MY OFFICE at `/portal`) is recorded as **Client Office Hub** (CANDIDATE_UNRESOLVED) — not an eighth root (Q-CLIENT-HUB).
+### Hub / Overview — the shell landing (D-CLIENT-HUB)
+
+The shell-level landing of CLIENT OFFICE: the client enters here. Projection and orientation across the seven destinations, which are the actual workspaces. Not a persistent root-nav tab (D-CLIENT-HUB). It is not a persistent root-nav item; MY BUSINESS stays a destination, not the dashboard.
+
+| Region | Projects (owner destination) | Today | Evidence / notes |
+|---|---|---|---|
+| Business Status | CLIENT OFFICE → MY BUSINESS | PARTIAL · FUNCTIONAL_DEMO | all-in-one-enterprises/src/portal/clientCommandCenterService.ts:693 businessStatus · all-in-one-enterprises/src/pages/PortalPage.tsx:56 BusinessHealthGrid |
+| Work in Progress | CLIENT OFFICE → OPERATIONS · CLIENT OFFICE → FINANCES | PARTIAL · FUNCTIONAL_DEMO | all-in-one-enterprises/src/pages/PortalPage.tsx:54 ActiveJourneysPanel · all-in-one-enterprises/src/pages/PortalPage.tsx:57 CurrentLoadHero |
+| Items Needing Approval | CLIENT OFFICE → INBOX → Approvals Needed | PARTIAL · FUNCTIONAL_DEMO | all-in-one-enterprises/src/pages/PortalPage.tsx:50 AttentionCenter · Attention items mix every kind of action; there is no approvals-only view yet. |
+| Upcoming Deadlines | CLIENT OFFICE → OPERATIONS → Compliance · CLIENT OFFICE → OPERATIONS → Filing / IFTA | PARTIAL · FUNCTIONAL_DEMO | all-in-one-enterprises/src/pages/PortalPage.tsx:85 UpcomingList |
+| Recent Messages | CLIENT OFFICE → INBOX → Messages from AIO | PARTIAL · FUNCTIONAL_DEMO | all-in-one-enterprises/src/pages/PortalPage.tsx:47 NotificationDigest (unread counts only) |
+| Active Services | CLIENT OFFICE → SERVICES → Active Services | PARTIAL · FUNCTIONAL_DEMO | all-in-one-enterprises/src/portal/clientCommandCenterService.ts:707 activeServices (heuristic) · Reads the heuristic builder today; the canonical workspace resolver replaces it. |
+| Recent Documents | CLIENT OFFICE → VAULT → Current Documents | PARTIAL · FUNCTIONAL_DEMO | all-in-one-enterprises/src/pages/PortalPage.tsx:88 Documents panel |
+| Contextual Next Action | CLIENT OFFICE → INBOX → Requests · CLIENT OFFICE → INBOX → Approvals Needed · CLIENT OFFICE → SERVICES → Recommended / Contextual Services | PARTIAL · FUNCTIONAL_DEMO | all-in-one-enterprises/src/pages/PortalPage.tsx:48 NextActionHero · all-in-one-enterprises/src/portal/clientCommandCenterService.ts:626 selectNextAction · A service suggestion appears only under the expansion rules (suppressed while urgent work is open). |
+
+### Road Ready placement by state (D-ROAD-READY-PLACEMENT)
+
+| State | Where it sits | Note |
+|---|---|---|
+| AVAILABLE_NOT_ACTIVATED | CLIENT OFFICE → SERVICES → Road Ready | Offered as a service. |
+| ACTIVE | CLIENT OFFICE → OPERATIONS → Road Ready | OPERATIONS holds the actual engagement workspace. |
+| COMPLETED | CLIENT OFFICE → SERVICES → Road Ready · CLIENT OFFICE → MY BUSINESS · CLIENT OFFICE → VAULT · CLIENT OFFICE → OPERATIONS · CLIENT OFFICE → FINANCES | SERVICES may show ROAD READY · COMPLETED (status only) and is never the permanent container; resulting records are distributed to MY BUSINESS, VAULT, OPERATIONS and FINANCES; the engagement stays in service history. |
+| NOT_APPLICABLE | — (not promoted) | Not promoted. |
 
 ## Root destinations
 
 | # | Destination | Role | What it is | Implementation | Children |
 |---|---|---|---|---|---|
-| 1 | MY BUSINESS | CLIENT_RECORD | The client’s company record and business identity. | PARTIAL · FUNCTIONAL_DEMO | 6 |
-| 2 | OPERATIONS | CLIENT_WORKSPACE | Operational service workspaces that are active or relevant for this client. | PARTIAL · FUNCTIONAL_DEMO | 8 |
+| 1 | MY BUSINESS | CLIENT_RECORD | The client’s company record and business identity — a destination, not the client dashboard (the HUB orients). | PARTIAL · FUNCTIONAL_DEMO | 6 |
+| 2 | OPERATIONS | CLIENT_WORKSPACE | Operational service workspaces that are active or relevant for this client. | PARTIAL · FUNCTIONAL_DEMO | 9 |
 | 3 | FINANCES | CLIENT_WORKSPACE | Financial service workspaces and client-safe financial summaries. | PARTIAL · FUNCTIONAL_DEMO | 6 |
 | 4 | VAULT | RECORDS | Documents and records. | PARTIAL · FUNCTIONAL_DEMO | 5 |
 | 5 | INBOX | COMMUNICATION | Communication, requests, approvals and notifications. | PARTIAL · FUNCTIONAL_DEMO | 5 |
-| 6 | SERVICES | DISCOVERY | Active + available + contextually relevant service discovery, resolved per client (ACTIVE · AVAILABLE_NOT_ACTIVATED · NOT_APPLICABLE). | PARTIAL · FUNCTIONAL_DEMO | 4 |
+| 6 | SERVICES | DISCOVERY | Active + available + contextually relevant service discovery, resolved per client (ACTIVE · AVAILABLE_NOT_ACTIVATED · NOT_APPLICABLE). | PARTIAL · FUNCTIONAL_DEMO | 5 |
 | 7 | ACCOUNT | ACCOUNT | Profile, access, security, preferences, help. | PARTIAL · FUNCTIONAL_DEMO | 7 |
 
 ## Full tree
 
-- **Client Office Hub** — LANDING · PARTIAL · FUNCTIONAL_DEMO · client: ALWAYS · CANDIDATE — `/portal`
-- **Client Activation** — GATE · PARTIAL · PRODUCTION_BACKED · client: STATE — `/office-activation/:token` · `/portal/activation/review`
+- **Hub / Overview** — PROJECTION · PARTIAL · FUNCTIONAL_DEMO · client: ALWAYS — `/portal`
+  - **Business Status** — PROJECTION · PARTIAL · FUNCTIONAL_DEMO · client: ALWAYS
+  - **Work in Progress** — PROJECTION · PARTIAL · FUNCTIONAL_DEMO · client: ALWAYS
+  - **Items Needing Approval** — PROJECTION · PARTIAL · FUNCTIONAL_DEMO · client: ALWAYS
+  - **Upcoming Deadlines** — PROJECTION · PARTIAL · FUNCTIONAL_DEMO · client: ALWAYS
+  - **Recent Messages** — PROJECTION · PARTIAL · FUNCTIONAL_DEMO · client: ALWAYS
+  - **Active Services** — PROJECTION · PARTIAL · FUNCTIONAL_DEMO · client: ALWAYS
+  - **Recent Documents** — PROJECTION · PARTIAL · FUNCTIONAL_DEMO · client: ALWAYS
+  - **Contextual Next Action** — PROJECTION · PARTIAL · FUNCTIONAL_DEMO · client: ALWAYS
+- **Client Activation** — GATE · PARTIAL · PRODUCTION_BACKED · client: STATE · shown when Lifecycle INVITED or CLIENT_CONFIRMATION_REQUIRED — `/office-activation/:token` · `/portal/activation/review`
 - **MY BUSINESS** — CLIENT_RECORD · PARTIAL · FUNCTIONAL_DEMO · client: ALWAYS — `/portal/business` · `/portal/business/summary`
   - **Company Profile** — CLIENT_RECORD · PARTIAL · FUNCTIONAL_DEMO · client: ALWAYS — `/portal/business`
   - **Owners / Contacts** — CLIENT_RECORD · PARTIAL · READ_ONLY · client: ALWAYS — `/portal/business/summary`
@@ -57,6 +87,7 @@ The landing (today MY OFFICE at `/portal`) is recorded as **Client Office Hub** 
   - **Driver Management** — CLIENT_WORKSPACE · PARTIAL · FUNCTIONAL_DEMO · client: ENTITLEMENT — `/portal/driverlink`
   - **Vehicle Management** — CLIENT_WORKSPACE · PARTIAL · READ_ONLY · client: APPLICABILITY — `/portal/fleet`
   - **Maintenance** — CLIENT_WORKSPACE · PARTIAL · FUNCTIONAL_DEMO · client: ENTITLEMENT — `/portal/fleetcare`
+  - **Road Ready** — CLIENT_WORKSPACE · PARTIAL · FUNCTIONAL_DEMO · client: STATE · shown when Road Ready engagement ACTIVE — `/portal/road-ready` · `/portal/onboarding` — potential: Business Setup · Authorities · Compliance · Documents · Insurance · Vehicle / Driver Readiness · Filing / Tax Readiness · Launch Readiness
 - **FINANCES** — CLIENT_WORKSPACE · PARTIAL · FUNCTIONAL_DEMO · client: ENTITLEMENT — `/portal/money`
   - **Bookkeeping** — CLIENT_WORKSPACE · PARTIAL · READ_ONLY · client: ENTITLEMENT — `/portal/bookkeeping`
   - **Factoring** — CLIENT_WORKSPACE · PARTIAL · FUNCTIONAL_DEMO · client: ENTITLEMENT — `/portal/factoring`
@@ -81,6 +112,7 @@ The landing (today MY OFFICE at `/portal`) is recorded as **Client Office Hub** 
   - **Available Services** — DISCOVERY · PARTIAL · FUNCTIONAL_DEMO · client: ALWAYS
   - **Recommended / Contextual Services** — DISCOVERY · NOT STARTED · client: ALWAYS
   - **Request a Service** — DISCOVERY · PARTIAL · FUNCTIONAL_DEMO · client: ALWAYS — `/portal/requests`
+  - **Road Ready** — DISCOVERY · NOT STARTED · client: STATE · shown when Road Ready AVAILABLE and not active · after completion: ROAD READY · COMPLETED (status only)
 - **ACCOUNT** — ACCOUNT · PARTIAL · FUNCTIONAL_DEMO · client: ALWAYS — `/portal/settings`
   - **Profile** — ACCOUNT · PARTIAL · FUNCTIONAL_DEMO · client: ALWAYS — `/portal/settings`
   - **Users / Access** — ACCOUNT · PARTIAL · FUNCTIONAL_DEMO · client: ALWAYS — `/portal/team`

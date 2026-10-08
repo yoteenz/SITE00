@@ -34,7 +34,14 @@ MORE     ───────────────────────�
 | AIO OFFICE HUB responsibilities (office.ts AIO_OFFICE_HUB_RESPONSIBILITIES) | ACTIVE WORKSPACES · SERVICE HEALTH | hub | REMAPPED | AIO OFFICE → HOME → Work Across AIO · AIO OFFICE → REPORTS → Services | Live lane state → HOME; performance over time → REPORTS. |
 | AIO OFFICE HUB responsibilities (office.ts AIO_OFFICE_HUB_RESPONSIBILITIES) | RECENT ACTIVITY | hub | KEPT | AIO OFFICE → HOME → Recent Activity |  |
 | AIO OFFICE HUB responsibilities (office.ts AIO_OFFICE_HUB_RESPONSIBILITIES) | GLOBAL SEARCH / CLIENT LOOKUP | topbar search | REMAPPED | AIO OFFICE → HOME → Quick Actions | The header search stays; quick entry is a HOME region. |
-| Customer containers (product graph runtimeProductGraph containers) | MY OFFICE | /portal | REMAPPED | CLIENT OFFICE → Client Office Hub | Not one of the seven client root destinations; recorded as the client office landing (Q-CLIENT-HUB). |
+| Customer containers (product graph runtimeProductGraph containers) | MY OFFICE | /portal | REMAPPED | CLIENT OFFICE → Hub / Overview | The CLIENT OFFICE HUB / OVERVIEW: the shell landing, not one of the seven root destinations (D-CLIENT-HUB). |
+| CLIENT OFFICE hub responsibilities (office.ts AIO_CLIENT_OFFICE_HUB_RESPONSIBILITIES) | ACTIVE WORKSPACES | hub | RENAMED | CLIENT OFFICE → Hub / Overview → Active Services |  |
+| CLIENT OFFICE hub responsibilities (office.ts AIO_CLIENT_OFFICE_HUB_RESPONSIBILITIES) | CURRENT ACTIONS | hub | REMAPPED | CLIENT OFFICE → Hub / Overview → Contextual Next Action · CLIENT OFFICE → Hub / Overview → Items Needing Approval | Split into the next action and the approvals waiting on the client. |
+| CLIENT OFFICE hub responsibilities (office.ts AIO_CLIENT_OFFICE_HUB_RESPONSIBILITIES) | UPCOMING DEADLINES | hub | KEPT | CLIENT OFFICE → Hub / Overview → Upcoming Deadlines |  |
+| CLIENT OFFICE hub responsibilities (office.ts AIO_CLIENT_OFFICE_HUB_RESPONSIBILITIES) | DOCUMENT REQUESTS | hub | REMAPPED | CLIENT OFFICE → Hub / Overview → Contextual Next Action | A document request is a next action; the request itself is owned by INBOX → REQUESTS. |
+| CLIENT OFFICE hub responsibilities (office.ts AIO_CLIENT_OFFICE_HUB_RESPONSIBILITIES) | MESSAGES | hub | RENAMED | CLIENT OFFICE → Hub / Overview → Recent Messages |  |
+| CLIENT OFFICE hub responsibilities (office.ts AIO_CLIENT_OFFICE_HUB_RESPONSIBILITIES) | RECENT ACTIVITY | hub | REMAPPED | CLIENT OFFICE → Hub / Overview → Work in Progress | The hub shows work in progress; the activity feed is INBOX → ACTIVITY UPDATES. |
+| CLIENT OFFICE hub responsibilities (office.ts AIO_CLIENT_OFFICE_HUB_RESPONSIBILITIES) | AVAILABLE RELEVANT WORKSPACES | hub | REMAPPED | CLIENT OFFICE → Hub / Overview → Contextual Next Action | Only under the expansion rules. |
 | Customer containers (product graph families) | F12 INSURANCE under MY BUSINESS | /portal/insurance | REMAPPED | CLIENT OFFICE → FINANCES → Insurance | The founder tree places Insurance in FINANCES. |
 
 ## Marked in place (lineage kept)

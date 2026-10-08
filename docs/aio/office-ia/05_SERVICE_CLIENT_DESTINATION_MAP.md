@@ -21,7 +21,7 @@ Where each service appears in CLIENT OFFICE, and how it resolves for one client.
 | Drivers & Carriers | CLIENT OFFICE → OPERATIONS → Driver Management · CLIENT OFFICE → MY BUSINESS → Drivers | ENTITLEMENT · APPLICABILITY | `/portal/driverlink` | ACTIVE → shown in its destination · AVAILABLE_NOT_ACTIVATED → SERVICES and approved contextual placements (expansion rules) · NOT_APPLICABLE → never promoted |
 | Vehicle Management | CLIENT OFFICE → OPERATIONS → Vehicle Management · CLIENT OFFICE → MY BUSINESS → Vehicles | APPLICABILITY | `/portal/fleet` · `/portal/fleet/vehicles/:vehicleId` | Carriers only; not a workspace (fleet registry is a shared capability). |
 | Mechanic / Maintenance | CLIENT OFFICE → OPERATIONS → Maintenance | ENTITLEMENT | `/portal/fleetcare` | ACTIVE → shown in its destination · AVAILABLE_NOT_ACTIVATED → SERVICES and approved contextual placements (expansion rules) · NOT_APPLICABLE → never promoted |
-| Road Ready | — unresolved (see notes) | APPLICABILITY | — | Universal for carriers; client destination unresolved in the founder tree (today /portal/onboarding · /portal/road-ready under MY BUSINESS) — C-CLIENT-ROAD-READY. |
+| Road Ready | CLIENT OFFICE → OPERATIONS → Road Ready · CLIENT OFFICE → SERVICES → Road Ready | STATE | `/portal/road-ready` · `/portal/onboarding` | Placement follows the engagement (D-ROAD-READY-PLACEMENT): SERVICES while available, OPERATIONS while active; once completed its records live in MY BUSINESS, VAULT, OPERATIONS and FINANCES. |
 | Documents / Vault | CLIENT OFFICE → VAULT · CLIENT OFFICE → FINANCES → Financial Documents | ALWAYS | `/portal/vault` · `/portal/documents` | Every client; only customer-visible records (internal scans never reach the client). |
 | Messaging | CLIENT OFFICE → INBOX · CLIENT OFFICE → INBOX → Messages from AIO | ALWAYS | `/portal/inbox` · `/portal/inbox/messages` | Every client; client sees only its own threads (staff notes never). |
 | Client Migration / Intake | — (staff only) | STAFF_ONLY | — | Never in the client shell. The client meets only the activation gate (CLIENT_OFFICE.ACTIVATION), which renders without staff navigation. |
@@ -43,3 +43,12 @@ Contextual expansion stays governed by the Brain expansion rules (8 rules in pro
 | not applicable | SUPPRESS_WHEN | NOT_APPLICABLE |
 | source truth is insufficient | SUPPRESS_WHEN | ELIGIBILITY_UNKNOWN · REQUIRED_DATA_MISSING |
 | would distract from urgent work | SUPPRESS_WHEN | CRITICAL_STATE · ERROR_RECOVERY |
+
+## Road Ready — placement by state (D-ROAD-READY-PLACEMENT)
+
+| State | Client destination | Note |
+|---|---|---|
+| AVAILABLE_NOT_ACTIVATED | CLIENT OFFICE → SERVICES → Road Ready | Offered as a service. |
+| ACTIVE | CLIENT OFFICE → OPERATIONS → Road Ready | OPERATIONS holds the actual engagement workspace. |
+| COMPLETED | CLIENT OFFICE → SERVICES → Road Ready · CLIENT OFFICE → MY BUSINESS · CLIENT OFFICE → VAULT · CLIENT OFFICE → OPERATIONS · CLIENT OFFICE → FINANCES | SERVICES may show ROAD READY · COMPLETED (status only) and is never the permanent container; resulting records are distributed to MY BUSINESS, VAULT, OPERATIONS and FINANCES; the engagement stays in service history. |
+| NOT_APPLICABLE | — (not promoted) | Not promoted. |

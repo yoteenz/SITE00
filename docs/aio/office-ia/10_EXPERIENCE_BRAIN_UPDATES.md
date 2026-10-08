@@ -10,12 +10,12 @@
 
 | File | What |
 |---|---|
-| shared/studioos-experience-brain/office-information-architecture.ts | Generic office IA layer (any project): actors FOUNDER / STAFF / CLIENT, node kinds, roles (COMMAND · PROJECTION · ENTRY · PRODUCTION · OVERSIGHT · SECONDARY · client roles), visibility (FULL · CLIENT_SAFE_PROJECTION · VIA_AIO_OFFICE · HIDDEN), architecture vs implementation status, client resolution (ALWAYS · APPLICABILITY · ENTITLEMENT · STATE), supersession lineage, legacy classification, candidates, firewall, MORE rules; helpers and `validateOfficeInformationArchitecture`. |
-| shared/studioos-experience-brain/projects/aio/office-ia.ts | AIO data: 144 nodes (SHELL 2 · ROOT_DESTINATION 12 · REGION 7 · SECTION 51 · SERVICE_LANE 11 · LANE_SECTION 40 · REPORT_DOMAIN 10 · DIRECTORY_ENTRY 9 · LANDING 1 · GATE 1), 15 services, 16 supersessions, 20 legacy references, 16 candidates, 10 firewall items, 6 open questions, the product-graph crosswalk and the founder quality gate. |
+| shared/studioos-experience-brain/office-information-architecture.ts | Generic office IA layer (any project): actors FOUNDER / STAFF / CLIENT, node kinds, roles (COMMAND · PROJECTION · ENTRY · PRODUCTION · OVERSIGHT · SECONDARY · client roles), visibility (FULL · BY_GRANT · CLIENT_SAFE_PROJECTION · VIA_AIO_OFFICE · HIDDEN), founder-only acts, architecture vs implementation status, client resolution (ALWAYS · APPLICABILITY · ENTITLEMENT · STATE with shown_when), state placements, potential children, actor definitions, founder decisions, supersession lineage, legacy classification, candidates, firewall, MORE rules; helpers and `validateOfficeInformationArchitecture`. |
+| shared/studioos-experience-brain/projects/aio/office-ia.ts | AIO data: 157 nodes (SHELL 2 · ROOT_DESTINATION 12 · REGION 15 · SECTION 53 · SERVICE_LANE 12 · LANE_SECTION 40 · REPORT_DOMAIN 10 · DIRECTORY_ENTRY 11 · LANDING 1 · GATE 1), 15 services, 23 supersessions, 21 legacy references, 16 candidates, 12 firewall items, 6 questions (6 decided), 6 founder decisions, 3 actor definitions, the Vehicles & Fleet scope, the product-graph crosswalk and the founder quality gate. |
 | scripts/studioos/aio-office-ia-export.ts | Generates docs/aio/office-ia/ (this folder). |
 | tests/aioOfficeIaWorkTree1.test.ts | Founder gate, validator, firewall, references into the Brain and the IFTA tree, export sync. |
 
-Implementation truth across nodes: IMPLEMENTED 1 · IMPLEMENTATION_PARTIAL 124 · IMPLEMENTATION_NOT_STARTED 19.
+Implementation truth across nodes: IMPLEMENTED 1 · IMPLEMENTATION_PARTIAL 135 · IMPLEMENTATION_NOT_STARTED 21.
 
 ## Validator rules (generic)
 
@@ -29,6 +29,10 @@ Implementation truth across nodes: IMPLEMENTED 1 · IMPLEMENTATION_PARTIAL 124 �
 - MORE holds no PRODUCTION / ENTRY / COMMAND / PROJECTION node
 - service staff nodes sit in the internal office, client nodes in the client office; a STAFF_ONLY service has no client node
 - supersessions carry the sprint lineage id; legacy, candidate and supersession targets exist
+- FOUNDER sees every internal-office node; STAFF sees it fully or BY_GRANT; BY_GRANT and founder acts never appear in the client office
+- a STATE client node says when it is shown; state placements point at client-office nodes
+- one definition per actor; nobody but FOUNDER inherits FOUNDER; no actor can self-elevate; identity never names an email; FOUNDER allows more than one principal
+- a DECIDED question points at a decision; decisions and resolved candidates name real nodes and a resolution
 
 ## Linked, not changed
 
@@ -38,6 +42,7 @@ Implementation truth across nodes: IMPLEMENTED 1 · IMPLEMENTATION_PARTIAL 124 �
 | projects/aio/office.ts AIO_WORKSPACES | 12 of 12 workspaces carried by lanes / client destinations (lane ≠ workspace; see 04) |
 | projects/aio/office.ts AIO_EXPANSION_RULES | client SERVICES / contextual placements keep resolving through them |
 | projects/aio/office.ts AIO_OFFICE_HUB_RESPONSIBILITIES | crosswalked to the HOME regions (06 supersession map) |
+| projects/aio/office.ts AIO_CLIENT_OFFICE_HUB_RESPONSIBILITIES | crosswalked to the CLIENT OFFICE hub regions (06 supersession map) |
 | projects/aio/client-migration.ts AIO_LIFECYCLE_MAPPING | PREBUILT counted_active = false; activation gate = CLIENT_OFFICE.ACTIVATION |
 | experience contracts (AIO_EXPERIENCE_CONTRACTS) + screen families | feature_refs on nodes and services |
 | visual authority IFTA tree (AIO.OFFICE.WS.IFTA · AIO.IFTA.STAFF.QUEUE · AIO.CLIENT_OFFICE.WS.IFTA) | re-associated to WORK → FILING & FUEL TAXES → IFTA and OPERATIONS → FILING / IFTA; tree node ids and parents unchanged (re-parenting is MIGRATE_LATER) |

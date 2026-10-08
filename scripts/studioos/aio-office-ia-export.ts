@@ -28,6 +28,7 @@ const SPRINT = brain.AIO_OFFICE_IA_SPRINT;
 const G = brain.AIO_OFFICE_IA_QUALITY_GATE;
 const PG = brain.AIO_IA_PRODUCT_GRAPH_MAP;
 const MAS = brain.AIO_MIGRATION_AUTHORITY_SET;
+const VFS = brain.AIO_VEHICLES_FLEET_SCOPE;
 const json = (v: unknown) => `${JSON.stringify(v, null, 2)}\n`;
 const head = (id: string) => ({
   id, sprint: SPRINT, lineage_id: IA.lineage_id, generated_by: 'scripts/studioos/aio-office-ia-export.ts',
@@ -88,6 +89,12 @@ export function aioOfficeIaQualityGate() {
   const clientWs = IA.nodes.filter((x) => x.shell_id === 'CLIENT_OFFICE' && x.workspace_ids.length);
   const prebuilt = brain.AIO_LIFECYCLE_MAPPING.find((m) => m.state === 'PREBUILT');
   const violations = validateOfficeInformationArchitecture(IA);
+  const hubNode = n('CLIENT_OFFICE.HUB');
+  const hubRegions = iaChildren(IA, 'CLIENT_OFFICE.HUB');
+  const clientRootIds = IA.shells[1].root_nav;
+  const founderDef = IA.actors.find((d) => d.actor === 'FOUNDER');
+  const rr = IA.services.find((x) => x.service_id === 'ROAD_READY')?.state_placements ?? [];
+  const placed = (state: string, ids: string[]) => eq(rr.find((p) => p.state === state)?.client_nodes ?? [], ids);
   const checks: { key: string; value: string; evidence: string }[] = [
     { key: 'FOUNDER_ROOT_NAV', value: founderNav.join(' · '), evidence: 'AIO_OFFICE shell root_nav = its ROOT_DESTINATION children (validator)' },
     { key: 'CLIENT_ROOT_NAV', value: clientNav.join(' · '), evidence: 'CLIENT_OFFICE shell root_nav = its ROOT_DESTINATION children (validator)' },
@@ -95,7 +102,7 @@ export function aioOfficeIaQualityGate() {
     { key: 'FILING_REHOMED_UNDER_WORK', value: yes(eq(iaPath(IA, 'AIO_OFFICE.WORK.FILING_FUEL_TAXES'), G.NEW_FILING_LOCATION) && eq(iaPath(IA, 'AIO_OFFICE.WORK.FILING_FUEL_TAXES.IFTA'), G.NEW_IFTA_LOCATION)), evidence: `${at('AIO_OFFICE.WORK.FILING_FUEL_TAXES.IFTA')}` },
     { key: 'INTAKE_STAFF_ONLY', value: yes(IA.nodes.filter((x) => x.node_id.startsWith('AIO_OFFICE.INTAKE')).every((x) => x.visibility.CLIENT === 'HIDDEN') && firewalled.has('AIO_OFFICE.INTAKE')), evidence: 'every INTAKE node CLIENT = HIDDEN; INTAKE is a firewall item' },
     { key: 'CLIENT_INTAKE_EXPOSURE', value: yes(IA.nodes.some((x) => x.shell_id === 'CLIENT_OFFICE' && (x.role === 'ENTRY' || x.routes.some((r) => r.path === '/office' || r.path.startsWith('/office/'))))), evidence: 'no ENTRY role and no /office route in the client shell (validator)' },
-    { key: 'FULL_AIO_SERVICE_SCOPE_REPRESENTED', value: yes(G.REQUIRED_SERVICES.every((id) => IA.services.some((s) => s.service_id === id && s.staff_nodes.length > 0)) && lanes().length === 11), evidence: `${G.REQUIRED_SERVICES.length} required services mapped · ${lanes().length} WORK lanes` },
+    { key: 'FULL_AIO_SERVICE_SCOPE_REPRESENTED', value: yes(G.REQUIRED_SERVICES.every((id) => IA.services.some((s) => s.service_id === id && s.staff_nodes.length > 0)) && eq(lanes().map((l) => l.label), G.WORK_LANES)), evidence: `${G.REQUIRED_SERVICES.length} required services mapped · ${lanes().length} WORK lanes` },
     { key: 'HOME_DEFINED_AS_PROJECTION', value: yes(n('AIO_OFFICE.HOME').role === 'COMMAND' && home.every((r) => r.role === 'PROJECTION' && r.projects.length > 0) && eq(home.map((r) => r.label), G.HOME_REGIONS)), evidence: `${home.length} regions, every one PROJECTION with named owners` },
     { key: 'WORK_DEFINED_AS_PRODUCTION', value: yes(n('AIO_OFFICE.WORK').role === 'PRODUCTION' && iaDescendants(IA, 'AIO_OFFICE.WORK').every((x) => x.role === 'PRODUCTION')), evidence: 'WORK and every lane / section role = PRODUCTION' },
     { key: 'REPORTS_DEFINED_AS_OVERSIGHT', value: yes(n('AIO_OFFICE.REPORTS').role === 'OVERSIGHT' && reports.length === 10 && reports.every((r) => r.role === 'OVERSIGHT' && r.data_status !== null)), evidence: `${reports.length} domains, each with a data status` },
@@ -106,6 +113,14 @@ export function aioOfficeIaQualityGate() {
     { key: 'MIGRATION_AUTHORITY_PRESERVED', value: yes(migIds.size === MAS.total - MAS.superseded.length && mig.length === migIds.size && mig.every((m) => intakeOrGate(m.node_id)) && MAS.superseded.every((x) => !migIds.has(x.authority_id))), evidence: `${MAS.approved} approved + ${MAS.founder_review_required.length} under founder review re-associated once (staff → INTAKE, client → activation gate); ${MAS.superseded.length} superseded draft kept as lineage` },
     { key: 'EXPERIENCE_BRAIN_UPDATED', value: yes(violations.length === 0), evidence: `office-information-architecture.ts + projects/aio/office-ia.ts · validator violations ${violations.length}` },
     { key: 'PRODUCT_GRAPH_UPDATED', value: yes(PG.containers.length === 8 && PG.families.length === 18), evidence: 'AIO_IA_PRODUCT_GRAPH_MAP (8 containers · 18 families · 4 role projections); vendored to fsbw src/product-graph as an overlay' },
+    { key: 'STAFF_SERVICE_LANES', value: String(lanes().length), evidence: lanes().map((l) => l.label).join(' · ') },
+    { key: 'CLIENT_HUB_IS_LANDING_NOT_ROOT', value: yes(hubNode.kind === 'LANDING' && hubNode.role === 'PROJECTION' && !clientRootIds.includes(hubNode.node_id) && eq(hubRegions.map((r) => r.label), G.CLIENT_HUB_REGIONS) && clientRootIds.every((id) => hubNode.projects.includes(id))), evidence: `D-CLIENT-HUB · ${hubRegions.length} projection regions over the seven destinations; root nav still seven` },
+    { key: 'COMPLIANCE_SINGLE_LANE', value: yes(lanes().filter((l) => /compliance/i.test(l.label)).length === 1 && eq(iaChildren(IA, 'AIO_OFFICE.WORK.COMPLIANCE').map((c) => c.label), ['DOT / Safety', 'Expirations', 'Audit / Corrective Work', 'Compliance Cases'])), evidence: 'D-COMPLIANCE-ONE-LANE · one lane, one workspace' },
+    { key: 'VEHICLES_FLEET_LANE', value: yes(n('AIO_OFFICE.WORK.VEHICLES_FLEET').kind === 'SERVICE_LANE' && n('AIO_OFFICE.WORK.VEHICLES_FLEET').client_projection === 'CLIENT_OFFICE.OPERATIONS.VEHICLE_MANAGEMENT' && VFS.filter((x) => x.relation === 'CROSS_LINK').every((x) => x.source_of_truth !== 'AIO_OFFICE.WORK.VEHICLES_FLEET' && !!iaNode(IA, x.source_of_truth))), evidence: `D-VEHICLES-FLEET-LANE · owns ${VFS.filter((x) => x.relation === 'OWNS').length}, cross-links ${VFS.filter((x) => x.relation === 'CROSS_LINK').length} (no duplicated source truth)` },
+    { key: 'FOUNDER_IS_ROLE_NOT_IDENTITY', value: yes(!!founderDef && founderDef.actor_class === 'PRIVILEGED_INTERNAL' && founderDef.multiplicity === 'ONE_OR_MORE' && IA.actors.every((d) => d.actor === 'FOUNDER' || !d.inherits.includes('FOUNDER')) && IA.actors.every((d) => d.can_self_elevate === false) && violations.length === 0), evidence: `D-FOUNDER-ROLE · ${IA.nodes.filter((x) => x.founder_authority).length} founder-only acts · ${IA.nodes.filter((x) => x.visibility.STAFF === 'BY_GRANT').length} nodes staff see only by grant` },
+    { key: 'GROWTH_CRM_AND_BILLING_IN_MORE', value: yes(n('AIO_OFFICE.MORE.GROWTH_CRM').parent === 'AIO_OFFICE.MORE' && n('AIO_OFFICE.MORE.BILLING').parent === 'AIO_OFFICE.MORE' && n('AIO_OFFICE.REPORTS.FINANCIAL_REVENUE').aggregates.includes('AIO_OFFICE.MORE.BILLING') && n('AIO_OFFICE.MORE.BILLING').client_projection === 'CLIENT_OFFICE.FINANCES.FEES_PAYMENTS'), evidence: 'D-GROWTH-BILLING · HOME projects CRM, REPORTS aggregates billing, clients see client-safe billing only' },
+    { key: 'ROAD_READY_STATE_PLACEMENT', value: yes(placed('AVAILABLE_NOT_ACTIVATED', ['CLIENT_OFFICE.SERVICES.ROAD_READY']) && placed('ACTIVE', ['CLIENT_OFFICE.OPERATIONS.ROAD_READY']) && ['CLIENT_OFFICE.MY_BUSINESS', 'CLIENT_OFFICE.VAULT', 'CLIENT_OFFICE.OPERATIONS', 'CLIENT_OFFICE.FINANCES'].every((id) => rr.find((p) => p.state === 'COMPLETED')?.client_nodes.includes(id))), evidence: 'D-ROAD-READY-PLACEMENT · SERVICES while available, OPERATIONS while active, records distributed on completion' },
+    { key: 'OPEN_QUESTIONS_DECIDED', value: `${IA.open_questions.filter((q) => q.status === 'DECIDED').length} of ${IA.open_questions.length}`, evidence: IA.decisions.map((d) => d.decision_id).join(' · ') },
     { key: 'VISUAL_REDESIGN_PERFORMED', value: 'NO', evidence: 'no page, image or visual authority touched' },
     { key: 'LIVE_IMPLEMENTATION_CHANGED', value: 'NO', evidence: 'no route, nav, schema, lifecycle or auth change' },
   ];
@@ -123,14 +138,19 @@ function treeJson(id: string): unknown {
     routes: x.routes.map((r) => `${r.path}${r.status === 'EXISTING' ? '' : ` (${r.status})`}`),
     ...(x.workspace_ids.length ? { workspaces: x.workspace_ids } : {}),
     ...(x.service_ids.length ? { services: x.service_ids } : {}),
+    ...(x.visibility.STAFF === 'BY_GRANT' ? { staff: 'BY_GRANT' } : {}),
+    ...(x.founder_authority ? { founder_authority: x.founder_authority } : {}),
+    ...(x.shown_when ? { shown_when: x.shown_when } : {}),
+    ...(x.potential_children.length ? { potential_children: x.potential_children } : {}),
     children: iaChildren(IA, id).map((c) => treeJson(c.node_id)),
   };
 }
 
 function treeLines(id: string, depth: number): string[] {
   const x = n(id);
-  const tags = [x.role, impl(x), x.client_resolution ? `client: ${x.client_resolution}` : '', x.data_status ?? '', x.architecture === 'CANDIDATE_UNRESOLVED' ? 'CANDIDATE' : ''].filter(Boolean).join(' · ');
-  const line = `${'  '.repeat(depth)}- **${x.label}** — ${tags}${x.routes.length ? ` — ${routesOf(x)}` : ''}`;
+  const tags = [x.role, impl(x), x.client_resolution ? `client: ${x.client_resolution}` : '', x.shown_when ? `shown when ${x.shown_when}` : '', x.data_status ?? '', x.visibility.STAFF === 'BY_GRANT' ? 'staff by grant' : '', x.founder_authority ? `founder act: ${x.founder_authority}` : '', x.architecture === 'CANDIDATE_UNRESOLVED' ? 'CANDIDATE' : ''].filter(Boolean).join(' · ');
+  const potential = x.potential_children.length ? ` — potential: ${x.potential_children.join(' · ')}` : '';
+  const line = `${'  '.repeat(depth)}- **${x.label}** — ${tags}${x.routes.length ? ` — ${routesOf(x)}` : ''}${potential}`;
   return [line, ...iaChildren(IA, id).flatMap((c) => treeLines(c.node_id, depth + 1))];
 }
 
@@ -162,7 +182,7 @@ function shellMd(shellId: 'AIO_OFFICE' | 'CLIENT_OFFICE', title: string, extra: 
 const founderTreeMd = () => shellMd('AIO_OFFICE', '01 · AIO OFFICE — founder / staff tree', [
   'FILING is no longer a root item. It is a WORK lane: **AIO OFFICE → WORK → FILING & FUEL TAXES**, and IFTA lives at **AIO OFFICE → WORK → FILING & FUEL TAXES → IFTA** (canonical case identity unchanged).',
   '',
-  'HOME = projection · INTAKE = entry (staff / founder only) · WORK = production · REPORTS = oversight · MORE = secondary. Founder and staff see the same tree; no founder-only node is asserted (Q-FOUNDER-ROLE).',
+  'HOME = projection · INTAKE = entry (staff / founder only) · WORK = production · REPORTS = oversight · MORE = secondary. FOUNDER is a privileged actor class that sees every node; staff see “by grant” nodes only with a permission grant, and founder acts are reserved (D-FOUNDER-ROLE, see 03).',
   '',
   `### WORK lanes (${lanes().length})`,
   '',
@@ -173,6 +193,12 @@ const founderTreeMd = () => shellMd('AIO_OFFICE', '01 · AIO OFFICE — founder 
   'The capabilities the founder requires, each with today’s truth. Nothing here is invented: PARTIAL means the capability exists somewhere, not across WORK.',
   '',
   table(['Capability', 'Today', 'Evidence', 'Note'], brain.AIO_WORK_CAPABILITIES.map((c) => [c.capability, impl(c), c.evidence.join(' · '), c.note])),
+  '',
+  '### VEHICLES & FLEET — the vehicle backbone (D-VEHICLES-FLEET-LANE)',
+  '',
+  'The lane owns the vehicle record. Everything else about a vehicle is shown there by cross-link to the lane that owns it — never a second copy of the source truth.',
+  '',
+  table(['Item', 'Relation', 'Source of truth', 'Note'], VFS.map((x) => [x.item, x.relation === 'OWNS' ? 'OWNS' : 'CROSS-LINK', at(x.source_of_truth), x.note || '—'])),
   '',
   '### Case identity (unchanged)',
   '',
@@ -189,10 +215,18 @@ const clientTreeMd = () => shellMd('CLIENT_OFFICE', '02 · CLIENT OFFICE — cli
     ['ALWAYS', 'Every client.'],
     ['APPLICABILITY', 'Only where the client’s type makes it real (a shipper has no trucks).'],
     ['ENTITLEMENT', 'Through the Brain workspace resolver: ACTIVE → shown in its destination · AVAILABLE_NOT_ACTIVATED → SERVICES and approved contextual placements only (expansion rules) · NOT_APPLICABLE → never promoted.'],
-    ['STATE', 'Only while a lifecycle state holds (the activation gate: INVITED · CLIENT_CONFIRMATION_REQUIRED). PREBUILT is not ACTIVE.'],
+    ['STATE', 'Only while a stated condition holds: the activation gate (INVITED · CLIENT_CONFIRMATION_REQUIRED; PREBUILT is not ACTIVE) and Road Ready (SERVICES while available, OPERATIONS while active).'],
   ]),
   '',
-  `The landing (today MY OFFICE at \`/portal\`) is recorded as **${n('CLIENT_OFFICE.HUB').label}** (${n('CLIENT_OFFICE.HUB').architecture}) — not an eighth root (Q-CLIENT-HUB).`,
+  `### ${n('CLIENT_OFFICE.HUB').label} — the shell landing (D-CLIENT-HUB)`,
+  '',
+  `${n('CLIENT_OFFICE.HUB').semantics} It is not a persistent root-nav item; MY BUSINESS stays a destination, not the dashboard.`,
+  '',
+  table(['Region', 'Projects (owner destination)', 'Today', 'Evidence / notes'], iaChildren(IA, 'CLIENT_OFFICE.HUB').map((r) => [r.label, r.projects.map(at).join(' · '), impl(r), [...r.evidence, r.notes].filter(Boolean).join(' · ')])),
+  '',
+  '### Road Ready placement by state (D-ROAD-READY-PLACEMENT)',
+  '',
+  table(['State', 'Where it sits', 'Note'], (IA.services.find((x) => x.service_id === 'ROAD_READY')?.state_placements ?? []).map((p) => [p.state, p.client_nodes.map(at).join(' · ') || '— (not promoted)', p.note])),
   '',
 ]);
 
@@ -209,6 +243,7 @@ function visibilityRows() {
       client_safe_projection: firewalled.has(x.node_id) ? null : proj,
       staff_reach: staffShell ? null : staffReach(x),
       client_resolution: x.client_resolution,
+      founder_authority: x.founder_authority,
       staff_gate: x.staff_gate,
     };
   });
@@ -219,9 +254,21 @@ function visibilityMd() {
   const roots = [...IA.shells.flatMap((s) => s.root_nav)].map((id) => rows.find((r) => r.node_id === id)!);
   return [
     ...MD_HEAD('03 · Actor visibility matrix'),
-    '**FULL** — the actor works in it · **CLIENT_SAFE_PROJECTION** — the actor sees an approved client-safe projection · **VIA_AIO_OFFICE** — staff reach the same client data from AIO OFFICE (client context), never by entering the client shell · **HIDDEN** — never shown.',
+    '**FULL** — the actor works in it · **BY_GRANT** — staff see it only with an explicit permission grant · **CLIENT_SAFE_PROJECTION** — the actor sees an approved client-safe projection · **VIA_AIO_OFFICE** — staff reach the same client data from AIO OFFICE (client context), never by entering the client shell · **HIDDEN** — never shown.',
     '',
-    'FOUNDER and STAFF share the internal office (ExperienceActor FOUNDER_STAFF). No founder-only node is asserted until a founder role exists (Q-FOUNDER-ROLE); existing office permissions keep gating where they already do (never broadened).',
+    '## Actors (D-FOUNDER-ROLE)',
+    '',
+    table(['Actor', 'Class', 'What it is', 'Identity', 'Inherits', 'Self-elevate', 'Code today'], IA.actors.map((d) => [d.actor, d.actor_class, d.definition, `${d.identity_rule} (${d.multiplicity === 'ONE_OR_MORE' ? 'one or more' : 'many'})`, d.inherits.join(', ') || '—', 'never', d.current_code_mapping])),
+    '',
+    '### Founder privileges',
+    '',
+    table(['Privilege', 'Where', 'Note'], IA.actors.find((d) => d.actor === 'FOUNDER')!.privileges.map((p) => [p.privilege, p.node_ids.map(at).join(' · ') || '— (per action)', p.note || '—'])),
+    '',
+    '### Founder-only acts and grant-only views',
+    '',
+    table(['Node', 'Founder act', 'Staff'], IA.nodes.filter((x) => x.founder_authority || x.visibility.STAFF === 'BY_GRANT').map((x) => [at(x.node_id), x.founder_authority ?? '—', x.visibility.STAFF === 'BY_GRANT' ? `by grant${x.staff_gate ? ` (${x.staff_gate})` : ''}` : 'sees it; the act is the founder’s'])),
+    '',
+    'Existing office permissions keep gating where they already do; nothing here broadens a permission.',
     '',
     '## Root destinations',
     '',
@@ -233,11 +280,11 @@ function visibilityMd() {
     '',
     '## Every node',
     '',
-    table(['Node', 'FOUNDER', 'STAFF', 'CLIENT', 'Client-safe projection', 'Staff reach (client nodes)', 'Client resolution', 'Existing gate'], rows.map((r) => [
+    table(['Node', 'FOUNDER', 'STAFF', 'CLIENT', 'Client-safe projection', 'Staff reach (client nodes)', 'Client resolution', 'Founder act', 'Existing gate'], rows.map((r) => [
       r.path, r.FOUNDER, r.STAFF, r.firewall ? `${r.CLIENT} (firewall)` : r.CLIENT,
       r.client_safe_projection ? at(r.client_safe_projection) : '—',
       r.staff_reach ? r.staff_reach.map(at).join(' · ') : '—',
-      r.client_resolution ?? '—', r.staff_gate ?? '—',
+      r.client_resolution ?? '—', r.founder_authority ?? '—', r.staff_gate ?? '—',
     ])),
     '',
   ].join('\n');
@@ -297,7 +344,7 @@ function staffMapMd() {
     '',
     table(['Lane', 'Workspaces', 'Section → workspace'], lanes().map((l) => [l.label, l.workspace_ids.join(' · ') || '—', iaChildren(IA, l.node_id).map((s) => `${s.label}: ${s.workspace_ids.join('/') || '—'}`).join(' · ') || '—'])),
     '',
-    'Open: the Brain COMPLIANCE workspace bundles authority + BOC-3 + safety while the founder tree puts authority and BOC-3 under PERMITTING & AUTHORITIES (Q-COMPLIANCE-SPLIT).',
+    'Decided: one COMPLIANCE lane and one COMPLIANCE workspace (D-COMPLIANCE-ONE-LANE); the authority and BOC-3 sections of PERMITTING & AUTHORITIES keep entitling through it. VEHICLES & FLEET is a lane but not a workspace (fleet registry is a shared capability).',
     '',
   ].join('\n');
 }
@@ -320,6 +367,10 @@ function clientMapMd() {
     '## Contextual expansion rule → Brain mechanism',
     '',
     table(['Founder rule', 'Kind', 'Enforced by'], brain.AIO_EXPANSION_CRITERIA.map((c) => [c.founder_rule, c.kind, c.brain_mechanism])),
+    '',
+    '## Road Ready — placement by state (D-ROAD-READY-PLACEMENT)',
+    '',
+    table(['State', 'Client destination', 'Note'], (IA.services.find((x) => x.service_id === 'ROAD_READY')?.state_placements ?? []).map((p) => [p.state, p.client_nodes.map(at).join(' · ') || '— (not promoted)', p.note])),
     '',
   ].join('\n');
 }
@@ -417,6 +468,8 @@ function reportsMd() {
     '',
     `Data status: ${Object.entries(m.data_status_counts).map(([k, v]) => `${k} ${v}`).join(' · ')}. No domain is REAL_DATA yet: management command centers read the demo store.`,
     '',
+    'Reporting is founder-class (D-FOUNDER-ROLE): staff see REPORTS only with a grant (reports.read and the management permissions that already gate these pages); FINANCIAL / REVENUE adds internal financial visibility.',
+    '',
     table(['Domain', 'Data', 'Aggregates', 'Routes today', 'Notes'], m.domains.map((d) => [d.label, d.data_status ?? '—', d.aggregates.map((a) => a.location).join(' · ') || '—', d.routes.map((r) => `\`${r.path}\``).join(' · ') || '—', [d.notes, d.staff_gate ? `gate: ${d.staff_gate}` : ''].filter(Boolean).join(' · ') || '—'])),
     '',
     '## Oversight vs production (founder example)',
@@ -438,15 +491,15 @@ function moreMd() {
     '',
     '## Included',
     '',
-    table(['Entry', 'What it holds', 'Routes today', 'Implementation', 'Gate / notes'], entries.map((e) => [e.label, e.notes || e.semantics || '—', routesOf(e), impl(e), [e.staff_gate ? `gate: ${e.staff_gate}` : '', e.evidence.join(' · ')].filter(Boolean).join(' · ') || '—'])),
+    table(['Entry', 'What it holds', 'Potential children (founder)', 'Routes today', 'Implementation', 'Staff', 'Founder act', 'Gate / evidence'], entries.map((e) => [e.label, e.semantics || e.notes || '—', e.potential_children.join(' · ') || '—', routesOf(e), impl(e), e.visibility.STAFF === 'BY_GRANT' ? 'by grant' : 'full', e.founder_authority ?? '—', [e.staff_gate ? `gate: ${e.staff_gate}` : '', e.evidence.join(' · ')].filter(Boolean).join(' · ') || '—'])),
     '',
     '## Excluded (belongs elsewhere)',
     '',
     table(['Item', 'Belongs in', 'Why'], r.exclusions.map((x) => [x.item, at(x.belongs_in), x.reason])),
     '',
-    '## Candidates recommended into MORE (founder decision pending)',
+    '## Candidates recommended into MORE',
     '',
-    table(['Candidate', 'Recommended', 'Rationale'], intoMore.map((c) => [c.label, at(c.recommended_node!), c.rationale])),
+    table(['Candidate', 'Status', 'Recommended', 'Rationale'], intoMore.map((c) => [c.label, c.status === 'RESOLVED' ? `RESOLVED — ${c.resolution}` : 'founder decision pending', at(c.recommended_node!), c.rationale])),
     '',
     `The MORE directory surface itself is ${impl(n(r.container_node))}: its entries exist today as separate routes.`,
     '',
@@ -463,8 +516,8 @@ function brainUpdatesMd() {
     '## Added',
     '',
     table(['File', 'What'], [
-      ['shared/studioos-experience-brain/office-information-architecture.ts', 'Generic office IA layer (any project): actors FOUNDER / STAFF / CLIENT, node kinds, roles (COMMAND · PROJECTION · ENTRY · PRODUCTION · OVERSIGHT · SECONDARY · client roles), visibility (FULL · CLIENT_SAFE_PROJECTION · VIA_AIO_OFFICE · HIDDEN), architecture vs implementation status, client resolution (ALWAYS · APPLICABILITY · ENTITLEMENT · STATE), supersession lineage, legacy classification, candidates, firewall, MORE rules; helpers and `validateOfficeInformationArchitecture`.'],
-      ['shared/studioos-experience-brain/projects/aio/office-ia.ts', `AIO data: ${IA.nodes.length} nodes (${kinds}), ${IA.services.length} services, ${IA.supersessions.length} supersessions, ${IA.legacy.length} legacy references, ${IA.candidates.length} candidates, ${IA.firewall.length} firewall items, ${IA.open_questions.length} open questions, the product-graph crosswalk and the founder quality gate.`],
+      ['shared/studioos-experience-brain/office-information-architecture.ts', 'Generic office IA layer (any project): actors FOUNDER / STAFF / CLIENT, node kinds, roles (COMMAND · PROJECTION · ENTRY · PRODUCTION · OVERSIGHT · SECONDARY · client roles), visibility (FULL · BY_GRANT · CLIENT_SAFE_PROJECTION · VIA_AIO_OFFICE · HIDDEN), founder-only acts, architecture vs implementation status, client resolution (ALWAYS · APPLICABILITY · ENTITLEMENT · STATE with shown_when), state placements, potential children, actor definitions, founder decisions, supersession lineage, legacy classification, candidates, firewall, MORE rules; helpers and `validateOfficeInformationArchitecture`.'],
+      ['shared/studioos-experience-brain/projects/aio/office-ia.ts', `AIO data: ${IA.nodes.length} nodes (${kinds}), ${IA.services.length} services, ${IA.supersessions.length} supersessions, ${IA.legacy.length} legacy references, ${IA.candidates.length} candidates, ${IA.firewall.length} firewall items, ${IA.open_questions.length} questions (${IA.open_questions.filter((q) => q.status === 'DECIDED').length} decided), ${IA.decisions.length} founder decisions, ${IA.actors.length} actor definitions, the Vehicles & Fleet scope, the product-graph crosswalk and the founder quality gate.`],
       ['scripts/studioos/aio-office-ia-export.ts', 'Generates docs/aio/office-ia/ (this folder).'],
       ['tests/aioOfficeIaWorkTree1.test.ts', 'Founder gate, validator, firewall, references into the Brain and the IFTA tree, export sync.'],
     ]),
@@ -484,6 +537,10 @@ function brainUpdatesMd() {
       'MORE holds no PRODUCTION / ENTRY / COMMAND / PROJECTION node',
       'service staff nodes sit in the internal office, client nodes in the client office; a STAFF_ONLY service has no client node',
       'supersessions carry the sprint lineage id; legacy, candidate and supersession targets exist',
+      'FOUNDER sees every internal-office node; STAFF sees it fully or BY_GRANT; BY_GRANT and founder acts never appear in the client office',
+      'a STATE client node says when it is shown; state placements point at client-office nodes',
+      'one definition per actor; nobody but FOUNDER inherits FOUNDER; no actor can self-elevate; identity never names an email; FOUNDER allows more than one principal',
+      'a DECIDED question points at a decision; decisions and resolved candidates name real nodes and a resolution',
     ].map((s) => `- ${s}`),
     '',
     '## Linked, not changed',
@@ -493,6 +550,7 @@ function brainUpdatesMd() {
       ['projects/aio/office.ts AIO_WORKSPACES', `${new Set(IA.nodes.flatMap((x) => x.workspace_ids)).size} of ${brain.AIO_WORKSPACES.length} workspaces carried by lanes / client destinations (lane ≠ workspace; see 04)`],
       ['projects/aio/office.ts AIO_EXPANSION_RULES', 'client SERVICES / contextual placements keep resolving through them'],
       ['projects/aio/office.ts AIO_OFFICE_HUB_RESPONSIBILITIES', 'crosswalked to the HOME regions (06 supersession map)'],
+      ['projects/aio/office.ts AIO_CLIENT_OFFICE_HUB_RESPONSIBILITIES', 'crosswalked to the CLIENT OFFICE hub regions (06 supersession map)'],
       ['projects/aio/client-migration.ts AIO_LIFECYCLE_MAPPING', 'PREBUILT counted_active = false; activation gate = CLIENT_OFFICE.ACTIVATION'],
       ['experience contracts (AIO_EXPERIENCE_CONTRACTS) + screen families', 'feature_refs on nodes and services'],
       ['visual authority IFTA tree (AIO.OFFICE.WS.IFTA · AIO.IFTA.STAFF.QUEUE · AIO.CLIENT_OFFICE.WS.IFTA)', 're-associated to WORK → FILING & FUEL TAXES → IFTA and OPERATIONS → FILING / IFTA; tree node ids and parents unchanged (re-parenting is MIGRATE_LATER)'],
@@ -552,12 +610,32 @@ function candidatesMd() {
     '',
     '## Candidates',
     '',
-    table(['Id', 'Observed', 'Recommended', 'Rationale'], IA.candidates.map((c) => [`${c.candidate_id} — ${c.label}`, c.observed.join(' · '), c.recommended_node ? at(c.recommended_node) : 'founder decision', c.rationale])),
+    table(['Id', 'Status', 'Observed', 'Recommended', 'Rationale'], IA.candidates.map((c) => [`${c.candidate_id} — ${c.label}`, c.status === 'RESOLVED' ? `RESOLVED — ${c.resolution}` : 'UNRESOLVED', c.observed.join(' · '), c.recommended_node ? at(c.recommended_node) : 'founder decision', c.rationale])),
     '',
-    '## Open founder questions',
+    '## Founder questions',
     '',
-    table(['Id', 'Question', 'Recommendation', 'Blocks'], IA.open_questions.map((q) => [q.question_id, q.question, q.recommendation, q.blocks])),
+    table(['Id', 'Question', 'Status', 'Recommendation', 'Blocked'], IA.open_questions.map((q) => [q.question_id, q.question, q.status === 'DECIDED' ? `DECIDED — ${q.decision_id}` : 'OPEN', q.recommendation, q.blocks])),
     '',
+    'Decisions: FOUNDER_DECISIONS.md.',
+    '',
+  ].join('\n');
+}
+
+function decisionsMd() {
+  return [
+    ...MD_HEAD('Founder decisions'),
+    'The founder’s answers to the open IA questions, with what each changed. Lineage: the questions stay recorded with their decision.',
+    '',
+    ...IA.decisions.flatMap((d) => [
+      `## ${d.decision_id} — ${IA.open_questions.find((q) => q.question_id === d.question_id)?.question ?? d.question_id}`,
+      '',
+      `**Decided ${d.decided_on}.** ${d.decision}`,
+      '',
+      ...d.consequences.map((c) => `- ${c}`),
+      '',
+      `Nodes: ${d.node_ids.map(at).join(' · ')}`,
+      '',
+    ]),
   ].join('\n');
 }
 
@@ -575,7 +653,8 @@ const ARTIFACTS: [string, string][] = [
   ['11_PRODUCT_GRAPH_UPDATES.md', 'Product graph updates'],
   ['SERVICE_CROSSWALK.md', 'Service crosswalk table (+ SERVICE_CROSSWALK.json)'],
   ['LEGACY_RECONCILIATION.md', 'KEEP / REMAP / SUPERSEDE / MIGRATE_LATER / REMOVE_WHEN_IMPLEMENTED'],
-  ['CANDIDATES_AND_OPEN_QUESTIONS.md', 'What the founder tree does not name + open questions'],
+  ['FOUNDER_DECISIONS.md', 'The six founder decisions of 2026-10-08 and what each changed'],
+  ['CANDIDATES_AND_OPEN_QUESTIONS.md', 'What the founder tree does not name + the questions (all decided)'],
   ['AIO_OFFICE_IA.json', 'The whole architecture as data (the fsbw product-graph overlay)'],
   ['QUALITY_GATE.json', 'The founder gate, computed'],
 ];
@@ -590,6 +669,17 @@ function readmeMd() {
     `FILING is no longer a root item: it is **${iaPath(IA, 'AIO_OFFICE.WORK.FILING_FUEL_TAXES').join(' → ')}**, and IFTA is **${iaPath(IA, 'AIO_OFFICE.WORK.FILING_FUEL_TAXES.IFTA').join(' → ')}**. The old dock HOME · INTAKE · FILING · REPORTS · MORE is \`${IA.lineage_id}\`. INTAKE is staff / founder only.`,
     '',
     'HOME = projection · WORK = production · REPORTS = oversight · MORE = secondary. Architecture only — no page, nav, route, schema, lifecycle or auth change; no image generated; no visual authority modified.',
+    '',
+    '## Founder decisions (2026-10-08)',
+    '',
+    table(['Decision', 'In short'], [
+      ['D-CLIENT-HUB', 'CLIENT OFFICE opens on HUB / OVERVIEW — the shell landing, not a root tab. It projects the seven destinations.'],
+      ['D-COMPLIANCE-ONE-LANE', 'One COMPLIANCE lane (DOT / Safety · Expirations · Audit / Corrective Work · Compliance Cases).'],
+      ['D-VEHICLES-FLEET-LANE', `WORK → VEHICLES & FLEET added: ${lanes().length} lanes. It owns the vehicle record and cross-links the rest.`],
+      ['D-FOUNDER-ROLE', 'FOUNDER is a privileged actor class, never a person; staff never inherit it or self-elevate.'],
+      ['D-GROWTH-BILLING', 'MORE → GROWTH / CRM and MORE → BILLING. HOME may project CRM; REPORTS aggregates billing.'],
+      ['D-ROAD-READY-PLACEMENT', 'Road Ready: SERVICES while available, OPERATIONS while active, records distributed on completion.'],
+    ]),
     '',
     '## Artifacts',
     '',
@@ -628,7 +718,8 @@ export function buildAioOfficeIaExports(): Record<string, string> {
     'SERVICE_CROSSWALK.json': json({ ...head('AIO_SERVICE_CROSSWALK'), columns: ['SERVICE', 'STAFF LOCATION', 'CLIENT LOCATION', 'CLIENT VISIBILITY', 'CURRENT IMPLEMENTATION STATUS', 'CANONICAL DATA SOURCE', 'NOTES'], services: serviceCrosswalk() }),
     'LEGACY_RECONCILIATION.md': legacyMd(),
     'CANDIDATES_AND_OPEN_QUESTIONS.md': candidatesMd(),
-    'AIO_OFFICE_IA.json': json({ ...head('AIO_OFFICE_IA'), next_sprint: brain.AIO_OFFICE_IA_NEXT_SPRINT, ...IA, migration_authority_set: MAS, home_requirements: brain.AIO_HOME_REQUIREMENTS, projection_examples: brain.AIO_PROJECTION_EXAMPLES, work_capabilities: brain.AIO_WORK_CAPABILITIES, expansion_criteria: brain.AIO_EXPANSION_CRITERIA, product_graph_map: PG, quality_gate: G }),
+    'FOUNDER_DECISIONS.md': decisionsMd(),
+    'AIO_OFFICE_IA.json': json({ ...head('AIO_OFFICE_IA'), next_sprint: brain.AIO_OFFICE_IA_NEXT_SPRINT, ...IA, migration_authority_set: MAS, home_requirements: brain.AIO_HOME_REQUIREMENTS, projection_examples: brain.AIO_PROJECTION_EXAMPLES, work_capabilities: brain.AIO_WORK_CAPABILITIES, vehicles_fleet_scope: VFS, expansion_criteria: brain.AIO_EXPANSION_CRITERIA, product_graph_map: PG, quality_gate: G }),
     'QUALITY_GATE.json': json(aioOfficeIaQualityGate()),
   };
 }

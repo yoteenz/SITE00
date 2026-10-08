@@ -281,6 +281,7 @@
             "services": [
               "CLIENT_MIGRATION_INTAKE"
             ],
+            "founder_authority": "Founder review of the migrated profile (staff prepare it; they do not inherit the review)",
             "children": []
           },
           {
@@ -302,6 +303,7 @@
             "services": [
               "CLIENT_MIGRATION_INTAKE"
             ],
+            "founder_authority": "PREBUILT review / approval (APPROVE MIGRATION)",
             "children": []
           },
           {
@@ -321,6 +323,7 @@
             "services": [
               "CLIENT_MIGRATION_INTAKE"
             ],
+            "founder_authority": "Activation authority (sending the activation invite); client confirmation stays the gate before ACTIVE",
             "children": []
           },
           {
@@ -691,6 +694,20 @@
             ]
           },
           {
+            "node_id": "AIO_OFFICE.WORK.VEHICLES_FLEET",
+            "label": "Vehicles & Fleet",
+            "kind": "SERVICE_LANE",
+            "role": "PRODUCTION",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_NOT_STARTED",
+            "depth": "NONE",
+            "routes": [],
+            "services": [
+              "VEHICLE_MANAGEMENT"
+            ],
+            "children": []
+          },
+          {
             "node_id": "AIO_OFFICE.WORK.DISPATCH",
             "label": "Dispatch",
             "kind": "SERVICE_LANE",
@@ -908,6 +925,7 @@
                 "services": [
                   "BROKERAGE"
                 ],
+                "staff": "BY_GRANT",
                 "children": []
               }
             ]
@@ -1301,6 +1319,8 @@
           "/office/reports",
           "/office/management"
         ],
+        "staff": "BY_GRANT",
+        "founder_authority": "Reporting (founder-class; staff only by grant)",
         "children": [
           {
             "node_id": "AIO_OFFICE.REPORTS.OVERVIEW",
@@ -1314,6 +1334,7 @@
             "routes": [
               "/office/management"
             ],
+            "staff": "BY_GRANT",
             "children": []
           },
           {
@@ -1328,6 +1349,7 @@
             "routes": [
               "/office/management/customers"
             ],
+            "staff": "BY_GRANT",
             "children": []
           },
           {
@@ -1342,6 +1364,7 @@
             "routes": [
               "/office/management/services"
             ],
+            "staff": "BY_GRANT",
             "children": []
           },
           {
@@ -1356,6 +1379,8 @@
             "routes": [
               "/office/management/financial"
             ],
+            "staff": "BY_GRANT",
+            "founder_authority": "Internal financial visibility",
             "children": []
           },
           {
@@ -1368,6 +1393,7 @@
             "depth": "NONE",
             "data_status": "NOT_YET_IMPLEMENTED",
             "routes": [],
+            "staff": "BY_GRANT",
             "children": []
           },
           {
@@ -1382,6 +1408,7 @@
             "routes": [
               "/office/management/deadlines"
             ],
+            "staff": "BY_GRANT",
             "children": []
           },
           {
@@ -1397,6 +1424,7 @@
               "/office/management/dispatch",
               "/office/management/brokerage"
             ],
+            "staff": "BY_GRANT",
             "children": []
           },
           {
@@ -1409,6 +1437,7 @@
             "depth": "NONE",
             "data_status": "NOT_YET_IMPLEMENTED",
             "routes": [],
+            "staff": "BY_GRANT",
             "children": []
           },
           {
@@ -1421,6 +1450,7 @@
             "depth": "FUNCTIONAL_DEMO",
             "data_status": "PARTIAL_DATA",
             "routes": [],
+            "staff": "BY_GRANT",
             "children": []
           },
           {
@@ -1433,6 +1463,7 @@
             "depth": "NONE",
             "data_status": "NOT_YET_IMPLEMENTED",
             "routes": [],
+            "staff": "BY_GRANT",
             "children": []
           }
         ]
@@ -1479,6 +1510,64 @@
             "children": []
           },
           {
+            "node_id": "AIO_OFFICE.MORE.GROWTH_CRM",
+            "label": "Growth / CRM",
+            "kind": "DIRECTORY_ENTRY",
+            "role": "SECONDARY",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "routes": [
+              "/office/crm",
+              "/office/crm/leads",
+              "/office/crm/leads/:leadId",
+              "/office/crm/pipeline",
+              "/office/crm/opportunities/:opportunityId",
+              "/office/crm/calendar",
+              "/office/crm/reports",
+              "/office/settings/crm"
+            ],
+            "staff": "BY_GRANT",
+            "potential_children": [
+              "Leads",
+              "Prospects",
+              "Pipeline",
+              "Follow-ups",
+              "Referrals",
+              "Sales Activity",
+              "Service Opportunities"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "AIO_OFFICE.MORE.BILLING",
+            "label": "Billing",
+            "kind": "DIRECTORY_ENTRY",
+            "role": "SECONDARY",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "routes": [
+              "/office/billing",
+              "/office/invoices",
+              "/office/invoices/:invoiceId",
+              "/office/payments",
+              "/office/quotes",
+              "/office/quotes/:quoteId"
+            ],
+            "staff": "BY_GRANT",
+            "potential_children": [
+              "Client Billing",
+              "Invoices",
+              "Payments",
+              "Balances",
+              "Service Charges",
+              "Subscriptions / Recurring Services",
+              "Credits / Adjustments"
+            ],
+            "children": []
+          },
+          {
             "node_id": "AIO_OFFICE.MORE.TEAM_STAFF",
             "label": "Team & Staff",
             "kind": "DIRECTORY_ENTRY",
@@ -1490,6 +1579,7 @@
               "/office/team",
               "/office/workload"
             ],
+            "founder_authority": "Staff / permission administration (roles and grants)",
             "children": []
           },
           {
@@ -1504,6 +1594,7 @@
               "/office/management/launch/services",
               "/office/settings/pricing"
             ],
+            "founder_authority": "Service configuration (activation, pricing)",
             "children": []
           },
           {
@@ -1546,6 +1637,8 @@
               "/office/security",
               "/office/system/*"
             ],
+            "staff": "BY_GRANT",
+            "founder_authority": "System configuration",
             "children": []
           },
           {

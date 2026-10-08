@@ -268,9 +268,109 @@
       "new_node_ids": [
         "CLIENT_OFFICE.HUB"
       ],
-      "note": "Not one of the seven client root destinations; recorded as the client office landing (Q-CLIENT-HUB).",
+      "note": "The CLIENT OFFICE HUB / OVERVIEW: the shell landing, not one of the seven root destinations (D-CLIENT-HUB).",
       "new_locations": [
-        "CLIENT OFFICE → Client Office Hub"
+        "CLIENT OFFICE → Hub / Overview"
+      ]
+    },
+    {
+      "lineage_id": "SUPERSEDED_BY_AIO_OFFICE_WORK_TREE1",
+      "old_structure": "CLIENT OFFICE hub responsibilities (office.ts AIO_CLIENT_OFFICE_HUB_RESPONSIBILITIES)",
+      "old_item": "ACTIVE WORKSPACES",
+      "old_target": "hub",
+      "disposition": "RENAMED",
+      "new_node_ids": [
+        "CLIENT_OFFICE.HUB.ACTIVE_SERVICES"
+      ],
+      "note": "",
+      "new_locations": [
+        "CLIENT OFFICE → Hub / Overview → Active Services"
+      ]
+    },
+    {
+      "lineage_id": "SUPERSEDED_BY_AIO_OFFICE_WORK_TREE1",
+      "old_structure": "CLIENT OFFICE hub responsibilities (office.ts AIO_CLIENT_OFFICE_HUB_RESPONSIBILITIES)",
+      "old_item": "CURRENT ACTIONS",
+      "old_target": "hub",
+      "disposition": "REMAPPED",
+      "new_node_ids": [
+        "CLIENT_OFFICE.HUB.CONTEXTUAL_NEXT_ACTION",
+        "CLIENT_OFFICE.HUB.ITEMS_NEEDING_APPROVAL"
+      ],
+      "note": "Split into the next action and the approvals waiting on the client.",
+      "new_locations": [
+        "CLIENT OFFICE → Hub / Overview → Contextual Next Action",
+        "CLIENT OFFICE → Hub / Overview → Items Needing Approval"
+      ]
+    },
+    {
+      "lineage_id": "SUPERSEDED_BY_AIO_OFFICE_WORK_TREE1",
+      "old_structure": "CLIENT OFFICE hub responsibilities (office.ts AIO_CLIENT_OFFICE_HUB_RESPONSIBILITIES)",
+      "old_item": "UPCOMING DEADLINES",
+      "old_target": "hub",
+      "disposition": "KEPT",
+      "new_node_ids": [
+        "CLIENT_OFFICE.HUB.UPCOMING_DEADLINES"
+      ],
+      "note": "",
+      "new_locations": [
+        "CLIENT OFFICE → Hub / Overview → Upcoming Deadlines"
+      ]
+    },
+    {
+      "lineage_id": "SUPERSEDED_BY_AIO_OFFICE_WORK_TREE1",
+      "old_structure": "CLIENT OFFICE hub responsibilities (office.ts AIO_CLIENT_OFFICE_HUB_RESPONSIBILITIES)",
+      "old_item": "DOCUMENT REQUESTS",
+      "old_target": "hub",
+      "disposition": "REMAPPED",
+      "new_node_ids": [
+        "CLIENT_OFFICE.HUB.CONTEXTUAL_NEXT_ACTION"
+      ],
+      "note": "A document request is a next action; the request itself is owned by INBOX → REQUESTS.",
+      "new_locations": [
+        "CLIENT OFFICE → Hub / Overview → Contextual Next Action"
+      ]
+    },
+    {
+      "lineage_id": "SUPERSEDED_BY_AIO_OFFICE_WORK_TREE1",
+      "old_structure": "CLIENT OFFICE hub responsibilities (office.ts AIO_CLIENT_OFFICE_HUB_RESPONSIBILITIES)",
+      "old_item": "MESSAGES",
+      "old_target": "hub",
+      "disposition": "RENAMED",
+      "new_node_ids": [
+        "CLIENT_OFFICE.HUB.RECENT_MESSAGES"
+      ],
+      "note": "",
+      "new_locations": [
+        "CLIENT OFFICE → Hub / Overview → Recent Messages"
+      ]
+    },
+    {
+      "lineage_id": "SUPERSEDED_BY_AIO_OFFICE_WORK_TREE1",
+      "old_structure": "CLIENT OFFICE hub responsibilities (office.ts AIO_CLIENT_OFFICE_HUB_RESPONSIBILITIES)",
+      "old_item": "RECENT ACTIVITY",
+      "old_target": "hub",
+      "disposition": "REMAPPED",
+      "new_node_ids": [
+        "CLIENT_OFFICE.HUB.WORK_IN_PROGRESS"
+      ],
+      "note": "The hub shows work in progress; the activity feed is INBOX → ACTIVITY UPDATES.",
+      "new_locations": [
+        "CLIENT OFFICE → Hub / Overview → Work in Progress"
+      ]
+    },
+    {
+      "lineage_id": "SUPERSEDED_BY_AIO_OFFICE_WORK_TREE1",
+      "old_structure": "CLIENT OFFICE hub responsibilities (office.ts AIO_CLIENT_OFFICE_HUB_RESPONSIBILITIES)",
+      "old_item": "AVAILABLE RELEVANT WORKSPACES",
+      "old_target": "hub",
+      "disposition": "REMAPPED",
+      "new_node_ids": [
+        "CLIENT_OFFICE.HUB.CONTEXTUAL_NEXT_ACTION"
+      ],
+      "note": "Only under the expansion rules.",
+      "new_locations": [
+        "CLIENT OFFICE → Hub / Overview → Contextual Next Action"
       ]
     },
     {

@@ -6,6 +6,11 @@
  * the FILING & FUEL TAXES lane inside WORK. CLIENT OFFICE is MY BUSINESS · OPERATIONS · FINANCES · VAULT · INBOX ·
  * SERVICES · ACCOUNT. INTAKE is staff / founder only.
  *
+ * Founder decisions of 2026-10-08 (AIO_IA_DECISIONS) settle the six open questions: the client HUB / OVERVIEW is the
+ * shell landing (not a root tab); COMPLIANCE stays one lane; WORK gains VEHICLES & FLEET (12 lanes); FOUNDER is a
+ * privileged actor class, never a hard-coded person; GROWTH / CRM and BILLING live in MORE; ROAD READY sits in SERVICES
+ * while available and in OPERATIONS while active.
+ *
  * Architecture only: no page, nav, route, schema or lifecycle changes. Implementation status comes from a read-only
  * audit of fsbw @ AIO_OFFICE_IA_AUDIT_SHA; every node cites its evidence. office.ts (workspaces, environments,
  * switchers, expansion) and the IFTA authority tree are reused, not changed.
@@ -14,7 +19,9 @@ import type {
   ArchitectureStatus,
   ClientResolution,
   IaActor,
+  IaActorDefinition,
   IaCandidate,
+  IaDecision,
   IaFirewallItem,
   IaLegacyReference,
   IaNode,
@@ -52,6 +59,7 @@ const PARTIAL_BACKED: Impl = ['IMPLEMENTATION_PARTIAL', 'PRODUCTION_BACKED'];
 const NOT_STARTED: Impl = ['IMPLEMENTATION_NOT_STARTED', 'NONE'];
 
 const STAFF_SHELL_VIS: Record<IaActor, IaVisibility> = { FOUNDER: 'FULL', STAFF: 'FULL', CLIENT: 'HIDDEN' };
+const STAFF_BY_GRANT_VIS: Record<IaActor, IaVisibility> = { FOUNDER: 'FULL', STAFF: 'BY_GRANT', CLIENT: 'HIDDEN' };
 const CLIENT_SHELL_VIS: Record<IaActor, IaVisibility> = { FOUNDER: 'VIA_AIO_OFFICE', STAFF: 'VIA_AIO_OFFICE', CLIENT: 'FULL' };
 
 type Spec = {
@@ -74,6 +82,14 @@ type Spec = {
   data?: ReportDataStatus;
   architecture?: ArchitectureStatus;
   notes?: string;
+  /** Staff see it only with an explicit grant (founder-class visibility is never inherited). */
+  byGrant?: boolean;
+  /** The act reserved to the FOUNDER actor class. */
+  founder?: string;
+  /** STATE nodes: when the node is shown. */
+  shownWhen?: string;
+  /** Founder-named potential children (not nodes yet). */
+  potential?: string[];
 };
 
 const NODES: IaNode[] = [];
@@ -94,8 +110,9 @@ function node(id: string, s: Spec): void {
     kind: s.kind,
     role: s.role,
     semantics: s.semantics ?? '',
-    visibility: shell_id === 'CLIENT_OFFICE' ? CLIENT_SHELL_VIS : STAFF_SHELL_VIS,
+    visibility: shell_id === 'CLIENT_OFFICE' ? CLIENT_SHELL_VIS : s.byGrant ? STAFF_BY_GRANT_VIS : STAFF_SHELL_VIS,
     staff_gate: s.gate ?? null,
+    founder_authority: s.founder ?? null,
     client_projection: s.projection ?? null,
     architecture: s.architecture ?? 'ARCHITECTURALLY_CANONICAL',
     implementation: s.impl[0],
@@ -107,6 +124,8 @@ function node(id: string, s: Spec): void {
     feature_refs: s.features ?? [],
     authority_refs: s.authorities ?? [],
     client_resolution: shell_id === 'CLIENT_OFFICE' && s.kind !== 'SHELL' ? s.client ?? 'ALWAYS' : null,
+    shown_when: s.shownWhen ?? null,
+    potential_children: s.potential ?? [],
     projects: s.projects ?? [],
     aggregates: s.aggregates ?? [],
     data_status: s.data ?? null,
@@ -120,6 +139,7 @@ const LANES = [
   'AIO_OFFICE.WORK.PERMITTING_AUTHORITIES',
   'AIO_OFFICE.WORK.FILING_FUEL_TAXES',
   'AIO_OFFICE.WORK.COMPLIANCE',
+  'AIO_OFFICE.WORK.VEHICLES_FLEET',
   'AIO_OFFICE.WORK.DISPATCH',
   'AIO_OFFICE.WORK.BROKERAGE',
   'AIO_OFFICE.WORK.INSURANCE',
@@ -147,8 +167,8 @@ node('AIO_OFFICE.HOME', {
 node('AIO_OFFICE.HOME.NEEDS_ATTENTION', {
   label: 'Needs Attention', kind: 'REGION', role: 'PROJECTION', impl: PARTIAL_DEMO,
   semantics: 'Items across every client and service that need the office now. Each item opens its owning INTAKE / WORK case.',
-  evidence: [`${SRC}/office-core/officeAttentionEngine.ts:78`], projects: ['AIO_OFFICE.INTAKE', ...LANES],
-  notes: 'The attention engine has no IFTA, bookkeeping, FleetCare or DriverLink candidates yet.',
+  evidence: [`${SRC}/office-core/officeAttentionEngine.ts:78`], projects: ['AIO_OFFICE.INTAKE', ...LANES, 'AIO_OFFICE.MORE.GROWTH_CRM'],
+  notes: 'The attention engine has no IFTA, bookkeeping, FleetCare or DriverLink candidates yet. May show CRM follow-ups due and opportunities needing attention (D-GROWTH-BILLING); HOME owns no CRM state.',
 });
 node('AIO_OFFICE.HOME.DEADLINES', {
   label: 'Deadlines', kind: 'REGION', role: 'PROJECTION', impl: PARTIAL_DEMO,
@@ -182,7 +202,8 @@ node('AIO_OFFICE.HOME.RECENT_ACTIVITY', {
   label: 'Recent Activity', kind: 'REGION', role: 'PROJECTION', impl: PARTIAL_DEMO,
   semantics: 'Recent production events across clients and services (staff-only feed).',
   routes: [ex('/office/activity', `${OR('208')} internal activity feed`)],
-  evidence: [`${SRC}/office/pages/OfficeDashboardPage.tsx:16`], projects: ['AIO_OFFICE.INTAKE', 'AIO_OFFICE.WORK'],
+  evidence: [`${SRC}/office/pages/OfficeDashboardPage.tsx:16`], projects: ['AIO_OFFICE.INTAKE', 'AIO_OFFICE.WORK', 'AIO_OFFICE.MORE.GROWTH_CRM'],
+  notes: 'May include new leads and conversions from GROWTH / CRM (D-GROWTH-BILLING).',
 });
 node('AIO_OFFICE.HOME.QUICK_ACTIONS', {
   label: 'Quick Actions', kind: 'REGION', role: 'PROJECTION', impl: PARTIAL_DEMO,
@@ -208,9 +229,9 @@ node('AIO_OFFICE.INTAKE.BULK_BATCH_MIGRATION', { label: 'Bulk Batch Migration', 
 node('AIO_OFFICE.INTAKE.MIGRATION_STATUS', { label: 'Migration Status', kind: 'SECTION', role: 'ENTRY', impl: PARTIAL_DEMO, routes: [ex('/office/migration', OR('195'))], services: ['CLIENT_MIGRATION_INTAKE'], notes: 'Shown on the INTAKE root screen (AIO-MIG-ROOT-001, associated with INTAKE).', semantics: 'Where each file stands in the pipeline (upload → extract → classify → validate → review → complete).' });
 node('AIO_OFFICE.INTAKE.EXTRACTION_CLASSIFICATION', { label: 'Extraction / Classification', kind: 'SECTION', role: 'ENTRY', impl: PARTIAL_BACKED, routes: [MIG('extract'), MIG('new-extract'), MIG('batch-processing')], authorities: ['AIO-MIG-EXISTING-EXTRACT-001', 'AIO-MIG-NEW-EXTRACT-001', 'AIO-MIG-BATCH-PROCESSING-001'], services: ['CLIENT_MIGRATION_INTAKE'] });
 node('AIO_OFFICE.INTAKE.MATCH_RECONCILE', { label: 'Match / Reconcile', kind: 'SECTION', role: 'ENTRY', impl: PARTIAL_BACKED, routes: [MIG('match'), MIG('conflicts'), MIG('batch-conflicts')], authorities: ['AIO-MIG-EXISTING-MATCH-001', 'AIO-MIG-EXISTING-CONFLICTS-001', 'AIO-MIG-BATCH-CONFLICTS-001'], services: ['CLIENT_MIGRATION_INTAKE'], notes: 'Open gap (prototype): the match decision is kept in the open page only.' });
-node('AIO_OFFICE.INTAKE.FOUNDER_REVIEW', { label: 'Founder Review', kind: 'SECTION', role: 'ENTRY', impl: PARTIAL_BACKED, routes: [MIG('review'), MIG('new-review')], authorities: ['AIO-MIG-EXISTING-REVIEW-001', 'AIO-MIG-NEW-REVIEW-001'], services: ['CLIENT_MIGRATION_INTAKE'] });
-node('AIO_OFFICE.INTAKE.PREBUILT_CLIENT', { label: 'Prebuilt Client', kind: 'SECTION', role: 'ENTRY', impl: PARTIAL_BACKED, routes: [MIG('approval'), MIG('prebuilt'), MIG('new-approval'), MIG('new-prebuilt'), MIG('batch-approval'), MIG('batch-run')], authorities: ['AIO-MIG-EXISTING-APPROVAL-001', 'AIO-MIG-EXISTING-PREBUILT-001', 'AIO-MIG-NEW-APPROVAL-001', 'AIO-MIG-NEW-PREBUILT-001', 'AIO-MIG-BATCH-APPROVAL-001', 'AIO-MIG-BATCH-RUN-001'], services: ['CLIENT_MIGRATION_INTAKE'], semantics: 'APPROVE MIGRATION creates a PREBUILT client office. PREBUILT is not ACTIVE.' });
-node('AIO_OFFICE.INTAKE.ACTIVATION_INVITE', { label: 'Activation Invite', kind: 'SECTION', role: 'ENTRY', impl: PARTIAL_BACKED, routes: [MIG('invite'), MIG('invited'), MIG('new-invite'), MIG('new-confirm')], authorities: ['AIO-MIG-EXISTING-INVITE-001', 'AIO-MIG-EXISTING-INVITED-001', 'AIO-MIG-NEW-INVITE-001', 'AIO-MIG-NEW-CONFIRM-001'], services: ['CLIENT_MIGRATION_INTAKE'], evidence: [`${SRC}/client-migration/services/activationInviteService.ts`] });
+node('AIO_OFFICE.INTAKE.FOUNDER_REVIEW', { label: 'Founder Review', kind: 'SECTION', role: 'ENTRY', impl: PARTIAL_BACKED, founder: 'Founder review of the migrated profile (staff prepare it; they do not inherit the review)', routes: [MIG('review'), MIG('new-review')], authorities: ['AIO-MIG-EXISTING-REVIEW-001', 'AIO-MIG-NEW-REVIEW-001'], services: ['CLIENT_MIGRATION_INTAKE'] });
+node('AIO_OFFICE.INTAKE.PREBUILT_CLIENT', { label: 'Prebuilt Client', kind: 'SECTION', role: 'ENTRY', impl: PARTIAL_BACKED, founder: 'PREBUILT review / approval (APPROVE MIGRATION)', routes: [MIG('approval'), MIG('prebuilt'), MIG('new-approval'), MIG('new-prebuilt'), MIG('batch-approval'), MIG('batch-run')], authorities: ['AIO-MIG-EXISTING-APPROVAL-001', 'AIO-MIG-EXISTING-PREBUILT-001', 'AIO-MIG-NEW-APPROVAL-001', 'AIO-MIG-NEW-PREBUILT-001', 'AIO-MIG-BATCH-APPROVAL-001', 'AIO-MIG-BATCH-RUN-001'], services: ['CLIENT_MIGRATION_INTAKE'], semantics: 'APPROVE MIGRATION creates a PREBUILT client office. PREBUILT is not ACTIVE.' });
+node('AIO_OFFICE.INTAKE.ACTIVATION_INVITE', { label: 'Activation Invite', kind: 'SECTION', role: 'ENTRY', impl: PARTIAL_BACKED, founder: 'Activation authority (sending the activation invite); client confirmation stays the gate before ACTIVE', routes: [MIG('invite'), MIG('invited'), MIG('new-invite'), MIG('new-confirm')], authorities: ['AIO-MIG-EXISTING-INVITE-001', 'AIO-MIG-EXISTING-INVITED-001', 'AIO-MIG-NEW-INVITE-001', 'AIO-MIG-NEW-CONFIRM-001'], services: ['CLIENT_MIGRATION_INTAKE'], evidence: [`${SRC}/client-migration/services/activationInviteService.ts`] });
 node('AIO_OFFICE.INTAKE.MIGRATION_HISTORY', {
   label: 'Migration History', kind: 'SECTION', role: 'ENTRY', impl: PARTIAL_READ, services: ['CLIENT_MIGRATION_INTAKE'],
   routes: [ex('/office/archive-migration', `${OR('283-285')} archive migration batches (same archiveMigrationBatches slice)`)],
@@ -241,7 +262,7 @@ lane('PERMITTING_AUTHORITIES', {
 });
 section('PERMITTING_AUTHORITIES.TAGS_REGISTRATION', { label: 'Tags / Registration', impl: PARTIAL_GENERIC, workspaces: ['TAGS_REGISTRATION'], features: ['AIO.TAGS_REGISTRATION'], services: ['PERMITTING_AUTHORITIES'], evidence: [`${SRC}/services/catalog/serviceCatalog.ts:299 irp`, `${SRC}/services/catalog/serviceCatalog.ts:420 tag-services (PREPARING)`] });
 section('PERMITTING_AUTHORITIES.FUEL_ROAD_TAX_PERMITS', { label: 'Fuel / Road Tax Permits', impl: PARTIAL_GENERIC, workspaces: ['PERMITTING'], features: ['AIO.PERMITTING', 'AIO.ROAD_TAX'], services: ['PERMITTING_AUTHORITIES'], evidence: [`${SRC}/services/catalog/serviceCatalog.ts:572 trip-permits`], notes: 'ROAD_TAX as its own workspace is an open founder question (office.ts AIO_NOT_WORKSPACES).' });
-section('PERMITTING_AUTHORITIES.OPERATING_AUTHORITIES', { label: 'Operating Authorities', impl: PARTIAL_GENERIC, workspaces: ['COMPLIANCE'], features: ['AIO.AUTHORITIES'], services: ['PERMITTING_AUTHORITIES'], evidence: [`${SRC}/services/catalog/serviceCatalog.ts:125 usdot`, `${SRC}/services/catalog/serviceCatalog.ts:150 operating authority`], notes: 'Lane ≠ workspace: authority work is entitled through the COMPLIANCE workspace (AUTHORITY · BOC-3 · SAFETY) until the split question is decided (Q-COMPLIANCE-SPLIT).' });
+section('PERMITTING_AUTHORITIES.OPERATING_AUTHORITIES', { label: 'Operating Authorities', impl: PARTIAL_GENERIC, workspaces: ['COMPLIANCE'], features: ['AIO.AUTHORITIES'], services: ['PERMITTING_AUTHORITIES'], evidence: [`${SRC}/services/catalog/serviceCatalog.ts:125 usdot`, `${SRC}/services/catalog/serviceCatalog.ts:150 operating authority`], notes: 'Lane ≠ workspace: authority work is entitled through the one COMPLIANCE workspace (AUTHORITY · BOC-3 · SAFETY), which stays unsplit (D-COMPLIANCE-ONE-LANE).' });
 section('PERMITTING_AUTHORITIES.BOC3', { label: 'BOC-3', impl: NOT_STARTED, workspaces: ['COMPLIANCE'], features: ['AIO.BOC3'], services: ['PERMITTING_AUTHORITIES'], evidence: [`${SRC}/services/catalog/serviceCatalog.ts:200 boc-3-assistance (COMING_SOON)`] });
 section('PERMITTING_AUTHORITIES.LLC_INC', { label: 'LLC / Inc', impl: PARTIAL_GENERIC, workspaces: ['BUSINESS_FORMATION'], features: ['AIO.BUSINESS_FORMATION'], services: ['PERMITTING_AUTHORITIES'], routes: [ex('/office/business-formation', OR('289')), ex('/office/business-name-review', OR('201'))], evidence: [`${SRC}/services/catalog/serviceCatalog.ts:8 llc`, `${SRC}/services/catalog/serviceCatalog.ts:33 corp`] });
 section('PERMITTING_AUTHORITIES.OTHER_PERMITS', { label: 'Other Permits', impl: PARTIAL_GENERIC, workspaces: ['PERMITTING'], features: ['AIO.PERMITTING'], services: ['PERMITTING_AUTHORITIES'] });
@@ -270,12 +291,21 @@ lane('COMPLIANCE', {
   label: 'Compliance', impl: PARTIAL_DEMO, services: ['COMPLIANCE'], workspaces: ['COMPLIANCE'], features: ['AIO.COMPLIANCE_SAFETY', 'AIO.RENEWALS'],
   routes: [ex('/office/deadlines', OR('279')), ex('/office/renewals', `${OR('286')} read-only`), ex('/office/documents', `${OR('280')} legacy expiring / expired queue`)],
   projection: 'CLIENT_OFFICE.OPERATIONS.COMPLIANCE',
+  semantics: 'One canonical compliance lane: these functions share client, vehicle, driver, document, deadline and case context. Split only if operational volume proves a separate lane is needed (D-COMPLIANCE-ONE-LANE).',
   notes: 'Expiration / deadline / renewal tracking exists; DOT-safety audits, corrective work and compliance cases do not.',
 });
 section('COMPLIANCE.DOT_SAFETY', { label: 'DOT / Safety', impl: NOT_STARTED, workspaces: ['COMPLIANCE'], services: ['COMPLIANCE'], evidence: [`${SRC}/services/catalog/serviceCatalog.ts:661-759 (DOT, DQ file, audit, safety: PREPARING)`] });
 section('COMPLIANCE.EXPIRATIONS', { label: 'Expirations', impl: PARTIAL_DEMO, workspaces: ['COMPLIANCE'], services: ['COMPLIANCE'], routes: [ex('/office/deadlines', OR('279')), ex('/office/renewals', OR('286'))], evidence: [`${SRC}/layouts/AIOPortalLayout.tsx:34-37 runExpirationEvaluation`] });
 section('COMPLIANCE.AUDIT_CORRECTIVE_WORK', { label: 'Audit / Corrective Work', impl: NOT_STARTED, workspaces: ['COMPLIANCE'], services: ['COMPLIANCE'], notes: 'No audit / corrective-action type or route (grep complianceCase|corrective → none).' });
 section('COMPLIANCE.COMPLIANCE_CASES', { label: 'Compliance Cases', impl: NOT_STARTED, workspaces: ['COMPLIANCE'], services: ['COMPLIANCE'] });
+
+lane('VEHICLES_FLEET', {
+  label: 'Vehicles & Fleet', impl: NOT_STARTED, services: ['VEHICLE_MANAGEMENT'],
+  semantics: 'The operational vehicle backbone (D-VEHICLES-FLEET-LANE): the vehicle record and a vehicle-centred view of everything about it. Owns the roster, profiles and availability; shows registration, documents, driver, insurance, IFTA, compliance and maintenance state by cross-link to the lane that owns each (AIO_VEHICLES_FLEET_SCOPE) — never a second copy.',
+  evidence: [`${SRC}/office/pages/ClientDetailPage.tsx:184-186 (Client 360 fleet tab: placeholder text)`, `${SRC}/road-ready/roadReadyTypes.ts:113 PowerUnit`, `${SRC}/road-ready/roadReadyTypes.ts:129 Trailer`],
+  projection: 'CLIENT_OFFICE.OPERATIONS.VEHICLE_MANAGEMENT',
+  notes: 'Not a workspace (the fleet registry is a shared capability, office.ts AIO_NOT_WORKSPACES). No staff fleet surface exists yet; vehicle data lives in the Road Ready profile and the demo store (Supabase aio_fleet_vehicles is written by migration approve only).',
+});
 
 lane('DISPATCH', {
   label: 'Dispatch', impl: PARTIAL_DEMO, services: ['DISPATCH'], workspaces: ['DISPATCH'], features: ['AIO.DISPATCH_OPERATIONS', 'AIO.LOAD_BOARD'],
@@ -301,7 +331,7 @@ section('BROKERAGE.QUOTES', { label: 'Quotes', impl: PARTIAL_BACKED, workspaces:
 section('BROKERAGE.SHIPMENTS', { label: 'Shipments', impl: PARTIAL_DEMO, workspaces: ['BROKERAGE'], services: ['BROKERAGE'], routes: [hu('/office/brokerage/shipments/:id', `${SRC}/utils/paths.ts:243 (dead link from DivisionOpsPages.tsx:52)`)] });
 section('BROKERAGE.CARRIER_OFFERS', { label: 'Carrier Offers', impl: PARTIAL_DEMO, workspaces: ['BROKERAGE'], services: ['BROKERAGE', 'DRIVERS_CARRIERS'], routes: [ex('/office/brokerage/carriers', OR('333-334'))] });
 section('BROKERAGE.STOPS_STATUS', { label: 'Stops / Status', impl: PARTIAL_BACKED, workspaces: ['BROKERAGE'], services: ['BROKERAGE'], evidence: ['all-in-one-enterprises/supabase/migrations/20260815160000 (aio_load_stops · aio_load_status_history)'] });
-section('BROKERAGE.LOAD_FINANCIALS', { label: 'Load Financials', impl: PARTIAL_DEMO, workspaces: ['BROKERAGE'], services: ['BROKERAGE'], routes: [ex('/office/brokerage/finance', OR('335'))], notes: 'Internal margin / carrier pay — staff only (firewall).' });
+section('BROKERAGE.LOAD_FINANCIALS', { label: 'Load Financials', impl: PARTIAL_DEMO, workspaces: ['BROKERAGE'], services: ['BROKERAGE'], routes: [ex('/office/brokerage/finance', OR('335'))], byGrant: true, gate: 'brokerage_finance.read (ROLE_PERMISSIONS)', notes: 'Internal margin / carrier pay — staff only (firewall), and only with a brokerage finance grant (internal financial visibility is founder-class).' });
 
 lane('INSURANCE', {
   label: 'Insurance', impl: PARTIAL_DEMO, services: ['INSURANCE'], workspaces: ['INSURANCE'], features: ['AIO.INSURANCE'],
@@ -362,14 +392,16 @@ node('AIO_OFFICE.REPORTS', {
   label: 'REPORTS', kind: 'ROOT_DESTINATION', role: 'OVERSIGHT', impl: PARTIAL_DEMO,
   semantics: 'Internal oversight + history + exports: what happened, how work is performing, what can be reviewed / exported. Aggregates WORK and INTAKE; never replaces active production.',
   routes: [ex('/office/reports', `${OR('262')} Reporting Center`), ex('/office/management', `${OR('245-257')} KPI command centers`)],
-  aggregates: ['AIO_OFFICE.WORK', 'AIO_OFFICE.INTAKE'],
+  aggregates: ['AIO_OFFICE.WORK', 'AIO_OFFICE.INTAKE'], byGrant: true,
+  gate: `reports.read · management.*.read (ROLE_PERMISSIONS; ${SRC}/office/pages/ManagementPages.tsx:643 ManagementGate)`,
+  founder: 'Reporting (founder-class; staff only by grant)',
 });
-const report = (id: string, s: Omit<Spec, 'kind' | 'role'>) => node(`AIO_OFFICE.REPORTS.${id}`, { kind: 'REPORT_DOMAIN', role: 'OVERSIGHT', ...s });
+const report = (id: string, s: Omit<Spec, 'kind' | 'role'>) => node(`AIO_OFFICE.REPORTS.${id}`, { kind: 'REPORT_DOMAIN', role: 'OVERSIGHT', byGrant: true, ...s });
 const MGMT = (sub: string) => ex(`/office/management/${sub}`, OR('245-257'));
 report('OVERVIEW', { label: 'Overview', impl: PARTIAL_DEMO, data: 'PARTIAL_DATA', routes: [ex('/office/management', OR('245'))], aggregates: ['AIO_OFFICE.WORK', 'AIO_OFFICE.INTAKE'] });
 report('CLIENTS', { label: 'Clients', impl: PARTIAL_DEMO, data: 'PARTIAL_DATA', routes: [MGMT('customers')], aggregates: ['AIO_OFFICE.MORE.CLIENTS', 'AIO_OFFICE.INTAKE'], notes: 'Active-client counts must use the founder ACTIVE rule (PREBUILT not counted).' });
 report('SERVICES', { label: 'Services', impl: PARTIAL_DEMO, data: 'PARTIAL_DATA', routes: [MGMT('services')], aggregates: LANES });
-report('FINANCIAL_REVENUE', { label: 'Financial / Revenue', impl: PARTIAL_DEMO, data: 'PARTIAL_DATA', routes: [MGMT('financial')], aggregates: ['AIO_OFFICE.WORK.BROKERAGE.LOAD_FINANCIALS', 'AIO_OFFICE.WORK.FACTORING', 'AIO_OFFICE.WORK.BOOKKEEPING'], gate: 'existing management permissions (ROLE_PERMISSIONS)', notes: 'Billing Desk (quotes, invoices, payments) is a candidate source (C-BILLING-DESK).' });
+report('FINANCIAL_REVENUE', { label: 'Financial / Revenue', impl: PARTIAL_DEMO, data: 'PARTIAL_DATA', routes: [MGMT('financial')], aggregates: ['AIO_OFFICE.MORE.BILLING', 'AIO_OFFICE.WORK.BROKERAGE.LOAD_FINANCIALS', 'AIO_OFFICE.WORK.FACTORING', 'AIO_OFFICE.WORK.BOOKKEEPING'], gate: `management.financial.read (${SRC}/office/pages/ManagementPages.tsx:98,158,199 ManagementGate)`, founder: 'Internal financial visibility', notes: 'Aggregates billing for oversight; owns no invoice or payment production (MORE → BILLING, D-GROWTH-BILLING).' });
 report('FILING_HISTORY', { label: 'Filing History', impl: NOT_STARTED, data: 'NOT_YET_IMPLEMENTED', aggregates: ['AIO_OFFICE.WORK.FILING_FUEL_TAXES'], notes: 'No filing reports; only a per-case IFTA CSV export (IftaStaffCasePage.tsx:130).' });
 report('COMPLIANCE', { label: 'Compliance', impl: PARTIAL_DEMO, data: 'PARTIAL_DATA', routes: [MGMT('deadlines')], aggregates: ['AIO_OFFICE.WORK.COMPLIANCE'] });
 report('DISPATCH_BROKERAGE', { label: 'Dispatch / Brokerage', impl: PARTIAL_DEMO, data: 'PARTIAL_DATA', routes: [MGMT('dispatch'), MGMT('brokerage')], aggregates: ['AIO_OFFICE.WORK.DISPATCH', 'AIO_OFFICE.WORK.BROKERAGE'] });
@@ -387,11 +419,30 @@ node('AIO_OFFICE.MORE', {
 const more = (id: string, s: Omit<Spec, 'kind' | 'role'>) => node(`AIO_OFFICE.MORE.${id}`, { kind: 'DIRECTORY_ENTRY', role: 'SECONDARY', ...s });
 more('CLIENTS', { label: 'Clients', impl: PARTIAL_DEMO, routes: [ex('/office/clients', OR('271')), ex('/office/clients/:clientId', `${OR('274')} Client 360`)], evidence: [`${SRC}/office/pages/ClientsListPage.tsx:13`], notes: 'Directory + Client 360 (client overview: every workspace for one client).' });
 more('DOCUMENTS_VAULT', { label: 'Documents & Vault', impl: PARTIAL_DEMO, routes: [ex('/office/documents/vault', OR('281-282')), ex('/office/clients/:clientId/documents', OR('273')), ex('/office/documents/review', OR('205'))], evidence: [`${SRC}/vault/vaultStorage.ts:26-31 (backend storage not configured)`] });
-more('TEAM_STAFF', { label: 'Team & Staff', impl: PARTIAL_READ, routes: [ex('/office/team', OR('343')), ex('/office/workload', OR('207'))], gate: 'workload.read (workload)' });
-more('SERVICE_CATALOG', { label: 'Service Catalog', impl: PARTIAL_READ, routes: [ex('/office/management/launch/services', `${OR('259')} Service Activation Center`), ex('/office/settings/pricing', OR('342'))], evidence: [`${SRC}/services/catalog/serviceCatalog.ts`, `${SRC}/launch/serviceActivationLaunch.ts:8-223`] });
+more('GROWTH_CRM', {
+  label: 'Growth / CRM', impl: PARTIAL_DEMO, byGrant: true,
+  semantics: 'Internal growth and sales: leads to clients. Not client-service production, so not in WORK (D-GROWTH-BILLING). HOME may project new leads, follow-ups due, conversions and opportunities needing attention; HOME owns no CRM state.',
+  routes: [ex('/office/crm', OR('263')), ex('/office/crm/leads', OR('264')), ex('/office/crm/leads/:leadId', OR('265')), ex('/office/crm/pipeline', OR('266')), ex('/office/crm/opportunities/:opportunityId', OR('267')), ex('/office/crm/calendar', OR('268')), ex('/office/crm/reports', OR('269')), ex('/office/settings/crm', OR('270'))],
+  evidence: [`${SRC}/office/pages/CrmPages.tsx`, `${SRC}/office-core/officeContext.ts:58 CRM_FULL permissions`],
+  gate: 'crm.* (ROLE_PERMISSIONS CRM_FULL / CRM_SALES)',
+  potential: ['Leads', 'Prospects', 'Pipeline', 'Follow-ups', 'Referrals', 'Sales Activity', 'Service Opportunities'],
+  notes: 'Root-nav status is reconsidered only from usage data.',
+});
+more('BILLING', {
+  label: 'Billing', impl: PARTIAL_DEMO, byGrant: true,
+  semantics: 'Billing operations: what clients are charged and what they paid. REPORTS → FINANCIAL / REVENUE aggregates it for oversight but owns no invoice or payment production (D-GROWTH-BILLING).',
+  routes: [ex('/office/billing', OR('339')), ex('/office/invoices', OR('336')), ex('/office/invoices/:invoiceId', OR('337')), ex('/office/payments', OR('338')), ex('/office/quotes', OR('340')), ex('/office/quotes/:quoteId', OR('341'))],
+  evidence: [`${SRC}/office/pages/BillingPages.tsx`, `${SRC}/office/pages/ClientDetailPage.tsx:177 billing tab gated by billing.read`],
+  gate: 'billing.read · billing.manage (ROLE_PERMISSIONS)',
+  projection: 'CLIENT_OFFICE.FINANCES.FEES_PAYMENTS',
+  potential: ['Client Billing', 'Invoices', 'Payments', 'Balances', 'Service Charges', 'Subscriptions / Recurring Services', 'Credits / Adjustments'],
+  notes: 'Clients see only client-safe billing in FINANCES → FEES / PAYMENTS — never internal margin, commission, profitability or staff-only financial data. Quotes sit here until the MORE authority contract places them.',
+});
+more('TEAM_STAFF', { label: 'Team & Staff', impl: PARTIAL_READ, routes: [ex('/office/team', OR('343')), ex('/office/workload', OR('207'))], gate: 'workload.read · team.manage (ROLE_PERMISSIONS)', founder: 'Staff / permission administration (roles and grants)' });
+more('SERVICE_CATALOG', { label: 'Service Catalog', impl: PARTIAL_READ, founder: 'Service configuration (activation, pricing)', routes: [ex('/office/management/launch/services', `${OR('259')} Service Activation Center`), ex('/office/settings/pricing', OR('342'))], evidence: [`${SRC}/services/catalog/serviceCatalog.ts`, `${SRC}/launch/serviceActivationLaunch.ts:8-223`] });
 more('MECHANIC_NETWORK', { label: 'Mechanic Network', impl: PARTIAL_READ, routes: [ex('/office/fleetcare/providers', OR('316-319'))], notes: 'Provider directory / network administration. Ticket production stays in WORK → MECHANIC / MAINTENANCE.' });
 more('MESSAGES', { label: 'Messages', impl: PARTIAL_DEMO, routes: [ex('/office/communications', OR('217-219')), ex('/office/appointments', OR('220-221'))], evidence: [`${SRC}/communications`], notes: 'Two message models (comm* and legacy messages); backend not started.' });
-more('SYSTEM_SETTINGS', { label: 'System Settings', impl: PARTIAL_DEMO, routes: [ex('/office/settings/*', OR('210-230')), ex('/office/security', OR('231-234')), ex('/office/system/*', OR('235-242'))], gate: 'canStaffAccessSystemAdmin (auth/routeAccess.ts:63-65) where enforced' });
+more('SYSTEM_SETTINGS', { label: 'System Settings', impl: PARTIAL_DEMO, byGrant: true, founder: 'System configuration', routes: [ex('/office/settings/*', OR('210-230')), ex('/office/security', OR('231-234')), ex('/office/system/*', OR('235-242'))], gate: 'canStaffAccessSystemAdmin (auth/routeAccess.ts:63-65) where enforced' });
 more('HELP_SUPPORT', { label: 'Help & Support', impl: PARTIAL_READ, routes: [ex('/office/training', OR('260')), ex('/office/training/sops', OR('261'))] });
 more('ACCOUNT', { label: 'Account', impl: NOT_STARTED, evidence: [`${SRC}/office/layouts/AIOOfficeLayout.tsx:181-189 (demo staff selector only)`], notes: 'No staff account / profile page.' });
 
@@ -402,14 +453,27 @@ node('CLIENT_OFFICE', {
   semantics: 'The authenticated client environment: one fixed client (the signed-in organisation) and that client’s applicable workspaces. No client switcher; never INTAKE.',
   routes: [ex('/portal', `${CR('275')} AIOPortalLayout`)], features: ['AIO.CLIENT_OFFICE'],
 });
+const HUB_ROOTS = ['CLIENT_OFFICE.MY_BUSINESS', 'CLIENT_OFFICE.OPERATIONS', 'CLIENT_OFFICE.FINANCES', 'CLIENT_OFFICE.VAULT', 'CLIENT_OFFICE.INBOX', 'CLIENT_OFFICE.SERVICES', 'CLIENT_OFFICE.ACCOUNT'];
 node('CLIENT_OFFICE.HUB', {
-  label: 'Client Office Hub', kind: 'LANDING', role: 'LANDING', impl: PARTIAL_DEMO, client: 'ALWAYS', architecture: 'CANDIDATE_UNRESOLVED',
-  semantics: 'Where the client office opens today (MY OFFICE: current actions, deadlines, document requests, messages, active workspaces).',
+  label: 'Hub / Overview', kind: 'LANDING', role: 'PROJECTION', impl: PARTIAL_DEMO, client: 'ALWAYS',
+  semantics: 'The shell-level landing of CLIENT OFFICE: the client enters here. Projection and orientation across the seven destinations, which are the actual workspaces. Not a persistent root-nav tab (D-CLIENT-HUB).',
   routes: [ex('/portal', `${SRC}/pages/PortalPage.tsx:20`)], features: ['AIO.MY_OFFICE', 'AIO.CLIENT_OFFICE_HUB'],
-  notes: 'The founder root lists seven destinations and no hub; today’s MY OFFICE container is recorded here, not as an eighth destination (Q-CLIENT-HUB).',
+  projects: HUB_ROOTS,
+  notes: 'Today’s MY OFFICE command center. Added to the root nav only if future UX testing proves it necessary. MY BUSINESS stays a root destination and is not the dashboard.',
 });
+const hub = (id: string, s: Omit<Spec, 'kind' | 'role' | 'impl'> & { impl?: Impl }) => node(`CLIENT_OFFICE.HUB.${id}`, { kind: 'REGION', role: 'PROJECTION', impl: PARTIAL_DEMO, client: 'ALWAYS', ...s });
+const PP = (l: string) => `${SRC}/pages/PortalPage.tsx:${l}`;
+const CCS = (l: string) => `${SRC}/portal/clientCommandCenterService.ts:${l}`;
+hub('BUSINESS_STATUS', { label: 'Business Status', projects: ['CLIENT_OFFICE.MY_BUSINESS'], evidence: [`${CCS('693')} businessStatus`, `${PP('56')} BusinessHealthGrid`] });
+hub('WORK_IN_PROGRESS', { label: 'Work in Progress', projects: ['CLIENT_OFFICE.OPERATIONS', 'CLIENT_OFFICE.FINANCES'], evidence: [`${PP('54')} ActiveJourneysPanel`, `${PP('57')} CurrentLoadHero`] });
+hub('ITEMS_NEEDING_APPROVAL', { label: 'Items Needing Approval', projects: ['CLIENT_OFFICE.INBOX.APPROVALS_NEEDED'], evidence: [`${PP('50')} AttentionCenter`], notes: 'Attention items mix every kind of action; there is no approvals-only view yet.' });
+hub('UPCOMING_DEADLINES', { label: 'Upcoming Deadlines', projects: ['CLIENT_OFFICE.OPERATIONS.COMPLIANCE', 'CLIENT_OFFICE.OPERATIONS.FILING_IFTA'], evidence: [`${PP('85')} UpcomingList`] });
+hub('RECENT_MESSAGES', { label: 'Recent Messages', projects: ['CLIENT_OFFICE.INBOX.MESSAGES_FROM_AIO'], evidence: [`${PP('47')} NotificationDigest (unread counts only)`] });
+hub('ACTIVE_SERVICES', { label: 'Active Services', projects: ['CLIENT_OFFICE.SERVICES.ACTIVE_SERVICES'], evidence: [`${CCS('707')} activeServices (heuristic)`], notes: 'Reads the heuristic builder today; the canonical workspace resolver replaces it.' });
+hub('RECENT_DOCUMENTS', { label: 'Recent Documents', projects: ['CLIENT_OFFICE.VAULT.CURRENT_DOCUMENTS'], evidence: [`${PP('88')} Documents panel`] });
+hub('CONTEXTUAL_NEXT_ACTION', { label: 'Contextual Next Action', projects: ['CLIENT_OFFICE.INBOX.REQUESTS', 'CLIENT_OFFICE.INBOX.APPROVALS_NEEDED', 'CLIENT_OFFICE.SERVICES.RECOMMENDED_CONTEXTUAL'], evidence: [`${PP('48')} NextActionHero`, `${CCS('626')} selectNextAction`], notes: 'A service suggestion appears only under the expansion rules (suppressed while urgent work is open).' });
 node('CLIENT_OFFICE.ACTIVATION', {
-  label: 'Client Activation', kind: 'GATE', role: 'GATE', impl: PARTIAL_BACKED, client: 'STATE',
+  label: 'Client Activation', kind: 'GATE', role: 'GATE', impl: PARTIAL_BACKED, client: 'STATE', shownWhen: 'Lifecycle INVITED or CLIENT_CONFIRMATION_REQUIRED',
   semantics: 'Confirmation before ACTIVE: the invited client sets a password, reviews what AIO knows and confirms. Shown only while INVITED / CLIENT_CONFIRMATION_REQUIRED. PREBUILT is not ACTIVE; client confirmation remains the gate.',
   routes: [ex('/office-activation/:token', `${CR('257')} OfficeActivationPage (public layout)`), ex('/portal/activation/review', `${CR('272')} ClientOfficeReviewPage (no staff nav)`)],
   authorities: ['AIO-MIG-ACTIVATION-WELCOME-001', 'AIO-MIG-ACTIVATION-COMPANY-001', 'AIO-MIG-ACTIVATION-PEOPLE-001', 'AIO-MIG-ACTIVATION-VEHICLES-001', 'AIO-MIG-ACTIVATION-SERVICES-001', 'AIO-MIG-ACTIVATION-DOCUMENTS-001', 'AIO-MIG-ACTIVATION-CHANGED-001', 'AIO-MIG-ACTIVATION-CONFIRM-001', 'AIO-MIG-ACTIVATION-COMPLETE-002'],
@@ -421,7 +485,7 @@ node('CLIENT_OFFICE.ACTIVATION', {
 const dest = (id: string, s: Omit<Spec, 'kind'>) => node(`CLIENT_OFFICE.${id}`, { kind: 'ROOT_DESTINATION', ...s });
 const csec = (id: string, s: Omit<Spec, 'kind'>) => node(`CLIENT_OFFICE.${id}`, { kind: 'SECTION', ...s });
 
-dest('MY_BUSINESS', { label: 'MY BUSINESS', role: 'CLIENT_RECORD', impl: PARTIAL_DEMO, client: 'ALWAYS', semantics: 'The client’s company record and business identity.', routes: [ex('/portal/business', CR('277')), ex('/portal/business/summary', CR('278'))] });
+dest('MY_BUSINESS', { label: 'MY BUSINESS', role: 'CLIENT_RECORD', impl: PARTIAL_DEMO, client: 'ALWAYS', semantics: 'The client’s company record and business identity — a destination, not the client dashboard (the HUB orients).', routes: [ex('/portal/business', CR('277')), ex('/portal/business/summary', CR('278'))] });
 csec('MY_BUSINESS.COMPANY_PROFILE', { label: 'Company Profile', role: 'CLIENT_RECORD', impl: PARTIAL_DEMO, client: 'ALWAYS', routes: [ex('/portal/business', CR('277'))] });
 csec('MY_BUSINESS.OWNERS_CONTACTS', { label: 'Owners / Contacts', role: 'CLIENT_RECORD', impl: PARTIAL_READ, client: 'ALWAYS', routes: [ex('/portal/business/summary', CR('278'))], notes: 'Reviewed during activation (PEOPLE); no dedicated page.' });
 csec('MY_BUSINESS.DRIVERS', { label: 'Drivers', role: 'CLIENT_RECORD', impl: PARTIAL_READ, client: 'APPLICABILITY', services: ['DRIVERS_CARRIERS'], evidence: [`${SRC}/road-ready/roadReadyTypes.ts:141 DriverPlaceholder`], notes: 'Captured in Road Ready onboarding; no driver record page. Carriers only.' });
@@ -430,21 +494,29 @@ csec('MY_BUSINESS.AUTHORITIES_REGISTRATIONS', { label: 'Authorities / Registrati
 csec('MY_BUSINESS.BUSINESS_DETAILS', { label: 'Business Details', role: 'CLIENT_RECORD', impl: PARTIAL_READ, client: 'ALWAYS', routes: [ex('/portal/business/summary', CR('278'))] });
 
 dest('OPERATIONS', { label: 'OPERATIONS', role: 'CLIENT_WORKSPACE', impl: PARTIAL_DEMO, client: 'ENTITLEMENT', semantics: 'Operational service workspaces that are active or relevant for this client.', routes: [ex('/portal/operations', CR('279'))] });
-csec('OPERATIONS.COMPLIANCE', { label: 'Compliance', role: 'CLIENT_WORKSPACE', impl: PARTIAL_DEMO, client: 'ENTITLEMENT', workspaces: ['COMPLIANCE'], services: ['COMPLIANCE'], routes: [ex('/portal/calendar', CR('306')), ex('/portal/renewals', CR('307'))] });
+csec('OPERATIONS.COMPLIANCE', { label: 'Compliance', role: 'CLIENT_WORKSPACE', impl: PARTIAL_DEMO, client: 'ENTITLEMENT', workspaces: ['COMPLIANCE'], services: ['COMPLIANCE'], routes: [ex('/portal/calendar', CR('306')), ex('/portal/renewals', CR('307'))], notes: 'Client-safe subsections only; internal audits, corrective work and compliance cases stay in AIO OFFICE.' });
 csec('OPERATIONS.PERMITTING_AUTHORITIES', { label: 'Permitting / Authorities', role: 'CLIENT_WORKSPACE', impl: PARTIAL_GENERIC, client: 'ENTITLEMENT', workspaces: ['PERMITTING', 'TAGS_REGISTRATION', 'COMPLIANCE', 'BUSINESS_FORMATION'], services: ['PERMITTING_AUTHORITIES'], routes: [ex('/portal/requests', CR('295')), ex('/portal/services/:serviceRequestId', CR('358')), ex('/portal/roadmap', CR('359'))], notes: 'No /portal/permitting; generic request tracking.' });
 csec('OPERATIONS.FILING_IFTA', { label: 'Filing / IFTA', role: 'CLIENT_WORKSPACE', impl: PARTIAL_DEMO, client: 'ENTITLEMENT', workspaces: ['IFTA'], services: ['IFTA_FUEL_TAX'], features: ['AIO.IFTA'], routes: [ex('/portal/workspaces/ifta', `${CR('268-271')} IftaClientShell + IftaClientFilingRoomPage`)], authorities: ['AIO.CLIENT_OFFICE.WS.IFTA'], notes: 'The approved IFTA filing room, unchanged; NOT ACTIVE YET expansion state when AVAILABLE_NOT_ACTIVATED; hidden when NOT_APPLICABLE.' });
 csec('OPERATIONS.DISPATCH', { label: 'Dispatch', role: 'CLIENT_WORKSPACE', impl: PARTIAL_DEMO, client: 'ENTITLEMENT', workspaces: ['DISPATCH'], services: ['DISPATCH'], routes: [ex('/portal/dispatch', CR('316-320')), ex('/portal/load-board', CR('321-329'))], notes: '"Message Dispatcher" links to the staff route /office/messages (DispatchHomePage.tsx:142) — firewall finding.' });
 csec('OPERATIONS.BROKERAGE', { label: 'Brokerage', role: 'CLIENT_WORKSPACE', impl: PARTIAL_BACKED, client: 'ENTITLEMENT', workspaces: ['BROKERAGE'], services: ['BROKERAGE'], routes: [ex('/portal/brokerage', CR('353-356'))], notes: 'Carrier side (AIO Freight). Shippers use the shipper portal (/shipper/*, a separate role projection).' });
 csec('OPERATIONS.DRIVER_MANAGEMENT', { label: 'Driver Management', role: 'CLIENT_WORKSPACE', impl: PARTIAL_DEMO, client: 'ENTITLEMENT', workspaces: ['DRIVERLINK'], services: ['DRIVERS_CARRIERS'], routes: [ex('/portal/driverlink', CR('341-345'))] });
-csec('OPERATIONS.VEHICLE_MANAGEMENT', { label: 'Vehicle Management', role: 'CLIENT_WORKSPACE', impl: PARTIAL_READ, client: 'APPLICABILITY', services: ['VEHICLE_MANAGEMENT'], routes: [ex('/portal/fleet', CR('302'))], notes: 'Fleet registry is a shared capability, not a workspace (office.ts AIO_NOT_WORKSPACES).' });
+csec('OPERATIONS.VEHICLE_MANAGEMENT', { label: 'Vehicle Management', role: 'CLIENT_WORKSPACE', impl: PARTIAL_READ, client: 'APPLICABILITY', services: ['VEHICLE_MANAGEMENT'], routes: [ex('/portal/fleet', CR('302'))], notes: 'Fleet registry is a shared capability, not a workspace (office.ts AIO_NOT_WORKSPACES). Staff counterpart: WORK → VEHICLES & FLEET.' });
 csec('OPERATIONS.MAINTENANCE', { label: 'Maintenance', role: 'CLIENT_WORKSPACE', impl: PARTIAL_DEMO, client: 'ENTITLEMENT', workspaces: ['FLEETCARE'], services: ['MECHANIC_MAINTENANCE'], routes: [ex('/portal/fleetcare', CR('337-340'))] });
+csec('OPERATIONS.ROAD_READY', {
+  label: 'Road Ready', role: 'CLIENT_WORKSPACE', impl: PARTIAL_DEMO, client: 'STATE', shownWhen: 'Road Ready engagement ACTIVE', services: ['ROAD_READY'], features: ['AIO.ROAD_READY'],
+  semantics: 'The active Road Ready engagement workspace (D-ROAD-READY-PLACEMENT). On completion its records move into MY BUSINESS, VAULT, OPERATIONS and FINANCES; the engagement stays reachable through service history.',
+  routes: [ex('/portal/road-ready', CR('301')), ex('/portal/onboarding', `${CR('300')} RoadReadyOnboardingPage`)],
+  evidence: [`${SRC}/road-ready/roadReadyTypes.ts:12 RoadReadyItemStatus`],
+  potential: ['Business Setup', 'Authorities', 'Compliance', 'Documents', 'Insurance', 'Vehicle / Driver Readiness', 'Filing / Tax Readiness', 'Launch Readiness'],
+  notes: 'Today the page renders for every carrier (graph nav MY BUSINESS) whatever the state: there is no per-client engagement state (AVAILABLE / ACTIVE / COMPLETED) yet, only per-item statuses. Stages follow the later Road Ready product definition.',
+});
 
 dest('FINANCES', { label: 'FINANCES', role: 'CLIENT_WORKSPACE', impl: PARTIAL_DEMO, client: 'ENTITLEMENT', semantics: 'Financial service workspaces and client-safe financial summaries.', routes: [ex('/portal/money', CR('280'))] });
 csec('FINANCES.BOOKKEEPING', { label: 'Bookkeeping', role: 'CLIENT_WORKSPACE', impl: PARTIAL_READ, client: 'ENTITLEMENT', workspaces: ['BOOKKEEPING'], services: ['BOOKKEEPING'], routes: [ex('/portal/bookkeeping', CR('336'))] });
 csec('FINANCES.FACTORING', { label: 'Factoring', role: 'CLIENT_WORKSPACE', impl: PARTIAL_DEMO, client: 'ENTITLEMENT', workspaces: ['FACTORING'], services: ['FACTORING'], routes: [ex('/portal/factoring', CR('330-335'))], notes: '"Message Specialist" links to /office/messages (FactoringPortalPages.tsx:107) — firewall finding.' });
 csec('FINANCES.INSURANCE', { label: 'Insurance', role: 'CLIENT_WORKSPACE', impl: PARTIAL_DEMO, client: 'ENTITLEMENT', workspaces: ['INSURANCE'], services: ['INSURANCE'], routes: [ex('/portal/insurance', CR('346-352'))], notes: 'Product graph family F12 Insurance is navigated under MY BUSINESS today → REMAP to FINANCES.' });
 csec('FINANCES.FILING_TAX_SUMMARIES', { label: 'Filing / Tax Summaries', role: 'CLIENT_WORKSPACE', impl: NOT_STARTED, client: 'ENTITLEMENT', workspaces: ['IFTA'], services: ['IFTA_FUEL_TAX'], notes: 'Filed returns are visible inside the IFTA room; no cross-quarter summary.' });
-csec('FINANCES.FEES_PAYMENTS', { label: 'Fees / Payments', role: 'CLIENT_WORKSPACE', impl: PARTIAL_DEMO, client: 'ALWAYS', semantics: 'Fees and payments, where supported (founder tree: “Fees / Payments where supported”).', routes: [ex('/portal/billing', CR('312-315')), ex('/portal/quotes', CR('310-311'))], notes: 'Where supported.' });
+csec('FINANCES.FEES_PAYMENTS', { label: 'Fees / Payments', role: 'CLIENT_WORKSPACE', impl: PARTIAL_DEMO, client: 'ALWAYS', semantics: 'Fees and payments, where supported (founder tree: “Fees / Payments where supported”).', routes: [ex('/portal/billing', CR('312-315')), ex('/portal/quotes', CR('310-311'))], notes: 'Client-safe billing projected from MORE → BILLING. Never internal margin, commission, profitability or staff-only financial data.' });
 csec('FINANCES.FINANCIAL_DOCUMENTS', { label: 'Financial Documents', role: 'CLIENT_WORKSPACE', impl: NOT_STARTED, client: 'ALWAYS', services: ['DOCUMENTS_VAULT'], notes: 'Financial documents sit in VAULT today; no FINANCES view.' });
 
 dest('VAULT', { label: 'VAULT', role: 'RECORDS', impl: PARTIAL_DEMO, client: 'ALWAYS', semantics: 'Documents and records.', services: ['DOCUMENTS_VAULT'], routes: [ex('/portal/vault', CR('304-305')), ex('/portal/documents', CR('281'))] });
@@ -466,6 +538,11 @@ csec('SERVICES.ACTIVE_SERVICES', { label: 'Active Services', role: 'DISCOVERY', 
 csec('SERVICES.AVAILABLE_SERVICES', { label: 'Available Services', role: 'DISCOVERY', impl: PARTIAL_DEMO, client: 'ALWAYS', notes: 'Only AVAILABLE_NOT_ACTIVATED workspaces; the five legacy generic AVAILABLE fallbacks are not to be reused (office.ts AIO_LEGACY_GENERIC_FALLBACKS).' });
 csec('SERVICES.RECOMMENDED_CONTEXTUAL', { label: 'Recommended / Contextual Services', role: 'DISCOVERY', impl: NOT_STARTED, client: 'ALWAYS', notes: 'Expansion rules exist in the Brain (office.ts AIO_EXPANSION_RULES); crossSellRecommendations is unused in AIO.' });
 csec('SERVICES.REQUEST_A_SERVICE', { label: 'Request a Service', role: 'DISCOVERY', impl: PARTIAL_DEMO, client: 'ALWAYS', routes: [ex('/portal/requests', CR('295'))] });
+csec('SERVICES.ROAD_READY', {
+  label: 'Road Ready', role: 'DISCOVERY', impl: NOT_STARTED, client: 'STATE', shownWhen: 'Road Ready AVAILABLE and not active · after completion: ROAD READY · COMPLETED (status only)', services: ['ROAD_READY'],
+  semantics: 'Road Ready as a service the client can start. After completion SERVICES may show ROAD READY · COMPLETED but never holds the completed records (D-ROAD-READY-PLACEMENT).',
+  evidence: [`${SRC}/pages/portal/ClientPortalPages.tsx:266 ServicesCenterPage (no Road Ready entry)`],
+});
 
 dest('ACCOUNT', { label: 'ACCOUNT', role: 'ACCOUNT', impl: PARTIAL_DEMO, client: 'ALWAYS', semantics: 'Profile, access, security, preferences, help.', routes: [ex('/portal/settings', CR('360'))] });
 csec('ACCOUNT.PROFILE', { label: 'Profile', role: 'ACCOUNT', impl: PARTIAL_DEMO, client: 'ALWAYS', routes: [ex('/portal/settings', CR('360'))] });
@@ -504,9 +581,14 @@ export const AIO_IA_SERVICES: IaService[] = [
   { service_id: 'FACTORING', name: 'Factoring', staff_nodes: ['AIO_OFFICE.WORK.FACTORING'], client_nodes: ['CLIENT_OFFICE.FINANCES.FACTORING'], client_visibility: 'ENTITLEMENT', client_visibility_note: ENT_NOTE, workspace_ids: ['FACTORING'], feature_refs: ['AIO.FACTORING'], architecture: 'ARCHITECTURALLY_CANONICAL', implementation: 'IMPLEMENTATION_PARTIAL', implementation_detail: 'Functional demo; no provider integration; two disagreeing "active" rules.', canonical_data_source: `${SRC}/factoring/factoringTypes.ts · FactoringProfile.enrollmentStatus`, evidence: [OR('305-310'), CR('330-335')], notes: 'Client "Message Specialist" links into /office/messages (firewall finding).' },
   { service_id: 'BOOKKEEPING', name: 'Bookkeeping', staff_nodes: ['AIO_OFFICE.WORK.BOOKKEEPING'], client_nodes: ['CLIENT_OFFICE.FINANCES.BOOKKEEPING'], client_visibility: 'ENTITLEMENT', client_visibility_note: ENT_NOTE, workspace_ids: ['BOOKKEEPING'], feature_refs: ['AIO.BOOKKEEPING'], architecture: 'ARCHITECTURALLY_CANONICAL', implementation: 'IMPLEMENTATION_PARTIAL', implementation_detail: 'Dashboards only (read-only); reconciliation and deliverables not started.', canonical_data_source: `${SRC}/bookkeeping/bookkeepingTypes.ts · getBookkeepingSubscription`, evidence: [OR('311-315'), CR('336')], notes: 'Absent from both active-services builders.' },
   { service_id: 'DRIVERS_CARRIERS', name: 'Drivers & Carriers', staff_nodes: ['AIO_OFFICE.WORK.DRIVERS_CARRIERS'], client_nodes: ['CLIENT_OFFICE.OPERATIONS.DRIVER_MANAGEMENT', 'CLIENT_OFFICE.MY_BUSINESS.DRIVERS'], client_visibility: 'ENTITLEMENT', client_visibility_note: ENT_NOTE, workspace_ids: ['DRIVERLINK'], feature_refs: ['AIO.DRIVERLINK'], architecture: 'ARCHITECTURALLY_CANONICAL', implementation: 'IMPLEMENTATION_PARTIAL', implementation_detail: 'Client / driver marketplace works in demo; staff views read-only; credential review and approvals not started.', canonical_data_source: `${SRC}/driverlink/driverlinkTypes.ts · matchingService.ts`, evidence: [OR('320-323'), CR('341-345')], notes: 'Driver portal (/driver/driverlink/*) is a separate role projection. No entitlement gating.' },
-  { service_id: 'VEHICLE_MANAGEMENT', name: 'Vehicle Management', staff_nodes: ['AIO_OFFICE.WORK.DISPATCH.TRUCKS', 'AIO_OFFICE.WORK.MECHANIC_MAINTENANCE.MAINTENANCE_STATUS', 'AIO_OFFICE.MORE.CLIENTS'], client_nodes: ['CLIENT_OFFICE.OPERATIONS.VEHICLE_MANAGEMENT', 'CLIENT_OFFICE.MY_BUSINESS.VEHICLES'], client_visibility: 'APPLICABILITY', client_visibility_note: 'Carriers only; not a workspace (fleet registry is a shared capability).', workspace_ids: [], feature_refs: [], architecture: 'ARCHITECTURALLY_CANONICAL', implementation: 'IMPLEMENTATION_PARTIAL', implementation_detail: 'Client fleet pages read-mostly; staff side not started (no /office/fleet; Client 360 fleet tab is placeholder text).', canonical_data_source: `PowerUnit · Trailer (${SRC}/road-ready/roadReadyTypes.ts:113,129) · store.powerUnits · Supabase aio_fleet_vehicles (written by migration approve only)`, evidence: [CR('302-303'), `${SRC}/office/pages/ClientDetailPage.tsx:184-186`], notes: 'No staff lane in the founder tree: vehicles are reached through DISPATCH → TRUCKS, MECHANIC → MAINTENANCE STATUS and the client record (Q-STAFF-VEHICLES).' },
+  { service_id: 'VEHICLE_MANAGEMENT', name: 'Vehicle Management', staff_nodes: ['AIO_OFFICE.WORK.VEHICLES_FLEET'], client_nodes: ['CLIENT_OFFICE.OPERATIONS.VEHICLE_MANAGEMENT', 'CLIENT_OFFICE.MY_BUSINESS.VEHICLES'], client_visibility: 'APPLICABILITY', client_visibility_note: 'Carriers only; not a workspace (fleet registry is a shared capability).', workspace_ids: [], feature_refs: [], architecture: 'ARCHITECTURALLY_CANONICAL', implementation: 'IMPLEMENTATION_PARTIAL', implementation_detail: 'Client fleet pages read-mostly; the staff lane WORK → VEHICLES & FLEET is not started (no /office fleet surface; Client 360 fleet tab is placeholder text).', canonical_data_source: `PowerUnit · Trailer (${SRC}/road-ready/roadReadyTypes.ts:113,129) · store.powerUnits · Supabase aio_fleet_vehicles (written by migration approve only)`, evidence: [CR('302-303'), `${SRC}/office/pages/ClientDetailPage.tsx:184-186`], notes: 'Staff lane by founder decision (D-VEHICLES-FLEET-LANE). It owns the vehicle record and cross-links registration, documents, driver, insurance, IFTA, compliance and maintenance to their owning lanes (AIO_VEHICLES_FLEET_SCOPE).' },
   { service_id: 'MECHANIC_MAINTENANCE', name: 'Mechanic / Maintenance', staff_nodes: ['AIO_OFFICE.WORK.MECHANIC_MAINTENANCE', 'AIO_OFFICE.MORE.MECHANIC_NETWORK'], client_nodes: ['CLIENT_OFFICE.OPERATIONS.MAINTENANCE'], client_visibility: 'ENTITLEMENT', client_visibility_note: ENT_NOTE, workspace_ids: ['FLEETCARE'], feature_refs: ['AIO.FLEETCARE'], architecture: 'ARCHITECTURALLY_CANONICAL', implementation: 'IMPLEMENTATION_PARTIAL', implementation_detail: 'Client and provider flows work in demo; staff views read-only.', canonical_data_source: `${SRC}/fleetcare/fleetcareTypes.ts · ${SRC}/demo/fleetcareActions.ts`, evidence: [OR('316-319'), CR('337-340')], notes: 'Provider portal (/provider/fleetcare/*) is a separate role projection. ~28 Supabase tables unqueried.' },
-  { service_id: 'ROAD_READY', name: 'Road Ready', staff_nodes: ['AIO_OFFICE.WORK.ROAD_READY'], client_nodes: [], client_visibility: 'APPLICABILITY', client_visibility_note: 'Universal for carriers; client destination unresolved in the founder tree (today /portal/onboarding · /portal/road-ready under MY BUSINESS) — C-CLIENT-ROAD-READY.', workspace_ids: [], feature_refs: ['AIO.ROAD_READY'], architecture: 'ARCHITECTURALLY_CANONICAL', implementation: 'IMPLEMENTATION_PARTIAL', implementation_detail: 'Functional demo on both sides; Supabase aio_road_ready_* unqueried (roadmaps / intake sessions are used).', canonical_data_source: `${SRC}/road-ready/* · ${SRC}/demo/roadReadyActions.ts`, evidence: [OR('272'), OR('275'), CR('300-301')], notes: 'Not a sold service and not a workspace; it feeds signals to every workspace.' },
+  { service_id: 'ROAD_READY', name: 'Road Ready', staff_nodes: ['AIO_OFFICE.WORK.ROAD_READY'], client_nodes: ['CLIENT_OFFICE.OPERATIONS.ROAD_READY', 'CLIENT_OFFICE.SERVICES.ROAD_READY'], client_visibility: 'STATE', client_visibility_note: 'Placement follows the engagement (D-ROAD-READY-PLACEMENT): SERVICES while available, OPERATIONS while active; once completed its records live in MY BUSINESS, VAULT, OPERATIONS and FINANCES.', state_placements: [
+    { state: 'AVAILABLE_NOT_ACTIVATED', client_nodes: ['CLIENT_OFFICE.SERVICES.ROAD_READY'], note: 'Offered as a service.' },
+    { state: 'ACTIVE', client_nodes: ['CLIENT_OFFICE.OPERATIONS.ROAD_READY'], note: 'OPERATIONS holds the actual engagement workspace.' },
+    { state: 'COMPLETED', client_nodes: ['CLIENT_OFFICE.SERVICES.ROAD_READY', 'CLIENT_OFFICE.MY_BUSINESS', 'CLIENT_OFFICE.VAULT', 'CLIENT_OFFICE.OPERATIONS', 'CLIENT_OFFICE.FINANCES'], note: 'SERVICES may show ROAD READY · COMPLETED (status only) and is never the permanent container; resulting records are distributed to MY BUSINESS, VAULT, OPERATIONS and FINANCES; the engagement stays in service history.' },
+    { state: 'NOT_APPLICABLE', client_nodes: [], note: 'Not promoted.' },
+  ], workspace_ids: [], feature_refs: ['AIO.ROAD_READY'], architecture: 'ARCHITECTURALLY_CANONICAL', implementation: 'IMPLEMENTATION_PARTIAL', implementation_detail: 'Functional demo on both sides; Supabase aio_road_ready_* unqueried (roadmaps / intake sessions are used). No per-client engagement state (AVAILABLE / ACTIVE / COMPLETED) yet, so the placement rule waits on it; SERVICES lists no Road Ready entry.', canonical_data_source: `${SRC}/road-ready/* · ${SRC}/demo/roadReadyActions.ts`, evidence: [OR('272'), OR('275'), CR('300-301')], notes: 'Not a sold workspace in the Brain registry; it feeds signals to every workspace. Exact program structure follows its later product definition.' },
   { service_id: 'DOCUMENTS_VAULT', name: 'Documents / Vault', staff_nodes: ['AIO_OFFICE.MORE.DOCUMENTS_VAULT'], client_nodes: ['CLIENT_OFFICE.VAULT', 'CLIENT_OFFICE.FINANCES.FINANCIAL_DOCUMENTS'], client_visibility: 'ALWAYS', client_visibility_note: 'Every client; only customer-visible records (internal scans never reach the client).', workspace_ids: [], feature_refs: ['AIO.VAULT'], architecture: 'ARCHITECTURALLY_CANONICAL', implementation: 'IMPLEMENTATION_PARTIAL', implementation_detail: 'UI functional in demo; backend file storage not started ("Secure storage not configured").', canonical_data_source: `${SRC}/vault/* · store.documents (${SRC}/demo/demoTypes.ts:600)`, evidence: [OR('281-282'), CR('304-305')], notes: 'A shared capability across workspaces, not a workspace.' },
   { service_id: 'MESSAGING', name: 'Messaging', staff_nodes: ['AIO_OFFICE.MORE.MESSAGES'], client_nodes: ['CLIENT_OFFICE.INBOX', 'CLIENT_OFFICE.INBOX.MESSAGES_FROM_AIO'], client_visibility: 'ALWAYS', client_visibility_note: 'Every client; client sees only its own threads (staff notes never).', workspace_ids: [], feature_refs: ['AIO.INBOX'], architecture: 'ARCHITECTURALLY_CANONICAL', implementation: 'IMPLEMENTATION_PARTIAL', implementation_detail: 'Functional demo with two parallel models (comm* and legacy messages); backend not started.', canonical_data_source: `${SRC}/communications/* · store comm* slices (${SRC}/demo/demoTypes.ts:712-733)`, evidence: [OR('217-219'), CR('283-290')], notes: 'Supabase aio_conversations / aio_messages exist but are not queried.' },
   { service_id: 'CLIENT_MIGRATION_INTAKE', name: 'Client Migration / Intake', staff_nodes: ['AIO_OFFICE.INTAKE'], client_nodes: [], client_visibility: 'STAFF_ONLY', client_visibility_note: 'Never in the client shell. The client meets only the activation gate (CLIENT_OFFICE.ACTIVATION), which renders without staff navigation.', workspace_ids: [], feature_refs: ['AIO.CLIENT_MIGRATION', 'AIO.MIGRATION_INTAKE', 'AIO.MIGRATION_REVIEW'], architecture: 'ARCHITECTURALLY_CANONICAL', implementation: 'IMPLEMENTATION_PARTIAL', implementation_detail: 'All 41 migration screens built to the approved authority; Supabase-wired services; open gaps listed in the flow prototype (match decision not saved, failed file blocks extraction, no migration history).', canonical_data_source: `${SRC}/client-migration/* · Supabase migrations 20261006210000 / 230000 / 240000`, evidence: [OR('195-196')], notes: 'Lifecycle truth unchanged; PREBUILT is not ACTIVE.' },
@@ -531,7 +613,16 @@ export const AIO_IA_SUPERSESSIONS: IaSupersession[] = [
   { lineage_id: L, old_structure: 'AIO OFFICE HUB responsibilities (office.ts AIO_OFFICE_HUB_RESPONSIBILITIES)', old_item: 'ACTIVE WORKSPACES · SERVICE HEALTH', old_target: 'hub', disposition: 'REMAPPED', new_node_ids: ['AIO_OFFICE.HOME.WORK_ACROSS_AIO', 'AIO_OFFICE.REPORTS.SERVICES'], note: 'Live lane state → HOME; performance over time → REPORTS.' },
   { lineage_id: L, old_structure: 'AIO OFFICE HUB responsibilities (office.ts AIO_OFFICE_HUB_RESPONSIBILITIES)', old_item: 'RECENT ACTIVITY', old_target: 'hub', disposition: 'KEPT', new_node_ids: ['AIO_OFFICE.HOME.RECENT_ACTIVITY'], note: '' },
   { lineage_id: L, old_structure: 'AIO OFFICE HUB responsibilities (office.ts AIO_OFFICE_HUB_RESPONSIBILITIES)', old_item: 'GLOBAL SEARCH / CLIENT LOOKUP', old_target: 'topbar search', disposition: 'REMAPPED', new_node_ids: ['AIO_OFFICE.HOME.QUICK_ACTIONS'], note: 'The header search stays; quick entry is a HOME region.' },
-  { lineage_id: L, old_structure: 'Customer containers (product graph runtimeProductGraph containers)', old_item: 'MY OFFICE', old_target: '/portal', disposition: 'REMAPPED', new_node_ids: ['CLIENT_OFFICE.HUB'], note: 'Not one of the seven client root destinations; recorded as the client office landing (Q-CLIENT-HUB).' },
+  { lineage_id: L, old_structure: 'Customer containers (product graph runtimeProductGraph containers)', old_item: 'MY OFFICE', old_target: '/portal', disposition: 'REMAPPED', new_node_ids: ['CLIENT_OFFICE.HUB'], note: 'The CLIENT OFFICE HUB / OVERVIEW: the shell landing, not one of the seven root destinations (D-CLIENT-HUB).' },
+  ...([
+    ['ACTIVE WORKSPACES', 'RENAMED', ['CLIENT_OFFICE.HUB.ACTIVE_SERVICES'], ''],
+    ['CURRENT ACTIONS', 'REMAPPED', ['CLIENT_OFFICE.HUB.CONTEXTUAL_NEXT_ACTION', 'CLIENT_OFFICE.HUB.ITEMS_NEEDING_APPROVAL'], 'Split into the next action and the approvals waiting on the client.'],
+    ['UPCOMING DEADLINES', 'KEPT', ['CLIENT_OFFICE.HUB.UPCOMING_DEADLINES'], ''],
+    ['DOCUMENT REQUESTS', 'REMAPPED', ['CLIENT_OFFICE.HUB.CONTEXTUAL_NEXT_ACTION'], 'A document request is a next action; the request itself is owned by INBOX → REQUESTS.'],
+    ['MESSAGES', 'RENAMED', ['CLIENT_OFFICE.HUB.RECENT_MESSAGES'], ''],
+    ['RECENT ACTIVITY', 'REMAPPED', ['CLIENT_OFFICE.HUB.WORK_IN_PROGRESS'], 'The hub shows work in progress; the activity feed is INBOX → ACTIVITY UPDATES.'],
+    ['AVAILABLE RELEVANT WORKSPACES', 'REMAPPED', ['CLIENT_OFFICE.HUB.CONTEXTUAL_NEXT_ACTION'], 'Only under the expansion rules.'],
+  ] as const).map(([item, disposition, ids, note]) => ({ lineage_id: L, old_structure: 'CLIENT OFFICE hub responsibilities (office.ts AIO_CLIENT_OFFICE_HUB_RESPONSIBILITIES)', old_item: item, old_target: 'hub', disposition, new_node_ids: [...ids], note })),
   { lineage_id: L, old_structure: 'Customer containers (product graph families)', old_item: 'F12 INSURANCE under MY BUSINESS', old_target: '/portal/insurance', disposition: 'REMAPPED', new_node_ids: ['CLIENT_OFFICE.FINANCES.INSURANCE'], note: 'The founder tree places Insurance in FINANCES.' },
 ];
 
@@ -545,8 +636,9 @@ export const AIO_IA_LEGACY: IaLegacyReference[] = [
   { repo: FS, ref: 'AIO_CLIENT_MIGRATION_AUTHORITY/authority-manifest.json:600 (AIO-MIG-ACTIVATION-COMPLETE-002 client_office_destinations)', what: 'Arrival plate records five client destinations (My Business · Operations · Finances · Vault · Inbox) and client_nav_authority_missing: true', classification: 'KEEP', target_node_ids: ['CLIENT_OFFICE.MY_BUSINESS', 'CLIENT_OFFICE.OPERATIONS', 'CLIENT_OFFICE.FINANCES', 'CLIENT_OFFICE.VAULT', 'CLIENT_OFFICE.INBOX', 'CLIENT_OFFICE.SERVICES', 'CLIENT_OFFICE.ACCOUNT'], note: 'Authority untouched. The missing client nav authority, when made, follows the seven client roots (adds SERVICES and ACCOUNT).' },
   { repo: FS, ref: 'AIO_CLIENT_MIGRATION_AUTHORITY/authority-manifest.json:133,162,297,761', what: 'Approved migration authority images draw the dock with FILING', classification: 'KEEP', target_node_ids: ['AIO_OFFICE.INTAKE'], note: 'Authority stays untouched (historical lineage). The dock label follows the IA when the live dock is migrated; the screens’ approved content is unaffected.' },
   { repo: FS, ref: 'all-in-one-enterprises/docs/AIO_CLIENT_MIGRATION_AUTHORITY_RECOVERY.md (dock references)', what: 'Recovery doc describes the FILING dock', classification: 'SUPERSEDE', target_node_ids: ['AIO_OFFICE.WORK'], note: 'Supersession pointer added; historical text kept.' },
-  { repo: FS, ref: `${SRC}/office/layouts/AIOOfficeLayout.tsx:13-118`, what: 'Desktop office sidebar navGroups (Home · Work · Growth · Clients · Services · Operations · Finance · Communication · Management)', classification: 'MIGRATE_LATER', target_node_ids: ['AIO_OFFICE.HOME', 'AIO_OFFICE.WORK', 'AIO_OFFICE.REPORTS', 'AIO_OFFICE.MORE'], note: 'Regroup into the five roots in the implementation sprint; items without a founder-tree home are candidates (see candidates).' },
-  { repo: FS, ref: `${SRC}/product-graph/portalNavFromMeta.ts:7-33`, what: 'Carrier portal nav (sections MY OFFICE · MY BUSINESS · OPERATIONS · FINANCES · VAULT · INBOX · ACCOUNT)', classification: 'REMAP', target_node_ids: ['CLIENT_OFFICE.HUB', 'CLIENT_OFFICE.FINANCES.INSURANCE', 'CLIENT_OFFICE.SERVICES'], note: 'Already container-aligned. Remap Insurance to FINANCES, add SERVICES as a root, MY OFFICE → client hub (pending Q-CLIENT-HUB). MIGRATE with the client nav sprint.' },
+  { repo: FS, ref: `${SRC}/office/layouts/AIOOfficeLayout.tsx:13-118`, what: 'Desktop office sidebar navGroups (Home · Work · Growth · Clients · Services · Operations · Finance · Communication · Management)', classification: 'MIGRATE_LATER', target_node_ids: ['AIO_OFFICE.HOME', 'AIO_OFFICE.WORK', 'AIO_OFFICE.REPORTS', 'AIO_OFFICE.MORE'], note: 'Regroup into the five roots in the implementation sprint: Growth (CRM) → MORE → GROWTH / CRM, the Finance group’s billing desk → MORE → BILLING; items without a founder-tree home stay candidates.' },
+  { repo: FS, ref: `${SRC}/office-core/officeWorkTypes.ts:4-16 OfficeStaffRole · ${SRC}/office-core/officeContext.ts:74 ROLE_PERMISSIONS · all-in-one-enterprises/supabase/migrations/20260815100000_aio_identity_foundation.sql:29 aio_internal_role`, what: 'Staff roles (owner, admin, …) and Supabase internal roles (super_admin, administrator, …); no FOUNDER role', classification: 'MIGRATE_LATER', target_node_ids: [], note: 'Map the FOUNDER actor class onto a role in the permissions sprint (D-FOUNDER-ROLE). No founder identity is hard-coded today (no name or email checks found); keep it that way.' },
+  { repo: FS, ref: `${SRC}/product-graph/portalNavFromMeta.ts:7-33`, what: 'Carrier portal nav (sections MY OFFICE · MY BUSINESS · OPERATIONS · FINANCES · VAULT · INBOX · ACCOUNT)', classification: 'REMAP', target_node_ids: ['CLIENT_OFFICE.HUB', 'CLIENT_OFFICE.FINANCES.INSURANCE', 'CLIENT_OFFICE.SERVICES'], note: 'Already container-aligned. Remap Insurance to FINANCES, add SERVICES as a root, MY OFFICE → the HUB / OVERVIEW landing (not a nav section), Road Ready out of MY BUSINESS (SERVICES while available, OPERATIONS while active). MIGRATE with the client nav sprint.' },
   { repo: FS, ref: `${SRC}/layouts/AIOPortalLayout.tsx:13-19`, what: 'Portal mobile bottom dock (carrier only)', classification: 'MIGRATE_LATER', target_node_ids: ['CLIENT_OFFICE.MY_BUSINESS', 'CLIENT_OFFICE.OPERATIONS', 'CLIENT_OFFICE.FINANCES', 'CLIENT_OFFICE.VAULT', 'CLIENT_OFFICE.INBOX', 'CLIENT_OFFICE.SERVICES', 'CLIENT_OFFICE.ACCOUNT'], note: 'Mobile dock contract follows the seven client roots (selection for a 5-slot dock is a design decision for the authority sprint).' },
   { repo: FS, ref: `${SRC}/product-graph/generated/runtimeProductGraph.json families[F12].nav = "MY BUSINESS"`, what: 'Insurance family navigated under MY BUSINESS', classification: 'REMAP', target_node_ids: ['CLIENT_OFFICE.FINANCES.INSURANCE'], note: 'Generated file not edited; the IA overlay records the canonical location.' },
   { repo: FS, ref: `${SRC}/product-graph/generated/routeMetaRegistry.json`, what: 'No entries for /office/migration or the /workspaces/ifta routes', classification: 'MIGRATE_LATER', target_node_ids: ['AIO_OFFICE.INTAKE', 'AIO_OFFICE.WORK.FILING_FUEL_TAXES.IFTA', 'CLIENT_OFFICE.OPERATIONS.FILING_IFTA'], note: 'The route meta registry is stale relative to the routes; regenerate in the graph sprint.' },
@@ -564,22 +656,22 @@ export const AIO_IA_LEGACY: IaLegacyReference[] = [
 /* ════════════════════════════════ candidates (source truth the founder tree does not name) ════════════════════════════════ */
 
 export const AIO_IA_CANDIDATES: IaCandidate[] = [
-  { candidate_id: 'C-WORK-QUEUES', label: 'My Work · Queues · Approvals · Escalations', observed: [OR('199-203'), `${SRC}/office/layouts/AIOOfficeLayout.tsx:18-26`], recommended_node: 'AIO_OFFICE.WORK', rationale: 'Cross-lane staff work views: production → WORK (cross-client filters), surfaced on HOME as projections.', status: 'CANDIDATE_UNRESOLVED' },
-  { candidate_id: 'C-SERVICE-REQUESTS', label: 'Service Operations · Requests · Tasks', observed: [OR('204'), OR('276-278')], recommended_node: 'AIO_OFFICE.WORK', rationale: 'The universal service-request queue is production for lanes without a case model.', status: 'CANDIDATE_UNRESOLVED' },
-  { candidate_id: 'C-CRM-GROWTH', label: 'Growth (CRM · Leads · Pipeline · CRM Calendar · CRM Reports)', observed: [OR('263-270')], recommended_node: null, rationale: 'Sales / growth is daily work for some staff but not a client service lane. Founder decision: WORK lane, MORE entry, or a later root.', status: 'CANDIDATE_UNRESOLVED' },
-  { candidate_id: 'C-BILLING-DESK', label: 'Billing Desk (Quotes · Invoices · Payments · Pricing)', observed: [OR('336-342')], recommended_node: 'AIO_OFFICE.REPORTS.FINANCIAL_REVENUE', rationale: 'Billing operations are production (invoicing) and a revenue source; recommend a WORK lane or MORE entry for operations and REPORTS for revenue.', status: 'CANDIDATE_UNRESOLVED' },
-  { candidate_id: 'C-WORKFLOWS-AUTOMATION', label: 'Workflows · Workflow Health · Automation Exceptions · Workflow / Automation settings', observed: [OR('210-216')], recommended_node: 'AIO_OFFICE.MORE.SYSTEM_SETTINGS', rationale: 'Templates and rules are administration (MORE); automation exceptions are production blockers (HOME → BLOCKERS).', status: 'CANDIDATE_UNRESOLVED' },
-  { candidate_id: 'C-MANAGEMENT', label: 'Management command centers (12 KPI pages) · Launch Control · Service Activation Center', observed: [OR('245-259')], recommended_node: 'AIO_OFFICE.REPORTS', rationale: 'Oversight → REPORTS; launch / activation administration → MORE.', status: 'CANDIDATE_UNRESOLVED' },
-  { candidate_id: 'C-SECURITY-SYSTEM', label: 'Security · Privacy · Production readiness / config · System data / QA · Integrations', observed: [OR('225-244')], recommended_node: 'AIO_OFFICE.MORE.SYSTEM_SETTINGS', rationale: 'Administration and lower-frequency tools.', status: 'CANDIDATE_UNRESOLVED' },
-  { candidate_id: 'C-OVERSIGHT-AUDIT', label: 'Workload · Activity · Audit', observed: [OR('207-209')], recommended_node: 'AIO_OFFICE.REPORTS', rationale: 'Oversight; recent activity also feeds HOME.', status: 'CANDIDATE_UNRESOLVED' },
-  { candidate_id: 'C-DOCUMENT-REVIEW', label: 'Document Review queue', observed: [OR('205')], recommended_node: 'AIO_OFFICE.MORE.DOCUMENTS_VAULT', rationale: 'Review of uploaded documents is production per lane; until lanes own their document checks it sits with DOCUMENTS & VAULT.', status: 'CANDIDATE_UNRESOLVED' },
-  { candidate_id: 'C-RENEWALS-DEADLINES', label: 'Renewals · Compliance Calendar', observed: [OR('279'), OR('286')], recommended_node: 'AIO_OFFICE.WORK.COMPLIANCE.EXPIRATIONS', rationale: 'Production lives in COMPLIANCE → EXPIRATIONS; HOME → DEADLINES projects it.', status: 'CANDIDATE_UNRESOLVED' },
-  { candidate_id: 'C-LEGACY-INBOX-DOCS', label: 'Legacy Inbox · Legacy Documents', observed: [OR('206'), OR('280'), OR('287')], recommended_node: 'AIO_OFFICE.MORE.MESSAGES', rationale: 'Legacy surfaces superseded by Communications and the Document Vault; retire when lanes absorb them.', status: 'CANDIDATE_UNRESOLVED' },
-  { candidate_id: 'C-APPOINTMENTS', label: 'Appointments', observed: [OR('220-221')], recommended_node: 'AIO_OFFICE.MORE.MESSAGES', rationale: 'Client scheduling sits with communication.', status: 'CANDIDATE_UNRESOLVED' },
-  { candidate_id: 'C-CLIENT-ROAD-READY', label: 'Client Road Ready / onboarding', observed: [CR('300-301'), `${SRC}/product-graph/generated/runtimeProductGraph.json families F04 nav MY BUSINESS`], recommended_node: 'CLIENT_OFFICE.MY_BUSINESS', rationale: 'Readiness of the business record; the founder client tree does not name it.', status: 'CANDIDATE_UNRESOLVED' },
-  { candidate_id: 'C-CLIENT-START-BUSINESS', label: 'Start Your Business (formation journey)', observed: [CR('252-256')], recommended_node: 'CLIENT_OFFICE.SERVICES.REQUEST_A_SERVICE', rationale: 'Public / pre-client journey; inside the client office it is a requestable service.', status: 'CANDIDATE_UNRESOLVED' },
-  { candidate_id: 'C-CLIENT-CALENDAR', label: 'Client Calendar · Renewals', observed: [CR('306-307')], recommended_node: 'CLIENT_OFFICE.OPERATIONS.COMPLIANCE', rationale: 'Dates are compliance work for the client; notifications live in INBOX.', status: 'CANDIDATE_UNRESOLVED' },
-  { candidate_id: 'C-SHIPPER-DRIVER-PROVIDER', label: 'Shipper · Driver · FleetCare provider portals', observed: [CR('365-406')], recommended_node: null, rationale: 'Separate role projections (product graph role_projections), not CLIENT OFFICE destinations.', status: 'CANDIDATE_UNRESOLVED' },
+  { candidate_id: 'C-WORK-QUEUES', label: 'My Work · Queues · Approvals · Escalations', observed: [OR('199-203'), `${SRC}/office/layouts/AIOOfficeLayout.tsx:18-26`], recommended_node: 'AIO_OFFICE.WORK', rationale: 'Cross-lane staff work views: production → WORK (cross-client filters), surfaced on HOME as projections.', status: 'CANDIDATE_UNRESOLVED', resolution: null },
+  { candidate_id: 'C-SERVICE-REQUESTS', label: 'Service Operations · Requests · Tasks', observed: [OR('204'), OR('276-278')], recommended_node: 'AIO_OFFICE.WORK', rationale: 'The universal service-request queue is production for lanes without a case model.', status: 'CANDIDATE_UNRESOLVED', resolution: null },
+  { candidate_id: 'C-CRM-GROWTH', label: 'Growth (CRM · Leads · Pipeline · CRM Calendar · CRM Reports)', observed: [OR('263-270')], recommended_node: 'AIO_OFFICE.MORE.GROWTH_CRM', rationale: 'Sales / growth is daily work for some staff but not a client service lane.', status: 'RESOLVED', resolution: 'D-GROWTH-BILLING: MORE → GROWTH / CRM; HOME may project it.' },
+  { candidate_id: 'C-BILLING-DESK', label: 'Billing Desk (Quotes · Invoices · Payments · Pricing)', observed: [OR('336-342')], recommended_node: 'AIO_OFFICE.MORE.BILLING', rationale: 'Billing operations are invoicing production and a revenue source.', status: 'RESOLVED', resolution: 'D-GROWTH-BILLING: MORE → BILLING for operations; REPORTS → FINANCIAL / REVENUE aggregates it.' },
+  { candidate_id: 'C-WORKFLOWS-AUTOMATION', label: 'Workflows · Workflow Health · Automation Exceptions · Workflow / Automation settings', observed: [OR('210-216')], recommended_node: 'AIO_OFFICE.MORE.SYSTEM_SETTINGS', rationale: 'Templates and rules are administration (MORE); automation exceptions are production blockers (HOME → BLOCKERS).', status: 'CANDIDATE_UNRESOLVED', resolution: null },
+  { candidate_id: 'C-MANAGEMENT', label: 'Management command centers (12 KPI pages) · Launch Control · Service Activation Center', observed: [OR('245-259')], recommended_node: 'AIO_OFFICE.REPORTS', rationale: 'Oversight → REPORTS; launch / activation administration → MORE.', status: 'CANDIDATE_UNRESOLVED', resolution: null },
+  { candidate_id: 'C-SECURITY-SYSTEM', label: 'Security · Privacy · Production readiness / config · System data / QA · Integrations', observed: [OR('225-244')], recommended_node: 'AIO_OFFICE.MORE.SYSTEM_SETTINGS', rationale: 'Administration and lower-frequency tools.', status: 'CANDIDATE_UNRESOLVED', resolution: null },
+  { candidate_id: 'C-OVERSIGHT-AUDIT', label: 'Workload · Activity · Audit', observed: [OR('207-209')], recommended_node: 'AIO_OFFICE.REPORTS', rationale: 'Oversight; recent activity also feeds HOME.', status: 'CANDIDATE_UNRESOLVED', resolution: null },
+  { candidate_id: 'C-DOCUMENT-REVIEW', label: 'Document Review queue', observed: [OR('205')], recommended_node: 'AIO_OFFICE.MORE.DOCUMENTS_VAULT', rationale: 'Review of uploaded documents is production per lane; until lanes own their document checks it sits with DOCUMENTS & VAULT.', status: 'CANDIDATE_UNRESOLVED', resolution: null },
+  { candidate_id: 'C-RENEWALS-DEADLINES', label: 'Renewals · Compliance Calendar', observed: [OR('279'), OR('286')], recommended_node: 'AIO_OFFICE.WORK.COMPLIANCE.EXPIRATIONS', rationale: 'Production lives in COMPLIANCE → EXPIRATIONS; HOME → DEADLINES projects it.', status: 'CANDIDATE_UNRESOLVED', resolution: null },
+  { candidate_id: 'C-LEGACY-INBOX-DOCS', label: 'Legacy Inbox · Legacy Documents', observed: [OR('206'), OR('280'), OR('287')], recommended_node: 'AIO_OFFICE.MORE.MESSAGES', rationale: 'Legacy surfaces superseded by Communications and the Document Vault; retire when lanes absorb them.', status: 'CANDIDATE_UNRESOLVED', resolution: null },
+  { candidate_id: 'C-APPOINTMENTS', label: 'Appointments', observed: [OR('220-221')], recommended_node: 'AIO_OFFICE.MORE.MESSAGES', rationale: 'Client scheduling sits with communication.', status: 'CANDIDATE_UNRESOLVED', resolution: null },
+  { candidate_id: 'C-CLIENT-ROAD-READY', label: 'Client Road Ready / onboarding', observed: [CR('300-301'), `${SRC}/product-graph/generated/runtimeProductGraph.json families F04 nav MY BUSINESS`], recommended_node: 'CLIENT_OFFICE.OPERATIONS.ROAD_READY', rationale: 'Road Ready is an engagement with a state, not a permanent record.', status: 'RESOLVED', resolution: 'D-ROAD-READY-PLACEMENT: SERVICES → ROAD READY while available, OPERATIONS → ROAD READY while active; completed records go to MY BUSINESS, VAULT, OPERATIONS, FINANCES.' },
+  { candidate_id: 'C-CLIENT-START-BUSINESS', label: 'Start Your Business (formation journey)', observed: [CR('252-256')], recommended_node: 'CLIENT_OFFICE.SERVICES.REQUEST_A_SERVICE', rationale: 'Public / pre-client journey; inside the client office it is a requestable service.', status: 'CANDIDATE_UNRESOLVED', resolution: null },
+  { candidate_id: 'C-CLIENT-CALENDAR', label: 'Client Calendar · Renewals', observed: [CR('306-307')], recommended_node: 'CLIENT_OFFICE.OPERATIONS.COMPLIANCE', rationale: 'Dates are compliance work for the client; notifications live in INBOX.', status: 'CANDIDATE_UNRESOLVED', resolution: null },
+  { candidate_id: 'C-SHIPPER-DRIVER-PROVIDER', label: 'Shipper · Driver · FleetCare provider portals', observed: [CR('365-406')], recommended_node: null, rationale: 'Separate role projections (product graph role_projections), not CLIENT OFFICE destinations.', status: 'CANDIDATE_UNRESOLVED', resolution: null },
 ];
 
 /* ════════════════════════════════ firewall · MORE rules · open questions ════════════════════════════════ */
@@ -595,13 +687,15 @@ export const AIO_IA_FIREWALL: IaFirewallItem[] = [
   { item: 'Cross-client views', node_ids: ['AIO_OFFICE.HOME', 'AIO_OFFICE.MORE.CLIENTS', 'AIO_OFFICE.REPORTS.CLIENTS'], reason: 'A client sees only itself.' },
   { item: 'Staff operations metrics', node_ids: ['AIO_OFFICE.REPORTS', 'AIO_OFFICE.MORE.TEAM_STAFF'], reason: 'Internal performance.' },
   { item: 'Staff notes', node_ids: ['AIO_OFFICE.WORK.FILING_FUEL_TAXES.IFTA'], reason: 'IFTA NOTES is a staff tab; clients write through MESSAGE AIO.' },
+  { item: 'Internal margin, commission, profitability, staff-only financial data', node_ids: ['AIO_OFFICE.REPORTS.FINANCIAL_REVENUE'], reason: 'Clients see only client-safe billing in FINANCES → FEES / PAYMENTS (D-GROWTH-BILLING).' },
+  { item: 'Growth / CRM (leads, pipeline, sales activity)', node_ids: ['AIO_OFFICE.MORE.GROWTH_CRM'], reason: 'Internal sales data.' },
 ];
 
 export const AIO_IA_MORE_RULES: OfficeInformationArchitecture['more_rules'] = {
   container_node: 'AIO_OFFICE.MORE',
   may_contain_roles: ['SECONDARY'],
   must_not_contain_roles: ['PRODUCTION', 'ENTRY', 'COMMAND', 'PROJECTION'],
-  rule: 'If an item drives daily production it belongs in WORK. If it is administration, a directory, a tool, settings or lower-frequency, it may live in MORE. Root-nav space is never a reason to move production into MORE.',
+  rule: 'If an item drives daily client-service production it belongs in WORK. If it is administration, a directory, a tool, settings or lower-frequency, it may live in MORE. Internal business operations that are not client-service production — GROWTH / CRM and BILLING — live in MORE by founder decision (HOME may project them, REPORTS may aggregate them; root status only from usage data). Root-nav space is never a reason to move client-service production into MORE.',
   exclusions: [
     { item: 'Mechanic / maintenance tickets', belongs_in: 'AIO_OFFICE.WORK.MECHANIC_MAINTENANCE', reason: 'Production. MORE keeps only the provider directory (MECHANIC NETWORK).' },
     { item: 'Filing / IFTA work', belongs_in: 'AIO_OFFICE.WORK.FILING_FUEL_TAXES', reason: 'Production (the old root FILING).' },
@@ -612,12 +706,107 @@ export const AIO_IA_MORE_RULES: OfficeInformationArchitecture['more_rules'] = {
 };
 
 export const AIO_IA_OPEN_QUESTIONS: IaOpenQuestion[] = [
-  { question_id: 'Q-CLIENT-HUB', question: 'Is the client hub (today MY OFFICE at /portal) the CLIENT OFFICE landing outside the seven roots, or should a hub be a destination?', recommendation: 'Landing outside the roots (recorded as CLIENT_OFFICE.HUB, CANDIDATE_UNRESOLVED).', blocks: 'client nav implementation' },
-  { question_id: 'Q-COMPLIANCE-SPLIT', question: 'The Brain COMPLIANCE workspace bundles operating authority + BOC-3 + safety, but the founder tree puts authority and BOC-3 under PERMITTING & AUTHORITIES. Split the workspace?', recommendation: 'Split into AUTHORITIES (authority · BOC-3) and COMPLIANCE (safety) in the data sprint; until then the lane maps to the COMPLIANCE workspace.', blocks: 'entitlement resolution for the PERMITTING & AUTHORITIES lane' },
-  { question_id: 'Q-STAFF-VEHICLES', question: 'Vehicle management has a client destination but no staff lane. Keep it distributed (Dispatch → Trucks, Mechanic → Maintenance Status, Client 360) or add a lane?', recommendation: 'Keep distributed; add a client-record fleet tab in Client 360.', blocks: 'nothing in this sprint' },
-  { question_id: 'Q-FOUNDER-ROLE', question: 'No founder role exists. Founder = OfficeStaffRole owner / Supabase super_admin?', recommendation: 'Founder = owner (open since the office architecture sprint).', blocks: 'founder-only visibility (none is asserted in this IA; founder and staff see the same tree)' },
-  { question_id: 'Q-GROWTH-BILLING', question: 'Where do Growth (CRM) and the Billing Desk live: WORK lanes, MORE entries or REPORTS sources?', recommendation: 'Billing operations and CRM as WORK lanes if they drive daily production; revenue in REPORTS.', blocks: 'desktop sidebar regrouping' },
-  { question_id: 'Q-CLIENT-ROAD-READY', question: 'Where does Road Ready live in the client office?', recommendation: 'MY BUSINESS (readiness of the business record).', blocks: 'client nav implementation' },
+  { question_id: 'Q-CLIENT-HUB', question: 'Is the client hub (today MY OFFICE at /portal) the CLIENT OFFICE landing outside the seven roots, or should a hub be a destination?', recommendation: 'Landing outside the roots (recorded as CLIENT_OFFICE.HUB, CANDIDATE_UNRESOLVED).', blocks: 'client nav implementation' , status: 'DECIDED', decision_id: 'D-CLIENT-HUB' },
+  { question_id: 'Q-COMPLIANCE-SPLIT', question: 'The Brain COMPLIANCE workspace bundles operating authority + BOC-3 + safety, but the founder tree puts authority and BOC-3 under PERMITTING & AUTHORITIES. Split the workspace?', recommendation: 'Split into AUTHORITIES (authority · BOC-3) and COMPLIANCE (safety) in the data sprint; until then the lane maps to the COMPLIANCE workspace.', blocks: 'entitlement resolution for the PERMITTING & AUTHORITIES lane' , status: 'DECIDED', decision_id: 'D-COMPLIANCE-ONE-LANE' },
+  { question_id: 'Q-STAFF-VEHICLES', question: 'Vehicle management has a client destination but no staff lane. Keep it distributed (Dispatch → Trucks, Mechanic → Maintenance Status, Client 360) or add a lane?', recommendation: 'Keep distributed; add a client-record fleet tab in Client 360.', blocks: 'nothing in this sprint' , status: 'DECIDED', decision_id: 'D-VEHICLES-FLEET-LANE' },
+  { question_id: 'Q-FOUNDER-ROLE', question: 'No founder role exists. Founder = OfficeStaffRole owner / Supabase super_admin?', recommendation: 'Founder = owner (open since the office architecture sprint).', blocks: 'founder-only visibility (none is asserted in this IA; founder and staff see the same tree)' , status: 'DECIDED', decision_id: 'D-FOUNDER-ROLE' },
+  { question_id: 'Q-GROWTH-BILLING', question: 'Where do Growth (CRM) and the Billing Desk live: WORK lanes, MORE entries or REPORTS sources?', recommendation: 'Billing operations and CRM as WORK lanes if they drive daily production; revenue in REPORTS.', blocks: 'desktop sidebar regrouping' , status: 'DECIDED', decision_id: 'D-GROWTH-BILLING' },
+  { question_id: 'Q-CLIENT-ROAD-READY', question: 'Where does Road Ready live in the client office?', recommendation: 'MY BUSINESS (readiness of the business record).', blocks: 'client nav implementation' , status: 'DECIDED', decision_id: 'D-ROAD-READY-PLACEMENT' },
+];
+
+/* ════════════════════════════════ founder decisions (2026-10-08) ════════════════════════════════ */
+
+const DECIDED = '2026-10-08';
+export const AIO_IA_DECISIONS: IaDecision[] = [
+  {
+    decision_id: 'D-CLIENT-HUB', question_id: 'Q-CLIENT-HUB', decided_on: DECIDED,
+    decision: 'The CLIENT HUB / OVERVIEW is the shell-level landing of CLIENT OFFICE, not an eighth root tab. The client enters through it; it projects the seven destinations (business status, work in progress, items needing approval, upcoming deadlines, recent messages, active services, recent documents, contextual next action). MY BUSINESS stays a root destination and is not the dashboard. HUB = projection / orientation; destinations = workspaces.',
+    consequences: ['CLIENT_OFFICE.HUB is ARCHITECTURALLY_CANONICAL (LANDING, role PROJECTION) with eight regions', 'Client root nav unchanged: seven destinations', 'Added to the root nav only if future UX testing proves it necessary'],
+    node_ids: ['CLIENT_OFFICE.HUB', 'CLIENT_OFFICE.MY_BUSINESS'],
+  },
+  {
+    decision_id: 'D-COMPLIANCE-ONE-LANE', question_id: 'Q-COMPLIANCE-SPLIT', decided_on: DECIDED,
+    decision: 'No split: one canonical COMPLIANCE lane (DOT / Safety · Expirations · Audit / Corrective Work · Compliance Cases), because these functions share client, vehicle, driver, document, deadline and case context. Split later only if operational volume proves a separate lane is needed. CLIENT OFFICE → OPERATIONS → COMPLIANCE shows client-safe subsections only.',
+    consequences: ['One COMPLIANCE lane and one COMPLIANCE workspace; the authority / BOC-3 sections in PERMITTING & AUTHORITIES keep entitling through it'],
+    node_ids: ['AIO_OFFICE.WORK.COMPLIANCE', 'CLIENT_OFFICE.OPERATIONS.COMPLIANCE', 'AIO_OFFICE.WORK.PERMITTING_AUTHORITIES.OPERATING_AUTHORITIES'],
+  },
+  {
+    decision_id: 'D-VEHICLES-FLEET-LANE', question_id: 'Q-STAFF-VEHICLES', decided_on: DECIDED,
+    decision: 'Yes: WORK → VEHICLES & FLEET is a canonical staff lane — the operational vehicle backbone, not a subsection of Dispatch or Compliance. It cross-links rather than duplicates source truth with DISPATCH, COMPLIANCE, IFTA / FUEL TAX, INSURANCE, MECHANIC / MAINTENANCE and DRIVERS & CARRIERS. Staff service lanes go from 11 to 12. Client equivalent stays OPERATIONS → VEHICLE MANAGEMENT.',
+    consequences: ['New lane AIO_OFFICE.WORK.VEHICLES_FLEET (implementation not started)', 'Vehicle Management service now has a staff home', 'AIO_VEHICLES_FLEET_SCOPE: what the lane owns vs shows by cross-link'],
+    node_ids: ['AIO_OFFICE.WORK.VEHICLES_FLEET', 'CLIENT_OFFICE.OPERATIONS.VEHICLE_MANAGEMENT'],
+  },
+  {
+    decision_id: 'D-FOUNDER-ROLE', question_id: 'Q-FOUNDER-ROLE', decided_on: DECIDED,
+    decision: 'FOUNDER is an explicit privileged internal actor class — an explicitly authorized company principal with company-wide authority across AIO OFFICE — never a hard-coded person, name or email. STAFF does not inherit FOUNDER authority and cannot self-elevate. More than one founder / principal must be possible without redesigning permissions.',
+    consequences: ['AIO_IA_ACTORS defines FOUNDER / STAFF / CLIENT', 'Founder-only acts recorded per node (founder_authority)', 'Founder-class visibility (reporting, internal financials, system settings) is BY_GRANT for staff'],
+    node_ids: ['AIO_OFFICE.INTAKE.FOUNDER_REVIEW', 'AIO_OFFICE.INTAKE.PREBUILT_CLIENT', 'AIO_OFFICE.INTAKE.ACTIVATION_INVITE', 'AIO_OFFICE.REPORTS', 'AIO_OFFICE.REPORTS.FINANCIAL_REVENUE', 'AIO_OFFICE.MORE.TEAM_STAFF', 'AIO_OFFICE.MORE.SYSTEM_SETTINGS', 'AIO_OFFICE.MORE.SERVICE_CATALOG'],
+  },
+  {
+    decision_id: 'D-GROWTH-BILLING', question_id: 'Q-GROWTH-BILLING', decided_on: DECIDED,
+    decision: 'Neither is a client-service production lane. GROWTH / CRM lives at MORE → GROWTH / CRM (HOME may project new leads, follow-ups due, conversions, opportunities; HOME owns no CRM state). BILLING lives at MORE → BILLING; REPORTS → FINANCIAL / REVENUE may aggregate it but owns no invoice or payment production. Client-facing billing, when supported, is FINANCES with client-safe information only — never internal margin, commission, profitability or staff-only financial data.',
+    consequences: ['MORE gains GROWTH / CRM and BILLING (11 entries)', 'Candidates C-CRM-GROWTH and C-BILLING-DESK resolved', 'Root-nav status reconsidered only from usage data'],
+    node_ids: ['AIO_OFFICE.MORE.GROWTH_CRM', 'AIO_OFFICE.MORE.BILLING', 'AIO_OFFICE.REPORTS.FINANCIAL_REVENUE', 'CLIENT_OFFICE.FINANCES.FEES_PAYMENTS'],
+  },
+  {
+    decision_id: 'D-ROAD-READY-PLACEMENT', question_id: 'Q-CLIENT-ROAD-READY', decided_on: DECIDED,
+    decision: 'Road Ready placement depends on state. Available but not active: SERVICES → ROAD READY. Active: OPERATIONS → ROAD READY (the actual workspace). Completed: historically accessible through service history, with resulting records distributed into MY BUSINESS, VAULT, OPERATIONS and FINANCES; SERVICES may show ROAD READY · COMPLETED but is never the permanent container.',
+    consequences: ['New client nodes OPERATIONS.ROAD_READY and SERVICES.ROAD_READY (STATE)', 'Road Ready service state placements', 'Candidate C-CLIENT-ROAD-READY resolved'],
+    node_ids: ['CLIENT_OFFICE.OPERATIONS.ROAD_READY', 'CLIENT_OFFICE.SERVICES.ROAD_READY'],
+  },
+];
+
+/** The actor classes (D-FOUNDER-ROLE). */
+export const AIO_IA_ACTORS: IaActorDefinition[] = [
+  {
+    actor: 'FOUNDER', actor_class: 'PRIVILEGED_INTERNAL', multiplicity: 'ONE_OR_MORE', inherits: ['STAFF'], can_self_elevate: false,
+    definition: 'An explicitly authorized company principal with company-wide authority across AIO OFFICE.',
+    identity_rule: 'A role / actor class granted explicitly — never a hard-coded person, name or email. More than one founder / principal is possible without redesigning permissions.',
+    privileges: [
+      { privilege: 'All-client visibility', node_ids: ['AIO_OFFICE.MORE.CLIENTS', 'AIO_OFFICE.HOME'], note: '' },
+      { privilege: 'All-service visibility', node_ids: ['AIO_OFFICE.WORK'], note: '' },
+      { privilege: 'Founder review', node_ids: ['AIO_OFFICE.INTAKE.FOUNDER_REVIEW'], note: '' },
+      { privilege: 'PREBUILT review / activation authority', node_ids: ['AIO_OFFICE.INTAKE.PREBUILT_CLIENT', 'AIO_OFFICE.INTAKE.ACTIVATION_INVITE'], note: 'Client confirmation remains the gate before ACTIVE.' },
+      { privilege: 'High-risk overrides', node_ids: [], note: 'Defined per action in the authority-contract sprint.' },
+      { privilege: 'Internal financial visibility', node_ids: ['AIO_OFFICE.REPORTS.FINANCIAL_REVENUE', 'AIO_OFFICE.MORE.BILLING', 'AIO_OFFICE.WORK.BROKERAGE.LOAD_FINANCIALS'], note: 'Staff only by grant.' },
+      { privilege: 'Reporting', node_ids: ['AIO_OFFICE.REPORTS'], note: 'Staff only by grant.' },
+      { privilege: 'Staff / permission administration', node_ids: ['AIO_OFFICE.MORE.TEAM_STAFF'], note: '' },
+      { privilege: 'System configuration', node_ids: ['AIO_OFFICE.MORE.SYSTEM_SETTINGS'], note: '' },
+      { privilege: 'Service configuration', node_ids: ['AIO_OFFICE.MORE.SERVICE_CATALOG'], note: '' },
+      { privilege: 'Founder-only approvals where defined', node_ids: [], note: 'Defined per action in the authority-contract sprint.' },
+    ],
+    current_code_mapping: `No FOUNDER role in code yet. Nearest today: OfficeStaffRole owner (${SRC}/office-core/officeWorkTypes.ts:4-16; ROLE_PERMISSIONS ${SRC}/office-core/officeContext.ts:74) and Supabase aio_internal_role super_admin (all-in-one-enterprises/supabase/migrations/20260815100000_aio_identity_foundation.sql:29). No founder identity is hard-coded.`,
+  },
+  {
+    actor: 'STAFF', actor_class: 'INTERNAL', multiplicity: 'MANY', inherits: [], can_self_elevate: false,
+    definition: 'AIO team members working in AIO OFFICE within the permissions granted to them.',
+    identity_rule: 'Staff role plus explicit permission grants. Never inherits FOUNDER authority; BY_GRANT nodes need a grant.',
+    privileges: [],
+    current_code_mapping: `OfficeStaffRole + ROLE_PERMISSIONS (${SRC}/office-core/officeContext.ts:74) · Supabase aio_internal_role.`,
+  },
+  {
+    actor: 'CLIENT', actor_class: 'CLIENT', multiplicity: 'MANY', inherits: [], can_self_elevate: false,
+    definition: 'Users of one client organisation, inside CLIENT OFFICE only.',
+    identity_rule: 'Authenticated membership of the client organisation (the session organisation is the only client).',
+    privileges: [],
+    current_code_mapping: `CustomerRouteGuard + ClientPortalLifecycleGuard (${SRC}/auth/guards/ClientPortalLifecycleGuard.tsx:22-40).`,
+  },
+];
+
+/** VEHICLES & FLEET (D-VEHICLES-FLEET-LANE): what the lane owns and what it shows by cross-link to the owning lane. */
+export const AIO_VEHICLES_FLEET_SCOPE: { item: string; relation: 'OWNS' | 'CROSS_LINK'; source_of_truth: string; note: string }[] = [
+  { item: 'Vehicle roster', relation: 'OWNS', source_of_truth: 'AIO_OFFICE.WORK.VEHICLES_FLEET', note: 'PowerUnit / Trailer records.' },
+  { item: 'Vehicle profiles', relation: 'OWNS', source_of_truth: 'AIO_OFFICE.WORK.VEHICLES_FLEET', note: 'VIN, plate, GVWR, ownership.' },
+  { item: 'Availability / out-of-service state', relation: 'OWNS', source_of_truth: 'AIO_OFFICE.WORK.VEHICLES_FLEET', note: 'PowerUnit.status active / inactive / sold (roadReadyTypes.ts:125); Dispatch reads it; out-of-service orders come from COMPLIANCE → DOT / SAFETY.' },
+  { item: 'Registration state', relation: 'CROSS_LINK', source_of_truth: 'AIO_OFFICE.WORK.PERMITTING_AUTHORITIES.TAGS_REGISTRATION', note: '' },
+  { item: 'Credentials / documents', relation: 'CROSS_LINK', source_of_truth: 'AIO_OFFICE.MORE.DOCUMENTS_VAULT', note: '' },
+  { item: 'Assigned driver', relation: 'CROSS_LINK', source_of_truth: 'AIO_OFFICE.WORK.DRIVERS_CARRIERS', note: '' },
+  { item: 'Insurance state', relation: 'CROSS_LINK', source_of_truth: 'AIO_OFFICE.WORK.INSURANCE.POLICIES', note: '' },
+  { item: 'IFTA relevance', relation: 'CROSS_LINK', source_of_truth: 'AIO_OFFICE.WORK.FILING_FUEL_TAXES.IFTA', note: '' },
+  { item: 'Compliance status', relation: 'CROSS_LINK', source_of_truth: 'AIO_OFFICE.WORK.COMPLIANCE', note: '' },
+  { item: 'Maintenance state', relation: 'CROSS_LINK', source_of_truth: 'AIO_OFFICE.WORK.MECHANIC_MAINTENANCE.MAINTENANCE_STATUS', note: '' },
+  { item: 'Service history', relation: 'CROSS_LINK', source_of_truth: 'AIO_OFFICE.WORK.MECHANIC_MAINTENANCE.TICKETS', note: '' },
+  { item: 'Warnings / expirations', relation: 'CROSS_LINK', source_of_truth: 'AIO_OFFICE.WORK.COMPLIANCE.EXPIRATIONS', note: '' },
 ];
 
 /* ════════════════════════════════ approved migration authorities (re-associated, never regenerated) ════════════════════════════════ */
@@ -650,12 +839,14 @@ export const AIO_PROJECTION_EXAMPLES: { surface: string; says: string; region: s
   { surface: 'HOME', says: '4 IFTA cases need attention', region: 'AIO_OFFICE.HOME.NEEDS_ATTENTION', owner: 'AIO_OFFICE.WORK.FILING_FUEL_TAXES.FILING_QUEUE' },
   { surface: 'HOME', says: '3 dispatch exceptions', region: 'AIO_OFFICE.HOME.BLOCKERS', owner: 'AIO_OFFICE.WORK.DISPATCH.STATUS_EXCEPTIONS' },
   { surface: 'HOME', says: '2 bookkeeping clients waiting on reconciliation', region: 'AIO_OFFICE.HOME.BLOCKERS', owner: 'AIO_OFFICE.WORK.BOOKKEEPING.RECONCILIATION' },
+  { surface: 'HOME', says: 'Follow-ups due', region: 'AIO_OFFICE.HOME.NEEDS_ATTENTION', owner: 'AIO_OFFICE.MORE.GROWTH_CRM' },
   { surface: 'REPORTS', says: 'Brokerage historical performance / volume / exports', region: 'AIO_OFFICE.REPORTS.DISPATCH_BROKERAGE', owner: 'AIO_OFFICE.WORK.BROKERAGE.SHIPMENTS' },
+  { surface: 'REPORTS', says: 'Revenue from billing over time', region: 'AIO_OFFICE.REPORTS.FINANCIAL_REVENUE', owner: 'AIO_OFFICE.MORE.BILLING' },
 ];
 
 /** WORK authority contract: the capabilities the founder requires, each with today's implementation truth. */
 export const AIO_WORK_CAPABILITIES: { capability: string; implementation: ImplementationStatus; depth: ImplementationDepth; evidence: string[]; note: string }[] = [
-  { capability: 'Service lane navigation', implementation: 'IMPLEMENTATION_PARTIAL', depth: 'FUNCTIONAL_DEMO', evidence: [`${SRC}/office/layouts/AIOOfficeLayout.tsx:13-118 (sidebar groups)`], note: 'Each lane has its own /office routes in the desktop sidebar; nothing groups the eleven lanes under WORK.' },
+  { capability: 'Service lane navigation', implementation: 'IMPLEMENTATION_PARTIAL', depth: 'FUNCTIONAL_DEMO', evidence: [`${SRC}/office/layouts/AIOOfficeLayout.tsx:13-118 (sidebar groups)`], note: 'Each lane has its own /office routes in the desktop sidebar (VEHICLES & FLEET has none yet); nothing groups the twelve lanes under WORK.' },
   { capability: 'Cross-client filtering', implementation: 'IMPLEMENTATION_PARTIAL', depth: 'FUNCTIONAL_DEMO', evidence: [`${SRC}/ifta/ui/IftaStaffQueuePage.tsx:17 QUEUE_TABS`, `${SRC}/office/pages/DivisionOpsPages.tsx:14-31 (all clients, no filter)`], note: 'Lists span all clients; only the IFTA queue filters (by bucket).' },
   { capability: 'Client-specific drilldown', implementation: 'IMPLEMENTATION_PARTIAL', depth: 'FUNCTIONAL_DEMO', evidence: [OR('274'), OR('190-192')], note: 'Client 360 and the IFTA client case.' },
   { capability: 'Active case / work item access', implementation: 'IMPLEMENTATION_PARTIAL', depth: 'FUNCTIONAL_DEMO', evidence: [OR('190-192'), OR('277'), OR('298-304')], note: 'IFTA case, generic request detail, dispatch load detail.' },
@@ -690,7 +881,7 @@ export const AIO_EXPANSION_CRITERIA: { founder_rule: string; kind: 'SUGGEST_ONLY
 export const AIO_IA_PRODUCT_GRAPH_MAP = {
   source: `${FS} all-in-one-enterprises/src/product-graph/generated/runtimeProductGraph.json (meta.sprint P0.AIO.WAVE-0-CANONICAL-GRAPH-AND-ROUTE-META)`,
   containers: [
-    { container: 'MY_OFFICE', ia_node: 'CLIENT_OFFICE.HUB', disposition: 'REMAPPED', note: 'The client office landing, not one of the seven root destinations (Q-CLIENT-HUB).' },
+    { container: 'MY_OFFICE', ia_node: 'CLIENT_OFFICE.HUB', disposition: 'REMAPPED', note: 'The HUB / OVERVIEW: shell landing, not a root destination (D-CLIENT-HUB).' },
     { container: 'MY_BUSINESS', ia_node: 'CLIENT_OFFICE.MY_BUSINESS', disposition: 'KEPT', note: 'Loses F12 Insurance to FINANCES.' },
     { container: 'OPERATIONS', ia_node: 'CLIENT_OFFICE.OPERATIONS', disposition: 'KEPT', note: '' },
     { container: 'FINANCES', ia_node: 'CLIENT_OFFICE.FINANCES', disposition: 'KEPT', note: 'Gains F12 Insurance.' },
@@ -704,8 +895,8 @@ export const AIO_IA_PRODUCT_GRAPH_MAP = {
     { family: 'F01', name: 'Entry', graph_nav: null, client_node: null, staff_node: null, note: 'Public site (AIO.PUBLIC_SITE) — outside both offices.' },
     { family: 'F02', name: 'Get Started', graph_nav: null, client_node: null, staff_node: null, note: 'Public site (AIO.PUBLIC_SITE) — outside both offices.' },
     { family: 'F03', name: 'Start Your Business', graph_nav: 'MY BUSINESS', client_node: 'CLIENT_OFFICE.SERVICES.REQUEST_A_SERVICE', staff_node: 'AIO_OFFICE.WORK.PERMITTING_AUTHORITIES.LLC_INC', note: 'Candidate placement (C-CLIENT-START-BUSINESS).' },
-    { family: 'F04', name: 'Road Ready', graph_nav: 'MY BUSINESS', client_node: 'CLIENT_OFFICE.MY_BUSINESS', staff_node: 'AIO_OFFICE.WORK.ROAD_READY', note: 'Client placement unresolved (Q-CLIENT-ROAD-READY); recommended MY BUSINESS.' },
-    { family: 'F05', name: 'My Office', graph_nav: 'MY OFFICE', client_node: 'CLIENT_OFFICE.HUB', staff_node: null, note: 'Landing, not a root destination.' },
+    { family: 'F04', name: 'Road Ready', graph_nav: 'MY BUSINESS', client_node: 'CLIENT_OFFICE.OPERATIONS.ROAD_READY', staff_node: 'AIO_OFFICE.WORK.ROAD_READY', note: 'REMAPPED out of MY BUSINESS: OPERATIONS while active, SERVICES while available (D-ROAD-READY-PLACEMENT).' },
+    { family: 'F05', name: 'My Office', graph_nav: 'MY OFFICE', client_node: 'CLIENT_OFFICE.HUB', staff_node: null, note: 'The HUB / OVERVIEW landing, not a root destination (D-CLIENT-HUB).' },
     { family: 'F06', name: 'Services', graph_nav: 'SERVICES', client_node: 'CLIENT_OFFICE.SERVICES', staff_node: 'AIO_OFFICE.WORK.PERMITTING_AUTHORITIES', note: 'F06 also carries IFTA (WORK → FILING & FUEL TAXES) and compliance (WORK → COMPLIANCE).' },
     { family: 'F07', name: 'Operations', graph_nav: 'OPERATIONS', client_node: 'CLIENT_OFFICE.OPERATIONS.DISPATCH', staff_node: 'AIO_OFFICE.WORK.DISPATCH', note: '' },
     { family: 'F08', name: 'Load Board', graph_nav: 'OPERATIONS', client_node: 'CLIENT_OFFICE.OPERATIONS.DISPATCH', staff_node: 'AIO_OFFICE.WORK.DISPATCH', note: '' },
@@ -755,6 +946,8 @@ export const AIO_OFFICE_IA: OfficeInformationArchitecture = {
   firewall: AIO_IA_FIREWALL,
   more_rules: AIO_IA_MORE_RULES,
   open_questions: AIO_IA_OPEN_QUESTIONS,
+  actors: AIO_IA_ACTORS,
+  decisions: AIO_IA_DECISIONS,
 };
 
 /** The founder's gate, as data (tests assert the tree against it). */
@@ -764,6 +957,8 @@ export const AIO_OFFICE_IA_QUALITY_GATE = {
   NEW_FILING_LOCATION: ['AIO OFFICE', 'WORK', 'Filing & Fuel Taxes'],
   NEW_IFTA_LOCATION: ['AIO OFFICE', 'WORK', 'Filing & Fuel Taxes', 'IFTA'],
   HOME_REGIONS: ['Needs Attention', 'Deadlines', 'Blockers', 'Work Across AIO', 'Clients in Motion', 'Recent Activity', 'Quick Actions'],
-  MORE_ENTRIES: ['Clients', 'Documents & Vault', 'Team & Staff', 'Service Catalog', 'Mechanic Network', 'Messages', 'System Settings', 'Help & Support', 'Account'],
+  WORK_LANES: ['Permitting & Authorities', 'Filing & Fuel Taxes', 'Compliance', 'Vehicles & Fleet', 'Dispatch', 'Brokerage', 'Insurance', 'Factoring', 'Bookkeeping', 'Drivers & Carriers', 'Mechanic / Maintenance', 'Road Ready'],
+  MORE_ENTRIES: ['Clients', 'Documents & Vault', 'Growth / CRM', 'Billing', 'Team & Staff', 'Service Catalog', 'Mechanic Network', 'Messages', 'System Settings', 'Help & Support', 'Account'],
+  CLIENT_HUB_REGIONS: ['Business Status', 'Work in Progress', 'Items Needing Approval', 'Upcoming Deadlines', 'Recent Messages', 'Active Services', 'Recent Documents', 'Contextual Next Action'],
   REQUIRED_SERVICES: ['PERMITTING_AUTHORITIES', 'IFTA_FUEL_TAX', 'COMPLIANCE', 'DISPATCH', 'BROKERAGE', 'INSURANCE', 'FACTORING', 'BOOKKEEPING', 'DRIVERS_CARRIERS', 'VEHICLE_MANAGEMENT', 'MECHANIC_MAINTENANCE', 'ROAD_READY', 'DOCUMENTS_VAULT', 'MESSAGING'],
 } as const;

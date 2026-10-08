@@ -19,9 +19,9 @@ Where each service is worked in AIO OFFICE. A WORK lane is a production location
 | Factoring | AIO OFFICE → WORK → Factoring | FACTORING | SUBMISSION | `/office/factoring` | IMPLEMENTATION_PARTIAL — Functional demo; no provider integration; two disagreeing "active" rules. |
 | Bookkeeping | AIO OFFICE → WORK → Bookkeeping | BOOKKEEPING | SUBSCRIPTION · MONTHLY_CLOSE | `/office/bookkeeping` | IMPLEMENTATION_PARTIAL — Dashboards only (read-only); reconciliation and deliverables not started. |
 | Drivers & Carriers | AIO OFFICE → WORK → Drivers & Carriers | DRIVERLINK | JOB_OPPORTUNITY | `/office/driverlink` · `/office/brokerage/carriers` | IMPLEMENTATION_PARTIAL — Client / driver marketplace works in demo; staff views read-only; credential review and approvals not started. |
-| Vehicle Management | AIO OFFICE → WORK → Dispatch → Trucks · AIO OFFICE → WORK → Mechanic / Maintenance → Maintenance Status · AIO OFFICE → MORE → Clients | — (not a workspace) | — | `/office/clients` · `/office/clients/:clientId` | IMPLEMENTATION_PARTIAL — Client fleet pages read-mostly; staff side not started (no /office/fleet; Client 360 fleet tab is placeholder text). |
+| Vehicle Management | AIO OFFICE → WORK → Vehicles & Fleet | — (not a workspace) | — | — | IMPLEMENTATION_PARTIAL — Client fleet pages read-mostly; the staff lane WORK → VEHICLES & FLEET is not started (no /office fleet surface; Client 360 fleet tab is placeholder text). |
 | Mechanic / Maintenance | AIO OFFICE → WORK → Mechanic / Maintenance · AIO OFFICE → MORE → Mechanic Network | FLEETCARE | MAINTENANCE_TICKET | `/office/fleetcare` · `/office/fleetcare/providers` | IMPLEMENTATION_PARTIAL — Client and provider flows work in demo; staff views read-only. |
-| Road Ready | AIO OFFICE → WORK → Road Ready | — (not a workspace) | — | `/office/road-ready` · `/office/clients/:clientId/road-ready` | IMPLEMENTATION_PARTIAL — Functional demo on both sides; Supabase aio_road_ready_* unqueried (roadmaps / intake sessions are used). |
+| Road Ready | AIO OFFICE → WORK → Road Ready | — (not a workspace) | — | `/office/road-ready` · `/office/clients/:clientId/road-ready` | IMPLEMENTATION_PARTIAL — Functional demo on both sides; Supabase aio_road_ready_* unqueried (roadmaps / intake sessions are used). No per-client engagement state (AVAILABLE / ACTIVE / COMPLETED) yet, so the placement rule waits on it; SERVICES lists no Road Ready entry. |
 | Documents / Vault | AIO OFFICE → MORE → Documents & Vault | — (not a workspace) | — | `/office/documents/vault` · `/office/clients/:clientId/documents` · `/office/documents/review` | IMPLEMENTATION_PARTIAL — UI functional in demo; backend file storage not started ("Secure storage not configured"). |
 | Messaging | AIO OFFICE → MORE → Messages | — (not a workspace) | — | `/office/communications` · `/office/appointments` | IMPLEMENTATION_PARTIAL — Functional demo with two parallel models (comm* and legacy messages); backend not started. |
 | Client Migration / Intake | AIO OFFICE → INTAKE | — (not a workspace) | — | `/office/migration` | IMPLEMENTATION_PARTIAL — All 41 migration screens built to the approved authority; Supabase-wired services; open gaps listed in the flow prototype (match decision not saved, failed file blocks extraction, no migration history). |
@@ -33,6 +33,7 @@ Where each service is worked in AIO OFFICE. A WORK lane is a production location
 | Permitting & Authorities | TAGS_REGISTRATION · PERMITTING · COMPLIANCE · BUSINESS_FORMATION | Tags / Registration: TAGS_REGISTRATION · Fuel / Road Tax Permits: PERMITTING · Operating Authorities: COMPLIANCE · BOC-3: COMPLIANCE · LLC / Inc: BUSINESS_FORMATION · Other Permits: PERMITTING |
 | Filing & Fuel Taxes | IFTA | IFTA: IFTA · Filing Queue: IFTA · Client Approval: IFTA · Submitted / Filed: IFTA · Filing History: IFTA |
 | Compliance | COMPLIANCE | DOT / Safety: COMPLIANCE · Expirations: COMPLIANCE · Audit / Corrective Work: COMPLIANCE · Compliance Cases: COMPLIANCE |
+| Vehicles & Fleet | — | — |
 | Dispatch | DISPATCH | Active Clients: DISPATCH · Trucks: DISPATCH · Loads: DISPATCH · Status / Exceptions: DISPATCH · My Loads / My Trucks: DISPATCH |
 | Brokerage | BROKERAGE | Quotes: BROKERAGE · Shipments: BROKERAGE · Carrier Offers: BROKERAGE · Stops / Status: BROKERAGE · Load Financials: BROKERAGE |
 | Insurance | INSURANCE | Intake: INSURANCE · Quotes: INSURANCE · Policies: INSURANCE · Renewals: INSURANCE |
@@ -42,4 +43,4 @@ Where each service is worked in AIO OFFICE. A WORK lane is a production location
 | Mechanic / Maintenance | FLEETCARE | Tickets: FLEETCARE · Referrals: FLEETCARE · Providers: FLEETCARE · Maintenance Status: FLEETCARE |
 | Road Ready | — | — |
 
-Open: the Brain COMPLIANCE workspace bundles authority + BOC-3 + safety while the founder tree puts authority and BOC-3 under PERMITTING & AUTHORITIES (Q-COMPLIANCE-SPLIT).
+Decided: one COMPLIANCE lane and one COMPLIANCE workspace (D-COMPLIANCE-ONE-LANE); the authority and BOC-3 sections of PERMITTING & AUTHORITIES keep entitling through it. VEHICLES & FLEET is a lane but not a workspace (fleet registry is a shared capability).

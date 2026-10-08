@@ -14,15 +14,16 @@ Scope: `ALL_CLIENTS_ALL_SERVICES` · actors: FOUNDER, STAFF · environment: `AIO
 
 FILING is no longer a root item. It is a WORK lane: **AIO OFFICE → WORK → FILING & FUEL TAXES**, and IFTA lives at **AIO OFFICE → WORK → FILING & FUEL TAXES → IFTA** (canonical case identity unchanged).
 
-HOME = projection · INTAKE = entry (staff / founder only) · WORK = production · REPORTS = oversight · MORE = secondary. Founder and staff see the same tree; no founder-only node is asserted (Q-FOUNDER-ROLE).
+HOME = projection · INTAKE = entry (staff / founder only) · WORK = production · REPORTS = oversight · MORE = secondary. FOUNDER is a privileged actor class that sees every node; staff see “by grant” nodes only with a permission grant, and founder acts are reserved (D-FOUNDER-ROLE, see 03).
 
-### WORK lanes (11)
+### WORK lanes (12)
 
 | Lane | Sections | Brain workspaces | Implementation | Office routes today |
 |---|---|---|---|---|
 | Permitting & Authorities | Tags / Registration · Fuel / Road Tax Permits · Operating Authorities · BOC-3 · LLC / Inc · Other Permits | TAGS_REGISTRATION · PERMITTING · COMPLIANCE · BUSINESS_FORMATION | PARTIAL · GENERIC_PIPELINE | `/office/permitting` · `/office/business-formation` · `/office/business-name-review` · `/office/requests/:requestId` |
 | Filing & Fuel Taxes | IFTA · Filing Queue · Client Approval · Submitted / Filed · Filing History | IFTA | PARTIAL · FUNCTIONAL_DEMO | `/office/workspaces/ifta` |
 | Compliance | DOT / Safety · Expirations · Audit / Corrective Work · Compliance Cases | COMPLIANCE | PARTIAL · FUNCTIONAL_DEMO | `/office/deadlines` · `/office/renewals` · `/office/documents` |
+| Vehicles & Fleet | — | — (not a workspace) | NOT STARTED | — |
 | Dispatch | Active Clients · Trucks · Loads · Status / Exceptions · My Loads / My Trucks | DISPATCH | PARTIAL · FUNCTIONAL_DEMO | `/office/dispatch` |
 | Brokerage | Quotes · Shipments · Carrier Offers · Stops / Status · Load Financials | BROKERAGE | PARTIAL · PRODUCTION_BACKED | `/office/brokerage` |
 | Insurance | Intake · Quotes · Policies · Renewals | INSURANCE | PARTIAL · FUNCTIONAL_DEMO | `/office/insurance` |
@@ -38,7 +39,7 @@ The capabilities the founder requires, each with today’s truth. Nothing here i
 
 | Capability | Today | Evidence | Note |
 |---|---|---|---|
-| Service lane navigation | PARTIAL · FUNCTIONAL_DEMO | all-in-one-enterprises/src/office/layouts/AIOOfficeLayout.tsx:13-118 (sidebar groups) | Each lane has its own /office routes in the desktop sidebar; nothing groups the eleven lanes under WORK. |
+| Service lane navigation | PARTIAL · FUNCTIONAL_DEMO | all-in-one-enterprises/src/office/layouts/AIOOfficeLayout.tsx:13-118 (sidebar groups) | Each lane has its own /office routes in the desktop sidebar (VEHICLES & FLEET has none yet); nothing groups the twelve lanes under WORK. |
 | Cross-client filtering | PARTIAL · FUNCTIONAL_DEMO | all-in-one-enterprises/src/ifta/ui/IftaStaffQueuePage.tsx:17 QUEUE_TABS · all-in-one-enterprises/src/office/pages/DivisionOpsPages.tsx:14-31 (all clients, no filter) | Lists span all clients; only the IFTA queue filters (by bucket). |
 | Client-specific drilldown | PARTIAL · FUNCTIONAL_DEMO | all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:274 · all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:190-192 | Client 360 and the IFTA client case. |
 | Active case / work item access | PARTIAL · FUNCTIONAL_DEMO | all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:190-192 · all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:277 · all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:298-304 | IFTA case, generic request detail, dispatch load detail. |
@@ -47,6 +48,25 @@ The capabilities the founder requires, each with today’s truth. Nothing here i
 | Deadlines | PARTIAL · FUNCTIONAL_DEMO | all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:279 · all-in-one-enterprises/src/demo/demoTypes.ts:389 Deadline | Deadline Center spans services (incl. ifta_filing). |
 | Assignments (where supported) | PARTIAL · FUNCTIONAL_DEMO | all-in-one-enterprises/src/office-core/officeWorkTypes.ts:125-126 assignedUserId · assignedTeamId · all-in-one-enterprises/src/ifta/iftaTypes.ts:155 assignedStaffId | Work items and IFTA quarters carry an assignee; no assignment surface per lane. |
 | Route to the canonical client × workspace case | PARTIAL · FUNCTIONAL_DEMO | all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:190-192 | Only IFTA has a canonical case route (AIO:{client}:IFTA:IFTA_QUARTER:{YYYY-Qn}); other lanes open generic request ids. |
+
+### VEHICLES & FLEET — the vehicle backbone (D-VEHICLES-FLEET-LANE)
+
+The lane owns the vehicle record. Everything else about a vehicle is shown there by cross-link to the lane that owns it — never a second copy of the source truth.
+
+| Item | Relation | Source of truth | Note |
+|---|---|---|---|
+| Vehicle roster | OWNS | AIO OFFICE → WORK → Vehicles & Fleet | PowerUnit / Trailer records. |
+| Vehicle profiles | OWNS | AIO OFFICE → WORK → Vehicles & Fleet | VIN, plate, GVWR, ownership. |
+| Availability / out-of-service state | OWNS | AIO OFFICE → WORK → Vehicles & Fleet | PowerUnit.status active / inactive / sold (roadReadyTypes.ts:125); Dispatch reads it; out-of-service orders come from COMPLIANCE → DOT / SAFETY. |
+| Registration state | CROSS-LINK | AIO OFFICE → WORK → Permitting & Authorities → Tags / Registration | — |
+| Credentials / documents | CROSS-LINK | AIO OFFICE → MORE → Documents & Vault | — |
+| Assigned driver | CROSS-LINK | AIO OFFICE → WORK → Drivers & Carriers | — |
+| Insurance state | CROSS-LINK | AIO OFFICE → WORK → Insurance → Policies | — |
+| IFTA relevance | CROSS-LINK | AIO OFFICE → WORK → Filing & Fuel Taxes → IFTA | — |
+| Compliance status | CROSS-LINK | AIO OFFICE → WORK → Compliance | — |
+| Maintenance state | CROSS-LINK | AIO OFFICE → WORK → Mechanic / Maintenance → Maintenance Status | — |
+| Service history | CROSS-LINK | AIO OFFICE → WORK → Mechanic / Maintenance → Tickets | — |
+| Warnings / expirations | CROSS-LINK | AIO OFFICE → WORK → Compliance → Expirations | — |
 
 ### Case identity (unchanged)
 
@@ -58,9 +78,9 @@ A case is PROJECT + CLIENT / ORG + WORKSPACE + CASE TYPE + SUBCONTEXT (`canonica
 |---|---|---|---|---|---|
 | 1 | HOME | COMMAND | Cross-business command center: what needs attention across AIO now. Projects INTAKE and WORK; owns no production state. | PARTIAL · FUNCTIONAL_DEMO | 7 |
 | 2 | INTAKE | ENTRY | Bring clients and records into the digital AIO system: migration, extraction, matching, review, PREBUILT creation, activation invite. Staff / founder only — never in the client shell. | PARTIAL · PRODUCTION_BACKED | 10 |
-| 3 | WORK | PRODUCTION | The central production workspace across ALL AIO service lines. Service lane navigation, cross-client filtering, client drill-down, active case access, status, blockers, deadlines, assignments where supported, and a route to the canonical client × workspace case. Replaces the old root FILING. | PARTIAL · FUNCTIONAL_DEMO | 11 |
+| 3 | WORK | PRODUCTION | The central production workspace across ALL AIO service lines. Service lane navigation, cross-client filtering, client drill-down, active case access, status, blockers, deadlines, assignments where supported, and a route to the canonical client × workspace case. Replaces the old root FILING. | PARTIAL · FUNCTIONAL_DEMO | 12 |
 | 4 | REPORTS | OVERSIGHT | Internal oversight + history + exports: what happened, how work is performing, what can be reviewed / exported. Aggregates WORK and INTAKE; never replaces active production. | PARTIAL · FUNCTIONAL_DEMO | 10 |
-| 5 | MORE | SECONDARY | Secondary directory, administration and lower-frequency tools. Never the home of core service production. | NOT STARTED | 9 |
+| 5 | MORE | SECONDARY | Secondary directory, administration and lower-frequency tools. Never the home of core service production. | NOT STARTED | 11 |
 
 ## Full tree
 
@@ -79,9 +99,9 @@ A case is PROJECT + CLIENT / ORG + WORKSPACE + CASE TYPE + SUBCONTEXT (`canonica
   - **Migration Status** — ENTRY · PARTIAL · FUNCTIONAL_DEMO — `/office/migration`
   - **Extraction / Classification** — ENTRY · PARTIAL · PRODUCTION_BACKED — `/office/migration/extract` · `/office/migration/new-extract` · `/office/migration/batch-processing`
   - **Match / Reconcile** — ENTRY · PARTIAL · PRODUCTION_BACKED — `/office/migration/match` · `/office/migration/conflicts` · `/office/migration/batch-conflicts`
-  - **Founder Review** — ENTRY · PARTIAL · PRODUCTION_BACKED — `/office/migration/review` · `/office/migration/new-review`
-  - **Prebuilt Client** — ENTRY · PARTIAL · PRODUCTION_BACKED — `/office/migration/approval` · `/office/migration/prebuilt` · `/office/migration/new-approval` · `/office/migration/new-prebuilt` · `/office/migration/batch-approval` · `/office/migration/batch-run`
-  - **Activation Invite** — ENTRY · PARTIAL · PRODUCTION_BACKED — `/office/migration/invite` · `/office/migration/invited` · `/office/migration/new-invite` · `/office/migration/new-confirm`
+  - **Founder Review** — ENTRY · PARTIAL · PRODUCTION_BACKED · founder act: Founder review of the migrated profile (staff prepare it; they do not inherit the review) — `/office/migration/review` · `/office/migration/new-review`
+  - **Prebuilt Client** — ENTRY · PARTIAL · PRODUCTION_BACKED · founder act: PREBUILT review / approval (APPROVE MIGRATION) — `/office/migration/approval` · `/office/migration/prebuilt` · `/office/migration/new-approval` · `/office/migration/new-prebuilt` · `/office/migration/batch-approval` · `/office/migration/batch-run`
+  - **Activation Invite** — ENTRY · PARTIAL · PRODUCTION_BACKED · founder act: Activation authority (sending the activation invite); client confirmation stays the gate before ACTIVE — `/office/migration/invite` · `/office/migration/invited` · `/office/migration/new-invite` · `/office/migration/new-confirm`
   - **Migration History** — ENTRY · PARTIAL · READ_ONLY — `/office/archive-migration`
 - **WORK** — PRODUCTION · PARTIAL · FUNCTIONAL_DEMO — `/office/work` · `/office/services` · `/office/work/:lane` (PROPOSED)
   - **Permitting & Authorities** — PRODUCTION · PARTIAL · GENERIC_PIPELINE — `/office/permitting` · `/office/business-formation` · `/office/business-name-review` · `/office/requests/:requestId`
@@ -102,6 +122,7 @@ A case is PROJECT + CLIENT / ORG + WORKSPACE + CASE TYPE + SUBCONTEXT (`canonica
     - **Expirations** — PRODUCTION · PARTIAL · FUNCTIONAL_DEMO — `/office/deadlines` · `/office/renewals`
     - **Audit / Corrective Work** — PRODUCTION · NOT STARTED
     - **Compliance Cases** — PRODUCTION · NOT STARTED
+  - **Vehicles & Fleet** — PRODUCTION · NOT STARTED
   - **Dispatch** — PRODUCTION · PARTIAL · FUNCTIONAL_DEMO — `/office/dispatch`
     - **Active Clients** — PRODUCTION · PARTIAL · FUNCTIONAL_DEMO — `/office/dispatch/clients`
     - **Trucks** — PRODUCTION · PARTIAL · READ_ONLY
@@ -113,7 +134,7 @@ A case is PROJECT + CLIENT / ORG + WORKSPACE + CASE TYPE + SUBCONTEXT (`canonica
     - **Shipments** — PRODUCTION · PARTIAL · FUNCTIONAL_DEMO — `/office/brokerage/shipments/:id` (HELPER_UNROUTED)
     - **Carrier Offers** — PRODUCTION · PARTIAL · FUNCTIONAL_DEMO — `/office/brokerage/carriers`
     - **Stops / Status** — PRODUCTION · PARTIAL · PRODUCTION_BACKED
-    - **Load Financials** — PRODUCTION · PARTIAL · FUNCTIONAL_DEMO — `/office/brokerage/finance`
+    - **Load Financials** — PRODUCTION · PARTIAL · FUNCTIONAL_DEMO · staff by grant — `/office/brokerage/finance`
   - **Insurance** — PRODUCTION · PARTIAL · FUNCTIONAL_DEMO — `/office/insurance`
     - **Intake** — PRODUCTION · PARTIAL · FUNCTIONAL_DEMO
     - **Quotes** — PRODUCTION · PARTIAL · FUNCTIONAL_DEMO
@@ -135,25 +156,27 @@ A case is PROJECT + CLIENT / ORG + WORKSPACE + CASE TYPE + SUBCONTEXT (`canonica
     - **Providers** — PRODUCTION · PARTIAL · READ_ONLY
     - **Maintenance Status** — PRODUCTION · PARTIAL · READ_ONLY
   - **Road Ready** — PRODUCTION · PARTIAL · FUNCTIONAL_DEMO — `/office/road-ready` · `/office/clients/:clientId/road-ready`
-- **REPORTS** — OVERSIGHT · PARTIAL · FUNCTIONAL_DEMO — `/office/reports` · `/office/management`
-  - **Overview** — OVERSIGHT · PARTIAL · FUNCTIONAL_DEMO · PARTIAL_DATA — `/office/management`
-  - **Clients** — OVERSIGHT · PARTIAL · FUNCTIONAL_DEMO · PARTIAL_DATA — `/office/management/customers`
-  - **Services** — OVERSIGHT · PARTIAL · FUNCTIONAL_DEMO · PARTIAL_DATA — `/office/management/services`
-  - **Financial / Revenue** — OVERSIGHT · PARTIAL · FUNCTIONAL_DEMO · PARTIAL_DATA — `/office/management/financial`
-  - **Filing History** — OVERSIGHT · NOT STARTED · NOT_YET_IMPLEMENTED
-  - **Compliance** — OVERSIGHT · PARTIAL · FUNCTIONAL_DEMO · PARTIAL_DATA — `/office/management/deadlines`
-  - **Dispatch / Brokerage** — OVERSIGHT · PARTIAL · FUNCTIONAL_DEMO · PARTIAL_DATA — `/office/management/dispatch` · `/office/management/brokerage`
-  - **Bookkeeping** — OVERSIGHT · NOT STARTED · NOT_YET_IMPLEMENTED
-  - **Migration** — OVERSIGHT · PARTIAL · FUNCTIONAL_DEMO · PARTIAL_DATA
-  - **Exports** — OVERSIGHT · NOT STARTED · NOT_YET_IMPLEMENTED
+- **REPORTS** — OVERSIGHT · PARTIAL · FUNCTIONAL_DEMO · staff by grant · founder act: Reporting (founder-class; staff only by grant) — `/office/reports` · `/office/management`
+  - **Overview** — OVERSIGHT · PARTIAL · FUNCTIONAL_DEMO · PARTIAL_DATA · staff by grant — `/office/management`
+  - **Clients** — OVERSIGHT · PARTIAL · FUNCTIONAL_DEMO · PARTIAL_DATA · staff by grant — `/office/management/customers`
+  - **Services** — OVERSIGHT · PARTIAL · FUNCTIONAL_DEMO · PARTIAL_DATA · staff by grant — `/office/management/services`
+  - **Financial / Revenue** — OVERSIGHT · PARTIAL · FUNCTIONAL_DEMO · PARTIAL_DATA · staff by grant · founder act: Internal financial visibility — `/office/management/financial`
+  - **Filing History** — OVERSIGHT · NOT STARTED · NOT_YET_IMPLEMENTED · staff by grant
+  - **Compliance** — OVERSIGHT · PARTIAL · FUNCTIONAL_DEMO · PARTIAL_DATA · staff by grant — `/office/management/deadlines`
+  - **Dispatch / Brokerage** — OVERSIGHT · PARTIAL · FUNCTIONAL_DEMO · PARTIAL_DATA · staff by grant — `/office/management/dispatch` · `/office/management/brokerage`
+  - **Bookkeeping** — OVERSIGHT · NOT STARTED · NOT_YET_IMPLEMENTED · staff by grant
+  - **Migration** — OVERSIGHT · PARTIAL · FUNCTIONAL_DEMO · PARTIAL_DATA · staff by grant
+  - **Exports** — OVERSIGHT · NOT STARTED · NOT_YET_IMPLEMENTED · staff by grant
 - **MORE** — SECONDARY · NOT STARTED — `/office/more` (PROPOSED)
   - **Clients** — SECONDARY · PARTIAL · FUNCTIONAL_DEMO — `/office/clients` · `/office/clients/:clientId`
   - **Documents & Vault** — SECONDARY · PARTIAL · FUNCTIONAL_DEMO — `/office/documents/vault` · `/office/clients/:clientId/documents` · `/office/documents/review`
-  - **Team & Staff** — SECONDARY · PARTIAL · READ_ONLY — `/office/team` · `/office/workload`
-  - **Service Catalog** — SECONDARY · PARTIAL · READ_ONLY — `/office/management/launch/services` · `/office/settings/pricing`
+  - **Growth / CRM** — SECONDARY · PARTIAL · FUNCTIONAL_DEMO · staff by grant — `/office/crm` · `/office/crm/leads` · `/office/crm/leads/:leadId` · `/office/crm/pipeline` · `/office/crm/opportunities/:opportunityId` · `/office/crm/calendar` · `/office/crm/reports` · `/office/settings/crm` — potential: Leads · Prospects · Pipeline · Follow-ups · Referrals · Sales Activity · Service Opportunities
+  - **Billing** — SECONDARY · PARTIAL · FUNCTIONAL_DEMO · staff by grant — `/office/billing` · `/office/invoices` · `/office/invoices/:invoiceId` · `/office/payments` · `/office/quotes` · `/office/quotes/:quoteId` — potential: Client Billing · Invoices · Payments · Balances · Service Charges · Subscriptions / Recurring Services · Credits / Adjustments
+  - **Team & Staff** — SECONDARY · PARTIAL · READ_ONLY · founder act: Staff / permission administration (roles and grants) — `/office/team` · `/office/workload`
+  - **Service Catalog** — SECONDARY · PARTIAL · READ_ONLY · founder act: Service configuration (activation, pricing) — `/office/management/launch/services` · `/office/settings/pricing`
   - **Mechanic Network** — SECONDARY · PARTIAL · READ_ONLY — `/office/fleetcare/providers`
   - **Messages** — SECONDARY · PARTIAL · FUNCTIONAL_DEMO — `/office/communications` · `/office/appointments`
-  - **System Settings** — SECONDARY · PARTIAL · FUNCTIONAL_DEMO — `/office/settings/*` · `/office/security` · `/office/system/*`
+  - **System Settings** — SECONDARY · PARTIAL · FUNCTIONAL_DEMO · staff by grant · founder act: System configuration — `/office/settings/*` · `/office/security` · `/office/system/*`
   - **Help & Support** — SECONDARY · PARTIAL · READ_ONLY — `/office/training` · `/office/training/sops`
   - **Account** — SECONDARY · NOT STARTED
 

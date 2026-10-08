@@ -10,12 +10,14 @@
 
 Data status: REAL_DATA 0 · PARTIAL_DATA 7 · NOT_YET_IMPLEMENTED 3. No domain is REAL_DATA yet: management command centers read the demo store.
 
+Reporting is founder-class (D-FOUNDER-ROLE): staff see REPORTS only with a grant (reports.read and the management permissions that already gate these pages); FINANCIAL / REVENUE adds internal financial visibility.
+
 | Domain | Data | Aggregates | Routes today | Notes |
 |---|---|---|---|---|
 | Overview | PARTIAL_DATA | AIO OFFICE → WORK · AIO OFFICE → INTAKE | `/office/management` | — |
 | Clients | PARTIAL_DATA | AIO OFFICE → MORE → Clients · AIO OFFICE → INTAKE | `/office/management/customers` | Active-client counts must use the founder ACTIVE rule (PREBUILT not counted). |
-| Services | PARTIAL_DATA | AIO OFFICE → WORK → Permitting & Authorities · AIO OFFICE → WORK → Filing & Fuel Taxes · AIO OFFICE → WORK → Compliance · AIO OFFICE → WORK → Dispatch · AIO OFFICE → WORK → Brokerage · AIO OFFICE → WORK → Insurance · AIO OFFICE → WORK → Factoring · AIO OFFICE → WORK → Bookkeeping · AIO OFFICE → WORK → Drivers & Carriers · AIO OFFICE → WORK → Mechanic / Maintenance · AIO OFFICE → WORK → Road Ready | `/office/management/services` | — |
-| Financial / Revenue | PARTIAL_DATA | AIO OFFICE → WORK → Brokerage → Load Financials · AIO OFFICE → WORK → Factoring · AIO OFFICE → WORK → Bookkeeping | `/office/management/financial` | Billing Desk (quotes, invoices, payments) is a candidate source (C-BILLING-DESK). · gate: existing management permissions (ROLE_PERMISSIONS) |
+| Services | PARTIAL_DATA | AIO OFFICE → WORK → Permitting & Authorities · AIO OFFICE → WORK → Filing & Fuel Taxes · AIO OFFICE → WORK → Compliance · AIO OFFICE → WORK → Vehicles & Fleet · AIO OFFICE → WORK → Dispatch · AIO OFFICE → WORK → Brokerage · AIO OFFICE → WORK → Insurance · AIO OFFICE → WORK → Factoring · AIO OFFICE → WORK → Bookkeeping · AIO OFFICE → WORK → Drivers & Carriers · AIO OFFICE → WORK → Mechanic / Maintenance · AIO OFFICE → WORK → Road Ready | `/office/management/services` | — |
+| Financial / Revenue | PARTIAL_DATA | AIO OFFICE → MORE → Billing · AIO OFFICE → WORK → Brokerage → Load Financials · AIO OFFICE → WORK → Factoring · AIO OFFICE → WORK → Bookkeeping | `/office/management/financial` | Aggregates billing for oversight; owns no invoice or payment production (MORE → BILLING, D-GROWTH-BILLING). · gate: management.financial.read (all-in-one-enterprises/src/office/pages/ManagementPages.tsx:98,158,199 ManagementGate) |
 | Filing History | NOT_YET_IMPLEMENTED | AIO OFFICE → WORK → Filing & Fuel Taxes | — | No filing reports; only a per-case IFTA CSV export (IftaStaffCasePage.tsx:130). |
 | Compliance | PARTIAL_DATA | AIO OFFICE → WORK → Compliance | `/office/management/deadlines` | — |
 | Dispatch / Brokerage | PARTIAL_DATA | AIO OFFICE → WORK → Dispatch · AIO OFFICE → WORK → Brokerage | `/office/management/dispatch` · `/office/management/brokerage` | — |
@@ -28,3 +30,4 @@ Data status: REAL_DATA 0 · PARTIAL_DATA 7 · NOT_YET_IMPLEMENTED 3. No domain i
 | REPORTS | Domain | Never replaces (production in WORK) |
 |---|---|---|
 | Brokerage historical performance / volume / exports | AIO OFFICE → REPORTS → Dispatch / Brokerage | AIO OFFICE → WORK → Brokerage → Shipments |
+| Revenue from billing over time | AIO OFFICE → REPORTS → Financial / Revenue | AIO OFFICE → MORE → Billing |
