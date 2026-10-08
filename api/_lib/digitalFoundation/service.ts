@@ -24,6 +24,10 @@ import {
 } from '../../../shared/site00-digital-foundation/types.js';
 import * as mem from './memoryStore.js';
 import { getFoundationPaymentAdapter } from './payment/stripeHostedCheckout.js';
+import {
+  assessArtifactCompletion,
+  prepareOwnershipFromOperations,
+} from './operationsEngine.js';
 
 function nowIso(): string {
   return new Date().toISOString();
@@ -427,6 +431,11 @@ export async function confirmPaymentFromWebhook(input: {
 
   s.stripeProcessedEventIds.add(input.stripe_event_id);
   mem.memSaveArtifact(a);
+
+  const { activateRunbookForArtifact, generateRunbookForArtifact } = await import('./operationsEngine.js');
+  generateRunbookForArtifact(a.artifact_id);
+  activateRunbookForArtifact(a.artifact_id);
+
   return a;
 }
 
@@ -483,6 +492,15 @@ export function completeClientAction(
   req.completed_at = nowIso();
   req.response = response;
   logEvent(artifactId, 'CLIENT_ACTION_COMPLETED', 'CLIENT', { request_id: requestId });
+  const tasks = mem.getDfMemoryState().tasks.get(artifactId) ?? [];
+  const linked = tasks.find((t) => t.client_action_request_id === requestId);
+  if (linked) {
+    linked.status = 'COMPLETE';
+    linked.completed_at = nowIso();
+    mem.getDfMemoryState().tasks.set(artifactId, tasks);
+    logEvent(artifactId, 'TASK_COMPLETED', 'CLIENT', { task_id: linked.task_id });
+    void import('./operationsEngine.js').then(({ syncDerivedState }) => syncDerivedState(artifactId));
+  }
   return req;
 }
 
@@ -548,13 +566,28 @@ export function updateProjectStage(
 
 export function markFoundationComplete(
   artifactId: string,
-  ownership: OwnershipRecord,
+  ownership?: OwnershipRecord,
+  opts?: { founder_override?: boolean; override_reason?: string },
 ): DigitalFoundationArtifact {
   const a = mem.memGetArtifact(artifactId);
   if (!a) throw new Error('ARTIFACT_NOT_FOUND');
   if (a.payment_state !== 'PAID') throw new Error('PAYMENT_REQUIRED');
 
-  mem.getDfMemoryState().ownership.set(artifactId, ownership);
+  const resolvedOwnership = ownership ?? prepareOwnershipFromOperations(artifactId);
+  const gate = assessArtifactCompletion(artifactId);
+  if (!gate.ok && !opts?.founder_override) {
+    throw new Error(`COMPLETION_GATE_FAILED:${gate.reasons.join(',')}`);
+  }
+  if (!gate.ok && opts?.founder_override) {
+    logEvent(artifactId, 'FOUNDATION_VERIFIED', 'FOUNDER', {
+      override: true,
+      reason: opts.override_reason ?? 'Founder manual verification override',
+    });
+  } else {
+    logEvent(artifactId, 'FOUNDATION_VERIFIED', 'SYSTEM');
+  }
+
+  mem.getDfMemoryState().ownership.set(artifactId, resolvedOwnership);
   a.completion_state = 'COMPLETE';
   a.completed_at = nowIso();
   transitionArtifact(a, 'FINAL_VERIFICATION');
@@ -650,6 +683,15 @@ export function getArtifactPayload(artifactId: string): DigitalFoundationArtifac
       : null;
 
   const s = mem.getDfMemoryState();
+  const opsTasks = s.tasks.get(artifactId);
+  if (opsTasks?.length) {
+    void import('./operationsEngine.js').then(({ syncDerivedState }) => syncDerivedState(artifactId));
+  }
+  const stages = s.stages.get(artifactId) ?? [];
+  const forecast = s.forecasts.get(artifactId);
+  const openActions = (s.clientActions.get(artifactId) ?? []).filter((c) => c.status === 'OPEN');
+  const currentStage = stages.find((st) => st.status !== 'COMPLETE')?.stage_code ?? stages.at(-1)?.stage_code ?? null;
+
   return {
     artifact,
     lead,
@@ -657,14 +699,24 @@ export function getArtifactPayload(artifactId: string): DigitalFoundationArtifac
     quote,
     recommendation,
     acceptance: s.acceptances.get(artifactId) ?? null,
-    stages: s.stages.get(artifactId) ?? [],
-    client_actions: (s.clientActions.get(artifactId) ?? []).filter((c) => c.status === 'OPEN'),
+    stages,
+    client_actions: openActions,
     approvals: s.approvals.get(artifactId) ?? [],
     ownership_record: s.ownership.get(artifactId) ?? null,
     build_readiness: s.buildReadiness.get(artifactId) ?? null,
     credit: artifact.foundation_credit_id ? s.credits.get(artifact.foundation_credit_id) ?? null : null,
     events: s.events.filter((e) => e.artifact_id === artifactId).slice(-50),
     surface: resolveArtifactSurface(artifact),
+    operations_summary:
+      artifact.payment_state === 'PAID'
+        ? {
+            current_stage: currentStage,
+            needs_you_count: openActions.length,
+            projected_completion: forecast
+              ? `${forecast.current_min_days}–${forecast.current_max_days} business days`
+              : null,
+          }
+        : undefined,
   };
 }
 
@@ -733,19 +785,23 @@ export async function materializeFixtureScenario(
   }
 
   if (scenario.mark_complete) {
-    markFoundationComplete(artifact.artifact_id, {
-      business: scenario.intake.business_name ?? 'Fixture business',
-      domain: scenario.intake.existing_domain ?? 'example.com',
-      registrar: 'Example Registrar',
-      renewal_date: null,
-      email_provider: 'Google Workspace',
-      primary_mailbox: 'hello@example.com',
-      aliases: [],
-      dns_status: 'CONFIGURED',
-      security_status: 'PROTECTED',
-      owner: scenario.intake.contact_name ?? null,
-      administrative_access_model: 'Client-owned with SITE 00 setup',
-    });
+    markFoundationComplete(
+      artifact.artifact_id,
+      {
+        business: scenario.intake.business_name ?? 'Fixture business',
+        domain: scenario.intake.existing_domain ?? 'example.com',
+        registrar: 'Example Registrar',
+        renewal_date: null,
+        email_provider: 'Google Workspace',
+        primary_mailbox: 'hello@example.com',
+        aliases: [],
+        dns_status: 'CONFIGURED',
+        security_status: 'PROTECTED',
+        owner: scenario.intake.contact_name ?? null,
+        administrative_access_model: 'Client-owned with SITE 00 setup',
+      },
+      { founder_override: true, override_reason: 'Fixture completion' },
+    );
   }
 
   const fresh = mem.memGetArtifact(artifact.artifact_id)!;

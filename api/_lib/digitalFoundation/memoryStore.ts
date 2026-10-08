@@ -14,6 +14,15 @@ import type {
 import type { BuildReadinessAssessment } from '../../../shared/site00-digital-foundation/types.js';
 import { seedReferralSources } from '../../../shared/site00-digital-foundation/referralSources.js';
 import { defaultDigitalFoundationCommercialConfig } from '../../../shared/site00-digital-foundation/commercialConfig.js';
+import type {
+  DigitalFoundationExecutionTask,
+  DigitalFoundationRunbook,
+  DigitalFoundationVerificationResult,
+  DigitalFoundationVerificationRule,
+  ManualVerificationOverride,
+  ProjectForecast,
+  ProjectOperationsConfig,
+} from '../../../shared/site00-digital-foundation/operations/types.js';
 
 export type DfMemoryState = {
   config: ReturnType<typeof defaultDigitalFoundationCommercialConfig>;
@@ -32,6 +41,14 @@ export type DfMemoryState = {
   events: ArtifactEvent[];
   stripeProcessedEventIds: Set<string>;
   checkoutSessions: Map<string, { artifact_id: string; quote_id: string; session_id: string }>;
+  runbooks: Map<string, DigitalFoundationRunbook>;
+  runbookHistory: Map<string, DigitalFoundationRunbook[]>;
+  tasks: Map<string, DigitalFoundationExecutionTask[]>;
+  verificationRules: Map<string, DigitalFoundationVerificationRule[]>;
+  verificationResults: Map<string, DigitalFoundationVerificationResult[]>;
+  verificationOverrides: Map<string, ManualVerificationOverride[]>;
+  forecasts: Map<string, ProjectForecast>;
+  projectConfig: Map<string, ProjectOperationsConfig>;
 };
 
 let state: DfMemoryState | null = null;
@@ -55,6 +72,14 @@ export function getDfMemoryState(): DfMemoryState {
       events: [],
       stripeProcessedEventIds: new Set(),
       checkoutSessions: new Map(),
+      runbooks: new Map(),
+      runbookHistory: new Map(),
+      tasks: new Map(),
+      verificationRules: new Map(),
+      verificationResults: new Map(),
+      verificationOverrides: new Map(),
+      forecasts: new Map(),
+      projectConfig: new Map(),
     };
   }
   return state;
