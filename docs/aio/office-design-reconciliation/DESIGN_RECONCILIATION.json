@@ -1,0 +1,3828 @@
+{
+  "id": "AIO_DESIGN_RECONCILIATION",
+  "sprint": "P0.AIO.OFFICE.FOUNDER-HOME-WORK-REPORTS-MORE.EXISTING-DESIGN-RECONCILIATION1",
+  "generated_by": "scripts/studioos/aio-office-design-reconciliation-export.ts",
+  "source": [
+    "shared/studioos-experience-brain/office-design-reconciliation.ts",
+    "shared/studioos-experience-brain/projects/aio/office-design-reconciliation.ts",
+    "shared/studioos-experience-brain/projects/aio/office-contracts.ts"
+  ],
+  "reference": {
+    "reference_id": "AIO-OFFICE-FOUR-SCREEN-2026-10-08",
+    "description": "Founder’s four-screen mobile direction for AIO OFFICE: HOME, WORK, REPORTS, MORE (one 1536 × 1024 composite).",
+    "file": {
+      "path": "docs/aio/office-design-reconciliation/reference/AIO_OFFICE_FOUR_SCREEN_REFERENCE.png",
+      "width": 1536,
+      "height": 1024,
+      "sha256": "47343139eccfe6055479d4f1f0841da74ab87134fd1d62f5f5cded040dd5e961"
+    },
+    "drawn_nav": [
+      "HOME",
+      "INTAKE",
+      "WORK",
+      "REPORTS",
+      "MORE"
+    ],
+    "drawn_identity": {
+      "name": "JORDAN L.",
+      "role_label": "AIO STAFF"
+    },
+    "screens": [
+      {
+        "root_id": "AIO_OFFICE.HOME",
+        "title_as_drawn": "YOUR OPERATION AT A GLANCE.",
+        "crop": [
+          6,
+          86,
+          377,
+          906
+        ],
+        "elements": [
+          {
+            "element_id": "home.header",
+            "kind": "HEADER",
+            "label": "ALL IN ONE ENTERPRISES INC. · search · bell · JL · JORDAN L. · AIO STAFF",
+            "maps_to": [
+              {
+                "kind": "NONE",
+                "id": null
+              }
+            ],
+            "verdict": "KEEP",
+            "finding": "Logo matches the approved staff header lockup (gold and black mark, ALL IN ONE / ENTERPRISES INC., no dot above the I). Search, alerts and identity are where the approved migration header puts them. The role line must come from the person’s role (FOUNDER or a staff role), never from a name.",
+            "figures": [],
+            "anti_ai": []
+          },
+          {
+            "element_id": "home.hero",
+            "kind": "HERO",
+            "label": "GOOD MORNING, JORDAN. · YOUR OPERATION AT A GLANCE. · Everything moving. Everything that needs you. All in one place.",
+            "maps_to": [
+              {
+                "kind": "ROOT",
+                "id": "AIO_OFFICE.HOME"
+              }
+            ],
+            "verdict": "REFINE",
+            "finding": "Strong cinematic opener (black truck at the warehouse, golden hour) and the right promise. It takes about a third of the phone screen, so the attention cards sit low and the first real item is below the fold. The greeting uses a first name; it must come from the signed-in person.",
+            "figures": [],
+            "anti_ai": []
+          },
+          {
+            "element_id": "home.card.attention",
+            "kind": "STAT_CARD",
+            "label": "3 · CLIENTS · NEED ATTENTION",
+            "maps_to": [
+              {
+                "kind": "REGION",
+                "id": "AIO_OFFICE.HOME.NEEDS_ATTENTION"
+              }
+            ],
+            "verdict": "REFINE",
+            "finding": "Right idea, right place. It counts clients, while the contract lists items (an approval, a document, an expiring policy). The card should open the items, not just a number.",
+            "figures": [
+              "3"
+            ],
+            "anti_ai": []
+          },
+          {
+            "element_id": "home.card.deadlines",
+            "kind": "STAT_CARD",
+            "label": "5 · DEADLINES · THIS WEEK",
+            "maps_to": [
+              {
+                "kind": "REGION",
+                "id": "AIO_OFFICE.HOME.DEADLINES"
+              }
+            ],
+            "verdict": "REFINE",
+            "finding": "The only trace of the DEADLINES region. A count alone does not say what is due or for whom.",
+            "figures": [
+              "5"
+            ],
+            "anti_ai": []
+          },
+          {
+            "element_id": "home.card.blockers",
+            "kind": "STAT_CARD",
+            "label": "2 · BLOCKERS · REQUIRE INPUT",
+            "maps_to": [
+              {
+                "kind": "REGION",
+                "id": "AIO_OFFICE.HOME.BLOCKERS"
+              }
+            ],
+            "verdict": "REFINE",
+            "finding": "The only trace of the BLOCKERS region. Blockers group on whom they wait (client, staff, provider, document, approval, payment) — the card should lead to that list.",
+            "figures": [
+              "2"
+            ],
+            "anti_ai": []
+          },
+          {
+            "element_id": "home.work-across",
+            "kind": "REGION",
+            "label": "WORK ACROSS AIO · Live activity across all services. · THIS WEEK",
+            "maps_to": [
+              {
+                "kind": "REGION",
+                "id": "AIO_OFFICE.HOME.WORK_ACROSS_AIO"
+              }
+            ],
+            "verdict": "CORRECT",
+            "finding": "Shows 8 tiles: 7 of the 12 lanes plus INTAKE. Missing VEHICLES & FLEET, FACTORING, DRIVERS & CARRIERS, MECHANIC / MAINTENANCE, ROAD READY. “Live activity” is not true today: every office figure comes from the demo store.",
+            "figures": [],
+            "anti_ai": [
+              {
+                "flag": "FAKE_EDITORIAL_COPY",
+                "severity": "MINOR",
+                "note": "“Live activity” claims live data that does not exist yet."
+              }
+            ]
+          },
+          {
+            "element_id": "home.tile.intake",
+            "kind": "TILE",
+            "label": "Intake · 12 in progress",
+            "maps_to": [
+              {
+                "kind": "ROOT",
+                "id": "AIO_OFFICE.INTAKE"
+              }
+            ],
+            "verdict": "REMOVE",
+            "finding": "INTAKE is its own root in the dock, not a service lane. Migration items still reach HOME through NEEDS ATTENTION (blocked files, activation waiting).",
+            "figures": [
+              "12"
+            ],
+            "anti_ai": [
+              {
+                "flag": "DUPLICATED_NAV_ITEM",
+                "severity": "MINOR",
+                "note": "INTAKE appears as a lane and as a dock root."
+              }
+            ]
+          },
+          {
+            "element_id": "home.tile.permitting",
+            "kind": "TILE",
+            "label": "Permitting · 8 active",
+            "maps_to": [
+              {
+                "kind": "LANE",
+                "id": "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES"
+              }
+            ],
+            "verdict": "REFINE",
+            "finding": "Lane name is PERMITTING & AUTHORITIES.",
+            "figures": [
+              "8"
+            ],
+            "anti_ai": []
+          },
+          {
+            "element_id": "home.tile.filing",
+            "kind": "TILE",
+            "label": "Filing (IFTA) · 14 open",
+            "maps_to": [
+              {
+                "kind": "LANE",
+                "id": "AIO_OFFICE.WORK.FILING_FUEL_TAXES"
+              }
+            ],
+            "verdict": "CORRECT",
+            "finding": "Lane name is FILING & FUEL TAXES; IFTA is one workspace inside it.",
+            "figures": [
+              "14"
+            ],
+            "anti_ai": []
+          },
+          {
+            "element_id": "home.tile.compliance",
+            "kind": "TILE",
+            "label": "Compliance · 6 require attention",
+            "maps_to": [
+              {
+                "kind": "LANE",
+                "id": "AIO_OFFICE.WORK.COMPLIANCE"
+              }
+            ],
+            "verdict": "KEEP",
+            "finding": "Right lane, right kind of figure (needs attention).",
+            "figures": [
+              "6"
+            ],
+            "anti_ai": []
+          },
+          {
+            "element_id": "home.tile.dispatch",
+            "kind": "TILE",
+            "label": "Dispatch · 24 active loads",
+            "maps_to": [
+              {
+                "kind": "LANE",
+                "id": "AIO_OFFICE.WORK.DISPATCH"
+              }
+            ],
+            "verdict": "KEEP",
+            "finding": "Right lane.",
+            "figures": [
+              "24"
+            ],
+            "anti_ai": []
+          },
+          {
+            "element_id": "home.tile.brokerage",
+            "kind": "TILE",
+            "label": "Brokerage · 6 shipments",
+            "maps_to": [
+              {
+                "kind": "LANE",
+                "id": "AIO_OFFICE.WORK.BROKERAGE"
+              }
+            ],
+            "verdict": "REFINE",
+            "finding": "Right lane. The brokerage business line is paused today; the tile should say so rather than show activity.",
+            "figures": [
+              "6"
+            ],
+            "anti_ai": []
+          },
+          {
+            "element_id": "home.tile.insurance",
+            "kind": "TILE",
+            "label": "Insurance · 5 renewals",
+            "maps_to": [
+              {
+                "kind": "LANE",
+                "id": "AIO_OFFICE.WORK.INSURANCE"
+              }
+            ],
+            "verdict": "KEEP",
+            "finding": "Right lane; renewals are the lane’s real attention source.",
+            "figures": [
+              "5"
+            ],
+            "anti_ai": []
+          },
+          {
+            "element_id": "home.tile.bookkeeping",
+            "kind": "TILE",
+            "label": "Bookkeeping · 11 clients",
+            "maps_to": [
+              {
+                "kind": "LANE",
+                "id": "AIO_OFFICE.WORK.BOOKKEEPING"
+              }
+            ],
+            "verdict": "REFINE",
+            "finding": "Right lane. WORK draws the same lane as “5 clients” — two different figures for one lane.",
+            "figures": [
+              "11"
+            ],
+            "anti_ai": []
+          },
+          {
+            "element_id": "home.clients",
+            "kind": "REGION",
+            "label": "CLIENTS IN MOTION · Recent activity across your clients. · VIEW ALL",
+            "maps_to": [
+              {
+                "kind": "REGION",
+                "id": "AIO_OFFICE.HOME.CLIENTS_IN_MOTION"
+              }
+            ],
+            "verdict": "REFINE",
+            "finding": "Good row design: client, service chips, status, time. Missing the next deadline and the blocking condition the contract asks for. The client badges are invented logo marks.",
+            "figures": [],
+            "anti_ai": [
+              {
+                "flag": "MUTATED_MARK",
+                "severity": "MINOR",
+                "note": "Each client badge is an invented emblem; real clients have no such marks. Use initials."
+              }
+            ]
+          },
+          {
+            "element_id": "home.client.riverstone",
+            "kind": "ROW",
+            "label": "Riverstone Logistics · IFTA · Bookkeeping · Compliance · Needs your approval · 2h ago",
+            "maps_to": [
+              {
+                "kind": "REGION",
+                "id": "AIO_OFFICE.HOME.CLIENTS_IN_MOTION"
+              }
+            ],
+            "verdict": "KEEP",
+            "finding": "Sample client. “Needs your approval” is a real status family (APPROVAL_REQUIRED).",
+            "figures": [
+              "2h ago"
+            ],
+            "anti_ai": []
+          },
+          {
+            "element_id": "home.client.delta",
+            "kind": "ROW",
+            "label": "Delta Hauling LLC · Permits · Insurance · Documents received · 4h ago",
+            "maps_to": [
+              {
+                "kind": "REGION",
+                "id": "AIO_OFFICE.HOME.CLIENTS_IN_MOTION"
+              }
+            ],
+            "verdict": "REFINE",
+            "finding": "Sample client. Chip “Permits” should read PERMITTING & AUTHORITIES (or a short form the whole set uses).",
+            "figures": [
+              "4h ago"
+            ],
+            "anti_ai": []
+          },
+          {
+            "element_id": "home.client.tk",
+            "kind": "ROW",
+            "label": "T&K Transport · Dispatch · IFTA · Filing ready · 6h ago",
+            "maps_to": [
+              {
+                "kind": "REGION",
+                "id": "AIO_OFFICE.HOME.CLIENTS_IN_MOTION"
+              }
+            ],
+            "verdict": "KEEP",
+            "finding": "Sample client.",
+            "figures": [
+              "6h ago"
+            ],
+            "anti_ai": []
+          },
+          {
+            "element_id": "home.activity",
+            "kind": "REGION",
+            "label": "RECENT ACTIVITY · Latest updates across AIO. · VIEW ALL · 4 events",
+            "maps_to": [
+              {
+                "kind": "REGION",
+                "id": "AIO_OFFICE.HOME.RECENT_ACTIVITY"
+              }
+            ],
+            "verdict": "KEEP",
+            "finding": "Each line maps onto an event the code already records (filing prepared, intake started, document received, approval). The small gold bullets carry no meaning; an event-type mark would.",
+            "figures": [
+              "1h ago",
+              "3h ago",
+              "5h ago",
+              "6h ago"
+            ],
+            "anti_ai": []
+          },
+          {
+            "element_id": "home.dock",
+            "kind": "NAV",
+            "label": "HOME · INTAKE · WORK · REPORTS · MORE (HOME active)",
+            "maps_to": [
+              {
+                "kind": "ROOT",
+                "id": "AIO_OFFICE.HOME"
+              },
+              {
+                "kind": "ROOT",
+                "id": "AIO_OFFICE.INTAKE"
+              },
+              {
+                "kind": "ROOT",
+                "id": "AIO_OFFICE.WORK"
+              },
+              {
+                "kind": "ROOT",
+                "id": "AIO_OFFICE.REPORTS"
+              },
+              {
+                "kind": "ROOT",
+                "id": "AIO_OFFICE.MORE"
+              }
+            ],
+            "verdict": "KEEP",
+            "finding": "Exactly the five AIO OFFICE roots in the canonical order, active root in the black-and-gold tile. The live app still shows FILING; that changes only in the implementation sprint.",
+            "figures": [],
+            "anti_ai": []
+          }
+        ]
+      },
+      {
+        "root_id": "AIO_OFFICE.WORK",
+        "title_as_drawn": "EVERY SERVICE. EVERY CLIENT.",
+        "crop": [
+          388,
+          86,
+          378,
+          906
+        ],
+        "elements": [
+          {
+            "element_id": "work.header",
+            "kind": "HEADER",
+            "label": "ALL IN ONE ENTERPRISES INC. · search · bell · JL · JORDAN L. · AIO STAFF",
+            "maps_to": [
+              {
+                "kind": "NONE",
+                "id": null
+              }
+            ],
+            "verdict": "KEEP",
+            "finding": "Logo matches the approved staff header lockup (gold and black mark, ALL IN ONE / ENTERPRISES INC., no dot above the I). Search, alerts and identity are where the approved migration header puts them. The role line must come from the person’s role (FOUNDER or a staff role), never from a name.",
+            "figures": [],
+            "anti_ai": []
+          },
+          {
+            "element_id": "work.hero",
+            "kind": "HERO",
+            "label": "GET THINGS DONE. · EVERY SERVICE. EVERY CLIENT. · Access all AIO workspaces and drive your operation forward.",
+            "maps_to": [
+              {
+                "kind": "ROOT",
+                "id": "AIO_OFFICE.WORK"
+              }
+            ],
+            "verdict": "REFINE",
+            "finding": "Warm office scene that separates WORK from HOME’s road. Same height problem as HOME: the directory starts below the fold.",
+            "figures": [],
+            "anti_ai": [
+              {
+                "flag": "RANDOM_BOTANICALS",
+                "severity": "MINOR",
+                "note": "Potted plants and greenery carry no AIO meaning."
+              }
+            ]
+          },
+          {
+            "element_id": "work.directory",
+            "kind": "REGION",
+            "label": "SERVICE WORKSPACES · Manage active work across all AIO services.",
+            "maps_to": [
+              {
+                "kind": "REGION",
+                "id": "WORK.LANE_SWITCHER"
+              }
+            ],
+            "verdict": "KEEP",
+            "finding": "The photographic directory is the page’s strongest idea and stays.",
+            "figures": [],
+            "anti_ai": []
+          },
+          {
+            "element_id": "work.card.intake",
+            "kind": "LANE_CARD",
+            "label": "Intake · 12 active",
+            "maps_to": [
+              {
+                "kind": "ROOT",
+                "id": "AIO_OFFICE.INTAKE"
+              }
+            ],
+            "verdict": "REMOVE",
+            "finding": "INTAKE has its own dock root; it is not one of the twelve lanes. Its slot goes to VEHICLES & FLEET.",
+            "figures": [
+              "12"
+            ],
+            "anti_ai": [
+              {
+                "flag": "DUPLICATED_NAV_ITEM",
+                "severity": "MATERIAL",
+                "note": "INTAKE drawn as a lane card and a dock root."
+              }
+            ]
+          },
+          {
+            "element_id": "work.card.permitting",
+            "kind": "LANE_CARD",
+            "label": "Permitting & Authorities · 18 active",
+            "maps_to": [
+              {
+                "kind": "LANE",
+                "id": "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES"
+              }
+            ],
+            "verdict": "ASSET_PASS",
+            "finding": "Right lane and name. HOME draws the same lane as “8 active”. The photo has a fake “PERMITS” form.",
+            "figures": [
+              "18"
+            ],
+            "anti_ai": [
+              {
+                "flag": "AI_TYPOGRAPHY_ARTIFACTS",
+                "severity": "MINOR",
+                "note": "Generated “PERMITS” heading and unreadable form text."
+              }
+            ]
+          },
+          {
+            "element_id": "work.card.filing",
+            "kind": "LANE_CARD",
+            "label": "Filing & Fuel Taxes · 14 open",
+            "maps_to": [
+              {
+                "kind": "LANE",
+                "id": "AIO_OFFICE.WORK.FILING_FUEL_TAXES"
+              }
+            ],
+            "verdict": "ASSET_PASS",
+            "finding": "Right lane and name. The photo (a jar on a stump by a mountain road) says nothing about filing and nearly repeats the Brokerage photo.",
+            "figures": [
+              "14"
+            ],
+            "anti_ai": [
+              {
+                "flag": "RANDOM_BOTANICALS",
+                "severity": "MINOR",
+                "note": "Stump, jar and greenery in a filing image."
+              }
+            ]
+          },
+          {
+            "element_id": "work.card.compliance",
+            "kind": "LANE_CARD",
+            "label": "Compliance · 9 active",
+            "maps_to": [
+              {
+                "kind": "LANE",
+                "id": "AIO_OFFICE.WORK.COMPLIANCE"
+              }
+            ],
+            "verdict": "ASSET_PASS",
+            "finding": "Right lane. HOME counts “6 require attention” for it. The DOT clipboard text is generated.",
+            "figures": [
+              "9"
+            ],
+            "anti_ai": [
+              {
+                "flag": "AI_TYPOGRAPHY_ARTIFACTS",
+                "severity": "MINOR",
+                "note": "Generated “DOT” clipboard and unreadable text."
+              }
+            ]
+          },
+          {
+            "element_id": "work.card.dispatch",
+            "kind": "LANE_CARD",
+            "label": "Dispatch · 24 active loads",
+            "maps_to": [
+              {
+                "kind": "LANE",
+                "id": "AIO_OFFICE.WORK.DISPATCH"
+              }
+            ],
+            "verdict": "KEEP",
+            "finding": "Right lane, clear subject (a truck at the dock).",
+            "figures": [
+              "24"
+            ],
+            "anti_ai": []
+          },
+          {
+            "element_id": "work.card.brokerage",
+            "kind": "LANE_CARD",
+            "label": "Brokerage · 6 shipments",
+            "maps_to": [
+              {
+                "kind": "LANE",
+                "id": "AIO_OFFICE.WORK.BROKERAGE"
+              }
+            ],
+            "verdict": "ASSET_PASS",
+            "finding": "Right lane. Paused as a business line today. The empty mountain road does not read as brokerage and nearly repeats the Filing photo.",
+            "figures": [
+              "6"
+            ],
+            "anti_ai": []
+          },
+          {
+            "element_id": "work.card.insurance",
+            "kind": "LANE_CARD",
+            "label": "Insurance · 7 active",
+            "maps_to": [
+              {
+                "kind": "LANE",
+                "id": "AIO_OFFICE.WORK.INSURANCE"
+              }
+            ],
+            "verdict": "ASSET_PASS",
+            "finding": "Right lane. HOME counts “5 renewals” for it. The “INSURANCE” form is generated.",
+            "figures": [
+              "7"
+            ],
+            "anti_ai": [
+              {
+                "flag": "AI_TYPOGRAPHY_ARTIFACTS",
+                "severity": "MINOR",
+                "note": "Generated “INSURANCE” heading and unreadable form text."
+              }
+            ]
+          },
+          {
+            "element_id": "work.card.factoring",
+            "kind": "LANE_CARD",
+            "label": "Factoring · 5 clients",
+            "maps_to": [
+              {
+                "kind": "LANE",
+                "id": "AIO_OFFICE.WORK.FACTORING"
+              }
+            ],
+            "verdict": "ASSET_PASS",
+            "finding": "Right lane. Paperwork photo with garbled text.",
+            "figures": [
+              "5"
+            ],
+            "anti_ai": [
+              {
+                "flag": "AI_TYPOGRAPHY_ARTIFACTS",
+                "severity": "MINOR",
+                "note": "Garbled document text."
+              }
+            ]
+          },
+          {
+            "element_id": "work.card.bookkeeping",
+            "kind": "LANE_CARD",
+            "label": "Bookkeeping · 5 clients",
+            "maps_to": [
+              {
+                "kind": "LANE",
+                "id": "AIO_OFFICE.WORK.BOOKKEEPING"
+              }
+            ],
+            "verdict": "ASSET_PASS",
+            "finding": "Right lane. HOME counts “11 clients” for it. Calculator and ledger with garbled text.",
+            "figures": [
+              "5"
+            ],
+            "anti_ai": [
+              {
+                "flag": "AI_TYPOGRAPHY_ARTIFACTS",
+                "severity": "MINOR",
+                "note": "Garbled ledger text."
+              }
+            ]
+          },
+          {
+            "element_id": "work.card.drivers",
+            "kind": "LANE_CARD",
+            "label": "Drivers & Carriers · 12 in progress",
+            "maps_to": [
+              {
+                "kind": "LANE",
+                "id": "AIO_OFFICE.WORK.DRIVERS_CARRIERS"
+              }
+            ],
+            "verdict": "ASSET_PASS",
+            "finding": "Right lane. The driver’s face is covered and the clipboard text is generated; it reads as anonymous rather than professional.",
+            "figures": [
+              "12"
+            ],
+            "anti_ai": [
+              {
+                "flag": "AI_TYPOGRAPHY_ARTIFACTS",
+                "severity": "MINOR",
+                "note": "Generated clipboard form."
+              }
+            ]
+          },
+          {
+            "element_id": "work.card.maintenance",
+            "kind": "LANE_CARD",
+            "label": "Maintenance · 8 open",
+            "maps_to": [
+              {
+                "kind": "LANE",
+                "id": "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE"
+              }
+            ],
+            "verdict": "REFINE",
+            "finding": "Right lane; its name is MECHANIC / MAINTENANCE. Tire-shop photo fits.",
+            "figures": [
+              "8"
+            ],
+            "anti_ai": []
+          },
+          {
+            "element_id": "work.card.road-ready",
+            "kind": "LANE_CARD",
+            "label": "Road Ready · 6 in setup",
+            "maps_to": [
+              {
+                "kind": "LANE",
+                "id": "AIO_OFFICE.WORK.ROAD_READY"
+              }
+            ],
+            "verdict": "REFINE",
+            "finding": "Right lane. The photo repeats the Dispatch truck. “In setup” implies an engagement state that does not exist yet.",
+            "figures": [
+              "6"
+            ],
+            "anti_ai": []
+          },
+          {
+            "element_id": "work.banner",
+            "kind": "BANNER",
+            "label": "NEED TO ASSIGN WORK? · Create a new task, case, or client project.",
+            "maps_to": [
+              {
+                "kind": "ACTION",
+                "id": "WORK.ASSIGN"
+              },
+              {
+                "kind": "ACTION",
+                "id": "HOME.CREATE_CASE"
+              }
+            ],
+            "verdict": "FOUNDER_DECISION",
+            "finding": "Creating a case is not built, “client project” does not exist, and the quick task it would create today is not an office work item. Assigning exists only for managers.",
+            "figures": [],
+            "anti_ai": [
+              {
+                "flag": "MUTATED_MARK",
+                "severity": "MINOR",
+                "note": "Invented round emblem beside the banner."
+              }
+            ]
+          },
+          {
+            "element_id": "work.dock",
+            "kind": "NAV",
+            "label": "HOME · INTAKE · WORK · REPORTS · MORE (WORK active)",
+            "maps_to": [
+              {
+                "kind": "ROOT",
+                "id": "AIO_OFFICE.HOME"
+              },
+              {
+                "kind": "ROOT",
+                "id": "AIO_OFFICE.INTAKE"
+              },
+              {
+                "kind": "ROOT",
+                "id": "AIO_OFFICE.WORK"
+              },
+              {
+                "kind": "ROOT",
+                "id": "AIO_OFFICE.REPORTS"
+              },
+              {
+                "kind": "ROOT",
+                "id": "AIO_OFFICE.MORE"
+              }
+            ],
+            "verdict": "KEEP",
+            "finding": "Exactly the five AIO OFFICE roots in the canonical order, active root in the black-and-gold tile. The live app still shows FILING; that changes only in the implementation sprint.",
+            "figures": [],
+            "anti_ai": []
+          }
+        ]
+      },
+      {
+        "root_id": "AIO_OFFICE.REPORTS",
+        "title_as_drawn": "STRONGER OPERATIONS.",
+        "crop": [
+          771,
+          86,
+          379,
+          906
+        ],
+        "elements": [
+          {
+            "element_id": "reports.header",
+            "kind": "HEADER",
+            "label": "ALL IN ONE ENTERPRISES INC. · search · bell · JL · JORDAN L. · AIO STAFF",
+            "maps_to": [
+              {
+                "kind": "NONE",
+                "id": null
+              }
+            ],
+            "verdict": "KEEP",
+            "finding": "Logo matches the approved staff header lockup (gold and black mark, ALL IN ONE / ENTERPRISES INC., no dot above the I). Search, alerts and identity are where the approved migration header puts them. The role line must come from the person’s role (FOUNDER or a staff role), never from a name.",
+            "figures": [],
+            "anti_ai": []
+          },
+          {
+            "element_id": "reports.hero",
+            "kind": "HERO",
+            "label": "REAL INSIGHTS. · STRONGER OPERATIONS. · Track performance, review history, and uncover what’s next.",
+            "maps_to": [
+              {
+                "kind": "ROOT",
+                "id": "AIO_OFFICE.REPORTS"
+              }
+            ],
+            "verdict": "REFINE",
+            "finding": "Fitting desk-and-charts scene. Same height issue; the chart papers are generated.",
+            "figures": [],
+            "anti_ai": [
+              {
+                "flag": "AI_TYPOGRAPHY_ARTIFACTS",
+                "severity": "MINOR",
+                "note": "Generated chart sheets."
+              }
+            ]
+          },
+          {
+            "element_id": "reports.tabs",
+            "kind": "TAB",
+            "label": "OVERVIEW · CLIENTS · SERVICES · FINANCIAL · EXPORTS",
+            "maps_to": [
+              {
+                "kind": "REPORT_DOMAIN",
+                "id": "AIO_OFFICE.REPORTS.OVERVIEW"
+              },
+              {
+                "kind": "REPORT_DOMAIN",
+                "id": "AIO_OFFICE.REPORTS.CLIENTS"
+              },
+              {
+                "kind": "REPORT_DOMAIN",
+                "id": "AIO_OFFICE.REPORTS.SERVICES"
+              },
+              {
+                "kind": "REPORT_DOMAIN",
+                "id": "AIO_OFFICE.REPORTS.FINANCIAL_REVENUE"
+              },
+              {
+                "kind": "REPORT_DOMAIN",
+                "id": "AIO_OFFICE.REPORTS.EXPORTS"
+              }
+            ],
+            "verdict": "CORRECT",
+            "finding": "Five of the ten report domains. Missing FILING HISTORY, COMPLIANCE, DISPATCH / BROKERAGE, BOOKKEEPING, MIGRATION. FINANCIAL is FINANCIAL / REVENUE and is founder-class (staff only by grant).",
+            "figures": [],
+            "anti_ai": []
+          },
+          {
+            "element_id": "reports.period",
+            "kind": "ACTION",
+            "label": "KEY METRICS · This period compared to last. · THIS MONTH",
+            "maps_to": [
+              {
+                "kind": "ACTION",
+                "id": "REPORTS.SET_PERIOD"
+              }
+            ],
+            "verdict": "KEEP",
+            "finding": "Period control in the right place.",
+            "figures": [],
+            "anti_ai": []
+          },
+          {
+            "element_id": "reports.metric.clients",
+            "kind": "METRIC",
+            "label": "Clients · 48 · +12% · sparkline",
+            "maps_to": [
+              {
+                "kind": "METRIC",
+                "id": "overview.active-clients"
+              }
+            ],
+            "verdict": "CORRECT",
+            "finding": "A count of ACTIVE clients is supported (PREBUILT never counts). The +12% and the trend line need history the system does not keep.",
+            "figures": [
+              "48",
+              "+12%"
+            ],
+            "anti_ai": []
+          },
+          {
+            "element_id": "reports.metric.filings",
+            "kind": "METRIC",
+            "label": "Filings Completed · 36 · +28% · sparkline",
+            "maps_to": [
+              {
+                "kind": "METRIC",
+                "id": "overview.filing-throughput"
+              }
+            ],
+            "verdict": "REFINE",
+            "finding": "Supported: each filed quarter records when it was filed, so this period and the last can be compared. No report surface exists yet.",
+            "figures": [
+              "36",
+              "+28%"
+            ],
+            "anti_ai": []
+          },
+          {
+            "element_id": "reports.metric.work",
+            "kind": "METRIC",
+            "label": "Active Work Items · 62 · −8% · sparkline",
+            "maps_to": [
+              {
+                "kind": "METRIC",
+                "id": "overview.active-work"
+              }
+            ],
+            "verdict": "CORRECT",
+            "finding": "The count is supported; the −8% and trend need history that is not kept.",
+            "figures": [
+              "62",
+              "−8%"
+            ],
+            "anti_ai": []
+          },
+          {
+            "element_id": "reports.metric.revenue",
+            "kind": "METRIC",
+            "label": "Revenue (Est.) · $48.2K · +14% · sparkline",
+            "maps_to": [
+              {
+                "kind": "METRIC",
+                "id": "financial.collected"
+              }
+            ],
+            "verdict": "CORRECT",
+            "finding": "No “estimated revenue” exists to show. The supported figure is collected service revenue — founder-class, staff only by grant — and today it is demo data. Never an estimate.",
+            "figures": [
+              "$48.2K",
+              "+14%"
+            ],
+            "anti_ai": []
+          },
+          {
+            "element_id": "reports.services",
+            "kind": "CHART",
+            "label": "SERVICE ACTIVITY · Work volume by service. · 8 bars",
+            "maps_to": [
+              {
+                "kind": "METRIC",
+                "id": "services.volume"
+              }
+            ],
+            "verdict": "CORRECT",
+            "finding": "Partial data. Bars cover 7 lanes plus Intake / Migration (which belongs to the MIGRATION domain); five lanes are missing. The bars have no axis but carry their values, which is enough.",
+            "figures": [
+              "36",
+              "28",
+              "22",
+              "18",
+              "14",
+              "12",
+              "11",
+              "9"
+            ],
+            "anti_ai": []
+          },
+          {
+            "element_id": "reports.filing-history",
+            "kind": "LIST",
+            "label": "FILING HISTORY · Recent submissions across all clients. · 4 rows",
+            "maps_to": [
+              {
+                "kind": "REPORT_DOMAIN",
+                "id": "AIO_OFFICE.REPORTS.FILING_HISTORY"
+              },
+              {
+                "kind": "METRIC",
+                "id": "filing.quarters-filed"
+              }
+            ],
+            "verdict": "REFINE",
+            "finding": "The data exists (filed quarters) but the domain is NOT STARTED as a surface. All four dates are in 2024 — two years old.",
+            "figures": [
+              "Q3 2024",
+              "Oct 18, 2024",
+              "Oct 16, 2024",
+              "Oct 14, 2024",
+              "Jul 22, 2024"
+            ],
+            "anti_ai": []
+          },
+          {
+            "element_id": "reports.client-growth",
+            "kind": "CHART",
+            "label": "CLIENT GROWTH · Active clients over time. · +24% since April · Apr–Sep bars",
+            "maps_to": [
+              {
+                "kind": "METRIC",
+                "id": "overview.client-growth"
+              }
+            ],
+            "verdict": "CORRECT",
+            "finding": "Not supported: activation dates are written but never read, so growth over time cannot be computed. The bars have no scale and no values.",
+            "figures": [
+              "+24%"
+            ],
+            "anti_ai": [
+              {
+                "flag": "DATA_NOT_ENCODED",
+                "severity": "MATERIAL",
+                "note": "Bars with no axis or values encode no data."
+              }
+            ]
+          },
+          {
+            "element_id": "reports.dock",
+            "kind": "NAV",
+            "label": "HOME · INTAKE · WORK · REPORTS · MORE (REPORTS active)",
+            "maps_to": [
+              {
+                "kind": "ROOT",
+                "id": "AIO_OFFICE.HOME"
+              },
+              {
+                "kind": "ROOT",
+                "id": "AIO_OFFICE.INTAKE"
+              },
+              {
+                "kind": "ROOT",
+                "id": "AIO_OFFICE.WORK"
+              },
+              {
+                "kind": "ROOT",
+                "id": "AIO_OFFICE.REPORTS"
+              },
+              {
+                "kind": "ROOT",
+                "id": "AIO_OFFICE.MORE"
+              }
+            ],
+            "verdict": "KEEP",
+            "finding": "Exactly the five AIO OFFICE roots in the canonical order, active root in the black-and-gold tile. The live app still shows FILING; that changes only in the implementation sprint.",
+            "figures": [],
+            "anti_ai": []
+          }
+        ]
+      },
+      {
+        "root_id": "AIO_OFFICE.MORE",
+        "title_as_drawn": "EVERYTHING WITHIN REACH.",
+        "crop": [
+          1154,
+          86,
+          378,
+          906
+        ],
+        "elements": [
+          {
+            "element_id": "more.header",
+            "kind": "HEADER",
+            "label": "ALL IN ONE ENTERPRISES INC. · search · bell · JL · JORDAN L. · AIO STAFF",
+            "maps_to": [
+              {
+                "kind": "NONE",
+                "id": null
+              }
+            ],
+            "verdict": "KEEP",
+            "finding": "Logo matches the approved staff header lockup (gold and black mark, ALL IN ONE / ENTERPRISES INC., no dot above the I). Search, alerts and identity are where the approved migration header puts them. The role line must come from the person’s role (FOUNDER or a staff role), never from a name.",
+            "figures": [],
+            "anti_ai": []
+          },
+          {
+            "element_id": "more.hero",
+            "kind": "HERO",
+            "label": "YOUR AIO OFFICE. · EVERYTHING WITHIN REACH. · Manage clients, tools, settings and support — all in one place.",
+            "maps_to": [
+              {
+                "kind": "ROOT",
+                "id": "AIO_OFFICE.MORE"
+              }
+            ],
+            "verdict": "ASSET_PASS",
+            "finding": "Calm desk scene that suits a directory. The notebook carries an invented “AIO” wordmark with a gold accent above it — not the approved logo.",
+            "figures": [],
+            "anti_ai": [
+              {
+                "flag": "MUTATED_WORDMARK",
+                "severity": "MATERIAL",
+                "note": "Notebook shows an invented AIO wordmark with a gold accent mark."
+              },
+              {
+                "flag": "RANDOM_BOTANICALS",
+                "severity": "MINOR",
+                "note": "Rock and leaves around the notebook."
+              }
+            ]
+          },
+          {
+            "element_id": "more.search",
+            "kind": "SEARCH",
+            "label": "Search tools, clients, documents...",
+            "maps_to": [
+              {
+                "kind": "REGION",
+                "id": "MORE.SEARCH"
+              }
+            ],
+            "verdict": "KEEP",
+            "finding": "Search first is right for a directory.",
+            "figures": [],
+            "anti_ai": []
+          },
+          {
+            "element_id": "more.directory",
+            "kind": "REGION",
+            "label": "ADDITIONAL TOOLS · Manage your office and access everything else.",
+            "maps_to": [
+              {
+                "kind": "REGION",
+                "id": "MORE.DIRECTORY"
+              }
+            ],
+            "verdict": "CORRECT",
+            "finding": "“Additional tools … everything else” frames MORE as leftovers — the junk-drawer reading the contract forbids. Each entry has one purpose and owner.",
+            "figures": [],
+            "anti_ai": []
+          },
+          {
+            "element_id": "more.entry.clients",
+            "kind": "ENTRY",
+            "label": "Clients · View and manage all client accounts.",
+            "maps_to": [
+              {
+                "kind": "MORE_ENTRY",
+                "id": "AIO_OFFICE.MORE.CLIENTS"
+              }
+            ],
+            "verdict": "KEEP",
+            "finding": "Right entry and purpose.",
+            "figures": [],
+            "anti_ai": []
+          },
+          {
+            "element_id": "more.entry.documents",
+            "kind": "ENTRY",
+            "label": "Documents & Vault · Access client documents and internal files.",
+            "maps_to": [
+              {
+                "kind": "MORE_ENTRY",
+                "id": "AIO_OFFICE.MORE.DOCUMENTS_VAULT"
+              }
+            ],
+            "verdict": "KEEP",
+            "finding": "Right entry. The page must tell staff-only, client-visible, generated and historical documents apart.",
+            "figures": [],
+            "anti_ai": []
+          },
+          {
+            "element_id": "more.entry.team",
+            "kind": "ENTRY",
+            "label": "Team & Staff · Manage team members and permissions.",
+            "maps_to": [
+              {
+                "kind": "MORE_ENTRY",
+                "id": "AIO_OFFICE.MORE.TEAM_STAFF"
+              }
+            ],
+            "verdict": "REFINE",
+            "finding": "Right entry. Managing permissions is a founder act; staff see the team, not the role controls.",
+            "figures": [],
+            "anti_ai": []
+          },
+          {
+            "element_id": "more.entry.catalog",
+            "kind": "ENTRY",
+            "label": "Service Catalog · Configure services, pricing and packages.",
+            "maps_to": [
+              {
+                "kind": "MORE_ENTRY",
+                "id": "AIO_OFFICE.MORE.SERVICE_CATALOG"
+              }
+            ],
+            "verdict": "REFINE",
+            "finding": "Right entry. Configuring services and pricing is founder-only; today’s pricing is sample data and there are no “packages”.",
+            "figures": [],
+            "anti_ai": []
+          },
+          {
+            "element_id": "more.entry.mechanic-network",
+            "kind": "ENTRY",
+            "label": "Mechanic Network · Manage providers and maintenance partners.",
+            "maps_to": [
+              {
+                "kind": "MORE_ENTRY",
+                "id": "AIO_OFFICE.MORE.MECHANIC_NETWORK"
+              }
+            ],
+            "verdict": "KEEP",
+            "finding": "Right entry, correctly kept apart from WORK → MECHANIC / MAINTENANCE.",
+            "figures": [],
+            "anti_ai": []
+          },
+          {
+            "element_id": "more.entry.messages",
+            "kind": "ENTRY",
+            "label": "Messages · Client and internal communications.",
+            "maps_to": [
+              {
+                "kind": "MORE_ENTRY",
+                "id": "AIO_OFFICE.MORE.MESSAGES"
+              }
+            ],
+            "verdict": "KEEP",
+            "finding": "Right entry. Internal notes and client messages must look different.",
+            "figures": [],
+            "anti_ai": []
+          },
+          {
+            "element_id": "more.entry.settings",
+            "kind": "ENTRY",
+            "label": "System Settings · Preferences, integrations and security.",
+            "maps_to": [
+              {
+                "kind": "MORE_ENTRY",
+                "id": "AIO_OFFICE.MORE.SYSTEM_SETTINGS"
+              }
+            ],
+            "verdict": "KEEP",
+            "finding": "Right entry; privileged areas inside it carry their gates.",
+            "figures": [],
+            "anti_ai": []
+          },
+          {
+            "element_id": "more.entry.help",
+            "kind": "ENTRY",
+            "label": "Help & Support · Training, resources and live support.",
+            "maps_to": [
+              {
+                "kind": "MORE_ENTRY",
+                "id": "AIO_OFFICE.MORE.HELP_SUPPORT"
+              }
+            ],
+            "verdict": "REFINE",
+            "finding": "Right entry. There is no live support today; training and SOPs exist.",
+            "figures": [],
+            "anti_ai": [
+              {
+                "flag": "FAKE_EDITORIAL_COPY",
+                "severity": "MINOR",
+                "note": "“live support” promises a service that does not exist."
+              }
+            ]
+          },
+          {
+            "element_id": "more.help-card",
+            "kind": "BANNER",
+            "label": "NEED HELP? · Access support, training, or request a feature.",
+            "maps_to": [
+              {
+                "kind": "MORE_ENTRY",
+                "id": "AIO_OFFICE.MORE.HELP_SUPPORT"
+              }
+            ],
+            "verdict": "FOUNDER_DECISION",
+            "finding": "Repeats the Help & Support row directly above it. “Request a feature” has nowhere to go today.",
+            "figures": [],
+            "anti_ai": []
+          },
+          {
+            "element_id": "more.dock",
+            "kind": "NAV",
+            "label": "HOME · INTAKE · WORK · REPORTS · MORE (MORE active)",
+            "maps_to": [
+              {
+                "kind": "ROOT",
+                "id": "AIO_OFFICE.HOME"
+              },
+              {
+                "kind": "ROOT",
+                "id": "AIO_OFFICE.INTAKE"
+              },
+              {
+                "kind": "ROOT",
+                "id": "AIO_OFFICE.WORK"
+              },
+              {
+                "kind": "ROOT",
+                "id": "AIO_OFFICE.REPORTS"
+              },
+              {
+                "kind": "ROOT",
+                "id": "AIO_OFFICE.MORE"
+              }
+            ],
+            "verdict": "KEEP",
+            "finding": "Exactly the five AIO OFFICE roots in the canonical order, active root in the black-and-gold tile. The live app still shows FILING; that changes only in the implementation sprint.",
+            "figures": [],
+            "anti_ai": []
+          }
+        ]
+      }
+    ]
+  },
+  "constraints": {
+    "first_delivery_only": true,
+    "images_generated": 0,
+    "visual_authorities_approved": false,
+    "live_nav_changed": false,
+    "routes_changed": false,
+    "pages_built": false,
+    "supabase_schema_changed": false,
+    "auth_changed": false,
+    "permissions_changed": false,
+    "metrics_invented": false,
+    "deployed": false
+  },
+  "next_gate": "FOUNDER REVIEW OF THE EXISTING DESIGN RECONCILIATION",
+  "project_id": "AIO",
+  "pages": [
+    {
+      "root_id": "AIO_OFFICE.HOME",
+      "works": [
+        "A warm, cinematic welcome that says what HOME is for.",
+        "Three attention cards at the top — the right three: what needs attention, what is due, what is blocked.",
+        "WORK ACROSS AIO as a tile grid with gold line icons.",
+        "CLIENTS IN MOTION rows: client, services, status, time.",
+        "RECENT ACTIVITY in plain sentences that match events the system already records.",
+        "The black-and-gold dock with exactly the five roots."
+      ],
+      "preserve": [
+        "The order: welcome → attention → work → clients → activity",
+        "The three-card attention band",
+        "Photography with dramatic light",
+        "Tile grid with gold icons",
+        "Ivory surfaces and white cards",
+        "Dock design"
+      ],
+      "missing": [
+        "The items behind the three cards — DEADLINES and BLOCKERS exist only as numbers.",
+        "QUICK ACTIONS (required region).",
+        "Five lanes in WORK ACROSS AIO: VEHICLES & FLEET, FACTORING, DRIVERS & CARRIERS, MECHANIC / MAINTENANCE, ROAD READY.",
+        "Next deadline and blocking condition on each client row.",
+        "BUSINESS PULSE (optional; founder-only and absent until figures are production-backed)."
+      ],
+      "incorrect": [
+        "INTAKE drawn as a lane tile (it is a dock root).",
+        "“Filing (IFTA)” and “Permitting” instead of the lane names.",
+        "“Live activity” — office figures are demo data today.",
+        "Different figures for the same lane on HOME and WORK (Bookkeeping 11 vs 5, Permitting 8 vs 18, Insurance 5 vs 7).",
+        "Invented client logo badges."
+      ],
+      "refine": [
+        "Shorter hero so the attention band sits in the first screen.",
+        "Smallest text (tile subtitles, chips, times) is about 7–8 px at phone scale; raise to at least 12 px.",
+        "All text uppercase (AIO uppercase law); plan tile widths for uppercase.",
+        "Give the activity bullets meaning (event type) or drop them."
+      ],
+      "founder_decisions": [
+        "D-HERO-SCALE",
+        "D-HOME-ATTENTION",
+        "D-HOME-QUICK-ACTIONS",
+        "D-WORK-CARD-SIGNALS",
+        "D-PHOTOGRAPHY",
+        "D-IDENTITY",
+        "D-DESKTOP-SHELL"
+      ],
+      "current_vs_required": [
+        {
+          "topic": "Needs attention",
+          "current": "A number: 3 clients.",
+          "required": "The items themselves, each opening the place where it is fixed.",
+          "change": "The card opens a short list under it (top five)."
+        },
+        {
+          "topic": "Deadlines",
+          "current": "A number: 5 this week.",
+          "required": "What is due, for whom, overdue / today / soon, and where to do it.",
+          "change": "Second view of the same list."
+        },
+        {
+          "topic": "Blockers",
+          "current": "A number: 2.",
+          "required": "Grouped by whom it waits on, with the owner’s own reason.",
+          "change": "Third view of the same list."
+        },
+        {
+          "topic": "Work across AIO",
+          "current": "8 tiles incl. INTAKE.",
+          "required": "All 12 lanes, nothing else.",
+          "change": "12 tiles, 3 × 4, canonical order."
+        },
+        {
+          "topic": "Quick actions",
+          "current": "None.",
+          "required": "Role-aware shortcuts that route to the owner.",
+          "change": "Four actions: behind “+” on phones, visible on tablet and desktop."
+        },
+        {
+          "topic": "Business pulse",
+          "current": "None.",
+          "required": "Optional, production-backed figures only.",
+          "change": "Reserved for founders; absent today."
+        }
+      ],
+      "proposed": [
+        {
+          "slot_id": "home.hero",
+          "label": "Greeting",
+          "maps_to": {
+            "kind": "ROOT",
+            "id": "AIO_OFFICE.HOME"
+          },
+          "treatment": "Shorter cinematic hero: greeting from the signed-in person and one line of promise.",
+          "asset": "hero-home"
+        },
+        {
+          "slot_id": "home.attention",
+          "label": "NEEDS ATTENTION",
+          "maps_to": {
+            "kind": "REGION",
+            "id": "AIO_OFFICE.HOME.NEEDS_ATTENTION"
+          },
+          "treatment": "First card + its list: client, what is wrong, owner lane, age; each row opens the owner. Unconnected sources are named, never counted.",
+          "asset": null
+        },
+        {
+          "slot_id": "home.deadlines",
+          "label": "DUE THIS WEEK",
+          "maps_to": {
+            "kind": "REGION",
+            "id": "AIO_OFFICE.HOME.DEADLINES"
+          },
+          "treatment": "Second card + list: overdue / today / soon computed from the date, never the stored severity.",
+          "asset": null
+        },
+        {
+          "slot_id": "home.blockers",
+          "label": "BLOCKED",
+          "maps_to": {
+            "kind": "REGION",
+            "id": "AIO_OFFICE.HOME.BLOCKERS"
+          },
+          "treatment": "Third card + list, grouped by whom it waits on.",
+          "asset": null
+        },
+        {
+          "slot_id": "home.work",
+          "label": "WORK ACROSS AIO",
+          "maps_to": {
+            "kind": "REGION",
+            "id": "AIO_OFFICE.HOME.WORK_ACROSS_AIO"
+          },
+          "treatment": "12 icon tiles, 3 × 4: lane name and the lane’s own needs-attention figure, or NOT CONNECTED YET.",
+          "asset": "icons-services"
+        },
+        {
+          "slot_id": "home.clients",
+          "label": "CLIENTS IN MOTION",
+          "maps_to": {
+            "kind": "REGION",
+            "id": "AIO_OFFICE.HOME.CLIENTS_IN_MOTION"
+          },
+          "treatment": "Rows: initials badge, client, service chips, status, next deadline, last update. PREBUILT never shown as active.",
+          "asset": null
+        },
+        {
+          "slot_id": "home.activity",
+          "label": "RECENT ACTIVITY",
+          "maps_to": {
+            "kind": "REGION",
+            "id": "AIO_OFFICE.HOME.RECENT_ACTIVITY"
+          },
+          "treatment": "Plain-sentence events with an event-type mark; staff feed includes client-visible events.",
+          "asset": null
+        },
+        {
+          "slot_id": "home.quick",
+          "label": "QUICK ACTIONS",
+          "maps_to": {
+            "kind": "REGION",
+            "id": "AIO_OFFICE.HOME.QUICK_ACTIONS"
+          },
+          "treatment": "Four role-aware actions, each routing to its owner (phone: behind “+” in the header). Unbuilt ones (create case, staff upload) are not shown.",
+          "asset": null
+        },
+        {
+          "slot_id": "home.pulse",
+          "label": "BUSINESS PULSE",
+          "maps_to": {
+            "kind": "REGION",
+            "id": "AIO_OFFICE.HOME.BUSINESS_PULSE"
+          },
+          "treatment": "Founder / finance grant only; absent until production-backed figures exist.",
+          "asset": null
+        }
+      ]
+    },
+    {
+      "root_id": "AIO_OFFICE.WORK",
+      "works": [
+        "A photographic directory — the most distinctive page of the four.",
+        "Distinct photography per service (paperwork, trucks, road, workshop).",
+        "Three-column grid with a consistent card: photo, name, one status line, gold arrow.",
+        "Eleven of the twelve lanes already drawn, nearly all with their canonical names."
+      ],
+      "preserve": [
+        "Photographic service cards",
+        "Three-column grid on the phone",
+        "Card anatomy (photo · name · status · arrow)",
+        "Warm office hero",
+        "Dock design"
+      ],
+      "missing": [
+        "VEHICLES & FLEET card (the twelfth lane).",
+        "MY WORK — what is assigned to me.",
+        "A way into the cross-client queue (all open work, searchable).",
+        "Urgency on the cards (needs attention, blocked)."
+      ],
+      "incorrect": [
+        "INTAKE card — INTAKE is a dock root, not a lane.",
+        "“Maintenance” — the lane is MECHANIC / MAINTENANCE.",
+        "Banner promises creating cases and “client projects”, which do not exist.",
+        "Figures disagree with HOME for the same lanes."
+      ],
+      "refine": [
+        "Photos with fake text, a masked driver, near-duplicate road and truck shots (asset pass).",
+        "Compact hero band so the first cards are in the first screen.",
+        "Status line text is very small; raise it and make the whole card tappable.",
+        "Uppercase law; long lane names (PERMITTING & AUTHORITIES, MECHANIC / MAINTENANCE) need two lines."
+      ],
+      "founder_decisions": [
+        "D-HERO-SCALE",
+        "D-WORK-CARD-SIGNALS",
+        "D-WORK-BANNER",
+        "D-PHOTOGRAPHY",
+        "D-DESKTOP-SHELL"
+      ],
+      "current_vs_required": [
+        {
+          "topic": "Lanes",
+          "current": "12 cards: 11 lanes + INTAKE; no VEHICLES & FLEET.",
+          "required": "Exactly the 12 lanes.",
+          "change": "INTAKE’s slot goes to VEHICLES & FLEET; cards follow the canonical order; grid stays 3 × 4."
+        },
+        {
+          "topic": "Card signal",
+          "current": "One number per card.",
+          "required": "Truthful lane summary; honest state where unsupported.",
+          "change": "Needs-attention count + BLOCKED marker, or NOT CONNECTED YET."
+        },
+        {
+          "topic": "My work",
+          "current": "None.",
+          "required": "Assigned-to-me view.",
+          "change": "MY WORK strip under the hero."
+        },
+        {
+          "topic": "Bottom banner",
+          "current": "Create task / case / project.",
+          "required": "Only actions that exist.",
+          "change": "Removed; MY WORK takes its job."
+        }
+      ],
+      "proposed": [
+        {
+          "slot_id": "work.hero",
+          "label": "Hero band",
+          "maps_to": {
+            "kind": "ROOT",
+            "id": "AIO_OFFICE.WORK"
+          },
+          "treatment": "Slim photo band with the headline.",
+          "asset": "hero-work"
+        },
+        {
+          "slot_id": "work.mine",
+          "label": "MY WORK",
+          "maps_to": {
+            "kind": "REGION",
+            "id": "WORK.MY_WORK"
+          },
+          "treatment": "Strip: items assigned to me, due soon; opens my list. Lanes without assignees say so.",
+          "asset": null
+        },
+        {
+          "slot_id": "work.lanes",
+          "label": "SERVICE WORKSPACES",
+          "maps_to": {
+            "kind": "REGION",
+            "id": "WORK.LANE_SWITCHER"
+          },
+          "treatment": "12 photographic cards, 3 × 4, canonical order.",
+          "asset": null
+        },
+        {
+          "slot_id": "work.lane.permitting_authorities",
+          "label": "PERMITTING & AUTHORITIES",
+          "maps_to": {
+            "kind": "LANE",
+            "id": "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES"
+          },
+          "treatment": "needs-attention count and a BLOCKED marker when the lane reports one; NOT CONNECTED YET otherwise",
+          "asset": "lane-photos"
+        },
+        {
+          "slot_id": "work.lane.filing_fuel_taxes",
+          "label": "FILING & FUEL TAXES",
+          "maps_to": {
+            "kind": "LANE",
+            "id": "AIO_OFFICE.WORK.FILING_FUEL_TAXES"
+          },
+          "treatment": "needs-attention count and a BLOCKED marker when the lane reports one; NOT CONNECTED YET otherwise",
+          "asset": "plate-light-trails"
+        },
+        {
+          "slot_id": "work.lane.compliance",
+          "label": "COMPLIANCE",
+          "maps_to": {
+            "kind": "LANE",
+            "id": "AIO_OFFICE.WORK.COMPLIANCE"
+          },
+          "treatment": "needs-attention count and a BLOCKED marker when the lane reports one; NOT CONNECTED YET otherwise",
+          "asset": "lane-photos"
+        },
+        {
+          "slot_id": "work.lane.vehicles_fleet",
+          "label": "VEHICLES & FLEET",
+          "maps_to": {
+            "kind": "LANE",
+            "id": "AIO_OFFICE.WORK.VEHICLES_FLEET"
+          },
+          "treatment": "NO STAFF SCREEN YET (honest state, no number)",
+          "asset": "plate-fleet-yard"
+        },
+        {
+          "slot_id": "work.lane.dispatch",
+          "label": "DISPATCH",
+          "maps_to": {
+            "kind": "LANE",
+            "id": "AIO_OFFICE.WORK.DISPATCH"
+          },
+          "treatment": "needs-attention count and a BLOCKED marker when the lane reports one; NOT CONNECTED YET otherwise",
+          "asset": "plate-aio-truck"
+        },
+        {
+          "slot_id": "work.lane.brokerage",
+          "label": "BROKERAGE",
+          "maps_to": {
+            "kind": "LANE",
+            "id": "AIO_OFFICE.WORK.BROKERAGE"
+          },
+          "treatment": "PAUSED marker; the lane’s own figures when it resumes",
+          "asset": "lane-photos"
+        },
+        {
+          "slot_id": "work.lane.insurance",
+          "label": "INSURANCE",
+          "maps_to": {
+            "kind": "LANE",
+            "id": "AIO_OFFICE.WORK.INSURANCE"
+          },
+          "treatment": "needs-attention count and a BLOCKED marker when the lane reports one; NOT CONNECTED YET otherwise",
+          "asset": "lane-photos"
+        },
+        {
+          "slot_id": "work.lane.factoring",
+          "label": "FACTORING",
+          "maps_to": {
+            "kind": "LANE",
+            "id": "AIO_OFFICE.WORK.FACTORING"
+          },
+          "treatment": "needs-attention count and a BLOCKED marker when the lane reports one; NOT CONNECTED YET otherwise",
+          "asset": "lane-photos"
+        },
+        {
+          "slot_id": "work.lane.bookkeeping",
+          "label": "BOOKKEEPING",
+          "maps_to": {
+            "kind": "LANE",
+            "id": "AIO_OFFICE.WORK.BOOKKEEPING"
+          },
+          "treatment": "needs-attention count and a BLOCKED marker when the lane reports one; NOT CONNECTED YET otherwise",
+          "asset": "lane-photos"
+        },
+        {
+          "slot_id": "work.lane.drivers_carriers",
+          "label": "DRIVERS & CARRIERS",
+          "maps_to": {
+            "kind": "LANE",
+            "id": "AIO_OFFICE.WORK.DRIVERS_CARRIERS"
+          },
+          "treatment": "needs-attention count and a BLOCKED marker when the lane reports one; NOT CONNECTED YET otherwise",
+          "asset": "lane-photos"
+        },
+        {
+          "slot_id": "work.lane.mechanic_maintenance",
+          "label": "MECHANIC / MAINTENANCE",
+          "maps_to": {
+            "kind": "LANE",
+            "id": "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE"
+          },
+          "treatment": "needs-attention count and a BLOCKED marker when the lane reports one; NOT CONNECTED YET otherwise",
+          "asset": "lane-photos"
+        },
+        {
+          "slot_id": "work.lane.road_ready",
+          "label": "ROAD READY",
+          "maps_to": {
+            "kind": "LANE",
+            "id": "AIO_OFFICE.WORK.ROAD_READY"
+          },
+          "treatment": "needs-attention count and a BLOCKED marker when the lane reports one; NOT CONNECTED YET otherwise",
+          "asset": "plate-sunset-truck"
+        },
+        {
+          "slot_id": "work.queue",
+          "label": "ALL OPEN WORK",
+          "maps_to": {
+            "kind": "REGION",
+            "id": "WORK.CROSS_CLIENT_QUEUE"
+          },
+          "treatment": "Search, filter and sort open work across clients; every row opens the case.",
+          "asset": null
+        }
+      ]
+    },
+    {
+      "root_id": "AIO_OFFICE.REPORTS",
+      "works": [
+        "A premium analytics feel: calm surfaces, gold bars, clear section titles.",
+        "Period control at the top right.",
+        "SERVICE ACTIVITY bars with their values printed — readable without an axis.",
+        "FILING HISTORY as a list of real-looking filed quarters."
+      ],
+      "preserve": [
+        "Metric tiles in a row",
+        "Gold horizontal bars",
+        "Filing history list",
+        "Period control",
+        "Editorial section titles"
+      ],
+      "missing": [
+        "Five of the ten report areas: FILING HISTORY (as an area), COMPLIANCE, DISPATCH / BROKERAGE, BOOKKEEPING, MIGRATION.",
+        "Honest states for figures we cannot back yet.",
+        "EXPORTS as a real area (CSV today; PDF later)."
+      ],
+      "incorrect": [
+        "“Revenue (Est.)” — no estimate exists; the backed figure is collected revenue, and it is founder-class.",
+        "CLIENT GROWTH and every percentage change — need history the system does not keep.",
+        "Sparklines imply trend data that does not exist.",
+        "Intake / Migration bar mixes the MIGRATION area into service volume; five lanes missing.",
+        "Filing dates are from 2024."
+      ],
+      "refine": [
+        "Compact hero band.",
+        "Ten areas need a navigation that fits a phone.",
+        "Metric labels and bar labels are small.",
+        "Uppercase law across tabs, tiles and lists."
+      ],
+      "founder_decisions": [
+        "D-HERO-SCALE",
+        "D-REPORTS-OVERVIEW",
+        "D-REPORTS-DOMAINS",
+        "D-REPORTS-STAFF",
+        "D-PHOTOGRAPHY",
+        "D-DESKTOP-SHELL"
+      ],
+      "current_vs_required": [
+        {
+          "topic": "Headline figures",
+          "current": "Clients 48 +12% · Filings 36 +28% · Work 62 −8% · Revenue (Est.) $48.2K +14%.",
+          "required": "Only figures source truth backs, each labelled; nothing estimated.",
+          "change": "ACTIVE CLIENTS · FILINGS FILED (vs last period) · ACTIVE WORK · COLLECTED REVENUE (founder / finance only); no sparklines yet."
+        },
+        {
+          "topic": "Client growth",
+          "current": "+24% since April chart.",
+          "required": "Not computable today.",
+          "change": "A designed “not connected yet” panel naming what is missing."
+        },
+        {
+          "topic": "Areas",
+          "current": "5 tabs.",
+          "required": "10 areas.",
+          "change": "Overview + list of ten on the phone; side list on desktop."
+        },
+        {
+          "topic": "Service activity",
+          "current": "8 bars incl. Intake / Migration.",
+          "required": "Lane volume, partial-data label.",
+          "change": "12 lanes; lanes without data shown as not connected; migration in its own area."
+        }
+      ],
+      "proposed": [
+        {
+          "slot_id": "reports.hero",
+          "label": "Hero band",
+          "maps_to": {
+            "kind": "ROOT",
+            "id": "AIO_OFFICE.REPORTS"
+          },
+          "treatment": "Slim photo band.",
+          "asset": "hero-reports"
+        },
+        {
+          "slot_id": "reports.period",
+          "label": "PERIOD",
+          "maps_to": {
+            "kind": "ACTION",
+            "id": "REPORTS.SET_PERIOD"
+          },
+          "treatment": "This month / quarter / custom.",
+          "asset": null
+        },
+        {
+          "slot_id": "reports.overview",
+          "label": "OVERVIEW",
+          "maps_to": {
+            "kind": "REPORT_DOMAIN",
+            "id": "AIO_OFFICE.REPORTS.OVERVIEW"
+          },
+          "treatment": "Four backed figures; each opens its area.",
+          "asset": null
+        },
+        {
+          "slot_id": "reports.active-clients",
+          "label": "ACTIVE CLIENTS",
+          "maps_to": {
+            "kind": "METRIC",
+            "id": "overview.active-clients"
+          },
+          "treatment": "Count by the canonical rule (PREBUILT never counts); no delta.",
+          "asset": null
+        },
+        {
+          "slot_id": "reports.filings",
+          "label": "FILINGS FILED",
+          "maps_to": {
+            "kind": "METRIC",
+            "id": "overview.filing-throughput"
+          },
+          "treatment": "This period, with last period beside it.",
+          "asset": null
+        },
+        {
+          "slot_id": "reports.active-work",
+          "label": "ACTIVE WORK",
+          "maps_to": {
+            "kind": "METRIC",
+            "id": "overview.active-work"
+          },
+          "treatment": "Count; no delta.",
+          "asset": null
+        },
+        {
+          "slot_id": "reports.collected",
+          "label": "COLLECTED REVENUE",
+          "maps_to": {
+            "kind": "METRIC",
+            "id": "financial.collected"
+          },
+          "treatment": "Founder / finance grant only; demo-labelled until production; never an estimate.",
+          "asset": null
+        },
+        {
+          "slot_id": "reports.services",
+          "label": "SERVICE ACTIVITY",
+          "maps_to": {
+            "kind": "METRIC",
+            "id": "services.volume"
+          },
+          "treatment": "Bars for all 12 lanes, values printed, PARTIAL DATA label.",
+          "asset": null
+        },
+        {
+          "slot_id": "reports.filing-history",
+          "label": "FILING HISTORY",
+          "maps_to": {
+            "kind": "REPORT_DOMAIN",
+            "id": "AIO_OFFICE.REPORTS.FILING_HISTORY"
+          },
+          "treatment": "Filed quarters, newest first, real dates.",
+          "asset": null
+        },
+        {
+          "slot_id": "reports.client-growth",
+          "label": "CLIENT GROWTH",
+          "maps_to": {
+            "kind": "METRIC",
+            "id": "overview.client-growth"
+          },
+          "treatment": "Honest panel: needs readable activation history — not connected yet.",
+          "asset": null
+        },
+        {
+          "slot_id": "reports.areas",
+          "label": "REPORT AREAS",
+          "maps_to": {
+            "kind": "ROOT",
+            "id": "AIO_OFFICE.REPORTS"
+          },
+          "treatment": "All ten areas with a state chip; staff see only granted areas.",
+          "asset": null
+        },
+        {
+          "slot_id": "reports.exports",
+          "label": "EXPORTS",
+          "maps_to": {
+            "kind": "REPORT_DOMAIN",
+            "id": "AIO_OFFICE.REPORTS.EXPORTS"
+          },
+          "treatment": "What can be exported, by grant; CSV now, PDF later.",
+          "asset": null
+        }
+      ]
+    },
+    {
+      "root_id": "AIO_OFFICE.MORE",
+      "works": [
+        "A calm, readable directory: icon, name, one-line purpose, chevron.",
+        "Search at the top.",
+        "Eight of the eleven entries already right, with sensible descriptions.",
+        "MECHANIC NETWORK correctly separate from the maintenance lane."
+      ],
+      "preserve": [
+        "Row anatomy (icon · name · purpose · chevron)",
+        "Search first",
+        "Quiet hero",
+        "Dock design"
+      ],
+      "missing": [
+        "GROWTH / CRM",
+        "BILLING",
+        "ACCOUNT",
+        "Founder-only markers where an entry holds founder acts"
+      ],
+      "incorrect": [
+        "“ADDITIONAL TOOLS … everything else” frames MORE as a junk drawer.",
+        "Team & Staff and Service Catalog promise configuration that is founder-only.",
+        "“Live support” and “request a feature” do not exist.",
+        "NEED HELP? card duplicates Help & Support.",
+        "The notebook in the hero carries an invented AIO mark."
+      ],
+      "refine": [
+        "Group the eleven entries",
+        "Compact hero band",
+        "Uppercase law",
+        "Role-aware: entries a person cannot use are omitted"
+      ],
+      "founder_decisions": [
+        "D-HERO-SCALE",
+        "D-MORE-GROUPS",
+        "D-MORE-HELP-CARD",
+        "D-ACCOUNT",
+        "D-PHOTOGRAPHY",
+        "D-DESKTOP-SHELL"
+      ],
+      "current_vs_required": [
+        {
+          "topic": "Entries",
+          "current": "8 entries.",
+          "required": "11 entries.",
+          "change": "Add GROWTH / CRM and BILLING (BUSINESS group) and ACCOUNT (SYSTEM group)."
+        },
+        {
+          "topic": "Framing",
+          "current": "“ADDITIONAL TOOLS”.",
+          "required": "A directory where each entry has one purpose.",
+          "change": "Four named groups."
+        },
+        {
+          "topic": "Help",
+          "current": "Row + NEED HELP? card.",
+          "required": "One entry.",
+          "change": "Card removed."
+        },
+        {
+          "topic": "Founder areas",
+          "current": "Same for everyone.",
+          "required": "Role-aware.",
+          "change": "Founder acts marked; grant-only entries omitted without the grant."
+        }
+      ],
+      "proposed": [
+        {
+          "slot_id": "more.hero",
+          "label": "Hero band",
+          "maps_to": {
+            "kind": "ROOT",
+            "id": "AIO_OFFICE.MORE"
+          },
+          "treatment": "Slim photo band; notebook without an invented mark.",
+          "asset": "hero-more"
+        },
+        {
+          "slot_id": "more.search",
+          "label": "SEARCH",
+          "maps_to": {
+            "kind": "REGION",
+            "id": "MORE.SEARCH"
+          },
+          "treatment": "Find a client, document, lead or invoice; results open their owner.",
+          "asset": null
+        },
+        {
+          "slot_id": "more.entry.clients",
+          "label": "CLIENTS & RECORDS · CLIENTS",
+          "maps_to": {
+            "kind": "MORE_ENTRY",
+            "id": "AIO_OFFICE.MORE.CLIENTS"
+          },
+          "treatment": "Every client and their Client 360.",
+          "asset": "icons-services"
+        },
+        {
+          "slot_id": "more.entry.documents_vault",
+          "label": "CLIENTS & RECORDS · DOCUMENTS VAULT",
+          "maps_to": {
+            "kind": "MORE_ENTRY",
+            "id": "AIO_OFFICE.MORE.DOCUMENTS_VAULT"
+          },
+          "treatment": "Documents across clients — staff-only, client-visible, generated and historical, labelled.",
+          "asset": "icons-services"
+        },
+        {
+          "slot_id": "more.entry.messages",
+          "label": "CLIENTS & RECORDS · MESSAGES",
+          "maps_to": {
+            "kind": "MORE_ENTRY",
+            "id": "AIO_OFFICE.MORE.MESSAGES"
+          },
+          "treatment": "Conversations with clients, internal notes and system notices.",
+          "asset": "icons-services"
+        },
+        {
+          "slot_id": "more.entry.growth_crm",
+          "label": "BUSINESS · GROWTH CRM",
+          "maps_to": {
+            "kind": "MORE_ENTRY",
+            "id": "AIO_OFFICE.MORE.GROWTH_CRM"
+          },
+          "treatment": "Leads, pipeline, follow-ups and referrals (by grant).",
+          "asset": "icons-services"
+        },
+        {
+          "slot_id": "more.entry.billing",
+          "label": "BUSINESS · BILLING",
+          "maps_to": {
+            "kind": "MORE_ENTRY",
+            "id": "AIO_OFFICE.MORE.BILLING"
+          },
+          "treatment": "Quotes, invoices, payments and credits (by grant).",
+          "asset": "icons-services"
+        },
+        {
+          "slot_id": "more.entry.service_catalog",
+          "label": "BUSINESS · SERVICE CATALOG",
+          "maps_to": {
+            "kind": "MORE_ENTRY",
+            "id": "AIO_OFFICE.MORE.SERVICE_CATALOG"
+          },
+          "treatment": "What AIO offers and to whom; configuration is founder-only.",
+          "asset": "icons-services"
+        },
+        {
+          "slot_id": "more.entry.team_staff",
+          "label": "PEOPLE & NETWORK · TEAM STAFF",
+          "maps_to": {
+            "kind": "MORE_ENTRY",
+            "id": "AIO_OFFICE.MORE.TEAM_STAFF"
+          },
+          "treatment": "People and roles; role changes are founder-only.",
+          "asset": "icons-services"
+        },
+        {
+          "slot_id": "more.entry.mechanic_network",
+          "label": "PEOPLE & NETWORK · MECHANIC NETWORK",
+          "maps_to": {
+            "kind": "MORE_ENTRY",
+            "id": "AIO_OFFICE.MORE.MECHANIC_NETWORK"
+          },
+          "treatment": "Provider onboarding, verification and directory.",
+          "asset": "icons-services"
+        },
+        {
+          "slot_id": "more.entry.system_settings",
+          "label": "SYSTEM · SYSTEM SETTINGS",
+          "maps_to": {
+            "kind": "MORE_ENTRY",
+            "id": "AIO_OFFICE.MORE.SYSTEM_SETTINGS"
+          },
+          "treatment": "Workflows, automations, integrations, security, data.",
+          "asset": "icons-services"
+        },
+        {
+          "slot_id": "more.entry.help_support",
+          "label": "SYSTEM · HELP SUPPORT",
+          "maps_to": {
+            "kind": "MORE_ENTRY",
+            "id": "AIO_OFFICE.MORE.HELP_SUPPORT"
+          },
+          "treatment": "Training and SOPs.",
+          "asset": "icons-services"
+        },
+        {
+          "slot_id": "more.entry.account",
+          "label": "SYSTEM · ACCOUNT",
+          "maps_to": {
+            "kind": "MORE_ENTRY",
+            "id": "AIO_OFFICE.MORE.ACCOUNT"
+          },
+          "treatment": "Your own profile, security and preferences (not built yet).",
+          "asset": "icons-services"
+        }
+      ]
+    }
+  ],
+  "cross_cutting": [
+    {
+      "topic": "Uppercase law",
+      "finding": "The drawing uses mixed case for body text, rows and descriptions. AIO’s founder rule is that every visible word is uppercase (password fields excepted), overriding authority casing.",
+      "verdict": "CORRECT",
+      "change": "All text uppercase in the authority set; card widths and line counts planned for the wider uppercase text."
+    },
+    {
+      "topic": "Text size",
+      "finding": "The smallest text (tile subtitles, chips, times, metric labels) is about 7–8 px at phone scale.",
+      "verdict": "REFINE",
+      "change": "At least 12 px for secondary text and 11 px for uppercase labels on phones."
+    },
+    {
+      "topic": "One set of sample figures",
+      "finding": "The same lane shows different figures on HOME and WORK (Bookkeeping 11 vs 5, Permitting 8 vs 18, Insurance 5 vs 7). In the product both read the same lane summary.",
+      "verdict": "CORRECT",
+      "change": "One labelled sample dataset drives every authority screen."
+    },
+    {
+      "topic": "Illustrative figures",
+      "finding": "Every number and date drawn is a design example; no office figure is production-backed today.",
+      "verdict": "CORRECT",
+      "change": "Authority screens label sample data; unbacked figures appear as honest states."
+    },
+    {
+      "topic": "Logo",
+      "finding": "The header lockup matches the approved staff lockup. The MORE notebook shows an invented AIO mark; the older global lockup has a gold dot above the I.",
+      "verdict": "KEEP",
+      "change": "Keep the header lockup; repair the notebook; keep the dotted lockup out."
+    },
+    {
+      "topic": "Photography artifacts",
+      "finding": "Generated text on paperwork, invented emblems, a masked driver, near-duplicate road and truck photos.",
+      "verdict": "ASSET_PASS",
+      "change": "Controlled asset pass and reuse of approved plates (D-PHOTOGRAPHY)."
+    },
+    {
+      "topic": "Hero heights",
+      "finding": "Four large heroes push work below the first screen on every page.",
+      "verdict": "FOUNDER_DECISION",
+      "change": "D-HERO-SCALE."
+    },
+    {
+      "topic": "Arrows on every card",
+      "finding": "Each card carries its own gold arrow button; the whole card should be the tap target.",
+      "verdict": "REFINE",
+      "change": "Whole card tappable; arrow kept as the visual cue."
+    },
+    {
+      "topic": "Dock",
+      "finding": "Exactly the five roots in the canonical order.",
+      "verdict": "KEEP",
+      "change": "None."
+    },
+    {
+      "topic": "Creative direction",
+      "finding": "AIO has no creative-direction profile yet; new AIO families must pass that gate (only IFTA was exempt).",
+      "verdict": "FOUNDER_DECISION",
+      "change": "D-CREATIVE-PROFILE."
+    }
+  ],
+  "decisions": [
+    {
+      "decision_id": "D-HERO-SCALE",
+      "title": "How big the photographs are",
+      "question": "Every page opens with a large photograph that takes about a third of the phone screen, so the first piece of real work sits below the fold. How much hero do you want?",
+      "options": [
+        {
+          "option": "Keep all four large",
+          "effect": "Most cinematic; staff scroll before every task."
+        },
+        {
+          "option": "HOME keeps a shorter hero, the other three use a slim photo band",
+          "effect": "HOME still greets; WORK, REPORTS and MORE show their content in the first screen."
+        },
+        {
+          "option": "Slim photo band on all four",
+          "effect": "Most practical; HOME loses its welcome moment."
+        }
+      ],
+      "recommendation": "HOME keeps a shorter hero (about 60% of today’s height, so the three attention cards sit in the first screen); WORK, REPORTS and MORE use a slim photo band.",
+      "roots": [
+        "AIO_OFFICE.HOME",
+        "AIO_OFFICE.WORK",
+        "AIO_OFFICE.REPORTS",
+        "AIO_OFFICE.MORE"
+      ],
+      "priority": "BEFORE_REGENERATION",
+      "status": "OPEN"
+    },
+    {
+      "decision_id": "D-HOME-ATTENTION",
+      "title": "What the three HOME cards do",
+      "question": "HOME needs NEEDS ATTENTION, DEADLINES and BLOCKERS as real lists, not only numbers. How should they fit without making HOME long?",
+      "options": [
+        {
+          "option": "Cards become tabs of one list underneath",
+          "effect": "Same three cards; tapping one shows its items (client, what is wrong, where to fix it). One list, three views."
+        },
+        {
+          "option": "Three separate lists below the cards",
+          "effect": "Everything visible at once; HOME grows by about a screen."
+        },
+        {
+          "option": "Numbers only, open a separate page",
+          "effect": "Shortest HOME; the next action is one tap further away."
+        }
+      ],
+      "recommendation": "Cards become tabs of one list underneath, showing the top five items of the selected card.",
+      "roots": [
+        "AIO_OFFICE.HOME"
+      ],
+      "priority": "BEFORE_REGENERATION",
+      "status": "OPEN"
+    },
+    {
+      "decision_id": "D-HOME-QUICK-ACTIONS",
+      "title": "Quick actions on HOME",
+      "question": "The drawing has no quick actions. Where should they go?",
+      "options": [
+        {
+          "option": "Phone: behind a “+” in the header · tablet and desktop: a visible row / column",
+          "effect": "The phone’s first screen stays for attention (contract order); wider screens show the actions in parallel."
+        },
+        {
+          "option": "A row of four under the attention list on every device",
+          "effect": "Always visible; pushes the work summary down on phones."
+        },
+        {
+          "option": "None on HOME",
+          "effect": "Cleanest; staff go through WORK and INTAKE."
+        }
+      ],
+      "recommendation": "Phone: a “+” in the header opens four role-aware actions — START MIGRATION, MY WORK, VIEW DEADLINES, MESSAGE A CLIENT (plus CREATE INVOICE and NEW LEAD for people with the billing or CRM grant). Tablet: a row after recent activity. Desktop: the top of the context column.",
+      "roots": [
+        "AIO_OFFICE.HOME"
+      ],
+      "priority": "CAN_DEFAULT",
+      "status": "OPEN"
+    },
+    {
+      "decision_id": "D-WORK-CARD-SIGNALS",
+      "title": "What each WORK card shows",
+      "question": "Each lane card shows one number today. What should a card tell you at a glance?",
+      "options": [
+        {
+          "option": "One number, as drawn",
+          "effect": "Simple; says little about urgency."
+        },
+        {
+          "option": "Needs-attention count plus a BLOCKED marker when the lane has one",
+          "effect": "Cards point at what to do first; lanes that cannot report say NOT CONNECTED YET."
+        },
+        {
+          "option": "No numbers until they are production data",
+          "effect": "Truthful; the grid feels static."
+        }
+      ],
+      "recommendation": "Needs-attention count plus a BLOCKED marker, taken from the lane’s own summary (the same figure HOME shows). Lanes without that data say NOT CONNECTED YET; VEHICLES & FLEET says NO STAFF SCREEN YET.",
+      "roots": [
+        "AIO_OFFICE.WORK",
+        "AIO_OFFICE.HOME"
+      ],
+      "priority": "BEFORE_REGENERATION",
+      "status": "OPEN"
+    },
+    {
+      "decision_id": "D-WORK-BANNER",
+      "title": "The “NEED TO ASSIGN WORK?” banner",
+      "question": "Creating a case or “client project” does not exist yet, and assigning is for managers. What should the banner at the bottom of WORK be?",
+      "options": [
+        {
+          "option": "Replace it with MY WORK",
+          "effect": "Shows what is assigned to you — something that exists today."
+        },
+        {
+          "option": "Keep it for later",
+          "effect": "Draws a feature the system cannot do yet."
+        },
+        {
+          "option": "Remove it",
+          "effect": "Cleaner page."
+        }
+      ],
+      "recommendation": "Replace it with a MY WORK strip near the top of WORK (assigned to me, due soon), and keep “create case” out until it exists.",
+      "roots": [
+        "AIO_OFFICE.WORK"
+      ],
+      "priority": "CAN_DEFAULT",
+      "status": "OPEN"
+    },
+    {
+      "decision_id": "D-PHOTOGRAPHY",
+      "title": "Repairing the photographs",
+      "question": "Several photos contain fake text (PERMITS, DOT, INSURANCE, garbled ledgers), an invented logo on the MORE notebook, a masked driver, and two near-identical road shots. How should we fix them?",
+      "options": [
+        {
+          "option": "Controlled asset pass: same subjects, clean high-resolution versions",
+          "effect": "Keeps your choices; removes the AI tells."
+        },
+        {
+          "option": "Reuse existing approved photos where they fit, new ones for the rest",
+          "effect": "Faster and consistent with IFTA (fleet yard for VEHICLES & FLEET, light-trail road for FILING, AIO truck for DISPATCH)."
+        },
+        {
+          "option": "Keep them as drawn",
+          "effect": "Fastest; the artifacts would ship."
+        }
+      ],
+      "recommendation": "Reuse the four approved plates that fit, and run a controlled asset pass for the rest with the same subjects and no legible generated text.",
+      "roots": [
+        "AIO_OFFICE.WORK",
+        "AIO_OFFICE.HOME",
+        "AIO_OFFICE.REPORTS",
+        "AIO_OFFICE.MORE"
+      ],
+      "priority": "BEFORE_REGENERATION",
+      "status": "OPEN"
+    },
+    {
+      "decision_id": "D-REPORTS-OVERVIEW",
+      "title": "The four headline numbers on REPORTS",
+      "question": "Of the four drawn numbers, only some can be backed: client growth and the percentage changes cannot be computed, and “estimated revenue” does not exist. What should the overview lead with?",
+      "options": [
+        {
+          "option": "Only figures we can back, no trend lines yet",
+          "effect": "ACTIVE CLIENTS, FILINGS FILED (with last period), ACTIVE WORK, COLLECTED REVENUE (founder / finance only). Unbacked ones show a clear “not connected yet”."
+        },
+        {
+          "option": "Keep the drawn tiles and label them “sample”",
+          "effect": "Looks finished; teaches staff to ignore numbers."
+        },
+        {
+          "option": "Hide the overview until data is production-backed",
+          "effect": "Truthful; REPORTS looks empty."
+        }
+      ],
+      "recommendation": "Lead with the four figures we can back, no sparklines until history exists, and an honest “not connected yet” panel where CLIENT GROWTH is drawn.",
+      "roots": [
+        "AIO_OFFICE.REPORTS"
+      ],
+      "priority": "BEFORE_REGENERATION",
+      "status": "OPEN"
+    },
+    {
+      "decision_id": "D-REPORTS-DOMAINS",
+      "title": "How the ten report areas are reached",
+      "question": "The drawing has five tabs; REPORTS has ten areas. How should people move between them?",
+      "options": [
+        {
+          "option": "Phone: overview plus a list of the ten areas; desktop: a side list",
+          "effect": "All ten reachable, nothing squeezed."
+        },
+        {
+          "option": "Ten scrolling tabs",
+          "effect": "Familiar; most tabs hide off-screen on a phone."
+        },
+        {
+          "option": "Group into four tabs",
+          "effect": "Compact; areas get buried inside groups."
+        }
+      ],
+      "recommendation": "Phone: OVERVIEW first, then a list of all ten areas with their state; tablet: two rows of tabs; desktop: a side list beside the report.",
+      "roots": [
+        "AIO_OFFICE.REPORTS"
+      ],
+      "priority": "CAN_DEFAULT",
+      "status": "OPEN"
+    },
+    {
+      "decision_id": "D-REPORTS-STAFF",
+      "title": "REPORTS for staff without the reporting grant",
+      "question": "Reporting is founder-class; staff see it only by grant. The dock must keep exactly five items. What does a staff member without the grant see on REPORTS?",
+      "options": [
+        {
+          "option": "Keep the tab; show only the areas they are granted, or a clear “ask a founder for access” page",
+          "effect": "Same dock for everyone; no hidden surprises."
+        },
+        {
+          "option": "Hide REPORTS for them",
+          "effect": "Breaks the fixed five-item dock."
+        }
+      ],
+      "recommendation": "Keep the tab for everyone. Staff see only the areas they are granted; with none, a clear “reporting is by grant” page.",
+      "roots": [
+        "AIO_OFFICE.REPORTS"
+      ],
+      "priority": "BEFORE_REGENERATION",
+      "status": "OPEN"
+    },
+    {
+      "decision_id": "D-MORE-GROUPS",
+      "title": "Grouping the MORE directory",
+      "question": "MORE needs eleven entries (three are missing: GROWTH / CRM, BILLING, ACCOUNT). One long list or groups?",
+      "options": [
+        {
+          "option": "Four groups",
+          "effect": "CLIENTS & RECORDS (Clients, Documents & Vault, Messages) · BUSINESS (Growth / CRM, Billing, Service Catalog) · PEOPLE & NETWORK (Team & Staff, Mechanic Network) · SYSTEM (System Settings, Help & Support, Account)."
+        },
+        {
+          "option": "One list of eleven in canonical order",
+          "effect": "Simple; long on a phone."
+        },
+        {
+          "option": "Two groups (Business · Office)",
+          "effect": "Fewer headings; less meaningful."
+        }
+      ],
+      "recommendation": "Four groups, with the group names open for your wording. The heading “ADDITIONAL TOOLS” goes.",
+      "roots": [
+        "AIO_OFFICE.MORE"
+      ],
+      "priority": "BEFORE_REGENERATION",
+      "status": "OPEN"
+    },
+    {
+      "decision_id": "D-MORE-HELP-CARD",
+      "title": "The “NEED HELP?” card",
+      "question": "It repeats the Help & Support row right above it. Keep it?",
+      "options": [
+        {
+          "option": "Remove it",
+          "effect": "One way to reach help."
+        },
+        {
+          "option": "Keep it as the only help entry and drop the row",
+          "effect": "Friendlier; breaks the directory pattern."
+        }
+      ],
+      "recommendation": "Remove the card; Help & Support stays as an entry.",
+      "roots": [
+        "AIO_OFFICE.MORE"
+      ],
+      "priority": "CAN_DEFAULT",
+      "status": "OPEN"
+    },
+    {
+      "decision_id": "D-ACCOUNT",
+      "title": "Where ACCOUNT lives",
+      "question": "ACCOUNT (your own profile) belongs in MORE. Should the avatar in the header also open it?",
+      "options": [
+        {
+          "option": "Both: MORE entry and avatar menu open the same page",
+          "effect": "Expected behaviour; one page."
+        },
+        {
+          "option": "MORE only",
+          "effect": "Strict; the avatar does nothing."
+        }
+      ],
+      "recommendation": "Both open the same MORE → ACCOUNT page.",
+      "roots": [
+        "AIO_OFFICE.MORE"
+      ],
+      "priority": "CAN_DEFAULT",
+      "status": "OPEN"
+    },
+    {
+      "decision_id": "D-IDENTITY",
+      "title": "The name and role in the header",
+      "question": "The drawing shows “JORDAN L. · AIO STAFF”; the approved migration masters show “ALEX R. · STAFF”. What should the authority set show?",
+      "options": [
+        {
+          "option": "One sample person across all AIO authorities, role line from the role",
+          "effect": "Consistent; FOUNDER shows as FOUNDER for founders."
+        },
+        {
+          "option": "Name only, no role line",
+          "effect": "Simpler; hides who has founder powers."
+        }
+      ],
+      "recommendation": "One sample person across the AIO authority sets, and a role line that reads the person’s role (FOUNDER, or the staff role).",
+      "roots": [
+        "AIO_OFFICE.HOME",
+        "AIO_OFFICE.WORK",
+        "AIO_OFFICE.REPORTS",
+        "AIO_OFFICE.MORE"
+      ],
+      "priority": "CAN_DEFAULT",
+      "status": "OPEN"
+    },
+    {
+      "decision_id": "D-DESKTOP-SHELL",
+      "title": "The desktop and tablet frame",
+      "question": "There is an approved AIO OFFICE desktop and tablet frame from the migration work (header bar, left side menu on desktop, bottom dock on tablet). Use it for all four pages?",
+      "options": [
+        {
+          "option": "Yes, with WORK in place of FILING",
+          "effect": "One consistent office on every device."
+        },
+        {
+          "option": "Design a new desktop frame",
+          "effect": "Fresh; two frames for one office."
+        }
+      ],
+      "recommendation": "Yes: the approved frame, with WORK replacing FILING in the side menu and dock.",
+      "roots": [
+        "AIO_OFFICE.HOME",
+        "AIO_OFFICE.WORK",
+        "AIO_OFFICE.REPORTS",
+        "AIO_OFFICE.MORE"
+      ],
+      "priority": "BEFORE_REGENERATION",
+      "status": "OPEN"
+    },
+    {
+      "decision_id": "D-CREATIVE-PROFILE",
+      "title": "Making your four screens the AIO creative direction",
+      "question": "The studio’s design pipeline needs an AIO creative-direction profile before any new AIO page family is generated (only IFTA was exempt). Should your four-screen language become that profile?",
+      "options": [
+        {
+          "option": "Yes: your four screens are the basis of the AIO profile",
+          "effect": "Every later AIO page inherits this look."
+        },
+        {
+          "option": "Only for AIO OFFICE",
+          "effect": "Other AIO families may diverge."
+        }
+      ],
+      "recommendation": "Yes: record your four-screen language (photography, black-and-gold dock, ivory surfaces, editorial headlines) as the AIO creative-direction profile.",
+      "roots": [
+        "AIO_OFFICE.HOME",
+        "AIO_OFFICE.WORK",
+        "AIO_OFFICE.REPORTS",
+        "AIO_OFFICE.MORE"
+      ],
+      "priority": "BEFORE_REGENERATION",
+      "status": "OPEN"
+    }
+  ],
+  "responsive": [
+    {
+      "root_id": "AIO_OFFICE.HOME",
+      "viewport": "MOBILE",
+      "nav": "bottom dock: HOME · INTAKE · WORK · REPORTS · MORE",
+      "hero": "FULL",
+      "layout": "One column. Shorter hero; three attention cards in a row; the selected card’s list under them. Quick actions behind “+” in the header.",
+      "order": [
+        "home.hero",
+        "home.attention",
+        "home.deadlines",
+        "home.blockers",
+        "home.work",
+        "home.clients",
+        "home.activity",
+        "home.quick"
+      ],
+      "notes": "Attention, deadlines, work summary, clients in motion, recent activity survive first (contract). Tiles 3 × 4."
+    },
+    {
+      "root_id": "AIO_OFFICE.HOME",
+      "viewport": "TABLET",
+      "nav": "77 px compact header; bottom dock: HOME · INTAKE · WORK · REPORTS · MORE (touch-sized, five equal columns)",
+      "hero": "COMPACT",
+      "layout": "Two columns under a compact hero: attention list (wide) beside quick actions and recent activity; WORK ACROSS AIO as 6 × 2 tiles; clients full width.",
+      "order": [
+        "home.hero",
+        "home.attention",
+        "home.deadlines",
+        "home.blockers",
+        "home.work",
+        "home.clients",
+        "home.activity",
+        "home.quick"
+      ],
+      "notes": "No stretched phone cards: tiles keep phone proportions, more per row."
+    },
+    {
+      "root_id": "AIO_OFFICE.HOME",
+      "viewport": "DESKTOP",
+      "nav": "approved desktop frame: 68 px header bar with lockup, page name, search, alerts, identity; 138 px left menu HOME · INTAKE · WORK · REPORTS · MORE; no dock",
+      "hero": "COMPACT",
+      "layout": "Main column + 320 px context column. Main: hero band, three cards, list, WORK ACROSS AIO (6 × 2), CLIENTS IN MOTION as a table. Context: quick actions, recent activity, Business Pulse for founders.",
+      "order": [
+        "home.hero",
+        "home.attention",
+        "home.deadlines",
+        "home.blockers",
+        "home.work",
+        "home.clients",
+        "home.quick",
+        "home.activity",
+        "home.pulse"
+      ],
+      "notes": "Parallel context only on wide screens (contract)."
+    },
+    {
+      "root_id": "AIO_OFFICE.HOME",
+      "viewport": "WIDE",
+      "nav": "approved desktop frame: 68 px header bar with lockup, page name, search, alerts, identity; 138 px left menu HOME · INTAKE · WORK · REPORTS · MORE; no dock",
+      "hero": "COMPACT",
+      "layout": "Content capped at about 1440 px; extra width goes to the context column and margins, never to stretched images or cards.",
+      "order": [
+        "home.hero",
+        "home.attention",
+        "home.deadlines",
+        "home.blockers",
+        "home.work",
+        "home.clients",
+        "home.quick",
+        "home.activity",
+        "home.pulse"
+      ],
+      "notes": "Hero image height fixed; never stretched past its master."
+    },
+    {
+      "root_id": "AIO_OFFICE.WORK",
+      "viewport": "MOBILE",
+      "nav": "bottom dock: HOME · INTAKE · WORK · REPORTS · MORE",
+      "hero": "COMPACT",
+      "layout": "One column: hero band, MY WORK strip, 3 × 4 lane cards, ALL OPEN WORK link.",
+      "order": [
+        "work.hero",
+        "work.mine",
+        "work.lanes",
+        "work.lane.permitting_authorities",
+        "work.lane.filing_fuel_taxes",
+        "work.lane.compliance",
+        "work.lane.vehicles_fleet",
+        "work.lane.dispatch",
+        "work.lane.brokerage",
+        "work.lane.insurance",
+        "work.lane.factoring",
+        "work.lane.bookkeeping",
+        "work.lane.drivers_carriers",
+        "work.lane.mechanic_maintenance",
+        "work.lane.road_ready",
+        "work.queue"
+      ],
+      "notes": "Contract mobile order inside a lane: switcher → needs attention → active work → case."
+    },
+    {
+      "root_id": "AIO_OFFICE.WORK",
+      "viewport": "TABLET",
+      "nav": "77 px compact header; bottom dock: HOME · INTAKE · WORK · REPORTS · MORE (touch-sized, five equal columns)",
+      "hero": "COMPACT",
+      "layout": "Lane cards 4 × 3; MY WORK beside the hero band. Opening a lane shows its six-part shell in two columns.",
+      "order": [
+        "work.hero",
+        "work.mine",
+        "work.lanes",
+        "work.lane.permitting_authorities",
+        "work.lane.filing_fuel_taxes",
+        "work.lane.compliance",
+        "work.lane.vehicles_fleet",
+        "work.lane.dispatch",
+        "work.lane.brokerage",
+        "work.lane.insurance",
+        "work.lane.factoring",
+        "work.lane.bookkeeping",
+        "work.lane.drivers_carriers",
+        "work.lane.mechanic_maintenance",
+        "work.lane.road_ready",
+        "work.queue"
+      ],
+      "notes": "Cards keep their photo ratio."
+    },
+    {
+      "root_id": "AIO_OFFICE.WORK",
+      "viewport": "DESKTOP",
+      "nav": "approved desktop frame: 68 px header bar with lockup, page name, search, alerts, identity; 138 px left menu HOME · INTAKE · WORK · REPORTS · MORE; no dock",
+      "hero": "COMPACT",
+      "layout": "Directory: lane cards 4 × 3 with MY WORK in a right column. Inside a lane: lane list on the left, the six-part shell in the middle, case detail in a right panel.",
+      "order": [
+        "work.hero",
+        "work.lanes",
+        "work.lane.permitting_authorities",
+        "work.lane.filing_fuel_taxes",
+        "work.lane.compliance",
+        "work.lane.vehicles_fleet",
+        "work.lane.dispatch",
+        "work.lane.brokerage",
+        "work.lane.insurance",
+        "work.lane.factoring",
+        "work.lane.bookkeeping",
+        "work.lane.drivers_carriers",
+        "work.lane.mechanic_maintenance",
+        "work.lane.road_ready",
+        "work.mine",
+        "work.queue"
+      ],
+      "notes": "The lane list replaces scrolling back to the grid."
+    },
+    {
+      "root_id": "AIO_OFFICE.WORK",
+      "viewport": "WIDE",
+      "nav": "approved desktop frame: 68 px header bar with lockup, page name, search, alerts, identity; 138 px left menu HOME · INTAKE · WORK · REPORTS · MORE; no dock",
+      "hero": "COMPACT",
+      "layout": "Same as desktop; cards capped at their master width (4 per row), extra width to the case panel.",
+      "order": [
+        "work.hero",
+        "work.lanes",
+        "work.lane.permitting_authorities",
+        "work.lane.filing_fuel_taxes",
+        "work.lane.compliance",
+        "work.lane.vehicles_fleet",
+        "work.lane.dispatch",
+        "work.lane.brokerage",
+        "work.lane.insurance",
+        "work.lane.factoring",
+        "work.lane.bookkeeping",
+        "work.lane.drivers_carriers",
+        "work.lane.mechanic_maintenance",
+        "work.lane.road_ready",
+        "work.mine",
+        "work.queue"
+      ],
+      "notes": "Never 6+ stretched photo cards per row."
+    },
+    {
+      "root_id": "AIO_OFFICE.REPORTS",
+      "viewport": "MOBILE",
+      "nav": "bottom dock: HOME · INTAKE · WORK · REPORTS · MORE",
+      "hero": "COMPACT",
+      "layout": "Overview first: four figures (2 × 2), period control, service bars, filing history, client-growth honest panel, then the list of ten areas.",
+      "order": [
+        "reports.hero",
+        "reports.overview",
+        "reports.active-clients",
+        "reports.filings",
+        "reports.active-work",
+        "reports.collected",
+        "reports.period",
+        "reports.services",
+        "reports.filing-history",
+        "reports.client-growth",
+        "reports.areas",
+        "reports.exports"
+      ],
+      "notes": "Key summary, period, high-priority reports, drilldown (contract)."
+    },
+    {
+      "root_id": "AIO_OFFICE.REPORTS",
+      "viewport": "TABLET",
+      "nav": "77 px compact header; bottom dock: HOME · INTAKE · WORK · REPORTS · MORE (touch-sized, five equal columns)",
+      "hero": "COMPACT",
+      "layout": "Area tabs in two rows; figures 4 across; charts two-up.",
+      "order": [
+        "reports.hero",
+        "reports.areas",
+        "reports.overview",
+        "reports.period",
+        "reports.active-clients",
+        "reports.filings",
+        "reports.active-work",
+        "reports.collected",
+        "reports.services",
+        "reports.filing-history",
+        "reports.client-growth",
+        "reports.exports"
+      ],
+      "notes": ""
+    },
+    {
+      "root_id": "AIO_OFFICE.REPORTS",
+      "viewport": "DESKTOP",
+      "nav": "approved desktop frame: 68 px header bar with lockup, page name, search, alerts, identity; 138 px left menu HOME · INTAKE · WORK · REPORTS · MORE; no dock",
+      "hero": "COMPACT",
+      "layout": "Area list on the left of the report; figures 4 across; charts and filing history side by side; exports in a right panel.",
+      "order": [
+        "reports.areas",
+        "reports.hero",
+        "reports.period",
+        "reports.overview",
+        "reports.active-clients",
+        "reports.filings",
+        "reports.active-work",
+        "reports.collected",
+        "reports.services",
+        "reports.filing-history",
+        "reports.client-growth",
+        "reports.exports"
+      ],
+      "notes": ""
+    },
+    {
+      "root_id": "AIO_OFFICE.REPORTS",
+      "viewport": "WIDE",
+      "nav": "approved desktop frame: 68 px header bar with lockup, page name, search, alerts, identity; 138 px left menu HOME · INTAKE · WORK · REPORTS · MORE; no dock",
+      "hero": "NONE",
+      "layout": "Reports are read at a comfortable width (max about 1280 px for charts); extra width shows a second domain beside the first.",
+      "order": [
+        "reports.areas",
+        "reports.period",
+        "reports.overview",
+        "reports.active-clients",
+        "reports.filings",
+        "reports.active-work",
+        "reports.collected",
+        "reports.services",
+        "reports.filing-history",
+        "reports.client-growth",
+        "reports.exports"
+      ],
+      "notes": "No hero on ultra-wide: data first."
+    },
+    {
+      "root_id": "AIO_OFFICE.MORE",
+      "viewport": "MOBILE",
+      "nav": "bottom dock: HOME · INTAKE · WORK · REPORTS · MORE",
+      "hero": "COMPACT",
+      "layout": "Search, then four groups as lists.",
+      "order": [
+        "more.hero",
+        "more.search",
+        "more.entry.clients",
+        "more.entry.documents_vault",
+        "more.entry.messages",
+        "more.entry.growth_crm",
+        "more.entry.billing",
+        "more.entry.service_catalog",
+        "more.entry.team_staff",
+        "more.entry.mechanic_network",
+        "more.entry.system_settings",
+        "more.entry.help_support",
+        "more.entry.account"
+      ],
+      "notes": "Clear directory, search, role-aware entries (contract)."
+    },
+    {
+      "root_id": "AIO_OFFICE.MORE",
+      "viewport": "TABLET",
+      "nav": "77 px compact header; bottom dock: HOME · INTAKE · WORK · REPORTS · MORE (touch-sized, five equal columns)",
+      "hero": "COMPACT",
+      "layout": "Search, then groups in two columns.",
+      "order": [
+        "more.hero",
+        "more.search",
+        "more.entry.clients",
+        "more.entry.documents_vault",
+        "more.entry.messages",
+        "more.entry.growth_crm",
+        "more.entry.billing",
+        "more.entry.service_catalog",
+        "more.entry.team_staff",
+        "more.entry.mechanic_network",
+        "more.entry.system_settings",
+        "more.entry.help_support",
+        "more.entry.account"
+      ],
+      "notes": ""
+    },
+    {
+      "root_id": "AIO_OFFICE.MORE",
+      "viewport": "DESKTOP",
+      "nav": "approved desktop frame: 68 px header bar with lockup, page name, search, alerts, identity; 138 px left menu HOME · INTAKE · WORK · REPORTS · MORE; no dock",
+      "hero": "NONE",
+      "layout": "Directory as a left list beside the open entry; search above it.",
+      "order": [
+        "more.search",
+        "more.entry.clients",
+        "more.entry.documents_vault",
+        "more.entry.messages",
+        "more.entry.growth_crm",
+        "more.entry.billing",
+        "more.entry.service_catalog",
+        "more.entry.team_staff",
+        "more.entry.mechanic_network",
+        "more.entry.system_settings",
+        "more.entry.help_support",
+        "more.entry.account"
+      ],
+      "notes": "The directory stays visible while working in an entry."
+    },
+    {
+      "root_id": "AIO_OFFICE.MORE",
+      "viewport": "WIDE",
+      "nav": "approved desktop frame: 68 px header bar with lockup, page name, search, alerts, identity; 138 px left menu HOME · INTAKE · WORK · REPORTS · MORE; no dock",
+      "hero": "NONE",
+      "layout": "Same as desktop; the open entry gets the extra width.",
+      "order": [
+        "more.search",
+        "more.entry.clients",
+        "more.entry.documents_vault",
+        "more.entry.messages",
+        "more.entry.growth_crm",
+        "more.entry.billing",
+        "more.entry.service_catalog",
+        "more.entry.team_staff",
+        "more.entry.mechanic_network",
+        "more.entry.system_settings",
+        "more.entry.help_support",
+        "more.entry.account"
+      ],
+      "notes": ""
+    }
+  ],
+  "assets": [
+    {
+      "asset_id": "logo-header",
+      "what": "Header lockup — gold and black mark, ALL IN ONE / ENTERPRISES INC.",
+      "path": "all-in-one-enterprises/public/migration/brand-lockup.png",
+      "status": "REUSE_WITH_FIX",
+      "used_for": [
+        "header on every root"
+      ],
+      "reason": "The approved staff header lockup and the one the reference draws. Only 282 × 76: the asset pass supplies a 2× / vector export of this same lockup, unchanged."
+    },
+    {
+      "asset_id": "logo-mark",
+      "what": "Mark only, for light grounds",
+      "path": "all-in-one-enterprises/public/brand/ifta/aio-mark-on-light.png",
+      "status": "REUSE",
+      "used_for": [
+        "collapsed desktop sidebar",
+        "compact tablet header"
+      ],
+      "reason": "Approved mark (IFTA family)."
+    },
+    {
+      "asset_id": "logo-full-lockup",
+      "what": "Full lockup with WHERE BUSINESS MEETS THE ROAD.",
+      "path": "all-in-one-enterprises/public/brand/ifta/aio-lockup-on-light.png",
+      "status": "REUSE",
+      "used_for": [
+        "desktop sidebar foot",
+        "splash / sign-in"
+      ],
+      "reason": "Supplied full lockup; carries the tagline the four screens never show."
+    },
+    {
+      "asset_id": "logo-global-dotted",
+      "what": "Older horizontal lockup with a gold dot above the I",
+      "path": "all-in-one-enterprises/public/brand/aio-logo-lockup.png",
+      "status": "DO_NOT_USE",
+      "used_for": [],
+      "reason": "Has the invented gold dot above the I. Keep it out of AIO OFFICE authorities; replacing it in the live header is a separate decision."
+    },
+    {
+      "asset_id": "icons-services",
+      "what": "AIO service icon library (compliance, freight, platform, services sets)",
+      "path": "all-in-one-enterprises/public/brand/icons",
+      "status": "REUSE_WITH_FIX",
+      "used_for": [
+        "HOME lane tiles",
+        "MORE entries",
+        "REPORTS domain list"
+      ],
+      "reason": "Approved gold-on-black icons for fleet, driver, dispatch, brokerage, factoring, billing, reports, fuel tax, permits, vault, messages, support. Several QA cells are clipped (operating authority, permits, document vault, messages, notifications); no icon yet for maintenance, bookkeeping, Road Ready, CRM, team, settings, account, catalog."
+    },
+    {
+      "asset_id": "icons-ui",
+      "what": "Traced UI glyph sheet (search, alerts, filters, status)",
+      "path": "all-in-one-enterprises/public/migration/icons/aio-icon-sheet.svg",
+      "status": "REUSE",
+      "used_for": [
+        "header",
+        "status marks",
+        "filters"
+      ],
+      "reason": "Approved vector set from the migration family."
+    },
+    {
+      "asset_id": "plate-fleet-yard",
+      "what": "Night fleet yard, rows of tractors (2880 × 1607)",
+      "path": "all-in-one-enterprises/public/brand/ifta/plates/staff-hero.jpg",
+      "status": "REUSE",
+      "used_for": [
+        "WORK → VEHICLES & FLEET card"
+      ],
+      "reason": "High-resolution approved plate whose subject is the fleet itself — the natural image for the new lane."
+    },
+    {
+      "asset_id": "plate-light-trails",
+      "what": "Dusk road with light trails (2400 × 1339)",
+      "path": "all-in-one-enterprises/public/brand/ifta/plates/public-road.jpg",
+      "status": "REUSE",
+      "used_for": [
+        "WORK → FILING & FUEL TAXES card"
+      ],
+      "reason": "Approved IFTA-family plate; ties the filing lane to the IFTA pages."
+    },
+    {
+      "asset_id": "plate-aio-truck",
+      "what": "AIO-liveried truck on the highway (1774 × 887)",
+      "path": "all-in-one-enterprises/public/brand/all-in-one-hero-truck.png",
+      "status": "REUSE",
+      "used_for": [
+        "WORK → DISPATCH card"
+      ],
+      "reason": "Existing brand photograph of a moving AIO truck."
+    },
+    {
+      "asset_id": "plate-sunset-truck",
+      "what": "Black truck at sunset (1536 × 1024)",
+      "path": "all-in-one-enterprises/public/brand/aio-login-hero.png",
+      "status": "REUSE",
+      "used_for": [
+        "WORK → ROAD READY card"
+      ],
+      "reason": "Existing brand photograph; “ready for the road”."
+    },
+    {
+      "asset_id": "hero-home",
+      "what": "HOME hero — truck at the AIO building, golden hour (the reference’s scene)",
+      "path": null,
+      "status": "ASSET_PASS",
+      "used_for": [
+        "HOME hero"
+      ],
+      "reason": "The reference scene exists only inside the 1536-pixel composite, and the migration crop of the same world is 853 px wide. Crops and upscales of boards are forbidden; a high-resolution master is needed."
+    },
+    {
+      "asset_id": "hero-work",
+      "what": "WORK hero — operations desk",
+      "path": null,
+      "status": "ASSET_PASS",
+      "used_for": [
+        "WORK hero band"
+      ],
+      "reason": "Only exists inside the composite. Keep the scene; drop the decorative plants."
+    },
+    {
+      "asset_id": "hero-reports",
+      "what": "REPORTS hero — desk with printed reports",
+      "path": null,
+      "status": "ASSET_PASS",
+      "used_for": [
+        "REPORTS hero band"
+      ],
+      "reason": "Only exists inside the composite; printed charts must carry no generated text."
+    },
+    {
+      "asset_id": "hero-more",
+      "what": "MORE hero — desk / notebook",
+      "path": null,
+      "status": "ASSET_PASS",
+      "used_for": [
+        "MORE hero band"
+      ],
+      "reason": "Only exists inside the composite; the notebook must carry no mark, or the real lockup composited in."
+    },
+    {
+      "asset_id": "lane-photos",
+      "what": "Lane photographs: Permitting & Authorities, Compliance, Brokerage, Insurance, Factoring, Bookkeeping, Drivers & Carriers, Mechanic / Maintenance",
+      "path": null,
+      "status": "ASSET_PASS",
+      "used_for": [
+        "WORK lane cards"
+      ],
+      "reason": "Keep each subject the founder chose; supply high-resolution versions with no legible generated text, a visible professional driver, and a Brokerage image that is not another empty road."
+    },
+    {
+      "asset_id": "reference-composite",
+      "what": "The founder’s four-screen composite",
+      "path": "SITE00:docs/aio/office-design-reconciliation/reference/AIO_OFFICE_FOUR_SCREEN_REFERENCE.png",
+      "status": "DO_NOT_USE",
+      "used_for": [],
+      "reason": "Design reference only. Never crop, inpaint or upscale it into production imagery."
+    }
+  ],
+  "roles": [
+    {
+      "area": "Header role line",
+      "root_id": "AIO_OFFICE.HOME",
+      "founder": "FOUNDER",
+      "staff": "Their staff role",
+      "decided_by": "the person’s role — never their name"
+    },
+    {
+      "area": "Needs attention: founder review, PREBUILT approval",
+      "root_id": "AIO_OFFICE.HOME",
+      "founder": "Item with an approve action",
+      "staff": "Item as status only (“waiting for founder review”)",
+      "decided_by": "founder acts"
+    },
+    {
+      "area": "Needs attention: billing and CRM items",
+      "root_id": "AIO_OFFICE.HOME",
+      "founder": "Shown",
+      "staff": "Shown only with billing / CRM grants",
+      "decided_by": "billing.read · crm.*"
+    },
+    {
+      "area": "Quick actions",
+      "root_id": "AIO_OFFICE.HOME",
+      "founder": "All four + create invoice + new lead",
+      "staff": "The four; invoice and lead only with grants; assign only for managers",
+      "decided_by": "billing.manage · crm.leads.manage · work.assign"
+    },
+    {
+      "area": "Business pulse",
+      "root_id": "AIO_OFFICE.HOME",
+      "founder": "Shown when production-backed",
+      "staff": "Only with the internal-financial grant",
+      "decided_by": "internal financial visibility"
+    },
+    {
+      "area": "Brokerage load financials",
+      "root_id": "AIO_OFFICE.WORK",
+      "founder": "Shown",
+      "staff": "Only with brokerage_finance",
+      "decided_by": "brokerage_finance.read"
+    },
+    {
+      "area": "REPORTS areas",
+      "root_id": "AIO_OFFICE.REPORTS",
+      "founder": "All ten",
+      "staff": "Granted areas only; none → “reporting is by grant” page",
+      "decided_by": "reports.read · management.*.read"
+    },
+    {
+      "area": "Collected revenue and financial area",
+      "root_id": "AIO_OFFICE.REPORTS",
+      "founder": "Shown",
+      "staff": "Only with the financial grant",
+      "decided_by": "management.financial.read"
+    },
+    {
+      "area": "Team & Staff role controls",
+      "root_id": "AIO_OFFICE.MORE",
+      "founder": "Change roles and grants",
+      "staff": "See the team; no role controls",
+      "decided_by": "founder act"
+    },
+    {
+      "area": "Service Catalog configuration and pricing",
+      "root_id": "AIO_OFFICE.MORE",
+      "founder": "Edit",
+      "staff": "View",
+      "decided_by": "founder act"
+    },
+    {
+      "area": "System Settings privileged areas",
+      "root_id": "AIO_OFFICE.MORE",
+      "founder": "All",
+      "staff": "Granted areas only",
+      "decided_by": "security / integration / data / QA grants"
+    },
+    {
+      "area": "Growth / CRM and Billing entries",
+      "root_id": "AIO_OFFICE.MORE",
+      "founder": "Shown",
+      "staff": "Shown only with the grant (omitted otherwise)",
+      "decided_by": "crm.* · billing.*"
+    }
+  ],
+  "privacy_touchpoints": [
+    {
+      "gap_id": "P-DOCUMENTS-INTERNAL-EXPOSED",
+      "area": "MORE → DOCUMENTS & VAULT; HOME document items",
+      "effect": "Design labels every document STAFF ONLY or CLIENT-VISIBLE. The leak itself (internal documents reachable by link; migrated scans customer-readable) waits for the security sprint."
+    },
+    {
+      "gap_id": "P-MESSAGES-RLS-VISIBILITY",
+      "area": "MORE → MESSAGES",
+      "effect": "Internal notes must look unmistakably different from client messages; the database rule still has to filter them."
+    },
+    {
+      "gap_id": "P-ACTIVITY-INTERNAL-TO-CLIENT",
+      "area": "HOME → RECENT ACTIVITY",
+      "effect": "The staff feed marks internal vs client-visible events; the client feed leak is outside these pages but shares the event model."
+    },
+    {
+      "gap_id": "P-CLIENT-LIFECYCLE-SELF-UPDATE",
+      "area": "HOME → CLIENTS IN MOTION; REPORTS → ACTIVE CLIENTS",
+      "effect": "A client could set itself ACTIVE today, so active counts cannot be trusted in production until fixed."
+    },
+    {
+      "gap_id": "P-PORTAL-VIEWS-CROSS-ORG",
+      "area": "REPORTS → EXPORTS; MORE → BILLING",
+      "effect": "No client-facing report or invoice export is designed on these views until they are fixed."
+    },
+    {
+      "gap_id": "P-FLEETCARE-REFERRAL-FEES-CLIENT",
+      "area": "MORE → MECHANIC NETWORK; MORE → BILLING",
+      "effect": "Referral fees are labelled internal-only in the design."
+    },
+    {
+      "gap_id": "P-SHIPPER-VIEW-INTERNAL-NOTES",
+      "area": "WORK → BROKERAGE card and lane",
+      "effect": "Internal notes stay staff-only in the lane design; shippers can read them in the database today."
+    },
+    {
+      "gap_id": "P-BOOKKEEPING-DRAFT-REPORTS",
+      "area": "WORK → BOOKKEEPING",
+      "effect": "Deliverables are labelled DRAFT or DELIVERED; clients see drafts today."
+    }
+  ],
+  "coverage": [
+    {
+      "root_id": "AIO_OFFICE.HOME",
+      "required": [
+        "AIO_OFFICE.HOME.NEEDS_ATTENTION",
+        "AIO_OFFICE.HOME.DEADLINES",
+        "AIO_OFFICE.HOME.BLOCKERS",
+        "AIO_OFFICE.HOME.WORK_ACROSS_AIO",
+        "AIO_OFFICE.HOME.CLIENTS_IN_MOTION",
+        "AIO_OFFICE.HOME.RECENT_ACTIVITY",
+        "AIO_OFFICE.HOME.QUICK_ACTIONS",
+        "AIO_OFFICE.HOME.BUSINESS_PULSE"
+      ],
+      "drawn": [
+        "AIO_OFFICE.HOME.NEEDS_ATTENTION",
+        "AIO_OFFICE.HOME.DEADLINES",
+        "AIO_OFFICE.HOME.BLOCKERS",
+        "AIO_OFFICE.HOME.WORK_ACROSS_AIO",
+        "AIO_OFFICE.HOME.CLIENTS_IN_MOTION",
+        "AIO_OFFICE.HOME.RECENT_ACTIVITY"
+      ],
+      "missing": [
+        "AIO_OFFICE.HOME.QUICK_ACTIONS",
+        "AIO_OFFICE.HOME.BUSINESS_PULSE"
+      ],
+      "extra": []
+    },
+    {
+      "root_id": "AIO_OFFICE.HOME.WORK_ACROSS_AIO",
+      "required": [
+        "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES",
+        "AIO_OFFICE.WORK.FILING_FUEL_TAXES",
+        "AIO_OFFICE.WORK.COMPLIANCE",
+        "AIO_OFFICE.WORK.VEHICLES_FLEET",
+        "AIO_OFFICE.WORK.DISPATCH",
+        "AIO_OFFICE.WORK.BROKERAGE",
+        "AIO_OFFICE.WORK.INSURANCE",
+        "AIO_OFFICE.WORK.FACTORING",
+        "AIO_OFFICE.WORK.BOOKKEEPING",
+        "AIO_OFFICE.WORK.DRIVERS_CARRIERS",
+        "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE",
+        "AIO_OFFICE.WORK.ROAD_READY"
+      ],
+      "drawn": [
+        "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES",
+        "AIO_OFFICE.WORK.FILING_FUEL_TAXES",
+        "AIO_OFFICE.WORK.COMPLIANCE",
+        "AIO_OFFICE.WORK.DISPATCH",
+        "AIO_OFFICE.WORK.BROKERAGE",
+        "AIO_OFFICE.WORK.INSURANCE",
+        "AIO_OFFICE.WORK.BOOKKEEPING"
+      ],
+      "missing": [
+        "AIO_OFFICE.WORK.VEHICLES_FLEET",
+        "AIO_OFFICE.WORK.FACTORING",
+        "AIO_OFFICE.WORK.DRIVERS_CARRIERS",
+        "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE",
+        "AIO_OFFICE.WORK.ROAD_READY"
+      ],
+      "extra": [
+        "AIO_OFFICE.INTAKE"
+      ]
+    },
+    {
+      "root_id": "AIO_OFFICE.WORK",
+      "required": [
+        "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES",
+        "AIO_OFFICE.WORK.FILING_FUEL_TAXES",
+        "AIO_OFFICE.WORK.COMPLIANCE",
+        "AIO_OFFICE.WORK.VEHICLES_FLEET",
+        "AIO_OFFICE.WORK.DISPATCH",
+        "AIO_OFFICE.WORK.BROKERAGE",
+        "AIO_OFFICE.WORK.INSURANCE",
+        "AIO_OFFICE.WORK.FACTORING",
+        "AIO_OFFICE.WORK.BOOKKEEPING",
+        "AIO_OFFICE.WORK.DRIVERS_CARRIERS",
+        "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE",
+        "AIO_OFFICE.WORK.ROAD_READY"
+      ],
+      "drawn": [
+        "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES",
+        "AIO_OFFICE.WORK.FILING_FUEL_TAXES",
+        "AIO_OFFICE.WORK.COMPLIANCE",
+        "AIO_OFFICE.WORK.DISPATCH",
+        "AIO_OFFICE.WORK.BROKERAGE",
+        "AIO_OFFICE.WORK.INSURANCE",
+        "AIO_OFFICE.WORK.FACTORING",
+        "AIO_OFFICE.WORK.BOOKKEEPING",
+        "AIO_OFFICE.WORK.DRIVERS_CARRIERS",
+        "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE",
+        "AIO_OFFICE.WORK.ROAD_READY"
+      ],
+      "missing": [
+        "AIO_OFFICE.WORK.VEHICLES_FLEET"
+      ],
+      "extra": [
+        "AIO_OFFICE.INTAKE"
+      ]
+    },
+    {
+      "root_id": "AIO_OFFICE.REPORTS",
+      "required": [
+        "AIO_OFFICE.REPORTS.OVERVIEW",
+        "AIO_OFFICE.REPORTS.CLIENTS",
+        "AIO_OFFICE.REPORTS.SERVICES",
+        "AIO_OFFICE.REPORTS.FINANCIAL_REVENUE",
+        "AIO_OFFICE.REPORTS.FILING_HISTORY",
+        "AIO_OFFICE.REPORTS.COMPLIANCE",
+        "AIO_OFFICE.REPORTS.DISPATCH_BROKERAGE",
+        "AIO_OFFICE.REPORTS.BOOKKEEPING",
+        "AIO_OFFICE.REPORTS.MIGRATION",
+        "AIO_OFFICE.REPORTS.EXPORTS"
+      ],
+      "drawn": [
+        "AIO_OFFICE.REPORTS.OVERVIEW",
+        "AIO_OFFICE.REPORTS.CLIENTS",
+        "AIO_OFFICE.REPORTS.SERVICES",
+        "AIO_OFFICE.REPORTS.FINANCIAL_REVENUE",
+        "AIO_OFFICE.REPORTS.EXPORTS",
+        "AIO_OFFICE.REPORTS.FILING_HISTORY"
+      ],
+      "missing": [
+        "AIO_OFFICE.REPORTS.COMPLIANCE",
+        "AIO_OFFICE.REPORTS.DISPATCH_BROKERAGE",
+        "AIO_OFFICE.REPORTS.BOOKKEEPING",
+        "AIO_OFFICE.REPORTS.MIGRATION"
+      ],
+      "extra": []
+    },
+    {
+      "root_id": "AIO_OFFICE.MORE",
+      "required": [
+        "AIO_OFFICE.MORE.CLIENTS",
+        "AIO_OFFICE.MORE.DOCUMENTS_VAULT",
+        "AIO_OFFICE.MORE.GROWTH_CRM",
+        "AIO_OFFICE.MORE.BILLING",
+        "AIO_OFFICE.MORE.TEAM_STAFF",
+        "AIO_OFFICE.MORE.SERVICE_CATALOG",
+        "AIO_OFFICE.MORE.MECHANIC_NETWORK",
+        "AIO_OFFICE.MORE.MESSAGES",
+        "AIO_OFFICE.MORE.SYSTEM_SETTINGS",
+        "AIO_OFFICE.MORE.HELP_SUPPORT",
+        "AIO_OFFICE.MORE.ACCOUNT"
+      ],
+      "drawn": [
+        "AIO_OFFICE.MORE.CLIENTS",
+        "AIO_OFFICE.MORE.DOCUMENTS_VAULT",
+        "AIO_OFFICE.MORE.TEAM_STAFF",
+        "AIO_OFFICE.MORE.SERVICE_CATALOG",
+        "AIO_OFFICE.MORE.MECHANIC_NETWORK",
+        "AIO_OFFICE.MORE.MESSAGES",
+        "AIO_OFFICE.MORE.SYSTEM_SETTINGS",
+        "AIO_OFFICE.MORE.HELP_SUPPORT"
+      ],
+      "missing": [
+        "AIO_OFFICE.MORE.GROWTH_CRM",
+        "AIO_OFFICE.MORE.BILLING",
+        "AIO_OFFICE.MORE.ACCOUNT"
+      ],
+      "extra": []
+    }
+  ],
+  "drawn_figures": [
+    {
+      "root_id": "AIO_OFFICE.HOME",
+      "element_id": "home.card.attention",
+      "figures": [
+        "3"
+      ],
+      "metrics": [],
+      "production_backed": false
+    },
+    {
+      "root_id": "AIO_OFFICE.HOME",
+      "element_id": "home.card.deadlines",
+      "figures": [
+        "5"
+      ],
+      "metrics": [],
+      "production_backed": false
+    },
+    {
+      "root_id": "AIO_OFFICE.HOME",
+      "element_id": "home.card.blockers",
+      "figures": [
+        "2"
+      ],
+      "metrics": [],
+      "production_backed": false
+    },
+    {
+      "root_id": "AIO_OFFICE.HOME",
+      "element_id": "home.tile.intake",
+      "figures": [
+        "12"
+      ],
+      "metrics": [],
+      "production_backed": false
+    },
+    {
+      "root_id": "AIO_OFFICE.HOME",
+      "element_id": "home.tile.permitting",
+      "figures": [
+        "8"
+      ],
+      "metrics": [],
+      "production_backed": false
+    },
+    {
+      "root_id": "AIO_OFFICE.HOME",
+      "element_id": "home.tile.filing",
+      "figures": [
+        "14"
+      ],
+      "metrics": [],
+      "production_backed": false
+    },
+    {
+      "root_id": "AIO_OFFICE.HOME",
+      "element_id": "home.tile.compliance",
+      "figures": [
+        "6"
+      ],
+      "metrics": [],
+      "production_backed": false
+    },
+    {
+      "root_id": "AIO_OFFICE.HOME",
+      "element_id": "home.tile.dispatch",
+      "figures": [
+        "24"
+      ],
+      "metrics": [],
+      "production_backed": false
+    },
+    {
+      "root_id": "AIO_OFFICE.HOME",
+      "element_id": "home.tile.brokerage",
+      "figures": [
+        "6"
+      ],
+      "metrics": [],
+      "production_backed": false
+    },
+    {
+      "root_id": "AIO_OFFICE.HOME",
+      "element_id": "home.tile.insurance",
+      "figures": [
+        "5"
+      ],
+      "metrics": [],
+      "production_backed": false
+    },
+    {
+      "root_id": "AIO_OFFICE.HOME",
+      "element_id": "home.tile.bookkeeping",
+      "figures": [
+        "11"
+      ],
+      "metrics": [],
+      "production_backed": false
+    },
+    {
+      "root_id": "AIO_OFFICE.HOME",
+      "element_id": "home.client.riverstone",
+      "figures": [
+        "2h ago"
+      ],
+      "metrics": [],
+      "production_backed": false
+    },
+    {
+      "root_id": "AIO_OFFICE.HOME",
+      "element_id": "home.client.delta",
+      "figures": [
+        "4h ago"
+      ],
+      "metrics": [],
+      "production_backed": false
+    },
+    {
+      "root_id": "AIO_OFFICE.HOME",
+      "element_id": "home.client.tk",
+      "figures": [
+        "6h ago"
+      ],
+      "metrics": [],
+      "production_backed": false
+    },
+    {
+      "root_id": "AIO_OFFICE.HOME",
+      "element_id": "home.activity",
+      "figures": [
+        "1h ago",
+        "3h ago",
+        "5h ago",
+        "6h ago"
+      ],
+      "metrics": [],
+      "production_backed": false
+    },
+    {
+      "root_id": "AIO_OFFICE.WORK",
+      "element_id": "work.card.intake",
+      "figures": [
+        "12"
+      ],
+      "metrics": [],
+      "production_backed": false
+    },
+    {
+      "root_id": "AIO_OFFICE.WORK",
+      "element_id": "work.card.permitting",
+      "figures": [
+        "18"
+      ],
+      "metrics": [],
+      "production_backed": false
+    },
+    {
+      "root_id": "AIO_OFFICE.WORK",
+      "element_id": "work.card.filing",
+      "figures": [
+        "14"
+      ],
+      "metrics": [],
+      "production_backed": false
+    },
+    {
+      "root_id": "AIO_OFFICE.WORK",
+      "element_id": "work.card.compliance",
+      "figures": [
+        "9"
+      ],
+      "metrics": [],
+      "production_backed": false
+    },
+    {
+      "root_id": "AIO_OFFICE.WORK",
+      "element_id": "work.card.dispatch",
+      "figures": [
+        "24"
+      ],
+      "metrics": [],
+      "production_backed": false
+    },
+    {
+      "root_id": "AIO_OFFICE.WORK",
+      "element_id": "work.card.brokerage",
+      "figures": [
+        "6"
+      ],
+      "metrics": [],
+      "production_backed": false
+    },
+    {
+      "root_id": "AIO_OFFICE.WORK",
+      "element_id": "work.card.insurance",
+      "figures": [
+        "7"
+      ],
+      "metrics": [],
+      "production_backed": false
+    },
+    {
+      "root_id": "AIO_OFFICE.WORK",
+      "element_id": "work.card.factoring",
+      "figures": [
+        "5"
+      ],
+      "metrics": [],
+      "production_backed": false
+    },
+    {
+      "root_id": "AIO_OFFICE.WORK",
+      "element_id": "work.card.bookkeeping",
+      "figures": [
+        "5"
+      ],
+      "metrics": [],
+      "production_backed": false
+    },
+    {
+      "root_id": "AIO_OFFICE.WORK",
+      "element_id": "work.card.drivers",
+      "figures": [
+        "12"
+      ],
+      "metrics": [],
+      "production_backed": false
+    },
+    {
+      "root_id": "AIO_OFFICE.WORK",
+      "element_id": "work.card.maintenance",
+      "figures": [
+        "8"
+      ],
+      "metrics": [],
+      "production_backed": false
+    },
+    {
+      "root_id": "AIO_OFFICE.WORK",
+      "element_id": "work.card.road-ready",
+      "figures": [
+        "6"
+      ],
+      "metrics": [],
+      "production_backed": false
+    },
+    {
+      "root_id": "AIO_OFFICE.REPORTS",
+      "element_id": "reports.metric.clients",
+      "figures": [
+        "48",
+        "+12%"
+      ],
+      "metrics": [
+        "overview.active-clients"
+      ],
+      "production_backed": false
+    },
+    {
+      "root_id": "AIO_OFFICE.REPORTS",
+      "element_id": "reports.metric.filings",
+      "figures": [
+        "36",
+        "+28%"
+      ],
+      "metrics": [
+        "overview.filing-throughput"
+      ],
+      "production_backed": false
+    },
+    {
+      "root_id": "AIO_OFFICE.REPORTS",
+      "element_id": "reports.metric.work",
+      "figures": [
+        "62",
+        "−8%"
+      ],
+      "metrics": [
+        "overview.active-work"
+      ],
+      "production_backed": false
+    },
+    {
+      "root_id": "AIO_OFFICE.REPORTS",
+      "element_id": "reports.metric.revenue",
+      "figures": [
+        "$48.2K",
+        "+14%"
+      ],
+      "metrics": [
+        "financial.collected"
+      ],
+      "production_backed": false
+    },
+    {
+      "root_id": "AIO_OFFICE.REPORTS",
+      "element_id": "reports.services",
+      "figures": [
+        "36",
+        "28",
+        "22",
+        "18",
+        "14",
+        "12",
+        "11",
+        "9"
+      ],
+      "metrics": [
+        "services.volume"
+      ],
+      "production_backed": false
+    },
+    {
+      "root_id": "AIO_OFFICE.REPORTS",
+      "element_id": "reports.filing-history",
+      "figures": [
+        "Q3 2024",
+        "Oct 18, 2024",
+        "Oct 16, 2024",
+        "Oct 14, 2024",
+        "Jul 22, 2024"
+      ],
+      "metrics": [
+        "filing.quarters-filed"
+      ],
+      "production_backed": false
+    },
+    {
+      "root_id": "AIO_OFFICE.REPORTS",
+      "element_id": "reports.client-growth",
+      "figures": [
+        "+24%"
+      ],
+      "metrics": [
+        "overview.client-growth"
+      ],
+      "production_backed": false
+    }
+  ],
+  "report_domain_placement": [
+    {
+      "domain": "OVERVIEW",
+      "overview": "the four backed headline figures and the period control",
+      "own_view": "OVERVIEW tab",
+      "history": null,
+      "detail": "each figure drills to its domain",
+      "export": "period summary (CSV)",
+      "state_today": "PARTIAL — demo-store figures"
+    },
+    {
+      "domain": "CLIENTS",
+      "overview": "ACTIVE CLIENTS figure",
+      "own_view": "clients by lifecycle (active · paused · ended · prebuilt · invited)",
+      "history": "not connected: no readable activation dates",
+      "detail": "Client 360",
+      "export": "client list (CSV)",
+      "state_today": "PARTIAL"
+    },
+    {
+      "domain": "SERVICES",
+      "overview": "ACTIVE WORK figure and the service-volume bars",
+      "own_view": "volume and workflow performance by lane",
+      "history": "not connected: status history is not read",
+      "detail": "lane queue",
+      "export": "service report (CSV)",
+      "state_today": "PARTIAL — partial data, labelled"
+    },
+    {
+      "domain": "FINANCIAL_REVENUE",
+      "overview": "COLLECTED REVENUE (founder / finance grant only)",
+      "own_view": "collected, invoiced, outstanding, aging, credits",
+      "history": "by period from payments",
+      "detail": "MORE → BILLING invoice",
+      "export": "receivables aging (CSV, exists today)",
+      "state_today": "PARTIAL — demo data; never estimated, never profitability"
+    },
+    {
+      "domain": "FILING_HISTORY",
+      "overview": "FILINGS FILED this period vs last",
+      "own_view": "filed quarters by client and quarter, filed on time",
+      "history": "quarter by quarter",
+      "detail": "the IFTA case",
+      "export": "filing history (CSV)",
+      "state_today": "NOT STARTED as a surface — the data exists"
+    },
+    {
+      "domain": "COMPLIANCE",
+      "overview": null,
+      "own_view": "expirations by window; open and resolved items once a compliance case model exists",
+      "history": "not connected",
+      "detail": "COMPLIANCE lane",
+      "export": "expirations (CSV)",
+      "state_today": "PARTIAL — expirations only"
+    },
+    {
+      "domain": "DISPATCH_BROKERAGE",
+      "overview": null,
+      "own_view": "load volume and status; brokerage economics for founders / finance grant",
+      "history": "from load timelines (demo)",
+      "detail": "load",
+      "export": "load report (CSV)",
+      "state_today": "PARTIAL"
+    },
+    {
+      "domain": "BOOKKEEPING",
+      "overview": null,
+      "own_view": "contract only — subscriptions and cycles closed on time",
+      "history": null,
+      "detail": "BOOKKEEPING lane",
+      "export": null,
+      "state_today": "NOT STARTED"
+    },
+    {
+      "domain": "MIGRATION",
+      "overview": null,
+      "own_view": "batches, review required, clients activated",
+      "history": "not connected: no stage timestamps",
+      "detail": "INTAKE batch",
+      "export": "migration status (CSV)",
+      "state_today": "PARTIAL"
+    },
+    {
+      "domain": "EXPORTS",
+      "overview": null,
+      "own_view": "every export with its grant, audit entry and formula guard",
+      "history": "saved reports (write-only today)",
+      "detail": null,
+      "export": "CSV now; PDF when a renderer exists",
+      "state_today": "NOT STARTED — contract only"
+    }
+  ],
+  "more_groups": [
+    {
+      "group": "CLIENTS & RECORDS",
+      "entries": [
+        "CLIENTS",
+        "DOCUMENTS_VAULT",
+        "MESSAGES"
+      ]
+    },
+    {
+      "group": "BUSINESS",
+      "entries": [
+        "GROWTH_CRM",
+        "BILLING",
+        "SERVICE_CATALOG"
+      ]
+    },
+    {
+      "group": "PEOPLE & NETWORK",
+      "entries": [
+        "TEAM_STAFF",
+        "MECHANIC_NETWORK"
+      ]
+    },
+    {
+      "group": "SYSTEM",
+      "entries": [
+        "SYSTEM_SETTINGS",
+        "HELP_SUPPORT",
+        "ACCOUNT"
+      ]
+    }
+  ]
+}

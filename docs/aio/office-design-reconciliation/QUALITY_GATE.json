@@ -1,0 +1,270 @@
+{
+  "id": "AIO_DESIGN_RECONCILIATION_QUALITY_GATE",
+  "sprint": "P0.AIO.OFFICE.FOUNDER-HOME-WORK-REPORTS-MORE.EXISTING-DESIGN-RECONCILIATION1",
+  "generated_by": "scripts/studioos/aio-office-design-reconciliation-export.ts",
+  "source": [
+    "shared/studioos-experience-brain/office-design-reconciliation.ts",
+    "shared/studioos-experience-brain/projects/aio/office-design-reconciliation.ts",
+    "shared/studioos-experience-brain/projects/aio/office-contracts.ts"
+  ],
+  "reference": {
+    "path": "docs/aio/office-design-reconciliation/reference/AIO_OFFICE_FOUR_SCREEN_REFERENCE.png",
+    "width": 1536,
+    "height": 1024,
+    "sha256": "47343139eccfe6055479d4f1f0841da74ab87134fd1d62f5f5cded040dd5e961"
+  },
+  "constraints": {
+    "first_delivery_only": true,
+    "images_generated": 0,
+    "visual_authorities_approved": false,
+    "live_nav_changed": false,
+    "routes_changed": false,
+    "pages_built": false,
+    "supabase_schema_changed": false,
+    "auth_changed": false,
+    "permissions_changed": false,
+    "metrics_invented": false,
+    "deployed": false
+  },
+  "next_gate": "FOUNDER REVIEW OF THE EXISTING DESIGN RECONCILIATION",
+  "checks": [
+    {
+      "key": "ATTACHMENT_INSPECTED",
+      "value": "YES",
+      "evidence": "4 screens, 63 drawn elements inventoried; reference sha256 47343139eccf…"
+    },
+    {
+      "key": "EXISTING_DESIGN_PRESERVED",
+      "value": "YES",
+      "evidence": "50 of 63 drawn elements kept, refined or re-shot; 2 removed (the INTAKE lane tile and card)"
+    },
+    {
+      "key": "PAGES_MATCH_CONTRACTS",
+      "value": "YES",
+      "evidence": "proposed HOME = 8 regions in order · WORK = 12 lanes in order · REPORTS places all 10 domains · MORE = 11 entries"
+    },
+    {
+      "key": "WORK_TWELVE_LANES",
+      "value": "YES",
+      "evidence": "proposed: Permitting & Authorities · Filing & Fuel Taxes · Compliance · Vehicles & Fleet · Dispatch · Brokerage · Insurance · Factoring · Bookkeeping · Drivers & Carriers · Mechanic / Maintenance · Road Ready"
+    },
+    {
+      "key": "MORE_ELEVEN_ENTRIES",
+      "value": "YES",
+      "evidence": "CLIENTS & RECORDS: 3 · BUSINESS: 3 · PEOPLE & NETWORK: 2 · SYSTEM: 3"
+    },
+    {
+      "key": "HOME_NO_SERVICE_OWNERSHIP",
+      "value": "YES",
+      "evidence": "every proposed HOME slot is a HOME region that routes to its owner"
+    },
+    {
+      "key": "REPORTS_NO_INVENTED_FIGURES",
+      "value": "YES",
+      "evidence": "52 drawn figures, all design examples; 1 unsupported metric slot(s) drawn as honest states"
+    },
+    {
+      "key": "FOUNDER_STAFF_VISIBILITY_DEFINED",
+      "value": "YES",
+      "evidence": "12 rows, each decided by a role or grant, never a name"
+    },
+    {
+      "key": "RESPONSIVE_PLAN_INTENTIONAL",
+      "value": "YES",
+      "evidence": "16 plans: 4 roots × MOBILE / TABLET / DESKTOP / WIDE; each viewport has its own layout"
+    },
+    {
+      "key": "BRANDING_PRESERVED",
+      "value": "YES",
+      "evidence": "header keeps the approved staff lockup; the dotted lockup and invented marks are kept out; no logo regenerated"
+    },
+    {
+      "key": "PRODUCTION_CODE_CHANGED",
+      "value": "NO",
+      "evidence": "docs and Brain data only"
+    },
+    {
+      "key": "IMAGES_GENERATED",
+      "value": "0",
+      "evidence": "regeneration waits for founder approval"
+    },
+    {
+      "key": "EXISTING_WORK_DISCARDED",
+      "value": "NO",
+      "evidence": "contracts, IA, IFTA and migration authorities untouched"
+    },
+    {
+      "key": "FOUNDER_APPROVAL_REQUIRED",
+      "value": "YES",
+      "evidence": "15 open decisions (9 must be decided before regeneration)"
+    },
+    {
+      "key": "READY_FOR_FOUNDER_REVIEW",
+      "value": "YES",
+      "evidence": "validator violations 0"
+    }
+  ],
+  "coverage": [
+    {
+      "root_id": "AIO_OFFICE.HOME",
+      "required": [
+        "AIO_OFFICE.HOME.NEEDS_ATTENTION",
+        "AIO_OFFICE.HOME.DEADLINES",
+        "AIO_OFFICE.HOME.BLOCKERS",
+        "AIO_OFFICE.HOME.WORK_ACROSS_AIO",
+        "AIO_OFFICE.HOME.CLIENTS_IN_MOTION",
+        "AIO_OFFICE.HOME.RECENT_ACTIVITY",
+        "AIO_OFFICE.HOME.QUICK_ACTIONS",
+        "AIO_OFFICE.HOME.BUSINESS_PULSE"
+      ],
+      "drawn": [
+        "AIO_OFFICE.HOME.NEEDS_ATTENTION",
+        "AIO_OFFICE.HOME.DEADLINES",
+        "AIO_OFFICE.HOME.BLOCKERS",
+        "AIO_OFFICE.HOME.WORK_ACROSS_AIO",
+        "AIO_OFFICE.HOME.CLIENTS_IN_MOTION",
+        "AIO_OFFICE.HOME.RECENT_ACTIVITY"
+      ],
+      "missing": [
+        "AIO_OFFICE.HOME.QUICK_ACTIONS",
+        "AIO_OFFICE.HOME.BUSINESS_PULSE"
+      ],
+      "extra": []
+    },
+    {
+      "root_id": "AIO_OFFICE.HOME.WORK_ACROSS_AIO",
+      "required": [
+        "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES",
+        "AIO_OFFICE.WORK.FILING_FUEL_TAXES",
+        "AIO_OFFICE.WORK.COMPLIANCE",
+        "AIO_OFFICE.WORK.VEHICLES_FLEET",
+        "AIO_OFFICE.WORK.DISPATCH",
+        "AIO_OFFICE.WORK.BROKERAGE",
+        "AIO_OFFICE.WORK.INSURANCE",
+        "AIO_OFFICE.WORK.FACTORING",
+        "AIO_OFFICE.WORK.BOOKKEEPING",
+        "AIO_OFFICE.WORK.DRIVERS_CARRIERS",
+        "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE",
+        "AIO_OFFICE.WORK.ROAD_READY"
+      ],
+      "drawn": [
+        "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES",
+        "AIO_OFFICE.WORK.FILING_FUEL_TAXES",
+        "AIO_OFFICE.WORK.COMPLIANCE",
+        "AIO_OFFICE.WORK.DISPATCH",
+        "AIO_OFFICE.WORK.BROKERAGE",
+        "AIO_OFFICE.WORK.INSURANCE",
+        "AIO_OFFICE.WORK.BOOKKEEPING"
+      ],
+      "missing": [
+        "AIO_OFFICE.WORK.VEHICLES_FLEET",
+        "AIO_OFFICE.WORK.FACTORING",
+        "AIO_OFFICE.WORK.DRIVERS_CARRIERS",
+        "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE",
+        "AIO_OFFICE.WORK.ROAD_READY"
+      ],
+      "extra": [
+        "AIO_OFFICE.INTAKE"
+      ]
+    },
+    {
+      "root_id": "AIO_OFFICE.WORK",
+      "required": [
+        "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES",
+        "AIO_OFFICE.WORK.FILING_FUEL_TAXES",
+        "AIO_OFFICE.WORK.COMPLIANCE",
+        "AIO_OFFICE.WORK.VEHICLES_FLEET",
+        "AIO_OFFICE.WORK.DISPATCH",
+        "AIO_OFFICE.WORK.BROKERAGE",
+        "AIO_OFFICE.WORK.INSURANCE",
+        "AIO_OFFICE.WORK.FACTORING",
+        "AIO_OFFICE.WORK.BOOKKEEPING",
+        "AIO_OFFICE.WORK.DRIVERS_CARRIERS",
+        "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE",
+        "AIO_OFFICE.WORK.ROAD_READY"
+      ],
+      "drawn": [
+        "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES",
+        "AIO_OFFICE.WORK.FILING_FUEL_TAXES",
+        "AIO_OFFICE.WORK.COMPLIANCE",
+        "AIO_OFFICE.WORK.DISPATCH",
+        "AIO_OFFICE.WORK.BROKERAGE",
+        "AIO_OFFICE.WORK.INSURANCE",
+        "AIO_OFFICE.WORK.FACTORING",
+        "AIO_OFFICE.WORK.BOOKKEEPING",
+        "AIO_OFFICE.WORK.DRIVERS_CARRIERS",
+        "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE",
+        "AIO_OFFICE.WORK.ROAD_READY"
+      ],
+      "missing": [
+        "AIO_OFFICE.WORK.VEHICLES_FLEET"
+      ],
+      "extra": [
+        "AIO_OFFICE.INTAKE"
+      ]
+    },
+    {
+      "root_id": "AIO_OFFICE.REPORTS",
+      "required": [
+        "AIO_OFFICE.REPORTS.OVERVIEW",
+        "AIO_OFFICE.REPORTS.CLIENTS",
+        "AIO_OFFICE.REPORTS.SERVICES",
+        "AIO_OFFICE.REPORTS.FINANCIAL_REVENUE",
+        "AIO_OFFICE.REPORTS.FILING_HISTORY",
+        "AIO_OFFICE.REPORTS.COMPLIANCE",
+        "AIO_OFFICE.REPORTS.DISPATCH_BROKERAGE",
+        "AIO_OFFICE.REPORTS.BOOKKEEPING",
+        "AIO_OFFICE.REPORTS.MIGRATION",
+        "AIO_OFFICE.REPORTS.EXPORTS"
+      ],
+      "drawn": [
+        "AIO_OFFICE.REPORTS.OVERVIEW",
+        "AIO_OFFICE.REPORTS.CLIENTS",
+        "AIO_OFFICE.REPORTS.SERVICES",
+        "AIO_OFFICE.REPORTS.FINANCIAL_REVENUE",
+        "AIO_OFFICE.REPORTS.EXPORTS",
+        "AIO_OFFICE.REPORTS.FILING_HISTORY"
+      ],
+      "missing": [
+        "AIO_OFFICE.REPORTS.COMPLIANCE",
+        "AIO_OFFICE.REPORTS.DISPATCH_BROKERAGE",
+        "AIO_OFFICE.REPORTS.BOOKKEEPING",
+        "AIO_OFFICE.REPORTS.MIGRATION"
+      ],
+      "extra": []
+    },
+    {
+      "root_id": "AIO_OFFICE.MORE",
+      "required": [
+        "AIO_OFFICE.MORE.CLIENTS",
+        "AIO_OFFICE.MORE.DOCUMENTS_VAULT",
+        "AIO_OFFICE.MORE.GROWTH_CRM",
+        "AIO_OFFICE.MORE.BILLING",
+        "AIO_OFFICE.MORE.TEAM_STAFF",
+        "AIO_OFFICE.MORE.SERVICE_CATALOG",
+        "AIO_OFFICE.MORE.MECHANIC_NETWORK",
+        "AIO_OFFICE.MORE.MESSAGES",
+        "AIO_OFFICE.MORE.SYSTEM_SETTINGS",
+        "AIO_OFFICE.MORE.HELP_SUPPORT",
+        "AIO_OFFICE.MORE.ACCOUNT"
+      ],
+      "drawn": [
+        "AIO_OFFICE.MORE.CLIENTS",
+        "AIO_OFFICE.MORE.DOCUMENTS_VAULT",
+        "AIO_OFFICE.MORE.TEAM_STAFF",
+        "AIO_OFFICE.MORE.SERVICE_CATALOG",
+        "AIO_OFFICE.MORE.MECHANIC_NETWORK",
+        "AIO_OFFICE.MORE.MESSAGES",
+        "AIO_OFFICE.MORE.SYSTEM_SETTINGS",
+        "AIO_OFFICE.MORE.HELP_SUPPORT"
+      ],
+      "missing": [
+        "AIO_OFFICE.MORE.GROWTH_CRM",
+        "AIO_OFFICE.MORE.BILLING",
+        "AIO_OFFICE.MORE.ACCOUNT"
+      ],
+      "extra": []
+    }
+  ],
+  "violations": []
+}
