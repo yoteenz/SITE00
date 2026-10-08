@@ -15543,3 +15543,68 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - No plates, children, or implementation assets.
 - **Changes:** `TODAY v1/` and `ACTIVITY v1/` parent authorities and the world-editorial review boards.
 - **Conventions:** On TODAY and ACTIVITY parents, the official vertical botanical lockup belongs to the object. A corner watermark is not enough. Do not extract plates until the founder approves these parents.
+
+---
+
+## 2026-10-08 — ENTRY is one flow from WELCOME to SETUP
+
+- **Context:** The founder saw the seven ENTRY v2 pages on the tunnel but said they were not linked to the rest of the pages. They also said QUICK ADD and the hamburger menu changes had disappeared from the tunnel.
+- **Findings (main @ 10d7a25b, design preview, 393 × 852):**
+  - **Sign-up dead end.** OPEN EMAIL APP and the reset email closed their handoff and left the page where it was. The preview has no inbox, and the emailed link could only be opened by typing `?link=valid` or `entry/new-password` into the address bar. So a new account never got past CHECK YOUR EMAIL, and a reset never reached CREATE NEW PASSWORD. The same was true before ENTRY v2.
+  - **Sign-in works.** `EMMA@EXAMPLE.COM` / `Jurnl-2026` walks F01.03 → F01.09 → F01.10 → F01.11 → F01.12 → F01.13 → SETUP F02.00–F02.08 → TODAY.
+  - **QUICK ADD and the account drawer are on main.** They open on TODAY, SAFE TO SPEND, MONEY, PLAN and CREDIT with `F09_QUICK_ADD_OVERLAY_SOURCE` and `F09_ACCOUNT_DRAWER_OVERLAY_SOURCE`. No commit after #1492 touches them. The menu is hidden on `entry*` and `setup*` by design, so it cannot be seen until ENTRY and SETUP are done. A tunnel that shows an older drawer is answered by a stale backend (see `docs/site00/production-workspace/reconciliation/preview-tunnel-multi-connector-2026-10-06.md`); that can only be fixed from the canonical Cursor environment.
+- **Decisions / outcomes:**
+  - **Email link:** `MailHandoff` takes `onLink`. In the design preview only, confirming the handoff follows the emailed link:
+    - CHECK YOUR EMAIL → `entry/verify-email?link=valid` → the verified state → CONTINUE → F01.09.
+    - RESET EMAIL SENT → F01.07.
+    - A phone still returns through the real link; production behaviour is unchanged.
+  - **Workspace:** `F01_FLOW_SCREENS` (WELCOME, F01.14–F01.16, then the package screens) feeds `JURNL_F01_CONTRACT.screens` and `JURNL_F01_COVERAGE.screens`.
+    - The design workspace lists 17 ENTRY screens.
+    - The NEW ACCOUNT journey reads 00 → 14 → 15 → 16 → 01 → 02 → 09 → 10 → 11 → 12 → 13.
+    - The seven ENTRY v2 pages are reviewed against `public/site00/projects/jurnl/f01/authorities/entry-v2/ENTRY_V2_<screen>.jpg` (787 × 1400 copies of the approved authorities, for review only, never mounted).
+    - `F01_SCREENS` (the 14-screen package) and the interaction manifest are unchanged.
+  - **Still old visuals:** F01.04–F01.13 keep the package look. ENTRY v2 parents 08–14 and the descendant tree are `FOUNDER_REVIEW_REQUIRED`, and implementation is blocked until the founder approves them.
+- **Tests:**
+  - `tests/jurnlEntryV2FirstSeven1.test.tsx` adds the family order, review authorities and handoff wiring.
+  - `tests/jurnlF01ProjectIngestion.test.ts` now expects 16 children, and `tests/jurnlF01DesignWorkspace.test.tsx` expects 17 screens and the new journey.
+  - `e2e/jurnl/jurnl-entry-setup.e2e.ts` walks a new account from WELCOME to SETUP and a reset to CREATE NEW PASSWORD, on mobile, tablet and desktop.
+  - The structural blueprint generator (`scripts/jurnl/structural-blueprint/build.ts`) gains criteria, notes and the ENTRY v2 edges for F01.14–F01.16. `docs/jurnl/structural-completion/` is regenerated (147 F01 nodes).
+- **Conventions:**
+  - Walk a flow end to end in the preview before calling it linked: every page needs a way on that a person can reach without editing the URL.
+  - When the tunnel "loses" a change that is on main, check main in a browser first, then the tunnel's connectors.
+
+---
+
+## 2026-10-08 — Bottom dock returns to plaster beige
+
+- **Context:** This chat filed the first eight email authorities (later rejected), blurred every drawer and grouped the Safe to Spend buffer (merged), redirected the SETUP parents toward a softer editorial sanctuary (review only, not merged), then rebuilt the eight emails from page authorities (review only, not merged). The founder then sent a phone shot of TODAY and said the bottom panel had been turned white. It should stay the beige of the strip under it so the two blend.
+- **Topics covered:** Email visual authorities, overlay blur, SETUP parent art direction, email image-to-image rebuild, then the live TODAY dock color.
+- **Decisions / outcomes:**
+  - The parent dock fill `#f6f3ee` reads white. On the phone shot the strip under it is the plaster stage `#f1e3cf` (sampled blue channel 207). The dock now uses `var(--jrn-plaster)` so the panel and that strip are the same beige.
+  - HOME, MONEY, PLAN, and CREDIT share that parent dock. The olive active chip stays `#464736`. Safe to Spend keeps its own stage and dock pair.
+  - Email batches and the SETUP parent regeneration stay founder-review. They are not merged from this turn.
+- **Changes:** `src/projects/jurnl/runtime/jurnl-nav.css`. Measured on TODAY, MONEY, PLAN, and CREDIT at 402×874: dock background `rgb(241, 227, 207)`, same as the stage.
+- **Conventions:** The bottom parent panel matches `--jrn-plaster`, the beige under the dock. Do not paint that panel `#f6f3ee`.
+
+---
+
+## 2026-10-08 — Remove the unread PLAN TODAY tagline from the four hubs
+
+- **Context:** This chat first rebuilt the TODAY and ACTIVITY parent authorities toward the ENTRY world (that review stays on `cursor/today-activity-brand-fidelity-4e5a`). The founder then asked to remove the “plan today grow freely” line in the top corner of Home, Money, Plan, and Credit, because it does not read.
+- **Topics covered:** ENTRY-anchored parent rebuild. Then the live tagline on the four root hubs.
+- **Decisions / outcomes:**
+  - HOME, MONEY, PLAN, and CREDIT no longer render PLAN TODAY. / GROW FREELY.
+  - The lockup stays: the sprig, JURNL, and FINANCIAL LIFE. BEAUTIFULLY ORGANIZED.
+  - Welcome, Safe to Spend, and the purchase check keep their own tagline.
+- **Changes:** `HomeScreens.tsx`, `MoneyScreens.tsx`, `PlanScreens.tsx`, `CreditScreens.tsx`. The hub test now expects those two lines to be absent.
+- **Conventions:** Do not put PLAN TODAY. GROW FREELY. back on the four root hubs. It was in the corner and did not read.
+
+---
+
+## 2026-10-08 — Production estimation engine
+
+- **Context:** This chat isolated the account-drawer and Quick Add overlay sheets, then the founder asked for a real estimation infrastructure instead of manual guesses from vague descriptions. The engine has to cover SITE, WORLD, SYSTEMS, and EXTENSIONS, and simple, advanced, and custom builds.
+- **Topics covered:** Overlay shells for the two drawers. Then family units, complexity classes, descendant and feature modifiers, responsive and visual weights, structural and world grammars, a visual-system registry, timeline lanes, priority production, risk, versioning, founder overrides, and a client blueprint contract.
+- **Decisions / outcomes:** 1 FU is 2 weeks of raw capacity and stays internal. The calendar is serial work plus parallel work divided by the lanes the dependency graph allows. Priority uses up to 4 lanes and a 1.85 price multiplier. On the 16-family fixture that cuts the calendar to about 69% of standard, not half. Simple starts near $3K and custom near $10K. Those are floors, not caps. The dollar-per-FU figure is calibration-only. A client configuration is a projected estimate. It does not approve a quote or lock a schedule. World weights are marked calibration-needed. Estimator version is 1.0.0.
+- **Changes:** `src/studioos/estimation/`, internal page `/admin/site00/estimator`, `docs/site00/SITE00_ESTIMATION_ENGINE.md`. Twelve engine tests pass. The public builder is unchanged. Client estimate preview stays off.
+- **Conventions:** Do not estimate by page count. Do not call priority production “rush.” Do not show family units to clients. Do not treat an estimate as a quote. Do not auto-adjust coefficients from calibration records. Do not invent visual-system sample images.

@@ -13,6 +13,7 @@ export const CONTROL_OPERATOR_NAV: ControlNavItem[] = [
   { id: 'command', label: 'COMMAND', href: SITE00_ADMIN_ROUTES.dashboard, icon: 'command' },
   { id: 'projects', label: 'PROJECTS', href: SITE00_ADMIN_ROUTES.projects, icon: 'projects' },
   { id: 'production', label: 'PRODUCTION', href: SITE00_ADMIN_ROUTES.studio, icon: 'production' },
+  { id: 'estimator', label: 'ESTIMATOR', href: SITE00_ADMIN_ROUTES.estimator, icon: 'reports' },
   { id: 'reviews', label: 'REVIEWS', href: SITE00_ADMIN_ROUTES.approvals, icon: 'reviews' },
   { id: 'clients', label: 'CLIENTS', href: SITE00_ADMIN_ROUTES.identities, icon: 'clients' },
   { id: 'assets', label: 'ASSETS / VAULT', href: '/assts', icon: 'assets' },

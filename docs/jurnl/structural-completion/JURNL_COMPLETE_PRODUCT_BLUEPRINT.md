@@ -14,10 +14,10 @@ Paid generation is not on the structural critical path. Each node carries three 
 
 ## Where JURNL stands
 
-**49.4% FUNCTIONAL / 29.2% VISUALLY IMPLEMENTED / 0.1% APPROVED / 11.1% LAUNCH READY**
+**49.5% FUNCTIONAL / 29.2% VISUALLY IMPLEMENTED / 0.1% APPROVED / 11.2% LAUNCH READY**
 
-- Functional is ESTIMATED, confidence MEDIUM. It is unit-balanced (F01–F16 + GLOBAL count once each); node-weighted 60.7%, strict 36.9%. Formulas: `JURNL_PROGRESS_METRIC_MODEL.json`.
-- 543 material nodes: 16 parents, 34 child pages, 2 grandchild pages, 26 drawers, 30 sheets, 15 modals, 6 overlays, 101 states, 222 interactions, 28 global systems, 21 data domains, 42 shared primitives.
+- Functional is ESTIMATED, confidence MEDIUM. It is unit-balanced (F01–F16 + GLOBAL count once each); node-weighted 60.8%, strict 36.9%. Formulas: `JURNL_PROGRESS_METRIC_MODEL.json`.
+- 546 material nodes: 16 parents, 37 child pages, 2 grandchild pages, 26 drawers, 30 sheets, 15 modals, 6 overlays, 101 states, 222 interactions, 28 global systems, 21 data domains, 42 shared primitives.
 - F01 and F02 are implemented and QA-passed but depend on simulated providers and session-only data. F03 and F04 run on mock data. F05–F16 are parent placeholders with disabled CTAs; their children do not exist.
 - Nine families () can only be reached through the review board or a typed URL.
 
@@ -25,7 +25,7 @@ Paid generation is not on the structural critical path. Each node carries three 
 
 | ID | NAME | ROUTE | PARENT STATUS | FUNCTIONAL | CHILD PAGES | OVERLAYS | STATES | INTERACTIONS | PARENT VISUAL |
 |---|---|---|---|---|---|---|---|---|---|
-| F01 | ENTRY | entry | COMPLETE_FUNCTIONAL | 86.7% | 13 | 27 | 27 | 74 | YES |
+| F01 | ENTRY | entry | COMPLETE_FUNCTIONAL | 86.8% | 16 | 27 | 27 | 74 | YES |
 | F02 | SETUP | setup | PARTIAL_FUNCTIONAL | 92.9% | 8 | 3 | 7 | 5 | YES |
 | F03 | TODAY | today | PARTIAL_FUNCTIONAL | 72.4% | 0 | 1 | 9 | 9 | YES |
 | F04 | ACTIVITY | activity | PARTIAL_FUNCTIONAL | 73.1% | 0 | 4 | 6 | 9 | YES |
