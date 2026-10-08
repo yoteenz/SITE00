@@ -15219,3 +15219,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decisions / outcomes:** A new image-to-image pass on each shell removed the terrace, arch, sea, vase, and sky. Account drawer history `RdT5ONAAWdhtCfbQ1U5j`. Quick Add history `PuQ7UcEDyaCABTQDdDGe`. 634 credits this pass, 1585 across the overlay work. The model painted a checkerboard where the plate had been and returned no alpha channel, so that checkerboard was keyed to real transparency. The paper, bust, sprigs, and torn edge stay. Outside the sheet is empty. The shells are still not mounted.
 - **Changes:** Both PNGs in `JURNL/F09_SAFE/OVERLAYS/` and `F09_OVERLAY_SHELL_LEDGER.json`. No `src/` change.
 - **Conventions:** An overlay shell is the sheet alone. Do not put the page plate back into it. Composite it over the screen's own plate. Do not treat the earlier plate-backed JPEGs as the shells.
+
+---
+
+## 2026-10-08 — ENTRY v2 first batch: page authorities, then plates
+
+- **Context:** This chat shipped the HQ dock, restarted the preview tunnel, and refreshed the preview onto the root-parent hubs. The founder then asked for ENTRY parent pages in the current editorial direction. Plates were not drawn first. The page authority defines the plate.
+- **Topics covered:** Welcome, value proposition, key benefits, get started, create account, email verification, and sign in. Uppercase product copy from `F01_COPY` where those screens exist. One editorial gesture and one tactile detail per page. Sidekick plates only after each authority was reviewed.
+- **Decisions / outcomes:** Seven page authorities, HQ Sunburst 4K, 9:16, high, auto-enhance off, 2016×3584. Each scene was different, so each got its own plate by removing the live layer from that authority. Create Account and Sign In were not shared: one is a tall registration sheet, the other a card on a ledge. No plate was reused. Pages 08–14 were not generated. Nothing was mounted in the app.
+- **Changes:** `ENTRY v2/` authorities, plates, `manifests/authority-manifest.json`, `manifests/plate-lineage.json`, and `review/entry-v2-parent-authorities-contact-sheet.png`. No `src/` change.
+- **Conventions:** Do not generate an ENTRY plate before its page authority. Do not duplicate a plate when the room and the negative space already fit. Do not mount this batch until the founder reviews it. The second batch stays unstarted.
