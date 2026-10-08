@@ -1,76 +1,76 @@
 {
-  "RULE": "Each plate is the page authority with the live layer removed. No plate was drawn before its authority.",
+  "RULE": "Each plate is the refined page authority with the live layer removed. Plates were regenerated after the refined authorities were accepted. None were reused from the first batch.",
   "REUSED": [],
   "PLATES": [
     {
       "SCREEN_ID": "01_WELCOME",
-      "AUTHORITY_HISTORY": "p9HEJ7emh6Kb8Kh6RaZU",
-      "PLATE_HISTORY": "GnkGL4Q6NbU3r8ZdZCzu",
-      "PLATE_STATUS": "NEW_PLATE_REQUIRED",
+      "AUTHORITY_HISTORY": "ZL3pbZXG3k6z0l2TcB8F",
+      "PLATE_HISTORY": "LzPKeRDKB49uaRHnUocr",
+      "PLATE_STATUS": "REGENERATE_EXISTING",
       "PLATE_PATH": "ENTRY v2/01_WELCOME/plate/entry-v2-welcome-sidekick-plate.png",
       "PLATE_REUSED_FROM": null,
       "DERIVED_FROM_AUTHORITY": "ENTRY v2/01_WELCOME/authority/entry-v2-welcome-authority.png",
-      "NOTE": "The lounge, bust, and burgundy textile are this page's room. No earlier ENTRY v2 plate existed, and no other page in this batch uses that room."
+      "NOTE": "Same lounge. The plate keeps the bust, dark plinth, oxblood cloth, half-hidden print, chaise, and olive. Live type and both buttons are gone."
     },
     {
       "SCREEN_ID": "02_VALUE_PROPOSITION",
-      "AUTHORITY_HISTORY": "jfp13pWrHsQckxhoZhF8",
-      "PLATE_HISTORY": "PPDHCjLqviLdlSelDRAT",
-      "PLATE_STATUS": "NEW_PLATE_REQUIRED",
+      "AUTHORITY_HISTORY": "ZbT95W7ZcDlwd7C1nkVB",
+      "PLATE_HISTORY": "uY5hb5jtgm6CZhljEd8L",
+      "PLATE_STATUS": "REGENERATE_EXISTING",
       "PLATE_PATH": "ENTRY v2/02_VALUE_PROPOSITION/plate/entry-v2-value-proposition-sidekick-plate.png",
       "PLATE_REUSED_FROM": null,
       "DERIVED_FROM_AUTHORITY": "ENTRY v2/02_VALUE_PROPOSITION/authority/entry-v2-value-proposition-authority.png",
-      "NOTE": "The page is a print spread, not the welcome lounge. The blank sheet plus the column print is its own substrate."
+      "NOTE": "Blank deckled broadside. The column engraving and the oxblood square stay. Type and CONTINUE are gone."
     },
     {
       "SCREEN_ID": "03_KEY_BENEFITS",
-      "AUTHORITY_HISTORY": "QnpCH6IVicuyqjWlpqj7",
-      "PLATE_HISTORY": "Jh0TJMYE5PpqAuLIb8T9",
-      "PLATE_STATUS": "NEW_PLATE_REQUIRED",
+      "AUTHORITY_HISTORY": "ZOyyxDrAohNeYmaBdoc7",
+      "PLATE_HISTORY": "EsqtFqWXW17hdEKnkgaD",
+      "PLATE_STATUS": "REGENERATE_EXISTING",
       "PLATE_PATH": "ENTRY v2/03_KEY_BENEFITS/plate/entry-v2-key-benefits-sidekick-plate.png",
       "PLATE_REUSED_FROM": null,
       "DERIVED_FROM_AUTHORITY": "ENTRY v2/03_KEY_BENEFITS/authority/entry-v2-key-benefits-authority.png",
-      "NOTE": "A stone-desk still life of strips is not the manifesto sheet. Reusing the value plate would drop the spread."
+      "NOTE": "Blank stacked slips, brass clip, olive slip, botanical print. Type and CONTINUE are gone."
     },
     {
       "SCREEN_ID": "04_GET_STARTED",
-      "AUTHORITY_HISTORY": "0Tu1VrJ89KAUO7FVQkQO",
-      "PLATE_HISTORY": "oQEKjA1cJogyBw5hYF4z",
-      "PLATE_STATUS": "NEW_PLATE_REQUIRED",
+      "AUTHORITY_HISTORY": "JNaCGDrH2VRGpRuiu5Mv",
+      "PLATE_HISTORY": "RQ21V9W34tEiySPUadEI",
+      "PLATE_STATUS": "REGENERATE_EXISTING",
       "PLATE_PATH": "ENTRY v2/04_GET_STARTED/plate/entry-v2-get-started-sidekick-plate.png",
       "PLATE_REUSED_FROM": null,
       "DERIVED_FROM_AUTHORITY": "ENTRY v2/04_GET_STARTED/authority/entry-v2-get-started-authority.png",
-      "NOTE": "The loggia, stairs, and tent card are a different setting from Welcome. The welcome plate cannot hold this invitation."
+      "NOTE": "Blank standing invitation. Emboss, oxblood edge, and slipped insert stay. Type and both buttons are gone."
     },
     {
       "SCREEN_ID": "05_CREATE_ACCOUNT",
-      "AUTHORITY_HISTORY": "wtNpQFAuK7b7AGvhXXrv",
-      "PLATE_HISTORY": "7I8mOIYjej0QISBoBOUI",
-      "PLATE_STATUS": "NEW_PLATE_REQUIRED",
+      "AUTHORITY_HISTORY": "RA69oQUE9lHmGQ6SrTot",
+      "PLATE_HISTORY": "pfJu0SNPs2mdvRsZCHDk",
+      "PLATE_STATUS": "REGENERATE_EXISTING",
       "PLATE_PATH": "ENTRY v2/05_CREATE_ACCOUNT/plate/entry-v2-create-account-sidekick-plate.png",
       "PLATE_REUSED_FROM": null,
       "DERIVED_FROM_AUTHORITY": "ENTRY v2/05_CREATE_ACCOUNT/authority/entry-v2-create-account-authority.png",
-      "NOTE": "The form needs this tall sheet. Sign In uses a smaller card on a ledge, so the two do not share a plate."
+      "NOTE": "Blank registration folio. Clip, torn backing, oxblood square, and olive stay. Fields, rules, and buttons are gone."
     },
     {
       "SCREEN_ID": "06_EMAIL_VERIFICATION",
-      "AUTHORITY_HISTORY": "kl6ZLZgskl6ud8LHWmk1",
-      "PLATE_HISTORY": "tPCR9lxQ2mVIr4JoL7Oj",
-      "PLATE_STATUS": "NEW_PLATE_REQUIRED",
+      "AUTHORITY_HISTORY": "Gr6d5BxtCl21tB1p4MBL",
+      "PLATE_HISTORY": "z7xnHdLy6ZVT5eKAXtKf",
+      "PLATE_STATUS": "REGENERATE_EXISTING",
       "PLATE_PATH": "ENTRY v2/06_EMAIL_VERIFICATION/plate/entry-v2-email-verification-sidekick-plate.png",
       "PLATE_REUSED_FROM": null,
       "DERIVED_FROM_AUTHORITY": "ENTRY v2/06_EMAIL_VERIFICATION/authority/entry-v2-email-verification-authority.png",
-      "NOTE": "The correspondence still life is its own object. No other page in this batch uses the envelope."
+      "NOTE": "Envelope, pulled card, seal, torn sheet, and oxblood thread stay. Type and buttons are gone."
     },
     {
       "SCREEN_ID": "07_SIGN_IN",
-      "AUTHORITY_HISTORY": "OgVDjcXWbTu5XKpzYKjq",
-      "PLATE_HISTORY": "EUXPt5CEgXlDYJaziYoM",
-      "PLATE_STATUS": "NEW_PLATE_REQUIRED",
+      "AUTHORITY_HISTORY": "Z9Swg1tpdA9QuC4aywFa",
+      "PLATE_HISTORY": "9REM11YjJFkEyDs79Mbq",
+      "PLATE_STATUS": "REGENERATE_EXISTING",
       "PLATE_PATH": "ENTRY v2/07_SIGN_IN/plate/entry-v2-sign-in-sidekick-plate.png",
       "PLATE_REUSED_FROM": null,
       "DERIVED_FROM_AUTHORITY": "ENTRY v2/07_SIGN_IN/authority/entry-v2-sign-in-authority.png",
-      "NOTE": "Same paper family as Create Account, different object and camera. Reusing the tall registration sheet would flatten this ledge."
+      "NOTE": "Blank credential card. Botanical clipping, blind emboss, olive, and bowl stay. The plate mark TAB. XLIII is part of the print, not product UI. Fields and the button are gone."
     }
   ]
 }
