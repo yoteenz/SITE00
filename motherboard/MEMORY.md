@@ -15689,3 +15689,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decisions / outcomes:** Intake infrastructure **IMPLEMENTED** for legacy `useBldrAssessment` path; spatial studio **NOT** wired to server intake/submit (localStorage + fake submit). Do not merge Digital Foundation artifact. Next Composer sprint: spatial–intake binding + real blueprint submit payload.
 - **Changes:** `docs/site00/builder-experience/BUILDER_INTAKE_*_V1.md` (6 audit/handoff files).
 - **Conventions:** One client / one project context is the target principle; until binding ships, treat dual local keys as continuity risk.
+
+---
+
+## 2026-10-08 — Builder spatial intake server binding V1
+
+- **Context:** Sprint `P0.SITE00.BUILDER.INTAKE-SPATIAL-SERVER-BINDING.V1` closes GAP-INT-001–004 — wire `/bldr/studio` to `site00_bldr_intakes` without new intake system.
+- **Topics covered:** `useBuilderSpatialIntakeSession`, draft envelope `builder-spatial-v1`, server autosave via `useIntakeSync`, conflict resolution, legacy hint mapping, versioned `submitted_payload` with blueprint snapshot, admin `request-revision`, resume URLs, memory-store fix (undefined patch keys).
+- **Decisions / outcomes:** Estimator unchanged; founder submission snapshot always includes estimate; public preview flag still gates client display; production activation remains gated via `builderProjectActivationHint`.
+- **Changes:** `spatialStudio/intakeDraft.ts`, `useBuilderSpatialIntakeSession.ts`, `intakeService.submitIntake` BUILDER spatial branch, `submitBuilderSpatialIntake.ts`, tests `spatialIntakeSubmit.test.ts`, docs `BUILDER_SPATIAL_INTAKE_BINDING_V1.md`.
+- **Conventions:** Opus keeps visual layer; Composer owns intake contracts; do not treat localStorage as system of record when server sync succeeded.

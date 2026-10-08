@@ -1,9 +1,10 @@
-/** NON-AUTHORITATIVE UI scaffold — Opus replaces presentation; keep `useBuilderSpatialSession` boundary. */
+/** NON-AUTHORITATIVE UI scaffold — Opus replaces presentation; keep spatial intake session boundary. */
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { templateSystemEnabled } from '../../../studioos/estimation/flags';
-import { canEnterRoom, roomIndex } from '../../builder-experience/spatialStudio/mapping';
-import { useBuilderSpatialSession } from '../../builder-experience/spatialStudio/useBuilderSpatialSession';
+import { roomIndex } from '../../builder-experience/spatialStudio/mapping';
+import { useBuilderSpatialIntakeSession } from '../../builder-experience/spatialStudio/useBuilderSpatialIntakeSession';
+import { IntakeSaveStatus } from '../../components/intake/IntakeSaveStatus';
 import {
   FEEL_OPTIONS,
   PACE_OPTIONS,
@@ -95,18 +96,25 @@ function feelTagline(id: SpatialBuilderState['feelVibe']): string {
 }
 
 function BldrSpatialStudioExperience() {
-  const { state, persist, snapshot, resetSession, showEstimate } = useBuilderSpatialSession();
+  const {
+    state,
+    persist,
+    snapshot,
+    resetSession,
+    showEstimate,
+    goRoom,
+    submitForReview,
+    canEdit,
+    isSubmitted,
+    syncStatus,
+    intakeSync,
+  } = useBuilderSpatialIntakeSession();
   const { blueprint, scope, estimate } = snapshot;
   const pageCount = useMemo(
     () => blueprint.experiences.reduce((n, g) => n + g.items.length, 0),
     [blueprint.experiences],
   );
   const featureCount = state.workModules.length;
-
-  const goRoom = (room: SpatialRoomId) => {
-    if (!canEnterRoom(state, room)) return;
-    persist({ ...state, room });
-  };
 
   const meta = roomMeta(state.room);
   const progressStep = state.room === 'BLUEPRINT' ? 5 : roomIndex(state.room) + 1;
@@ -386,7 +394,12 @@ function BldrSpatialStudioExperience() {
     state.room === 'PACE'
       ? { label: 'REVIEW MY BLUEPRINT →', disabled: !state.pace, onClick: () => goRoom('BLUEPRINT') }
       : state.room === 'BLUEPRINT'
-        ? { label: 'CONFIRM & SUBMIT FOR REVIEW →', onClick: () => persist(state) }
+        ? {
+            label: isSubmitted && !canEdit ? 'SUBMITTED FOR REVIEW' : 'CONFIRM & SUBMIT FOR REVIEW →',
+            disabled:
+              !snapshot.submission_ready || !canEdit || syncStatus === 'submitting' || (isSubmitted && !canEdit),
+            onClick: () => void submitForReview(),
+          }
         : {
             label: 'CONTINUE →',
             disabled:
@@ -401,6 +414,11 @@ function BldrSpatialStudioExperience() {
 
   return (
     <div className="bldr-spatial-page">
+      <IntakeSaveStatus
+        state={intakeSync.saveState}
+        lastSavedAt={intakeSync.lastSavedAt}
+        errorMessage={intakeSync.errorMessage ?? (syncStatus === 'local_only' ? 'LOCAL ONLY — CONNECTING TO SITE 00…' : null)}
+      />
       <BuilderSpatialShell
         room={state.room}
         roomNumber={meta.number}

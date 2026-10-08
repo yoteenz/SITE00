@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Site00PublicShell } from '../../components/shell/Site00PublicShell';
 import { EmptyState, PageIntro, BracketHeading, StatusBadge } from '../../components/pages/Site00PagePrimitives';
+import { builderIntakeResumeHref } from '../../builder-experience/spatialStudio/resumeRoute';
 import { SITE00_ROUTES } from '../../config/routes';
 import { site00SignInHrefWithReturnTo } from '../../config/mobile-directory-nav';
 import { resolveGuestAccessToken } from '../../api/intakesApi';
@@ -58,7 +59,10 @@ export default function IntakeGuestAccessPage() {
 
   const canResume = intake?.status === 'DRAFT' || intake?.status === 'AWAITING_EMAIL_VERIFICATION' || intake?.status === 'ACTIVE';
   const isSubmitted = intake?.status === 'SUBMITTED' || intake?.status === 'IN_REVIEW' || intake?.status === 'CONVERTED';
-  const resumeHref = intake?.sourceRoute || (intake?.intakeType === 'IDENTITY' ? SITE00_ROUTES.idnty : SITE00_ROUTES.bldr);
+  const resumeHref =
+    intake?.intakeType === 'BUILDER' || intake?.intakeType === 'IDENTITY'
+      ? builderIntakeResumeHref(intake.intakeType, intake.draftPayload, intake.id, intake.sourceRoute)
+      : SITE00_ROUTES.bldr;
 
   return (
     <Site00PublicShell>
