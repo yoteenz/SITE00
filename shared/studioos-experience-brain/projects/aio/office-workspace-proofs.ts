@@ -1,0 +1,285 @@
+/**
+ * AIO OFFICE workspace proofs — creative direction and workspace recovery
+ * (P0.AIO.OFFICE.UNIFIED-EXPERIENCE2.CREATIVE-DIRECTION-AND-WORKSPACE-RECOVERY1).
+ *
+ * The founder found the Batch 1 deeper pages to be "just a bunch of text … endless scrolling". This sprint keeps their
+ * function and rebuilds the look for exactly FOUR representative workspace families — VEHICLES & FLEET, BOOKKEEPING,
+ * COMPLIANCE and CLIENT 360 — as the approval benchmark. Each is composed for its work (a truck, a month, a calendar,
+ * a company) inside the approved header and five-root navigation, and proven live at phone, tablet, desktop and
+ * ultra-wide in an isolated review (fsbw design-authority/aio-office/workspaces/). Sample records only; simulated
+ * actions save nothing. They stay CANDIDATES until the founder approves; the remaining 619-page review is NOT expanded
+ * into this design system until then.
+ */
+import { AIO_OFFICE_IA } from './office-ia.js';
+import { AIO_UO_SECURITY_HANDOFF } from './office-unified-experience.js';
+
+export const AIO_WP_SPRINT = 'P0.AIO.OFFICE.UNIFIED-EXPERIENCE2.CREATIVE-DIRECTION-AND-WORKSPACE-RECOVERY1';
+export const AIO_WP_DATE = '2026-10-08';
+export const AIO_WP_NEXT_GATE = 'FOUNDER REVIEW OF FOUR CREATIVE-DIRECTED AIO OFFICE WORKSPACE PROOFS';
+export const AIO_WP_REVIEW_LINK = 'https://claude.ai/artifact/DKYZUHjSdiTw1qSC1evdbk';
+export const AIO_WP_BASE = { site00: 'e18b8169', fsbw: 'cdd43dfb' } as const;
+
+export const AIO_WP_STATUS = {
+  proofs: 'FOUR WORKSPACE PROOFS BUILT — CANDIDATES, AWAITING FOUNDER APPROVAL',
+  batch1: 'BATCH 1 DEEPER PAGES = FUNCTIONAL STRUCTURE ONLY, NOT APPROVED VISUALS (KEEP THE FUNCTION, REBUILD THE LOOK)',
+  expansion: 'NOT STARTED — the other lanes and the 619-page review are not rebuilt until the four proofs are approved',
+  approved_roots: 'UNCHANGED — HOME · INTAKE · WORK · REPORTS · MORE drawn by studio.js as approved',
+  live_app: 'NOT CHANGED — the review is not the live app; nothing deployed; VEHICLES & FLEET has no staff workspace in the live app',
+  security: '12 PRIVACY GAPS STILL OPEN — separate Composer security work; nothing patched here',
+} as const;
+
+export const AIO_WP_FOUNDER_FEEDBACK = {
+  quote: 'The pages lack actual creative direction and coherence from Opus. Again, it’s just a bunch of text, so it feels exhausting going through all of it. Endless scrolling and whatnot.',
+  answer: [
+    'One composition per kind of work instead of one template for 504 pages: a truck (fleet), a month (bookkeeping), a calendar (compliance), a company (Client 360).',
+    'Desktop fits one screen; only lists scroll. Phone records open in a drawer instead of a 2,000 px page.',
+    'Detail on demand: one section at a time in a context panel, chosen from the work itself (a tag on the truck, a node on the close, a marker on the horizon, a service in the constellation).',
+    'Figures are instruments in the workspace bar, not rows of cards; one gold next step where the decision is made.',
+    'Explanations live in the review, not the product: about ten words a line inside the office.',
+  ],
+} as const;
+
+export const AIO_WP_LOCATIONS = {
+  workspaces: 'fsbw all-in-one-enterprises/design-authority/aio-office/workspaces/ (isolated from src/; never deployed)',
+  build: 'node design-authority/aio-office/workspaces/build.mjs <outDir>',
+  qa: 'node design-authority/aio-office/workspaces/qa.mjs <outDir> [screensDir]',
+  boards: 'node design-authority/aio-office/workspaces/boards.mjs <batch1Dist> <workspacesDist>',
+  review_folder: 'fsbw AIO_OFFICE_WORKSPACE_PROOFS/ — boards/ (diagnosis, before → after, family), screens/ (31 QA captures), qa-summary.json',
+  review_link: AIO_WP_REVIEW_LINK,
+  batch1_review: 'https://claude.ai/artifact/VQCyD4A4YmeErb27ik2hgG (functional structure; not approved visuals)',
+  docs: 'docs/aio/office-workspace-proofs/ (SITE00, generated) · vendored to fsbw all-in-one-enterprises/docs/aio/office-workspace-proofs/',
+} as const;
+
+/* ═══════════════ A · illustrated diagnosis of Batch 1 ═══════════════ */
+
+export interface WpFinding { board: string; title: string; findings: string[] }
+export const AIO_WP_DIAGNOSIS: WpFinding[] = [
+  { board: 'diagnosis-1-one-template.jpg', title: 'ONE LAYOUT FOR EVERY KIND OF WORK', findings: ['Six different records (policy, repair, load, permit, deadline, factoring submission) share one header, one key-value table, one action column and one history list — on all 504 new pages.', 'Nothing in the composition says “this is a truck” or “this is a deadline”; meaning lives only in words.'] },
+  { board: 'diagnosis-2-fleet.jpg', title: 'VEHICLES & FLEET — THE TRUCK IS A TABLE', findings: ['The truck has no presence: a form of six fields.', 'Eight equal tiles — the out-of-service blocker looks like “0 documents”.', 'Actions are paragraphs in a side column; related work is squeezed into a narrow strip.', 'Explanation text inside the product.', 'Phone: 1,945 px tall — 2.7 screens of scrolling.'] },
+  { board: 'diagnosis-3-bookkeeping.jpg', title: 'BOOKKEEPING — A LIST WHERE A WORKBENCH SHOULD BE', findings: ['The nine-step close is a tall list.', 'The actual work — three questions — is one sentence.', 'A paragraph stands where the worktable belongs; history pushed below the fold.'] },
+  { board: 'diagnosis-4-compliance.jpg', title: 'COMPLIANCE — DEADLINES WITHOUT TIME', findings: ['A photo band repeated on every lane — decoration, not information.', 'Four stat tiles repeat the columns below them.', 'Due dates as lists, with no sense of time or urgency; three sections as empty hatched boxes.'] },
+  { board: 'diagnosis-5-client.jpg', title: 'CLIENT 360 — A CONTACT CARD, NOT A BUSINESS', findings: ['The title block pushes the work down.', 'Eight tabs of the same row template; the company is a form.', 'Services are a plain list — no sense of a connected business. Phone: 1,563 px.'] },
+];
+
+/* ═══════════════ B · creative direction ═══════════════ */
+
+export const AIO_WP_RULES: { n: number; rule: string; detail: string }[] = [
+  { n: 1, rule: 'THE WORK IS THE HERO', detail: 'No photo band on workspaces. A slim workspace bar (lane number, title, instruments, tools), then the work.' },
+  { n: 2, rule: 'CHOOSE → WORK → ACT', detail: 'Three regions on desktop — a selector, a working stage, a context panel — shaped differently for each job.' },
+  { n: 3, rule: 'ONE SCREEN', detail: 'At 1440 × 900 a workspace fits the screen; only lists scroll inside their region. No page scroll.' },
+  { n: 4, rule: 'DETAIL ON DEMAND', detail: 'Show the state; reveal detail one section at a time in the context panel (a drawer on the phone).' },
+  { n: 5, rule: 'NUMBERS ARE INSTRUMENTS', detail: 'Figures are condensed readouts in the bar (and they filter); never a row of repeated stat cards.' },
+  { n: 6, rule: 'SHAPE + WORD', detail: 'Every status is a shape and a word. Oxblood only for late or blocking; gold for selection and “now”.' },
+  { n: 7, rule: 'ONE GOLD NEXT STEP', detail: 'One gold action where the decision is made. Simulated actions confirm inline and say SIMULATED — NOTHING IS SAVED OR SENT.' },
+  { n: 8, rule: 'TEN WORDS A LINE', detail: 'Copy budget inside the office; explanations live in the review, never in the product. Not-built states are one line.' },
+  { n: 9, rule: 'OBSIDIAN · IVORY · GOLD', detail: 'Obsidian stages for focus (the truck, the client plate, the selected row), ivory surfaces to work on, gold for the path, hairlines for structure.' },
+  { n: 10, rule: 'PHOTOS WITH A JOB', detail: 'Photography identifies or sets place (the night yard behind the truck), never decorates a lane header.' },
+  { n: 11, rule: 'CONTEXT TRAVELS', detail: 'Cross-workspace jumps keep a BACK TO … path and the selection they came from; Client 360 drills in and back without losing the company.' },
+  { n: 12, rule: 'EACH DEVICE ITS OWN', detail: 'Phone, tablet, desktop and ultra-wide are each composed, not shrunk: strips and drawers on phone, stacked stage on tablet, full width on ultra-wide.' },
+];
+
+/* ═══════════════ C–G · the four proofs ═══════════════ */
+
+export type WpId = 'fleet' | 'books' | 'comp' | 'client';
+export interface WpProof {
+  id: WpId;
+  workspace: string;
+  ia: string[];
+  centered_on: string;
+  signature: string;
+  regions: { choose: string; work: string; act: string };
+  states: { main: string; selected: string; context: string; action: string };
+  honest: string[];
+  not_invented: string[];
+  live: string;
+}
+export const AIO_WP_PROOFS: WpProof[] = [
+  {
+    id: 'fleet', workspace: 'VEHICLES & FLEET', ia: ['AIO_OFFICE.WORK.VEHICLES_FLEET'], centered_on: 'THE VEHICLE',
+    signature: 'Yard roster + blueprint stage: a side-elevation drawing of the selected truck over the night-yard photograph, with its eight connections (registration, insurance, driver, maintenance, compliance, IFTA, dispatch, documents) tagged to the part of the truck they belong to.',
+    regions: { choose: 'THE YARD — every unit with a number, a status word and an eight-dot fingerprint of its connections; search and NEEDS ACTION', work: 'The stage (unit, status, client, plate, odometer, in-fleet-since) and NEXT FOR UNIT — the truck’s open work across lanes', act: 'Connection panel: icon tabs, the section’s facts, one next step, history, documents' },
+    states: { main: 'UNIT 09 · OUT OF SERVICE · maintenance tab (awaiting approval)', selected: 'UNIT 1 · ABC TRUCKING — selecting a truck opens its first issue', context: 'Insurance, driver, compliance … one at a time from the tags or tabs', action: 'REQUEST AUTHORIZATION → inline SIMULATED confirm → ticket reads AUTHORIZATION REQUESTED, history JUST NOW' },
+    honest: ['DESIGN PROOF pill in the bar — no staff vehicle workspace exists in the live app', 'Odometer marked SAMPLE', 'IFTA miles shown as the client’s whole fleet, not this truck'],
+    not_invented: ['No telematics, GPS or live location', 'No vehicle record type beyond what the client side stores today'],
+    live: 'DESIGN_ONLY — power units are recorded on the client side; this is the staff composition they would feed',
+  },
+  {
+    id: 'books', workspace: 'BOOKKEEPING', ia: ['AIO_OFFICE.WORK.BOOKKEEPING', 'AIO_OFFICE.WORK.BOOKKEEPING.MONTHLY_CLIENTS', 'AIO_OFFICE.WORK.BOOKKEEPING.RECONCILIATION', 'AIO_OFFICE.WORK.BOOKKEEPING.DELIVERABLES'], centered_on: 'THE PERIOD',
+    signature: 'The close as a ledger rule: COLLECT · RECONCILE · REVIEW · DELIVER across the top over the nine live cycle steps, a worktable for the phase, and a focus panel for one line.',
+    regions: { choose: 'Monthly clients for the period with each close’s progress; period stepper (AUG · SEP · OCT 2026)', work: 'Worktable for the phase: documents (collect), charges needing a category (reconcile), staff review checks (review), report package (deliver)', act: 'Focus panel: one document, charge, check or report — its question, sample amount and next step' },
+    states: { main: 'T&K TRANSPORT · SEP 2026 · step 4 of 9 · three charges need a category', selected: 'FUEL RECEIPTS · UNIT 09 — missing, asked OCT 1', context: 'A charge with its question and choices (FUEL · SUPPLIES · ASK THE CLIENT)', action: 'Categorize in place → SIMULATED with SIM tag and undo; the next open charge is selected' },
+    honest: ['Amounts are labelled SAMPLE; no balances anywhere', 'RECONCILIATION matching and the DELIVERABLES workspace are one-line NOT BUILT notes inside the same composition', 'R&J TRUCKING shows PAUSED · PAST DUE, not a close', 'ANNUAL CLIENTS has no sample client yet (recommendation: a MONTHLY / ANNUAL switch on the client rail)'],
+    not_invented: ['No account balances, P&L or balance-sheet figures', 'No completed reconciliation — the step is tracked, matching happens outside AIO'],
+    live: 'PARTIAL — the cycle and its nine steps exist; reconciliation and deliverables are not built',
+  },
+  {
+    id: 'comp', workspace: 'COMPLIANCE', ia: ['AIO_OFFICE.WORK.COMPLIANCE', 'AIO_OFFICE.WORK.COMPLIANCE.EXPIRATIONS', 'AIO_OFFICE.WORK.COMPLIANCE.DOT_SAFETY', 'AIO_OFFICE.WORK.COMPLIANCE.AUDIT_CORRECTIVE_WORK', 'AIO_OFFICE.WORK.COMPLIANCE.COMPLIANCE_CASES'], centered_on: 'THE DEADLINE AND ITS RISK',
+    signature: 'A 90-day horizon (late zone, this week, a 30-day line, TODAY) with every deadline as a client mark on its lane (vehicles, drivers, coverage, registration), an urgency queue with countdowns, and a case panel.',
+    regions: { choose: 'Horizon + queue grouped NOW · THIS WEEK · NEXT 30 DAYS · LATER, owner on every row; readouts filter (NOW · THIS WEEK · IN 30 DAYS · TRACKED)', work: 'The selected mark is called out on the horizon; its row is selected in the queue', act: 'Case: countdown, next step, subject (truck / driver / company with a link to it), requirement, owner, documents, history' },
+    states: { main: 'DRIVER MEDICAL CARD · TERRENCE HOLT · 21 DAYS', selected: 'OUT-OF-SERVICE REPAIRS · UNIT 09 · NOW · BLOCKING DISPATCH', context: 'Subject card → OPEN IN FLEET (with BACK TO COMPLIANCE)', action: 'ASK FOR PAYMENT AUTHORIZATION (UCR) / REQUEST REPAIR AUTHORIZATION / MARK RENEWED → inline SIMULATED; REASSIGN is founder-only' },
+    honest: ['DOT / SAFETY and AUDITS keep the same horizon, queue and case as a calm ghost state — the live app reads no FMCSA safety data and has no audit record', 'CORRECTIVE WORK shows the one out-of-service record; there is no corrective-action model yet', 'Oxblood only for late and blocking; everything else is calm'],
+    not_invented: ['No safety scores, inspection history or audit outcomes'],
+    live: 'PARTIAL — expirations exist; DOT / Safety, Audits and a corrective-action case model are not built',
+  },
+  {
+    id: 'client', workspace: 'CLIENT 360', ia: ['AIO_OFFICE.MORE.CLIENTS'], centered_on: 'THE RELATIONSHIP',
+    signature: 'A metallic monogram identity plate, a constellation of the twelve services (lit where the client uses AIO, with open-work counts and health), and a drill-stack panel with breadcrumbs.',
+    regions: { choose: 'Client directory with search; readouts filter ACTIVE · PREBUILT · INVITED', work: 'Identity, services, then OVERVIEW · FLEET · PEOPLE · DOCUMENTS · ACTIVITY · BILLING (founder) or one focused service', act: 'THE RELATIONSHIP (next step, facts, history) or the record opened from the work — policy → covered truck → back' },
+    states: { main: 'ABC TRUCKING LLC · overview: needs attention + at a glance', selected: 'INSURANCE focused → AUTO LIABILITY $1M · CARGO $100K', context: 'Policy → UNIT 1 (mini stage + eight connections) → BACK → BACK, still on ABC · INSURANCE', action: 'MESSAGE · REQUEST DOCUMENT · SEND QUOTE — inline SIMULATED; OPEN UNIT 1 IN FLEET keeps BACK TO ABC TRUCKING LLC' },
+    honest: ['PREBUILT and INVITED clients carry their gate: PREBUILT · NOT ACTIVE YET; only the client’s confirmation makes them ACTIVE', 'Insurance placed with a partner agency: REFERRAL AND ASSISTANCE ONLY — NOTHING IS BOUND'],
+    not_invented: ['No new client data; the company is the existing sample record read across lanes'],
+    live: 'PARTIAL — a client detail exists; the 360 composition is new',
+  },
+];
+
+/* ═══════════════ H / N · interactions ═══════════════ */
+
+export const AIO_WP_INTERACTIONS: { workspace: WpId | 'all'; interaction: string; kind: 'CHANGES_CONTENT' | 'SIMULATED' | 'CROSS_WORKSPACE' | 'REVIEW' }[] = [
+  { workspace: 'fleet', interaction: 'Select a truck (roster, phone strip); its stage, tags, next list and panel change', kind: 'CHANGES_CONTENT' },
+  { workspace: 'fleet', interaction: 'Change section from a tag on the truck or an icon tab (phone: a connection tile opens a drawer)', kind: 'CHANGES_CONTENT' },
+  { workspace: 'fleet', interaction: 'Filter by readout (READY · ON THE ROAD · IN THE SHOP · STOPPED) and NEEDS ACTION; search units, makes, clients', kind: 'CHANGES_CONTENT' },
+  { workspace: 'books', interaction: 'Select client and period (AUG closed · SEP in progress · OCT not started); select a phase on the rule', kind: 'CHANGES_CONTENT' },
+  { workspace: 'books', interaction: 'Open a document, charge, check or report in the focus panel; categorize a charge in place (with undo)', kind: 'SIMULATED' },
+  { workspace: 'comp', interaction: 'Inspect a deadline from the horizon or the queue; filter by readout; switch EXPIRATIONS · DOT / SAFETY · AUDITS · CORRECTIVE WORK', kind: 'CHANGES_CONTENT' },
+  { workspace: 'client', interaction: 'Open a client; move between services and sections; drill policy → truck → back with breadcrumbs', kind: 'CHANGES_CONTENT' },
+  { workspace: 'all', interaction: 'Every action asks inline, says SIMULATED — NOTHING IS SAVED OR SENT, then changes the sample state and the history for this visit', kind: 'SIMULATED' },
+  { workspace: 'all', interaction: 'Jumps between workspaces (truck ↔ client ↔ deadline ↔ close) keep a BACK TO … chip that restores the selection', kind: 'CROSS_WORKSPACE' },
+  { workspace: 'all', interaction: 'The approved header and navigation stay live: WORK and MORE move between workspaces, header search focuses the workspace search, the other roots answer', kind: 'REVIEW' },
+  { workspace: 'all', interaction: 'Review: device switch, FOUNDER / STAFF switch, BEFORE → AFTER board per workspace, three TRY demonstrations per workspace that press the real controls', kind: 'REVIEW' },
+];
+export const AIO_WP_DEMOS: Record<WpId, string[]> = {
+  fleet: ['SELECT A TRUCK', 'CLEAR A BLOCKER', 'FILTER THE YARD'],
+  books: ['CHANGE THE MONTH', 'CHASE A MISSING PAPER', 'ANSWER A QUESTION'],
+  comp: ['INSPECT A DEADLINE', 'ONLY WHAT IS DUE NOW', 'FOLLOW IT TO THE TRUCK'],
+  client: ['ABC → INSURANCE → A TRUCK → BACK', 'MOVE BETWEEN SERVICES', 'TO FLEET AND BACK'],
+};
+export const AIO_WP_ROLES: { area: string; founder: string; staff: string }[] = [
+  { area: 'Client 360 · BILLING section and invoices', founder: 'Visible (sample amounts)', staff: 'Not shown — no tab, no gap' },
+  { area: 'Compliance · REASSIGN a deadline', founder: 'Available (simulated)', staff: 'Not shown' },
+  { area: 'Bookkeeping · paused client reminder', founder: 'Available (simulated)', staff: 'Not shown' },
+  { area: 'Everything else in the four workspaces', founder: 'Same', staff: 'Same' },
+];
+
+/* ═══════════════ I–K · devices ═══════════════ */
+
+export const AIO_WP_DEVICES: { device: 'PHONE' | 'TABLET' | 'DESKTOP' | 'ULTRA_WIDE'; size: string; per_workspace: Record<WpId, string>; rule: string }[] = [
+  { device: 'DESKTOP', size: '1440 × 900', rule: 'Three regions in one screen; only lists scroll.', per_workspace: { fleet: 'Yard 276 | stage + next | panel 372', books: 'Rule across the top; clients 250 | worktable | focus 356', comp: 'Sections + horizon across the top; queue | case', client: 'Directory 262 | identity + services + sections | panel 372' } },
+  { device: 'TABLET', size: '834 × 1194', rule: 'Selector becomes a strip; stage on top; work and context side by side below.', per_workspace: { fleet: 'Unit strip, stage with tags, next | panel', books: 'Client strip, rule, worktable | focus', comp: 'Sections, horizon, queue | case (countdown stacks under the title)', client: 'ALL CLIENTS opens the directory; identity, 6 × 2 services | panel' } },
+  { device: 'PHONE', size: '390 × 844', rule: 'Strips and readouts on top; the record opens in a drawer — never a 2,000 px page.', per_workspace: { fleet: 'Unit chips, the truck, a 4 × 2 grid of connections; a tile opens the drawer', books: 'Period stepper, readouts, client chips, phase tabs; rows as a list; a row opens the drawer', comp: 'One-line horizon with stacked marks; queue; a row opens the case drawer', client: 'CLIENTS drawer, identity plate, scrolling services; a record opens the drawer with its breadcrumb' } },
+  { device: 'ULTRA_WIDE', size: '2560 × 1440', rule: 'A workspace is a tool, not a reading page: it takes the whole screen (the 1480 px measure stays for reading pages). Side regions widen to 380–560 px; the stage takes the rest.', per_workspace: { fleet: 'Yard 420 | large stage | panel 560', books: 'Clients 380 | worktable | focus 560', comp: 'Queue 0.8 | case 1.2 under a full-width horizon', client: 'Directory 400 | twelve services in one line | panel 560' } },
+];
+
+/* ═══════════════ L–M · assets and the approved roots ═══════════════ */
+
+export const AIO_WP_ASSETS = {
+  reused: ['Approved brand lockup (header and review) — unchanged', 'Approved icon sheet + the studio’s drawn glyphs', 'Approved staff-hero night-yard plate (behind the fleet blueprint only)', 'Approved root header, five-root navigation, tokens and type (studio.js / studio.css, embed mode)', 'Batch 1 sample records (office-data.js) — the same records, recomposed'],
+  created: ['Truck side-elevation drawing (inline SVG, sleeper and day cab) — a drawing, not a photograph or logo', 'Monogram identity plate (CSS metal type on obsidian)'],
+  generated: 'NONE — no image generation, no paid credits',
+  logo: 'The approved lockup only',
+} as const;
+export const AIO_WP_ROOT_COMPARISON = {
+  same: ['Header, logo and five-root navigation (HOME · INTAKE · WORK · REPORTS · MORE) — drawn by the approved studio.js', 'Obsidian, ivory and gold tokens; condensed figures; uppercase', 'Status words and the gold next step', 'Approved roots themselves are untouched (no edit to studio.js or studio.css this sprint)'],
+  different: ['No photo band below the root — the work starts under a slim bar', 'Each workspace has its own composition instead of the Batch 1 record template', 'Desktop fits one screen; phone uses drawers'],
+  board: 'family-roots.jpg — the approved WORK root, unchanged, beside the four workspaces',
+} as const;
+
+/* ═══════════════ N–O · QA ═══════════════ */
+
+export const AIO_WP_QA = {
+  tool: 'workspaces/qa.mjs — Playwright + Chromium over the built review',
+  checks_run: 173,
+  failures: 0,
+  covers: [
+    'every workspace on phone, tablet, desktop and ultra-wide: draws; every control has a handler; no dead controls; inputs wired; uppercase law; no sideways overflow; fits one screen on tablet / desktop / ultra-wide',
+    'fleet: select, section, readout filter, search with focus kept, tag click, inline simulated confirm, client jump + back, phone drawer open / close',
+    'books: closed month, collect documents, missing document, categorize (simulated, moves on), no balances, paused client, phone drawer',
+    'comp: horizon mark, queue row, NOW filter, DOT / SAFETY ghost, CORRECTIVE WORK, subject → fleet → back, staff without REASSIGN, phone drawer',
+    'client: ABC → INSURANCE → policy → truck → back → back (context kept), founder BILLING, OPEN IN FLEET + back, PREBUILT never ACTIVE, directory search, staff without BILLING, phone drawers',
+    'shell: MORE / WORK switch workspaces, other roots answer, header search focuses the workspace search',
+    'review: four live miniatures, every image loads, card opens workspace, device fits the window, device / role switches, BEFORE board, all twelve TRY demonstrations run to the end, the ABC demo ends where it started',
+    'no console or page errors',
+  ],
+  screenshots: 31,
+  found_and_fixed: [
+    'Nested <button> in the landing cards closed the cards early (previews broke) → cards are role=button blocks',
+    'Stage wrapper overlapped the toolbar and swallowed clicks on PHONE / TABLET / DESKTOP → overlap removed, demo caption floats inside the device',
+    'Ultra-wide workspaces were held to the 1480 px reading measure → workspaces take the full width',
+    'Phone Client 360 overflowed sideways (services line) → grid children may shrink',
+    'Phone bookkeeping table left a dead column → phone rows become a list',
+    'Compliance horizon marks overlapped on the phone → marks stack into lines',
+    'Compliance case title collided with the countdown on phone / tablet → stacked',
+    'Blueprint tags collided and clipped → evenly spaced at fixed width',
+  ],
+} as const;
+
+/* ═══════════════ P · founder package ═══════════════ */
+
+export const AIO_WP_WALKTHROUGH: string[] = [
+  `Open ${AIO_WP_REVIEW_LINK}. The landing shows the four workspaces live; tap one.`,
+  'Inside a workspace: TRY runs a short demonstration on the real controls; PHONE / TABLET / DESKTOP / ULTRA-WIDE switch the composition; FOUNDER / STAFF switch what is visible.',
+  'BEFORE shows the same records as Batch 1 drew them, beside the new composition.',
+  'Click anything: trucks, tags, months, phases, marks, services, records. Actions ask first and say SIMULATED; RESET clears them.',
+  'The landing also has the four before → after boards, the twelve rules, the family check against the approved WORK root, and the Batch 1 diagnosis.',
+];
+export const AIO_WP_FOUNDER_DECISIONS: string[] = [
+  'Approve, revise or reject each of the four proofs (VEHICLES & FLEET · BOOKKEEPING · COMPLIANCE · CLIENT 360).',
+  'Approve the twelve rules as the creative direction for every remaining workspace.',
+  'Fleet: keep the drawn truck over the night-yard plate as the vehicle stage (or ask for a photographic truck per unit, which needs a photo pass).',
+  'Compliance: the IA has one AUDIT / CORRECTIVE WORK section; the proof shows AUDITS and CORRECTIVE WORK as two tabs, as the brief named them — confirm, or merge back.',
+  'Bookkeeping: add a MONTHLY / ANNUAL switch to the client rail for ANNUAL CLIENTS (no sample annual client exists yet).',
+  'Ultra-wide: workspaces take the full screen while reading pages keep the 1480 px measure — confirm.',
+  'Order of expansion to the other lanes (recommendation in Q).',
+];
+
+/* ═══════════════ Q · expansion (recommendation only — not started) ═══════════════ */
+
+export const AIO_WP_EXPANSION: { lane: string; family: WpId | 'own'; recommendation: string }[] = [
+  { lane: 'PERMITTING & AUTHORITIES', family: 'comp', recommendation: 'Horizon + queue + case (filings have due dates and blockers); authority status on a stage like the client plate.' },
+  { lane: 'FILING & FUEL TAXES', family: 'own', recommendation: 'Keep the approved IFTA LIGHT ANALYTICS COMMAND unchanged; only the lane frame adopts the slim bar.' },
+  { lane: 'DISPATCH', family: 'own', recommendation: 'A load board (columns by state) with a lane map stage for the selected load; the truck links to Fleet.' },
+  { lane: 'BROKERAGE', family: 'own', recommendation: 'Stays PAUSED; when activated, the load-board family with carrier and shipper panels.' },
+  { lane: 'INSURANCE', family: 'fleet', recommendation: 'A policy stage (coverage as a drawn certificate) with covered trucks tagged, renewal on a horizon.' },
+  { lane: 'FACTORING', family: 'books', recommendation: 'A submission rule (collect → submit → funded) with a worktable of loads and documents.' },
+  { lane: 'DRIVERS & CARRIERS', family: 'client', recommendation: 'A person plate (CDL, medical card) with credentials on a horizon and the assigned truck linked.' },
+  { lane: 'MECHANIC / MAINTENANCE', family: 'fleet', recommendation: 'The blueprint stage with the repair tagged on the truck; ticket rule (estimate → authorization → repair → done).' },
+  { lane: 'ROAD READY', family: 'books', recommendation: 'The nine-item readiness rule as the spine; the client plate as context.' },
+  { lane: 'HOME · INTAKE · REPORTS · MORE roots', family: 'own', recommendation: 'Unchanged (approved). REPORTS detail pages adopt the instrument readouts; MORE destinations adopt the directory + panel.' },
+];
+
+/* ═══════════════ R · production and security dependencies ═══════════════ */
+
+export const AIO_WP_DEPENDENCIES: { area: string; dependency: string; blocks: string }[] = [
+  { area: 'Security', dependency: `The ${AIO_UO_SECURITY_HANDOFF.length} privacy repairs (separate Composer work) — documents, activity, messages, fleet-care tickets, bookkeeping reports`, blocks: 'Any client-facing projection of these workspaces' },
+  { area: 'Permissions', dependency: 'Founder-only actions (REASSIGN, billing, paused-client reminders) enforced on the server by role and grant — never by hiding a button, never by name or email', blocks: 'Live staff workspaces' },
+  { area: 'Vehicles & Fleet', dependency: 'A staff read model for power units across clients (today only the client side records them) and a link from tickets, policies, loads and deadlines to the unit', blocks: 'A live fleet workspace' },
+  { area: 'Bookkeeping', dependency: 'Reconciliation (statement matching) and a deliverables workspace; a categorization record for charges', blocks: 'Live RECONCILE and DELIVER phases' },
+  { area: 'Compliance', dependency: 'A compliance case / corrective-action model; an FMCSA safety data source; an audit record', blocks: 'Live DOT / SAFETY, AUDITS and CORRECTIVE WORK' },
+  { area: 'Client 360', dependency: 'The activation gate kept (PREBUILT never ACTIVE without the client); per-service health computed from records only', blocks: 'Live service constellation' },
+  { area: 'Production', dependency: 'Nothing here is deployed; no schema, auth, billing or route change. Composer integrates only after founder approval.', blocks: '—' },
+];
+
+/* ═══════════════ quality gate ═══════════════ */
+
+/** Problems with the workspace-proofs record; [] when it is consistent and honest. */
+export function validateWorkspaceProofs(): string[] {
+  const out: string[] = [];
+  const ids = AIO_WP_PROOFS.map((p) => p.id);
+  if (ids.join() !== 'fleet,books,comp,client') out.push('exactly four proofs: fleet, books, comp, client');
+  const ia = new Set(AIO_OFFICE_IA.nodes.map((n) => n.node_id));
+  for (const p of AIO_WP_PROOFS) {
+    for (const n of p.ia) if (!ia.has(n)) out.push(`${p.id}: unknown IA node ${n}`);
+    for (const k of ['main', 'selected', 'context', 'action'] as const) if (!p.states[k]) out.push(`${p.id}: missing ${k} state`);
+    if (!p.honest.length) out.push(`${p.id}: no honest states recorded`);
+    if ((AIO_WP_DEMOS[p.id] ?? []).length < 2) out.push(`${p.id}: needs at least two TRY demonstrations`);
+    for (const d of AIO_WP_DEVICES) if (!d.per_workspace[p.id]) out.push(`${p.id}: no ${d.device} composition`);
+  }
+  if (new Set(AIO_WP_PROOFS.map((p) => p.signature)).size !== 4) out.push('the four compositions must be distinct');
+  if (AIO_WP_RULES.length !== 12) out.push('twelve rules');
+  if (!/^FOUR WORKSPACE PROOFS BUILT — CANDIDATES/.test(AIO_WP_STATUS.proofs)) out.push('the proofs stay candidates until the founder approves');
+  if (!/^NOT STARTED/.test(AIO_WP_STATUS.expansion)) out.push('expansion must not start before approval');
+  if (!/^UNCHANGED/.test(AIO_WP_STATUS.approved_roots)) out.push('approved roots must stay unchanged');
+  if (AIO_WP_QA.failures !== 0) out.push('QA failures recorded');
+  if (!/^NONE/.test(AIO_WP_ASSETS.generated)) out.push('no generated imagery this sprint');
+  if (!AIO_WP_PROOFS.find((p) => p.id === 'fleet')!.live.startsWith('DESIGN_ONLY')) out.push('fleet is a design proof (no live staff workspace)');
+  return out;
+}

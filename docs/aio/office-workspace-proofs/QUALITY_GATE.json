@@ -1,0 +1,37 @@
+{
+  "sprint": "P0.AIO.OFFICE.UNIFIED-EXPERIENCE2.CREATIVE-DIRECTION-AND-WORKSPACE-RECOVERY1",
+  "gate": {
+    "FOUR_PROOFS_ONLY": "YES — VEHICLES & FLEET · BOOKKEEPING · COMPLIANCE · CLIENT 360",
+    "DISTINCT_COMPOSITIONS": "YES",
+    "MAIN_SELECTED_CONTEXT_ACTION_STATES": "YES",
+    "PHONE_TABLET_DESKTOP_ULTRA_WIDE": "YES",
+    "DESKTOP_FITS_ONE_SCREEN": "YES — checked by qa.mjs at 1440 × 900 and 2560 × 1440 (and tablet)",
+    "REVIEW_QA_PASSED": "YES — 173/173",
+    "SIMULATED_ACTIONS_LABELLED": "YES — inline confirm says SIMULATED — NOTHING IS SAVED OR SENT",
+    "SAMPLE_DATA_ONLY": "YES — no balances, no live data",
+    "APPROVED_ROOTS_CHANGED": "NO",
+    "BATCH1_REGENERATED": "NO — 619-page review untouched",
+    "EXPANDED_TO_OTHER_LANES": "NO — recommendation only",
+    "FOUNDER_APPROVED": "NO — AWAITING FOUNDER REVIEW",
+    "LIVE_APP_CHANGED": "NO",
+    "SECURITY_GAPS_FIXED": "NO — 12 OPEN; separate Composer work"
+  },
+  "counts": {
+    "proofs": 4,
+    "rules": 12,
+    "demos": 12,
+    "qa_checks": 173,
+    "screenshots": 31,
+    "defects_found_and_fixed": 8
+  },
+  "problems": [],
+  "status": {
+    "proofs": "FOUR WORKSPACE PROOFS BUILT — CANDIDATES, AWAITING FOUNDER APPROVAL",
+    "batch1": "BATCH 1 DEEPER PAGES = FUNCTIONAL STRUCTURE ONLY, NOT APPROVED VISUALS (KEEP THE FUNCTION, REBUILD THE LOOK)",
+    "expansion": "NOT STARTED — the other lanes and the 619-page review are not rebuilt until the four proofs are approved",
+    "approved_roots": "UNCHANGED — HOME · INTAKE · WORK · REPORTS · MORE drawn by studio.js as approved",
+    "live_app": "NOT CHANGED — the review is not the live app; nothing deployed; VEHICLES & FLEET has no staff workspace in the live app",
+    "security": "12 PRIVACY GAPS STILL OPEN — separate Composer security work; nothing patched here"
+  },
+  "next_gate": "FOUNDER REVIEW OF FOUR CREATIVE-DIRECTED AIO OFFICE WORKSPACE PROOFS"
+}
