@@ -15528,3 +15528,18 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - No plates, sidekicks, or descendants were generated on this pass.
 - **Changes:** `TODAY v1/` and `ACTIVITY v1/` parent authorities and review boards. Manifests `today-brand-fidelity1.json` and `activity-brand-fidelity1.json`.
 - **Conventions:** When a JURNL parent is corrected for brand, anchor image-to-image to the approved ENTRY authorities and use the welcome lockup. Do not invent a filing-cabinet world for the record.
+
+---
+
+## 2026-10-08 — TODAY and ACTIVITY world, brand, and editorial layer
+
+- **Context:** After the brand-fidelity parents, the founder said they still read as paper on Mediterranean surfaces, with the mark used as a small corner stamp. This pass keeps the torn paper, the palette, and the family split, and adds real rooms plus the official decorative lockup inside the objects.
+- **Topics covered:** Architectural depth. Safe to Spend lineage. Varied logo treatments. Parent-only credit control.
+- **Decisions / outcomes:**
+  - The brand-fidelity boards are preserved under `SUPERSEDED_BRAND_FIDELITY1` and are not approved.
+  - Image-to-image used the official vertical botanical lockup, the Safe to Spend authority plate, the coastal terrace, and the ENTRY value collage.
+  - TODAY is the open arch and the sea. ACTIVITY is the desk, the niche, and the stack. Safe to Spend keeps the standing folio in the arch.
+  - The rose stem and stacked JURNL sit on margins, spines, flaps, jambs, and underlayers. No corner stamp was added.
+  - No plates, children, or implementation assets.
+- **Changes:** `TODAY v1/` and `ACTIVITY v1/` parent authorities and the world-editorial review boards.
+- **Conventions:** On TODAY and ACTIVITY parents, the official vertical botanical lockup belongs to the object. A corner watermark is not enough. Do not extract plates until the founder approves these parents.
