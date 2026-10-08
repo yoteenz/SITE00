@@ -2,8 +2,11 @@
 
 Sprint `P0.JURNL.OVERLAYS.QUICK-ADD-AND-HAMBURGER-EDITORIAL-REDESIGN1`.
 
-**Status: approved by the founder on 2026-10-08 and built into the runtime.** ENTRY, SETUP and the other overlays are
-unchanged.
+**Status: SUPERSEDED on 2026-10-08.** The founder directed that QUICK ADD and the hamburger account drawer replicate the
+founder reference authorities instead of a new design: `JURNL/F09_SAFE/AUTHORITIES/F09_QUICK_ADD_OVERLAY_SOURCE.jpg` and
+`F09_ACCOUNT_DRAWER_OVERLAY_SOURCE.jpg`, built on the handoff shells in `JURNL/F09_SAFE/OVERLAYS/`. The runtime no longer
+draws anything from this folder (its two WebP shells were removed). The authorities and shells here stay as a record. The
+sections below describe the superseded build.
 
 ## Runtime
 

@@ -123,6 +123,10 @@ export function typeAt(t: RefType, origin?: RefBox): CSSProperties {
     s.left = t.cx - ox;
     s.transform = 'translateX(-50%)';
   } else if (t.right != null) s.right = (origin ? origin[2] : REF_W) - t.right;
+  if (t.sx && t.left != null && !t.rot) {
+    s.transform = `scaleX(${t.sx})`;
+    s.transformOrigin = '0 0';
+  }
   return s;
 }
 

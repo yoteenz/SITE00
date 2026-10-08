@@ -1,7 +1,7 @@
 {
   "sprint": "P0.JURNL.OVERLAYS.QUICK-ADD-AND-HAMBURGER-EDITORIAL-REDESIGN1",
-  "status": "APPROVED_AND_IMPLEMENTED",
-  "readyForImplementation": true,
+  "status": "SUPERSEDED",
+  "readyForImplementation": false,
   "parentCapturedFrom": {
     "branch": "main",
     "sha": "f8a8e9e3"
@@ -96,16 +96,19 @@
     "date": "2026-10-08"
   },
   "runtime": {
-    "QUICK_ADD": {
-      "component": "src/projects/jurnl/runtime/global/GlobalSheets.tsx#QuickAddV2Sheet",
-      "shell": "src/projects/jurnl/runtime/global/overlays/QUICK_ADD_SHELL.webp",
-      "frame": "393 x 599 design px (authority frame y 100-699)"
-    },
-    "HAMBURGER_MENU": {
-      "component": "src/projects/jurnl/runtime/screens/AccountScreens.tsx#AccountDrawer",
-      "shell": "src/projects/jurnl/runtime/global/overlays/ACCOUNT_MENU_SHELL.webp",
-      "frame": "393 x 852 design px (same composition, folio grown)"
-    },
-    "layout": "src/projects/jurnl/runtime/components/OverlayAuthority.tsx + src/projects/jurnl/runtime/jurnl-overlays.css"
+    "removed": "2026-10-08",
+    "note": "QUICK_ADD_SHELL.webp and ACCOUNT_MENU_SHELL.webp were deleted from the runtime; the authorities and shells in this folder stay as a record."
+  },
+  "supersededBy": {
+    "date": "2026-10-08",
+    "reason": "Founder direction: QUICK ADD and the hamburger account drawer replicate the founder reference authorities, not a new design.",
+    "authorities": [
+      "JURNL/F09_SAFE/AUTHORITIES/F09_QUICK_ADD_OVERLAY_SOURCE.jpg",
+      "JURNL/F09_SAFE/AUTHORITIES/F09_ACCOUNT_DRAWER_OVERLAY_SOURCE.jpg"
+    ],
+    "shells": [
+      "JURNL/F09_SAFE/OVERLAYS/F09_QUICK_ADD_OVERLAY_SHELL.png",
+      "JURNL/F09_SAFE/OVERLAYS/F09_ACCOUNT_DRAWER_OVERLAY_SHELL.png"
+    ]
   }
 }

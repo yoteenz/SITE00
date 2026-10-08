@@ -1,97 +1,69 @@
-/* Overlay authorities: QUICK ADD (bottom sheet) and the account menu (drawer). OverlayAuthority.tsx.
-   Each overlay is laid out in design px on the 393 frame of its approved authority (JURNL/OVERLAYS_EDITORIAL_REDESIGN1)
-   and scaled by --s as one object over the live screen. The paper is the approved shell in two layers: the shell drawn
-   from the top at its own proportions (torn edge, clip, print, tabs, portrait and ribbon never stretch), and the shell's
-   foot drawn from the bottom, faded in over plain paper. No slice seams. All copy uppercase; controls square-rounded. */
+/* Overlay replicas: QUICK ADD (bottom sheet) and the account drawer, built to the founder references
+   JURNL/F09_SAFE/AUTHORITIES/F09_QUICK_ADD_OVERLAY_SOURCE.jpg and F09_ACCOUNT_DRAWER_OVERLAY_SOURCE.jpg.
+   Each overlay is laid out in the reference's pixels (941 × 1672, layout/overlayReferenceLayout.ts) on the founder's
+   handoff shell and scaled by --k as one object over the live screen. Colours are sampled from the references. */
 
 .jrn .jrn-ovl {
-  --ovl-ink: #16130e;
-  --ovl-ink-2: #3d372d;
-  --ovl-mute: #6f6658;
-  --ovl-olive: #2c3220;
-  --ovl-cream: #f2ecdf;
-  --ovl-burg: #6b1f22;
-  --ovl-rule: rgba(36, 31, 24, 0.32);
   position: absolute;
   inset: 0;
   z-index: 60;
   overflow: hidden;
   text-transform: uppercase;
-  color: var(--ovl-ink);
 }
+/* QUICK ADD: the reference leaves the screen behind as it is. The scrim only takes the outside tap. */
 .jrn .jrn-ovl__scrim {
   position: absolute;
   inset: 0;
-  background: rgba(20, 16, 10, 0.55);
-  animation: jrn-fade 0.24s ease both;
+  background: transparent;
 }
+/* Drawer: the reference softens the screen behind the panel. */
 .jrn .jrn-ovl--drawer .jrn-ovl__scrim {
-  background: rgba(20, 16, 10, 0.6);
+  background: rgba(238, 228, 216, 0.1);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+  animation: jrn-fade 0.24s ease both;
 }
 .jrn .jrn-ovl :where(button) {
   margin: 0;
-  font-family: inherit;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
   text-transform: inherit;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
-.jrn .jrn-ovl :where(button, input):focus-visible {
-  outline: 1.5px solid rgba(22, 19, 14, 0.4);
-  outline-offset: 2px;
-}
-.jrn .jrn-ovl__close {
-  position: absolute;
-  width: 31px;
-  height: 31px;
+.jrn .jrn-ovl :where(input) {
+  margin: 0;
   padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 7px;
-  border: 1.3px solid rgba(22, 19, 14, 0.55);
-  background: rgba(247, 242, 232, 0.55);
-  color: var(--ovl-ink);
-  pointer-events: auto;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  outline: none;
+  color: inherit;
+  text-transform: uppercase;
+  -webkit-appearance: none;
+  appearance: none;
 }
-
-/* The paper: the shell from the top at its own proportions, and the shell's foot from the bottom, faded in. */
-.jrn .jrn-ovl__paper {
-  position: absolute;
-  inset: 0;
+.jrn .jrn-ovl :where(button):focus-visible {
+  outline: 3px solid rgba(74, 79, 59, 0.5);
+  outline-offset: 3px;
+}
+.jrn .jrn-ovl .jrn-ref__t {
   pointer-events: none;
 }
-.jrn .jrn-ovl__paper-top,
-.jrn .jrn-ovl__paper-foot {
-  position: absolute;
-  left: 0;
-  width: 100%;
-  background-image: var(--shell);
-  background-repeat: no-repeat;
-}
-.jrn .jrn-ovl__paper-top {
-  top: 0;
-  height: calc(100% - var(--foot-cut));
-  background-position: 50% 0;
-  background-size: 100% max(var(--shell-h), 100%);
-}
-.jrn .jrn-ovl__paper-foot {
-  bottom: 0;
-  height: var(--foot);
-  background-position: 50% 100%;
-  background-size: 100% var(--shell-h);
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 var(--fade));
-  mask-image: linear-gradient(to bottom, transparent 0, #000 var(--fade));
-}
 
-/* ─── QUICK ADD: the tactile transaction slip ─── */
+/* ─── QUICK ADD (F09_QUICK_ADD_OVERLAY_SOURCE) ─── */
 .jrn .jrn-qa {
   position: absolute;
   left: 50%;
   bottom: 0;
-  width: 393px;
-  transform: translateX(-50%) scale(var(--s, 1));
+  width: 941px;
+  color: #0e0b09;
+  transform: translateX(-50%) scale(var(--k, 0.4177));
   transform-origin: 50% 100%;
-  pointer-events: none;
   animation: jrn-ovl-rise 0.36s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 @keyframes jrn-ovl-rise {
@@ -99,582 +71,332 @@
     translate: 0 110%;
   }
 }
-/* Frame y 100 onward of the approved shell (599 design px). */
-.jrn .jrn-qa .jrn-ovl__paper {
-  --shell-h: 599px;
-  --foot: 200px;
-  --foot-cut: 80px;
-  --fade: 60px;
-}
-.jrn .jrn-qa__hit {
+.jrn .jrn-qa__paper {
   position: absolute;
-  left: 18px;
-  right: 16px;
-  top: 112px;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.jrn .jrn-qa__shell {
+  position: absolute;
+  left: 0;
+  display: block;
+  width: 941px;
+  max-width: none;
+  user-select: none;
+}
+/* The shell's foot (torn lower edge) stays at the bottom when the sheet is taller or shorter than the reference. */
+.jrn .jrn-qa__foot {
+  position: absolute;
+  left: 0;
   bottom: 0;
-  pointer-events: auto;
+  width: 941px;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 120px);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 120px);
+}
+.jrn .jrn-qa__blk {
+  position: absolute;
+  left: 0;
+  width: 941px;
 }
 .jrn .jrn-qa__handle {
   position: absolute;
-  left: 178px;
-  top: 147px;
-  width: 37px;
-  height: 4px;
-  border-radius: 2px;
-  background: rgba(36, 31, 24, 0.28);
+  border-radius: 4px;
+  background: #bab1a9;
 }
 .jrn .jrn-qa__close {
-  left: 324px;
-  top: 158px;
+  position: absolute;
+  border-radius: 12px;
+  background: #eee5dc;
+  box-shadow: inset 0 0 0 1.5px #d8cfc8, 0 2px 6px rgba(60, 45, 30, 0.08);
+  color: #0e0b09;
 }
-.jrn .jrn-qa__body {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  padding: 162px 38px calc(43px + env(safe-area-inset-bottom, 0px) / var(--s, 1)) 40px;
-  pointer-events: none;
+.jrn .jrn-qa .jrn-ref__t--serif {
+  color: #0b0907;
 }
 .jrn .jrn-qa__title {
   margin: 0;
-  padding-right: 52px;
-  font: 600 43px/1 'JURNL Authority Serif', 'JURNL Display', serif;
-  letter-spacing: -0.4px;
-  color: var(--ovl-ink);
+  font-size: 0;
 }
-.jrn .jrn-qa__sub {
-  margin: 8px 0 0;
-  font: 500 8.6px/1 'JURNL Authority Sans', 'JURNL Sans', sans-serif;
-  letter-spacing: 2.7px;
-  color: var(--ovl-ink-2);
-}
-.jrn .jrn-qa__mark {
+.jrn .jrn-qa__field {
+  position: absolute;
   display: block;
-  margin-top: 12px;
-  width: 24px;
-  height: 2px;
-  background: var(--ovl-burg);
+  border-radius: 12px;
+  background: #f5f0ec;
+  box-shadow: inset 0 0 0 1.5px #d3cdc7;
 }
-/* Printed form: labels in a margin column, fields on rules. */
-.jrn .jrn-qa__row {
-  position: relative;
-  display: grid;
-  grid-template-columns: 78px minmax(0, 1fr);
-  align-items: center;
+.jrn .jrn-qa__field:focus-within {
+  box-shadow: inset 0 0 0 1.5px #8f877d;
 }
-.jrn .jrn-qa__lbl {
-  font: 500 8.5px/1 'JURNL Authority Sans', 'JURNL Sans', sans-serif;
-  letter-spacing: 2.4px;
-  color: var(--ovl-mute);
-}
-.jrn .jrn-qa__row--record {
-  margin-top: 24px;
-  align-items: start;
-}
-.jrn .jrn-qa__row--record .jrn-qa__lbl {
-  margin-top: 9px;
-}
-.jrn .jrn-qa__row--name {
-  margin-top: 26px;
-}
-.jrn .jrn-qa__row--record + .jrn-qa__row--name {
-  margin-top: 18px;
-}
-.jrn .jrn-qa__line {
-  position: relative;
-  height: 24px;
-  border-bottom: 1px solid rgba(36, 31, 24, 0.45);
-}
-.jrn .jrn-qa__line:focus-within {
-  border-bottom-color: var(--ovl-ink);
-}
-/* 16 px input (no focus zoom on iOS), drawn at 11.5 px. */
 .jrn .jrn-qa__name {
   position: absolute;
-  left: 0;
-  top: 0;
-  width: calc(100% / 0.71875);
-  height: calc(24px / 0.71875);
-  transform: scale(0.71875);
-  transform-origin: 0 0;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  outline: none;
-  background: transparent;
-  font: 400 16px/1 'JURNL Authority Sans', 'JURNL Sans', sans-serif;
-  letter-spacing: 3.2px;
-  text-transform: uppercase;
-  color: var(--ovl-ink);
-  pointer-events: auto;
+  inset: 0;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 0 24px 0 32px;
+  font: 400 23.08px/1 'JURNL Authority Sans', 'JURNL Sans', sans-serif;
+  letter-spacing: 5.36px;
+  color: #0e0b09;
 }
 .jrn .jrn-qa__name::placeholder {
-  color: #8b8273;
+  color: #6f6c68;
   opacity: 1;
-}
-.jrn .jrn-qa__row--amount {
-  margin-top: 10px;
-  align-items: start;
-  padding-bottom: 12px;
-}
-.jrn .jrn-qa__row--amount::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 5px;
-  border-top: 1px solid rgba(36, 31, 24, 0.6);
-  border-bottom: 1px solid rgba(36, 31, 24, 0.6);
-  box-sizing: border-box;
-}
-.jrn .jrn-qa__row--amount .jrn-qa__lbl {
-  margin-top: 18px;
-}
-.jrn .jrn-qa__amt {
-  display: flex;
-  align-items: flex-start;
-  gap: 6px;
-  min-height: 60px;
 }
 .jrn .jrn-qa__cur {
-  margin-top: 9px;
-  font: 400 28px/1 'JURNL Authority Serif', 'JURNL Display', serif;
-  color: var(--ovl-ink);
-}
-.jrn .jrn-qa__cur--after {
-  margin-top: 26px;
+  position: absolute;
+  margin: 0;
+  line-height: 1;
+  white-space: pre;
+  font-family: 'JURNL Authority Serif', 'JURNL Display', serif;
+  color: #0b0907;
+  pointer-events: none;
 }
 .jrn .jrn-qa__amount {
-  flex: 1 1 auto;
-  min-width: 0;
-  height: 62px;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  outline: none;
-  background: transparent;
-  font-family: 'JURNL Authority Serif', 'JURNL Display', serif;
-  font-weight: 400;
-  line-height: 1;
-  letter-spacing: -0.5px;
-  font-variant-numeric: lining-nums;
-  color: var(--ovl-ink);
-  pointer-events: auto;
+  position: absolute;
+  top: 0;
+  right: 0;
+  box-sizing: border-box;
+  height: 100%;
+  padding: 0 24px 0 22px;
+  font: 400 52px/1 'JURNL Authority Serif', 'JURNL Display', serif;
+  letter-spacing: 0.88px;
+  color: #0b0907;
 }
 .jrn .jrn-qa__amount::placeholder {
-  color: #988d7a;
+  color: #b7b0aa;
   opacity: 1;
 }
-.jrn .jrn-qa__row--type {
-  margin-top: 23px;
+.jrn .jrn-qa__vr {
+  position: absolute;
+  display: block;
+  background: currentColor;
+  opacity: 0.22;
 }
-/* TYPE: one segmented object, the chosen half inked. */
-.jrn .jrn-qa__seg {
-  display: flex;
-  height: 38px;
-  border: 1.3px solid var(--ovl-olive);
-  border-radius: 7px;
+/* Options: outline at rest; TYPE chosen is olive with cream type, ACCOUNT chosen is stone with a dark rule. */
+.jrn .jrn-qa__opt {
+  position: absolute;
   overflow: hidden;
+  border-radius: 12px;
+  background: #f5f1ec;
+  box-shadow: inset 0 0 0 1.5px #d1cac3;
+  color: #0e0b09;
 }
-.jrn .jrn-qa__seg button {
-  flex: 1 1 0;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  font: 500 9.8px/1 'JURNL Authority Sans', 'JURNL Sans', sans-serif;
-  letter-spacing: 2.6px;
-  color: var(--ovl-ink-2);
-  pointer-events: auto;
+.jrn .jrn-qa__opt .jrn-ref__t {
+  font-weight: 400;
 }
-.jrn .jrn-qa__seg button[aria-pressed='true'] {
-  background: var(--ovl-olive);
-  color: var(--ovl-cream);
+.jrn .jrn-qa__opt--dir[data-active='true'] {
+  background: #4a4f3b;
+  box-shadow: 0 3px 8px rgba(40, 44, 30, 0.16);
+  color: #efe9df;
 }
-.jrn .jrn-qa__row--account {
-  margin-top: 15px;
+.jrn .jrn-qa__opt--dir[data-active='true'] .jrn-qa__vr {
+  opacity: 0.4;
 }
-/* ACCOUNT and RECORD: printed check squares, the chosen one burgundy. */
-.jrn .jrn-qa__checks {
+.jrn .jrn-qa__opt--account[data-active='true'],
+.jrn .jrn-qa__opt--record[data-active='true'] {
+  background: #e5d9cc;
+  box-shadow: inset 0 0 0 2px #3e3b2f;
+}
+.jrn .jrn-qa__opt--record {
   display: flex;
-  flex-wrap: wrap;
-  gap: 4px 22px;
-}
-.jrn .jrn-qa__row--record .jrn-qa__checks {
-  gap: 2px 12px;
-}
-.jrn .jrn-qa__check {
-  display: inline-flex;
   align-items: center;
-  gap: 10px;
-  height: 30px;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  font: 500 9.8px/1 'JURNL Authority Sans', 'JURNL Sans', sans-serif;
-  letter-spacing: 2.6px;
-  color: var(--ovl-ink-2);
-  white-space: nowrap;
-  pointer-events: auto;
-}
-.jrn .jrn-qa__row--record .jrn-qa__check {
-  gap: 8px;
-  font-size: 9px;
-  letter-spacing: 2px;
-}
-.jrn .jrn-qa__check i {
-  flex: 0 0 auto;
-  width: 13px;
-  height: 13px;
-  box-sizing: border-box;
-  border-radius: 2.5px;
-  border: 1.3px solid rgba(22, 19, 14, 0.6);
-}
-.jrn .jrn-qa__check[aria-pressed='true'] {
-  color: var(--ovl-ink);
-}
-.jrn .jrn-qa__check[aria-pressed='true'] i {
-  background: var(--ovl-burg);
-  border-color: var(--ovl-burg);
-  box-shadow: inset 0 0 0 2.2px #efe7d8;
+  justify-content: center;
+  font-family: 'JURNL Authority Sans', 'JURNL Sans', sans-serif;
+  font-weight: 400;
 }
 .jrn .jrn-qa__save {
-  position: relative;
-  margin-top: 31px;
-  display: flex;
-  align-items: center;
-  width: 100%;
-  height: 50px;
-  padding: 0 20px 0 22px;
-  border: 0;
-  border-radius: 8px;
-  background: var(--ovl-olive);
-  color: var(--ovl-cream);
-  box-shadow: 0 8px 16px rgba(26, 22, 12, 0.28);
-  font: 500 10.8px/1 'JURNL Authority Sans', 'JURNL Sans', sans-serif;
-  letter-spacing: 3.6px;
-  pointer-events: auto;
-}
-.jrn .jrn-qa__save span {
-  flex: 1 1 auto;
-  text-align: left;
-}
-.jrn .jrn-qa__save i {
-  width: 1px;
-  height: 24px;
-  margin-right: 15px;
-  background: rgba(242, 236, 223, 0.45);
+  position: absolute;
+  border-radius: 12px;
+  background: #4a4f3b;
+  box-shadow: 0 6px 16px rgba(40, 44, 30, 0.18);
+  color: #efe9df;
 }
 .jrn .jrn-qa__save:disabled {
   cursor: default;
-  color: rgba(242, 236, 223, 0.62);
+}
+.jrn .jrn-qa__save .jrn-qa__vr {
+  opacity: 0.4;
 }
 .jrn .jrn-qa__error {
-  margin: 10px 0 0;
-  font: 500 8.5px/1.4 'JURNL Authority Sans', 'JURNL Sans', sans-serif;
-  letter-spacing: 2px;
-  color: var(--ovl-burg);
+  position: absolute;
+  left: 0;
+  width: 941px;
+  margin: 0;
+  font: 500 16px/1 'JURNL Authority Sans', 'JURNL Sans', sans-serif;
+  letter-spacing: 4px;
+  text-align: center;
+  color: #7b2b24;
 }
 
-/* ─── ACCOUNT MENU: the personal JURNL index / account folio ─── */
-.jrn .jrn-menu {
+/* ─── ACCOUNT DRAWER (F09_ACCOUNT_DRAWER_OVERLAY_SOURCE) ─── */
+.jrn .jrn-dr {
   position: absolute;
-  top: env(safe-area-inset-top, 0px);
   right: 0;
-  width: 393px;
-  height: calc(var(--hd, 852) * 1px - env(safe-area-inset-top, 0px) / var(--s, 1));
-  transform: scale(var(--s, 1));
+  width: 941px;
+  height: 1672px;
+  color: #010000;
+  transform: scale(var(--k, 0.418));
   transform-origin: 100% 0;
   pointer-events: none;
-  animation: jrn-ovl-slide 0.36s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation: jrn-ovl-slide 0.36s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 @keyframes jrn-ovl-slide {
   from {
-    translate: 55% 0;
-    opacity: 0;
+    translate: 100% 0;
   }
 }
-/* Tall folio shell (393 × 852 frame): tabs, portrait and ribbon from the top, the folio's foot from the bottom. */
-.jrn .jrn-menu .jrn-ovl__paper {
-  --shell-h: 852px;
-  --foot: 250px;
-  --foot-cut: 120px;
-  --fade: 70px;
-}
-.jrn .jrn-menu__hit {
-  position: absolute;
-  left: 62px;
-  right: 0;
-  top: 14px;
-  bottom: 8px;
+.jrn .jrn-dr > * {
   pointer-events: auto;
 }
-.jrn .jrn-menu__close {
-  left: 343px;
-  top: 22px;
-}
-.jrn .jrn-menu__lockup {
+.jrn .jrn-dr__panel {
   position: absolute;
-  left: 176px;
-  top: 30px;
-  font: 500 14px/1 'JURNL Authority Serif', 'JURNL Display', serif;
-  letter-spacing: 6px;
+  border-radius: 30px 0 0 40px;
+  background: #eadfcf;
+  box-shadow: 0 12px 32px rgba(40, 30, 20, 0.22), 0 2px 6px rgba(40, 30, 20, 0.12);
 }
-.jrn .jrn-menu__title {
+.jrn .jrn-dr__paper {
   position: absolute;
-  left: 174px;
-  top: 56px;
-  padding: 0;
-  border: 0;
-  background: none;
-  color: var(--ovl-ink);
-  font: 600 36px/1.06 'JURNL Authority Serif', 'JURNL Display', serif;
-  letter-spacing: -0.3px;
-  pointer-events: auto;
+  inset: 0;
+  pointer-events: none !important;
 }
-.jrn .jrn-menu__profile {
+.jrn .jrn-dr__shell {
   position: absolute;
-  left: 12px;
-  top: 100px;
-  width: 368px;
-  height: 142px;
-  padding: 0;
-  border: 0;
-  border-radius: 6px;
-  background: transparent;
-  color: var(--ovl-ink);
-  text-align: left;
-  pointer-events: auto;
+  display: block;
+  max-width: none;
+  user-select: none;
 }
-.jrn .jrn-menu__who {
+.jrn .jrn-dr__rim {
   position: absolute;
-  left: 167px;
-  top: 26px;
-  width: 168px;
-  display: flex;
-  flex-direction: column;
+  border-radius: 30px 0 0 40px;
+  box-shadow: inset 0 0 0 1.5px rgba(255, 250, 242, 0.6);
+  pointer-events: none !important;
 }
-.jrn .jrn-menu__k {
-  font: 500 7.8px/1 'JURNL Authority Sans', 'JURNL Sans', sans-serif;
-  letter-spacing: 2.3px;
-  color: var(--ovl-ink);
+.jrn .jrn-dr .jrn-ref__lockup {
+  pointer-events: none !important;
 }
-.jrn .jrn-menu__k--soft {
-  color: var(--ovl-mute);
+.jrn .jrn-dr .jrn-ref__lockup .jrn-ref__t {
+  color: #1b1712;
 }
-.jrn .jrn-menu__name {
-  margin-top: 9px;
-  font-family: 'JURNL Authority Serif', 'JURNL Display', serif;
-  font-weight: 600;
-  line-height: 1.08;
-  color: var(--ovl-ink);
-}
-.jrn .jrn-menu__email {
-  margin-top: 9px;
-  font: 400 7.6px/1.3 'JURNL Authority Sans', 'JURNL Sans', sans-serif;
-  letter-spacing: 1.8px;
-  color: var(--ovl-mute);
-}
-.jrn .jrn-menu__go {
+.jrn .jrn-dr__title {
   position: absolute;
-  display: flex;
-  color: var(--ovl-ink);
 }
-.jrn .jrn-menu__profile .jrn-menu__go {
-  left: 342px;
-  top: 64px;
-}
-.jrn .jrn-menu__index {
+.jrn .jrn-dr__rule {
   position: absolute;
-  left: 88px;
-  top: 250px;
-  width: 286px;
-  display: flex;
-  flex-direction: column;
-  pointer-events: none;
+  background: #1a1612;
 }
-.jrn .jrn-menu__sec {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 15px 0 15px;
-  border-top: 1px solid var(--ovl-rule);
-}
-.jrn .jrn-menu__sec--cols {
-  flex-direction: row;
-  align-items: stretch;
-  padding-bottom: 22px;
-}
-.jrn .jrn-menu__col {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  min-width: 0;
-}
-.jrn .jrn-menu__col:first-child {
-  flex: 0 0 140px;
-  padding-right: 8px;
-}
-.jrn .jrn-menu__col:last-child {
-  flex: 1 1 auto;
-  padding-left: 13px;
-}
-.jrn .jrn-menu__vrule {
-  flex: 0 0 1px;
-  background: var(--ovl-rule);
-}
-.jrn .jrn-menu__v {
-  margin-top: 8px;
-  font: 500 14.5px/1.15 'JURNL Authority Serif', 'JURNL Display', serif;
-  letter-spacing: 0.2px;
-  color: var(--ovl-ink);
-}
-.jrn .jrn-menu__link {
-  margin-top: 6px;
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 4px 0;
-  border: 0;
-  background: none;
-  font: 500 7.8px/1 'JURNL Authority Sans', 'JURNL Sans', sans-serif;
-  letter-spacing: 2.3px;
-  color: var(--ovl-ink-2);
-  pointer-events: auto;
-}
-.jrn .jrn-menu__d {
-  margin-top: 7px;
-  max-width: 260px;
-  font: 400 7.3px/1.6 'JURNL Authority Sans', 'JURNL Sans', sans-serif;
-  letter-spacing: 1.6px;
-  color: var(--ovl-mute);
-  text-align: left;
-}
-.jrn .jrn-menu__sec--ask .jrn-menu__d {
-  max-width: 214px;
-}
-/* Square-rounded switch. */
-.jrn .jrn-menu__toggle {
+.jrn .jrn-dr__card {
   position: absolute;
-  right: 0;
-  top: 22px;
-  width: 44px;
-  height: 24px;
-  padding: 0;
-  border: 0;
-  border-radius: 5px;
-  background: #cbc1b0;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #f4ebe2;
+  box-shadow: 0 1px 2px rgba(70, 50, 30, 0.1), 0 6px 16px rgba(70, 50, 30, 0.07);
+  color: #010000;
+}
+.jrn .jrn-dr__k {
+  font-weight: 500;
+  color: #0b0704;
+}
+.jrn .jrn-dr__gray {
+  color: #77726b;
+}
+.jrn .jrn-dr__vr {
+  position: absolute;
+  display: block;
+  background: #c7bfb5;
+}
+.jrn .jrn-dr__thumb {
+  position: absolute;
+  display: block;
+  max-width: none;
+  object-fit: cover;
+  border-radius: 50% 50% 3px 3px / 44% 44% 3px 3px;
+}
+.jrn .jrn-dr__toggle {
+  position: absolute;
+  border-radius: 27px;
+  background: #d9d0c5;
   transition: background 0.2s ease;
-  pointer-events: auto;
 }
-.jrn .jrn-menu__toggle i {
+.jrn .jrn-dr__toggle[data-on='true'] {
+  background: #444737;
+}
+.jrn .jrn-dr__knob {
   position: absolute;
-  left: 3px;
-  top: 3px;
-  width: 18px;
-  height: 18px;
-  border-radius: 3.5px;
-  background: var(--ovl-cream);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  top: 4px;
+  left: 4px;
+  width: 45px;
+  height: 45px;
+  border-radius: 23px;
+  background: #ececec;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.22);
   transition: left 0.2s ease;
 }
-.jrn .jrn-menu__toggle[data-on='true'] {
-  background: var(--ovl-olive);
+.jrn .jrn-dr__toggle[data-on='true'] .jrn-dr__knob {
+  left: 51px;
 }
-.jrn .jrn-menu__toggle[data-on='true'] i {
-  left: 23px;
+.jrn .jrn-dr__field {
+  position: absolute;
+  display: block;
+  border-radius: 8px;
+  background: #f1e8de;
+  box-shadow: inset 0 0 0 1.5px #cfc7bd;
 }
-.jrn .jrn-menu__buffer {
-  margin-top: 5px;
+.jrn .jrn-dr__field:focus-within {
+  box-shadow: inset 0 0 0 1.5px #8f877d;
+}
+.jrn .jrn-dr__money {
+  position: absolute;
+  inset: 0;
   display: flex;
-  align-items: flex-end;
-  gap: 14px;
-  width: 100%;
+  align-items: center;
+  font-family: 'JURNL Authority Serif', 'JURNL Display', serif;
+  font-weight: 500;
+  color: #010000;
 }
-.jrn .jrn-menu__field {
-  flex: 0 0 138px;
-  display: flex;
-  align-items: baseline;
-  height: 34px;
-  padding-top: 6px;
-  border-bottom: 1px solid rgba(36, 31, 24, 0.5);
-  font: 400 23px/1 'JURNL Authority Serif', 'JURNL Display', serif;
-  color: var(--ovl-ink);
-}
-.jrn .jrn-menu__field > span {
-  margin-right: 1px;
-}
-.jrn .jrn-menu__field input {
-  width: 100%;
+.jrn .jrn-dr__money input {
+  flex: 1;
   min-width: 0;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  outline: none;
-  background: transparent;
+  height: 100%;
   font: inherit;
-  color: inherit;
-  pointer-events: auto;
+  letter-spacing: inherit;
 }
-.jrn .jrn-menu__field input::placeholder {
-  color: #988d7a;
+.jrn .jrn-dr__money input::placeholder {
+  color: #a9a199;
   opacity: 1;
 }
-.jrn .jrn-menu__field:focus-within {
-  border-bottom-color: var(--ovl-ink);
-}
-.jrn .jrn-menu__save {
-  flex: 1 1 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 34px;
-  padding: 0 12px 0 14px;
-  border: 0;
-  border-radius: 7px;
-  background: var(--ovl-olive);
-  color: var(--ovl-cream);
-  box-shadow: 0 5px 10px rgba(26, 22, 12, 0.22);
-  font: 500 8.2px/1 'JURNL Authority Sans', 'JURNL Sans', sans-serif;
-  letter-spacing: 2.4px;
-  pointer-events: auto;
-}
-.jrn .jrn-menu__row {
-  width: 100%;
-  border-left: 0;
-  border-right: 0;
-  border-bottom: 1px solid var(--ovl-rule);
-  background: none;
-  color: var(--ovl-ink);
-  pointer-events: auto;
-}
-.jrn .jrn-menu__row .jrn-menu__d {
-  max-width: 230px;
-}
-.jrn .jrn-menu__row .jrn-menu__go {
-  right: 2px;
-  top: 24px;
-}
-.jrn .jrn-menu__out {
+.jrn .jrn-dr__save {
   position: absolute;
-  left: 88px;
-  bottom: calc(46px + env(safe-area-inset-bottom, 0px) / var(--s, 1));
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  padding: 6px 0;
-  border: 0;
-  background: none;
-  font: 500 9px/1 'JURNL Authority Sans', 'JURNL Sans', sans-serif;
-  letter-spacing: 3.2px;
-  color: var(--ovl-burg);
-  pointer-events: auto;
+  border-radius: 8px;
+  background: #454837;
+  color: #f1ebe1;
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .jrn .jrn-qa,
-  .jrn .jrn-menu,
-  .jrn .jrn-ovl__scrim {
-    animation: none;
-  }
+.jrn .jrn-dr__save .jrn-ref__t {
+  font-weight: 500;
+}
+.jrn .jrn-dr__card--image {
+  background: #d9cdbd;
+}
+.jrn .jrn-dr__photo {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+}
+.jrn .jrn-dr__photo-gray {
+  color: #4d4740;
+}
+.jrn .jrn-dr .jrn-dr__light {
+  color: #fff;
+}
+.jrn .jrn-dr__close {
+  position: absolute;
+  border-radius: 12px;
+  background: rgba(239, 226, 213, 0.94);
+  box-shadow: 0 2px 8px rgba(60, 45, 30, 0.12);
+  color: #010000;
 }

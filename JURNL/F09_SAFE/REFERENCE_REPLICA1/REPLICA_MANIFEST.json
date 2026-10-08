@@ -155,7 +155,7 @@
       ],
       "plate": "plates/F09_ACCOUNT_DRAWER_PLATE.jpg",
       "component": "AccountScreens.tsx · AccountDrawer",
-      "note": "Superseded on 2026-10-08 by the approved account folio (JURNL/OVERLAYS_EDITORIAL_REDESIGN1/HAMBURGER_MENU). The drawer plate and its two card images stay here as a record and are no longer drawn."
+      "note": "Superseded on 2026-10-08 by the replica of the founder drawer reference (JURNL/F09_SAFE/AUTHORITIES/F09_ACCOUNT_DRAWER_OVERLAY_SOURCE.jpg on its handoff shell). The drawer plate and its two card images stay here as a record and are no longer drawn."
     }
   ],
   "assets": [
@@ -279,7 +279,7 @@
         "w": 2160,
         "h": 4670
       },
-      "superseded_by": "JURNL/OVERLAYS_EDITORIAL_REDESIGN1/HAMBURGER_MENU",
+      "superseded_by": "JURNL/F09_SAFE/AUTHORITIES/F09_ACCOUNT_DRAWER_OVERLAY_SOURCE.jpg",
       "covers_pt": {
         "w": 393,
         "h": 849.6
@@ -755,7 +755,7 @@
         "w": 1024,
         "h": 1024
       },
-      "superseded_by": "JURNL/OVERLAYS_EDITORIAL_REDESIGN1/HAMBURGER_MENU",
+      "superseded_by": "JURNL/F09_SAFE/AUTHORITIES/F09_ACCOUNT_DRAWER_OVERLAY_SOURCE.jpg",
       "covers_pt": {
         "w": 65.4,
         "h": 65.4
@@ -781,7 +781,7 @@
         "w": 2048,
         "h": 724
       },
-      "superseded_by": "JURNL/OVERLAYS_EDITORIAL_REDESIGN1/HAMBURGER_MENU",
+      "superseded_by": "JURNL/F09_SAFE/AUTHORITIES/F09_ACCOUNT_DRAWER_OVERLAY_SOURCE.jpg",
       "covers_pt": {
         "w": 238.7,
         "h": 84.3

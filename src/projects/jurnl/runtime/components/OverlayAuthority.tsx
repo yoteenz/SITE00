@@ -1,53 +1,54 @@
 /**
- * Overlay authorities (P0.JURNL.OVERLAYS.QUICK-ADD-AND-HAMBURGER-EDITORIAL-REDESIGN1, approved).
+ * Overlay replicas: QUICK ADD (bottom sheet) and the account drawer, built to the founder references
+ * JURNL/F09_SAFE/AUTHORITIES/F09_QUICK_ADD_OVERLAY_SOURCE.jpg and F09_ACCOUNT_DRAWER_OVERLAY_SOURCE.jpg.
  *
- * QUICK ADD (bottom sheet) and the account menu (drawer) are drawn on their approved shells
- * (JURNL/OVERLAYS_EDITORIAL_REDESIGN1). Each overlay is laid out in design px on a 393-wide phone frame and scaled to the
- * screen as one object, so the live controls stay on the paper they were placed on. The shell is painted in two layers
- * (jurnl-overlays.css): from the top at its own proportions, so the torn edge, clip and print / tabs, portrait and ribbon
- * never stretch, and the shell's foot from the bottom, faded in over plain paper when the content or screen is taller.
+ * Each overlay is drawn in the reference's own pixels (941 × 1672, layout/overlayReferenceLayout.ts) on the founder's
+ * handoff shell (JURNL/F09_SAFE/OVERLAYS, registered to the source) and scaled to the screen as one object, so every
+ * control stays where the reference has it.
  */
 
 import { useLayoutEffect, useState } from 'react';
 
-/** Phone frame the authorities were composed on. */
-export const OVERLAY_FRAME_W = 393;
-/** Never draw an overlay larger than this (tablet, desktop). */
-const MAX_SCALE = 1.35;
+/** The founder references' frame. */
+export const REPLICA_W = 941;
+export const REPLICA_H = 1672;
 
-/** QUICK ADD runtime shell: the approved shell from frame y 100 down (393 × 599 design px), 1260 px wide. */
-export const QUICK_ADD_SHELL = { frameTop: 100, height: 599 } as const;
-/** Account menu runtime shell: the approved folio on a 393 × 852 frame, 1260 px wide. Never shorter than the 699 frame. */
-export const ACCOUNT_MENU_SHELL = { height: 852, minHeight: 699 } as const;
-
-export type OverlayFit = { s: number; W: number; H: number };
+/** Drawer panel width in the reference (x 296 → 941). */
+const DRAWER_PANEL_W = 645;
 
 /**
- * Scale of the 393 frame on this screen. The sheet keeps to the same column the root hubs use on wide screens and must
- * clear the screen's height; the drawer must keep at least the 699 frame height.
+ * QUICK ADD: the sheet spans the column the root hubs use on wide screens and must clear the screen's height.
+ * `frameH` is the sheet's height in reference px (986 in the reference; taller when a family offers record types).
  */
-export function overlayFit(W: number, H: number, kind: 'sheet' | 'drawer'): OverlayFit {
+export function sheetScale(W: number, H: number, frameH: number): number {
   const column = W / H > 3 / 5 ? Math.min(W, 0.6 * H) : W;
-  const s = kind === 'sheet' ? Math.min(column / OVERLAY_FRAME_W, H / 640, MAX_SCALE) : Math.min(W / OVERLAY_FRAME_W, H / ACCOUNT_MENU_SHELL.minHeight, MAX_SCALE);
-  return { s, W, H };
+  return Math.min(column / REPLICA_W, (0.94 * H) / frameH, 0.62);
 }
+
+/** Account drawer: the reference's full height, right-anchored, never wider than 86% of the screen. */
+export function drawerScale(W: number, H: number): number {
+  return Math.min(H / REPLICA_H, (0.86 * W) / DRAWER_PANEL_W, 0.7);
+}
+
+export type OverlayHost = { W: number; H: number };
 
 /**
  * Measures the overlay host (the runtime viewport) once the overlay mounts in it; returns a callback ref for the overlay
  * root. The keyboard never rescales an open overlay.
  */
-export function useOverlayFit(kind: 'sheet' | 'drawer'): { fit: OverlayFit; ref: (el: HTMLElement | null) => void } {
+export function useOverlayHost(): { host: OverlayHost; ref: (el: HTMLElement | null) => void } {
   const [el, ref] = useState<HTMLElement | null>(null);
-  const [fit, setFit] = useState(() =>
-    overlayFit(typeof window === 'undefined' ? 402 : window.innerWidth, typeof window === 'undefined' ? 874 : window.innerHeight, kind),
-  );
+  const [host, setHost] = useState<OverlayHost>(() => ({
+    W: typeof window === 'undefined' ? 402 : window.innerWidth,
+    H: typeof window === 'undefined' ? 874 : window.innerHeight,
+  }));
   useLayoutEffect(() => {
-    const host = el?.parentElement;
-    if (!host) return;
+    const parent = el?.parentElement;
+    if (!parent) return;
     const update = () => {
-      if (!host.clientWidth || !host.clientHeight) return;
-      const next = overlayFit(host.clientWidth, host.clientHeight, kind);
-      setFit((prev) => (prev.s === next.s && prev.W === next.W && prev.H === next.H ? prev : next));
+      if (!parent.clientWidth || !parent.clientHeight) return;
+      const next = { W: parent.clientWidth, H: parent.clientHeight };
+      setHost((prev) => (prev.W === next.W && prev.H === next.H ? prev : next));
     };
     update();
     if (typeof ResizeObserver === 'undefined') {
@@ -55,10 +56,10 @@ export function useOverlayFit(kind: 'sheet' | 'drawer'): { fit: OverlayFit; ref:
       return () => window.removeEventListener('resize', update);
     }
     const ro = new ResizeObserver(update);
-    ro.observe(host);
+    ro.observe(parent);
     return () => ro.disconnect();
-  }, [el, kind]);
-  return { fit, ref };
+  }, [el]);
+  return { host, ref };
 }
 
 /** While a field is focused, the overlay follows the visual viewport so the keyboard does not cover SAVE. */
@@ -82,18 +83,11 @@ export function useKeyboardViewport(open: boolean): { top: number; height: numbe
   return vv;
 }
 
-export function OverlayCloseGlyph() {
-  return (
-    <svg viewBox="0 0 13 13" width="13" height="13" aria-hidden>
-      <path d="M1 1l11 11M12 1L1 12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-export function OverlayArrow({ width = 18 }: { width?: number }) {
-  return (
-    <svg viewBox="0 0 18 12" width={width} height={(width * 12) / 18} aria-hidden>
-      <path d="M0 6h16.5M11.5 1l5 5-5 5" fill="none" stroke="currentColor" strokeWidth="1.4" />
-    </svg>
-  );
+/**
+ * A live value set in a fitted line: the reference size while it fits `room` (reference px), smaller when it would not.
+ * `perChar` is the measured advance of the reference string at the reference size.
+ */
+export function fitSize(text: string, size: number, perChar: number, room: number, min: number): number {
+  const need = Math.max(1, text.length) * perChar;
+  return need <= room ? size : Math.max(min, Math.floor(((size * room) / need) * 10) / 10);
 }
