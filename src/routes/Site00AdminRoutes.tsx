@@ -27,6 +27,7 @@ const SitesPage = lazy(() => import('../site00/admin/pages/operations/SitesPage'
 const SiteDetailPage = lazy(() => import('../site00/admin/pages/operations/SiteDetailPage'));
 const CtrlRoomPage = lazy(() => import('../site00/admin/pages/operations/CtrlRoomPage'));
 const FinancePage = lazy(() => import('../site00/admin/pages/operations/FinancePage'));
+const PlatformRevenuePage = lazy(() => import('../site00/admin/pages/operations/PlatformRevenuePage'));
 const InvoiceDetailPage = lazy(() => import('../site00/admin/pages/operations/InvoiceDetailPage'));
 const TeamPage = lazy(() => import('../site00/admin/pages/operations/TeamPage'));
 const ReportsPage = lazy(() => import('../site00/admin/pages/operations/ReportsPage'));
@@ -254,6 +255,14 @@ export function Site00AdminRoutes() {
         element={
           <AdminSuspense>
             <FinancePage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/finance/platform"
+        element={
+          <AdminSuspense>
+            <PlatformRevenuePage />
           </AdminSuspense>
         }
       />

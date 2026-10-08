@@ -4,6 +4,7 @@
  * Every figure comes from `estimateProject` + `toClientBlueprintEstimate`. This file only chooses words and
  * decides what to show. It never shows family units, raw weeks, lanes or decimal weeks.
  */
+import { blueprintPlatformLines, ongoingServiceDisclosure, platformDisclosureForFeatures } from '../../studioos/platform-economics/disclosure';
 import { estimateProject } from '../../studioos/estimation/engine';
 import { toClientBlueprintEstimate } from '../../studioos/estimation/clientContract';
 import { VISUAL_SYSTEM_BY_ID } from '../../studioos/estimation/registries';
@@ -37,6 +38,7 @@ import {
   chosenExperiences,
   deriveBuildLevel,
   effectiveCapabilities,
+  effectiveFeatures,
   effectiveMotion,
   expressionInfluences,
 } from './rules';
@@ -161,6 +163,9 @@ export function builderBlueprint(selection: BuilderSelection): BlueprintView {
   lines.push({ key: 'IMAGE', label: 'IMAGE WORLD', value: tuned(selection.imageWorld, system?.defaults.imageWorld, IMAGE_WORLDS), fromSystem: selection.imageWorld === 'SYSTEM_DEFAULT' });
   lines.push({ key: 'MOTION', label: 'MOTION', value: system || selection.motion !== 'SYSTEM_DEFAULT' ? label(MOTION_CHARACTERS, effectiveMotion(selection)) : null, fromSystem: selection.motion === 'SYSTEM_DEFAULT' });
   lines.push({ key: 'DELIVERY', label: 'DELIVERY', value: DELIVERY_COPY[selection.delivery].label });
+  for (const line of blueprintPlatformLines(effectiveFeatures(selection))) {
+    lines.push({ key: line.key, label: line.label, value: line.value });
+  }
   for (const line of lines) line.open = line.value === null;
 
   const groups = new Map<string, { label: string; depth: string }[]>();
@@ -228,6 +233,15 @@ export type BuilderEstimateView = {
   whatHappensNext: string[];
   notices: BuilderNotice[];
   reference: string;
+  platformUsage: {
+    applicable: boolean;
+    label: 'PLATFORM USAGE';
+    rateLabel: string | null;
+    summary: string;
+    learnHowThisWorks: { label: 'LEARN HOW THIS WORKS'; body: string };
+    includedInBuildInvestment: false;
+  };
+  ongoingService: { status: 'OPTIONAL' | 'SELECTED' | 'NOT_CONTRACTED'; summary: string };
 };
 
 function priorityView(selection: BuilderSelection, stage: EstimateStage, standard: ProjectEstimateResult): BuilderEstimateView['delivery']['priority'] {
@@ -304,5 +318,20 @@ export function builderEstimateView(selection: BuilderSelection, stage: Estimate
     ],
     notices,
     reference: `Estimate reference v${ESTIMATOR_VERSION}`,
+    platformUsage: (() => {
+      const disclosure = platformDisclosureForFeatures(effectiveFeatures(selection));
+      return {
+        applicable: disclosure.platformFeeApplicable,
+        label: 'PLATFORM USAGE' as const,
+        rateLabel: disclosure.rateLabel,
+        summary: disclosure.summary,
+        learnHowThisWorks: disclosure.learnHowThisWorks,
+        includedInBuildInvestment: false as const,
+      };
+    })(),
+    ongoingService: {
+      status: ongoingServiceDisclosure().status,
+      summary: ongoingServiceDisclosure().summary,
+    },
   };
 }

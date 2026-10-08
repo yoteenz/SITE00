@@ -15622,3 +15622,20 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - The client contract is thin.
   - Payments are ADVANCED-only.
 - **Review artifact:** "BLDR Visual Builder" (private claude.ai artifact) mirrors `wireframes/BUILDER_UX_AUTHORITY.html`.
+
+---
+
+## 2026-10-08 — Platform economics foundation
+
+- **Context:** SITE 00 is becoming commercial infrastructure, not only a one-time build. Platform participation has to live in SITE 00 so AIO and later projects consume one engine. This sprint is the foundation. It does not move money.
+- **Topics covered:** Revenue types, the default platform rate, eligible volume, exclusions, project agreements, an append-only ledger, refunds, chargebacks, payout batches, statements, a processor boundary, Builder and Blueprint disclosure, and AIO as the first consumer.
+- **Decisions / outcomes:**
+  - SITE 00 owns the engine. A project holds a platform agreement. A transaction calculates a fee. The ledger accrues and reverses. AIO calls that engine and does not keep its own percentage math.
+  - The default rate is 200 basis points, shown as 2.00%, and that number lives only in `src/studioos/platform-economics/rate.ts`. A different rate needs founder approval with author, reason, and time.
+  - Build fees, platform usage, and optional ongoing service stay separate. Future transaction fees are not added to the build total. A non-transaction project is not charged a percentage.
+  - Eligible volume is collected commerce. Taxes, gratuities, government fees, regulatory fees, and pass-through charges are excluded by default. Processor fees stay unspecified until the agreement says otherwise. Refunds reverse the matching fee. A full refund can return net accrual to zero. Chargebacks stay visible and reverse the fee when lost.
+  - Agreements move DRAFT → FOUNDER_REVIEW → OFFERED → CLIENT_REVIEW → ACCEPTED → ACTIVE. A Builder save does not accept. A quote does not activate. Historical entries keep their rate snapshot.
+  - Money is integer minor units. Currencies are not mixed. Duplicate processor events do not accrue twice. Payout batches are drafts. Stripe Connect is a stub. No connected accounts, no live fees, no published terms. Legal copy is marked LEGAL_REVIEW_REQUIRED.
+  - Version is 1.0.0. Build-tier rate rules are not activated.
+- **Changes:** `src/studioos/platform-economics/`, `docs/site00/SITE00_PLATFORM_ECONOMICS.md`. The client estimate and Builder blueprint disclose platform usage beside the build range. Internal surfaces: `/admin/site00/finance/platform` and the project Commercial tab. No new root navigation. The public site is unchanged.
+- **Conventions:** Do not hardcode the platform percentage in a client project. Do not treat Stripe as the ledger. Do not hide platform fees. Do not infer an active agreement from the Builder or from a quote. Do not collect or move money until a later founder-approved sprint.

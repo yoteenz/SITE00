@@ -47,4 +47,5 @@ export const PROJECT_WORKSPACE_TABS = [
   { id: 'deliverables', label: 'DELIVERABLES', suffix: '/deliverables' },
   { id: 'access', label: 'ACCESS', suffix: '/access' },
   { id: 'activity', label: 'ACTIVITY', suffix: '/activity' },
+  { id: 'commercial', label: 'COMMERCIAL', suffix: '/commercial' },
 ] as const;

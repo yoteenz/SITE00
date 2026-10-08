@@ -1,3 +1,4 @@
+import { ongoingServiceDisclosure, platformDisclosureForFeatures } from '../platform-economics/disclosure';
 import { FEATURE_BY_ID, STRUCTURAL_ARCHETYPES, VISUAL_SYSTEM_BY_ID } from './registries';
 import type { ClientBlueprintEstimate, ProjectEstimateConfig, ProjectEstimateResult } from './types';
 
@@ -51,5 +52,19 @@ export function toClientBlueprintEstimate(
     assumptions: result.assumptions.filter((line) => !line.toLowerCase().includes('family unit')).slice(0, 6),
     whatHappensNext: 'A founder reviews the blueprint. A commercial quote is a later, separate approval.',
     confidence: result.confidence,
+    platformUsage: (() => {
+      const disclosure = platformDisclosureForFeatures(config.featureIds);
+      return {
+        applicable: disclosure.platformFeeApplicable,
+        rateLabel: disclosure.rateLabel,
+        summary: disclosure.summary,
+        includedInBuildInvestment: false as const,
+        learnHowThisWorks: disclosure.learnHowThisWorks.body,
+      };
+    })(),
+    ongoingService: {
+      status: ongoingServiceDisclosure().status,
+      summary: ongoingServiceDisclosure().summary,
+    },
   };
 }
