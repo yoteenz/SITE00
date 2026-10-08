@@ -1,0 +1,850 @@
+{
+  "id": "CLIENT_OFFICE_TREE",
+  "sprint": "P0.AIO.OFFICE-IA.FOUNDER-WORK-TREE-AND-CLIENT-OFFICE-CANONICALIZATION1",
+  "lineage_id": "SUPERSEDED_BY_AIO_OFFICE_WORK_TREE1",
+  "generated_by": "scripts/studioos/aio-office-ia-export.ts",
+  "source": [
+    "shared/studioos-experience-brain/office-information-architecture.ts",
+    "shared/studioos-experience-brain/projects/aio/office-ia.ts"
+  ],
+  "audit": {
+    "repo": "yoteenz/fsbw · all-in-one-enterprises",
+    "sha": "750b12466845ff8acd5e53909d6da2dc3df124b9",
+    "mode": "READ-ONLY"
+  },
+  "constraints": {
+    "architecture_only": true,
+    "visual_redesign": false,
+    "images_generated": 0,
+    "visual_authorities_modified": false,
+    "live_nav_changed": false,
+    "routes_changed": false,
+    "supabase_schema_changed": false,
+    "client_lifecycle_changed": false,
+    "auth_changed": false,
+    "deployed": false
+  },
+  "root_nav": [
+    "MY BUSINESS",
+    "OPERATIONS",
+    "FINANCES",
+    "VAULT",
+    "INBOX",
+    "SERVICES",
+    "ACCOUNT"
+  ],
+  "tree": {
+    "node_id": "CLIENT_OFFICE",
+    "label": "CLIENT OFFICE",
+    "kind": "SHELL",
+    "role": "LANDING",
+    "architecture": "ARCHITECTURALLY_CANONICAL",
+    "implementation": "IMPLEMENTATION_PARTIAL",
+    "depth": "FUNCTIONAL_DEMO",
+    "routes": [
+      "/portal"
+    ],
+    "children": [
+      {
+        "node_id": "CLIENT_OFFICE.HUB",
+        "label": "Client Office Hub",
+        "kind": "LANDING",
+        "role": "LANDING",
+        "architecture": "CANDIDATE_UNRESOLVED",
+        "implementation": "IMPLEMENTATION_PARTIAL",
+        "depth": "FUNCTIONAL_DEMO",
+        "client_resolution": "ALWAYS",
+        "routes": [
+          "/portal"
+        ],
+        "children": []
+      },
+      {
+        "node_id": "CLIENT_OFFICE.ACTIVATION",
+        "label": "Client Activation",
+        "kind": "GATE",
+        "role": "GATE",
+        "architecture": "ARCHITECTURALLY_CANONICAL",
+        "implementation": "IMPLEMENTATION_PARTIAL",
+        "depth": "PRODUCTION_BACKED",
+        "client_resolution": "STATE",
+        "routes": [
+          "/office-activation/:token",
+          "/portal/activation/review"
+        ],
+        "children": []
+      },
+      {
+        "node_id": "CLIENT_OFFICE.MY_BUSINESS",
+        "label": "MY BUSINESS",
+        "kind": "ROOT_DESTINATION",
+        "role": "CLIENT_RECORD",
+        "architecture": "ARCHITECTURALLY_CANONICAL",
+        "implementation": "IMPLEMENTATION_PARTIAL",
+        "depth": "FUNCTIONAL_DEMO",
+        "client_resolution": "ALWAYS",
+        "routes": [
+          "/portal/business",
+          "/portal/business/summary"
+        ],
+        "children": [
+          {
+            "node_id": "CLIENT_OFFICE.MY_BUSINESS.COMPANY_PROFILE",
+            "label": "Company Profile",
+            "kind": "SECTION",
+            "role": "CLIENT_RECORD",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "client_resolution": "ALWAYS",
+            "routes": [
+              "/portal/business"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "CLIENT_OFFICE.MY_BUSINESS.OWNERS_CONTACTS",
+            "label": "Owners / Contacts",
+            "kind": "SECTION",
+            "role": "CLIENT_RECORD",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "READ_ONLY",
+            "client_resolution": "ALWAYS",
+            "routes": [
+              "/portal/business/summary"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "CLIENT_OFFICE.MY_BUSINESS.DRIVERS",
+            "label": "Drivers",
+            "kind": "SECTION",
+            "role": "CLIENT_RECORD",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "READ_ONLY",
+            "client_resolution": "APPLICABILITY",
+            "routes": [],
+            "services": [
+              "DRIVERS_CARRIERS"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "CLIENT_OFFICE.MY_BUSINESS.VEHICLES",
+            "label": "Vehicles",
+            "kind": "SECTION",
+            "role": "CLIENT_RECORD",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "READ_ONLY",
+            "client_resolution": "APPLICABILITY",
+            "routes": [
+              "/portal/fleet",
+              "/portal/fleet/vehicles/:vehicleId"
+            ],
+            "services": [
+              "VEHICLE_MANAGEMENT"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "CLIENT_OFFICE.MY_BUSINESS.AUTHORITIES_REGISTRATIONS",
+            "label": "Authorities / Registrations",
+            "kind": "SECTION",
+            "role": "CLIENT_RECORD",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "READ_ONLY",
+            "client_resolution": "APPLICABILITY",
+            "routes": [
+              "/portal/road-ready",
+              "/portal/renewals"
+            ],
+            "services": [
+              "PERMITTING_AUTHORITIES"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "CLIENT_OFFICE.MY_BUSINESS.BUSINESS_DETAILS",
+            "label": "Business Details",
+            "kind": "SECTION",
+            "role": "CLIENT_RECORD",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "READ_ONLY",
+            "client_resolution": "ALWAYS",
+            "routes": [
+              "/portal/business/summary"
+            ],
+            "children": []
+          }
+        ]
+      },
+      {
+        "node_id": "CLIENT_OFFICE.OPERATIONS",
+        "label": "OPERATIONS",
+        "kind": "ROOT_DESTINATION",
+        "role": "CLIENT_WORKSPACE",
+        "architecture": "ARCHITECTURALLY_CANONICAL",
+        "implementation": "IMPLEMENTATION_PARTIAL",
+        "depth": "FUNCTIONAL_DEMO",
+        "client_resolution": "ENTITLEMENT",
+        "routes": [
+          "/portal/operations"
+        ],
+        "children": [
+          {
+            "node_id": "CLIENT_OFFICE.OPERATIONS.COMPLIANCE",
+            "label": "Compliance",
+            "kind": "SECTION",
+            "role": "CLIENT_WORKSPACE",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "client_resolution": "ENTITLEMENT",
+            "routes": [
+              "/portal/calendar",
+              "/portal/renewals"
+            ],
+            "workspaces": [
+              "COMPLIANCE"
+            ],
+            "services": [
+              "COMPLIANCE"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "CLIENT_OFFICE.OPERATIONS.PERMITTING_AUTHORITIES",
+            "label": "Permitting / Authorities",
+            "kind": "SECTION",
+            "role": "CLIENT_WORKSPACE",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "GENERIC_PIPELINE",
+            "client_resolution": "ENTITLEMENT",
+            "routes": [
+              "/portal/requests",
+              "/portal/services/:serviceRequestId",
+              "/portal/roadmap"
+            ],
+            "workspaces": [
+              "PERMITTING",
+              "TAGS_REGISTRATION",
+              "COMPLIANCE",
+              "BUSINESS_FORMATION"
+            ],
+            "services": [
+              "PERMITTING_AUTHORITIES"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "CLIENT_OFFICE.OPERATIONS.FILING_IFTA",
+            "label": "Filing / IFTA",
+            "kind": "SECTION",
+            "role": "CLIENT_WORKSPACE",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "client_resolution": "ENTITLEMENT",
+            "routes": [
+              "/portal/workspaces/ifta"
+            ],
+            "workspaces": [
+              "IFTA"
+            ],
+            "services": [
+              "IFTA_FUEL_TAX"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "CLIENT_OFFICE.OPERATIONS.DISPATCH",
+            "label": "Dispatch",
+            "kind": "SECTION",
+            "role": "CLIENT_WORKSPACE",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "client_resolution": "ENTITLEMENT",
+            "routes": [
+              "/portal/dispatch",
+              "/portal/load-board"
+            ],
+            "workspaces": [
+              "DISPATCH"
+            ],
+            "services": [
+              "DISPATCH"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "CLIENT_OFFICE.OPERATIONS.BROKERAGE",
+            "label": "Brokerage",
+            "kind": "SECTION",
+            "role": "CLIENT_WORKSPACE",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "PRODUCTION_BACKED",
+            "client_resolution": "ENTITLEMENT",
+            "routes": [
+              "/portal/brokerage"
+            ],
+            "workspaces": [
+              "BROKERAGE"
+            ],
+            "services": [
+              "BROKERAGE"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "CLIENT_OFFICE.OPERATIONS.DRIVER_MANAGEMENT",
+            "label": "Driver Management",
+            "kind": "SECTION",
+            "role": "CLIENT_WORKSPACE",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "client_resolution": "ENTITLEMENT",
+            "routes": [
+              "/portal/driverlink"
+            ],
+            "workspaces": [
+              "DRIVERLINK"
+            ],
+            "services": [
+              "DRIVERS_CARRIERS"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "CLIENT_OFFICE.OPERATIONS.VEHICLE_MANAGEMENT",
+            "label": "Vehicle Management",
+            "kind": "SECTION",
+            "role": "CLIENT_WORKSPACE",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "READ_ONLY",
+            "client_resolution": "APPLICABILITY",
+            "routes": [
+              "/portal/fleet"
+            ],
+            "services": [
+              "VEHICLE_MANAGEMENT"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "CLIENT_OFFICE.OPERATIONS.MAINTENANCE",
+            "label": "Maintenance",
+            "kind": "SECTION",
+            "role": "CLIENT_WORKSPACE",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "client_resolution": "ENTITLEMENT",
+            "routes": [
+              "/portal/fleetcare"
+            ],
+            "workspaces": [
+              "FLEETCARE"
+            ],
+            "services": [
+              "MECHANIC_MAINTENANCE"
+            ],
+            "children": []
+          }
+        ]
+      },
+      {
+        "node_id": "CLIENT_OFFICE.FINANCES",
+        "label": "FINANCES",
+        "kind": "ROOT_DESTINATION",
+        "role": "CLIENT_WORKSPACE",
+        "architecture": "ARCHITECTURALLY_CANONICAL",
+        "implementation": "IMPLEMENTATION_PARTIAL",
+        "depth": "FUNCTIONAL_DEMO",
+        "client_resolution": "ENTITLEMENT",
+        "routes": [
+          "/portal/money"
+        ],
+        "children": [
+          {
+            "node_id": "CLIENT_OFFICE.FINANCES.BOOKKEEPING",
+            "label": "Bookkeeping",
+            "kind": "SECTION",
+            "role": "CLIENT_WORKSPACE",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "READ_ONLY",
+            "client_resolution": "ENTITLEMENT",
+            "routes": [
+              "/portal/bookkeeping"
+            ],
+            "workspaces": [
+              "BOOKKEEPING"
+            ],
+            "services": [
+              "BOOKKEEPING"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "CLIENT_OFFICE.FINANCES.FACTORING",
+            "label": "Factoring",
+            "kind": "SECTION",
+            "role": "CLIENT_WORKSPACE",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "client_resolution": "ENTITLEMENT",
+            "routes": [
+              "/portal/factoring"
+            ],
+            "workspaces": [
+              "FACTORING"
+            ],
+            "services": [
+              "FACTORING"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "CLIENT_OFFICE.FINANCES.INSURANCE",
+            "label": "Insurance",
+            "kind": "SECTION",
+            "role": "CLIENT_WORKSPACE",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "client_resolution": "ENTITLEMENT",
+            "routes": [
+              "/portal/insurance"
+            ],
+            "workspaces": [
+              "INSURANCE"
+            ],
+            "services": [
+              "INSURANCE"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "CLIENT_OFFICE.FINANCES.FILING_TAX_SUMMARIES",
+            "label": "Filing / Tax Summaries",
+            "kind": "SECTION",
+            "role": "CLIENT_WORKSPACE",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_NOT_STARTED",
+            "depth": "NONE",
+            "client_resolution": "ENTITLEMENT",
+            "routes": [],
+            "workspaces": [
+              "IFTA"
+            ],
+            "services": [
+              "IFTA_FUEL_TAX"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "CLIENT_OFFICE.FINANCES.FEES_PAYMENTS",
+            "label": "Fees / Payments",
+            "kind": "SECTION",
+            "role": "CLIENT_WORKSPACE",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "client_resolution": "ALWAYS",
+            "routes": [
+              "/portal/billing",
+              "/portal/quotes"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "CLIENT_OFFICE.FINANCES.FINANCIAL_DOCUMENTS",
+            "label": "Financial Documents",
+            "kind": "SECTION",
+            "role": "CLIENT_WORKSPACE",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_NOT_STARTED",
+            "depth": "NONE",
+            "client_resolution": "ALWAYS",
+            "routes": [],
+            "services": [
+              "DOCUMENTS_VAULT"
+            ],
+            "children": []
+          }
+        ]
+      },
+      {
+        "node_id": "CLIENT_OFFICE.VAULT",
+        "label": "VAULT",
+        "kind": "ROOT_DESTINATION",
+        "role": "RECORDS",
+        "architecture": "ARCHITECTURALLY_CANONICAL",
+        "implementation": "IMPLEMENTATION_PARTIAL",
+        "depth": "FUNCTIONAL_DEMO",
+        "client_resolution": "ALWAYS",
+        "routes": [
+          "/portal/vault",
+          "/portal/documents"
+        ],
+        "services": [
+          "DOCUMENTS_VAULT"
+        ],
+        "children": [
+          {
+            "node_id": "CLIENT_OFFICE.VAULT.CURRENT_DOCUMENTS",
+            "label": "Current Documents",
+            "kind": "SECTION",
+            "role": "RECORDS",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "client_resolution": "ALWAYS",
+            "routes": [],
+            "services": [
+              "DOCUMENTS_VAULT"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "CLIENT_OFFICE.VAULT.HISTORICAL_DOCUMENTS",
+            "label": "Historical Documents",
+            "kind": "SECTION",
+            "role": "RECORDS",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "READ_ONLY",
+            "client_resolution": "ALWAYS",
+            "routes": [],
+            "services": [
+              "DOCUMENTS_VAULT"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "CLIENT_OFFICE.VAULT.UPLOADS",
+            "label": "Uploads",
+            "kind": "SECTION",
+            "role": "RECORDS",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "client_resolution": "ALWAYS",
+            "routes": [],
+            "services": [
+              "DOCUMENTS_VAULT"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "CLIENT_OFFICE.VAULT.GENERATED_DOCUMENTS",
+            "label": "Generated Documents",
+            "kind": "SECTION",
+            "role": "RECORDS",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_NOT_STARTED",
+            "depth": "NONE",
+            "client_resolution": "ALWAYS",
+            "routes": [],
+            "services": [
+              "DOCUMENTS_VAULT"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "CLIENT_OFFICE.VAULT.FILING_COMPLIANCE_RECORDS",
+            "label": "Filing / Compliance Records",
+            "kind": "SECTION",
+            "role": "RECORDS",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "READ_ONLY",
+            "client_resolution": "ALWAYS",
+            "routes": [],
+            "services": [
+              "DOCUMENTS_VAULT",
+              "IFTA_FUEL_TAX",
+              "COMPLIANCE"
+            ],
+            "children": []
+          }
+        ]
+      },
+      {
+        "node_id": "CLIENT_OFFICE.INBOX",
+        "label": "INBOX",
+        "kind": "ROOT_DESTINATION",
+        "role": "COMMUNICATION",
+        "architecture": "ARCHITECTURALLY_CANONICAL",
+        "implementation": "IMPLEMENTATION_PARTIAL",
+        "depth": "FUNCTIONAL_DEMO",
+        "client_resolution": "ALWAYS",
+        "routes": [
+          "/portal/inbox"
+        ],
+        "services": [
+          "MESSAGING"
+        ],
+        "children": [
+          {
+            "node_id": "CLIENT_OFFICE.INBOX.MESSAGES_FROM_AIO",
+            "label": "Messages from AIO",
+            "kind": "SECTION",
+            "role": "COMMUNICATION",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "client_resolution": "ALWAYS",
+            "routes": [
+              "/portal/inbox/messages"
+            ],
+            "services": [
+              "MESSAGING"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "CLIENT_OFFICE.INBOX.REQUESTS",
+            "label": "Requests",
+            "kind": "SECTION",
+            "role": "COMMUNICATION",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "client_resolution": "ALWAYS",
+            "routes": [
+              "/portal/requests",
+              "/portal/requests/:requestId"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "CLIENT_OFFICE.INBOX.APPROVALS_NEEDED",
+            "label": "Approvals Needed",
+            "kind": "SECTION",
+            "role": "COMMUNICATION",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "client_resolution": "ALWAYS",
+            "routes": [],
+            "children": []
+          },
+          {
+            "node_id": "CLIENT_OFFICE.INBOX.NOTIFICATIONS",
+            "label": "Notifications",
+            "kind": "SECTION",
+            "role": "COMMUNICATION",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "client_resolution": "ALWAYS",
+            "routes": [
+              "/portal/notifications"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "CLIENT_OFFICE.INBOX.ACTIVITY_UPDATES",
+            "label": "Activity Updates",
+            "kind": "SECTION",
+            "role": "COMMUNICATION",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "client_resolution": "ALWAYS",
+            "routes": [
+              "/portal/activity"
+            ],
+            "children": []
+          }
+        ]
+      },
+      {
+        "node_id": "CLIENT_OFFICE.SERVICES",
+        "label": "SERVICES",
+        "kind": "ROOT_DESTINATION",
+        "role": "DISCOVERY",
+        "architecture": "ARCHITECTURALLY_CANONICAL",
+        "implementation": "IMPLEMENTATION_PARTIAL",
+        "depth": "FUNCTIONAL_DEMO",
+        "client_resolution": "ALWAYS",
+        "routes": [
+          "/portal/services"
+        ],
+        "children": [
+          {
+            "node_id": "CLIENT_OFFICE.SERVICES.ACTIVE_SERVICES",
+            "label": "Active Services",
+            "kind": "SECTION",
+            "role": "DISCOVERY",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "client_resolution": "ALWAYS",
+            "routes": [],
+            "children": []
+          },
+          {
+            "node_id": "CLIENT_OFFICE.SERVICES.AVAILABLE_SERVICES",
+            "label": "Available Services",
+            "kind": "SECTION",
+            "role": "DISCOVERY",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "client_resolution": "ALWAYS",
+            "routes": [],
+            "children": []
+          },
+          {
+            "node_id": "CLIENT_OFFICE.SERVICES.RECOMMENDED_CONTEXTUAL",
+            "label": "Recommended / Contextual Services",
+            "kind": "SECTION",
+            "role": "DISCOVERY",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_NOT_STARTED",
+            "depth": "NONE",
+            "client_resolution": "ALWAYS",
+            "routes": [],
+            "children": []
+          },
+          {
+            "node_id": "CLIENT_OFFICE.SERVICES.REQUEST_A_SERVICE",
+            "label": "Request a Service",
+            "kind": "SECTION",
+            "role": "DISCOVERY",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "client_resolution": "ALWAYS",
+            "routes": [
+              "/portal/requests"
+            ],
+            "children": []
+          }
+        ]
+      },
+      {
+        "node_id": "CLIENT_OFFICE.ACCOUNT",
+        "label": "ACCOUNT",
+        "kind": "ROOT_DESTINATION",
+        "role": "ACCOUNT",
+        "architecture": "ARCHITECTURALLY_CANONICAL",
+        "implementation": "IMPLEMENTATION_PARTIAL",
+        "depth": "FUNCTIONAL_DEMO",
+        "client_resolution": "ALWAYS",
+        "routes": [
+          "/portal/settings"
+        ],
+        "children": [
+          {
+            "node_id": "CLIENT_OFFICE.ACCOUNT.PROFILE",
+            "label": "Profile",
+            "kind": "SECTION",
+            "role": "ACCOUNT",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "client_resolution": "ALWAYS",
+            "routes": [
+              "/portal/settings"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "CLIENT_OFFICE.ACCOUNT.USERS_ACCESS",
+            "label": "Users / Access",
+            "kind": "SECTION",
+            "role": "ACCOUNT",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "client_resolution": "ALWAYS",
+            "routes": [
+              "/portal/team"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "CLIENT_OFFICE.ACCOUNT.NOTIFICATIONS",
+            "label": "Notifications",
+            "kind": "SECTION",
+            "role": "ACCOUNT",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "client_resolution": "ALWAYS",
+            "routes": [
+              "/portal/settings/notifications"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "CLIENT_OFFICE.ACCOUNT.SECURITY",
+            "label": "Security",
+            "kind": "SECTION",
+            "role": "ACCOUNT",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "client_resolution": "ALWAYS",
+            "routes": [
+              "/portal/settings/security"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "CLIENT_OFFICE.ACCOUNT.PREFERENCES",
+            "label": "Preferences",
+            "kind": "SECTION",
+            "role": "ACCOUNT",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "client_resolution": "ALWAYS",
+            "routes": [
+              "/portal/settings/connections"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "CLIENT_OFFICE.ACCOUNT.HELP",
+            "label": "Help",
+            "kind": "SECTION",
+            "role": "ACCOUNT",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_NOT_STARTED",
+            "depth": "NONE",
+            "client_resolution": "ALWAYS",
+            "routes": [],
+            "children": []
+          },
+          {
+            "node_id": "CLIENT_OFFICE.ACCOUNT.SIGN_OUT",
+            "label": "Sign Out",
+            "kind": "SECTION",
+            "role": "ACCOUNT",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTED",
+            "depth": "PRODUCTION_BACKED",
+            "client_resolution": "ALWAYS",
+            "routes": [],
+            "children": []
+          }
+        ]
+      }
+    ]
+  }
+}

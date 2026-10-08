@@ -1,0 +1,299 @@
+{
+  "id": "AIO_OFFICE_REPORTS_AGGREGATION_MODEL",
+  "sprint": "P0.AIO.OFFICE-IA.FOUNDER-WORK-TREE-AND-CLIENT-OFFICE-CANONICALIZATION1",
+  "lineage_id": "SUPERSEDED_BY_AIO_OFFICE_WORK_TREE1",
+  "generated_by": "scripts/studioos/aio-office-ia-export.ts",
+  "source": [
+    "shared/studioos-experience-brain/office-information-architecture.ts",
+    "shared/studioos-experience-brain/projects/aio/office-ia.ts"
+  ],
+  "audit": {
+    "repo": "yoteenz/fsbw · all-in-one-enterprises",
+    "sha": "750b12466845ff8acd5e53909d6da2dc3df124b9",
+    "mode": "READ-ONLY"
+  },
+  "constraints": {
+    "architecture_only": true,
+    "visual_redesign": false,
+    "images_generated": 0,
+    "visual_authorities_modified": false,
+    "live_nav_changed": false,
+    "routes_changed": false,
+    "supabase_schema_changed": false,
+    "client_lifecycle_changed": false,
+    "auth_changed": false,
+    "deployed": false
+  },
+  "rule": "REPORTS is internal oversight: history, performance, analytics and exports. It aggregates WORK and INTAKE and never replaces active production. Each domain declares whether its data is real today.",
+  "data_status_counts": {
+    "REAL_DATA": 0,
+    "PARTIAL_DATA": 7,
+    "NOT_YET_IMPLEMENTED": 3
+  },
+  "examples": [
+    {
+      "surface": "REPORTS",
+      "says": "Brokerage historical performance / volume / exports",
+      "region": "AIO_OFFICE.REPORTS.DISPATCH_BROKERAGE",
+      "owner": "AIO_OFFICE.WORK.BROKERAGE.SHIPMENTS"
+    }
+  ],
+  "domains": [
+    {
+      "node_id": "AIO_OFFICE.REPORTS.OVERVIEW",
+      "label": "Overview",
+      "data_status": "PARTIAL_DATA",
+      "aggregates": [
+        {
+          "node_id": "AIO_OFFICE.WORK",
+          "location": "AIO OFFICE → WORK"
+        },
+        {
+          "node_id": "AIO_OFFICE.INTAKE",
+          "location": "AIO OFFICE → INTAKE"
+        }
+      ],
+      "routes": [
+        {
+          "path": "/office/management",
+          "status": "EXISTING",
+          "evidence": "all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:245"
+        }
+      ],
+      "staff_gate": null,
+      "implementation": "IMPLEMENTATION_PARTIAL",
+      "depth": "FUNCTIONAL_DEMO",
+      "notes": ""
+    },
+    {
+      "node_id": "AIO_OFFICE.REPORTS.CLIENTS",
+      "label": "Clients",
+      "data_status": "PARTIAL_DATA",
+      "aggregates": [
+        {
+          "node_id": "AIO_OFFICE.MORE.CLIENTS",
+          "location": "AIO OFFICE → MORE → Clients"
+        },
+        {
+          "node_id": "AIO_OFFICE.INTAKE",
+          "location": "AIO OFFICE → INTAKE"
+        }
+      ],
+      "routes": [
+        {
+          "path": "/office/management/customers",
+          "status": "EXISTING",
+          "evidence": "all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:245-257"
+        }
+      ],
+      "staff_gate": null,
+      "implementation": "IMPLEMENTATION_PARTIAL",
+      "depth": "FUNCTIONAL_DEMO",
+      "notes": "Active-client counts must use the founder ACTIVE rule (PREBUILT not counted)."
+    },
+    {
+      "node_id": "AIO_OFFICE.REPORTS.SERVICES",
+      "label": "Services",
+      "data_status": "PARTIAL_DATA",
+      "aggregates": [
+        {
+          "node_id": "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES",
+          "location": "AIO OFFICE → WORK → Permitting & Authorities"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK.FILING_FUEL_TAXES",
+          "location": "AIO OFFICE → WORK → Filing & Fuel Taxes"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK.COMPLIANCE",
+          "location": "AIO OFFICE → WORK → Compliance"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK.DISPATCH",
+          "location": "AIO OFFICE → WORK → Dispatch"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK.BROKERAGE",
+          "location": "AIO OFFICE → WORK → Brokerage"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK.INSURANCE",
+          "location": "AIO OFFICE → WORK → Insurance"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK.FACTORING",
+          "location": "AIO OFFICE → WORK → Factoring"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK.BOOKKEEPING",
+          "location": "AIO OFFICE → WORK → Bookkeeping"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK.DRIVERS_CARRIERS",
+          "location": "AIO OFFICE → WORK → Drivers & Carriers"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE",
+          "location": "AIO OFFICE → WORK → Mechanic / Maintenance"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK.ROAD_READY",
+          "location": "AIO OFFICE → WORK → Road Ready"
+        }
+      ],
+      "routes": [
+        {
+          "path": "/office/management/services",
+          "status": "EXISTING",
+          "evidence": "all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:245-257"
+        }
+      ],
+      "staff_gate": null,
+      "implementation": "IMPLEMENTATION_PARTIAL",
+      "depth": "FUNCTIONAL_DEMO",
+      "notes": ""
+    },
+    {
+      "node_id": "AIO_OFFICE.REPORTS.FINANCIAL_REVENUE",
+      "label": "Financial / Revenue",
+      "data_status": "PARTIAL_DATA",
+      "aggregates": [
+        {
+          "node_id": "AIO_OFFICE.WORK.BROKERAGE.LOAD_FINANCIALS",
+          "location": "AIO OFFICE → WORK → Brokerage → Load Financials"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK.FACTORING",
+          "location": "AIO OFFICE → WORK → Factoring"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK.BOOKKEEPING",
+          "location": "AIO OFFICE → WORK → Bookkeeping"
+        }
+      ],
+      "routes": [
+        {
+          "path": "/office/management/financial",
+          "status": "EXISTING",
+          "evidence": "all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:245-257"
+        }
+      ],
+      "staff_gate": "existing management permissions (ROLE_PERMISSIONS)",
+      "implementation": "IMPLEMENTATION_PARTIAL",
+      "depth": "FUNCTIONAL_DEMO",
+      "notes": "Billing Desk (quotes, invoices, payments) is a candidate source (C-BILLING-DESK)."
+    },
+    {
+      "node_id": "AIO_OFFICE.REPORTS.FILING_HISTORY",
+      "label": "Filing History",
+      "data_status": "NOT_YET_IMPLEMENTED",
+      "aggregates": [
+        {
+          "node_id": "AIO_OFFICE.WORK.FILING_FUEL_TAXES",
+          "location": "AIO OFFICE → WORK → Filing & Fuel Taxes"
+        }
+      ],
+      "routes": [],
+      "staff_gate": null,
+      "implementation": "IMPLEMENTATION_NOT_STARTED",
+      "depth": "NONE",
+      "notes": "No filing reports; only a per-case IFTA CSV export (IftaStaffCasePage.tsx:130)."
+    },
+    {
+      "node_id": "AIO_OFFICE.REPORTS.COMPLIANCE",
+      "label": "Compliance",
+      "data_status": "PARTIAL_DATA",
+      "aggregates": [
+        {
+          "node_id": "AIO_OFFICE.WORK.COMPLIANCE",
+          "location": "AIO OFFICE → WORK → Compliance"
+        }
+      ],
+      "routes": [
+        {
+          "path": "/office/management/deadlines",
+          "status": "EXISTING",
+          "evidence": "all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:245-257"
+        }
+      ],
+      "staff_gate": null,
+      "implementation": "IMPLEMENTATION_PARTIAL",
+      "depth": "FUNCTIONAL_DEMO",
+      "notes": ""
+    },
+    {
+      "node_id": "AIO_OFFICE.REPORTS.DISPATCH_BROKERAGE",
+      "label": "Dispatch / Brokerage",
+      "data_status": "PARTIAL_DATA",
+      "aggregates": [
+        {
+          "node_id": "AIO_OFFICE.WORK.DISPATCH",
+          "location": "AIO OFFICE → WORK → Dispatch"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK.BROKERAGE",
+          "location": "AIO OFFICE → WORK → Brokerage"
+        }
+      ],
+      "routes": [
+        {
+          "path": "/office/management/dispatch",
+          "status": "EXISTING",
+          "evidence": "all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:245-257"
+        },
+        {
+          "path": "/office/management/brokerage",
+          "status": "EXISTING",
+          "evidence": "all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:245-257"
+        }
+      ],
+      "staff_gate": null,
+      "implementation": "IMPLEMENTATION_PARTIAL",
+      "depth": "FUNCTIONAL_DEMO",
+      "notes": ""
+    },
+    {
+      "node_id": "AIO_OFFICE.REPORTS.BOOKKEEPING",
+      "label": "Bookkeeping",
+      "data_status": "NOT_YET_IMPLEMENTED",
+      "aggregates": [
+        {
+          "node_id": "AIO_OFFICE.WORK.BOOKKEEPING",
+          "location": "AIO OFFICE → WORK → Bookkeeping"
+        }
+      ],
+      "routes": [],
+      "staff_gate": null,
+      "implementation": "IMPLEMENTATION_NOT_STARTED",
+      "depth": "NONE",
+      "notes": "No management view for bookkeeping (management subpages cover financial, sales, services, customers, dispatch, brokerage, factoring, insurance, communications, team, deadlines, data quality)."
+    },
+    {
+      "node_id": "AIO_OFFICE.REPORTS.MIGRATION",
+      "label": "Migration",
+      "data_status": "PARTIAL_DATA",
+      "aggregates": [
+        {
+          "node_id": "AIO_OFFICE.INTAKE",
+          "location": "AIO OFFICE → INTAKE"
+        }
+      ],
+      "routes": [],
+      "staff_gate": null,
+      "implementation": "IMPLEMENTATION_PARTIAL",
+      "depth": "FUNCTIONAL_DEMO",
+      "notes": ""
+    },
+    {
+      "node_id": "AIO_OFFICE.REPORTS.EXPORTS",
+      "label": "Exports",
+      "data_status": "NOT_YET_IMPLEMENTED",
+      "aggregates": [],
+      "routes": [],
+      "staff_gate": null,
+      "implementation": "IMPLEMENTATION_NOT_STARTED",
+      "depth": "NONE",
+      "notes": "No report export surface; the only export is the per-case IFTA CSV."
+    }
+  ]
+}

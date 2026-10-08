@@ -1,0 +1,1580 @@
+{
+  "id": "AIO_OFFICE_TREE",
+  "sprint": "P0.AIO.OFFICE-IA.FOUNDER-WORK-TREE-AND-CLIENT-OFFICE-CANONICALIZATION1",
+  "lineage_id": "SUPERSEDED_BY_AIO_OFFICE_WORK_TREE1",
+  "generated_by": "scripts/studioos/aio-office-ia-export.ts",
+  "source": [
+    "shared/studioos-experience-brain/office-information-architecture.ts",
+    "shared/studioos-experience-brain/projects/aio/office-ia.ts"
+  ],
+  "audit": {
+    "repo": "yoteenz/fsbw · all-in-one-enterprises",
+    "sha": "750b12466845ff8acd5e53909d6da2dc3df124b9",
+    "mode": "READ-ONLY"
+  },
+  "constraints": {
+    "architecture_only": true,
+    "visual_redesign": false,
+    "images_generated": 0,
+    "visual_authorities_modified": false,
+    "live_nav_changed": false,
+    "routes_changed": false,
+    "supabase_schema_changed": false,
+    "client_lifecycle_changed": false,
+    "auth_changed": false,
+    "deployed": false
+  },
+  "root_nav": [
+    "HOME",
+    "INTAKE",
+    "WORK",
+    "REPORTS",
+    "MORE"
+  ],
+  "tree": {
+    "node_id": "AIO_OFFICE",
+    "label": "AIO OFFICE",
+    "kind": "SHELL",
+    "role": "LANDING",
+    "architecture": "ARCHITECTURALLY_CANONICAL",
+    "implementation": "IMPLEMENTATION_PARTIAL",
+    "depth": "FUNCTIONAL_DEMO",
+    "routes": [
+      "/office"
+    ],
+    "children": [
+      {
+        "node_id": "AIO_OFFICE.HOME",
+        "label": "HOME",
+        "kind": "ROOT_DESTINATION",
+        "role": "COMMAND",
+        "architecture": "ARCHITECTURALLY_CANONICAL",
+        "implementation": "IMPLEMENTATION_PARTIAL",
+        "depth": "FUNCTIONAL_DEMO",
+        "routes": [
+          "/office"
+        ],
+        "children": [
+          {
+            "node_id": "AIO_OFFICE.HOME.NEEDS_ATTENTION",
+            "label": "Needs Attention",
+            "kind": "REGION",
+            "role": "PROJECTION",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "routes": [],
+            "children": []
+          },
+          {
+            "node_id": "AIO_OFFICE.HOME.DEADLINES",
+            "label": "Deadlines",
+            "kind": "REGION",
+            "role": "PROJECTION",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "routes": [
+              "/office/deadlines"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "AIO_OFFICE.HOME.BLOCKERS",
+            "label": "Blockers",
+            "kind": "REGION",
+            "role": "PROJECTION",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "routes": [],
+            "children": []
+          },
+          {
+            "node_id": "AIO_OFFICE.HOME.WORK_ACROSS_AIO",
+            "label": "Work Across AIO",
+            "kind": "REGION",
+            "role": "PROJECTION",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "routes": [
+              "/office/work",
+              "/office/queues"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "AIO_OFFICE.HOME.CLIENTS_IN_MOTION",
+            "label": "Clients in Motion",
+            "kind": "REGION",
+            "role": "PROJECTION",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "routes": [],
+            "children": []
+          },
+          {
+            "node_id": "AIO_OFFICE.HOME.RECENT_ACTIVITY",
+            "label": "Recent Activity",
+            "kind": "REGION",
+            "role": "PROJECTION",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "routes": [
+              "/office/activity"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "AIO_OFFICE.HOME.QUICK_ACTIONS",
+            "label": "Quick Actions",
+            "kind": "REGION",
+            "role": "PROJECTION",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "routes": [],
+            "children": []
+          }
+        ]
+      },
+      {
+        "node_id": "AIO_OFFICE.INTAKE",
+        "label": "INTAKE",
+        "kind": "ROOT_DESTINATION",
+        "role": "ENTRY",
+        "architecture": "ARCHITECTURALLY_CANONICAL",
+        "implementation": "IMPLEMENTATION_PARTIAL",
+        "depth": "PRODUCTION_BACKED",
+        "routes": [
+          "/office/migration"
+        ],
+        "services": [
+          "CLIENT_MIGRATION_INTAKE"
+        ],
+        "children": [
+          {
+            "node_id": "AIO_OFFICE.INTAKE.EXISTING_CLIENT_FILE",
+            "label": "Existing Client File",
+            "kind": "SECTION",
+            "role": "ENTRY",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "PRODUCTION_BACKED",
+            "routes": [
+              "/office/migration/existing",
+              "/office/migration/upload",
+              "/office/migration/received"
+            ],
+            "services": [
+              "CLIENT_MIGRATION_INTAKE"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "AIO_OFFICE.INTAKE.NEW_CLIENT_FILE",
+            "label": "New Client File",
+            "kind": "SECTION",
+            "role": "ENTRY",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "PRODUCTION_BACKED",
+            "routes": [
+              "/office/migration/new",
+              "/office/migration/new-received",
+              "/office/migration/new-identity",
+              "/office/migration/new-records"
+            ],
+            "services": [
+              "CLIENT_MIGRATION_INTAKE"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "AIO_OFFICE.INTAKE.BULK_BATCH_MIGRATION",
+            "label": "Bulk Batch Migration",
+            "kind": "SECTION",
+            "role": "ENTRY",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "routes": [
+              "/office/migration/batch",
+              "/office/migration/batch-received",
+              "/office/migration/batch-summary",
+              "/office/migration/batch-queue",
+              "/office/migration/batch-client",
+              "/office/migration/batch-complete"
+            ],
+            "services": [
+              "CLIENT_MIGRATION_INTAKE"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "AIO_OFFICE.INTAKE.MIGRATION_STATUS",
+            "label": "Migration Status",
+            "kind": "SECTION",
+            "role": "ENTRY",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "routes": [
+              "/office/migration"
+            ],
+            "services": [
+              "CLIENT_MIGRATION_INTAKE"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "AIO_OFFICE.INTAKE.EXTRACTION_CLASSIFICATION",
+            "label": "Extraction / Classification",
+            "kind": "SECTION",
+            "role": "ENTRY",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "PRODUCTION_BACKED",
+            "routes": [
+              "/office/migration/extract",
+              "/office/migration/new-extract",
+              "/office/migration/batch-processing"
+            ],
+            "services": [
+              "CLIENT_MIGRATION_INTAKE"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "AIO_OFFICE.INTAKE.MATCH_RECONCILE",
+            "label": "Match / Reconcile",
+            "kind": "SECTION",
+            "role": "ENTRY",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "PRODUCTION_BACKED",
+            "routes": [
+              "/office/migration/match",
+              "/office/migration/conflicts",
+              "/office/migration/batch-conflicts"
+            ],
+            "services": [
+              "CLIENT_MIGRATION_INTAKE"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "AIO_OFFICE.INTAKE.FOUNDER_REVIEW",
+            "label": "Founder Review",
+            "kind": "SECTION",
+            "role": "ENTRY",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "PRODUCTION_BACKED",
+            "routes": [
+              "/office/migration/review",
+              "/office/migration/new-review"
+            ],
+            "services": [
+              "CLIENT_MIGRATION_INTAKE"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "AIO_OFFICE.INTAKE.PREBUILT_CLIENT",
+            "label": "Prebuilt Client",
+            "kind": "SECTION",
+            "role": "ENTRY",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "PRODUCTION_BACKED",
+            "routes": [
+              "/office/migration/approval",
+              "/office/migration/prebuilt",
+              "/office/migration/new-approval",
+              "/office/migration/new-prebuilt",
+              "/office/migration/batch-approval",
+              "/office/migration/batch-run"
+            ],
+            "services": [
+              "CLIENT_MIGRATION_INTAKE"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "AIO_OFFICE.INTAKE.ACTIVATION_INVITE",
+            "label": "Activation Invite",
+            "kind": "SECTION",
+            "role": "ENTRY",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "PRODUCTION_BACKED",
+            "routes": [
+              "/office/migration/invite",
+              "/office/migration/invited",
+              "/office/migration/new-invite",
+              "/office/migration/new-confirm"
+            ],
+            "services": [
+              "CLIENT_MIGRATION_INTAKE"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "AIO_OFFICE.INTAKE.MIGRATION_HISTORY",
+            "label": "Migration History",
+            "kind": "SECTION",
+            "role": "ENTRY",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "READ_ONLY",
+            "routes": [
+              "/office/archive-migration"
+            ],
+            "services": [
+              "CLIENT_MIGRATION_INTAKE"
+            ],
+            "children": []
+          }
+        ]
+      },
+      {
+        "node_id": "AIO_OFFICE.WORK",
+        "label": "WORK",
+        "kind": "ROOT_DESTINATION",
+        "role": "PRODUCTION",
+        "architecture": "ARCHITECTURALLY_CANONICAL",
+        "implementation": "IMPLEMENTATION_PARTIAL",
+        "depth": "FUNCTIONAL_DEMO",
+        "routes": [
+          "/office/work",
+          "/office/services",
+          "/office/work/:lane (PROPOSED)"
+        ],
+        "children": [
+          {
+            "node_id": "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES",
+            "label": "Permitting & Authorities",
+            "kind": "SERVICE_LANE",
+            "role": "PRODUCTION",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "GENERIC_PIPELINE",
+            "routes": [
+              "/office/permitting",
+              "/office/business-formation",
+              "/office/business-name-review",
+              "/office/requests/:requestId"
+            ],
+            "workspaces": [
+              "TAGS_REGISTRATION",
+              "PERMITTING",
+              "COMPLIANCE",
+              "BUSINESS_FORMATION"
+            ],
+            "services": [
+              "PERMITTING_AUTHORITIES"
+            ],
+            "children": [
+              {
+                "node_id": "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES.TAGS_REGISTRATION",
+                "label": "Tags / Registration",
+                "kind": "LANE_SECTION",
+                "role": "PRODUCTION",
+                "architecture": "ARCHITECTURALLY_CANONICAL",
+                "implementation": "IMPLEMENTATION_PARTIAL",
+                "depth": "GENERIC_PIPELINE",
+                "routes": [],
+                "workspaces": [
+                  "TAGS_REGISTRATION"
+                ],
+                "services": [
+                  "PERMITTING_AUTHORITIES"
+                ],
+                "children": []
+              },
+              {
+                "node_id": "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES.FUEL_ROAD_TAX_PERMITS",
+                "label": "Fuel / Road Tax Permits",
+                "kind": "LANE_SECTION",
+                "role": "PRODUCTION",
+                "architecture": "ARCHITECTURALLY_CANONICAL",
+                "implementation": "IMPLEMENTATION_PARTIAL",
+                "depth": "GENERIC_PIPELINE",
+                "routes": [],
+                "workspaces": [
+                  "PERMITTING"
+                ],
+                "services": [
+                  "PERMITTING_AUTHORITIES"
+                ],
+                "children": []
+              },
+              {
+                "node_id": "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES.OPERATING_AUTHORITIES",
+                "label": "Operating Authorities",
+                "kind": "LANE_SECTION",
+                "role": "PRODUCTION",
+                "architecture": "ARCHITECTURALLY_CANONICAL",
+                "implementation": "IMPLEMENTATION_PARTIAL",
+                "depth": "GENERIC_PIPELINE",
+                "routes": [],
+                "workspaces": [
+                  "COMPLIANCE"
+                ],
+                "services": [
+                  "PERMITTING_AUTHORITIES"
+                ],
+                "children": []
+              },
+              {
+                "node_id": "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES.BOC3",
+                "label": "BOC-3",
+                "kind": "LANE_SECTION",
+                "role": "PRODUCTION",
+                "architecture": "ARCHITECTURALLY_CANONICAL",
+                "implementation": "IMPLEMENTATION_NOT_STARTED",
+                "depth": "NONE",
+                "routes": [],
+                "workspaces": [
+                  "COMPLIANCE"
+                ],
+                "services": [
+                  "PERMITTING_AUTHORITIES"
+                ],
+                "children": []
+              },
+              {
+                "node_id": "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES.LLC_INC",
+                "label": "LLC / Inc",
+                "kind": "LANE_SECTION",
+                "role": "PRODUCTION",
+                "architecture": "ARCHITECTURALLY_CANONICAL",
+                "implementation": "IMPLEMENTATION_PARTIAL",
+                "depth": "GENERIC_PIPELINE",
+                "routes": [
+                  "/office/business-formation",
+                  "/office/business-name-review"
+                ],
+                "workspaces": [
+                  "BUSINESS_FORMATION"
+                ],
+                "services": [
+                  "PERMITTING_AUTHORITIES"
+                ],
+                "children": []
+              },
+              {
+                "node_id": "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES.OTHER_PERMITS",
+                "label": "Other Permits",
+                "kind": "LANE_SECTION",
+                "role": "PRODUCTION",
+                "architecture": "ARCHITECTURALLY_CANONICAL",
+                "implementation": "IMPLEMENTATION_PARTIAL",
+                "depth": "GENERIC_PIPELINE",
+                "routes": [],
+                "workspaces": [
+                  "PERMITTING"
+                ],
+                "services": [
+                  "PERMITTING_AUTHORITIES"
+                ],
+                "children": []
+              }
+            ]
+          },
+          {
+            "node_id": "AIO_OFFICE.WORK.FILING_FUEL_TAXES",
+            "label": "Filing & Fuel Taxes",
+            "kind": "SERVICE_LANE",
+            "role": "PRODUCTION",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "routes": [
+              "/office/workspaces/ifta"
+            ],
+            "workspaces": [
+              "IFTA"
+            ],
+            "services": [
+              "IFTA_FUEL_TAX"
+            ],
+            "children": [
+              {
+                "node_id": "AIO_OFFICE.WORK.FILING_FUEL_TAXES.IFTA",
+                "label": "IFTA",
+                "kind": "LANE_SECTION",
+                "role": "PRODUCTION",
+                "architecture": "ARCHITECTURALLY_CANONICAL",
+                "implementation": "IMPLEMENTATION_PARTIAL",
+                "depth": "FUNCTIONAL_DEMO",
+                "routes": [
+                  "/office/workspaces/ifta",
+                  "/office/workspaces/ifta/:clientId/:quarterKey",
+                  "/office/clients/:clientId/ifta/:quarter (HELPER_UNROUTED)"
+                ],
+                "workspaces": [
+                  "IFTA"
+                ],
+                "services": [
+                  "IFTA_FUEL_TAX"
+                ],
+                "children": []
+              },
+              {
+                "node_id": "AIO_OFFICE.WORK.FILING_FUEL_TAXES.FILING_QUEUE",
+                "label": "Filing Queue",
+                "kind": "LANE_SECTION",
+                "role": "PRODUCTION",
+                "architecture": "ARCHITECTURALLY_CANONICAL",
+                "implementation": "IMPLEMENTATION_PARTIAL",
+                "depth": "FUNCTIONAL_DEMO",
+                "routes": [
+                  "/office/workspaces/ifta"
+                ],
+                "workspaces": [
+                  "IFTA"
+                ],
+                "services": [
+                  "IFTA_FUEL_TAX"
+                ],
+                "children": []
+              },
+              {
+                "node_id": "AIO_OFFICE.WORK.FILING_FUEL_TAXES.CLIENT_APPROVAL",
+                "label": "Client Approval",
+                "kind": "LANE_SECTION",
+                "role": "PRODUCTION",
+                "architecture": "ARCHITECTURALLY_CANONICAL",
+                "implementation": "IMPLEMENTATION_PARTIAL",
+                "depth": "FUNCTIONAL_DEMO",
+                "routes": [],
+                "workspaces": [
+                  "IFTA"
+                ],
+                "services": [
+                  "IFTA_FUEL_TAX"
+                ],
+                "children": []
+              },
+              {
+                "node_id": "AIO_OFFICE.WORK.FILING_FUEL_TAXES.SUBMITTED_FILED",
+                "label": "Submitted / Filed",
+                "kind": "LANE_SECTION",
+                "role": "PRODUCTION",
+                "architecture": "ARCHITECTURALLY_CANONICAL",
+                "implementation": "IMPLEMENTATION_PARTIAL",
+                "depth": "FUNCTIONAL_DEMO",
+                "routes": [],
+                "workspaces": [
+                  "IFTA"
+                ],
+                "services": [
+                  "IFTA_FUEL_TAX"
+                ],
+                "children": []
+              },
+              {
+                "node_id": "AIO_OFFICE.WORK.FILING_FUEL_TAXES.FILING_HISTORY",
+                "label": "Filing History",
+                "kind": "LANE_SECTION",
+                "role": "PRODUCTION",
+                "architecture": "ARCHITECTURALLY_CANONICAL",
+                "implementation": "IMPLEMENTATION_PARTIAL",
+                "depth": "READ_ONLY",
+                "routes": [],
+                "workspaces": [
+                  "IFTA"
+                ],
+                "services": [
+                  "IFTA_FUEL_TAX"
+                ],
+                "children": []
+              }
+            ]
+          },
+          {
+            "node_id": "AIO_OFFICE.WORK.COMPLIANCE",
+            "label": "Compliance",
+            "kind": "SERVICE_LANE",
+            "role": "PRODUCTION",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "routes": [
+              "/office/deadlines",
+              "/office/renewals",
+              "/office/documents"
+            ],
+            "workspaces": [
+              "COMPLIANCE"
+            ],
+            "services": [
+              "COMPLIANCE"
+            ],
+            "children": [
+              {
+                "node_id": "AIO_OFFICE.WORK.COMPLIANCE.DOT_SAFETY",
+                "label": "DOT / Safety",
+                "kind": "LANE_SECTION",
+                "role": "PRODUCTION",
+                "architecture": "ARCHITECTURALLY_CANONICAL",
+                "implementation": "IMPLEMENTATION_NOT_STARTED",
+                "depth": "NONE",
+                "routes": [],
+                "workspaces": [
+                  "COMPLIANCE"
+                ],
+                "services": [
+                  "COMPLIANCE"
+                ],
+                "children": []
+              },
+              {
+                "node_id": "AIO_OFFICE.WORK.COMPLIANCE.EXPIRATIONS",
+                "label": "Expirations",
+                "kind": "LANE_SECTION",
+                "role": "PRODUCTION",
+                "architecture": "ARCHITECTURALLY_CANONICAL",
+                "implementation": "IMPLEMENTATION_PARTIAL",
+                "depth": "FUNCTIONAL_DEMO",
+                "routes": [
+                  "/office/deadlines",
+                  "/office/renewals"
+                ],
+                "workspaces": [
+                  "COMPLIANCE"
+                ],
+                "services": [
+                  "COMPLIANCE"
+                ],
+                "children": []
+              },
+              {
+                "node_id": "AIO_OFFICE.WORK.COMPLIANCE.AUDIT_CORRECTIVE_WORK",
+                "label": "Audit / Corrective Work",
+                "kind": "LANE_SECTION",
+                "role": "PRODUCTION",
+                "architecture": "ARCHITECTURALLY_CANONICAL",
+                "implementation": "IMPLEMENTATION_NOT_STARTED",
+                "depth": "NONE",
+                "routes": [],
+                "workspaces": [
+                  "COMPLIANCE"
+                ],
+                "services": [
+                  "COMPLIANCE"
+                ],
+                "children": []
+              },
+              {
+                "node_id": "AIO_OFFICE.WORK.COMPLIANCE.COMPLIANCE_CASES",
+                "label": "Compliance Cases",
+                "kind": "LANE_SECTION",
+                "role": "PRODUCTION",
+                "architecture": "ARCHITECTURALLY_CANONICAL",
+                "implementation": "IMPLEMENTATION_NOT_STARTED",
+                "depth": "NONE",
+                "routes": [],
+                "workspaces": [
+                  "COMPLIANCE"
+                ],
+                "services": [
+                  "COMPLIANCE"
+                ],
+                "children": []
+              }
+            ]
+          },
+          {
+            "node_id": "AIO_OFFICE.WORK.DISPATCH",
+            "label": "Dispatch",
+            "kind": "SERVICE_LANE",
+            "role": "PRODUCTION",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "routes": [
+              "/office/dispatch"
+            ],
+            "workspaces": [
+              "DISPATCH"
+            ],
+            "services": [
+              "DISPATCH"
+            ],
+            "children": [
+              {
+                "node_id": "AIO_OFFICE.WORK.DISPATCH.ACTIVE_CLIENTS",
+                "label": "Active Clients",
+                "kind": "LANE_SECTION",
+                "role": "PRODUCTION",
+                "architecture": "ARCHITECTURALLY_CANONICAL",
+                "implementation": "IMPLEMENTATION_PARTIAL",
+                "depth": "FUNCTIONAL_DEMO",
+                "routes": [
+                  "/office/dispatch/clients"
+                ],
+                "workspaces": [
+                  "DISPATCH"
+                ],
+                "services": [
+                  "DISPATCH"
+                ],
+                "children": []
+              },
+              {
+                "node_id": "AIO_OFFICE.WORK.DISPATCH.TRUCKS",
+                "label": "Trucks",
+                "kind": "LANE_SECTION",
+                "role": "PRODUCTION",
+                "architecture": "ARCHITECTURALLY_CANONICAL",
+                "implementation": "IMPLEMENTATION_PARTIAL",
+                "depth": "READ_ONLY",
+                "routes": [],
+                "workspaces": [
+                  "DISPATCH"
+                ],
+                "services": [
+                  "DISPATCH",
+                  "VEHICLE_MANAGEMENT"
+                ],
+                "children": []
+              },
+              {
+                "node_id": "AIO_OFFICE.WORK.DISPATCH.LOADS",
+                "label": "Loads",
+                "kind": "LANE_SECTION",
+                "role": "PRODUCTION",
+                "architecture": "ARCHITECTURALLY_CANONICAL",
+                "implementation": "IMPLEMENTATION_PARTIAL",
+                "depth": "FUNCTIONAL_DEMO",
+                "routes": [
+                  "/office/dispatch/loads"
+                ],
+                "workspaces": [
+                  "DISPATCH"
+                ],
+                "services": [
+                  "DISPATCH"
+                ],
+                "children": []
+              },
+              {
+                "node_id": "AIO_OFFICE.WORK.DISPATCH.STATUS_EXCEPTIONS",
+                "label": "Status / Exceptions",
+                "kind": "LANE_SECTION",
+                "role": "PRODUCTION",
+                "architecture": "ARCHITECTURALLY_CANONICAL",
+                "implementation": "IMPLEMENTATION_PARTIAL",
+                "depth": "READ_ONLY",
+                "routes": [],
+                "workspaces": [
+                  "DISPATCH"
+                ],
+                "services": [
+                  "DISPATCH"
+                ],
+                "children": []
+              },
+              {
+                "node_id": "AIO_OFFICE.WORK.DISPATCH.MY_LOADS_MY_TRUCKS",
+                "label": "My Loads / My Trucks",
+                "kind": "LANE_SECTION",
+                "role": "PRODUCTION",
+                "architecture": "ARCHITECTURALLY_CANONICAL",
+                "implementation": "IMPLEMENTATION_NOT_STARTED",
+                "depth": "NONE",
+                "routes": [],
+                "workspaces": [
+                  "DISPATCH"
+                ],
+                "services": [
+                  "DISPATCH"
+                ],
+                "children": []
+              }
+            ]
+          },
+          {
+            "node_id": "AIO_OFFICE.WORK.BROKERAGE",
+            "label": "Brokerage",
+            "kind": "SERVICE_LANE",
+            "role": "PRODUCTION",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "PRODUCTION_BACKED",
+            "routes": [
+              "/office/brokerage"
+            ],
+            "workspaces": [
+              "BROKERAGE"
+            ],
+            "services": [
+              "BROKERAGE"
+            ],
+            "children": [
+              {
+                "node_id": "AIO_OFFICE.WORK.BROKERAGE.QUOTES",
+                "label": "Quotes",
+                "kind": "LANE_SECTION",
+                "role": "PRODUCTION",
+                "architecture": "ARCHITECTURALLY_CANONICAL",
+                "implementation": "IMPLEMENTATION_PARTIAL",
+                "depth": "PRODUCTION_BACKED",
+                "routes": [],
+                "workspaces": [
+                  "BROKERAGE"
+                ],
+                "services": [
+                  "BROKERAGE"
+                ],
+                "children": []
+              },
+              {
+                "node_id": "AIO_OFFICE.WORK.BROKERAGE.SHIPMENTS",
+                "label": "Shipments",
+                "kind": "LANE_SECTION",
+                "role": "PRODUCTION",
+                "architecture": "ARCHITECTURALLY_CANONICAL",
+                "implementation": "IMPLEMENTATION_PARTIAL",
+                "depth": "FUNCTIONAL_DEMO",
+                "routes": [
+                  "/office/brokerage/shipments/:id (HELPER_UNROUTED)"
+                ],
+                "workspaces": [
+                  "BROKERAGE"
+                ],
+                "services": [
+                  "BROKERAGE"
+                ],
+                "children": []
+              },
+              {
+                "node_id": "AIO_OFFICE.WORK.BROKERAGE.CARRIER_OFFERS",
+                "label": "Carrier Offers",
+                "kind": "LANE_SECTION",
+                "role": "PRODUCTION",
+                "architecture": "ARCHITECTURALLY_CANONICAL",
+                "implementation": "IMPLEMENTATION_PARTIAL",
+                "depth": "FUNCTIONAL_DEMO",
+                "routes": [
+                  "/office/brokerage/carriers"
+                ],
+                "workspaces": [
+                  "BROKERAGE"
+                ],
+                "services": [
+                  "BROKERAGE",
+                  "DRIVERS_CARRIERS"
+                ],
+                "children": []
+              },
+              {
+                "node_id": "AIO_OFFICE.WORK.BROKERAGE.STOPS_STATUS",
+                "label": "Stops / Status",
+                "kind": "LANE_SECTION",
+                "role": "PRODUCTION",
+                "architecture": "ARCHITECTURALLY_CANONICAL",
+                "implementation": "IMPLEMENTATION_PARTIAL",
+                "depth": "PRODUCTION_BACKED",
+                "routes": [],
+                "workspaces": [
+                  "BROKERAGE"
+                ],
+                "services": [
+                  "BROKERAGE"
+                ],
+                "children": []
+              },
+              {
+                "node_id": "AIO_OFFICE.WORK.BROKERAGE.LOAD_FINANCIALS",
+                "label": "Load Financials",
+                "kind": "LANE_SECTION",
+                "role": "PRODUCTION",
+                "architecture": "ARCHITECTURALLY_CANONICAL",
+                "implementation": "IMPLEMENTATION_PARTIAL",
+                "depth": "FUNCTIONAL_DEMO",
+                "routes": [
+                  "/office/brokerage/finance"
+                ],
+                "workspaces": [
+                  "BROKERAGE"
+                ],
+                "services": [
+                  "BROKERAGE"
+                ],
+                "children": []
+              }
+            ]
+          },
+          {
+            "node_id": "AIO_OFFICE.WORK.INSURANCE",
+            "label": "Insurance",
+            "kind": "SERVICE_LANE",
+            "role": "PRODUCTION",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "routes": [
+              "/office/insurance"
+            ],
+            "workspaces": [
+              "INSURANCE"
+            ],
+            "services": [
+              "INSURANCE"
+            ],
+            "children": [
+              {
+                "node_id": "AIO_OFFICE.WORK.INSURANCE.INTAKE",
+                "label": "Intake",
+                "kind": "LANE_SECTION",
+                "role": "PRODUCTION",
+                "architecture": "ARCHITECTURALLY_CANONICAL",
+                "implementation": "IMPLEMENTATION_PARTIAL",
+                "depth": "FUNCTIONAL_DEMO",
+                "routes": [],
+                "workspaces": [
+                  "INSURANCE"
+                ],
+                "services": [
+                  "INSURANCE"
+                ],
+                "children": []
+              },
+              {
+                "node_id": "AIO_OFFICE.WORK.INSURANCE.QUOTES",
+                "label": "Quotes",
+                "kind": "LANE_SECTION",
+                "role": "PRODUCTION",
+                "architecture": "ARCHITECTURALLY_CANONICAL",
+                "implementation": "IMPLEMENTATION_PARTIAL",
+                "depth": "FUNCTIONAL_DEMO",
+                "routes": [],
+                "workspaces": [
+                  "INSURANCE"
+                ],
+                "services": [
+                  "INSURANCE"
+                ],
+                "children": []
+              },
+              {
+                "node_id": "AIO_OFFICE.WORK.INSURANCE.POLICIES",
+                "label": "Policies",
+                "kind": "LANE_SECTION",
+                "role": "PRODUCTION",
+                "architecture": "ARCHITECTURALLY_CANONICAL",
+                "implementation": "IMPLEMENTATION_PARTIAL",
+                "depth": "FUNCTIONAL_DEMO",
+                "routes": [],
+                "workspaces": [
+                  "INSURANCE"
+                ],
+                "services": [
+                  "INSURANCE"
+                ],
+                "children": []
+              },
+              {
+                "node_id": "AIO_OFFICE.WORK.INSURANCE.RENEWALS",
+                "label": "Renewals",
+                "kind": "LANE_SECTION",
+                "role": "PRODUCTION",
+                "architecture": "ARCHITECTURALLY_CANONICAL",
+                "implementation": "IMPLEMENTATION_PARTIAL",
+                "depth": "FUNCTIONAL_DEMO",
+                "routes": [
+                  "/office/insurance/renewals"
+                ],
+                "workspaces": [
+                  "INSURANCE"
+                ],
+                "services": [
+                  "INSURANCE"
+                ],
+                "children": []
+              }
+            ]
+          },
+          {
+            "node_id": "AIO_OFFICE.WORK.FACTORING",
+            "label": "Factoring",
+            "kind": "SERVICE_LANE",
+            "role": "PRODUCTION",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "routes": [
+              "/office/factoring"
+            ],
+            "workspaces": [
+              "FACTORING"
+            ],
+            "services": [
+              "FACTORING"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "AIO_OFFICE.WORK.BOOKKEEPING",
+            "label": "Bookkeeping",
+            "kind": "SERVICE_LANE",
+            "role": "PRODUCTION",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "READ_ONLY",
+            "routes": [
+              "/office/bookkeeping"
+            ],
+            "workspaces": [
+              "BOOKKEEPING"
+            ],
+            "services": [
+              "BOOKKEEPING"
+            ],
+            "children": [
+              {
+                "node_id": "AIO_OFFICE.WORK.BOOKKEEPING.MONTHLY_CLIENTS",
+                "label": "Monthly Clients",
+                "kind": "LANE_SECTION",
+                "role": "PRODUCTION",
+                "architecture": "ARCHITECTURALLY_CANONICAL",
+                "implementation": "IMPLEMENTATION_PARTIAL",
+                "depth": "READ_ONLY",
+                "routes": [],
+                "workspaces": [
+                  "BOOKKEEPING"
+                ],
+                "services": [
+                  "BOOKKEEPING"
+                ],
+                "children": []
+              },
+              {
+                "node_id": "AIO_OFFICE.WORK.BOOKKEEPING.ANNUAL_CLIENTS",
+                "label": "Annual Clients",
+                "kind": "LANE_SECTION",
+                "role": "PRODUCTION",
+                "architecture": "ARCHITECTURALLY_CANONICAL",
+                "implementation": "IMPLEMENTATION_PARTIAL",
+                "depth": "READ_ONLY",
+                "routes": [],
+                "workspaces": [
+                  "BOOKKEEPING"
+                ],
+                "services": [
+                  "BOOKKEEPING"
+                ],
+                "children": []
+              },
+              {
+                "node_id": "AIO_OFFICE.WORK.BOOKKEEPING.RECONCILIATION",
+                "label": "Reconciliation",
+                "kind": "LANE_SECTION",
+                "role": "PRODUCTION",
+                "architecture": "ARCHITECTURALLY_CANONICAL",
+                "implementation": "IMPLEMENTATION_NOT_STARTED",
+                "depth": "NONE",
+                "routes": [],
+                "workspaces": [
+                  "BOOKKEEPING"
+                ],
+                "services": [
+                  "BOOKKEEPING"
+                ],
+                "children": []
+              },
+              {
+                "node_id": "AIO_OFFICE.WORK.BOOKKEEPING.DELIVERABLES",
+                "label": "Deliverables",
+                "kind": "LANE_SECTION",
+                "role": "PRODUCTION",
+                "architecture": "ARCHITECTURALLY_CANONICAL",
+                "implementation": "IMPLEMENTATION_NOT_STARTED",
+                "depth": "NONE",
+                "routes": [],
+                "workspaces": [
+                  "BOOKKEEPING"
+                ],
+                "services": [
+                  "BOOKKEEPING"
+                ],
+                "children": []
+              }
+            ]
+          },
+          {
+            "node_id": "AIO_OFFICE.WORK.DRIVERS_CARRIERS",
+            "label": "Drivers & Carriers",
+            "kind": "SERVICE_LANE",
+            "role": "PRODUCTION",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "READ_ONLY",
+            "routes": [
+              "/office/driverlink",
+              "/office/brokerage/carriers"
+            ],
+            "workspaces": [
+              "DRIVERLINK"
+            ],
+            "services": [
+              "DRIVERS_CARRIERS"
+            ],
+            "children": [
+              {
+                "node_id": "AIO_OFFICE.WORK.DRIVERS_CARRIERS.MATCHING",
+                "label": "Matching",
+                "kind": "LANE_SECTION",
+                "role": "PRODUCTION",
+                "architecture": "ARCHITECTURALLY_CANONICAL",
+                "implementation": "IMPLEMENTATION_PARTIAL",
+                "depth": "READ_ONLY",
+                "routes": [],
+                "workspaces": [
+                  "DRIVERLINK"
+                ],
+                "services": [
+                  "DRIVERS_CARRIERS"
+                ],
+                "children": []
+              },
+              {
+                "node_id": "AIO_OFFICE.WORK.DRIVERS_CARRIERS.CREDENTIALS",
+                "label": "Credentials",
+                "kind": "LANE_SECTION",
+                "role": "PRODUCTION",
+                "architecture": "ARCHITECTURALLY_CANONICAL",
+                "implementation": "IMPLEMENTATION_NOT_STARTED",
+                "depth": "NONE",
+                "routes": [],
+                "workspaces": [
+                  "DRIVERLINK"
+                ],
+                "services": [
+                  "DRIVERS_CARRIERS"
+                ],
+                "children": []
+              },
+              {
+                "node_id": "AIO_OFFICE.WORK.DRIVERS_CARRIERS.APPROVALS",
+                "label": "Approvals",
+                "kind": "LANE_SECTION",
+                "role": "PRODUCTION",
+                "architecture": "ARCHITECTURALLY_CANONICAL",
+                "implementation": "IMPLEMENTATION_NOT_STARTED",
+                "depth": "NONE",
+                "routes": [],
+                "workspaces": [
+                  "DRIVERLINK"
+                ],
+                "services": [
+                  "DRIVERS_CARRIERS"
+                ],
+                "children": []
+              }
+            ]
+          },
+          {
+            "node_id": "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE",
+            "label": "Mechanic / Maintenance",
+            "kind": "SERVICE_LANE",
+            "role": "PRODUCTION",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "READ_ONLY",
+            "routes": [
+              "/office/fleetcare"
+            ],
+            "workspaces": [
+              "FLEETCARE"
+            ],
+            "services": [
+              "MECHANIC_MAINTENANCE"
+            ],
+            "children": [
+              {
+                "node_id": "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE.TICKETS",
+                "label": "Tickets",
+                "kind": "LANE_SECTION",
+                "role": "PRODUCTION",
+                "architecture": "ARCHITECTURALLY_CANONICAL",
+                "implementation": "IMPLEMENTATION_PARTIAL",
+                "depth": "READ_ONLY",
+                "routes": [],
+                "workspaces": [
+                  "FLEETCARE"
+                ],
+                "services": [
+                  "MECHANIC_MAINTENANCE"
+                ],
+                "children": []
+              },
+              {
+                "node_id": "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE.REFERRALS",
+                "label": "Referrals",
+                "kind": "LANE_SECTION",
+                "role": "PRODUCTION",
+                "architecture": "ARCHITECTURALLY_CANONICAL",
+                "implementation": "IMPLEMENTATION_PARTIAL",
+                "depth": "READ_ONLY",
+                "routes": [],
+                "workspaces": [
+                  "FLEETCARE"
+                ],
+                "services": [
+                  "MECHANIC_MAINTENANCE"
+                ],
+                "children": []
+              },
+              {
+                "node_id": "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE.PROVIDERS",
+                "label": "Providers",
+                "kind": "LANE_SECTION",
+                "role": "PRODUCTION",
+                "architecture": "ARCHITECTURALLY_CANONICAL",
+                "implementation": "IMPLEMENTATION_PARTIAL",
+                "depth": "READ_ONLY",
+                "routes": [],
+                "workspaces": [
+                  "FLEETCARE"
+                ],
+                "services": [
+                  "MECHANIC_MAINTENANCE"
+                ],
+                "children": []
+              },
+              {
+                "node_id": "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE.MAINTENANCE_STATUS",
+                "label": "Maintenance Status",
+                "kind": "LANE_SECTION",
+                "role": "PRODUCTION",
+                "architecture": "ARCHITECTURALLY_CANONICAL",
+                "implementation": "IMPLEMENTATION_PARTIAL",
+                "depth": "READ_ONLY",
+                "routes": [],
+                "workspaces": [
+                  "FLEETCARE"
+                ],
+                "services": [
+                  "MECHANIC_MAINTENANCE",
+                  "VEHICLE_MANAGEMENT"
+                ],
+                "children": []
+              }
+            ]
+          },
+          {
+            "node_id": "AIO_OFFICE.WORK.ROAD_READY",
+            "label": "Road Ready",
+            "kind": "SERVICE_LANE",
+            "role": "PRODUCTION",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "routes": [
+              "/office/road-ready",
+              "/office/clients/:clientId/road-ready"
+            ],
+            "services": [
+              "ROAD_READY"
+            ],
+            "children": []
+          }
+        ]
+      },
+      {
+        "node_id": "AIO_OFFICE.REPORTS",
+        "label": "REPORTS",
+        "kind": "ROOT_DESTINATION",
+        "role": "OVERSIGHT",
+        "architecture": "ARCHITECTURALLY_CANONICAL",
+        "implementation": "IMPLEMENTATION_PARTIAL",
+        "depth": "FUNCTIONAL_DEMO",
+        "routes": [
+          "/office/reports",
+          "/office/management"
+        ],
+        "children": [
+          {
+            "node_id": "AIO_OFFICE.REPORTS.OVERVIEW",
+            "label": "Overview",
+            "kind": "REPORT_DOMAIN",
+            "role": "OVERSIGHT",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "data_status": "PARTIAL_DATA",
+            "routes": [
+              "/office/management"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "AIO_OFFICE.REPORTS.CLIENTS",
+            "label": "Clients",
+            "kind": "REPORT_DOMAIN",
+            "role": "OVERSIGHT",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "data_status": "PARTIAL_DATA",
+            "routes": [
+              "/office/management/customers"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "AIO_OFFICE.REPORTS.SERVICES",
+            "label": "Services",
+            "kind": "REPORT_DOMAIN",
+            "role": "OVERSIGHT",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "data_status": "PARTIAL_DATA",
+            "routes": [
+              "/office/management/services"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "AIO_OFFICE.REPORTS.FINANCIAL_REVENUE",
+            "label": "Financial / Revenue",
+            "kind": "REPORT_DOMAIN",
+            "role": "OVERSIGHT",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "data_status": "PARTIAL_DATA",
+            "routes": [
+              "/office/management/financial"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "AIO_OFFICE.REPORTS.FILING_HISTORY",
+            "label": "Filing History",
+            "kind": "REPORT_DOMAIN",
+            "role": "OVERSIGHT",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_NOT_STARTED",
+            "depth": "NONE",
+            "data_status": "NOT_YET_IMPLEMENTED",
+            "routes": [],
+            "children": []
+          },
+          {
+            "node_id": "AIO_OFFICE.REPORTS.COMPLIANCE",
+            "label": "Compliance",
+            "kind": "REPORT_DOMAIN",
+            "role": "OVERSIGHT",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "data_status": "PARTIAL_DATA",
+            "routes": [
+              "/office/management/deadlines"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "AIO_OFFICE.REPORTS.DISPATCH_BROKERAGE",
+            "label": "Dispatch / Brokerage",
+            "kind": "REPORT_DOMAIN",
+            "role": "OVERSIGHT",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "data_status": "PARTIAL_DATA",
+            "routes": [
+              "/office/management/dispatch",
+              "/office/management/brokerage"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "AIO_OFFICE.REPORTS.BOOKKEEPING",
+            "label": "Bookkeeping",
+            "kind": "REPORT_DOMAIN",
+            "role": "OVERSIGHT",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_NOT_STARTED",
+            "depth": "NONE",
+            "data_status": "NOT_YET_IMPLEMENTED",
+            "routes": [],
+            "children": []
+          },
+          {
+            "node_id": "AIO_OFFICE.REPORTS.MIGRATION",
+            "label": "Migration",
+            "kind": "REPORT_DOMAIN",
+            "role": "OVERSIGHT",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "data_status": "PARTIAL_DATA",
+            "routes": [],
+            "children": []
+          },
+          {
+            "node_id": "AIO_OFFICE.REPORTS.EXPORTS",
+            "label": "Exports",
+            "kind": "REPORT_DOMAIN",
+            "role": "OVERSIGHT",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_NOT_STARTED",
+            "depth": "NONE",
+            "data_status": "NOT_YET_IMPLEMENTED",
+            "routes": [],
+            "children": []
+          }
+        ]
+      },
+      {
+        "node_id": "AIO_OFFICE.MORE",
+        "label": "MORE",
+        "kind": "ROOT_DESTINATION",
+        "role": "SECONDARY",
+        "architecture": "ARCHITECTURALLY_CANONICAL",
+        "implementation": "IMPLEMENTATION_NOT_STARTED",
+        "depth": "NONE",
+        "routes": [
+          "/office/more (PROPOSED)"
+        ],
+        "children": [
+          {
+            "node_id": "AIO_OFFICE.MORE.CLIENTS",
+            "label": "Clients",
+            "kind": "DIRECTORY_ENTRY",
+            "role": "SECONDARY",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "routes": [
+              "/office/clients",
+              "/office/clients/:clientId"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "AIO_OFFICE.MORE.DOCUMENTS_VAULT",
+            "label": "Documents & Vault",
+            "kind": "DIRECTORY_ENTRY",
+            "role": "SECONDARY",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "routes": [
+              "/office/documents/vault",
+              "/office/clients/:clientId/documents",
+              "/office/documents/review"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "AIO_OFFICE.MORE.TEAM_STAFF",
+            "label": "Team & Staff",
+            "kind": "DIRECTORY_ENTRY",
+            "role": "SECONDARY",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "READ_ONLY",
+            "routes": [
+              "/office/team",
+              "/office/workload"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "AIO_OFFICE.MORE.SERVICE_CATALOG",
+            "label": "Service Catalog",
+            "kind": "DIRECTORY_ENTRY",
+            "role": "SECONDARY",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "READ_ONLY",
+            "routes": [
+              "/office/management/launch/services",
+              "/office/settings/pricing"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "AIO_OFFICE.MORE.MECHANIC_NETWORK",
+            "label": "Mechanic Network",
+            "kind": "DIRECTORY_ENTRY",
+            "role": "SECONDARY",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "READ_ONLY",
+            "routes": [
+              "/office/fleetcare/providers"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "AIO_OFFICE.MORE.MESSAGES",
+            "label": "Messages",
+            "kind": "DIRECTORY_ENTRY",
+            "role": "SECONDARY",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "routes": [
+              "/office/communications",
+              "/office/appointments"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "AIO_OFFICE.MORE.SYSTEM_SETTINGS",
+            "label": "System Settings",
+            "kind": "DIRECTORY_ENTRY",
+            "role": "SECONDARY",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "routes": [
+              "/office/settings/*",
+              "/office/security",
+              "/office/system/*"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "AIO_OFFICE.MORE.HELP_SUPPORT",
+            "label": "Help & Support",
+            "kind": "DIRECTORY_ENTRY",
+            "role": "SECONDARY",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "READ_ONLY",
+            "routes": [
+              "/office/training",
+              "/office/training/sops"
+            ],
+            "children": []
+          },
+          {
+            "node_id": "AIO_OFFICE.MORE.ACCOUNT",
+            "label": "Account",
+            "kind": "DIRECTORY_ENTRY",
+            "role": "SECONDARY",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_NOT_STARTED",
+            "depth": "NONE",
+            "routes": [],
+            "children": []
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -15568,3 +15568,33 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - Welcome, Safe to Spend, and the purchase check keep their own tagline.
 - **Changes:** `HomeScreens.tsx`, `MoneyScreens.tsx`, `PlanScreens.tsx`, `CreditScreens.tsx`. The hub test now expects those two lines to be absent.
 - **Conventions:** Do not put PLAN TODAY. GROW FREELY. back on the four root hubs. It was in the corner and did not read.
+
+---
+
+## 2026-10-08 — AIO office information architecture: founder WORK tree + CLIENT OFFICE tree
+
+- **Context:** Sprint `P0.AIO.OFFICE-IA.FOUNDER-WORK-TREE-AND-CLIENT-OFFICE-CANONICALIZATION1`. Architecture only: no page, nav, route, schema, lifecycle or auth change; no image generated; no visual authority touched. fsbw was audited read-only at `750b1246`.
+- **Decisions / outcomes:**
+  - AIO OFFICE (founder / staff) root is HOME · INTAKE · WORK · REPORTS · MORE. CLIENT OFFICE root is MY BUSINESS · OPERATIONS · FINANCES · VAULT · INBOX · SERVICES · ACCOUNT. INTAKE is staff / founder only.
+  - FILING is no longer a root item. It is AIO OFFICE → WORK → FILING & FUEL TAXES, with IFTA at → IFTA. Case identity is unchanged.
+  - The old dock HOME · INTAKE · FILING · REPORTS · MORE is marked `SUPERSEDED_BY_AIO_OFFICE_WORK_TREE1`. Lineage is kept.
+  - HOME = projection (7 regions), WORK = production (11 lanes), REPORTS = oversight (10 domains, none REAL_DATA yet), MORE = secondary (9 entries, never production).
+  - All 15 services (the 14 founder services plus staff-only migration intake) are ARCHITECTURALLY_CANONICAL and IMPLEMENTATION_PARTIAL, with each NOT_STARTED node named.
+  - All 42 migration authorities are re-associated: staff screens under INTAKE, client screens on the activation gate.
+- **Changes:**
+  - `shared/studioos-experience-brain/office-information-architecture.ts`: the generic IA layer and its validator.
+  - `projects/aio/office-ia.ts`: the AIO trees, service crosswalk, supersession, legacy reconciliation, candidates, firewall, MORE rules, HOME / WORK / REPORTS contracts, product-graph map and quality gate.
+  - `scripts/studioos/aio-office-ia-export.ts` generates `docs/aio/office-ia/` (24 files).
+  - `tests/aioOfficeIaWorkTree1.test.ts` has 37 tests.
+- **Open founder questions:**
+  - Q-CLIENT-HUB
+  - Q-COMPLIANCE-SPLIT
+  - Q-STAFF-VEHICLES
+  - Q-FOUNDER-ROLE
+  - Q-GROWTH-BILLING
+  - Q-CLIENT-ROAD-READY
+- **Conventions:**
+  - Office navigation comes from `AIO_OFFICE_IA` root_nav and nodes, never a hard-coded label array.
+  - Daily production goes in WORK, never in MORE.
+  - A client node never routes into `/office`.
+  - A HOME region only projects; it opens the WORK / INTAKE owner.

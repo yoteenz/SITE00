@@ -1,0 +1,2061 @@
+{
+  "id": "AIO_OFFICE_ACTOR_VISIBILITY_MATRIX",
+  "sprint": "P0.AIO.OFFICE-IA.FOUNDER-WORK-TREE-AND-CLIENT-OFFICE-CANONICALIZATION1",
+  "lineage_id": "SUPERSEDED_BY_AIO_OFFICE_WORK_TREE1",
+  "generated_by": "scripts/studioos/aio-office-ia-export.ts",
+  "source": [
+    "shared/studioos-experience-brain/office-information-architecture.ts",
+    "shared/studioos-experience-brain/projects/aio/office-ia.ts"
+  ],
+  "audit": {
+    "repo": "yoteenz/fsbw · all-in-one-enterprises",
+    "sha": "750b12466845ff8acd5e53909d6da2dc3df124b9",
+    "mode": "READ-ONLY"
+  },
+  "constraints": {
+    "architecture_only": true,
+    "visual_redesign": false,
+    "images_generated": 0,
+    "visual_authorities_modified": false,
+    "live_nav_changed": false,
+    "routes_changed": false,
+    "supabase_schema_changed": false,
+    "client_lifecycle_changed": false,
+    "auth_changed": false,
+    "deployed": false
+  },
+  "firewall": [
+    {
+      "item": "INTAKE",
+      "node_ids": [
+        "AIO_OFFICE.INTAKE"
+      ],
+      "reason": "Staff / founder only; the client shell never shows INTAKE."
+    },
+    {
+      "item": "Migration extraction · classification confidence",
+      "node_ids": [
+        "AIO_OFFICE.INTAKE.EXTRACTION_CLASSIFICATION"
+      ],
+      "reason": "Internal pipeline state."
+    },
+    {
+      "item": "Client matching tools",
+      "node_ids": [
+        "AIO_OFFICE.INTAKE.MATCH_RECONCILE"
+      ],
+      "reason": "Cross-client identity decisions."
+    },
+    {
+      "item": "Founder review",
+      "node_ids": [
+        "AIO_OFFICE.INTAKE.FOUNDER_REVIEW"
+      ],
+      "reason": "Internal approval."
+    },
+    {
+      "item": "Internal queue states · production blockers",
+      "node_ids": [
+        "AIO_OFFICE.WORK",
+        "AIO_OFFICE.HOME.BLOCKERS",
+        "AIO_OFFICE.WORK.FILING_FUEL_TAXES.FILING_QUEUE"
+      ],
+      "reason": "Staff buckets (NEEDS REVIEW, BLOCKED …) are projected to clients only as client-safe states."
+    },
+    {
+      "item": "Internal brokerage / load financials",
+      "node_ids": [
+        "AIO_OFFICE.WORK.BROKERAGE.LOAD_FINANCIALS"
+      ],
+      "reason": "Margin and carrier pay."
+    },
+    {
+      "item": "Internal case management · compliance cases",
+      "node_ids": [
+        "AIO_OFFICE.WORK.COMPLIANCE.COMPLIANCE_CASES",
+        "AIO_OFFICE.WORK.COMPLIANCE.AUDIT_CORRECTIVE_WORK"
+      ],
+      "reason": "Internal handling."
+    },
+    {
+      "item": "Cross-client views",
+      "node_ids": [
+        "AIO_OFFICE.HOME",
+        "AIO_OFFICE.MORE.CLIENTS",
+        "AIO_OFFICE.REPORTS.CLIENTS"
+      ],
+      "reason": "A client sees only itself."
+    },
+    {
+      "item": "Staff operations metrics",
+      "node_ids": [
+        "AIO_OFFICE.REPORTS",
+        "AIO_OFFICE.MORE.TEAM_STAFF"
+      ],
+      "reason": "Internal performance."
+    },
+    {
+      "item": "Staff notes",
+      "node_ids": [
+        "AIO_OFFICE.WORK.FILING_FUEL_TAXES.IFTA"
+      ],
+      "reason": "IFTA NOTES is a staff tab; clients write through MESSAGE AIO."
+    }
+  ],
+  "nodes": [
+    {
+      "node_id": "AIO_OFFICE.HOME",
+      "path": "AIO OFFICE → HOME",
+      "kind": "ROOT_DESTINATION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": true,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.HOME.NEEDS_ATTENTION",
+      "path": "AIO OFFICE → HOME → Needs Attention",
+      "kind": "REGION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.HOME.DEADLINES",
+      "path": "AIO OFFICE → HOME → Deadlines",
+      "kind": "REGION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.HOME.BLOCKERS",
+      "path": "AIO OFFICE → HOME → Blockers",
+      "kind": "REGION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": true,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.HOME.WORK_ACROSS_AIO",
+      "path": "AIO OFFICE → HOME → Work Across AIO",
+      "kind": "REGION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.HOME.CLIENTS_IN_MOTION",
+      "path": "AIO OFFICE → HOME → Clients in Motion",
+      "kind": "REGION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.HOME.RECENT_ACTIVITY",
+      "path": "AIO OFFICE → HOME → Recent Activity",
+      "kind": "REGION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.HOME.QUICK_ACTIONS",
+      "path": "AIO OFFICE → HOME → Quick Actions",
+      "kind": "REGION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.INTAKE",
+      "path": "AIO OFFICE → INTAKE",
+      "kind": "ROOT_DESTINATION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": true,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.INTAKE.EXISTING_CLIENT_FILE",
+      "path": "AIO OFFICE → INTAKE → Existing Client File",
+      "kind": "SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.INTAKE.NEW_CLIENT_FILE",
+      "path": "AIO OFFICE → INTAKE → New Client File",
+      "kind": "SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.INTAKE.BULK_BATCH_MIGRATION",
+      "path": "AIO OFFICE → INTAKE → Bulk Batch Migration",
+      "kind": "SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.INTAKE.MIGRATION_STATUS",
+      "path": "AIO OFFICE → INTAKE → Migration Status",
+      "kind": "SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.INTAKE.EXTRACTION_CLASSIFICATION",
+      "path": "AIO OFFICE → INTAKE → Extraction / Classification",
+      "kind": "SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": true,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.INTAKE.MATCH_RECONCILE",
+      "path": "AIO OFFICE → INTAKE → Match / Reconcile",
+      "kind": "SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": true,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.INTAKE.FOUNDER_REVIEW",
+      "path": "AIO OFFICE → INTAKE → Founder Review",
+      "kind": "SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": true,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.INTAKE.PREBUILT_CLIENT",
+      "path": "AIO OFFICE → INTAKE → Prebuilt Client",
+      "kind": "SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.INTAKE.ACTIVATION_INVITE",
+      "path": "AIO OFFICE → INTAKE → Activation Invite",
+      "kind": "SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.INTAKE.MIGRATION_HISTORY",
+      "path": "AIO OFFICE → INTAKE → Migration History",
+      "kind": "SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK",
+      "path": "AIO OFFICE → WORK",
+      "kind": "ROOT_DESTINATION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": true,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES",
+      "path": "AIO OFFICE → WORK → Permitting & Authorities",
+      "kind": "SERVICE_LANE",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.PERMITTING_AUTHORITIES",
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES.TAGS_REGISTRATION",
+      "path": "AIO OFFICE → WORK → Permitting & Authorities → Tags / Registration",
+      "kind": "LANE_SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.PERMITTING_AUTHORITIES",
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES.FUEL_ROAD_TAX_PERMITS",
+      "path": "AIO OFFICE → WORK → Permitting & Authorities → Fuel / Road Tax Permits",
+      "kind": "LANE_SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.PERMITTING_AUTHORITIES",
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES.OPERATING_AUTHORITIES",
+      "path": "AIO OFFICE → WORK → Permitting & Authorities → Operating Authorities",
+      "kind": "LANE_SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.PERMITTING_AUTHORITIES",
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES.BOC3",
+      "path": "AIO OFFICE → WORK → Permitting & Authorities → BOC-3",
+      "kind": "LANE_SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.PERMITTING_AUTHORITIES",
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES.LLC_INC",
+      "path": "AIO OFFICE → WORK → Permitting & Authorities → LLC / Inc",
+      "kind": "LANE_SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.PERMITTING_AUTHORITIES",
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES.OTHER_PERMITS",
+      "path": "AIO OFFICE → WORK → Permitting & Authorities → Other Permits",
+      "kind": "LANE_SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.PERMITTING_AUTHORITIES",
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.FILING_FUEL_TAXES",
+      "path": "AIO OFFICE → WORK → Filing & Fuel Taxes",
+      "kind": "SERVICE_LANE",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.FILING_IFTA",
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.FILING_FUEL_TAXES.IFTA",
+      "path": "AIO OFFICE → WORK → Filing & Fuel Taxes → IFTA",
+      "kind": "LANE_SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": true,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.FILING_FUEL_TAXES.FILING_QUEUE",
+      "path": "AIO OFFICE → WORK → Filing & Fuel Taxes → Filing Queue",
+      "kind": "LANE_SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": true,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.FILING_FUEL_TAXES.CLIENT_APPROVAL",
+      "path": "AIO OFFICE → WORK → Filing & Fuel Taxes → Client Approval",
+      "kind": "LANE_SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.FILING_IFTA",
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.FILING_FUEL_TAXES.SUBMITTED_FILED",
+      "path": "AIO OFFICE → WORK → Filing & Fuel Taxes → Submitted / Filed",
+      "kind": "LANE_SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.FILING_IFTA",
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.FILING_FUEL_TAXES.FILING_HISTORY",
+      "path": "AIO OFFICE → WORK → Filing & Fuel Taxes → Filing History",
+      "kind": "LANE_SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.FILING_IFTA",
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.COMPLIANCE",
+      "path": "AIO OFFICE → WORK → Compliance",
+      "kind": "SERVICE_LANE",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.COMPLIANCE",
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.COMPLIANCE.DOT_SAFETY",
+      "path": "AIO OFFICE → WORK → Compliance → DOT / Safety",
+      "kind": "LANE_SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.COMPLIANCE",
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.COMPLIANCE.EXPIRATIONS",
+      "path": "AIO OFFICE → WORK → Compliance → Expirations",
+      "kind": "LANE_SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.COMPLIANCE",
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.COMPLIANCE.AUDIT_CORRECTIVE_WORK",
+      "path": "AIO OFFICE → WORK → Compliance → Audit / Corrective Work",
+      "kind": "LANE_SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": true,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.COMPLIANCE.COMPLIANCE_CASES",
+      "path": "AIO OFFICE → WORK → Compliance → Compliance Cases",
+      "kind": "LANE_SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": true,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.DISPATCH",
+      "path": "AIO OFFICE → WORK → Dispatch",
+      "kind": "SERVICE_LANE",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.DISPATCH",
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.DISPATCH.ACTIVE_CLIENTS",
+      "path": "AIO OFFICE → WORK → Dispatch → Active Clients",
+      "kind": "LANE_SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.DISPATCH",
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.DISPATCH.TRUCKS",
+      "path": "AIO OFFICE → WORK → Dispatch → Trucks",
+      "kind": "LANE_SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.DISPATCH",
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.DISPATCH.LOADS",
+      "path": "AIO OFFICE → WORK → Dispatch → Loads",
+      "kind": "LANE_SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.DISPATCH",
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.DISPATCH.STATUS_EXCEPTIONS",
+      "path": "AIO OFFICE → WORK → Dispatch → Status / Exceptions",
+      "kind": "LANE_SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.DISPATCH",
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.DISPATCH.MY_LOADS_MY_TRUCKS",
+      "path": "AIO OFFICE → WORK → Dispatch → My Loads / My Trucks",
+      "kind": "LANE_SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.DISPATCH",
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.BROKERAGE",
+      "path": "AIO OFFICE → WORK → Brokerage",
+      "kind": "SERVICE_LANE",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.BROKERAGE",
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.BROKERAGE.QUOTES",
+      "path": "AIO OFFICE → WORK → Brokerage → Quotes",
+      "kind": "LANE_SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.BROKERAGE",
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.BROKERAGE.SHIPMENTS",
+      "path": "AIO OFFICE → WORK → Brokerage → Shipments",
+      "kind": "LANE_SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.BROKERAGE",
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.BROKERAGE.CARRIER_OFFERS",
+      "path": "AIO OFFICE → WORK → Brokerage → Carrier Offers",
+      "kind": "LANE_SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.BROKERAGE",
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.BROKERAGE.STOPS_STATUS",
+      "path": "AIO OFFICE → WORK → Brokerage → Stops / Status",
+      "kind": "LANE_SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.BROKERAGE",
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.BROKERAGE.LOAD_FINANCIALS",
+      "path": "AIO OFFICE → WORK → Brokerage → Load Financials",
+      "kind": "LANE_SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": true,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.INSURANCE",
+      "path": "AIO OFFICE → WORK → Insurance",
+      "kind": "SERVICE_LANE",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": "CLIENT_OFFICE.FINANCES.INSURANCE",
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.INSURANCE.INTAKE",
+      "path": "AIO OFFICE → WORK → Insurance → Intake",
+      "kind": "LANE_SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": "CLIENT_OFFICE.FINANCES.INSURANCE",
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.INSURANCE.QUOTES",
+      "path": "AIO OFFICE → WORK → Insurance → Quotes",
+      "kind": "LANE_SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": "CLIENT_OFFICE.FINANCES.INSURANCE",
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.INSURANCE.POLICIES",
+      "path": "AIO OFFICE → WORK → Insurance → Policies",
+      "kind": "LANE_SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": "CLIENT_OFFICE.FINANCES.INSURANCE",
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.INSURANCE.RENEWALS",
+      "path": "AIO OFFICE → WORK → Insurance → Renewals",
+      "kind": "LANE_SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": "CLIENT_OFFICE.FINANCES.INSURANCE",
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.FACTORING",
+      "path": "AIO OFFICE → WORK → Factoring",
+      "kind": "SERVICE_LANE",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": "CLIENT_OFFICE.FINANCES.FACTORING",
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.BOOKKEEPING",
+      "path": "AIO OFFICE → WORK → Bookkeeping",
+      "kind": "SERVICE_LANE",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": "CLIENT_OFFICE.FINANCES.BOOKKEEPING",
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.BOOKKEEPING.MONTHLY_CLIENTS",
+      "path": "AIO OFFICE → WORK → Bookkeeping → Monthly Clients",
+      "kind": "LANE_SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": "CLIENT_OFFICE.FINANCES.BOOKKEEPING",
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.BOOKKEEPING.ANNUAL_CLIENTS",
+      "path": "AIO OFFICE → WORK → Bookkeeping → Annual Clients",
+      "kind": "LANE_SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": "CLIENT_OFFICE.FINANCES.BOOKKEEPING",
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.BOOKKEEPING.RECONCILIATION",
+      "path": "AIO OFFICE → WORK → Bookkeeping → Reconciliation",
+      "kind": "LANE_SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": "CLIENT_OFFICE.FINANCES.BOOKKEEPING",
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.BOOKKEEPING.DELIVERABLES",
+      "path": "AIO OFFICE → WORK → Bookkeeping → Deliverables",
+      "kind": "LANE_SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": "CLIENT_OFFICE.FINANCES.BOOKKEEPING",
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.DRIVERS_CARRIERS",
+      "path": "AIO OFFICE → WORK → Drivers & Carriers",
+      "kind": "SERVICE_LANE",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.DRIVER_MANAGEMENT",
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.DRIVERS_CARRIERS.MATCHING",
+      "path": "AIO OFFICE → WORK → Drivers & Carriers → Matching",
+      "kind": "LANE_SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.DRIVER_MANAGEMENT",
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.DRIVERS_CARRIERS.CREDENTIALS",
+      "path": "AIO OFFICE → WORK → Drivers & Carriers → Credentials",
+      "kind": "LANE_SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.DRIVER_MANAGEMENT",
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.DRIVERS_CARRIERS.APPROVALS",
+      "path": "AIO OFFICE → WORK → Drivers & Carriers → Approvals",
+      "kind": "LANE_SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.DRIVER_MANAGEMENT",
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE",
+      "path": "AIO OFFICE → WORK → Mechanic / Maintenance",
+      "kind": "SERVICE_LANE",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.MAINTENANCE",
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE.TICKETS",
+      "path": "AIO OFFICE → WORK → Mechanic / Maintenance → Tickets",
+      "kind": "LANE_SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.MAINTENANCE",
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE.REFERRALS",
+      "path": "AIO OFFICE → WORK → Mechanic / Maintenance → Referrals",
+      "kind": "LANE_SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.MAINTENANCE",
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE.PROVIDERS",
+      "path": "AIO OFFICE → WORK → Mechanic / Maintenance → Providers",
+      "kind": "LANE_SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.MAINTENANCE",
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE.MAINTENANCE_STATUS",
+      "path": "AIO OFFICE → WORK → Mechanic / Maintenance → Maintenance Status",
+      "kind": "LANE_SECTION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": "CLIENT_OFFICE.OPERATIONS.MAINTENANCE",
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.WORK.ROAD_READY",
+      "path": "AIO OFFICE → WORK → Road Ready",
+      "kind": "SERVICE_LANE",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.REPORTS",
+      "path": "AIO OFFICE → REPORTS",
+      "kind": "ROOT_DESTINATION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": true,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.REPORTS.OVERVIEW",
+      "path": "AIO OFFICE → REPORTS → Overview",
+      "kind": "REPORT_DOMAIN",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.REPORTS.CLIENTS",
+      "path": "AIO OFFICE → REPORTS → Clients",
+      "kind": "REPORT_DOMAIN",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": true,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.REPORTS.SERVICES",
+      "path": "AIO OFFICE → REPORTS → Services",
+      "kind": "REPORT_DOMAIN",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.REPORTS.FINANCIAL_REVENUE",
+      "path": "AIO OFFICE → REPORTS → Financial / Revenue",
+      "kind": "REPORT_DOMAIN",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": "existing management permissions (ROLE_PERMISSIONS)"
+    },
+    {
+      "node_id": "AIO_OFFICE.REPORTS.FILING_HISTORY",
+      "path": "AIO OFFICE → REPORTS → Filing History",
+      "kind": "REPORT_DOMAIN",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.REPORTS.COMPLIANCE",
+      "path": "AIO OFFICE → REPORTS → Compliance",
+      "kind": "REPORT_DOMAIN",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.REPORTS.DISPATCH_BROKERAGE",
+      "path": "AIO OFFICE → REPORTS → Dispatch / Brokerage",
+      "kind": "REPORT_DOMAIN",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.REPORTS.BOOKKEEPING",
+      "path": "AIO OFFICE → REPORTS → Bookkeeping",
+      "kind": "REPORT_DOMAIN",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.REPORTS.MIGRATION",
+      "path": "AIO OFFICE → REPORTS → Migration",
+      "kind": "REPORT_DOMAIN",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.REPORTS.EXPORTS",
+      "path": "AIO OFFICE → REPORTS → Exports",
+      "kind": "REPORT_DOMAIN",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.MORE",
+      "path": "AIO OFFICE → MORE",
+      "kind": "ROOT_DESTINATION",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.MORE.CLIENTS",
+      "path": "AIO OFFICE → MORE → Clients",
+      "kind": "DIRECTORY_ENTRY",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": true,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.MORE.DOCUMENTS_VAULT",
+      "path": "AIO OFFICE → MORE → Documents & Vault",
+      "kind": "DIRECTORY_ENTRY",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.MORE.TEAM_STAFF",
+      "path": "AIO OFFICE → MORE → Team & Staff",
+      "kind": "DIRECTORY_ENTRY",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": true,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": "workload.read (workload)"
+    },
+    {
+      "node_id": "AIO_OFFICE.MORE.SERVICE_CATALOG",
+      "path": "AIO OFFICE → MORE → Service Catalog",
+      "kind": "DIRECTORY_ENTRY",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.MORE.MECHANIC_NETWORK",
+      "path": "AIO OFFICE → MORE → Mechanic Network",
+      "kind": "DIRECTORY_ENTRY",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.MORE.MESSAGES",
+      "path": "AIO OFFICE → MORE → Messages",
+      "kind": "DIRECTORY_ENTRY",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.MORE.SYSTEM_SETTINGS",
+      "path": "AIO OFFICE → MORE → System Settings",
+      "kind": "DIRECTORY_ENTRY",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": "canStaffAccessSystemAdmin (auth/routeAccess.ts:63-65) where enforced"
+    },
+    {
+      "node_id": "AIO_OFFICE.MORE.HELP_SUPPORT",
+      "path": "AIO OFFICE → MORE → Help & Support",
+      "kind": "DIRECTORY_ENTRY",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "AIO_OFFICE.MORE.ACCOUNT",
+      "path": "AIO OFFICE → MORE → Account",
+      "kind": "DIRECTORY_ENTRY",
+      "FOUNDER": "FULL",
+      "STAFF": "FULL",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.HUB",
+      "path": "CLIENT OFFICE → Client Office Hub",
+      "kind": "LANDING",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.MORE.CLIENTS"
+      ],
+      "client_resolution": "ALWAYS",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.ACTIVATION",
+      "path": "CLIENT OFFICE → Client Activation",
+      "kind": "GATE",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.MORE.CLIENTS"
+      ],
+      "client_resolution": "STATE",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.MY_BUSINESS",
+      "path": "CLIENT OFFICE → MY BUSINESS",
+      "kind": "ROOT_DESTINATION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.MORE.CLIENTS"
+      ],
+      "client_resolution": "ALWAYS",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.MY_BUSINESS.COMPANY_PROFILE",
+      "path": "CLIENT OFFICE → MY BUSINESS → Company Profile",
+      "kind": "SECTION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.MORE.CLIENTS"
+      ],
+      "client_resolution": "ALWAYS",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.MY_BUSINESS.OWNERS_CONTACTS",
+      "path": "CLIENT OFFICE → MY BUSINESS → Owners / Contacts",
+      "kind": "SECTION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.MORE.CLIENTS"
+      ],
+      "client_resolution": "ALWAYS",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.MY_BUSINESS.DRIVERS",
+      "path": "CLIENT OFFICE → MY BUSINESS → Drivers",
+      "kind": "SECTION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.WORK.DRIVERS_CARRIERS"
+      ],
+      "client_resolution": "APPLICABILITY",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.MY_BUSINESS.VEHICLES",
+      "path": "CLIENT OFFICE → MY BUSINESS → Vehicles",
+      "kind": "SECTION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.WORK.DISPATCH.TRUCKS",
+        "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE.MAINTENANCE_STATUS",
+        "AIO_OFFICE.MORE.CLIENTS"
+      ],
+      "client_resolution": "APPLICABILITY",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.MY_BUSINESS.AUTHORITIES_REGISTRATIONS",
+      "path": "CLIENT OFFICE → MY BUSINESS → Authorities / Registrations",
+      "kind": "SECTION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES"
+      ],
+      "client_resolution": "APPLICABILITY",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.MY_BUSINESS.BUSINESS_DETAILS",
+      "path": "CLIENT OFFICE → MY BUSINESS → Business Details",
+      "kind": "SECTION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.MORE.CLIENTS"
+      ],
+      "client_resolution": "ALWAYS",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.OPERATIONS",
+      "path": "CLIENT OFFICE → OPERATIONS",
+      "kind": "ROOT_DESTINATION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.MORE.CLIENTS"
+      ],
+      "client_resolution": "ENTITLEMENT",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.OPERATIONS.COMPLIANCE",
+      "path": "CLIENT OFFICE → OPERATIONS → Compliance",
+      "kind": "SECTION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.WORK.COMPLIANCE"
+      ],
+      "client_resolution": "ENTITLEMENT",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.OPERATIONS.PERMITTING_AUTHORITIES",
+      "path": "CLIENT OFFICE → OPERATIONS → Permitting / Authorities",
+      "kind": "SECTION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES"
+      ],
+      "client_resolution": "ENTITLEMENT",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.OPERATIONS.FILING_IFTA",
+      "path": "CLIENT OFFICE → OPERATIONS → Filing / IFTA",
+      "kind": "SECTION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.WORK.FILING_FUEL_TAXES"
+      ],
+      "client_resolution": "ENTITLEMENT",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.OPERATIONS.DISPATCH",
+      "path": "CLIENT OFFICE → OPERATIONS → Dispatch",
+      "kind": "SECTION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.WORK.DISPATCH"
+      ],
+      "client_resolution": "ENTITLEMENT",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.OPERATIONS.BROKERAGE",
+      "path": "CLIENT OFFICE → OPERATIONS → Brokerage",
+      "kind": "SECTION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.WORK.BROKERAGE"
+      ],
+      "client_resolution": "ENTITLEMENT",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.OPERATIONS.DRIVER_MANAGEMENT",
+      "path": "CLIENT OFFICE → OPERATIONS → Driver Management",
+      "kind": "SECTION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.WORK.DRIVERS_CARRIERS"
+      ],
+      "client_resolution": "ENTITLEMENT",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.OPERATIONS.VEHICLE_MANAGEMENT",
+      "path": "CLIENT OFFICE → OPERATIONS → Vehicle Management",
+      "kind": "SECTION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.WORK.DISPATCH.TRUCKS",
+        "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE.MAINTENANCE_STATUS",
+        "AIO_OFFICE.MORE.CLIENTS"
+      ],
+      "client_resolution": "APPLICABILITY",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.OPERATIONS.MAINTENANCE",
+      "path": "CLIENT OFFICE → OPERATIONS → Maintenance",
+      "kind": "SECTION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE"
+      ],
+      "client_resolution": "ENTITLEMENT",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.FINANCES",
+      "path": "CLIENT OFFICE → FINANCES",
+      "kind": "ROOT_DESTINATION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.MORE.CLIENTS"
+      ],
+      "client_resolution": "ENTITLEMENT",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.FINANCES.BOOKKEEPING",
+      "path": "CLIENT OFFICE → FINANCES → Bookkeeping",
+      "kind": "SECTION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.WORK.BOOKKEEPING"
+      ],
+      "client_resolution": "ENTITLEMENT",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.FINANCES.FACTORING",
+      "path": "CLIENT OFFICE → FINANCES → Factoring",
+      "kind": "SECTION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.WORK.FACTORING"
+      ],
+      "client_resolution": "ENTITLEMENT",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.FINANCES.INSURANCE",
+      "path": "CLIENT OFFICE → FINANCES → Insurance",
+      "kind": "SECTION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.WORK.INSURANCE"
+      ],
+      "client_resolution": "ENTITLEMENT",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.FINANCES.FILING_TAX_SUMMARIES",
+      "path": "CLIENT OFFICE → FINANCES → Filing / Tax Summaries",
+      "kind": "SECTION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.WORK.FILING_FUEL_TAXES",
+        "AIO_OFFICE.WORK.FILING_FUEL_TAXES.IFTA"
+      ],
+      "client_resolution": "ENTITLEMENT",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.FINANCES.FEES_PAYMENTS",
+      "path": "CLIENT OFFICE → FINANCES → Fees / Payments",
+      "kind": "SECTION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.MORE.CLIENTS"
+      ],
+      "client_resolution": "ALWAYS",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.FINANCES.FINANCIAL_DOCUMENTS",
+      "path": "CLIENT OFFICE → FINANCES → Financial Documents",
+      "kind": "SECTION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.MORE.DOCUMENTS_VAULT"
+      ],
+      "client_resolution": "ALWAYS",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.VAULT",
+      "path": "CLIENT OFFICE → VAULT",
+      "kind": "ROOT_DESTINATION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.MORE.DOCUMENTS_VAULT"
+      ],
+      "client_resolution": "ALWAYS",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.VAULT.CURRENT_DOCUMENTS",
+      "path": "CLIENT OFFICE → VAULT → Current Documents",
+      "kind": "SECTION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.MORE.DOCUMENTS_VAULT"
+      ],
+      "client_resolution": "ALWAYS",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.VAULT.HISTORICAL_DOCUMENTS",
+      "path": "CLIENT OFFICE → VAULT → Historical Documents",
+      "kind": "SECTION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.MORE.DOCUMENTS_VAULT"
+      ],
+      "client_resolution": "ALWAYS",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.VAULT.UPLOADS",
+      "path": "CLIENT OFFICE → VAULT → Uploads",
+      "kind": "SECTION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.MORE.DOCUMENTS_VAULT"
+      ],
+      "client_resolution": "ALWAYS",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.VAULT.GENERATED_DOCUMENTS",
+      "path": "CLIENT OFFICE → VAULT → Generated Documents",
+      "kind": "SECTION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.MORE.DOCUMENTS_VAULT"
+      ],
+      "client_resolution": "ALWAYS",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.VAULT.FILING_COMPLIANCE_RECORDS",
+      "path": "CLIENT OFFICE → VAULT → Filing / Compliance Records",
+      "kind": "SECTION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.WORK.FILING_FUEL_TAXES",
+        "AIO_OFFICE.WORK.FILING_FUEL_TAXES.IFTA",
+        "AIO_OFFICE.WORK.COMPLIANCE",
+        "AIO_OFFICE.MORE.DOCUMENTS_VAULT"
+      ],
+      "client_resolution": "ALWAYS",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.INBOX",
+      "path": "CLIENT OFFICE → INBOX",
+      "kind": "ROOT_DESTINATION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.MORE.MESSAGES"
+      ],
+      "client_resolution": "ALWAYS",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.INBOX.MESSAGES_FROM_AIO",
+      "path": "CLIENT OFFICE → INBOX → Messages from AIO",
+      "kind": "SECTION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.MORE.MESSAGES"
+      ],
+      "client_resolution": "ALWAYS",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.INBOX.REQUESTS",
+      "path": "CLIENT OFFICE → INBOX → Requests",
+      "kind": "SECTION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.MORE.MESSAGES"
+      ],
+      "client_resolution": "ALWAYS",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.INBOX.APPROVALS_NEEDED",
+      "path": "CLIENT OFFICE → INBOX → Approvals Needed",
+      "kind": "SECTION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.MORE.MESSAGES"
+      ],
+      "client_resolution": "ALWAYS",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.INBOX.NOTIFICATIONS",
+      "path": "CLIENT OFFICE → INBOX → Notifications",
+      "kind": "SECTION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.MORE.MESSAGES"
+      ],
+      "client_resolution": "ALWAYS",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.INBOX.ACTIVITY_UPDATES",
+      "path": "CLIENT OFFICE → INBOX → Activity Updates",
+      "kind": "SECTION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.MORE.MESSAGES"
+      ],
+      "client_resolution": "ALWAYS",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.SERVICES",
+      "path": "CLIENT OFFICE → SERVICES",
+      "kind": "ROOT_DESTINATION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.MORE.CLIENTS"
+      ],
+      "client_resolution": "ALWAYS",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.SERVICES.ACTIVE_SERVICES",
+      "path": "CLIENT OFFICE → SERVICES → Active Services",
+      "kind": "SECTION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.MORE.CLIENTS"
+      ],
+      "client_resolution": "ALWAYS",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.SERVICES.AVAILABLE_SERVICES",
+      "path": "CLIENT OFFICE → SERVICES → Available Services",
+      "kind": "SECTION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.MORE.CLIENTS"
+      ],
+      "client_resolution": "ALWAYS",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.SERVICES.RECOMMENDED_CONTEXTUAL",
+      "path": "CLIENT OFFICE → SERVICES → Recommended / Contextual Services",
+      "kind": "SECTION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.MORE.CLIENTS"
+      ],
+      "client_resolution": "ALWAYS",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.SERVICES.REQUEST_A_SERVICE",
+      "path": "CLIENT OFFICE → SERVICES → Request a Service",
+      "kind": "SECTION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.MORE.CLIENTS"
+      ],
+      "client_resolution": "ALWAYS",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.ACCOUNT",
+      "path": "CLIENT OFFICE → ACCOUNT",
+      "kind": "ROOT_DESTINATION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.MORE.CLIENTS"
+      ],
+      "client_resolution": "ALWAYS",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.ACCOUNT.PROFILE",
+      "path": "CLIENT OFFICE → ACCOUNT → Profile",
+      "kind": "SECTION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.MORE.CLIENTS"
+      ],
+      "client_resolution": "ALWAYS",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.ACCOUNT.USERS_ACCESS",
+      "path": "CLIENT OFFICE → ACCOUNT → Users / Access",
+      "kind": "SECTION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.MORE.CLIENTS"
+      ],
+      "client_resolution": "ALWAYS",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.ACCOUNT.NOTIFICATIONS",
+      "path": "CLIENT OFFICE → ACCOUNT → Notifications",
+      "kind": "SECTION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.MORE.CLIENTS"
+      ],
+      "client_resolution": "ALWAYS",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.ACCOUNT.SECURITY",
+      "path": "CLIENT OFFICE → ACCOUNT → Security",
+      "kind": "SECTION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.MORE.CLIENTS"
+      ],
+      "client_resolution": "ALWAYS",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.ACCOUNT.PREFERENCES",
+      "path": "CLIENT OFFICE → ACCOUNT → Preferences",
+      "kind": "SECTION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.MORE.CLIENTS"
+      ],
+      "client_resolution": "ALWAYS",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.ACCOUNT.HELP",
+      "path": "CLIENT OFFICE → ACCOUNT → Help",
+      "kind": "SECTION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.MORE.CLIENTS"
+      ],
+      "client_resolution": "ALWAYS",
+      "staff_gate": null
+    },
+    {
+      "node_id": "CLIENT_OFFICE.ACCOUNT.SIGN_OUT",
+      "path": "CLIENT OFFICE → ACCOUNT → Sign Out",
+      "kind": "SECTION",
+      "FOUNDER": "VIA_AIO_OFFICE",
+      "STAFF": "VIA_AIO_OFFICE",
+      "CLIENT": "FULL",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": [
+        "AIO_OFFICE.MORE.CLIENTS"
+      ],
+      "client_resolution": "ALWAYS",
+      "staff_gate": null
+    }
+  ]
+}

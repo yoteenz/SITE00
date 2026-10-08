@@ -1,0 +1,125 @@
+{
+  "id": "AIO_OFFICE_IA_QUALITY_GATE",
+  "sprint": "P0.AIO.OFFICE-IA.FOUNDER-WORK-TREE-AND-CLIENT-OFFICE-CANONICALIZATION1",
+  "lineage_id": "SUPERSEDED_BY_AIO_OFFICE_WORK_TREE1",
+  "generated_by": "scripts/studioos/aio-office-ia-export.ts",
+  "source": [
+    "shared/studioos-experience-brain/office-information-architecture.ts",
+    "shared/studioos-experience-brain/projects/aio/office-ia.ts"
+  ],
+  "audit": {
+    "repo": "yoteenz/fsbw · all-in-one-enterprises",
+    "sha": "750b12466845ff8acd5e53909d6da2dc3df124b9",
+    "mode": "READ-ONLY"
+  },
+  "constraints": {
+    "architecture_only": true,
+    "visual_redesign": false,
+    "images_generated": 0,
+    "visual_authorities_modified": false,
+    "live_nav_changed": false,
+    "routes_changed": false,
+    "supabase_schema_changed": false,
+    "client_lifecycle_changed": false,
+    "auth_changed": false,
+    "deployed": false
+  },
+  "checks": [
+    {
+      "key": "FOUNDER_ROOT_NAV",
+      "value": "HOME · INTAKE · WORK · REPORTS · MORE",
+      "evidence": "AIO_OFFICE shell root_nav = its ROOT_DESTINATION children (validator)"
+    },
+    {
+      "key": "CLIENT_ROOT_NAV",
+      "value": "MY BUSINESS · OPERATIONS · FINANCES · VAULT · INBOX · SERVICES · ACCOUNT",
+      "evidence": "CLIENT_OFFICE shell root_nav = its ROOT_DESTINATION children (validator)"
+    },
+    {
+      "key": "ROOT_FILING_SUPERSEDED",
+      "value": "YES",
+      "evidence": "supersession FILING (root) → WORK · SUPERSEDED_BY_AIO_OFFICE_WORK_TREE1"
+    },
+    {
+      "key": "FILING_REHOMED_UNDER_WORK",
+      "value": "YES",
+      "evidence": "AIO OFFICE → WORK → Filing & Fuel Taxes → IFTA"
+    },
+    {
+      "key": "INTAKE_STAFF_ONLY",
+      "value": "YES",
+      "evidence": "every INTAKE node CLIENT = HIDDEN; INTAKE is a firewall item"
+    },
+    {
+      "key": "CLIENT_INTAKE_EXPOSURE",
+      "value": "NO",
+      "evidence": "no ENTRY role and no /office route in the client shell (validator)"
+    },
+    {
+      "key": "FULL_AIO_SERVICE_SCOPE_REPRESENTED",
+      "value": "YES",
+      "evidence": "14 required services mapped · 11 WORK lanes"
+    },
+    {
+      "key": "HOME_DEFINED_AS_PROJECTION",
+      "value": "YES",
+      "evidence": "7 regions, every one PROJECTION with named owners"
+    },
+    {
+      "key": "WORK_DEFINED_AS_PRODUCTION",
+      "value": "YES",
+      "evidence": "WORK and every lane / section role = PRODUCTION"
+    },
+    {
+      "key": "REPORTS_DEFINED_AS_OVERSIGHT",
+      "value": "YES",
+      "evidence": "10 domains, each with a data status"
+    },
+    {
+      "key": "MORE_DEFINED_AS_SECONDARY",
+      "value": "YES",
+      "evidence": "9 entries, none PRODUCTION / ENTRY / COMMAND / PROJECTION"
+    },
+    {
+      "key": "CLIENT_SERVICE_ENTITLEMENT_MODEL_PRESERVED",
+      "value": "YES",
+      "evidence": "11 client workspace nodes resolve through the Brain workspace resolver (ACTIVE · AVAILABLE_NOT_ACTIVATED · NOT_APPLICABLE) + 8 expansion rules"
+    },
+    {
+      "key": "PREBUILT_NOT_ACTIVE",
+      "value": "YES",
+      "evidence": "AIO_LIFECYCLE_MAPPING PREBUILT counted_active = false; CLIENT_OFFICE.ACTIVATION gate unchanged"
+    },
+    {
+      "key": "IFTA_AUTHORITY_PRESERVED",
+      "value": "YES",
+      "evidence": "IFTA tree nodes unchanged and re-associated (WORK → FILING & FUEL TAXES → IFTA · OPERATIONS → FILING / IFTA)"
+    },
+    {
+      "key": "MIGRATION_AUTHORITY_PRESERVED",
+      "value": "YES",
+      "evidence": "42 approved migration authorities, each re-associated once under INTAKE or the client activation gate"
+    },
+    {
+      "key": "EXPERIENCE_BRAIN_UPDATED",
+      "value": "YES",
+      "evidence": "office-information-architecture.ts + projects/aio/office-ia.ts · validator violations 0"
+    },
+    {
+      "key": "PRODUCT_GRAPH_UPDATED",
+      "value": "YES",
+      "evidence": "AIO_IA_PRODUCT_GRAPH_MAP (8 containers · 18 families · 4 role projections); vendored to fsbw src/product-graph as an overlay"
+    },
+    {
+      "key": "VISUAL_REDESIGN_PERFORMED",
+      "value": "NO",
+      "evidence": "no page, image or visual authority touched"
+    },
+    {
+      "key": "LIVE_IMPLEMENTATION_CHANGED",
+      "value": "NO",
+      "evidence": "no route, nav, schema, lifecycle or auth change"
+    }
+  ],
+  "violations": []
+}

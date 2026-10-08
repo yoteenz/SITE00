@@ -1,0 +1,308 @@
+{
+  "id": "AIO_OFFICE_IA_SUPERSESSION_MAP",
+  "sprint": "P0.AIO.OFFICE-IA.FOUNDER-WORK-TREE-AND-CLIENT-OFFICE-CANONICALIZATION1",
+  "lineage_id": "SUPERSEDED_BY_AIO_OFFICE_WORK_TREE1",
+  "generated_by": "scripts/studioos/aio-office-ia-export.ts",
+  "source": [
+    "shared/studioos-experience-brain/office-information-architecture.ts",
+    "shared/studioos-experience-brain/projects/aio/office-ia.ts"
+  ],
+  "audit": {
+    "repo": "yoteenz/fsbw · all-in-one-enterprises",
+    "sha": "750b12466845ff8acd5e53909d6da2dc3df124b9",
+    "mode": "READ-ONLY"
+  },
+  "constraints": {
+    "architecture_only": true,
+    "visual_redesign": false,
+    "images_generated": 0,
+    "visual_authorities_modified": false,
+    "live_nav_changed": false,
+    "routes_changed": false,
+    "supabase_schema_changed": false,
+    "client_lifecycle_changed": false,
+    "auth_changed": false,
+    "deployed": false
+  },
+  "old_root_nav": [
+    "HOME",
+    "INTAKE",
+    "FILING",
+    "REPORTS",
+    "MORE"
+  ],
+  "new_root_nav": [
+    "HOME",
+    "INTAKE",
+    "WORK",
+    "REPORTS",
+    "MORE"
+  ],
+  "old_root_filing_status": "SUPERSEDED",
+  "new_filing_location": [
+    "AIO OFFICE",
+    "WORK",
+    "Filing & Fuel Taxes"
+  ],
+  "new_ifta_location": [
+    "AIO OFFICE",
+    "WORK",
+    "Filing & Fuel Taxes",
+    "IFTA"
+  ],
+  "supersessions": [
+    {
+      "lineage_id": "SUPERSEDED_BY_AIO_OFFICE_WORK_TREE1",
+      "old_structure": "Staff / founder root dock HOME · INTAKE · FILING · REPORTS · MORE (migration family, AioMigrationKit STAFF_NAV)",
+      "old_item": "HOME",
+      "old_target": "/office",
+      "disposition": "KEPT",
+      "new_node_ids": [
+        "AIO_OFFICE.HOME"
+      ],
+      "note": "Same position; now defined as a projection of INTAKE and WORK.",
+      "new_locations": [
+        "AIO OFFICE → HOME"
+      ]
+    },
+    {
+      "lineage_id": "SUPERSEDED_BY_AIO_OFFICE_WORK_TREE1",
+      "old_structure": "Staff / founder root dock HOME · INTAKE · FILING · REPORTS · MORE (migration family, AioMigrationKit STAFF_NAV)",
+      "old_item": "INTAKE",
+      "old_target": "/office/migration",
+      "disposition": "KEPT",
+      "new_node_ids": [
+        "AIO_OFFICE.INTAKE"
+      ],
+      "note": "Same position; staff / founder only; migration authorities re-associated.",
+      "new_locations": [
+        "AIO OFFICE → INTAKE"
+      ]
+    },
+    {
+      "lineage_id": "SUPERSEDED_BY_AIO_OFFICE_WORK_TREE1",
+      "old_structure": "Staff / founder root dock HOME · INTAKE · FILING · REPORTS · MORE (migration family, AioMigrationKit STAFF_NAV)",
+      "old_item": "FILING (root)",
+      "old_target": "/office/documents (legacy document review / expiry queue)",
+      "disposition": "SUPERSEDED",
+      "new_node_ids": [
+        "AIO_OFFICE.WORK"
+      ],
+      "note": "The root position is now WORK, the cross-service production hub. FILING is no longer a root item.",
+      "new_locations": [
+        "AIO OFFICE → WORK"
+      ]
+    },
+    {
+      "lineage_id": "SUPERSEDED_BY_AIO_OFFICE_WORK_TREE1",
+      "old_structure": "Staff / founder root dock HOME · INTAKE · FILING · REPORTS · MORE (migration family, AioMigrationKit STAFF_NAV)",
+      "old_item": "FILING (production)",
+      "old_target": "filing work",
+      "disposition": "REHOMED",
+      "new_node_ids": [
+        "AIO_OFFICE.WORK.FILING_FUEL_TAXES",
+        "AIO_OFFICE.WORK.FILING_FUEL_TAXES.IFTA"
+      ],
+      "note": "Filing production lives in WORK → FILING & FUEL TAXES; IFTA at WORK → FILING & FUEL TAXES → IFTA with its case identity unchanged.",
+      "new_locations": [
+        "AIO OFFICE → WORK → Filing & Fuel Taxes",
+        "AIO OFFICE → WORK → Filing & Fuel Taxes → IFTA"
+      ]
+    },
+    {
+      "lineage_id": "SUPERSEDED_BY_AIO_OFFICE_WORK_TREE1",
+      "old_structure": "Staff / founder root dock HOME · INTAKE · FILING · REPORTS · MORE (migration family, AioMigrationKit STAFF_NAV)",
+      "old_item": "FILING (dock target /office/documents)",
+      "old_target": "/office/documents",
+      "disposition": "REMAPPED",
+      "new_node_ids": [
+        "AIO_OFFICE.WORK.COMPLIANCE.EXPIRATIONS",
+        "AIO_OFFICE.MORE.DOCUMENTS_VAULT"
+      ],
+      "note": "The page the old FILING item opened is a legacy expiring-document queue: expiry work → COMPLIANCE → EXPIRATIONS; documents → MORE → DOCUMENTS & VAULT.",
+      "new_locations": [
+        "AIO OFFICE → WORK → Compliance → Expirations",
+        "AIO OFFICE → MORE → Documents & Vault"
+      ]
+    },
+    {
+      "lineage_id": "SUPERSEDED_BY_AIO_OFFICE_WORK_TREE1",
+      "old_structure": "Staff / founder root dock HOME · INTAKE · FILING · REPORTS · MORE (migration family, AioMigrationKit STAFF_NAV)",
+      "old_item": "REPORTS",
+      "old_target": "/office/archive-migration",
+      "disposition": "REMAPPED",
+      "new_node_ids": [
+        "AIO_OFFICE.REPORTS",
+        "AIO_OFFICE.REPORTS.MIGRATION",
+        "AIO_OFFICE.INTAKE.MIGRATION_HISTORY"
+      ],
+      "note": "Same position; the old target (archive migration batches) maps to REPORTS → MIGRATION and INTAKE → MIGRATION HISTORY.",
+      "new_locations": [
+        "AIO OFFICE → REPORTS",
+        "AIO OFFICE → REPORTS → Migration",
+        "AIO OFFICE → INTAKE → Migration History"
+      ]
+    },
+    {
+      "lineage_id": "SUPERSEDED_BY_AIO_OFFICE_WORK_TREE1",
+      "old_structure": "Staff / founder root dock HOME · INTAKE · FILING · REPORTS · MORE (migration family, AioMigrationKit STAFF_NAV)",
+      "old_item": "MORE",
+      "old_target": "/office",
+      "disposition": "KEPT",
+      "new_node_ids": [
+        "AIO_OFFICE.MORE"
+      ],
+      "note": "Same position; becomes a real secondary directory (no production).",
+      "new_locations": [
+        "AIO OFFICE → MORE"
+      ]
+    },
+    {
+      "lineage_id": "SUPERSEDED_BY_AIO_OFFICE_WORK_TREE1",
+      "old_structure": "AIO OFFICE HUB responsibilities (office.ts AIO_OFFICE_HUB_RESPONSIBILITIES)",
+      "old_item": "ALL CLIENTS",
+      "old_target": "/office/clients",
+      "disposition": "REMAPPED",
+      "new_node_ids": [
+        "AIO_OFFICE.MORE.CLIENTS",
+        "AIO_OFFICE.HOME.CLIENTS_IN_MOTION"
+      ],
+      "note": "Directory → MORE; clients changing state → HOME.",
+      "new_locations": [
+        "AIO OFFICE → MORE → Clients",
+        "AIO OFFICE → HOME → Clients in Motion"
+      ]
+    },
+    {
+      "lineage_id": "SUPERSEDED_BY_AIO_OFFICE_WORK_TREE1",
+      "old_structure": "AIO OFFICE HUB responsibilities (office.ts AIO_OFFICE_HUB_RESPONSIBILITIES)",
+      "old_item": "NEEDS ATTENTION",
+      "old_target": "hub",
+      "disposition": "KEPT",
+      "new_node_ids": [
+        "AIO_OFFICE.HOME.NEEDS_ATTENTION"
+      ],
+      "note": "",
+      "new_locations": [
+        "AIO OFFICE → HOME → Needs Attention"
+      ]
+    },
+    {
+      "lineage_id": "SUPERSEDED_BY_AIO_OFFICE_WORK_TREE1",
+      "old_structure": "AIO OFFICE HUB responsibilities (office.ts AIO_OFFICE_HUB_RESPONSIBILITIES)",
+      "old_item": "DUE / UPCOMING",
+      "old_target": "hub",
+      "disposition": "RENAMED",
+      "new_node_ids": [
+        "AIO_OFFICE.HOME.DEADLINES"
+      ],
+      "note": "",
+      "new_locations": [
+        "AIO OFFICE → HOME → Deadlines"
+      ]
+    },
+    {
+      "lineage_id": "SUPERSEDED_BY_AIO_OFFICE_WORK_TREE1",
+      "old_structure": "AIO OFFICE HUB responsibilities (office.ts AIO_OFFICE_HUB_RESPONSIBILITIES)",
+      "old_item": "BLOCKED · WAITING ON CLIENT · WAITING ON AIO",
+      "old_target": "hub",
+      "disposition": "REMAPPED",
+      "new_node_ids": [
+        "AIO_OFFICE.HOME.BLOCKERS"
+      ],
+      "note": "Waiting-on states are blocker reasons.",
+      "new_locations": [
+        "AIO OFFICE → HOME → Blockers"
+      ]
+    },
+    {
+      "lineage_id": "SUPERSEDED_BY_AIO_OFFICE_WORK_TREE1",
+      "old_structure": "AIO OFFICE HUB responsibilities (office.ts AIO_OFFICE_HUB_RESPONSIBILITIES)",
+      "old_item": "ACTIVE WORKSPACES · SERVICE HEALTH",
+      "old_target": "hub",
+      "disposition": "REMAPPED",
+      "new_node_ids": [
+        "AIO_OFFICE.HOME.WORK_ACROSS_AIO",
+        "AIO_OFFICE.REPORTS.SERVICES"
+      ],
+      "note": "Live lane state → HOME; performance over time → REPORTS.",
+      "new_locations": [
+        "AIO OFFICE → HOME → Work Across AIO",
+        "AIO OFFICE → REPORTS → Services"
+      ]
+    },
+    {
+      "lineage_id": "SUPERSEDED_BY_AIO_OFFICE_WORK_TREE1",
+      "old_structure": "AIO OFFICE HUB responsibilities (office.ts AIO_OFFICE_HUB_RESPONSIBILITIES)",
+      "old_item": "RECENT ACTIVITY",
+      "old_target": "hub",
+      "disposition": "KEPT",
+      "new_node_ids": [
+        "AIO_OFFICE.HOME.RECENT_ACTIVITY"
+      ],
+      "note": "",
+      "new_locations": [
+        "AIO OFFICE → HOME → Recent Activity"
+      ]
+    },
+    {
+      "lineage_id": "SUPERSEDED_BY_AIO_OFFICE_WORK_TREE1",
+      "old_structure": "AIO OFFICE HUB responsibilities (office.ts AIO_OFFICE_HUB_RESPONSIBILITIES)",
+      "old_item": "GLOBAL SEARCH / CLIENT LOOKUP",
+      "old_target": "topbar search",
+      "disposition": "REMAPPED",
+      "new_node_ids": [
+        "AIO_OFFICE.HOME.QUICK_ACTIONS"
+      ],
+      "note": "The header search stays; quick entry is a HOME region.",
+      "new_locations": [
+        "AIO OFFICE → HOME → Quick Actions"
+      ]
+    },
+    {
+      "lineage_id": "SUPERSEDED_BY_AIO_OFFICE_WORK_TREE1",
+      "old_structure": "Customer containers (product graph runtimeProductGraph containers)",
+      "old_item": "MY OFFICE",
+      "old_target": "/portal",
+      "disposition": "REMAPPED",
+      "new_node_ids": [
+        "CLIENT_OFFICE.HUB"
+      ],
+      "note": "Not one of the seven client root destinations; recorded as the client office landing (Q-CLIENT-HUB).",
+      "new_locations": [
+        "CLIENT OFFICE → Client Office Hub"
+      ]
+    },
+    {
+      "lineage_id": "SUPERSEDED_BY_AIO_OFFICE_WORK_TREE1",
+      "old_structure": "Customer containers (product graph families)",
+      "old_item": "F12 INSURANCE under MY BUSINESS",
+      "old_target": "/portal/insurance",
+      "disposition": "REMAPPED",
+      "new_node_ids": [
+        "CLIENT_OFFICE.FINANCES.INSURANCE"
+      ],
+      "note": "The founder tree places Insurance in FINANCES.",
+      "new_locations": [
+        "CLIENT OFFICE → FINANCES → Insurance"
+      ]
+    }
+  ],
+  "legacy_marked_superseded": [
+    {
+      "repo": "yoteenz/fsbw",
+      "ref": "AIO_CLIENT_MIGRATION_RESPONSIVE_BLUEPRINT/nav-rules.json:3-29",
+      "what": "Blueprint nav rule text \"STAFF_NAV: HOME · INTAKE (current) · FILING · REPORTS · MORE\""
+    },
+    {
+      "repo": "yoteenz/fsbw",
+      "ref": "AIO_CLIENT_MIGRATION_RESPONSIVE_BLUEPRINT/responsive-blueprint.json:51,60",
+      "what": "Blueprint mentions of the FILING dock item"
+    },
+    {
+      "repo": "yoteenz/fsbw",
+      "ref": "all-in-one-enterprises/docs/AIO_CLIENT_MIGRATION_AUTHORITY_RECOVERY.md (dock references)",
+      "what": "Recovery doc describes the FILING dock"
+    }
+  ]
+}

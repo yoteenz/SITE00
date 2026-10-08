@@ -1,0 +1,411 @@
+{
+  "id": "AIO_OFFICE_HOME_PROJECTION_MODEL",
+  "sprint": "P0.AIO.OFFICE-IA.FOUNDER-WORK-TREE-AND-CLIENT-OFFICE-CANONICALIZATION1",
+  "lineage_id": "SUPERSEDED_BY_AIO_OFFICE_WORK_TREE1",
+  "generated_by": "scripts/studioos/aio-office-ia-export.ts",
+  "source": [
+    "shared/studioos-experience-brain/office-information-architecture.ts",
+    "shared/studioos-experience-brain/projects/aio/office-ia.ts"
+  ],
+  "audit": {
+    "repo": "yoteenz/fsbw · all-in-one-enterprises",
+    "sha": "750b12466845ff8acd5e53909d6da2dc3df124b9",
+    "mode": "READ-ONLY"
+  },
+  "constraints": {
+    "architecture_only": true,
+    "visual_redesign": false,
+    "images_generated": 0,
+    "visual_authorities_modified": false,
+    "live_nav_changed": false,
+    "routes_changed": false,
+    "supabase_schema_changed": false,
+    "client_lifecycle_changed": false,
+    "auth_changed": false,
+    "deployed": false
+  },
+  "rule": "HOME is a cross-business command center. It projects the state owned by INTAKE and WORK; it owns no production state. Every HOME item opens its owning INTAKE / WORK location.",
+  "requirements": [
+    {
+      "requirement": "Cross-client status",
+      "regions": [
+        "AIO_OFFICE.HOME.NEEDS_ATTENTION",
+        "AIO_OFFICE.HOME.CLIENTS_IN_MOTION"
+      ]
+    },
+    {
+      "requirement": "Cross-service status",
+      "regions": [
+        "AIO_OFFICE.HOME.WORK_ACROSS_AIO"
+      ]
+    },
+    {
+      "requirement": "Urgent actions",
+      "regions": [
+        "AIO_OFFICE.HOME.NEEDS_ATTENTION"
+      ]
+    },
+    {
+      "requirement": "Deadlines",
+      "regions": [
+        "AIO_OFFICE.HOME.DEADLINES"
+      ]
+    },
+    {
+      "requirement": "Blockers",
+      "regions": [
+        "AIO_OFFICE.HOME.BLOCKERS"
+      ]
+    },
+    {
+      "requirement": "Recent production activity",
+      "regions": [
+        "AIO_OFFICE.HOME.RECENT_ACTIVITY"
+      ]
+    },
+    {
+      "requirement": "Quick entry into a client or workspace",
+      "regions": [
+        "AIO_OFFICE.HOME.QUICK_ACTIONS"
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "surface": "HOME",
+      "says": "4 IFTA cases need attention",
+      "region": "AIO_OFFICE.HOME.NEEDS_ATTENTION",
+      "owner": "AIO_OFFICE.WORK.FILING_FUEL_TAXES.FILING_QUEUE"
+    },
+    {
+      "surface": "HOME",
+      "says": "3 dispatch exceptions",
+      "region": "AIO_OFFICE.HOME.BLOCKERS",
+      "owner": "AIO_OFFICE.WORK.DISPATCH.STATUS_EXCEPTIONS"
+    },
+    {
+      "surface": "HOME",
+      "says": "2 bookkeeping clients waiting on reconciliation",
+      "region": "AIO_OFFICE.HOME.BLOCKERS",
+      "owner": "AIO_OFFICE.WORK.BOOKKEEPING.RECONCILIATION"
+    }
+  ],
+  "regions": [
+    {
+      "node_id": "AIO_OFFICE.HOME.NEEDS_ATTENTION",
+      "label": "Needs Attention",
+      "semantics": "Items across every client and service that need the office now. Each item opens its owning INTAKE / WORK case.",
+      "projects": [
+        {
+          "node_id": "AIO_OFFICE.INTAKE",
+          "location": "AIO OFFICE → INTAKE"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES",
+          "location": "AIO OFFICE → WORK → Permitting & Authorities"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK.FILING_FUEL_TAXES",
+          "location": "AIO OFFICE → WORK → Filing & Fuel Taxes"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK.COMPLIANCE",
+          "location": "AIO OFFICE → WORK → Compliance"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK.DISPATCH",
+          "location": "AIO OFFICE → WORK → Dispatch"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK.BROKERAGE",
+          "location": "AIO OFFICE → WORK → Brokerage"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK.INSURANCE",
+          "location": "AIO OFFICE → WORK → Insurance"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK.FACTORING",
+          "location": "AIO OFFICE → WORK → Factoring"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK.BOOKKEEPING",
+          "location": "AIO OFFICE → WORK → Bookkeeping"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK.DRIVERS_CARRIERS",
+          "location": "AIO OFFICE → WORK → Drivers & Carriers"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE",
+          "location": "AIO OFFICE → WORK → Mechanic / Maintenance"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK.ROAD_READY",
+          "location": "AIO OFFICE → WORK → Road Ready"
+        }
+      ],
+      "implementation": "IMPLEMENTATION_PARTIAL",
+      "depth": "FUNCTIONAL_DEMO",
+      "routes": [],
+      "evidence": [
+        "all-in-one-enterprises/src/office-core/officeAttentionEngine.ts:78"
+      ],
+      "notes": "The attention engine has no IFTA, bookkeeping, FleetCare or DriverLink candidates yet."
+    },
+    {
+      "node_id": "AIO_OFFICE.HOME.DEADLINES",
+      "label": "Deadlines",
+      "semantics": "Due and upcoming dates across services (filings, renewals, expirations, permits).",
+      "projects": [
+        {
+          "node_id": "AIO_OFFICE.WORK.FILING_FUEL_TAXES",
+          "location": "AIO OFFICE → WORK → Filing & Fuel Taxes"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK.COMPLIANCE.EXPIRATIONS",
+          "location": "AIO OFFICE → WORK → Compliance → Expirations"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES",
+          "location": "AIO OFFICE → WORK → Permitting & Authorities"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK.INSURANCE.RENEWALS",
+          "location": "AIO OFFICE → WORK → Insurance → Renewals"
+        }
+      ],
+      "implementation": "IMPLEMENTATION_PARTIAL",
+      "depth": "FUNCTIONAL_DEMO",
+      "routes": [
+        {
+          "path": "/office/deadlines",
+          "status": "EXISTING",
+          "evidence": "all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:279 DeadlinesPage (Deadline Center)"
+        }
+      ],
+      "evidence": [
+        "all-in-one-enterprises/src/demo/demoTypes.ts:389 Deadline (deadlineType incl. ifta_filing)",
+        "all-in-one-enterprises/src/office/pages/OperationsPages.tsx:47-113"
+      ],
+      "notes": ""
+    },
+    {
+      "node_id": "AIO_OFFICE.HOME.BLOCKERS",
+      "label": "Blockers",
+      "semantics": "Work that cannot move, and why (waiting on client, missing data, failed check).",
+      "projects": [
+        {
+          "node_id": "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES",
+          "location": "AIO OFFICE → WORK → Permitting & Authorities"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK.FILING_FUEL_TAXES",
+          "location": "AIO OFFICE → WORK → Filing & Fuel Taxes"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK.COMPLIANCE",
+          "location": "AIO OFFICE → WORK → Compliance"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK.DISPATCH",
+          "location": "AIO OFFICE → WORK → Dispatch"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK.BROKERAGE",
+          "location": "AIO OFFICE → WORK → Brokerage"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK.INSURANCE",
+          "location": "AIO OFFICE → WORK → Insurance"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK.FACTORING",
+          "location": "AIO OFFICE → WORK → Factoring"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK.BOOKKEEPING",
+          "location": "AIO OFFICE → WORK → Bookkeeping"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK.DRIVERS_CARRIERS",
+          "location": "AIO OFFICE → WORK → Drivers & Carriers"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE",
+          "location": "AIO OFFICE → WORK → Mechanic / Maintenance"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK.ROAD_READY",
+          "location": "AIO OFFICE → WORK → Road Ready"
+        },
+        {
+          "node_id": "AIO_OFFICE.INTAKE",
+          "location": "AIO OFFICE → INTAKE"
+        }
+      ],
+      "implementation": "IMPLEMENTATION_PARTIAL",
+      "depth": "FUNCTIONAL_DEMO",
+      "routes": [],
+      "evidence": [
+        "all-in-one-enterprises/src/office-core/officeWorkTypes.ts:111 OfficeWorkItem",
+        "all-in-one-enterprises/src/ifta/iftaDerive.ts:528 staffBucket BLOCKED",
+        "all-in-one-enterprises/src/office-core/client360Service.ts:29 customerWaitingOn / allInOneWaitingOn"
+      ],
+      "notes": "No IFTA OfficeWorkItem domain; waiting-on is per client only (no cross-client rollup)."
+    },
+    {
+      "node_id": "AIO_OFFICE.HOME.WORK_ACROSS_AIO",
+      "label": "Work Across AIO",
+      "semantics": "One line per WORK lane: open, due, blocked — each opens the lane.",
+      "projects": [
+        {
+          "node_id": "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES",
+          "location": "AIO OFFICE → WORK → Permitting & Authorities"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK.FILING_FUEL_TAXES",
+          "location": "AIO OFFICE → WORK → Filing & Fuel Taxes"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK.COMPLIANCE",
+          "location": "AIO OFFICE → WORK → Compliance"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK.DISPATCH",
+          "location": "AIO OFFICE → WORK → Dispatch"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK.BROKERAGE",
+          "location": "AIO OFFICE → WORK → Brokerage"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK.INSURANCE",
+          "location": "AIO OFFICE → WORK → Insurance"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK.FACTORING",
+          "location": "AIO OFFICE → WORK → Factoring"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK.BOOKKEEPING",
+          "location": "AIO OFFICE → WORK → Bookkeeping"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK.DRIVERS_CARRIERS",
+          "location": "AIO OFFICE → WORK → Drivers & Carriers"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE",
+          "location": "AIO OFFICE → WORK → Mechanic / Maintenance"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK.ROAD_READY",
+          "location": "AIO OFFICE → WORK → Road Ready"
+        }
+      ],
+      "implementation": "IMPLEMENTATION_PARTIAL",
+      "depth": "FUNCTIONAL_DEMO",
+      "routes": [
+        {
+          "path": "/office/work",
+          "status": "EXISTING",
+          "evidence": "all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:199 My Work"
+        },
+        {
+          "path": "/office/queues",
+          "status": "EXISTING",
+          "evidence": "all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:200 Queues"
+        }
+      ],
+      "evidence": [
+        "all-in-one-enterprises/src/office-core/client360Service.ts:52-71 activeServices (heuristics)",
+        "all-in-one-enterprises/src/management/managementQueryLayer.ts:388 getBusinessHealthAreas"
+      ],
+      "notes": "Today’s /office/work lists staff work items across lanes; no per-lane rollup exists."
+    },
+    {
+      "node_id": "AIO_OFFICE.HOME.CLIENTS_IN_MOTION",
+      "label": "Clients in Motion",
+      "semantics": "Clients changing state: migrating, PREBUILT, invited, confirming, newly ACTIVE, paused. PREBUILT is never counted ACTIVE.",
+      "projects": [
+        {
+          "node_id": "AIO_OFFICE.INTAKE",
+          "location": "AIO OFFICE → INTAKE"
+        },
+        {
+          "node_id": "AIO_OFFICE.MORE.CLIENTS",
+          "location": "AIO OFFICE → MORE → Clients"
+        }
+      ],
+      "implementation": "IMPLEMENTATION_PARTIAL",
+      "depth": "FUNCTIONAL_DEMO",
+      "routes": [],
+      "evidence": [
+        "all-in-one-enterprises/src/client-migration/lifecycle.ts:54 founderSegmentForLifecycle",
+        "all-in-one-enterprises/src/client-migration/activeClientMetrics.ts:11 filterClientsByFounderSegment"
+      ],
+      "notes": ""
+    },
+    {
+      "node_id": "AIO_OFFICE.HOME.RECENT_ACTIVITY",
+      "label": "Recent Activity",
+      "semantics": "Recent production events across clients and services (staff-only feed).",
+      "projects": [
+        {
+          "node_id": "AIO_OFFICE.INTAKE",
+          "location": "AIO OFFICE → INTAKE"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK",
+          "location": "AIO OFFICE → WORK"
+        }
+      ],
+      "implementation": "IMPLEMENTATION_PARTIAL",
+      "depth": "FUNCTIONAL_DEMO",
+      "routes": [
+        {
+          "path": "/office/activity",
+          "status": "EXISTING",
+          "evidence": "all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:208 internal activity feed"
+        }
+      ],
+      "evidence": [
+        "all-in-one-enterprises/src/office/pages/OfficeDashboardPage.tsx:16"
+      ],
+      "notes": ""
+    },
+    {
+      "node_id": "AIO_OFFICE.HOME.QUICK_ACTIONS",
+      "label": "Quick Actions",
+      "semantics": "Fast entry into a client or a workspace (open client, start intake, open a lane). Launches; owns nothing.",
+      "projects": [
+        {
+          "node_id": "AIO_OFFICE.INTAKE.EXISTING_CLIENT_FILE",
+          "location": "AIO OFFICE → INTAKE → Existing Client File"
+        },
+        {
+          "node_id": "AIO_OFFICE.INTAKE.NEW_CLIENT_FILE",
+          "location": "AIO OFFICE → INTAKE → New Client File"
+        },
+        {
+          "node_id": "AIO_OFFICE.MORE.CLIENTS",
+          "location": "AIO OFFICE → MORE → Clients"
+        },
+        {
+          "node_id": "AIO_OFFICE.WORK",
+          "location": "AIO OFFICE → WORK"
+        }
+      ],
+      "implementation": "IMPLEMENTATION_PARTIAL",
+      "depth": "FUNCTIONAL_DEMO",
+      "routes": [],
+      "evidence": [
+        "all-in-one-enterprises/src/office/layouts/AIOOfficeLayout.tsx:241-253 quick create",
+        "all-in-one-enterprises/src/office/layouts/AIOOfficeLayout.tsx:263-276 command palette",
+        "all-in-one-enterprises/src/office/layouts/AIOOfficeLayout.tsx:148 topbar client search"
+      ],
+      "notes": ""
+    }
+  ]
+}
