@@ -11,7 +11,8 @@
   transform: none;
   padding: 6px 24px calc(6px + env(safe-area-inset-bottom, 0px));
   border-radius: 0;
-  background: #f6f3ee;
+  /* Same plaster as the stage strip under the dock, so the panel and the border blend. */
+  background: var(--jrn-plaster);
   border-top: 0;
   box-shadow: none;
   gap: 0;
@@ -86,7 +87,7 @@
 
 /* HQ icon sheet. Icon 20px. ADD square stays olive until the cell itself is the chip. */
 .jrn .jrn-nav {
-  background: #f6f3ee;
+  background: var(--jrn-plaster);
   border-radius: 16px;
 }
 .jrn .jrn-nav__glyph {
