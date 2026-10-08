@@ -1,0 +1,16 @@
+{
+  "sprint": "P0.JURNL.TODAY-ACTIVITY.PARENTS.CREATIVE-REDIRECTION.BRAND-FIDELITY1",
+  "status": "SUPERSEDED_BY_WORLD_EDITORIAL1",
+  "parent_only": true,
+  "plates": "NOT_GENERATED",
+  "supersedes": "TODAY v1/SUPERSEDED_RECONSTRUCTION1",
+  "visual_truth": [
+    "ENTRY v2/01_WELCOME/authority/entry-v2-welcome-authority.png",
+    "ENTRY v2/02_VALUE_PROPOSITION/authority/entry-v2-value-proposition-authority.png",
+    "ENTRY v2/03_KEY_BENEFITS/authority/entry-v2-key-benefits-authority.png"
+  ],
+  "generation": "image-to-image, nano-banana-2-1, those ENTRY authorities as visual references",
+  "logo_treatment": "ENTRY welcome lockup: olive sprig, horizontal JURNL wordmark, FINANCIAL LIFE. BEAUTIFULLY ORGANIZED.",
+  "world": "Warm plaster, torn paper, olive, classical engraving, sage linen. Present-tense and lighter than ACTIVITY.",
+  "review_board": "TODAY v1/REVIEW/today-v1-parents-brand-fidelity.jpg"
+}

@@ -15516,6 +15516,36 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
+## 2026-10-08 — TODAY and ACTIVITY parents, then the brand-fidelity rebuild
+
+- **Context:** This chat built the first 14 TODAY and ACTIVITY parent authorities, rebuilt them after the founder rejected the masculine archive drift and the weak mark, resolved a merge with main, then rebuilt them again from the approved ENTRY authorities.
+- **Topics covered:** Parent-only generation. Official vertical logo versus the ENTRY welcome lockup. Image-to-image from ENTRY welcome, value, and benefits. No plates on this last pass.
+- **Decisions / outcomes:**
+  - The first batch and the reconstruction pass are superseded. Their files stay in `SUPERSEDED_DRAFT` and `SUPERSEDED_RECONSTRUCTION1`.
+  - The visual truth for this pass is the ENTRY welcome, value, and benefits authorities. Generations were image-to-image against those photographs.
+  - The lockup on every parent is the ENTRY welcome treatment: olive sprig, horizontal JURNL, and the line FINANCIAL LIFE. BEAUTIFULLY ORGANIZED.
+  - TODAY stays the lighter present reading. ACTIVITY stays the record, in the same warm room, without filing cabinets.
+  - No plates, sidekicks, or descendants were generated on this pass.
+- **Changes:** `TODAY v1/` and `ACTIVITY v1/` parent authorities and review boards. Manifests `today-brand-fidelity1.json` and `activity-brand-fidelity1.json`.
+- **Conventions:** When a JURNL parent is corrected for brand, anchor image-to-image to the approved ENTRY authorities and use the welcome lockup. Do not invent a filing-cabinet world for the record.
+
+---
+
+## 2026-10-08 — TODAY and ACTIVITY world, brand, and editorial layer
+
+- **Context:** After the brand-fidelity parents, the founder said they still read as paper on Mediterranean surfaces, with the mark used as a small corner stamp. This pass keeps the torn paper, the palette, and the family split, and adds real rooms plus the official decorative lockup inside the objects.
+- **Topics covered:** Architectural depth. Safe to Spend lineage. Varied logo treatments. Parent-only credit control.
+- **Decisions / outcomes:**
+  - The brand-fidelity boards are preserved under `SUPERSEDED_BRAND_FIDELITY1` and are not approved.
+  - Image-to-image used the official vertical botanical lockup, the Safe to Spend authority plate, the coastal terrace, and the ENTRY value collage.
+  - TODAY is the open arch and the sea. ACTIVITY is the desk, the niche, and the stack. Safe to Spend keeps the standing folio in the arch.
+  - The rose stem and stacked JURNL sit on margins, spines, flaps, jambs, and underlayers. No corner stamp was added.
+  - No plates, children, or implementation assets.
+- **Changes:** `TODAY v1/` and `ACTIVITY v1/` parent authorities and the world-editorial review boards.
+- **Conventions:** On TODAY and ACTIVITY parents, the official vertical botanical lockup belongs to the object. A corner watermark is not enough. Do not extract plates until the founder approves these parents.
+
+---
+
 ## 2026-10-08 — ENTRY is one flow from WELCOME to SETUP
 
 - **Context:** The founder saw the seven ENTRY v2 pages on the tunnel but said they were not linked to the rest of the pages. They also said QUICK ADD and the hamburger menu changes had disappeared from the tunnel.
@@ -15578,4 +15608,3 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decisions / outcomes:** 1 FU is 2 weeks of raw capacity and stays internal. The calendar is serial work plus parallel work divided by the lanes the dependency graph allows. Priority uses up to 4 lanes and a 1.85 price multiplier. On the 16-family fixture that cuts the calendar to about 69% of standard, not half. Simple starts near $3K and custom near $10K. Those are floors, not caps. The dollar-per-FU figure is calibration-only. A client configuration is a projected estimate. It does not approve a quote or lock a schedule. World weights are marked calibration-needed. Estimator version is 1.0.0.
 - **Changes:** `src/studioos/estimation/`, internal page `/admin/site00/estimator`, `docs/site00/SITE00_ESTIMATION_ENGINE.md`. Twelve engine tests pass. The public builder is unchanged. Client estimate preview stays off.
 - **Conventions:** Do not estimate by page count. Do not call priority production “rush.” Do not show family units to clients. Do not treat an estimate as a quote. Do not auto-adjust coefficients from calibration records. Do not invent visual-system sample images.
-
