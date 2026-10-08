@@ -15181,3 +15181,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Wide screens:** no wide shell was supplied; above 3:5 the composition keeps full height in a centred column (`min(100%, 60dvh)`) and the sides take the shell's own edge tones. The plate is still the only photograph.
 - **Checked:** captures at 402×874, 393×852, 375×667, 430×932, 360×800, 834×1194, 1024×768, 1440×900; every control tapped in Chromium (all land, none covered); `tests/jurnlRootAuthorityReconstruction1.test.tsx` (7). F02's 3 failures are identical on main.
 - **Do not repeat:** do not float hub copy in cards over the shell; do not put a second plate or a blur behind the shell; do not reintroduce `ParentAuthorityStage`; move type with its object through the scene file, not with px nudges. Children of these families are untouched.
+
+---
+
+## 2026-10-08 — Preview tunnel restarted on the pixel-matched dock
+
+- **Context:** This chat shipped the HQ dock (PR #1476, v79), corrected the PLAN mark to the diagonal sheet leaf (PR #1478, v80, `index.DiSZ3Of9.js`), then traced every bottom-nav mark to the sheet pixels (PR #1479, merge `f91f0b53`, bundle `index.DmvbEdGf.js`, release v81). The founder then asked to restart the tunnel.
+- **Topics covered:** One shared Why/Check/Account plate. Review-only root authorities. Sidekick hubs. Account drawer. Unmounted authority kits. Check haze. HQ chips. Diagonal PLAN leaf. Pixel trace of HOME, MONEY, ADD, PLAN, and CREDIT. Tunnel restart.
+- **Decisions / outcomes:** The local connector was stopped, then started again with the canonical flag and without a login shell. One connector remained. The public preview returned 200 and the SITE 00 shell. Vite on port 5174 stayed up. The preview worktree was already on `f91f0b53`. Zero credits. No new production ZIP.
+- **Changes:** This MEMORY note only.
+- **Conventions:** Restart the connector only from the canonical environment. Do not start it from a login shell. Do not put the preview hostname or tunnel token in git or in the session close. Do not put the traced sheet marks back to the earlier dock drawings.
