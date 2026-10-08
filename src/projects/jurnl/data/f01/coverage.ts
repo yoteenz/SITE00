@@ -5,7 +5,7 @@
 
 import type { RuntimeCoverage } from '../../../../../shared/site00-product-families/familyGate.js';
 import { JURNL_COMPONENT_RUNTIME, F01_INTERACTION_MANIFEST, F01_BINDINGS } from './interactionBindings';
-import { F01_SCREENS, F01_STATES } from './screens';
+import { F01_FLOW_SCREENS, F01_STATES } from './screens';
 
 /** Extra runtime-only state selectors (interaction states that have no sheet of their own). */
 export const F01_RUNTIME_EXTRA_STATES = {
@@ -16,7 +16,7 @@ export const F01_RUNTIME_EXTRA_STATES = {
 } as const;
 
 export const JURNL_F01_COVERAGE: RuntimeCoverage = {
-  screens: F01_SCREENS.map((s) => s.id),
+  screens: F01_FLOW_SCREENS.map((s) => s.id),
   states: F01_STATES.map((s) => s.id),
   interactions: F01_INTERACTION_MANIFEST.interactions.map((r) => r.interaction_id).filter((id) => !!F01_BINDINGS[id]),
   components: Object.keys(JURNL_COMPONENT_RUNTIME),

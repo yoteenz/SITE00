@@ -112,7 +112,9 @@ describe('family production contract is project-agnostic', () => {
     ] as const) {
       expect(c[k], k).toBeDefined();
     }
-    expect(c.screens.filter((s) => s.role === 'CHILD')).toHaveLength(13);
+    // 13 package children + ENTRY v2 parents 02–04 (F01.14–F01.16), listed in the order a person walks ENTRY.
+    expect(c.screens.filter((s) => s.role === 'CHILD')).toHaveLength(16);
+    expect(c.screens.slice(0, 5).map((s) => s.id)).toEqual(['F01.00', 'F01.14', 'F01.15', 'F01.16', 'F01.01']);
     expect(c.screens.find((s) => s.role === 'PARENT')?.approvalStatus).toBe('FOUNDER_APPROVED');
     expect(c.states).toHaveLength(27);
     expect(c.interactions).toHaveLength(74);

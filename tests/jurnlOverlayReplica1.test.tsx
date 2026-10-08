@@ -12,6 +12,7 @@ import { describe, expect, it } from 'vitest';
 import JurnlRuntimeRoot from '../src/projects/jurnl/runtime/JurnlRuntimeRoot';
 import { REPLICA_H, drawerScale, fitSize, sheetScale } from '../src/projects/jurnl/runtime/components/OverlayAuthority';
 import { OVR_DRAWER, OVR_QUICK_ADD } from '../src/projects/jurnl/runtime/layout/overlayReferenceLayout';
+import { getRepository } from '../src/projects/jurnl/data/repository/deviceRepository';
 import { AccountDrawer } from '../src/projects/jurnl/runtime/screens/AccountScreens';
 import { JurnlStoreProvider } from '../src/projects/jurnl/runtime/state/store';
 
@@ -136,6 +137,26 @@ describe('ACCOUNT drawer: founder reference replica', () => {
       expect(html, t).toContain(`data-jrn-trigger="${t}"`);
     }
     expect(html).toMatch(/role="switch" aria-checked="(true|false)" aria-label="ASK JURNL CONTEXT"/);
+  });
+
+  it('groups the safe to spend buffer the way quick add groups an amount', () => {
+    const previous = getRepository().getSettings().safeToSpendBuffer;
+    getRepository().patchSettings({ safeToSpendBuffer: '6500' });
+    const html = renderDrawer();
+    getRepository().patchSettings({ safeToSpendBuffer: previous });
+    const at = html.indexOf('data-jrn-trigger="drawer-buffer"');
+    expect(html.slice(at, at + 200)).toContain('value="6,500"');
+  });
+});
+
+describe('overlay scrims blur the screen behind them', () => {
+  const css = (file: string) => readFileSync(path.join(process.cwd(), file), 'utf8');
+  it('uses the account-drawer blur on quick add, drawers, and selection sheets', () => {
+    const ovl = css('src/projects/jurnl/runtime/jurnl-overlays.css');
+    expect(ovl).toMatch(/\.jrn \.jrn-ovl__scrim \{[^}]*backdrop-filter: blur\(3px\)/);
+    expect(ovl).not.toMatch(/\.jrn-ovl--drawer \.jrn-ovl__scrim/);
+    expect(css('src/projects/jurnl/runtime/jurnl-runtime.css')).toMatch(/\.jrn \.jrn-overlay__scrim \{[^}]*backdrop-filter: blur\(3px\)/);
+    expect(css('src/projects/jurnl/runtime/jurnl-reference.css')).toMatch(/\.jrn \.jrn-ref \.jrn-ref__scrim \{[^}]*backdrop-filter: blur\(3px\)/);
   });
 });
 

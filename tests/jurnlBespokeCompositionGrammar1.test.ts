@@ -25,7 +25,19 @@ describe('JURNL bespoke composition grammar', () => {
       bespoke_object_system_required: true,
       asymmetry_required: true,
       unexpected_object_relationship_required: true,
+      official_brand_asset_required: true,
+      alternate_logo_invention_forbidden: true,
+      five_level_creative_grammar_required: true,
+      family_world_required: true,
+      multiple_spatial_stations_required: true,
+      composition_rotation_required: true,
+      campaign_image_without_ui_test_required: true,
+      blur_distinctness_test_required: true,
+      artifact_only_interpretation_forbidden: true,
+      generic_stationery_drift_forbidden: true,
+      contrast_anchor_required: true,
     });
+    expect(G.JURNL_CREATIVE_GRAMMAR.official_brand_asset).toBe('public/site00/projects/jurnl/brand/jurnl-logo-official.png');
   });
 
   it('inherits across the product families and keeps ENTRY descendants blocked', () => {

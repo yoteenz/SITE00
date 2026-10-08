@@ -16,9 +16,9 @@
   ],
   "rule": "route_status describes the mounted surface. reachable_in_product_today is separate: a LIVE or PLACEHOLDER route can still be unreachable without the review board.",
   "counts": {
-    "total_product_routes": 53,
+    "total_product_routes": 56,
     "by_status": {
-      "LIVE": 25,
+      "LIVE": 28,
       "PARTIAL": 3,
       "PLACEHOLDER": 12,
       "MISSING": 13
@@ -40,6 +40,44 @@
       "wave": 5
     },
     {
+      "route": "/production/jurnl/runtime/entry/value",
+      "node_id": "F01.14",
+      "family_id": "F01",
+      "status": "LIVE",
+      "reachable_in_product_today": true,
+      "reached_from_target": [
+        "F01.00"
+      ],
+      "backend_dependency": "AUTH PROVIDER (PREVIEW ADAPTER TODAY)",
+      "wave": 5
+    },
+    {
+      "route": "/production/jurnl/runtime/entry/benefits",
+      "node_id": "F01.15",
+      "family_id": "F01",
+      "status": "LIVE",
+      "reachable_in_product_today": true,
+      "reached_from_target": [
+        "F01.00",
+        "F01.14"
+      ],
+      "backend_dependency": "AUTH PROVIDER (PREVIEW ADAPTER TODAY)",
+      "wave": 5
+    },
+    {
+      "route": "/production/jurnl/runtime/entry/begin",
+      "node_id": "F01.16",
+      "family_id": "F01",
+      "status": "LIVE",
+      "reachable_in_product_today": true,
+      "reached_from_target": [
+        "F01.00",
+        "F01.15"
+      ],
+      "backend_dependency": "AUTH PROVIDER (PREVIEW ADAPTER TODAY)",
+      "wave": 5
+    },
+    {
       "route": "/production/jurnl/runtime/entry/create",
       "node_id": "F01.01",
       "family_id": "F01",
@@ -49,7 +87,8 @@
         "F01.00",
         "F01.01",
         "F01.03",
-        "F01.04"
+        "F01.04",
+        "F01.16"
       ],
       "backend_dependency": "AUTH PROVIDER (PREVIEW ADAPTER TODAY)",
       "wave": 5
@@ -80,7 +119,8 @@
         "F01.01",
         "F01.03",
         "F01.04",
-        "F01.08"
+        "F01.08",
+        "F01.16"
       ],
       "backend_dependency": "AUTH PROVIDER (PREVIEW ADAPTER TODAY)",
       "wave": 5
