@@ -1,0 +1,381 @@
+{
+  "id": "AIO_CLIENT_SAFE_PROJECTION_MATRIX",
+  "sprint": "P0.AIO.OFFICE-IA.FOUNDER-HOME-WORK-REPORTS-MORE.AUTHORITY-CONTRACTS1",
+  "generated_by": "scripts/studioos/aio-office-contracts-export.ts",
+  "source": [
+    "shared/studioos-experience-brain/office-root-contracts.ts",
+    "shared/studioos-experience-brain/projects/aio/office-contracts.ts",
+    "shared/studioos-experience-brain/projects/aio/office-ia.ts"
+  ],
+  "audit": {
+    "repo": "yoteenz/fsbw · all-in-one-enterprises",
+    "sha": "3c060ac02a6660e0c821541d0826ff1c41d289b8",
+    "mode": "READ-ONLY"
+  },
+  "constraints": {
+    "contract_only": true,
+    "visual_redesign": false,
+    "images_generated": 0,
+    "visual_authorities_created": false,
+    "live_nav_changed": false,
+    "routes_changed": false,
+    "pages_built": false,
+    "supabase_schema_changed": false,
+    "auth_changed": false,
+    "client_lifecycle_changed": false,
+    "metrics_invented": false,
+    "records_invented": false,
+    "deployed": false
+  },
+  "rule": [
+    "A client sees a staff record only through an approved projection, and only for its own organisation.",
+    "Only customer-visible fields and events cross: never internal notes, staff names, buckets or assignments, audit actions, margin, commission, cost or referral fees.",
+    "Drafts and in-review material stay internal until delivered or approved.",
+    "A client surface never links into the internal office; staff reach client data from the internal office, never by entering the client shell.",
+    "The projection is enforced where the data is read (database policy or server-side view), not only by hiding it in the page."
+  ],
+  "projections": [
+    {
+      "staff_node": "AIO_OFFICE.WORK.COMPLIANCE",
+      "client_node": "CLIENT_OFFICE.OPERATIONS.COMPLIANCE",
+      "client_sees": "approved compliance status, renewals and the requests that need the client",
+      "client_never_sees": "internal audits, corrective work, compliance cases, staff notes",
+      "state": "PARTIAL",
+      "evidence": [
+        "all-in-one-enterprises/src/pages/portal/RenewalsPage.tsx:64-96"
+      ]
+    },
+    {
+      "staff_node": "AIO_OFFICE.WORK.FILING_FUEL_TAXES.IFTA",
+      "client_node": "CLIENT_OFFICE.OPERATIONS.FILING_IFTA",
+      "client_sees": "filing status, what is needed from the client, the approval action, filed returns",
+      "client_never_sees": "staff worksheet, staff buckets, staff notes, discrepancy resolutions — and staff audit actions (shown today: leak)",
+      "state": "PARTIAL",
+      "evidence": [
+        "all-in-one-enterprises/src/ifta/ui/iftaViewModel.ts:562-576",
+        "all-in-one-enterprises/src/ifta/ui/IftaClientFilingRoomPage.tsx:216"
+      ]
+    },
+    {
+      "staff_node": "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE",
+      "client_node": "CLIENT_OFFICE.OPERATIONS.MAINTENANCE",
+      "client_sees": "approved vehicle-maintenance status of its own tickets; provider identity once released",
+      "client_never_sees": "other clients’ tickets (no org check today: leak), referral fees (DB-readable today: leak)",
+      "state": "PARTIAL",
+      "evidence": [
+        "all-in-one-enterprises/src/pages/portal/fleetcare/FleetCarePortalPages.tsx:154",
+        "all-in-one-enterprises/supabase/migrations/20260817190000_aio_fleetcare_network.sql:530-535"
+      ]
+    },
+    {
+      "staff_node": "AIO_OFFICE.WORK.INSURANCE",
+      "client_node": "CLIENT_OFFICE.FINANCES.INSURANCE",
+      "client_sees": "policy status, customer-visible notes, certificates",
+      "client_never_sees": "internalNotes, operationsNotes, coordinator assignment",
+      "state": "PARTIAL",
+      "evidence": [
+        "all-in-one-enterprises/src/insurance/insuranceTypes.ts:139-141"
+      ]
+    },
+    {
+      "staff_node": "AIO_OFFICE.WORK.DISPATCH",
+      "client_node": "CLIENT_OFFICE.OPERATIONS.DISPATCH",
+      "client_sees": "its loads, customer notes, customer-visible timeline",
+      "client_never_sees": "internal notes; links into /office (present today: leak)",
+      "state": "PARTIAL",
+      "evidence": [
+        "all-in-one-enterprises/src/pages/portal/dispatch/DispatchLoadDetailPage.tsx:42",
+        "all-in-one-enterprises/src/pages/portal/dispatch/DispatchHomePage.tsx:142"
+      ]
+    },
+    {
+      "staff_node": "AIO_OFFICE.WORK.BROKERAGE",
+      "client_node": "CLIENT_OFFICE.OPERATIONS.BROKERAGE",
+      "client_sees": "carrier: its offers and carrier rate; shipper: quotes and shipment status",
+      "client_never_sees": "margin, carrier pay to shippers, internal notes (exposed in the shipper view today: leak), staff audit payloads (shipper-readable today: leak)",
+      "state": "PARTIAL",
+      "evidence": [
+        "all-in-one-enterprises/supabase/migrations/20260819150000_aio_shipper_rls_bookkeeping_handoff.sql:143",
+        "all-in-one-enterprises/src/brokerage/brokerageRules.ts:13-23"
+      ]
+    },
+    {
+      "staff_node": "AIO_OFFICE.WORK.FACTORING",
+      "client_node": "CLIENT_OFFICE.FINANCES.FACTORING",
+      "client_sees": "its submissions and customer-visible timeline",
+      "client_never_sees": "provider / debtor internal notes; links into /office (present today: leak)",
+      "state": "PARTIAL",
+      "evidence": [
+        "all-in-one-enterprises/src/pages/portal/factoring/FactoringPortalPages.tsx:202",
+        "all-in-one-enterprises/src/pages/portal/factoring/FactoringPortalPages.tsx:107"
+      ]
+    },
+    {
+      "staff_node": "AIO_OFFICE.WORK.BOOKKEEPING",
+      "client_node": "CLIENT_OFFICE.FINANCES.BOOKKEEPING",
+      "client_sees": "subscription status (customerStatusLabel) and delivered reports",
+      "client_never_sees": "draft reports (shown today: leak), reviewer notes",
+      "state": "PARTIAL",
+      "evidence": [
+        "all-in-one-enterprises/src/pages/portal/bookkeeping/BookkeepingPortalPages.tsx:157"
+      ]
+    },
+    {
+      "staff_node": "AIO_OFFICE.WORK.DRIVERS_CARRIERS",
+      "client_node": "CLIENT_OFFICE.OPERATIONS.DRIVER_MANAGEMENT",
+      "client_sees": "applicants per consent and access level",
+      "client_never_sees": "application internal notes",
+      "state": "PARTIAL",
+      "evidence": [
+        "all-in-one-enterprises/src/driverlink/driverlinkTypes.ts:61-66"
+      ]
+    },
+    {
+      "staff_node": "AIO_OFFICE.WORK.VEHICLES_FLEET",
+      "client_node": "CLIENT_OFFICE.OPERATIONS.VEHICLE_MANAGEMENT",
+      "client_sees": "its own vehicles and approved statuses",
+      "client_never_sees": "dispatch overlay internals, other clients’ vehicles",
+      "state": "PARTIAL",
+      "evidence": [
+        "all-in-one-enterprises/src/pages/portal/FleetPage.tsx:11-27"
+      ]
+    },
+    {
+      "staff_node": "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES",
+      "client_node": "CLIENT_OFFICE.OPERATIONS.PERMITTING_AUTHORITIES",
+      "client_sees": "request status, next step, customer notes, timeline",
+      "client_never_sees": "internal notes, staff assignment",
+      "state": "PARTIAL",
+      "evidence": [
+        "all-in-one-enterprises/src/demo/demoTypes.ts:378-403"
+      ]
+    },
+    {
+      "staff_node": "AIO_OFFICE.WORK.ROAD_READY",
+      "client_node": "CLIENT_OFFICE.OPERATIONS.ROAD_READY",
+      "client_sees": "readiness items and progress (placement by engagement state)",
+      "client_never_sees": "staff verification notes",
+      "state": "BLOCKED",
+      "evidence": [
+        "all-in-one-enterprises/src/road-ready/roadReadyTypes.ts:170-193"
+      ]
+    },
+    {
+      "staff_node": "AIO_OFFICE.MORE.CLIENTS",
+      "client_node": "CLIENT_OFFICE.MY_BUSINESS",
+      "client_sees": "its own company record, owners / contacts, vehicles and authorities, scoped to its organisation",
+      "client_never_sees": "lifecycle segment, internal client notes, staff assignment, migration confidence, other clients",
+      "state": "PARTIAL",
+      "evidence": [
+        "all-in-one-enterprises/src/pages/portal/ClientPortalPages.tsx:25-28"
+      ]
+    },
+    {
+      "staff_node": "AIO_OFFICE.MORE.SERVICE_CATALOG",
+      "client_node": "CLIENT_OFFICE.SERVICES",
+      "client_sees": "its active services and services available to it (ACTIVE · AVAILABLE_NOT_ACTIVATED), resolved per client",
+      "client_never_sees": "launch-state reasons, staff ownership, internal pricing configuration; today the list comes from a heuristic builder, not the canonical resolver",
+      "state": "PARTIAL",
+      "evidence": [
+        "all-in-one-enterprises/src/pages/portal/ClientPortalPages.tsx:266-275"
+      ]
+    },
+    {
+      "staff_node": "AIO_OFFICE.MORE.BILLING",
+      "client_node": "CLIENT_OFFICE.FINANCES.FEES_PAYMENTS",
+      "client_sees": "its invoices, payments, receipts, balances",
+      "client_never_sees": "margin, commission, profitability, staff-only financial data",
+      "state": "PARTIAL",
+      "evidence": [
+        "all-in-one-enterprises/src/billing/billingTypes.ts:122-176"
+      ]
+    },
+    {
+      "staff_node": "AIO_OFFICE.MORE.DOCUMENTS_VAULT",
+      "client_node": "CLIENT_OFFICE.VAULT",
+      "client_sees": "customer-visible current and historical documents",
+      "client_never_sees": "internal documents (openable by direct link and calendar today; migrated scans customer-readable in the DB: leak)",
+      "state": "PARTIAL",
+      "evidence": [
+        "all-in-one-enterprises/src/demo/vaultActions.ts:32-34",
+        "all-in-one-enterprises/src/client-migration/server/supabaseApproveMigration.ts:160-170"
+      ]
+    },
+    {
+      "staff_node": "AIO_OFFICE.MORE.MESSAGES",
+      "client_node": "CLIENT_OFFICE.INBOX.MESSAGES_FROM_AIO",
+      "client_sees": "customer-visible messages in its conversations",
+      "client_never_sees": "internal notes (filtered in the UI; the DB messages policy does not filter visibility: leak)",
+      "state": "PARTIAL",
+      "evidence": [
+        "all-in-one-enterprises/src/communications/communicationEngine.ts:10-12",
+        "all-in-one-enterprises/supabase/migrations/20260815110000_aio_business_data_rls.sql:363-368"
+      ]
+    },
+    {
+      "staff_node": "AIO_OFFICE.INTAKE",
+      "client_node": "CLIENT_OFFICE.ACTIVATION",
+      "client_sees": "what AIO already knows about it, to review and confirm",
+      "client_never_sees": "extraction confidence, matching, founder review, staff notes",
+      "state": "PARTIAL",
+      "evidence": [
+        "all-in-one-enterprises/src/auth/guards/ClientPortalLifecycleGuard.tsx:22-40"
+      ]
+    },
+    {
+      "staff_node": "AIO_OFFICE.HOME.RECENT_ACTIVITY",
+      "client_node": "CLIENT_OFFICE.INBOX.ACTIVITY_UPDATES",
+      "client_sees": "customer-visible activity for its own organisation",
+      "client_never_sees": "internal activity (shown today when the event carries the client id: leak)",
+      "state": "PARTIAL",
+      "evidence": [
+        "all-in-one-enterprises/src/portal/clientCommandCenterService.ts:715-718"
+      ]
+    }
+  ],
+  "privacy_gaps": [
+    {
+      "gap_id": "P-PORTAL-VIEWS-CROSS-ORG",
+      "root": "CLIENT_OFFICE",
+      "gap": "aio_portal_service_request_view and aio_portal_invoice_view select every organisation’s rows, are not security_invoker, and anon has SELECT on all tables — as written, they expose cross-org request and invoice data. aio_management_service_ops_view has the same shape.",
+      "kind": "PRIVACY",
+      "origin": "AUDIT",
+      "evidence": [
+        "all-in-one-enterprises/supabase/migrations/20260815160000_aio_rls_extensions.sql:85-106",
+        "all-in-one-enterprises/supabase/migrations/20260815170000_aio_indexes_views.sql:17-20",
+        "all-in-one-enterprises/supabase/migrations/20260827001621_aio_api_role_grants.sql:12"
+      ],
+      "blocks": "any client-safe projection over these views"
+    },
+    {
+      "gap_id": "P-SHIPPER-VIEW-INTERNAL-NOTES",
+      "root": "CLIENT_OFFICE",
+      "gap": "The shipper-safe view aio_shipper_freight_shipments exposes internal_notes, and shippers can read every column of their aio_dispatch_loads rows.",
+      "kind": "PRIVACY",
+      "origin": "AUDIT",
+      "evidence": [
+        "all-in-one-enterprises/supabase/migrations/20260819150000_aio_shipper_rls_bookkeeping_handoff.sql:143",
+        "all-in-one-enterprises/supabase/migrations/20260819150000_aio_shipper_rls_bookkeeping_handoff.sql:243-246"
+      ],
+      "blocks": "brokerage client-safe projection"
+    },
+    {
+      "gap_id": "P-SHIPPER-READS-AUDIT",
+      "root": "CLIENT_OFFICE",
+      "gap": "Shippers can read staff brokerage audit rows including note and payload (target carrier rate).",
+      "kind": "PRIVACY",
+      "origin": "AUDIT",
+      "evidence": [
+        "all-in-one-enterprises/supabase/migrations/20260819150000_aio_shipper_rls_bookkeeping_handoff.sql:212-223",
+        "all-in-one-enterprises/src/brokerage/brokerageWorkflow.ts:271-274"
+      ],
+      "blocks": "brokerage client-safe projection"
+    },
+    {
+      "gap_id": "P-CLIENT-LIFECYCLE-SELF-UPDATE",
+      "root": "CLIENT_OFFICE",
+      "gap": "Organisation owners / admins may UPDATE their own organisation row with no column restriction, and client_lifecycle lives on that row — a client could set itself ACTIVE, bypassing activation.",
+      "kind": "PRIVACY",
+      "origin": "AUDIT",
+      "evidence": [
+        "all-in-one-enterprises/supabase/migrations/20260815100000_aio_identity_foundation.sql:212-220",
+        "all-in-one-enterprises/supabase/migrations/20261006210000_aio_client_migration_activation.sql:5"
+      ],
+      "blocks": "PREBUILT ≠ ACTIVE; client confirmation as the gate"
+    },
+    {
+      "gap_id": "P-DOCUMENTS-INTERNAL-EXPOSED",
+      "root": "CLIENT_OFFICE",
+      "gap": "Internal documents open by direct link and via the calendar (no visibility check); migration-approve inserts set visibility_scope internal but leave visibility = customer, so migrated scans are customer-readable under RLS.",
+      "kind": "PRIVACY",
+      "origin": "AUDIT",
+      "evidence": [
+        "all-in-one-enterprises/src/demo/vaultActions.ts:32-34",
+        "all-in-one-enterprises/src/demo/vaultActions.ts:41",
+        "all-in-one-enterprises/src/client-migration/server/supabaseApproveMigration.ts:160-170",
+        "all-in-one-enterprises/supabase/migrations/20260815110000_aio_business_data_rls.sql:118",
+        "all-in-one-enterprises/supabase/migrations/20260815110000_aio_business_data_rls.sql:341-344"
+      ],
+      "blocks": "VAULT client-safe projection"
+    },
+    {
+      "gap_id": "P-ACTIVITY-INTERNAL-TO-CLIENT",
+      "root": "CLIENT_OFFICE",
+      "gap": "Client activity shows internal events whenever the event carries the client id (titles such as staff assignments, internal notes, CRM conversion).",
+      "kind": "PRIVACY",
+      "origin": "AUDIT",
+      "evidence": [
+        "all-in-one-enterprises/src/portal/clientCommandCenterService.ts:715-718"
+      ],
+      "blocks": "client activity, HUB"
+    },
+    {
+      "gap_id": "P-MESSAGES-RLS-VISIBILITY",
+      "root": "CLIENT_OFFICE",
+      "gap": "The aio_messages RLS policy does not filter on visibility (internal notes would be client-readable once messages are stored in Supabase).",
+      "kind": "PRIVACY",
+      "origin": "AUDIT",
+      "evidence": [
+        "all-in-one-enterprises/supabase/migrations/20260815110000_aio_business_data_rls.sql:363-368"
+      ],
+      "blocks": "INBOX client-safe projection"
+    },
+    {
+      "gap_id": "P-FLEETCARE-TICKET-NO-ORG-CHECK",
+      "root": "CLIENT_OFFICE",
+      "gap": "The client FleetCare ticket detail and vehicle history pages have no organisation check.",
+      "kind": "PRIVACY",
+      "origin": "AUDIT",
+      "evidence": [
+        "all-in-one-enterprises/src/pages/portal/fleetcare/FleetCarePortalPages.tsx:154"
+      ],
+      "blocks": "MAINTENANCE client-safe projection"
+    },
+    {
+      "gap_id": "P-FLEETCARE-REFERRAL-FEES-CLIENT",
+      "root": "CLIENT_OFFICE",
+      "gap": "Client organisations can read FleetCare referral transactions including AIO’s fee amounts.",
+      "kind": "PRIVACY",
+      "origin": "AUDIT",
+      "evidence": [
+        "all-in-one-enterprises/supabase/migrations/20260817190000_aio_fleetcare_network.sql:530-535",
+        "all-in-one-enterprises/supabase/migrations/20260817190000_aio_fleetcare_network.sql:410-417"
+      ],
+      "blocks": "MAINTENANCE client-safe projection"
+    },
+    {
+      "gap_id": "P-IFTA-CLIENT-AUDIT-ACTIONS",
+      "root": "CLIENT_OFFICE",
+      "gap": "The IFTA client filing room lists every audit action, including staff actions and names.",
+      "kind": "PRIVACY",
+      "origin": "AUDIT",
+      "evidence": [
+        "all-in-one-enterprises/src/ifta/ui/iftaViewModel.ts:562-576"
+      ],
+      "blocks": "IFTA client-safe projection"
+    },
+    {
+      "gap_id": "P-CLIENT-LINKS-TO-OFFICE",
+      "root": "CLIENT_OFFICE",
+      "gap": "Client dispatch and factoring pages link to /office/messages (in demo mode the office guard lets anyone in).",
+      "kind": "PRIVACY",
+      "origin": "IA",
+      "evidence": [
+        "all-in-one-enterprises/src/pages/portal/dispatch/DispatchHomePage.tsx:142",
+        "all-in-one-enterprises/src/pages/portal/factoring/FactoringPortalPages.tsx:107"
+      ],
+      "blocks": "staff / client firewall"
+    },
+    {
+      "gap_id": "P-BOOKKEEPING-DRAFT-REPORTS",
+      "root": "CLIENT_OFFICE",
+      "gap": "Client bookkeeping pages show draft reports (no status filter).",
+      "kind": "PRIVACY",
+      "origin": "AUDIT",
+      "evidence": [
+        "all-in-one-enterprises/src/pages/portal/bookkeeping/BookkeepingPortalPages.tsx:157"
+      ],
+      "blocks": "BOOKKEEPING client-safe projection"
+    }
+  ]
+}

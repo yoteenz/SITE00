@@ -1,0 +1,160 @@
+{
+  "id": "AIO_RESPONSIVE_PRIORITY_MATRIX",
+  "sprint": "P0.AIO.OFFICE-IA.FOUNDER-HOME-WORK-REPORTS-MORE.AUTHORITY-CONTRACTS1",
+  "generated_by": "scripts/studioos/aio-office-contracts-export.ts",
+  "source": [
+    "shared/studioos-experience-brain/office-root-contracts.ts",
+    "shared/studioos-experience-brain/projects/aio/office-contracts.ts",
+    "shared/studioos-experience-brain/projects/aio/office-ia.ts"
+  ],
+  "audit": {
+    "repo": "yoteenz/fsbw · all-in-one-enterprises",
+    "sha": "3c060ac02a6660e0c821541d0826ff1c41d289b8",
+    "mode": "READ-ONLY"
+  },
+  "constraints": {
+    "contract_only": true,
+    "visual_redesign": false,
+    "images_generated": 0,
+    "visual_authorities_created": false,
+    "live_nav_changed": false,
+    "routes_changed": false,
+    "pages_built": false,
+    "supabase_schema_changed": false,
+    "auth_changed": false,
+    "client_lifecycle_changed": false,
+    "metrics_invented": false,
+    "records_invented": false,
+    "deployed": false
+  },
+  "viewports": [
+    "MOBILE",
+    "TABLET",
+    "DESKTOP"
+  ],
+  "roots": [
+    {
+      "root_id": "AIO_OFFICE.HOME",
+      "rule": "Attention, deadlines, the work summary, clients in motion and recent activity survive first on mobile; tablet adds blockers and quick actions; desktop adds the optional Business Pulse as parallel context.",
+      "order": {
+        "MOBILE": [
+          "AIO_OFFICE.HOME.NEEDS_ATTENTION",
+          "AIO_OFFICE.HOME.DEADLINES",
+          "AIO_OFFICE.HOME.WORK_ACROSS_AIO",
+          "AIO_OFFICE.HOME.CLIENTS_IN_MOTION",
+          "AIO_OFFICE.HOME.RECENT_ACTIVITY"
+        ],
+        "TABLET": [
+          "AIO_OFFICE.HOME.NEEDS_ATTENTION",
+          "AIO_OFFICE.HOME.DEADLINES",
+          "AIO_OFFICE.HOME.BLOCKERS",
+          "AIO_OFFICE.HOME.WORK_ACROSS_AIO",
+          "AIO_OFFICE.HOME.CLIENTS_IN_MOTION",
+          "AIO_OFFICE.HOME.RECENT_ACTIVITY",
+          "AIO_OFFICE.HOME.QUICK_ACTIONS"
+        ],
+        "DESKTOP": [
+          "AIO_OFFICE.HOME.NEEDS_ATTENTION",
+          "AIO_OFFICE.HOME.DEADLINES",
+          "AIO_OFFICE.HOME.BLOCKERS",
+          "AIO_OFFICE.HOME.WORK_ACROSS_AIO",
+          "AIO_OFFICE.HOME.CLIENTS_IN_MOTION",
+          "AIO_OFFICE.HOME.RECENT_ACTIVITY",
+          "AIO_OFFICE.HOME.QUICK_ACTIONS",
+          "AIO_OFFICE.HOME.BUSINESS_PULSE"
+        ]
+      }
+    },
+    {
+      "root_id": "AIO_OFFICE.WORK",
+      "rule": "Service switching first, then what needs attention and the active work of the open lane, then the case. Desktop adds the full lane shell, the cross-client queue and related work side by side.",
+      "order": {
+        "MOBILE": [
+          "WORK.LANE_SWITCHER",
+          "LANE.NEEDS_ATTENTION",
+          "LANE.ACTIVE_WORK",
+          "WORK.CASE_DETAIL"
+        ],
+        "TABLET": [
+          "WORK.LANE_SWITCHER",
+          "LANE.NEEDS_ATTENTION",
+          "LANE.ACTIVE_WORK",
+          "LANE.DUE_SOON",
+          "LANE.BLOCKED",
+          "WORK.CASE_DETAIL",
+          "WORK.MY_WORK"
+        ],
+        "DESKTOP": [
+          "WORK.LANE_SWITCHER",
+          "LANE.SERVICE_OVERVIEW",
+          "LANE.NEEDS_ATTENTION",
+          "LANE.ACTIVE_WORK",
+          "LANE.DUE_SOON",
+          "LANE.BLOCKED",
+          "LANE.RECENTLY_COMPLETED",
+          "WORK.CROSS_CLIENT_QUEUE",
+          "WORK.CASE_DETAIL",
+          "WORK.RELATED_WORK",
+          "WORK.MY_WORK"
+        ]
+      }
+    },
+    {
+      "root_id": "AIO_OFFICE.REPORTS",
+      "rule": "Key summary first, then period control, the high-priority reports (Financial / Revenue by grant, Services) and drilldown. Desktop adds every domain and export.",
+      "order": {
+        "MOBILE": [
+          "AIO_OFFICE.REPORTS.OVERVIEW",
+          "REPORTS.SET_PERIOD",
+          "AIO_OFFICE.REPORTS.FINANCIAL_REVENUE",
+          "AIO_OFFICE.REPORTS.SERVICES",
+          "REPORTS.DRILL_DOWN"
+        ],
+        "TABLET": [
+          "AIO_OFFICE.REPORTS.OVERVIEW",
+          "REPORTS.SET_PERIOD",
+          "AIO_OFFICE.REPORTS.FINANCIAL_REVENUE",
+          "AIO_OFFICE.REPORTS.SERVICES",
+          "AIO_OFFICE.REPORTS.CLIENTS",
+          "AIO_OFFICE.REPORTS.MIGRATION",
+          "REPORTS.DRILL_DOWN"
+        ],
+        "DESKTOP": [
+          "AIO_OFFICE.REPORTS.OVERVIEW",
+          "REPORTS.SET_PERIOD",
+          "AIO_OFFICE.REPORTS.FINANCIAL_REVENUE",
+          "AIO_OFFICE.REPORTS.SERVICES",
+          "AIO_OFFICE.REPORTS.CLIENTS",
+          "AIO_OFFICE.REPORTS.MIGRATION",
+          "AIO_OFFICE.REPORTS.COMPLIANCE",
+          "AIO_OFFICE.REPORTS.DISPATCH_BROKERAGE",
+          "AIO_OFFICE.REPORTS.FILING_HISTORY",
+          "AIO_OFFICE.REPORTS.BOOKKEEPING",
+          "REPORTS.DRILL_DOWN",
+          "AIO_OFFICE.REPORTS.EXPORTS"
+        ]
+      }
+    },
+    {
+      "root_id": "AIO_OFFICE.MORE",
+      "rule": "A clear directory first, search where useful, and only the entries the actor’s role can use (role-aware). Desktop shows the directory and search side by side.",
+      "order": {
+        "MOBILE": [
+          "MORE.DIRECTORY",
+          "MORE.SEARCH",
+          "MORE.OPEN_ENTRY"
+        ],
+        "TABLET": [
+          "MORE.DIRECTORY",
+          "MORE.SEARCH",
+          "MORE.OPEN_ENTRY"
+        ],
+        "DESKTOP": [
+          "MORE.DIRECTORY",
+          "MORE.SEARCH",
+          "MORE.OPEN_ENTRY"
+        ]
+      }
+    }
+  ]
+}

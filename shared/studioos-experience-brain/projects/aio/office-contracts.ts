@@ -33,6 +33,9 @@ import type {
   SurfaceState,
   VocabularyMapping,
 } from '../../office-root-contracts.js';
+import { laneShellRef as LS } from '../../office-root-contracts.js';
+import { iaNode } from '../../office-information-architecture.js';
+import { AIO_OFFICE_IA } from './office-ia.js';
 
 export const AIO_OFFICE_CONTRACTS_SPRINT = 'P0.AIO.OFFICE-IA.FOUNDER-HOME-WORK-REPORTS-MORE.AUTHORITY-CONTRACTS1';
 export const AIO_OFFICE_CONTRACTS_AUDIT_SHA = '3c060ac02a6660e0c821541d0826ff1c41d289b8';
@@ -77,11 +80,15 @@ const needsAttention: RegionContract = {
     'Dedupe by owner key; the higher priority wins (existing aggregation rule).',
     'Priority order urgent > high > normal > low (existing OfficeWorkItem / candidate priority). Sources without a priority use the owner lane’s rule, never a HOME-only score.',
     'Expired items surface as overdue — never silently dropped.',
+    'Billing: overdue invoices and failed payments surface here (by grant); payment received appears in RECENT ACTIVITY; billing setup has no source state today.',
   ],
   sources: [
     src({ source_id: 'work-items', label: 'Open office work items', domain: 'WORK_ITEMS', owner_node: 'AIO_OFFICE.WORK', route: '/office/work', data_source: 'store.officeWorkItems → collectOfficeAttentionCandidates work:*', backing: 'DEMO_STORE', state: 'PARTIAL', priority_rule: 'OfficeWorkItem.priority', evidence: [ATT('82-104'), `${SRC}/office-core/officeWorkTypes.ts:111-135`] }),
     src({ source_id: 'workflow-waiting', label: 'Workflow steps waiting on the client, blocked or ready for review', domain: 'WORK_ITEMS', owner_node: 'AIO_OFFICE.WORK', route: '/office/workflows/:workflowId', data_source: 'store.workflowInstances (waiting_on_customer · waiting_external · blocked · ready_for_review)', backing: 'DEMO_STORE', state: 'PARTIAL', priority_rule: 'blocked = urgent · ready_for_review = high · others normal', evidence: [ATT('199-222'), `${SRC}/workflow/workflowTypes.ts:30-41`], note: 'failed / waiting_internal / paused are not surfaced today.' }),
     src({ source_id: 'ifta-review-approval', label: 'IFTA quarters needing review or awaiting client approval', domain: 'IFTA', owner_node: 'AIO_OFFICE.WORK.FILING_FUEL_TAXES.FILING_QUEUE', route: '/office/workspaces/ifta', data_source: 'store.iftaQuarters → staffBucket NEEDS_REVIEW · AWAITING_CLIENT', backing: 'DEMO_STORE', state: 'NOT_IMPLEMENTED', evidence: [`${SRC}/ifta/iftaDerive.ts:515-528`], note: 'Source exists; not fed into the office attention engine.' }),
+    src({ source_id: 'client-approvals-quotes', label: 'Quotes waiting on the client’s acceptance', domain: 'BILLING', owner_node: 'AIO_OFFICE.MORE.BILLING', route: '/office/quotes/:quoteId', data_source: 'Quote status sent · viewed; ServiceRequest billingStatus awaiting_quote_acceptance', backing: 'DEMO_STORE', state: 'NOT_IMPLEMENTED', visibility: V_GRANT, evidence: [`${SRC}/billing/billingTypes.ts:16-25`, `${SRC}/billing/billingTypes.ts:45-53`] }),
+    src({ source_id: 'client-approvals-activation', label: 'Clients invited / awaiting their confirmation', domain: 'MIGRATION', owner_node: 'AIO_OFFICE.INTAKE.ACTIVATION_INVITE', route: '/office/migration', data_source: 'ClientLifecycleState INVITED · CLIENT_CONFIRMATION_REQUIRED', backing: 'DEMO_STORE', state: 'NOT_IMPLEMENTED', evidence: [`${SRC}/client-migration/types.ts:3-13`], note: 'Client confirmation remains the gate before ACTIVE; PREBUILT is never ACTIVE.' }),
+    src({ source_id: 'documents-incomplete', label: 'Documents requested, rejected or expired', domain: 'DOCUMENTS', owner_node: 'AIO_OFFICE.MORE.DOCUMENTS_VAULT', route: '/office/documents', data_source: 'store.documents status requested · rejected · expired', backing: 'DEMO_STORE', state: 'NOT_IMPLEMENTED', evidence: [`${SRC}/vault/vaultTypes.ts:56-63`], note: 'Not fed into the office attention engine (it reads uploaded / under_review only).' }),
     src({ source_id: 'document-review', label: 'Documents uploaded / under review', domain: 'DOCUMENTS', owner_node: 'AIO_OFFICE.MORE.DOCUMENTS_VAULT', route: '/office/documents/review', data_source: 'store.documents status uploaded · under_review', backing: 'DEMO_STORE', state: 'PARTIAL', priority_rule: 'always high', evidence: [ATT('133-153')] }),
     src({ source_id: 'migration-blocked', label: 'Blocked migration files / batches', domain: 'MIGRATION', owner_node: 'AIO_OFFICE.INTAKE.MIGRATION_STATUS', route: '/office/migration', data_source: 'MigrationFileQueueState FAILED · UNSUPPORTED · DUPLICATE; MigrationBatchState needs_attention · failed', backing: 'DEMO_STORE', state: 'NOT_IMPLEMENTED', evidence: [`${SRC}/client-migration/migrationFileQueueTypes.ts:1-12`, `${SRC}/vault/archiveMigrationTypes.ts:3-11`] }),
     src({ source_id: 'compliance-exceptions', label: 'Compliance exceptions', domain: 'COMPLIANCE', owner_node: 'AIO_OFFICE.WORK.COMPLIANCE.COMPLIANCE_CASES', route: null, data_source: 'none — no compliance case / exception model', backing: 'NONE', state: 'BLOCKED', evidence: [`${SRC}/services/catalog/serviceCatalog.ts:709-743 (DOT audit services are catalog entries only)`] }),
@@ -93,11 +100,18 @@ const needsAttention: RegionContract = {
     src({ source_id: 'maintenance-warnings', label: 'Maintenance holds / out-of-service trucks', domain: 'MAINTENANCE', owner_node: 'AIO_OFFICE.WORK.MECHANIC_MAINTENANCE.MAINTENANCE_STATUS', route: '/office/fleetcare', data_source: 'TruckDispatchProfile maintenanceHold · outOfService; MaintenanceAttentionSeverity', backing: 'DEMO_STORE', state: 'NOT_IMPLEMENTED', evidence: [`${SRC}/dispatch/dispatchTypes.ts:130-154`, `${SRC}/freight/freightTypes.ts:174`] }),
     src({ source_id: 'road-ready-blockers', label: 'Road Ready items needing action / review', domain: 'ROAD_READY', owner_node: 'AIO_OFFICE.WORK.ROAD_READY', route: '/office/road-ready', data_source: 'RoadReadyItem action_needed · needs_review; profile mode attention_required', backing: 'DEMO_STORE', state: 'NOT_IMPLEMENTED', evidence: [`${SRC}/road-ready/roadReadyTypes.ts:12-19`, `${SRC}/road-ready/roadReadyTypes.ts:37-42`] }),
     src({ source_id: 'crm-follow-ups', label: 'CRM follow-ups due', domain: 'CRM', owner_node: 'AIO_OFFICE.MORE.GROWTH_CRM', route: '/office/crm', data_source: 'CrmFollowUp.scheduledFor (≤ now + 24h) · OfficeWorkItem queue crm_follow_up', backing: 'DEMO_STORE', state: 'PARTIAL', visibility: V_GRANT, evidence: [`${SRC}/crm/crmTypes.ts:207-220`, `${SRC}/demo/crmActions.ts:523-548`], note: 'Follow-up statuses never advance to due / overdue; the queue adds both counts (double counting). HOME projects; CRM owns.' }),
+    src({ source_id: 'crm-new-leads', label: 'New leads not yet contacted', domain: 'CRM', owner_node: 'AIO_OFFICE.MORE.GROWTH_CRM', route: '/office/crm/leads', data_source: 'CrmLead status new', backing: 'DEMO_STORE', state: 'NOT_IMPLEMENTED', visibility: V_GRANT, evidence: [`${SRC}/crm/crmTypes.ts:13-23`] }),
+    src({ source_id: 'crm-pipeline', label: 'Open opportunities past their expected close date', domain: 'CRM', owner_node: 'AIO_OFFICE.MORE.GROWTH_CRM', route: '/office/crm/pipeline', data_source: 'CrmOpportunity status open · expectedCloseDate', backing: 'DEMO_STORE', state: 'NOT_IMPLEMENTED', visibility: V_GRANT, evidence: [`${SRC}/crm/crmTypes.ts:172-192`], note: 'Opportunities have no next-action field; “needing action” is limited to what the record holds.' }),
     src({ source_id: 'billing-overdue-failed', label: 'Overdue invoices / failed payments', domain: 'BILLING', owner_node: 'AIO_OFFICE.MORE.BILLING', route: '/office/invoices', data_source: 'BillingInvoice past_due · PaymentRecord failed · ServiceRequest billingStatus payment_failed', backing: 'DEMO_STORE', state: 'NOT_IMPLEMENTED', visibility: V_GRANT, evidence: [`${SRC}/billing/billingTypes.ts:26-43`, `${SRC}/demo/billingActions.ts:399-439`, `${SRC}/management/managementAttentionEngine.ts:43-49`], note: 'Only the management engine surfaces past_due; failed payments reach no office surface.' }),
+    src({ source_id: 'billing-setup-needed', label: 'Billing setup needed', domain: 'BILLING', owner_node: 'AIO_OFFICE.MORE.BILLING', route: null, data_source: 'none — no billing profile or payment-method record in source', backing: 'NONE', state: 'NOT_IMPLEMENTED', visibility: V_GRANT, evidence: [`${SRC}/billing/billingTypes.ts:45-53`], note: 'BillingStatus has no setup state. Recorded, not invented.' }),
     src({ source_id: 'conversations-needing-reply', label: 'Conversations waiting on staff', domain: 'MESSAGING', owner_node: 'AIO_OFFICE.MORE.MESSAGES', route: '/office/communications/:conversationId', data_source: 'store.commConversations waiting_on_staff / responsibility staff', backing: 'DEMO_STORE', state: 'PARTIAL', priority_rule: 'urgent conversation = urgent, else high', evidence: [ATT('155-176'), `${SRC}/communications/communicationEngine.ts:18-20`] }),
     src({ source_id: 'unread-customer-messages', label: 'Unread customer messages (legacy model)', domain: 'MESSAGING', owner_node: 'AIO_OFFICE.MORE.MESSAGES', route: '/office/inbox', data_source: 'store.messages from customer, unread', backing: 'DEMO_STORE', state: 'PARTIAL', evidence: [ATT('178-197')], note: 'Legacy model — retires with C-LEGACY-INBOX-DOCS.' }),
   ],
 };
+
+const DUE_PRIORITY = 'by due state: overdue > due today > due soon > upcoming; ties by nearest date';
+const DUE_STATE = 'computed at read time: overdue (< 0 days) · due today (0) · due soon (≤ 7) · upcoming';
+const dl = (s: SourceSpec) => src({ priority_rule: DUE_PRIORITY, due_rule: DUE_STATE, ...s });
 
 const deadlines: RegionContract = {
   region_id: `${H}.DEADLINES`, label: 'Deadlines', presence: 'REQUIRED', question: 'What is due?',
@@ -109,16 +123,16 @@ const deadlines: RegionContract = {
     'Each deadline routes to the lane that owns the work, not to the Deadline Center.',
   ],
   sources: [
-    src({ source_id: 'deadline-store', label: 'Deadlines (19 deadline types)', domain: 'COMPLIANCE', owner_node: 'AIO_OFFICE.WORK.COMPLIANCE.EXPIRATIONS', route: '/office/deadlines', data_source: 'store.deadlines (DeadlineType · DeadlineSource · severity)', backing: 'DEMO_STORE', state: 'PARTIAL', due_rule: 'computeDeadlineState: overdue < 0 · due_today 0 · due_soon ≤ 7', evidence: [`${SRC}/demo/demoTypes.ts:408-426`, `${SRC}/calendar/calendarService.ts:19-27`, `${SRC}/office/pages/OperationsPages.tsx:47-113`], note: 'The Deadlines page shows the stored severity; its overdue filter also catches items due today (UTC parse).' }),
-    src({ source_id: 'renewals', label: 'Renewals', domain: 'COMPLIANCE', owner_node: 'AIO_OFFICE.WORK.COMPLIANCE.EXPIRATIONS', route: '/office/renewals', data_source: 'store.renewals expirationDate · RenewalStatus (13)', backing: 'DEMO_STORE', state: 'PARTIAL', evidence: [`${SRC}/renewals/renewalTypes.ts:18-53`, `${SRC}/office/pages/OfficeRenewalsPage.tsx:17-22`] }),
-    src({ source_id: 'ifta-due', label: 'IFTA quarter due dates', domain: 'IFTA', owner_node: 'AIO_OFFICE.WORK.FILING_FUEL_TAXES.FILING_QUEUE', route: '/office/workspaces/ifta', data_source: 'IftaQuarterCase.dueDate', backing: 'DEMO_STORE', state: 'NOT_IMPLEMENTED', evidence: [`${SRC}/ifta/iftaTypes.ts:150`], note: 'Shown in the IFTA queue; not projected to HOME.' }),
-    src({ source_id: 'insurance-renewal', label: 'Insurance policy expirations', domain: 'INSURANCE', owner_node: 'AIO_OFFICE.WORK.INSURANCE.RENEWALS', route: '/office/insurance/renewals', data_source: 'InsurancePolicy.expirationDate', backing: 'DEMO_STORE', state: 'PARTIAL', evidence: [`${SRC}/insurance/insuranceTypes.ts:57-78`] }),
-    src({ source_id: 'driver-credentials', label: 'Driver credential expirations', domain: 'DRIVERS', owner_node: 'AIO_OFFICE.WORK.DRIVERS_CARRIERS.CREDENTIALS', route: '/office/driverlink/drivers', data_source: 'DriverCredential.expirationDate', backing: 'DEMO_STORE', state: 'NOT_IMPLEMENTED', evidence: [`${SRC}/driverlink/driverlinkTypes.ts:98-107`] }),
-    src({ source_id: 'vehicle-registration', label: 'Vehicle registration dates', domain: 'VEHICLES', owner_node: 'AIO_OFFICE.WORK.VEHICLES_FLEET', route: null, data_source: 'vault documents related to a vehicle with expiresAt (no vehicle record holds a registration expiry)', backing: 'DEMO_STORE', state: 'PARTIAL', evidence: [`${SRC}/vault/vaultTypes.ts:93-106`, `${SRC}/pages/portal/FleetPage.tsx:11-27`] }),
-    src({ source_id: 'client-request-due', label: 'Client request target dates', domain: 'PERMITTING', owner_node: 'AIO_OFFICE.WORK.PERMITTING_AUTHORITIES', route: '/office/requests/:requestId', data_source: 'ServiceRequest.targetDate', backing: 'DEMO_STORE', state: 'NOT_IMPLEMENTED', evidence: [`${SRC}/demo/demoTypes.ts:390`] }),
-    src({ source_id: 'bookkeeping-close', label: 'Bookkeeping close / review dates', domain: 'BOOKKEEPING', owner_node: 'AIO_OFFICE.WORK.BOOKKEEPING.MONTHLY_CLIENTS', route: '/office/bookkeeping', data_source: 'BookkeepingCycle.dueDate (seed only)', backing: 'DEMO_STORE', state: 'NOT_IMPLEMENTED', evidence: [`${SRC}/bookkeeping/bookkeepingTypes.ts:120-126`] }),
-    src({ source_id: 'road-ready-milestones', label: 'Road Ready item expirations', domain: 'ROAD_READY', owner_node: 'AIO_OFFICE.WORK.ROAD_READY', route: '/office/road-ready', data_source: 'RoadReadyItem.expiresAt → syncExpirationDeadlines', backing: 'DEMO_STORE', state: 'PARTIAL', evidence: [`${SRC}/demo/roadReadyActions.ts:261-283`] }),
-    src({ source_id: 'crm-follow-up-dates', label: 'CRM follow-up dates', domain: 'CRM', owner_node: 'AIO_OFFICE.MORE.GROWTH_CRM', route: '/office/crm/calendar', data_source: 'CrmFollowUp.scheduledFor', backing: 'DEMO_STORE', state: 'PARTIAL', visibility: V_GRANT, evidence: [`${SRC}/crm/crmTypes.ts:207-220`] }),
+    dl({ source_id: 'deadline-store', label: 'Deadlines (19 deadline types)', domain: 'COMPLIANCE', owner_node: 'AIO_OFFICE.WORK.COMPLIANCE.EXPIRATIONS', route: '/office/deadlines', data_source: 'store.deadlines (DeadlineType · DeadlineSource · severity)', backing: 'DEMO_STORE', state: 'PARTIAL', due_rule: 'computeDeadlineState: overdue < 0 · due_today 0 · due_soon ≤ 7', evidence: [`${SRC}/demo/demoTypes.ts:408-426`, `${SRC}/calendar/calendarService.ts:19-27`, `${SRC}/office/pages/OperationsPages.tsx:47-113`], note: 'The Deadlines page shows the stored severity; its overdue filter also catches items due today (UTC parse).' }),
+    dl({ source_id: 'renewals', label: 'Renewals', domain: 'COMPLIANCE', owner_node: 'AIO_OFFICE.WORK.COMPLIANCE.EXPIRATIONS', route: '/office/renewals', data_source: 'store.renewals expirationDate · RenewalStatus (13)', backing: 'DEMO_STORE', state: 'PARTIAL', evidence: [`${SRC}/renewals/renewalTypes.ts:18-53`, `${SRC}/office/pages/OfficeRenewalsPage.tsx:17-22`] }),
+    dl({ source_id: 'ifta-due', label: 'IFTA quarter due dates', domain: 'IFTA', owner_node: 'AIO_OFFICE.WORK.FILING_FUEL_TAXES.FILING_QUEUE', route: '/office/workspaces/ifta', data_source: 'IftaQuarterCase.dueDate', backing: 'DEMO_STORE', state: 'NOT_IMPLEMENTED', evidence: [`${SRC}/ifta/iftaTypes.ts:150`], note: 'Shown in the IFTA queue; not projected to HOME.' }),
+    dl({ source_id: 'insurance-renewal', label: 'Insurance policy expirations', domain: 'INSURANCE', owner_node: 'AIO_OFFICE.WORK.INSURANCE.RENEWALS', route: '/office/insurance/renewals', data_source: 'InsurancePolicy.expirationDate', backing: 'DEMO_STORE', state: 'PARTIAL', evidence: [`${SRC}/insurance/insuranceTypes.ts:57-78`] }),
+    dl({ source_id: 'driver-credentials', label: 'Driver credential expirations', domain: 'DRIVERS', owner_node: 'AIO_OFFICE.WORK.DRIVERS_CARRIERS.CREDENTIALS', route: '/office/driverlink/drivers', data_source: 'DriverCredential.expirationDate', backing: 'DEMO_STORE', state: 'NOT_IMPLEMENTED', evidence: [`${SRC}/driverlink/driverlinkTypes.ts:98-107`] }),
+    dl({ source_id: 'vehicle-registration', label: 'Vehicle registration dates', domain: 'VEHICLES', owner_node: 'AIO_OFFICE.WORK.VEHICLES_FLEET', route: null, data_source: 'vault documents related to a vehicle with expiresAt (no vehicle record holds a registration expiry)', backing: 'DEMO_STORE', state: 'PARTIAL', evidence: [`${SRC}/vault/vaultTypes.ts:93-106`, `${SRC}/pages/portal/FleetPage.tsx:11-27`] }),
+    dl({ source_id: 'client-request-due', label: 'Client request target dates', domain: 'PERMITTING', owner_node: 'AIO_OFFICE.WORK.PERMITTING_AUTHORITIES', route: '/office/requests/:requestId', data_source: 'ServiceRequest.targetDate', backing: 'DEMO_STORE', state: 'NOT_IMPLEMENTED', evidence: [`${SRC}/demo/demoTypes.ts:390`] }),
+    dl({ source_id: 'bookkeeping-close', label: 'Bookkeeping close / review dates', domain: 'BOOKKEEPING', owner_node: 'AIO_OFFICE.WORK.BOOKKEEPING.MONTHLY_CLIENTS', route: '/office/bookkeeping', data_source: 'BookkeepingCycle.dueDate (seed only)', backing: 'DEMO_STORE', state: 'NOT_IMPLEMENTED', evidence: [`${SRC}/bookkeeping/bookkeepingTypes.ts:120-126`] }),
+    dl({ source_id: 'road-ready-milestones', label: 'Road Ready item expirations', domain: 'ROAD_READY', owner_node: 'AIO_OFFICE.WORK.ROAD_READY', route: '/office/road-ready', data_source: 'RoadReadyItem.expiresAt → syncExpirationDeadlines', backing: 'DEMO_STORE', state: 'PARTIAL', evidence: [`${SRC}/demo/roadReadyActions.ts:261-283`] }),
+    dl({ source_id: 'crm-follow-up-dates', label: 'CRM follow-up dates', domain: 'CRM', owner_node: 'AIO_OFFICE.MORE.GROWTH_CRM', route: '/office/crm/calendar', data_source: 'CrmFollowUp.scheduledFor', backing: 'DEMO_STORE', state: 'PARTIAL', visibility: V_GRANT, evidence: [`${SRC}/crm/crmTypes.ts:207-220`] }),
   ],
 };
 
@@ -320,11 +334,11 @@ export const AIO_WORK_LANES: LaneContract[] = [
   {
     lane_id: `${W}.DISPATCH`,
     shell: shell({ SERVICE_OVERVIEW: ['PARTIAL', 'DispatchCommandCenterPage'], ACTIVE_WORK: ['PARTIAL', 'loads booked … in_transit'], NEEDS_ATTENTION: ['PARTIAL', 'exceptions inside load detail only'], DUE_SOON: ['PARTIAL', 'pickupDate · deliveryDate'], BLOCKED: ['PARTIAL', 'issue · pod_needed · FreightException'], RECENTLY_COMPLETED: ['PARTIAL', 'delivered · complete'] }),
-    records: [{ record: 'Load', evidence: `${SRC}/dispatch/dispatchTypes.ts:239-319` }, { record: 'DispatchEnrollment', evidence: `${SRC}/dispatch/dispatchTypes.ts:115-128` }, { record: 'TruckDispatchProfile', evidence: `${SRC}/dispatch/dispatchTypes.ts:130-154` }, { record: 'FreightException (also Supabase aio_freight_exceptions)', evidence: `${SRC}/freight/autopilot/freightExceptionTypes.ts:24-36` }],
+    records: [{ record: 'Load (demo store; Supabase aio_dispatch_loads for freight / autopilot / shipper)', evidence: `${SRC}/dispatch/dispatchTypes.ts:239-319` }, { record: 'DispatchEnrollment', evidence: `${SRC}/dispatch/dispatchTypes.ts:115-128` }, { record: 'TruckDispatchProfile', evidence: `${SRC}/dispatch/dispatchTypes.ts:130-154` }, { record: 'FreightException (also Supabase aio_freight_exceptions)', evidence: `${SRC}/freight/autopilot/freightExceptionTypes.ts:24-36` }],
     statuses: ['opportunity', 'booking_in_progress', 'booked', 'dispatched', 'en_route_pickup', 'at_pickup', 'loaded', 'in_transit', 'at_delivery', 'delivered', 'pod_needed', 'complete', 'cancelled', 'issue'],
     assignment: 'Load.assignedDispatcherStaffId', due: 'Load.pickupDate · deliveryDate', blocker: 'FreightException (17 types; open · acknowledged) · issue / pod_needed',
     client_safe: 'Client sees customerNotes and customer-visible timeline events; internalNotes stay internal',
-    related: [rel(`${W}.VEHICLES_FLEET`, 'trucks'), rel(`${W}.DRIVERS_CARRIERS`, 'drivers'), rel(`${W}.BROKERAGE`, 'brokered loads'), rel(`${W}.FACTORING`, 'factoring handoff'), rel(`${W}.FILING_FUEL_TAXES.IFTA`, 'mileage'), rel('AIO_OFFICE.MORE.BILLING', 'dispatch fees')],
+    related: [rel(`${W}.VEHICLES_FLEET`, 'trucks'), rel(`${W}.DRIVERS_CARRIERS`, 'drivers'), rel(`${W}.BROKERAGE`, 'brokered loads'), rel(`${W}.FACTORING`, 'factoring handoff'), rel(`${W}.FILING_FUEL_TAXES.IFTA`, 'mileage'), rel(`${W}.COMPLIANCE`, 'driver / vehicle compliance holds that block dispatch'), rel('AIO_OFFICE.MORE.BILLING', 'dispatch fees')],
     gaps: ['G-DISPATCH-MY-LOADS', 'G-DISPATCH-ENROLLMENT-UI', 'G-OFFICE-DEMO-ONLY'],
   },
   {
@@ -397,6 +411,13 @@ export const AIO_WORK_LANES: LaneContract[] = [
     related: [rel(`${W}.PERMITTING_AUTHORITIES`, 'authorities / registrations'), rel(`${W}.COMPLIANCE`, 'compliance readiness'), rel(`${W}.INSURANCE`, 'coverage'), rel(`${W}.VEHICLES_FLEET`, 'vehicle readiness'), rel(`${W}.DRIVERS_CARRIERS`, 'driver readiness'), rel('AIO_OFFICE.MORE.DOCUMENTS_VAULT', 'documents')],
     gaps: ['G-ROAD-READY-NO-ENGAGEMENT-STATE', 'G-ROAD-READY-TABLES-UNQUERIED'],
   },
+];
+
+/** The founder's cross-service relationships: each hub links its spokes; records are linked, never duplicated. */
+export const AIO_WORK_RELATIONSHIPS: { hub: string; label: string; spokes: string[]; via: string }[] = [
+  { hub: `${W}.VEHICLES_FLEET`, label: 'VEHICLE', spokes: [`${W}.COMPLIANCE`, `${W}.INSURANCE`, `${W}.FILING_FUEL_TAXES.IFTA`, `${W}.MECHANIC_MAINTENANCE`, `${W}.DISPATCH`], via: 'the vehicle record (VEHICLES & FLEET) — each lane links to it, none copies it (IFTA’s embedded copies are a recorded gap)' },
+  { hub: 'AIO_OFFICE.MORE.CLIENTS', label: 'CLIENT', spokes: [`${W}.BOOKKEEPING`, `${W}.FACTORING`, 'AIO_OFFICE.MORE.BILLING'], via: 'the client / organisation id every record carries; Client 360 links the client’s work across lanes' },
+  { hub: `${W}.DRIVERS_CARRIERS`, label: 'DRIVER', spokes: [`${W}.DRIVERS_CARRIERS.CREDENTIALS`, `${W}.COMPLIANCE`, `${W}.DISPATCH`], via: 'the driver profile (DRIVERS & CARRIERS) and its credentials' },
 ];
 
 /** The fifteen WORK root capabilities the founder requires, each with today's truth. */
@@ -481,10 +502,14 @@ export const AIO_REPORT_METRICS: MetricContract[] = ([
   ['overview.completed-work', 'OVERVIEW', 'Completed work (period)', 'DERIVED_SUPPORTED', DEMO, 'store.officeWorkItems completedAt', 'completedAt within period', 'NOT_IMPLEMENTED', [`${SRC}/office-core/officeWorkTypes.ts:111-135`]],
   ['overview.blocked-work', 'OVERVIEW', 'Blocked work', 'DERIVED_SUPPORTED', DEMO, 'store.officeWorkItems waitingOn / status', 'waiting_* or waitingOn ≠ none', 'NOT_IMPLEMENTED', [`${SRC}/office-core/officeWorkTypes.ts:40-50`]],
   ['overview.active-requests', 'OVERVIEW', 'Active service requests', 'PARTIAL_DATA', DEMO, 'store.requests', 'not completed / cancelled — two “active” definitions disagree (QL 92 vs 221)', 'PARTIAL', [QL('92'), QL('221')]],
+  ['overview.deadlines', 'OVERVIEW', 'Deadlines by window', 'PARTIAL_DATA', DEMO, 'store.deadlines + store.renewals', 'getDeadlineWindows — on the stored severity, which is never recalculated', 'PARTIAL', [QL('268-297')]],
+  ['overview.filing-throughput', 'OVERVIEW', 'Filing throughput (quarters filed per period)', 'DERIVED_SUPPORTED', DEMO, 'IftaQuarterCase.filing.filedAt', 'count of quarters with filing.filedAt in the period', 'NOT_IMPLEMENTED', [`${SRC}/ifta/iftaActions.ts:570-571`, `${SRC}/ifta/iftaTypes.ts:92`], 'Supported by data; no report surface.'],
+  ['overview.migration-throughput', 'OVERVIEW', 'Migration throughput over time', 'DERIVED_UNSUPPORTED', 'NONE', 'none — no readable migration stage timestamps', null, 'NOT_IMPLEMENTED', [`${SRC}/vault/archiveMigrationTypes.ts:3-11`]],
   ['overview.client-growth', 'OVERVIEW', 'Client growth', 'DERIVED_UNSUPPORTED', 'NONE', 'none — activation timestamps live only in insert-only Supabase lifecycle events', null, 'NOT_IMPLEMENTED', [`${SRC}/client-migration/repositories/supabaseMigrationRepository.ts:196`]],
   ['clients.lifecycle-mix', 'CLIENTS', 'Clients by lifecycle (active · paused · ended · prebuilt · invited …)', 'DERIVED_SUPPORTED', DEMO, 'store.clients lifecycle', 'count per ClientLifecycleState', 'PARTIAL', [QL('311-327'), `${SRC}/client-migration/types.ts:3-13`]],
   ['clients.new', 'CLIENTS', 'New clients (period)', 'DERIVED_UNSUPPORTED', 'NONE', 'none — no readable activation timestamp', null, 'NOT_IMPLEMENTED', [`${SRC}/client-migration/types.ts:121-131`]],
   ['clients.service-mix', 'CLIENTS', 'Service mix per client', 'DERIVED_UNSUPPORTED', 'NONE', 'canonical workspace resolver not wired; three heuristic builders disagree', null, 'NOT_IMPLEMENTED', [`${SRC}/office-core/client360Service.ts:52-71`]],
+  ['clients.activity', 'CLIENTS', 'Client activity', 'PARTIAL_DATA', DEMO, 'store.activity per client', 'events per client in the period — the office feed hides customer-visible events', 'NOT_IMPLEMENTED', [`${SRC}/demo/demoTypes.ts:472-482`]],
   ['services.volume', 'SERVICES', 'Service volume by division', 'PARTIAL_DATA', DEMO, 'store.requests', 'getServiceVolume; submitted counted as waiting on AIO and waiting external', 'PARTIAL', [QL('217-227'), QL('314')]],
   ['services.workflow-performance', 'SERVICES', 'Workflow performance', 'PARTIAL_DATA', DEMO, 'store.workflowInstances', 'getWorkflowPerformance', 'PARTIAL', [QL('229-241')]],
   ['services.trends', 'SERVICES', 'Service trends over time', 'DERIVED_UNSUPPORTED', 'NONE', 'status history is insert-only in Supabase, absent in the demo store', null, 'NOT_IMPLEMENTED', [`${SRC}/data/repositories/supabaseRepositories.ts:295`]],
@@ -496,18 +521,22 @@ export const AIO_REPORT_METRICS: MetricContract[] = ([
   ['financial.revenue-share', 'FINANCIAL_REVENUE', 'Platform / revenue-share fees', 'NOT_IMPLEMENTED', 'NONE', 'FleetCare referral fees and factoring reported fees exist as fields; no revenue-share ledger', null, 'COMING_LATER', [`${SQL}/20260817190000_aio_fleetcare_network.sql:410-417`]],
   ['financial.profitability', 'FINANCIAL_REVENUE', 'Company profitability / margin', 'DERIVED_UNSUPPORTED', 'NONE', 'no cost data outside brokerage loads', null, 'NOT_IMPLEMENTED', [`${SRC}/brokerage/brokerageTypes.ts:326-338`], 'Never shown. Brokerage load margin is supported but internal (see dispatch-brokerage.margin).'],
   ['filing.quarters-filed', 'FILING_HISTORY', 'IFTA quarters filed (period)', 'DERIVED_SUPPORTED', DEMO, 'store.iftaQuarters FILED / ARCHIVED', 'count by quarter', 'NOT_IMPLEMENTED', [`${SRC}/ifta/iftaTypes.ts:143-174`], 'Supported by data; no report surface.'],
-  ['filing.on-time', 'FILING_HISTORY', 'Filed on time', 'NOT_IMPLEMENTED', DEMO, 'dueDate vs filing record', 'needs the filing timestamp recorded by recordFiling — confirm in the reports sprint', 'NOT_IMPLEMENTED', [`${SRC}/ifta/iftaActions.ts:564`]],
+  ['filing.on-time', 'FILING_HISTORY', 'Filed on time', 'DERIVED_SUPPORTED', DEMO, 'IftaQuarterCase.dueDate · filing.filedAt (written by recordFiling)', 'filing.filedAt ≤ dueDate', 'NOT_IMPLEMENTED', [`${SRC}/ifta/iftaActions.ts:570-571`, `${SRC}/ifta/iftaTypes.ts:150`], 'Supported by data; no report surface.'],
   ['compliance.expirations', 'COMPLIANCE', 'Expirations by window', 'PARTIAL_DATA', DEMO, 'store.deadlines + store.renewals', 'getDeadlineWindows (stored severity)', 'PARTIAL', [QL('268-297')]],
   ['compliance.open-items', 'COMPLIANCE', 'Open / resolved compliance items', 'NOT_IMPLEMENTED', 'NONE', 'no compliance case model', null, 'BLOCKED', [`${SRC}/services/catalog/serviceCatalog.ts:709-743`]],
   ['compliance.corrective', 'COMPLIANCE', 'Corrective actions', 'NOT_IMPLEMENTED', 'NONE', 'no corrective-action model', null, 'BLOCKED', [`${SRC}/services/catalog/serviceCatalog.ts:709-743`]],
+  ['compliance.trends', 'COMPLIANCE', 'Compliance trends', 'DERIVED_UNSUPPORTED', 'NONE', 'none — no compliance case history', null, 'NOT_IMPLEMENTED', [`${SRC}/services/catalog/serviceCatalog.ts:709-743`]],
   ['dispatch-brokerage.load-volume', 'DISPATCH_BROKERAGE', 'Load volume / status distribution', 'DERIVED_SUPPORTED', DEMO, 'store.loads (Supabase aio_dispatch_loads for autopilot)', 'getDispatchSummary', 'PARTIAL', [QL('170-187')]],
   ['dispatch-brokerage.margin', 'DISPATCH_BROKERAGE', 'Brokerage load economics (margin)', 'PARTIAL_DATA', DEMO, 'loads + brokerageLoadFinancials', 'getBrokerageEconomics — revenue is date-filtered, completed loads are not', 'PARTIAL', [QL('146-168')], 'Internal financial visibility: founder-class, staff by brokerage_finance grant.'],
+  ['dispatch-brokerage.shipment-volume', 'DISPATCH_BROKERAGE', 'Shipment request volume', 'DERIVED_SUPPORTED', DEMO, 'ShipmentRequest', 'count by status and period', 'NOT_IMPLEMENTED', [`${SRC}/brokerage/brokerageTypes.ts:68-121`]],
+  ['dispatch-brokerage.trends', 'DISPATCH_BROKERAGE', 'Operational trends (load status over time)', 'DERIVED_SUPPORTED', DEMO, 'Load.timeline (status events with timestamps)', 'status transitions per period from the load timeline', 'NOT_IMPLEMENTED', [`${SRC}/dispatch/dispatchTypes.ts:313`]],
   ['dispatch-brokerage.carrier-activity', 'DISPATCH_BROKERAGE', 'Carrier activity (offers)', 'DERIVED_SUPPORTED', DEMO, 'carrier offers', 'offers sent / accepted / declined', 'NOT_IMPLEMENTED', [`${SRC}/brokerage/brokerageTypes.ts:253-289`]],
   ['dispatch-brokerage.factoring', 'DISPATCH_BROKERAGE', 'Factoring summary', 'PARTIAL_DATA', DEMO, 'store.factoringSubmissions', 'getFactoringSummary — no date range; “service fees” sums the provider-reported fee', 'PARTIAL', [QL('189-198')], 'Derivation defect: fee label likely wrong.'],
   ['bookkeeping.subscriptions', 'BOOKKEEPING', 'Bookkeeping subscriptions', 'NOT_IMPLEMENTED', DEMO, 'BookkeepingSubscription (seed)', null, 'NOT_IMPLEMENTED', [`${SRC}/bookkeeping/bookkeepingTypes.ts:94-118`], 'Domain not started: contract only.'],
   ['bookkeeping.cycles-on-time', 'BOOKKEEPING', 'Cycles closed on time', 'NOT_IMPLEMENTED', DEMO, 'BookkeepingCycle (seed only, no writer)', null, 'NOT_IMPLEMENTED', [`${SRC}/bookkeeping/bookkeepingTypes.ts:120-130`]],
   ['migration.counts', 'MIGRATION', 'Migration batches / clients digitized', 'PARTIAL_DATA', DEMO, 'batches (Supabase in backend mode) — metrics read the demo store', 'computeMigrationDashboardMetrics', 'PARTIAL', [`${SRC}/vault/documentVaultMetrics.ts:53-89`], 'Metrics read the demo store even when the batch list comes from Supabase.'],
   ['migration.review-required', 'MIGRATION', 'Review required / blocked', 'PARTIAL_DATA', DEMO, 'MigrationBatchState ready_for_review · needs_attention · failed', 'count by state', 'PARTIAL', [`${SRC}/vault/documentVaultMetrics.ts:65-77`]],
+  ['migration.status-distribution', 'MIGRATION', 'Batch status distribution', 'DERIVED_SUPPORTED', DEMO, 'MigrationBatchState', 'count per batch state', 'NOT_IMPLEMENTED', [`${SRC}/vault/archiveMigrationTypes.ts:3-11`], 'The dashboard counts only review-required and failed today.'],
   ['migration.activated', 'MIGRATION', 'Clients activated', 'DERIVED_SUPPORTED', DEMO, 'lifecycle ACTIVE (canonical rule)', 'isCountedActiveClient', 'PARTIAL', [`${SRC}/client-migration/activeClientRule.ts:5-14`]],
   ['migration.completion-time', 'MIGRATION', 'Migration completion time', 'DERIVED_UNSUPPORTED', 'NONE', 'no readable stage timestamps', null, 'NOT_IMPLEMENTED', [`${SRC}/vault/archiveMigrationTypes.ts:3-11`]],
 ] as MetricSpec[]).map(metric);
@@ -520,8 +549,18 @@ export const AIO_REPORT_EXPORTS: { export_id: string; label: string; state: Surf
   { export_id: 'saved-reports', label: 'Saved reports', state: 'PARTIAL', evidence: [`${SRC}/office/pages/ManagementPages.tsx:674-676`], note: 'Write-only: saves a fixed report; nothing reads saved reports.' },
 ];
 
+/** The export contract every future export follows (EXPORTS is NOT STARTED: contract only). */
+export const AIO_EXPORT_RULES = [
+  'Formats: CSV first; PDF when a PDF renderer exists; period, client and service reports as parameterised exports of the same report definitions.',
+  'Every export checks reports.export (and the internal-financial grant for money columns) on the server, not only in the page.',
+  'Every export writes an audit entry: who, what, which period, which clients.',
+  'CSV cells are neutralised against formula injection (the receivables export does this today; the IFTA case CSV does not).',
+  'An export carries the classification of every metric in it; DERIVED_UNSUPPORTED and NOT_IMPLEMENTED metrics are never exported as numbers.',
+  'Client reports contain only the client-safe projection of that client’s records.',
+] as const;
+
 const reportRegion = (id: string, question: string, fn: string, evidence: string[], state: SurfaceState): RegionContract => ({
-  region_id: `${R}.${id}`, label: id, presence: 'REQUIRED', question, item_fields: ['metric', 'value', 'period', 'classification', 'drilldown to owner'], state,
+  region_id: `${R}.${id}`, label: iaNode(AIO_OFFICE_IA, `${R}.${id}`)?.label ?? id, presence: 'REQUIRED', question, item_fields: ['metric', 'value', 'period', 'classification', 'drilldown to owner'], state,
   rules: ['Only metrics classified REAL_DATA / DERIVED_SUPPORTED (or PARTIAL_DATA, labelled) render; DERIVED_UNSUPPORTED and NOT_IMPLEMENTED never render as numbers.', 'DEMO_STORE-backed metrics render only in demo mode, labelled demo.'],
   sources: fn ? [src({ source_id: `reports-${id.toLowerCase()}`, label: fn, domain: 'WORK_ITEMS', owner_node: `${R}.${id}`, route: null, data_source: fn, backing: 'DEMO_STORE', state, evidence, visibility: V_GRANT })] : [],
 });
@@ -610,7 +649,7 @@ const MORE_CONTRACT: RootContract = {
     { region_id: 'MORE.SEARCH', label: 'Search', presence: 'OPTIONAL', question: 'Find a client, document, lead or invoice', item_fields: ['result', 'type', 'route'], state: 'PARTIAL', rules: ['Results route to their owner.'], sources: [src({ source_id: 'command-palette', label: 'Command palette search', domain: 'CLIENTS', owner_node: `${M}.CLIENTS`, route: null, data_source: 'AIOOfficeLayout onSearch', backing: 'DEMO_STORE', state: 'PARTIAL', evidence: [`${SRC}/office/layouts/AIOOfficeLayout.tsx:142-169`] })] },
   ],
   actions: [
-    act({ action_id: 'MORE.OPEN_ENTRY', label: 'Open entry', tier: 'PRIMARY', kind: 'ROUTE', owner_node: M, route: null, state: 'PARTIAL' }),
+    act({ action_id: 'MORE.OPEN_ENTRY', label: 'Open entry (role-aware)', tier: 'PRIMARY', kind: 'ROUTE', owner_node: M, route: null, state: 'PARTIAL' }),
     act({ action_id: 'MORE.MANAGE_ROLES', label: 'Manage staff roles', tier: 'SECONDARY', kind: 'ADMINISTER', owner_node: `${M}.TEAM_STAFF`, route: null, state: 'NOT_IMPLEMENTED', requires: 'founder: staff / permission administration', evidence: [`${SRC}/office-core/officeContext.ts:214`] }),
     act({ action_id: 'MORE.CONFIGURE_SERVICE', label: 'Configure service / pricing', tier: 'SECONDARY', kind: 'ADMINISTER', owner_node: `${M}.SERVICE_CATALOG`, route: '/office/settings/pricing', state: 'PARTIAL', requires: 'founder: service configuration', evidence: [`${SRC}/office/pages/BillingPages.tsx:242-283`] }),
     act({ action_id: 'MORE.CONFIGURE_SYSTEM', label: 'Configure system', tier: 'SECONDARY', kind: 'ADMINISTER', owner_node: `${M}.SYSTEM_SETTINGS`, route: '/office/settings/workflows', state: 'PARTIAL', requires: 'founder: system configuration', evidence: [OR('210-216')] }),
@@ -686,6 +725,8 @@ export const AIO_CLIENT_SAFE: ClientSafeProjection[] = [
   cs(`${W}.VEHICLES_FLEET`, 'CLIENT_OFFICE.OPERATIONS.VEHICLE_MANAGEMENT', 'its own vehicles and approved statuses', 'dispatch overlay internals, other clients’ vehicles', 'PARTIAL', [`${SRC}/pages/portal/FleetPage.tsx:11-27`]),
   cs(`${W}.PERMITTING_AUTHORITIES`, 'CLIENT_OFFICE.OPERATIONS.PERMITTING_AUTHORITIES', 'request status, next step, customer notes, timeline', 'internal notes, staff assignment', 'PARTIAL', [`${SRC}/demo/demoTypes.ts:378-403`]),
   cs(`${W}.ROAD_READY`, 'CLIENT_OFFICE.OPERATIONS.ROAD_READY', 'readiness items and progress (placement by engagement state)', 'staff verification notes', 'BLOCKED', [`${SRC}/road-ready/roadReadyTypes.ts:170-193`]),
+  cs(`${M}.CLIENTS`, 'CLIENT_OFFICE.MY_BUSINESS', 'its own company record, owners / contacts, vehicles and authorities, scoped to its organisation', 'lifecycle segment, internal client notes, staff assignment, migration confidence, other clients', 'PARTIAL', [`${SRC}/pages/portal/ClientPortalPages.tsx:25-28`]),
+  cs(`${M}.SERVICE_CATALOG`, 'CLIENT_OFFICE.SERVICES', 'its active services and services available to it (ACTIVE · AVAILABLE_NOT_ACTIVATED), resolved per client', 'launch-state reasons, staff ownership, internal pricing configuration; today the list comes from a heuristic builder, not the canonical resolver', 'PARTIAL', [`${SRC}/pages/portal/ClientPortalPages.tsx:266-275`]),
   cs(`${M}.BILLING`, 'CLIENT_OFFICE.FINANCES.FEES_PAYMENTS', 'its invoices, payments, receipts, balances', 'margin, commission, profitability, staff-only financial data', 'PARTIAL', [`${SRC}/billing/billingTypes.ts:122-176`]),
   cs(`${M}.DOCUMENTS_VAULT`, 'CLIENT_OFFICE.VAULT', 'customer-visible current and historical documents', 'internal documents (openable by direct link and calendar today; migrated scans customer-readable in the DB: leak)', 'PARTIAL', [`${SRC}/demo/vaultActions.ts:32-34`, `${SRC}/client-migration/server/supabaseApproveMigration.ts:160-170`]),
   cs(`${M}.MESSAGES`, 'CLIENT_OFFICE.INBOX.MESSAGES_FROM_AIO', 'customer-visible messages in its conversations', 'internal notes (filtered in the UI; the DB messages policy does not filter visibility: leak)', 'PARTIAL', [`${SRC}/communications/communicationEngine.ts:10-12`, `${SQL}/20260815110000_aio_business_data_rls.sql:363-368`]),
@@ -696,25 +737,25 @@ export const AIO_CLIENT_SAFE: ClientSafeProjection[] = [
 /* ════════════════════════════════ 9 · responsive priorities ════════════════════════════════ */
 
 export const AIO_RESPONSIVE: ResponsivePriority[] = [
-  { root_id: H, rule: 'What needs action first; summaries before lists; parallel context only on wide screens.', order: {
+  { root_id: H, rule: 'Attention, deadlines, the work summary, clients in motion and recent activity survive first on mobile; tablet adds blockers and quick actions; desktop adds the optional Business Pulse as parallel context.', order: {
     MOBILE: [`${H}.NEEDS_ATTENTION`, `${H}.DEADLINES`, `${H}.WORK_ACROSS_AIO`, `${H}.CLIENTS_IN_MOTION`, `${H}.RECENT_ACTIVITY`],
     TABLET: [`${H}.NEEDS_ATTENTION`, `${H}.DEADLINES`, `${H}.BLOCKERS`, `${H}.WORK_ACROSS_AIO`, `${H}.CLIENTS_IN_MOTION`, `${H}.RECENT_ACTIVITY`, `${H}.QUICK_ACTIONS`],
     DESKTOP: [`${H}.NEEDS_ATTENTION`, `${H}.DEADLINES`, `${H}.BLOCKERS`, `${H}.WORK_ACROSS_AIO`, `${H}.CLIENTS_IN_MOTION`, `${H}.RECENT_ACTIVITY`, `${H}.QUICK_ACTIONS`, `${H}.BUSINESS_PULSE`],
   } },
-  { root_id: W, rule: 'Switch service, see what needs attention, reach the case.', order: {
-    MOBILE: ['WORK.LANE_SWITCHER', 'WORK.CROSS_CLIENT_QUEUE', 'WORK.MY_WORK', 'WORK.CASE_DETAIL'],
-    TABLET: ['WORK.LANE_SWITCHER', 'WORK.CROSS_CLIENT_QUEUE', 'WORK.MY_WORK', 'WORK.CASE_DETAIL', 'WORK.RELATED_WORK'],
-    DESKTOP: ['WORK.LANE_SWITCHER', 'WORK.CROSS_CLIENT_QUEUE', 'WORK.CASE_DETAIL', 'WORK.MY_WORK', 'WORK.RELATED_WORK'],
+  { root_id: W, rule: 'Service switching first, then what needs attention and the active work of the open lane, then the case. Desktop adds the full lane shell, the cross-client queue and related work side by side.', order: {
+    MOBILE: ['WORK.LANE_SWITCHER', LS('NEEDS_ATTENTION'), LS('ACTIVE_WORK'), 'WORK.CASE_DETAIL'],
+    TABLET: ['WORK.LANE_SWITCHER', LS('NEEDS_ATTENTION'), LS('ACTIVE_WORK'), LS('DUE_SOON'), LS('BLOCKED'), 'WORK.CASE_DETAIL', 'WORK.MY_WORK'],
+    DESKTOP: ['WORK.LANE_SWITCHER', LS('SERVICE_OVERVIEW'), LS('NEEDS_ATTENTION'), LS('ACTIVE_WORK'), LS('DUE_SOON'), LS('BLOCKED'), LS('RECENTLY_COMPLETED'), 'WORK.CROSS_CLIENT_QUEUE', 'WORK.CASE_DETAIL', 'WORK.RELATED_WORK', 'WORK.MY_WORK'],
   } },
-  { root_id: R, rule: 'Key summary and the period first; drilldown before export.', order: {
-    MOBILE: ['REPORTS.SET_PERIOD', `${R}.OVERVIEW`, `${R}.FINANCIAL_REVENUE`, 'REPORTS.DRILL_DOWN'],
-    TABLET: ['REPORTS.SET_PERIOD', `${R}.OVERVIEW`, `${R}.CLIENTS`, `${R}.SERVICES`, `${R}.FINANCIAL_REVENUE`, 'REPORTS.DRILL_DOWN'],
-    DESKTOP: ['REPORTS.SET_PERIOD', `${R}.OVERVIEW`, `${R}.CLIENTS`, `${R}.SERVICES`, `${R}.FINANCIAL_REVENUE`, `${R}.COMPLIANCE`, `${R}.DISPATCH_BROKERAGE`, `${R}.MIGRATION`, 'REPORTS.EXPORT_CSV'],
+  { root_id: R, rule: 'Key summary first, then period control, the high-priority reports (Financial / Revenue by grant, Services) and drilldown. Desktop adds every domain and export.', order: {
+    MOBILE: [`${R}.OVERVIEW`, 'REPORTS.SET_PERIOD', `${R}.FINANCIAL_REVENUE`, `${R}.SERVICES`, 'REPORTS.DRILL_DOWN'],
+    TABLET: [`${R}.OVERVIEW`, 'REPORTS.SET_PERIOD', `${R}.FINANCIAL_REVENUE`, `${R}.SERVICES`, `${R}.CLIENTS`, `${R}.MIGRATION`, 'REPORTS.DRILL_DOWN'],
+    DESKTOP: [`${R}.OVERVIEW`, 'REPORTS.SET_PERIOD', `${R}.FINANCIAL_REVENUE`, `${R}.SERVICES`, `${R}.CLIENTS`, `${R}.MIGRATION`, `${R}.COMPLIANCE`, `${R}.DISPATCH_BROKERAGE`, `${R}.FILING_HISTORY`, `${R}.BOOKKEEPING`, 'REPORTS.DRILL_DOWN', `${R}.EXPORTS`],
   } },
-  { root_id: M, rule: 'A clear, role-aware directory; search where it helps.', order: {
-    MOBILE: ['MORE.DIRECTORY', 'MORE.SEARCH'],
-    TABLET: ['MORE.DIRECTORY', 'MORE.SEARCH'],
-    DESKTOP: ['MORE.SEARCH', 'MORE.DIRECTORY'],
+  { root_id: M, rule: 'A clear directory first, search where useful, and only the entries the actor’s role can use (role-aware). Desktop shows the directory and search side by side.', order: {
+    MOBILE: ['MORE.DIRECTORY', 'MORE.SEARCH', 'MORE.OPEN_ENTRY'],
+    TABLET: ['MORE.DIRECTORY', 'MORE.SEARCH', 'MORE.OPEN_ENTRY'],
+    DESKTOP: ['MORE.DIRECTORY', 'MORE.SEARCH', 'MORE.OPEN_ENTRY'],
   } },
 ];
 

@@ -58,6 +58,9 @@ export type ActionKind = (typeof ACTION_KINDS)[number];
 export const LANE_SHELL_SECTIONS = ['SERVICE_OVERVIEW', 'ACTIVE_WORK', 'NEEDS_ATTENTION', 'DUE_SOON', 'BLOCKED', 'RECENTLY_COMPLETED'] as const;
 export type LaneShellSection = (typeof LANE_SHELL_SECTIONS)[number];
 
+/** How a responsive priority names a lane-shell section of the open lane (production roots only). */
+export const laneShellRef = (section: LaneShellSection) => `LANE.${section}`;
+
 export const CONTRACT_VIEWPORTS = ['MOBILE', 'TABLET', 'DESKTOP'] as const;
 export type ContractViewport = (typeof CONTRACT_VIEWPORTS)[number];
 
@@ -67,6 +70,7 @@ export const ACTION_OWNERSHIP_RULE = [
   'A projection root only ROUTES to the owner; an oversight root only REVIEWS or ROUTES. Neither executes.',
   'An action shown away from its owner is a link to the owner’s action, never a second copy of it.',
   'Every action names the existing permission or privileged act that gates it; a contract never broadens a permission.',
+  'No root silently mutates another root’s canonical state: an action that changes state is declared by the root that owns it.',
 ] as const;
 
 /** How staff records reach a client. Applies to every client-safe projection. */
@@ -341,6 +345,7 @@ export function validateOfficeRootContracts(c: OfficeRootContracts, ia: OfficeIn
       if (r.stance === 'PROJECTION' && a.kind !== 'ROUTE') v.push(`root ${r.root_id}: action ${a.action_id} is ${a.kind} — a projection root only routes`);
       if (r.stance === 'OVERSIGHT' && a.kind !== 'REVIEW' && a.kind !== 'ROUTE') v.push(`root ${r.root_id}: action ${a.action_id} is ${a.kind} on an oversight root`);
       if (a.kind === 'EXECUTE' && projectionRoots.concat(oversightRoots).some((p) => under(a.owner_node, p))) v.push(`root ${r.root_id}: action ${a.action_id} executes inside a projection / oversight root`);
+      if ((a.kind === 'EXECUTE' || a.kind === 'ADMINISTER') && !under(a.owner_node, r.root_id)) v.push(`root ${r.root_id}: action ${a.action_id} changes state owned by ${a.owner_node} (another root)`);
     }
     for (const b of r.belongs_elsewhere) if (!node(b.belongs_in)) v.push(`root ${r.root_id}: belongs_elsewhere target ${b.belongs_in} not in the IA`);
     for (const reg of r.regions) {
@@ -409,7 +414,7 @@ export function validateOfficeRootContracts(c: OfficeRootContracts, ia: OfficeIn
   for (const rp of c.responsive) {
     const root = c.roots.find((r) => r.root_id === rp.root_id);
     if (!root) { v.push(`responsive ${rp.root_id}: no root contract`); continue; }
-    const known = new Set([...root.regions.map((x) => x.region_id), ...root.actions.map((x) => x.action_id), ...iaChildren(ia, rp.root_id).map((n: IaNode) => n.node_id)]);
+    const known = new Set([...root.regions.map((x) => x.region_id), ...root.actions.map((x) => x.action_id), ...iaChildren(ia, rp.root_id).map((n: IaNode) => n.node_id), ...(root.stance === 'PRODUCTION' ? LANE_SHELL_SECTIONS.map(laneShellRef) : [])]);
     for (const vp of CONTRACT_VIEWPORTS) {
       if (!rp.order[vp]?.length) v.push(`responsive ${rp.root_id}: ${vp} empty`);
       for (const id of rp.order[vp] ?? []) if (!known.has(id)) v.push(`responsive ${rp.root_id}: ${vp} names unknown ${id}`);

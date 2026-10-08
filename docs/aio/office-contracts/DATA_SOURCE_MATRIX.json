@@ -1,0 +1,2708 @@
+{
+  "id": "AIO_DATA_SOURCE_MATRIX",
+  "sprint": "P0.AIO.OFFICE-IA.FOUNDER-HOME-WORK-REPORTS-MORE.AUTHORITY-CONTRACTS1",
+  "generated_by": "scripts/studioos/aio-office-contracts-export.ts",
+  "source": [
+    "shared/studioos-experience-brain/office-root-contracts.ts",
+    "shared/studioos-experience-brain/projects/aio/office-contracts.ts",
+    "shared/studioos-experience-brain/projects/aio/office-ia.ts"
+  ],
+  "audit": {
+    "repo": "yoteenz/fsbw · all-in-one-enterprises",
+    "sha": "3c060ac02a6660e0c821541d0826ff1c41d289b8",
+    "mode": "READ-ONLY"
+  },
+  "constraints": {
+    "contract_only": true,
+    "visual_redesign": false,
+    "images_generated": 0,
+    "visual_authorities_created": false,
+    "live_nav_changed": false,
+    "routes_changed": false,
+    "pages_built": false,
+    "supabase_schema_changed": false,
+    "auth_changed": false,
+    "client_lifecycle_changed": false,
+    "metrics_invented": false,
+    "records_invented": false,
+    "deployed": false
+  },
+  "columns": [
+    "DATA SOURCE",
+    "STATUS",
+    "WRITE OWNER",
+    "READERS",
+    "ACTOR VISIBILITY",
+    "MISSING CONTRACTS",
+    "MISSING TABLES / SERVICES",
+    "MISSING ROUTES"
+  ],
+  "rows": [
+    {
+      "subject_id": "AIO_OFFICE.HOME.NEEDS_ATTENTION",
+      "root": "AIO_OFFICE.HOME",
+      "visibility": {
+        "FOUNDER": "FULL",
+        "STAFF": "FULL",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "data_source": "store.officeWorkItems → collectOfficeAttentionCandidates work:* · store.workflowInstances (waiting_on_customer · waiting_external · blocked · ready_for_review) · store.iftaQuarters → staffBucket NEEDS_REVIEW · AWAITING_CLIENT · Quote status sent · viewed; ServiceRequest billingStatus awaiting_quote_acceptance · ClientLifecycleState INVITED · CLIENT_CONFIRMATION_REQUIRED · store.documents status requested · rejected · expired · store.documents status uploaded · under_review · MigrationFileQueueState FAILED · UNSUPPORTED · DUPLICATE; MigrationBatchState needs_attention · failed · none — no compliance case / exception model · FreightException (open · acknowledged); Supabase aio_freight_exceptions (autopilot) · BrokerageIssue · coverage needs_coverage · BrokerageInfoRequest · BookkeepingPeriod.reconciliationStatus (seed only, no writer) · store.insurancePolicies.expirationDate · Deadline (registration_renewal · permit_expiration · document_expiration …) · DriverCredential.expirationDate · TruckDispatchProfile maintenanceHold · outOfService; MaintenanceAttentionSeverity · RoadReadyItem action_needed · needs_review; profile mode attention_required · CrmFollowUp.scheduledFor (≤ now + 24h) · OfficeWorkItem queue crm_follow_up · CrmLead status new · CrmOpportunity status open · expectedCloseDate · BillingInvoice past_due · PaymentRecord failed · ServiceRequest billingStatus payment_failed · none — no billing profile or payment-method record in source · store.commConversations waiting_on_staff / responsibility staff · store.messages from customer, unread",
+      "backing": "DEMO_STORE",
+      "state": "PARTIAL",
+      "write_owner": "each owning lane / INTAKE / MORE entry (HOME writes nothing)",
+      "readers": [
+        "AIO_OFFICE.HOME.NEEDS_ATTENTION"
+      ],
+      "missing_contracts": [
+        "attention candidates for IFTA, migration, freight / brokerage exceptions, deadlines, credentials, maintenance, Road Ready, reconciliation, failed payments"
+      ],
+      "missing_tables_services": [
+        "compliance case model"
+      ],
+      "missing_routes": [],
+      "evidence": [
+        "all-in-one-enterprises/src/office-core/officeAttentionEngine.ts:82-104",
+        "all-in-one-enterprises/src/office-core/officeWorkTypes.ts:111-135",
+        "all-in-one-enterprises/src/office-core/officeAttentionEngine.ts:199-222",
+        "all-in-one-enterprises/src/workflow/workflowTypes.ts:30-41",
+        "all-in-one-enterprises/src/ifta/iftaDerive.ts:515-528",
+        "all-in-one-enterprises/src/billing/billingTypes.ts:16-25"
+      ]
+    },
+    {
+      "subject_id": "AIO_OFFICE.HOME.DEADLINES",
+      "root": "AIO_OFFICE.HOME",
+      "visibility": {
+        "FOUNDER": "FULL",
+        "STAFF": "FULL",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "data_source": "store.deadlines (DeadlineType · DeadlineSource · severity) · store.renewals expirationDate · RenewalStatus (13) · IftaQuarterCase.dueDate · InsurancePolicy.expirationDate · DriverCredential.expirationDate · vault documents related to a vehicle with expiresAt (no vehicle record holds a registration expiry) · ServiceRequest.targetDate · BookkeepingCycle.dueDate (seed only) · RoadReadyItem.expiresAt → syncExpirationDeadlines · CrmFollowUp.scheduledFor",
+      "backing": "DEMO_STORE",
+      "state": "PARTIAL",
+      "write_owner": "Deadline writers (vault / Road Ready sync), renewals, each lane",
+      "readers": [
+        "AIO_OFFICE.HOME.DEADLINES"
+      ],
+      "missing_contracts": [
+        "read-time due state (stored severity is stale)",
+        "IFTA / credentials / request target dates / bookkeeping cycles into one deadline feed"
+      ],
+      "missing_tables_services": [
+        "aio_deadlines unqueried; no renewals table"
+      ],
+      "missing_routes": [],
+      "evidence": [
+        "all-in-one-enterprises/src/demo/demoTypes.ts:408-426",
+        "all-in-one-enterprises/src/calendar/calendarService.ts:19-27",
+        "all-in-one-enterprises/src/office/pages/OperationsPages.tsx:47-113",
+        "all-in-one-enterprises/src/renewals/renewalTypes.ts:18-53",
+        "all-in-one-enterprises/src/office/pages/OfficeRenewalsPage.tsx:17-22",
+        "all-in-one-enterprises/src/ifta/iftaTypes.ts:150"
+      ]
+    },
+    {
+      "subject_id": "AIO_OFFICE.HOME.BLOCKERS",
+      "root": "AIO_OFFICE.HOME",
+      "visibility": {
+        "FOUNDER": "FULL",
+        "STAFF": "FULL",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "data_source": "OfficeWorkItem.waitingOn ≠ none · status waiting_* · WorkflowStepInstance waitingOn · blockedReason · staffBucket BLOCKED · AWAITING_CLIENT · RequestStatus information_needed · documents_needed · awaiting_agency · FreightException · MigrationExceptionCode · InsuranceIssue · FactoringIssue (customerActionRequired) · MaintenanceTicket on_hold · awaiting_parts · disputed",
+      "backing": "DEMO_STORE",
+      "state": "PARTIAL",
+      "write_owner": "each owning lane",
+      "readers": [
+        "AIO_OFFICE.HOME.BLOCKERS"
+      ],
+      "missing_contracts": [
+        "blocker-group mapping implemented over existing literals (AIO_HOME_BLOCKER_GROUPS)"
+      ],
+      "missing_tables_services": [],
+      "missing_routes": [],
+      "evidence": [
+        "all-in-one-enterprises/src/office-core/officeWorkTypes.ts:29-50",
+        "all-in-one-enterprises/src/workflow/workflowTypes.ts:202-220",
+        "all-in-one-enterprises/src/ifta/iftaDerive.ts:515-528",
+        "all-in-one-enterprises/src/demo/demoTypes.ts:366-376",
+        "all-in-one-enterprises/src/freight/autopilot/freightExceptionTypes.ts:1-36",
+        "all-in-one-enterprises/src/client-migration/migrationPipeline/types.ts:16-23"
+      ]
+    },
+    {
+      "subject_id": "AIO_OFFICE.HOME.WORK_ACROSS_AIO",
+      "root": "AIO_OFFICE.HOME",
+      "visibility": {
+        "FOUNDER": "FULL",
+        "STAFF": "FULL",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "data_source": "DivisionQueuePage division=permitting · IftaStaffQueuePage (queue health) · Deadline Center · renewals · no staff screen · DispatchCommandCenterPage · BrokerageCommandCenterPage · InsuranceCommandCenterPage · FactoringCommandCenterPage · BookkeepingCommandCenterPage (read-only dashboards) · DriverLinkOfficeOverviewPage (read-only) · FleetCareOfficeOverviewPage (read-only) · OfficeRoadReadyQueuePage",
+      "backing": "DEMO_STORE",
+      "state": "PARTIAL",
+      "write_owner": "each WORK lane",
+      "readers": [
+        "AIO_OFFICE.HOME.WORK_ACROSS_AIO"
+      ],
+      "missing_contracts": [
+        "a per-lane summary read model"
+      ],
+      "missing_tables_services": [],
+      "missing_routes": [
+        "/office/work/:lane"
+      ],
+      "evidence": [
+        "all-in-one-enterprises/src/demo/demoTypes.ts:378-403",
+        "all-in-one-enterprises/src/data/repositories/supabaseRepositories.ts:247-360",
+        "all-in-one-enterprises/src/ifta/iftaTypes.ts:143-174",
+        "all-in-one-enterprises/src/demo/demoTypes.ts:408-426",
+        "all-in-one-enterprises/src/renewals/renewalTypes.ts:33-53",
+        "all-in-one-enterprises/src/calendar/calendarTypes.ts:37-58"
+      ]
+    },
+    {
+      "subject_id": "AIO_OFFICE.HOME.CLIENTS_IN_MOTION",
+      "root": "AIO_OFFICE.HOME",
+      "visibility": {
+        "FOUNDER": "FULL",
+        "STAFF": "FULL",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "data_source": "ClientLifecycleState · isCountedActiveClient (demo); aio_organizations.client_lifecycle (Supabase) · getClient360View (waiting-on counts, active services heuristic, upcoming deadlines, billing status)",
+      "backing": "DEMO_STORE",
+      "state": "PARTIAL",
+      "write_owner": "INTAKE (lifecycle) · each lane (activity, deadlines)",
+      "readers": [
+        "AIO_OFFICE.HOME.CLIENTS_IN_MOTION"
+      ],
+      "missing_contracts": [
+        "one founder-segment vocabulary",
+        "canonical active-services resolver"
+      ],
+      "missing_tables_services": [],
+      "missing_routes": [],
+      "evidence": [
+        "all-in-one-enterprises/src/client-migration/types.ts:3-13",
+        "all-in-one-enterprises/src/client-migration/activeClientRule.ts:5-14",
+        "all-in-one-enterprises/src/office-core/client360Service.ts:42-43",
+        "all-in-one-enterprises/src/office-core/client360Service.ts:52-71",
+        "all-in-one-enterprises/src/office-core/client360Service.ts:123-129"
+      ]
+    },
+    {
+      "subject_id": "AIO_OFFICE.HOME.RECENT_ACTIVITY",
+      "root": "AIO_OFFICE.HOME",
+      "visibility": {
+        "FOUNDER": "FULL",
+        "STAFF": "FULL",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "data_source": "store.activity (ActivityEvent, ~98 ActivityKind values; visibility internal | customer) · ClientLifecycleEvent → Supabase aio_client_lifecycle_events (insert only, never read) · IftaQuarterCase.audit · Load.timeline (demo) · Supabase aio_load_status_history",
+      "backing": "PRODUCTION",
+      "state": "PARTIAL",
+      "write_owner": "each owning domain via logActivity / emitActivity",
+      "readers": [
+        "AIO_OFFICE.HOME.RECENT_ACTIVITY"
+      ],
+      "missing_contracts": [
+        "staff feed including customer-visible events"
+      ],
+      "missing_tables_services": [
+        "aio_activity_events / aio_client_lifecycle_events are insert-only"
+      ],
+      "missing_routes": [],
+      "evidence": [
+        "all-in-one-enterprises/src/demo/demoTypes.ts:472-482",
+        "all-in-one-enterprises/src/office/pages/OfficeWorkPages.tsx:424-436",
+        "all-in-one-enterprises/src/client-migration/types.ts:121-131",
+        "all-in-one-enterprises/src/client-migration/repositories/supabaseMigrationRepository.ts:196",
+        "all-in-one-enterprises/src/ifta/iftaTypes.ts:134-141",
+        "all-in-one-enterprises/src/freight/freightStatusHistory.ts:14"
+      ]
+    },
+    {
+      "subject_id": "AIO_OFFICE.HOME.QUICK_ACTIONS",
+      "root": "AIO_OFFICE.HOME",
+      "visibility": {
+        "FOUNDER": "FULL",
+        "STAFF": "FULL",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "data_source": "AIOOfficeLayout quick-create menu + command palette",
+      "backing": "DEMO_STORE",
+      "state": "PARTIAL",
+      "write_owner": "none (routes only)",
+      "readers": [
+        "AIO_OFFICE.HOME.QUICK_ACTIONS"
+      ],
+      "missing_contracts": [
+        "permission checks on quick actions"
+      ],
+      "missing_tables_services": [],
+      "missing_routes": [
+        "create case",
+        "staff document upload"
+      ],
+      "evidence": [
+        "all-in-one-enterprises/src/office/layouts/AIOOfficeLayout.tsx:242-252",
+        "all-in-one-enterprises/src/office/layouts/AIOOfficeLayout.tsx:263-277"
+      ]
+    },
+    {
+      "subject_id": "AIO_OFFICE.HOME.BUSINESS_PULSE",
+      "root": "AIO_OFFICE.HOME",
+      "visibility": {
+        "FOUNDER": "FULL",
+        "STAFF": "BY_GRANT",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "data_source": "getExecutiveSnapshot (active customers · active requests · open opportunities · active loads · collected revenue · outstanding)",
+      "backing": "DEMO_STORE",
+      "state": "PARTIAL",
+      "write_owner": "REPORTS metric sources",
+      "readers": [
+        "AIO_OFFICE.HOME.BUSINESS_PULSE"
+      ],
+      "missing_contracts": [
+        "production-backed metrics"
+      ],
+      "missing_tables_services": [],
+      "missing_routes": [],
+      "evidence": [
+        "all-in-one-enterprises/src/management/managementQueryLayer.ts:90-108",
+        "all-in-one-enterprises/src/office/pages/OfficeDashboardPage.tsx:34"
+      ]
+    },
+    {
+      "subject_id": "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES",
+      "root": "AIO_OFFICE.WORK",
+      "visibility": {
+        "FOUNDER": "FULL",
+        "STAFF": "FULL",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "data_source": "ServiceRequest (store.requests) · Supabase aio_service_requests (client create path only)",
+      "backing": "DEMO_STORE",
+      "state": "PARTIAL",
+      "write_owner": "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES",
+      "readers": [
+        "AIO_OFFICE.HOME.WORK_ACROSS_AIO",
+        "AIO_OFFICE.REPORTS",
+        "AIO_OFFICE.WORK.VEHICLES_FLEET",
+        "AIO_OFFICE.WORK.COMPLIANCE",
+        "AIO_OFFICE.MORE.DOCUMENTS_VAULT",
+        "AIO_OFFICE.MORE.BILLING"
+      ],
+      "missing_contracts": [
+        "G-REQUEST-STATUS-CAST"
+      ],
+      "missing_tables_services": [
+        "G-PERMITTING-CASE-MODEL"
+      ],
+      "missing_routes": [],
+      "evidence": [
+        "all-in-one-enterprises/src/demo/demoTypes.ts:378-403",
+        "all-in-one-enterprises/src/data/repositories/supabaseRepositories.ts:247-360"
+      ]
+    },
+    {
+      "subject_id": "AIO_OFFICE.WORK.FILING_FUEL_TAXES",
+      "root": "AIO_OFFICE.WORK",
+      "visibility": {
+        "FOUNDER": "FULL",
+        "STAFF": "FULL",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "data_source": "IftaQuarterCase (store.iftaQuarters)",
+      "backing": "DEMO_STORE",
+      "state": "PARTIAL",
+      "write_owner": "AIO_OFFICE.WORK.FILING_FUEL_TAXES",
+      "readers": [
+        "AIO_OFFICE.HOME.WORK_ACROSS_AIO",
+        "AIO_OFFICE.REPORTS",
+        "AIO_OFFICE.WORK.VEHICLES_FLEET",
+        "AIO_OFFICE.WORK.DISPATCH",
+        "AIO_OFFICE.WORK.BOOKKEEPING",
+        "AIO_OFFICE.WORK.COMPLIANCE"
+      ],
+      "missing_contracts": [
+        "G-IFTA-VEHICLE-COPIES",
+        "P-IFTA-CLIENT-AUDIT-ACTIONS"
+      ],
+      "missing_tables_services": [
+        "G-IFTA-NO-TABLES",
+        "G-IFTA-NOTES-HARDCODED"
+      ],
+      "missing_routes": [
+        "G-FILING-HISTORY"
+      ],
+      "evidence": [
+        "all-in-one-enterprises/src/ifta/iftaTypes.ts:143-174"
+      ]
+    },
+    {
+      "subject_id": "AIO_OFFICE.WORK.COMPLIANCE",
+      "root": "AIO_OFFICE.WORK",
+      "visibility": {
+        "FOUNDER": "FULL",
+        "STAFF": "FULL",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "data_source": "Deadline · RenewalRecord · CalendarEvent",
+      "backing": "DEMO_STORE",
+      "state": "PARTIAL",
+      "write_owner": "AIO_OFFICE.WORK.COMPLIANCE",
+      "readers": [
+        "AIO_OFFICE.HOME.WORK_ACROSS_AIO",
+        "AIO_OFFICE.REPORTS",
+        "AIO_OFFICE.WORK.VEHICLES_FLEET",
+        "AIO_OFFICE.WORK.DRIVERS_CARRIERS.CREDENTIALS",
+        "AIO_OFFICE.WORK.INSURANCE",
+        "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES.OPERATING_AUTHORITIES"
+      ],
+      "missing_contracts": [
+        "G-DEADLINE-SEVERITY-STALE"
+      ],
+      "missing_tables_services": [
+        "G-COMPLIANCE-CASE-MODEL",
+        "G-DEADLINES-UNQUERIED"
+      ],
+      "missing_routes": [],
+      "evidence": [
+        "all-in-one-enterprises/src/demo/demoTypes.ts:408-426",
+        "all-in-one-enterprises/src/renewals/renewalTypes.ts:33-53",
+        "all-in-one-enterprises/src/calendar/calendarTypes.ts:37-58"
+      ]
+    },
+    {
+      "subject_id": "AIO_OFFICE.WORK.VEHICLES_FLEET",
+      "root": "AIO_OFFICE.WORK",
+      "visibility": {
+        "FOUNDER": "FULL",
+        "STAFF": "FULL",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "data_source": "PowerUnit / Trailer (store.powerUnits / trailers) — the record most references point to · Supabase aio_fleet_vehicles (written by migration approve only, read by nothing) · TruckDispatchProfile (operational overlay keyed by powerUnitId) · IftaVehicle (embedded copy inside each IFTA quarter)",
+      "backing": "NONE",
+      "state": "NOT_IMPLEMENTED",
+      "write_owner": "AIO_OFFICE.WORK.VEHICLES_FLEET",
+      "readers": [
+        "AIO_OFFICE.HOME.WORK_ACROSS_AIO",
+        "AIO_OFFICE.REPORTS",
+        "AIO_OFFICE.WORK.DISPATCH.TRUCKS",
+        "AIO_OFFICE.WORK.COMPLIANCE",
+        "AIO_OFFICE.WORK.FILING_FUEL_TAXES.IFTA",
+        "AIO_OFFICE.WORK.INSURANCE.POLICIES"
+      ],
+      "missing_contracts": [
+        "G-VEHICLES-THREE-STORES",
+        "G-VEHICLES-NO-REGISTRATION-FIELD",
+        "G-VEHICLES-STALE-TABLE-NAME"
+      ],
+      "missing_tables_services": [],
+      "missing_routes": [
+        "G-VEHICLES-NO-STAFF-SCREEN"
+      ],
+      "evidence": [
+        "all-in-one-enterprises/src/road-ready/roadReadyTypes.ts:113-139",
+        "all-in-one-enterprises/supabase/migrations/20260817190000_aio_fleetcare_network.sql:86-101",
+        "all-in-one-enterprises/src/dispatch/dispatchTypes.ts:130-154",
+        "all-in-one-enterprises/src/ifta/iftaTypes.ts:57-65"
+      ]
+    },
+    {
+      "subject_id": "AIO_OFFICE.WORK.DISPATCH",
+      "root": "AIO_OFFICE.WORK",
+      "visibility": {
+        "FOUNDER": "FULL",
+        "STAFF": "FULL",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "data_source": "Load (demo store; Supabase aio_dispatch_loads for freight / autopilot / shipper) · DispatchEnrollment · TruckDispatchProfile · FreightException (also Supabase aio_freight_exceptions)",
+      "backing": "DEMO_STORE",
+      "state": "PARTIAL",
+      "write_owner": "AIO_OFFICE.WORK.DISPATCH",
+      "readers": [
+        "AIO_OFFICE.HOME.WORK_ACROSS_AIO",
+        "AIO_OFFICE.REPORTS",
+        "AIO_OFFICE.WORK.VEHICLES_FLEET",
+        "AIO_OFFICE.WORK.DRIVERS_CARRIERS",
+        "AIO_OFFICE.WORK.BROKERAGE",
+        "AIO_OFFICE.WORK.FACTORING"
+      ],
+      "missing_contracts": [
+        "G-OFFICE-DEMO-ONLY"
+      ],
+      "missing_tables_services": [],
+      "missing_routes": [
+        "G-DISPATCH-MY-LOADS",
+        "G-DISPATCH-ENROLLMENT-UI"
+      ],
+      "evidence": [
+        "all-in-one-enterprises/src/dispatch/dispatchTypes.ts:239-319",
+        "all-in-one-enterprises/src/dispatch/dispatchTypes.ts:115-128",
+        "all-in-one-enterprises/src/dispatch/dispatchTypes.ts:130-154",
+        "all-in-one-enterprises/src/freight/autopilot/freightExceptionTypes.ts:24-36"
+      ]
+    },
+    {
+      "subject_id": "AIO_OFFICE.WORK.BROKERAGE",
+      "root": "AIO_OFFICE.WORK",
+      "visibility": {
+        "FOUNDER": "FULL",
+        "STAFF": "FULL",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "data_source": "ShipmentRequest · BrokerageFreightQuote · CarrierOffer · BrokerageLoadFinancials (staff only; Supabase view aio_brokerage_load_financials_internal) · CarrierPayable · BrokerageShipperInvoice",
+      "backing": "DEMO_STORE",
+      "state": "PARTIAL",
+      "write_owner": "AIO_OFFICE.WORK.BROKERAGE",
+      "readers": [
+        "AIO_OFFICE.HOME.WORK_ACROSS_AIO",
+        "AIO_OFFICE.REPORTS",
+        "AIO_OFFICE.WORK.DISPATCH.LOADS",
+        "AIO_OFFICE.WORK.DRIVERS_CARRIERS",
+        "AIO_OFFICE.WORK.FACTORING",
+        "AIO_OFFICE.WORK.BOOKKEEPING"
+      ],
+      "missing_contracts": [
+        "G-BROKERAGE-PAUSED",
+        "G-OFFICE-DEMO-ONLY",
+        "P-SHIPPER-VIEW-INTERNAL-NOTES",
+        "P-SHIPPER-READS-AUDIT"
+      ],
+      "missing_tables_services": [],
+      "missing_routes": [],
+      "evidence": [
+        "all-in-one-enterprises/src/brokerage/brokerageTypes.ts:68-289",
+        "all-in-one-enterprises/src/brokerage/brokerageTypes.ts:326-338",
+        "all-in-one-enterprises/src/brokerage/brokerageTypes.ts:371-423"
+      ]
+    },
+    {
+      "subject_id": "AIO_OFFICE.WORK.INSURANCE",
+      "root": "AIO_OFFICE.WORK",
+      "visibility": {
+        "FOUNDER": "FULL",
+        "STAFF": "FULL",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "data_source": "InsuranceRequest · InsuranceQuoteRecord · InsurancePolicy · InsuranceCertificate · InsurancePolicyVehicle",
+      "backing": "DEMO_STORE",
+      "state": "PARTIAL",
+      "write_owner": "AIO_OFFICE.WORK.INSURANCE",
+      "readers": [
+        "AIO_OFFICE.HOME.WORK_ACROSS_AIO",
+        "AIO_OFFICE.REPORTS",
+        "AIO_OFFICE.WORK.VEHICLES_FLEET",
+        "AIO_OFFICE.WORK.COMPLIANCE",
+        "AIO_OFFICE.MORE.BILLING"
+      ],
+      "missing_contracts": [
+        "G-INSURANCE-EXPIRED-DROPPED"
+      ],
+      "missing_tables_services": [
+        "G-INSURANCE-TABLES-UNQUERIED"
+      ],
+      "missing_routes": [],
+      "evidence": [
+        "all-in-one-enterprises/src/insurance/insuranceTypes.ts:57-251"
+      ]
+    },
+    {
+      "subject_id": "AIO_OFFICE.WORK.FACTORING",
+      "root": "AIO_OFFICE.WORK",
+      "visibility": {
+        "FOUNDER": "FULL",
+        "STAFF": "FULL",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "data_source": "FactoringProfile · FactoringSubmission · FactoringProvider · FreightInvoice · Second model used by portal components + mocks",
+      "backing": "DEMO_STORE",
+      "state": "PARTIAL",
+      "write_owner": "AIO_OFFICE.WORK.FACTORING",
+      "readers": [
+        "AIO_OFFICE.HOME.WORK_ACROSS_AIO",
+        "AIO_OFFICE.REPORTS",
+        "AIO_OFFICE.WORK.DISPATCH",
+        "AIO_OFFICE.WORK.BROKERAGE",
+        "AIO_OFFICE.WORK.BOOKKEEPING",
+        "AIO_OFFICE.MORE.BILLING"
+      ],
+      "missing_contracts": [
+        "G-FACTORING-TWO-MODELS"
+      ],
+      "missing_tables_services": [
+        "G-FACTORING-NO-PROVIDER"
+      ],
+      "missing_routes": [],
+      "evidence": [
+        "all-in-one-enterprises/src/factoring/factoringTypes.ts:71-193",
+        "all-in-one-enterprises/src/services/factoring/factoringTypes.ts"
+      ]
+    },
+    {
+      "subject_id": "AIO_OFFICE.WORK.BOOKKEEPING",
+      "root": "AIO_OFFICE.WORK",
+      "visibility": {
+        "FOUNDER": "FULL",
+        "STAFF": "FULL",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "data_source": "BookkeepingSubscription · BookkeepingCycle · BookkeepingReport · BooksRescueEngagement · Autopilot periods (reconciliationStatus) · exceptions",
+      "backing": "DEMO_STORE",
+      "state": "PARTIAL",
+      "write_owner": "AIO_OFFICE.WORK.BOOKKEEPING",
+      "readers": [
+        "AIO_OFFICE.HOME.WORK_ACROSS_AIO",
+        "AIO_OFFICE.REPORTS",
+        "AIO_OFFICE.WORK.FACTORING",
+        "AIO_OFFICE.WORK.BROKERAGE",
+        "AIO_OFFICE.WORK.FILING_FUEL_TAXES.IFTA",
+        "AIO_OFFICE.MORE.BILLING"
+      ],
+      "missing_contracts": [
+        "P-BOOKKEEPING-DRAFT-REPORTS"
+      ],
+      "missing_tables_services": [
+        "G-BOOKKEEPING-SEED-ONLY"
+      ],
+      "missing_routes": [],
+      "evidence": [
+        "all-in-one-enterprises/src/bookkeeping/bookkeepingTypes.ts:94-144",
+        "all-in-one-enterprises/src/bookkeeping/autopilot/autopilotTypes.ts:36-166"
+      ]
+    },
+    {
+      "subject_id": "AIO_OFFICE.WORK.DRIVERS_CARRIERS",
+      "root": "AIO_OFFICE.WORK",
+      "visibility": {
+        "FOUNDER": "FULL",
+        "STAFF": "FULL",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "data_source": "DriverProfile · JobOpportunity · DriverApplication · DriverCredential · DriverJobMatch",
+      "backing": "DEMO_STORE",
+      "state": "PARTIAL",
+      "write_owner": "AIO_OFFICE.WORK.DRIVERS_CARRIERS",
+      "readers": [
+        "AIO_OFFICE.HOME.WORK_ACROSS_AIO",
+        "AIO_OFFICE.REPORTS",
+        "AIO_OFFICE.WORK.VEHICLES_FLEET",
+        "AIO_OFFICE.WORK.DISPATCH",
+        "AIO_OFFICE.WORK.COMPLIANCE",
+        "AIO_OFFICE.WORK.BROKERAGE.CARRIER_OFFERS"
+      ],
+      "missing_contracts": [],
+      "missing_tables_services": [],
+      "missing_routes": [
+        "G-DRIVERS-READ-ONLY"
+      ],
+      "evidence": [
+        "all-in-one-enterprises/src/driverlink/driverlinkTypes.ts:70-163"
+      ]
+    },
+    {
+      "subject_id": "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE",
+      "root": "AIO_OFFICE.WORK",
+      "visibility": {
+        "FOUNDER": "FULL",
+        "STAFF": "FULL",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "data_source": "MaintenanceTicket · ReferralTransaction · ServiceProvider · RepairRecord",
+      "backing": "DEMO_STORE",
+      "state": "PARTIAL",
+      "write_owner": "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE",
+      "readers": [
+        "AIO_OFFICE.HOME.WORK_ACROSS_AIO",
+        "AIO_OFFICE.REPORTS",
+        "AIO_OFFICE.WORK.VEHICLES_FLEET",
+        "AIO_OFFICE.MORE.MECHANIC_NETWORK",
+        "AIO_OFFICE.MORE.BILLING"
+      ],
+      "missing_contracts": [
+        "P-FLEETCARE-TICKET-NO-ORG-CHECK",
+        "P-FLEETCARE-REFERRAL-FEES-CLIENT"
+      ],
+      "missing_tables_services": [],
+      "missing_routes": [
+        "G-FLEETCARE-READ-ONLY"
+      ],
+      "evidence": [
+        "all-in-one-enterprises/src/fleetcare/fleetcareTypes.ts:67-264"
+      ]
+    },
+    {
+      "subject_id": "AIO_OFFICE.WORK.ROAD_READY",
+      "root": "AIO_OFFICE.WORK",
+      "visibility": {
+        "FOUNDER": "FULL",
+        "STAFF": "FULL",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "data_source": "RoadReadyProfile · RoadReadyItem · Roadmaps / intake sessions (Supabase, queried)",
+      "backing": "DEMO_STORE",
+      "state": "PARTIAL",
+      "write_owner": "AIO_OFFICE.WORK.ROAD_READY",
+      "readers": [
+        "AIO_OFFICE.HOME.WORK_ACROSS_AIO",
+        "AIO_OFFICE.REPORTS",
+        "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES",
+        "AIO_OFFICE.WORK.COMPLIANCE",
+        "AIO_OFFICE.WORK.INSURANCE",
+        "AIO_OFFICE.WORK.VEHICLES_FLEET"
+      ],
+      "missing_contracts": [
+        "G-ROAD-READY-NO-ENGAGEMENT-STATE"
+      ],
+      "missing_tables_services": [
+        "G-ROAD-READY-TABLES-UNQUERIED"
+      ],
+      "missing_routes": [],
+      "evidence": [
+        "all-in-one-enterprises/src/road-ready/roadReadyTypes.ts:151-193",
+        "all-in-one-enterprises/src/data/repositories/supabaseRepositories.ts:34-142"
+      ]
+    },
+    {
+      "subject_id": "AIO_OFFICE.REPORTS.OVERVIEW",
+      "root": "AIO_OFFICE.REPORTS",
+      "visibility": {
+        "FOUNDER": "FULL",
+        "STAFF": "BY_GRANT",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "data_source": "getExecutiveSnapshot",
+      "backing": "DEMO_STORE",
+      "state": "PARTIAL",
+      "write_owner": "none — REPORTS reads only",
+      "readers": [
+        "AIO_OFFICE.REPORTS.OVERVIEW",
+        "AIO_OFFICE.HOME.BUSINESS_PULSE"
+      ],
+      "missing_contracts": [
+        "Migration throughput over time",
+        "Client growth"
+      ],
+      "missing_tables_services": [
+        "production-backed source"
+      ],
+      "missing_routes": [],
+      "evidence": [
+        "all-in-one-enterprises/src/management/managementQueryLayer.ts:90-108"
+      ]
+    },
+    {
+      "subject_id": "AIO_OFFICE.REPORTS.CLIENTS",
+      "root": "AIO_OFFICE.REPORTS",
+      "visibility": {
+        "FOUNDER": "FULL",
+        "STAFF": "BY_GRANT",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "data_source": "getCustomerSummary",
+      "backing": "DEMO_STORE",
+      "state": "PARTIAL",
+      "write_owner": "none — REPORTS reads only",
+      "readers": [
+        "AIO_OFFICE.REPORTS.CLIENTS",
+        "AIO_OFFICE.HOME.BUSINESS_PULSE"
+      ],
+      "missing_contracts": [
+        "New clients (period)",
+        "Service mix per client"
+      ],
+      "missing_tables_services": [
+        "production-backed source"
+      ],
+      "missing_routes": [],
+      "evidence": [
+        "all-in-one-enterprises/src/management/managementQueryLayer.ts:311-327"
+      ]
+    },
+    {
+      "subject_id": "AIO_OFFICE.REPORTS.SERVICES",
+      "root": "AIO_OFFICE.REPORTS",
+      "visibility": {
+        "FOUNDER": "FULL",
+        "STAFF": "BY_GRANT",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "data_source": "getServiceVolume · getWorkflowPerformance",
+      "backing": "DEMO_STORE",
+      "state": "PARTIAL",
+      "write_owner": "none — REPORTS reads only",
+      "readers": [
+        "AIO_OFFICE.REPORTS.SERVICES",
+        "AIO_OFFICE.HOME.BUSINESS_PULSE"
+      ],
+      "missing_contracts": [
+        "Service trends over time"
+      ],
+      "missing_tables_services": [
+        "production-backed source"
+      ],
+      "missing_routes": [],
+      "evidence": [
+        "all-in-one-enterprises/src/management/managementQueryLayer.ts:217-241"
+      ]
+    },
+    {
+      "subject_id": "AIO_OFFICE.REPORTS.FINANCIAL_REVENUE",
+      "root": "AIO_OFFICE.REPORTS",
+      "visibility": {
+        "FOUNDER": "FULL",
+        "STAFF": "BY_GRANT",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "data_source": "getFinancialSummary · getReceivablesAging",
+      "backing": "DEMO_STORE",
+      "state": "PARTIAL",
+      "write_owner": "none — REPORTS reads only",
+      "readers": [
+        "AIO_OFFICE.REPORTS.FINANCIAL_REVENUE",
+        "AIO_OFFICE.HOME.BUSINESS_PULSE"
+      ],
+      "missing_contracts": [
+        "Adjustments",
+        "Platform / revenue-share fees",
+        "Company profitability / margin"
+      ],
+      "missing_tables_services": [
+        "production-backed source"
+      ],
+      "missing_routes": [],
+      "evidence": [
+        "all-in-one-enterprises/src/management/managementFinancial.ts:39-142"
+      ]
+    },
+    {
+      "subject_id": "AIO_OFFICE.REPORTS.FILING_HISTORY",
+      "root": "AIO_OFFICE.REPORTS",
+      "visibility": {
+        "FOUNDER": "FULL",
+        "STAFF": "BY_GRANT",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "data_source": "none",
+      "backing": "NONE",
+      "state": "NOT_IMPLEMENTED",
+      "write_owner": "none — REPORTS reads only",
+      "readers": [
+        "AIO_OFFICE.REPORTS.FILING_HISTORY",
+        "AIO_OFFICE.HOME.BUSINESS_PULSE"
+      ],
+      "missing_contracts": [],
+      "missing_tables_services": [
+        "report surface"
+      ],
+      "missing_routes": [
+        "/office/reports/filing_history"
+      ],
+      "evidence": []
+    },
+    {
+      "subject_id": "AIO_OFFICE.REPORTS.COMPLIANCE",
+      "root": "AIO_OFFICE.REPORTS",
+      "visibility": {
+        "FOUNDER": "FULL",
+        "STAFF": "BY_GRANT",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "data_source": "getDeadlineWindows",
+      "backing": "DEMO_STORE",
+      "state": "PARTIAL",
+      "write_owner": "none — REPORTS reads only",
+      "readers": [
+        "AIO_OFFICE.REPORTS.COMPLIANCE",
+        "AIO_OFFICE.HOME.BUSINESS_PULSE"
+      ],
+      "missing_contracts": [
+        "Open / resolved compliance items",
+        "Corrective actions",
+        "Compliance trends"
+      ],
+      "missing_tables_services": [
+        "production-backed source"
+      ],
+      "missing_routes": [],
+      "evidence": [
+        "all-in-one-enterprises/src/management/managementQueryLayer.ts:268-297"
+      ]
+    },
+    {
+      "subject_id": "AIO_OFFICE.REPORTS.DISPATCH_BROKERAGE",
+      "root": "AIO_OFFICE.REPORTS",
+      "visibility": {
+        "FOUNDER": "FULL",
+        "STAFF": "BY_GRANT",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "data_source": "getDispatchSummary · getBrokerageEconomics · getFactoringSummary",
+      "backing": "DEMO_STORE",
+      "state": "PARTIAL",
+      "write_owner": "none — REPORTS reads only",
+      "readers": [
+        "AIO_OFFICE.REPORTS.DISPATCH_BROKERAGE",
+        "AIO_OFFICE.HOME.BUSINESS_PULSE"
+      ],
+      "missing_contracts": [],
+      "missing_tables_services": [
+        "production-backed source"
+      ],
+      "missing_routes": [],
+      "evidence": [
+        "all-in-one-enterprises/src/management/managementQueryLayer.ts:146-198"
+      ]
+    },
+    {
+      "subject_id": "AIO_OFFICE.REPORTS.BOOKKEEPING",
+      "root": "AIO_OFFICE.REPORTS",
+      "visibility": {
+        "FOUNDER": "FULL",
+        "STAFF": "BY_GRANT",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "data_source": "none",
+      "backing": "NONE",
+      "state": "NOT_IMPLEMENTED",
+      "write_owner": "none — REPORTS reads only",
+      "readers": [
+        "AIO_OFFICE.REPORTS.BOOKKEEPING",
+        "AIO_OFFICE.HOME.BUSINESS_PULSE"
+      ],
+      "missing_contracts": [
+        "Bookkeeping subscriptions",
+        "Cycles closed on time"
+      ],
+      "missing_tables_services": [
+        "report surface"
+      ],
+      "missing_routes": [
+        "/office/reports/bookkeeping"
+      ],
+      "evidence": []
+    },
+    {
+      "subject_id": "AIO_OFFICE.REPORTS.MIGRATION",
+      "root": "AIO_OFFICE.REPORTS",
+      "visibility": {
+        "FOUNDER": "FULL",
+        "STAFF": "BY_GRANT",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "data_source": "computeMigrationDashboardMetrics",
+      "backing": "DEMO_STORE",
+      "state": "PARTIAL",
+      "write_owner": "none — REPORTS reads only",
+      "readers": [
+        "AIO_OFFICE.REPORTS.MIGRATION",
+        "AIO_OFFICE.HOME.BUSINESS_PULSE"
+      ],
+      "missing_contracts": [
+        "Migration completion time"
+      ],
+      "missing_tables_services": [
+        "production-backed source"
+      ],
+      "missing_routes": [],
+      "evidence": [
+        "all-in-one-enterprises/src/vault/documentVaultMetrics.ts:53-89"
+      ]
+    },
+    {
+      "subject_id": "AIO_OFFICE.REPORTS.EXPORTS",
+      "root": "AIO_OFFICE.REPORTS",
+      "visibility": {
+        "FOUNDER": "FULL",
+        "STAFF": "BY_GRANT",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "data_source": "none",
+      "backing": "NONE",
+      "state": "NOT_IMPLEMENTED",
+      "write_owner": "none — REPORTS reads only",
+      "readers": [
+        "AIO_OFFICE.REPORTS.EXPORTS",
+        "AIO_OFFICE.HOME.BUSINESS_PULSE"
+      ],
+      "missing_contracts": [],
+      "missing_tables_services": [
+        "report surface"
+      ],
+      "missing_routes": [
+        "/office/reports/exports"
+      ],
+      "evidence": []
+    },
+    {
+      "subject_id": "AIO_OFFICE.MORE.CLIENTS",
+      "root": "AIO_OFFICE.MORE",
+      "visibility": {
+        "FOUNDER": "FULL",
+        "STAFF": "FULL",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "data_source": "client directory view",
+      "backing": "DEMO_STORE",
+      "state": "PARTIAL",
+      "write_owner": "AIO_OFFICE.MORE.CLIENTS",
+      "readers": [
+        "AIO_OFFICE.HOME",
+        "AIO_OFFICE.WORK"
+      ],
+      "missing_contracts": [],
+      "missing_tables_services": [],
+      "missing_routes": [],
+      "evidence": [
+        "all-in-one-enterprises/src/office/pages/ClientsListPage.tsx:14-85",
+        "all-in-one-enterprises/src/office-core/client360Service.ts:96-102"
+      ]
+    },
+    {
+      "subject_id": "AIO_OFFICE.MORE.DOCUMENTS_VAULT",
+      "root": "AIO_OFFICE.MORE",
+      "visibility": {
+        "FOUNDER": "FULL",
+        "STAFF": "FULL",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "data_source": "document records and their visibility",
+      "backing": "DEMO_STORE",
+      "state": "PARTIAL",
+      "write_owner": "AIO_OFFICE.MORE.DOCUMENTS_VAULT",
+      "readers": [
+        "AIO_OFFICE.HOME",
+        "AIO_OFFICE.WORK"
+      ],
+      "missing_contracts": [],
+      "missing_tables_services": [
+        "backend file storage not configured"
+      ],
+      "missing_routes": [
+        "staff upload"
+      ],
+      "evidence": [
+        "all-in-one-enterprises/src/vault/vaultTypes.ts:86-148",
+        "all-in-one-enterprises/src/vault/vaultStorage.ts:26-32"
+      ]
+    },
+    {
+      "subject_id": "AIO_OFFICE.MORE.GROWTH_CRM",
+      "root": "AIO_OFFICE.MORE",
+      "visibility": {
+        "FOUNDER": "FULL",
+        "STAFF": "BY_GRANT",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "data_source": "CRM state",
+      "backing": "DEMO_STORE",
+      "state": "PARTIAL",
+      "write_owner": "AIO_OFFICE.MORE.GROWTH_CRM",
+      "readers": [
+        "AIO_OFFICE.HOME",
+        "AIO_OFFICE.WORK"
+      ],
+      "missing_contracts": [],
+      "missing_tables_services": [
+        "aio_leads / aio_opportunities unqueried"
+      ],
+      "missing_routes": [
+        "referrals UI"
+      ],
+      "evidence": [
+        "all-in-one-enterprises/src/crm/crmTypes.ts:13-230",
+        "all-in-one-enterprises/src/office/pages/CrmPages.tsx:332-354"
+      ]
+    },
+    {
+      "subject_id": "AIO_OFFICE.MORE.BILLING",
+      "root": "AIO_OFFICE.MORE",
+      "visibility": {
+        "FOUNDER": "FULL",
+        "STAFF": "BY_GRANT",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "data_source": "invoice / payment / quote / credit operations",
+      "backing": "DEMO_STORE",
+      "state": "PARTIAL",
+      "write_owner": "AIO_OFFICE.MORE.BILLING",
+      "readers": [
+        "AIO_OFFICE.HOME",
+        "AIO_OFFICE.WORK"
+      ],
+      "missing_contracts": [],
+      "missing_tables_services": [
+        "aio_invoices / aio_quotes / aio_payments unqueried"
+      ],
+      "missing_routes": [],
+      "evidence": [
+        "all-in-one-enterprises/src/billing/billingTypes.ts:16-186",
+        "all-in-one-enterprises/src/office/pages/BillingPages.tsx:27-38"
+      ]
+    },
+    {
+      "subject_id": "AIO_OFFICE.MORE.TEAM_STAFF",
+      "root": "AIO_OFFICE.MORE",
+      "visibility": {
+        "FOUNDER": "FULL",
+        "STAFF": "FULL",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "data_source": "staff records, role and permission assignment (future)",
+      "backing": "DEMO_STORE",
+      "state": "PARTIAL",
+      "write_owner": "AIO_OFFICE.MORE.TEAM_STAFF",
+      "readers": [
+        "AIO_OFFICE.HOME",
+        "AIO_OFFICE.WORK"
+      ],
+      "missing_contracts": [],
+      "missing_tables_services": [
+        "aio_staff_profiles / aio_roles / aio_user_roles unused"
+      ],
+      "missing_routes": [
+        "role assignment"
+      ],
+      "evidence": [
+        "all-in-one-enterprises/src/office-core/officeContext.ts:74",
+        "all-in-one-enterprises/src/office-core/officeContext.ts:171-177"
+      ]
+    },
+    {
+      "subject_id": "AIO_OFFICE.MORE.SERVICE_CATALOG",
+      "root": "AIO_OFFICE.MORE",
+      "visibility": {
+        "FOUNDER": "FULL",
+        "STAFF": "FULL",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "data_source": "catalog and launch states",
+      "backing": "DEMO_STORE",
+      "state": "PARTIAL",
+      "write_owner": "AIO_OFFICE.MORE.SERVICE_CATALOG",
+      "readers": [
+        "AIO_OFFICE.HOME",
+        "AIO_OFFICE.WORK"
+      ],
+      "missing_contracts": [],
+      "missing_tables_services": [],
+      "missing_routes": [],
+      "evidence": [
+        "all-in-one-enterprises/src/services/catalog/serviceCatalogTypes.ts:14-103",
+        "all-in-one-enterprises/src/launch/serviceActivationLaunch.ts:8-224",
+        "all-in-one-enterprises/src/billing/servicePricingConfig.ts:4-5"
+      ]
+    },
+    {
+      "subject_id": "AIO_OFFICE.MORE.MECHANIC_NETWORK",
+      "root": "AIO_OFFICE.MORE",
+      "visibility": {
+        "FOUNDER": "FULL",
+        "STAFF": "FULL",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "data_source": "provider records",
+      "backing": "DEMO_STORE",
+      "state": "PARTIAL",
+      "write_owner": "AIO_OFFICE.MORE.MECHANIC_NETWORK",
+      "readers": [
+        "AIO_OFFICE.HOME",
+        "AIO_OFFICE.WORK"
+      ],
+      "missing_contracts": [],
+      "missing_tables_services": [
+        "aio_service_providers unqueried"
+      ],
+      "missing_routes": [],
+      "evidence": [
+        "all-in-one-enterprises/src/pages/office/FleetCareOfficePages.tsx:73-89"
+      ]
+    },
+    {
+      "subject_id": "AIO_OFFICE.MORE.MESSAGES",
+      "root": "AIO_OFFICE.MORE",
+      "visibility": {
+        "FOUNDER": "FULL",
+        "STAFF": "FULL",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "data_source": "conversations and messages (staff side)",
+      "backing": "DEMO_STORE",
+      "state": "PARTIAL",
+      "write_owner": "AIO_OFFICE.MORE.MESSAGES",
+      "readers": [
+        "AIO_OFFICE.HOME",
+        "AIO_OFFICE.WORK"
+      ],
+      "missing_contracts": [],
+      "missing_tables_services": [
+        "aio_conversations / aio_messages unqueried"
+      ],
+      "missing_routes": [],
+      "evidence": [
+        "all-in-one-enterprises/src/communications/communicationTypes.ts:84-147"
+      ]
+    },
+    {
+      "subject_id": "AIO_OFFICE.MORE.SYSTEM_SETTINGS",
+      "root": "AIO_OFFICE.MORE",
+      "visibility": {
+        "FOUNDER": "FULL",
+        "STAFF": "BY_GRANT",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "data_source": "system configuration",
+      "backing": "DEMO_STORE",
+      "state": "PARTIAL",
+      "write_owner": "AIO_OFFICE.MORE.SYSTEM_SETTINGS",
+      "readers": [
+        "AIO_OFFICE.HOME",
+        "AIO_OFFICE.WORK"
+      ],
+      "missing_contracts": [],
+      "missing_tables_services": [],
+      "missing_routes": [],
+      "evidence": [
+        "all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:210-242"
+      ]
+    },
+    {
+      "subject_id": "AIO_OFFICE.MORE.HELP_SUPPORT",
+      "root": "AIO_OFFICE.MORE",
+      "visibility": {
+        "FOUNDER": "FULL",
+        "STAFF": "FULL",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "data_source": "training and SOP content",
+      "backing": "DEMO_STORE",
+      "state": "PARTIAL",
+      "write_owner": "AIO_OFFICE.MORE.HELP_SUPPORT",
+      "readers": [
+        "AIO_OFFICE.HOME",
+        "AIO_OFFICE.WORK"
+      ],
+      "missing_contracts": [],
+      "missing_tables_services": [],
+      "missing_routes": [],
+      "evidence": [
+        "all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:260-261",
+        "all-in-one-enterprises/src/launch/staffTraining.ts:45-63"
+      ]
+    },
+    {
+      "subject_id": "AIO_OFFICE.MORE.ACCOUNT",
+      "root": "AIO_OFFICE.MORE",
+      "visibility": {
+        "FOUNDER": "FULL",
+        "STAFF": "FULL",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "data_source": "own profile",
+      "backing": "NONE",
+      "state": "NOT_IMPLEMENTED",
+      "write_owner": "AIO_OFFICE.MORE.ACCOUNT",
+      "readers": [
+        "AIO_OFFICE.HOME",
+        "AIO_OFFICE.WORK"
+      ],
+      "missing_contracts": [],
+      "missing_tables_services": [],
+      "missing_routes": [
+        "entry surface"
+      ],
+      "evidence": [
+        "all-in-one-enterprises/src/office/layouts/AIOOfficeLayout.tsx:180-188 (demo identity switcher only)"
+      ]
+    }
+  ],
+  "home_sources": [
+    {
+      "region_id": "AIO_OFFICE.HOME.NEEDS_ATTENTION",
+      "sources": [
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": "OfficeWorkItem.priority",
+          "due_rule": null,
+          "note": "",
+          "source_id": "work-items",
+          "label": "Open office work items",
+          "domain": "WORK_ITEMS",
+          "owner_node": "AIO_OFFICE.WORK",
+          "route": "/office/work",
+          "data_source": "store.officeWorkItems → collectOfficeAttentionCandidates work:*",
+          "backing": "DEMO_STORE",
+          "state": "PARTIAL",
+          "evidence": [
+            "all-in-one-enterprises/src/office-core/officeAttentionEngine.ts:82-104",
+            "all-in-one-enterprises/src/office-core/officeWorkTypes.ts:111-135"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": "blocked = urgent · ready_for_review = high · others normal",
+          "due_rule": null,
+          "note": "failed / waiting_internal / paused are not surfaced today.",
+          "source_id": "workflow-waiting",
+          "label": "Workflow steps waiting on the client, blocked or ready for review",
+          "domain": "WORK_ITEMS",
+          "owner_node": "AIO_OFFICE.WORK",
+          "route": "/office/workflows/:workflowId",
+          "data_source": "store.workflowInstances (waiting_on_customer · waiting_external · blocked · ready_for_review)",
+          "backing": "DEMO_STORE",
+          "state": "PARTIAL",
+          "evidence": [
+            "all-in-one-enterprises/src/office-core/officeAttentionEngine.ts:199-222",
+            "all-in-one-enterprises/src/workflow/workflowTypes.ts:30-41"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": null,
+          "due_rule": null,
+          "note": "Source exists; not fed into the office attention engine.",
+          "source_id": "ifta-review-approval",
+          "label": "IFTA quarters needing review or awaiting client approval",
+          "domain": "IFTA",
+          "owner_node": "AIO_OFFICE.WORK.FILING_FUEL_TAXES.FILING_QUEUE",
+          "route": "/office/workspaces/ifta",
+          "data_source": "store.iftaQuarters → staffBucket NEEDS_REVIEW · AWAITING_CLIENT",
+          "backing": "DEMO_STORE",
+          "state": "NOT_IMPLEMENTED",
+          "evidence": [
+            "all-in-one-enterprises/src/ifta/iftaDerive.ts:515-528"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "BY_GRANT",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": null,
+          "due_rule": null,
+          "note": "",
+          "source_id": "client-approvals-quotes",
+          "label": "Quotes waiting on the client’s acceptance",
+          "domain": "BILLING",
+          "owner_node": "AIO_OFFICE.MORE.BILLING",
+          "route": "/office/quotes/:quoteId",
+          "data_source": "Quote status sent · viewed; ServiceRequest billingStatus awaiting_quote_acceptance",
+          "backing": "DEMO_STORE",
+          "state": "NOT_IMPLEMENTED",
+          "evidence": [
+            "all-in-one-enterprises/src/billing/billingTypes.ts:16-25",
+            "all-in-one-enterprises/src/billing/billingTypes.ts:45-53"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": null,
+          "due_rule": null,
+          "note": "Client confirmation remains the gate before ACTIVE; PREBUILT is never ACTIVE.",
+          "source_id": "client-approvals-activation",
+          "label": "Clients invited / awaiting their confirmation",
+          "domain": "MIGRATION",
+          "owner_node": "AIO_OFFICE.INTAKE.ACTIVATION_INVITE",
+          "route": "/office/migration",
+          "data_source": "ClientLifecycleState INVITED · CLIENT_CONFIRMATION_REQUIRED",
+          "backing": "DEMO_STORE",
+          "state": "NOT_IMPLEMENTED",
+          "evidence": [
+            "all-in-one-enterprises/src/client-migration/types.ts:3-13"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": null,
+          "due_rule": null,
+          "note": "Not fed into the office attention engine (it reads uploaded / under_review only).",
+          "source_id": "documents-incomplete",
+          "label": "Documents requested, rejected or expired",
+          "domain": "DOCUMENTS",
+          "owner_node": "AIO_OFFICE.MORE.DOCUMENTS_VAULT",
+          "route": "/office/documents",
+          "data_source": "store.documents status requested · rejected · expired",
+          "backing": "DEMO_STORE",
+          "state": "NOT_IMPLEMENTED",
+          "evidence": [
+            "all-in-one-enterprises/src/vault/vaultTypes.ts:56-63"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": "always high",
+          "due_rule": null,
+          "note": "",
+          "source_id": "document-review",
+          "label": "Documents uploaded / under review",
+          "domain": "DOCUMENTS",
+          "owner_node": "AIO_OFFICE.MORE.DOCUMENTS_VAULT",
+          "route": "/office/documents/review",
+          "data_source": "store.documents status uploaded · under_review",
+          "backing": "DEMO_STORE",
+          "state": "PARTIAL",
+          "evidence": [
+            "all-in-one-enterprises/src/office-core/officeAttentionEngine.ts:133-153"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": null,
+          "due_rule": null,
+          "note": "",
+          "source_id": "migration-blocked",
+          "label": "Blocked migration files / batches",
+          "domain": "MIGRATION",
+          "owner_node": "AIO_OFFICE.INTAKE.MIGRATION_STATUS",
+          "route": "/office/migration",
+          "data_source": "MigrationFileQueueState FAILED · UNSUPPORTED · DUPLICATE; MigrationBatchState needs_attention · failed",
+          "backing": "DEMO_STORE",
+          "state": "NOT_IMPLEMENTED",
+          "evidence": [
+            "all-in-one-enterprises/src/client-migration/migrationFileQueueTypes.ts:1-12",
+            "all-in-one-enterprises/src/vault/archiveMigrationTypes.ts:3-11"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": null,
+          "due_rule": null,
+          "note": "",
+          "source_id": "compliance-exceptions",
+          "label": "Compliance exceptions",
+          "domain": "COMPLIANCE",
+          "owner_node": "AIO_OFFICE.WORK.COMPLIANCE.COMPLIANCE_CASES",
+          "route": null,
+          "data_source": "none — no compliance case / exception model",
+          "backing": "NONE",
+          "state": "BLOCKED",
+          "evidence": [
+            "all-in-one-enterprises/src/services/catalog/serviceCatalog.ts:709-743 (DOT audit services are catalog entries only)"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": null,
+          "due_rule": null,
+          "note": "Shown only inside load detail today.",
+          "source_id": "dispatch-exceptions",
+          "label": "Dispatch / freight exceptions",
+          "domain": "DISPATCH",
+          "owner_node": "AIO_OFFICE.WORK.DISPATCH.STATUS_EXCEPTIONS",
+          "route": "/office/dispatch/loads",
+          "data_source": "FreightException (open · acknowledged); Supabase aio_freight_exceptions (autopilot)",
+          "backing": "DEMO_STORE",
+          "state": "NOT_IMPLEMENTED",
+          "evidence": [
+            "all-in-one-enterprises/src/freight/autopilot/freightExceptionTypes.ts:1-36",
+            "all-in-one-enterprises/src/freight/autopilot/supabaseFreightAutopilotRead.ts:183"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": null,
+          "due_rule": null,
+          "note": "",
+          "source_id": "brokerage-exceptions",
+          "label": "Brokerage issues / loads needing coverage",
+          "domain": "BROKERAGE",
+          "owner_node": "AIO_OFFICE.WORK.BROKERAGE.STOPS_STATUS",
+          "route": "/office/brokerage",
+          "data_source": "BrokerageIssue · coverage needs_coverage · BrokerageInfoRequest",
+          "backing": "DEMO_STORE",
+          "state": "NOT_IMPLEMENTED",
+          "evidence": [
+            "all-in-one-enterprises/src/brokerage/brokerageTypes.ts:306-313",
+            "all-in-one-enterprises/src/brokerage/brokerageTypes.ts:132-141"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": null,
+          "due_rule": null,
+          "note": "",
+          "source_id": "overdue-reconciliation",
+          "label": "Overdue bookkeeping reconciliation",
+          "domain": "BOOKKEEPING",
+          "owner_node": "AIO_OFFICE.WORK.BOOKKEEPING.RECONCILIATION",
+          "route": null,
+          "data_source": "BookkeepingPeriod.reconciliationStatus (seed only, no writer)",
+          "backing": "DEMO_STORE",
+          "state": "NOT_IMPLEMENTED",
+          "evidence": [
+            "all-in-one-enterprises/src/bookkeeping/autopilot/autopilotTypes.ts:36-43"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": "≤7 days urgent · ≤18 high · else normal",
+          "due_rule": null,
+          "note": "Expired policies (days < 0) are dropped today; the contract requires them as overdue.",
+          "source_id": "expiring-insurance",
+          "label": "Insurance policies expiring (0–30 days)",
+          "domain": "INSURANCE",
+          "owner_node": "AIO_OFFICE.WORK.INSURANCE.RENEWALS",
+          "route": "/office/insurance",
+          "data_source": "store.insurancePolicies.expirationDate",
+          "backing": "DEMO_STORE",
+          "state": "PARTIAL",
+          "evidence": [
+            "all-in-one-enterprises/src/office-core/officeAttentionEngine.ts:106-131"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": null,
+          "due_rule": null,
+          "note": "Deadlines are not in the attention engine; credentials are not synced to deadlines.",
+          "source_id": "expiring-registration-credentials",
+          "label": "Expiring registrations, permits and driver credentials",
+          "domain": "COMPLIANCE",
+          "owner_node": "AIO_OFFICE.WORK.COMPLIANCE.EXPIRATIONS",
+          "route": "/office/deadlines",
+          "data_source": "Deadline (registration_renewal · permit_expiration · document_expiration …) · DriverCredential.expirationDate",
+          "backing": "DEMO_STORE",
+          "state": "NOT_IMPLEMENTED",
+          "evidence": [
+            "all-in-one-enterprises/src/demo/demoTypes.ts:408-426",
+            "all-in-one-enterprises/src/calendar/calendarTypes.ts:1-20",
+            "all-in-one-enterprises/src/driverlink/driverlinkTypes.ts:98-107"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": null,
+          "due_rule": null,
+          "note": "",
+          "source_id": "maintenance-warnings",
+          "label": "Maintenance holds / out-of-service trucks",
+          "domain": "MAINTENANCE",
+          "owner_node": "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE.MAINTENANCE_STATUS",
+          "route": "/office/fleetcare",
+          "data_source": "TruckDispatchProfile maintenanceHold · outOfService; MaintenanceAttentionSeverity",
+          "backing": "DEMO_STORE",
+          "state": "NOT_IMPLEMENTED",
+          "evidence": [
+            "all-in-one-enterprises/src/dispatch/dispatchTypes.ts:130-154",
+            "all-in-one-enterprises/src/freight/freightTypes.ts:174"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": null,
+          "due_rule": null,
+          "note": "",
+          "source_id": "road-ready-blockers",
+          "label": "Road Ready items needing action / review",
+          "domain": "ROAD_READY",
+          "owner_node": "AIO_OFFICE.WORK.ROAD_READY",
+          "route": "/office/road-ready",
+          "data_source": "RoadReadyItem action_needed · needs_review; profile mode attention_required",
+          "backing": "DEMO_STORE",
+          "state": "NOT_IMPLEMENTED",
+          "evidence": [
+            "all-in-one-enterprises/src/road-ready/roadReadyTypes.ts:12-19",
+            "all-in-one-enterprises/src/road-ready/roadReadyTypes.ts:37-42"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "BY_GRANT",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": null,
+          "due_rule": null,
+          "note": "Follow-up statuses never advance to due / overdue; the queue adds both counts (double counting). HOME projects; CRM owns.",
+          "source_id": "crm-follow-ups",
+          "label": "CRM follow-ups due",
+          "domain": "CRM",
+          "owner_node": "AIO_OFFICE.MORE.GROWTH_CRM",
+          "route": "/office/crm",
+          "data_source": "CrmFollowUp.scheduledFor (≤ now + 24h) · OfficeWorkItem queue crm_follow_up",
+          "backing": "DEMO_STORE",
+          "state": "PARTIAL",
+          "evidence": [
+            "all-in-one-enterprises/src/crm/crmTypes.ts:207-220",
+            "all-in-one-enterprises/src/demo/crmActions.ts:523-548"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "BY_GRANT",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": null,
+          "due_rule": null,
+          "note": "",
+          "source_id": "crm-new-leads",
+          "label": "New leads not yet contacted",
+          "domain": "CRM",
+          "owner_node": "AIO_OFFICE.MORE.GROWTH_CRM",
+          "route": "/office/crm/leads",
+          "data_source": "CrmLead status new",
+          "backing": "DEMO_STORE",
+          "state": "NOT_IMPLEMENTED",
+          "evidence": [
+            "all-in-one-enterprises/src/crm/crmTypes.ts:13-23"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "BY_GRANT",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": null,
+          "due_rule": null,
+          "note": "Opportunities have no next-action field; “needing action” is limited to what the record holds.",
+          "source_id": "crm-pipeline",
+          "label": "Open opportunities past their expected close date",
+          "domain": "CRM",
+          "owner_node": "AIO_OFFICE.MORE.GROWTH_CRM",
+          "route": "/office/crm/pipeline",
+          "data_source": "CrmOpportunity status open · expectedCloseDate",
+          "backing": "DEMO_STORE",
+          "state": "NOT_IMPLEMENTED",
+          "evidence": [
+            "all-in-one-enterprises/src/crm/crmTypes.ts:172-192"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "BY_GRANT",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": null,
+          "due_rule": null,
+          "note": "Only the management engine surfaces past_due; failed payments reach no office surface.",
+          "source_id": "billing-overdue-failed",
+          "label": "Overdue invoices / failed payments",
+          "domain": "BILLING",
+          "owner_node": "AIO_OFFICE.MORE.BILLING",
+          "route": "/office/invoices",
+          "data_source": "BillingInvoice past_due · PaymentRecord failed · ServiceRequest billingStatus payment_failed",
+          "backing": "DEMO_STORE",
+          "state": "NOT_IMPLEMENTED",
+          "evidence": [
+            "all-in-one-enterprises/src/billing/billingTypes.ts:26-43",
+            "all-in-one-enterprises/src/demo/billingActions.ts:399-439",
+            "all-in-one-enterprises/src/management/managementAttentionEngine.ts:43-49"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "BY_GRANT",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": null,
+          "due_rule": null,
+          "note": "BillingStatus has no setup state. Recorded, not invented.",
+          "source_id": "billing-setup-needed",
+          "label": "Billing setup needed",
+          "domain": "BILLING",
+          "owner_node": "AIO_OFFICE.MORE.BILLING",
+          "route": null,
+          "data_source": "none — no billing profile or payment-method record in source",
+          "backing": "NONE",
+          "state": "NOT_IMPLEMENTED",
+          "evidence": [
+            "all-in-one-enterprises/src/billing/billingTypes.ts:45-53"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": "urgent conversation = urgent, else high",
+          "due_rule": null,
+          "note": "",
+          "source_id": "conversations-needing-reply",
+          "label": "Conversations waiting on staff",
+          "domain": "MESSAGING",
+          "owner_node": "AIO_OFFICE.MORE.MESSAGES",
+          "route": "/office/communications/:conversationId",
+          "data_source": "store.commConversations waiting_on_staff / responsibility staff",
+          "backing": "DEMO_STORE",
+          "state": "PARTIAL",
+          "evidence": [
+            "all-in-one-enterprises/src/office-core/officeAttentionEngine.ts:155-176",
+            "all-in-one-enterprises/src/communications/communicationEngine.ts:18-20"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": null,
+          "due_rule": null,
+          "note": "Legacy model — retires with C-LEGACY-INBOX-DOCS.",
+          "source_id": "unread-customer-messages",
+          "label": "Unread customer messages (legacy model)",
+          "domain": "MESSAGING",
+          "owner_node": "AIO_OFFICE.MORE.MESSAGES",
+          "route": "/office/inbox",
+          "data_source": "store.messages from customer, unread",
+          "backing": "DEMO_STORE",
+          "state": "PARTIAL",
+          "evidence": [
+            "all-in-one-enterprises/src/office-core/officeAttentionEngine.ts:178-197"
+          ]
+        }
+      ]
+    },
+    {
+      "region_id": "AIO_OFFICE.HOME.DEADLINES",
+      "sources": [
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": "by due state: overdue > due today > due soon > upcoming; ties by nearest date",
+          "due_rule": "computeDeadlineState: overdue < 0 · due_today 0 · due_soon ≤ 7",
+          "note": "The Deadlines page shows the stored severity; its overdue filter also catches items due today (UTC parse).",
+          "source_id": "deadline-store",
+          "label": "Deadlines (19 deadline types)",
+          "domain": "COMPLIANCE",
+          "owner_node": "AIO_OFFICE.WORK.COMPLIANCE.EXPIRATIONS",
+          "route": "/office/deadlines",
+          "data_source": "store.deadlines (DeadlineType · DeadlineSource · severity)",
+          "backing": "DEMO_STORE",
+          "state": "PARTIAL",
+          "evidence": [
+            "all-in-one-enterprises/src/demo/demoTypes.ts:408-426",
+            "all-in-one-enterprises/src/calendar/calendarService.ts:19-27",
+            "all-in-one-enterprises/src/office/pages/OperationsPages.tsx:47-113"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": "by due state: overdue > due today > due soon > upcoming; ties by nearest date",
+          "due_rule": "computed at read time: overdue (< 0 days) · due today (0) · due soon (≤ 7) · upcoming",
+          "note": "",
+          "source_id": "renewals",
+          "label": "Renewals",
+          "domain": "COMPLIANCE",
+          "owner_node": "AIO_OFFICE.WORK.COMPLIANCE.EXPIRATIONS",
+          "route": "/office/renewals",
+          "data_source": "store.renewals expirationDate · RenewalStatus (13)",
+          "backing": "DEMO_STORE",
+          "state": "PARTIAL",
+          "evidence": [
+            "all-in-one-enterprises/src/renewals/renewalTypes.ts:18-53",
+            "all-in-one-enterprises/src/office/pages/OfficeRenewalsPage.tsx:17-22"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": "by due state: overdue > due today > due soon > upcoming; ties by nearest date",
+          "due_rule": "computed at read time: overdue (< 0 days) · due today (0) · due soon (≤ 7) · upcoming",
+          "note": "Shown in the IFTA queue; not projected to HOME.",
+          "source_id": "ifta-due",
+          "label": "IFTA quarter due dates",
+          "domain": "IFTA",
+          "owner_node": "AIO_OFFICE.WORK.FILING_FUEL_TAXES.FILING_QUEUE",
+          "route": "/office/workspaces/ifta",
+          "data_source": "IftaQuarterCase.dueDate",
+          "backing": "DEMO_STORE",
+          "state": "NOT_IMPLEMENTED",
+          "evidence": [
+            "all-in-one-enterprises/src/ifta/iftaTypes.ts:150"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": "by due state: overdue > due today > due soon > upcoming; ties by nearest date",
+          "due_rule": "computed at read time: overdue (< 0 days) · due today (0) · due soon (≤ 7) · upcoming",
+          "note": "",
+          "source_id": "insurance-renewal",
+          "label": "Insurance policy expirations",
+          "domain": "INSURANCE",
+          "owner_node": "AIO_OFFICE.WORK.INSURANCE.RENEWALS",
+          "route": "/office/insurance/renewals",
+          "data_source": "InsurancePolicy.expirationDate",
+          "backing": "DEMO_STORE",
+          "state": "PARTIAL",
+          "evidence": [
+            "all-in-one-enterprises/src/insurance/insuranceTypes.ts:57-78"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": "by due state: overdue > due today > due soon > upcoming; ties by nearest date",
+          "due_rule": "computed at read time: overdue (< 0 days) · due today (0) · due soon (≤ 7) · upcoming",
+          "note": "",
+          "source_id": "driver-credentials",
+          "label": "Driver credential expirations",
+          "domain": "DRIVERS",
+          "owner_node": "AIO_OFFICE.WORK.DRIVERS_CARRIERS.CREDENTIALS",
+          "route": "/office/driverlink/drivers",
+          "data_source": "DriverCredential.expirationDate",
+          "backing": "DEMO_STORE",
+          "state": "NOT_IMPLEMENTED",
+          "evidence": [
+            "all-in-one-enterprises/src/driverlink/driverlinkTypes.ts:98-107"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": "by due state: overdue > due today > due soon > upcoming; ties by nearest date",
+          "due_rule": "computed at read time: overdue (< 0 days) · due today (0) · due soon (≤ 7) · upcoming",
+          "note": "",
+          "source_id": "vehicle-registration",
+          "label": "Vehicle registration dates",
+          "domain": "VEHICLES",
+          "owner_node": "AIO_OFFICE.WORK.VEHICLES_FLEET",
+          "route": null,
+          "data_source": "vault documents related to a vehicle with expiresAt (no vehicle record holds a registration expiry)",
+          "backing": "DEMO_STORE",
+          "state": "PARTIAL",
+          "evidence": [
+            "all-in-one-enterprises/src/vault/vaultTypes.ts:93-106",
+            "all-in-one-enterprises/src/pages/portal/FleetPage.tsx:11-27"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": "by due state: overdue > due today > due soon > upcoming; ties by nearest date",
+          "due_rule": "computed at read time: overdue (< 0 days) · due today (0) · due soon (≤ 7) · upcoming",
+          "note": "",
+          "source_id": "client-request-due",
+          "label": "Client request target dates",
+          "domain": "PERMITTING",
+          "owner_node": "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES",
+          "route": "/office/requests/:requestId",
+          "data_source": "ServiceRequest.targetDate",
+          "backing": "DEMO_STORE",
+          "state": "NOT_IMPLEMENTED",
+          "evidence": [
+            "all-in-one-enterprises/src/demo/demoTypes.ts:390"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": "by due state: overdue > due today > due soon > upcoming; ties by nearest date",
+          "due_rule": "computed at read time: overdue (< 0 days) · due today (0) · due soon (≤ 7) · upcoming",
+          "note": "",
+          "source_id": "bookkeeping-close",
+          "label": "Bookkeeping close / review dates",
+          "domain": "BOOKKEEPING",
+          "owner_node": "AIO_OFFICE.WORK.BOOKKEEPING.MONTHLY_CLIENTS",
+          "route": "/office/bookkeeping",
+          "data_source": "BookkeepingCycle.dueDate (seed only)",
+          "backing": "DEMO_STORE",
+          "state": "NOT_IMPLEMENTED",
+          "evidence": [
+            "all-in-one-enterprises/src/bookkeeping/bookkeepingTypes.ts:120-126"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": "by due state: overdue > due today > due soon > upcoming; ties by nearest date",
+          "due_rule": "computed at read time: overdue (< 0 days) · due today (0) · due soon (≤ 7) · upcoming",
+          "note": "",
+          "source_id": "road-ready-milestones",
+          "label": "Road Ready item expirations",
+          "domain": "ROAD_READY",
+          "owner_node": "AIO_OFFICE.WORK.ROAD_READY",
+          "route": "/office/road-ready",
+          "data_source": "RoadReadyItem.expiresAt → syncExpirationDeadlines",
+          "backing": "DEMO_STORE",
+          "state": "PARTIAL",
+          "evidence": [
+            "all-in-one-enterprises/src/demo/roadReadyActions.ts:261-283"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "BY_GRANT",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": "by due state: overdue > due today > due soon > upcoming; ties by nearest date",
+          "due_rule": "computed at read time: overdue (< 0 days) · due today (0) · due soon (≤ 7) · upcoming",
+          "note": "",
+          "source_id": "crm-follow-up-dates",
+          "label": "CRM follow-up dates",
+          "domain": "CRM",
+          "owner_node": "AIO_OFFICE.MORE.GROWTH_CRM",
+          "route": "/office/crm/calendar",
+          "data_source": "CrmFollowUp.scheduledFor",
+          "backing": "DEMO_STORE",
+          "state": "PARTIAL",
+          "evidence": [
+            "all-in-one-enterprises/src/crm/crmTypes.ts:207-220"
+          ]
+        }
+      ]
+    },
+    {
+      "region_id": "AIO_OFFICE.HOME.BLOCKERS",
+      "sources": [
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": null,
+          "due_rule": null,
+          "note": "",
+          "source_id": "work-waiting",
+          "label": "Work items waiting",
+          "domain": "WORK_ITEMS",
+          "owner_node": "AIO_OFFICE.WORK",
+          "route": "/office/work",
+          "data_source": "OfficeWorkItem.waitingOn ≠ none · status waiting_*",
+          "backing": "DEMO_STORE",
+          "state": "PARTIAL",
+          "evidence": [
+            "all-in-one-enterprises/src/office-core/officeWorkTypes.ts:29-50"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": null,
+          "due_rule": null,
+          "note": "",
+          "source_id": "workflow-blocked",
+          "label": "Workflow steps blocked / waiting",
+          "domain": "WORK_ITEMS",
+          "owner_node": "AIO_OFFICE.WORK",
+          "route": "/office/workflows/:workflowId",
+          "data_source": "WorkflowStepInstance waitingOn · blockedReason",
+          "backing": "DEMO_STORE",
+          "state": "PARTIAL",
+          "evidence": [
+            "all-in-one-enterprises/src/workflow/workflowTypes.ts:202-220"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": null,
+          "due_rule": null,
+          "note": "",
+          "source_id": "ifta-blocked",
+          "label": "IFTA quarters blocked / awaiting client",
+          "domain": "IFTA",
+          "owner_node": "AIO_OFFICE.WORK.FILING_FUEL_TAXES.FILING_QUEUE",
+          "route": "/office/workspaces/ifta",
+          "data_source": "staffBucket BLOCKED · AWAITING_CLIENT",
+          "backing": "DEMO_STORE",
+          "state": "NOT_IMPLEMENTED",
+          "evidence": [
+            "all-in-one-enterprises/src/ifta/iftaDerive.ts:515-528"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": null,
+          "due_rule": null,
+          "note": "",
+          "source_id": "request-waiting",
+          "label": "Service requests waiting",
+          "domain": "PERMITTING",
+          "owner_node": "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES",
+          "route": "/office/requests/:requestId",
+          "data_source": "RequestStatus information_needed · documents_needed · awaiting_agency",
+          "backing": "DEMO_STORE",
+          "state": "NOT_IMPLEMENTED",
+          "evidence": [
+            "all-in-one-enterprises/src/demo/demoTypes.ts:366-376"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": null,
+          "due_rule": null,
+          "note": "",
+          "source_id": "freight-exceptions",
+          "label": "Freight exceptions",
+          "domain": "DISPATCH",
+          "owner_node": "AIO_OFFICE.WORK.DISPATCH.STATUS_EXCEPTIONS",
+          "route": "/office/dispatch/loads",
+          "data_source": "FreightException",
+          "backing": "DEMO_STORE",
+          "state": "NOT_IMPLEMENTED",
+          "evidence": [
+            "all-in-one-enterprises/src/freight/autopilot/freightExceptionTypes.ts:1-36"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": null,
+          "due_rule": null,
+          "note": "",
+          "source_id": "migration-exceptions",
+          "label": "Migration exceptions",
+          "domain": "MIGRATION",
+          "owner_node": "AIO_OFFICE.INTAKE.EXTRACTION_CLASSIFICATION",
+          "route": "/office/migration",
+          "data_source": "MigrationExceptionCode",
+          "backing": "DEMO_STORE",
+          "state": "NOT_IMPLEMENTED",
+          "evidence": [
+            "all-in-one-enterprises/src/client-migration/migrationPipeline/types.ts:16-23"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": null,
+          "due_rule": null,
+          "note": "",
+          "source_id": "insurance-issues",
+          "label": "Insurance issues waiting on client / partner",
+          "domain": "INSURANCE",
+          "owner_node": "AIO_OFFICE.WORK.INSURANCE",
+          "route": "/office/insurance",
+          "data_source": "InsuranceIssue",
+          "backing": "DEMO_STORE",
+          "state": "NOT_IMPLEMENTED",
+          "evidence": [
+            "all-in-one-enterprises/src/insurance/insuranceTypes.ts:266-268"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": null,
+          "due_rule": null,
+          "note": "",
+          "source_id": "factoring-issues",
+          "label": "Factoring issues",
+          "domain": "FACTORING",
+          "owner_node": "AIO_OFFICE.WORK.FACTORING",
+          "route": "/office/factoring",
+          "data_source": "FactoringIssue (customerActionRequired)",
+          "backing": "DEMO_STORE",
+          "state": "NOT_IMPLEMENTED",
+          "evidence": [
+            "all-in-one-enterprises/src/factoring/factoringTypes.ts:180-193"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": null,
+          "due_rule": null,
+          "note": "",
+          "source_id": "maintenance-holds",
+          "label": "Maintenance tickets on hold",
+          "domain": "MAINTENANCE",
+          "owner_node": "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE.TICKETS",
+          "route": "/office/fleetcare/tickets",
+          "data_source": "MaintenanceTicket on_hold · awaiting_parts · disputed",
+          "backing": "DEMO_STORE",
+          "state": "NOT_IMPLEMENTED",
+          "evidence": [
+            "all-in-one-enterprises/src/fleetcare/fleetcareTypes.ts:6-26"
+          ]
+        }
+      ]
+    },
+    {
+      "region_id": "AIO_OFFICE.HOME.WORK_ACROSS_AIO",
+      "sources": [
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": null,
+          "due_rule": null,
+          "note": "",
+          "source_id": "lane-permitting_authorities",
+          "label": "PERMITTING_AUTHORITIES",
+          "domain": "WORK_ITEMS",
+          "owner_node": "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES",
+          "route": null,
+          "data_source": "DivisionQueuePage division=permitting",
+          "backing": "DEMO_STORE",
+          "state": "PARTIAL",
+          "evidence": [
+            "all-in-one-enterprises/src/demo/demoTypes.ts:378-403",
+            "all-in-one-enterprises/src/data/repositories/supabaseRepositories.ts:247-360"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": null,
+          "due_rule": null,
+          "note": "",
+          "source_id": "lane-filing_fuel_taxes",
+          "label": "FILING_FUEL_TAXES",
+          "domain": "WORK_ITEMS",
+          "owner_node": "AIO_OFFICE.WORK.FILING_FUEL_TAXES",
+          "route": null,
+          "data_source": "IftaStaffQueuePage (queue health)",
+          "backing": "DEMO_STORE",
+          "state": "PARTIAL",
+          "evidence": [
+            "all-in-one-enterprises/src/ifta/iftaTypes.ts:143-174"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": null,
+          "due_rule": null,
+          "note": "",
+          "source_id": "lane-compliance",
+          "label": "COMPLIANCE",
+          "domain": "WORK_ITEMS",
+          "owner_node": "AIO_OFFICE.WORK.COMPLIANCE",
+          "route": null,
+          "data_source": "Deadline Center · renewals",
+          "backing": "DEMO_STORE",
+          "state": "PARTIAL",
+          "evidence": [
+            "all-in-one-enterprises/src/demo/demoTypes.ts:408-426",
+            "all-in-one-enterprises/src/renewals/renewalTypes.ts:33-53",
+            "all-in-one-enterprises/src/calendar/calendarTypes.ts:37-58"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": null,
+          "due_rule": null,
+          "note": "",
+          "source_id": "lane-vehicles_fleet",
+          "label": "VEHICLES_FLEET",
+          "domain": "WORK_ITEMS",
+          "owner_node": "AIO_OFFICE.WORK.VEHICLES_FLEET",
+          "route": null,
+          "data_source": "no staff screen",
+          "backing": "NONE",
+          "state": "NOT_IMPLEMENTED",
+          "evidence": [
+            "all-in-one-enterprises/src/road-ready/roadReadyTypes.ts:113-139",
+            "all-in-one-enterprises/supabase/migrations/20260817190000_aio_fleetcare_network.sql:86-101",
+            "all-in-one-enterprises/src/dispatch/dispatchTypes.ts:130-154",
+            "all-in-one-enterprises/src/ifta/iftaTypes.ts:57-65"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": null,
+          "due_rule": null,
+          "note": "",
+          "source_id": "lane-dispatch",
+          "label": "DISPATCH",
+          "domain": "WORK_ITEMS",
+          "owner_node": "AIO_OFFICE.WORK.DISPATCH",
+          "route": null,
+          "data_source": "DispatchCommandCenterPage",
+          "backing": "DEMO_STORE",
+          "state": "PARTIAL",
+          "evidence": [
+            "all-in-one-enterprises/src/dispatch/dispatchTypes.ts:239-319",
+            "all-in-one-enterprises/src/dispatch/dispatchTypes.ts:115-128",
+            "all-in-one-enterprises/src/dispatch/dispatchTypes.ts:130-154",
+            "all-in-one-enterprises/src/freight/autopilot/freightExceptionTypes.ts:24-36"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": null,
+          "due_rule": null,
+          "note": "",
+          "source_id": "lane-brokerage",
+          "label": "BROKERAGE",
+          "domain": "WORK_ITEMS",
+          "owner_node": "AIO_OFFICE.WORK.BROKERAGE",
+          "route": null,
+          "data_source": "BrokerageCommandCenterPage",
+          "backing": "DEMO_STORE",
+          "state": "PARTIAL",
+          "evidence": [
+            "all-in-one-enterprises/src/brokerage/brokerageTypes.ts:68-289",
+            "all-in-one-enterprises/src/brokerage/brokerageTypes.ts:326-338",
+            "all-in-one-enterprises/src/brokerage/brokerageTypes.ts:371-423"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": null,
+          "due_rule": null,
+          "note": "",
+          "source_id": "lane-insurance",
+          "label": "INSURANCE",
+          "domain": "WORK_ITEMS",
+          "owner_node": "AIO_OFFICE.WORK.INSURANCE",
+          "route": null,
+          "data_source": "InsuranceCommandCenterPage",
+          "backing": "DEMO_STORE",
+          "state": "PARTIAL",
+          "evidence": [
+            "all-in-one-enterprises/src/insurance/insuranceTypes.ts:57-251"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": null,
+          "due_rule": null,
+          "note": "",
+          "source_id": "lane-factoring",
+          "label": "FACTORING",
+          "domain": "WORK_ITEMS",
+          "owner_node": "AIO_OFFICE.WORK.FACTORING",
+          "route": null,
+          "data_source": "FactoringCommandCenterPage",
+          "backing": "DEMO_STORE",
+          "state": "PARTIAL",
+          "evidence": [
+            "all-in-one-enterprises/src/factoring/factoringTypes.ts:71-193",
+            "all-in-one-enterprises/src/services/factoring/factoringTypes.ts"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": null,
+          "due_rule": null,
+          "note": "",
+          "source_id": "lane-bookkeeping",
+          "label": "BOOKKEEPING",
+          "domain": "WORK_ITEMS",
+          "owner_node": "AIO_OFFICE.WORK.BOOKKEEPING",
+          "route": null,
+          "data_source": "BookkeepingCommandCenterPage (read-only dashboards)",
+          "backing": "DEMO_STORE",
+          "state": "PARTIAL",
+          "evidence": [
+            "all-in-one-enterprises/src/bookkeeping/bookkeepingTypes.ts:94-144",
+            "all-in-one-enterprises/src/bookkeeping/autopilot/autopilotTypes.ts:36-166"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": null,
+          "due_rule": null,
+          "note": "",
+          "source_id": "lane-drivers_carriers",
+          "label": "DRIVERS_CARRIERS",
+          "domain": "WORK_ITEMS",
+          "owner_node": "AIO_OFFICE.WORK.DRIVERS_CARRIERS",
+          "route": null,
+          "data_source": "DriverLinkOfficeOverviewPage (read-only)",
+          "backing": "DEMO_STORE",
+          "state": "PARTIAL",
+          "evidence": [
+            "all-in-one-enterprises/src/driverlink/driverlinkTypes.ts:70-163"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": null,
+          "due_rule": null,
+          "note": "",
+          "source_id": "lane-mechanic_maintenance",
+          "label": "MECHANIC_MAINTENANCE",
+          "domain": "WORK_ITEMS",
+          "owner_node": "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE",
+          "route": null,
+          "data_source": "FleetCareOfficeOverviewPage (read-only)",
+          "backing": "DEMO_STORE",
+          "state": "PARTIAL",
+          "evidence": [
+            "all-in-one-enterprises/src/fleetcare/fleetcareTypes.ts:67-264"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": null,
+          "due_rule": null,
+          "note": "",
+          "source_id": "lane-road_ready",
+          "label": "ROAD_READY",
+          "domain": "WORK_ITEMS",
+          "owner_node": "AIO_OFFICE.WORK.ROAD_READY",
+          "route": null,
+          "data_source": "OfficeRoadReadyQueuePage",
+          "backing": "DEMO_STORE",
+          "state": "PARTIAL",
+          "evidence": [
+            "all-in-one-enterprises/src/road-ready/roadReadyTypes.ts:151-193",
+            "all-in-one-enterprises/src/data/repositories/supabaseRepositories.ts:34-142"
+          ]
+        }
+      ]
+    },
+    {
+      "region_id": "AIO_OFFICE.HOME.CLIENTS_IN_MOTION",
+      "sources": [
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": null,
+          "due_rule": null,
+          "note": "Two segment vocabularies disagree: founderSegmentForLifecycle (no runtime callers) vs filterClientsByFounderSegment.",
+          "source_id": "client-lifecycle",
+          "label": "Client lifecycle",
+          "domain": "CLIENTS",
+          "owner_node": "AIO_OFFICE.INTAKE",
+          "route": "/office/clients/:clientId",
+          "data_source": "ClientLifecycleState · isCountedActiveClient (demo); aio_organizations.client_lifecycle (Supabase)",
+          "backing": "DEMO_STORE",
+          "state": "PARTIAL",
+          "evidence": [
+            "all-in-one-enterprises/src/client-migration/types.ts:3-13",
+            "all-in-one-enterprises/src/client-migration/activeClientRule.ts:5-14"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": null,
+          "due_rule": null,
+          "note": "Upcoming deadlines are the first five, unsorted.",
+          "source_id": "client-360",
+          "label": "Client 360 summary",
+          "domain": "CLIENTS",
+          "owner_node": "AIO_OFFICE.MORE.CLIENTS",
+          "route": "/office/clients/:clientId",
+          "data_source": "getClient360View (waiting-on counts, active services heuristic, upcoming deadlines, billing status)",
+          "backing": "DEMO_STORE",
+          "state": "PARTIAL",
+          "evidence": [
+            "all-in-one-enterprises/src/office-core/client360Service.ts:42-43",
+            "all-in-one-enterprises/src/office-core/client360Service.ts:52-71",
+            "all-in-one-enterprises/src/office-core/client360Service.ts:123-129"
+          ]
+        }
+      ]
+    },
+    {
+      "region_id": "AIO_OFFICE.HOME.RECENT_ACTIVITY",
+      "sources": [
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": null,
+          "due_rule": null,
+          "note": "The office feed shows internal events only, so customer-visible production events (all IFTA events, document uploads, failed payments) never reach staff.",
+          "source_id": "activity-events",
+          "label": "Activity events",
+          "domain": "WORK_ITEMS",
+          "owner_node": "AIO_OFFICE.WORK",
+          "route": "/office/activity",
+          "data_source": "store.activity (ActivityEvent, ~98 ActivityKind values; visibility internal | customer)",
+          "backing": "DEMO_STORE",
+          "state": "PARTIAL",
+          "evidence": [
+            "all-in-one-enterprises/src/demo/demoTypes.ts:472-482",
+            "all-in-one-enterprises/src/office/pages/OfficeWorkPages.tsx:424-436"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": null,
+          "due_rule": null,
+          "note": "",
+          "source_id": "lifecycle-events",
+          "label": "Client lifecycle events",
+          "domain": "MIGRATION",
+          "owner_node": "AIO_OFFICE.INTAKE",
+          "route": "/office/migration",
+          "data_source": "ClientLifecycleEvent → Supabase aio_client_lifecycle_events (insert only, never read)",
+          "backing": "PRODUCTION",
+          "state": "NOT_IMPLEMENTED",
+          "evidence": [
+            "all-in-one-enterprises/src/client-migration/types.ts:121-131",
+            "all-in-one-enterprises/src/client-migration/repositories/supabaseMigrationRepository.ts:196"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": null,
+          "due_rule": null,
+          "note": "Case page only.",
+          "source_id": "ifta-audit",
+          "label": "IFTA case audit trail",
+          "domain": "IFTA",
+          "owner_node": "AIO_OFFICE.WORK.FILING_FUEL_TAXES.IFTA",
+          "route": "/office/workspaces/ifta/:clientId/:quarterKey",
+          "data_source": "IftaQuarterCase.audit",
+          "backing": "DEMO_STORE",
+          "state": "PARTIAL",
+          "evidence": [
+            "all-in-one-enterprises/src/ifta/iftaTypes.ts:134-141"
+          ]
+        },
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": null,
+          "due_rule": null,
+          "note": "",
+          "source_id": "load-status-history",
+          "label": "Load status history",
+          "domain": "DISPATCH",
+          "owner_node": "AIO_OFFICE.WORK.DISPATCH.LOADS",
+          "route": "/office/dispatch/loads",
+          "data_source": "Load.timeline (demo) · Supabase aio_load_status_history",
+          "backing": "PRODUCTION",
+          "state": "NOT_IMPLEMENTED",
+          "evidence": [
+            "all-in-one-enterprises/src/freight/freightStatusHistory.ts:14"
+          ]
+        }
+      ]
+    },
+    {
+      "region_id": "AIO_OFFICE.HOME.QUICK_ACTIONS",
+      "sources": [
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "FULL",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": null,
+          "due_rule": null,
+          "note": "",
+          "source_id": "new-menu",
+          "label": "“+ New” menu and command palette",
+          "domain": "WORK_ITEMS",
+          "owner_node": "AIO_OFFICE.WORK",
+          "route": null,
+          "data_source": "AIOOfficeLayout quick-create menu + command palette",
+          "backing": "DEMO_STORE",
+          "state": "PARTIAL",
+          "evidence": [
+            "all-in-one-enterprises/src/office/layouts/AIOOfficeLayout.tsx:242-252",
+            "all-in-one-enterprises/src/office/layouts/AIOOfficeLayout.tsx:263-277"
+          ]
+        }
+      ]
+    },
+    {
+      "region_id": "AIO_OFFICE.HOME.BUSINESS_PULSE",
+      "sources": [
+        {
+          "visibility": {
+            "FOUNDER": "FULL",
+            "STAFF": "BY_GRANT",
+            "CLIENT": "NONE",
+            "SERVICE_PROVIDER": "NONE"
+          },
+          "priority_rule": null,
+          "due_rule": null,
+          "note": "",
+          "source_id": "executive-snapshot",
+          "label": "Executive snapshot",
+          "domain": "BILLING",
+          "owner_node": "AIO_OFFICE.REPORTS.OVERVIEW",
+          "route": "/office/management",
+          "data_source": "getExecutiveSnapshot (active customers · active requests · open opportunities · active loads · collected revenue · outstanding)",
+          "backing": "DEMO_STORE",
+          "state": "PARTIAL",
+          "evidence": [
+            "all-in-one-enterprises/src/management/managementQueryLayer.ts:90-108",
+            "all-in-one-enterprises/src/office/pages/OfficeDashboardPage.tsx:34"
+          ]
+        }
+      ]
+    }
+  ]
+}

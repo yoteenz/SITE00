@@ -1,0 +1,694 @@
+{
+  "id": "AIO_IMPLEMENTATION_GAPS",
+  "sprint": "P0.AIO.OFFICE-IA.FOUNDER-HOME-WORK-REPORTS-MORE.AUTHORITY-CONTRACTS1",
+  "generated_by": "scripts/studioos/aio-office-contracts-export.ts",
+  "source": [
+    "shared/studioos-experience-brain/office-root-contracts.ts",
+    "shared/studioos-experience-brain/projects/aio/office-contracts.ts",
+    "shared/studioos-experience-brain/projects/aio/office-ia.ts"
+  ],
+  "audit": {
+    "repo": "yoteenz/fsbw · all-in-one-enterprises",
+    "sha": "3c060ac02a6660e0c821541d0826ff1c41d289b8",
+    "mode": "READ-ONLY"
+  },
+  "constraints": {
+    "contract_only": true,
+    "visual_redesign": false,
+    "images_generated": 0,
+    "visual_authorities_created": false,
+    "live_nav_changed": false,
+    "routes_changed": false,
+    "pages_built": false,
+    "supabase_schema_changed": false,
+    "auth_changed": false,
+    "client_lifecycle_changed": false,
+    "metrics_invented": false,
+    "records_invented": false,
+    "deployed": false
+  },
+  "known_gaps": [
+    "G-ROAD-READY-NO-ENGAGEMENT-STATE",
+    "G-FOUNDER-ROLE-NOT-IMPLEMENTED",
+    "G-VEHICLES-NO-STAFF-SCREEN"
+  ],
+  "gaps": [
+    {
+      "gap_id": "G-ROAD-READY-NO-ENGAGEMENT-STATE",
+      "root": "AIO_OFFICE.WORK",
+      "gap": "No per-client Road Ready engagement state (AVAILABLE · ACTIVE · COMPLETED). Only item statuses and profile mode exist; OfficeWorkspaceEntitlement does not provision road_ready.",
+      "kind": "MISSING_STATE",
+      "origin": "DECISION",
+      "evidence": [
+        "all-in-one-enterprises/src/road-ready/roadReadyTypes.ts:37-42",
+        "all-in-one-enterprises/src/client-migration/types.ts:49-54"
+      ],
+      "blocks": "D-ROAD-READY-PLACEMENT; WORK → ROAD READY recently completed"
+    },
+    {
+      "gap_id": "G-FOUNDER-ROLE-NOT-IMPLEMENTED",
+      "root": "AIO_OFFICE",
+      "gap": "No FOUNDER role in code. Nearest: OfficeStaffRole owner (demo-store role) and Supabase aio_internal_role super_admin; the two role sets do not map to each other.",
+      "kind": "MISSING_ROLE",
+      "origin": "DECISION",
+      "evidence": [
+        "all-in-one-enterprises/src/office-core/officeWorkTypes.ts:4-16",
+        "all-in-one-enterprises/supabase/migrations/20260815100000_aio_identity_foundation.sql:28-29"
+      ],
+      "blocks": "every founder-only act and grant-only view"
+    },
+    {
+      "gap_id": "G-VEHICLES-NO-STAFF-SCREEN",
+      "root": "AIO_OFFICE.WORK",
+      "gap": "No staff VEHICLES & FLEET screen or route; Client 360 fleet tab is placeholder text.",
+      "kind": "MISSING_SURFACE",
+      "origin": "DECISION",
+      "evidence": [
+        "all-in-one-enterprises/src/office/pages/ClientDetailPage.tsx:184-186"
+      ],
+      "blocks": "WORK → VEHICLES & FLEET shell"
+    },
+    {
+      "gap_id": "G-PERMISSIONS-CLIENT-SIDE",
+      "root": "AIO_OFFICE",
+      "gap": "Office permissions resolve from the demo store (role defaults to manager); Supabase internal roles never reach them; RLS treats every internal user the same.",
+      "kind": "MISSING_ROLE",
+      "origin": "AUDIT",
+      "evidence": [
+        "all-in-one-enterprises/src/office-core/officeContext.ts:171-177",
+        "all-in-one-enterprises/src/auth/guards/RouteGuards.tsx:69-92"
+      ],
+      "blocks": "BY_GRANT views, founder-only acts, staff never inheriting founder authority"
+    },
+    {
+      "gap_id": "G-PERMISSIONS-UNCHECKED",
+      "root": "AIO_OFFICE",
+      "gap": "Defined but never enforced: team.manage, clients.manage, escalations.manage, internal_notes.read, reports.export (pages), crm.reports.read; “+ New” quick actions check nothing.",
+      "kind": "MISSING_CONTRACT",
+      "origin": "AUDIT",
+      "evidence": [
+        "all-in-one-enterprises/src/office-core/officeWorkTypes.ts:251-348",
+        "all-in-one-enterprises/src/office/layouts/AIOOfficeLayout.tsx:242-252"
+      ],
+      "blocks": "role-aware HOME quick actions, MORE directory"
+    },
+    {
+      "gap_id": "G-FOUNDER-ACTS-STAFF-GATED",
+      "root": "AIO_OFFICE",
+      "gap": "Acts the founder contract reserves are gated today by “any internal staff” or not at all: the migration approve-batch API admits any active aio_internal_staff row; pricing settings and the Service Activation Center check no permission (pricing.manage appears only in a page note).",
+      "kind": "MISSING_ROLE",
+      "origin": "AUDIT",
+      "evidence": [
+        "api/aio/client-migration/approve-batch.ts:38-45",
+        "all-in-one-enterprises/src/office/pages/BillingPages.tsx:252",
+        "all-in-one-enterprises/src/office/pages/LaunchPages.tsx:157-169"
+      ],
+      "blocks": "founder review, PREBUILT approval, service configuration"
+    },
+    {
+      "gap_id": "G-HOME-FEEDS-MISSING",
+      "root": "AIO_OFFICE.HOME",
+      "gap": "The office attention engine has no IFTA, migration, dispatch/brokerage exception, deadline, credential, maintenance, Road Ready, reconciliation or failed-payment candidates.",
+      "kind": "MISSING_CONTRACT",
+      "origin": "AUDIT",
+      "evidence": [
+        "all-in-one-enterprises/src/office-core/officeAttentionEngine.ts:78"
+      ],
+      "blocks": "HOME → NEEDS ATTENTION / BLOCKERS"
+    },
+    {
+      "gap_id": "G-DEADLINE-SEVERITY-STALE",
+      "root": "AIO_OFFICE.HOME",
+      "gap": "Deadline.severity is set once and never recalculated; the Deadlines page shows it; expiration evaluation discards its deadline updates.",
+      "kind": "MISSING_CONTRACT",
+      "origin": "AUDIT",
+      "evidence": [
+        "all-in-one-enterprises/src/demo/demoTypes.ts:408-426",
+        "all-in-one-enterprises/src/notifications/notificationScheduler.ts:53"
+      ],
+      "blocks": "HOME → DEADLINES due state"
+    },
+    {
+      "gap_id": "G-INSURANCE-EXPIRED-DROPPED",
+      "root": "AIO_OFFICE.HOME",
+      "gap": "Expired insurance policies (days < 0) are excluded from attention.",
+      "kind": "MISSING_CONTRACT",
+      "origin": "AUDIT",
+      "evidence": [
+        "all-in-one-enterprises/src/office-core/officeAttentionEngine.ts:111"
+      ],
+      "blocks": "HOME → NEEDS ATTENTION"
+    },
+    {
+      "gap_id": "G-ACTIVITY-STAFF-FEED",
+      "root": "AIO_OFFICE.HOME",
+      "gap": "The office activity feed shows internal events only, hiding customer-visible production events from staff.",
+      "kind": "MISSING_CONTRACT",
+      "origin": "AUDIT",
+      "evidence": [
+        "all-in-one-enterprises/src/office/pages/OfficeWorkPages.tsx:424-436"
+      ],
+      "blocks": "HOME → RECENT ACTIVITY"
+    },
+    {
+      "gap_id": "G-SEGMENT-VOCABULARIES",
+      "root": "AIO_OFFICE.HOME",
+      "gap": "Two founder-segment vocabularies disagree (founderSegmentForLifecycle unused vs filterClientsByFounderSegment).",
+      "kind": "MISSING_CONTRACT",
+      "origin": "AUDIT",
+      "evidence": [
+        "all-in-one-enterprises/src/client-migration/lifecycle.ts:54-77",
+        "all-in-one-enterprises/src/client-migration/activeClientMetrics.ts:11-31"
+      ],
+      "blocks": "HOME → CLIENTS IN MOTION"
+    },
+    {
+      "gap_id": "G-ACTIVE-SERVICES-HEURISTIC",
+      "root": "AIO_OFFICE.HOME",
+      "gap": "Active services come from heuristic builders that disagree; the canonical workspace resolver is not wired.",
+      "kind": "MISSING_CONTRACT",
+      "origin": "IA",
+      "evidence": [
+        "all-in-one-enterprises/src/office-core/client360Service.ts:52-71",
+        "all-in-one-enterprises/src/portal/clientCommandCenterService.ts:524-576"
+      ],
+      "blocks": "CLIENTS IN MOTION, client SERVICES, REPORTS service mix"
+    },
+    {
+      "gap_id": "G-QUICK-ACTION-TARGETS",
+      "root": "AIO_OFFICE.HOME",
+      "gap": "No generic create-case or staff upload-document surface; “+ New → Service Request” routes to the public /get-started; “Internal Task” writes store.tasks, not office work items.",
+      "kind": "MISSING_ROUTE",
+      "origin": "AUDIT",
+      "evidence": [
+        "all-in-one-enterprises/src/office/layouts/AIOOfficeLayout.tsx:248-251"
+      ],
+      "blocks": "HOME → QUICK ACTIONS"
+    },
+    {
+      "gap_id": "G-WORK-LANE-NAV",
+      "root": "AIO_OFFICE.WORK",
+      "gap": "No WORK lane switcher or /office/work/:lane route; lanes live in separate sidebar groups.",
+      "kind": "MISSING_ROUTE",
+      "origin": "IA",
+      "evidence": [
+        "all-in-one-enterprises/src/office/layouts/AIOOfficeLayout.tsx:13-118"
+      ],
+      "blocks": "WORK lane navigation"
+    },
+    {
+      "gap_id": "G-OFFICE-DEMO-ONLY",
+      "root": "AIO_OFFICE.WORK",
+      "gap": "Office pages read and write the browser-local demo store; Supabase is queried only for client request creation, freight / shipper / autopilot, pretrip and migration approve.",
+      "kind": "DEMO_ONLY",
+      "origin": "AUDIT",
+      "evidence": [
+        "all-in-one-enterprises/src/demo/demoStore.ts:19"
+      ],
+      "blocks": "every production claim"
+    },
+    {
+      "gap_id": "G-PERMITTING-CASE-MODEL",
+      "root": "AIO_OFFICE.WORK",
+      "gap": "No permit / authority / tag / BOC-3 / formation case model — generic service requests only.",
+      "kind": "MISSING_TABLE_OR_SERVICE",
+      "origin": "IA",
+      "evidence": [
+        "all-in-one-enterprises/src/office/pages/DivisionOpsPages.tsx:14-31"
+      ],
+      "blocks": "PERMITTING & AUTHORITIES sections"
+    },
+    {
+      "gap_id": "G-REQUEST-STATUS-CAST",
+      "root": "AIO_OFFICE.WORK",
+      "gap": "Workflow step ids are cast into RequestStatus, so stored statuses fall outside the type.",
+      "kind": "MISSING_CONTRACT",
+      "origin": "AUDIT",
+      "evidence": [
+        "all-in-one-enterprises/src/demo/demoActions.ts:133",
+        "all-in-one-enterprises/src/demo/demoActions.ts:188"
+      ],
+      "blocks": "status-based shell sections"
+    },
+    {
+      "gap_id": "G-IFTA-NO-TABLES",
+      "root": "AIO_OFFICE.WORK",
+      "gap": "IFTA has no Supabase tables (demo store only).",
+      "kind": "MISSING_TABLE_OR_SERVICE",
+      "origin": "IA",
+      "evidence": [
+        "all-in-one-enterprises/src/demo/demoTypes.ts:584"
+      ],
+      "blocks": "production IFTA"
+    },
+    {
+      "gap_id": "G-IFTA-VEHICLE-COPIES",
+      "root": "AIO_OFFICE.WORK",
+      "gap": "IFTA quarters embed their own vehicle copies (IftaVehicle), carried forward from the prior quarter rather than read from the fleet record.",
+      "kind": "MISSING_CONTRACT",
+      "origin": "AUDIT",
+      "evidence": [
+        "all-in-one-enterprises/src/ifta/iftaTypes.ts:57-65",
+        "all-in-one-enterprises/src/ifta/iftaActions.ts:614-619"
+      ],
+      "blocks": "VEHICLES & FLEET single source of truth"
+    },
+    {
+      "gap_id": "G-IFTA-NOTES-HARDCODED",
+      "root": "AIO_OFFICE.WORK",
+      "gap": "The IFTA staff NOTES tab renders a hard-coded note; no staff-notes model.",
+      "kind": "MISSING_TABLE_OR_SERVICE",
+      "origin": "AUDIT",
+      "evidence": [
+        "all-in-one-enterprises/src/ifta/ui/IftaStaffCasePage.tsx:395-399"
+      ],
+      "blocks": "IFTA staff notes"
+    },
+    {
+      "gap_id": "G-FILING-HISTORY",
+      "root": "AIO_OFFICE.WORK",
+      "gap": "No cross-quarter filing history view (data exists in quarter states).",
+      "kind": "MISSING_SURFACE",
+      "origin": "IA",
+      "evidence": [
+        "all-in-one-enterprises/src/ifta/iftaDerive.ts:64"
+      ],
+      "blocks": "FILING HISTORY section, REPORTS → FILING HISTORY"
+    },
+    {
+      "gap_id": "G-COMPLIANCE-CASE-MODEL",
+      "root": "AIO_OFFICE.WORK",
+      "gap": "No compliance case / audit / corrective-action model.",
+      "kind": "MISSING_TABLE_OR_SERVICE",
+      "origin": "IA",
+      "evidence": [
+        "all-in-one-enterprises/src/services/catalog/serviceCatalog.ts:709-743"
+      ],
+      "blocks": "COMPLIANCE active work, REPORTS → COMPLIANCE open items"
+    },
+    {
+      "gap_id": "G-DEADLINES-UNQUERIED",
+      "root": "AIO_OFFICE.WORK",
+      "gap": "Supabase aio_deadlines exists but is never queried; there is no renewals table.",
+      "kind": "MISSING_TABLE_OR_SERVICE",
+      "origin": "AUDIT",
+      "evidence": [
+        "all-in-one-enterprises/supabase/migrations/20260815110000_aio_business_data_rls.sql:97"
+      ],
+      "blocks": "production deadlines"
+    },
+    {
+      "gap_id": "G-VEHICLES-THREE-STORES",
+      "root": "AIO_OFFICE.WORK",
+      "gap": "Three vehicle stores: demo PowerUnit (the anchor most references use), Supabase aio_fleet_vehicles (unread), IFTA embedded copies; TruckDispatchProfile is an overlay. The lane must anchor on one record and project the rest.",
+      "kind": "MISSING_CONTRACT",
+      "origin": "AUDIT",
+      "evidence": [
+        "all-in-one-enterprises/src/road-ready/roadReadyTypes.ts:113-139",
+        "all-in-one-enterprises/supabase/migrations/20260817190000_aio_fleetcare_network.sql:86-101"
+      ],
+      "blocks": "VEHICLES & FLEET"
+    },
+    {
+      "gap_id": "G-VEHICLES-NO-REGISTRATION-FIELD",
+      "root": "AIO_OFFICE.WORK",
+      "gap": "No vehicle record holds a registration expiry; it is derived from vault documents.",
+      "kind": "MISSING_CONTRACT",
+      "origin": "AUDIT",
+      "evidence": [
+        "all-in-one-enterprises/src/vault/vaultTypes.ts:93-106"
+      ],
+      "blocks": "registration state the lane owns"
+    },
+    {
+      "gap_id": "G-VEHICLES-STALE-TABLE-NAME",
+      "root": "AIO_OFFICE.WORK",
+      "gap": "persistenceInventory names a canonical aio_vehicles table that does not exist.",
+      "kind": "MISSING_CONTRACT",
+      "origin": "AUDIT",
+      "evidence": [
+        "all-in-one-enterprises/src/data/persistenceInventory.ts:109"
+      ],
+      "blocks": "persistence planning"
+    },
+    {
+      "gap_id": "G-DISPATCH-MY-LOADS",
+      "root": "AIO_OFFICE.WORK",
+      "gap": "No dispatcher-assigned view in the office.",
+      "kind": "MISSING_SURFACE",
+      "origin": "IA",
+      "evidence": [
+        "all-in-one-enterprises/src/dispatch/dispatchTypes.ts:247"
+      ],
+      "blocks": "MY LOADS / MY TRUCKS"
+    },
+    {
+      "gap_id": "G-DISPATCH-ENROLLMENT-UI",
+      "root": "AIO_OFFICE.WORK",
+      "gap": "activateDispatchEnrollment has no UI.",
+      "kind": "MISSING_SURFACE",
+      "origin": "IA",
+      "evidence": [
+        "all-in-one-enterprises/src/demo/dispatchActions.ts:142"
+      ],
+      "blocks": "dispatch onboarding"
+    },
+    {
+      "gap_id": "G-BROKERAGE-PAUSED",
+      "root": "AIO_OFFICE.WORK",
+      "gap": "The brokerage business line is PAUSED (a business decision, not a defect); its lane contract stands for when it resumes.",
+      "kind": "DEFERRED",
+      "origin": "IA",
+      "evidence": [
+        "all-in-one-enterprises/src/infrastructure/serviceActivation.ts:29"
+      ],
+      "blocks": "brokerage production"
+    },
+    {
+      "gap_id": "G-INSURANCE-TABLES-UNQUERIED",
+      "root": "AIO_OFFICE.WORK",
+      "gap": "Supabase insurance tables exist but are not queried.",
+      "kind": "MISSING_TABLE_OR_SERVICE",
+      "origin": "IA",
+      "evidence": [
+        "all-in-one-enterprises/supabase/migrations/20260815160000_aio_rls_extensions.sql:5-20"
+      ],
+      "blocks": "production insurance"
+    },
+    {
+      "gap_id": "G-FACTORING-NO-PROVIDER",
+      "root": "AIO_OFFICE.WORK",
+      "gap": "No factoring provider integration; aio_factoring_cases unqueried.",
+      "kind": "MISSING_TABLE_OR_SERVICE",
+      "origin": "IA",
+      "evidence": [
+        "all-in-one-enterprises/src/demo/factoringActions.ts:67-308"
+      ],
+      "blocks": "production factoring"
+    },
+    {
+      "gap_id": "G-FACTORING-TWO-MODELS",
+      "root": "AIO_OFFICE.WORK",
+      "gap": "A second factoring model backs portal components and mocks.",
+      "kind": "MISSING_CONTRACT",
+      "origin": "AUDIT",
+      "evidence": [
+        "all-in-one-enterprises/src/services/factoring/factoringTypes.ts"
+      ],
+      "blocks": "one factoring source of truth"
+    },
+    {
+      "gap_id": "G-BOOKKEEPING-SEED-ONLY",
+      "root": "AIO_OFFICE.WORK",
+      "gap": "Bookkeeping cycles, reports, autopilot periods and exceptions exist as models but are seeded only: the bookkeeping and autopilot actions read them and nothing writes them (only subscriptions have a writer). RECONCILIATION and DELIVERABLES stay NOT STARTED.",
+      "kind": "MISSING_TABLE_OR_SERVICE",
+      "origin": "AUDIT",
+      "evidence": [
+        "all-in-one-enterprises/src/demo/demoSeed.ts:396-397",
+        "all-in-one-enterprises/src/demo/bookkeepingActions.ts:19-32",
+        "all-in-one-enterprises/src/demo/autopilotActions.ts:7-63"
+      ],
+      "blocks": "BOOKKEEPING lane, REPORTS → BOOKKEEPING"
+    },
+    {
+      "gap_id": "G-DRIVERS-READ-ONLY",
+      "root": "AIO_OFFICE.WORK",
+      "gap": "Staff DriverLink views are read-only; credential review and approvals not started.",
+      "kind": "MISSING_SURFACE",
+      "origin": "IA",
+      "evidence": [
+        "all-in-one-enterprises/src/pages/office/DriverLinkOfficePages.tsx:7-76"
+      ],
+      "blocks": "CREDENTIALS, APPROVALS"
+    },
+    {
+      "gap_id": "G-FLEETCARE-READ-ONLY",
+      "root": "AIO_OFFICE.WORK",
+      "gap": "Staff FleetCare views are read-only; ~22 FleetCare tables unqueried.",
+      "kind": "MISSING_SURFACE",
+      "origin": "IA",
+      "evidence": [
+        "all-in-one-enterprises/src/pages/office/FleetCareOfficePages.tsx:7-122"
+      ],
+      "blocks": "MECHANIC / MAINTENANCE production"
+    },
+    {
+      "gap_id": "G-ROAD-READY-TABLES-UNQUERIED",
+      "root": "AIO_OFFICE.WORK",
+      "gap": "aio_road_ready_* tables exist but are not queried.",
+      "kind": "MISSING_TABLE_OR_SERVICE",
+      "origin": "IA",
+      "evidence": [
+        "all-in-one-enterprises/supabase/migrations/20260815120000_aio_identity_roles_contacts.sql:110-134"
+      ],
+      "blocks": "production Road Ready"
+    },
+    {
+      "gap_id": "G-REPORTS-DEMO-METRICS",
+      "root": "AIO_OFFICE.REPORTS",
+      "gap": "Every management metric is computed from the demo store; none is production-backed, so none qualifies for production Business Pulse.",
+      "kind": "DEMO_ONLY",
+      "origin": "AUDIT",
+      "evidence": [
+        "all-in-one-enterprises/src/management/managementQueryLayer.ts:1-16"
+      ],
+      "blocks": "REPORTS in production, HOME Business Pulse"
+    },
+    {
+      "gap_id": "G-REPORTS-DERIVATION-DEFECTS",
+      "root": "AIO_OFFICE.REPORTS",
+      "gap": "Derivation defects: invoice-date label vs payment-date basis; funnel counts lost leads as qualified / contacted and ignores the shipper pipeline; brokerage completed loads not date-filtered; factoring “service fees” sums provider-reported fees; “service fees” on the billing dashboard includes draft and void invoices.",
+      "kind": "MISSING_CONTRACT",
+      "origin": "AUDIT",
+      "evidence": [
+        "all-in-one-enterprises/src/office/pages/ManagementPages.tsx:176",
+        "all-in-one-enterprises/src/management/managementQueryLayer.ts:114-133",
+        "all-in-one-enterprises/src/management/managementQueryLayer.ts:166",
+        "all-in-one-enterprises/src/management/managementQueryLayer.ts:196",
+        "all-in-one-enterprises/src/office/pages/BillingPages.tsx:37"
+      ],
+      "blocks": "REPORTS metric correctness"
+    },
+    {
+      "gap_id": "G-REPORTS-EXPORTS",
+      "root": "AIO_OFFICE.REPORTS",
+      "gap": "No PDF / period / client / service exports; saved reports are write-only; reports.export is not checked; the IFTA CSV lacks a formula-injection guard.",
+      "kind": "MISSING_SURFACE",
+      "origin": "IA",
+      "evidence": [
+        "all-in-one-enterprises/src/office/pages/ManagementPages.tsx:647",
+        "all-in-one-enterprises/src/ifta/ui/IftaStaffCasePage.tsx:116-136"
+      ],
+      "blocks": "REPORTS → EXPORTS"
+    },
+    {
+      "gap_id": "G-MORE-DIRECTORY",
+      "root": "AIO_OFFICE.MORE",
+      "gap": "The MORE directory surface does not exist; entries are separate routes.",
+      "kind": "MISSING_SURFACE",
+      "origin": "IA",
+      "evidence": [
+        "all-in-one-enterprises/src/client-migration/visual/AioMigrationKit.tsx:249"
+      ],
+      "blocks": "MORE"
+    },
+    {
+      "gap_id": "G-STAFF-ACCOUNT",
+      "root": "AIO_OFFICE.MORE",
+      "gap": "No staff account / profile page.",
+      "kind": "MISSING_SURFACE",
+      "origin": "IA",
+      "evidence": [
+        "all-in-one-enterprises/src/office/layouts/AIOOfficeLayout.tsx:180-188"
+      ],
+      "blocks": "MORE → ACCOUNT"
+    },
+    {
+      "gap_id": "G-ROLE-ASSIGNMENT-UI",
+      "root": "AIO_OFFICE.MORE",
+      "gap": "No role-assignment UI; setOfficeStaffRole and revokeStaffPermission have no page callers.",
+      "kind": "MISSING_SURFACE",
+      "origin": "AUDIT",
+      "evidence": [
+        "all-in-one-enterprises/src/office-core/officeContext.ts:214"
+      ],
+      "blocks": "TEAM & STAFF administration"
+    },
+    {
+      "gap_id": "G-PRICING-FICTIONAL",
+      "root": "AIO_OFFICE.MORE",
+      "gap": "Service pricing is fictional demo data.",
+      "kind": "DEMO_ONLY",
+      "origin": "AUDIT",
+      "evidence": [
+        "all-in-one-enterprises/src/billing/servicePricingConfig.ts:4-5"
+      ],
+      "blocks": "SERVICE CATALOG pricing"
+    },
+    {
+      "gap_id": "G-BILLING-UNQUERIED",
+      "root": "AIO_OFFICE.MORE",
+      "gap": "Billing and CRM Supabase tables exist but are not queried.",
+      "kind": "MISSING_TABLE_OR_SERVICE",
+      "origin": "AUDIT",
+      "evidence": [
+        "all-in-one-enterprises/supabase/migrations/20260815130000_aio_crm_workflow_billing.sql:84-116"
+      ],
+      "blocks": "production BILLING / CRM"
+    },
+    {
+      "gap_id": "G-CRM-FOLLOWUP-STATUS",
+      "root": "AIO_OFFICE.MORE",
+      "gap": "CRM follow-up statuses never advance to due / overdue; referrals have no UI.",
+      "kind": "MISSING_CONTRACT",
+      "origin": "AUDIT",
+      "evidence": [
+        "all-in-one-enterprises/src/demo/crmActions.ts:523-548"
+      ],
+      "blocks": "HOME CRM projection"
+    },
+    {
+      "gap_id": "P-PORTAL-VIEWS-CROSS-ORG",
+      "root": "CLIENT_OFFICE",
+      "gap": "aio_portal_service_request_view and aio_portal_invoice_view select every organisation’s rows, are not security_invoker, and anon has SELECT on all tables — as written, they expose cross-org request and invoice data. aio_management_service_ops_view has the same shape.",
+      "kind": "PRIVACY",
+      "origin": "AUDIT",
+      "evidence": [
+        "all-in-one-enterprises/supabase/migrations/20260815160000_aio_rls_extensions.sql:85-106",
+        "all-in-one-enterprises/supabase/migrations/20260815170000_aio_indexes_views.sql:17-20",
+        "all-in-one-enterprises/supabase/migrations/20260827001621_aio_api_role_grants.sql:12"
+      ],
+      "blocks": "any client-safe projection over these views"
+    },
+    {
+      "gap_id": "P-SHIPPER-VIEW-INTERNAL-NOTES",
+      "root": "CLIENT_OFFICE",
+      "gap": "The shipper-safe view aio_shipper_freight_shipments exposes internal_notes, and shippers can read every column of their aio_dispatch_loads rows.",
+      "kind": "PRIVACY",
+      "origin": "AUDIT",
+      "evidence": [
+        "all-in-one-enterprises/supabase/migrations/20260819150000_aio_shipper_rls_bookkeeping_handoff.sql:143",
+        "all-in-one-enterprises/supabase/migrations/20260819150000_aio_shipper_rls_bookkeeping_handoff.sql:243-246"
+      ],
+      "blocks": "brokerage client-safe projection"
+    },
+    {
+      "gap_id": "P-SHIPPER-READS-AUDIT",
+      "root": "CLIENT_OFFICE",
+      "gap": "Shippers can read staff brokerage audit rows including note and payload (target carrier rate).",
+      "kind": "PRIVACY",
+      "origin": "AUDIT",
+      "evidence": [
+        "all-in-one-enterprises/supabase/migrations/20260819150000_aio_shipper_rls_bookkeeping_handoff.sql:212-223",
+        "all-in-one-enterprises/src/brokerage/brokerageWorkflow.ts:271-274"
+      ],
+      "blocks": "brokerage client-safe projection"
+    },
+    {
+      "gap_id": "P-CLIENT-LIFECYCLE-SELF-UPDATE",
+      "root": "CLIENT_OFFICE",
+      "gap": "Organisation owners / admins may UPDATE their own organisation row with no column restriction, and client_lifecycle lives on that row — a client could set itself ACTIVE, bypassing activation.",
+      "kind": "PRIVACY",
+      "origin": "AUDIT",
+      "evidence": [
+        "all-in-one-enterprises/supabase/migrations/20260815100000_aio_identity_foundation.sql:212-220",
+        "all-in-one-enterprises/supabase/migrations/20261006210000_aio_client_migration_activation.sql:5"
+      ],
+      "blocks": "PREBUILT ≠ ACTIVE; client confirmation as the gate"
+    },
+    {
+      "gap_id": "P-DOCUMENTS-INTERNAL-EXPOSED",
+      "root": "CLIENT_OFFICE",
+      "gap": "Internal documents open by direct link and via the calendar (no visibility check); migration-approve inserts set visibility_scope internal but leave visibility = customer, so migrated scans are customer-readable under RLS.",
+      "kind": "PRIVACY",
+      "origin": "AUDIT",
+      "evidence": [
+        "all-in-one-enterprises/src/demo/vaultActions.ts:32-34",
+        "all-in-one-enterprises/src/demo/vaultActions.ts:41",
+        "all-in-one-enterprises/src/client-migration/server/supabaseApproveMigration.ts:160-170",
+        "all-in-one-enterprises/supabase/migrations/20260815110000_aio_business_data_rls.sql:118",
+        "all-in-one-enterprises/supabase/migrations/20260815110000_aio_business_data_rls.sql:341-344"
+      ],
+      "blocks": "VAULT client-safe projection"
+    },
+    {
+      "gap_id": "P-ACTIVITY-INTERNAL-TO-CLIENT",
+      "root": "CLIENT_OFFICE",
+      "gap": "Client activity shows internal events whenever the event carries the client id (titles such as staff assignments, internal notes, CRM conversion).",
+      "kind": "PRIVACY",
+      "origin": "AUDIT",
+      "evidence": [
+        "all-in-one-enterprises/src/portal/clientCommandCenterService.ts:715-718"
+      ],
+      "blocks": "client activity, HUB"
+    },
+    {
+      "gap_id": "P-MESSAGES-RLS-VISIBILITY",
+      "root": "CLIENT_OFFICE",
+      "gap": "The aio_messages RLS policy does not filter on visibility (internal notes would be client-readable once messages are stored in Supabase).",
+      "kind": "PRIVACY",
+      "origin": "AUDIT",
+      "evidence": [
+        "all-in-one-enterprises/supabase/migrations/20260815110000_aio_business_data_rls.sql:363-368"
+      ],
+      "blocks": "INBOX client-safe projection"
+    },
+    {
+      "gap_id": "P-FLEETCARE-TICKET-NO-ORG-CHECK",
+      "root": "CLIENT_OFFICE",
+      "gap": "The client FleetCare ticket detail and vehicle history pages have no organisation check.",
+      "kind": "PRIVACY",
+      "origin": "AUDIT",
+      "evidence": [
+        "all-in-one-enterprises/src/pages/portal/fleetcare/FleetCarePortalPages.tsx:154"
+      ],
+      "blocks": "MAINTENANCE client-safe projection"
+    },
+    {
+      "gap_id": "P-FLEETCARE-REFERRAL-FEES-CLIENT",
+      "root": "CLIENT_OFFICE",
+      "gap": "Client organisations can read FleetCare referral transactions including AIO’s fee amounts.",
+      "kind": "PRIVACY",
+      "origin": "AUDIT",
+      "evidence": [
+        "all-in-one-enterprises/supabase/migrations/20260817190000_aio_fleetcare_network.sql:530-535",
+        "all-in-one-enterprises/supabase/migrations/20260817190000_aio_fleetcare_network.sql:410-417"
+      ],
+      "blocks": "MAINTENANCE client-safe projection"
+    },
+    {
+      "gap_id": "P-IFTA-CLIENT-AUDIT-ACTIONS",
+      "root": "CLIENT_OFFICE",
+      "gap": "The IFTA client filing room lists every audit action, including staff actions and names.",
+      "kind": "PRIVACY",
+      "origin": "AUDIT",
+      "evidence": [
+        "all-in-one-enterprises/src/ifta/ui/iftaViewModel.ts:562-576"
+      ],
+      "blocks": "IFTA client-safe projection"
+    },
+    {
+      "gap_id": "P-CLIENT-LINKS-TO-OFFICE",
+      "root": "CLIENT_OFFICE",
+      "gap": "Client dispatch and factoring pages link to /office/messages (in demo mode the office guard lets anyone in).",
+      "kind": "PRIVACY",
+      "origin": "IA",
+      "evidence": [
+        "all-in-one-enterprises/src/pages/portal/dispatch/DispatchHomePage.tsx:142",
+        "all-in-one-enterprises/src/pages/portal/factoring/FactoringPortalPages.tsx:107"
+      ],
+      "blocks": "staff / client firewall"
+    },
+    {
+      "gap_id": "P-BOOKKEEPING-DRAFT-REPORTS",
+      "root": "CLIENT_OFFICE",
+      "gap": "Client bookkeeping pages show draft reports (no status filter).",
+      "kind": "PRIVACY",
+      "origin": "AUDIT",
+      "evidence": [
+        "all-in-one-enterprises/src/pages/portal/bookkeeping/BookkeepingPortalPages.tsx:157"
+      ],
+      "blocks": "BOOKKEEPING client-safe projection"
+    }
+  ]
+}

@@ -1,0 +1,148 @@
+{
+  "id": "AIO_OFFICE_CONTRACTS_QUALITY_GATE",
+  "sprint": "P0.AIO.OFFICE-IA.FOUNDER-HOME-WORK-REPORTS-MORE.AUTHORITY-CONTRACTS1",
+  "generated_by": "scripts/studioos/aio-office-contracts-export.ts",
+  "source": [
+    "shared/studioos-experience-brain/office-root-contracts.ts",
+    "shared/studioos-experience-brain/projects/aio/office-contracts.ts",
+    "shared/studioos-experience-brain/projects/aio/office-ia.ts"
+  ],
+  "audit": {
+    "repo": "yoteenz/fsbw · all-in-one-enterprises",
+    "sha": "3c060ac02a6660e0c821541d0826ff1c41d289b8",
+    "mode": "READ-ONLY"
+  },
+  "constraints": {
+    "contract_only": true,
+    "visual_redesign": false,
+    "images_generated": 0,
+    "visual_authorities_created": false,
+    "live_nav_changed": false,
+    "routes_changed": false,
+    "pages_built": false,
+    "supabase_schema_changed": false,
+    "auth_changed": false,
+    "client_lifecycle_changed": false,
+    "metrics_invented": false,
+    "records_invented": false,
+    "deployed": false
+  },
+  "checks": [
+    {
+      "key": "HOME_PURPOSE_LOCKED",
+      "value": "YES",
+      "evidence": "8 regions = the IA HOME regions in order; Business Pulse the only OPTIONAL one"
+    },
+    {
+      "key": "HOME_PROJECTION_ONLY",
+      "value": "YES",
+      "evidence": "owns 0 · mutates 0 · 11 actions, all ROUTE · every source owned outside HOME"
+    },
+    {
+      "key": "WORK_PURPOSE_LOCKED",
+      "value": "YES",
+      "evidence": "PRODUCTION · 15 root capabilities · history stays in REPORTS"
+    },
+    {
+      "key": "WORK_12_LANES_REPRESENTED",
+      "value": "YES",
+      "evidence": "12 lane contracts = the IA lanes in order, each with the 6-part shell; IFTA preserved"
+    },
+    {
+      "key": "VEHICLES_FLEET_CONTRACT_DEFINED",
+      "value": "YES",
+      "evidence": "owns Vehicle roster · Vehicle profiles · Availability / out-of-service state · Registration state · cross-links 10 (the founder’s 9 + Tags / Registration) · NO STAFF SCREEN YET recorded"
+    },
+    {
+      "key": "REPORTS_PURPOSE_LOCKED",
+      "value": "YES",
+      "evidence": "OVERSIGHT · mutates nothing · 10 domains = the IA report domains"
+    },
+    {
+      "key": "REPORTS_FAKE_DATA_PROHIBITED",
+      "value": "YES",
+      "evidence": "42 metrics classified (REAL_DATA 0 · PARTIAL_DATA 12 · NOT_IMPLEMENTED 6 · DERIVED_SUPPORTED 16 · DERIVED_UNSUPPORTED 8); none unsupported shown as data; profitability never shown"
+    },
+    {
+      "key": "MORE_PURPOSE_LOCKED",
+      "value": "YES",
+      "evidence": "11 entries, each with a purpose and owner; ACCOUNT NOT STARTED"
+    },
+    {
+      "key": "CRM_LOCATION_LOCKED",
+      "value": "YES",
+      "evidence": "MORE → GROWTH / CRM owns; HOME projects; never client-visible"
+    },
+    {
+      "key": "BILLING_LOCATION_LOCKED",
+      "value": "YES",
+      "evidence": "MORE → BILLING owns; REPORTS aggregates; client sees FINANCES → FEES / PAYMENTS only"
+    },
+    {
+      "key": "FOUNDER_ROLE_ARCHITECTURE_DEFINED",
+      "value": "YES",
+      "evidence": "10 founder acts with today’s gate · assignment, never-rules and gaps recorded"
+    },
+    {
+      "key": "FOUNDER_ROLE_IMPLEMENTATION_CHANGED",
+      "value": "NO",
+      "evidence": "no auth, role or database-policy change"
+    },
+    {
+      "key": "ROAD_READY_STATE_INVENTED",
+      "value": "NO",
+      "evidence": "engagement state recorded as missing (G-ROAD-READY-NO-ENGAGEMENT-STATE); RECENTLY COMPLETED BLOCKED"
+    },
+    {
+      "key": "CLIENT_SAFE_PROJECTIONS_DEFINED",
+      "value": "YES",
+      "evidence": "19 projections; every ownership domain with a client side has a row"
+    },
+    {
+      "key": "ROOT_OWNERSHIP_MATRIX",
+      "value": "COMPLETE",
+      "evidence": "21 domains (20 required + WORK_ITEMS)"
+    },
+    {
+      "key": "DATA_SOURCE_MATRIX",
+      "value": "COMPLETE",
+      "evidence": "41 rows: every HOME region, WORK lane, REPORTS domain and MORE entry"
+    },
+    {
+      "key": "RESPONSIVE_PRIORITY_MATRIX",
+      "value": "COMPLETE",
+      "evidence": "4 roots × 3 viewports"
+    },
+    {
+      "key": "PRIVACY_GAPS_RECORDED",
+      "value": "12",
+      "evidence": "verified live; not fixed (no auth / schema change) — recommend a security sprint"
+    },
+    {
+      "key": "VISUAL_REDESIGN_PERFORMED",
+      "value": "NO",
+      "evidence": "no page, image or visual authority touched"
+    },
+    {
+      "key": "LIVE_IMPLEMENTATION_CHANGED",
+      "value": "NO",
+      "evidence": "no route, nav, page, schema, lifecycle or auth change"
+    },
+    {
+      "key": "READY_FOR_FOUNDER_CONTRACT_REVIEW",
+      "value": "YES",
+      "evidence": "validator violations 0"
+    }
+  ],
+  "report": {
+    "WORK_SERVICE_LANES": 12,
+    "MORE_ENTRIES": 11,
+    "HOME_REGIONS": "8 (7 required + 1 optional)",
+    "REPORT_DOMAINS": 10,
+    "FOUNDER_ROLE_IMPLEMENTED": "NO",
+    "ROAD_READY_ENGAGEMENT_STATE_EXISTS": "NO",
+    "VEHICLES_FLEET_STAFF_SCREEN_EXISTS": "NO",
+    "FAKE_METRICS_INTRODUCED": "NO"
+  },
+  "violations": []
+}

@@ -1,0 +1,340 @@
+{
+  "id": "AIO_PERMISSION_MATRIX",
+  "sprint": "P0.AIO.OFFICE-IA.FOUNDER-HOME-WORK-REPORTS-MORE.AUTHORITY-CONTRACTS1",
+  "generated_by": "scripts/studioos/aio-office-contracts-export.ts",
+  "source": [
+    "shared/studioos-experience-brain/office-root-contracts.ts",
+    "shared/studioos-experience-brain/projects/aio/office-contracts.ts",
+    "shared/studioos-experience-brain/projects/aio/office-ia.ts"
+  ],
+  "audit": {
+    "repo": "yoteenz/fsbw · all-in-one-enterprises",
+    "sha": "3c060ac02a6660e0c821541d0826ff1c41d289b8",
+    "mode": "READ-ONLY"
+  },
+  "constraints": {
+    "contract_only": true,
+    "visual_redesign": false,
+    "images_generated": 0,
+    "visual_authorities_created": false,
+    "live_nav_changed": false,
+    "routes_changed": false,
+    "pages_built": false,
+    "supabase_schema_changed": false,
+    "auth_changed": false,
+    "client_lifecycle_changed": false,
+    "metrics_invented": false,
+    "records_invented": false,
+    "deployed": false
+  },
+  "actors": [
+    "FOUNDER",
+    "STAFF",
+    "CLIENT",
+    "SERVICE_PROVIDER"
+  ],
+  "scopes": [
+    {
+      "scope": "AIO_OFFICE",
+      "access": {
+        "FOUNDER": "FULL",
+        "STAFF": "FULL",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "enforced_by": "OfficeRouteGuard: backend mode requires an active aio_internal_staff row; demo mode lets everyone in. In-office permissions are resolved client-side from the demo store (role defaults to manager) — not enforced server-side.",
+      "note": "Clients and providers never enter AIO OFFICE (a provider reaches it only if also internal staff)."
+    },
+    {
+      "scope": "AIO_OFFICE.HOME",
+      "access": {
+        "FOUNDER": "FULL",
+        "STAFF": "FULL",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "enforced_by": "OfficeRouteGuard: backend mode requires an active aio_internal_staff row; demo mode lets everyone in. In-office permissions are resolved client-side from the demo store (role defaults to manager) — not enforced server-side.",
+      "note": "Money and CRM items within HOME need their grants."
+    },
+    {
+      "scope": "AIO_OFFICE.INTAKE",
+      "access": {
+        "FOUNDER": "FULL",
+        "STAFF": "FULL",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "enforced_by": "OfficeRouteGuard: backend mode requires an active aio_internal_staff row; demo mode lets everyone in. In-office permissions are resolved client-side from the demo store (role defaults to manager) — not enforced server-side.",
+      "note": "Founder review, PREBUILT approval and the activation invite are founder acts (staff prepare; they do not inherit)."
+    },
+    {
+      "scope": "AIO_OFFICE.WORK",
+      "access": {
+        "FOUNDER": "FULL",
+        "STAFF": "FULL",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "enforced_by": "OfficeRouteGuard: backend mode requires an active aio_internal_staff row; demo mode lets everyone in. In-office permissions are resolved client-side from the demo store (role defaults to manager) — not enforced server-side.",
+      "note": ""
+    },
+    {
+      "scope": "AIO_OFFICE.WORK.BROKERAGE.LOAD_FINANCIALS",
+      "access": {
+        "FOUNDER": "FULL",
+        "STAFF": "BY_GRANT",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "enforced_by": "brokerage_finance.read (ROLE_PERMISSIONS); DB view aio_brokerage_load_financials_internal is security_invoker",
+      "note": ""
+    },
+    {
+      "scope": "AIO_OFFICE.REPORTS",
+      "access": {
+        "FOUNDER": "FULL",
+        "STAFF": "BY_GRANT",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "enforced_by": "reports.read · management.*.read via ManagementGate (client-side)",
+      "note": ""
+    },
+    {
+      "scope": "AIO_OFFICE.REPORTS.FINANCIAL_REVENUE",
+      "access": {
+        "FOUNDER": "FULL",
+        "STAFF": "BY_GRANT",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "enforced_by": "management.financial.read via ManagementGate (client-side)",
+      "note": ""
+    },
+    {
+      "scope": "AIO_OFFICE.MORE",
+      "access": {
+        "FOUNDER": "FULL",
+        "STAFF": "FULL",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "enforced_by": "OfficeRouteGuard: backend mode requires an active aio_internal_staff row; demo mode lets everyone in. In-office permissions are resolved client-side from the demo store (role defaults to manager) — not enforced server-side.",
+      "note": "Entries below carry their own grants."
+    },
+    {
+      "scope": "AIO_OFFICE.MORE.GROWTH_CRM",
+      "access": {
+        "FOUNDER": "FULL",
+        "STAFF": "BY_GRANT",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "enforced_by": "crm.* (ROLE_PERMISSIONS) — crm.reports.read is never checked",
+      "note": ""
+    },
+    {
+      "scope": "AIO_OFFICE.MORE.BILLING",
+      "access": {
+        "FOUNDER": "FULL",
+        "STAFF": "BY_GRANT",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "enforced_by": "billing.read · billing.manage (Client 360 tab only; /office/billing routes are not gated)",
+      "note": ""
+    },
+    {
+      "scope": "AIO_OFFICE.MORE.TEAM_STAFF",
+      "access": {
+        "FOUNDER": "FULL",
+        "STAFF": "FULL",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "enforced_by": "team page ungated; team.manage is never enforced",
+      "note": "Role / permission administration is a founder act; no role-assignment UI exists."
+    },
+    {
+      "scope": "AIO_OFFICE.MORE.SYSTEM_SETTINGS",
+      "access": {
+        "FOUNDER": "FULL",
+        "STAFF": "BY_GRANT",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "enforced_by": "SecurityGate / IntegrationGate / DataGate / QaGate on some pages; canStaffAccessSystemAdmin is unused in production",
+      "note": ""
+    },
+    {
+      "scope": "CLIENT_OFFICE",
+      "access": {
+        "FOUNDER": "NONE",
+        "STAFF": "NONE",
+        "CLIENT": "OWN_RECORDS_ONLY",
+        "SERVICE_PROVIDER": "NONE"
+      },
+      "enforced_by": "CustomerRouteGuard (authentication only) + ClientPortalLifecycleGuard (only ACTIVE reaches the portal)",
+      "note": "Staff reach the same client data from AIO OFFICE. A provider can reach /portal because CustomerRouteGuard checks authentication only (gap)."
+    },
+    {
+      "scope": "PROVIDER_PORTAL",
+      "access": {
+        "FOUNDER": "NONE",
+        "STAFF": "NONE",
+        "CLIENT": "NONE",
+        "SERVICE_PROVIDER": "OWN_RECORDS_ONLY"
+      },
+      "enforced_by": "ProviderRouteGuard (fleetcareProviderId); provider pages use a demo provider id and fetch tickets without an ownership check",
+      "note": "Outside both offices: providers never gain staff visibility."
+    }
+  ],
+  "privileged_roles": [
+    {
+      "role": "FOUNDER",
+      "definition": "An explicitly authorized company principal with company-wide authority across AIO OFFICE (D-FOUNDER-ROLE).",
+      "identity_rule": "A role granted to a person — never a hard-coded person, name, email or account in code or configuration. More than one person may hold it.",
+      "multiplicity": "ONE_OR_MORE",
+      "assignment": [
+        "Granted to a person by an existing FOUNDER through MORE → TEAM & STAFF; every grant and revocation is recorded in the audit trail.",
+        "At least one FOUNDER exists at all times: the last FOUNDER role cannot be revoked.",
+        "The first FOUNDER is provisioned by an audited, out-of-band step, never by a constant in code. The mechanism is decided in the permissions sprint.",
+        "A FOUNDER also holds every STAFF ability. STAFF never hold founder acts or founder-only visibility, except by an explicit, revocable grant for a named view (BY_GRANT)."
+      ],
+      "never": [
+        "hard-code a person, name, email or account id as founder",
+        "let STAFF inherit a founder act",
+        "let anyone grant a role or a grant to themselves (no self-elevation)",
+        "decide founder status in the browser — the role must be enforced server-side and in database policy",
+        "change auth, roles or database policy in this sprint (contract only)"
+      ],
+      "acts": [
+        {
+          "act": "All-client and all-service visibility",
+          "node_ids": [
+            "AIO_OFFICE.HOME",
+            "AIO_OFFICE.MORE.CLIENTS",
+            "AIO_OFFICE.WORK"
+          ],
+          "today": "Every internal user has it (OfficeRouteGuard); not founder-specific — staff hold it too.",
+          "state": "PARTIAL",
+          "evidence": [
+            "all-in-one-enterprises/src/auth/guards/RouteGuards.tsx:69-92"
+          ]
+        },
+        {
+          "act": "Founder review of a migrated client file",
+          "node_ids": [
+            "AIO_OFFICE.INTAKE.FOUNDER_REVIEW"
+          ],
+          "today": "The approve-batch API admits any active internal staff member; there is no founder check.",
+          "state": "BLOCKED",
+          "evidence": [
+            "api/aio/client-migration/approve-batch.ts:38-45"
+          ]
+        },
+        {
+          "act": "PREBUILT approval and the activation invite",
+          "node_ids": [
+            "AIO_OFFICE.INTAKE.PREBUILT_CLIENT",
+            "AIO_OFFICE.INTAKE.ACTIVATION_INVITE"
+          ],
+          "today": "Same staff-only gate as founder review. Client confirmation remains the gate before ACTIVE (unchanged).",
+          "state": "BLOCKED",
+          "evidence": [
+            "api/aio/client-migration/approve-batch.ts:38-45",
+            "all-in-one-enterprises/src/client-migration/server/supabaseApproveMigration.ts:19"
+          ]
+        },
+        {
+          "act": "Internal financial visibility",
+          "node_ids": [
+            "AIO_OFFICE.REPORTS.FINANCIAL_REVENUE",
+            "AIO_OFFICE.MORE.BILLING",
+            "AIO_OFFICE.WORK.BROKERAGE.LOAD_FINANCIALS"
+          ],
+          "today": "management.financial.read / brokerage_finance.read are resolved in the browser from a demo-store role that defaults to manager; /office/billing routes are not gated.",
+          "state": "BLOCKED",
+          "evidence": [
+            "all-in-one-enterprises/src/office-core/officeContext.ts:171-177"
+          ]
+        },
+        {
+          "act": "Reporting",
+          "node_ids": [
+            "AIO_OFFICE.REPORTS"
+          ],
+          "today": "ManagementGate checks management.*.read in the browser.",
+          "state": "BLOCKED",
+          "evidence": [
+            "all-in-one-enterprises/src/office-core/officeContext.ts:171-177"
+          ]
+        },
+        {
+          "act": "Staff role and permission administration",
+          "node_ids": [
+            "AIO_OFFICE.MORE.TEAM_STAFF"
+          ],
+          "today": "No role-assignment UI; team.manage is defined but never enforced; setOfficeStaffRole has no page caller.",
+          "state": "NOT_IMPLEMENTED",
+          "evidence": [
+            "all-in-one-enterprises/src/office-core/officeContext.ts:214"
+          ]
+        },
+        {
+          "act": "System configuration",
+          "node_ids": [
+            "AIO_OFFICE.MORE.SYSTEM_SETTINGS"
+          ],
+          "today": "Some settings pages carry browser-side gates (security, integrations, data, QA); others are open to any internal user.",
+          "state": "PARTIAL",
+          "evidence": [
+            "all-in-one-enterprises/src/office/routes/OfficeRoutes.tsx:210-242"
+          ]
+        },
+        {
+          "act": "Service configuration (activation, pricing)",
+          "node_ids": [
+            "AIO_OFFICE.MORE.SERVICE_CATALOG"
+          ],
+          "today": "Pricing settings and the Service Activation Center check no permission.",
+          "state": "BLOCKED",
+          "evidence": [
+            "all-in-one-enterprises/src/office/pages/BillingPages.tsx:252",
+            "all-in-one-enterprises/src/office/pages/LaunchPages.tsx:157-169"
+          ]
+        },
+        {
+          "act": "High-risk overrides",
+          "node_ids": [],
+          "today": "Contract: any action that bypasses a client confirmation, an activation or lifecycle gate, an approval, or a recorded filing or payment is a founder act. No such override exists in code today, so none is listed.",
+          "state": "NOT_IMPLEMENTED",
+          "evidence": []
+        },
+        {
+          "act": "Founder-only approvals",
+          "node_ids": [
+            "AIO_OFFICE.INTAKE.FOUNDER_REVIEW",
+            "AIO_OFFICE.INTAKE.PREBUILT_CLIENT",
+            "AIO_OFFICE.MORE.TEAM_STAFF",
+            "AIO_OFFICE.MORE.SERVICE_CATALOG"
+          ],
+          "today": "Defined today: founder review, PREBUILT approval, staff role changes, service activation and pricing changes. New approvals join this list only when their action exists.",
+          "state": "BLOCKED",
+          "evidence": [
+            "api/aio/client-migration/approve-batch.ts:38-45",
+            "all-in-one-enterprises/src/office-core/officeContext.ts:214"
+          ]
+        }
+      ],
+      "code_today": "No FOUNDER role in code. Nearest: the demo-store OfficeStaffRole owner and the database role super_admin; the two role sets do not map to each other, and office permissions are resolved in the browser. No founder identity is hard-coded.",
+      "gaps": [
+        "G-FOUNDER-ROLE-NOT-IMPLEMENTED",
+        "G-FOUNDER-ACTS-STAFF-GATED",
+        "G-PERMISSIONS-CLIENT-SIDE",
+        "G-PERMISSIONS-UNCHECKED",
+        "G-ROLE-ASSIGNMENT-UI"
+      ]
+    }
+  ]
+}
