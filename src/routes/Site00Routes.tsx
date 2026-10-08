@@ -347,6 +347,7 @@ const BrandPage = lazy(() => import('../site00/pages/complex/BrandPage'));
 const IdntySignInSecurityPage = lazy(() => import('../site00/pages/idnty/IdntySignInSecurityPage'));
 const BldrTemplatesPage = lazy(() => import('../site00/pages/bldr/BldrTemplatesPage'));
 const BldrStartPage = lazy(() => import('../site00/pages/bldr/BldrStartPage'));
+const BldrSpatialStudioPage = lazy(() => import('../site00/pages/bldr/BldrSpatialStudioPage'));
 const AsstsLibraryPage = lazy(() => import('../site00/assts/pages/LibraryPage'));
 const AsstsBatchesListPage = lazy(() => import('../site00/assts/pages/BatchesListPage'));
 const AsstsBatchPage = lazy(() => import('../site00/assts/pages/BatchPage'));
@@ -2335,6 +2336,7 @@ export function Site00Routes() {
         }
       />
       {Site00PublicPageRoutes(SITE00_ROUTES.bldrStart, BldrStartPage)}
+      {Site00PublicPageRoutes(SITE00_ROUTES.bldrSpatialStudio, BldrSpatialStudioPage)}
       <Route
         path="/bldr/:classSlug/*"
         element={
