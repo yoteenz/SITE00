@@ -1,7 +1,7 @@
 import type { CapabilityId, BuilderSelection } from '../types';
 import { emptySelection } from '../samples';
 import { DEFAULT_WORLD_SELECTION } from '../toEstimateConfig';
-import type { FeelVibeId, PacePreferenceId, PlacePathId, SpatialBuilderState, WorkModuleId } from './types';
+import type { PacePreferenceId, PlacePathId, SpatialBuilderState, WorkModuleId } from './types';
 
 const FEEL_TO_SYSTEM = {
   MODERN: 'ARCHITECTURAL_MINIMAL',
