@@ -65,6 +65,8 @@ const NdxbookPipelineReplayValidationPage = lazy(
 const EvolveDebugPage = lazy(() => import('../site00/admin/pages/debug/EvolveDebugPage'));
 const MarketingEngagementsAdminPage = lazy(() => import('../site00/admin/pages/marketing/MarketingEngagementsAdminPage'));
 const MarketingEngagementAdminDetailPage = lazy(() => import('../site00/admin/pages/marketing/MarketingEngagementAdminDetailPage'));
+const FoundationAdminListPage = lazy(() => import('../site00/admin/pages/foundation/FoundationAdminListPage'));
+const FoundationAdminDetailPage = lazy(() => import('../site00/admin/pages/foundation/FoundationAdminDetailPage'));
 
 function AdminSuspense({ children }: { children: React.ReactNode }) {
   return <Suspense fallback={<LoadingScreen />}>{children}</Suspense>;
@@ -551,6 +553,22 @@ export function Site00AdminRoutes() {
         element={
           <AdminSuspense>
             <SettingsPage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/foundation"
+        element={
+          <AdminSuspense>
+            <FoundationAdminListPage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/foundation/:id"
+        element={
+          <AdminSuspense>
+            <FoundationAdminDetailPage />
           </AdminSuspense>
         }
       />

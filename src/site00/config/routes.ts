@@ -40,6 +40,10 @@ export const SITE00_ROUTES = {
   existingLocationCaseCheckout: '/existing-location/case/:caseId/checkout',
   existingLocationCaseComplete: '/existing-location/case/:caseId/complete',
   existingLocationAdmin: '/admin/site00/existing-location',
+  /** IDNTY — Digital Foundation personalized artifact (opaque token) */
+  digitalFoundationArtifact: '/foundation/:token',
+  digitalFoundationAdmin: '/admin/site00/foundation',
+  digitalFoundationAdminDetail: '/admin/site00/foundation/:id',
   assts: '/assts',
   asstsBatch: '/assts/batches/:batchId',
   asstsAsset: '/assts/:assetId',
