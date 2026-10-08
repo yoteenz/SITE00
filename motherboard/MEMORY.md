@@ -15427,3 +15427,18 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - Status: parent families complete, founder review required, descendant generation blocked.
 - **Changes:** `TODAY v1/`, `ACTIVITY v1/`, `TODAY-ACTIVITY v1/REVIEW/`. No `src/`, no ENTRY, no SETUP, no F03/F04 expression manifests.
 - **Conventions:** Do not treat these review screens as new routes. Do not generate descendants until the founder passes the parents. Do not infer approval.
+
+---
+
+## 2026-10-08 — TODAY and ACTIVITY bespoke-world reconstruction
+
+- **Context:** Sprint `P0.JURNL.TODAY-ACTIVITY.CANONICAL-BRAND-AND-BESPOKE-WORLD-RECONSTRUCTION1`. The founder rejected the first TODAY and ACTIVITY parent batch. It used invented logo treatments and read as paper on a flat desk. The batch is preserved as `SUPERSEDED_DRAFT`. Both families were recomposed.
+- **Topics covered:** Official brand asset. Five-level grammar extended with brand, room, camera, contrast, and campaign tests. TODAY as a morning editorial. ACTIVITY as a private archive. Filter remains an overlay on the movement register.
+- **Decisions / outcomes:**
+  - The only mark is `public/site00/projects/jurnl/brand/jurnl-logo-official.png`. It is composited onto each page authority. Plates leave that corner empty. No invented wordmark, monogram, or substitute botanical.
+  - TODAY stations: walnut table, plaster niche, brass rail, dark desk, open drawer, linen board, travertine ledge.
+  - ACTIVITY stations: archive cabinet, marble ledger, receipt on dark marble, deposit folio, sorting tray, card index, annotated sheet.
+  - Grammar flags now require the official asset, a family room, more than one station, camera rotation, a contrast anchor, and the campaign and blur tests. Inherited by MONEY through RECORDS.
+  - Status: founder review required. Descendants stay blocked. ENTRY v2 and SETUP v1 were not edited.
+- **Changes:** `TODAY v1/`, `ACTIVITY v1/`, `TODAY-ACTIVITY v1/REVIEW/`, the creative-grammar source, manifest, rule, and `tests/jurnlBespokeCompositionGrammar1.test.ts`. No React, routes, or deploy bundle.
+- **Conventions:** Do not invent a JURNL mark. Do not treat a single stationery object on a plain wall as a parent. Do not infer approval of this reconstruction.
