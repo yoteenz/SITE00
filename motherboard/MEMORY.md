@@ -15210,3 +15210,12 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decisions / outcomes:** The pack is two folders. `01_ACCOUNT_DRAWER` and `02_QUICK_ADD` each hold `SOURCE.jpg` (founder screen, 941×1672, live UI on) and `SHELL.jpg` (2016×3584, live UI off). The shells in the zip are JPEG quality 92 of the canonical PNGs, same pixel size, so the zip is 3.2MB. Release tag `jurnl-f09-overlay-opus-handoff-2026-10-08`. Opus rebuilds the controls in HTML on the shell and uses the source only to see what was lifted. No `src/` change. No new production bundle.
 - **Changes:** This MEMORY note. The zip is a GitHub release, not a repo file.
 - **Conventions:** Hand Opus the shell as the photograph and the source as the layout reference. Do not paint the lifted UI back into the image. Canonical PNGs stay at `JURNL/F09_SAFE/OVERLAYS/F09_ACCOUNT_DRAWER_OVERLAY_SHELL.png` and `F09_QUICK_ADD_OVERLAY_SHELL.png`.
+
+---
+
+## 2026-10-08 — Overlay shells regenerated without the page plate
+
+- **Context:** This chat isolated the account drawer and Quick Add through OpenArt, then packed four images for Opus. The founder said the page plate had been left behind the overlay and both shells had to be generated alone, then the zip resent.
+- **Decisions / outcomes:** A new image-to-image pass on each shell removed the terrace, arch, sea, vase, and sky. Account drawer history `RdT5ONAAWdhtCfbQ1U5j`. Quick Add history `PuQ7UcEDyaCABTQDdDGe`. 634 credits this pass, 1585 across the overlay work. The model painted a checkerboard where the plate had been and returned no alpha channel, so that checkerboard was keyed to real transparency. The paper, bust, sprigs, and torn edge stay. Outside the sheet is empty. The shells are still not mounted.
+- **Changes:** Both PNGs in `JURNL/F09_SAFE/OVERLAYS/` and `F09_OVERLAY_SHELL_LEDGER.json`. No `src/` change.
+- **Conventions:** An overlay shell is the sheet alone. Do not put the page plate back into it. Composite it over the screen's own plate. Do not treat the earlier plate-backed JPEGs as the shells.

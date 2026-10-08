@@ -15,8 +15,9 @@
   "outputFormat": "png",
   "outputDimensions": "2016x3584",
   "creditsEach": 317,
-  "creditsSpent": 951,
+  "creditsSpent": 1585,
   "mountedInRuntime": false,
+  "note": "Accepted shells are the paper overlay alone. The page plate is transparent. Sunburst returned RGB with a painted checkerboard where the plate had been; that checkerboard was keyed to a real alpha channel. The sheet pixels are the generation.",
   "shells": [
     {
       "assetId": "F09_ACCOUNT_DRAWER_OVERLAY_SHELL",
@@ -25,11 +26,11 @@
       "path": "JURNL/F09_SAFE/OVERLAYS/F09_ACCOUNT_DRAWER_OVERLAY_SHELL.png",
       "sourcePath": "JURNL/F09_SAFE/AUTHORITIES/F09_ACCOUNT_DRAWER_OVERLAY_SOURCE.jpg",
       "sourceAuthorityId": "F09_ACCOUNT_DRAWER_OVERLAY_SOURCE",
-      "acceptedHistoryId": "qDbm2TKCzUMrQeIh9Yl1",
-      "acceptedResourceId": "JJc7wtGFYRCd1LWX6ZLf",
-      "supersededHistoryId": "YCnEZUrQdSwcjpBnSyfy",
-      "supersededReason": "Pass 1 left the flat JURNL olive-leaf logo on the upper-left paper. Pass 2, image-to-image from that shell, removed only that mark.",
-      "kept": "Torn cream sheet, deckled edge, green paper fragments, classical bust, hanging olive branch, left-edge sprig, manuscript inside the tear, marble terrace, arch, sea, vase, column."
+      "acceptedHistoryId": "RdT5ONAAWdhtCfbQ1U5j",
+      "acceptedResourceId": "USbsO2l900ZB3IR3T67r",
+      "supersededHistoryIds": ["YCnEZUrQdSwcjpBnSyfy", "qDbm2TKCzUMrQeIh9Yl1"],
+      "supersededReason": "Earlier passes kept the marble terrace, arch, and sea behind the sheet. The accepted pass is the torn sheet alone.",
+      "kept": "Torn cream sheet, deckled edge, green paper, classical bust, olives on the sheet, left sprig, manuscript on the paper. Outside the sheet is transparent."
     },
     {
       "assetId": "F09_QUICK_ADD_OVERLAY_SHELL",
@@ -38,9 +39,11 @@
       "path": "JURNL/F09_SAFE/OVERLAYS/F09_QUICK_ADD_OVERLAY_SHELL.png",
       "sourcePath": "JURNL/F09_SAFE/AUTHORITIES/F09_QUICK_ADD_OVERLAY_SOURCE.jpg",
       "sourceAuthorityId": "F09_QUICK_ADD_OVERLAY_SOURCE",
-      "acceptedHistoryId": "5xIriWqiA9MeSiC0Y6t2",
-      "acceptedResourceId": "fpQLW8XyVwVVfGvWq0UP",
-      "kept": "Arch, sea, olive, vase, and the torn cream sheet with the left olive sprig. The Safe to Spend photograph is clear above the sheet."
+      "acceptedHistoryId": "PuQ7UcEDyaCABTQDdDGe",
+      "acceptedResourceId": "LMFUiJdfQij8XyNoBZU4",
+      "supersededHistoryId": "5xIriWqiA9MeSiC0Y6t2",
+      "supersededReason": "The first pass kept the Safe to Spend arch, sea, and vase behind the sheet.",
+      "kept": "Torn cream sheet and the left olive sprig. The arch and the sea are transparent."
     }
   ]
 }
