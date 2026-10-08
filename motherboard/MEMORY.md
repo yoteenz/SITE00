@@ -15555,3 +15555,16 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - Email batches and the SETUP parent regeneration stay founder-review. They are not merged from this turn.
 - **Changes:** `src/projects/jurnl/runtime/jurnl-nav.css`. Measured on TODAY, MONEY, PLAN, and CREDIT at 402×874: dock background `rgb(241, 227, 207)`, same as the stage.
 - **Conventions:** The bottom parent panel matches `--jrn-plaster`, the beige under the dock. Do not paint that panel `#f6f3ee`.
+
+---
+
+## 2026-10-08 — Remove the unread PLAN TODAY tagline from the four hubs
+
+- **Context:** This chat first rebuilt the TODAY and ACTIVITY parent authorities toward the ENTRY world (that review stays on `cursor/today-activity-brand-fidelity-4e5a`). The founder then asked to remove the “plan today grow freely” line in the top corner of Home, Money, Plan, and Credit, because it does not read.
+- **Topics covered:** ENTRY-anchored parent rebuild. Then the live tagline on the four root hubs.
+- **Decisions / outcomes:**
+  - HOME, MONEY, PLAN, and CREDIT no longer render PLAN TODAY. / GROW FREELY.
+  - The lockup stays: the sprig, JURNL, and FINANCIAL LIFE. BEAUTIFULLY ORGANIZED.
+  - Welcome, Safe to Spend, and the purchase check keep their own tagline.
+- **Changes:** `HomeScreens.tsx`, `MoneyScreens.tsx`, `PlanScreens.tsx`, `CreditScreens.tsx`. The hub test now expects those two lines to be absent.
+- **Conventions:** Do not put PLAN TODAY. GROW FREELY. back on the four root hubs. It was in the corner and did not read.
