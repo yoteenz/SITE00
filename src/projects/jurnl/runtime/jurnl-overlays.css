@@ -10,14 +10,10 @@
   overflow: hidden;
   text-transform: uppercase;
 }
-/* QUICK ADD: the reference leaves the screen behind as it is. The scrim only takes the outside tap. */
+/* Every overlay (quick add, account drawer, and any later sheet on this shell) softens the live screen. */
 .jrn .jrn-ovl__scrim {
   position: absolute;
   inset: 0;
-  background: transparent;
-}
-/* Drawer: the reference softens the screen behind the panel. */
-.jrn .jrn-ovl--drawer .jrn-ovl__scrim {
   background: rgba(238, 228, 216, 0.1);
   -webkit-backdrop-filter: blur(3px);
   backdrop-filter: blur(3px);

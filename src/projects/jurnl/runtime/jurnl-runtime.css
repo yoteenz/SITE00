@@ -832,6 +832,8 @@
   position: absolute;
   inset: 0;
   background: rgba(30, 24, 18, 0.4);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
   animation: jrn-fade 0.24s ease both;
 }
 @keyframes jrn-fade {
