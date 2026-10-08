@@ -46,6 +46,13 @@ export type UseIntakeSyncResult = {
     totalSteps?: number;
     draftPayload?: Record<string, unknown>;
   }) => void;
+  flushAutosave: (patch?: {
+    currentStep?: string | null;
+    totalSteps?: number;
+    draftPayload?: Record<string, unknown>;
+  }) => Promise<void>;
+  reloadIntake: () => Promise<IntakeDetail | null>;
+  adoptIntakeId: (id: string) => Promise<IntakeDetail | null>;
   submit: () => Promise<IntakeDetail | null>;
   requestGuestAccess: (email: string) => Promise<{ accessToken: string; expiresAt: string } | null>;
   reset: () => void;
@@ -155,6 +162,45 @@ export function useIntakeSync(intakeType: IntakeType, storageKeyPrefix: string):
     [runAutosave],
   );
 
+  const flushAutosave = useCallback(
+    async (patch?: { currentStep?: string | null; totalSteps?: number; draftPayload?: Record<string, unknown> }) => {
+      if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
+      if (patch) await runAutosave(patch);
+      else if (serverIntakeIdRef.current) await runAutosave({});
+    },
+    [runAutosave],
+  );
+
+  const reloadIntake = useCallback(async () => {
+    const id = serverIntakeIdRef.current;
+    if (!id) return null;
+    try {
+      const intake = await intakesApi.getIntake({
+        intakeType,
+        id,
+        guestToken: guestTokenRef.current,
+      });
+      setServerIntake(intake);
+      setSaveState('saved');
+      setLastSavedAt(intake.lastSavedAt ?? intake.updatedAt);
+      setErrorMessage(null);
+      return intake;
+    } catch (e) {
+      setErrorMessage(e instanceof Error ? e.message : 'Could not reload intake from SITE 00.');
+      return null;
+    }
+  }, [intakeType]);
+
+  const adoptIntakeId = useCallback(
+    async (id: string) => {
+      writeLocal(idKey, id);
+      serverIntakeIdRef.current = id;
+      setServerIntakeId(id);
+      return reloadIntake();
+    },
+    [idKey, reloadIntake],
+  );
+
   const submit = useCallback(async (): Promise<IntakeDetail | null> => {
     const id = serverIntakeIdRef.current;
     if (!id) return null;
@@ -230,6 +276,9 @@ export function useIntakeSync(intakeType: IntakeType, storageKeyPrefix: string):
       guestToken,
       ensureStarted,
       autosave,
+      flushAutosave,
+      reloadIntake,
+      adoptIntakeId,
       submit,
       requestGuestAccess,
       reset,
@@ -243,6 +292,9 @@ export function useIntakeSync(intakeType: IntakeType, storageKeyPrefix: string):
       guestToken,
       ensureStarted,
       autosave,
+      flushAutosave,
+      reloadIntake,
+      adoptIntakeId,
       submit,
       requestGuestAccess,
       reset,

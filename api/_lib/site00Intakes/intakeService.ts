@@ -263,7 +263,12 @@ export async function autosaveIntake(
     : record.draftPayload;
 
   if (input.draftPayload !== undefined) {
-    finalRecord = await store.updateIntake(intakeType, id, { draftPayload: mergedDraft });
+    const draftOut = { ...mergedDraft } as Record<string, unknown>;
+    if (draftOut.schemaVersion === 'builder-spatial-v1') {
+      const clientRevision = Number(draftOut.clientRevision ?? 0);
+      draftOut.serverRevision = clientRevision;
+    }
+    finalRecord = await store.updateIntake(intakeType, id, { draftPayload: draftOut });
   }
 
   const synthesisCtx = resolveIntakeSynthesisContext({
@@ -353,9 +358,31 @@ export async function submitIntake(
     }
   }
 
+  let submittedPayload: Record<string, unknown> = record.draftPayload as Record<string, unknown>;
+  let submissionEventType: 'INTAKE_SUBMITTED' | 'INTAKE_RESUBMITTED' = 'INTAKE_SUBMITTED';
+  let blueprintSubmissionVersion: number | undefined;
+
+  if (intakeType === 'BUILDER') {
+    const { intakeUsesBuilderSpatialDraft, buildBuilderSpatialSubmittedPayload, BuilderSpatialSubmitError } =
+      await import('../site00BuilderSpatial/submitBuilderSpatialIntake.js');
+    if (intakeUsesBuilderSpatialDraft(record)) {
+      try {
+        const spatialSubmitted = buildBuilderSpatialSubmittedPayload(record);
+        submittedPayload = spatialSubmitted as unknown as Record<string, unknown>;
+        blueprintSubmissionVersion = spatialSubmitted.current.version;
+        submissionEventType = spatialSubmitted.history.length > 0 ? 'INTAKE_RESUBMITTED' : 'INTAKE_SUBMITTED';
+        const draft = { ...(record.draftPayload as Record<string, unknown>), revisionOpen: false };
+        await store.updateIntake(intakeType, id, { draftPayload: draft });
+      } catch (e) {
+        if (e instanceof BuilderSpatialSubmitError) throw new IntakeValidationError(e.message);
+        throw e;
+      }
+    }
+  }
+
   const updated = await store.updateIntake(intakeType, id, {
     status: 'SUBMITTED',
-    submittedPayload: record.draftPayload,
+    submittedPayload,
     submittedAt,
     version: nextVersion,
   });
@@ -363,9 +390,9 @@ export async function submitIntake(
   await store.createIntakeEvent({
     intakeType,
     intakeId: id,
-    eventType: 'INTAKE_SUBMITTED',
+    eventType: submissionEventType,
     actor: ctx.kind === 'AUTHENTICATED' ? `user:${ctx.userId}` : 'guest',
-    metadata: { submittedAt, version: nextVersion },
+    metadata: { submittedAt, version: nextVersion, blueprintSubmissionVersion },
   });
 
   if (intakeType === 'IDENTITY') {
@@ -554,8 +581,12 @@ export async function listIntakeAuditEvents(intakeType: IntakeType, id: string) 
   return store.listEventsForIntake(intakeType, id);
 }
 
-const ADMIN_ALLOWED_ACTIONS = ['MARK_IN_REVIEW', 'ARCHIVE'] as const;
+const ADMIN_ALLOWED_ACTIONS = ['MARK_IN_REVIEW', 'ARCHIVE', 'REQUEST_REVISION'] as const;
 export type AdminIntakeAction = (typeof ADMIN_ALLOWED_ACTIONS)[number];
+
+export type RequestRevisionInput = {
+  message: string;
+};
 
 /** Conservative admin lifecycle actions only — never rewrites what a client submitted (XVII). */
 export async function applyAdminIntakeAction(
@@ -563,11 +594,49 @@ export async function applyAdminIntakeAction(
   id: string,
   action: AdminIntakeAction,
   adminEmail: string,
+  revisionInput?: RequestRevisionInput,
 ): Promise<IntakeDetail> {
   const record = await store.getIntakeById(intakeType, id);
   if (!record) throw new IntakeNotFoundError();
 
   const status = normalizeIntakeStatus(record.status);
+
+  if (action === 'REQUEST_REVISION') {
+    if (status !== 'SUBMITTED' && status !== 'IN_REVIEW') {
+      throw new IntakeValidationError(`CANNOT REQUEST REVISION FROM STATUS ${status}`);
+    }
+    const message = revisionInput?.message?.trim() || 'FOUNDER REQUESTED REVISION';
+    const draft = { ...(record.draftPayload as Record<string, unknown>) };
+    const prevRequests = Array.isArray(draft.revisionRequests) ? [...draft.revisionRequests] : [];
+    const { parseSubmittedPayload } = await import('../../../src/site00/builder-experience/spatialStudio/buildSubmissionPayload.js');
+    const submitted = parseSubmittedPayload(record.submittedPayload as Record<string, unknown> | null);
+    const forVersion = submitted?.current.version ?? 1;
+    prevRequests.push({
+      requestedAt: new Date().toISOString(),
+      adminEmail,
+      message,
+      forSubmissionVersion: forVersion,
+    });
+    draft.revisionRequests = prevRequests;
+    draft.revisionOpen = true;
+
+    const updated = await store.updateIntake(intakeType, id, {
+      status: 'ACTIVE',
+      draftPayload: draft,
+      version: record.version + 1,
+    });
+
+    await store.createIntakeEvent({
+      intakeType,
+      intakeId: id,
+      eventType: 'INTAKE_REVISION_REQUESTED',
+      actor: `admin:${adminEmail}`,
+      metadata: { forSubmissionVersion: forVersion, message },
+    });
+
+    return toDetail(updated);
+  }
+
   const nextStatus: IntakeStatus = action === 'MARK_IN_REVIEW' ? 'IN_REVIEW' : 'ARCHIVED';
   if (!canTransitionIntakeStatus(status, nextStatus)) {
     throw new IntakeValidationError(`CANNOT TRANSITION FROM ${status} TO ${nextStatus}`);
