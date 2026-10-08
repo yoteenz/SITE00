@@ -1,0 +1,9 @@
+{
+  "id": "PACK_F_ENTRY_LINEAGE",
+  "role": "ENTRY page-family authority. Attach one ENTRY world, not the whole ENTRY set.",
+  "approved_world": "ENTRY v2/01_WELCOME/authority/entry-v2-welcome-authority.png",
+  "approved_editorial": "ENTRY v2/02_VALUE_PROPOSITION/authority/entry-v2-value-proposition-authority.png",
+  "less_literal_interior": "ENTRY v2/08_BIOMETRIC_SETUP/authority/entry-v2-biometric-authority.png",
+  "correspondence": "ENTRY v2/10_FORGOT_PASSWORD/authority/entry-v2-forgot-password-authority.png",
+  "rule": "Pick one of approved_world, less_literal_interior, or correspondence. Add the editorial sheet only when the page needs torn-paper grammar. Do not attach welcome together with the Safe to Spend plate or terrace."
+}

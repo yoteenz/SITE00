@@ -38,8 +38,26 @@ export const JURNL_CREATIVE_GRAMMAR_FLAGS = {
   contrast_anchor_required: true,
 } as const;
 
-/** The only JURNL mark. Do not draw, retype, or restyle it. */
+/**
+ * Historical vertical botanical file. It stays on disk for lineage.
+ * Do not attach it to image-to-image. The live decorative treatment is the
+ * horizontal sprig and word cut from F09_LOCKUP.png. No clean isolated
+ * replacement file exists yet.
+ */
 export const JURNL_OFFICIAL_BRAND_ASSET = 'public/site00/projects/jurnl/brand/jurnl-logo-official.png' as const;
+
+export const JURNL_IMAGE_TO_IMAGE_IDENTITY = {
+  vertical_botanical_file: JURNL_OFFICIAL_BRAND_ASSET,
+  vertical_botanical_status: 'SUPERSEDED_IDENTITY_REFERENCE',
+  attach_vertical_botanical: false,
+  decorative_treatment_source: 'src/projects/jurnl/families/F09_SAFE/ENVIRONMENTS/F09_LOCKUP.png',
+  decorative_layers: [
+    'src/projects/jurnl/families/F09_SAFE/REFERENCE_REPLICA/assets/LOCKUP_SPRIG.png',
+    'src/projects/jurnl/families/F09_SAFE/REFERENCE_REPLICA/assets/LOCKUP_WORD.png',
+  ],
+  clean_reusable_decorative_asset: null,
+  reference_manifest: 'JURNL/MANIFEST/REFERENCE_HYGIENE_V1/JURNL_REFERENCE_MANIFEST_V1.json',
+} as const;
 
 export const JURNL_CREATIVE_LEVELS = [
   {
@@ -203,6 +221,7 @@ export const JURNL_CREATIVE_GRAMMAR = {
   doctrine: 'PHYSICAL EDITORIAL EXPERIENCES THAT HAPPEN TO FUNCTION AS PRODUCT INTERFACES.',
   flags: JURNL_CREATIVE_GRAMMAR_FLAGS,
   official_brand_asset: JURNL_OFFICIAL_BRAND_ASSET,
+  image_to_image_identity: JURNL_IMAGE_TO_IMAGE_IDENTITY,
   levels: JURNL_CREATIVE_LEVELS,
   object_library: JURNL_BESPOKE_OBJECT_LIBRARY,
   families: JURNL_CREATIVE_GRAMMAR_FAMILIES,

@@ -15579,3 +15579,17 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Changes:** `src/studioos/estimation/`, internal page `/admin/site00/estimator`, `docs/site00/SITE00_ESTIMATION_ENGINE.md`. Twelve engine tests pass. The public builder is unchanged. Client estimate preview stays off.
 - **Conventions:** Do not estimate by page count. Do not call priority production “rush.” Do not show family units to clients. Do not treat an estimate as a quote. Do not auto-adjust coefficients from calibration records. Do not invent visual-system sample images.
 
+---
+
+## 2026-10-08 — JURNL reference hygiene: vertical logo is not the generation mark
+
+- **Context:** This chat rebuilt TODAY and ACTIVITY parents toward the ENTRY world, removed the unread PLAN TODAY tagline from the four hubs, then rebuilt those parents again so the vertical botanical mark sat inside the scenes. The founder then stopped generation. The reference set itself was carrying the outdated vertical mark and too many Mediterranean rooms.
+- **Topics covered:** Brand-fidelity parents. Hub tagline removal. World and editorial parent correction. Reference audit before any further pictures.
+- **Decisions / outcomes:**
+  - `jurnl-logo-official.png` and its copies, including the horizontal rose rearrangement, are `SUPERSEDED_IDENTITY_REFERENCE`. They stay on disk. They are not attached to image-to-image.
+  - The live decorative treatment is the horizontal sprig and word cut from `F09_LOCKUP.png`. No clean isolated file of that treatment exists. Do not invent one and do not put the vertical mark back.
+  - Mediterranean architecture is one optional scene. The last TODAY and ACTIVITY set attached three. The new packs attach zero by default and allow one only for Safe to Spend or ENTRY.
+  - Corrected generation stays off until that clean identity file is registered.
+- **Changes:** `JURNL/MANIFEST/REFERENCE_HYGIENE_V1/`. Dispatcher block when `attachedReferencePaths` fails hygiene. No new images.
+- **Conventions:** Before a JURNL generation, read the hygiene manifest. If the vertical logo is in the attach list, or more than one Mediterranean scene is attached, do not generate.
+

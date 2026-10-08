@@ -38,6 +38,9 @@ describe('JURNL bespoke composition grammar', () => {
       contrast_anchor_required: true,
     });
     expect(G.JURNL_CREATIVE_GRAMMAR.official_brand_asset).toBe('public/site00/projects/jurnl/brand/jurnl-logo-official.png');
+    expect(G.JURNL_CREATIVE_GRAMMAR.image_to_image_identity.attach_vertical_botanical).toBe(false);
+    expect(G.JURNL_CREATIVE_GRAMMAR.image_to_image_identity.vertical_botanical_status).toBe('SUPERSEDED_IDENTITY_REFERENCE');
+    expect(G.JURNL_CREATIVE_GRAMMAR.image_to_image_identity.clean_reusable_decorative_asset).toBeNull();
   });
 
   it('inherits across the product families and keeps ENTRY descendants blocked', () => {
