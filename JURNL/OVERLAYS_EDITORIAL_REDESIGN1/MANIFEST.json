@@ -1,0 +1,111 @@
+{
+  "sprint": "P0.JURNL.OVERLAYS.QUICK-ADD-AND-HAMBURGER-EDITORIAL-REDESIGN1",
+  "status": "APPROVED_AND_IMPLEMENTED",
+  "readyForImplementation": true,
+  "parentCapturedFrom": {
+    "branch": "main",
+    "sha": "f8a8e9e3"
+  },
+  "phoneFrameCss": [
+    393,
+    699
+  ],
+  "overlays": [
+    {
+      "id": "QUICK_ADD",
+      "classification": "BOTTOM_SHEET",
+      "parentRoute": "safe",
+      "component": "src/projects/jurnl/runtime/global/GlobalSheets.tsx#QuickAddV2Sheet",
+      "authority": {
+        "path": "QUICK_ADD/QUICK_ADD_AUTHORITY.png",
+        "width": 941,
+        "height": 1672,
+        "mode": "RGB",
+        "sha256": "701308c4afca80da6809bb222d223d3a1cbdc895faf722ab2e8630f5596ea9ce"
+      },
+      "shell": {
+        "path": "QUICK_ADD/QUICK_ADD_SHELL.png",
+        "width": 2016,
+        "height": 3584,
+        "mode": "RGBA",
+        "sha256": "2b144f921fd56334eb0512648a9f9a807946199f08091950281c35c526ee753f"
+      },
+      "primaryEditorialGesture": "cypress-landscape engraving held under the slip clip, running off the left edge",
+      "secondaryTactileDetail": "brass clip on two torn deckled sheets",
+      "materials": [
+        "JURNL_CURRENT_AUTHORITIES/PURCHASE_OUTCOME/receipt-card.png",
+        "JURNL_CURRENT_AUTHORITIES/PLAN/editorial-overlay.png"
+      ],
+      "triggers": [
+        "quick-add-name",
+        "quick-add-amount",
+        "quick-add-expense",
+        "quick-add-income",
+        "quick-add-<account>",
+        "quick-add-save",
+        "close"
+      ]
+    },
+    {
+      "id": "HAMBURGER_MENU",
+      "classification": "ACCOUNT_DRAWER",
+      "parentRoute": "today",
+      "component": "src/projects/jurnl/runtime/screens/AccountScreens.tsx#AccountDrawer",
+      "authority": {
+        "path": "HAMBURGER_MENU/HAMBURGER_MENU_AUTHORITY.png",
+        "width": 941,
+        "height": 1672,
+        "mode": "RGB",
+        "sha256": "0e30a88497be4bee3f7f6db4b2464e0bbab67bcb41ed4d441b16434d2bee4d33"
+      },
+      "shell": {
+        "path": "HAMBURGER_MENU/HAMBURGER_MENU_SHELL.png",
+        "width": 2016,
+        "height": 3584,
+        "mode": "RGBA",
+        "sha256": "8930dd9a40269144dd894397d5b83242cb374be6013377c53c62c8e108484385"
+      },
+      "primaryEditorialGesture": "bust print as the PROFILE portrait, breaking the folio edge",
+      "secondaryTactileDetail": "burgundy bookmark ribbon under the portrait, fishtail cut",
+      "materials": [
+        "JURNL_CURRENT_AUTHORITIES/WHY_THIS_NUMBER/explanatory-dossier.png",
+        "JURNL_CURRENT_AUTHORITIES/PLAN/editorial-overlay.png",
+        "JURNL_CURRENT_AUTHORITIES/CREDIT/editorial-overlay.png"
+      ],
+      "triggers": [
+        "account-drawer-close",
+        "drawer-account",
+        "drawer-profile",
+        "drawer-currency",
+        "drawer-connection",
+        "drawer-ask-context",
+        "drawer-buffer",
+        "drawer-buffer-save",
+        "drawer-privacy",
+        "drawer-sign-out"
+      ]
+    }
+  ],
+  "notDone": [
+    "ENTRY",
+    "SETUP",
+    "other overlays"
+  ],
+  "approved": {
+    "by": "founder",
+    "date": "2026-10-08"
+  },
+  "runtime": {
+    "QUICK_ADD": {
+      "component": "src/projects/jurnl/runtime/global/GlobalSheets.tsx#QuickAddV2Sheet",
+      "shell": "src/projects/jurnl/runtime/global/overlays/QUICK_ADD_SHELL.webp",
+      "frame": "393 x 599 design px (authority frame y 100-699)"
+    },
+    "HAMBURGER_MENU": {
+      "component": "src/projects/jurnl/runtime/screens/AccountScreens.tsx#AccountDrawer",
+      "shell": "src/projects/jurnl/runtime/global/overlays/ACCOUNT_MENU_SHELL.webp",
+      "frame": "393 x 852 design px (same composition, folio grown)"
+    },
+    "layout": "src/projects/jurnl/runtime/components/OverlayAuthority.tsx + src/projects/jurnl/runtime/jurnl-overlays.css"
+  }
+}

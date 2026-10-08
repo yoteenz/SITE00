@@ -55,6 +55,7 @@ import './jurnl-nav.css';
 import './jurnl-root-authority.css';
 import './jurnl-f10-checked.css';
 import './jurnl-reference.css';
+import './jurnl-overlays.css';
 
 /** Screen id → runtime component. Every F01 screen in the contract must appear here (tests enforce it). */
 export const JURNL_F01_SCREEN_COMPONENTS = {

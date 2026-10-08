@@ -150,7 +150,7 @@ describe('F03 and F04 live routes', () => {
     const html = renderRuntime('today', 'overlay=quick-add');
     expect(html).toContain('data-jrn-trigger="quick-add-expense"');
     expect(html).toContain('aria-pressed="true"');
-    expect(html).toContain('jrn-field__prefix');
+    expect(html).toContain('class="jrn-qa__cur"');
     expect(html).toContain('disabled');
   });
 
