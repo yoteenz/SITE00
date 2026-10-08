@@ -36,12 +36,13 @@
     {
       "gap_id": "G-ROAD-READY-NO-ENGAGEMENT-STATE",
       "root": "AIO_OFFICE.WORK",
-      "gap": "No per-client Road Ready engagement state (AVAILABLE · ACTIVE · COMPLETED). Only item statuses and profile mode exist; OfficeWorkspaceEntitlement does not provision road_ready.",
+      "gap": "No per-client Road Ready engagement state (AVAILABLE · ACTIVE · COMPLETED). Only item statuses and profile mode exist; office provisioning (DEFAULT_WORKSPACES → OfficeWorkspaceEntitlement) does not provision road_ready.",
       "kind": "MISSING_STATE",
       "origin": "DECISION",
       "evidence": [
         "all-in-one-enterprises/src/road-ready/roadReadyTypes.ts:37-42",
-        "all-in-one-enterprises/src/client-migration/types.ts:49-54"
+        "all-in-one-enterprises/src/client-migration/services/officeProvisioningService.ts:4",
+        "all-in-one-enterprises/src/client-migration/types.ts:106-112"
       ],
       "blocks": "D-ROAD-READY-PLACEMENT; WORK → ROAD READY recently completed"
     },
@@ -382,7 +383,8 @@
       "kind": "MISSING_TABLE_OR_SERVICE",
       "origin": "IA",
       "evidence": [
-        "all-in-one-enterprises/src/demo/factoringActions.ts:67-308"
+        "all-in-one-enterprises/src/demo/factoringActions.ts:67-308",
+        "all-in-one-enterprises/supabase/migrations/20260815110000_aio_business_data_rls.sql:206"
       ],
       "blocks": "production factoring"
     },
@@ -636,7 +638,7 @@
     {
       "gap_id": "P-FLEETCARE-TICKET-NO-ORG-CHECK",
       "root": "CLIENT_OFFICE",
-      "gap": "The client FleetCare ticket detail and vehicle history pages have no organisation check.",
+      "gap": "The client FleetCare ticket detail and vehicle history pages load by id (getTicketById) with no organisation check.",
       "kind": "PRIVACY",
       "origin": "AUDIT",
       "evidence": [
@@ -647,7 +649,7 @@
     {
       "gap_id": "P-FLEETCARE-REFERRAL-FEES-CLIENT",
       "root": "CLIENT_OFFICE",
-      "gap": "Client organisations can read FleetCare referral transactions including AIO’s fee amounts.",
+      "gap": "Client organisations can read FleetCare referral transactions (aio_fleetcare_referral_transactions) including AIO’s fee amounts.",
       "kind": "PRIVACY",
       "origin": "AUDIT",
       "evidence": [

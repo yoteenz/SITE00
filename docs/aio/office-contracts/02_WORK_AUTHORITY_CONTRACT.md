@@ -294,7 +294,7 @@ Sections: Active Clients · Trucks · Loads · Status / Exceptions · My Loads /
 
 |  |  |
 |---|---|
-| Records (as they exist) | Load (demo store; Supabase aio_dispatch_loads for freight / autopilot / shipper) — `src/dispatch/dispatchTypes.ts:239-319`<br>DispatchEnrollment — `src/dispatch/dispatchTypes.ts:115-128`<br>TruckDispatchProfile — `src/dispatch/dispatchTypes.ts:130-154`<br>FreightException (also Supabase aio_freight_exceptions) — `src/freight/autopilot/freightExceptionTypes.ts:24-36` |
+| Records (as they exist) | Load · LoadTimelineEvent (demo store; freight / autopilot / shipper read Supabase aio_dispatch_loads) — `src/dispatch/dispatchTypes.ts:239-319`<br>DispatchEnrollment — `src/dispatch/dispatchTypes.ts:115-128`<br>TruckDispatchProfile — `src/dispatch/dispatchTypes.ts:130-154`<br>FreightException (also Supabase aio_freight_exceptions) — `src/freight/autopilot/freightExceptionTypes.ts:24-36` |
 | Statuses | opportunity<br>booking_in_progress<br>booked<br>dispatched<br>en_route_pickup<br>at_pickup<br>loaded<br>in_transit<br>at_delivery<br>delivered<br>pod_needed<br>complete<br>cancelled<br>issue |
 | Assignment | Load.assignedDispatcherStaffId |
 | Due | Load.pickupDate · deliveryDate |

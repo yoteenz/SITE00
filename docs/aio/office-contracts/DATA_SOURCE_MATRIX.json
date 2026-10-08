@@ -112,7 +112,7 @@
         "CLIENT": "NONE",
         "SERVICE_PROVIDER": "NONE"
       },
-      "data_source": "OfficeWorkItem.waitingOn ≠ none · status waiting_* · WorkflowStepInstance waitingOn · blockedReason · staffBucket BLOCKED · AWAITING_CLIENT · RequestStatus information_needed · documents_needed · awaiting_agency · FreightException · MigrationExceptionCode · InsuranceIssue · FactoringIssue (customerActionRequired) · MaintenanceTicket on_hold · awaiting_parts · disputed",
+      "data_source": "OfficeWorkItem.waitingOn ≠ none · status waiting_* · WorkflowStepInstance waitingOn · blockedReason · staffBucket BLOCKED · AWAITING_CLIENT · RequestStatus information_needed · documents_needed · awaiting_agency · FreightException · MigrationExceptionCode · InsuranceIssue · FactoringIssue (customerActionRequired) · MaintenanceTicket status (FleetCareTicketStatus) on_hold · awaiting_parts · disputed",
       "backing": "DEMO_STORE",
       "state": "PARTIAL",
       "write_owner": "each owning lane",
@@ -126,11 +126,11 @@
       "missing_routes": [],
       "evidence": [
         "all-in-one-enterprises/src/office-core/officeWorkTypes.ts:29-50",
+        "all-in-one-enterprises/src/office-core/officeWorkTypes.ts:128",
         "all-in-one-enterprises/src/workflow/workflowTypes.ts:202-220",
         "all-in-one-enterprises/src/ifta/iftaDerive.ts:515-528",
         "all-in-one-enterprises/src/demo/demoTypes.ts:366-376",
-        "all-in-one-enterprises/src/freight/autopilot/freightExceptionTypes.ts:1-36",
-        "all-in-one-enterprises/src/client-migration/migrationPipeline/types.ts:16-23"
+        "all-in-one-enterprises/src/freight/autopilot/freightExceptionTypes.ts:1-36"
       ]
     },
     {
@@ -190,6 +190,7 @@
       "evidence": [
         "all-in-one-enterprises/src/client-migration/types.ts:3-13",
         "all-in-one-enterprises/src/client-migration/activeClientRule.ts:5-14",
+        "all-in-one-enterprises/src/office-core/client360Service.ts:29",
         "all-in-one-enterprises/src/office-core/client360Service.ts:42-43",
         "all-in-one-enterprises/src/office-core/client360Service.ts:52-71",
         "all-in-one-enterprises/src/office-core/client360Service.ts:123-129"
@@ -224,7 +225,7 @@
         "all-in-one-enterprises/src/client-migration/types.ts:121-131",
         "all-in-one-enterprises/src/client-migration/repositories/supabaseMigrationRepository.ts:196",
         "all-in-one-enterprises/src/ifta/iftaTypes.ts:134-141",
-        "all-in-one-enterprises/src/freight/freightStatusHistory.ts:14"
+        "all-in-one-enterprises/src/ifta/iftaTypes.ts:143-174"
       ]
     },
     {
@@ -432,7 +433,7 @@
         "CLIENT": "NONE",
         "SERVICE_PROVIDER": "NONE"
       },
-      "data_source": "Load (demo store; Supabase aio_dispatch_loads for freight / autopilot / shipper) · DispatchEnrollment · TruckDispatchProfile · FreightException (also Supabase aio_freight_exceptions)",
+      "data_source": "Load · LoadTimelineEvent (demo store; freight / autopilot / shipper read Supabase aio_dispatch_loads) · DispatchEnrollment · TruckDispatchProfile · FreightException (also Supabase aio_freight_exceptions)",
       "backing": "DEMO_STORE",
       "state": "PARTIAL",
       "write_owner": "AIO_OFFICE.WORK.DISPATCH",
@@ -1352,7 +1353,8 @@
           "state": "NOT_IMPLEMENTED",
           "evidence": [
             "all-in-one-enterprises/src/billing/billingTypes.ts:16-25",
-            "all-in-one-enterprises/src/billing/billingTypes.ts:45-53"
+            "all-in-one-enterprises/src/billing/billingTypes.ts:45-53",
+            "all-in-one-enterprises/src/demo/demoTypes.ts:402"
           ]
         },
         {
@@ -1531,7 +1533,8 @@
           "backing": "DEMO_STORE",
           "state": "NOT_IMPLEMENTED",
           "evidence": [
-            "all-in-one-enterprises/src/bookkeeping/autopilot/autopilotTypes.ts:36-43"
+            "all-in-one-enterprises/src/bookkeeping/autopilot/autopilotTypes.ts:36-43",
+            "all-in-one-enterprises/src/bookkeeping/autopilot/autopilotTypes.ts:147-158"
           ]
         },
         {
@@ -2037,7 +2040,8 @@
           "backing": "DEMO_STORE",
           "state": "PARTIAL",
           "evidence": [
-            "all-in-one-enterprises/src/office-core/officeWorkTypes.ts:29-50"
+            "all-in-one-enterprises/src/office-core/officeWorkTypes.ts:29-50",
+            "all-in-one-enterprises/src/office-core/officeWorkTypes.ts:128"
           ]
         },
         {
@@ -2209,7 +2213,7 @@
           "domain": "MAINTENANCE",
           "owner_node": "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE.TICKETS",
           "route": "/office/fleetcare/tickets",
-          "data_source": "MaintenanceTicket on_hold · awaiting_parts · disputed",
+          "data_source": "MaintenanceTicket status (FleetCareTicketStatus) on_hold · awaiting_parts · disputed",
           "backing": "DEMO_STORE",
           "state": "NOT_IMPLEMENTED",
           "evidence": [
@@ -2546,6 +2550,7 @@
           "backing": "DEMO_STORE",
           "state": "PARTIAL",
           "evidence": [
+            "all-in-one-enterprises/src/office-core/client360Service.ts:29",
             "all-in-one-enterprises/src/office-core/client360Service.ts:42-43",
             "all-in-one-enterprises/src/office-core/client360Service.ts:52-71",
             "all-in-one-enterprises/src/office-core/client360Service.ts:123-129"
@@ -2621,7 +2626,8 @@
           "backing": "DEMO_STORE",
           "state": "PARTIAL",
           "evidence": [
-            "all-in-one-enterprises/src/ifta/iftaTypes.ts:134-141"
+            "all-in-one-enterprises/src/ifta/iftaTypes.ts:134-141",
+            "all-in-one-enterprises/src/ifta/iftaTypes.ts:143-174"
           ]
         },
         {

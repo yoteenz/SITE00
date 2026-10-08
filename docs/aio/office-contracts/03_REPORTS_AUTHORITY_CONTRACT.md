@@ -205,9 +205,9 @@ Every metric carries a source class (REAL_DATA · PARTIAL_DATA · NOT_IMPLEMENTE
 | Metric | Class | Backing | Source | Derivation | State | Evidence | Note |
 |---|---|---|---|---|---|---|---|
 | Active clients | DERIVED_SUPPORTED | DEMO_STORE | store.clients lifecycle | countActiveClientsCanonical — lifecycle ACTIVE and all activation conditions (PREBUILT never counts) | PARTIAL | `src/management/managementQueryLayer.ts:90-108` · `src/client-migration/activeClientRule.ts:5-14` | — |
-| Active work items | DERIVED_SUPPORTED | DEMO_STORE | store.officeWorkItems | status not completed / cancelled | PARTIAL | `src/office-core/officeWorkTypes.ts:29-38` | — |
+| Active work items | DERIVED_SUPPORTED | DEMO_STORE | store.officeWorkItems | status not completed / cancelled | PARTIAL | `src/office-core/officeWorkTypes.ts:29-38` · `src/demo/demoTypes.ts:586` | — |
 | Completed work (period) | DERIVED_SUPPORTED | DEMO_STORE | store.officeWorkItems completedAt | completedAt within period | NOT_IMPLEMENTED | `src/office-core/officeWorkTypes.ts:111-135` | — |
-| Blocked work | DERIVED_SUPPORTED | DEMO_STORE | store.officeWorkItems waitingOn / status | waiting_* or waitingOn ≠ none | NOT_IMPLEMENTED | `src/office-core/officeWorkTypes.ts:40-50` | — |
+| Blocked work | DERIVED_SUPPORTED | DEMO_STORE | store.officeWorkItems waitingOn / status | waiting_* or waitingOn ≠ none | NOT_IMPLEMENTED | `src/office-core/officeWorkTypes.ts:40-50` · `src/office-core/officeWorkTypes.ts:128` | — |
 | Active service requests | PARTIAL_DATA | DEMO_STORE | store.requests | not completed / cancelled — two “active” definitions disagree (QL 92 vs 221) | PARTIAL | `src/management/managementQueryLayer.ts:92` · `src/management/managementQueryLayer.ts:221` | — |
 | Deadlines by window | PARTIAL_DATA | DEMO_STORE | store.deadlines + store.renewals | getDeadlineWindows — on the stored severity, which is never recalculated | PARTIAL | `src/management/managementQueryLayer.ts:268-297` | — |
 | Filing throughput (quarters filed per period) | DERIVED_SUPPORTED | DEMO_STORE | IftaQuarterCase.filing.filedAt | count of quarters with filing.filedAt in the period | NOT_IMPLEMENTED | `src/ifta/iftaActions.ts:570-571` · `src/ifta/iftaTypes.ts:92` | Supported by data; no report surface. |
@@ -238,16 +238,16 @@ Every metric carries a source class (REAL_DATA · PARTIAL_DATA · NOT_IMPLEMENTE
 | Collected service revenue | DERIVED_SUPPORTED | DEMO_STORE | store.payments succeeded | getFinancialSummary | PARTIAL | `src/management/managementFinancial.ts:39-96` | — |
 | Service fees invoiced | PARTIAL_DATA | DEMO_STORE | store.invoices | labelled “invoice date” but computed on the payment-date basis (paidAt ?? issuedAt) | PARTIAL | `src/office/pages/ManagementPages.tsx:176` · `src/management/managementFinancial.ts:42-46` | Derivation defect: label and basis disagree. |
 | Outstanding balances / aging | DERIVED_SUPPORTED | DEMO_STORE | store.invoices balanceDue | getReceivablesAging | PARTIAL | `src/management/managementFinancial.ts:123-142` | — |
-| Credits applied | PARTIAL_DATA | DEMO_STORE | store.credits (sum only) | sum of CreditRecord | PARTIAL | `src/office/pages/BillingPages.tsx:61` | — |
+| Credits applied | PARTIAL_DATA | DEMO_STORE | store.credits (sum only) | sum of CreditRecord | PARTIAL | `src/office/pages/BillingPages.tsx:61` · `src/billing/billingTypes.ts:178-186` | — |
 | Adjustments | NOT_IMPLEMENTED | NONE | no adjustment record type | — | NOT_IMPLEMENTED | `src/billing/billingTypes.ts:178-186` | — |
-| Platform / revenue-share fees | NOT_IMPLEMENTED | NONE | FleetCare referral fees and factoring reported fees exist as fields; no revenue-share ledger | — | COMING_LATER | `supabase/migrations/20260817190000_aio_fleetcare_network.sql:410-417` | — |
+| Platform / revenue-share fees | NOT_IMPLEMENTED | NONE | aio_fleetcare_referral_transactions fee_amount_minor and factoring reported fees exist as fields; no revenue-share ledger | — | COMING_LATER | `supabase/migrations/20260817190000_aio_fleetcare_network.sql:403-417` | — |
 | Company profitability / margin | DERIVED_UNSUPPORTED | NONE | no cost data outside brokerage loads | — | NOT_IMPLEMENTED | `src/brokerage/brokerageTypes.ts:326-338` | Never shown. Brokerage load margin is supported but internal (see dispatch-brokerage.margin). |
 
 ### Filing History — NOT_IMPLEMENTED
 
 | Metric | Class | Backing | Source | Derivation | State | Evidence | Note |
 |---|---|---|---|---|---|---|---|
-| IFTA quarters filed (period) | DERIVED_SUPPORTED | DEMO_STORE | store.iftaQuarters FILED / ARCHIVED | count by quarter | NOT_IMPLEMENTED | `src/ifta/iftaTypes.ts:143-174` | Supported by data; no report surface. |
+| IFTA quarters filed (period) | DERIVED_SUPPORTED | DEMO_STORE | IftaQuarterCase state FILED / ARCHIVED | count by quarter | NOT_IMPLEMENTED | `src/ifta/iftaTypes.ts:143-174` | Supported by data; no report surface. |
 | Filed on time | DERIVED_SUPPORTED | DEMO_STORE | IftaQuarterCase.dueDate · filing.filedAt (written by recordFiling) | filing.filedAt ≤ dueDate | NOT_IMPLEMENTED | `src/ifta/iftaActions.ts:570-571` · `src/ifta/iftaTypes.ts:150` | Supported by data; no report surface. |
 
 ### Compliance — PARTIAL
@@ -282,7 +282,7 @@ Every metric carries a source class (REAL_DATA · PARTIAL_DATA · NOT_IMPLEMENTE
 | Metric | Class | Backing | Source | Derivation | State | Evidence | Note |
 |---|---|---|---|---|---|---|---|
 | Migration batches / clients digitized | PARTIAL_DATA | DEMO_STORE | batches (Supabase in backend mode) — metrics read the demo store | computeMigrationDashboardMetrics | PARTIAL | `src/vault/documentVaultMetrics.ts:53-89` | Metrics read the demo store even when the batch list comes from Supabase. |
-| Review required / blocked | PARTIAL_DATA | DEMO_STORE | MigrationBatchState ready_for_review · needs_attention · failed | count by state | PARTIAL | `src/vault/documentVaultMetrics.ts:65-77` | — |
+| Review required / blocked | PARTIAL_DATA | DEMO_STORE | MigrationBatchState ready_for_review · needs_attention · failed | count by state | PARTIAL | `src/vault/documentVaultMetrics.ts:65-77` · `src/vault/archiveMigrationTypes.ts:3-11` | — |
 | Batch status distribution | DERIVED_SUPPORTED | DEMO_STORE | MigrationBatchState | count per batch state | NOT_IMPLEMENTED | `src/vault/archiveMigrationTypes.ts:3-11` | The dashboard counts only review-required and failed today. |
 | Clients activated | DERIVED_SUPPORTED | DEMO_STORE | lifecycle ACTIVE (canonical rule) | isCountedActiveClient | PARTIAL | `src/client-migration/activeClientRule.ts:5-14` | — |
 | Migration completion time | DERIVED_UNSUPPORTED | NONE | no readable stage timestamps | — | NOT_IMPLEMENTED | `src/vault/archiveMigrationTypes.ts:3-11` | — |

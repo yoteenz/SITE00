@@ -323,7 +323,7 @@
     {
       "gap_id": "P-FLEETCARE-TICKET-NO-ORG-CHECK",
       "root": "CLIENT_OFFICE",
-      "gap": "The client FleetCare ticket detail and vehicle history pages have no organisation check.",
+      "gap": "The client FleetCare ticket detail and vehicle history pages load by id (getTicketById) with no organisation check.",
       "kind": "PRIVACY",
       "origin": "AUDIT",
       "evidence": [
@@ -334,7 +334,7 @@
     {
       "gap_id": "P-FLEETCARE-REFERRAL-FEES-CLIENT",
       "root": "CLIENT_OFFICE",
-      "gap": "Client organisations can read FleetCare referral transactions including AIO’s fee amounts.",
+      "gap": "Client organisations can read FleetCare referral transactions (aio_fleetcare_referral_transactions) including AIO’s fee amounts.",
       "kind": "PRIVACY",
       "origin": "AUDIT",
       "evidence": [
