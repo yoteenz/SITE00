@@ -16,6 +16,7 @@ export const SITE00_ROUTES = {
   bldr: '/bldr',
   bldrTemplates: '/bldr/templates',
   bldrStart: '/bldr/start',
+  bldrSpatialStudio: '/bldr/studio',
   bldrState: '/bldr/state',
   bldrStateDesktop: '/bldr/state/desktop',
   /** SITE 00 Builder — Hybrid Spatial Studio (rooms + Blueprint). Flag: VITE_SITE00_TEMPLATE_SYSTEM_V1. */

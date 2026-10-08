@@ -9,6 +9,7 @@ import { EcosystemShell } from '../../components/ecosystem/EcosystemShell';
 import { EmptyState, StatusBadge } from '../../components/pages/Site00PagePrimitives';
 import { SITE00_ROUTES } from '../../config/routes';
 import { getIntake } from '../../api/intakesApi';
+import { builderIntakeResumeHref } from '../../builder-experience/spatialStudio/resumeRoute';
 import { isIntakeType } from '../../../../shared/site00-intakes/types';
 import type { IntakeDetail, IntakeType } from '../../../../shared/site00-intakes/types';
 import '../../styles/site00-projects.css';
@@ -76,7 +77,12 @@ export default function AccountIntakeDetailPage() {
     };
   }, [intakeType, intakeId]);
 
-  const resumeHref = intake?.sourceRoute || (intakeType === 'IDENTITY' ? SITE00_ROUTES.idnty : SITE00_ROUTES.bldr);
+  const resumeHref =
+    intake && intakeType
+      ? builderIntakeResumeHref(intakeType, intake.draftPayload, intake.id, intake.sourceRoute)
+      : intakeType === 'IDENTITY'
+        ? SITE00_ROUTES.idnty
+        : SITE00_ROUTES.bldr;
   const canContinue = intake?.status === 'DRAFT' || intake?.status === 'AWAITING_EMAIL_VERIFICATION' || intake?.status === 'ACTIVE';
 
   return (

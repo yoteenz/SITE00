@@ -1,0 +1,646 @@
+/* Hybrid Spatial Studio — founder-approved mobile authority (no device chrome). */
+
+.bldr-spatial-page {
+  min-height: 100dvh;
+  background: linear-gradient(180deg, #faf9f7 0%, #f3f1ed 48%, #faf9f7 100%);
+  display: flex;
+  justify-content: center;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+.bldr-spatial-disabled {
+  padding: 2rem;
+  text-align: center;
+}
+
+.bldr-spatial-shell {
+  width: 100%;
+  max-width: 26rem;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  padding: 0.75rem 1.125rem 1rem;
+  color: #111;
+  font-family: var(--site00-font-sans, system-ui, sans-serif);
+}
+
+.bldr-spatial-shell__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.bldr-spatial-shell__brand {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.bldr-spatial-shell__wordmark {
+  font-size: 0.6875rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-decoration: none;
+  color: #111;
+}
+
+.bldr-spatial-shell__product {
+  font-size: 0.5625rem;
+  letter-spacing: 0.22em;
+  color: #666;
+}
+
+.bldr-spatial-shell__menu {
+  border: 0;
+  background: transparent;
+  padding: 0.25rem;
+  cursor: pointer;
+}
+
+.bldr-spatial-shell__menu span {
+  display: block;
+  width: 1.125rem;
+  height: 2px;
+  background: #111;
+  margin: 4px 0;
+}
+
+.bldr-spatial-shell__room-id {
+  font-size: 0.5625rem;
+  letter-spacing: 0.18em;
+  color: #888;
+  margin: 0 0 0.75rem;
+}
+
+.bldr-spatial-shell__room-id strong {
+  color: #c41e24;
+  font-weight: 800;
+}
+
+.bldr-spatial-shell__title {
+  margin: 0;
+  font-size: 1.35rem;
+  line-height: 1.05;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.bldr-spatial-shell__subtitle {
+  margin: 0.5rem 0 0;
+  font-size: 0.625rem;
+  line-height: 1.45;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #555;
+}
+
+.bldr-spatial-shell__stage-wrap {
+  margin: 1rem 0 0.75rem;
+  min-height: 11rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bldr-spatial-shell__controls {
+  flex: 1;
+}
+
+.bldr-spatial-shell__footer {
+  margin-top: auto;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.bldr-spatial-shell__progress {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.35rem;
+}
+
+.bldr-spatial-shell__progress-label {
+  font-size: 0.5625rem;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.bldr-spatial-shell__progress-track {
+  flex: 1;
+  height: 3px;
+  background: #ddd;
+}
+
+.bldr-spatial-shell__progress-fill {
+  height: 100%;
+  background: #c41e24;
+}
+
+.bldr-spatial-shell__scope {
+  font-size: 0.5rem;
+  letter-spacing: 0.14em;
+  color: #777;
+  margin: 0 0 0.65rem;
+}
+
+.bldr-spatial-shell__actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.bldr-spatial-shell__btn {
+  flex: 1;
+  min-height: 2.75rem;
+  border-radius: 2px;
+  font-size: 0.625rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  cursor: pointer;
+}
+
+.bldr-spatial-shell__btn--primary {
+  background: #c41e24;
+  color: #fff;
+  border: 1px solid #c41e24;
+}
+
+.bldr-spatial-shell__btn--primary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.bldr-spatial-shell__btn--ghost {
+  background: transparent;
+  border: 1px solid #bbb;
+  color: #333;
+}
+
+.bldr-spatial-shell__btn--outline-red {
+  background: #fff;
+  border: 1px solid #c41e24;
+  color: #c41e24;
+}
+
+.bldr-spatial-shell__footnote {
+  margin: 0.5rem 0 0;
+  font-size: 0.5rem;
+  letter-spacing: 0.08em;
+  color: #666;
+}
+
+/* Build object */
+.bldr-spatial-object {
+  position: relative;
+  width: min(100%, 15rem);
+  height: 10.5rem;
+  perspective: 800px;
+}
+
+.bldr-spatial-object__plinth {
+  position: absolute;
+  inset: auto 8% 0;
+  height: 1.25rem;
+  background: linear-gradient(180deg, #ece8e2, #d8d2c8);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  transform: skewX(-12deg);
+}
+
+.bldr-spatial-object__glass {
+  position: absolute;
+  inset: 12% 10% 18%;
+  transform-style: preserve-3d;
+  transform: rotateX(8deg) rotateY(-14deg);
+}
+
+.bldr-spatial-object--view-side .bldr-spatial-object__glass {
+  transform: rotateX(6deg) rotateY(18deg);
+}
+
+.bldr-spatial-object--view-exploded .bldr-spatial-object__slab {
+  transform: translateZ(calc(var(--i) * 10px)) translateY(calc(var(--i) * -4px));
+}
+
+.bldr-spatial-object__slab {
+  position: absolute;
+  inset: 10% 15%;
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.55), rgba(196, 30, 36, 0.22));
+  transform: translateZ(calc(var(--i) * 6px));
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.bldr-spatial-object__core {
+  position: absolute;
+  inset: 28% 32%;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.85), rgba(200, 196, 190, 0.5));
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.bldr-spatial-object--feel-bold .bldr-spatial-object__slab {
+  background: linear-gradient(135deg, rgba(17, 17, 17, 0.15), rgba(196, 30, 36, 0.45));
+}
+
+.bldr-spatial-object--feel-immersive .bldr-spatial-object__glass {
+  filter: contrast(1.05) saturate(1.1);
+}
+
+.bldr-spatial-object__inspect {
+  position: absolute;
+  right: -0.25rem;
+  top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.bldr-spatial-object__inspect button {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px;
+  border: 1px solid #ddd;
+  background: #fff;
+  font-size: 0.45rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+}
+
+.bldr-spatial-object__inspect button.is-active {
+  border-color: #c41e24;
+  color: #c41e24;
+}
+
+/* Selection grids */
+.bldr-spatial-chip {
+  border: 1px solid #ccc;
+  background: #fff;
+  padding: 0.35rem 0.5rem;
+  font-size: 0.5rem;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.bldr-spatial-chip.is-selected {
+  border-color: #c41e24;
+  color: #c41e24;
+}
+
+.bldr-spatial-grid--place {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.bldr-spatial-card {
+  text-align: left;
+  padding: 0.65rem 0.55rem;
+  border: 1px solid #ccc;
+  background: rgba(255, 255, 255, 0.72);
+  cursor: pointer;
+}
+
+.bldr-spatial-card.is-selected {
+  border-color: #c41e24;
+  box-shadow: inset 0 0 0 1px #c41e24;
+}
+
+.bldr-spatial-card__label {
+  display: block;
+  font-size: 0.6875rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+}
+
+.bldr-spatial-card__hint {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.5rem;
+  line-height: 1.35;
+  letter-spacing: 0.04em;
+  color: #555;
+  text-transform: uppercase;
+}
+
+.bldr-spatial-feel-rail {
+  display: flex;
+  gap: 0.35rem;
+  overflow-x: auto;
+  padding-bottom: 0.35rem;
+}
+
+.bldr-spatial-feel-rail button {
+  flex: 0 0 auto;
+  min-width: 4.5rem;
+  padding: 0.45rem 0.35rem;
+  border: 1px solid #ccc;
+  background: #fff;
+  font-size: 0.5625rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+}
+
+.bldr-spatial-feel-rail button.is-selected {
+  border-color: #c41e24;
+  color: #c41e24;
+}
+
+.bldr-spatial-feel-active {
+  margin: 0.5rem 0 0;
+  font-size: 0.5625rem;
+  letter-spacing: 0.12em;
+  font-weight: 800;
+}
+
+.bldr-spatial-work-wrap {
+  position: relative;
+  min-height: 8rem;
+}
+
+.bldr-spatial-work-orbit {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.bldr-spatial-work-orbit button {
+  pointer-events: auto;
+  position: absolute;
+  border: 1px solid #bbb;
+  background: #fff;
+  border-radius: 999px;
+  width: 2.1rem;
+  height: 2.1rem;
+  font-size: 0.95rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.bldr-spatial-work-orbit button.is-selected {
+  background: #c41e24;
+  border-color: #c41e24;
+  color: #fff;
+}
+
+.bldr-spatial-work-orbit button:nth-child(1) {
+  top: 8%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.bldr-spatial-work-orbit button:nth-child(2) {
+  top: 32%;
+  right: 4%;
+}
+.bldr-spatial-work-orbit button:nth-child(3) {
+  bottom: 18%;
+  right: 12%;
+}
+.bldr-spatial-work-orbit button:nth-child(4) {
+  bottom: 8%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.bldr-spatial-work-orbit button:nth-child(5) {
+  bottom: 18%;
+  left: 8%;
+}
+.bldr-spatial-work-orbit button:nth-child(6) {
+  top: 32%;
+  left: 4%;
+}
+
+.bldr-spatial-work-orbit-label {
+  position: absolute;
+  font-size: 0.45rem;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.bldr-spatial-core-row {
+  margin-top: 0.75rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.bldr-spatial-core-row p {
+  margin: 0 0 0.35rem;
+  font-size: 0.5rem;
+  letter-spacing: 0.14em;
+  color: #666;
+}
+
+.bldr-spatial-core-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.bldr-spatial-core-chips span {
+  font-size: 0.5rem;
+  letter-spacing: 0.1em;
+  padding: 0.25rem 0.4rem;
+  border: 1px solid #ddd;
+  background: #fff;
+}
+
+.bldr-spatial-pace-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.bldr-spatial-pace-item {
+  display: flex;
+  gap: 0.65rem;
+  align-items: flex-start;
+  padding: 0.55rem 0.5rem;
+  border: 1px solid #ccc;
+  background: rgba(255, 255, 255, 0.75);
+  text-align: left;
+  cursor: pointer;
+}
+
+.bldr-spatial-pace-item.is-selected {
+  border-color: #c41e24;
+}
+
+.bldr-spatial-pace-item input {
+  accent-color: #c41e24;
+  margin-top: 0.15rem;
+}
+
+.bldr-spatial-notes span {
+  display: block;
+  font-size: 0.5rem;
+  letter-spacing: 0.12em;
+  margin-bottom: 0.25rem;
+}
+
+.bldr-spatial-notes textarea {
+  width: 100%;
+  border: 1px solid #ccc;
+  font: inherit;
+  font-size: 0.75rem;
+  padding: 0.5rem;
+}
+
+/* Blueprint */
+.bldr-spatial-blueprint__nav {
+  display: flex;
+  gap: 0.65rem;
+  overflow-x: auto;
+  margin-bottom: 0.65rem;
+}
+
+.bldr-spatial-blueprint__nav button {
+  border: 0;
+  background: transparent;
+  font-size: 0.5rem;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+  color: #888;
+  cursor: pointer;
+  padding: 0 0 0.25rem;
+  border-bottom: 2px solid transparent;
+}
+
+.bldr-spatial-blueprint__nav button.is-active {
+  color: #111;
+  border-bottom-color: #c41e24;
+}
+
+.bldr-spatial-blueprint__metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.35rem;
+  margin-bottom: 0.75rem;
+}
+
+.bldr-spatial-blueprint__metric {
+  border: 1px solid #ddd;
+  background: #fff;
+  padding: 0.45rem 0.35rem;
+}
+
+.bldr-spatial-blueprint__metric dt {
+  font-size: 0.45rem;
+  letter-spacing: 0.1em;
+  color: #666;
+  margin: 0;
+}
+
+.bldr-spatial-blueprint__metric dd {
+  margin: 0.2rem 0 0;
+  font-size: 0.5625rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+}
+
+.bldr-spatial-blueprint__metric small {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 0.42rem;
+  line-height: 1.3;
+  color: #666;
+}
+
+.bldr-spatial-blueprint__config-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.35rem;
+}
+
+.bldr-spatial-blueprint__config-head h3 {
+  margin: 0;
+  font-size: 0.5rem;
+  letter-spacing: 0.14em;
+}
+
+.bldr-spatial-blueprint__cards {
+  display: flex;
+  gap: 0.45rem;
+  overflow-x: auto;
+  padding-bottom: 0.35rem;
+}
+
+.bldr-spatial-blueprint__card {
+  flex: 0 0 6.5rem;
+  border: 1px solid #ddd;
+  background: #fff;
+  padding: 0.35rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.bldr-spatial-blueprint__card-thumb {
+  height: 2.5rem;
+  background: linear-gradient(135deg, #eee, rgba(196, 30, 36, 0.15));
+  margin-bottom: 0.25rem;
+}
+
+.bldr-spatial-blueprint__card span {
+  font-size: 0.45rem;
+  letter-spacing: 0.08em;
+  color: #666;
+}
+
+.bldr-spatial-blueprint__card strong {
+  display: block;
+  font-size: 0.5rem;
+  letter-spacing: 0.06em;
+}
+
+.bldr-spatial-blueprint__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.bldr-spatial-blueprint__list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.35rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  font-size: 0.5625rem;
+  letter-spacing: 0.06em;
+}
+
+.bldr-spatial-blueprint__window,
+.bldr-spatial-blueprint__investment {
+  font-size: 1rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  margin: 0.25rem 0;
+}
+
+.bldr-spatial-blueprint__disclaimer {
+  font-size: 0.5rem;
+  line-height: 1.4;
+  color: #555;
+}
+
+@media (min-width: 48rem) {
+  .bldr-spatial-shell {
+    max-width: 28rem;
+  }
+  .bldr-spatial-object {
+    width: min(100%, 17rem);
+    height: 12rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bldr-spatial-object__glass,
+  .bldr-spatial-object__slab {
+    transition: none !important;
+  }
+}

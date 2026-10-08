@@ -15669,3 +15669,43 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decisions / outcomes:** Public artifact endpoint returns redacted client payload; admin/founder still uses full `getArtifactPayload`. Persistence activates with `SITE00_DIGITAL_FOUNDATION_PERSIST_SUPABASE=1` after migration deploy. Manual-review add-ons require founder `quote-commercial-ready` before checkout. No live funds/provider writes.
 - **Changes:** `shared/site00-digital-foundation/{quoteReadiness,readinessClock,clientProjection}.ts`, `api/_lib/digitalFoundation/{approvalDecisions,persistence/supabaseStore}.ts`, service/payment/webhook/surface/recommendation repairs, `docs/site00/idnty/SITE00_DIGITAL_FOUNDATION_CRITICAL_REPAIR_V1.md`, tests `digitalFoundationCriticalRepair.test.ts`, `digitalFoundationArtifactHandler.test.ts`, `digitalFoundationPersistence.test.ts`, client page consumes `ClientDigitalFoundationPayload`.
 - **Conventions:** Do not expose `events` or internal referral labels on public API; do not simulate Stripe checkout in production without explicit test flag; REQUEST_CHANGE must never satisfy approval gates.
+
+---
+
+## 2026-10-08 — Builder Hybrid Spatial Studio Composer role redirect
+
+- **Context:** Interjection `P0.SITE00.BUILDER.HYBRID-SPATIAL-STUDIO.V1-COMPOSER-ROLE-BOUNDARY-AND-IMPLEMENTATION-REDIRECTION1` supersedes Composer visual ownership on active sprint `…APPROVED-VISUAL-AUTHORITY-AND-EXPERIENCE-IMPLEMENTATION1`. Opus owns UX/visual fidelity; Grok owns assets; Composer owns technical machinery.
+- **Topics covered:** Five-room canonical state (PLACE/FEEL/WORK/PACE/BLUEPRINT), `spatialSelectionToBuilder()` → `BuilderSelection`, estimator via `builderEstimateView` (no hardcoded mock prices or DF day counts), blueprint snapshot + submission blockers, Build Object presentation-neutral params, localStorage save/resume, feature flags `VITE_SITE00_TEMPLATE_SYSTEM_V1` + `VITE_SITE00_CLIENT_ESTIMATE_PREVIEW_V1`, gated route `/bldr/studio`, non-authoritative UI scaffold for Opus.
+- **Decisions / outcomes:** Preserve scaffold; do not delete or refine visual layer in Composer. Submit-for-review API and server spatial persistence remain **MISSING**. Approved JPG wireframes in `docs/site00/builder-experience/wireframes/`. Primary handoff: `docs/site00/builder-experience/BUILDER_OPUS_TECHNICAL_HANDOFF.md`.
+- **Changes:** `src/site00/builder-experience/spatialStudio/*`, `BldrSpatialStudioPage.tsx`, `components/bldr/spatial-studio/*`, `spatialStudio.test.ts` (5), docs `BUILDER_*`, routes `SITE00_ROUTES.bldrSpatialStudio`.
+- **Conventions:** Composer must not compete with Opus on CSS/spatial UX; shared contract changes are Composer-owned; do not rewrite estimator math or invent fixed public prices.
+
+---
+
+## 2026-10-08 — Builder intake artifact end-to-end audit V1
+
+- **Context:** Sprint `P0.SITE00.BUILDER.INTAKE-ARTIFACT.V1-END-TO-END-CONTRACT-AND-CONTINUITY-AUDIT1` — read-only reconciliation of canonical `site00_bldr_intakes` + `/api/site00/intakes` vs Hybrid Spatial Studio (`/bldr/studio`).
+- **Topics covered:** 15-step client journey classification; continuity map; data contract (`answers` jsonb = draftPayload); blueprint/estimator trace; submit/founder handoff; duplicated legacy vs spatial questions; gap register (GAP-INT-001–014).
+- **Decisions / outcomes:** Intake infrastructure **IMPLEMENTED** for legacy `useBldrAssessment` path; spatial studio **NOT** wired to server intake/submit (localStorage + fake submit). Do not merge Digital Foundation artifact. Next Composer sprint: spatial–intake binding + real blueprint submit payload.
+- **Changes:** `docs/site00/builder-experience/BUILDER_INTAKE_*_V1.md` (6 audit/handoff files).
+- **Conventions:** One client / one project context is the target principle; until binding ships, treat dual local keys as continuity risk.
+
+---
+
+## 2026-10-08 — Builder spatial intake server binding V1
+
+- **Context:** Sprint `P0.SITE00.BUILDER.INTAKE-SPATIAL-SERVER-BINDING.V1` closes GAP-INT-001–004 — wire `/bldr/studio` to `site00_bldr_intakes` without new intake system.
+- **Topics covered:** `useBuilderSpatialIntakeSession`, draft envelope `builder-spatial-v1`, server autosave via `useIntakeSync`, conflict resolution, legacy hint mapping, versioned `submitted_payload` with blueprint snapshot, admin `request-revision`, resume URLs, memory-store fix (undefined patch keys).
+- **Decisions / outcomes:** Estimator unchanged; founder submission snapshot always includes estimate; public preview flag still gates client display; production activation remains gated via `builderProjectActivationHint`.
+- **Changes:** `spatialStudio/intakeDraft.ts`, `useBuilderSpatialIntakeSession.ts`, `intakeService.submitIntake` BUILDER spatial branch, `submitBuilderSpatialIntake.ts`, tests `spatialIntakeSubmit.test.ts`, docs `BUILDER_SPATIAL_INTAKE_BINDING_V1.md`.
+- **Conventions:** Opus keeps visual layer; Composer owns intake contracts; do not treat localStorage as system of record when server sync succeeded.
+
+---
+
+## 2026-10-08 — Builder preview feature flags (fsbw-dev tunnel only)
+
+- **Context:** Sprint `P0.SITE00.BUILDER.HYBRID-SPATIAL-STUDIO.V1-DEV-PREVIEW-FEATURE-FLAG-ACTIVATION1` — founder `/bldr/studio` blocked by `VITE_SITE00_TEMPLATE_SYSTEM_V1` on site00.fsbw-dev.com.
+- **Topics covered:** Cloud preview dev server (`SITE00_CLOUD_PREVIEW_MODE=dev`) now exports template + client estimate preview flags; production deploy workflows unchanged; AGENTS.md note.
+- **Decisions / outcomes:** Not enabled on `npm run build` / GoDaddy; restart Vite preview terminal after merge for flags to take effect.
+- **Changes:** `.cursor/scripts/run-site00-cloud-preview-server.sh`, `.env.example`, `AGENTS.md`.
+- **Conventions:** Do not add these flags to site00-production-deploy.yml without explicit founder release approval.
