@@ -15579,3 +15579,50 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Changes:** `src/studioos/estimation/`, internal page `/admin/site00/estimator`, `docs/site00/SITE00_ESTIMATION_ENGINE.md`. Twelve engine tests pass. The public builder is unchanged. Client estimate preview stays off.
 - **Conventions:** Do not estimate by page count. Do not call priority production “rush.” Do not show family units to clients. Do not treat an estimate as a quote. Do not auto-adjust coefficients from calibration records. Do not invent visual-system sample images.
 
+---
+
+## 2026-10-08 — First eight JURNL email authorities
+
+- **Context:** This chat also recomposed the SETUP v1 parents as workshop stations on a separate review branch. That branch was not merged. This turn produces the first eight JURNL email visual authorities from the existing email engine. Nothing is sent, and no template is implemented.
+- **Topics covered:** Editorial correspondence, not app screenshots. Contract copy and consent classes from `shared/jurnl-email-engine`. Mobile 375 and desktop 640. Blank photographs, then type set from the contract.
+- **Decisions / outcomes:**
+  - Eight emails: welcome, verify, finish setup, Safe to Spend ready, weekly brief, purchase second look, milestone, reset access.
+  - Headlines and buttons follow the contract draft. A04 stays family E01, the engine classification.
+  - Names, email addresses, amounts, dates, and links are empty live zones. No figure is printed in a photograph.
+  - Verify and reset share the security lineage and do not offer unsubscribe. They do not share a picture: one is a sealed envelope, the other a letter on dark marble.
+  - Safe to Spend reuses the arrival still life. The purchase slip stays in the desk-note family.
+  - The official JURNL mark is the existing logo file, placed in the header, not redrawn.
+  - Implementation stays blocked until founder review.
+- **Changes:** `JURNL EMAILS v1/A01_WELCOME_TO_JURNL/` through `A08_RESET_YOUR_ACCESS/`, `JURNL EMAILS v1/MANIFESTS/first-8-email-authority-manifest.json`, `JURNL EMAILS v1/REVIEW/first-8-*.png`, and the image allowance in `tests/jurnlEmailEngine1.test.ts`. No React, provider, or consent change.
+- **Conventions:** Email photographs do not carry live copy or live figures. The contract remains the copy source. Do not infer founder approval of these eight emails.
+
+---
+
+## 2026-10-08 — Email authorities rebuilt from the JURNL page world
+
+- **Context:** This chat filed the first eight email authorities, then blurred every drawer and grouped the Safe to Spend buffer, then redirected the SETUP parents away from a courtroom look. The founder rejected the first email batch as a generic template with a decorative hero, cream blocks, and a green button. This turn rebuilds A01–A08 from approved page authorities.
+- **Topics covered:** Image-to-image email reconstruction. Official logo. Mobile parent first, desktop widened from that parent. No HTML, no send, no sidekicks.
+- **Decisions / outcomes:**
+  - The first batch is `SUPERSEDED_DRAFT` under each email folder. It is not the visual authority.
+  - Each new letter is image-to-image from ENTRY, SETUP, TODAY, Safe to Spend, or purchase authorities. The canonical logo is composited from `public/site00/projects/jurnl/brand/jurnl-logo-official.png`. It is not redrawn.
+  - Photographs hold blank zones for headline, body, figures, and the action. Names, amounts, dates, links, and button labels are not baked in.
+  - Verify stays a sealed envelope. Reset stays an open credential folio on green marble. They do not share a picture.
+  - The first weekly digest sat on a walnut desk and was replaced with limestone and linen.
+  - Eight mobile parents and eight desktop derivatives. Zero new sidekicks or components. HTML extraction waits for founder approval.
+- **Changes:** `JURNL EMAILS v1/A01_WELCOME_TO_JURNL/` through `A08_RESET_YOUR_ACCESS/`, the email manifest, two review boards, and `tests/jurnlEmailEngine1.test.ts`. No React, provider, or consent change.
+- **Conventions:** An email is a correspondence object translated from a JURNL page, not a newsletter. Desktop widens the mobile parent. Do not generate shells or HTML until the founder locks these parents. Do not upload email images to GoDaddy.
+
+---
+
+## 2026-10-08 — Email parents gain the botanical mark and torn editorial layer
+
+- **Context:** This chat returned the bottom dock to plaster beige, then classified merge conflicts on the open review branches, then corrected the first eight JURNL email parents. The image-to-image email board had the Mediterranean world and was still missing the decorative botanical identity and the torn editorial collage.
+- **Topics covered:** Dock plaster versus the white panel. Simple MEMORY conflicts versus the SETUP grammar conflict. Surgical brand-layer correction of A01–A08. Official logo file. No extraction, no HTML, no desktop derivatives.
+- **Decisions / outcomes:**
+  - Parent docks and the generic nav use plaster `#f1e3cf` so they blend with the strip under them. The authority dock and the F09/F10 stage stay `#f6f3ee`. That dock change is already on main.
+  - MEMORY-only conflicts on the review branches were simple heading unions. PR #1499 still conflicts on the grammar flags and was left untouched. Do not union those flag sets.
+  - The image-to-image email board is `SUPERSEDED_DRAFT` under `image-to-image-reconstruction1` in each email folder. It is not approved.
+  - The corrected parents keep limestone, linen, olive, burgundy ribbon, green marble, brass, and warm sun. The official botanical file is printed into each one, with a different treatment: torn margin, seal, linen spine, torn report edge, vellum, cropped slip, ceremonial sheet, brass-crossed card.
+  - Photographs still hold blank zones. Names, amounts, dates, codes, and button labels stay live HTML. No sidekicks, shells, components, or desktop derivatives. Founder review is still required.
+- **Changes:** `JURNL EMAILS v1/A01_WELCOME_TO_JURNL/` through `A08_RESET_YOUR_ACCESS/`, `JURNL EMAILS v1/REVIEW/first-8-brand-layer-torn-editorial1.png`, the email manifest, and `tests/jurnlEmailEngine1.test.ts`.
+- **Conventions:** Do not invent a JURNL mark. Key black out of `public/site00/projects/jurnl/brand/jurnl-logo-official.png` and print that file. Do not extract email assets before founder approval. Do not upload email images to GoDaddy.
