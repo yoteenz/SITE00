@@ -1,0 +1,12 @@
+{
+  "SCREEN_ID": "11_RESET_PASSWORD",
+  "PLATE_STATUS": "NEW_PLATE_REQUIRED",
+  "PLATE_PATH": "ENTRY v2/11_RESET_PASSWORD/plate/entry-v2-reset-password-sidekick-plate.png",
+  "AUTHORITY_PATH": "ENTRY v2/11_RESET_PASSWORD/authority/entry-v2-reset-password-authority.png",
+  "THESIS": "REISSUED CREDENTIAL",
+  "STATUS": "FOUNDER_REVIEW_REQUIRED",
+  "PRIOR": "SUPERSEDED",
+  "OPENART_AUTHORITY_HISTORY": "SqnE2J9jdmwN5PgBG2Qt",
+  "OPENART_PLATE_HISTORY": "mrx3XkFTJRNxA13eOGWV",
+  "NOTE": "Open bifold folio on green marble with a brass registration bar."
+}
