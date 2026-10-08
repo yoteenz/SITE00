@@ -15487,3 +15487,19 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - Implementation stays blocked until founder review.
 - **Changes:** `JURNL EMAILS v1/A01_WELCOME_TO_JURNL/` through `A08_RESET_YOUR_ACCESS/`, `JURNL EMAILS v1/MANIFESTS/first-8-email-authority-manifest.json`, `JURNL EMAILS v1/REVIEW/first-8-*.png`, and the image allowance in `tests/jurnlEmailEngine1.test.ts`. No React, provider, or consent change.
 - **Conventions:** Email photographs do not carry live copy or live figures. The contract remains the copy source. Do not infer founder approval of these eight emails.
+
+---
+
+## 2026-10-08 — Email authorities rebuilt from the JURNL page world
+
+- **Context:** This chat filed the first eight email authorities, then blurred every drawer and grouped the Safe to Spend buffer, then redirected the SETUP parents away from a courtroom look. The founder rejected the first email batch as a generic template with a decorative hero, cream blocks, and a green button. This turn rebuilds A01–A08 from approved page authorities.
+- **Topics covered:** Image-to-image email reconstruction. Official logo. Mobile parent first, desktop widened from that parent. No HTML, no send, no sidekicks.
+- **Decisions / outcomes:**
+  - The first batch is `SUPERSEDED_DRAFT` under each email folder. It is not the visual authority.
+  - Each new letter is image-to-image from ENTRY, SETUP, TODAY, Safe to Spend, or purchase authorities. The canonical logo is composited from `public/site00/projects/jurnl/brand/jurnl-logo-official.png`. It is not redrawn.
+  - Photographs hold blank zones for headline, body, figures, and the action. Names, amounts, dates, links, and button labels are not baked in.
+  - Verify stays a sealed envelope. Reset stays an open credential folio on green marble. They do not share a picture.
+  - The first weekly digest sat on a walnut desk and was replaced with limestone and linen.
+  - Eight mobile parents and eight desktop derivatives. Zero new sidekicks or components. HTML extraction waits for founder approval.
+- **Changes:** `JURNL EMAILS v1/A01_WELCOME_TO_JURNL/` through `A08_RESET_YOUR_ACCESS/`, the email manifest, two review boards, and `tests/jurnlEmailEngine1.test.ts`. No React, provider, or consent change.
+- **Conventions:** An email is a correspondence object translated from a JURNL page, not a newsletter. Desktop widens the mobile parent. Do not generate shells or HTML until the founder locks these parents. Do not upload email images to GoDaddy.

@@ -221,11 +221,13 @@ describe('assets and lineage', () => {
       'REVIEW/first-8-mobile-authorities.png',
       'REVIEW/first-8-desktop-authorities.png',
       'REVIEW/first-8-family-comparison.png',
+      'REVIEW/first-8-image-to-image-reconstruction1.png',
+      'REVIEW/first-8-old-vs-new.png',
     ]);
     for (const rel of images) {
       expect(authorityFolder.test(rel) || reviewBoard.has(rel), rel).toBe(true);
     }
-    expect(images.filter((rel) => reviewBoard.has(rel))).toHaveLength(3);
+    expect(images.filter((rel) => reviewBoard.has(rel))).toHaveLength(5);
   });
 
   it('shares lineage across the lifecycle', () => {

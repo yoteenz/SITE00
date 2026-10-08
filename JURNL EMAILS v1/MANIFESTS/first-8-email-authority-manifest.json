@@ -1,336 +1,153 @@
 {
-  "SPRINT": "P0.JURNL.EMAILS.FIRST-8-AUTHORITY-BATCH1",
+  "SPRINT": "P0.JURNL.EMAILS.FIRST-8.IMAGE-TO-IMAGE-BRAND-AUTHORITY-RECONSTRUCTION1",
+  "PRIOR_SPRINT": "P0.JURNL.EMAILS.FIRST-8-AUTHORITY-BATCH1",
   "PROJECT_ROOT": "JURNL EMAILS v1",
   "STATUS": "FOUNDER_REVIEW_REQUIRED",
-  "FAMILY_STATUS": "FIRST_8_EMAIL_AUTHORITIES_COMPLETE",
+  "FAMILY_STATUS": "FIRST_8_EMAIL_PARENT_AUTHORITIES_RECONSTRUCTED",
+  "OLD_BATCH_STATUS": "SUPERSEDED_DRAFT",
   "IMPLEMENTATION": "BLOCKED_PENDING_APPROVAL",
-  "COPY_SOURCE": "shared/jurnl-email-engine/contracts.ts. Headlines and CTAs are the contract draft. Names, addresses, amounts, and dates are empty live zones.",
-  "IDENTITY": "public/site00/projects/jurnl/brand/jurnl-logo-official.png composited. Not redrawn.",
+  "DOWNSTREAM_EMAIL_ASSETS": "BLOCKED",
+  "IMAGE_TO_IMAGE_USED": true,
+  "MODEL": "gpt-image-2-5-sunburst",
+  "MODE": "image2image",
+  "MOBILE_ASPECT": "3:4",
+  "DESKTOP_ASPECT": "3:2",
+  "RESOLUTION": "2k",
+  "COPY_SOURCE": "shared/jurnl-email-engine/contracts.ts. Headlines, body, and CTA labels stay live HTML. Photographs hold blank zones only.",
+  "OFFICIAL_LOGO_SOURCE": "public/site00/projects/jurnl/brand/jurnl-logo-official.png",
+  "LOGO_METHOD": "Composited from the canonical file. Black keyed out. Not generated.",
   "PHOTOGRAPHS_CONTAIN_CRITICAL_TEXT": false,
   "PHOTOGRAPHS_CONTAIN_DYNAMIC_DATA": false,
-  "A04_FAMILY_NOTE": "Engine family is E01 with an E02 trait. The sprint sheet said E03. The contract is the classification.",
-  "REUSED_LINEAGES": [
-    "ARRIVAL (A04 reuses A01)",
-    "DESK_NOTE (A06 derives from the A03 material family)"
-  ],
-  "NEW_LINEAGES": [
-    "ARRIVAL",
-    "SECURE_CORRESPONDENCE",
-    "DESK_NOTE",
-    "BRIEFING",
-    "CEREMONIAL"
+  "SIDEKICKS_GENERATED": 0,
+  "COMPONENTS_GENERATED": 0,
+  "READY_FOR_HTML_EXTRACTION": false,
+  "MOBILE_COUNT": 8,
+  "DESKTOP_COUNT": 8,
+  "REVIEW": {
+    "PARENTS": "JURNL EMAILS v1/REVIEW/first-8-image-to-image-reconstruction1.png",
+    "OLD_VS_NEW": "JURNL EMAILS v1/REVIEW/first-8-old-vs-new.png"
+  },
+  "REFERENCE_IMAGES_USED": [
+    "ENTRY v2/01_WELCOME/authority/entry-v2-welcome-authority.png",
+    "ENTRY v2/14_ENTRY_COMPLETE/authority/entry-v2-entry-complete-authority.png",
+    "ENTRY v2/06_EMAIL_VERIFICATION/authority/entry-v2-email-verification-authority.png",
+    "ENTRY v2/09_DEVICE_TRUST/authority/entry-v2-device-trust-authority.png",
+    "ENTRY v2/10_FORGOT_PASSWORD/authority/entry-v2-forgot-password-authority.png",
+    "ENTRY v2/11_RESET_PASSWORD/authority/entry-v2-reset-password-authority.png",
+    "SETUP v1/01_SETUP_INTRO/authority/setup-v1-01_setup_intro-authority.png",
+    "SETUP v1/15_REVIEW/authority/setup-v1-15_review-authority.png",
+    "TODAY v1/02_STS_SIGNAL/authority/today-v1-sts-signal-authority.png",
+    "JURNL/F09_SAFE/REFERENCE_REPLICA1/REFERENCES/02_WHY_THIS_NUMBER.png",
+    "TODAY v1/01_TODAY_OVERVIEW/authority/today-v1-overview-authority.png",
+    "TODAY v1/06_UPCOMING_PREVIEW/authority/today-v1-upcoming-preview-authority.png",
+    "JURNL/F09_SAFE/REFERENCE_REPLICA1/REFERENCES/07_CHECK_A_PURCHASE.png",
+    "SETUP v1/08_GOALS/authority/setup-v1-08_goals-authority.png"
   ],
   "EMAILS": [
     {
       "AUTHORITY_ID": "A01",
+      "NAME": "WELCOME TO JURNL",
       "EMAIL_FAMILY": "E01",
-      "PURPOSE": "Mark arrival once the account is verified, and give one first step.",
-      "CONSENT_CLASS": "LIFECYCLE_SERVICE",
-      "PRIMARY_ARTIFACT": "Folded editorial letter",
-      "COMPOSITION_THESIS": "PRIVATE WELCOME LETTER",
-      "ENVIRONMENT_LINEAGE": "ARRIVAL",
-      "MATERIAL_COLLISION": "stone + linen + cream letter + burgundy edge",
-      "ASSET_LIST": [
-        {
-          "FILE": "JURNL EMAILS v1/A01_WELCOME_TO_JURNL/assets/arrival.png",
-          "THUMBNAIL": "JURNL EMAILS v1/A01_WELCOME_TO_JURNL/assets/arrival-thumb.png",
-          "CLASS": "ENVIRONMENT",
-          "LINEAGE_ACTION": "CREATE_NEW",
-          "NOTE": "Founds ARRIVAL.",
-          "OPENART_HISTORY": "FUP6TzaOhK3cWZ70h3yr",
-          "CRITICAL_TEXT": false,
-          "DYNAMIC_DATA": false
-        },
-        {
-          "FILE": "JURNL EMAILS v1/A01_WELCOME_TO_JURNL/assets/letter.png",
-          "THUMBNAIL": "JURNL EMAILS v1/A01_WELCOME_TO_JURNL/assets/letter-thumb.png",
-          "CLASS": "ARTIFACT_SHELL",
-          "LINEAGE_ACTION": "CREATE_NEW",
-          "NOTE": "Blank welcome letter.",
-          "OPENART_HISTORY": "iiVTySlsO4z3LFnpHJ6E",
-          "CRITICAL_TEXT": false,
-          "DYNAMIC_DATA": false
-        }
-      ],
+      "COMPOSITION_THESIS": "PRIVATE ARRIVAL LETTER",
+      "REFERENCES": ["ENTRY WELCOME", "ENTRY COMPLETE"],
       "MOBILE_AUTHORITY": "JURNL EMAILS v1/A01_WELCOME_TO_JURNL/mobile/a01-mobile.png",
       "DESKTOP_AUTHORITY": "JURNL EMAILS v1/A01_WELCOME_TO_JURNL/desktop/a01-desktop.png",
-      "LIVE_TEXT_ZONES": [
-        "headline",
-        "body",
-        "cta",
-        "footer"
-      ],
-      "DYNAMIC_DATA_ZONES": [],
-      "CTA_ZONE": "BEGIN SETUP",
-      "LEGAL_ZONE": "lifecycle",
-      "HEADLINE": "YOUR JURNL IS OPEN.",
+      "OPENART_MOBILE_HISTORY": "O0k56GcoB6v69QZUgjIP",
+      "OPENART_DESKTOP_HISTORY": "ZeBlXmLzDzECSL8F4oYw",
+      "LIVE_TEXT_ZONES": ["headline", "body", "cta", "footer"],
       "STATUS": "FOUNDER_REVIEW_REQUIRED"
     },
     {
       "AUTHORITY_ID": "A02",
+      "NAME": "VERIFY YOUR EMAIL",
       "EMAIL_FAMILY": "E06",
-      "PURPOSE": "Confirm the person owns the address before the account opens.",
-      "CONSENT_CLASS": "TRANSACTIONAL",
-      "PRIMARY_ARTIFACT": "Envelope and blank verification insert",
-      "COMPOSITION_THESIS": "SEALED CONFIRMATION NOTE",
-      "ENVIRONMENT_LINEAGE": "SECURE_CORRESPONDENCE",
-      "MATERIAL_COLLISION": "linen envelope + wax seal + plaster",
-      "ASSET_LIST": [
-        {
-          "FILE": "JURNL EMAILS v1/A02_VERIFY_YOUR_EMAIL/assets/envelope.png",
-          "THUMBNAIL": "JURNL EMAILS v1/A02_VERIFY_YOUR_EMAIL/assets/envelope-thumb.png",
-          "CLASS": "ARTIFACT_SHELL",
-          "LINEAGE_ACTION": "CREATE_NEW",
-          "NOTE": "Founds secure correspondence. No environment art.",
-          "OPENART_HISTORY": "kJsV4xRclrae7MulrHd7",
-          "CRITICAL_TEXT": false,
-          "DYNAMIC_DATA": false
-        }
-      ],
+      "COMPOSITION_THESIS": "SEALED IDENTITY CORRESPONDENCE",
+      "REFERENCES": ["ENTRY EMAIL VERIFICATION", "ENTRY DEVICE TRUST"],
       "MOBILE_AUTHORITY": "JURNL EMAILS v1/A02_VERIFY_YOUR_EMAIL/mobile/a02-mobile.png",
       "DESKTOP_AUTHORITY": "JURNL EMAILS v1/A02_VERIFY_YOUR_EMAIL/desktop/a02-desktop.png",
-      "LIVE_TEXT_ZONES": [
-        "headline",
-        "body",
-        "cta",
-        "footer"
-      ],
-      "DYNAMIC_DATA_ZONES": [],
-      "CTA_ZONE": "VERIFY MY EMAIL",
-      "LEGAL_ZONE": "security",
-      "HEADLINE": "VERIFY YOUR EMAIL.",
+      "OPENART_MOBILE_HISTORY": "3FIBrcqkuYHDgmEOLENk",
+      "OPENART_DESKTOP_HISTORY": "5KyUAS9s7HeOr0G1bcOr",
+      "LIVE_TEXT_ZONES": ["headline", "body", "cta", "notice", "footer"],
       "STATUS": "FOUNDER_REVIEW_REQUIRED"
     },
     {
       "AUTHORITY_ID": "A03",
+      "NAME": "FINISH SETTING UP JURNL",
       "EMAIL_FAMILY": "E05",
-      "PURPOSE": "Bring back someone who started setup and stopped.",
-      "CONSENT_CLASS": "LIFECYCLE_SERVICE",
-      "PRIMARY_ARTIFACT": "Open folio with blank tabs",
-      "COMPOSITION_THESIS": "UNFINISHED FOLIO",
-      "ENVIRONMENT_LINEAGE": "DESK_NOTE",
-      "MATERIAL_COLLISION": "linen folio + burgundy ribbon + brass clip",
-      "ASSET_LIST": [
-        {
-          "FILE": "JURNL EMAILS v1/A03_FINISH_SETTING_UP_JURNL/assets/folio.png",
-          "THUMBNAIL": "JURNL EMAILS v1/A03_FINISH_SETTING_UP_JURNL/assets/folio-thumb.png",
-          "CLASS": "ARTIFACT_SHELL",
-          "LINEAGE_ACTION": "CREATE_NEW",
-          "NOTE": "Founds the desk-note folio.",
-          "OPENART_HISTORY": "24Hw4JjpgWJCC0gAbufN",
-          "CRITICAL_TEXT": false,
-          "DYNAMIC_DATA": false
-        }
-      ],
+      "COMPOSITION_THESIS": "UNFINISHED FINANCIAL FOLIO",
+      "REFERENCES": ["SETUP INTRO", "SETUP REVIEW"],
       "MOBILE_AUTHORITY": "JURNL EMAILS v1/A03_FINISH_SETTING_UP_JURNL/mobile/a03-mobile.png",
       "DESKTOP_AUTHORITY": "JURNL EMAILS v1/A03_FINISH_SETTING_UP_JURNL/desktop/a03-desktop.png",
-      "LIVE_TEXT_ZONES": [
-        "headline",
-        "body",
-        "cta",
-        "footer"
-      ],
-      "DYNAMIC_DATA_ZONES": [
-        "STILL OPEN"
-      ],
-      "CTA_ZONE": "FINISH SETUP",
-      "LEGAL_ZONE": "lifecycle",
-      "HEADLINE": "PICK UP WHERE YOU LEFT OFF.",
+      "OPENART_MOBILE_HISTORY": "pylSWTZdVoGqF6inwGQh",
+      "OPENART_DESKTOP_HISTORY": "UO1YjisZgWgbfKpmXdT7",
+      "LIVE_TEXT_ZONES": ["headline", "body", "cta", "footer"],
       "STATUS": "FOUNDER_REVIEW_REQUIRED"
     },
     {
       "AUTHORITY_ID": "A04",
+      "NAME": "YOUR SAFE TO SPEND IS READY",
       "EMAIL_FAMILY": "E01",
-      "PURPOSE": "Tell the person Safe to Spend is real, without printing the figure in the photograph.",
-      "CONSENT_CLASS": "LIFECYCLE_SERVICE",
-      "PRIMARY_ARTIFACT": "Entry card with an empty figure well",
-      "COMPOSITION_THESIS": "THE NUMBER ARRIVES AS A FINANCIAL BRIEF",
-      "ENVIRONMENT_LINEAGE": "ARRIVAL",
-      "MATERIAL_COLLISION": "arrival linen reused + cream certificate card",
-      "ASSET_LIST": [
-        {
-          "FILE": "JURNL EMAILS v1/A04_SAFE_TO_SPEND_READY/assets/arrival.png",
-          "THUMBNAIL": "JURNL EMAILS v1/A04_SAFE_TO_SPEND_READY/assets/arrival-thumb.png",
-          "CLASS": "ENVIRONMENT",
-          "LINEAGE_ACTION": "REUSE",
-          "NOTE": "Arrival still life from A01, new crop.",
-          "OPENART_HISTORY": "FUP6TzaOhK3cWZ70h3yr",
-          "CRITICAL_TEXT": false,
-          "DYNAMIC_DATA": false
-        },
-        {
-          "FILE": "JURNL EMAILS v1/A04_SAFE_TO_SPEND_READY/assets/entry-card.png",
-          "THUMBNAIL": "JURNL EMAILS v1/A04_SAFE_TO_SPEND_READY/assets/entry-card-thumb.png",
-          "CLASS": "ARTIFACT_SHELL",
-          "LINEAGE_ACTION": "DERIVE",
-          "NOTE": "Blank page cropped from the A01 letter.",
-          "OPENART_HISTORY": "DERIVED",
-          "CRITICAL_TEXT": false,
-          "DYNAMIC_DATA": false
-        }
-      ],
+      "COMPOSITION_THESIS": "FINANCIAL SIGNAL BRIEF",
+      "REFERENCES": ["TODAY SAFE TO SPEND", "WHY THIS NUMBER"],
       "MOBILE_AUTHORITY": "JURNL EMAILS v1/A04_SAFE_TO_SPEND_READY/mobile/a04-mobile.png",
       "DESKTOP_AUTHORITY": "JURNL EMAILS v1/A04_SAFE_TO_SPEND_READY/desktop/a04-desktop.png",
-      "LIVE_TEXT_ZONES": [
-        "headline",
-        "body",
-        "cta",
-        "footer"
-      ],
-      "DYNAMIC_DATA_ZONES": [
-        "SAFE TO SPEND"
-      ],
-      "CTA_ZONE": "SEE WHY THIS AMOUNT",
-      "LEGAL_ZONE": "lifecycle",
-      "HEADLINE": "YOUR NUMBER IS READY.",
+      "OPENART_MOBILE_HISTORY": "6zM6ChUCvkNDVUhFvMSY",
+      "OPENART_DESKTOP_HISTORY": "8r61xvfHEdpuNzcYOzEb",
+      "LIVE_TEXT_ZONES": ["headline", "body", "number", "cta", "footer"],
       "STATUS": "FOUNDER_REVIEW_REQUIRED"
     },
     {
       "AUTHORITY_ID": "A05",
+      "NAME": "YOUR WEEK IN JURNL",
       "EMAIL_FAMILY": "E03",
-      "PURPOSE": "A calm weekly brief. Figures stay live.",
-      "CONSENT_CLASS": "LIFECYCLE_SERVICE",
-      "PRIMARY_ARTIFACT": "Clipped briefing sheet",
-      "COMPOSITION_THESIS": "WEEKLY EDITORIAL BRIEF",
-      "ENVIRONMENT_LINEAGE": "BRIEFING",
-      "MATERIAL_COLLISION": "stone + linen + brass clip + blank ledger head",
-      "ASSET_LIST": [
-        {
-          "FILE": "JURNL EMAILS v1/A05_YOUR_WEEK_IN_JURNL/assets/brief.png",
-          "THUMBNAIL": "JURNL EMAILS v1/A05_YOUR_WEEK_IN_JURNL/assets/brief-thumb.png",
-          "CLASS": "ENVIRONMENT",
-          "LINEAGE_ACTION": "CREATE_NEW",
-          "NOTE": "Founds the briefing head. Sheet body stays HTML.",
-          "OPENART_HISTORY": "uJILSLJJyJ9H9gmLfj1m",
-          "CRITICAL_TEXT": false,
-          "DYNAMIC_DATA": false
-        }
-      ],
+      "COMPOSITION_THESIS": "WEEKLY EDITORIAL DIGEST",
+      "REFERENCES": ["TODAY", "UPCOMING", "SETUP INTRO"],
       "MOBILE_AUTHORITY": "JURNL EMAILS v1/A05_YOUR_WEEK_IN_JURNL/mobile/a05-mobile.png",
       "DESKTOP_AUTHORITY": "JURNL EMAILS v1/A05_YOUR_WEEK_IN_JURNL/desktop/a05-desktop.png",
-      "LIVE_TEXT_ZONES": [
-        "headline",
-        "body",
-        "cta",
-        "footer"
-      ],
-      "DYNAMIC_DATA_ZONES": [
-        "SAFE TO SPEND",
-        "COMING",
-        "MOVED"
-      ],
-      "CTA_ZONE": "OPEN MY WEEK",
-      "LEGAL_ZONE": "lifecycle",
-      "HEADLINE": "YOUR WEEK, IN BRIEF.",
+      "OPENART_MOBILE_HISTORY": "otYeU0oJJBrB0pprXj1F",
+      "OPENART_DESKTOP_HISTORY": "zCf5PzPfyEC7w25Rt5gM",
+      "REJECTED_MOBILE_HISTORY": "V0j3hsAhZrOyAsbUZR95",
+      "REVIEW_NOTE": "First pass sat on a walnut desk and was replaced with limestone and linen.",
+      "LIVE_TEXT_ZONES": ["headline", "ledger", "cta", "footer"],
       "STATUS": "FOUNDER_REVIEW_REQUIRED"
     },
     {
       "AUTHORITY_ID": "A06",
+      "NAME": "A PURCHASE MAY NEED A SECOND LOOK",
       "EMAIL_FAMILY": "E05",
-      "PURPOSE": "A saved purchase may no longer fit as well. Calm, not alarming.",
-      "CONSENT_CLASS": "LIFECYCLE_SERVICE",
-      "PRIMARY_ARTIFACT": "Askew inspection slip",
-      "COMPOSITION_THESIS": "EDITORIAL CAUTION SLIP",
-      "ENVIRONMENT_LINEAGE": "DESK_NOTE",
-      "MATERIAL_COLLISION": "walnut + cream slip + burgundy thread",
-      "ASSET_LIST": [
-        {
-          "FILE": "JURNL EMAILS v1/A06_PURCHASE_SECOND_LOOK/assets/slip.png",
-          "THUMBNAIL": "JURNL EMAILS v1/A06_PURCHASE_SECOND_LOOK/assets/slip-thumb.png",
-          "CLASS": "ARTIFACT_SHELL",
-          "LINEAGE_ACTION": "DERIVE",
-          "NOTE": "Desk-note materials, a smaller askew slip.",
-          "OPENART_HISTORY": "wi57z23Zda4IjY9hHUEB",
-          "CRITICAL_TEXT": false,
-          "DYNAMIC_DATA": false
-        }
-      ],
+      "COMPOSITION_THESIS": "PURCHASE INSPECTION NOTE",
+      "REFERENCES": ["CHECK A PURCHASE"],
       "MOBILE_AUTHORITY": "JURNL EMAILS v1/A06_PURCHASE_SECOND_LOOK/mobile/a06-mobile.png",
       "DESKTOP_AUTHORITY": "JURNL EMAILS v1/A06_PURCHASE_SECOND_LOOK/desktop/a06-desktop.png",
-      "LIVE_TEXT_ZONES": [
-        "headline",
-        "body",
-        "cta",
-        "footer"
-      ],
-      "DYNAMIC_DATA_ZONES": [
-        "PURCHASE"
-      ],
-      "CTA_ZONE": "REVIEW THIS PURCHASE",
-      "LEGAL_ZONE": "lifecycle",
-      "HEADLINE": "THIS MAY NEED A SECOND LOOK.",
+      "OPENART_MOBILE_HISTORY": "oR1QfS7Ir5fRTcYI7NQ4",
+      "OPENART_DESKTOP_HISTORY": "VQ5ZFX2xwUbxXIDaATxM",
+      "LIVE_TEXT_ZONES": ["headline", "purchase", "cta", "footer"],
       "STATUS": "FOUNDER_REVIEW_REQUIRED"
     },
     {
       "AUTHORITY_ID": "A07",
+      "NAME": "YOU REACHED A MILESTONE",
       "EMAIL_FAMILY": "E04",
-      "PURPOSE": "Acknowledge a goal fully set aside. No confetti.",
-      "CONSENT_CLASS": "LIFECYCLE_SERVICE",
-      "PRIMARY_ARTIFACT": "Ribboned card and seal",
       "COMPOSITION_THESIS": "COMMEMORATIVE CARD",
-      "ENVIRONMENT_LINEAGE": "CEREMONIAL",
-      "MATERIAL_COLLISION": "olive cloth + brass + burgundy ribbon + cream card",
-      "ASSET_LIST": [
-        {
-          "FILE": "JURNL EMAILS v1/A07_MILESTONE/assets/mile.png",
-          "THUMBNAIL": "JURNL EMAILS v1/A07_MILESTONE/assets/mile-thumb.png",
-          "CLASS": "ENVIRONMENT",
-          "LINEAGE_ACTION": "CREATE_NEW",
-          "NOTE": "Founds ceremonial. Seal has no letters or numbers.",
-          "OPENART_HISTORY": "aWNuUQLk4wRzAiC2UITx",
-          "CRITICAL_TEXT": false,
-          "DYNAMIC_DATA": false
-        }
-      ],
+      "REFERENCES": ["GOALS", "ENTRY COMPLETE"],
       "MOBILE_AUTHORITY": "JURNL EMAILS v1/A07_MILESTONE/mobile/a07-mobile.png",
       "DESKTOP_AUTHORITY": "JURNL EMAILS v1/A07_MILESTONE/desktop/a07-desktop.png",
-      "LIVE_TEXT_ZONES": [
-        "headline",
-        "body",
-        "cta",
-        "footer"
-      ],
-      "DYNAMIC_DATA_ZONES": [
-        "MILESTONE"
-      ],
-      "CTA_ZONE": "SEE YOUR GOAL",
-      "LEGAL_ZONE": "lifecycle",
-      "HEADLINE": "YOU REACHED A MILESTONE.",
+      "OPENART_MOBILE_HISTORY": "wYfsfjTT0no0C6EazXtz",
+      "OPENART_DESKTOP_HISTORY": "CLYmG4uR0Pm9jYd2X3lY",
+      "LIVE_TEXT_ZONES": ["headline", "milestone", "cta", "footer"],
       "STATUS": "FOUNDER_REVIEW_REQUIRED"
     },
     {
       "AUTHORITY_ID": "A08",
+      "NAME": "RESET YOUR ACCESS",
       "EMAIL_FAMILY": "E06",
-      "PURPOSE": "Let the person choose a new password. Not a verification letter.",
-      "CONSENT_CLASS": "TRANSACTIONAL",
-      "PRIMARY_ARTIFACT": "Formal letter on dark green marble",
-      "COMPOSITION_THESIS": "REISSUED ACCESS LETTER",
-      "ENVIRONMENT_LINEAGE": "SECURE_CORRESPONDENCE",
-      "MATERIAL_COLLISION": "dark green marble + brass registration bar + cream letter",
-      "ASSET_LIST": [
-        {
-          "FILE": "JURNL EMAILS v1/A08_RESET_YOUR_ACCESS/assets/reset.png",
-          "THUMBNAIL": "JURNL EMAILS v1/A08_RESET_YOUR_ACCESS/assets/reset-thumb.png",
-          "CLASS": "ARTIFACT_SHELL",
-          "LINEAGE_ACTION": "CREATE_NEW",
-          "NOTE": "Formal marble letter. Not the A02 envelope.",
-          "OPENART_HISTORY": "KLnqYKzIiCbm29maUoaw",
-          "CRITICAL_TEXT": false,
-          "DYNAMIC_DATA": false
-        }
-      ],
+      "COMPOSITION_THESIS": "REISSUED CREDENTIAL LETTER",
+      "REFERENCES": ["ENTRY FORGOT PASSWORD", "ENTRY RESET PASSWORD"],
       "MOBILE_AUTHORITY": "JURNL EMAILS v1/A08_RESET_YOUR_ACCESS/mobile/a08-mobile.png",
       "DESKTOP_AUTHORITY": "JURNL EMAILS v1/A08_RESET_YOUR_ACCESS/desktop/a08-desktop.png",
-      "LIVE_TEXT_ZONES": [
-        "headline",
-        "body",
-        "cta",
-        "footer"
-      ],
-      "DYNAMIC_DATA_ZONES": [],
-      "CTA_ZONE": "CHOOSE A NEW PASSWORD",
-      "LEGAL_ZONE": "security",
-      "HEADLINE": "RESET YOUR ACCESS.",
+      "OPENART_MOBILE_HISTORY": "uWpqUR0OQN7vrxWHPMy3",
+      "OPENART_DESKTOP_HISTORY": "PL2ws8ydBeRvEUCd4Ysw",
+      "LIVE_TEXT_ZONES": ["headline", "body", "cta", "notice", "footer"],
       "STATUS": "FOUNDER_REVIEW_REQUIRED"
     }
   ]
