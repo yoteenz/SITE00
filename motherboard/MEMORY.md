@@ -15579,3 +15579,46 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Changes:** `src/studioos/estimation/`, internal page `/admin/site00/estimator`, `docs/site00/SITE00_ESTIMATION_ENGINE.md`. Twelve engine tests pass. The public builder is unchanged. Client estimate preview stays off.
 - **Conventions:** Do not estimate by page count. Do not call priority production “rush.” Do not show family units to clients. Do not treat an estimate as a quote. Do not auto-adjust coefficients from calibration records. Do not invent visual-system sample images.
 
+
+---
+
+## 2026-10-08 — Builder template and estimate selection experience (P0.SITE00.BUILDER.TEMPLATE-AND-ESTIMATE-SELECTION-EXPERIENCE1)
+
+- **Founder decision:** SITE 00's Builder becomes a VISUAL CONFIGURATION EXPERIENCE. Clients see and select what they build, how it behaves, looks and moves, what it does, and standard vs priority production. The Builder assembles PROJECT BLUEPRINT + PROJECTED WINDOW + PROJECTED INVESTMENT + SCOPE without exposing production machinery. TEMPLATES PROVIDE GRAMMAR, NOT IDENTITY.
+- **Supersedes:** long questionnaires as the main path, "describe your dream website" prompts, page-count pricing, non-visual template selection (`/bldr/templates` is a generic marketplace), and fixed quote cards disconnected from scope.
+- **Landed (UX authority + contract, not implemented):**
+  - `docs/site00/builder-experience/` holds the 21 outputs, wireframes, authority previews and generated mapping / pricing-evidence JSON.
+  - `src/site00/builder-experience/` holds the selection contract → `toEstimateConfig` → canonical estimator; client views; 23 tests. No route imports it.
+  - Estimator v1.0.0 is unchanged. No public price changed.
+- **Interaction architecture:** four rooms (THE PLACE · THE FEEL · THE WORK · THE PACE) + reveal (BLUEPRINT → ESTIMATE). The Blueprint sheet is the progress model. Type / colour / image / motion are tuning layers on the chosen expression. Simple clients never open them (ESSENTIAL edition); FULL edition = ADVANCED.
+- **Rules (durable):**
+  - Build level is derived, never picked, and every step up shows its reason.
+  - Keep-it-simple turns a level raise into a decision.
+  - COMES WITH is always visible.
+  - One secondary influence = ADVANCED; three or more systems = CUSTOM direction; one liked facet = a note.
+  - A world inside a site = HYBRID.
+  - Scope words LIGHT / MODERATE / DEEP / EXPANSIVE (DEEP, so it never collides with ADVANCED BUILD).
+  - No money or dates inside the rooms. Money and dates are revealed at the Blueprint.
+  - Confidence labels: EARLY → INITIAL RANGE, BLUEPRINT → REFINED RANGE, LOCKED → CONFIRMED RANGE; PRODUCTION SCHEDULE only for the founder-issued document.
+  - Priority is offered only where the estimator says it shortens the project.
+  - No invented preview imagery: structure = schematic, expression = specimen.
+- **Pricing finding (needs founder decisions F1–F12):** estimator output for real Builder configs (refined range), compared with today's public anchors:
+
+  | Config | Estimator | Public anchor |
+  |---|---|---|
+  | Smallest site | $3K–$4K | SITE $4K+ |
+  | Typical simple site | $6K–$7K | SITE $4K+ |
+  | Smallest world | $14K–$20K | WORLD $10K+ |
+  | Portal | $39K–$53K | ENTERPRISE $25K+ |
+
+  Recommended Option D: engine-anchored FROM + TYPICAL per build kind, generated from founder-approved reference configurations.
+- **Estimator findings E1–E8** are for the estimation owner; the Builder works around them in presentation only:
+  - SYSTEM ≥30 FU is labelled WORLD / SPATIAL.
+  - "$3K–$3K".
+  - Dependency tokens are internal.
+  - Priority multiplier applies when infeasible: priority only compresses at about 10+ families; 1.85× for no time below that.
+  - Window unit flips between confidence stages.
+  - Compression is 20–32% vs the 30–45% target.
+  - The client contract is thin.
+  - Payments are ADVANCED-only.
+- **Review artifact:** "BLDR Visual Builder" (private claude.ai artifact) mirrors `wireframes/BUILDER_UX_AUTHORITY.html`.

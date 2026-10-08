@@ -1,0 +1,1046 @@
+{
+  "id": "BUILDER_CLIENT_ESTIMATOR_MAPPING",
+  "sprint": "P0.SITE00.BUILDER.TEMPLATE-AND-ESTIMATE-SELECTION-EXPERIENCE1",
+  "doctrine": "TEMPLATES PROVIDE GRAMMAR, NOT IDENTITY.",
+  "builderContractVersion": "0.1.0",
+  "estimatorVersion": "1.0.0",
+  "generatedBy": "scripts/site00/builder-experience-export.ts",
+  "source": "src/site00/builder-experience",
+  "rule": "The Builder maps client choices onto estimator enums. The estimator computes every window, range, level band and priority effect. No weights or rates live in the Builder.",
+  "fieldMap": {
+    "projectType": "BUILD kind (SITE / WORLD / SYSTEM / HYBRID); a site that adds A WORLD INSIDE becomes HYBRID.",
+    "buildLevel": "Derived: the lowest of SIMPLE / ADVANCED / CUSTOM that honours every choice (rules.deriveBuildLevel). Feature levels come from the estimator registry allowedBuildTypes.",
+    "structuralArchetype": "STRUCTURE (PORTAL when a SYSTEM build has no structure yet; null for a world-only build).",
+    "visualSystemId": "EXPRESSION primary (null for CUSTOM creative direction).",
+    "visualComplexity": "Derived from edition, tuning, secondary influence, motion, image world and world depth (rules.visualComplexityFor). FULL edition uses the estimator registry complexity of the system.",
+    "families": "FAMILIES (experiences). Front-door experiences share one family; each other experience is one family; depth sets descendants.",
+    "systems": "Always [] — signed-in experiences are already families.",
+    "featureIds": "FEATURES (capabilities and what they come with), plus motion / image-world / world-depth features.",
+    "responsiveMode": "Viewports choice; any world part uses SPATIAL_RESPONSIVE.",
+    "worldScopes": "WORLD choices through WORLD_INPUT_MAP.",
+    "identityScope": "SEPARATE when the client needs a brand first (IDNTY), otherwise NONE.",
+    "deliveryMode": "DELIVERY.",
+    "reviewRounds": "DEFAULT_ASSUMPTIONS.defaultReviewRounds (2).",
+    "clientReviewSlaDays": "DEFAULT_ASSUMPTIONS.clientReviewSlaDays (2).",
+    "confidenceLevel": {
+      "SELF_SERVE": "EARLY",
+      "FOUNDER_REVIEWED": "BLUEPRINT",
+      "SCOPE_LOCKED": "LOCKED"
+    },
+    "documentKind": "Always ESTIMATE from the Builder. QUOTE and LOCKED_SCHEDULE are founder actions.",
+    "riskFlags": "BRAND_NOT_FINAL when brand is not READY; CLIENT_CONTENT_PENDING when content is not READY. The estimator adds the rest.",
+    "manualModifiers": "Always [] — overrides are founder actions in Studio OS."
+  },
+  "worldInputMap": {
+    "places": {
+      "FEW": 4,
+      "SEVERAL": 8,
+      "MANY": 13
+    },
+    "moments": {
+      "FEW": 4,
+      "MANY": 10,
+      "CINEMATIC": 20
+    },
+    "thingsToDo": {
+      "LOOK": 3,
+      "TOUCH": 10,
+      "PLAY": 24
+    },
+    "inhabitants": {
+      "NONE": "NONE",
+      "GUIDES": "LIGHT",
+      "CHARACTERS": "STANDARD",
+      "CROWDS": "HEAVY"
+    },
+    "change": {
+      "STILL": 1,
+      "TIME_OF_DAY": 3,
+      "LIVING": 8
+    },
+    "depth": {
+      "FLAT": "NONE",
+      "LAYERED": "LIGHT",
+      "DIMENSIONAL": "STANDARD",
+      "FULLY_3D": "HEAVY"
+    },
+    "wayfinding": {
+      "GUIDED_PATH": "SIMPLE",
+      "FREE_ROAM": "STANDARD",
+      "BOTH": "ADVANCED"
+    }
+  },
+  "viewportMap": {
+    "PHONE_FIRST": "MOBILE_ONLY",
+    "PHONE_AND_DESKTOP": "MOBILE_DESKTOP",
+    "PHONE_TABLET_DESKTOP": "MOBILE_TABLET_DESKTOP",
+    "ADAPTIVE": "MULTI_VIEWPORT_ADVANCED"
+  },
+  "experienceDepths": [
+    {
+      "id": "ESSENTIAL",
+      "label": "Essential",
+      "plain": "The core views.",
+      "descendantCount": 3
+    },
+    {
+      "id": "FULL",
+      "label": "Full",
+      "plain": "Every state and sub-view people meet.",
+      "descendantCount": 8
+    },
+    {
+      "id": "EXTENSIVE",
+      "label": "Extensive",
+      "plain": "A large family of views and variations.",
+      "descendantCount": 16
+    }
+  ],
+  "structures": [
+    {
+      "id": "EDITORIAL",
+      "label": "Editorial",
+      "scopeHint": "MIDDLE",
+      "starterExperiences": [
+        "HOME",
+        "STORIES",
+        "STORY",
+        "ABOUT",
+        "CONTACT"
+      ],
+      "optionalExperiences": [
+        "ARCHIVE",
+        "EVENTS"
+      ],
+      "compatibleExpressions": [
+        "EDITORIAL_OBJECT",
+        "CINEMATIC_LUXURY",
+        "POP_EDITORIAL"
+      ]
+    },
+    {
+      "id": "GALLERY",
+      "label": "Gallery",
+      "scopeHint": "MIDDLE",
+      "starterExperiences": [
+        "HOME",
+        "WORK",
+        "PIECE",
+        "ABOUT",
+        "CONTACT"
+      ],
+      "optionalExperiences": [
+        "JOURNAL"
+      ],
+      "compatibleExpressions": [
+        "ARCHITECTURAL_MINIMAL",
+        "CINEMATIC_LUXURY",
+        "SOFT_ORGANIC"
+      ]
+    },
+    {
+      "id": "COMMERCE",
+      "label": "Commerce",
+      "scopeHint": "DEEPER",
+      "starterExperiences": [
+        "HOME",
+        "SHOP",
+        "PRODUCT",
+        "CHECKOUT",
+        "ABOUT",
+        "CARE"
+      ],
+      "optionalExperiences": [
+        "JOURNAL"
+      ],
+      "compatibleExpressions": [
+        "EDITORIAL_OBJECT",
+        "POP_EDITORIAL",
+        "CINEMATIC_LUXURY"
+      ]
+    },
+    {
+      "id": "SERVICE",
+      "label": "Service",
+      "scopeHint": "LIGHTER",
+      "starterExperiences": [
+        "HOME",
+        "SERVICES",
+        "PROOF",
+        "ABOUT",
+        "CONTACT"
+      ],
+      "optionalExperiences": [
+        "JOURNAL"
+      ],
+      "compatibleExpressions": [
+        "ARCHITECTURAL_MINIMAL",
+        "SOFT_ORGANIC",
+        "EDITORIAL_OBJECT"
+      ]
+    },
+    {
+      "id": "PORTAL",
+      "label": "Portal",
+      "scopeHint": "DEEPER",
+      "starterExperiences": [
+        "ENTRY",
+        "DASHBOARD",
+        "RECORDS",
+        "ACCOUNT",
+        "SETTINGS"
+      ],
+      "optionalExperiences": [
+        "FILES",
+        "PEOPLE"
+      ],
+      "compatibleExpressions": [
+        "INDUSTRIAL_COMMAND",
+        "ARCHITECTURAL_MINIMAL"
+      ]
+    },
+    {
+      "id": "HOSPITALITY",
+      "label": "Hospitality",
+      "scopeHint": "MIDDLE",
+      "starterExperiences": [
+        "HOME",
+        "THE_PLACE",
+        "OFFER",
+        "VISIT"
+      ],
+      "optionalExperiences": [
+        "JOURNAL",
+        "EVENTS"
+      ],
+      "compatibleExpressions": [
+        "SOFT_ORGANIC",
+        "CINEMATIC_LUXURY",
+        "ARCHITECTURAL_MINIMAL"
+      ]
+    },
+    {
+      "id": "COMMUNITY",
+      "label": "Community",
+      "scopeHint": "DEEPER",
+      "starterExperiences": [
+        "HOME",
+        "MEMBERSHIP",
+        "COMMUNITY",
+        "ACCOUNT"
+      ],
+      "optionalExperiences": [
+        "EVENTS",
+        "JOURNAL"
+      ],
+      "compatibleExpressions": [
+        "SOFT_ORGANIC",
+        "POP_EDITORIAL",
+        "EDITORIAL_OBJECT"
+      ]
+    },
+    {
+      "id": "HYBRID",
+      "label": "Hybrid",
+      "scopeHint": "DEEPER",
+      "starterExperiences": [
+        "HOME",
+        "ABOUT",
+        "CONTACT"
+      ],
+      "optionalExperiences": [],
+      "compatibleExpressions": [
+        "EDITORIAL_OBJECT",
+        "ARCHITECTURAL_MINIMAL",
+        "CINEMATIC_LUXURY",
+        "SOFT_ORGANIC",
+        "INDUSTRIAL_COMMAND",
+        "POP_EDITORIAL"
+      ]
+    }
+  ],
+  "expressions": [
+    {
+      "id": "EDITORIAL_OBJECT",
+      "label": "Editorial object",
+      "defaults": {
+        "type": "EDITORIAL_SERIF",
+        "color": "WARM_MINERAL",
+        "imageWorld": "PRODUCT_LED",
+        "motion": "EDITORIAL"
+      }
+    },
+    {
+      "id": "ARCHITECTURAL_MINIMAL",
+      "label": "Architectural minimal",
+      "defaults": {
+        "type": "MODERN_GROTESK",
+        "color": "NEUTRAL_ARCHITECTURAL",
+        "imageWorld": "ARCHITECTURAL",
+        "motion": "QUIET"
+      }
+    },
+    {
+      "id": "CINEMATIC_LUXURY",
+      "label": "Cinematic luxury",
+      "defaults": {
+        "type": "EXPRESSIVE_DISPLAY",
+        "color": "DEEP_CINEMATIC",
+        "imageWorld": "PHOTOGRAPHIC",
+        "motion": "CINEMATIC"
+      }
+    },
+    {
+      "id": "SOFT_ORGANIC",
+      "label": "Soft organic",
+      "defaults": {
+        "type": "HUMANIST_SANS",
+        "color": "SOFT_ORGANIC",
+        "imageWorld": "PHOTOGRAPHIC",
+        "motion": "QUIET"
+      }
+    },
+    {
+      "id": "INDUSTRIAL_COMMAND",
+      "label": "Industrial command",
+      "defaults": {
+        "type": "MONO_SYSTEMIC",
+        "color": "HIGH_CONTRAST_MONO",
+        "imageWorld": "ARCHITECTURAL",
+        "motion": "KINETIC"
+      }
+    },
+    {
+      "id": "POP_EDITORIAL",
+      "label": "Pop editorial",
+      "defaults": {
+        "type": "CONDENSED_DISPLAY",
+        "color": "SATURATED_EDITORIAL",
+        "imageWorld": "EDITORIAL_COLLAGE",
+        "motion": "KINETIC"
+      }
+    }
+  ],
+  "capabilities": [
+    {
+      "id": "SELL",
+      "verb": "SELL",
+      "features": [
+        "ECOMMERCE"
+      ],
+      "comesWith": [
+        "PAYMENTS"
+      ],
+      "addsExperiences": [
+        "SHOP",
+        "PRODUCT",
+        "CHECKOUT"
+      ]
+    },
+    {
+      "id": "BOOK",
+      "verb": "BOOK",
+      "features": [
+        "BOOKING"
+      ],
+      "comesWith": [],
+      "addsExperiences": [
+        "BOOKING"
+      ]
+    },
+    {
+      "id": "PAYMENTS",
+      "verb": "TAKE PAYMENT",
+      "features": [
+        "PAYMENTS"
+      ],
+      "comesWith": [],
+      "addsExperiences": []
+    },
+    {
+      "id": "MEMBERSHIP",
+      "verb": "MEMBERSHIP",
+      "features": [
+        "MEMBERSHIP"
+      ],
+      "comesWith": [
+        "ACCOUNTS"
+      ],
+      "addsExperiences": [
+        "MEMBERSHIP"
+      ]
+    },
+    {
+      "id": "ACCOUNTS",
+      "verb": "ACCOUNTS",
+      "features": [
+        "AUTH_ACCOUNT"
+      ],
+      "comesWith": [],
+      "addsExperiences": [
+        "ACCOUNT"
+      ]
+    },
+    {
+      "id": "COMMUNITY",
+      "verb": "COMMUNITY",
+      "features": [
+        "COMMUNITY"
+      ],
+      "comesWith": [
+        "ACCOUNTS"
+      ],
+      "addsExperiences": [
+        "COMMUNITY"
+      ]
+    },
+    {
+      "id": "TEAM_ROLES",
+      "verb": "TEAM ROLES",
+      "features": [
+        "USER_ROLES"
+      ],
+      "comesWith": [
+        "ACCOUNTS"
+      ],
+      "addsExperiences": [
+        "PEOPLE"
+      ]
+    },
+    {
+      "id": "MARKETPLACE",
+      "verb": "MARKETPLACE",
+      "features": [
+        "MARKETPLACE"
+      ],
+      "comesWith": [
+        "PAYMENTS",
+        "ACCOUNTS",
+        "TEAM_ROLES"
+      ],
+      "addsExperiences": [
+        "MARKETPLACE"
+      ]
+    },
+    {
+      "id": "DASHBOARD",
+      "verb": "DASHBOARD",
+      "features": [
+        "DASHBOARDS",
+        "DATABASE"
+      ],
+      "comesWith": [],
+      "addsExperiences": [
+        "DASHBOARD"
+      ]
+    },
+    {
+      "id": "DATA_PORTAL",
+      "verb": "DATA / PORTAL",
+      "features": [
+        "DATABASE"
+      ],
+      "comesWith": [
+        "ACCOUNTS",
+        "DASHBOARD",
+        "TEAM_ROLES"
+      ],
+      "addsExperiences": [
+        "RECORDS"
+      ]
+    },
+    {
+      "id": "UPLOAD_FILES",
+      "verb": "UPLOAD FILES",
+      "features": [
+        "FILE_UPLOADS"
+      ],
+      "comesWith": [],
+      "addsExperiences": []
+    },
+    {
+      "id": "DOCUMENTS",
+      "verb": "DOCUMENTS",
+      "features": [
+        "DOCUMENT_MANAGEMENT"
+      ],
+      "comesWith": [
+        "UPLOAD_FILES",
+        "ACCOUNTS"
+      ],
+      "addsExperiences": [
+        "FILES"
+      ]
+    },
+    {
+      "id": "EDIT_CONTENT",
+      "verb": "EDIT IT YOURSELF",
+      "features": [
+        "CMS"
+      ],
+      "comesWith": [],
+      "addsExperiences": []
+    },
+    {
+      "id": "SEARCH",
+      "verb": "SEARCH",
+      "features": [
+        "CUSTOM_SEARCH"
+      ],
+      "comesWith": [],
+      "addsExperiences": []
+    },
+    {
+      "id": "LIVE_UPDATES",
+      "verb": "LIVE UPDATES",
+      "features": [
+        "REAL_TIME"
+      ],
+      "comesWith": [],
+      "addsExperiences": []
+    },
+    {
+      "id": "BRING_EXISTING_DATA",
+      "verb": "BRING EXISTING DATA",
+      "features": [
+        "DATA_MIGRATION"
+      ],
+      "comesWith": [],
+      "addsExperiences": []
+    },
+    {
+      "id": "NOTIFICATIONS",
+      "verb": "NOTIFICATIONS",
+      "features": [
+        "NOTIFICATIONS"
+      ],
+      "comesWith": [],
+      "addsExperiences": []
+    },
+    {
+      "id": "EMAIL",
+      "verb": "EMAIL",
+      "features": [
+        "EMAIL_ENGINE"
+      ],
+      "comesWith": [],
+      "addsExperiences": []
+    },
+    {
+      "id": "MULTILINGUAL",
+      "verb": "MULTILINGUAL",
+      "features": [
+        "MULTILINGUAL"
+      ],
+      "comesWith": [],
+      "addsExperiences": []
+    },
+    {
+      "id": "MEASURE",
+      "verb": "MEASURE",
+      "features": [
+        "ANALYTICS"
+      ],
+      "comesWith": [],
+      "addsExperiences": []
+    },
+    {
+      "id": "CUSTOM_INTEGRATIONS",
+      "verb": "CONNECT YOUR TOOLS",
+      "features": [
+        "THIRD_PARTY_INTEGRATION"
+      ],
+      "comesWith": [],
+      "addsExperiences": []
+    },
+    {
+      "id": "AI",
+      "verb": "AI",
+      "features": [
+        "AI_ASSISTED_FEATURES"
+      ],
+      "comesWith": [],
+      "addsExperiences": []
+    },
+    {
+      "id": "3D",
+      "verb": "3D",
+      "features": [
+        "3D"
+      ],
+      "comesWith": [],
+      "addsExperiences": []
+    },
+    {
+      "id": "WORLD",
+      "verb": "A WORLD INSIDE",
+      "features": [
+        "WORLD_SPATIAL"
+      ],
+      "comesWith": [],
+      "addsExperiences": []
+    }
+  ],
+  "experiences": [
+    {
+      "id": "HOME",
+      "label": "Home",
+      "group": "FRONT DOOR",
+      "familyClass": "LIGHT",
+      "needsCapability": null
+    },
+    {
+      "id": "ENTRY",
+      "label": "Entry / sign in",
+      "group": "FRONT DOOR",
+      "familyClass": "LIGHT",
+      "needsCapability": null
+    },
+    {
+      "id": "ABOUT",
+      "label": "About",
+      "group": "FRONT DOOR",
+      "familyClass": "LIGHT",
+      "needsCapability": null
+    },
+    {
+      "id": "CONTACT",
+      "label": "Contact / begin",
+      "group": "FRONT DOOR",
+      "familyClass": "LIGHT",
+      "needsCapability": null
+    },
+    {
+      "id": "SERVICES",
+      "label": "Services",
+      "group": "WHAT YOU OFFER",
+      "familyClass": "LIGHT",
+      "needsCapability": null
+    },
+    {
+      "id": "PROOF",
+      "label": "Proof / work",
+      "group": "WHAT YOU OFFER",
+      "familyClass": "LIGHT",
+      "needsCapability": null
+    },
+    {
+      "id": "STORIES",
+      "label": "Stories index",
+      "group": "WHAT YOU OFFER",
+      "familyClass": "LIGHT",
+      "needsCapability": null
+    },
+    {
+      "id": "STORY",
+      "label": "Story",
+      "group": "WHAT YOU OFFER",
+      "familyClass": "STANDARD",
+      "needsCapability": null
+    },
+    {
+      "id": "ARCHIVE",
+      "label": "Archive",
+      "group": "WHAT YOU OFFER",
+      "familyClass": "STANDARD",
+      "needsCapability": null
+    },
+    {
+      "id": "WORK",
+      "label": "Work rooms",
+      "group": "WHAT YOU OFFER",
+      "familyClass": "STANDARD",
+      "needsCapability": null
+    },
+    {
+      "id": "PIECE",
+      "label": "Piece",
+      "group": "WHAT YOU OFFER",
+      "familyClass": "LIGHT",
+      "needsCapability": null
+    },
+    {
+      "id": "THE_PLACE",
+      "label": "The place",
+      "group": "FRONT DOOR",
+      "familyClass": "LIGHT",
+      "needsCapability": null
+    },
+    {
+      "id": "OFFER",
+      "label": "Menu / stays / offer",
+      "group": "WHAT YOU OFFER",
+      "familyClass": "STANDARD",
+      "needsCapability": null
+    },
+    {
+      "id": "VISIT",
+      "label": "Visit",
+      "group": "FRONT DOOR",
+      "familyClass": "LIGHT",
+      "needsCapability": null
+    },
+    {
+      "id": "JOURNAL",
+      "label": "Journal",
+      "group": "WHAT YOU OFFER",
+      "familyClass": "STANDARD",
+      "needsCapability": null
+    },
+    {
+      "id": "EVENTS",
+      "label": "Events",
+      "group": "WHAT YOU OFFER",
+      "familyClass": "STANDARD",
+      "needsCapability": null
+    },
+    {
+      "id": "SHOP",
+      "label": "Shop",
+      "group": "DOING THINGS",
+      "familyClass": "STANDARD",
+      "needsCapability": "SELL"
+    },
+    {
+      "id": "PRODUCT",
+      "label": "Product",
+      "group": "DOING THINGS",
+      "familyClass": "ADVANCED",
+      "needsCapability": "SELL"
+    },
+    {
+      "id": "CHECKOUT",
+      "label": "Bag and checkout",
+      "group": "DOING THINGS",
+      "familyClass": "STANDARD",
+      "needsCapability": "SELL"
+    },
+    {
+      "id": "CARE",
+      "label": "Care / support",
+      "group": "DOING THINGS",
+      "familyClass": "LIGHT",
+      "needsCapability": null
+    },
+    {
+      "id": "BOOKING",
+      "label": "Booking",
+      "group": "DOING THINGS",
+      "familyClass": "STANDARD",
+      "needsCapability": "BOOK"
+    },
+    {
+      "id": "MEMBERSHIP",
+      "label": "Membership",
+      "group": "DOING THINGS",
+      "familyClass": "STANDARD",
+      "needsCapability": "MEMBERSHIP"
+    },
+    {
+      "id": "COMMUNITY",
+      "label": "Community",
+      "group": "DOING THINGS",
+      "familyClass": "ADVANCED",
+      "needsCapability": "COMMUNITY"
+    },
+    {
+      "id": "MARKETPLACE",
+      "label": "Marketplace",
+      "group": "DOING THINGS",
+      "familyClass": "SYSTEM",
+      "needsCapability": "MARKETPLACE"
+    },
+    {
+      "id": "ACCOUNT",
+      "label": "Account",
+      "group": "SIGNED IN",
+      "familyClass": "STANDARD",
+      "needsCapability": "ACCOUNTS"
+    },
+    {
+      "id": "DASHBOARD",
+      "label": "Dashboard",
+      "group": "SIGNED IN",
+      "familyClass": "SYSTEM",
+      "needsCapability": "DASHBOARD"
+    },
+    {
+      "id": "RECORDS",
+      "label": "Records / work",
+      "group": "SIGNED IN",
+      "familyClass": "SYSTEM",
+      "needsCapability": "DATA_PORTAL"
+    },
+    {
+      "id": "FILES",
+      "label": "Files",
+      "group": "SIGNED IN",
+      "familyClass": "SYSTEM",
+      "needsCapability": "DOCUMENTS"
+    },
+    {
+      "id": "PEOPLE",
+      "label": "People and roles",
+      "group": "BEHIND THE SCENES",
+      "familyClass": "SYSTEM",
+      "needsCapability": "TEAM_ROLES"
+    },
+    {
+      "id": "SETTINGS",
+      "label": "Settings",
+      "group": "BEHIND THE SCENES",
+      "familyClass": "LIGHT",
+      "needsCapability": null
+    }
+  ],
+  "imageWorlds": [
+    {
+      "id": "PHOTOGRAPHIC",
+      "scopeHint": "NONE"
+    },
+    {
+      "id": "PRODUCT_LED",
+      "scopeHint": "NONE"
+    },
+    {
+      "id": "ARCHITECTURAL",
+      "scopeHint": "NONE"
+    },
+    {
+      "id": "EDITORIAL_COLLAGE",
+      "scopeHint": "SOME"
+    },
+    {
+      "id": "ILLUSTRATIVE",
+      "scopeHint": "SOME"
+    },
+    {
+      "id": "MIXED_MEDIA",
+      "scopeHint": "SOME"
+    },
+    {
+      "id": "GENERATIVE",
+      "scopeHint": "MORE"
+    },
+    {
+      "id": "SPATIAL_3D",
+      "scopeHint": "MORE"
+    }
+  ],
+  "motion": [
+    {
+      "id": "QUIET",
+      "scopeHint": "NONE"
+    },
+    {
+      "id": "EDITORIAL",
+      "scopeHint": "NONE"
+    },
+    {
+      "id": "KINETIC",
+      "scopeHint": "SOME"
+    },
+    {
+      "id": "CINEMATIC",
+      "scopeHint": "MORE"
+    },
+    {
+      "id": "SPATIAL",
+      "scopeHint": "MORE"
+    },
+    {
+      "id": "CUSTOM",
+      "scopeHint": "MORE"
+    }
+  ],
+  "confidenceLabels": {
+    "EARLY": {
+      "label": "INITIAL RANGE",
+      "plain": "Based on your choices before anyone from SITE 00 has reviewed them. The range is wide on purpose."
+    },
+    "BLUEPRINT": {
+      "label": "REFINED RANGE",
+      "plain": "Based on a Blueprint SITE 00 has reviewed with you. The range is tighter."
+    },
+    "LOCKED": {
+      "label": "CONFIRMED RANGE",
+      "plain": "Scope is locked. The range is narrow. A production schedule is issued as its own document."
+    }
+  },
+  "documentLabels": {
+    "ESTIMATE": "BLUEPRINT ESTIMATE",
+    "QUOTE": "QUOTE",
+    "LOCKED_SCHEDULE": "PRODUCTION SCHEDULE"
+  },
+  "priorityRule": {
+    "PRIORITY_REQUIRES_FEASIBLE_COMPRESSION": true,
+    "note": "Recommended; founder decision F4."
+  },
+  "sampleConfigs": {
+    "SIMPLE_SERVICE": {
+      "buildLevel": "SIMPLE",
+      "projectType": "SITE",
+      "visualComplexity": "TEMPLATE_LED",
+      "families": [
+        "Front door (Home, About, Contact / begin) · LIGHT · 3",
+        "Services · LIGHT · 3",
+        "Proof / work · LIGHT · 3"
+      ],
+      "featureIds": [
+        "CMS"
+      ],
+      "worldScopes": [],
+      "responsiveMode": "MOBILE_DESKTOP"
+    },
+    "SIMPLE_HOSPITALITY": {
+      "buildLevel": "SIMPLE",
+      "projectType": "SITE",
+      "visualComplexity": "CUSTOMIZED_TEMPLATE",
+      "families": [
+        "Front door (Home, The place, Visit) · LIGHT · 3",
+        "Menu / stays / offer · STANDARD · 3",
+        "Booking · STANDARD · 3"
+      ],
+      "featureIds": [
+        "BOOKING",
+        "CMS"
+      ],
+      "worldScopes": [],
+      "responsiveMode": "MOBILE_DESKTOP"
+    },
+    "ADVANCED_EDITORIAL": {
+      "buildLevel": "ADVANCED",
+      "projectType": "SITE",
+      "visualComplexity": "BESPOKE_EDITORIAL",
+      "families": [
+        "Front door (Home, About, Contact / begin) · LIGHT · 6",
+        "Stories index · LIGHT · 8",
+        "Story · STANDARD · 8",
+        "Membership · STANDARD · 8",
+        "Account · STANDARD · 8"
+      ],
+      "featureIds": [
+        "CMS",
+        "CUSTOM_SEARCH",
+        "EMAIL_ENGINE",
+        "MEMBERSHIP",
+        "AUTH_ACCOUNT"
+      ],
+      "worldScopes": [],
+      "responsiveMode": "MOBILE_TABLET_DESKTOP"
+    },
+    "CUSTOM_COMMERCE": {
+      "buildLevel": "CUSTOM",
+      "projectType": "SITE",
+      "visualComplexity": "CINEMATIC",
+      "families": [
+        "Front door (Home, About) · LIGHT · 4",
+        "Shop · STANDARD · 8",
+        "Product · ADVANCED · 8",
+        "Bag and checkout · STANDARD · 8",
+        "Care / support · LIGHT · 8",
+        "Account · STANDARD · 8"
+      ],
+      "featureIds": [
+        "AUTH_ACCOUNT",
+        "EMAIL_ENGINE",
+        "ANALYTICS",
+        "ECOMMERCE",
+        "PAYMENTS",
+        "ADVANCED_MOTION"
+      ],
+      "worldScopes": [],
+      "responsiveMode": "MOBILE_TABLET_DESKTOP"
+    },
+    "WORLD_SHOWROOM": {
+      "buildLevel": "ADVANCED",
+      "projectType": "WORLD",
+      "visualComplexity": "SPATIAL_WORLD",
+      "families": [],
+      "featureIds": [
+        "ADVANCED_MOTION",
+        "3D",
+        "WORLD_SPATIAL"
+      ],
+      "worldScopes": [
+        {
+          "archetypeId": "SHOWROOM",
+          "zoneCount": 8,
+          "sceneCount": 10,
+          "interactionCount": 10,
+          "inhabitantComplexity": "LIGHT",
+          "stateCount": 3,
+          "threeDAssetLoad": "STANDARD",
+          "navigationComplexity": "ADVANCED"
+        }
+      ],
+      "responsiveMode": "SPATIAL_RESPONSIVE"
+    },
+    "SYSTEM_PORTAL": {
+      "buildLevel": "ADVANCED",
+      "projectType": "SYSTEM",
+      "visualComplexity": "BESPOKE_EDITORIAL",
+      "families": [
+        "Front door (Entry / sign in) · LIGHT · 2",
+        "Dashboard · SYSTEM · 8",
+        "Records / work · SYSTEM · 8",
+        "Account · STANDARD · 8",
+        "Settings · LIGHT · 8",
+        "Files · SYSTEM · 8",
+        "People and roles · SYSTEM · 8"
+      ],
+      "featureIds": [
+        "DOCUMENT_MANAGEMENT",
+        "NOTIFICATIONS",
+        "EMAIL_ENGINE",
+        "USER_ROLES",
+        "AUTH_ACCOUNT",
+        "DATABASE",
+        "FILE_UPLOADS",
+        "DASHBOARDS",
+        "ADVANCED_MOTION"
+      ],
+      "worldScopes": [],
+      "responsiveMode": "MOBILE_TABLET_DESKTOP"
+    },
+    "LARGE_HYBRID": {
+      "buildLevel": "ADVANCED",
+      "projectType": "HYBRID",
+      "visualComplexity": "BESPOKE_EDITORIAL",
+      "families": [
+        "Front door (Home, About, Contact / begin) · LIGHT · 6",
+        "Services · LIGHT · 8",
+        "Proof / work · LIGHT · 8",
+        "Journal · STANDARD · 8",
+        "Events · STANDARD · 8",
+        "Care / support · LIGHT · 8",
+        "Booking · STANDARD · 8",
+        "Membership · STANDARD · 8",
+        "Account · STANDARD · 8",
+        "Dashboard · SYSTEM · 8",
+        "Records / work · SYSTEM · 8",
+        "Files · SYSTEM · 8",
+        "People and roles · SYSTEM · 8",
+        "Settings · LIGHT · 8",
+        "Community · ADVANCED · 8",
+        "Stories index · LIGHT · 8",
+        "Story · STANDARD · 8"
+      ],
+      "featureIds": [
+        "BOOKING",
+        "MEMBERSHIP",
+        "DASHBOARDS",
+        "DATABASE",
+        "DOCUMENT_MANAGEMENT",
+        "COMMUNITY",
+        "EMAIL_ENGINE",
+        "NOTIFICATIONS",
+        "AUTH_ACCOUNT",
+        "USER_ROLES",
+        "FILE_UPLOADS"
+      ],
+      "worldScopes": [],
+      "responsiveMode": "MOBILE_DESKTOP"
+    }
+  }
+}
