@@ -56,6 +56,22 @@ export const SITE00_REFERENCE_REGISTRY: readonly ReferenceRegistryEntry[] = [
     screenId: 'F04.00',
     paths: ['src/projects/jurnl/families/F04_ACTIVITY/AUTHORITIES/F04.00_ACTIVITY_PARENT.jpg'],
   },
+  {
+    authorityId: 'F09_ACCOUNT_DRAWER_OVERLAY_SOURCE',
+    projectId: 'JURNL',
+    status: 'APPROVED',
+    familyId: 'F09',
+    screenId: 'F09.ACCOUNT.DRAWER',
+    paths: ['JURNL/F09_SAFE/AUTHORITIES/F09_ACCOUNT_DRAWER_OVERLAY_SOURCE.jpg'],
+  },
+  {
+    authorityId: 'F09_QUICK_ADD_OVERLAY_SOURCE',
+    projectId: 'JURNL',
+    status: 'APPROVED',
+    familyId: 'F09',
+    screenId: 'F09.QUICK_ADD',
+    paths: ['JURNL/F09_SAFE/AUTHORITIES/F09_QUICK_ADD_OVERLAY_SOURCE.jpg'],
+  },
 ];
 
 /** Explicit cross-project shared assets (empty until registered). */
