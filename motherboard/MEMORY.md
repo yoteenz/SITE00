@@ -15525,6 +15525,7 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - `tests/jurnlEntryV2FirstSeven1.test.tsx` adds the family order, review authorities and handoff wiring.
   - `tests/jurnlF01ProjectIngestion.test.ts` now expects 16 children, and `tests/jurnlF01DesignWorkspace.test.tsx` expects 17 screens and the new journey.
   - `e2e/jurnl/jurnl-entry-setup.e2e.ts` walks a new account from WELCOME to SETUP and a reset to CREATE NEW PASSWORD, on mobile, tablet and desktop.
+  - The structural blueprint generator (`scripts/jurnl/structural-blueprint/build.ts`) gains criteria, notes and the ENTRY v2 edges for F01.14–F01.16. `docs/jurnl/structural-completion/` is regenerated (147 F01 nodes).
 - **Conventions:**
   - Walk a flow end to end in the preview before calling it linked: every page needs a way on that a person can reach without editing the URL.
   - When the tunnel "loses" a change that is on main, check main in a browser first, then the tunnel's connectors.
