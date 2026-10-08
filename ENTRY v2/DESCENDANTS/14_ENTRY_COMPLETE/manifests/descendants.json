@@ -1,0 +1,62 @@
+[
+  {
+    "DESCENDANT_ID": "ENTRY_COMPLETE_DEFAULT",
+    "PARENT_ID": "14_ENTRY_COMPLETE",
+    "TYPE": "PARENT_REFERENCE",
+    "TIER": "PARENT",
+    "FUNCTIONAL_TRIGGER": "Arrival.",
+    "STATE_DELTA": "None. Copy: YOUR JURNL IS READY. NEXT, WE'LL BUILD YOUR FINANCIAL VIEW. CONTINUE TO SETUP.",
+    "PLATE_SOURCE": "PARENT",
+    "PLATE_PATH": "ENTRY v2/14_ENTRY_COMPLETE/plate/entry-v2-entry-complete-sidekick-plate.png",
+    "AUTHORITY_PATH": "ENTRY v2/14_ENTRY_COMPLETE/authority/entry-v2-entry-complete-authority.png",
+    "OVERLAY_SHELL": null,
+    "NEW_ASSET_REQUIRED": false,
+    "SHARED_AUTHORITY": null,
+    "STATUS": "FOUNDER_REVIEW_REQUIRED"
+  },
+  {
+    "DESCENDANT_ID": "ENTRY_COMPLETE_CONTINUE_PRESSED",
+    "PARENT_ID": "14_ENTRY_COMPLETE",
+    "TYPE": "MICRO_STATE",
+    "TIER": 1,
+    "FUNCTIONAL_TRIGGER": "Press CONTINUE TO SETUP.",
+    "STATE_DELTA": "Live press.",
+    "PLATE_SOURCE": "PARENT",
+    "PLATE_PATH": "ENTRY v2/14_ENTRY_COMPLETE/plate/entry-v2-entry-complete-sidekick-plate.png",
+    "AUTHORITY_PATH": "ENTRY v2/14_ENTRY_COMPLETE/authority/entry-v2-entry-complete-authority.png",
+    "OVERLAY_SHELL": null,
+    "NEW_ASSET_REQUIRED": false,
+    "SHARED_AUTHORITY": null,
+    "STATUS": "FOUNDER_REVIEW_REQUIRED"
+  },
+  {
+    "DESCENDANT_ID": "ENTRY_COMPLETE_TRANSITIONING",
+    "PARENT_ID": "14_ENTRY_COMPLETE",
+    "TYPE": "LOADING",
+    "TIER": 1,
+    "FUNCTIONAL_TRIGGER": "Leaving entry.",
+    "STATE_DELTA": "Disabled control. The threshold stays.",
+    "PLATE_SOURCE": "PARENT",
+    "PLATE_PATH": "ENTRY v2/14_ENTRY_COMPLETE/plate/entry-v2-entry-complete-sidekick-plate.png",
+    "AUTHORITY_PATH": "ENTRY v2/14_ENTRY_COMPLETE/authority/entry-v2-entry-complete-authority.png",
+    "OVERLAY_SHELL": null,
+    "NEW_ASSET_REQUIRED": false,
+    "SHARED_AUTHORITY": null,
+    "STATUS": "FOUNDER_REVIEW_REQUIRED"
+  },
+  {
+    "DESCENDANT_ID": "ENTRY_COMPLETE_HANDOFF",
+    "PARENT_ID": "14_ENTRY_COMPLETE",
+    "TYPE": "TRANSITION",
+    "TIER": 1,
+    "FUNCTIONAL_TRIGGER": "Route leaves ENTRY.",
+    "STATE_DELTA": "No new ENTRY image. This does not become a SETUP plate.",
+    "PLATE_SOURCE": "PARENT",
+    "PLATE_PATH": "ENTRY v2/14_ENTRY_COMPLETE/plate/entry-v2-entry-complete-sidekick-plate.png",
+    "AUTHORITY_PATH": "ENTRY v2/14_ENTRY_COMPLETE/authority/entry-v2-entry-complete-authority.png",
+    "OVERLAY_SHELL": null,
+    "NEW_ASSET_REQUIRED": false,
+    "SHARED_AUTHORITY": null,
+    "STATUS": "FOUNDER_REVIEW_REQUIRED"
+  }
+]

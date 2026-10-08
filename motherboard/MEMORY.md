@@ -15412,3 +15412,21 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - Copy stays in `src/projects/jurnl/data/f01/copy.ts`. No descendant generation. No React.
 - **Changes:** The grammar source, the manifest, the cursor rule, `motherboard/CORE.md`, and `ENTRY v2/` parents 08–14. Test: `tests/jurnlBespokeCompositionGrammar1.test.ts`.
 - **Conventions:** A page fails if it can be described as a paper panel centered over a Mediterranean background. Do not infer founder approval of the recomposed 08–14.
+
+
+---
+
+## 2026-10-08 — ENTRY descendant tree from the locked parents
+
+- **Context:** This chat refined ENTRY 01–07, enriched their rooms, filed and then recomposed parents 08–14, and locked the five-level grammar. A separate turn filed SETUP v1 parents on branch `cursor/jurnl-setup-v1-parents-7425` and did not merge it. This turn builds the ENTRY descendant tree from the locked parents and does not touch SETUP, the parent plates, or live code.
+- **Topics covered:** Parent inheritance. Tier 1 live states. Tier 2 slips and seals. Tier 3 only when the object itself changes. Overlay drawers. Product copy in `src/projects/jurnl/data/f01/copy.ts`.
+- **Decisions / outcomes:**
+  - 91 tree nodes: 14 parent pointers, 48 tier-1 manifest states, 24 tier-2 states, 5 tier-3 states.
+  - Plates: 90 stay on the parent plate. One derived plate, the sealed reset letter. Zero new plates.
+  - Errors are a burgundy correction slip on the same page. Success is an olive seal. Loading changes the button label. No red pages, confetti, or native biometric dialogs.
+  - Change-email, privacy details, security details, social sign-in, and account locked are drawers on the parent, with a blank shell.
+  - Benefits do not get a reveal state. Source does not reveal those notes one at a time.
+  - `ENTRY v2/EARLY_UNREVIEWED/` stays not canonical.
+  - Implementation stays blocked until founder approval.
+- **Changes:** `ENTRY v2/DESCENDANTS/`, `ENTRY v2/MANIFESTS/entry-descendant-authority-manifest.json`, `ENTRY v2/REVIEW/entry-v2-major-descendant-authorities.png`. No React, CSS, routes, or parent files.
+- **Conventions:** A descendant is the same physical page changing state. If live UI can do it, do not generate a plate. Do not infer founder approval of this tree.
