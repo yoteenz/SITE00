@@ -15639,3 +15639,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - Version is 1.0.0. Build-tier rate rules are not activated.
 - **Changes:** `src/studioos/platform-economics/`, `docs/site00/SITE00_PLATFORM_ECONOMICS.md`. The client estimate and Builder blueprint disclose platform usage beside the build range. Internal surfaces: `/admin/site00/finance/platform` and the project Commercial tab. No new root navigation. The public site is unchanged.
 - **Conventions:** Do not hardcode the platform percentage in a client project. Do not treat Stripe as the ledger. Do not hide platform fees. Do not infer an active agreement from the Builder or from a quote. Do not collect or move money until a later founder-approved sprint.
+
+---
+
+## 2026-10-08 — Digital Foundation Artifact V1 (IDNTY infrastructure + commerce)
+
+- **Context:** Founder sprint `P0.SITE00.IDNTY.DIGITAL-FOUNDATION-ARTIFACT.V1-INFRASTRUCTURE-AND-COMMERCE1` — ship a persistent `/foundation/:token` artifact (prospect → intake → quote → Stripe hosted checkout → micro portal → completion → build upsell), not a disposable form.
+- **Topics covered:** Configurable base/add-on catalog (minor units), timeline engine, referral attribution, quote versioning, explicit acceptance disclosures, payment abstraction + Stripe test/sim webhook path, project stages, needs-you/approvals, foundation build credit, fixtures A–M, founder admin console, Supabase schema migration, feature flags, product doc.
+- **Decisions / outcomes:** V1 runtime uses in-memory store (`api/_lib/digitalFoundation/`) matching existing-location pattern; Supabase migration documents persistence. Payment marks PAID only via webhook/simulation, never redirect. Functional UI shell only — Opus owns visual authority next. No live production Stripe until founder configures keys and legal.
+- **Changes:** `shared/site00-digital-foundation/`, `api/site00/digital-foundation-artifact.ts`, `api/admin/site00-foundation.ts`, `api/site00/digital-foundation-stripe-webhook.ts`, routes `/foundation/:token` + `/admin/site00/foundation`, `docs/site00/idnty/SITE00_DIGITAL_FOUNDATION_ARTIFACT_V1.md`, `tests/digitalFoundationCommerce.test.ts`.
+- **Conventions:** Do not hardcode $500 or add-on prices in logic — use `commercialConfig.ts` / addon catalog. Keep platform economics separate from Digital Foundation service purchase.
