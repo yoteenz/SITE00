@@ -43,7 +43,13 @@ describe('references and assets', () => {
       expect(existsSync(file), a.file).toBe(true);
       const meta = await sharp(file).metadata();
       expect([meta.width, meta.height], a.file).toEqual([a.px.w, a.px.h]);
-      expect(src, a.file).toContain(path.basename(a.file));
+      // Superseded assets stay as a record; the runtime draws their approved replacement instead.
+      if (a.superseded_by) {
+        expect(existsSync(path.join(ROOT, a.superseded_by)), a.superseded_by).toBe(true);
+        expect(src, a.file).not.toContain(path.basename(a.file));
+      } else {
+        expect(src, a.file).toContain(path.basename(a.file));
+      }
     }
   });
 

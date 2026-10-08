@@ -2,8 +2,20 @@
 
 Sprint `P0.JURNL.OVERLAYS.QUICK-ADD-AND-HAMBURGER-EDITORIAL-REDESIGN1`.
 
-**Status: design authority + shell only. Not approved. Do not implement until the founder approves.**
-Nothing in `src/` changed. No React, no CSS, no mounting, no deploy, no ENTRY or SETUP, no other overlays.
+**Status: approved by the founder on 2026-10-08 and built into the runtime.** ENTRY, SETUP and the other overlays are
+unchanged.
+
+## Runtime
+
+| Overlay | Component | Runtime shell |
+|---|---|---|
+| QUICK ADD | `src/projects/jurnl/runtime/global/GlobalSheets.tsx` `QuickAddV2Sheet` | `src/projects/jurnl/runtime/global/overlays/QUICK_ADD_SHELL.webp`: the approved shell from frame y 100 down, 1260 × 1919 |
+| HAMBURGER MENU | `src/projects/jurnl/runtime/screens/AccountScreens.tsx` `AccountDrawer` (opened by the corner menu chip) | `src/projects/jurnl/runtime/global/overlays/ACCOUNT_MENU_SHELL.webp`: the same composition on a taller 393 × 852 frame, the folio grown with its own plain paper, 1260 × 2731 |
+
+- **Layout.** Each overlay is laid out in the design px of its authority and scaled to the screen as one object (`OverlayAuthority.tsx`, `jurnl-overlays.css`). The scale is width ÷ 393 on a phone. Wide screens use the root hubs' column, capped at 1.35.
+- **Paper.** The shell is painted in two layers. The top layer is drawn at its own proportions, so the clip, print, tabs, portrait and ribbon never stretch. The foot layer fades in from the bottom over plain paper.
+- **Controls.** The live controls sit on the paper as on the authority.
+- **Inputs.** The NAME field is a 16 px input drawn at 11.5 px, so iOS does not zoom on focus.
 
 | Overlay | Class | Parent under it | Authority (941 × 1672) | Shell (2016 × 3584 RGBA) |
 |---|---|---|---|---|

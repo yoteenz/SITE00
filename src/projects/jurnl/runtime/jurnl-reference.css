@@ -476,32 +476,6 @@
   color: #fff;
 }
 
-/* ACCOUNT drawer: its own photograph slides in over the current screen, from the hamburger on any app screen. */
-.jrn .jrn-account-drawer-host {
-  position: fixed;
-  inset: 0;
-  z-index: 3;
-  overflow: hidden;
-  background: #efe9e1;
-  pointer-events: auto;
-}
-.jrn .jrn-ref__drawer {
-  position: absolute;
-  inset: 0;
-  z-index: 5;
-  animation: jrn-ref-drawer 0.36s cubic-bezier(0.2, 0.7, 0.2, 1) both;
-}
-.jrn .jrn-ref .jrn-ref__drawer-out {
-  background: transparent;
-  cursor: default;
-}
-@keyframes jrn-ref-drawer {
-  from {
-    transform: translateX(34%);
-    opacity: 0;
-  }
-}
-
 /* WHY THIS NUMBER */
 .jrn .jrn-ref .jrn-ref__square {
   background: rgba(244, 240, 236, 0.94);

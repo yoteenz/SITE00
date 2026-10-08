@@ -1,7 +1,7 @@
 {
   "sprint": "P0.JURNL.OVERLAYS.QUICK-ADD-AND-HAMBURGER-EDITORIAL-REDESIGN1",
-  "status": "AWAITING_FOUNDER_APPROVAL",
-  "readyForImplementation": false,
+  "status": "APPROVED_AND_IMPLEMENTED",
+  "readyForImplementation": true,
   "parentCapturedFrom": {
     "branch": "main",
     "sha": "f8a8e9e3"
@@ -87,12 +87,25 @@
     }
   ],
   "notDone": [
-    "react",
-    "css",
-    "mounting",
-    "deploy",
     "ENTRY",
     "SETUP",
     "other overlays"
-  ]
+  ],
+  "approved": {
+    "by": "founder",
+    "date": "2026-10-08"
+  },
+  "runtime": {
+    "QUICK_ADD": {
+      "component": "src/projects/jurnl/runtime/global/GlobalSheets.tsx#QuickAddV2Sheet",
+      "shell": "src/projects/jurnl/runtime/global/overlays/QUICK_ADD_SHELL.webp",
+      "frame": "393 x 599 design px (authority frame y 100-699)"
+    },
+    "HAMBURGER_MENU": {
+      "component": "src/projects/jurnl/runtime/screens/AccountScreens.tsx#AccountDrawer",
+      "shell": "src/projects/jurnl/runtime/global/overlays/ACCOUNT_MENU_SHELL.webp",
+      "frame": "393 x 852 design px (same composition, folio grown)"
+    },
+    "layout": "src/projects/jurnl/runtime/components/OverlayAuthority.tsx + src/projects/jurnl/runtime/jurnl-overlays.css"
+  }
 }

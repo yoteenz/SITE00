@@ -69,7 +69,7 @@ export function useCompactFit<T extends HTMLElement>() {
  * shorter desktop windows). Server rendering keeps them inline.
  */
 export const JurnlOverlayHostContext = createContext<HTMLElement | null>(null);
-function OverlayLayer({ children }: { children: ReactNode }) {
+export function OverlayLayer({ children }: { children: ReactNode }) {
   const host = useContext(JurnlOverlayHostContext);
   if (typeof document === 'undefined') return <>{children}</>;
   return host ? createPortal(children, host) : null;
@@ -451,7 +451,7 @@ export function JurnlSuccessBanner({ tone, title, body, onClose, testId }: { ton
 /* focus containment for every overlay surface. A callback ref: the surface can mount a render after the hook (the
    overlay host arrives after the first paint, e.g. an overlay opened from a deep link), and focus, Tab containment and
    Escape must attach whenever it does. */
-function useOverlayFocus(onClose: () => void) {
+export function useOverlayFocus(onClose: () => void) {
   const [el, ref] = useState<HTMLDivElement | null>(null);
   useEffect(() => {
     if (!el) return;

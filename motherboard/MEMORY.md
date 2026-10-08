@@ -15248,3 +15248,40 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decisions / outcomes:** All seven authorities were regenerated on HQ Sunburst 4K, 9:16, high, auto-enhance off, then judged before plates. Every plate is `REGENERATE_EXISTING`: the object family stayed, the placement and contrast did not, so the first plates were not reused and no new object system was invented. Welcome needed a type pass so `PLAN TODAY. GROW FREELY.` returned under the headline. Value needed two type passes so the headline reads `WHAT JURNL IS FOR.` and not a doubled or broken `JURNL`. Plates remove the live layer and keep the physical objects, including the botanical plate mark `TAB. XLIII` on Sign In. First-batch files moved to `SUPERSEDED/` and were not deleted. New files are `FOUNDER_REVIEW_REQUIRED`. Contact sheet: `ENTRY v2/review/entry-v2-rich-graphic-refinement-contact-sheet.png`. No `src/` change. No new production ZIP. No Railway redeploy.
 - **Changes:** `ENTRY v2/` authorities, plates, both manifests, and the refinement contact sheet. This MEMORY note.
 - **Conventions:** Do not mount this batch. Do not start ENTRY 08–14 until the founder reviews this language. Do not delete superseded ENTRY files. Do not send another full PNG zip unless asked. Do not treat the review images as a GoDaddy upload.
+
+---
+
+## 2026-10-08 — QUICK ADD and account menu rebuilt on the approved overlay authorities
+
+- **Context:** The founder approved the overlay redesign authorities and shells in `JURNL/OVERLAYS_EDITORIAL_REDESIGN1/` (QUICK ADD tactile transaction slip; account folio menu). They asked for the shells to be built and shown on the main tunnel.
+- **Topics covered:**
+  - Building both overlays as live components over the live screen, with a scrim.
+  - Keeping every trigger.
+  - Sizing on phone, tall phone and desktop.
+  - Seam-free paper.
+  - iOS input zoom.
+- **Decisions / outcomes:**
+  - **QUICK ADD:** `QuickAddV2Sheet` (`GlobalSheets.tsx`) no longer uses `JurnlDrawer`. It draws the slip on `global/overlays/QUICK_ADD_SHELL.webp`.
+    - The form is printed: labels in a margin column, NAME on a ledger line, AMOUNT as the 66 px total over a double rule, TYPE as one segmented object, ACCOUNT and RECORD as check squares, SAVE <TYPE> as the one solid.
+    - Kept: every `quick-add-*` trigger, the `TYPE` / `DIRECTION` / `ACCOUNT` radiogroups, and the save logic.
+    - New triggers: `quick-add-type-*`.
+  - **Account menu:** `AccountDrawer` draws the folio on `ACCOUNT_MENU_SHELL.webp`, a 393 × 852 frame of the same composition with the folio grown from its own paper.
+    - It portals into the overlay host, so the currency and consents sheets open above it.
+    - The old drawer plate and the `AccountDrawerHost` reference stage are gone.
+    - Every `drawer-*` trigger and `account-drawer-close` (now the visible close mark) are kept. Tapping the scrim closes the menu.
+  - **Sizing (`OverlayAuthority.tsx`):** both overlays are laid out in 393-frame design px and scaled as one object: width ÷ 393 on phones; the root-hub column on wide screens, capped at 1.35. The drawer keeps at least the 699 frame height.
+  - **Paper:** border-image was rejected because it left visible slice seams. The paper is two layers: the shell from the top at natural proportions, and the shell foot faded in from the bottom.
+  - **Inputs:** NAME is a 16 px input scaled to 11.5 px, so iOS does not zoom on focus.
+  - **Tests:** `tests/jurnlOverlayAuthorities1.test.tsx`. The quick-add prefix expectation in `tests/jurnlF03F04Runtime.test.tsx` moved to `jrn-qa__cur`.
+- **Changes:**
+  - `GlobalSheets.tsx`, `AccountScreens.tsx`, `JurnlCornerChrome.tsx`.
+  - New `components/OverlayAuthority.tsx` and `jurnl-overlays.css`.
+  - `OverlayLayer` and `useOverlayFocus` exported from `primitives.tsx`.
+  - Two WebP shells.
+  - Old drawer-host rules removed from `jurnl-reference.css`.
+  - Authority README and MANIFEST marked approved and implemented.
+- **Conventions:**
+  - Build overlays on their authority frames, scaled as one object, not as stretched plates.
+  - Do not use border-image for torn paper shells.
+  - Keep inputs at 16 px or more computed size (scale them visually if smaller).
+  - The superseded F09 overlay shells in `JURNL/F09_SAFE/OVERLAYS/` are no longer used by the runtime.
