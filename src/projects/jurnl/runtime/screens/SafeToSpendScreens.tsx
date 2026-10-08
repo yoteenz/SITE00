@@ -6,7 +6,7 @@
 import { useState } from 'react';
 import { computeSafeToSpend, type SafeToSpendBreakdown } from '../../data/f09/safeToSpend';
 import { patchSetup, useSetup } from '../../data/f02/setupDraft';
-import { formatMoney, useCurrency } from '../../data/home/money';
+import { formatAmountInput, formatMoney, parseAmountInput, useCurrency } from '../../data/home/money';
 import f09Plate from '../../families/F09_SAFE/ENVIRONMENTS/F09_ENVIRONMENT_AUTHORITY_PLATE.png';
 import f09TabletPlate from '../../families/F09_SAFE/ENVIRONMENTS/F09_ENVIRONMENT_TABLET_PLATE.png';
 import f09DesktopPlate from '../../families/F09_SAFE/ENVIRONMENTS/F09_ENVIRONMENT_DESKTOP_PLATE.png';
@@ -323,7 +323,7 @@ function HoldSheet({ onClose }: { onClose: () => void }) {
       <JurnlDrawer expression="form" size="long" testId="safe-hold" title="CHANGE THE HOLD" onClose={onClose}
         footer={<JurnlButton trigger="safe-hold-next" onClick={() => setConfirm(true)}>CONTINUE</JurnlButton>}>
         <JurnlInput label="PROTECTED AMOUNT" value={held} onValue={setHeld} trigger="safe-hold-amount" inputMode="decimal" />
-        <JurnlInput label="SAFETY BUFFER" value={buffer} onValue={setBuffer} trigger="safe-buffer" inputMode="decimal" />
+        <JurnlInput label="SAFETY BUFFER" value={formatAmountInput(buffer)} onValue={(v) => setBuffer(parseAmountInput(v))} trigger="safe-buffer" inputMode="decimal" />
       </JurnlDrawer>
       {confirm ?
         <JurnlDrawer expression="confirmation" size="long" testId="safe-hold-confirm" title="CONFIRM THE HOLD" onClose={() => setConfirm(false)}

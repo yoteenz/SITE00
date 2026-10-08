@@ -8,7 +8,7 @@ import { createManualAccount } from '../../data/foundation/accountMutations';
 import { formatMoney, useCurrency } from '../../data/home/money';
 import { PARENT_PLATES } from '../../data/parents/plates';
 import { SIDEKICK_PLATES } from '../../data/parents/sidekickPlates';
-import { RA_REF_W, RaLayer, RootAuthorityStage, shellY, wallTransform } from '../components/RootAuthorityStage';
+import { RaLayer, RootAuthorityStage, shellY, wallTransform } from '../components/RootAuthorityStage';
 import { ReferenceLockup } from '../components/ReferenceLockup';
 import { RefIcon, RefText, at } from '../components/ReferenceStage';
 import { RA_CREDIT } from '../layout/rootAuthorityLayout';
@@ -93,10 +93,6 @@ export function CreditHubScreen() {
           <>
             <RaLayer transform={wallTransform(fit, 0, 0)} className="jrn-ra__layer--top">
               <ReferenceLockup L={{ box: { sprig: B.sprig, word: B.word }, text: { desc1: T.desc1, desc2: T.desc2 } }} />
-            </RaLayer>
-            <RaLayer transform={wallTransform(fit, fit.W - RA_REF_W * fit.u, 0)} className="jrn-ra__layer--top">
-              <RefText t={T.tag1} as="span">PLAN TODAY.</RefText>
-              <RefText t={T.tag2} as="span">GROW FREELY.</RefText>
             </RaLayer>
             <RaLayer transform={wallTransform(fit, 0, 0)} className="jrn-ra__layer--top" data-jrn-zone="intro">
               <RefText t={T.title} as="h1">CREDIT</RefText>

@@ -13,8 +13,20 @@
     "art_history_as_structure_not_decoration": true,
     "bespoke_object_system_required": true,
     "asymmetry_required": true,
-    "unexpected_object_relationship_required": true
+    "unexpected_object_relationship_required": true,
+    "official_brand_asset_required": true,
+    "alternate_logo_invention_forbidden": true,
+    "five_level_creative_grammar_required": true,
+    "family_world_required": true,
+    "multiple_spatial_stations_required": true,
+    "composition_rotation_required": true,
+    "campaign_image_without_ui_test_required": true,
+    "blur_distinctness_test_required": true,
+    "artifact_only_interpretation_forbidden": true,
+    "generic_stationery_drift_forbidden": true,
+    "contrast_anchor_required": true
   },
+  "official_brand_asset": "public/site00/projects/jurnl/brand/jurnl-logo-official.png",
   "levels": [
     {
       "level": 1,
@@ -53,7 +65,10 @@
     "JURNL security index",
     "JURNL private dossier",
     "JURNL registration mark",
-    "JURNL marble paperweight"
+    "JURNL marble paperweight",
+    "JURNL ledger",
+    "JURNL index drawer",
+    "JURNL brass registration rail"
   ],
   "families": [
     "ENTRY",
@@ -78,7 +93,11 @@
     "Creative direction appears only in props, paper texture, foliage, or decorative fragments.",
     "The page can be described as a paper panel centered over a Mediterranean background.",
     "Art-history objects are repeated as the same bust beside the same card.",
-    "A family copies another family’s artifact language. The grammar is shared. The expression is not."
+    "A family copies another family’s artifact language. The grammar is shared. The expression is not.",
+    "An invented logo, monogram, vertical wordmark, botanical substitute, or retyped JURNL lockup appears.",
+    "The page is one stationery object on a generic desk or wall.",
+    "A family uses one camera for every parent.",
+    "The family has no distinct room."
   ],
   "pass_if": [
     "Hiding the live text still leaves a bespoke editorial campaign image.",

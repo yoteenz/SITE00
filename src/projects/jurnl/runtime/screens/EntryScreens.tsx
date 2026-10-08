@@ -99,7 +99,11 @@ export function SocialAuthBoundary({ provider }: { provider: SocialProvider }) {
   );
 }
 
-export function MailHandoff({ target = 'MAIL' }: { target?: 'MAIL' | 'SUPPORT' }) {
+/**
+ * `onLink` is where the emailed link lands. A phone returns there from the mail app; the design preview has no inbox,
+ * so it follows the link itself once the handoff is confirmed and the flow carries on.
+ */
+export function MailHandoff({ target = 'MAIL', onLink }: { target?: 'MAIL' | 'SUPPORT'; onLink?: () => void }) {
   const { bridge, closeOverlay } = useJurnl();
   const copy = target === 'MAIL' ? C.mailHandoff : C.supportHandoff;
   return (
@@ -111,7 +115,8 @@ export function MailHandoff({ target = 'MAIL' }: { target?: 'MAIL' | 'SUPPORT' }
       continueLabel={copy.continue}
       onContinue={async () => {
         await bridge.openExternal(target);
-        closeOverlay();
+        if (onLink && bridge.kind === 'DESIGN_PREVIEW') onLink();
+        else closeOverlay();
       }}
       onCancel={closeOverlay}
     />
@@ -551,7 +556,7 @@ export function VerifyEmailScreen() {
       label="CHECK YOUR EMAIL"
       outside={
         <>
-          {overlay === 'mail' ? <MailHandoff /> : null}
+          {overlay === 'mail' ? <MailHandoff onLink={() => go('F01.02', { link: 'valid' })} /> : null}
           {overlay === 'change-email' ? <ChangeEmailDrawer current={email} onClose={closeOverlay} /> : null}
         </>
       }
