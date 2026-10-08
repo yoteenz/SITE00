@@ -256,6 +256,18 @@ export type ClientBlueprintEstimate = {
   assumptions: string[];
   whatHappensNext: string;
   confidence: ConfidenceLevel;
+  /** Platform usage is disclosed beside the build range. It is not added into investmentRange. */
+  platformUsage: {
+    applicable: boolean;
+    rateLabel: string | null;
+    summary: string;
+    includedInBuildInvestment: false;
+    learnHowThisWorks: string;
+  };
+  ongoingService: {
+    status: 'OPTIONAL' | 'SELECTED' | 'NOT_CONTRACTED';
+    summary: string;
+  };
 };
 
 export type SavedEstimateRecord = {

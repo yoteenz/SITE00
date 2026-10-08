@@ -230,7 +230,13 @@ describe('delivery', () => {
 describe('Blueprint', () => {
   it('assembles every required line and marks what is still open', () => {
     const blueprint = builderBlueprint(BUILDER_SAMPLES.ADVANCED_EDITORIAL);
-    expect(blueprint.lines.map((l) => l.key)).toEqual(['BUILD', 'LEVEL', 'STRUCTURE', 'EXPRESSION', 'TYPE', 'COLOR', 'IMAGE', 'MOTION', 'DELIVERY']);
+    expect(blueprint.lines.map((l) => l.key)).toEqual([
+      'BUILD', 'LEVEL', 'STRUCTURE', 'EXPRESSION', 'TYPE', 'COLOR', 'IMAGE', 'MOTION', 'DELIVERY',
+      'COMMERCE', 'PLATFORM', 'PLATFORM_USAGE', 'PAYMENT_PROCESSING', 'ONGOING_SUPPORT',
+    ]);
+    expect(blueprint.lines.find((l) => l.key === 'PLATFORM_USAGE')?.value).toBe('2.00% OF ELIGIBLE TRANSACTIONS');
+    expect(builderEstimateView(BUILDER_SAMPLES.ADVANCED_EDITORIAL).investment).not.toContain('2.00%');
+    expect(builderEstimateView(BUILDER_SAMPLES.SIMPLE_SERVICE).platformUsage.applicable).toBe(false);
     expect(blueprint.complete).toBe(true);
     const empty = builderBlueprint(with_(emptySelection(), { build: 'SITE' }));
     expect(empty.lines.find((l) => l.key === 'STRUCTURE')?.open).toBe(true);

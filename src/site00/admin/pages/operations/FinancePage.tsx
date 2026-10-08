@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ControlPageHeader } from '../../components/control/ControlPageHeader';
 import { Site00AdminShell } from '../../components/shell/Site00AdminShell';
 import { AdminTable } from '../../components/operations/AdminTable';
@@ -45,6 +45,9 @@ export default function FinancePage() {
         title="BUSINESS / OPERATIONS"
         subtitle="WHAT HAS BEEN AUTHORIZED? WHAT IS MOVING?"
       />
+      <p className="site00-control-page-header__subtitle">
+        <Link to={SITE00_ADMIN_ROUTES.platformRevenue}>PLATFORM REVENUE</Link>
+      </p>
 
       {error ? <p className="site00-admin-panel site00-admin-panel--error">{error}</p> : null}
 

@@ -32,6 +32,7 @@ export const SITE00_ADMIN_ROUTES = {
   site: (id: string) => `/admin/site00/sites/${id}`,
   ctrlRoom: '/admin/site00/ctrl-room',
   finance: '/admin/site00/finance',
+  platformRevenue: '/admin/site00/finance/platform',
   invoice: (id: string) => `/admin/site00/finance/invoices/${id}`,
   team: '/admin/site00/team',
   reports: '/admin/site00/reports',
