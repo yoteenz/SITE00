@@ -8,7 +8,13 @@ import { createManualAccount } from '../../data/foundation/accountMutations';
 import { formatMoney, useCurrency } from '../../data/home/money';
 import { PARENT_PLATES } from '../../data/parents/plates';
 import { SIDEKICK_PLATES } from '../../data/parents/sidekickPlates';
-import { ParentAuthorityStage } from '../components/ParentAuthorityStage';
+import { RA_REF_W, RaLayer, RootAuthorityStage, shellY, wallTransform } from '../components/RootAuthorityStage';
+import { ReferenceLockup } from '../components/ReferenceLockup';
+import { RefIcon, RefText, at } from '../components/ReferenceStage';
+import { RA_CREDIT } from '../layout/rootAuthorityLayout';
+import { CREDIT_DOSSIER, CREDIT_SCENE } from '../layout/rootAuthorityScene';
+import type { RefBox } from '../layout/referenceLayout';
+import dossier from '../../families/F12_CREDIT/ROOT_AUTHORITY/CREDIT_DOSSIER.png';
 import { parentById } from '../../data/parents/catalog';
 import { FamilyChrome } from '../components/FamilyChrome';
 import { JurnlProductNav } from '../components/ProductNav';
@@ -38,6 +44,8 @@ function CreditShell({ screenId, children }: { screenId: string; children: React
 }
 
 /** F12 CREDIT — LEDGER / GRID with utilization meters. A quiet reading of what's used against each limit. */
+const CL = RA_CREDIT.wall;
+
 export function CreditHubScreen() {
   const { go, openOverlay, closeOverlay, overlay } = useJurnl();
   useCurrency();
@@ -48,10 +56,17 @@ export function CreditHubScreen() {
   const owed = accounts.reduce((t, a) => t + creditSummary(a).used, 0);
   const lead = accounts[0];
   const leadSummary = lead ? creditSummary(lead) : null;
+  const T = CL.text;
+  const B = CL.box;
+  const D = CREDIT_DOSSIER;
+  const [q1, q2] = splitQuestion(spec.question);
+  const extra = accounts.slice(1, 3);
+  const fill = leadSummary?.util != null ? Math.min(1, leadSummary.util / 100) : 0;
   return (
-    <ParentAuthorityStage
+    <RootAuthorityStage
       screenId="F12.00"
       plate={SIDEKICK_PLATES.F12}
+      framing={CREDIT_SCENE.framing}
       nav={<JurnlProductNav marks="parent" current="CREDIT" onGo={go} onAdd={() => openOverlay('quick-add')} />}
       overlays={
         <>
@@ -67,41 +82,96 @@ export function CreditHubScreen() {
         </>
       }
     >
-      <header data-jrn-zone="intro">
-        <h1 className="jrn-pa__h">CREDIT</h1>
-        <p className="jrn-pa__kicker">
-          {accounts.length ? `${accounts.length} ${accounts.length === 1 ? 'CARD OR LOAN' : 'CARDS AND LOANS'}. ${formatMoney(owed)} USED IN TOTAL.` : 'NO CARDS OR LOANS ARE ADDED.'}
-        </p>
-        <p className="jrn-pa__line">{accounts.length ? 'OPEN ONE TO SET ITS LIMIT, RATE AND DUE DAY.' : 'ADD ONE TO TRACK WHAT’S USED AND WHEN IT’S DUE.'}</p>
-        <p className="jrn-pa__line">{spec.question}</p>
-      </header>
-      <section data-jrn-zone="content-rail" aria-label="CARDS AND LOANS">
-        {lead && leadSummary ?
-          <button type="button" className="jrn-pa__sleeve" data-jrn-trigger={`credit-${lead.account_id}`} onClick={() => go(`credit/${lead.account_id}`)} style={{ ['--util' as string]: leadSummary.util != null ? Math.min(1, leadSummary.util / 100) : 0 }}>
-            <span>{lead.display_name}</span>
-            <p className="jrn-pa__num">{formatMoney(leadSummary.used)}</p>
-            <p className="jrn-pa__line">{leadSummary.util != null ? `${leadSummary.util}% OF THE LIMIT USED` : 'NO LIMIT SET'}</p>
-            <span className="jrn-pa__meter" aria-hidden><i /></span>
-          </button>
-        : null}
-        {accounts.slice(1).map((a) => {
-          const s = creditSummary(a);
-          return (
-            <button key={a.account_id} type="button" className="jrn-pa__slip" data-jrn-trigger={`credit-${a.account_id}`} onClick={() => go(`credit/${a.account_id}`)}>
-              <span>{a.display_name}</span>
-              <b>{formatMoney(s.used)}</b>
-              <small>{s.util != null ? `${s.util}% OF THE LIMIT USED` : 'NO LIMIT SET'}</small>
-            </button>
-          );
-        })}
-        <div className="jrn-pa__actions">
-          {accounts.length ? <button type="button" className="jrn-pa__btn jrn-pa__btn--line jrn-pa__btn--mark" data-jrn-trigger="credit-utilization" onClick={() => setUtilOpen(true)}>HOW MUCH IS USED</button> : null}
-          <button type="button" className="jrn-pa__btn jrn-pa__btn--line jrn-pa__btn--mark" data-jrn-trigger="credit-add" onClick={() => setAddOpen(true)}>ADD A CARD OR LOAN</button>
-          <button type="button" className="jrn-pa__btn jrn-pa__btn--wide jrn-pa__btn--mark" data-jrn-trigger="credit-paydown" onClick={() => go('paydown')}>PAYDOWN</button>
-        </div>
-      </section>
-    </ParentAuthorityStage>
+      {(fit) => {
+        const navTop = fit.H - fit.dock;
+        // Actions just above the dock; the dossier's foot on the ledge, or higher when a short screen needs the room.
+        const actionsBottom = navTop - D.dockGap * fit.u;
+        const foot = Math.min(shellY(fit, D.shellFoot), actionsBottom - (B.pay[3] - D.foot - (B.b1[1] - D.foot - D.minGap)) * fit.u);
+        const lowerY = foot - D.foot * fit.u;
+        const actionsY = actionsBottom - B.pay[3] * fit.u;
+        return (
+          <>
+            <RaLayer transform={wallTransform(fit, 0, 0)} className="jrn-ra__layer--top">
+              <ReferenceLockup L={{ box: { sprig: B.sprig, word: B.word }, text: { desc1: T.desc1, desc2: T.desc2 } }} />
+            </RaLayer>
+            <RaLayer transform={wallTransform(fit, fit.W - RA_REF_W * fit.u, 0)} className="jrn-ra__layer--top">
+              <RefText t={T.tag1} as="span">PLAN TODAY.</RefText>
+              <RefText t={T.tag2} as="span">GROW FREELY.</RefText>
+            </RaLayer>
+            <RaLayer transform={wallTransform(fit, 0, 0)} className="jrn-ra__layer--top" data-jrn-zone="intro">
+              <RefText t={T.title} as="h1">CREDIT</RefText>
+              <span className="jrn-ra__rule" aria-hidden style={{ ...at(B.titleRule), height: 2 }} />
+              {accounts.length ?
+                <>
+                  <RefText t={T.l1} as="p">{`${accounts.length} ${accounts.length === 1 ? 'CARD OR LOAN' : 'CARDS AND LOANS'}.`}</RefText>
+                  <RefText t={T.l2} as="p">{`${formatMoney(owed)} USED IN TOTAL.`}</RefText>
+                  <RefText t={T.o1} as="p">OPEN ONE TO SET ITS</RefText>
+                  <RefText t={T.o2} as="p">LIMIT, RATE AND DUE DAY.</RefText>
+                </>
+              : <>
+                  <RefText t={T.l1} as="p">NO CARDS OR LOANS</RefText>
+                  <RefText t={T.l2} as="p">ARE ADDED.</RefText>
+                  <RefText t={T.o1} as="p">ADD ONE TO TRACK WHAT’S</RefText>
+                  <RefText t={T.o2} as="p">USED AND WHEN IT’S DUE.</RefText>
+                </>}
+              <span className="jrn-ra__rule" aria-hidden style={{ ...at(B.qRule), height: 2 }} />
+              <RefText t={T.q1} as="p">{q1}</RefText>
+              <RefText t={T.q2} as="p">{q2}</RefText>
+            </RaLayer>
+
+            {/* The dossier on the ledge: the physical folder carries the lead card, its use and its share of the limit. */}
+            <RaLayer transform={wallTransform(fit, 0, lowerY)} data-jrn-zone="content-rail" aria-label="CARDS AND LOANS">
+              <img className="jrn-ra__img jrn-ra__dossier" src={dossier} alt="" draggable={false} style={at(D.box)} />
+              {lead && leadSummary ?
+                <button type="button" className="jrn-ra__hit" data-jrn-trigger={`credit-${lead.account_id}`} onClick={() => go(`credit/${lead.account_id}`)} style={at([150, 900, 760, 1090])}>
+                  <RefText t={T.card} origin={[150, 900, 0, 0]} as="span">{lead.display_name}</RefText>
+                  <span className="jrn-ra__meter" aria-hidden style={{ ...at([B.meter[0], B.meter[1] + 2, B.meter[2], B.meter[1] + 4], [150, 900, 0, 0]) }} />
+                  <span className="jrn-ra__meter jrn-ra__meter--fill" aria-hidden style={{ ...at([B.meter[0], B.meter[1], B.meter[0] + (B.meter[2] - B.meter[0]) * fill, B.meter[3] - 1], [150, 900, 0, 0]) }} />
+                  <RefText t={{ ...T.util, left: undefined, right: B.meter[2] }} origin={[150, 900, 760, 1090]} as="span">{leadSummary.util != null ? `${leadSummary.util}% OF THE LIMIT USED` : 'NO LIMIT SET'}</RefText>
+                  <RefText t={T.amount} origin={[150, 900, 0, 0]} as="b">{formatMoney(leadSummary.used)}</RefText>
+                </button>
+              : <RefText t={T.card} as="p">NO CARD IN THE FOLDER</RefText>}
+              {lead ? <RefText t={T.tab} as="span" className="jrn-ra__soft">{lead.account_type === 'LOAN' ? 'LOAN' : 'CARD'}</RefText> : null}
+              {extra.map((a, i) => {
+                const s = creditSummary(a);
+                const box: RefBox = [500, 1020 + i * 34, 760, 1050 + i * 34];
+                return (
+                  <button key={a.account_id} type="button" className="jrn-ra__hit" data-jrn-trigger={`credit-${a.account_id}`} onClick={() => go(`credit/${a.account_id}`)} style={at(box)}>
+                    <RefText t={{ ...T.util, top: 8, left: 16 }} as="span">{a.display_name}</RefText>
+                    <RefText t={{ ...T.util, top: 8, left: 170 }} as="b">{formatMoney(s.used)}</RefText>
+                  </button>
+                );
+              })}
+            </RaLayer>
+
+            <RaLayer transform={wallTransform(fit, 0, actionsY)}>
+              {accounts.length ?
+                <button type="button" className="jrn-ra__line" data-jrn-trigger="credit-utilization" onClick={() => setUtilOpen(true)} style={at(B.b1)}>
+                  <RefText t={T.b1} origin={B.b1} as="span">HOW MUCH IS USED</RefText>
+                  <RefIcon name="arrow" box={B.b1Arrow} origin={B.b1} stroke={2} />
+                </button>
+              : null}
+              <button type="button" className="jrn-ra__line" data-jrn-trigger="credit-add" onClick={() => setAddOpen(true)} style={at(accounts.length ? B.b2 : [B.b1[0], B.b2[1], B.b2[2], B.b2[3]])}>
+                <RefText t={accounts.length ? T.b2 : { ...T.b2, left: (B.b1[0] + B.b2[2]) / 2 - (T.b2.ink[2] - T.b2.ink[0]) / 2 }} origin={accounts.length ? B.b2 : [B.b1[0], B.b2[1], B.b2[2], B.b2[3]]} as="span">ADD A CARD OR LOAN</RefText>
+                <RefIcon name="arrow" box={B.b2Arrow} origin={accounts.length ? B.b2 : [B.b1[0], B.b2[1], B.b2[2], B.b2[3]]} stroke={2} />
+              </button>
+              <button type="button" className="jrn-ra__cta" data-jrn-trigger="credit-paydown" onClick={() => go('paydown')} style={at(B.pay)}>
+                <RefText t={T.pay} origin={B.pay} as="span">PAYDOWN</RefText>
+                <span className="jrn-ra__cta-div" aria-hidden style={at(B.payDiv, B.pay)} />
+                <RefIcon name="arrow" box={B.payArrow} origin={B.pay} stroke={2} />
+              </button>
+            </RaLayer>
+          </>
+        );
+      }}
+    </RootAuthorityStage>
   );
+}
+
+/** Two lines at the comma, as the reference sets the family question. */
+function splitQuestion(q: string): [string, string] {
+  const i = q.indexOf(', ');
+  return i === -1 ? [q, ''] : [q.slice(0, i + 1), q.slice(i + 2)];
 }
 
 export function CreditAccountScreen() {

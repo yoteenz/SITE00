@@ -58,6 +58,8 @@ function AccountDrawerHost({ onClose }: { onClose: () => void }) {
   );
 }
 
+const ROOT_HUBS = new Set(['today', 'money', 'plan', 'credit']);
+
 function appRoute(pathname: string): string {
   const mark = '/runtime/';
   const i = pathname.indexOf(mark);
@@ -70,10 +72,12 @@ function JurnlCornerChrome({ hidden, onMenu }: { hidden: boolean; onMenu: () => 
   const rel = appRoute(pathname);
   const skip = rel === '' || rel.startsWith('entry') || rel.startsWith('setup');
   if (skip || hidden) return null;
-  const onToday = rel === 'today';
+  // The four root hubs are siblings in the dock, so they keep the menu (account drawer) but no back chip:
+  // their founder references draw the JURNL lockup in that corner.
+  const rootHub = ROOT_HUBS.has(rel);
   return (
     <div className="jrn-corner" data-jrn-corner="app">
-      {onToday ? null : (
+      {rootHub ? null : (
         <button type="button" className="jrn-f09a__back" aria-label="BACK TO TODAY" data-jrn-trigger="f09-back" onClick={() => go('today')}>
           <svg viewBox="0 0 16 28" aria-hidden>
             <path d="M14 2 2 14l12 12" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />

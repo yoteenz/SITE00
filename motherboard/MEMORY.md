@@ -15166,6 +15166,24 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
+## 2026-10-07 — Root parents rebuilt from reference + clean shell (TODAY, MONEY, PLAN, CREDIT)
+
+- **Sprint:** P0.JURNL.ROOT-PARENTS.REFERENCE-PLUS-SHELL-OPUS-RECONSTRUCTION1. Reference = design authority, clean OpenArt shell = the only plate, current hubs = functional source only. Supersedes the earlier hub layouts (`ParentAuthorityStage`, deleted).
+- **Inputs:** the four references are in `JURNL/ROOT_PARENTS_REFERENCE_PLUS_SHELL1/REFERENCES` (941 × 1672). The four clean shells the founder attached are byte-identical in content to the `*_SIDEKICK_PLATE.jpg` files already on main (mean pixel diff 0.3), so those files stay the plates. No new generation, zero credits.
+- **Method (`RootAuthorityStage`):** the shell covers the screen (object-fit cover, per-hub crop). One fit drives the plate crop and every live layer.
+  - Object layers: a straightened copy of the reference object (clipboard sheet, drawer inserts and fronts, planner pages) is mapped onto the same object in the shell: origin, rotation, glyph scale fitted to the shell object's edges, and a row spread where the shell object is taller.
+  - Wall layers (lockup, headline, figures) keep the reference's margins and scale with the viewport width; they hang from the primary object so the header-to-object relation holds (PLAN caps the drop at 6% of the screen).
+  - Type is measured from the references with the replica fitter (JURNL Authority Sans / Serif): `scripts/jurnl/root-authorities`, output `layout/rootAuthorityLayout.ts`; object placement is `layout/rootAuthorityScene.ts`.
+- **Objects the shells lack:** TODAY's attention slip and CREDIT's dossier are lifted from the references with their print cleared (GrabCut + Telea) into `families/F03_TODAY/ROOT_AUTHORITY/` and `families/F12_CREDIT/ROOT_AUTHORITY/`. Their text is live. The dossier stands on the shell's stone ledge (foot at shell y 2700); the CREDIT actions sit on the ledge face above the dock.
+- **Dock:** all four use the same parent dock with main's HQ icon sheet (`jurnl-nav.css`, moved unchanged out of the deleted `jurnl-parent-authority.css`; the global HQ nav rules live there too). The hub's own item is active. On wide screens the dock stays inside the column.
+- **Corner chrome:** the root hubs keep the menu chip (it opens the account drawer, PR #1473) but not the back chip: the four hubs are dock siblings, and their references draw the JURNL lockup in that corner.
+- **Kept bindings:** every trigger of the replaced hubs (today-why/upcoming/activity/attention/refresh/retry/empty-setup, discovery links, money-open-*, money-next, money-add-place-slot, plan-add-intention, plan tabs, credit-utilization/add/paydown, row taps), overlays (see why, quick add, ask, add place, add intention, utilization, add card), all TODAY states, live data.
+- **Wide screens:** no wide shell was supplied; above 3:5 the composition keeps full height in a centred column (`min(100%, 60dvh)`) and the sides take the shell's own edge tones. The plate is still the only photograph.
+- **Checked:** captures at 402×874, 393×852, 375×667, 430×932, 360×800, 834×1194, 1024×768, 1440×900; every control tapped in Chromium (all land, none covered); `tests/jurnlRootAuthorityReconstruction1.test.tsx` (7). F02's 3 failures are identical on main.
+- **Do not repeat:** do not float hub copy in cards over the shell; do not put a second plate or a blur behind the shell; do not reintroduce `ParentAuthorityStage`; move type with its object through the scene file, not with px nudges. Children of these families are untouched.
+
+---
+
 ## 2026-10-08 — Preview tunnel restarted on the pixel-matched dock
 
 - **Context:** This chat shipped the HQ dock (PR #1476, v79), corrected the PLAN mark to the diagonal sheet leaf (PR #1478, v80, `index.DiSZ3Of9.js`), then traced every bottom-nav mark to the sheet pixels (PR #1479, merge `f91f0b53`, bundle `index.DmvbEdGf.js`, release v81). The founder then asked to restart the tunnel.

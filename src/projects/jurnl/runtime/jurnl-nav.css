@@ -1,0 +1,170 @@
+/* Bottom navigation: the parent dock and the HQ icon sheet (moved from jurnl-parent-authority.css when the root hubs
+   moved to RootAuthorityStage; rules unchanged). */
+
+.jrn .jrn-nav[data-jrn-nav='parent'] {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: auto;
+  transform: none;
+  padding: 6px 24px calc(6px + env(safe-area-inset-bottom, 0px));
+  border-radius: 0;
+  background: #f6f3ee;
+  border-top: 0;
+  box-shadow: none;
+  gap: 0;
+}
+.jrn .jrn-nav[data-jrn-nav='parent'] .jrn-nav__btn {
+  justify-self: center;
+  align-self: center;
+  width: auto;
+  min-width: 56px;
+  min-height: 0;
+  height: auto;
+  padding: 4px 10px 5px;
+  border: 0;
+  background: transparent;
+  border-radius: 12px;
+  color: #1f1f1c;
+  gap: 2px;
+  font: 500 8px/1 'JURNL Sans', sans-serif;
+  letter-spacing: 0.12em;
+}
+.jrn .jrn-nav[data-jrn-nav='parent'] .jrn-nav__glyph {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 0;
+  background: transparent;
+}
+.jrn .jrn-nav[data-jrn-nav='parent'] .jrn-nav__btn[data-active='true'] {
+  background: #464736;
+  color: #f7f4ee;
+}
+.jrn .jrn-nav[data-jrn-nav='parent'] .jrn-nav__btn[data-active='true'] .jrn-nav__glyph,
+.jrn .jrn-nav[data-jrn-nav='parent'] .jrn-nav__btn[data-active='true'] .jrn-nav__plus {
+  background: transparent;
+  color: inherit;
+}
+.jrn .jrn-nav[data-jrn-nav='parent'] svg {
+  height: 20px;
+  width: 20px;
+}
+.jrn .jrn-nav[data-jrn-nav='parent'] .jrn-nav__plus {
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border-radius: 3px;
+  background: #464736;
+  color: #f7f4ee;
+}
+.jrn .jrn-nav[data-jrn-nav='parent'] .jrn-nav__plus svg {
+  height: 18px;
+  width: 18px;
+}
+.jrn .jrn-nav[data-jrn-nav='parent'] .jrn-nav__btn--mark {
+  width: 64px;
+  min-width: 64px;
+  background: transparent;
+  border-radius: 12px;
+}
+
+@media (min-width: 1100px) {
+  .jrn .jrn-nav[data-jrn-nav='parent'] {
+    left: 50%;
+    right: auto;
+    width: min(640px, 48%);
+    transform: translateX(-50%);
+    bottom: 16px;
+    border-radius: 18px;
+  }
+}
+
+/* HQ icon sheet. Icon 20px. ADD square stays olive until the cell itself is the chip. */
+.jrn .jrn-nav {
+  background: #f6f3ee;
+  border-radius: 16px;
+}
+.jrn .jrn-nav__glyph {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  background: transparent;
+}
+.jrn .jrn-nav__plus {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 3px;
+  background: #464736;
+  color: #f7f4ee;
+}
+.jrn .jrn-nav svg.jrn-hq {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+.jrn .jrn-nav .jrn-nav__plus svg.jrn-hq {
+  width: 18px;
+  height: 18px;
+}
+.jrn .jrn-nav__btn {
+  justify-self: center;
+  align-self: center;
+  width: auto;
+  min-width: 56px;
+  min-height: 0;
+  height: auto;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: #1f1f1c;
+}
+.jrn .jrn-nav__btn--mark {
+  width: 64px;
+  min-width: 64px;
+}
+.jrn .jrn-nav__btn[data-active='true'] {
+  background: #464736;
+  color: #f7f4ee;
+  border-color: transparent;
+}
+.jrn .jrn-nav__btn[data-active='true'] .jrn-nav__glyph,
+.jrn .jrn-nav__btn[data-active='true'] .jrn-nav__plus,
+.jrn .jrn-nav[data-jrn-nav='authority'] .jrn-nav__btn[data-active='true'] .jrn-nav__plus,
+.jrn .jrn-nav[data-jrn-nav='parent'] .jrn-nav__btn[data-active='true'] .jrn-nav__plus {
+  background: transparent;
+  color: inherit;
+}
+.jrn .jrn-nav__btn:active,
+.jrn .jrn-nav[data-jrn-nav='authority'] .jrn-nav__btn:active,
+.jrn .jrn-nav[data-jrn-nav='parent'] .jrn-nav__btn:active {
+  background: #8f8d7f;
+  color: #f7f4ee;
+}
+.jrn .jrn-nav__btn:active .jrn-nav__plus,
+.jrn .jrn-nav[data-jrn-nav='authority'] .jrn-nav__btn:active .jrn-nav__plus,
+.jrn .jrn-nav[data-jrn-nav='parent'] .jrn-nav__btn:active .jrn-nav__plus {
+  background: transparent;
+  color: inherit;
+}
+@media (hover: hover) and (pointer: fine) {
+  .jrn .jrn-nav__btn:hover:not([data-active='true']),
+  .jrn .jrn-nav[data-jrn-nav='authority'] .jrn-nav__btn:hover:not([data-active='true']),
+  .jrn .jrn-nav[data-jrn-nav='parent'] .jrn-nav__btn:hover:not([data-active='true']) {
+    background: #ede8e1;
+    color: #1f1f1c;
+  }
+  .jrn .jrn-nav__btn:hover:not([data-active='true']) .jrn-nav__plus,
+  .jrn .jrn-nav[data-jrn-nav='authority'] .jrn-nav__btn:hover:not([data-active='true']) .jrn-nav__plus,
+  .jrn .jrn-nav[data-jrn-nav='parent'] .jrn-nav__btn:hover:not([data-active='true']) .jrn-nav__plus {
+    background: transparent;
+    color: #1f1f1c;
+  }
+}

@@ -6,7 +6,13 @@ import { createPlanIntention, planById, updatePlanIntention, archivePlanIntentio
 import { formatMoney, useCurrency } from '../../data/home/money';
 import { PARENT_PLATES } from '../../data/parents/plates';
 import { SIDEKICK_PLATES } from '../../data/parents/sidekickPlates';
-import { ParentAuthorityStage } from '../components/ParentAuthorityStage';
+import { RA_REF_W, RaLayer, RaRule, RootAuthorityStage, hangY, objectTransform, wallTransform } from '../components/RootAuthorityStage';
+import { ReferenceLockup } from '../components/ReferenceLockup';
+import { RefText, at } from '../components/ReferenceStage';
+import { RA_PLAN } from '../layout/rootAuthorityLayout';
+import { PLAN_LEAF, PLAN_SCENE, PLAN_TABS } from '../layout/rootAuthorityScene';
+import type { RefBox } from '../layout/referenceLayout';
+import sprig from '../../families/F09_SAFE/REFERENCE_REPLICA/assets/LOCKUP_SPRIG.png';
 import { parentById } from '../../data/parents/catalog';
 import { FamilyChrome } from '../components/FamilyChrome';
 import { JurnlProductNav } from '../components/ProductNav';
@@ -36,6 +42,8 @@ function PlanShell({ screenId, children }: { screenId: string; children: ReactNo
 }
 
 /** F08 PLAN — ROOM / ZONE. Money arranged into zones before it moves; each zone's width is its share of what's assigned. */
+const PL = RA_PLAN;
+
 export function PlanHubScreen() {
   const { go, openOverlay, closeOverlay, overlay } = useJurnl();
   useCurrency();
@@ -43,11 +51,20 @@ export function PlanHubScreen() {
   const spec = parentById('F08')!;
   const [addOpen, setAddOpen] = useState(false);
   const assigned = totalPlanAssigned();
+  const W = PL.wall.text;
+  const R = PL.right.text;
+  const right = PLAN_SCENE.objects.right!;
+  const left = PLAN_SCENE.objects.left!;
+  const add = PL.right.box.add;
+  // The reference page holds two lead lines, a rule and a question; with intentions the lead lines carry the total
+  // and the rows sit where the question was (up to three; every intention opens from its row or from GOALS).
+  const rows = plans.slice(0, 3);
+  const qTop = R.q1.top;
   return (
-    <ParentAuthorityStage
+    <RootAuthorityStage
       screenId="F08.00"
       plate={SIDEKICK_PLATES.F08}
-      tagline
+      framing={PLAN_SCENE.framing}
       nav={<JurnlProductNav marks="parent" current="PLAN" onGo={go} onAdd={() => openOverlay('quick-add')} />}
       overlays={
         <>
@@ -57,37 +74,74 @@ export function PlanHubScreen() {
         </>
       }
     >
-      <header data-jrn-zone="intro">
-        <h1 className="jrn-pa__h">PLAN</h1>
-        <p className="jrn-pa__kicker">YOUR MONEY HAS A PLAN.</p>
-        <p className="jrn-pa__line">HERE IS WHAT YOU ARE ARRANGING.</p>
-      </header>
-      <section className="jrn-pa__spread" data-jrn-zone="content-rail" data-jrn-panel="signal" aria-label="INTENTIONS">
-        <p className="jrn-pa__aside">A CALMER TOMORROW STARTS HERE.</p>
-        <div className="jrn-pa__page">
-        <p className="jrn-pa__kicker">
-          {plans.length ? `${formatMoney(assigned)} ASSIGNED ACROSS ${plans.length} ${plans.length === 1 ? 'INTENTION' : 'INTENTIONS'}.` : 'NOTHING IS ARRANGED YET.'}
-        </p>
-        {plans.length ? <p className="jrn-pa__line">OPEN A ZONE TO CHANGE WHAT IT HOLDS.</p> : null}
-        <p className="jrn-pa__line">{spec.question}</p>
-        {plans.map((p) => (
-          <button key={p.plan_id} type="button" className="jrn-pa__slip" data-jrn-trigger={`plan-${p.plan_id}`} onClick={() => go(`plan/${p.plan_id}`)}>
-            <span>{p.title}</span>
-            <b>{formatMoney(p.assigned_amount)}</b>
-            <small>{assigned > 0 ? `${Math.round((p.assigned_amount / assigned) * 100)}% OF THE PLAN` : 'NOTHING ASSIGNED'}</small>
-          </button>
-        ))}
-        <button type="button" className="jrn-pa__btn" data-jrn-trigger="plan-add-intention" onClick={() => setAddOpen(true)}>ADD AN INTENTION</button>
-        <nav className="jrn-pa__tabs" aria-label="PLAN AROUND">
-          <button type="button" className="jrn-pa__tab" data-jrn-trigger="plan-open-safe" onClick={() => go('safe')}>SAFE TO SPEND</button>
-          <button type="button" className="jrn-pa__tab" data-jrn-trigger="plan-open-goals" onClick={() => go('goals')}>GOALS</button>
-          <button type="button" className="jrn-pa__tab" data-jrn-trigger="discovery-F08-F10" onClick={() => go('F10')}>PURCHASES</button>
-          <button type="button" className="jrn-pa__tab" data-jrn-trigger="discovery-F08-F11" onClick={() => go('F11')}>TRIPS</button>
-          <button type="button" className="jrn-pa__tab" data-jrn-trigger="discovery-F08-F15" onClick={() => go('F15')}>AHEAD</button>
-        </nav>
-        </div>
-      </section>
-    </ParentAuthorityStage>
+      {(fit) => (
+        <>
+          <RaLayer transform={wallTransform(fit, 0, 0)} className="jrn-ra__layer--top">
+            <ReferenceLockup L={{ box: { sprig: PL.wall.box.sprig, word: PL.wall.box.word }, text: { desc1: W.desc1, desc2: W.desc2 } }} />
+          </RaLayer>
+          <RaLayer transform={wallTransform(fit, fit.W - RA_REF_W * fit.u, 0)} className="jrn-ra__layer--top">
+            <RefText t={W.tag1} as="span">PLAN TODAY.</RefText>
+            <RefText t={W.tag2} as="span">GROW FREELY.</RefText>
+          </RaLayer>
+          <RaLayer transform={wallTransform(fit, 0, hangY(fit, PLAN_SCENE.hang))} data-jrn-zone="intro">
+            <RefText t={W.title} as="h1">PLAN.</RefText>
+            <RefText t={W.sub} as="p">YOUR MONEY HAS A PLAN.</RefText>
+            <RefText t={W.line} as="p">HERE IS WHAT YOU ARE ARRANGING.</RefText>
+          </RaLayer>
+
+          <section data-jrn-zone="content-rail" data-jrn-panel="signal" aria-label="INTENTIONS">
+            {/* Left page: the botanical print and the quiet line under it. */}
+            <RaLayer transform={objectTransform(fit, left)}>
+              <img className="jrn-ra__img jrn-ra__leaf" src={sprig} alt="" draggable={false} style={at(PLAN_LEAF)} />
+              <p className="jrn-ra__aside" aria-label="A CLEARER TOMORROW BEGINS HERE.">
+                <RefText t={PL.left.text.a1} as="span">A CLEARER</RefText>
+                <RefText t={PL.left.text.a2} as="span">TOMORROW</RefText>
+                <RefText t={PL.left.text.a3} as="span">BEGINS</RefText>
+                <RefText t={PL.left.text.a4} as="span">HERE.</RefText>
+              </p>
+              <RaRule from={[PL.left.box.rule[0], PL.left.box.rule[1] + 1.5]} to={[PL.left.box.rule[2], PL.left.box.rule[1] + 1.5]} />
+            </RaLayer>
+
+            {/* Right page: what is arranged, the action, and the index tabs on its edge. */}
+            <RaLayer transform={objectTransform(fit, right)}>
+              {PLAN_TABS.map((tab) => (
+                <button key={tab.id} type="button" className="jrn-ra__tab" data-jrn-trigger={tab.trigger} onClick={() => go(tab.target)} style={{ ...at(tab.box), background: tab.fill, color: tab.ink }}>
+                  <RefText t={R[tab.id]} origin={tab.box} as="span">{tab.label}</RefText>
+                </button>
+              ))}
+              {plans.length ?
+                <>
+                  <RefText t={R.l1} as="p">{`${formatMoney(assigned)} ASSIGNED`}</RefText>
+                  <RefText t={R.l2} as="p">{`ACROSS ${plans.length} ${plans.length === 1 ? 'INTENTION' : 'INTENTIONS'}.`}</RefText>
+                </>
+              : <>
+                  <RefText t={R.l1} as="p">NOTHING IS</RefText>
+                  <RefText t={R.l2} as="p">ARRANGED YET.</RefText>
+                </>}
+              <RaRule from={[PL.right.box.rule[0], PL.right.box.rule[1] + 1]} to={[PL.right.box.rule[2], PL.right.box.rule[1] + 1]} />
+              {rows.length ?
+                rows.map((p, i) => {
+                  const top = qTop - 8 + i * 30;
+                  const box: RefBox = [500, top - 6, 790, top + 24];
+                  return (
+                    <button key={p.plan_id} type="button" className="jrn-ra__hit" data-jrn-trigger={`plan-${p.plan_id}`} onClick={() => go(`plan/${p.plan_id}`)} style={at(box)}>
+                      <RefText t={{ ...R.q1, size: 15.5, ls: 3.2, top: 6, left: 4, cx: undefined }} as="span">{p.title}</RefText>
+                      <RefText t={{ ...R.q1, family: 'serif', size: 19, ls: 0.5, top: 3, left: undefined, cx: undefined, right: 4 }} origin={box} as="b" style={{ left: 'auto', right: 4, top: 3, fontSize: 19, letterSpacing: 0.5 }}>{formatMoney(p.assigned_amount)}</RefText>
+                    </button>
+                  );
+                })
+              : <>
+                  <RefText t={R.q1} as="p">{spec.question.split(' ').slice(0, 4).join(' ')}</RefText>
+                  <RefText t={R.q2} as="p">{spec.question.split(' ').slice(4).join(' ')}</RefText>
+                </>}
+              <button type="button" className="jrn-ra__cta" data-jrn-trigger="plan-add-intention" onClick={() => setAddOpen(true)} style={at(add)}>
+                <RefText t={R.add} origin={add} as="span">ADD AN INTENTION</RefText>
+              </button>
+            </RaLayer>
+          </section>
+        </>
+      )}
+    </RootAuthorityStage>
   );
 }
 
