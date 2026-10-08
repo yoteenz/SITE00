@@ -8,10 +8,12 @@ Also read: `BUILDER_OPUS_TECHNICAL_HANDOFF.md` (spatial hooks), `BUILDER_INTAKE_
 
 ## Integration readiness
 
-**OPUS_INTEGRATION_READINESS: PARTIAL**
+**OPUS_INTEGRATION_READINESS: READY (main)** · **VISUAL: PENDING Opus branch reconciliation**
 
-- **READY:** Room navigation state, blueprint/estimate views from hooks, feature-flag gating, submission readiness flags (client-side).
-- **BLOCKED:** Real submit/resume until Composer binds `useIntakeSync` (GAP-INT-001–003). Opus can mock submit UX but must not claim production submission.
+- **READY:** `useBuilderSpatialIntakeSession()` — server draft autosave, resume `?intakeId=`, `submitForReview()`, versioned blueprint payload, `syncStatus` for UI.
+- **READY:** Feature flags on cloud dev tunnel only (`VITE_SITE00_TEMPLATE_SYSTEM_V1`, `VITE_SITE00_CLIENT_ESTIMATE_PREVIEW_V1`).
+- **BLOCKED (production DB):** Supabase intake migration not verified on preview-linked project — see `BUILDER_CONTRACT_RECONCILIATION_REPORT_V1.md`. Dev tunnel uses ephemeral `SITE00_INTAKES_USE_MEMORY=1` for functional testing only.
+- **PENDING:** Opus five-screen visuals from `claude/digital-foundation-authority-audit-8d42xk` → rebase onto main; see `BUILDER_OPUS_BRANCH_INTEGRATION_MAP_V1.md`.
 
 ---
 
@@ -30,18 +32,21 @@ Also read: `BUILDER_OPUS_TECHNICAL_HANDOFF.md` (spatial hooks), `BUILDER_INTAKE_
 ## State access (use these — do not fork)
 
 ```typescript
-import { useBuilderSpatialSession } from '@/site00/builder-experience/spatialStudio/useBuilderSpatialSession';
+import { useBuilderSpatialIntakeSession } from '@/site00/builder-experience/spatialStudio/useBuilderSpatialIntakeSession';
 ```
 
 | Hook return | Use for |
 | --- | --- |
 | `state` | PLACE / FEEL / WORK / PACE / BLUEPRINT UI |
-| `persist(partial)` | Local save (until server sync lands) |
+| `persist(partial)` | Local + debounced server autosave (intake `answers`) |
 | `selection` | Canonical `BuilderSelection` |
 | `snapshot` | Blueprint + estimate + `submission_ready` / `submission_blockers` |
 | `buildObject` | Build Object visual parameters (no image URLs) |
 | `goRoom` | Room transitions with `canEnterRoom` guard |
 | `showEstimate` | Respect estimate reveal rule |
+| `syncStatus` | Save/submit presentation (`IntakeSaveStatus`) |
+| `submitForReview()` | Versioned blueprint submit when ready |
+| `canEdit` / `isSubmitted` | Post-submit / revision UX |
 
 Types: `spatialStudio/types.ts`  
 Mapping: `spatialStudio/mapping.ts`
