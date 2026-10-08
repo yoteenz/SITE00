@@ -15304,3 +15304,45 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - Do not use border-image for torn paper shells.
   - Keep inputs at 16 px or more computed size (scale them visually if smaller).
   - The superseded F09 overlay shells in `JURNL/F09_SAFE/OVERLAYS/` are no longer used by the runtime.
+
+---
+
+## 2026-10-08 — JURNL email engine: canonical architecture (JURNL EDITORIAL CORRESPONDENCE)
+
+- **Context:** The founder asked for the email system to be designed while JURNL's editorial collage language was fresh: architecture and creative infrastructure first, no emails generated (`P0.JURNL.EMAIL-ENGINE.CANONICAL-ARCHITECTURE-AND-CREATIVE-INFRASTRUCTURE1`).
+- **Topics covered:**
+  - Doctrine: ARTIFACT AS INTERFACE.
+  - Seven families, E01–E07.
+  - The first eight message contracts, A01–A08.
+  - Components EC01–EC17.
+  - The L0–L5 layer model and the image-vs-HTML ownership matrix.
+  - Typography, materials and the transactional / lifecycle / marketing firewall.
+  - The preference model, trigger contracts and personalization levels P0–P3.
+  - Asset classes and lineage, production states, the pipeline, agent roles, provider inventory and abstraction, preview / QA, and seven manifests with schemas.
+- **Decisions / outcomes:**
+  - **Source:** `shared/jurnl-email-engine/`. The export script `scripts/jurnl/email-engine-export.ts` writes `JURNL EMAILS v1/`: 58 files, `00_SYSTEM`, one folder per email, `MANIFESTS` + `schemas`, `COPY`, `REVIEW/BATCH1_READINESS.md`. The empty asset / shell / responsive folders carry READMEs only.
+  - **Provider truth:**
+    - JURNL sends no email today; the shipped app mounts JURNL in design-preview mode only.
+    - The Supabase production adapter exists but is not mounted. Verify / reset would be sent by Supabase Auth with dashboard templates that are not in the repo.
+    - The SITE 00 `shared/site00-email` + `api/_lib/email/sendEmail.ts` is render-only. Resend / SendGrid are stub adapters.
+    - No provider was added.
+  - **Triggers (8 events):**
+    - A02 and A08 are `PROVIDER_OWNED` (Supabase).
+    - A01, A04, A06 and A07 have state in product truth but no emitted event. Repository `ACCOUNT_CREATED` means a money account, not signup.
+    - A03 and A05 are `PROPOSED`. `SETUP_COMPLETED` fires on every setup patch, so a real setup-finished flag is needed.
+  - **Consent:**
+    - No email consent exists, so the five preference categories are defined but `supportedToday: false`.
+    - The proposed consent keys are not added to `ConsentType`.
+  - **Contracts:** all eight are `CONTRACT_READY`, founder approval `NOT_REVIEWED`, copy `DRAFT_FOR_FOUNDER_REVIEW`. Subjects and preheaders carry no figures (lock-screen privacy). Every CTA destination is a real JURNL route.
+  - **Tests:** `tests/jurnlEmailEngine1.test.ts` (21 tests) checks:
+    - the firewall, copy rules and nudge words;
+    - routes, lineage, fixtures refused by delivery, and that there is no send path;
+    - that the manifests validate and the exports stay in sync.
+- **Changes:** `shared/jurnl-email-engine/` (new), `scripts/jurnl/email-engine-export.ts`, `JURNL EMAILS v1/`, `tests/jurnlEmailEngine1.test.ts`, this note. No `src/` change. No live auth, consent or email flow changed. Nothing sent.
+- **Conventions:**
+  - Edit the TS source, then re-export; never hand-edit `JURNL EMAILS v1` generated files.
+  - Pipeline: full email authority before asset decomposition.
+  - L3–L5 (copy, figures, CTAs, links, legal) are never images.
+  - E06 security mail carries no environment art, marketing or unsubscribe.
+  - Never infer founder approval.
+  - Next sprint: `P0.JURNL.EMAILS.FIRST-8-AUTHORITY-BATCH1`.

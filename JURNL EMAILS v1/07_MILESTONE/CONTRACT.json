@@ -1,0 +1,125 @@
+{
+  "id": "A07",
+  "name": "YOU REACHED A MILESTONE",
+  "folder": "07_MILESTONE",
+  "family": "E04",
+  "traits": [],
+  "messageType": "MILESTONE_GOAL_FUNDED",
+  "purpose": "Acknowledge a real milestone — a goal fully set aside — warmly and precisely.",
+  "preferenceCategory": "PRODUCT_SERVICE_UPDATES",
+  "trigger": {
+    "emailId": "A07",
+    "triggerEvent": "GOAL_REACHED",
+    "eligibility": [
+      "Goal status became COMPLETE with completed_at",
+      "First time for this goal"
+    ],
+    "suppression": [
+      "Goal deleted or reopened before send",
+      "Already sent for this goal",
+      "PRODUCT_SERVICE_UPDATES off"
+    ],
+    "cooldown": "ONCE per goal",
+    "personalizationInputs": [
+      "firstName",
+      "goalName",
+      "goalAmount",
+      "reachedOn"
+    ],
+    "personalization": "P2",
+    "ctaDestination": "goals/{goalId}",
+    "consentClass": "LIFECYCLE_SERVICE",
+    "priority": "NORMAL",
+    "duplicateGuard": "A07:{userId}:{goalId}",
+    "deliveryState": "NOT_WIRED"
+  },
+  "states": [
+    {
+      "id": "GOAL_FUNDED",
+      "when": "Goal COMPLETE",
+      "differences": "Only implemented state"
+    },
+    {
+      "id": "BUFFER_ESTABLISHED",
+      "when": "PROPOSED — no source event yet",
+      "differences": "Same template, seal and copy name the buffer"
+    },
+    {
+      "id": "DEBT_PAID",
+      "when": "PROPOSED — no source event yet",
+      "differences": "Same template, copy names the debt"
+    }
+  ],
+  "copy": {
+    "status": "DRAFT_FOR_FOUNDER_REVIEW",
+    "subject": "You reached a milestone",
+    "preheader": "{goalName} is fully set aside and recorded in your plan.",
+    "fromName": "JURNL",
+    "replyToPolicy": "Replies reach a monitored JURNL support inbox (address fixed at provider integration). Never a no-reply address.",
+    "eyebrow": "MILESTONE",
+    "headline": "YOU REACHED A MILESTONE.",
+    "body": [
+      "You have set aside the full {goalAmount} for {goalName}. It is recorded in your plan, and the money stays where you put it until you decide what comes next."
+    ],
+    "cta": {
+      "label": "SEE YOUR GOAL",
+      "destination": "goals/{goalId}"
+    },
+    "fallbackText": "You reached a milestone.\n\n{goalName}: {goalAmount}, fully set aside on {reachedOn}.\n\nSee your goal: {goalUrl}"
+  },
+  "artifact": [
+    "MILESTONE_CARD",
+    "CEREMONIAL_NOTE"
+  ],
+  "components": [
+    "EC01",
+    "EC09",
+    "EC02",
+    "EC07",
+    "EC16",
+    "EC17"
+  ],
+  "authorityBrief": {
+    "primaryGesture": [
+      "a ceremonial card with a wax or blind-embossed seal beside the live goal name"
+    ],
+    "secondaryDetail": [
+      "a burgundy ribbon or brass medallion"
+    ],
+    "contrastAnchor": "rich burgundy against warm cream",
+    "environment": "CEREMONIAL lineage: a stronger still life (linen, brass, olive), one classical fragment at most.",
+    "avoid": [
+      "confetti",
+      "trophies",
+      "badges",
+      "streaks",
+      "the amount inside the seal"
+    ]
+  },
+  "lineageGroup": "CEREMONIAL",
+  "assetPlan": [
+    {
+      "slot": "L1 ceremonial still life",
+      "assetClass": "EMAIL_ENVIRONMENT",
+      "lineageAction": "CREATE_NEW",
+      "note": "Founds CEREMONIAL; all milestone states reuse it."
+    },
+    {
+      "slot": "L2 milestone card shell",
+      "assetClass": "EMAIL_ARTIFACT_SHELL",
+      "lineageAction": "CREATE_NEW",
+      "note": "Blank card."
+    },
+    {
+      "slot": "seal",
+      "assetClass": "EMAIL_DECORATIVE_INSERT",
+      "lineageAction": "CREATE_NEW",
+      "note": "No text or numbers in the seal."
+    }
+  ],
+  "fixture": "FX_MILESTONE",
+  "productionState": "CONTRACT_READY",
+  "founderApproval": {
+    "status": "NOT_REVIEWED"
+  }
+}

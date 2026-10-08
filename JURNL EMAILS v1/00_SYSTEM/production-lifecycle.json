@@ -1,0 +1,291 @@
+{
+  "states": [
+    {
+      "state": "PLANNED",
+      "meaning": "Named in the email ontology; no contract yet.",
+      "requiresFounder": false
+    },
+    {
+      "state": "CONTRACT_READY",
+      "meaning": "Message contract complete: purpose, trigger, consent class, personalization, copy fields, components.",
+      "requiresFounder": false
+    },
+    {
+      "state": "CREATIVE_READY",
+      "meaning": "Creative territory chosen inside the family grammar; ready for an authority design.",
+      "requiresFounder": false
+    },
+    {
+      "state": "AUTHORITY_IN_REVIEW",
+      "meaning": "A full email authority (mobile + desktop) is with the founder.",
+      "requiresFounder": false
+    },
+    {
+      "state": "AUTHORITY_APPROVED",
+      "meaning": "The founder approved the full authority.",
+      "requiresFounder": true
+    },
+    {
+      "state": "ASSETS_READY",
+      "meaning": "Assets decomposed from the approved authority and fabricated; founder approved them.",
+      "requiresFounder": true
+    },
+    {
+      "state": "IMPLEMENTATION_READY",
+      "meaning": "Template spec, assets and fixtures complete for implementation.",
+      "requiresFounder": false
+    },
+    {
+      "state": "IMPLEMENTED",
+      "meaning": "Email-safe HTML template exists and renders with fixtures.",
+      "requiresFounder": false
+    },
+    {
+      "state": "RESPONSIVE_QA",
+      "meaning": "Client matrix, image-blocked and dark-mode checks pass.",
+      "requiresFounder": false
+    },
+    {
+      "state": "DELIVERY_QA",
+      "meaning": "Provider delivery, links, suppression and idempotency verified with test recipients.",
+      "requiresFounder": false
+    },
+    {
+      "state": "APPROVED",
+      "meaning": "Founder approved the implemented email for release.",
+      "requiresFounder": true
+    },
+    {
+      "state": "LIVE",
+      "meaning": "Sending to real recipients.",
+      "requiresFounder": true
+    },
+    {
+      "state": "SUPERSEDED",
+      "meaning": "Replaced by a newer approved template; kept as a record.",
+      "requiresFounder": false
+    },
+    {
+      "state": "ARCHIVED",
+      "meaning": "Retired; never sent.",
+      "requiresFounder": false
+    }
+  ],
+  "approval_rule": "Founder approval is never inferred. A state that requires the founder can only be set from an explicit founder decision recorded with a date.",
+  "pipeline": [
+    {
+      "step": 1,
+      "name": "MESSAGE CONTRACT",
+      "owner": [
+        "OPUS"
+      ],
+      "output": "contract in shared/jurnl-email-engine/contracts.ts"
+    },
+    {
+      "step": 2,
+      "name": "EMAIL FAMILY",
+      "owner": [
+        "OPUS"
+      ],
+      "output": "family + lineage group assignment"
+    },
+    {
+      "step": 3,
+      "name": "CREATIVE TERRITORY",
+      "owner": [
+        "OPUS",
+        "GROK_OPENART"
+      ],
+      "output": "artifact, primary gesture, secondary detail, contrast anchor"
+    },
+    {
+      "step": 4,
+      "name": "FULL EMAIL AUTHORITY",
+      "owner": [
+        "GROK_OPENART",
+        "OPUS"
+      ],
+      "output": "one complete email image per viewport, with sample copy, for review only"
+    },
+    {
+      "step": 5,
+      "name": "FOUNDER REVIEW",
+      "owner": [
+        "FOUNDER"
+      ],
+      "output": "approve / revise"
+    },
+    {
+      "step": 6,
+      "name": "RESPONSIVE AUTHORITY",
+      "owner": [
+        "OPUS"
+      ],
+      "output": "mobile and desktop authorities + image-blocked plan"
+    },
+    {
+      "step": 7,
+      "name": "ASSET DECOMPOSITION",
+      "owner": [
+        "OPUS"
+      ],
+      "output": "asset list: class, lineage action, live-content zones removed"
+    },
+    {
+      "step": 8,
+      "name": "SIDEKICK / ARTIFACT GENERATION",
+      "owner": [
+        "GROK_OPENART"
+      ],
+      "output": "clean shells, inserts, environments — no live content"
+    },
+    {
+      "step": 9,
+      "name": "FOUNDER APPROVAL",
+      "owner": [
+        "FOUNDER"
+      ],
+      "output": "assets approved"
+    },
+    {
+      "step": 10,
+      "name": "TEMPLATE IMPLEMENTATION",
+      "owner": [
+        "COMPOSER"
+      ],
+      "output": "email-safe HTML template + plain-text fallback"
+    },
+    {
+      "step": 11,
+      "name": "PROVIDER INTEGRATION",
+      "owner": [
+        "COMPOSER"
+      ],
+      "output": "delivery through the provider-neutral contract"
+    },
+    {
+      "step": 12,
+      "name": "EMAIL CLIENT QA",
+      "owner": [
+        "COMPOSER",
+        "OPUS"
+      ],
+      "output": "client matrix pass"
+    },
+    {
+      "step": 13,
+      "name": "DELIVERY QA",
+      "owner": [
+        "COMPOSER"
+      ],
+      "output": "test-recipient delivery, links, suppression"
+    },
+    {
+      "step": 14,
+      "name": "LIVE",
+      "owner": [
+        "FOUNDER"
+      ],
+      "output": "founder releases"
+    }
+  ],
+  "pipeline_rule": "FULL EMAIL AUTHORITY BEFORE ASSET DECOMPOSITION. Do not generate random plates in advance.",
+  "agents": [
+    {
+      "role": "GROK_OPENART",
+      "owns": [
+        "creative visual generation",
+        "full email authorities (images)",
+        "asset fabrication: shells, inserts, environments"
+      ],
+      "never": [
+        "live copy inside final assets",
+        "final copy decisions",
+        "template code"
+      ]
+    },
+    {
+      "role": "OPUS",
+      "owns": [
+        "creative architecture",
+        "email authority methodology",
+        "UX / composition",
+        "asset decomposition",
+        "visual QA",
+        "contract authoring"
+      ],
+      "never": [
+        "repetitive production code across many templates",
+        "provider migrations"
+      ]
+    },
+    {
+      "role": "COMPOSER",
+      "owns": [
+        "HTML / template engineering",
+        "trigger wiring",
+        "provider integration",
+        "tests",
+        "rendering QA",
+        "repetitive propagation across templates"
+      ],
+      "never": [
+        "changing families, doctrine or approved authorities",
+        "inferring approval"
+      ]
+    },
+    {
+      "role": "FOUNDER",
+      "owns": [
+        "authority approval",
+        "asset approval",
+        "release to LIVE",
+        "final copy approval"
+      ],
+      "never": []
+    }
+  ],
+  "analytics": {
+    "events": [
+      {
+        "id": "DELIVERED",
+        "note": "Provider acceptance / delivery webhook."
+      },
+      {
+        "id": "BOUNCED",
+        "note": "Hard bounces suppress the address for non-critical classes."
+      },
+      {
+        "id": "OPENED",
+        "note": "Only where the provider reports it and it is meaningful; Apple Mail Privacy Protection inflates opens, so never optimize on it."
+      },
+      {
+        "id": "CTA_CLICKED",
+        "note": "Tagged per component (EC07 / EC08 / EC15)."
+      },
+      {
+        "id": "DEEP_LINK_OPENED",
+        "note": "The app route opened from the email link."
+      },
+      {
+        "id": "UNSUBSCRIBED",
+        "note": "Per preference category; applied immediately."
+      },
+      {
+        "id": "PREFERENCE_CHANGED",
+        "note": "From the preference centre once it exists."
+      },
+      {
+        "id": "CONVERSION_EVENT",
+        "note": "Only a product-truth event (e.g. setup completed after A03), never a proxy."
+      }
+    ],
+    "guardrails": [
+      "No open-rate or click-rate targets for E06 (security) — success is the user completing the action.",
+      "No re-send loops on non-open; cooldowns are fixed by contract, not tuned for engagement.",
+      "No streaks, scores or urgency mechanics.",
+      "Analytics never changes what a TRANSACTIONAL email says.",
+      "Link tracking must not break security links: verification and reset links are never wrapped by click tracking."
+    ]
+  }
+}

@@ -1,0 +1,119 @@
+{
+  "id": "A01",
+  "name": "WELCOME TO JURNL",
+  "folder": "01_WELCOME",
+  "family": "E01",
+  "traits": [],
+  "messageType": "WELCOME",
+  "purpose": "Mark the person’s arrival once their account is verified, and give one clear first step.",
+  "preferenceCategory": "PRODUCT_SERVICE_UPDATES",
+  "trigger": {
+    "emailId": "A01",
+    "triggerEvent": "AUTH_EMAIL_CONFIRMED",
+    "eligibility": [
+      "Account verified for the first time",
+      "Not a design-preview account"
+    ],
+    "suppression": [
+      "Already sent (ever)",
+      "Account deleted",
+      "PRODUCT_SERVICE_UPDATES off"
+    ],
+    "cooldown": "ONCE",
+    "personalizationInputs": [
+      "firstName",
+      "setupStarted"
+    ],
+    "personalization": "P1",
+    "ctaDestination": "setup",
+    "consentClass": "LIFECYCLE_SERVICE",
+    "priority": "NORMAL",
+    "duplicateGuard": "A01:{userId}",
+    "deliveryState": "NOT_WIRED"
+  },
+  "states": [
+    {
+      "id": "SETUP_NOT_STARTED",
+      "when": "Setup draft not started",
+      "differences": "CTA BEGIN SETUP → setup"
+    },
+    {
+      "id": "SETUP_STARTED",
+      "when": "Setup started before verification completed",
+      "differences": "CTA CONTINUE SETUP → setup (resumes at resumeAt)"
+    }
+  ],
+  "copy": {
+    "status": "DRAFT_FOR_FOUNDER_REVIEW",
+    "subject": "Welcome to JURNL, {firstName}",
+    "preheader": "Your financial life, beautifully organized. Here is where to begin.",
+    "fromName": "JURNL",
+    "replyToPolicy": "Replies reach a monitored JURNL support inbox (address fixed at provider integration). Never a no-reply address.",
+    "eyebrow": "WELCOME",
+    "headline": "YOUR JURNL IS OPEN.",
+    "body": [
+      "{firstName}, JURNL keeps your money in one calm place: what is safe to spend, what is coming, and what you are planning for.",
+      "Start with a few minutes of setup. JURNL works from what you tell it. Nothing is sold, and linked accounts stay optional."
+    ],
+    "cta": {
+      "label": "BEGIN SETUP",
+      "destination": "setup"
+    },
+    "fallbackText": "Welcome to JURNL.\n\nYour JURNL is open. Start with a few minutes of setup: {setupUrl}\n\nNothing is sold, and linked accounts stay optional."
+  },
+  "artifact": [
+    "WELCOME_LETTER",
+    "INVITATION"
+  ],
+  "components": [
+    "EC01",
+    "EC02",
+    "EC07",
+    "EC16",
+    "EC17"
+  ],
+  "authorityBrief": {
+    "primaryGesture": [
+      "a folded welcome letter on heavy cream stock, cropped off the top edge",
+      "an invitation card leaning on a stone ledge"
+    ],
+    "secondaryDetail": [
+      "olive blind-emboss on the card",
+      "a burgundy registration strip along one edge"
+    ],
+    "contrastAnchor": "deep olive / black editorial ink headline on cream",
+    "environment": "ARRIVAL still life: morning light on stone and linen, one olive sprig — no arch.",
+    "avoid": [
+      "app screenshots",
+      "feature lists",
+      "confetti",
+      "a full loggia view"
+    ]
+  },
+  "lineageGroup": "ARRIVAL",
+  "assetPlan": [
+    {
+      "slot": "L1 arrival still life",
+      "assetClass": "EMAIL_ENVIRONMENT",
+      "lineageAction": "CREATE_NEW",
+      "note": "Founds the ARRIVAL lineage; reused by A04."
+    },
+    {
+      "slot": "L2 welcome letter shell (top + edges)",
+      "assetClass": "EMAIL_ARTIFACT_SHELL",
+      "lineageAction": "CREATE_NEW",
+      "note": "Blank stock; headline and copy stay HTML."
+    },
+    {
+      "slot": "olive emboss",
+      "assetClass": "EMAIL_DECORATIVE_INSERT",
+      "lineageAction": "CREATE_NEW",
+      "note": "Shared ARRIVAL mark."
+    }
+  ],
+  "fixture": "FX_WELCOME",
+  "productionState": "CONTRACT_READY",
+  "founderApproval": {
+    "status": "NOT_REVIEWED"
+  }
+}

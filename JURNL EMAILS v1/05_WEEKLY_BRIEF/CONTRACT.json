@@ -1,0 +1,129 @@
+{
+  "id": "A05",
+  "name": "YOUR WEEK IN JURNL",
+  "folder": "05_WEEKLY_BRIEF",
+  "family": "E03",
+  "traits": [],
+  "messageType": "WEEKLY_BRIEF",
+  "purpose": "A calm weekly brief: what is coming, what moved, and where Safe to Spend stands.",
+  "preferenceCategory": "FINANCIAL_BRIEFS",
+  "trigger": {
+    "emailId": "A05",
+    "triggerEvent": "WEEKLY_BRIEF_READY",
+    "eligibility": [
+      "FINANCIAL_BRIEFS on",
+      "Setup finished",
+      "At least one week since account verified"
+    ],
+    "suppression": [
+      "FINANCIAL_BRIEFS off",
+      "No data at all (send A03 instead)",
+      "Already sent this week"
+    ],
+    "cooldown": "P7D",
+    "personalizationInputs": [
+      "firstName",
+      "weekOf",
+      "safeToSpend",
+      "availableThrough",
+      "upcomingItems[]",
+      "movedItems[]",
+      "insight?"
+    ],
+    "personalization": "P3",
+    "ctaDestination": "today",
+    "consentClass": "LIFECYCLE_SERVICE",
+    "priority": "LOW",
+    "duplicateGuard": "A05:{userId}:{isoWeek}",
+    "deliveryState": "NOT_WIRED"
+  },
+  "states": [
+    {
+      "id": "HEALTHY",
+      "when": "Safe to Spend COMPLETE and nothing overdue",
+      "differences": "Status line: ON TRACK."
+    },
+    {
+      "id": "ATTENTION",
+      "when": "An item is overdue or due today, or Safe to Spend fell below the buffer",
+      "differences": "Status line: ONE THING NEEDS A LOOK. The item leads COMING."
+    },
+    {
+      "id": "INCOMPLETE_DATA",
+      "when": "Safe to Spend PARTIAL / NEEDS_ACCOUNT",
+      "differences": "Snapshot shows the honest incomplete copy; CTA COMPLETE MY PICTURE → setup/accounts"
+    },
+    {
+      "id": "QUIET_WEEK",
+      "when": "Nothing moved and nothing is coming",
+      "differences": "Columns replaced by one line: A QUIET WEEK."
+    }
+  ],
+  "copy": {
+    "status": "DRAFT_FOR_FOUNDER_REVIEW",
+    "subject": "Your week in JURNL",
+    "preheader": "What is coming, what moved, and where you stand.",
+    "fromName": "JURNL",
+    "replyToPolicy": "Replies reach a monitored JURNL support inbox (address fixed at provider integration). Never a no-reply address.",
+    "eyebrow": "WEEK OF {weekOf}",
+    "headline": "YOUR WEEK, IN BRIEF.",
+    "body": [
+      "Here is your week at a glance. Everything below comes from your JURNL as of {asOf}."
+    ],
+    "cta": {
+      "label": "OPEN MY WEEK",
+      "destination": "today"
+    },
+    "fallbackText": "Your week in JURNL (week of {weekOf}).\n\nSafe to spend: {safeToSpend}\nComing: {upcomingSummary}\nMoved: {movedSummary}\n\nOpen your week: {todayUrl}"
+  },
+  "artifact": [
+    "BRIEFING_SHEET",
+    "LEDGER_INSERT",
+    "CLIPBOARD_BRIEF"
+  ],
+  "components": [
+    "EC01",
+    "EC12",
+    "EC03",
+    "EC04",
+    "EC14",
+    "EC07",
+    "EC16",
+    "EC17"
+  ],
+  "authorityBrief": {
+    "primaryGesture": [
+      "a clipped briefing sheet with ledger rules, the columns set as live HTML on the paper colour"
+    ],
+    "secondaryDetail": [
+      "a brass clip at the head of the sheet"
+    ],
+    "contrastAnchor": "serif figures in black ink, olive section labels",
+    "environment": "BRIEFING lineage: a narrow desk crop (stone, linen, a pen) at the head only.",
+    "avoid": [
+      "charts as images",
+      "any figure in an image",
+      "judgement words"
+    ]
+  },
+  "lineageGroup": "BRIEFING",
+  "assetPlan": [
+    {
+      "slot": "L1 briefing desk crop",
+      "assetClass": "EMAIL_ENVIRONMENT",
+      "lineageAction": "CREATE_NEW",
+      "note": "Founds BRIEFING; monthly brief reuses it."
+    },
+    {
+      "slot": "L2 briefing sheet head (clip + torn top)",
+      "assetClass": "EMAIL_ARTIFACT_SHELL",
+      "lineageAction": "CREATE_NEW",
+      "note": "Body of the sheet is an HTML paper cell."
+    }
+  ],
+  "fixture": "FX_WEEKLY_BRIEF",
+  "productionState": "CONTRACT_READY",
+  "founderApproval": {
+    "status": "NOT_REVIEWED"
+  }
+}

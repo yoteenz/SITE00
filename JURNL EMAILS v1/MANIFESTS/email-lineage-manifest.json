@@ -1,0 +1,110 @@
+{
+  "id": "email-lineage-manifest",
+  "system": "JURNL EDITORIAL CORRESPONDENCE",
+  "collection": "JURNL EMAILS v1",
+  "sprint": "P0.JURNL.EMAIL-ENGINE.CANONICAL-ARCHITECTURE-AND-CREATIVE-INFRASTRUCTURE1",
+  "schema": "schemas/email-lineage-manifest.schema.json",
+  "generated_by": "scripts/jurnl/email-engine-export.ts",
+  "source": "shared/jurnl-email-engine",
+  "rules": [
+    {
+      "action": "REUSE",
+      "when": "Same lineage group and the asset fits the new email unchanged (same artifact, new crop or new live content).",
+      "never": "Reuse an environment across different lineage groups just to save work."
+    },
+    {
+      "action": "DERIVE",
+      "when": "Same material family, different object or format (A04 entry card from the A01 letter stock; A06 slip from the A03 note).",
+      "never": "Derive across families whose mood conflicts (ceremonial seal into a security email)."
+    },
+    {
+      "action": "REGENERATE",
+      "when": "An approved asset fails QA (resolution, artefacts, dark-mode edges) or the founder asks for a revision; keep the slot, replace the file, record the superseded version.",
+      "never": "Regenerate silently; the old version is marked SUPERSEDED, not deleted."
+    },
+    {
+      "action": "CREATE_NEW",
+      "when": "First asset of a lineage group, or a new message type the existing groups cannot carry.",
+      "never": "Create a new world per email."
+    }
+  ],
+  "groups": [
+    {
+      "id": "ARRIVAL",
+      "families": [
+        "E01",
+        "E02"
+      ],
+      "emails": [
+        "A01",
+        "A04"
+      ],
+      "materials": "morning still life on stone and linen, heavy cream stock, olive emboss",
+      "founder": "A01"
+    },
+    {
+      "id": "SECURE_CORRESPONDENCE",
+      "families": [
+        "E06"
+      ],
+      "emails": [
+        "A02",
+        "A08"
+      ],
+      "materials": "plain correspondence card, blind emboss, no environment",
+      "founder": "A02"
+    },
+    {
+      "id": "DESK_NOTE",
+      "families": [
+        "E05"
+      ],
+      "emails": [
+        "A03",
+        "A06"
+      ],
+      "materials": "pinned note / desk slip, brass clip, pencil rule",
+      "founder": "A03"
+    },
+    {
+      "id": "BRIEFING",
+      "families": [
+        "E03"
+      ],
+      "emails": [
+        "A05"
+      ],
+      "materials": "clipped briefing sheet, ledger rules, narrow desk crop",
+      "founder": "A05"
+    },
+    {
+      "id": "CEREMONIAL",
+      "families": [
+        "E04"
+      ],
+      "emails": [
+        "A07"
+      ],
+      "materials": "ceremonial card, wax / blind seal, burgundy, brass",
+      "founder": "A07"
+    },
+    {
+      "id": "FIELD_GUIDE",
+      "families": [
+        "E02"
+      ],
+      "emails": [],
+      "materials": "annotated field guide pages, botanical and architectural plates",
+      "founder": null
+    },
+    {
+      "id": "EDITORIAL",
+      "families": [
+        "E07"
+      ],
+      "emails": [],
+      "materials": "magazine spreads, broadsides, art-history references — per campaign",
+      "founder": null
+    }
+  ]
+}

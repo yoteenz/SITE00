@@ -1,0 +1,260 @@
+{
+  "id": "email-family-manifest",
+  "system": "JURNL EDITORIAL CORRESPONDENCE",
+  "collection": "JURNL EMAILS v1",
+  "sprint": "P0.JURNL.EMAIL-ENGINE.CANONICAL-ARCHITECTURE-AND-CREATIVE-INFRASTRUCTURE1",
+  "schema": "schemas/email-family-manifest.schema.json",
+  "generated_by": "scripts/jurnl/email-engine-export.ts",
+  "source": "shared/jurnl-email-engine",
+  "families": [
+    {
+      "id": "E01",
+      "name": "WELCOME / ARRIVAL",
+      "purpose": "Entry, signup, account created, onboarding invitation and other major first-contact moments.",
+      "artifact_grammar": [
+        "INVITATION",
+        "WELCOME_LETTER",
+        "ENTRY_CARD"
+      ],
+      "mood": "ceremonial, optimistic, aspirational",
+      "consent_classes": [
+        "LIFECYCLE_SERVICE"
+      ],
+      "expressiveness": 4,
+      "environment_art": "EXPECTED",
+      "max_personalization": "P2",
+      "lineage": [
+        "ARRIVAL"
+      ],
+      "allowed_components": [
+        "EC01",
+        "EC02",
+        "EC03",
+        "EC06",
+        "EC07",
+        "EC08",
+        "EC10",
+        "EC15",
+        "EC16",
+        "EC17"
+      ],
+      "emails": [
+        "A01",
+        "A04"
+      ]
+    },
+    {
+      "id": "E02",
+      "name": "GUIDANCE / EDUCATION",
+      "purpose": "Teach JURNL concepts and guide behaviour.",
+      "artifact_grammar": [
+        "FIELD_GUIDE",
+        "ANNOTATED_NOTE",
+        "EDITORIAL_EXPLAINER"
+      ],
+      "mood": "clear, intelligent, human",
+      "consent_classes": [
+        "LIFECYCLE_SERVICE",
+        "MARKETING"
+      ],
+      "expressiveness": 3,
+      "environment_art": "OPTIONAL",
+      "max_personalization": "P2",
+      "lineage": [
+        "FIELD_GUIDE",
+        "ARRIVAL"
+      ],
+      "allowed_components": [
+        "EC01",
+        "EC02",
+        "EC03",
+        "EC05",
+        "EC06",
+        "EC07",
+        "EC08",
+        "EC10",
+        "EC15",
+        "EC16",
+        "EC17"
+      ],
+      "emails": [
+        "A03",
+        "A04"
+      ]
+    },
+    {
+      "id": "E03",
+      "name": "FINANCIAL BRIEF / DIGEST",
+      "purpose": "Recurring financial correspondence.",
+      "artifact_grammar": [
+        "BRIEFING_SHEET",
+        "LEDGER_INSERT",
+        "CLIPBOARD_BRIEF",
+        "PRINTED_REVIEW"
+      ],
+      "mood": "informative, calm, useful",
+      "consent_classes": [
+        "LIFECYCLE_SERVICE"
+      ],
+      "expressiveness": 2,
+      "environment_art": "OPTIONAL",
+      "max_personalization": "P3",
+      "lineage": [
+        "BRIEFING"
+      ],
+      "allowed_components": [
+        "EC01",
+        "EC02",
+        "EC03",
+        "EC04",
+        "EC07",
+        "EC08",
+        "EC11",
+        "EC12",
+        "EC14",
+        "EC15",
+        "EC16",
+        "EC17"
+      ],
+      "emails": [
+        "A05"
+      ]
+    },
+    {
+      "id": "E04",
+      "name": "MILESTONE / CELEBRATION",
+      "purpose": "Acknowledge real progress.",
+      "artifact_grammar": [
+        "CEREMONIAL_NOTE",
+        "MILESTONE_CARD",
+        "EMBOSSED_LETTER"
+      ],
+      "mood": "warm, elegant, rewarding",
+      "consent_classes": [
+        "LIFECYCLE_SERVICE"
+      ],
+      "expressiveness": 4,
+      "environment_art": "OPTIONAL",
+      "max_personalization": "P2",
+      "lineage": [
+        "CEREMONIAL"
+      ],
+      "allowed_components": [
+        "EC01",
+        "EC02",
+        "EC03",
+        "EC05",
+        "EC07",
+        "EC09",
+        "EC10",
+        "EC11",
+        "EC15",
+        "EC16",
+        "EC17"
+      ],
+      "emails": [
+        "A07"
+      ]
+    },
+    {
+      "id": "E05",
+      "name": "REMINDER / NUDGE",
+      "purpose": "Timely short-form action.",
+      "artifact_grammar": [
+        "PINNED_NOTE",
+        "SMALL_MEMO",
+        "DESK_SLIP"
+      ],
+      "mood": "concise, supportive, not alarmist",
+      "consent_classes": [
+        "LIFECYCLE_SERVICE"
+      ],
+      "expressiveness": 2,
+      "environment_art": "NONE",
+      "max_personalization": "P2",
+      "lineage": [
+        "DESK_NOTE"
+      ],
+      "allowed_components": [
+        "EC02",
+        "EC03",
+        "EC06",
+        "EC07",
+        "EC11",
+        "EC12",
+        "EC14",
+        "EC15",
+        "EC16",
+        "EC17"
+      ],
+      "emails": [
+        "A03",
+        "A06"
+      ]
+    },
+    {
+      "id": "E06",
+      "name": "SECURITY / ACCOUNT / TRANSACTIONAL",
+      "purpose": "Critical account, security and system communication.",
+      "artifact_grammar": [
+        "ACCESS_CREDENTIAL",
+        "FORMAL_NOTICE",
+        "PRIVATE_CORRESPONDENCE"
+      ],
+      "mood": "clear, restrained, trustworthy",
+      "consent_classes": [
+        "TRANSACTIONAL"
+      ],
+      "expressiveness": 1,
+      "environment_art": "NONE",
+      "max_personalization": "P1",
+      "lineage": [
+        "SECURE_CORRESPONDENCE"
+      ],
+      "allowed_components": [
+        "EC02",
+        "EC07",
+        "EC11",
+        "EC12",
+        "EC13",
+        "EC16"
+      ],
+      "emails": [
+        "A02",
+        "A08"
+      ]
+    },
+    {
+      "id": "E07",
+      "name": "MARKETING / EDITORIAL CAMPAIGN",
+      "purpose": "Product storytelling, launches, editorial campaigns, seasonal financial narratives.",
+      "artifact_grammar": [
+        "MAGAZINE_SPREAD",
+        "BROADSIDE",
+        "CAMPAIGN_LETTER",
+        "CULTURAL_EDITORIAL"
+      ],
+      "mood": "the most expressive family",
+      "consent_classes": [
+        "MARKETING"
+      ],
+      "expressiveness": 5,
+      "environment_art": "EXPECTED",
+      "max_personalization": "P1",
+      "lineage": [
+        "EDITORIAL"
+      ],
+      "allowed_components": [
+        "EC01",
+        "EC02",
+        "EC05",
+        "EC07",
+        "EC08",
+        "EC10",
+        "EC16",
+        "EC17"
+      ],
+      "emails": []
+    }
+  ]
+}

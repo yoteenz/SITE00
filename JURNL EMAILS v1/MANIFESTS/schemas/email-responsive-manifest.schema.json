@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "jurnl-emails-v1/email-responsive-manifest.schema.json",
+  "title": "JURNL email responsive authorities",
+  "type": "object",
+  "required": [
+    "id",
+    "system",
+    "collection",
+    "sprint",
+    "schema",
+    "generated_by",
+    "source",
+    "templates",
+    "viewports",
+    "rules"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "system": {
+      "const": "JURNL EDITORIAL CORRESPONDENCE"
+    },
+    "collection": {
+      "const": "JURNL EMAILS v1"
+    },
+    "sprint": {
+      "type": "string",
+      "minLength": 1
+    },
+    "schema": {
+      "type": "string",
+      "minLength": 1
+    },
+    "generated_by": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source": {
+      "type": "string",
+      "minLength": 1
+    },
+    "viewports": {
+      "type": "array",
+      "minItems": 2
+    },
+    "rules": {
+      "type": "object"
+    },
+    "templates": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "email_id",
+          "mobile_authority",
+          "desktop_authority",
+          "image_blocked_plan",
+          "status"
+        ],
+        "properties": {
+          "email_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "mobile_authority": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "desktop_authority": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "image_blocked_plan": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "status": {
+            "enum": [
+              "NOT_STARTED",
+              "IN_REVIEW",
+              "APPROVED"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

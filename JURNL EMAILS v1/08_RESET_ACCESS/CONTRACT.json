@@ -1,0 +1,103 @@
+{
+  "id": "A08",
+  "name": "RESET YOUR ACCESS",
+  "folder": "08_RESET_ACCESS",
+  "family": "E06",
+  "traits": [],
+  "messageType": "PASSWORD_RESET",
+  "purpose": "Let the person choose a new password, and tell them what to do if they did not ask.",
+  "preferenceCategory": "ACCOUNT_SECURITY",
+  "trigger": {
+    "emailId": "A08",
+    "triggerEvent": "AUTH_PASSWORD_RESET_REQUESTED",
+    "eligibility": [
+      "Reset requested on F01.05 for an existing account"
+    ],
+    "suppression": [
+      "Provider rate limit reached"
+    ],
+    "cooldown": "PT60S (provider rate limit governs)",
+    "personalizationInputs": [
+      "recipientEmail",
+      "recoveryUrl",
+      "requestedAt",
+      "linkExpiry"
+    ],
+    "personalization": "P1",
+    "ctaDestination": "entry/new-password",
+    "consentClass": "TRANSACTIONAL",
+    "priority": "CRITICAL",
+    "duplicateGuard": "Provider-owned (Supabase Auth); one active recovery link per address",
+    "deliveryState": "PROVIDER_OWNED"
+  },
+  "states": [
+    {
+      "id": "REQUESTED",
+      "when": "Reset requested",
+      "differences": "Only state"
+    }
+  ],
+  "copy": {
+    "status": "DRAFT_FOR_FOUNDER_REVIEW",
+    "subject": "Reset your JURNL password",
+    "preheader": "Use this link to choose a new password. If you did not ask, ignore this email.",
+    "fromName": "JURNL",
+    "replyToPolicy": "Replies reach monitored support. The footer says JURNL will never ask for a password or code by email.",
+    "eyebrow": "ACCOUNT",
+    "headline": "RESET YOUR ACCESS.",
+    "body": [
+      "We received a request to reset the password for {recipientEmail}."
+    ],
+    "cta": {
+      "label": "CHOOSE A NEW PASSWORD",
+      "destination": "{recoveryUrl} → entry/new-password"
+    },
+    "notice": "Requested {requestedAt}. This link expires {linkExpiry}. If you did not ask to reset your password, ignore this email; your password stays the same.",
+    "fallbackText": "Reset your JURNL password.\n\nWe received a request to reset the password for {recipientEmail}. Choose a new password: {recoveryUrl}\n\nThis link expires {linkExpiry}. If you did not ask, ignore this email; your password stays the same."
+  },
+  "artifact": [
+    "ACCESS_CREDENTIAL",
+    "FORMAL_NOTICE"
+  ],
+  "components": [
+    "EC02",
+    "EC07",
+    "EC13",
+    "EC16"
+  ],
+  "authorityBrief": {
+    "primaryGesture": [
+      "the SECURE_CORRESPONDENCE card, reused, with a formal notice layout"
+    ],
+    "secondaryDetail": [
+      "the shared blind emboss"
+    ],
+    "contrastAnchor": "black ink headline and an olive button",
+    "environment": "NONE.",
+    "avoid": [
+      "environment art",
+      "urgency theatre",
+      "marketing"
+    ]
+  },
+  "lineageGroup": "SECURE_CORRESPONDENCE",
+  "assetPlan": [
+    {
+      "slot": "L2 correspondence card shell",
+      "assetClass": "EMAIL_ARTIFACT_SHELL",
+      "lineageAction": "REUSE",
+      "note": "From A02."
+    },
+    {
+      "slot": "blind emboss mark",
+      "assetClass": "EMAIL_DECORATIVE_INSERT",
+      "lineageAction": "REUSE",
+      "note": "From A02."
+    }
+  ],
+  "fixture": "FX_RESET",
+  "productionState": "CONTRACT_READY",
+  "founderApproval": {
+    "status": "NOT_REVIEWED"
+  }
+}

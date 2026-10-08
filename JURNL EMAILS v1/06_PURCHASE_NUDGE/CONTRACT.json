@@ -1,0 +1,110 @@
+{
+  "id": "A06",
+  "name": "A PURCHASE MAY NEED A SECOND LOOK",
+  "folder": "06_PURCHASE_NUDGE",
+  "family": "E05",
+  "traits": [],
+  "messageType": "PURCHASE_SECOND_LOOK",
+  "purpose": "Tell the person that a purchase they saved no longer fits their plan as well as it did, and what they can do.",
+  "preferenceCategory": "REMINDERS_NUDGES",
+  "trigger": {
+    "emailId": "A06",
+    "triggerEvent": "PURCHASE_ATTENTION_DETECTED",
+    "eligibility": [
+      "A saved purchase (status IDEA / PLANNING / READY) moved from FITS NOW to CLOSE or NOT YET",
+      "REMINDERS_NUDGES on"
+    ],
+    "suppression": [
+      "The person checked or edited this purchase in the last 24 hours",
+      "Purchase PURCHASED or ARCHIVED",
+      "Any E05 nudge sent in the last 72 hours",
+      "REMINDERS_NUDGES off"
+    ],
+    "cooldown": "P14D per purchase",
+    "personalizationInputs": [
+      "purchaseName",
+      "purchaseAmount",
+      "category",
+      "affordability",
+      "fitsOn?"
+    ],
+    "personalization": "P2",
+    "ctaDestination": "purchases/{purchaseId}",
+    "consentClass": "LIFECYCLE_SERVICE",
+    "priority": "NORMAL",
+    "duplicateGuard": "A06:{userId}:{purchaseId}:{affordability}",
+    "deliveryState": "NOT_WIRED"
+  },
+  "states": [
+    {
+      "id": "CLOSE",
+      "when": "Affordability WAIT (CLOSE)",
+      "differences": "Copy offers waiting until {fitsOn} if known"
+    },
+    {
+      "id": "NOT_YET",
+      "when": "Affordability NOT_YET",
+      "differences": "Copy offers adjusting the amount or the plan"
+    }
+  ],
+  "copy": {
+    "status": "DRAFT_FOR_FOUNDER_REVIEW",
+    "subject": "A purchase may need a second look",
+    "preheader": "Your plan changed since you saved it. You still have options.",
+    "fromName": "JURNL",
+    "replyToPolicy": "Replies reach a monitored JURNL support inbox (address fixed at provider integration). Never a no-reply address.",
+    "eyebrow": "PURCHASES",
+    "headline": "THIS MAY NEED A SECOND LOOK.",
+    "body": [
+      "Your plan has changed since you saved {purchaseName}. Buying it now would change what is safe to spend.",
+      "You still have options: wait a little, adjust the amount, or keep it as planned."
+    ],
+    "cta": {
+      "label": "REVIEW THIS PURCHASE",
+      "destination": "purchases/{purchaseId}"
+    },
+    "fallbackText": "A purchase may need a second look.\n\n{purchaseName} ({purchaseAmount}, {category}) — your plan has changed since you saved it. You still have options.\n\nReview it: {purchaseUrl}"
+  },
+  "artifact": [
+    "DESK_SLIP",
+    "SMALL_MEMO"
+  ],
+  "components": [
+    "EC02",
+    "EC12",
+    "EC11",
+    "EC07",
+    "EC16",
+    "EC17"
+  ],
+  "authorityBrief": {
+    "primaryGesture": [
+      "a small desk slip, set slightly askew, carrying the purchase as an index-card row"
+    ],
+    "secondaryDetail": [
+      "a pencil line under the purchase name (decorative)"
+    ],
+    "contrastAnchor": "burgundy status label (text), never a red alert",
+    "environment": "NONE.",
+    "avoid": [
+      "shame or fear language",
+      "“overspent”",
+      "alarm colours",
+      "urgency"
+    ]
+  },
+  "lineageGroup": "DESK_NOTE",
+  "assetPlan": [
+    {
+      "slot": "L2 desk slip shell",
+      "assetClass": "EMAIL_ARTIFACT_SHELL",
+      "lineageAction": "DERIVE",
+      "note": "Derived from the A03 pinned note stock."
+    }
+  ],
+  "fixture": "FX_PURCHASE_NUDGE",
+  "productionState": "CONTRACT_READY",
+  "founderApproval": {
+    "status": "NOT_REVIEWED"
+  }
+}
