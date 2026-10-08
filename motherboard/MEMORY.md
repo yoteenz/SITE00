@@ -15229,3 +15229,12 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decisions / outcomes:** Seven page authorities, HQ Sunburst 4K, 9:16, high, auto-enhance off, 2016×3584. Each scene was different, so each got its own plate by removing the live layer from that authority. Create Account and Sign In were not shared: one is a tall registration sheet, the other a card on a ledge. No plate was reused. Pages 08–14 were not generated. Nothing was mounted in the app.
 - **Changes:** `ENTRY v2/` authorities, plates, `manifests/authority-manifest.json`, `manifests/plate-lineage.json`, and `review/entry-v2-parent-authorities-contact-sheet.png`. No `src/` change.
 - **Conventions:** Do not generate an ENTRY plate before its page authority. Do not duplicate a plate when the room and the negative space already fit. Do not mount this batch until the founder reviews it. The second batch stays unstarted.
+
+---
+
+## 2026-10-08 — ENTRY v2 first batch packed as a lean zip
+
+- **Context:** This chat built the first seven ENTRY v2 page authorities and their sidekick plates (PR #1485). The founder then asked for all of those images in one organized lean zip.
+- **Decisions / outcomes:** The zip holds JPEG quality 92 at the original 2016×3584 pixels. Each of the seven folders has `AUTHORITY.jpg` and `PLATE.jpg`. A contact sheet and the two manifests sit beside them. About 20MB. Release tag `jurnl-entry-v2-batch1-2026-10-08`. The PNGs stay in `ENTRY v2/`. The zip is not a site deploy and is not committed.
+- **Changes:** This MEMORY note only.
+- **Conventions:** Send ENTRY review packs as a GitHub release zip of JPEGs, not as another copy of the PNGs in git. Do not treat the zip as a GoDaddy upload.
