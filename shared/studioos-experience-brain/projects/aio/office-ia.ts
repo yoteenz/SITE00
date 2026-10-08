@@ -412,9 +412,10 @@ node('CLIENT_OFFICE.ACTIVATION', {
   label: 'Client Activation', kind: 'GATE', role: 'GATE', impl: PARTIAL_BACKED, client: 'STATE',
   semantics: 'Confirmation before ACTIVE: the invited client sets a password, reviews what AIO knows and confirms. Shown only while INVITED / CLIENT_CONFIRMATION_REQUIRED. PREBUILT is not ACTIVE; client confirmation remains the gate.',
   routes: [ex('/office-activation/:token', `${CR('257')} OfficeActivationPage (public layout)`), ex('/portal/activation/review', `${CR('272')} ClientOfficeReviewPage (no staff nav)`)],
-  authorities: ['AIO-MIG-ACTIVATION-WELCOME-001', 'AIO-MIG-ACTIVATION-COMPANY-001', 'AIO-MIG-ACTIVATION-PEOPLE-001', 'AIO-MIG-ACTIVATION-VEHICLES-001', 'AIO-MIG-ACTIVATION-SERVICES-001', 'AIO-MIG-ACTIVATION-DOCUMENTS-001', 'AIO-MIG-ACTIVATION-CHANGED-001', 'AIO-MIG-ACTIVATION-CONFIRM-001', 'AIO-MIG-ACTIVATION-COMPLETE-001', 'AIO-MIG-ACTIVATION-COMPLETE-002'],
+  authorities: ['AIO-MIG-ACTIVATION-WELCOME-001', 'AIO-MIG-ACTIVATION-COMPANY-001', 'AIO-MIG-ACTIVATION-PEOPLE-001', 'AIO-MIG-ACTIVATION-VEHICLES-001', 'AIO-MIG-ACTIVATION-SERVICES-001', 'AIO-MIG-ACTIVATION-DOCUMENTS-001', 'AIO-MIG-ACTIVATION-CHANGED-001', 'AIO-MIG-ACTIVATION-CONFIRM-001', 'AIO-MIG-ACTIVATION-COMPLETE-002'],
   features: ['AIO.CLIENT_ACTIVATION', 'AIO.CLIENT_OFFICE_ACTIVATION', 'AIO.EXISTING_CLIENT_WELCOME', 'AIO.WHAT_CHANGED'],
   evidence: [`${SRC}/auth/guards/ClientPortalLifecycleGuard.tsx:22-40`],
+  notes: 'The arrival plate COMPLETE-002 is FOUNDER_REVIEW_REQUIRED; COMPLETE-001 is its superseded draft (lineage only, not associated).',
 });
 
 const dest = (id: string, s: Omit<Spec, 'kind'>) => node(`CLIENT_OFFICE.${id}`, { kind: 'ROOT_DESTINATION', ...s });
@@ -541,6 +542,7 @@ export const AIO_IA_LEGACY: IaLegacyReference[] = [
   { repo: FS, ref: `${SRC}/client-migration/visual/AioMigrationKit.tsx:243-250`, what: 'STAFF_NAV array (desktop sidebar + phone/tablet dock) HOME · INTAKE · FILING · REPORTS · MORE', classification: 'MIGRATE_LATER', target_node_ids: ['AIO_OFFICE.HOME', 'AIO_OFFICE.INTAKE', 'AIO_OFFICE.WORK', 'AIO_OFFICE.REPORTS', 'AIO_OFFICE.MORE'], note: 'Live nav is not changed in this sprint. Implementation sprint: FILING → WORK (/office/work), REPORTS → /office/reports, MORE → the MORE directory; render from the IA root_nav instead of a hard-coded array.' },
   { repo: FS, ref: 'AIO_CLIENT_MIGRATION_RESPONSIVE_BLUEPRINT/nav-rules.json:3-29', what: 'Blueprint nav rule text "STAFF_NAV: HOME · INTAKE (current) · FILING · REPORTS · MORE"', classification: 'SUPERSEDE', target_node_ids: ['AIO_OFFICE.WORK'], note: `Marked ${L} in place (lineage kept).` },
   { repo: FS, ref: 'AIO_CLIENT_MIGRATION_RESPONSIVE_BLUEPRINT/responsive-blueprint.json:51,60', what: 'Blueprint mentions of the FILING dock item', classification: 'SUPERSEDE', target_node_ids: ['AIO_OFFICE.WORK'], note: 'Covered by the nav-rules supersession note.' },
+  { repo: FS, ref: 'AIO_CLIENT_MIGRATION_AUTHORITY/authority-manifest.json:600 (AIO-MIG-ACTIVATION-COMPLETE-002 client_office_destinations)', what: 'Arrival plate records five client destinations (My Business · Operations · Finances · Vault · Inbox) and client_nav_authority_missing: true', classification: 'KEEP', target_node_ids: ['CLIENT_OFFICE.MY_BUSINESS', 'CLIENT_OFFICE.OPERATIONS', 'CLIENT_OFFICE.FINANCES', 'CLIENT_OFFICE.VAULT', 'CLIENT_OFFICE.INBOX', 'CLIENT_OFFICE.SERVICES', 'CLIENT_OFFICE.ACCOUNT'], note: 'Authority untouched. The missing client nav authority, when made, follows the seven client roots (adds SERVICES and ACCOUNT).' },
   { repo: FS, ref: 'AIO_CLIENT_MIGRATION_AUTHORITY/authority-manifest.json:133,162,297,761', what: 'Approved migration authority images draw the dock with FILING', classification: 'KEEP', target_node_ids: ['AIO_OFFICE.INTAKE'], note: 'Authority stays untouched (historical lineage). The dock label follows the IA when the live dock is migrated; the screens’ approved content is unaffected.' },
   { repo: FS, ref: 'all-in-one-enterprises/docs/AIO_CLIENT_MIGRATION_AUTHORITY_RECOVERY.md (dock references)', what: 'Recovery doc describes the FILING dock', classification: 'SUPERSEDE', target_node_ids: ['AIO_OFFICE.WORK'], note: 'Supersession pointer added; historical text kept.' },
   { repo: FS, ref: `${SRC}/office/layouts/AIOOfficeLayout.tsx:13-118`, what: 'Desktop office sidebar navGroups (Home · Work · Growth · Clients · Services · Operations · Finance · Communication · Management)', classification: 'MIGRATE_LATER', target_node_ids: ['AIO_OFFICE.HOME', 'AIO_OFFICE.WORK', 'AIO_OFFICE.REPORTS', 'AIO_OFFICE.MORE'], note: 'Regroup into the five roots in the implementation sprint; items without a founder-tree home are candidates (see candidates).' },
@@ -617,6 +619,18 @@ export const AIO_IA_OPEN_QUESTIONS: IaOpenQuestion[] = [
   { question_id: 'Q-GROWTH-BILLING', question: 'Where do Growth (CRM) and the Billing Desk live: WORK lanes, MORE entries or REPORTS sources?', recommendation: 'Billing operations and CRM as WORK lanes if they drive daily production; revenue in REPORTS.', blocks: 'desktop sidebar regrouping' },
   { question_id: 'Q-CLIENT-ROAD-READY', question: 'Where does Road Ready live in the client office?', recommendation: 'MY BUSINESS (readiness of the business record).', blocks: 'client nav implementation' },
 ];
+
+/* ════════════════════════════════ approved migration authorities (re-associated, never regenerated) ════════════════════════════════ */
+
+/** The migration authority set as its manifest states it; fsbw tests hold this record to the manifest. */
+export const AIO_MIGRATION_AUTHORITY_SET = {
+  manifest: `${FS} AIO_CLIENT_MIGRATION_AUTHORITY/authority-manifest.json`,
+  total: 42,
+  approved: 40,
+  founder_review_required: ['AIO-MIG-ACTIVATION-COMPLETE-002'],
+  superseded: [{ authority_id: 'AIO-MIG-ACTIVATION-COMPLETE-001', superseded_by: 'AIO-MIG-ACTIVATION-COMPLETE-002', note: 'Old arrival plate (it drew the staff dock on a client screen). Kept on disk as lineage; associated with no node.' }],
+  rule: 'Staff screens are re-associated under AIO OFFICE → INTAKE (their section); client activation screens under the CLIENT OFFICE activation gate. Each current authority sits on exactly one node.',
+} as const;
 
 /* ════════════════════════════════ HOME / WORK / REPORTS contracts (truth, never invented) ════════════════════════════════ */
 

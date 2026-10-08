@@ -98,7 +98,7 @@
     {
       "key": "MIGRATION_AUTHORITY_PRESERVED",
       "value": "YES",
-      "evidence": "42 approved migration authorities, each re-associated once under INTAKE or the client activation gate"
+      "evidence": "40 approved + 1 under founder review re-associated once (staff → INTAKE, client → activation gate); 1 superseded draft kept as lineage"
     },
     {
       "key": "EXPERIENCE_BRAIN_UPDATED",

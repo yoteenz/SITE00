@@ -52,7 +52,7 @@ HOME = projection · WORK = production · REPORTS = oversight · MORE = secondar
 | CLIENT_SERVICE_ENTITLEMENT_MODEL_PRESERVED | YES | 11 client workspace nodes resolve through the Brain workspace resolver (ACTIVE · AVAILABLE_NOT_ACTIVATED · NOT_APPLICABLE) + 8 expansion rules |
 | PREBUILT_NOT_ACTIVE | YES | AIO_LIFECYCLE_MAPPING PREBUILT counted_active = false; CLIENT_OFFICE.ACTIVATION gate unchanged |
 | IFTA_AUTHORITY_PRESERVED | YES | IFTA tree nodes unchanged and re-associated (WORK → FILING & FUEL TAXES → IFTA · OPERATIONS → FILING / IFTA) |
-| MIGRATION_AUTHORITY_PRESERVED | YES | 42 approved migration authorities, each re-associated once under INTAKE or the client activation gate |
+| MIGRATION_AUTHORITY_PRESERVED | YES | 40 approved + 1 under founder review re-associated once (staff → INTAKE, client → activation gate); 1 superseded draft kept as lineage |
 | EXPERIENCE_BRAIN_UPDATED | YES | office-information-architecture.ts + projects/aio/office-ia.ts · validator violations 0 |
 | PRODUCT_GRAPH_UPDATED | YES | AIO_IA_PRODUCT_GRAPH_MAP (8 containers · 18 families · 4 role projections); vendored to fsbw src/product-graph as an overlay |
 | VISUAL_REDESIGN_PERFORMED | NO | no page, image or visual authority touched |

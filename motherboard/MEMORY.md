@@ -15598,3 +15598,4 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - Daily production goes in WORK, never in MORE.
   - A client node never routes into `/office`.
   - A HOME region only projects; it opens the WORK / INTAKE owner.
+- **Correction (same sprint):** The migration authority set is 42 plates: 40 APPROVED_AUTHORITY, COMPLETE-002 FOUNDER_REVIEW_REQUIRED and COMPLETE-001 SUPERSEDED by 002. So 41 current authorities are re-associated, and COMPLETE-001 is lineage only, attached to no node (`AIO_MIGRATION_AUTHORITY_SET`).

@@ -221,10 +221,14 @@ describe('I. Approved authorities preserved and re-associated', () => {
     expect(iaNode(IA, 'AIO_OFFICE.WORK.FILING_FUEL_TAXES.IFTA')!.authority_refs).toEqual(['AIO.OFFICE.WS.IFTA', 'AIO.IFTA.STAFF.QUEUE']);
     expect(iaNode(IA, 'CLIENT_OFFICE.OPERATIONS.FILING_IFTA')!.authority_refs).toEqual(['AIO.CLIENT_OFFICE.WS.IFTA']);
   });
-  it('the 42 approved migration authorities are each re-associated once — staff screens under INTAKE, client screens on the activation gate', () => {
+  it('every current migration authority is re-associated once — staff screens under INTAKE, client screens on the activation gate', () => {
+    const MAS = brain.AIO_MIGRATION_AUTHORITY_SET;
     const refs = IA.nodes.flatMap((n) => n.authority_refs.filter((a) => a.startsWith('AIO-MIG-')).map((a) => [a, n.node_id] as const));
-    expect(new Set(refs.map(([a]) => a)).size).toBe(42);
-    expect(refs.length).toBe(42);
+    expect(MAS.approved + MAS.founder_review_required.length + MAS.superseded.length).toBe(MAS.total);
+    expect(new Set(refs.map(([a]) => a)).size).toBe(41);
+    expect(refs.length).toBe(41);
+    for (const x of MAS.superseded) expect(refs.some(([a]) => a === x.authority_id), x.authority_id).toBe(false); // lineage only
+    for (const id of MAS.founder_review_required) expect(refs.find(([a]) => a === id)?.[1]).toBe('CLIENT_OFFICE.ACTIVATION');
     for (const [a, id] of refs) expect(a.startsWith('AIO-MIG-ACTIVATION-') ? id === 'CLIENT_OFFICE.ACTIVATION' : id.startsWith('AIO_OFFICE.INTAKE'), `${a} → ${id}`).toBe(true);
   });
 });

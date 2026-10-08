@@ -11,7 +11,7 @@
 | File | What |
 |---|---|
 | shared/studioos-experience-brain/office-information-architecture.ts | Generic office IA layer (any project): actors FOUNDER / STAFF / CLIENT, node kinds, roles (COMMAND · PROJECTION · ENTRY · PRODUCTION · OVERSIGHT · SECONDARY · client roles), visibility (FULL · CLIENT_SAFE_PROJECTION · VIA_AIO_OFFICE · HIDDEN), architecture vs implementation status, client resolution (ALWAYS · APPLICABILITY · ENTITLEMENT · STATE), supersession lineage, legacy classification, candidates, firewall, MORE rules; helpers and `validateOfficeInformationArchitecture`. |
-| shared/studioos-experience-brain/projects/aio/office-ia.ts | AIO data: 144 nodes (SHELL 2 · ROOT_DESTINATION 12 · REGION 7 · SECTION 51 · SERVICE_LANE 11 · LANE_SECTION 40 · REPORT_DOMAIN 10 · DIRECTORY_ENTRY 9 · LANDING 1 · GATE 1), 15 services, 16 supersessions, 19 legacy references, 16 candidates, 10 firewall items, 6 open questions, the product-graph crosswalk and the founder quality gate. |
+| shared/studioos-experience-brain/projects/aio/office-ia.ts | AIO data: 144 nodes (SHELL 2 · ROOT_DESTINATION 12 · REGION 7 · SECTION 51 · SERVICE_LANE 11 · LANE_SECTION 40 · REPORT_DOMAIN 10 · DIRECTORY_ENTRY 9 · LANDING 1 · GATE 1), 15 services, 16 supersessions, 20 legacy references, 16 candidates, 10 firewall items, 6 open questions, the product-graph crosswalk and the founder quality gate. |
 | scripts/studioos/aio-office-ia-export.ts | Generates docs/aio/office-ia/ (this folder). |
 | tests/aioOfficeIaWorkTree1.test.ts | Founder gate, validator, firewall, references into the Brain and the IFTA tree, export sync. |
 
@@ -41,6 +41,6 @@ Implementation truth across nodes: IMPLEMENTED 1 · IMPLEMENTATION_PARTIAL 124 �
 | projects/aio/client-migration.ts AIO_LIFECYCLE_MAPPING | PREBUILT counted_active = false; activation gate = CLIENT_OFFICE.ACTIVATION |
 | experience contracts (AIO_EXPERIENCE_CONTRACTS) + screen families | feature_refs on nodes and services |
 | visual authority IFTA tree (AIO.OFFICE.WS.IFTA · AIO.IFTA.STAFF.QUEUE · AIO.CLIENT_OFFICE.WS.IFTA) | re-associated to WORK → FILING & FUEL TAXES → IFTA and OPERATIONS → FILING / IFTA; tree node ids and parents unchanged (re-parenting is MIGRATE_LATER) |
-| fsbw AIO_CLIENT_MIGRATION_AUTHORITY (42 approved screens) | 42 authority ids re-associated under INTAKE sections and the client activation gate |
+| fsbw AIO_CLIENT_MIGRATION_AUTHORITY (42 plates) | 41 current authorities (40 approved + AIO-MIG-ACTIVATION-COMPLETE-002 under founder review) re-associated under INTAKE sections and the client activation gate; AIO-MIG-ACTIVATION-COMPLETE-001 superseded (lineage only) |
 
 Unchanged: operating-environment.ts, client-lifecycle.ts, projects/aio/office.ts, client-migration.ts, migration.ts, the IFTA authority tree and its coverage counts, every existing export.

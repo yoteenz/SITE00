@@ -6,13 +6,14 @@
 **Lineage:** `SUPERSEDED_BY_AIO_OFFICE_WORK_TREE1`  
 **Audit:** yoteenz/fsbw @ `750b1246` (read-only)
 
-Every older reference found to the superseded structures, classified. KEEP 4 · REMAP 3 · SUPERSEDE 3 · MIGRATE_LATER 6 · REMOVE_WHEN_IMPLEMENTED 3.
+Every older reference found to the superseded structures, classified. KEEP 5 · REMAP 3 · SUPERSEDE 3 · MIGRATE_LATER 6 · REMOVE_WHEN_IMPLEMENTED 3.
 
 | Classification | Repo | Reference | What | Canonical target | Note |
 |---|---|---|---|---|---|
 | MIGRATE_LATER | yoteenz/fsbw | all-in-one-enterprises/src/client-migration/visual/AioMigrationKit.tsx:243-250 | STAFF_NAV array (desktop sidebar + phone/tablet dock) HOME · INTAKE · FILING · REPORTS · MORE | AIO OFFICE → HOME · AIO OFFICE → INTAKE · AIO OFFICE → WORK · AIO OFFICE → REPORTS · AIO OFFICE → MORE | Live nav is not changed in this sprint. Implementation sprint: FILING → WORK (/office/work), REPORTS → /office/reports, MORE → the MORE directory; render from the IA root_nav instead of a hard-coded array. |
 | SUPERSEDE | yoteenz/fsbw | AIO_CLIENT_MIGRATION_RESPONSIVE_BLUEPRINT/nav-rules.json:3-29 | Blueprint nav rule text "STAFF_NAV: HOME · INTAKE (current) · FILING · REPORTS · MORE" | AIO OFFICE → WORK | Marked SUPERSEDED_BY_AIO_OFFICE_WORK_TREE1 in place (lineage kept). |
 | SUPERSEDE | yoteenz/fsbw | AIO_CLIENT_MIGRATION_RESPONSIVE_BLUEPRINT/responsive-blueprint.json:51,60 | Blueprint mentions of the FILING dock item | AIO OFFICE → WORK | Covered by the nav-rules supersession note. |
+| KEEP | yoteenz/fsbw | AIO_CLIENT_MIGRATION_AUTHORITY/authority-manifest.json:600 (AIO-MIG-ACTIVATION-COMPLETE-002 client_office_destinations) | Arrival plate records five client destinations (My Business · Operations · Finances · Vault · Inbox) and client_nav_authority_missing: true | CLIENT OFFICE → MY BUSINESS · CLIENT OFFICE → OPERATIONS · CLIENT OFFICE → FINANCES · CLIENT OFFICE → VAULT · CLIENT OFFICE → INBOX · CLIENT OFFICE → SERVICES · CLIENT OFFICE → ACCOUNT | Authority untouched. The missing client nav authority, when made, follows the seven client roots (adds SERVICES and ACCOUNT). |
 | KEEP | yoteenz/fsbw | AIO_CLIENT_MIGRATION_AUTHORITY/authority-manifest.json:133,162,297,761 | Approved migration authority images draw the dock with FILING | AIO OFFICE → INTAKE | Authority stays untouched (historical lineage). The dock label follows the IA when the live dock is migrated; the screens’ approved content is unaffected. |
 | SUPERSEDE | yoteenz/fsbw | all-in-one-enterprises/docs/AIO_CLIENT_MIGRATION_AUTHORITY_RECOVERY.md (dock references) | Recovery doc describes the FILING dock | AIO OFFICE → WORK | Supersession pointer added; historical text kept. |
 | MIGRATE_LATER | yoteenz/fsbw | all-in-one-enterprises/src/office/layouts/AIOOfficeLayout.tsx:13-118 | Desktop office sidebar navGroups (Home · Work · Growth · Clients · Services · Operations · Finance · Communication · Management) | AIO OFFICE → HOME · AIO OFFICE → WORK · AIO OFFICE → REPORTS · AIO OFFICE → MORE | Regroup into the five roots in the implementation sprint; items without a founder-tree home are candidates (see candidates). |

@@ -4199,14 +4199,13 @@
         "AIO-MIG-ACTIVATION-DOCUMENTS-001",
         "AIO-MIG-ACTIVATION-CHANGED-001",
         "AIO-MIG-ACTIVATION-CONFIRM-001",
-        "AIO-MIG-ACTIVATION-COMPLETE-001",
         "AIO-MIG-ACTIVATION-COMPLETE-002"
       ],
       "client_resolution": "STATE",
       "projects": [],
       "aggregates": [],
       "data_status": null,
-      "notes": ""
+      "notes": "The arrival plate COMPLETE-002 is FOUNDER_REVIEW_REQUIRED; COMPLETE-001 is its superseded draft (lineage only, not associated)."
     },
     {
       "node_id": "CLIENT_OFFICE.MY_BUSINESS",
@@ -6676,6 +6675,22 @@
     },
     {
       "repo": "yoteenz/fsbw",
+      "ref": "AIO_CLIENT_MIGRATION_AUTHORITY/authority-manifest.json:600 (AIO-MIG-ACTIVATION-COMPLETE-002 client_office_destinations)",
+      "what": "Arrival plate records five client destinations (My Business · Operations · Finances · Vault · Inbox) and client_nav_authority_missing: true",
+      "classification": "KEEP",
+      "target_node_ids": [
+        "CLIENT_OFFICE.MY_BUSINESS",
+        "CLIENT_OFFICE.OPERATIONS",
+        "CLIENT_OFFICE.FINANCES",
+        "CLIENT_OFFICE.VAULT",
+        "CLIENT_OFFICE.INBOX",
+        "CLIENT_OFFICE.SERVICES",
+        "CLIENT_OFFICE.ACCOUNT"
+      ],
+      "note": "Authority untouched. The missing client nav authority, when made, follows the seven client roots (adds SERVICES and ACCOUNT)."
+    },
+    {
+      "repo": "yoteenz/fsbw",
       "ref": "AIO_CLIENT_MIGRATION_AUTHORITY/authority-manifest.json:133,162,297,761",
       "what": "Approved migration authority images draw the dock with FILING",
       "classification": "KEEP",
@@ -7173,6 +7188,22 @@
       "blocks": "client nav implementation"
     }
   ],
+  "migration_authority_set": {
+    "manifest": "yoteenz/fsbw AIO_CLIENT_MIGRATION_AUTHORITY/authority-manifest.json",
+    "total": 42,
+    "approved": 40,
+    "founder_review_required": [
+      "AIO-MIG-ACTIVATION-COMPLETE-002"
+    ],
+    "superseded": [
+      {
+        "authority_id": "AIO-MIG-ACTIVATION-COMPLETE-001",
+        "superseded_by": "AIO-MIG-ACTIVATION-COMPLETE-002",
+        "note": "Old arrival plate (it drew the staff dock on a client screen). Kept on disk as lineage; associated with no node."
+      }
+    ],
+    "rule": "Staff screens are re-associated under AIO OFFICE → INTAKE (their section); client activation screens under the CLIENT OFFICE activation gate. Each current authority sits on exactly one node."
+  },
   "home_requirements": [
     {
       "requirement": "Cross-client status",

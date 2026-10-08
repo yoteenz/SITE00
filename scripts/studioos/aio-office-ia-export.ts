@@ -27,6 +27,7 @@ const IA = brain.AIO_OFFICE_IA;
 const SPRINT = brain.AIO_OFFICE_IA_SPRINT;
 const G = brain.AIO_OFFICE_IA_QUALITY_GATE;
 const PG = brain.AIO_IA_PRODUCT_GRAPH_MAP;
+const MAS = brain.AIO_MIGRATION_AUTHORITY_SET;
 const json = (v: unknown) => `${JSON.stringify(v, null, 2)}\n`;
 const head = (id: string) => ({
   id, sprint: SPRINT, lineage_id: IA.lineage_id, generated_by: 'scripts/studioos/aio-office-ia-export.ts',
@@ -102,7 +103,7 @@ export function aioOfficeIaQualityGate() {
     { key: 'CLIENT_SERVICE_ENTITLEMENT_MODEL_PRESERVED', value: yes(REQUIRED_WORKSPACE_STATES.join('|') === 'ACTIVE|AVAILABLE_NOT_ACTIVATED|NOT_APPLICABLE' && brain.AIO_EXPANSION_RULES.length > 0 && clientWs.every((x) => x.workspace_ids.every((w) => workspaceIds.has(w)) && (x.client_resolution === 'ENTITLEMENT' || x.client_resolution === 'APPLICABILITY'))), evidence: `${clientWs.length} client workspace nodes resolve through the Brain workspace resolver (${REQUIRED_WORKSPACE_STATES.join(' · ')}) + ${brain.AIO_EXPANSION_RULES.length} expansion rules` },
     { key: 'PREBUILT_NOT_ACTIVE', value: yes(prebuilt?.counted_active === false), evidence: 'AIO_LIFECYCLE_MAPPING PREBUILT counted_active = false; CLIENT_OFFICE.ACTIVATION gate unchanged' },
     { key: 'IFTA_AUTHORITY_PRESERVED', value: yes(iftaAuth.every((id) => iftaTree.has(id)) && iftaAuth.every((id) => IA.nodes.some((x) => x.authority_refs.includes(id)))), evidence: 'IFTA tree nodes unchanged and re-associated (WORK → FILING & FUEL TAXES → IFTA · OPERATIONS → FILING / IFTA)' },
-    { key: 'MIGRATION_AUTHORITY_PRESERVED', value: yes(migIds.size === 42 && mig.length === 42 && mig.every((m) => intakeOrGate(m.node_id))), evidence: `${migIds.size} approved migration authorities, each re-associated once under INTAKE or the client activation gate` },
+    { key: 'MIGRATION_AUTHORITY_PRESERVED', value: yes(migIds.size === MAS.total - MAS.superseded.length && mig.length === migIds.size && mig.every((m) => intakeOrGate(m.node_id)) && MAS.superseded.every((x) => !migIds.has(x.authority_id))), evidence: `${MAS.approved} approved + ${MAS.founder_review_required.length} under founder review re-associated once (staff → INTAKE, client → activation gate); ${MAS.superseded.length} superseded draft kept as lineage` },
     { key: 'EXPERIENCE_BRAIN_UPDATED', value: yes(violations.length === 0), evidence: `office-information-architecture.ts + projects/aio/office-ia.ts · validator violations ${violations.length}` },
     { key: 'PRODUCT_GRAPH_UPDATED', value: yes(PG.containers.length === 8 && PG.families.length === 18), evidence: 'AIO_IA_PRODUCT_GRAPH_MAP (8 containers · 18 families · 4 role projections); vendored to fsbw src/product-graph as an overlay' },
     { key: 'VISUAL_REDESIGN_PERFORMED', value: 'NO', evidence: 'no page, image or visual authority touched' },
@@ -495,7 +496,7 @@ function brainUpdatesMd() {
       ['projects/aio/client-migration.ts AIO_LIFECYCLE_MAPPING', 'PREBUILT counted_active = false; activation gate = CLIENT_OFFICE.ACTIVATION'],
       ['experience contracts (AIO_EXPERIENCE_CONTRACTS) + screen families', 'feature_refs on nodes and services'],
       ['visual authority IFTA tree (AIO.OFFICE.WS.IFTA · AIO.IFTA.STAFF.QUEUE · AIO.CLIENT_OFFICE.WS.IFTA)', 're-associated to WORK → FILING & FUEL TAXES → IFTA and OPERATIONS → FILING / IFTA; tree node ids and parents unchanged (re-parenting is MIGRATE_LATER)'],
-      ['fsbw AIO_CLIENT_MIGRATION_AUTHORITY (42 approved screens)', `${new Set(migrationAuthorityRefs().map((m) => m.authority_id)).size} authority ids re-associated under INTAKE sections and the client activation gate`],
+      ['fsbw AIO_CLIENT_MIGRATION_AUTHORITY (42 plates)', `${new Set(migrationAuthorityRefs().map((m) => m.authority_id)).size} current authorities (${MAS.approved} approved + ${MAS.founder_review_required.join(', ')} under founder review) re-associated under INTAKE sections and the client activation gate; ${MAS.superseded.map((x) => x.authority_id).join(', ')} superseded (lineage only)`],
     ]),
     '',
     'Unchanged: operating-environment.ts, client-lifecycle.ts, projects/aio/office.ts, client-migration.ts, migration.ts, the IFTA authority tree and its coverage counts, every existing export.',
@@ -627,7 +628,7 @@ export function buildAioOfficeIaExports(): Record<string, string> {
     'SERVICE_CROSSWALK.json': json({ ...head('AIO_SERVICE_CROSSWALK'), columns: ['SERVICE', 'STAFF LOCATION', 'CLIENT LOCATION', 'CLIENT VISIBILITY', 'CURRENT IMPLEMENTATION STATUS', 'CANONICAL DATA SOURCE', 'NOTES'], services: serviceCrosswalk() }),
     'LEGACY_RECONCILIATION.md': legacyMd(),
     'CANDIDATES_AND_OPEN_QUESTIONS.md': candidatesMd(),
-    'AIO_OFFICE_IA.json': json({ ...head('AIO_OFFICE_IA'), next_sprint: brain.AIO_OFFICE_IA_NEXT_SPRINT, ...IA, home_requirements: brain.AIO_HOME_REQUIREMENTS, projection_examples: brain.AIO_PROJECTION_EXAMPLES, work_capabilities: brain.AIO_WORK_CAPABILITIES, expansion_criteria: brain.AIO_EXPANSION_CRITERIA, product_graph_map: PG, quality_gate: G }),
+    'AIO_OFFICE_IA.json': json({ ...head('AIO_OFFICE_IA'), next_sprint: brain.AIO_OFFICE_IA_NEXT_SPRINT, ...IA, migration_authority_set: MAS, home_requirements: brain.AIO_HOME_REQUIREMENTS, projection_examples: brain.AIO_PROJECTION_EXAMPLES, work_capabilities: brain.AIO_WORK_CAPABILITIES, expansion_criteria: brain.AIO_EXPANSION_CRITERIA, product_graph_map: PG, quality_gate: G }),
     'QUALITY_GATE.json': json(aioOfficeIaQualityGate()),
   };
 }
