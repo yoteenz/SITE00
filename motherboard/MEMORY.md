@@ -15679,3 +15679,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decisions / outcomes:** Preserve scaffold; do not delete or refine visual layer in Composer. Submit-for-review API and server spatial persistence remain **MISSING**. Approved JPG wireframes in `docs/site00/builder-experience/wireframes/`. Primary handoff: `docs/site00/builder-experience/BUILDER_OPUS_TECHNICAL_HANDOFF.md`.
 - **Changes:** `src/site00/builder-experience/spatialStudio/*`, `BldrSpatialStudioPage.tsx`, `components/bldr/spatial-studio/*`, `spatialStudio.test.ts` (5), docs `BUILDER_*`, routes `SITE00_ROUTES.bldrSpatialStudio`.
 - **Conventions:** Composer must not compete with Opus on CSS/spatial UX; shared contract changes are Composer-owned; do not rewrite estimator math or invent fixed public prices.
+
+---
+
+## 2026-10-08 — Builder intake artifact end-to-end audit V1
+
+- **Context:** Sprint `P0.SITE00.BUILDER.INTAKE-ARTIFACT.V1-END-TO-END-CONTRACT-AND-CONTINUITY-AUDIT1` — read-only reconciliation of canonical `site00_bldr_intakes` + `/api/site00/intakes` vs Hybrid Spatial Studio (`/bldr/studio`).
+- **Topics covered:** 15-step client journey classification; continuity map; data contract (`answers` jsonb = draftPayload); blueprint/estimator trace; submit/founder handoff; duplicated legacy vs spatial questions; gap register (GAP-INT-001–014).
+- **Decisions / outcomes:** Intake infrastructure **IMPLEMENTED** for legacy `useBldrAssessment` path; spatial studio **NOT** wired to server intake/submit (localStorage + fake submit). Do not merge Digital Foundation artifact. Next Composer sprint: spatial–intake binding + real blueprint submit payload.
+- **Changes:** `docs/site00/builder-experience/BUILDER_INTAKE_*_V1.md` (6 audit/handoff files).
+- **Conventions:** One client / one project context is the target principle; until binding ships, treat dual local keys as continuity risk.
