@@ -15579,3 +15579,22 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Changes:** `src/studioos/estimation/`, internal page `/admin/site00/estimator`, `docs/site00/SITE00_ESTIMATION_ENGINE.md`. Twelve engine tests pass. The public builder is unchanged. Client estimate preview stays off.
 - **Conventions:** Do not estimate by page count. Do not call priority production “rush.” Do not show family units to clients. Do not treat an estimate as a quote. Do not auto-adjust coefficients from calibration records. Do not invent visual-system sample images.
 
+---
+
+## 2026-10-08 — SETUP v1 parent authorities, isolated from ENTRY
+
+- **Context:** This chat first refined ENTRY v2 parents 01–07, enriched their environments, shipped a lean review zip, filed parents 08–14, then paused descendants. The founder then locked the five-level grammar and had 08–14 recomposed. Those ENTRY decisions are already recorded above. This turn is a separate workstream: F02 SETUP parent authorities only.
+- **Topics covered:** ENTRY graphic refinement, environment enrichment, remaining parents, the descendant pause, the composition-grammar lock, and SETUP v1 parents 01–16. SETUP must feel like assembling a financial system on a worktable, not like ENTRY admission.
+- **Decisions / outcomes:**
+  - SETUP lives only in `SETUP v1/`. ENTRY v2, live React, CSS, routes, Supabase, and other families were not edited.
+  - Sixteen parents: intro, profile, money in, money held, money owed, upcoming, plans, goals, Safe to Spend setup, buffer, account connection, by hand, notifications, Ask Jurnl context, review, setup complete.
+  - Five desks, not sixteen rooms: worktable, ledger/drawer wall, planning desk, private settings, review table. Every parent has its own stripped plate because the object differs. All plates are derived family plates.
+  - Copy follows live F02 and account strings. No invented dollars, bank names, balances, channels, or AI provider. Image lettering is guidance.
+  - Money owed has no dedicated live screen; the authority uses the debt priority and the rule of a name with no balance.
+  - Notifications stay the live card copy. No email, push, or SMS choices were added.
+  - Account connection states that aggregation is not live and JURNL does not move money.
+  - Ask Jurnl states that there is no live AI provider.
+  - Setup complete says JURNL IS READY and OPEN TODAY. It is not the ENTRY doorway.
+  - Descendants were not generated. This branch is for founder review and is not merged.
+- **Changes:** `SETUP v1/` authorities, plates, `SETUP v1/MANIFESTS/setup-parent-authority-manifest.json`, and `SETUP v1/REVIEW/` contact sheets. `motherboard/MEMORY.md` only, besides that folder.
+- **Conventions:** SETUP is organizing and assembling. ENTRY is ceremonial admission. Do not infer founder approval of these 16 parents. Do not generate SETUP descendants until that review.

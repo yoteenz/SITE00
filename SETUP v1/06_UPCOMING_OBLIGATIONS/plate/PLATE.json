@@ -1,0 +1,11 @@
+{
+  "SCREEN_ID": "06_UPCOMING_OBLIGATIONS",
+  "PLATE_STATUS": "DERIVE_FAMILY_PLATE",
+  "ENVIRONMENT_LINEAGE": "A_WORKTABLE",
+  "PLATE_PATH": "SETUP v1/06_UPCOMING_OBLIGATIONS/plate/setup-v1-06_upcoming_obligations-plate.png",
+  "AUTHORITY_PATH": "SETUP v1/06_UPCOMING_OBLIGATIONS/authority/setup-v1-06_upcoming_obligations-authority.png",
+  "STATUS": "FOUNDER_REVIEW_REQUIRED",
+  "OPENART_AUTHORITY_HISTORY": "m05f4vKOzY6LmFyG89Ld",
+  "OPENART_PLATE_HISTORY": "AYelgZYWmAX0V32VTkvT",
+  "NOTE": "Plate is the authority with type, buttons, and field lettering removed. Objects, crop, and lineage stay."
+}

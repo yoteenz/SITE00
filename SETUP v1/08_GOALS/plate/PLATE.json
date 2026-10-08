@@ -1,0 +1,11 @@
+{
+  "SCREEN_ID": "08_GOALS",
+  "PLATE_STATUS": "DERIVE_FAMILY_PLATE",
+  "ENVIRONMENT_LINEAGE": "C_PLANNING_DESK",
+  "PLATE_PATH": "SETUP v1/08_GOALS/plate/setup-v1-08_goals-plate.png",
+  "AUTHORITY_PATH": "SETUP v1/08_GOALS/authority/setup-v1-08_goals-authority.png",
+  "STATUS": "FOUNDER_REVIEW_REQUIRED",
+  "OPENART_AUTHORITY_HISTORY": "86uKfqMdTpOJ6i8SwFpk",
+  "OPENART_PLATE_HISTORY": "x3HoCcaGP129f2be7svV",
+  "NOTE": "Plate is the authority with type, buttons, and field lettering removed. Objects, crop, and lineage stay."
+}

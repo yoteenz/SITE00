@@ -1,0 +1,11 @@
+{
+  "SCREEN_ID": "02_PROFILE_BASICS",
+  "PLATE_STATUS": "DERIVE_FAMILY_PLATE",
+  "ENVIRONMENT_LINEAGE": "A_WORKTABLE",
+  "PLATE_PATH": "SETUP v1/02_PROFILE_BASICS/plate/setup-v1-02_profile_basics-plate.png",
+  "AUTHORITY_PATH": "SETUP v1/02_PROFILE_BASICS/authority/setup-v1-02_profile_basics-authority.png",
+  "STATUS": "FOUNDER_REVIEW_REQUIRED",
+  "OPENART_AUTHORITY_HISTORY": "aSEV6v6Z1clpXoN4Kqh7",
+  "OPENART_PLATE_HISTORY": "hM2DXO7Vw8m5SDtmVHsh",
+  "NOTE": "Plate is the authority with type, buttons, and field lettering removed. Objects, crop, and lineage stay."
+}

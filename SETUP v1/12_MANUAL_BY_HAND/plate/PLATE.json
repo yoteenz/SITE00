@@ -1,0 +1,11 @@
+{
+  "SCREEN_ID": "12_MANUAL_BY_HAND",
+  "PLATE_STATUS": "DERIVE_FAMILY_PLATE",
+  "ENVIRONMENT_LINEAGE": "A_WORKTABLE",
+  "PLATE_PATH": "SETUP v1/12_MANUAL_BY_HAND/plate/setup-v1-12_manual_by_hand-plate.png",
+  "AUTHORITY_PATH": "SETUP v1/12_MANUAL_BY_HAND/authority/setup-v1-12_manual_by_hand-authority.png",
+  "STATUS": "FOUNDER_REVIEW_REQUIRED",
+  "OPENART_AUTHORITY_HISTORY": "khQVNZthd2FHXjIp09V8",
+  "OPENART_PLATE_HISTORY": "20DkOosIR9RopQjwEjMk",
+  "NOTE": "Plate is the authority with type, buttons, and field lettering removed. Objects, crop, and lineage stay."
+}

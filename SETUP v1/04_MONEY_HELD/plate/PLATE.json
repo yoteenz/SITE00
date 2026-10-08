@@ -1,0 +1,11 @@
+{
+  "SCREEN_ID": "04_MONEY_HELD",
+  "PLATE_STATUS": "DERIVE_FAMILY_PLATE",
+  "ENVIRONMENT_LINEAGE": "B_LEDGER_DRAWER_WALL",
+  "PLATE_PATH": "SETUP v1/04_MONEY_HELD/plate/setup-v1-04_money_held-plate.png",
+  "AUTHORITY_PATH": "SETUP v1/04_MONEY_HELD/authority/setup-v1-04_money_held-authority.png",
+  "STATUS": "FOUNDER_REVIEW_REQUIRED",
+  "OPENART_AUTHORITY_HISTORY": "P1CLQI1FJFS14Q3iMczE",
+  "OPENART_PLATE_HISTORY": "U3OKy7163G38mxXBynea",
+  "NOTE": "Plate is the authority with type, buttons, and field lettering removed. Objects, crop, and lineage stay."
+}
