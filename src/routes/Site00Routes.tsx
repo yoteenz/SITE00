@@ -81,6 +81,9 @@ const Site00EvolvePage = lazy(() => import('../site00/pages/EvolvePage'));
 const Site00EvolveStatePage = lazy(() => import('../site00/pages/EvolveStatePage'));
 const ExistingLocationEntryPage = lazy(() => import('../site00/pages/existing-location/ExistingLocationEntryPage'));
 const ExistingLocationCasePage = lazy(() => import('../site00/pages/existing-location/ExistingLocationCasePage'));
+const DigitalFoundationArtifactPage = lazy(
+  () => import('../site00/pages/foundation/DigitalFoundationArtifactPage'),
+);
 const Site00SignInPage = lazy(() => import('../site00/pages/Site00SignInPage'));
 const Site00CreateAccountPage = lazy(() => import('../site00/pages/Site00CreateAccountPage'));
 const AccessCredentialPage = lazy(() => import('../site00/pages/access/AccessCredentialPage'));
@@ -2379,6 +2382,18 @@ export function Site00Routes() {
       {Site00PublicPageRoutes(SITE00_ROUTES.evolvePlans, EvolvePricingPage)}
       {Site00PublicPageRoutes(SITE00_ROUTES.existingLocation, ExistingLocationEntryPage)}
       {Site00PublicPageRoutes(SITE00_ROUTES.existingLocationStart, ExistingLocationEntryPage)}
+      <Route
+        path={SITE00_ROUTES.digitalFoundationArtifact}
+        element={
+          <Site00Layout>
+            <Site00PublicRouteShell>
+              <Site00Suspense>
+                <DigitalFoundationArtifactPage />
+              </Site00Suspense>
+            </Site00PublicRouteShell>
+          </Site00Layout>
+        }
+      />
       <Route
         path={`${SITE00_ROUTES.existingLocationCase}/*`}
         element={
