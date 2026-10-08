@@ -15412,3 +15412,18 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - Copy stays in `src/projects/jurnl/data/f01/copy.ts`. No descendant generation. No React.
 - **Changes:** The grammar source, the manifest, the cursor rule, `motherboard/CORE.md`, and `ENTRY v2/` parents 08–14. Test: `tests/jurnlBespokeCompositionGrammar1.test.ts`.
 - **Conventions:** A page fails if it can be described as a paper panel centered over a Mediterranean background. Do not infer founder approval of the recomposed 08–14.
+
+---
+
+## 2026-10-08 — TODAY and ACTIVITY parent authority batch
+
+- **Context:** Sprint `P0.JURNL.TODAY-ACTIVITY.PARENT-AUTHORITY-BATCH1`. Generate parent-screen authorities for F03 TODAY and F04 ACTIVITY only. ENTRY and SETUP stay untouched. No descendants, no React, no routes, no deploy.
+- **Topics covered:** Canonical tree versus the seven review screens. Daily editorial desk versus archival ledger. Fixture copy from the mock ledger. Plate derivation after the page authorities. Family contact sheets.
+- **Decisions / outcomes:**
+  - Source truth has one route parent each: `F03.00` (`today`) and `F04.00` (`activity`). Filter is `F04.DR.FILTER` (drawer). Search is `F04.SEARCH` (inline). Detail is `F04.DETAIL` (drawer). Edit is `F04.SH.EDIT_MOVEMENT` (sheet). The batch does not add routes or edit the expression trees.
+  - Review roots are `TODAY v1/` and `ACTIVITY v1/`. Seven TODAY compositions and seven ACTIVITY compositions, including the filter as overlay plus shell.
+  - Preview signal is `$6,500` from mock cash `8420` minus rent `1800` minus groceries `120`. Merchants stay the mock ledger.
+  - TODAY lineages A daily desk, B clipped brief, C expansion desk. ACTIVITY lineages D movement ledger, E transaction inspection, F index/find.
+  - Status: parent families complete, founder review required, descendant generation blocked.
+- **Changes:** `TODAY v1/`, `ACTIVITY v1/`, `TODAY-ACTIVITY v1/REVIEW/`. No `src/`, no ENTRY, no SETUP, no F03/F04 expression manifests.
+- **Conventions:** Do not treat these review screens as new routes. Do not generate descendants until the founder passes the parents. Do not infer approval.
