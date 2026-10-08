@@ -43,8 +43,16 @@ export async function processDigitalFoundationStripeEvent(event: StripeEvent): P
     case 'checkout.session.completed': {
       const obj = event.data.object;
       const metadata = (obj.metadata ?? {}) as Record<string, string>;
-      const artifactId = metadata.artifact_id;
-      const quoteId = metadata.quote_id;
+      let artifactId = metadata.artifact_id;
+      let quoteId = metadata.quote_id;
+      const sessionId = String(obj.id ?? '');
+      if ((!artifactId || !quoteId) && sessionId) {
+        const mapped = s.checkoutSessions.get(sessionId);
+        if (mapped) {
+          artifactId = mapped.artifact_id;
+          quoteId = mapped.quote_id;
+        }
+      }
       const paymentStatus = String(obj.payment_status ?? '');
       if (artifactId && quoteId && paymentStatus === 'paid') {
         const { confirmPaymentFromWebhook } = await import('../service.js');
@@ -80,12 +88,22 @@ export async function processDigitalFoundationStripeEvent(event: StripeEvent): P
       }
       break;
     }
-    case 'charge.refunded': {
+    case 'charge.refunded':
+    case 'checkout.session.expired': {
       const obj = event.data.object;
       const metadata = (obj.metadata ?? {}) as Record<string, string>;
-      if (metadata.artifact_id) {
+      const sessionId = String(obj.id ?? '');
+      let artifactId = metadata.artifact_id;
+      if (!artifactId && sessionId) {
+        artifactId = s.checkoutSessions.get(sessionId)?.artifact_id;
+      }
+      if (event.type === 'charge.refunded' && artifactId) {
         const { recordRefund } = await import('../service.js');
-        recordRefund(metadata.artifact_id, { event_id: event.id });
+        recordRefund(artifactId, { event_id: event.id });
+      }
+      if (event.type === 'checkout.session.expired' && artifactId) {
+        const { recordCheckoutExpired } = await import('../service.js');
+        recordCheckoutExpired(artifactId, { event_id: event.id, session_id: sessionId });
       }
       break;
     }

@@ -15659,3 +15659,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decisions / outcomes:** Quote still drives runbook; payment activates runbook; completion requires gate (founder override with reason allowed); client artifact gets `operations_summary` only; no provider credentials/passwords; LIVE provider writes NO.
 - **Changes:** `shared/site00-digital-foundation/operations/`, `api/_lib/digitalFoundation/operationsEngine.ts`, hooks in `service.ts` (payment activate, completion gate, client-action → task), `docs/site00/idnty/SITE00_DIGITAL_FOUNDATION_OPERATIONS_V1.md`, `SITE00_DIGITAL_FOUNDATION_FIVE_BOARD_HANDOFF.md`, `tests/digitalFoundationOperations.test.ts`.
 - **Conventions:** THE QUOTE CONFIGURATION GENERATES THE PRODUCTION RUNBOOK; do not manually diverge stage copies — use rollup; Opus owns five-board visuals next.
+
+---
+
+## 2026-10-08 — Digital Foundation Critical Contract Repair V1 (launch safety)
+
+- **Context:** Sprint `P0.SITE00.IDNTY.DIGITAL-FOUNDATION.V1-CRITICAL-CONTRACT-REPAIR-AND-LAUNCH-SAFETY1` — Opus audit (`1ecdaac3`, baseline `8b936c08`) nine blockers: broken public API import, memory-only persistence, approval vs request-change, client payload leak, refund/complete routing, payment safety, quote gating, included-scope double charge, readiness timeline.
+- **Topics covered:** Client projection API, Supabase persist bridge + migration v2, quote payability + founder commercial ready, production Stripe fail-closed, webhook session correlation, recommendation engine included-scope fix, readiness clock, tests (handler smoke + critical repair suite), repair doc.
+- **Decisions / outcomes:** Public artifact endpoint returns redacted client payload; admin/founder still uses full `getArtifactPayload`. Persistence activates with `SITE00_DIGITAL_FOUNDATION_PERSIST_SUPABASE=1` after migration deploy. Manual-review add-ons require founder `quote-commercial-ready` before checkout. No live funds/provider writes.
+- **Changes:** `shared/site00-digital-foundation/{quoteReadiness,readinessClock,clientProjection}.ts`, `api/_lib/digitalFoundation/{approvalDecisions,persistence/supabaseStore}.ts`, service/payment/webhook/surface/recommendation repairs, `docs/site00/idnty/SITE00_DIGITAL_FOUNDATION_CRITICAL_REPAIR_V1.md`, tests `digitalFoundationCriticalRepair.test.ts`, `digitalFoundationArtifactHandler.test.ts`, `digitalFoundationPersistence.test.ts`, client page consumes `ClientDigitalFoundationPayload`.
+- **Conventions:** Do not expose `events` or internal referral labels on public API; do not simulate Stripe checkout in production without explicit test flag; REQUEST_CHANGE must never satisfy approval gates.

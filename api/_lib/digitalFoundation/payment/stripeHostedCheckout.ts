@@ -70,15 +70,33 @@ export function createSimulatedCheckoutAdapter(): FoundationPaymentAdapter {
   };
 }
 
+function createFailClosedCheckoutAdapter(): FoundationPaymentAdapter {
+  return {
+    kind: 'STRIPE_HOSTED_CHECKOUT',
+    configured: false,
+    async createHostedCheckout() {
+      return {
+        ok: false,
+        code: 'PAYMENT_NOT_CONFIGURED',
+        message: 'Stripe is not configured for production checkout.',
+      };
+    },
+  };
+}
+
 export function getFoundationPaymentAdapter(): FoundationPaymentAdapter {
   const forceSim =
     process.env.SITE00_DIGITAL_FOUNDATION_STRIPE_SIM === '1' ||
     process.env.VITEST === 'true' ||
     process.env.NODE_ENV === 'test';
-  if (forceSim && !process.env.STRIPE_SECRET_KEY) {
-    return createSimulatedCheckoutAdapter();
-  }
+  const isProduction = process.env.NODE_ENV === 'production' || process.env.VERCEL_ENV === 'production';
   const stripe = createStripeHostedCheckoutAdapter();
   if (stripe.configured) return stripe;
+  if (isProduction && !forceSim) {
+    return createFailClosedCheckoutAdapter();
+  }
+  if (forceSim) {
+    return createSimulatedCheckoutAdapter();
+  }
   return createSimulatedCheckoutAdapter();
 }

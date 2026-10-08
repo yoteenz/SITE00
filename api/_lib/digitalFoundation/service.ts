@@ -1,5 +1,5 @@
 import { randomBytes, randomUUID } from 'node:crypto';
-import { assertArtifactTransition } from '../../../shared/site00-digital-foundation/lifecycle.js';
+import { assertArtifactTransition, canTransitionArtifactState } from '../../../shared/site00-digital-foundation/lifecycle.js';
 import { createQuoteDraft, type SelectedAddonInput, validateSelectionRemovable } from '../../../shared/site00-digital-foundation/quoteEngine.js';
 import { inferBuildRecommendation, recommendFromIntake } from '../../../shared/site00-digital-foundation/recommendationEngine.js';
 import { resolveArtifactSurface } from '../../../shared/site00-digital-foundation/surface.js';
@@ -28,9 +28,25 @@ import {
   assessArtifactCompletion,
   prepareOwnershipFromOperations,
 } from './operationsEngine.js';
+import {
+  actionRequiresExplicitApproval,
+  approvalSubjectForAction,
+  parseClientApprovalDecision,
+  targetVersionFromResponse,
+} from './approvalDecisions.js';
+import { assessQuotePayability } from '../../../shared/site00-digital-foundation/quoteReadiness.js';
+import { computeReadinessState } from '../../../shared/site00-digital-foundation/readinessClock.js';
+import { toClientArtifactPayload } from '../../../shared/site00-digital-foundation/clientProjection.js';
+import { persistArtifactGraph } from './persistence/supabaseStore.js';
 
 function nowIso(): string {
   return new Date().toISOString();
+}
+
+function schedulePersist(artifactId: string): void {
+  void persistArtifactGraph(artifactId).catch((err) => {
+    console.error('[digital-foundation] persist failed', artifactId, err);
+  });
 }
 
 function newPublicToken(): string {
@@ -145,6 +161,7 @@ export function createArtifactForLead(input: {
   };
   mem.memSaveArtifact(artifact);
   logEvent(artifact.artifact_id, 'ARTIFACT_CREATED', 'FOUNDER', { lead_id: lead.lead_id });
+  schedulePersist(artifact.artifact_id);
   return artifact;
 }
 
@@ -161,6 +178,7 @@ export function openArtifactByToken(token: string): DigitalFoundationArtifact {
       mem.memSaveLead(lead);
     }
     mem.memSaveArtifact(a);
+    schedulePersist(a.artifact_id);
   }
   return a;
 }
@@ -193,6 +211,7 @@ export function updateIntake(
     return completeIntake(artifactId);
   }
   mem.memSaveArtifact(a);
+  schedulePersist(a.artifact_id);
   return a;
 }
 
@@ -244,6 +263,7 @@ export function completeIntake(artifactId: string): DigitalFoundationArtifact {
   }
 
   mem.memSaveArtifact(a);
+  schedulePersist(a.artifact_id);
   return a;
 }
 
@@ -275,6 +295,7 @@ export function updateQuoteSelections(
   transitionArtifact(a, 'QUOTE_READY');
   logEvent(artifactId, 'QUOTE_UPDATED', actor, { quote_version: quote.quote_version });
   mem.memSaveArtifact(a);
+  schedulePersist(a.artifact_id);
   return quote;
 }
 
@@ -339,7 +360,21 @@ export function acceptQuote(input: {
     mem.memSaveLead(lead);
   }
   mem.memSaveArtifact(a);
+  schedulePersist(a.artifact_id);
   return a;
+}
+
+export function markQuoteCommerciallyReady(artifactId: string): DigitalFoundationQuote {
+  const a = mem.memGetArtifact(artifactId);
+  if (!a?.quote_id) throw new Error('QUOTE_NOT_FOUND');
+  const q = mem.memGetQuote(a.quote_id);
+  if (!q) throw new Error('QUOTE_NOT_FOUND');
+  q.founder_commercial_ready = true;
+  q.founder_commercial_ready_at = nowIso();
+  mem.memSaveQuote(q);
+  logEvent(artifactId, 'QUOTE_UPDATED', 'FOUNDER', { founder_commercial_ready: true });
+  schedulePersist(artifactId);
+  return q;
 }
 
 export async function createCheckoutSession(input: {
@@ -349,11 +384,15 @@ export async function createCheckoutSession(input: {
 }): Promise<{ checkout_url: string; session_id: string; simulated?: boolean }> {
   const a = mem.memGetArtifact(input.artifact_id);
   if (!a?.quote_id) throw new Error('QUOTE_NOT_READY');
-  if (a.state !== 'AWAITING_PAYMENT') throw new Error('CHECKOUT_NOT_ALLOWED');
   const q = mem.memGetQuote(a.quote_id);
-  if (!q || q.status !== 'ACCEPTED') throw new Error('QUOTE_NOT_ACCEPTED');
+  const acceptance = mem.getDfMemoryState().acceptances.get(a.artifact_id) ?? null;
+  const payability = assessQuotePayability({ artifact: a, quote: q ?? null, acceptance });
+  if (!payability.ok) throw new Error(payability.code);
 
   const adapter = getFoundationPaymentAdapter();
+  if (!adapter.configured && process.env.NODE_ENV === 'production') {
+    throw new Error('PAYMENT_NOT_CONFIGURED');
+  }
   const result = await adapter.createHostedCheckout({
     artifact_id: a.artifact_id,
     quote_id: q.quote_id,
@@ -373,10 +412,14 @@ export async function createCheckoutSession(input: {
   mem.memSaveArtifact(a);
   mem.getDfMemoryState().checkoutSessions.set(result.session_id, {
     artifact_id: a.artifact_id,
-    quote_id: q.quote_id,
+    quote_id: q!.quote_id,
     session_id: result.session_id,
   });
-  logEvent(a.artifact_id, 'CHECKOUT_CREATED', 'CLIENT', { session_id: result.session_id });
+  logEvent(a.artifact_id, 'CHECKOUT_CREATED', 'CLIENT', {
+    session_id: result.session_id,
+    quote_version: q!.quote_version,
+  });
+  schedulePersist(a.artifact_id);
 
   return {
     checkout_url: result.url,
@@ -406,6 +449,16 @@ export async function confirmPaymentFromWebhook(input: {
   }
   const q = mem.memGetQuote(input.quote_id);
   if (!q) throw new Error('QUOTE_NOT_FOUND');
+  const acceptance = s.acceptances.get(input.artifact_id);
+  if (!acceptance || acceptance.quote_version !== q.quote_version) {
+    throw new Error('QUOTE_VERSION_MISMATCH');
+  }
+  if (q.status === 'SUPERSEDED' || q.status === 'EXPIRED') {
+    throw new Error('QUOTE_NOT_PAYABLE');
+  }
+  if (new Date(q.expires_at).getTime() < Date.now()) {
+    throw new Error('QUOTE_EXPIRED');
+  }
 
   q.status = 'PAID';
   mem.memSaveQuote(q);
@@ -431,12 +484,33 @@ export async function confirmPaymentFromWebhook(input: {
 
   s.stripeProcessedEventIds.add(input.stripe_event_id);
   mem.memSaveArtifact(a);
+  const clock = s.readinessClock.get(a.artifact_id) ?? {
+    readiness_satisfied_at: null,
+    production_started_at: null,
+  };
+  if (!clock.readiness_satisfied_at) {
+    clock.readiness_satisfied_at = nowIso();
+    clock.production_started_at = clock.readiness_satisfied_at;
+    s.readinessClock.set(a.artifact_id, clock);
+  }
+  schedulePersist(a.artifact_id);
 
   const { activateRunbookForArtifact, generateRunbookForArtifact } = await import('./operationsEngine.js');
   generateRunbookForArtifact(a.artifact_id);
   activateRunbookForArtifact(a.artifact_id);
 
   return a;
+}
+
+export function recordCheckoutExpired(artifactId: string, detail: Record<string, unknown>): void {
+  const a = mem.memGetArtifact(artifactId);
+  if (!a) return;
+  if (a.payment_state === 'CHECKOUT_PENDING') {
+    a.payment_state = 'NONE';
+  }
+  mem.memSaveArtifact(a);
+  logEvent(artifactId, 'PAYMENT_FAILED', 'STRIPE', { ...detail, reason: 'CHECKOUT_EXPIRED' });
+  schedulePersist(artifactId);
 }
 
 export function recordPaymentFailure(artifactId: string, detail: Record<string, unknown>): void {
@@ -451,9 +525,12 @@ export function recordRefund(artifactId: string, detail: Record<string, unknown>
   const a = mem.memGetArtifact(artifactId);
   if (!a) return;
   a.payment_state = 'REFUNDED';
-  a.project_state = 'NOT_STARTED';
+  if (a.state !== 'ARCHIVED' && canTransitionArtifactState(a.state, 'ARCHIVED')) {
+    transitionArtifact(a, 'ARCHIVED');
+  }
   mem.memSaveArtifact(a);
   logEvent(artifactId, 'REFUND_RECORDED', 'STRIPE', detail);
+  schedulePersist(artifactId);
 }
 
 export function createClientAction(input: {
@@ -491,16 +568,68 @@ export function completeClientAction(
   req.status = 'COMPLETED';
   req.completed_at = nowIso();
   req.response = response;
-  logEvent(artifactId, 'CLIENT_ACTION_COMPLETED', 'CLIENT', { request_id: requestId });
+
+  const decision = parseClientApprovalDecision(response);
+  const subject = approvalSubjectForAction(req.action_type);
+  const targetVersion = targetVersionFromResponse(response);
+
+  if (actionRequiresExplicitApproval(req)) {
+    const approvals = mem.getDfMemoryState().approvals.get(artifactId) ?? [];
+    const pending = approvals
+      .filter((a) => a.subject === subject && a.status === 'REQUESTED')
+      .sort((a, b) => b.version - a.version)[0];
+    if (pending && pending.version !== targetVersion) {
+      throw new Error('STALE_APPROVAL_VERSION');
+    }
+
+    if (decision === 'REQUEST_CHANGE') {
+      const rec = {
+        approval_id: randomUUID(),
+        artifact_id: artifactId,
+        subject,
+        version: targetVersion,
+        status: 'REVISION_REQUESTED' as const,
+        actor: 'CLIENT' as const,
+        note: String(response.notes ?? response.note ?? ''),
+        created_at: nowIso(),
+        resolved_at: nowIso(),
+      };
+      approvals.push(rec);
+      mem.getDfMemoryState().approvals.set(artifactId, approvals);
+      logEvent(artifactId, 'REVISION_REQUESTED', 'CLIENT', { subject, version: targetVersion });
+      logEvent(artifactId, 'CLIENT_ACTION_COMPLETED', 'CLIENT', { request_id: requestId, decision });
+      schedulePersist(artifactId);
+      return req;
+    }
+
+    const rec = {
+      approval_id: randomUUID(),
+      artifact_id: artifactId,
+      subject,
+      version: targetVersion,
+      status: 'APPROVED' as const,
+      actor: 'CLIENT' as const,
+      note: String(response.notes ?? response.note ?? '') || null,
+      created_at: nowIso(),
+      resolved_at: nowIso(),
+    };
+    approvals.push(rec);
+    mem.getDfMemoryState().approvals.set(artifactId, approvals);
+    logEvent(artifactId, 'APPROVED', 'CLIENT', { subject, version: targetVersion });
+  }
+
+  logEvent(artifactId, 'CLIENT_ACTION_COMPLETED', 'CLIENT', { request_id: requestId, decision });
+
   const tasks = mem.getDfMemoryState().tasks.get(artifactId) ?? [];
   const linked = tasks.find((t) => t.client_action_request_id === requestId);
-  if (linked) {
+  if (linked && decision === 'APPROVE') {
     linked.status = 'COMPLETE';
     linked.completed_at = nowIso();
     mem.getDfMemoryState().tasks.set(artifactId, tasks);
     logEvent(artifactId, 'TASK_COMPLETED', 'CLIENT', { task_id: linked.task_id });
     void import('./operationsEngine.js').then(({ syncDerivedState }) => syncDerivedState(artifactId));
   }
+  schedulePersist(artifactId);
   return req;
 }
 
@@ -669,6 +798,22 @@ export function getArtifactPayloadByToken(token: string): DigitalFoundationArtif
   return getArtifactPayload(artifact.artifact_id);
 }
 
+export function getClientArtifactPayloadByToken(token: string) {
+  const internal = getArtifactPayloadByToken(token);
+  const s = mem.getDfMemoryState();
+  const clock = s.readinessClock.get(internal.artifact.artifact_id);
+  const timeline_readiness = computeReadinessState({
+    artifact: internal.artifact,
+    quote: internal.quote,
+    stages: internal.stages,
+    production_started_at: clock?.production_started_at ?? null,
+    readiness_satisfied_at: clock?.readiness_satisfied_at ?? null,
+    projected_min_days: internal.quote?.projected_min_days ?? null,
+    projected_max_days: internal.quote?.projected_max_days ?? null,
+  });
+  return toClientArtifactPayload(internal, timeline_readiness);
+}
+
 export function getArtifactPayload(artifactId: string): DigitalFoundationArtifactPayload {
   const artifact = mem.memGetArtifact(artifactId);
   if (!artifact) throw new Error('ARTIFACT_NOT_FOUND');
@@ -764,6 +909,8 @@ export async function materializeFixtureScenario(
     updateQuoteSelections(artifact.artifact_id, scenario.extra_addon_selections, 'FOUNDER');
   }
 
+  const quoteAfterAccept = () => mem.memGetQuote(mem.memGetArtifact(artifact.artifact_id)!.quote_id!)!;
+
   acceptQuote({
     artifact_id: artifact.artifact_id,
     disclosures: [
@@ -772,6 +919,11 @@ export async function materializeFixtureScenario(
       'I UNDERSTAND THAT THE PROJECTED TURNAROUND BEGINS AFTER REQUIRED INFORMATION, ACCESS AND PAYMENT ARE RECEIVED.',
     ],
   });
+
+  const qPrePay = quoteAfterAccept();
+  if (qPrePay.selected_addons.some((l) => l.requires_manual_review)) {
+    markQuoteCommerciallyReady(artifact.artifact_id);
+  }
 
   if (scenario.simulate_payment === 'success' || scenario.simulate_payment === 'refund') {
     const q = mem.memGetQuote(mem.memGetArtifact(artifact.artifact_id)!.quote_id!)!;
