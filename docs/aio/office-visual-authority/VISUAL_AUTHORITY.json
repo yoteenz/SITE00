@@ -1,0 +1,1738 @@
+{
+  "id": "AIO_OFFICE_VISUAL_AUTHORITY",
+  "sprint": "P0.AIO.OFFICE.FOUNDER-HOME-WORK-REPORTS-MORE.FOUNDER-APPROVAL-AND-VISUAL-AUTHORITY1",
+  "date": "2026-10-08",
+  "generated_by": "scripts/studioos/aio-office-visual-authority-export.ts",
+  "source": [
+    "shared/studioos-experience-brain/projects/aio/office-visual-authority.ts",
+    "shared/studioos-experience-brain/projects/aio/office-visual-authority-renders.ts",
+    "shared/studioos-visual-authority/projects/aio/office-creative-direction-profile.ts"
+  ],
+  "status": {
+    "decisions": "APPROVED — all fifteen, D-CREATIVE-PROFILE with the founder’s scope modification",
+    "visuals": "GENERATED — deterministic HTML/CSS authority studio over approved photography, rendered with Chromium",
+    "approval": "AWAITING FOUNDER APPROVAL — every render is a CANDIDATE; approving the decisions did not approve these renders",
+    "implementation": "NOT AUTHORIZED — no live route, schema, auth, permission, billing, IFTA or migration change; nothing deployed"
+  },
+  "next_gate": "FOUNDER REVIEW OF COMPLETED AIO OFFICE VISUAL AUTHORITIES",
+  "locations": {
+    "studio": "all-in-one-enterprises/design-authority/aio-office/ (studio.html · studio.css · studio.js · compare.html · render.mjs · standins/)",
+    "renders": "AIO_OFFICE_VISUAL_AUTHORITY/ (01_MOBILE · 02_TABLET · 03_DESKTOP · 04_ULTRA_WIDE · 05_COMPONENTS · 06_COMPARISON · renders.json)",
+    "reference": "docs/aio/office-design-reconciliation/reference/AIO_OFFICE_FOUR_SCREEN_REFERENCE.png (preserved unchanged, sha256 47343139…)",
+    "rerender": "cd all-in-one-enterprises && node design-authority/aio-office/render.mjs"
+  },
+  "reference": {
+    "path": "docs/aio/office-design-reconciliation/reference/AIO_OFFICE_FOUR_SCREEN_REFERENCE.png",
+    "width": 1536,
+    "height": 1024,
+    "sha256": "47343139eccfe6055479d4f1f0841da74ab87134fd1d62f5f5cded040dd5e961"
+  },
+  "approvals": [
+    {
+      "decision_id": "D-HERO-SCALE",
+      "decided_by": "FOUNDER",
+      "date": "2026-10-08",
+      "sprint": "P0.AIO.OFFICE.FOUNDER-HOME-WORK-REPORTS-MORE.FOUNDER-APPROVAL-AND-VISUAL-AUTHORITY1",
+      "chosen_option": 1,
+      "approved_as": "HOME retains a cinematic welcome photograph at about 60% of the reference height. WORK, REPORTS and MORE use slimmer photographic bands so useful content appears sooner, keeping the premium composition.",
+      "modification": null
+    },
+    {
+      "decision_id": "D-HOME-ATTENTION",
+      "decided_by": "FOUNDER",
+      "date": "2026-10-08",
+      "sprint": "P0.AIO.OFFICE.FOUNDER-HOME-WORK-REPORTS-MORE.FOUNDER-APPROVAL-AND-VISUAL-AUTHORITY1",
+      "chosen_option": 0,
+      "approved_as": "The three attention cards become selectable views of one supporting task list of up to five items; each item names the client, the issue and where to fix it.",
+      "modification": null
+    },
+    {
+      "decision_id": "D-HOME-QUICK-ACTIONS",
+      "decided_by": "FOUNDER",
+      "date": "2026-10-08",
+      "sprint": "P0.AIO.OFFICE.FOUNDER-HOME-WORK-REPORTS-MORE.FOUNDER-APPROVAL-AND-VISUAL-AUTHORITY1",
+      "chosen_option": 0,
+      "approved_as": "Phone: a square-rounded “+” in the header opens the available quick actions. Tablet: a compact action row after recent activity. Desktop: actions in the context column. Actions depend on permissions.",
+      "modification": null
+    },
+    {
+      "decision_id": "D-WORK-CARD-SIGNALS",
+      "decided_by": "FOUNDER",
+      "date": "2026-10-08",
+      "sprint": "P0.AIO.OFFICE.FOUNDER-HOME-WORK-REPORTS-MORE.FOUNDER-APPROVAL-AND-VISUAL-AUTHORITY1",
+      "chosen_option": 1,
+      "approved_as": "Cards show a needs-attention count where supported and a BLOCKED indicator when appropriate; unconnected data says so. VEHICLES & FLEET never pretends its missing staff workspace works.",
+      "modification": null
+    },
+    {
+      "decision_id": "D-WORK-BANNER",
+      "decided_by": "FOUNDER",
+      "date": "2026-10-08",
+      "sprint": "P0.AIO.OFFICE.FOUNDER-HOME-WORK-REPORTS-MORE.FOUNDER-APPROVAL-AND-VISUAL-AUTHORITY1",
+      "chosen_option": 0,
+      "approved_as": "The “NEED TO ASSIGN WORK?” banner is replaced by MY WORK near the top of WORK: assigned work and approaching deadlines where supported. No nonexistent case creation is advertised.",
+      "modification": null
+    },
+    {
+      "decision_id": "D-PHOTOGRAPHY",
+      "decided_by": "FOUNDER",
+      "date": "2026-10-08",
+      "sprint": "P0.AIO.OFFICE.FOUNDER-HOME-WORK-REPORTS-MORE.FOUNDER-APPROVAL-AND-VISUAL-AUTHORITY1",
+      "chosen_option": 1,
+      "approved_as": "Reuse approved AIO photography wherever it fits; keep the subjects and cinematic character; replace images with generated text, invented branding, anatomical mistakes or repeated compositions with controlled, high-resolution assets.",
+      "modification": null
+    },
+    {
+      "decision_id": "D-REPORTS-OVERVIEW",
+      "decided_by": "FOUNDER",
+      "date": "2026-10-08",
+      "sprint": "P0.AIO.OFFICE.FOUNDER-HOME-WORK-REPORTS-MORE.FOUNDER-APPROVAL-AND-VISUAL-AUTHORITY1",
+      "chosen_option": 0,
+      "approved_as": "Only supported figures: ACTIVE CLIENTS, FILINGS FILED, ACTIVE WORK, COLLECTED REVENUE (founder / finance only). No unsupported trends or growth; elegant, truthful unavailable states.",
+      "modification": null
+    },
+    {
+      "decision_id": "D-REPORTS-DOMAINS",
+      "decided_by": "FOUNDER",
+      "date": "2026-10-08",
+      "sprint": "P0.AIO.OFFICE.FOUNDER-HOME-WORK-REPORTS-MORE.FOUNDER-APPROVAL-AND-VISUAL-AUTHORITY1",
+      "chosen_option": 0,
+      "approved_as": "Phone: overview, then the reporting areas. Tablet: an organized report selector. Desktop: report navigation beside the content. All ten areas reachable by permission and status.",
+      "modification": null
+    },
+    {
+      "decision_id": "D-REPORTS-STAFF",
+      "decided_by": "FOUNDER",
+      "date": "2026-10-08",
+      "sprint": "P0.AIO.OFFICE.FOUNDER-HOME-WORK-REPORTS-MORE.FOUNDER-APPROVAL-AND-VISUAL-AUTHORITY1",
+      "chosen_option": 0,
+      "approved_as": "REPORTS stays in the fixed five-item navigation. Staff see only what their role allows; without reporting access, a clear, professional access explanation. Founder-only financial intelligence never reaches general staff views.",
+      "modification": null
+    },
+    {
+      "decision_id": "D-MORE-GROUPS",
+      "decided_by": "FOUNDER",
+      "date": "2026-10-08",
+      "sprint": "P0.AIO.OFFICE.FOUNDER-HOME-WORK-REPORTS-MORE.FOUNDER-APPROVAL-AND-VISUAL-AUTHORITY1",
+      "chosen_option": 0,
+      "approved_as": "Four groups: CLIENTS & RECORDS (Clients, Documents & Vault, Messages) · BUSINESS (Growth / CRM, Billing, Service Catalog) · PEOPLE & NETWORK (Team & Staff, Mechanic Network) · SYSTEM (System Settings, Help & Support, Account). “ADDITIONAL TOOLS” is removed.",
+      "modification": null
+    },
+    {
+      "decision_id": "D-MORE-HELP-CARD",
+      "decided_by": "FOUNDER",
+      "date": "2026-10-08",
+      "sprint": "P0.AIO.OFFICE.FOUNDER-HOME-WORK-REPORTS-MORE.FOUNDER-APPROVAL-AND-VISUAL-AUTHORITY1",
+      "chosen_option": 0,
+      "approved_as": "The redundant NEED HELP card is removed; HELP & SUPPORT stays as a directory entry.",
+      "modification": null
+    },
+    {
+      "decision_id": "D-ACCOUNT",
+      "decided_by": "FOUNDER",
+      "date": "2026-10-08",
+      "sprint": "P0.AIO.OFFICE.FOUNDER-HOME-WORK-REPORTS-MORE.FOUNDER-APPROVAL-AND-VISUAL-AUTHORITY1",
+      "chosen_option": 0,
+      "approved_as": "The header profile control and MORE → ACCOUNT open the same account destination; no second account experience.",
+      "modification": null
+    },
+    {
+      "decision_id": "D-IDENTITY",
+      "decided_by": "FOUNDER",
+      "date": "2026-10-08",
+      "sprint": "P0.AIO.OFFICE.FOUNDER-HOME-WORK-REPORTS-MORE.FOUNDER-APPROVAL-AND-VISUAL-AUTHORITY1",
+      "chosen_option": 0,
+      "approved_as": "One consistent illustrative staff identity across the AIO OFFICE family; the role label reflects the actor (FOUNDER, STAFF or another authorized role); founder privileges never tied to a name or email.",
+      "modification": null
+    },
+    {
+      "decision_id": "D-DESKTOP-SHELL",
+      "decided_by": "FOUNDER",
+      "date": "2026-10-08",
+      "sprint": "P0.AIO.OFFICE.FOUNDER-HOME-WORK-REPORTS-MORE.FOUNDER-APPROVAL-AND-VISUAL-AUTHORITY1",
+      "chosen_option": 0,
+      "approved_as": "Reuse the approved AIO OFFICE tablet and desktop frame with WORK replacing FILING; desktop and tablet are intentional compositions, not enlarged phone layouts.",
+      "modification": null
+    },
+    {
+      "decision_id": "D-CREATIVE-PROFILE",
+      "decided_by": "FOUNDER",
+      "date": "2026-10-08",
+      "sprint": "P0.AIO.OFFICE.FOUNDER-HOME-WORK-REPORTS-MORE.FOUNDER-APPROVAL-AND-VISUAL-AUTHORITY1",
+      "chosen_option": 0,
+      "approved_as": "The four-screen visual language becomes the INTERNAL AIO OFFICE design profile: cinematic transportation photography, premium workspace imagery, black-and-gold navigation, ivory and champagne surfaces, strong editorial type, disciplined hierarchy, photographic service cards, precise spacing, practical utility.",
+      "modification": "Scope limited to the internal AIO OFFICE. It is not a template for every AIO product: the public website may stay darker and cinematic, CLIENT OFFICE keeps its own approved composition, and the IFTA and client-migration authorities remain valid and protected. All share the AIO brand."
+    }
+  ],
+  "profile": {
+    "scope": {
+      "applies_to": [
+        "AIO OFFICE (internal staff / founder office): HOME · INTAKE · WORK · REPORTS · MORE"
+      ],
+      "does_not_apply_to": [
+        "PUBLIC AIO website — may keep its darker, more cinematic presentation",
+        "CLIENT OFFICE — keeps its own approved composition, sharing the AIO brand identity"
+      ],
+      "protected": [
+        "AIO.IFTA authority bundle (founder-approved, grandfathered)",
+        "AIO client migration authorities (AIO_CLIENT_MIGRATION_AUTHORITY + responsive blueprint)"
+      ],
+      "shared_across_aio": [
+        "AIO mark and lockups",
+        "tagline WHERE BUSINESS MEETS THE ROAD.",
+        "black / gold / silver brand colours",
+        "AIO uppercase law"
+      ]
+    },
+    "profile": {
+      "profile_id": "AIO.OFFICE.CREATIVE_DIRECTION.v1",
+      "project_id": "AIO",
+      "brand_lines": [
+        "WHERE BUSINESS MEETS THE ROAD.",
+        "THE BUSINESS OFFICE BEHIND THE TRUCK.",
+        "FROM STARTUP TO EVERY MILE AFTER."
+      ],
+      "product_philosophy": [
+        "The internal office is where AIO staff run every client’s business: HOME orients, INTAKE brings clients in, WORK produces, REPORTS oversees, MORE administers.",
+        "Truth over decoration: every figure is backed by source truth or shown as an honest state — never a placeholder number.",
+        "The next action is one tap away: attention first, then the work, then the history.",
+        "One frame for everyone; what fills it depends on the person’s role and grants, never their name."
+      ],
+      "logo_system": {
+        "marks": [
+          "AIO triangular interlocking mark — gold and black on light grounds (staff header); gold and silver metal in the full lockup"
+        ],
+        "lockups": [
+          "Staff header lockup: mark + ALL IN ONE / ENTERPRISES INC. (horizontal)",
+          "Full lockup: mark + ALL IN ONE + ENTERPRISES INC. + WHERE BUSINESS MEETS THE ROAD.",
+          "Mark only"
+        ],
+        "placement_rules": [
+          "Header lockup top-left on every AIO OFFICE root, from phone to ultra-wide.",
+          "Compact header and collapsed menu: mark only.",
+          "Full lockup with the tagline only at the foot of the desktop menu or on sign-in.",
+          "Never placed inside photography; never regenerated. A damaged mark is repaired by compositing the official asset."
+        ],
+        "forbidden": [
+          "a gold dot above the I (the older aio-logo-lockup.png)",
+          "invented AIO wordmarks in photography (notebooks, signage, trailers)",
+          "invented client or partner emblems",
+          "redrawn or recoloured mark"
+        ],
+        "asset_paths": [
+          "all-in-one-enterprises/public/migration/brand-lockup.png",
+          "all-in-one-enterprises/public/brand/ifta/aio-mark-on-light.png",
+          "all-in-one-enterprises/public/brand/ifta/aio-lockup-on-light.png",
+          "all-in-one-enterprises/public/brand/ifta/aio-lockup-on-dark.png"
+        ]
+      },
+      "tagline_system": [
+        "WHERE BUSINESS MEETS THE ROAD. — the brand line; carried by the full lockup.",
+        "THE BUSINESS OFFICE BEHIND THE TRUCK. — the positioning; may sit in HOME’s welcome line.",
+        "FROM STARTUP TO EVERY MILE AFTER. — the promise; public and onboarding surfaces, not daily office chrome."
+      ],
+      "color_world": [
+        "OBSIDIAN / BLACK — the dock, the active tile, headline type",
+        "GOLD — actions, the active state and single highlights; never decoration",
+        "IVORY / CHAMPAGNE — the working surfaces under the photography",
+        "WHITE / STONE — cards, rows and panels",
+        "CHARCOAL / SILVER — secondary type, rules, the metal of the full lockup",
+        "Semantic colours stay separate from brand gold: green on track, amber needs attention, oxblood blocked or overdue — always with a word"
+      ],
+      "material_world": [
+        "paper, folders and binders of a working office",
+        "truck chrome and brushed metal",
+        "asphalt, concrete and steel of freight yards",
+        "warm wood desks",
+        "glass and steel of modern terminals"
+      ],
+      "environment_world": [
+        "cinematic transportation at golden hour and blue hour",
+        "modern freight terminals and fleet yards",
+        "working office desks in warm daylight",
+        "open highways under mountains",
+        "real workshops with real equipment"
+      ],
+      "object_language": [
+        "Photography carries the service’s world; the working surface carries the business truth.",
+        "One photograph per WORK lane, its subject specific to that service; no two lanes share a scene.",
+        "Paperwork appears as real objects with no legible generated text.",
+        "People are professionals at work with their faces visible; never masked."
+      ],
+      "typography_direction": [
+        "DISPLAY: Roboto Condensed, bold, tight leading — headlines, card titles, section titles, labels (the migration family face).",
+        "TEXT: Roboto — rows, descriptions, running text.",
+        "ALL visible text UPPERCASE (AIO uppercase law; password fields are the only exception).",
+        "Phone minimums: 12 px for secondary text, 11 px for tracked labels; tabular figures for counts and dates."
+      ],
+      "graphic_design_rules": [
+        "Cinematic photography above, practical ivory working surfaces below.",
+        "Black-and-gold five-item dock on phone and tablet; black-and-gold left menu on desktop: HOME · INTAKE · WORK · REPORTS · MORE.",
+        "Square-rounded controls (8–10 px radius); only the identity avatar is round.",
+        "Status by word and form (NEEDS ATTENTION, BLOCKED, NOT CONNECTED YET), never colour alone.",
+        "One photograph per page: HOME’s welcome at about 60% of the reference height; WORK, REPORTS and MORE use slim bands.",
+        "Sample figures in authority proofs carry a SAMPLE label; unsupported figures are drawn as honest states.",
+        "Desktop and tablet are their own compositions inside the approved staff frame — never an enlarged phone."
+      ],
+      "wit_definition": "The road and the office meet on every page: the photograph shows the service out in the world, the surface below shows the business behind it. Never jokes, cute copy or novelty UI.",
+      "must_not_become": [
+        "a generic SaaS dashboard",
+        "a dark trading terminal",
+        "a plain white list app",
+        "a stock-photo marketing site",
+        "the PUBLIC AIO website (its own darker direction)",
+        "the CLIENT OFFICE (its own approved rules)"
+      ],
+      "anti_generic_rules": [
+        "No KPI tiles with sparklines that imply history the system does not keep.",
+        "No glassmorphism, no gradient heroes, no random gold accents.",
+        "No identical photographs for different services.",
+        "No emoji or decorative icon noise.",
+        "No full-width stretched phone cards on wide screens."
+      ],
+      "anti_ai_rules": [
+        "No legible generated text on paperwork, screens, clipboards or signage.",
+        "No invented logos, marks or emblems; the AIO mark is composited from the official asset.",
+        "No masked or anatomically wrong people.",
+        "No near-duplicate scenes across lanes.",
+        "Image generation supplies photography plates only; product UI, copy, figures, logo and navigation are assembled deterministically (HYBRID_HARD_RULE)."
+      ],
+      "renderer": {
+        "model": "gpt-image-2.5-sunburst",
+        "quality": "up to 2048 px per plate (Figma image generation)",
+        "aspect_ratio": "per plate: 16:9 heroes and bands, 3:2 lane cards",
+        "auto_enhance": false,
+        "viewport_mapping": "Plates are photography layers cropped by the layout (object-fit: cover) at phone 390, tablet 834, desktop 1440 and ultra-wide 2560 px; the subject sits in the central 60% so every crop keeps it.",
+        "generation_mode": "TEXT_TO_IMAGE",
+        "forbidden_providers": [
+          "OpenArt"
+        ],
+        "local_render_allowed_as_final": true
+      },
+      "provenance": [
+        "founder four-screen design: docs/aio/office-design-reconciliation/reference/AIO_OFFICE_FOUR_SCREEN_REFERENCE.png (sha256 47343139…)",
+        "founder sprint FOUNDER-APPROVAL-AND-VISUAL-AUTHORITY1 §03 D-CREATIVE-PROFILE: internal office only; public, client, IFTA and migration keep their directions",
+        "motherboard: AIO uppercase law; IFTA lockups and plates; migration responsive blueprint (staff frame)",
+        "hybrid-authority.ts HYBRID_HARD_RULE: generated art layers + deterministic UI assembly = composite authority"
+      ]
+    },
+    "check": {
+      "status": "PROFILE_READY",
+      "missing": []
+    }
+  },
+  "frames": [
+    {
+      "frame": "AIO-OFFICE-HOME-MOBILE",
+      "root": "HOME",
+      "viewport": "MOBILE",
+      "actor": "FOUNDER",
+      "shows": "NEEDS ATTENTION selected; hero at about 60% of the drawing; three cards + one list in the first screen; 12 lanes; clients; activity",
+      "deliverable": 3
+    },
+    {
+      "frame": "AIO-OFFICE-HOME-MOBILE-QUICK-ACTIONS",
+      "root": "HOME",
+      "viewport": "MOBILE",
+      "actor": "FOUNDER",
+      "shows": "the square-rounded “+” opened: seven role-aware quick actions, each naming its destination",
+      "deliverable": 3
+    },
+    {
+      "frame": "AIO-OFFICE-HOME-MOBILE-STAFF",
+      "root": "HOME",
+      "viewport": "MOBILE",
+      "actor": "STAFF",
+      "shows": "DUE THIS WEEK selected; no founder-only items, no not-connected line, no payment event",
+      "deliverable": 3
+    },
+    {
+      "frame": "AIO-OFFICE-WORK-MOBILE",
+      "root": "WORK",
+      "viewport": "MOBILE",
+      "actor": "FOUNDER",
+      "shows": "slim band; MY WORK; 12 lanes 3 × 4 with honest signals; VEHICLES & FLEET without a workspace; ALL OPEN WORK",
+      "deliverable": 4
+    },
+    {
+      "frame": "AIO-OFFICE-REPORTS-MOBILE",
+      "root": "REPORTS",
+      "viewport": "MOBILE",
+      "actor": "FOUNDER",
+      "shows": "overview first (four backed figures), service activity, filing history, client growth not connected, then the ten areas",
+      "deliverable": 5
+    },
+    {
+      "frame": "AIO-OFFICE-REPORTS-MOBILE-STAFF-NO-ACCESS",
+      "root": "REPORTS",
+      "viewport": "MOBILE",
+      "actor": "STAFF (NO REPORTING GRANT)",
+      "shows": "professional access explanation; routes to WORK and HOME",
+      "deliverable": 5
+    },
+    {
+      "frame": "AIO-OFFICE-MORE-MOBILE",
+      "root": "MORE",
+      "viewport": "MOBILE",
+      "actor": "FOUNDER",
+      "shows": "search; four groups; founder and by-grant markers; ACCOUNT not built yet",
+      "deliverable": 6
+    },
+    {
+      "frame": "AIO-OFFICE-MORE-MOBILE-STAFF",
+      "root": "MORE",
+      "viewport": "MOBILE",
+      "actor": "STAFF",
+      "shows": "grant-only and not-built entries omitted; view-only markers",
+      "deliverable": 6
+    },
+    {
+      "frame": "AIO-OFFICE-HOME-TABLET",
+      "root": "HOME",
+      "viewport": "TABLET",
+      "actor": "FOUNDER",
+      "shows": "DUE THIS WEEK selected; 6 × 2 lanes; clients beside activity; quick-action row after recent activity",
+      "deliverable": 7
+    },
+    {
+      "frame": "AIO-OFFICE-WORK-TABLET",
+      "root": "WORK",
+      "viewport": "TABLET",
+      "actor": "FOUNDER",
+      "shows": "MY WORK under the band; lanes 4 × 3",
+      "deliverable": 8
+    },
+    {
+      "frame": "AIO-OFFICE-REPORTS-TABLET",
+      "root": "REPORTS",
+      "viewport": "TABLET",
+      "actor": "FOUNDER",
+      "shows": "report selector (ten areas); figures 4 across; charts two-up; exports",
+      "deliverable": 9
+    },
+    {
+      "frame": "AIO-OFFICE-REPORTS-TABLET-STAFF-NO-ACCESS",
+      "root": "REPORTS",
+      "viewport": "TABLET",
+      "actor": "STAFF (NO REPORTING GRANT)",
+      "shows": "access explanation beside the areas the founder can grant (names only, no figures, no financial area)",
+      "deliverable": 9
+    },
+    {
+      "frame": "AIO-OFFICE-MORE-TABLET",
+      "root": "MORE",
+      "viewport": "TABLET",
+      "actor": "FOUNDER",
+      "shows": "groups in two columns",
+      "deliverable": 10
+    },
+    {
+      "frame": "AIO-OFFICE-HOME-DESKTOP",
+      "root": "HOME",
+      "viewport": "DESKTOP",
+      "actor": "FOUNDER",
+      "shows": "approved desktop frame (WORK replaces FILING); main column + context column (quick actions, activity, business pulse not connected)",
+      "deliverable": 11
+    },
+    {
+      "frame": "AIO-OFFICE-HOME-DESKTOP-STAFF",
+      "root": "HOME",
+      "viewport": "DESKTOP",
+      "actor": "STAFF",
+      "shows": "BLOCKED selected, grouped by whom it waits on; no by-grant actions; no business pulse",
+      "deliverable": 11
+    },
+    {
+      "frame": "AIO-OFFICE-WORK-DESKTOP",
+      "root": "WORK",
+      "viewport": "DESKTOP",
+      "actor": "FOUNDER",
+      "shows": "lanes 4 × 3 with MY WORK in the right column at the top",
+      "deliverable": 12
+    },
+    {
+      "frame": "AIO-OFFICE-REPORTS-DESKTOP",
+      "root": "REPORTS",
+      "viewport": "DESKTOP",
+      "actor": "FOUNDER",
+      "shows": "report navigation beside the content; figures 4 across; charts and filing history side by side; exports",
+      "deliverable": 13
+    },
+    {
+      "frame": "AIO-OFFICE-REPORTS-DESKTOP-STAFF-GRANTED",
+      "root": "REPORTS",
+      "viewport": "DESKTOP",
+      "actor": "STAFF (REPORTING GRANT, NO FINANCE)",
+      "shows": "three figures; no revenue tile and no gap for it; nine areas",
+      "deliverable": 13
+    },
+    {
+      "frame": "AIO-OFFICE-REPORTS-DESKTOP-STAFF-NO-ACCESS",
+      "root": "REPORTS",
+      "viewport": "DESKTOP",
+      "actor": "STAFF (NO REPORTING GRANT)",
+      "shows": "access explanation with the grantable areas",
+      "deliverable": 13
+    },
+    {
+      "frame": "AIO-OFFICE-MORE-DESKTOP",
+      "root": "MORE",
+      "viewport": "DESKTOP",
+      "actor": "FOUNDER",
+      "shows": "directory landing: search + groups 2 × 2 (an open entry is its own future authority)",
+      "deliverable": 14
+    },
+    {
+      "frame": "AIO-OFFICE-MORE-DESKTOP-STAFF",
+      "root": "MORE",
+      "viewport": "DESKTOP",
+      "actor": "STAFF",
+      "shows": "role-aware directory with the by-grant note",
+      "deliverable": 14
+    },
+    {
+      "frame": "AIO-OFFICE-HOME-ULTRAWIDE",
+      "root": "HOME",
+      "viewport": "ULTRA_WIDE",
+      "actor": "FOUNDER",
+      "shows": "2560 × 1440: content capped at 1480 px and centred; plate full-bleed at fixed height; words aligned to the measure; BLOCKED view",
+      "deliverable": 15
+    },
+    {
+      "frame": "AIO-OFFICE-WORK-ULTRAWIDE",
+      "root": "WORK",
+      "viewport": "ULTRA_WIDE",
+      "actor": "FOUNDER",
+      "shows": "four cards per row at their measure; extra width to margins and the MY WORK column",
+      "deliverable": 15
+    },
+    {
+      "frame": "AIO-OFFICE-REPORTS-ULTRAWIDE",
+      "root": "REPORTS",
+      "viewport": "ULTRA_WIDE",
+      "actor": "FOUNDER",
+      "shows": "no photograph — data first",
+      "deliverable": 15
+    },
+    {
+      "frame": "AIO-OFFICE-MORE-ULTRAWIDE",
+      "root": "MORE",
+      "viewport": "ULTRA_WIDE",
+      "actor": "FOUNDER",
+      "shows": "four groups side by side",
+      "deliverable": 15
+    },
+    {
+      "frame": "AIO-OFFICE-COMPONENTS-AND-STATES",
+      "root": "SYSTEM",
+      "viewport": "DESKTOP",
+      "actor": "—",
+      "shows": "colour, type, controls, status words, navigation, lane signals, report figure states, icons",
+      "deliverable": 18
+    },
+    {
+      "frame": "AIO-OFFICE-HOME-ORIGINAL-VS-REVISED",
+      "root": "HOME",
+      "viewport": "BOARD",
+      "actor": "—",
+      "shows": "the founder’s HOME drawing · revised first screen · revised full page · what changed",
+      "deliverable": 19
+    },
+    {
+      "frame": "AIO-OFFICE-WORK-ORIGINAL-VS-REVISED",
+      "root": "WORK",
+      "viewport": "BOARD",
+      "actor": "—",
+      "shows": "the founder’s WORK drawing vs revised",
+      "deliverable": 19
+    },
+    {
+      "frame": "AIO-OFFICE-REPORTS-ORIGINAL-VS-REVISED",
+      "root": "REPORTS",
+      "viewport": "BOARD",
+      "actor": "—",
+      "shows": "the founder’s REPORTS drawing vs revised",
+      "deliverable": 19
+    },
+    {
+      "frame": "AIO-OFFICE-MORE-ORIGINAL-VS-REVISED",
+      "root": "MORE",
+      "viewport": "BOARD",
+      "actor": "—",
+      "shows": "the founder’s MORE drawing vs revised",
+      "deliverable": 19
+    }
+  ],
+  "renders": [
+    {
+      "frame": "AIO-OFFICE-HOME-MOBILE",
+      "file": "AIO_OFFICE_VISUAL_AUTHORITY/01_MOBILE/AIO-OFFICE-HOME-MOBILE-390.png",
+      "viewport": "390x844",
+      "dpr": 2,
+      "query": "page=home&role=founder&view=attention",
+      "sha256": "b12b1f4aa4478a947c526d795cb3875b944d047a16960b6ec007aa69f5923367",
+      "qa_pass": true,
+      "qa_checks": [
+        "UPPERCASE_LAW",
+        "FONTS_LOADED",
+        "NO_HORIZONTAL_OVERFLOW",
+        "FIVE_ITEM_NAV_WORK_REPLACES_FILING",
+        "APPROVED_HEADER_LOCKUP_ONLY",
+        "SAMPLE_DATA_LABELLED",
+        "HOME_TWELVE_LANES_NO_INTAKE"
+      ]
+    },
+    {
+      "frame": "AIO-OFFICE-HOME-MOBILE",
+      "file": "AIO_OFFICE_VISUAL_AUTHORITY/01_MOBILE/AIO-OFFICE-HOME-MOBILE-390-FIRST-SCREEN.png",
+      "viewport": "390x844",
+      "dpr": 2,
+      "query": "page=home&role=founder&view=attention",
+      "sha256": "5c47dcd442cc526b514b2ddae730cceaf2a761b998131942cbd4e119f29db7fb",
+      "qa_pass": true,
+      "qa_checks": [
+        "UPPERCASE_LAW",
+        "FONTS_LOADED",
+        "NO_HORIZONTAL_OVERFLOW",
+        "FIVE_ITEM_NAV_WORK_REPLACES_FILING",
+        "APPROVED_HEADER_LOCKUP_ONLY",
+        "SAMPLE_DATA_LABELLED",
+        "HOME_TWELVE_LANES_NO_INTAKE"
+      ]
+    },
+    {
+      "frame": "AIO-OFFICE-HOME-MOBILE-QUICK-ACTIONS",
+      "file": "AIO_OFFICE_VISUAL_AUTHORITY/01_MOBILE/AIO-OFFICE-HOME-MOBILE-QUICK-ACTIONS-390.png",
+      "viewport": "390x844",
+      "dpr": 2,
+      "query": "page=home&role=founder&state=quick",
+      "sha256": "328a05a9b65275dd561f290930d7728ea276831ee91e262f264f0097633d44ec",
+      "qa_pass": true,
+      "qa_checks": [
+        "UPPERCASE_LAW",
+        "FONTS_LOADED",
+        "NO_HORIZONTAL_OVERFLOW",
+        "FIVE_ITEM_NAV_WORK_REPLACES_FILING",
+        "APPROVED_HEADER_LOCKUP_ONLY",
+        "SAMPLE_DATA_LABELLED"
+      ]
+    },
+    {
+      "frame": "AIO-OFFICE-HOME-MOBILE-STAFF",
+      "file": "AIO_OFFICE_VISUAL_AUTHORITY/01_MOBILE/AIO-OFFICE-HOME-MOBILE-STAFF-390.png",
+      "viewport": "390x844",
+      "dpr": 2,
+      "query": "page=home&role=staff&view=deadlines",
+      "sha256": "991022dba3644bf2cd0f812e9c080a3e8b03070a51f0dd24840b352c09293a87",
+      "qa_pass": true,
+      "qa_checks": [
+        "UPPERCASE_LAW",
+        "FONTS_LOADED",
+        "NO_HORIZONTAL_OVERFLOW",
+        "FIVE_ITEM_NAV_WORK_REPLACES_FILING",
+        "APPROVED_HEADER_LOCKUP_ONLY",
+        "HOME_TWELVE_LANES_NO_INTAKE",
+        "NO_FOUNDER_FINANCIALS_FOR_STAFF"
+      ]
+    },
+    {
+      "frame": "AIO-OFFICE-WORK-MOBILE",
+      "file": "AIO_OFFICE_VISUAL_AUTHORITY/01_MOBILE/AIO-OFFICE-WORK-MOBILE-390.png",
+      "viewport": "390x844",
+      "dpr": 2,
+      "query": "page=work&role=founder",
+      "sha256": "c0e1731eaf9b7fa9e44aa00ebd366e124cbf5992821f2c139fc1322fab91e480",
+      "qa_pass": true,
+      "qa_checks": [
+        "UPPERCASE_LAW",
+        "FONTS_LOADED",
+        "NO_HORIZONTAL_OVERFLOW",
+        "FIVE_ITEM_NAV_WORK_REPLACES_FILING",
+        "APPROVED_HEADER_LOCKUP_ONLY",
+        "SAMPLE_DATA_LABELLED",
+        "TWELVE_LANES_CANONICAL_ORDER_NO_INTAKE"
+      ]
+    },
+    {
+      "frame": "AIO-OFFICE-WORK-MOBILE",
+      "file": "AIO_OFFICE_VISUAL_AUTHORITY/01_MOBILE/AIO-OFFICE-WORK-MOBILE-390-FIRST-SCREEN.png",
+      "viewport": "390x844",
+      "dpr": 2,
+      "query": "page=work&role=founder",
+      "sha256": "95b74362ae181a01b7d942a298b21b9d56ff749255ff6e7eaf1f2dbba0bc957c",
+      "qa_pass": true,
+      "qa_checks": [
+        "UPPERCASE_LAW",
+        "FONTS_LOADED",
+        "NO_HORIZONTAL_OVERFLOW",
+        "FIVE_ITEM_NAV_WORK_REPLACES_FILING",
+        "APPROVED_HEADER_LOCKUP_ONLY",
+        "SAMPLE_DATA_LABELLED",
+        "TWELVE_LANES_CANONICAL_ORDER_NO_INTAKE"
+      ]
+    },
+    {
+      "frame": "AIO-OFFICE-REPORTS-MOBILE",
+      "file": "AIO_OFFICE_VISUAL_AUTHORITY/01_MOBILE/AIO-OFFICE-REPORTS-MOBILE-390.png",
+      "viewport": "390x844",
+      "dpr": 2,
+      "query": "page=reports&role=founder",
+      "sha256": "f1bcc3d7bee9d2bd35524bfd96abdda8b49bc15ff46b96e7740fb3ac889f73b1",
+      "qa_pass": true,
+      "qa_checks": [
+        "UPPERCASE_LAW",
+        "FONTS_LOADED",
+        "NO_HORIZONTAL_OVERFLOW",
+        "FIVE_ITEM_NAV_WORK_REPLACES_FILING",
+        "APPROVED_HEADER_LOCKUP_ONLY",
+        "SAMPLE_DATA_LABELLED"
+      ]
+    },
+    {
+      "frame": "AIO-OFFICE-REPORTS-MOBILE",
+      "file": "AIO_OFFICE_VISUAL_AUTHORITY/01_MOBILE/AIO-OFFICE-REPORTS-MOBILE-390-FIRST-SCREEN.png",
+      "viewport": "390x844",
+      "dpr": 2,
+      "query": "page=reports&role=founder",
+      "sha256": "e9e0f1152aac5ea569b65f7e1203016d62dacc7813e0dedf5bfc584207e4ef24",
+      "qa_pass": true,
+      "qa_checks": [
+        "UPPERCASE_LAW",
+        "FONTS_LOADED",
+        "NO_HORIZONTAL_OVERFLOW",
+        "FIVE_ITEM_NAV_WORK_REPLACES_FILING",
+        "APPROVED_HEADER_LOCKUP_ONLY",
+        "SAMPLE_DATA_LABELLED"
+      ]
+    },
+    {
+      "frame": "AIO-OFFICE-REPORTS-MOBILE-STAFF-NO-ACCESS",
+      "file": "AIO_OFFICE_VISUAL_AUTHORITY/01_MOBILE/AIO-OFFICE-REPORTS-MOBILE-STAFF-NO-ACCESS-390.png",
+      "viewport": "390x844",
+      "dpr": 2,
+      "query": "page=reports&role=staff",
+      "sha256": "a043a0698480f3b7f4cf74f79ecdb3a257b1970e92c4c640f4d67d3c06a28a8d",
+      "qa_pass": true,
+      "qa_checks": [
+        "UPPERCASE_LAW",
+        "FONTS_LOADED",
+        "NO_HORIZONTAL_OVERFLOW",
+        "FIVE_ITEM_NAV_WORK_REPLACES_FILING",
+        "APPROVED_HEADER_LOCKUP_ONLY",
+        "NO_FOUNDER_FINANCIALS_FOR_STAFF"
+      ]
+    },
+    {
+      "frame": "AIO-OFFICE-MORE-MOBILE",
+      "file": "AIO_OFFICE_VISUAL_AUTHORITY/01_MOBILE/AIO-OFFICE-MORE-MOBILE-390.png",
+      "viewport": "390x844",
+      "dpr": 2,
+      "query": "page=more&role=founder",
+      "sha256": "04528290d28d4f96d734403251b145cd97443869cd9d60d188a4eb5873fcd85b",
+      "qa_pass": true,
+      "qa_checks": [
+        "UPPERCASE_LAW",
+        "FONTS_LOADED",
+        "NO_HORIZONTAL_OVERFLOW",
+        "FIVE_ITEM_NAV_WORK_REPLACES_FILING",
+        "APPROVED_HEADER_LOCKUP_ONLY",
+        "FOUR_MORE_GROUPS"
+      ]
+    },
+    {
+      "frame": "AIO-OFFICE-MORE-MOBILE",
+      "file": "AIO_OFFICE_VISUAL_AUTHORITY/01_MOBILE/AIO-OFFICE-MORE-MOBILE-390-FIRST-SCREEN.png",
+      "viewport": "390x844",
+      "dpr": 2,
+      "query": "page=more&role=founder",
+      "sha256": "0289db4ca7c37fda2e62c9a40ee27d49ea45882067e480d86da1e9350155c962",
+      "qa_pass": true,
+      "qa_checks": [
+        "UPPERCASE_LAW",
+        "FONTS_LOADED",
+        "NO_HORIZONTAL_OVERFLOW",
+        "FIVE_ITEM_NAV_WORK_REPLACES_FILING",
+        "APPROVED_HEADER_LOCKUP_ONLY",
+        "FOUR_MORE_GROUPS"
+      ]
+    },
+    {
+      "frame": "AIO-OFFICE-MORE-MOBILE-STAFF",
+      "file": "AIO_OFFICE_VISUAL_AUTHORITY/01_MOBILE/AIO-OFFICE-MORE-MOBILE-STAFF-390.png",
+      "viewport": "390x844",
+      "dpr": 2,
+      "query": "page=more&role=staff",
+      "sha256": "71c6dac9c7d8bbc2d5c3af48e30ce3c21de943a418f5da7e4bbe90ac70bb8dea",
+      "qa_pass": true,
+      "qa_checks": [
+        "UPPERCASE_LAW",
+        "FONTS_LOADED",
+        "NO_HORIZONTAL_OVERFLOW",
+        "FIVE_ITEM_NAV_WORK_REPLACES_FILING",
+        "APPROVED_HEADER_LOCKUP_ONLY",
+        "FOUR_MORE_GROUPS",
+        "NO_FOUNDER_FINANCIALS_FOR_STAFF",
+        "GRANT_ONLY_ENTRIES_OMITTED"
+      ]
+    },
+    {
+      "frame": "AIO-OFFICE-HOME-TABLET",
+      "file": "AIO_OFFICE_VISUAL_AUTHORITY/02_TABLET/AIO-OFFICE-HOME-TABLET-834.png",
+      "viewport": "834x1194",
+      "dpr": 1,
+      "query": "page=home&role=founder&view=deadlines",
+      "sha256": "07ce2ded5610ef555e618439c19089e09070bca9428ff63f8ba64f2f8a857d7e",
+      "qa_pass": true,
+      "qa_checks": [
+        "UPPERCASE_LAW",
+        "FONTS_LOADED",
+        "NO_HORIZONTAL_OVERFLOW",
+        "FIVE_ITEM_NAV_WORK_REPLACES_FILING",
+        "APPROVED_HEADER_LOCKUP_ONLY",
+        "SAMPLE_DATA_LABELLED",
+        "HOME_TWELVE_LANES_NO_INTAKE"
+      ]
+    },
+    {
+      "frame": "AIO-OFFICE-WORK-TABLET",
+      "file": "AIO_OFFICE_VISUAL_AUTHORITY/02_TABLET/AIO-OFFICE-WORK-TABLET-834.png",
+      "viewport": "834x1194",
+      "dpr": 1,
+      "query": "page=work&role=founder",
+      "sha256": "b0c4e27807727c51f408bbf36bef3a398a7f3090b3fe1c17953cf95b91f68935",
+      "qa_pass": true,
+      "qa_checks": [
+        "UPPERCASE_LAW",
+        "FONTS_LOADED",
+        "NO_HORIZONTAL_OVERFLOW",
+        "FIVE_ITEM_NAV_WORK_REPLACES_FILING",
+        "APPROVED_HEADER_LOCKUP_ONLY",
+        "SAMPLE_DATA_LABELLED",
+        "TWELVE_LANES_CANONICAL_ORDER_NO_INTAKE"
+      ]
+    },
+    {
+      "frame": "AIO-OFFICE-REPORTS-TABLET",
+      "file": "AIO_OFFICE_VISUAL_AUTHORITY/02_TABLET/AIO-OFFICE-REPORTS-TABLET-834.png",
+      "viewport": "834x1194",
+      "dpr": 1,
+      "query": "page=reports&role=founder",
+      "sha256": "66eaaf4293d18775e3dc0ff2c96f32a75e0ba05be07e04050b9e43dcd58b4014",
+      "qa_pass": true,
+      "qa_checks": [
+        "UPPERCASE_LAW",
+        "FONTS_LOADED",
+        "NO_HORIZONTAL_OVERFLOW",
+        "FIVE_ITEM_NAV_WORK_REPLACES_FILING",
+        "APPROVED_HEADER_LOCKUP_ONLY",
+        "SAMPLE_DATA_LABELLED"
+      ]
+    },
+    {
+      "frame": "AIO-OFFICE-REPORTS-TABLET-STAFF-NO-ACCESS",
+      "file": "AIO_OFFICE_VISUAL_AUTHORITY/02_TABLET/AIO-OFFICE-REPORTS-TABLET-STAFF-NO-ACCESS-834.png",
+      "viewport": "834x1194",
+      "dpr": 1,
+      "query": "page=reports&role=staff",
+      "sha256": "205751db56ed5e82953bd283d3b886f6f4bb2b3245249a70faced600ef24c77d",
+      "qa_pass": true,
+      "qa_checks": [
+        "UPPERCASE_LAW",
+        "FONTS_LOADED",
+        "NO_HORIZONTAL_OVERFLOW",
+        "FIVE_ITEM_NAV_WORK_REPLACES_FILING",
+        "APPROVED_HEADER_LOCKUP_ONLY",
+        "NO_FOUNDER_FINANCIALS_FOR_STAFF"
+      ]
+    },
+    {
+      "frame": "AIO-OFFICE-MORE-TABLET",
+      "file": "AIO_OFFICE_VISUAL_AUTHORITY/02_TABLET/AIO-OFFICE-MORE-TABLET-834.png",
+      "viewport": "834x1194",
+      "dpr": 1,
+      "query": "page=more&role=founder",
+      "sha256": "05c960d1b8e9126d1fd82f545c4b1d6a587ae69bd1a80cfb6d5cf0e87207044d",
+      "qa_pass": true,
+      "qa_checks": [
+        "UPPERCASE_LAW",
+        "FONTS_LOADED",
+        "NO_HORIZONTAL_OVERFLOW",
+        "FIVE_ITEM_NAV_WORK_REPLACES_FILING",
+        "APPROVED_HEADER_LOCKUP_ONLY",
+        "FOUR_MORE_GROUPS"
+      ]
+    },
+    {
+      "frame": "AIO-OFFICE-HOME-DESKTOP",
+      "file": "AIO_OFFICE_VISUAL_AUTHORITY/03_DESKTOP/AIO-OFFICE-HOME-DESKTOP-1440.png",
+      "viewport": "1440x900",
+      "dpr": 1,
+      "query": "page=home&role=founder&view=attention",
+      "sha256": "f95cfce4b5ea10f04d58417ab6eba4315fe730d9c83edcfc80057cd2e3794e36",
+      "qa_pass": true,
+      "qa_checks": [
+        "UPPERCASE_LAW",
+        "FONTS_LOADED",
+        "NO_HORIZONTAL_OVERFLOW",
+        "FIVE_ITEM_NAV_WORK_REPLACES_FILING",
+        "APPROVED_HEADER_LOCKUP_ONLY",
+        "SAMPLE_DATA_LABELLED",
+        "HOME_TWELVE_LANES_NO_INTAKE"
+      ]
+    },
+    {
+      "frame": "AIO-OFFICE-HOME-DESKTOP",
+      "file": "AIO_OFFICE_VISUAL_AUTHORITY/03_DESKTOP/AIO-OFFICE-HOME-DESKTOP-1440-FIRST-SCREEN.png",
+      "viewport": "1440x900",
+      "dpr": 1,
+      "query": "page=home&role=founder&view=attention",
+      "sha256": "50998931b5a6b8216b6391e0cfadcfe83abec372a11d0145ce38b93547a32e0b",
+      "qa_pass": true,
+      "qa_checks": [
+        "UPPERCASE_LAW",
+        "FONTS_LOADED",
+        "NO_HORIZONTAL_OVERFLOW",
+        "FIVE_ITEM_NAV_WORK_REPLACES_FILING",
+        "APPROVED_HEADER_LOCKUP_ONLY",
+        "SAMPLE_DATA_LABELLED",
+        "HOME_TWELVE_LANES_NO_INTAKE"
+      ]
+    },
+    {
+      "frame": "AIO-OFFICE-HOME-DESKTOP-STAFF",
+      "file": "AIO_OFFICE_VISUAL_AUTHORITY/03_DESKTOP/AIO-OFFICE-HOME-DESKTOP-STAFF-1440.png",
+      "viewport": "1440x900",
+      "dpr": 1,
+      "query": "page=home&role=staff&view=blocked",
+      "sha256": "90c57fb91ef89e96c9025512e702dea17090dbe970b69a3b0d1251995eec9eec",
+      "qa_pass": true,
+      "qa_checks": [
+        "UPPERCASE_LAW",
+        "FONTS_LOADED",
+        "NO_HORIZONTAL_OVERFLOW",
+        "FIVE_ITEM_NAV_WORK_REPLACES_FILING",
+        "APPROVED_HEADER_LOCKUP_ONLY",
+        "HOME_TWELVE_LANES_NO_INTAKE",
+        "NO_FOUNDER_FINANCIALS_FOR_STAFF"
+      ]
+    },
+    {
+      "frame": "AIO-OFFICE-WORK-DESKTOP",
+      "file": "AIO_OFFICE_VISUAL_AUTHORITY/03_DESKTOP/AIO-OFFICE-WORK-DESKTOP-1440.png",
+      "viewport": "1440x900",
+      "dpr": 1,
+      "query": "page=work&role=founder",
+      "sha256": "eee35ac353077e44812a9aa265d438d5d78e914061e358e5e1c59a7aba9cb5a6",
+      "qa_pass": true,
+      "qa_checks": [
+        "UPPERCASE_LAW",
+        "FONTS_LOADED",
+        "NO_HORIZONTAL_OVERFLOW",
+        "FIVE_ITEM_NAV_WORK_REPLACES_FILING",
+        "APPROVED_HEADER_LOCKUP_ONLY",
+        "SAMPLE_DATA_LABELLED",
+        "TWELVE_LANES_CANONICAL_ORDER_NO_INTAKE"
+      ]
+    },
+    {
+      "frame": "AIO-OFFICE-WORK-DESKTOP",
+      "file": "AIO_OFFICE_VISUAL_AUTHORITY/03_DESKTOP/AIO-OFFICE-WORK-DESKTOP-1440-FIRST-SCREEN.png",
+      "viewport": "1440x900",
+      "dpr": 1,
+      "query": "page=work&role=founder",
+      "sha256": "e376209d4d7fa315dfaf535973d33b62ee3b85accdffed85a7569389bf7a54bc",
+      "qa_pass": true,
+      "qa_checks": [
+        "UPPERCASE_LAW",
+        "FONTS_LOADED",
+        "NO_HORIZONTAL_OVERFLOW",
+        "FIVE_ITEM_NAV_WORK_REPLACES_FILING",
+        "APPROVED_HEADER_LOCKUP_ONLY",
+        "SAMPLE_DATA_LABELLED",
+        "TWELVE_LANES_CANONICAL_ORDER_NO_INTAKE"
+      ]
+    },
+    {
+      "frame": "AIO-OFFICE-REPORTS-DESKTOP",
+      "file": "AIO_OFFICE_VISUAL_AUTHORITY/03_DESKTOP/AIO-OFFICE-REPORTS-DESKTOP-1440.png",
+      "viewport": "1440x900",
+      "dpr": 1,
+      "query": "page=reports&role=founder",
+      "sha256": "96079d267e7910cfb0744d9c6eae78ea0b63219d2c2b2d5b69047f2dec054832",
+      "qa_pass": true,
+      "qa_checks": [
+        "UPPERCASE_LAW",
+        "FONTS_LOADED",
+        "NO_HORIZONTAL_OVERFLOW",
+        "FIVE_ITEM_NAV_WORK_REPLACES_FILING",
+        "APPROVED_HEADER_LOCKUP_ONLY",
+        "SAMPLE_DATA_LABELLED"
+      ]
+    },
+    {
+      "frame": "AIO-OFFICE-REPORTS-DESKTOP",
+      "file": "AIO_OFFICE_VISUAL_AUTHORITY/03_DESKTOP/AIO-OFFICE-REPORTS-DESKTOP-1440-FIRST-SCREEN.png",
+      "viewport": "1440x900",
+      "dpr": 1,
+      "query": "page=reports&role=founder",
+      "sha256": "ab394d8e2732032edf2db3a5cc19fc24ac04677d185ca218fc95bc5078d3f354",
+      "qa_pass": true,
+      "qa_checks": [
+        "UPPERCASE_LAW",
+        "FONTS_LOADED",
+        "NO_HORIZONTAL_OVERFLOW",
+        "FIVE_ITEM_NAV_WORK_REPLACES_FILING",
+        "APPROVED_HEADER_LOCKUP_ONLY",
+        "SAMPLE_DATA_LABELLED"
+      ]
+    },
+    {
+      "frame": "AIO-OFFICE-REPORTS-DESKTOP-STAFF-GRANTED",
+      "file": "AIO_OFFICE_VISUAL_AUTHORITY/03_DESKTOP/AIO-OFFICE-REPORTS-DESKTOP-STAFF-GRANTED-1440.png",
+      "viewport": "1440x900",
+      "dpr": 1,
+      "query": "page=reports&role=staff-granted",
+      "sha256": "d062a1e0e6fccfd00f2b48f4d758791031bacf4b18af3536c437533fe34078eb",
+      "qa_pass": true,
+      "qa_checks": [
+        "UPPERCASE_LAW",
+        "FONTS_LOADED",
+        "NO_HORIZONTAL_OVERFLOW",
+        "FIVE_ITEM_NAV_WORK_REPLACES_FILING",
+        "APPROVED_HEADER_LOCKUP_ONLY",
+        "SAMPLE_DATA_LABELLED",
+        "NO_FOUNDER_FINANCIALS_FOR_STAFF"
+      ]
+    },
+    {
+      "frame": "AIO-OFFICE-REPORTS-DESKTOP-STAFF-NO-ACCESS",
+      "file": "AIO_OFFICE_VISUAL_AUTHORITY/03_DESKTOP/AIO-OFFICE-REPORTS-DESKTOP-STAFF-NO-ACCESS-1440.png",
+      "viewport": "1440x900",
+      "dpr": 1,
+      "query": "page=reports&role=staff",
+      "sha256": "950ddd26b9d948ed41e0375be795d1eafe2854f5a8628dfe11b3eabe930c77a9",
+      "qa_pass": true,
+      "qa_checks": [
+        "UPPERCASE_LAW",
+        "FONTS_LOADED",
+        "NO_HORIZONTAL_OVERFLOW",
+        "FIVE_ITEM_NAV_WORK_REPLACES_FILING",
+        "APPROVED_HEADER_LOCKUP_ONLY",
+        "NO_FOUNDER_FINANCIALS_FOR_STAFF"
+      ]
+    },
+    {
+      "frame": "AIO-OFFICE-MORE-DESKTOP",
+      "file": "AIO_OFFICE_VISUAL_AUTHORITY/03_DESKTOP/AIO-OFFICE-MORE-DESKTOP-1440.png",
+      "viewport": "1440x900",
+      "dpr": 1,
+      "query": "page=more&role=founder",
+      "sha256": "92ae57056b28fff813fc17602992dc1141396a7a03dcd583fb9259f47923e9f7",
+      "qa_pass": true,
+      "qa_checks": [
+        "UPPERCASE_LAW",
+        "FONTS_LOADED",
+        "NO_HORIZONTAL_OVERFLOW",
+        "FIVE_ITEM_NAV_WORK_REPLACES_FILING",
+        "APPROVED_HEADER_LOCKUP_ONLY",
+        "FOUR_MORE_GROUPS"
+      ]
+    },
+    {
+      "frame": "AIO-OFFICE-MORE-DESKTOP",
+      "file": "AIO_OFFICE_VISUAL_AUTHORITY/03_DESKTOP/AIO-OFFICE-MORE-DESKTOP-1440-FIRST-SCREEN.png",
+      "viewport": "1440x900",
+      "dpr": 1,
+      "query": "page=more&role=founder",
+      "sha256": "7b628b87b759ba12553b41596459ed05a05c23add4ff101ef8627389f02c1592",
+      "qa_pass": true,
+      "qa_checks": [
+        "UPPERCASE_LAW",
+        "FONTS_LOADED",
+        "NO_HORIZONTAL_OVERFLOW",
+        "FIVE_ITEM_NAV_WORK_REPLACES_FILING",
+        "APPROVED_HEADER_LOCKUP_ONLY",
+        "FOUR_MORE_GROUPS"
+      ]
+    },
+    {
+      "frame": "AIO-OFFICE-MORE-DESKTOP-STAFF",
+      "file": "AIO_OFFICE_VISUAL_AUTHORITY/03_DESKTOP/AIO-OFFICE-MORE-DESKTOP-STAFF-1440.png",
+      "viewport": "1440x900",
+      "dpr": 1,
+      "query": "page=more&role=staff",
+      "sha256": "f29794b4c1d112429439ef3f6b436745141fba8c4fa16a568e3782df92c1c760",
+      "qa_pass": true,
+      "qa_checks": [
+        "UPPERCASE_LAW",
+        "FONTS_LOADED",
+        "NO_HORIZONTAL_OVERFLOW",
+        "FIVE_ITEM_NAV_WORK_REPLACES_FILING",
+        "APPROVED_HEADER_LOCKUP_ONLY",
+        "FOUR_MORE_GROUPS",
+        "NO_FOUNDER_FINANCIALS_FOR_STAFF",
+        "GRANT_ONLY_ENTRIES_OMITTED"
+      ]
+    },
+    {
+      "frame": "AIO-OFFICE-HOME-ULTRAWIDE",
+      "file": "AIO_OFFICE_VISUAL_AUTHORITY/04_ULTRA_WIDE/AIO-OFFICE-HOME-ULTRAWIDE-2560.png",
+      "viewport": "2560x1440",
+      "dpr": 1,
+      "query": "page=home&role=founder&view=blocked",
+      "sha256": "10ac71b9a3e66a9b999fb91f8414ca14595c51ecd983c7ac8d2303428f661c8f",
+      "qa_pass": true,
+      "qa_checks": [
+        "UPPERCASE_LAW",
+        "FONTS_LOADED",
+        "NO_HORIZONTAL_OVERFLOW",
+        "FIVE_ITEM_NAV_WORK_REPLACES_FILING",
+        "APPROVED_HEADER_LOCKUP_ONLY",
+        "SAMPLE_DATA_LABELLED",
+        "HOME_TWELVE_LANES_NO_INTAKE"
+      ]
+    },
+    {
+      "frame": "AIO-OFFICE-WORK-ULTRAWIDE",
+      "file": "AIO_OFFICE_VISUAL_AUTHORITY/04_ULTRA_WIDE/AIO-OFFICE-WORK-ULTRAWIDE-2560.png",
+      "viewport": "2560x1440",
+      "dpr": 1,
+      "query": "page=work&role=founder",
+      "sha256": "8b114698b13126268b6465ca1c46d81f2e097330797dfdb3ccb13fe6fbbab932",
+      "qa_pass": true,
+      "qa_checks": [
+        "UPPERCASE_LAW",
+        "FONTS_LOADED",
+        "NO_HORIZONTAL_OVERFLOW",
+        "FIVE_ITEM_NAV_WORK_REPLACES_FILING",
+        "APPROVED_HEADER_LOCKUP_ONLY",
+        "SAMPLE_DATA_LABELLED",
+        "TWELVE_LANES_CANONICAL_ORDER_NO_INTAKE"
+      ]
+    },
+    {
+      "frame": "AIO-OFFICE-REPORTS-ULTRAWIDE",
+      "file": "AIO_OFFICE_VISUAL_AUTHORITY/04_ULTRA_WIDE/AIO-OFFICE-REPORTS-ULTRAWIDE-2560.png",
+      "viewport": "2560x1440",
+      "dpr": 1,
+      "query": "page=reports&role=founder",
+      "sha256": "178dc559e8c113e243e4ec2d0ed0d9f9ed99e559e46d8c9c3121e4aaeaae5964",
+      "qa_pass": true,
+      "qa_checks": [
+        "UPPERCASE_LAW",
+        "FONTS_LOADED",
+        "NO_HORIZONTAL_OVERFLOW",
+        "FIVE_ITEM_NAV_WORK_REPLACES_FILING",
+        "APPROVED_HEADER_LOCKUP_ONLY",
+        "SAMPLE_DATA_LABELLED"
+      ]
+    },
+    {
+      "frame": "AIO-OFFICE-MORE-ULTRAWIDE",
+      "file": "AIO_OFFICE_VISUAL_AUTHORITY/04_ULTRA_WIDE/AIO-OFFICE-MORE-ULTRAWIDE-2560.png",
+      "viewport": "2560x1440",
+      "dpr": 1,
+      "query": "page=more&role=founder",
+      "sha256": "bb0944e2e5b4c17dfa69e6e15ab3293e01a0bbc15a31ab7f9bb72c667dfd17f0",
+      "qa_pass": true,
+      "qa_checks": [
+        "UPPERCASE_LAW",
+        "FONTS_LOADED",
+        "NO_HORIZONTAL_OVERFLOW",
+        "FIVE_ITEM_NAV_WORK_REPLACES_FILING",
+        "APPROVED_HEADER_LOCKUP_ONLY",
+        "FOUR_MORE_GROUPS"
+      ]
+    },
+    {
+      "frame": "AIO-OFFICE-COMPONENTS-AND-STATES",
+      "file": "AIO_OFFICE_VISUAL_AUTHORITY/05_COMPONENTS/AIO-OFFICE-COMPONENTS-AND-STATES-1440.png",
+      "viewport": "1440x900",
+      "dpr": 1,
+      "query": "page=kit",
+      "sha256": "300095e3ddefb367aa1f1cfd7bd92953f3189d8ab2615315cfbc506fcf33a67d",
+      "qa_pass": true,
+      "qa_checks": [
+        "UPPERCASE_LAW",
+        "FONTS_LOADED",
+        "NO_HORIZONTAL_OVERFLOW"
+      ]
+    },
+    {
+      "frame": "AIO-OFFICE-HOME-ORIGINAL-VS-REVISED",
+      "file": "AIO_OFFICE_VISUAL_AUTHORITY/06_COMPARISON/AIO-OFFICE-HOME-ORIGINAL-VS-REVISED-2800.png",
+      "viewport": "2800x1400",
+      "dpr": 1,
+      "query": "page=home",
+      "sha256": "61a1b8d0713e9c44dd505e9687d4370a49f699ef06b04f9d23e90755cf9ca129",
+      "qa_pass": true,
+      "qa_checks": [
+        "FONTS_LOADED",
+        "NO_HORIZONTAL_OVERFLOW"
+      ]
+    },
+    {
+      "frame": "AIO-OFFICE-WORK-ORIGINAL-VS-REVISED",
+      "file": "AIO_OFFICE_VISUAL_AUTHORITY/06_COMPARISON/AIO-OFFICE-WORK-ORIGINAL-VS-REVISED-2800.png",
+      "viewport": "2800x1400",
+      "dpr": 1,
+      "query": "page=work",
+      "sha256": "b8d6cb1b12686b5a359e3908abcd059b4cdafc7f44ab91e52214e526627cb9b5",
+      "qa_pass": true,
+      "qa_checks": [
+        "FONTS_LOADED",
+        "NO_HORIZONTAL_OVERFLOW"
+      ]
+    },
+    {
+      "frame": "AIO-OFFICE-REPORTS-ORIGINAL-VS-REVISED",
+      "file": "AIO_OFFICE_VISUAL_AUTHORITY/06_COMPARISON/AIO-OFFICE-REPORTS-ORIGINAL-VS-REVISED-2800.png",
+      "viewport": "2800x1400",
+      "dpr": 1,
+      "query": "page=reports",
+      "sha256": "7688c71feb11e6042b664fff8b33f66bcbbb378b76f0a41391f113a460a2e169",
+      "qa_pass": true,
+      "qa_checks": [
+        "FONTS_LOADED",
+        "NO_HORIZONTAL_OVERFLOW"
+      ]
+    },
+    {
+      "frame": "AIO-OFFICE-MORE-ORIGINAL-VS-REVISED",
+      "file": "AIO_OFFICE_VISUAL_AUTHORITY/06_COMPARISON/AIO-OFFICE-MORE-ORIGINAL-VS-REVISED-2800.png",
+      "viewport": "2800x1400",
+      "dpr": 1,
+      "query": "page=more",
+      "sha256": "7fa6150e3daa3b7532fb94c458e1a70430046ed07528576dcb4b905f66366c0a",
+      "qa_pass": true,
+      "qa_checks": [
+        "FONTS_LOADED",
+        "NO_HORIZONTAL_OVERFLOW"
+      ]
+    }
+  ],
+  "assets": {
+    "reused": [
+      {
+        "asset": "Staff header lockup",
+        "path": "all-in-one-enterprises/public/migration/brand-lockup.png",
+        "used_for": [
+          "every root, every viewport (header, top-left)"
+        ],
+        "status": "APPROVED_REUSED",
+        "note": "The approved INTAKE header lockup; never redrawn, never placed in photography."
+      },
+      {
+        "asset": "Approved AIO OFFICE staff frame",
+        "path": "AIO_CLIENT_MIGRATION_RESPONSIVE_BLUEPRINT/ (responsive-tokens.json · nav-rules.json · masters)",
+        "used_for": [
+          "header 77 px tablet / 68 px desktop",
+          "138 px desktop sidebar",
+          "113 px tablet dock",
+          "active tile: obsidian, gold label, 5 px gold edge"
+        ],
+        "status": "APPROVED_REUSED",
+        "note": "WORK replaces FILING (D-DESKTOP-SHELL); every other value unchanged."
+      },
+      {
+        "asset": "Roboto Condensed + Roboto",
+        "path": "all-in-one-enterprises/public/fonts/migration/*.woff2",
+        "used_for": [
+          "display and text faces"
+        ],
+        "status": "APPROVED_REUSED",
+        "note": "The migration family faces (OFL)."
+      },
+      {
+        "asset": "Founder icon sheet",
+        "path": "all-in-one-enterprises/public/migration/icons/aio-icon-sheet.svg",
+        "used_for": [
+          "navigation (home · inbox · folder · signal · menu)",
+          "search, bell, plus, chevrons, arrows",
+          "report areas, quick actions, MORE entries"
+        ],
+        "status": "APPROVED_REUSED",
+        "note": "WORK inherits FILING’s folder glyph; the approved optical-size factors are kept."
+      },
+      {
+        "asset": "Migration kit supplemental glyphs",
+        "path": "all-in-one-enterprises/src/client-migration/visual/AioMigrationKit.tsx (DRAWN)",
+        "used_for": [
+          "company, people, truck, letter, person-plus, tag, shield-check, id-card, pin, link"
+        ],
+        "status": "APPROVED_REUSED",
+        "note": "Copied paths, same 24-grid outline weight."
+      },
+      {
+        "asset": "HOME welcome photograph",
+        "path": "all-in-one-enterprises/public/brand/ifta/plates/client-hero.jpg",
+        "used_for": [
+          "HOME hero (all viewports)"
+        ],
+        "status": "APPROVED_REUSED_SHARED",
+        "note": "Interim: also the CLIENT OFFICE IFTA hero. The founder’s drawn subject (black truck at an AIO terminal) waits on the photo pass."
+      },
+      {
+        "asset": "WORK band",
+        "path": "all-in-one-enterprises/public/brand/ifta/plates/public-hero.jpg",
+        "used_for": [
+          "WORK band"
+        ],
+        "status": "APPROVED_REUSED_SHARED",
+        "note": "Interim: also the PUBLIC IFTA hero. The drawn subject (a warm premium office desk) waits on the photo pass."
+      },
+      {
+        "asset": "REPORTS band",
+        "path": "all-in-one-enterprises/public/brand/ifta/plates/client-insights.jpg",
+        "used_for": [
+          "REPORTS band (not on ultra-wide)"
+        ],
+        "status": "APPROVED_REUSED_SHARED",
+        "note": "Interim: also the CLIENT OFFICE insights plate. Replaces a drawing with invented chart text."
+      },
+      {
+        "asset": "MORE band",
+        "path": "all-in-one-enterprises/public/brand/ifta/plates/public-footer-desktop.jpg",
+        "used_for": [
+          "MORE band"
+        ],
+        "status": "APPROVED_REUSED_SHARED",
+        "note": "Interim: also the PUBLIC footer. Replaces a notebook carrying an invented AIO mark."
+      },
+      {
+        "asset": "FILING & FUEL TAXES lane",
+        "path": "all-in-one-enterprises/public/brand/ifta/plates/public-road.jpg",
+        "used_for": [
+          "WORK lane 02"
+        ],
+        "status": "APPROVED_REUSED",
+        "note": "Light trails into the mountains — the drawn subject."
+      },
+      {
+        "asset": "VEHICLES & FLEET lane",
+        "path": "all-in-one-enterprises/public/brand/ifta/plates/staff-hero.jpg",
+        "used_for": [
+          "WORK lane 04 (desaturated: no staff workspace yet)"
+        ],
+        "status": "APPROVED_REUSED",
+        "note": "Night fleet yard."
+      },
+      {
+        "asset": "DISPATCH lane",
+        "path": "all-in-one-enterprises/public/brand/all-in-one-hero-truck.png",
+        "used_for": [
+          "WORK lane 05"
+        ],
+        "status": "APPROVED_REUSED",
+        "note": "Carries the real AIO trailer lockup (no dot above the I)."
+      },
+      {
+        "asset": "BROKERAGE lane",
+        "path": "all-in-one-enterprises/public/brand/ifta/plates/public-map.jpg",
+        "used_for": [
+          "WORK lane 06"
+        ],
+        "status": "APPROVED_REUSED",
+        "note": "The gold freight network over the US — replaces a road shot that duplicated FILING’s."
+      },
+      {
+        "asset": "ROAD READY lane",
+        "path": "all-in-one-enterprises/public/brand/aio-login-hero.png",
+        "used_for": [
+          "WORK lane 12"
+        ],
+        "status": "APPROVED_REUSED",
+        "note": "Black truck at sunset — the drawn subject."
+      },
+      {
+        "asset": "Founder four-screen drawing",
+        "path": "docs/aio/office-design-reconciliation/reference/AIO_OFFICE_FOUR_SCREEN_REFERENCE.png",
+        "used_for": [
+          "seven lane stand-ins (cropped, labelled STAND-IN)",
+          "the four comparison boards"
+        ],
+        "status": "STAND_IN_REVIEW_ONLY",
+        "note": "Design review only — never shipped; the drawing itself is preserved unchanged."
+      },
+      {
+        "asset": "Older dotted lockup",
+        "path": "all-in-one-enterprises/public/brand/aio-logo-lockup.png",
+        "used_for": [],
+        "status": "NOT_USED",
+        "note": "Carries the gold dot above the I."
+      },
+      {
+        "asset": "Brand service icon PNGs",
+        "path": "all-in-one-enterprises/public/brand/icons/{compliance,freight,platform,services}/",
+        "used_for": [],
+        "status": "NOT_USED",
+        "note": "Solid style unlike the drawing’s outline icons, and several glyphs are cut off at the source (see missing assets)."
+      },
+      {
+        "asset": "Migration low-resolution plates",
+        "path": "all-in-one-enterprises/public/migration/*.jpg",
+        "used_for": [],
+        "status": "NOT_USED",
+        "note": "853 px or smaller, with baked text or fades; INTAKE’s own hero stays INTAKE’s."
+      }
+    ],
+    "created": [
+      {
+        "asset": "Six supplemental outline glyphs: fuel, umbrella, cash, calculator, steering wheel, wrench",
+        "path": "all-in-one-enterprises/design-authority/aio-office/studio.js (DRAWN)",
+        "note": "Subjects neither the icon sheet nor the migration kit draws (FILING, INSURANCE, FACTORING, BOOKKEEPING, DRIVERS & CARRIERS, MECHANIC / MAINTENANCE); same 24-grid outline family. Marked NEW GLYPH on the components sheet."
+      },
+      {
+        "asset": "Seven lane stand-in crops",
+        "path": "all-in-one-enterprises/design-authority/aio-office/standins/*.jpg (standins.json)",
+        "note": "Cropped from the founder’s drawing (100 px sources, upscaled 4×) — review only, labelled STAND-IN on every render."
+      },
+      {
+        "asset": "Thirty authority frames (38 PNG files) + render manifest",
+        "path": "AIO_OFFICE_VISUAL_AUTHORITY/",
+        "note": "Deterministic: a re-render reproduces every sha256."
+      }
+    ],
+    "missing": [
+      {
+        "asset": "PERMITTING & AUTHORITIES lane photograph",
+        "needed_for": "WORK lane 01",
+        "interim": "STAND-IN from the drawing (legible generated “PERMITS”)",
+        "why_missing": "Photo pass blocked: image generation runs, but this environment cannot download the result (www.figma.com is denied by the network policy).",
+        "brief": "Authority filings and stamped permit folders on an office desk; no legible text."
+      },
+      {
+        "asset": "COMPLIANCE lane photograph",
+        "needed_for": "WORK lane 03",
+        "interim": "STAND-IN (generated “DOT” clipboard)",
+        "why_missing": "Photo pass blocked: image generation runs, but this environment cannot download the result (www.figma.com is denied by the network policy).",
+        "brief": "A safety inspector checking a truck at golden hour, face visible; clipboard text unreadable."
+      },
+      {
+        "asset": "INSURANCE lane photograph",
+        "needed_for": "WORK lane 07",
+        "interim": "STAND-IN (generated “INSURANCE”)",
+        "why_missing": "Photo pass blocked: image generation runs, but this environment cannot download the result (www.figma.com is denied by the network policy).",
+        "brief": "A policy folder and truck keys on a desk, cab through the window; no legible text."
+      },
+      {
+        "asset": "FACTORING lane photograph",
+        "needed_for": "WORK lane 08",
+        "interim": "STAND-IN (garbled invoice text)",
+        "why_missing": "Photo pass blocked: image generation runs, but this environment cannot download the result (www.figma.com is denied by the network policy).",
+        "brief": "Freight invoices and a bill of lading being handed over at a dispatch counter; no legible text."
+      },
+      {
+        "asset": "BOOKKEEPING lane photograph",
+        "needed_for": "WORK lane 09",
+        "interim": "STAND-IN (garbled ledger)",
+        "why_missing": "Photo pass blocked: image generation runs, but this environment cannot download the result (www.figma.com is denied by the network policy).",
+        "brief": "Ledger, receipts and a calculator on a warm wood desk; no legible text."
+      },
+      {
+        "asset": "DRIVERS & CARRIERS lane photograph",
+        "needed_for": "WORK lane 10",
+        "interim": "STAND-IN (masked driver)",
+        "why_missing": "Photo pass blocked: image generation runs, but this environment cannot download the result (www.figma.com is denied by the network policy).",
+        "brief": "A professional driver beside a cab at golden hour, face visible, natural anatomy."
+      },
+      {
+        "asset": "MECHANIC / MAINTENANCE lane photograph",
+        "needed_for": "WORK lane 11",
+        "interim": "STAND-IN (generated workshop)",
+        "why_missing": "Photo pass blocked: image generation runs, but this environment cannot download the result (www.figma.com is denied by the network policy).",
+        "brief": "A clean truck workshop: technician at a wheel hub, real tools."
+      },
+      {
+        "asset": "HOME welcome photograph (drawn subject)",
+        "needed_for": "HOME hero",
+        "interim": "client-hero.jpg (shared with CLIENT OFFICE)",
+        "why_missing": "Photo pass blocked: image generation runs, but this environment cannot download the result (www.figma.com is denied by the network policy).",
+        "brief": "A black truck at a modern terminal at golden hour, mountains beyond; no logos or signage in the photograph."
+      },
+      {
+        "asset": "WORK band (drawn subject)",
+        "needed_for": "WORK band",
+        "interim": "public-hero.jpg (shared with PUBLIC)",
+        "why_missing": "Photo pass blocked: image generation runs, but this environment cannot download the result (www.figma.com is denied by the network policy).",
+        "brief": "A premium office desk in warm light, plants and a closed laptop; no screen text."
+      },
+      {
+        "asset": "REPORTS band (drawn subject)",
+        "needed_for": "REPORTS band",
+        "interim": "client-insights.jpg (shared with CLIENT OFFICE)",
+        "why_missing": "Photo pass blocked: image generation runs, but this environment cannot download the result (www.figma.com is denied by the network policy).",
+        "brief": "Printed reports on a desk, out of focus; no readable charts or numbers."
+      },
+      {
+        "asset": "MORE band (drawn subject)",
+        "needed_for": "MORE band",
+        "interim": "public-footer-desktop.jpg (shared with PUBLIC)",
+        "why_missing": "Photo pass blocked: image generation runs, but this environment cannot download the result (www.figma.com is denied by the network policy).",
+        "brief": "A leather notebook and a gold pen on stone with leaves — plain cover, no mark."
+      },
+      {
+        "asset": "Clean re-trace of the brand service icon PNGs",
+        "needed_for": "any surface that wants the solid icon style",
+        "interim": "outline glyphs from the icon sheet + supplemental family",
+        "why_missing": "At least eight PNGs are cut off at the source crop: operating-authority, permits, ifta-fuel-tax, irp-road-tax, document-vault, messages, notifications, permits-compliance.",
+        "brief": "Re-trace from public/brand/icons/*/_source-master-*.png with full bounds."
+      },
+      {
+        "asset": "MECHANIC / MAINTENANCE service icon",
+        "needed_for": "HOME tile 11, WORK lane 11",
+        "interim": "supplemental wrench glyph (new)",
+        "why_missing": "No approved icon draws the subject.",
+        "brief": "Founder to confirm the wrench, or supply an icon."
+      }
+    ],
+    "photography_pass": {
+      "status": "BLOCKED",
+      "attempted": "One generation (HOME welcome photograph, 2048 × 1152 requested, gpt-image-2.5-sunburst via Figma) — one Figma AI credit used; only a 256 px preview reached this environment.",
+      "cause": "The generator returns an image URL on www.figma.com; the environment’s network policy denies that host (proxy 403). Figma’s plugin sandbox has no fetch, and Weave runs need a per-run cost approval from the founder.",
+      "fix": "Environment settings → Network access: allow www.figma.com (Allowed domains) or choose a broader level; then the controlled photo pass runs with the briefs in AIO_VA_MISSING_ASSETS.",
+      "forbidden_providers": [
+        "OpenArt"
+      ]
+    }
+  },
+  "components": [
+    {
+      "component": "Header",
+      "rule": "Approved frame: phone 62 px (lockup · gold “+” on HOME only · search · bell · avatar · identity · chevron); tablet 77 px (adds the page label); desktop 68 px (AIO OFFICE / page, search field, rule)."
+    },
+    {
+      "component": "Navigation",
+      "rule": "One list HOME · INTAKE · WORK · REPORTS · MORE: phone and tablet dock, desktop sidebar. Active = obsidian tile, gold label (sidebar adds the 5 px gold edge)."
+    },
+    {
+      "component": "Photograph",
+      "rule": "HOME hero about 60% of the drawing’s height; WORK, REPORTS, MORE slim bands. Light plates take dark type over an ivory scrim; dark plates take ivory type with a gold kicker. Full-bleed, fixed height; words align to the content measure. None on REPORTS ultra-wide."
+    },
+    {
+      "component": "Attention cards + list",
+      "rule": "Three selectable views of one list (≤ 5 rows). Selected card: gold ring and a pointer to its list. Row: priority word · client · what is wrong · destination path · age."
+    },
+    {
+      "component": "Honest-state line",
+      "rule": "Dashed top rule, info glyph: names what is NOT CONNECTED YET. Founder / admin views only; never a zero for an unconnected source."
+    },
+    {
+      "component": "Lane tile (HOME) / lane card (WORK)",
+      "rule": "Number 01–12, glyph or photograph, name, signal: “N NEED ATTENTION” (amber), “N BLOCKED” (oxblood), “NOT CONNECTED YET” (grey), “NOTHING NEEDS ATTENTION” (green). VEHICLES & FLEET: hatched / desaturated, “NO STAFF WORKSPACE YET”, no arrow."
+    },
+    {
+      "component": "MY WORK",
+      "rule": "Title, three stat chips (assigned · due this week · blocked), the next rows with due date and status word, and the lanes that do not assign work yet."
+    },
+    {
+      "component": "Report figure",
+      "rule": "Five states: supported · incomplete (PARTIAL DATA chip) · not yet connected · restricted (obsidian, founder / finance) · empty period (0 with when it was checked). No sparklines, no percentages."
+    },
+    {
+      "component": "Report areas",
+      "rule": "Phone: list after the overview. Tablet: selector (two rows). Desktop: navigation column. Each area carries today’s state; the financial area only with the grant."
+    },
+    {
+      "component": "MORE directory",
+      "rule": "Group title with hairline; entry row: glyph tile, title + marker (BY GRANT / FOUNDER / VIEW ONLY / NOT BUILT YET), one-line purpose, chevron."
+    },
+    {
+      "component": "Controls",
+      "rule": "Square-rounded 8–10 px; one gold primary per screen; secondary outline; unavailable actions dashed and say so (PDF LATER). Only the avatar is round."
+    },
+    {
+      "component": "Status words",
+      "rule": "Always a word with a small square: URGENT / OVERDUE / BLOCKED (oxblood), HIGH / TODAY (amber), SOON / BY GRANT / FOUNDER (gold), ON TRACK (green), NOT CONNECTED YET / NOT BUILT YET / PREBUILT (grey)."
+    },
+    {
+      "component": "Labels",
+      "rule": "SAMPLE (dashed) on every panel with figures in authority proofs; INTERNAL / CLIENT-VISIBLE on activity; STAND-IN on interim lane photographs."
+    },
+    {
+      "component": "Icons",
+      "rule": "Icon sheet + the migration kit’s outline family only; six supplemental glyphs drawn this sprint (fuel, umbrella, cash, calculator, steering wheel, wrench). Gold on ivory tiles; obsidian in nav. No emoji; the solid brand PNGs wait for a clean re-trace."
+    }
+  ],
+  "ultra_wide": [
+    "The frame does not change: 68 px header, 138 px sidebar.",
+    "Content measure caps at 1480 px and centres in the workspace; extra width becomes margin (and a wider context column on HOME: 380 px).",
+    "Photography stays full-bleed at a fixed height (HOME 360 px); it never stretches past its master (plates are 2880 px wide). Headline words align to the content measure.",
+    "Grids keep their counts: HOME 6 × 2 tiles, WORK 4 × 3 cards, MORE four groups side by side; never six or more stretched photo cards per row.",
+    "REPORTS drops the photograph on ultra-wide: data first."
+  ],
+  "permissions": [
+    {
+      "area": "MORE → DOCUMENTS & VAULT; HOME document items",
+      "visual_decision": "Each document labelled STAFF ONLY or CLIENT-VISIBLE.",
+      "depends_on": [
+        "P-DOCUMENTS-INTERNAL-EXPOSED"
+      ]
+    },
+    {
+      "area": "MORE → MESSAGES",
+      "visual_decision": "Internal notes drawn distinct from client conversations.",
+      "depends_on": [
+        "P-MESSAGES-RLS-VISIBILITY"
+      ]
+    },
+    {
+      "area": "HOME → RECENT ACTIVITY",
+      "visual_decision": "Every event tagged INTERNAL or CLIENT-VISIBLE.",
+      "depends_on": [
+        "P-ACTIVITY-INTERNAL-TO-CLIENT"
+      ]
+    },
+    {
+      "area": "HOME → CLIENTS IN MOTION",
+      "visual_decision": "PREBUILT shown as NOT ACTIVE YET; only client confirmation activates.",
+      "depends_on": [
+        "P-CLIENT-LIFECYCLE-SELF-UPDATE"
+      ]
+    },
+    {
+      "area": "WORK → MECHANIC / MAINTENANCE; MORE → MECHANIC NETWORK",
+      "visual_decision": "Tickets and providers are staff surfaces; referral fees never drawn in client views.",
+      "depends_on": [
+        "P-FLEETCARE-TICKET-NO-ORG-CHECK",
+        "P-FLEETCARE-REFERRAL-FEES-CLIENT"
+      ]
+    },
+    {
+      "area": "WORK → BROKERAGE",
+      "visual_decision": "Internal notes and audit stay staff-side.",
+      "depends_on": [
+        "P-SHIPPER-VIEW-INTERNAL-NOTES",
+        "P-SHIPPER-READS-AUDIT"
+      ]
+    },
+    {
+      "area": "WORK → BOOKKEEPING; REPORTS → BOOKKEEPING",
+      "visual_decision": "Drafts never surfaced as reports (area NOT CONNECTED YET).",
+      "depends_on": [
+        "P-BOOKKEEPING-DRAFT-REPORTS"
+      ]
+    },
+    {
+      "area": "REPORTS → FILING HISTORY",
+      "visual_decision": "Filed quarters are a staff view; client audit actions stay out.",
+      "depends_on": [
+        "P-IFTA-CLIENT-AUDIT-ACTIONS"
+      ]
+    },
+    {
+      "area": "The whole AIO OFFICE frame",
+      "visual_decision": "Clients never see the staff frame, its nav or INTAKE; client links must not lead into /office.",
+      "depends_on": [
+        "P-CLIENT-LINKS-TO-OFFICE",
+        "P-PORTAL-VIEWS-CROSS-ORG"
+      ]
+    },
+    {
+      "area": "Role-aware visibility (quick actions, REPORTS areas, COLLECTED REVENUE, MORE entries)",
+      "visual_decision": "Drawn as the role and grant model intends: staff without a grant see neither the entry nor a gap for it.",
+      "depends_on": [
+        "grant enforcement: “+ New” menu checks no permission; reports.export and crm.leads.manage are not checked today (contracts sprint)"
+      ]
+    }
+  ],
+  "comparison": [
+    {
+      "root": "HOME",
+      "board": "AIO_OFFICE_VISUAL_AUTHORITY/06_COMPARISON/AIO-OFFICE-HOME-ORIGINAL-VS-REVISED-2800.png",
+      "preserved": [
+        "greeting + “YOUR OPERATION AT A GLANCE.” over a cinematic truck photograph",
+        "three overlapping attention cards with gold arrows",
+        "WORK ACROSS AIO tiles with gold icons",
+        "CLIENTS IN MOTION rows with badges and chips",
+        "RECENT ACTIVITY with gold marks",
+        "black-and-gold dock"
+      ],
+      "changed": [
+        "hero about 60% of the drawn height",
+        "cards select one list (≤ 5 items) shown under them",
+        "quick actions behind the gold “+”",
+        "12 lanes, INTAKE removed, honest signals",
+        "PREBUILT shown as not active; activity visibility tags",
+        "one sample person (ALEX R.) with the role label; all uppercase"
+      ]
+    },
+    {
+      "root": "WORK",
+      "board": "AIO_OFFICE_VISUAL_AUTHORITY/06_COMPARISON/AIO-OFFICE-WORK-ORIGINAL-VS-REVISED-2800.png",
+      "preserved": [
+        "“GET THINGS DONE. / EVERY SERVICE. EVERY CLIENT.” headline",
+        "photographic lane cards, 3 per row on the phone, gold arrows"
+      ],
+      "changed": [
+        "slim band",
+        "MY WORK near the top",
+        "INTAKE tile → VEHICLES & FLEET (no workspace, no arrow); MAINTENANCE → MECHANIC / MAINTENANCE",
+        "canonical order, numbered 01–12, honest signals",
+        "assign-work banner removed; ALL OPEN WORK",
+        "five approved plates; seven labelled stand-ins"
+      ]
+    },
+    {
+      "root": "REPORTS",
+      "board": "AIO_OFFICE_VISUAL_AUTHORITY/06_COMPARISON/AIO-OFFICE-REPORTS-ORIGINAL-VS-REVISED-2800.png",
+      "preserved": [
+        "“REAL INSIGHTS. STRONGER OPERATIONS.” headline",
+        "four headline figures",
+        "service bars",
+        "filing history rows with green marks",
+        "client growth panel"
+      ],
+      "changed": [
+        "slim band",
+        "only backed figures; revenue founder / finance only; no deltas or sparklines",
+        "12 lanes with not-connected rows, PARTIAL DATA label",
+        "client growth honest NOT CONNECTED YET",
+        "ten areas after the overview; staff access explanation"
+      ]
+    },
+    {
+      "root": "MORE",
+      "board": "AIO_OFFICE_VISUAL_AUTHORITY/06_COMPARISON/AIO-OFFICE-MORE-ORIGINAL-VS-REVISED-2800.png",
+      "preserved": [
+        "“YOUR AIO OFFICE. EVERYTHING WITHIN REACH.” headline",
+        "search field under the photograph",
+        "icon rows with chevrons"
+      ],
+      "changed": [
+        "slim band without the invented mark",
+        "four groups, eleven entries (CRM, BILLING, ACCOUNT added)",
+        "ADDITIONAL TOOLS and the NEED HELP card removed",
+        "founder / by-grant / view-only markers; staff omit grant-only entries",
+        "ACCOUNT = the profile menu destination"
+      ]
+    }
+  ],
+  "composer_handoff": {
+    "status": "DRAFT — NOT ACTIONABLE UNTIL THE FOUNDER APPROVES THE VISUAL AUTHORITIES",
+    "gate": "FOUNDER REVIEW OF COMPLETED AIO OFFICE VISUAL AUTHORITIES",
+    "read_first": [
+      "docs/aio/office-visual-authority/README.md",
+      "docs/aio/office-root-contracts/ (what each region may show)",
+      "AIO_CLIENT_MIGRATION_RESPONSIVE_BLUEPRINT/ (the frame)",
+      "AIO_OFFICE_VISUAL_AUTHORITY/ (the approved pixels, once approved)"
+    ],
+    "sequence": [
+      "1 · Shell: rename the staff nav item FILING → WORK in AioMigrationKit STAFF_NAV (one list feeds dock and sidebar); route WORK to the office work root.",
+      "2 · Shared components from 05_COMPONENTS: plate / band, attention cards + list, lane tile, lane card, status words, honest-state line, figure tile states, MORE entry row.",
+      "3 · HOME, then WORK, REPORTS, MORE — phone first, then tablet and desktop compositions (reflow, never scale).",
+      "4 · Data: every figure from its contract source; unconnected sources render NOT CONNECTED YET; SAMPLE labels removed in production.",
+      "5 · Roles: visibility from grants, never names; COLLECTED REVENUE and grant-only entries absent (not hidden) without the grant.",
+      "6 · Photography: replace the seven STAND-IN lane images and the four interim plates once the photo pass delivers approved assets.",
+      "7 · Verify against the authority PNGs at 390 / 834 / 1440 / 2560 with live screenshots before claiming fidelity."
+    ],
+    "do_not": [
+      "deploy",
+      "change auth, role permissions, schemas, billing or client records",
+      "touch IFTA or client-migration implementations beyond the nav label",
+      "activate any platform fee",
+      "ship stand-in or interim shared photography as final",
+      "claim live visual fidelity without live screenshots"
+    ]
+  }
+}

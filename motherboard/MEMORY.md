@@ -15686,3 +15686,33 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Brand:** the header lockup matches the approved `public/migration/brand-lockup.png` (no dot). The older `public/brand/aio-logo-lockup.png` has a gold dot above the I and is DO_NOT_USE. The MORE notebook shows an invented AIO mark.
 - **Open:** 15 founder decisions, 9 of them before regeneration. AIO still needs a creative-direction profile (D-CREATIVE-PROFILE).
 - **Review page:** https://claude.ai/artifact/VSZe1RfFzQQhUU82KH18uG. Its decision picker copies the founder's answers back as text.
+
+---
+
+## 2026-10-08 — AIO office: founder approval recorded; HOME · WORK · REPORTS · MORE visual authorities rendered (awaiting founder)
+
+- **Sprint:** P0.AIO.OFFICE.FOUNDER-HOME-WORK-REPORTS-MORE.FOUNDER-APPROVAL-AND-VISUAL-AUTHORITY1.
+- **Status:**
+  - DECISIONS APPROVED: all 15. The one modification makes the four-screen language the internal AIO OFFICE profile only; PUBLIC, CLIENT OFFICE, IFTA and migration keep their own directions.
+  - VISUALS GENERATED and AWAITING FOUNDER APPROVAL.
+  - LIVE IMPLEMENTATION NOT AUTHORIZED.
+- **Where (SITE00):**
+  - Approvals and record: `projects/aio/office-visual-authority.ts` (validator: `validateVisualAuthority`).
+  - Render manifest: `office-visual-authority-renders.ts`, generated from fsbw `renders.json`.
+  - Profile: `shared/studioos-visual-authority/projects/aio/office-creative-direction-profile.ts` (PROFILE_READY).
+  - Docs: `docs/aio/office-visual-authority/` (01–10, JSON, gate).
+  - Tests: `tests/aioOfficeVisualAuthority1.test.ts` (12).
+  - The reconciliation package is kept as delivered (its decisions stay OPEN); the approvals live beside it.
+- **Where (fsbw):**
+  - Studio: `all-in-one-enterprises/design-authority/aio-office/` (HTML/CSS/JS + `render.mjs`; never imported by src).
+  - Renders: `AIO_OFFICE_VISUAL_AUTHORITY/`: 30 frames, 38 PNGs. Deterministic: a re-render gives byte-identical files.
+  - Every PNG passes DOM-level QA: uppercase, five-item nav with WORK, 12 lanes in canonical order with no INTAKE, four MORE groups, no revenue for staff, approved lockup only, fonts, no overflow.
+- **Photography:**
+  - The pass is BLOCKED. Generation works, but `www.figma.com` is denied by the network policy. One credit was spent. Fix: allow the host in Network access.
+  - Interim: four shared approved plates for the page photographs; five approved lane plates; seven lane STAND-INs cropped from the founder's drawing (review only).
+- **Conventions:**
+  - Sample person ALEX R. (the INTAKE masters), with a role label of FOUNDER or STAFF.
+  - Lane icons come from the icon sheet plus the migration-kit outline family. Six glyphs were added: fuel, umbrella, cash, calculator, steering, wrench.
+  - The brand service PNGs are not used: several are cropped at the source.
+- **Review page:** https://claude.ai/artifact/JuYTR4tEFpcUv51VFnmz5Z.
+- **Next gate:** FOUNDER REVIEW OF COMPLETED AIO OFFICE VISUAL AUTHORITIES.
