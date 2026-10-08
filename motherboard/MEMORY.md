@@ -15568,3 +15568,14 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - Welcome, Safe to Spend, and the purchase check keep their own tagline.
 - **Changes:** `HomeScreens.tsx`, `MoneyScreens.tsx`, `PlanScreens.tsx`, `CreditScreens.tsx`. The hub test now expects those two lines to be absent.
 - **Conventions:** Do not put PLAN TODAY. GROW FREELY. back on the four root hubs. It was in the corner and did not read.
+
+---
+
+## 2026-10-08 — Production estimation engine
+
+- **Context:** This chat isolated the account-drawer and Quick Add overlay sheets, then the founder asked for a real estimation infrastructure instead of manual guesses from vague descriptions. The engine has to cover SITE, WORLD, SYSTEMS, and EXTENSIONS, and simple, advanced, and custom builds.
+- **Topics covered:** Overlay shells for the two drawers. Then family units, complexity classes, descendant and feature modifiers, responsive and visual weights, structural and world grammars, a visual-system registry, timeline lanes, priority production, risk, versioning, founder overrides, and a client blueprint contract.
+- **Decisions / outcomes:** 1 FU is 2 weeks of raw capacity and stays internal. The calendar is serial work plus parallel work divided by the lanes the dependency graph allows. Priority uses up to 4 lanes and a 1.85 price multiplier. On the 16-family fixture that cuts the calendar to about 69% of standard, not half. Simple starts near $3K and custom near $10K. Those are floors, not caps. The dollar-per-FU figure is calibration-only. A client configuration is a projected estimate. It does not approve a quote or lock a schedule. World weights are marked calibration-needed. Estimator version is 1.0.0.
+- **Changes:** `src/studioos/estimation/`, internal page `/admin/site00/estimator`, `docs/site00/SITE00_ESTIMATION_ENGINE.md`. Twelve engine tests pass. The public builder is unchanged. Client estimate preview stays off.
+- **Conventions:** Do not estimate by page count. Do not call priority production “rush.” Do not show family units to clients. Do not treat an estimate as a quote. Do not auto-adjust coefficients from calibration records. Do not invent visual-system sample images.
+

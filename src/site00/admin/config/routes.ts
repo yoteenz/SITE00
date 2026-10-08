@@ -3,6 +3,7 @@ export const SITE00_ADMIN_ROUTES = {
   root: '/admin/site00',
   dashboard: '/admin/site00',
   studio: '/admin/site00/studio',
+  estimator: '/admin/site00/estimator',
   studioQueue: '/admin/site00/studio/queue',
   studioRecipes: '/admin/site00/studio/recipes',
   approvals: '/admin/site00/approvals',

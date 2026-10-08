@@ -7,6 +7,7 @@ import '../site00/admin/styles/site00-email-debug.css';
 
 const Site00AdminDashboardPage = lazy(() => import('../site00/admin/pages/DashboardPage'));
 const Site00AdminStudioPage = lazy(() => import('../site00/admin/pages/StudioPage'));
+const ScopeEstimatorPage = lazy(() => import('../site00/admin/pages/ScopeEstimatorPage'));
 const Site00AdminApprovalsPage = lazy(() => import('../site00/admin/pages/ApprovalsPage'));
 const Site00AdminProjectsPage = lazy(() => import('../site00/admin/pages/ProjectsPage'));
 const Site00AdminProjectWorkspacePage = lazy(() => import('../site00/admin/pages/ProjectWorkspacePage'));
@@ -85,6 +86,14 @@ export function Site00AdminRoutes() {
         element={
           <AdminSuspense>
             <Site00AdminStudioPage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/estimator"
+        element={
+          <AdminSuspense>
+            <ScopeEstimatorPage />
           </AdminSuspense>
         }
       />
