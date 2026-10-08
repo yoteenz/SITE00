@@ -36,6 +36,7 @@
 
 | Node | Founder act | Staff |
 |---|---|---|
+| AIO OFFICE → HOME → Business Pulse | — | by grant (management.dashboard.read · management.financial.read for money figures (ROLE_PERMISSIONS)) |
 | AIO OFFICE → INTAKE → Founder Review | Founder review of the migrated profile (staff prepare it; they do not inherit the review) | sees it; the act is the founder’s |
 | AIO OFFICE → INTAKE → Prebuilt Client | PREBUILT review / approval (APPROVE MIGRATION) | sees it; the act is the founder’s |
 | AIO OFFICE → INTAKE → Activation Invite | Activation authority (sending the activation invite); client confirmation stays the gate before ACTIVE | sees it; the act is the founder’s |
@@ -105,6 +106,7 @@ Existing office permissions keep gating where they already do; nothing here broa
 | AIO OFFICE → HOME → Clients in Motion | FULL | FULL | HIDDEN | — | — | — | — | — |
 | AIO OFFICE → HOME → Recent Activity | FULL | FULL | HIDDEN | — | — | — | — | — |
 | AIO OFFICE → HOME → Quick Actions | FULL | FULL | HIDDEN | — | — | — | — | — |
+| AIO OFFICE → HOME → Business Pulse | FULL | BY_GRANT | HIDDEN | — | — | — | — | management.dashboard.read · management.financial.read for money figures (ROLE_PERMISSIONS) |
 | AIO OFFICE → INTAKE | FULL | FULL | HIDDEN (firewall) | — | — | — | — | — |
 | AIO OFFICE → INTAKE → Existing Client File | FULL | FULL | HIDDEN | — | — | — | — | — |
 | AIO OFFICE → INTAKE → New Client File | FULL | FULL | HIDDEN | — | — | — | — | — |

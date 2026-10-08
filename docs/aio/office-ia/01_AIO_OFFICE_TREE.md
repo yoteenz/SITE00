@@ -58,7 +58,7 @@ The lane owns the vehicle record. Everything else about a vehicle is shown there
 | Vehicle roster | OWNS | AIO OFFICE → WORK → Vehicles & Fleet | PowerUnit / Trailer records. |
 | Vehicle profiles | OWNS | AIO OFFICE → WORK → Vehicles & Fleet | VIN, plate, GVWR, ownership. |
 | Availability / out-of-service state | OWNS | AIO OFFICE → WORK → Vehicles & Fleet | PowerUnit.status active / inactive / sold (roadReadyTypes.ts:125); Dispatch reads it; out-of-service orders come from COMPLIANCE → DOT / SAFETY. |
-| Registration state | CROSS-LINK | AIO OFFICE → WORK → Permitting & Authorities → Tags / Registration | — |
+| Registration state | OWNS | AIO OFFICE → WORK → Vehicles & Fleet | A vehicle attribute (plate, plate state, registration expiry). The registration work (IRP / tags requests) is PERMITTING → TAGS / REGISTRATION. Today no vehicle record holds a registration expiry — it is derived from vault documents. |
 | Credentials / documents | CROSS-LINK | AIO OFFICE → MORE → Documents & Vault | — |
 | Assigned driver | CROSS-LINK | AIO OFFICE → WORK → Drivers & Carriers | — |
 | Insurance state | CROSS-LINK | AIO OFFICE → WORK → Insurance → Policies | — |
@@ -76,7 +76,7 @@ A case is PROJECT + CLIENT / ORG + WORKSPACE + CASE TYPE + SUBCONTEXT (`canonica
 
 | # | Destination | Role | What it is | Implementation | Children |
 |---|---|---|---|---|---|
-| 1 | HOME | COMMAND | Cross-business command center: what needs attention across AIO now. Projects INTAKE and WORK; owns no production state. | PARTIAL · FUNCTIONAL_DEMO | 7 |
+| 1 | HOME | COMMAND | Cross-business command center: what needs attention across AIO now. Projects INTAKE and WORK; owns no production state. | PARTIAL · FUNCTIONAL_DEMO | 8 |
 | 2 | INTAKE | ENTRY | Bring clients and records into the digital AIO system: migration, extraction, matching, review, PREBUILT creation, activation invite. Staff / founder only — never in the client shell. | PARTIAL · PRODUCTION_BACKED | 10 |
 | 3 | WORK | PRODUCTION | The central production workspace across ALL AIO service lines. Service lane navigation, cross-client filtering, client drill-down, active case access, status, blockers, deadlines, assignments where supported, and a route to the canonical client × workspace case. Replaces the old root FILING. | PARTIAL · FUNCTIONAL_DEMO | 12 |
 | 4 | REPORTS | OVERSIGHT | Internal oversight + history + exports: what happened, how work is performing, what can be reviewed / exported. Aggregates WORK and INTAKE; never replaces active production. | PARTIAL · FUNCTIONAL_DEMO | 10 |
@@ -92,6 +92,7 @@ A case is PROJECT + CLIENT / ORG + WORKSPACE + CASE TYPE + SUBCONTEXT (`canonica
   - **Clients in Motion** — PROJECTION · PARTIAL · FUNCTIONAL_DEMO
   - **Recent Activity** — PROJECTION · PARTIAL · FUNCTIONAL_DEMO — `/office/activity`
   - **Quick Actions** — PROJECTION · PARTIAL · FUNCTIONAL_DEMO
+  - **Business Pulse** — PROJECTION · PARTIAL · FUNCTIONAL_DEMO · staff by grant
 - **INTAKE** — ENTRY · PARTIAL · PRODUCTION_BACKED — `/office/migration`
   - **Existing Client File** — ENTRY · PARTIAL · PRODUCTION_BACKED — `/office/migration/existing` · `/office/migration/upload` · `/office/migration/received`
   - **New Client File** — ENTRY · PARTIAL · PRODUCTION_BACKED — `/office/migration/new` · `/office/migration/new-received` · `/office/migration/new-identity` · `/office/migration/new-records`

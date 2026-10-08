@@ -31,7 +31,7 @@ const clone = (): OfficeInformationArchitecture => structuredClone(IA);
 
 /** The founder's trees, verbatim from the sprint (the test is the spec; the data must match it). */
 const FOUNDER_TREE: Record<string, string[] | Record<string, string[]>> = {
-  HOME: ['Needs Attention', 'Deadlines', 'Blockers', 'Work Across AIO', 'Clients in Motion', 'Recent Activity', 'Quick Actions'],
+  HOME: ['Needs Attention', 'Deadlines', 'Blockers', 'Work Across AIO', 'Clients in Motion', 'Recent Activity', 'Quick Actions', 'Business Pulse'], // Business Pulse: optional, added by the HOME authority contract
   INTAKE: ['Existing Client File', 'New Client File', 'Bulk Batch Migration', 'Migration Status', 'Extraction / Classification', 'Match / Reconcile', 'Founder Review', 'Prebuilt Client', 'Activation Invite', 'Migration History'],
   WORK: {
     'Permitting & Authorities': ['Tags / Registration', 'Fuel / Road Tax Permits', 'Operating Authorities', 'BOC-3', 'LLC / Inc', 'Other Permits'],
@@ -76,7 +76,7 @@ describe('A. Root navigation — the founder decision', () => {
 });
 
 describe('B. The founder trees, verbatim', () => {
-  it('AIO OFFICE: HOME 7 · INTAKE 10 · WORK 12 lanes with their sections · REPORTS 10 · MORE 11', () => {
+  it('AIO OFFICE: HOME 8 (7 + optional pulse) · INTAKE 10 · WORK 12 lanes with their sections · REPORTS 10 · MORE 11', () => {
     expect(labels('AIO_OFFICE.HOME')).toEqual(FOUNDER_TREE.HOME);
     expect(labels('AIO_OFFICE.INTAKE')).toEqual(FOUNDER_TREE.INTAKE);
     const work = FOUNDER_TREE.WORK as Record<string, string[]>;
@@ -134,7 +134,7 @@ describe('E. HOME = projection · WORK = production · REPORTS = oversight · MO
     for (const r of iaChildren(IA, 'AIO_OFFICE.HOME')) {
       expect(r.role).toBe('PROJECTION');
       expect(r.projects.length).toBeGreaterThan(0);
-      for (const p of r.projects) expect(['PRODUCTION', 'ENTRY', 'SECONDARY']).toContain(iaNode(IA, p)!.role);
+      for (const p of r.projects) expect(['PRODUCTION', 'ENTRY', 'SECONDARY', 'OVERSIGHT']).toContain(iaNode(IA, p)!.role);
     }
     for (const req of brain.AIO_HOME_REQUIREMENTS) for (const id of req.regions) expect(iaNode(IA, id)?.parent).toBe('AIO_OFFICE.HOME');
   });

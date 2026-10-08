@@ -61,6 +61,23 @@ export type LaneShellSection = (typeof LANE_SHELL_SECTIONS)[number];
 export const CONTRACT_VIEWPORTS = ['MOBILE', 'TABLET', 'DESKTOP'] as const;
 export type ContractViewport = (typeof CONTRACT_VIEWPORTS)[number];
 
+/** The action-ownership rule every root obeys (validateOfficeRootContracts enforces the structural part). */
+export const ACTION_OWNERSHIP_RULE = [
+  'An action changes state only in the root that owns that state: production roots execute, entry roots onboard, administration roots administer supporting systems.',
+  'A projection root only ROUTES to the owner; an oversight root only REVIEWS or ROUTES. Neither executes.',
+  'An action shown away from its owner is a link to the owner’s action, never a second copy of it.',
+  'Every action names the existing permission or privileged act that gates it; a contract never broadens a permission.',
+] as const;
+
+/** How staff records reach a client. Applies to every client-safe projection. */
+export const CLIENT_SAFE_PROJECTION_RULE = [
+  'A client sees a staff record only through an approved projection, and only for its own organisation.',
+  'Only customer-visible fields and events cross: never internal notes, staff names, buckets or assignments, audit actions, margin, commission, cost or referral fees.',
+  'Drafts and in-review material stay internal until delivered or approved.',
+  'A client surface never links into the internal office; staff reach client data from the internal office, never by entering the client shell.',
+  'The projection is enforced where the data is read (database policy or server-side view), not only by hiding it in the page.',
+] as const;
+
 /* ─────────────────────────────── shapes ─────────────────────────────── */
 
 /** One feed into a region / section: where it comes from, who owns it, where it routes, who may see it. */
@@ -234,7 +251,8 @@ export interface ImplementationGap {
   gap_id: string;
   root: string;
   gap: string;
-  kind: 'MISSING_STATE' | 'MISSING_ROLE' | 'MISSING_SURFACE' | 'MISSING_TABLE_OR_SERVICE' | 'MISSING_ROUTE' | 'MISSING_CONTRACT' | 'PRIVACY' | 'DEMO_ONLY';
+  /** DEFERRED — a deliberate business pause or later sprint, not a defect. */
+  kind: 'MISSING_STATE' | 'MISSING_ROLE' | 'MISSING_SURFACE' | 'MISSING_TABLE_OR_SERVICE' | 'MISSING_ROUTE' | 'MISSING_CONTRACT' | 'PRIVACY' | 'DEMO_ONLY' | 'DEFERRED';
   origin: 'IA' | 'DECISION' | 'AUDIT';
   evidence: string[];
   blocks: string;
@@ -246,6 +264,29 @@ export interface VocabularyMapping {
   existing: string[];
   status: 'MAPPED' | 'PARTIAL' | 'NOT_IN_SOURCE';
   note: string;
+}
+
+/** One privileged act, with how the code gates it today. */
+export interface PrivilegedAct {
+  act: string;
+  node_ids: string[];
+  today: string;
+  state: SurfaceState;
+  evidence: string[];
+}
+
+/** A privileged internal role (e.g. FOUNDER): a role granted to people, never an identity in code. */
+export interface PrivilegedRoleContract {
+  role: ContractActor;
+  definition: string;
+  identity_rule: string;
+  multiplicity: 'ONE_OR_MORE' | 'MANY';
+  /** How the role is granted, held and revoked. */
+  assignment: string[];
+  never: string[];
+  acts: PrivilegedAct[];
+  code_today: string;
+  gaps: string[];
 }
 
 export interface OfficeRootContracts {
@@ -262,6 +303,7 @@ export interface OfficeRootContracts {
   responsive: ResponsivePriority[];
   gaps: ImplementationGap[];
   vocabularies: { name: string; mappings: VocabularyMapping[] }[];
+  privileged_roles: PrivilegedRoleContract[];
 }
 
 /* ─────────────────────────────── validation ─────────────────────────────── */
@@ -372,6 +414,21 @@ export function validateOfficeRootContracts(c: OfficeRootContracts, ia: OfficeIn
       if (!rp.order[vp]?.length) v.push(`responsive ${rp.root_id}: ${vp} empty`);
       for (const id of rp.order[vp] ?? []) if (!known.has(id)) v.push(`responsive ${rp.root_id}: ${vp} names unknown ${id}`);
     }
+  }
+
+  // privileged roles: a role, never an identity; nobody inherits it; nobody grants it to themselves
+  const gapIds = new Set(c.gaps.map((g) => g.gap_id));
+  for (const pr of c.privileged_roles) {
+    const def = ia.actors.find((a) => CONTRACT_ACTOR_FROM_IA[a.actor] === pr.role);
+    if (!def) v.push(`role ${pr.role}: no IA actor definition`);
+    else {
+      if (def.multiplicity !== pr.multiplicity) v.push(`role ${pr.role}: multiplicity ${pr.multiplicity} differs from the IA (${def.multiplicity})`);
+      for (const other of ia.actors) if (other.actor !== def.actor && other.inherits.includes(def.actor)) v.push(`role ${pr.role}: inherited by ${other.actor}`);
+      if (def.can_self_elevate !== false) v.push(`role ${pr.role}: self-elevation allowed`);
+    }
+    if (/@|\buser[_-]?id\b/i.test(pr.identity_rule)) v.push(`role ${pr.role}: identity rule names an identity`);
+    for (const a of pr.acts) for (const id of a.node_ids) if (!node(id) || !isInternal(id)) v.push(`role ${pr.role}: act ${a.act} names ${id}, not an internal-office node`);
+    for (const g of pr.gaps) if (!gapIds.has(g)) v.push(`role ${pr.role}: gap ${g} not recorded`);
   }
 
   for (const d of c.data_sources) if (!d.evidence.length && SHOWN_AS_DATA.has(d.state)) v.push(`data source ${d.subject_id}: shown without evidence`);

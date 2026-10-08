@@ -57,7 +57,7 @@ HOME = projection · WORK = production · REPORTS = oversight · MORE = secondar
 | INTAKE_STAFF_ONLY | YES | every INTAKE node CLIENT = HIDDEN; INTAKE is a firewall item |
 | CLIENT_INTAKE_EXPOSURE | NO | no ENTRY role and no /office route in the client shell (validator) |
 | FULL_AIO_SERVICE_SCOPE_REPRESENTED | YES | 14 required services mapped · 12 WORK lanes |
-| HOME_DEFINED_AS_PROJECTION | YES | 7 regions, every one PROJECTION with named owners |
+| HOME_DEFINED_AS_PROJECTION | YES | 8 regions, every one PROJECTION with named owners |
 | WORK_DEFINED_AS_PRODUCTION | YES | WORK and every lane / section role = PRODUCTION |
 | REPORTS_DEFINED_AS_OVERSIGHT | YES | 10 domains, each with a data status |
 | MORE_DEFINED_AS_SECONDARY | YES | 11 entries, none PRODUCTION / ENTRY / COMMAND / PROJECTION |
@@ -70,8 +70,8 @@ HOME = projection · WORK = production · REPORTS = oversight · MORE = secondar
 | STAFF_SERVICE_LANES | 12 | Permitting & Authorities · Filing & Fuel Taxes · Compliance · Vehicles & Fleet · Dispatch · Brokerage · Insurance · Factoring · Bookkeeping · Drivers & Carriers · Mechanic / Maintenance · Road Ready |
 | CLIENT_HUB_IS_LANDING_NOT_ROOT | YES | D-CLIENT-HUB · 8 projection regions over the seven destinations; root nav still seven |
 | COMPLIANCE_SINGLE_LANE | YES | D-COMPLIANCE-ONE-LANE · one lane, one workspace |
-| VEHICLES_FLEET_LANE | YES | D-VEHICLES-FLEET-LANE · owns 3, cross-links 9 (no duplicated source truth) |
-| FOUNDER_IS_ROLE_NOT_IDENTITY | YES | D-FOUNDER-ROLE · 8 founder-only acts · 15 nodes staff see only by grant |
+| VEHICLES_FLEET_LANE | YES | D-VEHICLES-FLEET-LANE · owns 4, cross-links 8 (no duplicated source truth) |
+| FOUNDER_IS_ROLE_NOT_IDENTITY | YES | D-FOUNDER-ROLE · 8 founder-only acts · 16 nodes staff see only by grant |
 | GROWTH_CRM_AND_BILLING_IN_MORE | YES | D-GROWTH-BILLING · HOME projects CRM, REPORTS aggregates billing, clients see client-safe billing only |
 | ROAD_READY_STATE_PLACEMENT | YES | D-ROAD-READY-PLACEMENT · SERVICES while available, OPERATIONS while active, records distributed on completion |
 | OPEN_QUESTIONS_DECIDED | 6 of 6 | D-CLIENT-HUB · D-COMPLIANCE-ONE-LANE · D-VEHICLES-FLEET-LANE · D-FOUNDER-ROLE · D-GROWTH-BILLING · D-ROAD-READY-PLACEMENT |

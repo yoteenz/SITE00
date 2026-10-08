@@ -432,6 +432,29 @@
         "all-in-one-enterprises/src/office/layouts/AIOOfficeLayout.tsx:148 topbar client search"
       ],
       "notes": ""
+    },
+    {
+      "node_id": "AIO_OFFICE.HOME.BUSINESS_PULSE",
+      "label": "Business Pulse",
+      "semantics": "OPTIONAL executive snapshot: renders only metrics that REPORTS can back with production source truth (REAL_DATA or DERIVED_SUPPORTED, production-backed). Absent — never zero — when unsupported.",
+      "projects": [
+        {
+          "node_id": "AIO_OFFICE.REPORTS.OVERVIEW",
+          "location": "AIO OFFICE → REPORTS → Overview"
+        },
+        {
+          "node_id": "AIO_OFFICE.REPORTS.FINANCIAL_REVENUE",
+          "location": "AIO OFFICE → REPORTS → Financial / Revenue"
+        }
+      ],
+      "implementation": "IMPLEMENTATION_PARTIAL",
+      "depth": "FUNCTIONAL_DEMO",
+      "routes": [],
+      "evidence": [
+        "all-in-one-enterprises/src/office/pages/OfficeDashboardPage.tsx:34 ManagerSummary",
+        "all-in-one-enterprises/src/management/managementQueryLayer.ts:90-108 getExecutiveSnapshot"
+      ],
+      "notes": "Added by the HOME authority contract as the optional eighth region. Every figure today comes from the demo store, so in production the region stays absent until a metric is production-backed."
     }
   ]
 }

@@ -63,7 +63,7 @@
     {
       "key": "HOME_DEFINED_AS_PROJECTION",
       "value": "YES",
-      "evidence": "7 regions, every one PROJECTION with named owners"
+      "evidence": "8 regions, every one PROJECTION with named owners"
     },
     {
       "key": "WORK_DEFINED_AS_PRODUCTION",
@@ -128,12 +128,12 @@
     {
       "key": "VEHICLES_FLEET_LANE",
       "value": "YES",
-      "evidence": "D-VEHICLES-FLEET-LANE · owns 3, cross-links 9 (no duplicated source truth)"
+      "evidence": "D-VEHICLES-FLEET-LANE · owns 4, cross-links 8 (no duplicated source truth)"
     },
     {
       "key": "FOUNDER_IS_ROLE_NOT_IDENTITY",
       "value": "YES",
-      "evidence": "D-FOUNDER-ROLE · 8 founder-only acts · 15 nodes staff see only by grant"
+      "evidence": "D-FOUNDER-ROLE · 8 founder-only acts · 16 nodes staff see only by grant"
     },
     {
       "key": "GROWTH_CRM_AND_BILLING_IN_MORE",

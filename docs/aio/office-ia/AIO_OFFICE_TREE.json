@@ -138,6 +138,18 @@
             "depth": "FUNCTIONAL_DEMO",
             "routes": [],
             "children": []
+          },
+          {
+            "node_id": "AIO_OFFICE.HOME.BUSINESS_PULSE",
+            "label": "Business Pulse",
+            "kind": "REGION",
+            "role": "PROJECTION",
+            "architecture": "ARCHITECTURALLY_CANONICAL",
+            "implementation": "IMPLEMENTATION_PARTIAL",
+            "depth": "FUNCTIONAL_DEMO",
+            "routes": [],
+            "staff": "BY_GRANT",
+            "children": []
           }
         ]
       },

@@ -11,11 +11,11 @@
 | File | What |
 |---|---|
 | shared/studioos-experience-brain/office-information-architecture.ts | Generic office IA layer (any project): actors FOUNDER / STAFF / CLIENT, node kinds, roles (COMMAND · PROJECTION · ENTRY · PRODUCTION · OVERSIGHT · SECONDARY · client roles), visibility (FULL · BY_GRANT · CLIENT_SAFE_PROJECTION · VIA_AIO_OFFICE · HIDDEN), founder-only acts, architecture vs implementation status, client resolution (ALWAYS · APPLICABILITY · ENTITLEMENT · STATE with shown_when), state placements, potential children, actor definitions, founder decisions, supersession lineage, legacy classification, candidates, firewall, MORE rules; helpers and `validateOfficeInformationArchitecture`. |
-| shared/studioos-experience-brain/projects/aio/office-ia.ts | AIO data: 157 nodes (SHELL 2 · ROOT_DESTINATION 12 · REGION 15 · SECTION 53 · SERVICE_LANE 12 · LANE_SECTION 40 · REPORT_DOMAIN 10 · DIRECTORY_ENTRY 11 · LANDING 1 · GATE 1), 15 services, 23 supersessions, 21 legacy references, 16 candidates, 12 firewall items, 6 questions (6 decided), 6 founder decisions, 3 actor definitions, the Vehicles & Fleet scope, the product-graph crosswalk and the founder quality gate. |
+| shared/studioos-experience-brain/projects/aio/office-ia.ts | AIO data: 158 nodes (SHELL 2 · ROOT_DESTINATION 12 · REGION 16 · SECTION 53 · SERVICE_LANE 12 · LANE_SECTION 40 · REPORT_DOMAIN 10 · DIRECTORY_ENTRY 11 · LANDING 1 · GATE 1), 15 services, 23 supersessions, 21 legacy references, 16 candidates, 12 firewall items, 6 questions (6 decided), 6 founder decisions, 3 actor definitions, the Vehicles & Fleet scope, the product-graph crosswalk and the founder quality gate. |
 | scripts/studioos/aio-office-ia-export.ts | Generates docs/aio/office-ia/ (this folder). |
 | tests/aioOfficeIaWorkTree1.test.ts | Founder gate, validator, firewall, references into the Brain and the IFTA tree, export sync. |
 
-Implementation truth across nodes: IMPLEMENTED 1 · IMPLEMENTATION_PARTIAL 135 · IMPLEMENTATION_NOT_STARTED 21.
+Implementation truth across nodes: IMPLEMENTED 1 · IMPLEMENTATION_PARTIAL 136 · IMPLEMENTATION_NOT_STARTED 21.
 
 ## Validator rules (generic)
 

@@ -212,6 +212,15 @@ node('AIO_OFFICE.HOME.QUICK_ACTIONS', {
   projects: ['AIO_OFFICE.INTAKE.EXISTING_CLIENT_FILE', 'AIO_OFFICE.INTAKE.NEW_CLIENT_FILE', 'AIO_OFFICE.MORE.CLIENTS', 'AIO_OFFICE.WORK'],
 });
 
+node('AIO_OFFICE.HOME.BUSINESS_PULSE', {
+  label: 'Business Pulse', kind: 'REGION', role: 'PROJECTION', impl: PARTIAL_DEMO, byGrant: true,
+  semantics: 'OPTIONAL executive snapshot: renders only metrics that REPORTS can back with production source truth (REAL_DATA or DERIVED_SUPPORTED, production-backed). Absent — never zero — when unsupported.',
+  evidence: [`${SRC}/office/pages/OfficeDashboardPage.tsx:34 ManagerSummary`, `${SRC}/management/managementQueryLayer.ts:90-108 getExecutiveSnapshot`],
+  projects: ['AIO_OFFICE.REPORTS.OVERVIEW', 'AIO_OFFICE.REPORTS.FINANCIAL_REVENUE'],
+  gate: 'management.dashboard.read · management.financial.read for money figures (ROLE_PERMISSIONS)',
+  notes: 'Added by the HOME authority contract as the optional eighth region. Every figure today comes from the demo store, so in production the region stays absent until a metric is production-backed.',
+});
+
 /* ── INTAKE: staff-only entry / migration / onboarding ── */
 const MIG = (screen: string) => ex(`/office/migration/${screen}`, `${OR('196')} MigrationStudioPage :screen`);
 node('AIO_OFFICE.INTAKE', {
@@ -798,7 +807,7 @@ export const AIO_VEHICLES_FLEET_SCOPE: { item: string; relation: 'OWNS' | 'CROSS
   { item: 'Vehicle roster', relation: 'OWNS', source_of_truth: 'AIO_OFFICE.WORK.VEHICLES_FLEET', note: 'PowerUnit / Trailer records.' },
   { item: 'Vehicle profiles', relation: 'OWNS', source_of_truth: 'AIO_OFFICE.WORK.VEHICLES_FLEET', note: 'VIN, plate, GVWR, ownership.' },
   { item: 'Availability / out-of-service state', relation: 'OWNS', source_of_truth: 'AIO_OFFICE.WORK.VEHICLES_FLEET', note: 'PowerUnit.status active / inactive / sold (roadReadyTypes.ts:125); Dispatch reads it; out-of-service orders come from COMPLIANCE → DOT / SAFETY.' },
-  { item: 'Registration state', relation: 'CROSS_LINK', source_of_truth: 'AIO_OFFICE.WORK.PERMITTING_AUTHORITIES.TAGS_REGISTRATION', note: '' },
+  { item: 'Registration state', relation: 'OWNS', source_of_truth: 'AIO_OFFICE.WORK.VEHICLES_FLEET', note: 'A vehicle attribute (plate, plate state, registration expiry). The registration work (IRP / tags requests) is PERMITTING → TAGS / REGISTRATION. Today no vehicle record holds a registration expiry — it is derived from vault documents.' },
   { item: 'Credentials / documents', relation: 'CROSS_LINK', source_of_truth: 'AIO_OFFICE.MORE.DOCUMENTS_VAULT', note: '' },
   { item: 'Assigned driver', relation: 'CROSS_LINK', source_of_truth: 'AIO_OFFICE.WORK.DRIVERS_CARRIERS', note: '' },
   { item: 'Insurance state', relation: 'CROSS_LINK', source_of_truth: 'AIO_OFFICE.WORK.INSURANCE.POLICIES', note: '' },
@@ -956,7 +965,7 @@ export const AIO_OFFICE_IA_QUALITY_GATE = {
   CLIENT_ROOT_NAV: ['MY BUSINESS', 'OPERATIONS', 'FINANCES', 'VAULT', 'INBOX', 'SERVICES', 'ACCOUNT'],
   NEW_FILING_LOCATION: ['AIO OFFICE', 'WORK', 'Filing & Fuel Taxes'],
   NEW_IFTA_LOCATION: ['AIO OFFICE', 'WORK', 'Filing & Fuel Taxes', 'IFTA'],
-  HOME_REGIONS: ['Needs Attention', 'Deadlines', 'Blockers', 'Work Across AIO', 'Clients in Motion', 'Recent Activity', 'Quick Actions'],
+  HOME_REGIONS: ['Needs Attention', 'Deadlines', 'Blockers', 'Work Across AIO', 'Clients in Motion', 'Recent Activity', 'Quick Actions', 'Business Pulse'],
   WORK_LANES: ['Permitting & Authorities', 'Filing & Fuel Taxes', 'Compliance', 'Vehicles & Fleet', 'Dispatch', 'Brokerage', 'Insurance', 'Factoring', 'Bookkeeping', 'Drivers & Carriers', 'Mechanic / Maintenance', 'Road Ready'],
   MORE_ENTRIES: ['Clients', 'Documents & Vault', 'Growth / CRM', 'Billing', 'Team & Staff', 'Service Catalog', 'Mechanic Network', 'Messages', 'System Settings', 'Help & Support', 'Account'],
   CLIENT_HUB_REGIONS: ['Business Status', 'Work in Progress', 'Items Needing Approval', 'Upcoming Deadlines', 'Recent Messages', 'Active Services', 'Recent Documents', 'Contextual Next Action'],

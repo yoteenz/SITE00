@@ -503,6 +503,46 @@
       "notes": ""
     },
     {
+      "node_id": "AIO_OFFICE.HOME.BUSINESS_PULSE",
+      "shell_id": "AIO_OFFICE",
+      "parent": "AIO_OFFICE.HOME",
+      "order": 7,
+      "label": "Business Pulse",
+      "kind": "REGION",
+      "role": "PROJECTION",
+      "semantics": "OPTIONAL executive snapshot: renders only metrics that REPORTS can back with production source truth (REAL_DATA or DERIVED_SUPPORTED, production-backed). Absent — never zero — when unsupported.",
+      "visibility": {
+        "FOUNDER": "FULL",
+        "STAFF": "BY_GRANT",
+        "CLIENT": "HIDDEN"
+      },
+      "staff_gate": "management.dashboard.read · management.financial.read for money figures (ROLE_PERMISSIONS)",
+      "founder_authority": null,
+      "client_projection": null,
+      "architecture": "ARCHITECTURALLY_CANONICAL",
+      "implementation": "IMPLEMENTATION_PARTIAL",
+      "depth": "FUNCTIONAL_DEMO",
+      "evidence": [
+        "all-in-one-enterprises/src/office/pages/OfficeDashboardPage.tsx:34 ManagerSummary",
+        "all-in-one-enterprises/src/management/managementQueryLayer.ts:90-108 getExecutiveSnapshot"
+      ],
+      "routes": [],
+      "service_ids": [],
+      "workspace_ids": [],
+      "feature_refs": [],
+      "authority_refs": [],
+      "client_resolution": null,
+      "shown_when": null,
+      "potential_children": [],
+      "projects": [
+        "AIO_OFFICE.REPORTS.OVERVIEW",
+        "AIO_OFFICE.REPORTS.FINANCIAL_REVENUE"
+      ],
+      "aggregates": [],
+      "data_status": null,
+      "notes": "Added by the HOME authority contract as the optional eighth region. Every figure today comes from the demo store, so in production the region stays absent until a metric is production-backed."
+    },
+    {
       "node_id": "AIO_OFFICE.INTAKE",
       "shell_id": "AIO_OFFICE",
       "parent": "AIO_OFFICE",
@@ -8832,9 +8872,9 @@
     },
     {
       "item": "Registration state",
-      "relation": "CROSS_LINK",
-      "source_of_truth": "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES.TAGS_REGISTRATION",
-      "note": ""
+      "relation": "OWNS",
+      "source_of_truth": "AIO_OFFICE.WORK.VEHICLES_FLEET",
+      "note": "A vehicle attribute (plate, plate state, registration expiry). The registration work (IRP / tags requests) is PERMITTING → TAGS / REGISTRATION. Today no vehicle record holds a registration expiry — it is derived from vault documents."
     },
     {
       "item": "Credentials / documents",
@@ -9238,7 +9278,8 @@
       "Work Across AIO",
       "Clients in Motion",
       "Recent Activity",
-      "Quick Actions"
+      "Quick Actions",
+      "Business Pulse"
     ],
     "WORK_LANES": [
       "Permitting & Authorities",

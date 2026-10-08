@@ -16,6 +16,7 @@ export * from './office.js';
 export { AIO_CLIENT_ACTIVATION, AIO_CLIENT_MIGRATION } from './migration.js';
 export * from './client-migration.js';
 export * from './office-ia.js';
+export * from './office-contracts.js';
 
 /** Canonical AIO feature inventory, in family order (F01 → F18, then the AIO OFFICE projection, then client migration + activation). */
 export const AIO_EXPERIENCE_CONTRACTS: ExperienceContract[] = [

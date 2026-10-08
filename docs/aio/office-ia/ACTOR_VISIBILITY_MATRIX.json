@@ -230,6 +230,20 @@
       "staff_gate": null
     },
     {
+      "node_id": "AIO_OFFICE.HOME.BUSINESS_PULSE",
+      "path": "AIO OFFICE → HOME → Business Pulse",
+      "kind": "REGION",
+      "FOUNDER": "FULL",
+      "STAFF": "BY_GRANT",
+      "CLIENT": "HIDDEN",
+      "firewall": false,
+      "client_safe_projection": null,
+      "staff_reach": null,
+      "client_resolution": null,
+      "founder_authority": null,
+      "staff_gate": "management.dashboard.read · management.financial.read for money figures (ROLE_PERMISSIONS)"
+    },
+    {
       "node_id": "AIO_OFFICE.INTAKE",
       "path": "AIO OFFICE → INTAKE",
       "kind": "ROOT_DESTINATION",
