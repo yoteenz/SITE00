@@ -19,9 +19,34 @@ export const isValidEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(
 
 export const F01_COPY = {
   common: { close: 'CLOSE', back: 'BACK', cancel: 'CANCEL', continue: 'CONTINUE', done: 'DONE', gotIt: 'GOT IT', notNow: 'NOT NOW', tryAgain: 'TRY AGAIN' },
+  brand: { word: 'JURNL', line: 'FINANCIAL LIFE. BEAUTIFULLY ORGANIZED.' },
   welcome: {
     headline: ['A CALMER,', 'RICHER,', 'MORE', 'INTENTIONAL', 'YOU.'],
     tagline: ['PLAN TODAY.', 'GROW FREELY.'],
+    getStarted: 'GET STARTED',
+    signIn: 'SIGN IN',
+  },
+  /** ENTRY v2 02 — the founder-approved authority is the copy source (no earlier product copy existed). */
+  value: {
+    headline: ['WHAT', 'JURNL', 'IS FOR.'],
+    body: ['A CLEARER READING', 'OF YOUR MONEY.', 'WHAT IS SAFE TO SPEND.', 'WHAT YOU ARE ARRANGING.', 'WHAT YOU OWE.'],
+    continue: 'CONTINUE',
+  },
+  /** ENTRY v2 03. */
+  benefits: {
+    headline: ['WHAT JURNL', 'HELPS YOU DO.'],
+    items: [
+      ['SEE WHAT IS', 'SAFE TO SPEND.'],
+      ['KEEP PLACES', 'AND DEBTS APART.'],
+      ['GIVE YOUR MONEY', 'A PLAN.'],
+      ['CHECK A', 'PURCHASE FIRST.'],
+    ],
+    continue: 'CONTINUE',
+  },
+  /** ENTRY v2 04. */
+  begin: {
+    headline: 'BEGIN.',
+    sub: 'A FEW DETAILS TO GET STARTED.',
     getStarted: 'GET STARTED',
     signIn: 'SIGN IN',
   },

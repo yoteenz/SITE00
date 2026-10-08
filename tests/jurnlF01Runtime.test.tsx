@@ -13,7 +13,7 @@ import { describe, expect, it } from 'vitest';
 import { F01_CLAIMS, F01_COPY, passwordRuleState, passwordSatisfied } from '../src/projects/jurnl/data/f01/copy';
 import { F01_RUNTIME_EXTRA_STATES } from '../src/projects/jurnl/data/f01/coverage';
 import { F01_INTERACTION_MANIFEST, F01_OVERLAYS, JURNL_COMPONENT_RUNTIME, listF01Bindings } from '../src/projects/jurnl/data/f01/interactionBindings';
-import { F01_SCREENS, F01_STATES, f01Screen } from '../src/projects/jurnl/data/f01/screens';
+import { F01_ENTRY_V2, F01_ENTRY_V2_SCREENS, F01_SCREENS, F01_STATES, f01Screen } from '../src/projects/jurnl/data/f01/screens';
 import * as primitives from '../src/projects/jurnl/runtime/components/primitives';
 import JurnlRuntimeRoot, { JURNL_F01_SCREEN_COMPONENTS } from '../src/projects/jurnl/runtime/JurnlRuntimeRoot';
 import {
@@ -87,13 +87,14 @@ describe('F01 routing — every screen is a live route', () => {
     expect(F01_SCREENS.map((s) => s.id)).toEqual(Object.keys(JURNL_F01_SCREEN_COMPONENTS));
     expect(F01_SCREENS).toHaveLength(14);
   });
-  for (const s of F01_SCREENS) {
+  for (const s of [...F01_SCREENS, ...F01_ENTRY_V2_SCREENS]) {
     it(`${s.id} ${s.name} renders at /${s.route}`, () => {
       const html = renderRuntime(s.route);
       expect(html).toContain(`data-jrn-screen="${s.id}"`);
       expect(html).toContain('data-project-runtime="jurnl"');
       expect(html).toContain('data-jrn-app-stage="canvas"');
-      expect(html).toContain('data-jrn-logo="official"');
+      // ENTRY v2 parents set JURNL as type, as their approved authorities do; the rest keep the official lockup.
+      expect(html).toContain(s.id in F01_ENTRY_V2 ? 'data-jrn-logo="entry-v2"' : 'data-jrn-logo="official"');
       expect(html).toContain('data-testid="jurnl-environment"');
     });
   }
@@ -192,7 +193,7 @@ describe('interaction manifest is connected to the runtime (74 / 74)', () => {
   }
   it('route results point at real screens / the F02 boundary', () => {
     for (const b of bindings) {
-      if (b.result.kind === 'route') expect(f01Screen(b.result.screenId), b.interactionId).toBeTruthy();
+      if (b.result.kind === 'route') expect(f01Screen(b.result.screenId) ?? F01_ENTRY_V2_SCREENS.find((x) => x.id === b.result.screenId), b.interactionId).toBeTruthy();
       if (b.result.kind === 'overlay') expect(Object.values(F01_OVERLAYS).flat(), b.interactionId).toContain(b.result.overlayId);
     }
   });
@@ -345,10 +346,10 @@ describe('control geometry — zero circular tappable controls', () => {
     }
   });
   it('rendered controls are buttons/inputs with JURNL square classes; no circle markup', () => {
-    for (const s of F01_SCREENS) {
+    for (const s of [...F01_SCREENS, ...F01_ENTRY_V2_SCREENS]) {
       const html = renderRuntime(s.route);
       expect(html).not.toMatch(/<circle/);
-      for (const m of html.matchAll(/<button[^>]*class="([^"]*)"/g)) expect(m[1], s.id).toMatch(/^jrn-(btn|link|iconbtn|check|toggle|row|field__reveal|badge)/);
+      for (const m of html.matchAll(/<button[^>]*class="([^"]*)"/g)) expect(m[1], s.id).toMatch(/^jrn-(btn|link|iconbtn|check|toggle|row|field__reveal|badge|e2__(btn|link|check|inline|note-action))|^jrn-ref__t jrn-ref__t--(serif|sans) jrn-e2__link/);
     }
   });
 });
@@ -418,13 +419,16 @@ describe('assets + OpenArt restrictions', () => {
       expect(src, f).not.toMatch(/\/authorities\//);
     }
   });
-  it('each screen mounts the official logo plus its canonical environment plate', () => {
+  it('each screen mounts its brand mark plus one canonical environment plate', () => {
     const logo = '/site00/projects/jurnl/brand/jurnl-logo-official.png';
+    // ENTRY v2 parents: the approved ENTRY v2 plate, once (tests/jurnlEntryV2FirstSeven1.test.tsx covers them fully).
+    for (const [id, dir] of Object.entries(F01_ENTRY_V2)) {
+      const route = [...F01_SCREENS, ...F01_ENTRY_V2_SCREENS].find((s) => s.id === id)!.route;
+      const imgs = [...renderRuntime(route).matchAll(/<img[^>]*src="([^"]+)"/g)].map((m) => m[1]!);
+      expect(imgs.filter((i) => i.includes(`ENTRY_V2_${dir}_PLATE.jpg`)), id).toHaveLength(1);
+      expect(imgs.filter((i) => !i.includes('ENTRY_V2_') && !i.includes('LOCKUP_SPRIG')), id).toEqual([]);
+    }
     const plateFor: Record<string, string> = {
-      'F01.00': '/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.PLATE.001.png',
-      'F01.01': '/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.CREATE_ACCOUNT.001.png',
-      'F01.02': '/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.VERIFY.001.png',
-      'F01.03': '/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.SIGN_IN.001.png',
       'F01.04': '/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.UNLOCK.001.png',
       'F01.05': '/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.FORGOT.001.png',
       'F01.06': '/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.RESET_SENT.001.png',
@@ -436,18 +440,16 @@ describe('assets + OpenArt restrictions', () => {
       'F01.12': '/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.SECURITY.001.png',
       'F01.13': '/jurnl/f01-asset-first/assets/ENTRY.ENVIRONMENT.COMPLETE.001.png',
     };
-    for (const s of F01_SCREENS) {
+    for (const s of F01_SCREENS.filter((x) => !(x.id in F01_ENTRY_V2))) {
       const html = renderRuntime(s.route);
       const imgs = [...html.matchAll(/<img[^>]*src="([^"]+)"/g)].map((m) => m[1]);
       expect(new Set(imgs), s.id).toEqual(new Set([logo, plateFor[s.id]]));
       expect(html, s.id).toContain('data-testid="jurnl-environment"');
       expect(html, s.id).not.toMatch(/archive-unnecessary-isolation|ASSET_HARVEST|_ARCHIVE_SCREENSHOT_CROPS/);
     }
-    expect(renderRuntime('entry/create')).toContain('data-env="CHILD_PLATE"');
-    expect(renderRuntime('entry/create')).toContain('ENTRY.ENVIRONMENT.CREATE_ACCOUNT.001');
-    expect(renderRuntime('entry/create')).not.toContain('ENTRY.ENVIRONMENT.PLATE.001');
-    expect(renderRuntime('entry')).toContain('data-env="SHARED_EXISTING_PLATE"');
-    expect(new Set(Object.values(plateFor)).size).toBe(14);
+    expect(renderRuntime('entry/unlock')).toContain('ENTRY.ENVIRONMENT.UNLOCK.001');
+    expect(renderRuntime('entry/create')).not.toContain('ENTRY.ENVIRONMENT.');
+    expect(new Set(Object.values(plateFor)).size).toBe(10);
   });
   it('no OpenArt access anywhere in the ingestion / runtime code', () => {
     for (const f of projectCode) expect(read(f), f).not.toMatch(/openart/i);

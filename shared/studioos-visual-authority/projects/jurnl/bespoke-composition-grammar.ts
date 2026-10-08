@@ -25,7 +25,21 @@ export const JURNL_CREATIVE_GRAMMAR_FLAGS = {
   bespoke_object_system_required: true,
   asymmetry_required: true,
   unexpected_object_relationship_required: true,
+  official_brand_asset_required: true,
+  alternate_logo_invention_forbidden: true,
+  five_level_creative_grammar_required: true,
+  family_world_required: true,
+  multiple_spatial_stations_required: true,
+  composition_rotation_required: true,
+  campaign_image_without_ui_test_required: true,
+  blur_distinctness_test_required: true,
+  artifact_only_interpretation_forbidden: true,
+  generic_stationery_drift_forbidden: true,
+  contrast_anchor_required: true,
 } as const;
+
+/** The only JURNL mark. Do not draw, retype, or restyle it. */
+export const JURNL_OFFICIAL_BRAND_ASSET = 'public/site00/projects/jurnl/brand/jurnl-logo-official.png' as const;
 
 export const JURNL_CREATIVE_LEVELS = [
   {
@@ -68,6 +82,9 @@ export const JURNL_BESPOKE_OBJECT_LIBRARY = [
   'JURNL private dossier',
   'JURNL registration mark',
   'JURNL marble paperweight',
+  'JURNL ledger',
+  'JURNL index drawer',
+  'JURNL brass registration rail',
 ] as const;
 
 export const JURNL_CREATIVE_GRAMMAR_FAMILIES = [
@@ -94,6 +111,10 @@ export const JURNL_CREATIVE_GRAMMAR_FAIL_IF = [
   'The page can be described as a paper panel centered over a Mediterranean background.',
   'Art-history objects are repeated as the same bust beside the same card.',
   'A family copies another family’s artifact language. The grammar is shared. The expression is not.',
+  'An invented logo, monogram, vertical wordmark, botanical substitute, or retyped JURNL lockup appears.',
+  'The page is one stationery object on a generic desk or wall.',
+  'A family uses one camera for every parent.',
+  'The family has no distinct room.',
 ] as const;
 
 export const JURNL_CREATIVE_GRAMMAR_PASS_IF = [
@@ -181,6 +202,7 @@ export const JURNL_CREATIVE_GRAMMAR = {
   sprint: JURNL_CREATIVE_GRAMMAR_SPRINT,
   doctrine: 'PHYSICAL EDITORIAL EXPERIENCES THAT HAPPEN TO FUNCTION AS PRODUCT INTERFACES.',
   flags: JURNL_CREATIVE_GRAMMAR_FLAGS,
+  official_brand_asset: JURNL_OFFICIAL_BRAND_ASSET,
   levels: JURNL_CREATIVE_LEVELS,
   object_library: JURNL_BESPOKE_OBJECT_LIBRARY,
   families: JURNL_CREATIVE_GRAMMAR_FAMILIES,

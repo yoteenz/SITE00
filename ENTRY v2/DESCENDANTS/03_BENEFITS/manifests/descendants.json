@@ -1,0 +1,32 @@
+[
+  {
+    "DESCENDANT_ID": "BENEFITS_DEFAULT",
+    "PARENT_ID": "03_BENEFITS",
+    "TYPE": "PARENT_REFERENCE",
+    "TIER": "PARENT",
+    "FUNCTIONAL_TRIGGER": "Route benefits. Existing locked parent.",
+    "STATE_DELTA": "None. Source does not reveal benefit notes one at a time, so no intermediate was invented.",
+    "PLATE_SOURCE": "PARENT",
+    "PLATE_PATH": "ENTRY v2/03_KEY_BENEFITS/plate/entry-v2-key-benefits-sidekick-plate.png",
+    "AUTHORITY_PATH": "ENTRY v2/03_KEY_BENEFITS/authority/entry-v2-key-benefits-authority.png",
+    "OVERLAY_SHELL": null,
+    "NEW_ASSET_REQUIRED": false,
+    "SHARED_AUTHORITY": null,
+    "STATUS": "FOUNDER_REVIEW_REQUIRED"
+  },
+  {
+    "DESCENDANT_ID": "BENEFITS_CONTINUE_PRESSED",
+    "PARENT_ID": "03_BENEFITS",
+    "TYPE": "MICRO_STATE",
+    "TIER": 1,
+    "FUNCTIONAL_TRIGGER": "Press CONTINUE.",
+    "STATE_DELTA": "Live press. No new plate.",
+    "PLATE_SOURCE": "PARENT",
+    "PLATE_PATH": "ENTRY v2/03_KEY_BENEFITS/plate/entry-v2-key-benefits-sidekick-plate.png",
+    "AUTHORITY_PATH": "ENTRY v2/03_KEY_BENEFITS/authority/entry-v2-key-benefits-authority.png",
+    "OVERLAY_SHELL": null,
+    "NEW_ASSET_REQUIRED": false,
+    "SHARED_AUTHORITY": null,
+    "STATUS": "FOUNDER_REVIEW_REQUIRED"
+  }
+]

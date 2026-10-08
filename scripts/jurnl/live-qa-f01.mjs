@@ -174,12 +174,17 @@ await go('entry', 'reset=1');
 check('ROUTING', 'F01.00 WELCOME', await screenIs('F01.00'));
 await shot(page, 'flows', 'f0100-welcome');
 await page.click(sel('welcome-get-started'));
-await page.waitForSelector('[data-jrn-screen="F01.01"]');
-check('ROUTING', 'GET STARTED → F01.01 (route transition)', true);
+// ENTRY v2: WELCOME → VALUE PROPOSITION → KEY BENEFITS → GET STARTED → CREATE ACCOUNT.
+for (const [trigger, next] of [['value-continue', 'F01.15'], ['benefits-continue', 'F01.16'], ['begin-get-started', 'F01.01']]) {
+  await page.waitForSelector(sel(trigger));
+  await page.click(sel(trigger));
+  await page.waitForSelector(`[data-jrn-screen="${next}"]`);
+}
+check('ROUTING', 'GET STARTED → VALUE → BENEFITS → BEGIN → F01.01 (route transitions)', true);
 
 // CREATE ACCOUNT
 await page.click(sel('create-first-name'));
-check('FORM', 'focused input = emerald state', (await page.locator('.jrn-field[data-focused="true"]').count()) === 1);
+check('FORM', 'focused input = focus state', (await page.locator('.jrn-e2__field[data-focused="true"], .jrn-field[data-focused="true"]').count()) === 1);
 await shot(page, 'flows', 'f0101-focus');
 await page.click(sel('create-submit'));
 await wait(page);
@@ -252,6 +257,8 @@ await shot(page, 'flows', 'f0102-mail-handoff');
 await page.click(sel('mail-continue'));
 await wait(page);
 check('HANDOFF', 'handoff continues and returns to JURNL', !(await page.locator('[data-jrn-overlay="mail"]').count()));
+await page.waitForSelector(sel('verify-success-continue'), { timeout: 6000 });
+check('FLOW', 'design preview follows the emailed link: verified, CONTINUE onward', true);
 await page.goto(`${RT}/entry/verify-email?link=expired`);
 await page.waitForSelector(sel('verify-error-expired'), { timeout: 6000 });
 check('ERROR', 'expired verification link panel', true);

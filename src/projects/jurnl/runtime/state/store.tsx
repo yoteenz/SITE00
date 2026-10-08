@@ -8,7 +8,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useRef, use
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { f03ScreenForRoute } from '../../data/f03/screens';
 import { f04ScreenForRoute } from '../../data/f04/screens';
-import { F01_FAMILY_BOUNDARY, F01_SCREENS, F01_STATE_OVERLAYS, f01ScreenForRoute } from '../../data/f01/screens';
+import { F01_ENTRY_V2_SCREENS, F01_FAMILY_BOUNDARY, F01_SCREENS, F01_STATE_OVERLAYS, f01ScreenForRoute } from '../../data/f01/screens';
 import { f02ScreenForRoute, F02_SCREENS } from '../../data/f02/screens';
 import { jurnlFamilyScreenForPath } from '../../data/familyRouteTree';
 import { resolveFamilyRoute } from '../../data/foundation/familyRegistry';
@@ -127,7 +127,7 @@ export function resolveJurnlRoute(target: string): string {
   if (target === 'F02') return F01_FAMILY_BOUNDARY.route;
   if (/^F\d{2}$/.test(target)) return resolveFamilyRoute(target);
   if (target === 'parents') return 'parents';
-  return F01_SCREENS.find((s) => s.id === target)?.route ?? F02_SCREENS.find((s) => s.id === target)?.route ?? target.replace(/^\/+/, '');
+  return F01_SCREENS.find((s) => s.id === target)?.route ?? F01_ENTRY_V2_SCREENS.find((s) => s.id === target)?.route ?? F02_SCREENS.find((s) => s.id === target)?.route ?? target.replace(/^\/+/, '');
 }
 
 export function JurnlStoreProvider({ basePath, mode, children }: { basePath: string; mode: 'design-preview' | 'production'; children: ReactNode }) {
@@ -265,7 +265,7 @@ export function JurnlStoreProvider({ basePath, mode, children }: { basePath: str
   const prevRel = useRef<string | null>(null);
   useEffect(() => {
     const rel = location.pathname.slice(basePath.length).replace(/^\/+/, '');
-    const screen = f01ScreenForRoute(rel) ?? f02ScreenForRoute(rel) ?? f03ScreenForRoute(rel) ?? f04ScreenForRoute(rel) ?? jurnlFamilyScreenForPath(rel);
+    const screen = f01ScreenForRoute(rel) ?? F01_ENTRY_V2_SCREENS.find((s) => s.route === rel) ?? f02ScreenForRoute(rel) ?? f03ScreenForRoute(rel) ?? f04ScreenForRoute(rel) ?? jurnlFamilyScreenForPath(rel);
     const parentId =
       rel === 'parents' ? 'F05_F16.BOARD'
       : rel === 'money' ? 'F05.00'
