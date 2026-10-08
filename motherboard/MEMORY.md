@@ -15453,3 +15453,20 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - Check a scorer against the build (DOM widths) before trusting its numbers.
   - A centre-anchored link must not use asymmetric negative margins for its hit area; use a pseudo-element.
   - ENTRY 08+ and SETUP stay untouched until the founder reviews these seven live.
+
+---
+
+## 2026-10-08 — ENTRY descendant tree from the locked parents
+
+- **Context:** This chat refined ENTRY 01–07, enriched their rooms, filed and then recomposed parents 08–14, and locked the five-level grammar. A separate turn filed SETUP v1 parents on branch `cursor/jurnl-setup-v1-parents-7425` and did not merge it. This turn builds the ENTRY descendant tree from the locked parents. It does not touch SETUP, the parent plates, or the live first-seven wiring that landed on main.
+- **Topics covered:** Parent inheritance. Tier 1 live states. Tier 2 slips and seals. Tier 3 only when the object itself changes. Overlay drawers. Product copy in `src/projects/jurnl/data/f01/copy.ts`.
+- **Decisions / outcomes:**
+  - 91 tree nodes: 14 parent pointers, 48 tier-1 manifest states, 24 tier-2 states, 5 tier-3 states.
+  - Plates: 90 stay on the parent plate. One derived plate, the sealed reset letter. Zero new plates.
+  - Errors are a burgundy correction slip on the same page. Success is an olive seal. Loading changes the button label. No red pages, confetti, or native biometric dialogs.
+  - Change-email, privacy details, security details, social sign-in, and account locked are drawers on the parent, with a blank shell.
+  - Benefits do not get a reveal state. Source does not reveal those notes one at a time.
+  - `ENTRY v2/EARLY_UNREVIEWED/` stays not canonical.
+  - Implementation stays blocked until founder approval.
+- **Changes:** `ENTRY v2/DESCENDANTS/`, `ENTRY v2/MANIFESTS/entry-descendant-authority-manifest.json`, `ENTRY v2/REVIEW/entry-v2-major-descendant-authorities.png`. No React, CSS, routes, or parent files.
+- **Conventions:** A descendant is the same physical page changing state. If live UI can do it, do not generate a plate. Do not infer founder approval of this tree.

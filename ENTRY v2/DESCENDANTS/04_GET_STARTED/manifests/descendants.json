@@ -1,0 +1,47 @@
+[
+  {
+    "DESCENDANT_ID": "GET_STARTED_DEFAULT",
+    "PARENT_ID": "04_GET_STARTED",
+    "TYPE": "PARENT_REFERENCE",
+    "TIER": "PARENT",
+    "FUNCTIONAL_TRIGGER": "Route get started. Existing locked parent.",
+    "STATE_DELTA": "None.",
+    "PLATE_SOURCE": "PARENT",
+    "PLATE_PATH": "ENTRY v2/04_GET_STARTED/plate/entry-v2-get-started-sidekick-plate.png",
+    "AUTHORITY_PATH": "ENTRY v2/04_GET_STARTED/authority/entry-v2-get-started-authority.png",
+    "OVERLAY_SHELL": null,
+    "NEW_ASSET_REQUIRED": false,
+    "SHARED_AUTHORITY": null,
+    "STATUS": "FOUNDER_REVIEW_REQUIRED"
+  },
+  {
+    "DESCENDANT_ID": "GET_STARTED_CREATE_ACCOUNT_SELECTED",
+    "PARENT_ID": "04_GET_STARTED",
+    "TYPE": "MICRO_STATE",
+    "TIER": 1,
+    "FUNCTIONAL_TRIGGER": "Choose create account.",
+    "STATE_DELTA": "Live selection, then the create route. Same invitation.",
+    "PLATE_SOURCE": "PARENT",
+    "PLATE_PATH": "ENTRY v2/04_GET_STARTED/plate/entry-v2-get-started-sidekick-plate.png",
+    "AUTHORITY_PATH": "ENTRY v2/04_GET_STARTED/authority/entry-v2-get-started-authority.png",
+    "OVERLAY_SHELL": null,
+    "NEW_ASSET_REQUIRED": false,
+    "SHARED_AUTHORITY": null,
+    "STATUS": "FOUNDER_REVIEW_REQUIRED"
+  },
+  {
+    "DESCENDANT_ID": "GET_STARTED_SIGN_IN_SELECTED",
+    "PARENT_ID": "04_GET_STARTED",
+    "TYPE": "MICRO_STATE",
+    "TIER": 1,
+    "FUNCTIONAL_TRIGGER": "Choose sign in.",
+    "STATE_DELTA": "Live selection, then the sign-in route. Same invitation.",
+    "PLATE_SOURCE": "PARENT",
+    "PLATE_PATH": "ENTRY v2/04_GET_STARTED/plate/entry-v2-get-started-sidekick-plate.png",
+    "AUTHORITY_PATH": "ENTRY v2/04_GET_STARTED/authority/entry-v2-get-started-authority.png",
+    "OVERLAY_SHELL": null,
+    "NEW_ASSET_REQUIRED": false,
+    "SHARED_AUTHORITY": null,
+    "STATUS": "FOUNDER_REVIEW_REQUIRED"
+  }
+]
