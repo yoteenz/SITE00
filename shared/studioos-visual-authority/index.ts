@@ -12,6 +12,7 @@ export * from './creative-direction.js';
 export * from './hybrid-authority.js';
 export * as aio from './projects/aio/ifta.js';
 export * as aioIfta from './projects/aio/ifta-authority/index.js';
+export { AIO_OFFICE_CREATIVE_DIRECTION_PROFILE, AIO_OFFICE_PROFILE_SCOPE } from './projects/aio/office-creative-direction-profile.js';
 export * as samples from './projects/samples/portability.js';
 export * as jurnlF09 from './projects/jurnl/f09-safe-to-spend.js';
 export * as jurnlF09CD from './projects/jurnl/f09-creative-direction.js';

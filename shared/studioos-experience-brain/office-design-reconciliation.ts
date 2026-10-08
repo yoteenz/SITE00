@@ -108,6 +108,20 @@ export interface DesignDecision {
   status: 'OPEN' | 'DECIDED';
 }
 
+/** The founder's recorded answer to a design decision. Only the founder decides; this records what they decided. */
+export interface DesignDecisionApproval {
+  decision_id: string;
+  decided_by: 'FOUNDER';
+  date: string;
+  sprint: string;
+  /** Index into the decision's options. */
+  chosen_option: number;
+  /** The decision as the founder approved it, in their words (may refine the option). */
+  approved_as: string;
+  /** A founder change to the recommendation, when there is one. */
+  modification: string | null;
+}
+
 export interface ViewportPlan {
   root_id: string;
   viewport: DesignViewport;
@@ -261,5 +275,19 @@ export function validateDesignReconciliation(rec: DesignReconciliation, c: Offic
   for (const a of rec.assets) if ((a.status === 'REUSE' || a.status === 'REUSE_WITH_FIX' || a.status === 'DO_NOT_USE') && !a.path) v.push(`asset ${a.asset_id}: ${a.status} without a path`);
   for (const p of rec.privacy_touchpoints) if (!c.gaps.some((g) => g.gap_id === p.gap_id)) v.push(`privacy ${p.gap_id}: not a recorded gap`);
   for (const row of rec.roles) if (!c.roots.some((r) => r.root_id === row.root_id)) v.push(`role row ${row.area}: unknown root`);
+  return v;
+}
+
+/** Founder approvals: one per decision, by FOUNDER, choosing a real option. Returns every violation (empty = valid). */
+export function validateDecisionApprovals(rec: DesignReconciliation, approvals: DesignDecisionApproval[]): string[] {
+  const v: string[] = [];
+  for (const d of rec.decisions) {
+    const a = approvals.filter((x) => x.decision_id === d.decision_id);
+    if (a.length !== 1) { v.push(`decision ${d.decision_id}: ${a.length} approvals (exactly one required)`); continue; }
+    if (a[0].decided_by !== 'FOUNDER') v.push(`decision ${d.decision_id}: not decided by the founder`);
+    if (!Number.isInteger(a[0].chosen_option) || a[0].chosen_option < 0 || a[0].chosen_option >= d.options.length) v.push(`decision ${d.decision_id}: chosen option out of range`);
+    if (!a[0].approved_as) v.push(`decision ${d.decision_id}: approval has no wording`);
+  }
+  for (const a of approvals) if (!rec.decisions.some((d) => d.decision_id === a.decision_id)) v.push(`approval ${a.decision_id}: no such decision`);
   return v;
 }

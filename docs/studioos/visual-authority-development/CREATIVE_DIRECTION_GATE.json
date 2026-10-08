@@ -56,8 +56,9 @@
       },
       {
         "project_id": "AIO",
-        "status": "PROFILE_REQUIRED",
-        "must_know": "The business office behind the truck: executive industrial × modern infrastructure, operational luxury, black / gold / silver / obsidian, road and filing-room objects. (AIO IFTA is grandfathered.)"
+        "status": "PROFILE_READY",
+        "profile": "shared/studioos-visual-authority/projects/aio/office-creative-direction-profile.ts",
+        "must_know": "The business office behind the truck: executive industrial × modern infrastructure, operational luxury, black / gold / silver / obsidian, road and filing-room objects. The profile covers the INTERNAL AIO OFFICE only (founder decision 2026-10-08); the public site keeps its darker cinematic direction, CLIENT OFFICE its own rules; IFTA (grandfathered) and client-migration authorities stay protected."
       },
       {
         "project_id": "SITE00",
