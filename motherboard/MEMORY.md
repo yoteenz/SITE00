@@ -15649,3 +15649,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decisions / outcomes:** V1 runtime uses in-memory store (`api/_lib/digitalFoundation/`) matching existing-location pattern; Supabase migration documents persistence. Payment marks PAID only via webhook/simulation, never redirect. Functional UI shell only — Opus owns visual authority next. No live production Stripe until founder configures keys and legal.
 - **Changes:** `shared/site00-digital-foundation/`, `api/site00/digital-foundation-artifact.ts`, `api/admin/site00-foundation.ts`, `api/site00/digital-foundation-stripe-webhook.ts`, routes `/foundation/:token` + `/admin/site00/foundation`, `docs/site00/idnty/SITE00_DIGITAL_FOUNDATION_ARTIFACT_V1.md`, `tests/digitalFoundationCommerce.test.ts`.
 - **Conventions:** Do not hardcode $500 or add-on prices in logic — use `commercialConfig.ts` / addon catalog. Keep platform economics separate from Digital Foundation service purchase.
+
+---
+
+## 2026-10-08 — Digital Foundation Operations V1 (runbook + execution engine)
+
+- **Context:** Sprint `P0.SITE00.IDNTY.DIGITAL-FOUNDATION.V1-OPERATIONS-RUNBOOK-AND-EXECUTION-ENGINE1` after Artifact V1 commerce (`a7aa125a`) — founder needs quote → runbook → tasks → verify → complete orchestration, not manual checklists.
+- **Topics covered:** Runbook generator from scope hash, execution tasks/modes, provider abstraction (no live writes), dependency + verification + completion gate, stage rollup from tasks, P13/P14/P15 query contracts, five-board OPUS handoff, admin API extensions, forecast refinement, Needs-you task linkage.
+- **Decisions / outcomes:** Quote still drives runbook; payment activates runbook; completion requires gate (founder override with reason allowed); client artifact gets `operations_summary` only; no provider credentials/passwords; LIVE provider writes NO.
+- **Changes:** `shared/site00-digital-foundation/operations/`, `api/_lib/digitalFoundation/operationsEngine.ts`, hooks in `service.ts` (payment activate, completion gate, client-action → task), `docs/site00/idnty/SITE00_DIGITAL_FOUNDATION_OPERATIONS_V1.md`, `SITE00_DIGITAL_FOUNDATION_FIVE_BOARD_HANDOFF.md`, `tests/digitalFoundationOperations.test.ts`.
+- **Conventions:** THE QUOTE CONFIGURATION GENERATES THE PRODUCTION RUNBOOK; do not manually diverge stage copies — use rollup; Opus owns five-board visuals next.

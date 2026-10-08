@@ -10,3 +10,4 @@ export * from './surface.js';
 export * from './featureFlags.js';
 export * from './referralSources.js';
 export * from './fixtures/scenarios.js';
+export * from './operations/index.js';

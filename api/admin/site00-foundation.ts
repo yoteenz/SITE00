@@ -18,6 +18,20 @@ import {
   updateQuoteSelections,
 } from '../_lib/digitalFoundation/service.js';
 import { listArtifacts } from '../_lib/digitalFoundation/memoryStore.js';
+import {
+  activateRunbookForArtifact,
+  generateRunbookForArtifact,
+  getPipelineView,
+  getProjectCommandSnapshot,
+  getWorkbenchView,
+  runTaskVerification,
+  setBlocker,
+  setProjectProviders,
+  startTask,
+  completeTask,
+  escalateTaskMode,
+  assessArtifactCompletion,
+} from '../_lib/digitalFoundation/operationsEngine.js';
 
 function setCors(res: VercelResponse): void {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -55,6 +69,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         case 'detail': {
           const id = String(req.query.id ?? '');
           return res.status(200).json(getArtifactPayload(id));
+        }
+        case 'pipeline':
+          return res.status(200).json(getPipelineView());
+        case 'project-command': {
+          const id = String(req.query.id ?? '');
+          return res.status(200).json(getProjectCommandSnapshot(id));
+        }
+        case 'workbench': {
+          const id = String(req.query.id ?? '');
+          return res.status(200).json(getWorkbenchView(id));
+        }
+        case 'completion-gate': {
+          const id = String(req.query.id ?? '');
+          return res.status(200).json(assessArtifactCompletion(id));
         }
         default:
           return res.status(400).json({ error: 'Unknown action' });
@@ -108,7 +136,33 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         case 'mark-complete':
           return res.status(200).json({
-            artifact: markFoundationComplete(String(body.artifact_id), body.ownership ?? {}),
+            artifact: markFoundationComplete(
+              String(body.artifact_id),
+              body.ownership,
+              body.founder_override ? { founder_override: true, override_reason: String(body.override_reason ?? '') } : undefined,
+            ),
+          });
+        case 'generate-runbook':
+          return res.status(200).json(generateRunbookForArtifact(String(body.artifact_id), { supersede: Boolean(body.supersede) }));
+        case 'activate-runbook':
+          return res.status(200).json({ runbook: activateRunbookForArtifact(String(body.artifact_id)) });
+        case 'set-providers':
+          return res.status(200).json({ config: setProjectProviders(String(body.artifact_id), body) });
+        case 'start-task':
+          return res.status(200).json({ task: startTask(String(body.artifact_id), String(body.task_id)) });
+        case 'complete-task':
+          return res.status(200).json({ task: completeTask(String(body.artifact_id), String(body.task_id), body.metadata ?? {}) });
+        case 'verify-task':
+          return res.status(200).json({
+            task: runTaskVerification(String(body.artifact_id), String(body.task_id), body.pass !== false, body.observed),
+          });
+        case 'escalate-task':
+          return res.status(200).json({
+            task: escalateTaskMode(String(body.artifact_id), String(body.task_id), body.mode ?? 'ASSISTED', String(body.reason ?? '')),
+          });
+        case 'set-blocker':
+          return res.status(200).json({
+            task: setBlocker(String(body.artifact_id), String(body.task_id), body.category ?? 'UNKNOWN', String(body.reason ?? '')),
           });
         case 'materialize-fixture':
           return res.status(200).json(await materializeFixtureScenario(String(body.fixture_id)));

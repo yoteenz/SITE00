@@ -246,9 +246,16 @@ export type ClientActionType =
   | 'AUTHORIZE_PROVIDER'
   | 'CONFIRM_EMAIL_ADDRESS'
   | 'CHOOSE_EMAIL_ADDRESS'
-  | 'PROVIDE_BUSINESS_DETAILS'
+  | 'CHOOSE_DOMAIN'
+  | 'AUTHORIZE_DOMAIN_TRANSFER'
+  | 'PROVIDE_PROVIDER_ACCESS'
+  | 'CONFIRM_PRIMARY_EMAIL'
   | 'APPROVE_SIGNATURE'
+  | 'APPROVE_DNS_CHANGE'
   | 'CONNECT_DEVICE'
+  | 'COMPLETE_DEVICE_SETUP'
+  | 'CONFIRM_RECOVERY_EMAIL'
+  | 'PROVIDE_BUSINESS_DETAILS'
   | 'REVIEW_FINAL_RECORD'
   | 'CUSTOM_REQUEST';
 
@@ -334,7 +341,24 @@ export type ArtifactEventType =
   | 'FOUNDATION_COMPLETED'
   | 'CREDIT_CREATED'
   | 'BUILD_INTEREST_CAPTURED'
-  | 'BUILD_BOOKED';
+  | 'BUILD_BOOKED'
+  | 'RUNBOOK_GENERATED'
+  | 'RUNBOOK_ACTIVATED'
+  | 'TASK_READY'
+  | 'TASK_STARTED'
+  | 'TASK_WAITING_CLIENT'
+  | 'TASK_WAITING_PROVIDER'
+  | 'TASK_BLOCKED'
+  | 'TASK_EXECUTED'
+  | 'TASK_VERIFICATION_STARTED'
+  | 'TASK_VERIFIED'
+  | 'TASK_VERIFICATION_FAILED'
+  | 'TASK_COMPLETED'
+  | 'TASK_SUPERSEDED'
+  | 'PROVIDER_HANDOFF_OPENED'
+  | 'FORECAST_CHANGED'
+  | 'FINAL_VERIFICATION_STARTED'
+  | 'FOUNDATION_VERIFIED';
 
 export type ArtifactEvent = {
   event_id: string;
@@ -389,4 +413,10 @@ export type DigitalFoundationArtifactPayload = {
   credit: FoundationBuildCredit | null;
   events: ArtifactEvent[];
   surface: 'PROSPECT' | 'INTAKE' | 'RECOMMENDATION' | 'QUOTE' | 'CHECKOUT' | 'PORTAL' | 'COMPLETE' | 'BUILD_UPSELL';
+  /** Client-safe operational summary (no internal notes). */
+  operations_summary?: {
+    current_stage: string | null;
+    needs_you_count: number;
+    projected_completion: string | null;
+  };
 };
