@@ -15513,3 +15513,19 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - The Safe to Spend buffer displays grouped thousands (`6,500`) the way Quick Add does. The stored value stays ungrouped.
 - **Changes:** `src/projects/jurnl/runtime/jurnl-overlays.css`, `jurnl-runtime.css`, `jurnl-reference.css`, `AccountScreens.tsx`, `GlobalSheets.tsx`, `SafeToSpendScreens.tsx`, `tests/jurnlOverlayReplica1.test.tsx`. Email files are on the other branch.
 - **Conventions:** A JURNL drawer, sheet, or popup blurs the screen behind it the same way the account menu does. Money typed into the buffer is shown with commas. Do not upload email review images to GoDaddy.
+
+---
+
+## 2026-10-08 — SETUP parents redirected to a softer editorial sanctuary
+
+- **Context:** This chat filed the first eight JURNL email authorities, then made every drawer and popup blur the screen and showed the Safe to Spend buffer with commas, then began a parent-only SETUP regeneration. The founder stopped that direction: the parents were reading as a courtroom and a masculine study. This turn regenerates only the 16 SETUP parents as a calm, feminine, private financial sanctuary.
+- **Topics covered:** Email visual authorities. Overlay blur and buffer commas. SETUP parent-only lock. Softer feminine editorial redirection. No sidekicks, plates, components, overlays, or implementation.
+- **Decisions / outcomes:**
+  - Email authorities stay on `cursor/jurnl-emails-first-8-7425` (PR #1500), unmerged, founder review required.
+  - Overlay blur and grouped buffer amounts are already on `main` (PR #1501). Production bundle remains `index.CKJHO4vS.js` (`site00-deploy-2026-10-08-v1`). This SETUP turn does not ship a new ZIP.
+  - SETUP parents on `cursor/jurnl-setup-parent-only-7425` replace the masculine reconstruction. Prior authorities stay under `authority/SUPERSEDED/reconstruction1/`. Prior plates stay filed and are not new extractions. Zero new plates, sidekicks, components, overlays, or descendants.
+  - Emotional target: limestone, linen, ribbon, vellum, ceramic, and paper ritual. Money Held is plaster niches, not drawers. Goals is marble drapery, not a coastal postcard. Complete is an arrival through a plaster arch, not a closed case.
+  - Status of every new parent: `FOUNDER_REVIEW_REQUIRED`. Plate extraction stays blocked until the founder locks the parent.
+  - Grammar now forbids exploding an unapproved parent, and forbids SETUP courtroom or masculine-study drift.
+- **Changes:** `SETUP v1/` parent authorities, review board, and manifest. Creative grammar source, JSON manifest, cursor rule, grammar test, `motherboard/CORE.md`. No React, CSS, routes, ENTRY, TODAY, ACTIVITY, or email files.
+- **Conventions:** SETUP must feel like a private sanctuary, not a law office. Feminine means softness, elegance, and grace, not pink decoration. Do not generate sidekicks, components, overlays, or plates until the founder approves the parent. Do not merge this review. Do not upload SETUP images to GoDaddy.
