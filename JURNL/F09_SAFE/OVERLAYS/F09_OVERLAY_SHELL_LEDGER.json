@@ -16,7 +16,17 @@
   "outputDimensions": "2016x3584",
   "creditsEach": 317,
   "creditsSpent": 1585,
-  "mountedInRuntime": false,
+  "mountedInRuntime": true,
+  "runtime": {
+    "mountedOn": "2026-10-08",
+    "method": "Each shell is registered to its source (SIFT on paper and collage) and drawn in the source's 941 x 1672 frame; the source is the layout. scripts/jurnl/overlay-replica/assets.py, measure.py.",
+    "files": {
+      "F09_QUICK_ADD_OVERLAY_SHELL": "src/projects/jurnl/runtime/global/overlays/F09_QUICK_ADD_SHELL.webp",
+      "F09_ACCOUNT_DRAWER_OVERLAY_SHELL": "src/projects/jurnl/runtime/global/overlays/F09_ACCOUNT_DRAWER_SHELL.webp"
+    },
+    "liftedFromSource": ["src/projects/jurnl/runtime/global/overlays/F09_DRAWER_PROFILE_THUMB.jpg", "src/projects/jurnl/runtime/global/overlays/F09_DRAWER_PRIVACY_PHOTO.jpg"],
+    "components": ["src/projects/jurnl/runtime/global/GlobalSheets.tsx#QuickAddV2Sheet", "src/projects/jurnl/runtime/screens/AccountScreens.tsx#AccountDrawer"]
+  },
   "note": "Accepted shells are the paper overlay alone. The page plate is transparent. Sunburst returned RGB with a painted checkerboard where the plate had been; that checkerboard was keyed to a real alpha channel. The sheet pixels are the generation.",
   "shells": [
     {

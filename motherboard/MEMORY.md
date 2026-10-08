@@ -15346,3 +15346,36 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - E06 security mail carries no environment art, marketing or unsubscribe.
   - Never infer founder approval.
   - Next sprint: `P0.JURNL.EMAILS.FIRST-8-AUTHORITY-BATCH1`.
+
+---
+
+## 2026-10-08 — QUICK ADD and the account drawer replicate the founder references
+
+- **Context:** After the overlay redesign shipped, the founder sent the two reference images (QUICK ADD over SAFE TO SPEND $1,284; the collage ACCOUNT drawer) and said: "you should be using these reference authorities to replicate for the quick add and hamburger menu drawer. not reinventing your own design."
+- **Decisions / outcomes:**
+  - **Authorities:** `JURNL/F09_SAFE/AUTHORITIES/F09_QUICK_ADD_OVERLAY_SOURCE.jpg` and `F09_ACCOUNT_DRAWER_OVERLAY_SOURCE.jpg` (941 × 1672) are the layout. The handoff shells in `JURNL/F09_SAFE/OVERLAYS/` are the paper. `JURNL/OVERLAYS_EDITORIAL_REDESIGN1/` is marked SUPERSEDED and nothing from it is drawn any more.
+  - **Shell registration:** `scripts/jurnl/overlay-replica/assets.py` registers each shell to its source by SIFT (drawer x' = 0.90·x + 166; Quick Add translate (−4, +195)). It writes them into the source frame at 2× as `global/overlays/F09_QUICK_ADD_SHELL.webp` and `F09_ACCOUNT_DRAWER_SHELL.webp`. It also lifts the profile arch (`F09_DRAWER_PROFILE_THUMB.jpg`) and the privacy photo (`F09_DRAWER_PRIVACY_PHOTO.jpg`, type and arrow inpainted) from the source.
+  - **Layout:** `scripts/jurnl/overlay-replica/measure.py` → `layout/overlayReferenceLayout.ts` (`OVR_QUICK_ADD`, `OVR_DRAWER`): boxes from gridded zooms; type fitted by `fit.mjs` with the real fonts.
+    - Sizes are calibrated: cap height is read from the row profile at sub-pixel precision in the source and in a capture of the build at the same scale, and the size is scaled by the ratio.
+    - The first fixed group sizes were about 18% small.
+    - The QUICK ADD title words are fitted apart and condensed (`sx: 0.88`; new optional `RefType.sx`, honoured by `typeAt` for left-anchored lines), because the reference serif is narrower than JURNL Authority Serif.
+  - **QUICK ADD:** the sheet is the reference's 941-px frame from y 686, scaled by `sheetScale` (width / 941 on phones; the root-hub column on wide screens; ≤ 0.94 H; ≤ 0.62).
+    - It is built as stacked blocks: head, NAME, AMOUNT, TYPE, ACCOUNT, SAVE. With one record type it is exactly 686 → 1672.
+    - Families with several record types get a RECORD row set like NAME. Non-transaction records drop TYPE and ACCOUNT. Every further pair of accounts adds a 106-px row.
+    - The shell is drawn from the top, with its torn foot re-drawn from the bottom under a fade.
+    - The screen behind is not dimmed, as in the reference.
+    - Every trigger, radiogroup and the save logic are unchanged.
+  - **Drawer:** a 941 × 1672 frame, right-anchored, scaled by `drawerScale` (H / 1672, ≤ 86% of the width, ≤ 0.7).
+    - The shell is clipped to the reference's clean panel: x 295, y 70 → 1608, radii 30 / 40, with the olive overhang above x 540. A cream backing, shadow and light rim sit under and over it.
+    - Cards, toggle, buffer field, SAVE BUFFER, privacy photo and sign-out sit at the reference boxes.
+    - Live values (name, email, currency, connection) shrink only when they would not fit their line (`fitSize`).
+    - The screen behind is blurred 3 px.
+    - The panel lifts above the keyboard while the buffer is typed into.
+    - Every `drawer-*` trigger is kept.
+  - **Inputs:** computed sizes are NAME 23.08 px, AMOUNT 52 px and BUFFER 33.5 px, all ≥ 16, so iOS does not zoom.
+  - **Tests:** `tests/jurnlOverlayReplica1.test.tsx` replaces `jurnlOverlayAuthorities1`. The F09 replica registry's drawer plate and card images now name the founder drawer source as `superseded_by`.
+- **Conventions:**
+  - When the founder hands over a reference and a shell, replicate the reference. Do not design a new overlay.
+  - Clip a shell to the reference's silhouette when the two differ.
+  - Calibrate type sizes against a capture of the build, not against ink boxes alone.
+  - A new runtime file name must not contain a superseded asset's file name (the registry test matches on substrings).
