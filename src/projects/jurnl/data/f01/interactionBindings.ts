@@ -68,7 +68,8 @@ const inl = (marker: string) => ({ kind: 'inline', marker }) as const;
 const at = (screenId: string, query?: string) => ({ screenId, query });
 
 export const F01_BINDINGS: Record<string, Omit<F01Binding, 'interactionId'>> = {
-  'F01.00.ROUTE.GET_STARTED': { trigger: 'welcome-get-started', surface: at('F01.00'), result: r('F01.01') },
+  // ENTRY v2: WELCOME → VALUE PROPOSITION → KEY BENEFITS → GET STARTED → CREATE ACCOUNT (F01.14–F01.16 sit between).
+  'F01.00.ROUTE.GET_STARTED': { trigger: 'welcome-get-started', surface: at('F01.00'), result: r('F01.14') },
   'F01.00.ROUTE.SIGN_IN': { trigger: 'welcome-sign-in', surface: at('F01.00'), result: r('F01.03') },
 
   'F01.GLOBAL.PRIM.DRAWER.SHORT': { trigger: null, surface: null, result: { kind: 'primitive' } },

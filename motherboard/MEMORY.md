@@ -15413,12 +15413,52 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Changes:** The grammar source, the manifest, the cursor rule, `motherboard/CORE.md`, and `ENTRY v2/` parents 08–14. Test: `tests/jurnlBespokeCompositionGrammar1.test.ts`.
 - **Conventions:** A page fails if it can be described as a paper panel centered over a Mediterranean background. Do not infer founder approval of the recomposed 08–14.
 
+---
+
+## 2026-10-08 — ENTRY v2 first seven parents wired live on their plates
+
+- **Context:** The founder approved the first seven ENTRY v2 authorities as good enough to implement and sent `ENTRY-v2-env3.zip` (AUTHORITY + PLATE per page) with sprint `P0.JURNL.ENTRY-V2.FIRST-7.AUTHORITY-PLUS-PLATE-LIVE-WIRING1`: authority = design authority, plate = environment, legacy screen = functional source only. The same message re-sent `F09_OVERLAY_OPUS.zip`; it is byte-identical to the sources and shells PR #1492 already used, so that PR merged unchanged.
+- **Decisions / outcomes:**
+  - **Routes:**
+    - WELCOME `entry` (F01.00) → VALUE PROPOSITION `entry/value` (F01.14) → KEY BENEFITS `entry/benefits` (F01.15) → GET STARTED `entry/begin` (F01.16) → CREATE ACCOUNT `entry/create` (F01.01).
+    - EMAIL VERIFICATION `entry/verify-email` (F01.02) and SIGN IN `entry/sign-in` (F01.03) keep their routes.
+    - F01.14–F01.16 live in `F01_ENTRY_V2_SCREENS` / `JURNL_ENTRY_V2_SCREEN_COMPONENTS`, outside the 14-screen F01 package contract, so the interaction manifest, structural blueprint and ingestion contracts are unchanged.
+    - `F01_ENTRY_V2` maps runtime ids to the seven ENTRY v2 screens.
+  - **Stage (`components/EntryV2Stage.tsx`):** VIEWPORT → PLATE → LIVE UI.
+    - One plate image per page covers the viewport; it is never letterboxed, doubled or blurred.
+    - The live layer is drawn in the authority's 1008 × 1792 frame and scaled with the plate.
+    - The crop follows each page's focus (bust, column, capital, envelope) and always keeps the whole live layer on screen.
+    - Tablet and desktop fall back to a full-bleed plate with the live layer drawn smaller over its own part of the plate (not an approved authority yet).
+    - The stage lifts above the keyboard while a field is focused.
+  - **Surfaces (`scripts/jurnl/entry-v2/geometry.py`):** type printed on a physical object follows it via CSS `matrix3d`:
+    - the CREATE folio, turned −1.82° (from the four field rules);
+    - the five KEY BENEFITS slips (angles from fitted text baselines);
+    - the GET STARTED standing card and the SIGN IN credential card (homographies fitted to the button edges and field rules).
+  - **Layout (`scripts/jurnl/entry-v2/measure.py` → `layout/entryV2Layout.ts`):** ink is found per line in surface coordinates and fitted with the real fonts (`fit.mjs`).
+    - Sizes are fixed per style group, calibrated against a capture of the build.
+    - `RefType.ws` (word spacing; `fit.mjs` accepts `ws`) is used for the VALUE body.
+    - The CREATE headline's two words are fitted apart.
+  - **Plates:** `families/F01_ENTRY/ENTRY_V2/plates/ENTRY_V2_<screen>_PLATE.jpg`, byte-identical to the zip (SHA-256 in `ENTRY_V2_ASSET_MANIFEST.json`, with lineage ENTRY v2 → screen → plate → authority and OpenArt history ids). Each plate registers to its authority within 0.7 px. Authorities are never mounted.
+  - **Behaviour kept:** every F01 trigger, state and overlay — validation, inline password requirements, reveal, terms / privacy drawers, Apple / Google handoffs, loading, email in use, resend, change email, expired / verified, incorrect / not found / offline / locked, KEEP ME SIGNED IN.
+    - Forms are real `<form noValidate>` with Enter submit.
+    - Inputs compute at 30 px (≥ 16, so iOS does not zoom; the stage scale is a transform).
+    - Notes are set in the page's own type, never as cards.
+  - **Copy:** `F01_COPY` gains `brand`, `value`, `benefits` and `begin` (the authority is the copy source for the new pages). Existing F01 copy is unchanged.
+  - **QA:** live captures compared to each authority (`ENTRY v2/review/entry-v2-first-7-live-vs-authority.jpg`, scores in `entry-v2-first-7-live-qa.json`, tools `scripts/jurnl/entry-v2/capture.mjs` + `qa_score.py`).
+    - Composition 89–95; object alignment 89–97; plate crop 97–99; typography 83–96.
+    - VALUE composition is held down by plate-vs-authority paper texture; VERIFY alignment by an authority-side ink artifact under the olive shadow.
+  - **Tests:** `tests/jurnlEntryV2FirstSeven1.test.tsx` (19). `tests/jurnlF01Runtime.test.tsx` now expects the type-set brand and ENTRY v2 plates on the seven pages. Full vitest fails only the 117 tests that fail on main.
+- **Conventions:**
+  - Measure type in the coordinates of the surface it is printed on.
+  - Check a scorer against the build (DOM widths) before trusting its numbers.
+  - A centre-anchored link must not use asymmetric negative margins for its hit area; use a pseudo-element.
+  - ENTRY 08+ and SETUP stay untouched until the founder reviews these seven live.
 
 ---
 
 ## 2026-10-08 — ENTRY descendant tree from the locked parents
 
-- **Context:** This chat refined ENTRY 01–07, enriched their rooms, filed and then recomposed parents 08–14, and locked the five-level grammar. A separate turn filed SETUP v1 parents on branch `cursor/jurnl-setup-v1-parents-7425` and did not merge it. This turn builds the ENTRY descendant tree from the locked parents and does not touch SETUP, the parent plates, or live code.
+- **Context:** This chat refined ENTRY 01–07, enriched their rooms, filed and then recomposed parents 08–14, and locked the five-level grammar. A separate turn filed SETUP v1 parents on branch `cursor/jurnl-setup-v1-parents-7425` and did not merge it. This turn builds the ENTRY descendant tree from the locked parents. It does not touch SETUP, the parent plates, or the live first-seven wiring that landed on main.
 - **Topics covered:** Parent inheritance. Tier 1 live states. Tier 2 slips and seals. Tier 3 only when the object itself changes. Overlay drawers. Product copy in `src/projects/jurnl/data/f01/copy.ts`.
 - **Decisions / outcomes:**
   - 91 tree nodes: 14 parent pointers, 48 tier-1 manifest states, 24 tier-2 states, 5 tier-3 states.
