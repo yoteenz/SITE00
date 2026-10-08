@@ -1,0 +1,17 @@
+{
+  "id": "PACK_A_IDENTITY",
+  "role": "Control the mark. Do not control the room.",
+  "attach": [
+    "src/projects/jurnl/families/F09_SAFE/REFERENCE_REPLICA/assets/LOCKUP_SPRIG.png",
+    "src/projects/jurnl/families/F09_SAFE/REFERENCE_REPLICA/assets/LOCKUP_WORD.png"
+  ],
+  "source_do_not_attach": "src/projects/jurnl/families/F09_SAFE/ENVIRONMENTS/F09_LOCKUP.png",
+  "source_note": "F09_LOCKUP.png is the approved horizontal sprig-over-word treatment. It also shows plaster and an arch, so attaching the whole frame teaches the Mediterranean formula. Use the two cuts. They still contain plaster haze. They are not a clean isolated asset.",
+  "clean_reusable_decorative_asset": null,
+  "excluded": [
+    "public/site00/projects/jurnl/brand/jurnl-logo-official.png",
+    "public/site00/projects/jurnl/brand/jurnl-cover.png",
+    "JURNL/F02_SETUP/ASSETS/LOCKUPS/F02.BRANDLOCKUP.JURNL.001.png",
+    "JURNL/F02_SETUP/ASSETS/LOCKUPS/F02.BRANDLOCKUP.JURNL_SETUP.001.png"
+  ]
+}

@@ -27,6 +27,18 @@
     "contrast_anchor_required": true
   },
   "official_brand_asset": "public/site00/projects/jurnl/brand/jurnl-logo-official.png",
+  "image_to_image_identity": {
+    "vertical_botanical_file": "public/site00/projects/jurnl/brand/jurnl-logo-official.png",
+    "vertical_botanical_status": "SUPERSEDED_IDENTITY_REFERENCE",
+    "attach_vertical_botanical": false,
+    "decorative_treatment_source": "src/projects/jurnl/families/F09_SAFE/ENVIRONMENTS/F09_LOCKUP.png",
+    "decorative_layers": [
+      "src/projects/jurnl/families/F09_SAFE/REFERENCE_REPLICA/assets/LOCKUP_SPRIG.png",
+      "src/projects/jurnl/families/F09_SAFE/REFERENCE_REPLICA/assets/LOCKUP_WORD.png"
+    ],
+    "clean_reusable_decorative_asset": null,
+    "reference_manifest": "JURNL/MANIFEST/REFERENCE_HYGIENE_V1/JURNL_REFERENCE_MANIFEST_V1.json"
+  },
   "levels": [
     {
       "level": 1,

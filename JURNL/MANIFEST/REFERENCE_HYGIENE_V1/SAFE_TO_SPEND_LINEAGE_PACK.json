@@ -1,0 +1,11 @@
+{
+  "id": "PACK_E_SAFE_TO_SPEND_LINEAGE",
+  "role": "Only for a Safe to Spend screen, or a TODAY screen whose job is that number.",
+  "attach_one_world": "src/projects/jurnl/families/F09_SAFE/ENVIRONMENTS/F09_ENVIRONMENT_AUTHORITY_PLATE.png",
+  "do_not_also_attach": [
+    "src/projects/jurnl/families/F09_SAFE/ENVIRONMENTS/F09_ENVIRONMENT_AUTHORITY_TERRACE.png",
+    "ENTRY v2/01_WELCOME/authority/entry-v2-welcome-authority.png"
+  ],
+  "identity": "PACK_A_IDENTITY",
+  "editorial": "PACK_B_EDITORIAL"
+}
