@@ -1,0 +1,97 @@
+{
+  "PROJECT": "ENTRY v2",
+  "SPRINT": "P0.JURNL.ENTRY-V2.REMAINING-PARENTS-ONLY.GATE-BEFORE-DESCENDANTS1",
+  "PRIOR_SPRINT": "P0.JURNL.ENTRY-V2.REMAINING-PARENTS-AND-DESCENDANT-AUTHORITY-BATCH1",
+  "STATUS": "FOUNDER_REVIEW_REQUIRED",
+  "PARENT_FAMILY_COMPLETE": true,
+  "DESCENDANT_GENERATION_AUTHORIZED": false,
+  "DESCENDANT_GENERATION_BLOCKED_PENDING_FOUNDER_APPROVAL": true,
+  "COPY_SOURCE": "src/projects/jurnl/data/f01/copy.ts",
+  "NOTE": "Image text is a visual reference. Product copy stays in copy.ts. Parents 01–07 were not redesigned. No new descendant dispatches after the interjection.",
+  "SCREENS": [
+    {
+      "SCREEN_ID": "08_BIOMETRIC_SETUP",
+      "SCREEN_NAME": "BIOMETRIC SETUP",
+      "ARTIFACT": "IDENTITY CREDENTIAL / EMBOSSED ACCESS CARD",
+      "AUTHORITY_PATH": "ENTRY v2/08_BIOMETRIC_SETUP/authority/entry-v2-biometric-authority.png",
+      "PLATE_STATUS": "REUSE_EXISTING",
+      "PLATE_PATH": "ENTRY v2/07_SIGN_IN/plate/entry-v2-sign-in-sidekick-plate.png",
+      "LINEAGE": "AUTH CREDENTIAL",
+      "OPENART_AUTHORITY_HISTORY": "rg1T1Zu9MVYXE1Sf1IsD",
+      "STATUS": "FOUNDER_REVIEW_REQUIRED"
+    },
+    {
+      "SCREEN_ID": "09_DEVICE_TRUST",
+      "SCREEN_NAME": "DEVICE TRUST",
+      "ARTIFACT": "PRIVATE ACCESS PASS / STAMPED CREDENTIAL",
+      "AUTHORITY_PATH": "ENTRY v2/09_DEVICE_TRUST/authority/entry-v2-device-trust-authority.png",
+      "PLATE_STATUS": "DERIVE_EXISTING",
+      "PLATE_PATH": "ENTRY v2/09_DEVICE_TRUST/plate/entry-v2-device-trust-sidekick-plate.png",
+      "LINEAGE": "AUTH CREDENTIAL",
+      "OPENART_AUTHORITY_HISTORY": "NX7IDc2pcPFHtgOzVrxH",
+      "OPENART_PLATE_HISTORY": "rd0Xum2T55WDuftFpftT",
+      "REJECTED_HISTORY": "L1fYkitmc3K6A2YYN7Bg",
+      "NOTE": "The first pass invented a location and an issue date on the clipped slip. Only the cleaned authority is filed.",
+      "STATUS": "FOUNDER_REVIEW_REQUIRED"
+    },
+    {
+      "SCREEN_ID": "10_FORGOT_PASSWORD",
+      "SCREEN_NAME": "FORGOT PASSWORD",
+      "ARTIFACT": "PRIVATE CORRESPONDENCE NOTE",
+      "AUTHORITY_PATH": "ENTRY v2/10_FORGOT_PASSWORD/authority/entry-v2-forgot-password-authority.png",
+      "PLATE_STATUS": "DERIVE_EXISTING",
+      "PLATE_PATH": "ENTRY v2/10_FORGOT_PASSWORD/plate/entry-v2-forgot-password-sidekick-plate.png",
+      "LINEAGE": "CORRESPONDENCE",
+      "OPENART_AUTHORITY_HISTORY": "FLHGZdOZyD2otXQdRvyc",
+      "OPENART_PLATE_HISTORY": "1Wcm0yCScXpi1pNoLQMM",
+      "STATUS": "FOUNDER_REVIEW_REQUIRED"
+    },
+    {
+      "SCREEN_ID": "11_RESET_PASSWORD",
+      "SCREEN_NAME": "RESET PASSWORD",
+      "ARTIFACT": "UPDATED CREDENTIAL FOLIO",
+      "AUTHORITY_PATH": "ENTRY v2/11_RESET_PASSWORD/authority/entry-v2-reset-password-authority.png",
+      "PLATE_STATUS": "REUSE_EXISTING",
+      "PLATE_PATH": "ENTRY v2/05_CREATE_ACCOUNT/plate/entry-v2-create-account-sidekick-plate.png",
+      "LINEAGE": "AUTH CREDENTIAL",
+      "OPENART_AUTHORITY_HISTORY": "XehDXVTHiry2Lq1LjEXQ",
+      "STATUS": "FOUNDER_REVIEW_REQUIRED"
+    },
+    {
+      "SCREEN_ID": "12_PRIVACY_PRIMER",
+      "SCREEN_NAME": "PRIVACY PRIMER",
+      "ARTIFACT": "SEALED DOSSIER / PRIVATE DOCUMENT",
+      "AUTHORITY_PATH": "ENTRY v2/12_PRIVACY_PRIMER/authority/entry-v2-privacy-primer-authority.png",
+      "PLATE_STATUS": "DERIVE_EXISTING",
+      "PLATE_PATH": "ENTRY v2/12_PRIVACY_PRIMER/plate/entry-v2-privacy-primer-sidekick-plate.png",
+      "LINEAGE": "EDITORIAL PAPER",
+      "OPENART_AUTHORITY_HISTORY": "sYbRlDR4wza6VxgxYkt5",
+      "OPENART_PLATE_HISTORY": "sFDBeXqKY3idMVqt0aDY",
+      "STATUS": "FOUNDER_REVIEW_REQUIRED"
+    },
+    {
+      "SCREEN_ID": "13_SECURITY_PRIMER",
+      "SCREEN_NAME": "SECURITY PRIMER",
+      "ARTIFACT": "SECURE INDEX / ARCHIVAL RECORD",
+      "AUTHORITY_PATH": "ENTRY v2/13_SECURITY_PRIMER/authority/entry-v2-security-primer-authority.png",
+      "PLATE_STATUS": "DERIVE_EXISTING",
+      "PLATE_PATH": "ENTRY v2/13_SECURITY_PRIMER/plate/entry-v2-security-primer-sidekick-plate.png",
+      "LINEAGE": "EDITORIAL PAPER",
+      "OPENART_AUTHORITY_HISTORY": "AtI6De7xbAGS8dTrRiHc",
+      "OPENART_PLATE_HISTORY": "PSNKXMo6rPY5R72H39uY",
+      "STATUS": "FOUNDER_REVIEW_REQUIRED"
+    },
+    {
+      "SCREEN_ID": "14_ENTRY_COMPLETE",
+      "SCREEN_NAME": "ENTRY COMPLETE",
+      "ARTIFACT": "ARRIVAL / COMPLETION INVITATION",
+      "AUTHORITY_PATH": "ENTRY v2/14_ENTRY_COMPLETE/authority/entry-v2-entry-complete-authority.png",
+      "PLATE_STATUS": "DERIVE_EXISTING",
+      "PLATE_PATH": "ENTRY v2/14_ENTRY_COMPLETE/plate/entry-v2-entry-complete-sidekick-plate.png",
+      "LINEAGE": "ARRIVAL",
+      "OPENART_AUTHORITY_HISTORY": "66k6mbHQaDTTFkpWhjQ6",
+      "OPENART_PLATE_HISTORY": "V5coQLjxNZx2ZZDPr0am",
+      "STATUS": "FOUNDER_REVIEW_REQUIRED"
+    }
+  ]
+}

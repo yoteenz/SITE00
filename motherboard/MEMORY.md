@@ -15379,3 +15379,21 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - Clip a shell to the reference's silhouette when the two differ.
   - Calibrate type sizes against a capture of the build, not against ink boxes alone.
   - A new runtime file name must not contain a superseded asset's file name (the registry test matches on substrings).
+
+---
+
+## 2026-10-08 — ENTRY v2 parents 08–14 held for founder review
+
+- **Context:** This chat refined ENTRY 01–07 (graphic pass, then environment enrichment, then the lean env zip). The founder then asked to finish the rest of ENTRY, including descendants. Before that second step landed, they paused it: review parents 08–14 first. Descendants wait.
+- **Topics covered:** ENTRY visual grammar from 01–07. Remaining parents 08 biometric, 09 device trust, 10 forgot password, 11 reset password, 12 privacy primer, 13 security primer, 14 entry complete. Plate economy. A scope stop before child, state, and overlay generation.
+- **Decisions / outcomes:**
+  - Parents 01–07 stay the enriched authorities. They were not redesigned.
+  - 08 reuses the sign-in plate. 11 reuses the create-account plate. Those plate files are not copied.
+  - 09, 10, 12, 13, and 14 have derived plates (access pass, correspondence, sealed dossier, security index, arrival).
+  - Device trust’s first pass invented a location and an issue date. Only the cleaned authority is filed.
+  - Copy stays in `src/projects/jurnl/data/f01/copy.ts`. Image lettering is not product truth. Withheld claims stay withheld.
+  - Nine descendant images had already been rendered. They sit in `ENTRY v2/EARLY_UNREVIEWED/` as not canonical, not founder-approved, and not ready to implement. No further descendant images were made after the pause.
+  - Review board: `ENTRY v2/REVIEW/entry-v2-complete-parent-family-review.png`.
+  - Status: parent family complete, founder review required, descendant generation blocked.
+- **Changes:** `ENTRY v2/08_BIOMETRIC_SETUP/` through `14_ENTRY_COMPLETE/`, `ENTRY v2/MANIFESTS/remaining-parents-08-14.json`, `ENTRY v2/REVIEW/`, `ENTRY v2/EARLY_UNREVIEWED/`. No React, CSS, routes, auth, or deploy.
+- **Conventions:** Finish and review the parent authorities before any descendant explosion. A state that can be a live delta does not get a new plate. Do not infer founder approval of 08–14.

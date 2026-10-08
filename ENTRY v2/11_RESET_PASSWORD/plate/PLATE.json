@@ -1,0 +1,7 @@
+{
+  "SCREEN_ID": "11_RESET_PASSWORD",
+  "PLATE_STATUS": "REUSE_EXISTING",
+  "PLATE_PATH": "ENTRY v2/05_CREATE_ACCOUNT/plate/entry-v2-create-account-sidekick-plate.png",
+  "LINEAGE": "AUTH CREDENTIAL",
+  "NOTE": "Same registration folio as create account. The plate file is not duplicated."
+}
