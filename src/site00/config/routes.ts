@@ -16,6 +16,7 @@ export const SITE00_ROUTES = {
   bldr: '/bldr',
   bldrTemplates: '/bldr/templates',
   bldrStart: '/bldr/start',
+  bldrSpatialStudio: '/bldr/studio',
   bldrState: '/bldr/state',
   bldrStateDesktop: '/bldr/state/desktop',
   evolve: '/evolve',
