@@ -3,8 +3,11 @@ import type { DigitalFoundationArtifact, DigitalFoundationArtifactPayload } from
 export type ArtifactSurface = DigitalFoundationArtifactPayload['surface'];
 
 export function resolveArtifactSurface(artifact: DigitalFoundationArtifact): ArtifactSurface {
+  if (artifact.payment_state === 'REFUNDED' || artifact.payment_state === 'DISPUTED') {
+    return 'PAYMENT_RECOVERY';
+  }
   if (artifact.completion_state === 'COMPLETE') {
-    if (artifact.build_interest !== 'NONE' || artifact.state === 'BUILD_OPPORTUNITY') {
+    if (artifact.build_interest !== 'NONE') {
       return 'BUILD_UPSELL';
     }
     return 'COMPLETE';

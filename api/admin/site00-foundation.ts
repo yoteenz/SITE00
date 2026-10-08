@@ -11,6 +11,7 @@ import {
   getArtifactPayload,
   listReferralSources,
   markFoundationComplete,
+  markQuoteCommerciallyReady,
   materializeFixtureScenario,
   requestApproval,
   resolveApproval,
@@ -115,6 +116,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         case 'manual-adjustment':
           return res.status(200).json({
             quote: applyManualQuoteAdjustment(String(body.artifact_id), Number(body.adjustment_minor ?? 0)),
+          });
+        case 'quote-commercial-ready':
+          return res.status(200).json({
+            quote: markQuoteCommerciallyReady(String(body.artifact_id)),
           });
         case 'client-action':
           return res.status(200).json({ request: createClientAction(body) });

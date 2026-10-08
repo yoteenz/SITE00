@@ -48,16 +48,18 @@ export function recommendFromIntake(
     selections.push({ addon_id: 'LEGACY_EMAIL_MIGRATION', quantity: 1 });
     manual_review_reasons.push('Migration scope depends on source provider and volume.');
   }
-  if (needs.has('NEED_DEVICE')) {
-    selections.push({ addon_id: 'ADDITIONAL_DEVICE_SETUP', quantity: 1 });
+  // Standard email security + one primary device are included in base foundation scope.
+  // Additional devices and advanced DNS remediation are paid add-ons only when quantity/extra work applies.
+  if (needs.has('NEED_DEVICE') && (intake.team_size ?? 1) > 1) {
+    selections.push({
+      addon_id: 'ADDITIONAL_DEVICE_SETUP',
+      quantity: Math.max(1, (intake.team_size ?? 2) - 1),
+    });
   }
-  if (needs.has('NEED_DNS_SECURITY') || needs.has('HAVE_WEBSITE')) {
-    if (needs.has('HAVE_WEBSITE')) {
-      selections.push({ addon_id: 'EXISTING_SITE_DOMAIN_CONFLICT', quantity: 1 });
-    } else {
-      selections.push({ addon_id: 'ADVANCED_DNS_CLEANUP', quantity: 1 });
-    }
+  if (needs.has('HAVE_WEBSITE')) {
+    selections.push({ addon_id: 'EXISTING_SITE_DOMAIN_CONFLICT', quantity: 1 });
   }
+  // NEED_DNS_SECURITY alone does not add Advanced DNS Cleanup (included standard security configuration).
   if ((intake.team_size ?? 0) > 3) {
     selections.push({ addon_id: 'MULTI_USER_WORKSPACE_SETUP', quantity: 1 });
   }
