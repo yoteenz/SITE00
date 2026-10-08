@@ -1,11 +1,16 @@
 {
   "SCREEN_ID": "14_ASK_JURNL_CONTEXT",
-  "PLATE_STATUS": "DERIVE_FAMILY_PLATE",
-  "ENVIRONMENT_LINEAGE": "D_PRIVATE_SETTINGS_DESK",
+  "PLATE_STATUS": "NEW_PLATE_REQUIRED",
+  "STATION": "N private context desk",
+  "CAMERA": "oblique private dossier",
   "PLATE_PATH": "SETUP v1/14_ASK_JURNL_CONTEXT/plate/setup-v1-14_ask_jurnl_context-plate.png",
   "AUTHORITY_PATH": "SETUP v1/14_ASK_JURNL_CONTEXT/authority/setup-v1-14_ask_jurnl_context-authority.png",
+  "SUPERSEDED_AUTHORITY": "SETUP v1/14_ASK_JURNL_CONTEXT/authority/SUPERSEDED/setup-v1-14_ask_jurnl_context-authority.png",
+  "SUPERSEDED_PLATE": "SETUP v1/14_ASK_JURNL_CONTEXT/plate/SUPERSEDED/setup-v1-14_ask_jurnl_context-plate.png",
   "STATUS": "FOUNDER_REVIEW_REQUIRED",
-  "OPENART_AUTHORITY_HISTORY": "GiMWT8MV7FfRaxUYbLxE",
-  "OPENART_PLATE_HISTORY": "nGxeytE9gsekvTtF96cZ",
-  "NOTE": "Plate is the authority with type, buttons, and field lettering removed. Objects, crop, and lineage stay."
+  "OPENART_AUTHORITY_HISTORY": "P6uAbkGQjYuDPIPmbYPL",
+  "OPENART_AUTHORITY_RESOURCE": "eMHdx42Jc0U4LGaCdW6A",
+  "OPENART_PLATE_HISTORY": "fM5rPQngfJ1QUWAb0Vk9",
+  "OPENART_PLATE_RESOURCE": "uq3688LAI7ifyFsq5xXv",
+  "NOTE": "New station plate. Live words and controls removed. Objects, crop, and camera stay. Prior plate is SUPERSEDED."
 }

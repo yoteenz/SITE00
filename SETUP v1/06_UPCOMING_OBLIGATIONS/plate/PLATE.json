@@ -1,11 +1,16 @@
 {
   "SCREEN_ID": "06_UPCOMING_OBLIGATIONS",
-  "PLATE_STATUS": "DERIVE_FAMILY_PLATE",
-  "ENVIRONMENT_LINEAGE": "A_WORKTABLE",
+  "PLATE_STATUS": "NEW_PLATE_REQUIRED",
+  "STATION": "F due-date wall",
+  "CAMERA": "vertical calendar rail",
   "PLATE_PATH": "SETUP v1/06_UPCOMING_OBLIGATIONS/plate/setup-v1-06_upcoming_obligations-plate.png",
   "AUTHORITY_PATH": "SETUP v1/06_UPCOMING_OBLIGATIONS/authority/setup-v1-06_upcoming_obligations-authority.png",
+  "SUPERSEDED_AUTHORITY": "SETUP v1/06_UPCOMING_OBLIGATIONS/authority/SUPERSEDED/setup-v1-06_upcoming_obligations-authority.png",
+  "SUPERSEDED_PLATE": "SETUP v1/06_UPCOMING_OBLIGATIONS/plate/SUPERSEDED/setup-v1-06_upcoming_obligations-plate.png",
   "STATUS": "FOUNDER_REVIEW_REQUIRED",
-  "OPENART_AUTHORITY_HISTORY": "m05f4vKOzY6LmFyG89Ld",
-  "OPENART_PLATE_HISTORY": "AYelgZYWmAX0V32VTkvT",
-  "NOTE": "Plate is the authority with type, buttons, and field lettering removed. Objects, crop, and lineage stay."
+  "OPENART_AUTHORITY_HISTORY": "LgGSjxiVUHcxXUbyMXFa",
+  "OPENART_AUTHORITY_RESOURCE": "EwqNLsd4xKKDXj71gi3h",
+  "OPENART_PLATE_HISTORY": "C4T8FqjSlk1wMVb4Jh2i",
+  "OPENART_PLATE_RESOURCE": "GRz5wc88lgR7PufqAJo7",
+  "NOTE": "New station plate. Live words and controls removed. Objects, crop, and camera stay. Prior plate is SUPERSEDED."
 }

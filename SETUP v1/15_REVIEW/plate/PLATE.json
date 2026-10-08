@@ -1,11 +1,16 @@
 {
   "SCREEN_ID": "15_REVIEW",
-  "PLATE_STATUS": "DERIVE_FAMILY_PLATE",
-  "ENVIRONMENT_LINEAGE": "E_REVIEW_TABLE",
+  "PLATE_STATUS": "NEW_PLATE_REQUIRED",
+  "STATION": "O review assembly table",
+  "CAMERA": "broad assembly table",
   "PLATE_PATH": "SETUP v1/15_REVIEW/plate/setup-v1-15_review-plate.png",
   "AUTHORITY_PATH": "SETUP v1/15_REVIEW/authority/setup-v1-15_review-authority.png",
+  "SUPERSEDED_AUTHORITY": "SETUP v1/15_REVIEW/authority/SUPERSEDED/setup-v1-15_review-authority.png",
+  "SUPERSEDED_PLATE": "SETUP v1/15_REVIEW/plate/SUPERSEDED/setup-v1-15_review-plate.png",
   "STATUS": "FOUNDER_REVIEW_REQUIRED",
-  "OPENART_AUTHORITY_HISTORY": "WeBd3q6Y4dGdguAqEcMi",
-  "OPENART_PLATE_HISTORY": "m2iBWvdtz59MsPPckf5d",
-  "NOTE": "Plate is the authority with type, buttons, and field lettering removed. Objects, crop, and lineage stay."
+  "OPENART_AUTHORITY_HISTORY": "3A9FQHVLmbXNk48zLL38",
+  "OPENART_AUTHORITY_RESOURCE": "LSvm5oFzuczUwJXZsadd",
+  "OPENART_PLATE_HISTORY": "PM83jt7qsjmkThVwGKGl",
+  "OPENART_PLATE_RESOURCE": "dgllzKieqBIjA2hcHy29",
+  "NOTE": "New station plate. Live words and controls removed. Objects, crop, and camera stay. Prior plate is SUPERSEDED."
 }

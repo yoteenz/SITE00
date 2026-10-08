@@ -25,6 +25,15 @@ describe('JURNL bespoke composition grammar', () => {
       bespoke_object_system_required: true,
       asymmetry_required: true,
       unexpected_object_relationship_required: true,
+      family_world_required: true,
+      multiple_spatial_stations_required: true,
+      camera_rotation_required: true,
+      primary_artifact_diversity_required: true,
+      material_rotation_required: true,
+      contrast_anchor_required: true,
+      same_family_not_same_template: true,
+      text_blur_distinctness_required: true,
+      campaign_image_without_ui_test_required: true,
     });
   });
 

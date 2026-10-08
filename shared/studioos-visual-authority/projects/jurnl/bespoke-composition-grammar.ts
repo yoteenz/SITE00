@@ -25,6 +25,15 @@ export const JURNL_CREATIVE_GRAMMAR_FLAGS = {
   bespoke_object_system_required: true,
   asymmetry_required: true,
   unexpected_object_relationship_required: true,
+  family_world_required: true,
+  multiple_spatial_stations_required: true,
+  camera_rotation_required: true,
+  primary_artifact_diversity_required: true,
+  material_rotation_required: true,
+  contrast_anchor_required: true,
+  same_family_not_same_template: true,
+  text_blur_distinctness_required: true,
+  campaign_image_without_ui_test_required: true,
 } as const;
 
 export const JURNL_CREATIVE_LEVELS = [
@@ -94,12 +103,15 @@ export const JURNL_CREATIVE_GRAMMAR_FAIL_IF = [
   'The page can be described as a paper panel centered over a Mediterranean background.',
   'Art-history objects are repeated as the same bust beside the same card.',
   'A family copies another family’s artifact language. The grammar is shared. The expression is not.',
+  'A family metaphor becomes one repeated template: the same camera, the same centered paper, and the same button on every screen.',
+  'More than a small minority of a family is a top-down cream sheet on one desk.',
 ] as const;
 
 export const JURNL_CREATIVE_GRAMMAR_PASS_IF = [
   'Hiding the live text still leaves a bespoke editorial campaign image.',
   'Blurred type still distinguishes sibling parents by silhouette, space, environment, contrast, and material.',
   'The environment, the artifact, and the material collision are one composition.',
+  'Sibling screens are different stations, cameras, and silhouettes inside one family world.',
 ] as const;
 
 /**

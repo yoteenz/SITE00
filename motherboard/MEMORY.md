@@ -15433,3 +15433,20 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - Descendants were not generated. This branch is for founder review and is not merged.
 - **Changes:** `SETUP v1/` authorities, plates, `SETUP v1/MANIFESTS/setup-parent-authority-manifest.json`, and `SETUP v1/REVIEW/` contact sheets. `motherboard/MEMORY.md` only, besides that folder.
 - **Conventions:** SETUP is organizing and assembling. ENTRY is ceremonial admission. Do not infer founder approval of these 16 parents. Do not generate SETUP descendants until that review.
+
+---
+
+## 2026-10-08 — SETUP v1 recomposed as a workshop of stations
+
+- **Context:** This chat refined ENTRY v2, locked the five-level grammar, filed the first SETUP parent batch, and then corrected that batch. The first SETUP family was coherent but too often the same top-down cream sheet, brass clip, and green button. ENTRY had already been corrected the same way. This turn recomposes all 16 SETUP parents.
+- **Topics covered:** ENTRY graphic and environment passes, parents 08–14, the grammar lock, the first SETUP batch, and the bespoke-world reconstruction. SETUP stays the organizing atelier. Product truth, fields, and canonical copy stay. The change is visual.
+- **Decisions / outcomes:**
+  - The first SETUP authorities and plates are kept under each screen’s `SUPERSEDED/` folder. The new authorities are founder-review required. Descendants stay blocked. This branch is not merged.
+  - Sixteen stations in one material world: intake table, identity cabinet, receiving tray, storage wall, liability register, calendar rail, planning book, destination rack, calculation table, reserve drawer, linking console, bookkeeper desk, pinboard, consent dossier, assembly table, closed casebook at the exit.
+  - Two screens are top-down (debt register, calculation table) and they do not share a silhouette. The rest change camera.
+  - Each new station has its own plate with the words and controls removed. None of the first-batch plates were reused.
+  - Money In’s first reconstruction pass invented a station label. The filed authority is the cleaned pass.
+  - Copy still follows live F02. No invented dollars, bank names, balances, channels, or a live AI provider. Setup complete remains JURNL IS READY and OPEN TODAY, not the ENTRY doorway.
+  - The creative grammar now requires a family world, multiple stations, camera rotation, artifact diversity, material rotation, a contrast anchor, and the blur and campaign-image tests. That rule carries to TODAY, ACTIVITY, MONEY, PLAN, CREDIT, and the other families.
+- **Changes:** `SETUP v1/` authorities, plates, manifest, and review sheets. Grammar source, manifest, test, cursor rule, and a one-line note in `motherboard/CORE.md`. No ENTRY images, React, CSS, routes, or deploy.
+- **Conventions:** A family metaphor is a world of stations, not one repeated composition. Do not infer founder approval of the reconstructed SETUP parents. Do not generate SETUP descendants until that review.

@@ -1,11 +1,16 @@
 {
   "SCREEN_ID": "13_NOTIFICATIONS_PREFERENCES",
-  "PLATE_STATUS": "DERIVE_FAMILY_PLATE",
-  "ENVIRONMENT_LINEAGE": "D_PRIVATE_SETTINGS_DESK",
+  "PLATE_STATUS": "NEW_PLATE_REQUIRED",
+  "STATION": "M signal wall",
+  "CAMERA": "vertical textile pinboard",
   "PLATE_PATH": "SETUP v1/13_NOTIFICATIONS_PREFERENCES/plate/setup-v1-13_notifications_preferences-plate.png",
   "AUTHORITY_PATH": "SETUP v1/13_NOTIFICATIONS_PREFERENCES/authority/setup-v1-13_notifications_preferences-authority.png",
+  "SUPERSEDED_AUTHORITY": "SETUP v1/13_NOTIFICATIONS_PREFERENCES/authority/SUPERSEDED/setup-v1-13_notifications_preferences-authority.png",
+  "SUPERSEDED_PLATE": "SETUP v1/13_NOTIFICATIONS_PREFERENCES/plate/SUPERSEDED/setup-v1-13_notifications_preferences-plate.png",
   "STATUS": "FOUNDER_REVIEW_REQUIRED",
-  "OPENART_AUTHORITY_HISTORY": "dY6qBQv7skmdRndaYomT",
-  "OPENART_PLATE_HISTORY": "0SHdKLwtkO7FtOQtP3vX",
-  "NOTE": "Plate is the authority with type, buttons, and field lettering removed. Objects, crop, and lineage stay."
+  "OPENART_AUTHORITY_HISTORY": "YFGJxY9rfcmAK7LkMDpW",
+  "OPENART_AUTHORITY_RESOURCE": "Sn2T0Hog2cKwkaM1OuTy",
+  "OPENART_PLATE_HISTORY": "K2iEoCZsrZasFx58kco2",
+  "OPENART_PLATE_RESOURCE": "0s7UQrWqRqUmemTLmJi4",
+  "NOTE": "New station plate. Live words and controls removed. Objects, crop, and camera stay. Prior plate is SUPERSEDED."
 }
