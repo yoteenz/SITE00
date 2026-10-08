@@ -49,6 +49,10 @@ export type DfMemoryState = {
   verificationOverrides: Map<string, ManualVerificationOverride[]>;
   forecasts: Map<string, ProjectForecast>;
   projectConfig: Map<string, ProjectOperationsConfig>;
+  readinessClock: Map<
+    string,
+    { readiness_satisfied_at: string | null; production_started_at: string | null }
+  >;
 };
 
 let state: DfMemoryState | null = null;
@@ -80,6 +84,7 @@ export function getDfMemoryState(): DfMemoryState {
       verificationOverrides: new Map(),
       forecasts: new Map(),
       projectConfig: new Map(),
+      readinessClock: new Map(),
     };
   }
   return state;

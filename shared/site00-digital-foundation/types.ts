@@ -159,6 +159,9 @@ export type DigitalFoundationQuote = {
   third_party_cost_notice: string;
   quote_version: number;
   status: DigitalFoundationQuoteStatus;
+  /** Founder cleared manual-review / custom pricing for checkout. */
+  founder_commercial_ready?: boolean;
+  founder_commercial_ready_at?: string | null;
   created_at: string;
   expires_at: string;
 };
@@ -412,7 +415,16 @@ export type DigitalFoundationArtifactPayload = {
   build_readiness: BuildReadinessAssessment | null;
   credit: FoundationBuildCredit | null;
   events: ArtifactEvent[];
-  surface: 'PROSPECT' | 'INTAKE' | 'RECOMMENDATION' | 'QUOTE' | 'CHECKOUT' | 'PORTAL' | 'COMPLETE' | 'BUILD_UPSELL';
+  surface:
+    | 'PROSPECT'
+    | 'INTAKE'
+    | 'RECOMMENDATION'
+    | 'QUOTE'
+    | 'CHECKOUT'
+    | 'PORTAL'
+    | 'COMPLETE'
+    | 'BUILD_UPSELL'
+    | 'PAYMENT_RECOVERY';
   /** Client-safe operational summary (no internal notes). */
   operations_summary?: {
     current_stage: string | null;

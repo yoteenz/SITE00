@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import type { DigitalFoundationArtifactPayload, IntakeNeedFlag } from '../../../../shared/site00-digital-foundation/types.js';
+import type { IntakeNeedFlag } from '../../../../shared/site00-digital-foundation/types.js';
+import type { ClientDigitalFoundationPayload } from '../../../../shared/site00-digital-foundation/clientProjection.js';
 import { stageLabel } from '../../../../shared/site00-digital-foundation/projectStages.js';
 import '../../styles/site00-digital-foundation.css';
 
@@ -48,12 +49,12 @@ async function apiGet(token: string) {
   );
   const json = await res.json();
   if (!res.ok) throw new Error(json.error ?? 'Request failed');
-  return json as DigitalFoundationArtifactPayload;
+  return json as ClientDigitalFoundationPayload;
 }
 
 export default function DigitalFoundationArtifactPage() {
   const { token = '' } = useParams<{ token: string }>();
-  const [payload, setPayload] = useState<DigitalFoundationArtifactPayload | null>(null);
+  const [payload, setPayload] = useState<ClientDigitalFoundationPayload | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [step, setStep] = useState<'prospect' | 'intake' | 'quote' | 'portal' | 'complete'>('prospect');
@@ -73,6 +74,7 @@ export default function DigitalFoundationArtifactPage() {
     if (data.surface === 'INTAKE' || data.artifact.intake_state === 'IN_PROGRESS') setStep('intake');
     else if (data.surface === 'QUOTE' || data.surface === 'CHECKOUT') setStep('quote');
     else if (data.surface === 'PORTAL') setStep('portal');
+    else if (data.surface === 'PAYMENT_RECOVERY') setStep('quote');
     else if (data.surface === 'COMPLETE' || data.surface === 'BUILD_UPSELL') setStep('complete');
   }, [token]);
 
@@ -243,7 +245,12 @@ export default function DigitalFoundationArtifactPage() {
             Projected investment: <strong>{formatMoney(quote.subtotal_minor, quote.currency)}</strong>
           </p>
           <p>
-            Turnaround: {quote.timeline_custom_review ? 'Custom review' : `${quote.projected_min_days}–${quote.projected_max_days} business days`}{' '}
+            Turnaround:{' '}
+            {payload.timeline_readiness?.production_started_at
+              ? quote.timeline_custom_review
+                ? 'Custom review'
+                : `${quote.projected_min_days}–${quote.projected_max_days} business days`
+              : payload.timeline_readiness?.service_window_label ?? 'Estimated after required information, access, approvals, and payment are received.'}{' '}
             after intake, access, and payment.
           </p>
           <ul>
