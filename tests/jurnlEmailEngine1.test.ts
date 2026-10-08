@@ -208,10 +208,24 @@ describe('assets and lineage', () => {
       }
       if (E.familyById(e.family).environmentArt === 'NONE') expect(e.assetPlan.some((a) => a.assetClass === 'EMAIL_ENVIRONMENT'), e.id).toBe(false);
     }
-    // No generated visual assets are in the collection yet.
-    const imageFiles = (dir: string): string[] =>
-      readdirSync(dir, { withFileTypes: true }).flatMap((d) => (d.isDirectory() ? imageFiles(path.join(dir, d.name)) : /\.(png|jpe?g|webp|gif)$/i.test(d.name) ? [d.name] : []));
-    expect(imageFiles(ROOT)).toEqual([]);
+    // Contract folders and the empty implementation shelves stay image-free.
+    // The first-8 review authorities live in their own folders and on the review boards.
+    const imageRel = (dir: string, prefix = ''): string[] =>
+      readdirSync(dir, { withFileTypes: true }).flatMap((d) => {
+        const rel = prefix ? `${prefix}/${d.name}` : d.name;
+        return d.isDirectory() ? imageRel(path.join(dir, d.name), rel) : /\.(png|jpe?g|webp|gif)$/i.test(d.name) ? [rel] : [];
+      });
+    const images = imageRel(ROOT);
+    const authorityFolder = /^A0[1-8]_/;
+    const reviewBoard = new Set([
+      'REVIEW/first-8-mobile-authorities.png',
+      'REVIEW/first-8-desktop-authorities.png',
+      'REVIEW/first-8-family-comparison.png',
+    ]);
+    for (const rel of images) {
+      expect(authorityFolder.test(rel) || reviewBoard.has(rel), rel).toBe(true);
+    }
+    expect(images.filter((rel) => reviewBoard.has(rel))).toHaveLength(3);
   });
 
   it('shares lineage across the lifecycle', () => {
