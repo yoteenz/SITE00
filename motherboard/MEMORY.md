@@ -15542,3 +15542,16 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Conventions:**
   - Walk a flow end to end in the preview before calling it linked: every page needs a way on that a person can reach without editing the URL.
   - When the tunnel "loses" a change that is on main, check main in a browser first, then the tunnel's connectors.
+
+---
+
+## 2026-10-08 — Bottom dock returns to plaster beige
+
+- **Context:** This chat filed the first eight email authorities (later rejected), blurred every drawer and grouped the Safe to Spend buffer (merged), redirected the SETUP parents toward a softer editorial sanctuary (review only, not merged), then rebuilt the eight emails from page authorities (review only, not merged). The founder then sent a phone shot of TODAY and said the bottom panel had been turned white. It should stay the beige of the strip under it so the two blend.
+- **Topics covered:** Email visual authorities, overlay blur, SETUP parent art direction, email image-to-image rebuild, then the live TODAY dock color.
+- **Decisions / outcomes:**
+  - The parent dock fill `#f6f3ee` reads white. On the phone shot the strip under it is the plaster stage `#f1e3cf` (sampled blue channel 207). The dock now uses `var(--jrn-plaster)` so the panel and that strip are the same beige.
+  - HOME, MONEY, PLAN, and CREDIT share that parent dock. The olive active chip stays `#464736`. Safe to Spend keeps its own stage and dock pair.
+  - Email batches and the SETUP parent regeneration stay founder-review. They are not merged from this turn.
+- **Changes:** `src/projects/jurnl/runtime/jurnl-nav.css`. Measured on TODAY, MONEY, PLAN, and CREDIT at 402×874: dock background `rgb(241, 227, 207)`, same as the stage.
+- **Conventions:** The bottom parent panel matches `--jrn-plaster`, the beige under the dock. Do not paint that panel `#f6f3ee`.
