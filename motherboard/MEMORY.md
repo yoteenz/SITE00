@@ -15500,3 +15500,16 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - Implementation stays blocked until founder approval.
 - **Changes:** `ENTRY v2/DESCENDANTS/`, `ENTRY v2/MANIFESTS/entry-descendant-authority-manifest.json`, `ENTRY v2/REVIEW/entry-v2-major-descendant-authorities.png`. No React, CSS, routes, or parent files.
 - **Conventions:** A descendant is the same physical page changing state. If live UI can do it, do not generate a plate. Do not infer founder approval of this tree.
+
+---
+
+## 2026-10-08 — First eight email authorities, then overlay blur and buffer commas
+
+- **Context:** This chat first filed the eight JURNL email visual authorities, then updated the live app so every drawer and popup blurs the screen behind it and the Safe to Spend buffer shows grouped amounts.
+- **Topics covered:** Email visual authorities (no HTML, no send). Quick Add blur. Account drawer blur. Selection sheets and other drawers. Safe to Spend buffer commas.
+- **Decisions / outcomes:**
+  - Email authorities live on `cursor/jurnl-emails-first-8-7425` (PR #1500), unmerged, founder review required. Photographs have no names, amounts, or buttons. A04 stays family E01. Verify and reset are transactional and use different pictures.
+  - Live overlays now share the account-drawer scrim: a light veil and a 3px blur. Quick Add, currency and other drawers, and category/account sheets all blur the page behind them.
+  - The Safe to Spend buffer displays grouped thousands (`6,500`) the way Quick Add does. The stored value stays ungrouped.
+- **Changes:** `src/projects/jurnl/runtime/jurnl-overlays.css`, `jurnl-runtime.css`, `jurnl-reference.css`, `AccountScreens.tsx`, `GlobalSheets.tsx`, `SafeToSpendScreens.tsx`, `tests/jurnlOverlayReplica1.test.tsx`. Email files are on the other branch.
+- **Conventions:** A JURNL drawer, sheet, or popup blurs the screen behind it the same way the account menu does. Money typed into the buffer is shown with commas. Do not upload email review images to GoDaddy.

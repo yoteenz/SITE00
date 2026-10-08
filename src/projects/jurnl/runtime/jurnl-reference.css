@@ -267,6 +267,8 @@
   position: absolute;
   inset: 0;
   background: rgba(16, 14, 12, 0.5);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
   animation: jrn-ref-fade 0.24s ease both;
 }
 .jrn .jrn-ref__sheet {
