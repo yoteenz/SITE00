@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 // Type-only: the host's runtime mount contract (no host UI, styles or state cross into the project).
 import type { ProjectRuntimeProps } from '../../../site00/projectRuntime/projectRuntimeRegistry';
-import { F01_SCREENS } from '../data/f01/screens';
+import { F01_ENTRY_V2_SCREENS, F01_SCREENS } from '../data/f01/screens';
 import { F02_SCREENS } from '../data/f02/screens';
 import { JurnlOverlayHostContext, JurnlSuccessBanner } from './components/primitives';
 import { JurnlEntitlementsProvider } from './monetization/JurnlEntitlements';
@@ -17,7 +17,7 @@ import { JurnlRuntimeChrome } from './components/JurnlRuntimeChrome';
 import { JurnlCornerChromeProvider } from './components/JurnlCornerChrome';
 import { jurnlProductionFailClosed } from '../data/production/productionConfig';
 import { JurnlStoreProvider, useJurnl } from './state/store';
-import { CreateAccountScreen, ReturningUnlockScreen, SignInScreen, VerifyEmailScreen, WelcomeScreen } from './screens/EntryScreens';
+import { CreateAccountScreen, GetStartedScreen, KeyBenefitsScreen, ReturningUnlockScreen, SignInScreen, ValuePropositionScreen, VerifyEmailScreen, WelcomeScreen } from './screens/EntryScreens';
 import { ForgotPasswordScreen, NewPasswordScreen, ResetSentScreen, ResetSuccessScreen } from './screens/RecoveryScreens';
 import { BiometricSetupScreen, DeviceTrustScreen, EntryCompleteScreen, PrivacyPrimerScreen, SecurityPrimerScreen } from './screens/SecurityScreens';
 import { JURNL_F02_SCREEN_COMPONENTS } from './screens/SetupScreens';
@@ -56,6 +56,7 @@ import './jurnl-root-authority.css';
 import './jurnl-f10-checked.css';
 import './jurnl-reference.css';
 import './jurnl-overlays.css';
+import './jurnl-entry-v2.css';
 
 /** Screen id → runtime component. Every F01 screen in the contract must appear here (tests enforce it). */
 export const JURNL_F01_SCREEN_COMPONENTS = {
@@ -73,6 +74,13 @@ export const JURNL_F01_SCREEN_COMPONENTS = {
   'F01.11': PrivacyPrimerScreen,
   'F01.12': SecurityPrimerScreen,
   'F01.13': EntryCompleteScreen,
+} as const;
+
+/** ENTRY v2 parents 02–04 (new routes between WELCOME and CREATE ACCOUNT; data/f01/screens.ts F01_ENTRY_V2_SCREENS). */
+export const JURNL_ENTRY_V2_SCREEN_COMPONENTS = {
+  'F01.14': ValuePropositionScreen,
+  'F01.15': KeyBenefitsScreen,
+  'F01.16': GetStartedScreen,
 } as const;
 
 /** Runtime entry: returning users land on unlock, signed-in sessions on entry complete, everyone else on welcome. */
@@ -95,6 +103,10 @@ function JurnlRoutes() {
   return (
     <Routes location={location}>
       <Route index element={<EntryIndex />} />
+      {F01_ENTRY_V2_SCREENS.map((s) => {
+        const Screen = JURNL_ENTRY_V2_SCREEN_COMPONENTS[s.id];
+        return <Route key={s.id} path={s.route} element={<Screen key={location.pathname} />} />;
+      })}
       {F01_SCREENS.map((s) => {
         const Screen = JURNL_F01_SCREEN_COMPONENTS[s.id];
         return <Route key={s.id} path={s.route} element={<Screen key={location.pathname} />} />;
