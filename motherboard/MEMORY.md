@@ -15163,3 +15163,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decisions / outcomes:** Each mark was fitted to the sheet crop. HOME is a filled house whose arched door cuts through the floor, with a bowed roof and almost no eave. MONEY is a shallow-radius card, a full-width stripe in the upper quarter, and a dash that starts on the left stroke. ADD is a thinner plus in a 26px square with a 3px corner, not a 7px squircle. PLAN stays the diagonal leaf, retuned onto the sheet stroke. CREDIT is four thin round-cap bars, bottoms aligned, heights about one quarter, one half, three quarters, and full. Strokes follow the sheet weight (about 1.1–1.2 in the 24 box). Chip colors are unchanged. Zero credits. `ReferenceDock` is unchanged.
 - **Changes:** `hqNavIcons.tsx`. Plus corner radius in `jurnl-parent-authority.css` and `jurnl-f09-authority.css`.
 - **Conventions:** Trace the next icon change from the sheet pixels. Do not put the overhanging house, the floating money dash, the thick credit bars, or the 7px ADD corner back. Do not regenerate plates for icons.
+
+---
+
+## 2026-10-08 — Preview tunnel restarted on the pixel-matched dock
+
+- **Context:** This chat shipped the HQ dock (PR #1476, v79), corrected the PLAN mark to the diagonal sheet leaf (PR #1478, v80, `index.DiSZ3Of9.js`), then traced every bottom-nav mark to the sheet pixels (PR #1479, merge `f91f0b53`, bundle `index.DmvbEdGf.js`, release v81). The founder then asked to restart the tunnel.
+- **Topics covered:** One shared Why/Check/Account plate. Review-only root authorities. Sidekick hubs. Account drawer. Unmounted authority kits. Check haze. HQ chips. Diagonal PLAN leaf. Pixel trace of HOME, MONEY, ADD, PLAN, and CREDIT. Tunnel restart.
+- **Decisions / outcomes:** The local connector was stopped, then started again with the canonical flag and without a login shell. One connector remained. The public preview returned 200 and the SITE 00 shell. Vite on port 5174 stayed up. The preview worktree was already on `f91f0b53`. Zero credits. No new production ZIP.
+- **Changes:** This MEMORY note only.
+- **Conventions:** Restart the connector only from the canonical environment. Do not start it from a login shell. Do not put the preview hostname or tunnel token in git or in the session close. Do not put the traced sheet marks back to the earlier dock drawings.
