@@ -15397,3 +15397,18 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - Status: parent family complete, founder review required, descendant generation blocked.
 - **Changes:** `ENTRY v2/08_BIOMETRIC_SETUP/` through `14_ENTRY_COMPLETE/`, `ENTRY v2/MANIFESTS/remaining-parents-08-14.json`, `ENTRY v2/REVIEW/`, `ENTRY v2/EARLY_UNREVIEWED/`. No React, CSS, routes, auth, or deploy.
 - **Conventions:** Finish and review the parent authorities before any descendant explosion. A state that can be a live delta does not get a new plate. Do not infer founder approval of 08–14.
+
+---
+
+## 2026-10-08 — JURNL five-level grammar and ENTRY 08–14 recomposed
+
+- **Context:** After 08–14 were filed as one family, the founder said they were still a Mediterranean room plus a centered card. Olive, busts, and torn paper are ingredients, not the design. 01–07 stay. 08–14 had to be recomposed. Descendants stay blocked.
+- **Topics covered:** Five-level grammar (composition, environment, artifact, material relationship, graphic expression). Family inheritance across ENTRY through RECORDS. Reconstruction of biometric, device trust, forgot password, reset password, privacy, security, and entry complete.
+- **Decisions / outcomes:**
+  - Canonical contract: `shared/studioos-visual-authority/projects/jurnl/bespoke-composition-grammar.ts`, manifest `JURNL/MANIFEST/JURNL_CREATIVE_GRAMMAR.json`, always-on rule `.cursor/rules/jurnl-creative-grammar.mdc`. The grammar is shared. Each family still has its own artifact language.
+  - 08 is a plaque on a dark marble vanity with a cropped relief. 09 is an open passport on leather. 10 splits the letter and the return card. 11 is an open bifold on green marble. 12 is a ribboned dossier. 13 is a tabbed index. 14 is a lit threshold with the invitation in front and the sculpture behind the light.
+  - Each of those seven has a new plate with the type removed. The centered-card versions are in `SUPERSEDED/`.
+  - Review board: `ENTRY v2/REVIEW/entry-v2-parent-family-bespoke-composition-lock1.png`.
+  - Copy stays in `src/projects/jurnl/data/f01/copy.ts`. No descendant generation. No React.
+- **Changes:** The grammar source, the manifest, the cursor rule, `motherboard/CORE.md`, and `ENTRY v2/` parents 08–14. Test: `tests/jurnlBespokeCompositionGrammar1.test.ts`.
+- **Conventions:** A page fails if it can be described as a paper panel centered over a Mediterranean background. Do not infer founder approval of the recomposed 08–14.

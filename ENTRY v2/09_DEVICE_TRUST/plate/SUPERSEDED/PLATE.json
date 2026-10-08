@@ -1,0 +1,8 @@
+{
+  "SCREEN_ID": "09_DEVICE_TRUST",
+  "PLATE_STATUS": "DERIVE_EXISTING",
+  "PLATE_PATH": "ENTRY v2/09_DEVICE_TRUST/plate/entry-v2-device-trust-sidekick-plate.png",
+  "DERIVED_FROM": "ENTRY v2/07_SIGN_IN/plate/entry-v2-sign-in-sidekick-plate.png",
+  "LINEAGE": "AUTH CREDENTIAL",
+  "NOTE": "Same credential world. New object: wax seal, paperclip, and blank clipped slips. No invented location or issue date."
+}

@@ -1,7 +1,12 @@
 {
   "SCREEN_ID": "08_BIOMETRIC_SETUP",
-  "PLATE_STATUS": "REUSE_EXISTING",
-  "PLATE_PATH": "ENTRY v2/07_SIGN_IN/plate/entry-v2-sign-in-sidekick-plate.png",
-  "LINEAGE": "AUTH CREDENTIAL",
-  "NOTE": "Same credential card, marble ledge, emboss, brass pin, botanical, and relief as sign-in. The plate file is not duplicated."
+  "PLATE_STATUS": "NEW_PLATE_REQUIRED",
+  "PLATE_PATH": "ENTRY v2/08_BIOMETRIC_SETUP/plate/entry-v2-biometric-sidekick-plate.png",
+  "AUTHORITY_PATH": "ENTRY v2/08_BIOMETRIC_SETUP/authority/entry-v2-biometric-authority.png",
+  "THESIS": "PRIVATE IDENTITY RITUAL",
+  "STATUS": "FOUNDER_REVIEW_REQUIRED",
+  "PRIOR": "SUPERSEDED",
+  "OPENART_AUTHORITY_HISTORY": "beRs5oLqhnULGl46JK4o",
+  "OPENART_PLATE_HISTORY": "vPqFcQGv4Tmpt3EJp5oZ",
+  "NOTE": "Embossed plaque on a dark marble vanity. Cropped relief. Brass token."
 }
