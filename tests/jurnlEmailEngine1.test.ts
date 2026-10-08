@@ -223,11 +223,12 @@ describe('assets and lineage', () => {
       'REVIEW/first-8-family-comparison.png',
       'REVIEW/first-8-image-to-image-reconstruction1.png',
       'REVIEW/first-8-old-vs-new.png',
+      'REVIEW/first-8-brand-layer-torn-editorial1.png',
     ]);
     for (const rel of images) {
       expect(authorityFolder.test(rel) || reviewBoard.has(rel), rel).toBe(true);
     }
-    expect(images.filter((rel) => reviewBoard.has(rel))).toHaveLength(5);
+    expect(images.filter((rel) => reviewBoard.has(rel))).toHaveLength(6);
   });
 
   it('shares lineage across the lifecycle', () => {

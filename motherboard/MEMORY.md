@@ -15611,3 +15611,18 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - Eight mobile parents and eight desktop derivatives. Zero new sidekicks or components. HTML extraction waits for founder approval.
 - **Changes:** `JURNL EMAILS v1/A01_WELCOME_TO_JURNL/` through `A08_RESET_YOUR_ACCESS/`, the email manifest, two review boards, and `tests/jurnlEmailEngine1.test.ts`. No React, provider, or consent change.
 - **Conventions:** An email is a correspondence object translated from a JURNL page, not a newsletter. Desktop widens the mobile parent. Do not generate shells or HTML until the founder locks these parents. Do not upload email images to GoDaddy.
+
+---
+
+## 2026-10-08 — Email parents gain the botanical mark and torn editorial layer
+
+- **Context:** This chat returned the bottom dock to plaster beige, then classified merge conflicts on the open review branches, then corrected the first eight JURNL email parents. The image-to-image email board had the Mediterranean world and was still missing the decorative botanical identity and the torn editorial collage.
+- **Topics covered:** Dock plaster versus the white panel. Simple MEMORY conflicts versus the SETUP grammar conflict. Surgical brand-layer correction of A01–A08. Official logo file. No extraction, no HTML, no desktop derivatives.
+- **Decisions / outcomes:**
+  - Parent docks and the generic nav use plaster `#f1e3cf` so they blend with the strip under them. The authority dock and the F09/F10 stage stay `#f6f3ee`. That dock change is already on main.
+  - MEMORY-only conflicts on the review branches were simple heading unions. PR #1499 still conflicts on the grammar flags and was left untouched. Do not union those flag sets.
+  - The image-to-image email board is `SUPERSEDED_DRAFT` under `image-to-image-reconstruction1` in each email folder. It is not approved.
+  - The corrected parents keep limestone, linen, olive, burgundy ribbon, green marble, brass, and warm sun. The official botanical file is printed into each one, with a different treatment: torn margin, seal, linen spine, torn report edge, vellum, cropped slip, ceremonial sheet, brass-crossed card.
+  - Photographs still hold blank zones. Names, amounts, dates, codes, and button labels stay live HTML. No sidekicks, shells, components, or desktop derivatives. Founder review is still required.
+- **Changes:** `JURNL EMAILS v1/A01_WELCOME_TO_JURNL/` through `A08_RESET_YOUR_ACCESS/`, `JURNL EMAILS v1/REVIEW/first-8-brand-layer-torn-editorial1.png`, the email manifest, and `tests/jurnlEmailEngine1.test.ts`.
+- **Conventions:** Do not invent a JURNL mark. Key black out of `public/site00/projects/jurnl/brand/jurnl-logo-official.png` and print that file. Do not extract email assets before founder approval. Do not upload email images to GoDaddy.
