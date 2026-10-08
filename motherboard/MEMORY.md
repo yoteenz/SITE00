@@ -15716,3 +15716,30 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - The brand service PNGs are not used: several are cropped at the source.
 - **Review page:** https://claude.ai/artifact/JuYTR4tEFpcUv51VFnmz5Z.
 - **Next gate:** FOUNDER REVIEW OF COMPLETED AIO OFFICE VISUAL AUTHORITIES.
+
+---
+
+## 2026-10-08 — AIO office: the whole internal office designed and connected in a review studio (batch 1, awaiting founder)
+
+- **Sprint:** P0.AIO.OFFICE.COMPLETE-INTERNAL-OFFICE-AND-UNIFIED-EXPERIENCE1, batch 1.
+- **Status:**
+  - Every IA node in the office has a page family: five roots, INTAKE (10 sections, case pages, the approved flow viewer), the 12 WORK lanes with their sections, 17 record types, Client 360, 10 REPORTS domains, and 11 MORE destinations with their child pages.
+  - The office is NOT COMPLETE and the live app is NOT COMPLETE. The Composer plan is a DRAFT. Awaiting founder review.
+- **Where (SITE00):**
+  - Record: `projects/aio/office-unified-experience.ts` (validator: `validateUnifiedExperience`, which cross-checks the page tree against `AIO_OFFICE_IA`).
+  - Docs: `docs/aio/office-unified-experience/` (13 MD, JSON, gate).
+  - Tests: `tests/aioOfficeUnifiedExperience1.test.ts` (16).
+- **Where (fsbw):**
+  - Studio: `all-in-one-enterprises/design-authority/aio-office/office/` (isolated; sample data; never deployed). `build.mjs` produces the page; `qa.mjs` crawls it.
+  - `studio.js` gained an embed mode plus routing attributes. All 38 authority renders keep their sha256.
+  - Screenshots and the QA summary: `AIO_OFFICE_UNIFIED_REVIEW/`.
+- **QA:** 619 routes crawled at 4 sizes × 3 roles, 0 failures, 9/9 journeys, 8/8 interactions.
+- **Rules kept:**
+  - The approved roots, the 41 migration screens and the IFTA command are shown unchanged.
+  - Approval lands on PREBUILT; only the client's confirmation makes a client ACTIVE.
+  - Brokerage stays paused.
+  - Founder-only actions never render for staff.
+  - No new imagery; the approved lockup only.
+- **Security:** all 12 privacy gaps were rechecked at fsbw c74cf37c and are still OPEN. Nothing was patched. The separate Composer handoff is in `11_SECURITY_REPAIR_HANDOFF.md`.
+- **Review:** https://claude.ai/artifact/VQCyD4A4YmeErb27ik2hgG.
+- **Next gate:** FOUNDER REVIEW OF THE UNIFIED INTERNAL AIO OFFICE EXPERIENCE.

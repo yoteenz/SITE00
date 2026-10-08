@@ -1,0 +1,2610 @@
+{
+  "id": "AIO_OFFICE_UNIFIED_EXPERIENCE",
+  "sprint": "P0.AIO.OFFICE.COMPLETE-INTERNAL-OFFICE-AND-UNIFIED-EXPERIENCE1",
+  "date": "2026-10-08",
+  "generated_by": "scripts/studioos/aio-office-unified-experience-export.ts",
+  "source": [
+    "shared/studioos-experience-brain/projects/aio/office-unified-experience.ts"
+  ],
+  "base": {
+    "site00": "0a153f9a",
+    "fsbw": "c74cf37c"
+  },
+  "status": {
+    "batch": "BATCH 1 COMPLETE — every page family designed and connected in the review studio",
+    "office": "NOT COMPLETE — continuation batches below; the office is not labelled COMPLETE",
+    "review": "CONNECTED REVIEW BUILT AND QA-CRAWLED (619 routes, 0 failures) — SAMPLE RECORDS ONLY",
+    "approval": "AWAITING FOUNDER REVIEW",
+    "live_app": "NOT COMPLETE — the review is not the live app; Composer owns live integration after approval",
+    "security": "12 PRIVACY GAPS STILL OPEN (rechecked at fsbw c74cf37c); separate Composer security handoff prepared; nothing patched"
+  },
+  "next_gate": "FOUNDER REVIEW OF THE UNIFIED INTERNAL AIO OFFICE EXPERIENCE",
+  "review_link": "https://claude.ai/artifact/VQCyD4A4YmeErb27ik2hgG",
+  "locations": {
+    "studio": "fsbw all-in-one-enterprises/design-authority/aio-office/office/ (isolated from src/; never deployed)",
+    "approved_roots": "fsbw all-in-one-enterprises/design-authority/aio-office/studio.js (embed mode; authority renders unchanged)",
+    "build": "node design-authority/aio-office/office/build.mjs <outDir>",
+    "qa": "node design-authority/aio-office/office/qa.mjs <outDir> --shots <dir>",
+    "screenshots": "fsbw AIO_OFFICE_UNIFIED_REVIEW/screens/",
+    "qa_report": "fsbw AIO_OFFICE_UNIFIED_REVIEW/qa-summary.json",
+    "review_link": "https://claude.ai/artifact/VQCyD4A4YmeErb27ik2hgG",
+    "migration_flow": "https://claude.ai/artifact/1rPbngoDNkMNwTg695HUZQ",
+    "docs": "docs/aio/office-unified-experience/ (SITE00, generated) · vendored to fsbw all-in-one-enterprises/docs/aio/office-unified-experience/"
+  },
+  "inventory": [
+    {
+      "item": "HOME · WORK · REPORTS · MORE roots",
+      "kind": "APPROVED_ROOT",
+      "source": "fsbw design-authority/aio-office/studio.js + AIO_OFFICE_VISUAL_AUTHORITY/ (38 renders)",
+      "status": "CANDIDATES — designs reviewed “look really good”; formal approval pending",
+      "used_as": "Drawn unchanged as the four roots of the review"
+    },
+    {
+      "item": "Client migration authority — 41 screens + root",
+      "kind": "APPROVED_AUTHORITY",
+      "source": "fsbw AIO_CLIENT_MIGRATION_AUTHORITY/ (authority-manifest.json, 42 entries)",
+      "status": "APPROVED · LOCKED",
+      "used_as": "INTAKE flow viewer (every screen unchanged) and section thumbnails"
+    },
+    {
+      "item": "Client migration responsive blueprint",
+      "kind": "APPROVED_AUTHORITY",
+      "source": "fsbw AIO_CLIENT_MIGRATION_RESPONSIVE_BLUEPRINT/ · public/migration/env-wide-*.jpg",
+      "status": "APPROVED",
+      "used_as": "INTAKE root hero per viewport (env-wide-tablet / env-wide-desktop)"
+    },
+    {
+      "item": "Clickable migration flow prototype",
+      "kind": "ARTIFACT",
+      "source": "https://claude.ai/artifact/1rPbngoDNkMNwTg695HUZQ (.migration-mocks/aio-migration-flow.html)",
+      "status": "PUBLISHED",
+      "used_as": "Linked from INTAKE and every flow step"
+    },
+    {
+      "item": "IFTA LIGHT ANALYTICS COMMAND — staff queue + staff case",
+      "kind": "APPROVED_AUTHORITY",
+      "source": "fsbw docs/aio/ifta/visual-reconstruction/captures/after/STAFF_{QUEUE,CASE}_{393,834,1440}.jpg",
+      "status": "APPROVED · LOCKED",
+      "used_as": "Embedded unchanged in WORK › FILING & FUEL TAXES and every IFTA quarter record"
+    },
+    {
+      "item": "Canonical office IA (five roots, 12 lanes, 10 report domains, 11 MORE entries)",
+      "kind": "CONTRACT",
+      "source": "SITE00 projects/aio/office-ia.ts",
+      "status": "LOCKED",
+      "used_as": "Page tree and coverage check"
+    },
+    {
+      "item": "Office root and lane contracts",
+      "kind": "CONTRACT",
+      "source": "SITE00 projects/aio/office-contracts.ts",
+      "status": "RECORDED",
+      "used_as": "Which records, statuses and sections each lane may show"
+    },
+    {
+      "item": "Service activation matrix",
+      "kind": "CONTRACT",
+      "source": "fsbw src/infrastructure/serviceActivation.ts",
+      "status": "LIVE",
+      "used_as": "Service chips, brokerage PAUSED gate, partner-pending states, MORE › SERVICE CATALOG"
+    },
+    {
+      "item": "Brand lockup, icon sheet, approved plates",
+      "kind": "ASSET",
+      "source": "fsbw public/migration/brand-lockup.png · public/migration/icons/aio-icon-sheet.svg · public/brand/ifta/plates/*",
+      "status": "APPROVED",
+      "used_as": "Shell and lane bands"
+    },
+    {
+      "item": "Seven labelled stand-in lane photographs",
+      "kind": "ASSET",
+      "source": "fsbw design-authority/aio-office/standins/",
+      "status": "INTERIM · LABELLED STAND-IN",
+      "used_as": "Lane cards and lane bands until the photo pass delivers"
+    },
+    {
+      "item": "Live office route families",
+      "kind": "LIVE_ROUTE_FAMILY",
+      "source": "fsbw src/ (/office, /office/migration/*, /office/ifta, /office/crm, /office/billing, /office/invoices, lane pages)",
+      "status": "PARTIAL per IA node status",
+      "used_as": "Recorded as each page family’s live status"
+    },
+    {
+      "item": "Earlier review artifacts",
+      "kind": "ARTIFACT",
+      "source": "AIO Office prototype UCvqqLPCWwMKba1bZLn1QQ · image review JuYTR4tEFpcUv51VFnmz5Z · Founder Staff V2 2562hEnELiQyQSjCkoB5FR · Client Filing Room JDEeSCFdEea3JUTDkYxMzw",
+      "status": "PUBLISHED",
+      "used_as": "Superseded for office review by the unified review (kept as history)"
+    }
+  ],
+  "page_tree": [
+    {
+      "root": "HOME",
+      "family": "HOME",
+      "route": "home",
+      "ia": [
+        "AIO_OFFICE.HOME"
+      ],
+      "review": "APPROVED_ROOT",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "HOME",
+      "family": "HOME › FULL LISTS (attention · deadlines · blocked)",
+      "route": "home/list/:view",
+      "ia": [
+        "AIO_OFFICE.HOME.NEEDS_ATTENTION",
+        "AIO_OFFICE.HOME.DEADLINES",
+        "AIO_OFFICE.HOME.BLOCKERS"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "HOME",
+      "family": "HOME › RECENT ACTIVITY",
+      "route": "home/activity",
+      "ia": [
+        "AIO_OFFICE.HOME.RECENT_ACTIVITY"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL",
+      "note": "No office-wide feed yet; events come from each lane"
+    },
+    {
+      "root": "HOME",
+      "family": "HOME › QUICK ACTIONS",
+      "route": "home/quick",
+      "ia": [
+        "AIO_OFFICE.HOME.QUICK_ACTIONS"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "HOME",
+      "family": "HOME › NOTIFICATIONS",
+      "route": "home/notifications",
+      "ia": [],
+      "review": "NEW_FOR_REVIEW",
+      "live": "NOT_BUILT",
+      "note": "The bell has no feed yet"
+    },
+    {
+      "root": "INTAKE",
+      "family": "INTAKE",
+      "route": "intake",
+      "ia": [
+        "AIO_OFFICE.INTAKE"
+      ],
+      "review": "APPROVED_AUTHORITY",
+      "live": "PARTIAL",
+      "note": "Approved migration root modules inside the office frame + new staff sections"
+    },
+    {
+      "root": "INTAKE",
+      "family": "INTAKE › EXISTING CLIENT FILE",
+      "route": "intake/existing",
+      "ia": [
+        "AIO_OFFICE.INTAKE.EXISTING_CLIENT_FILE"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "INTAKE",
+      "family": "INTAKE › NEW CLIENT FILE",
+      "route": "intake/new",
+      "ia": [
+        "AIO_OFFICE.INTAKE.NEW_CLIENT_FILE"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "INTAKE",
+      "family": "INTAKE › BULK BATCH MIGRATION",
+      "route": "intake/bulk",
+      "ia": [
+        "AIO_OFFICE.INTAKE.BULK_BATCH_MIGRATION"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "INTAKE",
+      "family": "INTAKE › MIGRATION STATUS",
+      "route": "intake/status",
+      "ia": [
+        "AIO_OFFICE.INTAKE.MIGRATION_STATUS"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "INTAKE",
+      "family": "INTAKE › EXTRACTION & CLASSIFICATION",
+      "route": "intake/extraction",
+      "ia": [
+        "AIO_OFFICE.INTAKE.EXTRACTION_CLASSIFICATION"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "INTAKE",
+      "family": "INTAKE › MATCH & RECONCILE",
+      "route": "intake/match",
+      "ia": [
+        "AIO_OFFICE.INTAKE.MATCH_RECONCILE"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "INTAKE",
+      "family": "INTAKE › FOUNDER REVIEW",
+      "route": "intake/review",
+      "ia": [
+        "AIO_OFFICE.INTAKE.FOUNDER_REVIEW"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "INTAKE",
+      "family": "INTAKE › PREBUILT CLIENTS",
+      "route": "intake/prebuilt",
+      "ia": [
+        "AIO_OFFICE.INTAKE.PREBUILT_CLIENT"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "INTAKE",
+      "family": "INTAKE › ACTIVATION & INVITES",
+      "route": "intake/activation",
+      "ia": [
+        "AIO_OFFICE.INTAKE.ACTIVATION_INVITE"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "INTAKE",
+      "family": "INTAKE › MIGRATION HISTORY",
+      "route": "intake/history",
+      "ia": [
+        "AIO_OFFICE.INTAKE.MIGRATION_HISTORY"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "INTAKE",
+      "family": "INTAKE › MIGRATION CASE",
+      "route": "intake/case/:id",
+      "ia": [],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL",
+      "note": "Lifecycle stepper; approval founder-only and lands on PREBUILT"
+    },
+    {
+      "root": "INTAKE",
+      "family": "INTAKE › APPROVED FLOW VIEWER (existing · new · bulk · client activation)",
+      "route": "intake/flow/:branch/:step",
+      "ia": [],
+      "review": "APPROVED_AUTHORITY",
+      "live": "PARTIAL",
+      "note": "41 approved screens shown unchanged"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK",
+      "route": "work",
+      "ia": [
+        "AIO_OFFICE.WORK"
+      ],
+      "review": "APPROVED_ROOT",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › MY WORK",
+      "route": "work/mine",
+      "ia": [],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › ALL OPEN WORK",
+      "route": "work/queue",
+      "ia": [],
+      "review": "NEW_FOR_REVIEW",
+      "live": "NOT_BUILT",
+      "note": "No cross-lane queue yet; reads each lane"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › PERMITTING & AUTHORITIES",
+      "route": "work/permitting",
+      "ia": [
+        "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › PERMITTING & AUTHORITIES › TAGS / REGISTRATION",
+      "route": "work/permitting/tags",
+      "ia": [
+        "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES",
+        "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES.TAGS_REGISTRATION"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › PERMITTING & AUTHORITIES › FUEL / ROAD TAX PERMITS",
+      "route": "work/permitting/fuel",
+      "ia": [
+        "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES",
+        "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES.FUEL_ROAD_TAX_PERMITS"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › PERMITTING & AUTHORITIES › OPERATING AUTHORITIES",
+      "route": "work/permitting/authorities",
+      "ia": [
+        "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES",
+        "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES.OPERATING_AUTHORITIES"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › PERMITTING & AUTHORITIES › BOC-3",
+      "route": "work/permitting/boc3",
+      "ia": [
+        "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES",
+        "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES.BOC3"
+      ],
+      "review": "HONEST_STATE",
+      "live": "NOT_BUILT"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › PERMITTING & AUTHORITIES › LLC / INC",
+      "route": "work/permitting/llc",
+      "ia": [
+        "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES",
+        "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES.LLC_INC"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › PERMITTING & AUTHORITIES › OTHER PERMITS",
+      "route": "work/permitting/other",
+      "ia": [
+        "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES",
+        "AIO_OFFICE.WORK.PERMITTING_AUTHORITIES.OTHER_PERMITS"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › FILING & FUEL TAXES",
+      "route": "work/filing",
+      "ia": [
+        "AIO_OFFICE.WORK.FILING_FUEL_TAXES",
+        "AIO_OFFICE.WORK.FILING_FUEL_TAXES.IFTA"
+      ],
+      "review": "APPROVED_AUTHORITY",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › FILING & FUEL TAXES › IFTA QUEUE",
+      "route": "work/filing/queue",
+      "ia": [
+        "AIO_OFFICE.WORK.FILING_FUEL_TAXES",
+        "AIO_OFFICE.WORK.FILING_FUEL_TAXES.FILING_QUEUE"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › FILING & FUEL TAXES › CLIENT APPROVAL",
+      "route": "work/filing/approval",
+      "ia": [
+        "AIO_OFFICE.WORK.FILING_FUEL_TAXES",
+        "AIO_OFFICE.WORK.FILING_FUEL_TAXES.CLIENT_APPROVAL"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › FILING & FUEL TAXES › SUBMITTED / FILED",
+      "route": "work/filing/filed",
+      "ia": [
+        "AIO_OFFICE.WORK.FILING_FUEL_TAXES",
+        "AIO_OFFICE.WORK.FILING_FUEL_TAXES.SUBMITTED_FILED"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › FILING & FUEL TAXES › FILING HISTORY",
+      "route": "work/filing/history",
+      "ia": [
+        "AIO_OFFICE.WORK.FILING_FUEL_TAXES",
+        "AIO_OFFICE.WORK.FILING_FUEL_TAXES.FILING_HISTORY"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › COMPLIANCE",
+      "route": "work/compliance",
+      "ia": [
+        "AIO_OFFICE.WORK.COMPLIANCE"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › COMPLIANCE › EXPIRATIONS",
+      "route": "work/compliance/expirations",
+      "ia": [
+        "AIO_OFFICE.WORK.COMPLIANCE",
+        "AIO_OFFICE.WORK.COMPLIANCE.EXPIRATIONS"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › COMPLIANCE › DOT / SAFETY",
+      "route": "work/compliance/dot_safety",
+      "ia": [
+        "AIO_OFFICE.WORK.COMPLIANCE",
+        "AIO_OFFICE.WORK.COMPLIANCE.DOT_SAFETY"
+      ],
+      "review": "HONEST_STATE",
+      "live": "NOT_BUILT"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › COMPLIANCE › AUDITS",
+      "route": "work/compliance/audits",
+      "ia": [
+        "AIO_OFFICE.WORK.COMPLIANCE",
+        "AIO_OFFICE.WORK.COMPLIANCE.AUDIT_CORRECTIVE_WORK"
+      ],
+      "review": "HONEST_STATE",
+      "live": "NOT_BUILT"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › COMPLIANCE › CORRECTIVE WORK",
+      "route": "work/compliance/corrective",
+      "ia": [
+        "AIO_OFFICE.WORK.COMPLIANCE",
+        "AIO_OFFICE.WORK.COMPLIANCE.AUDIT_CORRECTIVE_WORK",
+        "AIO_OFFICE.WORK.COMPLIANCE.COMPLIANCE_CASES"
+      ],
+      "review": "HONEST_STATE",
+      "live": "NOT_BUILT"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › VEHICLES & FLEET",
+      "route": "work/vehicles",
+      "ia": [
+        "AIO_OFFICE.WORK.VEHICLES_FLEET"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "DESIGN_ONLY"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › VEHICLES & FLEET › NEEDS ATTENTION",
+      "route": "work/vehicles/attention",
+      "ia": [
+        "AIO_OFFICE.WORK.VEHICLES_FLEET"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "DESIGN_ONLY"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › VEHICLES & FLEET › BY CLIENT",
+      "route": "work/vehicles/clients",
+      "ia": [
+        "AIO_OFFICE.WORK.VEHICLES_FLEET"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "DESIGN_ONLY"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › DISPATCH",
+      "route": "work/dispatch",
+      "ia": [
+        "AIO_OFFICE.WORK.DISPATCH",
+        "AIO_OFFICE.WORK.DISPATCH.LOADS"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › DISPATCH › ACTIVE CLIENTS",
+      "route": "work/dispatch/clients",
+      "ia": [
+        "AIO_OFFICE.WORK.DISPATCH",
+        "AIO_OFFICE.WORK.DISPATCH.ACTIVE_CLIENTS"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › DISPATCH › TRUCKS",
+      "route": "work/dispatch/trucks",
+      "ia": [
+        "AIO_OFFICE.WORK.DISPATCH",
+        "AIO_OFFICE.WORK.DISPATCH.TRUCKS"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › DISPATCH › STATUS & EXCEPTIONS",
+      "route": "work/dispatch/exceptions",
+      "ia": [
+        "AIO_OFFICE.WORK.DISPATCH",
+        "AIO_OFFICE.WORK.DISPATCH.STATUS_EXCEPTIONS"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › DISPATCH › MY LOADS / MY TRUCKS",
+      "route": "work/dispatch/my_loads",
+      "ia": [
+        "AIO_OFFICE.WORK.DISPATCH",
+        "AIO_OFFICE.WORK.DISPATCH.MY_LOADS_MY_TRUCKS"
+      ],
+      "review": "HONEST_STATE",
+      "live": "NOT_BUILT"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › BROKERAGE",
+      "route": "work/brokerage",
+      "ia": [
+        "AIO_OFFICE.WORK.BROKERAGE"
+      ],
+      "review": "HONEST_STATE",
+      "live": "PAUSED"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › BROKERAGE › QUOTES",
+      "route": "work/brokerage/quotes",
+      "ia": [
+        "AIO_OFFICE.WORK.BROKERAGE",
+        "AIO_OFFICE.WORK.BROKERAGE.QUOTES"
+      ],
+      "review": "HONEST_STATE",
+      "live": "PAUSED"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › BROKERAGE › SHIPMENTS",
+      "route": "work/brokerage/shipments",
+      "ia": [
+        "AIO_OFFICE.WORK.BROKERAGE",
+        "AIO_OFFICE.WORK.BROKERAGE.SHIPMENTS"
+      ],
+      "review": "HONEST_STATE",
+      "live": "PAUSED"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › BROKERAGE › CARRIER OFFERS",
+      "route": "work/brokerage/offers",
+      "ia": [
+        "AIO_OFFICE.WORK.BROKERAGE",
+        "AIO_OFFICE.WORK.BROKERAGE.CARRIER_OFFERS"
+      ],
+      "review": "HONEST_STATE",
+      "live": "PAUSED"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › BROKERAGE › STOPS & STATUS",
+      "route": "work/brokerage/stops",
+      "ia": [
+        "AIO_OFFICE.WORK.BROKERAGE",
+        "AIO_OFFICE.WORK.BROKERAGE.STOPS_STATUS"
+      ],
+      "review": "HONEST_STATE",
+      "live": "PAUSED"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › BROKERAGE › LOAD FINANCIALS",
+      "route": "work/brokerage/financials",
+      "ia": [
+        "AIO_OFFICE.WORK.BROKERAGE",
+        "AIO_OFFICE.WORK.BROKERAGE.LOAD_FINANCIALS"
+      ],
+      "review": "HONEST_STATE",
+      "live": "PAUSED",
+      "founder_only": true
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › INSURANCE",
+      "route": "work/insurance",
+      "ia": [
+        "AIO_OFFICE.WORK.INSURANCE"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › INSURANCE › INTAKE",
+      "route": "work/insurance/intake",
+      "ia": [
+        "AIO_OFFICE.WORK.INSURANCE",
+        "AIO_OFFICE.WORK.INSURANCE.INTAKE"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › INSURANCE › QUOTES",
+      "route": "work/insurance/quotes",
+      "ia": [
+        "AIO_OFFICE.WORK.INSURANCE",
+        "AIO_OFFICE.WORK.INSURANCE.QUOTES"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › INSURANCE › POLICIES",
+      "route": "work/insurance/policies",
+      "ia": [
+        "AIO_OFFICE.WORK.INSURANCE",
+        "AIO_OFFICE.WORK.INSURANCE.POLICIES"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › INSURANCE › RENEWALS",
+      "route": "work/insurance/renewals",
+      "ia": [
+        "AIO_OFFICE.WORK.INSURANCE",
+        "AIO_OFFICE.WORK.INSURANCE.RENEWALS"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › FACTORING",
+      "route": "work/factoring",
+      "ia": [
+        "AIO_OFFICE.WORK.FACTORING"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › FACTORING › PROVIDER RELATIONSHIPS",
+      "route": "work/factoring/providers",
+      "ia": [
+        "AIO_OFFICE.WORK.FACTORING"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › BOOKKEEPING",
+      "route": "work/bookkeeping",
+      "ia": [
+        "AIO_OFFICE.WORK.BOOKKEEPING",
+        "AIO_OFFICE.WORK.BOOKKEEPING.MONTHLY_CLIENTS"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › BOOKKEEPING › ANNUAL CLIENTS",
+      "route": "work/bookkeeping/annual",
+      "ia": [
+        "AIO_OFFICE.WORK.BOOKKEEPING",
+        "AIO_OFFICE.WORK.BOOKKEEPING.ANNUAL_CLIENTS"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › BOOKKEEPING › PACKAGES",
+      "route": "work/bookkeeping/packages",
+      "ia": [
+        "AIO_OFFICE.WORK.BOOKKEEPING"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › BOOKKEEPING › RECONCILIATION",
+      "route": "work/bookkeeping/reconciliation",
+      "ia": [
+        "AIO_OFFICE.WORK.BOOKKEEPING",
+        "AIO_OFFICE.WORK.BOOKKEEPING.RECONCILIATION"
+      ],
+      "review": "HONEST_STATE",
+      "live": "NOT_BUILT"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › BOOKKEEPING › DELIVERABLES",
+      "route": "work/bookkeeping/deliverables",
+      "ia": [
+        "AIO_OFFICE.WORK.BOOKKEEPING",
+        "AIO_OFFICE.WORK.BOOKKEEPING.DELIVERABLES"
+      ],
+      "review": "HONEST_STATE",
+      "live": "NOT_BUILT"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › DRIVERS & CARRIERS",
+      "route": "work/drivers",
+      "ia": [
+        "AIO_OFFICE.WORK.DRIVERS_CARRIERS",
+        "AIO_OFFICE.WORK.DRIVERS_CARRIERS.MATCHING"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › DRIVERS & CARRIERS › DRIVERS",
+      "route": "work/drivers/directory",
+      "ia": [
+        "AIO_OFFICE.WORK.DRIVERS_CARRIERS"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › DRIVERS & CARRIERS › CREDENTIALS",
+      "route": "work/drivers/credentials",
+      "ia": [
+        "AIO_OFFICE.WORK.DRIVERS_CARRIERS",
+        "AIO_OFFICE.WORK.DRIVERS_CARRIERS.CREDENTIALS"
+      ],
+      "review": "HONEST_STATE",
+      "live": "NOT_BUILT"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › DRIVERS & CARRIERS › APPROVALS",
+      "route": "work/drivers/approvals",
+      "ia": [
+        "AIO_OFFICE.WORK.DRIVERS_CARRIERS",
+        "AIO_OFFICE.WORK.DRIVERS_CARRIERS.APPROVALS"
+      ],
+      "review": "HONEST_STATE",
+      "live": "NOT_BUILT"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › MECHANIC / MAINTENANCE",
+      "route": "work/maintenance",
+      "ia": [
+        "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE",
+        "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE.TICKETS"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › MECHANIC / MAINTENANCE › MAINTENANCE STATUS",
+      "route": "work/maintenance/status",
+      "ia": [
+        "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE",
+        "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE.MAINTENANCE_STATUS"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › MECHANIC / MAINTENANCE › PROVIDERS",
+      "route": "work/maintenance/providers",
+      "ia": [
+        "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE",
+        "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE.PROVIDERS"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › MECHANIC / MAINTENANCE › REFERRALS",
+      "route": "work/maintenance/referrals",
+      "ia": [
+        "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE",
+        "AIO_OFFICE.WORK.MECHANIC_MAINTENANCE.REFERRALS"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › ROAD READY",
+      "route": "work/roadready",
+      "ia": [
+        "AIO_OFFICE.WORK.ROAD_READY"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "WORK",
+      "family": "WORK › ROAD READY › OPEN ITEMS",
+      "route": "work/roadready/attention",
+      "ia": [
+        "AIO_OFFICE.WORK.ROAD_READY"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL"
+    },
+    {
+      "root": "WORK",
+      "family": "RECORD › VEHICLE",
+      "route": "rec/vehicle/:id",
+      "ia": [],
+      "review": "NEW_FOR_REVIEW",
+      "live": "DESIGN_ONLY",
+      "note": "The truck + CONNECTED ACROSS AIO cards (registration, driver, insurance, IFTA, dispatch, maintenance, compliance, documents)"
+    },
+    {
+      "root": "WORK",
+      "family": "RECORD › DRIVER",
+      "route": "rec/driver/:id",
+      "ia": [],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL",
+      "note": "Driver + credentials compliance already tracks"
+    },
+    {
+      "root": "WORK",
+      "family": "RECORD › APPLICATION",
+      "route": "rec/application/:id",
+      "ia": [],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL",
+      "note": "Application + matching stepper; approval honest (not built)"
+    },
+    {
+      "root": "WORK",
+      "family": "RECORD › POLICY",
+      "route": "rec/policy/:id",
+      "ia": [],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL",
+      "note": "Coverage, renewal stepper, documents; never binds"
+    },
+    {
+      "root": "WORK",
+      "family": "RECORD › QUARTER",
+      "route": "rec/quarter/:id",
+      "ia": [],
+      "review": "APPROVED_AUTHORITY",
+      "live": "PARTIAL",
+      "note": "Approved IFTA staff case embedded + the office’s quarter panel"
+    },
+    {
+      "root": "WORK",
+      "family": "RECORD › REQUEST",
+      "route": "rec/request/:id",
+      "ia": [],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL",
+      "note": "Request, blocker, progress, documents, affected trucks"
+    },
+    {
+      "root": "WORK",
+      "family": "RECORD › DEADLINE",
+      "route": "rec/deadline/:id",
+      "ia": [],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL",
+      "note": "Deadline + what it protects"
+    },
+    {
+      "root": "WORK",
+      "family": "RECORD › LOAD",
+      "route": "rec/load/:id",
+      "ia": [],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL",
+      "note": "Load, exception, status, truck, driver, factoring link"
+    },
+    {
+      "root": "WORK",
+      "family": "RECORD › SHIPMENT",
+      "route": "rec/shipment/:id",
+      "ia": [],
+      "review": "HONEST_STATE",
+      "live": "PAUSED",
+      "note": "PAUSED demo record; actions unavailable"
+    },
+    {
+      "root": "WORK",
+      "family": "RECORD › SUBMISSION",
+      "route": "rec/submission/:id",
+      "ia": [],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL",
+      "note": "Submission, provider relationship, waiting-on"
+    },
+    {
+      "root": "WORK",
+      "family": "RECORD › SUBSCRIPTION",
+      "route": "rec/subscription/:id",
+      "ia": [],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL",
+      "note": "Package + current close"
+    },
+    {
+      "root": "WORK",
+      "family": "RECORD › CYCLE",
+      "route": "rec/cycle/:id",
+      "ia": [],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL",
+      "note": "Nine-step close + reconciliation honest"
+    },
+    {
+      "root": "WORK",
+      "family": "RECORD › TICKET",
+      "route": "rec/ticket/:id",
+      "ia": [],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL",
+      "note": "Ticket, provider, authorization, truck"
+    },
+    {
+      "root": "WORK",
+      "family": "RECORD › PROFILE",
+      "route": "rec/profile/:id",
+      "ia": [],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL",
+      "note": "Readiness meter + checklist that opens owning lanes"
+    },
+    {
+      "root": "MORE",
+      "family": "RECORD › DOCUMENT",
+      "route": "rec/document/:id",
+      "ia": [],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL",
+      "note": "Preview, visibility, the record it belongs to"
+    },
+    {
+      "root": "MORE",
+      "family": "RECORD › THREAD",
+      "route": "rec/thread/:id",
+      "ia": [],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL",
+      "note": "Client / staff / internal-note messages drawn apart; composer"
+    },
+    {
+      "root": "MORE",
+      "family": "RECORD › INVOICE",
+      "route": "rec/invoice/:id",
+      "ia": [],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL",
+      "note": "Founder / billing grant; permission page otherwise",
+      "founder_only": true
+    },
+    {
+      "root": "REPORTS",
+      "family": "REPORTS › OVERVIEW",
+      "route": "reports",
+      "ia": [
+        "AIO_OFFICE.REPORTS",
+        "AIO_OFFICE.REPORTS.OVERVIEW"
+      ],
+      "review": "APPROVED_ROOT",
+      "live": "PARTIAL",
+      "note": "The approved REPORTS root"
+    },
+    {
+      "root": "REPORTS",
+      "family": "REPORTS › CLIENTS",
+      "route": "reports/clients",
+      "ia": [
+        "AIO_OFFICE.REPORTS.CLIENTS"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL",
+      "note": "Lifecycle counts (PREBUILT and INVITED never count as active); new-this-period NOT CONNECTED"
+    },
+    {
+      "root": "REPORTS",
+      "family": "REPORTS › SERVICES",
+      "route": "reports/services",
+      "ia": [
+        "AIO_OFFICE.REPORTS.SERVICES"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL",
+      "note": "Open work by lane; time-to-complete NOT CONNECTED"
+    },
+    {
+      "root": "REPORTS",
+      "family": "REPORTS › FINANCIAL / REVENUE",
+      "route": "reports/financial_revenue",
+      "ia": [
+        "AIO_OFFICE.REPORTS.FINANCIAL_REVENUE"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL",
+      "note": "Founder / finance only; the approved root’s sample figure and sums of sample invoices, labelled; no projections",
+      "founder_only": true
+    },
+    {
+      "root": "REPORTS",
+      "family": "REPORTS › FILING HISTORY",
+      "route": "reports/filing_history",
+      "ia": [
+        "AIO_OFFICE.REPORTS.FILING_HISTORY"
+      ],
+      "review": "HONEST_STATE",
+      "live": "NOT_BUILT",
+      "note": "Data ready, report view not built; reads the IFTA cases directly"
+    },
+    {
+      "root": "REPORTS",
+      "family": "REPORTS › COMPLIANCE",
+      "route": "reports/compliance",
+      "ia": [
+        "AIO_OFFICE.REPORTS.COMPLIANCE"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL",
+      "note": "Expirations only; safety scores and audit outcomes NOT CONNECTED"
+    },
+    {
+      "root": "REPORTS",
+      "family": "REPORTS › DISPATCH & BROKERAGE",
+      "route": "reports/dispatch_brokerage",
+      "ia": [
+        "AIO_OFFICE.REPORTS.DISPATCH_BROKERAGE"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL",
+      "note": "Dispatch load counts; brokerage paused so it reports nothing"
+    },
+    {
+      "root": "REPORTS",
+      "family": "REPORTS › BOOKKEEPING",
+      "route": "reports/bookkeeping",
+      "ia": [
+        "AIO_OFFICE.REPORTS.BOOKKEEPING"
+      ],
+      "review": "HONEST_STATE",
+      "live": "NOT_BUILT",
+      "note": "Seed data only; nothing reported until live"
+    },
+    {
+      "root": "REPORTS",
+      "family": "REPORTS › MIGRATION",
+      "route": "reports/migration",
+      "ia": [
+        "AIO_OFFICE.REPORTS.MIGRATION"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL",
+      "note": "Cases by lifecycle; only client confirmation counts as active"
+    },
+    {
+      "root": "REPORTS",
+      "family": "REPORTS › EXPORTS",
+      "route": "reports/exports",
+      "ia": [
+        "AIO_OFFICE.REPORTS.EXPORTS"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL",
+      "note": "CSV now (simulated, logged), PDF later; receivables aging founder only"
+    },
+    {
+      "root": "MORE",
+      "family": "MORE",
+      "route": "more",
+      "ia": [
+        "AIO_OFFICE.MORE"
+      ],
+      "review": "APPROVED_ROOT",
+      "live": "NOT_BUILT",
+      "note": "Entries exist; the root itself is new"
+    },
+    {
+      "root": "MORE",
+      "family": "MORE › CLIENTS",
+      "route": "more/clients",
+      "ia": [
+        "AIO_OFFICE.MORE.CLIENTS"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL",
+      "note": "client/:id (Client 360, 8 tabs)"
+    },
+    {
+      "root": "MORE",
+      "family": "MORE › DOCUMENTS & VAULT",
+      "route": "more/documents_vault",
+      "ia": [
+        "AIO_OFFICE.MORE.DOCUMENTS_VAULT"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL",
+      "note": "rec/document/:id"
+    },
+    {
+      "root": "MORE",
+      "family": "MORE › MESSAGES",
+      "route": "more/messages",
+      "ia": [
+        "AIO_OFFICE.MORE.MESSAGES"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL",
+      "note": "rec/thread/:id"
+    },
+    {
+      "root": "MORE",
+      "family": "MORE › GROWTH / CRM",
+      "route": "more/growth_crm",
+      "ia": [
+        "AIO_OFFICE.MORE.GROWTH_CRM"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL",
+      "note": "more/growth_crm/:lead",
+      "founder_only": true
+    },
+    {
+      "root": "MORE",
+      "family": "MORE › BILLING",
+      "route": "more/billing",
+      "ia": [
+        "AIO_OFFICE.MORE.BILLING"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL",
+      "note": "more/billing/{payments,credits,quotes} · rec/invoice/:id",
+      "founder_only": true
+    },
+    {
+      "root": "MORE",
+      "family": "MORE › SERVICE CATALOG",
+      "route": "more/service_catalog",
+      "ia": [
+        "AIO_OFFICE.MORE.SERVICE_CATALOG"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL",
+      "note": "more/service_catalog/:n"
+    },
+    {
+      "root": "MORE",
+      "family": "MORE › TEAM & STAFF",
+      "route": "more/team_staff",
+      "ia": [
+        "AIO_OFFICE.MORE.TEAM_STAFF"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL",
+      "note": "more/team_staff/:id"
+    },
+    {
+      "root": "MORE",
+      "family": "MORE › MECHANIC NETWORK",
+      "route": "more/mechanic_network",
+      "ia": [
+        "AIO_OFFICE.MORE.MECHANIC_NETWORK"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL",
+      "note": "more/mechanic_network/:provider"
+    },
+    {
+      "root": "MORE",
+      "family": "MORE › SYSTEM SETTINGS",
+      "route": "more/system_settings",
+      "ia": [
+        "AIO_OFFICE.MORE.SYSTEM_SETTINGS"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL",
+      "note": "more/system_settings/{workflows,integrations,security,data,notifications}"
+    },
+    {
+      "root": "MORE",
+      "family": "MORE › HELP & SUPPORT",
+      "route": "more/help_support",
+      "ia": [
+        "AIO_OFFICE.MORE.HELP_SUPPORT"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "NOT_BUILT",
+      "note": "more/help_support/:sop"
+    },
+    {
+      "root": "MORE",
+      "family": "MORE › ACCOUNT",
+      "route": "more/account",
+      "ia": [
+        "AIO_OFFICE.MORE.ACCOUNT"
+      ],
+      "review": "HONEST_STATE",
+      "live": "NOT_BUILT"
+    },
+    {
+      "root": "MORE",
+      "family": "CLIENT 360 (overview · services · vehicles · people · documents · messages · history · billing)",
+      "route": "client/:id[/:tab]",
+      "ia": [
+        "AIO_OFFICE.MORE.CLIENTS"
+      ],
+      "review": "NEW_FOR_REVIEW",
+      "live": "PARTIAL",
+      "note": "Billing tab founder only"
+    }
+  ],
+  "lanes": [
+    {
+      "slug": "permitting",
+      "ia": "PERMITTING_AUTHORITIES",
+      "name": "PERMITTING & AUTHORITIES",
+      "landing": "Stat tiles, NEEDS ACTION first, sections with counts, service activation chips",
+      "tabs": [
+        [
+          "overview",
+          "OVERVIEW",
+          null,
+          "NEW_FOR_REVIEW",
+          "PARTIAL"
+        ],
+        [
+          "tags",
+          "TAGS / REGISTRATION",
+          "TAGS_REGISTRATION",
+          "NEW_FOR_REVIEW",
+          "PARTIAL"
+        ],
+        [
+          "fuel",
+          "FUEL / ROAD TAX PERMITS",
+          "FUEL_ROAD_TAX_PERMITS",
+          "NEW_FOR_REVIEW",
+          "PARTIAL"
+        ],
+        [
+          "authorities",
+          "OPERATING AUTHORITIES",
+          "OPERATING_AUTHORITIES",
+          "NEW_FOR_REVIEW",
+          "PARTIAL"
+        ],
+        [
+          "boc3",
+          "BOC-3",
+          "BOC3",
+          "HONEST_STATE",
+          "NOT_BUILT"
+        ],
+        [
+          "llc",
+          "LLC / INC",
+          "LLC_INC",
+          "NEW_FOR_REVIEW",
+          "PARTIAL"
+        ],
+        [
+          "other",
+          "OTHER PERMITS",
+          "OTHER_PERMITS",
+          "NEW_FOR_REVIEW",
+          "PARTIAL"
+        ]
+      ]
+    },
+    {
+      "slug": "filing",
+      "ia": "FILING_FUEL_TAXES",
+      "name": "FILING & FUEL TAXES",
+      "landing": "The approved IFTA LIGHT ANALYTICS COMMAND staff queue, embedded unchanged, beside the office’s linked quarter list",
+      "tabs": [
+        [
+          "overview",
+          "IFTA COMMAND",
+          "IFTA",
+          "APPROVED_AUTHORITY",
+          "PARTIAL"
+        ],
+        [
+          "queue",
+          "IFTA QUEUE",
+          "FILING_QUEUE",
+          "NEW_FOR_REVIEW",
+          "PARTIAL"
+        ],
+        [
+          "approval",
+          "CLIENT APPROVAL",
+          "CLIENT_APPROVAL",
+          "NEW_FOR_REVIEW",
+          "PARTIAL"
+        ],
+        [
+          "filed",
+          "SUBMITTED / FILED",
+          "SUBMITTED_FILED",
+          "NEW_FOR_REVIEW",
+          "PARTIAL"
+        ],
+        [
+          "history",
+          "FILING HISTORY",
+          "FILING_HISTORY",
+          "NEW_FOR_REVIEW",
+          "PARTIAL"
+        ]
+      ]
+    },
+    {
+      "slug": "compliance",
+      "ia": "COMPLIANCE",
+      "name": "COMPLIANCE",
+      "landing": "Expiry windows (overdue / 7 / 30 / later) with stat tiles; the three unbuilt sections drawn as honest cards",
+      "tabs": [
+        [
+          "overview",
+          "OVERVIEW",
+          null,
+          "NEW_FOR_REVIEW",
+          "PARTIAL"
+        ],
+        [
+          "expirations",
+          "EXPIRATIONS",
+          "EXPIRATIONS",
+          "NEW_FOR_REVIEW",
+          "PARTIAL"
+        ],
+        [
+          "dot_safety",
+          "DOT / SAFETY",
+          "DOT_SAFETY",
+          "HONEST_STATE",
+          "NOT_BUILT"
+        ],
+        [
+          "audits",
+          "AUDITS",
+          "AUDIT_CORRECTIVE_WORK",
+          "HONEST_STATE",
+          "NOT_BUILT"
+        ],
+        [
+          "corrective",
+          "CORRECTIVE WORK",
+          "AUDIT_CORRECTIVE_WORK|COMPLIANCE_CASES",
+          "HONEST_STATE",
+          "NOT_BUILT"
+        ]
+      ]
+    },
+    {
+      "slug": "vehicles",
+      "ia": "VEHICLES_FLEET",
+      "name": "VEHICLES & FLEET",
+      "landing": "Fleet cards: each truck with its links (driver, insurance, IFTA, load, ticket, deadlines); DESIGN ONLY banner",
+      "tabs": [
+        [
+          "fleet",
+          "FLEET",
+          null,
+          "NEW_FOR_REVIEW",
+          "DESIGN_ONLY"
+        ],
+        [
+          "attention",
+          "NEEDS ATTENTION",
+          null,
+          "NEW_FOR_REVIEW",
+          "DESIGN_ONLY"
+        ],
+        [
+          "clients",
+          "BY CLIENT",
+          null,
+          "NEW_FOR_REVIEW",
+          "DESIGN_ONLY"
+        ]
+      ]
+    },
+    {
+      "slug": "dispatch",
+      "ia": "DISPATCH",
+      "name": "DISPATCH",
+      "landing": "Load board (BOOKED · MOVING · DELIVERED · ISSUE)",
+      "tabs": [
+        [
+          "board",
+          "LOAD BOARD",
+          "LOADS",
+          "NEW_FOR_REVIEW",
+          "PARTIAL"
+        ],
+        [
+          "clients",
+          "ACTIVE CLIENTS",
+          "ACTIVE_CLIENTS",
+          "NEW_FOR_REVIEW",
+          "PARTIAL"
+        ],
+        [
+          "trucks",
+          "TRUCKS",
+          "TRUCKS",
+          "NEW_FOR_REVIEW",
+          "PARTIAL"
+        ],
+        [
+          "exceptions",
+          "STATUS & EXCEPTIONS",
+          "STATUS_EXCEPTIONS",
+          "NEW_FOR_REVIEW",
+          "PARTIAL"
+        ],
+        [
+          "my_loads",
+          "MY LOADS / MY TRUCKS",
+          "MY_LOADS_MY_TRUCKS",
+          "HONEST_STATE",
+          "NOT_BUILT"
+        ]
+      ]
+    },
+    {
+      "slug": "brokerage",
+      "ia": "BROKERAGE",
+      "name": "BROKERAGE",
+      "landing": "PAUSED state first (business activation required), demo records only; activation is never a switch",
+      "tabs": [
+        [
+          "overview",
+          "OVERVIEW",
+          null,
+          "HONEST_STATE",
+          "PAUSED"
+        ],
+        [
+          "quotes",
+          "QUOTES",
+          "QUOTES",
+          "HONEST_STATE",
+          "PAUSED"
+        ],
+        [
+          "shipments",
+          "SHIPMENTS",
+          "SHIPMENTS",
+          "HONEST_STATE",
+          "PAUSED"
+        ],
+        [
+          "offers",
+          "CARRIER OFFERS",
+          "CARRIER_OFFERS",
+          "HONEST_STATE",
+          "PAUSED"
+        ],
+        [
+          "stops",
+          "STOPS & STATUS",
+          "STOPS_STATUS",
+          "HONEST_STATE",
+          "PAUSED"
+        ],
+        [
+          "financials",
+          "LOAD FINANCIALS",
+          "LOAD_FINANCIALS",
+          "HONEST_STATE",
+          "PAUSED"
+        ]
+      ]
+    },
+    {
+      "slug": "insurance",
+      "ia": "INSURANCE",
+      "name": "INSURANCE",
+      "landing": "Renewal windows (7 days · 60 days · later); referral / assistance notice — nothing is bound",
+      "tabs": [
+        [
+          "overview",
+          "RENEWALS AHEAD",
+          null,
+          "NEW_FOR_REVIEW",
+          "PARTIAL"
+        ],
+        [
+          "intake",
+          "INTAKE",
+          "INTAKE",
+          "NEW_FOR_REVIEW",
+          "PARTIAL"
+        ],
+        [
+          "quotes",
+          "QUOTES",
+          "QUOTES",
+          "NEW_FOR_REVIEW",
+          "PARTIAL"
+        ],
+        [
+          "policies",
+          "POLICIES",
+          "POLICIES",
+          "NEW_FOR_REVIEW",
+          "PARTIAL"
+        ],
+        [
+          "renewals",
+          "RENEWALS",
+          "RENEWALS",
+          "NEW_FOR_REVIEW",
+          "PARTIAL"
+        ]
+      ]
+    },
+    {
+      "slug": "factoring",
+      "ia": "FACTORING",
+      "name": "FACTORING",
+      "landing": "Submission board (documents needed · sent to provider · funded); provider relationships kept",
+      "tabs": [
+        [
+          "submissions",
+          "SUBMISSIONS",
+          null,
+          "NEW_FOR_REVIEW",
+          "PARTIAL"
+        ],
+        [
+          "providers",
+          "PROVIDER RELATIONSHIPS",
+          null,
+          "NEW_FOR_REVIEW",
+          "PARTIAL"
+        ]
+      ]
+    },
+    {
+      "slug": "bookkeeping",
+      "ia": "BOOKKEEPING",
+      "name": "BOOKKEEPING",
+      "landing": "Monthly close cards with progress meters and the nine-step close; the three packages unchanged",
+      "tabs": [
+        [
+          "monthly",
+          "MONTHLY CLIENTS",
+          "MONTHLY_CLIENTS",
+          "NEW_FOR_REVIEW",
+          "PARTIAL"
+        ],
+        [
+          "annual",
+          "ANNUAL CLIENTS",
+          "ANNUAL_CLIENTS",
+          "NEW_FOR_REVIEW",
+          "PARTIAL"
+        ],
+        [
+          "packages",
+          "PACKAGES",
+          null,
+          "NEW_FOR_REVIEW",
+          "PARTIAL"
+        ],
+        [
+          "reconciliation",
+          "RECONCILIATION",
+          "RECONCILIATION",
+          "HONEST_STATE",
+          "NOT_BUILT"
+        ],
+        [
+          "deliverables",
+          "DELIVERABLES",
+          "DELIVERABLES",
+          "HONEST_STATE",
+          "NOT_BUILT"
+        ]
+      ]
+    },
+    {
+      "slug": "drivers",
+      "ia": "DRIVERS_CARRIERS",
+      "name": "DRIVERS & CARRIERS",
+      "landing": "Matching (applications) first; driver directory; credentials and approvals honest",
+      "tabs": [
+        [
+          "matching",
+          "MATCHING",
+          "MATCHING",
+          "NEW_FOR_REVIEW",
+          "PARTIAL"
+        ],
+        [
+          "directory",
+          "DRIVERS",
+          null,
+          "NEW_FOR_REVIEW",
+          "PARTIAL"
+        ],
+        [
+          "credentials",
+          "CREDENTIALS",
+          "CREDENTIALS",
+          "HONEST_STATE",
+          "NOT_BUILT"
+        ],
+        [
+          "approvals",
+          "APPROVALS",
+          "APPROVALS",
+          "HONEST_STATE",
+          "NOT_BUILT"
+        ]
+      ]
+    },
+    {
+      "slug": "maintenance",
+      "ia": "MECHANIC_MAINTENANCE",
+      "name": "MECHANIC / MAINTENANCE",
+      "landing": "Ticket board (scheduled · waiting · done); trucks on hold; providers own the repair",
+      "tabs": [
+        [
+          "tickets",
+          "TICKETS",
+          "TICKETS",
+          "NEW_FOR_REVIEW",
+          "PARTIAL"
+        ],
+        [
+          "status",
+          "MAINTENANCE STATUS",
+          "MAINTENANCE_STATUS",
+          "NEW_FOR_REVIEW",
+          "PARTIAL"
+        ],
+        [
+          "providers",
+          "PROVIDERS",
+          "PROVIDERS",
+          "NEW_FOR_REVIEW",
+          "PARTIAL"
+        ],
+        [
+          "referrals",
+          "REFERRALS",
+          "REFERRALS",
+          "NEW_FOR_REVIEW",
+          "PARTIAL"
+        ]
+      ]
+    },
+    {
+      "slug": "roadready",
+      "ia": "ROAD_READY",
+      "name": "ROAD READY",
+      "landing": "Readiness meters per client; AVAILABLE ≠ ACTIVE notice; checklist items open their owning lane",
+      "tabs": [
+        [
+          "profiles",
+          "PROFILES",
+          null,
+          "NEW_FOR_REVIEW",
+          "PARTIAL"
+        ],
+        [
+          "attention",
+          "OPEN ITEMS",
+          null,
+          "NEW_FOR_REVIEW",
+          "PARTIAL"
+        ]
+      ]
+    }
+  ],
+  "record_types": [
+    {
+      "type": "vehicle",
+      "owner": "VEHICLES & FLEET",
+      "page": "The truck + CONNECTED ACROSS AIO cards (registration, driver, insurance, IFTA, dispatch, maintenance, compliance, documents)"
+    },
+    {
+      "type": "driver",
+      "owner": "DRIVERS & CARRIERS",
+      "page": "Driver + credentials compliance already tracks"
+    },
+    {
+      "type": "application",
+      "owner": "DRIVERS & CARRIERS",
+      "page": "Application + matching stepper; approval honest (not built)"
+    },
+    {
+      "type": "policy",
+      "owner": "INSURANCE",
+      "page": "Coverage, renewal stepper, documents; never binds"
+    },
+    {
+      "type": "quarter",
+      "owner": "FILING & FUEL TAXES",
+      "page": "Approved IFTA staff case embedded + the office’s quarter panel"
+    },
+    {
+      "type": "request",
+      "owner": "PERMITTING & AUTHORITIES",
+      "page": "Request, blocker, progress, documents, affected trucks"
+    },
+    {
+      "type": "deadline",
+      "owner": "COMPLIANCE",
+      "page": "Deadline + what it protects"
+    },
+    {
+      "type": "load",
+      "owner": "DISPATCH",
+      "page": "Load, exception, status, truck, driver, factoring link"
+    },
+    {
+      "type": "shipment",
+      "owner": "BROKERAGE",
+      "page": "PAUSED demo record; actions unavailable"
+    },
+    {
+      "type": "submission",
+      "owner": "FACTORING",
+      "page": "Submission, provider relationship, waiting-on"
+    },
+    {
+      "type": "subscription",
+      "owner": "BOOKKEEPING",
+      "page": "Package + current close"
+    },
+    {
+      "type": "cycle",
+      "owner": "BOOKKEEPING",
+      "page": "Nine-step close + reconciliation honest"
+    },
+    {
+      "type": "ticket",
+      "owner": "MECHANIC / MAINTENANCE",
+      "page": "Ticket, provider, authorization, truck"
+    },
+    {
+      "type": "profile",
+      "owner": "ROAD READY",
+      "page": "Readiness meter + checklist that opens owning lanes"
+    },
+    {
+      "type": "document",
+      "owner": "DOCUMENTS & VAULT",
+      "page": "Preview, visibility, the record it belongs to"
+    },
+    {
+      "type": "thread",
+      "owner": "MESSAGES",
+      "page": "Client / staff / internal-note messages drawn apart; composer"
+    },
+    {
+      "type": "invoice",
+      "owner": "BILLING",
+      "page": "Founder / billing grant; permission page otherwise"
+    }
+  ],
+  "report_domains": [
+    [
+      "",
+      "OVERVIEW",
+      "OVERVIEW",
+      "APPROVED_ROOT",
+      "PARTIAL",
+      "The approved REPORTS root"
+    ],
+    [
+      "clients",
+      "CLIENTS",
+      "CLIENTS",
+      "NEW_FOR_REVIEW",
+      "PARTIAL",
+      "Lifecycle counts (PREBUILT and INVITED never count as active); new-this-period NOT CONNECTED"
+    ],
+    [
+      "services",
+      "SERVICES",
+      "SERVICES",
+      "NEW_FOR_REVIEW",
+      "PARTIAL",
+      "Open work by lane; time-to-complete NOT CONNECTED"
+    ],
+    [
+      "financial_revenue",
+      "FINANCIAL / REVENUE",
+      "FINANCIAL_REVENUE",
+      "NEW_FOR_REVIEW",
+      "PARTIAL",
+      "Founder / finance only; the approved root’s sample figure and sums of sample invoices, labelled; no projections"
+    ],
+    [
+      "filing_history",
+      "FILING HISTORY",
+      "FILING_HISTORY",
+      "HONEST_STATE",
+      "NOT_BUILT",
+      "Data ready, report view not built; reads the IFTA cases directly"
+    ],
+    [
+      "compliance",
+      "COMPLIANCE",
+      "COMPLIANCE",
+      "NEW_FOR_REVIEW",
+      "PARTIAL",
+      "Expirations only; safety scores and audit outcomes NOT CONNECTED"
+    ],
+    [
+      "dispatch_brokerage",
+      "DISPATCH & BROKERAGE",
+      "DISPATCH_BROKERAGE",
+      "NEW_FOR_REVIEW",
+      "PARTIAL",
+      "Dispatch load counts; brokerage paused so it reports nothing"
+    ],
+    [
+      "bookkeeping",
+      "BOOKKEEPING",
+      "BOOKKEEPING",
+      "HONEST_STATE",
+      "NOT_BUILT",
+      "Seed data only; nothing reported until live"
+    ],
+    [
+      "migration",
+      "MIGRATION",
+      "MIGRATION",
+      "NEW_FOR_REVIEW",
+      "PARTIAL",
+      "Cases by lifecycle; only client confirmation counts as active"
+    ],
+    [
+      "exports",
+      "EXPORTS",
+      "EXPORTS",
+      "NEW_FOR_REVIEW",
+      "PARTIAL",
+      "CSV now (simulated, logged), PDF later; receivables aging founder only"
+    ]
+  ],
+  "more": [
+    {
+      "slug": "clients",
+      "title": "CLIENTS",
+      "ia": "CLIENTS",
+      "group": "CLIENTS & RECORDS",
+      "children": [
+        "client/:id (Client 360, 8 tabs)"
+      ],
+      "staff": "Directory + Client 360 (no billing tab)",
+      "founder": "Same + billing tab",
+      "live": "PARTIAL",
+      "review": "NEW_FOR_REVIEW"
+    },
+    {
+      "slug": "documents_vault",
+      "title": "DOCUMENTS & VAULT",
+      "ia": "DOCUMENTS_VAULT",
+      "group": "CLIENTS & RECORDS",
+      "children": [
+        "rec/document/:id"
+      ],
+      "staff": "All documents; visibility change hidden",
+      "founder": "Visibility change (simulated, recorded)",
+      "live": "PARTIAL",
+      "review": "NEW_FOR_REVIEW"
+    },
+    {
+      "slug": "messages",
+      "title": "MESSAGES",
+      "ia": "MESSAGES",
+      "group": "CLIENTS & RECORDS",
+      "children": [
+        "rec/thread/:id"
+      ],
+      "staff": "Conversations + internal notes",
+      "founder": "Same",
+      "live": "PARTIAL",
+      "review": "NEW_FOR_REVIEW"
+    },
+    {
+      "slug": "growth_crm",
+      "title": "GROWTH / CRM",
+      "ia": "GROWTH_CRM",
+      "group": "BUSINESS",
+      "children": [
+        "more/growth_crm/:lead"
+      ],
+      "staff": "Permission page without the CRM grant",
+      "founder": "Pipeline board + lead pages; a lead becomes a client only through INTAKE",
+      "live": "PARTIAL",
+      "review": "NEW_FOR_REVIEW"
+    },
+    {
+      "slug": "billing",
+      "title": "BILLING",
+      "ia": "BILLING",
+      "group": "BUSINESS",
+      "children": [
+        "more/billing/{payments,credits,quotes}",
+        "rec/invoice/:id"
+      ],
+      "staff": "Permission page without the billing grant",
+      "founder": "Invoices, payments, credits, quotes — sample amounts, no processing",
+      "live": "PARTIAL",
+      "review": "NEW_FOR_REVIEW"
+    },
+    {
+      "slug": "service_catalog",
+      "title": "SERVICE CATALOG",
+      "ia": "SERVICE_CATALOG",
+      "group": "BUSINESS",
+      "children": [
+        "more/service_catalog/:n"
+      ],
+      "staff": "View only",
+      "founder": "Pricing (not shown in review); activation never a switch",
+      "live": "PARTIAL",
+      "review": "NEW_FOR_REVIEW"
+    },
+    {
+      "slug": "team_staff",
+      "title": "TEAM & STAFF",
+      "ia": "TEAM_STAFF",
+      "group": "PEOPLE & NETWORK",
+      "children": [
+        "more/team_staff/:id"
+      ],
+      "staff": "Directory only; grants hidden",
+      "founder": "Roles and grants (server-enforced), invite, deactivate",
+      "live": "PARTIAL",
+      "review": "NEW_FOR_REVIEW"
+    },
+    {
+      "slug": "mechanic_network",
+      "title": "MECHANIC NETWORK",
+      "ia": "MECHANIC_NETWORK",
+      "group": "PEOPLE & NETWORK",
+      "children": [
+        "more/mechanic_network/:provider"
+      ],
+      "staff": "Providers + message",
+      "founder": "Verify provider",
+      "live": "PARTIAL",
+      "review": "NEW_FOR_REVIEW"
+    },
+    {
+      "slug": "system_settings",
+      "title": "SYSTEM SETTINGS",
+      "ia": "SYSTEM_SETTINGS",
+      "group": "SYSTEM",
+      "children": [
+        "more/system_settings/{workflows,integrations,security,data,notifications}"
+      ],
+      "staff": "Notifications only; other areas show the permission page",
+      "founder": "All five areas",
+      "live": "PARTIAL",
+      "review": "NEW_FOR_REVIEW"
+    },
+    {
+      "slug": "help_support",
+      "title": "HELP & SUPPORT",
+      "ia": "HELP_SUPPORT",
+      "group": "SYSTEM",
+      "children": [
+        "more/help_support/:sop"
+      ],
+      "staff": "SOPs + support request",
+      "founder": "Same",
+      "live": "NOT_BUILT",
+      "review": "NEW_FOR_REVIEW"
+    },
+    {
+      "slug": "account",
+      "title": "ACCOUNT",
+      "ia": "ACCOUNT",
+      "group": "SYSTEM",
+      "children": [],
+      "staff": "Reached from the profile menu",
+      "founder": "Same",
+      "live": "NOT_BUILT",
+      "review": "HONEST_STATE"
+    }
+  ],
+  "components": [
+    {
+      "component": "Shell",
+      "rule": "The approved header (lockup, area, search, bell, identity) and the five-item navigation (dock on phone / tablet, 138 px sidebar on desktop) on every page; INTAKE between HOME and WORK."
+    },
+    {
+      "component": "Page header",
+      "rule": "Back button + breadcrumb trail, condensed title, one-line purpose, status words, up to two actions on phone / tablet (the full actions column on desktop)."
+    },
+    {
+      "component": "Lane band",
+      "rule": "Each lane’s own photograph from the WORK card as a slim band (WORK › 01 … 12), the crumb + section tabs on a panel overlapping it."
+    },
+    {
+      "component": "Client context bar",
+      "rule": "Obsidian bar: badge, name, USDOT · MC · state, lifecycle word, CLIENT 360 · SWITCH · clear. Shown on records, Client 360 and any lane filtered to one client."
+    },
+    {
+      "component": "Tabs and filter chips",
+      "rule": "Square-rounded tabs with counts (dashed when the section is not built); pill filter chips that keep the client context."
+    },
+    {
+      "component": "Rows",
+      "rule": "List rows on phone (lead · title / sub · status); table rows on tablet and desktop (lead · title · meta · status · chevron). Static rows have no hover."
+    },
+    {
+      "component": "Record frame",
+      "rule": "Header + status, client context, return-to-work, working panels, HISTORY (simulated steps marked), ACTIONS column, RELATED (linked, never copied)."
+    },
+    {
+      "component": "Actions column",
+      "rule": "First action gold; each says what the live office would do; unavailable actions are hatched and say why; founder-only actions never render for staff."
+    },
+    {
+      "component": "Honest states",
+      "rule": "Hatched panel with NOT BUILT YET / PAUSED / NOTHING HERE YET, the shape of the page (field chips) and the IA gap it waits on."
+    },
+    {
+      "component": "Boards and windows",
+      "rule": "Kanban columns (dispatch, factoring, maintenance, CRM, migration status) and time windows (compliance, insurance) — by lane, never one dashboard template."
+    },
+    {
+      "component": "Fleet and meter cards",
+      "rule": "Truck cards with link chips (warn / bad) and readiness / close meters in gold."
+    },
+    {
+      "component": "Embeds of approved authority",
+      "rule": "Obsidian bar naming the authority (“shown unchanged”), the approved image, and the live route."
+    },
+    {
+      "component": "Overlays",
+      "rule": "Search (every result opens its owner, follows the role), client switcher, period, and the simulated-action sheet — inside the device frame."
+    }
+  ],
+  "roles": [
+    {
+      "area": "REPORTS",
+      "founder": "All ten areas incl. FINANCIAL / REVENUE",
+      "staff": "The approved lock on every report page",
+      "staff_with_reports": "Granted areas; FINANCIAL / REVENUE shows the permission page"
+    },
+    {
+      "area": "MORE › GROWTH / CRM, BILLING",
+      "founder": "Full pages",
+      "staff": "Hidden in MORE; direct links show the permission page",
+      "staff_with_reports": "Same as staff"
+    },
+    {
+      "area": "Record actions",
+      "founder": "Includes REASSIGN, CHANGE VISIBILITY, CHANGE PACKAGE, VERIFY PROVIDER",
+      "staff": "Founder-only actions absent, with a note that some actions are founder-only",
+      "staff_with_reports": "Same as staff"
+    },
+    {
+      "area": "INTAKE founder review",
+      "founder": "APPROVE · LANDS ON PREBUILT; SEND BACK",
+      "staff": "SEND FOR FOUNDER REVIEW only",
+      "staff_with_reports": "Same as staff"
+    },
+    {
+      "area": "Brokerage",
+      "founder": "LOAD FINANCIALS tab; ACTIVATE BROKERAGE shown as unavailable (business activation outside the office)",
+      "staff": "No financials tab; “only the founder can start business activation”",
+      "staff_with_reports": "Same as staff"
+    },
+    {
+      "area": "Team & Staff, System Settings",
+      "founder": "Grants, invite, deactivate; all settings areas",
+      "staff": "Directory only; notifications settings only",
+      "staff_with_reports": "Same as staff"
+    },
+    {
+      "area": "HOME",
+      "founder": "NOT CONNECTED YET sources line; payment events; BUSINESS PULSE",
+      "staff": "Quick actions without ASSIGN WORK / NEW LEAD / CREATE INVOICE; no payment events",
+      "staff_with_reports": "Same as staff"
+    },
+    {
+      "area": "Identity",
+      "founder": "ALEX R. · FOUNDER",
+      "staff": "ALEX R. · STAFF",
+      "staff_with_reports": "ALEX R. · STAFF — the label comes from the role, never the name or email"
+    }
+  ],
+  "client_context": [
+    {
+      "rule": "One client record per business; every lane references it by id (no duplicate records). Client 360 reads every lane; nothing is copied into it."
+    },
+    {
+      "rule": "Opening a record or Client 360 sets the context; the context bar shows the client, lifecycle, CLIENT 360, SWITCH and clear."
+    },
+    {
+      "rule": "A lane opened from Client 360 (or after SWITCH) is filtered to the client (“@client” in the route) and says so; clearing restores every client."
+    },
+    {
+      "rule": "Filters and tabs keep the client context; breadcrumbs and BACK return through the visit; RETURN TO WORK goes back to the lane list a record was opened from."
+    },
+    {
+      "rule": "Access boundaries hold inside the context: a client’s billing tab is founder-only; PREBUILT and INVITED clients carry their gate notice on Client 360."
+    }
+  ],
+  "interactions": [
+    {
+      "interaction": "Dock / sidebar, every row, card, tile, tab, chip, crumb, related record and link opens a designed page",
+      "kind": "REAL_NAVIGATION"
+    },
+    {
+      "interaction": "BACK (page and toolbar), breadcrumbs, RETURN TO WORK",
+      "kind": "REAL_NAVIGATION"
+    },
+    {
+      "interaction": "Search overlay (role-aware), client switcher, period selector, phone quick-actions sheet, HOME attention views",
+      "kind": "REAL_NAVIGATION"
+    },
+    {
+      "interaction": "Every action button asks in a sheet, then changes status + history for this visit only (marked SIMULATED · NOT SAVED); reset in the guide",
+      "kind": "SIMULATED"
+    },
+    {
+      "interaction": "Device (phone 390 · tablet 834 · desktop 1440 · ultra-wide 2560), view-as (founder · staff · staff with reports), Go to, guide with page status, journeys, legend and incomplete destinations",
+      "kind": "REVIEW_CHROME"
+    }
+  ],
+  "viewports": [
+    {
+      "viewport": "MOBILE",
+      "size": "390 × 844",
+      "rules": [
+        "Dock navigation",
+        "Rows as lists; tables become stacked rows",
+        "Two header actions; full actions column after the content",
+        "Boards and windows stack; tabs scroll sideways"
+      ]
+    },
+    {
+      "viewport": "TABLET",
+      "size": "834 × 1194",
+      "rules": [
+        "Dock navigation",
+        "Rows become table rows",
+        "Two-column boards and grids; report area selector",
+        "Approved migration screen beside its step detail"
+      ]
+    },
+    {
+      "viewport": "DESKTOP",
+      "size": "1440 × 900",
+      "rules": [
+        "138 px sidebar",
+        "Content + 340 px aside (actions, related) on records",
+        "Four-column boards; report navigation beside content"
+      ]
+    },
+    {
+      "viewport": "ULTRA_WIDE",
+      "size": "2560 × 1440",
+      "rules": [
+        "Same frame",
+        "Office pages keep the roots’ 1480 px measure; bands stay full-bleed",
+        "400 px aside; fleet and thumbnail grids add columns",
+        "Flow viewer adds the branch step list as a third column"
+      ]
+    }
+  ],
+  "assets": {
+    "reused": [
+      "Approved plates (7) and the two hero PNGs (as JPEG copies for review)",
+      "Brand lockup and icon sheet",
+      "Migration hero, wide plates, path images, provider marks, security image",
+      "41 approved migration screens (review-size JPEG copies; originals untouched)",
+      "Six approved IFTA staff captures"
+    ],
+    "created": [],
+    "generated": "NONE — no image generation this sprint (no paid generation; the photography host is still blocked)",
+    "logo": "The approved lockup only; no alternative AIO logo",
+    "still_missing": [
+      "PERMITTING & AUTHORITIES lane photograph",
+      "COMPLIANCE lane photograph",
+      "INSURANCE lane photograph",
+      "FACTORING lane photograph",
+      "BOOKKEEPING lane photograph",
+      "DRIVERS & CARRIERS lane photograph",
+      "MECHANIC / MAINTENANCE lane photograph",
+      "HOME welcome photograph (drawn subject)",
+      "WORK band (drawn subject)",
+      "REPORTS band (drawn subject)",
+      "MORE band (drawn subject)",
+      "Clean re-trace of the brand service icon PNGs",
+      "MECHANIC / MAINTENANCE service icon"
+    ]
+  },
+  "journeys": [
+    {
+      "id": "renewal",
+      "title": "An insurance renewal from HOME to the client",
+      "role": "FOUNDER",
+      "steps": [
+        "home",
+        "rec/policy/pol-dh",
+        "rec/vehicle/v-dh-12",
+        "client/c-dh",
+        "rec/thread/th-dh"
+      ]
+    },
+    {
+      "id": "blocked",
+      "title": "A blocked authority: what it holds up",
+      "role": "FOUNDER",
+      "steps": [
+        "home/list/blocked",
+        "rec/request/req-hf-mc",
+        "rec/document/doc-hf-ein",
+        "rec/vehicle/v-hf-3",
+        "rec/profile/rr-hf"
+      ]
+    },
+    {
+      "id": "oos",
+      "title": "An out-of-service truck ripples across lanes",
+      "role": "FOUNDER",
+      "steps": [
+        "work/dispatch",
+        "rec/load/ld-5517",
+        "rec/vehicle/v-tk-09",
+        "rec/ticket/t-tk-2",
+        "work/compliance/expirations"
+      ]
+    },
+    {
+      "id": "pod",
+      "title": "A missing POD holds up factoring",
+      "role": "FOUNDER",
+      "steps": [
+        "rec/load/ld-5518",
+        "rec/submission/fs-2210",
+        "rec/document/doc-tk-2"
+      ]
+    },
+    {
+      "id": "migration",
+      "title": "Migration lands on PREBUILT, never ACTIVE",
+      "role": "FOUNDER",
+      "steps": [
+        "intake",
+        "intake/flow/existing/0",
+        "intake/case/mig-sr",
+        "intake/prebuilt",
+        "client/c-mt",
+        "intake/activation"
+      ]
+    },
+    {
+      "id": "ifta",
+      "title": "An IFTA quarter from queue to client approval",
+      "role": "FOUNDER",
+      "steps": [
+        "work/filing",
+        "work/filing/queue",
+        "rec/quarter/ifta-rl-q3",
+        "client/c-rl"
+      ]
+    },
+    {
+      "id": "credential",
+      "title": "A driver credential expiring",
+      "role": "FOUNDER",
+      "steps": [
+        "work/compliance/expirations",
+        "rec/deadline/dl-abc-med",
+        "rec/driver/d-abc-1",
+        "rec/vehicle/v-abc-1"
+      ]
+    },
+    {
+      "id": "paused",
+      "title": "Brokerage stays paused",
+      "role": "FOUNDER",
+      "steps": [
+        "work/brokerage",
+        "rec/shipment/sh-4471"
+      ]
+    },
+    {
+      "id": "roles",
+      "title": "What staff see differently",
+      "role": "STAFF",
+      "steps": [
+        "reports",
+        "more",
+        "more/billing",
+        "rec/policy/pol-dh"
+      ]
+    }
+  ],
+  "qa": {
+    "tool": "qa.mjs (Playwright, chromium) over the built review",
+    "crawled_routes": 619,
+    "passes": [
+      "desktop founder (crawl from the five roots, following every link)",
+      "phone · tablet · ultra-wide founder (every route found)",
+      "desktop staff",
+      "phone staff",
+      "desktop staff with reports"
+    ],
+    "checks": [
+      "page draws (no error, no undesigned destination)",
+      "no console / page / request errors",
+      "no dead control",
+      "uppercase law inside the office",
+      "no sideways overflow",
+      "staff never see founder-only actions, finance figures, CRM, billing or report figures without a grant"
+    ],
+    "by_status": {
+      "APPROVED_ROOT": 4,
+      "APPROVED_AUTHORITY": 56,
+      "HONEST_STATE": 55,
+      "NEW_FOR_REVIEW": 504
+    },
+    "failures": 0,
+    "journeys": "9/9",
+    "interactions": [
+      "HOME attention row opens its record",
+      "simulated action asks first and changes status for this visit only",
+      "related record opens the linked truck; BACK returns",
+      "search finds a record and opens it",
+      "client switch carries the context into a lane",
+      "RETURN TO WORK appears after opening a record from a lane",
+      "phone quick-actions sheet opens and closes",
+      "migration approval is founder-only and lands on PREBUILT"
+    ],
+    "interactions_passed": "8/8",
+    "authority_renders": "38/38 identical to the pinned sha256 after the studio embed edits (one raster flake re-rendered identical twice)",
+    "screenshots": 60
+  },
+  "composer_plan": {
+    "status": "DRAFT — NOT ACTIONABLE UNTIL THE FOUNDER APPROVES THE UNIFIED OFFICE",
+    "gate": "FOUNDER REVIEW OF THE UNIFIED INTERNAL AIO OFFICE EXPERIENCE",
+    "sequence": [
+      "1 · Shell: one five-item nav list (HOME · INTAKE · WORK · REPORTS · MORE) for dock and sidebar; INTAKE routes to the existing /office/migration family.",
+      "2 · Shared components from the review (office-ui.js → React): page header, client context bar, tabs, filter chips, rows, record frame, actions column, related, honest state, boards, fleet cards.",
+      "3 · Record pages first (they are reached from everywhere): policy, request, quarter (IFTA case stays the approved page), load, ticket, deadline, document, thread.",
+      "4 · Lane landings and sections, lane by lane, reading each lane’s contract; NOT BUILT sections stay honest until their data exists.",
+      "5 · Client 360 and the client context (route-carried, cleared explicitly).",
+      "6 · REPORTS domains from records only; MORE destinations with grant checks on the server.",
+      "7 · Verify against the review at 390 / 834 / 1440 / 2560 with live screenshots; port qa.mjs checks to the live routes."
+    ],
+    "must_land_first": "The security repairs in the separate handoff (11 · SECURITY_REPAIR_HANDOFF) before any client-facing projection is built on the affected tables.",
+    "do_not": [
+      "deploy",
+      "change auth, role permissions, schemas, billing or client records as part of the UI work",
+      "redesign the approved migration screens or the IFTA authority",
+      "activate brokerage or any partner-pending service",
+      "ship sample records or SAMPLE labels",
+      "claim the office complete from the review"
+    ]
+  },
+  "security": {
+    "recheck": {
+      "rechecked_at": "fsbw master c74cf37c (2026-10-08)",
+      "method": "Read every cited source line again; searched later migrations for replaced policies (only indexes were added; no policy replaced).",
+      "result": "ALL 12 STILL OPEN",
+      "patched_here": "NOTHING — this design sprint does not touch production permissions"
+    },
+    "handoff": [
+      {
+        "gap_id": "P-PORTAL-VIEWS-CROSS-ORG",
+        "status": "OPEN",
+        "evidence_still_present": "portal views select all orgs; anon has SELECT on all tables",
+        "repair": "Recreate the portal and management views WITH (security_invoker = true) and an organisation filter; revoke anon SELECT on business tables.",
+        "office_pages_waiting": "REPORTS › EXPORTS; MORE › BILLING (no client-facing exports)"
+      },
+      {
+        "gap_id": "P-SHIPPER-VIEW-INTERNAL-NOTES",
+        "status": "OPEN",
+        "evidence_still_present": "aio_shipper_freight_shipments selects internal_notes; shipper read policy is row-only",
+        "repair": "Drop internal_notes from the shipper view; give shippers a column-limited view instead of the base table.",
+        "office_pages_waiting": "WORK › BROKERAGE (paused)"
+      },
+      {
+        "gap_id": "P-SHIPPER-READS-AUDIT",
+        "status": "OPEN",
+        "evidence_still_present": "aio_bae_shipper policy; audit payload carries targetCarrierRateMinor",
+        "repair": "Remove shipper access to brokerage audit rows or expose a filtered event view without note / payload.",
+        "office_pages_waiting": "WORK › BROKERAGE"
+      },
+      {
+        "gap_id": "P-CLIENT-LIFECYCLE-SELF-UPDATE",
+        "status": "OPEN",
+        "evidence_still_present": "aio_orgs_update_members has no column restriction; client_lifecycle on the org row",
+        "repair": "Restrict org-member UPDATE to profile columns (column grants or a trigger); move lifecycle changes to a server function the confirmation flow calls.",
+        "office_pages_waiting": "HOME › CLIENTS IN MOTION; REPORTS › CLIENTS / MIGRATION; INTAKE"
+      },
+      {
+        "gap_id": "P-DOCUMENTS-INTERNAL-EXPOSED",
+        "status": "OPEN",
+        "evidence_still_present": "getVaultDocument has no visibility check; approve inserts leave visibility = customer",
+        "repair": "Check visibility in getVaultDocument and the calendar path; set visibility = internal on migrated legacy scans.",
+        "office_pages_waiting": "MORE › DOCUMENTS & VAULT; every record’s documents"
+      },
+      {
+        "gap_id": "P-ACTIVITY-INTERNAL-TO-CLIENT",
+        "status": "OPEN",
+        "evidence_still_present": "client activity filter passes any event with the client id",
+        "repair": "Filter client activity on visibility = customer as well as client id.",
+        "office_pages_waiting": "HOME › RECENT ACTIVITY (staff side marks INTERNAL)"
+      },
+      {
+        "gap_id": "P-MESSAGES-RLS-VISIBILITY",
+        "status": "OPEN",
+        "evidence_still_present": "aio_messages_access ignores visibility",
+        "repair": "Add visibility = customer to the client branch of the policy (internal users unchanged).",
+        "office_pages_waiting": "MORE › MESSAGES (internal notes)"
+      },
+      {
+        "gap_id": "P-FLEETCARE-TICKET-NO-ORG-CHECK",
+        "status": "OPEN",
+        "evidence_still_present": "client ticket page loads getTicketById with no org check",
+        "repair": "Scope the client ticket and vehicle-history loaders to the viewer’s organisation.",
+        "office_pages_waiting": "WORK › MECHANIC / MAINTENANCE (client mirror)"
+      },
+      {
+        "gap_id": "P-FLEETCARE-REFERRAL-FEES-CLIENT",
+        "status": "OPEN",
+        "evidence_still_present": "referral read policy includes client orgs; fee columns on the row",
+        "repair": "Remove the client branch, or give clients a view without fee columns.",
+        "office_pages_waiting": "MORE › MECHANIC NETWORK; MORE › BILLING"
+      },
+      {
+        "gap_id": "P-IFTA-CLIENT-AUDIT-ACTIONS",
+        "status": "OPEN",
+        "evidence_still_present": "activityRows returns every action with actor names",
+        "repair": "Pass the client actor filter (or a client-safe action list) in the client filing room.",
+        "office_pages_waiting": "WORK › FILING & FUEL TAXES (client approval)"
+      },
+      {
+        "gap_id": "P-CLIENT-LINKS-TO-OFFICE",
+        "status": "OPEN",
+        "evidence_still_present": "client dispatch / factoring pages link to aioPaths.officeMessages",
+        "repair": "Point client links at the portal inbox; keep the office guard closed in demo mode.",
+        "office_pages_waiting": "The staff / client firewall for the whole office"
+      },
+      {
+        "gap_id": "P-BOOKKEEPING-DRAFT-REPORTS",
+        "status": "OPEN",
+        "evidence_still_present": "client bookkeeping reports list has no status filter",
+        "repair": "Show only delivered reports to clients.",
+        "office_pages_waiting": "WORK › BOOKKEEPING › DELIVERABLES; REPORTS › BOOKKEEPING"
+      }
+    ],
+    "grants": [
+      "Grant checks the review draws but the live app does not enforce yet (contracts sprint): the “+ New” menu checks no permission; reports.export and crm.leads.manage are not checked.",
+      "Every founder-only action in the review must be enforced on the server by role and grant — never by hiding a button, never by name or email."
+    ]
+  },
+  "product_gaps": [
+    "VEHICLES & FLEET has no staff workspace (design only).",
+    "Not built: BOC-3 filing; Compliance DOT / Safety, Audits, Corrective work (no case model); Dispatch My loads; Bookkeeping reconciliation and deliverables; Drivers credentials and approvals; Account page; notifications feed; office-wide activity feed; cross-lane ALL OPEN WORK.",
+    "REPORTS: Filing history view, Bookkeeping, client growth, time-to-complete, on-time rate, safety scores — not connected.",
+    "BROKERAGE paused until business activation.",
+    "Road Ready has no engagement state (AVAILABLE ≠ ACTIVE).",
+    "The approved migration screens predate the five-root decision (their own dock shows FILING); the live React flow renders the current dock.",
+    "Seven lane photographs are labelled stand-ins; the photography pass is still blocked (network policy)."
+  ],
+  "continuation": [
+    {
+      "sprint": "P0.AIO.OFFICE.UNIFIED-EXPERIENCE2.FOUNDER-REVISIONS",
+      "scope": "Apply the founder’s review notes to the unified office; re-run qa.mjs; refresh the review link."
+    },
+    {
+      "sprint": "P0.AIO.OFFICE.UNIFIED-EXPERIENCE3.STATES-AND-EDGE-CASES",
+      "scope": "Loading, error and empty variants per record type; long-content and many-records stress pages; keyboard and screen-reader pass."
+    },
+    {
+      "sprint": "P0.AIO.OFFICE.PHOTOGRAPHY-PASS2",
+      "scope": "Replace the seven stand-ins once image download is allowed, with cost approval."
+    },
+    {
+      "sprint": "P0.AIO.SECURITY.PRIVACY-REPAIR1 (Composer)",
+      "scope": "The twelve repairs in 11 · SECURITY_REPAIR_HANDOFF, separately reviewed."
+    },
+    {
+      "sprint": "P0.AIO.OFFICE.LIVE-INTEGRATION1 (Composer)",
+      "scope": "The integration plan in 10 · COMPOSER_INTEGRATION_PLAN, after founder approval."
+    },
+    {
+      "sprint": "P0.AIO.PUBLIC-WEBSITE.CINEMATIC1",
+      "scope": "The public website (dark, cinematic, black / gold / silver) — the next separate phase; not started here."
+    }
+  ],
+  "walkthrough": [
+    "Open https://claude.ai/artifact/VQCyD4A4YmeErb27ik2hgG. Use Screen to switch phone / tablet / desktop / ultra-wide and View as to switch founder / staff.",
+    "The Guide on the right says for every page whether it is an approved root, an approved authority shown unchanged, a new design for review, or an honest state — and what the live app has today.",
+    "Start with the journeys in the Guide (Next step walks each one): renewal, blocked authority, out-of-service truck, missing POD, migration to PREBUILT, IFTA quarter, driver credential, brokerage paused, staff view.",
+    "Then wander: every tap opens a page. Buttons that would change something ask first and change only this visit (SIMULATED · NOT SAVED); Reset the review clears them.",
+    "Check INTAKE (the approved migration screens inside the office), WORK › FILING & FUEL TAXES (the approved IFTA command), Client 360, and Incomplete destinations at the bottom of the Guide."
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "sprint": "P0.AIO.OFFICE.COMPLETE-INTERNAL-OFFICE-AND-UNIFIED-EXPERIENCE1",
+  "gate": {
+    "EVERY_IA_NODE_HAS_A_PAGE_FAMILY": "YES",
+    "FIVE_ROOTS": "YES — HOME · INTAKE · WORK · REPORTS · MORE (FILING not restored)",
+    "TWELVE_LANES": "YES",
+    "TEN_REPORT_DOMAINS": "YES",
+    "ELEVEN_MORE_DESTINATIONS": "YES",
+    "REVIEW_QA_PASSED": "YES",
+    "APPROVED_SCREENS_REGENERATED": "NO — approved roots, migration screens and IFTA authority shown unchanged",
+    "SAMPLE_DATA_ONLY": "YES",
+    "FOUNDER_APPROVED": "NO — AWAITING FOUNDER REVIEW",
+    "OFFICE_COMPLETE": "NO — BATCH 1; continuation sprints recorded",
+    "LIVE_APP_COMPLETE": "NO",
+    "SECURITY_GAPS_FIXED": "NO — 12 OPEN; separate handoff",
+    "LIVE_IMPLEMENTATION_AUTHORIZED": "NO"
+  },
+  "counts": {
+    "page_families": 114,
+    "approved_root": 4,
+    "approved_authority": 4,
+    "new_for_review": 87,
+    "honest_state": 19,
+    "crawled_routes": 619,
+    "journeys": 9,
+    "screenshots": 60,
+    "open_privacy_gaps": 12
+  },
+  "problems": [],
+  "status": {
+    "batch": "BATCH 1 COMPLETE — every page family designed and connected in the review studio",
+    "office": "NOT COMPLETE — continuation batches below; the office is not labelled COMPLETE",
+    "review": "CONNECTED REVIEW BUILT AND QA-CRAWLED (619 routes, 0 failures) — SAMPLE RECORDS ONLY",
+    "approval": "AWAITING FOUNDER REVIEW",
+    "live_app": "NOT COMPLETE — the review is not the live app; Composer owns live integration after approval",
+    "security": "12 PRIVACY GAPS STILL OPEN (rechecked at fsbw c74cf37c); separate Composer security handoff prepared; nothing patched"
+  },
+  "next_gate": "FOUNDER REVIEW OF THE UNIFIED INTERNAL AIO OFFICE EXPERIENCE"
+}
