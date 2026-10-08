@@ -77,6 +77,20 @@ export const F01_ENTRY_V2 = {
   'F01.03': '07_SIGN_IN',
 } as const;
 
+/** Workspace copies of the ENTRY v2 authorities (public/…/f01/authorities/entry-v2, 787 × 1400), for review beside the runtime. */
+export const ENTRY_V2_REVIEW_AUTHORITY: Record<keyof typeof F01_ENTRY_V2, string> = {
+  'F01.00': 'entry-v2/ENTRY_V2_01_WELCOME.jpg',
+  'F01.14': 'entry-v2/ENTRY_V2_02_VALUE_PROPOSITION.jpg',
+  'F01.15': 'entry-v2/ENTRY_V2_03_KEY_BENEFITS.jpg',
+  'F01.16': 'entry-v2/ENTRY_V2_04_GET_STARTED.jpg',
+  'F01.01': 'entry-v2/ENTRY_V2_05_CREATE_ACCOUNT.jpg',
+  'F01.02': 'entry-v2/ENTRY_V2_06_EMAIL_VERIFICATION.jpg',
+  'F01.03': 'entry-v2/ENTRY_V2_07_SIGN_IN.jpg',
+};
+
+/** The whole ENTRY family in the order a person walks it: WELCOME, the three ENTRY v2 parents, then the package screens. */
+export const F01_FLOW_SCREENS: readonly (F01ScreenDef | (typeof F01_ENTRY_V2_SCREENS)[number])[] = [F01_SCREENS[0]!, ...F01_ENTRY_V2_SCREENS, ...F01_SCREENS.slice(1)];
+
 /** F01 → F02 boundary (F02 is not implemented; this is the family hand-off surface). */
 export const F01_FAMILY_BOUNDARY = { from: 'F01', to: 'F02', route: 'setup', authority: 'interactions/F01_FAMILY_TRANSITION_AUTHORITY.jpg' } as const;
 

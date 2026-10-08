@@ -13,7 +13,9 @@ import { describe, expect, it } from 'vitest';
 import JurnlRuntimeRoot from '../src/projects/jurnl/runtime/JurnlRuntimeRoot';
 import { F01_COPY } from '../src/projects/jurnl/data/f01/copy';
 import { F01_BINDINGS } from '../src/projects/jurnl/data/f01/interactionBindings';
-import { F01_ENTRY_V2, F01_ENTRY_V2_SCREENS, F01_SCREENS } from '../src/projects/jurnl/data/f01/screens';
+import { ENTRY_V2_REVIEW_AUTHORITY, F01_ENTRY_V2, F01_ENTRY_V2_SCREENS, F01_SCREENS } from '../src/projects/jurnl/data/f01/screens';
+import { JURNL_F01_CONTRACT } from '../src/projects/jurnl/data/f01/contract';
+import { JURNL_F01_COVERAGE } from '../src/projects/jurnl/data/f01/coverage';
 import { ENTRY_H, ENTRY_W, entryFit } from '../src/projects/jurnl/runtime/components/EntryV2Stage';
 import * as LAYOUT from '../src/projects/jurnl/runtime/layout/entryV2Layout';
 
@@ -197,3 +199,28 @@ describe('ENTRY v2: fit, layout, lineage', () => {
     expect(runtime).not.toMatch(/AUTHORITY\.jpg|-authority\.png/);
   });
 });
+
+describe('ENTRY v2: one family, one flow', () => {
+  it('the F01 family lists the ENTRY v2 parents where a person meets them, each reviewed against its ENTRY v2 authority', () => {
+    const screens = JURNL_F01_CONTRACT.screens;
+    expect(screens.map((s) => s.id)).toEqual(['F01.00', 'F01.14', 'F01.15', 'F01.16', ...F01_SCREENS.slice(1).map((s) => s.id)]);
+    for (const p of PAGES) {
+      const s = screens.find((x) => x.id === p.id)!;
+      expect(s.runtimeRoute).toBe(p.route);
+      expect(s.authorityFile).toBe(`public/site00/projects/jurnl/f01/authorities/${ENTRY_V2_REVIEW_AUTHORITY[p.id as keyof typeof ENTRY_V2_REVIEW_AUTHORITY]}`);
+      expect(existsSync(s.authorityFile!), s.authorityFile).toBe(true);
+    }
+    expect(JURNL_F01_COVERAGE.screens).toEqual(screens.map((s) => s.id));
+  });
+
+  it('OPEN EMAIL APP leads on: the design preview follows the emailed link (verify → F01.09, reset → F01.07)', () => {
+    const entry = readFileSync('src/projects/jurnl/runtime/screens/EntryScreens.tsx', 'utf8');
+    expect(entry).toMatch(/if \(onLink && bridge\.kind === 'DESIGN_PREVIEW'\) onLink\(\);/);
+    expect(entry).toContain("<MailHandoff onLink={() => go('F01.02', { link: 'valid' })} />");
+    expect(readFileSync('src/projects/jurnl/runtime/screens/RecoveryScreens.tsx', 'utf8')).toContain("<MailHandoff onLink={() => go('F01.07')} />");
+    // The emailed link's landing state is the verified page with CONTINUE onward.
+    const verified = render('entry/verify-email', 'state=verification_success');
+    expect(verified).toContain('data-jrn-trigger="verify-success-continue"');
+  });
+});
+
