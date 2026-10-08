@@ -7,7 +7,7 @@
  */
 
 export type RefBox = readonly [number, number, number, number];
-export type RefType = { readonly family: 'sans' | 'serif'; readonly weight: number; readonly size: number; readonly ls: number; readonly top: number; readonly left?: number; readonly cx?: number; readonly right?: number; readonly rot?: number; /** Horizontal condensing of a left-anchored line, where the reference's face is narrower. */ readonly sx?: number; readonly ink: RefBox };
+export type RefType = { readonly family: 'sans' | 'serif'; readonly weight: number; readonly size: number; readonly ls: number; readonly top: number; readonly left?: number; readonly cx?: number; readonly right?: number; readonly rot?: number; /** Horizontal condensing of a left-anchored line, where the reference's face is narrower. */ readonly sx?: number; /** Word spacing (px) where the reference's word gap is wider than the face's. */ readonly ws?: number; readonly ink: RefBox };
 
 export const REF_PARENT = {
   box: {
