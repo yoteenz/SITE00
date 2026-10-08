@@ -1,0 +1,11 @@
+{
+  "SCREEN_ID": "09_SAFE_TO_SPEND_SETUP",
+  "PLATE_STATUS": "DERIVE_FAMILY_PLATE",
+  "ENVIRONMENT_LINEAGE": "C_PLANNING_DESK",
+  "PLATE_PATH": "SETUP v1/09_SAFE_TO_SPEND_SETUP/plate/setup-v1-09_safe_to_spend_setup-plate.png",
+  "AUTHORITY_PATH": "SETUP v1/09_SAFE_TO_SPEND_SETUP/authority/setup-v1-09_safe_to_spend_setup-authority.png",
+  "STATUS": "FOUNDER_REVIEW_REQUIRED",
+  "OPENART_AUTHORITY_HISTORY": "hnNz4JRd9JypUUR0bZgX",
+  "OPENART_PLATE_HISTORY": "HRe1ufJxAwAWYYpFzE1S",
+  "NOTE": "Plate is the authority with type, buttons, and field lettering removed. Objects, crop, and lineage stay."
+}

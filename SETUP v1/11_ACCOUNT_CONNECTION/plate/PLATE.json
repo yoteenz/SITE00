@@ -1,0 +1,11 @@
+{
+  "SCREEN_ID": "11_ACCOUNT_CONNECTION",
+  "PLATE_STATUS": "DERIVE_FAMILY_PLATE",
+  "ENVIRONMENT_LINEAGE": "B_LEDGER_DRAWER_WALL",
+  "PLATE_PATH": "SETUP v1/11_ACCOUNT_CONNECTION/plate/setup-v1-11_account_connection-plate.png",
+  "AUTHORITY_PATH": "SETUP v1/11_ACCOUNT_CONNECTION/authority/setup-v1-11_account_connection-authority.png",
+  "STATUS": "FOUNDER_REVIEW_REQUIRED",
+  "OPENART_AUTHORITY_HISTORY": "cnX7NacAW1Oq9nR8MADj",
+  "OPENART_PLATE_HISTORY": "k2y4FrPdtAQRdxKLrGdY",
+  "NOTE": "Plate is the authority with type, buttons, and field lettering removed. Objects, crop, and lineage stay."
+}

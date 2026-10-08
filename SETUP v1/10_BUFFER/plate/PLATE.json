@@ -1,0 +1,11 @@
+{
+  "SCREEN_ID": "10_BUFFER",
+  "PLATE_STATUS": "DERIVE_FAMILY_PLATE",
+  "ENVIRONMENT_LINEAGE": "C_PLANNING_DESK",
+  "PLATE_PATH": "SETUP v1/10_BUFFER/plate/setup-v1-10_buffer-plate.png",
+  "AUTHORITY_PATH": "SETUP v1/10_BUFFER/authority/setup-v1-10_buffer-authority.png",
+  "STATUS": "FOUNDER_REVIEW_REQUIRED",
+  "OPENART_AUTHORITY_HISTORY": "29SSHLiUo04SjbHDiWU3",
+  "OPENART_PLATE_HISTORY": "nDsNGFR2SQ0XxgOyum81",
+  "NOTE": "Plate is the authority with type, buttons, and field lettering removed. Objects, crop, and lineage stay."
+}

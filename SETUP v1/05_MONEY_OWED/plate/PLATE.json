@@ -1,0 +1,11 @@
+{
+  "SCREEN_ID": "05_MONEY_OWED",
+  "PLATE_STATUS": "DERIVE_FAMILY_PLATE",
+  "ENVIRONMENT_LINEAGE": "B_LEDGER_DRAWER_WALL",
+  "PLATE_PATH": "SETUP v1/05_MONEY_OWED/plate/setup-v1-05_money_owed-plate.png",
+  "AUTHORITY_PATH": "SETUP v1/05_MONEY_OWED/authority/setup-v1-05_money_owed-authority.png",
+  "STATUS": "FOUNDER_REVIEW_REQUIRED",
+  "OPENART_AUTHORITY_HISTORY": "tKUjI2YCzOSLo2PLZUzy",
+  "OPENART_PLATE_HISTORY": "5wfsnDKSa6vDI5J9l3qn",
+  "NOTE": "Plate is the authority with type, buttons, and field lettering removed. Objects, crop, and lineage stay."
+}
