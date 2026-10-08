@@ -15415,6 +15415,36 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
+## 2026-10-08 — TODAY and ACTIVITY parent authority batch
+
+- **Context:** Sprint `P0.JURNL.TODAY-ACTIVITY.PARENT-AUTHORITY-BATCH1`. Generate parent-screen authorities for F03 TODAY and F04 ACTIVITY only. ENTRY and SETUP stay untouched. No descendants, no React, no routes, no deploy.
+- **Topics covered:** Canonical tree versus the seven review screens. Daily editorial desk versus archival ledger. Fixture copy from the mock ledger. Plate derivation after the page authorities. Family contact sheets.
+- **Decisions / outcomes:**
+  - Source truth has one route parent each: `F03.00` (`today`) and `F04.00` (`activity`). Filter is `F04.DR.FILTER` (drawer). Search is `F04.SEARCH` (inline). Detail is `F04.DETAIL` (drawer). Edit is `F04.SH.EDIT_MOVEMENT` (sheet). The batch does not add routes or edit the expression trees.
+  - Review roots are `TODAY v1/` and `ACTIVITY v1/`. Seven TODAY compositions and seven ACTIVITY compositions, including the filter as overlay plus shell.
+  - Preview signal is `$6,500` from mock cash `8420` minus rent `1800` minus groceries `120`. Merchants stay the mock ledger.
+  - TODAY lineages A daily desk, B clipped brief, C expansion desk. ACTIVITY lineages D movement ledger, E transaction inspection, F index/find.
+  - Status: parent families complete, founder review required, descendant generation blocked.
+- **Changes:** `TODAY v1/`, `ACTIVITY v1/`, `TODAY-ACTIVITY v1/REVIEW/`. No `src/`, no ENTRY, no SETUP, no F03/F04 expression manifests.
+- **Conventions:** Do not treat these review screens as new routes. Do not generate descendants until the founder passes the parents. Do not infer approval.
+
+---
+
+## 2026-10-08 — TODAY and ACTIVITY bespoke-world reconstruction
+
+- **Context:** Sprint `P0.JURNL.TODAY-ACTIVITY.CANONICAL-BRAND-AND-BESPOKE-WORLD-RECONSTRUCTION1`. The founder rejected the first TODAY and ACTIVITY parent batch. It used invented logo treatments and read as paper on a flat desk. The batch is preserved as `SUPERSEDED_DRAFT`. Both families were recomposed.
+- **Topics covered:** Official brand asset. Five-level grammar extended with brand, room, camera, contrast, and campaign tests. TODAY as a morning editorial. ACTIVITY as a private archive. Filter remains an overlay on the movement register.
+- **Decisions / outcomes:**
+  - The only mark is `public/site00/projects/jurnl/brand/jurnl-logo-official.png`. It is composited onto each page authority. Plates leave that corner empty. No invented wordmark, monogram, or substitute botanical.
+  - TODAY stations: walnut table, plaster niche, brass rail, dark desk, open drawer, linen board, travertine ledge.
+  - ACTIVITY stations: archive cabinet, marble ledger, receipt on dark marble, deposit folio, sorting tray, card index, annotated sheet.
+  - Grammar flags now require the official asset, a family room, more than one station, camera rotation, a contrast anchor, and the campaign and blur tests. Inherited by MONEY through RECORDS.
+  - Status: founder review required. Descendants stay blocked. ENTRY v2 and SETUP v1 were not edited.
+- **Changes:** `TODAY v1/`, `ACTIVITY v1/`, `TODAY-ACTIVITY v1/REVIEW/`, the creative-grammar source, manifest, rule, and `tests/jurnlBespokeCompositionGrammar1.test.ts`. No React, routes, or deploy bundle.
+- **Conventions:** Do not invent a JURNL mark. Do not treat a single stationery object on a plain wall as a parent. Do not infer approval of this reconstruction.
+
+---
+
 ## 2026-10-08 — ENTRY v2 first seven parents wired live on their plates
 
 - **Context:** The founder approved the first seven ENTRY v2 authorities as good enough to implement and sent `ENTRY-v2-env3.zip` (AUTHORITY + PLATE per page) with sprint `P0.JURNL.ENTRY-V2.FIRST-7.AUTHORITY-PLUS-PLATE-LIVE-WIRING1`: authority = design authority, plate = environment, legacy screen = functional source only. The same message re-sent `F09_OVERLAY_OPUS.zip`; it is byte-identical to the sources and shells PR #1492 already used, so that PR merged unchanged.
