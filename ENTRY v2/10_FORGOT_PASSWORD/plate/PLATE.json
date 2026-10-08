@@ -1,8 +1,12 @@
 {
   "SCREEN_ID": "10_FORGOT_PASSWORD",
-  "PLATE_STATUS": "DERIVE_EXISTING",
+  "PLATE_STATUS": "NEW_PLATE_REQUIRED",
   "PLATE_PATH": "ENTRY v2/10_FORGOT_PASSWORD/plate/entry-v2-forgot-password-sidekick-plate.png",
-  "DERIVED_FROM": "ENTRY v2/06_EMAIL_VERIFICATION/plate/entry-v2-email-verification-sidekick-plate.png",
-  "LINEAGE": "CORRESPONDENCE",
-  "NOTE": "Blank recovery letter on the envelope. Seal, postcard, thread, and opener stay."
+  "AUTHORITY_PATH": "ENTRY v2/10_FORGOT_PASSWORD/authority/entry-v2-forgot-password-authority.png",
+  "THESIS": "RECOVERY LETTER",
+  "STATUS": "FOUNDER_REVIEW_REQUIRED",
+  "PRIOR": "SUPERSEDED",
+  "OPENART_AUTHORITY_HISTORY": "rIFcGAXavjZXYy075SqG",
+  "OPENART_PLATE_HISTORY": "zJ63VdlWcvjyzBoer3vQ",
+  "NOTE": "Envelope, half-drawn letter, separate return card, letter opener."
 }

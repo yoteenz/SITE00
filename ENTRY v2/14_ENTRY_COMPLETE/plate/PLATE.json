@@ -1,8 +1,12 @@
 {
   "SCREEN_ID": "14_ENTRY_COMPLETE",
-  "PLATE_STATUS": "DERIVE_EXISTING",
+  "PLATE_STATUS": "NEW_PLATE_REQUIRED",
   "PLATE_PATH": "ENTRY v2/14_ENTRY_COMPLETE/plate/entry-v2-entry-complete-sidekick-plate.png",
-  "DERIVED_FROM": "ENTRY v2/01_WELCOME/plate/entry-v2-welcome-sidekick-plate.png",
-  "LINEAGE": "ARRIVAL",
-  "NOTE": "Welcome residence with a light threshold, bust, velvet, and cornice. Floor card has no type."
+  "AUTHORITY_PATH": "ENTRY v2/14_ENTRY_COMPLETE/authority/entry-v2-entry-complete-authority.png",
+  "THESIS": "THRESHOLD ARRIVAL",
+  "STATUS": "FOUNDER_REVIEW_REQUIRED",
+  "PRIOR": "SUPERSEDED",
+  "OPENART_AUTHORITY_HISTORY": "7OuiIejIYSZEwiaQHC1r",
+  "OPENART_PLATE_HISTORY": "ptTdbvn4N1voaJlhAkRN",
+  "NOTE": "Stone doorway into light. Invitation in the foreground. Sculpture behind the opening."
 }
