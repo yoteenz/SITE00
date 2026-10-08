@@ -15702,6 +15702,16 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
+## 2026-10-08 — Builder contract reconciliation + founder preview readiness
+
+- **Context:** Sprint `P0.SITE00.BUILDER.HYBRID-SPATIAL-STUDIO.V1-COMPOSER-CONTRACT-RECONCILIATION-AND-FOUNDER-PREVIEW-READINESS1` — verify main contracts, Opus handoff, preview flags; no visual implementation.
+- **Topics covered:** Main SHA `7cbcd11a`; Opus branch `e32e67e2` uses `builder-studio/` + `/bldr/builder/*` vs main `/bldr/studio` + `useBuilderSpatialIntakeSession`; Supabase intake migration missing on preview-linked DB (500 on `/api/site00/intakes` start); dev tunnel ephemeral `SITE00_INTAKES_USE_MEMORY=1`; live scaffold verified (5 rooms, Three.js).
+- **Decisions / outcomes:** **PARTIAL — DEPLOYMENT BLOCKED** for Opus five-screen experience until Opus rebases and merges; contracts **READY** on main. Supabase persistence test **BLOCKED** until `20260821010000_site00_intake_persistence.sql` applied.
+- **Changes:** `BUILDER_CONTRACT_RECONCILIATION_REPORT_V1.md`, `BUILDER_OPUS_BRANCH_INTEGRATION_MAP_V1.md`, handoff doc updates, preview script memory intake flag.
+- **Conventions:** Composer does not merge Opus old branch; founder URL path `/bldr/studio`.
+
+---
+
 ## 2026-10-08 — Builder preview feature flags (fsbw-dev tunnel only)
 
 - **Context:** Sprint `P0.SITE00.BUILDER.HYBRID-SPATIAL-STUDIO.V1-DEV-PREVIEW-FEATURE-FLAG-ACTIVATION1` — founder `/bldr/studio` blocked by `VITE_SITE00_TEMPLATE_SYSTEM_V1` on site00.fsbw-dev.com.

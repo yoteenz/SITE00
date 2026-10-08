@@ -25,7 +25,8 @@ Approved visual JPGs (founder authority — **Opus implements**):
 | localStorage save/resume | `spatialStudio/persistence.ts` |
 | Build Object parameters | `spatialStudio/buildObjectContract.ts` |
 | Blueprint + estimate snapshot | `spatialStudio/blueprintSessionContract.ts` |
-| React integration hook | `spatialStudio/useBuilderSpatialSession.ts` |
+| React integration hook (authoritative) | `spatialStudio/useBuilderSpatialIntakeSession.ts` |
+| Local-only hook (tests / legacy) | `spatialStudio/useBuilderSpatialSession.ts` |
 | **Temporary UI scaffold** | `src/site00/components/bldr/spatial-studio/`, `BldrSpatialStudioPage.tsx`, `site00-builder-spatial-studio.css` |
 | Estimator engine | `src/studioos/estimation/` |
 | Feature flags | `src/studioos/estimation/flags.ts` |
@@ -57,11 +58,12 @@ Maps to canonical `BuilderSelection` via `spatialSelectionToBuilder()`.
 
 ## 6. Save / resume
 
-- Key: `site00.bldr.spatialStudio.v1` (localStorage)
-- API: `loadSpatialBuilderState`, `saveSpatialBuilderState`, `clearSpatialBuilderState`
-- Hook: `persist()` on `useBuilderSpatialSession`
+- **Authoritative:** `useBuilderSpatialIntakeSession()` → `/api/site00/intakes` → `site00_bldr_intakes.answers` (`builder-spatial-v1` envelope).
+- **Cache:** `site00.bldr.spatialStudio.v1` (localStorage) — fallback when offline or sync failed; server wins on conflict unless local `savedAt` is newer.
+- Resume: `/bldr/studio?intakeId=<uuid>`
+- Submit: `submitForReview()` when `snapshot.submission_ready`.
 
-Server-side intake persistence remains separate (`site00_bldr_intakes`); wire submit to existing intake API in a future technical sprint.
+See `BUILDER_SPATIAL_INTAKE_BINDING_V1.md` and `BUILDER_CONTRACT_RECONCILIATION_REPORT_V1.md`.
 
 ## 7. Feature flags
 
@@ -81,18 +83,18 @@ No baked-in image URLs or Three.js choices.
 ## 9. Reusable hook
 
 ```typescript
-import { useBuilderSpatialSession } from '@/site00/builder-experience/spatialStudio/useBuilderSpatialSession';
+import { useBuilderSpatialIntakeSession } from '@/site00/builder-experience/spatialStudio/useBuilderSpatialIntakeSession';
 ```
 
-Returns: `state`, `persist`, `selection`, `snapshot`, `buildObject`, `goRoom`, `resetSession`, `showEstimate`.
+Returns: `state`, `persist`, `selection`, `snapshot`, `buildObject`, `goRoom`, `resetSession`, `showEstimate`, `syncStatus`, `submitForReview`, `canEdit`, `isSubmitted`, `serverIntakeId`, …
 
 ## 10. Limitations
 
 | Item | Status |
 | --- | --- |
-| Submit for review API | **MISSING** — local save only |
+| Submit for review API | **IMPLEMENTED** — `submitForReview()` + versioned `submitted_payload` |
 | Founder-reviewed estimate stage | **DEFERRED** — contract supports `EstimateStage` on canonical path |
-| Server persistence of spatial state | **PARTIAL** — localStorage only |
+| Server persistence of spatial state | **IMPLEMENTED** on main (Supabase when migrated); dev tunnel may use ephemeral memory store |
 | Visual fidelity to approved JPGs | **DEFERRED** — Opus |
 | AR / true 3D | **DEFERRED** — not in data contract |
 
