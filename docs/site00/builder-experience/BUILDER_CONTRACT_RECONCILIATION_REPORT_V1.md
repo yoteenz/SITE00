@@ -102,6 +102,6 @@ Detail: `BUILDER_OPUS_BRANCH_INTEGRATION_MAP_V1.md`.
 | Feature gate removed on tunnel | **LIVE VERIFIED** (flags in dev env) |
 | Opus five-screen visual fidelity | **NOT DEPLOYED** — awaits Opus reconciled branch |
 | Scaffold rooms 01–05 on `/bldr/studio` | **LIVE VERIFIED** (Composer scaffold + Three.js stage) |
-| Founder URL | `/bldr/studio` on the Cloudflare dev preview tunnel (same host as other SITE 00 mobile preview links) |
+| Founder URL | Path `/bldr/studio` on the founder mobile preview tunnel (base URL: `/tmp/site00-cloud-preview-url.txt` on canonical env) |
 
 **Sprint outcome:** **PARTIAL — DEPLOYMENT BLOCKED** for Opus recovered experience until Opus merges reconciled integration. Technical contracts on `main` are **READY** for that merge.
