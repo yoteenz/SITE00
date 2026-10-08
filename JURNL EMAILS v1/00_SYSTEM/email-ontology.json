@@ -1,0 +1,348 @@
+{
+  "system": {
+    "name": "JURNL EDITORIAL CORRESPONDENCE",
+    "collection": "JURNL EMAILS v1",
+    "root": "JURNL EMAILS v1",
+    "source": "shared/jurnl-email-engine",
+    "centralIdea": {
+      "app": "ENVIRONMENT AS INTERFACE",
+      "email": "ARTIFACT AS INTERFACE"
+    }
+  },
+  "sprint": "P0.JURNL.EMAIL-ENGINE.CANONICAL-ARCHITECTURE-AND-CREATIVE-INFRASTRUCTURE1",
+  "inheritance": [
+    "EMAIL FAMILY",
+    "MESSAGE TYPE",
+    "TRIGGER / CAMPAIGN",
+    "STATE / VARIANT",
+    "RESPONSIVE AUTHORITY",
+    "ASSET PACKAGE",
+    "IMPLEMENTED TEMPLATE"
+  ],
+  "inheritance_rule": "States are variants of one template (same artifact, same assets, different live content and status line). Never force every state into a separate unrelated template.",
+  "layers": [
+    {
+      "id": "L0",
+      "name": "EMAIL CANVAS",
+      "owner": "HTML",
+      "holds": [
+        "email-safe outer background colour",
+        "fallback field when images are blocked"
+      ],
+      "optional": false
+    },
+    {
+      "id": "L1",
+      "name": "ENVIRONMENTAL / CAMPAIGN ART",
+      "owner": "IMAGE",
+      "holds": [
+        "generated still life",
+        "architectural scene",
+        "crop",
+        "texture",
+        "contextual photograph"
+      ],
+      "optional": true
+    },
+    {
+      "id": "L2",
+      "name": "CORRESPONDENCE ARTIFACT",
+      "owner": "IMAGE",
+      "holds": [
+        "letter",
+        "broadside",
+        "dossier",
+        "invitation",
+        "clipped briefing sheet",
+        "archival index",
+        "ledger sheet"
+      ],
+      "optional": false
+    },
+    {
+      "id": "L3",
+      "name": "LIVE EMAIL CONTENT",
+      "owner": "HTML",
+      "holds": [
+        "headline",
+        "copy",
+        "personalization",
+        "financial figures",
+        "status",
+        "dates",
+        "account details"
+      ],
+      "optional": false
+    },
+    {
+      "id": "L4",
+      "name": "LIVE ACTIONS",
+      "owner": "HTML",
+      "holds": [
+        "CTA",
+        "secondary link",
+        "security action",
+        "preference controls where appropriate"
+      ],
+      "optional": false
+    },
+    {
+      "id": "L5",
+      "name": "SYSTEM / LEGAL",
+      "owner": "HTML",
+      "holds": [
+        "sender identity",
+        "unsubscribe where required",
+        "preferences",
+        "privacy / legal",
+        "mailing address / compliance",
+        "security footer where appropriate"
+      ],
+      "optional": false
+    }
+  ],
+  "layer_hard_rule": "DO NOT FLATTEN L3–L5 INTO GENERATED IMAGERY.",
+  "families": [
+    {
+      "id": "E01",
+      "name": "WELCOME / ARRIVAL"
+    },
+    {
+      "id": "E02",
+      "name": "GUIDANCE / EDUCATION"
+    },
+    {
+      "id": "E03",
+      "name": "FINANCIAL BRIEF / DIGEST"
+    },
+    {
+      "id": "E04",
+      "name": "MILESTONE / CELEBRATION"
+    },
+    {
+      "id": "E05",
+      "name": "REMINDER / NUDGE"
+    },
+    {
+      "id": "E06",
+      "name": "SECURITY / ACCOUNT / TRANSACTIONAL"
+    },
+    {
+      "id": "E07",
+      "name": "MARKETING / EDITORIAL CAMPAIGN"
+    }
+  ],
+  "emails": [
+    {
+      "id": "A01",
+      "name": "WELCOME TO JURNL",
+      "family": "E01",
+      "folder": "01_WELCOME"
+    },
+    {
+      "id": "A02",
+      "name": "VERIFY YOUR EMAIL",
+      "family": "E06",
+      "folder": "02_VERIFY_EMAIL"
+    },
+    {
+      "id": "A03",
+      "name": "FINISH SETTING UP JURNL",
+      "family": "E05",
+      "folder": "03_FINISH_SETUP"
+    },
+    {
+      "id": "A04",
+      "name": "YOUR SAFE TO SPEND IS READY",
+      "family": "E01",
+      "folder": "04_STS_READY"
+    },
+    {
+      "id": "A05",
+      "name": "YOUR WEEK IN JURNL",
+      "family": "E03",
+      "folder": "05_WEEKLY_BRIEF"
+    },
+    {
+      "id": "A06",
+      "name": "A PURCHASE MAY NEED A SECOND LOOK",
+      "family": "E05",
+      "folder": "06_PURCHASE_NUDGE"
+    },
+    {
+      "id": "A07",
+      "name": "YOU REACHED A MILESTONE",
+      "family": "E04",
+      "folder": "07_MILESTONE"
+    },
+    {
+      "id": "A08",
+      "name": "RESET YOUR ACCESS",
+      "family": "E06",
+      "folder": "08_RESET_ACCESS"
+    }
+  ],
+  "components": [
+    {
+      "id": "EC01",
+      "name": "HERO CORRESPONDENCE"
+    },
+    {
+      "id": "EC02",
+      "name": "DECKLED NOTE"
+    },
+    {
+      "id": "EC03",
+      "name": "FINANCIAL SNAPSHOT"
+    },
+    {
+      "id": "EC04",
+      "name": "TWO-COLUMN BRIEF"
+    },
+    {
+      "id": "EC05",
+      "name": "EDITORIAL PULL QUOTE"
+    },
+    {
+      "id": "EC06",
+      "name": "CHECKLIST / STEPS"
+    },
+    {
+      "id": "EC07",
+      "name": "SINGLE CTA"
+    },
+    {
+      "id": "EC08",
+      "name": "DUAL CTA"
+    },
+    {
+      "id": "EC09",
+      "name": "MILESTONE SEAL"
+    },
+    {
+      "id": "EC10",
+      "name": "IMAGE + NOTE"
+    },
+    {
+      "id": "EC11",
+      "name": "DOSSIER / RECORD ROW"
+    },
+    {
+      "id": "EC12",
+      "name": "STATUS NOTICE"
+    },
+    {
+      "id": "EC13",
+      "name": "SECURITY NOTICE"
+    },
+    {
+      "id": "EC14",
+      "name": "PERSONALIZED INSIGHT"
+    },
+    {
+      "id": "EC15",
+      "name": "APP DEEP-LINK MODULE"
+    },
+    {
+      "id": "EC16",
+      "name": "EMAIL FOOTER"
+    },
+    {
+      "id": "EC17",
+      "name": "MARKETING PREFERENCES / UNSUBSCRIBE"
+    }
+  ],
+  "consent_classes": [
+    "TRANSACTIONAL",
+    "LIFECYCLE_SERVICE",
+    "MARKETING"
+  ],
+  "preference_categories": [
+    "ACCOUNT_SECURITY",
+    "PRODUCT_SERVICE_UPDATES",
+    "FINANCIAL_BRIEFS",
+    "REMINDERS_NUDGES",
+    "EDITORIAL_MARKETING"
+  ],
+  "personalization_levels": [
+    {
+      "level": "P0",
+      "name": "NONE"
+    },
+    {
+      "level": "P1",
+      "name": "IDENTITY"
+    },
+    {
+      "level": "P2",
+      "name": "FINANCIAL CONTEXT"
+    },
+    {
+      "level": "P3",
+      "name": "INTELLIGENT NARRATIVE"
+    }
+  ],
+  "asset_classes": [
+    "EMAIL_ENVIRONMENT",
+    "EMAIL_ARTIFACT_SHELL",
+    "EMAIL_DECORATIVE_INSERT",
+    "EMAIL_THUMBNAIL",
+    "EMAIL_LIVE_CONTENT"
+  ],
+  "lineage_actions": [
+    "REUSE",
+    "DERIVE",
+    "REGENERATE",
+    "CREATE_NEW"
+  ],
+  "production_states": [
+    "PLANNED",
+    "CONTRACT_READY",
+    "CREATIVE_READY",
+    "AUTHORITY_IN_REVIEW",
+    "AUTHORITY_APPROVED",
+    "ASSETS_READY",
+    "IMPLEMENTATION_READY",
+    "IMPLEMENTED",
+    "RESPONSIVE_QA",
+    "DELIVERY_QA",
+    "APPROVED",
+    "LIVE",
+    "SUPERSEDED",
+    "ARCHIVED"
+  ],
+  "trigger_events": [
+    {
+      "id": "AUTH_EMAIL_CONFIRMED",
+      "status": "STATE_EXISTS_EVENT_NOT_EMITTED"
+    },
+    {
+      "id": "AUTH_SIGNUP_CONFIRMATION_REQUESTED",
+      "status": "EXISTS_PROVIDER_OWNED"
+    },
+    {
+      "id": "SETUP_INCOMPLETE",
+      "status": "PROPOSED"
+    },
+    {
+      "id": "SAFE_TO_SPEND_READY",
+      "status": "STATE_EXISTS_EVENT_NOT_EMITTED"
+    },
+    {
+      "id": "WEEKLY_BRIEF_READY",
+      "status": "PROPOSED"
+    },
+    {
+      "id": "PURCHASE_ATTENTION_DETECTED",
+      "status": "STATE_EXISTS_EVENT_NOT_EMITTED"
+    },
+    {
+      "id": "GOAL_REACHED",
+      "status": "STATE_EXISTS_EVENT_NOT_EMITTED"
+    },
+    {
+      "id": "AUTH_PASSWORD_RESET_REQUESTED",
+      "status": "EXISTS_PROVIDER_OWNED"
+    }
+  ]
+}

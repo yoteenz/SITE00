@@ -1,0 +1,109 @@
+{
+  "id": "A02",
+  "name": "VERIFY YOUR EMAIL",
+  "folder": "02_VERIFY_EMAIL",
+  "family": "E06",
+  "traits": [],
+  "messageType": "EMAIL_VERIFICATION",
+  "purpose": "Confirm the person owns the address before the account opens.",
+  "preferenceCategory": "ACCOUNT_SECURITY",
+  "trigger": {
+    "emailId": "A02",
+    "triggerEvent": "AUTH_SIGNUP_CONFIRMATION_REQUESTED",
+    "eligibility": [
+      "Sign-up or RESEND EMAIL on F01.02"
+    ],
+    "suppression": [
+      "Address already verified",
+      "Provider rate limit reached"
+    ],
+    "cooldown": "PT60S (provider rate limit governs resends)",
+    "personalizationInputs": [
+      "recipientEmail",
+      "confirmationUrl",
+      "linkExpiry"
+    ],
+    "personalization": "P1",
+    "ctaDestination": "entry/verify-email",
+    "consentClass": "TRANSACTIONAL",
+    "priority": "CRITICAL",
+    "duplicateGuard": "Provider-owned (Supabase Auth); one active confirmation link per address",
+    "deliveryState": "PROVIDER_OWNED"
+  },
+  "states": [
+    {
+      "id": "FIRST_SEND",
+      "when": "On sign-up",
+      "differences": "Standard copy"
+    },
+    {
+      "id": "RESEND",
+      "when": "RESEND EMAIL",
+      "differences": "Notice adds: “This replaces the earlier link.”"
+    }
+  ],
+  "copy": {
+    "status": "DRAFT_FOR_FOUNDER_REVIEW",
+    "subject": "Verify your email for JURNL",
+    "preheader": "One step to open your account. If this was not you, ignore this email.",
+    "fromName": "JURNL",
+    "replyToPolicy": "Replies reach monitored support. The footer says JURNL will never ask for a password or code by email.",
+    "eyebrow": "ACCOUNT",
+    "headline": "VERIFY YOUR EMAIL.",
+    "body": [
+      "Confirm that {recipientEmail} is yours to finish opening your JURNL account."
+    ],
+    "cta": {
+      "label": "VERIFY MY EMAIL",
+      "destination": "{confirmationUrl} → entry/verify-email"
+    },
+    "notice": "This link expires {linkExpiry}. If you did not create a JURNL account, ignore this email; no account opens without this step.",
+    "fallbackText": "Verify your email for JURNL.\n\nConfirm that {recipientEmail} is yours: {confirmationUrl}\n\nThis link expires {linkExpiry}. If you did not create a JURNL account, ignore this email."
+  },
+  "artifact": [
+    "ACCESS_CREDENTIAL",
+    "PRIVATE_CORRESPONDENCE"
+  ],
+  "components": [
+    "EC02",
+    "EC07",
+    "EC13",
+    "EC16"
+  ],
+  "authorityBrief": {
+    "primaryGesture": [
+      "a private correspondence card, plain and centred, with generous margins"
+    ],
+    "secondaryDetail": [
+      "a single blind emboss of the JURNL mark"
+    ],
+    "contrastAnchor": "black ink headline and an olive button",
+    "environment": "NONE — security mail carries no environment art.",
+    "avoid": [
+      "environment art",
+      "marketing",
+      "red alert colours",
+      "anything that looks like phishing"
+    ]
+  },
+  "lineageGroup": "SECURE_CORRESPONDENCE",
+  "assetPlan": [
+    {
+      "slot": "L2 correspondence card shell",
+      "assetClass": "EMAIL_ARTIFACT_SHELL",
+      "lineageAction": "CREATE_NEW",
+      "note": "Founds SECURE_CORRESPONDENCE; reused by A08."
+    },
+    {
+      "slot": "blind emboss mark",
+      "assetClass": "EMAIL_DECORATIVE_INSERT",
+      "lineageAction": "CREATE_NEW",
+      "note": "Shared security mark."
+    }
+  ],
+  "fixture": "FX_VERIFY",
+  "productionState": "CONTRACT_READY",
+  "founderApproval": {
+    "status": "NOT_REVIEWED"
+  }
+}

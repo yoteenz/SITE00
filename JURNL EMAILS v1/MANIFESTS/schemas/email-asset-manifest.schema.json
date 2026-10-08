@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "jurnl-emails-v1/email-asset-manifest.schema.json",
+  "title": "JURNL email assets (planned slots until authorities are approved)",
+  "type": "object",
+  "required": [
+    "id",
+    "system",
+    "collection",
+    "sprint",
+    "schema",
+    "generated_by",
+    "source",
+    "assets",
+    "classes"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "system": {
+      "const": "JURNL EDITORIAL CORRESPONDENCE"
+    },
+    "collection": {
+      "const": "JURNL EMAILS v1"
+    },
+    "sprint": {
+      "type": "string",
+      "minLength": 1
+    },
+    "schema": {
+      "type": "string",
+      "minLength": 1
+    },
+    "generated_by": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source": {
+      "type": "string",
+      "minLength": 1
+    },
+    "classes": {
+      "type": "array",
+      "minItems": 5
+    },
+    "assets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "email_id",
+          "slot",
+          "asset_class",
+          "lineage_group",
+          "lineage_action",
+          "status",
+          "file"
+        ],
+        "properties": {
+          "email_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "slot": {
+            "type": "string",
+            "minLength": 1
+          },
+          "asset_class": {
+            "enum": [
+              "EMAIL_ENVIRONMENT",
+              "EMAIL_ARTIFACT_SHELL",
+              "EMAIL_DECORATIVE_INSERT",
+              "EMAIL_THUMBNAIL"
+            ]
+          },
+          "lineage_group": {
+            "type": "string",
+            "minLength": 1
+          },
+          "lineage_action": {
+            "enum": [
+              "REUSE",
+              "DERIVE",
+              "REGENERATE",
+              "CREATE_NEW"
+            ]
+          },
+          "status": {
+            "enum": [
+              "PLANNED",
+              "GENERATED",
+              "APPROVED",
+              "SUPERSEDED"
+            ]
+          },
+          "file": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

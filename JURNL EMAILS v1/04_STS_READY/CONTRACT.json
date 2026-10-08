@@ -1,0 +1,114 @@
+{
+  "id": "A04",
+  "name": "YOUR SAFE TO SPEND IS READY",
+  "folder": "04_STS_READY",
+  "family": "E01",
+  "traits": [
+    "E02"
+  ],
+  "messageType": "SAFE_TO_SPEND_READY",
+  "purpose": "Tell the person their Safe to Spend is real now, show it, and explain in one line how it is made.",
+  "preferenceCategory": "PRODUCT_SERVICE_UPDATES",
+  "trigger": {
+    "emailId": "A04",
+    "triggerEvent": "SAFE_TO_SPEND_READY",
+    "eligibility": [
+      "First time completeness is COMPLETE",
+      "Value > 0",
+      "Not within 12 hours of A01"
+    ],
+    "suppression": [
+      "Already sent (ever)",
+      "Completeness not COMPLETE at send time",
+      "PRODUCT_SERVICE_UPDATES off"
+    ],
+    "cooldown": "ONCE",
+    "personalizationInputs": [
+      "firstName",
+      "safeToSpend",
+      "availableThrough",
+      "asOf",
+      "currency"
+    ],
+    "personalization": "P2",
+    "ctaDestination": "safe/why",
+    "consentClass": "LIFECYCLE_SERVICE",
+    "priority": "NORMAL",
+    "duplicateGuard": "A04:{userId}",
+    "deliveryState": "NOT_WIRED"
+  },
+  "states": [
+    {
+      "id": "READY",
+      "when": "Completeness COMPLETE and value > 0",
+      "differences": "Only state; other completeness values never send"
+    }
+  ],
+  "copy": {
+    "status": "DRAFT_FOR_FOUNDER_REVIEW",
+    "subject": "Your Safe to Spend is ready",
+    "preheader": "See what is safe to spend now, and how JURNL got there.",
+    "fromName": "JURNL",
+    "replyToPolicy": "Replies reach a monitored JURNL support inbox (address fixed at provider integration). Never a no-reply address.",
+    "eyebrow": "SAFE TO SPEND",
+    "headline": "YOUR NUMBER IS READY.",
+    "body": [
+      "This is what is left after what is coming and what you chose to protect. It updates as your money moves."
+    ],
+    "cta": {
+      "label": "SEE WHY THIS AMOUNT",
+      "destination": "safe/why"
+    },
+    "secondary": {
+      "label": "OPEN TODAY",
+      "destination": "today"
+    },
+    "fallbackText": "Your Safe to Spend is ready.\n\nSafe to spend: {safeToSpend}, available through {availableThrough} (as of {asOf}).\n\nSee why: {safeWhyUrl}"
+  },
+  "artifact": [
+    "ENTRY_CARD",
+    "EDITORIAL_EXPLAINER"
+  ],
+  "components": [
+    "EC01",
+    "EC03",
+    "EC02",
+    "EC08",
+    "EC16",
+    "EC17"
+  ],
+  "authorityBrief": {
+    "primaryGesture": [
+      "an entry card that frames the live figure like a printed certificate"
+    ],
+    "secondaryDetail": [
+      "a margin annotation line pointing to the figure (decorative rule only)"
+    ],
+    "contrastAnchor": "the live serif figure in black ink",
+    "environment": "ARRIVAL lineage (reused from A01), cropped differently.",
+    "avoid": [
+      "the figure inside an image",
+      "the STS folder from the app as a screenshot"
+    ]
+  },
+  "lineageGroup": "ARRIVAL",
+  "assetPlan": [
+    {
+      "slot": "L1 arrival still life",
+      "assetClass": "EMAIL_ENVIRONMENT",
+      "lineageAction": "REUSE",
+      "note": "From A01, new crop."
+    },
+    {
+      "slot": "L2 entry card shell",
+      "assetClass": "EMAIL_ARTIFACT_SHELL",
+      "lineageAction": "DERIVE",
+      "note": "Derived from the A01 letter stock."
+    }
+  ],
+  "fixture": "FX_STS_READY",
+  "productionState": "CONTRACT_READY",
+  "founderApproval": {
+    "status": "NOT_REVIEWED"
+  }
+}

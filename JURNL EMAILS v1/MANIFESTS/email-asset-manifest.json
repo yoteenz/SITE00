@@ -1,0 +1,227 @@
+{
+  "id": "email-asset-manifest",
+  "system": "JURNL EDITORIAL CORRESPONDENCE",
+  "collection": "JURNL EMAILS v1",
+  "sprint": "P0.JURNL.EMAIL-ENGINE.CANONICAL-ARCHITECTURE-AND-CREATIVE-INFRASTRUCTURE1",
+  "schema": "schemas/email-asset-manifest.schema.json",
+  "generated_by": "scripts/jurnl/email-engine-export.ts",
+  "source": "shared/jurnl-email-engine",
+  "classes": [
+    {
+      "id": "EMAIL_ENVIRONMENT",
+      "definition": "Broad contextual visual: still life, architectural scene, crop or texture.",
+      "layer": "L1",
+      "rules": [
+        "No text, numbers or UI.",
+        "Never an app screenshot.",
+        "Exported 1280 px wide (2×)."
+      ]
+    },
+    {
+      "id": "EMAIL_ARTIFACT_SHELL",
+      "definition": "The correspondence object with no live content: envelope, dossier, sheet, invitation, ledger head, card edges.",
+      "layer": "L2",
+      "rules": [
+        "Blank where live content sits; the body of a sheet is an HTML paper cell, not an image.",
+        "Edges and heads are sliced so the HTML cell between them can grow."
+      ]
+    },
+    {
+      "id": "EMAIL_DECORATIVE_INSERT",
+      "definition": "Classical print, botanical, paper fragment, ribbon, seal, clip.",
+      "layer": "L2",
+      "rules": [
+        "Decorative (alt=\"\") unless it carries meaning.",
+        "No words or figures in seals or prints."
+      ]
+    },
+    {
+      "id": "EMAIL_THUMBNAIL",
+      "definition": "Small contextual image (≤ 240 px display).",
+      "layer": "L2",
+      "rules": [
+        "Never a product screenshot."
+      ]
+    },
+    {
+      "id": "EMAIL_LIVE_CONTENT",
+      "definition": "Headlines, copy, figures, dates, CTAs, links, legal.",
+      "layer": "L3",
+      "rules": [
+        "HTML only — never an image."
+      ]
+    }
+  ],
+  "assets": [
+    {
+      "email_id": "A01",
+      "slot": "L1 arrival still life",
+      "asset_class": "EMAIL_ENVIRONMENT",
+      "lineage_group": "ARRIVAL",
+      "lineage_action": "CREATE_NEW",
+      "note": "Founds the ARRIVAL lineage; reused by A04.",
+      "status": "PLANNED",
+      "file": null
+    },
+    {
+      "email_id": "A01",
+      "slot": "L2 welcome letter shell (top + edges)",
+      "asset_class": "EMAIL_ARTIFACT_SHELL",
+      "lineage_group": "ARRIVAL",
+      "lineage_action": "CREATE_NEW",
+      "note": "Blank stock; headline and copy stay HTML.",
+      "status": "PLANNED",
+      "file": null
+    },
+    {
+      "email_id": "A01",
+      "slot": "olive emboss",
+      "asset_class": "EMAIL_DECORATIVE_INSERT",
+      "lineage_group": "ARRIVAL",
+      "lineage_action": "CREATE_NEW",
+      "note": "Shared ARRIVAL mark.",
+      "status": "PLANNED",
+      "file": null
+    },
+    {
+      "email_id": "A02",
+      "slot": "L2 correspondence card shell",
+      "asset_class": "EMAIL_ARTIFACT_SHELL",
+      "lineage_group": "SECURE_CORRESPONDENCE",
+      "lineage_action": "CREATE_NEW",
+      "note": "Founds SECURE_CORRESPONDENCE; reused by A08.",
+      "status": "PLANNED",
+      "file": null
+    },
+    {
+      "email_id": "A02",
+      "slot": "blind emboss mark",
+      "asset_class": "EMAIL_DECORATIVE_INSERT",
+      "lineage_group": "SECURE_CORRESPONDENCE",
+      "lineage_action": "CREATE_NEW",
+      "note": "Shared security mark.",
+      "status": "PLANNED",
+      "file": null
+    },
+    {
+      "email_id": "A03",
+      "slot": "L2 pinned note shell",
+      "asset_class": "EMAIL_ARTIFACT_SHELL",
+      "lineage_group": "DESK_NOTE",
+      "lineage_action": "CREATE_NEW",
+      "note": "Founds DESK_NOTE; derived by A06.",
+      "status": "PLANNED",
+      "file": null
+    },
+    {
+      "email_id": "A03",
+      "slot": "brass clip",
+      "asset_class": "EMAIL_DECORATIVE_INSERT",
+      "lineage_group": "DESK_NOTE",
+      "lineage_action": "CREATE_NEW",
+      "note": "Shared DESK_NOTE detail.",
+      "status": "PLANNED",
+      "file": null
+    },
+    {
+      "email_id": "A04",
+      "slot": "L1 arrival still life",
+      "asset_class": "EMAIL_ENVIRONMENT",
+      "lineage_group": "ARRIVAL",
+      "lineage_action": "REUSE",
+      "note": "From A01, new crop.",
+      "status": "PLANNED",
+      "file": null
+    },
+    {
+      "email_id": "A04",
+      "slot": "L2 entry card shell",
+      "asset_class": "EMAIL_ARTIFACT_SHELL",
+      "lineage_group": "ARRIVAL",
+      "lineage_action": "DERIVE",
+      "note": "Derived from the A01 letter stock.",
+      "status": "PLANNED",
+      "file": null
+    },
+    {
+      "email_id": "A05",
+      "slot": "L1 briefing desk crop",
+      "asset_class": "EMAIL_ENVIRONMENT",
+      "lineage_group": "BRIEFING",
+      "lineage_action": "CREATE_NEW",
+      "note": "Founds BRIEFING; monthly brief reuses it.",
+      "status": "PLANNED",
+      "file": null
+    },
+    {
+      "email_id": "A05",
+      "slot": "L2 briefing sheet head (clip + torn top)",
+      "asset_class": "EMAIL_ARTIFACT_SHELL",
+      "lineage_group": "BRIEFING",
+      "lineage_action": "CREATE_NEW",
+      "note": "Body of the sheet is an HTML paper cell.",
+      "status": "PLANNED",
+      "file": null
+    },
+    {
+      "email_id": "A06",
+      "slot": "L2 desk slip shell",
+      "asset_class": "EMAIL_ARTIFACT_SHELL",
+      "lineage_group": "DESK_NOTE",
+      "lineage_action": "DERIVE",
+      "note": "Derived from the A03 pinned note stock.",
+      "status": "PLANNED",
+      "file": null
+    },
+    {
+      "email_id": "A07",
+      "slot": "L1 ceremonial still life",
+      "asset_class": "EMAIL_ENVIRONMENT",
+      "lineage_group": "CEREMONIAL",
+      "lineage_action": "CREATE_NEW",
+      "note": "Founds CEREMONIAL; all milestone states reuse it.",
+      "status": "PLANNED",
+      "file": null
+    },
+    {
+      "email_id": "A07",
+      "slot": "L2 milestone card shell",
+      "asset_class": "EMAIL_ARTIFACT_SHELL",
+      "lineage_group": "CEREMONIAL",
+      "lineage_action": "CREATE_NEW",
+      "note": "Blank card.",
+      "status": "PLANNED",
+      "file": null
+    },
+    {
+      "email_id": "A07",
+      "slot": "seal",
+      "asset_class": "EMAIL_DECORATIVE_INSERT",
+      "lineage_group": "CEREMONIAL",
+      "lineage_action": "CREATE_NEW",
+      "note": "No text or numbers in the seal.",
+      "status": "PLANNED",
+      "file": null
+    },
+    {
+      "email_id": "A08",
+      "slot": "L2 correspondence card shell",
+      "asset_class": "EMAIL_ARTIFACT_SHELL",
+      "lineage_group": "SECURE_CORRESPONDENCE",
+      "lineage_action": "REUSE",
+      "note": "From A02.",
+      "status": "PLANNED",
+      "file": null
+    },
+    {
+      "email_id": "A08",
+      "slot": "blind emboss mark",
+      "asset_class": "EMAIL_DECORATIVE_INSERT",
+      "lineage_group": "SECURE_CORRESPONDENCE",
+      "lineage_action": "REUSE",
+      "note": "From A02.",
+      "status": "PLANNED",
+      "file": null
+    }
+  ]
+}

@@ -1,0 +1,325 @@
+{
+  "id": "email-template-manifest",
+  "system": "JURNL EDITORIAL CORRESPONDENCE",
+  "collection": "JURNL EMAILS v1",
+  "sprint": "P0.JURNL.EMAIL-ENGINE.CANONICAL-ARCHITECTURE-AND-CREATIVE-INFRASTRUCTURE1",
+  "schema": "schemas/email-template-manifest.schema.json",
+  "generated_by": "scripts/jurnl/email-engine-export.ts",
+  "source": "shared/jurnl-email-engine",
+  "templates": [
+    {
+      "id": "A01",
+      "name": "WELCOME TO JURNL",
+      "folder": "01_WELCOME",
+      "family": "E01",
+      "traits": [],
+      "message_type": "WELCOME",
+      "purpose": "Mark the person’s arrival once their account is verified, and give one clear first step.",
+      "consent_class": "LIFECYCLE_SERVICE",
+      "preference_category": "PRODUCT_SERVICE_UPDATES",
+      "states": [
+        "SETUP_NOT_STARTED",
+        "SETUP_STARTED"
+      ],
+      "subject": "Welcome to JURNL, {firstName}",
+      "preheader": "Your financial life, beautifully organized. Here is where to begin.",
+      "from_name": "JURNL",
+      "copy_status": "DRAFT_FOR_FOUNDER_REVIEW",
+      "components": [
+        "EC01",
+        "EC02",
+        "EC07",
+        "EC16",
+        "EC17"
+      ],
+      "artifact": [
+        "WELCOME_LETTER",
+        "INVITATION"
+      ],
+      "production_state": "CONTRACT_READY",
+      "founder_approval": {
+        "status": "NOT_REVIEWED"
+      },
+      "implemented": false,
+      "live": false,
+      "template": null,
+      "superseded_by": null
+    },
+    {
+      "id": "A02",
+      "name": "VERIFY YOUR EMAIL",
+      "folder": "02_VERIFY_EMAIL",
+      "family": "E06",
+      "traits": [],
+      "message_type": "EMAIL_VERIFICATION",
+      "purpose": "Confirm the person owns the address before the account opens.",
+      "consent_class": "TRANSACTIONAL",
+      "preference_category": "ACCOUNT_SECURITY",
+      "states": [
+        "FIRST_SEND",
+        "RESEND"
+      ],
+      "subject": "Verify your email for JURNL",
+      "preheader": "One step to open your account. If this was not you, ignore this email.",
+      "from_name": "JURNL",
+      "copy_status": "DRAFT_FOR_FOUNDER_REVIEW",
+      "components": [
+        "EC02",
+        "EC07",
+        "EC13",
+        "EC16"
+      ],
+      "artifact": [
+        "ACCESS_CREDENTIAL",
+        "PRIVATE_CORRESPONDENCE"
+      ],
+      "production_state": "CONTRACT_READY",
+      "founder_approval": {
+        "status": "NOT_REVIEWED"
+      },
+      "implemented": false,
+      "live": false,
+      "template": null,
+      "superseded_by": null
+    },
+    {
+      "id": "A03",
+      "name": "FINISH SETTING UP JURNL",
+      "folder": "03_FINISH_SETUP",
+      "family": "E05",
+      "traits": [
+        "E02"
+      ],
+      "message_type": "SETUP_REMINDER",
+      "purpose": "Bring back someone who started setup and stopped, with only the steps they have left.",
+      "consent_class": "LIFECYCLE_SERVICE",
+      "preference_category": "PRODUCT_SERVICE_UPDATES",
+      "states": [
+        "EARLY",
+        "NEARLY_DONE"
+      ],
+      "subject": "Your JURNL is waiting where you left it",
+      "preheader": "A few minutes finishes your setup, right where you stopped.",
+      "from_name": "JURNL",
+      "copy_status": "DRAFT_FOR_FOUNDER_REVIEW",
+      "components": [
+        "EC02",
+        "EC06",
+        "EC07",
+        "EC16",
+        "EC17"
+      ],
+      "artifact": [
+        "PINNED_NOTE",
+        "ANNOTATED_NOTE"
+      ],
+      "production_state": "CONTRACT_READY",
+      "founder_approval": {
+        "status": "NOT_REVIEWED"
+      },
+      "implemented": false,
+      "live": false,
+      "template": null,
+      "superseded_by": null
+    },
+    {
+      "id": "A04",
+      "name": "YOUR SAFE TO SPEND IS READY",
+      "folder": "04_STS_READY",
+      "family": "E01",
+      "traits": [
+        "E02"
+      ],
+      "message_type": "SAFE_TO_SPEND_READY",
+      "purpose": "Tell the person their Safe to Spend is real now, show it, and explain in one line how it is made.",
+      "consent_class": "LIFECYCLE_SERVICE",
+      "preference_category": "PRODUCT_SERVICE_UPDATES",
+      "states": [
+        "READY"
+      ],
+      "subject": "Your Safe to Spend is ready",
+      "preheader": "See what is safe to spend now, and how JURNL got there.",
+      "from_name": "JURNL",
+      "copy_status": "DRAFT_FOR_FOUNDER_REVIEW",
+      "components": [
+        "EC01",
+        "EC03",
+        "EC02",
+        "EC08",
+        "EC16",
+        "EC17"
+      ],
+      "artifact": [
+        "ENTRY_CARD",
+        "EDITORIAL_EXPLAINER"
+      ],
+      "production_state": "CONTRACT_READY",
+      "founder_approval": {
+        "status": "NOT_REVIEWED"
+      },
+      "implemented": false,
+      "live": false,
+      "template": null,
+      "superseded_by": null
+    },
+    {
+      "id": "A05",
+      "name": "YOUR WEEK IN JURNL",
+      "folder": "05_WEEKLY_BRIEF",
+      "family": "E03",
+      "traits": [],
+      "message_type": "WEEKLY_BRIEF",
+      "purpose": "A calm weekly brief: what is coming, what moved, and where Safe to Spend stands.",
+      "consent_class": "LIFECYCLE_SERVICE",
+      "preference_category": "FINANCIAL_BRIEFS",
+      "states": [
+        "HEALTHY",
+        "ATTENTION",
+        "INCOMPLETE_DATA",
+        "QUIET_WEEK"
+      ],
+      "subject": "Your week in JURNL",
+      "preheader": "What is coming, what moved, and where you stand.",
+      "from_name": "JURNL",
+      "copy_status": "DRAFT_FOR_FOUNDER_REVIEW",
+      "components": [
+        "EC01",
+        "EC12",
+        "EC03",
+        "EC04",
+        "EC14",
+        "EC07",
+        "EC16",
+        "EC17"
+      ],
+      "artifact": [
+        "BRIEFING_SHEET",
+        "LEDGER_INSERT",
+        "CLIPBOARD_BRIEF"
+      ],
+      "production_state": "CONTRACT_READY",
+      "founder_approval": {
+        "status": "NOT_REVIEWED"
+      },
+      "implemented": false,
+      "live": false,
+      "template": null,
+      "superseded_by": null
+    },
+    {
+      "id": "A06",
+      "name": "A PURCHASE MAY NEED A SECOND LOOK",
+      "folder": "06_PURCHASE_NUDGE",
+      "family": "E05",
+      "traits": [],
+      "message_type": "PURCHASE_SECOND_LOOK",
+      "purpose": "Tell the person that a purchase they saved no longer fits their plan as well as it did, and what they can do.",
+      "consent_class": "LIFECYCLE_SERVICE",
+      "preference_category": "REMINDERS_NUDGES",
+      "states": [
+        "CLOSE",
+        "NOT_YET"
+      ],
+      "subject": "A purchase may need a second look",
+      "preheader": "Your plan changed since you saved it. You still have options.",
+      "from_name": "JURNL",
+      "copy_status": "DRAFT_FOR_FOUNDER_REVIEW",
+      "components": [
+        "EC02",
+        "EC12",
+        "EC11",
+        "EC07",
+        "EC16",
+        "EC17"
+      ],
+      "artifact": [
+        "DESK_SLIP",
+        "SMALL_MEMO"
+      ],
+      "production_state": "CONTRACT_READY",
+      "founder_approval": {
+        "status": "NOT_REVIEWED"
+      },
+      "implemented": false,
+      "live": false,
+      "template": null,
+      "superseded_by": null
+    },
+    {
+      "id": "A07",
+      "name": "YOU REACHED A MILESTONE",
+      "folder": "07_MILESTONE",
+      "family": "E04",
+      "traits": [],
+      "message_type": "MILESTONE_GOAL_FUNDED",
+      "purpose": "Acknowledge a real milestone — a goal fully set aside — warmly and precisely.",
+      "consent_class": "LIFECYCLE_SERVICE",
+      "preference_category": "PRODUCT_SERVICE_UPDATES",
+      "states": [
+        "GOAL_FUNDED",
+        "BUFFER_ESTABLISHED",
+        "DEBT_PAID"
+      ],
+      "subject": "You reached a milestone",
+      "preheader": "{goalName} is fully set aside and recorded in your plan.",
+      "from_name": "JURNL",
+      "copy_status": "DRAFT_FOR_FOUNDER_REVIEW",
+      "components": [
+        "EC01",
+        "EC09",
+        "EC02",
+        "EC07",
+        "EC16",
+        "EC17"
+      ],
+      "artifact": [
+        "MILESTONE_CARD",
+        "CEREMONIAL_NOTE"
+      ],
+      "production_state": "CONTRACT_READY",
+      "founder_approval": {
+        "status": "NOT_REVIEWED"
+      },
+      "implemented": false,
+      "live": false,
+      "template": null,
+      "superseded_by": null
+    },
+    {
+      "id": "A08",
+      "name": "RESET YOUR ACCESS",
+      "folder": "08_RESET_ACCESS",
+      "family": "E06",
+      "traits": [],
+      "message_type": "PASSWORD_RESET",
+      "purpose": "Let the person choose a new password, and tell them what to do if they did not ask.",
+      "consent_class": "TRANSACTIONAL",
+      "preference_category": "ACCOUNT_SECURITY",
+      "states": [
+        "REQUESTED"
+      ],
+      "subject": "Reset your JURNL password",
+      "preheader": "Use this link to choose a new password. If you did not ask, ignore this email.",
+      "from_name": "JURNL",
+      "copy_status": "DRAFT_FOR_FOUNDER_REVIEW",
+      "components": [
+        "EC02",
+        "EC07",
+        "EC13",
+        "EC16"
+      ],
+      "artifact": [
+        "ACCESS_CREDENTIAL",
+        "FORMAL_NOTICE"
+      ],
+      "production_state": "CONTRACT_READY",
+      "founder_approval": {
+        "status": "NOT_REVIEWED"
+      },
+      "implemented": false,
+      "live": false,
+      "template": null,
+      "superseded_by": null
+    }
+  ]
+}

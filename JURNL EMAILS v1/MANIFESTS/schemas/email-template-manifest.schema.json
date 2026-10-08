@@ -1,0 +1,168 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "jurnl-emails-v1/email-template-manifest.schema.json",
+  "title": "JURNL email templates (message contracts and their production state)",
+  "type": "object",
+  "required": [
+    "id",
+    "system",
+    "collection",
+    "sprint",
+    "schema",
+    "generated_by",
+    "source",
+    "templates"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "system": {
+      "const": "JURNL EDITORIAL CORRESPONDENCE"
+    },
+    "collection": {
+      "const": "JURNL EMAILS v1"
+    },
+    "sprint": {
+      "type": "string",
+      "minLength": 1
+    },
+    "schema": {
+      "type": "string",
+      "minLength": 1
+    },
+    "generated_by": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source": {
+      "type": "string",
+      "minLength": 1
+    },
+    "templates": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "folder",
+          "family",
+          "consent_class",
+          "preference_category",
+          "states",
+          "subject",
+          "preheader",
+          "from_name",
+          "components",
+          "production_state",
+          "founder_approval",
+          "implemented",
+          "live",
+          "superseded_by"
+        ],
+        "properties": {
+          "id": {
+            "pattern": "^A\\d{2}$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "folder": {
+            "type": "string",
+            "minLength": 1
+          },
+          "family": {
+            "pattern": "^E0[1-7]$"
+          },
+          "consent_class": {
+            "enum": [
+              "TRANSACTIONAL",
+              "LIFECYCLE_SERVICE",
+              "MARKETING"
+            ]
+          },
+          "preference_category": {
+            "type": "string",
+            "minLength": 1
+          },
+          "states": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "subject": {
+            "type": "string",
+            "minLength": 1
+          },
+          "preheader": {
+            "type": "string",
+            "minLength": 1
+          },
+          "from_name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "components": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "production_state": {
+            "enum": [
+              "PLANNED",
+              "CONTRACT_READY",
+              "CREATIVE_READY",
+              "AUTHORITY_IN_REVIEW",
+              "AUTHORITY_APPROVED",
+              "ASSETS_READY",
+              "IMPLEMENTATION_READY",
+              "IMPLEMENTED",
+              "RESPONSIVE_QA",
+              "DELIVERY_QA",
+              "APPROVED",
+              "LIVE",
+              "SUPERSEDED",
+              "ARCHIVED"
+            ]
+          },
+          "founder_approval": {
+            "type": "object",
+            "required": [
+              "status"
+            ],
+            "properties": {
+              "status": {
+                "enum": [
+                  "NOT_REVIEWED",
+                  "IN_REVIEW",
+                  "APPROVED",
+                  "REVISION_REQUESTED"
+                ]
+              }
+            }
+          },
+          "implemented": {
+            "type": "boolean"
+          },
+          "live": {
+            "type": "boolean"
+          },
+          "superseded_by": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

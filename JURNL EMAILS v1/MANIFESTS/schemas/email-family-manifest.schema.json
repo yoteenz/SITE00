@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "jurnl-emails-v1/email-family-manifest.schema.json",
+  "title": "JURNL email families",
+  "type": "object",
+  "required": [
+    "id",
+    "system",
+    "collection",
+    "sprint",
+    "schema",
+    "generated_by",
+    "source",
+    "families"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "system": {
+      "const": "JURNL EDITORIAL CORRESPONDENCE"
+    },
+    "collection": {
+      "const": "JURNL EMAILS v1"
+    },
+    "sprint": {
+      "type": "string",
+      "minLength": 1
+    },
+    "schema": {
+      "type": "string",
+      "minLength": 1
+    },
+    "generated_by": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source": {
+      "type": "string",
+      "minLength": 1
+    },
+    "families": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "artifact_grammar",
+          "consent_classes",
+          "expressiveness",
+          "environment_art",
+          "allowed_components",
+          "emails"
+        ],
+        "properties": {
+          "id": {
+            "enum": [
+              "E01",
+              "E02",
+              "E03",
+              "E04",
+              "E05",
+              "E06",
+              "E07"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "artifact_grammar": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "consent_classes": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "TRANSACTIONAL",
+                "LIFECYCLE_SERVICE",
+                "MARKETING"
+              ]
+            }
+          },
+          "expressiveness": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5
+          },
+          "environment_art": {
+            "enum": [
+              "NONE",
+              "OPTIONAL",
+              "EXPECTED"
+            ]
+          },
+          "allowed_components": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "emails": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    }
+  }
+}

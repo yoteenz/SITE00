@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "jurnl-emails-v1/email-trigger-manifest.schema.json",
+  "title": "JURNL email triggers",
+  "type": "object",
+  "required": [
+    "id",
+    "system",
+    "collection",
+    "sprint",
+    "schema",
+    "generated_by",
+    "source",
+    "triggers",
+    "events"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "system": {
+      "const": "JURNL EDITORIAL CORRESPONDENCE"
+    },
+    "collection": {
+      "const": "JURNL EMAILS v1"
+    },
+    "sprint": {
+      "type": "string",
+      "minLength": 1
+    },
+    "schema": {
+      "type": "string",
+      "minLength": 1
+    },
+    "generated_by": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source": {
+      "type": "string",
+      "minLength": 1
+    },
+    "events": {
+      "type": "array",
+      "minItems": 1
+    },
+    "triggers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "email_id",
+          "trigger_event",
+          "source_status",
+          "eligibility",
+          "suppression",
+          "cooldown",
+          "personalization",
+          "cta_destination",
+          "consent_class",
+          "priority",
+          "duplicate_guard",
+          "delivery_state"
+        ],
+        "properties": {
+          "email_id": {
+            "pattern": "^A\\d{2}$"
+          },
+          "trigger_event": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source_status": {
+            "enum": [
+              "EXISTS_PROVIDER_OWNED",
+              "STATE_EXISTS_EVENT_NOT_EMITTED",
+              "PROPOSED"
+            ]
+          },
+          "eligibility": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "suppression": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "cooldown": {
+            "type": "string",
+            "minLength": 1
+          },
+          "personalization": {
+            "enum": [
+              "P0",
+              "P1",
+              "P2",
+              "P3"
+            ]
+          },
+          "cta_destination": {
+            "type": "string",
+            "minLength": 1
+          },
+          "consent_class": {
+            "type": "string",
+            "minLength": 1
+          },
+          "priority": {
+            "enum": [
+              "CRITICAL",
+              "HIGH",
+              "NORMAL",
+              "LOW"
+            ]
+          },
+          "duplicate_guard": {
+            "type": "string",
+            "minLength": 1
+          },
+          "delivery_state": {
+            "enum": [
+              "NOT_WIRED",
+              "RENDER_ONLY",
+              "DRY_RUN",
+              "PROVIDER_OWNED",
+              "LIVE",
+              "PAUSED"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,275 @@
+/**
+ * Email component vocabulary (EC01–EC17). Each component says what it is for, which families may use it, what is HTML
+ * and what may be image, how it behaves on mobile, what accessibility it needs, which live data it may carry, its
+ * allowed visual variants and where it must never be used.
+ */
+
+import type { ConsentClass, EmailComponentId, EmailFamilyId } from './types.js';
+
+export type EmailComponentContract = {
+  readonly id: EmailComponentId;
+  readonly name: string;
+  readonly purpose: string;
+  readonly families: readonly EmailFamilyId[];
+  /** Consent classes the component may appear in (firewall). */
+  readonly consentClasses: readonly ConsentClass[];
+  readonly html: readonly string[];
+  readonly image: readonly string[];
+  readonly responsive: { readonly desktop: string; readonly mobile: string };
+  readonly accessibility: readonly string[];
+  /** Live data fields the component may carry (empty = static copy only). */
+  readonly dynamicData: readonly string[];
+  readonly variants: readonly string[];
+  readonly forbidden: readonly string[];
+};
+
+const ALL: readonly EmailFamilyId[] = ['E01', 'E02', 'E03', 'E04', 'E05', 'E06', 'E07'];
+const ALL_CLASSES: readonly ConsentClass[] = ['TRANSACTIONAL', 'LIFECYCLE_SERVICE', 'MARKETING'];
+const NON_TX: readonly ConsentClass[] = ['LIFECYCLE_SERVICE', 'MARKETING'];
+
+export const EMAIL_COMPONENTS: readonly EmailComponentContract[] = [
+  {
+    id: 'EC01',
+    name: 'HERO CORRESPONDENCE',
+    purpose: 'Opening composition: environment or campaign art with the correspondence artifact, and the introductory live content set on or beside it.',
+    families: ['E01', 'E02', 'E03', 'E04', 'E07'],
+    consentClasses: NON_TX,
+    html: ['eyebrow', 'headline', 'intro sentence', 'personal greeting'],
+    image: ['L1 environment crop', 'L2 artifact shell (top edge / header area)'],
+    responsive: { desktop: 'Art at 640 px wide; headline set in HTML below or inside a solid paper cell, never over busy imagery.', mobile: 'Art scales to 100% width with a mobile crop that keeps the artifact; headline drops below art.' },
+    accessibility: ['Art is decorative (alt="") unless it carries meaning; meaning is repeated in HTML.', 'Headline is the first heading (h1).'],
+    dynamicData: ['firstName'],
+    variants: ['ARTIFACT_LEFT', 'ARTIFACT_CENTRED', 'CROP_TIGHT', 'ARTIFACT_ONLY (no L1)'],
+    forbidden: ['headline or figures baked into the art', 'E05 / E06 messages', 'full app screenshot', 'full-bleed arch every time'],
+  },
+  {
+    id: 'EC02',
+    name: 'DECKLED NOTE',
+    purpose: 'A short artifact-like message: two to four sentences set on a paper cell with a deckled or torn edge image.',
+    families: ALL,
+    consentClasses: ALL_CLASSES,
+    html: ['note text', 'signature line'],
+    image: ['deckled top / bottom edge strips (L2)', 'paper tone matched by the HTML cell colour'],
+    responsive: { desktop: 'Note cell 520–560 px inside the 640 container.', mobile: 'Full width minus 20 px gutters; edges scale with width.' },
+    accessibility: ['Edge strips alt="".', 'Text contrast ≥ 4.5:1 on the paper colour.'],
+    dynamicData: ['firstName'],
+    variants: ['TORN_TOP', 'DECKLED_BOTH', 'CLIPPED (brass clip insert)'],
+    forbidden: ['text inside the edge images', 'more than ~60 words'],
+  },
+  {
+    id: 'EC03',
+    name: 'FINANCIAL SNAPSHOT',
+    purpose: 'One labelled figure with a short status: SAFE TO SPEND · $1,284 · THROUGH OCT 18.',
+    families: ['E01', 'E02', 'E03', 'E04', 'E05'],
+    consentClasses: ['LIFECYCLE_SERVICE'],
+    html: ['label', 'figure', 'status line', 'as-of date'],
+    image: [],
+    responsive: { desktop: 'Figure 40–48 px serif.', mobile: 'Figure 32–40 px; never wraps mid-number.' },
+    accessibility: ['Figure and label read as one sentence to screen readers (label first).', 'Status is words, not colour alone.'],
+    dynamicData: ['safeToSpend', 'availableThrough', 'asOf', 'currency'],
+    variants: ['SINGLE', 'WITH_DELTA', 'INCOMPLETE (honest empty state)'],
+    forbidden: ['any figure in an image', 'invented or stale values', 'figures in TRANSACTIONAL or MARKETING mail'],
+  },
+  {
+    id: 'EC04',
+    name: 'TWO-COLUMN BRIEF',
+    purpose: 'Paired lists such as COMING / MOVED, ledger-ruled.',
+    families: ['E03'],
+    consentClasses: ['LIFECYCLE_SERVICE'],
+    html: ['column labels', 'item names', 'dates', 'amounts', 'MORE link'],
+    image: ['optional ledger-rule paper texture behind the table'],
+    responsive: { desktop: 'Two 280 px columns.', mobile: 'Columns stack: COMING first, then MOVED.' },
+    accessibility: ['Each column is a list with a heading; amounts are text.', 'Reading order matches visual order when stacked.'],
+    dynamicData: ['upcomingItems[] (name, date, amount)', 'movedItems[] (name, date, amount)'],
+    variants: ['THREE_ROWS', 'EMPTY_COLUMN (honest copy)'],
+    forbidden: ['more than five rows per column', 'item rows as images'],
+  },
+  {
+    id: 'EC05',
+    name: 'EDITORIAL PULL QUOTE',
+    purpose: 'A single set-off line in large serif, used to carry the idea of an editorial or guide.',
+    families: ['E02', 'E04', 'E07'],
+    consentClasses: NON_TX,
+    html: ['quote text', 'attribution'],
+    image: ['optional rule or ornament'],
+    responsive: { desktop: '28–32 px serif.', mobile: '24–28 px serif.' },
+    accessibility: ['Use blockquote semantics where supported; not a heading.'],
+    dynamicData: [],
+    variants: ['RULED', 'HANGING_PUNCTUATION'],
+    forbidden: ['E06 security mail', 'financial claims or promises', 'quotes attributed to real people without permission'],
+  },
+  {
+    id: 'EC06',
+    name: 'CHECKLIST / STEPS',
+    purpose: 'Numbered steps or a short checklist that mirrors the app exactly.',
+    families: ['E01', 'E02', 'E05'],
+    consentClasses: NON_TX,
+    html: ['step numbers', 'step titles', 'one-line descriptions', 'done / not done state'],
+    image: ['optional printed-numeral ornament'],
+    responsive: { desktop: 'Up to five rows, numeral column 40 px.', mobile: 'Same, single column.' },
+    accessibility: ['Ordered list semantics; state in words (DONE / TO DO).'],
+    dynamicData: ['setupSteps[] (title, done)'],
+    variants: ['NUMBERED', 'CHECKED', 'REMAINING_ONLY'],
+    forbidden: ['steps that do not exist in the app', 'more than five steps'],
+  },
+  {
+    id: 'EC07',
+    name: 'SINGLE CTA',
+    purpose: 'The one primary action.',
+    families: ALL,
+    consentClasses: ALL_CLASSES,
+    html: ['bulletproof button (table cell + link)', 'uppercase descriptive label', 'plain-link fallback below for security mail'],
+    image: [],
+    responsive: { desktop: 'Min 44 px tall, 240–320 px wide, left- or centre-aligned per authority.', mobile: 'Full width minus gutters, min 48 px tall.' },
+    accessibility: ['Real <a> with descriptive text (VERIFY MY EMAIL, not CLICK HERE).', 'Contrast ≥ 4.5:1; focus outline not removed.'],
+    dynamicData: ['ctaUrl'],
+    variants: ['OLIVE_SOLID', 'INK_SOLID', 'OUTLINE (secondary only)'],
+    forbidden: ['image buttons', 'more than one primary CTA', 'tracking redirects on security links'],
+  },
+  {
+    id: 'EC08',
+    name: 'DUAL CTA',
+    purpose: 'A primary action and a quieter secondary one.',
+    families: ['E01', 'E02', 'E03', 'E07'],
+    consentClasses: NON_TX,
+    html: ['primary button', 'secondary text link or outline button'],
+    image: [],
+    responsive: { desktop: 'Side by side.', mobile: 'Stacked, primary first.' },
+    accessibility: ['Both descriptive; secondary visually distinct but ≥ 4.5:1.'],
+    dynamicData: ['ctaUrl', 'secondaryCtaUrl'],
+    variants: ['BUTTON_LINK', 'BUTTON_OUTLINE'],
+    forbidden: ['E05 nudges (one action only)', 'E06 security mail', 'two equally weighted buttons'],
+  },
+  {
+    id: 'EC09',
+    name: 'MILESTONE SEAL',
+    purpose: 'A ceremonial seal or emboss that marks a real milestone, with the milestone named in HTML beside it.',
+    families: ['E04'],
+    consentClasses: ['LIFECYCLE_SERVICE'],
+    html: ['milestone name', 'amount reached', 'date'],
+    image: ['wax / blind-emboss seal (L2 decorative insert)'],
+    responsive: { desktop: 'Seal 96–120 px beside the figure.', mobile: 'Seal 80 px above the figure.' },
+    accessibility: ['Seal alt="" ; the milestone is stated in text.'],
+    dynamicData: ['goalName', 'goalAmount', 'reachedOn'],
+    variants: ['WAX_SEAL', 'BLIND_EMBOSS', 'BRASS_MEDALLION'],
+    forbidden: ['trophies', 'confetti', 'badges', 'numbers inside the seal image'],
+  },
+  {
+    id: 'EC10',
+    name: 'IMAGE + NOTE',
+    purpose: 'A small contextual image (print, botanical, object) paired with a short note.',
+    families: ['E01', 'E02', 'E04', 'E07'],
+    consentClasses: NON_TX,
+    html: ['note text', 'caption'],
+    image: ['EMAIL_THUMBNAIL or EMAIL_DECORATIVE_INSERT'],
+    responsive: { desktop: 'Image 200–240 px column + text column.', mobile: 'Image above text, max 280 px wide.' },
+    accessibility: ['Image alt describes it only if it carries meaning.'],
+    dynamicData: [],
+    variants: ['IMAGE_LEFT', 'IMAGE_RIGHT', 'TAPED_PRINT'],
+    forbidden: ['text in the image', 'E06 security mail'],
+  },
+  {
+    id: 'EC11',
+    name: 'DOSSIER / RECORD ROW',
+    purpose: 'Label / value rows set like an archival index card: ACCOUNT · CHECKING, DATE · OCT 8.',
+    families: ['E03', 'E04', 'E05', 'E06'],
+    consentClasses: ALL_CLASSES,
+    html: ['labels', 'values'],
+    image: ['optional index-card edge'],
+    responsive: { desktop: 'Label column 160 px.', mobile: 'Label above value.' },
+    accessibility: ['Table with header cells or definition-list semantics.'],
+    dynamicData: ['any contract personalization input'],
+    variants: ['INDEX_CARD', 'LEDGER_RULED'],
+    forbidden: ['sensitive values in TRANSACTIONAL mail beyond what the action needs (no balances in security mail)'],
+  },
+  {
+    id: 'EC12',
+    name: 'STATUS NOTICE',
+    purpose: 'A short uppercase status line with one sentence of context: NEEDS A SECOND LOOK.',
+    families: ['E03', 'E05', 'E06'],
+    consentClasses: ALL_CLASSES,
+    html: ['status label', 'context sentence'],
+    image: [],
+    responsive: { desktop: 'Inline under the headline.', mobile: 'Same.' },
+    accessibility: ['Status in words; colour is secondary.'],
+    dynamicData: ['status'],
+    variants: ['NEUTRAL', 'ATTENTION (burgundy text, never red alert)'],
+    forbidden: ['alarm styling', 'shame language'],
+  },
+  {
+    id: 'EC13',
+    name: 'SECURITY NOTICE',
+    purpose: 'What happened, when, and what to do if it was not you.',
+    families: ['E06'],
+    consentClasses: ['TRANSACTIONAL'],
+    html: ['request time', 'expiry', 'device / location if known', 'not-you instruction', 'support contact'],
+    image: [],
+    responsive: { desktop: 'Plain block under the CTA.', mobile: 'Same.' },
+    accessibility: ['Plain language; no reliance on images; link text is the URL host for verification.'],
+    dynamicData: ['requestedAt', 'expiresInMinutes', 'device', 'approxLocation'],
+    variants: ['VERIFY', 'RESET', 'NEW_LOGIN', 'CHANGE_CONFIRMATION'],
+    forbidden: ['marketing content', 'urgency theatre', 'asking for passwords or codes by reply'],
+  },
+  {
+    id: 'EC14',
+    name: 'PERSONALIZED INSIGHT',
+    purpose: 'A sentence or two of insight derived only from the person’s real data.',
+    families: ['E03', 'E05'],
+    consentClasses: ['LIFECYCLE_SERVICE'],
+    html: ['insight sentence', 'supporting figure'],
+    image: [],
+    responsive: { desktop: 'Note cell.', mobile: 'Same.' },
+    accessibility: ['Plain sentence; figures as text.'],
+    dynamicData: ['insight (generated only from source truth, with its inputs logged)'],
+    variants: ['OBSERVATION', 'WHAT_CHANGED'],
+    forbidden: ['fabricated observations', 'advice framed as instruction', 'judgement words', 'AI-generated claims without source data'],
+  },
+  {
+    id: 'EC15',
+    name: 'APP DEEP-LINK MODULE',
+    purpose: 'Take the reader to the exact JURNL screen the email is about.',
+    families: ['E01', 'E02', 'E03', 'E04', 'E05'],
+    consentClasses: NON_TX,
+    html: ['link label', 'destination description'],
+    image: ['optional small thumbnail of the destination object (never a screenshot)'],
+    responsive: { desktop: 'Text link row.', mobile: 'Full-width tap row ≥ 48 px.' },
+    accessibility: ['Descriptive link text naming the destination.'],
+    dynamicData: ['deepLink'],
+    variants: ['ROW', 'CARD'],
+    forbidden: ['app screenshots', 'links to routes that do not exist'],
+  },
+  {
+    id: 'EC16',
+    name: 'EMAIL FOOTER',
+    purpose: 'Sender identity, why you received this, privacy, legal and mailing address.',
+    families: ALL,
+    consentClasses: ALL_CLASSES,
+    html: ['sender identity', 'reason for receiving', 'privacy link', 'legal / mailing address', 'security footer (E06)'],
+    image: ['optional small JURNL mark'],
+    responsive: { desktop: '12–13 px sentence case.', mobile: 'Same, links on their own lines.' },
+    accessibility: ['Real text ≥ 12 px; links distinguishable.'],
+    dynamicData: ['recipientEmail', 'reason'],
+    variants: ['TRANSACTIONAL', 'LIFECYCLE', 'MARKETING'],
+    forbidden: ['hiding required legal text in images', 'promo in E06 footers'],
+  },
+  {
+    id: 'EC17',
+    name: 'MARKETING PREFERENCES / UNSUBSCRIBE',
+    purpose: 'One-click unsubscribe and a link to preferences for the email’s own category.',
+    families: ['E01', 'E02', 'E03', 'E04', 'E05', 'E07'],
+    consentClasses: NON_TX,
+    html: ['unsubscribe link (category-scoped)', 'manage preferences link', 'List-Unsubscribe header (not body)'],
+    image: [],
+    responsive: { desktop: 'In footer.', mobile: 'In footer, own line.' },
+    accessibility: ['Plain, findable text; never hidden by colour.'],
+    dynamicData: ['unsubscribeUrl', 'preferencesUrl', 'category'],
+    variants: ['FOOTER_LINE'],
+    forbidden: ['E06 transactional mail (account/security mail cannot be unsubscribed)', 'categories the product does not support yet'],
+  },
+];
+
+export const componentById = (id: EmailComponentId): EmailComponentContract => {
+  const c = EMAIL_COMPONENTS.find((x) => x.id === id);
+  if (!c) throw new Error(`Unknown email component ${id}`);
+  return c;
+};

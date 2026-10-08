@@ -1,0 +1,132 @@
+{
+  "id": "email-responsive-manifest",
+  "system": "JURNL EDITORIAL CORRESPONDENCE",
+  "collection": "JURNL EMAILS v1",
+  "sprint": "P0.JURNL.EMAIL-ENGINE.CANONICAL-ARCHITECTURE-AND-CREATIVE-INFRASTRUCTURE1",
+  "schema": "schemas/email-responsive-manifest.schema.json",
+  "generated_by": "scripts/jurnl/email-engine-export.ts",
+  "source": "shared/jurnl-email-engine",
+  "viewports": [
+    {
+      "id": "MOBILE",
+      "range": [
+        320,
+        480
+      ],
+      "canonical": 375,
+      "note": "Phone mail apps (Apple Mail iOS, Gmail iOS / Android, Outlook mobile)."
+    },
+    {
+      "id": "DESKTOP",
+      "range": [
+        600,
+        700
+      ],
+      "canonical": 640,
+      "note": "Desktop and webmail reading panes; content never wider than 640 px."
+    }
+  ],
+  "rules": {
+    "maxContentWidth": 640,
+    "outerCanvas": "L0 canvas colour fills the client width; the 640 px container is centred.",
+    "gutters": {
+      "desktop": 40,
+      "mobile": 20
+    },
+    "stacking": [
+      "Single column below 480 px: every two-column module (EC04, EC08, EC10, EC11) stacks in reading order.",
+      "Stacking uses fluid-hybrid tables (inline-block columns with max-width), so clients without media-query support still stack."
+    ],
+    "text": {
+      "bodyMinPx": 16,
+      "legalMinPx": 12,
+      "lineHeight": "1.55–1.65 for body",
+      "note": "Never shrink body below 16 px on mobile; iOS enlarges small text unpredictably."
+    },
+    "cta": {
+      "minHeightPx": {
+        "desktop": 44,
+        "mobile": 48
+      },
+      "mobileWidth": "100% of the content column",
+      "note": "Bulletproof table button; the whole cell is the link."
+    },
+    "images": [
+      "Every image has explicit width / height attributes, max-width: 100% and height: auto.",
+      "Hero / environment art is exported at 2× (1280 px) for 640 px display.",
+      "A separate mobile crop is allowed when the desktop crop would lose the artifact (art-direction swap via <picture> is not reliable in email; use a hidden-by-default mobile image only where the client matrix allows)."
+    ],
+    "edgeSafe": "No live content within 20 px of the container edge on mobile, 40 px on desktop; torn / deckled edges sit in that margin.",
+    "columnCollapse": "Columns collapse at 480 px; a collapsed column keeps its heading above its rows.",
+    "cropRules": [
+      "The artifact (L2) is never cropped off; environment (L1) crops first.",
+      "Classical fragments may crop dramatically; faces are never cut through the eyes."
+    ],
+    "fallbackBackground": "Every image cell has a background colour matching the paper or canvas, so an image-blocked email still reads as paper on stone.",
+    "darkMode": [
+      "Declare color-scheme light dark and supported-color-schemes; provide [data-ogsc] / prefers-color-scheme overrides where supported.",
+      "Paper cells keep a light paper colour in dark mode where the client allows (the artifact is an object, not UI chrome); text colour must still pass on both.",
+      "Transparent PNG edges are designed against both the light canvas and #1C1A16.",
+      "Logos and dark ink marks get a light paper backing, never sit directly on the canvas."
+    ],
+    "imageBlocked": "With images off, the email must read completely: headline, body, figures, CTA, notice and footer are all HTML on HTML colours, and the alt text of meaningful images says what they show."
+  },
+  "templates": [
+    {
+      "email_id": "A01",
+      "mobile_authority": null,
+      "desktop_authority": null,
+      "image_blocked_plan": null,
+      "status": "NOT_STARTED"
+    },
+    {
+      "email_id": "A02",
+      "mobile_authority": null,
+      "desktop_authority": null,
+      "image_blocked_plan": null,
+      "status": "NOT_STARTED"
+    },
+    {
+      "email_id": "A03",
+      "mobile_authority": null,
+      "desktop_authority": null,
+      "image_blocked_plan": null,
+      "status": "NOT_STARTED"
+    },
+    {
+      "email_id": "A04",
+      "mobile_authority": null,
+      "desktop_authority": null,
+      "image_blocked_plan": null,
+      "status": "NOT_STARTED"
+    },
+    {
+      "email_id": "A05",
+      "mobile_authority": null,
+      "desktop_authority": null,
+      "image_blocked_plan": null,
+      "status": "NOT_STARTED"
+    },
+    {
+      "email_id": "A06",
+      "mobile_authority": null,
+      "desktop_authority": null,
+      "image_blocked_plan": null,
+      "status": "NOT_STARTED"
+    },
+    {
+      "email_id": "A07",
+      "mobile_authority": null,
+      "desktop_authority": null,
+      "image_blocked_plan": null,
+      "status": "NOT_STARTED"
+    },
+    {
+      "email_id": "A08",
+      "mobile_authority": null,
+      "desktop_authority": null,
+      "image_blocked_plan": null,
+      "status": "NOT_STARTED"
+    }
+  ]
+}
