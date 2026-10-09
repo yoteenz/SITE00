@@ -4,7 +4,8 @@
  */
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { createArtifactForLead, materializeFixtureScenario } from '../_lib/digitalFoundation/service.js';
-import { listArtifacts } from '../_lib/digitalFoundation/memoryStore.js';
+import { getDfMemoryState, listArtifacts } from '../_lib/digitalFoundation/memoryStore.js';
+import { touchPreviewSnapshotAfterMutation } from '../_lib/digitalFoundation/previewMemorySnapshot.js';
 import { isDigitalFoundationFlagEnabled, DF_FEATURE_FLAGS } from '../../shared/site00-digital-foundation/featureFlags.js';
 import { isCloudMobilePreviewDev } from '../_lib/cloudMobilePreview.js';
 
@@ -22,6 +23,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (req.method === 'GET') {
       const existing = listArtifacts()[0];
       if (existing) {
+        touchPreviewSnapshotAfterMutation(getDfMemoryState());
         return res.status(200).json({
           artifact_id: existing.artifact_id,
           public_token: existing.public_token,
