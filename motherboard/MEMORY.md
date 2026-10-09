@@ -15927,6 +15927,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ## 2026-10-09 — Digital Foundation blank template preview link
 
-- **Founder ask:** Send Digital Foundation **without client data**, starting at the **first screen** (P01 — GET STARTED / FOUNDATION ENTRY), not a reused artifact stuck on recommendation.
-- **Delivered:** Minted fresh in-memory artifact (`state: INVITED`, `intake_state: NOT_STARTED`, empty `intake.needs`, null lead names) on DF board preview tunnel (`claude/df-client-board-01-02-8d42xk` worktree). Founder URL pattern: cloud preview tunnel `/foundation/:token`.
-- **Dev helper:** `POST /api/dev/site00-digital-foundation-preview-bootstrap` with `{ "template": true }` resets memory store and mints blank template (PR #1551). Avoid `curl` against Vite dev API — use Node `fetch` with timeout; Vite restart wipes tokens until snapshot reload or re-mint.
+- **Founder ask:** Blank Digital Foundation starting at P01 (GET STARTED), no client intake data.
+- **Delivered:** Fresh artifact minted on DF board preview worktree (`INVITED`, `NOT_STARTED`, empty needs).
+- **Dev helper:** Preview bootstrap `POST` body `{ "template": true }` resets memory and mints blank template (PR #1551). Prefer Node `fetch` with timeout over slow Vite dev API probes.
+
+---
+
+## 2026-10-09 — DF typography, menu layering, P01 business email
+
+- **Founder ask:** Reduce all Digital Foundation text by 2px; fix menu drawer overlapped by bottom screen text; P01 triad center column → professional business email on two lines.
+- **Shipped (PR #1552):** Board 01+02 `FoundationClient` on `main`; global −2px on `site00-df-client.css`; menu sheet portaled to `document.body` with high z-index, body scroll lock, footer/trust hidden while open; P01 triad **PROFESSIONAL** / **BUSINESS EMAIL**.
