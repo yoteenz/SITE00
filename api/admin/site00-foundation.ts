@@ -23,6 +23,7 @@ import {
   updateQuoteSelections,
 } from '../_lib/digitalFoundation/service.js';
 import { listArtifacts } from '../_lib/digitalFoundation/memoryStore.js';
+import { buildFounderGrowthReview } from '../_lib/digitalFoundation/growthBridge.js';
 import { syncAllArtifactsIntoMemory } from '../_lib/digitalFoundation/persistence/supabaseStore.js';
 import {
   activateRunbookForArtifact,
@@ -81,6 +82,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         case 'detail': {
           const id = String(req.query.id ?? '');
           return res.status(200).json(getArtifactPayload(id));
+        }
+        case 'growth-review': {
+          const id = String(req.query.id ?? '');
+          return res.status(200).json(buildFounderGrowthReview(id));
         }
         case 'pipeline':
           return res.status(200).json(getPipelineView());

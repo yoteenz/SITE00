@@ -2,7 +2,10 @@
  * Digital Foundation founder mini console — admin API (Bearer via apiFetch).
  */
 import { digitalFoundationClientIntakePath } from '../../../../shared/site00-digital-foundation/clientRoutes.js';
+import type { FounderGrowthReview } from '../../../../shared/site00-business-growth-intelligence/clientContext.js';
 import { apiFetch } from '../../../utils/api';
+
+export type { FounderGrowthReview };
 
 export { digitalFoundationClientIntakePath };
 
@@ -36,6 +39,10 @@ export const foundationAdminApi = {
 
   detail: (id: string) =>
     foundationFetch(`/api/admin/site00-foundation?action=detail&id=${encodeURIComponent(id)}`),
+
+  /** Read-only Business Growth review (pricing, specialist, AIO, delivery assumptions). Never approves anything. */
+  growthReview: (id: string) =>
+    foundationFetch<FounderGrowthReview>(`/api/admin/site00-foundation?action=growth-review&id=${encodeURIComponent(id)}`),
 
   createLeadLink: (body: { contact_email?: string; contact_name?: string; business_name?: string; referral_kind?: string }) =>
     foundationFetch<{ personalized_url?: string }>('/api/admin/site00-foundation', {
