@@ -4,7 +4,11 @@
  */
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { createArtifactForLead, materializeFixtureScenario } from '../_lib/digitalFoundation/service.js';
-import { getDfMemoryState, listArtifacts } from '../_lib/digitalFoundation/memoryStore.js';
+import {
+  getDfMemoryState,
+  listArtifacts,
+  resetDigitalFoundationMemoryStore,
+} from '../_lib/digitalFoundation/memoryStore.js';
 import { touchPreviewSnapshotAfterMutation } from '../_lib/digitalFoundation/previewMemorySnapshot.js';
 import { isDigitalFoundationFlagEnabled, DF_FEATURE_FLAGS } from '../../shared/site00-digital-foundation/featureFlags.js';
 import { isCloudMobilePreviewDev } from '../_lib/cloudMobilePreview.js';
@@ -46,6 +50,25 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     if (req.method === 'POST') {
       const body = typeof req.body === 'object' && req.body !== null ? req.body : {};
+      if (body.template === true || body.template === '1' || body.fresh_template === true) {
+        resetDigitalFoundationMemoryStore();
+        const artifact = createArtifactForLead({
+          contact_email: null,
+          contact_name: null,
+          business_name: null,
+          referral_kind: 'DIRECT',
+        });
+        touchPreviewSnapshotAfterMutation(getDfMemoryState());
+        return res.status(200).json({
+          artifact_id: artifact.artifact_id,
+          public_token: artifact.public_token,
+          personalized_url: `/foundation/${artifact.public_token}`,
+          template: true,
+          intake_state: artifact.intake_state,
+          artifact_state: artifact.state,
+          note: 'Blank Digital Foundation template — P01 entry, no intake fields prefilled.',
+        });
+      }
       const fixtureId = body.fixture_id ? String(body.fixture_id) : '';
       if (fixtureId) {
         const result = await materializeFixtureScenario(fixtureId);
