@@ -5,6 +5,7 @@
 import { pathToFileURL } from 'node:url';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { register as registerTsx } from 'tsx/esm/api';
 import { loadEnv } from 'vite';
 
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
@@ -63,6 +64,7 @@ const LOCAL_API_ROUTES = [
   { path: '/api/admin/site00-client-intakes', file: 'api/admin/site00-client-intakes.ts' },
   { path: '/api/admin/site00-astral-world-generation', file: 'api/admin/site00-astral-world-generation.ts' },
   { path: '/api/capture-auth-bootstrap', file: 'api/capture-auth-bootstrap.ts' },
+  { path: '/api/dev/site00-digital-foundation-preview-bootstrap', file: 'api/dev/site00-digital-foundation-preview-bootstrap.ts' },
 ];
 
 function applyServerEnv() {
@@ -136,10 +138,10 @@ export function site00LocalApiPlugin() {
   const handlerPromises = new Map();
   let tsxRegistered = false;
 
-  async function ensureTsx() {
+  function ensureTsx() {
     if (!tsxRegistered) {
-      const { register } = await import('tsx/esm/api');
-      register();
+      // Use package export conditions (index.mjs). Do not import tsx/dist/*.cjs via file URL — that breaks on some Node/Vite combos.
+      registerTsx();
       tsxRegistered = true;
     }
   }
@@ -148,7 +150,7 @@ export function site00LocalApiPlugin() {
     let promise = handlerPromises.get(file);
     if (!promise) {
       promise = (async () => {
-        await ensureTsx();
+        ensureTsx();
         const mod = await import(pathToFileURL(path.join(ROOT, file)).href);
         return mod.default;
       })();

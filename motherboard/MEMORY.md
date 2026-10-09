@@ -15811,6 +15811,27 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
+## 2026-10-09 — Digital Foundation artifact live on cloud preview tunnel
+
+- **Context:** Founder wanted the **IDNTY Digital Foundation micro product** (not `/idnty/starting-at-zero`) live on the mobile tunnel with a `/foundation/:token` link for BLDR-adjacent preview. Admin `create-artifact` requires Supabase Bearer; cloud preview uses in-memory DF store per Vite process.
+- **Topics covered:** Wrong public IDNTY assessment URL vs artifact route; Supabase auth `generateLink` failed (522) on VM; pinned preview at `fb7f24f4`; Vite restart; dev bootstrap endpoint.
+- **Decisions / outcomes:**
+  - Added gated dev route `GET/POST /api/dev/site00-digital-foundation-preview-bootstrap` (only when `SITE00_CLOUD_MOBILE_PREVIEW=1`) to mint/reuse artifact in the running Vite memory store.
+  - Restarted preview Vite on `:5174`; verified tunnel `site00.fsbw-dev.com` returns payload + SPA 200 for minted token.
+  - **Not** `/idnty/*` — artifact is **`/foundation/:token`**. Build interest connects to BLDR after completion; studio does not open this page.
+- **Changes:** `api/dev/site00-digital-foundation-preview-bootstrap.ts`, `scripts/vite-site00-local-api.mjs` (preview operational + branch `cursor/df-preview-bootstrap-0daf`).
+- **Conventions:** After Vite restart, hit bootstrap GET once to mint (or reuse first in-memory artifact). Production founder mint remains `POST /api/admin/site00-foundation` with admin session.
+
+---
+
+## 2026-10-09 — Digital Foundation admin console tsx recovery (P0 IDNTY)
+
+- **Context:** `/admin/site00/foundation` showed tsx `esm/api/esm/index.mjs` `LOCAL_API_ERROR` from Vite local API middleware.
+- **Root cause:** Dynamic `import()` of CJS `tsx/esm/api` entry via `require.resolve` + file URL from ESM plugin.
+- **Fix:** `import { register } from 'tsx/esm/api'`; admin list hydrates Supabase via `syncAllArtifactsIntoMemory()` when persistence flag on.
+- **Tunnel:** Multi-connector load-balancing can still hit stale `:5174` until canonical env runs fixed code only.
+- **Branch:** `cursor/digital-foundation-admin-console-route-recovery1` → `main`.
+
 ## 2026-10-09 — INVITATION 001: physical territories + immersive /invite activation (Opus)
 
 - **Context:** Sprint `P0.SITE00.INVITATION-SYSTEM.INVITATION001-PHYSICAL-AND-IMMERSIVE-ACTIVATION-OPUS1`, baseline PR #1533 (`bcd67774`). Earlier in this chat: the Composer invitation sprint (#1533) and a question about whether all BLDR studio text is uppercase. The answer was no, with the mixed-case sources listed; no change was made.
@@ -15841,7 +15862,7 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - `src/routes/Site00Routes.tsx`
   - `api/_lib/invitationSystem/service.ts` (verificationDeliveryMode, issueDevelopmentVerificationCode)
   - `api/site00/invitation.ts`
-  - `scripts/vite-site00-local-api.mjs` (invitation routes; tsx ESM register fix)
+  - `scripts/vite-site00-local-api.mjs` (invitation routes; the tsx ESM register fix also landed via #1538)
   - tests in `invitationSystem.test.ts` and `invitationActivationExperience.test.tsx`
 - **Conventions:**
   - Never return a verification code outside the Vite dev local API.
