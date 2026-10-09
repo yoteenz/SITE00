@@ -1,4 +1,4 @@
-import { describe, expect, it, beforeEach } from 'vitest';
+import { describe, expect, it, beforeEach, afterEach, vi } from 'vitest';
 import { resetDigitalFoundationMemoryStore } from '../api/_lib/digitalFoundation/memoryStore.js';
 import { resetInvitationMemoryState } from '../api/_lib/invitationSystem/memoryStore.js';
 import {
@@ -7,9 +7,11 @@ import {
   completeVerifiedActivation,
   getPartnerReporting,
   issueActivationVerificationSecretForTests,
+  issueDevelopmentVerificationCode,
   recordConversionEvent,
   recordInvitationVisit,
   resolveInvitationCode,
+  verificationDeliveryMode,
 } from '../api/_lib/invitationSystem/service.js';
 import { reverseCommission } from '../api/_lib/invitationSystem/commissionLedger.js';
 import { mayCreateCommissionCandidate } from '../api/_lib/invitationSystem/eligibility.js';
@@ -213,5 +215,49 @@ describe('Entry presentation contract', () => {
     expect(p.invitation_system_version).toBe('1.0.0');
     expect(p.activation.requires_identity_verification).toBe(true);
     expect(p.partner_presented_through).toContain('ALL IN ONE ENTERPRISES');
+  });
+});
+
+describe('Verification delivery mode (INVITATION001 activation UI)', () => {
+  beforeEach(() => {
+    resetInvitationMemoryState();
+    resetDigitalFoundationMemoryStore();
+  });
+  afterEach(() => {
+    vi.unstubAllEnvs();
+  });
+
+  function begin(visitorKey: string) {
+    const visit = recordInvitationVisit({ code: AIO_CODE, visitor_key: visitorKey }).visit!;
+    const begun = beginSecureActivation({ code: AIO_CODE, visit_id: visit.visit_id, contact_email: 'dev@example.com' });
+    if (!begun.ok) throw new Error('begin failed');
+    return begun.activation_id;
+  }
+
+  it('is PENDING_IDNTY outside the Vite dev local API and never hands back a code', () => {
+    vi.stubEnv('SITE00_VITE_LOCAL_API', '');
+    expect(verificationDeliveryMode()).toBe('PENDING_IDNTY');
+    expect(issueDevelopmentVerificationCode(begin('pending-visitor'))).toBeNull();
+  });
+
+  it('is PENDING_IDNTY in production even when the local API flag is set', () => {
+    vi.stubEnv('SITE00_VITE_LOCAL_API', '1');
+    vi.stubEnv('NODE_ENV', 'production');
+    expect(verificationDeliveryMode()).toBe('PENDING_IDNTY');
+    expect(issueDevelopmentVerificationCode(begin('prod-visitor'))).toBeNull();
+  });
+
+  it('issues a development code that completes the real activation under the Vite dev local API', () => {
+    vi.stubEnv('SITE00_VITE_LOCAL_API', '1');
+    vi.stubEnv('NODE_ENV', 'development');
+    expect(verificationDeliveryMode()).toBe('DEVELOPMENT_INLINE');
+    const activationId = begin('dev-visitor');
+    const code = issueDevelopmentVerificationCode(activationId);
+    expect(code).toMatch(/^[0-9A-F]{8}$/);
+    expect(completeVerifiedActivation({ activation_id: activationId, verification_secret: 'WRONG000' }).ok).toBe(false);
+    const done = completeVerifiedActivation({ activation_id: activationId, verification_secret: code! });
+    expect(done.ok).toBe(true);
+    expect(done.foundation_token).toBeTruthy();
+    expect(issueDevelopmentVerificationCode(activationId)).toBeNull();
   });
 });

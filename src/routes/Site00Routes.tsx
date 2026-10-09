@@ -2402,11 +2402,9 @@ export function Site00Routes() {
         path={SITE00_ROUTES.invitationEntry}
         element={
           <Site00Layout>
-            <Site00PublicRouteShell>
-              <Site00Suspense>
-                <InvitationEntryPage />
-              </Site00Suspense>
-            </Site00PublicRouteShell>
+            <Site00Suspense>
+              <InvitationEntryPage />
+            </Site00Suspense>
           </Site00Layout>
         }
       />

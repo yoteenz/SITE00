@@ -15831,3 +15831,42 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Fix:** `import { register } from 'tsx/esm/api'`; admin list hydrates Supabase via `syncAllArtifactsIntoMemory()` when persistence flag on.
 - **Tunnel:** Multi-connector load-balancing can still hit stale `:5174` until canonical env runs fixed code only.
 - **Branch:** `cursor/digital-foundation-admin-console-route-recovery1` → `main`.
+
+## 2026-10-09 — INVITATION 001: physical territories + immersive /invite activation (Opus)
+
+- **Context:** Sprint `P0.SITE00.INVITATION-SYSTEM.INVITATION001-PHYSICAL-AND-IMMERSIVE-ACTIVATION-OPUS1`, baseline PR #1533 (`bcd67774`). Earlier in this chat: the Composer invitation sprint (#1533) and a question about whether all BLDR studio text is uppercase. The answer was no, with the mixed-case sources listed; no change was made.
+- **Topics covered:**
+  - Three physical card territories, founder board, and draft print spec.
+  - Five-stage digital activation at `/invite/:code`, bound to the real invitation and Digital Foundation APIs.
+  - Honest verification delivery, returning-visitor status, and all failure states.
+  - Native mobile rendering, accessibility, and four-viewport browser QA plus a recording.
+- **Decisions / outcomes:**
+  - Physical territories:
+    - A THE INVITATION: white, painted red edge, blind deboss.
+    - B THE ACCESS CARD: soft-touch black, silver foil.
+    - C THE THRESHOLD: 55×100 triplex, die-cut aperture.
+    - All are rendered from code at 300 PPI with the real prototype QR (V5-H, 22 mm, 0.49 mm per module).
+    - The agent recommends A. Founder selection is PENDING; print is not authorized.
+    - AI in-hand images are labelled as visualizations, not proofs.
+  - Activation stages: threshold arrival, then welcome (Foundation items plus `FROM $500` from the catalog; activating does not charge), then email and verification, then a `/foundation/:token` handoff, then BLDR discovery (`/bldr`, no commitment).
+  - Verification delivery: `DEVELOPMENT_INLINE` only under the Vite dev local API, with a code shown in a panel labelled DEVELOPMENT ONLY. Production is `PENDING_IDNTY`: a blocked state that collects no email.
+  - Returning visitors: the device stores only its own Foundation route. Status comes from the DF payload. "Not you?" clears the record, and a 404 leads to an honest reset.
+  - Unknown and revoked codes look identical, with no campaign or partner shown.
+  - The route now uses `Site00Layout` only. `Site00PublicRouteShell` scales a 1440 artboard onto phones.
+  - Composer blockers are listed in `OPUS_INVITATION_VISUAL_HANDOFF.md`: persistence, IDNTY delivery, the activation_id bearer short-circuit, rate limits, payment attribution, policy approval, physical QR proof, the red token mismatch (#e8192c vs #E50107), and the DF page styling.
+- **Changes:**
+  - `scripts/site00/invitation001/*` (territories, renderers, QA)
+  - `docs/site00/invitation-system/invitation-001/*`
+  - `src/site00/pages/invitation/{InvitationEntryPage.tsx,invitationJourney.ts}`
+  - `src/site00/styles/site00-invitation.css`
+  - `src/routes/Site00Routes.tsx`
+  - `api/_lib/invitationSystem/service.ts` (verificationDeliveryMode, issueDevelopmentVerificationCode)
+  - `api/site00/invitation.ts`
+  - `scripts/vite-site00-local-api.mjs` (invitation routes; the tsx ESM register fix also landed via #1538)
+  - tests in `invitationSystem.test.ts` and `invitationActivationExperience.test.tsx`
+- **Conventions:**
+  - Never return a verification code outside the Vite dev local API.
+  - Never store email, activation id, or codes on the device.
+  - Keep the invite route out of the scaled presentation shells.
+  - Do not place a print order or select a territory without the founder.
+  - When running a second Vite dev server for QA, blank `SITE00_CLOUDFLARE_TUNNEL_HOSTNAME`, or the HMR socket points at the tunnel and the page reload-loops.

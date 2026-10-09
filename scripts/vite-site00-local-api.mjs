@@ -27,6 +27,8 @@ const LOCAL_API_ROUTES = [
   { path: '/api/site00/digital-foundation-artifact', file: 'api/site00/digital-foundation-artifact.ts' },
   { path: '/api/site00/digital-foundation-stripe-webhook', file: 'api/site00/digital-foundation-stripe-webhook.ts' },
   { path: '/api/admin/site00-foundation', file: 'api/admin/site00-foundation.ts' },
+  { path: '/api/site00/invitation', file: 'api/site00/invitation.ts' },
+  { path: '/api/admin/site00-invitation', file: 'api/admin/site00-invitation.ts' },
   { path: '/api/site00/studio-world-webhook', file: 'api/site00/studio-world-webhook.ts' },
   { path: '/api/site00/intakes', file: 'api/site00/intakes.ts' },
   { path: '/api/site00/intake-access', file: 'api/site00/intake-access.ts' },

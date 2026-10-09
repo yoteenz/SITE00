@@ -347,6 +347,28 @@ export function completeVerifiedActivation(input: {
   return { ok: true, foundation_token: artifact.public_token, attribution_id: attribution.attribution_id };
 }
 
+export type VerificationDeliveryMode = 'DEVELOPMENT_INLINE' | 'PENDING_IDNTY';
+
+/**
+ * Production identity delivery (IDNTY magic link / email code) is not wired yet.
+ * Only the Vite dev local-API (never Railway / production) may hand the code back inline.
+ */
+export function verificationDeliveryMode(): VerificationDeliveryMode {
+  if (process.env.NODE_ENV === 'production') return 'PENDING_IDNTY';
+  return process.env.SITE00_VITE_LOCAL_API === '1' ? 'DEVELOPMENT_INLINE' : 'PENDING_IDNTY';
+}
+
+export function issueDevelopmentVerificationCode(activationId: string): string | null {
+  if (verificationDeliveryMode() !== 'DEVELOPMENT_INLINE') return null;
+  const state = getInvitationMemoryState();
+  const activation = state.activations.get(activationId);
+  if (!activation || activation.foundation_public_token) return null;
+  const code = randomBytes(4).toString('hex').toUpperCase();
+  activation.activation_secret_hash = hashSecret(code);
+  activation.updated_at = nowIso();
+  return code;
+}
+
 /** Issue a one-time verification secret for tests / controlled environments only. */
 export function issueActivationVerificationSecretForTests(activationId: string, secret: string): void {
   if (process.env.NODE_ENV === 'production') return;

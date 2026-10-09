@@ -7,8 +7,10 @@ import {
   beginSecureActivation,
   buildEntryPresentation,
   completeVerifiedActivation,
+  issueDevelopmentVerificationCode,
   recordInvitationVisit,
   resolveInvitationCode,
+  verificationDeliveryMode,
 } from '../_lib/invitationSystem/service.js';
 
 function setCors(res: VercelResponse): void {
@@ -57,6 +59,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           visit_id: visit.visit?.visit_id ?? null,
           resolution: visit.resolution,
           valid: resolved.ok,
+          verification_delivery: verificationDeliveryMode(),
+          persistence: 'IN_MEMORY' as const,
         });
       }
       return res.status(400).json({ error: 'Unknown action' });
@@ -87,9 +91,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           }
           const begun = beginSecureActivation({ code, visit_id, contact_email });
           if (!begun.ok) return res.status(400).json({ error: begun.error });
+          const verification_delivery = verificationDeliveryMode();
           return res.status(200).json({
             activation_id: begun.activation_id,
             verification_required: true,
+            verification_delivery,
+            development_verification_code:
+              verification_delivery === 'DEVELOPMENT_INLINE'
+                ? issueDevelopmentVerificationCode(begun.activation_id)
+                : null,
             presentation: buildEntryPresentation({ code, activation_id: begun.activation_id }),
           });
         }
