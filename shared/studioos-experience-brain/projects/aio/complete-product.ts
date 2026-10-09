@@ -26,7 +26,7 @@ export const AIO_CP_BASE = { site00: '3a243a20', fsbw: 'b488a7ee' } as const;
 
 export const AIO_CP_LINKS = {
   office_review: 'https://claude.ai/artifact/DKYZUHjSdiTw1qSC1evdbk',
-  public_review: 'PENDING_PUBLISH',
+  public_review: 'https://claude.ai/artifact/BzsjSbyLHoLAxhGZBr27UE',
 } as const;
 
 export const AIO_CP_STATUS = {
