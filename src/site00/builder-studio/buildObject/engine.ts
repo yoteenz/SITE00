@@ -977,6 +977,7 @@ export function createBuildObjectEngine(container: HTMLElement, options: { reduc
         (material as THREE.MeshStandardMaterial).map?.dispose();
         material.dispose();
       }
+      for (const material of [materials.lit.edge, materials.lit.mullion, materials.lit.frame, ...new Set(Object.values(materials.lit.surface))]) material?.dispose();
       renderer.dispose();
       canvas.remove();
     },

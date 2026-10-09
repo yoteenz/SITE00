@@ -43,7 +43,7 @@ async function layout(page) {
       return { text: el.textContent, wraps: r.height > lh * 1.5, right: r.right };
     });
     const clipped = [...document.querySelectorAll('.bs-root h1, .bs-root h2, .bs-root button, .bs-root dd, .bs-root p')]
-      .filter((el) => el.offsetParent && getComputedStyle(el).overflow === 'visible' && el.scrollWidth > el.clientWidth + 1 && el.clientWidth > 0)
+      .filter((el) => el.offsetParent && !el.closest('.bs-visually-hidden') && getComputedStyle(el).overflow === 'visible' && el.scrollWidth > el.clientWidth + 1 && el.clientWidth > 0)
       .map((el) => (el.textContent || '').trim().slice(0, 40));
     // Column content that spills into its neighbour (a nowrap label is a flex child, so it never overflows itself).
     // Measured on the text itself (a Range per text node), not on block boxes that always fill the column.
@@ -162,8 +162,14 @@ async function journeyTo(page, room) {
     keys[t] = await objectKey(page);
   }
   check('F01', 'Each Blueprint section re-lights the Build Object (distinct inspection focus)', new Set([overview, ...Object.values(keys)]).size === 5, Object.values(keys).join(' | '));
-  const ink = await page.evaluate(() => getComputedStyle(document.querySelector('.bs-tabs')).getPropertyValue('--bs-tab-i').trim());
-  check('F02', 'Section indicator follows the selected section', ink === '4', `--bs-tab-i=${ink}`);
+  // The red index slides under the open section's word (measured, since the words differ in width).
+  await page.waitForTimeout(400);
+  const ink = await page.evaluate(() => {
+    const a = document.querySelector('.bs-tabs__ink').getBoundingClientRect();
+    const b = document.querySelector('.bs-tab.is-on .bs-tab__label').getBoundingClientRect();
+    return { dx: Math.round(Math.abs(a.left - b.left)), dw: Math.round(Math.abs(a.width - b.width)), label: document.querySelector('.bs-tab.is-on')?.textContent };
+  });
+  check('F02', 'Section indicator follows the selected section', ink.dx <= 1 && ink.dw <= 1 && /TIMELINE/.test(ink.label), JSON.stringify(ink));
   const anim = await page.evaluate(() => getComputedStyle(document.querySelector('.bs-tabpanel')).animationName);
   check('R01', 'Reduced motion: the section reveal does not animate', anim === 'none', anim);
   await page.getByRole('tab', { name: /OVERVIEW/ }).click();

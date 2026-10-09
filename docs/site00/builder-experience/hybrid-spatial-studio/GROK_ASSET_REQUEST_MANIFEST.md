@@ -19,6 +19,15 @@ The Build Object is a live three.js scene with procedural materials (`src/site00
 - No asset carries text.
 - No full-screen UI is requested as an image.
 
+## Immersive Blueprint (no new asset request)
+
+The interactive Blueprint sprint is built entirely from live geometry, materials and DOM annotation. It adds **no new Grok dependency**:
+- the exploded layers, page homes, feature modules and staged assembly all come from live geometry;
+- red illumination is a material state;
+- markers and callouts are live text.
+
+It still benefits from GA-05 and GA-01 like every room. Labels and interactions must never be baked into a plate.
+
 ## What changed in this revision
 
 Reference Fidelity 2 samples the palette from the approved references themselves. Every asset below now specifies these values:

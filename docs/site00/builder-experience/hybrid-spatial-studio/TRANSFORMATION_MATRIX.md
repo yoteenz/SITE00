@@ -166,6 +166,8 @@ These are measured on ADVANCED + PAGES + SHOP + PORTAL, a scope where the estima
 
 ## 05 BLUEPRINT: sections re-light the same structure
 
+> **Superseded by the Immersive Blueprint sprint.** Each section is now an inspection mode with per-item bindings: an exploded axonometric, page homes, feature modules and a staged assembly. See `SPATIAL_INTERACTION_MATRIX.md`. The per-tab material focus below remains only as the fallback for compositions that are composed without an inspection, such as thumbnails.
+
 The resolved structure is the PACE assembly at Blueprint scale, plus a second figure. Each section is an **inspection focus** on the **same** elements: the unit test asserts identical geometry across all five sections. Only materials change, tweened over 520 ms.
 
 | Section | What comes forward | What steps back | Measured diff vs OVERVIEW |

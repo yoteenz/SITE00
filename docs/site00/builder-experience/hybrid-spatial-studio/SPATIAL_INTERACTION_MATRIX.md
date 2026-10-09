@@ -71,3 +71,36 @@ See **"Implemented bindings"** below. Each binding is computed in
 - the studio → selection mapping (`WORK_TO_CAPABILITIES`).
 
 Nothing is inferred from labels, and nothing is drawn that the data does not hold.
+
+### Implemented bindings
+
+The reference state is ADVANCED · MODERN · PAGES + SHOP + PORTAL · STANDARD. Element ids are those of the resolved Blueprint structure (`composition.ts`, `assembled`).
+
+| Mode | Selectable item (canonical source) | Geometry it lights | How the binding is derived | When there is no geometry |
+|---|---|---|---|---|
+| 01 OVERVIEW | (none: the whole place) | Everything, unchanged. | Not applicable. | Not applicable. |
+| 02 STRUCTURE | L1 FOUNDATION: `BUILD`, `WORLD` lines | `main-plinth` (+ `pav-*` for a WORLD) | The slab span follows the build: a WORLD is a wider campus with pavilions. | Not applicable. |
+| | L2 CORE: `LEVEL` line + build reasons | `core`, `core-cap` | The core height follows PLACE (SIMPLE 2.8 → ADVANCED 3.1 → CUSTOM 3.4). | Not applicable. |
+| | L3 ENVELOPE: `STRUCTURE` line | `vol-a` + the massing volumes | The structure's starter pages live in the envelope. The massing volumes are labelled "for proportion; not features". | Not applicable. |
+| | L4 WINGS: the WORK modules | `side-i`, `side-i-module` for each module | One wing per WORK module, index = module order. | Not applicable. |
+| | L5 MATERIAL: `EXPRESSION` line | `mass-a`, `mass-b` | The FEEL palette drives glazing, acrylic and plinth materials. | `TYPE`, `COLOR`, `IMAGE`, `MOTION` are listed under **NOT DRAWN IN THE MODEL**. |
+| | L6 PACE: `DELIVERY` line | EXPEDITED: `*-mark`, `core-mark`. FLEXIBLE: `*-joint`. | Pace marks exist only for these paces. | STANDARD: the layer lights nothing and says **NOT DRAWN IN THE MODEL**. |
+| 03 PAGES | Each page `P01…` of `blueprint.experiences` (order, count and depth as given) | Its home volume | A capability that adds the page (`CAPABILITY.addsExperiences`) leads to the WORK module wing that brings it (direct, or through COMES WITH). Otherwise the structure's starter page lives in `vol-a`. | **NOT PLACED IN THE MODEL** (nothing lit). |
+| | Each group (FRONT DOOR …) | The union of its pages' homes | As for pages. | Not applicable. |
+| | WORLD | Nothing | A world is designed as places at review (canonical copy). | The honest lead is shown; no page atlas. |
+| 04 FEATURES | CORE (WEBSITE · MOBILE) | `core`, `core-cap` | `CORE_INCLUDED`. | Not applicable. |
+| | Each capability `F01…` of `blueprint.capabilities` | Its module wing (`side-i`, `side-i-module`) | `WORK_TO_CAPABILITIES` (direct), else the `comesWith` parent's module, else the core (structure-implied). Relationships come from `comesWith`; ADDS PAGES is `addsExperiences` ∩ the chosen pages. | Not applicable. |
+| 05 TIMELINE | 01 CORE → 02 DIRECTION → 03 PAGES → 04 FEATURES → ✓ COMPLETE | Each stage's elements are lit while current; later stages are outlined; earlier ones are built. | The order follows the canonical copy: "each main experience is approved before its detail views", and integration and final checks come before launch. Every element is assembled exactly once (unit-tested). | No stage carries a duration. The window shown is the canonical `productionWindow`, unchanged. |
+
+**Example traces in the reference state:**
+- HOME, ABOUT, CONTACT, STORIES INDEX and STORY → the main envelope (EDITORIAL structure).
+- SHOP, PRODUCT, BAG AND CHECKOUT → the SHOP wing (SELL).
+- RECORDS / WORK, ACCOUNT, DASHBOARD, PEOPLE AND ROLES → the PORTAL wing (DATA / PORTAL and what comes with it).
+
+### Selection state
+
+- **Ownership:** `BuilderStudio` owns `pick` (the section's selection) and the timeline `stage`.
+- **Replacement and reversal:** a new selection replaces the old one. Selecting the same item again, SHOW ALL, or Escape returns the section's default exactly. The same key, camera and lit set are verified live.
+- **Tab change:** changing section clears the selection, and OVERVIEW is always the whole place.
+- **Unaffected state:** rotation (drag) and full screen keep the selection. The stage caption carries its context in full screen.
+- **Navigation:** there is no history entry per selection, so device Back still moves between rooms.
