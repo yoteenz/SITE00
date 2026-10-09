@@ -119,6 +119,9 @@ export function memGetArtifact(id: string): DigitalFoundationArtifact | undefine
 }
 
 export function memGetArtifactByToken(token: string): DigitalFoundationArtifact | undefined {
+  if (isCloudMobilePreviewDev()) {
+    mergePreviewSnapshotFromDisk(getDfMemoryState());
+  }
   const id = getDfMemoryState().artifactsByToken.get(token);
   return id ? memGetArtifact(id) : undefined;
 }
@@ -153,6 +156,9 @@ export function memRefreshPreviewSnapshotFromDisk(): void {
 }
 
 export function listArtifacts(): DigitalFoundationArtifact[] {
+  if (isCloudMobilePreviewDev()) {
+    mergePreviewSnapshotFromDisk(getDfMemoryState());
+  }
   return [...getDfMemoryState().artifacts.values()].sort(
     (a, b) => b.created_at.localeCompare(a.created_at),
   );
