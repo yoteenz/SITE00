@@ -4,6 +4,10 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { resolveAdminAuth } from '../_lib/adminAuth.js';
 import {
+  CLOUD_PREVIEW_FOUNDER_ADMIN_USER,
+  isCloudMobilePreviewDev,
+} from '../_lib/cloudMobilePreview.js';
+import {
   applyManualQuoteAdjustment,
   createArtifactForLead,
   createClientAction,
@@ -45,11 +49,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   setCors(res);
   if (req.method === 'OPTIONS') return res.status(204).end();
 
-  const auth = await resolveAdminAuth(req);
+  const auth = isCloudMobilePreviewDev()
+    ? ({ ok: true as const, user: { ...CLOUD_PREVIEW_FOUNDER_ADMIN_USER } })
+    : await resolveAdminAuth(req);
   if (!auth.ok) {
     return res.status(auth.failure.status).json({ error: auth.failure.error, code: auth.failure.code });
   }
-  const admin = auth.user;
+  void auth.user;
 
   const action = String(req.query.action ?? '');
   const body = typeof req.body === 'object' && req.body !== null ? req.body : {};

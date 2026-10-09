@@ -6,17 +6,12 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { createArtifactForLead, materializeFixtureScenario } from '../_lib/digitalFoundation/service.js';
 import { listArtifacts } from '../_lib/digitalFoundation/memoryStore.js';
 import { isDigitalFoundationFlagEnabled, DF_FEATURE_FLAGS } from '../../shared/site00-digital-foundation/featureFlags.js';
-
-function previewBootstrapAllowed(): boolean {
-  if (process.env.NODE_ENV === 'production') return false;
-  const v = process.env.SITE00_CLOUD_MOBILE_PREVIEW;
-  return v === '1' || v === 'true';
-}
+import { isCloudMobilePreviewDev } from '../_lib/cloudMobilePreview.js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   if (req.method === 'OPTIONS') return res.status(204).end();
-  if (!previewBootstrapAllowed()) {
+  if (!isCloudMobilePreviewDev()) {
     return res.status(403).json({ error: 'Preview bootstrap disabled' });
   }
   if (!isDigitalFoundationFlagEnabled(DF_FEATURE_FLAGS.SITE00_DIGITAL_FOUNDATION_ARTIFACT_V1)) {

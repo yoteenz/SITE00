@@ -9,8 +9,14 @@ export default function FoundationAdminListPage() {
   const [creating, setCreating] = useState(false);
 
   const load = async () => {
-    const json = await foundationAdminApi.list();
-    setRows(json.artifacts ?? []);
+    let json = await foundationAdminApi.list();
+    let artifacts = json.artifacts ?? [];
+    if (import.meta.env.VITE_SITE00_CLOUD_PREVIEW === '1' && artifacts.length === 0) {
+      await fetch('/api/dev/site00-digital-foundation-preview-bootstrap').catch(() => undefined);
+      json = await foundationAdminApi.list();
+      artifacts = json.artifacts ?? [];
+    }
+    setRows(artifacts);
   };
 
   useEffect(() => {
