@@ -15808,3 +15808,16 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - Production identity/magic-link wiring for activation verification remains a follow-up; dev uses admin `test-set-activation-secret`.
 - **Changes:** `shared/site00-invitation-system/*`, `api/_lib/invitationSystem/*`, `api/site00/invitation.ts`, `api/admin/site00-invitation.ts`, `src/site00/pages/invitation/InvitationEntryPage.tsx`, `Site00Routes.tsx`, `tests/invitationSystem.test.ts`, `docs/site00/invitation-system/*`, `scripts/site00/generate-invitation-qr.ts`, `supabase/migrations/20261009180000_site00_invitation_system_v1.sql`, `motherboard/CORE.md`.
 - **Conventions:** Do not hardcode $50 / 5% commission; do not pay partners from scans; do not expose client intake to partners; QR URL must stay stable for print.
+
+---
+
+## 2026-10-09 — Digital Foundation artifact live on cloud preview tunnel
+
+- **Context:** Founder wanted the **IDNTY Digital Foundation micro product** (not `/idnty/starting-at-zero`) live on the mobile tunnel with a `/foundation/:token` link for BLDR-adjacent preview. Admin `create-artifact` requires Supabase Bearer; cloud preview uses in-memory DF store per Vite process.
+- **Topics covered:** Wrong public IDNTY assessment URL vs artifact route; Supabase auth `generateLink` failed (522) on VM; pinned preview at `fb7f24f4`; Vite restart; dev bootstrap endpoint.
+- **Decisions / outcomes:**
+  - Added gated dev route `GET/POST /api/dev/site00-digital-foundation-preview-bootstrap` (only when `SITE00_CLOUD_MOBILE_PREVIEW=1`) to mint/reuse artifact in the running Vite memory store.
+  - Restarted preview Vite on `:5174`; verified tunnel `site00.fsbw-dev.com` returns payload + SPA 200 for minted token.
+  - **Not** `/idnty/*` — artifact is **`/foundation/:token`**. Build interest connects to BLDR after completion; studio does not open this page.
+- **Changes:** `api/dev/site00-digital-foundation-preview-bootstrap.ts`, `scripts/vite-site00-local-api.mjs` (preview operational + branch `cursor/df-preview-bootstrap-0daf`).
+- **Conventions:** After Vite restart, hit bootstrap GET once to mint (or reuse first in-memory artifact). Production founder mint remains `POST /api/admin/site00-foundation` with admin session.
