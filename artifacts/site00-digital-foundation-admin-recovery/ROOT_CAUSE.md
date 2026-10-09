@@ -20,14 +20,10 @@ On Node/Vite combinations used by the cloud preview tunnel, that cross-format dy
 
 ## FIX
 
-Use the supported package export:
-
-```javascript
-import { register as registerTsx } from 'tsx/esm/api';
-registerTsx();
-```
-
-No `require.resolve`, no manual `node_modules/tsx/dist/...` paths.
+1. **`scripts/site00-register-tsx.cjs`** — `require('tsx/cjs/api').register()` (never dynamic-import CJS `index.cjs` from ESM).
+2. **`vite-site00-local-api.mjs`** — `createRequire` loads the sidecar only.
+3. **Cloud preview dev** — `NODE_OPTIONS=--import=tsx` in `run-site00-cloud-preview-server.sh`.
+4. **Sync `/tmp/site00-preview-main`** to `preview/tunnel` / `main` — stale worktree kept the old loader while tunnel load-balanced multiple `:5174` backends.
 
 ## ADMIN DATA PATH (Supabase)
 
