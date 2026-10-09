@@ -63,6 +63,7 @@ const LOCAL_API_ROUTES = [
   { path: '/api/admin/site00-client-intakes', file: 'api/admin/site00-client-intakes.ts' },
   { path: '/api/admin/site00-astral-world-generation', file: 'api/admin/site00-astral-world-generation.ts' },
   { path: '/api/capture-auth-bootstrap', file: 'api/capture-auth-bootstrap.ts' },
+  { path: '/api/dev/site00-digital-foundation-preview-bootstrap', file: 'api/dev/site00-digital-foundation-preview-bootstrap.ts' },
 ];
 
 function applyServerEnv() {
