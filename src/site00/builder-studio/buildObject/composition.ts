@@ -28,6 +28,9 @@ export type BuildMaterial =
   | 'concrete'
   | 'steel'
   | 'ghost'
+  | 'slate'
+  | 'warmMarble'
+  | 'hairline'
   | 'figure';
 
 export type BuildElement = {
@@ -90,7 +93,7 @@ const NEUTRAL: BuildPalette = { structure: 'glass', accent: 'red', mass: 'stone'
 
 /** One palette per FEEL direction (the contract's four: MODERN · BOLD · EDITORIAL · IMMERSIVE). */
 export const FEEL_PALETTES: Record<FeelVibeId, BuildPalette> = {
-  MODERN: { structure: 'glass', accent: 'red', mass: 'stone', plinth: 'marble', study: ['concrete', 'glass', 'stone', 'red', 'glass', 'marble'] },
+  MODERN: { structure: 'glass', accent: 'red', mass: 'stone', plinth: 'marble', study: ['slate', 'stone', 'glass', 'red', 'glass', 'warmMarble'] },
   BOLD: { structure: 'glassTint', accent: 'redSolid', mass: 'concrete', plinth: 'marble', study: ['redSolid', 'redSolid', 'redSolid', 'darkMarble', 'glass', 'concrete'] },
   EDITORIAL: { structure: 'glass', accent: 'red', mass: 'marble', plinth: 'marble', study: ['marble', 'glass', 'marble', 'red', 'glass', 'stone'] },
   IMMERSIVE: { structure: 'darkGlass', accent: 'red', mass: 'darkMarble', plinth: 'darkMarble', study: ['darkGlass', 'darkGlass', 'darkMarble', 'red', 'darkGlass', 'darkMarble'] },
@@ -156,86 +159,82 @@ function frame(id: string, material: BuildMaterial, w: number, h: number, t: num
   ];
 }
 
-/** A stepped plinth: a broad marble slab with a thinner top step, as in the references. */
-function plinth(prefix: string, palette: BuildPalette, w: number, d: number): { elements: BuildElement[]; top: number } {
-  return {
-    elements: [
-      box(`${prefix}-plinth`, palette.plinth, [w, 0.42, d], [0, 0, 0], 0, 0),
-      box(`${prefix}-step`, palette.plinth, [w * 0.88, 0.12, d * 0.86], [0, 0.42, 0], 0, 1),
-    ],
-    top: 0.54,
-  };
-}
-
 /* ─────────────────────────────── PLACE: spatial scope ─────────────────────────────── */
+
+/** One thick Carrara slab, as every reference object stands on (about a quarter of the glass height). */
+function slab(prefix: string, palette: BuildPalette, w: number, h: number, d: number): { elements: BuildElement[]; top: number } {
+  return { elements: [box(`${prefix}-plinth`, palette.plinth, [w, h, d], [0, 0, 0], 0, 0)], top: h };
+}
 
 function placeComposition(path: PlacePathId | null, palette: BuildPalette): BuildElement[] {
   const s = palette.structure;
   switch (path) {
     case 'ADVANCED': {
-      // An established system reshaped: two interlocking volumes joined by a deck, a red spine running through both.
-      const { elements, top: t } = plinth('main', palette, 4.9, 3.5);
+      // An established system reshaped: two interlocking framed volumes joined by a deck, a red acrylic spine
+      // running through both.
+      const { elements, top: t } = slab('main', palette, 5.2, 0.6, 3.6);
       return [
         ...elements,
-        box('vol-a', s, [2.0, 2.6, 1.8], [-0.75, t, 0.15]),
-        box('vol-b', s, [1.6, 1.7, 1.5], [1.15, t, -0.3]),
-        box('deck', s, [1.5, 0.06, 1.35], [0.45, t + 1.7, -0.05]),
-        box('core', palette.accent, [0.85, 2.95, 0.1], [0.3, t, 0.5]),
-        box('core-2', palette.accent, [0.1, 2.2, 0.95], [0.9, t, 0.0]),
-        box('beam', palette.accent, [2.6, 0.08, 0.08], [0.05, t + 2.62, 0.62]),
-        box('wall', palette.mass, [0.12, 2.0, 1.6], [-1.85, t, -0.15]),
-        figure('fig-1', -0.6, t, 0.85),
-        figure('fig-2', 1.15, t + 1.76, 0.2, 0.95),
+        box('vol-a', s, [2.3, 2.7, 2.1], [-0.85, t, 0.1]),
+        box('vol-b', s, [1.8, 1.8, 1.7], [1.25, t, -0.3]),
+        box('deck', s, [1.6, 0.06, 1.5], [0.45, t + 1.8, -0.1]),
+        box('core', palette.accent, [0.75, 3.0, 0.95], [0.35, t, 0.55]),
+        box('core-2', palette.accent, [0.3, 0.58, 0.04], [0.35, 0.01, 1.81]),
+        box('beam', palette.accent, [2.6, 0.08, 0.08], [0.05, t + 2.7, 0.62]),
+        box('wall', palette.mass, [0.1, 2.1, 1.6], [-1.9, t, -0.15]),
+        figure('fig-1', -0.6, t, 0.75),
+        figure('fig-2', 1.25, t + 1.86, 0.2, 0.95),
       ];
     }
     case 'CUSTOM': {
       // From first principles: rotated, cantilevered volumes and a red frame held in the air.
-      const { elements, top: t } = plinth('main', palette, 4.6, 3.4);
+      const { elements, top: t } = slab('main', palette, 4.9, 0.6, 3.5);
       return [
         ...elements,
-        box('vol-a', s, [1.7, 1.5, 1.5], [-0.65, t, 0.25], 0.18),
-        box('vol-b', s, [1.45, 1.1, 1.3], [0.6, t + 1.55, -0.1], -0.36),
-        box('vol-c', s, [0.95, 2.1, 0.95], [1.3, t, 0.4], 0.52),
-        box('core', palette.accent, [0.7, 2.3, 0.1], [-0.2, t + 0.65, 0.6], 0.62),
-        box('core-2', palette.accent, [1.7, 0.1, 0.72], [0.6, t + 1.45, -0.05], -0.36),
-        ...frame('halo', palette.accent, 1.15, 1.15, 0.07, [-0.95, t + 1.75, -0.55], 0.9),
-        box('wall', palette.mass, [0.14, 1.5, 1.3], [-1.65, t, -0.3], 0.18),
+        box('vol-a', s, [1.9, 1.6, 1.6], [-0.7, t, 0.25], 0.18),
+        box('vol-b', s, [1.6, 1.2, 1.4], [0.6, t + 1.65, -0.1], -0.36),
+        box('vol-c', s, [1.0, 2.3, 1.0], [1.4, t, 0.4], 0.52),
+        box('core', palette.accent, [0.75, 2.4, 0.4], [-0.15, t + 0.65, 0.6], 0.62),
+        box('core-2', palette.accent, [1.8, 0.12, 0.8], [0.6, t + 1.52, -0.05], -0.36),
+        ...frame('halo', palette.accent, 1.2, 1.2, 0.07, [-1.0, t + 1.85, -0.55], 0.9),
+        box('wall', palette.mass, [0.12, 1.6, 1.4], [-1.75, t, -0.3], 0.18),
         figure('fig-1', 0.1, t, 1.05),
       ];
     }
     case 'WORLD': {
-      // A connected environment: pavilions on a campus plinth, joined by glass bridges around a red tower.
-      const { elements: wide, top: tw } = plinth('main', palette, 6.6, 4.8);
+      // A connected environment: pavilions on a campus slab, joined by glass bridges around a red tower.
+      const { elements: wide, top: tw } = slab('main', palette, 6.8, 0.55, 5.0);
       return [
         ...wide,
-        box('vol-a', s, [1.2, 1.3, 1.1], [-2.05, tw, 0.75]),
-        box('vol-b', s, [1.0, 1.05, 1.0], [2.05, tw, 1.0]),
-        box('vol-c', s, [1.45, 1.85, 1.2], [0.25, tw, -1.15]),
-        box('vol-d', s, [0.95, 0.85, 0.95], [-1.35, tw, -1.35]),
-        box('core', palette.accent, [0.55, 3.1, 0.55], [0.2, tw, 0.45]),
-        box('bridge-a', s, [1.35, 0.05, 0.36], [-1.05, tw + 0.95, 0.6], -0.12),
-        box('bridge-b', s, [1.35, 0.05, 0.36], [1.25, tw + 0.82, 0.75], 0.22),
-        box('bridge-c', s, [0.36, 0.05, 1.05], [0.25, tw + 1.25, -0.35]),
-        box('path', palette.mass, [5.4, 0.03, 0.22], [0, tw, 1.85]),
-        box('wall', palette.mass, [2.4, 0.5, 0.12], [1.4, tw, -1.95]),
+        box('vol-a', s, [1.3, 1.4, 1.2], [-2.1, tw, 0.8]),
+        box('vol-b', s, [1.1, 1.15, 1.1], [2.1, tw, 1.05]),
+        box('vol-c', s, [1.6, 2.0, 1.3], [0.25, tw, -1.2]),
+        box('vol-d', s, [1.0, 0.95, 1.0], [-1.4, tw, -1.4]),
+        box('core', palette.accent, [0.7, 3.3, 0.7], [0.2, tw, 0.45]),
+        box('bridge-a', s, [1.35, 0.05, 0.36], [-1.05, tw + 1.0, 0.6], -0.12),
+        box('bridge-b', s, [1.35, 0.05, 0.36], [1.25, tw + 0.88, 0.75], 0.22),
+        box('bridge-c', s, [0.36, 0.05, 1.05], [0.25, tw + 1.3, -0.35]),
+        box('path', palette.mass, [5.6, 0.03, 0.24], [0, tw, 1.95]),
+        box('wall', palette.mass, [2.4, 0.5, 0.12], [1.4, tw, -2.05]),
         figure('fig-1', -0.75, tw, 1.65),
         figure('fig-2', 1.25, tw, 1.75, 0.95),
-        figure('fig-3', -2.0, tw, 1.55, 0.9),
+        figure('fig-3', -2.0, tw, 1.6, 0.9),
       ];
     }
     case 'SIMPLE':
     default: {
-      // One considered pavilion: a single glass volume, a red core plane and a stone wall.
-      const { elements, top: t } = plinth('main', palette, 4.4, 3.3);
+      // One considered pavilion, as drawn: a large framed glass room holding an inner glass chamber and a white
+      // partition, a red acrylic volume standing at its front-right corner (its red runs down the slab face), and a
+      // figure for scale, on one thick Carrara slab.
+      const { elements, top: t } = slab('main', palette, 4.9, 0.62, 3.5);
       return [
         ...elements,
-        box('vol-a', s, [2.7, 2.35, 2.1], [-0.25, t, 0.05]),
-        box('inner', s, [0.06, 2.3, 1.7], [-0.7, t, 0.05]),
-        box('wall', palette.mass, [0.08, 1.9, 1.1], [-1.3, t, -0.35]),
-        box('wall-2', palette.mass, [0.9, 1.9, 0.08], [-0.9, t, -0.85]),
-        box('core', palette.accent, [0.95, 2.6, 0.1], [0.6, t, 0.62]),
-        box('core-2', palette.accent, [0.1, 2.6, 1.3], [1.08, t, -0.05]),
-        figure('fig-1', -0.95, t, 0.5),
+        box('vol-a', s, [3.4, 2.6, 2.6], [-0.1, t, 0.15]),
+        box('inner', s, [1.5, 2.2, 1.3], [-0.75, t, -0.2]),
+        box('wall', 'travertine', [0.08, 1.95, 1.1], [-1.45, t, -0.3]),
+        box('core', palette.accent, [0.8, 2.52, 0.95], [1.05, t, 0.85]),
+        box('core-2', palette.accent, [0.34, 0.6, 0.04], [1.05, 0.01, 1.77]),
+        figure('fig-1', -0.2, t, 0.7),
       ];
     }
   }
@@ -245,7 +244,7 @@ function placeComposition(path: PlacePathId | null, palette: BuildPalette): Buil
 
 const FEEL_CAMERAS: Record<FeelVibeId | 'NONE', Partial<BuildCamera>> = {
   NONE: { azimuth: -14, elevation: 5 },
-  MODERN: { azimuth: -16, elevation: 6 },
+  MODERN: { azimuth: -6, elevation: 2, fill: 1.02 },
   BOLD: { azimuth: -26, elevation: 9 },
   EDITORIAL: { azimuth: -6, elevation: 4 },
   IMMERSIVE: { azimuth: -32, elevation: 7, lift: 0.02 },
@@ -303,19 +302,27 @@ function feelComposition(feel: FeelVibeId | null, palette: BuildPalette): BuildE
     }
     case 'MODERN':
     default: {
-      // Controlled geometry: a fanned sequence of parallel plates at one strict interval, each lifted off the
-      // ground on the same datum, stone and glass alternating around a single red plate.
-      const heights = [3.0, 3.25, 3.1, 3.35, 3.05, 2.85];
+      // As drawn: a deck of tall panels hung in the air on a receding diagonal — charcoal slate, grey stone, glass,
+      // the tallest in red acrylic, glass, warm marble — over a glass shelf, before a glass screen, with two visitors
+      // standing beneath.
+      // Panels fan at ~32° to the view so every sheet reads on its own, each one further back than the last.
+      const P: [BuildMaterial, number, number, number, number][] = [
+        [m[0], -1.9, 0.95, 2.9, 1.05],
+        [m[1], -1.2, 0.55, 3.3, 0.85],
+        [m[2], -0.5, 0.15, 3.0, 1.0],
+        [m[3], 0.2, -0.25, 3.75, 0.72],
+        [m[4], 0.9, -0.65, 3.05, 1.0],
+        [m[5], 1.6, -1.05, 3.25, 0.9],
+      ];
       return [
-        // The plinth and datum run along the line of the plates (0.5 rad), so every edge in the study is parallel.
-        ...table(5.0, 2.4, 'glassTint', 0.5),
-        ...m.map((material, i) => {
+        ...P.map(([material, x, z, h, y], i) => {
           const thin = material.includes('lass') || material.startsWith('red');
-          return box(`plate-${i}`, material, [1.2, heights[i], thin ? 0.05 : 0.09], [-1.75 + i * 0.66, 0.42, 0.6 - i * 0.36], 0.82, i);
+          return box(`plate-${i}`, material, [1.2, h, thin ? 0.05 : 0.07], [x, y, z], -0.62, i);
         }),
-        box('plate-datum', 'glassTint', [4.5, 0.04, 1.1], [-0.1, 0.38, -0.3], 0.5),
-        figure('fig-1', 2.05, 0.06, 1.45),
-        figure('fig-2', 2.3, 0.06, 1.3, 0.95),
+        box('plate-shelf', 'glass', [4.8, 0.04, 1.2], [-0.15, 0.6, -0.05], -0.5, 6),
+        box('plate-screen', 'glass', [5.4, 4.4, 0.03], [0.3, 0, -1.9], -0.5, 0),
+        figure('fig-1', 1.45, 0, 1.6, 0.95),
+        figure('fig-2', 1.78, 0, 1.45, 0.92),
       ];
     }
   }
@@ -323,8 +330,10 @@ function feelComposition(feel: FeelVibeId | null, palette: BuildPalette): BuildE
 
 /* ─────────────────────────────── WORK: capability modules ─────────────────────────────── */
 
-const CORE_FLOORS = 4;
-const FLOOR_H = 0.58;
+const CORE_FLOORS = 6;
+const FLOOR_H = 0.6;
+/** Top of the stepped WORK base. */
+const WORK_BASE = 0.52;
 
 /** The core floors of the WORK tower (kept for tests and the Blueprint thumbnails). */
 export function towerFloors(modules: readonly WorkModuleId[]): { id: string; module: WorkModuleId | null }[] {
@@ -332,79 +341,99 @@ export function towerFloors(modules: readonly WorkModuleId[]): { id: string; mod
   return Array.from({ length: CORE_FLOORS }, (_, i) => ({ id: `floor-core-${i}`, module: null }));
 }
 
+/** Floor shift, as drawn: each floor sits slightly off the one below. */
+const FLOOR_SHIFT: [number, number][] = [[0, 0], [0.12, -0.08], [-0.1, 0.06], [0.08, -0.05], [-0.07, 0.07], [0.1, 0]];
+
 /**
  * Each capability adds a recognizable module where its toggle sits (top: PAGES · BLOG, middle: SHOP · MEMBER AREA,
- * ground: BOOKING · PORTAL). These are visual metaphors for what the capability adds to the place, not literal
- * backend functions.
+ * ground: BOOKING · PORTAL), cantilevered from the tower face on that side. These are visual metaphors for what the
+ * capability adds to the place, not literal backend functions.
  */
 function workModule(id: WorkModuleId, t: number, palette: BuildPalette): BuildElement[] {
   const a = palette.accent;
   const level = (n: number) => t + n * FLOOR_H;
   switch (id) {
     case 'PAGES': {
-      // Spatial divisions: a stack of floor plates cantilevered from the upper floors.
-      const y = level(2) + 0.05;
+      // Spatial divisions: a stack of floor plates cantilevered from the upper floors, the top one red.
+      const y = level(4) + 0.04;
       const out: BuildElement[] = [];
-      for (let i = 0; i < 4; i += 1) out.push(box(`m-pages-${i}`, i === 3 ? a : palette.structure, [1.05, 0.03, 0.95], [-1.45, y + i * 0.2, 0.05], 0, i));
-      out.push(box('m-pages-spine', palette.mass, [0.05, 0.66, 0.9], [-1.95, y, 0.05], 0, 0));
+      for (let i = 0; i < 4; i += 1) out.push(box(`m-pages-${i}`, i === 3 ? a : palette.structure, [0.95, 0.03, 0.95], [-1.45, y + i * 0.17, 0.05], 0, i));
+      out.push(box('m-pages-spine', palette.plinth, [0.05, 0.56, 0.9], [-1.95, y, 0.05], 0, 0));
       return out;
     }
     case 'BLOG': {
       // An editorial rack: thin marble leaves on a ledge, the newest one red.
-      const y = level(2) + 0.05;
-      const out: BuildElement[] = [box('m-blog-ledge', palette.mass, [1.2, 0.06, 0.72], [1.5, y, -0.05], 0, 0)];
-      for (let i = 0; i < 6; i += 1) out.push(box(`m-blog-${i}`, i === 5 ? a : 'marble', [0.04, 0.95 - i * 0.05, 0.62], [1.0 + i * 0.2, y + 0.06, -0.05], 0, i + 1));
+      const y = level(4) + 0.04;
+      const out: BuildElement[] = [box('m-blog-ledge', palette.plinth, [1.05, 0.06, 0.7], [1.45, y, -0.05], 0, 0)];
+      for (let i = 0; i < 6; i += 1) out.push(box(`m-blog-${i}`, i === 5 ? a : 'marble', [0.035, 0.56 - i * 0.03, 0.6], [1.02 + i * 0.17, y + 0.06, -0.05], 0, i + 1));
       return out;
     }
     case 'SHOP': {
       // A display gallery: a glass vitrine on a stone base, red objects on pedestals inside.
-      const y = level(1);
+      const y = level(2);
       return [
-        box('m-shop-base', palette.mass, [1.05, 0.12, 0.7], [-1.5, y, 0.25], 0, 0),
-        box('m-shop-case', palette.structure, [1.05, 0.62, 0.7], [-1.5, y + 0.12, 0.25], 0, 1),
-        box('m-shop-item-0', a, [0.16, 0.16, 0.16], [-1.8, y + 0.12, 0.25], 0, 2),
-        box('m-shop-item-1', a, [0.14, 0.3, 0.14], [-1.5, y + 0.12, 0.3], 0, 2),
-        box('m-shop-item-2', a, [0.18, 0.1, 0.18], [-1.2, y + 0.12, 0.2], 0, 2),
+        box('m-shop-base', palette.plinth, [0.95, 0.1, 0.7], [-1.45, y, 0.25], 0, 0),
+        box('m-shop-case', palette.structure, [0.95, 0.5, 0.7], [-1.45, y + 0.1, 0.25], 0, 1),
+        box('m-shop-item-0', a, [0.14, 0.14, 0.14], [-1.72, y + 0.1, 0.25], 0, 2),
+        box('m-shop-item-1', a, [0.12, 0.26, 0.12], [-1.45, y + 0.1, 0.3], 0, 2),
+        box('m-shop-item-2', a, [0.16, 0.09, 0.16], [-1.18, y + 0.1, 0.2], 0, 2),
       ];
     }
     case 'MEMBER_AREA': {
       // An enclosed chamber: a closed dark-glass room with a red threshold — entry is by invitation.
-      const y = level(1);
+      const y = level(2);
       return [
-        box('m-member-room', 'darkGlass', [0.84, 0.72, 0.85], [1.38, y, 0.1], 0, 0),
-        ...portal('m-member-door', a, 0.42, 0.6, 0.05, [1.38, y, 0.56], 0, 1),
+        box('m-member-room', 'darkGlass', [0.8, 0.58, 0.8], [1.35, y, 0.1], 0, 0),
+        ...portal('m-member-door', a, 0.38, 0.5, 0.045, [1.35, y, 0.52], 0, 1),
       ];
     }
     case 'BOOKING': {
       // Timed access: a colonnade of slots under a red lintel, leading to the entrance.
       const out: BuildElement[] = [];
       for (let i = 0; i < 4; i += 1) {
-        out.push(box(`m-booking-post-${i}`, 'marble', [0.09, 1.3, 0.09], [-1.3, t, 1.25 - i * 0.48], 0, i));
-        out.push(box(`m-booking-post-${i}-b`, 'marble', [0.09, 1.3, 0.09], [-1.85, t, 1.25 - i * 0.48], 0, i));
+        out.push(box(`m-booking-post-${i}`, 'marble', [0.08, 1.05, 0.08], [-1.3, t, 1.1 - i * 0.42], 0, i));
+        out.push(box(`m-booking-post-${i}-b`, 'marble', [0.08, 1.05, 0.08], [-1.8, t, 1.1 - i * 0.42], 0, i));
       }
-      out.push(box('m-booking-lintel', a, [0.66, 0.1, 1.6], [-1.575, t + 1.3, 0.53], 0, 4));
-      out.push(box('m-booking-floor', a, [0.5, 0.025, 1.6], [-1.575, t, 0.53], 0, 0));
+      out.push(box('m-booking-lintel', a, [0.6, 0.09, 1.4], [-1.55, t + 1.05, 0.47], 0, 4));
+      out.push(box('m-booking-floor', a, [0.46, 0.025, 1.4], [-1.55, t, 0.47], 0, 0));
       return out;
     }
     case 'PORTAL': {
       // A deeper threshold: red frames receding into the base of the structure.
-      return [0, 1, 2].flatMap((i) => portal(`m-portal-${i}`, i === 0 ? a : 'steel', 0.95 - i * 0.18, 1.25 - i * 0.22, 0.06, [1.45 - i * 0.3, t, 0.95 - i * 0.32], -0.55, i));
+      return [0, 1, 2].flatMap((i) => portal(`m-portal-${i}`, i === 0 ? a : 'steel', 0.85 - i * 0.16, 1.05 - i * 0.18, 0.055, [1.4 - i * 0.26, t, 0.85 - i * 0.28], -0.55, i));
     }
   }
 }
 
 function workComposition(spec: Spec, palette: BuildPalette): BuildElement[] {
-  const { elements, top: t } = plinth('main', palette, 4.6, 3.0);
-  const out: BuildElement[] = [...elements];
+  // As drawn: a stacked tower — glass floors on Carrara slabs, each shifted off the one below, red acrylic rooms
+  // inside — on a stepped Carrara base, with drafting lines running out toward the capability toggles.
+  const t = WORK_BASE;
+  const out: BuildElement[] = [
+    box('main-plinth', palette.plinth, [2.9, 0.34, 2.55], [0, 0, 0], 0, 0),
+    box('main-step', palette.plinth, [2.3, 0.18, 2.0], [0, 0.34, 0], 0, 1),
+  ];
   for (let i = 0; i < CORE_FLOORS; i += 1) {
     const y = t + i * FLOOR_H;
-    const dx = [0, 0.1, -0.08, 0.06][i];
-    out.push(box(`floor-core-${i}-shell`, palette.structure, [1.6, FLOOR_H - 0.05, 1.45], [dx, y, 0], 0, i + 2));
-    out.push(box(`floor-core-${i}-slab`, palette.mass === 'steel' ? 'concrete' : 'stone', [1.72, 0.05, 1.57], [dx, y + FLOOR_H - 0.05, 0], 0, i + 2));
+    const [dx, dz] = FLOOR_SHIFT[i];
+    const w = i % 2 ? 1.62 : 1.78;
+    out.push(box(`floor-core-${i}-shell`, palette.structure, [w, FLOOR_H - 0.07, 1.5], [dx, y, dz], 0, i + 2));
+    out.push(box(`floor-core-${i}-slab`, palette.plinth, [w + 0.14, 0.07, 1.64], [dx, y + FLOOR_H - 0.07, dz], 0, i + 2));
   }
-  out.push(box('core', palette.accent, [0.5, CORE_FLOORS * FLOOR_H - 0.1, 0.5], [0.2, t, 0.25], 0, 2));
+  // The red acrylic: a shaft through the lower floors, a red room mid-tower and a red slab near the top.
+  out.push(box('core', palette.accent, [0.55, FLOOR_H * 3 - 0.1, 0.5], [0.15, t, 0.3], 0, 2));
+  out.push(box('core-room', palette.accent, [0.7, FLOOR_H - 0.16, 0.6], [0.2, t + FLOOR_H * 3 + 0.02, 0.25], 0, 5));
+  out.push(box('core-slab', palette.accent, [1.05, 0.05, 0.95], [-0.1, t + FLOOR_H * 5 - 0.03, 0.1], 0, 7));
+  // Drafting lines: the tower's corner verticals carried past it, and the three toggle levels carried out.
+  const H = t + CORE_FLOORS * FLOOR_H;
+  for (const [i, [x, z]] of ([[-0.95, 0.8], [0.95, 0.8], [-0.95, -0.8], [0.95, -0.8]] as const).entries()) {
+    out.push(box(`line-v-${i}`, 'hairline', [0.012, H + 0.9, 0.012], [x, 0, z], 0, 0));
+  }
+  for (const [i, n] of [4, 2, 0].entries()) {
+    out.push(box(`line-h-${i}`, 'hairline', [4.8, 0.012, 0.012], [0, t + n * FLOOR_H + 0.3, 0.8], 0, 0));
+  }
   for (const id of spec.modules) out.push(...workModule(id, t, palette));
-  out.push(figure('fig-1', -0.25, t, 1.15));
+  out.push(figure('fig-1', -0.35, t, 0.55, 0.85));
   return out;
 }
 
@@ -420,42 +449,47 @@ const PACE_MOTION: Record<PacePreferenceId, BuildMotion> = {
 };
 
 function assembled(spec: Spec, palette: BuildPalette, resolved: boolean): BuildElement[] {
+  // As drawn (PACE and the Blueprint): a glass envelope with a tall red acrylic core and a lower red wing, glass
+  // volumes stepping down on either side (one per capability, plus two), grey veined stone slabs standing at the
+  // left, on one long thick Carrara slab.
   const world = spec.path === 'WORLD';
   const pace: PacePreferenceId = spec.pace ?? 'STANDARD';
   const flexible = pace === 'FLEXIBLE';
-  const spread = flexible ? 1.2 : 1;
-  const coreH = spec.path === 'CUSTOM' ? 3.3 : spec.path === 'ADVANCED' ? 3.0 : 2.6;
-  const { elements, top: t } = plinth('main', palette, (world ? 6.4 : 5.2) * (resolved ? 1.08 : 1), world ? 4.6 : 3.6);
+  const spread = flexible ? 1.18 : 1;
+  const coreH = spec.path === 'CUSTOM' ? 3.4 : spec.path === 'ADVANCED' ? 3.1 : 2.8;
+  const { elements, top: t } = slab('main', palette, (world ? 7.4 : 6.6) * (resolved ? 1.05 : 1), resolved ? 0.6 : 0.5, world ? 4.4 : 3.4);
   const s = palette.structure;
   const out: BuildElement[] = [...elements];
-  out.push(box('vol-a', s, [2.4, coreH + 0.3, 1.9], [0, t, 0], 0, 2));
-  out.push(box('core', palette.accent, [1.05, coreH, 0.95], [0.25, t, 0.25], 0, 3));
-  out.push(box('core-cap', palette.accent, [1.2, 0.08, 1.1], [0.25, t + coreH, 0.25], 0, 4));
-  // Side volumes: one per selected capability, stepping down away from the core.
+  out.push(box('vol-a', s, [2.5, coreH + 0.35, 2.1], [0.05, t, -0.25], 0, 2));
+  out.push(box('core', palette.accent, [0.95, coreH + 0.5, 0.85], [0.3, t, 0.45], 0, 3));
+  out.push(box('core-cap', palette.accent, [0.8, coreH * 0.42, 0.75], [-0.5, t, 0.75], 0, 4));
+  // Side volumes: one per selected capability, plus two, stepping down away from the core.
   const sides = Math.min(spec.modules.length + 2, 6);
   for (let i = 0; i < sides; i += 1) {
     const left = i % 2 === 0;
     const rank = Math.floor(i / 2);
-    const h = Math.max(0.7, coreH - 0.8 - rank * 0.55);
-    const x = (left ? -1 : 1) * (1.55 + rank * 0.85) * spread;
-    const z = (left ? 0.3 : -0.35) + rank * 0.25;
-    out.push(box(`side-${i}`, s, [0.95, h, 1.2], [x, t, z], 0, 5 + rank));
-    if (i < spec.modules.length) out.push(box(`side-${i}-module`, palette.accent, [0.45, h * 0.55, 0.5], [x, t, z + 0.2], 0, 6 + rank));
+    const h = Math.max(0.9, coreH - 0.55 - rank * 0.6);
+    const x = (left ? -1 : 1) * (1.65 + rank * 0.82) * spread;
+    const z = (left ? 0.15 : -0.35) + rank * 0.22;
+    out.push(box(`side-${i}`, s, [1.05, h, 1.45], [x, t, z], 0, 5 + rank));
+    if (i < spec.modules.length) out.push(box(`side-${i}-module`, palette.accent, [0.34, h * 0.42, 0.4], [x, t, z + 0.3], 0, 6 + rank));
     // EXPEDITED: sequencing marks — a steel cap on each volume as it is reached. Pacing, not scope: red stays
     // reserved for capabilities, so priority never reads as more product.
-    if (pace === 'EXPEDITED') out.push(box(`side-${i}-mark`, 'steel', [0.97, 0.03, 1.22], [x, t + h, z], 0, 6 + rank));
+    if (pace === 'EXPEDITED') out.push(box(`side-${i}-mark`, 'steel', [1.07, 0.03, 1.47], [x, t + h, z], 0, 6 + rank));
     // FLEXIBLE: a visible joint where each module meets the plinth — parts that can move.
-    if (flexible) out.push(box(`side-${i}-joint`, 'steel', [1.05, 0.04, 1.3], [x, t, z], 0, 5 + rank));
+    if (flexible) out.push(box(`side-${i}-joint`, 'steel', [1.13, 0.04, 1.53], [x, t, z], 0, 5 + rank));
   }
-  out.push(box('mass-a', palette.mass, [0.35, coreH * 0.9, 1.5], [-1.15 * spread, t, -0.65], 0, 4));
-  out.push(box('mass-b', palette.mass, [0.3, coreH * 0.7, 1.1], [1.25 * spread, t, -0.95], 0, 4));
-  if (pace === 'EXPEDITED') out.push(box('core-mark', 'steel', [2.42, 0.03, 1.92], [0, t + coreH + 0.3, 0], 0, 5));
+  // The Blueprint stands grey veined stone slabs at the left; while pacing, those places are smoky glass.
+  const mass: BuildMaterial = resolved ? 'stone' : 'glassTint';
+  out.push(box('mass-a', mass, [resolved ? 0.32 : 0.9, coreH * 0.95, 1.35], [-2.75 * spread, t, -0.35], 0, 4));
+  out.push(box('mass-b', mass, [resolved ? 0.3 : 0.8, coreH * 0.72, 1.05], [-3.15 * spread, t, 0.3], 0, 4));
+  if (pace === 'EXPEDITED') out.push(box('core-mark', 'steel', [2.52, 0.03, 2.12], [0.05, t + coreH + 0.38, -0.25], 0, 5));
   if (world) {
-    out.push(box('pav-1', s, [0.9, 0.9, 0.9], [-2.6 * spread, t, 1.4], 0, 8));
-    out.push(box('pav-2', s, [0.8, 1.1, 0.8], [2.6 * spread, t, 1.3], 0, 8));
+    out.push(box('pav-1', s, [0.9, 0.9, 0.9], [-2.9 * spread, t, 1.45], 0, 8));
+    out.push(box('pav-2', s, [0.8, 1.1, 0.8], [2.9 * spread, t, 1.35], 0, 8));
   }
-  out.push(figure('fig-1', -0.95, t, 1.25));
-  if (resolved) out.push(figure('fig-2', 0.75, t, 1.35, 0.96));
+  out.push(figure('fig-1', -0.95, t, 0.95));
+  if (resolved) out.push(figure('fig-2', 0.95, t, 1.25, 0.96));
   return out;
 }
 
@@ -489,12 +523,12 @@ function focusElements(elements: BuildElement[], focus: BuildFocus): BuildElemen
 /* ─────────────────────────────── compose ─────────────────────────────── */
 
 const CAMERAS: Record<BuildView, BuildCamera> = {
-  place: { target: [0, 1.45, 0], distance: 9.6, azimuth: -30, elevation: 9, fill: 0.95, lift: 0.05 },
+  place: { target: [0, 1.45, 0], distance: 9.6, azimuth: -17, elevation: 11, fill: 1.06, lift: 0.02 },
   feel: { target: [0, 1.55, 0], distance: 9.0, azimuth: -14, elevation: 5, fill: 0.96, lift: 0.04 },
   // Narrower fill so the capability modules stay clear of the toggles at the stage edges.
-  work: { target: [0, 1.6, 0], distance: 10.2, azimuth: -24, elevation: 11, fill: 0.8 },
-  pace: { target: [0, 1.75, 0], distance: 11.0, azimuth: -26, elevation: 12, fill: 0.95, lift: 0.04 },
-  blueprint: { target: [0, 1.6, 0], distance: 10.6, azimuth: -24, elevation: 13, fill: 0.86, lift: 0.12 },
+  work: { target: [0, 1.6, 0], distance: 10.2, azimuth: -22, elevation: 13, fill: 0.98 },
+  pace: { target: [0, 1.75, 0], distance: 11.0, azimuth: -24, elevation: 11, fill: 1.06, lift: 0.02 },
+  blueprint: { target: [0, 1.6, 0], distance: 10.6, azimuth: -26, elevation: 9, fill: 1.05, lift: 0.04 },
 };
 
 const DEFAULT_MOTION: BuildMotion = { duration: 760, stagger: 0, entry: 'base', replay: false };

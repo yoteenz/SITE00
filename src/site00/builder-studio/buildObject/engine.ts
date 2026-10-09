@@ -12,14 +12,12 @@ import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import type { BuildCamera, BuildComposition, BuildElement, BuildMaterial, BuildMotion } from './composition';
 
-/** The workspace's luminous neutral (page #f4f4f6): cool white, never beige. */
-const BACKGROUND = 0xf4f4f6;
-const FOG_NEAR = 14;
-const FOG_FAR = 34;
+/** Option-card thumbnails sit on the references' card white (the live stage is transparent over its plate). */
+const THUMB_BACKGROUND = 0xf6f4f3;
 const TWEEN_MS = 760;
 const DEG = Math.PI / 180;
 const FOV = 26;
-const FRAME_T = 0.042;
+const FRAME_T = 0.034;
 
 /* ─────────────────────────────── procedural textures ─────────────────────────────── */
 
@@ -86,6 +84,64 @@ function stoneCanvas(base: string, vein: string, opts: { veins: number; speckle:
   return canvas;
 }
 
+/**
+ * Carrara as drawn in the references: a light grey ground with soft mottling and a network of bold, angular dark
+ * veins that branch like cracks (not the faint wisps of a generic marble).
+ */
+function crackMarbleCanvas(opts: { base: string; mottle: string; vein: string; seed: number; veins: number; size?: number }): HTMLCanvasElement {
+  const size = opts.size ?? 1024;
+  const canvas = document.createElement('canvas');
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext('2d')!;
+  const rand = seeded(opts.seed);
+  ctx.fillStyle = opts.base;
+  ctx.fillRect(0, 0, size, size);
+  // Low-frequency mottling.
+  for (let i = 0; i < 90; i += 1) {
+    const x = rand() * size;
+    const y = rand() * size;
+    const r = 40 + rand() * 180;
+    const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+    g.addColorStop(0, opts.mottle);
+    g.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.globalAlpha = 0.1 + rand() * 0.16;
+    ctx.fillStyle = g;
+    ctx.fillRect(x - r, y - r, r * 2, r * 2);
+  }
+  ctx.globalAlpha = 1;
+  // Crack veins: angular polylines that taper and branch.
+  const drawVein = (x: number, y: number, angle: number, width: number, length: number, depth: number) => {
+    const points: [number, number][] = [[x, y]];
+    let a = angle;
+    let px = x;
+    let py = y;
+    for (let travelled = 0; travelled < length; ) {
+      const step = 8 + rand() * 16;
+      a += (rand() - 0.5) * (rand() < 0.2 ? 1.6 : 0.5);
+      px += Math.cos(a) * step;
+      py += Math.sin(a) * step;
+      points.push([px, py]);
+      travelled += step;
+      if (depth < 3 && rand() < 0.07) drawVein(px, py, a + (rand() < 0.5 ? 1 : -1) * (0.5 + rand() * 0.9), width * 0.6, length * (0.25 + rand() * 0.35), depth + 1);
+    }
+    for (const pass of [{ w: width * 3.2, a: 0.1 }, { w: width, a: 0.82 }]) {
+      ctx.strokeStyle = opts.vein;
+      ctx.globalAlpha = pass.a;
+      ctx.lineWidth = pass.w;
+      ctx.lineJoin = 'miter';
+      ctx.beginPath();
+      points.forEach(([vx, vy], i) => (i ? ctx.lineTo(vx, vy) : ctx.moveTo(vx, vy)));
+      ctx.stroke();
+    }
+    ctx.globalAlpha = 1;
+  };
+  for (let v = 0; v < opts.veins; v += 1) {
+    drawVein(rand() * size, rand() * size, rand() * Math.PI * 2, 2.6 + rand() * 3.2, 260 + rand() * 520, 0);
+  }
+  return canvas;
+}
+
 function canvasTexture(canvas: HTMLCanvasElement, repeat = 1): THREE.CanvasTexture {
   const texture = new THREE.CanvasTexture(canvas);
   texture.colorSpace = THREE.SRGBColorSpace;
@@ -101,27 +157,33 @@ function canvasTexture(canvas: HTMLCanvasElement, repeat = 1): THREE.CanvasTextu
 type MaterialSet = {
   surface: Record<BuildMaterial, THREE.Material>;
   edge: Partial<Record<BuildMaterial, THREE.LineBasicMaterial>>;
+  /** Pane subdivisions drawn on the faces of glass and acrylic volumes (the references' mullion grids). */
+  mullion: Partial<Record<BuildMaterial, THREE.LineBasicMaterial>>;
   frame: Partial<Record<BuildMaterial, THREE.Material>>;
   castsShadow: Record<BuildMaterial, boolean>;
 };
 
 function createMaterials(): MaterialSet {
   // Cool Carrara white with grey veining; neutral limestone and concrete (no warm cast).
-  const marble = canvasTexture(stoneCanvas('#eceef0', '#4f535a', { veins: 16, speckle: 12, seed: 7, veinAlpha: 0.85 }));
+  const marble = canvasTexture(crackMarbleCanvas({ base: '#d6d4d2', mottle: '#a9a6a3', vein: '#2b2a2a', seed: 7, veins: 24 }));
   const darkMarble = canvasTexture(stoneCanvas('#1c1e21', '#dadde2', { veins: 12, speckle: 12, seed: 11, veinAlpha: 0.8 }));
-  const stone = canvasTexture(stoneCanvas('#dadcdf', '#9a9ea5', { veins: 3, speckle: 26, seed: 3, veinAlpha: 0.4 }));
+  // FEEL study stones as drawn: a charcoal slate and a warm taupe marble, both crack-veined.
+  const slate = canvasTexture(crackMarbleCanvas({ base: '#6a6968', mottle: '#525150', vein: '#4a4948', seed: 17, veins: 6, size: 512 }));
+  const warmMarble = canvasTexture(crackMarbleCanvas({ base: '#b7aea6', mottle: '#8e857c', vein: '#3f3934', seed: 19, veins: 20, size: 512 }));
+  // Grey veined stone (the FEEL panel and the Blueprint's standing slabs).
+  const stone = canvasTexture(crackMarbleCanvas({ base: '#a6a4a2', mottle: '#7c7a78', vein: '#353434', seed: 3, veins: 18, size: 512 }));
   const concrete = canvasTexture(stoneCanvas('#c8cacd', '#8c8f95', { veins: 0, speckle: 36, seed: 5 }));
   const travertine = canvasTexture(stoneCanvas('#e2e2e0', '#acaaa6', { veins: 1, speckle: 22, banding: true, seed: 13 }));
 
   const glass = new THREE.MeshPhysicalMaterial({
-    color: 0xe4ebee,
+    color: 0xf1f3f3,
     roughness: 0.03,
     metalness: 0,
     transparent: true,
-    opacity: 0.22,
+    opacity: 0.27,
     clearcoat: 1,
     clearcoatRoughness: 0.02,
-    envMapIntensity: 2.6,
+    envMapIntensity: 2.2,
     depthWrite: false,
     side: THREE.DoubleSide,
   });
@@ -133,11 +195,11 @@ function createMaterials(): MaterialSet {
   darkGlass.opacity = 0.64;
   // Translucent SITE 00 red acrylic: luminous through its body, deeper at its edges.
   const red = new THREE.MeshPhysicalMaterial({
-    color: 0xe5141e,
+    color: 0xdc0a14,
     roughness: 0.06,
     metalness: 0,
     transparent: true,
-    opacity: 0.74,
+    opacity: 0.9,
     clearcoat: 1,
     clearcoatRoughness: 0.04,
     emissive: new THREE.Color(0xa3000d),
@@ -155,24 +217,31 @@ function createMaterials(): MaterialSet {
     darkGlass,
     red,
     redSolid,
-    marble: new THREE.MeshStandardMaterial({ map: marble, roughness: 0.3, metalness: 0 }),
+    // Carrara is drawn mid-grey on its faces (never blown out): the map is toned down and kept fairly matte.
+    marble: new THREE.MeshStandardMaterial({ map: marble, color: 0xe4e2e0, roughness: 0.42, metalness: 0 }),
     darkMarble: new THREE.MeshStandardMaterial({ map: darkMarble, roughness: 0.25, metalness: 0 }),
-    stone: new THREE.MeshStandardMaterial({ map: stone, roughness: 0.78, metalness: 0 }),
+    stone: new THREE.MeshStandardMaterial({ map: stone, roughness: 0.6, metalness: 0 }),
     concrete: new THREE.MeshStandardMaterial({ map: concrete, roughness: 0.88, metalness: 0 }),
     travertine: new THREE.MeshStandardMaterial({ map: travertine, roughness: 0.62, metalness: 0 }),
     steel: new THREE.MeshStandardMaterial({ color: 0xb4b9bf, roughness: 0.22, metalness: 0.9 }),
     ghost,
+    slate: new THREE.MeshStandardMaterial({ map: slate, roughness: 0.55, metalness: 0 }),
+    warmMarble: new THREE.MeshStandardMaterial({ map: warmMarble, roughness: 0.4, metalness: 0 }),
+    // Drafting lines (the references' construction hairlines): flat, unlit, faint.
+    hairline: new THREE.MeshBasicMaterial({ color: 0x8a8682, transparent: true, opacity: 0.5, depthWrite: false }),
     figure: new THREE.MeshStandardMaterial({ color: 0x2c2e32, roughness: 0.9, metalness: 0 }),
   };
   const line = (color: number, opacity: number) => new THREE.LineBasicMaterial({ color, transparent: true, opacity });
   // Chrome-white mullions: crisp edges that define every glass volume.
-  const lightFrame = new THREE.MeshStandardMaterial({ color: 0xf7f8fa, roughness: 0.16, metalness: 0.55 });
+  const lightFrame = new THREE.MeshStandardMaterial({ color: 0xdcdedf, roughness: 0.2, metalness: 0.7 });
   const darkFrame = new THREE.MeshStandardMaterial({ color: 0x1a1d20, roughness: 0.3, metalness: 0.5 });
+  // Red acrylic reads with a deeper red edge where the sheet is seen through its thickness.
+  const redFrame = new THREE.MeshStandardMaterial({ color: 0x8e0710, roughness: 0.25, metalness: 0.1, emissive: new THREE.Color(0x3a0004), emissiveIntensity: 0.3 });
   const outline = line(0x34363b, 0.14);
   return {
     surface,
     edge: {
-      glass: line(0x7f8c93, 0.62),
+      glass: line(0x8d9396, 0.55),
       glassTint: line(0x76848c, 0.66),
       darkGlass: line(0x0c0e10, 0.85),
       red: line(0xb00010, 0.9),
@@ -183,8 +252,11 @@ function createMaterials(): MaterialSet {
       concrete: outline,
       travertine: outline,
       ghost: line(0xa6aeb5, 0.32),
+      slate: line(0x1a1a1a, 0.3),
+      warmMarble: outline,
     },
-    frame: { glass: lightFrame, glassTint: lightFrame, darkGlass: darkFrame },
+    frame: { glass: lightFrame, glassTint: lightFrame, darkGlass: darkFrame, red: redFrame },
+    mullion: { glass: line(0x9ba1a4, 0.34), glassTint: line(0x8f979b, 0.38), darkGlass: line(0x0b0d0f, 0.5), red: line(0x86050d, 0.55) },
     castsShadow: {
       glass: false,
       glassTint: false,
@@ -198,6 +270,9 @@ function createMaterials(): MaterialSet {
       travertine: true,
       steel: true,
       ghost: false,
+      slate: true,
+      warmMarble: true,
+      hairline: false,
       figure: true,
     },
   };
@@ -207,6 +282,34 @@ function createMaterials(): MaterialSet {
 
 const UNIT_BOX = new THREE.BoxGeometry(1, 1, 1);
 const UNIT_EDGES = new THREE.EdgesGeometry(UNIT_BOX);
+/** Approximate pane size of the references' glazing, in scene units. */
+const PANE = 0.72;
+const gridCache = new Map<string, THREE.BufferGeometry>();
+/** Mullion lines on the four vertical faces of a unit box, with pane counts chosen from the element's real size. */
+function paneGrid(size: readonly number[]): THREE.BufferGeometry {
+  const [w, h, d] = size;
+  const nx = Math.max(1, Math.round(w / PANE));
+  const ny = Math.max(1, Math.round(h / PANE));
+  const nz = Math.max(1, Math.round(d / PANE));
+  const key = `${nx}.${ny}.${nz}`;
+  const cached = gridCache.get(key);
+  if (cached) return cached;
+  const v: number[] = [];
+  const seg = (a: number[], b: number[]) => v.push(...a, ...b);
+  for (const z of [-0.5, 0.5]) {
+    for (let i = 1; i < nx; i += 1) seg([-0.5 + i / nx, -0.5, z], [-0.5 + i / nx, 0.5, z]);
+    for (let j = 1; j < ny; j += 1) seg([-0.5, -0.5 + j / ny, z], [0.5, -0.5 + j / ny, z]);
+  }
+  for (const x of [-0.5, 0.5]) {
+    for (let i = 1; i < nz; i += 1) seg([x, -0.5, -0.5 + i / nz], [x, 0.5, -0.5 + i / nz]);
+    for (let j = 1; j < ny; j += 1) seg([x, -0.5 + j / ny, -0.5], [x, -0.5 + j / ny, 0.5]);
+  }
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute('position', new THREE.Float32BufferAttribute(v, 3));
+  gridCache.set(key, geometry);
+  return geometry;
+}
+
 /** A slender human figure for scale, one unit tall (feet at -0.5, head at +0.5), scaled uniformly. */
 const FIGURE_BODY = (() => {
   const body = new THREE.CapsuleGeometry(0.075, 0.6, 4, 10);
@@ -216,16 +319,34 @@ const FIGURE_BODY = (() => {
   return mergeGeometries([body, head])!;
 })();
 
+/** Interim reflection map from SITE 00's own atrium render (until the GA-01 HDRI exists). */
+const REFLECTION_MAP = '/site00/builder-studio/env/atrium-reflection.webp';
+
 function buildStage(scene: THREE.Scene, renderer: THREE.WebGLRenderer, mobile: boolean) {
-  scene.background = new THREE.Color(BACKGROUND);
-  scene.fog = new THREE.Fog(BACKGROUND, FOG_NEAR, FOG_FAR);
+  // The stage is composited: a photographic environment plate sits behind a transparent canvas (CSS layer), so the
+  // scene draws only the architecture, its shadow on the floor and its reflections.
+  scene.background = null;
   const pmrem = new THREE.PMREMGenerator(renderer);
   scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-  scene.environmentIntensity = 0.5;
-  pmrem.dispose();
+  scene.environmentIntensity = 0.55;
+  new THREE.TextureLoader().load(
+    REFLECTION_MAP,
+    (texture) => {
+      texture.mapping = THREE.EquirectangularReflectionMapping;
+      texture.colorSpace = THREE.SRGBColorSpace;
+      const previous = scene.environment;
+      scene.environment = pmrem.fromEquirectangular(texture).texture;
+      scene.environmentIntensity = 0.95;
+      previous?.dispose();
+      texture.dispose();
+      pmrem.dispose();
+    },
+    undefined,
+    () => pmrem.dispose(),
+  );
 
-  scene.add(new THREE.HemisphereLight(0xffffff, 0xdde1e7, 0.58));
-  const sun = new THREE.DirectionalLight(0xffffff, 2.45);
+  scene.add(new THREE.HemisphereLight(0xffffff, 0xe6e2df, 0.62));
+  const sun = new THREE.DirectionalLight(0xffffff, 2.3);
   sun.position.set(-6, 10, 7);
   sun.castShadow = true;
   sun.shadow.mapSize.set(mobile ? 1024 : 2048, mobile ? 1024 : 2048);
@@ -236,38 +357,20 @@ function buildStage(scene: THREE.Scene, renderer: THREE.WebGLRenderer, mobile: b
   sun.shadow.camera.far = 40;
   sun.shadow.bias = -0.0005;
   sun.shadow.normalBias = 0.025;
-  sun.shadow.radius = 3;
+  sun.shadow.radius = 4;
   scene.add(sun);
-  const fill = new THREE.DirectionalLight(0xf1f5fb, 0.55);
+  const fill = new THREE.DirectionalLight(0xf8f6f5, 0.6);
   fill.position.set(7, 4, -2);
   scene.add(fill);
-  const front = new THREE.DirectionalLight(0xffffff, 0.35);
+  const front = new THREE.DirectionalLight(0xffffff, 0.4);
   front.position.set(2, 2, 10);
   scene.add(front);
 
-  const floor = new THREE.Mesh(
-    new THREE.PlaneGeometry(120, 120),
-    new THREE.MeshStandardMaterial({ color: 0xeceef1, roughness: 0.42, metalness: 0 }),
-  );
+  // Shadow catcher: the plate's polished floor shows through; only the object's soft shadow is drawn.
+  const floor = new THREE.Mesh(new THREE.PlaneGeometry(120, 120), new THREE.ShadowMaterial({ color: 0x3a3634, opacity: 0.16 }));
   floor.rotation.x = -Math.PI / 2;
   floor.receiveShadow = true;
   scene.add(floor);
-
-  // Atmosphere: the white architectural room the object sits in, softened by fog.
-  const atmosphere = new THREE.MeshStandardMaterial({ color: 0xf7f8fa, roughness: 0.9 });
-  for (const [x, z, w] of [[-10, -13, 1.8], [-4, -16, 1.3], [5, -15, 1.5], [11, -12, 2]] as const) {
-    const column = new THREE.Mesh(UNIT_BOX, atmosphere);
-    column.scale.set(w, 16, w);
-    column.position.set(x, 8, z);
-    scene.add(column);
-  }
-  const distantRed = new THREE.Mesh(
-    UNIT_BOX,
-    new THREE.MeshStandardMaterial({ color: 0xe5231b, roughness: 0.4, transparent: true, opacity: 0.13 }),
-  );
-  distantRed.scale.set(2.4, 11, 0.2);
-  distantRed.position.set(15, 5.5, -18);
-  scene.add(distantRed);
 }
 
 type NodeState = { position: THREE.Vector3; size: THREE.Vector3; rotationY: number };
@@ -278,6 +381,7 @@ type SceneNode = {
   group: THREE.Group;
   mesh: THREE.Mesh;
   edges: THREE.LineSegments | null;
+  mullions: THREE.LineSegments | null;
   frames: THREE.Mesh[];
   from: NodeState;
   to: NodeState;
@@ -354,6 +458,7 @@ function applyState(node: SceneNode, state: NodeState) {
   }
   node.mesh.scale.copy(state.size);
   node.edges?.scale.copy(state.size);
+  node.mullions?.scale.copy(state.size);
   layoutFrames(node.frames, state.size);
 }
 
@@ -388,6 +493,8 @@ export function fitCamera(elements: BuildElement[], camera: BuildCamera, aspect:
   const box = new THREE.Box3();
   const v = new THREE.Vector3();
   for (const el of elements) {
+    // Drafting hairlines run past the object on purpose; they never drive the framing.
+    if (el.material === 'hairline') continue;
     const [w, h, d] = el.size;
     const [x, y, z] = el.position;
     const r = el.rotationY ?? 0;
@@ -445,6 +552,13 @@ function makeNodeFactory(scene: THREE.Scene, materials: MaterialSet) {
       edges.renderOrder = 3;
       group.add(edges);
     }
+    let mullions: THREE.LineSegments | null = null;
+    const mullionMaterial = materials.mullion[el.material];
+    if (mullionMaterial) {
+      mullions = new THREE.LineSegments(paneGrid(el.size), mullionMaterial);
+      mullions.renderOrder = 3;
+      group.add(mullions);
+    }
     const frames: THREE.Mesh[] = [];
     const frameMaterial = materials.frame[el.material];
     if (frameMaterial) {
@@ -458,7 +572,7 @@ function makeNodeFactory(scene: THREE.Scene, materials: MaterialSet) {
     }
     scene.add(group);
     const target = stateOf(el);
-    return { id: el.id, material: el.material, group, mesh, edges, frames, from: collapsed(target), to: target, start: performance.now(), delay: 0, duration: TWEEN_MS, removing: false };
+    return { id: el.id, material: el.material, group, mesh, edges, mullions, frames, from: collapsed(target), to: target, start: performance.now(), delay: 0, duration: TWEEN_MS, removing: false };
   };
 }
 
@@ -473,7 +587,8 @@ export type BuildObjectEngine = {
 
 export function createBuildObjectEngine(container: HTMLElement, options: { reducedMotion: boolean }): BuildObjectEngine {
   const mobile = Math.min(window.innerWidth, window.innerHeight) < 700;
-  const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
+  renderer.setClearColor(0x000000, 0);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, mobile ? 2 : 1.75));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.NeutralToneMapping;
@@ -513,7 +628,7 @@ export function createBuildObjectEngine(container: HTMLElement, options: { reduc
     if (needsFrames !== node.frames.length > 0 || (node.material === 'figure') !== (material === 'figure')) {
       scene.remove(node.group);
       const rebuilt = makeNode({ id: node.id, material, size: node.to.size.toArray() as [number, number, number], position: node.to.position.toArray() as [number, number, number], rotationY: node.to.rotationY });
-      Object.assign(node, { group: rebuilt.group, mesh: rebuilt.mesh, edges: rebuilt.edges, frames: rebuilt.frames, material });
+      Object.assign(node, { group: rebuilt.group, mesh: rebuilt.mesh, edges: rebuilt.edges, mullions: rebuilt.mullions, frames: rebuilt.frames, material });
       return;
     }
     node.material = material;
@@ -531,6 +646,18 @@ export function createBuildObjectEngine(container: HTMLElement, options: { reduc
       node.edges = null;
     } else if (edgeMaterial && node.edges) {
       node.edges.material = edgeMaterial;
+    }
+    const mullionMaterial = materials.mullion[material];
+    if (mullionMaterial && !node.mullions) {
+      node.mullions = new THREE.LineSegments(paneGrid(node.to.size.toArray()), mullionMaterial);
+      node.mullions.renderOrder = 3;
+      node.mullions.scale.copy(node.to.size);
+      node.group.add(node.mullions);
+    } else if (!mullionMaterial && node.mullions) {
+      node.group.remove(node.mullions);
+      node.mullions = null;
+    } else if (mullionMaterial && node.mullions) {
+      node.mullions.material = mullionMaterial;
     }
   }
 
@@ -593,12 +720,6 @@ export function createBuildObjectEngine(container: HTMLElement, options: { reduc
       const view = { ...currentCamera, elevation: Math.max(2, Math.min(55, currentCamera.elevation + dragElevation)) };
       camera.position.copy(cameraPosition(view, sway + dragAzimuth));
       camera.lookAt(...view.target);
-      // The atmosphere fog is tuned for the room stages. A tall stage (portrait fullscreen) fits the camera much
-      // further back, so the fog recedes with it instead of swallowing the object; the room-stage values are the floor.
-      if (scene.fog instanceof THREE.Fog) {
-        scene.fog.near = Math.max(FOG_NEAR, view.distance * 1.05);
-        scene.fog.far = Math.max(FOG_FAR, view.distance * 2.5);
-      }
     }
     renderer.render(scene, camera);
     if (animating) requestFrame();
@@ -761,6 +882,7 @@ export function renderBuildThumbnail(composition: BuildComposition, width: numbe
       thumbRenderer.shadowMap.type = THREE.PCFSoftShadowMap;
       thumbScene = new THREE.Scene();
       buildStage(thumbScene, thumbRenderer, true);
+      thumbScene.background = new THREE.Color(THUMB_BACKGROUND);
       thumbMaterials = createMaterials();
     }
     const renderer = thumbRenderer;

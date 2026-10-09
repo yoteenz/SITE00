@@ -1,73 +1,56 @@
 /**
  * SITE 00 Builder — Hybrid Spatial Studio.
- * Mobile authority: the two founder-approved references (rooms 01–04, Blueprint 05), measured at 390px width.
+ * Authority: the two founder-approved references (rooms 01–04, Blueprint 05), measured in CSS px of a 393px phone.
  *
- * Typography is the SITE 00 Production Workspace's: Saira Semi Condensed (self-hosted, SIL OFL 1.1), uppercase,
- * tracked. The faces below point at the workspace's own files (src/site00/assets/fonts/saira-semi-condensed), so the
- * build ships one copy. Palette is the workspace's cool luminous neutral (no beige): white, silver-grey, ink, red.
+ * Typography is identified from the references by pixel comparison (glyph-mask overlap, stroke density and width
+ * against 24 open-licence candidates; see hybrid-spatial-studio/REFERENCE_FIDELITY_2.md):
+ *   display headline  → Oswald 600            (square full stop, straight R leg, narrow oval O; density 0.557 vs 0.57)
+ *   values and labels → Barlow Semi Condensed 700 (fact values, card and option titles, CTA)
+ *   wordmark          → Barlow 700, tracked .22em
+ *   UI text           → Roboto 400, tracked ~.18em (lede, sub-labels, tabs)
+ * All four are SIL OFL 1.1, self-hosted under public/site00/fonts (Barlow Semi Condensed 300–600 were already there).
+ * Studio-scoped family names keep these faces from colliding with any other surface.
  */
 
 body.bs-body {
   margin: 0;
-  background: #f4f4f6;
+  background: #f5f3f3;
 }
 
-@font-face {
-  font-family: 'Saira Semi Condensed';
-  font-style: normal;
-  font-weight: 300;
-  font-display: swap;
-  src: url('../assets/fonts/saira-semi-condensed/saira-semi-condensed-latin-300.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Saira Semi Condensed';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../assets/fonts/saira-semi-condensed/saira-semi-condensed-latin-400.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Saira Semi Condensed';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('../assets/fonts/saira-semi-condensed/saira-semi-condensed-latin-500.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Saira Semi Condensed';
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url('../assets/fonts/saira-semi-condensed/saira-semi-condensed-latin-600.woff2') format('woff2');
-}
-@font-face {
-  font-family: 'Saira Semi Condensed';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('../assets/fonts/saira-semi-condensed/saira-semi-condensed-latin-700.woff2') format('woff2');
-}
+@font-face { font-family: 'BS Display'; font-style: normal; font-weight: 500; font-display: swap; src: url('/site00/fonts/oswald/oswald-500.woff2') format('woff2'); }
+@font-face { font-family: 'BS Display'; font-style: normal; font-weight: 600; font-display: swap; src: url('/site00/fonts/oswald/oswald-600.woff2') format('woff2'); }
+@font-face { font-family: 'BS Mark'; font-style: normal; font-weight: 400; font-display: swap; src: url('/site00/fonts/barlow/barlow-400.woff2') format('woff2'); }
+@font-face { font-family: 'BS Mark'; font-style: normal; font-weight: 500; font-display: swap; src: url('/site00/fonts/barlow/barlow-500.woff2') format('woff2'); }
+@font-face { font-family: 'BS Mark'; font-style: normal; font-weight: 700; font-display: swap; src: url('/site00/fonts/barlow/barlow-700.woff2') format('woff2'); }
+@font-face { font-family: 'BS Value'; font-style: normal; font-weight: 500; font-display: swap; src: url('/site00/fonts/barlow-semi-condensed/barlow-semi-condensed-500.woff2') format('woff2'); }
+@font-face { font-family: 'BS Value'; font-style: normal; font-weight: 600; font-display: swap; src: url('/site00/fonts/barlow-semi-condensed/barlow-semi-condensed-600.woff2') format('woff2'); }
+@font-face { font-family: 'BS Value'; font-style: normal; font-weight: 700; font-display: swap; src: url('/site00/fonts/barlow-semi-condensed/barlow-semi-condensed-700.woff2') format('woff2'); }
+@font-face { font-family: 'BS Sans'; font-style: normal; font-weight: 400; font-display: swap; src: url('/site00/fonts/roboto/roboto-400.woff2') format('woff2'); }
+@font-face { font-family: 'BS Sans'; font-style: normal; font-weight: 500; font-display: swap; src: url('/site00/fonts/roboto/roboto-500.woff2') format('woff2'); }
 
 .bs-root {
-  /* Production Workspace palette (.pxa / .hubx): cool luminous neutrals, ink, one red. */
-  --bs-bg: #f4f4f6;
-  --bs-paper: #fafafb;
-  --bs-card: rgba(255, 255, 255, 0.9);
-  --bs-card-solid: #ffffff;
-  --bs-ink: #111114;
-  --bs-ink-2: #3a3a40;
-  --bs-muted: #6e6e76;
-  --bs-faint: #9c9ca3;
-  --bs-line: #e2e2e6;
-  --bs-line-strong: #c9c9cf;
-  --bs-silver: #d6d8dc;
-  --bs-red: #e5231b;
-  --bs-red-hi: #ff3b30;
-  --bs-red-deep: #b8170f;
-  --bs-red-tint: rgba(229, 35, 27, 0.06);
-  --bs-display: 'Saira Semi Condensed', var(--site00-font-family, ui-sans-serif), sans-serif;
-  --bs-sans: 'Saira Semi Condensed', var(--site00-font-family, ui-sans-serif), sans-serif;
-  --bs-gutter: 20px;
+  /* Sampled from the approved references: near-neutral off-white (faintly warm, never beige), black ink, pure red. */
+  --bs-bg: #f5f3f3;
+  --bs-paper: #f9f8f8;
+  --bs-card: rgba(255, 255, 255, 0.6);
+  --bs-card-solid: #fdfcfc;
+  --bs-ink: #0a0a0a;
+  --bs-ink-2: #3f3d3d;
+  --bs-muted: #77736f;
+  --bs-faint: #a8a4a1;
+  --bs-line: #e6e2e0;
+  --bs-line-strong: #cec9c6;
+  --bs-silver: #d9d6d4;
+  --bs-red: #e50107;
+  --bs-red-hi: #f3140f;
+  --bs-red-deep: #bd0006;
+  --bs-red-tint: rgba(229, 1, 7, 0.06);
+  --bs-display: 'BS Display', 'Arial Narrow', sans-serif;
+  --bs-value: 'BS Value', 'Arial Narrow', sans-serif;
+  --bs-mark: 'BS Mark', 'Helvetica Neue', Arial, sans-serif;
+  --bs-sans: 'BS Sans', 'Helvetica Neue', Arial, sans-serif;
+  /* Text sits on a 33px gutter; card grids and the CTA reach wider (20px / 27px), as drawn. */
+  --bs-gutter: 33px;
 
   position: relative;
   box-sizing: border-box;
@@ -2096,6 +2079,201 @@ body.bs-body {
 .bs-review { border-color: var(--bs-line); border-left-color: var(--bs-ink); background: var(--bs-card-solid); }
 .bs-review__label { font-size: 21px; letter-spacing: 0.04em; }
 
+
+/* ═══════════════════════ REFERENCE FIDELITY 2 — measured from the approved references ═══════════════════════
+   Every value below is read from the references at CSS scale (393px phone): cap heights → font sizes through each
+   face's measured cap ratio (Oswald .81 · Roboto .71 · Barlow / Barlow Semi Condensed .70), positions → gutters
+   and gaps. Horizontal geometry is the reference's; vertical rhythm is redistributed so rooms 01–04 fit one
+   390×844 / 393×852 screen (the drawn phones are ~1.3× taller than a real one). */
+
+.bs-root {
+  padding-top: max(20px, env(safe-area-inset-top));
+  font-family: var(--bs-sans);
+  letter-spacing: 0.14em;
+}
+
+/* Header: SITE 00 (Barlow 700, cap 13) over BUILDER (Barlow 400, cap 8.5). */
+.bs-wordmark { gap: 5px; }
+.bs-wordmark__site { font-family: var(--bs-mark); font-size: 18.5px; font-weight: 700; letter-spacing: 0.22em; line-height: 1; }
+.bs-wordmark__product { font-family: var(--bs-mark); font-size: 12.5px; font-weight: 500; letter-spacing: 0.25em; line-height: 1; color: var(--bs-ink-2); }
+.bs-save { font-family: var(--bs-sans); }
+
+/* Room index: red Oswald numeral, short rule, Roboto label. */
+.bs-roomid { gap: 9px; margin: 18px 0 0; }
+.bs-roomid__n { font-family: var(--bs-display); font-size: 17.5px; font-weight: 500; letter-spacing: 0.02em; color: var(--bs-red); }
+.bs-roomid__rule { width: 10px; background: var(--bs-faint); }
+.bs-roomid__label { font-family: var(--bs-sans); font-size: 13px; font-weight: 400; letter-spacing: 0.13em; color: var(--bs-ink-2); }
+
+/* Headline: Oswald 600, cap 44 (54px), pitch 51, tracking −.027em; the full stop is Oswald's own square. */
+.bs-headline {
+  margin: 10px 0 0;
+  font-family: var(--bs-display);
+  font-size: min(54px, 13.85vw);
+  font-weight: 600;
+  line-height: 0.94;
+  letter-spacing: -0.027em;
+  color: var(--bs-ink);
+}
+
+/* Lede: Roboto 400, cap 9.4 (13.2px), pitch 19.6, tracked .27em — 10.8px per character, as measured. */
+.bs-lede {
+  max-width: 318px;
+  margin: 12px 0 0;
+  font-family: var(--bs-sans);
+  font-size: 13.2px;
+  font-weight: 400;
+  line-height: 19.6px;
+  letter-spacing: 0.27em;
+  color: var(--bs-ink-2);
+  text-wrap: pretty;
+}
+
+/* Stage minimums: the stage then takes whatever the room leaves on the screen. */
+.bs-stage--place { --bs-stage-h: 150px; }
+.bs-stage--feel { --bs-stage-h: 200px; }
+.bs-stage--work { --bs-stage-h: 300px; }
+.bs-stage--pace { --bs-stage-h: 170px; }
+.bs-stage--blueprint { --bs-stage-h: 236px; }
+
+.bs-room--place .bs-stage-wrap,
+.bs-room--feel .bs-stage-wrap,
+.bs-room--work .bs-stage-wrap,
+.bs-room--pace .bs-stage-wrap { margin-top: -38px; }
+
+.bs-arrow { color: rgba(10, 10, 10, 0.55); }
+.bs-arrow--prev { left: 14px; }
+.bs-arrow--next { right: 14px; }
+
+/* Composited stage: a photographic environment plate (interim, from SITE 00's atrium render — see
+   build-env-plates.cjs) behind the transparent live canvas, faded into the page on all four edges. */
+.bs-object__host {
+  background: var(--bs-plate, none) center 62% / cover no-repeat;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 7%, #000 93%, transparent 100%), linear-gradient(180deg, transparent 0%, #000 12%, #000 86%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(90deg, transparent 0%, #000 7%, #000 93%, transparent 100%), linear-gradient(180deg, transparent 0%, #000 12%, #000 86%, transparent 100%);
+  mask-composite: intersect;
+}
+.bs-stage--place { --bs-plate: url('/site00/builder-studio/env/place.webp'); }
+.bs-stage--feel { --bs-plate: url('/site00/builder-studio/env/feel.webp'); }
+.bs-stage--work { --bs-plate: url('/site00/builder-studio/env/work.webp'); }
+.bs-stage--pace { --bs-plate: url('/site00/builder-studio/env/pace.webp'); }
+.bs-stage--blueprint { --bs-plate: url('/site00/builder-studio/env/blueprint.webp'); }
+.bs-stage-wrap:fullscreen .bs-object__host,
+.bs-stage-wrap.is-expanded .bs-object__host { -webkit-mask-image: none; mask-image: none; }
+
+/* 01 PLACE: 2×2 cards on a 20px edge, 11px column gap, 10px row gap. */
+.bs-cards { gap: 10px 11px; margin: 0 -13px; }
+.bs-card { padding: 7px 8px 10px; border-radius: 6px; border-color: var(--bs-line); background: rgba(255, 255, 255, 0.5); box-shadow: none; }
+.bs-card.is-selected { border-color: var(--bs-red); box-shadow: 0 0 0 1px var(--bs-red); }
+.bs-card .bs-thumb { width: 52%; height: 56px; background: transparent; }
+.bs-card__label { margin-top: 6px; font-family: var(--bs-value); font-size: 15px; font-weight: 700; letter-spacing: 0.1em; line-height: 1; }
+.bs-card__sub { max-width: 124px; margin-top: 4px; font-family: var(--bs-sans); font-size: 11px; letter-spacing: 0.16em; line-height: 14px; color: var(--bs-muted); }
+
+/* 02 FEEL: caption (Barlow Semi Condensed 700, cap 14) and a strip of four 85px cards on an 8px gap. */
+.bs-feel-caption { margin-top: 4px; }
+.bs-feel-caption__label { font-family: var(--bs-value); font-size: 20px; font-weight: 700; letter-spacing: 0.13em; line-height: 1; }
+.bs-feel-caption__sub { margin-top: 8px; font-family: var(--bs-sans); font-size: 12px; letter-spacing: 0.2em; color: var(--bs-muted); }
+.bs-strip { gap: 8px; margin: 14px -16px 0; padding: 2px 0 4px; overflow: visible; }
+.bs-strip__item { flex: 1 1 0; min-width: 0; padding: 3px 3px 8px; border-radius: 4px; border-color: var(--bs-line); background: rgba(255, 255, 255, 0.5); box-shadow: none; }
+.bs-strip__item.is-selected { border-color: var(--bs-red); box-shadow: 0 0 0 1px var(--bs-red); }
+.bs-strip__item .bs-thumb { height: 74px; background: transparent; }
+.bs-strip__label { margin-top: 7px; font-family: var(--bs-value); font-size: 12.5px; font-weight: 700; letter-spacing: 0.06em; }
+
+/* 03 WORK: capability toggles beside the structure, label over a 28px outlined plus. */
+.bs-module { gap: 7px; }
+.bs-module__label { font-family: var(--bs-value); font-size: 12.5px; font-weight: 700; letter-spacing: 0.08em; line-height: 1.15; color: var(--bs-ink); }
+.bs-module__toggle { width: 28px; height: 28px; border: 1.3px solid var(--bs-ink); background: rgba(255, 255, 255, 0.85); }
+.bs-module__toggle.is-on { border-color: var(--bs-red); background: var(--bs-red); color: #fff; }
+.bs-core { margin: 0 -13px; padding: 12px 10px 10px; border-radius: 6px; border-color: var(--bs-line); background: rgba(255, 255, 255, 0.55); box-shadow: none; }
+.bs-core__head { font-family: var(--bs-value); font-size: 15px; font-weight: 700; letter-spacing: 0.08em; color: var(--bs-ink); }
+.bs-core__tile { min-height: 58px; border-radius: 4px; border-color: var(--bs-line); background: rgba(255, 255, 255, 0.7); font-family: var(--bs-value); font-size: 12.5px; font-weight: 700; letter-spacing: 0.06em; }
+.bs-note { font-family: var(--bs-sans); font-size: 10.5px; letter-spacing: 0.12em; color: var(--bs-muted); }
+
+/* 04 PACE: option rows — 30px icon, Barlow Semi Condensed title (cap 12), Roboto sub-label, 27px checkbox. */
+.bs-pace { margin: 0 -13px; border-radius: 6px; border-color: var(--bs-line); background: rgba(255, 255, 255, 0.55); box-shadow: none; }
+.bs-pace__row { min-height: 58px; padding: 9px 16px 9px 18px; }
+.bs-pace__row.is-selected { background: rgba(255, 255, 255, 0.7); }
+.bs-pace__label { font-family: var(--bs-value); font-size: 17px; font-weight: 700; letter-spacing: 0.1em; line-height: 1; }
+.bs-pace__sub { margin-top: 4px; font-family: var(--bs-sans); font-size: 11.6px; letter-spacing: 0.15em; color: var(--bs-muted); }
+.bs-check { width: 27px; height: 27px; border-radius: 3px; border: 1.3px solid var(--bs-line-strong); }
+.is-selected > .bs-check { border-color: var(--bs-red); background: var(--bs-red); }
+.bs-notes textarea { font-family: var(--bs-sans); }
+
+/* CTA: pure reference red, 48px, Barlow Semi Condensed 600 (cap 10), tracked, arrow at the right of the word. */
+.bs-footer { margin: 0 -6px; }
+.bs-cta {
+  min-height: 48px;
+  border-radius: 4px;
+  background: linear-gradient(180deg, #ef1015 0%, var(--bs-red) 55%, #d10006 100%);
+  font-family: var(--bs-value);
+  font-size: 14.3px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16), 0 8px 18px -12px rgba(229, 1, 7, 0.6);
+}
+.bs-room--pace .bs-cta { min-height: 52px; }
+
+/* Progress rail: red tick, 01 / 04, room label, a track filled in red to the current room. */
+.bs-rail { margin: 0 6px; font-family: var(--bs-sans); font-size: 11px; letter-spacing: 0.14em; }
+.bs-rail__tick { width: 32px; height: 3.5px; border-radius: 2px; background: var(--bs-red); }
+.bs-rail__label { font-family: var(--bs-value); font-size: 12.5px; font-weight: 700; letter-spacing: 0.12em; color: var(--bs-ink); }
+
+/* ── 05 BLUEPRINT: the reveal reference is drawn at a smaller type scale than rooms 01–04. ── */
+.bs-room--blueprint .bs-headline { font-size: min(44.5px, 11.4vw); line-height: 0.92; }
+.bs-room--blueprint .bs-lede { max-width: 236px; margin-top: 13px; font-size: 10px; line-height: 13.8px; letter-spacing: 0.21em; }
+.bs-room--blueprint .bs-stage-wrap { margin-top: -64px; }
+
+.bs-inspect__btn { width: 32px; height: 32px; border: 0; background: rgba(255, 255, 255, 0.86); box-shadow: 0 2px 10px rgba(10, 10, 10, 0.06); font-family: var(--bs-sans); font-size: 10px; letter-spacing: 0.08em; }
+
+/* Tabs are plain words: the active one red with a red underline under the word; no numbers. */
+.bs-tabs { display: flex; justify-content: space-between; margin: 14px 0 0; border-top: 0; border-bottom: 1px solid var(--bs-line); }
+.bs-tab { align-items: center; padding: 9px 0 10px; }
+.bs-tab + .bs-tab { padding-left: 0; border-left: 0; }
+.bs-tab__n { display: none; }
+.bs-tabs__ink { display: none; }
+.bs-tab__label { font-family: var(--bs-sans); font-size: 10px; font-weight: 400; letter-spacing: 0.17em; color: var(--bs-faint); }
+.bs-tab:nth-child(3) .bs-tab__label { color: var(--bs-ink-2); }
+.bs-tab.is-on .bs-tab__label { color: var(--bs-red); font-weight: 500; }
+.bs-tab.is-on { position: relative; }
+.bs-tab.is-on::after { content: ''; position: absolute; left: -4px; right: -4px; bottom: -1px; height: 2px; border-radius: 1px; background: var(--bs-red); }
+.bs-mode { font-family: var(--bs-sans); font-weight: 400; }
+
+/* Facts: hairline icon, Roboto micro label, Barlow Semi Condensed value, sentence-case note. */
+.bs-fact__label { font-family: var(--bs-sans); font-size: 8px; font-weight: 400; letter-spacing: 0.16em; color: var(--bs-ink-2); }
+.bs-fact__value,
+.bs-figure { font-family: var(--bs-value); font-size: 15px; font-weight: 700; letter-spacing: 0.06em; }
+.bs-fact__sub { font-family: var(--bs-sans); font-size: 8.4px; letter-spacing: 0.06em; line-height: 1.45; text-transform: none; color: var(--bs-muted); }
+.bs-config-head h2 { font-family: var(--bs-sans); font-size: 11px; font-weight: 400; letter-spacing: 0.27em; color: var(--bs-ink-2); }
+.bs-config-head .bs-btn { font-family: var(--bs-sans); font-size: 8.6px; letter-spacing: 0.16em; border-radius: 4px; }
+.bs-config__card { border-radius: 5px; border-color: var(--bs-line); background: rgba(255, 255, 255, 0.5); box-shadow: none; }
+.bs-config__label { font-family: var(--bs-sans); font-size: 8px; font-weight: 400; letter-spacing: 0.16em; color: var(--bs-ink-2); }
+.bs-config__value { font-family: var(--bs-value); font-size: 10.5px; font-weight: 700; letter-spacing: 0.12em; }
+.bs-room--blueprint .bs-cta { min-height: 44px; font-size: 12.5px; }
+.bs-room--blueprint .bs-cta--outline { border: 1.3px solid var(--bs-red); color: var(--bs-red); }
+
+/* Everything else in the studio that set the old faces inherits the new families. */
+.bs-btn,
+.bs-status,
+.bs-sheet__lead,
+.bs-sheet__hint,
+.bs-line,
+.bs-option__sub,
+.bs-fineprint,
+.bs-field input,
+.bs-dialog__text,
+.bs-dialog__ref { font-family: var(--bs-sans); }
+.bs-option__label,
+.bs-keystone__value,
+.bs-proposal__row dd,
+.bs-proposal__range-value,
+.bs-tree__verb,
+.bs-plate__label,
+.bs-lane__value,
+.bs-count__n { font-family: var(--bs-value); }
+.bs-dialog__title,
+.bs-review__label,
+.bs-menu__label,
+.bs-menu__n { font-family: var(--bs-display); font-weight: 600; letter-spacing: 0; }
 
 @media (min-width: 700px) {
   .bs-root {
