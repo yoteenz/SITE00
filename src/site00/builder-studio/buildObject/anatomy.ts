@@ -320,7 +320,7 @@ export function blueprintAnatomy(spec: BuildSpec, snapshot: BlueprintSessionSnap
   const stages: TimelineStage[] = [
     {
       n: '01',
-      label: 'GROUNDWORK',
+      label: 'CORE',
       caption: 'THE CORE EVERY BUILD INCLUDES.',
       items: CORE_INCLUDED.map((c) => (world ? c.worldLabel : c.label)),
       elements: only(['main-plinth', 'core', 'core-cap']),
@@ -334,7 +334,7 @@ export function blueprintAnatomy(spec: BuildSpec, snapshot: BlueprintSessionSnap
     },
     {
       n: '03',
-      label: world ? 'MAIN PLACES' : 'MAIN EXPERIENCES',
+      label: world ? 'PLACES' : 'PAGES',
       caption: world
         ? 'THE ENVELOPE AND ITS PAVILIONS. A WORLD’S PLACES ARE SHAPED AT BLUEPRINT REVIEW.'
         : `${structurePages.length} ${structurePages.length === 1 ? 'PAGE' : 'PAGES'} FROM YOUR STRUCTURE, APPROVED BEFORE THEIR DETAIL VIEWS.`,
@@ -343,7 +343,7 @@ export function blueprintAnatomy(spec: BuildSpec, snapshot: BlueprintSessionSnap
     },
     {
       n: '04',
-      label: 'CAPABILITIES',
+      label: 'FEATURES',
       caption: `${spec.modules.length} ${spec.modules.length === 1 ? 'CAPABILITY' : 'CAPABILITIES'} FROM ROOM 03${broughtAlong ? `, AND ${broughtAlong} THAT COME WITH THEM` : ''}.`,
       items: spec.modules.map(moduleLabel),
       elements: [...wings, ...only(['core-mark'])],

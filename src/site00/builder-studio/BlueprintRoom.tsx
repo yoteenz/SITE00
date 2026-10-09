@@ -367,6 +367,56 @@ export function BlueprintStageAnnotations({ tab, inspect, bus, anchors }: { tab:
   );
 }
 
+/**
+ * The selection's context on the stage itself — shown beside the model on desktop and whenever the stage is full
+ * screen (where the panel is out of view), so an inspection never loses its explanation.
+ */
+function stageCaption(tab: BlueprintTab, inspect: BlueprintInspectState): { title: string; body: string } | null {
+  const { anatomy, pick, stage } = inspect;
+  if (!anatomy || tab === 'OVERVIEW') return null;
+  switch (tab) {
+    case 'STRUCTURE': {
+      const layer = anatomy.layers.find((l) => l.id === pick);
+      return layer ? { title: `${layer.n} · ${layer.label}`, body: layer.elements.length ? layer.caption : 'NOT DRAWN IN THE MODEL.' } : { title: 'THE LAYERS OF THE PLACE', body: anatomy.layers.map((l) => `${l.n} ${l.label}`).join(' · ') };
+    }
+    case 'PAGES': {
+      if (!anatomy.pages) return null;
+      const page = anatomy.pages.groups.flatMap((g) => g.pages).find((p) => `P${p.n}` === pick);
+      if (page) return { title: `P${pad(page.n)} · ${page.label.toUpperCase()}`, body: [page.home ? `LIVES IN ${page.home.label}` : 'NOT PLACED IN THE MODEL', page.via ? `BROUGHT BY ${page.via}` : ''].filter(Boolean).join(' · ') };
+      if (pick?.startsWith('G:')) return { title: pick.slice(2), body: 'LIT: WHERE THESE PAGES LIVE.' };
+      return { title: `${pad(anatomy.pages.total)} PAGES`, body: anatomy.pages.homes.map((h) => `${pad(h.count)} IN ${h.label}`).join(' · ') };
+    }
+    case 'FEATURES': {
+      if (pick === 'CORE') return { title: `CORE · ${anatomy.core.label}`, body: 'INCLUDED IN EVERY BUILD · IN THE RED CORE' };
+      const feature = anatomy.features.find((f) => `F${f.n}` === pick);
+      if (feature) return { title: `F${pad(feature.n)} · ${feature.verb}`, body: [feature.plain.toUpperCase(), feature.home ? `IN ${feature.home.label}` : ''].filter(Boolean).join(' · ') };
+      return { title: `${anatomy.features.length} FEATURES ON ONE CORE`, body: 'LIT: THE CORE AND EVERY MODULE.' };
+    }
+    case 'TIMELINE': {
+      const current = stage === null ? null : anatomy.stages[stage];
+      return current
+        ? { title: `${current.n} · ${current.label}`, body: `${current.caption} ILLUSTRATIVE ORDER · NOT A SCHEDULE.` }
+        : { title: 'THE COMPLETE PLACE', body: 'ILLUSTRATIVE ORDER · NOT A SCHEDULE.' };
+    }
+    default:
+      return null;
+  }
+}
+
+export function BlueprintStageCaption({ tab, inspect }: { tab: BlueprintTab; inspect: BlueprintInspectState }) {
+  const caption = stageCaption(tab, inspect);
+  if (!caption) return null;
+  return (
+    <div className="bs-stagecap" aria-hidden="true">
+      <p className="bs-stagecap__mode">
+        <span>{pad(BLUEPRINT_TABS.indexOf(tab) + 1)}</span> {MODE_PURPOSE[tab]}
+      </p>
+      <p className="bs-stagecap__title">{caption.title}</p>
+      <p className="bs-stagecap__body">{caption.body}</p>
+    </div>
+  );
+}
+
 /* ─────────────────────────────── panel ─────────────────────────────── */
 
 type PanelProps = Props & { inspect: BlueprintInspectState };

@@ -16,6 +16,7 @@ import {
   BlueprintActions,
   BlueprintPanel,
   BlueprintStageAnnotations,
+  BlueprintStageCaption,
   BlueprintStageControls,
   createAnchorBus,
   sectionAnchors,
@@ -193,12 +194,20 @@ export function BuilderStudio({ room: requested }: { room: StudioRoomId | null }
   useEffect(() => {
     const wrap = stageWrapRef.current;
     if (room !== 'blueprint' || tab === 'OVERVIEW' || !wrap) return;
-    const onScroll = () => wrap.classList.toggle('is-stuck', wrap.getBoundingClientRect().top <= 0.5 && window.scrollY > 0);
+    const root = document.documentElement;
+    const onScroll = () => {
+      wrap.classList.toggle('is-stuck', wrap.getBoundingClientRect().top <= 0.5 && window.scrollY > 0);
+      // Whatever scrolls into view (a focused or chosen item) lands below the pinned stage, never under it.
+      root.style.scrollPaddingTop = getComputedStyle(wrap).position === 'sticky' ? `${wrap.offsetHeight + 12}px` : '';
+    };
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
     return () => {
       window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
       wrap.classList.remove('is-stuck');
+      root.style.scrollPaddingTop = '';
     };
   }, [room, tab]);
   const inspectState: BlueprintInspectState = useMemo(() => ({ anatomy, pick, setPick, stage, setStage, playing, setPlaying }), [anatomy, pick, stage, playing]);
@@ -258,6 +267,7 @@ export function BuilderStudio({ room: requested }: { room: StudioRoomId | null }
           {room === 'feel' ? <FeelStageArrows {...roomProps} /> : null}
           {room === 'work' ? <WorkStageToggles {...roomProps} toggle={work.toggle} pending={work.pending} /> : null}
           {room === 'blueprint' ? <BlueprintStageAnnotations tab={tab} inspect={inspectState} bus={anchorBus} anchors={markers} /> : null}
+          {room === 'blueprint' ? <BlueprintStageCaption tab={tab} inspect={inspectState} /> : null}
           {room === 'blueprint' ? (
             <BlueprintStageControls
               inspecting={inspecting}

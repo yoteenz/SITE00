@@ -1,0 +1,356 @@
+{
+  "parts": {
+    "walk:390x844": {
+      "ranAt": "2026-10-09T15:37:56.004Z",
+      "results": [
+        {
+          "id": "m-I01",
+          "name": "390x844: every section puts its own state on the model",
+          "result": "PASS",
+          "detail": "STRUCTURE:- lit=0 · PAGES:- lit=5 · FEATURES:- lit=8"
+        },
+        {
+          "id": "m-I02",
+          "name": "390x844: each section's default view differs visibly from the whole place",
+          "result": "PASS",
+          "detail": "STRUCTURE 23.7% · PAGES 23.4% · FEATURES 21.8%"
+        },
+        {
+          "id": "m-S01",
+          "name": "390x844: STRUCTURE layer lights its geometry, moves the camera, pins a callout",
+          "result": "PASS",
+          "detail": "lit 3 · cam -26.0/16.06/-0.27,2.78,0.00 → -26.4/16.67/-0.33,2.80,0.02 · callout L3 · ENVELOPE"
+        },
+        {
+          "id": "m-S02",
+          "name": "390x844: STRUCTURE a second layer replaces the first",
+          "result": "PASS",
+          "detail": "L4WINGSPAGES · SHOP · PORTAL · L4 · WINGS"
+        },
+        {
+          "id": "m-S03",
+          "name": "390x844: STRUCTURE an undrawn line lights nothing and says so",
+          "result": "PASS",
+          "detail": "L6 PACE · NOT DRAWN IN THE MODEL"
+        },
+        {
+          "id": "m-S04",
+          "name": "390x844: STRUCTURE returns to its default exactly",
+          "result": "PASS",
+          "detail": "STRUCTURE:- · -26.0/16.06/-0.27,2.78,0.00"
+        },
+        {
+          "id": "m-P01",
+          "name": "390x844: PAGES shows every page once, the count from the Blueprint",
+          "result": "PASS",
+          "detail": "12 counted · 12 plates"
+        },
+        {
+          "id": "m-P02",
+          "name": "390x844: PAGES a page lights the volume it lives in and names it",
+          "result": "PASS",
+          "detail": "lit 2 · P06 · SHOP · P06 · SHOP FULLLIVES INTHE SHOP WINGBROUGHT BYSELL · FROM SHOPPART OFDOING THINGS"
+        },
+        {
+          "id": "m-P03",
+          "name": "390x844: PAGES another page moves to its own volume",
+          "result": "PASS",
+          "detail": "P10 · ACCOUNT · cam -32.7/11.65/-1.14,1.98,0.16"
+        },
+        {
+          "id": "m-P04",
+          "name": "390x844: PAGES a group lights where its pages live",
+          "result": "PASS",
+          "detail": "SIGNED IN · LIT ON THE MODEL · lit 2"
+        },
+        {
+          "id": "m-P05",
+          "name": "390x844: PAGES Escape returns to every page",
+          "result": "PASS",
+          "detail": "PAGES:-"
+        },
+        {
+          "id": "m-F01",
+          "name": "390x844: FEATURES a feature lights its module and pins it",
+          "result": "PASS",
+          "detail": "lit 2 · F02 · SELL"
+        },
+        {
+          "id": "m-F02",
+          "name": "390x844: FEATURES a relationship opens the related feature on the same module",
+          "result": "PASS",
+          "detail": "F04 · TAKE PAYMENT · F04TAKE PAYMENTSHOPCOMES WITH YOUR CHOIC"
+        },
+        {
+          "id": "m-F03",
+          "name": "390x844: FEATURES selecting again returns to every feature",
+          "result": "PASS",
+          "detail": "FEATURES:-"
+        },
+        {
+          "id": "m-X01",
+          "name": "390x844: a section change clears the selection; OVERVIEW restores the whole place",
+          "result": "PASS",
+          "detail": "PAGES:- · true"
+        },
+        {
+          "id": "m-K01",
+          "name": "390x844: keyboard — arrows/Home/End move between sections, Enter selects, Escape returns",
+          "result": "PASS",
+          "detail": "02STRUCTURE · 05TIMELINE · L2 · CORE · 0"
+        },
+        {
+          "id": "m-X02",
+          "name": "390x844: full screen keeps the section, the selection and its caption",
+          "result": "PASS",
+          "detail": "true · L3 · ENVELOPE"
+        },
+        {
+          "id": "m-X03",
+          "name": "390x844: the model still turns by drag during an inspection, selection kept",
+          "result": "PASS",
+          "detail": "stage 21.3%"
+        },
+        {
+          "id": "m-X04",
+          "name": "390x844: the stage stays in view (sticky) while the page index scrolls",
+          "result": "PASS",
+          "detail": "{\"top\":0,\"bottom\":236,\"stuck\":true,\"scrollY\":521}"
+        },
+        {
+          "id": "m-R01",
+          "name": "390x844: reduced motion — TIMELINE opens complete, holds still, never autoplays",
+          "result": "PASS",
+          "detail": "TIMELINE:done · drift 0.0%"
+        },
+        {
+          "id": "m-T01",
+          "name": "390x844: TIMELINE steps stage by stage (current lit, later stages outlined)",
+          "result": "PASS",
+          "detail": "TIMELINE:1 → TIMELINE:2 → TIMELINE:1 · 02 · DIRECTION"
+        },
+        {
+          "id": "m-T02",
+          "name": "390x844: TIMELINE keeps the canonical window and says it is not a schedule",
+          "result": "PASS",
+          "detail": "facts 6 – 13 MONTHS / $38,000 – $76,000 · lanes 6 – 13 MONTHS / 5 – 11 MONTHS"
+        },
+        {
+          "id": "m-L01",
+          "name": "390x844: no sideways scroll, nothing clipped, tabs fit with 40px+ targets",
+          "result": "PASS",
+          "detail": "OVERVIEW:0/-/true STRUCTURE:0/-/true PAGES:0/-/true FEATURES:0/-/true TIMELINE:0/-/true"
+        },
+        {
+          "id": "m-L02",
+          "name": "390x844: text under 7.8px / targets under 24px in the sections",
+          "result": "INFO",
+          "detail": "OVERVIEW:7/0 bs-fact__label:7.6px,bs-config__label:7px  | STRUCTURE:0/1  bs-link:11 | PAGES:0/1  bs-link:11 | FEATURES:0/1  bs-link:11 | TIMELINE:6/1 EM:7px,bs-steps__n:7.4px bs-link:11"
+        },
+        {
+          "id": "m-E01",
+          "name": "390x844: no script errors",
+          "result": "PASS",
+          "detail": ""
+        }
+      ]
+    },
+    "walk:1440x900": {
+      "ranAt": "2026-10-09T15:39:27.763Z",
+      "results": [
+        {
+          "id": "d-I01",
+          "name": "1440x900: every section puts its own state on the model",
+          "result": "PASS",
+          "detail": "STRUCTURE:- lit=0 · PAGES:- lit=5 · FEATURES:- lit=8"
+        },
+        {
+          "id": "d-I02",
+          "name": "1440x900: each section's default view differs visibly from the whole place",
+          "result": "PASS",
+          "detail": "STRUCTURE 31.3% · PAGES 26.6% · FEATURES 22.8%"
+        },
+        {
+          "id": "d-S01",
+          "name": "1440x900: STRUCTURE layer lights its geometry, moves the camera, pins a callout",
+          "result": "PASS",
+          "detail": "lit 3 · cam -26.0/19.03/-0.27,2.78,0.00 → -26.4/23.58/-0.33,2.80,0.02 · callout L3 · ENVELOPE"
+        },
+        {
+          "id": "d-S02",
+          "name": "1440x900: STRUCTURE a second layer replaces the first",
+          "result": "PASS",
+          "detail": "L4WINGSPAGES · SHOP · PORTAL · L4 · WINGS"
+        },
+        {
+          "id": "d-S03",
+          "name": "1440x900: STRUCTURE an undrawn line lights nothing and says so",
+          "result": "PASS",
+          "detail": "L6 PACE · NOT DRAWN IN THE MODEL"
+        },
+        {
+          "id": "d-S04",
+          "name": "1440x900: STRUCTURE returns to its default exactly",
+          "result": "PASS",
+          "detail": "STRUCTURE:- · -26.0/19.03/-0.27,2.78,0.00"
+        },
+        {
+          "id": "d-P01",
+          "name": "1440x900: PAGES shows every page once, the count from the Blueprint",
+          "result": "PASS",
+          "detail": "12 counted · 12 plates"
+        },
+        {
+          "id": "d-P02",
+          "name": "1440x900: PAGES a page lights the volume it lives in and names it",
+          "result": "PASS",
+          "detail": "lit 2 · P06 · SHOP · P06 · SHOP FULLLIVES INTHE SHOP WINGBROUGHT BYSELL · FROM SHOPPART OFDOING THINGS"
+        },
+        {
+          "id": "d-P03",
+          "name": "1440x900: PAGES another page moves to its own volume",
+          "result": "PASS",
+          "detail": "P10 · ACCOUNT · cam -32.7/14.30/-1.14,1.98,0.16"
+        },
+        {
+          "id": "d-P04",
+          "name": "1440x900: PAGES a group lights where its pages live",
+          "result": "PASS",
+          "detail": "SIGNED IN · LIT ON THE MODEL · lit 2"
+        },
+        {
+          "id": "d-P05",
+          "name": "1440x900: PAGES Escape returns to every page",
+          "result": "PASS",
+          "detail": "PAGES:-"
+        },
+        {
+          "id": "d-F01",
+          "name": "1440x900: FEATURES a feature lights its module and pins it",
+          "result": "PASS",
+          "detail": "lit 2 · F02 · SELL"
+        },
+        {
+          "id": "d-F02",
+          "name": "1440x900: FEATURES a relationship opens the related feature on the same module",
+          "result": "PASS",
+          "detail": "F04 · TAKE PAYMENT · F04TAKE PAYMENTSHOPCOMES WITH YOUR CHOIC"
+        },
+        {
+          "id": "d-F03",
+          "name": "1440x900: FEATURES selecting again returns to every feature",
+          "result": "PASS",
+          "detail": "FEATURES:-"
+        },
+        {
+          "id": "d-X01",
+          "name": "1440x900: a section change clears the selection; OVERVIEW restores the whole place",
+          "result": "PASS",
+          "detail": "PAGES:- · true"
+        },
+        {
+          "id": "d-K01",
+          "name": "1440x900: keyboard — arrows/Home/End move between sections, Enter selects, Escape returns",
+          "result": "PASS",
+          "detail": "02STRUCTURE · 05TIMELINE · L2 · CORE · 0"
+        },
+        {
+          "id": "d-X02",
+          "name": "1440x900: full screen keeps the section, the selection and its caption",
+          "result": "PASS",
+          "detail": "true · L3 · ENVELOPE"
+        },
+        {
+          "id": "d-X03",
+          "name": "1440x900: the model still turns by drag during an inspection, selection kept",
+          "result": "PASS",
+          "detail": "stage 18.0%"
+        },
+        {
+          "id": "d-R01",
+          "name": "1440x900: reduced motion — TIMELINE opens complete, holds still, never autoplays",
+          "result": "PASS",
+          "detail": "TIMELINE:done · drift 0.0%"
+        },
+        {
+          "id": "d-T01",
+          "name": "1440x900: TIMELINE steps stage by stage (current lit, later stages outlined)",
+          "result": "PASS",
+          "detail": "TIMELINE:1 → TIMELINE:2 → TIMELINE:1 · 02 · DIRECTION"
+        },
+        {
+          "id": "d-T02",
+          "name": "1440x900: TIMELINE keeps the canonical window and says it is not a schedule",
+          "result": "PASS",
+          "detail": "facts 6 – 13 MONTHS / $38,000 – $76,000 · lanes 6 – 13 MONTHS / 5 – 11 MONTHS"
+        },
+        {
+          "id": "d-L01",
+          "name": "1440x900: no sideways scroll, nothing clipped, tabs fit with 40px+ targets",
+          "result": "PASS",
+          "detail": "OVERVIEW:0/-/true STRUCTURE:0/-/true PAGES:0/-/true FEATURES:0/-/true TIMELINE:0/-/true"
+        },
+        {
+          "id": "d-L02",
+          "name": "1440x900: text under 7.8px / targets under 24px in the sections",
+          "result": "INFO",
+          "detail": "OVERVIEW:4/0 bs-config__label:7px  | STRUCTURE:0/0   | PAGES:0/0   | FEATURES:0/0   | TIMELINE:0/0  "
+        },
+        {
+          "id": "d-E01",
+          "name": "1440x900: no script errors",
+          "result": "PASS",
+          "detail": ""
+        }
+      ]
+    },
+    "motion": {
+      "ranAt": "2026-10-09T15:40:37.187Z",
+      "results": [
+        {
+          "id": "M01",
+          "name": "390×844 motion: TIMELINE plays itself stage by stage, then rests complete",
+          "result": "PASS",
+          "detail": "TIMELINE:0 → TIMELINE:1 → TIMELINE:2 → TIMELINE:3 → TIMELINE:done"
+        },
+        {
+          "id": "M02",
+          "name": "390×844 motion: page frame rate during assembly (software GL in this sandbox)",
+          "result": "INFO",
+          "detail": "12 fps"
+        }
+      ]
+    },
+    "layout": {
+      "ranAt": "2026-10-09T15:46:07.182Z",
+      "results": [
+        {
+          "id": "L-393x852",
+          "name": "393x852: no sideways scroll, nothing clipped, tabs fit",
+          "result": "PASS",
+          "detail": "OVERVIEW:0/-/true STRUCTURE:0/-/true PAGES:0/-/true FEATURES:0/-/true TIMELINE:0/-/true"
+        },
+        {
+          "id": "L-834x1194",
+          "name": "834x1194: no sideways scroll, nothing clipped, tabs fit",
+          "result": "PASS",
+          "detail": "OVERVIEW:0/-/true STRUCTURE:0/-/true PAGES:0/-/true FEATURES:0/-/true TIMELINE:0/-/true"
+        },
+        {
+          "id": "L-339x734 (text 115%)",
+          "name": "339x734 (text 115%): no sideways scroll, nothing clipped, tabs fit",
+          "result": "PASS",
+          "detail": "OVERVIEW:0/-/true STRUCTURE:0/-/true PAGES:0/-/true FEATURES:0/-/true TIMELINE:0/-/true"
+        },
+        {
+          "id": "L-300x649 (text 130%)",
+          "name": "300x649 (text 130%): no sideways scroll, nothing clipped, tabs fit",
+          "result": "PASS",
+          "detail": "OVERVIEW:0/-/true STRUCTURE:0/-/true PAGES:0/-/true FEATURES:0/-/true TIMELINE:0/-/true"
+        }
+      ]
+    }
+  },
+  "base": "http://127.0.0.1:5174",
+  "summary": "52/52 PASS"
+}

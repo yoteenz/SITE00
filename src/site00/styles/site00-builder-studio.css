@@ -2570,6 +2570,35 @@ button.bs-chip:hover { background: var(--bs-red); color: #fff; }
 .bs-more[open] { padding-bottom: 8px; }
 .bs-more > * + * { margin-top: 6px; }
 
+/* Stage caption: the selection's context on the model — desktop, and full screen everywhere. */
+.bs-stagecap { display: none; }
+.bs-stage-wrap:fullscreen .bs-stagecap,
+.bs-stage-wrap.is-expanded .bs-stagecap {
+  display: grid;
+  position: absolute;
+  left: 16px;
+  right: 64px;
+  bottom: 24px;
+  z-index: 3;
+}
+.bs-stagecap {
+  gap: 4px;
+  max-width: 340px;
+  padding: 11px 14px 12px;
+  border: 1px solid var(--bs-line);
+  border-left: 2px solid var(--bs-red);
+  border-radius: 0 6px 6px 0;
+  background: rgba(255, 255, 255, 0.78);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  pointer-events: none;
+}
+.bs-stagecap p { margin: 0; }
+.bs-stagecap__mode { font-family: var(--bs-sans); font-size: 8.4px; font-weight: 500; letter-spacing: 0.2em; color: var(--bs-muted); }
+.bs-stagecap__mode span { color: var(--bs-red); }
+.bs-stagecap__title { font-family: var(--bs-value); font-size: 15px; font-weight: 700; letter-spacing: 0.08em; color: var(--bs-ink); }
+.bs-stagecap__body { font-family: var(--bs-sans); font-size: 9.4px; line-height: 1.5; letter-spacing: 0.1em; color: var(--bs-ink-2); }
+
 /* In the inspection sections the model stays in view while the index scrolls under it (phones and tablets). */
 /* Under the lede (z 1) until it pins; once pinned it rides above the index (z 5) on its own ground. */
 .bs-room--blueprint[data-inspect]:not([data-inspect='OVERVIEW']) .bs-stage-wrap { position: sticky; top: 0; z-index: 1; }
@@ -2579,7 +2608,17 @@ button.bs-chip:hover { background: var(--bs-red); color: #fff; }
 .bs-room--blueprint .bs-marks { --bs-marks-min: 92px; }
 .bs-room--blueprint .bs-stage-wrap.is-stuck .bs-marks { --bs-marks-min: 36px; }
 
+/* Readable floor in the inspection sections: no label under 7.8px, every link a 32px target. */
+.bs-tabpanel .bs-link { display: inline-flex; align-items: center; min-height: 32px; }
+.bs-lane__label em { font-size: 7.8px; }
+.bs-steps__n { font-size: 8px; }
+
 @media (max-width: 359px) {
+  /* Narrow screens and larger text: the open section keeps its word, the others keep their number (their names
+     stay in the accessible label), so the index never runs off the screen. */
+  .bs-tab:not(.is-on) { align-items: center; min-width: 32px; }
+  .bs-tab:not(.is-on) .bs-tab__n { font-size: 10px; line-height: 18px; }
+  .bs-tab:not(.is-on) .bs-tab__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   .bs-stagerail__label { display: none; }
   .bs-layer__head { grid-template-columns: 26px minmax(0, 1fr); }
   .bs-layer__value { grid-column: 2; text-align: left; }
@@ -2702,6 +2741,9 @@ button.bs-chip:hover { background: var(--bs-red); color: #fff; }
   .bs-room--blueprint .bs-marks { --bs-marks-min: 48px; }
   .bs-mark__tag { height: 22px; font-size: 9.2px; line-height: 20px; }
   .bs-mark__text { font-size: 9.4px; }
+  .bs-stagecap { display: grid; position: absolute; left: 13%; bottom: 64px; z-index: 3; }
+  .bs-stagecap__title { font-size: 17px; }
+  .bs-stagecap__body { font-size: 10px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
