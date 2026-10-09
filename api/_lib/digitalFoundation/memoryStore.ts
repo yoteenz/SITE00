@@ -23,6 +23,11 @@ import type {
   ProjectForecast,
   ProjectOperationsConfig,
 } from '../../../shared/site00-digital-foundation/operations/types.js';
+import { isCloudMobilePreviewDev } from '../cloudMobilePreview.js';
+import {
+  mergePreviewSnapshotFromDisk,
+  touchPreviewSnapshotAfterMutation,
+} from './previewMemorySnapshot.js';
 
 export type DfMemoryState = {
   config: ReturnType<typeof defaultDigitalFoundationCommercialConfig>;
@@ -86,8 +91,16 @@ export function getDfMemoryState(): DfMemoryState {
       projectConfig: new Map(),
       readinessClock: new Map(),
     };
+    if (isCloudMobilePreviewDev()) {
+      mergePreviewSnapshotFromDisk(state);
+    }
   }
   return state;
+}
+
+function afterDfMutation(): void {
+  if (!state || !isCloudMobilePreviewDev()) return;
+  touchPreviewSnapshotAfterMutation(state);
 }
 
 export function resetDigitalFoundationMemoryStore(): void {
@@ -98,6 +111,7 @@ export function memSaveArtifact(a: DigitalFoundationArtifact): void {
   const s = getDfMemoryState();
   s.artifacts.set(a.artifact_id, a);
   s.artifactsByToken.set(a.public_token, a.artifact_id);
+  afterDfMutation();
 }
 
 export function memGetArtifact(id: string): DigitalFoundationArtifact | undefined {
@@ -111,6 +125,7 @@ export function memGetArtifactByToken(token: string): DigitalFoundationArtifact 
 
 export function memSaveLead(l: DigitalFoundationLead): void {
   getDfMemoryState().leads.set(l.lead_id, l);
+  afterDfMutation();
 }
 
 export function memGetLead(id: string): DigitalFoundationLead | undefined {
@@ -119,6 +134,7 @@ export function memGetLead(id: string): DigitalFoundationLead | undefined {
 
 export function memSaveQuote(q: DigitalFoundationQuote): void {
   getDfMemoryState().quotes.set(q.quote_id, q);
+  afterDfMutation();
 }
 
 export function memGetQuote(id: string): DigitalFoundationQuote | undefined {
@@ -127,6 +143,13 @@ export function memGetQuote(id: string): DigitalFoundationQuote | undefined {
 
 export function memAppendEvent(e: ArtifactEvent): void {
   getDfMemoryState().events.push(e);
+  afterDfMutation();
+}
+
+/** Cloud preview: reload shared snapshot when token missing (multi-backend tunnel). */
+export function memRefreshPreviewSnapshotFromDisk(): void {
+  if (!isCloudMobilePreviewDev()) return;
+  mergePreviewSnapshotFromDisk(getDfMemoryState());
 }
 
 export function listArtifacts(): DigitalFoundationArtifact[] {

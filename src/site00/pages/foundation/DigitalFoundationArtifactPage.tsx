@@ -161,9 +161,29 @@ export default function DigitalFoundationArtifactPage() {
   }
 
   if (error && !payload) {
+    const notFound = error.includes('ARTIFACT_NOT_FOUND');
+    const cloudPreview = import.meta.env.VITE_SITE00_CLOUD_PREVIEW === '1';
     return (
       <main className="site00-df-artifact">
-        <p className="site00-df-artifact__error">{error}</p>
+        <p className="site00-df-artifact__error">
+          {notFound
+            ? 'This foundation link is not available on this preview server.'
+            : error}
+        </p>
+        {notFound && (
+          <section className="site00-df-artifact__panel">
+            <p>
+              {cloudPreview
+                ? 'Preview links reset when the tunnel restarts unless they were created on this environment. Open the founder console and use Client intake for a fresh link — do not reuse an old production or bookmarked token.'
+                : 'If you received this link by email, ask SITE 00 to resend your personalized foundation link.'}
+            </p>
+            {cloudPreview && (
+              <p>
+                <a href="/admin/site00/foundation">Digital Foundation admin</a>
+              </p>
+            )}
+          </section>
+        )}
       </main>
     );
   }
