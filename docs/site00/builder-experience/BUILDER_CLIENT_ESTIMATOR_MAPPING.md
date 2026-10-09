@@ -20,7 +20,7 @@ BuilderSelection ──toEstimateConfig()──▶ ProjectEstimateConfig ──e
 - **Allowed build levels come from the estimator.** Each feature's allowed build levels are read from the estimator registry (`allowedBuildTypes`).
 - **Every figure is computed by the estimator.** This covers every window, range, scope band and priority effect.
 - **Comparisons ask the estimator twice.** Where the Builder compares (standard vs priority, before vs after a change), it runs the estimator on both configurations and compares the outputs.
-- **Nothing here changes estimator behaviour.** The estimator tests and the reference fixture outputs (e.g. STANDARD_EDITORIAL `15–19 WEEKS · $17K–$22K`) are asserted unchanged in `builderExperience.test.ts`.
+- **Nothing here changes estimator mathematics.** Raw weeks and dollars stay on the result. Client strings pass through the presentation policy (`presentation.ts`). STANDARD_EDITORIAL displays `16–20 WEEKS · $16K–$22K` from canonical `14.79–18.90` weeks and `$16,999–$21,721`.
 
 ## Field-by-field
 
