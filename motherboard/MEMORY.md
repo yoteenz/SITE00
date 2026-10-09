@@ -15779,3 +15779,18 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - Builder preview and Blueprint summary still read `toClientBlueprintEstimate()`. The admin estimator shows the raw week span beside the display window.
 - **Changes:** `src/studioos/estimation/presentation.ts`, presentation and estimator tests, spatial studio binding test, admin raw-window line, `BUILDER_PRICING_EVIDENCE.json`, `docs/site00/estimation/PRICING_RECONCILIATION.md`, `docs/site00/SITE00_ESTIMATION_ENGINE.md`.
 - **Conventions:** Do not add a second formatter. Do not write the display range back into the estimator. Do not publish a production price change from this policy.
+
+---
+
+## 2026-10-09 — Immersive Blueprint on the founder tunnel
+
+- **Context:** Founder asked to see sprint `P0.SITE00.BLDR.BLUEPRINT.V1-IMMERSIVE-TAB-BEHAVIOR-AND-SPATIAL-INFORMATION-RECOVERY1` on the tunnel, with links. That work is draft PR #1528, not merged to main. `origin/preview/tunnel` is `6b9b616f` (same tree as `91798796`).
+- **Topics covered:** The public hostname was down (Cloudflare 1033). The preview server on port 5174 was still on an October 8 worktree. Main (`45256e30`) has the even-endpoint timeline policy and does not contain this Blueprint.
+- **Decisions / outcomes:**
+  - The live tunnel now serves `preview/tunnel` `6b9b616f` in dev mode. Open Builder, then Blueprint, on the founder preview hostname.
+  - A new visit opens Place. Blueprint opens after path, direction, at least one capability, and pace.
+  - Overview, Structure (L1–L6), Pages, Features, and Timeline were checked in the browser. Timeline reads ILLUSTRATIVE ORDER · NOT A SCHEDULE.
+  - This preview is not main. Week labels here can still be odd. Do not treat that as a regression of policy 1.1.0.
+  - Submit on this preview stayed local-only. The visual review is the point of the link.
+- **Changes:** No product code. Preview worktree and the tunnel connector only.
+- **Conventions:** Do not force `preview/tunnel` back to main while the founder is reviewing this Blueprint. Do not merge #1528 without founder authorization.
