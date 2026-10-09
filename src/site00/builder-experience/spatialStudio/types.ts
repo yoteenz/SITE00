@@ -41,19 +41,19 @@ export const PLACE_OPTIONS: readonly {
 ];
 
 export const FEEL_OPTIONS: readonly { id: FeelVibeId; label: string; hint: string }[] = [
-  { id: 'MODERN', label: 'MODERN', hint: 'Clear, contemporary architectural minimalism.' },
-  { id: 'BOLD', label: 'BOLD', hint: 'High contrast, graphic presence.' },
-  { id: 'EDITORIAL', label: 'EDITORIAL', hint: 'Literate rhythm and editorial composition.' },
-  { id: 'IMMERSIVE', label: 'IMMERSIVE', hint: 'Cinematic depth and spatial atmosphere.' },
+  { id: 'MODERN', label: 'MODERN', hint: 'CLEAR, CONTEMPORARY ARCHITECTURAL MINIMALISM.' },
+  { id: 'BOLD', label: 'BOLD', hint: 'HIGH CONTRAST, GRAPHIC PRESENCE.' },
+  { id: 'EDITORIAL', label: 'EDITORIAL', hint: 'LITERATE RHYTHM AND EDITORIAL COMPOSITION.' },
+  { id: 'IMMERSIVE', label: 'IMMERSIVE', hint: 'CINEMATIC DEPTH AND SPATIAL ATMOSPHERE.' },
 ];
 
 export const WORK_OPTIONS: readonly { id: WorkModuleId; label: string; hint: string }[] = [
-  { id: 'PAGES', label: 'PAGES', hint: 'Core pages and content you can update.' },
-  { id: 'SHOP', label: 'SHOP', hint: 'Catalog, product and checkout.' },
-  { id: 'BOOKING', label: 'BOOKING', hint: 'Reservations and appointments.' },
-  { id: 'MEMBER_AREA', label: 'MEMBER AREA', hint: 'Signed-in membership space.' },
-  { id: 'BLOG', label: 'BLOG', hint: 'Stories and publishing rhythm.' },
-  { id: 'PORTAL', label: 'PORTAL', hint: 'Records, dashboard and signed-in work.' },
+  { id: 'PAGES', label: 'PAGES', hint: 'CORE PAGES AND CONTENT YOU CAN UPDATE.' },
+  { id: 'SHOP', label: 'SHOP', hint: 'CATALOG, PRODUCT AND CHECKOUT.' },
+  { id: 'BOOKING', label: 'BOOKING', hint: 'RESERVATIONS AND APPOINTMENTS.' },
+  { id: 'MEMBER_AREA', label: 'MEMBER AREA', hint: 'SIGNED-IN MEMBERSHIP SPACE.' },
+  { id: 'BLOG', label: 'BLOG', hint: 'STORIES AND PUBLISHING RHYTHM.' },
+  { id: 'PORTAL', label: 'PORTAL', hint: 'RECORDS, DASHBOARD AND SIGNED-IN WORK.' },
 ];
 
 export const PACE_OPTIONS: readonly { id: PacePreferenceId; label: string; hint: string }[] = [
