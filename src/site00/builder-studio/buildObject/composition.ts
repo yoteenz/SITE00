@@ -90,7 +90,7 @@ const NEUTRAL: BuildPalette = { structure: 'glass', accent: 'red', mass: 'stone'
 
 /** One palette per FEEL direction (the contract's four: MODERN · BOLD · EDITORIAL · IMMERSIVE). */
 export const FEEL_PALETTES: Record<FeelVibeId, BuildPalette> = {
-  MODERN: { structure: 'glass', accent: 'red', mass: 'stone', plinth: 'marble', study: ['glass', 'stone', 'glass', 'red', 'glass', 'marble'] },
+  MODERN: { structure: 'glass', accent: 'red', mass: 'stone', plinth: 'marble', study: ['concrete', 'glass', 'stone', 'red', 'glass', 'marble'] },
   BOLD: { structure: 'glassTint', accent: 'redSolid', mass: 'concrete', plinth: 'marble', study: ['redSolid', 'redSolid', 'redSolid', 'darkMarble', 'glass', 'concrete'] },
   EDITORIAL: { structure: 'glass', accent: 'red', mass: 'marble', plinth: 'marble', study: ['marble', 'glass', 'marble', 'red', 'glass', 'stone'] },
   IMMERSIVE: { structure: 'darkGlass', accent: 'red', mass: 'darkMarble', plinth: 'darkMarble', study: ['darkGlass', 'darkGlass', 'darkMarble', 'red', 'darkGlass', 'darkMarble'] },
@@ -302,18 +302,22 @@ function feelComposition(feel: FeelVibeId | null, palette: BuildPalette): BuildE
       return out;
     }
     case 'MODERN':
-    default:
-      // Controlled geometry: a strict row of parallel plates at equal intervals, one red accent.
+    default: {
+      // Controlled geometry: a fanned sequence of parallel plates at one strict interval, each lifted off the
+      // ground on the same datum, stone and glass alternating around a single red plate.
+      const heights = [3.0, 3.25, 3.1, 3.35, 3.05, 2.85];
       return [
-        ...table(5.0, 2.4),
-        ...m.slice(0, 5).map((material, i) => {
+        // The plinth and datum run along the line of the plates (0.5 rad), so every edge in the study is parallel.
+        ...table(5.0, 2.4, 'glassTint', 0.5),
+        ...m.map((material, i) => {
           const thin = material.includes('lass') || material.startsWith('red');
-          return box(`plate-${i}`, material, [1.0, 3.1, thin ? 0.05 : 0.1], [-1.7 + i * 0.85, 0.38, 0.55 - i * 0.3], 0.62);
+          return box(`plate-${i}`, material, [1.2, heights[i], thin ? 0.05 : 0.09], [-1.75 + i * 0.66, 0.42, 0.6 - i * 0.36], 0.82, i);
         }),
-        box('plate-5', m[5], [4.2, 0.05, 0.9], [-0.05, 0.36, 0.0], 0.62),
+        box('plate-datum', 'glassTint', [4.5, 0.04, 1.1], [-0.1, 0.38, -0.3], 0.5),
         figure('fig-1', 2.05, 0.06, 1.45),
         figure('fig-2', 2.3, 0.06, 1.3, 0.95),
       ];
+    }
   }
 }
 
@@ -437,14 +441,15 @@ function assembled(spec: Spec, palette: BuildPalette, resolved: boolean): BuildE
     const z = (left ? 0.3 : -0.35) + rank * 0.25;
     out.push(box(`side-${i}`, s, [0.95, h, 1.2], [x, t, z], 0, 5 + rank));
     if (i < spec.modules.length) out.push(box(`side-${i}-module`, palette.accent, [0.45, h * 0.55, 0.5], [x, t, z + 0.2], 0, 6 + rank));
-    // EXPEDITED: sequencing marks — a red cap on each volume as it is reached. Pacing, not scope.
-    if (pace === 'EXPEDITED') out.push(box(`side-${i}-mark`, 'red', [0.97, 0.03, 1.22], [x, t + h, z], 0, 6 + rank));
+    // EXPEDITED: sequencing marks — a steel cap on each volume as it is reached. Pacing, not scope: red stays
+    // reserved for capabilities, so priority never reads as more product.
+    if (pace === 'EXPEDITED') out.push(box(`side-${i}-mark`, 'steel', [0.97, 0.03, 1.22], [x, t + h, z], 0, 6 + rank));
     // FLEXIBLE: a visible joint where each module meets the plinth — parts that can move.
     if (flexible) out.push(box(`side-${i}-joint`, 'steel', [1.05, 0.04, 1.3], [x, t, z], 0, 5 + rank));
   }
   out.push(box('mass-a', palette.mass, [0.35, coreH * 0.9, 1.5], [-1.15 * spread, t, -0.65], 0, 4));
   out.push(box('mass-b', palette.mass, [0.3, coreH * 0.7, 1.1], [1.25 * spread, t, -0.95], 0, 4));
-  if (pace === 'EXPEDITED') out.push(box('core-mark', 'red', [2.42, 0.03, 1.92], [0, t + coreH + 0.3, 0], 0, 5));
+  if (pace === 'EXPEDITED') out.push(box('core-mark', 'steel', [2.42, 0.03, 1.92], [0, t + coreH + 0.3, 0], 0, 5));
   if (world) {
     out.push(box('pav-1', s, [0.9, 0.9, 0.9], [-2.6 * spread, t, 1.4], 0, 8));
     out.push(box('pav-2', s, [0.8, 1.1, 0.8], [2.6 * spread, t, 1.3], 0, 8));

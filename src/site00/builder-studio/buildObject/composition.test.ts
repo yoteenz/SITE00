@@ -76,7 +76,11 @@ describe('PACE changes how the structure assembles, not what it contains', () =>
     for (const e of extra) {
       expect(e.id).toMatch(/-mark$/);
       expect(e.size[1]).toBeLessThanOrEqual(0.05);
+      // Red is the capability colour: pacing marks never use it.
+      expect(e.material).not.toMatch(/^red/);
     }
+    const red = (els: BuildElement[]) => els.filter((e) => e.material.startsWith('red')).length;
+    expect(red(at('EXPEDITED').elements)).toBe(red(at('STANDARD').elements));
     // Every shared element keeps its size: the structure is not taller or larger.
     const byId = new Map(at('STANDARD').elements.map((e) => [e.id, e.size.join(',')]));
     for (const e of at('EXPEDITED').elements) if (byId.has(e.id)) expect(e.size.join(',')).toBe(byId.get(e.id));

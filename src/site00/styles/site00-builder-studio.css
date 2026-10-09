@@ -1902,7 +1902,7 @@ body.bs-body {
 .bs-tree__branch.is-linked::before { background: var(--bs-red); }
 .bs-tree__n { grid-row: span 2; font-size: 8px; font-weight: 700; letter-spacing: 0.08em; color: var(--bs-red); }
 .bs-tree__verb { font-size: 10.2px; font-weight: 700; letter-spacing: 0.14em; }
-.bs-tree__plain { font-size: 8.8px; letter-spacing: 0.06em; color: var(--bs-ink-2); text-transform: none; }
+.bs-tree__plain { font-size: 8.2px; line-height: 1.5; letter-spacing: 0.1em; color: var(--bs-muted); }
 .bs-tree__branch em { grid-column: 2; font-style: normal; font-size: 7.6px; font-weight: 600; letter-spacing: 0.16em; color: var(--bs-red); }
 
 /* TIMELINE: two production lanes, then numbered steps. */

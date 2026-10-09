@@ -227,7 +227,7 @@ Comparisons: `hybrid-spatial-studio/comparisons/*-reference-vs-implementation.jp
 | V-6 | FEEL rail scrolls to WARM and OPERATIONAL | Keeps every canonical visual system reachable (D-1) |
 | V-7 | Fact captions read "Initial range. Based on your current selections and requirements." | Keeps the canonical confidence label visible (contract §18) |
 | V-8 | A submission sheet asks for an email | A real guest submission needs a reply address (existing guest-access flow) |
-| V-9 | The Builder used Anton + Inter, not the site-wide Martian Mono test face | **Superseded by Creative Refinement 1:** the studio now uses the Production Workspace face, Saira Semi Condensed (see `CREATIVE_REFINEMENT_1.md`). |
+| V-9 | The Builder used Anton + Inter, not the site-wide Martian Mono test face | **Superseded by Creative Refinement 1:** the studio now uses the Production Workspace face, Saira Semi Condensed (see `hybrid-spatial-studio/CREATIVE_REFINEMENT_1.md`). |
 
 ## 8. Functional test report
 

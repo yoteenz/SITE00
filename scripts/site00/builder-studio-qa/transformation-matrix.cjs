@@ -105,6 +105,9 @@ async function sheet(names, file, cols) {
   for (const id of others) await page.getByRole('button', { name: id, exact: true }).click();
   work.ALL = await grab(page, 'work-all');
   for (const id of others) await page.getByRole('button', { name: id, exact: true }).click();
+  // PACE is measured on a scope where the estimator offers priority (ADVANCED + PAGES + SHOP + PORTAL), so all three
+  // paces can be shown. Availability itself is the estimator's call; nothing here forces it.
+  for (const id of ['SHOP', 'PORTAL']) await page.getByRole('button', { name: id, exact: true }).click();
   await page.waitForFunction(() => document.querySelector('.bs-root')?.getAttribute('data-sync') === 'saved', null, { timeout: 30000 });
   await page.getByRole('button', { name: /^CONTINUE/ }).click();
   await page.waitForSelector('.bs-room--pace');
@@ -122,6 +125,7 @@ async function sheet(names, file, cols) {
   }
   if (pace.FLEXIBLE) await record('PACE', 'STANDARD', 'FLEXIBLE', pace.STANDARD, pace.FLEXIBLE);
   if (pace.EXPEDITED) await record('PACE', 'STANDARD', 'EXPEDITED', pace.STANDARD, pace.EXPEDITED);
+  if (pace.EXPEDITED && pace.FLEXIBLE) await record('PACE', 'EXPEDITED', 'FLEXIBLE', pace.EXPEDITED, pace.FLEXIBLE);
   await page.getByRole('radio', { name: /^STANDARD/ }).click();
   await page.waitForFunction(() => document.querySelector('.bs-root')?.getAttribute('data-sync') === 'saved', null, { timeout: 30000 });
   await page.getByRole('button', { name: /REVIEW MY BLUEPRINT/ }).click();
@@ -136,6 +140,7 @@ async function sheet(names, file, cols) {
   for (const tab of ['STRUCTURE', 'PAGES', 'FEATURES']) await record('BLUEPRINT', 'OVERVIEW', tab, bp.OVERVIEW, bp[tab]);
 
   // PACE motion evidence: the same structure mid-assembly at each pace (motion on), 180 ms and 520 ms after choosing.
+  // Rows: FLEXIBLE, EXPEDITED, STANDARD (EXPEDITED is skipped if the estimator does not offer it for this scope).
   const mctx = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 1, isMobile: true, hasTouch: true, reducedMotion: 'no-preference' });
   const mp = await mctx.newPage();
   mp.setDefaultTimeout(90000);
@@ -144,8 +149,10 @@ async function sheet(names, file, cols) {
   await mp.waitForSelector('.bs-room--pace');
   await mp.waitForTimeout(2500);
   const motionNames = [];
-  for (const id of ['FLEXIBLE', 'STANDARD']) {
-    await mp.getByRole('radio', { name: new RegExp(`^${id}`) }).click();
+  for (const id of ['FLEXIBLE', 'EXPEDITED', 'STANDARD']) {
+    const radio = mp.getByRole('radio', { name: new RegExp(`^${id}`) });
+    if ((await radio.getAttribute('aria-disabled')) === 'true') continue;
+    await radio.click();
     for (const ms of [180, 520]) {
       await mp.waitForTimeout(ms === 180 ? 180 : 340);
       fs.writeFileSync(path.join(OUT, `pace-motion-${id.toLowerCase()}-${ms}ms.png`), await mp.locator('.bs-stage canvas').screenshot());
@@ -154,7 +161,7 @@ async function sheet(names, file, cols) {
     await mp.waitForTimeout(1600);
   }
   await mctx.close();
-  await sheet(motionNames, 'matrix-pace-motion.jpg', 4);
+  await sheet(motionNames, 'matrix-pace-motion.jpg', 2);
 
   await sheet(['place-simple', 'place-advanced', 'place-custom', 'place-world'], 'matrix-place.jpg', 4);
   await sheet(['feel-modern', 'feel-bold', 'feel-editorial', 'feel-immersive'], 'matrix-feel.jpg', 4);
