@@ -271,7 +271,7 @@ const expand = (r) => r.replace(/\$(\d+)K/g, (_, n) => `$${(Number(n) * 1000).to
     }
     if (maxDelta > 2) [s1, s2].forEach((buf, i) => fs.writeFileSync(path.join(OUT, `motion-${reduced ? 'reduced' : 'default'}-${i + 1}.png`), buf));
     if (reduced) check('Q20', 'Reduced motion: the object holds still (no idle sway)', maxDelta <= 2, `max channel delta ${maxDelta}`);
-    else check('Q19', 'Default motion: the object sways gently when idle', moved > 1000, `${moved} channels moved > 8`);
+    else check('Q19', 'Default motion: idle stage stays luminance-stable (no flicker)', maxDelta <= 3, `max channel delta ${maxDelta}; ${moved} channels moved > 8`);
     await m.ctx.close();
   }
 

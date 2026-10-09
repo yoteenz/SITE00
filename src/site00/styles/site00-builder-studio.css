@@ -263,6 +263,11 @@ body.bs-body {
   opacity: 1;
 }
 
+.bs-object__host.bs-object__host--no-canvas-fade .bs-object__canvas {
+  opacity: 1;
+  transition: none;
+}
+
 .bs-object__fallback {
   position: absolute;
   inset: 0;

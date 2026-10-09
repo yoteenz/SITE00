@@ -11,6 +11,7 @@ import * as THREE from 'three';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import type { BuildCamera, BuildComposition, BuildElement, BuildMaterial, BuildMotion } from './composition';
+import { readBuildObjectForensics, type BuildObjectForensics } from './forensics';
 
 const TWEEN_MS = 760;
 const DEG = Math.PI / 180;
@@ -358,8 +359,16 @@ function easeInOutSine(t: number): number {
   return -(Math.cos(Math.PI * t) - 1) / 2;
 }
 
-/** Localized architectural light — fixed base exposure; only non-shadow accent + tiny portal breathe. */
-function applyArchitecturalLighting(scene: THREE.Scene, rig: StageRig, materials: MaterialSet, now: number, reducedMotion: boolean, interactive: boolean) {
+/** Localized architectural light — fixed base exposure; animation opt-in only (forensic / future stable loop). */
+function applyArchitecturalLighting(
+  scene: THREE.Scene,
+  rig: StageRig,
+  materials: MaterialSet,
+  now: number,
+  reducedMotion: boolean,
+  interactive: boolean,
+  forensics: BuildObjectForensics,
+) {
   scene.environmentIntensity = ENV_INTENSITY_READY;
 
   const glass = materials.surface.glass as THREE.MeshPhysicalMaterial;
@@ -377,17 +386,16 @@ function applyArchitecturalLighting(scene: THREE.Scene, rig: StageRig, materials
   glassTint.envMapIntensity = 2.16;
   red.emissiveIntensity = 0.4;
   if (redFrame) redFrame.emissiveIntensity = 0.3;
+  rig.accent.intensity = 0;
+  rig.accent.position.set(-2, 9, 6);
 
-  if (reducedMotion || interactive) {
-    rig.accent.intensity = 0;
-    return;
-  }
+  const allowAnimate = forensics.animateLighting && !forensics.staticLighting && !reducedMotion && !interactive;
+  if (!allowAnimate) return;
 
   const tau = (ms: number, phase = 0) => (now / ms + phase) * Math.PI * 2;
   const pass = easeInOutSine((Math.sin(tau(ACCENT_CYCLE_MS)) + 1) / 2);
   const portal = Math.sin(tau(PORTAL_CYCLE_MS, 0.6));
 
-  // Traveling specular band (position only — no intensity pulsing on key/fill).
   rig.accent.intensity = 0.26 + pass * 0.18;
   rig.accent.position.set(-5 + pass * 3.6, 8.2 + Math.sin(tau(ACCENT_CYCLE_MS, 0.25)) * 0.45, 4.2 + Math.cos(tau(5200, 0.4)) * 1.45);
 
@@ -395,6 +403,24 @@ function applyArchitecturalLighting(scene: THREE.Scene, rig: StageRig, materials
   glassTint.envMapIntensity = 2.1 + Math.sin(tau(5200, 0.85)) * 0.08;
   red.emissiveIntensity = 0.39 + portal * 0.035;
   if (redFrame) redFrame.emissiveIntensity = 0.29 + portal * 0.025;
+}
+
+function applyOpaqueGlassForensic(materials: MaterialSet) {
+  for (const key of ['glass', 'glassTint', 'darkGlass'] as const) {
+    const m = materials.surface[key] as THREE.MeshPhysicalMaterial;
+    m.transparent = false;
+    m.opacity = 1;
+    m.depthWrite = true;
+    m.side = THREE.FrontSide;
+    m.envMapIntensity = 1.1;
+    m.roughness = 0.35;
+  }
+}
+
+/** Deterministic draw order reduces transparent sort instability when the view moves. */
+function stableTransparentOrder(el: BuildElement): number {
+  const [x, y, z] = el.position;
+  return 40 + Math.round(x * 7 + y * 11 + z * 13);
 }
 
 function buildStage(scene: THREE.Scene, renderer: THREE.WebGLRenderer, mobile: boolean, onEnvironment?: (ready: boolean) => void): StageRig {
@@ -703,20 +729,21 @@ function makeNodeFactory(scene: THREE.Scene, materials: MaterialSet) {
     const mesh = new THREE.Mesh(isFigure ? FIGURE_BODY : UNIT_BOX, materials.surface[el.material]);
     mesh.castShadow = materials.castsShadow[el.material];
     mesh.receiveShadow = !isFigure;
-    if (el.material.includes('lass') || el.material === 'red' || el.material === 'ghost') mesh.renderOrder = 2;
+    const order = el.material.includes('lass') || el.material === 'red' || el.material === 'ghost' ? stableTransparentOrder(el) : 0;
+    if (order) mesh.renderOrder = order;
     group.add(mesh);
     let edges: THREE.LineSegments | null = null;
     const edgeMaterial = materials.edge[el.material];
     if (edgeMaterial) {
       edges = new THREE.LineSegments(UNIT_EDGES, edgeMaterial);
-      edges.renderOrder = 3;
+      if (order) edges.renderOrder = order + 1;
       group.add(edges);
     }
     let mullions: THREE.LineSegments | null = null;
     const mullionMaterial = materials.mullion[el.material];
     if (mullionMaterial) {
       mullions = new THREE.LineSegments(paneGrid(el.size), mullionMaterial);
-      mullions.renderOrder = 3;
+      if (order) mullions.renderOrder = order + 1;
       group.add(mullions);
     }
     const frames: THREE.Mesh[] = [];
@@ -754,7 +781,10 @@ export type BuildObjectEngine = {
   dispose: () => void;
 };
 
-export function createBuildObjectEngine(container: HTMLElement, options: { reducedMotion: boolean }): BuildObjectEngine {
+export function createBuildObjectEngine(
+  container: HTMLElement,
+  options: { reducedMotion: boolean; forensics?: BuildObjectForensics },
+): BuildObjectEngine {
   const mobile = Math.min(window.innerWidth, window.innerHeight) < 700;
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
   renderer.setClearColor(0x000000, 0);
@@ -774,7 +804,12 @@ export function createBuildObjectEngine(container: HTMLElement, options: { reduc
     container.dataset.env = ready ? 'ready' : 'fallback';
     requestFrame();
   });
+  const forensics = options.forensics ?? readBuildObjectForensics();
+  container.dataset.bsForensic = forensics.mode;
+  if (forensics.disableCssCanvasFade) container.classList.add('bs-object__host--no-canvas-fade');
+
   const materials = createMaterials();
+  if (forensics.opaqueGlass) applyOpaqueGlassForensic(materials);
   const makeNode = makeNodeFactory(scene, materials);
   const camera = new THREE.PerspectiveCamera(FOV, 1, 0.1, 160);
 
@@ -901,7 +936,7 @@ export function createBuildObjectEngine(container: HTMLElement, options: { reduc
       requestFrame();
       return;
     }
-    applyArchitecturalLighting(scene, stageRig, materials, now, reducedMotion, interactive);
+    applyArchitecturalLighting(scene, stageRig, materials, now, reducedMotion, interactive, forensics);
     if (currentCamera) {
       const view = { ...currentCamera, elevation: Math.max(2, Math.min(55, currentCamera.elevation + dragElevation)) };
       camera.position.copy(cameraPosition(view, dragAzimuth));
@@ -909,8 +944,8 @@ export function createBuildObjectEngine(container: HTMLElement, options: { reduc
     }
     renderer.render(scene, camera);
     reportAnchors();
-    const idleLighting = visible && !reducedMotion && !interactive;
-    if (animating || idleLighting) requestFrame();
+    const idleLightingLoop = visible && forensics.animateLighting && !reducedMotion && !interactive;
+    if (animating || idleLightingLoop || dragging) requestFrame();
   }
 
   function requestFrame() {
