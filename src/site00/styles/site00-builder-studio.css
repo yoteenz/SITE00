@@ -2179,7 +2179,8 @@ body.bs-body {
     height: 100%;
   }
 
-  .bs-headline { font-size: 78px; }
+  /* Saira sets wider than a compressed display face: 72px keeps "WE CREATING?." inside the 500px column. */
+  .bs-headline { font-size: 72px; }
   .bs-lede { max-width: 420px; }
   .bs-room--blueprint .bs-lede { max-width: 420px; font-size: 11.4px; }
   .bs-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }

@@ -205,9 +205,11 @@ export function BlueprintPanel(props: Props) {
   const ids = useId();
   const index = BLUEPRINT_TABS.indexOf(tab);
   const onKey = (event: React.KeyboardEvent) => {
-    if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') return;
+    const n = BLUEPRINT_TABS.length;
+    const to: Record<string, number> = { ArrowRight: (index + 1) % n, ArrowLeft: (index + n - 1) % n, Home: 0, End: n - 1 };
+    if (!(event.key in to)) return;
     event.preventDefault();
-    const next = BLUEPRINT_TABS[(index + (event.key === 'ArrowRight' ? 1 : BLUEPRINT_TABS.length - 1)) % BLUEPRINT_TABS.length];
+    const next = BLUEPRINT_TABS[to[event.key]];
     setTab(next);
     document.getElementById(`${ids}-tab-${next}`)?.focus();
   };

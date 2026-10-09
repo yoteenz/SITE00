@@ -333,11 +333,11 @@ export function reviewTrack(stage: ClientReviewStage, version: number | null = n
   const decided = stage === 'ACCEPTED' || stage === 'REVISION_REQUESTED' || stage === 'CLOSED';
   const decision: TrackStep =
     stage === 'ACCEPTED'
-      ? { key: 'DECISION', label: 'ACCEPTED', sub: 'YOUR PROJECT IS OPEN', state: 'done' }
+      ? { key: 'DECISION', label: 'ACCEPTED', sub: 'NEXT STEP FROM SITE 00', state: 'done' }
       : stage === 'REVISION_REQUESTED'
         ? { key: 'DECISION', label: 'CHANGES REQUESTED', sub: 'EDIT AND RESUBMIT', state: 'attention' }
         : stage === 'CLOSED'
-          ? { key: 'DECISION', label: 'CLOSED', sub: 'NO FURTHER ACTION', state: 'done' }
+          ? { key: 'DECISION', label: 'CLOSED', sub: 'NO LONGER ACTIVE', state: 'done' }
           : { key: 'DECISION', label: 'SITE 00 REPLIES', sub: 'BY EMAIL', state: 'pending' };
   return [
     { key: 'SUBMIT', label: submitted ? 'SUBMITTED' : 'SUBMIT', sub: submitted ? `RECEIVED${v}` : 'THIS VERSION', state: submitted ? 'done' : 'current' },
