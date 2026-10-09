@@ -15922,3 +15922,11 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decision:** Hybrid Spatial Studio at `/bldr/studio` renders all visible copy in uppercase. Shell CSS is the authority; a few studio-local strings were normalized in source.
 - **Changes:** `text-transform: uppercase` on `.bldr-spatial-page` and `.bldr-spatial-disabled` in `site00-builder-spatial-studio.css`; FEEL/WORK hints in `spatialStudio/types.ts`; blueprint metric helper strings in `BldrSpatialStudioPage.tsx`; `tests/bldrSpatialStudioUppercase.test.ts`. PR #1544.
 - **Convention:** Do not lower-case shared `blueprintFinancialPresentation` globally — studio shell CSS uppercases it at display time. Stored `paceNotes` may remain mixed-case in JSON; the textarea displays uppercase.
+
+---
+
+## 2026-10-09 — Digital Foundation blank template preview link
+
+- **Founder ask:** Send Digital Foundation **without client data**, starting at the **first screen** (P01 — GET STARTED / FOUNDATION ENTRY), not a reused artifact stuck on recommendation.
+- **Delivered:** Minted fresh in-memory artifact (`state: INVITED`, `intake_state: NOT_STARTED`, empty `intake.needs`, null lead names) on DF board preview tunnel (`claude/df-client-board-01-02-8d42xk` worktree). Founder URL pattern: cloud preview tunnel `/foundation/:token`.
+- **Dev helper:** `POST /api/dev/site00-digital-foundation-preview-bootstrap` with `{ "template": true }` resets memory store and mints blank template (PR #1551). Avoid `curl` against Vite dev API — use Node `fetch` with timeout; Vite restart wipes tokens until snapshot reload or re-mint.
