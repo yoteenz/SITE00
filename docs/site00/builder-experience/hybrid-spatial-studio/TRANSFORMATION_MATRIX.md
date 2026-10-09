@@ -15,6 +15,34 @@ Every room's Build Object is **composed from the client's choices**, so a select
 - arbitrary colours
 - random geometry
 
+## Reference Fidelity 2 update
+
+The compositions were reshaped to the approved references; the selection logic and every tested invariant are unchanged. The stage is now composited: a transparent live canvas over a photographic plate, with reflections, a shadow-catcher floor, crack-veined Carrara and pane grids. See `REFERENCE_FIDELITY_2.md`.
+
+| Room | Reference form now built |
+|---|---|
+| PLACE | One thick Carrara slab under every path (was a stepped plinth). SIMPLE is the reference pavilion: a large framed glass room, an inner glass chamber, a white partition, and a red acrylic volume at the front-right corner running down the slab face. The camera looks almost straight at the slab (az −17°, el 11°). |
+| FEEL · MODERN | Six panels hung in the air on a receding diagonal (slate, grey stone, glass, the tallest in red acrylic, glass, taupe marble) over a glass shelf, before a glass screen, two visitors beneath (az −6°, el 2°). BOLD, EDITORIAL and IMMERSIVE keep their own architectures. |
+| WORK | A six-floor stacked tower: glass floors on Carrara slabs, each shifted off the one below, a red shaft, a red room and a red slab inside, on a stepped base. Drafting hairlines (excluded from camera framing) run out toward the toggles. Modules cantilever from the tower face at their toggle's level (top · middle · ground). |
+| PACE | A glass envelope with a tall red acrylic core and a lower red wing, stepped glass side volumes (one per capability + 2), smoky glass masses at the left, on a long slab |
+| BLUEPRINT | The PACE structure at reveal scale, with **grey veined stone slabs** standing at the left (as drawn) |
+
+**Measured diffs** (live, 390×844, `reference-fidelity-qa/matrix/matrix-diff.json`):
+
+| Room | Pair | Mean diff |
+|---|---|---|
+| PLACE | SIMPLE → ADVANCED → CUSTOM → WORLD | 30.9 · 23.8 · 22.6 (SIMPLE ↔ WORLD 33.2) |
+| FEEL | pairs | 26.9–48.0 |
+| WORK | +BLOG / +SHOP / +MEMBER AREA / +BOOKING / +PORTAL | 12.8 / 18.9 / 20.3 / 4.1 / 27.5 |
+| PACE | STANDARD → FLEXIBLE / → EXPEDITED | 13.8 / 3.6 (EXPEDITED adds only flat steel marks) |
+| BLUEPRINT | OVERVIEW → STRUCTURE / PAGES / FEATURES | 17.3 / 22.0 / 9.6 |
+
+Every reversal returns the same frame (mean diff 0–0.01; anything above 0 is compositor rounding of the transparent canvas over its plate).
+
+**Element counts:** PLACE 7–14 · FEEL 9–20 · WORK 25–65 (tower 25 with drafting lines; all six modules 65) · PACE 15–21 · Blueprint up to 28.
+
+The sections below describe the Creative Refinement 1 grammar these forms grew from. Where they differ, this update is current.
+
 ## Shared mechanics
 
 | Aspect | How it works |
@@ -156,8 +184,8 @@ The focus is part of the composition key (`…|STRUCTURE`), so the engine treats
 
 | Item | Value |
 |---|---|
-| Elements per composition | PLACE 9–15 · FEEL 9–20 · WORK 12–52 · PACE 16–22 · BLUEPRINT up to 29 (WORLD + all six) |
-| Draw calls | ≤ 2 per element (mesh, plus edge lines on materials that draw them), so ≤ ~105 at the WORK maximum |
-| New textures | **None.** The procedural canvases are created once per stage, and no image texture was added. |
-| Bundle | `three` chunk 529.67 kB (132.71 kB gzip), lazy. `vendor` chunk unchanged (`vendor.D1FxG_Wm.js` 461.02 kB, identical hash). |
+| Elements per composition | PLACE 7–14 · FEEL 9–20 · WORK 25–65 · PACE 15–21 · BLUEPRINT up to 28 (Reference Fidelity 2) |
+| Draw calls | ≤ 3 per element (mesh; edge lines; pane grid on glass and acrylic; framed glass and acrylic add 12 instanced-geometry frame members), so about 200 at the WORK maximum |
+| Textures | Procedural canvases created once per stage (Carrara 1024²; slate and taupe 512²), plus the 21 KB reflection map, loaded once. Stage plates are CSS images (4–5 KB each). Pane grids use one cached geometry per pane count, so there's no per-frame geometry work. |
+| Bundle | `three` chunk 533.05 kB (133.82 kB gzip), lazy. `vendor` chunk unchanged (`vendor.D1FxG_Wm.js` 461.02 kB, identical hash). |
 | Devices | Verified in headless Chromium (SwiftShader) at 390, 393, 834 and 1440 widths. **Not yet verified on a real phone.** See the known limitations in `CREATIVE_REFINEMENT_1.md`. |

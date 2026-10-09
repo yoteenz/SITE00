@@ -20,6 +20,9 @@ const VIEWPORTS = {
   '393x852': { viewport: { width: 393, height: 852 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true },
   '834x1194': { viewport: { width: 834, height: 1194 }, deviceScaleFactor: 1 },
   '1440x900': { viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 },
+  // Larger text: Safari's text-size control scales the page, i.e. a 390×844 phone at 115% / 130% lays out at these.
+  '339x734 (text 115%)': { viewport: { width: 339, height: 734 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true },
+  '300x649 (text 130%)': { viewport: { width: 300, height: 649 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true },
 };
 const results = [];
 const check = (id, name, pass, detail = '') => {
@@ -42,7 +45,9 @@ async function layout(page) {
     const clipped = [...document.querySelectorAll('.bs-root h1, .bs-root h2, .bs-root button, .bs-root dd, .bs-root p')]
       .filter((el) => el.offsetParent && getComputedStyle(el).overflow === 'visible' && el.scrollWidth > el.clientWidth + 1 && el.clientWidth > 0)
       .map((el) => (el.textContent || '').trim().slice(0, 40));
-    return { overflowX: doc.scrollWidth - doc.clientWidth, vw: doc.clientWidth, lines, clipped };
+    const cta = document.querySelector('.bs-root .bs-cta');
+    const ctaVisible = cta ? cta.getBoundingClientRect().bottom <= innerHeight + 1 : null;
+    return { overflowX: doc.scrollWidth - doc.clientWidth, vw: doc.clientWidth, lines, clipped, ctaVisible };
   });
 }
 
@@ -92,6 +97,11 @@ async function journeyTo(page, room) {
     check(`L-${name}-2`, `${name}: every headline line sets on one line inside the viewport`, wrapped.length === 0, wrapped.join(', '));
     const clipped = rooms.flatMap(([r, f]) => f.clipped.map((t) => `${r}:${t}`));
     check(`L-${name}-3`, `${name}: no text overflows its box`, clipped.length === 0, clipped.slice(0, 5).join(', '));
+    // Rooms 01–04 target one screen with CONTINUE visible; at large text sizes natural scrolling is allowed (recorded).
+    const fit = rooms.filter(([r]) => r !== 'blueprint').map(([r, f]) => `${r}:${f.ctaVisible ? 'cta-on-screen' : 'scrolls'}`);
+    const oneScreen = !name.includes('text') && !name.startsWith('834') && !name.startsWith('1440');
+    if (oneScreen) check(`L-${name}-4`, `${name}: rooms 01–04 fit one screen with CONTINUE visible`, fit.every((x) => x.endsWith('cta-on-screen')), fit.join(' '));
+    else results.push({ id: `L-${name}-4`, name: `${name}: CONTINUE position (informational)`, result: 'INFO', detail: fit.join(' ') });
     await ctx.close();
   }
 
@@ -105,11 +115,12 @@ async function journeyTo(page, room) {
     await document.fonts.ready;
     const fam = (sel) => getComputedStyle(document.querySelector(sel)).fontFamily;
     const loaded = [...document.fonts].filter((f) => f.status === 'loaded').map((f) => `${f.family.replace(/"/g, '')} ${f.weight}`);
-    return { headline: fam('.bs-headline'), lede: fam('.bs-lede'), tab: fam('.bs-tab__label'), loaded };
+    return { headline: fam('.bs-headline'), lede: fam('.bs-lede'), tab: fam('.bs-tab__label'), value: fam('.bs-fact__value'), mark: fam('.bs-wordmark__site'), loaded };
   });
-  check('T01', 'Headline, lede and tabs use the Production Workspace face', [type.headline, type.lede, type.tab].every((f) => /^"?Saira Semi Condensed/.test(f)), type.headline);
-  check('T02', 'Saira Semi Condensed is actually loaded (not a fallback)', type.loaded.some((f) => /^Saira Semi Condensed (600|700)$/.test(f)), type.loaded.filter((f) => /Saira/.test(f)).join(', '));
-  check('T03', 'No Anton / Inter faces are loaded by the studio', !type.loaded.some((f) => /^(Anton|Inter)\b/.test(f)), '');
+  // Reference Fidelity 2: the faces identified from the approved references (studio-scoped family names).
+  check('T01', 'Roles use the faces identified from the references (display · values · wordmark · UI)', /^"?BS Display/.test(type.headline) && /^"?BS Value/.test(type.value) && /^"?BS Mark/.test(type.mark) && /^"?BS Sans/.test(type.lede) && /^"?BS Sans/.test(type.tab), [type.headline, type.value, type.mark, type.lede].map((f) => f.split(',')[0]).join(' · '));
+  check('T02', 'Oswald 600, Barlow Semi Condensed 700, Barlow 700 and Roboto 400 are actually loaded (not fallbacks)', ['BS Display 600', 'BS Value 700', 'BS Mark 700', 'BS Sans 400'].every((f) => type.loaded.includes(f)), type.loaded.filter((f) => /^BS /.test(f)).join(', '));
+  check('T03', 'No superseded studio faces are loaded (Anton / Inter / Saira)', !type.loaded.some((f) => /^(Anton|Inter|Saira)\b/.test(f)), '');
 
   const overview = await objectKey(page);
   const tabs = page.getByRole('tab');
@@ -164,10 +175,12 @@ async function journeyTo(page, room) {
 
   await ctx.close();
   await browser.close();
-  const pass = results.filter((r) => r.result === 'PASS').length;
-  console.log(`\n${pass}/${results.length} PASS`);
+  const graded = results.filter((r) => r.result !== 'INFO');
+  const pass = graded.filter((r) => r.result === 'PASS').length;
+  results.filter((r) => r.result === 'INFO').forEach((r) => console.log(`INFO ${r.id} ${r.name} — ${r.detail}`));
+  console.log(`\n${pass}/${graded.length} PASS`);
   fs.writeFileSync(path.join(OUT, 'creative-interactions.json'), JSON.stringify(results, null, 2));
-  process.exit(pass === results.length ? 0 : 1);
+  process.exit(pass === graded.length ? 0 : 1);
 })().catch((e) => {
   console.error(e);
   process.exit(1);

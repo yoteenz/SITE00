@@ -1,0 +1,171 @@
+[
+  {
+    "room": "PLACE",
+    "from": "SIMPLE",
+    "to": "ADVANCED",
+    "meanDiff": 30.92
+  },
+  {
+    "room": "PLACE",
+    "from": "ADVANCED",
+    "to": "CUSTOM",
+    "meanDiff": 23.77
+  },
+  {
+    "room": "PLACE",
+    "from": "CUSTOM",
+    "to": "WORLD",
+    "meanDiff": 22.61
+  },
+  {
+    "room": "PLACE",
+    "from": "SIMPLE",
+    "to": "WORLD",
+    "meanDiff": 33.15
+  },
+  {
+    "room": "PLACE",
+    "from": "SIMPLE",
+    "to": "SIMPLE (reversed)",
+    "identical": true,
+    "meanDiff": 0
+  },
+  {
+    "room": "FEEL",
+    "from": "MODERN",
+    "to": "BOLD",
+    "meanDiff": 44.66
+  },
+  {
+    "room": "FEEL",
+    "from": "MODERN",
+    "to": "EDITORIAL",
+    "meanDiff": 39.59
+  },
+  {
+    "room": "FEEL",
+    "from": "MODERN",
+    "to": "IMMERSIVE",
+    "meanDiff": 48
+  },
+  {
+    "room": "FEEL",
+    "from": "BOLD",
+    "to": "EDITORIAL",
+    "meanDiff": 30.78
+  },
+  {
+    "room": "FEEL",
+    "from": "BOLD",
+    "to": "IMMERSIVE",
+    "meanDiff": 26.93
+  },
+  {
+    "room": "FEEL",
+    "from": "EDITORIAL",
+    "to": "IMMERSIVE",
+    "meanDiff": 30.17
+  },
+  {
+    "room": "WORK",
+    "from": "DEFAULT (PAGES)",
+    "to": "+BLOG",
+    "meanDiff": 12.75
+  },
+  {
+    "room": "WORK",
+    "from": "+BLOG",
+    "to": "removed",
+    "meanDiffToDefault": 0
+  },
+  {
+    "room": "WORK",
+    "from": "DEFAULT (PAGES)",
+    "to": "+SHOP",
+    "meanDiff": 18.9
+  },
+  {
+    "room": "WORK",
+    "from": "+SHOP",
+    "to": "removed",
+    "meanDiffToDefault": 0.01
+  },
+  {
+    "room": "WORK",
+    "from": "DEFAULT (PAGES)",
+    "to": "+MEMBER AREA",
+    "meanDiff": 20.28
+  },
+  {
+    "room": "WORK",
+    "from": "+MEMBER AREA",
+    "to": "removed",
+    "meanDiffToDefault": 0
+  },
+  {
+    "room": "WORK",
+    "from": "DEFAULT (PAGES)",
+    "to": "+BOOKING",
+    "meanDiff": 4.1
+  },
+  {
+    "room": "WORK",
+    "from": "+BOOKING",
+    "to": "removed",
+    "meanDiffToDefault": 0
+  },
+  {
+    "room": "WORK",
+    "from": "DEFAULT (PAGES)",
+    "to": "+PORTAL",
+    "meanDiff": 27.49
+  },
+  {
+    "room": "WORK",
+    "from": "+PORTAL",
+    "to": "removed",
+    "meanDiffToDefault": 0
+  },
+  {
+    "room": "WORK",
+    "from": "BLOG without PAGES",
+    "to": "BLOG + PAGES",
+    "meanDiff": 12.63
+  },
+  {
+    "room": "PACE",
+    "from": "STANDARD",
+    "to": "FLEXIBLE",
+    "meanDiff": 13.79
+  },
+  {
+    "room": "PACE",
+    "from": "STANDARD",
+    "to": "EXPEDITED",
+    "meanDiff": 3.57
+  },
+  {
+    "room": "PACE",
+    "from": "EXPEDITED",
+    "to": "FLEXIBLE",
+    "meanDiff": 15.3
+  },
+  {
+    "room": "BLUEPRINT",
+    "from": "OVERVIEW",
+    "to": "STRUCTURE",
+    "meanDiff": 17.27
+  },
+  {
+    "room": "BLUEPRINT",
+    "from": "OVERVIEW",
+    "to": "PAGES",
+    "meanDiff": 22
+  },
+  {
+    "room": "BLUEPRINT",
+    "from": "OVERVIEW",
+    "to": "FEATURES",
+    "meanDiff": 9.61
+  }
+]

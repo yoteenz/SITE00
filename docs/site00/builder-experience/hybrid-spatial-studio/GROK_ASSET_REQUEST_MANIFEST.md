@@ -3,9 +3,12 @@
 **Sprints:**
 - `…VISUAL-IMPLEMENTATION1` (first issue)
 - `…APPROVED-VISUAL-IMPLEMENTATION-AND-FOUNDER-REVIEW1`
-- `…OPUS-CREATIVE-FIDELITY-AND-INTERACTION-REFINEMENT1` (this revision: Creative Refinement 1)
+- `…OPUS-CREATIVE-FIDELITY-AND-INTERACTION-REFINEMENT1` (Creative Refinement 1)
+- **Reference Fidelity 2** (this revision; see `REFERENCE_FIDELITY_2.md`)
 
-**Status: requested, not generated, not mounted.** Grok acts only when directed. Nothing in this manifest has been produced, and nothing in the studio loads an asset from it.
+**Status: requested, not generated.** Grok acts only when directed. Nothing in this manifest has been produced by Grok.
+
+**Interim (Reference Fidelity 2).** Per the founder's reference-led hybrid direction ("recover existing assets first"), the studio now composites the live Build Object over **interim** plates and a reflection map derived from one recovered SITE 00 asset (see Discovery). They stand in for GA-05 and GA-01 until Grok delivers. The final briefs below are unchanged in intent.
 
 The Build Object is a live three.js scene with procedural materials (`src/site00/builder-studio/buildObject/engine.ts`). Every room keeps reacting to the client's choices.
 
@@ -18,17 +21,16 @@ The Build Object is a live three.js scene with procedural materials (`src/site00
 
 ## What changed in this revision
 
-Creative Refinement 1 moved the studio from warm beige to the **Production Workspace palette**. Every asset below now specifies that palette:
+Reference Fidelity 2 samples the palette from the approved references themselves. Every asset below now specifies these values:
 
 | Role | Value |
 |---|---|
-| Page | `#F4F4F6` |
-| Floor | `#ECEEF1` |
-| Ink | `#111114` |
-| Red | `#E5231B` |
-| Colour temperature | Cool neutral, no warm bounce |
+| Page | `#F5F3F3` (Blueprint reveal `#F3F1F2` → `#F8F6F7`) |
+| Ink | `#0A0A0A` |
+| Red | `#E50107` |
+| Colour temperature | Near-neutral, faintly warm. Never the rejected beige (`#F2F0EC`), and not Creative Refinement 1's cool `#F4F4F6`. |
 
-Briefs written against the old `#F2F0EC` warm page are superseded. The brief fields now follow the sprint's production-brief list, and each asset has a validation rule and a priority.
+The brief fields follow the sprint's production-brief list, and each asset has a validation rule and a priority.
 
 ## Discovery: what exists, and why none of it is mounted
 
@@ -38,11 +40,11 @@ Searched:
 - The design-pack plates
 - The Supabase storage paths referenced by BLDR code
 
-**Recovered and mountable: 0.**
+**Recovered and in use: 1** — the atrium render below, processed into interim plates and a reflection map by `scripts/site00/builder-studio-qa/build-env-plates.cjs`.
 
 | Candidate | Size | Verdict |
 |---|---|---|
-| `public/site00/production-authority-assets/production-design-atrium-authority-v1.jpg` | 1920×823 | **Style anchor only.** The right language: luminous white atrium, Carrara floor, glass columns, cool light. But it has a strong central red light rod and a mirrored ring that would compete with the Build Object. It is the Production Workspace's own authority plate. Grok should derive GA-01 / GA-05 *from* it, not reuse it. |
+| `public/site00/production-authority-assets/production-design-atrium-authority-v1.jpg` | 1920×823 | **In use as an interim source.** It has the right language: a luminous white atrium with a Carrara floor and glass columns. Only its lower storeys (glass balconies, polished floor) are cut, defocused and lifted into the reference background band. That gives five per-room plates (4–5 KB each) in `public/site00/builder-studio/env/{place,feel,work,pace,blueprint}.webp`. The whole image becomes the reflection map `atrium-reflection.webp` (21 KB). Its central red rod and ring ceiling are never used. Grok's GA-05 and GA-01 should still be produced *from* this language at full resolution. |
 | `public/site00/production-hub/production/hub/chamber/atmosphere.webp` | 1296×2304 | **Style anchor only.** A hub chamber with a glowing red cylinder at its centre, which would read as a second object. |
 | `docs/site00/public-redesign/GROK_ASSET_PACK/outputs/img-env-idnty-atrium-master.webp` | 1170×2532 | **Not suitable.** The IDNTY atrium is warm, with planting and a curved plinth. Wrong family and wrong temperature. |
 | `public/site00/production-authority-assets/design-pack/plates/main-atrium.jpg` | 278×168 | **Unusable.** Thumbnail resolution. |
@@ -79,11 +81,11 @@ Priority runs from **P1** (install first) to **P3**.
 **Light.** Soft, high daylight from the upper left (sun 2.45, hemisphere `#FFFFFF` / `#DDE1E7`). A cool fill from the right (`#F1F5FB`). Neutral tone mapping (exposure 0.94). No coloured light.
 
 **Colour.**
-- Page `#F4F4F6`, floor `#ECEEF1`, ink `#111114`.
+- Page `#F5F3F3`, ink `#0A0A0A`, reference red `#E50107`. The floor comes from the plate (shadow-catcher floor in the scene).
 - SITE 00 red `#E5231B`: acrylic `#E5141E` lit, `#B8170F` in shadow.
 - Glass `#E4EBEE`.
 
-**Colour temperature.** Cool neutral, about D65. **No beige, no warm floor bounce.**
+**Colour temperature.** Near-neutral, faintly warm, as sampled from the references. **No beige.**
 
 **FEEL palettes:**
 | Direction | Materials |
@@ -95,7 +97,7 @@ Priority runs from **P1** (install first) to **P3**.
 
 ---
 
-### GA-05 · Atmosphere plates ×5, one per room — **ASSET BLOCKED · P1**
+### GA-05 · Atmosphere plates ×5, one per room — **ASSET BLOCKED · P1** (interim plates installed)
 
 | Field | Value |
 |---|---|
@@ -109,14 +111,14 @@ Priority runs from **P1** (install first) to **P3**.
 | Surface | CSS layer behind the transparent canvas (`.bs-object__host`) |
 | Camera | That room's camera above, long lens, strong depth-of-field blur (nothing sharp) |
 | Lighting | As the shared scene: high upper-left daylight, cool fill |
-| Colour temperature | Cool neutral D65. Whites `#F4F4F6`–`#FFFFFF`. Contrast ≤ 12%. |
-| Transparency | No (opaque, blends into `#F4F4F6` at all four edges) |
+| Colour temperature | Near-neutral, faintly warm. Whites `#E4E0DD`–`#FBF9F8` (the reference band). Contrast ≤ 14%. |
+| Transparency | No (opaque, blends into `#F5F3F3` at all four edges) |
 | Format | `.webp`, quality 78, ≤ 180 KB desktop / ≤ 70 KB mobile |
 | Responsive crop | Safe centre band of 60% height; object occupies the centre third. Mobile crops the centre 1:1 for 390–430 px stages. |
-| Destination | `public/site00/builder-studio/backdrops/{place,feel,work,pace,blueprint}.webp` |
-| Validation | Live capture at 390×844 and 1440×900. The Build Object stays the brightest-contrast element. Text over the stage stays ≥ 4.5:1. Edges show no seam against `#F4F4F6`. Nothing reads as a second object. |
+| Destination | `public/site00/builder-studio/env/{place,feel,work,pace,blueprint}.webp` (replacing the interim plates in place; the studio CSS already points there) |
+| Validation | Live capture at 390×844 and 1440×900. The Build Object stays the brightest-contrast element. Text over the stage stays ≥ 4.5:1. Edges show no seam against `#F5F3F3`. Nothing reads as a second object. Replaces the interim `env/*.webp` one for one. |
 
-### GA-01 · White architectural atrium HDRI — **ASSET BLOCKED · P1**
+### GA-01 · White architectural atrium HDRI — **ASSET BLOCKED · P1** (interim reflection map installed)
 
 | Field | Value |
 |---|---|
@@ -130,7 +132,7 @@ Priority runs from **P1** (install first) to **P3**.
 | Surface | `scene.environment` only, never visible |
 | Camera | Equirectangular from object height (~1.2 m) |
 | Lighting | Overcast daylight through upper-left clerestory; no hard sun patches |
-| Colour temperature | Cool neutral D65; no warm bounce; no red |
+| Colour temperature | Near-neutral; no red |
 | Transparency | n/a |
 | Format | `.hdr` (RGBE) 2K + 1K |
 | Responsive crop | none (full sphere) |
@@ -151,7 +153,7 @@ Priority runs from **P1** (install first) to **P3**.
 | Surface | `createMaterials().marble` map + roughness + normal |
 | Camera | Orthographic top-down |
 | Lighting | Unlit albedo (no baked light) |
-| Colour temperature | Cool neutral. Ground `#EEF0F1`, veins `#A3A8AE`–`#5B6067`. |
+| Colour temperature | Neutral. Ground `#D6D4D2`, bold angular veins `#2B2A2A`–`#5A5856` (the interim procedural texture matches this). |
 | Transparency | No |
 | Format | `.webp` albedo + roughness + normal (KTX2 optional) |
 | Responsive crop | Seamless tile; no visible repeat at 3 m |

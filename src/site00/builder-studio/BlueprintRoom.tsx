@@ -237,7 +237,8 @@ export function BlueprintPanel(props: Props) {
         ))}
         <span className="bs-tabs__ink" aria-hidden="true" />
       </div>
-      <p className="bs-mode" aria-live="polite">
+      {/* The overview is drawn without a mode line; it stays for screen readers so every section change is announced. */}
+      <p className={`bs-mode${tab === 'OVERVIEW' ? ' bs-visually-hidden' : ''}`} aria-live="polite">
         <span className="bs-mode__n">{pad(index + 1)}</span>
         <span className="bs-mode__rule" aria-hidden="true" />
         <span className="bs-mode__label">{TAB_MODE[tab]}</span>

@@ -71,6 +71,7 @@ async function sheet(room, live) {
   page.setDefaultTimeout(90000);
   const sync = () => page.waitForFunction(() => document.querySelector('.bs-root')?.getAttribute('data-sync') === 'saved', null, { timeout: 30000 });
   const shot = async () => {
+    await page.waitForSelector('.bs-object__host[data-env]', { timeout: 30000 }).catch(() => undefined);
     await page.evaluate(() => document.fonts.ready);
     await page.evaluate(() => window.scrollTo(0, 0));
     await page.waitForTimeout(1300);

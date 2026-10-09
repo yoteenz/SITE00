@@ -383,8 +383,8 @@ function workModule(id: WorkModuleId, t: number, palette: BuildPalette): BuildEl
       // An enclosed chamber: a closed dark-glass room with a red threshold — entry is by invitation.
       const y = level(2);
       return [
-        box('m-member-room', 'darkGlass', [0.8, 0.58, 0.8], [1.35, y, 0.1], 0, 0),
-        ...portal('m-member-door', a, 0.38, 0.5, 0.045, [1.35, y, 0.52], 0, 1),
+        box('m-member-room', 'darkGlass', [0.72, 0.58, 0.8], [1.22, y, 0.1], 0, 0),
+        ...portal('m-member-door', a, 0.36, 0.5, 0.045, [1.22, y, 0.52], 0, 1),
       ];
     }
     case 'BOOKING': {
@@ -523,10 +523,10 @@ function focusElements(elements: BuildElement[], focus: BuildFocus): BuildElemen
 /* ─────────────────────────────── compose ─────────────────────────────── */
 
 const CAMERAS: Record<BuildView, BuildCamera> = {
-  place: { target: [0, 1.45, 0], distance: 9.6, azimuth: -17, elevation: 11, fill: 1.06, lift: 0.02 },
+  place: { target: [0, 1.45, 0], distance: 9.6, azimuth: -17, elevation: 11, fill: 1.1, lift: 0 },
   feel: { target: [0, 1.55, 0], distance: 9.0, azimuth: -14, elevation: 5, fill: 0.96, lift: 0.04 },
   // Narrower fill so the capability modules stay clear of the toggles at the stage edges.
-  work: { target: [0, 1.6, 0], distance: 10.2, azimuth: -22, elevation: 13, fill: 0.98 },
+  work: { target: [0, 1.6, 0], distance: 10.2, azimuth: -22, elevation: 13, fill: 0.9 },
   pace: { target: [0, 1.75, 0], distance: 11.0, azimuth: -24, elevation: 11, fill: 1.06, lift: 0.02 },
   blueprint: { target: [0, 1.6, 0], distance: 10.6, azimuth: -26, elevation: 9, fill: 1.05, lift: 0.04 },
 };

@@ -52,6 +52,8 @@ async function shot(page, name, { full = false } = {}) {
 }
 async function room(page, id) {
   await page.waitForSelector(`.bs-room--${id}`);
+  // Captures show the stage's final look: wait until its reflections are applied.
+  await page.waitForSelector('.bs-object__host[data-env]', { timeout: 30000 }).catch(() => undefined);
   await settle(page, 900);
 }
 async function scrollTo(page, selector) {

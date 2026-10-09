@@ -283,7 +283,7 @@ function createMaterials(): MaterialSet {
 const UNIT_BOX = new THREE.BoxGeometry(1, 1, 1);
 const UNIT_EDGES = new THREE.EdgesGeometry(UNIT_BOX);
 /** Approximate pane size of the references' glazing, in scene units. */
-const PANE = 0.72;
+const PANE = 1.05;
 const gridCache = new Map<string, THREE.BufferGeometry>();
 /** Mullion lines on the four vertical faces of a unit box, with pane counts chosen from the element's real size. */
 function paneGrid(size: readonly number[]): THREE.BufferGeometry {
@@ -322,7 +322,7 @@ const FIGURE_BODY = (() => {
 /** Interim reflection map from SITE 00's own atrium render (until the GA-01 HDRI exists). */
 const REFLECTION_MAP = '/site00/builder-studio/env/atrium-reflection.webp';
 
-function buildStage(scene: THREE.Scene, renderer: THREE.WebGLRenderer, mobile: boolean) {
+function buildStage(scene: THREE.Scene, renderer: THREE.WebGLRenderer, mobile: boolean, onEnvironment?: (ready: boolean) => void) {
   // The stage is composited: a photographic environment plate sits behind a transparent canvas (CSS layer), so the
   // scene draws only the architecture, its shadow on the floor and its reflections.
   scene.background = null;
@@ -340,9 +340,14 @@ function buildStage(scene: THREE.Scene, renderer: THREE.WebGLRenderer, mobile: b
       previous?.dispose();
       texture.dispose();
       pmrem.dispose();
+      // Repaint once now, so the reflection swap lands immediately (also under reduced motion), never on a later frame.
+      onEnvironment?.(true);
     },
     undefined,
-    () => pmrem.dispose(),
+    () => {
+      pmrem.dispose();
+      onEnvironment?.(false);
+    },
   );
 
   scene.add(new THREE.HemisphereLight(0xffffff, 0xe6e2df, 0.62));
@@ -600,7 +605,11 @@ export function createBuildObjectEngine(container: HTMLElement, options: { reduc
   container.appendChild(renderer.domElement);
 
   const scene = new THREE.Scene();
-  buildStage(scene, renderer, mobile);
+  // The stage reports when its reflections are in place (`data-env`), so captures and checks can wait for the final look.
+  buildStage(scene, renderer, mobile, (ready) => {
+    container.dataset.env = ready ? 'ready' : 'fallback';
+    requestFrame();
+  });
   const materials = createMaterials();
   const makeNode = makeNodeFactory(scene, materials);
   const camera = new THREE.PerspectiveCamera(FOV, 1, 0.1, 160);

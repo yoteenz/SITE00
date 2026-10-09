@@ -20,6 +20,7 @@ async function stage(page) {
   return page.locator('.bs-stage canvas').screenshot();
 }
 async function grab(page, name) {
+  await page.waitForSelector('.bs-object__host[data-env]', { timeout: 30000 }).catch(() => undefined);
   await page.waitForTimeout(1100);
   const buf = await stage(page);
   fs.writeFileSync(path.join(OUT, `${name}.png`), buf);

@@ -9,6 +9,8 @@
 >
 > The journey and every component are unchanged: four rooms, then the Blueprint. So are persistence, submission and estimates. This sprint changed only type, colour, spacing, the Build Object's architecture, the Blueprint section design and the confirmation sheet.
 
+> **Superseded in part by Reference Fidelity 2** (`REFERENCE_FIDELITY_2.md`). The founder then made the approved references the strict authority ("copy the reference images pixel perfect"). Typography, palette, stage compositing and the Build Object forms were re-derived from the references by measurement. The Production-Workspace face and cool palette below are no longer current. The journey, contracts, Blueprint index behaviour, confirmation sheet and status track are unchanged.
+
 ## How to review
 
 | What | Where |

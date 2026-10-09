@@ -251,12 +251,27 @@ const expand = (r) => r.replace(/\$(\d+)K/g, (_, n) => `$${(Number(n) * 1000).to
     await m.page.goto(BASE + '/bldr/studio/place', { waitUntil: 'domcontentloaded' });
     await m.page.waitForSelector('.bs-stage canvas');
     await waitSync(m.page, ['saved']);
+    // Measure idle motion only once the stage has its final look (reflections applied).
+    await m.page.waitForSelector('.bs-object__host[data-env]', { timeout: 30000 });
     await settle(m.page, 2500);
-    const h1 = await canvasHash(m.page);
+    const s1 = await m.page.locator('.bs-stage canvas').screenshot();
     await settle(m.page, 1200);
-    const h2 = await canvasHash(m.page);
-    if (reduced) check('Q20', 'Reduced motion: the object holds still (no idle sway)', h1 === h2);
-    else check('Q19', 'Default motion: the object sways gently when idle', h1 !== h2);
+    const s2 = await m.page.locator('.bs-stage canvas').screenshot();
+    // Pixel comparison with a tolerance: the stage is a transparent canvas composited over a CSS plate, and the
+    // compositor can round a few channels by ±1 between passes. "Still" = nothing moves more than 2 levels;
+    // "sways" = over a thousand channels move more than 8 levels.
+    const sharp = require('sharp');
+    const [r1, r2] = await Promise.all([sharp(s1).raw().toBuffer(), sharp(s2).raw().toBuffer()]);
+    let maxDelta = 0;
+    let moved = 0;
+    for (let i = 0; i < Math.min(r1.length, r2.length); i += 1) {
+      const d = Math.abs(r1[i] - r2[i]);
+      if (d > maxDelta) maxDelta = d;
+      if (d > 8) moved += 1;
+    }
+    if (maxDelta > 2) [s1, s2].forEach((buf, i) => fs.writeFileSync(path.join(OUT, `motion-${reduced ? 'reduced' : 'default'}-${i + 1}.png`), buf));
+    if (reduced) check('Q20', 'Reduced motion: the object holds still (no idle sway)', maxDelta <= 2, `max channel delta ${maxDelta}`);
+    else check('Q19', 'Default motion: the object sways gently when idle', moved > 1000, `${moved} channels moved > 8`);
     await m.ctx.close();
   }
 
