@@ -338,13 +338,91 @@ const FIGURE_BODY = (() => {
 /** Interim reflection map from SITE 00's own atrium render (until the GA-01 HDRI exists). */
 const REFLECTION_MAP = '/site00/builder-studio/env/atrium-reflection.webp';
 
-function buildStage(scene: THREE.Scene, renderer: THREE.WebGLRenderer, mobile: boolean, onEnvironment?: (ready: boolean) => void) {
+const ENV_INTENSITY_BASE = 0.55;
+const ENV_INTENSITY_READY = 0.95;
+/** Crossfade when the HDRI reflection map replaces the RoomEnvironment placeholder (avoids a one-frame exposure jump). */
+const ENV_INTENSITY_BLEND_MS = 2800;
+
+type StageRig = {
+  sun: THREE.DirectionalLight;
+  fill: THREE.DirectionalLight;
+  front: THREE.DirectionalLight;
+  hemi: THREE.HemisphereLight;
+  /** When > 0, environment intensity eases from base → ready. */
+  envBlendStart: number;
+  envReady: boolean;
+};
+
+function easeInOutSine(t: number): number {
+  return -(Math.cos(Math.PI * t) - 1) / 2;
+}
+
+/** Localized architectural light motion — additive, low amplitude, desynced cycles (~5–7.5s). */
+function applyArchitecturalLighting(scene: THREE.Scene, rig: StageRig, materials: MaterialSet, now: number, reducedMotion: boolean, interactive: boolean) {
+  const glass = materials.surface.glass as THREE.MeshPhysicalMaterial;
+  const glassTint = materials.surface.glassTint as THREE.MeshPhysicalMaterial;
+  const red = materials.surface.red as THREE.MeshPhysicalMaterial;
+  const redFrame = materials.frame.red as THREE.MeshStandardMaterial | undefined;
+
+  if (reducedMotion || interactive) {
+    scene.environmentIntensity = rig.envReady ? ENV_INTENSITY_READY : ENV_INTENSITY_BASE;
+    rig.sun.intensity = 2.3;
+    rig.sun.position.set(-6, 10, 7);
+    rig.fill.intensity = 0.6;
+    rig.fill.position.set(7, 4, -2);
+    rig.front.intensity = 0.4;
+    rig.front.position.set(2, 2, 10);
+    glass.envMapIntensity = 2.2;
+    glassTint.envMapIntensity = 2.2;
+    red.emissiveIntensity = 0.4;
+    if (redFrame) redFrame.emissiveIntensity = 0.3;
+    return;
+  }
+
+  if (rig.envBlendStart > 0) {
+    const blendT = Math.min(1, (now - rig.envBlendStart) / ENV_INTENSITY_BLEND_MS);
+    scene.environmentIntensity = ENV_INTENSITY_BASE + (ENV_INTENSITY_READY - ENV_INTENSITY_BASE) * easeInOutSine(blendT);
+  } else {
+    scene.environmentIntensity = rig.envReady ? ENV_INTENSITY_READY : ENV_INTENSITY_BASE;
+  }
+
+  const tau = (ms: number, phase = 0) => (now / ms + phase) * Math.PI * 2;
+  const sunWave = Math.sin(tau(6400));
+  const specWave = Math.sin(tau(5200, 0.35));
+  const portalWave = Math.sin(tau(7200, 0.9));
+  const rimWave = Math.sin(tau(5800, 1.4));
+  const fillWave = Math.sin(tau(6800, 2.1));
+
+  rig.sun.intensity = 2.28 + sunWave * 0.06;
+  rig.sun.position.set(-6 + specWave * 0.32, 10 + Math.sin(tau(7400, 0.2)) * 0.22, 7 + Math.cos(tau(6100, 0.55)) * 0.18);
+
+  rig.front.intensity = 0.38 + rimWave * 0.06;
+  rig.front.position.set(2 + Math.sin(tau(6400, 1.1)) * 0.45, 2.1, 10 + Math.cos(tau(5600, 0.4)) * 0.25);
+
+  rig.fill.intensity = 0.58 + fillWave * 0.04;
+  rig.fill.position.set(7 + Math.sin(tau(8000, 0.7)) * 0.2, 4, -2);
+
+  glass.envMapIntensity = 2.12 + specWave * 0.11;
+  glassTint.envMapIntensity = 2.1 + Math.sin(tau(5200, 0.85)) * 0.09;
+  red.emissiveIntensity = 0.38 + portalWave * 0.05;
+  if (redFrame) redFrame.emissiveIntensity = 0.28 + Math.sin(tau(7200, 1.25)) * 0.035;
+}
+
+function buildStage(scene: THREE.Scene, renderer: THREE.WebGLRenderer, mobile: boolean, onEnvironment?: (ready: boolean) => void): StageRig {
   // The stage is composited: a photographic environment plate sits behind a transparent canvas (CSS layer), so the
   // scene draws only the architecture, its shadow on the floor and its reflections.
   scene.background = null;
   const pmrem = new THREE.PMREMGenerator(renderer);
   scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-  scene.environmentIntensity = 0.55;
+  scene.environmentIntensity = ENV_INTENSITY_BASE;
+  const rig: StageRig = {
+    sun: new THREE.DirectionalLight(0xffffff, 2.3),
+    fill: new THREE.DirectionalLight(0xf8f6f5, 0.6),
+    front: new THREE.DirectionalLight(0xffffff, 0.4),
+    hemi: new THREE.HemisphereLight(0xffffff, 0xe6e2df, 0.62),
+    envBlendStart: 0,
+    envReady: false,
+  };
   new THREE.TextureLoader().load(
     REFLECTION_MAP,
     (texture) => {
@@ -352,11 +430,11 @@ function buildStage(scene: THREE.Scene, renderer: THREE.WebGLRenderer, mobile: b
       texture.colorSpace = THREE.SRGBColorSpace;
       const previous = scene.environment;
       scene.environment = pmrem.fromEquirectangular(texture).texture;
-      scene.environmentIntensity = 0.95;
       previous?.dispose();
       texture.dispose();
       pmrem.dispose();
-      // Repaint once now, so the reflection swap lands immediately (also under reduced motion), never on a later frame.
+      rig.envReady = true;
+      rig.envBlendStart = performance.now();
       onEnvironment?.(true);
     },
     undefined,
@@ -366,32 +444,30 @@ function buildStage(scene: THREE.Scene, renderer: THREE.WebGLRenderer, mobile: b
     },
   );
 
-  scene.add(new THREE.HemisphereLight(0xffffff, 0xe6e2df, 0.62));
-  const sun = new THREE.DirectionalLight(0xffffff, 2.3);
-  sun.position.set(-6, 10, 7);
-  sun.castShadow = true;
-  sun.shadow.mapSize.set(mobile ? 1024 : 2048, mobile ? 1024 : 2048);
-  sun.shadow.camera.left = -9;
-  sun.shadow.camera.right = 9;
-  sun.shadow.camera.top = 9;
-  sun.shadow.camera.bottom = -9;
-  sun.shadow.camera.far = 40;
-  sun.shadow.bias = -0.0005;
-  sun.shadow.normalBias = 0.025;
-  sun.shadow.radius = 4;
-  scene.add(sun);
-  const fill = new THREE.DirectionalLight(0xf8f6f5, 0.6);
-  fill.position.set(7, 4, -2);
-  scene.add(fill);
-  const front = new THREE.DirectionalLight(0xffffff, 0.4);
-  front.position.set(2, 2, 10);
-  scene.add(front);
+  scene.add(rig.hemi);
+  rig.sun.position.set(-6, 10, 7);
+  rig.sun.castShadow = true;
+  rig.sun.shadow.mapSize.set(mobile ? 1024 : 2048, mobile ? 1024 : 2048);
+  rig.sun.shadow.camera.left = -9;
+  rig.sun.shadow.camera.right = 9;
+  rig.sun.shadow.camera.top = 9;
+  rig.sun.shadow.camera.bottom = -9;
+  rig.sun.shadow.camera.far = 40;
+  rig.sun.shadow.bias = -0.0005;
+  rig.sun.shadow.normalBias = 0.025;
+  rig.sun.shadow.radius = 4;
+  scene.add(rig.sun);
+  rig.fill.position.set(7, 4, -2);
+  scene.add(rig.fill);
+  rig.front.position.set(2, 2, 10);
+  scene.add(rig.front);
 
   // Shadow catcher: the plate's polished floor shows through; only the object's soft shadow is drawn.
   const floor = new THREE.Mesh(new THREE.PlaneGeometry(120, 120), new THREE.ShadowMaterial({ color: 0x3a3634, opacity: 0.16 }));
   floor.rotation.x = -Math.PI / 2;
   floor.receiveShadow = true;
   scene.add(floor);
+  return rig;
 }
 
 type NodeState = { position: THREE.Vector3; size: THREE.Vector3; rotationY: number };
@@ -701,7 +777,7 @@ export function createBuildObjectEngine(container: HTMLElement, options: { reduc
 
   const scene = new THREE.Scene();
   // The stage reports when its reflections are in place (`data-env`), so captures and checks can wait for the final look.
-  buildStage(scene, renderer, mobile, (ready) => {
+  const stageRig = buildStage(scene, renderer, mobile, (ready) => {
     container.dataset.env = ready ? 'ready' : 'fallback';
     requestFrame();
   });
@@ -722,7 +798,6 @@ export function createBuildObjectEngine(container: HTMLElement, options: { reduc
   let visible = true;
   let frame = 0;
   let disposed = false;
-  let lastSwayRender = 0;
   const reducedMotion = options.reducedMotion;
   let anchors: readonly StageAnchor[] = [];
   let anchorListener: AnchorListener | null = null;
@@ -829,21 +904,17 @@ export function createBuildObjectEngine(container: HTMLElement, options: { reduc
       if (t < 1) animating = true;
       else fromCamera = null;
     }
+    applyArchitecturalLighting(scene, stageRig, materials, now, reducedMotion, interactive);
     if (currentCamera) {
-      const sway = reducedMotion || interactive ? 0 : Math.sin(now / 5200) * 2.2;
+      const sway = reducedMotion || interactive ? 0 : Math.sin(now / 6800) * 1.1;
       const view = { ...currentCamera, elevation: Math.max(2, Math.min(55, currentCamera.elevation + dragElevation)) };
       camera.position.copy(cameraPosition(view, sway + dragAzimuth));
       camera.lookAt(...view.target);
     }
     renderer.render(scene, camera);
     reportAnchors();
-    if (animating) requestFrame();
-    else if (!reducedMotion && !interactive && visible) {
-      // A gentle idle sway at a low frame rate; transitions run at full rate.
-      const wait = Math.max(0, 1000 / 20 - (now - lastSwayRender));
-      lastSwayRender = now;
-      window.setTimeout(requestFrame, wait);
-    }
+    const idleLighting = visible && !reducedMotion && !interactive;
+    if (animating || idleLighting) requestFrame();
   }
 
   function requestFrame() {
