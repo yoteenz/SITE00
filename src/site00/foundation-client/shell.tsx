@@ -2,9 +2,9 @@
 import { useEffect, useId, useRef, type ReactNode } from 'react';
 import { DfIcon, type DfIconName } from './icons';
 import { DfCornerFragment, DfCrownObject, DfThresholdHero } from './objects';
-import { DF_VIEW_META, DF_VIEW_ORDER, type DfView } from './model';
+import { DF_GROWTH_VIEWS, DF_VIEW_META, DF_VIEW_ORDER, type DfView } from './model';
 
-export type DfObjectKind = 'hero' | 'crown' | 'corner' | 'none';
+export type DfObjectKind = 'hero' | 'crown' | 'corner' | 'growth' | 'none';
 
 export function DfHeader({ onMenu, menuOpen }: { onMenu?: () => void; menuOpen?: boolean }) {
   return (
@@ -204,7 +204,7 @@ export function DfMenu({
     <DfSheet open={open} title="YOUR FOUNDATION" onClose={onClose}>
       <nav id="df-menu" aria-label="DIGITAL FOUNDATION">
         <ol className="df-menu">
-          {DF_VIEW_ORDER.filter((v) => v !== 'OVERVIEW' || views.includes('OVERVIEW')).map((v) => {
+          {DF_VIEW_ORDER.filter((v) => (v !== 'OVERVIEW' && !DF_GROWTH_VIEWS.includes(v)) || views.includes(v)).map((v) => {
             const meta = DF_VIEW_META[v];
             const enabled = views.includes(v);
             return (
@@ -235,6 +235,13 @@ export function DfMenu({
 function ObjectSlot({ kind, variant }: { kind: DfObjectKind; variant: DfView | null }) {
   if (kind === 'none') return null;
   if (kind === 'hero') return null;
+  if (kind === 'growth') {
+    return (
+      <div className="df-object df-object--corner" aria-hidden="true">
+        <DfCornerFragment />
+      </div>
+    );
+  }
   if (kind === 'crown') {
     return (
       <>

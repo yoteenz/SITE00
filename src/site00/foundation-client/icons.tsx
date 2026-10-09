@@ -31,7 +31,13 @@ export type DfIconName =
   | 'bolt'
   | 'search'
   | 'minus'
-  | 'close';
+  | 'close'
+  | 'target'
+  | 'trend'
+  | 'handshake'
+  | 'compass'
+  | 'flag'
+  | 'map';
 
 const PATHS: Record<DfIconName, JSX.Element> = {
   globe: (
@@ -151,6 +157,23 @@ const PATHS: Record<DfIconName, JSX.Element> = {
   ),
   minus: <path d="M5 12h14" />,
   close: <path d="m6 6 12 12M18 6 6 18" />,
+  target: (
+    <>
+      <circle cx="12" cy="12" r="8.5" />
+      <circle cx="12" cy="12" r="4.5" />
+      <path d="M12 12h.01M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" />
+    </>
+  ),
+  trend: <path d="M3 18.5 9 12.5l4 4 8-9M15 7.5h6v6M3 21.5h18" />,
+  handshake: <path d="M2.5 11 6 7.5l3 1.5 3-2 3 2 3-1.5 3.5 3.5M5 13.5l4 4c.8.8 2 .8 2.8 0l5.7-5.7M8.5 15l2-2M11 17.5l2-2M15.5 9 12 12.2" />,
+  compass: (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="m15.5 8.5-2 5-5 2 2-5 5-2Z" />
+    </>
+  ),
+  flag: <path d="M5 21.5V3.5M5 4h12.5l-2.5 4 2.5 4H5" />,
+  map: <path d="M3 6.5 9 4l6 2.5L21 4v13.5L15 20l-6-2.5L3 20V6.5ZM9 4v13.5M15 6.5V20" />,
 };
 
 export function DfIcon({ name, ...rest }: { name: DfIconName } & SVGProps<SVGSVGElement>) {

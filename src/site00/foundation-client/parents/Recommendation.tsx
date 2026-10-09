@@ -1,5 +1,5 @@
 /** Board 02 — P04 RECOMMENDATION: included scope, dynamic add-ons, quote-bound investment and turnaround. */
-import { useMemo, useState } from 'react';
+import { useMemo, useState, type ReactNode } from 'react';
 import type { ClientDigitalFoundationPayload } from '../../../../shared/site00-digital-foundation/clientProjection.js';
 import type { DigitalFoundationAddonId, DigitalFoundationCommercialConfig } from '../../../../shared/site00-digital-foundation/types.js';
 import type { ClientCatalogEntry } from '../api';
@@ -133,6 +133,7 @@ export function P04Recommendation({
   onQuantity,
   onContinue,
   onRefresh,
+  growthSlot,
 }: {
   payload: ClientDigitalFoundationPayload;
   catalog: ClientCatalogEntry[] | null;
@@ -145,6 +146,8 @@ export function P04Recommendation({
   onContinue: () => void;
   /** Re-issues the same selections as a new quote version (fresh expiry). */
   onRefresh: () => void;
+  /** Optional Business Growth connector (server-enabled only). */
+  growthSlot?: ReactNode;
 }) {
   const [allOpen, setAllOpen] = useState(false);
   const [costsOpen, setCostsOpen] = useState(false);
@@ -249,6 +252,7 @@ export function P04Recommendation({
         DOMAIN + EMAIL PROVIDER FEES ARE BILLED SEPARATELY
         <DfIcon name="chevron" />
       </button>
+      {growthSlot}
       <DfCta label="CONTINUE TO REVIEW" onClick={onContinue} disabled={updating} busy={updating} busyLabel="UPDATING YOUR QUOTE…" />
       <DfTrust text="SECURE. GUIDED. DONE FOR YOU." />
 

@@ -9,8 +9,12 @@ import type {
   DigitalFoundationQuote,
   IntakeNeedFlag,
 } from '../../../shared/site00-digital-foundation/types.js';
+import type { ClientBusinessGrowthContext } from '../../../shared/site00-business-growth-intelligence/clientContext.js';
 
 const ENDPOINT = '/api/site00/digital-foundation-artifact';
+
+/** The artifact payload as served: `business_growth` is `null` (or absent) while Business Growth is off. */
+export type DfPayload = ClientDigitalFoundationPayload & { business_growth?: ClientBusinessGrowthContext | null };
 
 export type ClientCatalogEntry = {
   addon_id: DigitalFoundationQuote['selected_addons'][number]['addon_id'];
@@ -101,6 +105,22 @@ export function removeAddon(
   addonId: string,
 ): Promise<{ quote: DigitalFoundationQuote; payload: ClientDigitalFoundationPayload }> {
   return post(token, 'remove-addon', { addon_id: addonId });
+}
+
+/** Saves Business Ambition answers and/or explicit Growth selections; returns the re-read payload. */
+export function updateGrowth(
+  token: string,
+  body: {
+    ambition?: { goals?: string[]; skipped?: boolean; complete?: boolean; context?: Record<string, boolean | string | null> };
+    selections?: { service_id: string }[];
+  },
+): Promise<DfPayload> {
+  return post(token, 'update-growth', body);
+}
+
+/** Canonical BLDR interest signal (`captureBuildInterest`) — records interest, never a purchase. */
+export function recordBuildInterest(token: string): Promise<DfPayload> {
+  return post(token, 'build-interest', { interest: 'INTERESTED' });
 }
 
 export function acceptQuote(token: string, disclosures: readonly string[]): Promise<ClientDigitalFoundationPayload> {

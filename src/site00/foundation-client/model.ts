@@ -16,20 +16,27 @@ import type {
 } from '../../../shared/site00-digital-foundation/types.js';
 import type { ClientCatalogEntry } from './api';
 
-export type DfView = 'P01' | 'P02' | 'P03' | 'P04' | 'P05' | 'P06' | 'OVERVIEW';
+export type DfView = 'P01' | 'P02' | 'AMBITION' | 'P03' | 'P04' | 'GROWTH' | 'PLAN' | 'P05' | 'P06' | 'OVERVIEW' | 'ROADMAP';
+
+/** Business Growth parents — only routable when the server attaches an enabled Growth context. */
+export const DF_GROWTH_VIEWS: DfView[] = ['AMBITION', 'GROWTH', 'PLAN', 'ROADMAP'];
 export type CheckoutParam = 'return' | 'cancel' | null;
 
 export const DF_VIEW_META: Record<DfView, { index: string; label: string; footer: string }> = {
   P01: { index: '01', label: 'GET STARTED', footer: '001' },
   P02: { index: '02', label: 'BUSINESS INFORMATION', footer: '002' },
+  AMBITION: { index: 'G1', label: 'BUSINESS AMBITION', footer: 'G01' },
   P03: { index: '03', label: 'BUILD YOUR FOUNDATION', footer: '003' },
   P04: { index: '04', label: 'RECOMMENDATION', footer: '004' },
+  GROWTH: { index: 'G2', label: 'GROWTH PATH', footer: 'G02' },
+  PLAN: { index: 'G3', label: 'INVESTMENT + DELIVERY', footer: 'G03' },
   P05: { index: '05', label: 'REVIEW + CHECKOUT', footer: '005' },
   P06: { index: '06', label: 'ACTIVATION', footer: '006' },
   OVERVIEW: { index: '07', label: 'PROJECT OVERVIEW', footer: '007' },
+  ROADMAP: { index: 'G4', label: 'GROWTH ROADMAP', footer: 'G04' },
 };
 
-export const DF_VIEW_ORDER: DfView[] = ['P01', 'P02', 'P03', 'P04', 'P05', 'P06', 'OVERVIEW'];
+export const DF_VIEW_ORDER: DfView[] = ['P01', 'P02', 'AMBITION', 'P03', 'P04', 'GROWTH', 'PLAN', 'P05', 'P06', 'OVERVIEW', 'ROADMAP'];
 
 /** The three acceptance disclosures the server requires verbatim (`acceptQuote`). */
 export const DF_DISCLOSURES = [
@@ -51,9 +58,13 @@ export type DfRoute =
  */
 export function resolveDfRoute(
   payload: ClientDigitalFoundationPayload,
-  ctx: { checkout: CheckoutParam; activationSeen: boolean },
+  ctx: { checkout: CheckoutParam; activationSeen: boolean; growth?: boolean },
 ): DfRoute {
   const { artifact, quote, acceptance } = payload;
+  const g = Boolean(ctx.growth);
+  const ambition: DfView[] = g ? ['AMBITION'] : [];
+  const path: DfView[] = g ? ['GROWTH', 'PLAN'] : [];
+  const roadmap: DfView[] = g ? ['ROADMAP'] : [];
   switch (payload.surface) {
     case 'COMPLETE':
     case 'BUILD_UPSELL':
@@ -63,7 +74,7 @@ export function resolveDfRoute(
     case 'PORTAL':
       return {
         kind: 'views',
-        views: ['P06', 'OVERVIEW'],
+        views: ['P06', 'OVERVIEW', ...roadmap],
         defaultView: ctx.checkout === 'return' || !ctx.activationSeen ? 'P06' : 'OVERVIEW',
       };
     default:
@@ -74,20 +85,20 @@ export function resolveDfRoute(
     case 'CHECKOUT':
       return {
         kind: 'views',
-        views: ctx.checkout === 'return' ? ['P04', 'P05', 'P06'] : ['P04', 'P05'],
+        views: ctx.checkout === 'return' ? ['P04', ...path, 'P05', 'P06', ...roadmap] : ['P04', ...path, 'P05', ...roadmap],
         defaultView: ctx.checkout === 'return' ? 'P06' : 'P05',
       };
     case 'QUOTE': {
       const reaccept = Boolean(acceptance && quote && acceptance.quote_version !== quote.quote_version);
-      return { kind: 'views', views: ['P04', 'P05'], defaultView: reaccept ? 'P05' : 'P04' };
+      return { kind: 'views', views: [...ambition, 'P04', ...path, 'P05', ...roadmap], defaultView: reaccept ? 'P05' : 'P04' };
     }
     case 'RECOMMENDATION':
       return { kind: 'views', views: ['P04'], defaultView: 'P04' };
     case 'INTAKE':
-      return { kind: 'views', views: ['P01', 'P02', 'P03'], defaultView: 'P02' };
+      return { kind: 'views', views: ['P01', 'P02', ...ambition, 'P03'], defaultView: 'P02' };
     case 'PROSPECT':
     default:
-      return { kind: 'views', views: ['P01', 'P02', 'P03'], defaultView: 'P01' };
+      return { kind: 'views', views: ['P01', 'P02', ...ambition, 'P03'], defaultView: 'P01' };
   }
 }
 

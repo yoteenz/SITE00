@@ -142,6 +142,7 @@ export function P05Review({
   reload,
   checkout,
   onEditAddons,
+  growthSlot,
 }: {
   token: string;
   payload: ClientDigitalFoundationPayload;
@@ -150,6 +151,7 @@ export function P05Review({
   reload: () => Promise<ClientDigitalFoundationPayload | null>;
   checkout: CheckoutParam;
   onEditAddons: () => void;
+  growthSlot?: ReactNode;
 }) {
   const { quote, acceptance } = payload;
   const accepted = Boolean(quote && quote.status === 'ACCEPTED' && acceptance?.quote_version === quote.quote_version);
@@ -372,6 +374,7 @@ export function P05Review({
         <span className="df-status__value">{REVIEW_STATE_LABEL[state]}</span>
       </p>
       {note}
+      {growthSlot}
       <div className="df-actions">{cta}</div>
       <DfTrust text="YOUR INFORMATION IS SECURE." />
       <ScopeSheet
@@ -563,7 +566,15 @@ export function P06Activation({
 
 // ─── Interim overview (truthful P07 destination; P07 itself is a later sprint) ─────────────────
 
-export function InterimOverview({ payload, onActivation }: { payload: ClientDigitalFoundationPayload; onActivation: () => void }) {
+export function InterimOverview({
+  payload,
+  onActivation,
+  growthSlot,
+}: {
+  payload: ClientDigitalFoundationPayload;
+  onActivation: () => void;
+  growthSlot?: ReactNode;
+}) {
   const turnaround = activationTurnaround(payload);
   const open = payload.client_actions.filter((a) => a.status === 'OPEN');
   return (
@@ -609,6 +620,7 @@ export function InterimOverview({ payload, onActivation }: { payload: ClientDigi
           <SpecRow icon="clock" label="ESTIMATED TURNAROUND" sub={turnaround.caption} value={turnaround.value} valueSub={turnaround.unit} />
         </ul>
       )}
+      {growthSlot}
       <div className="df-actions">
         <DfCta tone="outline" label="BACK TO ACTIVATION" onClick={onActivation} />
       </div>
