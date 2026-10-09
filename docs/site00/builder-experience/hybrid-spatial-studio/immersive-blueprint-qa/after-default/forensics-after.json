@@ -1,0 +1,527 @@
+{
+  "label": "after",
+  "base": "http://127.0.0.1:5174",
+  "state": "ADVANCED · MODERN · PAGES + SHOP + PORTAL · STANDARD",
+  "viewports": {
+    "390x844": {
+      "rows": [
+        {
+          "tab": "OVERVIEW",
+          "objectKey": "blueprint|ADVANCED|MODERN|PAGES,PORTAL,SHOP|STANDARD",
+          "inspect": null,
+          "pageHeight": 900,
+          "viewportHeight": 844,
+          "panelHeight": 254,
+          "panelTop": 508,
+          "stageHeight": 236,
+          "textBlocks": 4,
+          "interactive": 5,
+          "interactiveLabels": [
+            "EDIT SELECTIONS",
+            "VISUAL DIRECTION: MODERN. CHANGE IN ROOM",
+            "PAGES: 12 PAGES. OPEN PAGES",
+            "FEATURES: 7 FEATURES. OPEN FEATURES",
+            "PRIORITY: STANDARD. OPEN TIMELINE"
+          ],
+          "words": 40,
+          "stageChangedVsOverview": 0
+        },
+        {
+          "tab": "STRUCTURE",
+          "objectKey": "blueprint|ADVANCED|MODERN|PAGES,PORTAL,SHOP|STANDARD|STRUCTURE:-",
+          "inspect": null,
+          "pageHeight": 1028,
+          "viewportHeight": 844,
+          "panelHeight": 341,
+          "panelTop": 549,
+          "stageHeight": 236,
+          "textBlocks": 7,
+          "interactive": 7,
+          "interactiveLabels": [
+            "L1FOUNDATIONSITE",
+            "L2COREADVANCED BUILD",
+            "L3ENVELOPEEDITORIAL",
+            "L4WINGSPAGES · SHOP · PORTAL",
+            "L5MATERIALARCHITECTURAL MINIMAL · FULL E",
+            "L6PACESTANDARD PRODUCTION",
+            "CHANGE IN ROOM 01 · PLACE"
+          ],
+          "words": 23,
+          "stageChangedVsOverview": 0.2368
+        },
+        {
+          "tab": "PAGES",
+          "objectKey": "blueprint|ADVANCED|MODERN|PAGES,PORTAL,SHOP|STANDARD|PAGES:-",
+          "inspect": null,
+          "pageHeight": 1386,
+          "viewportHeight": 844,
+          "panelHeight": 699,
+          "panelTop": 549,
+          "stageHeight": 236,
+          "textBlocks": 21,
+          "interactive": 18,
+          "interactiveLabels": [
+            "FRONT DOOR03",
+            "P01HOMEFULL",
+            "P02ABOUTFULL",
+            "P03CONTACT / BEGINFULL",
+            "WHAT YOU OFFER02",
+            "P04STORIES INDEXFULL",
+            "P05STORYFULL",
+            "DOING THINGS03",
+            "P06SHOPFULL",
+            "P07PRODUCTFULL",
+            "P08BAG AND CHECKOUTFULL",
+            "SIGNED IN03"
+          ],
+          "words": 34,
+          "stageChangedVsOverview": 0.234
+        },
+        {
+          "tab": "FEATURES",
+          "objectKey": "blueprint|ADVANCED|MODERN|PAGES,PORTAL,SHOP|STANDARD|FEATURES:-",
+          "inspect": null,
+          "pageHeight": 1136,
+          "viewportHeight": 844,
+          "panelHeight": 449,
+          "panelTop": 549,
+          "stageHeight": 236,
+          "textBlocks": 8,
+          "interactive": 9,
+          "interactiveLabels": [
+            "COREWEBSITE · MOBILE",
+            "F01EDIT IT YOURSELFPAGES",
+            "F02SELLSHOP",
+            "F03DATA / PORTALPORTAL",
+            "F04TAKE PAYMENTSHOPCOMES WITH YOUR CHOIC",
+            "F05ACCOUNTSPORTALCOMES WITH YOUR CHOICES",
+            "F06DASHBOARDPORTALCOMES WITH YOUR CHOICE",
+            "F07TEAM ROLESPORTALCOMES WITH YOUR CHOIC",
+            "CHANGE IN ROOM 03 · WORK"
+          ],
+          "words": 42,
+          "stageChangedVsOverview": 0.2178
+        },
+        {
+          "tab": "TIMELINE",
+          "objectKey": "blueprint|ADVANCED|MODERN|PAGES,PORTAL,SHOP|STANDARD|TIMELINE:done",
+          "inspect": null,
+          "pageHeight": 1223,
+          "viewportHeight": 844,
+          "panelHeight": 535,
+          "panelTop": 549,
+          "stageHeight": 236,
+          "textBlocks": 24,
+          "interactive": 9,
+          "interactiveLabels": [
+            "STAGE 01 CORE",
+            "STAGE 02 DIRECTION",
+            "STAGE 03 PAGES",
+            "STAGE 04 FEATURES",
+            "THE COMPLETE PLACE",
+            "PREVIOUS STAGE",
+            "PLAY THE ASSEMBLY",
+            "NEXT STAGE",
+            "CHANGE IN ROOM 04 · PACE"
+          ],
+          "words": 223,
+          "stageChangedVsOverview": 0.0065
+        }
+      ],
+      "consoleErrors": [
+        "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+        "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+      ]
+    },
+    "393x852": {
+      "rows": [
+        {
+          "tab": "OVERVIEW",
+          "objectKey": "blueprint|ADVANCED|MODERN|PAGES,PORTAL,SHOP|STANDARD",
+          "inspect": null,
+          "pageHeight": 900,
+          "viewportHeight": 852,
+          "panelHeight": 254,
+          "panelTop": 508,
+          "stageHeight": 236,
+          "textBlocks": 4,
+          "interactive": 5,
+          "interactiveLabels": [
+            "EDIT SELECTIONS",
+            "VISUAL DIRECTION: MODERN. CHANGE IN ROOM",
+            "PAGES: 12 PAGES. OPEN PAGES",
+            "FEATURES: 7 FEATURES. OPEN FEATURES",
+            "PRIORITY: STANDARD. OPEN TIMELINE"
+          ],
+          "words": 40,
+          "stageChangedVsOverview": 0
+        },
+        {
+          "tab": "STRUCTURE",
+          "objectKey": "blueprint|ADVANCED|MODERN|PAGES,PORTAL,SHOP|STANDARD|STRUCTURE:-",
+          "inspect": null,
+          "pageHeight": 1028,
+          "viewportHeight": 852,
+          "panelHeight": 341,
+          "panelTop": 549,
+          "stageHeight": 236,
+          "textBlocks": 7,
+          "interactive": 7,
+          "interactiveLabels": [
+            "L1FOUNDATIONSITE",
+            "L2COREADVANCED BUILD",
+            "L3ENVELOPEEDITORIAL",
+            "L4WINGSPAGES · SHOP · PORTAL",
+            "L5MATERIALARCHITECTURAL MINIMAL · FULL E",
+            "L6PACESTANDARD PRODUCTION",
+            "CHANGE IN ROOM 01 · PLACE"
+          ],
+          "words": 23,
+          "stageChangedVsOverview": 0.2351
+        },
+        {
+          "tab": "PAGES",
+          "objectKey": "blueprint|ADVANCED|MODERN|PAGES,PORTAL,SHOP|STANDARD|PAGES:-",
+          "inspect": null,
+          "pageHeight": 1386,
+          "viewportHeight": 852,
+          "panelHeight": 699,
+          "panelTop": 549,
+          "stageHeight": 236,
+          "textBlocks": 21,
+          "interactive": 18,
+          "interactiveLabels": [
+            "FRONT DOOR03",
+            "P01HOMEFULL",
+            "P02ABOUTFULL",
+            "P03CONTACT / BEGINFULL",
+            "WHAT YOU OFFER02",
+            "P04STORIES INDEXFULL",
+            "P05STORYFULL",
+            "DOING THINGS03",
+            "P06SHOPFULL",
+            "P07PRODUCTFULL",
+            "P08BAG AND CHECKOUTFULL",
+            "SIGNED IN03"
+          ],
+          "words": 34,
+          "stageChangedVsOverview": 0.232
+        },
+        {
+          "tab": "FEATURES",
+          "objectKey": "blueprint|ADVANCED|MODERN|PAGES,PORTAL,SHOP|STANDARD|FEATURES:-",
+          "inspect": null,
+          "pageHeight": 1137,
+          "viewportHeight": 852,
+          "panelHeight": 449,
+          "panelTop": 549,
+          "stageHeight": 236,
+          "textBlocks": 8,
+          "interactive": 9,
+          "interactiveLabels": [
+            "COREWEBSITE · MOBILE",
+            "F01EDIT IT YOURSELFPAGES",
+            "F02SELLSHOP",
+            "F03DATA / PORTALPORTAL",
+            "F04TAKE PAYMENTSHOPCOMES WITH YOUR CHOIC",
+            "F05ACCOUNTSPORTALCOMES WITH YOUR CHOICES",
+            "F06DASHBOARDPORTALCOMES WITH YOUR CHOICE",
+            "F07TEAM ROLESPORTALCOMES WITH YOUR CHOIC",
+            "CHANGE IN ROOM 03 · WORK"
+          ],
+          "words": 42,
+          "stageChangedVsOverview": 0.216
+        },
+        {
+          "tab": "TIMELINE",
+          "objectKey": "blueprint|ADVANCED|MODERN|PAGES,PORTAL,SHOP|STANDARD|TIMELINE:done",
+          "inspect": null,
+          "pageHeight": 1223,
+          "viewportHeight": 852,
+          "panelHeight": 535,
+          "panelTop": 549,
+          "stageHeight": 236,
+          "textBlocks": 24,
+          "interactive": 9,
+          "interactiveLabels": [
+            "STAGE 01 CORE",
+            "STAGE 02 DIRECTION",
+            "STAGE 03 PAGES",
+            "STAGE 04 FEATURES",
+            "THE COMPLETE PLACE",
+            "PREVIOUS STAGE",
+            "PLAY THE ASSEMBLY",
+            "NEXT STAGE",
+            "CHANGE IN ROOM 04 · PACE"
+          ],
+          "words": 223,
+          "stageChangedVsOverview": 0.0064
+        }
+      ],
+      "consoleErrors": [
+        "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+        "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+      ]
+    },
+    "834x1194": {
+      "rows": [
+        {
+          "tab": "OVERVIEW",
+          "objectKey": "blueprint|ADVANCED|MODERN|PAGES,PORTAL,SHOP|STANDARD",
+          "inspect": null,
+          "pageHeight": 1194,
+          "viewportHeight": 1194,
+          "panelHeight": 287,
+          "panelTop": 752,
+          "stageHeight": 480,
+          "textBlocks": 4,
+          "interactive": 5,
+          "interactiveLabels": [
+            "EDIT SELECTIONS",
+            "VISUAL DIRECTION: MODERN. CHANGE IN ROOM",
+            "PAGES: 12 PAGES. OPEN PAGES",
+            "FEATURES: 7 FEATURES. OPEN FEATURES",
+            "PRIORITY: STANDARD. OPEN TIMELINE"
+          ],
+          "words": 40,
+          "stageChangedVsOverview": 0
+        },
+        {
+          "tab": "STRUCTURE",
+          "objectKey": "blueprint|ADVANCED|MODERN|PAGES,PORTAL,SHOP|STANDARD|STRUCTURE:-",
+          "inspect": null,
+          "pageHeight": 1272,
+          "viewportHeight": 1194,
+          "panelHeight": 341,
+          "panelTop": 793,
+          "stageHeight": 480,
+          "textBlocks": 7,
+          "interactive": 7,
+          "interactiveLabels": [
+            "L1FOUNDATIONSITE",
+            "L2COREADVANCED BUILD",
+            "L3ENVELOPEEDITORIAL",
+            "L4WINGSPAGES · SHOP · PORTAL",
+            "L5MATERIALARCHITECTURAL MINIMAL · FULL E",
+            "L6PACESTANDARD PRODUCTION",
+            "CHANGE IN ROOM 01 · PLACE"
+          ],
+          "words": 23,
+          "stageChangedVsOverview": 0.2216
+        },
+        {
+          "tab": "PAGES",
+          "objectKey": "blueprint|ADVANCED|MODERN|PAGES,PORTAL,SHOP|STANDARD|PAGES:-",
+          "inspect": null,
+          "pageHeight": 1630,
+          "viewportHeight": 1194,
+          "panelHeight": 699,
+          "panelTop": 793,
+          "stageHeight": 480,
+          "textBlocks": 21,
+          "interactive": 18,
+          "interactiveLabels": [
+            "FRONT DOOR03",
+            "P01HOMEFULL",
+            "P02ABOUTFULL",
+            "P03CONTACT / BEGINFULL",
+            "WHAT YOU OFFER02",
+            "P04STORIES INDEXFULL",
+            "P05STORYFULL",
+            "DOING THINGS03",
+            "P06SHOPFULL",
+            "P07PRODUCTFULL",
+            "P08BAG AND CHECKOUTFULL",
+            "SIGNED IN03"
+          ],
+          "words": 34,
+          "stageChangedVsOverview": 0.221
+        },
+        {
+          "tab": "FEATURES",
+          "objectKey": "blueprint|ADVANCED|MODERN|PAGES,PORTAL,SHOP|STANDARD|FEATURES:-",
+          "inspect": null,
+          "pageHeight": 1366,
+          "viewportHeight": 1194,
+          "panelHeight": 435,
+          "panelTop": 793,
+          "stageHeight": 480,
+          "textBlocks": 8,
+          "interactive": 9,
+          "interactiveLabels": [
+            "COREWEBSITE · MOBILE",
+            "F01EDIT IT YOURSELFPAGES",
+            "F02SELLSHOP",
+            "F03DATA / PORTALPORTAL",
+            "F04TAKE PAYMENTSHOPCOMES WITH YOUR CHOIC",
+            "F05ACCOUNTSPORTALCOMES WITH YOUR CHOICES",
+            "F06DASHBOARDPORTALCOMES WITH YOUR CHOICE",
+            "F07TEAM ROLESPORTALCOMES WITH YOUR CHOIC",
+            "CHANGE IN ROOM 03 · WORK"
+          ],
+          "words": 42,
+          "stageChangedVsOverview": 0.1962
+        },
+        {
+          "tab": "TIMELINE",
+          "objectKey": "blueprint|ADVANCED|MODERN|PAGES,PORTAL,SHOP|STANDARD|TIMELINE:done",
+          "inspect": null,
+          "pageHeight": 1422,
+          "viewportHeight": 1194,
+          "panelHeight": 491,
+          "panelTop": 793,
+          "stageHeight": 480,
+          "textBlocks": 24,
+          "interactive": 9,
+          "interactiveLabels": [
+            "STAGE 01 CORE",
+            "STAGE 02 DIRECTION",
+            "STAGE 03 PAGES",
+            "STAGE 04 FEATURES",
+            "THE COMPLETE PLACE",
+            "PREVIOUS STAGE",
+            "PLAY THE ASSEMBLY",
+            "NEXT STAGE",
+            "CHANGE IN ROOM 04 · PACE"
+          ],
+          "words": 223,
+          "stageChangedVsOverview": 0.0032
+        }
+      ],
+      "consoleErrors": [
+        "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+        "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+      ]
+    },
+    "1440x900": {
+      "rows": [
+        {
+          "tab": "OVERVIEW",
+          "objectKey": "blueprint|ADVANCED|MODERN|PAGES,PORTAL,SHOP|STANDARD",
+          "inspect": null,
+          "pageHeight": 900,
+          "viewportHeight": 900,
+          "panelHeight": 299,
+          "panelTop": 345,
+          "stageHeight": 900,
+          "textBlocks": 4,
+          "interactive": 5,
+          "interactiveLabels": [
+            "EDIT SELECTIONS",
+            "VISUAL DIRECTION: MODERN. CHANGE IN ROOM",
+            "PAGES: 12 PAGES. OPEN PAGES",
+            "FEATURES: 7 FEATURES. OPEN FEATURES",
+            "PRIORITY: STANDARD. OPEN TIMELINE"
+          ],
+          "words": 40,
+          "stageChangedVsOverview": 0
+        },
+        {
+          "tab": "STRUCTURE",
+          "objectKey": "blueprint|ADVANCED|MODERN|PAGES,PORTAL,SHOP|STANDARD|STRUCTURE:-",
+          "inspect": null,
+          "pageHeight": 900,
+          "viewportHeight": 900,
+          "panelHeight": 341,
+          "panelTop": 386,
+          "stageHeight": 900,
+          "textBlocks": 7,
+          "interactive": 7,
+          "interactiveLabels": [
+            "L1FOUNDATIONSITE",
+            "L2COREADVANCED BUILD",
+            "L3ENVELOPEEDITORIAL",
+            "L4WINGSPAGES · SHOP · PORTAL",
+            "L5MATERIALARCHITECTURAL MINIMAL · FULL E",
+            "L6PACESTANDARD PRODUCTION",
+            "CHANGE IN ROOM 01 · PLACE"
+          ],
+          "words": 23,
+          "stageChangedVsOverview": 0.3131
+        },
+        {
+          "tab": "PAGES",
+          "objectKey": "blueprint|ADVANCED|MODERN|PAGES,PORTAL,SHOP|STANDARD|PAGES:-",
+          "inspect": null,
+          "pageHeight": 900,
+          "viewportHeight": 900,
+          "panelHeight": 699,
+          "panelTop": 386,
+          "stageHeight": 900,
+          "textBlocks": 21,
+          "interactive": 18,
+          "interactiveLabels": [
+            "FRONT DOOR03",
+            "P01HOMEFULL",
+            "P02ABOUTFULL",
+            "P03CONTACT / BEGINFULL",
+            "WHAT YOU OFFER02",
+            "P04STORIES INDEXFULL",
+            "P05STORYFULL",
+            "DOING THINGS03",
+            "P06SHOPFULL",
+            "P07PRODUCTFULL",
+            "P08BAG AND CHECKOUTFULL",
+            "SIGNED IN03"
+          ],
+          "words": 34,
+          "stageChangedVsOverview": 0.2664
+        },
+        {
+          "tab": "FEATURES",
+          "objectKey": "blueprint|ADVANCED|MODERN|PAGES,PORTAL,SHOP|STANDARD|FEATURES:-",
+          "inspect": null,
+          "pageHeight": 900,
+          "viewportHeight": 900,
+          "panelHeight": 449,
+          "panelTop": 386,
+          "stageHeight": 900,
+          "textBlocks": 8,
+          "interactive": 9,
+          "interactiveLabels": [
+            "COREWEBSITE · MOBILE",
+            "F01EDIT IT YOURSELFPAGES",
+            "F02SELLSHOP",
+            "F03DATA / PORTALPORTAL",
+            "F04TAKE PAYMENTSHOPCOMES WITH YOUR CHOIC",
+            "F05ACCOUNTSPORTALCOMES WITH YOUR CHOICES",
+            "F06DASHBOARDPORTALCOMES WITH YOUR CHOICE",
+            "F07TEAM ROLESPORTALCOMES WITH YOUR CHOIC",
+            "CHANGE IN ROOM 03 · WORK"
+          ],
+          "words": 42,
+          "stageChangedVsOverview": 0.2277
+        },
+        {
+          "tab": "TIMELINE",
+          "objectKey": "blueprint|ADVANCED|MODERN|PAGES,PORTAL,SHOP|STANDARD|TIMELINE:done",
+          "inspect": null,
+          "pageHeight": 900,
+          "viewportHeight": 900,
+          "panelHeight": 506,
+          "panelTop": 386,
+          "stageHeight": 900,
+          "textBlocks": 24,
+          "interactive": 9,
+          "interactiveLabels": [
+            "STAGE 01 CORE",
+            "STAGE 02 DIRECTION",
+            "STAGE 03 PAGES",
+            "STAGE 04 FEATURES",
+            "THE COMPLETE PLACE",
+            "PREVIOUS STAGE",
+            "PLAY THE ASSEMBLY",
+            "NEXT STAGE",
+            "CHANGE IN ROOM 04 · PACE"
+          ],
+          "words": 223,
+          "stageChangedVsOverview": 0.0283
+        }
+      ],
+      "consoleErrors": [
+        "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+        "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+      ]
+    }
+  }
+}

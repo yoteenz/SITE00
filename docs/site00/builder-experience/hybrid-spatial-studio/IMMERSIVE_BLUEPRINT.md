@@ -100,7 +100,28 @@ See `immersive-blueprint-qa/`:
 | `interaction/timeline-assembly-frames.jpg` | Frames sampled as the timeline plays. |
 | `immersive-results.json` | The live suite (`blueprint-immersive.cjs`). |
 
-RESULTS_PLACEHOLDER
+### Results
+
+| Check | Result |
+|---|---|
+| `tsc --noEmit` | Clean. |
+| vitest (builder studio, builder experience, intakes, intake service and authorization, spatial submit, admin intakes, estimation engine) | **170 passed**, 14 files. This includes the new `anatomy.test.ts` (31 tests): no invented pages; every binding names existing geometry; every line placed once; NOT DRAWN lights nothing; timeline stages cover the model once and carry no duration words; selections are reversible and replaceable; the snapshot is never mutated. |
+| `vite build` | OK. The `vendor` chunk is byte-identical to the previous build; only the lazy `three` chunk (studio only) changed. |
+| Live `blueprint-immersive.cjs` | **52/52 PASS**. Per section at 390×844 and 1440×900: default, selection, second selection and reset, checked against the model (key, lit set, camera, stage pixels, callout). Also keyboard, Escape, tab-switch clearing, full-screen context, rotation during inspection, the sticky stage, reduced motion, estimate figures unchanged, motion playback, and layout at 393×852, 834×1194, 339×734 (text 115 %) and 300×649 (text 130 %). |
+| Live `creative-interactions.cjs` (previous sprints) | **35/35**. F02 now measures the sliding index under the open section; the overflow check ignores visually-hidden text. |
+| Live `preview-recovery.cjs` | **20/20**. |
+| Live `founder-loop.cjs` (save, submit, founder review, revision, resubmission) | **32/32**. |
+
+### Forensic before → after (`forensics-before.json` → `forensics-after.json`, 390×844)
+
+| Section | Stage Δ vs OVERVIEW | Targets in the section | Page length |
+|---|---|---|---|
+| STRUCTURE | 15.4 % → **23.7 %** | 1 → **7** | 1147 → 1028 px |
+| PAGES | 19.1 % → **23.4 %** | 1 → **18** | 1238 → 1386 px (40 px page plates; the stage stays pinned) |
+| FEATURES | 13.8 % → **21.8 %** | 1 → **9** | 1125 → 1136 px |
+| TIMELINE | 0.6 % at rest (plays first) | 1 → **9** | 1404 → 1223 px |
+
+Section defaults now differ visibly from OVERVIEW, and every selection moves the model further. For example, PAGES P06 SHOP lights 2 elements and turns the camera from −26° to −20.6° toward the SHOP wing.
 
 ## Known limitations
 

@@ -1,7 +1,7 @@
 {
   "parts": {
     "walk:390x844": {
-      "ranAt": "2026-10-09T15:37:56.004Z",
+      "ranAt": "2026-10-09T16:26:14.707Z",
       "results": [
         {
           "id": "m-I01",
@@ -115,7 +115,7 @@
           "id": "m-X04",
           "name": "390x844: the stage stays in view (sticky) while the page index scrolls",
           "result": "PASS",
-          "detail": "{\"top\":0,\"bottom\":236,\"stuck\":true,\"scrollY\":521}"
+          "detail": "{\"top\":0,\"bottom\":236,\"stuck\":true,\"scrollY\":542}"
         },
         {
           "id": "m-R01",
@@ -145,7 +145,7 @@
           "id": "m-L02",
           "name": "390x844: text under 7.8px / targets under 24px in the sections",
           "result": "INFO",
-          "detail": "OVERVIEW:7/0 bs-fact__label:7.6px,bs-config__label:7px  | STRUCTURE:0/1  bs-link:11 | PAGES:0/1  bs-link:11 | FEATURES:0/1  bs-link:11 | TIMELINE:6/1 EM:7px,bs-steps__n:7.4px bs-link:11"
+          "detail": "OVERVIEW:7/0 bs-fact__label:7.6px,bs-config__label:7px  | STRUCTURE:0/0   | PAGES:0/0   | FEATURES:0/0   | TIMELINE:0/0  "
         },
         {
           "id": "m-E01",
