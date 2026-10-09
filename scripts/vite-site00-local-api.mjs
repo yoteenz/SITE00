@@ -5,11 +5,9 @@
 import { pathToFileURL } from 'node:url';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { createRequire } from 'node:module';
 import { loadEnv } from 'vite';
 
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
-const require = createRequire(import.meta.url);
 
 /** Express-style path → api handler module (relative to repo root) */
 const LOCAL_API_ROUTES = [
@@ -28,6 +26,8 @@ const LOCAL_API_ROUTES = [
   { path: '/api/site00/digital-foundation-artifact', file: 'api/site00/digital-foundation-artifact.ts' },
   { path: '/api/site00/digital-foundation-stripe-webhook', file: 'api/site00/digital-foundation-stripe-webhook.ts' },
   { path: '/api/admin/site00-foundation', file: 'api/admin/site00-foundation.ts' },
+  { path: '/api/site00/invitation', file: 'api/site00/invitation.ts' },
+  { path: '/api/admin/site00-invitation', file: 'api/admin/site00-invitation.ts' },
   { path: '/api/site00/studio-world-webhook', file: 'api/site00/studio-world-webhook.ts' },
   { path: '/api/site00/intakes', file: 'api/site00/intakes.ts' },
   { path: '/api/site00/intake-access', file: 'api/site00/intake-access.ts' },
@@ -138,8 +138,7 @@ export function site00LocalApiPlugin() {
 
   async function ensureTsx() {
     if (!tsxRegistered) {
-      const tsxApi = pathToFileURL(require.resolve('tsx/esm/api')).href;
-      const { register } = await import(tsxApi);
+      const { register } = await import('tsx/esm/api');
       register();
       tsxRegistered = true;
     }
