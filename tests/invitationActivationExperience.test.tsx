@@ -354,3 +354,11 @@ describe('Source guardrails', () => {
     expect(block).not.toContain('Site00PublicRouteShell');
   });
 });
+
+describe('API origin', () => {
+  it('routes every invitation fetch through site00ApiUrl (static hosting has no /api)', () => {
+    const journey = readFileSync(path.resolve(__dirname, '../src/site00/pages/invitation/invitationJourney.ts'), 'utf8');
+    expect(journey).toContain('fetch(site00ApiUrl(path), init)');
+    expect(journey.match(/fetch\(/g)?.length).toBe(1);
+  });
+});

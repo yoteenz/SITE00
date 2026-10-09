@@ -6,6 +6,7 @@ import type {
   InvitationEntryPresentation,
   InvitationResolutionState,
 } from '../../../../shared/site00-invitation-system/contracts/entryPresentation.js';
+import { site00ApiUrl } from '../../../utils/site00ApiBase';
 
 export type VerificationDelivery = 'DEVELOPMENT_INLINE' | 'PENDING_IDNTY';
 
@@ -224,10 +225,11 @@ export function classifyFailure(status: number, message: string): InvitationFail
   return 'INPUT';
 }
 
-async function requestJson<T>(input: string, init?: RequestInit): Promise<T> {
+/** Static hosting (GoDaddy) has no /api; site00ApiUrl resolves Railway in production and same-origin in dev. */
+async function requestJson<T>(path: string, init?: RequestInit): Promise<T> {
   let res: Response;
   try {
-    res = await fetch(input, init);
+    res = await fetch(site00ApiUrl(path), init);
   } catch {
     throw new InvitationRequestError('NETWORK', 'Network unavailable');
   }
