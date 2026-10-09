@@ -133,7 +133,8 @@ export function BuilderStudio({ room: requested }: { room: StudioRoomId | null }
 
   const shown = session.view.state;
   const spec = useMemo(() => buildSpec(shown), [shown]);
-  const composition = useMemo(() => compose(room, spec), [room, spec]);
+  // On the Blueprint the object follows the open section (each section is an inspection mode of the structure).
+  const composition = useMemo(() => compose(room, spec, { focus: room === 'blueprint' ? tab : undefined }), [room, spec, tab]);
 
   const meta = STUDIO_ROOM_BY_ID[room];
   const configIndex = CONFIG_ROOMS.indexOf(room);

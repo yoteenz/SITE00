@@ -1,45 +1,72 @@
 /**
  * SITE 00 Builder — Hybrid Spatial Studio.
  * Mobile authority: the two founder-approved references (rooms 01–04, Blueprint 05), measured at 390px width.
- * Luminous warm off-white, black, SITE 00 red. Condensed display headlines, tracked uppercase UI.
+ *
+ * Typography is the SITE 00 Production Workspace's: Saira Semi Condensed (self-hosted, SIL OFL 1.1), uppercase,
+ * tracked. The faces below point at the workspace's own files (src/site00/assets/fonts/saira-semi-condensed), so the
+ * build ships one copy. Palette is the workspace's cool luminous neutral (no beige): white, silver-grey, ink, red.
  */
 
 body.bs-body {
   margin: 0;
-  background: #f2f0ec;
+  background: #f4f4f6;
 }
 
 @font-face {
-  font-family: 'BS Display';
-  src: url('/site00/fonts/anton/anton-400-latin.woff2') format('woff2');
+  font-family: 'Saira Semi Condensed';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('../assets/fonts/saira-semi-condensed/saira-semi-condensed-latin-300.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Saira Semi Condensed';
+  font-style: normal;
   font-weight: 400;
-  font-style: normal;
   font-display: swap;
+  src: url('../assets/fonts/saira-semi-condensed/saira-semi-condensed-latin-400.woff2') format('woff2');
 }
-
 @font-face {
-  font-family: 'BS Sans';
-  src: url('/site00/fonts/inter/inter-variable-latin.woff2') format('woff2');
-  font-weight: 300 700;
+  font-family: 'Saira Semi Condensed';
   font-style: normal;
+  font-weight: 500;
   font-display: swap;
+  src: url('../assets/fonts/saira-semi-condensed/saira-semi-condensed-latin-500.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Saira Semi Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../assets/fonts/saira-semi-condensed/saira-semi-condensed-latin-600.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Saira Semi Condensed';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../assets/fonts/saira-semi-condensed/saira-semi-condensed-latin-700.woff2') format('woff2');
 }
 
 .bs-root {
-  --bs-bg: #f2f0ec;
-  --bs-paper: #f8f7f4;
-  --bs-card: rgba(255, 255, 255, 0.58);
-  --bs-ink: #0c0c0c;
-  --bs-ink-2: #2b2b2b;
-  --bs-muted: #6f6b66;
-  --bs-faint: #a6a29c;
-  --bs-line: rgba(12, 12, 12, 0.11);
-  --bs-line-strong: rgba(12, 12, 12, 0.24);
-  --bs-red: #d8121f;
-  --bs-red-hi: #e5222a;
-  --bs-red-deep: #b70c17;
-  --bs-display: 'BS Display', 'Anton', 'Haettenschweiler', 'Arial Narrow', sans-serif;
-  --bs-sans: 'BS Sans', 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  /* Production Workspace palette (.pxa / .hubx): cool luminous neutrals, ink, one red. */
+  --bs-bg: #f4f4f6;
+  --bs-paper: #fafafb;
+  --bs-card: rgba(255, 255, 255, 0.9);
+  --bs-card-solid: #ffffff;
+  --bs-ink: #111114;
+  --bs-ink-2: #3a3a40;
+  --bs-muted: #6e6e76;
+  --bs-faint: #9c9ca3;
+  --bs-line: #e2e2e6;
+  --bs-line-strong: #c9c9cf;
+  --bs-silver: #d6d8dc;
+  --bs-red: #e5231b;
+  --bs-red-hi: #ff3b30;
+  --bs-red-deep: #b8170f;
+  --bs-red-tint: rgba(229, 35, 27, 0.06);
+  --bs-display: 'Saira Semi Condensed', var(--site00-font-family, ui-sans-serif), sans-serif;
+  --bs-sans: 'Saira Semi Condensed', var(--site00-font-family, ui-sans-serif), sans-serif;
   --bs-gutter: 20px;
 
   position: relative;
@@ -53,6 +80,8 @@ body.bs-body {
   color: var(--bs-ink);
   font-family: var(--bs-sans);
   font-weight: 400;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -74,6 +103,11 @@ body.bs-body {
 
 :where(.bs-root) :where(button:disabled, [aria-disabled='true']) {
   cursor: not-allowed;
+}
+
+/* Typed values stay as typed (emails, notes); the UI copy around them is uppercase. */
+:where(.bs-root, .bs-sheet-backdrop) :where(input, textarea) {
+  text-transform: none;
 }
 
 .bs-root :focus-visible {
@@ -109,16 +143,16 @@ body.bs-body {
 }
 
 .bs-wordmark__site {
-  font-size: 18px;
+  font-size: 19px;
   font-weight: 600;
-  letter-spacing: 0.21em;
+  letter-spacing: 0.2em;
   line-height: 1;
 }
 
 .bs-wordmark__product {
   font-size: 9.5px;
   font-weight: 500;
-  letter-spacing: 0.34em;
+  letter-spacing: 0.36em;
   color: var(--bs-muted);
 }
 
@@ -146,42 +180,48 @@ body.bs-body {
 .bs-roomid {
   display: flex;
   align-items: center;
-  gap: 9px;
-  margin: 13px 0 0;
+  gap: 10px;
+  margin: 16px 0 0;
 }
 
 .bs-roomid__n {
   font-family: var(--bs-display);
-  font-size: 19px;
+  font-size: 18px;
+  font-weight: 600;
   line-height: 1;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
   color: var(--bs-red);
 }
 
 .bs-roomid__rule {
-  width: 18px;
+  width: 20px;
   height: 1px;
-  background: var(--bs-faint);
+  background: var(--bs-line-strong);
 }
 
 .bs-roomid__label {
   font-size: 10.5px;
-  font-weight: 500;
-  letter-spacing: 0.24em;
+  font-weight: 600;
+  letter-spacing: 0.28em;
   color: var(--bs-ink-2);
 }
 
+/* Builder display: the workspace face at its heaviest cut, set tight. Lines break where the reference breaks them. */
 .bs-headline {
   display: flex;
   flex-direction: column;
-  margin: 9px 0 0;
+  margin: 10px 0 0;
   font-family: var(--bs-display);
-  font-size: clamp(46px, 13.8vw, 56px);
-  font-weight: 400;
-  line-height: 0.88;
-  letter-spacing: 0.004em;
+  font-size: clamp(38px, 11.3vw, 46px);
+  font-weight: 700;
+  line-height: 0.97;
+  letter-spacing: 0.012em;
   text-transform: uppercase;
   color: var(--bs-ink);
+}
+
+.bs-headline__line {
+  white-space: nowrap;
 }
 
 .bs-dot {
@@ -189,14 +229,15 @@ body.bs-body {
 }
 
 .bs-lede {
-  max-width: 312px;
-  margin: 10px 0 0;
-  font-size: 12.4px;
+  max-width: 318px;
+  margin: 12px 0 0;
+  font-size: 11.6px;
   font-weight: 400;
-  line-height: 1.55;
-  letter-spacing: 0.19em;
+  line-height: 1.58;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--bs-ink-2);
+  text-wrap: pretty;
 }
 
 /* ─────────────────────────────── stage ─────────────────────────────── */
@@ -1556,6 +1597,506 @@ body.bs-body {
 .bs-dialog__text--small { margin: 10px 0 0; font-size: 8.6px; text-align: center; color: var(--bs-muted); }
 .bs-dialog .bs-lines { margin: 14px 0 0; }
 
+/* ═══════════════════════ CREATIVE REFINEMENT 1 — workspace type, inspection modes, proposal ═══════════════════════ */
+
+/* Display weights for the workspace face wherever the old display face was used. */
+.bs-roomid__n,
+.bs-dialog__title,
+.bs-menu__n,
+.bs-menu__label,
+.bs-review__label {
+  font-weight: 700;
+}
+
+.bs-menu__label { letter-spacing: 0.02em; }
+.bs-menu__n { font-weight: 600; font-size: 17px; }
+
+/* Controls: crisp white plates on the luminous ground, hairline workspace lines. */
+.bs-card,
+.bs-strip__item,
+.bs-core,
+.bs-pace,
+.bs-config__card,
+.bs-notes textarea {
+  border-color: var(--bs-line);
+  background: var(--bs-card);
+  box-shadow: 0 1px 0 rgba(17, 17, 20, 0.02), 0 10px 24px -18px rgba(17, 17, 20, 0.22);
+}
+
+.bs-card { border-radius: 4px; padding: 5px 6px 9px; }
+.bs-card.is-selected,
+.bs-strip__item.is-selected { border-color: var(--bs-red); box-shadow: 0 0 0 1px var(--bs-red), 0 12px 26px -18px rgba(229, 35, 27, 0.45); }
+.bs-card__label { margin-top: 7px; font-size: 13.5px; font-weight: 700; letter-spacing: 0.14em; }
+.bs-card__sub { font-size: 9px; letter-spacing: 0.13em; line-height: 1.4; }
+.bs-strip__label { font-size: 9.6px; font-weight: 700; letter-spacing: 0.12em; }
+.bs-feel-caption__label { font-size: 20px; font-weight: 700; letter-spacing: 0.16em; }
+.bs-feel-caption__sub { font-size: 10px; letter-spacing: 0.26em; }
+.bs-module__label { font-size: 9.6px; font-weight: 700; letter-spacing: 0.12em; }
+.bs-module__toggle { border-color: var(--bs-ink); background: rgba(255, 255, 255, 0.92); }
+.bs-pace__label { font-size: 13.5px; font-weight: 700; letter-spacing: 0.14em; }
+.bs-pace__sub { font-size: 9px; letter-spacing: 0.16em; }
+.bs-pace__row.is-selected { background: linear-gradient(90deg, var(--bs-red-tint), rgba(229, 35, 27, 0) 70%); }
+.bs-core__head { font-size: 10px; font-weight: 700; letter-spacing: 0.16em; }
+.bs-core__tile { background: var(--bs-card-solid); font-size: 8.6px; font-weight: 700; }
+.bs-note { font-size: 9px; letter-spacing: 0.14em; }
+
+.bs-cta {
+  min-height: 46px;
+  border-radius: 3px;
+  background: linear-gradient(180deg, #ef2a21 0%, var(--bs-red) 48%, #cf1d16 100%);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.26em;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 10px 22px -12px rgba(229, 35, 27, 0.55);
+}
+
+.bs-cta--outline { background: transparent; box-shadow: none; }
+.bs-rail { font-size: 10px; letter-spacing: 0.18em; }
+.bs-rail__label { font-weight: 700; }
+.bs-rail__seg.is-filled::before { background: var(--bs-red); }
+
+/* Blueprint facts: workspace numerals. */
+.bs-fact__label { font-size: 7.6px; font-weight: 600; letter-spacing: 0.12em; }
+.bs-fact__value,
+.bs-figure { font-size: clamp(12.5px, 3.7vw, 16px); font-weight: 700; letter-spacing: 0.02em; }
+.bs-fact__sub { font-size: 7.8px; letter-spacing: 0.06em; line-height: 1.42; }
+.bs-config-head h2 { font-size: 10.6px; font-weight: 600; letter-spacing: 0.26em; }
+.bs-config__label { font-size: 7.4px; font-weight: 600; letter-spacing: 0.12em; }
+.bs-config__value { font-size: 8.8px; letter-spacing: 0.1em; }
+
+/* ── Blueprint tabs: five indexed inspection modes, one sliding red index line. ── */
+.bs-tabs {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0;
+  margin-top: 10px;
+  border-top: 1px solid var(--bs-line);
+  border-bottom: 1px solid var(--bs-line);
+}
+
+.bs-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  min-width: 0;
+  padding: 9px 2px 10px;
+  color: var(--bs-faint);
+  text-align: left;
+  transition: color 180ms ease;
+}
+
+.bs-tab + .bs-tab { padding-left: 7px; border-left: 1px solid rgba(17, 17, 20, 0.05); }
+.bs-tab__n { font-size: 8px; font-weight: 600; letter-spacing: 0.14em; color: var(--bs-faint); }
+.bs-tab__label { max-width: 100%; overflow: hidden; font-size: 9.4px; font-weight: 600; letter-spacing: 0.1em; text-overflow: ellipsis; white-space: nowrap; }
+.bs-tab:hover { color: var(--bs-ink-2); }
+.bs-tab.is-on { color: var(--bs-ink); }
+.bs-tab.is-on .bs-tab__n { color: var(--bs-red); }
+.bs-tab.is-on::after { content: none; }
+
+.bs-tabs__ink {
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 20%;
+  height: 2px;
+  background: var(--bs-red);
+  transform: translateX(calc(var(--bs-tab-i, 0) * 100%));
+  transition: transform 260ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.bs-tabs__ink::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 6px;
+  height: 6px;
+  background: var(--bs-red);
+}
+
+.bs-mode {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 12px 0 0;
+  font-size: 8.6px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  color: var(--bs-muted);
+}
+
+.bs-mode__n { color: var(--bs-red); }
+.bs-mode__rule { width: 18px; height: 1px; background: var(--bs-line-strong); }
+
+.bs-tabpanel { padding-top: 12px; animation: bs-reveal 260ms ease both; }
+
+@keyframes bs-reveal {
+  from { opacity: 0; transform: translateY(6px); }
+}
+
+.bs-sheet__lead,
+.bs-sheet__hint,
+.bs-sheet__title { text-transform: uppercase; }
+.bs-sheet__title { font-weight: 700; letter-spacing: 0.24em; }
+.bs-sheet__hint { font-size: 8.8px; letter-spacing: 0.12em; }
+
+/* STRUCTURE: a keystone and strata from the foundation up. */
+.bs-keystone {
+  display: grid;
+  gap: 4px;
+  padding: 12px 14px;
+  border: 1px solid var(--bs-line);
+  border-left: 3px solid var(--bs-ink);
+  border-radius: 3px;
+  background: var(--bs-card-solid);
+}
+
+.bs-keystone__label { font-size: 8px; font-weight: 600; letter-spacing: 0.2em; color: var(--bs-muted); }
+.bs-keystone__value { font-size: 22px; font-weight: 700; letter-spacing: 0.06em; line-height: 1; }
+.bs-keystone__sub { font-size: 8.8px; line-height: 1.55; letter-spacing: 0.1em; color: var(--bs-ink-2); }
+
+.bs-strata {
+  position: relative;
+  margin: 14px 0 0;
+  padding: 0 0 0 30px;
+  list-style: none;
+}
+
+.bs-strata::before {
+  content: '';
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: 11px;
+  width: 1px;
+  background: var(--bs-line-strong);
+}
+
+.bs-stratum {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--bs-line);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+}
+
+.bs-stratum__n {
+  position: absolute;
+  left: -30px;
+  top: 7px;
+  display: grid;
+  place-items: center;
+  width: 23px;
+  height: 15px;
+  border: 1px solid var(--bs-line-strong);
+  background: var(--bs-paper);
+  font-size: 7.2px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--bs-ink-2);
+}
+
+.bs-stratum.is-open .bs-stratum__n { border-style: dashed; color: var(--bs-red); border-color: var(--bs-red); }
+.bs-stratum__label { color: var(--bs-muted); font-weight: 600; }
+.bs-stratum__value { font-weight: 700; color: var(--bs-ink); }
+.bs-stratum__value em { margin-left: 6px; font-style: normal; font-size: 7.4px; font-weight: 600; letter-spacing: 0.16em; color: var(--bs-muted); }
+.bs-stratum__value em.is-red { color: var(--bs-red); }
+
+/* PAGES: a count and page plates per group. */
+.bs-count { display: flex; align-items: baseline; gap: 12px; margin: 0 0 6px; }
+.bs-count__value { font-size: 38px; font-weight: 700; line-height: 0.9; letter-spacing: 0.02em; }
+.bs-count__label { max-width: 210px; font-size: 8.6px; font-weight: 600; line-height: 1.5; letter-spacing: 0.16em; color: var(--bs-muted); }
+
+.bs-pagegroup__title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 14px 0 8px;
+  font-size: 8.6px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+}
+
+.bs-pagegroup__title::after { content: ''; flex: 1; height: 1px; background: var(--bs-line); }
+.bs-pagegroup__title span { order: 2; color: var(--bs-red); }
+
+.bs-plates {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bs-plate {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 2px 8px;
+  padding: 8px 9px;
+  border: 1px solid var(--bs-line);
+  border-radius: 3px;
+  background: var(--bs-card-solid);
+}
+
+.bs-plate__n { grid-row: span 2; font-size: 8px; font-weight: 700; letter-spacing: 0.08em; color: var(--bs-red); }
+.bs-plate__label { font-size: 9.4px; font-weight: 700; letter-spacing: 0.1em; }
+.bs-plate__depth { font-size: 7.6px; letter-spacing: 0.14em; color: var(--bs-muted); }
+
+/* FEATURES: a capability tree growing from the core. */
+.bs-tree__root {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 3px;
+  background: var(--bs-ink);
+  color: #fff;
+}
+
+.bs-tree__root-label { font-size: 8px; font-weight: 700; letter-spacing: 0.24em; color: var(--bs-red-hi); }
+.bs-tree__root-value { font-size: 10.4px; font-weight: 700; letter-spacing: 0.16em; }
+
+.bs-tree {
+  position: relative;
+  margin: 0;
+  padding: 4px 0 0 26px;
+  list-style: none;
+}
+
+.bs-tree::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 18px;
+  left: 12px;
+  width: 1px;
+  background: var(--bs-line-strong);
+}
+
+.bs-tree__branch {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 2px 10px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--bs-line);
+}
+
+.bs-tree__branch::before {
+  content: '';
+  position: absolute;
+  left: -14px;
+  top: 16px;
+  width: 10px;
+  height: 1px;
+  background: var(--bs-line-strong);
+}
+
+.bs-tree__branch.is-linked::before { background: var(--bs-red); }
+.bs-tree__n { grid-row: span 2; font-size: 8px; font-weight: 700; letter-spacing: 0.08em; color: var(--bs-red); }
+.bs-tree__verb { font-size: 10.2px; font-weight: 700; letter-spacing: 0.14em; }
+.bs-tree__plain { font-size: 8.8px; letter-spacing: 0.06em; color: var(--bs-ink-2); text-transform: none; }
+.bs-tree__branch em { grid-column: 2; font-style: normal; font-size: 7.6px; font-weight: 600; letter-spacing: 0.16em; color: var(--bs-red); }
+
+/* TIMELINE: two production lanes, then numbered steps. */
+.bs-lanes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+
+.bs-lane {
+  display: grid;
+  gap: 4px;
+  padding: 11px 12px;
+  border: 1px solid var(--bs-line);
+  border-radius: 3px;
+  background: var(--bs-card-solid);
+}
+
+.bs-lane.is-chosen { border-color: var(--bs-red); box-shadow: inset 3px 0 0 var(--bs-red); }
+.bs-lane.is-unavailable { opacity: 0.55; }
+.bs-lane__label { display: flex; align-items: center; justify-content: space-between; gap: 6px; font-size: 8.4px; font-weight: 700; letter-spacing: 0.18em; color: var(--bs-muted); }
+.bs-lane__label em { font-style: normal; font-size: 7px; letter-spacing: 0.14em; color: var(--bs-red); }
+.bs-lane__window { font-size: 15px; font-weight: 700; letter-spacing: 0.04em; }
+.bs-lane__sub { font-size: 8px; letter-spacing: 0.1em; color: var(--bs-ink-2); }
+
+.bs-steps {
+  position: relative;
+  margin: 0;
+  padding: 0 0 0 30px;
+  list-style: none;
+}
+
+.bs-steps::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 10px;
+  width: 1px;
+  background: var(--bs-line-strong);
+}
+
+.bs-steps li {
+  position: relative;
+  padding: 7px 0;
+  font-size: 8.8px;
+  line-height: 1.55;
+  letter-spacing: 0.1em;
+  color: var(--bs-ink-2);
+}
+
+.bs-steps__n {
+  position: absolute;
+  left: -30px;
+  top: 6px;
+  display: grid;
+  place-items: center;
+  width: 21px;
+  height: 17px;
+  border: 1px solid var(--bs-line-strong);
+  background: var(--bs-paper);
+  font-size: 7.4px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--bs-ink);
+}
+
+.bs-steps--deps .bs-steps__n { width: 7px; height: 7px; left: -23px; top: 11px; border: 0; background: var(--bs-red); }
+
+/* Status track: submitted → founder review → decision. */
+.bs-track {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bs-track__step {
+  position: relative;
+  display: grid;
+  gap: 3px;
+  padding: 0 6px 0 0;
+}
+
+.bs-track__step::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: 24px;
+  right: 4px;
+  height: 1px;
+  background: var(--bs-line-strong);
+}
+
+.bs-track__step:last-child::before { content: none; }
+.bs-track__step.is-done::before { background: var(--bs-ink); }
+
+.bs-track__node {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 21px;
+  height: 21px;
+  border: 1px solid var(--bs-line-strong);
+  border-radius: 2px;
+  background: var(--bs-paper);
+  font-size: 8px;
+  font-weight: 700;
+  color: var(--bs-muted);
+}
+
+.bs-track__step.is-done .bs-track__node { border-color: var(--bs-ink); background: var(--bs-ink); color: #fff; }
+.bs-track__step.is-current .bs-track__node { border-color: var(--bs-red); color: var(--bs-red); box-shadow: 0 0 0 3px var(--bs-red-tint); }
+.bs-track__step.is-attention .bs-track__node { border-color: var(--bs-red); background: var(--bs-red); color: #fff; }
+.bs-track__label { margin-top: 5px; font-size: 8.6px; font-weight: 700; letter-spacing: 0.14em; }
+.bs-track__step.is-pending .bs-track__label { color: var(--bs-muted); }
+.bs-track__sub { font-size: 7.4px; letter-spacing: 0.14em; color: var(--bs-muted); }
+.bs-track__step.is-attention .bs-track__label,
+.bs-track__step.is-current .bs-track__label { color: var(--bs-ink); }
+.bs-track--compact { margin-top: 12px; }
+
+/* Final confirmation: a proposal sheet, not an admin form. */
+.bs-dialog { border-top: 3px solid var(--bs-red); background: var(--bs-paper); }
+
+.bs-dialog__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 8px;
+  font-size: 8.8px;
+  font-weight: 600;
+  letter-spacing: 0.26em;
+  color: var(--bs-muted);
+}
+
+.bs-dialog__eyebrow span { color: var(--bs-red); font-size: 13px; font-weight: 700; letter-spacing: 0.06em; }
+.bs-dialog__title { font-size: 32px; line-height: 0.98; letter-spacing: 0.01em; }
+
+.bs-dialog__plate {
+  margin: 14px -6px 2px;
+  border: 1px solid var(--bs-line);
+  border-radius: 3px;
+  background: var(--bs-card-solid);
+  overflow: hidden;
+}
+
+.bs-dialog__plate .bs-thumb { width: 100%; background: #f4f4f6; }
+
+.bs-proposal { margin: 12px 0 0; }
+
+.bs-proposal__row {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: 10px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--bs-line);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+}
+
+.bs-proposal__row dt { display: flex; align-items: center; gap: 8px; color: var(--bs-muted); font-weight: 600; }
+.bs-proposal__n { font-size: 8px; font-weight: 700; color: var(--bs-red); }
+.bs-proposal__row dd { margin: 0; font-weight: 700; color: var(--bs-ink); }
+
+.bs-proposal__range {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 2px 10px;
+  margin: 10px 0 0;
+  padding: 11px 12px;
+  border-radius: 3px;
+  background: var(--bs-ink);
+  color: #fff;
+}
+
+.bs-proposal__range-label { grid-column: 1 / -1; font-size: 7.6px; font-weight: 600; letter-spacing: 0.22em; color: rgba(255, 255, 255, 0.62); }
+.bs-proposal__range-value { font-size: 17px; font-weight: 700; letter-spacing: 0.03em; }
+.bs-proposal__range-sub { align-self: end; font-size: 9px; font-weight: 600; letter-spacing: 0.14em; color: rgba(255, 255, 255, 0.82); }
+
+.bs-dialog__seal {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  margin: 4px 0 12px;
+  border-radius: 3px;
+  background: var(--bs-red);
+  color: #fff;
+  font-size: 22px;
+  font-weight: 700;
+  box-shadow: 0 12px 26px -14px rgba(229, 35, 27, 0.7);
+}
+
+.bs-review { border-color: var(--bs-line); border-left-color: var(--bs-ink); background: var(--bs-card-solid); }
+.bs-review__label { font-size: 21px; letter-spacing: 0.04em; }
+
+
 @media (min-width: 700px) {
   .bs-root {
     --bs-gutter: 40px;
@@ -1580,6 +2121,12 @@ body.bs-body {
   .bs-fact__value, .bs-figure { font-size: 18px; }
   .bs-sheet-backdrop { align-items: center; }
   .bs-dialog { border-radius: 12px; }
+  /* The Blueprint index reads at reading distance on larger screens; mobile keeps the reference's fine labels. */
+  .bs-tab__n { font-size: 8.6px; }
+  .bs-tab__label { font-size: 10.4px; }
+  .bs-fact__label { font-size: 8.2px; }
+  .bs-fact__sub { font-size: 8.6px; }
+  .bs-proposal__row { font-size: 10.6px; }
 }
 
 /* ─────────────────────────────── desktop ─────────────────────────────── */

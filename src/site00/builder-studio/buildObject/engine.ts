@@ -10,9 +10,10 @@
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
-import type { BuildCamera, BuildComposition, BuildElement, BuildMaterial } from './composition';
+import type { BuildCamera, BuildComposition, BuildElement, BuildMaterial, BuildMotion } from './composition';
 
-const BACKGROUND = 0xf2f0ec;
+/** The workspace's luminous neutral (page #f4f4f6): cool white, never beige. */
+const BACKGROUND = 0xf4f4f6;
 const FOG_NEAR = 14;
 const FOG_FAR = 34;
 const TWEEN_MS = 760;
@@ -49,7 +50,7 @@ function stoneCanvas(base: string, vein: string, opts: { veins: number; speckle:
   ctx.putImageData(image, 0, 0);
   if (opts.banding) {
     for (let y = 0; y < size; y += 6 + Math.floor(rand() * 18)) {
-      ctx.fillStyle = `rgba(120, 96, 70, ${0.05 + rand() * 0.08})`;
+      ctx.fillStyle = `rgba(112, 114, 120, ${0.04 + rand() * 0.06})`;
       ctx.fillRect(0, y, size, 2 + rand() * 5);
     }
   }
@@ -105,45 +106,49 @@ type MaterialSet = {
 };
 
 function createMaterials(): MaterialSet {
-  const marble = canvasTexture(stoneCanvas('#dedcd8', '#45423e', { veins: 16, speckle: 16, seed: 7, veinAlpha: 0.9 }));
-  const darkMarble = canvasTexture(stoneCanvas('#242322', '#e2ded8', { veins: 12, speckle: 14, seed: 11, veinAlpha: 0.8 }));
-  const stone = canvasTexture(stoneCanvas('#cfccc6', '#8f8b84', { veins: 3, speckle: 30, seed: 3, veinAlpha: 0.45 }));
-  const concrete = canvasTexture(stoneCanvas('#bdbab4', '#85827c', { veins: 0, speckle: 40, seed: 5 }));
-  const travertine = canvasTexture(stoneCanvas('#ddcfbb', '#a28a6d', { veins: 1, speckle: 24, banding: true, seed: 13 }));
+  // Cool Carrara white with grey veining; neutral limestone and concrete (no warm cast).
+  const marble = canvasTexture(stoneCanvas('#eceef0', '#4f535a', { veins: 16, speckle: 12, seed: 7, veinAlpha: 0.85 }));
+  const darkMarble = canvasTexture(stoneCanvas('#1c1e21', '#dadde2', { veins: 12, speckle: 12, seed: 11, veinAlpha: 0.8 }));
+  const stone = canvasTexture(stoneCanvas('#dadcdf', '#9a9ea5', { veins: 3, speckle: 26, seed: 3, veinAlpha: 0.4 }));
+  const concrete = canvasTexture(stoneCanvas('#c8cacd', '#8c8f95', { veins: 0, speckle: 36, seed: 5 }));
+  const travertine = canvasTexture(stoneCanvas('#e2e2e0', '#acaaa6', { veins: 1, speckle: 22, banding: true, seed: 13 }));
 
   const glass = new THREE.MeshPhysicalMaterial({
-    color: 0xd3dddf,
-    roughness: 0.04,
+    color: 0xe4ebee,
+    roughness: 0.03,
     metalness: 0,
     transparent: true,
-    opacity: 0.24,
+    opacity: 0.22,
     clearcoat: 1,
-    clearcoatRoughness: 0.03,
-    envMapIntensity: 2.2,
+    clearcoatRoughness: 0.02,
+    envMapIntensity: 2.6,
     depthWrite: false,
     side: THREE.DoubleSide,
   });
   const glassTint = glass.clone();
-  glassTint.color = new THREE.Color(0xdfe9ea);
-  glassTint.opacity = 0.3;
+  glassTint.color = new THREE.Color(0xd8e3e8);
+  glassTint.opacity = 0.32;
   const darkGlass = glass.clone();
-  darkGlass.color = new THREE.Color(0x202428);
-  darkGlass.opacity = 0.62;
+  darkGlass.color = new THREE.Color(0x1d2125);
+  darkGlass.opacity = 0.64;
+  // Translucent SITE 00 red acrylic: luminous through its body, deeper at its edges.
   const red = new THREE.MeshPhysicalMaterial({
-    color: 0xe0101e,
-    roughness: 0.08,
+    color: 0xe5141e,
+    roughness: 0.06,
     metalness: 0,
     transparent: true,
-    opacity: 0.78,
+    opacity: 0.74,
     clearcoat: 1,
-    clearcoatRoughness: 0.05,
-    emissive: new THREE.Color(0x8a000c),
-    emissiveIntensity: 0.32,
-    envMapIntensity: 1.3,
+    clearcoatRoughness: 0.04,
+    emissive: new THREE.Color(0xa3000d),
+    emissiveIntensity: 0.4,
+    envMapIntensity: 1.4,
     depthWrite: false,
     side: THREE.DoubleSide,
   });
-  const redSolid = new THREE.MeshPhysicalMaterial({ color: 0xcc0e1c, roughness: 0.22, clearcoat: 0.8, emissive: new THREE.Color(0x4a0006), emissiveIntensity: 0.22 });
+  const redSolid = new THREE.MeshPhysicalMaterial({ color: 0xd4121c, roughness: 0.2, clearcoat: 0.9, clearcoatRoughness: 0.08, emissive: new THREE.Color(0x52000a), emissiveIntensity: 0.24 });
+  // Blueprint inspection: what is not in focus stays as a faint glass outline.
+  const ghost = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.05, depthWrite: false });
   const surface: Record<BuildMaterial, THREE.Material> = {
     glass,
     glassTint,
@@ -155,26 +160,29 @@ function createMaterials(): MaterialSet {
     stone: new THREE.MeshStandardMaterial({ map: stone, roughness: 0.78, metalness: 0 }),
     concrete: new THREE.MeshStandardMaterial({ map: concrete, roughness: 0.88, metalness: 0 }),
     travertine: new THREE.MeshStandardMaterial({ map: travertine, roughness: 0.62, metalness: 0 }),
-    steel: new THREE.MeshStandardMaterial({ color: 0x868b90, roughness: 0.3, metalness: 0.85 }),
-    figure: new THREE.MeshStandardMaterial({ color: 0x3a3937, roughness: 0.9, metalness: 0 }),
+    steel: new THREE.MeshStandardMaterial({ color: 0xb4b9bf, roughness: 0.22, metalness: 0.9 }),
+    ghost,
+    figure: new THREE.MeshStandardMaterial({ color: 0x2c2e32, roughness: 0.9, metalness: 0 }),
   };
   const line = (color: number, opacity: number) => new THREE.LineBasicMaterial({ color, transparent: true, opacity });
-  const lightFrame = new THREE.MeshStandardMaterial({ color: 0xeef0f0, roughness: 0.26, metalness: 0.35 });
-  const darkFrame = new THREE.MeshStandardMaterial({ color: 0x1c1f22, roughness: 0.35, metalness: 0.4 });
-  const outline = line(0x3a3836, 0.16);
+  // Chrome-white mullions: crisp edges that define every glass volume.
+  const lightFrame = new THREE.MeshStandardMaterial({ color: 0xf7f8fa, roughness: 0.16, metalness: 0.55 });
+  const darkFrame = new THREE.MeshStandardMaterial({ color: 0x1a1d20, roughness: 0.3, metalness: 0.5 });
+  const outline = line(0x34363b, 0.14);
   return {
     surface,
     edge: {
-      glass: line(0x9aa5a8, 0.55),
-      glassTint: line(0x8b989b, 0.6),
-      darkGlass: line(0x0f1113, 0.8),
-      red: line(0xa5000f, 0.85),
+      glass: line(0x7f8c93, 0.62),
+      glassTint: line(0x76848c, 0.66),
+      darkGlass: line(0x0c0e10, 0.85),
+      red: line(0xb00010, 0.9),
       redSolid: line(0x7a000a, 0.5),
       marble: outline,
       darkMarble: line(0x000000, 0.3),
       stone: outline,
       concrete: outline,
       travertine: outline,
+      ghost: line(0xa6aeb5, 0.32),
     },
     frame: { glass: lightFrame, glassTint: lightFrame, darkGlass: darkFrame },
     castsShadow: {
@@ -189,6 +197,7 @@ function createMaterials(): MaterialSet {
       concrete: true,
       travertine: true,
       steel: true,
+      ghost: false,
       figure: true,
     },
   };
@@ -215,8 +224,8 @@ function buildStage(scene: THREE.Scene, renderer: THREE.WebGLRenderer, mobile: b
   scene.environmentIntensity = 0.5;
   pmrem.dispose();
 
-  scene.add(new THREE.HemisphereLight(0xffffff, 0xe4e1dc, 0.5));
-  const sun = new THREE.DirectionalLight(0xffffff, 2.5);
+  scene.add(new THREE.HemisphereLight(0xffffff, 0xdde1e7, 0.58));
+  const sun = new THREE.DirectionalLight(0xffffff, 2.45);
   sun.position.set(-6, 10, 7);
   sun.castShadow = true;
   sun.shadow.mapSize.set(mobile ? 1024 : 2048, mobile ? 1024 : 2048);
@@ -229,7 +238,7 @@ function buildStage(scene: THREE.Scene, renderer: THREE.WebGLRenderer, mobile: b
   sun.shadow.normalBias = 0.025;
   sun.shadow.radius = 3;
   scene.add(sun);
-  const fill = new THREE.DirectionalLight(0xfbf8f5, 0.5);
+  const fill = new THREE.DirectionalLight(0xf1f5fb, 0.55);
   fill.position.set(7, 4, -2);
   scene.add(fill);
   const front = new THREE.DirectionalLight(0xffffff, 0.35);
@@ -238,14 +247,14 @@ function buildStage(scene: THREE.Scene, renderer: THREE.WebGLRenderer, mobile: b
 
   const floor = new THREE.Mesh(
     new THREE.PlaneGeometry(120, 120),
-    new THREE.MeshStandardMaterial({ color: 0xe6e3de, roughness: 0.55, metalness: 0 }),
+    new THREE.MeshStandardMaterial({ color: 0xeceef1, roughness: 0.42, metalness: 0 }),
   );
   floor.rotation.x = -Math.PI / 2;
   floor.receiveShadow = true;
   scene.add(floor);
 
   // Atmosphere: the white architectural room the object sits in, softened by fog.
-  const atmosphere = new THREE.MeshStandardMaterial({ color: 0xf4f2ee, roughness: 0.9 });
+  const atmosphere = new THREE.MeshStandardMaterial({ color: 0xf7f8fa, roughness: 0.9 });
   for (const [x, z, w] of [[-10, -13, 1.8], [-4, -16, 1.3], [5, -15, 1.5], [11, -12, 2]] as const) {
     const column = new THREE.Mesh(UNIT_BOX, atmosphere);
     column.scale.set(w, 16, w);
@@ -254,7 +263,7 @@ function buildStage(scene: THREE.Scene, renderer: THREE.WebGLRenderer, mobile: b
   }
   const distantRed = new THREE.Mesh(
     UNIT_BOX,
-    new THREE.MeshStandardMaterial({ color: 0xd24a52, roughness: 0.4, transparent: true, opacity: 0.16 }),
+    new THREE.MeshStandardMaterial({ color: 0xe5231b, roughness: 0.4, transparent: true, opacity: 0.13 }),
   );
   distantRed.scale.set(2.4, 11, 0.2);
   distantRed.position.set(15, 5.5, -18);
@@ -273,6 +282,9 @@ type SceneNode = {
   from: NodeState;
   to: NodeState;
   start: number;
+  /** Assembly delay (ms) before this node starts moving, and its own tween length. */
+  delay: number;
+  duration: number;
   removing: boolean;
 };
 
@@ -292,6 +304,18 @@ function collapsed(state: NodeState): NodeState {
     size: new THREE.Vector3(state.size.x, 0.002, state.size.z),
     rotationY: state.rotationY,
   };
+}
+
+/** Where an element enters from, per the composition's motion. */
+function entryState(state: NodeState, entry: BuildMotion['entry']): NodeState {
+  if (entry === 'lateral') {
+    const side = state.position.x === 0 ? 1 : Math.sign(state.position.x);
+    return { position: state.position.clone().add(new THREE.Vector3(side * 1.4, 0, 0.35)), size: state.size.clone().multiplyScalar(0.92), rotationY: state.rotationY };
+  }
+  if (entry === 'above') {
+    return { position: state.position.clone().add(new THREE.Vector3(0, 0.9, 0)), size: state.size.clone(), rotationY: state.rotationY };
+  }
+  return collapsed(state);
 }
 
 function ease(t: number): number {
@@ -412,7 +436,7 @@ function makeNodeFactory(scene: THREE.Scene, materials: MaterialSet) {
     const mesh = new THREE.Mesh(isFigure ? FIGURE_BODY : UNIT_BOX, materials.surface[el.material]);
     mesh.castShadow = materials.castsShadow[el.material];
     mesh.receiveShadow = !isFigure;
-    if (el.material.includes('lass') || el.material === 'red') mesh.renderOrder = 2;
+    if (el.material.includes('lass') || el.material === 'red' || el.material === 'ghost') mesh.renderOrder = 2;
     group.add(mesh);
     let edges: THREE.LineSegments | null = null;
     const edgeMaterial = materials.edge[el.material];
@@ -434,7 +458,7 @@ function makeNodeFactory(scene: THREE.Scene, materials: MaterialSet) {
     }
     scene.add(group);
     const target = stateOf(el);
-    return { id: el.id, material: el.material, group, mesh, edges, frames, from: collapsed(target), to: target, start: performance.now(), removing: false };
+    return { id: el.id, material: el.material, group, mesh, edges, frames, from: collapsed(target), to: target, start: performance.now(), delay: 0, duration: TWEEN_MS, removing: false };
   };
 }
 
@@ -495,7 +519,7 @@ export function createBuildObjectEngine(container: HTMLElement, options: { reduc
     node.material = material;
     node.mesh.material = materials.surface[material];
     node.mesh.castShadow = materials.castsShadow[material];
-    node.mesh.renderOrder = material.includes('lass') || material === 'red' ? 2 : 0;
+    node.mesh.renderOrder = material.includes('lass') || material === 'red' || material === 'ghost' ? 2 : 0;
     for (const member of node.frames) member.material = materials.frame[material]!;
     const edgeMaterial = materials.edge[material];
     if (edgeMaterial && !node.edges) {
@@ -510,8 +534,13 @@ export function createBuildObjectEngine(container: HTMLElement, options: { reduc
     }
   }
 
+  function progress(node: SceneNode, now: number): number {
+    if (reducedMotion) return 1;
+    return Math.max(0, Math.min(1, (now - node.start - node.delay) / node.duration));
+  }
+
   function currentStateOf(node: SceneNode, now: number): NodeState {
-    const t = reducedMotion ? 1 : ease(Math.min(1, (now - node.start) / TWEEN_MS));
+    const t = ease(progress(node, now));
     return {
       position: node.from.position.clone().lerp(node.to.position, t),
       size: node.from.size.clone().lerp(node.to.size, t),
@@ -545,7 +574,7 @@ export function createBuildObjectEngine(container: HTMLElement, options: { reduc
     if (disposed) return;
     let animating = false;
     for (const node of [...nodes.values()]) {
-      const t = reducedMotion ? 1 : Math.min(1, (now - node.start) / TWEEN_MS);
+      const t = progress(node, now);
       if (t < 1) animating = true;
       applyState(node, currentStateOf(node, now));
       if (node.removing && t >= 1) {
@@ -627,29 +656,42 @@ export function createBuildObjectEngine(container: HTMLElement, options: { reduc
     setComposition(next) {
       const now = performance.now();
       const first = composition === null;
+      const changed = composition?.key !== next.key;
       composition = next;
+      const motion = next.motion;
+      // A replaying composition (PACE, Blueprint timeline) re-assembles everything in its own rhythm.
+      const replay = !first && changed && motion.replay;
       const seen = new Set<string>();
       for (const el of next.elements) {
         seen.add(el.id);
         const existing = nodes.get(el.id);
+        const target = stateOf(el);
+        const delay = (el.seq ?? 0) * motion.stagger;
         if (!existing) {
           const node = makeNode(el);
-          if (first) node.from = node.to;
+          node.from = first ? target : entryState(target, motion.entry);
+          node.delay = first ? 0 : delay;
+          node.duration = motion.duration;
           nodes.set(el.id, node);
           continue;
         }
-        const from = existing.removing ? collapsed(stateOf(el)) : currentStateOf(existing, now);
+        const from = existing.removing || replay ? entryState(target, motion.entry) : currentStateOf(existing, now);
         setNodeMaterial(existing, el.material);
         existing.from = from;
-        existing.to = stateOf(el);
+        existing.to = target;
         existing.start = now;
+        existing.delay = replay ? delay : Math.min(delay, 240);
+        existing.duration = motion.duration;
         existing.removing = false;
+        if (replay) applyState(existing, from);
       }
       for (const node of nodes.values()) {
         if (seen.has(node.id) || node.removing) continue;
         node.from = currentStateOf(node, now);
         node.to = collapsed(node.to);
         node.start = now;
+        node.delay = 0;
+        node.duration = Math.min(motion.duration, 520);
         node.removing = true;
       }
       const target = fitted()!;

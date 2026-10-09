@@ -317,3 +317,36 @@ export function revisionExchanges(intake: IntakeDetail): RevisionExchange[] {
     };
   });
 }
+
+/* ─────────────────────────────── status track ─────────────────────────────── */
+
+export type TrackStepState = 'done' | 'current' | 'attention' | 'pending';
+export type TrackStep = { key: 'SUBMIT' | 'REVIEW' | 'DECISION'; label: string; sub: string; state: TrackStepState };
+
+/**
+ * The three steps a Blueprint goes through with SITE 00, derived only from the record's review stage. A step is
+ * marked done only when the intake record holds it; nothing here anticipates the founder's decision.
+ */
+export function reviewTrack(stage: ClientReviewStage, version: number | null = null): TrackStep[] {
+  const v = version ? ` · V${version}` : '';
+  const submitted = stage !== 'DRAFT';
+  const decided = stage === 'ACCEPTED' || stage === 'REVISION_REQUESTED' || stage === 'CLOSED';
+  const decision: TrackStep =
+    stage === 'ACCEPTED'
+      ? { key: 'DECISION', label: 'ACCEPTED', sub: 'YOUR PROJECT IS OPEN', state: 'done' }
+      : stage === 'REVISION_REQUESTED'
+        ? { key: 'DECISION', label: 'CHANGES REQUESTED', sub: 'EDIT AND RESUBMIT', state: 'attention' }
+        : stage === 'CLOSED'
+          ? { key: 'DECISION', label: 'CLOSED', sub: 'NO FURTHER ACTION', state: 'done' }
+          : { key: 'DECISION', label: 'SITE 00 REPLIES', sub: 'BY EMAIL', state: 'pending' };
+  return [
+    { key: 'SUBMIT', label: submitted ? 'SUBMITTED' : 'SUBMIT', sub: submitted ? `RECEIVED${v}` : 'THIS VERSION', state: submitted ? 'done' : 'current' },
+    {
+      key: 'REVIEW',
+      label: 'FOUNDER REVIEW',
+      sub: stage === 'UNDER_REVIEW' ? 'IN PROGRESS' : decided ? 'COMPLETE' : submitted ? 'AWAITING REVIEW' : 'NEXT',
+      state: decided ? 'done' : submitted ? 'current' : 'pending',
+    },
+    decision,
+  ];
+}

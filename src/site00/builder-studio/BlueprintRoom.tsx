@@ -29,11 +29,39 @@ import {
   spacedRange,
 } from './studioModel';
 import type { SpatialBuilderState, StudioRoomId } from './studioModel';
-import { spatialSubmission, versionFacts } from './reviewModel';
+import { reviewTrack, spatialSubmission, versionFacts, type TrackStep } from './reviewModel';
 import type { StudioSession } from './useStudioSession';
 
 export type BlueprintTab = 'OVERVIEW' | 'STRUCTURE' | 'PAGES' | 'FEATURES' | 'TIMELINE';
 export const BLUEPRINT_TABS: BlueprintTab[] = ['OVERVIEW', 'STRUCTURE', 'PAGES', 'FEATURES', 'TIMELINE'];
+
+/** Each section is an inspection mode of the same proposal; the object follows it (see composition `focus`). */
+const TAB_MODE: Record<BlueprintTab, string> = {
+  OVERVIEW: 'THE PROPOSED LOCATION',
+  STRUCTURE: 'ARCHITECTURAL BREAKDOWN',
+  PAGES: 'PAGE ORGANIZATION',
+  FEATURES: 'CAPABILITY RELATIONSHIPS',
+  TIMELINE: 'PRODUCTION EXPECTATIONS',
+};
+
+const pad = (n: number) => String(n).padStart(2, '0');
+
+/** Submitted → founder review → decision, from the record's stage only. */
+export function StatusTrack({ steps, compact = false }: { steps: TrackStep[]; compact?: boolean }) {
+  return (
+    <ol className={`bs-track${compact ? ' bs-track--compact' : ''}`} aria-label="WHERE YOUR BLUEPRINT STANDS">
+      {steps.map((step, i) => (
+        <li key={step.key} className={`bs-track__step is-${step.state}`} aria-current={step.state === 'current' || step.state === 'attention' ? 'step' : undefined}>
+          <span className="bs-track__node" aria-hidden="true">
+            {step.state === 'done' ? '✓' : pad(i + 1)}
+          </span>
+          <span className="bs-track__label">{step.label}</span>
+          <span className="bs-track__sub">{step.sub}</span>
+        </li>
+      ))}
+    </ol>
+  );
+}
 
 type Props = {
   session: StudioSession;
@@ -128,6 +156,7 @@ export function ReviewStatus({ session }: { session: StudioSession }) {
         {review.label}
       </p>
       <p className="bs-review__sub">{review.sub}</p>
+      <StatusTrack steps={reviewTrack(review.stage, review.version)} compact />
       {review.stage === 'REVISION_REQUESTED' ? (
         <div className="bs-review__request">
           <p className="bs-review__request-label">FROM SITE 00{review.request ? ` · ${formatDate(review.request.requestedAt)}` : ''}</p>
@@ -174,11 +203,19 @@ export function ReviewStatus({ session }: { session: StudioSession }) {
 export function BlueprintPanel(props: Props) {
   const { tab, setTab } = props;
   const ids = useId();
+  const index = BLUEPRINT_TABS.indexOf(tab);
+  const onKey = (event: React.KeyboardEvent) => {
+    if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') return;
+    event.preventDefault();
+    const next = BLUEPRINT_TABS[(index + (event.key === 'ArrowRight' ? 1 : BLUEPRINT_TABS.length - 1)) % BLUEPRINT_TABS.length];
+    setTab(next);
+    document.getElementById(`${ids}-tab-${next}`)?.focus();
+  };
   return (
     <div className="bs-blueprint">
       <ReviewStatus session={props.session} />
-      <div className="bs-tabs" role="tablist" aria-label="BLUEPRINT SECTIONS">
-        {BLUEPRINT_TABS.map((t) => (
+      <div className="bs-tabs" role="tablist" aria-label="BLUEPRINT SECTIONS" onKeyDown={onKey} style={{ '--bs-tab-i': index } as React.CSSProperties}>
+        {BLUEPRINT_TABS.map((t, i) => (
           <button
             key={t}
             type="button"
@@ -186,14 +223,24 @@ export function BlueprintPanel(props: Props) {
             id={`${ids}-tab-${t}`}
             aria-selected={tab === t}
             aria-controls={`${ids}-panel`}
+            tabIndex={tab === t ? 0 : -1}
             className={`bs-tab${tab === t ? ' is-on' : ''}`}
             onClick={() => setTab(t)}
           >
-            {t}
+            <span className="bs-tab__n" aria-hidden="true">
+              {pad(i + 1)}
+            </span>
+            <span className="bs-tab__label">{t}</span>
           </button>
         ))}
+        <span className="bs-tabs__ink" aria-hidden="true" />
       </div>
-      <div className="bs-tabpanel" role="tabpanel" id={`${ids}-panel`} aria-labelledby={`${ids}-tab-${tab}`}>
+      <p className="bs-mode" aria-live="polite">
+        <span className="bs-mode__n">{pad(index + 1)}</span>
+        <span className="bs-mode__rule" aria-hidden="true" />
+        <span className="bs-mode__label">{TAB_MODE[tab]}</span>
+      </p>
+      <div key={tab} className="bs-tabpanel" role="tabpanel" id={`${ids}-panel`} aria-labelledby={`${ids}-tab-${tab}`}>
         {tab === 'OVERVIEW' ? <OverviewTab {...props} /> : null}
         {tab === 'STRUCTURE' ? <StructureTab {...props} /> : null}
         {tab === 'PAGES' ? <PagesTab {...props} /> : null}
@@ -313,24 +360,29 @@ function StructureTab({ session, goToRoom }: Props) {
   const { state, snapshot } = session.view;
   const build = buildTypeSummary(state.placePath, snapshot.selection);
   const custom = state.placePath === 'CUSTOM';
+  const strata = snapshot.blueprint.lines.filter((line) => !COMMERCIAL_LINES.includes(line.key));
   return (
-    <div className="bs-sheet">
-      <p className="bs-sheet__lead">
-        <strong>{build.label} BUILD</strong> {build.reasons.length ? build.reasons.join(' ').toUpperCase() : 'EVERY CHOICE FITS A SIMPLE BUILD.'}
-      </p>
-      <dl className="bs-lines">
-        {snapshot.blueprint.lines
-          .filter((line) => !COMMERCIAL_LINES.includes(line.key))
-          .map((line) => (
-            <div key={line.key} className={`bs-line${line.open ? ' is-open' : ''}`}>
-              <dt>{line.label}</dt>
-              <dd>
-                {line.value ? line.value.toUpperCase() : custom ? 'TO BE DEFINED IN YOUR CUSTOM DIRECTION' : 'NOT CHOSEN'}
-                {line.fromSystem && line.value ? <em> FROM SYSTEM</em> : null}
-              </dd>
-            </div>
-          ))}
-      </dl>
+    <div className="bs-sheet bs-sheet--structure">
+      <div className="bs-keystone">
+        <span className="bs-keystone__label">BUILD TYPE</span>
+        <span className="bs-keystone__value">{build.label}</span>
+        <span className="bs-keystone__sub">{build.reasons.length ? build.reasons.join(' ').toUpperCase() : 'EVERY CHOICE FITS A SIMPLE BUILD.'}</span>
+      </div>
+      <ol className="bs-strata" aria-label="STRUCTURE, FROM FOUNDATION UP">
+        {strata.map((line, i) => (
+          <li key={line.key} className={`bs-stratum${line.open ? ' is-open' : ''}`}>
+            <span className="bs-stratum__n" aria-hidden="true">
+              L{i + 1}
+            </span>
+            <span className="bs-stratum__label">{line.label}</span>
+            <span className="bs-stratum__value">
+              {line.value ? line.value.toUpperCase() : custom ? 'DEFINED IN YOUR CUSTOM DIRECTION' : 'NOT CHOSEN'}
+              {line.fromSystem && line.value ? <em>FROM SYSTEM</em> : null}
+              {line.open ? <em className="is-red">OPEN</em> : null}
+            </span>
+          </li>
+        ))}
+      </ol>
       <p className="bs-sheet__hint">THE STRUCTURE FOLLOWS FROM WHAT YOU ARE CREATING. SITE 00 CONFIRMS IT AT BLUEPRINT REVIEW.</p>
       <ChangeLink session={session} room="place" goToRoom={goToRoom} />
     </div>
@@ -348,23 +400,32 @@ function PagesTab({ session, goToRoom }: Props) {
     );
   }
   const total = snapshot.blueprint.experiences.reduce((n, g) => n + g.items.length, 0);
+  let n = 0;
   return (
-    <div className="bs-sheet">
-      <p className="bs-sheet__lead">
-        <strong>{total} PAGES</strong> ASSEMBLED FROM YOUR STRUCTURE AND FEATURES.
+    <div className="bs-sheet bs-sheet--pages">
+      <p className="bs-count">
+        <span className="bs-count__value">{pad(total)}</span>
+        <span className="bs-count__label">PAGES ASSEMBLED FROM YOUR STRUCTURE AND FEATURES</span>
       </p>
       {snapshot.blueprint.experiences.map((group) => (
-        <div key={group.group} className="bs-group">
-          <h3 className="bs-group__title">{group.group}</h3>
-          <ul>
-            {group.items.map((item) => (
-              <li key={item.label}>
-                <span>{item.label.toUpperCase()}</span>
-                <em>{item.depth.toUpperCase()}</em>
-              </li>
-            ))}
+        <section key={group.group} className="bs-pagegroup">
+          <h3 className="bs-pagegroup__title">
+            {group.group}
+            <span>{pad(group.items.length)}</span>
+          </h3>
+          <ul className="bs-plates">
+            {group.items.map((item) => {
+              n += 1;
+              return (
+                <li key={item.label} className="bs-plate">
+                  <span className="bs-plate__n">P{pad(n)}</span>
+                  <span className="bs-plate__label">{item.label.toUpperCase()}</span>
+                  <span className="bs-plate__depth">{item.depth.toUpperCase()}</span>
+                </li>
+              );
+            })}
           </ul>
-        </div>
+        </section>
       ))}
       <ChangeLink session={session} room="work" goToRoom={goToRoom} />
     </div>
@@ -375,18 +436,23 @@ function FeaturesTab({ session, goToRoom }: Props) {
   const { state, snapshot } = session.view;
   const estimate = snapshot.estimate;
   return (
-    <div className="bs-sheet">
-      <ul className="bs-features">
-        {snapshot.blueprint.capabilities.map((cap) => (
-          <li key={cap.verb}>
-            <span className="bs-features__verb">{cap.verb}</span>
-            <span className="bs-features__plain">{capabilityPlain(cap.verb)}</span>
+    <div className="bs-sheet bs-sheet--features">
+      <p className="bs-tree__root">
+        <span className="bs-tree__root-label">CORE</span>
+        <span className="bs-tree__root-value">{CORE_INCLUDED.map((c) => (state.placePath === 'WORLD' ? c.worldLabel : c.label)).join(' · ')}</span>
+      </p>
+      <ul className="bs-tree" aria-label="CAPABILITIES CONNECTED TO THE CORE">
+        {snapshot.blueprint.capabilities.map((cap, i) => (
+          <li key={cap.verb} className={`bs-tree__branch${cap.comesWith ? ' is-linked' : ''}`}>
+            <span className="bs-tree__n" aria-hidden="true">
+              F{pad(i + 1)}
+            </span>
+            <span className="bs-tree__verb">{cap.verb}</span>
+            <span className="bs-tree__plain">{capabilityPlain(cap.verb)}</span>
             {cap.comesWith ? <em>COMES WITH YOUR CHOICES</em> : null}
           </li>
         ))}
       </ul>
-      <h3 className="bs-sheet__title">CORE INCLUDED</h3>
-      <p className="bs-sheet__hint">{CORE_INCLUDED.map((c) => (state.placePath === 'WORLD' ? c.worldLabel : c.label)).join(' · ')}</p>
       {estimate?.platformUsage.applicable ? (
         <p className="bs-sheet__hint">
           <strong>{estimate.platformUsage.label}</strong> {estimate.platformUsage.summary}
@@ -409,40 +475,47 @@ function TimelineTab({ session, goToRoom }: Props) {
       </p>
       {estimate ? (
         <>
-          <dl className="bs-lines">
-            <div className="bs-line">
-              <dt>STANDARD</dt>
-              <dd>
-                {spacedRange(estimate.delivery.standard.window)} · {expandInvestment(estimate.delivery.standard.investment)}
-              </dd>
+          <div className="bs-lanes" role="list" aria-label="PRODUCTION WINDOWS">
+            <div role="listitem" className={`bs-lane${state.pace !== 'EXPEDITED' ? ' is-chosen' : ''}`}>
+              <span className="bs-lane__label">STANDARD{state.pace !== 'EXPEDITED' ? <em>YOUR PACE</em> : null}</span>
+              <span className="bs-lane__window">{spacedRange(estimate.delivery.standard.window)}</span>
+              <span className="bs-lane__sub">{expandInvestment(estimate.delivery.standard.investment)}</span>
             </div>
-            <div className="bs-line">
-              <dt>EXPEDITED</dt>
-              <dd>
+            <div role="listitem" className={`bs-lane${state.pace === 'EXPEDITED' ? ' is-chosen' : ''}${estimate.delivery.priority.available ? '' : ' is-unavailable'}`}>
+              <span className="bs-lane__label">EXPEDITED{state.pace === 'EXPEDITED' ? <em>YOUR PACE</em> : null}</span>
+              <span className="bs-lane__window">{estimate.delivery.priority.available ? spacedRange(estimate.delivery.priority.window) : 'NOT AVAILABLE'}</span>
+              <span className="bs-lane__sub">
                 {estimate.delivery.priority.available
-                  ? `${spacedRange(estimate.delivery.priority.window)} · ${expandInvestment(estimate.delivery.priority.investment)} · ${estimate.delivery.priority.sooner}`
-                  : 'NOT AVAILABLE FOR THIS SCOPE'}
-              </dd>
+                  ? `${expandInvestment(estimate.delivery.priority.investment)} · ${estimate.delivery.priority.sooner}`
+                  : 'FOR THIS SCOPE'}
+              </span>
             </div>
-            <div className="bs-line">
-              <dt>RANGE</dt>
-              <dd>{estimate.confidence.label}</dd>
-            </div>
-          </dl>
+          </div>
+          <p className="bs-sheet__hint">
+            <strong>{estimate.confidence.label}</strong>
+          </p>
           <p className="bs-sheet__hint">
             {(estimate.delivery.priority.available ? estimate.delivery.priority.whyNotHalf : estimate.delivery.priority.reason).toUpperCase()}
           </p>
           <p className="bs-sheet__hint">{estimate.timelineNote.toUpperCase()}</p>
           <h3 className="bs-sheet__title">WHAT COMES FIRST</h3>
-          <ul className="bs-bullets">
+          <ul className="bs-steps bs-steps--deps">
             {estimate.dependencies.map((d) => (
-              <li key={d}>{d}</li>
+              <li key={d}>
+                <span className="bs-steps__n" aria-hidden="true" />
+                <span>{d.toUpperCase()}</span>
+              </li>
             ))}
           </ul>
           <h3 className="bs-sheet__title">WHAT HAPPENS NEXT</h3>
-          <ol className="bs-bullets">
-            {estimate.whatHappensNext.map((step) => (
-              <li key={step}>{step}</li>
+          <ol className="bs-steps">
+            {estimate.whatHappensNext.map((step, i) => (
+              <li key={step}>
+                <span className="bs-steps__n" aria-hidden="true">
+                  {pad(i + 1)}
+                </span>
+                <span>{step.toUpperCase()}</span>
+              </li>
             ))}
           </ol>
           <p className="bs-fineprint">
@@ -604,25 +677,36 @@ function needsEmail(session: StudioSession): boolean {
 }
 
 function Summary({ state, snapshot, preview }: { state: SpatialBuilderState; snapshot: BlueprintSessionSnapshot; preview: boolean }) {
-  const rows: [string, string][] = [
-    ['PLACE', state.placePath ?? '—'],
-    ['LEVEL', snapshot.scope.buildLevel],
-    ['FEEL', state.feelVibe ? FEEL_BY_ID[state.feelVibe].label : '—'],
-    ['WORK', state.workModules.join(' · ').replace(/_/g, ' ') || '—'],
-    ['PACE', state.pace ?? '—'],
+  // The estimator's level label already reads "… BUILD"; only name the path separately when it differs (WORLD).
+  const level = snapshot.scope.buildLevel;
+  const place = !state.placePath ? '—' : level.startsWith(state.placePath) ? level : `${state.placePath} · ${level}`;
+  const rows: [string, string, string][] = [
+    ['01', 'PLACE', place],
+    ['02', 'FEEL', state.feelVibe ? FEEL_BY_ID[state.feelVibe].label : '—'],
+    ['03', 'WORK', state.workModules.join(' · ').replace(/_/g, ' ') || '—'],
+    ['04', 'PACE', state.pace ?? '—'],
   ];
-  if (preview && snapshot.estimate) {
-    rows.push(['INITIAL RANGE', `${expandInvestment(snapshot.estimate.investment)} · ${spacedRange(snapshot.estimate.productionWindow)}`]);
-  }
   return (
-    <dl className="bs-lines bs-lines--compact">
-      {rows.map(([k, v]) => (
-        <div key={k} className="bs-line">
-          <dt>{k}</dt>
-          <dd>{v}</dd>
-        </div>
-      ))}
-    </dl>
+    <>
+      <dl className="bs-proposal">
+        {rows.map(([n, k, v]) => (
+          <div key={k} className="bs-proposal__row">
+            <dt>
+              <span className="bs-proposal__n">{n}</span>
+              {k}
+            </dt>
+            <dd>{v}</dd>
+          </div>
+        ))}
+      </dl>
+      {preview && snapshot.estimate ? (
+        <p className="bs-proposal__range">
+          <span className="bs-proposal__range-label">{snapshot.estimate.confidence.label}</span>
+          <span className="bs-proposal__range-value">{expandInvestment(snapshot.estimate.investment)}</span>
+          <span className="bs-proposal__range-sub">{spacedRange(snapshot.estimate.productionWindow)}</span>
+        </p>
+      ) : null}
+    </>
   );
 }
 
@@ -655,12 +739,19 @@ function SubmitSheet({ session, onClose }: { session: StudioSession; onClose: ()
         </button>
         {phase === 'received' && received ? (
           <>
+            <p className="bs-dialog__eyebrow">
+              <span>05</span> BLUEPRINT PROPOSAL
+            </p>
+            <span className="bs-dialog__seal" aria-hidden="true">
+              ✓
+            </span>
             <h2 id={titleId} className="bs-dialog__title">
               SUBMISSION RECEIVED<span className="bs-dot">.</span>
             </h2>
             <p className="bs-dialog__ref">
               {received.reference} · VERSION {received.version}
             </p>
+            <StatusTrack steps={reviewTrack('SUBMISSION_RECEIVED', received.version)} />
             <p className="bs-dialog__text">
               AWAITING FOUNDER REVIEW. SITE 00 REVIEWS YOUR BLUEPRINT AND REPLIES BY EMAIL. NOTHING IS CHARGED AND THE RANGE IS NOT A QUOTE.
             </p>
@@ -670,10 +761,16 @@ function SubmitSheet({ session, onClose }: { session: StudioSession; onClose: ()
           </>
         ) : (
           <>
+            <p className="bs-dialog__eyebrow">
+              <span>05</span> BLUEPRINT PROPOSAL{nextVersion > 1 ? ` · VERSION ${nextVersion}` : ''}
+            </p>
             <h2 id={titleId} className="bs-dialog__title">
               {nextVersion > 1 ? `RESUBMIT AS VERSION ${nextVersion}` : 'SUBMIT YOUR BLUEPRINT'}
               <span className="bs-dot">.</span>
             </h2>
+            <div className="bs-dialog__plate">
+              <BuildThumbnail composition={compose('blueprint', buildSpec(session.state))} width={320} height={150} alt="" />
+            </div>
             <Summary state={session.state} snapshot={session.snapshot} preview={session.preview} />
             {nextVersion > 1 ? (
               <p className="bs-dialog__text">VERSION {nextVersion - 1} STAYS ON RECORD. SITE 00 SEES WHAT CHANGED.</p>
