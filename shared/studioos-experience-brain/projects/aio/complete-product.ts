@@ -173,7 +173,7 @@ export const AIO_CP_SIZES = [
 
 export const AIO_CP_QA = {
   office: { tool: 'design-authority/aio-office/workspaces/qa.mjs (+ lane-check.mjs per workspace)', checks_run: 0, failures: 0, screenshots: 0, lane_checks: { states: 0, failures: 0 } },
-  public: { tool: 'design-authority/aio-public/qa.mjs', checks_run: 48, failures: 0, pages: 92, sizes: 4, screenshots: 0 },
+  public: { tool: 'design-authority/aio-public/qa.mjs', checks_run: 84, failures: 0, pages: 92, sizes: 4, screenshots: 188 },
 } as const;
 
 /* ═══════════════ N · assets reused (nothing generated, no paid credits) ═══════════════ */
