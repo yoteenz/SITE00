@@ -15794,3 +15794,17 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - Submit on this preview stayed local-only. The visual review is the point of the link.
 - **Changes:** No product code. Preview worktree and the tunnel connector only.
 - **Conventions:** Do not force `preview/tunnel` back to main while the founder is reviewing this Blueprint. Do not merge #1528 without founder authorization.
+
+---
+
+## 2026-10-09 — Invitation system v1 (AIO / INVITATION 001 foundation)
+
+- **Context:** Sprint `P0.SITE00.INVITATION-SYSTEM.PARTNER-ATTRIBUTION-FOUNDATION-ACTIVATION-AND-REFERRAL-ECONOMICS1` — physical QR → partner attribution → secure activation → existing Digital Foundation → referral economics contracts (no public activation, no live payouts).
+- **Topics covered:** Partner/campaign/code model; `/invite/:code`; visit dedupe; activation with verification secret; Foundation idempotency via `createArtifactForLead({ referral_kind: 'AIO' })`; versioned attribution policy (`PENDING_FOUNDER`); unapproved commission rules (null rates); admin founder/partner reporting APIs; Supabase migration for future persistence; Opus handoff; QR generator CLI.
+- **Decisions / outcomes:**
+  - Initial partner **ALL IN ONE ENTERPRISES INC** (PARTNER 001 / display AIO); collection **INVITATION 001**; shared office code **`aio-office-inv001`**.
+  - Runtime store is in-memory for this sprint; migration `20261009180000_site00_invitation_system_v1.sql` prepared for Supabase.
+  - Commissions require verified payment events; scans create visits/events only. `payout_live: false`.
+  - Production identity/magic-link wiring for activation verification remains a follow-up; dev uses admin `test-set-activation-secret`.
+- **Changes:** `shared/site00-invitation-system/*`, `api/_lib/invitationSystem/*`, `api/site00/invitation.ts`, `api/admin/site00-invitation.ts`, `src/site00/pages/invitation/InvitationEntryPage.tsx`, `Site00Routes.tsx`, `tests/invitationSystem.test.ts`, `docs/site00/invitation-system/*`, `scripts/site00/generate-invitation-qr.ts`, `supabase/migrations/20261009180000_site00_invitation_system_v1.sql`, `motherboard/CORE.md`.
+- **Conventions:** Do not hardcode $50 / 5% commission; do not pay partners from scans; do not expose client intake to partners; QR URL must stay stable for print.

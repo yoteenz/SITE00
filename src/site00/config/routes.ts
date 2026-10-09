@@ -43,8 +43,11 @@ export const SITE00_ROUTES = {
   existingLocationAdmin: '/admin/site00/existing-location',
   /** IDNTY — Digital Foundation personalized artifact (opaque token) */
   digitalFoundationArtifact: '/foundation/:token',
+  /** Physical invitation entry (opaque code, partner attribution). */
+  invitationEntry: '/invite/:code',
   digitalFoundationAdmin: '/admin/site00/foundation',
   digitalFoundationAdminDetail: '/admin/site00/foundation/:id',
+  invitationAdmin: '/admin/site00/invitation',
   assts: '/assts',
   asstsBatch: '/assts/batches/:batchId',
   asstsAsset: '/assts/:assetId',

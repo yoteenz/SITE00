@@ -1,0 +1,95 @@
+.site00-invite {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 3rem;
+  font-family: system-ui, sans-serif;
+  color: #111;
+}
+
+.site00-invite__brand {
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  margin: 0;
+}
+
+.site00-invite__phase {
+  color: #c41e3a;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin: 0.5rem 0 0;
+}
+
+.site00-invite__collection {
+  margin-top: 2rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #555;
+}
+
+.site00-invite__title {
+  font-size: clamp(1.75rem, 5vw, 2.25rem);
+  line-height: 1.1;
+  margin: 0.75rem 0;
+}
+
+.site00-invite__lede,
+.site00-invite__partner,
+.site00-invite__note {
+  color: #444;
+  line-height: 1.5;
+}
+
+.site00-invite__panel {
+  margin-top: 2rem;
+  padding: 1.25rem;
+  border: 1px solid #ddd;
+}
+
+.site00-invite__label {
+  display: block;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.35rem;
+}
+
+.site00-invite__input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.65rem 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+}
+
+.site00-invite__cta {
+  display: inline-block;
+  background: #c41e3a;
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.site00-invite__cta:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.site00-invite__error {
+  color: #c41e3a;
+  font-weight: 600;
+}
+
+.site00-invite__footer {
+  margin-top: 3rem;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: #666;
+}
