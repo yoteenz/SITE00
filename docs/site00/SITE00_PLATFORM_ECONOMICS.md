@@ -141,3 +141,11 @@ Draft product copy is returned by `draftPlatformCopy()` with `published: false`.
 | Blueprint, estimate, Builder, budget, public draft | `src/studioos/platform-economics/disclosure.ts` |
 | AIO adapter | `src/studioos/platform-economics/aio.ts` |
 | Fixture harness | `src/studioos/platform-economics/harness.ts` |
+| Blueprint and statement presentation | `src/studioos/platform-economics/presentation.ts` |
+| Illustrative example | `src/studioos/platform-economics/illustration.ts` |
+| Client statement view | `src/studioos/platform-economics/clientStatement.ts` |
+| Account placement and Opus interactions | `src/studioos/platform-economics/clientExperience.ts` |
+| Opus fixture function | `src/site00/builder-experience/spatialStudio/opusFinancialFixtures.ts` |
+| Opus visual brief | `docs/site00/platform-economics/OPUS_CLIENT_FINANCIAL_EXPERIENCE_HANDOFF.md` |
+
+The Blueprint overview reads `blueprintEconomicsForSelection()`. It does not add a tab and it does not calculate a fee. A statement is a view over `buildStatement()`. Export is unavailable. Shipping is not an exclusion code. Live collection stays off.

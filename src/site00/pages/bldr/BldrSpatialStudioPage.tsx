@@ -2,6 +2,7 @@
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { templateSystemEnabled } from '../../../studioos/estimation/flags';
+import { blueprintEconomicsForSelection } from '../../builder-experience/spatialStudio/blueprintEconomics';
 import { roomIndex } from '../../builder-experience/spatialStudio/mapping';
 import { useBuilderSpatialIntakeSession } from '../../builder-experience/spatialStudio/useBuilderSpatialIntakeSession';
 import { IntakeSaveStatus } from '../../components/intake/IntakeSaveStatus';
@@ -258,6 +259,7 @@ function BldrSpatialStudioExperience() {
       { id: 'FEATURES', label: 'FEATURES' },
       { id: 'TIMELINE', label: 'TIMELINE' },
     ];
+    const economics = blueprintEconomicsForSelection(snapshot.selection, showEstimate && estimate ? estimate.investment : null);
     const buildTypeHint =
       state.placePath === 'SIMPLE'
         ? 'Refine an established system.'
@@ -306,6 +308,20 @@ function BldrSpatialStudioExperience() {
 
         {state.blueprintSection === 'OVERVIEW' ? (
           <>
+            <div className="bldr-spatial-blueprint__economics">
+              <p className="bldr-spatial-blueprint__disclaimer">
+                <strong>{economics.build.heading}.</strong> {economics.build.amountLabel}
+              </p>
+              <p className="bldr-spatial-blueprint__disclaimer">
+                <strong>{economics.platform.heading}.</strong> {economics.platform.line}
+              </p>
+              <p className="bldr-spatial-blueprint__disclaimer">
+                <strong>{economics.thirdParty.heading}.</strong> {economics.thirdParty.line}
+              </p>
+              <p className="bldr-spatial-blueprint__disclaimer">
+                <strong>{economics.agreement.heading}.</strong> {economics.agreement.line}
+              </p>
+            </div>
             <div className="bldr-spatial-blueprint__config-head">
               <h3>YOUR CONFIGURATION</h3>
               <button type="button" className="bldr-spatial-shell__btn bldr-spatial-shell__btn--ghost" onClick={() => goRoom('PLACE')}>

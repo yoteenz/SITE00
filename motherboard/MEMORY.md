@@ -15729,3 +15729,22 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decisions / outcomes:** Not enabled on `npm run build` / GoDaddy; restart Vite preview terminal after merge for flags to take effect.
 - **Changes:** `.cursor/scripts/run-site00-cloud-preview-server.sh`, `.env.example`, `AGENTS.md`.
 - **Conventions:** Do not add these flags to site00-production-deploy.yml without explicit founder release approval.
+
+---
+
+## 2026-10-09 — Blueprint disclosure and client statement contracts
+
+- **Context:** Sprint `P0.SITE00.PLATFORM-ECONOMICS.BUILDER-BLUEPRINT-AND-CLIENT-STATEMENTS-UX1`. Integrate Platform Economics V1 into the Builder Blueprint and the future client financial record. No live deductions, no billing dashboard, no public production deploy.
+- **Topics covered:** Foundation baseline on main (ancestor of `e9779def`, reported SHA `f9f6c4b0`). Spatial Blueprint sections OVERVIEW, STRUCTURE, PAGES, FEATURES, TIMELINE. Agreement presentation. Illustrative examples. Statement fields. Account placement. AIO compatibility. Opus handoff. Shipping is not its own exclusion code.
+- **Decisions / outcomes:**
+  - The existing books stay the calculator. Presentation, illustration, and statements call that engine.
+  - A Builder with no agreement shows a proposed share, or says the share does not apply. `deductionActive` is true only when the stored agreement is ACTIVE and the fee applies.
+  - Screen words: PROPOSED, PENDING ACCEPTANCE, ACTIVE, SUPERSEDED, TERMINATED, plus SUSPENDED for a paused agreement.
+  - Client statements keep posted, pending, and settled apart. A draft payout is the same posted share, not a second fee. Settled is zero. Export is unavailable. Client net stays unavailable while processor treatment is unspecified.
+  - The ledger `clientNet` field is not shown as money the client keeps in that unspecified case.
+  - Tips are gratuities. Shipping has no exclusion code and is not invented here.
+  - AIO participation stays off. Brokerage, permitting, dispatching, insurance, and bookkeeping are not assumed eligible.
+  - The financial record belongs inside `/account`. It is not a separate environment and it does not show Studio OS.
+  - Opus designs the experience. Composer does not add a sixth Blueprint tab.
+- **Changes:** `presentation.ts`, `illustration.ts`, `format.ts`, `clientStatement.ts`, `clientExperience.ts`, `books.listAgreements`, spatial `blueprintEconomics.ts` and `opusFinancialFixtures.ts`, overview copy on `BldrSpatialStudioPage.tsx`, `clientFinancialExperience.test.ts` (14), handoff `docs/site00/platform-economics/OPUS_CLIENT_FINANCIAL_EXPERIENCE_HANDOFF.md`.
+- **Conventions:** Do not hardcode the platform rate in a component. Do not draw an export control until a real file exists. Do not treat a Blueprint as an accepted agreement. Do not deploy this as a public production release until legal, processor, and founder review.
