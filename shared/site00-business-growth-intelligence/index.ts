@@ -12,3 +12,4 @@ export * from './opportunityProvenance.js';
 export * from './aioReferralBoundaries.js';
 export * from './events.js';
 export * from './foundationIntegration.js';
+export * from './clientContext.js';

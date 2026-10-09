@@ -37,6 +37,13 @@ import {
 import { assessQuotePayability } from '../../../shared/site00-digital-foundation/quoteReadiness.js';
 import { computeReadinessState } from '../../../shared/site00-digital-foundation/readinessClock.js';
 import { toClientArtifactPayload } from '../../../shared/site00-digital-foundation/clientProjection.js';
+import {
+  sanitizeAmbitionInput,
+  sanitizeGrowthSelections,
+  type AmbitionInput,
+} from '../../../shared/site00-business-growth-intelligence/clientContext.js';
+import type { BusinessAmbitionIntake } from '../../../shared/site00-business-growth-intelligence/types.js';
+import { BUSINESS_GROWTH_INTELLIGENCE_VERSION } from '../../../shared/site00-business-growth-intelligence/version.js';
 import { persistArtifactGraph } from './persistence/supabaseStore.js';
 
 function nowIso(): string {
@@ -767,6 +774,80 @@ export function captureBuildInterest(
     mem.memSaveLead(lead);
   }
   mem.memSaveArtifact(a);
+  schedulePersist(a.artifact_id);
+  return a;
+}
+
+/** Ambition stays editable until payment; Growth selections lock once the Foundation scope is accepted or paid. */
+export function businessGrowthEditability(a: DigitalFoundationArtifact): { ambition: boolean; selections: boolean } {
+  const quote = a.quote_id ? mem.memGetQuote(a.quote_id) : undefined;
+  const paid = a.payment_state === 'PAID';
+  const accepted = quote?.status === 'ACCEPTED' || quote?.status === 'PAID';
+  return { ambition: !paid, selections: !paid && !accepted };
+}
+
+/**
+ * Saves Business Ambition answers and/or explicit Growth selections onto the intake. Never touches the
+ * Foundation quote or checkout — Growth lines only ever appear in the separated presentation sections.
+ */
+export function updateBusinessGrowth(
+  artifactId: string,
+  input: { ambition?: AmbitionInput; selections?: unknown },
+): DigitalFoundationArtifact {
+  const a = mem.memGetArtifact(artifactId);
+  if (!a) throw new Error('ARTIFACT_NOT_FOUND');
+  const editable = businessGrowthEditability(a);
+  const now = nowIso();
+  const prevSelection = a.intake.business_growth_selection;
+  let changed = false;
+
+  if (input.ambition !== undefined) {
+    if (!editable.ambition) throw new Error('GROWTH_AMBITION_LOCKED');
+    const previous = (a.intake.business_ambition as BusinessAmbitionIntake | undefined) ?? null;
+    const next = sanitizeAmbitionInput(input.ambition, previous, now);
+    a.intake = { ...a.intake, business_ambition: next as DigitalFoundationIntake['business_ambition'] };
+    if (!previous) logEvent(artifactId, 'BUSINESS_AMBITION_STARTED', 'CLIENT', { schema_version: next.schema_version });
+    if (next.completed_at && next.completed_at === now) {
+      logEvent(artifactId, 'BUSINESS_AMBITION_COMPLETED', 'CLIENT', { goals: next.goals, skipped: Boolean(next.skipped) });
+    }
+    changed = true;
+  }
+
+  if (input.selections !== undefined) {
+    if (!editable.selections) throw new Error('GROWTH_SELECTION_LOCKED');
+    const parsed = sanitizeGrowthSelections(input.selections);
+    if (!parsed.ok) throw new Error(parsed.code);
+    const before = new Set((prevSelection?.selections ?? []).filter((s) => s.client_selected).map((s) => s.service_id));
+    for (const s of parsed.selected) {
+      if (!before.has(s.service_id)) logEvent(artifactId, 'GROWTH_SERVICE_SELECTED', 'CLIENT', { service_id: s.service_id });
+    }
+    a.intake = {
+      ...a.intake,
+      business_growth_selection: {
+        schema_version: BUSINESS_GROWTH_INTELLIGENCE_VERSION,
+        selections: parsed.selected,
+        revision: prevSelection?.revision ?? 0,
+        updated_at: now,
+      },
+    };
+    changed = true;
+  }
+
+  if (changed) {
+    const current = a.intake.business_growth_selection;
+    a.intake = {
+      ...a.intake,
+      business_growth_selection: {
+        schema_version: BUSINESS_GROWTH_INTELLIGENCE_VERSION,
+        selections: current?.selections ?? [],
+        revision: (prevSelection?.revision ?? 0) + 1,
+        updated_at: now,
+      },
+    };
+    a.last_activity_at = now;
+    mem.memSaveArtifact(a);
+    schedulePersist(a.artifact_id);
+  }
   return a;
 }
 

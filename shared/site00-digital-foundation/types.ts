@@ -123,7 +123,19 @@ export type DigitalFoundationBusinessAmbitionRef = {
   schema_version: string;
   goals: string[];
   skipped?: boolean;
+  started_at?: string;
   completed_at?: string;
+  /** Adaptive follow-up answers (`BusinessAmbitionIntake['context']`). */
+  context?: Record<string, boolean | string | null>;
+};
+
+/** Client-chosen Business Growth services — explicit opt-in, never part of Foundation checkout. */
+export type DigitalFoundationBusinessGrowthSelectionRef = {
+  schema_version: string;
+  selections: { service_id: string; quantity: number; client_selected: boolean }[];
+  /** Increments on every saved ambition or selection change; drives roadmap versioning. */
+  revision: number;
+  updated_at: string;
 };
 
 export type DigitalFoundationIntake = {
@@ -143,6 +155,7 @@ export type DigitalFoundationIntake = {
   needs: IntakeNeedFlag[];
   /** Business Ambition discovery (before final Foundation recommendation when BGI enabled). */
   business_ambition?: DigitalFoundationBusinessAmbitionRef;
+  business_growth_selection?: DigitalFoundationBusinessGrowthSelectionRef;
 };
 
 export type QuoteLineAddon = {
@@ -371,7 +384,10 @@ export type ArtifactEventType =
   | 'PROVIDER_HANDOFF_OPENED'
   | 'FORECAST_CHANGED'
   | 'FINAL_VERIFICATION_STARTED'
-  | 'FOUNDATION_VERIFIED';
+  | 'FOUNDATION_VERIFIED'
+  | 'BUSINESS_AMBITION_STARTED'
+  | 'BUSINESS_AMBITION_COMPLETED'
+  | 'GROWTH_SERVICE_SELECTED';
 
 export type ArtifactEvent = {
   event_id: string;
