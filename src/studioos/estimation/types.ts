@@ -250,6 +250,13 @@ export type ClientBlueprintEstimate = {
   complexity: string;
   productionWindow: string;
   investmentRange: string;
+  presentationPolicyVersion: string;
+  /** Raw estimator weeks. Display rounding is not written back here. */
+  canonicalWindowWeeks: { low: number; high: number };
+  canonicalInvestment: { low: number; expected: number; high: number };
+  timelineFounderReview: boolean;
+  investmentFounderReview: boolean;
+  presentationNote: string | null;
   deliveryMode: string;
   includedSystems: string[];
   dependencies: string[];

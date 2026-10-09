@@ -15748,3 +15748,19 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - Opus designs the experience. Composer does not add a sixth Blueprint tab.
 - **Changes:** `presentation.ts`, `illustration.ts`, `format.ts`, `clientStatement.ts`, `clientExperience.ts`, `books.listAgreements`, spatial `blueprintEconomics.ts` and `opusFinancialFixtures.ts`, overview copy on `BldrSpatialStudioPage.tsx`, `clientFinancialExperience.test.ts` (14), handoff `docs/site00/platform-economics/OPUS_CLIENT_FINANCIAL_EXPERIENCE_HANDOFF.md`.
 - **Conventions:** Do not hardcode the platform rate in a component. Do not draw an export control until a real file exists. Do not treat a Blueprint as an accepted agreement. Do not deploy this as a public production release until legal, processor, and founder review.
+
+---
+
+## 2026-10-09 — Estimate range presentation and pricing reconciliation
+
+- **Context:** Sprint `P0.SITE00.SCOPE-ESTIMATION.PRICING-POSITIONING-AND-SYMMETRIC-RANGE-RECONCILIATION1`. Reconcile historical $3,000 / $10,000 starting concepts with the family-unit estimator, and present client ranges with even week endpoints and covering investment bands. No public price change.
+- **Topics covered:** Estimator `1.0.0` on main. Fixture displays (8–10 weeks / $5K–$7K through 12–16 months / $69K–$94K) are scoped project estimates, not starting offers and not contracts. Presentation policy separate from raw weeks and dollars. Builder and Blueprint share `toClientBlueprintEstimate()`.
+- **Decisions / outcomes:**
+  - Starting investment, project estimate, final proposal, and agreed contract value stay different layers.
+  - Week windows round outward to even endpoints. 15–19 weeks displays as 16–20 weeks. The high end is not rounded down.
+  - Month windows round outward and are not forced onto even months. 5–7 months displays as 6–7 and is flagged. 9–12 months displays as 9–13 and is flagged. 8–10 and 12–16 stay.
+  - Investment bands cover the calculated dollars. The standard editorial display becomes $16K–$22K because $16,999 is not inside a $17K floor. Internal dollars stay exact.
+  - Platform percentages, ledger amounts, and payouts are not rounded by this policy.
+  - Public `FROM $4K+` anchors were not edited. Founder still approves positioning.
+- **Changes:** `src/studioos/estimation/presentation.ts`, client contract fields, admin estimator review line, `presentationPolicy.test.ts`, `BUILDER_PRICING_EVIDENCE.json`, `docs/site00/estimation/HISTORICAL_PRICING_AUDIT.md`, `docs/site00/estimation/PRICING_RECONCILIATION.md`.
+- **Conventions:** Normalize once from canonical values. Do not feed a display range back into the estimator. Do not treat a fixture as a published price.
