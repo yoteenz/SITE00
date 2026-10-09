@@ -49,6 +49,15 @@
 | `/api/site00/invitation` | Public | `resolve`, `visit`, `begin-activation`, `complete-activation` |
 | `/api/admin/site00-invitation` | Admin | `founder-review`, `partner-report`, `qr-asset`, `record-conversion-event`, `test-set-activation-secret` (non-prod) |
 
+### Verification delivery
+
+`resolve` and `begin-activation` return `verification_delivery`:
+
+- `DEVELOPMENT_INLINE`: only when `SITE00_VITE_LOCAL_API=1` and `NODE_ENV` is not production. `begin-activation` also returns `development_verification_code`.
+- `PENDING_IDNTY`: every other environment. No code is returned and the UI blocks activation until IDNTY delivery is wired.
+
+`persistence` is `IN_MEMORY` until the Supabase store is connected.
+
 ## Foundation integration
 
 Activation calls `createArtifactForLead({ referral_kind: 'AIO' })` and navigates to `/foundation/:token`. Idempotent completion reuses the same artifact.
@@ -71,4 +80,4 @@ Activation calls `createArtifactForLead({ referral_kind: 'AIO' })` and navigates
 
 ## Tests
 
-`tests/invitationSystem.test.ts`
+`tests/invitationSystem.test.ts`, `tests/invitationActivationExperience.test.tsx`. Browser QA: `scripts/site00/invitation001/qa-invitation-activation.mjs`.
