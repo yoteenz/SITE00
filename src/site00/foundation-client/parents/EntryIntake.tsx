@@ -74,8 +74,8 @@ export function P01Entry({
         </li>
         <li>
           <DfIcon name="envelope" />
-          <span>PROFESSIONAL</span>
-          <span>BUSINESS EMAIL</span>
+          <span>PROFESSIONAL BUSINESS</span>
+          <span>EMAIL</span>
         </li>
         <li>
           <DfIcon name="shield" />
