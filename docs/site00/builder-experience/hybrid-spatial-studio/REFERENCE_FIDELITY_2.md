@@ -64,8 +64,9 @@ Screen bounds come from bezel detection in the reference files: rooms 01–04 ar
 | FEEL strip | four ~85px cards, 8px gap → same | — |
 | PACE rows | 30px icon, title cap 12, 27px check → same (row 58px) | — |
 | CTA | 340 × 48 (PACE 52), 4px radius → same | 44 high, outline twin below |
-| Tabs | — | plain words; active red with a red underline under the word (numbers hidden) |
-| Configuration cards | — | four across, reaching 17px from the edge |
+| Tabs | — | Plain words. The active tab is red with a red underline under the word; inactive tabs are one grey (numbers hidden). The reference draws PAGES a little darker than its neighbours, but that is image noise, not a state, so it is not copied. |
+| Facts | — | Three columns reaching 15px from the edge, a rule between columns, a clear gutter either side. Figures cap ≈9.3px → Barlow Semi Condensed 700 at 13.2px. They stack below 360px. |
+| Configuration cards | — | four across, reaching 17px from the edge (two per row below 360px) |
 
 **Vertical fit.** The drawn phones are 1,076–1,122 CSS px tall. The studio redistributes:
 - smaller stage minimums, which then fill whatever space is left;
