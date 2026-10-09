@@ -338,18 +338,19 @@ const FIGURE_BODY = (() => {
 /** Interim reflection map from SITE 00's own atrium render (until the GA-01 HDRI exists). */
 const REFLECTION_MAP = '/site00/builder-studio/env/atrium-reflection.webp';
 
-const ENV_INTENSITY_BASE = 0.55;
-const ENV_INTENSITY_READY = 0.95;
-/** Crossfade when the HDRI reflection map replaces the RoomEnvironment placeholder (avoids a one-frame exposure jump). */
-const ENV_INTENSITY_BLEND_MS = 2800;
+const ENV_INTENSITY_READY = 0.92;
+/** Slow traveling specular pass (ms per full cycle). */
+const ACCENT_CYCLE_MS = 6800;
+const PORTAL_CYCLE_MS = 7400;
 
 type StageRig = {
+  /** Fixed key light — casts shadows; never moves (moving shadow lights flicker on mobile). */
   sun: THREE.DirectionalLight;
   fill: THREE.DirectionalLight;
   front: THREE.DirectionalLight;
+  /** Soft traveling highlight — no shadows. */
+  accent: THREE.DirectionalLight;
   hemi: THREE.HemisphereLight;
-  /** When > 0, environment intensity eases from base → ready. */
-  envBlendStart: number;
   envReady: boolean;
 };
 
@@ -357,55 +358,43 @@ function easeInOutSine(t: number): number {
   return -(Math.cos(Math.PI * t) - 1) / 2;
 }
 
-/** Localized architectural light motion — additive, low amplitude, desynced cycles (~5–7.5s). */
+/** Localized architectural light — fixed base exposure; only non-shadow accent + tiny portal breathe. */
 function applyArchitecturalLighting(scene: THREE.Scene, rig: StageRig, materials: MaterialSet, now: number, reducedMotion: boolean, interactive: boolean) {
+  scene.environmentIntensity = ENV_INTENSITY_READY;
+
   const glass = materials.surface.glass as THREE.MeshPhysicalMaterial;
   const glassTint = materials.surface.glassTint as THREE.MeshPhysicalMaterial;
   const red = materials.surface.red as THREE.MeshPhysicalMaterial;
   const redFrame = materials.frame.red as THREE.MeshStandardMaterial | undefined;
 
+  rig.sun.intensity = 2.3;
+  rig.sun.position.set(-6, 10, 7);
+  rig.fill.intensity = 0.6;
+  rig.fill.position.set(7, 4, -2);
+  rig.front.intensity = 0.4;
+  rig.front.position.set(2, 2, 10);
+  glass.envMapIntensity = 2.18;
+  glassTint.envMapIntensity = 2.16;
+  red.emissiveIntensity = 0.4;
+  if (redFrame) redFrame.emissiveIntensity = 0.3;
+
   if (reducedMotion || interactive) {
-    scene.environmentIntensity = rig.envReady ? ENV_INTENSITY_READY : ENV_INTENSITY_BASE;
-    rig.sun.intensity = 2.3;
-    rig.sun.position.set(-6, 10, 7);
-    rig.fill.intensity = 0.6;
-    rig.fill.position.set(7, 4, -2);
-    rig.front.intensity = 0.4;
-    rig.front.position.set(2, 2, 10);
-    glass.envMapIntensity = 2.2;
-    glassTint.envMapIntensity = 2.2;
-    red.emissiveIntensity = 0.4;
-    if (redFrame) redFrame.emissiveIntensity = 0.3;
+    rig.accent.intensity = 0;
     return;
   }
 
-  if (rig.envBlendStart > 0) {
-    const blendT = Math.min(1, (now - rig.envBlendStart) / ENV_INTENSITY_BLEND_MS);
-    scene.environmentIntensity = ENV_INTENSITY_BASE + (ENV_INTENSITY_READY - ENV_INTENSITY_BASE) * easeInOutSine(blendT);
-  } else {
-    scene.environmentIntensity = rig.envReady ? ENV_INTENSITY_READY : ENV_INTENSITY_BASE;
-  }
-
   const tau = (ms: number, phase = 0) => (now / ms + phase) * Math.PI * 2;
-  const sunWave = Math.sin(tau(6400));
-  const specWave = Math.sin(tau(5200, 0.35));
-  const portalWave = Math.sin(tau(7200, 0.9));
-  const rimWave = Math.sin(tau(5800, 1.4));
-  const fillWave = Math.sin(tau(6800, 2.1));
+  const pass = easeInOutSine((Math.sin(tau(ACCENT_CYCLE_MS)) + 1) / 2);
+  const portal = Math.sin(tau(PORTAL_CYCLE_MS, 0.6));
 
-  rig.sun.intensity = 2.28 + sunWave * 0.06;
-  rig.sun.position.set(-6 + specWave * 0.32, 10 + Math.sin(tau(7400, 0.2)) * 0.22, 7 + Math.cos(tau(6100, 0.55)) * 0.18);
+  // Traveling specular band (position only — no intensity pulsing on key/fill).
+  rig.accent.intensity = 0.26 + pass * 0.18;
+  rig.accent.position.set(-5 + pass * 3.6, 8.2 + Math.sin(tau(ACCENT_CYCLE_MS, 0.25)) * 0.45, 4.2 + Math.cos(tau(5200, 0.4)) * 1.45);
 
-  rig.front.intensity = 0.38 + rimWave * 0.06;
-  rig.front.position.set(2 + Math.sin(tau(6400, 1.1)) * 0.45, 2.1, 10 + Math.cos(tau(5600, 0.4)) * 0.25);
-
-  rig.fill.intensity = 0.58 + fillWave * 0.04;
-  rig.fill.position.set(7 + Math.sin(tau(8000, 0.7)) * 0.2, 4, -2);
-
-  glass.envMapIntensity = 2.12 + specWave * 0.11;
-  glassTint.envMapIntensity = 2.1 + Math.sin(tau(5200, 0.85)) * 0.09;
-  red.emissiveIntensity = 0.38 + portalWave * 0.05;
-  if (redFrame) redFrame.emissiveIntensity = 0.28 + Math.sin(tau(7200, 1.25)) * 0.035;
+  glass.envMapIntensity = 2.12 + pass * 0.14;
+  glassTint.envMapIntensity = 2.1 + Math.sin(tau(5200, 0.85)) * 0.08;
+  red.emissiveIntensity = 0.39 + portal * 0.035;
+  if (redFrame) redFrame.emissiveIntensity = 0.29 + portal * 0.025;
 }
 
 function buildStage(scene: THREE.Scene, renderer: THREE.WebGLRenderer, mobile: boolean, onEnvironment?: (ready: boolean) => void): StageRig {
@@ -413,16 +402,17 @@ function buildStage(scene: THREE.Scene, renderer: THREE.WebGLRenderer, mobile: b
   // scene draws only the architecture, its shadow on the floor and its reflections.
   scene.background = null;
   const pmrem = new THREE.PMREMGenerator(renderer);
-  scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-  scene.environmentIntensity = ENV_INTENSITY_BASE;
   const rig: StageRig = {
     sun: new THREE.DirectionalLight(0xffffff, 2.3),
     fill: new THREE.DirectionalLight(0xf8f6f5, 0.6),
     front: new THREE.DirectionalLight(0xffffff, 0.4),
+    accent: new THREE.DirectionalLight(0xfff6f4, 0.28),
     hemi: new THREE.HemisphereLight(0xffffff, 0xe6e2df, 0.62),
-    envBlendStart: 0,
     envReady: false,
   };
+  // Placeholder env (not shown — render gated until HDRI is ready) avoids a visible RoomEnvironment→HDRI swap.
+  scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+  scene.environmentIntensity = ENV_INTENSITY_READY;
   new THREE.TextureLoader().load(
     REFLECTION_MAP,
     (texture) => {
@@ -434,11 +424,11 @@ function buildStage(scene: THREE.Scene, renderer: THREE.WebGLRenderer, mobile: b
       texture.dispose();
       pmrem.dispose();
       rig.envReady = true;
-      rig.envBlendStart = performance.now();
       onEnvironment?.(true);
     },
     undefined,
     () => {
+      rig.envReady = true;
       pmrem.dispose();
       onEnvironment?.(false);
     },
@@ -461,6 +451,9 @@ function buildStage(scene: THREE.Scene, renderer: THREE.WebGLRenderer, mobile: b
   scene.add(rig.fill);
   rig.front.position.set(2, 2, 10);
   scene.add(rig.front);
+  rig.accent.castShadow = false;
+  rig.accent.position.set(-2, 9, 6);
+  scene.add(rig.accent);
 
   // Shadow catcher: the plate's polished floor shows through; only the object's soft shadow is drawn.
   const floor = new THREE.Mesh(new THREE.PlaneGeometry(120, 120), new THREE.ShadowMaterial({ color: 0x3a3634, opacity: 0.16 }));
@@ -904,11 +897,14 @@ export function createBuildObjectEngine(container: HTMLElement, options: { reduc
       if (t < 1) animating = true;
       else fromCamera = null;
     }
+    if (!stageRig.envReady) {
+      requestFrame();
+      return;
+    }
     applyArchitecturalLighting(scene, stageRig, materials, now, reducedMotion, interactive);
     if (currentCamera) {
-      const sway = reducedMotion || interactive ? 0 : Math.sin(now / 6800) * 1.1;
       const view = { ...currentCamera, elevation: Math.max(2, Math.min(55, currentCamera.elevation + dragElevation)) };
-      camera.position.copy(cameraPosition(view, sway + dragAzimuth));
+      camera.position.copy(cameraPosition(view, dragAzimuth));
       camera.lookAt(...view.target);
     }
     renderer.render(scene, camera);
