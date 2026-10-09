@@ -15893,6 +15893,14 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
+## 2026-10-09 — DF founder mini console: disable sign-in on cloud preview
+
+- **Founder ask:** `/admin/site00/foundation` on `site00.fsbw-dev.com` showed **Sign in required**; bypass auth on tunnel preview only.
+- **Fix:** `api/_lib/cloudMobilePreview.ts` gates `SITE00_CLOUD_MOBILE_PREVIEW=1` + non-production. `api/admin/site00-foundation.ts` uses synthetic founder admin user instead of `resolveAdminAuth` when gated. List page auto-calls `GET /api/dev/site00-digital-foundation-preview-bootstrap` when cloud preview and empty artifacts (reuse in-memory row, no duplicate Anthony on Railway).
+- **Production:** Railway/cPanel still requires Bearer + admin email; preview bypass does not apply when `NODE_ENV=production`.
+
+---
+
 ## 2026-10-09 — BLDR Spatial Studio all-caps copy
 
 - **Context:** Founder confirmed strict uppercase everywhere in BLDR studio after an earlier answer listed mixed-case sources (FEEL/WORK hints, blueprint economics headings, metric small copy, registry labels, estimator disclaimers, optional notes display, locale save time).
