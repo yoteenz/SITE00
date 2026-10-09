@@ -242,8 +242,8 @@ export function validateCompleteProduct(): string[] {
   if (AIO_CP_PUBLIC_HOME.differs.every((d) => !/unverified/i.test(d))) out.push('the unverified stats are recorded as replaced');
   if (AIO_CP_PUBLIC_TREE.reduce((n, g) => n + g.pages, 0) !== AIO_CP_QA.public.pages) out.push('the public tree adds up to the pages QA ran');
   if (AIO_CP_QA.office.failures !== 0 || AIO_CP_QA.public.failures !== 0) out.push('QA failures recorded');
-  if (AIO_CP_QA.office.checks_run === 0) out.push('office QA not recorded');
+  if (Number(AIO_CP_QA.office.checks_run) === 0) out.push('office QA not recorded');
   if (/\$\s?\d/.test(JSON.stringify([AIO_CP_PUBLIC_HOME, AIO_CP_PUBLIC_FAMILY, AIO_CP_PUBLIC_TREE]))) out.push('no price in the public record');
-  if (AIO_CP_LINKS.public_review === 'PENDING_PUBLISH') out.push('public review link not published');
+  if (!/^https:\/\/claude\.ai\/artifact\//.test(AIO_CP_LINKS.public_review)) out.push('public review link not published');
   return out;
 }
