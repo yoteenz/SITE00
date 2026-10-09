@@ -15901,6 +15901,14 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
+## 2026-10-09 — DF admin links → client intake (not founder dashboard)
+
+- **Founder report:** Admin console links felt like “dashboard” only, not client intake pages.
+- **Cause:** Table **Open** went to `/admin/site00/foundation/:id` (founder detail); **Public** opened `/foundation/:token` prospect landing (BEGIN), not intake form.
+- **Fix:** Primary link **Client intake** → `/foundation/:token?step=intake`; **Founder** → admin detail. Artifact page honors `?step=intake` (starts intake when still open). Helpers: `clientRoutes.ts`, `artifactUiStep.ts`.
+
+---
+
 ## 2026-10-09 — BLDR Spatial Studio all-caps copy
 
 - **Context:** Founder confirmed strict uppercase everywhere in BLDR studio after an earlier answer listed mixed-case sources (FEEL/WORK hints, blueprint economics headings, metric small copy, registry labels, estimator disclaimers, optional notes display, locale save time).

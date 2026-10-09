@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
+import { resolveDigitalFoundationArtifactUiStep } from '../../../../shared/site00-digital-foundation/artifactUiStep.js';
 import type { IntakeNeedFlag } from '../../../../shared/site00-digital-foundation/types.js';
 import type { ClientDigitalFoundationPayload } from '../../../../shared/site00-digital-foundation/clientProjection.js';
 import { stageLabel } from '../../../../shared/site00-digital-foundation/projectStages.js';
@@ -54,6 +55,8 @@ async function apiGet(token: string) {
 
 export default function DigitalFoundationArtifactPage() {
   const { token = '' } = useParams<{ token: string }>();
+  const [searchParams] = useSearchParams();
+  const preferIntake = searchParams.get('step') === 'intake';
   const [payload, setPayload] = useState<ClientDigitalFoundationPayload | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -69,14 +72,37 @@ export default function DigitalFoundationArtifactPage() {
   const load = useCallback(async () => {
     if (!token) return;
     setError(null);
-    const data = await apiGet(token);
+    let data = await apiGet(token);
+    if (
+      preferIntake &&
+      data.artifact.payment_state !== 'PAID' &&
+      data.surface === 'PROSPECT' &&
+      data.artifact.intake_state === 'NOT_STARTED'
+    ) {
+      try {
+        await apiPost(token, 'update-intake', {
+          intake: {
+            business_name: data.artifact.intake.business_name ?? '',
+            contact_name: data.artifact.intake.contact_name ?? '',
+            current_email: data.artifact.intake.current_email ?? '',
+          },
+          needs: data.artifact.intake.needs ?? [],
+        });
+        data = await apiGet(token);
+      } catch {
+        /* show prospect/intake UI even if start failed */
+      }
+    }
     setPayload(data);
-    if (data.surface === 'INTAKE' || data.artifact.intake_state === 'IN_PROGRESS') setStep('intake');
-    else if (data.surface === 'QUOTE' || data.surface === 'CHECKOUT') setStep('quote');
-    else if (data.surface === 'PORTAL') setStep('portal');
-    else if (data.surface === 'PAYMENT_RECOVERY') setStep('quote');
-    else if (data.surface === 'COMPLETE' || data.surface === 'BUILD_UPSELL') setStep('complete');
-  }, [token]);
+    const intake = data.artifact.intake;
+    setIntakeForm({
+      business_name: intake.business_name ?? '',
+      contact_name: intake.contact_name ?? '',
+      current_email: intake.current_email ?? '',
+      needs: intake.needs ?? [],
+    });
+    setStep(resolveDigitalFoundationArtifactUiStep(data, { preferIntake }));
+  }, [token, preferIntake]);
 
   useEffect(() => {
     load().catch((e) => setError(e instanceof Error ? e.message : String(e)));

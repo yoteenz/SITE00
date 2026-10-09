@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import type { DigitalFoundationArtifactPayload } from '../../../../../shared/site00-digital-foundation/types.js';
 import { SITE00_ROUTES } from '../../../config/routes';
-import { foundationAdminApi } from '../../services/foundationAdminApi';
+import { digitalFoundationClientIntakePath, foundationAdminApi } from '../../services/foundationAdminApi';
 
 export default function FoundationAdminDetailPage() {
   const { id = '' } = useParams<{ id: string }>();
@@ -45,9 +45,12 @@ export default function FoundationAdminDetailPage() {
       </p>
       <h1>Artifact {payload.artifact.artifact_id.slice(0, 8)}</h1>
       <p>
-        Public:{' '}
+        <a href={digitalFoundationClientIntakePath(payload.artifact.public_token)} target="_blank" rel="noreferrer">
+          Open client intake
+        </a>
+        {' · '}
         <a href={`/foundation/${payload.artifact.public_token}`} target="_blank" rel="noreferrer">
-          /foundation/{payload.artifact.public_token}
+          Client home (prospect / portal)
         </a>
       </p>
       <dl>
