@@ -3,7 +3,7 @@
   "sprint": "P0.SITE00.BUILDER.TEMPLATE-AND-ESTIMATE-SELECTION-EXPERIENCE1",
   "estimatorVersion": "1.0.0",
   "generatedBy": "scripts/site00/builder-experience-export.ts",
-  "note": "Engine output for realistic Builder configurations and the estimator fixtures. Nothing here is a published price.",
+  "note": "Client-facing windows and investments use presentation policy 1.1.0. Week and month endpoints are even numbers. Raw estimator math is unchanged. Nothing here is a published price or an agreed contract.",
   "publicAnchorsToday": {
     "source": "src/site00/config/bldr-classification.ts · builder.ts · bldr-entry.ts",
     "SITE": "FROM $4K+",
@@ -29,12 +29,12 @@
       "buildLevel": "SIMPLE BUILD",
       "scopeSignal": "LIGHT",
       "initialRange": {
-        "window": "5–8 WEEKS",
-        "investment": "$3K–$4K"
+        "window": "6–8 WEEKS",
+        "investment": "$2.5K–$4.5K"
       },
       "refinedRange": {
-        "window": "5–7 WEEKS",
-        "investment": "$3K–$4K"
+        "window": "6–8 WEEKS",
+        "investment": "$2.5K–$4K"
       },
       "priority": {
         "available": false
@@ -46,12 +46,12 @@
       "buildLevel": "SIMPLE BUILD",
       "scopeSignal": "LIGHT",
       "initialRange": {
-        "window": "7–12 WEEKS",
-        "investment": "$5K–$8K"
+        "window": "8–12 WEEKS",
+        "investment": "$4.5K–$8.5K"
       },
       "refinedRange": {
-        "window": "8–10 WEEKS",
-        "investment": "$6K–$7K"
+        "window": "10–12 WEEKS",
+        "investment": "$5.5K–$7.5K"
       },
       "priority": {
         "available": false
@@ -63,12 +63,12 @@
       "buildLevel": "SIMPLE BUILD",
       "scopeSignal": "LIGHT",
       "initialRange": {
-        "window": "10–18 WEEKS",
-        "investment": "$8K–$14K"
+        "window": "12–20 WEEKS",
+        "investment": "$7.5K–$14K"
       },
       "refinedRange": {
         "window": "12–16 WEEKS",
-        "investment": "$9K–$12K"
+        "investment": "$8.5K–$12K"
       },
       "priority": {
         "available": false
@@ -80,12 +80,12 @@
       "buildLevel": "ADVANCED BUILD",
       "scopeSignal": "MODERATE",
       "initialRange": {
-        "window": "3–5 MONTHS",
+        "window": "4–6 MONTHS",
         "investment": "$15K–$26K"
       },
       "refinedRange": {
-        "window": "15–19 WEEKS",
-        "investment": "$17K–$22K"
+        "window": "16–20 WEEKS",
+        "investment": "$17K–$23K"
       },
       "priority": {
         "available": false
@@ -97,12 +97,12 @@
       "buildLevel": "CUSTOM BUILD",
       "scopeSignal": "DEEP",
       "initialRange": {
-        "window": "4–7 MONTHS",
-        "investment": "$20K–$36K"
+        "window": "4–8 MONTHS",
+        "investment": "$20K–$37K"
       },
       "refinedRange": {
-        "window": "5–6 MONTHS",
-        "investment": "$23K–$31K"
+        "window": "6–8 MONTHS",
+        "investment": "$23K–$32K"
       },
       "priority": {
         "available": false
@@ -114,11 +114,11 @@
       "buildLevel": "ADVANCED BUILD",
       "scopeSignal": "EXPANSIVE",
       "initialRange": {
-        "window": "3–5 MONTHS",
-        "investment": "$13K–$23K"
+        "window": "4–6 MONTHS",
+        "investment": "$12K–$23K"
       },
       "refinedRange": {
-        "window": "13–18 WEEKS",
+        "window": "14–18 WEEKS",
         "investment": "$14K–$20K"
       },
       "priority": {
@@ -135,8 +135,8 @@
         "investment": "$32K–$58K"
       },
       "refinedRange": {
-        "window": "6–9 MONTHS",
-        "investment": "$37K–$50K"
+        "window": "6–10 MONTHS",
+        "investment": "$37K–$51K"
       },
       "priority": {
         "available": false
@@ -148,12 +148,12 @@
       "buildLevel": "ADVANCED BUILD",
       "scopeSignal": "EXPANSIVE",
       "initialRange": {
-        "window": "6–11 MONTHS",
-        "investment": "$34K–$60K"
+        "window": "6–12 MONTHS",
+        "investment": "$33K–$61K"
       },
       "refinedRange": {
-        "window": "7–9 MONTHS",
-        "investment": "$39K–$53K"
+        "window": "8–10 MONTHS",
+        "investment": "$38K–$53K"
       },
       "priority": {
         "available": false
@@ -165,17 +165,17 @@
       "buildLevel": "ADVANCED BUILD",
       "scopeSignal": "EXPANSIVE",
       "initialRange": {
-        "window": "10–19 MONTHS",
+        "window": "10–20 MONTHS",
         "investment": "$62K–$112K"
       },
       "refinedRange": {
         "window": "12–16 MONTHS",
-        "investment": "$72K–$97K"
+        "investment": "$71K–$98K"
       },
       "priority": {
         "available": true,
-        "window": "7–13 MONTHS",
-        "investment": "$115K–$207K",
+        "window": "8–14 MONTHS",
+        "investment": "$115K–$208K",
         "sooner": "ABOUT 30% SOONER"
       }
     }
@@ -191,7 +191,7 @@
       },
       "priority": {
         "window": "8–10 WEEKS",
-        "investment": "$9K–$12K",
+        "investment": "$9K–$13K",
         "complexity": "SIMPLE",
         "priorityFeasible": false
       }
@@ -199,14 +199,14 @@
     {
       "fixture": "STANDARD_EDITORIAL",
       "standard": {
-        "window": "15–19 WEEKS",
-        "investment": "$17K–$22K",
+        "window": "16–20 WEEKS",
+        "investment": "$16K–$22K",
         "complexity": "STANDARD",
         "priorityFeasible": false
       },
       "priority": {
-        "window": "15–19 WEEKS",
-        "investment": "$31K–$40K",
+        "window": "16–20 WEEKS",
+        "investment": "$31K–$41K",
         "complexity": "STANDARD",
         "priorityFeasible": false
       }
@@ -214,14 +214,14 @@
     {
       "fixture": "ADVANCED_COMMERCE",
       "standard": {
-        "window": "5–7 MONTHS",
+        "window": "6–8 MONTHS",
         "investment": "$27K–$35K",
         "complexity": "ADVANCED",
         "priorityFeasible": false
       },
       "priority": {
-        "window": "5–7 MONTHS",
-        "investment": "$51K–$65K",
+        "window": "6–8 MONTHS",
+        "investment": "$50K–$65K",
         "complexity": "ADVANCED",
         "priorityFeasible": false
       }
@@ -230,13 +230,13 @@
       "fixture": "LARGE_PRODUCT",
       "standard": {
         "window": "8–10 MONTHS",
-        "investment": "$43K–$55K",
+        "investment": "$43K–$56K",
         "complexity": "LARGE PRODUCT / PORTAL",
         "priorityFeasible": false
       },
       "priority": {
-        "window": "5–7 MONTHS",
-        "investment": "$80K–$102K",
+        "window": "6–8 MONTHS",
+        "investment": "$79K–$103K",
         "complexity": "LARGE PRODUCT / PORTAL",
         "priorityFeasible": true
       }
@@ -244,14 +244,14 @@
     {
       "fixture": "PORTAL_SYSTEM",
       "standard": {
-        "window": "9–12 MONTHS",
-        "investment": "$52K–$70K",
+        "window": "10–12 MONTHS",
+        "investment": "$51K–$71K",
         "complexity": "WORLD / SPATIAL",
         "priorityFeasible": false
       },
       "priority": {
-        "window": "9–12 MONTHS",
-        "investment": "$96K–$130K",
+        "window": "10–12 MONTHS",
+        "investment": "$95K–$130K",
         "complexity": "WORLD / SPATIAL",
         "priorityFeasible": false
       }
@@ -266,7 +266,7 @@
       },
       "priority": {
         "window": "12–16 MONTHS",
-        "investment": "$128K–$173K",
+        "investment": "$127K–$174K",
         "complexity": "WORLD / SPATIAL",
         "priorityFeasible": false
       }
@@ -274,13 +274,13 @@
     {
       "fixture": "ZERO_FAMILIES",
       "standard": {
-        "window": "3–5 WEEKS",
+        "window": "4–6 WEEKS",
         "investment": "$3K–$4K",
         "complexity": "SIMPLE",
         "priorityFeasible": false
       },
       "priority": {
-        "window": "3–5 WEEKS",
+        "window": "4–6 WEEKS",
         "investment": "$3K–$4K",
         "complexity": "SIMPLE",
         "priorityFeasible": false

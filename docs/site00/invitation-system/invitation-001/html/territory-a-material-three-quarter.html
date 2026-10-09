@@ -1,0 +1,86 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;500;600&family=Barlow+Semi+Condensed:wght@500;600;700&family=Barlow:wght@400;500;700&family=Martian+Mono:wdth,wght@75..112.5,300..800&display=block" rel="stylesheet"><style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:transparent}
+  .face{position:relative;overflow:hidden;font-family:'Barlow',sans-serif;-webkit-font-smoothing:antialiased}
+  .grain{position:absolute;inset:0;pointer-events:none;mix-blend-mode:multiply}
+  .wm{display:flex;align-items:center;gap:.32em;font-family:'Martian Mono',monospace;font-weight:800;font-stretch:75%;font-variation-settings:'wdth' 75;letter-spacing:.02em;line-height:1}
+  .dia{display:inline-block;background:#E50107;transform:rotate(45deg);flex-shrink:0}
+  .foil{background:linear-gradient(100deg,#8d9096 0%,#f4f5f7 28%,#a7aab0 46%,#ffffff 58%,#8a8d93 78%,#d9dbde 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .qr svg{width:100%;height:100%;display:block}
+  .lbl{font-family:'Barlow Semi Condensed',sans-serif;font-weight:600;letter-spacing:.14em;text-transform:uppercase}
+  .mono{font-family:'Martian Mono',monospace;font-stretch:87.5%;font-variation-settings:'wdth' 87.5}
+  .osw{font-family:'Oswald',sans-serif;text-transform:uppercase}
+body{background:#efedea}
+  .stage{position:relative;overflow:hidden;background:#efedea}
+  .marble{position:absolute;inset:0;background:#f3f1ee}
+  .marble::after{content:'';position:absolute;inset:0;filter:url(#marble);opacity:.55}
+  .light{position:absolute;inset:0;background:radial-gradient(120% 90% at 30% 10%,rgba(255,255,255,.75),rgba(255,255,255,0) 55%),linear-gradient(180deg,rgba(0,0,0,0) 60%,rgba(0,0,0,.06))}
+  .zoom{position:absolute;inset:0}
+  .cam{position:absolute;inset:0;perspective:2600px;perspective-origin:50% 30%}
+  .card{position:absolute;left:50%;top:50%;transform-style:preserve-3d}
+  .back-face{position:absolute;inset:0}
+  .edge{position:absolute}
+  .contact{position:absolute;inset:-1%;background:rgba(24,20,16,.42);filter:blur(22px)}
+  .front-face{position:absolute;inset:0;overflow:hidden;isolation:isolate}
+  .sheen{position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,rgba(255,255,255,0) 30%,rgba(255,255,255,.18) 48%,rgba(255,255,255,0) 62%)}
+</style></head><body>
+  <svg width="0" height="0" style="position:absolute"><filter id="marble" x="0" y="0" width="100%" height="100%">
+    <feTurbulence type="turbulence" baseFrequency="0.0016 0.0055" numOctaves="5" seed="11"/>
+    <feColorMatrix values="0 0 0 0 0.55  0 0 0 0 0.54  0 0 0 0 0.53  0 0 0 -5 0.9"/>
+  </filter></svg>
+  <div class="stage" style="width:1800px;height:1200px">
+    <div class="marble"></div><div class="light"></div>
+    <div class="zoom" style="transform:scale(1);transform-origin:50% 50%">
+      <div class="cam">
+        <div class="card" style="width:1050px;height:600px;transform:translate(-50%,-50%) rotateX(52deg) rotateY(0deg) rotateZ(-18deg)">
+          <div class="contact" style="transform:translateZ(-15.173228346456693px) translate(21px,30px)"></div>
+          <div class="back-face" style="background:#FBFAF8;transform:translateZ(-14.173228346456693px)"></div>
+          
+    <div class="edge" style="left:0;top:600px;width:1050px;height:14.173228346456693px;transform-origin:top;transform:rotateX(-90deg);background:linear-gradient(to bottom,#E50107 0%,#E50107 8.333333333333332%,#E50107 8.333333333333332%,#E50107 16.666666666666664%,#E50107 16.666666666666664%,#E50107 25%,#E50107 25%,#E50107 33.33333333333333%,#E50107 33.33333333333333%,#E50107 41.66666666666667%,#E50107 41.66666666666667%,#E50107 50%,#E50107 50%,#E50107 58.333333333333336%,#E50107 58.333333333333336%,#E50107 66.66666666666666%,#E50107 66.66666666666666%,#E50107 75%,#E50107 75%,#E50107 83.33333333333334%,#E50107 83.33333333333334%,#E50107 91.66666666666666%,#E50107 91.66666666666666%,#E50107 100%)"></div>
+    <div class="edge" style="left:1050px;top:0;width:14.173228346456693px;height:600px;transform-origin:left;transform:rotateY(90deg);background:linear-gradient(rgba(0,0,0,.10),rgba(0,0,0,.10)),linear-gradient(to right,#E50107 0%,#E50107 8.333333333333332%,#E50107 8.333333333333332%,#E50107 16.666666666666664%,#E50107 16.666666666666664%,#E50107 25%,#E50107 25%,#E50107 33.33333333333333%,#E50107 33.33333333333333%,#E50107 41.66666666666667%,#E50107 41.66666666666667%,#E50107 50%,#E50107 50%,#E50107 58.333333333333336%,#E50107 58.333333333333336%,#E50107 66.66666666666666%,#E50107 66.66666666666666%,#E50107 75%,#E50107 75%,#E50107 83.33333333333334%,#E50107 83.33333333333334%,#E50107 91.66666666666666%,#E50107 91.66666666666666%,#E50107 100%)"></div>
+    <div class="edge" style="left:-14.173228346456693px;top:0;width:14.173228346456693px;height:600px;transform-origin:right;transform:rotateY(-90deg);background:linear-gradient(rgba(0,0,0,.10),rgba(0,0,0,.10)),linear-gradient(to left,#E50107 0%,#E50107 8.333333333333332%,#E50107 8.333333333333332%,#E50107 16.666666666666664%,#E50107 16.666666666666664%,#E50107 25%,#E50107 25%,#E50107 33.33333333333333%,#E50107 33.33333333333333%,#E50107 41.66666666666667%,#E50107 41.66666666666667%,#E50107 50%,#E50107 50%,#E50107 58.333333333333336%,#E50107 58.333333333333336%,#E50107 66.66666666666666%,#E50107 66.66666666666666%,#E50107 75%,#E50107 75%,#E50107 83.33333333333334%,#E50107 83.33333333333334%,#E50107 91.66666666666666%,#E50107 91.66666666666666%,#E50107 100%)"></div>
+    <div class="edge" style="left:0;top:-14.173228346456693px;width:1050px;height:14.173228346456693px;transform-origin:bottom;transform:rotateX(90deg);background:linear-gradient(to top,#E50107 0%,#E50107 8.333333333333332%,#E50107 8.333333333333332%,#E50107 16.666666666666664%,#E50107 16.666666666666664%,#E50107 25%,#E50107 25%,#E50107 33.33333333333333%,#E50107 33.33333333333333%,#E50107 41.66666666666667%,#E50107 41.66666666666667%,#E50107 50%,#E50107 50%,#E50107 58.333333333333336%,#E50107 58.333333333333336%,#E50107 66.66666666666666%,#E50107 66.66666666666666%,#E50107 75%,#E50107 75%,#E50107 83.33333333333334%,#E50107 83.33333333333334%,#E50107 91.66666666666666%,#E50107 91.66666666666666%,#E50107 100%)"></div>
+          <div class="front-face"><style>
+  .a{width:1050px;height:600px;background:#FBFAF8;color:#0A0A0A}
+  .a .deboss{position:absolute;right:-82.68px;top:35.43px;font-family:'Oswald',sans-serif;font-weight:600;font-size:566.93px;line-height:.8;letter-spacing:-.02em;color:#FBFAF8;
+    text-shadow:-2px -2px 1px rgba(255,255,255,.95),2px 2px 2px rgba(0,0,0,.075),4px 5px 8px rgba(0,0,0,.035)}
+  .a .tl{position:absolute;left:70.87px;top:70.87px}
+  .a .tr{position:absolute;right:70.87px;top:75.59px;text-align:right}
+  .a .num{font-size:27.17px;font-weight:500;letter-spacing:.16em}
+  .a .hl{position:absolute;left:70.87px;bottom:124.02px;font-weight:600;font-size:75.59px;line-height:.98;letter-spacing:.005em}
+  .a .rule{position:absolute;left:70.87px;bottom:96.85px;width:106.3px;height:5.31px;background:#E50107}
+  .a .sub{position:absolute;left:70.87px;bottom:59.06px;font-size:26.57px;color:#3a3a3a}
+  .a .br{position:absolute;right:70.87px;bottom:59.06px;font-size:24.8px;color:#6b6b6b;text-align:right}
+  .ab{width:1050px;height:600px;background:#FBFAF8;color:#0A0A0A}
+  .ab .col{position:absolute;left:70.87px;top:70.87px;width:590.55px}
+  .ab .k{font-size:25.98px;color:#E50107}
+  .ab .h{margin-top:23.62px;font-weight:600;font-size:54.33px;line-height:1}
+  .ab .b{margin-top:28.35px;font-size:27.17px;line-height:1.34;color:#2c2c2c}
+  .ab .p{margin-top:18.9px;font-size:24.8px;color:#555}
+  .ab .url{position:absolute;left:70.87px;bottom:111.02px;font-size:24.8px;font-weight:500;letter-spacing:.02em}
+  .ab .hair{position:absolute;left:70.87px;right:70.87px;bottom:85.04px;height:1.4px;background:linear-gradient(90deg,#9a9da3,#e9eaec 40%,#9a9da3)}
+  .ab .partner{position:absolute;left:70.87px;bottom:42.52px;font-size:24.8px;color:#7a7a7a}
+  .ab .qr{position:absolute;right:70.87px;top:70.87px}
+  .ab .qcap{position:absolute;right:70.87px;top:347.24px;width:259.84px;text-align:center;font-size:22.44px;color:#6b6b6b}
+</style>
+    <div class="face a">
+  <svg class="grain" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" aria-hidden="true">
+    <filter id="g50"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/>
+    <feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.05 0"/></filter>
+    <rect width="100%" height="100%" filter="url(#g50)"/>
+  </svg>
+      <div class="deboss" aria-hidden="true">00</div>
+      <div class="tl">
+  <div class="wm" style="font-size:42.52px;color:#0A0A0A">
+    <span class="">SITE 00</span><i class="dia" style="width:12.756px;height:12.756px"></i>
+  </div></div>
+      <div class="tr mono num">INVITATION <span class="foil" style="font-weight:700">001</span></div>
+      <div class="hl osw">Your business<br/>has an address.</div>
+      <div class="rule"></div>
+      <div class="sub lbl">Now give it a presence.</div>
+      <div class="br lbl">Office edition · N° 001</div>
+    </div><div class="sheen"></div></div>
+        </div>
+      </div>
+    </div>
+  </div></body></html>

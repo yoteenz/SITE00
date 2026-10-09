@@ -1,0 +1,86 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;500;600&family=Barlow+Semi+Condensed:wght@500;600;700&family=Barlow:wght@400;500;700&family=Martian+Mono:wdth,wght@75..112.5,300..800&display=block" rel="stylesheet"><style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:transparent}
+  .face{position:relative;overflow:hidden;font-family:'Barlow',sans-serif;-webkit-font-smoothing:antialiased}
+  .grain{position:absolute;inset:0;pointer-events:none;mix-blend-mode:multiply}
+  .wm{display:flex;align-items:center;gap:.32em;font-family:'Martian Mono',monospace;font-weight:800;font-stretch:75%;font-variation-settings:'wdth' 75;letter-spacing:.02em;line-height:1}
+  .dia{display:inline-block;background:#E50107;transform:rotate(45deg);flex-shrink:0}
+  .foil{background:linear-gradient(100deg,#8d9096 0%,#f4f5f7 28%,#a7aab0 46%,#ffffff 58%,#8a8d93 78%,#d9dbde 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .qr svg{width:100%;height:100%;display:block}
+  .lbl{font-family:'Barlow Semi Condensed',sans-serif;font-weight:600;letter-spacing:.14em;text-transform:uppercase}
+  .mono{font-family:'Martian Mono',monospace;font-stretch:87.5%;font-variation-settings:'wdth' 87.5}
+  .osw{font-family:'Oswald',sans-serif;text-transform:uppercase}
+body{background:#efedea}
+  .stage{position:relative;overflow:hidden;background:#efedea}
+  .marble{position:absolute;inset:0;background:#f3f1ee}
+  .marble::after{content:'';position:absolute;inset:0;filter:url(#marble);opacity:.55}
+  .light{position:absolute;inset:0;background:radial-gradient(120% 90% at 30% 10%,rgba(255,255,255,.75),rgba(255,255,255,0) 55%),linear-gradient(180deg,rgba(0,0,0,0) 60%,rgba(0,0,0,.06))}
+  .zoom{position:absolute;inset:0}
+  .cam{position:absolute;inset:0;perspective:2600px;perspective-origin:50% 30%}
+  .card{position:absolute;left:50%;top:50%;transform-style:preserve-3d}
+  .back-face{position:absolute;inset:0}
+  .edge{position:absolute}
+  .contact{position:absolute;inset:-1%;background:rgba(24,20,16,.42);filter:blur(22px)}
+  .front-face{position:absolute;inset:0;overflow:hidden;isolation:isolate}
+  .sheen{position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,rgba(255,255,255,0) 30%,rgba(255,255,255,.18) 48%,rgba(255,255,255,0) 62%)}
+</style></head><body>
+  <svg width="0" height="0" style="position:absolute"><filter id="marble" x="0" y="0" width="100%" height="100%">
+    <feTurbulence type="turbulence" baseFrequency="0.0016 0.0055" numOctaves="5" seed="11"/>
+    <feColorMatrix values="0 0 0 0 0.55  0 0 0 0 0.54  0 0 0 0 0.53  0 0 0 -5 0.9"/>
+  </filter></svg>
+  <div class="stage" style="width:1400px;height:1000px">
+    <div class="marble"></div><div class="light"></div>
+    <div class="zoom" style="transform:scale(2.9);transform-origin:40% 70%">
+      <div class="cam">
+        <div class="card" style="width:649.61px;height:1181.1px;transform:translate(-50%,-50%) rotateX(62deg) rotateY(0deg) rotateZ(-30deg)">
+          <div class="contact" style="transform:translateZ(-17.53543307086614px) translate(12.9922px,59.055px)"></div>
+          <div class="back-face" style="background:#FCFBFA;transform:translateZ(-16.53543307086614px)"></div>
+          
+    <div class="edge" style="left:0;top:1181.1px;width:649.61px;height:16.53543307086614px;transform-origin:top;transform:rotateX(-90deg);background:linear-gradient(to bottom,#F4F2EF 0%,#F4F2EF 7.142857142857142%,#F4F2EF 7.142857142857142%,#F4F2EF 14.285714285714285%,#F4F2EF 14.285714285714285%,#F4F2EF 21.428571428571427%,#F4F2EF 21.428571428571427%,#F4F2EF 28.57142857142857%,#F4F2EF 28.57142857142857%,#F4F2EF 35.714285714285715%,#E50107 35.714285714285715%,#E50107 42.857142857142854%,#E50107 42.857142857142854%,#E50107 50%,#E50107 50%,#E50107 57.14285714285714%,#E50107 57.14285714285714%,#E50107 64.28571428571429%,#F4F2EF 64.28571428571429%,#F4F2EF 71.42857142857143%,#F4F2EF 71.42857142857143%,#F4F2EF 78.57142857142857%,#F4F2EF 78.57142857142857%,#F4F2EF 85.71428571428571%,#F4F2EF 85.71428571428571%,#F4F2EF 92.85714285714286%,#F4F2EF 92.85714285714286%,#F4F2EF 100%)"></div>
+    <div class="edge" style="left:649.61px;top:0;width:16.53543307086614px;height:1181.1px;transform-origin:left;transform:rotateY(90deg);background:linear-gradient(rgba(0,0,0,.10),rgba(0,0,0,.10)),linear-gradient(to right,#F4F2EF 0%,#F4F2EF 7.142857142857142%,#F4F2EF 7.142857142857142%,#F4F2EF 14.285714285714285%,#F4F2EF 14.285714285714285%,#F4F2EF 21.428571428571427%,#F4F2EF 21.428571428571427%,#F4F2EF 28.57142857142857%,#F4F2EF 28.57142857142857%,#F4F2EF 35.714285714285715%,#E50107 35.714285714285715%,#E50107 42.857142857142854%,#E50107 42.857142857142854%,#E50107 50%,#E50107 50%,#E50107 57.14285714285714%,#E50107 57.14285714285714%,#E50107 64.28571428571429%,#F4F2EF 64.28571428571429%,#F4F2EF 71.42857142857143%,#F4F2EF 71.42857142857143%,#F4F2EF 78.57142857142857%,#F4F2EF 78.57142857142857%,#F4F2EF 85.71428571428571%,#F4F2EF 85.71428571428571%,#F4F2EF 92.85714285714286%,#F4F2EF 92.85714285714286%,#F4F2EF 100%)"></div>
+    <div class="edge" style="left:-16.53543307086614px;top:0;width:16.53543307086614px;height:1181.1px;transform-origin:right;transform:rotateY(-90deg);background:linear-gradient(rgba(0,0,0,.10),rgba(0,0,0,.10)),linear-gradient(to left,#F4F2EF 0%,#F4F2EF 7.142857142857142%,#F4F2EF 7.142857142857142%,#F4F2EF 14.285714285714285%,#F4F2EF 14.285714285714285%,#F4F2EF 21.428571428571427%,#F4F2EF 21.428571428571427%,#F4F2EF 28.57142857142857%,#F4F2EF 28.57142857142857%,#F4F2EF 35.714285714285715%,#E50107 35.714285714285715%,#E50107 42.857142857142854%,#E50107 42.857142857142854%,#E50107 50%,#E50107 50%,#E50107 57.14285714285714%,#E50107 57.14285714285714%,#E50107 64.28571428571429%,#F4F2EF 64.28571428571429%,#F4F2EF 71.42857142857143%,#F4F2EF 71.42857142857143%,#F4F2EF 78.57142857142857%,#F4F2EF 78.57142857142857%,#F4F2EF 85.71428571428571%,#F4F2EF 85.71428571428571%,#F4F2EF 92.85714285714286%,#F4F2EF 92.85714285714286%,#F4F2EF 100%)"></div>
+    <div class="edge" style="left:0;top:-16.53543307086614px;width:649.61px;height:16.53543307086614px;transform-origin:bottom;transform:rotateX(90deg);background:linear-gradient(to top,#F4F2EF 0%,#F4F2EF 7.142857142857142%,#F4F2EF 7.142857142857142%,#F4F2EF 14.285714285714285%,#F4F2EF 14.285714285714285%,#F4F2EF 21.428571428571427%,#F4F2EF 21.428571428571427%,#F4F2EF 28.57142857142857%,#F4F2EF 28.57142857142857%,#F4F2EF 35.714285714285715%,#E50107 35.714285714285715%,#E50107 42.857142857142854%,#E50107 42.857142857142854%,#E50107 50%,#E50107 50%,#E50107 57.14285714285714%,#E50107 57.14285714285714%,#E50107 64.28571428571429%,#F4F2EF 64.28571428571429%,#F4F2EF 71.42857142857143%,#F4F2EF 71.42857142857143%,#F4F2EF 78.57142857142857%,#F4F2EF 78.57142857142857%,#F4F2EF 85.71428571428571%,#F4F2EF 85.71428571428571%,#F4F2EF 92.85714285714286%,#F4F2EF 92.85714285714286%,#F4F2EF 100%)"></div>
+          <div class="front-face"><style>
+  .c{width:649.61px;height:1181.1px;background:#FCFBFA;color:#0A0A0A}
+  .c .tl{position:absolute;left:70.87px;top:70.87px}
+  .c .ap{position:absolute;left:295.28px;top:153.54px;width:283.46px;height:401.57px;background:#E50107;
+    box-shadow:inset 10.63px 12.99px 16.54px rgba(0,0,0,.38),inset -1px -1px 0 rgba(255,255,255,.35)}
+  .c .ap::after{content:'';position:absolute;left:35.43px;right:35.43px;bottom:47.24px;height:4.13px;background:rgba(255,255,255,.55)}
+  .c .col{position:absolute;left:568.11px;top:555.12px;width:10.63px;bottom:0px;background:#E50107}
+  .c .thr{position:absolute;left:70.87px;right:70.87px;top:614.17px;height:4.13px;background:#0A0A0A}
+  .c .vert{position:absolute;left:74.41px;top:555.12px;transform:rotate(-90deg);transform-origin:left top;font-size:24.8px;letter-spacing:.24em;color:#6b6b6b;white-space:nowrap}
+  .c .stack{position:absolute;left:70.87px;bottom:106.3px;font-weight:600;font-size:77.95px;line-height:.92}
+  .c .stack em{font-style:normal;color:#E50107}
+  .c .foot{position:absolute;left:70.87px;bottom:54.33px;font-size:23.62px;color:#6b6b6b}
+  .cb{width:649.61px;height:1181.1px;background:#FCFBFA;color:#0A0A0A}
+  .cb .frame{position:absolute;left:70.87px;top:153.54px;width:283.46px;height:401.57px;border:4.13px solid #E50107}
+  .cb .frame::before{content:'00';position:absolute;left:28.35px;bottom:18.9px;font-family:'Oswald',sans-serif;font-weight:600;font-size:106.3px;line-height:.8;color:#E50107}
+  .cb .k{position:absolute;left:389.76px;top:153.54px;width:188.98px;font-size:23.62px;line-height:1.5;color:#555}
+  .cb .h{position:absolute;left:70.87px;top:597.64px;right:70.87px;font-weight:600;font-size:51.97px;line-height:1}
+  .cb .b{position:absolute;left:70.87px;top:713.39px;width:236.22px;font-size:25.39px;line-height:1.36;color:#2c2c2c}
+  .cb .qr{position:absolute;right:70.87px;top:708.66px}
+  .cb .p{position:absolute;left:70.87px;top:973.23px;font-size:23.03px;color:#555}
+  .cb .url{position:absolute;left:70.87px;top:1018.11px;font-size:23.03px}
+  .cb .partner{position:absolute;left:70.87px;top:1065.35px;font-size:21.85px;line-height:1.3;color:#7a7a7a}
+</style>
+    <div class="face c">
+  <svg class="grain" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" aria-hidden="true">
+    <filter id="g50"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/>
+    <feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.05 0"/></filter>
+    <rect width="100%" height="100%" filter="url(#g50)"/>
+  </svg>
+      <div class="tl">
+  <div class="wm" style="font-size:40.16px;color:#0A0A0A">
+    <span class="">SITE 00</span><i class="dia" style="width:12.047999999999998px;height:12.047999999999998px"></i>
+  </div></div>
+      <div class="ap" aria-hidden="true"></div>
+      <div class="col"></div>
+      <div class="thr"></div>
+      <div class="vert mono">INVITATION 001</div>
+      <div class="stack osw">Your<br/>next<br/>address<br/>begins<br/><em>here.</em></div>
+      <div class="foot lbl">Office edition · N° 001</div>
+    </div><div class="sheen"></div></div>
+        </div>
+      </div>
+    </div>
+  </div></body></html>

@@ -67,9 +67,7 @@ export function site00AsstsLocalApiPlugin() {
   async function loadHandler() {
     if (!handlerPromise) {
       handlerPromise = (async () => {
-        const tsxApi = pathToFileURL(require.resolve('tsx/esm/api')).href;
-        const { register } = await import(tsxApi);
-        register();
+        require('./site00-register-tsx.cjs');
         const mod = await import(pathToFileURL(path.join(ROOT, 'api/admin/site00-assts.ts')).href);
         return mod.default;
       })();

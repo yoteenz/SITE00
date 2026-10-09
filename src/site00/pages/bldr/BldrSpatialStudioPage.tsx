@@ -2,6 +2,7 @@
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { templateSystemEnabled } from '../../../studioos/estimation/flags';
+import { blueprintEconomicsForSelection } from '../../builder-experience/spatialStudio/blueprintEconomics';
 import { roomIndex } from '../../builder-experience/spatialStudio/mapping';
 import { useBuilderSpatialIntakeSession } from '../../builder-experience/spatialStudio/useBuilderSpatialIntakeSession';
 import { IntakeSaveStatus } from '../../components/intake/IntakeSaveStatus';
@@ -258,15 +259,16 @@ function BldrSpatialStudioExperience() {
       { id: 'FEATURES', label: 'FEATURES' },
       { id: 'TIMELINE', label: 'TIMELINE' },
     ];
+    const economics = blueprintEconomicsForSelection(snapshot.selection, showEstimate && estimate ? estimate.investment : null);
     const buildTypeHint =
       state.placePath === 'SIMPLE'
-        ? 'Refine an established system.'
+        ? 'REFINE AN ESTABLISHED SYSTEM.'
         : state.placePath === 'ADVANCED'
-          ? 'Reshape the system around your needs.'
+          ? 'RESHAPE THE SYSTEM AROUND YOUR NEEDS.'
           : state.placePath === 'CUSTOM'
-            ? 'Build from zero with custom direction.'
+            ? 'BUILD FROM ZERO WITH CUSTOM DIRECTION.'
             : state.placePath === 'WORLD'
-              ? 'A connected spatial environment.'
+              ? 'A CONNECTED SPATIAL ENVIRONMENT.'
               : '';
 
     controls = (
@@ -294,18 +296,32 @@ function BldrSpatialStudioExperience() {
             <div className="bldr-spatial-blueprint__metric">
               <dt>ESTIMATED TIMELINE</dt>
               <dd>{showEstimate && estimate ? estimate.productionWindow : '—'}</dd>
-              <small>From the SITE 00 estimator — not a guaranteed delivery date.</small>
+              <small>FROM THE SITE 00 ESTIMATOR — NOT A GUARANTEED DELIVERY DATE.</small>
             </div>
             <div className="bldr-spatial-blueprint__metric">
               <dt>ESTIMATED INVESTMENT</dt>
               <dd>{showEstimate && estimate ? estimate.investment : '—'}</dd>
-              <small>Based on current selections. Final estimate after SITE 00 review.</small>
+              <small>BASED ON CURRENT SELECTIONS. FINAL ESTIMATE AFTER SITE 00 REVIEW.</small>
             </div>
           </dl>
         )}
 
         {state.blueprintSection === 'OVERVIEW' ? (
           <>
+            <div className="bldr-spatial-blueprint__economics">
+              <p className="bldr-spatial-blueprint__disclaimer">
+                <strong>{economics.build.heading}.</strong> {economics.build.amountLabel}
+              </p>
+              <p className="bldr-spatial-blueprint__disclaimer">
+                <strong>{economics.platform.heading}.</strong> {economics.platform.line}
+              </p>
+              <p className="bldr-spatial-blueprint__disclaimer">
+                <strong>{economics.thirdParty.heading}.</strong> {economics.thirdParty.line}
+              </p>
+              <p className="bldr-spatial-blueprint__disclaimer">
+                <strong>{economics.agreement.heading}.</strong> {economics.agreement.line}
+              </p>
+            </div>
             <div className="bldr-spatial-blueprint__config-head">
               <h3>YOUR CONFIGURATION</h3>
               <button type="button" className="bldr-spatial-shell__btn bldr-spatial-shell__btn--ghost" onClick={() => goRoom('PLACE')}>
@@ -446,7 +462,7 @@ export default function BldrSpatialStudioPage() {
   if (!templateSystemEnabled()) {
     return (
       <div className="bldr-spatial-disabled">
-        <p>Hybrid Spatial Studio requires `VITE_SITE00_TEMPLATE_SYSTEM_V1`.</p>
+        <p>HYBRID SPATIAL STUDIO REQUIRES `VITE_SITE00_TEMPLATE_SYSTEM_V1`.</p>
         <Link to={SITE00_ROUTES.bldr}>← BACK TO BLDR</Link>
       </div>
     );

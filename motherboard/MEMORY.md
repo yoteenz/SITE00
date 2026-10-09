@@ -15702,6 +15702,26 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
+## 2026-10-09 — Business Growth Intelligence V1 foundation contracts
+
+- **Context:** Sprint `P0.SITE00.BUSINESS-GROWTH-INTELLIGENCE.V1-FOUNDATION-AMBITION-SERVICE-CATALOG-AND-DYNAMIC-DELIVERY1` — new BUSINESS GROWTH category discoverable in Foundation journey (contracts only; flags off).
+- **Topics covered:** `shared/site00-business-growth-intelligence/` catalog, Business Ambition, recommendation engine, quote sections, delivery engine, roadmap; DF `business_ambition` ref; $500 base preserved; BLDR estimator for Presence Launch; no live Growth charges.
+- **Decisions / outcomes:** Public activation **NOT AUTHORIZED**; Growth prices **DRAFT**; Opus handoff `docs/site00/business-growth/BUSINESS_GROWTH_OPUS_VISUAL_HANDOFF_V1.md`.
+- **Changes:** PR branch `cursor/business-growth-intelligence-a9f7`, tests `businessGrowthIntelligence.test.ts`.
+- **Conventions:** Invitation 001 attribution unchanged; AIO services separate billing.
+
+---
+
+## 2026-10-08 — Opus Builder pinned on founder tunnel (PR #1524 @ c5e604e5)
+
+- **Context:** Sprint `P0.SITE00.BUILDER.HYBRID-SPATIAL-STUDIO.V1-FOUNDER-TUNNEL-DEPLOYMENT-AND-LIVE-VERIFICATION1` — deploy Opus five-screen studio without merging PR #1524.
+- **Topics covered:** `serve-site00-preview-from-pin-ref.sh`; worktree pinned `c5e604e5`; flags on dev Vite; `VITE_SITE00_PREVIEW_LOCAL_API` routes fsbw-dev dev HMR to same-origin `/api` + `SITE00_INTAKES_USE_MEMORY=1`; live tunnel QA all 5 rooms SAVED; screenshots in `/opt/cursor/artifacts/MOBILE_*.png`.
+- **Decisions / outcomes:** PR #1524 **NOT MERGED**; tunnel serves Opus implementation until pin reverted via `serve-site00-preview-from-main.sh`. Supabase durable persistence still **BLOCKED** (memory store only on preview).
+- **Changes:** PR #1526 — pin script + `site00ClientApiBase.ts` dev tunnel local API.
+- **Conventions:** Revert pin after Opus merges to main and `preview/tunnel` catches up.
+
+---
+
 ## 2026-10-08 — Builder contract reconciliation + founder preview readiness
 
 - **Context:** Sprint `P0.SITE00.BUILDER.HYBRID-SPATIAL-STUDIO.V1-COMPOSER-CONTRACT-RECONCILIATION-AND-FOUNDER-PREVIEW-READINESS1` — verify main contracts, Opus handoff, preview flags; no visual implementation.
@@ -15719,3 +15739,186 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decisions / outcomes:** Not enabled on `npm run build` / GoDaddy; restart Vite preview terminal after merge for flags to take effect.
 - **Changes:** `.cursor/scripts/run-site00-cloud-preview-server.sh`, `.env.example`, `AGENTS.md`.
 - **Conventions:** Do not add these flags to site00-production-deploy.yml without explicit founder release approval.
+
+---
+
+## 2026-10-09 — Blueprint disclosure and client statement contracts
+
+- **Context:** Sprint `P0.SITE00.PLATFORM-ECONOMICS.BUILDER-BLUEPRINT-AND-CLIENT-STATEMENTS-UX1`. Integrate Platform Economics V1 into the Builder Blueprint and the future client financial record. No live deductions, no billing dashboard, no public production deploy.
+- **Topics covered:** Foundation baseline on main (ancestor of `e9779def`, reported SHA `f9f6c4b0`). Spatial Blueprint sections OVERVIEW, STRUCTURE, PAGES, FEATURES, TIMELINE. Agreement presentation. Illustrative examples. Statement fields. Account placement. AIO compatibility. Opus handoff. Shipping is not its own exclusion code.
+- **Decisions / outcomes:**
+  - The existing books stay the calculator. Presentation, illustration, and statements call that engine.
+  - A Builder with no agreement shows a proposed share, or says the share does not apply. `deductionActive` is true only when the stored agreement is ACTIVE and the fee applies.
+  - Screen words: PROPOSED, PENDING ACCEPTANCE, ACTIVE, SUPERSEDED, TERMINATED, plus SUSPENDED for a paused agreement.
+  - Client statements keep posted, pending, and settled apart. A draft payout is the same posted share, not a second fee. Settled is zero. Export is unavailable. Client net stays unavailable while processor treatment is unspecified.
+  - The ledger `clientNet` field is not shown as money the client keeps in that unspecified case.
+  - Tips are gratuities. Shipping has no exclusion code and is not invented here.
+  - AIO participation stays off. Brokerage, permitting, dispatching, insurance, and bookkeeping are not assumed eligible.
+  - The financial record belongs inside `/account`. It is not a separate environment and it does not show Studio OS.
+  - Opus designs the experience. Composer does not add a sixth Blueprint tab.
+- **Changes:** `presentation.ts`, `illustration.ts`, `format.ts`, `clientStatement.ts`, `clientExperience.ts`, `books.listAgreements`, spatial `blueprintEconomics.ts` and `opusFinancialFixtures.ts`, overview copy on `BldrSpatialStudioPage.tsx`, `clientFinancialExperience.test.ts` (14), handoff `docs/site00/platform-economics/OPUS_CLIENT_FINANCIAL_EXPERIENCE_HANDOFF.md`.
+- **Conventions:** Do not hardcode the platform rate in a component. Do not draw an export control until a real file exists. Do not treat a Blueprint as an accepted agreement. Do not deploy this as a public production release until legal, processor, and founder review.
+
+---
+
+## 2026-10-09 — Estimate range presentation and pricing reconciliation
+
+- **Context:** Sprint `P0.SITE00.SCOPE-ESTIMATION.PRICING-POSITIONING-AND-SYMMETRIC-RANGE-RECONCILIATION1`. Reconcile historical $3,000 / $10,000 starting concepts with the family-unit estimator, and present client ranges with even week endpoints and covering investment bands. No public price change.
+- **Topics covered:** Estimator `1.0.0` on main. Fixture displays (8–10 weeks / $5K–$7K through 12–16 months / $69K–$94K) are scoped project estimates, not starting offers and not contracts. Presentation policy separate from raw weeks and dollars. Builder and Blueprint share `toClientBlueprintEstimate()`.
+- **Decisions / outcomes:**
+  - Starting investment, project estimate, final proposal, and agreed contract value stay different layers.
+  - Week windows round outward to even endpoints. 15–19 weeks displays as 16–20 weeks. The high end is not rounded down.
+  - Month windows round outward and are not forced onto even months. 5–7 months displays as 6–7 and is flagged. 9–12 months displays as 9–13 and is flagged. 8–10 and 12–16 stay.
+  - Investment bands cover the calculated dollars. The standard editorial display becomes $16K–$22K because $16,999 is not inside a $17K floor. Internal dollars stay exact.
+  - Platform percentages, ledger amounts, and payouts are not rounded by this policy.
+  - Public `FROM $4K+` anchors were not edited. Founder still approves positioning.
+- **Changes:** `src/studioos/estimation/presentation.ts`, client contract fields, admin estimator review line, `presentationPolicy.test.ts`, `BUILDER_PRICING_EVIDENCE.json`, `docs/site00/estimation/HISTORICAL_PRICING_AUDIT.md`, `docs/site00/estimation/PRICING_RECONCILIATION.md`.
+- **Conventions:** Normalize once from canonical values. Do not feed a display range back into the estimator. Do not treat a fixture as a published price.
+
+---
+
+## 2026-10-09 — Even timeline endpoints for months
+
+- **Context:** Sprint `P0.SITE00.SCOPE-ESTIMATION.EVEN-ENDPOINT-MONTH-RANGE-NORMALIZATION1`. Follows the merged pricing reconciliation (`c7f1841f`, PR #1530) and the blueprint economics binding. Founder decided client-facing range endpoints are even numbers for weeks and months.
+- **Topics covered:** Presentation policy only. Raw family-unit, lane, dependency, risk, and investment math stay on estimator `1.0.0`. Public price anchors and platform economics stay untouched.
+- **Decisions / outcomes:**
+  - Presentation policy is `1.1.0`. Estimator version stays `1.0.0`.
+  - The 1.0.0 sentence “months are rounded outward and are not forced even” is superseded.
+  - 5–7 months displays as 6–8 months. 9–12 months displays as 10–12 months. 15–19 weeks stays 16–20 weeks. 16–20 stays a week range.
+  - Month integers are the nearest whole months of the rounded week window, then both ends move to the next even number when odd.
+  - Builder preview and Blueprint summary still read `toClientBlueprintEstimate()`. The admin estimator shows the raw week span beside the display window.
+- **Changes:** `src/studioos/estimation/presentation.ts`, presentation and estimator tests, spatial studio binding test, admin raw-window line, `BUILDER_PRICING_EVIDENCE.json`, `docs/site00/estimation/PRICING_RECONCILIATION.md`, `docs/site00/SITE00_ESTIMATION_ENGINE.md`.
+- **Conventions:** Do not add a second formatter. Do not write the display range back into the estimator. Do not publish a production price change from this policy.
+
+---
+
+## 2026-10-09 — Immersive Blueprint on the founder tunnel
+
+- **Context:** Founder asked to see sprint `P0.SITE00.BLDR.BLUEPRINT.V1-IMMERSIVE-TAB-BEHAVIOR-AND-SPATIAL-INFORMATION-RECOVERY1` on the tunnel, with links. That work is draft PR #1528, not merged to main. `origin/preview/tunnel` is `6b9b616f` (same tree as `91798796`).
+- **Topics covered:** The public hostname was down (Cloudflare 1033). The preview server on port 5174 was still on an October 8 worktree. Main (`45256e30`) has the even-endpoint timeline policy and does not contain this Blueprint.
+- **Decisions / outcomes:**
+  - The live tunnel now serves `preview/tunnel` `6b9b616f` in dev mode. Open Builder, then Blueprint, on the founder preview hostname.
+  - A new visit opens Place. Blueprint opens after path, direction, at least one capability, and pace.
+  - Overview, Structure (L1–L6), Pages, Features, and Timeline were checked in the browser. Timeline reads ILLUSTRATIVE ORDER · NOT A SCHEDULE.
+  - This preview is not main. Week labels here can still be odd. Do not treat that as a regression of policy 1.1.0.
+  - Submit on this preview stayed local-only. The visual review is the point of the link.
+- **Changes:** No product code. Preview worktree and the tunnel connector only.
+- **Conventions:** Do not force `preview/tunnel` back to main while the founder is reviewing this Blueprint. Do not merge #1528 without founder authorization.
+
+---
+
+## 2026-10-09 — Invitation system v1 (AIO / INVITATION 001 foundation)
+
+- **Context:** Sprint `P0.SITE00.INVITATION-SYSTEM.PARTNER-ATTRIBUTION-FOUNDATION-ACTIVATION-AND-REFERRAL-ECONOMICS1` — physical QR → partner attribution → secure activation → existing Digital Foundation → referral economics contracts (no public activation, no live payouts).
+- **Topics covered:** Partner/campaign/code model; `/invite/:code`; visit dedupe; activation with verification secret; Foundation idempotency via `createArtifactForLead({ referral_kind: 'AIO' })`; versioned attribution policy (`PENDING_FOUNDER`); unapproved commission rules (null rates); admin founder/partner reporting APIs; Supabase migration for future persistence; Opus handoff; QR generator CLI.
+- **Decisions / outcomes:**
+  - Initial partner **ALL IN ONE ENTERPRISES INC** (PARTNER 001 / display AIO); collection **INVITATION 001**; shared office code **`aio-office-inv001`**.
+  - Runtime store is in-memory for this sprint; migration `20261009180000_site00_invitation_system_v1.sql` prepared for Supabase.
+  - Commissions require verified payment events; scans create visits/events only. `payout_live: false`.
+  - Production identity/magic-link wiring for activation verification remains a follow-up; dev uses admin `test-set-activation-secret`.
+- **Changes:** `shared/site00-invitation-system/*`, `api/_lib/invitationSystem/*`, `api/site00/invitation.ts`, `api/admin/site00-invitation.ts`, `src/site00/pages/invitation/InvitationEntryPage.tsx`, `Site00Routes.tsx`, `tests/invitationSystem.test.ts`, `docs/site00/invitation-system/*`, `scripts/site00/generate-invitation-qr.ts`, `supabase/migrations/20261009180000_site00_invitation_system_v1.sql`, `motherboard/CORE.md`.
+- **Conventions:** Do not hardcode $50 / 5% commission; do not pay partners from scans; do not expose client intake to partners; QR URL must stay stable for print.
+
+---
+
+## 2026-10-09 — Digital Foundation artifact live on cloud preview tunnel
+
+- **Context:** Founder wanted the **IDNTY Digital Foundation micro product** (not `/idnty/starting-at-zero`) live on the mobile tunnel with a `/foundation/:token` link for BLDR-adjacent preview. Admin `create-artifact` requires Supabase Bearer; cloud preview uses in-memory DF store per Vite process.
+- **Topics covered:** Wrong public IDNTY assessment URL vs artifact route; Supabase auth `generateLink` failed (522) on VM; pinned preview at `fb7f24f4`; Vite restart; dev bootstrap endpoint.
+- **Decisions / outcomes:**
+  - Added gated dev route `GET/POST /api/dev/site00-digital-foundation-preview-bootstrap` (only when `SITE00_CLOUD_MOBILE_PREVIEW=1`) to mint/reuse artifact in the running Vite memory store.
+  - Restarted preview Vite on `:5174`; verified tunnel `site00.fsbw-dev.com` returns payload + SPA 200 for minted token.
+  - **Not** `/idnty/*` — artifact is **`/foundation/:token`**. Build interest connects to BLDR after completion; studio does not open this page.
+- **Changes:** `api/dev/site00-digital-foundation-preview-bootstrap.ts`, `scripts/vite-site00-local-api.mjs` (preview operational + branch `cursor/df-preview-bootstrap-0daf`).
+- **Conventions:** After Vite restart, hit bootstrap GET once to mint (or reuse first in-memory artifact). Production founder mint remains `POST /api/admin/site00-foundation` with admin session.
+
+---
+
+## 2026-10-09 — Digital Foundation admin console tsx recovery (P0 IDNTY)
+
+- **Context:** `/admin/site00/foundation` showed tsx `esm/api/esm/index.mjs` `LOCAL_API_ERROR` from Vite local API middleware.
+- **Root cause:** Dynamic `import()` of CJS `tsx/esm/api` entry via `require.resolve` + file URL from ESM plugin.
+- **Fix:** `import { register } from 'tsx/esm/api'`; admin list hydrates Supabase via `syncAllArtifactsIntoMemory()` when persistence flag on.
+- **Tunnel:** Multi-connector load-balancing can still hit stale `:5174` until canonical env runs fixed code only.
+- **Branch:** `cursor/digital-foundation-admin-console-route-recovery1` → `main`.
+
+## 2026-10-09 — INVITATION 001: physical territories + immersive /invite activation (Opus)
+
+- **Context:** Sprint `P0.SITE00.INVITATION-SYSTEM.INVITATION001-PHYSICAL-AND-IMMERSIVE-ACTIVATION-OPUS1`, baseline PR #1533 (`bcd67774`). Earlier in this chat: the Composer invitation sprint (#1533) and a question about whether all BLDR studio text is uppercase. The answer was no, with the mixed-case sources listed; no change was made.
+- **Topics covered:**
+  - Three physical card territories, founder board, and draft print spec.
+  - Five-stage digital activation at `/invite/:code`, bound to the real invitation and Digital Foundation APIs.
+  - Honest verification delivery, returning-visitor status, and all failure states.
+  - Native mobile rendering, accessibility, and four-viewport browser QA plus a recording.
+- **Decisions / outcomes:**
+  - Physical territories:
+    - A THE INVITATION: white, painted red edge, blind deboss.
+    - B THE ACCESS CARD: soft-touch black, silver foil.
+    - C THE THRESHOLD: 55×100 triplex, die-cut aperture.
+    - All are rendered from code at 300 PPI with the real prototype QR (V5-H, 22 mm, 0.49 mm per module).
+    - The agent recommends A. Founder selection is PENDING; print is not authorized.
+    - AI in-hand images are labelled as visualizations, not proofs.
+  - Activation stages: threshold arrival, then welcome (Foundation items plus `FROM $500` from the catalog; activating does not charge), then email and verification, then a `/foundation/:token` handoff, then BLDR discovery (`/bldr`, no commitment).
+  - Verification delivery: `DEVELOPMENT_INLINE` only under the Vite dev local API, with a code shown in a panel labelled DEVELOPMENT ONLY. Production is `PENDING_IDNTY`: a blocked state that collects no email.
+  - Returning visitors: the device stores only its own Foundation route. Status comes from the DF payload. "Not you?" clears the record, and a 404 leads to an honest reset.
+  - Unknown and revoked codes look identical, with no campaign or partner shown.
+  - The route now uses `Site00Layout` only. `Site00PublicRouteShell` scales a 1440 artboard onto phones.
+  - Composer blockers are listed in `OPUS_INVITATION_VISUAL_HANDOFF.md`: persistence, IDNTY delivery, the activation_id bearer short-circuit, rate limits, payment attribution, policy approval, physical QR proof, the red token mismatch (#e8192c vs #E50107), and the DF page styling.
+- **Changes:**
+  - `scripts/site00/invitation001/*` (territories, renderers, QA)
+  - `docs/site00/invitation-system/invitation-001/*`
+  - `src/site00/pages/invitation/{InvitationEntryPage.tsx,invitationJourney.ts}`
+  - `src/site00/styles/site00-invitation.css`
+  - `src/routes/Site00Routes.tsx`
+  - `api/_lib/invitationSystem/service.ts` (verificationDeliveryMode, issueDevelopmentVerificationCode)
+  - `api/site00/invitation.ts`
+  - `scripts/vite-site00-local-api.mjs` (invitation routes; the tsx ESM register fix also landed via #1538)
+  - tests in `invitationSystem.test.ts` and `invitationActivationExperience.test.tsx`
+- **Conventions:**
+  - Never return a verification code outside the Vite dev local API.
+  - Never store email, activation id, or codes on the device.
+  - Keep the invite route out of the scaled presentation shells.
+  - Do not place a print order or select a territory without the founder.
+  - When running a second Vite dev server for QA, blank `SITE00_CLOUDFLARE_TUNNEL_HOSTNAME`, or the HMR socket points at the tunnel and the page reload-loops.
+
+---
+
+## 2026-10-09 — DF admin console still broken (follow-up #2/#3)
+
+- **Founder report:** tsx error persisted on `site00.fsbw-dev.com/admin/site00/foundation` after #1538.
+- **Cause:** Preview worktree `/tmp/site00-preview-main` stuck on old `vite-site00-local-api.mjs`; Cloudflare tunnel load-balanced multiple `:5174` backends (some stale).
+- **Fix #1539:** `scripts/site00-register-tsx.cjs` + CJS register; reset worktree to `preview/tunnel`.
+- **Fix #1541:** **esbuild** bundles API handlers — **no tsx on request path**. Preview SHA `41251125`; tunnel browser smoke PASS.
+- **Anthony:** still not in linked Supabase; admin list after sign-in on persistence-enabled API.
+
+---
+
+## 2026-10-09 — DF founder mini console: disable sign-in on cloud preview
+
+- **Founder ask:** `/admin/site00/foundation` on `site00.fsbw-dev.com` showed **Sign in required**; bypass auth on tunnel preview only.
+- **Fix:** `api/_lib/cloudMobilePreview.ts` gates `SITE00_CLOUD_MOBILE_PREVIEW=1` + non-production. `api/admin/site00-foundation.ts` uses synthetic founder admin user instead of `resolveAdminAuth` when gated. List page auto-calls `GET /api/dev/site00-digital-foundation-preview-bootstrap` when cloud preview and empty artifacts (reuse in-memory row, no duplicate Anthony on Railway).
+- **Production:** Railway/cPanel still requires Bearer + admin email; preview bypass does not apply when `NODE_ENV=production`.
+
+---
+
+## 2026-10-09 — DF admin links → client intake (not founder dashboard)
+
+- **Founder report:** Admin console links felt like “dashboard” only, not client intake pages.
+- **Cause:** Table **Open** went to `/admin/site00/foundation/:id` (founder detail); **Public** opened `/foundation/:token` prospect landing (BEGIN), not intake form.
+- **Fix:** Primary link **Client intake** → `/foundation/:token?step=intake`; **Founder** → admin detail. Artifact page honors `?step=intake` (starts intake when still open). Helpers: `clientRoutes.ts`, `artifactUiStep.ts`.
+
+---
+
+## 2026-10-09 — DF ARTIFACT_NOT_FOUND on cloud preview
+
+- **Founder report:** Red `ARTIFACT_NOT_FOUND` on `/foundation/:token` (stale/production token or Vite restart wiped in-memory store; tunnel load-balanced multiple `:5174` backends).
+- **Fix:** `previewMemorySnapshot.ts` writes DF memory to `/tmp/site00-digital-foundation-preview-memory.json` when `SITE00_CLOUD_MOBILE_PREVIEW=1`; reload on token miss. Friendlier not-found UI links to admin on preview.
+
+---
+
+## 2026-10-09 — BLDR Spatial Studio all-caps copy
+
+- **Context:** Founder confirmed strict uppercase everywhere in BLDR studio after an earlier answer listed mixed-case sources (FEEL/WORK hints, blueprint economics headings, metric small copy, registry labels, estimator disclaimers, optional notes display, locale save time).
+- **Decision:** Hybrid Spatial Studio at `/bldr/studio` renders all visible copy in uppercase. Shell CSS is the authority; a few studio-local strings were normalized in source.
+- **Changes:** `text-transform: uppercase` on `.bldr-spatial-page` and `.bldr-spatial-disabled` in `site00-builder-spatial-studio.css`; FEEL/WORK hints in `spatialStudio/types.ts`; blueprint metric helper strings in `BldrSpatialStudioPage.tsx`; `tests/bldrSpatialStudioUppercase.test.ts`. PR #1544.
+- **Convention:** Do not lower-case shared `blueprintFinancialPresentation` globally — studio shell CSS uppercases it at display time. Stored `paceNotes` may remain mixed-case in JSON; the textarea displays uppercase.

@@ -2,14 +2,15 @@
  * Vite dev middleware: serve core SITE 00 API routes locally (tsx + env from .env).
  * Prevents Vite from treating /api/* requests as frontend module imports.
  */
+import fs from 'node:fs';
 import { pathToFileURL } from 'node:url';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { createRequire } from 'node:module';
+import esbuild from 'esbuild';
 import { loadEnv } from 'vite';
 
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
-const require = createRequire(import.meta.url);
+const API_CACHE_DIR = path.join(ROOT, 'node_modules/.cache/site00-vite-local-api');
 
 /** Express-style path → api handler module (relative to repo root) */
 const LOCAL_API_ROUTES = [
@@ -28,6 +29,8 @@ const LOCAL_API_ROUTES = [
   { path: '/api/site00/digital-foundation-artifact', file: 'api/site00/digital-foundation-artifact.ts' },
   { path: '/api/site00/digital-foundation-stripe-webhook', file: 'api/site00/digital-foundation-stripe-webhook.ts' },
   { path: '/api/admin/site00-foundation', file: 'api/admin/site00-foundation.ts' },
+  { path: '/api/site00/invitation', file: 'api/site00/invitation.ts' },
+  { path: '/api/admin/site00-invitation', file: 'api/admin/site00-invitation.ts' },
   { path: '/api/site00/studio-world-webhook', file: 'api/site00/studio-world-webhook.ts' },
   { path: '/api/site00/intakes', file: 'api/site00/intakes.ts' },
   { path: '/api/site00/intake-access', file: 'api/site00/intake-access.ts' },
@@ -63,6 +66,7 @@ const LOCAL_API_ROUTES = [
   { path: '/api/admin/site00-client-intakes', file: 'api/admin/site00-client-intakes.ts' },
   { path: '/api/admin/site00-astral-world-generation', file: 'api/admin/site00-astral-world-generation.ts' },
   { path: '/api/capture-auth-bootstrap', file: 'api/capture-auth-bootstrap.ts' },
+  { path: '/api/dev/site00-digital-foundation-preview-bootstrap', file: 'api/dev/site00-digital-foundation-preview-bootstrap.ts' },
 ];
 
 function applyServerEnv() {
@@ -131,28 +135,44 @@ function createVercelResponseAdapter(res) {
   };
 }
 
+async function bundleApiHandler(file) {
+  const srcPath = path.join(ROOT, file);
+  fs.mkdirSync(API_CACHE_DIR, { recursive: true });
+  const outPath = path.join(API_CACHE_DIR, file.replace(/\//g, '__').replace(/\.ts$/, '.mjs'));
+  const srcMtime = fs.statSync(srcPath).mtimeMs;
+  if (!fs.existsSync(outPath) || fs.statSync(outPath).mtimeMs < srcMtime) {
+    await esbuild.build({
+      entryPoints: [srcPath],
+      outfile: outPath,
+      format: 'esm',
+      platform: 'node',
+      target: 'node20',
+      bundle: true,
+      logLevel: 'silent',
+      plugins: [
+        {
+          name: 'external-node-modules',
+          setup(build) {
+            build.onResolve({ filter: /.*/ }, (args) => {
+              if (args.path.startsWith('.') || path.isAbsolute(args.path)) return null;
+              return { path: args.path, external: true };
+            });
+          },
+        },
+      ],
+    });
+  }
+  return (await import(pathToFileURL(outPath).href)).default;
+}
+
 export function site00LocalApiPlugin() {
   /** @type {Map<string, Promise<(req: unknown, res: unknown) => Promise<void>>>} */
   const handlerPromises = new Map();
-  let tsxRegistered = false;
-
-  async function ensureTsx() {
-    if (!tsxRegistered) {
-      const tsxApi = pathToFileURL(require.resolve('tsx/esm/api')).href;
-      const { register } = await import(tsxApi);
-      register();
-      tsxRegistered = true;
-    }
-  }
 
   async function loadHandler(file) {
     let promise = handlerPromises.get(file);
     if (!promise) {
-      promise = (async () => {
-        await ensureTsx();
-        const mod = await import(pathToFileURL(path.join(ROOT, file)).href);
-        return mod.default;
-      })();
+      promise = bundleApiHandler(file);
       handlerPromises.set(file, promise);
     }
     return promise;

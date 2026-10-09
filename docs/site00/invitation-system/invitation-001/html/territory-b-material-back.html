@@ -1,0 +1,86 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;500;600&family=Barlow+Semi+Condensed:wght@500;600;700&family=Barlow:wght@400;500;700&family=Martian+Mono:wdth,wght@75..112.5,300..800&display=block" rel="stylesheet"><style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:transparent}
+  .face{position:relative;overflow:hidden;font-family:'Barlow',sans-serif;-webkit-font-smoothing:antialiased}
+  .grain{position:absolute;inset:0;pointer-events:none;mix-blend-mode:multiply}
+  .wm{display:flex;align-items:center;gap:.32em;font-family:'Martian Mono',monospace;font-weight:800;font-stretch:75%;font-variation-settings:'wdth' 75;letter-spacing:.02em;line-height:1}
+  .dia{display:inline-block;background:#E50107;transform:rotate(45deg);flex-shrink:0}
+  .foil{background:linear-gradient(100deg,#8d9096 0%,#f4f5f7 28%,#a7aab0 46%,#ffffff 58%,#8a8d93 78%,#d9dbde 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .qr svg{width:100%;height:100%;display:block}
+  .lbl{font-family:'Barlow Semi Condensed',sans-serif;font-weight:600;letter-spacing:.14em;text-transform:uppercase}
+  .mono{font-family:'Martian Mono',monospace;font-stretch:87.5%;font-variation-settings:'wdth' 87.5}
+  .osw{font-family:'Oswald',sans-serif;text-transform:uppercase}
+body{background:#efedea}
+  .stage{position:relative;overflow:hidden;background:#efedea}
+  .marble{position:absolute;inset:0;background:#f3f1ee}
+  .marble::after{content:'';position:absolute;inset:0;filter:url(#marble);opacity:.55}
+  .light{position:absolute;inset:0;background:radial-gradient(120% 90% at 30% 10%,rgba(255,255,255,.75),rgba(255,255,255,0) 55%),linear-gradient(180deg,rgba(0,0,0,0) 60%,rgba(0,0,0,.06))}
+  .zoom{position:absolute;inset:0}
+  .cam{position:absolute;inset:0;perspective:2600px;perspective-origin:50% 30%}
+  .card{position:absolute;left:50%;top:50%;transform-style:preserve-3d}
+  .back-face{position:absolute;inset:0}
+  .edge{position:absolute}
+  .contact{position:absolute;inset:-1%;background:rgba(24,20,16,.42);filter:blur(22px)}
+  .front-face{position:absolute;inset:0;overflow:hidden;isolation:isolate}
+  .sheen{position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,rgba(255,255,255,0) 30%,rgba(255,255,255,.18) 48%,rgba(255,255,255,0) 62%)}
+</style></head><body>
+  <svg width="0" height="0" style="position:absolute"><filter id="marble" x="0" y="0" width="100%" height="100%">
+    <feTurbulence type="turbulence" baseFrequency="0.0016 0.0055" numOctaves="5" seed="11"/>
+    <feColorMatrix values="0 0 0 0 0.55  0 0 0 0 0.54  0 0 0 0 0.53  0 0 0 -5 0.9"/>
+  </filter></svg>
+  <div class="stage" style="width:1800px;height:1200px">
+    <div class="marble"></div><div class="light"></div>
+    <div class="zoom" style="transform:scale(1);transform-origin:50% 50%">
+      <div class="cam">
+        <div class="card" style="width:1050px;height:600px;transform:translate(-50%,-50%) rotateX(40deg) rotateY(0deg) rotateZ(12deg)">
+          <div class="contact" style="transform:translateZ(-12.811023622047244px) translate(21px,30px)"></div>
+          <div class="back-face" style="background:#0C0C0D;transform:translateZ(-11.811023622047244px)"></div>
+          
+    <div class="edge" style="left:0;top:600px;width:1050px;height:11.811023622047244px;transform-origin:top;transform:rotateX(-90deg);background:linear-gradient(to bottom,#E50107 0%,#E50107 10%,#E50107 10%,#E50107 20%,#E50107 20%,#E50107 30%,#E50107 30%,#E50107 40%,#E50107 40%,#E50107 50%,#E50107 50%,#E50107 60%,#E50107 60%,#E50107 70%,#E50107 70%,#E50107 80%,#E50107 80%,#E50107 90%,#E50107 90%,#E50107 100%)"></div>
+    <div class="edge" style="left:1050px;top:0;width:11.811023622047244px;height:600px;transform-origin:left;transform:rotateY(90deg);background:linear-gradient(rgba(0,0,0,.10),rgba(0,0,0,.10)),linear-gradient(to right,#E50107 0%,#E50107 10%,#E50107 10%,#E50107 20%,#E50107 20%,#E50107 30%,#E50107 30%,#E50107 40%,#E50107 40%,#E50107 50%,#E50107 50%,#E50107 60%,#E50107 60%,#E50107 70%,#E50107 70%,#E50107 80%,#E50107 80%,#E50107 90%,#E50107 90%,#E50107 100%)"></div>
+    <div class="edge" style="left:-11.811023622047244px;top:0;width:11.811023622047244px;height:600px;transform-origin:right;transform:rotateY(-90deg);background:linear-gradient(rgba(0,0,0,.10),rgba(0,0,0,.10)),linear-gradient(to left,#E50107 0%,#E50107 10%,#E50107 10%,#E50107 20%,#E50107 20%,#E50107 30%,#E50107 30%,#E50107 40%,#E50107 40%,#E50107 50%,#E50107 50%,#E50107 60%,#E50107 60%,#E50107 70%,#E50107 70%,#E50107 80%,#E50107 80%,#E50107 90%,#E50107 90%,#E50107 100%)"></div>
+    <div class="edge" style="left:0;top:-11.811023622047244px;width:1050px;height:11.811023622047244px;transform-origin:bottom;transform:rotateX(90deg);background:linear-gradient(to top,#E50107 0%,#E50107 10%,#E50107 10%,#E50107 20%,#E50107 20%,#E50107 30%,#E50107 30%,#E50107 40%,#E50107 40%,#E50107 50%,#E50107 50%,#E50107 60%,#E50107 60%,#E50107 70%,#E50107 70%,#E50107 80%,#E50107 80%,#E50107 90%,#E50107 90%,#E50107 100%)"></div>
+          <div class="front-face"><style>
+  .b{width:1050px;height:600px;background:#0C0C0D;color:#e9eaec}
+  .b .grid{position:absolute;inset:0;background-image:linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(0deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:47.24px 47.24px;background-position:23.62px 17.72px}
+  .b .gloss{position:absolute;inset:-20%;background:linear-gradient(118deg,transparent 38%,rgba(255,255,255,.07) 47%,rgba(255,255,255,.015) 53%,transparent 60%);mix-blend-mode:screen}
+  .b .tl{position:absolute;left:70.87px;top:70.87px}
+  .b .big{position:absolute;right:53.15px;top:47.24px;font-family:'Oswald',sans-serif;font-weight:300;font-size:354.33px;line-height:.82;letter-spacing:.01em;color:transparent;-webkit-text-stroke:2.2px #b8bbc1}
+  .b .hl{position:absolute;left:70.87px;bottom:112.2px;font-weight:500;font-size:51.97px;line-height:1.02;letter-spacing:.02em}
+  .b .meta{position:absolute;left:70.87px;bottom:59.06px;font-size:24.8px;color:#8d9096}
+  .b .redl{position:absolute;right:70.87px;bottom:70.87px;width:165.35px;height:5.91px;background:#E50107}
+  .bb{width:1050px;height:600px;background:#0C0C0D;color:#e9eaec}
+  .bb .panel{position:absolute;left:59.06px;top:59.06px;width:295.28px;height:295.28px;background:#fff;display:flex;align-items:center;justify-content:center}
+  .bb .qcap{position:absolute;left:59.06px;top:373.23px;width:295.28px;text-align:center;font-size:22.44px;color:#8d9096}
+  .bb .col{position:absolute;left:413.39px;top:70.87px;right:70.87px}
+  .bb .k{font-size:24.8px;color:#E50107}
+  .bb .h{margin-top:21.26px;font-weight:500;font-size:49.61px;line-height:1.02}
+  .bb .b2{margin-top:25.98px;font-size:27.17px;line-height:1.34;color:#c9cbcf}
+  .bb .p{margin-top:18.9px;font-size:23.62px;color:#8d9096}
+  .bb .url{position:absolute;left:413.39px;bottom:101.57px;font-size:23.62px;color:#e9eaec}
+  .bb .partner{position:absolute;left:59.06px;bottom:44.88px;font-size:23.62px;color:#6f7277}
+  .bb .dia2{position:absolute;right:70.87px;bottom:54.33px}
+</style>
+    <div class="face bb">
+  <svg class="grain" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" aria-hidden="true">
+    <filter id="g80"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/>
+    <feColorMatrix values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.08 0"/></filter>
+    <rect width="100%" height="100%" filter="url(#g80)"/>
+  </svg>
+      <div class="panel"><div class="qr " style="width:259.84px;height:259.84px"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45" shape-rendering="crispEdges"><path fill="#ffffff" d="M0 0h45v45H0z"/><path stroke="#000000" d="M4 4.5h7m3 0h2m1 0h1m1 0h1m1 0h7m2 0h1m1 0h1m1 0h7M4 5.5h1m5 0h1m2 0h1m1 0h1m3 0h3m3 0h2m1 0h1m3 0h1m1 0h1m5 0h1M4 6.5h1m1 0h3m1 0h1m1 0h2m5 0h1m2 0h6m1 0h3m2 0h1m1 0h3m1 0h1M4 7.5h1m1 0h3m1 0h1m1 0h1m1 0h2m1 0h1m2 0h1m1 0h2m1 0h1m1 0h1m1 0h4m1 0h1m1 0h3m1 0h1M4 8.5h1m1 0h3m1 0h1m3 0h1m1 0h2m1 0h2m2 0h3m1 0h1m2 0h1m3 0h1m1 0h3m1 0h1M4 9.5h1m5 0h1m4 0h1m1 0h1m1 0h1m1 0h1m2 0h2m1 0h2m5 0h1m5 0h1M4 10.5h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7M13 11.5h1m1 0h1m1 0h5m2 0h2m1 0h6M7 12.5h2m1 0h2m2 0h1m2 0h1m1 0h3m2 0h1m2 0h3m7 0h2M4 13.5h4m1 0h1m2 0h1m1 0h1m4 0h1m1 0h1m1 0h3m1 0h1m1 0h2m1 0h1m2 0h2M4 14.5h2m3 0h2m3 0h1m3 0h2m1 0h1m3 0h5m1 0h1m1 0h4m3 0h1M5 15.5h2m1 0h2m3 0h1m1 0h1m3 0h2m1 0h4m1 0h2m1 0h2m1 0h7M7 16.5h1m2 0h4m1 0h3m1 0h1m2 0h2m1 0h2m4 0h2m1 0h2m1 0h1m2 0h1M7 17.5h1m3 0h1m2 0h2m2 0h1m2 0h1m3 0h1m2 0h1m2 0h3m1 0h2m1 0h1M6 18.5h2m2 0h2m2 0h1m6 0h1m1 0h2m2 0h1m2 0h2m1 0h1m3 0h4M5 19.5h2m4 0h4m5 0h4m2 0h1m1 0h1m3 0h1m2 0h4m1 0h1M5 20.5h3m2 0h3m1 0h5m1 0h4m3 0h3m4 0h1m3 0h1m1 0h1M4 21.5h1m1 0h1m1 0h1m7 0h4m1 0h1m4 0h1m1 0h2m1 0h1m1 0h1m3 0h3M4 22.5h1m1 0h2m2 0h1m4 0h1m8 0h1m1 0h2m1 0h1m1 0h1m3 0h2m1 0h1m1 0h1M5 23.5h5m1 0h1m3 0h3m1 0h1m1 0h3m2 0h1m2 0h1m1 0h3m1 0h2m3 0h1M4 24.5h1m1 0h1m2 0h4m1 0h2m1 0h4m2 0h1m2 0h1m3 0h1m1 0h3m1 0h1M4 25.5h2m1 0h2m3 0h1m1 0h3m1 0h3m1 0h2m1 0h8m2 0h2M4 26.5h1m4 0h2m1 0h2m2 0h1m3 0h1m1 0h3m2 0h1m3 0h1m1 0h1m2 0h1m3 0h1M5 27.5h1m1 0h2m4 0h1m2 0h1m2 0h1m2 0h3m2 0h2m2 0h2m1 0h2m1 0h3M5 28.5h3m1 0h2m2 0h2m1 0h4m1 0h2m1 0h1m1 0h1m1 0h3m3 0h2m4 0h1M4 29.5h1m1 0h1m2 0h1m1 0h1m5 0h2m4 0h1m1 0h2m2 0h4m2 0h2m2 0h1M4 30.5h2m2 0h1m1 0h2m5 0h1m1 0h4m2 0h4m2 0h2m1 0h1m4 0h2M4 31.5h1m2 0h2m2 0h3m3 0h2m2 0h2m4 0h1m3 0h1m1 0h1m1 0h4M4 32.5h1m2 0h2m1 0h1m3 0h1m1 0h1m7 0h2m2 0h2m2 0h7M12 33.5h1m4 0h2m2 0h1m1 0h1m1 0h2m2 0h1m2 0h1m3 0h3M4 34.5h7m1 0h6m2 0h4m2 0h5m1 0h1m1 0h1m1 0h3m1 0h1M4 35.5h1m5 0h1m3 0h3m1 0h1m4 0h3m1 0h1m1 0h1m1 0h2m3 0h2m1 0h2M4 36.5h1m1 0h3m1 0h1m1 0h2m10 0h1m3 0h1m1 0h7M4 37.5h1m1 0h3m1 0h1m1 0h1m1 0h1m1 0h1m1 0h2m1 0h2m1 0h1m1 0h1m1 0h5m1 0h1m3 0h1M4 38.5h1m1 0h3m1 0h1m3 0h1m1 0h3m1 0h1m3 0h2m1 0h1m1 0h1m1 0h1m3 0h3m1 0h2M4 39.5h1m5 0h1m8 0h1m1 0h1m2 0h1m1 0h3m1 0h1m2 0h2m3 0h3M4 40.5h7m5 0h2m1 0h1m1 0h2m1 0h1m2 0h2m3 0h1m3 0h1m3 0h1"/></svg>
+</div></div>
+      <div class="qcap lbl">Scan to enter</div>
+      <div class="col">
+        <div class="k lbl">Activate</div>
+        <div class="h osw"><span class="foil">Your digital<br/>foundation.</span></div>
+        <div class="b2">A domain you own, professional email, and secured accounts — the base layer of your business, set up by SITE 00.</div>
+        <div class="p lbl">Scope and price shown before checkout</div>
+      </div>
+      <div class="url mono">site00.com/invite/aio-office-inv001</div>
+      <div class="partner lbl">Presented through All In One Enterprises Inc</div>
+      <div class="dia2"><i class="dia" style="width:16px;height:16px;display:block"></i></div>
+    </div><div class="sheen"></div></div>
+        </div>
+      </div>
+    </div>
+  </div></body></html>

@@ -2,7 +2,11 @@
  * SITE 00 — Digital Foundation founder mini console API.
  */
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { requireAdmin } from '../_lib/adminAuth.js';
+import { resolveAdminAuth } from '../_lib/adminAuth.js';
+import {
+  CLOUD_PREVIEW_FOUNDER_ADMIN_USER,
+  isCloudMobilePreviewDev,
+} from '../_lib/cloudMobilePreview.js';
 import {
   applyManualQuoteAdjustment,
   createArtifactForLead,
@@ -19,6 +23,7 @@ import {
   updateQuoteSelections,
 } from '../_lib/digitalFoundation/service.js';
 import { listArtifacts } from '../_lib/digitalFoundation/memoryStore.js';
+import { syncAllArtifactsIntoMemory } from '../_lib/digitalFoundation/persistence/supabaseStore.js';
 import {
   activateRunbookForArtifact,
   generateRunbookForArtifact,
@@ -44,8 +49,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   setCors(res);
   if (req.method === 'OPTIONS') return res.status(204).end();
 
-  const admin = await requireAdmin(req);
-  if (!admin) return res.status(403).json({ error: 'Forbidden' });
+  const auth = isCloudMobilePreviewDev()
+    ? ({ ok: true as const, user: { ...CLOUD_PREVIEW_FOUNDER_ADMIN_USER } })
+    : await resolveAdminAuth(req);
+  if (!auth.ok) {
+    return res.status(auth.failure.status).json({ error: auth.failure.error, code: auth.failure.code });
+  }
+  void auth.user;
 
   const action = String(req.query.action ?? '');
   const body = typeof req.body === 'object' && req.body !== null ? req.body : {};
@@ -54,6 +64,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (req.method === 'GET') {
       switch (action) {
         case 'list':
+          await syncAllArtifactsIntoMemory();
           return res.status(200).json({
             artifacts: listArtifacts().map((a) => ({
               artifact_id: a.artifact_id,
