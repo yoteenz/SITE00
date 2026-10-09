@@ -1,7 +1,7 @@
 {
   "base": "http://127.0.0.1:5174",
   "store": "memory (QA harness)",
-  "ranAt": "2026-10-09T06:10:29.049Z",
+  "ranAt": "2026-10-09T14:24:47.134Z",
   "pass": 32,
   "fail": 0,
   "results": [
