@@ -106,7 +106,15 @@ export async function syncAllArtifactsIntoMemory(): Promise<void> {
 }
 
 export async function loadArtifactGraphByToken(token: string): Promise<DigitalFoundationArtifact | null> {
-  if (!isSupabaseDfPersistenceEnabled()) return memGetArtifactByToken(token) ?? null;
+  if (!isSupabaseDfPersistenceEnabled()) {
+    let found = memGetArtifactByToken(token);
+    if (!found) {
+      const { memRefreshPreviewSnapshotFromDisk } = await import('../memoryStore.js');
+      memRefreshPreviewSnapshotFromDisk();
+      found = memGetArtifactByToken(token);
+    }
+    return found ?? null;
+  }
 
   const existing = memGetArtifactByToken(token);
   if (existing) return existing;

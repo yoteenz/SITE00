@@ -15909,6 +15909,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
+## 2026-10-09 — DF ARTIFACT_NOT_FOUND on cloud preview
+
+- **Founder report:** Red `ARTIFACT_NOT_FOUND` on `/foundation/:token` (stale/production token or Vite restart wiped in-memory store; tunnel load-balanced multiple `:5174` backends).
+- **Fix:** `previewMemorySnapshot.ts` writes DF memory to `/tmp/site00-digital-foundation-preview-memory.json` when `SITE00_CLOUD_MOBILE_PREVIEW=1`; reload on token miss. Friendlier not-found UI links to admin on preview.
+
+---
+
 ## 2026-10-09 — BLDR Spatial Studio all-caps copy
 
 - **Context:** Founder confirmed strict uppercase everywhere in BLDR studio after an earlier answer listed mixed-case sources (FEEL/WORK hints, blueprint economics headings, metric small copy, registry labels, estimator disclaimers, optional notes display, locale save time).
