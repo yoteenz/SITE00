@@ -15821,3 +15821,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - **Not** `/idnty/*` — artifact is **`/foundation/:token`**. Build interest connects to BLDR after completion; studio does not open this page.
 - **Changes:** `api/dev/site00-digital-foundation-preview-bootstrap.ts`, `scripts/vite-site00-local-api.mjs` (preview operational + branch `cursor/df-preview-bootstrap-0daf`).
 - **Conventions:** After Vite restart, hit bootstrap GET once to mint (or reuse first in-memory artifact). Production founder mint remains `POST /api/admin/site00-foundation` with admin session.
+
+---
+
+## 2026-10-09 — Digital Foundation admin console tsx recovery (P0 IDNTY)
+
+- **Context:** `/admin/site00/foundation` showed tsx `esm/api/esm/index.mjs` `LOCAL_API_ERROR` from Vite local API middleware.
+- **Root cause:** Dynamic `import()` of CJS `tsx/esm/api` entry via `require.resolve` + file URL from ESM plugin.
+- **Fix:** `import { register } from 'tsx/esm/api'`; admin list hydrates Supabase via `syncAllArtifactsIntoMemory()` when persistence flag on.
+- **Tunnel:** Multi-connector load-balancing can still hit stale `:5174` until canonical env runs fixed code only.
+- **Branch:** `cursor/digital-foundation-admin-console-route-recovery1` → `main`.
