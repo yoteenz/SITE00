@@ -134,8 +134,20 @@ Section defaults now differ visibly from OVERVIEW, and every selection moves the
 - **Grok assets:** GA-05 / GA-01 final plates are still pending (interim plates in use). This sprint adds no new Grok dependency.
 - **Codex / Astra GLB:** not injected (Astra V1 needs revision; V2 pending).
 
+## Founder preview (handoff to Composer)
+
+This session cannot reach `site00.fsbw-dev.com`, so the live tunnel is not verified from here.
+
+| Item | Value |
+|---|---|
+| `preview/tunnel` | `ecbbb7f6` → `32ac36ea`. A merge commit, no force; its tree is identical to the sprint branch at `5c569871`. |
+| Serve | `serve-site00-preview-from-main.sh` serves `origin/preview/tunnel`; or pin it with `serve-site00-preview-from-pin-ref.sh` (the live pin was last `c5e604e5`). Dev mode, preview flags as in `run-site00-cloud-preview-server.sh`. Run `npm ci` if the tunnel checkout predates `three@0.185.1`. |
+| Verify | `/bldr/studio/blueprint`. Open each section and select an item: the model lights, turns and pins a callout. TIMELINE plays itself. |
+
+`main` is at `45256e30`, with #1529–#1531 (platform-economics statements, client range normalization). These are **not** in this preview. Integrating them conflicts on the old `BldrSpatialStudioPage` and its CSS, which the studio replaces. The resolution is the platform-economics Opus handoff: mount `blueprintEconomicsForSelection()` in the studio OVERVIEW and retarget its source test. That is proposed as the next sprint.
+
 ## Rollback
 
 - The previous verified state is `ab9f1bef` on `claude/bldr-studio-creative-refinement-8d42xk`, also recorded in PR #1528.
 - The founder tunnel was last pinned to `c5e604e5`.
-- `preview/tunnel` was at `ecbbb7f6` before this sprint.
+- `preview/tunnel` was at `ecbbb7f6` before this sprint. Reset it there to roll the preview back.
