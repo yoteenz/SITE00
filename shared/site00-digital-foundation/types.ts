@@ -118,6 +118,14 @@ export type IntakeNeedFlag =
   | 'NEED_BRANDING'
   | 'UNSURE';
 
+/** Optional — stored on artifact when Business Growth Intelligence is enabled. */
+export type DigitalFoundationBusinessAmbitionRef = {
+  schema_version: string;
+  goals: string[];
+  skipped?: boolean;
+  completed_at?: string;
+};
+
 export type DigitalFoundationIntake = {
   business_name?: string;
   legal_business_name?: string;
@@ -133,6 +141,8 @@ export type DigitalFoundationIntake = {
   branding_status?: string;
   future_website_interest?: string;
   needs: IntakeNeedFlag[];
+  /** Business Ambition discovery (before final Foundation recommendation when BGI enabled). */
+  business_ambition?: DigitalFoundationBusinessAmbitionRef;
 };
 
 export type QuoteLineAddon = {
