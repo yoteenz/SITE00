@@ -5,11 +5,10 @@
 import { pathToFileURL } from 'node:url';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { createRequire } from 'node:module';
+import { register as registerTsx } from 'tsx/esm/api';
 import { loadEnv } from 'vite';
 
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
-const require = createRequire(import.meta.url);
 
 /** Express-style path → api handler module (relative to repo root) */
 const LOCAL_API_ROUTES = [
@@ -137,11 +136,10 @@ export function site00LocalApiPlugin() {
   const handlerPromises = new Map();
   let tsxRegistered = false;
 
-  async function ensureTsx() {
+  function ensureTsx() {
     if (!tsxRegistered) {
-      const tsxApi = pathToFileURL(require.resolve('tsx/esm/api')).href;
-      const { register } = await import(tsxApi);
-      register();
+      // Use package export conditions (index.mjs). Do not import tsx/dist/*.cjs via file URL — that breaks on some Node/Vite combos.
+      registerTsx();
       tsxRegistered = true;
     }
   }
@@ -150,7 +148,7 @@ export function site00LocalApiPlugin() {
     let promise = handlerPromises.get(file);
     if (!promise) {
       promise = (async () => {
-        await ensureTsx();
+        ensureTsx();
         const mod = await import(pathToFileURL(path.join(ROOT, file)).href);
         return mod.default;
       })();

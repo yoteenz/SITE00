@@ -19,6 +19,7 @@ import {
   updateQuoteSelections,
 } from '../_lib/digitalFoundation/service.js';
 import { listArtifacts } from '../_lib/digitalFoundation/memoryStore.js';
+import { syncAllArtifactsIntoMemory } from '../_lib/digitalFoundation/persistence/supabaseStore.js';
 import {
   activateRunbookForArtifact,
   generateRunbookForArtifact,
@@ -54,6 +55,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (req.method === 'GET') {
       switch (action) {
         case 'list':
+          await syncAllArtifactsIntoMemory();
           return res.status(200).json({
             artifacts: listArtifacts().map((a) => ({
               artifact_id: a.artifact_id,
