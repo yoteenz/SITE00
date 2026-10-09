@@ -47,8 +47,8 @@
 |  |  |
 |---|---|
 | Tool | workspaces/qa.mjs — Playwright + Chromium over the built review |
-| Checks | 180 run · 0 failed |
-| Screenshots | 32 (fsbw AIO_OFFICE_WORKSPACE_PROOFS/screens/) |
+| Checks | 258 run · 0 failed |
+| Screenshots | 35 (fsbw AIO_OFFICE_WORKSPACE_PROOFS/screens/) |
 
 - every workspace on phone, tablet, desktop and ultra-wide: draws; every control has a handler; no dead controls; inputs wired; uppercase law; no sideways overflow; fits one screen on tablet / desktop / ultra-wide
 - fleet: select, section, readout filter, search with focus kept, tag click, inline simulated confirm, client jump + back, phone drawer open / close
@@ -59,6 +59,7 @@
 - review: four live miniatures that follow the device switch (phone, tablet), every image loads, card opens workspace, device fits the window, device / role switches, BEFORE board, all twelve TRY demonstrations run to the end, the ABC demo ends where it started
 - review on a 390 px screen (landing and each workspace): no sideways scroll, the PHONE switch visible, the phone device fits
 - no console or page errors
+- material, motion and detail pass (P0.AIO.OFFICE.UNIFIED-EXPERIENCE2.MATERIAL-MOTION-AND-DETAIL-POLISH1): keyboard reach; motion tokens inside the brief; selections update in place with nothing longer than 350 ms or looping; drawers (dialog, slide, focus, Tab trap, Escape, exit, focus return, keyboard); reduced motion; MONTHLY / ANNUAL; this-pass boards and recordings in the review; the text audit over 79 states at four sizes — see docs/aio/office-workspace-style/
 
 ## Defects found by looking and fixed
 

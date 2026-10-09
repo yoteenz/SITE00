@@ -12,9 +12,9 @@
 
 1. Open https://claude.ai/artifact/DKYZUHjSdiTw1qSC1evdbk. The landing shows the four workspaces live; PHONE / TABLET / DESKTOP / ULTRA-WIDE at the top switch all four previews (PHONE shows the four phone layouts side by side). Tap one to open it.
 2. Inside a workspace: TRY runs a short demonstration on the real controls; PHONE / TABLET / DESKTOP / ULTRA-WIDE switch the composition; FOUNDER / STAFF switch what is visible.
-3. BEFORE shows the same records as Batch 1 drew them, beside the new composition.
+3. BEFORE shows this pass beside the last one, then the same records as Batch 1 drew them beside the workspace.
 4. Click anything: trucks, tags, months, phases, marks, services, records. Actions ask first and say SIMULATED; RESET clears them.
-5. The landing also has the four before → after boards, the twelve rules, the family check against the approved WORK root, and the Batch 1 diagnosis.
+5. The landing leads with THIS PASS (seven before → after boards) and MOTION (twelve recorded interactions, last pass beside this one); REDUCE MOTION switches motion off. Below: the four since-Batch-1 boards, the twelve rules, the family check against the approved WORK root, and the Batch 1 diagnosis.
 
 ## Decisions required
 
@@ -22,6 +22,6 @@
 2. Approve the twelve rules as the creative direction for every remaining workspace.
 3. Fleet: keep the drawn truck over the night-yard plate as the vehicle stage (or ask for a photographic truck per unit, which needs a photo pass).
 4. Compliance: the IA has one AUDIT / CORRECTIVE WORK section; the proof shows AUDITS and CORRECTIVE WORK as two tabs, as the brief named them — confirm, or merge back.
-5. Bookkeeping: add a MONTHLY / ANNUAL switch to the client rail for ANNUAL CLIENTS (no sample annual client exists yet).
+5. Bookkeeping: the MONTHLY / ANNUAL switch is now in the client rail (material, motion and detail pass); ANNUAL says honestly that no sample client is annual — confirm the switch.
 6. Ultra-wide: workspaces take the full screen while reading pages keep the 1480 px measure — confirm.
 7. Order of expansion to the other lanes (recommendation in Q).

@@ -15770,3 +15770,43 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - The landing showed desktop previews only and hid the device switch, so the phone layouts were one click deep and easy to miss. On a phone-sized screen the review page itself spilled sideways (718 px) and the phone device did not fit.
 - Fixed: the device switch is on the landing and the four previews follow it (PHONE shows the four phone layouts side by side); the tab strip shrinks and scrolls; the toolbar compacts on a phone. No workspace design changed.
 - QA now 180/180 (adds landing-follows-device and 390 px no-overflow checks); 32 screenshots incl. `review--landing-phone.jpg`. Same review link (version 2).
+
+---
+
+## 2026-10-09 — AIO office: material, motion and detail polish; AIO OFFICE WORKSPACE STYLE locked (candidates, awaiting founder)
+
+- **Sprint:** P0.AIO.OFFICE.UNIFIED-EXPERIENCE2.MATERIAL-MOTION-AND-DETAIL-POLISH1.
+- **What the founder said:** the four proofs were "wayyy better". They asked for:
+  - panel animation
+  - richer lower panels, tabs and nested detail
+  - better drawers
+  - text that fits its row and panel
+- **Language locked:** the four directions were refined in place, not redesigned:
+  - fleet = the vehicle
+  - bookkeeping = the period
+  - compliance = the deadline
+  - Client 360 = the business
+- **Motion system:** the review patches the DOM instead of redrawing it (`ws-motion.js`), so scroll, focus and rows survive. Tokens are micro 130 / select 190 / panel 260 / context 320 / exit 200 ms, using one no-bounce easing. A selection may echo once. Nothing loops, staggers or flashes. Reduced motion makes everything 1 ms.
+- **Drawers:** a bar holds the grip and close (never over a title), with a gold hairline, a fixed header and a contained scrolling body. They are labelled dialogs: focus moves in, Tab is trapped, and Escape, close or a tap outside dismisses them. The background is inert, focus returns to the opener, and the exit takes 200 ms. On tablet the client directory is a side drawer.
+- **Type:** 9 / 10 / 12 / 13 / 17 px. The text audit (`audit.mjs`, 79 states × 390 / 834 / 1440 / 2560) went from 24 wraps, 3 overlaps, 7 unreachable truncations, 859 sub-9 px texts and 2 unintended sideways scrolls on the last pass to 0 of each.
+- **Defects A–J:** all fixed. This includes the IFTA tag, the yard names, the sparse wide panels, the Client 360 overview and nested detail, the bookkeeping detail objects, the phone compliance tabs and drawer readability. A further 10 defects were found by looking and fixed.
+- **Where (SITE00):**
+  - the style spec and pass record are in `projects/aio/office-workspace-style.ts` (`AIO_WS_STYLE`, `validateWorkspaceStyle`)
+  - the docs are in `docs/aio/office-workspace-style/`
+  - the tests are in `tests/aioOfficeWorkspaceStyle1.test.ts` (13)
+  - the proofs record's QA was updated to 258 checks and 35 screenshots
+- **Where (fsbw):**
+  - `workspaces/` gains `ws-motion.js`, `audit.mjs`, `record.mjs` and `polish-boards.mjs`
+  - `AIO_OFFICE_WORKSPACE_PROOFS/` gains seven `polish-*` boards, `recordings/` (12 interactions, last pass and this one, MP4 + WebM) and 35 screens
+- **QA:** `qa.mjs` 258/258.
+- **Not inspected:** the founder's mobile screen recording, which was not available. The same states were captured directly.
+- **Not changed:**
+  - approved roots
+  - migration and IFTA authorities
+  - the 619-page review
+  - the live app, schema, permissions and business logic
+  - Brokerage (still paused)
+  - the public website (separate)
+  - the 12 privacy gaps (still OPEN; separate Composer work)
+- **Review:** https://claude.ai/artifact/DKYZUHjSdiTw1qSC1evdbk (version 3).
+- **Next gate:** FOUNDER REVIEW OF AIO OFFICE MATERIAL, MOTION AND DETAIL POLISH. The style is not applied to other lanes until approved.

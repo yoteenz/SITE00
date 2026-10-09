@@ -21,6 +21,7 @@ export * from './office-design-reconciliation.js';
 export * from './office-visual-authority.js';
 export * from './office-unified-experience.js';
 export * from './office-workspace-proofs.js';
+export * from './office-workspace-style.js';
 
 /** Canonical AIO feature inventory, in family order (F01 → F18, then the AIO OFFICE projection, then client migration + activation). */
 export const AIO_EXPERIENCE_CONTRACTS: ExperienceContract[] = [

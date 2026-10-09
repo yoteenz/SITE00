@@ -44,7 +44,8 @@ export const AIO_WP_LOCATIONS = {
   build: 'node design-authority/aio-office/workspaces/build.mjs <outDir>',
   qa: 'node design-authority/aio-office/workspaces/qa.mjs <outDir> [screensDir]',
   boards: 'node design-authority/aio-office/workspaces/boards.mjs <batch1Dist> <workspacesDist>',
-  review_folder: 'fsbw AIO_OFFICE_WORKSPACE_PROOFS/ — boards/ (diagnosis, before → after, family), screens/ (32 QA captures), qa-summary.json',
+  review_folder: 'fsbw AIO_OFFICE_WORKSPACE_PROOFS/ — boards/ (diagnosis, before → after, family, and the seven polish-* boards of the material, motion and detail pass), recordings/ (twelve interactions, last pass and this one), screens/ (35 QA captures), qa-summary.json',
+  style: 'The locked workspace style and the polish pass: shared/studioos-experience-brain/projects/aio/office-workspace-style.ts → docs/aio/office-workspace-style/',
   review_link: AIO_WP_REVIEW_LINK,
   batch1_review: 'https://claude.ai/artifact/VQCyD4A4YmeErb27ik2hgG (functional structure; not approved visuals)',
   docs: 'docs/aio/office-workspace-proofs/ (SITE00, generated) · vendored to fsbw all-in-one-enterprises/docs/aio/office-workspace-proofs/',
@@ -187,7 +188,7 @@ export const AIO_WP_ROOT_COMPARISON = {
 
 export const AIO_WP_QA = {
   tool: 'workspaces/qa.mjs — Playwright + Chromium over the built review',
-  checks_run: 180,
+  checks_run: 258,
   failures: 0,
   covers: [
     'every workspace on phone, tablet, desktop and ultra-wide: draws; every control has a handler; no dead controls; inputs wired; uppercase law; no sideways overflow; fits one screen on tablet / desktop / ultra-wide',
@@ -199,8 +200,9 @@ export const AIO_WP_QA = {
     'review: four live miniatures that follow the device switch (phone, tablet), every image loads, card opens workspace, device fits the window, device / role switches, BEFORE board, all twelve TRY demonstrations run to the end, the ABC demo ends where it started',
     'review on a 390 px screen (landing and each workspace): no sideways scroll, the PHONE switch visible, the phone device fits',
     'no console or page errors',
+    'material, motion and detail pass (P0.AIO.OFFICE.UNIFIED-EXPERIENCE2.MATERIAL-MOTION-AND-DETAIL-POLISH1): keyboard reach; motion tokens inside the brief; selections update in place with nothing longer than 350 ms or looping; drawers (dialog, slide, focus, Tab trap, Escape, exit, focus return, keyboard); reduced motion; MONTHLY / ANNUAL; this-pass boards and recordings in the review; the text audit over 79 states at four sizes — see docs/aio/office-workspace-style/',
   ],
-  screenshots: 32,
+  screenshots: 35,
   found_and_fixed: [
     'Nested <button> in the landing cards closed the cards early (previews broke) → cards are role=button blocks',
     'Stage wrapper overlapped the toolbar and swallowed clicks on PHONE / TABLET / DESKTOP → overlap removed, demo caption floats inside the device',
@@ -220,16 +222,16 @@ export const AIO_WP_QA = {
 export const AIO_WP_WALKTHROUGH: string[] = [
   `Open ${AIO_WP_REVIEW_LINK}. The landing shows the four workspaces live; PHONE / TABLET / DESKTOP / ULTRA-WIDE at the top switch all four previews (PHONE shows the four phone layouts side by side). Tap one to open it.`,
   'Inside a workspace: TRY runs a short demonstration on the real controls; PHONE / TABLET / DESKTOP / ULTRA-WIDE switch the composition; FOUNDER / STAFF switch what is visible.',
-  'BEFORE shows the same records as Batch 1 drew them, beside the new composition.',
+  'BEFORE shows this pass beside the last one, then the same records as Batch 1 drew them beside the workspace.',
   'Click anything: trucks, tags, months, phases, marks, services, records. Actions ask first and say SIMULATED; RESET clears them.',
-  'The landing also has the four before → after boards, the twelve rules, the family check against the approved WORK root, and the Batch 1 diagnosis.',
+  'The landing leads with THIS PASS (seven before → after boards) and MOTION (twelve recorded interactions, last pass beside this one); REDUCE MOTION switches motion off. Below: the four since-Batch-1 boards, the twelve rules, the family check against the approved WORK root, and the Batch 1 diagnosis.',
 ];
 export const AIO_WP_FOUNDER_DECISIONS: string[] = [
   'Approve, revise or reject each of the four proofs (VEHICLES & FLEET · BOOKKEEPING · COMPLIANCE · CLIENT 360).',
   'Approve the twelve rules as the creative direction for every remaining workspace.',
   'Fleet: keep the drawn truck over the night-yard plate as the vehicle stage (or ask for a photographic truck per unit, which needs a photo pass).',
   'Compliance: the IA has one AUDIT / CORRECTIVE WORK section; the proof shows AUDITS and CORRECTIVE WORK as two tabs, as the brief named them — confirm, or merge back.',
-  'Bookkeeping: add a MONTHLY / ANNUAL switch to the client rail for ANNUAL CLIENTS (no sample annual client exists yet).',
+  'Bookkeeping: the MONTHLY / ANNUAL switch is now in the client rail (material, motion and detail pass); ANNUAL says honestly that no sample client is annual — confirm the switch.',
   'Ultra-wide: workspaces take the full screen while reading pages keep the 1480 px measure — confirm.',
   'Order of expansion to the other lanes (recommendation in Q).',
 ];

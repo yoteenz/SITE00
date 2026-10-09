@@ -1,0 +1,40 @@
+{
+  "sprint": "P0.AIO.OFFICE.UNIFIED-EXPERIENCE2.MATERIAL-MOTION-AND-DETAIL-POLISH1",
+  "gate": {
+    "DESIGN_LANGUAGE_LOCKED": "YES — the four directions refined in place, not redesigned",
+    "FOUR_DIRECTIONS_RECOGNIZABLE": "YES — fleet = the vehicle, bookkeeping = the period, compliance = the deadline, Client 360 = the business",
+    "DEFECTS_A_TO_J": "FIXED — all ten",
+    "MOTION_INSIDE_THE_BRIEF": "YES",
+    "REDUCED_MOTION_HONOURED": "YES — checked by qa.mjs (no animation over 10 ms; instant drawer and confirmation)",
+    "NO_CLIPPED_OR_OVERLAPPING_TEXT": "YES — 79 states × 4 sizes",
+    "REVIEW_QA_PASSED": "YES — 258/258",
+    "RECORDINGS": "12 interactions · last pass and this pass · MP4 + WebM",
+    "FOUNDER_RECORDING_INSPECTED": "NO — not available; states captured directly",
+    "APPROVED_ROOTS_CHANGED": "NO",
+    "EXPANDED_TO_OTHER_LANES": "NO",
+    "PUBLIC_SITE_AFFECTED": "NO — separate",
+    "LIVE_APP_CHANGED": "NO",
+    "FOUNDER_APPROVED": "NO — AWAITING FOUNDER REVIEW",
+    "SECURITY_GAPS_FIXED": "NO — still open; separate Composer work"
+  },
+  "counts": {
+    "style_sections": 15,
+    "defects": 10,
+    "qa_checks": 258,
+    "screenshots": 35,
+    "recordings": 12,
+    "audit_states": 79,
+    "found_and_fixed": 10
+  },
+  "problems": [],
+  "status": {
+    "language": "LOCKED — the four directions are the AIO OFFICE workspace language; refined in place, not redesigned",
+    "proofs": "FOUR WORKSPACE PROOFS POLISHED — CANDIDATES, AWAITING FOUNDER REVIEW",
+    "expansion": "NOT STARTED — the style is not applied to any other lane or to the 619-page review in this pass",
+    "public_site": "SEPARATE — this style governs AIO OFFICE workspaces only; the public AIO website keeps its own language",
+    "approved_roots": "UNCHANGED — HOME · INTAKE · WORK · REPORTS · MORE (studio.js / studio.css byte-for-byte)",
+    "live_app": "NOT CHANGED — nothing deployed; no business logic, schema, permission, migration or IFTA authority changed; Brokerage stays paused",
+    "security": "12 PRIVACY GAPS STILL OPEN — separate Composer work; not resolved here"
+  },
+  "next_gate": "FOUNDER REVIEW OF AIO OFFICE MATERIAL, MOTION AND DETAIL POLISH"
+}
