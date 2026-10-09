@@ -15702,6 +15702,16 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
+## 2026-10-09 — Business Growth Intelligence V1 foundation contracts
+
+- **Context:** Sprint `P0.SITE00.BUSINESS-GROWTH-INTELLIGENCE.V1-FOUNDATION-AMBITION-SERVICE-CATALOG-AND-DYNAMIC-DELIVERY1` — new BUSINESS GROWTH category discoverable in Foundation journey (contracts only; flags off).
+- **Topics covered:** `shared/site00-business-growth-intelligence/` catalog, Business Ambition, recommendation engine, quote sections, delivery engine, roadmap; DF `business_ambition` ref; $500 base preserved; BLDR estimator for Presence Launch; no live Growth charges.
+- **Decisions / outcomes:** Public activation **NOT AUTHORIZED**; Growth prices **DRAFT**; Opus handoff `docs/site00/business-growth/BUSINESS_GROWTH_OPUS_VISUAL_HANDOFF_V1.md`.
+- **Changes:** PR branch `cursor/business-growth-intelligence-a9f7`, tests `businessGrowthIntelligence.test.ts`.
+- **Conventions:** Invitation 001 attribution unchanged; AIO services separate billing.
+
+---
+
 ## 2026-10-08 — Opus Builder pinned on founder tunnel (PR #1524 @ c5e604e5)
 
 - **Context:** Sprint `P0.SITE00.BUILDER.HYBRID-SPATIAL-STUDIO.V1-FOUNDER-TUNNEL-DEPLOYMENT-AND-LIVE-VERIFICATION1` — deploy Opus five-screen studio without merging PR #1524.
