@@ -1,0 +1,37 @@
+{
+  "sprint": "P0.AIO.PUBLIC-WEBSITE.LIVE-LEGACY-AUDIT-RESPONSIVE-CREATIVE-RECONCILIATION-AND-MIGRATION-READINESS1",
+  "gate": {
+    "PRODUCTION_URL_VERIFIED": "NO — see the live-site record; the audit is of the source and a local build",
+    "CURRENT_APP_RENDERED": "YES — 99 public routes × 5 sizes = 495 renders (local build, demo mode, not production)",
+    "FUNCTIONAL_INVENTORY": "43 capabilities classified",
+    "KNOWN_ISSUES_REVERIFIED": "A: CONFIRMED · B: CONFIRMED — WORSE THAN RECORDED · C: CONFIRMED · D: CONFIRMED · E: CONFIRMED — NARROWER THAN RECORDED · F: CONFIRMED · G: CONFIRMED — WORSE THAN RECORDED · H: CONFIRMED",
+    "COMPOSER_TASKS": "22 (P0 11)",
+    "DESKTOP_TABLET_RECOMPOSED": "YES — candidates, awaiting founder review",
+    "MOBILE": "PRESERVED — genuine-issue fixes and required answers only",
+    "PUBLIC_QA": "PASSED — 119/119 · 92 pages × 6 sizes",
+    "PRICES_SHOWN": "NO — none approved",
+    "BROKERAGE": "PAUSED — not activated",
+    "LIVE_APP_CHANGED": "NO",
+    "PRODUCTION_DEPLOYED": "NO",
+    "MIGRATION_READY": "NO — production blockers open",
+    "FOUNDER_APPROVED": "NO — AWAITING FOUNDER REVIEW"
+  },
+  "counts": {
+    "inventory": 43,
+    "composer_tasks": 22,
+    "blockers": 9,
+    "founder_decisions": 9,
+    "scroll_pages": 92
+  },
+  "problems": [],
+  "status": {
+    "live_site": "NOT VERIFIED — NO PRODUCTION URL COULD BE VERIFIED OR REACHED FROM THIS ENVIRONMENT (SEE AIO_PM_LIVE)",
+    "audit_basis": "THE CURRENT SOURCE (fsbw all-in-one-enterprises/) AND A LOCAL BUILD OF IT IN DEMO MODE — NOT PRODUCTION",
+    "public_design": "REFINED IN REVIEW — DESKTOP AND TABLET RECOMPOSED, PHONE PRESERVED, LONG PAGES SHORTENED, LIVE CONTENT RECOVERED — CANDIDATES, AWAITING FOUNDER REVIEW; NOT DEPLOYED",
+    "migration": "NOT READY — PRODUCTION BLOCKERS RECORDED (AIO_PM_BLOCKERS); REPAIRS ARE COMPOSER TASKS (AIO_PM_COMPOSER_TASKS)",
+    "live_app": "NOT CHANGED — nothing deployed; no auth, database, business rule, price, migration or IFTA authority changed",
+    "brokerage": "PAUSED — shown paused in the design (pages, intake goal, explorer); the live app still has unpaused paths (issue B, CT-02, CT-19)",
+    "security": "12 PRIVACY GAPS STILL OPEN — separate Composer work; not resolved here"
+  },
+  "next_gate": "FOUNDER REVIEW: AIO PUBLIC WEBSITE — FINAL RESPONSIVE DESIGN AND LEGACY MIGRATION READINESS"
+}

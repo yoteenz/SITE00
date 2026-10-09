@@ -15860,3 +15860,21 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - the 12 privacy gaps (still OPEN; separate Composer work)
 
 **Next gate:** FOUNDER REVIEW OF THE COMPLETE AIO OFFICE AND THE PUBLIC WEBSITE DESIGN. The founder should confirm panel 04 as the homepage authority.
+
+## 2026-10-09 — AIO public website: live-legacy audit, desktop/tablet recomposition, migration readiness (in progress)
+
+**Sprint:** P0.AIO.PUBLIC-WEBSITE.LIVE-LEGACY-AUDIT-RESPONSIVE-CREATIVE-RECONCILIATION-AND-MIGRATION-READINESS1
+
+**Added to the Brain:**
+- `projects/aio/public-migration.ts`: status, live-site check, 43-row preservation inventory, route comparison, integrations, known issues A–H re-checked, Composer tasks CT-01..CT-22, release steps 01–09, rollback, blockers, founder decisions, plus `validatePublicMigration()`.
+- `projects/aio/public-migration-evidence.ts`: generated QA, legacy-render, scroll and accessibility evidence.
+- Exporter `scripts/studioos/aio-public-migration-export.ts` writes `docs/aio/public-migration/` (20 docs, README, PUBLIC_MIGRATION.json, QUALITY_GATE.json).
+- `tests/aioPublicMigration1.test.ts` has 10 tests.
+
+**Live site:** not verified. Production hosts are denied by this container's network policy, so the audit used the source and a local build of it.
+
+**Not changed:** the live site, auth, data, business rules, prices, Brokerage (paused) and the 12 privacy gaps (separate Composer work).
+
+**Rule:** DO NOT REPLACE THE PRODUCTION WEBSITE UNTIL THE FOUNDER APPROVES THE FINAL DESKTOP / TABLET DESIGN AND THE FUNCTIONAL PRESERVATION PLAN.
+
+**Status:** the founder paused the sprint mid-way. The work is committed so nothing is lost. The final report and the artifact republish are still pending.

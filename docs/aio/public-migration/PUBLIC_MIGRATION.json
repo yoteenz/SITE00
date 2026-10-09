@@ -1,0 +1,2036 @@
+{
+  "sprint": "P0.AIO.PUBLIC-WEBSITE.LIVE-LEGACY-AUDIT-RESPONSIVE-CREATIVE-RECONCILIATION-AND-MIGRATION-READINESS1",
+  "date": "2026-10-09",
+  "base": {
+    "site00": "03ad00b9",
+    "fsbw": "56c661c6"
+  },
+  "links": {
+    "review": "https://claude.ai/artifact/BzsjSbyLHoLAxhGZBr27UE",
+    "office_review": "https://claude.ai/artifact/DKYZUHjSdiTw1qSC1evdbk"
+  },
+  "status": {
+    "live_site": "NOT VERIFIED — NO PRODUCTION URL COULD BE VERIFIED OR REACHED FROM THIS ENVIRONMENT (SEE AIO_PM_LIVE)",
+    "audit_basis": "THE CURRENT SOURCE (fsbw all-in-one-enterprises/) AND A LOCAL BUILD OF IT IN DEMO MODE — NOT PRODUCTION",
+    "public_design": "REFINED IN REVIEW — DESKTOP AND TABLET RECOMPOSED, PHONE PRESERVED, LONG PAGES SHORTENED, LIVE CONTENT RECOVERED — CANDIDATES, AWAITING FOUNDER REVIEW; NOT DEPLOYED",
+    "migration": "NOT READY — PRODUCTION BLOCKERS RECORDED (AIO_PM_BLOCKERS); REPAIRS ARE COMPOSER TASKS (AIO_PM_COMPOSER_TASKS)",
+    "live_app": "NOT CHANGED — nothing deployed; no auth, database, business rule, price, migration or IFTA authority changed",
+    "brokerage": "PAUSED — shown paused in the design (pages, intake goal, explorer); the live app still has unpaused paths (issue B, CT-02, CT-19)",
+    "security": "12 PRIVACY GAPS STILL OPEN — separate Composer work; not resolved here"
+  },
+  "live": {
+    "production_url": null,
+    "verified": false,
+    "attempts": [
+      "https://frontalslayer.com/all-in-one — the legacy host path that the source says shows “All In One has moved” (src/pages/debug/LegacyAioMovedNotice.tsx in fsbw root) — CONNECTION DENIED by this environment’s network policy",
+      "https://www.frontalslayer.com/all-in-one — DENIED",
+      "https://allinoneenterprises.com — DENIED; the name appears only as an example in docs/EXTRACTION_PLAN.md:112, not as a verified domain"
+    ],
+    "domain_record": "docs/DOMAIN_AND_DNS.md: “NOT_SELECTED — owner must confirm/purchase domain”; docs/PRODUCTION_INFRASTRUCTURE.md: “PUBLIC LAUNCH READY: NO”; index.html sets robots noindex, nofollow",
+    "preview": "AGENTS.md: until production, the AIO app runs on a Cloudflare preview tunnel (AIO_CLOUDFLARE_TUNNEL_HOSTNAME, ephemeral otherwise) — no tunnel URL was available in this session",
+    "screen_recordings": "NONE INSPECTED — no founder screen recording of the AIO website was attached to this session or found in either repository (the only videos are unrelated Frontal Slayer assets)",
+    "local_render": "A production build (vite build) of the current source in demo mode, served locally, every public route rendered at 360, 390, 834, 1440 and 2560 — labelled LOCAL BUILD OF CURRENT SOURCE, NOT PRODUCTION",
+    "remedy": "To audit the deployed site: add its host to this environment’s allowed domains (cloud environment settings → Network access) or supply the production URL; the route list, captures and checks rerun unchanged."
+  },
+  "rule": "DO NOT REPLACE THE PRODUCTION WEBSITE UNTIL THE FOUNDER APPROVES THE FINAL DESKTOP / TABLET DESIGN AND THE FUNCTIONAL PRESERVATION PLAN.",
+  "inventory": [
+    {
+      "id": "home",
+      "area": "PUBLIC PAGE",
+      "route": "/",
+      "fn": "Homepage: hero, four pathways, six-stage roadmap, connected-value section, final CTA.",
+      "backend": "None. Hero CTA reads Start-Your-Business progress from the demo store.",
+      "destination": "Design HOME (panel 04 hero unchanged; WHAT CAN AIO DO · WHICH ONE ARE YOU · WHY AIO · ROAD READY · NEXT).",
+      "preserve": "The four pathway destinations (homepageMobileContent.ts) and the six roadmap stages and their routes (startBusinessJourneyDef).",
+      "restyle": "Everything visual.",
+      "security": "Anonymous visitors see the seeded demo client’s setup progress (useStartBusinessJourney → client-a).",
+      "risk": "MEDIUM",
+      "test": "Every pathway and stage link resolves; no demo-client data for anonymous visitors.",
+      "classes": [
+        "REPLACE PRESENTATION ONLY",
+        "REPAIR BEFORE MIGRATION"
+      ],
+      "evidence": "src/pages/HomePage.tsx; src/journeys/useStartBusinessJourney.ts:127-131"
+    },
+    {
+      "id": "services",
+      "area": "PUBLIC PAGE",
+      "route": "/services",
+      "fn": "Services hub: seven category links, twelve popular services, disclaimer.",
+      "backend": "None (catalog in code).",
+      "destination": "Design SERVICES: family bar + the whole catalog as one grouped index; cards once narrowed.",
+      "preserve": "Category destinations; the compliance disclaimer.",
+      "restyle": "All; the duplicate popular rows are dropped.",
+      "security": "—",
+      "risk": "LOW",
+      "test": "Every catalog service reachable from the index.",
+      "classes": [
+        "REPLACE PRESENTATION ONLY"
+      ],
+      "evidence": "src/pages/ServicesPage.tsx:18-24,46-56"
+    },
+    {
+      "id": "finder",
+      "area": "PUBLIC PAGE",
+      "route": "/services/find",
+      "fn": "Need → optional business-profile step → recommended services (recommendServicesFromIntake).",
+      "backend": "None (client-side recommender).",
+      "destination": "Design FIND A SERVICE.",
+      "preserve": "recommendServicesFromIntake including the not-sure business-profile branch (interstate, CDL, power units, new entrant).",
+      "restyle": "All; result labels must be service names, not raw slugs.",
+      "security": "—",
+      "risk": "LOW",
+      "test": "Each need returns the live recommendation set.",
+      "classes": [
+        "RECONNECT TO NEW DESIGN"
+      ],
+      "evidence": "src/pages/ServiceFindPage.tsx:12-32,77-122,136"
+    },
+    {
+      "id": "division-hubs",
+      "area": "PUBLIC PAGE",
+      "route": "/services/{permitting,business-formation,insurance,dispatching,brokerage}",
+      "fn": "Division hubs: service rows, context rail, mobile ADD TO MY PLAN per service.",
+      "backend": "Service plan → demo store.",
+      "destination": "Design SERVICE FAMILY: explorer (tablet/desktop), six cards + SHOW ALL (phone).",
+      "preserve": "Membership of each division; ADD TO MY PLAN.",
+      "restyle": "All.",
+      "security": "Mobile ADD TO MY PLAN is ungated — paused/held services can be planned.",
+      "risk": "MEDIUM",
+      "test": "Paused and held services cannot be planned or started.",
+      "classes": [
+        "REPLACE PRESENTATION ONLY",
+        "RECONNECT TO NEW DESIGN"
+      ],
+      "evidence": "src/pages/ServiceCatalogDetailPage.tsx:60-91; src/components/mobile/service/MobileDivisionServicesView.tsx:50-52"
+    },
+    {
+      "id": "service-detail",
+      "area": "PUBLIC PAGE",
+      "route": "/services/:serviceSlug",
+      "fn": "Service detail: description, audience, requirements, process, documents, FAQ, related, status, price label, ADD TO MY PLAN, CHECK MY STATUS (→ /login), journey back.",
+      "backend": "Service plan → demo store; price from DEFAULT_SERVICE_PRICING (demo).",
+      "destination": "Design SERVICE PAGE: hero + facts + ON THIS PAGE bar + WHAT AIO PROVIDES / WHO IT IS FOR / WHAT YOU PROVIDE + HOW IT WORKS + AFTER + QUESTIONS + PAIRED + next step.",
+      "preserve": "The per-service words in src/data/services.ts (audience, requirements, process, documents, faq) and the operating-authority process/FAQ (mobileServicePageConfig.ts) — now drawn verbatim; ADD TO MY PLAN; CHECK MY STATUS; the launch CTA label.",
+      "restyle": "All.",
+      "security": "CTA fails open for unmapped slugs (brokerage children, BOC-3, held insurance/factoring, internal fuel tax show GET STARTED); unapproved prices shown; ?from open redirect on the journey back link.",
+      "risk": "HIGH",
+      "test": "CTA state per slug equals the single activation source; no price; ?from=//host rejected.",
+      "classes": [
+        "RECONNECT TO NEW DESIGN",
+        "REPAIR BEFORE MIGRATION"
+      ],
+      "evidence": "src/pages/ServiceCatalogDetailPage.tsx:93-238; src/launch/serviceActivationLaunch.ts:290-291; src/journeys/journeyContext.ts:26-29"
+    },
+    {
+      "id": "legacy-slugs",
+      "area": "PUBLIC PAGE",
+      "route": "/services/{rate-confirmation-management,pod-management,invoice-funding-review,factoring-transition-assistance}",
+      "fn": "Four detail pages that exist in src/data/services.ts but not in the canonical catalog.",
+      "backend": "None.",
+      "destination": "NOT IN THE DESIGN TREE (the tree follows the catalog).",
+      "preserve": "The URLs until the founder decides.",
+      "restyle": "—",
+      "security": "—",
+      "risk": "LOW",
+      "test": "Each URL either renders or redirects to its family.",
+      "classes": [
+        "DEFER"
+      ],
+      "evidence": "src/data/services.ts:476,493,562,579"
+    },
+    {
+      "id": "ifta-public",
+      "area": "PUBLIC PAGE",
+      "route": "/services/ifta-filing",
+      "fn": "The approved IFTA public page (own layout, sample quarter, FAQ search popover).",
+      "backend": "None.",
+      "destination": "Unchanged — the approved authority, shown as approved.",
+      "preserve": "Layout, imagery, typography, components — a separate founder decision is required for any change.",
+      "restyle": "Nothing.",
+      "security": "GET STARTED is ungated while fuel-tax is INTERNAL_ONLY; copy says “automated tracking” against its own guardrail.",
+      "risk": "MEDIUM",
+      "test": "Visual regression against the approved captures.",
+      "classes": [
+        "PRESERVE EXACTLY",
+        "REPAIR BEFORE MIGRATION"
+      ],
+      "evidence": "src/ifta/ui/IftaPublicPage.tsx:13-14,27,93; src/ifta/ui/IftaPublicLayout.tsx:114"
+    },
+    {
+      "id": "bookkeeping",
+      "area": "JOURNEY",
+      "route": "/services/bookkeeping · /assessment · /recommendation",
+      "fn": "Plans with monthly/annual toggle, comparison, Books Rescue, FAQ; 14-answer assessment → sessionStorage; recommendation page.",
+      "backend": "sessionStorage aio_bookkeeping_assessment_v1 / _recommendation_v1.",
+      "destination": "Design BOOKKEEPING (plans without prices, explorer), ASSESSMENT, RECOMMENDATION.",
+      "preserve": "The assessment questions and the recommendation engine; plan names and features.",
+      "restyle": "All.",
+      "security": "Prices $249/$449/$749 (+ annual) shown; no lead captured; #plans anchor dead; titles never restored.",
+      "risk": "MEDIUM",
+      "test": "Assessment → recommendation uses the live engine; no price until approved.",
+      "classes": [
+        "RECONNECT TO NEW DESIGN",
+        "REPAIR BEFORE MIGRATION"
+      ],
+      "evidence": "src/pages/BookkeepingPage.tsx; src/pages/bookkeeping/*; src/bookkeeping/bookkeepingPlans.ts:41-106"
+    },
+    {
+      "id": "factoring",
+      "area": "PUBLIC PAGE",
+      "route": "/services/factoring",
+      "fn": "Static page; CHECK ELIGIBILITY / OPEN FACTORING PORTAL → /portal/factoring.",
+      "backend": "None.",
+      "destination": "Design FACTORING (partner referral).",
+      "preserve": "Partner-referral disclosures.",
+      "restyle": "All; “Platform in development · debug preview” copy goes.",
+      "security": "Ungated while factoring is HOLD.",
+      "risk": "LOW",
+      "test": "No start path while HOLD.",
+      "classes": [
+        "REPLACE PRESENTATION ONLY",
+        "REPAIR BEFORE MIGRATION"
+      ],
+      "evidence": "src/pages/FactoringPage.tsx:35,65,82-85"
+    },
+    {
+      "id": "fleetcare",
+      "area": "PUBLIC PAGE",
+      "route": "/services/fleetcare · /plans",
+      "fn": "Marketing + plan list; REQUEST SERVICE → /portal/fleetcare/request.",
+      "backend": "None.",
+      "destination": "Design FLEETCARE + PLANS (price on request).",
+      "preserve": "Steps, disclosures, plan names.",
+      "restyle": "All.",
+      "security": "Prices $0 / $19 / $39 / +$5 per vehicle shown.",
+      "risk": "LOW",
+      "test": "No price until approved.",
+      "classes": [
+        "REPLACE PRESENTATION ONLY"
+      ],
+      "evidence": "src/pages/fleetcare/FleetCarePublicPages.tsx:9-110; src/fleetcare/fleetcareConfig.ts:13-50"
+    },
+    {
+      "id": "fleetcare-apply",
+      "area": "FORM",
+      "route": "/fleetcare/providers/join · /apply",
+      "fn": "Provider application: business name, email, location, agreement (draft v0.1).",
+      "backend": "NONE — onSubmit is preventDefault(); the data is discarded in every mode.",
+      "destination": "Design JOIN / APPLY.",
+      "preserve": "Fields and the agreement checkbox (once the agreement exists).",
+      "restyle": "All.",
+      "security": "Agreement is a draft with no document.",
+      "risk": "MEDIUM",
+      "test": "A submitted application reaches the office.",
+      "classes": [
+        "REPAIR BEFORE MIGRATION"
+      ],
+      "evidence": "src/pages/fleetcare/FleetCarePublicPages.tsx:144,158"
+    },
+    {
+      "id": "driverlink",
+      "area": "PUBLIC PAGE",
+      "route": "/services/driverlink · /driverlink/signup",
+      "fn": "Two pathways; /driverlink/signup is a heading and a link — no form, no inbound link.",
+      "backend": "None.",
+      "destination": "Design DRIVERLINK; the design DRAWS a driver-profile form that does not exist live.",
+      "preserve": "Disclosures; the driver portal route.",
+      "restyle": "All.",
+      "security": "—",
+      "risk": "LOW",
+      "test": "Do not ship the drawn form as working until a profile endpoint exists.",
+      "classes": [
+        "REPLACE PRESENTATION ONLY",
+        "DEFER"
+      ],
+      "evidence": "src/pages/driverlink/DriverLinkPublicPages.tsx:60-72"
+    },
+    {
+      "id": "start-business",
+      "area": "JOURNEY",
+      "route": "/start-your-business · /build · /register · /activate · /roll",
+      "fn": "Six-milestone journey, step pages with sub-steps, progress.",
+      "backend": "Demo store (seeded client) — not auth-gated.",
+      "destination": "Design START YOUR BUSINESS (stage picker in place) + stage pages.",
+      "preserve": "startBusinessJourneyDef (stages, routes, sub-steps); ?journey context.",
+      "restyle": "All.",
+      "security": "Demo-client progress shown to anonymous visitors; ?from open redirect; four sub-step slugs and the INC slug do not exist.",
+      "risk": "MEDIUM",
+      "test": "Sub-step links resolve; ?from sanitized; no demo progress.",
+      "classes": [
+        "RECONNECT TO NEW DESIGN",
+        "REPAIR BEFORE MIGRATION"
+      ],
+      "evidence": "src/journeys/startBusinessJourneyConfig.ts:58-77; src/pages/start-business/StartBusinessBuildPage.tsx:40"
+    },
+    {
+      "id": "road-ready",
+      "area": "PUBLIC PAGE",
+      "route": "/road-ready",
+      "fn": "Road Ready marketing; CTAs into Smart Intake; static 0% ring.",
+      "backend": "None.",
+      "destination": "Design ROAD READY™.",
+      "preserve": "CTA destinations.",
+      "restyle": "All.",
+      "security": "—",
+      "risk": "LOW",
+      "test": "Links resolve.",
+      "classes": [
+        "REPLACE PRESENTATION ONLY"
+      ],
+      "evidence": "src/pages/RoadReadyPublicPage.tsx"
+    },
+    {
+      "id": "guide",
+      "area": "PUBLIC PAGE",
+      "route": "/roadmap",
+      "fn": "Static mock roadmap that says “mocked for Sprint 01”, linked as COMPLIANCE GUIDE.",
+      "backend": "None.",
+      "destination": "Design COMPLIANCE GUIDE (one family at a time, from the catalog).",
+      "preserve": "The route and its nav label.",
+      "restyle": "All; the developer copy goes.",
+      "security": "—",
+      "risk": "LOW",
+      "test": "—",
+      "classes": [
+        "REPLACE PRESENTATION ONLY"
+      ],
+      "evidence": "src/pages/RoadmapPage.tsx:12-15,53-56"
+    },
+    {
+      "id": "client-portal-info",
+      "area": "PUBLIC PAGE",
+      "route": "/client-portal",
+      "fn": "Portal marketing with a mock dashboard ($12,750 eligible etc.).",
+      "backend": "None (mock data).",
+      "destination": "Design CLIENT PORTAL (approved IFTA client screen, labelled sample).",
+      "preserve": "LOG IN / SIGN UP / REQUEST ACCESS.",
+      "restyle": "All; mock dollar figures go.",
+      "security": "—",
+      "risk": "LOW",
+      "test": "No dollar figures.",
+      "classes": [
+        "REPLACE PRESENTATION ONLY"
+      ],
+      "evidence": "src/pages/ClientPortalInfoPage.tsx; src/components/AIOPortalPreview.tsx:40-48"
+    },
+    {
+      "id": "about",
+      "area": "PUBLIC PAGE",
+      "route": "/about",
+      "fn": "Tagline, industries, resource links.",
+      "backend": "None.",
+      "destination": "Design ABOUT.",
+      "preserve": "Resource links.",
+      "restyle": "All.",
+      "security": "—",
+      "risk": "LOW",
+      "test": "—",
+      "classes": [
+        "REPLACE PRESENTATION ONLY"
+      ],
+      "evidence": "src/pages/AboutPage.tsx"
+    },
+    {
+      "id": "contact",
+      "area": "FORM",
+      "route": "/contact",
+      "fn": "Intent chips, contact info, inquiry form (name, email, phone, business, message, preferred method incl. TEXT).",
+      "backend": "createLeadFromForm → the visitor’s own localStorage (isDemo: true) in EVERY mode — no server path.",
+      "destination": "Design CONTACT.",
+      "preserve": "Fields, intents, preferred-method choice.",
+      "restyle": "All.",
+      "security": "Leads never reach AIO; TEXT offered with no SMS/TCPA consent; placeholder phone/email.",
+      "risk": "HIGH",
+      "test": "A submitted inquiry appears in the office CRM; consent captured when TEXT chosen.",
+      "classes": [
+        "REPAIR BEFORE MIGRATION",
+        "RECONNECT TO NEW DESIGN"
+      ],
+      "evidence": "src/pages/ContactPage.tsx:35-49,100-109,205; src/demo/crmActions.ts:64-133"
+    },
+    {
+      "id": "callback",
+      "area": "FORM",
+      "route": "/request-callback",
+      "fn": "Name, phone, best time, reason.",
+      "backend": "createLeadFromForm (localStorage only).",
+      "destination": "Design REQUEST A CALLBACK.",
+      "preserve": "Fields.",
+      "restyle": "All; “demo mode” copy goes.",
+      "security": "No consent; never delivered.",
+      "risk": "HIGH",
+      "test": "Callback reaches the office.",
+      "classes": [
+        "REPAIR BEFORE MIGRATION",
+        "RECONNECT TO NEW DESIGN"
+      ],
+      "evidence": "src/pages/RequestCallbackPage.tsx:14-26,46"
+    },
+    {
+      "id": "schedule",
+      "area": "FORM",
+      "route": "/schedule",
+      "fn": "Four-step appointment request: type, date, slot (10-minute hold), contact.",
+      "backend": "Demo store: lead + conversation + appointment; sessionStorage hold id.",
+      "destination": "Design SCHEDULE draws a SIMPLER form (day + time) — FEATURE CONFLICT.",
+      "preserve": "Appointment types, date picker, slot hold — restyle the live four steps, do not adopt the drawn shortcut.",
+      "restyle": "All.",
+      "security": "Only the name is required; never delivered; no calendar event.",
+      "risk": "HIGH",
+      "test": "A booking reaches the office calendar.",
+      "classes": [
+        "REPAIR BEFORE MIGRATION",
+        "RECONNECT TO NEW DESIGN"
+      ],
+      "evidence": "src/pages/SchedulePage.tsx:11-72; src/demo/appointmentActions.ts:38-158"
+    },
+    {
+      "id": "quote",
+      "area": "FORM",
+      "route": "/quote/:secureToken",
+      "fn": "Quote by private token: lines, fees, accept / decline with reason.",
+      "backend": "Looks the token up in the visitor’s own demo store — a staff-issued link cannot resolve on another device.",
+      "destination": "Design YOUR QUOTE (amounts come from the live quote).",
+      "preserve": "Token flow, accept/decline, decline reasons, the “not payment” note.",
+      "restyle": "All.",
+      "security": "Token is the only check; sequential quote numbers exposed; decline of a revised quote silently fails.",
+      "risk": "HIGH",
+      "test": "A quote issued in the office opens, accepts and declines from another device.",
+      "classes": [
+        "REPAIR BEFORE MIGRATION",
+        "RECONNECT TO NEW DESIGN"
+      ],
+      "evidence": "src/pages/PublicQuotePage.tsx:13-133; src/demo/crmActions.ts:60-62,412-470"
+    },
+    {
+      "id": "intake",
+      "area": "JOURNEY",
+      "route": "/get-started",
+      "fn": "Smart Intake: goal → status → business (name check) → operating → Road Ready assets → priorities → factoring/insurance branches → shipper → contact; roadmap + CRM lead on finish; save & exit.",
+      "backend": "Demo store (every mode); POST /api/aio/business-name-check outside demo.",
+      "destination": "Design GET STARTED — now drawn from the live intakeConfig (sections, questions, options, goal branches).",
+      "preserve": "intakeConfig.ts and intakeRules.ts exactly; getVisibleSections; generateRoadmap; ?goal / ?service.",
+      "restyle": "All.",
+      "security": "Intake PII in localStorage; never reaches AIO; MOVE FREIGHT offered while Brokerage is paused; “Perfect Choice Inc.” placeholder; “bank-level encryption” claim in the shell copy is unverified.",
+      "risk": "HIGH",
+      "test": "Every goal’s section order equals getVisibleSections; a finished intake creates a server-side lead and roadmap.",
+      "classes": [
+        "RECONNECT TO NEW DESIGN",
+        "REPAIR BEFORE MIGRATION"
+      ],
+      "evidence": "src/intake/intakeConfig.ts:48-425; src/pages/GetStartedPage.tsx:24-116; src/locales/*/intake.json:52"
+    },
+    {
+      "id": "roadmap-results",
+      "area": "JOURNEY",
+      "route": "/roadmap/results",
+      "fn": "The generated roadmap; ADD TO MY PLAN.",
+      "backend": "Demo store.",
+      "destination": "Design YOUR ROADMAP.",
+      "preserve": "Roadmap engine output; add-to-plan.",
+      "restyle": "All.",
+      "security": "—",
+      "risk": "MEDIUM",
+      "test": "Roadmap equals generateRoadmap for the answers.",
+      "classes": [
+        "RECONNECT TO NEW DESIGN"
+      ],
+      "evidence": "src/pages/RoadmapResultsPage.tsx:15-141"
+    },
+    {
+      "id": "service-plan",
+      "area": "JOURNEY",
+      "route": "/service-plan",
+      "fn": "The plan, with price labels and requirements; remove.",
+      "backend": "Demo store; the supabase repository uses a different key that nothing writes.",
+      "destination": "Design MY SERVICE PLAN (planned services first; no price).",
+      "preserve": "Plan contents and removal.",
+      "restyle": "All.",
+      "security": "Prices shown.",
+      "risk": "HIGH",
+      "test": "A plan built anonymously survives sign-in and reaches submit.",
+      "classes": [
+        "RECONNECT TO NEW DESIGN",
+        "REPAIR BEFORE MIGRATION"
+      ],
+      "evidence": "src/pages/ServicePlanPage.tsx; src/data/repositories/supabaseRepositories.ts:171-208"
+    },
+    {
+      "id": "request-submit",
+      "area": "JOURNEY",
+      "route": "/request/submit · /request/confirmation/:id",
+      "fn": "Review intake + plan, re-check the name, submit a service request; confirmation.",
+      "backend": "Demo store, or aio_service_requests in supabase mode (first service only).",
+      "destination": "Design SEND YOUR REQUEST + REQUEST RECEIVED.",
+      "preserve": "Name re-check; the account requirement; the request number on confirmation.",
+      "restyle": "All; DEMO copy goes.",
+      "security": "Broken in supabase mode (empty plan → submit disabled); only services[0] stored; errors uncaught.",
+      "risk": "HIGH",
+      "test": "End-to-end: intake → plan → sign-in → submit → office queue → portal request page.",
+      "classes": [
+        "REPAIR BEFORE MIGRATION",
+        "RECONNECT TO NEW DESIGN"
+      ],
+      "evidence": "src/pages/RequestSubmitPage.tsx:125-309"
+    },
+    {
+      "id": "office-activation",
+      "area": "ACCOUNT",
+      "route": "/office-activation/:token",
+      "fn": "Existing-client activation: password, redeem invite token, → /portal/activation/review.",
+      "backend": "Demo store only; the password is never used; links are built as /all-in-one/office-activation/… (404).",
+      "destination": "The approved migration/activation flow (migration visual authority) — not redrawn here.",
+      "preserve": "The approved migration screens and the token-hash check.",
+      "restyle": "Nothing here (migration authority).",
+      "security": "No auth identity created; wrong company name shown regardless of token.",
+      "risk": "HIGH",
+      "test": "An invite link from the office activates a real account.",
+      "classes": [
+        "PRESERVE EXACTLY",
+        "REPAIR BEFORE MIGRATION"
+      ],
+      "evidence": "src/pages/activation/OfficeActivationPage.tsx:10-44; src/demo/clientMigrationOfficeActions.ts:19"
+    },
+    {
+      "id": "login",
+      "area": "ACCOUNT",
+      "route": "/login",
+      "fn": "Email + password (Supabase), sanitized return URL, office flag, demo portal shortcut.",
+      "backend": "supabase.auth.signInWithPassword; session aio-auth-token.",
+      "destination": "Design LOG IN.",
+      "preserve": "authService, sanitizeReturnUrl and its allow-list, AIOAuthProvider — EXACTLY.",
+      "restyle": "Presentation only.",
+      "security": "No role routing; provider/driver/shipper deep links fall to /portal; “remember me” ignored; demo shortcut not production-gated; env-var names in an error.",
+      "risk": "HIGH",
+      "test": "Auth regression suite: client, staff, provider, driver, shipper, return URLs.",
+      "classes": [
+        "PRESERVE EXACTLY",
+        "REUSE AND RESTYLE",
+        "REPAIR BEFORE MIGRATION"
+      ],
+      "evidence": "src/pages/auth/LoginPage.tsx:22-153; src/auth/returnUrl.ts:3-43"
+    },
+    {
+      "id": "signup",
+      "area": "ACCOUNT",
+      "route": "/signup · /sign-up",
+      "fn": "Three-step sign-up (account · business · account type) → /onboarding; org creation; marketing opt-in.",
+      "backend": "supabase.auth.signUp + aio_organizations / memberships / profiles.",
+      "destination": "Design CREATE ACCOUNT draws ONE step (four fields) — FEATURE CONFLICT.",
+      "preserve": "All three steps, the metadata and org creation — restyle the live flow, do not adopt the drawn shortcut.",
+      "restyle": "Presentation only.",
+      "security": "Terms/Privacy link to /contact; terms acceptance not stored; orphaned auth user + business-name enumeration on duplicate; “Continue (Demo)” in every mode; /sign-up drops ?return.",
+      "risk": "HIGH",
+      "test": "Sign-up in supabase mode creates user + org + profile; terms recorded.",
+      "classes": [
+        "PRESERVE EXACTLY",
+        "REUSE AND RESTYLE",
+        "REPAIR BEFORE MIGRATION"
+      ],
+      "evidence": "src/pages/auth/SignUpPage.tsx:21-408; src/auth/authService.ts:64-152"
+    },
+    {
+      "id": "password",
+      "area": "ACCOUNT",
+      "route": "/forgot-password · /reset-password · /verify-email",
+      "fn": "Reset email, set new password, resend verification.",
+      "backend": "Supabase auth.",
+      "destination": "Design FORGOT PASSWORD; reset and verify are NOT drawn (same form family).",
+      "preserve": "All three flows exactly.",
+      "restyle": "Presentation only.",
+      "security": "Reset does not check a recovery session; verify silently no-ops without a session; emailVerified never enforced.",
+      "risk": "MEDIUM",
+      "test": "Reset and verify round-trips.",
+      "classes": [
+        "PRESERVE EXACTLY",
+        "REUSE AND RESTYLE"
+      ],
+      "evidence": "src/pages/auth/ForgotPasswordPage.tsx; ResetPasswordPage.tsx:19-38; VerifyEmailPage.tsx:14-21"
+    },
+    {
+      "id": "onboarding",
+      "area": "ACCOUNT",
+      "route": "/onboarding",
+      "fn": "Intent chooser after sign-up (start, Road Ready, portal, services, shipper).",
+      "backend": "Session or demo sign-up draft.",
+      "destination": "Design ONBOARDING.",
+      "preserve": "Intents and the shipper filter.",
+      "restyle": "All.",
+      "security": "Anonymous visitors are told their account is ready.",
+      "risk": "LOW",
+      "test": "Shipper vs carrier intents.",
+      "classes": [
+        "REUSE AND RESTYLE"
+      ],
+      "evidence": "src/pages/auth/OnboardingPage.tsx:16-94"
+    },
+    {
+      "id": "not-found",
+      "area": "SYSTEM",
+      "route": "*",
+      "fn": "“Page not found”, outside the public layout; HTTP 200 (SPA rewrite).",
+      "backend": "—",
+      "destination": "Design 404 (inside the site chrome).",
+      "preserve": "—",
+      "restyle": "All.",
+      "security": "Soft 404s; unknown /services/x renders “Service Not Found” with 200.",
+      "risk": "LOW",
+      "test": "Unknown routes show the 404 page.",
+      "classes": [
+        "REPLACE PRESENTATION ONLY"
+      ],
+      "evidence": "src/routes/AllInOneRoutes.tsx:11-23,42"
+    },
+    {
+      "id": "debug-icons",
+      "area": "SYSTEM",
+      "route": "/debug/icon-library",
+      "fn": "QA grid of every icon.",
+      "backend": "—",
+      "destination": "NOT DESIGNED — should not be public.",
+      "preserve": "—",
+      "restyle": "—",
+      "security": "Public unless VITE_AIO_ENVIRONMENT=production.",
+      "risk": "MEDIUM",
+      "test": "Route absent or redirected in production.",
+      "classes": [
+        "REMOVE ONLY WITH APPROVAL"
+      ],
+      "evidence": "src/pages/debug/IconLibraryDebugPage.tsx:66-68"
+    },
+    {
+      "id": "layout-mirrors",
+      "area": "SYSTEM",
+      "route": "/desktop/* · /mobile/* · /get-started/{desktop,mobile}",
+      "fn": "Layout-preview mirrors of the WHOLE route tree (including /desktop/office/*).",
+      "backend": "—",
+      "destination": "NOT DESIGNED.",
+      "preserve": "—",
+      "restyle": "—",
+      "security": "Mounted in every environment, production included.",
+      "risk": "MEDIUM",
+      "test": "Mirrors absent in production.",
+      "classes": [
+        "REMOVE ONLY WITH APPROVAL"
+      ],
+      "evidence": "src/routes/AllInOneRoutes.tsx:31-40"
+    },
+    {
+      "id": "nav",
+      "area": "CROSS-CUTTING",
+      "route": "every public page",
+      "fn": "AIONav (mega menu with activation badges, header phone, LANGUAGE SELECTOR, auth nav), mobile drawer (adds Enter Demo Portal, tel/mailto), desktop footer, mobile footer accordion, service-plan bar.",
+      "backend": "Session; demo store (plan bar).",
+      "destination": "Design NAV (mega menu, solutions, resources, search, drawer) + footer (lockup only) + MY PLAN pill on service pages.",
+      "preserve": "Every destination; the EN/ES LANGUAGE SELECTOR (absent from the design — must be added); signed-in state (Portal / Log out).",
+      "restyle": "All.",
+      "security": "Demo portal entry in the drawer; badges contradict pages.",
+      "risk": "MEDIUM",
+      "test": "Every nav link resolves; language switch persists.",
+      "classes": [
+        "REPLACE PRESENTATION ONLY",
+        "RECONNECT TO NEW DESIGN"
+      ],
+      "evidence": "src/components/AIONav.tsx:178-188; src/components/mobile/MobileNavDrawer.tsx; src/components/AIOFooter.tsx"
+    },
+    {
+      "id": "i18n",
+      "area": "CROSS-CUTTING",
+      "route": "every page",
+      "fn": "i18next en-US / es-US, ten namespaces, locale in localStorage.",
+      "backend": "—",
+      "destination": "The design is English only.",
+      "preserve": "Both locales and every key (es parity verified).",
+      "restyle": "—",
+      "security": "Locale storage not try/caught.",
+      "risk": "MEDIUM",
+      "test": "Spanish renders every migrated page.",
+      "classes": [
+        "PRESERVE EXACTLY",
+        "RECONNECT TO NEW DESIGN"
+      ],
+      "evidence": "src/i18n/index.ts:27-82; src/locales/{en,es}/*.json"
+    },
+    {
+      "id": "seo",
+      "area": "CROSS-CUTTING",
+      "route": "every page",
+      "fn": "usePageMeta on some pages; robots noindex, nofollow site-wide; no sitemap, canonical or Open Graph.",
+      "backend": "—",
+      "destination": "Per-route titles and descriptions in the migration.",
+      "preserve": "Every public URL (no URL changes are proposed).",
+      "restyle": "—",
+      "security": "—",
+      "risk": "MEDIUM",
+      "test": "Titles, descriptions, robots per environment, sitemap.",
+      "classes": [
+        "REPAIR BEFORE MIGRATION"
+      ],
+      "evidence": "index.html:4-10; src/hooks/usePageMeta.ts:8-25"
+    },
+    {
+      "id": "analytics",
+      "area": "CROSS-CUTTING",
+      "route": "—",
+      "fn": "NONE — no analytics, telemetry, cookie or consent code exists.",
+      "backend": "—",
+      "destination": "—",
+      "preserve": "—",
+      "restyle": "—",
+      "security": "Adding analytics later needs a consent decision.",
+      "risk": "LOW",
+      "test": "—",
+      "classes": [
+        "DEFER"
+      ],
+      "evidence": "grep of src/ and index.html (gtag, posthog, plausible, segment, cookie…): no hits"
+    },
+    {
+      "id": "name-check",
+      "area": "CROSS-CUTTING",
+      "route": "POST /api/aio/business-name-check",
+      "fn": "The only API endpoint: state + business name → availability (Topograph when keyed, else manual review); 30/hour per IP.",
+      "backend": "Vercel function; in-memory cache and rate limit.",
+      "destination": "Called from GET STARTED (business) and SEND YOUR REQUEST.",
+      "preserve": "Endpoint and contract exactly.",
+      "restyle": "—",
+      "security": "Rate limit per instance, keyed on spoofable x-forwarded-for; client does not catch failures; Vercel handler signature unverified.",
+      "risk": "MEDIUM",
+      "test": "405 / 400 / 429 / result on staging.",
+      "classes": [
+        "PRESERVE EXACTLY",
+        "REPAIR BEFORE MIGRATION"
+      ],
+      "evidence": "api/aio/business-name-check.ts:1-9; src/business-formation/businessNameRegistry/server/*"
+    },
+    {
+      "id": "activation",
+      "area": "CROSS-CUTTING",
+      "route": "every service CTA",
+      "fn": "Three status sources: SERVICE_LAUNCH_MATRIX (public CTAs), SERVICE_ACTIVATION_MATRIX (office only), catalog activationStatus (unread).",
+      "backend": "—",
+      "destination": "The design derives one status word per service (launch matrix, else catalog; Brokerage PAUSED).",
+      "preserve": "The founder’s activation decisions themselves.",
+      "restyle": "—",
+      "security": "getPublicServiceCta fails OPEN for unmapped slugs.",
+      "risk": "HIGH",
+      "test": "One source; unmapped = closed.",
+      "classes": [
+        "REPAIR BEFORE MIGRATION"
+      ],
+      "evidence": "src/launch/serviceActivationLaunch.ts:226-294; src/infrastructure/serviceActivation.ts:20-32"
+    },
+    {
+      "id": "pricing",
+      "area": "CROSS-CUTTING",
+      "route": "service pages, plans, FleetCare, service plan",
+      "fn": "DEFAULT_SERVICE_PRICING (“clearly fictional”), BOOKKEEPING_PLANS, FLEETCARE_PRICING_CONFIG.",
+      "backend": "—",
+      "destination": "The design shows QUOTE AFTER REVIEW / PRICE ON REQUEST.",
+      "preserve": "The configs (data) until the founder approves prices.",
+      "restyle": "—",
+      "security": "Unapproved prices are public today.",
+      "risk": "HIGH",
+      "test": "No $ on any public page until approval.",
+      "classes": [
+        "REMOVE ONLY WITH APPROVAL"
+      ],
+      "evidence": "src/billing/servicePricingConfig.ts:4-103; src/bookkeeping/bookkeepingPlans.ts; src/fleetcare/fleetcareConfig.ts"
+    },
+    {
+      "id": "auth-modes",
+      "area": "CROSS-CUTTING",
+      "route": "/portal/* · /office/* · /shipper/* · /provider/* · /driver/*",
+      "fn": "Route guards; demo is the default data mode; every guard is open in demo; office staff switcher outside production.",
+      "backend": "Supabase in supabase mode.",
+      "destination": "Out of the public redesign (portal and office are separate).",
+      "preserve": "Guards and lifecycle guard exactly.",
+      "restyle": "—",
+      "security": "A deployment without a valid Supabase config exposes the office and every portal.",
+      "risk": "HIGH",
+      "test": "Production build refuses demo mode; guards enforce.",
+      "classes": [
+        "PRESERVE EXACTLY",
+        "REPAIR BEFORE MIGRATION"
+      ],
+      "evidence": "src/auth/guards/RouteGuards.tsx:12-89; src/config/env.ts:20-25"
+    },
+    {
+      "id": "assets",
+      "area": "CROSS-CUTTING",
+      "route": "public/",
+      "fn": "Lockup, favicon, service icons, IFTA plates and fonts, migration kit; the retired hero truck preloaded on every page; an 11.9 MB migration-screens zip and ~4.5 MB of QA sheets served publicly; source maps published.",
+      "backend": "—",
+      "destination": "Design asset manifest (AIO_PM_ASSETS).",
+      "preserve": "Lockup, IFTA plates, fonts, migration kit.",
+      "restyle": "—",
+      "security": "Public zip of staff migration screens; source maps.",
+      "risk": "MEDIUM",
+      "test": "No retired asset, zip, QA sheet or source map in the production build.",
+      "classes": [
+        "PRESERVE EXACTLY",
+        "REMOVE ONLY WITH APPROVAL",
+        "REPAIR BEFORE MIGRATION"
+      ],
+      "evidence": "index.html:10; public/AIO-CLIENT-MIGRATION-AUTHORITIES.zip; vite.config.ts:52"
+    },
+    {
+      "id": "page-system-css",
+      "area": "CROSS-CUTTING",
+      "route": "28 public page files",
+      "fn": "aio-page-system.css (887 lines, 105 aio-ps-* classes) — imported nowhere.",
+      "backend": "—",
+      "destination": "Superseded by the new design’s stylesheet.",
+      "preserve": "—",
+      "restyle": "—",
+      "security": "—",
+      "risk": "LOW",
+      "test": "—",
+      "classes": [
+        "REPLACE PRESENTATION ONLY"
+      ],
+      "evidence": "src/styles/aio-page-system.css; src/App.tsx:3-20"
+    }
+  ],
+  "routes": {
+    "matched": "Every current public, journey and account route listed in AIO_PM_INVENTORY has a designed page except the rows below; the 52 catalog services each have a designed page.",
+    "missing_in_design": [
+      "/reset-password and /verify-email — not drawn (same form family as FORGOT PASSWORD); preserve the live flows.",
+      "/office-activation/:token — governed by the approved migration/activation authority, not redrawn here.",
+      "Four detail slugs outside the catalog (rate-confirmation-management, pod-management, invoice-funding-review, factoring-transition-assistance) — founder decision.",
+      "/debug/icon-library and the /desktop/* · /mobile/* mirrors — not designed on purpose (remove only with approval)."
+    ],
+    "new_in_design": [
+      "No new public URLs. /not-found is the design’s name for the existing 404.",
+      "New on existing pages: the ON THIS PAGE bar, the family explorer, the catalog index, the stage selector, the compliance-guide selector, the MY PLAN pill."
+    ],
+    "redirects": [
+      "/sign-up → /signup (keep; carry ?return — today it is dropped).",
+      "/portal/services/ifta(/*) → /portal/workspaces/ifta (existing; keep).",
+      "/get-started/desktop · /get-started/mobile → the layout-preview mirrors (remove with the mirrors, approval).",
+      "If the founder retires the four non-catalog slugs: 301 each to its family page.",
+      "No other URL changes — the new design keeps every public path."
+    ],
+    "conflicts": [
+      "GET STARTED: the earlier design drew three steps; the live Smart Intake has up to ten sections — RESOLVED in this sprint: the design now draws the live sections from intakeConfig.ts.",
+      "CREATE ACCOUNT: the design draws one step; the live sign-up has three (account · business · account type) — restyle the live flow.",
+      "SCHEDULE: the design draws day + time; the live page has type, date, slot hold and contact — restyle the live flow.",
+      "DRIVER PROFILE: the design draws a form; the live page has none — design-only until a profile endpoint exists.",
+      "LANGUAGE: the live header has EN/ES; the design has no selector — add it.",
+      "BROKERAGE: the design shows Brokerage paused everywhere; the live service pages, intake goal and portal paths do not (CT-02, CT-19)."
+    ],
+    "unrepresented": [
+      "Signed-in public header state (Portal / Log out) — not drawn.",
+      "The header phone link and the drawer’s tel:/mailto: — the design shows TO BE CONFIRMED until real details exist.",
+      "Bookkeeping monthly/annual toggle and the plan comparison matrix — not drawn (prices not approved).",
+      "The service-plan bar on every public page — drawn as the MY PLAN pill on service pages only.",
+      "Smart Intake save & exit autosave and the name-check result states — drawn as notes."
+    ],
+    "content_differences": [
+      "Service pages now carry the live per-service words (src/data/services.ts) — previously the design used only the catalog.",
+      "Prices: live shows them; the design does not (none approved).",
+      "Contacts: live shows placeholders; the design labels them TO BE CONFIRMED.",
+      "Homepage band: live none; the design shows panel 04’s four principles and four product facts (no unverified figures).",
+      "The retired hero-truck photograph (IFTA contract IDNTY_10) is live on the homepage; the design no longer uses it anywhere."
+    ],
+    "approvals": [
+      "Desktop and tablet compositions (REVIEW B).",
+      "Shorter journeys (REVIEW C).",
+      "Prices, contact details, hours, Terms/Privacy pages.",
+      "Removal of /debug/icon-library, the layout mirrors, the public zip and QA sheets.",
+      "The four non-catalog detail slugs.",
+      "Any change to the approved IFTA public page."
+    ]
+  },
+  "integrations": [
+    {
+      "name": "Supabase Auth",
+      "what": "signInWithPassword, signUp (+ org, membership, profile), resetPasswordForEmail, updateUser, resend",
+      "status": "Built; active only when the data mode is supabase and the project ref matches",
+      "migration": "PRESERVE EXACTLY — restyle screens only"
+    },
+    {
+      "name": "Supabase data (public flows)",
+      "what": "aio_service_requests (+ status history, activity) from /request/submit",
+      "status": "Built but broken end-to-end (plan storage mismatch, first service only)",
+      "migration": "REPAIR (CT-09) then reconnect"
+    },
+    {
+      "name": "Business name check",
+      "what": "POST /api/aio/business-name-check → Topograph adapter or manual review",
+      "status": "Built; demo mode simulates in the browser",
+      "migration": "PRESERVE EXACTLY; harden (CT-16)"
+    },
+    {
+      "name": "Demo store",
+      "what": "localStorage aio_debug_store: intake, roadmap, plan, leads, appointments, quotes — seeded into every browser",
+      "status": "The only destination of every public form today",
+      "migration": "REPLACE with server paths (CT-01); stop seeding outside demo (CT-07)"
+    },
+    {
+      "name": "Session / browser storage",
+      "what": "aio-auth-token, aio_demo_signup_draft, aio_bookkeeping_*, aio-schedule-session, aio_preferred_locale, aio_service_plan_<org>",
+      "status": "In use",
+      "migration": "Keep auth and locale; move PII out of localStorage"
+    },
+    {
+      "name": "i18next",
+      "what": "en-US / es-US, ten namespaces",
+      "status": "In use (most public copy hardcoded English)",
+      "migration": "PRESERVE; add the selector to the new design"
+    },
+    {
+      "name": "Analytics / consent",
+      "what": "—",
+      "status": "None exist",
+      "migration": "DEFER — decision first"
+    },
+    {
+      "name": "Payments",
+      "what": "Pay invoice page (portal) — simulated, “online payment not yet available”",
+      "status": "Not public; not live",
+      "migration": "Out of scope; do not enable"
+    },
+    {
+      "name": "Uploads",
+      "what": "None on public pages (vault uploads are portal-only)",
+      "status": "—",
+      "migration": "—"
+    },
+    {
+      "name": "Fonts",
+      "what": "Live: DM Sans + Plus Jakarta Sans (Google @import). Design: Inter Tight + Inter (self-hosted, decided)",
+      "status": "—",
+      "migration": "Replace with the self-hosted pair"
+    },
+    {
+      "name": "Vercel",
+      "what": "SPA rewrite; /api functions; sourcemap: true",
+      "status": "Domain NOT_SELECTED; production project pending owner",
+      "migration": "Turn source maps off; environment-aware robots"
+    }
+  ],
+  "issues": [
+    {
+      "id": "A",
+      "claim": "aio-page-system.css is not imported",
+      "verdict": "CONFIRMED",
+      "evidence": "No import in any .ts/.tsx/.css/.html; the local production build’s CSS has 0 aio-ps-* selectors; 105 aio-ps-* classes in 28 public files are unstyled.",
+      "task": "CT-08"
+    },
+    {
+      "id": "B",
+      "claim": "Activation sources disagree",
+      "verdict": "CONFIRMED — WORSE THAN RECORDED",
+      "evidence": "Three sources plus an implicit fourth (every src/data/services.ts entry is “available”). getPublicServiceCta returns GO for any slug missing from SLUG_MAP (serviceActivationLaunch.ts:290-291): 10 of 56 public slugs disagree on whether the service can be started — including the four Brokerage service pages, BOC-3, held insurance and factoring, and internal-only fuel tax.",
+      "task": "CT-02"
+    },
+    {
+      "id": "C",
+      "claim": "Unapproved prices are shown",
+      "verdict": "CONFIRMED",
+      "evidence": "Rendered in the local build: BOC-3 $125, LLC $299, bookkeeping $249/$449/$749 per month and annual, Books Rescue $749, FleetCare $0/$19/$39 + $5 per vehicle; servicePricingConfig.ts:4 calls them “clearly fictional”.",
+      "task": "CT-03"
+    },
+    {
+      "id": "D",
+      "claim": "Placeholder contacts",
+      "verdict": "CONFIRMED",
+      "evidence": "(866) 000-0000 and contact@allinoneenterprises.example (appConfig.ts:20-24, marked temporary) rendered on /contact, header, both footers, drawer and Smart Intake; no address or hours anywhere.",
+      "task": "CT-04"
+    },
+    {
+      "id": "E",
+      "claim": "Retired brand terms in translations",
+      "verdict": "CONFIRMED — NARROWER THAN RECORDED",
+      "evidence": "Only “Perfect Choice Inc.” (the retired identity) as the Smart Intake business-name placeholder, en and es intake.json:52; no other retired variant in the locales. “Frontal Slayer” and “Perfect Choice” are also in the shipped bundle and its public source maps; the legacy-brand audit is a stub that always passes (qaEngine.ts:99-101).",
+      "task": "CT-05"
+    },
+    {
+      "id": "F",
+      "claim": "/debug/icon-library is exposed",
+      "verdict": "CONFIRMED",
+      "evidence": "Redirects to / only when VITE_AIO_ENVIRONMENT is production; the default is local. Rendered in the local build (12,806 px tall on a phone). The /desktop/* and /mobile/* mirrors of the whole tree are mounted in every environment.",
+      "task": "CT-06"
+    },
+    {
+      "id": "G",
+      "claim": "Design-review forms are simulated",
+      "verdict": "CONFIRMED — WORSE THAN RECORDED",
+      "evidence": "The design’s forms say NOTHING WAS SENT (by design). The LIVE forms are effectively simulated too: contact, callback, schedule, Smart Intake and quotes write only to the visitor’s own localStorage in every mode; the FleetCare application discards its data.",
+      "task": "CT-01"
+    },
+    {
+      "id": "H",
+      "claim": "Privacy issues are open",
+      "verdict": "CONFIRMED",
+      "evidence": "All 12 recorded gaps are OPEN (docs/aio/office-unified-experience/11_SECURITY_REPAIR_HANDOFF.md:21-32); 6 spot-checked in this tree are still present (anon grant, org self-update of client_lifecycle, internal activity to client, FleetCare ticket org check, client links into /office, draft bookkeeping reports).",
+      "task": "CT-20"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "CT-01",
+      "priority": "P0",
+      "title": "Deliver every public form to AIO",
+      "files": "src/demo/crmActions.ts, src/demo/appointmentActions.ts, src/pages/{Contact,RequestCallback,Schedule,GetStarted}Page.tsx, FleetCarePublicPages.tsx:144",
+      "do": "Add server paths (Supabase table or API) for leads, callbacks, appointments, intake leads and FleetCare applications in supabase mode; keep the demo store for demo mode only.",
+      "accept": "Each form submitted on staging appears in the office CRM/queue; nothing PII-bearing stays in localStorage.",
+      "approval": "Schema changes follow the Supabase migration rule (AIO project only)."
+    },
+    {
+      "id": "CT-02",
+      "priority": "P0",
+      "title": "One activation source, closed by default",
+      "files": "src/launch/serviceActivationLaunch.ts:226-294, src/infrastructure/serviceActivation.ts, src/services/catalog/serviceCatalog.ts, src/data/services.ts",
+      "do": "Map every public slug; return allowed:false for unmapped slugs; derive nav badges, CTAs, ADD TO MY PLAN and intake goals from the same function; Brokerage PAUSED wherever it appears.",
+      "accept": "A test asserts every catalog slug’s public CTA; the four freight pages, BOC-3, held insurance/factoring and internal fuel tax cannot be started."
+    },
+    {
+      "id": "CT-03",
+      "priority": "P0",
+      "title": "No price until approved",
+      "files": "src/billing/servicePricingConfig.ts, src/bookkeeping/bookkeepingPlans.ts, src/fleetcare/fleetcareConfig.ts, catalog/service descriptions",
+      "do": "Gate every public price label behind an approved flag; strip “Starting at $…” from public descriptions.",
+      "accept": "No $ on any public page (the design’s honesty check passes against the app).",
+      "approval": "Founder approves prices."
+    },
+    {
+      "id": "CT-04",
+      "priority": "P0",
+      "title": "Real contact details",
+      "files": "src/config/appConfig.ts:19-25",
+      "do": "Replace the placeholders with founder-supplied phone, email (and hours/address if published).",
+      "accept": "No (866) 000 or .example anywhere.",
+      "approval": "Founder supplies the details."
+    },
+    {
+      "id": "CT-05",
+      "priority": "P1",
+      "title": "Remove the retired identity",
+      "files": "src/locales/{en,es}/intake.json:52, src/qa/qaEngine.ts:99-101",
+      "do": "Neutral business-name placeholder; make the legacy-brand audit real (brandAudit.ts FORBIDDEN_CUSTOMER_STRINGS).",
+      "accept": "No “Perfect Choice” in locales or rendered text."
+    },
+    {
+      "id": "CT-06",
+      "priority": "P1",
+      "title": "Debug and preview routes out of production",
+      "files": "src/routes/AioCoreRoutes.tsx:259, src/routes/AllInOneRoutes.tsx:31-40",
+      "do": "Mount /debug/* and the /desktop/* · /mobile/* mirrors only outside production.",
+      "accept": "Production build has neither.",
+      "approval": "Founder approves the removal."
+    },
+    {
+      "id": "CT-07",
+      "priority": "P0",
+      "title": "Production refuses demo mode",
+      "files": "src/config/env.ts:20-25, scripts/prebuild-validate.mjs, src/demo/demoStore.ts:254-256, DemoPortalAccess.tsx, SignUpPage.tsx:196-202",
+      "do": "Fail the production build when the data mode is not supabase; stop seeding the demo store outside demo; hide demo shortcuts outside demo.",
+      "accept": "A production build with VITE_AIO_DATA_MODE unset fails; /office requires a staff session."
+    },
+    {
+      "id": "CT-08",
+      "priority": "P2",
+      "title": "aio-page-system.css",
+      "files": "src/styles/aio-page-system.css, src/components/page-system/**",
+      "do": "Retire it with the templates when the new public design replaces them; until then either import it or remove the dead classes.",
+      "accept": "No unstyled aio-ps-* class ships."
+    },
+    {
+      "id": "CT-09",
+      "priority": "P0",
+      "title": "The request flow in supabase mode",
+      "files": "src/components/AIOServicePlanBar.tsx, src/repositories/servicePlanRepository.ts:25, src/data/repositories/supabaseRepositories.ts:171-300, RequestSubmitPage.tsx:125-187",
+      "do": "One plan repository per mode; carry the anonymous plan into the account on sign-in; store every planned service; catch errors; return URL on the sign-up redirect.",
+      "accept": "End-to-end staging test: intake → plan → sign-in → submit → office queue → /portal/requests/:id."
+    },
+    {
+      "id": "CT-10",
+      "priority": "P0",
+      "title": "Office activation creates a real account",
+      "files": "src/pages/activation/OfficeActivationPage.tsx, src/client-migration/services/activationInviteService.ts, src/demo/clientMigrationOfficeActions.ts:19,23",
+      "do": "Server-side invite redemption that creates/links the auth identity with the entered password; build links as /office-activation/<token>; add the missing API routes.",
+      "accept": "An invite from the office activates on another device; the right company is shown."
+    },
+    {
+      "id": "CT-11",
+      "priority": "P0",
+      "title": "Close the ?from open redirect",
+      "files": "src/journeys/journeyContext.ts:26-29",
+      "do": "Pass ?from through sanitizeReturnUrl.",
+      "accept": "?from=//example.com renders an internal link."
+    },
+    {
+      "id": "CT-12",
+      "priority": "P1",
+      "title": "No public source maps",
+      "files": "vite.config.ts:52",
+      "do": "sourcemap: false (or hidden + upload to the error monitor) for production.",
+      "accept": "No .map files in the production build."
+    },
+    {
+      "id": "CT-13",
+      "priority": "P1",
+      "title": "Internal files out of public/",
+      "files": "public/AIO-CLIENT-MIGRATION-AUTHORITIES.zip, public/brand/icons/_qa-*, _qa-cell-preview/*, _source-master-*",
+      "do": "Move them out of the served folder.",
+      "accept": "Not downloadable from the site.",
+      "approval": "Founder approves the removal."
+    },
+    {
+      "id": "CT-14",
+      "priority": "P1",
+      "title": "SEO for launch",
+      "files": "index.html, src/hooks/usePageMeta.ts, the bookkeeping pages",
+      "do": "Per-route titles/descriptions; robots by environment (noindex until launch); sitemap and canonical at launch; restore titles on unmount.",
+      "accept": "Every public route has a title and description; staging is noindex."
+    },
+    {
+      "id": "CT-15",
+      "priority": "P0",
+      "title": "Consent and legal pages",
+      "files": "ContactPage.tsx:205, SignUpPage.tsx:345-367, AioMobileFooterAccordion.tsx:100-102",
+      "do": "SMS/TCPA consent when TEXT is chosen or a phone is collected for messages; real Terms/Privacy/Accessibility pages; record terms acceptance.",
+      "accept": "Consent stored with the lead; legal links resolve.",
+      "approval": "Counsel supplies the texts."
+    },
+    {
+      "id": "CT-16",
+      "priority": "P2",
+      "title": "Harden the name-check endpoint",
+      "files": "src/business-formation/businessNameRegistry/server/rateLimit.ts, nameCheckClient.ts",
+      "do": "Durable rate limit keyed on the platform IP; catch network/JSON failures in the client; confirm the Vercel handler signature on staging.",
+      "accept": "429/400/405 behave on staging; the UI shows a friendly failure."
+    },
+    {
+      "id": "CT-17",
+      "priority": "P1",
+      "title": "Retired hero asset",
+      "files": "index.html:10, src/config/appConfig.ts:42, AioHomepageHero.tsx:16",
+      "do": "Stop preloading and using all-in-one-hero-truck.png (IFTA contract IDNTY_10); the new design does not use it.",
+      "accept": "The asset is not requested by any page."
+    },
+    {
+      "id": "CT-18",
+      "priority": "P2",
+      "title": "Broken links",
+      "files": "src/journeys/startBusinessJourneyConfig.ts:58-77, StartBusinessBuildPage.tsx:33-40, BookkeepingPage.tsx:69,189",
+      "do": "Fix the four sub-step slugs and the INC slug; pass ?goal values intake understands; add id=\"plans\".",
+      "accept": "Link checker clean."
+    },
+    {
+      "id": "CT-19",
+      "priority": "P0",
+      "title": "Brokerage paused in the portals",
+      "files": "BrokeragePortalPages.tsx:55-60, LoadBoardPages.tsx:326-379, ShipFreightRequestWizard.tsx:94-100, ShipperPortalPages.tsx:198-221, intakeConfig.ts:67",
+      "do": "Read the pause flag: no carrier offer acceptance (carrier assignment), no load-board offers (live load transactions), no shipper submissions or quote acceptance, no MOVE FREIGHT goal, no brokerage payments; instant book stays disabled.",
+      "accept": "With Brokerage PAUSED none of these actions can be taken."
+    },
+    {
+      "id": "CT-20",
+      "priority": "P0",
+      "title": "The twelve privacy gaps",
+      "files": "docs/aio/office-unified-experience/11_SECURITY_REPAIR_HANDOFF.md",
+      "do": "Separate sprint P0.AIO.SECURITY.PRIVACY-REPAIR1 — unchanged by this sprint.",
+      "accept": "As recorded in the security handoff."
+    },
+    {
+      "id": "CT-21",
+      "priority": "P1",
+      "title": "Quotes resolve from the server",
+      "files": "src/pages/PublicQuotePage.tsx, src/demo/crmActions.ts:60-62,412-470",
+      "do": "Server lookup by token; non-sequential public reference; decline works for revised quotes.",
+      "accept": "An office-issued quote opens on another device."
+    },
+    {
+      "id": "CT-22",
+      "priority": "P1",
+      "title": "Language in the new design",
+      "files": "the new public components",
+      "do": "Carry the EN/ES selector and the i18n keys into the new design; move hardcoded public copy into namespaces as pages are ported.",
+      "accept": "Every ported page renders in Spanish."
+    }
+  ],
+  "design": {
+    "desktop": [
+      "HOME — WHAT CAN WE HELP YOU DO is a split explorer: the four live pathways on the left, the chosen road on the right over its photograph with up to six of its services (status chips) and the pathway’s own call to action.",
+      "HOME — START · OPERATE · MAINTAIN is a stage selector: a vertical road of three stages (who each is for) beside one glass panel with the stage’s families and a WHERE TO BEGIN first step.",
+      "HOME — WHY ALL IN ONE adds “clear about who does what” (AIO prepares, licensed partners provide, agencies decide) beside the approved client screen; ROAD READY™ is one compact band (heading and steps | six stages).",
+      "SERVICE FAMILY — one explorer replaces the list + the grid of the same services: pick on the left, read on the right (who it is for, what you provide, delivery, pricing basis, renewal, next step); the panel stays in view.",
+      "SERVICE PAGE — ON THIS PAGE bar; WHAT AIO PROVIDES + WHO IT IS FOR beside the photograph with WHAT YOU PROVIDE laid over it; the live process as numbered steps (as many columns as steps) + AFTER IT IS DONE; QUESTIONS beside the disclosure; a next-step band with the service’s own action.",
+      "SERVICES — the whole catalog as a three-column index by family; cards only once a family or a search narrows it.",
+      "GET STARTED — the live Smart Intake with a step rail (labels from the live intake locale); the Road Ready asset checklist in two columns.",
+      "START YOUR BUSINESS and the COMPLIANCE GUIDE — pick a stage / a family and read it in place.",
+      "Section rhythm tightened (desktop 112 → 96 px, ultra-wide 168 → 144 px); the ultra-wide keeps every composition at its own scale."
+    ],
+    "tablet": [
+      "HOME — a touch segmented selector (four 74 px tabs) above the chosen road’s photograph panel; the stage selector as the approved pill tabs with a two-column family grid and WHERE TO BEGIN on one row; WHY ALL IN ONE pillars in two columns.",
+      "SERVICE FAMILY — the explorer in two narrower columns (status under each name).",
+      "SERVICE PAGE — overview stacked, the photograph with WHAT YOU PROVIDE as a split card; AFTER in three columns.",
+      "SERVICES — a two-column catalog index; COMPLIANCE GUIDE — the family list beside the panel.",
+      "Plans side by side (three columns); four-step rows (FleetCare, DriverLink) in two columns instead of four cramped ones.",
+      "Landscape (1194 × 834) takes the desktop compositions."
+    ],
+    "phone": [
+      "PRESERVED: hero, band, pathway snap cards, stage pill tabs, office, Road Ready rail, closing band, footer, drawer — the approved composition.",
+      "Genuine-issue fixes only: SERVICES was 13.65 screens (a card for each of 52 services) → a family index of accordions; long families show six cards + SHOW ALL; related services become a bounded snap rail; four-step rows that were squeezed into four columns now stack.",
+      "Added because the brief requires the answer: WHERE TO BEGIN under each stage; on service pages WHO IT IS FOR, WHAT YOU PROVIDE, AFTER and QUESTIONS (from the live service words) and a six-item ON THIS PAGE bar.",
+      "The retired hero-truck photograph is no longer used (start-a-business card and pages now use approved plates)."
+    ],
+    "journeys": [
+      "Homepage pathway explorer (tablet/desktop) — choose a road, see its services, go.",
+      "Homepage stage selector — which one are you → where to begin.",
+      "Service family explorer — pick a service, read it, open it or start it.",
+      "Service page ON THIS PAGE bar — anchored sections; ADD TO MY PLAN → MY PLAN pill → MY SERVICE PLAN.",
+      "Services catalog index — family accordions (phone), family filter, live text filter.",
+      "Start Your Business — stage picker with NEXT stage, services of the stage, open the stage page.",
+      "Compliance guide — one family at a time with NEXT FAMILY.",
+      "Get Started — the live Smart Intake sections for the chosen goal; required answers enforced; MOVE FREIGHT shown paused and not selectable."
+    ],
+    "motion": "Reveal once on arrival (900 ms) and short panel fades (320 ms); nothing loops; reduced motion turns every animation off (none: not 1 ms)."
+  },
+  "assets": [
+    {
+      "asset": "img/hero-home.jpg · img/aio-login.jpg",
+      "source": "public/brand/aio-login-hero.png (founder black-truck master)",
+      "used": "Homepage hero; account pages; Start Your Business; business formation",
+      "status": "APPROVED"
+    },
+    {
+      "asset": "img/highway-gold.jpg",
+      "source": "public/brand/ifta/plates/client-hero.jpg",
+      "used": "Money, factoring, Road Ready, paths",
+      "status": "APPROVED (IFTA plate)"
+    },
+    {
+      "asset": "img/mountain-road.jpg",
+      "source": "public/brand/ifta/plates/public-road.jpg",
+      "used": "Compliance, services, photo cards",
+      "status": "APPROVED (IFTA plate)"
+    },
+    {
+      "asset": "img/night-interstate.jpg",
+      "source": "public/brand/ifta/plates/public-hero.jpg",
+      "used": "Start-a-business pathway, insurance, DriverLink, contact",
+      "status": "APPROVED (IFTA plate)"
+    },
+    {
+      "asset": "img/fleet-yard.jpg",
+      "source": "public/brand/ifta/plates/staff-hero.jpg",
+      "used": "Operations, dispatching, FleetCare",
+      "status": "APPROVED (IFTA plate)"
+    },
+    {
+      "asset": "img/freight-map.jpg",
+      "source": "public/brand/ifta/plates/public-map.jpg",
+      "used": "Brokerage, Road Ready map, guide",
+      "status": "APPROVED (IFTA plate)"
+    },
+    {
+      "asset": "img/valley-trail.jpg · img/mountains-dusk.jpg",
+      "source": "public/brand/ifta/plates/public-footer-tablet.jpg · public-footer-desktop.jpg",
+      "used": "Bookkeeping, plan, closing band, 404",
+      "status": "APPROVED (IFTA plate)"
+    },
+    {
+      "asset": "brand/aio-mark-on-dark.png · brand/aio-lockup-on-dark.png",
+      "source": "public/brand/ifta/",
+      "used": "Nav mark; footer lockup only (logo rule)",
+      "status": "APPROVED"
+    },
+    {
+      "asset": "fonts/inter-tight-latin-wght.woff2 · inter-latin-wght.woff2",
+      "source": "public/fonts/ifta/ (OFL)",
+      "used": "All public type",
+      "status": "DECIDED (D-TYPOGRAPHY)"
+    },
+    {
+      "asset": "ifta/CLIENT_1440.jpg · PUBLIC_{393,834,1440}.jpg",
+      "source": "docs/aio/ifta/visual-reconstruction/captures/after/",
+      "used": "Client portal sample; the approved IFTA public page shown unchanged",
+      "status": "APPROVED"
+    },
+    {
+      "asset": "Line icons (72)",
+      "source": "lucide-static 1.52.0 (ISC) via make-icons.py",
+      "used": "Every icon",
+      "status": "IFTA family source"
+    },
+    {
+      "asset": "public/brand/all-in-one-hero-truck.png",
+      "source": "—",
+      "used": "NOT USED — retired",
+      "status": "RETIRED (IFTA public contract, IDNTY_10)"
+    }
+  ],
+  "handoff": [
+    {
+      "section": "ROUTE MAP",
+      "content": "Keep every current public URL (AIO_PM_ROUTES). Port page by page behind a flag; old and new components share the same route until switched."
+    },
+    {
+      "section": "COMPONENT REUSE",
+      "content": "Reuse logic, not markup: intakeConfig/intakeRules/getVisibleSections, generateRoadmap, recommendServicesFromIntake, useServicePlan, authService, sanitizeReturnUrl, usePageMeta, i18n, the name-check client. Replace AIONav/AIOFooter/page-system templates with components ported from design-authority/aio-public (site.js/site.css are the visual spec)."
+    },
+    {
+      "section": "BACKEND PRESERVATION",
+      "content": "No database or auth change is needed to port the presentation. Server paths for forms (CT-01) and the request flow (CT-09) are repairs with their own migrations under the AIO Supabase rule."
+    },
+    {
+      "section": "DATA FLOWS",
+      "content": "Catalog + launch matrix → status words and CTAs (one function, CT-02); src/data/services.ts → service page words; intakeConfig → GET STARTED; plan → submit → aio_service_requests; leads → CRM (CT-01)."
+    },
+    {
+      "section": "ACTIVATION RULES",
+      "content": "AVAILABLE · LIMITED PILOT · PREPARING · COMING SOON · REQUEST INFO · NOT YET OFFERED · PAUSED · STAFF-COORDINATED · PARTNER REFERRAL — derived once; closed by default; Brokerage PAUSED."
+    },
+    {
+      "section": "ASSET MANIFEST",
+      "content": "AIO_PM_ASSETS; the retired hero truck is not ported."
+    },
+    {
+      "section": "CONTENT MIGRATION",
+      "content": "Words come from the live sources (catalog, src/data/services.ts, homepage content, journey config, intake locale) — the design adds headings and labels only; every label uppercase by CSS."
+    },
+    {
+      "section": "RESPONSIVE SPECS",
+      "content": "One container (.pub, container queries): phone < 600, tablet 600–1099, desktop 1100–1899, ultra-wide ≥ 1900. Phone = the approved composition; tablet and desktop as AIO_PM_DESIGN."
+    },
+    {
+      "section": "AUTH AND FORM PRESERVATION",
+      "content": "Restyle the live login, three-step sign-up, forgot/reset/verify, onboarding, Smart Intake, schedule (four steps) and quote — never the design’s simplified drawings."
+    },
+    {
+      "section": "SEO AND REDIRECTS",
+      "content": "No URL changes; /sign-up keeps ?return; titles/descriptions per route; robots by environment (CT-14)."
+    },
+    {
+      "section": "SECURITY",
+      "content": "CT-06, CT-07, CT-11, CT-12, CT-13, CT-15, CT-19 before launch; the twelve privacy gaps (CT-20) on their own track."
+    },
+    {
+      "section": "FEATURE TESTS",
+      "content": "Per row of AIO_PM_INVENTORY (“test”); the design-authority QA (honesty, uppercase, overflow, links, interactions) rerun against the ported app at the six sizes."
+    },
+    {
+      "section": "ROLLBACK",
+      "content": "AIO_PM_ROLLBACK."
+    },
+    {
+      "section": "DEPLOYMENT READINESS",
+      "content": "Nothing deploys without “deploy now”; production waits for the domain, the production Supabase project, the Vercel project and the blockers (AIO_PM_BLOCKERS)."
+    }
+  ],
+  "release": [
+    {
+      "stage": "01",
+      "name": "FOUNDER APPROVAL",
+      "gate": "Desktop/tablet design (REVIEW B), shorter journeys (REVIEW C) and the preservation plan (REVIEW A) approved."
+    },
+    {
+      "stage": "02",
+      "name": "REPAIR THE CURRENT APP",
+      "gate": "P0 Composer tasks merged (CT-01, 02, 03, 04, 07, 09, 10, 11, 15, 19) with tests."
+    },
+    {
+      "stage": "03",
+      "name": "PROVISION PRODUCTION",
+      "gate": "Domain selected; production Supabase project; Vercel project; environment validated (no demo mode)."
+    },
+    {
+      "stage": "04",
+      "name": "PORT THE PRESENTATION",
+      "gate": "New public components behind a flag on staging, page by page; every URL kept."
+    },
+    {
+      "stage": "05",
+      "name": "RECONNECT THE FUNCTIONS",
+      "gate": "Forms, Smart Intake, plan, request, auth flows, language selector wired to the live logic."
+    },
+    {
+      "stage": "06",
+      "name": "STAGING QA",
+      "gate": "Design QA + feature tests + auth regression + accessibility + performance + security at the six sizes; no price, no placeholder, Brokerage paused."
+    },
+    {
+      "stage": "07",
+      "name": "FOUNDER ACCEPTANCE ON STAGING",
+      "gate": "The founder walks the staging site on phone, tablet and desktop."
+    },
+    {
+      "stage": "08",
+      "name": "PRODUCTION RELEASE",
+      "gate": "“deploy now” only; flag switched; redirects verified; monitoring on."
+    },
+    {
+      "stage": "09",
+      "name": "WATCH AND CLOSE",
+      "gate": "Error and form-delivery monitoring for the rollback window; old components removed after it."
+    }
+  ],
+  "rollback": [
+    "The port ships behind a flag: rolling back is switching the flag off (old presentation, same routes, same data).",
+    "Vercel keeps the previous deployment: instant rollback to it if the flag is not enough.",
+    "No database migration is coupled to the presentation; form/request repairs ship separately with reversible migrations.",
+    "Regression suite before and after each stage: auth (client, staff, provider, driver, shipper), Smart Intake per goal, plan → submit, contact/callback/schedule delivery, quote token, language switch, Brokerage paused, no price, no placeholder, every public URL 200.",
+    "Rollback triggers: any auth failure, any form not delivered, any paused service startable, any price shown, error rate above the agreed threshold."
+  ],
+  "blockers": [
+    "No production URL — the deployed site could not be audited (domain NOT_SELECTED; hosts denied from this environment).",
+    "Public forms do not reach AIO in any mode (CT-01).",
+    "Paused/held/internal services can be started from public pages; Brokerage has unpaused paths in the portals (CT-02, CT-19).",
+    "Unapproved prices and placeholder contacts are public (CT-03, CT-04).",
+    "Demo mode is the default and opens the office and every portal (CT-07).",
+    "The request flow and office activation do not work against Supabase (CT-09, CT-10).",
+    "Open redirect, public source maps, internal files in public/ (CT-11, CT-12, CT-13).",
+    "No consent capture or legal pages (CT-15).",
+    "12 privacy gaps open (CT-20)."
+  ],
+  "decisions": [
+    "Approve the desktop and tablet compositions (REVIEW B) — or name what to change.",
+    "Approve the shorter journeys (REVIEW C), including the phone genuine-issue fixes (services index, SHOW ALL, related rail) and the additions (WHERE TO BEGIN, the service-page sections).",
+    "Approve the preservation plan (REVIEW A): restyle the live sign-up, schedule and Smart Intake rather than simplify them.",
+    "Supply the production URL (or approve the domain) so the deployed site can be audited.",
+    "Approve prices before any are published; supply verified phone, email, hours.",
+    "Approve removal of /debug/icon-library, the layout mirrors, the public migration zip and the QA icon sheets.",
+    "Decide the four non-catalog detail pages (keep, fold into the catalog, or redirect).",
+    "Decide analytics and consent (none exist today).",
+    "Confirm the start-a-business imagery now that the retired hero truck is out (approved plates are used)."
+  ],
+  "evidence": {
+    "generated_from": "fsbw df825419 · AIO_PUBLIC_MIGRATION_READINESS/ (qa-summary.json, scroll.json, current-app/metrics.json) — generated, do not edit",
+    "qa": {
+      "pass": 119,
+      "fail": 0,
+      "pages": 92,
+      "sizes": [
+        "s360",
+        "phone",
+        "tablet",
+        "tabletL",
+        "desktop",
+        "wide"
+      ],
+      "checks": [
+        "pages · s360 · all 92 pages draw without errors",
+        "pages · s360 · every page is a designed page (none fall to 404)",
+        "pages · s360 · no sideways scroll",
+        "text · s360 · every letter uppercase",
+        "text · s360 · nothing under 9 px",
+        "text · s360 · buttons, chips, tabs and links stay on one line",
+        "text · s360 · nothing clipped by its box",
+        "pages · s360 · every image loads",
+        "controls · s360 · every button has a handler (or says it is disabled)",
+        "pages · phone · all 92 pages draw without errors",
+        "pages · phone · every page is a designed page (none fall to 404)",
+        "pages · phone · no sideways scroll",
+        "text · phone · every letter uppercase",
+        "text · phone · nothing under 9 px",
+        "text · phone · buttons, chips, tabs and links stay on one line",
+        "text · phone · nothing clipped by its box",
+        "pages · phone · every image loads",
+        "controls · phone · every button has a handler (or says it is disabled)",
+        "pages · tablet · all 92 pages draw without errors",
+        "pages · tablet · every page is a designed page (none fall to 404)",
+        "pages · tablet · no sideways scroll",
+        "text · tablet · every letter uppercase",
+        "text · tablet · nothing under 9 px",
+        "text · tablet · buttons, chips, tabs and links stay on one line",
+        "text · tablet · nothing clipped by its box",
+        "pages · tablet · every image loads",
+        "controls · tablet · every button has a handler (or says it is disabled)",
+        "pages · tabletL · all 92 pages draw without errors",
+        "pages · tabletL · every page is a designed page (none fall to 404)",
+        "pages · tabletL · no sideways scroll",
+        "text · tabletL · every letter uppercase",
+        "text · tabletL · nothing under 9 px",
+        "text · tabletL · buttons, chips, tabs and links stay on one line",
+        "text · tabletL · nothing clipped by its box",
+        "pages · tabletL · every image loads",
+        "controls · tabletL · every button has a handler (or says it is disabled)",
+        "pages · desktop · all 92 pages draw without errors",
+        "pages · desktop · every page is a designed page (none fall to 404)",
+        "pages · desktop · no sideways scroll",
+        "text · desktop · every letter uppercase",
+        "text · desktop · nothing under 9 px",
+        "text · desktop · buttons, chips, tabs and links stay on one line",
+        "text · desktop · nothing clipped by its box",
+        "pages · desktop · every image loads",
+        "controls · desktop · every button has a handler (or says it is disabled)",
+        "pages · wide · all 92 pages draw without errors",
+        "pages · wide · every page is a designed page (none fall to 404)",
+        "pages · wide · no sideways scroll",
+        "text · wide · every letter uppercase",
+        "text · wide · nothing under 9 px",
+        "text · wide · buttons, chips, tabs and links stay on one line",
+        "text · wide · nothing clipped by its box",
+        "pages · wide · every image loads",
+        "controls · wide · every button has a handler (or says it is disabled)",
+        "links · all 126 internal links land on a page of the tree",
+        "images · all 9 photographs behind the pages exist",
+        "honesty · no price on any page",
+        "honesty · no client counts, approval rates or round-the-clock claims",
+        "honesty · no testimonials or reviews",
+        "honesty · the retired identity never appears (Perfect Choice, Frontal Slayer)",
+        "honesty · the brand lines are the founder’s: tagline, positioning, promise",
+        "honesty · every service shows its status from the matrices (52 services)",
+        "honesty · placeholders are labelled, not shown as contact details",
+        "brokerage · shown as PAUSED, its start actions disabled, no route into get-started from the page",
+        "brokerage · a freight service page says PAUSED and offers no start",
+        "nav · SERVICES opens the mega menu with all seven families",
+        "nav · Esc closes the menu",
+        "nav · SOLUTIONS opens, and a choice opens its page (ROAD READY™)",
+        "search · typing IFTA finds the IFTA services",
+        "search · a result opens its page and closes the search",
+        "home · SEE HOW IT WORKS scrolls to WHICH ONE ARE YOU (start · operate · maintain)",
+        "home · the WHAT CAN WE HELP YOU DO selector shows the chosen road (RUN MY OPERATION) with its services",
+        "home · choosing OPERATE shows that stage and its first step (WHERE TO BEGIN)",
+        "home · a service family on the road opens its page",
+        "services · the catalog index lists every service by family; a family narrows it to cards, the filter narrows again",
+        "family · picking a service on the left shows it on the right (who it is for, what you provide, next step)",
+        "service · the page answers who, what you provide, how, after and questions, with an ON THIS PAGE bar",
+        "service · ON THIS PAGE jumps to the section",
+        "service · ADD TO MY PLAN (the live service plan) puts the service in MY SERVICE PLAN",
+        "guide · the compliance guide shows one family at a time",
+        "journey · picking a stage of Start Your Business shows it in place (REGISTER)",
+        "finder · choosing GETTING MY AUTHORITY recommends USDOT, MC and BOC-3",
+        "get started · CONTINUE asks for the required answer first",
+        "get started · the MOVE FREIGHT goal is shown PAUSED and cannot be chosen (Brokerage paused)",
+        "get started · the live Smart Intake, section by section (7 for START MY TRUCKING BUSINESS), ends at the roadmap",
+        "forms · sending says NOTHING WAS SENT (design review)",
+        "account · log in has no site header (focused), and links to forgot password and create account",
+        "interactions · no errors on desktop",
+        "phone · the menu opens, SERVICES lists all families, a choice navigates and closes it",
+        "phone · the four pathways swipe sideways (snap), inside their row only",
+        "phone · START / OPERATE / MAINTAIN switch the stage",
+        "phone · a long family shows six services, then SHOW ALL opens the rest in place",
+        "phone · the first screen shows the truck, the headline and GET STARTED",
+        "interactions · no errors on the phone",
+        "motion · nothing loops",
+        "motion · the hero settles in once (photo and words), under two seconds",
+        "motion · sections rise into view once as they arrive",
+        "motion · reduced motion shows everything at once (no rising, no hero zoom, no panel fades)",
+        "review · it opens on START HERE: A, B, C, then the connected site",
+        "review · A lists every capability with its fate, the eight issues and the current-app captures",
+        "review · B shows six pages at phone · tablet · desktop · ultra-wide",
+        "review · a B picture opens that page live in that frame",
+        "review · C shows the before → after lengths and the before/after pages",
+        "review · THE CONNECTED SITE shows the five curated groups as cards",
+        "review · a card opens the page in the device frame",
+        "review · s360 frame is 360 wide and the site composes at 360",
+        "review · phone frame is 390 wide and the site composes at 390",
+        "review · tablet frame is 834 wide and the site composes at 834",
+        "review · tabletL frame is 1194 wide and the site composes at 1194",
+        "review · desktop frame is 1440 wide and the site composes at 1440",
+        "review · wide frame is 2560 wide and the site composes at 2560",
+        "review · the homepage shows panel 04 beside it",
+        "review · the reference can be put away",
+        "review · a service page shows the approved IFTA public page beside it",
+        "review · clicking inside the site navigates inside the frame",
+        "review · the page tree lists every page (92)",
+        "review · reference & recovery shows the brand board, the IFTA authority and what was not found",
+        "review · no errors",
+        "review · at 390 the review has no sideways scroll and opens on the phone frame"
+      ]
+    },
+    "legacy": {
+      "routes": 99,
+      "renders": 495,
+      "findings": [
+        "99 public routes rendered at 360, 390, 834, 1440 and 2560 (495 renders) from a local build of the current source in demo mode — not production.",
+        "Placeholder contact details rendered: (866) 000-0000, CONTACT@ALLINONEENTERPRISES.EXAMPLE.",
+        "Prices rendered on 11 routes: /services/all-in-one-bookkeeping, /services/boc-3-assistance, /services/bookkeeping, /services/bookkeeping-essentials, /services/bookkeeping-plus, /services/books-rescue, /services/fleetcare, /services/fleetcare/plans, /services/llc-formation-assistance, /services/payroll-services, /services/tax-preparation.",
+        "81 routes keep the default title “ALL IN ONE ENTERPRISES INC.” (no per-page title).",
+        "Client-side redirects seen: /services/bookkeeping/recommendation → /services/bookkeeping/assessment; /sign-up → /signup.",
+        "Demo copy visible on: /login, /office, /request-callback, /request/submit (and /office opens in demo mode with a staff identity).",
+        "/debug/icon-library renders publicly (12,806 px tall on a 390 phone).",
+        "5 desktop header links render dark on dark (contrast 1.13 : 1): START YOUR BUSINESS, ROAD READY™, ABOUT, CONTACT, (866) 000-0000.",
+        "Page errors logged across all renders: 0."
+      ]
+    },
+    "scroll": [
+      {
+        "path": "/",
+        "group": "HOME",
+        "before": {
+          "s360": 7.24,
+          "phone": 6.71,
+          "tablet": 5.16,
+          "tabletL": 5.91,
+          "desktop": 5.62,
+          "wide": 5.27
+        },
+        "after": {
+          "s360": 7.64,
+          "phone": 7.09,
+          "tablet": 5.07,
+          "tabletL": 5.67,
+          "desktop": 5.17,
+          "wide": 4.91
+        }
+      },
+      {
+        "path": "/services",
+        "group": "SERVICES",
+        "before": {
+          "s360": 14.64,
+          "phone": 13.65,
+          "tablet": 6.13,
+          "tabletL": 6.6,
+          "desktop": 6.01,
+          "wide": 4.03
+        },
+        "after": {
+          "s360": 4.13,
+          "phone": 3.88,
+          "tablet": 3.42,
+          "tabletL": 3.81,
+          "desktop": 3.52,
+          "wide": 2.69
+        }
+      },
+      {
+        "path": "/services/find",
+        "group": "SERVICES",
+        "before": {
+          "s360": 4.32,
+          "phone": 4.01,
+          "tablet": 2.36,
+          "tabletL": 2.84,
+          "desktop": 2.57,
+          "wide": 2
+        },
+        "after": {
+          "s360": 4.33,
+          "phone": 4.02,
+          "tablet": 2.37,
+          "tabletL": 2.79,
+          "desktop": 2.53,
+          "wide": 1.96
+        }
+      },
+      {
+        "path": "/services/permitting",
+        "group": "SERVICES",
+        "before": {
+          "s360": 9.88,
+          "phone": 9.08,
+          "tablet": 4.87,
+          "tabletL": 5.6,
+          "desktop": 4.88,
+          "wide": 3.67
+        },
+        "after": {
+          "s360": 5.72,
+          "phone": 5.27,
+          "tablet": 3.99,
+          "tabletL": 4.25,
+          "desktop": 3.84,
+          "wide": 3.41
+        }
+      },
+      {
+        "path": "/services/business-formation",
+        "group": "SERVICES",
+        "before": {
+          "s360": 6.48,
+          "phone": 5.95,
+          "tablet": 3.74,
+          "tabletL": 4.28,
+          "desktop": 3.85,
+          "wide": 3.21
+        },
+        "after": {
+          "s360": 5.27,
+          "phone": 4.9,
+          "tablet": 3.16,
+          "tabletL": 3.59,
+          "desktop": 3.29,
+          "wide": 2.83
+        }
+      },
+      {
+        "path": "/services/insurance",
+        "group": "SERVICES",
+        "before": {
+          "s360": 6.53,
+          "phone": 5.87,
+          "tablet": 3.62,
+          "tabletL": 4.29,
+          "desktop": 3.79,
+          "wide": 3.1
+        },
+        "after": {
+          "s360": 5.22,
+          "phone": 4.75,
+          "tablet": 3.31,
+          "tabletL": 3.67,
+          "desktop": 3.36,
+          "wide": 2.96
+        }
+      },
+      {
+        "path": "/services/dispatching",
+        "group": "SERVICES",
+        "before": {
+          "s360": 6.07,
+          "phone": 5.55,
+          "tablet": 3.54,
+          "tabletL": 4.09,
+          "desktop": 3.7,
+          "wide": 2.97
+        },
+        "after": {
+          "s360": 4.93,
+          "phone": 4.59,
+          "tablet": 3.15,
+          "tabletL": 3.5,
+          "desktop": 3.24,
+          "wide": 2.78
+        }
+      },
+      {
+        "path": "/services/brokerage",
+        "group": "SERVICES",
+        "before": {
+          "s360": 6.33,
+          "phone": 5.87,
+          "tablet": 3.72,
+          "tabletL": 4.32,
+          "desktop": 3.92,
+          "wide": 3.22
+        },
+        "after": {
+          "s360": 5.24,
+          "phone": 4.89,
+          "tablet": 3.35,
+          "tabletL": 3.74,
+          "desktop": 3.47,
+          "wide": 3.06
+        }
+      },
+      {
+        "path": "/services/bookkeeping",
+        "group": "SERVICES",
+        "before": {
+          "s360": 7.65,
+          "phone": 7.04,
+          "tablet": 4.61,
+          "tabletL": 4.68,
+          "desktop": 4.2,
+          "wide": 3.6
+        },
+        "after": {
+          "s360": 6.56,
+          "phone": 6.05,
+          "tablet": 4.02,
+          "tabletL": 4.9,
+          "desktop": 4.29,
+          "wide": 3.73
+        }
+      },
+      {
+        "path": "/services/factoring",
+        "group": "SERVICES",
+        "before": {
+          "s360": 4.57,
+          "phone": 4.18,
+          "tablet": 2.68,
+          "tabletL": 3.16,
+          "desktop": 2.93,
+          "wide": 2.58
+        },
+        "after": {
+          "s360": 4.58,
+          "phone": 4.19,
+          "tablet": 2.69,
+          "tabletL": 3.05,
+          "desktop": 2.82,
+          "wide": 2.48
+        }
+      },
+      {
+        "path": "/start-your-business",
+        "group": "SOLUTIONS",
+        "before": {
+          "s360": 4.61,
+          "phone": 4.3,
+          "tablet": 2.58,
+          "tabletL": 3,
+          "desktop": 2.79,
+          "wide": 2.34
+        },
+        "after": {
+          "s360": 4.33,
+          "phone": 4.01,
+          "tablet": 2.55,
+          "tabletL": 2.83,
+          "desktop": 2.63,
+          "wide": 2.19
+        }
+      },
+      {
+        "path": "/road-ready",
+        "group": "SOLUTIONS",
+        "before": {
+          "s360": 4.86,
+          "phone": 4.55,
+          "tablet": 2.67,
+          "tabletL": 3.02,
+          "desktop": 2.77,
+          "wide": 2.36
+        },
+        "after": {
+          "s360": 4.88,
+          "phone": 4.57,
+          "tablet": 2.68,
+          "tabletL": 2.95,
+          "desktop": 2.7,
+          "wide": 2.29
+        }
+      },
+      {
+        "path": "/roadmap",
+        "group": "SOLUTIONS",
+        "before": {
+          "s360": 8.04,
+          "phone": 7.06,
+          "tablet": 4.1,
+          "tabletL": 5.21,
+          "desktop": 4.6,
+          "wide": 3.48
+        },
+        "after": {
+          "s360": 4.06,
+          "phone": 3.81,
+          "tablet": 2.34,
+          "tabletL": 2.77,
+          "desktop": 2.6,
+          "wide": 2.08
+        }
+      },
+      {
+        "path": "/client-portal",
+        "group": "SOLUTIONS",
+        "before": {
+          "s360": 3.68,
+          "phone": 3.47,
+          "tablet": 2.71,
+          "tabletL": 2.53,
+          "desktop": 2.5,
+          "wide": 2.32
+        },
+        "after": {
+          "s360": 3.7,
+          "phone": 3.48,
+          "tablet": 2.6,
+          "tabletL": 2.48,
+          "desktop": 2.45,
+          "wide": 2.28
+        }
+      },
+      {
+        "path": "/get-started",
+        "group": "GET STARTED",
+        "before": {
+          "s360": 3.79,
+          "phone": 3.53,
+          "tablet": 2.3,
+          "tabletL": 2.37,
+          "desktop": 2.21,
+          "wide": 1.88
+        },
+        "after": {
+          "s360": 3.91,
+          "phone": 3.57,
+          "tablet": 2.24,
+          "tabletL": 2.83,
+          "desktop": 2.59,
+          "wide": 2.16
+        }
+      },
+      {
+        "path": "/about",
+        "group": "COMPANY",
+        "before": {
+          "s360": 4.3,
+          "phone": 4,
+          "tablet": 2.57,
+          "tabletL": 3.09,
+          "desktop": 2.87,
+          "wide": 2.36
+        },
+        "after": {
+          "s360": 4.32,
+          "phone": 4.02,
+          "tablet": 2.58,
+          "tabletL": 2.99,
+          "desktop": 2.78,
+          "wide": 2.27
+        }
+      },
+      {
+        "path": "/contact",
+        "group": "COMPANY",
+        "before": {
+          "s360": 4.3,
+          "phone": 4.06,
+          "tablet": 2.53,
+          "tabletL": 2.66,
+          "desktop": 2.44,
+          "wide": 2
+        },
+        "after": {
+          "s360": 4.32,
+          "phone": 4.07,
+          "tablet": 2.54,
+          "tabletL": 2.62,
+          "desktop": 2.4,
+          "wide": 1.95
+        }
+      },
+      {
+        "path": "/services/operating-authority-assistance",
+        "group": "SERVICE PAGES",
+        "before": {
+          "s360": 5.58,
+          "phone": 5.18,
+          "tablet": 3.4,
+          "tabletL": 3.77,
+          "desktop": 3.47,
+          "wide": 3.04
+        },
+        "after": {
+          "s360": 6.24,
+          "phone": 5.73,
+          "tablet": 3.73,
+          "tabletL": 3.89,
+          "desktop": 3.45,
+          "wide": 2.97
+        }
+      },
+      {
+        "path": "/services/ifta-fuel-tax-assistance",
+        "group": "SERVICE PAGES",
+        "before": {
+          "s360": 5.52,
+          "phone": 5.07,
+          "tablet": 3.43,
+          "tabletL": 3.64,
+          "desktop": 3.35,
+          "wide": 2.97
+        },
+        "after": {
+          "s360": 5.51,
+          "phone": 5.03,
+          "tablet": 3.4,
+          "tabletL": 3.69,
+          "desktop": 3.27,
+          "wide": 2.86
+        }
+      },
+      {
+        "path": "/services/trip-permits",
+        "group": "SERVICE PAGES",
+        "before": {
+          "s360": 5.3,
+          "phone": 4.92,
+          "tablet": 3.31,
+          "tabletL": 3.59,
+          "desktop": 3.33,
+          "wide": 2.98
+        },
+        "after": {
+          "s360": 5.43,
+          "phone": 5.01,
+          "tablet": 3.42,
+          "tabletL": 3.67,
+          "desktop": 3.29,
+          "wide": 2.88
+        }
+      }
+    ],
+    "scroll_all_pages": 92,
+    "totals_px": {
+      "s360": {
+        "before": 367027,
+        "after": 350495
+      },
+      "phone": {
+        "before": 358635,
+        "after": 343509
+      },
+      "tablet": {
+        "before": 331215,
+        "after": 325158
+      },
+      "tabletL": {
+        "before": 254635,
+        "after": 248462
+      },
+      "desktop": {
+        "before": 253469,
+        "after": 243081
+      },
+      "wide": {
+        "before": 353648,
+        "after": 338080
+      }
+    },
+    "service_pages_px": {
+      "s360": {
+        "before": 217553,
+        "after": 220299
+      },
+      "phone": {
+        "before": 212431,
+        "after": 215555
+      },
+      "tablet": {
+        "before": 200118,
+        "after": 203565
+      },
+      "tabletL": {
+        "before": 152925,
+        "after": 155291
+      },
+      "desktop": {
+        "before": 151965,
+        "after": 149599
+      },
+      "wide": {
+        "before": 216213,
+        "after": 208431
+      }
+    },
+    "screenshots": {
+      "qa": 282,
+      "current_app": 198,
+      "boards": 12
+    },
+    "a11y_perf": {
+      "current": [
+        "Main JavaScript bundle 1929 KB (one chunk; the build warns above 1,200 KB); main CSS 494 KB; 2 source maps published.",
+        "The retired hero photograph (all-in-one-hero-truck.png, 1704 KB PNG) is preloaded on every page.",
+        "Fonts: DM Sans + Plus Jakarta Sans via a Google Fonts @import inside the CSS (render-blocking chain).",
+        "Touch targets under 24 × 24 (WCAG 2.2 AA 2.5.8) on the phone: / 6, /contact 19, /services/trip-permits 3, /get-started 7; on the desktop: / 10, /contact 21, /services/trip-permits 11, /get-started 8.",
+        "Desktop header links at 1.13 : 1 contrast (fails WCAG 1.4.3 — needs 4.5 : 1).",
+        "Nested interactive elements (a link wrapping a button) on service, bookkeeping, roadmap, plan and request pages.",
+        "The 404 renders outside the public layout, unstyled; unknown routes return HTTP 200 (SPA rewrite)."
+      ],
+      "design": [
+        "Touch targets under 24 × 24 on the probed pages (home, contact, a service page, get started): 0 on the phone and 0 on the desktop; nav icons are 44 × 44.",
+        "Contrast: body text #F4EFE4 and muted #A8A195 on #050505 (≈ 17 : 1 and 7.9 : 1); gold buttons carry dark text #17130B on the gold gradient (≈ 8 : 1).",
+        "Keyboard: every control is a button or link with a visible focus ring (2 px champagne); Esc closes menus, search and the drawer; tabs and selectors use role=tab / aria-selected; the step rail uses aria-current=step.",
+        "Reduced motion turns every animation and transition off (checked by QA); nothing loops; reveals run once.",
+        "Weight: site page 271 KB (HTML + CSS + JS + data inline), photographs 2654 KB for nine plates (JPEG ≤ 2560 px), fonts 91 KB self-hosted (font-display: swap).",
+        "Layout shift: photographs are CSS backgrounds in fixed-height boxes; images in content (the client screen) have intrinsic size; fonts swap without layout-affecting fallbacks beyond metric differences.",
+        "Scroll performance: container queries and transforms only; no scroll-linked JavaScript besides one passive listener for the hero nav state.",
+        "Not yet measured on physical devices or with a screen reader — Composer port (stage 06) carries both."
+      ]
+    }
+  },
+  "next_gate": "FOUNDER REVIEW: AIO PUBLIC WEBSITE — FINAL RESPONSIVE DESIGN AND LEGACY MIGRATION READINESS"
+}
