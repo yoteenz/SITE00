@@ -4,13 +4,17 @@ import { DEFAULT_ASSUMPTIONS } from './assumptions';
  * Client-facing presentation only.
  * Canonical weeks and dollars stay on the estimate result.
  * This module never feeds a rounded range back into the estimator.
+ *
+ * Policy 1.1.0: both ends of a client timeline are even numbers, in weeks
+ * and in months. Policy 1.0.0 is superseded. That version said months were
+ * rounded outward and were not forced even.
  */
-export const PRESENTATION_POLICY_VERSION = '1.0.0';
+export const PRESENTATION_POLICY_VERSION = '1.1.0';
 
 /** Same month length the previous client formatter used. */
 export const WEEKS_PER_MONTH = 4.345;
 
-/** A window whose canonical high is at least this many weeks is shown in months. */
+/** A window whose rounded high week is this many weeks or more is shown in months. */
 export const MONTH_THRESHOLD_WEEKS = 20;
 
 const EPSILON = 1e-9;
@@ -90,10 +94,29 @@ function ceilWhole(value: number): number {
   return Math.ceil(value - EPSILON);
 }
 
-/** Smallest even whole number that is not below the canonical week value. */
-function evenAtLeast(weeks: number): number {
-  const whole = Math.max(1, ceilWhole(weeks));
+/**
+ * Even client endpoint. A fractional value rises to the next whole number,
+ * then an odd whole number rises to the next even number. 1 becomes 2.
+ * Zero and negative inputs become 2 so a display cannot collapse.
+ */
+export function evenEndpoint(value: number): number {
+  if (!Number.isFinite(value) || value <= 0) return 2;
+  const whole = Math.max(1, ceilWhole(value));
   return whole % 2 === 0 ? whole : whole + 1;
+}
+
+/**
+ * Both ends even, ordered, and at least 2.
+ * A source span that would land on one even number opens to the next even high,
+ * so a range does not become a single number.
+ */
+export function evenRange(low: number, high: number): { low: number; high: number } {
+  const orderedLow = Math.min(low, high);
+  const orderedHigh = Math.max(low, high);
+  const displayLow = evenEndpoint(orderedLow);
+  let displayHigh = Math.max(displayLow, evenEndpoint(orderedHigh));
+  if (orderedHigh - orderedLow > EPSILON && displayHigh === displayLow) displayHigh += 2;
+  return { low: displayLow, high: displayHigh };
 }
 
 function legacyWindow(lowWeeks: number, highWeeks: number): string {
@@ -113,35 +136,44 @@ function legacyInvestment(low: number, high: number): { low: number; high: numbe
   return { low: left * 1000, high: right * 1000, label: `$${left}K–$${right}K` };
 }
 
+function roundedWeeks(low: number, high: number): { low: number; high: number } {
+  const roundedLow = Math.max(1, Math.round(low));
+  const roundedHigh = Math.max(roundedLow, Math.round(high));
+  return { low: roundedLow, high: roundedHigh };
+}
+
 export function presentTimeline(lowWeeks: number, highWeeks: number): TimelinePresentation {
   const low = Math.min(lowWeeks, highWeeks);
   const high = Math.max(lowWeeks, highWeeks);
   const legacyLabel = legacyWindow(low, high);
-  if (high >= MONTH_THRESHOLD_WEEKS) {
-    const lowMonths = Math.max(1, ceilWhole(low / WEEKS_PER_MONTH));
-    const highMonths = Math.max(lowMonths, ceilWhole(high / WEEKS_PER_MONTH));
-    const label = `${lowMonths}–${highMonths} MONTHS`;
-    const founderReview = label !== legacyLabel;
+  const rounded = roundedWeeks(low, high);
+  if (rounded.high >= MONTH_THRESHOLD_WEEKS) {
+    const lowMonths = Math.max(1, Math.round(rounded.low / WEEKS_PER_MONTH));
+    const highMonths = Math.max(lowMonths, Math.round(rounded.high / WEEKS_PER_MONTH));
+    const display = evenRange(lowMonths, highMonths);
+    const label = `${display.low}–${display.high} MONTHS`;
+    const founderReview = display.low - lowMonths > 2
+      || display.high - highMonths > 2
+      || display.high - display.low - (highMonths - lowMonths) > 2;
     return {
       unit: 'MONTHS',
-      low: lowMonths,
-      high: highMonths,
+      low: display.low,
+      high: display.high,
       label,
       legacyLabel,
       founderReview,
       note: founderReview
-        ? `Months are rounded outward from the canonical weeks. They are not snapped to even months. The previous rounded window was ${legacyLabel}.`
+        ? `Even-month normalization moves this window by more than two months from the rounded window ${lowMonths}–${highMonths}. The previous client window was ${legacyLabel}. Raw weeks are unchanged.`
         : null,
     };
   }
-  const displayLow = evenAtLeast(low);
-  const displayHigh = Math.max(displayLow, evenAtLeast(high));
-  const label = `${displayLow}–${displayHigh} WEEKS`;
-  const founderReview = displayLow - low > 2 || displayHigh - high > 2 || displayHigh - displayLow - (high - low) > 2;
+  const display = evenRange(low, high);
+  const label = `${display.low}–${display.high} WEEKS`;
+  const founderReview = display.low - low > 2 || display.high - high > 2 || display.high - display.low - (high - low) > 2;
   return {
     unit: 'WEEKS',
-    low: displayLow,
-    high: displayHigh,
+    low: display.low,
+    high: display.high,
     label,
     legacyLabel,
     founderReview,

@@ -8,6 +8,7 @@ import {
   HISTORICAL_STARTING_OFFERS,
   PRESENTATION_POLICY_VERSION,
   WEEKS_PER_MONTH,
+  evenRange,
   presentEstimate,
   presentInvestment,
   presentTimeline,
@@ -67,22 +68,66 @@ describe('estimate presentation policy', () => {
         expect(presentation.timeline.low % 2).toBe(0);
         expect(presentation.timeline.high % 2).toBe(0);
       } else {
+        expect(presentation.timeline.low % 2).toBe(0);
+        expect(presentation.timeline.high % 2).toBe(0);
         expect(presentation.timeline.low * WEEKS_PER_MONTH).toBeGreaterThanOrEqual(result.lowWeeks - 0.02);
-        expect(presentation.timeline.high * WEEKS_PER_MONTH).toBeGreaterThanOrEqual(result.highWeeks - 0.02);
+        expect(presentation.timeline.high * WEEKS_PER_MONTH).toBeGreaterThanOrEqual(result.highWeeks - WEEKS_PER_MONTH);
       }
       seen.set(name, `${presentation.timeline.legacyLabel} => ${presentation.timeline.label} | ${presentation.investment.legacyLabel} => ${presentation.investment.label}`);
     }
     expect(seen.get('SIMPLE_SERVICE')).toBe('8–10 WEEKS => 8–10 WEEKS | $5K–$7K => $5K–$7K');
     expect(seen.get('STANDARD_EDITORIAL')).toBe('15–19 WEEKS => 16–20 WEEKS | $17K–$22K => $16K–$22K');
-    expect(seen.get('ADVANCED_COMMERCE')).toBe('5–7 MONTHS => 6–7 MONTHS | $27K–$35K => $27K–$35K');
+    expect(seen.get('ADVANCED_COMMERCE')).toBe('5–7 MONTHS => 6–8 MONTHS | $27K–$35K => $27K–$35K');
     expect(seen.get('LARGE_PRODUCT')).toBe('8–10 MONTHS => 8–10 MONTHS | $43K–$55K => $43K–$56K');
-    expect(seen.get('PORTAL_SYSTEM')).toBe('9–12 MONTHS => 9–13 MONTHS | $52K–$70K => $51K–$71K');
+    expect(seen.get('PORTAL_SYSTEM')).toBe('9–12 MONTHS => 10–12 MONTHS | $52K–$70K => $51K–$71K');
     expect(seen.get('SPATIAL_WORLD')).toBe('12–16 MONTHS => 12–16 MONTHS | $69K–$94K => $69K–$94K');
     expect(seen.get('ZERO_FAMILIES')).toBe('3–5 WEEKS => 4–6 WEEKS | $3K–$4K => $3K–$4K');
-    expect(presentEstimate(must(FIXTURES.ADVANCED_COMMERCE)).timeline.founderReview).toBe(true);
-    expect(presentEstimate(must(FIXTURES.PORTAL_SYSTEM)).timeline.founderReview).toBe(true);
+    expect(presentEstimate(must(FIXTURES.ADVANCED_COMMERCE)).timeline.founderReview).toBe(false);
+    expect(presentEstimate(must(FIXTURES.PORTAL_SYSTEM)).timeline.founderReview).toBe(false);
     expect(presentEstimate(must(FIXTURES.SPATIAL_WORLD)).timeline.founderReview).toBe(false);
     expect(presentEstimate(must(FIXTURES.LARGE_PRODUCT)).timeline.founderReview).toBe(false);
+  });
+
+  it('uses even endpoints for every listed week and month example', () => {
+    const examples: Array<[number, number, number, number]> = [
+      [1, 1, 2, 2],
+      [1, 2, 2, 4],
+      [2, 3, 2, 4],
+      [3, 5, 4, 6],
+      [4, 6, 4, 6],
+      [5, 7, 6, 8],
+      [6, 7, 6, 8],
+      [7, 9, 8, 10],
+      [8, 11, 8, 12],
+      [9, 12, 10, 12],
+      [10, 13, 10, 14],
+      [11, 15, 12, 16],
+      [12, 16, 12, 16],
+      [15, 19, 16, 20],
+      [16, 20, 16, 20],
+    ];
+    for (const [low, high, displayLow, displayHigh] of examples) {
+      const snapped = evenRange(low, high);
+      expect(snapped).toEqual({ low: displayLow, high: displayHigh });
+      expect(snapped.low % 2).toBe(0);
+      expect(snapped.high % 2).toBe(0);
+      expect(snapped.low).toBeGreaterThan(0);
+      expect(snapped.low).toBeLessThanOrEqual(snapped.high);
+      if (high < 20) {
+        const shown = presentTimeline(low, high);
+        expect(shown.unit).toBe('WEEKS');
+        expect(shown.low).toBe(displayLow);
+        expect(shown.high).toBe(displayHigh);
+        expect(shown.label).toBe(`${displayLow}–${displayHigh} WEEKS`);
+      }
+    }
+    expect(presentTimeline(15, 19).label).toBe('16–20 WEEKS');
+    expect(presentTimeline(16, 20).unit).toBe('MONTHS');
+    const commerce = presentEstimate(must(FIXTURES.ADVANCED_COMMERCE));
+    const portal = presentEstimate(must(FIXTURES.PORTAL_SYSTEM));
+    expect(commerce.timeline.label).toBe('6–8 MONTHS');
+    expect(portal.timeline.label).toBe('10–12 MONTHS');
+    expect(commerce.policyVersion).toBe('1.1.0');
   });
 
   it('keeps a founder timeline override on the result', () => {
