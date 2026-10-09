@@ -15729,3 +15729,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decisions / outcomes:** Not enabled on `npm run build` / GoDaddy; restart Vite preview terminal after merge for flags to take effect.
 - **Changes:** `.cursor/scripts/run-site00-cloud-preview-server.sh`, `.env.example`, `AGENTS.md`.
 - **Conventions:** Do not add these flags to site00-production-deploy.yml without explicit founder release approval.
+
+---
+
+## 2026-10-09 — Build Object lighting flicker realism (P0 BLDR)
+
+- **Context:** Founder recording `ScreenRecording_10-09-2026 12-38-06_1.mp4` — Build Object flicker/strobe vs fluid architectural light. Sprint `P0.SITE00.BLDR.BUILD-OBJECT.LIGHTING-FLICKER-REALISM-CORRECTION1`.
+- **Root cause:** `engine.ts` — one-frame HDRI env intensity jump (0.55→0.95); ~20fps idle `setTimeout` render stepping on glass; no localized light layers.
+- **Fix:** Env crossfade; continuous rAF idle; `applyArchitecturalLighting()` with desynced 5–8s cycles (sun/rim/glass envMap/red emissive); reduced motion static; softer camera sway.
+- **QA:** Mobile Q19/Q20 PASS; artifacts `/opt/cursor/artifacts/bldr-lighting-*`; tunnel Vite on workspace branch.
+- **Branch:** `cursor/bldr-build-object-lighting-flicker-realism-correction1` from `fb7f24f4` (builder-studio not on main).
