@@ -6,7 +6,7 @@
 **Office:** COMPLETE OFFICE IN DESIGN REVIEW — TWELVE LANES, HOME, INTAKE, REPORTS, MORE — CANDIDATES, AWAITING FOUNDER REVIEW  
 **Public website:** DESIGNED IN REVIEW — HOMEPAGE, SERVICE FAMILY AND THE WHOLE RECOVERED TREE — CANDIDATES, AWAITING FOUNDER REVIEW; NOT DEPLOYED  
 **Office review:** https://claude.ai/artifact/DKYZUHjSdiTw1qSC1evdbk  
-**Public review:** PENDING_PUBLISH  
+**Public review:** https://claude.ai/artifact/BzsjSbyLHoLAxhGZBr27UE  
 **Next gate:** FOUNDER REVIEW OF THE COMPLETE AIO OFFICE AND THE PUBLIC WEBSITE DESIGN
 
 ## Four sizes, each composed
@@ -23,15 +23,15 @@
 |  |  |
 |---|---|
 | Tool | design-authority/aio-office/workspaces/qa.mjs (+ lane-check.mjs per workspace) |
-| Checks | 0 run · 0 failed |
-| Screenshots | 0 |
-| Lane checks | 0 state × size renders · 0 failed |
+| Checks | 935 run · 0 failed |
+| Screenshots | 107 |
+| Lane checks | 989 state × size renders · 0 failed |
 
 ## Public website
 
 |  |  |
 |---|---|
 | Tool | design-authority/aio-public/qa.mjs |
-| Checks | 48 run · 0 failed |
+| Checks | 84 run · 0 failed |
 | Pages | 92 × 4 sizes |
-| Screenshots | 0 |
+| Screenshots | 188 |

@@ -15810,3 +15810,53 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - the 12 privacy gaps (still OPEN; separate Composer work)
 - **Review:** https://claude.ai/artifact/DKYZUHjSdiTw1qSC1evdbk (version 3).
 - **Next gate:** FOUNDER REVIEW OF AIO OFFICE MATERIAL, MOTION AND DETAIL POLISH. The style is not applied to other lanes until approved.
+
+---
+
+## 2026-10-09 — AIO complete product: the complete AIO OFFICE and the public website design
+
+- **Sprint:** P0.AIO.COMPLETE-PRODUCT-VISUAL-CONVERGENCE.INTERNAL-OFFICE-AND-PUBLIC-WEBSITE1. Both are candidates, awaiting founder review.
+
+**Stage A — the office.**
+- The five approved roots are unchanged, and every `data-go` link on them now opens a designed page.
+- All twelve service lanes have a workspace, each built around its own object:
+  - an application (permitting)
+  - a quarter (filing; it opens the approved IFTA staff screens unchanged)
+  - a calendar (compliance)
+  - a truck (fleet)
+  - a load board (dispatch)
+  - a match (brokerage, PAUSED)
+  - coverage (insurance)
+  - an invoice packet (factoring)
+  - a month (bookkeeping)
+  - a driver's credentials (drivers)
+  - a repair line (maintenance)
+  - a road (Road Ready)
+- HOME has a triage desk, INTAKE the migration line, REPORTS its ten areas, and MORE its eleven destinations. Client 360 is reused.
+- The review is organised as a registry in four groups. Each department shows MAIN, SELECTED, DEEPER and PHONE.
+- QA: `qa.mjs` 935/935, and lane checks 989 renders with 0 failures.
+
+**Stage B — the public website.**
+- The homepage is held to **panel 04 of the founder brand DNA board** (`4af8116c`), the only founder image of the public homepage.
+- The service family is held to the approved IFTA public page.
+- The whole recovered tree is designed: 92 pages from `AioCoreRoutes.tsx` plus the canonical catalog. Each service shows its real status.
+- No prices, counts, rates or testimonials are shown. Brokerage is paused.
+- QA: 84/84, 92 pages × 4 sizes.
+- The 2026-08 full-page mocks were not found, and nothing was substituted for them.
+
+**Where (SITE00):**
+- `projects/aio/complete-product.ts` (`AIO_CP_*`, `validateCompleteProduct`)
+- `docs/aio/complete-product/` (9 files)
+- `tests/aioCompleteProduct1.test.ts` (10)
+
+**Reviews:**
+- office: https://claude.ai/artifact/DKYZUHjSdiTw1qSC1evdbk (v4)
+- public: https://claude.ai/artifact/BzsjSbyLHoLAxhGZBr27UE
+
+**Not changed:**
+- live app, auth, data, business rules, prices
+- approved roots
+- Brokerage (paused)
+- the 12 privacy gaps (still OPEN; separate Composer work)
+
+**Next gate:** FOUNDER REVIEW OF THE COMPLETE AIO OFFICE AND THE PUBLIC WEBSITE DESIGN. The founder should confirm panel 04 as the homepage authority.

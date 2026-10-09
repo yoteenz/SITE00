@@ -6,7 +6,7 @@
 **Office:** COMPLETE OFFICE IN DESIGN REVIEW — TWELVE LANES, HOME, INTAKE, REPORTS, MORE — CANDIDATES, AWAITING FOUNDER REVIEW  
 **Public website:** DESIGNED IN REVIEW — HOMEPAGE, SERVICE FAMILY AND THE WHOLE RECOVERED TREE — CANDIDATES, AWAITING FOUNDER REVIEW; NOT DEPLOYED  
 **Office review:** https://claude.ai/artifact/DKYZUHjSdiTw1qSC1evdbk  
-**Public review:** PENDING_PUBLISH  
+**Public review:** https://claude.ai/artifact/BzsjSbyLHoLAxhGZBr27UE  
 **Next gate:** FOUNDER REVIEW OF THE COMPLETE AIO OFFICE AND THE PUBLIC WEBSITE DESIGN
 
 Nothing was generated and no paid image credits were used.
@@ -17,7 +17,7 @@ Nothing was generated and no paid image credits were used.
 | Branded white truck | fsbw public/brand/all-in-one-hero-truck.png | Founder-supplied, approved homepage hero (Refinement 03B) | Public START pathway, Start Your Business, formation |
 | Golden highway · mountain road · night interstate · fleet yard · freight map · valley trail · mountains at dusk | fsbw public/brand/ifta/plates/*.jpg | Founder-approved IFTA plates already in the repository (no new generation) | Public page heroes, photo cards, Road Ready map, closing band; office plates |
 | Simple mark and full lockup | fsbw public/brand/ifta/aio-mark-on-dark.png · aio-lockup-on-dark.png | Founder logo, keyed to alpha | Public nav (mark) and footer (lockup) — per AIO_LOGO_RULES |
-| Inter + Inter Tight | fsbw public/fonts/ifta/*.woff2 | OFL | Public website type |
+| Inter + Inter Tight | fsbw public/fonts/ifta/*.woff2 | SIL Open Font Licence, already in the repository | Public website type |
 | Line icons | lucide-static 1.52.0 (ISC) → design-authority/aio-public/site-icons.js | Same source and version as the IFTA family icons | Public website |
 | Approved IFTA captures | fsbw docs/aio/ifta/visual-reconstruction/captures/after/*.jpg | Approved IFTA reconstruction | Public /services/ifta-filing and client-portal screen; office FILING viewer |
 | Approved migration screens | fsbw AIO_CLIENT_MIGRATION_AUTHORITY | Approved client-migration authority | Office INTAKE |

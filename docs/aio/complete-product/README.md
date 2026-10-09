@@ -6,7 +6,7 @@
 **Office:** COMPLETE OFFICE IN DESIGN REVIEW — TWELVE LANES, HOME, INTAKE, REPORTS, MORE — CANDIDATES, AWAITING FOUNDER REVIEW  
 **Public website:** DESIGNED IN REVIEW — HOMEPAGE, SERVICE FAMILY AND THE WHOLE RECOVERED TREE — CANDIDATES, AWAITING FOUNDER REVIEW; NOT DEPLOYED  
 **Office review:** https://claude.ai/artifact/DKYZUHjSdiTw1qSC1evdbk  
-**Public review:** PENDING_PUBLISH  
+**Public review:** https://claude.ai/artifact/BzsjSbyLHoLAxhGZBr27UE  
 **Next gate:** FOUNDER REVIEW OF THE COMPLETE AIO OFFICE AND THE PUBLIC WEBSITE DESIGN
 
 Stage A completes the internal AIO OFFICE in the locked workspace language: twelve service lanes, HOME, INTAKE, REPORTS and MORE, every link on the unchanged approved roots opening a designed page. Stage B designs the public website from the founder’s recovered brand authority. Design review only — nothing is deployed.
@@ -32,8 +32,8 @@ Stage A completes the internal AIO OFFICE in the locked workspace language: twel
 | PUBLIC PAGE TREE RECOVERED | YES — 92 pages from AioCoreRoutes.tsx and the catalog |
 | ORIGINAL PUBLIC REFERENCE RECOVERED | PARTLY — panel 04 of the founder brand DNA board (homepage first screen); the 2026-08 full-page mocks are not in either repository |
 | PUBLIC DEPLOYED | NO |
-| OFFICE QA | NOT RUN |
-| PUBLIC QA | PASSED — 48/48 · 92 pages × 4 sizes |
+| OFFICE QA | PASSED — 935/935 |
+| PUBLIC QA | PASSED — 84/84 · 92 pages × 4 sizes |
 | PRICES SHOWN | NO — none approved |
 | BROKERAGE | PAUSED — not activated |
 | LIVE APP CHANGED | NO |

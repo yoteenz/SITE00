@@ -172,7 +172,7 @@ export const AIO_CP_SIZES = [
 ] as const;
 
 export const AIO_CP_QA = {
-  office: { tool: 'design-authority/aio-office/workspaces/qa.mjs (+ lane-check.mjs per workspace)', checks_run: 0, failures: 0, screenshots: 0, lane_checks: { states: 0, failures: 0 } },
+  office: { tool: 'design-authority/aio-office/workspaces/qa.mjs (+ lane-check.mjs per workspace)', checks_run: 935, failures: 0, screenshots: 107, lane_checks: { states: 989, failures: 0 } },
   public: { tool: 'design-authority/aio-public/qa.mjs', checks_run: 84, failures: 0, pages: 92, sizes: 4, screenshots: 188 },
 } as const;
 
@@ -183,7 +183,7 @@ export const AIO_CP_ASSETS: { asset: string; source: string; provenance: string;
   { asset: 'Branded white truck', source: 'fsbw public/brand/all-in-one-hero-truck.png', provenance: 'Founder-supplied, approved homepage hero (Refinement 03B)', used_in: 'Public START pathway, Start Your Business, formation' },
   { asset: 'Golden highway · mountain road · night interstate · fleet yard · freight map · valley trail · mountains at dusk', source: 'fsbw public/brand/ifta/plates/*.jpg', provenance: 'Founder-approved IFTA plates already in the repository (no new generation)', used_in: 'Public page heroes, photo cards, Road Ready map, closing band; office plates' },
   { asset: 'Simple mark and full lockup', source: 'fsbw public/brand/ifta/aio-mark-on-dark.png · aio-lockup-on-dark.png', provenance: 'Founder logo, keyed to alpha', used_in: 'Public nav (mark) and footer (lockup) — per AIO_LOGO_RULES' },
-  { asset: 'Inter + Inter Tight', source: 'fsbw public/fonts/ifta/*.woff2', provenance: 'OFL', used_in: 'Public website type' },
+  { asset: 'Inter + Inter Tight', source: 'fsbw public/fonts/ifta/*.woff2', provenance: 'SIL Open Font Licence, already in the repository', used_in: 'Public website type' },
   { asset: 'Line icons', source: 'lucide-static 1.52.0 (ISC) → design-authority/aio-public/site-icons.js', provenance: 'Same source and version as the IFTA family icons', used_in: 'Public website' },
   { asset: 'Approved IFTA captures', source: 'fsbw docs/aio/ifta/visual-reconstruction/captures/after/*.jpg', provenance: 'Approved IFTA reconstruction', used_in: 'Public /services/ifta-filing and client-portal screen; office FILING viewer' },
   { asset: 'Approved migration screens', source: 'fsbw AIO_CLIENT_MIGRATION_AUTHORITY', provenance: 'Approved client-migration authority', used_in: 'Office INTAKE' },

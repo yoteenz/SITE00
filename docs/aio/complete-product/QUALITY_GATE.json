@@ -8,8 +8,8 @@
     "PUBLIC_PAGE_TREE_RECOVERED": "YES — 92 pages from AioCoreRoutes.tsx and the catalog",
     "ORIGINAL_PUBLIC_REFERENCE_RECOVERED": "PARTLY — panel 04 of the founder brand DNA board (homepage first screen); the 2026-08 full-page mocks are not in either repository",
     "PUBLIC_DEPLOYED": "NO",
-    "OFFICE_QA": "NOT RUN",
-    "PUBLIC_QA": "PASSED — 48/48 · 92 pages × 4 sizes",
+    "OFFICE_QA": "PASSED — 935/935",
+    "PUBLIC_QA": "PASSED — 84/84 · 92 pages × 4 sizes",
     "PRICES_SHOWN": "NO — none approved",
     "BROKERAGE": "PAUSED — not activated",
     "LIVE_APP_CHANGED": "NO",
@@ -24,10 +24,7 @@
     "gaps": 8,
     "founder_decisions": 7
   },
-  "problems": [
-    "office QA not recorded",
-    "public review link not published"
-  ],
+  "problems": [],
   "status": {
     "office_language": "LOCKED — the AIO OFFICE WORKSPACE STYLE inherited by every new workspace, not redesigned",
     "office": "COMPLETE OFFICE IN DESIGN REVIEW — TWELVE LANES, HOME, INTAKE, REPORTS, MORE — CANDIDATES, AWAITING FOUNDER REVIEW",

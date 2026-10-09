@@ -12,7 +12,7 @@
   },
   "links": {
     "office_review": "https://claude.ai/artifact/DKYZUHjSdiTw1qSC1evdbk",
-    "public_review": "PENDING_PUBLISH"
+    "public_review": "https://claude.ai/artifact/BzsjSbyLHoLAxhGZBr27UE"
   },
   "status": {
     "office_language": "LOCKED — the AIO OFFICE WORKSPACE STYLE inherited by every new workspace, not redesigned",
@@ -647,21 +647,21 @@
   "qa": {
     "office": {
       "tool": "design-authority/aio-office/workspaces/qa.mjs (+ lane-check.mjs per workspace)",
-      "checks_run": 0,
+      "checks_run": 935,
       "failures": 0,
-      "screenshots": 0,
+      "screenshots": 107,
       "lane_checks": {
-        "states": 0,
+        "states": 989,
         "failures": 0
       }
     },
     "public": {
       "tool": "design-authority/aio-public/qa.mjs",
-      "checks_run": 48,
+      "checks_run": 84,
       "failures": 0,
       "pages": 92,
       "sizes": 4,
-      "screenshots": 0
+      "screenshots": 188
     }
   },
   "assets": [
@@ -692,7 +692,7 @@
     {
       "asset": "Inter + Inter Tight",
       "source": "fsbw public/fonts/ifta/*.woff2",
-      "provenance": "OFL",
+      "provenance": "SIL Open Font Licence, already in the repository",
       "used_in": "Public website type"
     },
     {
