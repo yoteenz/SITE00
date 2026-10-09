@@ -6,7 +6,7 @@
     "MAIN_SELECTED_CONTEXT_ACTION_STATES": "YES",
     "PHONE_TABLET_DESKTOP_ULTRA_WIDE": "YES",
     "DESKTOP_FITS_ONE_SCREEN": "YES — checked by qa.mjs at 1440 × 900 and 2560 × 1440 (and tablet)",
-    "REVIEW_QA_PASSED": "YES — 173/173",
+    "REVIEW_QA_PASSED": "YES — 180/180",
     "SIMULATED_ACTIONS_LABELLED": "YES — inline confirm says SIMULATED — NOTHING IS SAVED OR SENT",
     "SAMPLE_DATA_ONLY": "YES — no balances, no live data",
     "APPROVED_ROOTS_CHANGED": "NO",
@@ -20,9 +20,9 @@
     "proofs": 4,
     "rules": 12,
     "demos": 12,
-    "qa_checks": 173,
-    "screenshots": 31,
-    "defects_found_and_fixed": 8
+    "qa_checks": 180,
+    "screenshots": 32,
+    "defects_found_and_fixed": 10
   },
   "problems": [],
   "status": {

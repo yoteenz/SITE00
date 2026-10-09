@@ -44,7 +44,7 @@ export const AIO_WP_LOCATIONS = {
   build: 'node design-authority/aio-office/workspaces/build.mjs <outDir>',
   qa: 'node design-authority/aio-office/workspaces/qa.mjs <outDir> [screensDir]',
   boards: 'node design-authority/aio-office/workspaces/boards.mjs <batch1Dist> <workspacesDist>',
-  review_folder: 'fsbw AIO_OFFICE_WORKSPACE_PROOFS/ — boards/ (diagnosis, before → after, family), screens/ (31 QA captures), qa-summary.json',
+  review_folder: 'fsbw AIO_OFFICE_WORKSPACE_PROOFS/ — boards/ (diagnosis, before → after, family), screens/ (32 QA captures), qa-summary.json',
   review_link: AIO_WP_REVIEW_LINK,
   batch1_review: 'https://claude.ai/artifact/VQCyD4A4YmeErb27ik2hgG (functional structure; not approved visuals)',
   docs: 'docs/aio/office-workspace-proofs/ (SITE00, generated) · vendored to fsbw all-in-one-enterprises/docs/aio/office-workspace-proofs/',
@@ -145,7 +145,7 @@ export const AIO_WP_INTERACTIONS: { workspace: WpId | 'all'; interaction: string
   { workspace: 'all', interaction: 'Every action asks inline, says SIMULATED — NOTHING IS SAVED OR SENT, then changes the sample state and the history for this visit', kind: 'SIMULATED' },
   { workspace: 'all', interaction: 'Jumps between workspaces (truck ↔ client ↔ deadline ↔ close) keep a BACK TO … chip that restores the selection', kind: 'CROSS_WORKSPACE' },
   { workspace: 'all', interaction: 'The approved header and navigation stay live: WORK and MORE move between workspaces, header search focuses the workspace search, the other roots answer', kind: 'REVIEW' },
-  { workspace: 'all', interaction: 'Review: device switch, FOUNDER / STAFF switch, BEFORE → AFTER board per workspace, three TRY demonstrations per workspace that press the real controls', kind: 'REVIEW' },
+  { workspace: 'all', interaction: 'Review: device switch (on the landing too — the four previews follow it), FOUNDER / STAFF switch, BEFORE → AFTER board per workspace, three TRY demonstrations per workspace that press the real controls', kind: 'REVIEW' },
 ];
 export const AIO_WP_DEMOS: Record<WpId, string[]> = {
   fleet: ['SELECT A TRUCK', 'CLEAR A BLOCKER', 'FILTER THE YARD'],
@@ -187,7 +187,7 @@ export const AIO_WP_ROOT_COMPARISON = {
 
 export const AIO_WP_QA = {
   tool: 'workspaces/qa.mjs — Playwright + Chromium over the built review',
-  checks_run: 173,
+  checks_run: 180,
   failures: 0,
   covers: [
     'every workspace on phone, tablet, desktop and ultra-wide: draws; every control has a handler; no dead controls; inputs wired; uppercase law; no sideways overflow; fits one screen on tablet / desktop / ultra-wide',
@@ -196,10 +196,11 @@ export const AIO_WP_QA = {
     'comp: horizon mark, queue row, NOW filter, DOT / SAFETY ghost, CORRECTIVE WORK, subject → fleet → back, staff without REASSIGN, phone drawer',
     'client: ABC → INSURANCE → policy → truck → back → back (context kept), founder BILLING, OPEN IN FLEET + back, PREBUILT never ACTIVE, directory search, staff without BILLING, phone drawers',
     'shell: MORE / WORK switch workspaces, other roots answer, header search focuses the workspace search',
-    'review: four live miniatures, every image loads, card opens workspace, device fits the window, device / role switches, BEFORE board, all twelve TRY demonstrations run to the end, the ABC demo ends where it started',
+    'review: four live miniatures that follow the device switch (phone, tablet), every image loads, card opens workspace, device fits the window, device / role switches, BEFORE board, all twelve TRY demonstrations run to the end, the ABC demo ends where it started',
+    'review on a 390 px screen (landing and each workspace): no sideways scroll, the PHONE switch visible, the phone device fits',
     'no console or page errors',
   ],
-  screenshots: 31,
+  screenshots: 32,
   found_and_fixed: [
     'Nested <button> in the landing cards closed the cards early (previews broke) → cards are role=button blocks',
     'Stage wrapper overlapped the toolbar and swallowed clicks on PHONE / TABLET / DESKTOP → overlap removed, demo caption floats inside the device',
@@ -209,13 +210,15 @@ export const AIO_WP_QA = {
     'Compliance horizon marks overlapped on the phone → marks stack into lines',
     'Compliance case title collided with the countdown on phone / tablet → stacked',
     'Blueprint tags collided and clipped → evenly spaced at fixed width',
+    'Founder: “where’s the mobile version?” — the landing showed desktop previews only and hid the device switch → the switch is on the landing and the four previews follow it (PHONE shows four phones)',
+    'On a phone-sized screen the review itself spilled sideways (718 px) so the phone device did not fit → the tab strip may shrink and scrolls; the toolbar compacts'
   ],
 } as const;
 
 /* ═══════════════ P · founder package ═══════════════ */
 
 export const AIO_WP_WALKTHROUGH: string[] = [
-  `Open ${AIO_WP_REVIEW_LINK}. The landing shows the four workspaces live; tap one.`,
+  `Open ${AIO_WP_REVIEW_LINK}. The landing shows the four workspaces live; PHONE / TABLET / DESKTOP / ULTRA-WIDE at the top switch all four previews (PHONE shows the four phone layouts side by side). Tap one to open it.`,
   'Inside a workspace: TRY runs a short demonstration on the real controls; PHONE / TABLET / DESKTOP / ULTRA-WIDE switch the composition; FOUNDER / STAFF switch what is visible.',
   'BEFORE shows the same records as Batch 1 drew them, beside the new composition.',
   'Click anything: trucks, tags, months, phases, marks, services, records. Actions ask first and say SIMULATED; RESET clears them.',

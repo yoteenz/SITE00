@@ -22,7 +22,7 @@
 | ALL | Every action asks inline, says SIMULATED — NOTHING IS SAVED OR SENT, then changes the sample state and the history for this visit | SIMULATED |
 | ALL | Jumps between workspaces (truck ↔ client ↔ deadline ↔ close) keep a BACK TO … chip that restores the selection | CROSS WORKSPACE |
 | ALL | The approved header and navigation stay live: WORK and MORE move between workspaces, header search focuses the workspace search, the other roots answer | REVIEW |
-| ALL | Review: device switch, FOUNDER / STAFF switch, BEFORE → AFTER board per workspace, three TRY demonstrations per workspace that press the real controls | REVIEW |
+| ALL | Review: device switch (on the landing too — the four previews follow it), FOUNDER / STAFF switch, BEFORE → AFTER board per workspace, three TRY demonstrations per workspace that press the real controls | REVIEW |
 
 ## TRY demonstrations (press the real controls)
 
@@ -47,8 +47,8 @@
 |  |  |
 |---|---|
 | Tool | workspaces/qa.mjs — Playwright + Chromium over the built review |
-| Checks | 173 run · 0 failed |
-| Screenshots | 31 (fsbw AIO_OFFICE_WORKSPACE_PROOFS/screens/) |
+| Checks | 180 run · 0 failed |
+| Screenshots | 32 (fsbw AIO_OFFICE_WORKSPACE_PROOFS/screens/) |
 
 - every workspace on phone, tablet, desktop and ultra-wide: draws; every control has a handler; no dead controls; inputs wired; uppercase law; no sideways overflow; fits one screen on tablet / desktop / ultra-wide
 - fleet: select, section, readout filter, search with focus kept, tag click, inline simulated confirm, client jump + back, phone drawer open / close
@@ -56,7 +56,8 @@
 - comp: horizon mark, queue row, NOW filter, DOT / SAFETY ghost, CORRECTIVE WORK, subject → fleet → back, staff without REASSIGN, phone drawer
 - client: ABC → INSURANCE → policy → truck → back → back (context kept), founder BILLING, OPEN IN FLEET + back, PREBUILT never ACTIVE, directory search, staff without BILLING, phone drawers
 - shell: MORE / WORK switch workspaces, other roots answer, header search focuses the workspace search
-- review: four live miniatures, every image loads, card opens workspace, device fits the window, device / role switches, BEFORE board, all twelve TRY demonstrations run to the end, the ABC demo ends where it started
+- review: four live miniatures that follow the device switch (phone, tablet), every image loads, card opens workspace, device fits the window, device / role switches, BEFORE board, all twelve TRY demonstrations run to the end, the ABC demo ends where it started
+- review on a 390 px screen (landing and each workspace): no sideways scroll, the PHONE switch visible, the phone device fits
 - no console or page errors
 
 ## Defects found by looking and fixed
@@ -69,3 +70,5 @@
 - Compliance horizon marks overlapped on the phone → marks stack into lines
 - Compliance case title collided with the countdown on phone / tablet → stacked
 - Blueprint tags collided and clipped → evenly spaced at fixed width
+- Founder: “where’s the mobile version?” — the landing showed desktop previews only and hid the device switch → the switch is on the landing and the four previews follow it (PHONE shows four phones)
+- On a phone-sized screen the review itself spilled sideways (718 px) so the phone device did not fit → the tab strip may shrink and scrolls; the toolbar compacts

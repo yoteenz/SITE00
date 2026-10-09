@@ -10,7 +10,7 @@
 
 **Review:** https://claude.ai/artifact/DKYZUHjSdiTw1qSC1evdbk
 
-1. Open https://claude.ai/artifact/DKYZUHjSdiTw1qSC1evdbk. The landing shows the four workspaces live; tap one.
+1. Open https://claude.ai/artifact/DKYZUHjSdiTw1qSC1evdbk. The landing shows the four workspaces live; PHONE / TABLET / DESKTOP / ULTRA-WIDE at the top switch all four previews (PHONE shows the four phone layouts side by side). Tap one to open it.
 2. Inside a workspace: TRY runs a short demonstration on the real controls; PHONE / TABLET / DESKTOP / ULTRA-WIDE switch the composition; FOUNDER / STAFF switch what is visible.
 3. BEFORE shows the same records as Batch 1 drew them, beside the new composition.
 4. Click anything: trucks, tags, months, phases, marks, services, records. Actions ask first and say SIMULATED; RESET clears them.

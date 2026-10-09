@@ -15762,3 +15762,11 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Not changed:** approved roots (studio.js / studio.css untouched), migration and IFTA authorities, the 619-page Batch 1 review, live app, schema, auth, permissions, billing. 12 privacy gaps still OPEN (separate Composer work).
 - **Review:** https://claude.ai/artifact/DKYZUHjSdiTw1qSC1evdbk.
 - **Next gate:** FOUNDER REVIEW OF FOUR CREATIVE-DIRECTED AIO OFFICE WORKSPACE PROOFS. Do not expand into the other lanes or the 619-page review until approved.
+
+---
+
+## 2026-10-09 — AIO office workspace proofs: mobile made visible in the review (founder: "where's the mobile version?")
+
+- The landing showed desktop previews only and hid the device switch, so the phone layouts were one click deep and easy to miss. On a phone-sized screen the review page itself spilled sideways (718 px) and the phone device did not fit.
+- Fixed: the device switch is on the landing and the four previews follow it (PHONE shows the four phone layouts side by side); the tab strip shrinks and scrolls; the toolbar compacts on a phone. No workspace design changed.
+- QA now 180/180 (adds landing-follows-device and 390 px no-overflow checks); 32 screenshots incl. `review--landing-phone.jpg`. Same review link (version 2).

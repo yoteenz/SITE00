@@ -33,7 +33,7 @@ Keep the function, rebuild the look: four representative workspaces, each compos
 | MAIN SELECTED CONTEXT ACTION STATES | YES |
 | PHONE TABLET DESKTOP ULTRA WIDE | YES |
 | DESKTOP FITS ONE SCREEN | YES — checked by qa.mjs at 1440 × 900 and 2560 × 1440 (and tablet) |
-| REVIEW QA PASSED | YES — 173/173 |
+| REVIEW QA PASSED | YES — 180/180 |
 | SIMULATED ACTIONS LABELLED | YES — inline confirm says SIMULATED — NOTHING IS SAVED OR SENT |
 | SAMPLE DATA ONLY | YES — no balances, no live data |
 | APPROVED ROOTS CHANGED | NO |
@@ -51,7 +51,7 @@ Keep the function, rebuild the look: four representative workspaces, each compos
 | build | node design-authority/aio-office/workspaces/build.mjs <outDir> |
 | qa | node design-authority/aio-office/workspaces/qa.mjs <outDir> [screensDir] |
 | boards | node design-authority/aio-office/workspaces/boards.mjs <batch1Dist> <workspacesDist> |
-| review folder | fsbw AIO_OFFICE_WORKSPACE_PROOFS/ — boards/ (diagnosis, before → after, family), screens/ (31 QA captures), qa-summary.json |
+| review folder | fsbw AIO_OFFICE_WORKSPACE_PROOFS/ — boards/ (diagnosis, before → after, family), screens/ (32 QA captures), qa-summary.json |
 | review link | https://claude.ai/artifact/DKYZUHjSdiTw1qSC1evdbk |
 | batch1 review | https://claude.ai/artifact/VQCyD4A4YmeErb27ik2hgG (functional structure; not approved visuals) |
 | docs | docs/aio/office-workspace-proofs/ (SITE00, generated) · vendored to fsbw all-in-one-enterprises/docs/aio/office-workspace-proofs/ |
