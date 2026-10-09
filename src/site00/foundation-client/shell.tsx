@@ -7,6 +7,9 @@ import { DF_VIEW_META, DF_VIEW_ORDER, type DfView } from './model';
 
 export type DfObjectKind = 'hero' | 'crown' | 'corner' | 'none';
 
+/** Founder-approved menu mark (three-bar stagger). */
+export const DF_HEADER_MENU_ICON_SRC = '/site00/idnty/digital-foundation/menu-icon.jpg';
+
 export function DfHeader({ onMenu, menuOpen }: { onMenu?: () => void; menuOpen?: boolean }) {
   return (
     <header className="df-header">
@@ -23,8 +26,14 @@ export function DfHeader({ onMenu, menuOpen }: { onMenu?: () => void; menuOpen?:
           aria-controls="df-menu"
           onClick={onMenu}
         >
-          <span />
-          <span />
+          <img
+            className="df-header__menu-icon"
+            src={DF_HEADER_MENU_ICON_SRC}
+            alt=""
+            width={36}
+            height={36}
+            decoding="async"
+          />
         </button>
       )}
     </header>
