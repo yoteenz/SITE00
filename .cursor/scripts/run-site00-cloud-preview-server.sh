@@ -52,6 +52,7 @@ if [[ "$MODE" == "dev" ]]; then
     SITE00_INTAKES_USE_MEMORY=1 \
     VITE_SITE00_TEMPLATE_SYSTEM_V1=1 \
     VITE_SITE00_CLIENT_ESTIMATE_PREVIEW_V1=1 \
+    NODE_OPTIONS="${NODE_OPTIONS:+$NODE_OPTIONS }--import=tsx" \
     npm run dev -- --port "$PORT" --host
 fi
 
