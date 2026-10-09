@@ -185,7 +185,9 @@ describe('scope estimation engine', () => {
     expect(result.approvals.foundationApproved).toBe(false);
     expect(result.approvals.clientAccepted).toBe(false);
     expect(result.approvals.timelineLocked).toBe(false);
-    expect(client.productionWindow).toMatch(/^\d+–\d+ (WEEKS|MONTHS)$/);
+    expect(client.productionWindow).toBe('6–8 MONTHS');
+    const portal = toClientBlueprintEstimate(FIXTURE_PORTAL_SYSTEM, must(FIXTURE_PORTAL_SYSTEM));
+    expect(portal.productionWindow).toBe('10–12 MONTHS');
     expect(client.investmentRange).toMatch(/^\$\d+K–\$\d+K$/);
     expect(client.productionWindow.includes('.')).toBe(false);
     expect(JSON.stringify(client).includes('familyUnits')).toBe(false);

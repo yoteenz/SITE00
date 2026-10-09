@@ -141,7 +141,7 @@ export function buildBuilderExports(): Record<string, string> {
       sprint: BUILDER_SPRINT,
       estimatorVersion: ESTIMATOR_VERSION,
       generatedBy: 'scripts/site00/builder-experience-export.ts',
-      note: 'Client-facing windows and investments use presentation policy 1.0.0. Raw estimator math is unchanged. Nothing here is a published price or an agreed contract.',
+      note: 'Client-facing windows and investments use presentation policy 1.1.0. Week and month endpoints are even numbers. Raw estimator math is unchanged. Nothing here is a published price or an agreed contract.',
       publicAnchorsToday: {
         source: 'src/site00/config/bldr-classification.ts · builder.ts · bldr-entry.ts',
         SITE: 'FROM $4K+',

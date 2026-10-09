@@ -15764,3 +15764,18 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - Public `FROM $4K+` anchors were not edited. Founder still approves positioning.
 - **Changes:** `src/studioos/estimation/presentation.ts`, client contract fields, admin estimator review line, `presentationPolicy.test.ts`, `BUILDER_PRICING_EVIDENCE.json`, `docs/site00/estimation/HISTORICAL_PRICING_AUDIT.md`, `docs/site00/estimation/PRICING_RECONCILIATION.md`.
 - **Conventions:** Normalize once from canonical values. Do not feed a display range back into the estimator. Do not treat a fixture as a published price.
+
+---
+
+## 2026-10-09 — Even timeline endpoints for months
+
+- **Context:** Sprint `P0.SITE00.SCOPE-ESTIMATION.EVEN-ENDPOINT-MONTH-RANGE-NORMALIZATION1`. Follows the merged pricing reconciliation (`c7f1841f`, PR #1530) and the blueprint economics binding. Founder decided client-facing range endpoints are even numbers for weeks and months.
+- **Topics covered:** Presentation policy only. Raw family-unit, lane, dependency, risk, and investment math stay on estimator `1.0.0`. Public price anchors and platform economics stay untouched.
+- **Decisions / outcomes:**
+  - Presentation policy is `1.1.0`. Estimator version stays `1.0.0`.
+  - The 1.0.0 sentence “months are rounded outward and are not forced even” is superseded.
+  - 5–7 months displays as 6–8 months. 9–12 months displays as 10–12 months. 15–19 weeks stays 16–20 weeks. 16–20 stays a week range.
+  - Month integers are the nearest whole months of the rounded week window, then both ends move to the next even number when odd.
+  - Builder preview and Blueprint summary still read `toClientBlueprintEstimate()`. The admin estimator shows the raw week span beside the display window.
+- **Changes:** `src/studioos/estimation/presentation.ts`, presentation and estimator tests, spatial studio binding test, admin raw-window line, `BUILDER_PRICING_EVIDENCE.json`, `docs/site00/estimation/PRICING_RECONCILIATION.md`, `docs/site00/SITE00_ESTIMATION_ENGINE.md`.
+- **Conventions:** Do not add a second formatter. Do not write the display range back into the estimator. Do not publish a production price change from this policy.

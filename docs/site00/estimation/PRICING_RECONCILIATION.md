@@ -1,8 +1,10 @@
 # Pricing reconciliation and presentation policy
 
-Sprint: `P0.SITE00.SCOPE-ESTIMATION.PRICING-POSITIONING-AND-SYMMETRIC-RANGE-RECONCILIATION1`
+Sprint: `P0.SITE00.SCOPE-ESTIMATION.EVEN-ENDPOINT-MONTH-RANGE-NORMALIZATION1`  
+Previous sprint: `P0.SITE00.SCOPE-ESTIMATION.PRICING-POSITIONING-AND-SYMMETRIC-RANGE-RECONCILIATION1`
 
-Policy version: `1.0.0`  
+Policy version: `1.1.0`  
+Previous policy version: `1.0.0` (superseded)  
 Code: `src/studioos/estimation/presentation.ts`  
 Estimator version: `1.0.0` (mathematics unchanged)
 
@@ -18,7 +20,28 @@ Week windows use whole numbers and even endpoints.
 
 Example: canonical 14.79–18.90 weeks, previously shown as 15–19 weeks, now shown as 16–20 weeks.
 
-Month windows stay in months once the canonical high week is 20 or more. Months are rounded outward (ceiling) and are not forced onto even numbers. 8–10 and 12–16 stay as they are. 5–7 and 9–12 move only where the previous rounding understated the canonical weeks, and those moves are flagged.
+FOUNDER DISPLAY POLICY: client-facing timeline range endpoints use even numbers only. This applies to weeks and months. Raw calculations remain unchanged.
+
+Month windows are used once the rounded high week is 20 or more. The month integers are the nearest whole months of those rounded weeks. Both month endpoints then move to even numbers the same way week endpoints do: an odd number moves up to the next even number. If that would collapse a real span onto one number, the high end opens by two. A client does not see a single month where the estimator produced a range.
+
+The 16–20 week display is the even form of a canonical window under 20 weeks, such as 15–19 weeks. The integer table below is the shared even-endpoint rule. It is not a second pass over an already displayed label.
+
+Superseded rule from policy 1.0.0: “Months are rounded outward and are not forced even.” That rule produced 6–7 months and 9–13 months. It is no longer in effect.
+
+Examples of the even rule, applied to the integer range before display:
+
+| Integer range | Even display |
+| --- | --- |
+| 1–1 | 2–2 |
+| 1–2 | 2–4 |
+| 5–7 | 6–8 |
+| 6–7 | 6–8 |
+| 7–9 | 8–10 |
+| 8–11 | 8–12 |
+| 9–12 | 10–12 |
+| 10–13 | 10–14 |
+| 15–19 | 16–20 |
+| 16–20 | 16–20 |
 
 ## Investment rule
 
@@ -40,15 +63,19 @@ Platform percentages are not normalized. Transaction amounts and payouts are not
 
 Display only. Raw weeks and dollars are unchanged.
 
-| Fixture | Previous display | Presentation 1.0.0 | Review |
+Raw values stay on the estimate result. The display column is policy 1.1.0.
+
+| Fixture | Raw weeks | Policy 1.0.0 display | Policy 1.1.0 display |
 | --- | --- | --- | --- |
-| SIMPLE_SERVICE | 8–10 weeks · $5K–$7K | 8–10 weeks · $5K–$7K | No |
-| STANDARD_EDITORIAL | 15–19 weeks · $17K–$22K | 16–20 weeks · $16K–$22K | No |
-| ADVANCED_COMMERCE | 5–7 months · $27K–$35K | 6–7 months · $27K–$35K | Yes, months |
-| LARGE_PRODUCT | 8–10 months · $43K–$55K | 8–10 months · $43K–$56K | No |
-| PORTAL_SYSTEM | 9–12 months · $52K–$70K | 9–13 months · $51K–$71K | Yes, months |
-| SPATIAL_WORLD | 12–16 months · $69K–$94K | 12–16 months · $69K–$94K | No |
-| ZERO_FAMILIES | 3–5 weeks · $3K–$4K | 4–6 weeks · $3K–$4K | No |
+| SIMPLE_SERVICE | 7.70–9.84 | 8–10 weeks · $5K–$7K | 8–10 weeks · $5K–$7K |
+| STANDARD_EDITORIAL | 14.79–18.90 | 16–20 weeks · $16K–$22K | 16–20 weeks · $16K–$22K |
+| ADVANCED_COMMERCE | 22.67–28.96 | 6–7 months · $27K–$35K | 6–8 months · $27K–$35K |
+| LARGE_PRODUCT | 33.38–42.65 | 8–10 months · $43K–$56K | 8–10 months · $43K–$56K |
+| PORTAL_SYSTEM | 38.88–53.20 | 9–13 months · $51K–$71K | 10–12 months · $51K–$71K |
+| SPATIAL_WORLD | 50.42–68.98 | 12–16 months · $69K–$94K | 12–16 months · $69K–$94K |
+| ZERO_FAMILIES | 3.00–5.08 | 4–6 weeks · $3K–$4K | 4–6 weeks · $3K–$4K |
+
+The commerce case is the founder example 5–7 months. Policy 1.0.0 showed 6–7 months. Policy 1.1.0 shows 6–8 months. The portal case is the founder example 9–12 months. Policy 1.0.0 showed 9–13 months. Policy 1.1.0 shows 10–12 months. The editorial case stays 16–20 weeks.
 
 Builder reference rows, including the smallest site and priority variants, are in `docs/site00/builder-experience/BUILDER_PRICING_EVIDENCE.json`. That file is generated from the same formatter. It is not a published price list.
 
@@ -56,8 +83,8 @@ Builder reference rows, including the smallest site and priority variants, are i
 
 1. Keep $3,000 and $10,000 as starting floors, distinct from scoped fixture ranges.
 2. Accept 16–20 weeks and $16K–$22K as the client display for the standard editorial fixture.
-3. Review 6–7 months against the previous 5–7 months for the commerce fixture. The shift avoids promising a shorter month than the canonical weeks support. It was not snapped to 6–8.
-4. Review 9–13 months against the previous 9–12 months for the portal. The previous high month rounded the canonical weeks down.
+3. Accept 6–8 months as the client display for the commerce fixture. The raw window remains 22.67–28.96 weeks.
+4. Accept 10–12 months as the client display for the portal fixture. The raw window remains 38.88–53.20 weeks.
 5. Accept the covering investment corrections ($16K floor, $56K large-product high, $51K–$71K portal) as display only.
 6. Do not replace public `FROM $4K+` / `FROM $10K+` / `FROM $25K+` anchors until a separate approval.
 
