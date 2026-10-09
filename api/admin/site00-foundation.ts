@@ -2,7 +2,7 @@
  * SITE 00 — Digital Foundation founder mini console API.
  */
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { requireAdmin } from '../_lib/adminAuth.js';
+import { resolveAdminAuth } from '../_lib/adminAuth.js';
 import {
   applyManualQuoteAdjustment,
   createArtifactForLead,
@@ -45,8 +45,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   setCors(res);
   if (req.method === 'OPTIONS') return res.status(204).end();
 
-  const admin = await requireAdmin(req);
-  if (!admin) return res.status(403).json({ error: 'Forbidden' });
+  const auth = await resolveAdminAuth(req);
+  if (!auth.ok) {
+    return res.status(auth.failure.status).json({ error: auth.failure.error, code: auth.failure.code });
+  }
+  const admin = auth.user;
 
   const action = String(req.query.action ?? '');
   const body = typeof req.body === 'object' && req.body !== null ? req.body : {};

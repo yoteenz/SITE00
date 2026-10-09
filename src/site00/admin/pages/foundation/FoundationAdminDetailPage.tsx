@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import type { DigitalFoundationArtifactPayload } from '../../../../../shared/site00-digital-foundation/types.js';
 import { SITE00_ROUTES } from '../../../config/routes';
+import { foundationAdminApi } from '../../services/foundationAdminApi';
 
 export default function FoundationAdminDetailPage() {
   const { id = '' } = useParams<{ id: string }>();
@@ -9,12 +10,8 @@ export default function FoundationAdminDetailPage() {
   const [error, setError] = useState<string | null>(null);
 
   const load = async () => {
-    const res = await fetch(`/api/admin/site00-foundation?action=detail&id=${encodeURIComponent(id)}`, {
-      credentials: 'include',
-    });
-    const json = await res.json();
-    if (!res.ok) throw new Error(json.error ?? 'Failed');
-    setPayload(json);
+    const json = await foundationAdminApi.detail(id);
+    setPayload(json as DigitalFoundationArtifactPayload);
   };
 
   useEffect(() => {
@@ -23,26 +20,17 @@ export default function FoundationAdminDetailPage() {
   }, [id]);
 
   const markComplete = async () => {
-    await fetch('/api/admin/site00-foundation', {
-      method: 'POST',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        action: 'mark-complete',
-        artifact_id: id,
-        ownership: {
-          business: payload?.artifact.intake.business_name ?? 'Business',
-          domain: payload?.artifact.intake.existing_domain ?? 'example.com',
-          registrar: 'TBD',
-          email_provider: 'TBD',
-          primary_mailbox: payload?.artifact.intake.current_email ?? null,
-          aliases: [],
-          dns_status: 'CONFIGURED',
-          security_status: 'PROTECTED',
-          owner: payload?.artifact.intake.contact_name ?? null,
-          administrative_access_model: 'Client-owned',
-        },
-      }),
+    await foundationAdminApi.markComplete(id, {
+      business: payload?.artifact.intake.business_name ?? 'Business',
+      domain: payload?.artifact.intake.existing_domain ?? 'example.com',
+      registrar: 'TBD',
+      email_provider: 'TBD',
+      primary_mailbox: payload?.artifact.intake.current_email ?? null,
+      aliases: [],
+      dns_status: 'CONFIGURED',
+      security_status: 'PROTECTED',
+      owner: payload?.artifact.intake.contact_name ?? null,
+      administrative_access_model: 'Client-owned',
     });
     await load();
   };

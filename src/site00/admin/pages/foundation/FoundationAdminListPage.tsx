@@ -1,24 +1,15 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { SITE00_ROUTES } from '../../../config/routes';
-
-type Row = {
-  artifact_id: string;
-  public_token: string;
-  state: string;
-  payment_state: string;
-  created_at: string;
-};
+import { foundationAdminApi, type FoundationAdminListRow } from '../../services/foundationAdminApi';
 
 export default function FoundationAdminListPage() {
-  const [rows, setRows] = useState<Row[]>([]);
+  const [rows, setRows] = useState<FoundationAdminListRow[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [creating, setCreating] = useState(false);
 
   const load = async () => {
-    const res = await fetch('/api/admin/site00-foundation?action=list', { credentials: 'include' });
-    const json = await res.json();
-    if (!res.ok) throw new Error(json.error ?? 'Failed to load');
+    const json = await foundationAdminApi.list();
     setRows(json.artifacts ?? []);
   };
 
@@ -29,18 +20,10 @@ export default function FoundationAdminListPage() {
   const createLeadLink = async () => {
     setCreating(true);
     try {
-      const res = await fetch('/api/admin/site00-foundation', {
-        method: 'POST',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          action: 'create-artifact',
-          contact_email: 'prospect@example.com',
-          referral_kind: 'DIRECT',
-        }),
+      const json = await foundationAdminApi.createLeadLink({
+        contact_email: 'prospect@example.com',
+        referral_kind: 'DIRECT',
       });
-      const json = await res.json();
-      if (!res.ok) throw new Error(json.error ?? 'Create failed');
       await load();
       if (json.personalized_url) {
         window.prompt('Copy personalized link:', `${window.location.origin}${json.personalized_url}`);
