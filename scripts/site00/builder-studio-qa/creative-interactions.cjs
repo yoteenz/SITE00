@@ -45,6 +45,21 @@ async function layout(page) {
     const clipped = [...document.querySelectorAll('.bs-root h1, .bs-root h2, .bs-root button, .bs-root dd, .bs-root p')]
       .filter((el) => el.offsetParent && getComputedStyle(el).overflow === 'visible' && el.scrollWidth > el.clientWidth + 1 && el.clientWidth > 0)
       .map((el) => (el.textContent || '').trim().slice(0, 40));
+    // Column content that spills into its neighbour (a nowrap label is a flex child, so it never overflows itself).
+    // Measured on the text itself (a Range per text node), not on block boxes that always fill the column.
+    const spilled = [...document.querySelectorAll('.bs-fact, .bs-config__card, .bs-proposal__row')].flatMap((col) => {
+      const edge = col.getBoundingClientRect().right + 1;
+      const out = [];
+      const walker = document.createTreeWalker(col, NodeFilter.SHOW_TEXT);
+      for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+        if (!n.textContent.trim()) continue;
+        const range = document.createRange();
+        range.selectNodeContents(n);
+        if ([...range.getClientRects()].some((r) => r.right > edge)) out.push(n.textContent.trim().slice(0, 30));
+      }
+      return out;
+    });
+    clipped.push(...spilled);
     const cta = document.querySelector('.bs-root .bs-cta');
     const ctaVisible = cta ? cta.getBoundingClientRect().bottom <= innerHeight + 1 : null;
     return { overflowX: doc.scrollWidth - doc.clientWidth, vw: doc.clientWidth, lines, clipped, ctaVisible };

@@ -2234,16 +2234,21 @@ body.bs-body {
 .bs-tab__n { display: none; }
 .bs-tabs__ink { display: none; }
 .bs-tab__label { font-family: var(--bs-sans); font-size: 10px; font-weight: 400; letter-spacing: 0.17em; color: var(--bs-faint); }
-.bs-tab:nth-child(3) .bs-tab__label { color: var(--bs-ink-2); }
 .bs-tab.is-on .bs-tab__label { color: var(--bs-red); font-weight: 500; }
 .bs-tab.is-on { position: relative; }
 .bs-tab.is-on::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; border-radius: 1px; background: var(--bs-red); }
 .bs-mode { font-family: var(--bs-sans); font-weight: 400; }
 
 /* Facts: hairline icon, Roboto micro label, Barlow Semi Condensed value, sentence-case note. */
-.bs-fact__label { font-family: var(--bs-sans); font-size: 8px; font-weight: 400; letter-spacing: 0.16em; color: var(--bs-ink-2); }
+/* Facts reach 15px from the screen edge, as drawn, with a clear gutter either side of each column rule. */
+.bs-facts { margin: 0 -15px; grid-template-columns: minmax(0, 0.84fr) minmax(0, 1.02fr) minmax(0, 1.18fr); }
+.bs-fact { padding: 0 10px; }
+.bs-fact:first-child { padding-left: 2px; }
+.bs-fact:last-child { padding-right: 2px; }
+.bs-fact__label { font-family: var(--bs-sans); font-size: 7.6px; font-weight: 400; letter-spacing: 0.1em; color: var(--bs-ink-2); }
+/* Fact figures: cap ≈9.3px in the reveal → Barlow Semi Condensed 700 at 13.2px. */
 .bs-fact__value,
-.bs-figure { font-family: var(--bs-value); font-size: 15px; font-weight: 700; letter-spacing: 0.06em; }
+.bs-figure { font-family: var(--bs-value); font-size: 13.2px; font-weight: 700; letter-spacing: 0.03em; }
 .bs-fact__sub { font-family: var(--bs-sans); font-size: 8.4px; letter-spacing: 0.06em; line-height: 1.45; text-transform: none; color: var(--bs-muted); }
 .bs-config-head h2 { font-family: var(--bs-sans); font-size: 11px; font-weight: 400; letter-spacing: 0.27em; color: var(--bs-ink-2); }
 .bs-config-head .bs-btn { font-family: var(--bs-sans); font-size: 8.6px; letter-spacing: 0.16em; border-radius: 4px; }
@@ -2254,11 +2259,18 @@ body.bs-body {
 .bs-config__label { font-family: var(--bs-sans); font-size: 7px; font-weight: 400; letter-spacing: 0.08em; color: var(--bs-ink-2); }
 .bs-config__value { font-family: var(--bs-value); font-size: 10px; font-weight: 700; letter-spacing: 0.09em; white-space: nowrap; }
 .bs-room--blueprint .bs-cta { min-height: 44px; font-size: 12.5px; }
+.bs-dialog__ref { margin-top: 8px; font-family: var(--bs-sans); }
 
 /* Narrow layouts (small phones, or larger text sizes that scale the page): two configuration cards per row. */
 @media (max-width: 359px) {
   .bs-config { grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 0 -8px; }
   .bs-config__label { font-size: 7.6px; }
+  /* Facts stack: three columns cannot hold the figures at this width without crowding. */
+  .bs-facts { grid-template-columns: minmax(0, 1fr); row-gap: 12px; margin: 0; }
+  .bs-fact,
+  .bs-fact:first-child,
+  .bs-fact:last-child { padding: 0; }
+  .bs-fact + .bs-fact { padding-top: 12px; border-left: 0; border-top: 1px solid var(--bs-line); }
 }
 .bs-room--blueprint .bs-cta--outline { border: 1.3px solid var(--bs-red); color: var(--bs-red); }
 
@@ -2381,6 +2393,7 @@ body.bs-body {
   .bs-core,
   .bs-pace,
   .bs-config,
+  .bs-facts,
   .bs-footer { margin-inline: 0; }
   .bs-rail { margin-inline: 0; }
   .bs-strip__item .bs-thumb { height: 74px; }
