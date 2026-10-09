@@ -161,6 +161,36 @@ function frame(id: string, material: BuildMaterial, w: number, h: number, t: num
 
 /* ─────────────────────────────── PLACE: spatial scope ─────────────────────────────── */
 
+/**
+ * A white wall with arched openings, as drawn inside the reference pavilion: piers, a header band, and stepped
+ * haunches cut to a semicircle so each opening reads as a round arch at phone scale.
+ */
+function archWall(id: string, material: BuildMaterial, w: number, h: number, t: number, base: [number, number, number], openings = 2): BuildElement[] {
+  const [x0, y, z] = base;
+  const bay = w / openings;
+  const pier = bay * 0.22;
+  const open = bay - pier;
+  const r = open / 2;
+  const top = h * 0.88;
+  const spring = top - r;
+  const STEPS = 5;
+  const band = (top - spring) / STEPS;
+  const out: BuildElement[] = [];
+  for (let i = 0; i <= openings; i += 1) out.push(box(`${id}-pier-${i}`, material, [pier, h, t], [x0 - w / 2 + i * bay, y, z]));
+  out.push(box(`${id}-head`, material, [w + pier, h - top, t], [x0, y + top, z]));
+  for (let i = 0; i < openings; i += 1) {
+    const cx = x0 - w / 2 + (i + 0.5) * bay;
+    for (let k = 1; k <= STEPS; k += 1) {
+      const dy = k * band;
+      const d = r - Math.sqrt(Math.max(0, r * r - dy * dy));
+      for (const side of [-1, 1]) {
+        out.push(box(`${id}-haunch-${i}-${k}-${side < 0 ? 'l' : 'r'}`, material, [d + 0.001, band, t], [cx + side * (r - d / 2), y + spring + (k - 1) * band, z]));
+      }
+    }
+  }
+  return out;
+}
+
 /** One thick Carrara slab, as every reference object stands on (about a quarter of the glass height). */
 function slab(prefix: string, palette: BuildPalette, w: number, h: number, d: number): { elements: BuildElement[]; top: number } {
   return { elements: [box(`${prefix}-plinth`, palette.plinth, [w, h, d], [0, 0, 0], 0, 0)], top: h };
@@ -232,6 +262,8 @@ function placeComposition(path: PlacePathId | null, palette: BuildPalette): Buil
         box('vol-a', s, [3.4, 2.6, 2.6], [-0.1, t, 0.15]),
         box('inner', s, [1.5, 2.2, 1.3], [-0.75, t, -0.2]),
         box('wall', 'travertine', [0.08, 1.95, 1.1], [-1.45, t, -0.3]),
+        // White arched wall across the back of the room, as drawn.
+        ...archWall('arches', 'travertine', 2.3, 2.15, 0.08, [-0.45, t, -0.92], 2),
         box('core', palette.accent, [0.8, 2.52, 0.95], [1.05, t, 0.85]),
         box('core-2', palette.accent, [0.34, 0.6, 0.04], [1.05, 0.01, 1.77]),
         figure('fig-1', -0.2, t, 0.7),

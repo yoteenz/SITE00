@@ -2,7 +2,7 @@
   "base": "http://127.0.0.1:5174",
   "mode": "vite dev + SITE00_INTAKES_USE_MEMORY=1 (tunnel dev-mode equivalent)",
   "supabase": "NOT EXERCISED",
-  "ranAt": "2026-10-09T04:42:51.474Z",
+  "ranAt": "2026-10-09T05:59:47.665Z",
   "pass": 20,
   "fail": 0,
   "results": [
@@ -88,7 +88,7 @@
       "id": "Q14",
       "name": "A different client gets a separate intake and sees none of client A’s choices",
       "result": "PASS",
-      "detail": "intake_149_mv0h6owx vs intake_151_mv0h8zvf"
+      "detail": "intake_19_mv0jxf5x vs intake_21_mv0jztgb"
     },
     {
       "id": "Q15",
@@ -118,7 +118,7 @@
       "id": "Q19",
       "name": "Default motion: the object sways gently when idle",
       "result": "PASS",
-      "detail": "54823 channels moved > 8"
+      "detail": "86983 channels moved > 8"
     },
     {
       "id": "Q20",

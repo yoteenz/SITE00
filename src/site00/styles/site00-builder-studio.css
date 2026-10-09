@@ -2165,9 +2165,10 @@ body.bs-body {
 .bs-cards { gap: 10px 11px; margin: 0 -13px; }
 .bs-card { padding: 7px 8px 10px; border-radius: 6px; border-color: var(--bs-line); background: rgba(255, 255, 255, 0.5); box-shadow: none; }
 .bs-card.is-selected { border-color: var(--bs-red); box-shadow: 0 0 0 1px var(--bs-red); }
-.bs-card .bs-thumb { width: 52%; height: 56px; background: transparent; }
-.bs-card__label { margin-top: 6px; font-family: var(--bs-value); font-size: 15px; font-weight: 700; letter-spacing: 0.1em; line-height: 1; }
-.bs-card__sub { max-width: 124px; margin-top: 4px; font-family: var(--bs-sans); font-size: 11px; letter-spacing: 0.16em; line-height: 14px; color: var(--bs-muted); }
+/* Option stills sit on the room's photographic plate, as the reference cards read. */
+.bs-card .bs-thumb { width: 60%; height: 52px; border-radius: 3px; background: url('/site00/builder-studio/env/place.webp') center 70% / cover; }
+.bs-card__label { margin-top: 5px; font-family: var(--bs-value); font-size: 15px; font-weight: 700; letter-spacing: 0.1em; line-height: 1; }
+.bs-card__sub { max-width: 124px; margin-top: 3px; font-family: var(--bs-sans); font-size: 11px; letter-spacing: 0.16em; line-height: 13.5px; color: var(--bs-muted); }
 
 /* 02 FEEL: caption (Barlow Semi Condensed 700, cap 14) and a strip of four 85px cards on an 8px gap. */
 .bs-feel-caption { margin-top: 4px; }
@@ -2176,7 +2177,7 @@ body.bs-body {
 .bs-strip { gap: 8px; margin: 14px -16px 0; padding: 2px 0 4px; overflow: visible; }
 .bs-strip__item { flex: 1 1 0; min-width: 0; padding: 3px 3px 8px; border-radius: 4px; border-color: var(--bs-line); background: rgba(255, 255, 255, 0.5); box-shadow: none; }
 .bs-strip__item.is-selected { border-color: var(--bs-red); box-shadow: 0 0 0 1px var(--bs-red); }
-.bs-strip__item .bs-thumb { height: 74px; background: transparent; }
+.bs-strip__item .bs-thumb { height: 74px; border-radius: 3px; background: url('/site00/builder-studio/env/feel.webp') center 65% / cover; }
 .bs-strip__label { margin-top: 7px; font-family: var(--bs-value); font-size: 12.5px; font-weight: 700; letter-spacing: 0.06em; }
 
 /* 03 WORK: capability toggles beside the structure, label over a 28px outlined plus. */
@@ -2248,6 +2249,7 @@ body.bs-body {
 .bs-config-head .bs-btn { font-family: var(--bs-sans); font-size: 8.6px; letter-spacing: 0.16em; border-radius: 4px; }
 /* Configuration cards reach 17px from the screen edge, as drawn (four across). */
 .bs-config { gap: 6px; margin: 0 -16px; }
+.bs-config__card .bs-thumb { border-radius: 3px; background: url('/site00/builder-studio/env/blueprint.webp') center 65% / cover; }
 .bs-config__card { min-width: 0; padding-inline: 4px; border-radius: 5px; border-color: var(--bs-line); background: rgba(255, 255, 255, 0.5); box-shadow: none; }
 .bs-config__label { font-family: var(--bs-sans); font-size: 7px; font-weight: 400; letter-spacing: 0.08em; color: var(--bs-ink-2); }
 .bs-config__value { font-family: var(--bs-value); font-size: 10px; font-weight: 700; letter-spacing: 0.09em; white-space: nowrap; }

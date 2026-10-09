@@ -95,10 +95,11 @@ Measured on the live page: **every room 01–04 is exactly one screen at 390×84
 - **Materials.**
   - Carrara becomes a crack-veined procedural texture: bold angular dark veins on a mid-grey ground, as drawn.
   - New charcoal **slate** and warm **taupe marble** for the FEEL study; a grey veined **stone** for the Blueprint slabs.
+  - **Option stills** (PLACE cards, FEEL strip, Blueprint configuration) render transparent and sit on the room's photographic plate, as the reference cards read. They are still live renders of each option, not photographs.
   - Glass and red acrylic carry **pane grids** (mullions, about 1.05 units per pane), matching the references' subdivided glazing. One cached grid geometry per pane count, scaled with the node, so there's no per-frame cost.
   - Thin silver glass frames; dark-red acrylic edges; drafting **hairlines**.
 - **Compositions, reshaped to the references** (selection-driven transformations and their tested invariants unchanged):
-  - **PLACE · SIMPLE:** a large framed glass room holding an inner glass chamber and a white partition, a red acrylic volume at its front-right corner (its red runs down the slab face) and a figure, on one thick Carrara slab. The camera looks almost straight at the slab's front face (az −17°).
+  - **PLACE · SIMPLE:** a large framed glass room holding an inner glass chamber, a white partition and a **white arched wall** across the back (round arches built from piers and stepped haunches), a red acrylic volume at its front-right corner (its red runs down the slab face) and a figure, on one thick Carrara slab. The camera looks almost straight at the slab's front face (az −17°).
   - **ADVANCED / CUSTOM / WORLD:** the same slab and materials, each with its own architecture.
   - **FEEL · MODERN:** six panels hung in the air on a receding diagonal (slate, grey stone, glass, the tallest in red acrylic, glass, taupe marble) over a glass shelf, before a glass screen, with two visitors beneath.
   - **WORK:** a six-floor stacked tower of glass floors on Carrara slabs, each shifted off the one below, red acrylic inside, on a stepped base. Drafting lines run out toward the toggles, and capability modules cantilever from the tower face beside their toggle.
@@ -111,8 +112,8 @@ Measured on the live page: **every room 01–04 is exactly one screen at 390×84
 | TYPOGRAPHY | **IMPLEMENTED · VISUALLY VERIFIED** | Identified faces, measured sizes; T01–T03 live checks |
 | SPACING AND ALIGNMENT | **IMPLEMENTED · VISUALLY VERIFIED** | Horizontal geometry as measured; one screen at 390×844 / 393×852 |
 | COLOR | **IMPLEMENTED · VISUALLY VERIFIED** | Sampled values |
-| PLACE | **IMPLEMENTED · VISUALLY VERIFIED** · **PARTIALLY COMPLETE** | The object is smaller than drawn, because the real phone's stage is shorter. The reference's interior arches and photographic glass reflections need GA-05 / GA-01. |
-| FEEL | **IMPLEMENTED · VISUALLY VERIFIED** · **PARTIALLY COMPLETE** | The stone faces are procedural (GA-02 to GA-04). The FEEL card thumbnails are live renders, not the reference's photographs. |
+| PLACE | **IMPLEMENTED · VISUALLY VERIFIED** · **PARTIALLY COMPLETE** | Interior arches are now built. The object is still smaller than drawn (stage 232px at 393×852 against the drawn 270px, because the real phone is shorter). Photographic glass reflections need GA-05 / GA-01. |
+| FEEL | **IMPLEMENTED · VISUALLY VERIFIED** · **PARTIALLY COMPLETE** | The stone faces are procedural (GA-02 to GA-04). The FEEL card stills now sit on the photographic plate, but they are live renders, not the reference's photographs. |
 | WORK | **IMPLEMENTED · VISUALLY VERIFIED** | The reference's core-pages panel shows four tiles (WEBSITE, MOBILE, SEO, ANALYTICS); the contract provides two, so two are shown — **CONTRACT BLOCKED** (not invented). |
 | PACE | **IMPLEMENTED · VISUALLY VERIFIED** | Motion behaviour unchanged |
 | BLUEPRINT | **IMPLEMENTED · VISUALLY VERIFIED** · AR **CONTRACT BLOCKED** | The reference's AR button is not shipped (GA-09 / no contract field). Micro-labels are floored at 7–8px for legibility. |

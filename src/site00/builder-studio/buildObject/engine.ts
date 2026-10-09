@@ -12,8 +12,6 @@ import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import type { BuildCamera, BuildComposition, BuildElement, BuildMaterial, BuildMotion } from './composition';
 
-/** Option-card thumbnails sit on the references' card white (the live stage is transparent over its plate). */
-const THUMB_BACKGROUND = 0xf6f4f3;
 const TWEEN_MS = 760;
 const DEG = Math.PI / 180;
 const FOV = 26;
@@ -176,14 +174,14 @@ function createMaterials(): MaterialSet {
   const travertine = canvasTexture(stoneCanvas('#e2e2e0', '#acaaa6', { veins: 1, speckle: 22, banding: true, seed: 13 }));
 
   const glass = new THREE.MeshPhysicalMaterial({
-    color: 0xf1f3f3,
+    color: 0xf4f6f6,
     roughness: 0.03,
     metalness: 0,
     transparent: true,
-    opacity: 0.27,
+    opacity: 0.31,
     clearcoat: 1,
     clearcoatRoughness: 0.02,
-    envMapIntensity: 2.2,
+    envMapIntensity: 2.5,
     depthWrite: false,
     side: THREE.DoubleSide,
   });
@@ -883,7 +881,9 @@ export function renderBuildThumbnail(composition: BuildComposition, width: numbe
   if (cached) return cached;
   try {
     if (!thumbRenderer) {
-      thumbRenderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+      // Transparent, like the stage: the card frame carries the room's photographic plate behind the still.
+      thumbRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
+      thumbRenderer.setClearColor(0x000000, 0);
       thumbRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
       thumbRenderer.outputColorSpace = THREE.SRGBColorSpace;
       thumbRenderer.toneMapping = THREE.NeutralToneMapping;
@@ -891,7 +891,6 @@ export function renderBuildThumbnail(composition: BuildComposition, width: numbe
       thumbRenderer.shadowMap.type = THREE.PCFSoftShadowMap;
       thumbScene = new THREE.Scene();
       buildStage(thumbScene, thumbRenderer, true);
-      thumbScene.background = new THREE.Color(THUMB_BACKGROUND);
       thumbMaterials = createMaterials();
     }
     const renderer = thumbRenderer;
@@ -906,7 +905,7 @@ export function renderBuildThumbnail(composition: BuildComposition, width: numbe
     cam.position.copy(cameraPosition(framing));
     cam.lookAt(...framing.target);
     renderer.render(scene, cam);
-    const url = renderer.domElement.toDataURL('image/jpeg', 0.86);
+    const url = renderer.domElement.toDataURL('image/png');
     scene.remove(group);
     thumbCache.set(cacheKey, url);
     return url;

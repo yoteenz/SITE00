@@ -117,7 +117,7 @@
     "id": "L-339x734 (text 115%)-4",
     "name": "339x734 (text 115%): CONTINUE position (informational)",
     "result": "INFO",
-    "detail": "place:scrolls feel:cta-on-screen work:scrolls pace:cta-on-screen"
+    "detail": "place:cta-on-screen feel:cta-on-screen work:scrolls pace:cta-on-screen"
   },
   {
     "id": "L-300x649 (text 130%)-1",
