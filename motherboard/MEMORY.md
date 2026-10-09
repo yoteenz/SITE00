@@ -15890,3 +15890,12 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Fix #1539:** `scripts/site00-register-tsx.cjs` + CJS register; reset worktree to `preview/tunnel`.
 - **Fix #1541:** **esbuild** bundles API handlers — **no tsx on request path**. Preview SHA `41251125`; tunnel browser smoke PASS.
 - **Anthony:** still not in linked Supabase; admin list after sign-in on persistence-enabled API.
+
+---
+
+## 2026-10-09 — BLDR Spatial Studio all-caps copy
+
+- **Context:** Founder confirmed strict uppercase everywhere in BLDR studio after an earlier answer listed mixed-case sources (FEEL/WORK hints, blueprint economics headings, metric small copy, registry labels, estimator disclaimers, optional notes display, locale save time).
+- **Decision:** Hybrid Spatial Studio at `/bldr/studio` renders all visible copy in uppercase. Shell CSS is the authority; a few studio-local strings were normalized in source.
+- **Changes:** `text-transform: uppercase` on `.bldr-spatial-page` and `.bldr-spatial-disabled` in `site00-builder-spatial-studio.css`; FEEL/WORK hints in `spatialStudio/types.ts`; blueprint metric helper strings in `BldrSpatialStudioPage.tsx`; `tests/bldrSpatialStudioUppercase.test.ts`. PR #1544.
+- **Convention:** Do not lower-case shared `blueprintFinancialPresentation` globally — studio shell CSS uppercases it at display time. Stored `paceNotes` may remain mixed-case in JSON; the textarea displays uppercase.
