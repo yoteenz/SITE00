@@ -3,6 +3,8 @@ export * from './mapping';
 export * from './persistence';
 export * from './buildObjectContract';
 export * from './blueprintSessionContract';
+export * from './blueprintEconomics';
+export * from './opusFinancialFixtures';
 export { useBuilderSpatialSession } from './useBuilderSpatialSession';
 export { useBuilderSpatialIntakeSession } from './useBuilderSpatialIntakeSession';
 export type { SpatialIntakeSyncStatus } from './useBuilderSpatialIntakeSession';
