@@ -1,0 +1,42 @@
+{
+  "sprint": "P0.AIO.COMPLETE-PRODUCT-VISUAL-CONVERGENCE.INTERNAL-OFFICE-AND-PUBLIC-WEBSITE1",
+  "gate": {
+    "LOCKED_OFFICE_AUTHORITY_RECOVERED": "YES — roots, the locked style, the four approved workspaces, the IA tree, sample records, approved IFTA and migration screens",
+    "INTERNAL_LANES_COMPLETED": "12 OF 12 — each built around its own object",
+    "REPORTS_MORE_COVERAGE": "10 REPORTS AREAS · 11 MORE DESTINATIONS",
+    "APPROVED_ROOTS_CHANGED": "NO",
+    "PUBLIC_PAGE_TREE_RECOVERED": "YES — 92 pages from AioCoreRoutes.tsx and the catalog",
+    "ORIGINAL_PUBLIC_REFERENCE_RECOVERED": "PARTLY — panel 04 of the founder brand DNA board (homepage first screen); the 2026-08 full-page mocks are not in either repository",
+    "PUBLIC_DEPLOYED": "NO",
+    "OFFICE_QA": "NOT RUN",
+    "PUBLIC_QA": "PASSED — 48/48 · 92 pages × 4 sizes",
+    "PRICES_SHOWN": "NO — none approved",
+    "BROKERAGE": "PAUSED — not activated",
+    "LIVE_APP_CHANGED": "NO",
+    "FOUNDER_APPROVED": "NO — AWAITING FOUNDER REVIEW",
+    "SECURITY_GAPS_FIXED": "NO — still open; separate Composer work"
+  },
+  "counts": {
+    "office_pages": 17,
+    "lanes": 12,
+    "public_pages": 92,
+    "assets": 10,
+    "gaps": 8,
+    "founder_decisions": 7
+  },
+  "problems": [
+    "office QA not recorded",
+    "public review link not published"
+  ],
+  "status": {
+    "office_language": "LOCKED — the AIO OFFICE WORKSPACE STYLE inherited by every new workspace, not redesigned",
+    "office": "COMPLETE OFFICE IN DESIGN REVIEW — TWELVE LANES, HOME, INTAKE, REPORTS, MORE — CANDIDATES, AWAITING FOUNDER REVIEW",
+    "approved_roots": "UNCHANGED — HOME · INTAKE · WORK · REPORTS · MORE (studio.js / studio.css byte-for-byte)",
+    "public_site": "DESIGNED IN REVIEW — HOMEPAGE, SERVICE FAMILY AND THE WHOLE RECOVERED TREE — CANDIDATES, AWAITING FOUNDER REVIEW; NOT DEPLOYED",
+    "public_reference": "PANEL 04 OF THE FOUNDER BRAND DNA BOARD — THE FOUNDER TO CONFIRM IT AS THE HOMEPAGE AUTHORITY",
+    "live_app": "NOT CHANGED — nothing deployed; no auth, database, business rule, price, migration or IFTA authority changed",
+    "brokerage": "PAUSED — designed in both places, shown paused, never activated",
+    "security": "12 PRIVACY GAPS STILL OPEN — separate Composer work; not resolved here"
+  },
+  "next_gate": "FOUNDER REVIEW OF THE COMPLETE AIO OFFICE AND THE PUBLIC WEBSITE DESIGN"
+}
