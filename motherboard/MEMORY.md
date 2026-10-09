@@ -15880,3 +15880,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - Keep the invite route out of the scaled presentation shells.
   - Do not place a print order or select a territory without the founder.
   - When running a second Vite dev server for QA, blank `SITE00_CLOUDFLARE_TUNNEL_HOSTNAME`, or the HMR socket points at the tunnel and the page reload-loops.
+
+---
+
+## 2026-10-09 — DF admin console still broken (follow-up #2/#3)
+
+- **Founder report:** tsx error persisted on `site00.fsbw-dev.com/admin/site00/foundation` after #1538.
+- **Cause:** Preview worktree `/tmp/site00-preview-main` stuck on old `vite-site00-local-api.mjs`; Cloudflare tunnel load-balanced multiple `:5174` backends (some stale).
+- **Fix #1539:** `scripts/site00-register-tsx.cjs` + CJS register; reset worktree to `preview/tunnel`.
+- **Fix #1541:** **esbuild** bundles API handlers — **no tsx on request path**. Preview SHA `41251125`; tunnel browser smoke PASS.
+- **Anthony:** still not in linked Supabase; admin list after sign-in on persistence-enabled API.
