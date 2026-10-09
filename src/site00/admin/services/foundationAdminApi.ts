@@ -1,7 +1,10 @@
 /**
  * Digital Foundation founder mini console — admin API (Bearer via apiFetch).
  */
+import { digitalFoundationClientIntakePath } from '../../../../shared/site00-digital-foundation/clientRoutes.js';
 import { apiFetch } from '../../../utils/api';
+
+export { digitalFoundationClientIntakePath };
 
 async function parseJson<T>(res: Response): Promise<T> {
   const raw = await res.text();

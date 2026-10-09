@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { SITE00_ROUTES } from '../../../config/routes';
-import { foundationAdminApi, type FoundationAdminListRow } from '../../services/foundationAdminApi';
+import {
+  digitalFoundationClientIntakePath,
+  foundationAdminApi,
+  type FoundationAdminListRow,
+} from '../../services/foundationAdminApi';
 
 export default function FoundationAdminListPage() {
   const [rows, setRows] = useState<FoundationAdminListRow[]>([]);
@@ -32,7 +36,9 @@ export default function FoundationAdminListPage() {
       });
       await load();
       if (json.personalized_url) {
-        window.prompt('Copy personalized link:', `${window.location.origin}${json.personalized_url}`);
+        const token = json.personalized_url?.replace(/^\/foundation\//, '').split(/[?#]/)[0] ?? '';
+        const intakePath = token ? digitalFoundationClientIntakePath(token) : json.personalized_url ?? '';
+        window.prompt('Copy client intake link:', `${window.location.origin}${intakePath}`);
       }
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
@@ -45,7 +51,7 @@ export default function FoundationAdminListPage() {
     <div className="site00-admin-page">
       <header>
         <h1>Digital Foundation</h1>
-        <p>Founder mini console — personalized artifact links.</p>
+        <p>Founder mini console — copy client intake links (not the founder detail page).</p>
         <button type="button" disabled={creating} onClick={createLeadLink}>
           Create lead + link
         </button>
@@ -57,7 +63,7 @@ export default function FoundationAdminListPage() {
             <th>State</th>
             <th>Payment</th>
             <th>Created</th>
-            <th>Link</th>
+            <th>Links</th>
           </tr>
         </thead>
         <tbody>
@@ -67,11 +73,11 @@ export default function FoundationAdminListPage() {
               <td>{r.payment_state}</td>
               <td>{new Date(r.created_at).toLocaleString()}</td>
               <td>
-                <Link to={SITE00_ROUTES.digitalFoundationAdminDetail.replace(':id', r.artifact_id)}>Open</Link>
-                {' · '}
-                <a href={`/foundation/${r.public_token}`} target="_blank" rel="noreferrer">
-                  Public
+                <a href={digitalFoundationClientIntakePath(r.public_token)} target="_blank" rel="noreferrer">
+                  Client intake
                 </a>
+                {' · '}
+                <Link to={SITE00_ROUTES.digitalFoundationAdminDetail.replace(':id', r.artifact_id)}>Founder</Link>
               </td>
             </tr>
           ))}
