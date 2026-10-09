@@ -15702,6 +15702,16 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
+## 2026-10-08 — Opus Builder pinned on founder tunnel (PR #1524 @ c5e604e5)
+
+- **Context:** Sprint `P0.SITE00.BUILDER.HYBRID-SPATIAL-STUDIO.V1-FOUNDER-TUNNEL-DEPLOYMENT-AND-LIVE-VERIFICATION1` — deploy Opus five-screen studio without merging PR #1524.
+- **Topics covered:** `serve-site00-preview-from-pin-ref.sh`; worktree pinned `c5e604e5`; flags on dev Vite; `VITE_SITE00_PREVIEW_LOCAL_API` routes fsbw-dev dev HMR to same-origin `/api` + `SITE00_INTAKES_USE_MEMORY=1`; live tunnel QA all 5 rooms SAVED; screenshots in `/opt/cursor/artifacts/MOBILE_*.png`.
+- **Decisions / outcomes:** PR #1524 **NOT MERGED**; tunnel serves Opus implementation until pin reverted via `serve-site00-preview-from-main.sh`. Supabase durable persistence still **BLOCKED** (memory store only on preview).
+- **Changes:** PR #1526 — pin script + `site00ClientApiBase.ts` dev tunnel local API.
+- **Conventions:** Revert pin after Opus merges to main and `preview/tunnel` catches up.
+
+---
+
 ## 2026-10-08 — Builder contract reconciliation + founder preview readiness
 
 - **Context:** Sprint `P0.SITE00.BUILDER.HYBRID-SPATIAL-STUDIO.V1-COMPOSER-CONTRACT-RECONCILIATION-AND-FOUNDER-PREVIEW-READINESS1` — verify main contracts, Opus handoff, preview flags; no visual implementation.
