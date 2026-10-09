@@ -1,10 +1,12 @@
 /** 05 BLUEPRINT — the reveal, its five inspection sections, the review status, and submission. */
-import { useEffect, useId, useRef, useState, type RefObject } from 'react';
+import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState, type RefObject } from 'react';
 import { normalizeIntakeStatus } from '../../../shared/site00-intakes/types';
 import { IntakeGuestAccessCapture } from '../components/intake/IntakeGuestAccessCapture';
 import type { BlueprintSessionSnapshot } from '../builder-experience/spatialStudio';
 import { compose } from './buildObject/composition';
 import { BuildThumbnail } from './buildObject/BuildObjectStage';
+import type { BlueprintAnatomy, FeatureEntry, PageEntry, StructureLayer } from './buildObject/anatomy';
+import type { AnchorPoint, StageAnchor } from './buildObject/engine';
 import {
   BuildTypeIcon,
   ChevronSmallRightIcon,
@@ -20,10 +22,10 @@ import {
   CORE_INCLUDED,
   FEEL_BY_ID,
   PACE_OPTIONS,
+  WORK_MODULE_BY_ID,
   blockerCopy,
   buildSpec,
   buildTypeSummary,
-  capabilityPlain,
   expandInvestment,
   featureCount,
   spacedRange,
@@ -35,13 +37,29 @@ import type { StudioSession } from './useStudioSession';
 export type BlueprintTab = 'OVERVIEW' | 'STRUCTURE' | 'PAGES' | 'FEATURES' | 'TIMELINE';
 export const BLUEPRINT_TABS: BlueprintTab[] = ['OVERVIEW', 'STRUCTURE', 'PAGES', 'FEATURES', 'TIMELINE'];
 
-/** Each section is an inspection mode of the same proposal; the object follows it (see composition `focus`). */
-const TAB_MODE: Record<BlueprintTab, string> = {
-  OVERVIEW: 'THE PROPOSED LOCATION',
-  STRUCTURE: 'ARCHITECTURAL BREAKDOWN',
-  PAGES: 'PAGE ORGANIZATION',
-  FEATURES: 'CAPABILITY RELATIONSHIPS',
-  TIMELINE: 'PRODUCTION EXPECTATIONS',
+/**
+ * Each section is an inspection mode of the same proposal, and the object answers it (see `anatomy.ts`): OVERVIEW
+ * shows the whole place, STRUCTURE opens it into layers, PAGES lights where each page lives, FEATURES finds each
+ * capability's module, TIMELINE assembles it stage by stage.
+ */
+const MODE_PURPOSE: Record<BlueprintTab, string> = {
+  OVERVIEW: 'SEE THE WHOLE PLACE',
+  STRUCTURE: 'UNDERSTAND HOW IT IS BUILT',
+  PAGES: 'EXPLORE WHERE EVERYTHING LIVES',
+  FEATURES: 'DISCOVER WHAT THE PLACE CAN DO',
+  TIMELINE: 'WATCH HOW IT COMES TO LIFE',
+};
+
+/** The inspection state of the open section: what is selected, and the timeline's stage. */
+export type BlueprintInspectState = {
+  anatomy: BlueprintAnatomy | null;
+  pick: string | null;
+  setPick: (pick: string | null) => void;
+  /** TIMELINE: the current stage (null = complete). */
+  stage: number | null;
+  setStage: (stage: number | null) => void;
+  playing: boolean;
+  setPlaying: (playing: boolean) => void;
 };
 
 const pad = (n: number) => String(n).padStart(2, '0');
@@ -198,12 +216,183 @@ export function ReviewStatus({ session }: { session: StudioSession }) {
   );
 }
 
+/* ─────────────────────────────── stage annotations ─────────────────────────────── */
+
+/** Where the object's annotated points are on the stage; the stage publishes, the annotations listen. */
+export type AnchorBus = { emit: (points: Record<string, AnchorPoint>) => void; subscribe: (fn: (points: Record<string, AnchorPoint>) => void) => () => void; last: () => Record<string, AnchorPoint> };
+
+export function createAnchorBus(): AnchorBus {
+  let last: Record<string, AnchorPoint> = {};
+  const listeners = new Set<(points: Record<string, AnchorPoint>) => void>();
+  return {
+    emit(points) {
+      last = points;
+      listeners.forEach((fn) => fn(points));
+    },
+    subscribe(fn) {
+      listeners.add(fn);
+      fn(last);
+      return () => listeners.delete(fn);
+    },
+    last: () => last,
+  };
+}
+
+type Marker = { id: string; elements: readonly string[]; tag: string; label: string; pick: string | null };
+
+/** The points a section annotates on the model, each with the selection it stands for. */
+export function sectionMarkers(tab: BlueprintTab, anatomy: BlueprintAnatomy | null, stage: number | null): Marker[] {
+  if (!anatomy) return [];
+  switch (tab) {
+    case 'STRUCTURE':
+      return anatomy.layers.filter((l) => l.elements.length).map((l) => ({ id: l.id, elements: l.elements, tag: l.n, label: `${l.n} · ${l.label}`, pick: l.id }));
+    case 'PAGES':
+      return (anatomy.pages?.homes ?? []).map((h) => {
+        const first = anatomy.pages!.groups.flatMap((g) => g.pages).find((p) => p.home?.key === h.key);
+        return { id: h.key, elements: h.elements, tag: pad(h.count), label: `${h.label.replace(/^THE /, '')} · ${pad(h.count)} ${h.count === 1 ? 'PAGE' : 'PAGES'}`, pick: first ? `P${first.n}` : null };
+      });
+    case 'FEATURES': {
+      const seen = new Map<string, Marker>();
+      if (anatomy.core.home.elements.length) seen.set('CORE', { id: 'CORE', elements: anatomy.core.home.elements, tag: 'CORE', label: `CORE · ${anatomy.core.label}`, pick: 'CORE' });
+      for (const f of anatomy.features) {
+        if (!f.home || seen.has(f.home.key) || !f.module) continue;
+        const lead = anatomy.features.find((g) => g.module === f.module && g.source === 'MODULE') ?? f;
+        seen.set(f.home.key, { id: f.home.key, elements: f.home.elements, tag: f.home.label.replace(/^THE | MODULE$/g, ''), label: f.home.label.replace(/^THE /, ''), pick: `F${lead.n}` });
+      }
+      return [...seen.values()];
+    }
+    case 'TIMELINE':
+      return stage === null || !anatomy.stages[stage]
+        ? []
+        : [{ id: `S${stage}`, elements: anatomy.stages[stage].elements, tag: anatomy.stages[stage].n, label: `${anatomy.stages[stage].n} · ${anatomy.stages[stage].label}`, pick: null }];
+    default:
+      return [];
+  }
+}
+
+/** The marker a selection lights (a page or group lights its volume's marker; a feature its module's). */
+function activeMarker(tab: BlueprintTab, anatomy: BlueprintAnatomy | null, pick: string | null, stage: number | null): string | null {
+  if (!anatomy) return null;
+  if (tab === 'TIMELINE') return stage === null ? null : `S${stage}`;
+  if (!pick) return null;
+  if (tab === 'STRUCTURE') return anatomy.layers.find((l) => l.id === pick && l.elements.length)?.id ?? null;
+  if (tab === 'PAGES') {
+    const page = anatomy.pages?.groups.flatMap((g) => g.pages).find((p) => `P${p.n}` === pick);
+    return page?.home?.key ?? null;
+  }
+  if (tab === 'FEATURES') return pick === 'CORE' ? 'CORE' : (anatomy.features.find((f) => `F${f.n}` === pick)?.home?.key ?? null);
+  return null;
+}
+
+/** The caption a selection pins on the model. */
+function calloutText(tab: BlueprintTab, anatomy: BlueprintAnatomy, pick: string | null, marker: Marker): string {
+  if (tab === 'PAGES' && pick?.startsWith('P')) {
+    const page = anatomy.pages?.groups.flatMap((g) => g.pages).find((p) => `P${p.n}` === pick);
+    if (page) return `P${pad(page.n)} · ${page.label.toUpperCase()}`;
+  }
+  if (tab === 'FEATURES' && pick?.startsWith('F')) {
+    const feature = anatomy.features.find((f) => `F${f.n}` === pick);
+    if (feature) return `F${pad(feature.n)} · ${feature.verb}`;
+  }
+  return marker.label;
+}
+
+/**
+ * Markers pinned to the live model: indexed layers, page counts per volume, feature modules, the assembling stage.
+ * They follow the object as it turns (positions come from the engine every frame it moves), and the selected one
+ * opens into a callout with a red leader. The panel holds the same choices for keyboard and screen readers, so the
+ * markers are a pointer convenience and stay out of the tab order.
+ */
+export function BlueprintStageAnnotations({ tab, inspect, bus, anchors }: { tab: BlueprintTab; inspect: BlueprintInspectState; bus: AnchorBus; anchors: Marker[] }) {
+  const { anatomy, pick, setPick, stage } = inspect;
+  const refs = useRef(new Map<string, HTMLDivElement>());
+  const active = activeMarker(tab, anatomy, pick, stage);
+  const place = useCallback((points: Record<string, AnchorPoint>) => {
+    const placed: { x: number; top: number }[] = [];
+    const entries = [...refs.current].filter(([id]) => points[id]?.visible).sort(([a], [b]) => points[b].y - points[a].y);
+    for (const [id, el] of refs.current) if (!points[id]?.visible) el.style.visibility = 'hidden';
+    for (const [id, el] of entries) {
+      const p = points[id];
+      const host = el.parentElement;
+      // Tags stand on stems above their point, kept below the lede the stage runs under, and lifted clear of a tag
+      // already standing in the same place (lowest point first).
+      const floor = host ? parseFloat(getComputedStyle(host).getPropertyValue('--bs-marks-min')) || 0 : 0;
+      let top = Math.max(p.y - 27, floor - 27);
+      for (const other of placed) if (Math.abs(other.x - p.x) < 34 && Math.abs(other.top - top) < 23) top = other.top - 23;
+      placed.push({ x: p.x, top });
+      el.style.visibility = '';
+      el.style.transform = `translate3d(${p.x}px, ${p.y}px, 0)`;
+      const lift = p.y - 27 - top;
+      el.style.setProperty('--lift', `${lift}px`);
+      el.classList.toggle('is-clamped', lift < 0);
+      el.classList.toggle('is-left', Boolean(host && p.x > host.clientWidth * 0.56));
+    }
+  }, []);
+  useLayoutEffect(() => bus.subscribe(place), [bus, place, anchors]);
+  if (!anatomy || !anchors.length) return null;
+  return (
+    <div className={`bs-marks bs-marks--${tab.toLowerCase()}`} aria-hidden="true">
+      {anchors.map((m) => {
+        const on = m.id === active;
+        return (
+          <div
+            key={m.id}
+            ref={(el) => {
+              if (el) refs.current.set(m.id, el);
+              else refs.current.delete(m.id);
+            }}
+            className={`bs-mark${on ? ' is-on' : ''}${active && !on ? ' is-quiet' : ''}`}
+            data-mark={m.id}
+            style={{ visibility: 'hidden' }}
+          >
+            <button
+              type="button"
+              tabIndex={-1}
+              className="bs-mark__tag"
+              onClick={() => (m.pick ? setPick(on && pick === m.pick ? null : m.pick) : undefined)}
+              disabled={!m.pick}
+            >
+              {m.tag}
+            </button>
+            {on ? (
+              <span className="bs-mark__callout">
+                <span className="bs-mark__leader" />
+                <span className="bs-mark__text">{calloutText(tab, anatomy, pick, m)}</span>
+              </span>
+            ) : null}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 /* ─────────────────────────────── panel ─────────────────────────────── */
 
-export function BlueprintPanel(props: Props) {
-  const { tab, setTab } = props;
+type PanelProps = Props & { inspect: BlueprintInspectState };
+
+/** The editorial tab index: 01 OVERVIEW … 05 TIMELINE, with a red index that slides to the open section. */
+function SectionTabs({ tab, setTab }: { tab: BlueprintTab; setTab: (tab: BlueprintTab) => void }) {
   const ids = useId();
+  const listRef = useRef<HTMLDivElement>(null);
+  const [ink, setInk] = useState<{ x: number; w: number } | null>(null);
   const index = BLUEPRINT_TABS.indexOf(tab);
+  useLayoutEffect(() => {
+    const list = listRef.current;
+    if (!list) return;
+    const measure = () => {
+      const on = list.querySelector<HTMLElement>('.bs-tab.is-on .bs-tab__label');
+      if (!on) return;
+      const a = on.getBoundingClientRect();
+      const b = list.getBoundingClientRect();
+      setInk({ x: a.left - b.left, w: a.width });
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(list);
+    void document.fonts?.ready.then(measure);
+    return () => observer.disconnect();
+  }, [tab]);
   const onKey = (event: React.KeyboardEvent) => {
     const n = BLUEPRINT_TABS.length;
     const to: Record<string, number> = { ArrowRight: (index + 1) % n, ArrowLeft: (index + n - 1) % n, Home: 0, End: n - 1 };
@@ -214,41 +403,92 @@ export function BlueprintPanel(props: Props) {
     document.getElementById(`${ids}-tab-${next}`)?.focus();
   };
   return (
+    <div className="bs-tabs" role="tablist" aria-label="BLUEPRINT SECTIONS" onKeyDown={onKey} ref={listRef}>
+      {BLUEPRINT_TABS.map((t, i) => (
+        <button
+          key={t}
+          type="button"
+          role="tab"
+          id={`${ids}-tab-${t}`}
+          aria-selected={tab === t}
+          aria-controls="bs-blueprint-panel"
+          tabIndex={tab === t ? 0 : -1}
+          className={`bs-tab${tab === t ? ' is-on' : ''}`}
+          onClick={() => setTab(t)}
+        >
+          <span className="bs-tab__n" aria-hidden="true">
+            {pad(i + 1)}
+          </span>
+          <span className="bs-tab__label">{t}</span>
+        </button>
+      ))}
+      <span className="bs-tabs__ink" aria-hidden="true" style={ink ? { transform: `translateX(${ink.x}px)`, width: ink.w } : { opacity: 0 }} />
+    </div>
+  );
+}
+
+/** What the section is for, and what the current selection shows (announced). */
+function modeHint(tab: BlueprintTab, inspect: BlueprintInspectState): string {
+  const { anatomy, pick, stage, playing } = inspect;
+  if (!anatomy) return '';
+  switch (tab) {
+    case 'STRUCTURE': {
+      const layer = anatomy.layers.find((l) => l.id === pick);
+      if (!layer) return 'THE MODEL OPENS INTO ITS LAYERS. SELECT ONE.';
+      return layer.elements.length ? `${layer.n} ${layer.label} · LIT ON THE MODEL` : `${layer.n} ${layer.label} · NOT DRAWN IN THE MODEL`;
+    }
+    case 'PAGES': {
+      if (!anatomy.pages) return 'A WORLD IS SHAPED AS PLACES AT BLUEPRINT REVIEW.';
+      if (pick?.startsWith('G:')) return `${pick.slice(2)} · LIT ON THE MODEL`;
+      const page = anatomy.pages.groups.flatMap((g) => g.pages).find((p) => `P${p.n}` === pick);
+      if (page) return page.home ? `P${pad(page.n)} ${page.label.toUpperCase()} · IN ${page.home.label}` : `P${pad(page.n)} ${page.label.toUpperCase()} · NOT PLACED IN THE MODEL`;
+      return 'LIT: THE VOLUMES THAT HOLD YOUR PAGES. SELECT A PAGE.';
+    }
+    case 'FEATURES': {
+      if (pick === 'CORE') return `CORE · ${anatomy.core.label} · IN THE RED CORE`;
+      const feature = anatomy.features.find((f) => `F${f.n}` === pick);
+      if (feature) return feature.home ? `F${pad(feature.n)} ${feature.verb} · IN ${feature.home.label}` : `F${pad(feature.n)} ${feature.verb}`;
+      return 'LIT: THE CORE AND EVERY MODULE. SELECT A FEATURE.';
+    }
+    case 'TIMELINE':
+      if (stage === null) return 'COMPLETE · ILLUSTRATIVE ORDER, NOT A SCHEDULE';
+      return `${anatomy.stages[stage]?.n ?? ''} ${anatomy.stages[stage]?.label ?? ''}${playing ? ' · ASSEMBLING' : ''}`;
+    default:
+      return '';
+  }
+}
+
+export function BlueprintPanel(props: PanelProps) {
+  const { tab, setTab, inspect } = props;
+  const index = BLUEPRINT_TABS.indexOf(tab);
+  // Escape returns a selection to the whole section (dialogs handle their own Escape first).
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape' || !inspect.pick || document.querySelector('.bs-dialog, .bs-menu')) return;
+      inspect.setPick(null);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [inspect]);
+  return (
     <div className="bs-blueprint">
       <ReviewStatus session={props.session} />
-      <div className="bs-tabs" role="tablist" aria-label="BLUEPRINT SECTIONS" onKeyDown={onKey} style={{ '--bs-tab-i': index } as React.CSSProperties}>
-        {BLUEPRINT_TABS.map((t, i) => (
-          <button
-            key={t}
-            type="button"
-            role="tab"
-            id={`${ids}-tab-${t}`}
-            aria-selected={tab === t}
-            aria-controls={`${ids}-panel`}
-            tabIndex={tab === t ? 0 : -1}
-            className={`bs-tab${tab === t ? ' is-on' : ''}`}
-            onClick={() => setTab(t)}
-          >
-            <span className="bs-tab__n" aria-hidden="true">
-              {pad(i + 1)}
-            </span>
-            <span className="bs-tab__label">{t}</span>
-          </button>
-        ))}
-        <span className="bs-tabs__ink" aria-hidden="true" />
-      </div>
+      <SectionTabs tab={tab} setTab={setTab} />
       {/* The overview is drawn without a mode line; it stays for screen readers so every section change is announced. */}
-      <p className={`bs-mode${tab === 'OVERVIEW' ? ' bs-visually-hidden' : ''}`} aria-live="polite">
-        <span className="bs-mode__n">{pad(index + 1)}</span>
-        <span className="bs-mode__rule" aria-hidden="true" />
-        <span className="bs-mode__label">{TAB_MODE[tab]}</span>
-      </p>
-      <div key={tab} className="bs-tabpanel" role="tabpanel" id={`${ids}-panel`} aria-labelledby={`${ids}-tab-${tab}`}>
+      <div className={`bs-mode${tab === 'OVERVIEW' ? ' bs-visually-hidden' : ''}`} aria-live="polite">
+        <p className="bs-mode__purpose">
+          <span className="bs-mode__n">{pad(index + 1)}</span>
+          <span className="bs-mode__rule" aria-hidden="true" />
+          <span className="bs-mode__label">{MODE_PURPOSE[tab]}</span>
+        </p>
+        {tab !== 'OVERVIEW' ? <p className="bs-mode__hint">{modeHint(tab, inspect)}</p> : null}
+      </div>
+      <div key={tab} className={`bs-tabpanel bs-tabpanel--${tab.toLowerCase()}`} role="tabpanel" id="bs-blueprint-panel" aria-label={`${pad(index + 1)} ${tab}`}>
         {tab === 'OVERVIEW' ? <OverviewTab {...props} /> : null}
-        {tab === 'STRUCTURE' ? <StructureTab {...props} /> : null}
-        {tab === 'PAGES' ? <PagesTab {...props} /> : null}
-        {tab === 'FEATURES' ? <FeaturesTab {...props} /> : null}
-        {tab === 'TIMELINE' ? <TimelineTab {...props} /> : null}
+        {tab === 'STRUCTURE' ? <StructureMode {...props} /> : null}
+        {tab === 'PAGES' ? <PagesMode {...props} /> : null}
+        {tab === 'FEATURES' ? <FeaturesMode {...props} /> : null}
+        {tab === 'TIMELINE' ? <TimelineMode {...props} /> : null}
       </div>
     </div>
   );
@@ -357,122 +597,410 @@ function OverviewTab({ session, setTab, goToRoom, openMenu }: Props) {
   );
 }
 
-const COMMERCIAL_LINES = ['COMMERCE', 'PLATFORM', 'PLATFORM_USAGE', 'PAYMENT_PROCESSING', 'ONGOING_SUPPORT'];
 
-function StructureTab({ session, goToRoom }: Props) {
-  const { state, snapshot } = session.view;
-  const build = buildTypeSummary(state.placePath, snapshot.selection);
-  const custom = state.placePath === 'CUSTOM';
-  const strata = snapshot.blueprint.lines.filter((line) => !COMMERCIAL_LINES.includes(line.key));
+/** A "show the whole" control that returns a section to its default view (the selection is reversible). */
+function ShowAll({ inspect, label }: { inspect: BlueprintInspectState; label: string }) {
+  if (!inspect.pick) return null;
   return (
-    <div className="bs-sheet bs-sheet--structure">
-      <div className="bs-keystone">
-        <span className="bs-keystone__label">BUILD TYPE</span>
-        <span className="bs-keystone__value">{build.label}</span>
-        <span className="bs-keystone__sub">{build.reasons.length ? build.reasons.join(' ').toUpperCase() : 'EVERY CHOICE FITS A SIMPLE BUILD.'}</span>
-      </div>
-      <ol className="bs-strata" aria-label="STRUCTURE, FROM FOUNDATION UP">
-        {strata.map((line, i) => (
-          <li key={line.key} className={`bs-stratum${line.open ? ' is-open' : ''}`}>
-            <span className="bs-stratum__n" aria-hidden="true">
-              L{i + 1}
-            </span>
-            <span className="bs-stratum__label">{line.label}</span>
-            <span className="bs-stratum__value">
-              {line.value ? line.value.toUpperCase() : custom ? 'DEFINED IN YOUR CUSTOM DIRECTION' : 'NOT CHOSEN'}
-              {line.fromSystem && line.value ? <em>FROM SYSTEM</em> : null}
-              {line.open ? <em className="is-red">OPEN</em> : null}
-            </span>
-          </li>
-        ))}
+    <button type="button" className="bs-showall" onClick={() => inspect.setPick(null)}>
+      {label}
+    </button>
+  );
+}
+
+/* ── 02 STRUCTURE — an exploded axonometric: each layer of the model, with the Blueprint lines it carries ── */
+
+function layerValue(layer: StructureLayer, custom: boolean): string {
+  const first = layer.lines[0] ?? layer.notDrawn[0];
+  if (layer.items.length) return layer.items.join(' · ');
+  if (!first) return '—';
+  return first.value ? first.value.toUpperCase() : custom ? 'IN YOUR CUSTOM DIRECTION' : 'NOT CHOSEN';
+}
+
+function StructureMode({ session, goToRoom, inspect }: PanelProps) {
+  const { state, snapshot } = session.view;
+  const anatomy = inspect.anatomy;
+  const custom = state.placePath === 'CUSTOM';
+  const build = buildTypeSummary(state.placePath, snapshot.selection);
+  if (!anatomy) return null;
+  const lineValue = (value: string | null) => (value ? value.toUpperCase() : custom ? 'DEFINED IN YOUR CUSTOM DIRECTION' : 'NOT CHOSEN');
+  return (
+    <div className="bs-inspector bs-inspector--structure">
+      <ol className="bs-layers" aria-label="LAYERS OF THE STRUCTURE, FROM THE GROUND UP">
+        {anatomy.layers.map((layer) => {
+          const on = inspect.pick === layer.id;
+          const drawn = layer.elements.length > 0;
+          return (
+            <li key={layer.id} className={`bs-layer${on ? ' is-on' : ''}${drawn ? '' : ' is-undrawn'}`}>
+              <button type="button" className="bs-layer__head" aria-pressed={on} aria-expanded={on} onClick={() => inspect.setPick(on ? null : layer.id)}>
+                <span className="bs-layer__n">{layer.n}</span>
+                <span className="bs-layer__label">{layer.label}</span>
+                <span className="bs-layer__value">{layerValue(layer, custom)}</span>
+              </button>
+              {on ? (
+                <div className="bs-layer__sheet">
+                  <p className="bs-layer__caption">{layer.caption}</p>
+                  {layer.id === 'CORE' ? (
+                    <p className="bs-layer__why">
+                      <strong>{build.label}</strong> {build.reasons.length ? build.reasons.join(' ').toUpperCase() : 'EVERY CHOICE FITS A SIMPLE BUILD.'}
+                    </p>
+                  ) : null}
+                  {layer.lines.length ? (
+                    <dl className="bs-layer__lines">
+                      {layer.lines.map((line) => (
+                        <div key={line.key} className={line.open ? 'is-open' : undefined}>
+                          <dt>{line.label}</dt>
+                          <dd>
+                            {lineValue(line.value)}
+                            {line.fromSystem && line.value ? <em>FROM SYSTEM</em> : null}
+                            {line.open ? <em className="is-red">OPEN</em> : null}
+                          </dd>
+                        </div>
+                      ))}
+                    </dl>
+                  ) : null}
+                  {layer.notDrawn.length ? (
+                    <div className="bs-layer__undrawn">
+                      <p className="bs-layer__flag">NOT DRAWN IN THE MODEL</p>
+                      <dl className="bs-layer__lines">
+                        {layer.notDrawn.map((line) => (
+                          <div key={line.key} className={line.open ? 'is-open' : undefined}>
+                            <dt>{line.label}</dt>
+                            <dd>
+                              {lineValue(line.value)}
+                              {line.fromSystem && line.value ? <em>FROM SYSTEM</em> : null}
+                            </dd>
+                          </div>
+                        ))}
+                      </dl>
+                    </div>
+                  ) : null}
+                </div>
+              ) : null}
+            </li>
+          );
+        })}
       </ol>
-      <p className="bs-sheet__hint">THE STRUCTURE FOLLOWS FROM WHAT YOU ARE CREATING. SITE 00 CONFIRMS IT AT BLUEPRINT REVIEW.</p>
-      <ChangeLink session={session} room="place" goToRoom={goToRoom} />
+      <div className="bs-inspector__foot">
+        <ShowAll inspect={inspect} label="SHOW THE WHOLE STRUCTURE" />
+        <ChangeLink session={session} room="place" goToRoom={goToRoom} />
+      </div>
+      <p className="bs-sheet__hint">SITE 00 CONFIRMS THE STRUCTURE AT BLUEPRINT REVIEW.</p>
     </div>
   );
 }
 
-function PagesTab({ session, goToRoom }: Props) {
-  const { state, snapshot } = session.view;
-  if (state.placePath === 'WORLD') {
+/* ── 03 PAGES — a spatial index: every page, the volume it lives in, and what brings it ── */
+
+function PageDetail({ page }: { page: PageEntry }) {
+  return (
+    <div className="bs-detail" role="note">
+      <p className="bs-detail__title">
+        P{pad(page.n)} · {page.label.toUpperCase()} <span>{page.depth.toUpperCase()}</span>
+      </p>
+      <dl className="bs-detail__rows">
+        <div>
+          <dt>LIVES IN</dt>
+          <dd>{page.home ? page.home.label : 'NOT PLACED IN THE MODEL'}</dd>
+        </div>
+        {page.via ? (
+          <div>
+            <dt>BROUGHT BY</dt>
+            <dd>{page.via}</dd>
+          </div>
+        ) : null}
+        <div>
+          <dt>PART OF</dt>
+          <dd>{page.group}</dd>
+        </div>
+      </dl>
+    </div>
+  );
+}
+
+function PagesMode({ session, goToRoom, inspect }: PanelProps) {
+  const atlas = inspect.anatomy?.pages ?? null;
+  if (!atlas) {
     return (
-      <div className="bs-sheet">
+      <div className="bs-inspector">
         <p className="bs-sheet__lead">A WORLD IS DESIGNED AS PLACES, NOT PAGES. ITS PLACES, MOMENTS AND THINGS TO DO ARE SHAPED WITH YOU AT BLUEPRINT REVIEW.</p>
         <ChangeLink session={session} room="work" goToRoom={goToRoom} />
       </div>
     );
   }
-  const total = snapshot.blueprint.experiences.reduce((n, g) => n + g.items.length, 0);
-  let n = 0;
   return (
-    <div className="bs-sheet bs-sheet--pages">
-      <p className="bs-count">
-        <span className="bs-count__value">{pad(total)}</span>
-        <span className="bs-count__label">PAGES ASSEMBLED FROM YOUR STRUCTURE AND FEATURES</span>
-      </p>
-      {snapshot.blueprint.experiences.map((group) => (
-        <section key={group.group} className="bs-pagegroup">
-          <h3 className="bs-pagegroup__title">
-            {group.group}
-            <span>{pad(group.items.length)}</span>
-          </h3>
-          <ul className="bs-plates">
-            {group.items.map((item) => {
-              n += 1;
-              return (
-                <li key={item.label} className="bs-plate">
-                  <span className="bs-plate__n">P{pad(n)}</span>
-                  <span className="bs-plate__label">{item.label.toUpperCase()}</span>
-                  <span className="bs-plate__depth">{item.depth.toUpperCase()}</span>
+    <div className="bs-inspector bs-inspector--pages">
+      <div className="bs-atlas">
+        <p className="bs-count">
+          <span className="bs-count__value">{pad(atlas.total)}</span>
+          <span className="bs-count__label">
+            {atlas.total === 1 ? 'PAGE' : 'PAGES'}, IN {atlas.homes.length} {atlas.homes.length === 1 ? 'VOLUME' : 'VOLUMES'} OF THE MODEL
+          </span>
+        </p>
+        <ul className="bs-atlas__homes" aria-label="WHERE THE PAGES LIVE">
+          {atlas.homes.map((home) => (
+            <li key={home.key}>
+              <span className="bs-atlas__count">{pad(home.count)}</span> {home.label.replace(/^THE /, '')}
+            </li>
+          ))}
+        </ul>
+      </div>
+      {atlas.groups.map((group) => {
+        const groupPick = `G:${group.group}`;
+        const groupOn = inspect.pick === groupPick;
+        const open = group.pages.find((p) => `P${p.n}` === inspect.pick);
+        return (
+          <section key={group.group} className={`bs-pagegroup${groupOn ? ' is-on' : ''}`}>
+            <h3 className="bs-pagegroup__title">
+              <button type="button" aria-pressed={groupOn} onClick={() => inspect.setPick(groupOn ? null : groupPick)}>
+                {group.group}
+                <span>{pad(group.pages.length)}</span>
+              </button>
+            </h3>
+            <ul className="bs-plates">
+              {group.pages.map((page) => {
+                const on = inspect.pick === `P${page.n}`;
+                return (
+                  <li key={page.n} className={`bs-plate${on ? ' is-on' : ''}${groupOn ? ' is-grouped' : ''}`}>
+                    <button type="button" aria-pressed={on} onClick={() => inspect.setPick(on ? null : `P${page.n}`)}>
+                      <span className="bs-plate__n">P{pad(page.n)}</span>
+                      <span className="bs-plate__label">{page.label.toUpperCase()}</span>
+                      <span className="bs-plate__depth">{page.depth.toUpperCase()}</span>
+                    </button>
+                  </li>
+                );
+              })}
+              {open ? (
+                <li className="bs-plates__detail">
+                  <PageDetail page={open} />
                 </li>
-              );
-            })}
-          </ul>
-        </section>
-      ))}
-      <ChangeLink session={session} room="work" goToRoom={goToRoom} />
+              ) : null}
+            </ul>
+          </section>
+        );
+      })}
+      <div className="bs-inspector__foot">
+        <ShowAll inspect={inspect} label="SHOW EVERY PAGE" />
+        <ChangeLink session={session} room="work" goToRoom={goToRoom} />
+      </div>
     </div>
   );
 }
 
-function FeaturesTab({ session, goToRoom }: Props) {
+/* ── 04 FEATURES — each capability on its module, with the relationships the registry records ── */
+
+function FeatureDetail({ feature, inspect }: { feature: FeatureEntry; inspect: BlueprintInspectState }) {
+  const features = inspect.anatomy?.features ?? [];
+  const link = (verb: string) => {
+    const target = features.find((f) => f.verb === verb);
+    return target ? (
+      <button key={verb} type="button" className="bs-chip" onClick={() => inspect.setPick(`F${target.n}`)}>
+        {verb}
+      </button>
+    ) : (
+      <span key={verb} className="bs-chip bs-chip--static">
+        {verb}
+      </span>
+    );
+  };
+  return (
+    <div className="bs-detail" role="note">
+      <p className="bs-detail__plain">{feature.plain}</p>
+      <dl className="bs-detail__rows">
+        <div>
+          <dt>LIVES IN</dt>
+          <dd>{feature.home ? feature.home.label : 'NOT DRAWN IN THE MODEL'}</dd>
+        </div>
+        <div>
+          <dt>{feature.source === 'COMES_WITH' ? 'COMES WITH' : 'FROM'}</dt>
+          <dd>
+            {feature.source === 'MODULE' && feature.module ? `${WORK_MODULE_BY_ID[feature.module].label} · ROOM 03` : null}
+            {feature.source === 'COMES_WITH' && feature.parent ? link(feature.parent) : null}
+            {feature.source === 'STRUCTURE' ? 'YOUR STRUCTURE' : null}
+            {!feature.source ? '—' : null}
+          </dd>
+        </div>
+        {feature.bringsAlong.length ? (
+          <div>
+            <dt>BRINGS ALONG</dt>
+            <dd className="bs-chips">{feature.bringsAlong.map(link)}</dd>
+          </div>
+        ) : null}
+        {feature.addsPages.length ? (
+          <div>
+            <dt>ADDS PAGES</dt>
+            <dd>{feature.addsPages.map((p) => p.toUpperCase()).join(' · ')}</dd>
+          </div>
+        ) : null}
+      </dl>
+    </div>
+  );
+}
+
+function FeaturesMode({ session, goToRoom, inspect }: PanelProps) {
   const { state, snapshot } = session.view;
   const estimate = snapshot.estimate;
+  const anatomy = inspect.anatomy;
+  if (!anatomy) return null;
+  const coreOn = inspect.pick === 'CORE';
   return (
-    <div className="bs-sheet bs-sheet--features">
-      <p className="bs-tree__root">
+    <div className="bs-inspector bs-inspector--features">
+      <button type="button" className={`bs-tree__root${coreOn ? ' is-on' : ''}`} aria-pressed={coreOn} onClick={() => inspect.setPick(coreOn ? null : 'CORE')}>
         <span className="bs-tree__root-label">CORE</span>
         <span className="bs-tree__root-value">{CORE_INCLUDED.map((c) => (state.placePath === 'WORLD' ? c.worldLabel : c.label)).join(' · ')}</span>
-      </p>
+      </button>
+      {coreOn ? (
+        <div className="bs-detail" role="note">
+          <p className="bs-detail__plain">{CORE_INCLUDED.map((c) => c.plain).join(' ')}</p>
+          <dl className="bs-detail__rows">
+            <div>
+              <dt>LIVES IN</dt>
+              <dd>THE RED CORE · INCLUDED IN EVERY BUILD</dd>
+            </div>
+          </dl>
+        </div>
+      ) : null}
       <ul className="bs-tree" aria-label="CAPABILITIES CONNECTED TO THE CORE">
-        {snapshot.blueprint.capabilities.map((cap, i) => (
-          <li key={cap.verb} className={`bs-tree__branch${cap.comesWith ? ' is-linked' : ''}`}>
-            <span className="bs-tree__n" aria-hidden="true">
-              F{pad(i + 1)}
-            </span>
-            <span className="bs-tree__verb">{cap.verb}</span>
-            <span className="bs-tree__plain">{capabilityPlain(cap.verb)}</span>
-            {cap.comesWith ? <em>COMES WITH YOUR CHOICES</em> : null}
-          </li>
-        ))}
+        {anatomy.features.map((feature) => {
+          const on = inspect.pick === `F${feature.n}`;
+          return (
+            <li key={feature.verb} className={`bs-tree__branch${feature.comesWith ? ' is-linked' : ''}${on ? ' is-on' : ''}`}>
+              <button type="button" aria-pressed={on} aria-expanded={on} onClick={() => inspect.setPick(on ? null : `F${feature.n}`)}>
+                <span className="bs-tree__n" aria-hidden="true">
+                  F{pad(feature.n)}
+                </span>
+                <span className="bs-tree__verb">{feature.verb}</span>
+                <span className="bs-tree__where">{feature.module ? WORK_MODULE_BY_ID[feature.module].label : 'CORE'}</span>
+                {feature.comesWith ? <em>COMES WITH YOUR CHOICES</em> : null}
+              </button>
+              {on ? <FeatureDetail feature={feature} inspect={inspect} /> : null}
+            </li>
+          );
+        })}
       </ul>
       {estimate?.platformUsage.applicable ? (
         <p className="bs-sheet__hint">
           <strong>{estimate.platformUsage.label}</strong> {estimate.platformUsage.summary}
         </p>
       ) : null}
-      <ChangeLink session={session} room="work" goToRoom={goToRoom} />
+      <div className="bs-inspector__foot">
+        <ShowAll inspect={inspect} label="SHOW EVERY FEATURE" />
+        <ChangeLink session={session} room="work" goToRoom={goToRoom} />
+      </div>
     </div>
   );
 }
 
-function TimelineTab({ session, goToRoom }: Props) {
+/* ── 05 TIMELINE — the structure assembles stage by stage; the canonical window and roadmap stay beside it ── */
+
+function PlayGlyph({ playing }: { playing: boolean }) {
+  return playing ? (
+    <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+      <rect x="2" y="1.5" width="2.6" height="9" rx="0.6" fill="currentColor" />
+      <rect x="7.4" y="1.5" width="2.6" height="9" rx="0.6" fill="currentColor" />
+    </svg>
+  ) : (
+    <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+      <path d="M3 1.6v8.8L10.2 6z" fill="currentColor" />
+    </svg>
+  );
+}
+
+function StepGlyph({ back = false }: { back?: boolean }) {
+  return (
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true" style={back ? { transform: 'scaleX(-1)' } : undefined}>
+      <path d="M4 2l4 4-4 4" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function TimelineMode({ session, goToRoom, inspect }: PanelProps) {
   const { state, snapshot } = session.view;
   const estimate = snapshot.estimate;
+  const anatomy = inspect.anatomy;
   const pace = PACE_OPTIONS.find((p) => p.id === state.pace);
   const note = state.paceNotes.trim();
+  if (!anatomy) return null;
+  const stages = anatomy.stages;
+  const { stage, setStage, playing, setPlaying } = inspect;
+  const current = stage === null ? null : stages[stage];
+  const go = (next: number | null) => {
+    setPlaying(false);
+    setStage(next);
+  };
+  const play = () => {
+    if (playing) {
+      setPlaying(false);
+      return;
+    }
+    if (stage === null) setStage(0);
+    setPlaying(true);
+  };
+  const chosen = state.pace === 'EXPEDITED' && estimate?.delivery.priority.available ? estimate.delivery.priority : estimate?.delivery.standard;
   return (
-    <div className="bs-sheet">
+    <div className="bs-inspector bs-inspector--timeline">
+      <ol className="bs-stagerail" aria-label="HOW IT COMES TOGETHER">
+        {stages.map((s, i) => {
+          const phase = stage === null || i < stage ? 'done' : i === stage ? 'current' : 'future';
+          return (
+            <li key={s.n} className={`bs-stagerail__step is-${phase}`}>
+              <button type="button" aria-current={phase === 'current' ? 'step' : undefined} onClick={() => go(i)} aria-label={`STAGE ${s.n} ${s.label}`}>
+                <span className="bs-stagerail__n">{s.n}</span>
+                <span className="bs-stagerail__label">{s.label}</span>
+              </button>
+            </li>
+          );
+        })}
+        <li className={`bs-stagerail__step bs-stagerail__step--end is-${stage === null ? 'current' : 'future'}`}>
+          <button type="button" aria-current={stage === null ? 'step' : undefined} onClick={() => go(null)} aria-label="THE COMPLETE PLACE">
+            <span className="bs-stagerail__n">✓</span>
+            <span className="bs-stagerail__label">COMPLETE</span>
+          </button>
+        </li>
+      </ol>
+      <div className="bs-stagecard" aria-live="polite">
+        <div className="bs-stagecard__head">
+          <p className="bs-stagecard__title">
+            {current ? (
+              <>
+                <span>{current.n}</span> {current.label}
+              </>
+            ) : (
+              <>
+                <span>✓</span> THE COMPLETE PLACE
+              </>
+            )}
+          </p>
+          <div className="bs-stagecard__controls" role="group" aria-label="ASSEMBLY CONTROLS">
+            <button type="button" className="bs-sq" onClick={() => go(stage === null ? stages.length - 1 : Math.max(0, stage - 1))} disabled={stage === 0} aria-label="PREVIOUS STAGE">
+              <StepGlyph back />
+            </button>
+            <button type="button" className="bs-sq bs-sq--play" onClick={play} aria-pressed={playing} aria-label={playing ? 'PAUSE THE ASSEMBLY' : 'PLAY THE ASSEMBLY'}>
+              <PlayGlyph playing={playing} />
+            </button>
+            <button type="button" className="bs-sq" onClick={() => go(stage === null ? null : stage + 1 >= stages.length ? null : stage + 1)} disabled={stage === null} aria-label="NEXT STAGE">
+              <StepGlyph />
+            </button>
+          </div>
+        </div>
+        <p className="bs-stagecard__caption">
+          {current
+            ? current.caption
+            : estimate && session.preview
+              ? `INITIAL RANGE FOR THE WHOLE PLACE: ${spacedRange(estimate.productionWindow)}.`
+              : 'YOUR TIMELINE IS SHARED AT BLUEPRINT REVIEW.'}
+        </p>
+        {current && current.items.length ? (
+          <p className="bs-chips">
+            {current.items.map((item) => (
+              <span key={item} className="bs-chip bs-chip--static">
+                {item}
+              </span>
+            ))}
+          </p>
+        ) : null}
+        <p className="bs-stagecard__notice">ILLUSTRATIVE ORDER · NOT A SCHEDULE. NO STAGE HAS A DURATION OF ITS OWN.</p>
+      </div>
       <p className="bs-sheet__lead">
         <strong>{pace?.label ?? 'NO PACE CHOSEN'}</strong> {pace ? pace.plain.toUpperCase() : ''}
       </p>
@@ -495,32 +1023,37 @@ function TimelineTab({ session, goToRoom }: Props) {
             </div>
           </div>
           <p className="bs-sheet__hint">
-            <strong>{estimate.confidence.label}</strong>
+            <strong>{estimate.confidence.label}</strong> {chosen ? spacedRange(chosen.window) : ''}
           </p>
-          <p className="bs-sheet__hint">
-            {(estimate.delivery.priority.available ? estimate.delivery.priority.whyNotHalf : estimate.delivery.priority.reason).toUpperCase()}
-          </p>
-          <p className="bs-sheet__hint">{estimate.timelineNote.toUpperCase()}</p>
-          <h3 className="bs-sheet__title">WHAT COMES FIRST</h3>
-          <ul className="bs-steps bs-steps--deps">
-            {estimate.dependencies.map((d) => (
-              <li key={d}>
-                <span className="bs-steps__n" aria-hidden="true" />
-                <span>{d.toUpperCase()}</span>
-              </li>
-            ))}
-          </ul>
-          <h3 className="bs-sheet__title">WHAT HAPPENS NEXT</h3>
-          <ol className="bs-steps">
-            {estimate.whatHappensNext.map((step, i) => (
-              <li key={step}>
-                <span className="bs-steps__n" aria-hidden="true">
-                  {pad(i + 1)}
-                </span>
-                <span>{step.toUpperCase()}</span>
-              </li>
-            ))}
-          </ol>
+          <details className="bs-more">
+            <summary>HOW THE WINDOW WORKS</summary>
+            <p className="bs-sheet__hint">
+              {(estimate.delivery.priority.available ? estimate.delivery.priority.whyNotHalf : estimate.delivery.priority.reason).toUpperCase()}
+            </p>
+            <p className="bs-sheet__hint">{estimate.timelineNote.toUpperCase()}</p>
+            <h3 className="bs-sheet__title">WHAT COMES FIRST</h3>
+            <ul className="bs-steps bs-steps--deps">
+              {estimate.dependencies.map((d) => (
+                <li key={d}>
+                  <span className="bs-steps__n" aria-hidden="true" />
+                  <span>{d.toUpperCase()}</span>
+                </li>
+              ))}
+            </ul>
+          </details>
+          <details className="bs-more">
+            <summary>WHAT HAPPENS NEXT</summary>
+            <ol className="bs-steps">
+              {estimate.whatHappensNext.map((step, i) => (
+                <li key={step}>
+                  <span className="bs-steps__n" aria-hidden="true">
+                    {pad(i + 1)}
+                  </span>
+                  <span>{step.toUpperCase()}</span>
+                </li>
+              ))}
+            </ol>
+          </details>
           <p className="bs-fineprint">
             {estimate.notAQuote} {estimate.reference}
           </p>
@@ -537,6 +1070,11 @@ function TimelineTab({ session, goToRoom }: Props) {
       <ChangeLink session={session} room="pace" goToRoom={goToRoom} />
     </div>
   );
+}
+
+/** Points on the model for the open section (memoised by the shell). */
+export function sectionAnchors(markers: Marker[]): StageAnchor[] {
+  return markers.map((m) => ({ id: m.id, elements: m.elements }));
 }
 
 /* ─────────────────────────────── actions ─────────────────────────────── */

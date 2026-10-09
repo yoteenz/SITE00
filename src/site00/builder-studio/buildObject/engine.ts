@@ -159,6 +159,11 @@ type MaterialSet = {
   mullion: Partial<Record<BuildMaterial, THREE.LineBasicMaterial>>;
   frame: Partial<Record<BuildMaterial, THREE.Material>>;
   castsShadow: Record<BuildMaterial, boolean>;
+  /**
+   * Blueprint inspection: a lit element keeps its own material and is drawn in red illumination — red edges and
+   * mullions, red frame members, a faint red glow through glass, a brighter acrylic.
+   */
+  lit: { edge: THREE.LineBasicMaterial; mullion: THREE.LineBasicMaterial; frame: THREE.Material; surface: Partial<Record<BuildMaterial, THREE.Material>> };
 };
 
 function createMaterials(): MaterialSet {
@@ -236,7 +241,20 @@ function createMaterials(): MaterialSet {
   // Red acrylic reads with a deeper red edge where the sheet is seen through its thickness.
   const redFrame = new THREE.MeshStandardMaterial({ color: 0x8e0710, roughness: 0.25, metalness: 0.1, emissive: new THREE.Color(0x3a0004), emissiveIntensity: 0.3 });
   const outline = line(0x34363b, 0.14);
+  // Red illumination (inspection): the SITE 00 red, luminous, drawn over everything it outlines.
+  const litEdge = new THREE.LineBasicMaterial({ color: 0xe50107, transparent: true, opacity: 0.95, depthTest: false });
+  const litMullion = new THREE.LineBasicMaterial({ color: 0xe50107, transparent: true, opacity: 0.42 });
+  const litFrame = new THREE.MeshStandardMaterial({ color: 0xd8070f, roughness: 0.3, metalness: 0.2, emissive: new THREE.Color(0x7a0008), emissiveIntensity: 0.55 });
+  const litGlass = glass.clone();
+  litGlass.color = new THREE.Color(0xffecec);
+  litGlass.opacity = 0.4;
+  litGlass.emissive = new THREE.Color(0xe50107);
+  litGlass.emissiveIntensity = 0.12;
+  const litRed = red.clone();
+  litRed.emissiveIntensity = 0.95;
+  litRed.opacity = 0.94;
   return {
+    lit: { edge: litEdge, mullion: litMullion, frame: litFrame, surface: { glass: litGlass, glassTint: litGlass, darkGlass: litGlass, red: litRed } },
     surface,
     edge: {
       glass: line(0x8d9396, 0.55),
@@ -381,6 +399,8 @@ type NodeState = { position: THREE.Vector3; size: THREE.Vector3; rotationY: numb
 type SceneNode = {
   id: string;
   material: BuildMaterial;
+  /** Drawn in red illumination (Blueprint inspection). */
+  lit: boolean;
   group: THREE.Group;
   mesh: THREE.Mesh;
   edges: THREE.LineSegments | null;
@@ -493,6 +513,36 @@ const fitCam = new THREE.PerspectiveCamera(FOV, 1, 0.1, 400);
  * object's bounds fill `fill` of the frame.
  */
 export function fitCamera(elements: BuildElement[], camera: BuildCamera, aspect: number): BuildCamera {
+  const whole = fitBounds(elements, camera, aspect);
+  const focus = camera.focus?.length ? new Set(camera.focus) : null;
+  const closeness = Math.max(0, Math.min(1, camera.closeness ?? 0));
+  if (!focus || !closeness) return whole;
+  const part = elements.filter((el) => focus.has(el.id));
+  if (!part.length) return whole;
+  // Inspection: turn toward the part (a part right of centre is seen more frontally) and move part-way to it,
+  // never closer than half the whole-object distance, so the rest of the structure stays in view as context.
+  const turn = Math.max(-16, Math.min(16, (centerX(part) - centerX(elements)) * 7));
+  const near = fitBounds(part, { ...camera, azimuth: camera.azimuth + turn, fill: 0.62, lift: 0 }, aspect);
+  const l = (a: number, b: number) => a + (b - a) * closeness;
+  return {
+    ...whole,
+    azimuth: l(whole.azimuth, near.azimuth),
+    target: [l(whole.target[0], near.target[0]), l(whole.target[1], near.target[1]), l(whole.target[2], near.target[2])],
+    distance: Math.max(whole.distance * 0.5, l(whole.distance, near.distance)),
+  };
+}
+
+function centerX(elements: BuildElement[]): number {
+  let min = Infinity;
+  let max = -Infinity;
+  for (const el of elements) {
+    min = Math.min(min, el.position[0] - el.size[0] / 2);
+    max = Math.max(max, el.position[0] + el.size[0] / 2);
+  }
+  return (min + max) / 2;
+}
+
+function fitBounds(elements: BuildElement[], camera: BuildCamera, aspect: number): BuildCamera {
   const box = new THREE.Box3();
   const v = new THREE.Vector3();
   for (const el of elements) {
@@ -539,6 +589,44 @@ export function webglAvailable(): boolean {
   }
 }
 
+/**
+ * Dresses a node in its material, or in red illumination when lit: the surface brightens (glass, acrylic), every
+ * edge, mullion and frame member turns SITE 00 red. Edges are added for a lit material that has none of its own.
+ */
+function dressNode(node: SceneNode, materials: MaterialSet, material: BuildMaterial, lit: boolean) {
+  node.material = material;
+  node.lit = lit;
+  node.mesh.material = (lit && materials.lit.surface[material]) || materials.surface[material];
+  node.mesh.castShadow = materials.castsShadow[material];
+  node.mesh.renderOrder = material.includes('lass') || material === 'red' || material === 'ghost' ? 2 : 0;
+  const edgeMaterial = lit && material !== 'figure' ? materials.lit.edge : materials.edge[material];
+  if (edgeMaterial && !node.edges) {
+    node.edges = new THREE.LineSegments(UNIT_EDGES, edgeMaterial);
+    node.edges.scale.copy(node.mesh.scale);
+    node.group.add(node.edges);
+  } else if (!edgeMaterial && node.edges) {
+    node.group.remove(node.edges);
+    node.edges = null;
+  } else if (edgeMaterial && node.edges) {
+    node.edges.material = edgeMaterial;
+  }
+  if (node.edges) node.edges.renderOrder = lit ? 4 : 3;
+  const mullionMaterial = materials.mullion[material] ? (lit ? materials.lit.mullion : materials.mullion[material]) : undefined;
+  if (mullionMaterial && !node.mullions) {
+    node.mullions = new THREE.LineSegments(paneGrid(node.to.size.toArray()), mullionMaterial);
+    node.mullions.renderOrder = 3;
+    node.mullions.scale.copy(node.mesh.scale);
+    node.group.add(node.mullions);
+  } else if (!mullionMaterial && node.mullions) {
+    node.group.remove(node.mullions);
+    node.mullions = null;
+  } else if (mullionMaterial && node.mullions) {
+    node.mullions.material = mullionMaterial;
+  }
+  const frameMaterial = materials.frame[material];
+  if (frameMaterial) for (const member of node.frames) member.material = lit ? materials.lit.frame : frameMaterial;
+}
+
 function makeNodeFactory(scene: THREE.Scene, materials: MaterialSet) {
   return (el: BuildElement): SceneNode => {
     const group = new THREE.Group();
@@ -575,16 +663,25 @@ function makeNodeFactory(scene: THREE.Scene, materials: MaterialSet) {
     }
     scene.add(group);
     const target = stateOf(el);
-    return { id: el.id, material: el.material, group, mesh, edges, mullions, frames, from: collapsed(target), to: target, start: performance.now(), delay: 0, duration: TWEEN_MS, removing: false };
+    const node: SceneNode = { id: el.id, material: el.material, lit: false, group, mesh, edges, mullions, frames, from: collapsed(target), to: target, start: performance.now(), delay: 0, duration: TWEEN_MS, removing: false };
+    if (el.lit) dressNode(node, materials, el.material, true);
+    return node;
   };
 }
 
 /* ─────────────────────────────── live engine ─────────────────────────────── */
 
+/** A point on the model the page annotates: the centre of the named elements (in the stage's CSS px). */
+export type StageAnchor = { id: string; elements: readonly string[] };
+export type AnchorPoint = { x: number; y: number; visible: boolean };
+export type AnchorListener = (points: Record<string, AnchorPoint>) => void;
+
 export type BuildObjectEngine = {
   setComposition: (composition: BuildComposition) => void;
   setInteractive: (interactive: boolean) => void;
   resetView: () => void;
+  /** Track points on the model; the listener hears their stage position whenever the view or the object moves. */
+  setAnchors: (anchors: readonly StageAnchor[], listener: AnchorListener | null) => void;
   dispose: () => void;
 };
 
@@ -627,45 +724,55 @@ export function createBuildObjectEngine(container: HTMLElement, options: { reduc
   let disposed = false;
   let lastSwayRender = 0;
   const reducedMotion = options.reducedMotion;
+  let anchors: readonly StageAnchor[] = [];
+  let anchorListener: AnchorListener | null = null;
+  let lastAnchors = '';
+  const anchorBox = new THREE.Box3();
+  const anchorPoint = new THREE.Vector3();
 
-  function setNodeMaterial(node: SceneNode, material: BuildMaterial) {
-    if (node.material === material) return;
+  /** Projects each anchor's centre (from the nodes' current, animated state) and reports changes. */
+  function reportAnchors() {
+    if (!anchorListener) return;
+    const width = container.clientWidth;
+    const height = container.clientHeight;
+    const out: Record<string, AnchorPoint> = {};
+    for (const anchor of anchors) {
+      anchorBox.makeEmpty();
+      for (const id of anchor.elements) {
+        const node = nodes.get(id);
+        if (!node || node.removing) continue;
+        const s = node.mesh.scale;
+        const p = node.group.position;
+        anchorBox.expandByPoint(anchorPoint.set(p.x - s.x / 2, p.y - s.y / 2, p.z - s.z / 2));
+        anchorBox.expandByPoint(anchorPoint.set(p.x + s.x / 2, p.y + s.y / 2, p.z + s.z / 2));
+      }
+      if (anchorBox.isEmpty()) {
+        out[anchor.id] = { x: 0, y: 0, visible: false };
+        continue;
+      }
+      // The centre of the named volume (a tag on a stem rises from it, so tall volumes are not marked at the sky).
+      anchorPoint.set((anchorBox.min.x + anchorBox.max.x) / 2, (anchorBox.min.y + anchorBox.max.y) / 2, (anchorBox.min.z + anchorBox.max.z) / 2).project(camera);
+      const x = ((anchorPoint.x + 1) / 2) * width;
+      const y = ((1 - anchorPoint.y) / 2) * height;
+      out[anchor.id] = { x: Math.round(x * 2) / 2, y: Math.round(y * 2) / 2, visible: anchorPoint.z < 1 && x >= 0 && x <= width && y >= 0 && y <= height };
+    }
+    const signature = JSON.stringify(out);
+    if (signature === lastAnchors) return;
+    lastAnchors = signature;
+    anchorListener(out);
+  }
+
+  function setNodeMaterial(node: SceneNode, material: BuildMaterial, lit: boolean) {
+    if (node.material === material && node.lit === lit) return;
     // A material family change (glass ↔ stone) rebuilds the node in place.
     const needsFrames = Boolean(materials.frame[material]);
     if (needsFrames !== node.frames.length > 0 || (node.material === 'figure') !== (material === 'figure')) {
       scene.remove(node.group);
-      const rebuilt = makeNode({ id: node.id, material, size: node.to.size.toArray() as [number, number, number], position: node.to.position.toArray() as [number, number, number], rotationY: node.to.rotationY });
-      Object.assign(node, { group: rebuilt.group, mesh: rebuilt.mesh, edges: rebuilt.edges, mullions: rebuilt.mullions, frames: rebuilt.frames, material });
+      const rebuilt = makeNode({ id: node.id, material, lit, size: node.to.size.toArray() as [number, number, number], position: node.to.position.toArray() as [number, number, number], rotationY: node.to.rotationY });
+      Object.assign(node, { group: rebuilt.group, mesh: rebuilt.mesh, edges: rebuilt.edges, mullions: rebuilt.mullions, frames: rebuilt.frames, material, lit });
       return;
     }
-    node.material = material;
-    node.mesh.material = materials.surface[material];
-    node.mesh.castShadow = materials.castsShadow[material];
-    node.mesh.renderOrder = material.includes('lass') || material === 'red' || material === 'ghost' ? 2 : 0;
-    for (const member of node.frames) member.material = materials.frame[material]!;
-    const edgeMaterial = materials.edge[material];
-    if (edgeMaterial && !node.edges) {
-      node.edges = new THREE.LineSegments(UNIT_EDGES, edgeMaterial);
-      node.edges.renderOrder = 3;
-      node.group.add(node.edges);
-    } else if (!edgeMaterial && node.edges) {
-      node.group.remove(node.edges);
-      node.edges = null;
-    } else if (edgeMaterial && node.edges) {
-      node.edges.material = edgeMaterial;
-    }
-    const mullionMaterial = materials.mullion[material];
-    if (mullionMaterial && !node.mullions) {
-      node.mullions = new THREE.LineSegments(paneGrid(node.to.size.toArray()), mullionMaterial);
-      node.mullions.renderOrder = 3;
-      node.mullions.scale.copy(node.to.size);
-      node.group.add(node.mullions);
-    } else if (!mullionMaterial && node.mullions) {
-      node.group.remove(node.mullions);
-      node.mullions = null;
-    } else if (mullionMaterial && node.mullions) {
-      node.mullions.material = mullionMaterial;
-    }
+    dressNode(node, materials, material, lit);
   }
 
   function progress(node: SceneNode, now: number): number {
@@ -729,6 +836,7 @@ export function createBuildObjectEngine(container: HTMLElement, options: { reduc
       camera.lookAt(...view.target);
     }
     renderer.render(scene, camera);
+    reportAnchors();
     if (animating) requestFrame();
     else if (!reducedMotion && !interactive && visible) {
       // A gentle idle sway at a low frame rate; transitions run at full rate.
@@ -803,15 +911,17 @@ export function createBuildObjectEngine(container: HTMLElement, options: { reduc
           nodes.set(el.id, node);
           continue;
         }
-        const from = existing.removing || replay ? entryState(target, motion.entry) : currentStateOf(existing, now);
-        setNodeMaterial(existing, el.material);
+        // A staged element (Blueprint timeline) assembles now, in its own order, even though it is already here.
+        const enter = changed && el.enter === true;
+        const from = existing.removing || replay || enter ? entryState(target, motion.entry) : currentStateOf(existing, now);
+        setNodeMaterial(existing, el.material, el.lit === true);
         existing.from = from;
         existing.to = target;
         existing.start = now;
-        existing.delay = replay ? delay : Math.min(delay, 240);
+        existing.delay = replay || enter ? delay : Math.min(delay, 240);
         existing.duration = motion.duration;
         existing.removing = false;
-        if (replay) applyState(existing, from);
+        if (replay || enter) applyState(existing, from);
       }
       for (const node of nodes.values()) {
         if (seen.has(node.id) || node.removing) continue;
@@ -823,6 +933,9 @@ export function createBuildObjectEngine(container: HTMLElement, options: { reduc
         node.removing = true;
       }
       const target = fitted()!;
+      // The framing the camera is heading for, readable by checks (azimuth / distance / look-at).
+      container.dataset.camera = `${target.azimuth.toFixed(1)}/${target.distance.toFixed(2)}/${target.target.map((n) => n.toFixed(2)).join(',')}`;
+      container.dataset.lit = String(next.elements.filter((el) => el.lit).length);
       if (!currentCamera) {
         currentCamera = target;
       } else {
@@ -841,6 +954,12 @@ export function createBuildObjectEngine(container: HTMLElement, options: { reduc
     resetView() {
       dragAzimuth = 0;
       dragElevation = 0;
+      requestFrame();
+    },
+    setAnchors(next, listener) {
+      anchors = next;
+      anchorListener = listener;
+      lastAnchors = '';
       requestFrame();
     },
     dispose() {

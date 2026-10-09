@@ -43,6 +43,10 @@ export type BuildElement = {
   rotationY?: number;
   /** Assembly order (0 first). The renderer staggers entry by it when the composition's motion asks for it. */
   seq?: number;
+  /** Blueprint inspection: brought forward in red illumination (the selected layer, page home or feature). */
+  lit?: boolean;
+  /** Assembles now (grows in with the composition's motion) even though it was already on the stage. */
+  enter?: boolean;
 };
 
 export type BuildCamera = {
@@ -58,6 +62,10 @@ export type BuildCamera = {
   azimuth: number;
   /** Degrees above the horizon. */
   elevation: number;
+  /** Elements the camera moves toward (Blueprint inspection). The whole object stays the reference framing. */
+  focus?: string[];
+  /** How far toward `focus` the camera moves: 0 frames the whole object, 1 frames the focus alone. */
+  closeness?: number;
 };
 
 /** How a composition arrives. Visual pacing only: it never says anything about commercial duration. */
@@ -78,6 +86,27 @@ export type BuildView = 'place' | 'feel' | 'work' | 'pace' | 'blueprint';
 
 /** Blueprint inspection focus (one per Blueprint section). */
 export type BuildFocus = 'OVERVIEW' | 'STRUCTURE' | 'PAGES' | 'FEATURES' | 'TIMELINE';
+
+/**
+ * A Blueprint inspection state, computed from the proposal by `anatomy.ts`. Only ids the composition actually has
+ * are ever named, so an inspection can light, dim, separate or stage real geometry but never invent any.
+ */
+export type BuildInspection = {
+  /** Identifies the state in the composition key (mode + selection + stage). */
+  key: string;
+  /** Brought forward in red illumination. */
+  lit?: readonly string[];
+  /** Dim every element that is not lit to a glass outline (the ground and the figures stay). */
+  isolate?: boolean;
+  /** Not built yet (timeline): kept in place as a glass outline. */
+  future?: readonly string[];
+  /** Assemble now: grow in with the composition's motion, in their own order. */
+  enter?: readonly string[];
+  /** Exploded axonometric: per-element offsets that pull the layers apart. */
+  explode?: Readonly<Record<string, readonly [number, number, number]>>;
+  /** Move the camera toward the lit elements (0 = the whole object). */
+  closeness?: number;
+};
 
 /** Material roles a visual direction assigns. */
 export type BuildPalette = {
@@ -552,6 +581,35 @@ function focusElements(elements: BuildElement[], focus: BuildFocus): BuildElemen
   });
 }
 
+/** The ground and the figures are context: an inspection never dims, lights or stages them. */
+const isContext = (el: BuildElement) => el.id.startsWith('main-') || el.material === 'figure';
+
+/**
+ * Applies a Blueprint inspection: lit elements keep their material and gain red illumination; with `isolate` the
+ * rest dims to a glass outline; `future` elements stand as outlines; `enter` elements grow in, in their own order
+ * (renumbered from 0 so a later stage does not wait for the earlier ones); `explode` pulls layers apart.
+ */
+function inspectElements(elements: BuildElement[], inspect: BuildInspection): BuildElement[] {
+  const lit = new Set(inspect.lit ?? []);
+  const future = new Set(inspect.future ?? []);
+  const enter = new Set(inspect.enter ?? []);
+  const entering = elements.filter((el) => enter.has(el.id));
+  const first = entering.length ? Math.min(...entering.map((el) => el.seq ?? 0)) : 0;
+  return elements.map((el) => {
+    if (isContext(el)) return el;
+    const out: BuildElement = { ...el };
+    const offset = inspect.explode?.[el.id];
+    if (offset) out.position = [el.position[0] + offset[0], el.position[1] + offset[1], el.position[2] + offset[2]];
+    if (future.has(el.id) || (inspect.isolate && !lit.has(el.id))) out.material = 'ghost';
+    else if (lit.has(el.id)) out.lit = true;
+    if (enter.has(el.id)) {
+      out.enter = true;
+      out.seq = (el.seq ?? 0) - first;
+    }
+    return out;
+  });
+}
+
 /* ─────────────────────────────── compose ─────────────────────────────── */
 
 const CAMERAS: Record<BuildView, BuildCamera> = {
@@ -565,12 +623,16 @@ const CAMERAS: Record<BuildView, BuildCamera> = {
 
 const DEFAULT_MOTION: BuildMotion = { duration: 760, stagger: 0, entry: 'base', replay: false };
 
-export function compose(view: BuildView, spec: Spec, options: { focus?: BuildFocus } = {}): BuildComposition {
+/** Motion of an inspection change: the object re-lights, separates or turns; nothing re-assembles but `enter`. */
+const INSPECT_MOTION: BuildMotion = { duration: 680, stagger: 0, entry: 'base', replay: false };
+
+export function compose(view: BuildView, spec: Spec, options: { focus?: BuildFocus; inspect?: BuildInspection } = {}): BuildComposition {
   const palette = paletteFor(spec.feel);
   let elements: BuildElement[];
   let motion: BuildMotion = DEFAULT_MOTION;
-  const camera = { ...CAMERAS[view] };
+  const camera: BuildCamera = { ...CAMERAS[view] };
   const focus = options.focus ?? 'OVERVIEW';
+  const inspect = view === 'blueprint' ? options.inspect : undefined;
   switch (view) {
     case 'place':
       elements = placeComposition(spec.path, palette);
@@ -590,12 +652,30 @@ export function compose(view: BuildView, spec: Spec, options: { focus?: BuildFoc
       motion = PACE_MOTION[spec.pace ?? 'STANDARD'];
       break;
     case 'blueprint':
-      elements = focusElements(assembled(spec, palette, true), focus);
       if (spec.path === 'WORLD') camera.distance += 1.8;
+      if (inspect) {
+        // An inspection binds the section's selection to real geometry (see anatomy.ts).
+        elements = inspectElements(assembled(spec, palette, true), inspect);
+        const lit = elements.filter((el) => el.lit).map((el) => el.id);
+        if (lit.length && inspect.closeness) {
+          camera.focus = lit;
+          camera.closeness = inspect.closeness;
+        }
+        // Stages assemble in the chosen pace's rhythm (visual pacing only, never a duration).
+        motion = inspect.enter?.length ? { ...PACE_MOTION[spec.pace ?? 'STANDARD'], replay: false } : INSPECT_MOTION;
+        break;
+      }
+      elements = focusElements(assembled(spec, palette, true), focus);
       // The timeline section replays the assembly in production order at the chosen pace.
       motion = focus === 'TIMELINE' ? PACE_MOTION[spec.pace ?? 'STANDARD'] : { ...DEFAULT_MOTION, duration: 520 };
       break;
   }
-  const key = `${view}|${spec.path ?? '-'}|${spec.feel ?? '-'}|${[...spec.modules].sort().join(',')}|${spec.pace ?? '-'}${view === 'blueprint' && focus !== 'OVERVIEW' ? `|${focus}` : ''}`;
-  return { key, elements, camera, motion };
+  const base = `${view}|${spec.path ?? '-'}|${spec.feel ?? '-'}|${[...spec.modules].sort().join(',')}|${spec.pace ?? '-'}`;
+  const suffix = inspect ? `|${inspect.key}` : view === 'blueprint' && focus !== 'OVERVIEW' ? `|${focus}` : '';
+  return { key: base + suffix, elements, camera, motion };
+}
+
+/** Element ids of the resolved Blueprint structure, so inspections can only ever name geometry that exists. */
+export function blueprintElements(spec: Spec): BuildElement[] {
+  return assembled(spec, paletteFor(spec.feel), true);
 }

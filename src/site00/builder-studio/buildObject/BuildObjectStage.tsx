@@ -4,7 +4,7 @@
  */
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import type { BuildComposition } from './composition';
-import { createBuildObjectEngine, renderBuildThumbnail, webglAvailable, type BuildObjectEngine } from './engine';
+import { createBuildObjectEngine, renderBuildThumbnail, webglAvailable, type AnchorListener, type BuildObjectEngine, type StageAnchor } from './engine';
 
 export function usePrefersReducedMotion(): boolean {
   const [reduced, setReduced] = useState(
@@ -26,11 +26,16 @@ type StageProps = {
   description: string;
   interactive?: boolean;
   resetToken?: number;
+  /** Points on the model the page annotates, and who hears where they are on the stage. */
+  anchors?: readonly StageAnchor[];
+  onAnchors?: AnchorListener;
   className?: string;
   children?: ReactNode;
 };
 
-export function BuildObjectStage({ composition, description, interactive = false, resetToken = 0, className, children }: StageProps) {
+const NO_ANCHORS: readonly StageAnchor[] = [];
+
+export function BuildObjectStage({ composition, description, interactive = false, resetToken = 0, anchors = NO_ANCHORS, onAnchors, className, children }: StageProps) {
   const hostRef = useRef<HTMLDivElement>(null);
   const engineRef = useRef<BuildObjectEngine | null>(null);
   const compositionRef = useRef(composition);
@@ -69,6 +74,11 @@ export function BuildObjectStage({ composition, description, interactive = false
   useEffect(() => {
     if (resetToken) engineRef.current?.resetView();
   }, [resetToken]);
+
+  // Re-subscribe when the engine is rebuilt (reduced-motion change) as well as when the anchors change.
+  useEffect(() => {
+    engineRef.current?.setAnchors(anchors, onAnchors ?? null);
+  }, [anchors, onAnchors, reducedMotion]);
 
   return (
     <div className={['bs-object', className].filter(Boolean).join(' ')} data-object-key={composition.key}>
