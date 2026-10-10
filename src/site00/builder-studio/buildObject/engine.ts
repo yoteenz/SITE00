@@ -11,6 +11,7 @@ import * as THREE from 'three';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import type { BuildCamera, BuildComposition, BuildElement, BuildMaterial, BuildMotion } from './composition';
+import { buildContactOcclusion, buildRealismBody, createRealismMaterials, disposeRealism, fitPlate, plateUrlOf, redBounce, type RealismMaterials, type RealismMode } from './realism';
 
 const TWEEN_MS = 760;
 const DEG = Math.PI / 180;
@@ -463,6 +464,9 @@ type SceneNode = {
   edges: THREE.LineSegments | null;
   mullions: THREE.LineSegments | null;
   frames: THREE.Mesh[];
+  /** Realism benchmark: the element built at its true size (`bodySize`), scaled by the tween relative to it. */
+  body?: THREE.Object3D;
+  bodySize?: THREE.Vector3;
   from: NodeState;
   to: NodeState;
   start: number;
@@ -537,6 +541,9 @@ function applyState(node: SceneNode, state: NodeState) {
     return;
   }
   node.mesh.scale.copy(state.size);
+  if (node.body && node.bodySize) {
+    node.body.scale.set(Math.max(state.size.x / node.bodySize.x, 1e-4), Math.max(state.size.y / node.bodySize.y, 1e-4), Math.max(state.size.z / node.bodySize.z, 1e-4));
+  }
   node.edges?.scale.copy(state.size);
   node.mullions?.scale.copy(state.size);
   layoutFrames(node.frames, state.size);
@@ -742,11 +749,19 @@ export type BuildObjectEngine = {
   dispose: () => void;
 };
 
-export function createBuildObjectEngine(container: HTMLElement, options: { reducedMotion: boolean; onContextLost?: () => void }): BuildObjectEngine {
+export function createBuildObjectEngine(
+  container: HTMLElement,
+  options: { reducedMotion: boolean; onContextLost?: () => void; realism?: RealismMode | null },
+): BuildObjectEngine {
   const mobile = Math.min(window.innerWidth, window.innerHeight) < 700;
+  const realism = options.realism === 'v2';
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
   renderer.setClearColor(0x000000, 0);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, mobile ? 1.5 : 1.75));
+  const maxPixelRatio = Math.min(window.devicePixelRatio || 1, mobile ? 1.5 : 1.75);
+  let pixelRatio = maxPixelRatio;
+  renderer.setPixelRatio(pixelRatio);
+  // The transmission pass re-renders the opaque scene into its own target; on a phone it starts at 0.75 resolution.
+  if (realism) renderer.transmissionResolutionScale = mobile ? 0.75 : 1;
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.NeutralToneMapping;
   renderer.toneMappingExposure = 1.02;
@@ -763,8 +778,95 @@ export function createBuildObjectEngine(container: HTMLElement, options: { reduc
     requestFrame();
   });
   const materials = createMaterials(mobile);
-  const makeNode = makeNodeFactory(scene, materials);
+  const makeDefaultNode = makeNodeFactory(scene, materials);
   const camera = new THREE.PerspectiveCamera(FOV, 1, 0.1, 160);
+
+  const realismMaterials = realism ? createRealismMaterials(mobile) : null;
+  const realismOwned: (THREE.BufferGeometry | THREE.Texture | THREE.Material)[] = [];
+  const realismGeometries: THREE.BufferGeometry[] = [];
+  let realismDressing: THREE.Object3D[] = [];
+  let plate: THREE.Texture | null = null;
+  const hiddenProxy = new THREE.MeshBasicMaterial({ visible: false });
+  if (realism) {
+    // The room plate is drawn in the scene (same photograph, same cover fit as the CSS layer behind the canvas) so
+    // transmission has real content to refract.
+    const url = plateUrlOf(container);
+    container.dataset.realism = 'loading';
+    if (url) {
+      new THREE.TextureLoader().load(
+        url,
+        (texture) => {
+          if (disposed) {
+            texture.dispose();
+            return;
+          }
+          texture.colorSpace = THREE.SRGBColorSpace;
+          plate = texture;
+          fitPlate(texture, aspect);
+          scene.background = texture;
+          container.dataset.realism = 'ready';
+          requestFrame();
+        },
+        undefined,
+        () => {
+          container.dataset.realism = 'fallback';
+        },
+      );
+    } else {
+      container.dataset.realism = 'fallback';
+    }
+  }
+
+  function makeNode(el: BuildElement): SceneNode {
+    const body = realismMaterials ? buildRealismBody(el, realismMaterials, realismGeometries) : null;
+    if (!body) return makeDefaultNode(el);
+    const group = new THREE.Group();
+    // An invisible unit box keeps the node's size where the anchors and the default helpers expect it.
+    const mesh = new THREE.Mesh(UNIT_BOX, hiddenProxy);
+    group.add(mesh, body);
+    scene.add(group);
+    const target = stateOf(el);
+    return { id: el.id, material: el.material, lit: false, group, mesh, edges: null, mullions: null, frames: [], body, bodySize: target.size.clone(), from: collapsed(target), to: target, start: performance.now(), delay: 0, duration: TWEEN_MS, removing: false };
+  }
+
+  function dressRealism(elements: readonly BuildElement[]) {
+    if (!realismMaterials) return;
+    for (const item of realismDressing) scene.remove(item);
+    for (const item of realismOwned.splice(0)) item.dispose();
+    realismDressing = [buildContactOcclusion(elements, realismMaterials, realismOwned)];
+    const bounce = redBounce(elements, realismMaterials, realismOwned);
+    if (bounce) realismDressing.push(bounce);
+    for (const item of realismDressing) scene.add(item);
+  }
+
+  /**
+   * Adaptive tier: if assembly frames run long, first halve the refraction buffer, then step the pixel ratio down
+   * (never below 1×). Effects are never switched off.
+   */
+  const frameGaps: number[] = [];
+  let lastTick = 0;
+  function adaptQuality(now: number, animating: boolean) {
+    if (!realism || !animating) {
+      lastTick = 0;
+      return;
+    }
+    if (lastTick) frameGaps.push(now - lastTick);
+    lastTick = now;
+    if (frameGaps.length < 12) return;
+    const sorted = [...frameGaps].sort((a, b) => a - b);
+    frameGaps.length = 0;
+    const median = sorted[Math.floor(sorted.length / 2)];
+    if (median > 34) {
+      if (renderer.transmissionResolutionScale > 0.5) {
+        renderer.transmissionResolutionScale = 0.5;
+      } else if (pixelRatio > 1) {
+        pixelRatio = Math.max(1, pixelRatio - 0.25);
+        renderer.setPixelRatio(pixelRatio);
+        renderer.setSize(Math.max(1, container.clientWidth), Math.max(1, container.clientHeight), false);
+      }
+    }
+    container.dataset.quality = `${pixelRatio.toFixed(2)}/${maxPixelRatio.toFixed(2)}/${renderer.transmissionResolutionScale}`;
+  }
 
   const nodes = new Map<string, SceneNode>();
   let composition: BuildComposition | null = null;
@@ -823,10 +925,10 @@ export function createBuildObjectEngine(container: HTMLElement, options: { reduc
     if (node.material === material && node.lit === lit) return;
     // A material family change (glass ↔ stone) rebuilds the node in place.
     const needsFrames = Boolean(materials.frame[material]);
-    if (needsFrames !== node.frames.length > 0 || (node.material === 'figure') !== (material === 'figure')) {
+    if (realism || needsFrames !== node.frames.length > 0 || (node.material === 'figure') !== (material === 'figure')) {
       scene.remove(node.group);
       const rebuilt = makeNode({ id: node.id, material, lit, size: node.to.size.toArray() as [number, number, number], position: node.to.position.toArray() as [number, number, number], rotationY: node.to.rotationY });
-      Object.assign(node, { group: rebuilt.group, mesh: rebuilt.mesh, edges: rebuilt.edges, mullions: rebuilt.mullions, frames: rebuilt.frames, material, lit });
+      Object.assign(node, { group: rebuilt.group, mesh: rebuilt.mesh, edges: rebuilt.edges, mullions: rebuilt.mullions, frames: rebuilt.frames, body: rebuilt.body, bodySize: rebuilt.bodySize, material, lit });
       return;
     }
     dressNode(node, materials, material, lit);
@@ -857,6 +959,7 @@ export function createBuildObjectEngine(container: HTMLElement, options: { reduc
     aspect = width / height;
     camera.aspect = aspect;
     camera.updateProjectionMatrix();
+    if (plate) fitPlate(plate, aspect);
     // A new stage shape re-frames immediately (no tween on resize).
     const next = fitted();
     if (next) {
@@ -887,15 +990,17 @@ export function createBuildObjectEngine(container: HTMLElement, options: { reduc
       else fromCamera = null;
     }
     if (currentCamera) {
-      const sway = reducedMotion || interactive ? 0 : Math.sin(now / 5200) * 2.2;
+      // The benchmark holds still when idle: nothing is drawn until something changes.
+      const sway = reducedMotion || interactive || realism ? 0 : Math.sin(now / 5200) * 2.2;
       const view = { ...currentCamera, elevation: Math.max(2, Math.min(55, currentCamera.elevation + dragElevation)) };
       camera.position.copy(cameraPosition(view, sway + dragAzimuth));
       camera.lookAt(...view.target);
     }
     renderer.render(scene, camera);
     reportAnchors();
+    adaptQuality(now, animating);
     if (animating) requestFrame();
-    else if (!reducedMotion && !interactive && visible) {
+    else if (!reducedMotion && !interactive && visible && !realism) {
       // A gentle idle sway at a low frame rate; transitions run at full rate.
       const wait = Math.max(0, 1000 / 20 - (now - lastSwayRender));
       lastSwayRender = now;
@@ -996,6 +1101,7 @@ export function createBuildObjectEngine(container: HTMLElement, options: { reduc
         node.duration = Math.min(motion.duration, 520);
         node.removing = true;
       }
+      if (realism && (first || changed)) dressRealism(next.elements);
       const target = fitted()!;
       // The framing the camera is heading for, readable by checks (azimuth / distance / look-at).
       container.dataset.camera = `${target.azimuth.toFixed(1)}/${target.distance.toFixed(2)}/${target.target.map((n) => n.toFixed(2)).join(',')}`;
@@ -1045,6 +1151,16 @@ export function createBuildObjectEngine(container: HTMLElement, options: { reduc
         material.dispose();
       }
       for (const material of [materials.lit.edge, materials.lit.mullion, materials.lit.frame, ...new Set(Object.values(materials.lit.surface))]) material?.dispose();
+      if (realismMaterials) {
+        for (const item of realismOwned.splice(0)) item.dispose();
+        for (const geometry of realismGeometries.splice(0)) geometry.dispose();
+        disposeRealism(realismMaterials);
+        hiddenProxy.dispose();
+        plate?.dispose();
+        scene.background = null;
+        // Crossing in and out of the benchmark rebuilds the engine; release the context now rather than at GC.
+        renderer.forceContextLoss();
+      }
       renderer.dispose();
       canvas.remove();
     },
@@ -1095,6 +1211,86 @@ export function renderBuildThumbnail(composition: BuildComposition, width: numbe
     renderer.render(scene, cam);
     const url = renderer.domElement.toDataURL('image/png');
     scene.remove(group);
+    thumbCache.set(cacheKey, url);
+    return url;
+  } catch {
+    return null;
+  }
+}
+
+let realismThumb: { renderer: THREE.WebGLRenderer; scene: THREE.Scene; materials: MaterialSet; realism: RealismMaterials; envReady: Promise<void> } | null = null;
+const plateCache = new Map<string, Promise<THREE.Texture>>();
+
+function loadPlate(url: string): Promise<THREE.Texture> {
+  let pending = plateCache.get(url);
+  if (!pending) {
+    pending = new THREE.TextureLoader().loadAsync(url).then((texture) => {
+      texture.colorSpace = THREE.SRGBColorSpace;
+      return texture;
+    });
+    plateCache.set(url, pending);
+  }
+  return pending;
+}
+
+/**
+ * Realism benchmark still for an option card: the same bodies, materials and in-scene plate as the benchmark
+ * stage, so the card shows the object the hero shows. Opaque (the plate is in the image).
+ */
+export async function renderRealismThumbnail(composition: BuildComposition, width: number, height: number, plateUrl: string, plateY: number): Promise<string | null> {
+  const cacheKey = `v2|${composition.key}@${width}x${height}|${plateUrl}|${plateY}`;
+  const cached = thumbCache.get(cacheKey);
+  if (cached) return cached;
+  try {
+    if (!realismThumb) {
+      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      renderer.toneMapping = THREE.NeutralToneMapping;
+      renderer.toneMappingExposure = 1.02;
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      const scene = new THREE.Scene();
+      const lite = Math.min(window.innerWidth, window.innerHeight) < 700;
+      let resolveEnv: () => void = () => {};
+      const envReady = new Promise<void>((resolve) => (resolveEnv = resolve));
+      buildStage(scene, renderer, true, () => resolveEnv());
+      realismThumb = { renderer, scene, materials: createMaterials(lite), realism: createRealismMaterials(lite), envReady };
+    }
+    const { renderer, scene, materials, realism, envReady } = realismThumb;
+    const [plate] = await Promise.all([loadPlate(plateUrl), Promise.race([envReady, new Promise((r) => window.setTimeout(r, 4000))])]);
+    const group = new THREE.Group();
+    scene.add(group);
+    const geometries: THREE.BufferGeometry[] = [];
+    const owned: (THREE.BufferGeometry | THREE.Texture | THREE.Material)[] = [];
+    const makeDefault = makeNodeFactory(group as unknown as THREE.Scene, materials);
+    for (const el of composition.elements) {
+      const body = buildRealismBody(el, realism, geometries);
+      if (!body) {
+        applyState(makeDefault(el), stateOf(el));
+        continue;
+      }
+      body.position.set(...el.position);
+      body.rotation.y = el.rotationY ?? 0;
+      group.add(body);
+    }
+    group.add(buildContactOcclusion(composition.elements, realism, owned));
+    const bounce = redBounce(composition.elements, realism, owned);
+    if (bounce) group.add(bounce);
+    const plateView = plate.clone();
+    fitPlate(plateView, width / height, plateY);
+    scene.background = plateView;
+    renderer.setSize(width, height, false);
+    const framing = fitCamera(composition.elements, { ...composition.camera, fill: Math.min(0.94, (composition.camera.fill ?? 0.86) + 0.04), lift: 0 }, width / height);
+    const cam = new THREE.PerspectiveCamera(FOV, width / height, 0.1, 160);
+    cam.position.copy(cameraPosition(framing));
+    cam.lookAt(...framing.target);
+    renderer.render(scene, cam);
+    const url = renderer.domElement.toDataURL('image/png');
+    scene.remove(group);
+    scene.background = null;
+    plateView.dispose();
+    for (const item of [...geometries, ...owned]) item.dispose();
     thumbCache.set(cacheKey, url);
     return url;
   } catch {
