@@ -6,7 +6,7 @@
  * per-stage URL and no client data reaches the address bar.
  */
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { DF_FEATURE_FLAGS, isDigitalFoundationFlagEnabled } from '../../../shared/site00-digital-foundation/featureFlags.js';
 import DigitalFoundationCompleteSurface from '../pages/foundation/DigitalFoundationCompleteSurface';
 import { saveIntake, updateCommunicationPreferences } from './api';
@@ -28,6 +28,9 @@ import { isProjectPortalV2Enabled } from './model';
 import { DfCta, DfFrame, DfLoading, DfMenu, DfSystemPanel, type DfObjectKind } from './shell';
 import { DfToastProvider, useDfToasts } from './components';
 import { useFoundationArtifact, useIntakeDraft, usePaymentVerification, useQuoteSelections, type SaveStatus } from './useFoundationArtifact';
+import { isSite00CloudPreviewBrowser } from './previewEnv';
+import { site00ApiUrl } from '../../utils/site00ApiBase';
+import { SITE00_ROUTES } from '../config/routes';
 import '../styles/site00-df-client.css';
 import '../styles/site00-df-components.css';
 
@@ -76,7 +79,10 @@ function useNoIndex() {
 }
 
 function InvalidLink({ onMintPreview, mintBusy }: { onMintPreview?: () => void; mintBusy?: boolean }) {
-  const cloudPreview = import.meta.env.VITE_SITE00_CLOUD_PREVIEW === '1';
+  const cloudPreview = isSite00CloudPreviewBrowser();
+  const localPreviewApi =
+    import.meta.env.DEV &&
+    import.meta.env.VITE_SITE00_PREVIEW_LOCAL_API === '1';
   return (
     <DfSystemPanel
       index="00"
@@ -84,17 +90,26 @@ function InvalidLink({ onMintPreview, mintBusy }: { onMintPreview?: () => void; 
       lines={['THIS LINK', "ISN'T ACTIVE"]}
       body={
         cloudPreview
-          ? 'THIS PREVIEW LINK EXPIRED WHEN THE SERVER RESTARTED OR YOU OPENED A BOOKMARK FROM ANOTHER SESSION. OPEN A FRESH BLANK TEMPLATE BELOW — P01 WITH NO CLIENT DATA.'
+          ? localPreviewApi
+            ? 'THIS PREVIEW LINK EXPIRED WHEN THE SERVER RESTARTED OR YOU OPENED A BOOKMARK FROM ANOTHER SESSION. OPEN A FRESH BLANK TEMPLATE BELOW — P01 WITH NO CLIENT DATA.'
+            : 'THIS FOUNDATION LINK IS NOT ON THIS PREVIEW SERVER. PREVIEW USES THE LIVE API — OPEN THE FOUNDER CONSOLE AND USE CLIENT INTAKE FOR A FRESH LINK. DO NOT REUSE AN OLD BOOKMARK FROM ANOTHER SESSION.'
           : 'CHECK THAT YOU OPENED THE FULL LINK SITE 00 SENT YOU. IF IT STILL DOESN\'T OPEN, REPLY TO THE MESSAGE IT CAME IN.'
       }
       action={
-        cloudPreview && onMintPreview ? (
-          <DfCta
-            label="OPEN BLANK TEMPLATE"
-            onClick={onMintPreview}
-            busy={mintBusy}
-            busyLabel="OPENING…"
-          />
+        cloudPreview ? (
+          <div className="df-invalid-link-actions">
+            {localPreviewApi && onMintPreview ? (
+              <DfCta
+                label="OPEN BLANK TEMPLATE"
+                onClick={onMintPreview}
+                busy={mintBusy}
+                busyLabel="OPENING…"
+              />
+            ) : null}
+            <Link className="df-invalid-link-admin" to={SITE00_ROUTES.digitalFoundationAdmin}>
+              Digital Foundation admin
+            </Link>
+          </div>
         ) : undefined
       }
     />
@@ -147,7 +162,7 @@ export function FoundationClient({ token }: { token: string }) {
   const mintPreviewTemplate = useCallback(async () => {
     setMintBusy(true);
     try {
-      const res = await fetch('/api/dev/site00-digital-foundation-preview-bootstrap', {
+      const res = await fetch(site00ApiUrl('/api/dev/site00-digital-foundation-preview-bootstrap'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ template: true }),
