@@ -16123,3 +16123,12 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decisions / outcomes:** Each route in the sticky bar, and each screen header, shows the absolute address for that screen. The host is the page origin, so the preview lists `…/foundation/review#df-r-P01` through `#df-r-OVERVIEW` and `#df-r-bldr-PLACE` through `#df-r-bldr-BLUEPRINT`. Opening a link scrolls that screen below the bar. Do not hardcode the preview hostname. Do not start batch B. Do not implement A01–A04 until the founder approves the ZIP. Do not roll the V2 monument renderer out past the PLACE · ADVANCED benchmark until the founder approves it.
 - **Changes:** `src/site00/pages/foundation/DigitalFoundationReviewPage.tsx`, `src/site00/pages/foundation/reviewLinks.ts`, `src/site00/styles/site00-df-client.css`, `tests/digitalFoundationReviewLinks.test.ts`.
 - **Conventions:** A review screen’s direct address is `/foundation/review` plus its anchor. The visible text is that full URL.
+
+---
+
+## 2026-10-10 — Foundation review flow CTAs scroll to the next screen
+
+- **Context:** Continuation of the review-page direct-link work. The founder reported that **VIEW MY RECOMMENDATION** on P03 did nothing on `/foundation/review` because handlers were no-ops.
+- **Decision:** On the review page only, intake CTAs (BEGIN, CONTINUE, VIEW MY RECOMMENDATION, CONTINUE TO REVIEW, checkout back-links, activation overview) **smooth-scroll** to the next `#df-r-*` block and `replaceState` the hash. No React Router navigation; separate phone frames stay on one page for visual consistency.
+- **Validation:** P03 still uses `validateForRecommendation`; scroll to P04 happens only when the error object is empty.
+- **Changes:** `reviewLinks.ts` (`scrollToReviewAnchor`, `reviewAnchorForView`), `DigitalFoundationReviewPage.tsx`, `digitalFoundationReviewLinks.test.ts`.

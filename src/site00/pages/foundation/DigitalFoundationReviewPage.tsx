@@ -11,7 +11,7 @@ import { P04Recommendation } from '../../foundation-client/parents/Recommendatio
 import { InterimOverview, P05Review, P06Activation } from '../../foundation-client/parents/CheckoutActivation';
 import { DfFrame, DfMenu, type DfObjectKind } from '../../foundation-client/shell';
 import { DF_VIEW_META, DF_VIEW_ORDER, type DfView, type IntakeDraft } from '../../foundation-client/model';
-import { reviewScreenUrl } from './reviewLinks';
+import { reviewAnchorForView, reviewScreenUrl, scrollToReviewAnchor } from './reviewLinks';
 import '../../styles/site00-df-client.css';
 import '../../styles/site00-df-components.css';
 
@@ -143,6 +143,7 @@ export default function DigitalFoundationReviewPage() {
 
   const update = (patch: Partial<IntakeDraft>) => setDraft((d) => ({ ...d, ...patch }));
   const noop = () => undefined;
+  const advance = (view: DfView) => scrollToReviewAnchor(reviewAnchorForView(view));
 
   return (
     <div className="df-review">
@@ -170,17 +171,20 @@ export default function DigitalFoundationReviewPage() {
       </header>
       <div className="df-review__strip">
         <Screen id="df-r-P01" view="P01" title="01 · GET STARTED">
-          <P01Entry config={config} onBegin={noop} busy={false} error={null} />
+          <P01Entry config={config} onBegin={() => advance('P02')} busy={false} error={null} />
         </Screen>
         <Screen id="df-r-P02" view="P02" title="02 · BUSINESS INFORMATION">
-          <P02Intake draft={draft} update={update} editable save={null} onContinue={noop} />
+          <P02Intake draft={draft} update={update} editable save={null} onContinue={() => advance('P03')} />
         </Screen>
         <Screen id="df-r-P03" view="P03" title="03 · BUILD YOUR FOUNDATION">
           <P03Configure
             draft={draft}
             update={update}
             editable
-            onSubmit={noop}
+            onSubmit={(errors) => {
+              if (Object.values(errors).some(Boolean)) return;
+              advance('P04');
+            }}
             submitting={false}
             submitError={null}
             save={null}
@@ -197,7 +201,7 @@ export default function DigitalFoundationReviewPage() {
               syncError={null}
               onToggle={noop}
               onQuantity={noop}
-              onContinue={noop}
+              onContinue={() => advance('P05')}
               onRefresh={noop}
             />
           ) : (
@@ -213,7 +217,7 @@ export default function DigitalFoundationReviewPage() {
               setPayload={setQuotePayload}
               reload={async () => quotePayload}
               checkout={null}
-              onEditAddons={noop}
+              onEditAddons={() => advance('P04')}
             />
           ) : (
             <p className="df-review__wait">LOADING REVIEW</p>
@@ -227,7 +231,7 @@ export default function DigitalFoundationReviewPage() {
               attempt={0}
               attempts={0}
               simulated={false}
-              onOverview={noop}
+              onOverview={() => advance('OVERVIEW')}
               onRetry={noop}
             />
           ) : (
@@ -236,7 +240,7 @@ export default function DigitalFoundationReviewPage() {
         </Screen>
         <Screen id="df-r-OVERVIEW" view="OVERVIEW" title="07 · PROJECT OVERVIEW">
           {paidPayload ? (
-            <InterimOverview payload={paidPayload} onActivation={noop} />
+            <InterimOverview payload={paidPayload} onActivation={() => advance('P06')} />
           ) : (
             <p className="df-review__wait">LOADING OVERVIEW</p>
           )}
