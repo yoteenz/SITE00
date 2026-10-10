@@ -159,7 +159,7 @@ export function DfIcon({ name, ...rest }: { name: DfIconName } & SVGProps<SVGSVG
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth={0.3}
+      strokeWidth={0.15}
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden="true"
