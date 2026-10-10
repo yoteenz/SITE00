@@ -56,12 +56,33 @@ export default function FoundationAdminDetailPage() {
       <dl>
         <dt>State</dt>
         <dd>{payload.artifact.state}</dd>
+        <dt>Intake</dt>
+        <dd>{payload.artifact.intake_state}</dd>
         <dt>Payment</dt>
         <dd>{payload.artifact.payment_state}</dd>
         <dt>Referral</dt>
         <dd>{payload.referral_source?.label ?? '—'}</dd>
         <dt>Funnel</dt>
         <dd>{payload.lead.referral_funnel_stage}</dd>
+      </dl>
+      <h2>Submitted intake</h2>
+      <dl>
+        <dt>Business</dt>
+        <dd>{payload.artifact.intake.business_name || '—'}</dd>
+        <dt>Industry</dt>
+        <dd>{payload.artifact.intake.industry || '—'}</dd>
+        <dt>Contact</dt>
+        <dd>{payload.artifact.intake.contact_name || '—'}</dd>
+        <dt>Email</dt>
+        <dd>{payload.artifact.intake.current_email || '—'}</dd>
+        <dt>Phone</dt>
+        <dd>{payload.artifact.intake.phone || '—'}</dd>
+        <dt>Existing domain</dt>
+        <dd>{payload.artifact.intake.existing_domain ?? '—'}</dd>
+        <dt>Needs</dt>
+        <dd>{payload.artifact.intake.needs?.length ? payload.artifact.intake.needs.join(', ') : '—'}</dd>
+        <dt>Team size</dt>
+        <dd>{payload.artifact.intake.team_size ?? '—'}</dd>
       </dl>
       {payload.quote && (
         <>

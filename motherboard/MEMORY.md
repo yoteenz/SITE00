@@ -15979,9 +15979,43 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
+## 2026-10-10 — #1572 menu drawer merged; Digital Foundation universal component system (#1573 on main)
+
+- **Context:** Founder approved the menu-drawer comparison. PR #1572 merged (`8d29986d`). Component system sprint merged to `main` as #1573 (`4bf6fa50`): `components.tsx` + `site00-df-components.css`; hamburger and menu drawer unchanged.
+- **Conventions:** New DF UI uses primitives in `components.tsx`. Portaled overlays use `df-portal`.
+
+---
+
 ## 2026-10-10 — Digital Foundation V2 architecture recovery (portal + communications + founder ops)
 
-- **Context:** Sprint `P0.SITE00.IDNTY.DIGITAL-FOUNDATION.V2-COMPLETE-PARENT-CHILD-ARCHITECTURE-LIFECYCLE-COMMUNICATIONS-AND-END-TO-END-RECOVERY1` — recover disconnected DF families (client portal P07–P10, records, founder P13–P15, Family F communications) without replacing P01–P06 or quote/checkout engines. Merge and public deploy not authorized; marketing/live sends disabled.
-- **Outcomes:** Forensics + manifests under `docs/site00/idnty/DIGITAL_FOUNDATION_V2_*`. Client portal v2 (`SITE00_DIGITAL_FOUNDATION_PROJECT_PORTAL_V2`): P07 overview (replaces interim copy when flag on), P08 roadmap, P09 stage detail, P10 needs-you with `complete-client-action`, records library/detail from real ownership/payment data, communication preference center + API. Founder routes: `/admin/site00/foundation/pipeline`, `/:id/command`, `/:id/workbench`, `/communications` (links to email pack). Communications: `shared/site00-digital-foundation/communications/` event map, consent types, idempotency, send intents via `dispatch.ts` (DRY_RUN unless send flags ON — all default off). Client payload adds `communication_preferences`.
-- **Partial / next:** P11/P12 still `DigitalFoundationCompleteSurface` (functional). Business Ambition UI + `growthBridge` unwired. Supabase persistence for send intents/consent (memory today). Full T01–T29 / M01–M15 templates and journey builder UI for Opus batches. Parallel unmerged PR #1573 component system on `cursor/df-component-system-a9f7`.
-- **Branch:** `cursor/df-v2-architecture-recovery-a9f7` from `8d29986d`.
+- **Context:** Sprint V2 recovery — client portal P07–P10, records, founder ops, Family F communications (dry-run). Original branch `cursor/df-v2-architecture-recovery-a9f7` (#1574); **superseded on `main` by #1577** (Anthony launch gate integration) after #1573 component system landed.
+- **Outcomes:** Manifests under `docs/site00/idnty/DIGITAL_FOUNDATION_V2_*`. Portal v2 flag, founder pipeline/command/workbench routes, communications dispatch (DRY_RUN default off for live sends).
+- **Partial:** Messaging inbox UI, durable email delivery, Supabase send intents, P15A–C dedicated UI, Business Ambition client surface.
+
+---
+
+## 2026-10-10 — Digital Foundation canonical icon library
+
+- **Context:** 142 SVG icons + aliases on V2 branch tip (#1575 stacked on recovery). On `main` via #1577.
+- **Conventions:** Header still uses `menu-icon.png`; do not replace with registry menu glyph.
+
+---
+
+## 2026-10-10 — Anthony launch gate recovery (real E2E2 sprint)
+
+- **Context:** P0 Anthony journey — merged to `main` as #1577. Founder approval required for production release.
+- **Recommendation:** NO-GO for production Anthony link until persistence + deploy SHA + intake-only env on Railway.
+
+---
+
+## 2026-10-10 — DF foundation link on fsbw-dev preview (API routing)
+
+- **Fix:** #1578 on `main` — `site00ApiUrl` for DF client API on fsbw-dev.
+
+---
+
+## 2026-10-09 — BLDR Hybrid Spatial Studio reference-fidelity (Grok, not merged)
+
+- **Sprint:** asset/icon/material refinement of `/bldr/studio` against three founder phone references. No estimator, no GLB, no production release.
+- **Finding:** live stage is CSS slabs, not Three.js. Refined marble plinth, glass layers, `#E50107` portal, Barlow Condensed headlines, shared `BldrStudioIcon`, distinct `ArchitecturalThumb` SVGs for PLACE/FEEL/blueprint cards.
+- **Gap:** photoreal reference architecture still needs a founder-gated WFE mesh. Draft PR only.

@@ -18,19 +18,48 @@ import {
   type BlueprintSectionId,
   type WorkModuleId,
 } from '../../builder-experience/spatialStudio/types';
+import { ArchitecturalThumb } from '../../components/bldr/spatial-studio/ArchitecturalThumb';
 import { BuildObjectStage } from '../../components/bldr/spatial-studio/BuildObjectStage';
+import { BldrStudioIcon, type BldrStudioIconName } from '../../components/bldr/spatial-studio/BldrStudioIcon';
 import { BuilderSpatialShell } from '../../components/bldr/spatial-studio/BuilderSpatialShell';
 import { SITE00_ROUTES } from '../../config/routes';
 import '../../styles/site00-builder-spatial-studio.css';
 
-const WORK_ORBIT: { id: WorkModuleId; label: string }[] = [
-  { id: 'PAGES', label: 'PAGES' },
-  { id: 'BLOG', label: 'BLOG' },
-  { id: 'SHOP', label: 'SHOP' },
-  { id: 'MEMBER_AREA', label: 'MEMBER' },
-  { id: 'BOOKING', label: 'BOOKING' },
-  { id: 'PORTAL', label: 'PORTAL' },
+const WORK_ORBIT: { id: WorkModuleId; label: string; icon: BldrStudioIconName }[] = [
+  { id: 'PAGES', label: 'PAGES', icon: 'pages' },
+  { id: 'BLOG', label: 'BLOG', icon: 'blog' },
+  { id: 'SHOP', label: 'SHOP', icon: 'shop' },
+  { id: 'MEMBER_AREA', label: 'MEMBER', icon: 'member' },
+  { id: 'BOOKING', label: 'BOOKING', icon: 'booking' },
+  { id: 'PORTAL', label: 'PORTAL', icon: 'portal' },
 ];
+
+const CORE_INCLUDED: { label: string; icon: BldrStudioIconName }[] = [
+  { label: 'WEBSITE', icon: 'website' },
+  { label: 'MOBILE', icon: 'mobile' },
+  { label: 'SEO', icon: 'seo' },
+  { label: 'ANALYTICS', icon: 'analytics' },
+];
+
+const PACE_ICONS: Record<string, BldrStudioIconName> = {
+  STANDARD: 'standard',
+  EXPEDITED: 'expedited',
+  FLEXIBLE: 'flexible',
+};
+
+const PLACE_THUMB = {
+  SIMPLE: 'simple',
+  ADVANCED: 'advanced',
+  CUSTOM: 'custom',
+  WORLD: 'world',
+} as const;
+
+const FEEL_THUMB = {
+  MODERN: 'modern',
+  BOLD: 'bold',
+  EDITORIAL: 'editorial',
+  IMMERSIVE: 'immersive',
+} as const;
 
 function roomMeta(room: SpatialRoomId) {
   switch (room) {
@@ -155,6 +184,7 @@ function BldrSpatialStudioExperience() {
         placePath={state.placePath}
         feelVibe={state.feelVibe}
         workModules={state.workModules}
+        room={state.room}
         view={state.buildObjectView}
         onViewChange={state.room === 'BLUEPRINT' ? (v) => persist({ ...state, buildObjectView: v }) : undefined}
         compact={state.room === 'WORK'}
@@ -168,9 +198,10 @@ function BldrSpatialStudioExperience() {
               className={state.workModules.includes(opt.id) ? 'is-selected' : undefined}
               aria-pressed={state.workModules.includes(opt.id)}
               title={opt.label}
+              aria-label={opt.label}
               onClick={() => persist({ ...state, workModules: toggleModule(state.workModules, opt.id) })}
             >
-              +
+              <BldrStudioIcon name={opt.icon} />
             </button>
           ))}
         </div>
@@ -190,6 +221,7 @@ function BldrSpatialStudioExperience() {
             className={`bldr-spatial-card${state.placePath === opt.id ? ' is-selected' : ''}`}
             onClick={() => persist({ ...state, placePath: opt.id })}
           >
+            <ArchitecturalThumb variant={PLACE_THUMB[opt.id]} />
             <span className="bldr-spatial-card__label">{opt.label}</span>
             <span className="bldr-spatial-card__hint">{opt.hint}</span>
           </button>
@@ -213,6 +245,7 @@ function BldrSpatialStudioExperience() {
               className={state.feelVibe === opt.id ? 'is-selected' : undefined}
               onClick={() => persist({ ...state, feelVibe: opt.id })}
             >
+              <ArchitecturalThumb variant={FEEL_THUMB[opt.id]} />
               {opt.label}
             </button>
           ))}
@@ -239,8 +272,11 @@ function BldrSpatialStudioExperience() {
         <div className="bldr-spatial-core-row">
           <p>CORE PAGES INCLUDED</p>
           <div className="bldr-spatial-core-chips">
-            {['WEBSITE', 'MOBILE', 'SEO', 'ANALYTICS'].map((label) => (
-              <span key={label}>{label}</span>
+            {CORE_INCLUDED.map((item) => (
+              <span key={item.label}>
+                <BldrStudioIcon name={item.icon} />
+                {item.label}
+              </span>
             ))}
           </div>
         </div>
@@ -259,6 +295,7 @@ function BldrSpatialStudioExperience() {
               className={`bldr-spatial-pace-item${state.pace === opt.id ? ' is-selected' : ''}`}
               onClick={() => persist({ ...state, pace: opt.id })}
             >
+              <BldrStudioIcon name={PACE_ICONS[opt.id]} />
               <input type="checkbox" readOnly checked={state.pace === opt.id} tabIndex={-1} aria-hidden />
               <span>
                 <strong className="bldr-spatial-card__label">{opt.label}</strong>
@@ -317,16 +354,19 @@ function BldrSpatialStudioExperience() {
         {(state.blueprintSection === 'OVERVIEW' || state.blueprintSection === 'TIMELINE') && (
           <dl className="bldr-spatial-blueprint__metrics">
             <div className="bldr-spatial-blueprint__metric">
+              <BldrStudioIcon name="building" />
               <dt>BUILD TYPE</dt>
               <dd>{state.placePath ?? '—'}</dd>
               <small>{buildTypeHint}</small>
             </div>
             <div className="bldr-spatial-blueprint__metric">
+              <BldrStudioIcon name="clock" />
               <dt>ESTIMATED TIMELINE</dt>
               <dd>{showEstimate && estimate ? estimate.productionWindow : '—'}</dd>
               <small>FROM THE SITE 00 ESTIMATOR — NOT A GUARANTEED DELIVERY DATE.</small>
             </div>
             <div className="bldr-spatial-blueprint__metric">
+              <BldrStudioIcon name="investment" />
               <dt>ESTIMATED INVESTMENT</dt>
               <dd>{showEstimate && estimate ? estimate.investment : '—'}</dd>
               <small>BASED ON CURRENT SELECTIONS. FINAL ESTIMATE AFTER SITE 00 REVIEW.</small>
@@ -353,27 +393,27 @@ function BldrSpatialStudioExperience() {
             <div className="bldr-spatial-blueprint__config-head">
               <h3>YOUR CONFIGURATION</h3>
               <button type="button" className="bldr-spatial-shell__btn bldr-spatial-shell__btn--ghost" onClick={() => goRoom('PLACE')}>
-                EDIT SELECTIONS
+                <BldrStudioIcon name="edit" /> EDIT SELECTIONS
               </button>
             </div>
             <div className="bldr-spatial-blueprint__cards">
               <button type="button" className="bldr-spatial-blueprint__card" onClick={() => goRoom('FEEL')}>
-                <div className="bldr-spatial-blueprint__card-thumb" />
+                <ArchitecturalThumb variant="direction" />
                 <span>VISUAL DIRECTION</span>
                 <strong>{state.feelVibe ?? '—'} ›</strong>
               </button>
               <button type="button" className="bldr-spatial-blueprint__card" onClick={() => goRoom('WORK')}>
-                <div className="bldr-spatial-blueprint__card-thumb" />
+                <ArchitecturalThumb variant="pages" />
                 <span>PAGES</span>
                 <strong>{pageCount} PAGES ›</strong>
               </button>
               <button type="button" className="bldr-spatial-blueprint__card" onClick={() => goRoom('WORK')}>
-                <div className="bldr-spatial-blueprint__card-thumb" />
+                <ArchitecturalThumb variant="features" />
                 <span>FEATURES</span>
                 <strong>{featureCount} FEATURES ›</strong>
               </button>
               <button type="button" className="bldr-spatial-blueprint__card" onClick={() => goRoom('PACE')}>
-                <div className="bldr-spatial-blueprint__card-thumb" />
+                <ArchitecturalThumb variant="priority" />
                 <span>PRIORITY</span>
                 <strong>{state.pace ?? '—'} ›</strong>
               </button>

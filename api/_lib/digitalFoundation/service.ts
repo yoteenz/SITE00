@@ -2,7 +2,8 @@ import { randomBytes, randomUUID } from 'node:crypto';
 import { assertArtifactTransition, canTransitionArtifactState } from '../../../shared/site00-digital-foundation/lifecycle.js';
 import { createQuoteDraft, type SelectedAddonInput, validateSelectionRemovable } from '../../../shared/site00-digital-foundation/quoteEngine.js';
 import { inferBuildRecommendation, recommendFromIntake } from '../../../shared/site00-digital-foundation/recommendationEngine.js';
-import { resolveArtifactSurface } from '../../../shared/site00-digital-foundation/surface.js';
+import { isLaunchGateCheckoutBlocked, LAUNCH_GATE_CHECKOUT_ERROR } from '../../../shared/site00-digital-foundation/launchGate.js';
+import { resolveArtifactSurface, resolveArtifactSurfaceForClient } from '../../../shared/site00-digital-foundation/surface.js';
 import { initialProjectStages } from '../../../shared/site00-digital-foundation/projectStages.js';
 import { findReferralByKind } from '../../../shared/site00-digital-foundation/referralSources.js';
 import {
@@ -388,6 +389,9 @@ export async function createCheckoutSession(input: {
   success_url: string;
   cancel_url: string;
 }): Promise<{ checkout_url: string; session_id: string; simulated?: boolean }> {
+  if (isLaunchGateCheckoutBlocked()) {
+    throw new Error(LAUNCH_GATE_CHECKOUT_ERROR);
+  }
   const a = mem.memGetArtifact(input.artifact_id);
   if (!a?.quote_id) throw new Error('QUOTE_NOT_READY');
   const q = mem.memGetQuote(a.quote_id);
@@ -899,7 +903,7 @@ export function getArtifactPayload(artifactId: string): DigitalFoundationArtifac
     build_readiness: s.buildReadiness.get(artifactId) ?? null,
     credit: artifact.foundation_credit_id ? s.credits.get(artifact.foundation_credit_id) ?? null : null,
     events: s.events.filter((e) => e.artifact_id === artifactId).slice(-50),
-    surface: resolveArtifactSurface(artifact),
+    surface: resolveArtifactSurfaceForClient(artifact),
     operations_summary:
       artifact.payment_state === 'PAID'
         ? {

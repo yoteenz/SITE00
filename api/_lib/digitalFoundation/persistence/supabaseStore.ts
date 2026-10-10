@@ -46,6 +46,7 @@ function serializeOpsBundle(artifactId: string): Record<string, unknown> {
     forecasts: s.forecasts.get(artifactId) ?? null,
     projectConfig: s.projectConfig.get(artifactId) ?? null,
     readinessClock: s.readinessClock.get(artifactId) ?? null,
+    projectMessages: s.projectMessages?.get(artifactId) ?? [],
   };
 }
 
@@ -76,6 +77,10 @@ function hydrateOpsBundle(artifactId: string, bundle: Record<string, unknown>): 
   if (bundle.forecasts) s.forecasts.set(artifactId, bundle.forecasts as never);
   if (bundle.projectConfig) s.projectConfig.set(artifactId, bundle.projectConfig as never);
   if (bundle.readinessClock) s.readinessClock.set(artifactId, bundle.readinessClock as never);
+  if (Array.isArray(bundle.projectMessages) && bundle.projectMessages.length) {
+    if (!s.projectMessages) s.projectMessages = new Map();
+    s.projectMessages.set(artifactId, bundle.projectMessages as never);
+  }
 }
 
 /** Load all artifact rows (and leads) from Supabase into the in-process memory index for admin list. */
