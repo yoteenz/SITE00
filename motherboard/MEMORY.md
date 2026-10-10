@@ -16113,3 +16113,21 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Findings:** Supabase management API reports `ACTIVE_HEALTHY` for `hyycomvcaqxxvyrfupes`, but MCP `execute_sql`, `list_migrations`, and authenticated REST all timeout (~12–20 s). Invalid-key REST returns 401 quickly. Production Railway `GET …/digital-foundation-artifact?action=payload` times out ~20 s with 500 `[object Object]` — same data-plane failure, not Composer-only. `site00.com` still serves September bundle `index.D8Jaygrd.js`. Live API `gitCommit` `56cae6852f0c` with persist + intake-only flags on. Railway CLI and cPanel not connected to Composer.
 - **Decisions / outcomes:** Gate A **FAIL/BLOCKED**. Migrations 160000, 170000, 10103000 documented; **do not apply** until founder approves Group A and SQL path works. Deploy order: fix Supabase → migrations → Railway → cPanel ZIP (v11+). Docs under `docs/site00/idnty/ANTHONY_*` and `FOUNDATION_*_EXECUTION*.md`.
 - **Conventions:** Do not merge #1585 until DB path healthy. Do not claim Anthony-ready without live browser proof on current SHAs.
+
+---
+
+## 2026-10-10 — BLDR monument realism V2 benchmark (PLACE · ADVANCED, opt-in)
+
+- **Context:** The founder said V1 (#1589) was "still too similar" and ruled out any more material-token-only passes. The sprint asked for one benchmark monument before any rollout: no auto-merge, no production deploy.
+- **Topics covered:** This session's earlier BLDR V1 work, the vector chamber restore, and the Anthony infra docs. Then the V2 benchmark on branch `cursor/bldr-monument-realism-v2-a9f7` (draft PR, not merged).
+- **Root cause of V1's limit:** The canvas is transparent over a CSS plate, so transmission refracts empty alpha. Every element is a scaled unit cube, so there are no edges, bevels or thickness.
+- **Decisions / outcomes:**
+  - New `buildObject/realism.ts`, active only with `?realism=v2` when the composition key starts with `place|ADVANCED|`. The default renderer is unchanged.
+  - The room plate is drawn in-scene with the same `center 62% / cover` fit, so glass refracts the real photograph.
+  - Glass rooms are 22 mm panels with beveled chrome frames and mullion bars. The red spine is a beveled transmissive acrylic shell around a dense `#E50107` core. The marble plinth is beveled, with finer veins unfolded over the edges.
+  - Baked contact occlusion and red bounce; no bloom.
+  - No idle rendering (0 draws versus 5,278 in 3 s). The refraction buffer and pixel ratio adapt on phones. The WebGL context is released on dispose.
+  - Under SwiftShader, a V2 frame costs about 2.1–2.25× a current frame. Draw calls fall from 182 to 42.
+  - The ADVANCED card still renders through V2.
+- **Docs:** `docs/site00/bldr/MONUMENT_REALISM_V2_BENCHMARK.{md,json}`. Artifacts are in `/opt/cursor/artifacts/bldr-v2/`. Tests: `tests/bldrMonumentRealismV2.test.ts`.
+- **Conventions:** Widen `isRealismBenchmark` family by family, and only after founder approval: PLACE, FEEL, WORK, PACE, then BLUEPRINT, which needs a V2 `lit` state. The current path still keeps WebGL contexts after dispose; fix that with the rollout.
