@@ -15979,6 +15979,24 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
+## 2026-10-10 — Digital Foundation plates are full mobile screens
+
+- **Context:** After the component-system, V2 portal, and icon-library drafts, the founder rejected the architecture sidekicks. The three OpenArt photographs had been masked and pasted into hero, crown, and corner slots on the flat page.
+- **Topics covered:** Full-mobile plate correction. Each distinct room (hero chamber, crown, corner) is one 9:16 photograph. Live UI stays in React on top of that photograph. The cropped `<img>` slots and the drawer fragment are gone.
+- **Decisions / outcomes:** Plates are image-to-image in OpenArt project `6Ueswtr8vt58ur2n3CRs`, model `gpt-image-2-5-sunburst`, 9:16, 2k, high, autoEnhance off. Histories: hero `or5zMVfH7kOsCVFLdv1a` then reframed `E1MVXYIojgDfk0J53P6L`; crown `YLn6wHPtJZqF4EYItSR7`; corner `A5SBH5rfBjj68iuYhqWA` then reframed `VVAo7LPHHGJ8DXuK7Mdt`. Quoted 172 credits each. The glass etching “01 / DIGITAL FOUNDATION” stays on the hero plate. The hamburger PNG and the drawer geometry stay. Do not generate these into a JURNL family project. Do not paste a crop of the plate back onto the screen.
+- **Changes:** `df-plate-hero.jpg`, `df-plate-crown.jpg`, `df-plate-corner.jpg` replace `df-g01-hero-chamber.jpg`, `df-g02-crown-fragment.jpg`, and `df-g03-corner-fragment.jpg`. `DfFrame` paints `--df-plate` as a full-viewport background. `DfHeroObject` is only the clear window in the P01 column. Drawer art crop removed.
+- **Conventions:** A Digital Foundation background plate is the whole mobile screen. UI copy, buttons, and the menu icon are not baked into it. The sculpture sits below the headline so black type stays on the quiet wall.
+
+---
+
+## 2026-10-10 — Preview tunnel pinned to BLDR review merge (d98d4dc6)
+
+- **Context:** Founder asked to put commit `d98d4dc6` on `preview/tunnel` so the mobile tunnel shows the BLDR studio on `/foundation/review` and real `/bldr/studio?reviewRoom=…` iframes.
+- **Outcome:** `origin/preview/tunnel` is at `d98d4dc6` (merge of studio branch into preview; parent `8d29986d`). Worktree `/tmp/site00-preview-main` remounted to that SHA; preview Vite on `:5174` restarted without running `sync-preview-tunnel-branch.sh` afterward.
+- **Caution:** `sync-preview-tunnel-branch.sh` treats any divergence from `main` as an error and **force-resets** `preview/tunnel` to `main`. That wiped `d98d4dc6` once during `post-merge-preview-tunnel-refresh.sh`; restored with `git push origin d98d4dc6:refs/heads/preview/tunnel`. Do not run that sync while tunnel intentionally carries pre-main integration commits.
+
+---
+
 ## 2026-10-10 — #1572 menu drawer merged; Digital Foundation universal component system (#1573 on main)
 
 - **Context:** Founder approved the menu-drawer comparison. PR #1572 merged (`8d29986d`). Component system sprint merged to `main` as #1573 (`4bf6fa50`): `components.tsx` + `site00-df-components.css`; hamburger and menu drawer unchanged.
@@ -15988,7 +16006,7 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ## 2026-10-10 — Digital Foundation V2 architecture recovery (portal + communications + founder ops)
 
-- **Context:** Sprint V2 recovery — client portal P07–P10, records, founder ops, Family F communications (dry-run). Merged into launch branch `cursor/df-anthony-launch-gate-a9f7` with #1573 baseline. PR #1574 remains open for history; launch work continues on the Anthony gate branch.
+- **Context:** Sprint V2 recovery — client portal P07–P10, records, founder ops, Family F communications (dry-run). Landed on `main` via #1577 (Anthony launch gate integration). PR #1574 remains open as historical branch.
 - **Outcomes:** Manifests under `docs/site00/idnty/DIGITAL_FOUNDATION_V2_*`. Portal v2 flag, founder pipeline/command/workbench routes, communications dispatch (DRY_RUN default off for live sends).
 - **Partial:** Messaging inbox, durable email delivery, Supabase send intents, P15A–C dedicated UI, Business Ambition client surface.
 
@@ -16003,7 +16021,7 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ## 2026-10-10 — Anthony launch gate recovery (real E2E2 sprint)
 
-- **Context:** P0 sprint to verify Anthony Digital Foundation journey — Gate A safe intake vs Gate B full service. Baseline main `4bf6fa50` (#1573); integrated #1574 into `cursor/df-anthony-launch-gate-a9f7` (draft PR, not merged). Founder approval required for production release; no live charges or client emails during engineering.
+- **Context:** P0 sprint to verify Anthony Digital Foundation journey — Gate A safe intake vs Gate B full service. Integrated on `main` as #1577. Founder approval required for production release; no live charges or client emails during engineering.
 - **Gate A (dev):** Browser 393×852 on `/foundation/:token` — intake save + hard refresh PASS; founder admin `detail?id=` matches client intake on cloud preview memory store. Launch gate env `SITE00_DIGITAL_FOUNDATION_LAUNCH_GATE_INTAKE_ONLY` blocks checkout and surfaces `INTAKE_SUBMITTED` (vitest). **Production BLOCKED:** `SITE00_DIGITAL_FOUNDATION_PERSIST_SUPABASE=1` + migrations not verified on deployed API; deploy SHA unverified.
 - **Gate B:** FAIL/BLOCKED — Stripe test checkout not run live; messaging API/tests only (no two-browser UI round trip); email DRY_RUN/memory intents; records download not E2E.
 - **Deliverables:** `docs/site00/idnty/ANTHONY_*`, `DIGITAL_FOUNDATION_E2E_TEST_MATRIX.json`, `FOUNDATION_*_VERIFICATION.md`. Evidence screenshots `/opt/cursor/artifacts/gate-a-intake-*.png`.
@@ -16016,7 +16034,7 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 - **Founder report:** Mobile tunnel `site00.fsbw-dev.com` showed foundation link unavailable / not on preview server when opening `/foundation/:token` (stale token or CI preview without local `/api`).
 - **Root cause:** Digital Foundation client fetches used same-origin `/api/...` while admin on fsbw uses `api.site00.com` via `site00ApiUrl`. `vite preview` (default CI tunnel mode) has no local DF API → 404 / not found. Dev tunnel also split admin (Railway) vs client (local) when `VITE_SITE00_PREVIEW_LOCAL_API` unset.
-- **Fix:** `foundation-client/api.ts` routes artifact calls through `site00ApiUrl`. Invalid-link UI detects cloud preview via `meta site00-cloud-preview` + links to Digital Foundation admin; blank-template mint only when dev + `VITE_SITE00_PREVIEW_LOCAL_API=1`. Cloud preview dev script sets that env.
+- **Fix:** `foundation-client/api.ts` routes artifact calls through `site00ApiUrl` (#1578 on `main`). Invalid-link UI detects cloud preview via `meta site00-cloud-preview` + links to Digital Foundation admin; blank-template mint only when dev + `VITE_SITE00_PREVIEW_LOCAL_API=1`. Cloud preview dev script sets that env.
 - **Founder workflow on tunnel:** Open `/admin/site00/foundation` → **Client intake** on a row (fresh token). Do not reuse bookmarks after tunnel restart unless token lives on Railway/Supabase.
 
 ---

@@ -1,9 +1,9 @@
 /** Digital Foundation client shell (DF-C01..C09, C26, C45..C48). Presentation only. */
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { DfButton, DfLoadingState } from './components';
 import { DfIcon, type DfIconName } from './icons';
-import { DfCornerFragment, DfCrownObject, DfThresholdHero } from './objects';
+import { DF_ARCHITECTURE_RENDERS } from './objects';
 import {
   buildDfMenu,
   DF_VIEW_META,
@@ -149,7 +149,6 @@ export function DfAlert({
 
 const DRAWER_EXIT_MS = 220;
 const DRAWER_FOCUSABLE = 'button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])';
-const DRAWER_ART_SRC = '/site00/idnty/digital-foundation/architecture/df-g03-corner-fragment.jpg';
 
 const STEP_STATUS: Record<DfMenuStepState, string | null> = {
   current: 'CURRENT STEP',
@@ -240,9 +239,6 @@ function DfDrawer({ open, onClose, children }: { open: boolean; onClose: () => v
     <div ref={hostRef} className="df-drawer" data-state={open ? 'open' : 'closed'}>
       <div className="df-drawer__backdrop" aria-hidden="true" onClick={onClose} />
       <div ref={panelRef} className="df-drawer__panel" role="dialog" aria-modal="true" aria-label="DIGITAL FOUNDATION MENU">
-        <div className="df-drawer__art" aria-hidden="true">
-          <img src={DRAWER_ART_SRC} alt="" decoding="async" />
-        </div>
         <div className="df-drawer__head">
           <div className="df-drawer__brand">
             <span className="df-drawer__mark">SITE 00</span>
@@ -348,34 +344,9 @@ export function DfMenu({
   );
 }
 
-function ObjectSlot({ kind, variant }: { kind: DfObjectKind; variant: DfView | null }) {
-  if (kind === 'none') return null;
-  if (kind === 'hero') return null;
-  if (kind === 'crown') {
-    return (
-      <>
-        <div className="df-object df-object--crown" aria-hidden="true">
-          <DfCrownObject variant={variant === 'P05' || variant === 'P06' || variant === 'OVERVIEW' ? variant : 'P04'} />
-        </div>
-        <div className="df-object df-object--corner" aria-hidden="true">
-          <DfCornerFragment />
-        </div>
-      </>
-    );
-  }
-  return (
-    <div className="df-object df-object--corner" aria-hidden="true">
-      <DfCornerFragment />
-    </div>
-  );
-}
-
+/** Clear window in the P01 column so the chamber on the full plate stays visible between the lede and the triad. */
 export function DfHeroObject() {
-  return (
-    <div className="df-object df-object--hero" aria-hidden="true">
-      <DfThresholdHero />
-    </div>
-  );
+  return <div className="df-object df-object--hero" aria-hidden="true" />;
 }
 
 /** One parent screen: header, rail, content column, footer, threshold object. */
@@ -396,9 +367,14 @@ export function DfFrame({
   state?: string;
 }) {
   const meta = view ? DF_VIEW_META[view] : null;
+  const plate = object === 'none' ? null : DF_ARCHITECTURE_RENDERS[object];
   return (
-    <div className={`df-screen df-screen--${object}`} data-view={view ?? 'SYSTEM'} data-state={state}>
-      <ObjectSlot kind={object} variant={view} />
+    <div
+      className={`df-screen df-screen--${object}`}
+      data-view={view ?? 'SYSTEM'}
+      data-state={state}
+      style={plate ? ({ '--df-plate': `url("${plate}")` } as CSSProperties) : undefined}
+    >
       <DfHeader onMenu={onMenu} menuOpen={menuOpen} />
       <div className="df-screen__grid">
         <main className="df-screen__main">{children}</main>
