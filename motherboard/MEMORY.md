@@ -15938,3 +15938,11 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Founder ask:** Reduce all Digital Foundation text by 2px; fix menu drawer overlapped by bottom screen text; P01 triad center column → professional business email on two lines.
 - **Shipped (PR #1552):** Board 01+02 `FoundationClient` on `main`; global −2px on `site00-df-client.css`; menu sheet portaled to `document.body` with high z-index, body scroll lock, footer/trust hidden while open; P01 triad **PROFESSIONAL BUSINESS** / **EMAIL**.
 - **Menu icon (PR #1554):** Header ☰ uses founder JPEG `public/site00/idnty/digital-foundation/menu-icon.jpg` via `DF_HEADER_MENU_ICON_SRC` in `DfHeader` (replaces CSS bar spans).
+
+---
+
+## 2026-10-10 — Preview tunnel tsx Cannot find module on /foundation
+
+- **Symptom:** Mobile tunnel showed red `Cannot find module … tsx/dist/esm/api/…` on Digital Foundation (API LOCAL_API_ERROR surfaced in UI).
+- **Cause:** Preview worktree stuck on pinned DF branch commit still using tsx dynamic import for Vite local API, combined with `NODE_OPTIONS --import=tsx` on cloud dev server; dirty worktree blocked `preview/tunnel` remount.
+- **Fix:** Remount `/tmp/site00-preview-main` to `origin/preview/tunnel` (esbuild API bundler on main); remove global `--import=tsx` from `run-site00-cloud-preview-server.sh`; `ensure-site00-preview-main-authority.sh` hard-resets worktree when checkout fails.
