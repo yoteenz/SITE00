@@ -167,8 +167,9 @@ body:has(.df-root) {
 .df-header__menu-icon {
   display: block;
   width: 36px;
-  height: auto;
-  object-fit: contain;
+  height: 21px;
+  background: none;
+  fill: var(--df-ink);
 }
 
 /* ─── Index rail (DF-C02) ──────────────────────────────────────────────────────────────────── */
