@@ -12,8 +12,14 @@ import {
   openArtifactByToken,
   removeQuoteAddon,
   updateIntake,
+  updateCommunicationPreferences,
   updateQuoteSelections,
 } from '../_lib/digitalFoundation/service.js';
+import {
+  listProjectMessages,
+  markProjectMessagesRead,
+  sendProjectMessage,
+} from '../_lib/digitalFoundation/messaging.js';
 import { getCommercialConfig } from '../_lib/digitalFoundation/service.js';
 import { listCatalogForClient } from '../../shared/site00-digital-foundation/quoteEngine.js';
 import { isDigitalFoundationFlagEnabled, DF_FEATURE_FLAGS } from '../../shared/site00-digital-foundation/featureFlags.js';
@@ -112,10 +118,28 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           completeClientAction(artifact.artifact_id, String(body.request_id), body.response ?? {});
           await loadArtifactGraphByToken(token);
           return res.status(200).json(getClientArtifactPayloadByToken(token));
+        case 'update-communication-preferences':
+          updateCommunicationPreferences(artifact.artifact_id, body.preferences ?? {});
+          await loadArtifactGraphByToken(token);
+          return res.status(200).json(getClientArtifactPayloadByToken(token));
         case 'build-interest':
           captureBuildInterest(artifact.artifact_id, body.interest ?? 'INTERESTED');
           await loadArtifactGraphByToken(token);
           return res.status(200).json(getClientArtifactPayloadByToken(token));
+        case 'list-messages':
+          markProjectMessagesRead({ artifact_id: artifact.artifact_id, reader_role: 'CLIENT' });
+          return res.status(200).json({ messages: listProjectMessages(artifact.artifact_id) });
+        case 'send-message':
+          if (artifact.payment_state !== 'PAID') {
+            return res.status(403).json({ error: 'MESSAGING_REQUIRES_ACTIVE_PROJECT' });
+          }
+          sendProjectMessage({
+            artifact_id: artifact.artifact_id,
+            author_role: 'CLIENT',
+            body: String(body.body ?? ''),
+          });
+          await loadArtifactGraphByToken(token);
+          return res.status(200).json({ messages: listProjectMessages(artifact.artifact_id) });
         default:
           return res.status(400).json({ error: 'Unknown action' });
       }

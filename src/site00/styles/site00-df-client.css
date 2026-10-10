@@ -716,7 +716,7 @@ div.df-row__main {
   flex: 0 0 auto;
   width: 18.7px;
   height: 18.7px;
-  stroke-width: 0.15;
+  stroke-width: 1.65;
 }
 
 .df-row__text {
@@ -946,7 +946,7 @@ div.df-row__main {
 .df-disc svg {
   width: 7.15px;
   height: 7.15px;
-  stroke-width: 0.15;
+  stroke-width: 1.65;
 }
 
 .df-included--compact {
@@ -1393,7 +1393,7 @@ button.df-spec__btn {
 .df-confirm-card__disc svg {
   width: 15.4px;
   height: 15.4px;
-  stroke-width: 0.15;
+  stroke-width: 1.65;
 }
 
 .df-confirm-card__disc--clock,
@@ -1483,7 +1483,7 @@ button.df-spec__btn {
 .df-stage--complete .df-stage__node svg {
   width: 5.5px;
   height: 5.5px;
-  stroke-width: 0.15;
+  stroke-width: 1.65;
 }
 
 .df-stage--in_progress .df-stage__node {
@@ -2191,4 +2191,100 @@ button.df-spec__btn {
   .df-review__item {
     flex: 0 0 390px;
   }
+}
+
+/* ─── Project portal (P07–P10, records, preferences) ─────────────────────────────────────────── */
+
+.df-stages--roadmap .df-stage {
+  width: 100%;
+}
+
+button.df-stage {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 0;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+}
+
+.df-specs__rowbtn {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+}
+
+.df-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 12px 0 16px;
+}
+
+.df-chip {
+  min-height: 28px;
+  padding: 0 10px;
+  border: 1px solid var(--df-rule);
+  border-radius: 3px;
+  background: var(--df-surface);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--df-ink-2);
+  cursor: pointer;
+}
+
+.df-chip--on {
+  border-color: var(--df-red);
+  color: var(--df-red);
+}
+
+.df-action-card {
+  margin: 16px 0;
+  padding: 14px;
+  border: 1px solid var(--df-rule);
+  border-radius: 3px;
+  background: var(--df-card);
+}
+
+.df-action-card__title {
+  margin: 0 0 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.df-action-card__body {
+  margin: 0 0 12px;
+  font-size: 10px;
+  line-height: 1.5;
+  color: var(--df-ink-2);
+}
+
+.df-actions--inline {
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.df-input--area {
+  min-height: 72px;
+  resize: vertical;
+}
+
+.df-choice--locked {
+  opacity: 0.72;
+  pointer-events: none;
 }

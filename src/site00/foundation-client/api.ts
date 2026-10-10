@@ -107,6 +107,21 @@ export function acceptQuote(token: string, disclosures: readonly string[]): Prom
   return post(token, 'accept-quote', { disclosures: [...disclosures] });
 }
 
+export function completeClientAction(
+  token: string,
+  requestId: string,
+  response: Record<string, unknown>,
+): Promise<ClientDigitalFoundationPayload> {
+  return post(token, 'complete-client-action', { request_id: requestId, response });
+}
+
+export function updateCommunicationPreferences(
+  token: string,
+  preferences: { marketing_opt_in: boolean; project_operations: boolean; educational: boolean },
+): Promise<ClientDigitalFoundationPayload> {
+  return post(token, 'update-communication-preferences', { preferences });
+}
+
 export function startCheckout(
   token: string,
   origin: string,

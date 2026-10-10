@@ -20,10 +20,10 @@ import type { QuoteSyncStatus } from '../useFoundationArtifact';
 export const INCLUDED_SCOPE: { icon: DfIconName; label: string }[] = [
   { icon: 'globe', label: 'DOMAIN & OWNERSHIP' },
   { icon: 'envelope', label: 'PROFESSIONAL EMAIL' },
-  { icon: 'layers', label: 'EMAIL ALIASES' },
+  { icon: 'aliases', label: 'EMAIL ALIASES' },
   { icon: 'shield', label: 'SECURITY & AUTHENTICATION' },
-  { icon: 'document', label: 'EMAIL SIGNATURE' },
-  { icon: 'phone', label: 'DEVICE SETUP' },
+  { icon: 'signature', label: 'EMAIL SIGNATURE' },
+  { icon: 'device', label: 'DEVICE SETUP' },
 ];
 
 export function IncludedList({ compact = false }: { compact?: boolean }) {

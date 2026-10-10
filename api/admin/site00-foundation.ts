@@ -23,6 +23,11 @@ import {
   updateQuoteSelections,
 } from '../_lib/digitalFoundation/service.js';
 import { listArtifacts } from '../_lib/digitalFoundation/memoryStore.js';
+import {
+  listProjectMessages,
+  markProjectMessagesRead,
+  sendProjectMessage,
+} from '../_lib/digitalFoundation/messaging.js';
 import { syncAllArtifactsIntoMemory } from '../_lib/digitalFoundation/persistence/supabaseStore.js';
 import {
   activateRunbookForArtifact,
@@ -95,6 +100,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         case 'completion-gate': {
           const id = String(req.query.id ?? '');
           return res.status(200).json(assessArtifactCompletion(id));
+        }
+        case 'messages': {
+          const id = String(req.query.id ?? '');
+          markProjectMessagesRead({ artifact_id: id, reader_role: 'FOUNDER' });
+          return res.status(200).json({ messages: listProjectMessages(id) });
         }
         default:
           return res.status(400).json({ error: 'Unknown action' });
@@ -182,6 +192,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         case 'materialize-fixture':
           return res.status(200).json(await materializeFixtureScenario(String(body.fixture_id)));
+        case 'send-message':
+          sendProjectMessage({
+            artifact_id: String(body.artifact_id),
+            author_role: 'FOUNDER',
+            body: String(body.body ?? ''),
+          });
+          return res.status(200).json({ messages: listProjectMessages(String(body.artifact_id)) });
         default:
           return res.status(400).json({ error: 'Unknown action' });
       }
