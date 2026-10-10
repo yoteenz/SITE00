@@ -1,0 +1,104 @@
+[
+  {
+    "id": "A01",
+    "name": "P02 CONTINUE opens Business Ambition (G1) inside the same link",
+    "pass": true,
+    "detail": "12 canonical goals"
+  },
+  {
+    "id": "A02",
+    "name": "Multiple goals + adaptive follow-ups, saved to the server",
+    "pass": true,
+    "detail": "follow-ups: has_functioning_website,findable_in_search,has_professional_email,receiving_inquiries,applied_for_grants_before,business_stage,geographic_markets,industry,immediate_priority"
+  },
+  {
+    "id": "A03",
+    "name": "Foundation recommendation (P04) unchanged + Growth invite; nothing auto-added",
+    "pass": true,
+    "detail": "quote $500 · recs BGI.VISIBILITY_AUDIT,BGI.OPPORTUNITY_READINESS"
+  },
+  {
+    "id": "A04",
+    "name": "CONTINUE goes to the Growth Path (G2): readiness, recommendations, draft pricing as status",
+    "pass": true,
+    "detail": "2 service cards"
+  },
+  {
+    "id": "A05",
+    "name": "Explicit selection of one service: plan + full-project date update; Foundation ready unchanged",
+    "pass": true,
+    "detail": "full 2–10 business days"
+  },
+  {
+    "id": "A06",
+    "name": "Service inspection sheet: includes, excludes, dependencies, not payable today",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "A07",
+    "name": "Multiple services + explore all families (SALES SYSTEMS empty, package hidden)",
+    "pass": true,
+    "detail": "BGI.VISIBILITY_AUDIT,BGI.OPPORTUNITY_READINESS"
+  },
+  {
+    "id": "A08",
+    "name": "Investment + Delivery (G3): only Foundation in checkout; two distinct milestones",
+    "pass": true,
+    "detail": "total $500 · ready 2–3 BUSINESS DAYS · full 2–18 BUSINESS DAYS"
+  },
+  {
+    "id": "A09",
+    "name": "Growth Roadmap (G4) from the plan",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "A10",
+    "name": "Review (P05) keeps the Foundation checkout and states Growth is not charged",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "A11",
+    "name": "Returning client: a fresh visit restores goals + selections from the server",
+    "pass": true,
+    "detail": "BUSINESS GROWTH · OPTIONAL YOUR GROWTH PATH BE FOUND ONLINE · EXPLORE FUNDING OPPORTUNITIES · IMPROVE CREDIBILITY · 2 IN YOUR PLAN"
+  },
+  {
+    "id": "A12",
+    "name": "Portal continuity after the real webhook: overview Growth panel + roadmap lifecycle",
+    "pass": true,
+    "detail": "FOUNDATION IN PROGRESS"
+  },
+  {
+    "id": "B01",
+    "name": "Skip ambition → P03 → P04 → P05 with no Growth lines",
+    "pass": true,
+    "detail": "quote $500"
+  },
+  {
+    "id": "C01",
+    "name": "AIO client: partner card states separate company/billing; same SITE 00 base",
+    "pass": true,
+    "detail": "referrals 1"
+  },
+  {
+    "id": "C02",
+    "name": "BLDR handoff: month-scale, estimator-governed; interest recorded server-side",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "D01",
+    "name": "Network failure on selection: NOT SAVED shown, selection reverted",
+    "pass": true,
+    "detail": ""
+  },
+  {
+    "id": "Z01",
+    "name": "No console errors across scenarios",
+    "pass": true,
+    "detail": ""
+  }
+]
