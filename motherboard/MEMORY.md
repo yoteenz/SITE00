@@ -15702,6 +15702,16 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
+## 2026-10-08 — Opus Builder pinned on founder tunnel (PR #1524 @ c5e604e5)
+
+- **Context:** Sprint `P0.SITE00.BUILDER.HYBRID-SPATIAL-STUDIO.V1-FOUNDER-TUNNEL-DEPLOYMENT-AND-LIVE-VERIFICATION1` — deploy Opus five-screen studio without merging PR #1524.
+- **Topics covered:** `serve-site00-preview-from-pin-ref.sh`; worktree pinned `c5e604e5`; flags on dev Vite; `VITE_SITE00_PREVIEW_LOCAL_API` routes fsbw-dev dev HMR to same-origin `/api` + `SITE00_INTAKES_USE_MEMORY=1`; live tunnel QA all 5 rooms SAVED; screenshots in `/opt/cursor/artifacts/MOBILE_*.png`.
+- **Decisions / outcomes:** PR #1524 **NOT MERGED**; tunnel serves Opus implementation until pin reverted via `serve-site00-preview-from-main.sh`. Supabase durable persistence still **BLOCKED** (memory store only on preview).
+- **Changes:** PR #1526 — pin script + `site00ClientApiBase.ts` dev tunnel local API.
+- **Conventions:** Revert pin after Opus merges to main and `preview/tunnel` catches up.
+
+---
+
 ## 2026-10-08 — Builder contract reconciliation + founder preview readiness
 
 - **Context:** Sprint `P0.SITE00.BUILDER.HYBRID-SPATIAL-STUDIO.V1-COMPOSER-CONTRACT-RECONCILIATION-AND-FOUNDER-PREVIEW-READINESS1` — verify main contracts, Opus handoff, preview flags; no visual implementation.
@@ -15719,3 +15729,23 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decisions / outcomes:** Not enabled on `npm run build` / GoDaddy; restart Vite preview terminal after merge for flags to take effect.
 - **Changes:** `.cursor/scripts/run-site00-cloud-preview-server.sh`, `.env.example`, `AGENTS.md`.
 - **Conventions:** Do not add these flags to site00-production-deploy.yml without explicit founder release approval.
+
+---
+
+## 2026-10-09 — Build Object lighting flicker realism (P0 BLDR)
+
+- **Context:** Founder recording `ScreenRecording_10-09-2026 12-38-06_1.mp4` — Build Object flicker/strobe vs fluid architectural light. Sprint `P0.SITE00.BLDR.BUILD-OBJECT.LIGHTING-FLICKER-REALISM-CORRECTION1`.
+- **Root cause:** `engine.ts` — one-frame HDRI env intensity jump (0.55→0.95); ~20fps idle `setTimeout` render stepping on glass; no localized light layers.
+- **Fix:** Env crossfade; continuous rAF idle; `applyArchitecturalLighting()` with desynced 5–8s cycles (sun/rim/glass envMap/red emissive); reduced motion static; softer camera sway.
+- **QA:** Mobile Q19/Q20 PASS; artifacts `/opt/cursor/artifacts/bldr-lighting-*`; tunnel Vite on workspace branch.
+- **Branch:** `cursor/bldr-build-object-lighting-flicker-realism-correction1` from `fb7f24f4` (builder-studio not on main).
+
+---
+
+## 2026-10-09 — Build Object flicker forensic isolation 2 (P0 BLDR)
+
+- **Context:** Founder still saw flicker after lighting realism sprint 1. Sprint `P0.SITE00.BLDR.BUILD-OBJECT.FLICKER-ELIMINATION-FORENSIC-ISOLATION2`.
+- **Root cause:** Idle RAF + per-frame accent/envMap/emissive animation plus transparent mesh sort instability (not z-fighting; no post-FX).
+- **Fix:** Production static lighting; render on demand when idle; forensic URL modes; stable renderOrder; Q19 luminance stability QA.
+- **Artifacts:** `artifacts/site00-bldr-build-object-flicker/FLICKER_ROOT_CAUSE.md`; `/opt/cursor/artifacts/site00-bldr-build-object-flicker/*.mp4`.
+- **Branch:** `cursor/bldr-build-object-flicker-elimination-forensic-isolation2-0daf`.

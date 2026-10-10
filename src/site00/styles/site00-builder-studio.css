@@ -1,46 +1,56 @@
 /**
  * SITE 00 Builder — Hybrid Spatial Studio.
- * Mobile authority: the two founder-approved references (rooms 01–04, Blueprint 05), measured at 390px width.
- * Luminous warm off-white, black, SITE 00 red. Condensed display headlines, tracked uppercase UI.
+ * Authority: the two founder-approved references (rooms 01–04, Blueprint 05), measured in CSS px of a 393px phone.
+ *
+ * Typography is identified from the references by pixel comparison (glyph-mask overlap, stroke density and width
+ * against 24 open-licence candidates; see hybrid-spatial-studio/REFERENCE_FIDELITY_2.md):
+ *   display headline  → Oswald 600            (square full stop, straight R leg, narrow oval O; density 0.557 vs 0.57)
+ *   values and labels → Barlow Semi Condensed 700 (fact values, card and option titles, CTA)
+ *   wordmark          → Barlow 700, tracked .22em
+ *   UI text           → Roboto 400, tracked ~.18em (lede, sub-labels, tabs)
+ * All four are SIL OFL 1.1, self-hosted under public/site00/fonts (Barlow Semi Condensed 300–600 were already there).
+ * Studio-scoped family names keep these faces from colliding with any other surface.
  */
 
 body.bs-body {
   margin: 0;
-  background: #f2f0ec;
+  background: #f5f3f3;
 }
 
-@font-face {
-  font-family: 'BS Display';
-  src: url('/site00/fonts/anton/anton-400-latin.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'BS Sans';
-  src: url('/site00/fonts/inter/inter-variable-latin.woff2') format('woff2');
-  font-weight: 300 700;
-  font-style: normal;
-  font-display: swap;
-}
+@font-face { font-family: 'BS Display'; font-style: normal; font-weight: 500; font-display: swap; src: url('/site00/fonts/oswald/oswald-500.woff2') format('woff2'); }
+@font-face { font-family: 'BS Display'; font-style: normal; font-weight: 600; font-display: swap; src: url('/site00/fonts/oswald/oswald-600.woff2') format('woff2'); }
+@font-face { font-family: 'BS Mark'; font-style: normal; font-weight: 400; font-display: swap; src: url('/site00/fonts/barlow/barlow-400.woff2') format('woff2'); }
+@font-face { font-family: 'BS Mark'; font-style: normal; font-weight: 500; font-display: swap; src: url('/site00/fonts/barlow/barlow-500.woff2') format('woff2'); }
+@font-face { font-family: 'BS Mark'; font-style: normal; font-weight: 700; font-display: swap; src: url('/site00/fonts/barlow/barlow-700.woff2') format('woff2'); }
+@font-face { font-family: 'BS Value'; font-style: normal; font-weight: 500; font-display: swap; src: url('/site00/fonts/barlow-semi-condensed/barlow-semi-condensed-500.woff2') format('woff2'); }
+@font-face { font-family: 'BS Value'; font-style: normal; font-weight: 600; font-display: swap; src: url('/site00/fonts/barlow-semi-condensed/barlow-semi-condensed-600.woff2') format('woff2'); }
+@font-face { font-family: 'BS Value'; font-style: normal; font-weight: 700; font-display: swap; src: url('/site00/fonts/barlow-semi-condensed/barlow-semi-condensed-700.woff2') format('woff2'); }
+@font-face { font-family: 'BS Sans'; font-style: normal; font-weight: 400; font-display: swap; src: url('/site00/fonts/roboto/roboto-400.woff2') format('woff2'); }
+@font-face { font-family: 'BS Sans'; font-style: normal; font-weight: 500; font-display: swap; src: url('/site00/fonts/roboto/roboto-500.woff2') format('woff2'); }
 
 .bs-root {
-  --bs-bg: #f2f0ec;
-  --bs-paper: #f8f7f4;
-  --bs-card: rgba(255, 255, 255, 0.58);
-  --bs-ink: #0c0c0c;
-  --bs-ink-2: #2b2b2b;
-  --bs-muted: #6f6b66;
-  --bs-faint: #a6a29c;
-  --bs-line: rgba(12, 12, 12, 0.11);
-  --bs-line-strong: rgba(12, 12, 12, 0.24);
-  --bs-red: #d8121f;
-  --bs-red-hi: #e5222a;
-  --bs-red-deep: #b70c17;
-  --bs-display: 'BS Display', 'Anton', 'Haettenschweiler', 'Arial Narrow', sans-serif;
-  --bs-sans: 'BS Sans', 'Inter', 'Helvetica Neue', Arial, sans-serif;
-  --bs-gutter: 20px;
+  /* Sampled from the approved references: near-neutral off-white (faintly warm, never beige), black ink, pure red. */
+  --bs-bg: #f5f3f3;
+  --bs-paper: #f9f8f8;
+  --bs-card: rgba(255, 255, 255, 0.6);
+  --bs-card-solid: #fdfcfc;
+  --bs-ink: #0a0a0a;
+  --bs-ink-2: #3f3d3d;
+  --bs-muted: #77736f;
+  --bs-faint: #a8a4a1;
+  --bs-line: #e6e2e0;
+  --bs-line-strong: #cec9c6;
+  --bs-silver: #d9d6d4;
+  --bs-red: #e50107;
+  --bs-red-hi: #f3140f;
+  --bs-red-deep: #bd0006;
+  --bs-red-tint: rgba(229, 1, 7, 0.06);
+  --bs-display: 'BS Display', 'Arial Narrow', sans-serif;
+  --bs-value: 'BS Value', 'Arial Narrow', sans-serif;
+  --bs-mark: 'BS Mark', 'Helvetica Neue', Arial, sans-serif;
+  --bs-sans: 'BS Sans', 'Helvetica Neue', Arial, sans-serif;
+  /* Text sits on a 33px gutter at phone width (scaling down on narrow screens); card grids and the CTA reach wider (20px / 27px), as drawn. */
+  --bs-gutter: clamp(20px, 8.4vw, 33px);
 
   position: relative;
   box-sizing: border-box;
@@ -49,10 +59,14 @@ body.bs-body {
   min-height: 100dvh;
   padding: max(14px, env(safe-area-inset-top)) var(--bs-gutter) max(12px, env(safe-area-inset-bottom));
   overflow-x: hidden;
+  /* clip (not hidden) so the root never becomes a scroll container: the Blueprint stage can stay sticky. */
+  overflow-x: clip;
   background: var(--bs-bg);
   color: var(--bs-ink);
   font-family: var(--bs-sans);
   font-weight: 400;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -74,6 +88,11 @@ body.bs-body {
 
 :where(.bs-root) :where(button:disabled, [aria-disabled='true']) {
   cursor: not-allowed;
+}
+
+/* Typed values stay as typed (emails, notes); the UI copy around them is uppercase. */
+:where(.bs-root, .bs-sheet-backdrop) :where(input, textarea) {
+  text-transform: none;
 }
 
 .bs-root :focus-visible {
@@ -109,16 +128,16 @@ body.bs-body {
 }
 
 .bs-wordmark__site {
-  font-size: 18px;
+  font-size: 19px;
   font-weight: 600;
-  letter-spacing: 0.21em;
+  letter-spacing: 0.2em;
   line-height: 1;
 }
 
 .bs-wordmark__product {
   font-size: 9.5px;
   font-weight: 500;
-  letter-spacing: 0.34em;
+  letter-spacing: 0.36em;
   color: var(--bs-muted);
 }
 
@@ -146,42 +165,48 @@ body.bs-body {
 .bs-roomid {
   display: flex;
   align-items: center;
-  gap: 9px;
-  margin: 13px 0 0;
+  gap: 10px;
+  margin: 16px 0 0;
 }
 
 .bs-roomid__n {
   font-family: var(--bs-display);
-  font-size: 19px;
+  font-size: 18px;
+  font-weight: 600;
   line-height: 1;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
   color: var(--bs-red);
 }
 
 .bs-roomid__rule {
-  width: 18px;
+  width: 20px;
   height: 1px;
-  background: var(--bs-faint);
+  background: var(--bs-line-strong);
 }
 
 .bs-roomid__label {
   font-size: 10.5px;
-  font-weight: 500;
-  letter-spacing: 0.24em;
+  font-weight: 600;
+  letter-spacing: 0.28em;
   color: var(--bs-ink-2);
 }
 
+/* Builder display: the workspace face at its heaviest cut, set tight. Lines break where the reference breaks them. */
 .bs-headline {
   display: flex;
   flex-direction: column;
-  margin: 9px 0 0;
+  margin: 10px 0 0;
   font-family: var(--bs-display);
-  font-size: clamp(46px, 13.8vw, 56px);
-  font-weight: 400;
-  line-height: 0.88;
-  letter-spacing: 0.004em;
+  font-size: clamp(38px, 11.3vw, 46px);
+  font-weight: 700;
+  line-height: 0.97;
+  letter-spacing: 0.012em;
   text-transform: uppercase;
   color: var(--bs-ink);
+}
+
+.bs-headline__line {
+  white-space: nowrap;
 }
 
 .bs-dot {
@@ -189,14 +214,15 @@ body.bs-body {
 }
 
 .bs-lede {
-  max-width: 312px;
-  margin: 10px 0 0;
-  font-size: 12.4px;
+  max-width: 318px;
+  margin: 12px 0 0;
+  font-size: 11.6px;
   font-weight: 400;
-  line-height: 1.55;
-  letter-spacing: 0.19em;
+  line-height: 1.58;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--bs-ink-2);
+  text-wrap: pretty;
 }
 
 /* ─────────────────────────────── stage ─────────────────────────────── */
@@ -228,6 +254,18 @@ body.bs-body {
   display: block;
   width: 100% !important;
   height: 100% !important;
+  opacity: 0;
+  transition: opacity 480ms ease-out;
+}
+
+.bs-object__host[data-env='ready'] .bs-object__canvas,
+.bs-object__host[data-env='fallback'] .bs-object__canvas {
+  opacity: 1;
+}
+
+.bs-object__host.bs-object__host--no-canvas-fade .bs-object__canvas {
+  opacity: 1;
+  transition: none;
 }
 
 .bs-object__fallback {
@@ -1556,6 +1594,1050 @@ body.bs-body {
 .bs-dialog__text--small { margin: 10px 0 0; font-size: 8.6px; text-align: center; color: var(--bs-muted); }
 .bs-dialog .bs-lines { margin: 14px 0 0; }
 
+/* ═══════════════════════ CREATIVE REFINEMENT 1 — workspace type, inspection modes, proposal ═══════════════════════ */
+
+/* Display weights for the workspace face wherever the old display face was used. */
+.bs-roomid__n,
+.bs-dialog__title,
+.bs-menu__n,
+.bs-menu__label,
+.bs-review__label {
+  font-weight: 700;
+}
+
+.bs-menu__label { letter-spacing: 0.02em; }
+.bs-menu__n { font-weight: 600; font-size: 17px; }
+
+/* Controls: crisp white plates on the luminous ground, hairline workspace lines. */
+.bs-card,
+.bs-strip__item,
+.bs-core,
+.bs-pace,
+.bs-config__card,
+.bs-notes textarea {
+  border-color: var(--bs-line);
+  background: var(--bs-card);
+  box-shadow: 0 1px 0 rgba(17, 17, 20, 0.02), 0 10px 24px -18px rgba(17, 17, 20, 0.22);
+}
+
+.bs-card { border-radius: 4px; padding: 5px 6px 9px; }
+.bs-card.is-selected,
+.bs-strip__item.is-selected { border-color: var(--bs-red); box-shadow: 0 0 0 1px var(--bs-red), 0 12px 26px -18px rgba(229, 35, 27, 0.45); }
+.bs-card__label { margin-top: 7px; font-size: 13.5px; font-weight: 700; letter-spacing: 0.14em; }
+.bs-card__sub { font-size: 9px; letter-spacing: 0.13em; line-height: 1.4; }
+.bs-strip__label { font-size: 9.6px; font-weight: 700; letter-spacing: 0.12em; }
+.bs-feel-caption__label { font-size: 20px; font-weight: 700; letter-spacing: 0.16em; }
+.bs-feel-caption__sub { font-size: 10px; letter-spacing: 0.26em; }
+.bs-module__label { font-size: 9.6px; font-weight: 700; letter-spacing: 0.12em; }
+.bs-module__toggle { border-color: var(--bs-ink); background: rgba(255, 255, 255, 0.92); }
+.bs-pace__label { font-size: 13.5px; font-weight: 700; letter-spacing: 0.14em; }
+.bs-pace__sub { font-size: 9px; letter-spacing: 0.16em; }
+.bs-pace__row.is-selected { background: linear-gradient(90deg, var(--bs-red-tint), rgba(229, 35, 27, 0) 70%); }
+.bs-core__head { font-size: 10px; font-weight: 700; letter-spacing: 0.16em; }
+.bs-core__tile { background: var(--bs-card-solid); font-size: 8.6px; font-weight: 700; }
+.bs-note { font-size: 9px; letter-spacing: 0.14em; }
+
+.bs-cta {
+  min-height: 46px;
+  border-radius: 3px;
+  background: linear-gradient(180deg, #ef2a21 0%, var(--bs-red) 48%, #cf1d16 100%);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.26em;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 10px 22px -12px rgba(229, 35, 27, 0.55);
+}
+
+.bs-cta--outline { background: transparent; box-shadow: none; }
+.bs-rail { font-size: 10px; letter-spacing: 0.18em; }
+.bs-rail__label { font-weight: 700; }
+.bs-rail__seg.is-filled::before { background: var(--bs-red); }
+
+/* Blueprint facts: workspace numerals. */
+.bs-fact__label { font-size: 7.6px; font-weight: 600; letter-spacing: 0.12em; }
+.bs-fact__value,
+.bs-figure { font-size: clamp(12.5px, 3.7vw, 16px); font-weight: 700; letter-spacing: 0.02em; }
+.bs-fact__sub { font-size: 7.8px; letter-spacing: 0.06em; line-height: 1.42; }
+.bs-config-head h2 { font-size: 10.6px; font-weight: 600; letter-spacing: 0.26em; }
+.bs-config__label { font-size: 7.4px; font-weight: 600; letter-spacing: 0.12em; }
+.bs-config__value { font-size: 8.8px; letter-spacing: 0.1em; }
+
+/* ── Blueprint tabs: five indexed inspection modes, one sliding red index line. ── */
+.bs-tabs {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0;
+  margin-top: 10px;
+  border-top: 1px solid var(--bs-line);
+  border-bottom: 1px solid var(--bs-line);
+}
+
+.bs-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  min-width: 0;
+  padding: 9px 2px 10px;
+  color: var(--bs-faint);
+  text-align: left;
+  transition: color 180ms ease;
+}
+
+.bs-tab + .bs-tab { padding-left: 7px; border-left: 1px solid rgba(17, 17, 20, 0.05); }
+.bs-tab__n { font-size: 8px; font-weight: 600; letter-spacing: 0.14em; color: var(--bs-faint); }
+.bs-tab__label { max-width: 100%; overflow: hidden; font-size: 9.4px; font-weight: 600; letter-spacing: 0.1em; text-overflow: ellipsis; white-space: nowrap; }
+.bs-tab:hover { color: var(--bs-ink-2); }
+.bs-tab.is-on { color: var(--bs-ink); }
+.bs-tab.is-on .bs-tab__n { color: var(--bs-red); }
+.bs-tab.is-on::after { content: none; }
+
+.bs-tabs__ink {
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 20%;
+  height: 2px;
+  background: var(--bs-red);
+  transform: translateX(calc(var(--bs-tab-i, 0) * 100%));
+  transition: transform 260ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.bs-tabs__ink::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 6px;
+  height: 6px;
+  background: var(--bs-red);
+}
+
+.bs-mode {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 12px 0 0;
+  font-size: 8.6px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  color: var(--bs-muted);
+}
+
+.bs-mode__n { color: var(--bs-red); }
+.bs-mode__rule { width: 18px; height: 1px; background: var(--bs-line-strong); }
+
+.bs-tabpanel { padding-top: 12px; animation: bs-reveal 260ms ease both; }
+
+@keyframes bs-reveal {
+  from { opacity: 0; transform: translateY(6px); }
+}
+
+.bs-sheet__lead,
+.bs-sheet__hint,
+.bs-sheet__title { text-transform: uppercase; }
+.bs-sheet__title { font-weight: 700; letter-spacing: 0.24em; }
+.bs-sheet__hint { font-size: 8.8px; letter-spacing: 0.12em; }
+
+/* STRUCTURE: a keystone and strata from the foundation up. */
+.bs-keystone {
+  display: grid;
+  gap: 4px;
+  padding: 12px 14px;
+  border: 1px solid var(--bs-line);
+  border-left: 3px solid var(--bs-ink);
+  border-radius: 3px;
+  background: var(--bs-card-solid);
+}
+
+.bs-keystone__label { font-size: 8px; font-weight: 600; letter-spacing: 0.2em; color: var(--bs-muted); }
+.bs-keystone__value { font-size: 22px; font-weight: 700; letter-spacing: 0.06em; line-height: 1; }
+.bs-keystone__sub { font-size: 8.8px; line-height: 1.55; letter-spacing: 0.1em; color: var(--bs-ink-2); }
+
+.bs-strata {
+  position: relative;
+  margin: 14px 0 0;
+  padding: 0 0 0 30px;
+  list-style: none;
+}
+
+.bs-strata::before {
+  content: '';
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: 11px;
+  width: 1px;
+  background: var(--bs-line-strong);
+}
+
+.bs-stratum {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--bs-line);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+}
+
+.bs-stratum__n {
+  position: absolute;
+  left: -30px;
+  top: 7px;
+  display: grid;
+  place-items: center;
+  width: 23px;
+  height: 15px;
+  border: 1px solid var(--bs-line-strong);
+  background: var(--bs-paper);
+  font-size: 7.2px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--bs-ink-2);
+}
+
+.bs-stratum.is-open .bs-stratum__n { border-style: dashed; color: var(--bs-red); border-color: var(--bs-red); }
+.bs-stratum__label { color: var(--bs-muted); font-weight: 600; }
+.bs-stratum__value { font-weight: 700; color: var(--bs-ink); }
+.bs-stratum__value em { margin-left: 6px; font-style: normal; font-size: 7.4px; font-weight: 600; letter-spacing: 0.16em; color: var(--bs-muted); }
+.bs-stratum__value em.is-red { color: var(--bs-red); }
+
+/* PAGES: a count and page plates per group. */
+.bs-count { display: flex; align-items: baseline; gap: 12px; margin: 0 0 6px; }
+.bs-count__value { font-size: 38px; font-weight: 700; line-height: 0.9; letter-spacing: 0.02em; }
+.bs-count__label { max-width: 210px; font-size: 8.6px; font-weight: 600; line-height: 1.5; letter-spacing: 0.16em; color: var(--bs-muted); }
+
+.bs-pagegroup__title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 14px 0 8px;
+  font-size: 8.6px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+}
+
+.bs-pagegroup__title::after { content: ''; flex: 1; height: 1px; background: var(--bs-line); }
+.bs-pagegroup__title span { order: 2; color: var(--bs-red); }
+
+.bs-plates {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bs-plate {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 2px 8px;
+  padding: 8px 9px;
+  border: 1px solid var(--bs-line);
+  border-radius: 3px;
+  background: var(--bs-card-solid);
+}
+
+.bs-plate__n { grid-row: span 2; font-size: 8px; font-weight: 700; letter-spacing: 0.08em; color: var(--bs-red); }
+.bs-plate__label { font-size: 9.4px; font-weight: 700; letter-spacing: 0.1em; }
+.bs-plate__depth { font-size: 7.6px; letter-spacing: 0.14em; color: var(--bs-muted); }
+
+/* FEATURES: a capability tree growing from the core. */
+.bs-tree__root {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 3px;
+  background: var(--bs-ink);
+  color: #fff;
+}
+
+.bs-tree__root-label { font-size: 8px; font-weight: 700; letter-spacing: 0.24em; color: var(--bs-red-hi); }
+.bs-tree__root-value { font-size: 10.4px; font-weight: 700; letter-spacing: 0.16em; }
+
+.bs-tree {
+  position: relative;
+  margin: 0;
+  padding: 4px 0 0 26px;
+  list-style: none;
+}
+
+.bs-tree::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 18px;
+  left: 12px;
+  width: 1px;
+  background: var(--bs-line-strong);
+}
+
+.bs-tree__branch {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 2px 10px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--bs-line);
+}
+
+.bs-tree__branch::before {
+  content: '';
+  position: absolute;
+  left: -14px;
+  top: 16px;
+  width: 10px;
+  height: 1px;
+  background: var(--bs-line-strong);
+}
+
+.bs-tree__branch.is-linked::before { background: var(--bs-red); }
+.bs-tree__n { grid-row: span 2; font-size: 8px; font-weight: 700; letter-spacing: 0.08em; color: var(--bs-red); }
+.bs-tree__verb { font-size: 10.2px; font-weight: 700; letter-spacing: 0.14em; }
+.bs-tree__plain { font-size: 8.2px; line-height: 1.5; letter-spacing: 0.1em; color: var(--bs-muted); }
+.bs-tree__branch em { grid-column: 2; font-style: normal; font-size: 7.6px; font-weight: 600; letter-spacing: 0.16em; color: var(--bs-red); }
+
+/* TIMELINE: two production lanes, then numbered steps. */
+.bs-lanes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+
+.bs-lane {
+  display: grid;
+  gap: 4px;
+  padding: 11px 12px;
+  border: 1px solid var(--bs-line);
+  border-radius: 3px;
+  background: var(--bs-card-solid);
+}
+
+.bs-lane.is-chosen { border-color: var(--bs-red); box-shadow: inset 3px 0 0 var(--bs-red); }
+.bs-lane.is-unavailable { opacity: 0.55; }
+.bs-lane__label { display: flex; align-items: center; justify-content: space-between; gap: 6px; font-size: 8.4px; font-weight: 700; letter-spacing: 0.18em; color: var(--bs-muted); }
+.bs-lane__label em { font-style: normal; font-size: 7px; letter-spacing: 0.14em; color: var(--bs-red); }
+.bs-lane__window { font-size: 15px; font-weight: 700; letter-spacing: 0.04em; }
+.bs-lane__sub { font-size: 8px; letter-spacing: 0.1em; color: var(--bs-ink-2); }
+
+.bs-steps {
+  position: relative;
+  margin: 0;
+  padding: 0 0 0 30px;
+  list-style: none;
+}
+
+.bs-steps::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 10px;
+  width: 1px;
+  background: var(--bs-line-strong);
+}
+
+.bs-steps li {
+  position: relative;
+  padding: 7px 0;
+  font-size: 8.8px;
+  line-height: 1.55;
+  letter-spacing: 0.1em;
+  color: var(--bs-ink-2);
+}
+
+.bs-steps__n {
+  position: absolute;
+  left: -30px;
+  top: 6px;
+  display: grid;
+  place-items: center;
+  width: 21px;
+  height: 17px;
+  border: 1px solid var(--bs-line-strong);
+  background: var(--bs-paper);
+  font-size: 7.4px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--bs-ink);
+}
+
+.bs-steps--deps .bs-steps__n { width: 7px; height: 7px; left: -23px; top: 11px; border: 0; background: var(--bs-red); }
+
+/* Status track: submitted → founder review → decision. */
+.bs-track {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bs-track__step {
+  position: relative;
+  display: grid;
+  gap: 3px;
+  padding: 0 6px 0 0;
+}
+
+.bs-track__step::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: 24px;
+  right: 4px;
+  height: 1px;
+  background: var(--bs-line-strong);
+}
+
+.bs-track__step:last-child::before { content: none; }
+.bs-track__step.is-done::before { background: var(--bs-ink); }
+
+.bs-track__node {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 21px;
+  height: 21px;
+  border: 1px solid var(--bs-line-strong);
+  border-radius: 2px;
+  background: var(--bs-paper);
+  font-size: 8px;
+  font-weight: 700;
+  color: var(--bs-muted);
+}
+
+.bs-track__step.is-done .bs-track__node { border-color: var(--bs-ink); background: var(--bs-ink); color: #fff; }
+.bs-track__step.is-current .bs-track__node { border-color: var(--bs-red); color: var(--bs-red); box-shadow: 0 0 0 3px var(--bs-red-tint); }
+.bs-track__step.is-attention .bs-track__node { border-color: var(--bs-red); background: var(--bs-red); color: #fff; }
+.bs-track__label { margin-top: 5px; font-size: 8.6px; font-weight: 700; letter-spacing: 0.14em; }
+.bs-track__step.is-pending .bs-track__label { color: var(--bs-muted); }
+.bs-track__sub { font-size: 7.4px; letter-spacing: 0.14em; color: var(--bs-muted); }
+.bs-track__step.is-attention .bs-track__label,
+.bs-track__step.is-current .bs-track__label { color: var(--bs-ink); }
+.bs-track--compact { margin-top: 12px; }
+
+/* Final confirmation: a proposal sheet, not an admin form. */
+.bs-dialog { border-top: 3px solid var(--bs-red); background: var(--bs-paper); }
+
+.bs-dialog__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 8px;
+  font-size: 8.8px;
+  font-weight: 600;
+  letter-spacing: 0.26em;
+  color: var(--bs-muted);
+}
+
+.bs-dialog__eyebrow span { color: var(--bs-red); font-size: 13px; font-weight: 700; letter-spacing: 0.06em; }
+.bs-dialog__title { font-size: 32px; line-height: 0.98; letter-spacing: 0.01em; }
+
+.bs-dialog__plate {
+  margin: 14px -6px 2px;
+  border: 1px solid var(--bs-line);
+  border-radius: 3px;
+  background: var(--bs-card-solid);
+  overflow: hidden;
+}
+
+.bs-dialog__plate .bs-thumb { width: 100%; background: #f4f4f6; }
+
+.bs-proposal { margin: 12px 0 0; }
+
+.bs-proposal__row {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: 10px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--bs-line);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+}
+
+.bs-proposal__row dt { display: flex; align-items: center; gap: 8px; color: var(--bs-muted); font-weight: 600; }
+.bs-proposal__n { font-size: 8px; font-weight: 700; color: var(--bs-red); }
+.bs-proposal__row dd { margin: 0; font-weight: 700; color: var(--bs-ink); }
+
+.bs-proposal__range {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 2px 10px;
+  margin: 10px 0 0;
+  padding: 11px 12px;
+  border-radius: 3px;
+  background: var(--bs-ink);
+  color: #fff;
+}
+
+.bs-proposal__range-label { grid-column: 1 / -1; font-size: 7.6px; font-weight: 600; letter-spacing: 0.22em; color: rgba(255, 255, 255, 0.62); }
+.bs-proposal__range-value { font-size: 17px; font-weight: 700; letter-spacing: 0.03em; }
+.bs-proposal__range-sub { align-self: end; font-size: 9px; font-weight: 600; letter-spacing: 0.14em; color: rgba(255, 255, 255, 0.82); }
+
+.bs-dialog__seal {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  margin: 4px 0 12px;
+  border-radius: 3px;
+  background: var(--bs-red);
+  color: #fff;
+  font-size: 22px;
+  font-weight: 700;
+  box-shadow: 0 12px 26px -14px rgba(229, 35, 27, 0.7);
+}
+
+.bs-review { border-color: var(--bs-line); border-left-color: var(--bs-ink); background: var(--bs-card-solid); }
+.bs-review__label { font-size: 21px; letter-spacing: 0.04em; }
+
+
+/* ═══════════════════════ REFERENCE FIDELITY 2 — measured from the approved references ═══════════════════════
+   Every value below is read from the references at CSS scale (393px phone): cap heights → font sizes through each
+   face's measured cap ratio (Oswald .81 · Roboto .71 · Barlow / Barlow Semi Condensed .70), positions → gutters
+   and gaps. Horizontal geometry is the reference's; vertical rhythm is redistributed so rooms 01–04 fit one
+   390×844 / 393×852 screen (the drawn phones are ~1.3× taller than a real one). */
+
+.bs-root {
+  padding-top: max(20px, env(safe-area-inset-top));
+  font-family: var(--bs-sans);
+  letter-spacing: 0.14em;
+}
+
+/* Header: SITE 00 (Barlow 700, cap 13) over BUILDER (Barlow 400, cap 8.5). */
+.bs-wordmark { gap: 5px; }
+.bs-wordmark__site { font-family: var(--bs-mark); font-size: 18.5px; font-weight: 700; letter-spacing: 0.22em; line-height: 1; }
+.bs-wordmark__product { font-family: var(--bs-mark); font-size: 12.5px; font-weight: 500; letter-spacing: 0.25em; line-height: 1; color: var(--bs-ink-2); }
+.bs-save { font-family: var(--bs-sans); }
+
+/* Room index: red Oswald numeral, short rule, Roboto label. */
+.bs-roomid { gap: 9px; margin: 18px 0 0; }
+.bs-roomid__n { font-family: var(--bs-display); font-size: 17.5px; font-weight: 500; letter-spacing: 0.02em; color: var(--bs-red); }
+.bs-roomid__rule { width: 10px; background: var(--bs-faint); }
+.bs-roomid__label { font-family: var(--bs-sans); font-size: 13px; font-weight: 400; letter-spacing: 0.13em; color: var(--bs-ink-2); }
+
+/* Headline: Oswald 600, cap 44 (54px), pitch 51, tracking −.027em; the full stop is Oswald's own square. */
+.bs-headline {
+  margin: 10px 0 0;
+  font-family: var(--bs-display);
+  font-size: min(54px, 13.85vw);
+  font-weight: 600;
+  line-height: 0.94;
+  letter-spacing: -0.027em;
+  color: var(--bs-ink);
+}
+
+/* Lede: Roboto 400, cap 9.4 (13.2px), pitch 19.6, tracked .27em — 10.8px per character, as measured. */
+.bs-lede {
+  max-width: 318px;
+  margin: 12px 0 0;
+  font-family: var(--bs-sans);
+  font-size: 13.2px;
+  font-weight: 400;
+  line-height: 19.6px;
+  letter-spacing: 0.27em;
+  color: var(--bs-ink-2);
+  text-wrap: pretty;
+}
+
+/* Stage minimums: the stage then takes whatever the room leaves on the screen. */
+.bs-stage--place { --bs-stage-h: 150px; }
+.bs-stage--feel { --bs-stage-h: 200px; }
+.bs-stage--work { --bs-stage-h: 300px; }
+.bs-stage--pace { --bs-stage-h: 170px; }
+.bs-stage--blueprint { --bs-stage-h: 236px; }
+
+.bs-room--place .bs-stage-wrap,
+.bs-room--feel .bs-stage-wrap,
+.bs-room--work .bs-stage-wrap,
+.bs-room--pace .bs-stage-wrap { margin-top: -38px; }
+
+.bs-arrow { color: rgba(10, 10, 10, 0.55); }
+.bs-arrow--prev { left: 14px; }
+.bs-arrow--next { right: 14px; }
+
+/* Composited stage: a photographic environment plate (interim, from SITE 00's atrium render — see
+   build-env-plates.cjs) behind the transparent live canvas, faded into the page on all four edges. */
+.bs-object__host {
+  background: var(--bs-plate, none) center 62% / cover no-repeat;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 7%, #000 93%, transparent 100%), linear-gradient(180deg, transparent 0%, #000 12%, #000 86%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(90deg, transparent 0%, #000 7%, #000 93%, transparent 100%), linear-gradient(180deg, transparent 0%, #000 12%, #000 86%, transparent 100%);
+  mask-composite: intersect;
+}
+.bs-stage--place { --bs-plate: url('/site00/builder-studio/env/place.webp'); }
+.bs-stage--feel { --bs-plate: url('/site00/builder-studio/env/feel.webp'); }
+.bs-stage--work { --bs-plate: url('/site00/builder-studio/env/work.webp'); }
+.bs-stage--pace { --bs-plate: url('/site00/builder-studio/env/pace.webp'); }
+.bs-stage--blueprint { --bs-plate: url('/site00/builder-studio/env/blueprint.webp'); }
+.bs-stage-wrap:fullscreen .bs-object__host,
+.bs-stage-wrap.is-expanded .bs-object__host { -webkit-mask-image: none; mask-image: none; }
+
+/* 01 PLACE: 2×2 cards on a 20px edge, 11px column gap, 10px row gap. */
+.bs-cards { gap: 10px 11px; margin: 0 -13px; }
+.bs-card { padding: 7px 8px 10px; border-radius: 6px; border-color: var(--bs-line); background: rgba(255, 255, 255, 0.5); box-shadow: none; }
+.bs-card.is-selected { border-color: var(--bs-red); box-shadow: 0 0 0 1px var(--bs-red); }
+/* Option stills sit on the room's photographic plate, as the reference cards read. */
+.bs-card .bs-thumb { width: 60%; height: 52px; border-radius: 3px; background: url('/site00/builder-studio/env/place.webp') center 70% / cover; }
+.bs-card__label { margin-top: 5px; font-family: var(--bs-value); font-size: 15px; font-weight: 700; letter-spacing: 0.1em; line-height: 1; }
+.bs-card__sub { max-width: 124px; margin-top: 3px; font-family: var(--bs-sans); font-size: 11px; letter-spacing: 0.16em; line-height: 13.5px; color: var(--bs-muted); }
+
+/* 02 FEEL: caption (Barlow Semi Condensed 700, cap 14) and a strip of four 85px cards on an 8px gap. */
+.bs-feel-caption { margin-top: 4px; }
+.bs-feel-caption__label { font-family: var(--bs-value); font-size: 20px; font-weight: 700; letter-spacing: 0.13em; line-height: 1; }
+.bs-feel-caption__sub { margin-top: 8px; font-family: var(--bs-sans); font-size: 12px; letter-spacing: 0.2em; color: var(--bs-muted); }
+.bs-strip { gap: 8px; margin: 14px -16px 0; padding: 2px 0 4px; overflow: visible; }
+.bs-strip__item { flex: 1 1 0; min-width: 0; padding: 3px 3px 8px; border-radius: 4px; border-color: var(--bs-line); background: rgba(255, 255, 255, 0.5); box-shadow: none; }
+.bs-strip__item.is-selected { border-color: var(--bs-red); box-shadow: 0 0 0 1px var(--bs-red); }
+.bs-strip__item .bs-thumb { height: 74px; border-radius: 3px; background: url('/site00/builder-studio/env/feel.webp') center 65% / cover; }
+.bs-strip__label { margin-top: 7px; font-family: var(--bs-value); font-size: 12.5px; font-weight: 700; letter-spacing: 0.06em; }
+
+/* 03 WORK: capability toggles beside the structure, label over a 28px outlined plus. */
+.bs-module { gap: 7px; }
+.bs-module__label { font-family: var(--bs-value); font-size: 12.5px; font-weight: 700; letter-spacing: 0.08em; line-height: 1.15; color: var(--bs-ink); }
+.bs-module__toggle { width: 28px; height: 28px; border: 1.3px solid var(--bs-ink); background: rgba(255, 255, 255, 0.85); }
+.bs-module__toggle.is-on { border-color: var(--bs-red); background: var(--bs-red); color: #fff; }
+.bs-core { margin: 0 -13px; padding: 12px 10px 10px; border-radius: 6px; border-color: var(--bs-line); background: rgba(255, 255, 255, 0.55); box-shadow: none; }
+.bs-core__head { font-family: var(--bs-value); font-size: 15px; font-weight: 700; letter-spacing: 0.08em; color: var(--bs-ink); }
+.bs-core__tile { min-height: 58px; border-radius: 4px; border-color: var(--bs-line); background: rgba(255, 255, 255, 0.7); font-family: var(--bs-value); font-size: 12.5px; font-weight: 700; letter-spacing: 0.06em; }
+.bs-note { font-family: var(--bs-sans); font-size: 10.5px; letter-spacing: 0.12em; color: var(--bs-muted); }
+
+/* 04 PACE: option rows — 30px icon, Barlow Semi Condensed title (cap 12), Roboto sub-label, 27px checkbox. */
+.bs-pace { margin: 0 -13px; border-radius: 6px; border-color: var(--bs-line); background: rgba(255, 255, 255, 0.55); box-shadow: none; }
+.bs-pace__row { min-height: 58px; padding: 9px 16px 9px 18px; }
+.bs-pace__row.is-selected { background: rgba(255, 255, 255, 0.7); }
+.bs-pace__label { font-family: var(--bs-value); font-size: 17px; font-weight: 700; letter-spacing: 0.1em; line-height: 1; }
+.bs-pace__sub { margin-top: 4px; font-family: var(--bs-sans); font-size: 11.6px; letter-spacing: 0.15em; color: var(--bs-muted); }
+.bs-check { width: 27px; height: 27px; border-radius: 3px; border: 1.3px solid var(--bs-line-strong); }
+.is-selected > .bs-check { border-color: var(--bs-red); background: var(--bs-red); }
+.bs-notes textarea { font-family: var(--bs-sans); }
+
+/* CTA: pure reference red, 48px, Barlow Semi Condensed 600 (cap 10), tracked, arrow at the right of the word. */
+.bs-footer { margin: 0 -6px; }
+.bs-cta {
+  min-height: 48px;
+  border-radius: 4px;
+  background: linear-gradient(180deg, #ef1015 0%, var(--bs-red) 55%, #d10006 100%);
+  font-family: var(--bs-value);
+  font-size: 14.3px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16), 0 8px 18px -12px rgba(229, 1, 7, 0.6);
+}
+.bs-room--pace .bs-cta { min-height: 52px; }
+.bs-cta--outline { background: transparent; box-shadow: none; color: var(--bs-red); border: 1.3px solid var(--bs-red); }
+
+/* Progress rail: red tick, 01 / 04, room label, a track filled in red to the current room. */
+.bs-rail { margin: 0 6px; font-family: var(--bs-sans); font-size: 11px; letter-spacing: 0.14em; }
+.bs-rail__tick { width: 32px; height: 3.5px; border-radius: 2px; background: var(--bs-red); }
+.bs-rail__label { font-family: var(--bs-value); font-size: 12.5px; font-weight: 700; letter-spacing: 0.12em; color: var(--bs-ink); }
+
+/* ── 05 BLUEPRINT: the reveal reference is drawn at a smaller type scale than rooms 01–04. ── */
+.bs-room--blueprint .bs-headline { font-size: min(44.5px, 11.4vw); line-height: 0.92; }
+.bs-room--blueprint .bs-lede { max-width: 236px; margin-top: 13px; font-size: 10px; line-height: 13.8px; letter-spacing: 0.21em; }
+.bs-room--blueprint .bs-stage-wrap { margin-top: -64px; }
+
+.bs-inspect__btn { width: 32px; height: 32px; border: 0; background: rgba(255, 255, 255, 0.86); box-shadow: 0 2px 10px rgba(10, 10, 10, 0.06); font-family: var(--bs-sans); font-size: 10px; letter-spacing: 0.08em; }
+
+/* Tabs are plain words: the active one red with a red underline under the word; no numbers. */
+.bs-tabs { display: flex; justify-content: space-between; margin: 14px -4px 0; border-top: 0; border-bottom: 1px solid var(--bs-line); }
+.bs-tab { flex: 0 0 auto; min-width: auto; align-items: center; padding: 9px 4px 10px; }
+.bs-tab + .bs-tab { padding-left: 0; border-left: 0; }
+.bs-tab__n { display: none; }
+.bs-tabs__ink { display: none; }
+.bs-tab__label { font-family: var(--bs-sans); font-size: 10px; font-weight: 400; letter-spacing: 0.17em; color: var(--bs-faint); }
+.bs-tab.is-on .bs-tab__label { color: var(--bs-red); font-weight: 500; }
+.bs-tab.is-on { position: relative; }
+.bs-tab.is-on::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; border-radius: 1px; background: var(--bs-red); }
+.bs-mode { font-family: var(--bs-sans); font-weight: 400; }
+
+/* Facts: hairline icon, Roboto micro label, Barlow Semi Condensed value, sentence-case note. */
+/* Facts reach 15px from the screen edge, as drawn, with a clear gutter either side of each column rule. */
+.bs-facts { margin: 0 -15px; grid-template-columns: minmax(0, 0.84fr) minmax(0, 1.02fr) minmax(0, 1.18fr); }
+.bs-fact { padding: 0 10px; }
+.bs-fact:first-child { padding-left: 2px; }
+.bs-fact:last-child { padding-right: 2px; }
+.bs-fact__label { font-family: var(--bs-sans); font-size: 7.6px; font-weight: 400; letter-spacing: 0.1em; color: var(--bs-ink-2); }
+/* Fact figures: cap ≈9.3px in the reveal → Barlow Semi Condensed 700 at 13.2px. */
+.bs-fact__value,
+.bs-figure { font-family: var(--bs-value); font-size: 13.2px; font-weight: 700; letter-spacing: 0.03em; }
+.bs-fact__sub { font-family: var(--bs-sans); font-size: 8.4px; letter-spacing: 0.06em; line-height: 1.45; text-transform: none; color: var(--bs-muted); }
+.bs-config-head h2 { font-family: var(--bs-sans); font-size: 11px; font-weight: 400; letter-spacing: 0.27em; color: var(--bs-ink-2); }
+.bs-config-head .bs-btn { font-family: var(--bs-sans); font-size: 8.6px; letter-spacing: 0.16em; border-radius: 4px; }
+/* Configuration cards reach 17px from the screen edge, as drawn (four across). */
+.bs-config { gap: 6px; margin: 0 -16px; }
+.bs-config__card .bs-thumb { border-radius: 3px; background: url('/site00/builder-studio/env/blueprint.webp') center 65% / cover; }
+.bs-config__card { min-width: 0; padding-inline: 4px; border-radius: 5px; border-color: var(--bs-line); background: rgba(255, 255, 255, 0.5); box-shadow: none; }
+.bs-config__label { font-family: var(--bs-sans); font-size: 7px; font-weight: 400; letter-spacing: 0.08em; color: var(--bs-ink-2); }
+.bs-config__value { font-family: var(--bs-value); font-size: 10px; font-weight: 700; letter-spacing: 0.09em; white-space: nowrap; }
+.bs-room--blueprint .bs-cta { min-height: 44px; font-size: 12.5px; }
+.bs-dialog__ref { margin-top: 8px; font-family: var(--bs-sans); }
+
+/* Narrow layouts (small phones, or larger text sizes that scale the page): two configuration cards per row. */
+@media (max-width: 359px) {
+  .bs-config { grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 0 -8px; }
+  .bs-config__label { font-size: 7.6px; }
+  /* Facts stack: three columns cannot hold the figures at this width without crowding. */
+  .bs-facts { grid-template-columns: minmax(0, 1fr); row-gap: 12px; margin: 0; }
+  .bs-fact,
+  .bs-fact:first-child,
+  .bs-fact:last-child { padding: 0; }
+  .bs-fact + .bs-fact { padding-top: 12px; border-left: 0; border-top: 1px solid var(--bs-line); }
+}
+.bs-room--blueprint .bs-cta--outline { border: 1.3px solid var(--bs-red); color: var(--bs-red); }
+
+/* Everything else in the studio that set the old faces inherits the new families. */
+.bs-btn,
+.bs-status,
+.bs-sheet__lead,
+.bs-sheet__hint,
+.bs-line,
+.bs-option__sub,
+.bs-fineprint,
+.bs-field input,
+.bs-dialog__text,
+.bs-dialog__ref { font-family: var(--bs-sans); }
+.bs-option__label,
+.bs-keystone__value,
+.bs-proposal__row dd,
+.bs-proposal__range-value,
+.bs-tree__verb,
+.bs-plate__label,
+.bs-lane__value,
+.bs-count__n { font-family: var(--bs-value); }
+.bs-dialog__title,
+.bs-review__label,
+.bs-menu__label,
+.bs-menu__n { font-family: var(--bs-display); font-weight: 600; letter-spacing: 0; }
+
+/* ─────────────────────────────── IMMERSIVE BLUEPRINT ───────────────────────────────
+   The five sections are inspection modes of the model (see buildObject/anatomy.ts). Type and colour stay the
+   Reference Fidelity 2 faces and tokens; surfaces are the reference's glass cards; every control is square-rounded. */
+
+/* Section index: 01 OVERVIEW … 05 TIMELINE, the number above the word, one red index sliding under the open one. */
+.bs-tabs { position: relative; display: flex; justify-content: space-between; margin: 12px -4px 0; border-top: 0; border-bottom: 1px solid var(--bs-line); }
+.bs-tab { display: flex; flex: 0 0 auto; flex-direction: column; align-items: flex-start; gap: 4px; min-width: auto; min-height: 44px; padding: 8px 4px 9px; }
+.bs-tab + .bs-tab { padding-left: 4px; border-left: 0; }
+.bs-tab__n { display: block; font-family: var(--bs-sans); font-size: 8px; font-weight: 500; letter-spacing: 0.16em; line-height: 1; color: var(--bs-faint); }
+.bs-tab__label { font-family: var(--bs-sans); font-size: 10px; font-weight: 400; letter-spacing: 0.17em; line-height: 1; color: var(--bs-faint); }
+.bs-tab:hover .bs-tab__label { color: var(--bs-ink-2); }
+.bs-tab.is-on .bs-tab__n,
+.bs-tab.is-on .bs-tab__label { color: var(--bs-red); }
+.bs-tab.is-on .bs-tab__label { font-weight: 500; }
+.bs-tab.is-on::after { content: none; }
+.bs-tab:focus-visible { outline: 2px solid var(--bs-red); outline-offset: -2px; border-radius: 3px; }
+.bs-tabs__ink {
+  display: block;
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--bs-red);
+  transition: transform 320ms cubic-bezier(0.2, 0.7, 0.2, 1), width 320ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.bs-tabs__ink::before { content: none; }
+
+/* Mode head: the section's purpose, then what the model is showing (announced as it changes). */
+.bs-mode { display: block; margin: 12px 0 0; }
+.bs-mode__purpose { display: flex; align-items: center; gap: 9px; margin: 0; font-family: var(--bs-sans); font-size: 9px; font-weight: 500; letter-spacing: 0.22em; line-height: 1.2; color: var(--bs-ink); }
+.bs-mode__n { color: var(--bs-red); }
+.bs-mode__hint { margin: 6px 0 0; font-family: var(--bs-sans); font-size: 8.6px; letter-spacing: 0.14em; line-height: 1.45; color: var(--bs-muted); }
+.bs-tabpanel { padding-top: 10px; }
+
+.bs-inspector { display: grid; gap: 10px; }
+.bs-inspector__foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
+.bs-showall {
+  min-height: 32px;
+  padding: 0 12px;
+  border: 1.3px solid var(--bs-ink);
+  border-radius: 4px;
+  font-family: var(--bs-sans);
+  font-size: 8.6px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  color: var(--bs-ink);
+}
+.bs-showall:hover { background: var(--bs-ink); color: #fff; }
+
+/* Glass information surface: a detail sheet bound to the selection, red rule at its edge. */
+.bs-detail {
+  display: grid;
+  gap: 7px;
+  padding: 10px 12px;
+  border: 1px solid var(--bs-line);
+  border-left: 2px solid var(--bs-red);
+  border-radius: 0 6px 6px 0;
+  background: rgba(255, 255, 255, 0.72);
+}
+.bs-detail__title { margin: 0; font-family: var(--bs-value); font-size: 11.5px; font-weight: 700; letter-spacing: 0.08em; }
+.bs-detail__title span { margin-left: 6px; font-family: var(--bs-sans); font-size: 8px; font-weight: 400; letter-spacing: 0.16em; color: var(--bs-muted); }
+.bs-detail__plain { margin: 0; font-family: var(--bs-sans); font-size: 9.6px; line-height: 1.5; letter-spacing: 0.04em; color: var(--bs-ink-2); }
+.bs-detail__rows { display: grid; gap: 5px; margin: 0; }
+.bs-detail__rows > div { display: grid; grid-template-columns: 84px minmax(0, 1fr); align-items: baseline; gap: 8px; }
+.bs-detail__rows dt { font-family: var(--bs-sans); font-size: 8px; letter-spacing: 0.16em; line-height: 1.35; color: var(--bs-muted); }
+.bs-detail__rows dd { margin: 0; font-family: var(--bs-value); font-size: 10.4px; font-weight: 700; letter-spacing: 0.06em; line-height: 1.35; color: var(--bs-ink); }
+.bs-chips { display: flex; flex-wrap: wrap; gap: 4px; margin: 0; }
+.bs-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0 8px;
+  border: 1px solid var(--bs-line-strong);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.75);
+  font-family: var(--bs-value);
+  font-size: 9.6px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--bs-ink);
+}
+button.bs-chip { border-color: rgba(229, 1, 7, 0.55); color: var(--bs-red); }
+button.bs-chip:hover { background: var(--bs-red); color: #fff; }
+
+/* ── On-model markers: a square tag on a short stem above the point it names; the selected one opens a callout. ── */
+.bs-marks { position: absolute; inset: 0; z-index: 2; overflow: hidden; pointer-events: none; }
+.bs-mark { position: absolute; left: 0; top: 0; width: 0; height: 0; will-change: transform; }
+.bs-mark::before { content: ''; position: absolute; left: -2.5px; top: -2.5px; width: 5px; height: 5px; border-radius: 1px; background: var(--bs-ink); }
+.bs-mark__tag {
+  position: absolute;
+  left: 0;
+  bottom: calc(7px + var(--lift, 0px));
+  min-width: 24px;
+  height: 20px;
+  padding: 0 5px;
+  border: 1px solid rgba(10, 10, 10, 0.16);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 2px 8px rgba(10, 10, 10, 0.08);
+  font-family: var(--bs-sans);
+  font-size: 8.6px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  line-height: 18px;
+  white-space: nowrap;
+  color: var(--bs-ink);
+  transform: translateX(-50%);
+  pointer-events: auto;
+}
+.bs-mark__tag::before { content: ''; position: absolute; inset: -10px -6px; }
+.bs-mark__tag::after { content: ''; position: absolute; left: 50%; top: 100%; width: 1px; height: calc(7px + var(--lift, 0px)); background: var(--bs-ink); }
+.bs-mark__tag:disabled { cursor: default; }
+.bs-mark.is-on::before { background: var(--bs-red); }
+.bs-mark.is-on .bs-mark__tag { border-color: var(--bs-red); background: var(--bs-red); color: #fff; }
+.bs-mark.is-on .bs-mark__tag::after { background: var(--bs-red); }
+.bs-mark.is-quiet { opacity: 0.5; }
+.bs-mark.is-clamped .bs-mark__tag::after { content: none; }
+.bs-mark__callout { position: absolute; left: 14px; bottom: calc(7px + var(--lift, 0px)); display: flex; align-items: center; height: 20px; white-space: nowrap; pointer-events: none; }
+.bs-mark__leader { width: 20px; height: 1px; background: var(--bs-red); }
+.bs-mark__text {
+  max-width: 46vw;
+  overflow: hidden;
+  padding: 3px 7px;
+  border: 1px solid rgba(229, 1, 7, 0.4);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.9);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  font-family: var(--bs-sans);
+  font-size: 8.6px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  line-height: 1.3;
+  text-overflow: ellipsis;
+  color: var(--bs-ink);
+}
+.bs-mark.is-left .bs-mark__callout { left: auto; right: 14px; flex-direction: row-reverse; }
+
+/* ── 02 STRUCTURE: layer index, ground up; the open layer unfolds into its sheet. ── */
+.bs-layers { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--bs-line); }
+.bs-layer { border-bottom: 1px solid var(--bs-line); }
+.bs-layer__head { display: grid; grid-template-columns: 26px minmax(0, 0.85fr) minmax(0, 1.35fr); align-items: center; gap: 8px; width: 100%; min-height: 40px; padding: 6px 2px; text-align: left; }
+.bs-layer__n {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 19px;
+  border: 1px solid var(--bs-line-strong);
+  border-radius: 3px;
+  font-family: var(--bs-sans);
+  font-size: 8.4px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--bs-ink);
+}
+.bs-layer__label { font-family: var(--bs-sans); font-size: 9px; font-weight: 500; letter-spacing: 0.2em; color: var(--bs-ink-2); }
+.bs-layer__value { font-family: var(--bs-value); font-size: 11px; font-weight: 700; letter-spacing: 0.06em; line-height: 1.25; text-align: right; color: var(--bs-ink); }
+.bs-layer.is-undrawn .bs-layer__n { border-style: dashed; color: var(--bs-muted); }
+.bs-layer.is-on .bs-layer__n { border-color: var(--bs-red); background: var(--bs-red); color: #fff; }
+.bs-layer.is-on .bs-layer__label { color: var(--bs-red); }
+.bs-layer__head:focus-visible { outline: 2px solid var(--bs-red); outline-offset: -2px; }
+.bs-layer__sheet { display: grid; gap: 8px; margin: 0 0 10px 34px; padding: 10px 12px; border: 1px solid var(--bs-line); border-radius: 6px; background: rgba(255, 255, 255, 0.62); }
+.bs-layer__caption,
+.bs-layer__why { margin: 0; font-family: var(--bs-sans); font-size: 9.4px; line-height: 1.5; letter-spacing: 0.08em; color: var(--bs-ink-2); }
+.bs-layer__why { font-size: 8.8px; color: var(--bs-muted); }
+.bs-layer__why strong { margin-right: 5px; font-family: var(--bs-value); font-size: 10.4px; letter-spacing: 0.06em; color: var(--bs-ink); }
+.bs-layer__lines { display: grid; margin: 0; }
+.bs-layer__lines > div { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.25fr); gap: 8px; padding: 5px 0; border-top: 1px solid var(--bs-line); }
+.bs-layer__lines dt { font-family: var(--bs-sans); font-size: 8.4px; letter-spacing: 0.14em; line-height: 1.4; color: var(--bs-muted); }
+.bs-layer__lines dd { margin: 0; font-family: var(--bs-value); font-size: 10.2px; font-weight: 700; letter-spacing: 0.06em; line-height: 1.35; color: var(--bs-ink); }
+.bs-layer__lines dd em { margin-left: 6px; font-family: var(--bs-sans); font-size: 7.8px; font-style: normal; font-weight: 500; letter-spacing: 0.14em; color: var(--bs-muted); }
+.bs-layer__lines dd em.is-red { color: var(--bs-red); }
+.bs-layer__undrawn { display: grid; gap: 4px; }
+.bs-layer__undrawn dd { color: var(--bs-ink-2); }
+.bs-layer__flag { margin: 0; font-family: var(--bs-sans); font-size: 8px; font-weight: 500; letter-spacing: 0.2em; color: var(--bs-red); }
+
+/* ── 03 PAGES: a count with where the pages live, then each group as a run of selectable page plates. ── */
+.bs-atlas { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; }
+.bs-count { margin: 0; }
+.bs-count__value { font-family: var(--bs-value); font-size: 34px; }
+.bs-count__label { max-width: 150px; font-family: var(--bs-sans); font-size: 8.4px; font-weight: 400; letter-spacing: 0.16em; }
+.bs-atlas__homes { display: grid; gap: 3px; margin: 0; padding: 0; list-style: none; font-family: var(--bs-sans); font-size: 8.4px; letter-spacing: 0.14em; line-height: 1.3; text-align: right; color: var(--bs-ink-2); }
+.bs-atlas__count { margin-right: 4px; font-family: var(--bs-value); font-size: 10.4px; font-weight: 700; color: var(--bs-red); }
+.bs-pagegroup__title { display: block; margin: 4px 0 6px; }
+.bs-pagegroup__title::after { content: none; }
+.bs-pagegroup__title button { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 30px; font-family: var(--bs-sans); font-size: 8.6px; font-weight: 500; letter-spacing: 0.24em; text-align: left; color: var(--bs-ink); }
+.bs-pagegroup__title button::after { content: ''; flex: 1; height: 1px; background: var(--bs-line); }
+.bs-pagegroup__title button span { order: 2; font-family: var(--bs-value); font-size: 10.4px; font-weight: 700; color: var(--bs-red); }
+.bs-pagegroup.is-on .bs-pagegroup__title button { color: var(--bs-red); }
+.bs-pagegroup.is-on .bs-pagegroup__title button::after { background: var(--bs-red); }
+.bs-plate { display: block; padding: 0; border: 0; background: none; }
+.bs-plate > button {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 2px 8px;
+  width: 100%;
+  min-height: 40px;
+  padding: 7px 9px;
+  border: 1px solid var(--bs-line);
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.55);
+  text-align: left;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+.bs-plate.is-grouped > button { border-color: rgba(229, 1, 7, 0.45); }
+.bs-plate.is-on > button { border-color: var(--bs-red); background: #fff; box-shadow: 0 0 0 1px var(--bs-red); }
+.bs-plate__n { grid-row: span 2; font-family: var(--bs-sans); font-size: 8.4px; font-weight: 500; color: var(--bs-red); }
+.bs-plate__label { font-family: var(--bs-value); font-size: 10.4px; font-weight: 700; letter-spacing: 0.08em; }
+.bs-plate__depth { font-family: var(--bs-sans); font-size: 8px; letter-spacing: 0.14em; color: var(--bs-muted); }
+.bs-plates__detail { grid-column: 1 / -1; }
+
+/* ── 04 FEATURES: the core, then each capability with the module it lives in. ── */
+.bs-tree__root { width: 100%; min-height: 40px; text-align: left; }
+.bs-tree__root.is-on { box-shadow: inset 3px 0 0 var(--bs-red); }
+.bs-tree__root-label { font-family: var(--bs-sans); font-size: 8.4px; font-weight: 500; }
+.bs-tree__root-value { font-family: var(--bs-value); font-size: 11px; }
+.bs-tree__branch { display: block; padding: 0; }
+.bs-tree__branch > button { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 2px 10px; width: 100%; min-height: 40px; padding: 7px 0; text-align: left; }
+.bs-tree__n { grid-row: auto; font-family: var(--bs-sans); font-size: 8.4px; font-weight: 500; }
+.bs-tree__verb { font-family: var(--bs-value); font-size: 11px; font-weight: 700; letter-spacing: 0.1em; }
+.bs-tree__where { font-family: var(--bs-sans); font-size: 8px; letter-spacing: 0.16em; color: var(--bs-muted); }
+.bs-tree__branch em { grid-column: 2 / -1; font-family: var(--bs-sans); font-size: 7.8px; font-weight: 500; }
+.bs-tree__branch.is-on .bs-tree__verb,
+.bs-tree__branch.is-on .bs-tree__where { color: var(--bs-red); }
+.bs-tree__branch > .bs-detail { margin: 0 0 10px; }
+.bs-inspector--features > .bs-detail { margin-top: -4px; }
+
+/* ── 05 TIMELINE: a stage rail over the assembling model, the stage card with its controls, then the estimate. ── */
+.bs-stagerail { position: relative; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; margin: 0; padding: 0; list-style: none; }
+.bs-stagerail::before { content: ''; position: absolute; left: 12px; right: 12px; top: 11.5px; height: 1px; background: var(--bs-line-strong); }
+.bs-stagerail__step button { position: relative; display: grid; justify-items: start; gap: 6px; width: 100%; min-height: 44px; padding: 0; text-align: left; }
+.bs-stagerail__n {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--bs-line-strong);
+  border-radius: 4px;
+  background: var(--bs-bg);
+  font-family: var(--bs-sans);
+  font-size: 8.6px;
+  font-weight: 500;
+  color: var(--bs-muted);
+  transition: background 200ms ease, color 200ms ease, border-color 200ms ease;
+}
+.bs-stagerail__label { font-family: var(--bs-sans); font-size: 8px; letter-spacing: 0.12em; line-height: 1.25; color: var(--bs-muted); }
+.bs-stagerail__step.is-done .bs-stagerail__n { border-color: var(--bs-ink); background: var(--bs-ink); color: #fff; }
+.bs-stagerail__step.is-done .bs-stagerail__label { color: var(--bs-ink); }
+.bs-stagerail__step.is-current .bs-stagerail__n { border-color: var(--bs-red); background: var(--bs-red); color: #fff; }
+.bs-stagerail__step.is-current .bs-stagerail__label { color: var(--bs-red); }
+.bs-stagecard { display: grid; gap: 7px; padding: 10px 12px; border: 1px solid var(--bs-line); border-radius: 6px; background: rgba(255, 255, 255, 0.62); }
+.bs-stagecard__head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.bs-stagecard__title { margin: 0; font-family: var(--bs-value); font-size: 13px; font-weight: 700; letter-spacing: 0.1em; }
+.bs-stagecard__title span { margin-right: 4px; color: var(--bs-red); }
+.bs-stagecard__controls { display: flex; gap: 6px; }
+.bs-sq { display: grid; place-items: center; width: 34px; height: 34px; border: 1px solid var(--bs-line-strong); border-radius: 5px; background: rgba(255, 255, 255, 0.85); color: var(--bs-ink); }
+.bs-sq:disabled { opacity: 0.35; }
+.bs-sq--play { border-color: var(--bs-ink); background: var(--bs-ink); color: #fff; }
+.bs-sq--play[aria-pressed='true'] { border-color: var(--bs-red); background: var(--bs-red); }
+.bs-stagecard__caption { margin: 0; font-family: var(--bs-sans); font-size: 9.4px; line-height: 1.5; letter-spacing: 0.08em; color: var(--bs-ink-2); }
+.bs-stagecard__notice { margin: 0; font-family: var(--bs-sans); font-size: 8px; letter-spacing: 0.16em; line-height: 1.4; color: var(--bs-muted); }
+.bs-more { border-top: 1px solid var(--bs-line); }
+.bs-more summary { display: flex; align-items: center; justify-content: space-between; min-height: 38px; font-family: var(--bs-sans); font-size: 8.6px; font-weight: 500; letter-spacing: 0.22em; list-style: none; cursor: pointer; }
+.bs-more summary::-webkit-details-marker { display: none; }
+.bs-more summary::after { content: '+'; font-size: 14px; color: var(--bs-red); }
+.bs-more[open] summary::after { content: '–'; }
+.bs-more[open] { padding-bottom: 8px; }
+.bs-more > * + * { margin-top: 6px; }
+
+/* Stage caption: the selection's context on the model — desktop, and full screen everywhere. */
+.bs-stagecap { display: none; }
+.bs-stage-wrap:fullscreen .bs-stagecap,
+.bs-stage-wrap.is-expanded .bs-stagecap {
+  display: grid;
+  position: absolute;
+  left: 16px;
+  right: 64px;
+  bottom: 24px;
+  z-index: 3;
+}
+.bs-stagecap {
+  gap: 4px;
+  max-width: 340px;
+  padding: 11px 14px 12px;
+  border: 1px solid var(--bs-line);
+  border-left: 2px solid var(--bs-red);
+  border-radius: 0 6px 6px 0;
+  background: rgba(255, 255, 255, 0.78);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  pointer-events: none;
+}
+.bs-stagecap p { margin: 0; }
+.bs-stagecap__mode { font-family: var(--bs-sans); font-size: 8.4px; font-weight: 500; letter-spacing: 0.2em; color: var(--bs-muted); }
+.bs-stagecap__mode span { color: var(--bs-red); }
+.bs-stagecap__title { font-family: var(--bs-value); font-size: 15px; font-weight: 700; letter-spacing: 0.08em; color: var(--bs-ink); }
+.bs-stagecap__body { font-family: var(--bs-sans); font-size: 9.4px; line-height: 1.5; letter-spacing: 0.1em; color: var(--bs-ink-2); }
+
+/* In the inspection sections the model stays in view while the index scrolls under it (phones and tablets). */
+/* Under the lede (z 1) until it pins; once pinned it rides above the index (z 5) on its own ground. */
+.bs-room--blueprint[data-inspect]:not([data-inspect='OVERVIEW']) .bs-stage-wrap { position: sticky; top: 0; z-index: 1; }
+.bs-room--blueprint .bs-stage-wrap.is-stuck { z-index: 5; background: linear-gradient(180deg, var(--bs-bg) 0%, var(--bs-bg) 90%, rgba(245, 243, 243, 0) 100%); }
+.bs-room--blueprint .bs-stage-wrap.is-stuck .bs-object__host { -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 7%, #000 93%, transparent 100%), linear-gradient(180deg, #000 0%, #000 88%, transparent 100%); mask-image: linear-gradient(90deg, transparent 0%, #000 7%, #000 93%, transparent 100%), linear-gradient(180deg, #000 0%, #000 88%, transparent 100%); }
+/* Markers never sit on the lede the stage runs under. */
+.bs-room--blueprint .bs-marks { --bs-marks-min: 92px; }
+.bs-room--blueprint .bs-stage-wrap.is-stuck .bs-marks { --bs-marks-min: 36px; }
+
+/* Readable floor in the inspection sections: no label under 7.8px, every link a 32px target. */
+.bs-tabpanel .bs-link { display: inline-flex; align-items: center; min-height: 32px; }
+.bs-lane__label em { font-size: 7.8px; }
+.bs-steps__n { font-size: 8px; }
+
+@media (max-width: 359px) {
+  /* Narrow screens and larger text: the open section keeps its word, the others keep their number (their names
+     stay in the accessible label), so the index never runs off the screen. */
+  .bs-tab:not(.is-on) { align-items: center; min-width: 32px; }
+  .bs-tab:not(.is-on) .bs-tab__n { font-size: 10px; line-height: 18px; }
+  .bs-tab:not(.is-on) .bs-tab__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .bs-stagerail__label { display: none; }
+  .bs-layer__head { grid-template-columns: 26px minmax(0, 1fr); }
+  .bs-layer__value { grid-column: 2; text-align: left; }
+  .bs-atlas { flex-direction: column; align-items: flex-start; }
+  .bs-atlas__homes { text-align: left; }
+}
+
 @media (min-width: 700px) {
   .bs-root {
     --bs-gutter: 40px;
@@ -1574,12 +2656,18 @@ body.bs-body {
   .bs-card .bs-thumb { height: 92px; }
   .bs-strip__item { flex-basis: calc((100% - 18px) / 4); }
   .bs-module { width: 120px; }
-  .bs-module--left { left: 18%; }
-  .bs-module--right { right: 18%; }
+  .bs-module--left { left: 7%; }
+  .bs-module--right { right: 7%; }
   .bs-config__card .bs-thumb { height: 92px; }
   .bs-fact__value, .bs-figure { font-size: 18px; }
   .bs-sheet-backdrop { align-items: center; }
   .bs-dialog { border-radius: 12px; }
+  /* The Blueprint index reads at reading distance on larger screens; mobile keeps the reference's fine labels. */
+  .bs-tab__n { font-size: 8.6px; }
+  .bs-tab__label { font-size: 10.4px; }
+  .bs-fact__label { font-size: 8.2px; }
+  .bs-fact__sub { font-size: 8.6px; }
+  .bs-proposal__row { font-size: 10.6px; }
 }
 
 /* ─────────────────────────────── desktop ─────────────────────────────── */
@@ -1632,13 +2720,22 @@ body.bs-body {
     height: 100%;
   }
 
-  .bs-headline { font-size: 78px; }
+  /* Saira sets wider than a compressed display face: 72px keeps "WE CREATING?." inside the 500px column. */
+  .bs-headline { font-size: 72px; }
   .bs-lede { max-width: 420px; }
   .bs-room--blueprint .bs-lede { max-width: 420px; font-size: 11.4px; }
   .bs-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
   .bs-card .bs-thumb { height: 96px; }
-  .bs-strip { margin-inline: 0; padding-inline: 0; flex-wrap: wrap; overflow: visible; }
-  .bs-strip__item { flex-basis: calc((100% - 18px) / 4); }
+  .bs-strip { margin-inline: 0; padding-inline: 0; flex-wrap: nowrap; overflow: visible; }
+  .bs-strip__item { flex: 1 1 0; }
+  /* In the desktop column the controls already have their own edge: no reach into the gutter. */
+  .bs-cards,
+  .bs-core,
+  .bs-pace,
+  .bs-config,
+  .bs-facts,
+  .bs-footer { margin-inline: 0; }
+  .bs-rail { margin-inline: 0; }
   .bs-strip__item .bs-thumb { height: 74px; }
   .bs-module--left { left: 22%; }
   .bs-module--right { right: 22%; }
@@ -1652,6 +2749,13 @@ body.bs-body {
     mask-composite: intersect;
   }
   .bs-indicator { bottom: 28px; }
+  .bs-room--blueprint[data-inspect]:not([data-inspect='OVERVIEW']) .bs-stage-wrap { position: relative; }
+  .bs-room--blueprint .bs-marks { --bs-marks-min: 48px; }
+  .bs-mark__tag { height: 22px; font-size: 9.2px; line-height: 20px; }
+  .bs-mark__text { font-size: 9.4px; }
+  .bs-stagecap { display: grid; position: absolute; left: 13%; bottom: 64px; z-index: 3; }
+  .bs-stagecap__title { font-size: 17px; }
+  .bs-stagecap__body { font-size: 10px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
