@@ -790,7 +790,7 @@ div.df-row__main {
   flex: 0 0 auto;
   width: 18.7px;
   height: 18.7px;
-  stroke-width: 0.6;
+  stroke-width: 1.65;
 }
 
 .df-row__text {
@@ -1020,7 +1020,7 @@ div.df-row__main {
 .df-disc svg {
   width: 7.15px;
   height: 7.15px;
-  stroke-width: 0.6;
+  stroke-width: 1.65;
 }
 
 .df-included--compact {
@@ -1467,7 +1467,7 @@ button.df-spec__btn {
 .df-confirm-card__disc svg {
   width: 15.4px;
   height: 15.4px;
-  stroke-width: 0.6;
+  stroke-width: 1.65;
 }
 
 .df-confirm-card__disc--clock,
@@ -1557,7 +1557,7 @@ button.df-spec__btn {
 .df-stage--complete .df-stage__node svg {
   width: 5.5px;
   height: 5.5px;
-  stroke-width: 0.6;
+  stroke-width: 1.65;
 }
 
 .df-stage--in_progress .df-stage__node {
@@ -1749,7 +1749,8 @@ button.df-spec__btn {
 }
 
 .df-drawer svg * {
-  stroke-width: 0.6;
+  stroke-width: 1.2px;
+  vector-effect: non-scaling-stroke;
 }
 
 .df-drawer__scroll {

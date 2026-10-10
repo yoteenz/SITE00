@@ -7,9 +7,6 @@ import type { SVGProps } from 'react';
 import { DF_ICON_CATALOG, DF_ICON_LEGACY_EXTRAS, type DfIconTone } from './icons/meta';
 import { DF_ICON_GLYPHS } from './icons/glyphs';
 
-/** Asset-sheet monoline. 24×24 grid. Do not drop this back to the 0.15 hairline. */
-export const DF_ICON_STROKE = 0.6;
-
 const TONE_COLOR: Record<DfIconTone, string | undefined> = {
   default: undefined,
   muted: '#8A8A8A',
@@ -72,7 +69,7 @@ export function DfIcon({
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth={DF_ICON_STROKE}
+      strokeWidth={1.65}
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden={labeled ? undefined : true}

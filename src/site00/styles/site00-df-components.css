@@ -51,13 +51,14 @@ body.df-scroll-locked .df-root {
   overflow: hidden;
 }
 
-/* Monoline glyphs use the asset-sheet stroke on the 24 grid. */
+/* Monoline glyphs inside components keep a constant hairline regardless of icon size. */
 :is(.df-select__chev, .df-bsheet__chev, .df-srow__chev, .df-tip__trigger svg, .df-pop__trigger svg, .df-cta__arrow) {
   fill: none;
   stroke: currentColor;
-  stroke-width: 0.6;
+  stroke-width: 1.4px;
   stroke-linecap: round;
   stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
 }
 
 /* ─── DF BUTTON (U01) ──────────────────────────────────────────────────────────────────────── */
@@ -542,9 +543,10 @@ body.df-scroll-locked .df-root {
   height: 14px;
   fill: none;
   stroke: currentColor;
-  stroke-width: 0.6;
+  stroke-width: 1.6px;
   stroke-linecap: round;
   stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
 }
 
 .df-check--on {
@@ -948,7 +950,8 @@ body.df-scroll-locked .df-root {
 .df-modal__close svg *,
 .df-toast__close svg *,
 .df-popover__close svg * {
-  stroke-width: 0.6;
+  stroke-width: 1.3px;
+  vector-effect: non-scaling-stroke;
 }
 
 .df-bsheet__body {
@@ -1032,7 +1035,8 @@ div.df-srow__main {
 }
 
 .df-srow__icon * {
-  stroke-width: 0.6;
+  stroke-width: 1.3px;
+  vector-effect: non-scaling-stroke;
 }
 
 .df-srow__text {
@@ -1476,7 +1480,7 @@ div.df-srow__main {
   height: 20px;
   fill: none;
   stroke: currentColor;
-  stroke-width: 0.6;
+  stroke-width: 1.5px;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
@@ -1489,7 +1493,7 @@ div.df-srow__main {
 .df-toast__glyph--solid .df-toast__glyph-mark {
   fill: none;
   stroke: #fff;
-  stroke-width: 0.6;
+  stroke-width: 1.8px;
 }
 
 .df-toast__msg {
@@ -1665,7 +1669,8 @@ div.df-srow__main {
 }
 
 .df-empty__icon * {
-  stroke-width: 0.6;
+  stroke-width: 1.3px;
+  vector-effect: non-scaling-stroke;
 }
 
 .df-empty__title {
