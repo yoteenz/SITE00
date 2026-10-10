@@ -16159,3 +16159,11 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Outcome:** Third chat attachment is byte-identical to copy 2 (474,703 bytes, SHA256 `1d431920ffd56552b6eacc58ceaeeaa02faf8ed9ab687ffde3eee104d2945d8d`). Expected `e814042c318f7f45d7db07a6d11e4878fcc20888c583a76537828cfa3c2ede83` not matched. Canonical JPEG not committed. Design tokens, module system, campaign mapping, and Batch I ceiling revision not applied.
 - **Budget:** Balanced hard ceiling **6,340** credits; Batch I **3** images (951 credits).
 - **Resupply:** Commit or release the original file with verified SHA256; do not use chat JPEG delivery.
+
+---
+
+## 2026-10-10 — Marketing email repository recovery 3 (no local original)
+
+- **Context:** Sprint `P0.SITE00.IDNTY.MARKETING-EMAIL-AUTHORITY-REPOSITORY-RECOVERY3` — locate original JPEG in workspace, bypass chat transcoding, register on `cursor/df-mass-production-scope-a9f7`.
+- **Outcome:** Copy 4 chat attachment byte-identical to copies 2–3 (`1d431920…`, 474,703 bytes). Full scan of 4,847 JPEGs in workspace/home/tmp/opt-cursor: **zero** files with expected `e814042c…`. No binary on git refs. Canonical path not committed. Registration, tokens, modules, campaign map, Batch I reconciliation **not done**. Ceiling **6,340** unchanged.
+- **Resupply:** Founder or CI must `git add` the verified file to the branch (or attach via GitHub web upload / release ZIP). Chat will not deliver original bytes.
