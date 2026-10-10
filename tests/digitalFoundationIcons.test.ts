@@ -34,9 +34,11 @@ describe('Digital Foundation icon registry', () => {
     expect(shell).not.toContain('name="menu"');
   });
 
-  it('keeps a visible stroke instead of the 0.15 hairline', () => {
+  it('uses the asset-sheet 0.6 stroke instead of the 0.15 hairline', () => {
+    const icons = readFileSync(new URL('../src/site00/foundation-client/icons.tsx', import.meta.url), 'utf8');
     const css = readFileSync(new URL('../src/site00/styles/site00-df-client.css', import.meta.url), 'utf8');
+    expect(icons).toContain('DF_ICON_STROKE = 0.6');
     expect(css).not.toContain('stroke-width: 0.15');
-    expect(css).toContain('stroke-width: 1.65');
+    expect(css).toContain('stroke-width: 0.6');
   });
 });
