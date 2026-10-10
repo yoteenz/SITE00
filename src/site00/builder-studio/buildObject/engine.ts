@@ -140,14 +140,32 @@ function crackMarbleCanvas(opts: { base: string; mottle: string; vein: string; s
   return canvas;
 }
 
-function canvasTexture(canvas: HTMLCanvasElement, repeat = 1): THREE.CanvasTexture {
+function canvasTexture(canvas: HTMLCanvasElement, repeat = 1, colorSpace: THREE.ColorSpace = THREE.SRGBColorSpace): THREE.CanvasTexture {
   const texture = new THREE.CanvasTexture(canvas);
-  texture.colorSpace = THREE.SRGBColorSpace;
+  texture.colorSpace = colorSpace;
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
   texture.repeat.set(repeat, repeat);
   texture.anisotropy = 4;
   return texture;
+}
+
+/** Honed stone: the same procedural map, a low bump so veins catch light, and a thin clearcoat. */
+function polishedStone(
+  canvas: HTMLCanvasElement,
+  opts: { roughness: number; clearcoat: number; color?: number; bump?: number },
+): THREE.MeshPhysicalMaterial {
+  return new THREE.MeshPhysicalMaterial({
+    map: canvasTexture(canvas),
+    bumpMap: canvasTexture(canvas, 1, THREE.NoColorSpace),
+    bumpScale: opts.bump ?? 0.014,
+    color: opts.color ?? 0xffffff,
+    roughness: opts.roughness,
+    metalness: 0,
+    clearcoat: opts.clearcoat,
+    clearcoatRoughness: 0.24,
+    envMapIntensity: 0.48,
+  });
 }
 
 /* ─────────────────────────────── materials ─────────────────────────────── */
@@ -167,62 +185,82 @@ type MaterialSet = {
 };
 
 /**
+ * Painted glass, not transmission. The canvas is transparent over a photographic plate, so a
+ * transmission pass refracts empty alpha and the panes disappear.
  * `lite` is the phone tier. Clearcoat doubles the cost of a physical material, and a room can stack dozens of
- * transparent double-sided volumes, so on a phone GPU it is dropped (the glass reads the same without it).
+ * transparent double-sided volumes, so on a phone GPU it is dropped.
  */
+function clearVolume(opts: {
+  color: number;
+  opacity: number;
+  roughness: number;
+  env?: number;
+  lite?: boolean;
+}): THREE.MeshPhysicalMaterial {
+  return new THREE.MeshPhysicalMaterial({
+    color: opts.color,
+    roughness: opts.roughness,
+    metalness: 0,
+    transparent: true,
+    opacity: opts.opacity,
+    clearcoat: opts.lite ? 0 : 1,
+    clearcoatRoughness: 0.1,
+    specularIntensity: 1,
+    envMapIntensity: opts.env ?? 1.55,
+    depthWrite: false,
+    side: THREE.DoubleSide,
+    // Volumes stand exactly on the marble; pulled toward the camera so the shared plane never z-fights.
+    polygonOffset: true,
+    polygonOffsetFactor: -2,
+    polygonOffsetUnits: -2,
+  });
+}
+
 function createMaterials(lite = false): MaterialSet {
   // Cool Carrara white with grey veining; neutral limestone and concrete (no warm cast).
-  const marble = canvasTexture(crackMarbleCanvas({ base: '#d6d4d2', mottle: '#a9a6a3', vein: '#2b2a2a', seed: 7, veins: 24 }));
-  const darkMarble = canvasTexture(stoneCanvas('#1c1e21', '#dadde2', { veins: 12, speckle: 12, seed: 11, veinAlpha: 0.8 }));
+  const marbleCanvas = crackMarbleCanvas({ base: '#d6d4d2', mottle: '#a9a6a3', vein: '#2b2a2a', seed: 7, veins: 24 });
+  const darkMarbleCanvas = stoneCanvas('#1c1e21', '#dadde2', { veins: 12, speckle: 12, seed: 11, veinAlpha: 0.8 });
   // FEEL study stones as drawn: a charcoal slate and a warm taupe marble, both crack-veined.
-  const slate = canvasTexture(crackMarbleCanvas({ base: '#6a6968', mottle: '#525150', vein: '#4a4948', seed: 17, veins: 6, size: 512 }));
-  const warmMarble = canvasTexture(crackMarbleCanvas({ base: '#b7aea6', mottle: '#8e857c', vein: '#3f3934', seed: 19, veins: 20, size: 512 }));
+  const slateCanvas = crackMarbleCanvas({ base: '#6a6968', mottle: '#525150', vein: '#4a4948', seed: 17, veins: 6, size: 512 });
+  const warmMarbleCanvas = crackMarbleCanvas({ base: '#b7aea6', mottle: '#8e857c', vein: '#3f3934', seed: 19, veins: 20, size: 512 });
   // Grey veined stone (the FEEL panel and the Blueprint's standing slabs).
-  const stone = canvasTexture(crackMarbleCanvas({ base: '#a6a4a2', mottle: '#7c7a78', vein: '#353434', seed: 3, veins: 18, size: 512 }));
-  const concrete = canvasTexture(stoneCanvas('#c8cacd', '#8c8f95', { veins: 0, speckle: 36, seed: 5 }));
-  const travertine = canvasTexture(stoneCanvas('#e2e2e0', '#acaaa6', { veins: 1, speckle: 22, banding: true, seed: 13 }));
+  const stoneCanvasMap = crackMarbleCanvas({ base: '#a6a4a2', mottle: '#7c7a78', vein: '#353434', seed: 3, veins: 18, size: 512 });
+  const concreteCanvas = stoneCanvas('#c8cacd', '#8c8f95', { veins: 0, speckle: 36, seed: 5 });
+  const travertineCanvas = stoneCanvas('#e2e2e0', '#acaaa6', { veins: 1, speckle: 22, banding: true, seed: 13 });
 
-  const glass = new THREE.MeshPhysicalMaterial({
-    color: 0xf4f6f6,
-    roughness: 0.03,
-    metalness: 0,
-    transparent: true,
-    opacity: 0.31,
-    clearcoat: lite ? 0 : 1,
-    clearcoatRoughness: 0.02,
-    envMapIntensity: 2.5,
-    depthWrite: false,
-    side: THREE.DoubleSide,
-    // Volumes stand exactly on the marble; pulled toward the camera, so the shared plane never z-fights on a real GPU.
-    polygonOffset: true,
-    polygonOffsetFactor: -2,
-    polygonOffsetUnits: -2,
-  });
-  const glassTint = glass.clone();
-  glassTint.color = new THREE.Color(0xd8e3e8);
-  glassTint.opacity = 0.32;
-  const darkGlass = glass.clone();
-  darkGlass.color = new THREE.Color(0x1d2125);
-  darkGlass.opacity = 0.64;
-  // Translucent SITE 00 red acrylic: luminous through its body, deeper at its edges.
+  // Clear architectural glass. Specular coat and a slightly denser body so the pane has an edge.
+  const glass = clearVolume({ color: 0xf4f7f8, opacity: 0.4, roughness: 0.05, env: 1.65, lite });
+  const glassTint = clearVolume({ color: 0xd5e0e6, opacity: 0.46, roughness: 0.06, env: 1.35, lite });
+  const darkGlass = clearVolume({ color: 0x1a1e22, opacity: 0.72, roughness: 0.1, env: 0.7, lite });
+  // Translucent SITE 00 red acrylic. The body stays #E50107; the edge members carry the deeper rim.
   const red = new THREE.MeshPhysicalMaterial({
-    color: 0xdc0a14,
-    roughness: 0.06,
+    color: 0xe50107,
+    roughness: 0.08,
     metalness: 0,
     transparent: true,
-    opacity: 0.9,
+    opacity: 0.92,
     clearcoat: lite ? 0 : 1,
-    clearcoatRoughness: 0.04,
-    emissive: new THREE.Color(0xa3000d),
-    emissiveIntensity: 0.4,
-    envMapIntensity: 1.4,
+    clearcoatRoughness: 0.06,
+    specularIntensity: 1,
+    envMapIntensity: 1.15,
+    emissive: new THREE.Color(0x8e0008),
+    emissiveIntensity: 0.22,
     depthWrite: false,
     side: THREE.DoubleSide,
     polygonOffset: true,
     polygonOffsetFactor: -2,
     polygonOffsetUnits: -2,
   });
-  const redSolid = new THREE.MeshPhysicalMaterial({ color: 0xd4121c, roughness: 0.2, clearcoat: lite ? 0 : 0.9, clearcoatRoughness: 0.08, emissive: new THREE.Color(0x52000a), emissiveIntensity: 0.24 });
+  const redSolid = new THREE.MeshPhysicalMaterial({
+    color: 0xd4121c,
+    roughness: 0.16,
+    metalness: 0,
+    clearcoat: lite ? 0 : 1,
+    clearcoatRoughness: 0.08,
+    envMapIntensity: 0.8,
+    emissive: new THREE.Color(0x52000a),
+    emissiveIntensity: 0.14,
+  });
   // Blueprint inspection: what is not in focus stays as a faint glass outline.
   const ghost = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.05, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2 });
   const surface: Record<BuildMaterial, THREE.Material> = {
@@ -231,45 +269,53 @@ function createMaterials(lite = false): MaterialSet {
     darkGlass,
     red,
     redSolid,
-    // Carrara is drawn mid-grey on its faces (never blown out): the map is toned down and kept fairly matte.
-    marble: new THREE.MeshStandardMaterial({ map: marble, color: 0xe4e2e0, roughness: 0.42, metalness: 0 }),
-    darkMarble: new THREE.MeshStandardMaterial({ map: darkMarble, roughness: 0.25, metalness: 0 }),
-    stone: new THREE.MeshStandardMaterial({ map: stone, roughness: 0.6, metalness: 0 }),
-    concrete: new THREE.MeshStandardMaterial({ map: concrete, roughness: 0.88, metalness: 0 }),
-    travertine: new THREE.MeshStandardMaterial({ map: travertine, roughness: 0.62, metalness: 0 }),
-    steel: new THREE.MeshStandardMaterial({ color: 0xb4b9bf, roughness: 0.22, metalness: 0.9 }),
+    // Carrara stays mid-grey. A thin clearcoat and vein bump make it honed stone, not a flat fill.
+    marble: polishedStone(marbleCanvas, { roughness: 0.34, clearcoat: 0.4, color: 0xe4e2e0, bump: 0.016 }),
+    darkMarble: polishedStone(darkMarbleCanvas, { roughness: 0.24, clearcoat: 0.48, bump: 0.02 }),
+    stone: polishedStone(stoneCanvasMap, { roughness: 0.5, clearcoat: 0.22, bump: 0.018 }),
+    concrete: polishedStone(concreteCanvas, { roughness: 0.86, clearcoat: 0.04, bump: 0.028 }),
+    travertine: polishedStone(travertineCanvas, { roughness: 0.55, clearcoat: 0.18, bump: 0.02 }),
+    steel: new THREE.MeshPhysicalMaterial({ color: 0xb4b9bf, roughness: 0.2, metalness: 0.92, clearcoat: 0.25, envMapIntensity: 0.7 }),
     ghost,
-    slate: new THREE.MeshStandardMaterial({ map: slate, roughness: 0.55, metalness: 0 }),
-    warmMarble: new THREE.MeshStandardMaterial({ map: warmMarble, roughness: 0.4, metalness: 0 }),
+    slate: polishedStone(slateCanvas, { roughness: 0.48, clearcoat: 0.14, bump: 0.016 }),
+    warmMarble: polishedStone(warmMarbleCanvas, { roughness: 0.36, clearcoat: 0.38, bump: 0.016 }),
     // Drafting lines (the references' construction hairlines): flat, unlit, faint.
     hairline: new THREE.MeshBasicMaterial({ color: 0x8a8682, transparent: true, opacity: 0.5, depthWrite: false }),
     figure: new THREE.MeshStandardMaterial({ color: 0x2c2e32, roughness: 0.9, metalness: 0 }),
   };
   const line = (color: number, opacity: number) => new THREE.LineBasicMaterial({ color, transparent: true, opacity });
   // Chrome-white mullions: crisp edges that define every glass volume.
-  const lightFrame = new THREE.MeshStandardMaterial({ color: 0xdcdedf, roughness: 0.2, metalness: 0.7 });
-  const darkFrame = new THREE.MeshStandardMaterial({ color: 0x1a1d20, roughness: 0.3, metalness: 0.5 });
+  const lightFrame = new THREE.MeshPhysicalMaterial({ color: 0xe4e7e9, roughness: 0.16, metalness: 0.84, clearcoat: 0.3, envMapIntensity: 0.75 });
+  const darkFrame = new THREE.MeshPhysicalMaterial({ color: 0x14171a, roughness: 0.28, metalness: 0.62, clearcoat: 0.15, envMapIntensity: 0.45 });
   // Red acrylic reads with a deeper red edge where the sheet is seen through its thickness.
-  const redFrame = new THREE.MeshStandardMaterial({ color: 0x8e0710, roughness: 0.25, metalness: 0.1, emissive: new THREE.Color(0x3a0004), emissiveIntensity: 0.3 });
+  const redFrame = new THREE.MeshPhysicalMaterial({
+    color: 0x8e0710,
+    roughness: 0.2,
+    metalness: 0.12,
+    clearcoat: 0.55,
+    clearcoatRoughness: 0.12,
+    emissive: new THREE.Color(0x3a0004),
+    emissiveIntensity: 0.22,
+  });
   const outline = line(0x34363b, 0.14);
   // Red illumination (inspection): the SITE 00 red, luminous, drawn over everything it outlines.
   const litEdge = new THREE.LineBasicMaterial({ color: 0xe50107, transparent: true, opacity: 0.95, depthTest: false });
   const litMullion = new THREE.LineBasicMaterial({ color: 0xe50107, transparent: true, opacity: 0.42 });
   const litFrame = new THREE.MeshStandardMaterial({ color: 0xd8070f, roughness: 0.3, metalness: 0.2, emissive: new THREE.Color(0x7a0008), emissiveIntensity: 0.55 });
   const litGlass = glass.clone();
-  litGlass.color = new THREE.Color(0xffecec);
-  litGlass.opacity = 0.4;
+  litGlass.color = new THREE.Color(0xfff2f2);
+  litGlass.opacity = 0.48;
   litGlass.emissive = new THREE.Color(0xe50107);
-  litGlass.emissiveIntensity = 0.12;
+  litGlass.emissiveIntensity = 0.14;
   const litRed = red.clone();
-  litRed.emissiveIntensity = 0.95;
-  litRed.opacity = 0.94;
+  litRed.emissiveIntensity = 0.55;
+  litRed.opacity = 0.96;
   return {
     lit: { edge: litEdge, mullion: litMullion, frame: litFrame, surface: { glass: litGlass, glassTint: litGlass, darkGlass: litGlass, red: litRed } },
     surface,
     edge: {
-      glass: line(0x8d9396, 0.55),
-      glassTint: line(0x76848c, 0.66),
+      glass: line(0x8d9396, 0.72),
+      glassTint: line(0x76848c, 0.74),
       darkGlass: line(0x0c0e10, 0.85),
       red: line(0xb00010, 0.9),
       redSolid: line(0x7a000a, 0.5),
@@ -355,7 +401,7 @@ function buildStage(scene: THREE.Scene, renderer: THREE.WebGLRenderer, mobile: b
   scene.background = null;
   const pmrem = new THREE.PMREMGenerator(renderer);
   scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-  scene.environmentIntensity = 0.55;
+  scene.environmentIntensity = 0.72;
   new THREE.TextureLoader().load(
     REFLECTION_MAP,
     (texture) => {
@@ -363,7 +409,7 @@ function buildStage(scene: THREE.Scene, renderer: THREE.WebGLRenderer, mobile: b
       texture.colorSpace = THREE.SRGBColorSpace;
       const previous = scene.environment;
       scene.environment = pmrem.fromEquirectangular(texture).texture;
-      scene.environmentIntensity = 0.95;
+      scene.environmentIntensity = 1.05;
       previous?.dispose();
       texture.dispose();
       pmrem.dispose();
@@ -377,8 +423,8 @@ function buildStage(scene: THREE.Scene, renderer: THREE.WebGLRenderer, mobile: b
     },
   );
 
-  scene.add(new THREE.HemisphereLight(0xffffff, 0xe6e2df, 0.62));
-  const sun = new THREE.DirectionalLight(0xffffff, 2.3);
+  scene.add(new THREE.HemisphereLight(0xfffbf8, 0xd8d3ce, 0.72));
+  const sun = new THREE.DirectionalLight(0xfffaf6, 2.05);
   sun.position.set(-6, 10, 7);
   sun.castShadow = true;
   sun.shadow.mapSize.set(mobile ? 1024 : 2048, mobile ? 1024 : 2048);
@@ -389,17 +435,17 @@ function buildStage(scene: THREE.Scene, renderer: THREE.WebGLRenderer, mobile: b
   sun.shadow.camera.far = 40;
   sun.shadow.bias = -0.0005;
   sun.shadow.normalBias = 0.025;
-  sun.shadow.radius = 4;
+  sun.shadow.radius = mobile ? 3 : 5;
   scene.add(sun);
-  const fill = new THREE.DirectionalLight(0xf8f6f5, 0.6);
+  const fill = new THREE.DirectionalLight(0xf7f4f1, 0.52);
   fill.position.set(7, 4, -2);
   scene.add(fill);
-  const front = new THREE.DirectionalLight(0xffffff, 0.4);
-  front.position.set(2, 2, 10);
+  const front = new THREE.DirectionalLight(0xffffff, 0.5);
+  front.position.set(2, 2.4, 10);
   scene.add(front);
 
-  // Shadow catcher: the plate's polished floor shows through; only the object's soft shadow is drawn.
-  const floor = new THREE.Mesh(new THREE.PlaneGeometry(120, 120), new THREE.ShadowMaterial({ color: 0x3a3634, opacity: 0.16 }));
+  // Shadow catcher: the plate's polished floor shows through; the contact shadow grounds the object.
+  const floor = new THREE.Mesh(new THREE.PlaneGeometry(120, 120), new THREE.ShadowMaterial({ color: 0x2c2a28, opacity: 0.24 }));
   floor.rotation.x = -Math.PI / 2;
   floor.receiveShadow = true;
   scene.add(floor);
@@ -703,7 +749,7 @@ export function createBuildObjectEngine(container: HTMLElement, options: { reduc
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, mobile ? 1.5 : 1.75));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.NeutralToneMapping;
-  renderer.toneMappingExposure = 0.94;
+  renderer.toneMappingExposure = 1.02;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.domElement.className = 'bs-object__canvas';
@@ -993,7 +1039,9 @@ export function createBuildObjectEngine(container: HTMLElement, options: { reduc
       canvas.removeEventListener('pointercancel', onUp);
       scene.environment?.dispose();
       for (const material of Object.values(materials.surface)) {
-        (material as THREE.MeshStandardMaterial).map?.dispose();
+        const physical = material as THREE.MeshPhysicalMaterial;
+        physical.map?.dispose();
+        physical.bumpMap?.dispose();
         material.dispose();
       }
       for (const material of [materials.lit.edge, materials.lit.mullion, materials.lit.frame, ...new Set(Object.values(materials.lit.surface))]) material?.dispose();
@@ -1026,6 +1074,7 @@ export function renderBuildThumbnail(composition: BuildComposition, width: numbe
       thumbRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
       thumbRenderer.outputColorSpace = THREE.SRGBColorSpace;
       thumbRenderer.toneMapping = THREE.NeutralToneMapping;
+      thumbRenderer.toneMappingExposure = 1.02;
       thumbRenderer.shadowMap.enabled = true;
       thumbRenderer.shadowMap.type = THREE.PCFSoftShadowMap;
       thumbScene = new THREE.Scene();

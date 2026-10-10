@@ -16083,3 +16083,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decisions / outcomes:** Those three photographs are back in the hero, crown, and corner slots. The page surface is the cream chamber again. The generated plate files are removed. Field and service panels stay filled. MORE INFORMATION stays in the hamburger menu.
 - **Changes:** `objects.tsx`, `shell.tsx`, `site00-df-client.css`, the three `df-g0*.jpg` files, removal of `df-plate-*.jpg`.
 - **Conventions:** Do not generate a new full-screen plate to stand in for these photographs. The hero image is the chamber between the lede and the triad. Crown and corner are the original fragments, masked into the cream page.
+
+---
+
+## 2026-10-10 — BLDR monument realism pass (same system, better materials)
+
+- **Context:** After the Digital Foundation menu move (#1586) and the chamber-photograph restore (#1587), the founder asked for a realism pass on the BLDR Studio monuments. Same objects, same layout, same selection flow. Enhancement, not a rebuild.
+- **Topics covered:** PLACE (SIMPLE / ADVANCED / CUSTOM / WORLD), FEEL (MODERN / BOLD / EDITORIAL / IMMERSIVE), WORK stacked structure, PACE (STANDARD / EXPEDITED / FLEXIBLE), BLUEPRINT tabs (OVERVIEW / STRUCTURE / PAGES / FEATURES / TIMELINE). Audit of how the monuments are drawn.
+- **Decisions / outcomes:** The monuments are live three.js WebGL (`buildObject/engine.ts`), shared by the hero stage and the card thumbnails. Geometry and camera stay in `composition.ts`. Glass cannot use transmission: the canvas is transparent over the photographic room plate, so a refraction pass shows empty alpha and the panes disappear. Glass stays a painted pane with a specular coat, thicker edge lines, and a higher environment response. Marble and stone get a polish coat and a bump map from the existing procedural canvases. Red acrylic stays `#E50107`. Contact shadow is stronger. Neutral tone mapping, exposure 1.02. No new raster assets. No layout, type, or selection changes.
+- **Changes:** `src/site00/builder-studio/buildObject/engine.ts`, `tests/bldrMonumentRealism.test.ts`, `docs/site00/bldr/MONUMENT_REALISM_PASS1.json`.
+- **Conventions:** Do not replace these monuments with product photography or a new object family. Do not turn glass transmission on while the stage canvas is transparent. Thumbnails must keep using the same materials as the hero.
