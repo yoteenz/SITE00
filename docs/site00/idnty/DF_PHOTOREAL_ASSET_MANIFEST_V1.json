@@ -1,0 +1,57 @@
+{
+  "sprint": "P0.SITE00.IDNTY.DIGITAL-FOUNDATION.V1-GROK-PHOTOREAL-ASSET-RECOVERY-AND-15-SCREEN-ROUTE-AUDIT2",
+  "approval_status": "PENDING_FOUNDER_P01",
+  "assets": [
+    {
+      "id": "DF-G01",
+      "name": "P01 threshold chamber",
+      "reference": "docs/site00/idnty/df-visual-fidelity-v1/REF-01-P01-P03.jpg",
+      "status": "GENERATED",
+      "integration": "IMPLEMENTED",
+      "method": "Cursor GenerateImage, text-free prompt, reference board attached",
+      "path": "public/site00/idnty/digital-foundation/architecture/df-g01-hero-chamber.jpg",
+      "format": "jpeg",
+      "dimensions": "1280x720",
+      "transparency": false,
+      "sha256": "955d0c3d3d55ca542b859314b643d928a822f405f975b480c4c6cbffad68eeed",
+      "component": "DfThresholdHero",
+      "screens": ["P01"],
+      "version": 1,
+      "quality": "Photoreal marble plinth and red glass portal. No baked UI. Not a pixel match of the reference chamber."
+    },
+    {
+      "id": "DF-G02",
+      "name": "Right-side red glass fragment",
+      "reference": "docs/site00/idnty/df-visual-fidelity-v1/REF-02-P04-P06.jpg",
+      "status": "GENERATED",
+      "integration": "IMPLEMENTED",
+      "method": "Cursor GenerateImage",
+      "path": "public/site00/idnty/digital-foundation/architecture/df-g02-crown-fragment.jpg",
+      "format": "jpeg",
+      "dimensions": "864x1152",
+      "transparency": false,
+      "sha256": "fde248ccf4cc0eb82d0a9052644f4d2709f565f83f18dfcae126c3d50d64ada5",
+      "component": "DfCrownObject",
+      "screens": ["P04", "P05", "P06", "OVERVIEW"],
+      "version": 1,
+      "quality": "Single red glass volume. Distinct from the hero. Not a full page background."
+    },
+    {
+      "id": "DF-G03",
+      "name": "Corner glass cluster",
+      "reference": "docs/site00/idnty/df-visual-fidelity-v1/REF-01-P01-P03.jpg",
+      "status": "GENERATED",
+      "integration": "IMPLEMENTED",
+      "method": "Cursor GenerateImage",
+      "path": "public/site00/idnty/digital-foundation/architecture/df-g03-corner-fragment.jpg",
+      "format": "jpeg",
+      "dimensions": "1280x720",
+      "transparency": false,
+      "sha256": "924996bd718eaae79b0b9f1c7225fb32ba6e230be896587a08e6ba0ece2bed20",
+      "component": "DfCornerFragment",
+      "screens": ["P02", "P03"],
+      "version": 1,
+      "quality": "Corner still life. JPEG has no alpha, so the pale field is part of the plate."
+    }
+  ]
+}

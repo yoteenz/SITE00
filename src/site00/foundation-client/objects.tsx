@@ -9,9 +9,9 @@
 import { useId } from 'react';
 
 export const DF_ARCHITECTURE_RENDERS: { hero: string | null; crown: string | null; corner: string | null } = {
-  hero: null,
-  crown: null,
-  corner: null,
+  hero: '/site00/idnty/digital-foundation/architecture/df-g01-hero-chamber.jpg',
+  crown: '/site00/idnty/digital-foundation/architecture/df-g02-crown-fragment.jpg',
+  corner: '/site00/idnty/digital-foundation/architecture/df-g03-corner-fragment.jpg',
 };
 
 const RED = '#E50107';
