@@ -14,8 +14,16 @@
     { "id": "P08", "parent": "P07", "actor": "CLIENT", "route": "history:dfView=ROADMAP", "implementation": "RECOVERED", "component": "ProjectPortal.tsx#P08Roadmap", "visual_batch": "A" },
     { "id": "P09", "parent": "P08", "actor": "CLIENT", "route": "history:dfView=STAGE", "implementation": "RECOVERED", "component": "ProjectPortal.tsx#P09StageDetail", "visual_batch": "A" },
     { "id": "P10", "parent": "P07", "actor": "CLIENT", "route": "history:dfView=NEEDS_YOU", "implementation": "RECOVERED", "component": "ProjectPortal.tsx#P10NeedsYou", "visual_batch": "A" },
+    { "id": "DF-A01", "parent": "P07", "actor": "CLIENT", "implementation": "NOT_IMPLEMENTED", "visual_batch": "A", "visual_status": "DIRECTION_APPROVED_COPY_CORRECTIONS_PENDING_IMPLEMENTATION", "notes": "Project messages. See batch-a/BATCH_A_OPUS_HANDOFF_CORRECTIONS.md" },
+    { "id": "DF-A02", "parent": "P10", "actor": "CLIENT", "implementation": "NOT_IMPLEMENTED", "visual_batch": "A", "visual_status": "DIRECTION_APPROVED_COPY_CORRECTIONS_PENDING_IMPLEMENTATION", "notes": "Approval detail. No confirmation copy while REQUESTED." },
+    { "id": "DF-A03", "parent": "DF-A02", "actor": "CLIENT", "implementation": "NOT_IMPLEMENTED", "visual_batch": "A", "visual_status": "DIRECTION_APPROVED_COPY_CORRECTIONS_PENDING_IMPLEMENTATION", "notes": "Revision request. Optional label must match contract at implementation." },
+    { "id": "DF-A04", "parent": "P08", "actor": "CLIENT", "implementation": "NOT_IMPLEMENTED", "visual_batch": "A", "visual_status": "DIRECTION_APPROVED_COPY_CORRECTIONS_PENDING_IMPLEMENTATION", "notes": "Stage blocker detail." },
     { "id": "RECORDS_LIBRARY", "parent": "P07", "actor": "CLIENT", "route": "history:dfView=RECORDS", "implementation": "RECOVERED", "component": "ProjectPortal.tsx#RecordsLibrary", "visual_batch": "B" },
     { "id": "RECORD_DETAIL", "parent": "RECORDS_LIBRARY", "actor": "CLIENT", "route": "history:dfView=RECORD", "implementation": "RECOVERED", "component": "ProjectPortal.tsx#RecordDetail", "visual_batch": "B" },
+    { "id": "DF-B01", "parent": "RECORDS_LIBRARY", "actor": "CLIENT", "implementation": "NOT_IMPLEMENTED", "visual_batch": "B", "visual_status": "CANDIDATE_PENDING_FOUNDER", "notes": "Expanded records library visual. Live RecordsLibrary is simpler." },
+    { "id": "DF-B02", "parent": "DF-B01", "actor": "CLIENT", "implementation": "NOT_IMPLEMENTED", "visual_batch": "B", "visual_status": "CANDIDATE_PENDING_FOUNDER", "notes": "Domain record detail with documents tabs — design proposed beyond RecordDetail." },
+    { "id": "DF-B03", "parent": "DF-B02", "actor": "CLIENT", "implementation": "NOT_IMPLEMENTED", "visual_batch": "B", "visual_status": "CANDIDATE_PENDING_FOUNDER", "notes": "Document preview. No client route today." },
+    { "id": "DF-B04", "parent": "P10", "actor": "CLIENT", "implementation": "NOT_IMPLEMENTED", "visual_batch": "B", "visual_status": "CANDIDATE_PENDING_FOUNDER", "notes": "Decision history audit trail. ApprovalRecord on payload only." },
     { "id": "PREFERENCE_CENTER", "parent": "P07", "actor": "CLIENT", "route": "history:dfView=COMM_PREFS", "implementation": "RECOVERED", "component": "ProjectPortal.tsx#CommunicationPreferences", "visual_batch": "J" },
     { "id": "P11", "parent": null, "actor": "CLIENT", "route": "complete surface", "implementation": "PARTIAL", "component": "DigitalFoundationCompleteSurface.tsx" },
     { "id": "P12", "parent": "P11", "actor": "CLIENT", "implementation": "PARTIAL", "component": "DigitalFoundationCompleteSurface.tsx" },
@@ -25,5 +33,5 @@
     { "id": "COMMUNICATIONS_COMMAND", "parent": null, "actor": "FOUNDER", "route": "/admin/site00/foundation/communications", "implementation": "RECOVERED", "component": "CommunicationsCommandPage.tsx", "visual_batch": "G" },
     { "id": "EMAIL_TEMPLATE_STUDIO", "parent": "COMMUNICATIONS_COMMAND", "actor": "FOUNDER", "route": "/admin/site00/debug/email-pack", "implementation": "EXISTS", "notes": "Platform email pack; not DF-bound send" }
   ],
-  "visual_generation_batches_pending": ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
+  "visual_generation_batches_pending": ["C", "D", "E", "F", "G", "H", "I", "J"]
 }

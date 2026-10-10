@@ -1,0 +1,79 @@
+{
+  "batch_id": "DF-V2-BATCH-A",
+  "batch_name": "CLIENT INTERACTION DETAILS",
+  "actor": "CLIENT",
+  "founder_review": "PENDING",
+  "production_changes": "NONE",
+  "screens": [
+    {
+      "screen_id": "DF-A01",
+      "name": "PROJECT MESSAGES",
+      "parent": "P07 PROJECT OVERVIEW",
+      "filename": "01_PROJECT_MESSAGES.png",
+      "status": "GENERATED",
+      "contract": "ProjectMessage: author_role CLIENT|FOUNDER, body, created_at, delivery_state, read_by_client_at, read_by_founder_at",
+      "design_proposed": ["ATTACHMENT ACTION — no attachment field on ProjectMessage"]
+    },
+    {
+      "screen_id": "DF-A02",
+      "name": "APPROVAL DETAIL",
+      "parent": "P10 NEEDS YOU",
+      "filename": "02_APPROVAL_DETAIL.png",
+      "status": "GENERATED",
+      "contract": "ApprovalRecord status REQUESTED plus ClientActionRequest APPROVE_DNS_CHANGE. Fixture subject DNS, version 1.",
+      "design_proposed": []
+    },
+    {
+      "screen_id": "DF-A03",
+      "name": "REQUEST CHANGES",
+      "parent": "DF-A02",
+      "filename": "03_REVISION_REQUEST.png",
+      "status": "GENERATED",
+      "contract": "completeClientAction decision REQUEST_CHANGE writes ApprovalRecord status REVISION_REQUESTED and note. Notes are optional.",
+      "design_proposed": []
+    },
+    {
+      "screen_id": "DF-A04",
+      "name": "PROJECT STAGE DETAIL",
+      "parent": "P08 ROADMAP",
+      "filename": "04_STAGE_BLOCKER_DETAIL.png",
+      "status": "GENERATED",
+      "contract": "ProjectStageRecord 03_PROFESSIONAL_EMAIL status NEEDS_CLIENT. BlockerCategory CLIENT_AUTH_REQUIRED. Next action CONFIRM_PRIMARY_EMAIL.",
+      "design_proposed": []
+    }
+  ],
+  "references": [
+    "docs/site00/idnty/df-visual-fidelity-v1/REF-01-P01-P03.jpg",
+    "docs/site00/idnty/df-visual-fidelity-v1/REF-02-P04-P06.jpg",
+    "docs/site00/idnty/df-visual-fidelity-v1/REF-03-P07-P09.jpg",
+    "docs/site00/idnty/df-visual-fidelity-v1/REF-04-P10-P12.jpg",
+    "docs/site00/idnty/df-visual-fidelity-v1/REF-05-P13-P15.jpg",
+    "docs/site00/idnty/df-visual-fidelity-v1/REF-06-RECORDS-LOCATION.jpg",
+    "docs/site00/idnty/df-visual-fidelity-v1/REF-07-RUNBOOK.jpg"
+  ],
+  "references_attached": ["REF-03 left phone", "REF-04 left phone"],
+  "visual_authority": [
+    "Approved Digital Foundation boards REF-01–REF-07",
+    "Client shell header, rail, headline, and red CTA",
+    "Canonical icon families in foundation-client/icons"
+  ],
+  "target": { "ratio": "9:16", "min_width": 1080, "min_height": 1920, "delivered": "2016x3584" },
+  "output_directory": "docs/site00/idnty/visual-authority/batch-a/",
+  "filename_convention": "NN_SCREEN_NAME.png",
+  "provider": "OPENART",
+  "model": "gpt-image-2-5-sunburst",
+  "qa": [
+    "One phone, not a collage",
+    "Same header and one hamburger",
+    "Uppercase interface text",
+    "Red #E50107 only as the accent",
+    "Readable buttons and labels",
+    "No signature, no chat bubbles, no error-red page",
+    "Content not covered by a monument"
+  ],
+  "zip_name": "SITE00_DF_V2_BATCH_A_CLIENT_INTERACTIONS.zip",
+  "generated_screen_count": 4,
+  "regeneration_count": 0,
+  "next_batch": "B — RECORDS AND APPROVALS",
+  "next_batch_started": false
+}
