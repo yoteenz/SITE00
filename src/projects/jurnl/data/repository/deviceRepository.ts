@@ -171,6 +171,10 @@ export function getRepositoryPersistRevision(): number {
   return persistRevision;
 }
 
+export function getRepositoryPersistRevision(): number {
+  return persistRevision;
+}
+
 function emit(type: RepositoryEvent['type'], entityId?: string) {
   const ev: RepositoryEvent = { type, at: new Date().toISOString(), entityId };
   eventSubs.forEach((cb) => cb(ev));
