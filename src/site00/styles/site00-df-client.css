@@ -208,6 +208,13 @@ body:has(.df-root) {
   background: transparent;
 }
 
+/* The resting MORE INFORMATION peek is portaled to the body. Collapsed, it is type on the plate. */
+body:has(.df-screen--hero, .df-screen--crown, .df-screen--corner) .df-bsheet[data-snap='peek'] .df-bsheet__panel {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+
 .df-screen__grid {
   position: relative;
   z-index: 1;
