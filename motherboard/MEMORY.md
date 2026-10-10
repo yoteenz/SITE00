@@ -16113,3 +16113,20 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Findings:** Supabase management API reports `ACTIVE_HEALTHY` for `hyycomvcaqxxvyrfupes`, but MCP `execute_sql`, `list_migrations`, and authenticated REST all timeout (~12–20 s). Invalid-key REST returns 401 quickly. Production Railway `GET …/digital-foundation-artifact?action=payload` times out ~20 s with 500 `[object Object]` — same data-plane failure, not Composer-only. `site00.com` still serves September bundle `index.D8Jaygrd.js`. Live API `gitCommit` `56cae6852f0c` with persist + intake-only flags on. Railway CLI and cPanel not connected to Composer.
 - **Decisions / outcomes:** Gate A **FAIL/BLOCKED**. Migrations 160000, 170000, 10103000 documented; **do not apply** until founder approves Group A and SQL path works. Deploy order: fix Supabase → migrations → Railway → cPanel ZIP (v11+). Docs under `docs/site00/idnty/ANTHONY_*` and `FOUNDATION_*_EXECUTION*.md`.
 - **Conventions:** Do not merge #1585 until DB path healthy. Do not claim Anthony-ready without live browser proof on current SHAs.
+
+---
+
+## 2026-10-10 — DF visual batch A (client interactions) and the BLDR V2 benchmark
+
+- **Context:** This chat first shipped a PLACE · ADVANCED realism benchmark, then ran the Digital Foundation visual batch A sprint. Batch A is images only. No screens were implemented.
+- **Topics covered:** BLDR V2 (`cursor/bldr-monument-realism-v2-a9f7`, draft PR #1592, not merged, no deploy). Then OpenArt generation of four client child screens from the approved P07 and P10 boards.
+- **Decisions / outcomes:**
+  - Batch A is the canonical visual pipeline for batches B–J. Protocol: `docs/site00/idnty/visual-authority/DF_VISUAL_BATCH_PROTOCOL.md`. Schema: `DF_VISUAL_BATCH_SCHEMA.json`.
+  - OpenArt project `6Ueswtr8vt58ur2n3CRs` (SITE00 IDNTY Digital Foundation Production). Model GPT Image 2.5 Sunburst, image-to-image, 9:16, 4k tier, quality high, auto-enhance off. Delivered size 2016×3584.
+  - Four screens, first generation accepted, zero regenerations. History ids `KqcTJT0gLqAZ2AKbJfFd`, `ccdXuh2oqj15ZVc8MMMT`, `xOAa1cjlVWmMmA7yRTbR`, `o9Vt1BZ8BgOJXc7uNEzE`.
+  - Credits 29,118 → 27,854 (delta 1,264; quote was 317 × 4 = 1,268).
+  - A01 attachment is design-proposed. `ProjectMessage` has no attachment field. A03 notes stay optional, matching the live contract.
+  - Screens are registered on the parent manifest as `NOT_IMPLEMENTED` / `CANDIDATE_PENDING_FOUNDER`. Opus does not build them until the founder approves.
+  - Do not start batch B automatically. Do not touch Anthony Gate A, Supabase, Railway, cPanel, or Stripe from a visual batch.
+- **Changes:** visual-authority docs, four manifest rows. Images live in the review ZIP, not in application routes.
+- **Conventions:** One OpenArt image per screen, referenced from a cropped approved phone. Same pipeline next batch. Founder reviews the ZIP before any implementation.

@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "site00-df-visual-batch",
+  "title": "Digital Foundation visual generation batch",
+  "description": "Reusable inputs for batches A–J. The pipeline does not change when the screen inventory does.",
+  "type": "object",
+  "required": ["batch_id", "batch_name", "actor", "screens", "references", "visual_authority", "target", "output", "provider", "qa", "zip_name", "founder_review"],
+  "properties": {
+    "batch_id": { "type": "string" },
+    "batch_name": { "type": "string" },
+    "actor": { "type": "string" },
+    "screens": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["screen_id", "name", "purpose", "parent", "filename", "contract"],
+        "properties": {
+          "screen_id": { "type": "string" },
+          "name": { "type": "string" },
+          "purpose": { "type": "string" },
+          "parent": { "type": "string" },
+          "filename": { "type": "string" },
+          "contract": { "type": "string" },
+          "design_proposed": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "references": { "type": "array", "items": { "type": "string" } },
+    "visual_authority": { "type": "array", "items": { "type": "string" } },
+    "target": {
+      "type": "object",
+      "required": ["ratio", "min_width", "min_height"],
+      "properties": {
+        "ratio": { "type": "string" },
+        "min_width": { "type": "integer" },
+        "min_height": { "type": "integer" }
+      }
+    },
+    "output": {
+      "type": "object",
+      "required": ["directory", "filename_convention"],
+      "properties": {
+        "directory": { "type": "string" },
+        "filename_convention": { "type": "string" }
+      }
+    },
+    "provider": { "type": "string", "const": "OPENART" },
+    "model": { "type": "string" },
+    "qa": { "type": "array", "items": { "type": "string" } },
+    "zip_name": { "type": "string" },
+    "founder_review": { "type": "string", "enum": ["PENDING", "APPROVED", "APPROVED_WITH_SURGICAL_REVISIONS", "REVISION_REQUIRED", "REJECTED"] }
+  }
+}
