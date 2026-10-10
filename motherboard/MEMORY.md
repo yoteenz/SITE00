@@ -16113,3 +16113,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Findings:** Supabase management API reports `ACTIVE_HEALTHY` for `hyycomvcaqxxvyrfupes`, but MCP `execute_sql`, `list_migrations`, and authenticated REST all timeout (~12–20 s). Invalid-key REST returns 401 quickly. Production Railway `GET …/digital-foundation-artifact?action=payload` times out ~20 s with 500 `[object Object]` — same data-plane failure, not Composer-only. `site00.com` still serves September bundle `index.D8Jaygrd.js`. Live API `gitCommit` `56cae6852f0c` with persist + intake-only flags on. Railway CLI and cPanel not connected to Composer.
 - **Decisions / outcomes:** Gate A **FAIL/BLOCKED**. Migrations 160000, 170000, 10103000 documented; **do not apply** until founder approves Group A and SQL path works. Deploy order: fix Supabase → migrations → Railway → cPanel ZIP (v11+). Docs under `docs/site00/idnty/ANTHONY_*` and `FOUNDATION_*_EXECUTION*.md`.
 - **Conventions:** Do not merge #1585 until DB path healthy. Do not claim Anthony-ready without live browser proof on current SHAs.
+
+---
+
+## 2026-10-10 — Direct links under each Digital Foundation review route
+
+- **Context:** This chat covered a BLDR realism follow-up, a Digital Foundation visual batch, a preview-tunnel restart, and then a request to put a direct link under every page route on `/foundation/review`.
+- **Topics covered:** BLDR V2 PLACE · ADVANCED benchmark stays on draft PR #1592 and is not merged. Digital Foundation batch A (four OpenArt client screens, review ZIP, draft PR #1593) is images only and is not merged. The preview connector was restarted. The founder then asked for direct links on the review page.
+- **Decisions / outcomes:** Each route in the sticky bar, and each screen header, shows the absolute address for that screen. The host is the page origin, so the preview lists `…/foundation/review#df-r-P01` through `#df-r-OVERVIEW` and `#df-r-bldr-PLACE` through `#df-r-bldr-BLUEPRINT`. Opening a link scrolls that screen below the bar. Do not hardcode the preview hostname. Do not start batch B. Do not implement A01–A04 until the founder approves the ZIP. Do not roll the V2 monument renderer out past the PLACE · ADVANCED benchmark until the founder approves it.
+- **Changes:** `src/site00/pages/foundation/DigitalFoundationReviewPage.tsx`, `src/site00/pages/foundation/reviewLinks.ts`, `src/site00/styles/site00-df-client.css`, `tests/digitalFoundationReviewLinks.test.ts`.
+- **Conventions:** A review screen’s direct address is `/foundation/review` plus its anchor. The visible text is that full URL.
