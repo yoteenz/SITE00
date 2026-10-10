@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { reviewScreenUrl } from '../src/site00/pages/foundation/reviewLinks';
+import { reviewAnchorForView, reviewScreenUrl } from '../src/site00/pages/foundation/reviewLinks';
 
 const ANCHORS = [
   'df-r-P01',
@@ -36,5 +36,17 @@ describe('foundation review direct links', () => {
     const page = readFileSync('src/site00/pages/foundation/DigitalFoundationReviewPage.tsx', 'utf8');
     expect(page).toContain('className="df-review__direct"');
     expect(page.match(/<DirectLink /g)?.length).toBe(4);
+  });
+
+  it('maps review steps to anchor ids', () => {
+    expect(reviewAnchorForView('P04')).toBe('df-r-P04');
+    expect(reviewAnchorForView('OVERVIEW')).toBe('df-r-OVERVIEW');
+  });
+
+  it('advances the intake flow by scrolling, not routing away from review', () => {
+    const page = readFileSync('src/site00/pages/foundation/DigitalFoundationReviewPage.tsx', 'utf8');
+    expect(page).toContain("advance('P04')");
+    expect(page).toContain('scrollToReviewAnchor');
+    expect(page).not.toContain('navigate(');
   });
 });
