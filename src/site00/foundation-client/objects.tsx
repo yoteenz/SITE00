@@ -1,17 +1,17 @@
 /**
  * Digital Foundation threshold architecture (DF-A01 hero, DF-A02 crown, DF-A03 corner fragment).
  *
- * Interim vector renditions of the approved architecture: white chamber, glass Foundation Plate with the
- * "01 DIGITAL FOUNDATION" etching, red translucent threshold plates, stone plinth. When Grok delivers the
- * photoreal renders (GROK_ASSET_REQUEST_MANIFEST DF-G01..G05) set their paths in DF_ARCHITECTURE_RENDERS and
- * the slot swaps to the raster without layout change. Purely decorative: never carries client data.
+ * Runtime plates are OpenArt GPT Image 2.5 Sunburst image-to-image sidekicks of the approved
+ * boards (project SITE00 IDNTY Digital Foundation Production, 6Ueswtr8vt58ur2n3CRs). They carry
+ * the marble chamber, glass plate, and red threshold only — no page UI. The vector chamber below
+ * remains the fallback if a path is null. Purely decorative: never carries client data.
  */
 import { useId } from 'react';
 
 export const DF_ARCHITECTURE_RENDERS: { hero: string | null; crown: string | null; corner: string | null } = {
-  hero: null,
-  crown: null,
-  corner: null,
+  hero: '/site00/idnty/digital-foundation/architecture/df-g01-hero-chamber.jpg',
+  crown: '/site00/idnty/digital-foundation/architecture/df-g02-crown-fragment.jpg',
+  corner: '/site00/idnty/digital-foundation/architecture/df-g03-corner-fragment.jpg',
 };
 
 const RED = '#E50107';
