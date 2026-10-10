@@ -26,7 +26,8 @@
 }
 
 .df-root,
-.df-screen {
+.df-screen,
+.df-sheet {
   --df-bg: #f3f2ef;
   --df-card: #f9f8f6;
   --df-field: #f6f5f2;
