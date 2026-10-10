@@ -151,14 +151,16 @@ describe('portaled drawer style scope', () => {
   });
 });
 
-describe('approved architecture photographs', () => {
+describe('initial vector architecture', () => {
   const objects = readFileSync(new URL('../src/site00/foundation-client/objects.tsx', import.meta.url), 'utf8');
   const css = readFileSync(new URL('../src/site00/styles/site00-df-client.css', import.meta.url), 'utf8');
 
-  it('uses the chamber photographs and does not paint a generated full-screen plate', () => {
-    expect(objects).toContain('df-g01-hero-chamber.jpg');
-    expect(objects).toContain('df-g02-crown-fragment.jpg');
-    expect(objects).toContain('df-g03-corner-fragment.jpg');
+  it('keeps the original vector chamber and does not mount generated photographs', () => {
+    expect(objects).toContain('hero: null');
+    expect(objects).toContain('crown: null');
+    expect(objects).toContain('corner: null');
+    expect(objects).toContain('df-object__svg');
+    expect(objects).not.toContain('df-g01-hero-chamber.jpg');
     expect(objects).not.toContain('df-plate-hero.jpg');
     expect(css).not.toContain('--df-plate');
     expect(css).not.toContain('df-screen--hero::before');

@@ -16093,3 +16093,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decisions / outcomes:** The monuments are live three.js WebGL (`buildObject/engine.ts`), shared by the hero stage and the card thumbnails. Geometry and camera stay in `composition.ts`. Glass cannot use transmission: the canvas is transparent over the photographic room plate, so a refraction pass shows empty alpha and the panes disappear. Glass stays a painted pane with a specular coat, thicker edge lines, and a higher environment response. Marble and stone get a polish coat and a bump map from the existing procedural canvases. Red acrylic stays `#E50107`. Contact shadow is stronger. Neutral tone mapping, exposure 1.02. No new raster assets. No layout, type, or selection changes.
 - **Changes:** `src/site00/builder-studio/buildObject/engine.ts`, `tests/bldrMonumentRealism.test.ts`, `docs/site00/bldr/MONUMENT_REALISM_PASS1.json`.
 - **Conventions:** Do not replace these monuments with product photography or a new object family. Do not turn glass transmission on while the stage canvas is transparent. Thumbnails must keep using the same materials as the hero.
+
+---
+
+## 2026-10-10 — Digital Foundation backgrounds return to the original vector chamber
+
+- **Context:** After the BLDR material pass, the founder said the background images were still wrong and to restore them to what they were initially. The status that claimed the chamber photographs were the originals (`#1587`, `df-g01` / `df-g02` / `df-g03`) was rejected. Those files were the first OpenArt generation. The 9:16 plates (`df-plate-*`, `#1576`) were the second generation. Neither is the initial architecture.
+- **Topics covered:** PLACE–BLUEPRINT realism on the existing three.js engine, then this restore. Authority boards in `docs/site00/idnty/df-visual-fidelity-v1/` show the vector chamber, crown, and corner on the cream page.
+- **Decisions / outcomes:** `DF_ARCHITECTURE_RENDERS` is null again. Hero, crown, and corner draw the original SVG. The three generated photographs are removed. Panels stay filled. MORE INFORMATION stays in the menu. No full-screen plate.
+- **Changes:** `objects.tsx`, `shell.tsx`, `site00-df-client.css`, `tests/digitalFoundationMenuDrawer.test.ts`, deletion of `df-g01-hero-chamber.jpg`, `df-g02-crown-fragment.jpg`, `df-g03-corner-fragment.jpg`.
+- **Conventions:** Do not mount a generated photograph or a full-screen plate as the Digital Foundation background. The initial architecture is the vector chamber.
