@@ -15946,3 +15946,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Symptom:** Mobile tunnel showed red `Cannot find module … tsx/dist/esm/api/…` on Digital Foundation (API LOCAL_API_ERROR surfaced in UI).
 - **Cause:** Preview worktree stuck on pinned DF branch commit still using tsx dynamic import for Vite local API, combined with `NODE_OPTIONS --import=tsx` on cloud dev server; dirty worktree blocked `preview/tunnel` remount.
 - **Fix:** Remount `/tmp/site00-preview-main` to `origin/preview/tunnel` (esbuild API bundler on main); remove global `--import=tsx` from `run-site00-cloud-preview-server.sh`; `ensure-site00-preview-main-authority.sh` hard-resets worktree when checkout fails.
+
+---
+
+## 2026-10-10 — Digital Foundation OpenArt architecture sidekicks
+
+- **Context:** Founder asked for a blank Digital Foundation template at P01, then a sequence of type, menu, and visual corrections, then real architectural background plates instead of the vector chamber.
+- **Topics covered:** Blank template (`INVITED` / `NOT_STARTED`); −2px type; menu sheet no longer covered by the footer; P01 triad “PROFESSIONAL” / “BUSINESS EMAIL”; founder hamburger PNG with no plate; lede line-height −1px; headline token reduced 4px then 8px; icon stroke 0.15 after a 0.3 pass and a 10% size increase; preview tsx module error fixed by dropping `--import=tsx`; invalid-link recovery via template bootstrap; menu sheet tokens so a portaled panel stays opaque; photoreal Cursor plates were rejected as generic.
+- **Decisions / outcomes:** Background plates are OpenArt image-to-image sidekicks of the approved boards, not text-to-image and not Cursor GenerateImage. UI copy stays in React. The glass etching “01 / DIGITAL FOUNDATION” stays on the hero plate because it is part of the physical object. P08–P15 are not client routes.
+- **Changes:** `DF_ARCHITECTURE_RENDERS` now points at `public/site00/idnty/digital-foundation/architecture/df-g01-hero-chamber.jpg`, `df-g02-crown-fragment.jpg`, and `df-g03-corner-fragment.jpg`. OpenArt project `6Ueswtr8vt58ur2n3CRs` (SITE00 IDNTY Digital Foundation Production), model `gpt-image-2-5-sunburst` image2image, 2k, high, autoEnhance off. Histories `aHlkWBWXr3ikxXgOdFHx` (hero), `OqWsW3dvLAub8eKo0E6L` (crown), `ipqkQnpBFZr286lgLyH2` (corner). Quoted 152 credits each. Do not generate these into a JURNL family project.
+- **Conventions:** Headless upload is `openart_upload_sign` + PUT + `openart_upload_metadata_get`. Crop the architecture out of the phone boards before image-to-image so the model does not keep headlines and buttons.
