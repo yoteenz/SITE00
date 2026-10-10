@@ -22,6 +22,8 @@ import {
   type QuoteAcceptanceRecord,
   type ReferralSourceKind,
 } from '../../../shared/site00-digital-foundation/types.js';
+import type { CommunicationConsentRecord } from '../../../shared/site00-digital-foundation/communications/types.js';
+import { enqueueCommunicationsForEvent } from './communications/dispatch.js';
 import * as mem from './memoryStore.js';
 import { getFoundationPaymentAdapter } from './payment/stripeHostedCheckout.js';
 import {
@@ -67,6 +69,10 @@ function logEvent(
     payload,
     created_at: nowIso(),
   });
+  const artifact = mem.memGetArtifact(artifactId);
+  const lead = artifact ? mem.memGetLead(artifact.lead_id) : undefined;
+  const email = lead?.contact_email ?? artifact?.intake.current_email ?? null;
+  enqueueCommunicationsForEvent({ artifactId, eventType: event_type, recipientEmail: email, payload });
 }
 
 function transitionArtifact(a: DigitalFoundationArtifact, to: DigitalFoundationArtifact['state']): void {
@@ -811,7 +817,49 @@ export function getClientArtifactPayloadByToken(token: string) {
     projected_min_days: internal.quote?.projected_min_days ?? null,
     projected_max_days: internal.quote?.projected_max_days ?? null,
   });
-  return toClientArtifactPayload(internal, timeline_readiness);
+  return toClientArtifactPayload(internal, timeline_readiness, getCommunicationPreferencesForArtifact(internal.artifact.artifact_id));
+}
+
+export function getCommunicationPreferencesForArtifact(artifactId: string) {
+  const artifact = mem.memGetArtifact(artifactId);
+  const lead = artifact ? mem.memGetLead(artifact.lead_id) : undefined;
+  const email = lead?.contact_email ?? artifact?.intake.current_email ?? '';
+  const stored = mem.getDfMemoryState().communicationConsents.get(artifactId);
+  return {
+    marketing_opt_in: stored?.marketing_opt_in ?? false,
+    project_operations: stored?.categories.PROJECT_OPERATIONS ?? true,
+    educational: stored?.categories.EDUCATIONAL ?? false,
+  } satisfies import('../../../shared/site00-digital-foundation/clientProjection.js').ClientCommunicationPreferences;
+}
+
+export function updateCommunicationPreferences(
+  artifactId: string,
+  preferences: import('../../../shared/site00-digital-foundation/clientProjection.js').ClientCommunicationPreferences,
+): CommunicationConsentRecord {
+  const artifact = mem.memGetArtifact(artifactId);
+  if (!artifact) throw new Error('ARTIFACT_NOT_FOUND');
+  const lead = mem.memGetLead(artifact.lead_id);
+  const email = lead?.contact_email ?? artifact.intake.current_email ?? '';
+  const rec: CommunicationConsentRecord = {
+    artifact_id: artifactId,
+    contact_email: email,
+    marketing_opt_in: preferences.marketing_opt_in,
+    categories: {
+      PROJECT_OPERATIONS: preferences.project_operations,
+      EDUCATIONAL: preferences.educational,
+      MARKETING: preferences.marketing_opt_in,
+      ESSENTIAL_SERVICE: true,
+      SECURITY: true,
+    },
+    consent_source: 'CLIENT_PREFERENCE_CENTER',
+    consent_at: nowIso(),
+    notice_version: 'df-comm-prefs-v1',
+    updated_at: nowIso(),
+  };
+  mem.getDfMemoryState().communicationConsents.set(artifactId, rec);
+  logEvent(artifactId, 'INTAKE_UPDATED', 'CLIENT', { communication_preferences: true });
+  schedulePersist(artifactId);
+  return rec;
 }
 
 export function getArtifactPayload(artifactId: string): DigitalFoundationArtifactPayload {

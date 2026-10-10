@@ -12,6 +12,7 @@ import {
   openArtifactByToken,
   removeQuoteAddon,
   updateIntake,
+  updateCommunicationPreferences,
   updateQuoteSelections,
 } from '../_lib/digitalFoundation/service.js';
 import { getCommercialConfig } from '../_lib/digitalFoundation/service.js';
@@ -110,6 +111,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         case 'complete-client-action':
           completeClientAction(artifact.artifact_id, String(body.request_id), body.response ?? {});
+          await loadArtifactGraphByToken(token);
+          return res.status(200).json(getClientArtifactPayloadByToken(token));
+        case 'update-communication-preferences':
+          updateCommunicationPreferences(artifact.artifact_id, body.preferences ?? {});
           await loadArtifactGraphByToken(token);
           return res.status(200).json(getClientArtifactPayloadByToken(token));
         case 'build-interest':
