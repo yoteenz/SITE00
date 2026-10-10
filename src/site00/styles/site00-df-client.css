@@ -166,8 +166,8 @@ body:has(.df-root) {
 
 .df-header__menu-icon {
   display: block;
-  width: 18px;
-  height: 11px;
+  width: 19.8px;
+  height: 12.1px;
   background: none;
   fill: var(--df-ink);
 }
@@ -354,8 +354,8 @@ body:has(.df-root) {
 }
 
 .df-triad svg {
-  width: 14.5px;
-  height: 14.5px;
+  width: 15.95px;
+  height: 15.95px;
   margin: 0 0 6px;
 }
 
@@ -378,8 +378,8 @@ body:has(.df-root) {
 }
 
 .df-triad--proof svg {
-  width: 13px;
-  height: 13px;
+  width: 14.3px;
+  height: 14.3px;
   margin-bottom: 6px;
 }
 
@@ -431,9 +431,9 @@ body:has(.df-root) {
 }
 
 .df-cta__arrow {
-  width: 12px;
-  height: 12px;
-  stroke-width: 0.625;
+  width: 13.2px;
+  height: 13.2px;
+  stroke-width: 0.3;
 }
 
 .df-cta--outline {
@@ -465,8 +465,8 @@ body:has(.df-root) {
 
 .df-trust__lock {
   flex: 0 0 auto;
-  width: 7px;
-  height: 7px;
+  width: 7.7px;
+  height: 7.7px;
   color: var(--df-ink);
 }
 
@@ -580,8 +580,8 @@ body.df-sheet-open {
 
 .df-alert__icon {
   flex: 0 0 auto;
-  width: 8px;
-  height: 8px;
+  width: 8.8px;
+  height: 8.8px;
   margin-top: 1px;
 }
 
@@ -617,8 +617,8 @@ body.df-sheet-open {
 }
 
 .df-link--row svg {
-  width: 7px;
-  height: 7px;
+  width: 7.7px;
+  height: 7.7px;
   flex: 0 0 auto;
 }
 
@@ -665,9 +665,9 @@ body.df-sheet-open {
 }
 
 .df-check svg {
-  width: 7.5px;
-  height: 7.5px;
-  stroke-width: 1.2;
+  width: 8.25px;
+  height: 8.25px;
+  stroke-width: 0.3;
 }
 
 .df-check--on {
@@ -705,8 +705,8 @@ body.df-sheet-open {
 }
 
 .df-stepper svg {
-  width: 7px;
-  height: 7px;
+  width: 7.7px;
+  height: 7.7px;
 }
 
 .df-stepper output {
@@ -816,8 +816,8 @@ body.df-sheet-open {
   position: absolute;
   top: 50%;
   right: 12px;
-  width: 7.5px;
-  height: 7.5px;
+  width: 8.25px;
+  height: 8.25px;
   transform: translateY(-50%) rotate(90deg);
   pointer-events: none;
 }
@@ -870,9 +870,9 @@ div.df-row__main {
 
 .df-row__icon {
   flex: 0 0 auto;
-  width: 17px;
-  height: 17px;
-  stroke-width: 0.65;
+  width: 18.7px;
+  height: 18.7px;
+  stroke-width: 0.3;
 }
 
 .df-row__text {
@@ -932,8 +932,8 @@ div.df-row__main {
 }
 
 .df-row__arrowbox svg {
-  width: 10px;
-  height: 10px;
+  width: 11px;
+  height: 11px;
 }
 
 .df-rows__alert {
@@ -1081,8 +1081,8 @@ div.df-row__main {
 }
 
 .df-included .df-row__icon {
-  width: 12px;
-  height: 12px;
+  width: 13.2px;
+  height: 13.2px;
 }
 
 .df-included__label {
@@ -1113,9 +1113,9 @@ div.df-row__main {
 }
 
 .df-disc svg {
-  width: 6.5px;
-  height: 6.5px;
-  stroke-width: 1.3;
+  width: 7.15px;
+  height: 7.15px;
+  stroke-width: 0.3;
 }
 
 .df-included--compact {
@@ -1197,8 +1197,8 @@ div.df-row__main {
 }
 
 .df-addon .df-row__icon {
-  width: 12.5px;
-  height: 12.5px;
+  width: 13.75px;
+  height: 13.75px;
 }
 
 .df-addon .df-row__title {
@@ -1238,8 +1238,8 @@ div.df-row__main {
 }
 
 .df-addon .df-stepper svg {
-  width: 6px;
-  height: 6px;
+  width: 6.6px;
+  height: 6.6px;
 }
 
 .df-addon__price {
@@ -1373,8 +1373,8 @@ button.df-spec__btn {
 }
 
 .df-spec .df-row__icon {
-  width: 15px;
-  height: 15px;
+  width: 16.5px;
+  height: 16.5px;
 }
 
 .df-spec__text {
@@ -1586,9 +1586,9 @@ button.df-spec__btn {
 }
 
 .df-confirm-card__disc svg {
-  width: 14px;
-  height: 14px;
-  stroke-width: 1.2;
+  width: 15.4px;
+  height: 15.4px;
+  stroke-width: 0.3;
 }
 
 .df-confirm-card__disc--clock,
@@ -1676,9 +1676,9 @@ button.df-spec__btn {
 }
 
 .df-stage--complete .df-stage__node svg {
-  width: 5px;
-  height: 5px;
-  stroke-width: 1.5;
+  width: 5.5px;
+  height: 5.5px;
+  stroke-width: 0.3;
 }
 
 .df-stage--in_progress .df-stage__node {
@@ -1767,8 +1767,8 @@ button.df-spec__btn {
 }
 
 .df-sheet__close svg {
-  width: 10px;
-  height: 10px;
+  width: 11px;
+  height: 11px;
 }
 
 .df-sheet__body {
