@@ -18,7 +18,7 @@ function svg(id: string, px: number, tone?: string) {
     .join(id === 'stepCurrent' ? '1' : id === 'stepUpcoming' ? '2' : '3')
     .split('{{progress}}')
     .join('9');
-  return `<svg viewBox="0 0 24 24" width="${px}" height="${px}" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" style="color:${color}">${raw}</svg>`;
+  return `<svg viewBox="0 0 24 24" width="${px}" height="${px}" fill="none" stroke="currentColor" stroke-width="0.6" stroke-linecap="round" stroke-linejoin="round" style="color:${color}">${raw}</svg>`;
 }
 
 const families = DF_ICON_FAMILIES.map((family) => {
@@ -67,7 +67,7 @@ const svgDir = 'public/site00/idnty/digital-foundation/icons';
 mkdirSync(svgDir, { recursive: true });
 for (const icon of DF_ICON_CATALOG) {
   const body = DF_ICON_GLYPHS[icon.id].split('{{step}}').join('1').split('{{progress}}').join('9');
-  const file = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#0A0A0A" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round">${body}</svg>`;
+  const file = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#0A0A0A" stroke-width="0.6" stroke-linecap="round" stroke-linejoin="round">${body}</svg>`;
   writeFileSync(join(svgDir, `${icon.id}.svg`), file);
 }
 
