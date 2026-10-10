@@ -15998,3 +15998,14 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 - **Context:** 142 SVG icons + aliases on V2 branch tip (#1575 stacked on recovery). Included on Anthony launch branch merge.
 - **Conventions:** Header still uses `menu-icon.png`; do not replace with registry menu glyph.
+
+---
+
+## 2026-10-10 — Anthony launch gate recovery (real E2E2 sprint)
+
+- **Context:** P0 sprint to verify Anthony Digital Foundation journey — Gate A safe intake vs Gate B full service. Baseline main `4bf6fa50` (#1573); integrated #1574 into `cursor/df-anthony-launch-gate-a9f7` (draft PR, not merged). Founder approval required for production release; no live charges or client emails during engineering.
+- **Gate A (dev):** Browser 393×852 on `/foundation/:token` — intake save + hard refresh PASS; founder admin `detail?id=` matches client intake on cloud preview memory store. Launch gate env `SITE00_DIGITAL_FOUNDATION_LAUNCH_GATE_INTAKE_ONLY` blocks checkout and surfaces `INTAKE_SUBMITTED` (vitest). **Production BLOCKED:** `SITE00_DIGITAL_FOUNDATION_PERSIST_SUPABASE=1` + migrations not verified on deployed API; deploy SHA unverified.
+- **Gate B:** FAIL/BLOCKED — Stripe test checkout not run live; messaging API/tests only (no two-browser UI round trip); email DRY_RUN/memory intents; records download not E2E.
+- **Deliverables:** `docs/site00/idnty/ANTHONY_*`, `DIGITAL_FOUNDATION_E2E_TEST_MATRIX.json`, `FOUNDATION_*_VERIFICATION.md`. Evidence screenshots `/opt/cursor/artifacts/gate-a-intake-*.png`.
+- **Tests:** `npm test -- --run tests/digitalFoundation*` → 100 pass, 1 skipped; typecheck + build pass. Full repo vitest has pre-existing failures unrelated to DF.
+- **Recommendation:** NO-GO for production Anthony link until persistence + deploy SHA + intake-only env on Railway; INTAKE-ONLY after those close.
