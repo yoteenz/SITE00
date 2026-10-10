@@ -1,6 +1,6 @@
 # Marketing email authority — checksum recovery
 
-Sprint: `P0.SITE00.IDNTY.MARKETING-EMAIL-AUTHORITY-CHECKSUM-RECOVERY1`  
+Sprint: `P0.SITE00.IDNTY.MARKETING-EMAIL-AUTHORITY-REPOSITORY-RECOVERY3` (continues recovery 1–2)  
 Date: 2026-10-10  
 Status: **BLOCKED**
 
