@@ -394,7 +394,14 @@ export function investmentSections(g: GrowthContext, payload: DfPayload): Invest
       caption: q.growth_lines.length ? q.growth_subtotal_display.toUpperCase() : 'OPTIONAL — ADD ON YOUR GROWTH PATH',
       lines: q.growth_lines.map((l) => ({
         label: l.label.toUpperCase(),
-        value: l.line_total_minor != null ? formatMoney(l.line_total_minor, currency) : l.price_display.replace(/\s*\(.*\)$/, '').toUpperCase(),
+        value:
+          l.line_total_minor != null
+            ? formatMoney(l.line_total_minor, currency)
+            : (() => {
+                const svc = serviceOf(g, l.service_id);
+                const p = svc ? priceStatus(svc) : null;
+                return p ? (p.detail.startsWith('PLANNING RANGE') ? `PLANNING RANGE ${p.label}` : p.label) : 'PRICING PENDING';
+              })(),
         note: l.requires_manual_review ? 'CONFIRMED BY SITE 00 BEFORE ANYTHING IS PAYABLE' : 'APPROVED',
       })),
       inCheckout: false,
@@ -426,11 +433,10 @@ export function investmentSections(g: GrowthContext, payload: DfPayload): Invest
   ];
 }
 
-/** The amount payable at Foundation checkout: the server's composed total, or the adjusted Foundation quote. */
+/** The amount payable at Foundation checkout — the Foundation quote only; Growth is never in this total. */
 export function checkoutTotal(g: GrowthContext, payload: DfPayload): string {
-  const adj = payload.quote?.manual_adjustments_minor ?? 0;
-  if (adj !== 0 && payload.quote) return formatMoney(payload.quote.subtotal_minor, payload.quote.currency);
-  return g.unified_quote.one_time_total_display;
+  if (payload.quote) return formatMoney(payload.quote.subtotal_minor, payload.quote.currency);
+  return formatMoney(g.unified_quote.foundation_subtotal_minor, 'USD');
 }
 
 // ─── G3 Delivery timeline ──────────────────────────────────────────────────────────────────────
