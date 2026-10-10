@@ -1,8 +1,26 @@
 /* Hybrid Spatial Studio — founder-approved mobile authority (no device chrome). */
+@font-face {
+  font-family: 'Bldr Studio Condensed';
+  src: url('/site00/fonts/barlow-condensed/barlow-condensed-600.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Bldr Studio Semi';
+  src: url('/site00/fonts/barlow-semi-condensed/barlow-semi-condensed-600.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
 
 .bldr-spatial-page {
+  --bldr-red: #e50107;
+  --bldr-ink: #0a0a0a;
+  --bldr-surface: #f5f3f3;
   min-height: 100dvh;
-  background: linear-gradient(180deg, #faf9f7 0%, #f3f1ed 48%, #faf9f7 100%);
+  background: linear-gradient(180deg, #f7f6f4 0%, var(--bldr-surface) 42%, #f8f7f5 100%);
   display: flex;
   justify-content: center;
   padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
@@ -78,17 +96,19 @@
 }
 
 .bldr-spatial-shell__room-id strong {
-  color: #c41e24;
+  color: var(--bldr-red);
   font-weight: 800;
 }
 
 .bldr-spatial-shell__title {
   margin: 0;
-  font-size: 1.35rem;
-  line-height: 1.05;
-  font-weight: 900;
-  letter-spacing: 0.02em;
+  font-family: 'Bldr Studio Condensed', 'Arial Narrow', sans-serif;
+  font-size: clamp(1.85rem, 8vw, 2.35rem);
+  line-height: 0.92;
+  font-weight: 600;
+  letter-spacing: 0.01em;
   text-transform: uppercase;
+  color: var(--bldr-ink);
 }
 
 .bldr-spatial-shell__subtitle {
@@ -101,11 +121,14 @@
 }
 
 .bldr-spatial-shell__stage-wrap {
-  margin: 1rem 0 0.75rem;
-  min-height: 11rem;
+  margin: 0.75rem -0.25rem 0.5rem;
+  min-height: 15.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  background:
+    radial-gradient(120% 80% at 50% 100%, rgba(255, 255, 255, 0.9), transparent 55%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.2), rgba(232, 228, 222, 0.55));
 }
 
 .bldr-spatial-shell__controls {
@@ -140,7 +163,7 @@
 
 .bldr-spatial-shell__progress-fill {
   height: 100%;
-  background: #c41e24;
+  background: var(--bldr-red);
 }
 
 .bldr-spatial-shell__scope {
@@ -167,9 +190,9 @@
 }
 
 .bldr-spatial-shell__btn--primary {
-  background: #c41e24;
+  background: var(--bldr-red);
   color: #fff;
-  border: 1px solid #c41e24;
+  border: 1px solid var(--bldr-red);
 }
 
 .bldr-spatial-shell__btn--primary:disabled {
@@ -185,8 +208,8 @@
 
 .bldr-spatial-shell__btn--outline-red {
   background: #fff;
-  border: 1px solid #c41e24;
-  color: #c41e24;
+  border: 1px solid var(--bldr-red);
+  color: var(--bldr-red);
 }
 
 .bldr-spatial-shell__footnote {
@@ -199,18 +222,41 @@
 /* Build object */
 .bldr-spatial-object {
   position: relative;
-  width: min(100%, 15rem);
-  height: 10.5rem;
-  perspective: 800px;
+  width: min(100%, 18rem);
+  height: 14.5rem;
+  perspective: 900px;
+}
+
+.bldr-spatial-object__atrium {
+  position: absolute;
+  inset: 0 6% 8%;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(210, 206, 200, 0.25)),
+    repeating-linear-gradient(115deg, transparent 0 18px, rgba(255, 255, 255, 0.35) 18px 19px);
+  pointer-events: none;
 }
 
 .bldr-spatial-object__plinth {
   position: absolute;
-  inset: auto 8% 0;
-  height: 1.25rem;
-  background: linear-gradient(180deg, #ece8e2, #d8d2c8);
+  inset: auto 6% 6%;
+  height: 1.65rem;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.55), transparent 40%, rgba(180, 170, 160, 0.35) 70%, transparent),
+    linear-gradient(180deg, #f4f1ec, #d9d2c8 55%, #c8bfb4);
   border: 1px solid rgba(0, 0, 0, 0.08);
-  transform: skewX(-12deg);
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.08);
+  transform: skewX(-14deg);
+}
+
+.bldr-spatial-object__portal {
+  position: absolute;
+  left: 46%;
+  top: 18%;
+  width: 14%;
+  height: 58%;
+  background: linear-gradient(180deg, rgba(229, 1, 7, 0.92), rgba(140, 0, 8, 0.78));
+  box-shadow: 0 0 18px rgba(229, 1, 7, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 .bldr-spatial-object__glass {
@@ -230,11 +276,12 @@
 
 .bldr-spatial-object__slab {
   position: absolute;
-  inset: 10% 15%;
-  border: 1px solid rgba(255, 255, 255, 0.65);
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.55), rgba(196, 30, 36, 0.22));
-  transform: translateZ(calc(var(--i) * 6px));
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  inset: 8% 12%;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.42), rgba(229, 1, 7, 0.08) 46%, rgba(255, 255, 255, 0.12));
+  backdrop-filter: blur(1px);
+  transform: translateZ(calc(var(--i) * 8px)) translateY(calc(var(--i) * -2px));
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.06);
 }
 
 .bldr-spatial-object__core {
@@ -262,20 +309,39 @@
 }
 
 .bldr-spatial-object__inspect button {
-  width: 2rem;
-  height: 2rem;
+  width: 2.25rem;
+  height: 2.25rem;
   border-radius: 999px;
   border: 1px solid #ddd;
   background: #fff;
-  font-size: 0.45rem;
-  font-weight: 800;
-  letter-spacing: 0.06em;
+  color: var(--bldr-ink);
   cursor: pointer;
+  display: grid;
+  place-items: center;
+  padding: 0;
+}
+
+.bldr-spatial-object__inspect svg,
+.bldr-spatial-pace-item > svg,
+.bldr-spatial-core-chips svg,
+.bldr-spatial-work-orbit svg,
+.bldr-spatial-blueprint__metric svg,
+.bldr-spatial-shell__btn svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.bldr-spatial-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
 }
 
 .bldr-spatial-object__inspect button.is-active {
-  border-color: #c41e24;
-  color: #c41e24;
+  border-color: var(--bldr-red);
+  color: var(--bldr-red);
 }
 
 /* Selection grids */
@@ -290,8 +356,8 @@
 }
 
 .bldr-spatial-chip.is-selected {
-  border-color: #c41e24;
-  color: #c41e24;
+  border-color: var(--bldr-red);
+  color: var(--bldr-red);
 }
 
 .bldr-spatial-grid--place {
@@ -309,8 +375,8 @@
 }
 
 .bldr-spatial-card.is-selected {
-  border-color: #c41e24;
-  box-shadow: inset 0 0 0 1px #c41e24;
+  border-color: var(--bldr-red);
+  box-shadow: inset 0 0 0 1px var(--bldr-red);
 }
 
 .bldr-spatial-card__label {
@@ -350,8 +416,8 @@
 }
 
 .bldr-spatial-feel-rail button.is-selected {
-  border-color: #c41e24;
-  color: #c41e24;
+  border-color: var(--bldr-red);
+  color: var(--bldr-red);
 }
 
 .bldr-spatial-feel-active {
@@ -386,8 +452,8 @@
 }
 
 .bldr-spatial-work-orbit button.is-selected {
-  background: #c41e24;
-  border-color: #c41e24;
+  background: var(--bldr-red);
+  border-color: var(--bldr-red);
   color: #fff;
 }
 
@@ -471,11 +537,11 @@
 }
 
 .bldr-spatial-pace-item.is-selected {
-  border-color: #c41e24;
+  border-color: var(--bldr-red);
 }
 
 .bldr-spatial-pace-item input {
-  accent-color: #c41e24;
+  accent-color: var(--bldr-red);
   margin-top: 0.15rem;
 }
 
@@ -516,7 +582,7 @@
 
 .bldr-spatial-blueprint__nav button.is-active {
   color: #111;
-  border-bottom-color: #c41e24;
+  border-bottom-color: var(--bldr-red);
 }
 
 .bldr-spatial-blueprint__metrics {
@@ -636,6 +702,60 @@
   flex-direction: column;
   gap: 0.35rem;
   margin: 0.75rem 0 0.25rem;
+}
+
+.bldr-spatial-object--room-work .bldr-spatial-object__slab {
+  inset: 4% 20%;
+}
+
+.bldr-spatial-object--room-feel .bldr-spatial-object__portal {
+  width: 22%;
+  left: 38%;
+}
+
+.bldr-spatial-object--room-pace .bldr-spatial-object__portal {
+  width: 18%;
+  height: 70%;
+}
+
+.bldr-spatial-object--room-blueprint {
+  height: 16rem;
+}
+
+.bldr-arch-thumb {
+  display: block;
+  width: 100%;
+  height: 3.1rem;
+  margin-bottom: 0.3rem;
+  background: linear-gradient(180deg, #fbfaf8, #efeae4);
+}
+
+.bldr-spatial-feel-rail button {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.bldr-spatial-core-chips span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.bldr-spatial-pace-item > svg {
+  flex: 0 0 auto;
+  margin-top: 0.15rem;
+}
+
+.bldr-spatial-blueprint__metric svg {
+  margin-bottom: 0.2rem;
+}
+
+.bldr-spatial-shell__btn--ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
 }
 
 @media (min-width: 48rem) {

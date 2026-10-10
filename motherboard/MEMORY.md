@@ -16009,3 +16009,11 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Deliverables:** `docs/site00/idnty/ANTHONY_*`, `DIGITAL_FOUNDATION_E2E_TEST_MATRIX.json`, `FOUNDATION_*_VERIFICATION.md`. Evidence screenshots `/opt/cursor/artifacts/gate-a-intake-*.png`.
 - **Tests:** `npm test -- --run tests/digitalFoundation*` → 100 pass, 1 skipped; typecheck + build pass. Full repo vitest has pre-existing failures unrelated to DF.
 - **Recommendation:** NO-GO for production Anthony link until persistence + deploy SHA + intake-only env on Railway; INTAKE-ONLY after those close.
+
+---
+
+## 2026-10-09 — BLDR Hybrid Spatial Studio reference-fidelity (Grok, not merged)
+
+- **Sprint:** asset/icon/material refinement of `/bldr/studio` against three founder phone references. No estimator, no GLB, no production release.
+- **Finding:** live stage is CSS slabs, not Three.js. Refined marble plinth, glass layers, `#E50107` portal, Barlow Condensed headlines, shared `BldrStudioIcon`, distinct `ArchitecturalThumb` SVGs for PLACE/FEEL/blueprint cards.
+- **Gap:** photoreal reference architecture still needs a founder-gated WFE mesh. Draft PR only.
