@@ -9,11 +9,22 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { DF_FEATURE_FLAGS, isDigitalFoundationFlagEnabled } from '../../../shared/site00-digital-foundation/featureFlags.js';
 import DigitalFoundationCompleteSurface from '../pages/foundation/DigitalFoundationCompleteSurface';
-import { saveIntake } from './api';
+import { saveIntake, updateCommunicationPreferences } from './api';
 import { resolveDfRoute, validateBusinessInfo, type CheckoutParam, type DfView, type IntakeErrors } from './model';
 import { P01Entry, P02Intake, P03Configure, SaveChip } from './parents/EntryIntake';
 import { P04Recommendation } from './parents/Recommendation';
 import { InterimOverview, P05Review, P06Activation } from './parents/CheckoutActivation';
+import {
+  CommunicationPreferences,
+  P07ProjectOverview,
+  P08Roadmap,
+  P09StageDetail,
+  P10NeedsYou,
+  RecordDetail,
+  RecordsLibrary,
+} from './parents/ProjectPortal';
+import type { ProjectStageCode } from '../../../shared/site00-digital-foundation/types.js';
+import { isProjectPortalV2Enabled } from './model';
 import { DfCta, DfFrame, DfLoading, DfMenu, DfSystemPanel, type DfObjectKind } from './shell';
 import { useFoundationArtifact, useIntakeDraft, usePaymentVerification, useQuoteSelections } from './useFoundationArtifact';
 import '../styles/site00-df-client.css';
@@ -26,6 +37,12 @@ const OBJECT_FOR: Record<DfView, DfObjectKind> = {
   P05: 'crown',
   P06: 'crown',
   OVERVIEW: 'crown',
+  ROADMAP: 'crown',
+  STAGE: 'crown',
+  NEEDS_YOU: 'crown',
+  RECORDS: 'crown',
+  RECORD: 'crown',
+  COMM_PREFS: 'corner',
 };
 
 function seenKey(artifactId: string) {
@@ -104,9 +121,17 @@ export function FoundationClient({ token }: { token: string }) {
   const checkoutRaw = params.get('checkout');
   const checkout: CheckoutParam = checkoutRaw === 'return' || checkoutRaw === 'cancel' ? checkoutRaw : null;
   const simulated = params.get('simulated_checkout') === '1';
-  const navState = location.state as { dfView?: DfView; dfAnchor?: string } | null;
+  const navState = location.state as {
+    dfView?: DfView;
+    dfAnchor?: string;
+    dfStage?: ProjectStageCode;
+    dfRecord?: string;
+  } | null;
   const stateView = (navState?.dfView ?? null) as DfView | null;
   const stateAnchor = navState?.dfAnchor ?? null;
+  const stateStage = navState?.dfStage ?? null;
+  const stateRecord = navState?.dfRecord ?? null;
+  const [prefsBusy, setPrefsBusy] = useState(false);
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [beginBusy, setBeginBusy] = useState(false);
@@ -148,10 +173,21 @@ export function FoundationClient({ token }: { token: string }) {
   const verification = usePaymentVerification(verifying, reload);
 
   const go = useCallback(
-    (v: DfView, opts: { replace?: boolean; dropQuery?: boolean; anchor?: string } = {}) => {
+    (
+      v: DfView,
+      opts: { replace?: boolean; dropQuery?: boolean; anchor?: string; stage?: ProjectStageCode; record?: string } = {},
+    ) => {
       navigate(
         { pathname: location.pathname, search: opts.dropQuery ? '' : location.search },
-        { state: opts.anchor ? { dfView: v, dfAnchor: opts.anchor } : { dfView: v }, replace: opts.replace },
+        {
+          state: {
+            dfView: v,
+            dfAnchor: opts.anchor,
+            dfStage: opts.stage,
+            dfRecord: opts.record,
+          },
+          replace: opts.replace,
+        },
       );
       setMenuOpen(false);
       window.scrollTo(0, 0);
@@ -352,7 +388,68 @@ export function FoundationClient({ token }: { token: string }) {
       );
       break;
     case 'OVERVIEW':
-      body = <InterimOverview payload={payload} onActivation={() => go('P06')} />;
+      body = isProjectPortalV2Enabled() ? (
+        <P07ProjectOverview
+          payload={payload}
+          verify={verification.phase}
+          onRoadmap={() => go('ROADMAP')}
+          onNeedsYou={() => go('NEEDS_YOU')}
+          onRecords={() => go('RECORDS')}
+          onStage={(code) => go('STAGE', { stage: code })}
+          onActivation={() => go('P06')}
+          onPrefs={() => go('COMM_PREFS')}
+        />
+      ) : (
+        <InterimOverview payload={payload} onActivation={() => go('P06')} />
+      );
+      break;
+    case 'ROADMAP':
+      body = (
+        <P08Roadmap payload={payload} onStage={(code) => go('STAGE', { stage: code })} onOverview={() => go('OVERVIEW')} />
+      );
+      break;
+    case 'STAGE':
+      body = (
+        <P09StageDetail
+          payload={payload}
+          stageCode={stateStage ?? payload.stages[0]?.stage_code ?? '01_DETAILS_RECEIVED'}
+          onRoadmap={() => go('ROADMAP')}
+        />
+      );
+      break;
+    case 'NEEDS_YOU':
+      body = <P10NeedsYou token={token} payload={payload} onReload={reload} onOverview={() => go('OVERVIEW')} />;
+      break;
+    case 'RECORDS':
+      body = (
+        <RecordsLibrary payload={payload} onOpen={(id) => go('RECORD', { record: id })} onOverview={() => go('OVERVIEW')} />
+      );
+      break;
+    case 'RECORD':
+      body = (
+        <RecordDetail
+          payload={payload}
+          recordId={stateRecord ?? ''}
+          onBack={() => go('RECORDS')}
+        />
+      );
+      break;
+    case 'COMM_PREFS':
+      body = (
+        <CommunicationPreferences
+          prefs={payload.communication_preferences}
+          busy={prefsBusy}
+          onSave={(next) => {
+            setPrefsBusy(true);
+            void updateCommunicationPreferences(token, next)
+              .then((p) => {
+                setPayload(p);
+              })
+              .finally(() => setPrefsBusy(false));
+          }}
+          onOverview={() => go('OVERVIEW')}
+        />
+      );
       break;
   }
 

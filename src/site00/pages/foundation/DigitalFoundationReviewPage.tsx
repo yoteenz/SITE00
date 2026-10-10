@@ -21,6 +21,12 @@ const OBJECT_FOR: Record<DfView, DfObjectKind> = {
   P05: 'crown',
   P06: 'crown',
   OVERVIEW: 'crown',
+  ROADMAP: 'crown',
+  STAGE: 'crown',
+  NEEDS_YOU: 'crown',
+  RECORDS: 'crown',
+  RECORD: 'crown',
+  COMM_PREFS: 'corner',
 };
 
 const BLDR_ROOMS = [

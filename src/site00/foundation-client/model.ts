@@ -5,6 +5,8 @@
  * timelines are read from the server quote; nothing in this file prices or schedules anything.
  */
 import type { ClientDigitalFoundationPayload } from '../../../shared/site00-digital-foundation/clientProjection.js';
+import { buildClientRecords } from '../../../shared/site00-digital-foundation/clientRecords.js';
+import { DF_FEATURE_FLAGS, isDigitalFoundationFlagEnabled } from '../../../shared/site00-digital-foundation/featureFlags.js';
 import { assessQuotePayability } from '../../../shared/site00-digital-foundation/quoteReadiness.js';
 import type {
   ClientActionType,
@@ -16,7 +18,9 @@ import type {
 } from '../../../shared/site00-digital-foundation/types.js';
 import type { ClientCatalogEntry } from './api';
 
-export type DfView = 'P01' | 'P02' | 'P03' | 'P04' | 'P05' | 'P06' | 'OVERVIEW';
+export type DfIntakeView = 'P01' | 'P02' | 'P03' | 'P04' | 'P05' | 'P06';
+export type DfPortalView = 'OVERVIEW' | 'ROADMAP' | 'STAGE' | 'NEEDS_YOU' | 'RECORDS' | 'RECORD' | 'COMM_PREFS';
+export type DfView = DfIntakeView | DfPortalView;
 export type CheckoutParam = 'return' | 'cancel' | null;
 
 export const DF_VIEW_META: Record<DfView, { index: string; label: string; footer: string }> = {
@@ -27,9 +31,32 @@ export const DF_VIEW_META: Record<DfView, { index: string; label: string; footer
   P05: { index: '05', label: 'REVIEW + CHECKOUT', footer: '005' },
   P06: { index: '06', label: 'ACTIVATION', footer: '006' },
   OVERVIEW: { index: '07', label: 'PROJECT OVERVIEW', footer: '007' },
+  ROADMAP: { index: '08', label: 'PROJECT ROADMAP', footer: '008' },
+  STAGE: { index: '09', label: 'STAGE DETAIL', footer: '009' },
+  NEEDS_YOU: { index: '10', label: 'NEEDS YOU', footer: '010' },
+  RECORDS: { index: '—', label: 'MY RECORDS', footer: 'REC' },
+  RECORD: { index: '—', label: 'RECORD DETAIL', footer: 'REC' },
+  COMM_PREFS: { index: '—', label: 'COMMUNICATION PREFERENCES', footer: 'COM' },
 };
 
 export const DF_VIEW_ORDER: DfView[] = ['P01', 'P02', 'P03', 'P04', 'P05', 'P06', 'OVERVIEW'];
+
+export function isProjectPortalV2Enabled(): boolean {
+  return isDigitalFoundationFlagEnabled(DF_FEATURE_FLAGS.SITE00_DIGITAL_FOUNDATION_PROJECT_PORTAL_V2);
+}
+
+export function portalViewsForPayload(payload: ClientDigitalFoundationPayload): DfPortalView[] {
+  if (!isProjectPortalV2Enabled()) return ['OVERVIEW'];
+  const base: DfPortalView[] = ['OVERVIEW', 'ROADMAP', 'NEEDS_YOU'];
+  if (payload.stages.length) base.push('STAGE');
+  if (buildClientRecords(payload).length) base.push('RECORDS', 'RECORD');
+  base.push('COMM_PREFS');
+  return base;
+}
+
+export function recordsAvailable(payload: ClientDigitalFoundationPayload): boolean {
+  return buildClientRecords(payload).length > 0;
+}
 
 // ─── Menu drawer (DF-C48) ───────────────────────────────────────────────────────────────────────
 
@@ -43,7 +70,7 @@ export interface DfMenuStep {
   state: DfMenuStepState;
 }
 
-export type DfMenuDestinationId = 'overview' | 'roadmap' | 'records' | 'location';
+export type DfMenuDestinationId = 'overview' | 'roadmap' | 'needs_you' | 'records' | 'location' | 'comm_prefs';
 
 export interface DfMenuDestination {
   id: DfMenuDestinationId;
@@ -80,6 +107,8 @@ export function buildDfMenu(views: readonly DfView[], current: DfView | null): {
     return { view, index: DF_VIEW_META[view].index, label: DF_VIEW_META[view].label, state };
   });
   const portal = views.includes('OVERVIEW');
+  const portalV2 = portal && views.includes('ROADMAP');
+  const recs = portal && views.includes('RECORDS');
   const destinations: DfMenuDestination[] = [
     {
       id: 'overview',
@@ -92,13 +121,36 @@ export function buildDfMenu(views: readonly DfView[], current: DfView | null): {
     {
       id: 'roadmap',
       label: 'ROADMAP',
-      view: 'OVERVIEW',
-      anchor: DF_ROADMAP_ANCHOR,
+      view: portalV2 ? 'ROADMAP' : 'OVERVIEW',
+      anchor: portalV2 ? undefined : DF_ROADMAP_ANCHOR,
       available: portal,
-      current: false,
+      current: current === 'ROADMAP',
       status: portal ? null : 'AFTER PAYMENT',
     },
-    { id: 'records', label: 'VIEW MY RECORDS', view: null, available: false, current: false, status: 'AFTER COMPLETION' },
+    {
+      id: 'needs_you',
+      label: 'NEEDS YOU',
+      view: portalV2 ? 'NEEDS_YOU' : null,
+      available: portal && portalV2,
+      current: current === 'NEEDS_YOU',
+      status: portal ? null : 'AFTER PAYMENT',
+    },
+    {
+      id: 'records',
+      label: 'VIEW MY RECORDS',
+      view: recs ? 'RECORDS' : null,
+      available: recs,
+      current: current === 'RECORDS' || current === 'RECORD',
+      status: recs ? null : 'WHEN RECORDS EXIST',
+    },
+    {
+      id: 'comm_prefs',
+      label: 'COMMUNICATION PREFERENCES',
+      view: portalV2 ? 'COMM_PREFS' : null,
+      available: portal && portalV2,
+      current: current === 'COMM_PREFS',
+      status: portal ? null : 'AFTER PAYMENT',
+    },
     {
       id: 'location',
       label: 'VIEW MY DIGITAL LOCATION',
@@ -140,12 +192,14 @@ export function resolveDfRoute(
       return { kind: 'complete' };
     case 'PAYMENT_RECOVERY':
       return { kind: 'views', views: ['P06'], defaultView: 'P06' };
-    case 'PORTAL':
+    case 'PORTAL': {
+      const portal = portalViewsForPayload(payload);
       return {
         kind: 'views',
-        views: ['P06', 'OVERVIEW'],
+        views: ['P06', ...portal],
         defaultView: ctx.checkout === 'return' || !ctx.activationSeen ? 'P06' : 'OVERVIEW',
       };
+    }
     default:
       break;
   }
