@@ -42,7 +42,7 @@
   --df-display: 'SITE00 DF Display', 'Barlow Condensed', 'Arial Narrow', sans-serif;
   --df-text: 'SITE00 DF Text', 'Inter', 'Helvetica Neue', Arial, sans-serif;
   --df-gutter: 26px;
-  --df-headline: min(58px, 15.4vw);
+  --df-headline: min(54px, 15.4vw);
 }
 
 body:has(.df-root) {
