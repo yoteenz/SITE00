@@ -11,6 +11,7 @@ import * as THREE from 'three';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import type { BuildCamera, BuildComposition, BuildElement, BuildMaterial, BuildMotion } from './composition';
+import { readBuildObjectForensics, type BuildObjectForensics } from './forensics';
 
 const TWEEN_MS = 760;
 const DEG = Math.PI / 180;
@@ -338,13 +339,106 @@ const FIGURE_BODY = (() => {
 /** Interim reflection map from SITE 00's own atrium render (until the GA-01 HDRI exists). */
 const REFLECTION_MAP = '/site00/builder-studio/env/atrium-reflection.webp';
 
-function buildStage(scene: THREE.Scene, renderer: THREE.WebGLRenderer, mobile: boolean, onEnvironment?: (ready: boolean) => void) {
+const ENV_INTENSITY_READY = 0.92;
+/** Slow traveling specular pass (ms per full cycle). */
+const ACCENT_CYCLE_MS = 6800;
+const PORTAL_CYCLE_MS = 7400;
+
+type StageRig = {
+  /** Fixed key light — casts shadows; never moves (moving shadow lights flicker on mobile). */
+  sun: THREE.DirectionalLight;
+  fill: THREE.DirectionalLight;
+  front: THREE.DirectionalLight;
+  /** Soft traveling highlight — no shadows. */
+  accent: THREE.DirectionalLight;
+  hemi: THREE.HemisphereLight;
+  envReady: boolean;
+};
+
+function easeInOutSine(t: number): number {
+  return -(Math.cos(Math.PI * t) - 1) / 2;
+}
+
+/** Localized architectural light — fixed base exposure; animation opt-in only (forensic / future stable loop). */
+function applyArchitecturalLighting(
+  scene: THREE.Scene,
+  rig: StageRig,
+  materials: MaterialSet,
+  now: number,
+  reducedMotion: boolean,
+  interactive: boolean,
+  forensics: BuildObjectForensics,
+) {
+  scene.environmentIntensity = ENV_INTENSITY_READY;
+
+  const glass = materials.surface.glass as THREE.MeshPhysicalMaterial;
+  const glassTint = materials.surface.glassTint as THREE.MeshPhysicalMaterial;
+  const red = materials.surface.red as THREE.MeshPhysicalMaterial;
+  const redFrame = materials.frame.red as THREE.MeshStandardMaterial | undefined;
+
+  rig.sun.intensity = 2.3;
+  rig.sun.position.set(-6, 10, 7);
+  rig.fill.intensity = 0.6;
+  rig.fill.position.set(7, 4, -2);
+  rig.front.intensity = 0.4;
+  rig.front.position.set(2, 2, 10);
+  glass.envMapIntensity = 2.18;
+  glassTint.envMapIntensity = 2.16;
+  red.emissiveIntensity = 0.4;
+  if (redFrame) redFrame.emissiveIntensity = 0.3;
+  rig.accent.intensity = 0;
+  rig.accent.position.set(-2, 9, 6);
+
+  const allowAnimate = forensics.animateLighting && !forensics.staticLighting && !reducedMotion && !interactive;
+  if (!allowAnimate) return;
+
+  const tau = (ms: number, phase = 0) => (now / ms + phase) * Math.PI * 2;
+  const pass = easeInOutSine((Math.sin(tau(ACCENT_CYCLE_MS)) + 1) / 2);
+  const portal = Math.sin(tau(PORTAL_CYCLE_MS, 0.6));
+
+  rig.accent.intensity = 0.26 + pass * 0.18;
+  rig.accent.position.set(-5 + pass * 3.6, 8.2 + Math.sin(tau(ACCENT_CYCLE_MS, 0.25)) * 0.45, 4.2 + Math.cos(tau(5200, 0.4)) * 1.45);
+
+  glass.envMapIntensity = 2.12 + pass * 0.14;
+  glassTint.envMapIntensity = 2.1 + Math.sin(tau(5200, 0.85)) * 0.08;
+  red.emissiveIntensity = 0.39 + portal * 0.035;
+  if (redFrame) redFrame.emissiveIntensity = 0.29 + portal * 0.025;
+}
+
+function applyOpaqueGlassForensic(materials: MaterialSet) {
+  for (const key of ['glass', 'glassTint', 'darkGlass'] as const) {
+    const m = materials.surface[key] as THREE.MeshPhysicalMaterial;
+    m.transparent = false;
+    m.opacity = 1;
+    m.depthWrite = true;
+    m.side = THREE.FrontSide;
+    m.envMapIntensity = 1.1;
+    m.roughness = 0.35;
+  }
+}
+
+/** Deterministic draw order reduces transparent sort instability when the view moves. */
+function stableTransparentOrder(el: BuildElement): number {
+  const [x, y, z] = el.position;
+  return 40 + Math.round(x * 7 + y * 11 + z * 13);
+}
+
+function buildStage(scene: THREE.Scene, renderer: THREE.WebGLRenderer, mobile: boolean, onEnvironment?: (ready: boolean) => void): StageRig {
   // The stage is composited: a photographic environment plate sits behind a transparent canvas (CSS layer), so the
   // scene draws only the architecture, its shadow on the floor and its reflections.
   scene.background = null;
   const pmrem = new THREE.PMREMGenerator(renderer);
+  const rig: StageRig = {
+    sun: new THREE.DirectionalLight(0xffffff, 2.3),
+    fill: new THREE.DirectionalLight(0xf8f6f5, 0.6),
+    front: new THREE.DirectionalLight(0xffffff, 0.4),
+    accent: new THREE.DirectionalLight(0xfff6f4, 0.28),
+    hemi: new THREE.HemisphereLight(0xffffff, 0xe6e2df, 0.62),
+    envReady: false,
+  };
+  // Placeholder env (not shown — render gated until HDRI is ready) avoids a visible RoomEnvironment→HDRI swap.
   scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-  scene.environmentIntensity = 0.55;
+  scene.environmentIntensity = ENV_INTENSITY_READY;
   new THREE.TextureLoader().load(
     REFLECTION_MAP,
     (texture) => {
@@ -352,46 +446,47 @@ function buildStage(scene: THREE.Scene, renderer: THREE.WebGLRenderer, mobile: b
       texture.colorSpace = THREE.SRGBColorSpace;
       const previous = scene.environment;
       scene.environment = pmrem.fromEquirectangular(texture).texture;
-      scene.environmentIntensity = 0.95;
       previous?.dispose();
       texture.dispose();
       pmrem.dispose();
-      // Repaint once now, so the reflection swap lands immediately (also under reduced motion), never on a later frame.
+      rig.envReady = true;
       onEnvironment?.(true);
     },
     undefined,
     () => {
+      rig.envReady = true;
       pmrem.dispose();
       onEnvironment?.(false);
     },
   );
 
-  scene.add(new THREE.HemisphereLight(0xffffff, 0xe6e2df, 0.62));
-  const sun = new THREE.DirectionalLight(0xffffff, 2.3);
-  sun.position.set(-6, 10, 7);
-  sun.castShadow = true;
-  sun.shadow.mapSize.set(mobile ? 1024 : 2048, mobile ? 1024 : 2048);
-  sun.shadow.camera.left = -9;
-  sun.shadow.camera.right = 9;
-  sun.shadow.camera.top = 9;
-  sun.shadow.camera.bottom = -9;
-  sun.shadow.camera.far = 40;
-  sun.shadow.bias = -0.0005;
-  sun.shadow.normalBias = 0.025;
-  sun.shadow.radius = 4;
-  scene.add(sun);
-  const fill = new THREE.DirectionalLight(0xf8f6f5, 0.6);
-  fill.position.set(7, 4, -2);
-  scene.add(fill);
-  const front = new THREE.DirectionalLight(0xffffff, 0.4);
-  front.position.set(2, 2, 10);
-  scene.add(front);
+  scene.add(rig.hemi);
+  rig.sun.position.set(-6, 10, 7);
+  rig.sun.castShadow = true;
+  rig.sun.shadow.mapSize.set(mobile ? 1024 : 2048, mobile ? 1024 : 2048);
+  rig.sun.shadow.camera.left = -9;
+  rig.sun.shadow.camera.right = 9;
+  rig.sun.shadow.camera.top = 9;
+  rig.sun.shadow.camera.bottom = -9;
+  rig.sun.shadow.camera.far = 40;
+  rig.sun.shadow.bias = -0.0005;
+  rig.sun.shadow.normalBias = 0.025;
+  rig.sun.shadow.radius = 4;
+  scene.add(rig.sun);
+  rig.fill.position.set(7, 4, -2);
+  scene.add(rig.fill);
+  rig.front.position.set(2, 2, 10);
+  scene.add(rig.front);
+  rig.accent.castShadow = false;
+  rig.accent.position.set(-2, 9, 6);
+  scene.add(rig.accent);
 
   // Shadow catcher: the plate's polished floor shows through; only the object's soft shadow is drawn.
   const floor = new THREE.Mesh(new THREE.PlaneGeometry(120, 120), new THREE.ShadowMaterial({ color: 0x3a3634, opacity: 0.16 }));
   floor.rotation.x = -Math.PI / 2;
   floor.receiveShadow = true;
   scene.add(floor);
+  return rig;
 }
 
 type NodeState = { position: THREE.Vector3; size: THREE.Vector3; rotationY: number };
@@ -634,20 +729,21 @@ function makeNodeFactory(scene: THREE.Scene, materials: MaterialSet) {
     const mesh = new THREE.Mesh(isFigure ? FIGURE_BODY : UNIT_BOX, materials.surface[el.material]);
     mesh.castShadow = materials.castsShadow[el.material];
     mesh.receiveShadow = !isFigure;
-    if (el.material.includes('lass') || el.material === 'red' || el.material === 'ghost') mesh.renderOrder = 2;
+    const order = el.material.includes('lass') || el.material === 'red' || el.material === 'ghost' ? stableTransparentOrder(el) : 0;
+    if (order) mesh.renderOrder = order;
     group.add(mesh);
     let edges: THREE.LineSegments | null = null;
     const edgeMaterial = materials.edge[el.material];
     if (edgeMaterial) {
       edges = new THREE.LineSegments(UNIT_EDGES, edgeMaterial);
-      edges.renderOrder = 3;
+      if (order) edges.renderOrder = order + 1;
       group.add(edges);
     }
     let mullions: THREE.LineSegments | null = null;
     const mullionMaterial = materials.mullion[el.material];
     if (mullionMaterial) {
       mullions = new THREE.LineSegments(paneGrid(el.size), mullionMaterial);
-      mullions.renderOrder = 3;
+      if (order) mullions.renderOrder = order + 1;
       group.add(mullions);
     }
     const frames: THREE.Mesh[] = [];
@@ -685,7 +781,10 @@ export type BuildObjectEngine = {
   dispose: () => void;
 };
 
-export function createBuildObjectEngine(container: HTMLElement, options: { reducedMotion: boolean }): BuildObjectEngine {
+export function createBuildObjectEngine(
+  container: HTMLElement,
+  options: { reducedMotion: boolean; forensics?: BuildObjectForensics },
+): BuildObjectEngine {
   const mobile = Math.min(window.innerWidth, window.innerHeight) < 700;
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
   renderer.setClearColor(0x000000, 0);
@@ -701,11 +800,16 @@ export function createBuildObjectEngine(container: HTMLElement, options: { reduc
 
   const scene = new THREE.Scene();
   // The stage reports when its reflections are in place (`data-env`), so captures and checks can wait for the final look.
-  buildStage(scene, renderer, mobile, (ready) => {
+  const stageRig = buildStage(scene, renderer, mobile, (ready) => {
     container.dataset.env = ready ? 'ready' : 'fallback';
     requestFrame();
   });
+  const forensics = options.forensics ?? readBuildObjectForensics();
+  container.dataset.bsForensic = forensics.mode;
+  if (forensics.disableCssCanvasFade) container.classList.add('bs-object__host--no-canvas-fade');
+
   const materials = createMaterials();
+  if (forensics.opaqueGlass) applyOpaqueGlassForensic(materials);
   const makeNode = makeNodeFactory(scene, materials);
   const camera = new THREE.PerspectiveCamera(FOV, 1, 0.1, 160);
 
@@ -722,7 +826,6 @@ export function createBuildObjectEngine(container: HTMLElement, options: { reduc
   let visible = true;
   let frame = 0;
   let disposed = false;
-  let lastSwayRender = 0;
   const reducedMotion = options.reducedMotion;
   let anchors: readonly StageAnchor[] = [];
   let anchorListener: AnchorListener | null = null;
@@ -829,21 +932,20 @@ export function createBuildObjectEngine(container: HTMLElement, options: { reduc
       if (t < 1) animating = true;
       else fromCamera = null;
     }
+    if (!stageRig.envReady) {
+      requestFrame();
+      return;
+    }
+    applyArchitecturalLighting(scene, stageRig, materials, now, reducedMotion, interactive, forensics);
     if (currentCamera) {
-      const sway = reducedMotion || interactive ? 0 : Math.sin(now / 5200) * 2.2;
       const view = { ...currentCamera, elevation: Math.max(2, Math.min(55, currentCamera.elevation + dragElevation)) };
-      camera.position.copy(cameraPosition(view, sway + dragAzimuth));
+      camera.position.copy(cameraPosition(view, dragAzimuth));
       camera.lookAt(...view.target);
     }
     renderer.render(scene, camera);
     reportAnchors();
-    if (animating) requestFrame();
-    else if (!reducedMotion && !interactive && visible) {
-      // A gentle idle sway at a low frame rate; transitions run at full rate.
-      const wait = Math.max(0, 1000 / 20 - (now - lastSwayRender));
-      lastSwayRender = now;
-      window.setTimeout(requestFrame, wait);
-    }
+    const idleLightingLoop = visible && forensics.animateLighting && !reducedMotion && !interactive;
+    if (animating || idleLightingLoop || dragging) requestFrame();
   }
 
   function requestFrame() {

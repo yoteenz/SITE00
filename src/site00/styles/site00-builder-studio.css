@@ -254,6 +254,18 @@ body.bs-body {
   display: block;
   width: 100% !important;
   height: 100% !important;
+  opacity: 0;
+  transition: opacity 480ms ease-out;
+}
+
+.bs-object__host[data-env='ready'] .bs-object__canvas,
+.bs-object__host[data-env='fallback'] .bs-object__canvas {
+  opacity: 1;
+}
+
+.bs-object__host.bs-object__host--no-canvas-fade .bs-object__canvas {
+  opacity: 1;
+  transition: none;
 }
 
 .bs-object__fallback {

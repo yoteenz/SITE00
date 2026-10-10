@@ -5,6 +5,7 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import type { BuildComposition } from './composition';
 import { createBuildObjectEngine, renderBuildThumbnail, webglAvailable, type AnchorListener, type BuildObjectEngine, type StageAnchor } from './engine';
+import { readBuildObjectForensics } from './forensics';
 
 export function usePrefersReducedMotion(): boolean {
   const [reduced, setReduced] = useState(
@@ -51,7 +52,7 @@ export function BuildObjectStage({ composition, description, interactive = false
       return;
     }
     try {
-      const engine = createBuildObjectEngine(host, { reducedMotion });
+      const engine = createBuildObjectEngine(host, { reducedMotion, forensics: readBuildObjectForensics() });
       engine.setComposition(compositionRef.current);
       engineRef.current = engine;
     } catch {
