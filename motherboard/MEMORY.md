@@ -15985,3 +15985,11 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Outcomes:** Forensics + manifests under `docs/site00/idnty/DIGITAL_FOUNDATION_V2_*`. Client portal v2 (`SITE00_DIGITAL_FOUNDATION_PROJECT_PORTAL_V2`): P07 overview (replaces interim copy when flag on), P08 roadmap, P09 stage detail, P10 needs-you with `complete-client-action`, records library/detail from real ownership/payment data, communication preference center + API. Founder routes: `/admin/site00/foundation/pipeline`, `/:id/command`, `/:id/workbench`, `/communications` (links to email pack). Communications: `shared/site00-digital-foundation/communications/` event map, consent types, idempotency, send intents via `dispatch.ts` (DRY_RUN unless send flags ON — all default off). Client payload adds `communication_preferences`.
 - **Partial / next:** P11/P12 still `DigitalFoundationCompleteSurface` (functional). Business Ambition UI + `growthBridge` unwired. Supabase persistence for send intents/consent (memory today). Full T01–T29 / M01–M15 templates and journey builder UI for Opus batches. Parallel unmerged PR #1573 component system on `cursor/df-component-system-a9f7`.
 - **Branch:** `cursor/df-v2-architecture-recovery-a9f7` from `8d29986d`.
+
+---
+
+## 2026-10-10 — Digital Foundation canonical icon library
+
+- **Context:** Sprint `P0.SITE00.IDNTY.DIGITAL-FOUNDATION.V2-GROK-CANONICAL-ICON-LIBRARY-REFERENCE-FIDELITY-AND-SYSTEM-INTEGRATION1`. Founder icon sheet is visual authority. Do not redesign the hamburger or menu drawer. No production deploy.
+- **Outcomes:** `DfIcon` now resolves 142 sheet icons plus 6 control extras (arrow, check, plus, minus, laptop, bolt) from `src/site00/foundation-client/icons/`. Stroke is 1.65 (the old 0.15 hairline is removed from DF client CSS). Legacy names (`globe`, `envelope`, `phone`, `shield`, `alert`, …) are aliases. `alert` stays the warning triangle because live error UI uses it; the sheet bell is `commAlert`. AIO is a geometric mark, not the partner logo. Hosted SVGs: `public/site00/idnty/digital-foundation/icons/`. Manifest: `docs/site00/idnty/DIGITAL_FOUNDATION_ICON_MANIFEST.json`. Header still uses `menu-icon.png`.
+- **Branch:** `cursor/df-canonical-icon-library-a9f7` from the V2 recovery branch. Founder visual approval required before merge.
