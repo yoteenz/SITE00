@@ -16058,12 +16058,8 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
-## 2026-10-10 — Foundation link load failure, then icon stroke 0.6
+## 2026-10-10 — Founder restored the plate screen; 0.6 icon stroke rejected
 
-Summary of the **whole conversation so far** in this chat: the founder wanted the Digital Foundation client design on the phone, not the founder admin. They asked for every screen including BLDR and the intake form (`/foundation/review`), then full-bleed plates with text on the photograph, then icon strokes restored to the 0.6 asset-sheet weight. The latest phone screenshot was the system panel “WE COULDN'T LOAD THIS.”
-
-- **Context:** Preview tunnel restarts wiped in-memory artifacts, and the local API then failed to compile `api/_lib/digitalFoundation/service.ts`. Esbuild rejected `satisfies import("…").ClientCommunicationPreferences`, so every artifact request returned HTTP 500 `{ code: "LOCAL_API_ERROR" }`. The client only treats 404 / `NOT_FOUND` as an inactive link, so the founder saw the generic system panel and TRY AGAIN retried the same 500.
-- **Topics covered:** `/foundation/review` versus admin Client intake; full 9:16 plates with transparent cards (already on main via #1580 / #1581); icon stroke 0.6 versus the 0.15 hairline and the 1.65 library stroke; the load panel on `site00.fsbw-dev.com`.
-- **Decisions / outcomes:** A missing token is a 404 `ARTIFACT_NOT_FOUND` and the preview recovery is “THIS LINK ISN'T ACTIVE” plus OPEN BLANK TEMPLATE. Icon glyphs use `DF_ICON_STROKE = 0.6` on the 24 grid. CSS no longer overrides that with pixel strokes or `vector-effect: non-scaling-stroke`. The hamburger stays `menu-icon.png`.
-- **Changes:** `api/_lib/digitalFoundation/service.ts` (named `ClientCommunicationPreferences` type, no `satisfies import()`). `scripts/vite-site00-local-api.mjs` drops a failed bundle from the in-memory cache so the next request can rebuild. Icon stroke in `icons.tsx`, `site00-df-client.css`, `site00-df-components.css`, `scripts/site00/render-df-icon-sheet.mts`, and `public/site00/idnty/digital-foundation/icons/*.svg`.
-- **Conventions:** Do not use `satisfies import("…")` in API modules that the Vite local API bundles with esbuild. A preview bookmark after a tunnel restart is an inactive link, not a server failure. Asset-sheet icon weight is 0.6 on the 24 grid.
+- **Context:** After the plate work (#1580, #1581, preview SHA `cb917089`, bundle `index.BpESgsIx.js`), a follow-up set icon strokes to 0.6 and shipped that on the tunnel. The founder said that was incorrect and to restore the plate status: type sits on the photograph, review anchor `/foundation/review#df-r-P02`.
+- **Decision:** Revert the 0.6 stroke. Glyphs stay at 1.65 on the 24 grid, with the component hairlines that were on `cb917089`. Do not republish the 0.6 bundle as the plate screen. The load-path fix that maps a missing preview artifact to 404 stays; it does not change the plate.
+- **Conventions:** Digital Foundation plates are the screen. Text and hairlines sit on the photograph. Card fills on plated screens stay transparent. The collapsed MORE INFORMATION peek stays transparent.
