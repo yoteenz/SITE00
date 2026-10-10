@@ -1,0 +1,98 @@
+{
+  "provider": "OPENART",
+  "connection": "CONNECTED",
+  "account_plan": "Wonder",
+  "project_id": "6Ueswtr8vt58ur2n3CRs",
+  "project_name": "SITE00 IDNTY Digital Foundation Production",
+  "model": "gpt-image-2-5-sunburst",
+  "model_display_name": "GPT Image 2.5 Sunburst",
+  "mode": "image2image",
+  "config": { "aspectRatio": "9:16", "resolutionTier": "4k", "quality": "high", "imageCount": 1, "outputFormat": "png", "autoEnhancePrompt": false },
+  "quoted_credits_per_job": 317,
+  "jobs": 4,
+  "regenerations": 0,
+  "balance_before": 29118,
+  "balance_after": 27854,
+  "balance_delta": 1264,
+  "balance_note": "Quoted 317 each, 1,268 for four jobs. The account moved 1,264. OpenArt does not return a per-job receipt, so the 4-credit difference is unallocated.",
+  "references": [
+    {
+      "source": "docs/site00/idnty/df-visual-fidelity-v1/REF-03-P07-P09.jpg",
+      "crop": "left phone",
+      "upload_id": "cAnGIF8FxSuVoctypA2P",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/df-ref-shell-p07_1791657986769_934a9060.jpg"
+    },
+    {
+      "source": "docs/site00/idnty/df-visual-fidelity-v1/REF-04-P10-P12.jpg",
+      "crop": "left phone",
+      "upload_id": "kjbJ1FR2LmfPAm8bB2FH",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/df-ref-shell-p10_1791657987203_7365ff99.jpg"
+    }
+  ],
+  "screens": [
+    {
+      "screen_id": "DF-A01",
+      "name": "PROJECT MESSAGES",
+      "history_id": "KqcTJT0gLqAZ2AKbJfFd",
+      "resource_id": "bVOBpmwKIeHfYDS8Y6vn",
+      "reference_upload_id": "cAnGIF8FxSuVoctypA2P",
+      "url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791658056641_9f7e8bbc.png",
+      "native": "2016x3584",
+      "format": "png",
+      "bytes": 5139646,
+      "sha256": "d49275bbef5fd9fc175b5c3e36daa1baff78b80cf03a12360b31b9bca9881d51",
+      "file": "01_PROJECT_MESSAGES.png",
+      "regenerations": 0,
+      "qa": "PASS",
+      "prompt_version": "a01-v1"
+    },
+    {
+      "screen_id": "DF-A02",
+      "name": "APPROVAL DETAIL",
+      "history_id": "ccdXuh2oqj15ZVc8MMMT",
+      "resource_id": "nqGrQxqOeO6Ji6Dt6u9x",
+      "reference_upload_id": "kjbJ1FR2LmfPAm8bB2FH",
+      "url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791658123019_0a6f7758.png",
+      "native": "2016x3584",
+      "format": "png",
+      "bytes": 4474511,
+      "sha256": "241ac71e37957750bcd08db3db43cf1d327dd7f3588d64ea9a0462906143656e",
+      "file": "02_APPROVAL_DETAIL.png",
+      "regenerations": 0,
+      "qa": "PASS",
+      "prompt_version": "a02-v1"
+    },
+    {
+      "screen_id": "DF-A03",
+      "name": "REQUEST CHANGES",
+      "history_id": "xOAa1cjlVWmMmA7yRTbR",
+      "resource_id": "3mufx0aYKfBTO8TCEV6i",
+      "reference_upload_id": "kjbJ1FR2LmfPAm8bB2FH",
+      "url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791658125898_287c95ae.png",
+      "native": "2016x3584",
+      "format": "png",
+      "bytes": 4261057,
+      "sha256": "624e5e3e3be12479a38d57324ce355a484baae3ddb36b432eb5340d7de2d34ce",
+      "file": "03_REVISION_REQUEST.png",
+      "regenerations": 0,
+      "qa": "PASS",
+      "prompt_version": "a03-v1"
+    },
+    {
+      "screen_id": "DF-A04",
+      "name": "PROJECT STAGE DETAIL",
+      "history_id": "o9Vt1BZ8BgOJXc7uNEzE",
+      "resource_id": "Ql44vRNwki4ELiQeCPH0",
+      "reference_upload_id": "cAnGIF8FxSuVoctypA2P",
+      "url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791658128869_10fc4f0a.png",
+      "native": "2016x3584",
+      "format": "png",
+      "bytes": 4560006,
+      "sha256": "a12cf97516a751595f11a8402530d32e48a078e94a63e7874a4710151155750d",
+      "file": "04_STAGE_BLOCKER_DETAIL.png",
+      "regenerations": 0,
+      "qa": "PASS",
+      "prompt_version": "a04-v1"
+    }
+  ]
+}
