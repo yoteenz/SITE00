@@ -15986,3 +15986,11 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decisions / outcomes:** Plates are image-to-image in OpenArt project `6Ueswtr8vt58ur2n3CRs`, model `gpt-image-2-5-sunburst`, 9:16, 2k, high, autoEnhance off. Histories: hero `or5zMVfH7kOsCVFLdv1a` then reframed `E1MVXYIojgDfk0J53P6L`; crown `YLn6wHPtJZqF4EYItSR7`; corner `A5SBH5rfBjj68iuYhqWA` then reframed `VVAo7LPHHGJ8DXuK7Mdt`. Quoted 172 credits each. The glass etching “01 / DIGITAL FOUNDATION” stays on the hero plate. The hamburger PNG and the drawer geometry stay. Do not generate these into a JURNL family project. Do not paste a crop of the plate back onto the screen.
 - **Changes:** `df-plate-hero.jpg`, `df-plate-crown.jpg`, `df-plate-corner.jpg` replace `df-g01-hero-chamber.jpg`, `df-g02-crown-fragment.jpg`, and `df-g03-corner-fragment.jpg`. `DfFrame` paints `--df-plate` as a full-viewport background. `DfHeroObject` is only the clear window in the P01 column. Drawer art crop removed.
 - **Conventions:** A Digital Foundation background plate is the whole mobile screen. UI copy, buttons, and the menu icon are not baked into it. The sculpture sits below the headline so black type stays on the quiet wall.
+
+---
+
+## 2026-10-10 — Preview tunnel pinned to BLDR review merge (d98d4dc6)
+
+- **Context:** Founder asked to put commit `d98d4dc6` on `preview/tunnel` so the mobile tunnel shows the BLDR studio on `/foundation/review` and real `/bldr/studio?reviewRoom=…` iframes.
+- **Outcome:** `origin/preview/tunnel` is at `d98d4dc6` (merge of studio branch into preview; parent `8d29986d`). Worktree `/tmp/site00-preview-main` remounted to that SHA; preview Vite on `:5174` restarted without running `sync-preview-tunnel-branch.sh` afterward.
+- **Caution:** `sync-preview-tunnel-branch.sh` treats any divergence from `main` as an error and **force-resets** `preview/tunnel` to `main`. That wiped `d98d4dc6` once during `post-merge-preview-tunnel-refresh.sh`; restored with `git push origin d98d4dc6:refs/heads/preview/tunnel`. Do not run that sync while tunnel intentionally carries pre-main integration commits.
