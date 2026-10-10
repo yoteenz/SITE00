@@ -345,6 +345,13 @@ body:has(.df-root) {
   padding-left: 0;
 }
 
+/* P01 center column: PROFESSIONAL alone on line 1; BUSINESS EMAIL together on line 2 */
+.df-triad__line-2 {
+  display: block;
+  white-space: nowrap;
+  letter-spacing: 0.11em;
+}
+
 .df-triad svg {
   width: 29px;
   height: 29px;

@@ -74,8 +74,8 @@ export function P01Entry({
         </li>
         <li>
           <DfIcon name="envelope" />
-          <span>PROFESSIONAL BUSINESS</span>
-          <span>EMAIL</span>
+          <span>PROFESSIONAL</span>
+          <span className="df-triad__line-2">BUSINESS EMAIL</span>
         </li>
         <li>
           <DfIcon name="shield" />
