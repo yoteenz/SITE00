@@ -1,0 +1,46 @@
+batch_id,asset_id,asset_name,screen_family,actor,parent_screen,reference_source,output_type,aspect_ratio,resolution_tier,final_images,paid_calls_baseline,estimated_credits,estimated_usd,regeneration_allowance,total_budgeted_cost_credits,status
+APPROVED,REF-01,P01-P03 parent board,client-entry,CLIENT,,df-visual-fidelity-v1/REF-01,board,collage,n/a,0,0,0,UNVERIFIED,0,0,EXISTING_ASSET_REUSABLE
+APPROVED,REF-02,P04-P06 parent board,client-commerce,CLIENT,,REF-02,board,collage,n/a,0,0,0,UNVERIFIED,0,0,EXISTING_ASSET_REUSABLE
+APPROVED,REF-03,P07-P09 parent board,portal,CLIENT,,REF-03,board,collage,n/a,0,0,0,UNVERIFIED,0,0,EXISTING_ASSET_REUSABLE
+APPROVED,REF-04,P10-P12 parent board,needs-complete,CLIENT,,REF-04,board,collage,n/a,0,0,0,UNVERIFIED,0,0,EXISTING_ASSET_REUSABLE
+APPROVED,REF-05,P13-P15 parent board,founder,FOUNDER,,REF-05,board,collage,n/a,0,0,0,UNVERIFIED,0,0,EXISTING_ASSET_REUSABLE
+APPROVED,REF-06,Records and location board,records,CLIENT,,REF-06,board,collage,n/a,0,0,0,UNVERIFIED,0,0,EXISTING_ASSET_REUSABLE
+APPROVED,REF-07,Runbook board,runbook,FOUNDER,,REF-07,board,collage,n/a,0,0,0,UNVERIFIED,0,0,EXISTING_ASSET_REUSABLE
+A,DF-A01,Project messages,messages,CLIENT,P07,batch A,screen,9:16,4k,0,0,0,UNVERIFIED,0,0,EXISTING_ASSET_REUSABLE
+A,DF-A02,Approval detail,approval,CLIENT,P10,batch A,screen,9:16,4k,0,0,0,UNVERIFIED,0,0,EXISTING_ASSET_REUSABLE
+A,DF-A03,Revision request,approval,CLIENT,DF-A02,batch A,screen,9:16,4k,0,0,0,UNVERIFIED,0,0,EXISTING_ASSET_REUSABLE
+A,DF-A04,Stage blocker,roadmap,CLIENT,P08,batch A,screen,9:16,4k,0,0,0,UNVERIFIED,0,0,EXISTING_ASSET_REUSABLE
+B,DF-B01,Records library,records,CLIENT,P07,batch B,screen,9:16,4k,0,0,0,UNVERIFIED,0,0,EXISTING_ASSET_REUSABLE
+B,DF-B02,Record detail,records,CLIENT,DF-B01,batch B,screen,9:16,4k,0,0,0,UNVERIFIED,0,0,EXISTING_ASSET_REUSABLE
+B,DF-B03,Document preview,records,CLIENT,DF-B02,batch B,screen,9:16,4k,0,0,0,UNVERIFIED,0,0,EXISTING_ASSET_REUSABLE
+B,DF-B04,Decision history,approval,CLIENT,P10,batch B,screen,9:16,4k,0,0,0,UNVERIFIED,0,0,EXISTING_ASSET_REUSABLE
+C,DF-C01,Foundation complete 9:16,completion,CLIENT,P11,REF-04,screen,9:16,4k,1,1,317,UNVERIFIED,shared-10pct,317,SURGICAL_REVISION_BALANCED
+C,DF-C02,Digital location 9:16,expansion,CLIENT,P12,REF-04 and REF-06,screen,9:16,4k,1,1,317,UNVERIFIED,shared-10pct,317,SURGICAL_REVISION_BALANCED
+C,DF-C03,Credit applied state,expansion,CLIENT,P12,complete surface,screen,9:16,4k,1,1,317,UNVERIFIED,0,317,PREMIUM_ONLY
+C,DF-C04,Saved for later state,expansion,CLIENT,P12,complete surface,screen,9:16,4k,1,1,317,UNVERIFIED,0,317,PREMIUM_ONLY
+D,DF-D01,Pipeline desktop,founder-ops,FOUNDER,P13,REF-05,responsive,16:9,4k,1,1,317,UNVERIFIED,shared-10pct,317,RESPONSIVE_BALANCED
+D,DF-D02,Project command desktop,founder-ops,FOUNDER,P14,REF-05,responsive,16:9,4k,1,1,317,UNVERIFIED,shared-10pct,317,RESPONSIVE_BALANCED
+D,DF-D03,Workbench desktop,founder-ops,FOUNDER,P15,REF-05,responsive,16:9,4k,1,1,317,UNVERIFIED,shared-10pct,317,RESPONSIVE_BALANCED
+D,DF-D04,Pipeline phone,founder-ops,FOUNDER,P13,REF-05,screen,9:16,4k,1,1,317,UNVERIFIED,0,317,PREMIUM_ONLY
+D,DF-D05,Command phone,founder-ops,FOUNDER,P14,REF-05,screen,9:16,4k,1,1,317,UNVERIFIED,0,317,PREMIUM_ONLY
+D,DF-D06,Workbench phone,founder-ops,FOUNDER,P15,REF-05,screen,9:16,4k,1,1,317,UNVERIFIED,0,317,PREMIUM_ONLY
+E,DF-E01,Runbook task detail,runbook,FOUNDER,REF-07,runbookGenerator.ts,screen,9:16,4k,1,1,317,UNVERIFIED,lean-and-balanced,317,NEW_LEAN_AND_BALANCED
+E,DF-E02,Verification checklist,runbook,FOUNDER,REF-07,operations contracts,screen,9:16,4k,1,1,317,UNVERIFIED,shared-10pct,317,NEW_BALANCED
+E,DF-E03,Runbook overview plate,runbook,FOUNDER,REF-07,REF-07,screen,9:16,4k,1,1,317,UNVERIFIED,0,317,PREMIUM_ONLY
+F,DF-F01,Foundation credit,growth,CLIENT,P12,payload.credit,screen,9:16,4k,1,1,317,UNVERIFIED,lean-and-balanced,317,NEW_LEAN_AND_BALANCED
+F,DF-F02,BLDR introduction,growth,CLIENT,P12,bldr-discovery template id,screen,9:16,4k,1,1,317,UNVERIFIED,shared-10pct,317,NEW_BALANCED
+G,DF-G01,Communications command,communications,FOUNDER,none,CommunicationsCommandPage.tsx,responsive,16:9,4k,1,1,317,UNVERIFIED,lean-and-balanced,317,NEW_LEAN_AND_BALANCED
+G,DF-G02,Template studio,communications,FOUNDER,G01,email-pack route,responsive,16:9,4k,1,1,317,UNVERIFIED,shared-10pct,317,NEW_BALANCED
+G,DF-G03,Template detail,communications,FOUNDER,G02,email-pack/:templateId,responsive,16:9,4k,1,1,317,UNVERIFIED,0,317,PREMIUM_ONLY
+H,DF-H01,Transactional header family,email,CLIENT,event map,eventMap.ts,email-graphic,16:9,4k,1,1,317,UNVERIFIED,lean-and-balanced,317,NEW_LEAN_AND_BALANCED
+H,DF-H02,Transactional mobile layout,email,CLIENT,H01,eventMap.ts,email-layout,16:9,4k,1,1,317,UNVERIFIED,shared-10pct,317,NEW_BALANCED
+H,DF-H03,Transactional desktop layout,email,CLIENT,H01,eventMap.ts,email-layout,16:9,4k,1,1,317,UNVERIFIED,shared-10pct,317,NEW_BALANCED
+H,DF-H-ARCH,Extra archetype email layouts beyond H02 and H03,email,CLIENT,H01,15 template ids grouped,email-layout,16:9,4k,10,10,3170,UNVERIFIED,0,3170,PREMIUM_ONLY
+I,DF-I01,Education journey layout,marketing-email,CLIENT,M01,email manifest M01,email-layout,16:9,4k,1,1,317,UNVERIFIED,shared-10pct,317,NEW_BALANCED
+I,DF-I02,BLDR journey layout,marketing-email,CLIENT,M06,email manifest M06,email-layout,16:9,4k,1,1,317,UNVERIFIED,shared-10pct,317,NEW_BALANCED
+I,DF-I03,Post-completion layout,marketing-email,CLIENT,M13,email manifest M13,email-layout,16:9,4k,1,1,317,UNVERIFIED,shared-10pct,317,NEW_BALANCED
+I,DF-I-ALT,Three campaigns x second viewport,marketing-email,CLIENT,I01,email manifest,email-layout,16:9,4k,3,3,951,UNVERIFIED,0,951,PREMIUM_ONLY
+J,DF-J01,Communication preferences,preferences,CLIENT,P07,CommunicationPreferences,screen,9:16,4k,1,1,317,UNVERIFIED,lean-and-balanced,317,NEW_LEAN_AND_BALANCED
+J,DF-J02,Unsubscribe confirmation,preferences,CLIENT,J01,not a route today,screen,9:16,4k,1,1,317,UNVERIFIED,0,317,PREMIUM_ONLY
+E,DF-E-BLOCKER,Stage blocker duplicate,runbook,CLIENT,P08,DF-A04,screen,9:16,4k,0,0,0,UNVERIFIED,0,0,NOT_REQUIRED
+H,DF-H-VARIANTS,Per-recipient email variants,email,CLIENT,event map,merge fields,email-layout,n/a,n/a,0,0,0,UNVERIFIED,0,0,NOT_REQUIRED
