@@ -124,9 +124,9 @@ describe('portaled drawer style scope', () => {
   const css = readFileSync(new URL('../src/site00/styles/site00-df-client.css', import.meta.url), 'utf8');
 
   it('defines the Foundation tokens, text font and button reset on the portaled drawer', () => {
-    expect(css).toMatch(/\.df-sheet,\s*\n\.df-drawer\s*\{\s*\n\s*--df-bg/);
-    expect(css).toMatch(/\.df-sheet,\s*\n\.df-drawer\s*\{[^}]*font-family:\s*var\(--df-text\)/);
-    expect(css).toContain(':where(.df-root, .df-sheet, .df-drawer) :where(button, input, select)');
+    expect(css).toMatch(/\.df-drawer,\s*\n\.df-portal\s*\{\s*\n\s*--df-bg/);
+    expect(css).toMatch(/\.df-drawer,\s*\n\.df-portal\s*\{[^}]*font-family:\s*var\(--df-text\)/);
+    expect(css).toContain(':where(.df-root, .df-drawer, .df-portal) :where(button, input, select)');
   });
 
   it('anchors the drawer right at ~61% width over a dark backdrop', () => {

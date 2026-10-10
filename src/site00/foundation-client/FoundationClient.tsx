@@ -15,8 +15,10 @@ import { P01Entry, P02Intake, P03Configure, SaveChip } from './parents/EntryInta
 import { P04Recommendation } from './parents/Recommendation';
 import { InterimOverview, P05Review, P06Activation } from './parents/CheckoutActivation';
 import { DfCta, DfFrame, DfLoading, DfMenu, DfSystemPanel, type DfObjectKind } from './shell';
-import { useFoundationArtifact, useIntakeDraft, usePaymentVerification, useQuoteSelections } from './useFoundationArtifact';
+import { DfToastProvider, useDfToasts } from './components';
+import { useFoundationArtifact, useIntakeDraft, usePaymentVerification, useQuoteSelections, type SaveStatus } from './useFoundationArtifact';
 import '../styles/site00-df-client.css';
+import '../styles/site00-df-components.css';
 
 const OBJECT_FOR: Record<DfView, DfObjectKind> = {
   P01: 'hero',
@@ -281,6 +283,7 @@ export function FoundationClient({ token }: { token: string }) {
           editable={intake.editable}
           errors={p02Errors}
           save={save}
+          onSaveForLater={intake.flush}
           onContinue={() => {
             setP02Errors(undefined);
             void intake.flush();
@@ -357,21 +360,44 @@ export function FoundationClient({ token }: { token: string }) {
   }
 
   return (
-    <div
-      className={`df-root${menuOpen ? ' df-root--menu-open' : ''}`}
-      ref={rootRef}
-      data-surface={payload.surface}
-    >
-      <DfFrame
-        view={view}
-        object={OBJECT_FOR[view]}
-        onMenu={() => setMenuOpen((o) => !o)}
-        menuOpen={menuOpen}
-        state={state}
+    <DfToastProvider>
+      <div
+        className={`df-root${menuOpen ? ' df-root--menu-open' : ''}`}
+        ref={rootRef}
+        data-surface={payload.surface}
       >
-        {body}
-      </DfFrame>
-      <DfMenu open={menuOpen} onClose={() => setMenuOpen(false)} views={route.views} current={view} onNavigate={(v, anchor) => go(v, { anchor })} />
-    </div>
+        <DfFrame
+          view={view}
+          object={OBJECT_FOR[view]}
+          onMenu={() => setMenuOpen((o) => !o)}
+          menuOpen={menuOpen}
+          state={state}
+        >
+          {body}
+        </DfFrame>
+        <DfMenu open={menuOpen} onClose={() => setMenuOpen(false)} views={route.views} current={view} onNavigate={(v, anchor) => go(v, { anchor })} />
+        <SaveStatusToasts status={intake.status} />
+      </div>
+    </DfToastProvider>
   );
+}
+
+/** Announces autosave failures (persistently) and their recovery once — never a toast per routine autosave. */
+function SaveStatusToasts({ status }: { status: SaveStatus }) {
+  const toasts = useDfToasts();
+  const prev = useRef<SaveStatus>(status);
+  const failed = useRef(false);
+  useEffect(() => {
+    const was = prev.current;
+    prev.current = status;
+    if (status === 'error' && was !== 'error') {
+      failed.current = true;
+      toasts.push({ tone: 'error', message: 'SOMETHING WENT WRONG. PLEASE TRY AGAIN.', key: 'intake-save', persistent: true });
+    } else if (status === 'saved' && failed.current) {
+      failed.current = false;
+      toasts.dismiss('intake-save');
+      toasts.push({ tone: 'success', message: 'CHANGES SAVED SUCCESSFULLY.', key: 'intake-saved' });
+    }
+  }, [status, toasts]);
+  return null;
 }
