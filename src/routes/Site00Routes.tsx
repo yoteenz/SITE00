@@ -85,6 +85,9 @@ const ExistingLocationCasePage = lazy(() => import('../site00/pages/existing-loc
 const DigitalFoundationArtifactPage = lazy(
   () => import('../site00/pages/foundation/DigitalFoundationArtifactPage'),
 );
+const DigitalFoundationReviewPage = lazy(
+  () => import('../site00/pages/foundation/DigitalFoundationReviewPage'),
+);
 const InvitationEntryPage = lazy(() => import('../site00/pages/invitation/InvitationEntryPage'));
 const Site00SignInPage = lazy(() => import('../site00/pages/Site00SignInPage'));
 const Site00CreateAccountPage = lazy(() => import('../site00/pages/Site00CreateAccountPage'));
@@ -2386,6 +2389,16 @@ export function Site00Routes() {
       {Site00PublicPageRoutes(SITE00_ROUTES.evolvePlans, EvolvePricingPage)}
       {Site00PublicPageRoutes(SITE00_ROUTES.existingLocation, ExistingLocationEntryPage)}
       {Site00PublicPageRoutes(SITE00_ROUTES.existingLocationStart, ExistingLocationEntryPage)}
+      <Route
+        path={SITE00_ROUTES.digitalFoundationReview}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <DigitalFoundationReviewPage />
+            </Site00Suspense>
+          </Site00Layout>
+        }
+      />
       <Route
         path={SITE00_ROUTES.digitalFoundationArtifact}
         element={
