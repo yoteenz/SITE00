@@ -104,7 +104,9 @@ export function FoundationClient({ token }: { token: string }) {
   const checkoutRaw = params.get('checkout');
   const checkout: CheckoutParam = checkoutRaw === 'return' || checkoutRaw === 'cancel' ? checkoutRaw : null;
   const simulated = params.get('simulated_checkout') === '1';
-  const stateView = ((location.state as { dfView?: DfView } | null)?.dfView ?? null) as DfView | null;
+  const navState = location.state as { dfView?: DfView; dfAnchor?: string } | null;
+  const stateView = (navState?.dfView ?? null) as DfView | null;
+  const stateAnchor = navState?.dfAnchor ?? null;
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [beginBusy, setBeginBusy] = useState(false);
@@ -146,10 +148,10 @@ export function FoundationClient({ token }: { token: string }) {
   const verification = usePaymentVerification(verifying, reload);
 
   const go = useCallback(
-    (v: DfView, opts: { replace?: boolean; dropQuery?: boolean } = {}) => {
+    (v: DfView, opts: { replace?: boolean; dropQuery?: boolean; anchor?: string } = {}) => {
       navigate(
         { pathname: location.pathname, search: opts.dropQuery ? '' : location.search },
-        { state: { dfView: v }, replace: opts.replace },
+        { state: opts.anchor ? { dfView: v, dfAnchor: opts.anchor } : { dfView: v }, replace: opts.replace },
       );
       setMenuOpen(false);
       window.scrollTo(0, 0);
@@ -162,6 +164,14 @@ export function FoundationClient({ token }: { token: string }) {
   useEffect(() => {
     if (checkout === 'return' && paid) go('P06', { replace: true, dropQuery: true });
   }, [checkout, paid, go]);
+
+  useEffect(() => {
+    if (!stateAnchor || view !== stateView) return undefined;
+    const frame = window.requestAnimationFrame(() => {
+      document.getElementById(stateAnchor)?.scrollIntoView({ block: 'start' });
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [stateAnchor, stateView, view, location.key]);
 
   if (!token) return <InvalidLink onMintPreview={mintPreviewTemplate} mintBusy={mintBusy} />;
   if (!enabled) return <Unavailable />;
@@ -361,7 +371,7 @@ export function FoundationClient({ token }: { token: string }) {
       >
         {body}
       </DfFrame>
-      <DfMenu open={menuOpen} onClose={() => setMenuOpen(false)} views={route.views} current={view} onNavigate={(v) => go(v)} />
+      <DfMenu open={menuOpen} onClose={() => setMenuOpen(false)} views={route.views} current={view} onNavigate={(v, anchor) => go(v, { anchor })} />
     </div>
   );
 }
