@@ -13,6 +13,7 @@ import {
   deriveActivationState,
   deriveReviewState,
   formatMoney,
+  foundationProgress,
   isPaidState,
   quoteFigures,
   quoteNeedsFounderReview,
@@ -21,10 +22,11 @@ import {
   type CheckoutParam,
   type VerifyPhase,
 } from '../model';
-import { DfAlert, DfCta, DfHeadline, DfLede, DfRail, DfSheet, DfTrust } from '../shell';
+import { DfBottomSheet, DfCheckMark, DfEmptyState, DfModal, DfProgress } from '../components';
+import { DfAlert, DfCta, DfHeadline, DfLede, DfRail, DfTrust } from '../shell';
 import { IncludedList, ThirdPartySheet } from './Recommendation';
 
-function SpecRow({
+export function SpecRow({
   icon,
   label,
   sub,
@@ -87,7 +89,7 @@ function ScopeSheet({
   const q = payload.quote;
   if (!q) return null;
   return (
-    <DfSheet
+    <DfBottomSheet
       open={open}
       title="YOUR SCOPE"
       onClose={onClose}
@@ -128,7 +130,7 @@ function ScopeSheet({
         QUOTE VERSION {q.quote_version} · VALID UNTIL{' '}
         {new Date(q.expires_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase()}
       </p>
-    </DfSheet>
+    </DfBottomSheet>
   );
 }
 
@@ -279,16 +281,19 @@ export function P05Review({
       cta = (
         <>
           <DfCta label="CHECK PAYMENT STATUS" onClick={check} busy={checking} busyLabel="CHECKING…" />
-          {confirmReopen ? (
-            <div className="df-confirm">
-              <p>ONLY CONTINUE IF YOU DID NOT FINISH CHECKOUT.</p>
-              <DfCta tone="outline" label="OPEN CHECKOUT AGAIN" onClick={openCheckout} />
-            </div>
-          ) : (
-            <button type="button" className="df-link df-link--center" onClick={() => setConfirmReopen(true)}>
-              I DIDN&apos;T FINISH CHECKOUT
-            </button>
-          )}
+          <DfCta tone="text" label="I DIDN’T FINISH CHECKOUT" onClick={() => setConfirmReopen(true)} action="reopen-checkout" />
+          <DfModal
+            open={confirmReopen}
+            tone="warning"
+            title="DIDN’T FINISH CHECKOUT?"
+            onClose={() => setConfirmReopen(false)}
+            busy={creating}
+            primary={{ label: 'OPEN CHECKOUT AGAIN', busyLabel: 'OPENING SECURE CHECKOUT…', onClick: () => void openCheckout() }}
+            secondary={{ label: 'CANCEL', onClick: () => setConfirmReopen(false) }}
+          >
+            <p>ONLY CONTINUE IF YOU DID NOT FINISH CHECKOUT.</p>
+            <p>IF YOU ALREADY PAID, THIS PAGE WILL UPDATE ON ITS OWN — PLEASE DON’T PAY TWICE.</p>
+          </DfModal>
         </>
       );
       break;
@@ -353,9 +358,7 @@ export function P05Review({
               checked={shownAcks[i]}
               onChange={(e) => setAcks((prev) => prev.map((v, j) => (j === i ? e.target.checked : v)))}
             />
-            <span className="df-check" aria-hidden="true">
-              {shownAcks[i] && <DfIcon name="check" />}
-            </span>
+            <DfCheckMark checked={shownAcks[i]} locked={accepted} />
             <span className="df-ack__text">{d}</span>
           </label>
         ))}
@@ -587,6 +590,12 @@ export function InterimOverview({ payload, onActivation }: { payload: ClientDigi
           <p className="df-section__note">SITE 00 WILL GUIDE YOU THROUGH EACH ITEM.</p>
         </section>
       )}
+      <section className="df-section" aria-labelledby="df-journey-h">
+        <h2 className="df-section__label" id="df-journey-h">
+          YOUR FOUNDATION
+        </h2>
+        <DfProgress steps={foundationProgress(payload)} />
+      </section>
       <section className="df-section" aria-labelledby="df-stages-h">
         <h2 className="df-section__label" id="df-stages-h">
           PROJECT STAGES
@@ -602,7 +611,9 @@ export function InterimOverview({ payload, onActivation }: { payload: ClientDigi
             </li>
           ))}
         </ol>
-        {!payload.stages.length && <p className="df-section__note">YOUR PROJECT PLAN APPEARS HERE SHORTLY.</p>}
+        {!payload.stages.length && (
+          <DfEmptyState icon="roadmap" title="NO PROJECT STAGES YET." body="YOUR PROJECT PLAN WILL APPEAR HERE ONCE SITE 00 SETS IT UP." />
+        )}
       </section>
       {turnaround && (
         <ul className="df-specs">

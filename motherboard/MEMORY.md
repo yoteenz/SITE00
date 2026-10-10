@@ -15976,3 +15976,90 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decisions / outcomes:** Root cause: `DfSheet`/`DfMenu` portal to `<body>`, outside `.df-root`, so the scoped button font/color reset, box-sizing and focus ring never applied (UA Arial, iOS system-blue buttons; before `76d3ac54` the heading inherited Times New Roman). The menu is now a right drawer. Steps the client cannot open show `done` (check) or `locked` (lock) from `resolveDfRoute().views`. Records and Digital Location stay locked until completion because they only exist on the COMPLETE surface. ROADMAP opens the overview scrolled to `#df-stages-h`. The founder hamburger PNG stays. The personal-link note was dropped because the reference has none.
 - **Changes:** `shell.tsx` (`DfDrawer`, rebuilt `DfMenu`), `model.ts` (`buildDfMenu`, `DF_ROADMAP_ANCHOR`), `icons.tsx` (overview, roadmap, folder, pin), `FoundationClient.tsx` (anchor navigation), `site00-df-client.css` (scope for `.df-sheet`/`.df-drawer`, drawer styles, removed the footer-hiding hack), `tests/digitalFoundationMenuDrawer.test.ts`. Draft PR #1572 on `cursor/df-mobile-nav-restoration-a9f7`, unmerged.
 - **Conventions:** Anything portaled out of `.df-root` must sit under `.df-sheet` or `.df-drawer` so it inherits the Digital Foundation scope. Known gap: `barlow-condensed-800/900.woff2` and `inter-variable-latin.woff2` are not in `public/site00/fonts/`, so all Digital Foundation type renders in fallback fonts.
+
+---
+
+## 2026-10-10 — Digital Foundation plates are full mobile screens
+
+- **Context:** After the component-system, V2 portal, and icon-library drafts, the founder rejected the architecture sidekicks. The three OpenArt photographs had been masked and pasted into hero, crown, and corner slots on the flat page.
+- **Topics covered:** Full-mobile plate correction. Each distinct room (hero chamber, crown, corner) is one 9:16 photograph. Live UI stays in React on top of that photograph. The cropped `<img>` slots and the drawer fragment are gone.
+- **Decisions / outcomes:** Plates are image-to-image in OpenArt project `6Ueswtr8vt58ur2n3CRs`, model `gpt-image-2-5-sunburst`, 9:16, 2k, high, autoEnhance off. Histories: hero `or5zMVfH7kOsCVFLdv1a` then reframed `E1MVXYIojgDfk0J53P6L`; crown `YLn6wHPtJZqF4EYItSR7`; corner `A5SBH5rfBjj68iuYhqWA` then reframed `VVAo7LPHHGJ8DXuK7Mdt`. Quoted 172 credits each. The glass etching “01 / DIGITAL FOUNDATION” stays on the hero plate. The hamburger PNG and the drawer geometry stay. Do not generate these into a JURNL family project. Do not paste a crop of the plate back onto the screen.
+- **Changes:** `df-plate-hero.jpg`, `df-plate-crown.jpg`, `df-plate-corner.jpg` replace `df-g01-hero-chamber.jpg`, `df-g02-crown-fragment.jpg`, and `df-g03-corner-fragment.jpg`. `DfFrame` paints `--df-plate` as a full-viewport background. `DfHeroObject` is only the clear window in the P01 column. Drawer art crop removed.
+- **Conventions:** A Digital Foundation background plate is the whole mobile screen. UI copy, buttons, and the menu icon are not baked into it. The sculpture sits below the headline so black type stays on the quiet wall.
+
+---
+
+## 2026-10-10 — Preview tunnel pinned to BLDR review merge (d98d4dc6)
+
+- **Context:** Founder asked to put commit `d98d4dc6` on `preview/tunnel` so the mobile tunnel shows the BLDR studio on `/foundation/review` and real `/bldr/studio?reviewRoom=…` iframes.
+- **Outcome:** `origin/preview/tunnel` is at `d98d4dc6` (merge of studio branch into preview; parent `8d29986d`). Worktree `/tmp/site00-preview-main` remounted to that SHA; preview Vite on `:5174` restarted without running `sync-preview-tunnel-branch.sh` afterward.
+- **Caution:** `sync-preview-tunnel-branch.sh` treats any divergence from `main` as an error and **force-resets** `preview/tunnel` to `main`. That wiped `d98d4dc6` once during `post-merge-preview-tunnel-refresh.sh`; restored with `git push origin d98d4dc6:refs/heads/preview/tunnel`. Do not run that sync while tunnel intentionally carries pre-main integration commits.
+
+---
+
+## 2026-10-10 — #1572 menu drawer merged; Digital Foundation universal component system (#1573 on main)
+
+- **Context:** Founder approved the menu-drawer comparison. PR #1572 merged (`8d29986d`). Component system sprint merged to `main` as #1573 (`4bf6fa50`): `components.tsx` + `site00-df-components.css`; hamburger and menu drawer unchanged.
+- **Conventions:** New DF UI uses primitives in `components.tsx`. Portaled overlays use `df-portal`.
+
+---
+
+## 2026-10-10 — Digital Foundation V2 architecture recovery (portal + communications + founder ops)
+
+- **Context:** Sprint V2 recovery — client portal P07–P10, records, founder ops, Family F communications (dry-run). Landed on `main` via #1577 (Anthony launch gate integration). PR #1574 remains open as historical branch.
+- **Outcomes:** Manifests under `docs/site00/idnty/DIGITAL_FOUNDATION_V2_*`. Portal v2 flag, founder pipeline/command/workbench routes, communications dispatch (DRY_RUN default off for live sends).
+- **Partial:** Messaging inbox, durable email delivery, Supabase send intents, P15A–C dedicated UI, Business Ambition client surface.
+
+---
+
+## 2026-10-10 — Digital Foundation canonical icon library
+
+- **Context:** 142 SVG icons + aliases on V2 branch tip (#1575 stacked on recovery). Included on Anthony launch branch merge.
+- **Conventions:** Header still uses `menu-icon.png`; do not replace with registry menu glyph.
+
+---
+
+## 2026-10-10 — Anthony launch gate recovery (real E2E2 sprint)
+
+- **Context:** P0 sprint to verify Anthony Digital Foundation journey — Gate A safe intake vs Gate B full service. Integrated on `main` as #1577. Founder approval required for production release; no live charges or client emails during engineering.
+- **Gate A (dev):** Browser 393×852 on `/foundation/:token` — intake save + hard refresh PASS; founder admin `detail?id=` matches client intake on cloud preview memory store. Launch gate env `SITE00_DIGITAL_FOUNDATION_LAUNCH_GATE_INTAKE_ONLY` blocks checkout and surfaces `INTAKE_SUBMITTED` (vitest). **Production BLOCKED:** `SITE00_DIGITAL_FOUNDATION_PERSIST_SUPABASE=1` + migrations not verified on deployed API; deploy SHA unverified.
+- **Gate B:** FAIL/BLOCKED — Stripe test checkout not run live; messaging API/tests only (no two-browser UI round trip); email DRY_RUN/memory intents; records download not E2E.
+- **Deliverables:** `docs/site00/idnty/ANTHONY_*`, `DIGITAL_FOUNDATION_E2E_TEST_MATRIX.json`, `FOUNDATION_*_VERIFICATION.md`. Evidence screenshots `/opt/cursor/artifacts/gate-a-intake-*.png`.
+- **Tests:** `npm test -- --run tests/digitalFoundation*` → 100 pass, 1 skipped; typecheck + build pass. Full repo vitest has pre-existing failures unrelated to DF.
+- **Recommendation:** NO-GO for production Anthony link until persistence + deploy SHA + intake-only env on Railway; INTAKE-ONLY after those close.
+
+---
+
+## 2026-10-10 — DF foundation link on fsbw-dev preview (API routing)
+
+- **Founder report:** Mobile tunnel `site00.fsbw-dev.com` showed foundation link unavailable / not on preview server when opening `/foundation/:token` (stale token or CI preview without local `/api`).
+- **Root cause:** Digital Foundation client fetches used same-origin `/api/...` while admin on fsbw uses `api.site00.com` via `site00ApiUrl`. `vite preview` (default CI tunnel mode) has no local DF API → 404 / not found. Dev tunnel also split admin (Railway) vs client (local) when `VITE_SITE00_PREVIEW_LOCAL_API` unset.
+- **Fix:** `foundation-client/api.ts` routes artifact calls through `site00ApiUrl` (#1578 on `main`). Invalid-link UI detects cloud preview via `meta site00-cloud-preview` + links to Digital Foundation admin; blank-template mint only when dev + `VITE_SITE00_PREVIEW_LOCAL_API=1`. Cloud preview dev script sets that env.
+- **Founder workflow on tunnel:** Open `/admin/site00/foundation` → **Client intake** on a row (fresh token). Do not reuse bookmarks after tunnel restart unless token lives on Railway/Supabase.
+
+---
+
+## 2026-10-09 — BLDR Hybrid Spatial Studio reference-fidelity (Grok, not merged)
+
+- **Sprint:** asset/icon/material refinement of `/bldr/studio` against three founder phone references. No estimator, no GLB, no production release.
+- **Finding:** live stage is CSS slabs, not Three.js. Refined marble plinth, glass layers, `#E50107` portal, Barlow Condensed headlines, shared `BldrStudioIcon`, distinct `ArchitecturalThumb` SVGs for PLACE/FEEL/blueprint cards.
+- **Gap:** photoreal reference architecture still needs a founder-gated WFE mesh. Draft PR only.
+
+---
+
+## 2026-10-10 — Digital Foundation plates must be the screen, not a corner crop under cards
+
+- **Context:** Founder on mobile wanted the design-review artifact (every Digital Foundation screen plus BLDR studio), not the founder dashboard Client intake link. They then sent the P02 intake and the P01–P06 authority boards and said the live screen is not using full background plates. Solid panels on top of the plate defeat it. Mostly text should sit on the photograph. It does not match the reference authority images.
+- **Topics covered:** `/foundation/review` versus `/admin/site00/foundation` and `/foundation/:token?step=intake`; OpenArt 9:16 plates (`df-plate-hero.jpg`, `df-plate-crown.jpg`, `df-plate-corner.jpg`) already on `main` via #1576; preview tunnel still pinned at `d98d4dc6`, which still paints the small corner fragment; white field, row, spec, and footer chips covering the plate.
+- **Decisions / outcomes:** The plate is the screen background (`background-size: cover`, one viewport tall). Hairline borders stay. Card fills on plated screens are transparent. The red primary button stays solid. Review link remains `/foundation/review` (P02 is `#df-r-P02`, BLDR rooms are `#df-r-bldr-PLACE` through `#df-r-bldr-BLUEPRINT`).
+- **Changes:** `src/site00/styles/site00-df-client.css`.
+- **Conventions:** Do not paste a cropped fragment back onto a screen that already has a full plate. Do not put an opaque panel over that plate. Preview must track merged `main` or the founder keeps seeing the old fragment.
+- **Follow-up:** The resting MORE INFORMATION peek is portaled outside the screen. While it is collapsed (`data-snap=peek`) its panel is transparent so the plate stays visible. An expanded sheet still uses a solid surface so the body can be read.
+
+---
+
+## 2026-10-10 — Founder restored the plate screen; 0.6 icon stroke rejected
+
+- **Context:** After the plate work (#1580, #1581, preview SHA `cb917089`, bundle `index.BpESgsIx.js`), a follow-up set icon strokes to 0.6 and shipped that on the tunnel. The founder said that was incorrect and to restore the plate status: type sits on the photograph, review anchor `/foundation/review#df-r-P02`.
+- **Decision:** Revert the 0.6 stroke. Glyphs stay at 1.65 on the 24 grid, with the component hairlines that were on `cb917089`. Do not republish the 0.6 bundle as the plate screen. The load-path fix that maps a missing preview artifact to 404 stays; it does not change the plate.
+- **Conventions:** Digital Foundation plates are the screen. Text and hairlines sit on the photograph. Card fills on plated screens stay transparent. The collapsed MORE INFORMATION peek stays transparent.

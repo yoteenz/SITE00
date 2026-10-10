@@ -52,6 +52,7 @@ if [[ "$MODE" == "dev" ]]; then
   # (NODE_OPTIONS --import=tsx breaks tsx/esm/api resolution and surfaces Cannot find module on /foundation).
   exec env SITE00_CLOUD_MOBILE_PREVIEW=1 SITE00_CLIENT_REVIEW_PREVIEW_MODE=1 \
     SITE00_INTAKES_USE_MEMORY=1 \
+    VITE_SITE00_PREVIEW_LOCAL_API=1 \
     VITE_SITE00_TEMPLATE_SYSTEM_V1=1 \
     VITE_SITE00_CLIENT_ESTIMATE_PREVIEW_V1=1 \
     npm run dev -- --port "$PORT" --host

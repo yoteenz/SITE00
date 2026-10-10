@@ -48,4 +48,21 @@ export const foundationAdminApi = {
       method: 'POST',
       body: { action: 'mark-complete', artifact_id: artifactId, ownership },
     }),
+
+  pipeline: () => foundationFetch<{ rows: PipelineRow[] }>('/api/admin/site00-foundation?action=pipeline'),
+
+  projectCommand: (id: string) =>
+    foundationFetch<Record<string, unknown>>(`/api/admin/site00-foundation?action=project-command&id=${encodeURIComponent(id)}`),
+
+  workbench: (id: string) =>
+    foundationFetch<Record<string, unknown>>(`/api/admin/site00-foundation?action=workbench&id=${encodeURIComponent(id)}`),
+};
+
+export type PipelineRow = {
+  artifact_id: string;
+  business_name: string | null;
+  payment_state: string;
+  current_stage: string | null;
+  next_action: string | null;
+  blocker: string | null;
 };

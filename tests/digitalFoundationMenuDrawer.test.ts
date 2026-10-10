@@ -63,7 +63,9 @@ describe('menu drawer follows the server surface', () => {
     expect(menu.destinations.map((d) => d.label)).toEqual([
       'PROJECT OVERVIEW',
       'ROADMAP',
+      'NEEDS YOU',
       'VIEW MY RECORDS',
+      'COMMUNICATION PREFERENCES',
       'VIEW MY DIGITAL LOCATION',
     ]);
   });
@@ -75,7 +77,9 @@ describe('menu drawer follows the server surface', () => {
     expect(menu.destinations.map((d) => d.status)).toEqual([
       'AFTER PAYMENT',
       'AFTER PAYMENT',
-      'AFTER COMPLETION',
+      'AFTER PAYMENT',
+      'WHEN RECORDS EXIST',
+      'AFTER PAYMENT',
       'AFTER COMPLETION',
     ]);
   });
@@ -94,10 +98,10 @@ describe('menu drawer follows the server surface', () => {
     await simulateStripeCheckoutCompleted({ artifact_id: l.id, quote_id: l.payload().quote!.quote_id });
     const { menu } = menuFor(l.payload());
     expect(stepStates(menu)).toBe('01:done 02:done 03:done 04:done 05:done 06:current');
-    expect(openDestinations(menu)).toEqual(['overview', 'roadmap']);
+    expect(openDestinations(menu)).toEqual(['overview', 'roadmap', 'needs_you', 'records', 'comm_prefs']);
     const roadmap = menu.destinations.find((d) => d.id === 'roadmap')!;
-    expect(roadmap).toMatchObject({ view: 'OVERVIEW', anchor: DF_ROADMAP_ANCHOR });
-    expect(menu.destinations.filter((d) => !d.available).every((d) => d.view === null)).toBe(true);
+    expect(roadmap).toMatchObject({ view: 'ROADMAP' });
+    expect(menu.destinations.find((d) => d.id === 'location')!.available).toBe(false);
   });
 
   it('refund pauses on activation and closes the project destinations again', async () => {
@@ -124,9 +128,9 @@ describe('portaled drawer style scope', () => {
   const css = readFileSync(new URL('../src/site00/styles/site00-df-client.css', import.meta.url), 'utf8');
 
   it('defines the Foundation tokens, text font and button reset on the portaled drawer', () => {
-    expect(css).toMatch(/\.df-sheet,\s*\n\.df-drawer\s*\{\s*\n\s*--df-bg/);
-    expect(css).toMatch(/\.df-sheet,\s*\n\.df-drawer\s*\{[^}]*font-family:\s*var\(--df-text\)/);
-    expect(css).toContain(':where(.df-root, .df-sheet, .df-drawer) :where(button, input, select)');
+    expect(css).toMatch(/\.df-drawer,\s*\n\.df-portal\s*\{\s*\n\s*--df-bg/);
+    expect(css).toMatch(/\.df-drawer,\s*\n\.df-portal\s*\{[^}]*font-family:\s*var\(--df-text\)/);
+    expect(css).toContain(':where(.df-root, .df-drawer, .df-portal) :where(button, input, select)');
   });
 
   it('anchors the drawer right at ~61% width over a dark backdrop', () => {

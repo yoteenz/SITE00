@@ -15,6 +15,7 @@ import {
   CAPTURE_RUN_CONTRACT_VERSION,
   buildReleaseId,
 } from '../shared/site00-release-engine/index.js';
+import { getDigitalFoundationRuntimeDiagnostics } from '../api/_lib/digitalFoundation/runtimeDiagnostics.js';
 
 function applyServerEnv(): void {
   const mode = process.env.NODE_ENV === 'production' ? 'production' : 'development';
@@ -113,6 +114,7 @@ app.get('/api/health', async (_req, res) => {
       configured: Boolean(process.env.FAL_KEY?.trim()),
       twinV2VisualConceptPath: '/api/site00/twin-v2-visual-concept',
     },
+    digitalFoundation: getDigitalFoundationRuntimeDiagnostics(),
   });
 });
 

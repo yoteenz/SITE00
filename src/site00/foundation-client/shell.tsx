@@ -1,8 +1,9 @@
 /** Digital Foundation client shell (DF-C01..C09, C26, C45..C48). Presentation only. */
-import { useEffect, useId, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
+import { DfButton, DfLoadingState } from './components';
 import { DfIcon, type DfIconName } from './icons';
-import { DfCornerFragment, DfCrownObject, DfThresholdHero } from './objects';
+import { DF_ARCHITECTURE_RENDERS } from './objects';
 import {
   buildDfMenu,
   DF_VIEW_META,
@@ -71,6 +72,7 @@ export function DfLede({ children }: { children: ReactNode }) {
   return <p className="df-lede">{children}</p>;
 }
 
+/** Primary/secondary/text action (DF-C06). Thin alias over the shared `DfButton`. */
 export function DfCta({
   label,
   onClick,
@@ -79,6 +81,7 @@ export function DfCta({
   busyLabel,
   type = 'button',
   tone = 'red',
+  action,
 }: {
   label: string;
   onClick?: () => void;
@@ -86,20 +89,20 @@ export function DfCta({
   busy?: boolean;
   busyLabel?: string;
   type?: 'button' | 'submit';
-  tone?: 'red' | 'outline';
+  tone?: 'red' | 'outline' | 'text';
+  action?: string;
 }) {
   return (
-    <button
-      type={type}
-      className={`df-cta df-cta--${tone}`}
+    <DfButton
+      label={label}
       onClick={onClick}
-      disabled={disabled || busy}
-      aria-busy={busy || undefined}
-      data-busy={busy ? '1' : undefined}
-    >
-      <span>{busy ? busyLabel ?? label : label}</span>
-      {!busy && <DfIcon name="arrow" className="df-cta__arrow" />}
-    </button>
+      disabled={disabled}
+      busy={busy}
+      busyLabel={busyLabel}
+      type={type}
+      tone={tone === 'red' ? 'primary' : tone === 'outline' ? 'secondary' : 'text'}
+      action={action}
+    />
   );
 }
 
@@ -144,74 +147,8 @@ export function DfAlert({
   );
 }
 
-/** Bottom sheet for children that are not full screens (DF-C45). */
-export function DfSheet({
-  open,
-  title,
-  onClose,
-  children,
-  footer,
-}: {
-  open: boolean;
-  title: string;
-  onClose: () => void;
-  children: ReactNode;
-  footer?: ReactNode;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const titleId = useId();
-  useEffect(() => {
-    if (!open) return undefined;
-    const prev = document.activeElement as HTMLElement | null;
-    ref.current?.focus();
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
-    };
-    window.addEventListener('keydown', onKey);
-    return () => {
-      window.removeEventListener('keydown', onKey);
-      prev?.focus?.();
-    };
-  }, [open, onClose]);
-  useEffect(() => {
-    if (!open) return undefined;
-    document.body.classList.add('df-sheet-open');
-    return () => document.body.classList.remove('df-sheet-open');
-  }, [open]);
-
-  if (!open) return null;
-
-  const sheet = (
-    <div className="df-sheet" role="presentation" onClick={onClose}>
-      <div
-        ref={ref}
-        className="df-sheet__panel"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby={titleId}
-        tabIndex={-1}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="df-sheet__head">
-          <h2 id={titleId} className="df-sheet__title">
-            {title}
-          </h2>
-          <button type="button" className="df-sheet__close" aria-label="CLOSE" onClick={onClose}>
-            <DfIcon name="close" />
-          </button>
-        </div>
-        <div className="df-sheet__body">{children}</div>
-        {footer && <div className="df-sheet__foot">{footer}</div>}
-      </div>
-    </div>
-  );
-
-  return typeof document !== 'undefined' ? createPortal(sheet, document.body) : sheet;
-}
-
 const DRAWER_EXIT_MS = 220;
 const DRAWER_FOCUSABLE = 'button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])';
-const DRAWER_ART_SRC = '/site00/idnty/digital-foundation/architecture/df-g03-corner-fragment.jpg';
 
 const STEP_STATUS: Record<DfMenuStepState, string | null> = {
   current: 'CURRENT STEP',
@@ -223,7 +160,9 @@ const STEP_STATUS: Record<DfMenuStepState, string | null> = {
 const DESTINATION_ICON: Record<DfMenuDestinationId, DfIconName> = {
   overview: 'overview',
   roadmap: 'roadmap',
+  needs_you: 'needsYou',
   records: 'folder',
+  comm_prefs: 'message',
   location: 'pin',
 };
 
@@ -300,9 +239,6 @@ function DfDrawer({ open, onClose, children }: { open: boolean; onClose: () => v
     <div ref={hostRef} className="df-drawer" data-state={open ? 'open' : 'closed'}>
       <div className="df-drawer__backdrop" aria-hidden="true" onClick={onClose} />
       <div ref={panelRef} className="df-drawer__panel" role="dialog" aria-modal="true" aria-label="DIGITAL FOUNDATION MENU">
-        <div className="df-drawer__art" aria-hidden="true">
-          <img src={DRAWER_ART_SRC} alt="" decoding="async" />
-        </div>
         <div className="df-drawer__head">
           <div className="df-drawer__brand">
             <span className="df-drawer__mark">SITE 00</span>
@@ -408,34 +344,9 @@ export function DfMenu({
   );
 }
 
-function ObjectSlot({ kind, variant }: { kind: DfObjectKind; variant: DfView | null }) {
-  if (kind === 'none') return null;
-  if (kind === 'hero') return null;
-  if (kind === 'crown') {
-    return (
-      <>
-        <div className="df-object df-object--crown" aria-hidden="true">
-          <DfCrownObject variant={variant === 'P05' || variant === 'P06' || variant === 'OVERVIEW' ? variant : 'P04'} />
-        </div>
-        <div className="df-object df-object--corner" aria-hidden="true">
-          <DfCornerFragment />
-        </div>
-      </>
-    );
-  }
-  return (
-    <div className="df-object df-object--corner" aria-hidden="true">
-      <DfCornerFragment />
-    </div>
-  );
-}
-
+/** Clear window in the P01 column so the chamber on the full plate stays visible between the lede and the triad. */
 export function DfHeroObject() {
-  return (
-    <div className="df-object df-object--hero" aria-hidden="true">
-      <DfThresholdHero />
-    </div>
-  );
+  return <div className="df-object df-object--hero" aria-hidden="true" />;
 }
 
 /** One parent screen: header, rail, content column, footer, threshold object. */
@@ -456,9 +367,14 @@ export function DfFrame({
   state?: string;
 }) {
   const meta = view ? DF_VIEW_META[view] : null;
+  const plate = object === 'none' ? null : DF_ARCHITECTURE_RENDERS[object];
   return (
-    <div className={`df-screen df-screen--${object}`} data-view={view ?? 'SYSTEM'} data-state={state}>
-      <ObjectSlot kind={object} variant={view} />
+    <div
+      className={`df-screen df-screen--${object}`}
+      data-view={view ?? 'SYSTEM'}
+      data-state={state}
+      style={plate ? ({ '--df-plate': `url("${plate}")` } as CSSProperties) : undefined}
+    >
       <DfHeader onMenu={onMenu} menuOpen={menuOpen} />
       <div className="df-screen__grid">
         <main className="df-screen__main">{children}</main>
@@ -496,17 +412,9 @@ export function DfSystemPanel({
 export function DfLoading() {
   return (
     <div className="df-root">
-    <DfFrame view={null} object="none" state="LOADING">
-      <div className="df-skeleton" role="status" aria-live="polite">
-        <span className="df-skeleton__rail" />
-        <span className="df-skeleton__line df-skeleton__line--xl" />
-        <span className="df-skeleton__line df-skeleton__line--xl" />
-        <span className="df-skeleton__line df-skeleton__line--lg" />
-        <span className="df-skeleton__line" />
-        <span className="df-skeleton__line" />
-        <span className="df-visually-hidden">LOADING YOUR DIGITAL FOUNDATION</span>
-      </div>
-    </DfFrame>
+      <DfFrame view={null} object="none" state="LOADING">
+        <DfLoadingState label="LOADING YOUR DIGITAL FOUNDATION…" block />
+      </DfFrame>
     </div>
   );
 }

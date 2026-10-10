@@ -12,6 +12,7 @@ import { InterimOverview, P05Review, P06Activation } from '../../foundation-clie
 import { DfFrame, DfMenu, type DfObjectKind } from '../../foundation-client/shell';
 import { DF_VIEW_META, DF_VIEW_ORDER, type DfView, type IntakeDraft } from '../../foundation-client/model';
 import '../../styles/site00-df-client.css';
+import '../../styles/site00-df-components.css';
 
 const OBJECT_FOR: Record<DfView, DfObjectKind> = {
   P01: 'hero',
@@ -21,6 +22,12 @@ const OBJECT_FOR: Record<DfView, DfObjectKind> = {
   P05: 'crown',
   P06: 'crown',
   OVERVIEW: 'crown',
+  ROADMAP: 'crown',
+  STAGE: 'crown',
+  NEEDS_YOU: 'crown',
+  RECORDS: 'crown',
+  RECORD: 'crown',
+  COMM_PREFS: 'corner',
 };
 
 const BLDR_ROOMS = [
