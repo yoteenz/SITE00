@@ -1,0 +1,183 @@
+/** 24×24 monoline glyph markup. Stroke inherits from the parent SVG. `{{step}}` and `{{progress}}` are filled by DfIcon. */
+
+export const DF_ICON_GLYPHS: Record<string, string> = {
+  foundation:
+    '<path d="m12 3 8 4.5v9L12 21l-8-4.5v-9L12 3z"/><path d="m12 12 8-4.5M12 12v9M12 12 4 7.5"/>',
+  build: '<path d="m12 3 8 3.2-8 3.2L4 6.2 12 3zM4 10.2l8 3.2 8-3.2M4 14.4 12 17.6l8-3.2"/>',
+  growth: '<path d="M5 19V11M10 19V8M15 19V5M19 19H4"/>',
+  aio: '<path d="M12 3.2 20.5 21H3.5L12 3.2z" fill="currentColor" stroke="none"/><path d="M8.2 15h7.6" stroke="#fff"/>',
+  link: '<path d="M9.5 14.5 14.5 9.5"/><path d="M8.2 10.2 6.6 11.8a3.2 3.2 0 0 0 4.6 4.6l1.6-1.6"/><path d="M15.8 13.8 17.4 12.2a3.2 3.2 0 0 0-4.6-4.6L11.2 9.2"/>',
+  qr: '<path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h2v2h-2zM18 14h2v2h-2zM14 18h2v2h-2zM18 18h2v2h-2z"/>',
+  external: '<path d="M5 5h14v14H5z"/><path d="M10 14 15 9M10 9h5v5"/>',
+  security: '<path d="M12 3 5 6v5.2c0 4.2 2.8 7.4 7 8.8 4.2-1.4 7-4.6 7-8.8V6L12 3z"/>',
+
+  menu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
+  grid: '<path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"/>',
+  home: '<path d="m4 11 8-7 8 7"/><path d="M6.5 10.5V20h11V10.5"/>',
+  back: '<path d="M15 5 8 12l7 7"/>',
+  next: '<path d="m9 5 7 7-7 7"/>',
+  close: '<path d="m6 6 12 12M18 6 6 18"/>',
+  more: '<path d="M6 12h.01M12 12h.01M18 12h.01"/>',
+  options: '<path d="M12 5v.01M12 12v.01M12 19v.01"/>',
+
+  domain:
+    '<circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4c2.2 2.4 3.3 5 3.3 8s-1.1 5.6-3.3 8c-2.2-2.4-3.3-5-3.3-8s1.1-5.6 3.3-8z"/>',
+  business:
+    '<path d="M4 20V6h8v14M12 10h8v10M3 20h18"/><path d="M6.5 9h3M6.5 12.5h3M6.5 16h3M14.5 13h2M14.5 16.5h2"/>',
+  user: '<circle cx="12" cy="8" r="3.2"/><path d="M5.5 19.5c.8-3.2 3.2-4.8 6.5-4.8s5.7 1.6 6.5 4.8"/>',
+  users:
+    '<circle cx="9" cy="8.2" r="2.8"/><path d="M3.5 19c.6-3 2.8-4.6 5.5-4.6s4.9 1.6 5.5 4.6"/><circle cx="16" cy="9" r="2.3"/><path d="M16.2 14.5c1.8.4 3 1.8 3.4 4.5"/>',
+  company: '<path d="M8 8.5h8v11H8z"/><path d="M8 11h8M10 8.5V7a2 2 0 0 1 4 0v1.5M11 16.5h2"/>',
+  contact: '<path d="M5 6h14v12H5z"/><circle cx="9" cy="11" r="1.6"/><path d="M12 10.5h4M12 13h4M7.5 16h9"/>',
+  location: '<path d="M12 21s-6-5.8-6-10a6 6 0 0 1 12 0c0 4.2-6 10-6 10z"/><circle cx="12" cy="11" r="2"/>',
+  telephone:
+    '<path d="M7 4.5h3.2l1.2 2.6-1.8 1.1a10 10 0 0 0 4.2 4.2l1.1-1.8 2.6 1.2V17a1.5 1.5 0 0 1-1.6 1.5A13 13 0 0 1 5.5 8.1 1.5 1.5 0 0 1 7 4.5z"/>',
+  email: '<path d="M3.5 6h17v12h-17z"/><path d="m3.5 7 8.5 6.5L20.5 7"/>',
+
+  payment:
+    '<circle cx="12" cy="12" r="8"/><path d="M12 7v10M14.2 9.2c-.4-.7-1.2-1.1-2.2-1.1-1.4 0-2.3.7-2.3 1.8 0 2.4 4.6 1.2 4.6 3.6 0 1-.9 1.8-2.3 1.8-1 0-1.9-.4-2.3-1.2"/>',
+  card: '<path d="M3.5 6.5h17v11h-17z"/><path d="M3.5 10h17"/>',
+  cart: '<path d="M4 6h2l1.6 9h9.2l1.6-6.5H8"/><circle cx="10" cy="18.2" r="1.2"/><circle cx="16" cy="18.2" r="1.2"/>',
+  receipt: '<path d="M7 3.5h10v17l-2-1.2-2 1.2-2-1.2-2 1.2-2-1.2v-16z"/><path d="M9.5 8h5M9.5 11.5h5M9.5 15h3"/>',
+  price: '<path d="M12.5 4.5 19.5 11.5 11.5 19.5 4.5 12.5V4.5h8z"/><circle cx="9" cy="9" r="1.1"/>',
+  invoice: '<path d="M6 3.5h12v17H6z"/><path d="M9 8h6M9 11.5h6M9 15h4"/><path d="M14 15.5 15.2 17 18 13.5"/>',
+  paymentSecure: '<path d="M12 3.5 6 6v4.8c0 3.6 2.4 6.4 6 7.7 3.6-1.3 6-4.1 6-7.7V6L12 3.5z"/><path d="M9.2 12.2 11 14l3.8-4"/>',
+  refund: '<path d="M7 8H4.5V5.5"/><path d="M4.8 8.2A7 7 0 1 1 6 17.2"/>',
+  paymentError:
+    '<circle cx="12" cy="12" r="8"/><path d="M12 8v5M12 16.2v.3"/>',
+
+  message: '<path d="M3.5 6h17v10h-10l-4 3v-3h-3z"/>',
+  unread:
+    '<path d="M3.5 6.5h15v10h-9l-3.5 2.6v-2.6h-2.5z"/><circle cx="18.2" cy="6.2" r="2.3" fill="#E50107" stroke="none"/>',
+  chat: '<path d="M5 6h10v7H8l-3 2.4V6z"/><path d="M9 10h8v6h-2v2.2L12.2 16H9z"/>',
+  reply: '<path d="M5 6h10v7H8l-3 2.4V6z"/><path d="M14 15.5 18 13v5"/>',
+  send: '<path d="M4 12 20 4.5 14.5 20l-2.2-6.2L4 12z"/>',
+  inbox: '<path d="M3.5 13 6 5.5h12L20.5 13v6h-17z"/><path d="M3.5 13h4.2l1.3 2h6l1.3-2h4.2"/>',
+  notification: '<path d="M6 16.5V11a6 6 0 0 1 12 0v5.5"/><path d="M4.5 16.5h15M10 19a2 2 0 0 0 4 0"/>',
+  commAlert:
+    '<path d="M6 16.5V11a6 6 0 0 1 12 0v5.5"/><path d="M4.5 16.5h15"/><circle cx="17.5" cy="6.5" r="2.2" fill="#E50107" stroke="none"/>',
+  announce: '<path d="M5 10v4h3l7 3.5V6.5L8 10H5z"/><path d="M8 14.2V17"/>',
+
+  document: '<path d="M7 3.5h7l3 3V20.5H7z"/><path d="M14 3.5V7h3.2M9.5 11h5M9.5 14h5M9.5 17h3"/>',
+  text: '<path d="M6 4.5h12v15H6z"/><path d="M8.5 8h7M8.5 11h7M8.5 14h5"/>',
+  image: '<path d="M5 5h14v14H5z"/><circle cx="9" cy="9" r="1.3"/><path d="m5 16 4-3.5 3 2.5 2.5-2 4.5 4"/>',
+  pdf: '<path d="M6 3.5h8l4 4V20.5H6z"/><path d="M14 3.5V8h4"/><path d="M8.5 14.5c.8-2 2-3.2 3.5-3.2 1.2 0 1.6 1 1.2 2-.5 1.4-2.2 1.4-2.8 2.4"/>',
+  download: '<path d="M12 4v10M8 10l4 4 4-4M5 19h14"/>',
+  upload: '<path d="M12 16V6M8 10l4-4 4 4M5 19h14"/>',
+  folder: '<path d="M3 7h6l2 2h10v10H3z"/>',
+  newFolder: '<path d="M3 7h6l2 2h10v10H3z"/><path d="M12 11.5v5M9.5 14h5"/>',
+  addFile: '<path d="M7 3.5h7l3 3V20.5H7z"/><path d="M14 3.5V7h3"/><path d="M12 11v6M9 14h6"/>',
+
+  service: '<path d="m12 3 8 4.5v9L12 21l-8-4.5v-9L12 3z"/><path d="m12 12 8-4.5M12 12v9"/>',
+  addons: '<path d="m4 8 8-3.5L20 8l-8 3.5L4 8zM4 12l8 3.5L20 12M4 16l8 3.5L20 16"/>',
+  hosting: '<path d="M5 4h14v5H5zM5 10.5h14v5H5zM5 17h14v3H5z"/><path d="M8 6.5h.01M8 13h.01M8 18.5h.01"/>',
+  serviceEmail: '<path d="M4 7h16v10H4z"/><path d="m4 8 8 6 8-6"/>',
+  aliases: '<path d="M7 6h10v4H7zM6 10h12v4H6zM5 14h14v4H5z"/>',
+  serviceSecurity: '<path d="M12 3.5 5.5 6.2v5c0 3.8 2.6 6.8 6.5 8.3 3.9-1.5 6.5-4.5 6.5-8.3v-5L12 3.5z"/>',
+  signature: '<path d="M4 16c2 0 3-8 5.2-8 1.4 0-.4 7 1.6 7 1.4 0 2-3.4 3.2-3.4.8 0 .5 2.6 1.8 2.6.8 0 1.4-.8 2-1.4"/><path d="M4 19.5h16"/>',
+  device: '<path d="M8 3.5h8v17H8z"/><path d="M11 17.5h2"/>',
+  migration: '<path d="M7 17h10a3.6 3.6 0 0 0 .4-7.2 5.2 5.2 0 0 0-10-.2A4 4 0 0 0 7 17z"/>',
+
+  add: '<circle cx="12" cy="12" r="8"/><path d="M12 8.5v7M8.5 12h7"/>',
+  edit: '<path d="M4 17.5 14.5 7l2.5 2.5L6.5 20H4z"/><path d="m13 8.5 2.5-2.5 2.5 2.5-2.5 2.5"/>',
+  delete: '<path d="M5 7.5h14M9 7.5V5.5h6v2M7 7.5l.8 12h8.4l.8-12"/>',
+  view: '<path d="M2.5 12S6 6.5 12 6.5 21.5 12 21.5 12 18 17.5 12 17.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="2.4"/>',
+  hide: '<path d="M3 5.5 19 19"/><path d="M5 8.5C6.6 7 9 6 12 6c5.5 0 9 6 9 6a16 16 0 0 1-3.2 3.6M9.5 9.8A3 3 0 0 0 12 15a3 3 0 0 0 2.2-.9"/><path d="M4.2 10.2C3.2 11.2 2.8 12 2.8 12S6.2 18 12 18c1 0 1.9-.2 2.7-.5"/>',
+  duplicate: '<path d="M8 8h11v11H8z"/><path d="M5 16V5h11"/>',
+  share: '<circle cx="6" cy="12" r="2"/><circle cx="17" cy="7" r="2"/><circle cx="17" cy="17" r="2"/><path d="m8 11 7-3M8 13l7 3"/>',
+  import: '<path d="M12 4v9M8.5 9.5 12 13l3.5-3.5"/><path d="M5 15.5V19h14v-3.5"/>',
+  export: '<path d="M12 14V5M8.5 8.5 12 5l3.5 3.5"/><path d="M5 15.5V19h14v-3.5"/>',
+
+  pending: '<circle cx="12" cy="12" r="8"/>',
+  active: '<circle cx="12" cy="12" r="8" fill="currentColor" stroke="none"/>',
+  complete: '<circle cx="12" cy="12" r="8"/><path d="m8.2 12.2 2.6 2.6 4.8-5.2"/>',
+  inProgress: '<circle cx="12" cy="12" r="8"/><path d="M12 8v4.2l2.6 1.6"/>',
+  attention: '<circle cx="12" cy="12" r="8"/><path d="M12 8v5M12 16.2v.2"/>',
+  onHold: '<path d="M9 7.5v9M15 7.5v9"/>',
+  blocked: '<circle cx="12" cy="12" r="8"/><path d="M8 12h8"/>',
+  cancelled: '<circle cx="12" cy="12" r="8"/><path d="m9 9 6 6M15 9l-6 6"/>',
+  retry: '<path d="M19 8.5V4.5h-4"/><path d="M18.2 8.2A7 7 0 1 0 19 14"/>',
+
+  approval: '<path d="M6 4h9l3 3v13H6z"/><path d="M15 4v3.5h3"/><path d="M8 15c1.4 0 2.2-4.6 3.6-4.6.8 0-.2 4 1.2 4 .9 0 1.4-2 2.2-2"/>',
+  approve: '<circle cx="12" cy="12" r="8"/><path d="m8.2 12.2 2.6 2.6 4.8-5.2"/>',
+  reject: '<circle cx="12" cy="12" r="8"/><path d="m9 9 6 6M15 9l-6 6"/>',
+  requestChange: '<path d="M5 8h12M14 5l3 3-3 3M19 16H7M10 13l-3 3 3 3"/>',
+  feedback: '<path d="M5 6h14v9H9l-4 3V6z"/>',
+  assigned: '<circle cx="12" cy="8" r="3"/><path d="M6.2 19c.7-2.8 2.8-4.2 5.8-4.2 1.2 0 2.3.3 3.2.8"/><path d="m14.5 16.5 1.6 1.6 3-3.4"/>',
+  review:
+    '<circle cx="8.5" cy="9" r="2.4"/><circle cx="15.5" cy="9" r="2.4"/><path d="M3.8 18c.5-2.4 2.2-3.6 4.7-3.6s4.2 1.2 4.7 3.6M11 18c.4-1.6 1.6-2.6 3.6-2.6 1.6 0 3 .8 3.6 2.6"/>',
+  signed: '<path d="M12 4.5v6"/><path d="M8.5 8.5h7"/><path d="M7 13.5h10v6H7z"/><path d="M9.2 16.6h5.6"/>',
+  confirmed: '<path d="M6 4h12v16H6z"/><path d="m8.5 12 2.4 2.4 4.6-5"/>',
+
+  stepCurrent:
+    '<circle cx="12" cy="12" r="9" fill="currentColor" stroke="none"/><text x="12" y="16" text-anchor="middle" font-size="11" font-family="Arial,sans-serif" font-weight="700" fill="#fff" stroke="none">{{step}}</text>',
+  stepUpcoming:
+    '<circle cx="12" cy="12" r="8"/><text x="12" y="16" text-anchor="middle" font-size="10" font-family="Arial,sans-serif" font-weight="700" fill="currentColor" stroke="none">{{step}}</text>',
+  stepFuture:
+    '<circle cx="12" cy="12" r="8" stroke-dasharray="2 2"/><text x="12" y="16" text-anchor="middle" font-size="10" font-family="Arial,sans-serif" font-weight="700" fill="currentColor" stroke="none">{{step}}</text>',
+  stepsList: '<path d="M8 6h11M8 12h11M8 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01"/>',
+  checklist: '<path d="M9 6h10M9 12h10M9 18h10"/><path d="m4 6.2 1.2 1.2L7.4 5M4 12.2l1.2 1.2L7.4 11M4 18.2l1.2 1.2L7.4 17"/>',
+  progress: '<path d="M4 12h16"/><path d="M4 12h{{progress}}" stroke-width="3"/>',
+  milestone: '<path d="M6 20V4"/><path d="M6 5h10l-2 3.5 2 3.5H6"/>',
+  roadmap: '<circle cx="6" cy="16" r="2"/><circle cx="12" cy="8" r="2"/><circle cx="18" cy="14" r="2"/><path d="M7.7 14.8 10.4 9.6M13.7 9.2 16.4 12.6"/>',
+  target: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/>',
+
+  calendar: '<path d="M5 5.5h14v14H5z"/><path d="M5 9.5h14M8 3.5v4M16 3.5v4"/>',
+  time: '<circle cx="12" cy="12" r="8"/><path d="M12 8v4.2l2.8 1.8"/>',
+  duration: '<circle cx="12" cy="12" r="8"/><path d="M12 8v4h3"/>',
+  schedule: '<path d="M6 5h12v14H6z"/><path d="M6 9h12M9 3.5v3M15 3.5v3"/><circle cx="15.5" cy="15" r="2.6"/><path d="M15.5 14v1.2l.8.5"/>',
+  waiting: '<path d="M8 4.5h8M8 19.5h8M9 4.5c0 4 6 3.5 6 7.5S9 15.5 9 19.5M15 4.5c0 4-6 3.5-6 7.5s6 3.5 6 7.5"/>',
+  updated: '<path d="M19 12a7 7 0 1 1-2-4.9"/><path d="M19 4.5V8h-3.5"/>',
+  date: '<path d="M5 6h14v13H5z"/><path d="M5 10h14M8 4v4M16 4v4"/>',
+  addDate: '<path d="M5 6h14v13H5z"/><path d="M5 10h14M8 4v4M16 4v4M12 12.5v4M10 14.5h4"/>',
+  reminder: '<path d="M6 16V11a6 6 0 0 1 12 0v5"/><path d="M4.5 16h15M10 19a2 2 0 0 0 4 0"/><path d="M12 3.5v2"/>',
+
+  analytics: '<path d="M4 19V9M10 19V5M16 19v-6M20 19H3"/>',
+  insights: '<circle cx="7" cy="14" r="2"/><circle cx="12" cy="9" r="2"/><circle cx="17" cy="13" r="2"/><path d="M8.8 13 10.4 10.4M13.6 10.2 15.4 12"/>',
+  trend: '<path d="M4 16c3-1 4-6 7-6s3 4 5 4 3-3 4-4"/><path d="M16 6h4v4"/>',
+  performance: '<path d="M4 16h4l2-6 3 8 2-5h5"/>',
+  metrics: '<path d="M5 6h14M5 12h14M5 18h14M8 6v.01M8 12v.01M8 18v.01"/>',
+  report: '<path d="M5 19V5h9l4 4v10z"/><path d="M14 5v4h4M8 13h7M8 16h5"/>',
+  goal: '<path d="M8 20V5"/><path d="M8 6h8l-2 3 2 3H8"/>',
+  opportunity:
+    '<path d="M8 4.5h8v6a4 4 0 0 1-8 0z"/><path d="M8 6.5H5.8v1.6a2.6 2.6 0 0 0 2.6 2.6M16 6.5h2.2v1.6a2.6 2.6 0 0 1-2.6 2.6"/><path d="M12 14.5v2.2M9 19.2h6"/>',
+  idea: '<path d="M9 18h6M10 20.5h4"/><path d="M8 10a4 4 0 1 1 6.8 2.8c-.7.6-1.3 1.3-1.3 2.2h-3c0-.9-.6-1.6-1.3-2.2A4 4 0 0 1 8 10z"/>',
+
+  client: '<circle cx="12" cy="8" r="3"/><path d="M6 19c.8-3 3-4.6 6-4.6s5.2 1.6 6 4.6"/>',
+  team: '<circle cx="8" cy="9" r="2.5"/><circle cx="16" cy="9" r="2.5"/><path d="M3.5 18c.6-2.4 2.2-3.6 4.5-3.6s3.9 1.2 4.5 3.6M12 18c.5-1.8 1.8-2.8 3.6-2.8 1.5 0 2.8.8 3.4 2.8"/>',
+  needsYou: '<path d="M8 11.5V8.5a2 2 0 0 1 2-2h0"/><path d="M12 6.5v5l2.2 1.4"/><path d="M8 13.5c0 3 1.6 5 4 5s4-2 4-5"/><path d="M16 8.5h3M17.5 7v3"/>',
+  task: '<path d="M8 4.5h8v15H8z"/><path d="M10 4.5V3.5h4v1"/><path d="m10 11 1.4 1.4L14.5 9"/>',
+  stage: '<path d="M6 7h12M6 12h12M6 17h12"/>',
+  phase: '<path d="M6 19V5"/><path d="M6 6h9l-2 3 2 3H6"/>',
+  nextStep: '<path d="M5 7h6v4H5zM13 13h6v4h-6z"/><path d="M8 11v2h5"/>',
+  dependency: '<path d="M7 7h4v4H7zM13 13h4v4h-4z"/><path d="M11 9h2v2h2"/>',
+  deliverable: '<path d="M6 5h12v4H6zM6 10.5h12V19H6z"/><path d="M9 14.5h6M9 17h4"/>',
+
+  setup:
+    '<circle cx="12" cy="12" r="3"/><path d="M12 3.5v2.2M12 18.3v2.2M20.5 12h-2.2M5.7 12H3.5M17.8 6.2l-1.6 1.6M7.8 16.2l-1.6 1.6M17.8 17.8l-1.6-1.6M7.8 7.8 6.2 6.2"/>',
+  configure: '<circle cx="8" cy="8" r="2.2"/><circle cx="16" cy="16" r="2.2"/><path d="M10.2 8H20M4 8h1.6M14 16H4M20 16h-.2M8 10.2V20M8 4v1.6M16 14V4M16 20v-.2"/>',
+  tools: '<path d="m14.5 6.5 3 3-8.2 8.2H6.3v-3z"/><path d="m13 8 3-3 2 2-3 3"/>',
+  database: '<ellipse cx="12" cy="6.5" rx="6" ry="2.4"/><path d="M6 6.5v11c0 1.3 2.7 2.4 6 2.4s6-1.1 6-2.4v-11"/><path d="M6 12c0 1.3 2.7 2.4 6 2.4s6-1.1 6-2.4"/>',
+  systemCloud: '<path d="M7 17h10a3.6 3.6 0 0 0 .5-7.2A5.2 5.2 0 0 0 7.4 8 4.1 4.1 0 0 0 7 17z"/>',
+  server: '<path d="M4 5h16v5H4zM4 14h16v5H4z"/><path d="M7 7.5h.01M7 16.5h.01"/>',
+  integration: '<path d="M9 8v3a3 3 0 0 0 3 3h0a3 3 0 0 0 3-3V8"/><path d="M8 5h3v4H8zM13 15h3v4h-3z"/>',
+  api: '<path d="M8 8 4.5 12 8 16M16 8l3.5 4L16 16M13 6l-2 12"/>',
+  network: '<circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4c2 2.2 3 4.8 3 8s-1 5.8-3 8c-2-2.2-3-4.8-3-8s1-5.8 3-8z"/>',
+
+  favorite: '<path d="m12 4 2.2 4.6 5 .7-3.6 3.5.9 5.1L12 15.8 7.5 18l.9-5.1L4.8 9.3l5-.7L12 4z" fill="currentColor" stroke="none"/>',
+  favoriteOutline: '<path d="m12 4 2.2 4.6 5 .7-3.6 3.5.9 5.1L12 15.8 7.5 18l.9-5.1L4.8 9.3l5-.7L12 4z"/>',
+  info: '<circle cx="12" cy="12" r="8"/><path d="M12 11v5M12 8v.2"/>',
+  help: '<circle cx="12" cy="12" r="8"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.2 2.4c-.7.3-1.2.8-1.2 1.6V14M12 16.6v.2"/>',
+  warning: '<path d="M12 4 3 20h18L12 4z"/><path d="M12 10v4.5M12 17.4v.2"/>',
+  lock: '<path d="M7 11h10v8H7z"/><path d="M9 11V8.5a3 3 0 0 1 6 0V11"/>',
+  unlock: '<path d="M7 11h10v8H7z"/><path d="M9 11V8.5a3 3 0 0 1 5.5-1.6"/>',
+  search: '<circle cx="11" cy="11" r="6"/><path d="m15.5 15.5 4 4"/>',
+  filter: '<path d="M4 6h16M7 12h10M10 18h4"/>',
+
+  arrow: '<path d="M4 12h15M14 7l5 5-5 5"/>',
+  check: '<path d="m5 12.5 4.2 4.2L19 7.5"/>',
+  plus: '<path d="M5 5h14v14H5z"/><path d="M12 8.5v7M8.5 12h7"/>',
+  minus: '<path d="M6 12h12"/>',
+  laptop: '<path d="M5 6h14v9H5z"/><path d="M3 18h18l-1.5-3h-15z"/>',
+  bolt: '<path d="M13 3 6 13h5l-1 8 7-10h-5l1-8z"/>',
+};
