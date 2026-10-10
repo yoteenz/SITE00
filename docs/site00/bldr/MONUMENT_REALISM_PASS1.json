@@ -3,6 +3,7 @@
   "mode": "enhancement",
   "renderer": "three.js WebGL in src/site00/builder-studio/buildObject/engine.ts",
   "new_raster_assets": [],
+  "phone_tier": "Clearcoat is off on viewports under 700px. The GPU stability fix on main drops it because a room stacks dozens of transparent volumes. Polygon offset and the 3mm ground lift stay so panes do not z-fight.",
   "families": [
     {
       "family": "PLACE",

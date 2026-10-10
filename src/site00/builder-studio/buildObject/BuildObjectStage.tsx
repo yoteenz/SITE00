@@ -42,6 +42,9 @@ export function BuildObjectStage({ composition, description, interactive = false
   compositionRef.current = composition;
   const reducedMotion = usePrefersReducedMotion();
   const [failed, setFailed] = useState(false);
+  // Bumped when the GPU drops the context: the engine is rebuilt (and the current composition drawn again).
+  const [generation, setGeneration] = useState(0);
+  const losses = useRef<number[]>([]);
 
   useEffect(() => {
     const host = hostRef.current;
@@ -51,7 +54,16 @@ export function BuildObjectStage({ composition, description, interactive = false
       return;
     }
     try {
-      const engine = createBuildObjectEngine(host, { reducedMotion });
+      const engine = createBuildObjectEngine(host, {
+        reducedMotion,
+        onContextLost: () => {
+          // Rebuild, unless the device keeps losing it (then show the honest fallback rather than flicker forever).
+          const now = Date.now();
+          losses.current = [...losses.current.filter((t) => now - t < 20000), now];
+          if (losses.current.length > 3) setFailed(true);
+          else setGeneration((n) => n + 1);
+        },
+      });
       engine.setComposition(compositionRef.current);
       engineRef.current = engine;
     } catch {
@@ -61,7 +73,7 @@ export function BuildObjectStage({ composition, description, interactive = false
       engineRef.current?.dispose();
       engineRef.current = null;
     };
-  }, [reducedMotion]);
+  }, [reducedMotion, generation]);
 
   useEffect(() => {
     engineRef.current?.setComposition(composition);
