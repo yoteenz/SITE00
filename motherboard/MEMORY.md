@@ -16140,3 +16140,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Context:** Founder asked for the cost of remaining Digital Foundation visual batches C–J before any mass generation. No new images. No OpenArt spend.
 - **Pricing:** Live quote 2026-10-10: Sunburst image-to-image 4k high is **317 credits** per job for 9:16 and 16:9. USD **UNVERIFIED**. Balance **26,590**. Batches A and B each consumed **1,264** credits for four successful images (quote 1,268). Zero regenerations.
 - **Recommendation:** Balanced scope **18** images plus **2** reserve jobs. Hard ceiling **6,340 credits**. Do not regenerate the seven boards or batches A and B. Do not start batch C until the founder approves that ceiling.
+
+---
+
+## 2026-10-10 — Marketing email authority checksum recovery blocked
+
+- **Context:** After the C–J cost plan (draft PR #1597, ceiling 6,340, budget still pending), the founder supplied an approved marketing email poster and then resupplied it. Registration is allowed only when SHA256 is `e814042c318f7f45d7db07a6d11e4878fcc20888c583a76537828cfa3c2ede83`.
+- **Topics covered:** Two chat JPEGs of the same poster. Copy 1 is 468,306 bytes, `f3c2745f79a79278ab2f24f6f4fc22a78c3818397844bdfc6b4c77c9103a308e`. Copy 2 is 474,703 bytes, `1d431920ffd56552b6eacc58ceaeeaa02faf8ed9ab687ffde3eee104d2945d8d`. Both are 1086×1448.
+- **Decisions / outcomes:** The attachment path re-encodes JPEGs. Copy 1 shares the REF-01 luminance quantization table and a Photoshop segment whose caption digest is the MD5 of empty data. Copy 2 is a second lossy encode (63.6% of pixels differ, max channel delta 34) with that segment removed. A cache search found zero files with the expected digest. The canonical JPEG was not written. Module docs were not written against a substitute. Batch I stays 3 images. Ceiling stays 6,340. Credits spent: 0. Do not merge #1597. Do not send another chat JPEG; commit or release the original bytes.
+- **Changes:** `docs/site00/idnty/visual-authority/marketing-email/MARKETING_EMAIL_AUTHORITY_CHECKSUM_RECOVERY.md`, budget summary, email asset scope, this memory entry.
+- **Conventions:** Do not register a visual authority image when the SHA256 does not match. Do not treat a chat JPEG as the founder’s original file.

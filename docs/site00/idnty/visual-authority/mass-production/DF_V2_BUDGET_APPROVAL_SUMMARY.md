@@ -36,3 +36,9 @@ Per-batch image counts and base credits (before the shared reserve):
 - Premium + 20%: **14,899** credits (39 images + 8 reserve).
 
 Founder approval of one ceiling is required before any batch C job is submitted.
+
+## Marketing email authority (2026-10-10)
+
+Checksum recovery is **BLOCKED**. Two chat attachments of the approved poster were re-encoded JPEGs. Neither matches `e814042c318f7f45d7db07a6d11e4878fcc20888c583a76537828cfa3c2ede83`. The canonical file was not written. Evidence: `docs/site00/idnty/visual-authority/marketing-email/MARKETING_EMAIL_AUTHORITY_CHECKSUM_RECOVERY.md`.
+
+Batch I stays **3** images (951 credits). The balanced ceiling stays **6,340**. This note does not approve the budget.

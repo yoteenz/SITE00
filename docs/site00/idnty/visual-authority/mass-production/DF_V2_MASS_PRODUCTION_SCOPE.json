@@ -52,5 +52,18 @@
     "Email manifest says T01–T29 and M01–M15 are not fully enumerated. Counts use eventMap.ts plus the three named marketing journeys.",
     "DF-J02 unsubscribe is not a route.",
     "Document preview and decision history are batch B visuals; they are not regenerated here."
-  ]
+  ],
+  "marketing_email_authority": {
+    "status": "BLOCKED",
+    "expected_sha256": "e814042c318f7f45d7db07a6d11e4878fcc20888c583a76537828cfa3c2ede83",
+    "canonical_path": null,
+    "received_sha256": [
+      "f3c2745f79a79278ab2f24f6f4fc22a78c3818397844bdfc6b4c77c9103a308e",
+      "1d431920ffd56552b6eacc58ceaeeaa02faf8ed9ab687ffde3eee104d2945d8d"
+    ],
+    "batch_i_images": 3,
+    "balanced_ceiling_credits": 6340,
+    "credits_spent": 0,
+    "note": "Chat attachments were re-encoded. Ceiling not revised."
+  }
 }

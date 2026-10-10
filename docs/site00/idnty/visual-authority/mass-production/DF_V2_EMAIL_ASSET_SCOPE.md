@@ -29,3 +29,5 @@ Marketing ids on the same map: `foundation-credit-issued`, `bldr-discovery`.
 | Premium | 19 | Transactional header + six archetype layouts × mobile and desktop (13) plus three marketing campaigns × two viewports (6) |
 
 Aspect for these jobs in the cost matrix: **16:9**, 4k, high, image-to-image, **317 credits** (verified 2026-10-10). A shorter email crop can be specified in the prompt; the provider still bills the job, not a separate email SKU.
+
+The founder-approved marketing poster is not registered. Chat delivery re-encoded it twice, and neither file matches the expected SHA256. Balanced marketing count stays **3** until that file is committed as raw bytes. See `docs/site00/idnty/visual-authority/marketing-email/MARKETING_EMAIL_AUTHORITY_CHECKSUM_RECOVERY.md`.
