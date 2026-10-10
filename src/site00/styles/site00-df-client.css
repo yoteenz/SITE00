@@ -126,19 +126,86 @@ body:has(.df-root) {
   background: var(--df-bg);
 }
 
-/* Full mobile plate. One photograph per screen, locked to the first viewport so a long form does not zoom it. */
+/* Full mobile plate. One 9:16 photograph fills the phone. A long form scrolls over that first viewport. */
+.df-screen--hero,
+.df-screen--crown,
+.df-screen--corner {
+  background: transparent;
+}
+
 .df-screen--hero::before,
 .df-screen--crown::before,
 .df-screen--corner::before {
   content: '';
   position: absolute;
   z-index: 0;
-  inset: 0;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 100dvh;
   background-image: var(--df-plate);
   background-repeat: no-repeat;
-  background-position: center top;
-  background-size: auto 100dvh;
+  background-position: center center;
+  background-size: cover;
   pointer-events: none;
+}
+
+/* The plate is the surface. Hairline borders stay; solid cards do not sit on the photograph. */
+.df-screen--hero :is(
+  .df-input,
+  .df-select__trigger,
+  .df-row,
+  .df-spec,
+  .df-specs--activation,
+  .df-included,
+  .df-addons,
+  .df-split,
+  .df-ack,
+  .df-confirm-card,
+  .df-stages,
+  .df-action-card,
+  .df-triad--proof,
+  .df-footer__code
+),
+.df-screen--crown :is(
+  .df-input,
+  .df-select__trigger,
+  .df-row,
+  .df-spec,
+  .df-specs--activation,
+  .df-included,
+  .df-addons,
+  .df-split,
+  .df-ack,
+  .df-confirm-card,
+  .df-stages,
+  .df-action-card,
+  .df-triad--proof,
+  .df-footer__code
+),
+.df-screen--corner :is(
+  .df-input,
+  .df-select__trigger,
+  .df-row,
+  .df-spec,
+  .df-specs--activation,
+  .df-included,
+  .df-addons,
+  .df-split,
+  .df-ack,
+  .df-confirm-card,
+  .df-stages,
+  .df-action-card,
+  .df-triad--proof,
+  .df-footer__code
+) {
+  background: transparent;
+}
+
+.df-screen--hero .df-input:read-only:not(:disabled),
+.df-screen--crown .df-input:read-only:not(:disabled),
+.df-screen--corner .df-input:read-only:not(:disabled) {
+  background: transparent;
 }
 
 .df-screen__grid {
@@ -509,9 +576,8 @@ body.df-drawer-open {
 .df-footer__code {
   position: relative;
   margin-left: auto;
-  /* Keeps the red index legible where the corner fragment sits behind it. */
   padding: 4px 0 4px 10px;
-  background: var(--df-bg);
+  background: transparent;
 }
 
 .df-footer__num {
