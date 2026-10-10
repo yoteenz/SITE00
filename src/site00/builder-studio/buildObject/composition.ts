@@ -134,6 +134,8 @@ export function paletteFor(feel: FeelVibeId | null): BuildPalette {
 
 type Spec = BuildSpec;
 
+const GROUND_LIFT = 0.003;
+
 const box = (
   id: string,
   material: BuildMaterial,
@@ -145,8 +147,9 @@ const box = (
   id,
   material,
   size,
-  // `base` is the bottom-center of the box; the renderer works in centers.
-  position: [base[0], base[1] + size[1] / 2, base[2]],
+  // `base` is the bottom-center of the box; the renderer works in centers. Anything standing on a surface is lifted
+  // a hair (3 mm at model scale) so it never shares a plane with it: coplanar faces shimmer on a real GPU.
+  position: [base[0], base[1] + size[1] / 2 + (base[1] > 0 ? GROUND_LIFT : 0), base[2]],
   rotationY,
   ...(seq === undefined ? {} : { seq }),
 });
