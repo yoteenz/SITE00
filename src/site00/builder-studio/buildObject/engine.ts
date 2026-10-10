@@ -166,7 +166,11 @@ type MaterialSet = {
   lit: { edge: THREE.LineBasicMaterial; mullion: THREE.LineBasicMaterial; frame: THREE.Material; surface: Partial<Record<BuildMaterial, THREE.Material>> };
 };
 
-function createMaterials(): MaterialSet {
+/**
+ * `lite` is the phone tier. Clearcoat doubles the cost of a physical material, and a room can stack dozens of
+ * transparent double-sided volumes, so on a phone GPU it is dropped (the glass reads the same without it).
+ */
+function createMaterials(lite = false): MaterialSet {
   // Cool Carrara white with grey veining; neutral limestone and concrete (no warm cast).
   const marble = canvasTexture(crackMarbleCanvas({ base: '#d6d4d2', mottle: '#a9a6a3', vein: '#2b2a2a', seed: 7, veins: 24 }));
   const darkMarble = canvasTexture(stoneCanvas('#1c1e21', '#dadde2', { veins: 12, speckle: 12, seed: 11, veinAlpha: 0.8 }));
@@ -184,11 +188,15 @@ function createMaterials(): MaterialSet {
     metalness: 0,
     transparent: true,
     opacity: 0.31,
-    clearcoat: 1,
+    clearcoat: lite ? 0 : 1,
     clearcoatRoughness: 0.02,
     envMapIntensity: 2.5,
     depthWrite: false,
     side: THREE.DoubleSide,
+    // Volumes stand exactly on the marble; pulled toward the camera, so the shared plane never z-fights on a real GPU.
+    polygonOffset: true,
+    polygonOffsetFactor: -2,
+    polygonOffsetUnits: -2,
   });
   const glassTint = glass.clone();
   glassTint.color = new THREE.Color(0xd8e3e8);
@@ -203,17 +211,20 @@ function createMaterials(): MaterialSet {
     metalness: 0,
     transparent: true,
     opacity: 0.9,
-    clearcoat: 1,
+    clearcoat: lite ? 0 : 1,
     clearcoatRoughness: 0.04,
     emissive: new THREE.Color(0xa3000d),
     emissiveIntensity: 0.4,
     envMapIntensity: 1.4,
     depthWrite: false,
     side: THREE.DoubleSide,
+    polygonOffset: true,
+    polygonOffsetFactor: -2,
+    polygonOffsetUnits: -2,
   });
-  const redSolid = new THREE.MeshPhysicalMaterial({ color: 0xd4121c, roughness: 0.2, clearcoat: 0.9, clearcoatRoughness: 0.08, emissive: new THREE.Color(0x52000a), emissiveIntensity: 0.24 });
+  const redSolid = new THREE.MeshPhysicalMaterial({ color: 0xd4121c, roughness: 0.2, clearcoat: lite ? 0 : 0.9, clearcoatRoughness: 0.08, emissive: new THREE.Color(0x52000a), emissiveIntensity: 0.24 });
   // Blueprint inspection: what is not in focus stays as a faint glass outline.
-  const ghost = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.05, depthWrite: false });
+  const ghost = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.05, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2 });
   const surface: Record<BuildMaterial, THREE.Material> = {
     glass,
     glassTint,
@@ -685,11 +696,11 @@ export type BuildObjectEngine = {
   dispose: () => void;
 };
 
-export function createBuildObjectEngine(container: HTMLElement, options: { reducedMotion: boolean }): BuildObjectEngine {
+export function createBuildObjectEngine(container: HTMLElement, options: { reducedMotion: boolean; onContextLost?: () => void }): BuildObjectEngine {
   const mobile = Math.min(window.innerWidth, window.innerHeight) < 700;
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
   renderer.setClearColor(0x000000, 0);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, mobile ? 2 : 1.75));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, mobile ? 1.5 : 1.75));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.NeutralToneMapping;
   renderer.toneMappingExposure = 0.94;
@@ -705,7 +716,7 @@ export function createBuildObjectEngine(container: HTMLElement, options: { reduc
     container.dataset.env = ready ? 'ready' : 'fallback';
     requestFrame();
   });
-  const materials = createMaterials();
+  const materials = createMaterials(mobile);
   const makeNode = makeNodeFactory(scene, materials);
   const camera = new THREE.PerspectiveCamera(FOV, 1, 0.1, 160);
 
@@ -881,6 +892,13 @@ export function createBuildObjectEngine(container: HTMLElement, options: { reduc
     dragging = null;
     if (interactive) canvas.style.cursor = 'grab';
   };
+  // A phone can drop the WebGL context (memory pressure, GPU watchdog, the page backgrounded). The canvas then stays
+  // blank for good, so the stage is told and builds a fresh engine instead of leaving the place empty.
+  const onContextLost = (event: Event) => {
+    event.preventDefault();
+    options.onContextLost?.();
+  };
+  canvas.addEventListener('webglcontextlost', onContextLost);
   canvas.addEventListener('pointerdown', onDown);
   canvas.addEventListener('pointermove', onMove);
   canvas.addEventListener('pointerup', onUp);
@@ -968,6 +986,7 @@ export function createBuildObjectEngine(container: HTMLElement, options: { reduc
       resizeObserver.disconnect();
       intersection.disconnect();
       document.removeEventListener('visibilitychange', onVisibility);
+      canvas.removeEventListener('webglcontextlost', onContextLost);
       canvas.removeEventListener('pointerdown', onDown);
       canvas.removeEventListener('pointermove', onMove);
       canvas.removeEventListener('pointerup', onUp);
