@@ -1,4 +1,5 @@
 import { describe, expect, it, vi, beforeEach } from 'vitest';
+import { digitalFoundationHandlerError } from '../api/site00/digital-foundation-artifact.js';
 import { resetDigitalFoundationMemoryStore } from '../api/_lib/digitalFoundation/memoryStore.js';
 import { createArtifactForLead } from '../api/_lib/digitalFoundation/service.js';
 
@@ -64,6 +65,21 @@ describe('digital-foundation-artifact API handler smoke', () => {
     } as never;
 
     await handler(req, res);
-    expect([404, 500]).toContain(res.statusCode);
+    expect([404, 500, 503]).toContain(res.statusCode);
+  });
+
+  it('maps plain provider failures instead of [object Object]', () => {
+    expect(digitalFoundationHandlerError({ message: 'ARTIFACT_NOT_FOUND', code: 'PGRST116' })).toEqual({
+      status: 404,
+      error: 'ARTIFACT_NOT_FOUND',
+    });
+    const down = digitalFoundationHandlerError({
+      title: 'Error 522: Connection timed out',
+      detail: 'Cloudflare could not establish a TCP connection',
+      status: 522,
+    });
+    expect(down.status).toBe(503);
+    expect(down.error).toContain('could not establish a TCP connection');
+    expect(down.error).not.toBe('[object Object]');
   });
 });

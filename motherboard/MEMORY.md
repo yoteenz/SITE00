@@ -16063,3 +16063,11 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Context:** After the plate work (#1580, #1581, preview SHA `cb917089`, bundle `index.BpESgsIx.js`), a follow-up set icon strokes to 0.6 and shipped that on the tunnel. The founder said that was incorrect and to restore the plate status: type sits on the photograph, review anchor `/foundation/review#df-r-P02`.
 - **Decision:** Revert the 0.6 stroke. Glyphs stay at 1.65 on the 24 grid, with the component hairlines that were on `cb917089`. Do not republish the 0.6 bundle as the plate screen. The load-path fix that maps a missing preview artifact to 404 stays; it does not change the plate.
 - **Conventions:** Digital Foundation plates are the screen. Text and hairlines sit on the photograph. Card fills on plated screens stay transparent. The collapsed MORE INFORMATION peek stays transparent.
+
+---
+
+## 2026-10-10 — Gate A direct execution stopped at the production gates
+
+- **Context:** Founder ordered Gate A production execution. Merge and production mutation without a per-group approval are not authorized. Live checks ran. No Supabase SQL, Railway env edit, cPanel upload, API restart, charge, or Anthony link was performed.
+- **Findings:** `api.site00.com` health is commit `89e5b740`, `persistSupabaseEnv` true, `launchGateIntakeOnly` true, Supabase host `hyycomvcaqxxvyrfupes`. `site00.com` still serves September bundle `index.D8Jaygrd.js`. A missing foundation token returns HTTP 500 `{"error":"[object Object]"}` in about 20s. Supabase table reads return Cloudflare 522. Schema and restart persistence stay unverified.
+- **Decision:** Release candidate for the plate screen remains ZIP v6 bundle `index.BpESgsIx.js` (sha256 `d75c6ef806fdbe28faaaaa992dc7031246fad8634e40183d227695050523df6e`). API error mapping for plain provider failures is a review PR and is not merged. Gate A stays FAIL / BLOCKED.
