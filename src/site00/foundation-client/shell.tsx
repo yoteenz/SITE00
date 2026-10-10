@@ -23,14 +23,11 @@ export function DfHeader({ onMenu, menuOpen }: { onMenu?: () => void; menuOpen?:
           aria-controls="df-menu"
           onClick={onMenu}
         >
-          <img
-            className="df-header__menu-icon"
-            src={DF_HEADER_MENU_ICON_SRC}
-            alt=""
-            width={36}
-            height={36}
-            decoding="async"
-          />
+          <svg className="df-header__menu-icon" viewBox="0 0 48 28" width="36" height="21" aria-hidden="true" focusable="false">
+            <rect x="0" y="0" width="48" height="5" rx="2.5" />
+            <rect x="22" y="11.5" width="26" height="5" rx="2.5" />
+            <rect x="0" y="23" width="48" height="5" rx="2.5" />
+          </svg>
         </button>
       )}
     </header>
