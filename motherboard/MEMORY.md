@@ -15922,3 +15922,31 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decision:** Hybrid Spatial Studio at `/bldr/studio` renders all visible copy in uppercase. Shell CSS is the authority; a few studio-local strings were normalized in source.
 - **Changes:** `text-transform: uppercase` on `.bldr-spatial-page` and `.bldr-spatial-disabled` in `site00-builder-spatial-studio.css`; FEEL/WORK hints in `spatialStudio/types.ts`; blueprint metric helper strings in `BldrSpatialStudioPage.tsx`; `tests/bldrSpatialStudioUppercase.test.ts`. PR #1544.
 - **Convention:** Do not lower-case shared `blueprintFinancialPresentation` globally — studio shell CSS uppercases it at display time. Stored `paceNotes` may remain mixed-case in JSON; the textarea displays uppercase.
+
+---
+
+## 2026-10-09 — Business Growth V1 client experience inside the Foundation link (Opus sprint)
+
+- **Context (whole chat):**
+  - INVITATION 001 shipped earlier (PRs #1537 and #1542, release v4).
+  - BLDR Studio all-caps shipped (PRs #1544 and #1545, release v5).
+  - The founder then sent the BGI V1 client-experience sprint: turn the PR #1540 contracts into a premium Growth journey inside `/foundation/:token`, behind flags, with no Growth charges.
+- **Decisions:**
+  - The work is stacked on PR #1527, the Foundation visual authority (P01–P06, "Do not merge yet"), in branch `cursor/bgi-client-experience-fd38`, which is #1527 plus `main` merged in. It is draft PR #1550 and is NOT merged.
+  - The new Growth views are G1 AMBITION (between P02 and P03), G2 GROWTH (after P04), G3 PLAN (before P05) and G4 ROADMAP (from plan, checkout and portal). Connectors were added on P04, P05 and the overview.
+  - With the flags off, routing is identical to #1527.
+- **Changes:**
+  - `api/_lib/digitalFoundation/growthBridge.ts` builds the client context and the founder review with the server-side engines (they use `node:crypto`).
+  - The `update-growth` action is in `api/site00/digital-foundation-artifact.ts`.
+  - `updateBusinessGrowth` in `service.ts` locks selections after acceptance and ambition after payment.
+  - `shared/site00-business-growth-intelligence/clientContext.ts` is browser-safe and holds the sanitizers and types.
+  - The client lives in `src/site00/foundation-client/growth/*` and `parents/Growth.tsx`, styled by `styles/site00-df-growth.css`.
+  - The admin read-only review is `action=growth-review`.
+  - Tests are in `tests/businessGrowthClientExperience.test.ts`.
+  - QA is `scripts/site00/df-client-qa/df-growth-flow.cjs`, with screenshots in `docs/site00/business-growth/qa/`.
+  - Docs are in `docs/site00/business-growth/BUSINESS_GROWTH_CLIENT_EXPERIENCE_V1.md`.
+- **Conventions:**
+  - Draft Growth prices are always labelled as a planning range or pending, and never appear in the checkout total.
+  - Growth never changes the $500 base or Foundation ready.
+  - BLDR goes to its estimator, never a business-day bar.
+  - When running the QA Vite, unset `SITE00_CLOUDFLARE_TUNNEL_HOSTNAME`. Otherwise the HMR client targets the tunnel and reloads the page mid-test.
