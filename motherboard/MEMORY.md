@@ -15936,4 +15936,5 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 ## 2026-10-09 — DF typography, menu layering, P01 business email
 
 - **Founder ask:** Reduce all Digital Foundation text by 2px; fix menu drawer overlapped by bottom screen text; P01 triad center column → professional business email on two lines.
-- **Shipped (PR #1552):** Board 01+02 `FoundationClient` on `main`; global −2px on `site00-df-client.css`; menu sheet portaled to `document.body` with high z-index, body scroll lock, footer/trust hidden while open; P01 triad **PROFESSIONAL** / **BUSINESS EMAIL**.
+- **Shipped (PR #1552):** Board 01+02 `FoundationClient` on `main`; global −2px on `site00-df-client.css`; menu sheet portaled to `document.body` with high z-index, body scroll lock, footer/trust hidden while open; P01 triad **PROFESSIONAL BUSINESS** / **EMAIL**.
+- **Menu icon (PR #1554):** Header ☰ uses founder JPEG `public/site00/idnty/digital-foundation/menu-icon.jpg` via `DF_HEADER_MENU_ICON_SRC` in `DfHeader` (replaces CSS bar spans).
