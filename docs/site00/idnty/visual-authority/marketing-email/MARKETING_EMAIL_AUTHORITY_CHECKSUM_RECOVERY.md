@@ -22,8 +22,11 @@ Canonical path (not created):
 | --- | --- | --- | --- | --- |
 | 1 | `01a127dc-b3c9-774b-9ee0-a4e750ec2bc9.jpg` | 468,306 | `f3c2745f79a79278ab2f24f6f4fc22a78c3818397844bdfc6b4c77c9103a308e` | 1086×1448 |
 | 2 | `01a127e5-0ea0-7f4e-bc8f-72cd549124c3.jpg` | 474,703 | `1d431920ffd56552b6eacc58ceaeeaa02faf8ed9ab687ffde3eee104d2945d8d` | 1086×1448 |
+| 3 | `01a12819-d6b1-7f76-b803-c088e4947d74.jpg` (named `SITE00_MARKETING_EMAIL_APPROVED_AUTHORITY_V1.jpg` in task) | 474,703 | `1d431920ffd56552b6eacc58ceaeeaa02faf8ed9ab687ffde3eee104d2945d8d` | 1086×1448 |
 
-A scan of image caches under the agent home, `/tmp/cursor`, `/opt/cursor`, and `/home/workdir` found **0** files with the expected digest. The digest is not in this repository.
+Copy 3 is **byte-identical** to copy 2 (same SHA256). It is not byte-identical to the expected digest.
+
+A scan of image caches under the agent home, `/tmp/cursor`, `/opt/cursor`, `/home/workdir`, and all JPEGs under `/workspace` (excluding `node_modules` / `dist`) found **0** files with the expected digest. The digest is not in this repository.
 
 ## Re-encode evidence
 
