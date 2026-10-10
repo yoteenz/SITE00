@@ -16150,3 +16150,12 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decisions / outcomes:** The attachment path re-encodes JPEGs. Copy 1 shares the REF-01 luminance quantization table and a Photoshop segment whose caption digest is the MD5 of empty data. Copy 2 is a second lossy encode (63.6% of pixels differ, max channel delta 34) with that segment removed. A cache search found zero files with the expected digest. The canonical JPEG was not written. Module docs were not written against a substitute. Batch I stays 3 images. Ceiling stays 6,340. Credits spent: 0. Do not merge #1597. Do not send another chat JPEG; commit or release the original bytes.
 - **Changes:** `docs/site00/idnty/visual-authority/marketing-email/MARKETING_EMAIL_AUTHORITY_CHECKSUM_RECOVERY.md`, budget summary, email asset scope, this memory entry.
 - **Conventions:** Do not register a visual authority image when the SHA256 does not match. Do not treat a chat JPEG as the founder’s original file.
+
+---
+
+## 2026-10-10 — Marketing email GitHub registration task (copy 3 blocked)
+
+- **Context:** Task to register `SITE00_MARKETING_EMAIL_APPROVED_AUTHORITY_V1.jpg` on `cursor/df-mass-production-scope-a9f7` (PR #1597) and complete blocked marketing docs plus Batch I budget reconciliation.
+- **Outcome:** Third chat attachment is byte-identical to copy 2 (474,703 bytes, SHA256 `1d431920ffd56552b6eacc58ceaeeaa02faf8ed9ab687ffde3eee104d2945d8d`). Expected `e814042c318f7f45d7db07a6d11e4878fcc20888c583a76537828cfa3c2ede83` not matched. Canonical JPEG not committed. Design tokens, module system, campaign mapping, and Batch I ceiling revision not applied.
+- **Budget:** Balanced hard ceiling **6,340** credits; Batch I **3** images (951 credits).
+- **Resupply:** Commit or release the original file with verified SHA256; do not use chat JPEG delivery.
