@@ -1,9 +1,9 @@
 /** Digital Foundation client shell (DF-C01..C09, C26, C45..C48). Presentation only. */
-import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { DfButton, DfLoadingState, DfSheetRow } from './components';
 import { DfIcon, type DfIconName } from './icons';
-import { DF_ARCHITECTURE_RENDERS } from './objects';
+import { DfCornerFragment, DfCrownObject, DfThresholdHero } from './objects';
 import {
   buildDfMenu,
   DF_VIEW_META,
@@ -393,9 +393,34 @@ export function DfMenu({
   );
 }
 
-/** Clear window in the P01 column so the chamber on the full plate stays visible between the lede and the triad. */
+function ObjectSlot({ kind, variant }: { kind: DfObjectKind; variant: DfView | null }) {
+  if (kind === 'none' || kind === 'hero') return null;
+  if (kind === 'crown') {
+    return (
+      <>
+        <div className="df-object df-object--crown" aria-hidden="true">
+          <DfCrownObject variant={variant === 'P05' || variant === 'P06' || variant === 'OVERVIEW' ? variant : 'P04'} />
+        </div>
+        <div className="df-object df-object--corner" aria-hidden="true">
+          <DfCornerFragment />
+        </div>
+      </>
+    );
+  }
+  return (
+    <div className="df-object df-object--corner" aria-hidden="true">
+      <DfCornerFragment />
+    </div>
+  );
+}
+
+/** The approved chamber photograph, between the lede and the triad. */
 export function DfHeroObject() {
-  return <div className="df-object df-object--hero" aria-hidden="true" />;
+  return (
+    <div className="df-object df-object--hero" aria-hidden="true">
+      <DfThresholdHero />
+    </div>
+  );
 }
 
 /** One parent screen: header, rail, content column, footer, threshold object. */
@@ -416,14 +441,9 @@ export function DfFrame({
   state?: string;
 }) {
   const meta = view ? DF_VIEW_META[view] : null;
-  const plate = object === 'none' ? null : DF_ARCHITECTURE_RENDERS[object];
   return (
-    <div
-      className={`df-screen df-screen--${object}`}
-      data-view={view ?? 'SYSTEM'}
-      data-state={state}
-      style={plate ? ({ '--df-plate': `url("${plate}")` } as CSSProperties) : undefined}
-    >
+    <div className={`df-screen df-screen--${object}`} data-view={view ?? 'SYSTEM'} data-state={state}>
+      <ObjectSlot kind={object} variant={view} />
       <DfHeader onMenu={onMenu} menuOpen={menuOpen} />
       <div className="df-screen__grid">
         <main className="df-screen__main">{children}</main>

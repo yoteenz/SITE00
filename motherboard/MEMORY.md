@@ -16073,3 +16073,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decisions / outcomes:** The bottom peek is gone. The same scope is a MORE INFORMATION section in the hamburger menu, with the same expandable rows. Field inputs are white (`#ffffff`) and service rows are card fill (`#f9f8f6`) again. The full-bleed plate stays behind those panels. Other sheets that open from a control (additional services, add-ons, third-party costs) stay.
 - **Changes:** `src/site00/foundation-client/shell.tsx`, `src/site00/foundation-client/parents/EntryIntake.tsx`, `src/site00/styles/site00-df-client.css`, `tests/digitalFoundationMenuDrawer.test.ts`.
 - **Conventions:** Do not mount a resting bottom MORE INFORMATION sheet. That copy belongs in the menu. Do not strip the panel fill off inputs, rows, specs, or cards. The plate is the page background around those panels.
+
+---
+
+## 2026-10-10 — Generated full-screen plates rejected; original chamber photographs restored
+
+- **Context:** After the menu move and panel restore, the founder said the generated background plates were wrong and to restore the background image.
+- **Topics covered:** `#1576` had replaced `df-g01-hero-chamber.jpg`, `df-g02-crown-fragment.jpg`, and `df-g03-corner-fragment.jpg` with generated 9:16 files (`df-plate-hero.jpg`, `df-plate-crown.jpg`, `df-plate-corner.jpg`) painted as a full-viewport background. The approved photographs are the closer chamber, crown, and corner stills.
+- **Decisions / outcomes:** Those three photographs are back in the hero, crown, and corner slots. The page surface is the cream chamber again. The generated plate files are removed. Field and service panels stay filled. MORE INFORMATION stays in the hamburger menu.
+- **Changes:** `objects.tsx`, `shell.tsx`, `site00-df-client.css`, the three `df-g0*.jpg` files, removal of `df-plate-*.jpg`.
+- **Conventions:** Do not generate a new full-screen plate to stand in for these photographs. The hero image is the chamber between the lede and the triad. Crown and corner are the original fragments, masked into the cream page.
