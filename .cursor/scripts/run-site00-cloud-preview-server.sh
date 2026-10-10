@@ -48,11 +48,12 @@ if [[ "$MODE" == "dev" ]]; then
   # Not set on production GoDaddy/Railway builds (see site00-production-deploy.yml).
   # Ephemeral intake store when Supabase intake migration is not applied on the preview-linked DB.
   # Isolated to dev tunnel — NOT production API/Railway. Resets on Vite restart.
+  # Local /api/* is bundled via esbuild in vite-site00-local-api.mjs — do not register global tsx
+  # (NODE_OPTIONS --import=tsx breaks tsx/esm/api resolution and surfaces Cannot find module on /foundation).
   exec env SITE00_CLOUD_MOBILE_PREVIEW=1 SITE00_CLIENT_REVIEW_PREVIEW_MODE=1 \
     SITE00_INTAKES_USE_MEMORY=1 \
     VITE_SITE00_TEMPLATE_SYSTEM_V1=1 \
     VITE_SITE00_CLIENT_ESTIMATE_PREVIEW_V1=1 \
-    NODE_OPTIONS="${NODE_OPTIONS:+$NODE_OPTIONS }--import=tsx" \
     npm run dev -- --port "$PORT" --host
 fi
 
