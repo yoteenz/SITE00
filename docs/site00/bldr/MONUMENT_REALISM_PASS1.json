@@ -1,0 +1,51 @@
+{
+  "id": "P0.SITE00.BLDR.MONUMENTS.V1-ENHANCEMENT-NOT-REPLACEMENT-REALISM-PASS1",
+  "mode": "enhancement",
+  "renderer": "three.js WebGL in src/site00/builder-studio/buildObject/engine.ts",
+  "new_raster_assets": [],
+  "families": [
+    {
+      "family": "PLACE",
+      "rooms": ["01 PLACE"],
+      "source": "compose('place') → BuildObjectStage hero + BuildThumbnail cards",
+      "identities": ["SIMPLE", "ADVANCED", "CUSTOM", "WORLD"],
+      "enhancement": "Shared painted glass with a specular coat, red acrylic at #E50107, honed marble. Thumbnails use the same materials. Transmission is not used: the canvas is transparent over the room plate."
+    },
+    {
+      "family": "FEEL",
+      "rooms": ["02 FEEL"],
+      "source": "compose('feel') → BuildObjectStage + BuildThumbnail strip",
+      "identities": ["MODERN", "BOLD", "EDITORIAL", "IMMERSIVE"],
+      "enhancement": "Slate, warm marble, stone, and glass keep their compositions. Polish and thickness differ by material, not by a new object."
+    },
+    {
+      "family": "WORK",
+      "rooms": ["03 WORK"],
+      "source": "compose('work') stacked volumes",
+      "identities": ["stacked floor plates", "side modules", "red inserts"],
+      "enhancement": "Same stack. Clearer glass edges, deeper red inserts, grounded contact shadow."
+    },
+    {
+      "family": "PACE",
+      "rooms": ["04 PACE"],
+      "source": "compose('pace') lighter preview",
+      "identities": ["STANDARD", "EXPEDITED", "FLEXIBLE"],
+      "enhancement": "Same preview, same choices. Materials only."
+    },
+    {
+      "family": "BLUEPRINT",
+      "rooms": ["05 BLUEPRINT"],
+      "source": "blueprintElements → BuildObjectStage",
+      "identities": ["OVERVIEW", "STRUCTURE", "PAGES", "FEATURES", "TIMELINE"],
+      "enhancement": "Inspection still dresses the lit element in red. Glass and stone read as the same monument with more depth."
+    }
+  ],
+  "preserved": [
+    "room order and copy",
+    "card and tab interaction",
+    "composition geometry and camera fit",
+    "white gallery plates",
+    "SITE 00 red #E50107",
+    "thumbnail derivation from the live composition"
+  ]
+}
