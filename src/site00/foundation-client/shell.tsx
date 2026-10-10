@@ -1,6 +1,7 @@
 /** Digital Foundation client shell (DF-C01..C09, C26, C45..C48). Presentation only. */
-import { useEffect, useId, useRef, useState, type CSSProperties, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
+import { DfButton, DfLoadingState } from './components';
 import { DfIcon, type DfIconName } from './icons';
 import { DF_ARCHITECTURE_RENDERS } from './objects';
 import {
@@ -71,6 +72,7 @@ export function DfLede({ children }: { children: ReactNode }) {
   return <p className="df-lede">{children}</p>;
 }
 
+/** Primary/secondary/text action (DF-C06). Thin alias over the shared `DfButton`. */
 export function DfCta({
   label,
   onClick,
@@ -79,6 +81,7 @@ export function DfCta({
   busyLabel,
   type = 'button',
   tone = 'red',
+  action,
 }: {
   label: string;
   onClick?: () => void;
@@ -86,20 +89,20 @@ export function DfCta({
   busy?: boolean;
   busyLabel?: string;
   type?: 'button' | 'submit';
-  tone?: 'red' | 'outline';
+  tone?: 'red' | 'outline' | 'text';
+  action?: string;
 }) {
   return (
-    <button
-      type={type}
-      className={`df-cta df-cta--${tone}`}
+    <DfButton
+      label={label}
       onClick={onClick}
-      disabled={disabled || busy}
-      aria-busy={busy || undefined}
-      data-busy={busy ? '1' : undefined}
-    >
-      <span>{busy ? busyLabel ?? label : label}</span>
-      {!busy && <DfIcon name="arrow" className="df-cta__arrow" />}
-    </button>
+      disabled={disabled}
+      busy={busy}
+      busyLabel={busyLabel}
+      type={type}
+      tone={tone === 'red' ? 'primary' : tone === 'outline' ? 'secondary' : 'text'}
+      action={action}
+    />
   );
 }
 
@@ -144,71 +147,6 @@ export function DfAlert({
   );
 }
 
-/** Bottom sheet for children that are not full screens (DF-C45). */
-export function DfSheet({
-  open,
-  title,
-  onClose,
-  children,
-  footer,
-}: {
-  open: boolean;
-  title: string;
-  onClose: () => void;
-  children: ReactNode;
-  footer?: ReactNode;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const titleId = useId();
-  useEffect(() => {
-    if (!open) return undefined;
-    const prev = document.activeElement as HTMLElement | null;
-    ref.current?.focus();
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
-    };
-    window.addEventListener('keydown', onKey);
-    return () => {
-      window.removeEventListener('keydown', onKey);
-      prev?.focus?.();
-    };
-  }, [open, onClose]);
-  useEffect(() => {
-    if (!open) return undefined;
-    document.body.classList.add('df-sheet-open');
-    return () => document.body.classList.remove('df-sheet-open');
-  }, [open]);
-
-  if (!open) return null;
-
-  const sheet = (
-    <div className="df-sheet" role="presentation" onClick={onClose}>
-      <div
-        ref={ref}
-        className="df-sheet__panel"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby={titleId}
-        tabIndex={-1}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="df-sheet__head">
-          <h2 id={titleId} className="df-sheet__title">
-            {title}
-          </h2>
-          <button type="button" className="df-sheet__close" aria-label="CLOSE" onClick={onClose}>
-            <DfIcon name="close" />
-          </button>
-        </div>
-        <div className="df-sheet__body">{children}</div>
-        {footer && <div className="df-sheet__foot">{footer}</div>}
-      </div>
-    </div>
-  );
-
-  return typeof document !== 'undefined' ? createPortal(sheet, document.body) : sheet;
-}
-
 const DRAWER_EXIT_MS = 220;
 const DRAWER_FOCUSABLE = 'button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])';
 
@@ -222,7 +160,9 @@ const STEP_STATUS: Record<DfMenuStepState, string | null> = {
 const DESTINATION_ICON: Record<DfMenuDestinationId, DfIconName> = {
   overview: 'overview',
   roadmap: 'roadmap',
+  needs_you: 'needsYou',
   records: 'folder',
+  comm_prefs: 'message',
   location: 'pin',
 };
 
@@ -472,17 +412,9 @@ export function DfSystemPanel({
 export function DfLoading() {
   return (
     <div className="df-root">
-    <DfFrame view={null} object="none" state="LOADING">
-      <div className="df-skeleton" role="status" aria-live="polite">
-        <span className="df-skeleton__rail" />
-        <span className="df-skeleton__line df-skeleton__line--xl" />
-        <span className="df-skeleton__line df-skeleton__line--xl" />
-        <span className="df-skeleton__line df-skeleton__line--lg" />
-        <span className="df-skeleton__line" />
-        <span className="df-skeleton__line" />
-        <span className="df-visually-hidden">LOADING YOUR DIGITAL FOUNDATION</span>
-      </div>
-    </DfFrame>
+      <DfFrame view={null} object="none" state="LOADING">
+        <DfLoadingState label="LOADING YOUR DIGITAL FOUNDATION…" block />
+      </DfFrame>
     </div>
   );
 }

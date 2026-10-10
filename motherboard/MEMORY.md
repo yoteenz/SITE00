@@ -15994,3 +15994,53 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Context:** Founder asked to put commit `d98d4dc6` on `preview/tunnel` so the mobile tunnel shows the BLDR studio on `/foundation/review` and real `/bldr/studio?reviewRoom=…` iframes.
 - **Outcome:** `origin/preview/tunnel` is at `d98d4dc6` (merge of studio branch into preview; parent `8d29986d`). Worktree `/tmp/site00-preview-main` remounted to that SHA; preview Vite on `:5174` restarted without running `sync-preview-tunnel-branch.sh` afterward.
 - **Caution:** `sync-preview-tunnel-branch.sh` treats any divergence from `main` as an error and **force-resets** `preview/tunnel` to `main`. That wiped `d98d4dc6` once during `post-merge-preview-tunnel-refresh.sh`; restored with `git push origin d98d4dc6:refs/heads/preview/tunnel`. Do not run that sync while tunnel intentionally carries pre-main integration commits.
+
+---
+
+## 2026-10-10 — #1572 menu drawer merged; Digital Foundation universal component system (#1573 on main)
+
+- **Context:** Founder approved the menu-drawer comparison. PR #1572 merged (`8d29986d`). Component system sprint merged to `main` as #1573 (`4bf6fa50`): `components.tsx` + `site00-df-components.css`; hamburger and menu drawer unchanged.
+- **Conventions:** New DF UI uses primitives in `components.tsx`. Portaled overlays use `df-portal`.
+
+---
+
+## 2026-10-10 — Digital Foundation V2 architecture recovery (portal + communications + founder ops)
+
+- **Context:** Sprint V2 recovery — client portal P07–P10, records, founder ops, Family F communications (dry-run). Landed on `main` via #1577 (Anthony launch gate integration). PR #1574 remains open as historical branch.
+- **Outcomes:** Manifests under `docs/site00/idnty/DIGITAL_FOUNDATION_V2_*`. Portal v2 flag, founder pipeline/command/workbench routes, communications dispatch (DRY_RUN default off for live sends).
+- **Partial:** Messaging inbox, durable email delivery, Supabase send intents, P15A–C dedicated UI, Business Ambition client surface.
+
+---
+
+## 2026-10-10 — Digital Foundation canonical icon library
+
+- **Context:** 142 SVG icons + aliases on V2 branch tip (#1575 stacked on recovery). Included on Anthony launch branch merge.
+- **Conventions:** Header still uses `menu-icon.png`; do not replace with registry menu glyph.
+
+---
+
+## 2026-10-10 — Anthony launch gate recovery (real E2E2 sprint)
+
+- **Context:** P0 sprint to verify Anthony Digital Foundation journey — Gate A safe intake vs Gate B full service. Integrated on `main` as #1577. Founder approval required for production release; no live charges or client emails during engineering.
+- **Gate A (dev):** Browser 393×852 on `/foundation/:token` — intake save + hard refresh PASS; founder admin `detail?id=` matches client intake on cloud preview memory store. Launch gate env `SITE00_DIGITAL_FOUNDATION_LAUNCH_GATE_INTAKE_ONLY` blocks checkout and surfaces `INTAKE_SUBMITTED` (vitest). **Production BLOCKED:** `SITE00_DIGITAL_FOUNDATION_PERSIST_SUPABASE=1` + migrations not verified on deployed API; deploy SHA unverified.
+- **Gate B:** FAIL/BLOCKED — Stripe test checkout not run live; messaging API/tests only (no two-browser UI round trip); email DRY_RUN/memory intents; records download not E2E.
+- **Deliverables:** `docs/site00/idnty/ANTHONY_*`, `DIGITAL_FOUNDATION_E2E_TEST_MATRIX.json`, `FOUNDATION_*_VERIFICATION.md`. Evidence screenshots `/opt/cursor/artifacts/gate-a-intake-*.png`.
+- **Tests:** `npm test -- --run tests/digitalFoundation*` → 100 pass, 1 skipped; typecheck + build pass. Full repo vitest has pre-existing failures unrelated to DF.
+- **Recommendation:** NO-GO for production Anthony link until persistence + deploy SHA + intake-only env on Railway; INTAKE-ONLY after those close.
+
+---
+
+## 2026-10-10 — DF foundation link on fsbw-dev preview (API routing)
+
+- **Founder report:** Mobile tunnel `site00.fsbw-dev.com` showed foundation link unavailable / not on preview server when opening `/foundation/:token` (stale token or CI preview without local `/api`).
+- **Root cause:** Digital Foundation client fetches used same-origin `/api/...` while admin on fsbw uses `api.site00.com` via `site00ApiUrl`. `vite preview` (default CI tunnel mode) has no local DF API → 404 / not found. Dev tunnel also split admin (Railway) vs client (local) when `VITE_SITE00_PREVIEW_LOCAL_API` unset.
+- **Fix:** `foundation-client/api.ts` routes artifact calls through `site00ApiUrl` (#1578 on `main`). Invalid-link UI detects cloud preview via `meta site00-cloud-preview` + links to Digital Foundation admin; blank-template mint only when dev + `VITE_SITE00_PREVIEW_LOCAL_API=1`. Cloud preview dev script sets that env.
+- **Founder workflow on tunnel:** Open `/admin/site00/foundation` → **Client intake** on a row (fresh token). Do not reuse bookmarks after tunnel restart unless token lives on Railway/Supabase.
+
+---
+
+## 2026-10-09 — BLDR Hybrid Spatial Studio reference-fidelity (Grok, not merged)
+
+- **Sprint:** asset/icon/material refinement of `/bldr/studio` against three founder phone references. No estimator, no GLB, no production release.
+- **Finding:** live stage is CSS slabs, not Three.js. Refined marble plinth, glass layers, `#E50107` portal, Barlow Condensed headlines, shared `BldrStudioIcon`, distinct `ArchitecturalThumb` SVGs for PLACE/FEEL/blueprint cards.
+- **Gap:** photoreal reference architecture still needs a founder-gated WFE mesh. Draft PR only.
