@@ -414,7 +414,7 @@ function ObjectSlot({ kind, variant }: { kind: DfObjectKind; variant: DfView | n
   );
 }
 
-/** The approved chamber photograph, between the lede and the triad. */
+/** The original vector chamber, between the lede and the triad. */
 export function DfHeroObject() {
   return (
     <div className="df-object df-object--hero" aria-hidden="true">

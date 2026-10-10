@@ -1,15 +1,15 @@
 /**
  * Digital Foundation threshold architecture (DF-A01 hero, DF-A02 crown, DF-A03 corner fragment).
  *
- * These are the approved chamber photographs. They sit in the hero, crown, and corner slots.
- * The vector chamber remains only when a path is null. Purely decorative.
+ * The initial architecture is the vector chamber: white field, glass Foundation Plate, red threshold,
+ * stone plinth. Paths stay null. Generated photographs are not the background. Purely decorative.
  */
 import { useId } from 'react';
 
 export const DF_ARCHITECTURE_RENDERS: { hero: string | null; crown: string | null; corner: string | null } = {
-  hero: '/site00/idnty/digital-foundation/architecture/df-g01-hero-chamber.jpg',
-  crown: '/site00/idnty/digital-foundation/architecture/df-g02-crown-fragment.jpg',
-  corner: '/site00/idnty/digital-foundation/architecture/df-g03-corner-fragment.jpg',
+  hero: null,
+  crown: null,
+  corner: null,
 };
 
 const RED = '#E50107';
