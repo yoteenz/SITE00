@@ -16012,6 +16012,15 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
+## 2026-10-10 — DF foundation link on fsbw-dev preview (API routing)
+
+- **Founder report:** Mobile tunnel `site00.fsbw-dev.com` showed foundation link unavailable / not on preview server when opening `/foundation/:token` (stale token or CI preview without local `/api`).
+- **Root cause:** Digital Foundation client fetches used same-origin `/api/...` while admin on fsbw uses `api.site00.com` via `site00ApiUrl`. `vite preview` (default CI tunnel mode) has no local DF API → 404 / not found. Dev tunnel also split admin (Railway) vs client (local) when `VITE_SITE00_PREVIEW_LOCAL_API` unset.
+- **Fix:** `foundation-client/api.ts` routes artifact calls through `site00ApiUrl`. Invalid-link UI detects cloud preview via `meta site00-cloud-preview` + links to Digital Foundation admin; blank-template mint only when dev + `VITE_SITE00_PREVIEW_LOCAL_API=1`. Cloud preview dev script sets that env.
+- **Founder workflow on tunnel:** Open `/admin/site00/foundation` → **Client intake** on a row (fresh token). Do not reuse bookmarks after tunnel restart unless token lives on Railway/Supabase.
+
+---
+
 ## 2026-10-09 — BLDR Hybrid Spatial Studio reference-fidelity (Grok, not merged)
 
 - **Sprint:** asset/icon/material refinement of `/bldr/studio` against three founder phone references. No estimator, no GLB, no production release.
