@@ -14,7 +14,7 @@ export const DF_ARCHITECTURE_RENDERS: { hero: string | null; crown: string | nul
   corner: null,
 };
 
-const RED = '#d3121b';
+const RED = '#E50107';
 
 function RedGlass({ id, top = '#f0474d', bottom = '#a80c13' }: { id: string; top?: string; bottom?: string }) {
   return (
