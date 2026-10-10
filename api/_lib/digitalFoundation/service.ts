@@ -39,7 +39,10 @@ import {
 } from './approvalDecisions.js';
 import { assessQuotePayability } from '../../../shared/site00-digital-foundation/quoteReadiness.js';
 import { computeReadinessState } from '../../../shared/site00-digital-foundation/readinessClock.js';
-import { toClientArtifactPayload } from '../../../shared/site00-digital-foundation/clientProjection.js';
+import {
+  toClientArtifactPayload,
+  type ClientCommunicationPreferences,
+} from '../../../shared/site00-digital-foundation/clientProjection.js';
 import { persistArtifactGraph } from './persistence/supabaseStore.js';
 
 function nowIso(): string {
@@ -824,21 +827,18 @@ export function getClientArtifactPayloadByToken(token: string) {
   return toClientArtifactPayload(internal, timeline_readiness, getCommunicationPreferencesForArtifact(internal.artifact.artifact_id));
 }
 
-export function getCommunicationPreferencesForArtifact(artifactId: string) {
-  const artifact = mem.memGetArtifact(artifactId);
-  const lead = artifact ? mem.memGetLead(artifact.lead_id) : undefined;
-  const email = lead?.contact_email ?? artifact?.intake.current_email ?? '';
+export function getCommunicationPreferencesForArtifact(artifactId: string): ClientCommunicationPreferences {
   const stored = mem.getDfMemoryState().communicationConsents.get(artifactId);
   return {
     marketing_opt_in: stored?.marketing_opt_in ?? false,
     project_operations: stored?.categories.PROJECT_OPERATIONS ?? true,
     educational: stored?.categories.EDUCATIONAL ?? false,
-  } satisfies import('../../../shared/site00-digital-foundation/clientProjection.js').ClientCommunicationPreferences;
+  };
 }
 
 export function updateCommunicationPreferences(
   artifactId: string,
-  preferences: import('../../../shared/site00-digital-foundation/clientProjection.js').ClientCommunicationPreferences,
+  preferences: ClientCommunicationPreferences,
 ): CommunicationConsentRecord {
   const artifact = mem.memGetArtifact(artifactId);
   if (!artifact) throw new Error('ARTIFACT_NOT_FOUND');

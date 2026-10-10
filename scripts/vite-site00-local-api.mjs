@@ -172,7 +172,10 @@ export function site00LocalApiPlugin() {
   async function loadHandler(file) {
     let promise = handlerPromises.get(file);
     if (!promise) {
-      promise = bundleApiHandler(file);
+      promise = bundleApiHandler(file).catch((err) => {
+        handlerPromises.delete(file);
+        throw err;
+      });
       handlerPromises.set(file, promise);
     }
     return promise;
