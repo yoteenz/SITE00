@@ -1,0 +1,56 @@
+{
+  "sprint": "P0.SITE00.IDNTY.DIGITAL-FOUNDATION.V2-GROK-OPENART-MASS-PRODUCTION-SCOPE-COST-AND-BUDGET-APPROVAL1",
+  "generated_at": "2026-10-10",
+  "paid_generations_this_sprint": 0,
+  "credits_spent_this_sprint": 0,
+  "unit_credits_4k_image2image_high": 317,
+  "usd_per_image": "UNVERIFIED",
+  "credit_balance_at_quote": 26590,
+  "historical": {
+    "batch_a_credits_delta": 1264,
+    "batch_a_quoted": 1268,
+    "batch_b_credits_delta": 1264,
+    "batch_b_quoted": 1268,
+    "regenerations": 0,
+    "upscale_credits": 0,
+    "export_credits": 0
+  },
+  "inventory": {
+    "gross_candidate_rows": 45,
+    "approved_authorities_not_regenerated": 15,
+    "not_required_rows": 2,
+    "lean_images": 5,
+    "balanced_images": 18,
+    "premium_images": 39,
+    "balanced_mobile_9x16": 7,
+    "balanced_responsive_16x9": 5,
+    "balanced_email": 6
+  },
+  "scenarios": {
+    "lean": { "images": 5, "credits_base": 1585, "regen_jobs_10pct": 1, "credits_ceiling": 1902 },
+    "balanced": { "images": 18, "credits_base": 5706, "regen_jobs_10pct": 2, "credits_ceiling": 6340, "regen_jobs_20pct": 4, "credits_20pct": 6974 },
+    "premium": { "images": 39, "credits_base": 12363, "regen_jobs_20pct": 8, "credits_ceiling": 14899 }
+  },
+  "recommended": {
+    "scenario": "balanced",
+    "hard_ceiling_credits": 6340,
+    "usd": "UNVERIFIED"
+  },
+  "batches_balanced": {
+    "C": { "images": 2, "credits": 634 },
+    "D": { "images": 3, "credits": 951 },
+    "E": { "images": 2, "credits": 634 },
+    "F": { "images": 2, "credits": 634 },
+    "G": { "images": 2, "credits": 634 },
+    "H": { "images": 3, "credits": 951 },
+    "I": { "images": 3, "credits": 951 },
+    "J": { "images": 1, "credits": 317 }
+  },
+  "functional_gaps": [
+    "No business-growth module under shared/site00-digital-foundation. F is credit on the complete payload plus the bldr-discovery template id.",
+    "P15 workbench renders JSON, not a designed workspace.",
+    "Email manifest says T01–T29 and M01–M15 are not fully enumerated. Counts use eventMap.ts plus the three named marketing journeys.",
+    "DF-J02 unsubscribe is not a route.",
+    "Document preview and decision history are batch B visuals; they are not regenerated here."
+  ]
+}

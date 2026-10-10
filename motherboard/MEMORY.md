@@ -16132,3 +16132,11 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decision:** On the review page only, intake CTAs (BEGIN, CONTINUE, VIEW MY RECOMMENDATION, CONTINUE TO REVIEW, checkout back-links, activation overview) **smooth-scroll** to the next `#df-r-*` block and `replaceState` the hash. No React Router navigation; separate phone frames stay on one page for visual consistency.
 - **Validation:** P03 still uses `validateForRecommendation`; scroll to P04 happens only when the error object is empty.
 - **Changes:** `reviewLinks.ts` (`scrollToReviewAnchor`, `reviewAnchorForView`), `DigitalFoundationReviewPage.tsx`, `digitalFoundationReviewLinks.test.ts`.
+
+---
+
+## 2026-10-10 — DF visual mass-production cost scope (C–J)
+
+- **Context:** Founder asked for the cost of remaining Digital Foundation visual batches C–J before any mass generation. No new images. No OpenArt spend.
+- **Pricing:** Live quote 2026-10-10: Sunburst image-to-image 4k high is **317 credits** per job for 9:16 and 16:9. USD **UNVERIFIED**. Balance **26,590**. Batches A and B each consumed **1,264** credits for four successful images (quote 1,268). Zero regenerations.
+- **Recommendation:** Balanced scope **18** images plus **2** reserve jobs. Hard ceiling **6,340 credits**. Do not regenerate the seven boards or batches A and B. Do not start batch C until the founder approves that ceiling.
