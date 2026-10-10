@@ -15956,3 +15956,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decisions / outcomes:** Background plates are OpenArt image-to-image sidekicks of the approved boards, not text-to-image and not Cursor GenerateImage. UI copy stays in React. The glass etching “01 / DIGITAL FOUNDATION” stays on the hero plate because it is part of the physical object. P08–P15 are not client routes.
 - **Changes:** `DF_ARCHITECTURE_RENDERS` now points at `public/site00/idnty/digital-foundation/architecture/df-g01-hero-chamber.jpg`, `df-g02-crown-fragment.jpg`, and `df-g03-corner-fragment.jpg`. OpenArt project `6Ueswtr8vt58ur2n3CRs` (SITE00 IDNTY Digital Foundation Production), model `gpt-image-2-5-sunburst` image2image, 2k, high, autoEnhance off. Histories `aHlkWBWXr3ikxXgOdFHx` (hero), `OqWsW3dvLAub8eKo0E6L` (crown), `ipqkQnpBFZr286lgLyH2` (corner). Quoted 152 credits each. Do not generate these into a JURNL family project.
 - **Conventions:** Headless upload is `openart_upload_sign` + PUT + `openart_upload_metadata_get`. Crop the architecture out of the phone boards before image-to-image so the model does not keep headlines and buttons.
+
+---
+
+## 2026-10-10 — Digital Foundation + BLDR design review page
+
+- **Context:** Founder wanted one link that shows every Digital Foundation screen and the BLDR studio that follows, without stepping through the client flow.
+- **Topics covered:** OpenArt architecture plates on P01–P07; then a single review artifact for those screens plus BLDR PLACE, FEEL, WORK, PACE, and BLUEPRINT.
+- **Decisions / outcomes:** Route `/foundation/review`. Digital Foundation parents render in phone columns from the catalog and preview fixtures `A_BASE` and `J_PAYMENT_SUCCESS`. BLDR rooms render in iframes with `?reviewRoom=` so the review does not write the studio session.
+- **Changes:** `DigitalFoundationReviewPage.tsx`, route constant `digitalFoundationReview`, `BldrSpatialStudioPage` review-room override, review layout in `site00-df-client.css`.
+- **Conventions:** Do not put the preview hostname in MEMORY. The review page is for looking at the design; it does not change pricing, checkout, or intake contracts.
