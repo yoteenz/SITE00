@@ -31,6 +31,86 @@ export const DF_VIEW_META: Record<DfView, { index: string; label: string; footer
 
 export const DF_VIEW_ORDER: DfView[] = ['P01', 'P02', 'P03', 'P04', 'P05', 'P06', 'OVERVIEW'];
 
+// ─── Menu drawer (DF-C48) ───────────────────────────────────────────────────────────────────────
+
+/** `done` = behind the server surface (no longer editable); `locked` = not reached yet. */
+export type DfMenuStepState = 'current' | 'open' | 'done' | 'locked';
+
+export interface DfMenuStep {
+  view: DfView;
+  index: string;
+  label: string;
+  state: DfMenuStepState;
+}
+
+export type DfMenuDestinationId = 'overview' | 'roadmap' | 'records' | 'location';
+
+export interface DfMenuDestination {
+  id: DfMenuDestinationId;
+  label: string;
+  view: DfView | null;
+  anchor?: string;
+  available: boolean;
+  current: boolean;
+  /** Lifecycle caption shown while the destination is not open to this client. */
+  status: string | null;
+}
+
+/** Overview section the ROADMAP destination scrolls to. */
+export const DF_ROADMAP_ANCHOR = 'df-stages-h';
+
+/**
+ * The drawer shows the whole journey, but only the parents the server surface allows (`resolveDfRoute`)
+ * are navigable. Records and the digital location live on the COMPLETE surface, which has no menu.
+ */
+export function buildDfMenu(views: readonly DfView[], current: DfView | null): {
+  steps: DfMenuStep[];
+  destinations: DfMenuDestination[];
+} {
+  const order = DF_VIEW_ORDER.filter((v) => v !== 'OVERVIEW');
+  const firstOpen = order.findIndex((v) => views.includes(v));
+  const steps = order.map((view, i): DfMenuStep => {
+    const state: DfMenuStepState = views.includes(view)
+      ? current === view
+        ? 'current'
+        : 'open'
+      : firstOpen === -1 || i < firstOpen
+        ? 'done'
+        : 'locked';
+    return { view, index: DF_VIEW_META[view].index, label: DF_VIEW_META[view].label, state };
+  });
+  const portal = views.includes('OVERVIEW');
+  const destinations: DfMenuDestination[] = [
+    {
+      id: 'overview',
+      label: 'PROJECT OVERVIEW',
+      view: 'OVERVIEW',
+      available: portal,
+      current: current === 'OVERVIEW',
+      status: portal ? null : 'AFTER PAYMENT',
+    },
+    {
+      id: 'roadmap',
+      label: 'ROADMAP',
+      view: 'OVERVIEW',
+      anchor: DF_ROADMAP_ANCHOR,
+      available: portal,
+      current: false,
+      status: portal ? null : 'AFTER PAYMENT',
+    },
+    { id: 'records', label: 'VIEW MY RECORDS', view: null, available: false, current: false, status: 'AFTER COMPLETION' },
+    {
+      id: 'location',
+      label: 'VIEW MY DIGITAL LOCATION',
+      view: null,
+      available: false,
+      current: false,
+      status: 'AFTER COMPLETION',
+    },
+  ];
+  return { steps, destinations };
+}
+
 /** The three acceptance disclosures the server requires verbatim (`acceptQuote`). */
 export const DF_DISCLOSURES = [
   'I HAVE REVIEWED MY DIGITAL FOUNDATION SCOPE.',
