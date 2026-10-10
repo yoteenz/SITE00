@@ -161,7 +161,9 @@ const STEP_STATUS: Record<DfMenuStepState, string | null> = {
 const DESTINATION_ICON: Record<DfMenuDestinationId, DfIconName> = {
   overview: 'overview',
   roadmap: 'roadmap',
+  needs_you: 'needsYou',
   records: 'folder',
+  comm_prefs: 'message',
   location: 'pin',
 };
 

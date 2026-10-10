@@ -685,3 +685,19 @@ export function P03Configure({
     </>
   );
 }
+
+/** Shown when intake is complete but full-service checkout is not yet certified (launch gate). */
+export function P03IntakeSubmitted() {
+  return (
+    <>
+      <DfRail index="03" label="INTAKE RECEIVED" />
+      <DfHeadline lines={['WE HAVE', 'YOUR', 'FOUNDATION', 'DETAILS.']} />
+      <DfLede>
+        SITE 00 IS REVIEWING YOUR SUBMITTED INFORMATION. YOU DO NOT NEED TO DO ANYTHING ELSE RIGHT NOW. WE WILL FOLLOW UP
+        WITH NEXT STEPS ON THIS SAME LINK WHEN YOUR QUOTE AND CHECKOUT ARE READY.
+      </DfLede>
+      <DfAlert>YOUR RECORD IS SAVED. REFRESHING THIS PAGE WILL NOT LOSE YOUR SUBMISSION.</DfAlert>
+      <DfTrust text="SECURE. GUIDED. DONE FOR YOU." />
+    </>
+  );
+}

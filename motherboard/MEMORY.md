@@ -15979,9 +15979,33 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
-## 2026-10-10 — #1572 menu drawer merged; Digital Foundation universal component system (draft, founder review)
+## 2026-10-10 — #1572 menu drawer merged; Digital Foundation universal component system (#1573 on main)
 
-- **Context:** Founder approved the menu-drawer comparison ("yes i approve, continue"). Agent merged PR #1572 (`8d29986d`) and refreshed the preview tunnel. Then continued sprint `P0.SITE00.IDNTY.DIGITAL-FOUNDATION.V1-OPUS-UNIVERSAL-COMPONENT-SYSTEM-REFERENCE-FIDELITY1`: rebuild the shared DF components to match two founder reference boards (inputs, dropdown, check/radio/toggle, modal, toasts, buttons, stepper, tooltip, loading, empty; bottom sheet peek/expanded). Merge requires founder visual approval; public deploy not authorized. Hamburger, menu drawer and primary nav must not change.
-- **Decisions / outcomes:** One component layer, `src/site00/foundation-client/components.tsx` + `site00-df-components.css` (no second UI system; old `DfSheet`, df-sheet/df-confirm/df-check CSS removed). Overlays portal with class `df-portal`, which now carries DF tokens/typography (replaces the `.df-sheet` scope). The bottom sheet is non-modal while peeking and becomes a modal dialog when expanded. Drag starts only on handle and header and is tracked with window pointer listeners, not pointer capture, because capture retargets the handle click. Busy `DfButton` uses `aria-disabled` and stays focusable. Success modals and toasts appear only after a real save or recovery. Progress comes from `foundationProgress(payload)`; ACTIVATION stays locked until PAID. Component type follows the reference sizes: labels and controls 10px, buttons 11px, CTA 46px, inputs 40px, radius 3px.
-- **Changes:** components + CSS, P02–P05/overview integration (`EntryIntake`, `Recommendation`, `CheckoutActivation`, `FoundationClient` toasts + save-for-later), `shell.tsx` (`DfCta` wraps `DfButton`), `DigitalFoundationCompleteSurface.tsx` copy uppercased, `tests/digitalFoundationComponents.test.ts`. Draft PR #1573 on `cursor/df-component-system-a9f7`, unmerged.
-- **Conventions:** New DF UI must use the primitives in `components.tsx`. Anything portaled outside `.df-root` adds `df-portal`. Known gaps: the page headline/lede scale was left unchanged, there is no BUSINESS LOCATION field in the intake model, DF fonts are missing (fallback rendering), and founder ops/runbook/BGI screens are not on the primitives yet.
+- **Context:** Founder approved the menu-drawer comparison. PR #1572 merged (`8d29986d`). Component system sprint merged to `main` as #1573 (`4bf6fa50`): `components.tsx` + `site00-df-components.css`; hamburger and menu drawer unchanged.
+- **Conventions:** New DF UI uses primitives in `components.tsx`. Portaled overlays use `df-portal`.
+
+---
+
+## 2026-10-10 — Digital Foundation V2 architecture recovery (portal + communications + founder ops)
+
+- **Context:** Sprint V2 recovery — client portal P07–P10, records, founder ops, Family F communications (dry-run). Merged into launch branch `cursor/df-anthony-launch-gate-a9f7` with #1573 baseline. PR #1574 remains open for history; launch work continues on the Anthony gate branch.
+- **Outcomes:** Manifests under `docs/site00/idnty/DIGITAL_FOUNDATION_V2_*`. Portal v2 flag, founder pipeline/command/workbench routes, communications dispatch (DRY_RUN default off for live sends).
+- **Partial:** Messaging inbox, durable email delivery, Supabase send intents, P15A–C dedicated UI, Business Ambition client surface.
+
+---
+
+## 2026-10-10 — Digital Foundation canonical icon library
+
+- **Context:** 142 SVG icons + aliases on V2 branch tip (#1575 stacked on recovery). Included on Anthony launch branch merge.
+- **Conventions:** Header still uses `menu-icon.png`; do not replace with registry menu glyph.
+
+---
+
+## 2026-10-10 — Anthony launch gate recovery (real E2E2 sprint)
+
+- **Context:** P0 sprint to verify Anthony Digital Foundation journey — Gate A safe intake vs Gate B full service. Baseline main `4bf6fa50` (#1573); integrated #1574 into `cursor/df-anthony-launch-gate-a9f7` (draft PR, not merged). Founder approval required for production release; no live charges or client emails during engineering.
+- **Gate A (dev):** Browser 393×852 on `/foundation/:token` — intake save + hard refresh PASS; founder admin `detail?id=` matches client intake on cloud preview memory store. Launch gate env `SITE00_DIGITAL_FOUNDATION_LAUNCH_GATE_INTAKE_ONLY` blocks checkout and surfaces `INTAKE_SUBMITTED` (vitest). **Production BLOCKED:** `SITE00_DIGITAL_FOUNDATION_PERSIST_SUPABASE=1` + migrations not verified on deployed API; deploy SHA unverified.
+- **Gate B:** FAIL/BLOCKED — Stripe test checkout not run live; messaging API/tests only (no two-browser UI round trip); email DRY_RUN/memory intents; records download not E2E.
+- **Deliverables:** `docs/site00/idnty/ANTHONY_*`, `DIGITAL_FOUNDATION_E2E_TEST_MATRIX.json`, `FOUNDATION_*_VERIFICATION.md`. Evidence screenshots `/opt/cursor/artifacts/gate-a-intake-*.png`.
+- **Tests:** `npm test -- --run tests/digitalFoundation*` → 100 pass, 1 skipped; typecheck + build pass. Full repo vitest has pre-existing failures unrelated to DF.
+- **Recommendation:** NO-GO for production Anthony link until persistence + deploy SHA + intake-only env on Railway; INTAKE-ONLY after those close.

@@ -26,7 +26,7 @@ import { DfBottomSheet, DfCheckMark, DfEmptyState, DfModal, DfProgress } from '.
 import { DfAlert, DfCta, DfHeadline, DfLede, DfRail, DfTrust } from '../shell';
 import { IncludedList, ThirdPartySheet } from './Recommendation';
 
-function SpecRow({
+export function SpecRow({
   icon,
   label,
   sub,

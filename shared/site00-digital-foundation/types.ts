@@ -428,6 +428,8 @@ export type DigitalFoundationArtifactPayload = {
   surface:
     | 'PROSPECT'
     | 'INTAKE'
+    /** Intake submitted; quote/checkout withheld until full-service launch is certified. */
+    | 'INTAKE_SUBMITTED'
     | 'RECOMMENDATION'
     | 'QUOTE'
     | 'CHECKOUT'
