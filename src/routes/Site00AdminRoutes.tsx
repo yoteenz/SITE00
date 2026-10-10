@@ -67,6 +67,10 @@ const MarketingEngagementsAdminPage = lazy(() => import('../site00/admin/pages/m
 const MarketingEngagementAdminDetailPage = lazy(() => import('../site00/admin/pages/marketing/MarketingEngagementAdminDetailPage'));
 const FoundationAdminListPage = lazy(() => import('../site00/admin/pages/foundation/FoundationAdminListPage'));
 const FoundationAdminDetailPage = lazy(() => import('../site00/admin/pages/foundation/FoundationAdminDetailPage'));
+const FoundationPipelinePage = lazy(() => import('../site00/admin/pages/foundation/FoundationPipelinePage'));
+const FoundationProjectCommandPage = lazy(() => import('../site00/admin/pages/foundation/FoundationProjectCommandPage'));
+const FoundationWorkbenchPage = lazy(() => import('../site00/admin/pages/foundation/FoundationWorkbenchPage'));
+const CommunicationsCommandPage = lazy(() => import('../site00/admin/pages/foundation/CommunicationsCommandPage'));
 
 function AdminSuspense({ children }: { children: React.ReactNode }) {
   return <Suspense fallback={<LoadingScreen />}>{children}</Suspense>;
@@ -553,6 +557,38 @@ export function Site00AdminRoutes() {
         element={
           <AdminSuspense>
             <SettingsPage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/foundation/pipeline"
+        element={
+          <AdminSuspense>
+            <FoundationPipelinePage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/foundation/communications"
+        element={
+          <AdminSuspense>
+            <CommunicationsCommandPage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/foundation/:id/command"
+        element={
+          <AdminSuspense>
+            <FoundationProjectCommandPage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/foundation/:id/workbench"
+        element={
+          <AdminSuspense>
+            <FoundationWorkbenchPage />
           </AdminSuspense>
         }
       />

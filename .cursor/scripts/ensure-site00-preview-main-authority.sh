@@ -24,7 +24,11 @@ if [[ ! -e "$WT/.git" ]]; then
   git worktree add --detach "$WT" "$TRACK_REF" 2>>"$LOG"
 else
   git -C "$WT" fetch origin "$BRANCH" main 2>>"$LOG" || true
-  git -C "$WT" checkout --detach "$TRACK_REF" 2>>"$LOG"
+  if ! git -C "$WT" checkout --detach "$TRACK_REF" 2>>"$LOG"; then
+    echo "[$(date -u +%H:%M:%S)] worktree checkout failed — hard reset to $TRACK_REF" >>"$LOG"
+    git -C "$WT" reset --hard "$TRACK_REF" 2>>"$LOG"
+    git -C "$WT" clean -fd 2>>"$LOG" || true
+  fi
 fi
 
 if [[ -d "$ROOT/node_modules" && ! -e "$WT/node_modules" ]]; then

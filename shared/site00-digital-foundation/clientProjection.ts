@@ -10,12 +10,19 @@ export type ClientReferralChannel = {
   display_label: string;
 };
 
+export type ClientCommunicationPreferences = {
+  marketing_opt_in: boolean;
+  project_operations: boolean;
+  educational: boolean;
+};
+
 export type ClientDigitalFoundationPayload = Omit<
   DigitalFoundationArtifactPayload,
   'events' | 'referral_source'
 > & {
   referral_channel: ClientReferralChannel | null;
   timeline_readiness: ProjectReadinessState;
+  communication_preferences: ClientCommunicationPreferences;
 };
 
 const SAFE_REFERRAL_LABELS: Record<ReferralSourceKind, string> = {
@@ -40,6 +47,7 @@ export function toClientReferralChannel(
 export function toClientArtifactPayload(
   internal: DigitalFoundationArtifactPayload,
   timeline_readiness: ProjectReadinessState,
+  communication_preferences: ClientCommunicationPreferences,
 ): ClientDigitalFoundationPayload {
   const { events: _events, referral_source, ...rest } = internal;
   void _events;
@@ -47,5 +55,6 @@ export function toClientArtifactPayload(
     ...rest,
     referral_channel: toClientReferralChannel(referral_source),
     timeline_readiness,
+    communication_preferences,
   };
 }

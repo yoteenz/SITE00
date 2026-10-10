@@ -40,37 +40,37 @@ export default function DigitalFoundationCompleteSurface({
           className="site00-df-artifact__panel site00-df-artifact__complete"
           data-reduced-motion={reducedMotion ? '1' : '0'}
         >
-          <h2>Your foundation is complete</h2>
-          <p>Your domain and professional business communications are now operational.</p>
+          <h2>YOUR FOUNDATION IS COMPLETE</h2>
+          <p>YOUR DOMAIN AND PROFESSIONAL BUSINESS COMMUNICATIONS ARE NOW OPERATIONAL.</p>
           {payload.ownership_record && (
             <ul>
-              {payload.ownership_record.domain && <li>Domain — active</li>}
-              {payload.ownership_record.primary_mailbox && <li>Professional email — active</li>}
-              {payload.ownership_record.dns_status && <li>DNS — {payload.ownership_record.dns_status.toLowerCase()}</li>}
+              {payload.ownership_record.domain && <li>DOMAIN — ACTIVE</li>}
+              {payload.ownership_record.primary_mailbox && <li>PROFESSIONAL EMAIL — ACTIVE</li>}
+              {payload.ownership_record.dns_status && <li>DNS — {payload.ownership_record.dns_status.replace(/_/g, ' ')}</li>}
               {payload.ownership_record.security_status && (
-                <li>Email security — {payload.ownership_record.security_status.toLowerCase()}</li>
+                <li>EMAIL SECURITY — {payload.ownership_record.security_status.replace(/_/g, ' ')}</li>
               )}
             </ul>
           )}
           {payload.credit && payload.credit.status === 'AVAILABLE' && (
             <div className="site00-df-artifact__credit">
-              <h3>Your foundation credit</h3>
+              <h3>YOUR FOUNDATION CREDIT</h3>
               <p>{formatMoney(payload.credit.amount_minor, payload.credit.currency)}</p>
               <p>
-                Book a qualifying SITE 00 build before {new Date(payload.credit.expires_at).toLocaleDateString()} and
-                this credit applies to your build.
+                BOOK A QUALIFYING SITE 00 BUILD BEFORE {new Date(payload.credit.expires_at).toLocaleDateString()} AND
+                THIS CREDIT APPLIES TO YOUR BUILD.
               </p>
             </div>
           )}
-          <h3>Your digital location</h3>
-          <p>The foundation is operational. The next optional step is what should live at your domain.</p>
+          <h3>YOUR DIGITAL LOCATION</h3>
+          <p>THE FOUNDATION IS OPERATIONAL. THE NEXT OPTIONAL STEP IS WHAT SHOULD LIVE AT YOUR DOMAIN.</p>
           {payload.build_readiness?.site_needed && (
-            <p>Recommendation: {payload.artifact.build_recommendation.replace(/_/g, ' ')}</p>
+            <p>RECOMMENDATION: {payload.artifact.build_recommendation.replace(/_/g, ' ')}</p>
           )}
           <div className="site00-df-artifact__concept">
             <p className="site00-df-artifact__concept-label">CONCEPT PREVIEW — NOT FINAL DESIGN</p>
             <div className="site00-df-artifact__concept-frame">
-              <p>Hero · navigation · primary value proposition · CTA</p>
+              <p>HERO · NAVIGATION · PRIMARY VALUE PROPOSITION · CTA</p>
             </div>
           </div>
           <button

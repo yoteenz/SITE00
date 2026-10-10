@@ -15936,7 +15936,79 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 ## 2026-10-09 — DF typography, menu layering, P01 business email
 
 - **Founder ask:** Reduce all Digital Foundation text by 2px; fix menu drawer overlapped by bottom screen text; P01 triad center column → professional business email on two lines.
-- **Shipped (PR #1552):** Board 01+02 `FoundationClient` on `main`; global −2px on `site00-df-client.css`; menu sheet portaled to `document.body` with high z-index, body scroll lock, footer/trust hidden while open; P01 triad **PROFESSIONAL** / **BUSINESS EMAIL**.
+- **Shipped (PR #1552):** Board 01+02 `FoundationClient` on `main`; global −2px on `site00-df-client.css`; menu sheet portaled to `document.body` with high z-index, body scroll lock, footer/trust hidden while open; P01 triad **PROFESSIONAL BUSINESS** / **EMAIL**.
+- **Menu icon (PR #1554):** Header ☰ uses founder JPEG `public/site00/idnty/digital-foundation/menu-icon.jpg` via `DF_HEADER_MENU_ICON_SRC` in `DfHeader` (replaces CSS bar spans).
+
+---
+
+## 2026-10-10 — Preview tunnel tsx Cannot find module on /foundation
+
+- **Symptom:** Mobile tunnel showed red `Cannot find module … tsx/dist/esm/api/…` on Digital Foundation (API LOCAL_API_ERROR surfaced in UI).
+- **Cause:** Preview worktree stuck on pinned DF branch commit still using tsx dynamic import for Vite local API, combined with `NODE_OPTIONS --import=tsx` on cloud dev server; dirty worktree blocked `preview/tunnel` remount.
+- **Fix:** Remount `/tmp/site00-preview-main` to `origin/preview/tunnel` (esbuild API bundler on main); remove global `--import=tsx` from `run-site00-cloud-preview-server.sh`; `ensure-site00-preview-main-authority.sh` hard-resets worktree when checkout fails.
+
+---
+
+## 2026-10-10 — Digital Foundation OpenArt architecture sidekicks
+
+- **Context:** Founder asked for a blank Digital Foundation template at P01, then a sequence of type, menu, and visual corrections, then real architectural background plates instead of the vector chamber.
+- **Topics covered:** Blank template (`INVITED` / `NOT_STARTED`); −2px type; menu sheet no longer covered by the footer; P01 triad “PROFESSIONAL” / “BUSINESS EMAIL”; founder hamburger PNG with no plate; lede line-height −1px; headline token reduced 4px then 8px; icon stroke 0.15 after a 0.3 pass and a 10% size increase; preview tsx module error fixed by dropping `--import=tsx`; invalid-link recovery via template bootstrap; menu sheet tokens so a portaled panel stays opaque; photoreal Cursor plates were rejected as generic.
+- **Decisions / outcomes:** Background plates are OpenArt image-to-image sidekicks of the approved boards, not text-to-image and not Cursor GenerateImage. UI copy stays in React. The glass etching “01 / DIGITAL FOUNDATION” stays on the hero plate because it is part of the physical object. P08–P15 are not client routes.
+- **Changes:** `DF_ARCHITECTURE_RENDERS` now points at `public/site00/idnty/digital-foundation/architecture/df-g01-hero-chamber.jpg`, `df-g02-crown-fragment.jpg`, and `df-g03-corner-fragment.jpg`. OpenArt project `6Ueswtr8vt58ur2n3CRs` (SITE00 IDNTY Digital Foundation Production), model `gpt-image-2-5-sunburst` image2image, 2k, high, autoEnhance off. Histories `aHlkWBWXr3ikxXgOdFHx` (hero), `OqWsW3dvLAub8eKo0E6L` (crown), `ipqkQnpBFZr286lgLyH2` (corner). Quoted 152 credits each. Do not generate these into a JURNL family project.
+- **Conventions:** Headless upload is `openart_upload_sign` + PUT + `openart_upload_metadata_get`. Crop the architecture out of the phone boards before image-to-image so the model does not keep headlines and buttons.
+
+---
+
+## 2026-10-10 — Digital Foundation + BLDR design review page
+
+- **Context:** Founder wanted one link that shows every Digital Foundation screen and the BLDR studio that follows, without stepping through the client flow.
+- **Topics covered:** OpenArt architecture plates on P01–P07; then a single review artifact for those screens plus BLDR PLACE, FEEL, WORK, PACE, and BLUEPRINT.
+- **Decisions / outcomes:** Route `/foundation/review`. Digital Foundation parents render in phone columns from the catalog and preview fixtures `A_BASE` and `J_PAYMENT_SUCCESS`. BLDR rooms render in iframes with `?reviewRoom=` so the review does not write the studio session.
+- **Changes:** `DigitalFoundationReviewPage.tsx`, route constant `digitalFoundationReview`, `BldrSpatialStudioPage` review-room override, review layout in `site00-df-client.css`.
+- **Conventions:** Do not put the preview hostname in MEMORY. The review page is for looking at the design; it does not change pricing, checkout, or intake contracts.
+
+---
+
+## 2026-10-10 — Digital Foundation mobile menu restored to the founder reference
+
+- **Context:** Founder opened the Digital Foundation hamburger on mobile and saw an oversized serif heading, blue link-colored rows and a bottom sheet over the hero. They attached a generated phone mockup of the open menu and asked for that exact drawer (sprint `P0.SITE00.IDNTY.DIGITAL-FOUNDATION.MOBILE-NAVIGATION-REFERENCE-RESTORATION1`). Merge requires founder review; production deploy is not authorized.
+- **Topics covered:** Root-cause audit of the portaled menu; reference measurements (drawer ~61% wide, backdrop black at ~58%, surface `#fbfaf8`); lifecycle-correct steps and destinations; accessibility; reference comparison captures.
+- **Decisions / outcomes:** Root cause: `DfSheet`/`DfMenu` portal to `<body>`, outside `.df-root`, so the scoped button font/color reset, box-sizing and focus ring never applied (UA Arial, iOS system-blue buttons; before `76d3ac54` the heading inherited Times New Roman). The menu is now a right drawer. Steps the client cannot open show `done` (check) or `locked` (lock) from `resolveDfRoute().views`. Records and Digital Location stay locked until completion because they only exist on the COMPLETE surface. ROADMAP opens the overview scrolled to `#df-stages-h`. The founder hamburger PNG stays. The personal-link note was dropped because the reference has none.
+- **Changes:** `shell.tsx` (`DfDrawer`, rebuilt `DfMenu`), `model.ts` (`buildDfMenu`, `DF_ROADMAP_ANCHOR`), `icons.tsx` (overview, roadmap, folder, pin), `FoundationClient.tsx` (anchor navigation), `site00-df-client.css` (scope for `.df-sheet`/`.df-drawer`, drawer styles, removed the footer-hiding hack), `tests/digitalFoundationMenuDrawer.test.ts`. Draft PR #1572 on `cursor/df-mobile-nav-restoration-a9f7`, unmerged.
+- **Conventions:** Anything portaled out of `.df-root` must sit under `.df-sheet` or `.df-drawer` so it inherits the Digital Foundation scope. Known gap: `barlow-condensed-800/900.woff2` and `inter-variable-latin.woff2` are not in `public/site00/fonts/`, so all Digital Foundation type renders in fallback fonts.
+
+---
+
+## 2026-10-10 — #1572 menu drawer merged; Digital Foundation universal component system (#1573 on main)
+
+- **Context:** Founder approved the menu-drawer comparison. PR #1572 merged (`8d29986d`). Component system sprint merged to `main` as #1573 (`4bf6fa50`): `components.tsx` + `site00-df-components.css`; hamburger and menu drawer unchanged.
+- **Conventions:** New DF UI uses primitives in `components.tsx`. Portaled overlays use `df-portal`.
+
+---
+
+## 2026-10-10 — Digital Foundation V2 architecture recovery (portal + communications + founder ops)
+
+- **Context:** Sprint V2 recovery — client portal P07–P10, records, founder ops, Family F communications (dry-run). Merged into launch branch `cursor/df-anthony-launch-gate-a9f7` with #1573 baseline. PR #1574 remains open for history; launch work continues on the Anthony gate branch.
+- **Outcomes:** Manifests under `docs/site00/idnty/DIGITAL_FOUNDATION_V2_*`. Portal v2 flag, founder pipeline/command/workbench routes, communications dispatch (DRY_RUN default off for live sends).
+- **Partial:** Messaging inbox, durable email delivery, Supabase send intents, P15A–C dedicated UI, Business Ambition client surface.
+
+---
+
+## 2026-10-10 — Digital Foundation canonical icon library
+
+- **Context:** 142 SVG icons + aliases on V2 branch tip (#1575 stacked on recovery). Included on Anthony launch branch merge.
+- **Conventions:** Header still uses `menu-icon.png`; do not replace with registry menu glyph.
+
+---
+
+## 2026-10-10 — Anthony launch gate recovery (real E2E2 sprint)
+
+- **Context:** P0 sprint to verify Anthony Digital Foundation journey — Gate A safe intake vs Gate B full service. Baseline main `4bf6fa50` (#1573); integrated #1574 into `cursor/df-anthony-launch-gate-a9f7` (draft PR, not merged). Founder approval required for production release; no live charges or client emails during engineering.
+- **Gate A (dev):** Browser 393×852 on `/foundation/:token` — intake save + hard refresh PASS; founder admin `detail?id=` matches client intake on cloud preview memory store. Launch gate env `SITE00_DIGITAL_FOUNDATION_LAUNCH_GATE_INTAKE_ONLY` blocks checkout and surfaces `INTAKE_SUBMITTED` (vitest). **Production BLOCKED:** `SITE00_DIGITAL_FOUNDATION_PERSIST_SUPABASE=1` + migrations not verified on deployed API; deploy SHA unverified.
+- **Gate B:** FAIL/BLOCKED — Stripe test checkout not run live; messaging API/tests only (no two-browser UI round trip); email DRY_RUN/memory intents; records download not E2E.
+- **Deliverables:** `docs/site00/idnty/ANTHONY_*`, `DIGITAL_FOUNDATION_E2E_TEST_MATRIX.json`, `FOUNDATION_*_VERIFICATION.md`. Evidence screenshots `/opt/cursor/artifacts/gate-a-intake-*.png`.
+- **Tests:** `npm test -- --run tests/digitalFoundation*` → 100 pass, 1 skipped; typecheck + build pass. Full repo vitest has pre-existing failures unrelated to DF.
+- **Recommendation:** NO-GO for production Anthony link until persistence + deploy SHA + intake-only env on Railway; INTAKE-ONLY after those close.
 
 ---
 
@@ -15945,4 +16017,3 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Sprint:** asset/icon/material refinement of `/bldr/studio` against three founder phone references. No estimator, no GLB, no production release.
 - **Finding:** live stage is CSS slabs, not Three.js. Refined marble plinth, glass layers, `#E50107` portal, Barlow Condensed headlines, shared `BldrStudioIcon`, distinct `ArchitecturalThumb` SVGs for PLACE/FEEL/blueprint cards.
 - **Gap:** photoreal reference architecture still needs a founder-gated WFE mesh. Draft PR only.
-

@@ -1,7 +1,8 @@
 /** NON-AUTHORITATIVE UI scaffold — Opus replaces presentation; keep spatial intake session boundary. */
 import { useMemo } from 'react';
-import { Link } from 'react-router-dom';
-import { templateSystemEnabled } from '../../../studioos/estimation/flags';
+import { Link, useSearchParams } from 'react-router-dom';
+import { clientEstimatePreviewEnabled, templateSystemEnabled } from '../../../studioos/estimation/flags';
+import { revealEstimateForRoom, snapshotFromSpatialState } from '../../builder-experience/spatialStudio/blueprintSessionContract';
 import { blueprintEconomicsForSelection } from '../../builder-experience/spatialStudio/blueprintEconomics';
 import { roomIndex } from '../../builder-experience/spatialStudio/mapping';
 import { useBuilderSpatialIntakeSession } from '../../builder-experience/spatialStudio/useBuilderSpatialIntakeSession';
@@ -125,20 +126,47 @@ function feelTagline(id: SpatialBuilderState['feelVibe']): string {
   }
 }
 
+function readReviewRoom(value: string | null): SpatialRoomId | null {
+  if (value && (SPATIAL_ROOM_ORDER as readonly string[]).includes(value)) return value as SpatialRoomId;
+  return null;
+}
+
+/** Frozen sample so a design review can show every room without walking the session or writing it. */
+function frozenReviewState(room: SpatialRoomId): SpatialBuilderState {
+  return {
+    version: 1,
+    room,
+    placePath: 'ADVANCED',
+    feelVibe: 'MODERN',
+    workModules: ['PAGES', 'BLOG', 'BOOKING'],
+    pace: 'STANDARD',
+    paceNotes: '',
+    blueprintSection: 'OVERVIEW',
+    buildObjectView: 'FRONT',
+    savedAt: null,
+  };
+}
+
 function BldrSpatialStudioExperience() {
-  const {
-    state,
-    persist,
-    snapshot,
-    resetSession,
-    showEstimate,
-    goRoom,
-    submitForReview,
-    canEdit,
-    isSubmitted,
-    syncStatus,
-    intakeSync,
-  } = useBuilderSpatialIntakeSession();
+  const session = useBuilderSpatialIntakeSession();
+  const [searchParams] = useSearchParams();
+  const reviewRoom = readReviewRoom(searchParams.get('reviewRoom'));
+  const reviewState = useMemo(() => (reviewRoom ? frozenReviewState(reviewRoom) : null), [reviewRoom]);
+  const state = reviewState ?? session.state;
+  const persist = reviewRoom ? () => state : session.persist;
+  const resetSession = reviewRoom ? () => undefined : session.resetSession;
+  const showEstimate = reviewRoom
+    ? revealEstimateForRoom(state.room, clientEstimatePreviewEnabled())
+    : session.showEstimate;
+  const snapshot = reviewRoom ? snapshotFromSpatialState(state, { allowEstimate: showEstimate }) : session.snapshot;
+  const goRoom = reviewRoom ? () => false : session.goRoom;
+  const submitForReview = reviewRoom ? async () => undefined : session.submitForReview;
+  const canEdit = reviewRoom ? true : session.canEdit;
+  const isSubmitted = reviewRoom ? false : session.isSubmitted;
+  const syncStatus = reviewRoom ? 'saved' : session.syncStatus;
+  const intakeSync = reviewRoom
+    ? { saveState: 'idle' as const, lastSavedAt: null, errorMessage: null }
+    : session.intakeSync;
   const { blueprint, scope, estimate } = snapshot;
   const pageCount = useMemo(
     () => blueprint.experiences.reduce((n, g) => n + g.items.length, 0),

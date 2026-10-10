@@ -43,10 +43,16 @@ export const SITE00_ROUTES = {
   existingLocationAdmin: '/admin/site00/existing-location',
   /** IDNTY — Digital Foundation personalized artifact (opaque token) */
   digitalFoundationArtifact: '/foundation/:token',
+  /** All Digital Foundation screens plus the following BLDR studio, on one review page. */
+  digitalFoundationReview: '/foundation/review',
   /** Physical invitation entry (opaque code, partner attribution). */
   invitationEntry: '/invite/:code',
   digitalFoundationAdmin: '/admin/site00/foundation',
   digitalFoundationAdminDetail: '/admin/site00/foundation/:id',
+  digitalFoundationPipeline: '/admin/site00/foundation/pipeline',
+  digitalFoundationProjectCommand: '/admin/site00/foundation/:id/command',
+  digitalFoundationWorkbench: '/admin/site00/foundation/:id/workbench',
+  digitalFoundationCommunications: '/admin/site00/foundation/communications',
   invitationAdmin: '/admin/site00/invitation',
   assts: '/assts',
   asstsBatch: '/assts/batches/:batchId',

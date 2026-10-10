@@ -9,14 +9,27 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { DF_FEATURE_FLAGS, isDigitalFoundationFlagEnabled } from '../../../shared/site00-digital-foundation/featureFlags.js';
 import DigitalFoundationCompleteSurface from '../pages/foundation/DigitalFoundationCompleteSurface';
-import { saveIntake } from './api';
+import { saveIntake, updateCommunicationPreferences } from './api';
 import { resolveDfRoute, validateBusinessInfo, type CheckoutParam, type DfView, type IntakeErrors } from './model';
-import { P01Entry, P02Intake, P03Configure, SaveChip } from './parents/EntryIntake';
+import { P01Entry, P02Intake, P03Configure, P03IntakeSubmitted, SaveChip } from './parents/EntryIntake';
 import { P04Recommendation } from './parents/Recommendation';
 import { InterimOverview, P05Review, P06Activation } from './parents/CheckoutActivation';
+import {
+  CommunicationPreferences,
+  P07ProjectOverview,
+  P08Roadmap,
+  P09StageDetail,
+  P10NeedsYou,
+  RecordDetail,
+  RecordsLibrary,
+} from './parents/ProjectPortal';
+import type { ProjectStageCode } from '../../../shared/site00-digital-foundation/types.js';
+import { isProjectPortalV2Enabled } from './model';
 import { DfCta, DfFrame, DfLoading, DfMenu, DfSystemPanel, type DfObjectKind } from './shell';
-import { useFoundationArtifact, useIntakeDraft, usePaymentVerification, useQuoteSelections } from './useFoundationArtifact';
+import { DfToastProvider, useDfToasts } from './components';
+import { useFoundationArtifact, useIntakeDraft, usePaymentVerification, useQuoteSelections, type SaveStatus } from './useFoundationArtifact';
 import '../styles/site00-df-client.css';
+import '../styles/site00-df-components.css';
 
 const OBJECT_FOR: Record<DfView, DfObjectKind> = {
   P01: 'hero',
@@ -26,6 +39,12 @@ const OBJECT_FOR: Record<DfView, DfObjectKind> = {
   P05: 'crown',
   P06: 'crown',
   OVERVIEW: 'crown',
+  ROADMAP: 'crown',
+  STAGE: 'crown',
+  NEEDS_YOU: 'crown',
+  RECORDS: 'crown',
+  RECORD: 'crown',
+  COMM_PREFS: 'corner',
 };
 
 function seenKey(artifactId: string) {
@@ -56,13 +75,28 @@ function useNoIndex() {
   }, []);
 }
 
-function InvalidLink() {
+function InvalidLink({ onMintPreview, mintBusy }: { onMintPreview?: () => void; mintBusy?: boolean }) {
+  const cloudPreview = import.meta.env.VITE_SITE00_CLOUD_PREVIEW === '1';
   return (
     <DfSystemPanel
       index="00"
       label="FOUNDATION LINK"
       lines={['THIS LINK', "ISN'T ACTIVE"]}
-      body="CHECK THAT YOU OPENED THE FULL LINK SITE 00 SENT YOU. IF IT STILL DOESN'T OPEN, REPLY TO THE MESSAGE IT CAME IN."
+      body={
+        cloudPreview
+          ? 'THIS PREVIEW LINK EXPIRED WHEN THE SERVER RESTARTED OR YOU OPENED A BOOKMARK FROM ANOTHER SESSION. OPEN A FRESH BLANK TEMPLATE BELOW — P01 WITH NO CLIENT DATA.'
+          : 'CHECK THAT YOU OPENED THE FULL LINK SITE 00 SENT YOU. IF IT STILL DOESN\'T OPEN, REPLY TO THE MESSAGE IT CAME IN.'
+      }
+      action={
+        cloudPreview && onMintPreview ? (
+          <DfCta
+            label="OPEN BLANK TEMPLATE"
+            onClick={onMintPreview}
+            busy={mintBusy}
+            busyLabel="OPENING…"
+          />
+        ) : undefined
+      }
     />
   );
 }
@@ -89,7 +123,17 @@ export function FoundationClient({ token }: { token: string }) {
   const checkoutRaw = params.get('checkout');
   const checkout: CheckoutParam = checkoutRaw === 'return' || checkoutRaw === 'cancel' ? checkoutRaw : null;
   const simulated = params.get('simulated_checkout') === '1';
-  const stateView = ((location.state as { dfView?: DfView } | null)?.dfView ?? null) as DfView | null;
+  const navState = location.state as {
+    dfView?: DfView;
+    dfAnchor?: string;
+    dfStage?: ProjectStageCode;
+    dfRecord?: string;
+  } | null;
+  const stateView = (navState?.dfView ?? null) as DfView | null;
+  const stateAnchor = navState?.dfAnchor ?? null;
+  const stateStage = navState?.dfStage ?? null;
+  const stateRecord = navState?.dfRecord ?? null;
+  const [prefsBusy, setPrefsBusy] = useState(false);
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [beginBusy, setBeginBusy] = useState(false);
@@ -98,6 +142,23 @@ export function FoundationClient({ token }: { token: string }) {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [p02Errors, setP02Errors] = useState<IntakeErrors | undefined>(undefined);
   const [seenTick, setSeenTick] = useState(0);
+  const [mintBusy, setMintBusy] = useState(false);
+
+  const mintPreviewTemplate = useCallback(async () => {
+    setMintBusy(true);
+    try {
+      const res = await fetch('/api/dev/site00-digital-foundation-preview-bootstrap', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ template: true }),
+      });
+      const json = (await res.json()) as { public_token?: string; error?: string };
+      if (!res.ok || !json.public_token) throw new Error(json.error ?? 'Preview bootstrap failed');
+      window.location.assign(`/foundation/${json.public_token}`);
+    } catch {
+      setMintBusy(false);
+    }
+  }, []);
 
   const intake = useIntakeDraft(token, payload, reload);
   const quoteSel = useQuoteSelections(token, payload, setPayload);
@@ -114,10 +175,21 @@ export function FoundationClient({ token }: { token: string }) {
   const verification = usePaymentVerification(verifying, reload);
 
   const go = useCallback(
-    (v: DfView, opts: { replace?: boolean; dropQuery?: boolean } = {}) => {
+    (
+      v: DfView,
+      opts: { replace?: boolean; dropQuery?: boolean; anchor?: string; stage?: ProjectStageCode; record?: string } = {},
+    ) => {
       navigate(
         { pathname: location.pathname, search: opts.dropQuery ? '' : location.search },
-        { state: { dfView: v }, replace: opts.replace },
+        {
+          state: {
+            dfView: v,
+            dfAnchor: opts.anchor,
+            dfStage: opts.stage,
+            dfRecord: opts.record,
+          },
+          replace: opts.replace,
+        },
       );
       setMenuOpen(false);
       window.scrollTo(0, 0);
@@ -131,11 +203,21 @@ export function FoundationClient({ token }: { token: string }) {
     if (checkout === 'return' && paid) go('P06', { replace: true, dropQuery: true });
   }, [checkout, paid, go]);
 
-  if (!token) return <InvalidLink />;
+  useEffect(() => {
+    if (!stateAnchor || view !== stateView) return undefined;
+    const frame = window.requestAnimationFrame(() => {
+      document.getElementById(stateAnchor)?.scrollIntoView({ block: 'start' });
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [stateAnchor, stateView, view, location.key]);
+
+  if (!token) return <InvalidLink onMintPreview={mintPreviewTemplate} mintBusy={mintBusy} />;
   if (!enabled) return <Unavailable />;
   if (load.status === 'loading' && !payload) return <DfLoading />;
   if (load.status === 'error' && !payload) {
-    if (load.error.status === 404 || load.error.code.includes('NOT_FOUND')) return <InvalidLink />;
+    if (load.error.status === 404 || load.error.code.includes('NOT_FOUND')) {
+      return <InvalidLink onMintPreview={mintPreviewTemplate} mintBusy={mintBusy} />;
+    }
     if (load.error.status === 503) return <Unavailable />;
     return (
       <DfSystemPanel
@@ -237,6 +319,7 @@ export function FoundationClient({ token }: { token: string }) {
           editable={intake.editable}
           errors={p02Errors}
           save={save}
+          onSaveForLater={intake.flush}
           onContinue={() => {
             setP02Errors(undefined);
             void intake.flush();
@@ -246,17 +329,20 @@ export function FoundationClient({ token }: { token: string }) {
       ) : null;
       break;
     case 'P03':
-      body = intake.draft ? (
-        <P03Configure
-          draft={intake.draft}
-          update={intake.update}
-          editable={intake.editable}
-          onSubmit={submitIntake}
-          submitting={submitting}
-          submitError={submitError}
-          save={save}
-        />
-      ) : null;
+      body =
+        payload.surface === 'INTAKE_SUBMITTED' ? (
+          <P03IntakeSubmitted />
+        ) : intake.draft ? (
+          <P03Configure
+            draft={intake.draft}
+            update={intake.update}
+            editable={intake.editable}
+            onSubmit={submitIntake}
+            submitting={submitting}
+            submitError={submitError}
+            save={save}
+          />
+        ) : null;
       break;
     case 'P04':
       body = (
@@ -308,26 +394,110 @@ export function FoundationClient({ token }: { token: string }) {
       );
       break;
     case 'OVERVIEW':
-      body = <InterimOverview payload={payload} onActivation={() => go('P06')} />;
+      body = isProjectPortalV2Enabled() ? (
+        <P07ProjectOverview
+          payload={payload}
+          verify={verification.phase}
+          onRoadmap={() => go('ROADMAP')}
+          onNeedsYou={() => go('NEEDS_YOU')}
+          onRecords={() => go('RECORDS')}
+          onStage={(code) => go('STAGE', { stage: code })}
+          onActivation={() => go('P06')}
+          onPrefs={() => go('COMM_PREFS')}
+        />
+      ) : (
+        <InterimOverview payload={payload} onActivation={() => go('P06')} />
+      );
+      break;
+    case 'ROADMAP':
+      body = (
+        <P08Roadmap payload={payload} onStage={(code) => go('STAGE', { stage: code })} onOverview={() => go('OVERVIEW')} />
+      );
+      break;
+    case 'STAGE':
+      body = (
+        <P09StageDetail
+          payload={payload}
+          stageCode={stateStage ?? payload.stages[0]?.stage_code ?? '01_DETAILS_RECEIVED'}
+          onRoadmap={() => go('ROADMAP')}
+        />
+      );
+      break;
+    case 'NEEDS_YOU':
+      body = <P10NeedsYou token={token} payload={payload} onReload={reload} onOverview={() => go('OVERVIEW')} />;
+      break;
+    case 'RECORDS':
+      body = (
+        <RecordsLibrary payload={payload} onOpen={(id) => go('RECORD', { record: id })} onOverview={() => go('OVERVIEW')} />
+      );
+      break;
+    case 'RECORD':
+      body = (
+        <RecordDetail
+          payload={payload}
+          recordId={stateRecord ?? ''}
+          onBack={() => go('RECORDS')}
+        />
+      );
+      break;
+    case 'COMM_PREFS':
+      body = (
+        <CommunicationPreferences
+          prefs={payload.communication_preferences}
+          busy={prefsBusy}
+          onSave={(next) => {
+            setPrefsBusy(true);
+            void updateCommunicationPreferences(token, next)
+              .then((p) => {
+                setPayload(p);
+              })
+              .finally(() => setPrefsBusy(false));
+          }}
+          onOverview={() => go('OVERVIEW')}
+        />
+      );
       break;
   }
 
   return (
-    <div
-      className={`df-root${menuOpen ? ' df-root--menu-open' : ''}`}
-      ref={rootRef}
-      data-surface={payload.surface}
-    >
-      <DfFrame
-        view={view}
-        object={OBJECT_FOR[view]}
-        onMenu={() => setMenuOpen((o) => !o)}
-        menuOpen={menuOpen}
-        state={state}
+    <DfToastProvider>
+      <div
+        className={`df-root${menuOpen ? ' df-root--menu-open' : ''}`}
+        ref={rootRef}
+        data-surface={payload.surface}
       >
-        {body}
-      </DfFrame>
-      <DfMenu open={menuOpen} onClose={() => setMenuOpen(false)} views={route.views} current={view} onNavigate={(v) => go(v)} />
-    </div>
+        <DfFrame
+          view={view}
+          object={OBJECT_FOR[view]}
+          onMenu={() => setMenuOpen((o) => !o)}
+          menuOpen={menuOpen}
+          state={state}
+        >
+          {body}
+        </DfFrame>
+        <DfMenu open={menuOpen} onClose={() => setMenuOpen(false)} views={route.views} current={view} onNavigate={(v, anchor) => go(v, { anchor })} />
+        <SaveStatusToasts status={intake.status} />
+      </div>
+    </DfToastProvider>
   );
+}
+
+/** Announces autosave failures (persistently) and their recovery once — never a toast per routine autosave. */
+function SaveStatusToasts({ status }: { status: SaveStatus }) {
+  const toasts = useDfToasts();
+  const prev = useRef<SaveStatus>(status);
+  const failed = useRef(false);
+  useEffect(() => {
+    const was = prev.current;
+    prev.current = status;
+    if (status === 'error' && was !== 'error') {
+      failed.current = true;
+      toasts.push({ tone: 'error', message: 'SOMETHING WENT WRONG. PLEASE TRY AGAIN.', key: 'intake-save', persistent: true });
+    } else if (status === 'saved' && failed.current) {
+      failed.current = false;
+      toasts.dismiss('intake-save');
+      toasts.push({ tone: 'success', message: 'CHANGES SAVED SUCCESSFULLY.', key: 'intake-saved' });
+    }
+  }, [status, toasts]);
+  return null;
 }

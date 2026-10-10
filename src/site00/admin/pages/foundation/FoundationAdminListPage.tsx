@@ -51,7 +51,12 @@ export default function FoundationAdminListPage() {
     <div className="site00-admin-page">
       <header>
         <h1>Digital Foundation</h1>
-        <p>Founder mini console — copy client intake links (not the founder detail page).</p>
+        <p>
+          Founder mini console — copy client intake links.{' '}
+          <Link to={SITE00_ROUTES.digitalFoundationPipeline}>Pipeline (P13)</Link>
+          {' · '}
+          <Link to={SITE00_ROUTES.digitalFoundationCommunications}>Communications command</Link>
+        </p>
         <button type="button" disabled={creating} onClick={createLeadLink}>
           Create lead + link
         </button>

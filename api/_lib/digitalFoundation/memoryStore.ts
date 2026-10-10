@@ -14,6 +14,8 @@ import type {
 import type { BuildReadinessAssessment } from '../../../shared/site00-digital-foundation/types.js';
 import { seedReferralSources } from '../../../shared/site00-digital-foundation/referralSources.js';
 import { defaultDigitalFoundationCommercialConfig } from '../../../shared/site00-digital-foundation/commercialConfig.js';
+import type { CommunicationConsentRecord, CommunicationSendIntent } from '../../../shared/site00-digital-foundation/communications/types.js';
+import type { ProjectMessage } from '../../../shared/site00-digital-foundation/messaging/types.js';
 import type {
   DigitalFoundationExecutionTask,
   DigitalFoundationRunbook,
@@ -58,6 +60,9 @@ export type DfMemoryState = {
     string,
     { readiness_satisfied_at: string | null; production_started_at: string | null }
   >;
+  sendIntents: Map<string, CommunicationSendIntent>;
+  communicationConsents: Map<string, CommunicationConsentRecord>;
+  projectMessages: Map<string, ProjectMessage[]>;
 };
 
 let state: DfMemoryState | null = null;
@@ -90,6 +95,9 @@ export function getDfMemoryState(): DfMemoryState {
       forecasts: new Map(),
       projectConfig: new Map(),
       readinessClock: new Map(),
+      sendIntents: new Map(),
+      communicationConsents: new Map(),
+      projectMessages: new Map(),
     };
     if (isCloudMobilePreviewDev()) {
       mergePreviewSnapshotFromDisk(state);
