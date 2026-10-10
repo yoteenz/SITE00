@@ -2,8 +2,7 @@
  * Technical session hook — Opus may replace UI; this hook stays the integration boundary.
  */
 import { useCallback, useMemo, useState } from 'react';
-import { clientEstimatePreviewEnabled } from '../../../studioos/estimation/flags';
-import { snapshotFromSpatialState, revealEstimateForRoom } from './blueprintSessionContract';
+import { computeEstimateForSpatialRoom, snapshotFromSpatialState } from './blueprintSessionContract';
 import { buildObjectParametersFromSpatialState } from './buildObjectContract';
 import { canEnterRoom, spatialSelectionToBuilder } from './mapping';
 import { clearSpatialBuilderState, loadSpatialBuilderState, saveSpatialBuilderState } from './persistence';
@@ -20,11 +19,10 @@ export function useBuilderSpatialSession() {
 
   const selection = useMemo(() => spatialSelectionToBuilder(state), [state]);
 
-  const showEstimate = revealEstimateForRoom(state.room, clientEstimatePreviewEnabled());
-
+  const computeEstimate = computeEstimateForSpatialRoom(state.room);
   const snapshot = useMemo(
-    () => snapshotFromSpatialState(state, { allowEstimate: showEstimate }),
-    [state, showEstimate],
+    () => snapshotFromSpatialState(state, { computeEstimate }),
+    [state, computeEstimate],
   );
 
   const buildObject = useMemo(
@@ -60,7 +58,7 @@ export function useBuilderSpatialSession() {
     buildObject,
     goRoom,
     resetSession,
-    showEstimate,
+    computeEstimate,
   };
 }
 

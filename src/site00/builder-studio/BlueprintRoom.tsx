@@ -551,9 +551,31 @@ function rangeNote(snapshot: BlueprintSessionSnapshot, preview: boolean): string
   return `${label.charAt(0)}${label.slice(1).toLowerCase()}. Based on your current selections and requirements.`;
 }
 
-function EstimateFigure({ value, preview }: { value: string | null; preview: boolean }) {
+function EstimateFigure({
+  value,
+  preview,
+  quoteStatus,
+  clientMessage,
+}: {
+  value: string | null;
+  preview: boolean;
+  quoteStatus?: 'ESTIMATED' | 'REQUIRES_REVIEW' | 'INCOMPLETE' | 'ERROR' | null;
+  clientMessage?: string | null;
+}) {
   if (!preview) return <span className="bs-figure bs-figure--muted">AT REVIEW</span>;
-  return <span className="bs-figure">{value ?? '—'}</span>;
+  if (quoteStatus === 'INCOMPLETE' || quoteStatus === 'ERROR') {
+    return <span className="bs-figure bs-figure--muted">{clientMessage ?? 'COMPLETE YOUR SELECTIONS TO SEE A RANGE.'}</span>;
+  }
+  if (quoteStatus === 'REQUIRES_REVIEW' && value) {
+    return (
+      <span className="bs-figure">
+        {value}
+        {clientMessage ? <span className="bs-figure__note"> · {clientMessage.toUpperCase()}</span> : null}
+      </span>
+    );
+  }
+  if (value) return <span className="bs-figure">{value}</span>;
+  return <span className="bs-figure bs-figure--muted">{clientMessage ?? 'UNABLE TO ESTIMATE THIS CONFIGURATION.'}</span>;
 }
 
 function ChangeLink({ session, room, goToRoom }: { session: StudioSession; room: StudioRoomId; goToRoom: (room: StudioRoomId) => void }) {
@@ -571,6 +593,7 @@ function OverviewTab({ session, setTab, goToRoom, openMenu }: Props) {
   const preview = session.preview;
   const selection = snapshot.selection;
   const estimate = snapshot.estimate;
+  const scopeEstimate = snapshot.scope_estimate;
   const build = buildTypeSummary(state.placePath, selection);
   const feel = state.feelVibe ? FEEL_BY_ID[state.feelVibe] : null;
   const pages = snapshot.blueprint.experiences.reduce((n, g) => n + g.items.length, 0);
@@ -610,13 +633,23 @@ function OverviewTab({ session, setTab, goToRoom, openMenu }: Props) {
         <div className="bs-fact">
           <ClockIcon size={22} />
           <span className="bs-fact__label">ESTIMATED TIMELINE</span>
-          <EstimateFigure value={estimate ? spacedRange(estimate.productionWindow) : null} preview={preview} />
+          <EstimateFigure
+            value={estimate ? spacedRange(estimate.productionWindow) : null}
+            preview={preview}
+            quoteStatus={scopeEstimate?.quoteStatus ?? null}
+            clientMessage={scopeEstimate?.clientMessage}
+          />
           <span className="bs-fact__sub">{rangeNote(snapshot, preview)}</span>
         </div>
         <div className="bs-fact">
           <InvestmentIcon size={22} />
           <span className="bs-fact__label">ESTIMATED INVESTMENT</span>
-          <EstimateFigure value={estimate ? expandInvestment(estimate.investment) : null} preview={preview} />
+          <EstimateFigure
+            value={estimate ? expandInvestment(estimate.investment) : null}
+            preview={preview}
+            quoteStatus={scopeEstimate?.quoteStatus ?? null}
+            clientMessage={scopeEstimate?.clientMessage}
+          />
           <span className="bs-fact__sub">{rangeNote(snapshot, preview)}</span>
         </div>
       </div>

@@ -20,6 +20,7 @@ export function templateSystemEnabled(): boolean {
   return envOn('VITE_SITE00_TEMPLATE_SYSTEM_V1', false);
 }
 
+/** Whether the client may see dollar/week figures on the Blueprint (computation uses `scopeEstimatorEnabled()` separately). */
 export function clientEstimatePreviewEnabled(): boolean {
   return envOn('VITE_SITE00_CLIENT_ESTIMATE_PREVIEW_V1', false);
 }

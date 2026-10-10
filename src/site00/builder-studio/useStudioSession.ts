@@ -120,7 +120,7 @@ export function useStudioSession(sample: SpatialBuilderState | null = null) {
   const live = useBuilderSpatialIntakeSession();
   const [frozen, setFrozen] = useState<SpatialBuilderState | null>(sample);
   const reviewSnapshot = useMemo(
-    () => (frozen ? snapshotFromSpatialState(frozen, { allowEstimate: frozen.room === 'BLUEPRINT' && clientEstimatePreviewEnabled() }) : null),
+    () => (frozen ? snapshotFromSpatialState(frozen, { computeEstimate: frozen.room === 'BLUEPRINT' }) : null),
     [frozen],
   );
   const session = useMemo(() => {
