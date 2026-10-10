@@ -142,4 +142,24 @@ describe('portaled drawer style scope', () => {
   it('no longer hides the page footer while the menu is open', () => {
     expect(css).not.toContain('.df-root--menu-open .df-footer');
   });
+
+  it('keeps the field and row panels filled on plated screens', () => {
+    const components = readFileSync(new URL('../src/site00/styles/site00-df-components.css', import.meta.url), 'utf8');
+    expect(css).not.toMatch(/\.df-screen--hero :is\(\s*\n\s*\.df-input/);
+    expect(components).toMatch(/\.df-input\s*\{[^}]*background:\s*var\(--df-surface\)/);
+    expect(css).toMatch(/\.df-row\s*\{[^}]*background:\s*var\(--df-card\)/);
+  });
+});
+
+describe('more information lives in the menu', () => {
+  const shell = readFileSync(new URL('../src/site00/foundation-client/shell.tsx', import.meta.url), 'utf8');
+  const intake = readFileSync(new URL('../src/site00/foundation-client/parents/EntryIntake.tsx', import.meta.url), 'utf8');
+
+  it('puts the foundation scope in the hamburger menu and does not mount the bottom peek', () => {
+    expect(shell).toContain('MORE INFORMATION');
+    expect(shell).toContain('DOMAIN, EMAIL, SECURITY AND MORE');
+    expect(shell).toContain('DfMenuInformation');
+    expect(intake).not.toContain('variant="peek"');
+    expect(intake).not.toContain('MoreInformationSheet');
+  });
 });

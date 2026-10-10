@@ -16063,3 +16063,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Context:** After the plate work (#1580, #1581, preview SHA `cb917089`, bundle `index.BpESgsIx.js`), a follow-up set icon strokes to 0.6 and shipped that on the tunnel. The founder said that was incorrect and to restore the plate status: type sits on the photograph, review anchor `/foundation/review#df-r-P02`.
 - **Decision:** Revert the 0.6 stroke. Glyphs stay at 1.65 on the 24 grid, with the component hairlines that were on `cb917089`. Do not republish the 0.6 bundle as the plate screen. The load-path fix that maps a missing preview artifact to 404 stays; it does not change the plate.
 - **Conventions:** Digital Foundation plates are the screen. Text and hairlines sit on the photograph. Card fills on plated screens stay transparent. The collapsed MORE INFORMATION peek stays transparent.
+
+---
+
+## 2026-10-10 — MORE INFORMATION moves into the menu; page panels restored
+
+- **Context:** Founder on the Digital Foundation phone screens: remove the bottom MORE INFORMATION swipe-up drawer and put that information in the hamburger menu. They also said the page panels still had not been restored.
+- **Topics covered:** The resting peek sheet on P02 (`DfBottomSheet` `variant="peek"`) listed domain, email, security, signature, device setup, and migration. A prior pass had forced field, row, spec, and card fills transparent so the plate showed through. The authority boards keep white field and row panels on the photograph.
+- **Decisions / outcomes:** The bottom peek is gone. The same scope is a MORE INFORMATION section in the hamburger menu, with the same expandable rows. Field inputs are white (`#ffffff`) and service rows are card fill (`#f9f8f6`) again. The full-bleed plate stays behind those panels. Other sheets that open from a control (additional services, add-ons, third-party costs) stay.
+- **Changes:** `src/site00/foundation-client/shell.tsx`, `src/site00/foundation-client/parents/EntryIntake.tsx`, `src/site00/styles/site00-df-client.css`, `tests/digitalFoundationMenuDrawer.test.ts`.
+- **Conventions:** Do not mount a resting bottom MORE INFORMATION sheet. That copy belongs in the menu. Do not strip the panel fill off inputs, rows, specs, or cards. The plate is the page background around those panels.

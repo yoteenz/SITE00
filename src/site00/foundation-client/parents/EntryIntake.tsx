@@ -21,7 +21,6 @@ import {
   DfPopover,
   DfRadioMark,
   DfSelect,
-  DfSheetRow,
   DfToggleMark,
   useDfToasts,
 } from '../components';
@@ -107,52 +106,6 @@ export function P01Entry({
 }
 
 // ─── P02 ───────────────────────────────────────────────────────────────────────────────────────
-
-/** Canonical Foundation scope as presented on P03 — the MORE INFORMATION sheet reads from here, never from fixtures. */
-export const FOUNDATION_SCOPE: { icon: DfIconName; title: string; sub: string; tag: string; detail?: string }[] = [
-  { icon: 'globe', title: 'DOMAIN & OWNERSHIP', sub: 'REGISTER, TRANSFER OR CONNECT YOUR DOMAIN', tag: 'INCLUDED · CONFIGURABLE', detail: 'THE DOMAIN IS REGISTERED IN YOUR NAME. YOU OWN IT.' },
-  {
-    icon: 'envelope',
-    title: 'PROFESSIONAL EMAIL',
-    sub: 'BUSINESS MAILBOX, ALIASES AND CONFIGURATION',
-    tag: 'CORE · INCLUDED',
-    detail: 'ONE MAILBOX IS INCLUDED. EACH ADDITIONAL MAILBOX IS A PAID ADD-ON.',
-  },
-  { icon: 'layers', title: 'EMAIL ALIASES', sub: 'INFO@, BILLING@, ETC.', tag: 'CORE · INCLUDED' },
-  { icon: 'shield', title: 'EMAIL SECURITY', sub: 'SPF, DKIM, DMARC SETUP', tag: 'CORE · INCLUDED' },
-  { icon: 'document', title: 'EMAIL SIGNATURE', sub: 'PROFESSIONAL SIGNATURE DESIGN AND SETUP', tag: 'CORE · INCLUDED' },
-  { icon: 'phone', title: 'DEVICE SETUP', sub: 'ONE DEVICE INCLUDED · ADD YOUR TEAM', tag: 'INCLUDED · CONFIGURABLE' },
-  {
-    icon: 'swap',
-    title: 'EMAIL MIGRATION',
-    sub: 'MOVE FROM EXISTING PROVIDER',
-    tag: 'PAID ADD-ON · MANUAL REVIEW',
-    detail: 'SITE 00 CONFIRMS MIGRATION SCOPE AND PRICING BEFORE CHECKOUT.',
-  },
-];
-
-function MoreInformationSheet() {
-  const [open, setOpen] = useState<string | null>(null);
-  return (
-    <DfBottomSheet open variant="peek" title="MORE INFORMATION" summary="DOMAIN, EMAIL, SECURITY AND MORE">
-      <ul className="df-srows" aria-label="WHAT YOUR FOUNDATION COVERS">
-        {FOUNDATION_SCOPE.map((row) => (
-          <DfSheetRow
-            key={row.title}
-            icon={row.icon}
-            title={row.title}
-            description={row.sub}
-            tag={row.tag}
-            expanded={open === row.title}
-            onToggle={() => setOpen(open === row.title ? null : row.title)}
-          >
-            {row.detail && <span>{row.detail}</span>}
-          </DfSheetRow>
-        ))}
-      </ul>
-    </DfBottomSheet>
-  );
-}
 
 export function P02Intake({
   draft,
@@ -282,7 +235,6 @@ export function P02Intake({
         )}
       </form>
       <DfTrust text="YOUR INFORMATION IS SECURE." aside={save} />
-      <MoreInformationSheet />
       <DfModal
         open={savedOpen}
         tone="success"

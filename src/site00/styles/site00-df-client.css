@@ -150,70 +150,7 @@ body:has(.df-root) {
   pointer-events: none;
 }
 
-/* The plate is the surface. Hairline borders stay; solid cards do not sit on the photograph. */
-.df-screen--hero :is(
-  .df-input,
-  .df-select__trigger,
-  .df-row,
-  .df-spec,
-  .df-specs--activation,
-  .df-included,
-  .df-addons,
-  .df-split,
-  .df-ack,
-  .df-confirm-card,
-  .df-stages,
-  .df-action-card,
-  .df-triad--proof,
-  .df-footer__code
-),
-.df-screen--crown :is(
-  .df-input,
-  .df-select__trigger,
-  .df-row,
-  .df-spec,
-  .df-specs--activation,
-  .df-included,
-  .df-addons,
-  .df-split,
-  .df-ack,
-  .df-confirm-card,
-  .df-stages,
-  .df-action-card,
-  .df-triad--proof,
-  .df-footer__code
-),
-.df-screen--corner :is(
-  .df-input,
-  .df-select__trigger,
-  .df-row,
-  .df-spec,
-  .df-specs--activation,
-  .df-included,
-  .df-addons,
-  .df-split,
-  .df-ack,
-  .df-confirm-card,
-  .df-stages,
-  .df-action-card,
-  .df-triad--proof,
-  .df-footer__code
-) {
-  background: transparent;
-}
-
-.df-screen--hero .df-input:read-only:not(:disabled),
-.df-screen--crown .df-input:read-only:not(:disabled),
-.df-screen--corner .df-input:read-only:not(:disabled) {
-  background: transparent;
-}
-
-/* The resting MORE INFORMATION peek is portaled to the body. Collapsed, it is type on the plate. */
-body:has(.df-screen--hero, .df-screen--crown, .df-screen--corner) .df-bsheet[data-snap='peek'] .df-bsheet__panel {
-  background: transparent;
-  border-color: transparent;
-  box-shadow: none;
-}
+/* Field, row, and spec panels keep their card fill. The plate shows in the space around them. */
 
 .df-screen__grid {
   position: relative;
@@ -1780,6 +1717,30 @@ button.df-spec__btn {
 .df-drawer__places {
   padding: 14px 0 20px;
   border-bottom: 1px solid var(--df-drawer-rule);
+}
+
+.df-drawer__info {
+  padding: 18px 0 8px;
+  border-bottom: 1px solid var(--df-drawer-rule);
+}
+
+.df-drawer__info-title {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--df-ink);
+}
+
+.df-drawer__info-summary {
+  margin: 6px 0 4px;
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  line-height: 1.5;
+  color: var(--df-muted);
+  text-transform: uppercase;
 }
 
 .df-drawer__step,

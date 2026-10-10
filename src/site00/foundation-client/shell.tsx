@@ -1,7 +1,7 @@
 /** Digital Foundation client shell (DF-C01..C09, C26, C45..C48). Presentation only. */
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
-import { DfButton, DfLoadingState } from './components';
+import { DfButton, DfLoadingState, DfSheetRow } from './components';
 import { DfIcon, type DfIconName } from './icons';
 import { DF_ARCHITECTURE_RENDERS } from './objects';
 import {
@@ -256,6 +256,54 @@ function DfDrawer({ open, onClose, children }: { open: boolean; onClose: () => v
   return typeof document !== 'undefined' ? createPortal(drawer, document.body) : drawer;
 }
 
+/** Scope that used to live in the bottom MORE INFORMATION sheet. The menu owns it now. */
+const FOUNDATION_MENU_INFO: { icon: DfIconName; title: string; sub: string; tag: string; detail?: string }[] = [
+  { icon: 'globe', title: 'DOMAIN & OWNERSHIP', sub: 'REGISTER, TRANSFER OR CONNECT YOUR DOMAIN', tag: 'INCLUDED · CONFIGURABLE', detail: 'THE DOMAIN IS REGISTERED IN YOUR NAME. YOU OWN IT.' },
+  {
+    icon: 'envelope',
+    title: 'PROFESSIONAL EMAIL',
+    sub: 'BUSINESS MAILBOX, ALIASES AND CONFIGURATION',
+    tag: 'CORE · INCLUDED',
+    detail: 'ONE MAILBOX IS INCLUDED. EACH ADDITIONAL MAILBOX IS A PAID ADD-ON.',
+  },
+  { icon: 'layers', title: 'EMAIL ALIASES', sub: 'INFO@, BILLING@, ETC.', tag: 'CORE · INCLUDED' },
+  { icon: 'shield', title: 'EMAIL SECURITY', sub: 'SPF, DKIM, DMARC SETUP', tag: 'CORE · INCLUDED' },
+  { icon: 'document', title: 'EMAIL SIGNATURE', sub: 'PROFESSIONAL SIGNATURE DESIGN AND SETUP', tag: 'CORE · INCLUDED' },
+  { icon: 'phone', title: 'DEVICE SETUP', sub: 'ONE DEVICE INCLUDED · ADD YOUR TEAM', tag: 'INCLUDED · CONFIGURABLE' },
+  {
+    icon: 'swap',
+    title: 'EMAIL MIGRATION',
+    sub: 'MOVE FROM EXISTING PROVIDER',
+    tag: 'PAID ADD-ON · MANUAL REVIEW',
+    detail: 'SITE 00 CONFIRMS MIGRATION SCOPE AND PRICING BEFORE CHECKOUT.',
+  },
+];
+
+function DfMenuInformation() {
+  const [open, setOpen] = useState<string | null>(null);
+  return (
+    <section className="df-drawer__info" aria-label="MORE INFORMATION">
+      <h2 className="df-drawer__info-title">MORE INFORMATION</h2>
+      <p className="df-drawer__info-summary">DOMAIN, EMAIL, SECURITY AND MORE</p>
+      <ul className="df-srows">
+        {FOUNDATION_MENU_INFO.map((row) => (
+          <DfSheetRow
+            key={row.title}
+            icon={row.icon}
+            title={row.title}
+            description={row.sub}
+            tag={row.tag}
+            expanded={open === row.title}
+            onToggle={() => setOpen(open === row.title ? null : row.title)}
+          >
+            {row.detail && <span>{row.detail}</span>}
+          </DfSheetRow>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
 export function DfMenu({
   open,
   onClose,
@@ -329,6 +377,7 @@ export function DfMenu({
             </li>
           ))}
         </ul>
+        <DfMenuInformation />
       </nav>
       <div className="df-drawer__foot">
         <span className="df-drawer__foot-rule" aria-hidden="true" />
