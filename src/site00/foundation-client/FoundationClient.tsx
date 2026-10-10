@@ -56,13 +56,28 @@ function useNoIndex() {
   }, []);
 }
 
-function InvalidLink() {
+function InvalidLink({ onMintPreview, mintBusy }: { onMintPreview?: () => void; mintBusy?: boolean }) {
+  const cloudPreview = import.meta.env.VITE_SITE00_CLOUD_PREVIEW === '1';
   return (
     <DfSystemPanel
       index="00"
       label="FOUNDATION LINK"
       lines={['THIS LINK', "ISN'T ACTIVE"]}
-      body="CHECK THAT YOU OPENED THE FULL LINK SITE 00 SENT YOU. IF IT STILL DOESN'T OPEN, REPLY TO THE MESSAGE IT CAME IN."
+      body={
+        cloudPreview
+          ? 'THIS PREVIEW LINK EXPIRED WHEN THE SERVER RESTARTED OR YOU OPENED A BOOKMARK FROM ANOTHER SESSION. OPEN A FRESH BLANK TEMPLATE BELOW — P01 WITH NO CLIENT DATA.'
+          : 'CHECK THAT YOU OPENED THE FULL LINK SITE 00 SENT YOU. IF IT STILL DOESN\'T OPEN, REPLY TO THE MESSAGE IT CAME IN.'
+      }
+      action={
+        cloudPreview && onMintPreview ? (
+          <DfCta
+            label="OPEN BLANK TEMPLATE"
+            onClick={onMintPreview}
+            busy={mintBusy}
+            busyLabel="OPENING…"
+          />
+        ) : undefined
+      }
     />
   );
 }
@@ -98,6 +113,23 @@ export function FoundationClient({ token }: { token: string }) {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [p02Errors, setP02Errors] = useState<IntakeErrors | undefined>(undefined);
   const [seenTick, setSeenTick] = useState(0);
+  const [mintBusy, setMintBusy] = useState(false);
+
+  const mintPreviewTemplate = useCallback(async () => {
+    setMintBusy(true);
+    try {
+      const res = await fetch('/api/dev/site00-digital-foundation-preview-bootstrap', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ template: true }),
+      });
+      const json = (await res.json()) as { public_token?: string; error?: string };
+      if (!res.ok || !json.public_token) throw new Error(json.error ?? 'Preview bootstrap failed');
+      window.location.assign(`/foundation/${json.public_token}`);
+    } catch {
+      setMintBusy(false);
+    }
+  }, []);
 
   const intake = useIntakeDraft(token, payload, reload);
   const quoteSel = useQuoteSelections(token, payload, setPayload);
@@ -131,11 +163,13 @@ export function FoundationClient({ token }: { token: string }) {
     if (checkout === 'return' && paid) go('P06', { replace: true, dropQuery: true });
   }, [checkout, paid, go]);
 
-  if (!token) return <InvalidLink />;
+  if (!token) return <InvalidLink onMintPreview={mintPreviewTemplate} mintBusy={mintBusy} />;
   if (!enabled) return <Unavailable />;
   if (load.status === 'loading' && !payload) return <DfLoading />;
   if (load.status === 'error' && !payload) {
-    if (load.error.status === 404 || load.error.code.includes('NOT_FOUND')) return <InvalidLink />;
+    if (load.error.status === 404 || load.error.code.includes('NOT_FOUND')) {
+      return <InvalidLink onMintPreview={mintPreviewTemplate} mintBusy={mintBusy} />;
+    }
     if (load.error.status === 503) return <Unavailable />;
     return (
       <DfSystemPanel
