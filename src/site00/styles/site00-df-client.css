@@ -126,6 +126,21 @@ body:has(.df-root) {
   background: var(--df-bg);
 }
 
+/* Full mobile plate. One photograph per screen, locked to the first viewport so a long form does not zoom it. */
+.df-screen--hero::before,
+.df-screen--crown::before,
+.df-screen--corner::before {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  background-image: var(--df-plate);
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: auto 100dvh;
+  pointer-events: none;
+}
+
 .df-screen__grid {
   position: relative;
   z-index: 1;
@@ -288,26 +303,12 @@ body:has(.df-root) {
   object-fit: cover;
 }
 
-.df-object--crown .df-object__render {
-  object-position: 78% center;
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 34%);
-  mask-image: linear-gradient(to right, transparent 0%, #000 34%);
-}
-
-.df-object--corner .df-object__render {
-  object-position: right bottom;
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 46%);
-  mask-image: linear-gradient(to right, transparent 0%, #000 46%);
-}
-
 .df-object--hero {
   position: relative;
   z-index: 0;
   height: 300px;
-  /* The chamber's empty sky tucks under the lede's short last line, as on the board. */
+  /* Opens the column onto the chamber that is already in the full plate. */
   margin: -30px calc(-1 * var(--df-gutter)) 0;
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 7%);
-  mask-image: linear-gradient(to bottom, transparent 0, #000 7%);
 }
 
 .df-object__etch-num {
@@ -2127,28 +2128,6 @@ button.df-spec__btn {
   color: var(--df-muted);
 }
 
-.df-drawer__art {
-  position: absolute;
-  z-index: 0;
-  right: 0;
-  bottom: 0;
-  width: 100%;
-  height: min(36%, 300px);
-  pointer-events: none;
-  -webkit-mask-image: linear-gradient(to top, #000 52%, transparent 100%), linear-gradient(to left, #000 48%, transparent 92%);
-  -webkit-mask-composite: source-in;
-  mask-image: linear-gradient(to top, #000 52%, transparent 100%), linear-gradient(to left, #000 48%, transparent 92%);
-  mask-composite: intersect;
-}
-
-.df-drawer__art img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 72% 100%;
-}
-
 @keyframes df-drawer-in {
   from {
     transform: translateX(100%);
@@ -2310,10 +2289,6 @@ button.df-spec__btn {
     align-self: start;
     height: min(640px, 72vh);
     margin: 28px 0 0;
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 14%), linear-gradient(to right, transparent 0, #000 12%);
-    mask-image: linear-gradient(to bottom, transparent 0, #000 14%), linear-gradient(to right, transparent 0, #000 12%);
-    -webkit-mask-composite: source-in;
-    mask-composite: intersect;
   }
 
   .df-object--crown {
@@ -2506,8 +2481,6 @@ button.df-spec__btn {
     grid-row: auto;
     height: 300px;
     margin: -30px calc(-1 * var(--df-gutter)) 0;
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 7%);
-    mask-image: linear-gradient(to bottom, transparent 0, #000 7%);
   }
 }
 

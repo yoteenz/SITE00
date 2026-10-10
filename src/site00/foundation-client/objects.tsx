@@ -1,17 +1,16 @@
 /**
- * Digital Foundation threshold architecture (DF-A01 hero, DF-A02 crown, DF-A03 corner fragment).
+ * Digital Foundation threshold architecture (DF-A01 hero, DF-A02 crown, DF-A03 corner).
  *
- * Runtime plates are OpenArt GPT Image 2.5 Sunburst image-to-image sidekicks of the approved
- * boards (project SITE00 IDNTY Digital Foundation Production, 6Ueswtr8vt58ur2n3CRs). They carry
- * the marble chamber, glass plate, and red threshold only — no page UI. The vector chamber below
- * remains the fallback if a path is null. Purely decorative: never carries client data.
+ * Each plate is one full mobile screen (9:16) of that room. DfFrame paints it as the screen
+ * background. These components must not paste a crop of the plate back onto the page.
+ * The vector chamber remains only when a plate path is null. Purely decorative.
  */
 import { useId } from 'react';
 
 export const DF_ARCHITECTURE_RENDERS: { hero: string | null; crown: string | null; corner: string | null } = {
-  hero: '/site00/idnty/digital-foundation/architecture/df-g01-hero-chamber.jpg',
-  crown: '/site00/idnty/digital-foundation/architecture/df-g02-crown-fragment.jpg',
-  corner: '/site00/idnty/digital-foundation/architecture/df-g03-corner-fragment.jpg',
+  hero: '/site00/idnty/digital-foundation/architecture/df-plate-hero.jpg',
+  crown: '/site00/idnty/digital-foundation/architecture/df-plate-crown.jpg',
+  corner: '/site00/idnty/digital-foundation/architecture/df-plate-corner.jpg',
 };
 
 const RED = '#E50107';
@@ -30,9 +29,7 @@ function RedGlass({ id, top = '#f0474d', bottom = '#a80c13' }: { id: string; top
 export function DfThresholdHero() {
   const uid = useId().replace(/:/g, '');
   const id = (n: string) => `dfh-${uid}-${n}`;
-  if (DF_ARCHITECTURE_RENDERS.hero) {
-    return <img className="df-object__render" src={DF_ARCHITECTURE_RENDERS.hero} alt="" aria-hidden="true" />;
-  }
+  if (DF_ARCHITECTURE_RENDERS.hero) return null;
   return (
     <svg className="df-object__svg" viewBox="0 0 390 312" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
       <defs>
@@ -139,9 +136,7 @@ export function DfThresholdHero() {
 export function DfCrownObject({ variant = 'P04' }: { variant?: 'P04' | 'P05' | 'P06' | 'OVERVIEW' }) {
   const uid = useId().replace(/:/g, '');
   const id = (n: string) => `dfc-${uid}-${n}`;
-  if (DF_ARCHITECTURE_RENDERS.crown) {
-    return <img className="df-object__render" src={DF_ARCHITECTURE_RENDERS.crown} alt="" aria-hidden="true" />;
-  }
+  if (DF_ARCHITECTURE_RENDERS.crown) return null;
   const lift = variant === 'P06' ? -14 : variant === 'P05' ? 18 : 0;
   return (
     <svg className="df-object__svg" viewBox="0 0 180 320" preserveAspectRatio="xMaxYMin meet" aria-hidden="true" focusable="false">
@@ -188,9 +183,7 @@ export function DfCrownObject({ variant = 'P04' }: { variant?: 'P04' | 'P05' | '
 export function DfCornerFragment() {
   const uid = useId().replace(/:/g, '');
   const id = (n: string) => `dff-${uid}-${n}`;
-  if (DF_ARCHITECTURE_RENDERS.corner) {
-    return <img className="df-object__render" src={DF_ARCHITECTURE_RENDERS.corner} alt="" aria-hidden="true" />;
-  }
+  if (DF_ARCHITECTURE_RENDERS.corner) return null;
   return (
     <svg className="df-object__svg" viewBox="0 0 120 90" preserveAspectRatio="xMaxYMax meet" aria-hidden="true" focusable="false">
       <defs>
