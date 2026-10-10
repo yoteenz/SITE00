@@ -16044,3 +16044,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Sprint:** asset/icon/material refinement of `/bldr/studio` against three founder phone references. No estimator, no GLB, no production release.
 - **Finding:** live stage is CSS slabs, not Three.js. Refined marble plinth, glass layers, `#E50107` portal, Barlow Condensed headlines, shared `BldrStudioIcon`, distinct `ArchitecturalThumb` SVGs for PLACE/FEEL/blueprint cards.
 - **Gap:** photoreal reference architecture still needs a founder-gated WFE mesh. Draft PR only.
+
+---
+
+## 2026-10-10 — Digital Foundation plates must be the screen, not a corner crop under cards
+
+- **Context:** Founder on mobile wanted the design-review artifact (every Digital Foundation screen plus BLDR studio), not the founder dashboard Client intake link. They then sent the P02 intake and the P01–P06 authority boards and said the live screen is not using full background plates. Solid panels on top of the plate defeat it. Mostly text should sit on the photograph. It does not match the reference authority images.
+- **Topics covered:** `/foundation/review` versus `/admin/site00/foundation` and `/foundation/:token?step=intake`; OpenArt 9:16 plates (`df-plate-hero.jpg`, `df-plate-crown.jpg`, `df-plate-corner.jpg`) already on `main` via #1576; preview tunnel still pinned at `d98d4dc6`, which still paints the small corner fragment; white field, row, spec, and footer chips covering the plate.
+- **Decisions / outcomes:** The plate is the screen background (`background-size: cover`, one viewport tall). Hairline borders stay. Card fills on plated screens are transparent. The red primary button stays solid. Review link remains `/foundation/review` (P02 is `#df-r-P02`, BLDR rooms are `#df-r-bldr-PLACE` through `#df-r-bldr-BLUEPRINT`).
+- **Changes:** `src/site00/styles/site00-df-client.css`.
+- **Conventions:** Do not paste a cropped fragment back onto a screen that already has a full plate. Do not put an opaque panel over that plate. Preview must track merged `main` or the founder keeps seeing the old fragment.
