@@ -42,7 +42,7 @@
   --df-display: 'SITE00 DF Display', 'Barlow Condensed', 'Arial Narrow', sans-serif;
   --df-text: 'SITE00 DF Text', 'Inter', 'Helvetica Neue', Arial, sans-serif;
   --df-gutter: 26px;
-  --df-headline: min(54px, 15.4vw);
+  --df-headline: min(46px, 15.4vw);
 }
 
 body:has(.df-root) {
@@ -229,7 +229,7 @@ body:has(.df-root) {
 }
 
 .df-screen--crown .df-headline {
-  --df-headline: min(48px, 13.4vw);
+  --df-headline: min(40px, 13.4vw);
   line-height: 0.94;
 }
 
@@ -1983,7 +1983,7 @@ button.df-spec__btn {
   .df-root,
   .df-screen {
     --df-gutter: 64px;
-    --df-headline: 80px;
+    --df-headline: 72px;
   }
 
   .df-screen {
@@ -1995,7 +1995,7 @@ button.df-spec__btn {
   }
 
   .df-screen--crown .df-headline {
-    --df-headline: 74px;
+    --df-headline: 66px;
   }
 
   .df-lede {
