@@ -15916,17 +15916,33 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
-## 2026-10-09 — BLDR Hybrid Spatial Studio reference-fidelity (Grok, not merged)
-
-- **Sprint:** asset/icon/material refinement of `/bldr/studio` against three founder phone references. No estimator, no GLB, no production release.
-- **Finding:** live stage is CSS slabs, not Three.js. Refined marble plinth, glass layers, `#E50107` portal, Barlow Condensed headlines, shared `BldrStudioIcon`, distinct `ArchitecturalThumb` SVGs for PLACE/FEEL/blueprint cards.
-- **Gap:** photoreal reference architecture still needs a founder-gated WFE mesh. Draft PR only.
-
----
-
 ## 2026-10-09 — BLDR Spatial Studio all-caps copy
 
 - **Context:** Founder confirmed strict uppercase everywhere in BLDR studio after an earlier answer listed mixed-case sources (FEEL/WORK hints, blueprint economics headings, metric small copy, registry labels, estimator disclaimers, optional notes display, locale save time).
 - **Decision:** Hybrid Spatial Studio at `/bldr/studio` renders all visible copy in uppercase. Shell CSS is the authority; a few studio-local strings were normalized in source.
 - **Changes:** `text-transform: uppercase` on `.bldr-spatial-page` and `.bldr-spatial-disabled` in `site00-builder-spatial-studio.css`; FEEL/WORK hints in `spatialStudio/types.ts`; blueprint metric helper strings in `BldrSpatialStudioPage.tsx`; `tests/bldrSpatialStudioUppercase.test.ts`. PR #1544.
 - **Convention:** Do not lower-case shared `blueprintFinancialPresentation` globally — studio shell CSS uppercases it at display time. Stored `paceNotes` may remain mixed-case in JSON; the textarea displays uppercase.
+
+---
+
+## 2026-10-09 — Digital Foundation blank template preview link
+
+- **Founder ask:** Blank Digital Foundation starting at P01 (GET STARTED), no client intake data.
+- **Delivered:** Fresh artifact minted on DF board preview worktree (`INVITED`, `NOT_STARTED`, empty needs).
+- **Dev helper:** Preview bootstrap `POST` body `{ "template": true }` resets memory and mints blank template (PR #1551). Prefer Node `fetch` with timeout over slow Vite dev API probes.
+
+---
+
+## 2026-10-09 — DF typography, menu layering, P01 business email
+
+- **Founder ask:** Reduce all Digital Foundation text by 2px; fix menu drawer overlapped by bottom screen text; P01 triad center column → professional business email on two lines.
+- **Shipped (PR #1552):** Board 01+02 `FoundationClient` on `main`; global −2px on `site00-df-client.css`; menu sheet portaled to `document.body` with high z-index, body scroll lock, footer/trust hidden while open; P01 triad **PROFESSIONAL** / **BUSINESS EMAIL**.
+
+---
+
+## 2026-10-09 — BLDR Hybrid Spatial Studio reference-fidelity (Grok, not merged)
+
+- **Sprint:** asset/icon/material refinement of `/bldr/studio` against three founder phone references. No estimator, no GLB, no production release.
+- **Finding:** live stage is CSS slabs, not Three.js. Refined marble plinth, glass layers, `#E50107` portal, Barlow Condensed headlines, shared `BldrStudioIcon`, distinct `ArchitecturalThumb` SVGs for PLACE/FEEL/blueprint cards.
+- **Gap:** photoreal reference architecture still needs a founder-gated WFE mesh. Draft PR only.
+
