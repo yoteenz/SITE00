@@ -16103,3 +16103,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decisions / outcomes:** `DF_ARCHITECTURE_RENDERS` is null again. Hero, crown, and corner draw the original SVG. The three generated photographs are removed. Panels stay filled. MORE INFORMATION stays in the menu. No full-screen plate.
 - **Changes:** `objects.tsx`, `shell.tsx`, `site00-df-client.css`, `tests/digitalFoundationMenuDrawer.test.ts`, deletion of `df-g01-hero-chamber.jpg`, `df-g02-crown-fragment.jpg`, `df-g03-corner-fragment.jpg`.
 - **Conventions:** Do not mount a generated photograph or a full-screen plate as the Digital Foundation background. The initial architecture is the vector chamber.
+
+---
+
+## 2026-10-10 — Anthony infrastructure recovery (Supabase data plane blocked)
+
+- **Context:** P0 sprint to unblock Anthony Digital Foundation launch. Prior Gate A sprint failed on Supabase 522/timeouts and unverified migrations. User forbade repeating general audits; focus on connectivity, deployment access, and execution plans.
+- **Topics covered:** BLDR realism (#1589), vector chamber restore (#1590), then Anthony infra recovery sprint 5. PR #1585 (DF provider error shape) left open per directive.
+- **Findings:** Supabase management API reports `ACTIVE_HEALTHY` for `hyycomvcaqxxvyrfupes`, but MCP `execute_sql`, `list_migrations`, and authenticated REST all timeout (~12–20 s). Invalid-key REST returns 401 quickly. Production Railway `GET …/digital-foundation-artifact?action=payload` times out ~20 s with 500 `[object Object]` — same data-plane failure, not Composer-only. `site00.com` still serves September bundle `index.D8Jaygrd.js`. Live API `gitCommit` `56cae6852f0c` with persist + intake-only flags on. Railway CLI and cPanel not connected to Composer.
+- **Decisions / outcomes:** Gate A **FAIL/BLOCKED**. Migrations 160000, 170000, 10103000 documented; **do not apply** until founder approves Group A and SQL path works. Deploy order: fix Supabase → migrations → Railway → cPanel ZIP (v11+). Docs under `docs/site00/idnty/ANTHONY_*` and `FOUNDATION_*_EXECUTION*.md`.
+- **Conventions:** Do not merge #1585 until DB path healthy. Do not claim Anthony-ready without live browser proof on current SHAs.
