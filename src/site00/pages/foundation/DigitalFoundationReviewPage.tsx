@@ -11,6 +11,7 @@ import { P04Recommendation } from '../../foundation-client/parents/Recommendatio
 import { InterimOverview, P05Review, P06Activation } from '../../foundation-client/parents/CheckoutActivation';
 import { DfFrame, DfMenu, type DfObjectKind } from '../../foundation-client/shell';
 import { DF_VIEW_META, DF_VIEW_ORDER, type DfView, type IntakeDraft } from '../../foundation-client/model';
+import { reviewScreenUrl } from './reviewLinks';
 import '../../styles/site00-df-client.css';
 import '../../styles/site00-df-components.css';
 
@@ -52,6 +53,15 @@ const BLANK_DRAFT: IntakeDraft = {
   needs: [],
 };
 
+function DirectLink({ anchorId }: { anchorId: string }) {
+  const href = reviewScreenUrl(anchorId);
+  return (
+    <a className="df-review__direct" href={href}>
+      {href}
+    </a>
+  );
+}
+
 function Screen({
   id,
   view,
@@ -66,7 +76,10 @@ function Screen({
   const [menuOpen, setMenuOpen] = useState(false);
   return (
     <article className="df-review__item" id={id}>
-      <p className="df-review__label">{title}</p>
+      <div className="df-review__mark">
+        <p className="df-review__label">{title}</p>
+        <DirectLink anchorId={id} />
+      </div>
       <div className={`df-root${menuOpen ? ' df-root--menu-open' : ''}`}>
         <DfFrame view={view} object={OBJECT_FOR[view]} onMenu={() => setMenuOpen((o) => !o)} menuOpen={menuOpen}>
           {children}
@@ -135,14 +148,20 @@ export default function DigitalFoundationReviewPage() {
     <div className="df-review">
       <nav className="df-review__nav" aria-label="REVIEW SCREENS">
         {DF_VIEW_ORDER.map((view) => (
-          <a key={view} href={`#df-r-${view}`}>
-            {DF_VIEW_META[view].index} {DF_VIEW_META[view].label}
-          </a>
+          <div className="df-review__route" key={view}>
+            <a className="df-review__route-name" href={`#df-r-${view}`}>
+              {DF_VIEW_META[view].index} {DF_VIEW_META[view].label}
+            </a>
+            <DirectLink anchorId={`df-r-${view}`} />
+          </div>
         ))}
         {BLDR_ROOMS.map((room) => (
-          <a key={room.id} href={`#df-r-bldr-${room.id}`}>
-            {room.label}
-          </a>
+          <div className="df-review__route" key={room.id}>
+            <a className="df-review__route-name" href={`#df-r-bldr-${room.id}`}>
+              {room.label}
+            </a>
+            <DirectLink anchorId={`df-r-bldr-${room.id}`} />
+          </div>
         ))}
       </nav>
       <header className="df-review__intro">
@@ -224,7 +243,10 @@ export default function DigitalFoundationReviewPage() {
         </Screen>
         {BLDR_ROOMS.map((room) => (
           <article className="df-review__item" id={`df-r-bldr-${room.id}`} key={room.id}>
-            <p className="df-review__label">{room.label}</p>
+            <div className="df-review__mark">
+              <p className="df-review__label">{room.label}</p>
+              <DirectLink anchorId={`df-r-bldr-${room.id}`} />
+            </div>
             <iframe
               className="df-review__studio"
               title={room.label}
