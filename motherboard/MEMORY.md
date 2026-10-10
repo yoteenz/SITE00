@@ -16054,3 +16054,4 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decisions / outcomes:** The plate is the screen background (`background-size: cover`, one viewport tall). Hairline borders stay. Card fills on plated screens are transparent. The red primary button stays solid. Review link remains `/foundation/review` (P02 is `#df-r-P02`, BLDR rooms are `#df-r-bldr-PLACE` through `#df-r-bldr-BLUEPRINT`).
 - **Changes:** `src/site00/styles/site00-df-client.css`.
 - **Conventions:** Do not paste a cropped fragment back onto a screen that already has a full plate. Do not put an opaque panel over that plate. Preview must track merged `main` or the founder keeps seeing the old fragment.
+- **Follow-up:** The resting MORE INFORMATION peek is portaled outside the screen. While it is collapsed (`data-snap=peek`) its panel is transparent so the plate stays visible. An expanded sheet still uses a solid surface so the body can be read.
