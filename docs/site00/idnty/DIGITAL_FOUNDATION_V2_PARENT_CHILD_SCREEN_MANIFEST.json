@@ -1,0 +1,29 @@
+{
+  "sprint": "P0.SITE00.IDNTY.DIGITAL-FOUNDATION.V2-COMPLETE-PARENT-CHILD-ARCHITECTURE-LIFECYCLE-COMMUNICATIONS-AND-END-TO-END-RECOVERY1",
+  "canonical_client_route": "/foundation/:token",
+  "generated_at": "2026-10-10",
+  "screens": [
+    { "id": "P01", "parent": null, "actor": "CLIENT", "route": "history:dfView=P01", "implementation": "EXISTS", "component": "EntryIntake.tsx#P01Entry" },
+    { "id": "P02", "parent": "P01", "actor": "CLIENT", "route": "history:dfView=P02", "implementation": "EXISTS", "component": "EntryIntake.tsx#P02Intake" },
+    { "id": "P03", "parent": "P02", "actor": "CLIENT", "route": "history:dfView=P03", "implementation": "EXISTS", "component": "EntryIntake.tsx#P03Configure" },
+    { "id": "BUSINESS_AMBITION", "parent": "P03", "actor": "CLIENT", "implementation": "PARTIAL", "notes": "Type + growthBridge; no client fields" },
+    { "id": "P04", "parent": "P03", "actor": "CLIENT", "implementation": "EXISTS", "component": "Recommendation.tsx" },
+    { "id": "P05", "parent": "P04", "actor": "CLIENT", "implementation": "EXISTS", "component": "CheckoutActivation.tsx#P05Review" },
+    { "id": "P06", "parent": "P05", "actor": "CLIENT", "implementation": "EXISTS", "component": "CheckoutActivation.tsx#P06Activation" },
+    { "id": "P07", "parent": "P06", "actor": "CLIENT", "route": "history:dfView=OVERVIEW", "implementation": "RECOVERED", "component": "ProjectPortal.tsx#P07ProjectOverview", "visual_batch": "A" },
+    { "id": "P08", "parent": "P07", "actor": "CLIENT", "route": "history:dfView=ROADMAP", "implementation": "RECOVERED", "component": "ProjectPortal.tsx#P08Roadmap", "visual_batch": "A" },
+    { "id": "P09", "parent": "P08", "actor": "CLIENT", "route": "history:dfView=STAGE", "implementation": "RECOVERED", "component": "ProjectPortal.tsx#P09StageDetail", "visual_batch": "A" },
+    { "id": "P10", "parent": "P07", "actor": "CLIENT", "route": "history:dfView=NEEDS_YOU", "implementation": "RECOVERED", "component": "ProjectPortal.tsx#P10NeedsYou", "visual_batch": "A" },
+    { "id": "RECORDS_LIBRARY", "parent": "P07", "actor": "CLIENT", "route": "history:dfView=RECORDS", "implementation": "RECOVERED", "component": "ProjectPortal.tsx#RecordsLibrary", "visual_batch": "B" },
+    { "id": "RECORD_DETAIL", "parent": "RECORDS_LIBRARY", "actor": "CLIENT", "route": "history:dfView=RECORD", "implementation": "RECOVERED", "component": "ProjectPortal.tsx#RecordDetail", "visual_batch": "B" },
+    { "id": "PREFERENCE_CENTER", "parent": "P07", "actor": "CLIENT", "route": "history:dfView=COMM_PREFS", "implementation": "RECOVERED", "component": "ProjectPortal.tsx#CommunicationPreferences", "visual_batch": "J" },
+    { "id": "P11", "parent": null, "actor": "CLIENT", "route": "complete surface", "implementation": "PARTIAL", "component": "DigitalFoundationCompleteSurface.tsx" },
+    { "id": "P12", "parent": "P11", "actor": "CLIENT", "implementation": "PARTIAL", "component": "DigitalFoundationCompleteSurface.tsx" },
+    { "id": "P13", "parent": null, "actor": "FOUNDER", "route": "/admin/site00/foundation/pipeline", "implementation": "RECOVERED", "component": "FoundationPipelinePage.tsx", "visual_batch": "D" },
+    { "id": "P14", "parent": "P13", "actor": "FOUNDER", "route": "/admin/site00/foundation/:id/command", "implementation": "RECOVERED", "component": "FoundationProjectCommandPage.tsx", "visual_batch": "D" },
+    { "id": "P15", "parent": "P14", "actor": "FOUNDER", "route": "/admin/site00/foundation/:id/workbench", "implementation": "RECOVERED", "component": "FoundationWorkbenchPage.tsx", "visual_batch": "D" },
+    { "id": "COMMUNICATIONS_COMMAND", "parent": null, "actor": "FOUNDER", "route": "/admin/site00/foundation/communications", "implementation": "RECOVERED", "component": "CommunicationsCommandPage.tsx", "visual_batch": "G" },
+    { "id": "EMAIL_TEMPLATE_STUDIO", "parent": "COMMUNICATIONS_COMMAND", "actor": "FOUNDER", "route": "/admin/site00/debug/email-pack", "implementation": "EXISTS", "notes": "Platform email pack; not DF-bound send" }
+  ],
+  "visual_generation_batches_pending": ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
+}
