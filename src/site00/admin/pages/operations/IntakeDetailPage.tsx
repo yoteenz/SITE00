@@ -13,6 +13,11 @@ import { isIntakeType } from '../../../../../shared/site00-intakes/types';
 import type { IntakeAuditEvent, IntakeDetail, IntakeType } from '../../../../../shared/site00-intakes/types';
 import type { BrandLoreProfile } from '../../../../../shared/site00-brand-lore/types';
 import { BrandIntelligencePanel } from '../../components/operations/BrandIntelligencePanel';
+import { BuilderBlueprintReview } from '../../components/operations/BuilderBlueprintReview';
+import {
+  isBuilderSpatialDraftPayload,
+  isBuilderSpatialSubmittedPayload,
+} from '../../../../../shared/site00-builder-spatial-intake/types';
 
 function formatDateTime(iso?: string | null) {
   if (!iso) return '—';
@@ -55,6 +60,18 @@ export default function IntakeDetailPage() {
 
   useEffect(load, [intakeType, intakeId]);
 
+  /** Re-read the record in place (no skeleton), so the Blueprint review keeps its confirmation on screen. */
+  const refresh = () => {
+    if (!intakeType || !intakeId) return;
+    site00AdminIntakesApi
+      .detail(intakeType, intakeId)
+      .then((data) => {
+        setIntake(data.intake);
+        setEvents(data.events ?? []);
+      })
+      .catch((e) => setError(e instanceof Error ? e.message : 'FAILED TO RELOAD INTAKE'));
+  };
+
   const handleMarkInReview = () => {
     if (!intakeType) return;
     setActionLoading('review');
@@ -85,6 +102,12 @@ export default function IntakeDetailPage() {
       .finally(() => setConfirmingField(null));
   };
 
+  // A Builder Hybrid Spatial Studio intake gets the structured Blueprint review; the JSON stays as diagnostics.
+  const spatialBlueprint =
+    intakeType === 'BUILDER' &&
+    intake !== null &&
+    (isBuilderSpatialSubmittedPayload(intake.submittedPayload) || isBuilderSpatialDraftPayload(intake.draftPayload));
+
   if (!intakeType) {
     return (
       <Site00AdminShell>
@@ -106,9 +129,11 @@ export default function IntakeDetailPage() {
         </div>
         {intake ? (
           <div className="site00-admin-period">
-            <button type="button" disabled={actionLoading !== null} onClick={handleMarkInReview}>
-              {actionLoading === 'review' ? 'MARKING…' : 'MARK IN REVIEW'}
-            </button>
+            {spatialBlueprint ? null : (
+              <button type="button" disabled={actionLoading !== null} onClick={handleMarkInReview}>
+                {actionLoading === 'review' ? 'MARKING…' : 'MARK IN REVIEW'}
+              </button>
+            )}
             <button type="button" disabled={actionLoading !== null} onClick={handleArchive}>
               {actionLoading === 'archive' ? 'ARCHIVING…' : 'ARCHIVE'}
             </button>
@@ -127,6 +152,7 @@ export default function IntakeDetailPage() {
         <div className="site00-admin-skeleton-grid" aria-busy="true" aria-label="LOADING INTAKE" />
       ) : intake ? (
         <div className="site00-admin-dashboard-grid">
+          {spatialBlueprint ? <BuilderBlueprintReview intake={intake} events={events} onChanged={refresh} /> : null}
           <section className="site00-admin-panel">
             <h2 className="site00-admin-panel__title">INTAKE SUMMARY</h2>
             <dl className="site00-admin-dl">
@@ -180,23 +206,33 @@ export default function IntakeDetailPage() {
             />
           </section>
 
-          <section className="site00-admin-panel">
-            <h2 className="site00-admin-panel__title">DRAFT ANSWERS</h2>
-            {intake.draftPayload && Object.keys(intake.draftPayload).length > 0 ? (
+          {spatialBlueprint ? (
+            <details className="site00-admin-panel site00-admin-panel--wide bbr-diagnostics">
+              <summary>DIAGNOSTICS · RAW DRAFT AND SUBMITTED PAYLOAD (SECONDARY)</summary>
               <pre className="site00-admin-code">{JSON.stringify(intake.draftPayload, null, 2)}</pre>
-            ) : (
-              <p className="site00-admin-empty">NO DRAFT ANSWERS RECORDED.</p>
-            )}
-          </section>
-
-          <section className="site00-admin-panel">
-            <h2 className="site00-admin-panel__title">SUBMITTED SNAPSHOT</h2>
-            {intake.submittedPayload ? (
               <pre className="site00-admin-code">{JSON.stringify(intake.submittedPayload, null, 2)}</pre>
-            ) : (
-              <p className="site00-admin-empty">NOT YET SUBMITTED — IMMUTABLE SNAPSHOT WILL APPEAR HERE ON SUBMIT.</p>
-            )}
-          </section>
+            </details>
+          ) : (
+            <>
+              <section className="site00-admin-panel">
+                <h2 className="site00-admin-panel__title">DRAFT ANSWERS</h2>
+                {intake.draftPayload && Object.keys(intake.draftPayload).length > 0 ? (
+                  <pre className="site00-admin-code">{JSON.stringify(intake.draftPayload, null, 2)}</pre>
+                ) : (
+                  <p className="site00-admin-empty">NO DRAFT ANSWERS RECORDED.</p>
+                )}
+              </section>
+
+              <section className="site00-admin-panel">
+                <h2 className="site00-admin-panel__title">SUBMITTED SNAPSHOT</h2>
+                {intake.submittedPayload ? (
+                  <pre className="site00-admin-code">{JSON.stringify(intake.submittedPayload, null, 2)}</pre>
+                ) : (
+                  <p className="site00-admin-empty">NOT YET SUBMITTED — IMMUTABLE SNAPSHOT WILL APPEAR HERE ON SUBMIT.</p>
+                )}
+              </section>
+            </>
+          )}
 
           <section className="site00-admin-panel">
             <h2 className="site00-admin-panel__title">AUDIT TIMELINE</h2>

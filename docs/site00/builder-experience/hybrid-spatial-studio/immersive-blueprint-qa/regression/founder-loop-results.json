@@ -1,0 +1,201 @@
+{
+  "base": "http://127.0.0.1:5174",
+  "store": "memory (QA harness)",
+  "ranAt": "2026-10-09T16:24:46.891Z",
+  "pass": 32,
+  "fail": 0,
+  "results": [
+    {
+      "id": "C01",
+      "name": "Fresh visit restores, then shows SAVED only after the server confirmed the started intake",
+      "result": "PASS",
+      "detail": "first=restoring"
+    },
+    {
+      "id": "C02",
+      "name": "Locked rooms redirect (blueprint → place on an empty Blueprint)",
+      "result": "PASS",
+      "detail": "http://127.0.0.1:5174/bldr/studio/place"
+    },
+    {
+      "id": "C03",
+      "name": "One intake started (start de-duplicated across StrictMode bootstrap)",
+      "result": "PASS",
+      "detail": "1"
+    },
+    {
+      "id": "C04",
+      "name": "SIMPLE + SHOP asks before raising the level (contract NEEDS_DECISION)",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "C05",
+      "name": "Server draft holds the rooms (PLACE moved to ADVANCED, WORK = PAGES + SHOP)",
+      "result": "PASS",
+      "detail": "{\"p\":\"ADVANCED\",\"f\":\"MODERN\",\"w\":[\"PAGES\",\"SHOP\"]}"
+    },
+    {
+      "id": "C06",
+      "name": "PACE must be chosen before the Blueprint (contract PACE_NOT_CHOSEN)",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "C07",
+      "name": "Estimate strings come from the estimator and change with the configuration",
+      "result": "PASS",
+      "detail": "3 – 6 MONTHS | $17,000 – $32,000 → 6 – 13 MONTHS | $38,000 – $76,000"
+    },
+    {
+      "id": "C08",
+      "name": "A guest must leave an email before submitting (founder can reply, client can return)",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "C09",
+      "name": "Server record SUBMITTED with versioned Blueprint (v1), estimator version and estimate snapshot",
+      "result": "PASS",
+      "detail": "status=SUBMITTED v=1 est=$17K–$32K"
+    },
+    {
+      "id": "C10",
+      "name": "Exactly one submit call (no duplicate submission)",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "C11",
+      "name": "After submission the CTA is locked (VERSION 1 SUBMITTED)",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "C12",
+      "name": "Rooms 01–04 are locked while submitted (work → blueprint)",
+      "result": "PASS",
+      "detail": "http://127.0.0.1:5174/bldr/studio/blueprint"
+    },
+    {
+      "id": "C13",
+      "name": "Reload restores SUBMISSION RECEIVED from the server record",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "C14",
+      "name": "Another device resumes the same Blueprint from ?intakeId (server hydration)",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "C15",
+      "name": "SITE 00 unreachable → LOCAL ONLY (never SAVED)",
+      "result": "PASS",
+      "detail": "LOCAL ONLY"
+    },
+    {
+      "id": "C16",
+      "name": "A failed autosave shows SYNC FAILED with RETRY (on-device copy kept)",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "C17",
+      "name": "RETRY reaches SITE 00 and returns to SAVED",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "C17b",
+      "name": "CONFLICT: newer on-device choices are kept, pushed to SITE 00 and reported as resolved",
+      "result": "PASS",
+      "detail": "server=CUSTOM chip=\"CONFLICT RESOLVED: YOUR NEWER ON-DEVICE CHANGES WERE KEPT AND SAVED TO SITE 00\""
+    },
+    {
+      "id": "C18",
+      "name": "If the final save fails, nothing is submitted and the client is told (no fake success)",
+      "result": "PASS",
+      "detail": "status=ACTIVE"
+    },
+    {
+      "id": "F01",
+      "name": "Founder sees the submitted Blueprint as structured facts (no JSON needed)",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "F02",
+      "name": "MARK IN REVIEW (existing API) → IN_REVIEW, audit event recorded",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "C19",
+      "name": "Client sees UNDER REVIEW after the founder marks it",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "F03",
+      "name": "REQUEST REVISION (existing API) reopens the draft; v1 stays exactly as submitted",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "C20",
+      "name": "Client sees REVISION REQUESTED with the founder message and the version it applies to",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "C21",
+      "name": "Resubmission creates v2; v1 preserved unchanged in history",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "C22",
+      "name": "Client sees REVISION SUBMITTED for version 2",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "F04",
+      "name": "Resubmission audit event recorded (INTAKE_RESUBMITTED)",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "F05",
+      "name": "Founder sees REVISED · AWAITING REVIEW with v2 latest and v1 superseded",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "F06",
+      "name": "VIEW CLIENT RESPONSE pairs the request with v2 and lists what changed",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "F07b",
+      "name": "After the refusal the revision form closes (an old message never re-targets the new version)",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "F07",
+      "name": "An outdated decision (made on v2) is refused once v3 exists — nothing changes on v3",
+      "result": "PASS",
+      "detail": "VERSION 3 ARRIVED WHILE YOU WERE REVIEWING VERSION 2. RELOADED — REVIEW THE NEW VERSION FIRST."
+    },
+    {
+      "id": "F08",
+      "name": "Project activation stays gated (no automatic CONVERTED)",
+      "result": "PASS",
+      "detail": ""
+    }
+  ]
+}

@@ -10,7 +10,8 @@ const FEEL_TO_SYSTEM = {
   IMMERSIVE: 'CINEMATIC_LUXURY',
 } as const;
 
-const WORK_TO_CAPABILITIES: Record<WorkModuleId, CapabilityId[]> = {
+/** The capabilities each WORK module adds to the canonical selection (read by the Blueprint anatomy). */
+export const WORK_TO_CAPABILITIES: Record<WorkModuleId, CapabilityId[]> = {
   PAGES: ['EDIT_CONTENT'],
   SHOP: ['SELL'],
   BOOKING: ['BOOK'],
