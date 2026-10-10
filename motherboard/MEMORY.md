@@ -16132,3 +16132,12 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decision:** On the review page only, intake CTAs (BEGIN, CONTINUE, VIEW MY RECOMMENDATION, CONTINUE TO REVIEW, checkout back-links, activation overview) **smooth-scroll** to the next `#df-r-*` block and `replaceState` the hash. No React Router navigation; separate phone frames stay on one page for visual consistency.
 - **Validation:** P03 still uses `validateForRecommendation`; scroll to P04 happens only when the error object is empty.
 - **Changes:** `reviewLinks.ts` (`scrollToReviewAnchor`, `reviewAnchorForView`), `DigitalFoundationReviewPage.tsx`, `digitalFoundationReviewLinks.test.ts`.
+
+---
+
+## 2026-10-10 — DF visual batch B (records and approvals) + review flow scroll
+
+- **Context:** Batch A direction approved with two Opus copy corrections. Founder requested batch B OpenArt generation (four records/approval child screens), ZIP + direct download. Separately, review page CTAs now scroll between phone frames on `/foundation/review`.
+- **Batch B:** OpenArt project `6Ueswtr8vt58ur2n3CRs`, model `gpt-image-2-5-sunburst`, 4k 9:16, four first-pass images (2016×3584), credits 27854→26590 (Δ1264). Screens DF-B01–B04. Release tag `df-v2-batch-b-2026-10-10`. Do not regenerate batch A. Do not merge batch PRs without founder. Implementation NOT AUTHORIZED.
+- **Batch A handoff:** `batch-a/BATCH_A_OPUS_HANDOFF_CORRECTIONS.md` — no “decision recorded” while pending; revision reason optional label must match contract at implementation.
+- **Review flow:** PR #1595 merged — VIEW MY RECOMMENDATION scrolls to `#df-r-P04` without router navigation.

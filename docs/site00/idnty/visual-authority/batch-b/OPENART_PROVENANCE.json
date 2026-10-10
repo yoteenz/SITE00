@@ -1,0 +1,81 @@
+{
+  "provider": "OPENART",
+  "model": "gpt-image-2-5-sunburst",
+  "mode": "image2image",
+  "project_id": "6Ueswtr8vt58ur2n3CRs",
+  "project_name": "SITE00 IDNTY Digital Foundation Production",
+  "credits_before": 27854,
+  "credits_after": 26590,
+  "credits_delta": 1264,
+  "quoted_credits_per_job": 317,
+  "jobs": [
+    {
+      "screen_id": "DF-B01",
+      "screen_name": "RECORDS LIBRARY",
+      "history_id": "jojj1YGO7NPuTTYT0CXD",
+      "resource_id": "Dqwt4IdyrQg6JwbjaGDI",
+      "output_file": "01_RECORDS_LIBRARY.png",
+      "reference_upload_ids": ["zFdZIt68foKIsIUmTvCQ"],
+      "reference_files": ["REF-06-RECORDS-LOCATION.jpg"],
+      "native_dimensions": { "width": 2016, "height": 3584 },
+      "format": "png",
+      "file_size_bytes": 4823541,
+      "sha256": "e9365d72c048376f35c25132441390a71b7fb9acd164f02741c25f6f9d085b7f",
+      "generation_timestamp_utc": "2026-10-10T20:32:42Z",
+      "qa_result": "PASS",
+      "regeneration_count": 0
+    },
+    {
+      "screen_id": "DF-B02",
+      "screen_name": "RECORD DETAIL",
+      "history_id": "FdEF4qTZYXMgBFc9tCFD",
+      "resource_id": "FGW4kzAYgU1kIJwjo6Ge",
+      "output_file": "02_RECORD_DETAIL.png",
+      "reference_upload_ids": ["zFdZIt68foKIsIUmTvCQ"],
+      "reference_files": ["REF-06-RECORDS-LOCATION.jpg"],
+      "native_dimensions": { "width": 2016, "height": 3584 },
+      "format": "png",
+      "file_size_bytes": 4118819,
+      "sha256": "c3ac4aa313b0ac959c1dae1437913cdce3b11897a90302f4ce982ce66ca14245",
+      "generation_timestamp_utc": "2026-10-10T20:32:49Z",
+      "qa_result": "PASS",
+      "regeneration_count": 0
+    },
+    {
+      "screen_id": "DF-B03",
+      "screen_name": "DOCUMENT PREVIEW",
+      "history_id": "UdLeSYD3r9aU3n7GpMyF",
+      "resource_id": "Z8M4h7slKZX57fUzkKHl",
+      "output_file": "03_DOCUMENT_DETAIL.png",
+      "reference_upload_ids": ["zFdZIt68foKIsIUmTvCQ"],
+      "reference_files": ["REF-06-RECORDS-LOCATION.jpg"],
+      "native_dimensions": { "width": 2016, "height": 3584 },
+      "format": "png",
+      "file_size_bytes": 4165711,
+      "sha256": "5176307ce386af0e4dd07814eec76877a96d57348fe9fffc1e42e3c3c4eb4b89",
+      "generation_timestamp_utc": "2026-10-10T20:32:47Z",
+      "qa_result": "PASS",
+      "regeneration_count": 0
+    },
+    {
+      "screen_id": "DF-B04",
+      "screen_name": "DECISION HISTORY",
+      "history_id": "71dduzEHgjFY12r4NvlA",
+      "resource_id": "LNUM0v8367E0feIOL2xl",
+      "output_file": "04_APPROVAL_HISTORY.png",
+      "reference_upload_ids": ["wJKL7Ad8XpThrpNmPVIC"],
+      "reference_files": ["REF-04-P10-P12.jpg"],
+      "native_dimensions": { "width": 2016, "height": 3584 },
+      "format": "png",
+      "file_size_bytes": 4631236,
+      "sha256": "cb517df6346b1b365c3cf960dab6c1d2b70a847697b89fab9a55cc8df92392ee",
+      "generation_timestamp_utc": "2026-10-10T20:32:50Z",
+      "qa_result": "PASS",
+      "regeneration_count": 0
+    }
+  ],
+  "contact_sheet": {
+    "file": "BATCH_B_CONTACT_SHEET.png",
+    "sha256": "b07dc71b5706f1f70aa5147e4503062dc45a587bccafcfe59e68f1bc6f1bf040"
+  }
+}
