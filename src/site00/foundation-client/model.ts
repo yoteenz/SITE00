@@ -683,3 +683,36 @@ export function activationTurnaround(
   if (min == null || max == null) return null;
   return { value: formatDayRange(min, max), unit: 'BUSINESS DAYS', caption };
 }
+
+// ─── Lifecycle progress (DF-U12) ───────────────────────────────────────────────────────────────
+
+export type DfProgressStepState = 'complete' | 'current' | 'future' | 'locked';
+
+/**
+ * The six Foundation stages as lifecycle facts (never the view the client happens to be on).
+ * Display only: activation stays locked until payment is recorded.
+ */
+export function foundationProgress(
+  payload: ClientDigitalFoundationPayload,
+): { index: string; label: string; state: DfProgressStepState }[] {
+  const { artifact, quote, acceptance, stages } = payload;
+  const paid = artifact.payment_state === 'PAID';
+  const accepted =
+    paid || Boolean(quote && (quote.status === 'ACCEPTED' || quote.status === 'PAID') && acceptance?.quote_version === quote.quote_version);
+  const done = [
+    artifact.intake_state !== 'NOT_STARTED',
+    artifact.intake_state === 'COMPLETE' || Object.keys(validateBusinessInfo(draftFromPayload(payload))).length === 0,
+    artifact.intake_state === 'COMPLETE',
+    accepted,
+    paid,
+    paid && artifact.project_state !== 'NOT_STARTED' && stages.length > 0,
+  ];
+  const views: DfView[] = ['P01', 'P02', 'P03', 'P04', 'P05', 'P06'];
+  const current = done.findIndex((d) => !d);
+  return views.map((v, i) => ({
+    index: DF_VIEW_META[v].index,
+    // Soft hyphen: six phone-width columns can't hold the 14-letter word on one line.
+    label: v === 'P04' ? 'RECOMMEN\u00ADDATION' : DF_VIEW_META[v].label,
+    state: done[i] ? 'complete' : i === current ? 'current' : v === 'P06' && !paid ? 'locked' : 'future',
+  }));
+}
