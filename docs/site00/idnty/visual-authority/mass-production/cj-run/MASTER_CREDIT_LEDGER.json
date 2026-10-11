@@ -1,0 +1,13 @@
+{
+  "run_id": "df-v2-cj-2026-10-11",
+  "balance_before": 26590,
+  "balance_after": 20899,
+  "account_delta": 5691,
+  "quoted_per_job": 317,
+  "quoted_total_18": 5706,
+  "ceiling": 6340,
+  "jobs": 18,
+  "regenerations": 0,
+  "note": "OpenArt does not return a per-job receipt. Account delta is 15 credits under the 18\u00d7317 quote. No retry was submitted.",
+  "dimension_issues": []
+}
