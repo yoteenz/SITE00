@@ -23,7 +23,11 @@ import {
 import { getCommercialConfig } from '../_lib/digitalFoundation/service.js';
 import { listCatalogForClient } from '../../shared/site00-digital-foundation/quoteEngine.js';
 import { isDigitalFoundationFlagEnabled, DF_FEATURE_FLAGS } from '../../shared/site00-digital-foundation/featureFlags.js';
-import { loadArtifactGraphByToken } from '../_lib/digitalFoundation/persistence/supabaseStore.js';
+import {
+  isSupabaseDfPersistenceEnabled,
+  loadArtifactGraphByToken,
+  persistArtifactGraph,
+} from '../_lib/digitalFoundation/persistence/supabaseStore.js';
 
 function setCors(res: VercelResponse): void {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -72,18 +76,23 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       switch (postAction) {
         case 'open':
           return res.status(200).json(getClientArtifactPayloadByToken(token));
-        case 'update-intake':
+        case 'update-intake': {
+          const after = updateIntake(
+            artifact.artifact_id,
+            {
+              ...body.intake,
+              needs: Array.isArray(body.needs) ? (body.needs as IntakeNeedFlag[]) : undefined,
+            },
+            Boolean(body.markComplete),
+          );
+          if (isSupabaseDfPersistenceEnabled()) {
+            await persistArtifactGraph(artifact.artifact_id);
+          }
           return res.status(200).json({
             payload: getClientArtifactPayloadByToken(token),
-            after: updateIntake(
-              artifact.artifact_id,
-              {
-                ...body.intake,
-                needs: Array.isArray(body.needs) ? (body.needs as IntakeNeedFlag[]) : undefined,
-              },
-              Boolean(body.markComplete),
-            ),
+            after,
           });
+        }
         case 'update-quote':
           return res.status(200).json({
             quote: updateQuoteSelections(artifact.artifact_id, body.selections ?? []),
@@ -147,7 +156,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     return res.status(405).json({ error: 'Method not allowed' });
   } catch (e) {
-    const message = e instanceof Error ? e.message : String(e);
+    const message =
+      e instanceof Error
+        ? e.message
+        : typeof e === 'object' && e !== null && 'message' in e
+          ? String((e as { message: unknown }).message)
+          : String(e);
     const status = message.includes('NOT_FOUND') ? 404 : message.includes('REQUIRED') ? 400 : 500;
     console.error('[digital-foundation-artifact]', e);
     return res.status(status).json({ error: message });
