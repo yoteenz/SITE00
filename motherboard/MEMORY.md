@@ -16174,3 +16174,12 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Batch B:** OpenArt project `6Ueswtr8vt58ur2n3CRs`, model `gpt-image-2-5-sunburst`, 4k 9:16, four first-pass images (2016×3584), credits 27854→26590 (Δ1264). Screens DF-B01–B04. Release tag `df-v2-batch-b-2026-10-10`. Do not regenerate batch A. Do not merge batch PRs without founder. Implementation NOT AUTHORIZED.
 - **Batch A handoff:** `batch-a/BATCH_A_OPUS_HANDOFF_CORRECTIONS.md` — no “decision recorded” while pending; revision reason optional label must match contract at implementation.
 - **Review flow:** PR #1595 merged — VIEW MY RECOMMENDATION scrolls to `#df-r-P04` without router navigation.
+
+---
+
+## 2026-10-10 — Merge conflict review vs origin/main (888fccd1)
+
+- **Context:** Founder asked to fetch latest `main`, classify merge conflicts, fix simple ones, report complicated ones.
+- **Findings:** After `main` moved past `f71bbd50`, four Digital Foundation PR branches conflicted only on append-only `motherboard/MEMORY.md` tail entries, except **#1593** also conflicted on `DIGITAL_FOUNDATION_V2_PARENT_CHILD_SCREEN_MANIFEST.json` (`visual_status` for DF-A01–A04: branch `CANDIDATE_PENDING_FOUNDER` vs main `DIRECTION_APPROVED_COPY_CORRECTIONS_PENDING_IMPLEMENTATION`).
+- **Resolution:** Merged `origin/main` into `cursor/df-mass-production-scope-a9f7` (`81d66bf0`), `cursor/df-batch-a-visual-authority-a9f7` (`d9a7ca8b`, manifest took **main**), `cursor/bldr-monument-realism-v2-a9f7` (`c33d8524`), `cursor/df-gate-a-error-shape-a9f7` (`dd8ef55e`). MEMORY kept **both** branch-specific and main entries. GitHub: **#1597, #1593, #1592, #1585** → `MERGEABLE` / `CLEAN`.
+- **Not fixed (out of scope):** Open JURNL and Claude DF PRs still `CONFLICTING` — sampled branches show **MEMORY.md-only** skew (simple mechanically) but branches are stale review-only; no auto-merge. **#1585** mergeable but product policy still blocks Gate A until Supabase healthy. Marketing email blocked on checksum, not git.
