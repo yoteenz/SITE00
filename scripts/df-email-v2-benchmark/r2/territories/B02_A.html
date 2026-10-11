@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>B02 · A — MONUMENT ESTABLISHED</title>
+<link rel="stylesheet" href="../r2.css">
+<style>
+  /* The email is built like the thing it announces: courses of stone laid from the ground up, an inscription cut in the top. */
+  .email { background: #fff; }
+  .mast { display: flex; justify-content: space-between; align-items: center; padding: 24px var(--pad) 0; }
+  .mast .w { font-size: 13px; font-weight: 700; letter-spacing: .34em; color: var(--ink); }
+  .mast .w span { font-weight: 500; letter-spacing: .26em; color: var(--faint); font-size: 10px; margin-left: 10px; }
+  .seal { display: flex; align-items: center; gap: 9px; font-size: 10px; font-weight: 600; letter-spacing: .26em; color: var(--ink); }
+  .seal i { width: 8px; height: 8px; background: var(--red); }
+
+  .monument { margin-top: 18px; }
+  .monument img { width: 640px; height: 300px; }
+
+  .inscr { margin: 0 auto; width: 420px; background: url("../assets/m_travertine.jpg") center / cover; padding: 20px 24px 19px; text-align: center; border-top: 2px solid var(--red); }
+  .inscr .k { font-size: 9.5px; font-weight: 600; letter-spacing: .42em; color: #6a655c; }
+  .inscr .n { margin-top: 7px; font-size: 26px; font-weight: 600; letter-spacing: .06em; color: #2a2722; line-height: 1.15; }
+
+  .crown { text-align: center; padding: 44px var(--pad) 0; }
+  h1 { font-size: 60px; line-height: .98; font-weight: 700; letter-spacing: -.005em; color: var(--ink); }
+  .lede { margin: 22px auto 0; max-width: 440px; font-size: 15.5px; line-height: 1.6; letter-spacing: .03em; color: var(--body); }
+
+  .courses { margin-top: 48px; padding: 0 var(--pad); }
+  .courses .cap { text-align: center; font-size: 10px; font-weight: 600; letter-spacing: .34em; color: var(--faint); margin-bottom: 14px; }
+  .course { margin: 0 auto; background: var(--stone); border-bottom: 1px solid #dedad2; display: flex; align-items: baseline; gap: 16px; padding: 15px 22px 14px; }
+  .course .no { font-size: 11px; font-weight: 600; letter-spacing: .12em; color: var(--faint); width: 20px; flex: none; }
+  .course .st { font-size: 12px; font-weight: 700; letter-spacing: .2em; color: var(--ink); width: 160px; flex: none; }
+  .course .m { font-size: 13px; line-height: 1.5; letter-spacing: .03em; color: var(--body); }
+  .c5 { width: 340px; display: block; text-align: center; border-top: 2px solid var(--red); }
+  .c5 .no, .c5 .st { width: auto; display: inline; }
+  .c5 .m { display: block; margin-top: 6px; }
+  .c4 { width: 420px; }
+  .c3 { width: 480px; }
+  .c2 { width: 520px; }
+  .c1 { width: 544px; background: #ebe8e2; }
+  .c4 .st, .c3 .st { width: 150px; }
+  .ground { height: 6px; margin: 0 auto; width: 544px; background: repeating-linear-gradient(135deg, #b9b4ab 0 1px, transparent 1px 6px); }
+
+  .own { text-align: center; padding: 46px var(--pad) 0; }
+  .own .p { max-width: 470px; margin: 0 auto; font-size: 20px; line-height: 1.35; font-weight: 500; letter-spacing: .02em; color: var(--ink); }
+  .own .body { max-width: 440px; margin: 22px auto 0; font-size: 14px; color: var(--mute); }
+  .act { text-align: center; padding: 30px 0 46px; }
+  .btn { display: inline-block; background: var(--ink); color: #fff; text-decoration: none; font-size: 12.5px; font-weight: 600; letter-spacing: .24em; padding: 16px 30px 15px; }
+  .act .u { margin-top: 10px; font-size: 11px; letter-spacing: .04em; color: var(--mute); }
+
+  .close img { width: 640px; height: 180px; object-fit: cover; object-position: 50% 55%; }
+  .foot { padding: 22px var(--pad) 26px; font-size: 10.5px; letter-spacing: .12em; line-height: 1.7; color: var(--mute); text-align: center; }
+  .foot .sig { margin-top: 6px; color: var(--ink); font-weight: 600; letter-spacing: .16em; }
+
+  @media (max-width: 480px) {
+    .mast { display: block; padding-top: 20px; }
+    .seal { margin-top: 10px; }
+    .monument img { width: 100%; height: auto; }
+    .inscr { width: auto; margin: 0 var(--pad); }
+    .inscr .n { font-size: 22px; }
+    .crown { padding-top: 34px; }
+    h1 { font-size: 42px; }
+    .courses { padding: 0 16px; margin-top: 38px; }
+    .course { display: block; padding: 13px 16px; }
+    .course .no, .course .st { display: inline; width: auto; }
+    .course .no { margin-right: 8px; }
+    .course .m { display: block; margin-top: 4px; }
+    .c5 { width: 76%; }
+    .c4 { width: 84%; }
+    .c3 { width: 90%; }
+    .c2 { width: 95%; }
+    .c1, .ground { width: 100%; }
+    .own .p { font-size: 18px; }
+    .btn { display: block; margin: 0 var(--pad); }
+    .close img { width: 100%; height: 150px; }
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="inbox">
+    <div class="from">FROM · SENDER ADDRESS PENDING REGISTRATION</div>
+    <div class="subj">YOUR FOUNDATION IS COMPLETE</div>
+    <div class="pre">THE PART NOBODY APPLAUDS, AND THE PART EVERYTHING ELSE STANDS ON.</div>
+  </div>
+
+  <div class="email" role="article" aria-label="Foundation complete">
+    <div class="mast">
+      <div class="w">SITE 00<span>DIGITAL FOUNDATION</span></div>
+      <div class="seal"><i></i>FOUNDATION COMPLETE</div>
+    </div>
+
+    <div class="monument">
+      <img class="desk-only" src="../assets/a_monument.png" alt="LINE DRAWING OF A FOUNDATION SLAB WITH DIMENSION MARKS, ITS TOP SURFACE FILLED WITH WHITE MARBLE AND EDGED IN RED.">
+      <img class="mob-only" src="../assets/a_monument_m.png" alt="LINE DRAWING OF A FOUNDATION SLAB WITH DIMENSION MARKS, ITS TOP SURFACE FILLED WITH WHITE MARBLE AND EDGED IN RED.">
+    </div>
+    <div class="inscr">
+      <div class="k">GROUND · LAID</div>
+      <div class="n"><span class="v">Halden &amp; Rowe</span></div>
+    </div>
+
+    <div class="crown">
+      <h1>THE GROUNDWORK<br>IS DONE.</h1>
+      <p class="lede">AS OF TODAY, <span class="v">Halden &amp; Rowe</span> HAS A DOMAIN, MAIL, AND SECURITY THAT ARE SET UP, TESTED, AND REGISTERED TO YOU. HERE IS WHAT THAT MEANS IN PRACTICE.</p>
+    </div>
+
+    <div class="courses" role="list" aria-label="What's now in place">
+      <div class="cap">WHAT'S NOW IN PLACE</div>
+      <div class="course c5" role="listitem"><span class="no">05</span> <span class="st">FINAL VERIFICATION</span><span class="m">EACH OF THE ABOVE TESTED AND CONFIRMED, NOT ASSUMED.</span></div>
+      <div class="course c4" role="listitem"><span class="no">04</span><span class="st">DEVICES AND SIGNATURE</span><span class="m">YOUR MAIL ON THE DEVICES YOU USE, SIGNED THE WAY YOU'D SIGN IT.</span></div>
+      <div class="course c3" role="listitem"><span class="no">03</span><span class="st">DNS AND SECURITY</span><span class="m">THE RECORDS THAT HELP YOUR MAIL REACH INBOXES AND MAKE YOUR NAME HARDER TO IMPERSONATE.</span></div>
+      <div class="course c2" role="listitem"><span class="no">02</span><span class="st">PROFESSIONAL EMAIL</span><span class="m">MAILBOXES ON YOUR OWN DOMAIN, AS AGREED IN YOUR SCOPE.</span></div>
+      <div class="course c1" role="listitem"><span class="no">01</span><span class="st">DOMAIN</span><span class="m">THE ADDRESS PEOPLE TYPE TO FIND YOU, REGISTERED IN YOUR NAME.</span></div>
+      <div class="ground" aria-hidden="true"></div>
+    </div>
+
+    <div class="own">
+      <p class="p">THE ACCOUNTS BEHIND ALL OF THIS BELONG TO YOU. SITE 00 SET THEM UP WITH YOU, AND THEY STAY YOURS WHOEVER YOU WORK WITH NEXT.</p>
+      <p class="body">YOUR FULL RECORD — WHERE EACH ACCOUNT LIVES, WHO ADMINISTERS IT, HOW IT ALL CONNECTS — ARRIVES IN ITS OWN EMAIL, SO IT'S EASY TO FIND ON THE DAY YOU NEED IT. NOTHING ELSE IS NEEDED FROM YOU.</p>
+    </div>
+    <div class="act">
+      <a class="btn" href="https://site00.com/foundation/hr7Kq2Lm9x">VIEW YOUR FOUNDATION</a>
+      <div class="u"><span class="url">site00.com/foundation/<span class="v">hr7Kq2Lm9x</span></span></div>
+    </div>
+
+    <div class="close"><img src="../../source/assets/b02_horizon.jpg" alt="A MARBLE TERRACE EDGE MEETING CALM SEA UNDER A CLEAR SKY."></div>
+    <div class="foot">
+      A SERVICE MESSAGE ABOUT THE DIGITAL FOUNDATION FOR <span class="v">Halden &amp; Rowe</span>.
+      <div class="sig">SITE 00 · <span class="url">site00.com</span></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

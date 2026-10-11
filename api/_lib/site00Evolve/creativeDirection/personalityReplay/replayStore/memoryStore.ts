@@ -23,8 +23,12 @@ export async function getPersonalityReplayRecord(replayId: string): Promise<Bran
 
 export async function listPersonalityReplayRecordsForOrg(
   organizationId: string,
+  options?: { limit?: number; mode?: string },
 ): Promise<BrandPersonalityReplayRecord[]> {
+  const limit = options?.limit ?? 100;
   return [...records.values()]
     .filter((r) => r.organizationId === organizationId)
-    .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+    .filter((r) => !options?.mode || r.mode === options.mode)
+    .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+    .slice(0, limit);
 }

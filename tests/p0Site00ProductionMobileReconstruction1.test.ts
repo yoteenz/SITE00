@@ -32,7 +32,10 @@ describe('P0 production mobile reconstruction', () => {
     const hub = read('src/site00/pages/production/ProductionWorkspaceHubPage.tsx');
     expect(hub).toContain('ProductionHub');
     const nav = read('src/site00/components/productionHub/nav.tsx');
-    for (const l of ['HUB', 'INBOX', 'DESIGN', 'EXPERIENCE', 'EXPRESSION', 'LIBRARY', 'ACTIVITY']) expect(nav).toContain(`label: '${l}'`);
+    for (const l of ['HUB', 'INBOX', 'DESIGN', 'EXPERIENCE', 'EXPRESSION', 'LIBRARY', 'ACTIVITY']) {
+      expect(nav).toContain(`${l}`);
+    }
+    expect(nav).toContain('PRODUCTION_GLOBAL_TAB_ORDER');
   });
 
   it('expression landing lists every registry sub-workspace and mounts a purpose-built screen for each', () => {

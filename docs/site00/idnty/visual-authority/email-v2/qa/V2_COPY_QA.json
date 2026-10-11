@@ -1,0 +1,191 @@
+{
+  "emails": {
+    "B01": {
+      "blocks": 18,
+      "words": 218,
+      "uppercase_violations": [],
+      "preserved_case_fields": [
+        "Halden & Rowe",
+        "site00.com",
+        "site00.com/foundation/hr7Kq2Lm9x",
+        "studio@haldenrowe.com"
+      ],
+      "internal_language": [],
+      "ndx_voice_leak": [],
+      "generic_or_any_brand": [],
+      "ai_rhetorical_patterns": [],
+      "repeated_sentences": [],
+      "headline": "BEFORE WE SET ANYTHING UP, WE'D LIKE TO KNOW HOW YOU WORK",
+      "subject": "WE'VE SET ASIDE A FOUNDATION FOR Halden &amp; Rowe",
+      "headline_restated_in_body": false,
+      "paragraph_openings": [
+        "A",
+        "BEFORE",
+        "SITE",
+        "THE",
+        "FROM",
+        "TAKE",
+        "P.S.IF",
+        "THIS"
+      ],
+      "opening_diversity": 1.0,
+      "images_missing_alt": [],
+      "structure": {
+        "composition": "PERSONAL_LETTER",
+        "desktop_images": 1,
+        "photographs": 1,
+        "code_native_art": 0,
+        "full_bleed_hero": false,
+        "numbered_items": 0,
+        "cta": "INLINE_RED_BUTTON",
+        "signoff": true,
+        "stone_band_section": false,
+        "two_column_letter": true,
+        "ledger": false
+      }
+    },
+    "B02": {
+      "blocks": 20,
+      "words": 197,
+      "uppercase_violations": [],
+      "preserved_case_fields": [
+        "Halden & Rowe",
+        "site00.com"
+      ],
+      "internal_language": [],
+      "ndx_voice_leak": [],
+      "generic_or_any_brand": [],
+      "ai_rhetorical_patterns": [],
+      "upsell_terms": [],
+      "repeated_sentences": [],
+      "headline": "THE GROUNDWORK IS DONE",
+      "subject": "YOUR FOUNDATION IS COMPLETE",
+      "headline_restated_in_body": false,
+      "paragraph_openings": [
+        "THE",
+        "AS",
+        "01DOMAINTHE",
+        "02PROFESSIONAL",
+        "03DNS",
+        "04DEVICES",
+        "05FINAL",
+        "THE",
+        "YOUR",
+        "A"
+      ],
+      "opening_diversity": 0.9,
+      "images_missing_alt": [],
+      "structure": {
+        "composition": "MILESTONE_RECORD",
+        "desktop_images": 2,
+        "photographs": 1,
+        "code_native_art": 1,
+        "full_bleed_hero": false,
+        "numbered_items": 5,
+        "cta": "BLACK_BUTTON",
+        "signoff": false,
+        "stone_band_section": false,
+        "two_column_letter": false,
+        "ledger": true
+      }
+    },
+    "B03": {
+      "blocks": 27,
+      "words": 308,
+      "uppercase_violations": [],
+      "preserved_case_fields": [
+        "Halden & Rowe",
+        "site00.com",
+        "{{postal_address}}"
+      ],
+      "internal_language": [],
+      "ndx_voice_leak": [],
+      "generic_or_any_brand": [],
+      "ai_rhetorical_patterns": [],
+      "manufactured_urgency_or_booking": [],
+      "repeated_sentences": [],
+      "headline": "AN ADDRESS DESERVES A BUILDING",
+      "subject": "WHAT STANDS AT YOUR ADDRESS?",
+      "headline_restated_in_body": false,
+      "paragraph_openings": [
+        "A",
+        "YOUR",
+        "MOST",
+        "FIRST,",
+        "THEN,",
+        "AND",
+        "ONCE",
+        "NONE",
+        "YOU'RE"
+      ],
+      "opening_diversity": 1.0,
+      "images_missing_alt": [],
+      "structure": {
+        "composition": "EDITORIAL_FEATURE",
+        "desktop_images": 8,
+        "photographs": 5,
+        "code_native_art": 3,
+        "full_bleed_hero": true,
+        "numbered_items": 3,
+        "cta": "FULL_WIDTH_RED_BAND",
+        "signoff": false,
+        "stone_band_section": true,
+        "two_column_letter": false,
+        "ledger": false
+      }
+    }
+  },
+  "cross": {
+    "shared_5grams": {
+      "B01-B02": [],
+      "B01-B03": [],
+      "B02-B03": []
+    },
+    "structural_differences": {
+      "B01-B02": [
+        "composition",
+        "desktop_images",
+        "code_native_art",
+        "numbered_items",
+        "cta",
+        "signoff",
+        "two_column_letter",
+        "ledger"
+      ],
+      "B01-B03": [
+        "composition",
+        "desktop_images",
+        "photographs",
+        "code_native_art",
+        "full_bleed_hero",
+        "numbered_items",
+        "cta",
+        "signoff",
+        "stone_band_section",
+        "two_column_letter"
+      ],
+      "B02-B03": [
+        "composition",
+        "desktop_images",
+        "photographs",
+        "code_native_art",
+        "full_bleed_hero",
+        "numbered_items",
+        "cta",
+        "stone_band_section",
+        "ledger"
+      ]
+    }
+  },
+  "contrast_on_white": {
+    "#141414": 18.42,
+    "#1e1e1e": 16.67,
+    "#5e5e5e": 6.48,
+    "#72706c": 4.94,
+    "#d90c0c": 5.24
+  },
+  "contrast_white_on_red": 5.24,
+  "contrast_mute_on_stone": 5.95,
+  "failures": [],
+  "result": "PASS"
+}

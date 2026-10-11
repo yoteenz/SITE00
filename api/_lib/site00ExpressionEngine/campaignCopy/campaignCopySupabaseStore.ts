@@ -3,6 +3,8 @@
  */
 
 import { getSupabaseAdmin, hasSupabaseServiceRole } from '../../supabase.js';
+import { boundedListMeta, resolveBoundedListRange } from '../../supabase/boundedListQuery.js';
+import type { BoundedListMeta } from '../../supabase/boundedListQuery.js';
 import type { CampaignCopyPackageOutput } from '../../../shared/site00-expression-engine/campaign-copy/types.js';
 
 export async function campaignCopySchemaExists(): Promise<boolean> {
@@ -65,4 +67,47 @@ export async function loadCampaignCopyPackageFromSupabase(
     .maybeSingle();
   if (error || !data?.record) return null;
   return data.record as CampaignCopyPackageOutput;
+}
+
+export type CampaignCopyPackageSummary = {
+  copyPackageKey: string;
+  campaignId: string;
+  projectId: string;
+  packageCopyQualityTier: string;
+  packageCopyHandholdingRisk: string;
+  updatedAt: string;
+};
+
+export async function listCampaignCopyPackagesFromSupabasePage(options: {
+  campaignId?: string;
+  projectId?: string;
+  page?: number;
+  limit?: number;
+}): Promise<{ items: CampaignCopyPackageSummary[]; meta: BoundedListMeta }> {
+  const { page, limit, from, to } = resolveBoundedListRange({
+    page: options.page,
+    limit: options.limit,
+    defaultLimit: 100,
+    maxLimit: 500,
+  });
+  let query = getSupabaseAdmin()
+    .from('site00_campaign_copy_packages')
+    .select(
+      'copy_package_key, campaign_id, project_id, package_copy_quality_tier, package_copy_handholding_risk, updated_at',
+    )
+    .order('updated_at', { ascending: false })
+    .range(from, to);
+  if (options.campaignId) query = query.eq('campaign_id', options.campaignId);
+  if (options.projectId) query = query.eq('project_id', options.projectId);
+  const { data, error } = await query;
+  if (error) throw error;
+  const items = (data ?? []).map((row) => ({
+    copyPackageKey: String(row.copy_package_key),
+    campaignId: String(row.campaign_id),
+    projectId: String(row.project_id),
+    packageCopyQualityTier: String(row.package_copy_quality_tier),
+    packageCopyHandholdingRisk: String(row.package_copy_handholding_risk),
+    updatedAt: String(row.updated_at),
+  }));
+  return { items, meta: boundedListMeta(items.length, page, limit) };
 }

@@ -1,0 +1,130 @@
+{
+  "base": "http://127.0.0.1:5174",
+  "mode": "vite dev + SITE00_INTAKES_USE_MEMORY=1 (tunnel dev-mode equivalent)",
+  "supabase": "NOT EXERCISED",
+  "ranAt": "2026-10-09T14:14:44.411Z",
+  "pass": 20,
+  "fail": 0,
+  "results": [
+    {
+      "id": "Q01",
+      "name": "Flag on: /bldr/studio opens room 01 and SITE 00 confirms the started intake (SAVED)",
+      "result": "PASS",
+      "detail": "http://127.0.0.1:5174/bldr/studio/place"
+    },
+    {
+      "id": "Q02",
+      "name": "PLACE selection changes the Build Object (state-driven composition)",
+      "result": "PASS",
+      "detail": "place|-|-|PAGES|- → place|SIMPLE|-|PAGES|- → place|WORLD|-|PAGES|-"
+    },
+    {
+      "id": "Q03",
+      "name": "FEEL selection changes the material study",
+      "result": "PASS",
+      "detail": "feel|SIMPLE|MODERN|PAGES|- → feel|SIMPLE|IMMERSIVE|PAGES|-"
+    },
+    {
+      "id": "Q04",
+      "name": "WORK capability adds a floor to the structure",
+      "result": "PASS",
+      "detail": "work|SIMPLE|MODERN|PAGES|- → work|SIMPLE|MODERN|BOOKING,PAGES|-"
+    },
+    {
+      "id": "Q05",
+      "name": "Device back and forward move between rooms",
+      "result": "PASS",
+      "detail": "http://127.0.0.1:5174/bldr/studio/work ↔ http://127.0.0.1:5174/bldr/studio/pace"
+    },
+    {
+      "id": "Q06",
+      "name": "Server draft holds the four rooms",
+      "result": "PASS",
+      "detail": "[\"SIMPLE\",\"MODERN\",[\"PAGES\",\"BOOKING\"],\"STANDARD\"]"
+    },
+    {
+      "id": "Q07",
+      "name": "Blueprint investment = canonical estimator",
+      "result": "PASS",
+      "detail": "$8,000 – $15,000 vs $8K–$15K"
+    },
+    {
+      "id": "Q08",
+      "name": "Blueprint timeline = canonical estimator",
+      "result": "PASS",
+      "detail": "2 – 5 MONTHS vs 2–5 MONTHS"
+    },
+    {
+      "id": "Q09",
+      "name": "EDIT SELECTIONS → change → Blueprint shows the re-estimated range",
+      "result": "PASS",
+      "detail": "$8,000 – $15,000 (PAGES+BOOKING+BLOG)"
+    },
+    {
+      "id": "Q10",
+      "name": "Drag to rotate turns the live object (inspect mode) and it stays rendered",
+      "result": "PASS",
+      "detail": "red=8.6%"
+    },
+    {
+      "id": "Q11",
+      "name": "Fullscreen inspection opens and the object is visible in it",
+      "result": "PASS",
+      "detail": "red=4.2%"
+    },
+    {
+      "id": "Q12",
+      "name": "SAVE FOR LATER is confirmed by SITE 00 (no local-only claim)",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "Q13",
+      "name": "Returning client restores the server-backed draft (?intakeId) without a new intake",
+      "result": "PASS",
+      "detail": "room=blueprint"
+    },
+    {
+      "id": "Q14",
+      "name": "A different client gets a separate intake and sees none of client A’s choices",
+      "result": "PASS",
+      "detail": "intake_72_mv11mqmu vs intake_74_mv11oquz"
+    },
+    {
+      "id": "Q15",
+      "name": "Submission failure is shown; the record stays unsubmitted (no fake success)",
+      "result": "PASS",
+      "detail": "ACTIVE"
+    },
+    {
+      "id": "Q16",
+      "name": "Submission calls the real server API: SUBMITTED with versioned Blueprint v1 + estimate snapshot",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "Q17",
+      "name": "Duplicate submission protection (CTA locked; one failed + one confirmed submit call only)",
+      "result": "PASS",
+      "detail": "submit calls=2"
+    },
+    {
+      "id": "Q18",
+      "name": "No console errors in the client flow",
+      "result": "PASS",
+      "detail": "[\"Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED\",\"Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED\",\"Failed to load resource: net::ERR_CONNECTION_REFUSED\"]"
+    },
+    {
+      "id": "Q19",
+      "name": "Default motion: the object sways gently when idle",
+      "result": "PASS",
+      "detail": "30669 channels moved > 8"
+    },
+    {
+      "id": "Q20",
+      "name": "Reduced motion: the object holds still (no idle sway)",
+      "result": "PASS",
+      "detail": "max channel delta 1"
+    }
+  ]
+}

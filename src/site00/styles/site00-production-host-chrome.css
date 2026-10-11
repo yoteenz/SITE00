@@ -660,7 +660,7 @@ button.ph-top__sel {
   justify-self: start;
   align-self: start;
   width: min(640px, calc(100% - 36px));
-  max-height: min(70vh, 640px);
+  max-height: 640px;
   margin: 0;
   border-right: 0;
   top: calc(100% + 8px);
