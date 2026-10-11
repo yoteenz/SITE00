@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SITE 00 · EMAIL V2 · R3 EDITORIAL REVIEW</title>
+<style>
+  @font-face { font-family: "Saira Semi Condensed"; font-weight: 400; src: url("../fonts/SairaSemiCondensed-400.ttf"); }
+  @font-face { font-family: "Saira Semi Condensed"; font-weight: 600; src: url("../fonts/SairaSemiCondensed-600.ttf"); }
+  @font-face { font-family: "Saira Semi Condensed"; font-weight: 700; src: url("../fonts/SairaSemiCondensed-700.ttf"); }
+  @font-face { font-family: "Barlow Condensed"; font-weight: 900; src: url("../fonts/barlow-condensed-900.woff2") format("woff2"); }
+  :root { --ink: #141414; --mute: #6b6964; --hair: #dedbd5; --stone: #f2f0ec; --red: #d90c0c; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body { font-family: "Saira Semi Condensed", "Arial Narrow", Arial, sans-serif; text-transform: uppercase; color: var(--ink); background: #e7e5e0; display: flex; flex-direction: column; -webkit-font-smoothing: antialiased; }
+  button, select, textarea { font: inherit; }
+  button { text-transform: inherit; cursor: pointer; }
+
+  header { background: var(--ink); color: #fff; padding: 12px 18px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  header .w { font-size: 13px; font-weight: 700; letter-spacing: .32em; }
+  header .t { font-size: 11px; letter-spacing: .22em; color: #b9b6b0; }
+  header .st { margin-left: auto; font-size: 10px; letter-spacing: .22em; display: flex; align-items: center; gap: 8px; }
+  header .st i { width: 7px; height: 7px; background: var(--red); display: inline-block; }
+
+  .bar { background: #fff; border-bottom: 1px solid var(--hair); padding: 10px 18px; display: flex; gap: 12px 22px; flex-wrap: wrap; align-items: center; }
+  .grp { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .grp > span { font-size: 9.5px; letter-spacing: .26em; color: var(--mute); margin-right: 2px; }
+  .seg { display: flex; border: 1px solid var(--ink); flex-wrap: wrap; }
+  .seg button { background: #fff; border: 0; border-right: 1px solid var(--ink); padding: 8px 12px 7px; font-size: 11px; font-weight: 600; letter-spacing: .16em; color: var(--ink); white-space: nowrap; }
+  .seg button:last-child { border-right: 0; }
+  .seg button[aria-pressed="true"] { background: var(--ink); color: #fff; }
+  .seg button.alt { color: var(--mute); }
+  .seg button.alt[aria-pressed="true"] { background: #6b6964; color: #fff; }
+
+  main { flex: 1; display: flex; min-height: 0; }
+  .stagewrap { flex: 1; min-width: 0; display: flex; gap: 18px; justify-content: center; align-items: flex-start; padding: 16px; overflow: hidden; }
+  .dev { display: flex; flex-direction: column; align-items: center; min-width: 0; }
+  .dev .lab { font-size: 10px; letter-spacing: .24em; color: var(--mute); margin-bottom: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+  .dev .lab b { color: var(--ink); }
+  .frame { background: #fff; box-shadow: 0 1px 0 #cfccc5, 0 10px 30px rgba(0,0,0,.08); overflow: hidden; position: relative; }
+  .frame iframe { border: 0; display: block; transform-origin: 0 0; position: absolute; top: 0; left: 0; }
+
+  aside { width: 380px; flex: none; background: #fff; border-left: 1px solid var(--hair); overflow-y: auto; padding: 20px 22px 30px; }
+  aside .e { font-size: 10px; letter-spacing: .26em; color: var(--mute); }
+  aside h1 { margin: 6px 0 0; font-family: "Barlow Condensed", "Arial Narrow", Arial, sans-serif; font-weight: 900; font-size: 40px; line-height: .9; letter-spacing: 0; }
+  aside h1 em { display: inline-block; width: .15em; height: .15em; background: var(--red); margin-left: .05em; }
+  aside .job { margin-top: 10px; font-size: 11.5px; line-height: 1.5; letter-spacing: .04em; color: var(--mute); }
+  aside dl { margin: 14px 0 0; }
+  aside dt { font-size: 9.5px; font-weight: 600; letter-spacing: .26em; color: var(--ink); margin-top: 16px; padding-top: 10px; border-top: 1px solid var(--hair); }
+  aside dd { margin: 6px 0 0; font-size: 12.5px; line-height: 1.55; letter-spacing: .03em; color: #2a2926; text-transform: none; }
+  aside dd.idea { font-size: 15px; line-height: 1.45; color: var(--ink); text-transform: uppercase; letter-spacing: .02em; font-weight: 600; }
+  aside ul { margin: 6px 0 0; padding: 0; list-style: none; }
+  aside li { font-size: 12px; line-height: 1.5; text-transform: none; color: #2a2926; margin-top: 6px; }
+  aside li b { text-transform: uppercase; font-size: 10px; letter-spacing: .14em; color: var(--ink); display: block; }
+  .gfx { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; margin-top: 8px; }
+  .gfx figure { margin: 0; background: var(--stone); padding: 8px; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .gfx figure .im { height: 44px; display: flex; align-items: center; justify-content: center; }
+  .gfx img { max-width: 100%; max-height: 44px; display: block; }
+  .gfx figcaption { font-size: 8.5px; letter-spacing: .12em; text-align: center; color: var(--mute); line-height: 1.3; }
+  .gfx .chip { font-size: 8.5px; letter-spacing: .14em; color: var(--ink); border: 1px solid var(--ink); padding: 2px 5px; }
+  .box { margin-top: 18px; background: var(--stone); padding: 12px 14px; }
+  .box b { display: block; font-size: 9.5px; letter-spacing: .26em; margin-bottom: 6px; }
+  .box p { margin: 0; font-size: 12px; line-height: 1.5; text-transform: none; color: #2a2926; }
+  .mark { margin-top: 18px; border: 1px solid var(--ink); padding: 12px 14px; }
+  .mark b { display: block; font-size: 9.5px; letter-spacing: .24em; }
+  .mark .k { font-size: 9px; letter-spacing: .16em; color: var(--mute); margin: 4px 0 10px; }
+  .mark .seg button { padding: 6px 10px 5px; font-size: 10px; }
+  .mark textarea { width: 100%; margin-top: 10px; min-height: 64px; border: 1px solid var(--hair); padding: 8px; font-size: 12px; text-transform: none; }
+  .openlink { display: inline-block; margin-top: 14px; font-size: 10.5px; font-weight: 600; letter-spacing: .18em; color: var(--ink); }
+  aside .foot { margin-top: 22px; font-size: 9.5px; letter-spacing: .2em; line-height: 1.7; color: var(--mute); }
+
+  @media (max-width: 900px) {
+    body { height: auto; display: block; }
+    main { display: block; }
+    .stagewrap { padding: 12px 8px; }
+    aside { width: auto; border-left: 0; border-top: 1px solid var(--hair); }
+    .bar { gap: 10px 16px; padding: 10px 12px; }
+    header .st { margin-left: 0; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <span class="w">SITE 00</span>
+  <span class="t">CORRESPONDENCE · EMAIL V2 · R3 EDITORIAL PUBLISHING</span>
+  <span class="st"><i></i>FOUNDER REVIEW PENDING · NOTHING APPROVED</span>
+</header>
+
+<div class="bar">
+  <div class="grp"><span>EMAIL</span><div class="seg" id="email"></div></div>
+  <div class="grp"><span>VERSION</span><div class="seg" id="view"></div></div>
+  <div class="grp"><span>DEVICE</span><div class="seg" id="device"></div></div>
+  <div class="grp"><span>COMPARE WITH</span><div class="seg" id="cmp"></div></div>
+</div>
+
+<main>
+  <div class="stagewrap" id="stage"></div>
+  <aside id="why"></aside>
+</main>
+
+<script src="data.js"></script>
+<script>
+(function () {
+  var D = window.R3_DATA;
+  var DEVICES = [
+    { id: 'mobile', label: 'MOBILE', w: 390 },
+    { id: 'tablet', label: 'TABLET', w: 768 },
+    { id: 'desktop', label: 'DESKTOP', w: 1024 }
+  ];
+  var VIEWS = ['R3', 'A', 'B', 'C', 'R1'];
+  var IMG = {
+    'completion-seal': 'completion-seal.png', 'lockup-groundwork': 'lockup-groundwork.png', 'lockup-bldr': 'lockup-bldr.png',
+    'plan-a-gallery': 'plan-a-gallery.png', 'plan-b-courtyard': 'plan-b-courtyard.png', 'plan-c-open-hall': 'plan-c-open-hall.png',
+    'interior-annotations': 'inside-annotated.jpg'
+  };
+  var state = { email: 'B01', view: 'R3', device: 'mobile', cmp: '' };
+
+  var h = (location.hash || '').replace('#', '').split('/');
+  if (/^B0[123]$/.test(h[0])) state.email = h[0];
+  if (VIEWS.indexOf(h[1]) >= 0) state.view = h[1];
+  if (DEVICES.some(function (d) { return d.id === h[2]; })) state.device = h[2];
+  if (VIEWS.indexOf(h[3]) >= 0 && h[3] !== state.view) state.cmp = h[3];
+
+  function email() { return D.emails.filter(function (e) { return e.id === state.email; })[0]; }
+  function srcFor(k) {
+    if (k === 'R3') return '../emails/' + email().file;
+    if (k === 'R1') return email().r1;
+    return '../../r2/territories/' + state.email + '_' + k + '.html';
+  }
+  function labelFor(k) {
+    if (k === 'R3') return '<b>R3 · ' + email().title + '</b> · FOUNDER REVIEW PENDING';
+    if (k === 'R1') return '<b>R1 · V2 EDITORIAL BENCHMARK</b>';
+    return '<b>R2 · ' + state.email + ' ' + k + '</b> · ' + email().r2[k];
+  }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+  function seg(el, items, current, onPick) {
+    el.innerHTML = '';
+    items.forEach(function (it) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.textContent = it.label;
+      if (it.cls) b.className = it.cls;
+      b.setAttribute('aria-pressed', String(it.id === current));
+      b.onclick = function () { onPick(it.id); };
+      el.appendChild(b);
+    });
+  }
+
+  function frames() {
+    var stage = document.getElementById('stage');
+    var dev = DEVICES.filter(function (d) { return d.id === state.device; })[0];
+    var keys = state.cmp ? [state.view, state.cmp] : [state.view];
+    stage.innerHTML = '';
+    var narrow = window.innerWidth <= 900;
+    var avail = stage.clientWidth - 32 - (keys.length - 1) * 18;
+    var each = Math.min(dev.w, Math.floor(avail / keys.length));
+    var scale = each / dev.w;
+    var viewH = narrow ? Math.round(window.innerHeight * 0.78) : stage.clientHeight - 60;
+    keys.forEach(function (k) {
+      var wrap = document.createElement('div');
+      wrap.className = 'dev';
+      var lab = document.createElement('div');
+      lab.className = 'lab';
+      lab.innerHTML = labelFor(k) + ' · ' + dev.w + 'PX' + (scale < 1 ? ' · ' + Math.round(scale * 100) + '%' : '');
+      var fr = document.createElement('div');
+      fr.className = 'frame';
+      fr.style.width = Math.round(dev.w * scale) + 'px';
+      fr.style.height = viewH + 'px';
+      var ifr = document.createElement('iframe');
+      ifr.title = k + ' ' + state.email;
+      ifr.src = srcFor(k);
+      ifr.style.width = dev.w + 'px';
+      ifr.style.height = Math.round(viewH / scale) + 'px';
+      ifr.style.transform = 'scale(' + scale + ')';
+      fr.appendChild(ifr);
+      wrap.appendChild(lab);
+      wrap.appendChild(fr);
+      stage.appendChild(wrap);
+    });
+  }
+
+  function gfx(e) {
+    var all = D.icons.map(function (i) { return { id: i.id, role: i.role, used: i.used_in, img: i.id + '.png' }; })
+      .concat(D.devices.map(function (d) { return { id: d.id, role: d.role, used: d.used_in, img: IMG[d.id], kind: d.kind }; }));
+    return all.filter(function (g) { return g.used.indexOf(e.id) >= 0; }).map(function (g) {
+      var im = g.img ? '<img src="../assets/gfx/' + g.img + '" alt="">' : '<span class="chip">' + esc(g.kind.toUpperCase()) + '</span>';
+      return '<figure title="' + esc(g.role) + '"><div class="im">' + im + '</div><figcaption>' + esc(g.id.replace(/^icon-/, '')) + '</figcaption></figure>';
+    }).join('');
+  }
+
+  function markBox() {
+    var key = 'site00-r3-mark-' + state.email;
+    var saved = {};
+    try { saved = JSON.parse(localStorage.getItem(key) || '{}'); } catch (err) { saved = {}; }
+    var box = document.createElement('div');
+    box.className = 'mark';
+    box.innerHTML = '<b>YOUR MARK</b><div class="k">KEPT ON THIS DEVICE ONLY · NOT RECORDED AS APPROVAL · RECORD DECISIONS IN THE STUDIO OR THE PR</div><div class="seg" id="markseg"></div><textarea id="marknote" placeholder="Notes for the next round"></textarea>';
+    var segEl = box.querySelector('#markseg');
+    var note = box.querySelector('#marknote');
+    note.value = saved.note || '';
+    function save() { localStorage.setItem(key, JSON.stringify(saved)); }
+    function draw() {
+      seg(segEl, [{ id: 'yes', label: 'LEANING YES' }, { id: 'revise', label: 'REVISE' }, { id: 'no', label: 'NOT THIS' }], saved.mark || '', function (id) {
+        saved.mark = saved.mark === id ? '' : id; save(); draw();
+      });
+    }
+    note.oninput = function () { saved.note = note.value; save(); };
+    draw();
+    return box;
+  }
+
+  function why() {
+    var e = email(), el = document.getElementById('why');
+    if (state.view === 'R3') {
+      var rows = [['COMPOSITION', e.composition], ['TYPOGRAPHY', e.typography], ['RED', e.red], ['ACTION', e.cta], ['EMAIL-SAFE BUILD', e.email_safe], ['KNOWN RISK', e.risk]];
+      el.innerHTML = '<div class="e">' + e.id + ' · ' + esc(e.name) + ' · R3</div><h1>' + esc(e.title) + '<em></em></h1><p class="job">' + esc(e.job) + '</p>' +
+        '<dl><dt>CENTRAL IDEA</dt><dd class="idea">' + esc(e.central_idea) + '</dd>' +
+        '<dt>WHY THIS COMPOSITION</dt><dd>' + esc(e.why_chosen) + '</dd>' +
+        '<dt>WHAT IT TAKES FROM R2</dt><dd><ul>' + e.converges.map(function (c) { return '<li><b>' + esc(c[0]) + '</b>' + esc(c[1]) + '</li>'; }).join('') + '</ul></dd>' +
+        rows.map(function (r) { return '<dt>' + r[0] + '</dt><dd>' + esc(r[1]) + '</dd>'; }).join('') +
+        '<dt>GRAPHIC PROVENANCE · CUSTOM ICONS AND DEVICES IN THIS EMAIL</dt><dd><div class="gfx">' + gfx(e) + '</div></dd></dl>' +
+        '<div class="box"><b>R2 → R3</b><p>' + esc(e.r2_comparison) + '</p></div>' +
+        '<div class="box"><b>PREMIUM ASSET CANDIDATE · NOT COMMISSIONED</b><p>' + esc(e.premium) + '</p></div>' +
+        '<a class="openlink" href="' + srcFor('R3') + '" target="_blank" rel="noopener">OPEN R3 ON ITS OWN →</a>' +
+        '<div class="foot">COPY FROM THE BENCHMARK, WORD FOR WORD · IMAGERY FROM EXISTING PLATES · 0 OPENART CREDITS · AGENT SELECTION IS NOT FOUNDER APPROVAL</div>';
+      el.appendChild(markBox());
+      return;
+    }
+    if (state.view === 'R1') {
+      el.innerHTML = '<div class="e">' + e.id + ' · ' + esc(e.name) + '</div><h1>R1<em></em></h1><p class="job">' + esc(e.job) + '</p>' +
+        '<dl><dt>ROLE</dt><dd>The V2 editorial benchmark: the copy authority every round keeps.</dd></dl>' +
+        '<a class="openlink" href="' + srcFor('R1') + '" target="_blank" rel="noopener">OPEN R1 ON ITS OWN →</a>';
+      return;
+    }
+    var conv = e.converges.filter(function (c) { return c[0].indexOf('R2 ' + state.view + ' ') === 0; })[0];
+    el.innerHTML = '<div class="e">' + e.id + ' · ' + esc(e.name) + ' · R2 ' + state.view + '</div><h1>' + esc(e.r2[state.view]) + '<em></em></h1>' +
+      '<dl><dt>WHAT R3 TAKES FROM THIS TERRITORY</dt><dd>' + esc(conv ? conv[1] : '') + '</dd>' +
+      '<dt>R2 → R3</dt><dd>' + esc(e.r2_comparison) + '</dd></dl>' +
+      '<a class="openlink" href="' + srcFor(state.view) + '" target="_blank" rel="noopener">OPEN THIS TERRITORY ON ITS OWN →</a>';
+  }
+
+  function render() {
+    seg(document.getElementById('email'), D.emails.map(function (e) { return { id: e.id, label: e.id + (window.innerWidth > 900 ? ' · ' + e.title : '') }; }), state.email, function (id) { state.email = id; render(); });
+    var views = VIEWS.map(function (k) { return { id: k, label: k === 'R3' || k === 'R1' ? k : 'R2 ' + k, cls: k === 'R3' ? '' : 'alt' }; });
+    seg(document.getElementById('view'), views, state.view, function (id) { state.view = id; if (state.cmp === id) state.cmp = ''; render(); });
+    seg(document.getElementById('device'), DEVICES, state.device, function (id) { state.device = id; render(); });
+    seg(document.getElementById('cmp'), [{ id: '', label: 'OFF' }].concat(views.filter(function (v) { return v.id !== state.view; })), state.cmp, function (id) { state.cmp = id; render(); });
+    history.replaceState(null, '', '#' + [state.email, state.view, state.device].concat(state.cmp ? [state.cmp] : []).join('/'));
+    frames();
+    why();
+  }
+
+  var t0;
+  window.addEventListener('resize', function () { clearTimeout(t0); t0 = setTimeout(render, 120); });
+  render();
+})();
+</script>
+</body>
+</html>

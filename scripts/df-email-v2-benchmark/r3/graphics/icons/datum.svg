@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
-  <title>DATUM — level marker where the drawing becomes the building</title>
-  <g stroke-linecap="square">
-    <path d="M4 30H44" fill="none" stroke="#141414" stroke-width="1.6"/>
-    <path d="M14 14H34L24 30Z" fill="none" stroke="#141414" stroke-width="2"/>
-    <path d="M24 14H34L24 30Z" fill="#d90c0c" stroke="none"/>
-  </g>
-</svg>
