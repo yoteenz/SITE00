@@ -11,6 +11,16 @@ This sprint delivers UX authority and a data contract. It is not an implementati
 - **Public prices:** no public price or public page was changed.
 - **Builder:** no route renders the new Builder. `src/site00/builder-experience/` is a contract with tests, ready for the implementation sprint.
 - **Update (Hybrid Spatial Studio — founder review):** the four rooms + Blueprint run at `/bldr/studio/:room` on Composer's server-backed session (`useBuilderSpatialIntakeSession`), with submission, client review states, revision/resubmission and a founder Blueprint review in the admin intake inbox. Gated by `VITE_SITE00_TEMPLATE_SYSTEM_V1` (off by default). See `HYBRID_SPATIAL_STUDIO_FOUNDER_REVIEW_V1.md`; recovery onto current `main`, live QA and the founder-preview deployment handoff: `HYBRID_SPATIAL_STUDIO_RECOVERY_AND_PREVIEW_V1.md`.
+- **Update (Creative Refinement 1):** Production Workspace typography (Saira Semi Condensed) and cool palette, a distinct architecture for every PLACE / FEEL / WORK choice, PACE shown as assembly motion, a numbered Blueprint section index with object focus, and a proposal-style confirmation. Same journey, contracts and estimates. See `hybrid-spatial-studio/CREATIVE_REFINEMENT_1.md`, `hybrid-spatial-studio/TRANSFORMATION_MATRIX.md` and `hybrid-spatial-studio/GROK_ASSET_REQUEST_MANIFEST.md`.
+- **Update (Reference Fidelity 2):** the approved references are the strict authority. Typography is identified by pixel comparison (Oswald / Barlow Semi Condensed / Barlow / Roboto, self-hosted OFL), geometry and colour are measured, and rooms 01–04 fit one 390×844 / 393×852 screen. The live Build Object is composited over photographic plates (interim, from SITE 00's atrium render) in the references' architecture. See `hybrid-spatial-studio/REFERENCE_FIDELITY_2.md` and `hybrid-spatial-studio/reference-fidelity-qa/`.
+- **Update (Immersive Blueprint):** the five Blueprint sections are interactive inspection modes of the live model, not a text drawer. Each is bound honestly to real geometry from the canonical contracts:
+  - OVERVIEW is the whole place.
+  - STRUCTURE is an exploded axonometric of its layers. Lines without geometry are marked NOT DRAWN.
+  - PAGES shows where each page lives, traced through the registry.
+  - FEATURES shows the module each capability belongs to, with its relationships.
+  - TIMELINE assembles the model stage by stage; it is an illustrative order, not a schedule.
+
+  See `hybrid-spatial-studio/IMMERSIVE_BLUEPRINT.md`, `hybrid-spatial-studio/SPATIAL_INTERACTION_MATRIX.md` and `hybrid-spatial-studio/immersive-blueprint-qa/`.
 
 ## Outputs
 

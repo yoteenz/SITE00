@@ -61,7 +61,7 @@ Routes: `/bldr/builder` resumes at the furthest room. Each room has its own rout
 | `src/site00/builder-studio/icons.tsx` | Hairline icon set. |
 | `src/site00/pages/builder/BuilderStudioPage.tsx` | Route page and flag gate. |
 | `src/site00/styles/site00-builder-studio.css` | All studio styling: mobile first, then tablet and desktop compositions. |
-| `public/site00/fonts/anton`, `public/site00/fonts/inter` | Self-hosted display and UI faces, with OFL licences. |
+| `src/site00/assets/fonts/saira-semi-condensed/` | The Production Workspace face (Saira Semi Condensed 300–700, OFL), shared with the workspace and not duplicated. Creative Refinement 1 replaced the studio's earlier Anton/Inter pair. |
 | `src/site00/builder-studio/studioModel.test.ts` | 17 unit tests. |
 | `scripts/site00/builder-studio-qa/{capture,functional}.cjs` | Repeatable live-browser capture and the 47-check functional run. |
 
@@ -227,7 +227,7 @@ Comparisons: `hybrid-spatial-studio/comparisons/*-reference-vs-implementation.jp
 | V-6 | FEEL rail scrolls to WARM and OPERATIONAL | Keeps every canonical visual system reachable (D-1) |
 | V-7 | Fact captions read "Initial range. Based on your current selections and requirements." | Keeps the canonical confidence label visible (contract §18) |
 | V-8 | A submission sheet asks for an email | A real guest submission needs a reply address (existing guest-access flow) |
-| V-9 | The Builder uses Anton + Inter, not the site-wide Martian Mono test face | The approved references are a condensed display + grotesk, not monospace |
+| V-9 | The Builder used Anton + Inter, not the site-wide Martian Mono test face | **Superseded by Creative Refinement 1:** the studio now uses the Production Workspace face, Saira Semi Condensed (see `hybrid-spatial-studio/CREATIVE_REFINEMENT_1.md`). |
 
 ## 8. Functional test report
 

@@ -104,3 +104,19 @@ describe('Blueprint review loop (real intake service, memory store)', () => {
     expect(clientReviewState({ ...v1, status: 'CONVERTED', projectId: null }).sub).toBe('SITE 00 WILL CONTACT YOU WITH THE NEXT STEP');
   });
 });
+
+describe('status track reads only the review stage', () => {
+  it('marks a step done only when the record holds it', async () => {
+    const { reviewTrack } = await import('./reviewModel');
+    expect(reviewTrack('DRAFT').map((s) => s.state)).toEqual(['current', 'pending', 'pending']);
+    expect(reviewTrack('SUBMISSION_RECEIVED', 1).map((s) => s.state)).toEqual(['done', 'current', 'pending']);
+    expect(reviewTrack('SUBMISSION_RECEIVED', 1)[0].sub).toBe('RECEIVED · V1');
+    expect(reviewTrack('UNDER_REVIEW', 2)[1].sub).toBe('IN PROGRESS');
+    expect(reviewTrack('REVISION_REQUESTED', 1).map((s) => s.state)).toEqual(['done', 'done', 'attention']);
+    expect(reviewTrack('ACCEPTED', 1)[2]).toMatchObject({ label: 'ACCEPTED', state: 'done' });
+    // Nothing before a decision claims one.
+    for (const stage of ['DRAFT', 'SUBMISSION_RECEIVED', 'UNDER_REVIEW'] as const) {
+      expect(reviewTrack(stage)[2]).toMatchObject({ label: 'SITE 00 REPLIES', state: 'pending' });
+    }
+  });
+});

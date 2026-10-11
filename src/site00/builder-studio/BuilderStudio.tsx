@@ -10,8 +10,20 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { SITE00_ROUTES } from '../config/routes';
 import { compose } from './buildObject/composition';
-import { BuildObjectStage } from './buildObject/BuildObjectStage';
-import { BlueprintActions, BlueprintPanel, BlueprintStageControls, type BlueprintTab } from './BlueprintRoom';
+import { BuildObjectStage, usePrefersReducedMotion } from './buildObject/BuildObjectStage';
+import { blueprintAnatomy, inspectionFor } from './buildObject/anatomy';
+import {
+  BlueprintActions,
+  BlueprintPanel,
+  BlueprintStageAnnotations,
+  BlueprintStageCaption,
+  BlueprintStageControls,
+  createAnchorBus,
+  sectionAnchors,
+  sectionMarkers,
+  type BlueprintInspectState,
+  type BlueprintTab,
+} from './BlueprintRoom';
 import { ArrowRightIcon, CloseIcon, MenuIcon } from './icons';
 import {
   FeelControls,
@@ -42,6 +54,9 @@ import {
 } from './studioModel';
 import type { SpatialBuilderState, StudioRoomId } from './studioModel';
 import { useStudioSession, type SaveIndicator, type StudioSession } from './useStudioSession';
+
+/** How long the Blueprint timeline holds each stage while it plays (visual pacing only; never a duration). */
+const TIMELINE_STAGE_MS = 1900;
 
 export function studioRoomPath(room: StudioRoomId, search = ''): string {
   return `${SITE00_ROUTES.bldrSpatialStudio}/${room}${search}`;
@@ -88,7 +103,23 @@ export function BuilderStudio({ room: requested }: { room: StudioRoomId | null }
   const { state, locked, submitted, syncStatus, update } = session;
   const hydrated = syncStatus !== 'restoring';
   const [menuOpen, setMenuOpen] = useState(false);
-  const [tab, setTab] = useState<BlueprintTab>('OVERVIEW');
+  const [tab, setTabState] = useState<BlueprintTab>('OVERVIEW');
+  // Blueprint inspection: the selection inside the open section, and the timeline's stage. Changing section clears
+  // the selection (a new section starts from its own default view); TIMELINE starts its assembly from stage 01.
+  const [pick, setPick] = useState<string | null>(null);
+  const [stage, setStage] = useState<number | null>(null);
+  const [playing, setPlaying] = useState(false);
+  const reducedMotion = usePrefersReducedMotion();
+  const setTab = useCallback(
+    (next: BlueprintTab) => {
+      setTabState(next);
+      setPick(null);
+      // Reduced motion: the timeline opens complete and is stepped by hand; otherwise it plays once from stage 01.
+      setStage(next === 'TIMELINE' && !reducedMotion ? 0 : null);
+      setPlaying(next === 'TIMELINE' && !reducedMotion);
+    },
+    [reducedMotion],
+  );
   const [inspecting, setInspecting] = useState(false);
   const [resetToken, setResetToken] = useState(0);
   const stageWrapRef = useRef<HTMLDivElement>(null);
@@ -119,6 +150,8 @@ export function BuilderStudio({ room: requested }: { room: StudioRoomId | null }
   useEffect(() => {
     setMenuOpen(false);
     setInspecting(false);
+    setPick(null);
+    setPlaying(false);
     window.scrollTo({ top: 0 });
   }, [room]);
 
@@ -133,7 +166,51 @@ export function BuilderStudio({ room: requested }: { room: StudioRoomId | null }
 
   const shown = session.view.state;
   const spec = useMemo(() => buildSpec(shown), [shown]);
-  const composition = useMemo(() => compose(room, spec), [room, spec]);
+  // On the Blueprint the object follows the open section and its selection (see buildObject/anatomy.ts).
+  const anatomy = useMemo(() => (room === 'blueprint' ? blueprintAnatomy(spec, session.view.snapshot) : null), [room, spec, session.view.snapshot]);
+  const inspect = useMemo(() => (anatomy ? inspectionFor(anatomy, tab, pick, stage) : undefined), [anatomy, tab, pick, stage]);
+  const composition = useMemo(
+    () => compose(room, spec, { focus: room === 'blueprint' ? tab : undefined, inspect }),
+    [room, spec, tab, inspect],
+  );
+  const markers = useMemo(() => (room === 'blueprint' ? sectionMarkers(tab, anatomy, stage) : []), [room, tab, anatomy, stage]);
+  const anchors = useMemo(() => sectionAnchors(markers), [markers]);
+  const [anchorBus] = useState(createAnchorBus);
+  const stages = anatomy?.stages.length ?? 0;
+  // The timeline assembles one stage at a time while playing, then rests on the complete place.
+  useEffect(() => {
+    if (!playing || stage === null) return;
+    const id = window.setTimeout(() => {
+      if (stage + 1 >= stages) {
+        setStage(null);
+        setPlaying(false);
+      } else {
+        setStage(stage + 1);
+      }
+    }, TIMELINE_STAGE_MS);
+    return () => window.clearTimeout(id);
+  }, [playing, stage, stages]);
+  // The sticky Blueprint stage gets its own ground once it is pinned at the top (and not before: it runs under the lede).
+  useEffect(() => {
+    const wrap = stageWrapRef.current;
+    if (room !== 'blueprint' || tab === 'OVERVIEW' || !wrap) return;
+    const root = document.documentElement;
+    const onScroll = () => {
+      wrap.classList.toggle('is-stuck', wrap.getBoundingClientRect().top <= 0.5 && window.scrollY > 0);
+      // Whatever scrolls into view (a focused or chosen item) lands below the pinned stage, never under it.
+      root.style.scrollPaddingTop = getComputedStyle(wrap).position === 'sticky' ? `${wrap.offsetHeight + 12}px` : '';
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+      wrap.classList.remove('is-stuck');
+      root.style.scrollPaddingTop = '';
+    };
+  }, [room, tab]);
+  const inspectState: BlueprintInspectState = useMemo(() => ({ anatomy, pick, setPick, stage, setStage, playing, setPlaying }), [anatomy, pick, stage, playing]);
 
   const meta = STUDIO_ROOM_BY_ID[room];
   const configIndex = CONFIG_ROOMS.indexOf(room);
@@ -146,6 +223,7 @@ export function BuilderStudio({ room: requested }: { room: StudioRoomId | null }
       data-room={room}
       data-sync={session.indicator.status}
       data-stage={session.review.stage}
+      data-inspect={room === 'blueprint' ? tab : undefined}
     >
       <header className="bs-header">
         <a className="bs-wordmark" href={SITE00_ROUTES.bldr} aria-label="SITE 00 BUILDER — EXIT TO BLDR">
@@ -181,11 +259,15 @@ export function BuilderStudio({ room: requested }: { room: StudioRoomId | null }
           description={objectDescription(room, shown)}
           interactive={room === 'blueprint' && inspecting}
           resetToken={resetToken}
+          anchors={anchors}
+          onAnchors={anchorBus.emit}
           className={`bs-stage bs-stage--${room}`}
         >
           {room === 'place' ? <PlaceStageArrows {...roomProps} /> : null}
           {room === 'feel' ? <FeelStageArrows {...roomProps} /> : null}
           {room === 'work' ? <WorkStageToggles {...roomProps} toggle={work.toggle} pending={work.pending} /> : null}
+          {room === 'blueprint' ? <BlueprintStageAnnotations tab={tab} inspect={inspectState} bus={anchorBus} anchors={markers} /> : null}
+          {room === 'blueprint' ? <BlueprintStageCaption tab={tab} inspect={inspectState} /> : null}
           {room === 'blueprint' ? (
             <BlueprintStageControls
               inspecting={inspecting}
@@ -204,7 +286,7 @@ export function BuilderStudio({ room: requested }: { room: StudioRoomId | null }
         {room === 'work' ? <WorkControls {...roomProps} pending={work.pending} keep={work.keep} dismiss={work.dismiss} /> : null}
         {room === 'pace' ? <PaceControls {...roomProps} /> : null}
         {room === 'blueprint' ? (
-          <BlueprintPanel session={session} goToRoom={goToRoom} openMenu={() => setMenuOpen(true)} tab={tab} setTab={setTab} />
+          <BlueprintPanel session={session} goToRoom={goToRoom} openMenu={() => setMenuOpen(true)} tab={tab} setTab={setTab} inspect={inspectState} />
         ) : null}
       </section>
 
