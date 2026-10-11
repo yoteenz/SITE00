@@ -18,7 +18,7 @@ import {
   SPATIAL_INTAKE_DOMAIN_LABEL,
   SPATIAL_INTAKE_SOURCE_ROUTE,
 } from './intakeDraft';
-import { snapshotFromSpatialState, revealEstimateForRoom } from './blueprintSessionContract';
+import { computeEstimateForSpatialRoom, revealClientEstimateFigures, snapshotFromSpatialState } from './blueprintSessionContract';
 import { buildObjectParametersFromSpatialState } from './buildObjectContract';
 import { canEnterRoom, spatialSelectionToBuilder } from './mapping';
 import type { SpatialBuilderState, SpatialRoomId } from './types';
@@ -158,10 +158,11 @@ export function useBuilderSpatialIntakeSession() {
   }, [bootToken]);
 
   const selection = useMemo(() => spatialSelectionToBuilder(state), [state]);
-  const showEstimate = revealEstimateForRoom(state.room, clientEstimatePreviewEnabled());
+  const computeEstimate = computeEstimateForSpatialRoom(state.room);
+  const showEstimate = revealClientEstimateFigures(state.room, clientEstimatePreviewEnabled());
   const snapshot = useMemo(
-    () => snapshotFromSpatialState(state, { allowEstimate: showEstimate }),
-    [state, showEstimate],
+    () => snapshotFromSpatialState(state, { computeEstimate }),
+    [state, computeEstimate],
   );
   const buildObject = useMemo(
     () =>
