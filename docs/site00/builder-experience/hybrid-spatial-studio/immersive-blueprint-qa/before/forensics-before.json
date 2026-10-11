@@ -1,0 +1,395 @@
+{
+  "label": "before",
+  "base": "http://127.0.0.1:5174",
+  "state": "ADVANCED · MODERN · PAGES + SHOP + PORTAL · STANDARD",
+  "viewports": {
+    "390x844": {
+      "rows": [
+        {
+          "tab": "OVERVIEW",
+          "objectKey": "blueprint|ADVANCED|MODERN|PAGES,PORTAL,SHOP|STANDARD",
+          "inspect": null,
+          "pageHeight": 890,
+          "viewportHeight": 844,
+          "panelHeight": 256,
+          "panelTop": 496,
+          "stageHeight": 236,
+          "textBlocks": 4,
+          "interactive": 5,
+          "interactiveLabels": [
+            "EDIT SELECTIONS",
+            "VISUAL DIRECTION: MODERN. CHANGE IN ROOM",
+            "PAGES: 12 PAGES. OPEN PAGES",
+            "FEATURES: 7 FEATURES. OPEN FEATURES",
+            "PRIORITY: STANDARD. OPEN TIMELINE"
+          ],
+          "words": 40,
+          "stageChangedVsOverview": 0
+        },
+        {
+          "tab": "STRUCTURE",
+          "objectKey": "blueprint|ADVANCED|MODERN|PAGES,PORTAL,SHOP|STANDARD|STRUCTURE",
+          "inspect": null,
+          "pageHeight": 1147,
+          "viewportHeight": 844,
+          "panelHeight": 491,
+          "panelTop": 518,
+          "stageHeight": 236,
+          "textBlocks": 10,
+          "interactive": 1,
+          "interactiveLabels": [
+            "CHANGE IN ROOM 01 · PLACE"
+          ],
+          "words": 76,
+          "stageChangedVsOverview": 0.1543
+        },
+        {
+          "tab": "PAGES",
+          "objectKey": "blueprint|ADVANCED|MODERN|PAGES,PORTAL,SHOP|STANDARD|PAGES",
+          "inspect": null,
+          "pageHeight": 1238,
+          "viewportHeight": 844,
+          "panelHeight": 582,
+          "panelTop": 518,
+          "stageHeight": 236,
+          "textBlocks": 18,
+          "interactive": 1,
+          "interactiveLabels": [
+            "CHANGE IN ROOM 03 · WORK"
+          ],
+          "words": 28,
+          "stageChangedVsOverview": 0.1908
+        },
+        {
+          "tab": "FEATURES",
+          "objectKey": "blueprint|ADVANCED|MODERN|PAGES,PORTAL,SHOP|STANDARD|FEATURES",
+          "inspect": null,
+          "pageHeight": 1125,
+          "viewportHeight": 844,
+          "panelHeight": 469,
+          "panelTop": 518,
+          "stageHeight": 236,
+          "textBlocks": 9,
+          "interactive": 1,
+          "interactiveLabels": [
+            "CHANGE IN ROOM 03 · WORK"
+          ],
+          "words": 80,
+          "stageChangedVsOverview": 0.1381
+        },
+        {
+          "tab": "TIMELINE",
+          "objectKey": "blueprint|ADVANCED|MODERN|PAGES,PORTAL,SHOP|STANDARD|TIMELINE",
+          "inspect": null,
+          "pageHeight": 1404,
+          "viewportHeight": 844,
+          "panelHeight": 748,
+          "panelTop": 518,
+          "stageHeight": 236,
+          "textBlocks": 17,
+          "interactive": 1,
+          "interactiveLabels": [
+            "CHANGE IN ROOM 04 · PACE"
+          ],
+          "words": 191,
+          "stageChangedVsOverview": 0.0065
+        }
+      ],
+      "consoleErrors": [
+        "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+        "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+      ]
+    },
+    "393x852": {
+      "rows": [
+        {
+          "tab": "OVERVIEW",
+          "objectKey": "blueprint|ADVANCED|MODERN|PAGES,PORTAL,SHOP|STANDARD",
+          "inspect": null,
+          "pageHeight": 890,
+          "viewportHeight": 852,
+          "panelHeight": 256,
+          "panelTop": 496,
+          "stageHeight": 236,
+          "textBlocks": 4,
+          "interactive": 5,
+          "interactiveLabels": [
+            "EDIT SELECTIONS",
+            "VISUAL DIRECTION: MODERN. CHANGE IN ROOM",
+            "PAGES: 12 PAGES. OPEN PAGES",
+            "FEATURES: 7 FEATURES. OPEN FEATURES",
+            "PRIORITY: STANDARD. OPEN TIMELINE"
+          ],
+          "words": 40,
+          "stageChangedVsOverview": 0
+        },
+        {
+          "tab": "STRUCTURE",
+          "objectKey": "blueprint|ADVANCED|MODERN|PAGES,PORTAL,SHOP|STANDARD|STRUCTURE",
+          "inspect": null,
+          "pageHeight": 1147,
+          "viewportHeight": 852,
+          "panelHeight": 491,
+          "panelTop": 518,
+          "stageHeight": 236,
+          "textBlocks": 10,
+          "interactive": 1,
+          "interactiveLabels": [
+            "CHANGE IN ROOM 01 · PLACE"
+          ],
+          "words": 76,
+          "stageChangedVsOverview": 0.1531
+        },
+        {
+          "tab": "PAGES",
+          "objectKey": "blueprint|ADVANCED|MODERN|PAGES,PORTAL,SHOP|STANDARD|PAGES",
+          "inspect": null,
+          "pageHeight": 1238,
+          "viewportHeight": 852,
+          "panelHeight": 582,
+          "panelTop": 518,
+          "stageHeight": 236,
+          "textBlocks": 18,
+          "interactive": 1,
+          "interactiveLabels": [
+            "CHANGE IN ROOM 03 · WORK"
+          ],
+          "words": 28,
+          "stageChangedVsOverview": 0.1897
+        },
+        {
+          "tab": "FEATURES",
+          "objectKey": "blueprint|ADVANCED|MODERN|PAGES,PORTAL,SHOP|STANDARD|FEATURES",
+          "inspect": null,
+          "pageHeight": 1125,
+          "viewportHeight": 852,
+          "panelHeight": 469,
+          "panelTop": 518,
+          "stageHeight": 236,
+          "textBlocks": 9,
+          "interactive": 1,
+          "interactiveLabels": [
+            "CHANGE IN ROOM 03 · WORK"
+          ],
+          "words": 80,
+          "stageChangedVsOverview": 0.1369
+        },
+        {
+          "tab": "TIMELINE",
+          "objectKey": "blueprint|ADVANCED|MODERN|PAGES,PORTAL,SHOP|STANDARD|TIMELINE",
+          "inspect": null,
+          "pageHeight": 1391,
+          "viewportHeight": 852,
+          "panelHeight": 735,
+          "panelTop": 518,
+          "stageHeight": 236,
+          "textBlocks": 17,
+          "interactive": 1,
+          "interactiveLabels": [
+            "CHANGE IN ROOM 04 · PACE"
+          ],
+          "words": 191,
+          "stageChangedVsOverview": 0.0064
+        }
+      ],
+      "consoleErrors": [
+        "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+        "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+      ]
+    },
+    "834x1194": {
+      "rows": [
+        {
+          "tab": "OVERVIEW",
+          "objectKey": "blueprint|ADVANCED|MODERN|PAGES,PORTAL,SHOP|STANDARD",
+          "inspect": null,
+          "pageHeight": 1194,
+          "viewportHeight": 1194,
+          "panelHeight": 289,
+          "panelTop": 742,
+          "stageHeight": 480,
+          "textBlocks": 4,
+          "interactive": 5,
+          "interactiveLabels": [
+            "EDIT SELECTIONS",
+            "VISUAL DIRECTION: MODERN. CHANGE IN ROOM",
+            "PAGES: 12 PAGES. OPEN PAGES",
+            "FEATURES: 7 FEATURES. OPEN FEATURES",
+            "PRIORITY: STANDARD. OPEN TIMELINE"
+          ],
+          "words": 40,
+          "stageChangedVsOverview": 0
+        },
+        {
+          "tab": "STRUCTURE",
+          "objectKey": "blueprint|ADVANCED|MODERN|PAGES,PORTAL,SHOP|STANDARD|STRUCTURE",
+          "inspect": null,
+          "pageHeight": 1308,
+          "viewportHeight": 1194,
+          "panelHeight": 406,
+          "panelTop": 764,
+          "stageHeight": 480,
+          "textBlocks": 10,
+          "interactive": 1,
+          "interactiveLabels": [
+            "CHANGE IN ROOM 01 · PLACE"
+          ],
+          "words": 76,
+          "stageChangedVsOverview": 0.0008
+        },
+        {
+          "tab": "PAGES",
+          "objectKey": "blueprint|ADVANCED|MODERN|PAGES,PORTAL,SHOP|STANDARD|PAGES",
+          "inspect": null,
+          "pageHeight": 1484,
+          "viewportHeight": 1194,
+          "panelHeight": 582,
+          "panelTop": 764,
+          "stageHeight": 480,
+          "textBlocks": 18,
+          "interactive": 1,
+          "interactiveLabels": [
+            "CHANGE IN ROOM 03 · WORK"
+          ],
+          "words": 28,
+          "stageChangedVsOverview": 0.001
+        },
+        {
+          "tab": "FEATURES",
+          "objectKey": "blueprint|ADVANCED|MODERN|PAGES,PORTAL,SHOP|STANDARD|FEATURES",
+          "inspect": null,
+          "pageHeight": 1357,
+          "viewportHeight": 1194,
+          "panelHeight": 455,
+          "panelTop": 764,
+          "stageHeight": 480,
+          "textBlocks": 9,
+          "interactive": 1,
+          "interactiveLabels": [
+            "CHANGE IN ROOM 03 · WORK"
+          ],
+          "words": 80,
+          "stageChangedVsOverview": 0.0011
+        },
+        {
+          "tab": "TIMELINE",
+          "objectKey": "blueprint|ADVANCED|MODERN|PAGES,PORTAL,SHOP|STANDARD|TIMELINE",
+          "inspect": null,
+          "pageHeight": 1493,
+          "viewportHeight": 1194,
+          "panelHeight": 591,
+          "panelTop": 764,
+          "stageHeight": 480,
+          "textBlocks": 17,
+          "interactive": 1,
+          "interactiveLabels": [
+            "CHANGE IN ROOM 04 · PACE"
+          ],
+          "words": 191,
+          "stageChangedVsOverview": 0.7751
+        }
+      ],
+      "consoleErrors": [
+        "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+        "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+      ]
+    },
+    "1440x900": {
+      "rows": [
+        {
+          "tab": "OVERVIEW",
+          "objectKey": "blueprint|ADVANCED|MODERN|PAGES,PORTAL,SHOP|STANDARD",
+          "inspect": null,
+          "pageHeight": 900,
+          "viewportHeight": 900,
+          "panelHeight": 301,
+          "panelTop": 335,
+          "stageHeight": 900,
+          "textBlocks": 4,
+          "interactive": 5,
+          "interactiveLabels": [
+            "EDIT SELECTIONS",
+            "VISUAL DIRECTION: MODERN. CHANGE IN ROOM",
+            "PAGES: 12 PAGES. OPEN PAGES",
+            "FEATURES: 7 FEATURES. OPEN FEATURES",
+            "PRIORITY: STANDARD. OPEN TIMELINE"
+          ],
+          "words": 40,
+          "stageChangedVsOverview": 0
+        },
+        {
+          "tab": "STRUCTURE",
+          "objectKey": "blueprint|ADVANCED|MODERN|PAGES,PORTAL,SHOP|STANDARD|STRUCTURE",
+          "inspect": null,
+          "pageHeight": 900,
+          "viewportHeight": 900,
+          "panelHeight": 434,
+          "panelTop": 357,
+          "stageHeight": 900,
+          "textBlocks": 10,
+          "interactive": 1,
+          "interactiveLabels": [
+            "CHANGE IN ROOM 01 · PLACE"
+          ],
+          "words": 76,
+          "stageChangedVsOverview": 0.1561
+        },
+        {
+          "tab": "PAGES",
+          "objectKey": "blueprint|ADVANCED|MODERN|PAGES,PORTAL,SHOP|STANDARD|PAGES",
+          "inspect": null,
+          "pageHeight": 900,
+          "viewportHeight": 900,
+          "panelHeight": 582,
+          "panelTop": 357,
+          "stageHeight": 900,
+          "textBlocks": 18,
+          "interactive": 1,
+          "interactiveLabels": [
+            "CHANGE IN ROOM 03 · WORK"
+          ],
+          "words": 28,
+          "stageChangedVsOverview": 0.1926
+        },
+        {
+          "tab": "FEATURES",
+          "objectKey": "blueprint|ADVANCED|MODERN|PAGES,PORTAL,SHOP|STANDARD|FEATURES",
+          "inspect": null,
+          "pageHeight": 900,
+          "viewportHeight": 900,
+          "panelHeight": 469,
+          "panelTop": 357,
+          "stageHeight": 900,
+          "textBlocks": 9,
+          "interactive": 1,
+          "interactiveLabels": [
+            "CHANGE IN ROOM 03 · WORK"
+          ],
+          "words": 80,
+          "stageChangedVsOverview": 0.1365
+        },
+        {
+          "tab": "TIMELINE",
+          "objectKey": "blueprint|ADVANCED|MODERN|PAGES,PORTAL,SHOP|STANDARD|TIMELINE",
+          "inspect": null,
+          "pageHeight": 900,
+          "viewportHeight": 900,
+          "panelHeight": 620,
+          "panelTop": 357,
+          "stageHeight": 900,
+          "textBlocks": 17,
+          "interactive": 1,
+          "interactiveLabels": [
+            "CHANGE IN ROOM 04 · PACE"
+          ],
+          "words": 191,
+          "stageChangedVsOverview": 0.0022
+        }
+      ],
+      "consoleErrors": [
+        "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+        "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+      ]
+    }
+  }
+}

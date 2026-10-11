@@ -7,6 +7,7 @@ import { PROJECT_WORKSPACE_TABS } from '../config/nav';
 import { SITE00_ADMIN_ROUTES } from '../config/routes';
 import { site00StudioPath } from '../../config/routes';
 import { site00ProductionApi } from '../services/productionApi';
+import { ProjectPlatformEconomicsPanel } from './operations/PlatformRevenuePage';
 import type { Site00ProjectWorkspacePayload } from '../types/production';
 
 function projectNumber(project: { id: string; metadata?: Record<string, unknown> | null }): string {
@@ -21,6 +22,7 @@ export default function Site00AdminProjectWorkspacePage() {
   const { projectId = '' } = useParams();
   const { pathname } = useLocation();
   const section = pathname.split('/').pop() ?? 'overview';
+  const isCommercial = section === 'commercial';
   const apiSection = ['intelligence', 'studio', 'approvals', 'deliverables', 'access', 'activity'].includes(section)
     ? section
     : 'overview';
@@ -86,7 +88,9 @@ export default function Site00AdminProjectWorkspacePage() {
 
       {error ? <p className="site00-admin-panel">{error.toUpperCase()}</p> : null}
 
-      {(apiSection === 'overview' || apiSection === 'studio') && (
+      {isCommercial ? <ProjectPlatformEconomicsPanel projectId={projectId} /> : null}
+
+      {!isCommercial && (apiSection === 'overview' || apiSection === 'studio') && (
         <>
           <StudioPipelineBar pipeline={undefined} />
           {summary ? (
@@ -100,7 +104,7 @@ export default function Site00AdminProjectWorkspacePage() {
         </>
       )}
 
-      {apiSection === 'overview' && (
+      {!isCommercial && apiSection === 'overview' && (
         <div className="site00-admin-grid site00-admin-grid--2">
           <section className="site00-control-panel">
             <h2 className="site00-control-panel__title">NEXT BEST ACTION</h2>

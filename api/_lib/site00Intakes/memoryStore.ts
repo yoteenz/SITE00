@@ -81,7 +81,12 @@ export async function listUnclaimedIntakesByEmail(email: string): Promise<Intake
 export async function updateIntake(intakeType: IntakeType, id: string, patch: IntakeUpdate): Promise<IntakeRecord> {
   const record = intakes.find((r) => r.intakeType === intakeType && r.id === id);
   if (!record) throw new Error('INTAKE NOT FOUND');
-  Object.assign(record, patch, { updatedAt: new Date().toISOString() });
+  for (const [key, value] of Object.entries(patch)) {
+    if (value !== undefined) {
+      (record as Record<string, unknown>)[key] = value;
+    }
+  }
+  record.updatedAt = new Date().toISOString();
   return record;
 }
 
