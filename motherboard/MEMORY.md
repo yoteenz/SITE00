@@ -16169,3 +16169,11 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decisions / outcomes:** Gate B messaging migration **not** applied. Production DDL migrations **applied** (13 tables, RLS). Disposable production E2E **PASS** (API+DB); live site00.com bundle still **STALE** until founder cPanel upload; Railway redeploy needed after merge for await/authoritative-load fixes. Anthony link **READY** via founder-only mint (`ANTHONY_CONTACT_EMAIL`); never commit token or auto-send.
 - **Changes:** `api/_lib/digitalFoundation/persistence/supabaseStore.ts`, `api/site00/digital-foundation-artifact.ts`, `scripts/site00/df-gate-a-production-e2e.mjs`, `scripts/site00/mint-anthony-foundation-invite.mjs`, `motherboard/MEMORY.md`.
 - **Conventions:** Gate A = invite, intake, save/resume, submit, founder retrieval only. Do not block Anthony on Gate B (Stripe, messaging, email).
+
+---
+
+## 2026-10-11 — Production release CI test fixes (BLDR + orchestration + JURNL)
+
+- **Context:** Founder shared failing **SITE 00 Production Release / test** run (16 files / 27 tests). Stale BLDR tests referenced removed `site00-builder-spatial-studio.css`; orchestration inventory missed `OrchestrationDebugPage` due to 8000-file walk cap.
+- **Changes:** PR #1609 — updated BLDR spatial studio tests for `BuilderStudio`; fixed `repositoryInventory` walk; JURNL/F09/B50R1 test alignment; CI vitest `import.meta.env` defines for JURNL server persistence; workflow `VITE_JURNL_SERVER_PERSISTENCE=1`.
+- **Outcome:** Local `CI=true npm test` → **16** failing tests (down from **27**); BLDR + orchestration inventory failures resolved. Remaining failures are mostly single-failure p0vr / live-capture / production-chrome sprint tests.
