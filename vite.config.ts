@@ -283,6 +283,8 @@ export default defineConfig(({ mode, command }) => {
           chunkFileNames: 'assets/[name].[hash].js',
           assetFileNames: 'assets/[name].[hash].[ext]',
           manualChunks: (id) => {
+            // three.js is only used by the lazy Builder studio route; keep it out of the shared vendor chunk.
+            if (id.includes('node_modules/three/')) return 'three';
             if (id.includes('node_modules')) return 'vendor';
           },
         },

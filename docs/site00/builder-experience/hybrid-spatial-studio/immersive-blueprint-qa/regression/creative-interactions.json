@@ -1,0 +1,236 @@
+[
+  {
+    "id": "L-390x844-1",
+    "name": "390x844: no horizontal page scroll in any room",
+    "result": "PASS",
+    "detail": "place:0 feel:0 work:0 pace:0 blueprint:0"
+  },
+  {
+    "id": "L-390x844-2",
+    "name": "390x844: every headline line sets on one line inside the viewport",
+    "result": "PASS",
+    "detail": ""
+  },
+  {
+    "id": "L-390x844-3",
+    "name": "390x844: no text overflows its box",
+    "result": "PASS",
+    "detail": ""
+  },
+  {
+    "id": "L-390x844-4",
+    "name": "390x844: rooms 01–04 fit one screen with CONTINUE visible",
+    "result": "PASS",
+    "detail": "place:cta-on-screen feel:cta-on-screen work:cta-on-screen pace:cta-on-screen"
+  },
+  {
+    "id": "L-393x852-1",
+    "name": "393x852: no horizontal page scroll in any room",
+    "result": "PASS",
+    "detail": "place:0 feel:0 work:0 pace:0 blueprint:0"
+  },
+  {
+    "id": "L-393x852-2",
+    "name": "393x852: every headline line sets on one line inside the viewport",
+    "result": "PASS",
+    "detail": ""
+  },
+  {
+    "id": "L-393x852-3",
+    "name": "393x852: no text overflows its box",
+    "result": "PASS",
+    "detail": ""
+  },
+  {
+    "id": "L-393x852-4",
+    "name": "393x852: rooms 01–04 fit one screen with CONTINUE visible",
+    "result": "PASS",
+    "detail": "place:cta-on-screen feel:cta-on-screen work:cta-on-screen pace:cta-on-screen"
+  },
+  {
+    "id": "L-834x1194-1",
+    "name": "834x1194: no horizontal page scroll in any room",
+    "result": "PASS",
+    "detail": "place:0 feel:0 work:0 pace:0 blueprint:0"
+  },
+  {
+    "id": "L-834x1194-2",
+    "name": "834x1194: every headline line sets on one line inside the viewport",
+    "result": "PASS",
+    "detail": ""
+  },
+  {
+    "id": "L-834x1194-3",
+    "name": "834x1194: no text overflows its box",
+    "result": "PASS",
+    "detail": ""
+  },
+  {
+    "id": "L-834x1194-4",
+    "name": "834x1194: CONTINUE position (informational)",
+    "result": "INFO",
+    "detail": "place:cta-on-screen feel:cta-on-screen work:cta-on-screen pace:cta-on-screen"
+  },
+  {
+    "id": "L-1440x900-1",
+    "name": "1440x900: no horizontal page scroll in any room",
+    "result": "PASS",
+    "detail": "place:0 feel:0 work:0 pace:0 blueprint:0"
+  },
+  {
+    "id": "L-1440x900-2",
+    "name": "1440x900: every headline line sets on one line inside the viewport",
+    "result": "PASS",
+    "detail": ""
+  },
+  {
+    "id": "L-1440x900-3",
+    "name": "1440x900: no text overflows its box",
+    "result": "PASS",
+    "detail": ""
+  },
+  {
+    "id": "L-1440x900-4",
+    "name": "1440x900: CONTINUE position (informational)",
+    "result": "INFO",
+    "detail": "place:cta-on-screen feel:cta-on-screen work:cta-on-screen pace:cta-on-screen"
+  },
+  {
+    "id": "L-339x734 (text 115%)-1",
+    "name": "339x734 (text 115%): no horizontal page scroll in any room",
+    "result": "PASS",
+    "detail": "place:0 feel:0 work:0 pace:0 blueprint:0"
+  },
+  {
+    "id": "L-339x734 (text 115%)-2",
+    "name": "339x734 (text 115%): every headline line sets on one line inside the viewport",
+    "result": "PASS",
+    "detail": ""
+  },
+  {
+    "id": "L-339x734 (text 115%)-3",
+    "name": "339x734 (text 115%): no text overflows its box",
+    "result": "PASS",
+    "detail": ""
+  },
+  {
+    "id": "L-339x734 (text 115%)-4",
+    "name": "339x734 (text 115%): CONTINUE position (informational)",
+    "result": "INFO",
+    "detail": "place:cta-on-screen feel:cta-on-screen work:scrolls pace:cta-on-screen"
+  },
+  {
+    "id": "L-300x649 (text 130%)-1",
+    "name": "300x649 (text 130%): no horizontal page scroll in any room",
+    "result": "PASS",
+    "detail": "place:0 feel:0 work:0 pace:0 blueprint:0"
+  },
+  {
+    "id": "L-300x649 (text 130%)-2",
+    "name": "300x649 (text 130%): every headline line sets on one line inside the viewport",
+    "result": "PASS",
+    "detail": ""
+  },
+  {
+    "id": "L-300x649 (text 130%)-3",
+    "name": "300x649 (text 130%): no text overflows its box",
+    "result": "PASS",
+    "detail": ""
+  },
+  {
+    "id": "L-300x649 (text 130%)-4",
+    "name": "300x649 (text 130%): CONTINUE position (informational)",
+    "result": "INFO",
+    "detail": "place:scrolls feel:scrolls work:scrolls pace:scrolls"
+  },
+  {
+    "id": "T01",
+    "name": "Roles use the faces identified from the references (display · values · wordmark · UI)",
+    "result": "PASS",
+    "detail": "\"BS Display\" · \"BS Value\" · \"BS Mark\" · \"BS Sans\""
+  },
+  {
+    "id": "T02",
+    "name": "Oswald 600, Barlow Semi Condensed 700, Barlow 700 and Roboto 400 are actually loaded (not fallbacks)",
+    "result": "PASS",
+    "detail": "BS Display 500, BS Display 600, BS Mark 500, BS Mark 700, BS Value 600, BS Value 700, BS Sans 400, BS Sans 500"
+  },
+  {
+    "id": "T03",
+    "name": "No superseded studio faces are loaded (Anton / Inter / Saira)",
+    "result": "PASS",
+    "detail": ""
+  },
+  {
+    "id": "K01",
+    "name": "ArrowRight selects and focuses the next Blueprint section",
+    "result": "PASS",
+    "detail": "{\"sel\":\"02STRUCTURE\",\"focus\":\"02STRUCTURE\"}"
+  },
+  {
+    "id": "K02",
+    "name": "End / wrap / ArrowLeft / Home move through the sections",
+    "result": "PASS",
+    "detail": "05TIMELINE → 01OVERVIEW → 05TIMELINE → 01OVERVIEW"
+  },
+  {
+    "id": "K03",
+    "name": "Only the selected section is in the tab order (roving tabindex)",
+    "result": "PASS",
+    "detail": "[0,-1,-1,-1,-1]"
+  },
+  {
+    "id": "F01",
+    "name": "Each Blueprint section re-lights the Build Object (distinct inspection focus)",
+    "result": "PASS",
+    "detail": "blueprint|ADVANCED|EDITORIAL|PAGES,SHOP|STANDARD|STRUCTURE:- | blueprint|ADVANCED|EDITORIAL|PAGES,SHOP|STANDARD|PAGES:- | blueprint|ADVANCED|EDITORIAL|PAGES,SHOP|STANDARD|FEATURES:- | blueprint|ADVANCED|EDITORIAL|PAGES,SHOP|STANDARD|TIMELINE:done"
+  },
+  {
+    "id": "F02",
+    "name": "Section indicator follows the selected section",
+    "result": "PASS",
+    "detail": "{\"dx\":0,\"dw\":0,\"label\":\"05TIMELINE\"}"
+  },
+  {
+    "id": "R01",
+    "name": "Reduced motion: the section reveal does not animate",
+    "result": "PASS",
+    "detail": "none"
+  },
+  {
+    "id": "F03",
+    "name": "Returning to OVERVIEW restores the overview composition",
+    "result": "PASS",
+    "detail": ""
+  },
+  {
+    "id": "D01",
+    "name": "Confirmation opens as a modal dialog and takes focus",
+    "result": "PASS",
+    "detail": "{\"modal\":\"true\",\"focus\":\"CLOSE\"}"
+  },
+  {
+    "id": "D02",
+    "name": "Proposal rows name each choice once (no \"BUILD BUILD\")",
+    "result": "PASS",
+    "detail": "01PLACEADVANCED BUILD / 02FEELEDITORIAL / 03WORKPAGES · SHOP / 04PACESTANDARD"
+  },
+  {
+    "id": "D03",
+    "name": "Proposal range is the same canonical figure as the Blueprint",
+    "result": "PASS",
+    "detail": "$18,000 – $34,000 vs 3 – 6 MONTHS | $18,000 – $34,000"
+  },
+  {
+    "id": "D04",
+    "name": "Submit stays locked until SITE 00 can reply (guest email)",
+    "result": "PASS",
+    "detail": ""
+  },
+  {
+    "id": "D05",
+    "name": "Escape closes the sheet without submitting",
+    "result": "PASS",
+    "detail": "{\"open\":false,\"status\":\"saved\"}"
+  }
+]

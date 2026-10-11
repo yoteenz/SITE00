@@ -1,9 +1,9 @@
 /** Digital Foundation client shell (DF-C01..C09, C26, C45..C48). Presentation only. */
-import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
-import { DfButton, DfLoadingState } from './components';
+import { DfButton, DfLoadingState, DfSheetRow } from './components';
 import { DfIcon, type DfIconName } from './icons';
-import { DF_ARCHITECTURE_RENDERS } from './objects';
+import { DfCornerFragment, DfCrownObject, DfThresholdHero } from './objects';
 import {
   buildDfMenu,
   DF_VIEW_META,
@@ -256,6 +256,54 @@ function DfDrawer({ open, onClose, children }: { open: boolean; onClose: () => v
   return typeof document !== 'undefined' ? createPortal(drawer, document.body) : drawer;
 }
 
+/** Scope that used to live in the bottom MORE INFORMATION sheet. The menu owns it now. */
+const FOUNDATION_MENU_INFO: { icon: DfIconName; title: string; sub: string; tag: string; detail?: string }[] = [
+  { icon: 'globe', title: 'DOMAIN & OWNERSHIP', sub: 'REGISTER, TRANSFER OR CONNECT YOUR DOMAIN', tag: 'INCLUDED · CONFIGURABLE', detail: 'THE DOMAIN IS REGISTERED IN YOUR NAME. YOU OWN IT.' },
+  {
+    icon: 'envelope',
+    title: 'PROFESSIONAL EMAIL',
+    sub: 'BUSINESS MAILBOX, ALIASES AND CONFIGURATION',
+    tag: 'CORE · INCLUDED',
+    detail: 'ONE MAILBOX IS INCLUDED. EACH ADDITIONAL MAILBOX IS A PAID ADD-ON.',
+  },
+  { icon: 'layers', title: 'EMAIL ALIASES', sub: 'INFO@, BILLING@, ETC.', tag: 'CORE · INCLUDED' },
+  { icon: 'shield', title: 'EMAIL SECURITY', sub: 'SPF, DKIM, DMARC SETUP', tag: 'CORE · INCLUDED' },
+  { icon: 'document', title: 'EMAIL SIGNATURE', sub: 'PROFESSIONAL SIGNATURE DESIGN AND SETUP', tag: 'CORE · INCLUDED' },
+  { icon: 'phone', title: 'DEVICE SETUP', sub: 'ONE DEVICE INCLUDED · ADD YOUR TEAM', tag: 'INCLUDED · CONFIGURABLE' },
+  {
+    icon: 'swap',
+    title: 'EMAIL MIGRATION',
+    sub: 'MOVE FROM EXISTING PROVIDER',
+    tag: 'PAID ADD-ON · MANUAL REVIEW',
+    detail: 'SITE 00 CONFIRMS MIGRATION SCOPE AND PRICING BEFORE CHECKOUT.',
+  },
+];
+
+function DfMenuInformation() {
+  const [open, setOpen] = useState<string | null>(null);
+  return (
+    <section className="df-drawer__info" aria-label="MORE INFORMATION">
+      <h2 className="df-drawer__info-title">MORE INFORMATION</h2>
+      <p className="df-drawer__info-summary">DOMAIN, EMAIL, SECURITY AND MORE</p>
+      <ul className="df-srows">
+        {FOUNDATION_MENU_INFO.map((row) => (
+          <DfSheetRow
+            key={row.title}
+            icon={row.icon}
+            title={row.title}
+            description={row.sub}
+            tag={row.tag}
+            expanded={open === row.title}
+            onToggle={() => setOpen(open === row.title ? null : row.title)}
+          >
+            {row.detail && <span>{row.detail}</span>}
+          </DfSheetRow>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
 export function DfMenu({
   open,
   onClose,
@@ -329,6 +377,7 @@ export function DfMenu({
             </li>
           ))}
         </ul>
+        <DfMenuInformation />
       </nav>
       <div className="df-drawer__foot">
         <span className="df-drawer__foot-rule" aria-hidden="true" />
@@ -344,9 +393,34 @@ export function DfMenu({
   );
 }
 
-/** Clear window in the P01 column so the chamber on the full plate stays visible between the lede and the triad. */
+function ObjectSlot({ kind, variant }: { kind: DfObjectKind; variant: DfView | null }) {
+  if (kind === 'none' || kind === 'hero') return null;
+  if (kind === 'crown') {
+    return (
+      <>
+        <div className="df-object df-object--crown" aria-hidden="true">
+          <DfCrownObject variant={variant === 'P05' || variant === 'P06' || variant === 'OVERVIEW' ? variant : 'P04'} />
+        </div>
+        <div className="df-object df-object--corner" aria-hidden="true">
+          <DfCornerFragment />
+        </div>
+      </>
+    );
+  }
+  return (
+    <div className="df-object df-object--corner" aria-hidden="true">
+      <DfCornerFragment />
+    </div>
+  );
+}
+
+/** The original vector chamber, between the lede and the triad. */
 export function DfHeroObject() {
-  return <div className="df-object df-object--hero" aria-hidden="true" />;
+  return (
+    <div className="df-object df-object--hero" aria-hidden="true">
+      <DfThresholdHero />
+    </div>
+  );
 }
 
 /** One parent screen: header, rail, content column, footer, threshold object. */
@@ -367,14 +441,9 @@ export function DfFrame({
   state?: string;
 }) {
   const meta = view ? DF_VIEW_META[view] : null;
-  const plate = object === 'none' ? null : DF_ARCHITECTURE_RENDERS[object];
   return (
-    <div
-      className={`df-screen df-screen--${object}`}
-      data-view={view ?? 'SYSTEM'}
-      data-state={state}
-      style={plate ? ({ '--df-plate': `url("${plate}")` } as CSSProperties) : undefined}
-    >
+    <div className={`df-screen df-screen--${object}`} data-view={view ?? 'SYSTEM'} data-state={state}>
+      <ObjectSlot kind={object} variant={view} />
       <DfHeader onMenu={onMenu} menuOpen={menuOpen} />
       <div className="df-screen__grid">
         <main className="df-screen__main">{children}</main>

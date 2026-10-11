@@ -16066,6 +16066,75 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
+## 2026-10-10 — MORE INFORMATION moves into the menu; page panels restored
+
+- **Context:** Founder on the Digital Foundation phone screens: remove the bottom MORE INFORMATION swipe-up drawer and put that information in the hamburger menu. They also said the page panels still had not been restored.
+- **Topics covered:** The resting peek sheet on P02 (`DfBottomSheet` `variant="peek"`) listed domain, email, security, signature, device setup, and migration. A prior pass had forced field, row, spec, and card fills transparent so the plate showed through. The authority boards keep white field and row panels on the photograph.
+- **Decisions / outcomes:** The bottom peek is gone. The same scope is a MORE INFORMATION section in the hamburger menu, with the same expandable rows. Field inputs are white (`#ffffff`) and service rows are card fill (`#f9f8f6`) again. The full-bleed plate stays behind those panels. Other sheets that open from a control (additional services, add-ons, third-party costs) stay.
+- **Changes:** `src/site00/foundation-client/shell.tsx`, `src/site00/foundation-client/parents/EntryIntake.tsx`, `src/site00/styles/site00-df-client.css`, `tests/digitalFoundationMenuDrawer.test.ts`.
+- **Conventions:** Do not mount a resting bottom MORE INFORMATION sheet. That copy belongs in the menu. Do not strip the panel fill off inputs, rows, specs, or cards. The plate is the page background around those panels.
+
+---
+
+## 2026-10-10 — Generated full-screen plates rejected; original chamber photographs restored
+
+- **Context:** After the menu move and panel restore, the founder said the generated background plates were wrong and to restore the background image.
+- **Topics covered:** `#1576` had replaced `df-g01-hero-chamber.jpg`, `df-g02-crown-fragment.jpg`, and `df-g03-corner-fragment.jpg` with generated 9:16 files (`df-plate-hero.jpg`, `df-plate-crown.jpg`, `df-plate-corner.jpg`) painted as a full-viewport background. The approved photographs are the closer chamber, crown, and corner stills.
+- **Decisions / outcomes:** Those three photographs are back in the hero, crown, and corner slots. The page surface is the cream chamber again. The generated plate files are removed. Field and service panels stay filled. MORE INFORMATION stays in the hamburger menu.
+- **Changes:** `objects.tsx`, `shell.tsx`, `site00-df-client.css`, the three `df-g0*.jpg` files, removal of `df-plate-*.jpg`.
+- **Conventions:** Do not generate a new full-screen plate to stand in for these photographs. The hero image is the chamber between the lede and the triad. Crown and corner are the original fragments, masked into the cream page.
+
+---
+
+## 2026-10-10 — BLDR monument realism pass (same system, better materials)
+
+- **Context:** After the Digital Foundation menu move (#1586) and the chamber-photograph restore (#1587), the founder asked for a realism pass on the BLDR Studio monuments. Same objects, same layout, same selection flow. Enhancement, not a rebuild.
+- **Topics covered:** PLACE (SIMPLE / ADVANCED / CUSTOM / WORLD), FEEL (MODERN / BOLD / EDITORIAL / IMMERSIVE), WORK stacked structure, PACE (STANDARD / EXPEDITED / FLEXIBLE), BLUEPRINT tabs (OVERVIEW / STRUCTURE / PAGES / FEATURES / TIMELINE). Audit of how the monuments are drawn.
+- **Decisions / outcomes:** The monuments are live three.js WebGL (`buildObject/engine.ts`), shared by the hero stage and the card thumbnails. Geometry and camera stay in `composition.ts`. Glass cannot use transmission: the canvas is transparent over the photographic room plate, so a refraction pass shows empty alpha and the panes disappear. Glass stays a painted pane with a specular coat, thicker edge lines, and a higher environment response. Marble and stone get a polish coat and a bump map from the existing procedural canvases. Red acrylic stays `#E50107`. Contact shadow is stronger. Neutral tone mapping, exposure 1.02. No new raster assets. No layout, type, or selection changes.
+- **Changes:** `src/site00/builder-studio/buildObject/engine.ts`, `tests/bldrMonumentRealism.test.ts`, `docs/site00/bldr/MONUMENT_REALISM_PASS1.json`.
+- **Conventions:** Do not replace these monuments with product photography or a new object family. Do not turn glass transmission on while the stage canvas is transparent. Thumbnails must keep using the same materials as the hero.
+
+---
+
+## 2026-10-10 — Digital Foundation backgrounds return to the original vector chamber
+
+- **Context:** After the BLDR material pass, the founder said the background images were still wrong and to restore them to what they were initially. The status that claimed the chamber photographs were the originals (`#1587`, `df-g01` / `df-g02` / `df-g03`) was rejected. Those files were the first OpenArt generation. The 9:16 plates (`df-plate-*`, `#1576`) were the second generation. Neither is the initial architecture.
+- **Topics covered:** PLACE–BLUEPRINT realism on the existing three.js engine, then this restore. Authority boards in `docs/site00/idnty/df-visual-fidelity-v1/` show the vector chamber, crown, and corner on the cream page.
+- **Decisions / outcomes:** `DF_ARCHITECTURE_RENDERS` is null again. Hero, crown, and corner draw the original SVG. The three generated photographs are removed. Panels stay filled. MORE INFORMATION stays in the menu. No full-screen plate.
+- **Changes:** `objects.tsx`, `shell.tsx`, `site00-df-client.css`, `tests/digitalFoundationMenuDrawer.test.ts`, deletion of `df-g01-hero-chamber.jpg`, `df-g02-crown-fragment.jpg`, `df-g03-corner-fragment.jpg`.
+- **Conventions:** Do not mount a generated photograph or a full-screen plate as the Digital Foundation background. The initial architecture is the vector chamber.
+
+---
+
+## 2026-10-10 — Anthony infrastructure recovery (Supabase data plane blocked)
+
+- **Context:** P0 sprint to unblock Anthony Digital Foundation launch. Prior Gate A sprint failed on Supabase 522/timeouts and unverified migrations. User forbade repeating general audits; focus on connectivity, deployment access, and execution plans.
+- **Topics covered:** BLDR realism (#1589), vector chamber restore (#1590), then Anthony infra recovery sprint 5. PR #1585 (DF provider error shape) left open per directive.
+- **Findings:** Supabase management API reports `ACTIVE_HEALTHY` for `hyycomvcaqxxvyrfupes`, but MCP `execute_sql`, `list_migrations`, and authenticated REST all timeout (~12–20 s). Invalid-key REST returns 401 quickly. Production Railway `GET …/digital-foundation-artifact?action=payload` times out ~20 s with 500 `[object Object]` — same data-plane failure, not Composer-only. `site00.com` still serves September bundle `index.D8Jaygrd.js`. Live API `gitCommit` `56cae6852f0c` with persist + intake-only flags on. Railway CLI and cPanel not connected to Composer.
+- **Decisions / outcomes:** Gate A **FAIL/BLOCKED**. Migrations 160000, 170000, 10103000 documented; **do not apply** until founder approves Group A and SQL path works. Deploy order: fix Supabase → migrations → Railway → cPanel ZIP (v11+). Docs under `docs/site00/idnty/ANTHONY_*` and `FOUNDATION_*_EXECUTION*.md`.
+- **Conventions:** Do not merge #1585 until DB path healthy. Do not claim Anthony-ready without live browser proof on current SHAs.
+
+---
+
+## 2026-10-10 — Direct links under each Digital Foundation review route
+
+- **Context:** This chat covered a BLDR realism follow-up, a Digital Foundation visual batch, a preview-tunnel restart, and then a request to put a direct link under every page route on `/foundation/review`.
+- **Topics covered:** BLDR V2 PLACE · ADVANCED benchmark stays on draft PR #1592 and is not merged. Digital Foundation batch A (four OpenArt client screens, review ZIP, draft PR #1593) is images only and is not merged. The preview connector was restarted. The founder then asked for direct links on the review page.
+- **Decisions / outcomes:** Each route in the sticky bar, and each screen header, shows the absolute address for that screen. The host is the page origin, so the preview lists `…/foundation/review#df-r-P01` through `#df-r-OVERVIEW` and `#df-r-bldr-PLACE` through `#df-r-bldr-BLUEPRINT`. Opening a link scrolls that screen below the bar. Do not hardcode the preview hostname. Do not start batch B. Do not implement A01–A04 until the founder approves the ZIP. Do not roll the V2 monument renderer out past the PLACE · ADVANCED benchmark until the founder approves it.
+- **Changes:** `src/site00/pages/foundation/DigitalFoundationReviewPage.tsx`, `src/site00/pages/foundation/reviewLinks.ts`, `src/site00/styles/site00-df-client.css`, `tests/digitalFoundationReviewLinks.test.ts`.
+- **Conventions:** A review screen’s direct address is `/foundation/review` plus its anchor. The visible text is that full URL.
+
+---
+
+## 2026-10-10 — Foundation review flow CTAs scroll to the next screen
+
+- **Context:** Continuation of the review-page direct-link work. The founder reported that **VIEW MY RECOMMENDATION** on P03 did nothing on `/foundation/review` because handlers were no-ops.
+- **Decision:** On the review page only, intake CTAs (BEGIN, CONTINUE, VIEW MY RECOMMENDATION, CONTINUE TO REVIEW, checkout back-links, activation overview) **smooth-scroll** to the next `#df-r-*` block and `replaceState` the hash. No React Router navigation; separate phone frames stay on one page for visual consistency.
+- **Validation:** P03 still uses `validateForRecommendation`; scroll to P04 happens only when the error object is empty.
+- **Changes:** `reviewLinks.ts` (`scrollToReviewAnchor`, `reviewAnchorForView`), `DigitalFoundationReviewPage.tsx`, `digitalFoundationReviewLinks.test.ts`.
+
+---
+
 ## 2026-10-10 — Gate A direct execution stopped at the production gates
 
 - **Context:** Founder ordered Gate A production execution. Merge and production mutation without a per-group approval are not authorized. Live checks ran. No Supabase SQL, Railway env edit, cPanel upload, API restart, charge, or Anthony link was performed.

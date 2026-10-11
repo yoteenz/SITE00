@@ -126,95 +126,6 @@ body:has(.df-root) {
   background: var(--df-bg);
 }
 
-/* Full mobile plate. One 9:16 photograph fills the phone. A long form scrolls over that first viewport. */
-.df-screen--hero,
-.df-screen--crown,
-.df-screen--corner {
-  background: transparent;
-}
-
-.df-screen--hero::before,
-.df-screen--crown::before,
-.df-screen--corner::before {
-  content: '';
-  position: absolute;
-  z-index: 0;
-  top: 0;
-  right: 0;
-  left: 0;
-  height: 100dvh;
-  background-image: var(--df-plate);
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
-  pointer-events: none;
-}
-
-/* The plate is the surface. Hairline borders stay; solid cards do not sit on the photograph. */
-.df-screen--hero :is(
-  .df-input,
-  .df-select__trigger,
-  .df-row,
-  .df-spec,
-  .df-specs--activation,
-  .df-included,
-  .df-addons,
-  .df-split,
-  .df-ack,
-  .df-confirm-card,
-  .df-stages,
-  .df-action-card,
-  .df-triad--proof,
-  .df-footer__code
-),
-.df-screen--crown :is(
-  .df-input,
-  .df-select__trigger,
-  .df-row,
-  .df-spec,
-  .df-specs--activation,
-  .df-included,
-  .df-addons,
-  .df-split,
-  .df-ack,
-  .df-confirm-card,
-  .df-stages,
-  .df-action-card,
-  .df-triad--proof,
-  .df-footer__code
-),
-.df-screen--corner :is(
-  .df-input,
-  .df-select__trigger,
-  .df-row,
-  .df-spec,
-  .df-specs--activation,
-  .df-included,
-  .df-addons,
-  .df-split,
-  .df-ack,
-  .df-confirm-card,
-  .df-stages,
-  .df-action-card,
-  .df-triad--proof,
-  .df-footer__code
-) {
-  background: transparent;
-}
-
-.df-screen--hero .df-input:read-only:not(:disabled),
-.df-screen--crown .df-input:read-only:not(:disabled),
-.df-screen--corner .df-input:read-only:not(:disabled) {
-  background: transparent;
-}
-
-/* The resting MORE INFORMATION peek is portaled to the body. Collapsed, it is type on the plate. */
-body:has(.df-screen--hero, .df-screen--crown, .df-screen--corner) .df-bsheet[data-snap='peek'] .df-bsheet__panel {
-  background: transparent;
-  border-color: transparent;
-  box-shadow: none;
-}
-
 .df-screen__grid {
   position: relative;
   z-index: 1;
@@ -381,8 +292,10 @@ body:has(.df-screen--hero, .df-screen--crown, .df-screen--corner) .df-bsheet[dat
   position: relative;
   z-index: 0;
   height: 300px;
-  /* Opens the column onto the chamber that is already in the full plate. */
+  /* The chamber's empty sky tucks under the lede's short last line, as on the board. */
   margin: -30px calc(-1 * var(--df-gutter)) 0;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 7%);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 7%);
 }
 
 .df-object__etch-num {
@@ -1782,6 +1695,30 @@ button.df-spec__btn {
   border-bottom: 1px solid var(--df-drawer-rule);
 }
 
+.df-drawer__info {
+  padding: 18px 0 8px;
+  border-bottom: 1px solid var(--df-drawer-rule);
+}
+
+.df-drawer__info-title {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--df-ink);
+}
+
+.df-drawer__info-summary {
+  margin: 6px 0 4px;
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  line-height: 1.5;
+  color: var(--df-muted);
+  text-transform: uppercase;
+}
+
 .df-drawer__step,
 .df-drawer__place {
   display: grid;
@@ -2106,20 +2043,47 @@ button.df-spec__btn {
   top: 0;
   z-index: 30;
   display: flex;
-  gap: 14px;
+  align-items: flex-start;
+  gap: 18px;
   overflow-x: auto;
   padding: 12px 14px;
   background: #0c0c0c;
   color: #f3f2ef;
 }
 
-.df-review__nav a {
+.df-review__route {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 0 0 auto;
+}
+
+.df-review__route-name {
   color: inherit;
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.12em;
   text-decoration: none;
   white-space: nowrap;
+}
+
+.df-review__direct {
+  display: block;
+  color: #f3f2ef;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  line-height: 1.35;
+  word-break: break-all;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  user-select: text;
+}
+
+.df-review__nav .df-review__direct {
+  font-size: 10px;
+  white-space: nowrap;
+  word-break: normal;
 }
 
 .df-review__intro {
@@ -2142,18 +2106,27 @@ button.df-spec__btn {
 
 .df-review__item {
   width: min(100%, 390px);
+  scroll-margin-top: 72px;
   background: #f3f2ef;
   box-shadow: 0 10px 28px rgba(12, 12, 12, 0.08);
 }
 
+.df-review__mark {
+  background: #0c0c0c;
+}
+
 .df-review__label {
   margin: 0;
-  padding: 12px 16px;
+  padding: 12px 16px 6px;
   background: #0c0c0c;
   color: #f3f2ef;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.16em;
+}
+
+.df-review__mark .df-review__direct {
+  padding: 0 16px 12px;
 }
 
 .df-review__wait {

@@ -24,10 +24,16 @@
 
 | Check | Status | Evidence |
 | --- | --- | --- |
-| MCP `list_migrations` on project | **BLOCKED** | Connection timeout from cloud agent |
-| Direct query `site00_df_artifacts` from agent VM | **BLOCKED** | 15s timeout |
-| API reports `supabaseConfigured: true` | **CONFIGURED** | `GET /api/health` 2026-10-10 |
-| Migration applied on live DB | **UNVERIFIED** | No successful schema read this sprint |
+| MCP `list_migrations` on project | **BLOCKED** | Connection timeout (2026-10-10 recovery sprint 5) |
+| MCP `execute_sql` `SELECT 1` | **BLOCKED** | Connection timeout |
+| REST with valid key (VM) | **BLOCKED** | ~12–15 s client timeout |
+| Railway `action=payload` (production) | **BLOCKED** | ~20 s → 500 `[object Object]` |
+| REST with invalid key (VM) | **OK** | 401 ~70 ms (edge only) |
+| Management `get_project` | **OK** | `ACTIVE_HEALTHY` |
+| API reports `supabaseConfigured: true` | **CONFIGURED** | `GET /api/health` — `gitCommit` `56cae6852f0c` |
+| Migration applied on live DB | **UNVERIFIED** | No successful schema read |
+
+See `ANTHONY_SUPABASE_522_ROOT_CAUSE.md` for full matrix.
 
 ## Safety review (SQL)
 

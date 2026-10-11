@@ -2341,7 +2341,25 @@ export function Site00Routes() {
         }
       />
       {Site00PublicPageRoutes(SITE00_ROUTES.bldrStart, BldrStartPage)}
-      {Site00PublicPageRoutes(SITE00_ROUTES.bldrSpatialStudio, BldrSpatialStudioPage)}
+      {/* Hybrid Spatial Studio: full-bleed (no public phone-artboard shell); rooms are sub-paths. */}
+      <Route
+        path={`${SITE00_ROUTES.bldrSpatialStudio}/*`}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <BldrSpatialStudioPage />
+            </Site00Suspense>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={site00PublicDesktopPath(SITE00_ROUTES.bldrSpatialStudio)}
+        element={
+          <Site00Layout>
+            <Site00PublicDesktopLegacyRedirect />
+          </Site00Layout>
+        }
+      />
       <Route
         path="/bldr/:classSlug/*"
         element={
