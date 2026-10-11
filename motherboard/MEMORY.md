@@ -16160,6 +16160,15 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Batch A handoff:** `batch-a/BATCH_A_OPUS_HANDOFF_CORRECTIONS.md` — no “decision recorded” while pending; revision reason optional label must match contract at implementation.
 - **Review flow:** PR #1595 merged — VIEW MY RECOMMENDATION scrolls to `#df-r-P04` without router navigation.
 
+---
+
+## 2026-10-11 — Remove committed MEMORY.md conflict markers
+
+- **Context:** `origin/main` had an unresolved merge left in `motherboard/MEMORY.md` (BLDR V2 benchmark entry versus the batch B log). That marker block made later branches report conflicts with `main`.
+- **Resolution:** Both log entries stay. The conflict markers are removed. No product code changed.
+
+---
+
 ## 2026-10-11 — Email V2: NDX editorial intelligence + three-email benchmark (founder review)
 
 - **Context:** The founder rejected the V1 lean email pack (PR #1603). The copy repeated itself, read as mechanical, and narrated internal contract rules to customers. Sprint `P0.SITE00.IDNTY.EMAIL-V2-NDX-EDITORIAL-INTELLIGENCE-BESPOKE-COMPOSITION-AND-THREE-EMAIL-BENCHMARK1`, run by Claude Opus. Constraints: no OpenArt (0 credits), no sending, no merge, no deploy, no migrations, V1 files untouched.
@@ -16211,20 +16220,6 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Decisions / outcomes:** Gate B messaging migration **not** applied. Production DDL migrations **applied** (13 tables, RLS). Disposable production E2E **PASS** (API+DB); live site00.com bundle still **STALE** until founder cPanel upload; Railway redeploy needed after merge for await/authoritative-load fixes. Anthony link **READY** via founder-only mint (`ANTHONY_CONTACT_EMAIL`); never commit token or auto-send.
 - **Changes:** `api/_lib/digitalFoundation/persistence/supabaseStore.ts`, `api/site00/digital-foundation-artifact.ts`, `scripts/site00/df-gate-a-production-e2e.mjs`, `scripts/site00/mint-anthony-foundation-invite.mjs`, `motherboard/MEMORY.md`.
 - **Conventions:** Gate A = invite, intake, save/resume, submit, founder retrieval only. Do not block Anthony on Gate B (Stripe, messaging, email).
-
-## 2026-10-11 — Email V2: NDX editorial intelligence + three-email benchmark (founder review)
-
-- **Context:** The founder rejected the V1 lean email pack (PR #1603). The copy repeated itself, read as mechanical, and narrated internal contract rules to customers. Sprint `P0.SITE00.IDNTY.EMAIL-V2-NDX-EDITORIAL-INTELLIGENCE-BESPOKE-COMPOSITION-AND-THREE-EMAIL-BENCHMARK1`, run by Claude Opus. Constraints: no OpenArt (0 credits), no sending, no merge, no deploy, no migrations, V1 files untouched.
-- **Outcome:** Branch `cursor/df-email-v2-ndx-benchmark-a9f7`, draft PR, not merged.
-  - Authority docs are in `docs/site00/idnty/visual-authority/email-v2/authority/`: `NDX_METHODOLOGY_RECOVERY.md` (method recovered: YES), `EDITORIAL_VOICE_SYSTEM.md`, and `COMPOSITION_AUTHORITY.md`.
-  - B01 invitation is a personal LETTER, B02 completion is a milestone RECORD with a code-native slab and ledger, and B03 M06 BLDR is an editorial FEATURE with three SVG plans.
-  - Source is in `scripts/df-email-v2-benchmark/` and covers prepare, render, QA and package.
-  - Six renders. Copy QA passes: 0 shared 5-grams, 8–10 structural differences between each pair, and 11/11 rejected V1 lines flagged.
-- **Release:** `df-v2-email-ndx-benchmark-2026-10-11` (ZIP sha256 `47a6bce9…`, download verified).
-- **Conventions:**
-  - All SITE 00-authored copy is uppercase. Client names, emails, domains, URLs and tokens keep their original case.
-  - Never put system or contract language in customer copy. Gaps are logged in `qa/CONTRACT_GAPS.md` (invitation route, `completed_stages`, M06 `public_token`, `unsubscribe_url`/`postal_address`, sender).
-  - The 17-email rollout is NOT AUTHORIZED until the founder approves the benchmarks (`ROLLOUT_PLAN.md`, Gates 0–4).
 
 ## 2026-10-11 — Correspondence Studio V2 pipeline (multi-brand, delivery, Opus import)
 
