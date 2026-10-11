@@ -18,11 +18,12 @@ def pad(t: int, b: int = 0) -> str:
 
 def mast(left: str, right: str = "", icon: str = "", top: int = 34) -> str:
     ic = f'<td valign="middle" width="34" style="width:34px;"><img src="../assets/{icon}" width="24" height="24" alt=""></td>' if icon else ""
-    r = f'<td valign="middle" align="right" class="sa micro" style="color:#141414;text-align:right;">{right}</td>' if right else ""
+    r = f'<td valign="middle" align="right" class="sa micro desk" style="color:#141414;text-align:right;padding-left:16px;white-space:nowrap;">{right}</td>' if right else ""
+    under = f'<span class="mob-i" style="display:none;mso-hide:all;"><br><span style="color:#6f6c67;">{right}</span></span>' if right else ""
     return (
         f'<tr><td class="px" style="{pad(top)}">'
         f'<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>{ic}'
-        f'<td valign="middle" class="sa micro" style="color:#141414;">{left}</td>{r}</tr></table></td></tr>'
+        f'<td valign="middle" class="sa micro" style="color:#141414;">{left}{under}</td>{r}</tr></table></td></tr>'
     )
 
 
@@ -51,7 +52,7 @@ def intake_started() -> Email:
           + e.picture(("gen/door_floor.jpg", 544, 233), "LOW SUN THROUGH AN OPEN RED GLASS DOOR, CASTING RED LIGHT ACROSS A PALE STONE FLOOR.", ("gen/door_floor_m.jpg", 390, 234))
           + '<p class="sa fig ajar-cap px" style="text-align:left;">FIG. 01 · <b>■</b> THE DOOR, LEFT AS YOU LEFT IT</p></td></tr>')
     e.add(f'<tr><td class="px" style="{pad(40)}"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>'
-          '<td valign="top" class="col" width="300" style="width:300px;padding-right:28px;">'
+          '<td valign="top" class="col flush" width="300" style="width:300px;padding-right:28px;">'
           '<p class="sa body">ANSWER THE NEXT QUESTION WHEN YOU HAVE A MINUTE, OR SIT DOWN WITH THE REST IN ONE GO. WHICHEVER SUITS THE WAY YOU WORK.</p></td>'
           '<td valign="top" class="col mt-m" style="padding-top:4px;"><div class="note">'
           "<p>IF A QUESTION ASKS FOR SOMETHING NOBODY ON YOUR TEAM QUITE REMEMBERS, SAY SO. WORKING THAT OUT IS OUR PART OF THE JOB.</p>"
@@ -115,7 +116,7 @@ def quote_ready() -> Email:
           '<tr><td class="k sa">STATUS</td><td class="val sa">WAITING FOR YOUR REVIEW</td></tr>'
           "</table></td></tr>")
     e.add(f'<tr><td class="px" style="{pad(36)}"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>'
-          '<td valign="top" class="col" width="300" style="width:300px;padding-right:28px;"><p class="sa body">READ IT AT YOUR OWN PACE. NOTHING IS AGREED UNTIL YOU ACCEPT IT IN YOUR FOUNDATION, AND PAYMENT IS A SEPARATE STEP AFTER THAT.</p></td>'
+          '<td valign="top" class="col flush" width="300" style="width:300px;padding-right:28px;"><p class="sa body">READ IT AT YOUR OWN PACE. NOTHING IS AGREED UNTIL YOU ACCEPT IT IN YOUR FOUNDATION, AND PAYMENT IS A SEPARATE STEP AFTER THAT.</p></td>'
           '<td valign="top" class="col mt-m"><div class="note"><p>THE TOTAL HERE IS COPIED FROM YOUR QUOTE. IF THE TWO EVER DISAGREE, THE QUOTE IN YOUR FOUNDATION IS THE ONE THAT COUNTS.</p></div></td>'
           "</tr></table></td></tr>")
     e.add(f'<tr><td class="px" style="{pad(40)}">' + button("REVIEW YOUR QUOTE") + printed_link() + "</td></tr>")
@@ -133,14 +134,14 @@ def quote_updated() -> Email:
           '<td valign="top" class="col" width="260" style="width:260px;">'
           + e.picture(("gen/model_detail.jpg", 260, 174), "CLOSE VIEW OF THE RED GLASS VOLUME IN A WHITE ARCHITECTURAL MODEL.", max_w=260)
           + '<p class="sa fig" style="margin-top:10px;">FIG. 02 · <b>■</b> ONE PART, RECONSIDERED</p></td>'
-          '<td valign="bottom" class="col mt-m" style="padding-left:30px;">'
+          '<td valign="bottom" class="col mt-m flush" style="padding-left:30px;">'
           + e.headline(f"A NEW VERSION OF YOUR QUOTE{stop()}", 50, 40)
           + "</td></tr></table></td></tr>")
     e.add(f'<tr><td class="px" style="{pad(34)}"><p class="sa intro">WE\'VE REVISED YOUR QUOTE. PLEASE READ VERSION {v("3")} BEFORE YOU GO ANY FURTHER.</p></td></tr>')
     e.add(f'<tr><td class="px" style="{pad(34)}">' + label("REVISION TABLE")
           + '<table role="presentation" class="rev" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:18px;">'
           '<tr><td class="r sa micro">EARLIER</td><td class="sa body" style="color:#8a8780;text-decoration:line-through;">THE VERSION YOU HAD BEFORE</td><td class="sa micro" align="right" style="text-align:right;">REPLACED</td></tr>'
-          f'<tr class="cur"><td class="r dp d800" style="font-size:24px;color:#d90c0c;">V{v("3")}</td><td class="sa body" style="color:#141414;">CURRENT · TOTAL <span style="font-weight:600;">{v("$2,400.00")}</span></td><td class="sa micro" align="right" style="text-align:right;color:#141414;">READ THIS ONE</td></tr>'
+          f'<tr class="cur"><td class="r dp d800" style="font-size:24px;color:#d90c0c;">V{v("3")}</td><td class="sa body" style="color:#141414;"><span class="sa micro" style="color:#141414;">CURRENT · TOTAL</span><br><span style="font-weight:600;">{v("$2,400.00")}</span></td><td class="sa micro" align="right" style="text-align:right;color:#141414;">READ THIS ONE</td></tr>'
           "</table></td></tr>")
     e.add(f'<tr><td class="px" style="{pad(30)}"><table role="presentation" class="fluid" width="460" cellpadding="0" cellspacing="0" border="0" style="width:460px;"><tr><td>'
           "<p class=\"sa body\">IF YOU HAD ALREADY ACCEPTED AN EARLIER VERSION, YOUR FOUNDATION SHOWS WHETHER THAT ACCEPTANCE STILL STANDS.</p></td></tr></table></td></tr>")
@@ -156,7 +157,7 @@ def quote_accepted() -> Email:
     e.style(".sig .lb { padding-top: 9px; }")
     e.mobile(".sig-gap { display: block !important; height: 26px !important; width: 100% !important; }")
     e.add(mast("SITE 00 · DIGITAL FOUNDATION", "ACCEPTANCE", "gfx/icon-countersign.png", top=34))
-    e.add(f'<tr><td class="px" style="{pad(44)}">' + e.headline(f"AGREED{stop()}", 150, 112) + "</td></tr>")
+    e.add(f'<tr><td class="px" style="{pad(44)}">' + e.headline(f"AGREED{stop()}", 118, 72) + "</td></tr>")
     e.add(f'<tr><td class="px" style="{pad(26)}"><p class="sa intro">THANK YOU. YOUR ACCEPTANCE OF QUOTE VERSION {v("3")} IS ON RECORD, UNDER TERMS {v("2026-10")}.</p></td></tr>')
     e.add(f'<tr><td class="px" style="{pad(44)}"><table role="presentation" class="sig" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>'
           '<td class="col" width="262" style="width:262px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">'
@@ -209,10 +210,10 @@ def payment_confirmed() -> Email:
           + "</td></tr>")
     e.add(f'<tr><td class="px" style="{pad(44)}"><p class="sa micro" style="color:#d90c0c;">■ RECEIVED WITH THANKS</p>'
           f'<p class="dp d900 amt" style="margin-top:14px;color:#141414;">{v("$2,400.00")}</p>'
-          f'<p class="sa cap" style="margin-top:14px;">FOR YOUR DIGITAL FOUNDATION</p></td></tr>')
+          f'<p class="sa cap" style="margin-top:26px;">FOR YOUR DIGITAL FOUNDATION</p></td></tr>')
     e.add(f'<tr><td class="px" style="{pad(34)}"><div class="perf">&nbsp;</div></td></tr>')
     e.add(f'<tr><td class="px" style="{pad(34)}"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>'
-          '<td valign="top" class="col" width="250" style="width:250px;padding-right:26px;">' + e.headline("THANK YOU. THE PAYMENT IS IN.", 36, 32, weight=800, tag="h2") + "</td>"
+          '<td valign="top" class="col flush" width="250" style="width:250px;padding-right:26px;">' + e.headline("THANK YOU. THE PAYMENT IS IN.", 36, 32, weight=800, tag="h2") + "</td>"
           '<td valign="top" class="col mt-m"><p class="sa body">IT\'S RECORDED AGAINST YOUR FOUNDATION. WHEN THE PROJECT OPENS, YOU\'LL HEAR FROM US IN ITS OWN EMAIL.</p>'
           '<p class="sa body" style="margin-top:14px;color:#5e5e5e;">KEEP THIS MESSAGE FOR YOUR RECORDS.</p></td>'
           "</tr></table></td></tr>")
@@ -264,7 +265,7 @@ def project_activated() -> Email:
     e.add(f'<tr><td class="px" style="{pad(36)}"><p class="sa intro">YOUR FOUNDATION PROJECT IS ACTIVE. FROM HERE, THE WORK BEGINS ON THE GROUND {NAME} WILL STAND ON.</p></td></tr>')
     stages = ["DOMAIN", "PROFESSIONAL EMAIL", "DNS AND SECURITY", "DEVICES AND SIGNATURE", "FINAL VERIFICATION"]
     cells = "".join(
-        f'<td class="{"first" if i == 0 else ""}"><div class="bar">&nbsp;</div><div class="n dp d800">{i + 1:02d}</div><div class="s sa">{s}</div></td>'
+        f'<td class="{"first" if i == 0 else ""}"><div class="bar">&nbsp;</div><div class="n dp d800">{i + 1:02d}</div><div class="s sa"><span>{s}</span></div></td>'
         for i, s in enumerate(stages)
     )
     e.add(f'<tr><td class="px" style="{pad(40)}">' + label("WHAT WILL BE BUILT")
@@ -322,7 +323,7 @@ def client_action_required() -> Email:
           f"<p class=\"sa body\">IT'S WAITING ON YOUR DIGITAL FOUNDATION, AND IT STAYS OPEN UNTIL YOU'VE DEALT WITH IT.</p></td></tr></table></td></tr>")
     e.add(f'<tr><td class="px" style="{pad(36)}"><table role="presentation" cellpadding="0" cellspacing="0" border="0" class="fluid"><tr>'
           '<td class="col" valign="middle">' + button("COMPLETE THE REQUEST") + "</td>"
-          '<td class="col mt-m" valign="middle" style="padding-left:26px;">' + text_link("OPEN YOUR PROJECT") + "</td>"
+          '<td class="col mt-m flush" valign="middle" style="padding-left:26px;">' + text_link("OPEN YOUR PROJECT") + "</td>"
           "</tr></table></td></tr>")
     e.add(e.footer("ops", named=False))
     return e
@@ -335,7 +336,7 @@ def approval_requested() -> Email:
     e.style(".how .n { width: 46px; }")
     e.add(mast("SITE 00 · DIGITAL FOUNDATION", "FOR YOUR DECISION", "gfx/icon-decision.png", top=34))
     e.add(f'<tr><td class="px" style="{pad(46)}"><p class="sa kick">WHEN YOU HAVE A MOMENT,</p>'
-          + e.headline(f"YOUR SIGN-OFF, PLEASE{stop()}", 64, 46, style="margin-top:12px;") + "</td></tr>")
+          + e.headline(f'YOUR <span style="white-space:nowrap;">SIGN-OFF,</span><br>PLEASE{stop()}', 64, 46, style="margin-top:12px;") + "</td></tr>")
     e.add(f'<tr><td class="px" style="{pad(36)}"><table role="presentation" class="dec" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>'
           '<td valign="middle" width="64" style="width:64px;padding:20px 0;"><img src="../assets/gfx/icon-decision.png" width="40" height="40" alt=""></td>'
           f'<td valign="middle" style="padding:20px 0;"><p class="sa micro">FOR APPROVAL</p><p class="sa" style="margin-top:8px;font-weight:600;font-size:22px;line-height:1.3;color:#141414;text-transform:none;">{v("Your email signature layout")}</p></td>'
@@ -348,7 +349,7 @@ def approval_requested() -> Email:
           "</table></td></tr>")
     e.add(f'<tr><td class="px" style="{pad(24)}"><table role="presentation" cellpadding="0" cellspacing="0" border="0" class="fluid"><tr>'
           '<td class="col" valign="middle">' + button("REVIEW AND APPROVE") + "</td>"
-          '<td class="col mt-m" valign="middle" style="padding-left:26px;">' + text_link("OPEN YOUR PROJECT") + "</td>"
+          '<td class="col mt-m flush" valign="middle" style="padding-left:26px;">' + text_link("OPEN YOUR PROJECT") + "</td>"
           "</tr></table></td></tr>")
     e.add(e.footer("ops", named=False))
     return e
@@ -361,7 +362,7 @@ def approval_completed() -> Email:
     e.add(f'<tr><td class="px" style="{pad(40)}"><p class="sa micro" style="color:#141414;">SITE 00 · DIGITAL FOUNDATION</p></td></tr>')
     e.add(f'<tr><td class="px" style="{pad(40)}"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>'
           '<td valign="top" width="96" style="width:96px;"><img src="../assets/gfx/icon-recorded.png" width="72" height="72" alt=""></td>'
-          '<td valign="middle">' + e.headline(f"DONE. THANK YOU{stop()}", 56, 40) + "</td>"
+          '<td valign="middle">' + e.headline(f"DONE.<br>THANK YOU{stop()}", 56, 40) + "</td>"
           "</tr></table></td></tr>")
     e.add(f'<tr><td class="px" style="{pad(34)}"><table role="presentation" class="rec" width="100%" cellpadding="0" cellspacing="0" border="0">'
           f'<tr><td class="sa micro" width="110" style="width:110px;">ITEM</td><td class="sa" style="font-weight:500;font-size:15px;color:#141414;text-transform:none;">{v("Confirm the names for your new mailboxes")}</td></tr>'
@@ -468,7 +469,7 @@ def m01_education() -> Email:
     e.add(f'<tr><td class="px" style="{pad(36)}"><table role="presentation" class="legend" width="100%" cellpadding="0" cellspacing="0" border="0">{rows}</table></td></tr>')
     e.add(f'<tr><td class="px" style="{pad(10)}"><table role="presentation" class="isnt" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding:28px 28px 30px 28px;">'
           '<p class="sa micro" style="color:#d90c0c;">■ WHAT A FOUNDATION ISN\'T</p>'
-          + e.headline("IT ISN'T A WEBSITE, AND IT DOESN'T PROMISE CUSTOMERS.", 34, 28, weight=800, tag="h2", style="margin-top:14px;")
+          + e.headline("IT ISN'T A WEBSITE,<br>AND IT DOESN'T<br>PROMISE CUSTOMERS.", 34, 28, weight=800, tag="h2", style="margin-top:14px;")
           + '<p class="sa body" style="margin-top:14px;">IT\'S THE GROUND A WEBSITE STANDS ON, ALONG WITH EVERYTHING ELSE THAT CARRIES YOUR NAME.</p>'
           "</td></tr></table></td></tr>")
     e.add('<tr><td style="padding:44px 0 0 0;"></td></tr>')

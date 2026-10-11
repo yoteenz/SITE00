@@ -63,14 +63,24 @@ PACK = [
     ("MK-05", "M13", "marketing", "M13 — POST-COMPLETION FOLLOW-UP", "FEATURE", "AFTER HOURS", "P1", ["R4-G10"], "Dusk pavilion into a night band; three vignettes in white; terrace strip; red band."),
 ]
 
-WIDOW = re.compile(r"(\S) ([^\s<>]{1,16})((?:<span class=\"stop\"></span>)?\s*</(?:p|h1|h2|td|div)>)")
+WIDOW = re.compile(r"([^\s<>;]+) ([^\s<>]{1,16})((?:<span class=\"stop\"></span>)?\s*</(?:p|h1|h2|td|div)>)")
+PAIR_MAX = {"h1": 15, "h2": 15}
+PAIR_MAX_TEXT = 24
+WIDOW_VALUE = re.compile(r"([^\s>]) (<span class=\"v\">[^<]{1,16}</span>[.,]?)(\s*</(?:p|h1|h2|td|div)>)")
 
 
 def keep_last_pair(html: str) -> str:
     """Bind the last two words of every text block so no line ends a paragraph with one word."""
     body_start = html.index("<!-- MESSAGE -->")
     head, body = html[:body_start], html[body_start:]
-    return head + WIDOW.sub(lambda m: f"{m.group(1)}&nbsp;{m.group(2)}{m.group(3)}", body)
+
+    def bind(m: re.Match[str]) -> str:
+        tag = re.search(r"</(\w+)>", m.group(3)).group(1)
+        if m.re is WIDOW and len(m.group(1)) + len(m.group(2)) > PAIR_MAX.get(tag, PAIR_MAX_TEXT):
+            return m.group(0)
+        return f"{m.group(1)}&nbsp;{m.group(2)}{m.group(3)}"
+
+    return head + WIDOW_VALUE.sub(bind, WIDOW.sub(bind, body))
 
 
 def to_template(html: str, eid: str) -> str:
