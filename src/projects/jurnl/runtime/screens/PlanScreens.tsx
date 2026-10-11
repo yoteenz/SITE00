@@ -6,7 +6,7 @@ import { createPlanIntention, planById, updatePlanIntention, archivePlanIntentio
 import { formatMoney, useCurrency } from '../../data/home/money';
 import { PARENT_PLATES } from '../../data/parents/plates';
 import { SIDEKICK_PLATES } from '../../data/parents/sidekickPlates';
-import { RA_REF_W, RaLayer, RaRule, RootAuthorityStage, hangY, objectTransform, wallTransform } from '../components/RootAuthorityStage';
+import { RaLayer, RaRule, RootAuthorityStage, hangY, objectTransform, wallTransform } from '../components/RootAuthorityStage';
 import { ReferenceLockup } from '../components/ReferenceLockup';
 import { RefText, at } from '../components/ReferenceStage';
 import { RA_PLAN } from '../layout/rootAuthorityLayout';
@@ -78,10 +78,6 @@ export function PlanHubScreen() {
         <>
           <RaLayer transform={wallTransform(fit, 0, 0)} className="jrn-ra__layer--top">
             <ReferenceLockup L={{ box: { sprig: PL.wall.box.sprig, word: PL.wall.box.word }, text: { desc1: W.desc1, desc2: W.desc2 } }} />
-          </RaLayer>
-          <RaLayer transform={wallTransform(fit, fit.W - RA_REF_W * fit.u, 0)} className="jrn-ra__layer--top">
-            <RefText t={W.tag1} as="span">PLAN TODAY.</RefText>
-            <RefText t={W.tag2} as="span">GROW FREELY.</RefText>
           </RaLayer>
           <RaLayer transform={wallTransform(fit, 0, hangY(fit, PLAN_SCENE.hang))} data-jrn-zone="intro">
             <RefText t={W.title} as="h1">PLAN.</RefText>

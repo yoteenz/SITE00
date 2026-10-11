@@ -79,6 +79,27 @@
   },
   "children": [
     {
+      "id": "F01.14",
+      "form": "ROUTE",
+      "inheritance": null,
+      "route": "entry/value",
+      "status": "PARTIAL_FUNCTIONAL"
+    },
+    {
+      "id": "F01.15",
+      "form": "ROUTE",
+      "inheritance": null,
+      "route": "entry/benefits",
+      "status": "PARTIAL_FUNCTIONAL"
+    },
+    {
+      "id": "F01.16",
+      "form": "ROUTE",
+      "inheritance": null,
+      "route": "entry/begin",
+      "status": "PARTIAL_FUNCTIONAL"
+    },
+    {
       "id": "F01.01",
       "form": "ROUTE",
       "inheritance": "MODULATED_INHERITANCE",
@@ -693,6 +714,21 @@
       "status": "LIVE"
     },
     {
+      "node_id": "F01.14",
+      "route": "entry/value",
+      "status": "LIVE"
+    },
+    {
+      "node_id": "F01.15",
+      "route": "entry/benefits",
+      "status": "LIVE"
+    },
+    {
+      "node_id": "F01.16",
+      "route": "entry/begin",
+      "status": "LIVE"
+    },
+    {
       "node_id": "F01.01",
       "route": "entry/create",
       "status": "LIVE"
@@ -816,22 +852,25 @@
     "CORE_PERSONAL_DATA_CONTROL (CORE)"
   ],
   "functional_status": {
-    "score": 86.7,
-    "strict": 59,
+    "score": 86.8,
+    "strict": 57.8,
     "gap_counts": {
       "COMPLETE_FUNCTIONAL": 85,
-      "PARTIAL_FUNCTIONAL": 57,
+      "PARTIAL_FUNCTIONAL": 60,
       "STRUCTURE_ONLY": 2
     }
   },
   "visual_status": {
-    "visual_nodes": 41,
-    "visually_implemented": 41,
+    "visual_nodes": 44,
+    "visually_implemented": 44,
     "parent": "VISUALLY_IMPLEMENTED"
   },
   "expression_status": "DEFINED_IN_EXPRESSION_TREE",
   "plate_policy": {
     "F01.00": "NEW_PLATE_WITHIN_FAMILY",
+    "F01.14": "MODULATE_PARENT_PLATE",
+    "F01.15": "MODULATE_PARENT_PLATE",
+    "F01.16": "MODULATE_PARENT_PLATE",
     "F01.01": "MODULATE_PARENT_PLATE",
     "F01.02": "MODULATE_PARENT_PLATE",
     "F01.03": "MODULATE_PARENT_PLATE",

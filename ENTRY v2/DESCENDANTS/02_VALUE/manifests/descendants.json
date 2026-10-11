@@ -1,0 +1,32 @@
+[
+  {
+    "DESCENDANT_ID": "VALUE_DEFAULT",
+    "PARENT_ID": "02_VALUE",
+    "TYPE": "PARENT_REFERENCE",
+    "TIER": "PARENT",
+    "FUNCTIONAL_TRIGGER": "Route value. Existing locked parent.",
+    "STATE_DELTA": "None.",
+    "PLATE_SOURCE": "PARENT",
+    "PLATE_PATH": "ENTRY v2/02_VALUE_PROPOSITION/plate/entry-v2-value-proposition-sidekick-plate.png",
+    "AUTHORITY_PATH": "ENTRY v2/02_VALUE_PROPOSITION/authority/entry-v2-value-proposition-authority.png",
+    "OVERLAY_SHELL": null,
+    "NEW_ASSET_REQUIRED": false,
+    "SHARED_AUTHORITY": null,
+    "STATUS": "FOUNDER_REVIEW_REQUIRED"
+  },
+  {
+    "DESCENDANT_ID": "VALUE_CONTINUE_PRESSED",
+    "PARENT_ID": "02_VALUE",
+    "TYPE": "MICRO_STATE",
+    "TIER": 1,
+    "FUNCTIONAL_TRIGGER": "Press CONTINUE.",
+    "STATE_DELTA": "Live press. No new plate.",
+    "PLATE_SOURCE": "PARENT",
+    "PLATE_PATH": "ENTRY v2/02_VALUE_PROPOSITION/plate/entry-v2-value-proposition-sidekick-plate.png",
+    "AUTHORITY_PATH": "ENTRY v2/02_VALUE_PROPOSITION/authority/entry-v2-value-proposition-authority.png",
+    "OVERLAY_SHELL": null,
+    "NEW_ASSET_REQUIRED": false,
+    "SHARED_AUTHORITY": null,
+    "STATUS": "FOUNDER_REVIEW_REQUIRED"
+  }
+]

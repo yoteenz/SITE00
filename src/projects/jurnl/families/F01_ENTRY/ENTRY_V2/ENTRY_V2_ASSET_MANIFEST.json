@@ -1,0 +1,205 @@
+{
+  "id": "ENTRY_V2_FIRST_SEVEN_IMPLEMENTATION_ASSETS",
+  "sprint": "P0.JURNL.ENTRY-V2.FIRST-7.AUTHORITY-PLUS-PLATE-LIVE-WIRING1",
+  "package": "ENTRY-v2-env3.zip",
+  "authority_sprint": "P0.JURNL.ENTRY-V2.ENVIRONMENT-ART-DIRECTION-ENRICHMENT3",
+  "rule": "AUTHORITY = design authority (reference only). PLATE = the page environment, mounted once per page. Live type, forms and controls are HTML over the plate.",
+  "lineage": "ENTRY v2 → SCREEN → PLATE → AUTHORITY",
+  "founder_approval": "APPROVED_TO_IMPLEMENT (founder: good enough to implement). Live result: FOUNDER_LIVE_REVIEW_REQUIRED.",
+  "not_in_scope": [
+    "ENTRY 08+",
+    "derivative child / grandchild states",
+    "SETUP"
+  ],
+  "screens": [
+    {
+      "screen_id": "01_WELCOME",
+      "screen_name": "WELCOME",
+      "runtime_screen_id": "F01.00",
+      "route": "/production/jurnl/runtime/entry",
+      "component": "src/projects/jurnl/runtime/screens/EntryScreens.tsx#WelcomeScreen",
+      "plate": {
+        "asset_id": "ENTRY_V2.01_WELCOME.PLATE",
+        "runtime_path": "src/projects/jurnl/families/F01_ENTRY/ENTRY_V2/plates/ENTRY_V2_01_WELCOME_PLATE.jpg",
+        "bytes": 1538037,
+        "sha256": "0e8ea0c40147614acbdd9844bb6d266feff66d6b5a705c403c391e7f016afa4f",
+        "pixels": [
+          2016,
+          3584
+        ],
+        "format": "JPEG q92, byte-identical to ENTRY-v2-env3.zip ENTRY-v2/01_WELCOME/PLATE.jpg",
+        "source_png": "ENTRY v2/01_WELCOME/plate/entry-v2-welcome-sidekick-plate.png",
+        "openart_history": "2dOxPx4g5waQtgbKcZav",
+        "plate_status": "REGENERATE_EXISTING"
+      },
+      "authority": {
+        "path": "ENTRY v2/01_WELCOME/authority/entry-v2-welcome-authority.png",
+        "openart_history": "k65Qx7RuiJLO8grrJ82b",
+        "role": "DESIGN_AUTHORITY_REFERENCE_ONLY (never mounted)"
+      },
+      "registration": "plate ↔ authority: SIFT affine scale 1.000, rotation < 0.02°, median error < 0.7 px at 1008 × 1792"
+    },
+    {
+      "screen_id": "02_VALUE_PROPOSITION",
+      "screen_name": "VALUE PROPOSITION",
+      "runtime_screen_id": "F01.14",
+      "route": "/production/jurnl/runtime/entry/value",
+      "component": "src/projects/jurnl/runtime/screens/EntryScreens.tsx#ValuePropositionScreen",
+      "plate": {
+        "asset_id": "ENTRY_V2.02_VALUE_PROPOSITION.PLATE",
+        "runtime_path": "src/projects/jurnl/families/F01_ENTRY/ENTRY_V2/plates/ENTRY_V2_02_VALUE_PROPOSITION_PLATE.jpg",
+        "bytes": 1707886,
+        "sha256": "985ff4eb0e151f1ce5addb791f032999b54a650cb65ec8d7811d159c5808e7eb",
+        "pixels": [
+          2016,
+          3584
+        ],
+        "format": "JPEG q92, byte-identical to ENTRY-v2-env3.zip ENTRY-v2/02_VALUE_PROPOSITION/PLATE.jpg",
+        "source_png": "ENTRY v2/02_VALUE_PROPOSITION/plate/entry-v2-value-proposition-sidekick-plate.png",
+        "openart_history": "3IH37yMlf29fIncksxVp",
+        "plate_status": "REGENERATE_EXISTING"
+      },
+      "authority": {
+        "path": "ENTRY v2/02_VALUE_PROPOSITION/authority/entry-v2-value-proposition-authority.png",
+        "openart_history": "cLmNPV5m3sbLlXNCStkT",
+        "role": "DESIGN_AUTHORITY_REFERENCE_ONLY (never mounted)"
+      },
+      "registration": "plate ↔ authority: SIFT affine scale 1.000, rotation < 0.02°, median error < 0.7 px at 1008 × 1792"
+    },
+    {
+      "screen_id": "03_KEY_BENEFITS",
+      "screen_name": "KEY BENEFITS",
+      "runtime_screen_id": "F01.15",
+      "route": "/production/jurnl/runtime/entry/benefits",
+      "component": "src/projects/jurnl/runtime/screens/EntryScreens.tsx#KeyBenefitsScreen",
+      "plate": {
+        "asset_id": "ENTRY_V2.03_KEY_BENEFITS.PLATE",
+        "runtime_path": "src/projects/jurnl/families/F01_ENTRY/ENTRY_V2/plates/ENTRY_V2_03_KEY_BENEFITS_PLATE.jpg",
+        "bytes": 1765656,
+        "sha256": "702cb6c25038413c7a043f2188704e6d5ba6d7b5fc3efd5c66b08b5e2e986cac",
+        "pixels": [
+          2016,
+          3584
+        ],
+        "format": "JPEG q92, byte-identical to ENTRY-v2-env3.zip ENTRY-v2/03_KEY_BENEFITS/PLATE.jpg",
+        "source_png": "ENTRY v2/03_KEY_BENEFITS/plate/entry-v2-key-benefits-sidekick-plate.png",
+        "openart_history": "iadd2gAYQS6eW8ToCcQ5",
+        "plate_status": "REGENERATE_EXISTING"
+      },
+      "authority": {
+        "path": "ENTRY v2/03_KEY_BENEFITS/authority/entry-v2-key-benefits-authority.png",
+        "openart_history": "4LDh5EWPtR9XetTIvh1q",
+        "role": "DESIGN_AUTHORITY_REFERENCE_ONLY (never mounted)"
+      },
+      "registration": "plate ↔ authority: SIFT affine scale 1.000, rotation < 0.02°, median error < 0.7 px at 1008 × 1792"
+    },
+    {
+      "screen_id": "04_GET_STARTED",
+      "screen_name": "GET STARTED",
+      "runtime_screen_id": "F01.16",
+      "route": "/production/jurnl/runtime/entry/begin",
+      "component": "src/projects/jurnl/runtime/screens/EntryScreens.tsx#GetStartedScreen",
+      "plate": {
+        "asset_id": "ENTRY_V2.04_GET_STARTED.PLATE",
+        "runtime_path": "src/projects/jurnl/families/F01_ENTRY/ENTRY_V2/plates/ENTRY_V2_04_GET_STARTED_PLATE.jpg",
+        "bytes": 1095741,
+        "sha256": "c12781a98e6ba9c8283c26ccd524e548fff77b206eaf776d3ea93157a1065f62",
+        "pixels": [
+          2016,
+          3584
+        ],
+        "format": "JPEG q92, byte-identical to ENTRY-v2-env3.zip ENTRY-v2/04_GET_STARTED/PLATE.jpg",
+        "source_png": "ENTRY v2/04_GET_STARTED/plate/entry-v2-get-started-sidekick-plate.png",
+        "openart_history": "B3WDOpGsWSeBtEk1QATK",
+        "plate_status": "REGENERATE_EXISTING"
+      },
+      "authority": {
+        "path": "ENTRY v2/04_GET_STARTED/authority/entry-v2-get-started-authority.png",
+        "openart_history": "DULtJ2lO3TpEuLfkmY6I",
+        "role": "DESIGN_AUTHORITY_REFERENCE_ONLY (never mounted)"
+      },
+      "registration": "plate ↔ authority: SIFT affine scale 1.000, rotation < 0.02°, median error < 0.7 px at 1008 × 1792"
+    },
+    {
+      "screen_id": "05_CREATE_ACCOUNT",
+      "screen_name": "CREATE ACCOUNT",
+      "runtime_screen_id": "F01.01",
+      "route": "/production/jurnl/runtime/entry/create",
+      "component": "src/projects/jurnl/runtime/screens/EntryScreens.tsx#CreateAccountScreen",
+      "plate": {
+        "asset_id": "ENTRY_V2.05_CREATE_ACCOUNT.PLATE",
+        "runtime_path": "src/projects/jurnl/families/F01_ENTRY/ENTRY_V2/plates/ENTRY_V2_05_CREATE_ACCOUNT_PLATE.jpg",
+        "bytes": 1533470,
+        "sha256": "062b4d4fea20eb0dde07b79bf6326dbf2016834eb2765378d35f671a99352d1d",
+        "pixels": [
+          2016,
+          3584
+        ],
+        "format": "JPEG q92, byte-identical to ENTRY-v2-env3.zip ENTRY-v2/05_CREATE_ACCOUNT/PLATE.jpg",
+        "source_png": "ENTRY v2/05_CREATE_ACCOUNT/plate/entry-v2-create-account-sidekick-plate.png",
+        "openart_history": "OYMvvywAgyWaUVBAk3uN",
+        "plate_status": "REGENERATE_EXISTING"
+      },
+      "authority": {
+        "path": "ENTRY v2/05_CREATE_ACCOUNT/authority/entry-v2-create-account-authority.png",
+        "openart_history": "El8Ibd8sXL1NS78IbTsn",
+        "role": "DESIGN_AUTHORITY_REFERENCE_ONLY (never mounted)"
+      },
+      "registration": "plate ↔ authority: SIFT affine scale 1.000, rotation < 0.02°, median error < 0.7 px at 1008 × 1792"
+    },
+    {
+      "screen_id": "06_EMAIL_VERIFICATION",
+      "screen_name": "EMAIL VERIFICATION",
+      "runtime_screen_id": "F01.02",
+      "route": "/production/jurnl/runtime/entry/verify-email",
+      "component": "src/projects/jurnl/runtime/screens/EntryScreens.tsx#VerifyEmailScreen",
+      "plate": {
+        "asset_id": "ENTRY_V2.06_EMAIL_VERIFICATION.PLATE",
+        "runtime_path": "src/projects/jurnl/families/F01_ENTRY/ENTRY_V2/plates/ENTRY_V2_06_EMAIL_VERIFICATION_PLATE.jpg",
+        "bytes": 1825032,
+        "sha256": "7b4c2a63ccb9a4afb32820ffac6021164e50fff07a68c5a6d453b06849816d96",
+        "pixels": [
+          2016,
+          3584
+        ],
+        "format": "JPEG q92, byte-identical to ENTRY-v2-env3.zip ENTRY-v2/06_EMAIL_VERIFICATION/PLATE.jpg",
+        "source_png": "ENTRY v2/06_EMAIL_VERIFICATION/plate/entry-v2-email-verification-sidekick-plate.png",
+        "openart_history": "xuBCxHk3sf91DTnPVD93",
+        "plate_status": "REGENERATE_EXISTING"
+      },
+      "authority": {
+        "path": "ENTRY v2/06_EMAIL_VERIFICATION/authority/entry-v2-email-verification-authority.png",
+        "openart_history": "icEXRyxrxYNGgPWH1bEp",
+        "role": "DESIGN_AUTHORITY_REFERENCE_ONLY (never mounted)"
+      },
+      "registration": "plate ↔ authority: SIFT affine scale 1.000, rotation < 0.02°, median error < 0.7 px at 1008 × 1792"
+    },
+    {
+      "screen_id": "07_SIGN_IN",
+      "screen_name": "SIGN IN",
+      "runtime_screen_id": "F01.03",
+      "route": "/production/jurnl/runtime/entry/sign-in",
+      "component": "src/projects/jurnl/runtime/screens/EntryScreens.tsx#SignInScreen",
+      "plate": {
+        "asset_id": "ENTRY_V2.07_SIGN_IN.PLATE",
+        "runtime_path": "src/projects/jurnl/families/F01_ENTRY/ENTRY_V2/plates/ENTRY_V2_07_SIGN_IN_PLATE.jpg",
+        "bytes": 1284890,
+        "sha256": "5ba2881b54721beb3aa3e740c7a5410bddd09534dd421859c041a913eb7b43f0",
+        "pixels": [
+          2016,
+          3584
+        ],
+        "format": "JPEG q92, byte-identical to ENTRY-v2-env3.zip ENTRY-v2/07_SIGN_IN/PLATE.jpg",
+        "source_png": "ENTRY v2/07_SIGN_IN/plate/entry-v2-sign-in-sidekick-plate.png",
+        "openart_history": "2DikWWeWlAWRSeM7EXGm",
+        "plate_status": "REGENERATE_EXISTING"
+      },
+      "authority": {
+        "path": "ENTRY v2/07_SIGN_IN/authority/entry-v2-sign-in-authority.png",
+        "openart_history": "h0mhHW8IARyXgYgcGML1",
+        "role": "DESIGN_AUTHORITY_REFERENCE_ONLY (never mounted)"
+      },
+      "registration": "plate ↔ authority: SIFT affine scale 1.000, rotation < 0.02°, median error < 0.7 px at 1008 × 1792"
+    }
+  ]
+}

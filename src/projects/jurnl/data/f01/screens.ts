@@ -32,6 +32,8 @@ export type F01ScreenDef = {
 };
 
 const A = (file: string) => `children/${file}`;
+/** ENTRY v2 authorities sit outside the F01 package (repo folder `ENTRY v2/`, path from the repo root). */
+const ENTRY_V2_AUTHORITY = (dir: string, name: string) => `ENTRY v2/${dir}/authority/entry-v2-${name}-authority.png`;
 
 export const F01_SCREENS: readonly F01ScreenDef[] = [
   { id: 'F01.00', name: 'WELCOME', route: 'entry', authority: 'F01.00_WELCOME_APPROVED.jpg', primaryCta: 'GET STARTED' },
@@ -49,6 +51,45 @@ export const F01_SCREENS: readonly F01ScreenDef[] = [
   { id: 'F01.12', name: 'SECURITY PRIMER', route: 'entry/security', authority: A('F01.12_SECURITY_PRIMER.jpg'), primaryCta: 'CONTINUE' },
   { id: 'F01.13', name: 'ENTRY COMPLETE', route: 'entry/complete', authority: A('F01.13_ENTRY_COMPLETE.jpg'), primaryCta: 'CONTINUE TO SETUP' },
 ];
+
+/**
+ * ENTRY v2 parents 02–04 (P0.JURNL.ENTRY-V2.FIRST-7.AUTHORITY-PLUS-PLATE-LIVE-WIRING1): new routes between WELCOME and
+ * CREATE ACCOUNT. They are not part of the 14-screen F01 package contract (JURNL/F01_ENTRY), so they are listed here.
+ */
+export type F01EntryV2ScreenId = 'F01.14' | 'F01.15' | 'F01.16';
+export const F01_ENTRY_V2_SCREENS: readonly { id: F01EntryV2ScreenId; name: string; route: string; authority: string; primaryCta: string }[] = [
+  { id: 'F01.14', name: 'VALUE PROPOSITION', route: 'entry/value', authority: ENTRY_V2_AUTHORITY('02_VALUE_PROPOSITION', 'value-proposition'), primaryCta: 'CONTINUE' },
+  { id: 'F01.15', name: 'KEY BENEFITS', route: 'entry/benefits', authority: ENTRY_V2_AUTHORITY('03_KEY_BENEFITS', 'key-benefits'), primaryCta: 'CONTINUE' },
+  { id: 'F01.16', name: 'GET STARTED', route: 'entry/begin', authority: ENTRY_V2_AUTHORITY('04_GET_STARTED', 'get-started'), primaryCta: 'GET STARTED' },
+];
+
+/**
+ * ENTRY v2 parents live on these F01 routes (authority = layout, plate = environment). F01.14–F01.16 are new; the rest
+ * keep their ids, routes and behaviour and are redrawn on the ENTRY v2 authorities.
+ */
+export const F01_ENTRY_V2 = {
+  'F01.00': '01_WELCOME',
+  'F01.14': '02_VALUE_PROPOSITION',
+  'F01.15': '03_KEY_BENEFITS',
+  'F01.16': '04_GET_STARTED',
+  'F01.01': '05_CREATE_ACCOUNT',
+  'F01.02': '06_EMAIL_VERIFICATION',
+  'F01.03': '07_SIGN_IN',
+} as const;
+
+/** Workspace copies of the ENTRY v2 authorities (public/…/f01/authorities/entry-v2, 787 × 1400), for review beside the runtime. */
+export const ENTRY_V2_REVIEW_AUTHORITY: Record<keyof typeof F01_ENTRY_V2, string> = {
+  'F01.00': 'entry-v2/ENTRY_V2_01_WELCOME.jpg',
+  'F01.14': 'entry-v2/ENTRY_V2_02_VALUE_PROPOSITION.jpg',
+  'F01.15': 'entry-v2/ENTRY_V2_03_KEY_BENEFITS.jpg',
+  'F01.16': 'entry-v2/ENTRY_V2_04_GET_STARTED.jpg',
+  'F01.01': 'entry-v2/ENTRY_V2_05_CREATE_ACCOUNT.jpg',
+  'F01.02': 'entry-v2/ENTRY_V2_06_EMAIL_VERIFICATION.jpg',
+  'F01.03': 'entry-v2/ENTRY_V2_07_SIGN_IN.jpg',
+};
+
+/** The whole ENTRY family in the order a person walks it: WELCOME, the three ENTRY v2 parents, then the package screens. */
+export const F01_FLOW_SCREENS: readonly (F01ScreenDef | (typeof F01_ENTRY_V2_SCREENS)[number])[] = [F01_SCREENS[0]!, ...F01_ENTRY_V2_SCREENS, ...F01_SCREENS.slice(1)];
 
 /** F01 → F02 boundary (F02 is not implemented; this is the family hand-off surface). */
 export const F01_FAMILY_BOUNDARY = { from: 'F01', to: 'F02', route: 'setup', authority: 'interactions/F01_FAMILY_TRANSITION_AUTHORITY.jpg' } as const;

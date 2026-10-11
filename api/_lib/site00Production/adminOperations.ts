@@ -1,6 +1,10 @@
 import { getSupabaseAdmin } from '../supabase.js';
 import { ensureDemoProjectSeeded } from './seedDemo.js';
 
+/** Caps related-table fan-out on admin detail views (shared Supabase workload containment). */
+const ADMIN_RELATED_LIST_LIMIT = 100;
+const ADMIN_LIST_DEFAULT_LIMIT = 250;
+
 type AdminPeriod = '7d' | '30d' | '90d' | 'all';
 
 type AdminActivityItem = {
@@ -517,11 +521,37 @@ export async function getIdentityDetail(id: string) {
 
   const [{ data: intakes }, { data: projects }, { data: sites }, { data: submissions }, { data: notes }] =
     await Promise.all([
-      supabase.from('site00_bldr_intakes').select('*').eq('identity_id', id).order('created_at', { ascending: false }),
-      supabase.from('site00_projects').select('*').eq('client_email', identity.email).order('updated_at', { ascending: false }),
-      supabase.from('site00_sites').select('*').eq('identity_id', id).order('updated_at', { ascending: false }),
-      supabase.from('site00_idnty_submissions').select('*').eq('identity_id', id).order('created_at', { ascending: false }),
-      supabase.from('site00_admin_notes').select('*').eq('entity_type', 'identity').eq('entity_id', id).order('created_at', { ascending: false }),
+      supabase
+        .from('site00_bldr_intakes')
+        .select('*')
+        .eq('identity_id', id)
+        .order('created_at', { ascending: false })
+        .limit(ADMIN_RELATED_LIST_LIMIT),
+      supabase
+        .from('site00_projects')
+        .select('*')
+        .eq('client_email', identity.email)
+        .order('updated_at', { ascending: false })
+        .limit(ADMIN_RELATED_LIST_LIMIT),
+      supabase
+        .from('site00_sites')
+        .select('*')
+        .eq('identity_id', id)
+        .order('updated_at', { ascending: false })
+        .limit(ADMIN_RELATED_LIST_LIMIT),
+      supabase
+        .from('site00_idnty_submissions')
+        .select('*')
+        .eq('identity_id', id)
+        .order('created_at', { ascending: false })
+        .limit(ADMIN_RELATED_LIST_LIMIT),
+      supabase
+        .from('site00_admin_notes')
+        .select('*')
+        .eq('entity_type', 'identity')
+        .eq('entity_id', id)
+        .order('created_at', { ascending: false })
+        .limit(ADMIN_RELATED_LIST_LIMIT),
     ]);
 
   return {
@@ -545,7 +575,7 @@ export async function getBldrIntakesList(params?: { buildClass?: string; status?
   if (params?.buildClass) q = q.eq('build_class', params.buildClass);
   if (params?.status) q = q.eq('status', params.status);
 
-  const { data, error } = await q;
+  const { data, error } = await q.limit(ADMIN_LIST_DEFAULT_LIMIT);
   if (error) throw error;
   return { items: data ?? [], total: data?.length ?? 0 };
 }
@@ -578,7 +608,8 @@ export async function getBldrIntakeDetail(id: string) {
     .select('*')
     .eq('entity_type', 'bldr_intake')
     .eq('entity_id', id)
-    .order('created_at', { ascending: false });
+    .order('created_at', { ascending: false })
+    .limit(ADMIN_RELATED_LIST_LIMIT);
 
   return { intake, idntySubmission, notes: notes ?? [] };
 }
@@ -586,7 +617,11 @@ export async function getBldrIntakeDetail(id: string) {
 export async function getLeadsList(params?: { status?: string }) {
   await ensureAdminOpsSeeded();
   const supabase = getSupabaseAdmin();
-  let q = supabase.from('site00_leads').select('*').order('created_at', { ascending: false });
+  let q = supabase
+    .from('site00_leads')
+    .select('*')
+    .order('created_at', { ascending: false })
+    .limit(ADMIN_LIST_DEFAULT_LIMIT);
   if (params?.status) q = q.eq('status', params.status);
   const { data, error } = await q;
   if (error) throw error;
@@ -607,13 +642,19 @@ export async function getLeadDetail(id: string) {
     lead.identity_id
       ? supabase.from('site00_identities').select('*').eq('id', lead.identity_id).maybeSingle()
       : Promise.resolve({ data: null }),
-    supabase.from('site00_discovery_bookings').select('*').eq('lead_id', id).order('scheduled_at', { ascending: false }),
+    supabase
+      .from('site00_discovery_bookings')
+      .select('*')
+      .eq('lead_id', id)
+      .order('scheduled_at', { ascending: false })
+      .limit(ADMIN_RELATED_LIST_LIMIT),
     supabase
       .from('site00_admin_notes')
       .select('*')
       .eq('entity_type', 'lead')
       .eq('entity_id', id)
-      .order('created_at', { ascending: false }),
+      .order('created_at', { ascending: false })
+      .limit(ADMIN_RELATED_LIST_LIMIT),
   ]);
 
   return { lead, intake, identity, discovery: discovery ?? [], notes: notes ?? [] };
@@ -632,7 +673,7 @@ export async function getDiscoveryList(status = 'UPCOMING') {
     q = q.eq('status', status);
   }
 
-  const { data, error } = await q;
+  const { data, error } = await q.limit(ADMIN_LIST_DEFAULT_LIMIT);
   if (error) throw error;
   return { items: data ?? [], total: data?.length ?? 0 };
 }

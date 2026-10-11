@@ -23,7 +23,7 @@ import {
   type TodayMode,
 } from '../../data/home/money';
 import { SIDEKICK_PLATES } from '../../data/parents/sidekickPlates';
-import { RA_REF_W, RaLayer, RaPara, RaRule, RootAuthorityStage, hangY, objectTransform, spreadT, wallTransform } from '../components/RootAuthorityStage';
+import { RaLayer, RaPara, RaRule, RootAuthorityStage, hangY, objectTransform, spreadT, wallTransform } from '../components/RootAuthorityStage';
 import { ReferenceLockup } from '../components/ReferenceLockup';
 import { RefIcon, RefText, at } from '../components/ReferenceStage';
 import { RA_TODAY } from '../layout/rootAuthorityLayout';
@@ -105,10 +105,6 @@ export function TodayScreen() {
         <>
           <RaLayer transform={wallTransform(fit, 0, 0)} className="jrn-ra__layer--top">
             <ReferenceLockup L={{ box: { sprig: TL.wall.box.sprig, word: TL.wall.box.word }, text: { desc1: W.desc1, desc2: W.desc2 } }} />
-          </RaLayer>
-          <RaLayer transform={wallTransform(fit, fit.W - RA_REF_W * fit.u, 0)} className="jrn-ra__layer--top">
-            <RefText t={W.tag1} as="span">PLAN TODAY.</RefText>
-            <RefText t={W.tag2} as="span">GROW FREELY.</RefText>
           </RaLayer>
 
           {/* Headline and signal hang from the clipboard: the reference keeps SEE WHY just above the clip. */}

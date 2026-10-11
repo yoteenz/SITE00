@@ -1,0 +1,16 @@
+{
+  "sprint": "P0.JURNL.TODAY-ACTIVITY.PARENTS.WORLD-BRAND-AND-EDITORIAL-LAYER-CORRECTION1",
+  "status": "FOUNDER_REVIEW_REQUIRED",
+  "parent_only": true,
+  "plates": "NOT_GENERATED",
+  "supersedes": "TODAY v1/SUPERSEDED_BRAND_FIDELITY1",
+  "decorative_logo": "public/site00/projects/jurnl/brand/jurnl-logo-official.png",
+  "references": [
+    "src/projects/jurnl/families/F09_SAFE/ENVIRONMENTS/F09_ENVIRONMENT_AUTHORITY_PLATE.png",
+    "src/projects/jurnl/families/F09_SAFE/ENVIRONMENTS/F09_ENVIRONMENT_AUTHORITY_TERRACE.png",
+    "ENTRY v2/02_VALUE_PROPOSITION/authority/entry-v2-value-proposition-authority.png"
+  ],
+  "generation": "image-to-image, nano-banana-2-1",
+  "world": "Open limestone arches, sea, and morning light. The vertical botanical JURNL mark is part of the object, not a corner stamp.",
+  "review_board": "TODAY v1/REVIEW/today-v1-parents-world-editorial.jpg"
+}

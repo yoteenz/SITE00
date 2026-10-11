@@ -98,7 +98,7 @@ function QaGlyph({ kind, box, origin }: { kind: 'minus' | 'plus' | 'card' | 'che
 /**
  * QUICK ADD, replicated from the founder reference (JURNL/F09_SAFE/AUTHORITIES/F09_QUICK_ADD_OVERLAY_SOURCE.jpg).
  * The sheet rises over the live screen on the founder's torn-paper shell; every line, field, option and SAVE sits where
- * the reference has it, in its type and colour. The screen behind is not dimmed (it is not in the reference).
+ * the reference has it, in its type and colour. The screen behind blurs, the same way the account drawer does.
  */
 export function QuickAddV2Sheet({ familyId, onClose }: { familyId: string | null; onClose: () => void }) {
   const types = quickAddTypesForFamily(familyId);

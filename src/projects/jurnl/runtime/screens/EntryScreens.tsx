@@ -1,5 +1,6 @@
 /**
- * F01.00 WELCOME · F01.01 CREATE ACCOUNT · F01.02 EMAIL VERIFICATION · F01.03 SIGN IN · F01.04 RETURNING USER UNLOCK
+ * F01.00 WELCOME · F01.14 VALUE PROPOSITION · F01.15 KEY BENEFITS · F01.16 GET STARTED · F01.01 CREATE ACCOUNT ·
+ * F01.02 EMAIL VERIFICATION · F01.03 SIGN IN (ENTRY v2 01–07) · F01.04 RETURNING USER UNLOCK
  */
 
 import { useEffect, useRef, useState } from 'react';
@@ -8,7 +9,6 @@ import { F01_COPY, isValidEmail, passwordRuleState, passwordSatisfied } from '..
 import { JurnlIcon } from '../components/icons';
 import {
   JurnlButton,
-  JurnlCheckbox,
   JurnlDrawer,
   JurnlErrorPanel,
   JurnlExternalHandoff,
@@ -19,13 +19,23 @@ import {
   JurnlLogo,
   JurnlModal,
   JurnlNativeHandoff,
-  JurnlPasswordRequirements,
   JurnlRow,
   JurnlSheet,
-  JurnlSuccessPanel,
   JurnlTextLink,
   JurnlTile,
 } from '../components/primitives';
+import { EntrySurface, EntryV2Stage } from '../components/EntryV2Stage';
+import { E2Brand, E2Button, E2Check, E2Field, E2Link, E2Note, E2Text, at, down, downT, fitLine, grow } from '../components/EntryV2Parts';
+import { ENTRY_V2_BEGIN, ENTRY_V2_BENEFITS, ENTRY_V2_CREATE, ENTRY_V2_SIGNIN, ENTRY_V2_VALUE, ENTRY_V2_VERIFY, ENTRY_V2_WELCOME } from '../layout/entryV2Layout';
+import type { RefBox, RefType } from '../layout/referenceLayout';
+import plateWelcome from '../../families/F01_ENTRY/ENTRY_V2/plates/ENTRY_V2_01_WELCOME_PLATE.jpg';
+import plateValue from '../../families/F01_ENTRY/ENTRY_V2/plates/ENTRY_V2_02_VALUE_PROPOSITION_PLATE.jpg';
+import plateBenefits from '../../families/F01_ENTRY/ENTRY_V2/plates/ENTRY_V2_03_KEY_BENEFITS_PLATE.jpg';
+import plateBegin from '../../families/F01_ENTRY/ENTRY_V2/plates/ENTRY_V2_04_GET_STARTED_PLATE.jpg';
+import plateCreate from '../../families/F01_ENTRY/ENTRY_V2/plates/ENTRY_V2_05_CREATE_ACCOUNT_PLATE.jpg';
+import plateVerify from '../../families/F01_ENTRY/ENTRY_V2/plates/ENTRY_V2_06_EMAIL_VERIFICATION_PLATE.jpg';
+import plateSignIn from '../../families/F01_ENTRY/ENTRY_V2/plates/ENTRY_V2_07_SIGN_IN_PLATE.jpg';
+import lockupSprig from '../../families/F09_SAFE/REFERENCE_REPLICA/assets/LOCKUP_SPRIG.png';
 import type { AuthErrorCode, SocialProvider } from '../state/adapters';
 import { initialsOf, rememberAccount, useJurnl, type RememberedAccount } from '../state/store';
 import { JurnlScreen } from './JurnlScreen';
@@ -89,7 +99,11 @@ export function SocialAuthBoundary({ provider }: { provider: SocialProvider }) {
   );
 }
 
-export function MailHandoff({ target = 'MAIL' }: { target?: 'MAIL' | 'SUPPORT' }) {
+/**
+ * `onLink` is where the emailed link lands. A phone returns there from the mail app; the design preview has no inbox,
+ * so it follows the link itself once the handoff is confirmed and the flow carries on.
+ */
+export function MailHandoff({ target = 'MAIL', onLink }: { target?: 'MAIL' | 'SUPPORT'; onLink?: () => void }) {
   const { bridge, closeOverlay } = useJurnl();
   const copy = target === 'MAIL' ? C.mailHandoff : C.supportHandoff;
   return (
@@ -101,33 +115,153 @@ export function MailHandoff({ target = 'MAIL' }: { target?: 'MAIL' | 'SUPPORT' }
       continueLabel={copy.continue}
       onContinue={async () => {
         await bridge.openExternal(target);
-        closeOverlay();
+        if (onLink && bridge.kind === 'DESIGN_PREVIEW') onLink();
+        else closeOverlay();
       }}
       onCancel={closeOverlay}
     />
   );
 }
 
-/* ───────────── F01.00 WELCOME ───────────── */
+/* ───────────── ENTRY v2 (P0.JURNL.ENTRY-V2.FIRST-7.AUTHORITY-PLUS-PLATE-LIVE-WIRING1) ─────────────
+ * The seven ENTRY v2 parents are drawn on their approved plates (EntryV2Stage): each authority is the layout, its
+ * plate is the page's environment, and every line, field and control below is live, at the authority's measured
+ * place (layout/entryV2Layout.ts, scripts/jurnl/entry-v2). Behaviour is the F01 runtime's own. */
+const E2_PLATES = {
+  welcome: { src: plateWelcome, assetId: 'ENTRY_V2.01_WELCOME.PLATE', screen: '01_WELCOME' },
+  value: { src: plateValue, assetId: 'ENTRY_V2.02_VALUE_PROPOSITION.PLATE', screen: '02_VALUE_PROPOSITION' },
+  benefits: { src: plateBenefits, assetId: 'ENTRY_V2.03_KEY_BENEFITS.PLATE', screen: '03_KEY_BENEFITS' },
+  begin: { src: plateBegin, assetId: 'ENTRY_V2.04_GET_STARTED.PLATE', screen: '04_GET_STARTED' },
+  create: { src: plateCreate, assetId: 'ENTRY_V2.05_CREATE_ACCOUNT.PLATE', screen: '05_CREATE_ACCOUNT' },
+  verify: { src: plateVerify, assetId: 'ENTRY_V2.06_EMAIL_VERIFICATION.PLATE', screen: '06_EMAIL_VERIFICATION' },
+  signin: { src: plateSignIn, assetId: 'ENTRY_V2.07_SIGN_IN.PLATE', screen: '07_SIGN_IN' },
+} as const;
+
+/* ───────────── F01.00 WELCOME (ENTRY v2 01) ───────────── */
 export function WelcomeScreen() {
   const { go } = useJurnl();
+  const L = ENTRY_V2_WELCOME;
+  const T = L.text;
+  const head = [T.h1, T.h2, T.h3, T.h4, T.h5];
   return (
-    <JurnlScreen screenId="F01.00" scene="welcome">
-      <div className="jrn-col__head jrn-hero-copy" data-runtime-bounds="copy">
-        <JurnlLogo />
-        <JurnlHeadline lines={C.welcome.headline} />
-        <i className="jrn-rule" aria-hidden />
-        <JurnlLines lines={C.welcome.tagline} />
-      </div>
-      <div className="jrn-cta" data-runtime-bounds="cta">
-        <JurnlButton trigger="welcome-get-started" onClick={() => go('F01.01')}>
-          {C.welcome.getStarted}
-        </JurnlButton>
-        <JurnlButton variant="secondary" trigger="welcome-sign-in" onClick={() => go('F01.03')}>
-          {C.welcome.signIn}
-        </JurnlButton>
-      </div>
-    </JurnlScreen>
+    <EntryV2Stage screenId="F01.00" plate={E2_PLATES.welcome} ui={L.ui} focal={L.focal} label="WELCOME">
+      <E2Brand t={T.brand} label={`JURNL. ${C.brand.line}`} className="jrn-e2--light">
+        <img className="jrn-e2__sprig" src={lockupSprig} alt="" aria-hidden draggable={false} style={at(L.box.sprig)} />
+        <E2Text t={T.brandLine} as="span" aria-hidden>
+          {C.brand.line}
+        </E2Text>
+      </E2Brand>
+      <h1 className="jrn-e2__h jrn-e2--light">
+        {C.welcome.headline.map((line, i) => (
+          <E2Text key={line} t={head[i]!} as="span">
+            {line}
+          </E2Text>
+        ))}
+      </h1>
+      <span className="jrn-e2__rule jrn-e2--light" aria-hidden style={at(L.box.rule)} />
+      <p className="jrn-e2--light">
+        <E2Text t={T.tag1} as="span">{C.welcome.tagline[0]}</E2Text>
+        <E2Text t={T.tag2} as="span">{C.welcome.tagline[1]}</E2Text>
+      </p>
+      <E2Button box={L.box.getStarted} t={T.getStarted} tone="olive" trigger="welcome-get-started" onClick={() => go('F01.14')}>
+        {C.welcome.getStarted}
+      </E2Button>
+      <E2Button box={L.box.signIn} t={T.signIn} tone="cream" trigger="welcome-sign-in" onClick={() => go('F01.03')}>
+        {C.welcome.signIn}
+      </E2Button>
+    </EntryV2Stage>
+  );
+}
+
+/* ───────────── F01.14 VALUE PROPOSITION (ENTRY v2 02): the broadside is the interface surface ───────────── */
+export function ValuePropositionScreen() {
+  const { go } = useJurnl();
+  const L = ENTRY_V2_VALUE;
+  const T = L.text;
+  const head = [T.h1, T.h2, T.h3];
+  const body = [T.b1, T.b2, T.b3, T.b4, T.b5];
+  return (
+    <EntryV2Stage screenId="F01.14" plate={E2_PLATES.value} ui={L.ui} focal={L.focal} label="WHAT JURNL IS FOR">
+      <h1 className="jrn-e2__h jrn-e2__h--heavy">
+        {C.value.headline.map((line, i) => (
+          // The broadside's brand mark is its own headline word.
+          <E2Text key={line} t={head[i]!} as="span" data-jrn-logo={line === C.brand.word ? 'entry-v2' : undefined}>
+            {line}
+          </E2Text>
+        ))}
+      </h1>
+      <p className="jrn-e2__body">
+        {C.value.body.map((line, i) => (
+          <E2Text key={line} t={body[i]!} as="span">
+            {line}
+          </E2Text>
+        ))}
+      </p>
+      <E2Button box={L.box.cont} t={T.cont} tone="olive" trigger="value-continue" onClick={() => go('F01.15')}>
+        {C.value.continue}
+      </E2Button>
+    </EntryV2Stage>
+  );
+}
+
+/* ───────────── F01.15 KEY BENEFITS (ENTRY v2 03): printed on the stacked slips ───────────── */
+export function KeyBenefitsScreen() {
+  const { go } = useJurnl();
+  const L = ENTRY_V2_BENEFITS;
+  const T = L.text;
+  const slips = [
+    { m: L.surfaces.slip1, a: T.s1a, b: T.s1b },
+    { m: L.surfaces.slip2, a: T.s2a, b: T.s2b },
+    { m: L.surfaces.slip3, a: T.s3a, b: T.s3b },
+    { m: L.surfaces.slip4, a: T.s4a, b: T.s4b },
+  ];
+  return (
+    <EntryV2Stage screenId="F01.15" plate={E2_PLATES.benefits} ui={L.ui} focal={L.focal} label="WHAT JURNL HELPS YOU DO">
+      <E2Brand t={T.brand} className="jrn-e2--olive" />
+      <EntrySurface m={L.surfaces.olive}>
+        <h1 className="jrn-e2__h jrn-e2--light">
+          <E2Text t={T.o1} as="span">{C.benefits.headline[0]}</E2Text>
+          <E2Text t={T.o2} as="span">{C.benefits.headline[1]}</E2Text>
+        </h1>
+      </EntrySurface>
+      <ul className="jrn-e2__list">
+        {C.benefits.items.map(([a, b], i) => (
+          <li key={a}>
+            <EntrySurface m={slips[i]!.m}>
+              <E2Text t={slips[i]!.a} as="span">{a}</E2Text>
+              <E2Text t={slips[i]!.b} as="span">{b}</E2Text>
+            </EntrySurface>
+          </li>
+        ))}
+      </ul>
+      <E2Button box={L.box.cont} t={T.cont} tone="olive" trigger="benefits-continue" onClick={() => go('F01.16')}>
+        {C.benefits.continue}
+      </E2Button>
+    </EntryV2Stage>
+  );
+}
+
+/* ───────────── F01.16 GET STARTED (ENTRY v2 04): the standing invitation ───────────── */
+export function GetStartedScreen() {
+  const { go } = useJurnl();
+  const L = ENTRY_V2_BEGIN;
+  const T = L.text;
+  return (
+    <EntryV2Stage screenId="F01.16" plate={E2_PLATES.begin} ui={L.ui} focal={L.focal} label="BEGIN">
+      <E2Brand t={T.brand} />
+      <h1 className="jrn-e2__h">
+        <E2Text t={T.h} as="span">{C.begin.headline}</E2Text>
+      </h1>
+      <E2Text t={T.sub}>{C.begin.sub}</E2Text>
+      <EntrySurface m={L.surfaces.card}>
+        <E2Button box={L.box.getStarted} t={T.getStarted} tone="olive" trigger="begin-get-started" onClick={() => go('F01.01')}>
+          {C.begin.getStarted}
+        </E2Button>
+        <E2Button box={L.box.signIn} t={T.signIn} tone="outline" trigger="begin-sign-in" onClick={() => go('F01.03')}>
+          {C.begin.signIn}
+        </E2Button>
+      </EntrySurface>
+    </EntryV2Stage>
   );
 }
 
@@ -184,96 +318,139 @@ export function CreateAccountScreen() {
     go('F01.02');
   };
 
+  const L = ENTRY_V2_CREATE;
+  const T = L.text;
+  const B = L.box;
+  // Each field: its label's foot to its rule. The rule is the field's edge, as printed on the sheet.
+  const field = (labelT: RefType, rule: RefBox): RefBox => [rule[0], labelT.ink[3] + 6, rule[2], rule[1] - 2];
+  // Inline password requirements open under the password rule; everything printed below moves down by that much.
+  const reqTop = B.passwordRule[3] + (errors.password ? 36 : 10);
+  const shift = showReqs ? Math.max(0, reqTop + 74 + 10 - B.check[1]) : 0;
+  const note: RefBox = [165, 640, 865, 712];
   return (
-    <JurnlScreen screenId="F01.01" scene="create" layout="form">
-      <div className="jrn-col__head" data-runtime-bounds="copy">
-        <JurnlLogo />
-        <JurnlHeadline lines={C.create.headline} />
-        <JurnlLines lines={C.create.sub} />
-      </div>
-      <form
-        className="jrn-form"
-        data-runtime-bounds="form"
-        noValidate
-        onSubmit={(e) => {
-          e.preventDefault();
-          void submit();
-        }}
-      >
-        {emailInUse ?
-          <JurnlErrorPanel
-            testId="create-error-email-in-use"
-            title={C.create.errors.emailInUseTitle}
-            body={C.create.errors.emailInUseBody}
-            action={{ label: C.create.errors.goToSignIn, onClick: () => go('F01.03'), trigger: 'create-go-sign-in' }}
-          />
-        : null}
-        {summary.length > 1 ?
-          <JurnlErrorPanel testId="create-error-validation" title={C.create.errors.summaryTitle} items={summary} />
-        : null}
-        <JurnlInput label={C.create.firstName} value={form.firstName} onValue={set('firstName')} error={errors.firstName} trigger="create-first-name" autoComplete="given-name" />
-        <JurnlInput label={C.create.lastName} value={form.lastName} onValue={set('lastName')} error={errors.lastName} trigger="create-last-name" autoComplete="family-name" />
-        <JurnlInput
-          label={C.create.email}
-          type="email"
-          value={form.email}
-          onValue={set('email')}
-          error={errors.email}
-          trigger="create-email"
-          autoComplete="email"
-          forceFocused={forcedState === 'focused'}
-        />
-        <JurnlInput
-          label={C.create.password}
-          type="password"
-          revealable
-          value={form.password}
-          onValue={set('password')}
-          error={errors.password}
-          trigger="create-password"
-          autoComplete="new-password"
-          onFocusChange={setPwFocused}
-        />
-        <JurnlInlineExpansion open={showReqs} testId="create-password-requirements">
-          <JurnlPasswordRequirements rules={rules} flagUnmet={!!errors.password} />
-        </JurnlInlineExpansion>
-        <div className="jrn-agree">
-          <JurnlCheckbox checked={form.agree} onChange={set('agree')} trigger="create-agree" ariaLabel={`${C.create.agreeLead} ${C.create.terms} ${C.create.and} ${C.create.privacy}`} />
-          <p className="jrn-legal">
-            {C.create.agreeLead}{' '}
-            <JurnlTextLink inline trigger="create-terms-link" onClick={() => openOverlay('terms')}>
-              {C.create.terms}
-            </JurnlTextLink>{' '}
-            {C.create.and}{' '}
-            <JurnlTextLink inline trigger="create-privacy-link" onClick={() => openOverlay('privacy-policy')}>
-              {C.create.privacy}
-            </JurnlTextLink>
-          </p>
-        </div>
-        {errors.agree && summary.length <= 1 ? <p className="jrn-field__error">{errors.agree}</p> : null}
-        <JurnlButton variant="social" icon={<JurnlIcon name="apple" size={20} />} trigger="create-apple" onClick={() => openOverlay('social-apple')}>
-          {C.create.apple}
-        </JurnlButton>
-        <JurnlButton variant="social" icon={<JurnlIcon name="google" size={20} />} trigger="create-google" onClick={() => openOverlay('social-google')}>
-          {C.create.google}
-        </JurnlButton>
-        <JurnlButton type="submit" trigger="create-submit" loading={loading} loadingLabel={C.create.loading} onClick={() => void submit()}>
-          {C.create.submit}
-        </JurnlButton>
-        <p className="jrn-foot-note">
-          <span>{C.create.haveAccount}</span>
-          <JurnlTextLink strong underline trigger="create-sign-in" onClick={() => go('F01.03')}>
-            {C.create.signIn}
-          </JurnlTextLink>
+    <EntryV2Stage
+      screenId="F01.01"
+      plate={E2_PLATES.create}
+      ui={L.ui}
+      focal={L.focal}
+      label="CREATE YOUR ACCOUNT"
+      outside={
+        <>
+          {overlay === 'terms' || overlay === 'privacy-policy' ?
+            <LegalDrawer kind={overlay} onAgree={() => (overlay === 'terms' ? set('agree')(true) : undefined)} onClose={closeOverlay} />
+          : null}
+          {overlay === 'social-apple' ? <SocialAuthBoundary provider="APPLE" /> : null}
+          {overlay === 'social-google' ? <SocialAuthBoundary provider="GOOGLE" /> : null}
+        </>
+      }
+    >
+      <EntrySurface m={L.surfaces.sheet}>
+        <E2Brand t={T.brand} />
+        <h1 className="jrn-e2__h">
+          <E2Text t={T.h1} as="span">{C.create.headline[0]}</E2Text>
+          <span aria-label={C.create.headline[1]}>
+            <E2Text t={T.h2a} as="span" aria-hidden>{C.create.headline[1].split(' ')[0]}</E2Text>
+            <E2Text t={T.h2b} as="span" aria-hidden>{C.create.headline[1].split(' ').slice(1).join(' ')}</E2Text>
+          </span>
+        </h1>
+        <p>
+          <E2Text t={T.sub1} as="span">{C.create.sub[0]}</E2Text>
+          <E2Text t={T.sub2} as="span">{C.create.sub[1]}</E2Text>
         </p>
-      </form>
-
-      {overlay === 'terms' || overlay === 'privacy-policy' ?
-        <LegalDrawer kind={overlay} onAgree={() => (overlay === 'terms' ? set('agree')(true) : undefined)} onClose={closeOverlay} />
-      : null}
-      {overlay === 'social-apple' ? <SocialAuthBoundary provider="APPLE" /> : null}
-      {overlay === 'social-google' ? <SocialAuthBoundary provider="GOOGLE" /> : null}
-    </JurnlScreen>
+        <form
+          className="jrn-e2__form"
+          noValidate
+          onSubmit={(e) => {
+            e.preventDefault();
+            void submit();
+          }}
+        >
+          {emailInUse ?
+            <E2Note
+              box={note}
+              trigger="create-error-email-in-use"
+              title={C.create.errors.emailInUseTitle}
+              body={C.create.errors.emailInUseBody}
+              action={{ label: C.create.errors.goToSignIn, onClick: () => go('F01.03'), trigger: 'create-go-sign-in' }}
+            />
+          : summary.length > 1 ?
+            <E2Note box={note} trigger="create-error-validation" title={C.create.errors.summaryTitle} srItems={summary} />
+          : null}
+          <E2Field label={C.create.firstName} labelT={T.first} input={field(T.first, B.firstRule)} rule={B.firstRule} value={form.firstName} onValue={set('firstName')} error={errors.firstName} trigger="create-first-name" autoComplete="given-name" inputSize={30} />
+          <E2Field label={C.create.lastName} labelT={T.last} input={field(T.last, B.lastRule)} rule={B.lastRule} value={form.lastName} onValue={set('lastName')} error={errors.lastName} trigger="create-last-name" autoComplete="family-name" inputSize={30} />
+          <E2Field
+            label={C.create.email}
+            labelT={T.email}
+            input={field(T.email, B.emailRule)}
+            rule={B.emailRule}
+            type="email"
+            value={form.email}
+            onValue={set('email')}
+            error={errors.email}
+            trigger="create-email"
+            autoComplete="email"
+            forceFocused={forcedState === 'focused'}
+            inputSize={30}
+          />
+          <E2Field
+            label={C.create.password}
+            labelT={T.password}
+            input={field(T.password, B.passwordRule)}
+            rule={B.passwordRule}
+            type="password"
+            revealable
+            value={form.password}
+            onValue={set('password')}
+            error={errors.password}
+            trigger="create-password"
+            autoComplete="new-password"
+            onFocusChange={setPwFocused}
+            inputSize={30}
+          />
+          <div className="jrn-e2__reqs" data-open={showReqs ? 'true' : 'false'} data-jrn-trigger="create-password-requirements" aria-hidden={!showReqs} style={at([165, reqTop, 865, reqTop + 74])}>
+            <ul aria-label={C.create.requirementsTitle}>
+              {rules.map((r) => (
+                <li key={r.id} className="jrn-req" data-met={r.met ? 'true' : 'false'} data-flagged={errors.password ? 'true' : 'false'}>
+                  <i aria-hidden>{r.met ? '✓' : ''}</i>
+                  {r.label}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <E2Check box={down(B.check, shift)} checked={form.agree} onChange={set('agree')} trigger="create-agree" ariaLabel={`${C.create.agreeLead} ${C.create.terms} ${C.create.and} ${C.create.privacy}`} />
+          <E2Text t={downT(T.agree, shift)} className="jrn-e2__agree">
+            {C.create.agreeLead}{' '}
+            <button type="button" className="jrn-e2__inline" data-jrn-trigger="create-terms-link" onClick={() => openOverlay('terms')}>
+              {C.create.terms}
+            </button>{' '}
+            {C.create.and}{' '}
+            <button type="button" className="jrn-e2__inline" data-jrn-trigger="create-privacy-link" onClick={() => openOverlay('privacy-policy')}>
+              {C.create.privacy}
+            </button>
+          </E2Text>
+          {errors.agree && summary.length <= 1 ?
+            <p className="jrn-e2__err" role="alert" style={at(down([230, B.check[3] + 6, 865, B.check[3] + 30], shift))}>
+              {errors.agree}
+            </p>
+          : null}
+          <E2Button box={down(B.apple, shift)} t={downT(T.apple, shift)} tone="social" trigger="create-apple" onClick={() => openOverlay('social-apple')} icon={{ node: <JurnlIcon name="apple" size={34} />, box: down(grow(B.appleIcon, 1.45), shift) }}>
+            {C.create.apple}
+          </E2Button>
+          <E2Button box={down(B.google, shift)} t={downT(T.google, shift)} tone="social" trigger="create-google" onClick={() => openOverlay('social-google')} icon={{ node: <JurnlIcon name="google" size={34} />, box: down(B.googleIcon, shift) }}>
+            {C.create.google}
+          </E2Button>
+          <E2Button box={down(B.submit, shift)} t={downT(T.submit, shift)} tone="olive" type="submit" trigger="create-submit" loading={loading} loadingLabel={C.create.loading}>
+            {C.create.submit}
+          </E2Button>
+          <E2Text t={downT(T.foot, shift)} className="jrn-e2__foot">
+            {C.create.haveAccount}{' '}
+            <button type="button" className="jrn-e2__inline" data-jrn-trigger="create-sign-in" onClick={() => go('F01.03')}>
+              {C.create.signIn}
+            </button>
+          </E2Text>
+        </form>
+      </EntrySurface>
+    </EntryV2Stage>
   );
 }
 
@@ -362,43 +539,59 @@ export function VerifyEmailScreen() {
     showToast({ tone: 'success', title: C.verify.toastTitle, body: C.verify.toastBody, testId: 'toast-verify-resent' });
   };
 
+  const L = ENTRY_V2_VERIFY;
+  const T = L.text;
+  const B = L.box;
+  // The authority ends the fallback sentence with a full stop; a real address is printed as it is.
+  const address = email ?? `${C.verify.fallbackEmail}.`;
+  // A long address is set smaller so it stays on its line (the authority's line holds about 33 characters).
+  const addressT = fitLine(T.address, address, 640, 19);
+  const slot: RefBox = [70, 404, 640, 488];
   return (
-    <JurnlScreen screenId="F01.02" scene="verify">
-      <div className="jrn-col__head jrn-hero-copy--wide" data-runtime-bounds="copy">
-        <JurnlLogo />
-        <JurnlHeadline lines={C.verify.headline} xl />
-        <i className="jrn-rule" aria-hidden />
-        <p className="jrn-kicker" data-jrn-trigger="verify-email-address">
-          {C.verify.lead}
-          <br />
-          {email ?? C.verify.fallbackEmail}
-        </p>
-      </div>
-      {phase === 'verified' ?
-        <div className="jrn-cta" data-runtime-bounds="cta">
-          <JurnlSuccessPanel testId="verify-success" title={C.verify.successTitle} body={`${C.verify.successBody} ${C.verify.successNext}`} />
-          <JurnlButton trigger="verify-success-continue" onClick={() => go('F01.09')}>
-            {C.common.continue}
-          </JurnlButton>
-        </div>
-      : <div className="jrn-cta" data-runtime-bounds="cta">
-          {phase === 'expired' ?
-            <JurnlErrorPanel testId="verify-error-expired" title={C.verify.expiredTitle} body={C.verify.expiredBody} />
-          : null}
-          <JurnlButton trigger="verify-open-mail" onClick={() => openOverlay('mail')}>
-            {C.verify.openMail}
-          </JurnlButton>
-          <JurnlButton variant="secondary" trigger="verify-resend" loading={resending} onClick={() => void resend()}>
-            {C.verify.resend}
-          </JurnlButton>
-          <JurnlTextLink underline trigger="verify-change-email" onClick={() => openOverlay('change-email')}>
-            {C.verify.change}
-          </JurnlTextLink>
-        </div>
+    <EntryV2Stage
+      screenId="F01.02"
+      plate={E2_PLATES.verify}
+      ui={L.ui}
+      focal={L.focal}
+      label="CHECK YOUR EMAIL"
+      outside={
+        <>
+          {overlay === 'mail' ? <MailHandoff onLink={() => go('F01.02', { link: 'valid' })} /> : null}
+          {overlay === 'change-email' ? <ChangeEmailDrawer current={email} onClose={closeOverlay} /> : null}
+        </>
       }
-      {overlay === 'mail' ? <MailHandoff /> : null}
-      {overlay === 'change-email' ? <ChangeEmailDrawer current={email} onClose={closeOverlay} /> : null}
-    </JurnlScreen>
+    >
+      <E2Brand t={T.brand} />
+      <h1 className="jrn-e2__h">
+        <E2Text t={T.h1} as="span">{C.verify.headline[0]}</E2Text>
+        <E2Text t={T.h2} as="span">{C.verify.headline[1]}</E2Text>
+      </h1>
+      {phase === 'expired' ?
+        <E2Note box={slot} trigger="verify-error-expired" title={C.verify.expiredTitle} body={C.verify.expiredBody} />
+      : phase === 'verified' ?
+        <E2Note box={slot} tone="success" trigger="verify-success" title={C.verify.successTitle} body={`${C.verify.successBody} ${C.verify.successNext}`} />
+      : <p data-jrn-trigger="verify-email-address">
+          <E2Text t={T.lead} as="span">{C.verify.lead}</E2Text>
+          <E2Text t={addressT} as="span">{address}</E2Text>
+        </p>
+      }
+      {phase === 'verified' ?
+        <E2Button box={B.open} t={T.open} tone="olive" trigger="verify-success-continue" onClick={() => go('F01.09')}>
+          {C.common.continue}
+        </E2Button>
+      : <>
+          <E2Button box={B.open} t={T.open} tone="olive" trigger="verify-open-mail" onClick={() => openOverlay('mail')}>
+            {C.verify.openMail}
+          </E2Button>
+          <E2Button box={B.resend} t={T.resend} tone="cream" trigger="verify-resend" loading={resending} onClick={() => void resend()}>
+            {C.verify.resend}
+          </E2Button>
+          <E2Link t={T.different} trigger="verify-change-email" underline={B.differentRule} onClick={() => openOverlay('change-email')}>
+            {C.verify.change}
+          </E2Link>
+        </>
+      }
+    </EntryV2Stage>
   );
 }
 
@@ -480,92 +673,109 @@ export function SignInScreen() {
     postAuth(res.value);
   };
 
+  const L = ENTRY_V2_SIGNIN;
+  const T = L.text;
+  const B = L.box;
+  const field = (labelT: RefType, rule: RefBox): RefBox => [rule[0], labelT.ink[3] + 6, rule[2], rule[1] - 2];
+  // Kept from the F01 runtime and set in the card's small sans: KEEP ME SIGNED IN between the password rule and
+  // SIGN IN, and the two provider sign-ins under CREATE ACCOUNT.
+  const small = (top: number, cx: number): RefType => ({ ...T.forgot, top, cx, left: undefined });
+  const keepBox: RefBox = [296, 1044, 600, 1074];
+  const note: RefBox = [296, 786, 828, 856];
+  const errNote =
+    err === 'offline' ? { trigger: 'signin-error-offline', title: C.signIn.offlineTitle, body: C.signIn.offlineBody, action: { label: C.signIn.retry, onClick: () => void submit(), trigger: 'signin-retry' } }
+    : err === 'not_found' ? { trigger: 'signin-error-not-found', title: C.signIn.notFoundTitle, body: C.signIn.notFoundBody, action: { label: C.signIn.create, onClick: () => go('F01.01'), trigger: 'signin-not-found-create' } }
+    : err === 'required' ? { trigger: 'signin-error-required', title: C.signIn.required }
+    : err === 'incorrect' ? { trigger: 'signin-error-incorrect', title: C.signIn.incorrectTitle, body: C.signIn.incorrectBody }
+    : null;
   return (
-    <JurnlScreen screenId="F01.03" scene="signin" layout="form">
-      <div className="jrn-col__head" data-runtime-bounds="copy">
-        <JurnlLogo />
-        <JurnlHeadline lines={C.signIn.headline} lg />
-      </div>
-      <form
-        className="jrn-form"
-        data-runtime-bounds="form"
-        style={{ maxWidth: 'min(100%, 360px)' }}
-        noValidate
-        onSubmit={(e) => {
-          e.preventDefault();
-          void submit();
-        }}
-      >
-        {err === 'offline' ?
-          <JurnlErrorPanel testId="signin-error-offline" title={C.signIn.offlineTitle} body={C.signIn.offlineBody} action={{ label: C.signIn.retry, onClick: () => void submit(), trigger: 'signin-retry' }} />
-        : null}
-        {err === 'not_found' ?
-          <JurnlErrorPanel
-            testId="signin-error-not-found"
-            title={C.signIn.notFoundTitle}
-            body={C.signIn.notFoundBody}
-            action={{ label: C.signIn.create, onClick: () => go('F01.01'), trigger: 'signin-not-found-create' }}
+    <EntryV2Stage
+      screenId="F01.03"
+      plate={E2_PLATES.signin}
+      ui={L.ui}
+      focal={L.focal}
+      label="WELCOME BACK"
+      outside={
+        <>
+          {overlay === 'locked' ?
+            <JurnlDrawer
+              size="short"
+              tone="wine"
+              testId="locked"
+              title={C.signIn.lockedTitle}
+              lead={C.signIn.lockedBody}
+              onClose={closeOverlay}
+              footer={
+                <>
+                  <JurnlButton variant="secondary" trigger="locked-support" onClick={() => openOverlay('support')}>
+                    {C.signIn.contactSupport}
+                  </JurnlButton>
+                  <JurnlButton variant="quiet" trigger="locked-back" onClick={closeOverlay}>
+                    {C.signIn.backToSignIn}
+                  </JurnlButton>
+                </>
+              }
+            />
+          : null}
+          {overlay === 'support' ? <MailHandoff target="SUPPORT" /> : null}
+          {overlay === 'social-apple' ? <SocialAuthBoundary provider="APPLE" /> : null}
+          {overlay === 'social-google' ? <SocialAuthBoundary provider="GOOGLE" /> : null}
+        </>
+      }
+    >
+      <EntrySurface m={L.surfaces.card}>
+        <E2Brand t={T.brand} />
+        <h1 className="jrn-e2__h">
+          <E2Text t={T.h1} as="span">{C.signIn.headline[0]}</E2Text>
+          <E2Text t={T.h2} as="span">{C.signIn.headline[1]}</E2Text>
+        </h1>
+        <form
+          className="jrn-e2__form"
+          noValidate
+          onSubmit={(e) => {
+            e.preventDefault();
+            void submit();
+          }}
+        >
+          {errNote ? <E2Note box={note} {...errNote} /> : null}
+          <E2Field label={C.signIn.email} labelT={T.emailLabel} input={field(T.emailLabel, B.emailRule)} rule={B.emailRule} type="email" value={email} onValue={(v) => (setEmail(v), setErr(null))} trigger="signin-email" autoComplete="email" inputSize={30} />
+          <E2Field
+            label={C.signIn.password}
+            labelT={T.passwordLabel}
+            input={field(T.passwordLabel, B.passwordRule)}
+            rule={B.passwordRule}
+            type="password"
+            revealable
+            value={password}
+            onValue={(v) => (setPassword(v), setErr(null))}
+            trigger="signin-password"
+            autoComplete="current-password"
+            invalid={err === 'incorrect'}
+            inputSize={30}
           />
-        : null}
-        {err === 'required' ? <JurnlErrorPanel testId="signin-error-required" title={C.signIn.required} /> : null}
-        <JurnlInput label={C.signIn.email} icon="email" type="email" value={email} onValue={(v) => (setEmail(v), setErr(null))} trigger="signin-email" autoComplete="email" />
-        <JurnlInput
-          label={C.signIn.password}
-          icon="lock"
-          type="password"
-          revealable
-          value={password}
-          onValue={(v) => (setPassword(v), setErr(null))}
-          trigger="signin-password"
-          autoComplete="current-password"
-          invalid={err === 'incorrect'}
-        />
-        {err === 'incorrect' ? <JurnlErrorPanel testId="signin-error-incorrect" title={C.signIn.incorrectTitle} body={C.signIn.incorrectBody} /> : null}
-        <JurnlCheckbox checked={keep} onChange={setKeep} trigger="signin-keep">
-          {C.signIn.keep}
-        </JurnlCheckbox>
-        <JurnlButton type="submit" trigger="signin-submit" loading={loading} loadingLabel={C.signIn.loading} onClick={() => void submit()}>
-          {C.signIn.submit}
-        </JurnlButton>
-        <JurnlTextLink underline trigger="signin-forgot" onClick={() => go('F01.05')}>
-          {C.signIn.forgot}
-        </JurnlTextLink>
-        <JurnlButton variant="social" icon={<JurnlIcon name="apple" size={20} />} trigger="signin-apple" onClick={() => openOverlay('social-apple')}>
-          {C.signIn.apple}
-        </JurnlButton>
-        <JurnlButton variant="social" icon={<JurnlIcon name="google" size={20} />} trigger="signin-google" onClick={() => openOverlay('social-google')}>
-          {C.signIn.google}
-        </JurnlButton>
-        <div className="jrn-divider">
-          <JurnlTextLink trigger="signin-create" onClick={() => go('F01.01')}>
+          <E2Check box={keepBox} square={[296, 1046, 322, 1072]} checked={keep} onChange={setKeep} trigger="signin-keep" ariaLabel={C.signIn.keep}>
+            <E2Text t={{ ...T.forgot, top: 1050, left: 338, cx: undefined }} origin={keepBox} as="span">
+              {C.signIn.keep}
+            </E2Text>
+          </E2Check>
+          <E2Button box={B.submit} t={T.submit} tone="olive" type="submit" trigger="signin-submit" loading={loading} loadingLabel={C.signIn.loading}>
+            {C.signIn.submit}
+          </E2Button>
+          <E2Link t={T.forgot} trigger="signin-forgot" onClick={() => go('F01.05')}>
+            {C.signIn.forgot}
+          </E2Link>
+          <E2Link t={T.create} trigger="signin-create" onClick={() => go('F01.01')}>
             {C.signIn.create}
-          </JurnlTextLink>
-        </div>
-      </form>
-      {overlay === 'locked' ?
-        <JurnlDrawer
-          size="short"
-          tone="wine"
-          testId="locked"
-          title={C.signIn.lockedTitle}
-          lead={C.signIn.lockedBody}
-          onClose={closeOverlay}
-          footer={
-            <>
-              <JurnlButton variant="secondary" trigger="locked-support" onClick={() => openOverlay('support')}>
-                {C.signIn.contactSupport}
-              </JurnlButton>
-              <JurnlButton variant="quiet" trigger="locked-back" onClick={closeOverlay}>
-                {C.signIn.backToSignIn}
-              </JurnlButton>
-            </>
-          }
-        />
-      : null}
-      {overlay === 'support' ? <MailHandoff target="SUPPORT" /> : null}
-      {overlay === 'social-apple' ? <SocialAuthBoundary provider="APPLE" /> : null}
-      {overlay === 'social-google' ? <SocialAuthBoundary provider="GOOGLE" /> : null}
-    </JurnlScreen>
+          </E2Link>
+          <E2Link t={small(1364, T.forgot.cx ?? 562)} trigger="signin-apple" onClick={() => openOverlay('social-apple')}>
+            {C.signIn.apple}
+          </E2Link>
+          <E2Link t={small(1392, T.forgot.cx ?? 562)} trigger="signin-google" onClick={() => openOverlay('social-google')}>
+            {C.signIn.google}
+          </E2Link>
+        </form>
+      </EntrySurface>
+    </EntryV2Stage>
   );
 }
 

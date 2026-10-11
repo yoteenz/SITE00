@@ -16,7 +16,7 @@
     {
       "family_id": "F01",
       "implementation_inputs": {
-        "nodes_to_complete": 59,
+        "nodes_to_complete": 62,
         "new_routes": 0,
         "new_sheets_drawers_modals": 0,
         "states_to_wire": 12,

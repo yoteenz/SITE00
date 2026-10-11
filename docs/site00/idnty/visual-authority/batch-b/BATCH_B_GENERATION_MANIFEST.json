@@ -1,0 +1,61 @@
+{
+  "batch_id": "DF-V2-BATCH-B",
+  "batch_name": "RECORDS AND APPROVALS",
+  "actor": "CLIENT",
+  "founder_review": "PENDING",
+  "production_changes": "NONE",
+  "batch_a_visual_authority": "APPROVED WITH TWO FUNCTIONAL-COPY CORRECTIONS",
+  "screens": [
+    {
+      "screen_id": "DF-B01",
+      "name": "RECORDS LIBRARY — EXPANDED",
+      "parent": "P07 PROJECT OVERVIEW",
+      "filename": "01_RECORDS_LIBRARY.png",
+      "status": "GENERATED",
+      "contract": "RecordsLibrary + buildClientRecords; categories ALL DOMAIN EMAIL SECURITY PAYMENTS PROJECT",
+      "design_proposed": ["SEARCH RECORDS", "OPEN chevron affordance"]
+    },
+    {
+      "screen_id": "DF-B02",
+      "name": "RECORD DETAIL — DOMAIN",
+      "parent": "DF-B01",
+      "filename": "02_RECORD_DETAIL.png",
+      "status": "GENERATED",
+      "contract": "RecordDetail shows status, summary, date for ClientRecordRow",
+      "design_proposed": ["Tabs OVERVIEW DOCUMENTS HISTORY", "Document list", "DOWNLOAD AUTHORIZED COPY"]
+    },
+    {
+      "screen_id": "DF-B03",
+      "name": "DOCUMENT PREVIEW",
+      "parent": "DF-B02",
+      "filename": "03_DOCUMENT_DETAIL.png",
+      "status": "GENERATED",
+      "contract": "NOT IMPLEMENTED — no client document preview surface",
+      "design_proposed": ["Full document preview panel", "File size and version row", "DOWNLOAD"]
+    },
+    {
+      "screen_id": "DF-B04",
+      "name": "DECISION HISTORY",
+      "parent": "P10 NEEDS YOU / DF-A02",
+      "filename": "04_APPROVAL_HISTORY.png",
+      "status": "GENERATED",
+      "contract": "ApprovalRecord status REQUESTED APPROVED REVISION_REQUESTED on payload; no history route today",
+      "design_proposed": ["Dedicated audit trail screen", "Cross-link to DNS record"]
+    }
+  ],
+  "references": [
+    "docs/site00/idnty/df-visual-fidelity-v1/REF-06-RECORDS-LOCATION.jpg",
+    "docs/site00/idnty/df-visual-fidelity-v1/REF-04-P10-P12.jpg",
+    "docs/site00/idnty/visual-authority/batch-a/ (rhythm reference, not replacement parent authority)"
+  ],
+  "references_attached": ["REF-06 left phone crop (B01–B03)", "REF-04 left phone crop (B04)"],
+  "target": { "ratio": "9:16", "min_width": 1080, "min_height": 1920, "delivered": "2016x3584" },
+  "output_directory": "docs/site00/idnty/visual-authority/batch-b/",
+  "provider": "OPENART",
+  "model": "gpt-image-2-5-sunburst",
+  "generated_screen_count": 4,
+  "regeneration_count": 0,
+  "zip_name": "SITE00_DF_V2_BATCH_B_RECORDS_APPROVALS.zip",
+  "next_batch": "C — COMPLETION AND EXPANSION",
+  "next_batch_started": false
+}

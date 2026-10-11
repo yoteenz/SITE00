@@ -1,12 +1,14 @@
 import { lazy, Suspense } from 'react';
-import { Navigate, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import LoadingScreen from '../components/base/LoadingScreen';
 import '../site00/admin/styles/site00-admin.css';
 import '../site00/admin/styles/site00-control.css';
 import '../site00/admin/styles/site00-email-debug.css';
+import '../site00/admin/styles/site00-correspondence-studio.css';
 
 const Site00AdminDashboardPage = lazy(() => import('../site00/admin/pages/DashboardPage'));
 const Site00AdminStudioPage = lazy(() => import('../site00/admin/pages/StudioPage'));
+const ScopeEstimatorPage = lazy(() => import('../site00/admin/pages/ScopeEstimatorPage'));
 const Site00AdminApprovalsPage = lazy(() => import('../site00/admin/pages/ApprovalsPage'));
 const Site00AdminProjectsPage = lazy(() => import('../site00/admin/pages/ProjectsPage'));
 const Site00AdminProjectWorkspacePage = lazy(() => import('../site00/admin/pages/ProjectWorkspacePage'));
@@ -26,6 +28,7 @@ const SitesPage = lazy(() => import('../site00/admin/pages/operations/SitesPage'
 const SiteDetailPage = lazy(() => import('../site00/admin/pages/operations/SiteDetailPage'));
 const CtrlRoomPage = lazy(() => import('../site00/admin/pages/operations/CtrlRoomPage'));
 const FinancePage = lazy(() => import('../site00/admin/pages/operations/FinancePage'));
+const PlatformRevenuePage = lazy(() => import('../site00/admin/pages/operations/PlatformRevenuePage'));
 const InvoiceDetailPage = lazy(() => import('../site00/admin/pages/operations/InvoiceDetailPage'));
 const TeamPage = lazy(() => import('../site00/admin/pages/operations/TeamPage'));
 const ReportsPage = lazy(() => import('../site00/admin/pages/operations/ReportsPage'));
@@ -36,6 +39,10 @@ const AccessCredentialsPage = lazy(() => import('../site00/admin/pages/access/Ac
 const AccessCredentialDetailPage = lazy(() => import('../site00/admin/pages/access/AccessCredentialDetailPage'));
 const EmailPackGalleryPage = lazy(() => import('../site00/admin/pages/debug/EmailPackGalleryPage'));
 const EmailTemplateDetailPage = lazy(() => import('../site00/admin/pages/debug/EmailTemplateDetailPage'));
+const CorrespondenceStudioHomePage = lazy(() => import('../site00/admin/pages/correspondence/CorrespondenceStudioHomePage'));
+const CorrespondenceProjectPage = lazy(() => import('../site00/admin/pages/correspondence/CorrespondenceProjectPage'));
+const CorrespondenceCampaignPage = lazy(() => import('../site00/admin/pages/correspondence/CorrespondenceCampaignPage'));
+const CorrespondenceEmailReviewPage = lazy(() => import('../site00/admin/pages/correspondence/CorrespondenceEmailReviewPage'));
 const EvolveMarketingDebugPage = lazy(() => import('../site00/admin/pages/debug/EvolveMarketingDebugPage'));
 const OrchestrationDebugPage = lazy(() => import('../site00/admin/pages/debug/OrchestrationDebugPage'));
 const ReconciliationInboxPage = lazy(() => import('../site00/admin/pages/ReconciliationInboxPage'));
@@ -63,6 +70,12 @@ const NdxbookPipelineReplayValidationPage = lazy(
 const EvolveDebugPage = lazy(() => import('../site00/admin/pages/debug/EvolveDebugPage'));
 const MarketingEngagementsAdminPage = lazy(() => import('../site00/admin/pages/marketing/MarketingEngagementsAdminPage'));
 const MarketingEngagementAdminDetailPage = lazy(() => import('../site00/admin/pages/marketing/MarketingEngagementAdminDetailPage'));
+const FoundationAdminListPage = lazy(() => import('../site00/admin/pages/foundation/FoundationAdminListPage'));
+const FoundationAdminDetailPage = lazy(() => import('../site00/admin/pages/foundation/FoundationAdminDetailPage'));
+const FoundationPipelinePage = lazy(() => import('../site00/admin/pages/foundation/FoundationPipelinePage'));
+const FoundationProjectCommandPage = lazy(() => import('../site00/admin/pages/foundation/FoundationProjectCommandPage'));
+const FoundationWorkbenchPage = lazy(() => import('../site00/admin/pages/foundation/FoundationWorkbenchPage'));
+const CommunicationsCommandPage = lazy(() => import('../site00/admin/pages/foundation/CommunicationsCommandPage'));
 
 function AdminSuspense({ children }: { children: React.ReactNode }) {
   return <Suspense fallback={<LoadingScreen />}>{children}</Suspense>;
@@ -85,6 +98,14 @@ export function Site00AdminRoutes() {
         element={
           <AdminSuspense>
             <Site00AdminStudioPage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/estimator"
+        element={
+          <AdminSuspense>
+            <ScopeEstimatorPage />
           </AdminSuspense>
         }
       />
@@ -249,6 +270,14 @@ export function Site00AdminRoutes() {
         }
       />
       <Route
+        path="site00/finance/platform"
+        element={
+          <AdminSuspense>
+            <PlatformRevenuePage />
+          </AdminSuspense>
+        }
+      />
+      <Route
         path="site00/finance/invoices/:id"
         element={
           <AdminSuspense>
@@ -317,6 +346,38 @@ export function Site00AdminRoutes() {
         element={
           <AdminSuspense>
             <EmailTemplateDetailPage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/correspondence-studio"
+        element={
+          <AdminSuspense>
+            <CorrespondenceStudioHomePage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/correspondence-studio/projects/:projectId"
+        element={
+          <AdminSuspense>
+            <CorrespondenceProjectPage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/correspondence-studio/projects/:projectId/campaigns/:campaignId"
+        element={
+          <AdminSuspense>
+            <CorrespondenceCampaignPage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/correspondence-studio/projects/:projectId/campaigns/:campaignId/emails/:templateId"
+        element={
+          <AdminSuspense>
+            <CorrespondenceEmailReviewPage />
           </AdminSuspense>
         }
       />
@@ -536,7 +597,54 @@ export function Site00AdminRoutes() {
           </AdminSuspense>
         }
       />
-      <Route path="site00/*" element={<Navigate to="/admin/site00" replace />} />
+      <Route
+        path="site00/foundation/pipeline"
+        element={
+          <AdminSuspense>
+            <FoundationPipelinePage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/foundation/communications"
+        element={
+          <AdminSuspense>
+            <CommunicationsCommandPage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/foundation/:id/command"
+        element={
+          <AdminSuspense>
+            <FoundationProjectCommandPage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/foundation/:id/workbench"
+        element={
+          <AdminSuspense>
+            <FoundationWorkbenchPage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/foundation"
+        element={
+          <AdminSuspense>
+            <FoundationAdminListPage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/foundation/:id"
+        element={
+          <AdminSuspense>
+            <FoundationAdminDetailPage />
+          </AdminSuspense>
+        }
+      />
     </>
   );
 }

@@ -67,6 +67,9 @@
           "F01.12.MD.REVOKE_SESSION"
         ],
         "children": [
+          "F01.14",
+          "F01.15",
+          "F01.16",
           "F01.01",
           "F01.02",
           "F01.03",
@@ -84,6 +87,24 @@
         "global_systems": []
       },
       "child_classification": [
+        {
+          "node_id": "F01.14",
+          "structural_form": "ROUTE",
+          "inheritance_class": null,
+          "plate_policy": "MODULATE_PARENT_PLATE"
+        },
+        {
+          "node_id": "F01.15",
+          "structural_form": "ROUTE",
+          "inheritance_class": null,
+          "plate_policy": "MODULATE_PARENT_PLATE"
+        },
+        {
+          "node_id": "F01.16",
+          "structural_form": "ROUTE",
+          "inheritance_class": null,
+          "plate_policy": "MODULATE_PARENT_PLATE"
+        },
         {
           "node_id": "F01.01",
           "structural_form": "ROUTE",

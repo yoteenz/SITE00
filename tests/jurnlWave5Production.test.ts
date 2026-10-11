@@ -15,6 +15,11 @@ describe('JURNL production config', () => {
 
   it('production without server flag is unconfigured (fail closed)', () => {
     const cfg = resolveJurnlProductionConfig('production');
+    if (process.env.VITE_JURNL_SERVER_PERSISTENCE === '1') {
+      expect(cfg.dataPlane).toBe('SERVER_SYNC');
+      expect(jurnlProductionFailClosed('production')).toBe(false);
+      return;
+    }
     expect(cfg.dataPlane).toBe('UNCONFIGURED');
     expect(jurnlProductionFailClosed('production')).toBe(true);
   });

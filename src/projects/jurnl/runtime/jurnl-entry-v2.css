@@ -1,0 +1,454 @@
+/* ENTRY v2 first seven pages (P0.JURNL.ENTRY-V2.FIRST-7.AUTHORITY-PLUS-PLATE-LIVE-WIRING1). EntryV2Stage.tsx.
+   VIEWPORT → PLATE → LIVE UI. One plate per page covers the viewport; the live layer is drawn in the authority's frame
+   (1008 × 1792) and scaled with it, on the surfaces the plate shows (turned sheet, slips, standing cards: matrix3d).
+   Colours are sampled from the authorities. Uppercase; square-rounded controls; no circular tap targets. */
+
+.jrn .jrn-e2 {
+  --e2-ink: #1d1b14;
+  --e2-olive: #3d402d;
+  --e2-cream: #f4efe4;
+  --e2-err: #7a2a22;
+  background: #1c1a15;
+  color: var(--e2-ink);
+  text-transform: uppercase;
+}
+.jrn .jrn-e2__env {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.jrn .jrn-e2__plate {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: block;
+  width: 1008px;
+  height: 1792px;
+  max-width: none;
+  transform-origin: 0 0;
+  user-select: none;
+}
+.jrn .jrn-e2__stage {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1008px;
+  height: 1792px;
+  transform-origin: 0 0;
+}
+.jrn .jrn-e2__surface {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1008px;
+  height: 1792px;
+  transform-origin: 0 0;
+  pointer-events: none;
+}
+.jrn .jrn-e2__surface > * {
+  pointer-events: auto;
+}
+/* Resets carry no specificity, so the fitted type classes (jrn-ref__t--serif / --sans) always set the face. */
+.jrn :where(.jrn-e2) :where(h1, p, ul, form) {
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  list-style: none;
+}
+.jrn :where(.jrn-e2) :where(button) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.jrn .jrn-e2 :where(button, input):focus-visible {
+  outline: 3px solid rgba(74, 79, 59, 0.55);
+  outline-offset: 4px;
+}
+.jrn .jrn-e2 .jrn-ref__t {
+  color: inherit;
+}
+.jrn .jrn-e2--light {
+  color: #f6f0e3;
+}
+.jrn .jrn-e2--olive {
+  color: #23240c;
+}
+.jrn .jrn-e2__brand {
+  position: static;
+}
+.jrn .jrn-e2__sprig {
+  position: absolute;
+  display: block;
+  max-width: none;
+  object-fit: contain;
+  /* The approved sprig, printed in the headline's cream. */
+  filter: brightness(0) invert(1) sepia(0.25) saturate(0.6) brightness(0.98);
+}
+.jrn .jrn-e2__rule {
+  position: absolute;
+  display: block;
+  background: currentColor;
+}
+
+/* Buttons: the authority's own geometry per page (below); text is the fitted line. */
+.jrn .jrn-e2__btn {
+  position: absolute;
+  display: block;
+  box-sizing: border-box;
+  transition:
+    transform 0.12s ease,
+    filter 0.12s ease;
+}
+.jrn .jrn-e2__btn:active:not(:disabled) {
+  transform: translateY(1.5px);
+  filter: brightness(0.94);
+}
+.jrn .jrn-e2__btn:disabled {
+  cursor: default;
+}
+.jrn .jrn-e2__btn[data-loading='true'] .jrn-ref__t {
+  animation: jrn-e2-pulse 1.1s ease-in-out infinite;
+}
+@keyframes jrn-e2-pulse {
+  50% {
+    opacity: 0.55;
+  }
+}
+.jrn .jrn-e2__btn--olive {
+  background: var(--e2-olive);
+  color: #f7f3e6;
+}
+.jrn .jrn-e2__btn--cream {
+  background: #ede8dc;
+  box-shadow: inset 0 0 0 2px #312a18;
+  color: #3c3d29;
+}
+.jrn .jrn-e2__btn--outline {
+  box-shadow: inset 0 0 0 1.6px #4a4636;
+  color: #271f05;
+}
+.jrn .jrn-e2__btn--social {
+  border-radius: 10px;
+  box-shadow: inset 0 0 0 1.6px #d0c9bd;
+  color: #1a1712;
+}
+.jrn .jrn-e2__btn-icon {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.jrn .jrn-e2__btn-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Text actions: the fitted line is the button; a pseudo-element pads the hit area without moving the line. */
+.jrn .jrn-e2 .jrn-e2__link::before {
+  content: '';
+  position: absolute;
+  inset: -16px -20px;
+}
+.jrn .jrn-e2 .jrn-e2__inline {
+  display: inline;
+  font: inherit;
+  letter-spacing: inherit;
+  /* The authority prints these without a rule; a quiet underline still marks them as links. */
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: rgba(30, 26, 20, 0.35);
+  text-underline-offset: 6px;
+}
+
+/* Underline fields: label printed on the sheet, input on the rule. */
+.jrn .jrn-e2__field {
+  position: static;
+}
+.jrn .jrn-e2__input {
+  position: absolute;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0 4px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  outline: none;
+  color: var(--e2-ink);
+  font-family: 'JURNL Authority Serif', 'JURNL Display', serif;
+  font-weight: 400;
+  letter-spacing: 2px;
+  text-transform: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.jrn .jrn-e2__input[type='password'] {
+  letter-spacing: 6px;
+}
+.jrn .jrn-e2__field .jrn-e2__rule {
+  color: #2b2722;
+  transition:
+    color 0.15s ease,
+    transform 0.15s ease;
+  transform-origin: 50% 100%;
+}
+.jrn .jrn-e2__field[data-focused='true'] .jrn-e2__rule {
+  color: #4a4d38;
+  transform: scaleY(1.8);
+}
+.jrn .jrn-e2__field[data-invalid='true'] .jrn-e2__rule {
+  color: var(--e2-err);
+}
+.jrn .jrn-e2 .jrn-field__reveal {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  height: auto;
+  border-radius: 6px;
+  color: #3a372f;
+  background: none;
+}
+.jrn .jrn-e2__err {
+  position: absolute;
+  margin: 0;
+  font: 400 21px/1.15 'JURNL Authority Serif', 'JURNL Display', serif;
+  letter-spacing: 2px;
+  color: var(--e2-err);
+}
+
+.jrn .jrn-e2__check {
+  position: absolute;
+  display: block;
+}
+.jrn .jrn-e2__checkbox {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  border: 2px solid #1a1814;
+  border-radius: 3px;
+  color: #1a1814;
+}
+.jrn .jrn-e2__checkbox svg {
+  width: 80%;
+  height: 80%;
+}
+.jrn .jrn-e2__check[aria-checked='true'] .jrn-e2__checkbox {
+  background: #3d402d;
+  border-color: #3d402d;
+  color: #f4efe4;
+}
+
+/* Inline password requirements (two columns under the password rule). */
+.jrn .jrn-e2__reqs {
+  position: absolute;
+  opacity: 0;
+  transition: opacity 0.18s ease;
+  pointer-events: none;
+}
+.jrn .jrn-e2__reqs[data-open='true'] {
+  opacity: 1;
+}
+.jrn .jrn-e2__reqs ul {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font: 400 21px/1.2 'JURNL Authority Serif', 'JURNL Display', serif;
+  letter-spacing: 1px;
+  color: #6f685e;
+}
+.jrn .jrn-e2__reqs li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.jrn .jrn-e2__reqs i {
+  display: inline-flex;
+  width: 20px;
+  height: 20px;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  border: 1.5px solid currentColor;
+  border-radius: 3px;
+  font-style: normal;
+  font-size: 15px;
+}
+.jrn .jrn-e2__reqs li[data-met='true'] {
+  color: #3d402d;
+}
+.jrn .jrn-e2__reqs li[data-flagged='true'][data-met='false'] {
+  color: var(--e2-err);
+}
+
+/* Status notes: set in the page's own type, never a card. */
+.jrn .jrn-e2__note {
+  position: absolute;
+  box-sizing: border-box;
+  font: 400 18px/1.22 'JURNL Authority Serif', 'JURNL Display', serif;
+  letter-spacing: 1.5px;
+  color: var(--e2-err);
+  animation: jrn-e2-in 0.24s ease both;
+}
+.jrn .jrn-e2__note p {
+  margin: 0;
+}
+.jrn .jrn-e2__note--success {
+  color: #3d402d;
+}
+.jrn .jrn-e2__note b {
+  font-weight: 600;
+  letter-spacing: 2.4px;
+}
+.jrn .jrn-e2__note-action {
+  display: inline;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.jrn .jrn-e2__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+@keyframes jrn-e2-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+/* ── 01 WELCOME: cream on the dark wall; square GET STARTED / SIGN IN ── */
+.jrn .jrn-e2[data-jrn-entry-v2='01_WELCOME'] .jrn-e2__btn {
+  border-radius: 2px;
+}
+.jrn .jrn-e2[data-jrn-entry-v2='01_WELCOME'] .jrn-e2__btn--olive {
+  background: #3d402d;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
+}
+
+/* ── 02 VALUE PROPOSITION: black print on the broadside; raised olive plate ── */
+.jrn .jrn-e2[data-jrn-entry-v2='02_VALUE_PROPOSITION'] {
+  --e2-ink: #0b0a08;
+}
+.jrn .jrn-e2__h--heavy .jrn-ref__t {
+  -webkit-text-stroke: 3px currentColor;
+}
+.jrn .jrn-e2[data-jrn-entry-v2='02_VALUE_PROPOSITION'] .jrn-e2__btn--olive {
+  border-radius: 20px;
+  background: linear-gradient(#45483a, #36392c);
+  box-shadow:
+    inset 0 1.5px 0 rgba(255, 255, 255, 0.12),
+    0 8px 18px rgba(30, 24, 14, 0.35);
+}
+
+/* ── 03 KEY BENEFITS: printed slips; the olive slip carries the heading ── */
+.jrn .jrn-e2[data-jrn-entry-v2='03_KEY_BENEFITS'] {
+  --e2-ink: #25210d;
+}
+.jrn .jrn-e2[data-jrn-entry-v2='03_KEY_BENEFITS'] .jrn-e2--light {
+  color: #e9dbc8;
+}
+.jrn .jrn-e2[data-jrn-entry-v2='03_KEY_BENEFITS'] .jrn-e2__btn--olive {
+  border-radius: 30px;
+  background: linear-gradient(#45452e, #36351f);
+  box-shadow: 0 10px 22px rgba(30, 24, 14, 0.42);
+  color: #e9dcc8;
+}
+
+/* ── 04 GET STARTED: the standing invitation ── */
+.jrn .jrn-e2[data-jrn-entry-v2='04_GET_STARTED'] {
+  --e2-ink: #282610;
+}
+.jrn .jrn-e2[data-jrn-entry-v2='04_GET_STARTED'] .jrn-e2__btn {
+  border-radius: 10px;
+}
+.jrn .jrn-e2[data-jrn-entry-v2='04_GET_STARTED'] .jrn-e2__btn--olive {
+  background: #4a4527;
+  color: #efe3c9;
+}
+.jrn .jrn-e2[data-jrn-entry-v2='04_GET_STARTED'] .jrn-e2__btn--outline {
+  border-radius: 12px;
+}
+
+/* ── 05 CREATE ACCOUNT: the registration folio ── */
+.jrn .jrn-e2[data-jrn-entry-v2='05_CREATE_ACCOUNT'] {
+  --e2-ink: #14100a;
+}
+.jrn .jrn-e2[data-jrn-entry-v2='05_CREATE_ACCOUNT'] .jrn-e2__btn--olive {
+  border-radius: 12px;
+  background: #454934;
+  color: #ecebe1;
+}
+.jrn .jrn-e2[data-jrn-entry-v2='05_CREATE_ACCOUNT'] .jrn-e2__rule {
+  height: 2px;
+}
+
+/* ── 06 EMAIL VERIFICATION ── */
+.jrn .jrn-e2[data-jrn-entry-v2='06_EMAIL_VERIFICATION'] {
+  --e2-ink: #2a2a16;
+}
+.jrn .jrn-e2[data-jrn-entry-v2='06_EMAIL_VERIFICATION'] .jrn-e2__btn {
+  border-radius: 10px;
+}
+.jrn .jrn-e2[data-jrn-entry-v2='06_EMAIL_VERIFICATION'] .jrn-e2__btn--olive {
+  background: #40422a;
+  color: #f9f6e7;
+}
+.jrn .jrn-e2[data-jrn-entry-v2='06_EMAIL_VERIFICATION'] .jrn-e2__btn--cream {
+  background: #f1ebdf;
+  box-shadow: inset 0 0 0 1.6px #5e5b48;
+  color: #353620;
+}
+
+/* ── 07 SIGN IN: the credential card ── */
+.jrn .jrn-e2[data-jrn-entry-v2='07_SIGN_IN'] {
+  --e2-ink: #1f1d10;
+}
+.jrn .jrn-e2[data-jrn-entry-v2='07_SIGN_IN'] .jrn-e2__btn--olive {
+  border-radius: 16px;
+  background: #373c21;
+  color: #ece3d0;
+}
+.jrn .jrn-e2[data-jrn-entry-v2='07_SIGN_IN'] .jrn-e2__field .jrn-e2__rule {
+  color: #675e4b;
+}
+.jrn .jrn-e2[data-jrn-entry-v2='07_SIGN_IN'] .jrn-e2__label {
+  color: #3a3627;
+}
+.jrn .jrn-e2[data-jrn-entry-v2='07_SIGN_IN'] .jrn-e2__checkbox {
+  border-width: 1.6px;
+  border-color: #5c5545;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jrn .jrn-e2__btn,
+  .jrn .jrn-e2__reqs,
+  .jrn .jrn-e2__note,
+  .jrn .jrn-e2__field .jrn-e2__rule {
+    transition: none;
+    animation: none;
+  }
+}
+/* SIGN IN keeps its notes in the band between BACK. and EMAIL ADDRESS. */
+.jrn .jrn-e2[data-jrn-entry-v2='07_SIGN_IN'] .jrn-e2__note {
+  font-size: 16px;
+  line-height: 1.2;
+}

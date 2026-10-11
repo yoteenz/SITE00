@@ -115,6 +115,7 @@ export function typeAt(t: RefType, origin?: RefBox): CSSProperties {
   const ox = origin ? origin[0] : 0;
   const oy = origin ? origin[1] : 0;
   const s: CSSProperties = { fontSize: t.size, letterSpacing: t.ls, top: t.top - oy, fontWeight: t.weight };
+  if (t.ws) s.wordSpacing = t.ws;
   if (t.rot) {
     s.left = (t.left ?? 0) - ox;
     s.transform = `rotate(${t.rot}deg)`;

@@ -45,6 +45,8 @@ describe('root hubs: reference + clean shell', () => {
       // L2–L4 are live type, not baked into the plate.
       expect(html).toContain('class="jrn-ra"');
       for (const line of hub.copy) expect(visible(html), line).toContain(line);
+      expect(visible(html)).not.toContain('PLAN TODAY.');
+      expect(visible(html)).not.toContain('GROW FREELY.');
       // ALL UI COPY UPPERCASE
       expect(visible(html).match(/[a-z]/g)).toBeNull();
       // L5: the parent dock, five items, the hub's own item active, ADD in the centre with its label.

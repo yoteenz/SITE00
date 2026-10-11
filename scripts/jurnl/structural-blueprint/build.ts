@@ -251,8 +251,14 @@ const F01_SCREEN_CRITERIA: Record<string, string> = {
   'F01.11': 'R1 U1 D1 Ih S1 V- E- M- L- P1 A1 N1',
   'F01.12': 'R1 U1 Dh Ih S1 V- E1 M- L1 P1 A1 N1',
   'F01.13': 'R1 U1 D- I1 S- V- E- M- L- P1 A1 N1',
+  'F01.14': 'R1 U1 D- I1 S- V- E- M- L- P1 A1 Nh',
+  'F01.15': 'R1 U1 D- I1 S- V- E- M- L- P1 A1 Nh',
+  'F01.16': 'R1 U1 D- I1 S- V- E- M- L- P1 A1 Nh',
 };
 const F01_SCREEN_NOTES: Record<string, string> = {
+  'F01.14': 'ENTRY V2 PARENT 02 (AUTHORITY + PLATE). THE AUTHORITY HAS NO IN-PAGE BACK CONTROL; SYSTEM BACK RETURNS TO WELCOME.',
+  'F01.15': 'ENTRY V2 PARENT 03 (AUTHORITY + PLATE). THE AUTHORITY HAS NO IN-PAGE BACK CONTROL; SYSTEM BACK RETURNS TO VALUE PROPOSITION.',
+  'F01.16': 'ENTRY V2 PARENT 04 (AUTHORITY + PLATE). THE AUTHORITY HAS NO IN-PAGE BACK CONTROL; SYSTEM BACK RETURNS TO KEY BENEFITS.',
   'F01.01': 'ACCOUNT PERSISTENCE IS UNRESOLVED IN THE F01 CONTRACT (PREVIEW ADAPTER, DEVICE STORAGE).',
   'F01.02': 'NO EMAIL IS SENT; VERIFICATION LINK IS SIMULATED.',
   'F01.04': 'BIOMETRIC UNLOCK RUNS ON THE SIMULATED NATIVE BRIDGE.',
@@ -726,6 +732,7 @@ export function buildBlueprint() {
   edges.push({ from: 'F01.10', to: 'F01.11', current: true, via: 'F01.10.TRUST.CONFIRM (continue)' });
   edges.push({ from: 'F01.00', to: 'F01.04', current: true, via: 'EntryIndex: remembered device → entry/unlock' });
   edges.push({ from: 'F01.06', to: 'F01.07', current: true, via: 'reset link from the email (simulated in preview)' });
+  for (const [from, to] of [['F01.00', 'F01.14'], ['F01.14', 'F01.15'], ['F01.15', 'F01.16'], ['F01.16', 'F01.01'], ['F01.16', 'F01.03']]) edges.push({ from: from!, to: to!, current: true, via: 'ENTRY v2 parents (EntryScreens.tsx)' });
   for (const [from, to] of [['F01.01', 'F01.02'], ['F01.03', 'F01.02'], ['F01.03', 'F01.09'], ['F01.03', 'F01.10'], ['F01.03', 'F01.13']]) edges.push({ from: from!, to: to!, current: true, via: 'EntryScreens.tsx usePostAuthRoute' });
   for (const [from, to] of Object.entries(F02_NEXT)) edges.push({ from, to, current: true, via: 'F02_NEXT' });
   for (const s of F02_SCREENS) if (s.back) edges.push({ from: s.back, to: s.id, current: true, via: 'F02 back-link parent' });

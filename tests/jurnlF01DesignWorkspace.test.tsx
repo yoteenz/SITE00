@@ -63,10 +63,11 @@ describe('DESIGN workspace ingests JURNL (project-reactive modes)', () => {
   });
   it('EXPERIENCE shows the family tree, journeys, 27 states, 74 interactions, F01 → F02 transition', () => {
     const html = render('jurnl', 'experience');
-    expect(html).toContain('14 SCREENS');
+    // 14 package screens + ENTRY v2 parents 02–04 (F01.14–F01.16).
+    expect(html).toContain('17 SCREENS');
     expect(html).toContain('27 STATES');
     expect(html).toContain('74 MANIFEST ROWS');
-    expect(html).toContain('NEW ACCOUNT: 00 → 01 → 02 → 09 → 10 → 11 → 12 → 13');
+    expect(html).toContain('NEW ACCOUNT: 00 → 14 → 15 → 16 → 01 → 02 → 09 → 10 → 11 → 12 → 13');
     expect(html).toContain('F01 → F02');
   });
   it('SURFACES deep-links each responsive target into the real VIEWPORT', () => {

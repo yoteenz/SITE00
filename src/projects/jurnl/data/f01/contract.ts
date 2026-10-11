@@ -11,7 +11,7 @@ import { assetPolicyFor } from '../../../../../shared/site00-product-families/as
 import { buildFamilyBudgetRecord, type ProjectBudgetBaseline } from '../../../../../shared/site00-product-families/productionBudget.js';
 import { F01_CLAIMS } from './copy';
 import { F01_INTERACTION_MANIFEST } from './interactionBindings';
-import { F01_SCREENS, F01_STATES, F01_STATE_SHEETS } from './screens';
+import { ENTRY_V2_REVIEW_AUTHORITY, F01_FLOW_SCREENS, F01_STATES, F01_STATE_SHEETS } from './screens';
 import { JURNL_F01_MONETIZATION } from '../monetization/familyMonetization';
 import { F01_ENVIRONMENT_PLATES } from './environmentPlates';
 
@@ -54,13 +54,14 @@ export const JURNL_F01_CONTRACT: FamilyProductionContract = {
   purpose:
     'GET A PERSON INTO JURNL CALMLY: CREATE OR RECOVER AN ACCOUNT, VERIFY EMAIL, SET UP FACE ID AND DEVICE TRUST, UNDERSTAND PRIVACY AND SECURITY, THEN HAND OFF TO F02 SETUP.',
   parentScreen: 'F01.00',
-  screens: F01_SCREENS.map((s) => ({
+  screens: F01_FLOW_SCREENS.map((s) => ({
     id: s.id,
     name: s.name,
     role: s.id === 'F01.00' ? 'PARENT' : 'CHILD',
     parentId: s.id === 'F01.00' ? null : 'F01.00',
     runtimeRoute: s.route,
-    authorityFile: AUTH(s.authority),
+    // Screens redrawn on ENTRY v2 are reviewed against their ENTRY v2 authority.
+    authorityFile: AUTH((ENTRY_V2_REVIEW_AUTHORITY as Record<string, string>)[s.id] ?? s.authority),
     approvalStatus: s.id === 'F01.00' ? 'FOUNDER_APPROVED' : 'IMPLEMENTATION_READY',
     implementationStatus: 'IMPLEMENTED',
     stateIds: F01_STATES.filter((st) => st.screenId === s.id).map((st) => st.id),
@@ -188,7 +189,7 @@ export const JURNL_F01_CONTRACT: FamilyProductionContract = {
   },
   monetization: JURNL_F01_MONETIZATION,
   journeys: [
-    { id: 'NEW', label: 'NEW ACCOUNT', path: ['F01.00', 'F01.01', 'F01.02', 'F01.09', 'F01.10', 'F01.11', 'F01.12', 'F01.13'] },
+    { id: 'NEW', label: 'NEW ACCOUNT', path: ['F01.00', 'F01.14', 'F01.15', 'F01.16', 'F01.01', 'F01.02', 'F01.09', 'F01.10', 'F01.11', 'F01.12', 'F01.13'] },
     { id: 'SIGN_IN', label: 'SIGN IN', path: ['F01.00', 'F01.03', 'F01.09', 'F01.10', 'F01.13'] },
     { id: 'RETURNING', label: 'RETURNING', path: ['F01.04', 'F01.13'] },
     { id: 'RECOVERY', label: 'RECOVERY', path: ['F01.03', 'F01.05', 'F01.06', 'F01.07', 'F01.08', 'F01.03'] },

@@ -7,12 +7,12 @@ Visual transformation runs afterwards, family by family, then founder approval, 
 
 | AFTER WAVE | FUNCTIONAL (BALANCED) | NODE-WEIGHTED | STRICT | NODES COMPLETED IN WAVE |
 |---|---|---|---|---|
-| W0 | 51.8% | 63.1% | 43.8% | 32 |
-| W1 | 59.8% | 70% | 54.3% | 49 |
-| W2 | 70% | 77.5% | 65.6% | 40 |
-| W3 | 82.4% | 85.9% | 79.6% | 46 |
-| W4 | 98.8% | 95.4% | 96.9% | 49 |
-| W5 | 100% | 100% | 100% | 65 |
+| W0 | 51.8% | 63.3% | 43.8% | 32 |
+| W1 | 59.8% | 70.2% | 54.2% | 49 |
+| W2 | 70% | 77.5% | 65.5% | 40 |
+| W3 | 82.4% | 85.9% | 79.5% | 46 |
+| W4 | 98.8% | 95.3% | 96.9% | 49 |
+| W5 | 100% | 100% | 100% | 68 |
 
 Each node's `target_wave` in the canonical graph says when it reaches 12/12. Waves 0–4 make F02–F16 and the global systems
 functional on device persistence. Wave 5 brings the identity providers (auth, email, social, native bridge) that F01 needs to

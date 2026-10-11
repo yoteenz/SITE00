@@ -13,6 +13,7 @@ export const CONTROL_OPERATOR_NAV: ControlNavItem[] = [
   { id: 'command', label: 'COMMAND', href: SITE00_ADMIN_ROUTES.dashboard, icon: 'command' },
   { id: 'projects', label: 'PROJECTS', href: SITE00_ADMIN_ROUTES.projects, icon: 'projects' },
   { id: 'production', label: 'PRODUCTION', href: SITE00_ADMIN_ROUTES.studio, icon: 'production' },
+  { id: 'estimator', label: 'ESTIMATOR', href: SITE00_ADMIN_ROUTES.estimator, icon: 'reports' },
   { id: 'reviews', label: 'REVIEWS', href: SITE00_ADMIN_ROUTES.approvals, icon: 'reviews' },
   { id: 'clients', label: 'CLIENTS', href: SITE00_ADMIN_ROUTES.identities, icon: 'clients' },
   { id: 'assets', label: 'ASSETS / VAULT', href: '/assts', icon: 'assets' },
@@ -20,6 +21,7 @@ export const CONTROL_OPERATOR_NAV: ControlNavItem[] = [
   { id: 'automation', label: 'AUTOMATION', href: SITE00_ADMIN_ROUTES.settingsAutomation, icon: 'automation' },
   { id: 'business', label: 'BUSINESS', href: SITE00_ADMIN_ROUTES.finance, icon: 'business' },
   { id: 'reports', label: 'REPORTS', href: SITE00_ADMIN_ROUTES.reports, icon: 'reports' },
+  { id: 'correspondence', label: 'CORRESPONDENCE', href: SITE00_ADMIN_ROUTES.correspondenceStudio, icon: 'email' },
   { id: 'email-pack', label: 'EMAIL / DEBUG', href: SITE00_ADMIN_ROUTES.emailPack, icon: 'email' },
   { id: 'marketing', label: 'MARKETING', href: SITE00_ADMIN_ROUTES.marketingEngagements, icon: 'projects' },
   { id: 'settings', label: 'SETTINGS', href: SITE00_ADMIN_ROUTES.settings, icon: 'settings' },
@@ -35,6 +37,9 @@ export const CONTROL_MOBILE_QUICK_ACTIONS = [
 export function controlNavIsActive(pathname: string, href: string): boolean {
   if (href === SITE00_ADMIN_ROUTES.dashboard) {
     return pathname === href || pathname === `${href}/`;
+  }
+  if (href === SITE00_ADMIN_ROUTES.correspondenceStudio) {
+    return pathname.startsWith('/admin/site00/correspondence-studio');
   }
   if (href === SITE00_ADMIN_ROUTES.emailPack) {
     return pathname.startsWith('/admin/site00/debug/email-pack');

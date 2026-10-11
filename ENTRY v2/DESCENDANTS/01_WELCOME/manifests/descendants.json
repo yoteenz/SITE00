@@ -1,0 +1,47 @@
+[
+  {
+    "DESCENDANT_ID": "WELCOME_DEFAULT",
+    "PARENT_ID": "01_WELCOME",
+    "TYPE": "PARENT_REFERENCE",
+    "TIER": "PARENT",
+    "FUNCTIONAL_TRIGGER": "Route entry/welcome. Existing locked parent.",
+    "STATE_DELTA": "None. The parent is the default.",
+    "PLATE_SOURCE": "PARENT",
+    "PLATE_PATH": "ENTRY v2/01_WELCOME/plate/entry-v2-welcome-sidekick-plate.png",
+    "AUTHORITY_PATH": "ENTRY v2/01_WELCOME/authority/entry-v2-welcome-authority.png",
+    "OVERLAY_SHELL": null,
+    "NEW_ASSET_REQUIRED": false,
+    "SHARED_AUTHORITY": null,
+    "STATUS": "FOUNDER_REVIEW_REQUIRED"
+  },
+  {
+    "DESCENDANT_ID": "WELCOME_GET_STARTED_PRESSED",
+    "PARENT_ID": "01_WELCOME",
+    "TYPE": "MICRO_STATE",
+    "TIER": 1,
+    "FUNCTIONAL_TRIGGER": "Press GET STARTED.",
+    "STATE_DELTA": "Live press on the olive button. No new plate.",
+    "PLATE_SOURCE": "PARENT",
+    "PLATE_PATH": "ENTRY v2/01_WELCOME/plate/entry-v2-welcome-sidekick-plate.png",
+    "AUTHORITY_PATH": "ENTRY v2/01_WELCOME/authority/entry-v2-welcome-authority.png",
+    "OVERLAY_SHELL": null,
+    "NEW_ASSET_REQUIRED": false,
+    "SHARED_AUTHORITY": null,
+    "STATUS": "FOUNDER_REVIEW_REQUIRED"
+  },
+  {
+    "DESCENDANT_ID": "WELCOME_SIGN_IN_PRESSED",
+    "PARENT_ID": "01_WELCOME",
+    "TYPE": "MICRO_STATE",
+    "TIER": 1,
+    "FUNCTIONAL_TRIGGER": "Press SIGN IN.",
+    "STATE_DELTA": "Live press on the secondary button. No new plate.",
+    "PLATE_SOURCE": "PARENT",
+    "PLATE_PATH": "ENTRY v2/01_WELCOME/plate/entry-v2-welcome-sidekick-plate.png",
+    "AUTHORITY_PATH": "ENTRY v2/01_WELCOME/authority/entry-v2-welcome-authority.png",
+    "OVERLAY_SHELL": null,
+    "NEW_ASSET_REQUIRED": false,
+    "SHARED_AUTHORITY": null,
+    "STATUS": "FOUNDER_REVIEW_REQUIRED"
+  }
+]

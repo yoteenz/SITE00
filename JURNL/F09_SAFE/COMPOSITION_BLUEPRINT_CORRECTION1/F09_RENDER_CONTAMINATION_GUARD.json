@@ -13,7 +13,7 @@
         "WHAT YOU CAN SPEND NOW WITHOUT TOUCHING BILLS, PLANS OR WHAT YOU’RE HOLDING.",
         "$24,885",
         "HELD BACK $6,075 OF $30,960 CASH",
-        "SEE THE FULL BREAKDOWN",
+        "SEE WHY THIS AMOUNT",
         "CHANGE WHAT’S HELD",
         "PLAN",
         "HOME",
@@ -64,7 +64,7 @@
       "prompt_hashes": {
         "JURNL.F09.T01.SCENE_PLATE.v1": "fb5ab4bd457082c14be0617181dfc83faadac4500b993ccac52e6ef992215e4c"
       },
-      "blueprint_hash": "ce248368d03cf11c12fe40d3ad45ad82756e07e5368016743b89a4ad04046b9e",
+      "blueprint_hash": "9411292895e5dc229e88c0f033b13da4315b5ca94e891c16ef01d4a6f4441b05",
       "run_rules": [
         "One plate per run, in a fresh session or conversation with no prior images or memory.",
         "Attach only the plate guide; its sha256 and the prompt sha256 must match this guard before the call.",
@@ -83,7 +83,7 @@
         "WHAT YOU CAN SPEND NOW WITHOUT TOUCHING BILLS, PLANS OR WHAT YOU’RE HOLDING.",
         "$24,885",
         "HELD BACK $6,075 OF $30,960 CASH",
-        "SEE THE FULL BREAKDOWN",
+        "SEE WHY THIS AMOUNT",
         "CHANGE WHAT’S HELD",
         "PLAN",
         "HOME",
@@ -135,7 +135,7 @@
       "prompt_hashes": {
         "JURNL.F09.T02.SCENE_PLATE.v1": "2071f99984d8ef26d2b1b735d7425beb84a4914a633e8326a078d30f9c89eb6c"
       },
-      "blueprint_hash": "7f3a8fa0d158924874379748231f025e6c59b6b18703fd75d47aa290d9f1307f",
+      "blueprint_hash": "df57d4fc572bfe26874b45f1a57434095642e11a00320c48cc8964cea679d08c",
       "run_rules": [
         "One plate per run, in a fresh session or conversation with no prior images or memory.",
         "Attach only the plate guide; its sha256 and the prompt sha256 must match this guard before the call.",
@@ -154,7 +154,7 @@
         "WHAT YOU CAN SPEND NOW WITHOUT TOUCHING BILLS, PLANS OR WHAT YOU’RE HOLDING.",
         "$24,885",
         "HELD BACK $6,075 OF $30,960 CASH",
-        "SEE THE FULL BREAKDOWN",
+        "SEE WHY THIS AMOUNT",
         "CHANGE WHAT’S HELD",
         "PLAN",
         "HOME",
@@ -205,7 +205,7 @@
       "prompt_hashes": {
         "JURNL.F09.T03.SCENE_PLATE.v1": "b12c44d95e5411921c9a5cfec1845227eec824b2cebe75292869c78bc82cbd1b"
       },
-      "blueprint_hash": "aec0bd62ef33a2590263038b34a038bed9feb74ba64f875390a61d72a7f8e251",
+      "blueprint_hash": "21b7566befb68432a17bd9f484e179ffaa7b7fcd40f07420751622d27b23519e",
       "run_rules": [
         "One plate per run, in a fresh session or conversation with no prior images or memory.",
         "Attach only the plate guide; its sha256 and the prompt sha256 must match this guard before the call.",

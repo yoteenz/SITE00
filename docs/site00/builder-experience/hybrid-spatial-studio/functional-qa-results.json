@@ -1,0 +1,237 @@
+[
+ {
+  "name": "locked deep link redirects to PLACE",
+  "ok": true,
+  "detail": "http://127.0.0.1:5174/bldr/builder/place"
+ },
+ {
+  "name": "CONTINUE disabled before a choice",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "stage arrow selects an option",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "stage arrow cycles to ADVANCED",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "PLACE choice persisted",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "browser back returns to PLACE with choice kept",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "browser forward returns to FEEL with choice kept",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "SIMPLE + SHOP asks before raising the level",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "NOT NOW leaves SHOP off",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "BOOKING adds without a decision (any level)",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "ADD IT keeps SHOP and records the decision",
+  "ok": true,
+  "detail": "[\"BOOKING\",\"SHOP\"]"
+ },
+ {
+  "name": "COMES WITH is visible, never silent",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "CORE PAGES expands to the real page list",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "STANDARD selected by default",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "PACE + notes persisted",
+  "ok": true,
+  "detail": "{\"pace\":\"FLEXIBLE\",\"notes\":\"We would like to launch in spring.\"}"
+ },
+ {
+  "name": "reload restores the room and choices",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "root route resumes at the furthest room",
+  "ok": true,
+  "detail": "http://127.0.0.1:5174/bldr/builder/pace"
+ },
+ {
+  "name": "Blueprint shows estimator investment",
+  "ok": true,
+  "detail": "$16,000 – $27,000"
+ },
+ {
+  "name": "Blueprint timeline is not a Digital Foundation timeline",
+  "ok": true,
+  "detail": "3 – 5 MONTHS"
+ },
+ {
+  "name": "BUILD TYPE reflects the derived level",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "tab STRUCTURE has content",
+  "ok": true,
+  "detail": "797"
+ },
+ {
+  "name": "tab PAGES has content",
+  "ok": true,
+  "detail": "200"
+ },
+ {
+  "name": "tab FEATURES has content",
+  "ok": true,
+  "detail": "378"
+ },
+ {
+  "name": "tab TIMELINE has content",
+  "ok": true,
+  "detail": "1336"
+ },
+ {
+  "name": "tab OVERVIEW has content",
+  "ok": true,
+  "detail": "385"
+ },
+ {
+  "name": "TIMELINE echoes the client note",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "changing structure recalculates the estimate",
+  "ok": true,
+  "detail": "$16,000 – $27,000 -> $36,000 – $65,000"
+ },
+ {
+  "name": "structure override persisted",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "VISUAL DIRECTION card returns to FEEL",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "FEATURES card opens the FEATURES tab",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "EDIT SELECTIONS opens the room menu",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "menu navigates to a room",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "SAVE FOR LATER confirms",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "SAVE FOR LATER stores an estimator record",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "3D inspect toggles",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "drag-to-turn raises no error",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "invalid email is caught",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "without a backend the sheet reports failure honestly",
+  "ok": true,
+  "detail": "SEND YOUR BLUEPRINT.\n\nWHERE SHOULD SITE 00 REPLY? YOUR SELECTIONS AND INITIAL RANGE TRAVEL WITH IT. THIS IS NOT A QUOTE.\n\nEMAIL\n\nSITE 00 COULD NOT START YOUR BL"
+ },
+ {
+  "name": "mocked API: start → access → update → submit",
+  "ok": true,
+  "detail": "start:payload,send-access,update:payload,submit"
+ },
+ {
+  "name": "submitted state shown on the CTA",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "START OVER clears choices and the previous intake",
+  "ok": true,
+  "detail": "null"
+ },
+ {
+  "name": "WORLD: PAGES cannot be enabled",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "EXPEDITED offered when the estimator says it shortens the work",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "EXPEDITED selectable",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "every control has an accessible name",
+  "ok": true,
+  "detail": "0"
+ },
+ {
+  "name": "no page errors",
+  "ok": true,
+  "detail": ""
+ },
+ {
+  "name": "reduced motion: renders and responds without errors",
+  "ok": true,
+  "detail": ""
+ }
+]

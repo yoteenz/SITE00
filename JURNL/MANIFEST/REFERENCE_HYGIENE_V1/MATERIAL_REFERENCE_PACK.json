@@ -1,0 +1,14 @@
+{
+  "id": "PACK_D_MATERIAL",
+  "role": "Name the tactile layer. Do not attach a fourth near-duplicate photograph when the editorial or world reference already shows the material.",
+  "attach": [],
+  "materials": [
+    { "name": "linen", "status": "UNKNOWN", "note": "No isolated linen swatch is registered. Do not invent one. Take linen from the page-family artifact when that page uses cloth." },
+    { "name": "vellum", "status": "UNKNOWN", "note": "No isolated vellum swatch is registered." },
+    { "name": "paper", "carried_by": "ENTRY v2/02_VALUE_PROPOSITION/authority/entry-v2-value-proposition-authority.png" },
+    { "name": "stone", "carried_by": "ENTRY v2/10_FORGOT_PASSWORD/authority/entry-v2-forgot-password-authority.png" },
+    { "name": "burgundy", "carried_by": "ENTRY v2/01_WELCOME/authority/entry-v2-welcome-authority.png", "note": "Welcome is a Mediterranean scene. Do not attach it only to fetch the velvet." },
+    { "name": "olive", "carried_by": "src/projects/jurnl/families/F09_SAFE/REFERENCE_REPLICA/assets/LOCKUP_SPRIG.png" },
+    { "name": "brass", "carried_by": "ENTRY v2/10_FORGOT_PASSWORD/authority/entry-v2-forgot-password-authority.png" }
+  ]
+}

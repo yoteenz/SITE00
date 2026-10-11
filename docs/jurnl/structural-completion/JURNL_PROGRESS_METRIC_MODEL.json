@@ -7,11 +7,11 @@
   "axes": {
     "FUNCTIONAL_COMPLETION": {
       "formula": "mean over the 17 units (F01–F16 + GLOBAL) of [Σ functional_score(n) / |N_F ∩ unit|]. N_F = every material node except SHARED_COMPONENT and LEGACY interactions. functional_score = applicable criteria met / applicable criteria (1, 0.5, 0); interactions and states use their status scores.",
-      "value": 49.4,
+      "value": 49.5,
       "why_balanced": "F01’s contract enumerates every primitive behaviour (142 nodes); F05–F16 are authored at family grain. Node weighting would reward contract verbosity.",
       "node_weighted": {
         "formula": "Σ functional_score(n) / |N_F|",
-        "value": 60.7
+        "value": 60.8
       },
       "strict": {
         "formula": "unit-balanced share of nodes with score = 1",
@@ -32,7 +32,7 @@
     "VISUAL_IMPLEMENTATION": {
       "formula": "unit-balanced share of N_V with a valid expression mounted. N_V = parents, child / grandchild pages, drawers, sheets, modals, overlays, expanded/inline children, global nav. Interference-FAIL parents, neutral shells and placeholder nav icons do not count.",
       "value": 29.2,
-      "node_weighted": 50.7,
+      "node_weighted": 51.7,
       "confidence": "HIGH"
     },
     "APPROVAL_COMPLETION": {
@@ -44,13 +44,13 @@
     },
     "LAUNCH_READINESS": {
       "formula": "mean of 12 launch gates scored 0..1 with evidence",
-      "value": 11.1,
+      "value": 11.2,
       "confidence": "MEDIUM",
       "gates": [
         {
           "id": "G01",
           "gate": "FUNCTIONAL_COMPLETION = 100%",
-          "score": 0.49447013700912673,
+          "score": 0.4945302360487426,
           "evidence": "Progress metric (unit-balanced)."
         },
         {
@@ -80,7 +80,7 @@
         {
           "id": "G06",
           "gate": "FOUNDER APPROVAL = 100%",
-          "score": 0.0014347202295552368,
+          "score": 0.0013368983957219253,
           "evidence": "Progress metric."
         },
         {
@@ -92,7 +92,7 @@
         {
           "id": "G08",
           "gate": "RESPONSIVE QA ON EVERY VISUAL NODE",
-          "score": 0.55,
+          "score": 0.5594405594405595,
           "evidence": "Share of visual nodes with P=1 evidence (viewport + containment QA)."
         },
         {
@@ -122,7 +122,7 @@
       ]
     }
   },
-  "report_format": "49.4% FUNCTIONAL / 29.2% VISUALLY IMPLEMENTED / 0.1% APPROVED / 11.1% LAUNCH READY",
+  "report_format": "49.5% FUNCTIONAL / 29.2% VISUALLY IMPLEMENTED / 0.1% APPROVED / 11.2% LAUNCH READY",
   "node_progression": [
     "PLANNED",
     "STRUCTURED",
@@ -139,9 +139,9 @@
     {
       "unit": "F01",
       "name": "ENTRY",
-      "nodes": 144,
-      "functional": 86.7,
-      "strict": 59
+      "nodes": 147,
+      "functional": 86.8,
+      "strict": 57.8
     },
     {
       "unit": "F02",
@@ -260,35 +260,35 @@
     {
       "after_wave": 0,
       "functional_completion": 51.8,
-      "node_weighted": 63.1,
+      "node_weighted": 63.3,
       "nodes_completed_in_wave": 32,
       "strict": 43.8
     },
     {
       "after_wave": 1,
       "functional_completion": 59.8,
-      "node_weighted": 70,
+      "node_weighted": 70.2,
       "nodes_completed_in_wave": 49,
-      "strict": 54.3
+      "strict": 54.2
     },
     {
       "after_wave": 2,
       "functional_completion": 70,
       "node_weighted": 77.5,
       "nodes_completed_in_wave": 40,
-      "strict": 65.6
+      "strict": 65.5
     },
     {
       "after_wave": 3,
       "functional_completion": 82.4,
       "node_weighted": 85.9,
       "nodes_completed_in_wave": 46,
-      "strict": 79.6
+      "strict": 79.5
     },
     {
       "after_wave": 4,
       "functional_completion": 98.8,
-      "node_weighted": 95.4,
+      "node_weighted": 95.3,
       "nodes_completed_in_wave": 49,
       "strict": 96.9
     },
@@ -296,13 +296,13 @@
       "after_wave": 5,
       "functional_completion": 100,
       "node_weighted": 100,
-      "nodes_completed_in_wave": 65,
+      "nodes_completed_in_wave": 68,
       "strict": 100
     }
   ],
   "gap_counts": {
     "COMPLETE_FUNCTIONAL": 208,
-    "PARTIAL_FUNCTIONAL": 116,
+    "PARTIAL_FUNCTIONAL": 119,
     "STRUCTURE_ONLY": 2,
     "MISSING": 147,
     "PLACEHOLDER": 12,

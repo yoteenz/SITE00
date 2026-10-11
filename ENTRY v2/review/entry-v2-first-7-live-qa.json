@@ -1,0 +1,207 @@
+{
+  "id": "ENTRY_V2_FIRST_SEVEN_LIVE_QA",
+  "sprint": "P0.JURNL.ENTRY-V2.FIRST-7.AUTHORITY-PLUS-PLATE-LIVE-WIRING1",
+  "package": "ENTRY-v2-env3.zip",
+  "viewports": {
+    "scored": "393 × 699 (the authorities' 9:16)",
+    "canonical": "393 × 852 (plate covers; crop follows the page focus and keeps the whole live layer on screen)",
+    "also_checked": [
+      "402 × 874",
+      "375 × 667",
+      "430 × 932",
+      "834 × 1194 (fallback)",
+      "1440 × 900 (fallback)"
+    ]
+  },
+  "method": "scripts/jurnl/entry-v2/capture.mjs + qa_score.py (formulas in its docstring). Frame 1008 × 1792. 1 frame px = 0.39 CSS px on a 393 phone.",
+  "review_sheet": "ENTRY v2/review/entry-v2-first-7-live-vs-authority.jpg",
+  "screens": [
+    {
+      "screen": "01_WELCOME",
+      "runtime_screen": "F01.00",
+      "route": "/production/jurnl/runtime/entry",
+      "component": "src/projects/jurnl/runtime/screens/EntryScreens.tsx#WelcomeScreen",
+      "scores": {
+        "COMPOSITION_MATCH": 94,
+        "TYPOGRAPHY_MATCH": 96,
+        "OBJECT_ALIGNMENT": 96,
+        "PLATE_CROP": 99
+      },
+      "raw": {
+        "plate_err_px": 0.29,
+        "line_centre_err_px_mean": 0.9,
+        "line_centre_err_px_max": 2.55,
+        "lines": 11,
+        "type_ratio_dev_mean": 0.019,
+        "gradient_ssim": 0.813
+      },
+      "functional": {
+        "result": "PASS",
+        "checked": "GET STARTED → F01.14; SIGN IN → F01.03."
+      },
+      "note": null
+    },
+    {
+      "screen": "02_VALUE_PROPOSITION",
+      "runtime_screen": "F01.14",
+      "route": "/production/jurnl/runtime/entry/value",
+      "component": "src/projects/jurnl/runtime/screens/EntryScreens.tsx#ValuePropositionScreen",
+      "scores": {
+        "COMPOSITION_MATCH": 89,
+        "TYPOGRAPHY_MATCH": 96,
+        "OBJECT_ALIGNMENT": 92,
+        "PLATE_CROP": 99
+      },
+      "raw": {
+        "plate_err_px": 0.36,
+        "line_centre_err_px_mean": 2.1,
+        "line_centre_err_px_max": 5.22,
+        "lines": 9,
+        "type_ratio_dev_mean": 0.0182,
+        "gradient_ssim": 0.68
+      },
+      "functional": {
+        "result": "PASS",
+        "checked": "CONTINUE → F01.15."
+      },
+      "note": "Composition 89: the whole-frame gradient similarity is held down by the regenerated plate's paper texture differing from the authority's; the live lines sit 2.1 px from the authority on average."
+    },
+    {
+      "screen": "03_KEY_BENEFITS",
+      "runtime_screen": "F01.15",
+      "route": "/production/jurnl/runtime/entry/benefits",
+      "component": "src/projects/jurnl/runtime/screens/EntryScreens.tsx#KeyBenefitsScreen",
+      "scores": {
+        "COMPOSITION_MATCH": 92,
+        "TYPOGRAPHY_MATCH": 94,
+        "OBJECT_ALIGNMENT": 93,
+        "PLATE_CROP": 98
+      },
+      "raw": {
+        "plate_err_px": 0.43,
+        "line_centre_err_px_mean": 1.67,
+        "line_centre_err_px_max": 4.24,
+        "lines": 12,
+        "type_ratio_dev_mean": 0.0303,
+        "gradient_ssim": 0.815
+      },
+      "functional": {
+        "result": "PASS",
+        "checked": "CONTINUE → F01.16."
+      },
+      "note": null
+    },
+    {
+      "screen": "04_GET_STARTED",
+      "runtime_screen": "F01.16",
+      "route": "/production/jurnl/runtime/entry/begin",
+      "component": "src/projects/jurnl/runtime/screens/EntryScreens.tsx#GetStartedScreen",
+      "scores": {
+        "COMPOSITION_MATCH": 95,
+        "TYPOGRAPHY_MATCH": 92,
+        "OBJECT_ALIGNMENT": 96,
+        "PLATE_CROP": 97
+      },
+      "raw": {
+        "plate_err_px": 0.65,
+        "line_centre_err_px_mean": 1.07,
+        "line_centre_err_px_max": 2.0,
+        "lines": 5,
+        "type_ratio_dev_mean": 0.0394,
+        "gradient_ssim": 0.889
+      },
+      "functional": {
+        "result": "PASS",
+        "checked": "GET STARTED → F01.01; SIGN IN → F01.03."
+      },
+      "note": null
+    },
+    {
+      "screen": "05_CREATE_ACCOUNT",
+      "runtime_screen": "F01.01",
+      "route": "/production/jurnl/runtime/entry/create",
+      "component": "src/projects/jurnl/runtime/screens/EntryScreens.tsx#CreateAccountScreen",
+      "scores": {
+        "COMPOSITION_MATCH": 93,
+        "TYPOGRAPHY_MATCH": 94,
+        "OBJECT_ALIGNMENT": 96,
+        "PLATE_CROP": 98
+      },
+      "raw": {
+        "plate_err_px": 0.55,
+        "line_centre_err_px_mean": 1.11,
+        "line_centre_err_px_max": 2.06,
+        "lines": 15,
+        "type_ratio_dev_mean": 0.0306,
+        "gradient_ssim": 0.811
+      },
+      "functional": {
+        "result": "PASS",
+        "checked": "Empty submit: summary + 4 field errors. Password focus opens the requirements; all four met; reveal toggles type. TERMS opens and I AGREE checks the box. APPLE opens the native handoff. Submit with Enter → F01.02."
+      },
+      "note": "Requirements open inline under the password rule and push the lower block down (no overlap)."
+    },
+    {
+      "screen": "06_EMAIL_VERIFICATION",
+      "runtime_screen": "F01.02",
+      "route": "/production/jurnl/runtime/entry/verify-email",
+      "component": "src/projects/jurnl/runtime/screens/EntryScreens.tsx#VerifyEmailScreen",
+      "scores": {
+        "COMPOSITION_MATCH": 90,
+        "TYPOGRAPHY_MATCH": 83,
+        "OBJECT_ALIGNMENT": 89,
+        "PLATE_CROP": 97
+      },
+      "raw": {
+        "plate_err_px": 0.72,
+        "line_centre_err_px_mean": 2.86,
+        "line_centre_err_px_max": 10.55,
+        "lines": 8,
+        "type_ratio_dev_mean": 0.0865,
+        "gradient_ssim": 0.805
+      },
+      "functional": {
+        "result": "PASS",
+        "checked": "Live address shown (ADA@EXAMPLE.COM). RESEND shows the toast. USE A DIFFERENT EMAIL opens the drawer. OPEN EMAIL APP opens the handoff. Expired / verified states render."
+      },
+      "note": "Alignment 89 / typography 83: the authority-side ink test trips where the olive-leaf shadow crosses YOUR EMAIL.; the live headline matches the measured position. The fallback address prints with the authority's full stop; a real address is shown as typed."
+    },
+    {
+      "screen": "07_SIGN_IN",
+      "runtime_screen": "F01.03",
+      "route": "/production/jurnl/runtime/entry/sign-in",
+      "component": "src/projects/jurnl/runtime/screens/EntryScreens.tsx#SignInScreen",
+      "scores": {
+        "COMPOSITION_MATCH": 95,
+        "TYPOGRAPHY_MATCH": 95,
+        "OBJECT_ALIGNMENT": 97,
+        "PLATE_CROP": 98
+      },
+      "raw": {
+        "plate_err_px": 0.48,
+        "line_centre_err_px_mean": 0.87,
+        "line_centre_err_px_max": 1.8,
+        "lines": 8,
+        "type_ratio_dev_mean": 0.0264,
+        "gradient_ssim": 0.871
+      },
+      "functional": {
+        "result": "PASS",
+        "checked": "Empty submit → required; unknown → ACCOUNT NOT FOUND; wrong password → INCORRECT PASSWORD (field invalid); keep-signed-in toggles; Enter submits → post-auth route. FORGOT → F01.05, CREATE ACCOUNT → F01.01, GOOGLE → handoff. Tab order: email, password, reveal, keep, sign in, forgot, create, apple, google."
+      },
+      "note": "KEEP ME SIGNED IN and the two provider sign-ins are kept from the F01 runtime (not drawn in the authority); set in the card's small sans."
+    }
+  ],
+  "gates": {
+    "double_layer": false,
+    "letterbox": false,
+    "authority_mounted": false,
+    "generic_card_drift": false,
+    "live_forms": true,
+    "live_ctas": true,
+    "entry_08_plus_changed": false,
+    "setup_changed": false,
+    "openart_used": false,
+    "founder_approval_inferred": false
+  }
+}

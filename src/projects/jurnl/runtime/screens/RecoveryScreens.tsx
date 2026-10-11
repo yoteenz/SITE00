@@ -110,7 +110,7 @@ export function ResetSentScreen() {
           {C.resetSent.back}
         </JurnlTextLink>
       </div>
-      {overlay === 'mail' ? <MailHandoff /> : null}
+      {overlay === 'mail' ? <MailHandoff onLink={() => go('F01.07')} /> : null}
     </JurnlScreen>
   );
 }

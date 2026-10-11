@@ -15,7 +15,7 @@ import { honestAccountsConnectionLabel } from '../../data/foundation/connectionP
 import { getRepository } from '../../data/repository/deviceRepository';
 import { syncDeviceAiToRepository } from '../../data/repository/consentSync';
 import { patchSetup, useSetup } from '../../data/f02/setupDraft';
-import { useCurrency } from '../../data/home/money';
+import { formatAmountInput, useCurrency } from '../../data/home/money';
 import accountPlate from '../../families/F09_SAFE/REFERENCE_REPLICA/plates/F09_ACCOUNT_PLATE.jpg';
 import leafRight from '../../families/F09_SAFE/REFERENCE_REPLICA/assets/PILL_BOTANICAL_RIGHT.png';
 import leafLeft from '../../families/F09_SAFE/REFERENCE_REPLICA/assets/PILL_BOTANICAL_LEFT.png';
@@ -93,8 +93,8 @@ function Toggle({ on, box, origin, onChange, trigger }: { on: boolean; box: RefB
 function MoneyField({ t, origin, value, onValue, trigger, label }: { t: RefType; origin: RefBox; value: string; onValue: (v: string) => void; trigger: string; label: string }) {
   return (
     <>
-      <RefText t={t} origin={origin} as="span" aria-hidden>{`$${value || '0'}`}</RefText>
-      <input className="jrn-ref__money-input" inputMode="decimal" autoComplete="off" aria-label={label} value={value} data-jrn-trigger={trigger} onChange={(e) => onValue(e.target.value)} style={{ left: 0, top: 0, width: origin[2] - origin[0], height: origin[3] - origin[1] }} />
+      <RefText t={t} origin={origin} as="span" aria-hidden>{`$${formatAmountInput(value) || '0'}`}</RefText>
+      <input className="jrn-ref__money-input" inputMode="decimal" autoComplete="off" aria-label={label} value={formatAmountInput(value)} data-jrn-trigger={trigger} onChange={(e) => onValue(e.target.value)} style={{ left: 0, top: 0, width: origin[2] - origin[0], height: origin[3] - origin[1] }} />
     </>
   );
 }
@@ -380,9 +380,9 @@ export function AccountDrawer({ onClose }: { onClose: () => void }) {
                   inputMode="decimal"
                   autoComplete="off"
                   placeholder="0"
-                  value={s.buffer}
+                  value={formatAmountInput(s.buffer)}
                   data-jrn-trigger="drawer-buffer"
-                  size={Math.max(1, s.buffer.length || 1)}
+                  size={Math.max(1, formatAmountInput(s.buffer).length || 1)}
                   onChange={(e) => s.setBuffer(e.target.value)}
                   onFocus={() => setTyping(true)}
                   onBlur={() => setTyping(false)}

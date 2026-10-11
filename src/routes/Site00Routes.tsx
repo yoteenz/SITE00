@@ -66,6 +66,7 @@ import '../site00/assts/styles/assts-composition.css';
 import '../site00/assts/styles/assts-library-home.css';
 import '../site00/astral-world/styles/astral-world.css';
 import '../site00/styles/site00-twin-test-a.css';
+import '../site00/styles/site00-invitation.css';
 
 const Site00OriginPage = lazy(() => import('../site00/pages/OriginPage'));
 const JurnlF01ParentAssemblyPage = lazy(
@@ -81,6 +82,13 @@ const Site00EvolvePage = lazy(() => import('../site00/pages/EvolvePage'));
 const Site00EvolveStatePage = lazy(() => import('../site00/pages/EvolveStatePage'));
 const ExistingLocationEntryPage = lazy(() => import('../site00/pages/existing-location/ExistingLocationEntryPage'));
 const ExistingLocationCasePage = lazy(() => import('../site00/pages/existing-location/ExistingLocationCasePage'));
+const DigitalFoundationArtifactPage = lazy(
+  () => import('../site00/pages/foundation/DigitalFoundationArtifactPage'),
+);
+const DigitalFoundationReviewPage = lazy(
+  () => import('../site00/pages/foundation/DigitalFoundationReviewPage'),
+);
+const InvitationEntryPage = lazy(() => import('../site00/pages/invitation/InvitationEntryPage'));
 const Site00SignInPage = lazy(() => import('../site00/pages/Site00SignInPage'));
 const Site00CreateAccountPage = lazy(() => import('../site00/pages/Site00CreateAccountPage'));
 const AccessCredentialPage = lazy(() => import('../site00/pages/access/AccessCredentialPage'));
@@ -344,6 +352,7 @@ const BrandPage = lazy(() => import('../site00/pages/complex/BrandPage'));
 const IdntySignInSecurityPage = lazy(() => import('../site00/pages/idnty/IdntySignInSecurityPage'));
 const BldrTemplatesPage = lazy(() => import('../site00/pages/bldr/BldrTemplatesPage'));
 const BldrStartPage = lazy(() => import('../site00/pages/bldr/BldrStartPage'));
+const BldrSpatialStudioPage = lazy(() => import('../site00/pages/bldr/BldrSpatialStudioPage'));
 const AsstsLibraryPage = lazy(() => import('../site00/assts/pages/LibraryPage'));
 const AsstsBatchesListPage = lazy(() => import('../site00/assts/pages/BatchesListPage'));
 const AsstsBatchPage = lazy(() => import('../site00/assts/pages/BatchPage'));
@@ -2332,6 +2341,25 @@ export function Site00Routes() {
         }
       />
       {Site00PublicPageRoutes(SITE00_ROUTES.bldrStart, BldrStartPage)}
+      {/* Hybrid Spatial Studio: full-bleed (no public phone-artboard shell); rooms are sub-paths. */}
+      <Route
+        path={`${SITE00_ROUTES.bldrSpatialStudio}/*`}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <BldrSpatialStudioPage />
+            </Site00Suspense>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={site00PublicDesktopPath(SITE00_ROUTES.bldrSpatialStudio)}
+        element={
+          <Site00Layout>
+            <Site00PublicDesktopLegacyRedirect />
+          </Site00Layout>
+        }
+      />
       <Route
         path="/bldr/:classSlug/*"
         element={
@@ -2379,6 +2407,38 @@ export function Site00Routes() {
       {Site00PublicPageRoutes(SITE00_ROUTES.evolvePlans, EvolvePricingPage)}
       {Site00PublicPageRoutes(SITE00_ROUTES.existingLocation, ExistingLocationEntryPage)}
       {Site00PublicPageRoutes(SITE00_ROUTES.existingLocationStart, ExistingLocationEntryPage)}
+      <Route
+        path={SITE00_ROUTES.digitalFoundationReview}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <DigitalFoundationReviewPage />
+            </Site00Suspense>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.digitalFoundationArtifact}
+        element={
+          <Site00Layout>
+            <Site00PublicRouteShell>
+              <Site00Suspense>
+                <DigitalFoundationArtifactPage />
+              </Site00Suspense>
+            </Site00PublicRouteShell>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.invitationEntry}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <InvitationEntryPage />
+            </Site00Suspense>
+          </Site00Layout>
+        }
+      />
       <Route
         path={`${SITE00_ROUTES.existingLocationCase}/*`}
         element={

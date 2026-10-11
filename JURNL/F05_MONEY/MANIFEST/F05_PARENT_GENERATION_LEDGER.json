@@ -24,5 +24,104 @@
     "note": "Kept. The left field was already quiet. Not regenerated."
   },
   "prior_text_to_image": null,
-  "child_generation": "NONE"
+  "child_generation": "NONE",
+  "gateway_receipts": [
+    {
+      "requestId": "f05-parent-dry",
+      "authorizationId": "sauth_5dce96c609aa98a2dc0f9827",
+      "projectId": "JURNL",
+      "familyId": "F05",
+      "visualId": "F05.00",
+      "generationClass": "SCREEN_PARENT",
+      "provider": "OpenArt",
+      "model": "gpt-image-2-5-sunburst",
+      "estimatedCredits": 315,
+      "actualCredits": 315,
+      "spendKind": "PRODUCTIVE",
+      "status": "COMPLETED",
+      "referenceAuthorityId": "F03.00_LIVE_STRUCTURE",
+      "metadata": {
+        "uiOccupancy": {
+          "primary_ui_zone": "Left rail, below the top chrome and above the nav.",
+          "secondary_ui_zone": "Left rail, under the signal.",
+          "environment_focal_zone": "The open cabinet on the right.",
+          "protected_negative_space": "Left half. Quiet plaster or stone. Low edge.",
+          "occlusion_allowed_zone": "Future sheets cover the lower half. Not built.",
+          "drawer_overlay_zone": "Lower sheet. No plate of its own.",
+          "text_density_zone": "Left rail. Short lines.",
+          "screen_exposure_class": "ENVIRONMENT_DEPENDENT",
+          "occupancy_file": "/workspace/JURNL/F05_MONEY/MANIFEST/F05_PLATE_OCCUPANCY.json"
+        }
+      },
+      "receiptId": "rcpt_1791610725752_vey1tcj",
+      "createdAt": "2026-10-10T05:38:45.752Z"
+    },
+    {
+      "requestId": "f05-idem-1",
+      "authorizationId": "sauth_034a9505a49544424ced6b97",
+      "projectId": "JURNL",
+      "familyId": "F05",
+      "visualId": "F05.00",
+      "generationClass": "SCREEN_PARENT",
+      "provider": "OpenArt",
+      "model": "gpt-image-2-5-sunburst",
+      "estimatedCredits": null,
+      "actualCredits": 0,
+      "spendKind": "FAILED",
+      "status": "BLOCKED",
+      "referenceAuthorityId": null,
+      "metadata": {
+        "blockedReason": "INVALID_GENERATION_MODE"
+      },
+      "receiptId": "rcpt_1791610725754_3x1ge1y",
+      "createdAt": "2026-10-10T05:38:45.754Z"
+    },
+    {
+      "requestId": "f05-idem-2",
+      "authorizationId": "sauth_034a9505a49544424ced6b97",
+      "projectId": "JURNL",
+      "familyId": "F05",
+      "visualId": "F05.00",
+      "generationClass": "SCREEN_PARENT",
+      "provider": "OpenArt",
+      "model": "gpt-image-2-5-sunburst",
+      "estimatedCredits": null,
+      "actualCredits": 0,
+      "spendKind": "FAILED",
+      "status": "BLOCKED",
+      "referenceAuthorityId": null,
+      "metadata": {
+        "blockedReason": "INVALID_GENERATION_MODE"
+      },
+      "receiptId": "rcpt_1791610725755_09x698n",
+      "createdAt": "2026-10-10T05:38:45.755Z"
+    }
+  ],
+  "last_gateway_receipt_at": "2026-10-10T05:38:45.755Z",
+  "gateway_lineage": [
+    {
+      "requestId": "f05-parent-dry",
+      "receiptId": "rcpt_1791610725752_vey1tcj",
+      "projectId": "JURNL",
+      "familyId": "F05",
+      "visualId": "F05.00",
+      "screenId": "F05.00",
+      "assetId": null,
+      "generationClass": "SCREEN_PARENT",
+      "role": "FULL_PAGE_AUTHORITY",
+      "parentAuthorityId": null,
+      "referenceAuthorityId": "F03.00_LIVE_STRUCTURE",
+      "plateAuthorityId": "F03.00_LIVE_STRUCTURE",
+      "provider": "OpenArt",
+      "model": "gpt-image-2-5-sunburst",
+      "generationMode": "REFERENCE_GUIDED",
+      "outputPath": "/workspace/src/projects/jurnl/families/F03_TODAY/REFERENCES/F03.00_LIVE_STRUCTURE.jpg",
+      "outputAssetId": null,
+      "status": "DRY_RUN",
+      "createdAt": "2026-10-10T05:38:45.753Z",
+      "costReceiptId": "rcpt_1791610725752_vey1tcj",
+      "spendAuthorizationId": "sauth_5dce96c609aa98a2dc0f9827"
+    }
+  ],
+  "last_gateway_lineage_at": "2026-10-10T05:38:45.753Z"
 }
