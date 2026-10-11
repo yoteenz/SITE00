@@ -2,9 +2,9 @@
 
 Sprint: `P0.SITE00.IDNTY.MARKETING-EMAIL-AUTHORITY-REPOSITORY-RECOVERY3` (continues recovery 1–2)  
 Date: 2026-10-10  
-Status: **BLOCKED**
+Status: **REGISTERED** (see `MARKETING_EMAIL_AUTHORITY_REGISTRATION.md`, sprint RECOVERY2, 2026-10-10)
 
-The approved reference was not registered. Neither chat attachment matches the expected digest. The module system, design tokens, and campaign mapping stay unwritten until a byte-identical file arrives. Batch I and the C–J credit ceiling are unchanged.
+The approved reference was not registered until the founder signed URL delivered byte-identical bytes. Historical chat attachment failures remain documented below. Neither chat attachment matches the expected digest. The module system, design tokens, and campaign mapping stay unwritten until a byte-identical file arrives. Batch I and the C–J credit ceiling are unchanged.
 
 ## Expected digest
 

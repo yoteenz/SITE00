@@ -30,4 +30,4 @@ Marketing ids on the same map: `foundation-credit-issued`, `bldr-discovery`.
 
 Aspect for these jobs in the cost matrix: **16:9**, 4k, high, image-to-image, **317 credits** (verified 2026-10-10). A shorter email crop can be specified in the prompt; the provider still bills the job, not a separate email SKU.
 
-The founder-approved marketing poster is not registered. Chat delivery re-encoded it twice, and neither file matches the expected SHA256. Balanced marketing count stays **3** until that file is committed as raw bytes. See `docs/site00/idnty/visual-authority/marketing-email/MARKETING_EMAIL_AUTHORITY_CHECKSUM_RECOVERY.md`.
+The founder-approved marketing poster is **registered** (`SITE00_MARKETING_EMAIL_APPROVED_AUTHORITY_V1.jpg`, manifest `MARKETING_EMAIL_AUTHORITY_MANIFEST.json`). Balanced marketing count remains **3** images in batch I; use the repo canonical file as the OpenArt reference for those jobs.
