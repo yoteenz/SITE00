@@ -204,7 +204,7 @@
       "template_id": "project-activated",
       "family": "transactional",
       "name": "PROJECT ACTIVATED",
-      "register": "FEATURE-LITE",
+      "register": "FEATURE",
       "title": "THE GROUND IS MARKED OUT",
       "visual_class": "P1",
       "premium_assets": [
@@ -412,7 +412,7 @@
       "premium_assets": [
         "R4-G03"
       ],
-      "devices": "Magazine cover with the nameplate in the sky; stepped headline; three stations; plan reveal; red band.",
+      "devices": "Magazine cover with the nameplate in the sky; stepped headline; three stations; plan reveal; ink spread; closing link.",
       "lineage": "R3 composition refined in R4",
       "subject": "WHAT STANDS AT YOUR ADDRESS?",
       "preheader": "A LOOK INSIDE BLDR, WHERE SITE 00 DESIGNS WHAT PEOPLE FIND WHEN THEY ARRIVE AT YOUR DOMAIN.",

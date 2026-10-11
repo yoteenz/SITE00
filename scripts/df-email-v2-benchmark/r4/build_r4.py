@@ -50,7 +50,7 @@ PACK = [
     ("TR-07", "checkout-link-ready", "transactional", "CHECKOUT LINK READY", "NOTICE", "CHECKOUT IS OPEN", "P2", ["R4-G05"], "Threshold slot as a letterbox header; admission ticket with a perforated stub."),
     ("TR-08", "payment-confirmed", "transactional", "PAYMENT CONFIRMED", "RECORD", "RECEIPT", "P1", ["R4-G05"], "Threshold hero, amount as monument numerals, perforation rule, split thanks."),
     ("TR-09", "payment-failed", "transactional", "PAYMENT FAILED / RECOVERY", "NOTICE", "ATTENTION", "P3", [], "Status bar with a hollow red square; three-row fact sheet; no imagery on purpose."),
-    ("TR-10", "project-activated", "transactional", "PROJECT ACTIVATED", "FEATURE-LITE", "THE GROUND IS MARKED OUT", "P1", ["R4-G06"], "Headline before image; setting-out photograph; five-stage map with stage 01 in red."),
+    ("TR-10", "project-activated", "transactional", "PROJECT ACTIVATED", "FEATURE", "THE GROUND IS MARKED OUT", "P1", ["R4-G06"], "Headline before image; setting-out photograph; five-stage map with stage 01 in red."),
     ("TR-11", "foundation-complete", "transactional", "FOUNDATION COMPLETE", "RECORD", "THE RECORD", "P1", ["R4-G02"], "Seal, groundwork lockup, built travertine slab with its title block, schedule, datum, ownership."),
     ("TR-12", "records-available", "transactional", "RECORDS AVAILABLE", "RECORD", "THE ARCHIVE", "P1", ["R4-G07"], "Archive photograph opens the email; index card with a red tab; no documents in email."),
     ("OP-01", "client-action-required", "operational", "CLIENT ACTION REQUIRED", "NOTICE", "ONE THING NEEDS YOU", "P3", [], "Pinned stone card carrying the request and its note in original case; primary plus text link."),
@@ -59,7 +59,7 @@ PACK = [
     ("MK-01", "foundation-credit-issued", "marketing", "FOUNDATION CREDIT ISSUED", "FEATURE", "SET ASIDE, IN YOUR NAME", "P1", ["R4-G08"], "Stacked headline beside the red-glass still life; value plate; red band."),
     ("MK-02", "bldr-discovery", "marketing", "BLDR DISCOVERY", "LETTER", "YOU MENTIONED YOU MIGHT BUILD", "P2", ["R4-G03"], "Pavilion band from the BLDR cover; three illustrative plans; letter sign-off."),
     ("MK-03", "M01", "marketing", "M01 — DIGITAL FOUNDATION EDUCATION", "FEATURE", "WHAT'S UNDER THE FLOOR", "P1", ["R4-G09"], "Field-guide masthead; sectional model with numbered markers; legend; stone panel on what a foundation is not; red band."),
-    ("MK-04", "M06", "marketing", "M06 — BLDR INTRODUCTION", "FEATURE", "THE ISSUE", "P1", ["R4-G03"], "Magazine cover with the nameplate in the sky; stepped headline; three stations; plan reveal; red band."),
+    ("MK-04", "M06", "marketing", "M06 — BLDR INTRODUCTION", "FEATURE", "THE ISSUE", "P1", ["R4-G03"], "Magazine cover with the nameplate in the sky; stepped headline; three stations; plan reveal; ink spread; closing link."),
     ("MK-05", "M13", "marketing", "M13 — POST-COMPLETION FOLLOW-UP", "FEATURE", "AFTER HOURS", "P1", ["R4-G10"], "Dusk pavilion into a night band; three vignettes in white; terrace strip; red band."),
 ]
 
