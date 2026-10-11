@@ -1,0 +1,75 @@
+{
+  "sprint": "P0.JURNL.TODAY-ACTIVITY.CANONICAL-BRAND-AND-BESPOKE-WORLD-RECONSTRUCTION1",
+  "status": "FOUNDER_REVIEW_REQUIRED",
+  "superseded_batch": "ACTIVITY v1/SUPERSEDED_DRAFT",
+  "official_logo_source": "public/site00/projects/jurnl/brand/jurnl-logo-official.png",
+  "logo_method": "Official asset composited on the page authority. Plates leave that region empty so the live mark can render.",
+  "alternate_logo_variants": 0,
+  "world": "Private archive. Denser, darker, chronological, inspectable.",
+  "filter_truth": "F04.DR.FILTER is an overlay. The authority is the movement register with a brass sorting tray in front. The shell is that same scene with the live writing removed.",
+  "screens": [
+    {
+      "id": "01_ACTIVITY_OVERVIEW",
+      "thesis": "ARCHIVE ROOM / OPEN REGISTER",
+      "station": "walnut cabinet",
+      "artifact": "bound ledger half out of a drawer",
+      "camera": "cabinet view",
+      "contrast": "green marble and black shadow",
+      "plate": "DERIVED"
+    },
+    {
+      "id": "02_MOVEMENT_FEED",
+      "thesis": "RUNNING REGISTER",
+      "station": "green marble desk",
+      "artifact": "open ledger spread with a brass ruler",
+      "camera": "top-down",
+      "contrast": "black ink and brass on green marble",
+      "plate": "DERIVED"
+    },
+    {
+      "id": "03_EXPENSE_DETAIL",
+      "thesis": "INSPECTED RECEIPT",
+      "station": "dark green marble",
+      "artifact": "torn receipt, brass clip, wax tab",
+      "camera": "close crop",
+      "contrast": "dark marble",
+      "plate": "DERIVED"
+    },
+    {
+      "id": "04_INCOME_DETAIL",
+      "thesis": "DEPOSIT CERTIFICATE",
+      "station": "walnut desk",
+      "artifact": "open bifold folio with an olive stamp",
+      "camera": "three-quarter",
+      "contrast": "olive stamp",
+      "plate": "DERIVED"
+    },
+    {
+      "id": "05_FILTER_SORT",
+      "thesis": "ARCHIVAL SORTING TRAY",
+      "station": "tray over the open register",
+      "artifact": "six-compartment brass tray",
+      "camera": "top-down overlay",
+      "contrast": "brass on darkened marble",
+      "plate": "DERIVED_SHELL"
+    },
+    {
+      "id": "06_SEARCH",
+      "thesis": "ARCHIVE FINDING DESK",
+      "station": "card-index cabinet",
+      "artifact": "search card in front of open drawers",
+      "camera": "slightly above",
+      "contrast": "black-green marble",
+      "plate": "DERIVED"
+    },
+    {
+      "id": "07_TRANSACTION_DETAIL_EDIT",
+      "thesis": "ANNOTATED RECORD",
+      "station": "dark leather desk",
+      "artifact": "sheet with a burgundy correction strip",
+      "camera": "close desk",
+      "contrast": "burgundy strip",
+      "plate": "DERIVED"
+    }
+  ]
+}
