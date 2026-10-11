@@ -1,0 +1,114 @@
+/* Functional shell only — visual authority deferred to Opus sprint */
+
+.site00-df-artifact {
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 3rem;
+  font-family: system-ui, sans-serif;
+  color: #1a1a1a;
+}
+
+.site00-df-artifact__header h1 {
+  font-size: 1.5rem;
+  letter-spacing: 0.04em;
+  margin: 0.25rem 0;
+}
+
+.site00-df-artifact__eyebrow {
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  opacity: 0.7;
+  margin: 0;
+}
+
+.site00-df-artifact__lede {
+  line-height: 1.5;
+}
+
+.site00-df-artifact__panel {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.site00-df-artifact__panel label {
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+.site00-df-artifact__panel input[type='text'],
+.site00-df-artifact__panel input[type='email'] {
+  display: block;
+  width: 100%;
+  margin-top: 0.25rem;
+  padding: 0.5rem;
+}
+
+.site00-df-artifact__check {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.35rem;
+  font-size: 0.9rem;
+}
+
+.site00-df-artifact__cta {
+  display: inline-block;
+  margin-top: 0.75rem;
+  margin-right: 0.5rem;
+  padding: 0.6rem 1rem;
+  background: #111;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.site00-df-artifact__note {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+.site00-df-artifact__error {
+  color: #a00;
+}
+
+.site00-df-artifact__stages {
+  padding-left: 1.25rem;
+}
+
+.site00-df-artifact__needs-you {
+  border-left: 3px solid #111;
+  padding-left: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.site00-df-artifact__complete[data-reduced-motion='0'] {
+  animation: site00-df-fade-in 0.6s ease;
+}
+
+@keyframes site00-df-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.site00-df-artifact__concept-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+}
+
+.site00-df-artifact__concept-frame {
+  border: 1px dashed #888;
+  padding: 1rem;
+  min-height: 4rem;
+}
+
+.site00-df-artifact__credit {
+  background: #f4f4f4;
+  padding: 0.75rem;
+  margin: 1rem 0;
+}

@@ -36,6 +36,8 @@ export default defineConfig(({ mode, command }) => {
     command === 'serve' &&
     (process.env.SITE00_CLOUD_MOBILE_PREVIEW === '1' ||
       process.env.SITE00_CLOUD_MOBILE_PREVIEW === 'true');
+  const cloudPreviewDevLocalApi =
+    cloudMobilePreview && command === 'serve' && mode === 'development';
 
   /** HMR dev only — never transform dist/index.html during `vite preview` (would serve /src/main.tsx). */
   const cloudPreviewDevServer =
@@ -223,6 +225,9 @@ export default defineConfig(({ mode, command }) => {
       'import.meta.env.VITE_APP_VERSION': JSON.stringify(effectiveBuildId),
       'import.meta.env.VITE_SITE00_ROOT': JSON.stringify('1'),
       'import.meta.env.VITE_SITE00_CLOUD_PREVIEW': JSON.stringify(cloudMobilePreview ? '1' : '0'),
+      'import.meta.env.VITE_SITE00_PREVIEW_LOCAL_API': JSON.stringify(
+        cloudPreviewDevLocalApi ? '1' : '0',
+      ),
       'import.meta.env.VITE_SITE00_EC_PREVIEW_GUEST': JSON.stringify(
         process.env.VITE_SITE00_EC_PREVIEW_GUEST === '1' ? '1' : '0',
       ),
@@ -278,6 +283,8 @@ export default defineConfig(({ mode, command }) => {
           chunkFileNames: 'assets/[name].[hash].js',
           assetFileNames: 'assets/[name].[hash].[ext]',
           manualChunks: (id) => {
+            // three.js is only used by the lazy Builder studio route; keep it out of the shared vendor chunk.
+            if (id.includes('node_modules/three/')) return 'three';
             if (id.includes('node_modules')) return 'vendor';
           },
         },

@@ -89,12 +89,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const id = String(body.id ?? '');
       if (!id) return res.status(400).json({ error: 'id required' });
 
-      if (action === 'mark-in-review' || action === 'archive') {
+      if (action === 'mark-in-review' || action === 'archive' || action === 'request-revision') {
         const intake = await applyAdminIntakeAction(
           intakeType,
           id,
-          action === 'mark-in-review' ? 'MARK_IN_REVIEW' : 'ARCHIVE',
+          action === 'mark-in-review' ? 'MARK_IN_REVIEW' : action === 'archive' ? 'ARCHIVE' : 'REQUEST_REVISION',
           auth.user.email,
+          action === 'request-revision' ? { message: String(body.message ?? '') } : undefined,
         );
         return res.status(200).json({ intake });
       }

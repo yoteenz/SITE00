@@ -117,7 +117,7 @@ Extra family units above a small included base use $1,800 per FU. That rate is m
 
 Identity as a separate pre-site offer is not folded into the site range. Hybrid Option D can add a calibration amount. Large products are not forced back down to the $3K or $10K floors.
 
-Client money is rounded to thousands (`$12K–$16K`). Client time is whole weeks, or whole months once the range is long. Internal numbers stay more precise.
+Client-facing ranges pass through presentation policy `1.1.0` (`presentation.ts`). Week and month windows both use even endpoints. An odd endpoint moves up to the next even number. The superseded 1.0.0 rule, “months are rounded outward and are not forced even,” no longer applies. Investment bands use a scale-appropriate increment ($500, $1,000, $2,000, or $5,000) and must cover the calculated dollars. The display is not an input to costing. Internal numbers stay more precise. A fixture is a project estimate, not a starting price and not an agreed contract.
 
 ## Estimate, quote, schedule
 

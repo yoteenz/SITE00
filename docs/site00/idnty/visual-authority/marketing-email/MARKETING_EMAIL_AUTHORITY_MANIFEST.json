@@ -1,0 +1,22 @@
+{
+  "authority_name": "SITE00_MARKETING_EMAIL_APPROVED_AUTHORITY_V1",
+  "authority_scope": "SITE 00 IDNTY Digital Foundation marketing email visual language",
+  "canonical_file": "docs/site00/idnty/visual-authority/marketing-email/SITE00_MARKETING_EMAIL_APPROVED_AUTHORITY_V1.jpg",
+  "sha256": "e814042c318f7f45d7db07a6d11e4878fcc20888c583a76537828cfa3c2ede83",
+  "byte_size": 491267,
+  "mime_type": "image/jpeg",
+  "image_width": 1086,
+  "image_height": 1448,
+  "source_type": "founder_signed_url",
+  "source_url_redacted": true,
+  "registered_at": "2026-10-10",
+  "sprint": "P0.SITE00.IDNTY.MARKETING-EMAIL-AUTHORITY-DIRECT-URL-REGISTRATION-RECOVERY2",
+  "typography_rule": "uppercase display/body rhythm aligned to SITE 00 visual language",
+  "approved_for": [
+    "lifecycle / nurture emails",
+    "quote / proposal marketing emails",
+    "activation / journey emails",
+    "campaign / newsletter-style marketing sends"
+  ],
+  "status": "REGISTERED"
+}
