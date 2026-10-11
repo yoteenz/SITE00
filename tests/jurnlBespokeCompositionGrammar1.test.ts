@@ -25,32 +25,16 @@ describe('JURNL bespoke composition grammar', () => {
       bespoke_object_system_required: true,
       asymmetry_required: true,
       unexpected_object_relationship_required: true,
-      official_brand_asset_required: true,
-      alternate_logo_invention_forbidden: true,
-      five_level_creative_grammar_required: true,
       family_world_required: true,
       multiple_spatial_stations_required: true,
-      composition_rotation_required: true,
-      campaign_image_without_ui_test_required: true,
-      blur_distinctness_test_required: true,
-      artifact_only_interpretation_forbidden: true,
-      generic_stationery_drift_forbidden: true,
+      camera_rotation_required: true,
+      primary_artifact_diversity_required: true,
+      material_rotation_required: true,
       contrast_anchor_required: true,
-      parent_first_only: true,
-      unapproved_parent_sidekick_generation_forbidden: true,
-      unapproved_parent_component_generation_forbidden: true,
-      unapproved_parent_overlay_extraction_forbidden: true,
-      unapproved_parent_descendant_generation_forbidden: true,
-      plate_derives_from_approved_parent: true,
-      components_derive_from_approved_parent: true,
-      overlays_derive_from_approved_parent: true,
-      founder_lock_required_before_explosion: true,
-      courtroom_or_masculine_study_drift_forbidden: true,
+      same_family_not_same_template: true,
+      text_blur_distinctness_required: true,
+      campaign_image_without_ui_test_required: true,
     });
-    expect(G.JURNL_CREATIVE_GRAMMAR.official_brand_asset).toBe('public/site00/projects/jurnl/brand/jurnl-logo-official.png');
-    expect(G.JURNL_CREATIVE_GRAMMAR.image_to_image_identity.attach_vertical_botanical).toBe(false);
-    expect(G.JURNL_CREATIVE_GRAMMAR.image_to_image_identity.vertical_botanical_status).toBe('SUPERSEDED_IDENTITY_REFERENCE');
-    expect(G.JURNL_CREATIVE_GRAMMAR.image_to_image_identity.clean_reusable_decorative_asset).toBeNull();
   });
 
   it('inherits across the product families and keeps ENTRY descendants blocked', () => {

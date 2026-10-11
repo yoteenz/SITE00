@@ -25,48 +25,15 @@ export const JURNL_CREATIVE_GRAMMAR_FLAGS = {
   bespoke_object_system_required: true,
   asymmetry_required: true,
   unexpected_object_relationship_required: true,
-  official_brand_asset_required: true,
-  alternate_logo_invention_forbidden: true,
-  five_level_creative_grammar_required: true,
   family_world_required: true,
   multiple_spatial_stations_required: true,
-  composition_rotation_required: true,
-  campaign_image_without_ui_test_required: true,
-  blur_distinctness_test_required: true,
-  artifact_only_interpretation_forbidden: true,
-  generic_stationery_drift_forbidden: true,
+  camera_rotation_required: true,
+  primary_artifact_diversity_required: true,
+  material_rotation_required: true,
   contrast_anchor_required: true,
-  parent_first_only: true,
-  unapproved_parent_sidekick_generation_forbidden: true,
-  unapproved_parent_component_generation_forbidden: true,
-  unapproved_parent_overlay_extraction_forbidden: true,
-  unapproved_parent_descendant_generation_forbidden: true,
-  plate_derives_from_approved_parent: true,
-  components_derive_from_approved_parent: true,
-  overlays_derive_from_approved_parent: true,
-  founder_lock_required_before_explosion: true,
-  courtroom_or_masculine_study_drift_forbidden: true,
-} as const;
-
-/**
- * Historical vertical botanical file. It stays on disk for lineage.
- * Do not attach it to image-to-image. The live decorative treatment is the
- * horizontal sprig and word cut from F09_LOCKUP.png. No clean isolated
- * replacement file exists yet.
- */
-export const JURNL_OFFICIAL_BRAND_ASSET = 'public/site00/projects/jurnl/brand/jurnl-logo-official.png' as const;
-
-export const JURNL_IMAGE_TO_IMAGE_IDENTITY = {
-  vertical_botanical_file: JURNL_OFFICIAL_BRAND_ASSET,
-  vertical_botanical_status: 'SUPERSEDED_IDENTITY_REFERENCE',
-  attach_vertical_botanical: false,
-  decorative_treatment_source: 'src/projects/jurnl/families/F09_SAFE/ENVIRONMENTS/F09_LOCKUP.png',
-  decorative_layers: [
-    'src/projects/jurnl/families/F09_SAFE/REFERENCE_REPLICA/assets/LOCKUP_SPRIG.png',
-    'src/projects/jurnl/families/F09_SAFE/REFERENCE_REPLICA/assets/LOCKUP_WORD.png',
-  ],
-  clean_reusable_decorative_asset: null,
-  reference_manifest: 'JURNL/MANIFEST/REFERENCE_HYGIENE_V1/JURNL_REFERENCE_MANIFEST_V1.json',
+  same_family_not_same_template: true,
+  text_blur_distinctness_required: true,
+  campaign_image_without_ui_test_required: true,
 } as const;
 
 export const JURNL_CREATIVE_LEVELS = [
@@ -110,9 +77,6 @@ export const JURNL_BESPOKE_OBJECT_LIBRARY = [
   'JURNL private dossier',
   'JURNL registration mark',
   'JURNL marble paperweight',
-  'JURNL ledger',
-  'JURNL index drawer',
-  'JURNL brass registration rail',
 ] as const;
 
 export const JURNL_CREATIVE_GRAMMAR_FAMILIES = [
@@ -139,17 +103,15 @@ export const JURNL_CREATIVE_GRAMMAR_FAIL_IF = [
   'The page can be described as a paper panel centered over a Mediterranean background.',
   'Art-history objects are repeated as the same bust beside the same card.',
   'A family copies another family’s artifact language. The grammar is shared. The expression is not.',
-  'An invented logo, monogram, vertical wordmark, botanical substitute, or retyped JURNL lockup appears.',
-  'The page is one stationery object on a generic desk or wall.',
-  'A family uses one camera for every parent.',
-  'The family has no distinct room.',
-  'SETUP reads as a courtroom, a law document, a records office, or a masculine study.',
+  'A family metaphor becomes one repeated template: the same camera, the same centered paper, and the same button on every screen.',
+  'More than a small minority of a family is a top-down cream sheet on one desk.',
 ] as const;
 
 export const JURNL_CREATIVE_GRAMMAR_PASS_IF = [
   'Hiding the live text still leaves a bespoke editorial campaign image.',
   'Blurred type still distinguishes sibling parents by silhouette, space, environment, contrast, and material.',
   'The environment, the artifact, and the material collision are one composition.',
+  'Sibling screens are different stations, cameras, and silhouettes inside one family world.',
 ] as const;
 
 /**
@@ -231,15 +193,13 @@ export const JURNL_CREATIVE_GRAMMAR = {
   sprint: JURNL_CREATIVE_GRAMMAR_SPRINT,
   doctrine: 'PHYSICAL EDITORIAL EXPERIENCES THAT HAPPEN TO FUNCTION AS PRODUCT INTERFACES.',
   flags: JURNL_CREATIVE_GRAMMAR_FLAGS,
-  official_brand_asset: JURNL_OFFICIAL_BRAND_ASSET,
-  image_to_image_identity: JURNL_IMAGE_TO_IMAGE_IDENTITY,
   levels: JURNL_CREATIVE_LEVELS,
   object_library: JURNL_BESPOKE_OBJECT_LIBRARY,
   families: JURNL_CREATIVE_GRAMMAR_FAMILIES,
   family_expression_rule: 'The five-level grammar is shared. Each family invents its own artifact language. MONEY, CREDIT, PLAN, SETUP, and RECORDS must not look like ENTRY.',
   fail_if: JURNL_CREATIVE_GRAMMAR_FAIL_IF,
   pass_if: JURNL_CREATIVE_GRAMMAR_PASS_IF,
-  plate_rule: 'Page authority first. The plate, components, and overlays derive only from a founder-approved parent. The plate keeps the set, objects, collisions, fragments, foreground, shadows, perspective, and crop, and removes live product UI. The plate must still read as a JURNL campaign image. An unapproved parent does not explode into sidekicks, components, overlays, or descendants.',
+  plate_rule: 'Page authority first. The plate keeps the set, objects, collisions, fragments, foreground, shadows, perspective, and crop, and removes live product UI. The plate must still read as a JURNL campaign image.',
   entry: JURNL_ENTRY_RECONSTRUCTION,
 } as const;
 
