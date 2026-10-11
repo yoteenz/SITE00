@@ -275,8 +275,11 @@ export default function ScopeEstimatorPage() {
               <p>{client.document}</p>
               <p>{client.projectType} · {client.buildLevel} · {client.selectedStructure}</p>
               <p>{client.selectedVisualSystem}</p>
+              <p>RAW {outcome.result.lowWeeks}–{outcome.result.highWeeks} WEEKS</p>
               <p>WINDOW {client.productionWindow}</p>
               <p>INVESTMENT {client.investmentRange}</p>
+              <p>POLICY {client.presentationPolicyVersion}</p>
+              {client.presentationNote ? <p>REVIEW {client.presentationNote}</p> : null}
               <p>{client.deliveryMode} · {client.complexity} · {client.confidence}</p>
               <p>{client.whatHappensNext}</p>
             </section>

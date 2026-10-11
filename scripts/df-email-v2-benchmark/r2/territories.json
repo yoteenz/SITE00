@@ -1,0 +1,160 @@
+{
+  "sprint": "P0.SITE00.IDNTY.EMAIL-V2-NDX-PROFESSIONAL-ART-DIRECTION-AND-BESPOKE-GRAPHIC-COMPOSITION-R2",
+  "status": "FOUNDER_SELECTION_PENDING",
+  "copy_authority": "docs/site00/idnty/visual-authority/email-v2/benchmarks/B0*/COPY.md (unchanged)",
+  "emails": [
+    {
+      "id": "B01",
+      "name": "PERSONAL FOUNDATION INVITATION",
+      "job": "Ask a business owner to open a briefing, in the voice of a person, before anything is set up or charged.",
+      "r1": "../../source/B01_personal-foundation-invitation.html",
+      "r1_note": "R1: masthead, tall door photograph beside the letter, inline red button, sign-off. Editorially right, graphically a template: image-left/text-right with a red button.",
+      "territories": [
+        {
+          "id": "B01_A",
+          "title": "A PRIVATE CORRESPONDENCE",
+          "central_idea": "The email is a letter on house stock, not a web page. It arrives addressed, is bound by one sliver of red glass, and ends in a reply card you tear off and send back.",
+          "signature_device": "A 12px spine of red glass (cropped from the education plate) running the full height of the letter, plus a perforated reply card holding the action.",
+          "typography": "Medium-weight 30px headline set like a letter's opening line rather than a poster; letterhead tracked wide; the client's name sits in an envelope window top right.",
+          "image_treatment": "No picture of a room. The only photograph is reduced to a vertical sliver, so it reads as material rather than illustration.",
+          "rhythm": "Letterhead → long uninterrupted letter → perforation → reply card. One pause, at the tear line.",
+          "word_image": "Words lead entirely; the glass is the binding of the letter, not a picture beside it.",
+          "cta": "Ink button inside the reply card, addressed FOR the client, with the printed link beneath and the P.S. on the card's right panel.",
+          "email_safe": "Two-column table: 12px cell with background image (VML fill in Outlook) and a text cell. Perforation is a repeating 18px background row. Reply card is a bordered table. All text live.",
+          "red_use": "Glass sliver and the sign-off crosshair only.",
+          "premium_candidate": "A photographed or rendered sheet of SITE 00 house stationery (paper grain, blind-embossed letterhead) to replace the flat paper colour, and a dedicated vertical red-glass strip shot for the spine."
+        },
+        {
+          "id": "B01_B",
+          "title": "ARCHITECTURAL OPENING",
+          "central_idea": "Reading the email is walking through a doorway. Two marble walls step back as the headline is spoken, and the letter is the room you arrive in.",
+          "signature_device": "A stepped threshold: four rows whose marble jambs narrow (250 → 150 → 92 → 22px) around a red-glass doorway, finished with a red sill line.",
+          "typography": "The headline is split across the threshold — the preamble whispered in a narrow row, WE'D LIKE TO KNOW HOW YOU WORK spoken at 40px in the widest opening.",
+          "image_treatment": "One plate re-cut into continuous wall slices (offset backgrounds keep the stone grain unbroken) and a separate doorway crop, so the image becomes architecture the text sits inside.",
+          "rhythm": "Narrow → narrower → open. Compression, then release into a two-column room.",
+          "word_image": "Words are placed inside the image's geometry; the headline literally stands in the doorway.",
+          "cta": "Centred ink button on the room's axis, directly under the letter.",
+          "email_safe": "Each threshold row is a three-cell table: background-image wall cells with fixed widths and a centre cell with live text. No overlap or positioning; continuity comes from background offsets. Mobile narrows the jambs.",
+          "red_use": "The glass in the doorway and the 2px sill.",
+          "premium_candidate": "A purpose-shot symmetrical marble portal (front-on, centred vanishing point) so the jambs are true mirrors rather than a flipped crop."
+        },
+        {
+          "id": "B01_C",
+          "title": "PERSONAL EDITORIAL",
+          "central_idea": "No photograph at all. The client's own name is the masthead — this issue was set for them — and the letter is typeset like an editor's note.",
+          "signature_device": "Halden & Rowe at 66px as the masthead, an asymmetric 180px margin carrying the headline preamble and large light numerals 01–04 that the letter hangs from.",
+          "typography": "Two-voice headline across an asymmetric grid; numerals in faint stone grey; the P.S. enlarged to 17px as the final editorial line.",
+          "image_treatment": "None. Graphic tension comes from scale contrast (66px name against 15px body) and the empty margin.",
+          "rhythm": "Name → rule → headline across two columns → four hanging paragraphs → a line of type as the action → P.S.",
+          "word_image": "Type is the image.",
+          "cta": "A typographic link at 26px with a 3px red underline — no button.",
+          "email_safe": "Two-column table with a fixed 180px margin cell. Pure live text, no images; renders identically with images off.",
+          "red_use": "The CTA underline only.",
+          "premium_candidate": "None required. Optional: a custom-drawn numeral set for the margin."
+        }
+      ]
+    },
+    {
+      "id": "B02",
+      "name": "FOUNDATION COMPLETE",
+      "job": "Tell the owner the groundwork is finished, what now exists, that they own it, and that the record follows. No upsell, no celebration UI.",
+      "r1": "../../source/B02_foundation-complete.html",
+      "r1_note": "R1: seal, flat slab drawing, ledger table, black button, horizon photograph. Correct content, but a stacked SaaS 'status' layout.",
+      "territories": [
+        {
+          "id": "B02_A",
+          "title": "MONUMENT ESTABLISHED",
+          "central_idea": "The email is built the way the foundation was: courses of stone laid from the ground up, an inscription cut into the top.",
+          "signature_device": "A stepped travertine monument (three iso courses, red-edged top) and a ledger set as five stone courses that widen toward the ground, 05 on top, 01 at the base, over a hatched ground line.",
+          "typography": "Monumental 60px centred headline; the client name cut into a travertine inscription band beneath GROUND · LAID.",
+          "image_treatment": "Code-native monument drawing with real travertine texture cropped from the post-completion plate; the horizon photograph closes the piece.",
+          "rhythm": "Monument → inscription → headline → courses widening downward → ownership → action → horizon.",
+          "word_image": "The ledger is the monument repeated in words: the same stepped silhouette, read top-down.",
+          "cta": "Centred ink button on the monument's axis.",
+          "email_safe": "Monument is one PNG with alt text. Inscription is a background-image cell (VML) with live text. Courses are centred fixed-width tables of decreasing width.",
+          "red_use": "The status square, the top edge of the monument and inscription, the top course.",
+          "premium_candidate": "A photographed or rendered travertine plinth with the client name engraved (dynamic text stays live; the plinth becomes the hero)."
+        },
+        {
+          "id": "B02_B",
+          "title": "ARCHITECTURAL RECORD",
+          "central_idea": "The email is the record sheet itself: a section cut through what was laid, read from the finished surface down to the ground, signed off in a title block.",
+          "signature_device": "A sectional drawing of five hatched strata, each stratum aligned with its stage row by a leader line, and a drawing-sheet title block (PROJECT · STATUS · action) at the foot.",
+          "typography": "Condensed 46px headline beside the lede, as on a sheet's title area; stage names tracked like drawing callouts; numbered notes for ownership and record.",
+          "image_treatment": "No photograph. The section is one sprite, sliced per row with background offsets so the drawing reads continuously while each row carries live text.",
+          "rhythm": "Sheet border → title area → section with callouts → notes → title block. Every element sits on one drawing grid.",
+          "word_image": "Words annotate the drawing — each stage is a callout on the stratum it describes.",
+          "cta": "The dark cell of the title block, beside the red COMPLETE stamp.",
+          "email_safe": "Bordered outer table; each stratum row is a fixed-width background-image cell + 1px leader + text cell. Title block is a three-cell table. Labels PROJECT and STATUS are the only added words (drawing furniture).",
+          "red_use": "The surface line of the section, the 05 numeral, the COMPLETE stamp.",
+          "premium_candidate": "A draughtsman-drawn section (ink on vellum, scanned) to replace the generated hatching."
+        },
+        {
+          "id": "B02_C",
+          "title": "MILESTONE REVEAL",
+          "central_idea": "One image, cut at the datum. Above the line it is still a drawing; below it the stone is real. The reveal is the seam.",
+          "signature_device": "The same terrace rendered twice — edge-traced drawing above, photograph below — split by a red datum line labelled GROUND · LAID and the client name.",
+          "typography": "56px left-aligned headline; ledger set along a single horizontal datum with ticks, ending in a red marker at 05.",
+          "image_treatment": "One plate, two states. The drawing is derived from the photograph (edge detection plus a faint red wash on the glass), so the two halves register exactly.",
+          "rhythm": "Drawn → datum → built → headline → one line of five stages → ownership beside record → action rule.",
+          "word_image": "The datum carries words and splits the image; the ledger repeats the datum as a timeline.",
+          "cta": "A full-width ruled line: VIEW YOUR FOUNDATION with a red arrow, the link set at the right.",
+          "email_safe": "Two stacked images with a live-text table row between them. Timeline is a five-cell table (vertical list on mobile). No overlap.",
+          "red_use": "The datum line and label, the 05 marker, the CTA arrow.",
+          "premium_candidate": "A matched pair from the production pipeline: the architectural line drawing and the final render of the same camera."
+        }
+      ]
+    },
+    {
+      "id": "B03",
+      "name": "M06 · BLDR INTRODUCTION",
+      "job": "Introduce BLDR to an opted-in client as a way of thinking about their location — approach, inside, in use — then three directions and their choice. No urgency.",
+      "r1": "../../source/B03_M06-bldr-introduction.html",
+      "r1_note": "R1: hero, headline beside lede, three alternating image/text blocks, stone revelation band, red CTA band. The three image/text blocks are exactly the template pattern to retire.",
+      "territories": [
+        {
+          "id": "B03_A",
+          "title": "ARCHITECTURAL MANIFESTO",
+          "central_idea": "A declaration before a picture. The headline is set like a cornerstone beside one column of red glass; the building only appears once the claim has been made.",
+          "signature_device": "A dark opening page with a 76px stacked headline and a single red-glass column; the three sections become numbered articles with large light numerals and no images.",
+          "typography": "Four-line 76px headline, red full stop; opening paragraph at 19px as the preamble; articles numbered 01–03 at 88px in stone grey.",
+          "image_treatment": "Two crops only: a glass column and one wide hero placed after the words. The three section photographs are deliberately removed.",
+          "rhythm": "Dark declaration → building → preamble → three articles → dark revelation with plans → typographic action.",
+          "word_image": "Words first, image as evidence. The revelation is the only place drawings appear.",
+          "cta": "TAKE A WALK THROUGH BLDR set at 31px as a line of type with a red arrow.",
+          "email_safe": "Dark sections are bgcolor tables (dark-mode safe by design). Glass column is a background-image cell. Articles are two-cell tables. Plans are the existing SVGs (PNG fallback in production).",
+          "red_use": "Glass column, headline full stop, CTA arrow; red rooms inside the plans.",
+          "premium_candidate": "A vertical architectural photograph of a single red-glass column in raking light, for the opening page."
+        },
+        {
+          "id": "B03_B",
+          "title": "ENTER THE LOCATION",
+          "central_idea": "The email is a walk. You start at the threshold, see the building from the terrace, step inside, then sit down to work. A small plan at each station marks where you are standing.",
+          "signature_device": "Station maps: the same tiny floor plan repeated at each section with a red dot moving along a dashed route, and images whose framing tightens as you go in (letterbox → interior → working view).",
+          "typography": "46px headline beside the doorway photograph; station labels set as wayfinding (number in red, name tracked) followed by a dashed route line.",
+          "image_treatment": "Crops re-cut to express distance: a 136px letterbox for the approach, a near interior for inside, a full-width working view for in use.",
+          "rhythm": "Threshold → approach (far) → inside (near) → in use (seated) → revelation (map shows the whole plan) → action → rest.",
+          "word_image": "Each image is where you are standing when you read that paragraph.",
+          "cta": "Outlined button, centred, after the close.",
+          "email_safe": "Every station is a table row: map image + live label + dashed-border cell, then an image row and a text row. No positioning.",
+          "red_use": "Station numerals and map dots, red glass in the photographs, CTA arrow.",
+          "premium_candidate": "A dedicated four-frame spatial sequence shot on one axis (gate, terrace, interior, worktable) so the walk is one continuous camera path."
+        },
+        {
+          "id": "B03_C",
+          "title": "THE UNBUILT POSSIBILITY",
+          "central_idea": "Nothing is built yet. The email opens on an empty plot with three possible buildings drawn over one another, sets its words inside the site boundary, and only near the end lets one become a sketch.",
+          "signature_device": "Superimposed plans on a dashed plot with red corner crosses, a headline set inside the site boundary, and the three sections laid out as rooms of a floor plan.",
+          "typography": "50px headline inside the dashed boundary; room names set like plan labels (number + tracked name) in the top-left of each room.",
+          "image_treatment": "Code-native drawings first; the only pictorial image is a pencil-to-red sketch of the pavilion, placed just before the close.",
+          "rhythm": "Overlay → boundary → opening → floor plan of three rooms → plans separated → sketch → action.",
+          "word_image": "The words occupy the drawing: the headline is on the site, the sections are the rooms.",
+          "cta": "Ink button with a red arrow, left-aligned under the close.",
+          "email_safe": "Plot overlay is one PNG with alt text. Boundary is a dashed-border table. Floor plan is a nested bordered table (2px walls). All copy live.",
+          "red_use": "Corner crosses, the one red room in the overlay, red rooms in the plans, the sketch's glass wall.",
+          "premium_candidate": "A hand-drawn overlay of the three directions by an architect, and a single pencil-to-render transition image of the pavilion."
+        }
+      ]
+    }
+  ]
+}

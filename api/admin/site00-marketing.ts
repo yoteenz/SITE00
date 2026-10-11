@@ -28,11 +28,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     if (req.method === 'GET') {
       switch (action) {
-        case 'list':
+        case 'list': {
+          const rawLimit = parseInt(String(req.query.limit ?? ''), 10);
+          const limit = Number.isFinite(rawLimit) ? rawLimit : undefined;
           return res.status(200).json({
-            engagements: await listMarketingEngagementsAdmin(),
+            engagements: await listMarketingEngagementsAdmin(limit),
             integrationStatus: studioWorldIntegrationStatus(),
           });
+        }
         case 'detail': {
           const id = String(req.query.id ?? '');
           return res.status(200).json(await syncMarketingEngagement(id));

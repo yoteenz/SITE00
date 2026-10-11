@@ -493,7 +493,7 @@ export async function getReplayExecutionDiagnosticForId(replayId: string): Promi
 }
 
 export async function findActiveSubmittedReplay(organizationId: string): Promise<BrandPersonalityReplayRecord | null> {
-  const replays = await replayStore.listPersonalityReplayRecordsForOrg(organizationId);
+  const replays = await replayStore.listPersonalityReplayRecordsForOrg(organizationId, { limit: 200 });
   return (
     replays.find(
       (r) =>

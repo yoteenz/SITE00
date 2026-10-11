@@ -1,0 +1,25 @@
+{
+  "id": "PACK_C_WORLD",
+  "role": "Control spatial depth. Attach one world. Mediterranean is optional, not the default.",
+  "default_attach_one_of": [
+    {
+      "path": "ENTRY v2/08_BIOMETRIC_SETUP/authority/entry-v2-biometric-authority.png",
+      "class": "SUPPORTING",
+      "why": "Interior depth without arch, sea, or olive branch as the formula. Dark marble, plaster, sculpture, brass, velvet."
+    }
+  ],
+  "optional_mediterranean_one_of": [
+    {
+      "path": "src/projects/jurnl/families/F09_SAFE/ENVIRONMENTS/F09_ENVIRONMENT_AUTHORITY_PLATE.png",
+      "class": "CANONICAL",
+      "family": "SAFE TO SPEND",
+      "why": "Approved Safe to Spend world. Use it for that lineage only. Do not pair it with the terrace."
+    }
+  ],
+  "do_not_stack": [
+    "src/projects/jurnl/families/F09_SAFE/ENVIRONMENTS/F09_ENVIRONMENT_AUTHORITY_PLATE.png",
+    "src/projects/jurnl/families/F09_SAFE/ENVIRONMENTS/F09_ENVIRONMENT_AUTHORITY_TERRACE.png",
+    "ENTRY v2/01_WELCOME/authority/entry-v2-welcome-authority.png",
+    "JURNL/F02_SETUP/PARENT/F02.00_SETUP_PARENT.jpg"
+  ]
+}
