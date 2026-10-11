@@ -16135,6 +16135,22 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
+## 2026-10-10 — BLDR monument realism V2 benchmark (PLACE · ADVANCED, opt-in)
+
+- **Context:** The founder said V1 (#1589) was "still too similar" and ruled out any more material-token-only passes. The sprint asked for one benchmark monument before any rollout: no auto-merge, no production deploy.
+- **Topics covered:** This session's earlier BLDR V1 work, the vector chamber restore, and the Anthony infra docs. Then the V2 benchmark on branch `cursor/bldr-monument-realism-v2-a9f7` (draft PR, not merged).
+- **Root cause of V1's limit:** The canvas is transparent over a CSS plate, so transmission refracts empty alpha. Every element is a scaled unit cube, so there are no edges, bevels or thickness.
+- **Decisions / outcomes:**
+  - New `buildObject/realism.ts`, active only with `?realism=v2` when the composition key starts with `place|ADVANCED|`. The default renderer is unchanged.
+  - The room plate is drawn in-scene with the same `center 62% / cover` fit, so glass refracts the real photograph.
+  - Glass rooms are 22 mm panels with beveled chrome frames and mullion bars. The red spine is a beveled transmissive acrylic shell around a dense `#E50107` core. The marble plinth is beveled, with finer veins unfolded over the edges.
+  - Baked contact occlusion and red bounce; no bloom.
+  - No idle rendering (0 draws versus 5,278 in 3 s). The refraction buffer and pixel ratio adapt on phones. The WebGL context is released on dispose.
+  - Under SwiftShader, a V2 frame costs about 2.1–2.25× a current frame. Draw calls fall from 182 to 42.
+  - The ADVANCED card still renders through V2.
+- **Docs:** `docs/site00/bldr/MONUMENT_REALISM_V2_BENCHMARK.{md,json}`. Artifacts are in `/opt/cursor/artifacts/bldr-v2/`. Tests: `tests/bldrMonumentRealismV2.test.ts`.
+- **Conventions:** Widen `isRealismBenchmark` family by family, and only after founder approval: PLACE, FEEL, WORK, PACE, then BLUEPRINT, which needs a V2 `lit` state. The current path still keeps WebGL contexts after dispose; fix that with the rollout.
+
 ## 2026-10-10 — DF visual mass-production cost scope (C–J)
 
 - **Context:** Founder asked for the cost of remaining Digital Foundation visual batches C–J before any mass generation. No new images. No OpenArt spend.
@@ -16199,3 +16215,8 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Context:** Founder approved the balanced 6,340-credit ceiling for image generation only. Branch `cursor/df-mass-visual-cj-a9f7` from the registered marketing-authority commit. No merge, no deploy, no email send.
 - **Outcome:** 18 Sunburst image-to-image jobs (C2 D3 E2 F2 G2 H3 I3 J1), 0 regenerations. Quote 317 each. Account 26,590 → 20,899 (delta 5,691). All files 2016×3584 or 3584×2016. Founder review PENDING. ZIPs on GitHub release `df-v2-mass-cj-2026-10-11`. Ledger: `docs/site00/idnty/visual-authority/mass-production/cj-run/`.
 - **Conventions:** Do not treat these plates as live UI or as sent email. Do not regenerate A or B. Marketing email jobs used the registered canonical JPEG.
+
+## 2026-10-11 — Remove committed MEMORY.md conflict markers
+
+- **Context:** `origin/main` had an unresolved merge left in `motherboard/MEMORY.md` (BLDR V2 benchmark entry versus the batch B log). That marker block made later branches report conflicts with `main`.
+- **Resolution:** Both log entries stay. The conflict markers are removed. No product code changed.
