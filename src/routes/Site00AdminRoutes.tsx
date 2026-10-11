@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { Navigate, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import LoadingScreen from '../components/base/LoadingScreen';
 import '../site00/admin/styles/site00-admin.css';
 import '../site00/admin/styles/site00-control.css';
