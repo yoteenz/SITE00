@@ -247,7 +247,7 @@ describe('F09 blueprints at 393×852', () => {
   it('copy is canonical; open founder decisions stay open', () => {
     const runtime = read('src/projects/jurnl/runtime/screens/SafeToSpendScreens.tsx');
     const C = jurnlF09BP.F09_CANONICAL_COPY;
-    for (const t of [C.FUNCTION_LABEL, C.STATE_LINE_COMPLETE, C.CLEAR, C.OVER, C.PRIMARY_ACTION, C.SECONDARY_ACTION]) expect(runtime).toContain(t);
+    for (const t of [C.FUNCTION_LABEL, C.STATE_LINE_COMPLETE, 'SAFE TO SPEND', C.OVER, C.PRIMARY_ACTION, C.SECONDARY_ACTION]) expect(runtime).toContain(t);
     expect(jurnlF09BP.F09_PENDING_DECISIONS.map((d) => d.id)).toEqual(['D-F09-PRIMARY-ACTION-LABEL', 'D-F09-PURCHASES-BRIDGE', 'D-F09-AVAILABLE-DATE']);
     const cta = BP.flatMap((b) => b.zones).filter((z) => z.zone_id.endsWith('.CTA')).map((z) => z.slots[0]!);
     for (const sl of cta) expect(sl).toMatchObject({ content: 'SEE THE FULL BREAKDOWN', decision: 'D-F09-PRIMARY-ACTION-LABEL' });
