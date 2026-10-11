@@ -16135,8 +16135,17 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
+<<<<<<< HEAD
 ## 2026-10-10 — Gate A direct execution stopped at the production gates
 
 - **Context:** Founder ordered Gate A production execution. Merge and production mutation without a per-group approval are not authorized. Live checks ran. No Supabase SQL, Railway env edit, cPanel upload, API restart, charge, or Anthony link was performed.
 - **Findings:** `api.site00.com` health is commit `89e5b740`, `persistSupabaseEnv` true, `launchGateIntakeOnly` true, Supabase host `hyycomvcaqxxvyrfupes`. `site00.com` still serves September bundle `index.D8Jaygrd.js`. A missing foundation token returns HTTP 500 `{"error":"[object Object]"}` in about 20s. Supabase table reads return Cloudflare 522. Schema and restart persistence stay unverified.
 - **Decision:** Release candidate for the plate screen remains ZIP v6 bundle `index.BpESgsIx.js` (sha256 `d75c6ef806fdbe28faaaaa992dc7031246fad8634e40183d227695050523df6e`). API error mapping for plain provider failures is a review PR and is not merged. Gate A stays FAIL / BLOCKED.
+=======
+## 2026-10-10 — DF visual batch B (records and approvals) + review flow scroll
+
+- **Context:** Batch A direction approved with two Opus copy corrections. Founder requested batch B OpenArt generation (four records/approval child screens), ZIP + direct download. Separately, review page CTAs now scroll between phone frames on `/foundation/review`.
+- **Batch B:** OpenArt project `6Ueswtr8vt58ur2n3CRs`, model `gpt-image-2-5-sunburst`, 4k 9:16, four first-pass images (2016×3584), credits 27854→26590 (Δ1264). Screens DF-B01–B04. Release tag `df-v2-batch-b-2026-10-10`. Do not regenerate batch A. Do not merge batch PRs without founder. Implementation NOT AUTHORIZED.
+- **Batch A handoff:** `batch-a/BATCH_A_OPUS_HANDOFF_CORRECTIONS.md` — no “decision recorded” while pending; revision reason optional label must match contract at implementation.
+- **Review flow:** PR #1595 merged — VIEW MY RECOMMENDATION scrolls to `#df-r-P04` without router navigation.
+>>>>>>> origin/main
