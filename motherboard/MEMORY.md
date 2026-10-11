@@ -16151,8 +16151,15 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Docs:** `docs/site00/bldr/MONUMENT_REALISM_V2_BENCHMARK.{md,json}`. Artifacts are in `/opt/cursor/artifacts/bldr-v2/`. Tests: `tests/bldrMonumentRealismV2.test.ts`.
 - **Conventions:** Widen `isRealismBenchmark` family by family, and only after founder approval: PLACE, FEEL, WORK, PACE, then BLUEPRINT, which needs a V2 `lit` state. The current path still keeps WebGL contexts after dispose; fix that with the rollout.
 
+## 2026-10-10 — Gate A direct execution stopped at the production gates
+
+- **Context:** Founder ordered Gate A production execution. Merge and production mutation without a per-group approval are not authorized. Live checks ran. No Supabase SQL, Railway env edit, cPanel upload, API restart, charge, or Anthony link was performed.
+- **Findings:** `api.site00.com` health is commit `89e5b740`, `persistSupabaseEnv` true, `launchGateIntakeOnly` true, Supabase host `hyycomvcaqxxvyrfupes`. `site00.com` still serves September bundle `index.D8Jaygrd.js`. A missing foundation token returns HTTP 500 `{"error":"[object Object]"}` in about 20s. Supabase table reads return Cloudflare 522. Schema and restart persistence stay unverified.
+- **Decision:** Release candidate for the plate screen remains ZIP v6 bundle `index.BpESgsIx.js` (sha256 `d75c6ef806fdbe28faaaaa992dc7031246fad8634e40183d227695050523df6e`). API error mapping for plain provider failures is a review PR and is not merged. Gate A stays FAIL / BLOCKED.
+
 ---
 
+---
 ## 2026-10-10 — DF visual batch B (records and approvals) + review flow scroll
 
 - **Context:** Batch A direction approved with two Opus copy corrections. Founder requested batch B OpenArt generation (four records/approval child screens), ZIP + direct download. Separately, review page CTAs now scroll between phone frames on `/foundation/review`.
