@@ -11,7 +11,7 @@
 .dfo-stats > div { display: flex; flex-direction: column; gap: calc(6 * var(--u)); padding: calc(14 * var(--u)) calc(18 * var(--u)); }
 .dfo-stats > div:nth-child(odd) { border-right: 1px solid var(--dfa-rule); }
 .dfo-stats > div:nth-child(-n + 2) { border-bottom: 1px solid var(--dfa-rule); }
-.dfo-stats dd { margin: 0; font-family: var(--dfa-display); font-weight: 900; font-size: calc(38 * var(--u)); line-height: .9; }
+.dfo-stats dd { margin: 0; font-family: var(--dfa-headline); font-weight: 400; font-size: calc(32 * var(--u)); line-height: 1; }
 .dfo-stats dt { font-size: calc(12 * var(--u)); letter-spacing: .14em; color: #555; }
 .dfo-stats .is-red dd { color: var(--dfa-red); }
 
@@ -29,6 +29,13 @@
 .dfo-search:focus-within { border-color: var(--dfa-ink); }
 .dfo-pipeline-rows { --row-cols: calc(52 * var(--u)) minmax(0, 1fr) auto calc(30 * var(--u)); --row-h: calc(54 * var(--u)); }
 .dfo-pipeline-rows .dfa-row__main { padding-left: calc(6 * var(--u)); }
+.dfo-pipeline-rows .dfa-row__main strong { overflow-wrap: break-word; }
+.dfo-pipeline-rows .dfa-row__main small { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; overflow-wrap: normal; }
+.dfo-search { flex: 1 1 100%; }
+.dfo-search input { flex: 1; min-width: 0; }
+.dfo-tools > button { flex: 1 1 0; white-space: nowrap; }
+.dfo-task-rows .dfa-row__side .dfa-pill { min-width: calc(78 * var(--u)); }
+.dfo-tools__long { display: none; }
 
 /* ---------- D02 command ---------- */
 .dfo-client { display: flex; align-items: center; margin-top: calc(20 * var(--u)); padding-bottom: calc(10 * var(--u)); }
@@ -36,7 +43,7 @@
 .dfo-client__icon svg { width: calc(38 * var(--u)); height: calc(38 * var(--u)); stroke-width: 1.3; }
 .dfo-client__name { display: flex; flex-direction: column; gap: calc(5 * var(--u)); flex: 1; min-width: 0; }
 .dfo-client__name small { font-size: calc(11 * var(--u)); letter-spacing: .14em; color: var(--dfa-muted); }
-.dfo-client__name strong { font-size: calc(18 * var(--u)); font-weight: 500; letter-spacing: .1em; line-height: 1.15; overflow-wrap: anywhere; }
+.dfo-client__name strong { font-size: calc(16 * var(--u)); font-weight: 500; letter-spacing: .08em; line-height: 1.15; overflow-wrap: break-word; }
 .dfo-textbtn { align-self: flex-start; border: 0; background: none; padding: 4px 0; cursor: pointer; font-size: 11px; letter-spacing: .14em; color: var(--dfa-muted); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--dfa-red); }
 .dfo-command-rows { --row-cols: calc(48 * var(--u)) minmax(0, 1fr) 0 calc(28 * var(--u)); --row-h: calc(52 * var(--u)); }
 .dfo-kv small { font-size: calc(11 * var(--u)); }
@@ -74,7 +81,7 @@
 .dfo-stage__name small, .dfo-stage__progress small { font-size: calc(11 * var(--u)); letter-spacing: .12em; color: var(--dfa-muted); }
 .dfo-stage__name strong { font-size: calc(16 * var(--u)); font-weight: 700; letter-spacing: .08em; line-height: 1.15; }
 .dfo-stage__progress { display: flex; flex-direction: column; align-items: flex-end; gap: calc(4 * var(--u)); padding-right: calc(16 * var(--u)); text-align: right; }
-.dfo-stage__progress strong { font-family: var(--dfa-display); font-weight: 900; font-size: calc(24 * var(--u)); line-height: 1; }
+.dfo-stage__progress strong { font-family: var(--dfa-headline); font-weight: 400; font-size: calc(24 * var(--u)); line-height: 1; }
 .dfo-tabs {
   display: flex; gap: calc(4 * var(--u)); overflow-x: auto; max-width: 100%; margin-bottom: calc(8 * var(--u));
   scrollbar-width: none;
@@ -115,18 +122,23 @@
 @media (min-width: 700px) {
   .dfo-cta { margin-top: calc(16 * var(--u)); }
   .dfo-cta--full { position: relative; z-index: 1; }
-  .dfo-tools > button { min-height: 30px; }
+  .dfo-tools > button { min-height: 30px; flex: 0 0 auto; }
+  .dfo-search { flex: 0 0 auto; }
+  .dfo-search input { flex: none; width: 120px; }
+  .dfo-tools__long { display: inline; }
 
   .dfo--pipeline { max-width: calc(896 * var(--u)); }
-  .dfo-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: calc(18 * var(--u)); padding: calc(12 * var(--u)) 0; }
-  .dfo-stats > div { padding: calc(4 * var(--u)) calc(32 * var(--u)); gap: calc(10 * var(--u)); border: 0 !important; }
+  .dfo-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: calc(16 * var(--u)); padding: calc(10 * var(--u)) 0; }
+  .dfo-stats > div { padding: calc(2 * var(--u)) calc(32 * var(--u)); gap: calc(8 * var(--u)); border: 0 !important; }
   .dfo-stats > div + div { border-left: 1px solid var(--dfa-rule) !important; }
-  .dfo-stats dd { font-size: calc(46 * var(--u)); }
+  .dfo-stats dd { font-size: calc(36 * var(--u)); }
   .dfo-stats dt { font-size: calc(15 * var(--u)); }
   .dfo-head .dfa-label { margin-bottom: calc(9 * var(--u)); }
   .dfo-tools { margin: calc(10 * var(--u)) 0 calc(4 * var(--u)); }
-  .dfo-pipeline-rows { --row-cols: calc(72 * var(--u)) minmax(0, 1fr) calc(186 * var(--u)) calc(52 * var(--u)); --row-h: calc(47 * var(--u)); }
-  .dfo-pipeline-rows .dfa-row__main { padding: calc(6 * var(--u)) calc(12 * var(--u)) calc(6 * var(--u)) calc(16 * var(--u)); gap: calc(3 * var(--u)); }
+  .dfo-pipeline-rows { --row-cols: calc(72 * var(--u)) minmax(0, 1fr) calc(186 * var(--u)) calc(52 * var(--u)); --row-h: calc(44 * var(--u)); }
+  .dfo-pipeline-rows .dfa-ico, .dfo-command-rows .dfa-ico, .dfo-task-rows .dfa-ico { width: calc(32 * var(--u)); height: calc(32 * var(--u)); stroke-width: 1.5; }
+  .dfo-comms-rows .dfa-ico { width: calc(38 * var(--u)); height: calc(38 * var(--u)); stroke-width: 1.5; }
+  .dfo-pipeline-rows .dfa-row__main { padding: calc(5 * var(--u)) calc(12 * var(--u)) calc(5 * var(--u)) calc(16 * var(--u)); gap: calc(2 * var(--u)); }
   .dfo-pipeline-rows .dfa-row__main small { font-size: calc(11 * var(--u)); }
   .dfo-pipeline-rows .dfa-row__side { padding-right: 0; }
   .dfo-pipeline-rows .dfa-pill { width: 100%; }
@@ -145,7 +157,7 @@
   .dfo-more { max-width: calc(880 * var(--u)); }
   .dfo-more__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: calc(40 * var(--u)); }
 
-  .dfo-stage { margin-top: calc(22 * var(--u)); min-height: calc(90 * var(--u)); }
+  .dfo-stage { margin-top: calc(18 * var(--u)); min-height: calc(80 * var(--u)); max-width: calc(1040 * var(--u)); }
   .dfo-stage__icon { width: calc(140 * var(--u)); }
   .dfo-stage__icon svg { width: calc(58 * var(--u)); height: calc(58 * var(--u)); }
   .dfo-stage__name { padding: 0 calc(28 * var(--u)); }

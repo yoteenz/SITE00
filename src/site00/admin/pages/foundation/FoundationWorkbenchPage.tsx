@@ -18,7 +18,7 @@ type Task = {
   project_stage?: string;
 };
 type BucketKey = 'ready_to_execute' | 'in_progress' | 'waiting_on_client' | 'waiting_on_provider' | 'ready_to_verify' | 'blocked' | 'complete';
-type Workbench = { buckets?: Partial<Record<BucketKey, Task[]>>; command?: Record<string, unknown> };
+type Workbench = { buckets?: Partial<Record<BucketKey, Task[]>>; by_mode?: Record<string, Task[]>; command?: Record<string, unknown> };
 const GROUPS: { key: BucketKey; label: string; param: string }[] = [
   { key: 'ready_to_execute', label: 'READY', param: 'ready' },
   { key: 'in_progress', label: 'IN PROGRESS', param: 'in-progress' },
@@ -29,6 +29,7 @@ const GROUPS: { key: BucketKey; label: string; param: string }[] = [
   { key: 'complete', label: 'COMPLETE', param: 'complete' },
 ];
 const empty: Task[] = [];
+const VISIBLE_LIMIT = 3;
 const OK_STATUS = new Set(['READY', 'COMPLETE', 'VERIFIED', 'PASS']);
 
 function taskGlyph(task: Task): DfaGlyph {
@@ -49,6 +50,7 @@ export default function FoundationWorkbenchPage() {
   const [loading, setLoading] = useState(true);
   const [active, setActive] = useState<BucketKey>(initial);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [showAll, setShowAll] = useState(false);
 
   useEffect(() => {
     let live = true;
@@ -71,6 +73,12 @@ export default function FoundationWorkbenchPage() {
   const buckets = view?.buckets;
   const current = buckets?.[active] ?? empty;
   const tasks = useMemo(() => GROUPS.flatMap(({ key }) => buckets?.[key] ?? empty), [buckets]);
+  const totalTasks = view?.by_mode ? Object.values(view.by_mode).reduce((n, list) => n + list.length, 0) : tasks.length;
+  const shown = showAll ? current : current.slice(0, VISIBLE_LIMIT);
+  const toggleShowAll = () => {
+    if (showAll && current.findIndex((task) => task.task_id === selectedId) >= VISIBLE_LIMIT) setSelectedId(null);
+    setShowAll(!showAll);
+  };
   const complete = buckets?.complete?.length ?? 0;
   const stageTask = buckets?.in_progress?.[0] ?? buckets?.ready_to_execute?.[0] ?? buckets?.waiting_on_client?.[0] ?? tasks[0];
 
@@ -89,8 +97,8 @@ export default function FoundationWorkbenchPage() {
                 <small>CURRENT STAGE</small>
                 <strong>{stageTask ? opsLabel(stageTask.project_stage) : 'NO TASKS YET'}</strong>
               </div>
-              <div className="dfo-stage__progress" aria-label={`${complete} of ${tasks.length} tasks complete`}>
-                <strong>{complete} / {tasks.length}</strong><small>TASKS COMPLETE</small>
+              <div className="dfo-stage__progress" aria-label={`${complete} of ${totalTasks} tasks complete`}>
+                <strong>{complete} / {totalTasks}</strong><small>TASKS COMPLETE</small>
               </div>
             </div>
             <div className="dfo-head">
@@ -98,7 +106,7 @@ export default function FoundationWorkbenchPage() {
               <nav className="dfo-tabs" aria-label="Task status">
                 {GROUPS.map(({ key, label }) => (
                   <button key={key} type="button" aria-pressed={active === key} className={active === key ? 'is-active' : ''}
-                    onClick={() => { setActive(key); setSelectedId(null); }}>
+                    onClick={() => { setActive(key); setSelectedId(null); setShowAll(false); }}>
                     {label} <b>{buckets?.[key]?.length ?? 0}</b>
                   </button>
                 ))}
@@ -107,7 +115,7 @@ export default function FoundationWorkbenchPage() {
             {current.length === 0 && <DfaStatus kind="empty">NO TASKS IN THIS STATE. SELECT ANOTHER STATUS TO REVIEW THE PROJECT WORKLOAD.</DfaStatus>}
             {current.length > 0 && (
               <div className="dfa-rows dfa-rows--ruled dfo-task-rows" aria-label="Execution task list">
-                {current.map((task) => {
+                {shown.map((task) => {
                   const open = selectedId === task.task_id;
                   return (
                     <Fragment key={task.task_id}>
@@ -134,6 +142,11 @@ export default function FoundationWorkbenchPage() {
                     </Fragment>
                   );
                 })}
+                {current.length > VISIBLE_LIMIT && (
+                  <button type="button" className="dfa-more-rows" aria-expanded={showAll} onClick={toggleShowAll}>
+                    {showAll ? 'SHOW FIRST 3 ONLY' : `SHOW ALL ${current.length} TASKS IN THIS STATE`}
+                  </button>
+                )}
               </div>
             )}
           </>

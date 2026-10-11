@@ -8,3 +8,4 @@
 @media(max-width:860px){.df-review__switches{justify-content:flex-start;width:100%}.df-review__switches .df-review__devices{flex:1 1 220px}}
 @media(max-width:520px){.df-review__fixture{padding:0 12px 12px}}
 .df-review__viewport[data-stacked=true]{flex-direction:column;align-items:stretch}.df-review__viewport[data-stacked=true] .df-review__col{flex:none}
+@media(max-width:860px){.df-review__shell{grid-template-columns:minmax(0,1fr)}.df-review__nav{min-width:0}.df-review__nav section{max-width:100%}}

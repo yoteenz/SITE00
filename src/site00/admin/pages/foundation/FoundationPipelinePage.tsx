@@ -7,6 +7,7 @@ import { foundationOpsMenu, opsLabel } from './foundationOpsMenu';
 import './foundationOperations.css';
 
 const ROW_GLYPHS: DfaGlyph[] = ['cube', 'layers', 'document'];
+const RECENT_LIMIT = 3;
 type Attention = Partial<Record<PipelineAttentionKey, PipelineRow[]>>;
 
 function rowStatus(row: PipelineRow, waitingClient: Set<string>): { tone: DfaTone; text: string } {
@@ -23,6 +24,7 @@ export default function FoundationPipelinePage() {
   const [search, setSearch] = useState('');
   const [attention, setAttention] = useState(false);
   const [refresh, setRefresh] = useState(0);
+  const [showAll, setShowAll] = useState(false);
   useEffect(() => {
     let active = true;
     setLoading(true); setError(null);
@@ -47,6 +49,9 @@ export default function FoundationPipelinePage() {
     { label: 'NEEDS YOU', value: attentionMap.needs_founder?.length ?? 0, red: true },
   ];
   const lead = visible[0];
+  const filtered = attention || search.trim() !== '';
+  const shown = showAll || filtered ? visible : visible.slice(0, RECENT_LIMIT);
+  const hiddenCount = visible.length - shown.length;
 
   return (
     <DfaShell code="13" kicker="FOUNDATION PIPELINE" title={['FOUNDATION PIPELINE']}
@@ -69,8 +74,13 @@ export default function FoundationPipelinePage() {
               <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="SEARCH" />
             </label>
             <button type="button" className={attention ? 'is-active' : ''} aria-pressed={attention} onClick={() => setAttention(!attention)}>
-              NEEDS ATTENTION · {flagged}
+              <span className="dfo-tools__long">NEEDS </span>ATTENTION · {flagged}
             </button>
+            {rows.length > RECENT_LIMIT && (
+              <button type="button" className={showAll ? 'is-active' : ''} aria-pressed={showAll} onClick={() => setShowAll(!showAll)}>
+                <span className="dfo-tools__long">SHOW </span>ALL · {rows.length}
+              </button>
+            )}
             <button type="button" onClick={() => setRefresh((n) => n + 1)} aria-label="Refresh pipeline">REFRESH</button>
           </div>
         </div>
@@ -81,7 +91,7 @@ export default function FoundationPipelinePage() {
         )}
         {ready && visible.length > 0 && (
           <div className="dfa-rows dfa-rows--box dfo-pipeline-rows" aria-label="Digital Foundation projects">
-            {visible.map((row, i) => {
+            {shown.map((row, i) => {
               const status = rowStatus(row, waitingClient);
               return (
                 <Link key={row.artifact_id} className="dfa-row" to={SITE00_ROUTES.digitalFoundationProjectCommand.replace(':id', row.artifact_id)}>
@@ -99,6 +109,7 @@ export default function FoundationPipelinePage() {
             })}
           </div>
         )}
+        {ready && hiddenCount > 0 && <p className="dfo-sr" aria-live="polite">{hiddenCount} more projects hidden. Use SHOW ALL to list every project.</p>}
         <div className="dfo-cta">
           <DfaCta to={lead ? SITE00_ROUTES.digitalFoundationProjectCommand.replace(':id', lead.artifact_id) : undefined} disabled={!lead}>
             VIEW PROJECT COMMAND

@@ -144,7 +144,7 @@ export default function DigitalFoundationCompleteSurface({ token, payload, reloa
               {busy === 'SAVED_FOR_LATER' ? 'SAVING…' : interestState === 'SAVED_FOR_LATER' ? 'SAVED FOR LATER ✓' : 'SAVE THIS FOR LATER'}
             </DfaCta>
           </div>
-          <DfaNote>YOUR FOUNDATION REMAINS ACTIVE. EXPLORING DOES NOT PLACE AN ORDER.</DfaNote>
+          <DfaNote>YOUR FOUNDATION REMAINS ACTIVE.</DfaNote>
         </div>
       </DfaShell>
     );
@@ -167,7 +167,7 @@ export default function DigitalFoundationCompleteSurface({ token, payload, reloa
               </div>
               <div className="dfc-panel__row">
                 <span className="dfc-panel__icon"><DfaIcon name="alertCircle" /></span>
-                <span className="dfc-panel__body"><p>APPLIES TO A QUALIFYING SITE 00 BUILD. YOUR PROJECT RECORD PROVIDES THE TERMS.</p></span>
+                <span className="dfc-panel__body"><p>APPLIES TO A QUALIFYING SITE 00 BUILD. TERMS ARE ON YOUR RECORD.</p></span>
               </div>
             </div>
           ) : (
@@ -266,10 +266,12 @@ export default function DigitalFoundationCompleteSurface({ token, payload, reloa
             <DfaCta disabled>VIEW RECORDS</DfaCta>
           )}
         </div>
-        <DfaNote>{ownership ? 'VERIFIED. DELIVERED. OWNED.' : 'VERIFIED BY SITE 00.'}</DfaNote>
-        <button type="button" className="dfc-next" onClick={() => go('location')}>
-          <span>NEXT · YOUR DIGITAL LOCATION</span><DfaIcon name="arrow" />
-        </button>
+        <div className="dfc-note-row">
+          <DfaNote>{ownership ? 'VERIFIED. DELIVERED. OWNED.' : 'VERIFIED BY SITE 00.'}</DfaNote>
+          <button type="button" className="dfc-next" aria-label="Next: your digital location" onClick={() => go('location')}>
+            <span>NEXT</span><DfaIcon name="arrow" />
+          </button>
+        </div>
       </div>
     </DfaShell>
   );

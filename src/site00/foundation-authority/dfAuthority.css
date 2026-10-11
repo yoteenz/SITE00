@@ -17,6 +17,13 @@
   src: url('/site00/fonts/barlow-condensed/barlow-condensed-900.woff2') format('woff2');
 }
 @font-face {
+  font-family: 'SITE00 DF Headline';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/site00/fonts/anton/anton-400-latin.woff2') format('woff2');
+}
+@font-face {
   font-family: 'SITE00 DF Text';
   font-style: normal;
   font-weight: 100 900;
@@ -39,9 +46,12 @@
   --dfa-alert-bg: #fcebeb;
   --dfa-alert-ink: #c3161d;
   --dfa-display: 'SITE00 DF Display', 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  /* Anton matches the authority headline's width-to-cap ratio; Barlow Condensed ran ~13% wide. */
+  --dfa-headline: 'SITE00 DF Headline', 'Anton', 'Arial Narrow', sans-serif;
   --dfa-text: 'SITE00 DF Text', 'Inter', 'Helvetica Neue', Arial, sans-serif;
   --dfa-pad: calc(25 * var(--u));
   position: relative;
+  box-sizing: border-box;
   min-height: 100vh;
   min-height: 100dvh;
   display: flex;
@@ -55,6 +65,7 @@
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
 }
+body:has(.dfa) { margin: 0; }
 .dfa *, .dfa *::before, .dfa *::after { box-sizing: border-box; }
 .dfa :where(button, input) { font: inherit; color: inherit; }
 .dfa :where(a) { color: inherit; }
@@ -74,10 +85,10 @@
 .dfa__shard { bottom: calc(var(--shard-bottom) * var(--u)); width: calc(var(--shard-w) * var(--u)); right: calc(var(--shard-right, 0) * var(--u)); }
 
 /* handset placements (measured on the C/F originals; D/G plates derived for handset) */
-.dfa--plate-c01 { --plate-top: 98; --plate-h: 262; }
-.dfa--plate-c02 { --plate-top: 48; --plate-h: 294; }
-.dfa--plate-f01 { --plate-top: 45; --plate-h: 314; }
-.dfa--plate-f02 { --plate-top: 91; --plate-h: 221; }
+.dfa--plate-c01 { --plate-top: 44; --plate-h: 312; }
+.dfa--plate-c02 { --plate-top: 45; --plate-h: 291; }
+.dfa--plate-f01 { --plate-top: 45; --plate-h: 271; }
+.dfa--plate-f02 { --plate-top: 41; --plate-h: 291; }
 .dfa--plate-d01 { --plate-top: 44; --plate-h: 300; }
 .dfa--plate-d02 { --plate-top: 54; --plate-h: 230; }
 .dfa--plate-d03 { --plate-top: 54; --plate-h: 132; }
@@ -119,20 +130,29 @@
 
 /* ---------- headline block ---------- */
 .dfa__body { flex: 1; display: flex; flex-direction: column; }
-.dfa__code { display: flex; align-items: center; margin-top: calc(44 * var(--u)); }
+.dfa__code { display: flex; align-items: center; margin-top: calc(24 * var(--u)); }
 .dfa__code b { font-family: var(--dfa-display); font-weight: 800; font-size: calc(25 * var(--u)); line-height: 1; color: var(--dfa-red); letter-spacing: .01em; }
 .dfa__code i { display: block; width: calc(68 * var(--u)); height: 1px; background: #8f8f8f; margin: 0 calc(13 * var(--u)) 0 calc(14 * var(--u)); }
 .dfa__code span { font-size: calc(13 * var(--u)); font-weight: 500; letter-spacing: .1em; color: var(--dfa-ink-2); }
 .dfa__title {
   margin-top: calc(14 * var(--u));
-  font-family: var(--dfa-display); font-weight: 900;
-  font-size: var(--dfa-title-size, calc(69 * var(--u)));
-  line-height: .8; letter-spacing: -.004em; text-transform: uppercase; color: var(--dfa-ink);
+  font-family: var(--dfa-headline); font-weight: 400;
+  font-size: var(--dfa-title-size, calc(56 * var(--u)));
+  line-height: .98; letter-spacing: .004em; text-transform: uppercase; color: var(--dfa-ink);
 }
 .dfa__title-line { display: block; }
+/* handset title sizes fitted to each C/F authority's measured line widths */
+.dfa--plate-c01 { --dfa-title-size: calc(56 * var(--u)); }
+.dfa--plate-c02 { --dfa-title-size: calc(57 * var(--u)); }
+.dfa--plate-f01 { --dfa-title-size: calc(64 * var(--u)); }
+.dfa--plate-f01 .dfa__title { letter-spacing: -.02em; }
+.dfa--plate-f01 .dfa__title { margin-top: calc(30 * var(--u)); }
+.dfa--plate-f02 { --dfa-title-size: calc(68 * var(--u)); }
+.dfa--plate-g01 { --dfa-title-size: calc(50 * var(--u)); }
+.dfa--plate-f02 .dfa__lede { max-width: calc(262 * var(--u)); }
 .dfa__dot { display: inline-block; width: .15em; height: .15em; margin-left: .035em; background: var(--dfa-red); vertical-align: baseline; }
 .dfa__lede {
-  margin-top: calc(17 * var(--u)); max-width: calc(300 * var(--u));
+  margin-top: calc(9 * var(--u)); max-width: calc(284 * var(--u));
   font-size: calc(14.5 * var(--u)); line-height: 1.42; letter-spacing: .11em; color: #333; text-transform: uppercase;
 }
 
@@ -163,7 +183,7 @@
   display: flex; align-items: center; justify-content: center; gap: calc(22 * var(--u));
   width: 100%; min-height: calc(42 * var(--u)); padding: 0 calc(16 * var(--u));
   border-radius: 3px; border: 1px solid var(--dfa-red); cursor: pointer; text-decoration: none;
-  font-size: calc(15 * var(--u)); font-weight: 500; letter-spacing: .14em; line-height: 1.1; text-align: center;
+  font-size: calc(14.5 * var(--u)); font-weight: 500; letter-spacing: .11em; line-height: 1.1; text-align: center;
 }
 .dfa-cta--primary { background: var(--dfa-red); color: #fff; box-shadow: 0 1px 0 rgba(120, 0, 0, .25); }
 .dfa-cta--primary:hover:not(:disabled) { background: #bd0f17; }
@@ -228,7 +248,7 @@
 
   .dfa--plate-d01 { --plate-top: 60; --plate-h: 605; }
   .dfa--plate-d02 { --plate-top: 80; --plate-h: 480; }
-  .dfa--plate-d03 { --plate-top: 60; --plate-h: 220; }
+  .dfa--plate-d03 { --plate-top: 57; --plate-h: 312; }
   .dfa--plate-g01 { --plate-top: 60; --plate-h: 592; }
   .dfa--plate-c01, .dfa--plate-c02, .dfa--plate-f01, .dfa--plate-f02 { --plate-top: 60; --plate-h: 600; }
   .dfa { --shard-bottom: 52; --shard-w: 112; }
@@ -244,7 +264,15 @@
   .dfa__code b { font-size: calc(31 * var(--u)); }
   .dfa__code i { width: calc(84 * var(--u)); margin: 0 calc(12 * var(--u)) 0 calc(19 * var(--u)); }
   .dfa__code span { font-size: calc(16 * var(--u)); letter-spacing: .2em; }
-  .dfa__title { margin-top: calc(9 * var(--u)); font-size: var(--dfa-title-desk, calc(130 * var(--u))); line-height: .84; }
+  .dfa__title { margin-top: calc(14 * var(--u)); font-size: calc(var(--dfa-title-desk, calc(104 * var(--u))) * var(--dfa-title-scale, .84)); line-height: 1; white-space: nowrap; }
+  /* sized against each desk authority's rendered cap height; G01 is capped so the line clears the plate */
+  .dfa--plate-d01 { --dfa-title-desk: calc(118 * var(--u)); }
+  .dfa--plate-d02 { --dfa-title-desk: calc(111 * var(--u)); }
+  .dfa--plate-d03 { --dfa-title-desk: calc(106 * var(--u)); }
+  .dfa--plate-g01 { --dfa-title-desk: calc(94 * var(--u)); }
+  .dfa--plate-g01 .dfa__title { letter-spacing: -.008em; }
+  .dfa--plate-d02 .dfa__top { padding-bottom: calc(11 * var(--u)); border-bottom: 1px solid var(--dfa-rule-strong); }
+  .dfa--plate-d02 .dfa__code { margin-top: calc(22 * var(--u)); }
   .dfa__lede { margin-top: calc(12 * var(--u)); max-width: none; font-size: calc(20 * var(--u)); letter-spacing: .18em; line-height: 1.35; color: var(--dfa-ink-2); }
 
   .dfa__foot {
@@ -269,10 +297,24 @@
 
   /* handset-authority pages keep their column on the desk */
   .dfa--mobile .dfa__body { max-width: calc(640 * var(--u)); }
-  .dfa--mobile .dfa__title { font-size: var(--dfa-title-desk, calc(112 * var(--u))); }
+  .dfa--mobile .dfa__title { font-size: calc(92 * var(--u)); }
   .dfa--mobile .dfa__lede { max-width: calc(560 * var(--u)); font-size: calc(17 * var(--u)); letter-spacing: .14em; }
 }
 
 @media (min-width: 1100px) {
-  .dfa { --u: calc(min(100vw, 1680px) / 1280); }
+  .dfa { --u: calc(min(100vw, 1680px) / 1280); --dfa-title-scale: 1; }
+}
+
+.dfa-more-rows {
+  display: block; width: 100%; padding: calc(9 * var(--u)) 0; border: 0; border-top: 1px solid #ececec; background: none; cursor: pointer;
+  font-size: calc(10.5 * var(--u)); font-weight: 600; letter-spacing: .16em; color: var(--dfa-muted);
+}
+.dfa-more-rows:hover { color: var(--dfa-ink); background: #f7f7f6; }
+.dfa-more-rows:focus-visible { outline: 2px solid var(--dfa-red); outline-offset: -2px; }
+.dfa-rows--ruled > .dfa-more-rows { border-top: 0; border-bottom: 1px solid var(--dfa-rule); }
+@media (min-width: 700px) { .dfa-more-rows { padding: calc(8 * var(--u)) 0; font-size: calc(11 * var(--u)); } }
+
+/* desk-authority screens on a handset: no reference exists, keep the CTA on one line */
+@media (max-width: 699px) {
+  .dfa--desktop .dfa-cta--primary { font-size: calc(13.5 * var(--u)); letter-spacing: .1em; gap: calc(14 * var(--u)); }
 }
