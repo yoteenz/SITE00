@@ -149,7 +149,7 @@ body:has(.dfa) { margin: 0; }
 .dfa--plate-f01 .dfa__title { margin-top: calc(30 * var(--u)); }
 .dfa--plate-f02 { --dfa-title-size: calc(68 * var(--u)); }
 .dfa--plate-g01 { --dfa-title-size: calc(50 * var(--u)); }
-.dfa--plate-f02 .dfa__lede { max-width: calc(262 * var(--u)); }
+.dfa--plate-f02 .dfa__lede { max-width: calc(272 * var(--u)); letter-spacing: .085em; }
 .dfa__dot { display: inline-block; width: .15em; height: .15em; margin-left: .035em; background: var(--dfa-red); vertical-align: baseline; }
 .dfa__lede {
   margin-top: calc(9 * var(--u)); max-width: calc(284 * var(--u));

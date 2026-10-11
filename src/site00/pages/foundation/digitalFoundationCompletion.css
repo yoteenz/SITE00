@@ -73,7 +73,7 @@
 /* F02 */
 .dfc-rooms { margin-top: calc(18 * var(--u)); --row-cols: calc(76 * var(--u)) minmax(0, 1fr) 0 calc(40 * var(--u)); --row-h: calc(46 * var(--u)); gap: calc(5 * var(--u)) !important; }
 .dfc-rooms .dfa-row--divided .dfa-row__icon { margin: calc(12 * var(--u)) 0; }
-.dfc-rooms .dfa-row__main { padding-left: calc(22 * var(--u)); gap: calc(3 * var(--u)); }
+.dfc-rooms .dfa-row__main { padding: calc(5 * var(--u)) calc(12 * var(--u)) calc(5 * var(--u)) calc(22 * var(--u)); gap: calc(2 * var(--u)); }
 .dfc-rooms .dfa-row__main strong { font-size: calc(14 * var(--u)); font-weight: 700; letter-spacing: .08em; }
 .dfc-rooms .dfa-row__main small { font-size: calc(12.5 * var(--u)); letter-spacing: .1em; }
 .dfc--bldr .dfc-actions { margin-top: calc(17 * var(--u)); }
