@@ -1,0 +1,238 @@
+/* Correspondence Studio — founder review workspace (shell stays SITE 00 control UI) */
+
+.cs-home-grid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.cs-panel {
+  border: 1px solid var(--site00-hairline, #e4e2dd);
+  background: #fff;
+  padding: 1.25rem 1.5rem;
+}
+
+.cs-panel h2 {
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  margin: 0 0 0.75rem;
+  color: #5e5e5e;
+}
+
+.cs-panel__lead {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+}
+
+.cs-muted {
+  color: #72706c;
+  font-size: 0.875rem;
+}
+
+.cs-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cs-list li {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #f0efec;
+}
+
+.cs-campaign-list,
+.cs-family-block {
+  margin-bottom: 2rem;
+}
+
+.cs-email-index {
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0;
+}
+
+.cs-email-index li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid #f0efec;
+}
+
+.cs-tag {
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  padding: 0.15rem 0.45rem;
+  background: #f6f5f2;
+  color: #141414;
+}
+
+.cs-tag--muted {
+  color: #72706c;
+}
+
+.cs-review-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 1100px) {
+  .cs-review-layout:has(.cs-review-drawer) {
+    grid-template-columns: 1fr min(360px, 32vw);
+  }
+}
+
+.cs-review-main {
+  min-width: 0;
+}
+
+.cs-device-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.cs-device-bar button {
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid #e4e2dd;
+  background: #fff;
+  cursor: pointer;
+}
+
+.cs-device-bar button.active {
+  border-color: #141414;
+  font-weight: 600;
+}
+
+.cs-device-bar__brand {
+  margin-left: auto;
+}
+
+.cs-preview-pane {
+  background: #e8e6e2;
+  border: 1px solid #e4e2dd;
+  padding: 1rem;
+}
+
+.cs-preview-pane__inbox {
+  max-width: 680px;
+  margin: 0 auto 1rem;
+  background: #fff;
+  padding: 1rem 1.25rem;
+  border: 1px solid #e4e2dd;
+}
+
+.cs-preview-pane__from,
+.cs-preview-pane__to {
+  font-size: 0.7rem;
+  color: #72706c;
+  margin: 0 0 0.35rem;
+}
+
+.cs-preview-pane__subject {
+  font-size: 1.1rem;
+  margin: 0.5rem 0 0.25rem;
+}
+
+.cs-preview-pane__pre {
+  font-size: 0.8rem;
+  color: #5e5e5e;
+  margin: 0;
+}
+
+.cs-preview-pane__body {
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.cs-preview-pane__iframe {
+  display: block;
+  margin: 0 auto;
+  background: #fff;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+}
+
+.cs-preview-pane__loading,
+.cs-preview-pane__error {
+  text-align: center;
+  padding: 2rem;
+  font-size: 0.85rem;
+}
+
+.cs-preview-pane__error {
+  color: #d90c0c;
+}
+
+.cs-review-drawer {
+  border: 1px solid #e4e2dd;
+  background: #faf9f7;
+  padding: 1rem 1.25rem;
+  font-size: 0.85rem;
+  max-height: calc(100vh - 12rem);
+  overflow: auto;
+}
+
+.cs-review-drawer section {
+  margin-bottom: 1.25rem;
+}
+
+.cs-review-drawer h2 {
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  color: #72706c;
+  margin: 0 0 0.5rem;
+}
+
+.cs-review-state {
+  font-weight: 600;
+  margin: 0 0 0.75rem;
+}
+
+.cs-review-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.cs-review-actions button {
+  text-align: left;
+  font-size: 0.65rem;
+  padding: 0.35rem 0.5rem;
+  border: 1px solid #e4e2dd;
+  background: #fff;
+  cursor: pointer;
+}
+
+.cs-mono {
+  font-family: ui-monospace, monospace;
+  font-size: 0.72rem;
+  word-break: break-all;
+}
+
+.cs-comment-list {
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0;
+}
+
+.cs-comment-list li {
+  padding: 0.35rem 0;
+  border-bottom: 1px solid #eceae6;
+  font-size: 0.78rem;
+}
+
+.cs-review-drawer textarea {
+  width: 100%;
+  margin-bottom: 0.5rem;
+  font-size: 0.8rem;
+}

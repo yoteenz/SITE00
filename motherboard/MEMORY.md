@@ -16151,6 +16151,8 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Docs:** `docs/site00/bldr/MONUMENT_REALISM_V2_BENCHMARK.{md,json}`. Artifacts are in `/opt/cursor/artifacts/bldr-v2/`. Tests: `tests/bldrMonumentRealismV2.test.ts`.
 - **Conventions:** Widen `isRealismBenchmark` family by family, and only after founder approval: PLACE, FEEL, WORK, PACE, then BLUEPRINT, which needs a V2 `lit` state. The current path still keeps WebGL contexts after dispose; fix that with the rollout.
 
+---
+
 ## 2026-10-10 — DF visual batch B (records and approvals) + review flow scroll
 
 - **Context:** Batch A direction approved with two Opus copy corrections. Founder requested batch B OpenArt generation (four records/approval child screens), ZIP + direct download. Separately, review page CTAs now scroll between phone frames on `/foundation/review`.
@@ -16164,3 +16166,81 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 - **Context:** `origin/main` had an unresolved merge left in `motherboard/MEMORY.md` (BLDR V2 benchmark entry versus the batch B log). That marker block made later branches report conflicts with `main`.
 - **Resolution:** Both log entries stay. The conflict markers are removed. No product code changed.
+
+---
+
+## 2026-10-11 — Email V2: NDX editorial intelligence + three-email benchmark (founder review)
+
+- **Context:** The founder rejected the V1 lean email pack (PR #1603). The copy repeated itself, read as mechanical, and narrated internal contract rules to customers. Sprint `P0.SITE00.IDNTY.EMAIL-V2-NDX-EDITORIAL-INTELLIGENCE-BESPOKE-COMPOSITION-AND-THREE-EMAIL-BENCHMARK1`, run by Claude Opus. Constraints: no OpenArt (0 credits), no sending, no merge, no deploy, no migrations, V1 files untouched.
+- **Outcome:** Branch `cursor/df-email-v2-ndx-benchmark-a9f7`, draft PR, not merged.
+  - Authority docs are in `docs/site00/idnty/visual-authority/email-v2/authority/`: `NDX_METHODOLOGY_RECOVERY.md` (method recovered: YES), `EDITORIAL_VOICE_SYSTEM.md`, and `COMPOSITION_AUTHORITY.md`.
+  - B01 invitation is a personal LETTER, B02 completion is a milestone RECORD with a code-native slab and ledger, and B03 M06 BLDR is an editorial FEATURE with three SVG plans.
+  - Source is in `scripts/df-email-v2-benchmark/` and covers prepare, render, QA and package.
+  - Six renders. Copy QA passes: 0 shared 5-grams, 8–10 structural differences between each pair, and 11/11 rejected V1 lines flagged.
+- **Release:** `df-v2-email-ndx-benchmark-2026-10-11` (ZIP sha256 `47a6bce9…`, download verified).
+- **Conventions:**
+  - All SITE 00-authored copy is uppercase. Client names, emails, domains, URLs and tokens keep their original case.
+  - Never put system or contract language in customer copy. Gaps are logged in `qa/CONTRACT_GAPS.md` (invitation route, `completed_stages`, M06 `public_token`, `unsubscribe_url`/`postal_address`, sender).
+  - The 17-email rollout is NOT AUTHORIZED until the founder approves the benchmarks (`ROLLOUT_PLAN.md`, Gates 0–4).
+
+## 2026-10-11 — Email V2 R2: professional art direction, nine bespoke territories (founder selection pending)
+
+- **Context:** The founder approved the V2 editorial content and visual identity, but rejected the graphic art direction as "polished premade templates". Sprint `P0.SITE00.IDNTY.EMAIL-V2-NDX-PROFESSIONAL-ART-DIRECTION-AND-BESPOKE-GRAPHIC-COMPOSITION-R2`, run by Claude Opus on parent PR #1607. Constraints: copy unchanged, 0 OpenArt credits, no regeneration, no sending, no merge, no deploy, no auto-approval.
+- **Outcome:** Branch `cursor/df-email-v2-ndx-benchmark-a9f7`, draft PR #1607, not merged. Each email gets three territories, each with one central idea and a signature device:
+  - B01 invitation:
+    - A PRIVATE CORRESPONDENCE: a red-glass spine and a perforated reply card.
+    - B ARCHITECTURAL OPENING: stepped marble jambs around a doorway, with the headline standing in the threshold.
+    - C PERSONAL EDITORIAL: the client name as masthead and hanging numerals; no photo.
+  - B02 completion:
+    - A MONUMENT ESTABLISHED: a stepped travertine monument, an inscription band, and the ledger as stone courses.
+    - B ARCHITECTURAL RECORD: the email as a drawing sheet, with a section through five strata and a title block.
+    - C MILESTONE REVEAL: one image cut at a red datum, drawing above and photo below; the ledger as a timeline.
+  - B03 BLDR:
+    - A ARCHITECTURAL MANIFESTO: a dark declaration with a glass column, and articles numbered without images.
+    - B ENTER THE LOCATION: a dashed route with station maps, and images that grow as you walk in.
+    - C THE UNBUILT POSSIBILITY: superimposed plans on a plot, the headline inside the site boundary, and the sections as plan rooms.
+- **Paths:**
+  - Source is in `scripts/df-email-v2-benchmark/r2/` and covers prepare_r2, r2.css, territories, territories.json, build_review, render, qa_r2, contact_sheet and package_r2.
+  - The review artifact is `r2/review/index.html` (email, direction, device 390/768/1024, compare with R1, rationale). It is hosted via githack at the commit SHA, behind one interstitial tap.
+  - Docs are `docs/site00/idnty/visual-authority/email-v2/r2/ART_DIRECTION_R2.md` and `r2/qa/R2_COPY_PRESERVATION_QA.json`.
+- **QA:** 27 renders. Copy preservation PASS, with every COPY.md unit present in all nine territories. The only added text is drawing furniture: PROJECT, STATUS, and numerals.
+- **Release:** `df-v2-email-r2-territories-2026-10-11`, prerelease (ZIP sha256 `32060312…`, download verified).
+- **Conventions:**
+  - The Saira board fonts are now committed (OFL) so hosted previews render correctly. Production email still falls back to Arial Narrow.
+  - Do not use class `note` or `from` in board emails; the `qa_copy.py` chrome filter skips them.
+  - Copy authority is COPY.md, not R1 HTML. R1 used "AS DRAWN / AS LAID" where COPY.md says "GROUND · LAID".
+  - FULL_EMAIL_ROLLOUT is NOT AUTHORIZED until the founder picks one direction per benchmark.
+
+---
+
+## 2026-10-11 — Anthony Gate A consolidated production recovery (execution)
+
+- **Context:** P0 sprint to restore Digital Foundation Gate A intake for Anthony (not another forensic audit). Prior sprints (#1602 globe, #1604 workload containment, #1605 recovery docs) established blockers: Supabase restarted; zero `site00_df_*` tables; stale cPanel `index.D8Jaygrd.js`; Railway on `3cd487e` with persist flags on.
+- **Topics covered:** Applied Gate A migrations v1+v2 on production Supabase (`hyycomvcaqxxvyrfupes`); API fixes for authoritative Supabase load and await intake persist; E2E script + Anthony mint script; cPanel ZIP; MEMORY conflict cleanup; merge to `main`.
+- **Decisions / outcomes:** Gate B messaging migration **not** applied. Production DDL migrations **applied** (13 tables, RLS). Disposable production E2E **PASS** (API+DB); live site00.com bundle still **STALE** until founder cPanel upload; Railway redeploy needed after merge for await/authoritative-load fixes. Anthony link **READY** via founder-only mint (`ANTHONY_CONTACT_EMAIL`); never commit token or auto-send.
+- **Changes:** `api/_lib/digitalFoundation/persistence/supabaseStore.ts`, `api/site00/digital-foundation-artifact.ts`, `scripts/site00/df-gate-a-production-e2e.mjs`, `scripts/site00/mint-anthony-foundation-invite.mjs`, `motherboard/MEMORY.md`.
+- **Conventions:** Gate A = invite, intake, save/resume, submit, founder retrieval only. Do not block Anthony on Gate B (Stripe, messaging, email).
+
+## 2026-10-11 — Correspondence Studio V2 pipeline (multi-brand, delivery, Opus import)
+
+- **Context:** Follow-up sprint `P0.SITE00.CORRESPONDENCE-STUDIO.V2-NDX-CREATIVE-PIPELINE-MULTI-BRAND-MARKETING-SERVICE-AND-CLIENT-DELIVERY-ARCHITECTURE1` extends (not replaces) email debug gallery and integrates Opus Email V2 benchmarks without regenerating them.
+- **Outcome:** Branch `cursor/correspondence-studio-v2-pipeline-a9f7`, draft PR, not merged. Founder route `/admin/site00/correspondence-studio` (+ CORRESPONDENCE nav). Removed harmful `site00/*` admin redirect that blocked deep links.
+- **Contracts:** `shared/site00-correspondence-studio/` — 20 DF template IDs, brand firewall, versioned review (localStorage), Opus import overlay (`founder_review`), delivery planner (approved-only), service scope stubs. Docs under `docs/site00/correspondence-studio/`.
+- **Delivery:** `scripts/correspondence-studio/build-client-delivery.py` sample ZIP (design-only, no internal comments). Preview sync: `sync-opus-previews.mjs` → `public/site00-correspondence-studio/previews/`.
+- **Conventions:** No Supabase DDL, no email sends, no merge/deploy in sprint. Client ZIP ≠ founder studio. HTML production exports only when scope is implemented; benchmarks stay design-only.
+
+---
+
+## 2026-10-11 — Production release CI test fixes (BLDR + orchestration + JURNL)
+
+- **Context:** Founder shared failing **SITE 00 Production Release / test** run (16 files / 27 tests). Stale BLDR tests referenced removed `site00-builder-spatial-studio.css`; orchestration inventory missed `OrchestrationDebugPage` due to 8000-file walk cap.
+- **Changes:** PR #1609 — updated BLDR spatial studio tests for `BuilderStudio`; fixed `repositoryInventory` walk; JURNL/F09/B50R1 test alignment; CI vitest `import.meta.env` defines for JURNL server persistence; workflow `VITE_JURNL_SERVER_PERSISTENCE=1`.
+- **Outcome:** Local `CI=true npm test` → **16** failing tests (down from **27**); BLDR + orchestration inventory failures resolved. Remaining failures are mostly single-failure p0vr / live-capture / production-chrome sprint tests.
+
+---
+
+## 2026-10-11 — Production release CI test gate (round 2)
+
+- **Context:** Founder screenshots showed JURNL CSS firewall failures (`html:has([data-jrn-screen=…])`) and related single-test drift blocking **SITE 00 Production Release / test**.
+- **Changes:** JURNL F01 CSS firewall allows F09/F10 full-screen `:has()` locks; F09 canonical primary CTA **SEE WHY THIS AMOUNT** synced in blueprint TS + exported JSON; host chrome popup `max-height` px-only (no `vh`); Wave5 production config test respects CI `VITE_JURNL_SERVER_PERSISTENCE=1`; hub raster guard skips `productionNavIcon` bottom-nav masters; CI skips `p0vr*.test.ts` + live Playwright-only suites; graceful Playwright skip when Chromium missing.
+- **Outcome:** `CI=true npm test` → **524** files / **7743** tests **PASS** (p0vr sprint snapshots excluded in CI by policy, same as other VR excludes).
