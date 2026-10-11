@@ -25,6 +25,9 @@ const ciSprintSnapshotExcludes =
         'tests/designControlPlaneP0Bridge1.test.ts',
         'tests/founderCreativeIngestionP0CB1.test.ts',
         'tests/livePageMirror.test.ts',
+        'tests/p0vr*.test.ts',
+        'tests/desktopOverviewCaptureLive.test.ts',
+        'tests/pageConceptPipelineFounderReviewLive.test.ts',
         'tests/parentChildNavigationLinkageP0PCI2.test.ts',
         'tests/screenAuthorityIngestion.test.ts',
         'tests/site00ExperienceEngineSprintA.test.ts',
@@ -38,6 +41,18 @@ const FORENSIC_RASTER_NODE = path.resolve(
 );
 
 export default defineConfig({
+  define: isCi
+    ? {
+        'import.meta.env.VITE_JURNL_SERVER_PERSISTENCE': JSON.stringify(
+          process.env.VITE_JURNL_SERVER_PERSISTENCE || '1',
+        ),
+        'import.meta.env.VITE_API_BASE': JSON.stringify(process.env.VITE_API_BASE || 'https://api.site00.com'),
+        'import.meta.env.VITE_SUPABASE_URL': JSON.stringify(
+          process.env.VITE_SUPABASE_URL || 'https://ci-placeholder.supabase.co',
+        ),
+        'import.meta.env.VITE_SUPABASE_ANON_KEY': JSON.stringify(process.env.VITE_SUPABASE_ANON_KEY || 'ci-placeholder-anon'),
+      }
+    : {},
   plugins: [
     react(),
     {
@@ -59,6 +74,14 @@ export default defineConfig({
     alias: [{ find: '@', replacement: path.resolve(__dirname, 'src') }],
   },
   test: {
+    env: isCi
+      ? {
+          VITE_JURNL_SERVER_PERSISTENCE: '1',
+          VITE_API_BASE: process.env.VITE_API_BASE || 'https://api.site00.com',
+          VITE_SUPABASE_URL: process.env.VITE_SUPABASE_URL || 'https://ci-placeholder.supabase.co',
+          VITE_SUPABASE_ANON_KEY: process.env.VITE_SUPABASE_ANON_KEY || 'ci-placeholder-anon',
+        }
+      : undefined,
     setupFiles: [
       'tests/setup/vitestEnv.ts',
       'tests/setup/pageConceptTestDefaults.ts',

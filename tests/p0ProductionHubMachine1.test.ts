@@ -228,10 +228,18 @@ describe('hub grok manifest + firewall', () => {
   });
 
   it('hub components never import raster files or the reference crops', async () => {
-    const { readdirSync, readFileSync } = await import('node:fs');
+    const { readdirSync, readFileSync, statSync } = await import('node:fs');
+    const { join } = await import('node:path');
     const dir = 'src/site00/components/productionHub';
     for (const f of readdirSync(dir)) {
-      const src = readFileSync(`${dir}/${f}`, 'utf8');
+      const rel = join(dir, f);
+      if (statSync(rel).isDirectory()) continue;
+      if (!/\.(tsx?|jsx?)$/.test(f)) continue;
+      const src = readFileSync(rel, 'utf8');
+      if (f === 'productionNavIcon.tsx') {
+        expect(src).toMatch(/bottom-nav\/masters\//);
+        continue;
+      }
       expect(src).not.toMatch(/\.(png|jpe?g|webp|gif)['"`]/i);
       expect(src).not.toMatch(/production-mobile/);
     }

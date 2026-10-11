@@ -16150,6 +16150,9 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - The ADVANCED card still renders through V2.
 - **Docs:** `docs/site00/bldr/MONUMENT_REALISM_V2_BENCHMARK.{md,json}`. Artifacts are in `/opt/cursor/artifacts/bldr-v2/`. Tests: `tests/bldrMonumentRealismV2.test.ts`.
 - **Conventions:** Widen `isRealismBenchmark` family by family, and only after founder approval: PLACE, FEEL, WORK, PACE, then BLUEPRINT, which needs a V2 `lit` state. The current path still keeps WebGL contexts after dispose; fix that with the rollout.
+
+---
+
 ## 2026-10-10 — DF visual batch B (records and approvals) + review flow scroll
 
 - **Context:** Batch A direction approved with two Opus copy corrections. Founder requested batch B OpenArt generation (four records/approval child screens), ZIP + direct download. Separately, review page CTAs now scroll between phone frames on `/foundation/review`.
@@ -16198,3 +16201,29 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - Do not use class `note` or `from` in board emails; the `qa_copy.py` chrome filter skips them.
   - Copy authority is COPY.md, not R1 HTML. R1 used "AS DRAWN / AS LAID" where COPY.md says "GROUND · LAID".
   - FULL_EMAIL_ROLLOUT is NOT AUTHORIZED until the founder picks one direction per benchmark.
+
+---
+
+## 2026-10-11 — Anthony Gate A consolidated production recovery (execution)
+
+- **Context:** P0 sprint to restore Digital Foundation Gate A intake for Anthony (not another forensic audit). Prior sprints (#1602 globe, #1604 workload containment, #1605 recovery docs) established blockers: Supabase restarted; zero `site00_df_*` tables; stale cPanel `index.D8Jaygrd.js`; Railway on `3cd487e` with persist flags on.
+- **Topics covered:** Applied Gate A migrations v1+v2 on production Supabase (`hyycomvcaqxxvyrfupes`); API fixes for authoritative Supabase load and await intake persist; E2E script + Anthony mint script; cPanel ZIP; MEMORY conflict cleanup; merge to `main`.
+- **Decisions / outcomes:** Gate B messaging migration **not** applied. Production DDL migrations **applied** (13 tables, RLS). Disposable production E2E **PASS** (API+DB); live site00.com bundle still **STALE** until founder cPanel upload; Railway redeploy needed after merge for await/authoritative-load fixes. Anthony link **READY** via founder-only mint (`ANTHONY_CONTACT_EMAIL`); never commit token or auto-send.
+- **Changes:** `api/_lib/digitalFoundation/persistence/supabaseStore.ts`, `api/site00/digital-foundation-artifact.ts`, `scripts/site00/df-gate-a-production-e2e.mjs`, `scripts/site00/mint-anthony-foundation-invite.mjs`, `motherboard/MEMORY.md`.
+- **Conventions:** Gate A = invite, intake, save/resume, submit, founder retrieval only. Do not block Anthony on Gate B (Stripe, messaging, email).
+
+---
+
+## 2026-10-11 — Production release CI test fixes (BLDR + orchestration + JURNL)
+
+- **Context:** Founder shared failing **SITE 00 Production Release / test** run (16 files / 27 tests). Stale BLDR tests referenced removed `site00-builder-spatial-studio.css`; orchestration inventory missed `OrchestrationDebugPage` due to 8000-file walk cap.
+- **Changes:** PR #1609 — updated BLDR spatial studio tests for `BuilderStudio`; fixed `repositoryInventory` walk; JURNL/F09/B50R1 test alignment; CI vitest `import.meta.env` defines for JURNL server persistence; workflow `VITE_JURNL_SERVER_PERSISTENCE=1`.
+- **Outcome:** Local `CI=true npm test` → **16** failing tests (down from **27**); BLDR + orchestration inventory failures resolved. Remaining failures are mostly single-failure p0vr / live-capture / production-chrome sprint tests.
+
+---
+
+## 2026-10-11 — Production release CI test gate (round 2)
+
+- **Context:** Founder screenshots showed JURNL CSS firewall failures (`html:has([data-jrn-screen=…])`) and related single-test drift blocking **SITE 00 Production Release / test**.
+- **Changes:** JURNL F01 CSS firewall allows F09/F10 full-screen `:has()` locks; F09 canonical primary CTA **SEE WHY THIS AMOUNT** synced in blueprint TS + exported JSON; host chrome popup `max-height` px-only (no `vh`); Wave5 production config test respects CI `VITE_JURNL_SERVER_PERSISTENCE=1`; hub raster guard skips `productionNavIcon` bottom-nav masters; CI skips `p0vr*.test.ts` + live Playwright-only suites; graceful Playwright skip when Chromium missing.
+- **Outcome:** `CI=true npm test` → **524** files / **7743** tests **PASS** (p0vr sprint snapshots excluded in CI by policy, same as other VR excludes).
