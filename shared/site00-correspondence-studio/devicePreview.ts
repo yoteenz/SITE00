@@ -7,6 +7,13 @@ export const DEVICE_PREVIEW_WIDTHS: Record<DevicePreviewMode, number> = {
   desktop: 680,
 };
 
+/** Viewport widths for repository HTML previews, which carry their own page context around the 640px message. */
+export const REPOSITORY_PREVIEW_WIDTHS: Record<DevicePreviewMode, number> = {
+  mobile: 390,
+  tablet: 768,
+  desktop: 1024,
+};
+
 export const DEVICE_PREVIEW_MIN_HEIGHT: Record<DevicePreviewMode, number> = {
   mobile: 720,
   tablet: 900,

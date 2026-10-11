@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { renderEmailTemplate } from '@site00-email/render';
 import { getTemplateById } from '@site00-email/registry/templates';
 import type { DevicePreviewMode, EmailPreviewSource } from '../../../../../shared/site00-correspondence-studio/types.js';
-import { DEVICE_PREVIEW_MIN_HEIGHT, DEVICE_PREVIEW_WIDTHS } from '../../../../../shared/site00-correspondence-studio/devicePreview.js';
+import { DEVICE_PREVIEW_MIN_HEIGHT, DEVICE_PREVIEW_WIDTHS, REPOSITORY_PREVIEW_WIDTHS } from '../../../../../shared/site00-correspondence-studio/devicePreview.js';
 import { EmailPreviewCanvas } from '../debug/EmailPreviewCanvas';
 
 type Props = {
@@ -12,6 +12,8 @@ type Props = {
   preheader?: string;
   fromLabel?: string;
   toLabel?: string;
+  /** Version label shown above the frame (used when two versions sit side by side). */
+  versionLabel?: string;
 };
 
 export function CorrespondencePreviewPane({
@@ -21,8 +23,10 @@ export function CorrespondencePreviewPane({
   preheader = '',
   fromLabel = 'SITE 00 · SENDER PENDING REGISTRATION',
   toLabel = 'RECIPIENT PREVIEW',
+  versionLabel,
 }: Props) {
-  const width = DEVICE_PREVIEW_WIDTHS[device];
+  const width =
+    previewSource.kind === 'repository_html' ? REPOSITORY_PREVIEW_WIDTHS[device] : DEVICE_PREVIEW_WIDTHS[device];
   const minHeight = DEVICE_PREVIEW_MIN_HEIGHT[device];
   const [html, setHtml] = useState('');
   const [loading, setLoading] = useState(true);
@@ -80,12 +84,15 @@ export function CorrespondencePreviewPane({
 
   return (
     <div className="cs-preview-pane">
-      <header className="cs-preview-pane__inbox">
-        <p className="cs-preview-pane__from">{fromLabel}</p>
-        <p className="cs-preview-pane__to">TO · {toLabel}</p>
-        <h1 className="cs-preview-pane__subject">{subject}</h1>
-        {preheader ? <p className="cs-preview-pane__pre">{preheader}</p> : null}
-      </header>
+      {versionLabel ? <p className="cs-preview-pane__version">{versionLabel}</p> : null}
+      {previewSource.kind === 'repository_html' ? null : (
+        <header className="cs-preview-pane__inbox">
+          <p className="cs-preview-pane__from">{fromLabel}</p>
+          <p className="cs-preview-pane__to">TO · {toLabel}</p>
+          <h1 className="cs-preview-pane__subject">{subject}</h1>
+          {preheader ? <p className="cs-preview-pane__pre">{preheader}</p> : null}
+        </header>
+      )}
       <div className="cs-preview-pane__body">
         {loading ? <p className="cs-preview-pane__loading">LOADING PREVIEW…</p> : null}
         {error ? <p className="cs-preview-pane__error">{error}</p> : null}
@@ -93,7 +100,7 @@ export function CorrespondencePreviewPane({
           <iframe
             title="Correspondence email preview"
             src={iframeSrc}
-            sandbox=""
+            sandbox="allow-same-origin"
             className="cs-preview-pane__iframe"
             style={{ width, minHeight, border: 0 }}
           />

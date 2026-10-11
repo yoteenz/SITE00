@@ -153,6 +153,53 @@
 .cs-preview-pane__body {
   max-width: 100%;
   margin: 0 auto;
+  overflow-x: auto;
+}
+
+.cs-preview-pane__version {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  margin: 0 0 0.75rem;
+  color: #141414;
+}
+
+.cs-version-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.cs-version-bar label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  color: #72706c;
+}
+
+.cs-version-bar select {
+  font: inherit;
+  font-size: 0.75rem;
+  color: #141414;
+  padding: 0.4rem 0.5rem;
+  border: 1px solid #e4e2dd;
+  background: #fff;
+  max-width: 100%;
+}
+
+.cs-compare {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+@media (max-width: 900px) {
+  .cs-compare {
+    grid-template-columns: 1fr;
+  }
 }
 
 .cs-preview-pane__iframe {

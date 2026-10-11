@@ -26,11 +26,19 @@ export default function CorrespondenceEmailReviewPage() {
   const [device, setDevice] = useState<DevicePreviewMode>('desktop');
   const [showInspector, setShowInspector] = useState(false);
   const [commentDraft, setCommentDraft] = useState('');
+  const [selectedVersionId, setSelectedVersionId] = useState<string | null>(null);
+  const [compareVersionId, setCompareVersionId] = useState<string>('');
 
   const version = useMemo(() => {
     if (!entry) return null;
-    return entry.versions.find((v) => v.version_id === entry.current_version_id) ?? entry.versions[0];
-  }, [entry]);
+    const id = selectedVersionId ?? entry.current_version_id;
+    return entry.versions.find((v) => v.version_id === id) ?? entry.versions[0];
+  }, [entry, selectedVersionId]);
+
+  const compareVersion = useMemo(
+    () => (entry && compareVersionId ? entry.versions.find((v) => v.version_id === compareVersionId) ?? null : null),
+    [entry, compareVersionId],
+  );
 
   const { bundle, setReviewState, comment } = useCorrespondenceReview(
     templateId,
@@ -86,7 +94,57 @@ export default function CorrespondenceEmailReviewPage() {
             </span>
           </div>
 
-          <CorrespondencePreviewPane previewSource={version.preview_source} device={device} />
+          {entry.versions.length > 1 ? (
+            <div className="cs-version-bar">
+              <label>
+                <span>VERSION</span>
+                <select
+                  value={version.version_id}
+                  onChange={(e) => {
+                    setSelectedVersionId(e.target.value);
+                    if (e.target.value === compareVersionId) setCompareVersionId('');
+                  }}
+                >
+                  {entry.versions.map((v) => (
+                    <option key={v.version_id} value={v.version_id}>
+                      {v.label}
+                      {v.version_id === entry.current_version_id ? ' · CURRENT' : ''}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label>
+                <span>COMPARE WITH</span>
+                <select value={compareVersionId} onChange={(e) => setCompareVersionId(e.target.value)}>
+                  <option value="">NONE</option>
+                  {entry.versions
+                    .filter((v) => v.version_id !== version.version_id)
+                    .map((v) => (
+                      <option key={v.version_id} value={v.version_id}>
+                        {v.label}
+                      </option>
+                    ))}
+                </select>
+              </label>
+            </div>
+          ) : null}
+
+          {compareVersion ? (
+            <div className="cs-compare">
+              <CorrespondencePreviewPane
+                previewSource={version.preview_source}
+                device={device}
+                versionLabel={version.label}
+              />
+              <CorrespondencePreviewPane
+                previewSource={compareVersion.preview_source}
+                device={device}
+                versionLabel={compareVersion.label}
+              />
+            </div>
+          ) : (
+            <CorrespondencePreviewPane previewSource={version.preview_source} device={device} />
+          )}
         </div>
 
         {showInspector ? (
@@ -123,6 +181,20 @@ export default function CorrespondenceEmailReviewPage() {
                 <p className="cs-mono">{version.copy_ref}</p>
               </section>
             ) : null}
+
+            {version.asset_provenance_ref ? (
+              <section>
+                <h2>GRAPHIC PROVENANCE</h2>
+                <p className="cs-mono">{version.asset_provenance_ref}</p>
+              </section>
+            ) : null}
+
+            <section>
+              <h2>SOURCE</h2>
+              <p className="cs-mono">
+                {version.preview_source.kind === 'repository_html' ? version.preview_source.repoPath : version.preview_source.kind}
+              </p>
+            </section>
 
             <section>
               <h2>FEEDBACK</h2>
