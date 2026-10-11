@@ -1,0 +1,1410 @@
+{
+  "sprint": "P0.SITE00.IDNTY.DIGITAL-FOUNDATION.V2-GROK-COMPLETE-EMAIL-PACK-INVENTORY-CREATIVE-COVERAGE-AND-COST-AUDIT1",
+  "date": "2026-10-11",
+  "branch_base_sha": "3cd487e2968f7add0ff953475f878668305e5c3f",
+  "paid_generations_executed": 0,
+  "credits_spent": 0,
+  "founder_budget_approval": "PENDING",
+  "previous_6340_approval": "NOT REUSABLE. That ceiling covered the completed C\u2013J visual reference run only.",
+  "source_manifest": "docs/site00/idnty/DIGITAL_FOUNDATION_V2_EMAIL_TEMPLATE_MANIFEST.json",
+  "event_map": "shared/site00-digital-foundation/communications/eventMap.ts",
+  "dispatch": "api/_lib/digitalFoundation/communications/dispatch.ts",
+  "counts": {
+    "transactional": 12,
+    "operational": 3,
+    "marketing": 5,
+    "additional_required": 0,
+    "total_distinct": 20,
+    "implemented_html": 0,
+    "missing_type_b_designs": 20,
+    "distinct_archetypes": 13
+  },
+  "type_legend": {
+    "A": "Visual authority image. Batches H and I are this type.",
+    "B": "Complete email design: subject, preheader, hierarchy, copy, tokens, CTA, footer, responsive contract.",
+    "C": "Implemented HTML template with live bindings. Not authorized in this sprint."
+  },
+  "templates": [
+    {
+      "template_id": "personal-foundation-invitation",
+      "manifest_alias": "T01",
+      "template_name": "PERSONAL FOUNDATION INVITATION",
+      "email_family": "TRANSACTIONAL",
+      "trigger_event": "ARTIFACT_CREATED",
+      "target_audience": "PROSPECT CONTACT ON THE ARTIFACT",
+      "client_lifecycle_stage": "PROSPECT",
+      "purpose": "DELIVER THE PERSONAL FOUNDATION LINK AFTER THE ARTIFACT IS CREATED.",
+      "primary_cta": "OPEN YOUR FOUNDATION",
+      "secondary_cta": null,
+      "personalization_fields": [
+        "business_name",
+        "public_token",
+        "recipient_email"
+      ],
+      "data_source": "Digital Foundation artifact payload and the recipient passed to enqueueCommunicationsForEvent.",
+      "required_records": [
+        "artifact",
+        "recipient_email"
+      ],
+      "design_archetype": "INVITATION",
+      "visual_authority": "Transactional shell (H01\u2013H03). Not the marketing poster.",
+      "asset_requirements": "Reuse DF-H01, DF-H02, DF-H03. Live HTML text carries the message. No new OpenArt job on the lean or balanced plans. Premium adds one invitation hero.",
+      "responsive_requirements": "Mobile email (fluid, max 600px) and desktop email (600px content inside a 640px table). Not a 9:16 application screen.",
+      "current_implementation_status": "NOT_IMPLEMENTED",
+      "current_visual_status": "TYPE_A_SHARED_SHELL",
+      "openart_generation_required": {
+        "lean": false,
+        "balanced": false,
+        "premium": true
+      },
+      "new_image_jobs": {
+        "lean": 0,
+        "balanced": 0,
+        "premium": 1
+      },
+      "dependencies": [
+        "Artifact public_token",
+        "Send flag SITE00_DF_TRANSACTIONAL_EMAIL_SEND",
+        "enabled:false until design approval"
+      ],
+      "priority": "P0",
+      "implementation_owner": "UNASSIGNED. Stage 1 design after founder budget approval. Stage 2 HTML is a later agent and is not authorized in this sprint.",
+      "message_classification": "TRANSACTIONAL",
+      "consent": null,
+      "id_collision": null,
+      "copy_contract": {
+        "subject": "YOUR PERSONAL FOUNDATION IS READY",
+        "preheader": "OPEN THE LINK TO BEGIN WITH SITE 00",
+        "body_outline": [
+          "SITE 00 HAS PREPARED A PERSONAL FOUNDATION.",
+          "THE LINK BELOW OPENS YOUR PROJECT.",
+          "NO PAYMENT IS CONFIRMED IN THIS MESSAGE."
+        ],
+        "primary_cta": "OPEN YOUR FOUNDATION",
+        "secondary_cta": null,
+        "destination_route": "/foundation/{{public_token}}",
+        "route_source": "digitalFoundationClientPath",
+        "dynamic_placeholders": [
+          "{{business_name}}",
+          "{{public_token}}",
+          "{{recipient_email}}"
+        ],
+        "fallback": "If business_name is missing, drop the name line. Never invent a business name.",
+        "opt_out": "NONE. This is the access message for the artifact. It is not a marketing send and must not carry a campaign.",
+        "sender_identity": "UNREGISTERED. No from-address is stored on the Digital Foundation communications domain. Do not invent one.",
+        "message_classification": "TRANSACTIONAL",
+        "case_rule": "SITE 00 AUTHORED TEXT IS UPPERCASE. PRESERVE CASE FOR CLIENT NAMES, EMAIL ADDRESSES, DOMAINS, URLS, CLIENT-ENTERED MESSAGES, LEGAL IDENTIFIERS, AND DATA FIELDS THAT MUST KEEP ORIGINAL CASE."
+      }
+    },
+    {
+      "template_id": "intake-started",
+      "manifest_alias": null,
+      "template_name": "INTAKE STARTED",
+      "email_family": "TRANSACTIONAL",
+      "trigger_event": "INTAKE_STARTED",
+      "target_audience": "CLIENT WITH AN OPEN INTAKE",
+      "client_lifecycle_stage": "INTAKE",
+      "purpose": "CONFIRM INTAKE HAS STARTED AND RETURN THE CLIENT TO THE FORM.",
+      "primary_cta": "CONTINUE INTAKE",
+      "secondary_cta": null,
+      "personalization_fields": [
+        "business_name",
+        "public_token"
+      ],
+      "data_source": "Artifact intake_state and the client intake path.",
+      "required_records": [
+        "artifact"
+      ],
+      "design_archetype": "INTAKE_PROGRESS",
+      "visual_authority": "Shared transactional shell. Type A references only: DF-H01 header, DF-H02 mobile layout, DF-H03 desktop layout. Those images are not a finished template.",
+      "asset_requirements": "Reuse DF-H01, DF-H02, DF-H03. Live HTML text carries the message. No new OpenArt job on the lean or balanced plans.",
+      "responsive_requirements": "Mobile email (fluid, max 600px) and desktop email (600px content inside a 640px table). Not a 9:16 application screen.",
+      "current_implementation_status": "NOT_IMPLEMENTED",
+      "current_visual_status": "TYPE_A_SHARED_SHELL",
+      "openart_generation_required": {
+        "lean": false,
+        "balanced": false,
+        "premium": false
+      },
+      "new_image_jobs": {
+        "lean": 0,
+        "balanced": 0,
+        "premium": 0
+      },
+      "dependencies": [
+        "PROJECT_OPERATIONS preference",
+        "SITE00_DF_TRANSACTIONAL_EMAIL_SEND"
+      ],
+      "priority": "P1",
+      "implementation_owner": "UNASSIGNED. Stage 1 design after founder budget approval. Stage 2 HTML is a later agent and is not authorized in this sprint.",
+      "message_classification": "TRANSACTIONAL",
+      "consent": "PROJECT_OPERATIONS",
+      "id_collision": null,
+      "copy_contract": {
+        "subject": "YOUR INTAKE IS OPEN",
+        "preheader": "CONTINUE WHERE YOU LEFT OFF",
+        "body_outline": [
+          "INTAKE IS IN PROGRESS.",
+          "NOTHING IN THIS MESSAGE SAYS THE INTAKE IS COMPLETE.",
+          "THE BUTTON RETURNS TO THE INTAKE STEP."
+        ],
+        "primary_cta": "CONTINUE INTAKE",
+        "secondary_cta": null,
+        "destination_route": "/foundation/{{public_token}}?step=intake",
+        "route_source": "digitalFoundationClientIntakePath",
+        "dynamic_placeholders": [
+          "{{business_name}}",
+          "{{public_token}}"
+        ],
+        "fallback": "If the intake is no longer open, do not send. The dispatcher must read intake_state.",
+        "opt_out": "SUPPRESS WHEN PROJECT OPERATIONS PREFERENCE IS OFF. NO MARKETING UNSUBSCRIBE BLOCK.",
+        "sender_identity": "UNREGISTERED. No from-address is stored on the Digital Foundation communications domain. Do not invent one.",
+        "message_classification": "TRANSACTIONAL",
+        "case_rule": "SITE 00 AUTHORED TEXT IS UPPERCASE. PRESERVE CASE FOR CLIENT NAMES, EMAIL ADDRESSES, DOMAINS, URLS, CLIENT-ENTERED MESSAGES, LEGAL IDENTIFIERS, AND DATA FIELDS THAT MUST KEEP ORIGINAL CASE."
+      }
+    },
+    {
+      "template_id": "intake-completed",
+      "manifest_alias": null,
+      "template_name": "INTAKE COMPLETED",
+      "email_family": "TRANSACTIONAL",
+      "trigger_event": "INTAKE_COMPLETED",
+      "target_audience": "CLIENT WHO FINISHED INTAKE",
+      "client_lifecycle_stage": "INTAKE",
+      "purpose": "CONFIRM THE INTAKE WAS RECEIVED. DO NOT CLAIM A QUOTE EXISTS.",
+      "primary_cta": "VIEW YOUR FOUNDATION",
+      "secondary_cta": null,
+      "personalization_fields": [
+        "business_name",
+        "public_token"
+      ],
+      "data_source": "Artifact intake_state.",
+      "required_records": [
+        "artifact"
+      ],
+      "design_archetype": "INTAKE_PROGRESS",
+      "visual_authority": "Shared transactional shell. Type A references only: DF-H01 header, DF-H02 mobile layout, DF-H03 desktop layout. Those images are not a finished template.",
+      "asset_requirements": "Reuse DF-H01, DF-H02, DF-H03. Live HTML text carries the message. No new OpenArt job on the lean or balanced plans.",
+      "responsive_requirements": "Mobile email (fluid, max 600px) and desktop email (600px content inside a 640px table). Not a 9:16 application screen.",
+      "current_implementation_status": "NOT_IMPLEMENTED",
+      "current_visual_status": "TYPE_A_SHARED_SHELL",
+      "openart_generation_required": {
+        "lean": false,
+        "balanced": false,
+        "premium": false
+      },
+      "new_image_jobs": {
+        "lean": 0,
+        "balanced": 0,
+        "premium": 0
+      },
+      "dependencies": [
+        "PROJECT_OPERATIONS preference"
+      ],
+      "priority": "P1",
+      "implementation_owner": "UNASSIGNED. Stage 1 design after founder budget approval. Stage 2 HTML is a later agent and is not authorized in this sprint.",
+      "message_classification": "TRANSACTIONAL",
+      "consent": "PROJECT_OPERATIONS",
+      "id_collision": null,
+      "copy_contract": {
+        "subject": "YOUR INTAKE IS RECEIVED",
+        "preheader": "SITE 00 HAS YOUR FOUNDATION DETAILS",
+        "body_outline": [
+          "INTAKE IS COMPLETE.",
+          "A QUOTE IS A LATER MESSAGE.",
+          "THIS MESSAGE DOES NOT STATE A PRICE."
+        ],
+        "primary_cta": "VIEW YOUR FOUNDATION",
+        "secondary_cta": null,
+        "destination_route": "/foundation/{{public_token}}",
+        "route_source": "digitalFoundationClientPath",
+        "dynamic_placeholders": [
+          "{{business_name}}",
+          "{{public_token}}"
+        ],
+        "fallback": "Do not send if intake_state is not complete.",
+        "opt_out": "SUPPRESS WHEN PROJECT OPERATIONS PREFERENCE IS OFF.",
+        "sender_identity": "UNREGISTERED. No from-address is stored on the Digital Foundation communications domain. Do not invent one.",
+        "message_classification": "TRANSACTIONAL",
+        "case_rule": "SITE 00 AUTHORED TEXT IS UPPERCASE. PRESERVE CASE FOR CLIENT NAMES, EMAIL ADDRESSES, DOMAINS, URLS, CLIENT-ENTERED MESSAGES, LEGAL IDENTIFIERS, AND DATA FIELDS THAT MUST KEEP ORIGINAL CASE."
+      }
+    },
+    {
+      "template_id": "quote-ready",
+      "manifest_alias": "T08",
+      "template_name": "QUOTE READY",
+      "email_family": "TRANSACTIONAL",
+      "trigger_event": "QUOTE_CREATED",
+      "target_audience": "CLIENT WITH A QUOTE RECORD",
+      "client_lifecycle_stage": "QUOTE",
+      "purpose": "TELL THE CLIENT A QUOTE IS READY TO REVIEW.",
+      "primary_cta": "REVIEW YOUR QUOTE",
+      "secondary_cta": null,
+      "personalization_fields": [
+        "business_name",
+        "public_token",
+        "quote_version"
+      ],
+      "data_source": "Quote record on the artifact. Amount comes from that record at send time.",
+      "required_records": [
+        "artifact",
+        "quote"
+      ],
+      "design_archetype": "QUOTE_AND_ACCEPTANCE",
+      "visual_authority": "Shared transactional shell. Type A references only: DF-H01 header, DF-H02 mobile layout, DF-H03 desktop layout. Those images are not a finished template.",
+      "asset_requirements": "Reuse DF-H01, DF-H02, DF-H03. Live HTML text carries the message. No new OpenArt job on the lean or balanced plans. Premium adds one quote composition, shared by the quote archetype.",
+      "responsive_requirements": "Mobile email (fluid, max 600px) and desktop email (600px content inside a 640px table). Not a 9:16 application screen.",
+      "current_implementation_status": "NOT_IMPLEMENTED",
+      "current_visual_status": "TYPE_A_SHARED_SHELL",
+      "openart_generation_required": {
+        "lean": false,
+        "balanced": false,
+        "premium": true
+      },
+      "new_image_jobs": {
+        "lean": 0,
+        "balanced": 0,
+        "premium": 1
+      },
+      "dependencies": [
+        "Quote record",
+        "PROJECT_OPERATIONS preference"
+      ],
+      "priority": "P0",
+      "implementation_owner": "UNASSIGNED. Stage 1 design after founder budget approval. Stage 2 HTML is a later agent and is not authorized in this sprint.",
+      "message_classification": "TRANSACTIONAL",
+      "consent": "PROJECT_OPERATIONS",
+      "id_collision": null,
+      "copy_contract": {
+        "subject": "YOUR QUOTE IS READY",
+        "preheader": "REVIEW THE FOUNDATION QUOTE IN YOUR PROJECT",
+        "body_outline": [
+          "A QUOTE IS READY.",
+          "VERSION {{quote_version}}.",
+          "TOTAL APPEARS ONLY FROM THE QUOTE RECORD.",
+          "THIS MESSAGE DOES NOT SAY THE QUOTE IS ACCEPTED."
+        ],
+        "primary_cta": "REVIEW YOUR QUOTE",
+        "secondary_cta": null,
+        "destination_route": "/foundation/{{public_token}}",
+        "route_source": "resolveDigitalFoundationArtifactUiStep \u2192 quote when surface is QUOTE",
+        "dynamic_placeholders": [
+          "{{business_name}}",
+          "{{public_token}}",
+          "{{quote_version}}",
+          "{{quote_total_display}}"
+        ],
+        "fallback": "If quote_total_display is missing, omit the total line. Do not print a sample price.",
+        "opt_out": "SUPPRESS WHEN PROJECT OPERATIONS PREFERENCE IS OFF.",
+        "sender_identity": "UNREGISTERED. No from-address is stored on the Digital Foundation communications domain. Do not invent one.",
+        "message_classification": "TRANSACTIONAL",
+        "case_rule": "SITE 00 AUTHORED TEXT IS UPPERCASE. PRESERVE CASE FOR CLIENT NAMES, EMAIL ADDRESSES, DOMAINS, URLS, CLIENT-ENTERED MESSAGES, LEGAL IDENTIFIERS, AND DATA FIELDS THAT MUST KEEP ORIGINAL CASE."
+      }
+    },
+    {
+      "template_id": "quote-updated",
+      "manifest_alias": null,
+      "template_name": "QUOTE UPDATED",
+      "email_family": "TRANSACTIONAL",
+      "trigger_event": "QUOTE_UPDATED",
+      "target_audience": "CLIENT WITH A REVISED QUOTE",
+      "client_lifecycle_stage": "QUOTE",
+      "purpose": "TELL THE CLIENT THE QUOTE CHANGED AND MUST BE REVIEWED AGAIN.",
+      "primary_cta": "REVIEW THE UPDATED QUOTE",
+      "secondary_cta": null,
+      "personalization_fields": [
+        "business_name",
+        "public_token",
+        "quote_version"
+      ],
+      "data_source": "Quote record, quote_version.",
+      "required_records": [
+        "artifact",
+        "quote"
+      ],
+      "design_archetype": "QUOTE_AND_ACCEPTANCE",
+      "visual_authority": "Shared transactional shell. Type A references only: DF-H01 header, DF-H02 mobile layout, DF-H03 desktop layout. Those images are not a finished template.",
+      "asset_requirements": "Same shell as quote-ready. No separate image.",
+      "responsive_requirements": "Mobile email (fluid, max 600px) and desktop email (600px content inside a 640px table). Not a 9:16 application screen.",
+      "current_implementation_status": "NOT_IMPLEMENTED",
+      "current_visual_status": "TYPE_A_SHARED_SHELL",
+      "openart_generation_required": {
+        "lean": false,
+        "balanced": false,
+        "premium": false
+      },
+      "new_image_jobs": {
+        "lean": 0,
+        "balanced": 0,
+        "premium": 0
+      },
+      "dependencies": [
+        "Quote version",
+        "Idempotency milestone quote_version"
+      ],
+      "priority": "P1",
+      "implementation_owner": "UNASSIGNED. Stage 1 design after founder budget approval. Stage 2 HTML is a later agent and is not authorized in this sprint.",
+      "message_classification": "TRANSACTIONAL",
+      "consent": "PROJECT_OPERATIONS",
+      "id_collision": null,
+      "copy_contract": {
+        "subject": "YOUR QUOTE WAS UPDATED",
+        "preheader": "REVIEW VERSION {{quote_version}} BEFORE YOU CONTINUE",
+        "body_outline": [
+          "THE QUOTE ON YOUR FOUNDATION CHANGED.",
+          "EARLIER ACCEPTANCE DOES NOT CARRY FORWARD UNLESS THE SYSTEM SAYS SO.",
+          "NO PAYMENT STATUS IS STATED HERE."
+        ],
+        "primary_cta": "REVIEW THE UPDATED QUOTE",
+        "secondary_cta": null,
+        "destination_route": "/foundation/{{public_token}}",
+        "route_source": "digitalFoundationClientPath",
+        "dynamic_placeholders": [
+          "{{quote_version}}",
+          "{{quote_total_display}}",
+          "{{public_token}}"
+        ],
+        "fallback": "Omit the total if the quote record has no display amount.",
+        "opt_out": "SUPPRESS WHEN PROJECT OPERATIONS PREFERENCE IS OFF.",
+        "sender_identity": "UNREGISTERED. No from-address is stored on the Digital Foundation communications domain. Do not invent one.",
+        "message_classification": "TRANSACTIONAL",
+        "case_rule": "SITE 00 AUTHORED TEXT IS UPPERCASE. PRESERVE CASE FOR CLIENT NAMES, EMAIL ADDRESSES, DOMAINS, URLS, CLIENT-ENTERED MESSAGES, LEGAL IDENTIFIERS, AND DATA FIELDS THAT MUST KEEP ORIGINAL CASE."
+      }
+    },
+    {
+      "template_id": "quote-accepted",
+      "manifest_alias": null,
+      "template_name": "QUOTE ACCEPTED",
+      "email_family": "TRANSACTIONAL",
+      "trigger_event": "QUOTE_ACCEPTED",
+      "target_audience": "CLIENT WHO ACCEPTED THE QUOTE",
+      "client_lifecycle_stage": "QUOTE",
+      "purpose": "CONFIRM ACCEPTANCE WAS RECORDED. DO NOT CONFIRM PAYMENT.",
+      "primary_cta": "CONTINUE TO CHECKOUT",
+      "secondary_cta": null,
+      "personalization_fields": [
+        "business_name",
+        "public_token",
+        "quote_version",
+        "terms_version"
+      ],
+      "data_source": "QuoteAcceptanceRecord.",
+      "required_records": [
+        "artifact",
+        "quote_acceptance"
+      ],
+      "design_archetype": "QUOTE_AND_ACCEPTANCE",
+      "visual_authority": "Shared transactional shell. Type A references only: DF-H01 header, DF-H02 mobile layout, DF-H03 desktop layout. Those images are not a finished template.",
+      "asset_requirements": "Same quote shell. No separate image.",
+      "responsive_requirements": "Mobile email (fluid, max 600px) and desktop email (600px content inside a 640px table). Not a 9:16 application screen.",
+      "current_implementation_status": "NOT_IMPLEMENTED",
+      "current_visual_status": "TYPE_A_SHARED_SHELL",
+      "openart_generation_required": {
+        "lean": false,
+        "balanced": false,
+        "premium": false
+      },
+      "new_image_jobs": {
+        "lean": 0,
+        "balanced": 0,
+        "premium": 0
+      },
+      "dependencies": [
+        "QuoteAcceptanceRecord"
+      ],
+      "priority": "P1",
+      "implementation_owner": "UNASSIGNED. Stage 1 design after founder budget approval. Stage 2 HTML is a later agent and is not authorized in this sprint.",
+      "message_classification": "TRANSACTIONAL",
+      "consent": "PROJECT_OPERATIONS",
+      "id_collision": null,
+      "copy_contract": {
+        "subject": "YOUR QUOTE ACCEPTANCE IS RECORDED",
+        "preheader": "PAYMENT IS A SEPARATE STEP",
+        "body_outline": [
+          "ACCEPTANCE IS RECORDED FOR VERSION {{quote_version}}.",
+          "TERMS {{terms_version}}.",
+          "THIS IS NOT A PAYMENT RECEIPT."
+        ],
+        "primary_cta": "CONTINUE TO CHECKOUT",
+        "secondary_cta": null,
+        "destination_route": "/foundation/{{public_token}}",
+        "route_source": "digitalFoundationClientPath",
+        "dynamic_placeholders": [
+          "{{quote_version}}",
+          "{{terms_version}}",
+          "{{public_token}}"
+        ],
+        "fallback": "If terms_version is missing, omit that line. Do not invent a terms label.",
+        "opt_out": "SUPPRESS WHEN PROJECT OPERATIONS PREFERENCE IS OFF.",
+        "sender_identity": "UNREGISTERED. No from-address is stored on the Digital Foundation communications domain. Do not invent one.",
+        "message_classification": "TRANSACTIONAL",
+        "case_rule": "SITE 00 AUTHORED TEXT IS UPPERCASE. PRESERVE CASE FOR CLIENT NAMES, EMAIL ADDRESSES, DOMAINS, URLS, CLIENT-ENTERED MESSAGES, LEGAL IDENTIFIERS, AND DATA FIELDS THAT MUST KEEP ORIGINAL CASE."
+      }
+    },
+    {
+      "template_id": "checkout-link-ready",
+      "manifest_alias": null,
+      "template_name": "CHECKOUT LINK READY",
+      "email_family": "TRANSACTIONAL",
+      "trigger_event": "CHECKOUT_CREATED",
+      "target_audience": "CLIENT WITH A CHECKOUT",
+      "client_lifecycle_stage": "CHECKOUT",
+      "purpose": "SEND THE CLIENT TO CHECKOUT. DO NOT CONFIRM PAYMENT.",
+      "primary_cta": "CONTINUE TO PAYMENT",
+      "secondary_cta": null,
+      "personalization_fields": [
+        "business_name",
+        "public_token"
+      ],
+      "data_source": "Artifact surface CHECKOUT.",
+      "required_records": [
+        "artifact",
+        "checkout"
+      ],
+      "design_archetype": "CHECKOUT_AND_PAYMENT",
+      "visual_authority": "Shared transactional shell. Type A references only: DF-H01 header, DF-H02 mobile layout, DF-H03 desktop layout. Those images are not a finished template.",
+      "asset_requirements": "Reuse DF-H01, DF-H02, DF-H03. Live HTML text carries the message. No new OpenArt job on the lean or balanced plans.",
+      "responsive_requirements": "Mobile email (fluid, max 600px) and desktop email (600px content inside a 640px table). Not a 9:16 application screen.",
+      "current_implementation_status": "NOT_IMPLEMENTED",
+      "current_visual_status": "TYPE_A_SHARED_SHELL",
+      "openart_generation_required": {
+        "lean": false,
+        "balanced": false,
+        "premium": false
+      },
+      "new_image_jobs": {
+        "lean": 0,
+        "balanced": 0,
+        "premium": 0
+      },
+      "dependencies": [
+        "Checkout record",
+        "PROJECT_OPERATIONS preference"
+      ],
+      "priority": "P0",
+      "implementation_owner": "UNASSIGNED. Stage 1 design after founder budget approval. Stage 2 HTML is a later agent and is not authorized in this sprint.",
+      "message_classification": "TRANSACTIONAL",
+      "consent": "PROJECT_OPERATIONS",
+      "id_collision": null,
+      "copy_contract": {
+        "subject": "YOUR CHECKOUT IS READY",
+        "preheader": "CONTINUE TO PAYMENT WHEN YOU ARE READY",
+        "body_outline": [
+          "CHECKOUT IS OPEN.",
+          "THIS MESSAGE DOES NOT SAY PAYMENT SUCCEEDED OR FAILED."
+        ],
+        "primary_cta": "CONTINUE TO PAYMENT",
+        "secondary_cta": null,
+        "destination_route": "/foundation/{{public_token}}",
+        "route_source": "surface CHECKOUT resolves to the quote/checkout step",
+        "dynamic_placeholders": [
+          "{{public_token}}",
+          "{{business_name}}"
+        ],
+        "fallback": "Do not send if no checkout exists.",
+        "opt_out": "SUPPRESS WHEN PROJECT OPERATIONS PREFERENCE IS OFF.",
+        "sender_identity": "UNREGISTERED. No from-address is stored on the Digital Foundation communications domain. Do not invent one.",
+        "message_classification": "TRANSACTIONAL",
+        "case_rule": "SITE 00 AUTHORED TEXT IS UPPERCASE. PRESERVE CASE FOR CLIENT NAMES, EMAIL ADDRESSES, DOMAINS, URLS, CLIENT-ENTERED MESSAGES, LEGAL IDENTIFIERS, AND DATA FIELDS THAT MUST KEEP ORIGINAL CASE."
+      }
+    },
+    {
+      "template_id": "payment-confirmed",
+      "manifest_alias": "T13",
+      "template_name": "PAYMENT CONFIRMED",
+      "email_family": "TRANSACTIONAL",
+      "trigger_event": "PAYMENT_CONFIRMED",
+      "target_audience": "CLIENT WHOSE PAYMENT IS CONFIRMED",
+      "client_lifecycle_stage": "PAYMENT",
+      "purpose": "CONFIRM A RECORDED PAYMENT. THE AMOUNT COMES FROM THE PAYMENT RECORD.",
+      "primary_cta": "OPEN YOUR PROJECT",
+      "secondary_cta": null,
+      "personalization_fields": [
+        "business_name",
+        "public_token",
+        "payment_amount_display"
+      ],
+      "data_source": "Payment record on the artifact. payment_state PAID is the gate.",
+      "required_records": [
+        "artifact",
+        "payment"
+      ],
+      "design_archetype": "CHECKOUT_AND_PAYMENT",
+      "visual_authority": "Shared transactional shell. Type A references only: DF-H01 header, DF-H02 mobile layout, DF-H03 desktop layout. Those images are not a finished template.",
+      "asset_requirements": "Reuse DF-H01, DF-H02, DF-H03. Live HTML text carries the message. No new OpenArt job on the lean or balanced plans.",
+      "responsive_requirements": "Mobile email (fluid, max 600px) and desktop email (600px content inside a 640px table). Not a 9:16 application screen.",
+      "current_implementation_status": "NOT_IMPLEMENTED",
+      "current_visual_status": "TYPE_A_SHARED_SHELL",
+      "openart_generation_required": {
+        "lean": false,
+        "balanced": false,
+        "premium": false
+      },
+      "new_image_jobs": {
+        "lean": 0,
+        "balanced": 0,
+        "premium": 0
+      },
+      "dependencies": [
+        "Payment record",
+        "ESSENTIAL_SERVICE classification",
+        "Not the studio template payment-confirmed-studio-access"
+      ],
+      "priority": "P0",
+      "implementation_owner": "UNASSIGNED. Stage 1 design after founder budget approval. Stage 2 HTML is a later agent and is not authorized in this sprint.",
+      "message_classification": "TRANSACTIONAL",
+      "consent": "ESSENTIAL_SERVICE",
+      "id_collision": null,
+      "copy_contract": {
+        "subject": "YOUR PAYMENT IS CONFIRMED",
+        "preheader": "SITE 00 RECORDED THE PAYMENT ON YOUR FOUNDATION",
+        "body_outline": [
+          "PAYMENT IS CONFIRMED.",
+          "AMOUNT LINE USES {{payment_amount_display}} FROM THE PAYMENT RECORD.",
+          "THIS DOES NOT SAY THE FOUNDATION IS COMPLETE."
+        ],
+        "primary_cta": "OPEN YOUR PROJECT",
+        "secondary_cta": null,
+        "destination_route": "/foundation/{{public_token}}",
+        "route_source": "digitalFoundationClientPath",
+        "dynamic_placeholders": [
+          "{{payment_amount_display}}",
+          "{{public_token}}"
+        ],
+        "fallback": "If the amount is missing, omit the amount line. Do not print a fixture number in the master.",
+        "opt_out": "SERVICE NOTICE. NO MARKETING UNSUBSCRIBE. PREFERENCE FOOTER MAY LINK TO OPTIONAL CATEGORIES ONLY.",
+        "sender_identity": "UNREGISTERED. No from-address is stored on the Digital Foundation communications domain. Do not invent one.",
+        "message_classification": "TRANSACTIONAL",
+        "case_rule": "SITE 00 AUTHORED TEXT IS UPPERCASE. PRESERVE CASE FOR CLIENT NAMES, EMAIL ADDRESSES, DOMAINS, URLS, CLIENT-ENTERED MESSAGES, LEGAL IDENTIFIERS, AND DATA FIELDS THAT MUST KEEP ORIGINAL CASE."
+      }
+    },
+    {
+      "template_id": "payment-failed",
+      "manifest_alias": "T14",
+      "template_name": "PAYMENT FAILED",
+      "email_family": "TRANSACTIONAL",
+      "trigger_event": "PAYMENT_FAILED",
+      "target_audience": "CLIENT WHOSE PAYMENT DID NOT COMPLETE",
+      "client_lifecycle_stage": "PAYMENT",
+      "purpose": "TELL THE CLIENT THE PAYMENT DID NOT COMPLETE AND WHERE TO REVIEW IT.",
+      "primary_cta": "REVIEW PAYMENT",
+      "secondary_cta": null,
+      "personalization_fields": [
+        "business_name",
+        "public_token"
+      ],
+      "data_source": "PAYMENT_FAILED event. No card data in the email.",
+      "required_records": [
+        "artifact",
+        "payment_attempt"
+      ],
+      "design_archetype": "CHECKOUT_AND_PAYMENT",
+      "visual_authority": "Shared transactional shell. Type A references only: DF-H01 header, DF-H02 mobile layout, DF-H03 desktop layout. Those images are not a finished template.",
+      "asset_requirements": "Reuse DF-H01, DF-H02, DF-H03. Live HTML text carries the message. No new OpenArt job on the lean or balanced plans. Do not treat the studio pack template of the same id as this design.",
+      "responsive_requirements": "Mobile email (fluid, max 600px) and desktop email (600px content inside a 640px table). Not a 9:16 application screen.",
+      "current_implementation_status": "NOT_IMPLEMENTED",
+      "current_visual_status": "TYPE_A_SHARED_SHELL",
+      "openart_generation_required": {
+        "lean": false,
+        "balanced": false,
+        "premium": false
+      },
+      "new_image_jobs": {
+        "lean": 0,
+        "balanced": 0,
+        "premium": 0
+      },
+      "dependencies": [
+        "DF design must not bind shared/site00-email payment-failed copy",
+        "ESSENTIAL_SERVICE"
+      ],
+      "priority": "P0",
+      "implementation_owner": "UNASSIGNED. Stage 1 design after founder budget approval. Stage 2 HTML is a later agent and is not authorized in this sprint.",
+      "message_classification": "TRANSACTIONAL",
+      "consent": "ESSENTIAL_SERVICE",
+      "id_collision": "shared/site00-email registry id payment-failed is a studio billing template (sentence-case subject). It is not this Digital Foundation design.",
+      "copy_contract": {
+        "subject": "YOUR PAYMENT NEEDS ATTENTION",
+        "preheader": "THE PAYMENT DID NOT COMPLETE",
+        "body_outline": [
+          "THE PAYMENT DID NOT COMPLETE.",
+          "NO CARD NUMBER APPEARS HERE.",
+          "THE BUTTON RETURNS TO THE FOUNDATION SO THE CLIENT CAN REVIEW PAYMENT.",
+          "THIS IS NOT A SECOND CHARGE NOTICE."
+        ],
+        "primary_cta": "REVIEW PAYMENT",
+        "secondary_cta": null,
+        "destination_route": "/foundation/{{public_token}}",
+        "route_source": "surface PAYMENT_RECOVERY resolves to the quote step",
+        "dynamic_placeholders": [
+          "{{public_token}}",
+          "{{business_name}}"
+        ],
+        "fallback": "Do not state a decline code unless the payment record provides one. Never invent a failure reason.",
+        "opt_out": "SERVICE NOTICE. NO MARKETING UNSUBSCRIBE.",
+        "sender_identity": "UNREGISTERED. No from-address is stored on the Digital Foundation communications domain. Do not invent one.",
+        "message_classification": "TRANSACTIONAL",
+        "case_rule": "SITE 00 AUTHORED TEXT IS UPPERCASE. PRESERVE CASE FOR CLIENT NAMES, EMAIL ADDRESSES, DOMAINS, URLS, CLIENT-ENTERED MESSAGES, LEGAL IDENTIFIERS, AND DATA FIELDS THAT MUST KEEP ORIGINAL CASE."
+      }
+    },
+    {
+      "template_id": "project-activated",
+      "manifest_alias": null,
+      "template_name": "PROJECT ACTIVATED",
+      "email_family": "TRANSACTIONAL",
+      "trigger_event": "PROJECT_ACTIVATED",
+      "target_audience": "CLIENT WHOSE FOUNDATION PROJECT IS ACTIVE",
+      "client_lifecycle_stage": "PROJECT",
+      "purpose": "CONFIRM THE PROJECT IS ACTIVE.",
+      "primary_cta": "OPEN YOUR PROJECT",
+      "secondary_cta": null,
+      "personalization_fields": [
+        "business_name",
+        "public_token"
+      ],
+      "data_source": "PROJECT_ACTIVATED event on the artifact.",
+      "required_records": [
+        "artifact"
+      ],
+      "design_archetype": "PROJECT_ACTIVATION",
+      "visual_authority": "Shared transactional shell. Type A references only: DF-H01 header, DF-H02 mobile layout, DF-H03 desktop layout. Those images are not a finished template.",
+      "asset_requirements": "Reuse DF-H01, DF-H02, DF-H03. Live HTML text carries the message. No new OpenArt job on the lean or balanced plans. Premium adds one activation composition.",
+      "responsive_requirements": "Mobile email (fluid, max 600px) and desktop email (600px content inside a 640px table). Not a 9:16 application screen.",
+      "current_implementation_status": "NOT_IMPLEMENTED",
+      "current_visual_status": "TYPE_A_SHARED_SHELL",
+      "openart_generation_required": {
+        "lean": false,
+        "balanced": false,
+        "premium": true
+      },
+      "new_image_jobs": {
+        "lean": 0,
+        "balanced": 0,
+        "premium": 1
+      },
+      "dependencies": [
+        "PROJECT_OPERATIONS preference"
+      ],
+      "priority": "P1",
+      "implementation_owner": "UNASSIGNED. Stage 1 design after founder budget approval. Stage 2 HTML is a later agent and is not authorized in this sprint.",
+      "message_classification": "TRANSACTIONAL",
+      "consent": "PROJECT_OPERATIONS",
+      "id_collision": null,
+      "copy_contract": {
+        "subject": "YOUR PROJECT IS ACTIVE",
+        "preheader": "THE FOUNDATION PROJECT IS OPEN",
+        "body_outline": [
+          "THE PROJECT IS ACTIVE.",
+          "COMPLETION AND RECORDS ARE LATER MESSAGES."
+        ],
+        "primary_cta": "OPEN YOUR PROJECT",
+        "secondary_cta": null,
+        "destination_route": "/foundation/{{public_token}}",
+        "route_source": "digitalFoundationClientPath",
+        "dynamic_placeholders": [
+          "{{business_name}}",
+          "{{public_token}}"
+        ],
+        "fallback": "Do not send before PROJECT_ACTIVATED is recorded.",
+        "opt_out": "SUPPRESS WHEN PROJECT OPERATIONS PREFERENCE IS OFF.",
+        "sender_identity": "UNREGISTERED. No from-address is stored on the Digital Foundation communications domain. Do not invent one.",
+        "message_classification": "TRANSACTIONAL",
+        "case_rule": "SITE 00 AUTHORED TEXT IS UPPERCASE. PRESERVE CASE FOR CLIENT NAMES, EMAIL ADDRESSES, DOMAINS, URLS, CLIENT-ENTERED MESSAGES, LEGAL IDENTIFIERS, AND DATA FIELDS THAT MUST KEEP ORIGINAL CASE."
+      }
+    },
+    {
+      "template_id": "client-action-required",
+      "manifest_alias": "T17",
+      "template_name": "CLIENT ACTION REQUIRED",
+      "email_family": "OPERATIONAL",
+      "trigger_event": "CLIENT_ACTION_REQUESTED",
+      "target_audience": "CLIENT WITH AN OPEN ACTION",
+      "client_lifecycle_stage": "PROJECT",
+      "purpose": "ASK THE CLIENT TO COMPLETE A SPECIFIC RECORDED ACTION.",
+      "primary_cta": "COMPLETE THE REQUEST",
+      "secondary_cta": "OPEN YOUR PROJECT",
+      "personalization_fields": [
+        "business_name",
+        "public_token",
+        "action_title",
+        "client_message"
+      ],
+      "data_source": "Client action record on the artifact.",
+      "required_records": [
+        "artifact",
+        "client_action"
+      ],
+      "design_archetype": "ACTION_REQUIRED",
+      "visual_authority": "Shared transactional shell. Type A references only: DF-H01 header, DF-H02 mobile layout, DF-H03 desktop layout. Those images are not a finished template.",
+      "asset_requirements": "Reuse DF-H01, DF-H02, DF-H03. Live HTML text carries the message. No new OpenArt job on the lean or balanced plans.",
+      "responsive_requirements": "Mobile email (fluid, max 600px) and desktop email (600px content inside a 640px table). Not a 9:16 application screen.",
+      "current_implementation_status": "NOT_IMPLEMENTED",
+      "current_visual_status": "TYPE_A_SHARED_SHELL",
+      "openart_generation_required": {
+        "lean": false,
+        "balanced": false,
+        "premium": false
+      },
+      "new_image_jobs": {
+        "lean": 0,
+        "balanced": 0,
+        "premium": 0
+      },
+      "dependencies": [
+        "Client action record",
+        "SITE00_DF_OPERATIONAL_REMINDERS",
+        "PROJECT_OPERATIONS preference"
+      ],
+      "priority": "P1",
+      "implementation_owner": "UNASSIGNED. Stage 1 design after founder budget approval. Stage 2 HTML is a later agent and is not authorized in this sprint.",
+      "message_classification": "OPERATIONAL",
+      "consent": "PROJECT_OPERATIONS",
+      "id_collision": null,
+      "copy_contract": {
+        "subject": "A FOUNDATION ACTION NEEDS YOU",
+        "preheader": "OPEN THE PROJECT TO COMPLETE THE REQUEST",
+        "body_outline": [
+          "AN ACTION IS WAITING.",
+          "TITLE: {{action_title}}.",
+          "CLIENT-ENTERED TEXT KEEPS ITS ORIGINAL CASE.",
+          "THIS IS NOT AN APPROVAL CONFIRMATION."
+        ],
+        "primary_cta": "COMPLETE THE REQUEST",
+        "secondary_cta": "OPEN YOUR PROJECT",
+        "destination_route": "/foundation/{{public_token}}",
+        "route_source": "PORTAL surface",
+        "dynamic_placeholders": [
+          "{{action_title}}",
+          "{{client_message}}",
+          "{{public_token}}"
+        ],
+        "fallback": "If action_title is missing, use the generic line AN ACTION IS WAITING and do not invent a task name.",
+        "opt_out": "SUPPRESS WHEN PROJECT OPERATIONS PREFERENCE IS OFF. NOT A MARKETING SEND.",
+        "sender_identity": "UNREGISTERED. No from-address is stored on the Digital Foundation communications domain. Do not invent one.",
+        "message_classification": "OPERATIONAL",
+        "case_rule": "SITE 00 AUTHORED TEXT IS UPPERCASE. PRESERVE CASE FOR CLIENT NAMES, EMAIL ADDRESSES, DOMAINS, URLS, CLIENT-ENTERED MESSAGES, LEGAL IDENTIFIERS, AND DATA FIELDS THAT MUST KEEP ORIGINAL CASE."
+      }
+    },
+    {
+      "template_id": "approval-requested",
+      "manifest_alias": null,
+      "template_name": "APPROVAL REQUESTED",
+      "email_family": "OPERATIONAL",
+      "trigger_event": "APPROVAL_REQUESTED",
+      "target_audience": "CLIENT ASKED TO APPROVE A RECORDED ITEM",
+      "client_lifecycle_stage": "PROJECT",
+      "purpose": "ASK FOR A DECISION ON A SPECIFIC APPROVAL REQUEST.",
+      "primary_cta": "REVIEW AND APPROVE",
+      "secondary_cta": "OPEN YOUR PROJECT",
+      "personalization_fields": [
+        "business_name",
+        "public_token",
+        "approval_subject"
+      ],
+      "data_source": "Approval request record.",
+      "required_records": [
+        "artifact",
+        "approval_request"
+      ],
+      "design_archetype": "APPROVAL",
+      "visual_authority": "Shared transactional shell. Type A references only: DF-H01 header, DF-H02 mobile layout, DF-H03 desktop layout. Those images are not a finished template.",
+      "asset_requirements": "Reuse DF-H01, DF-H02, DF-H03. Live HTML text carries the message. No new OpenArt job on the lean or balanced plans.",
+      "responsive_requirements": "Mobile email (fluid, max 600px) and desktop email (600px content inside a 640px table). Not a 9:16 application screen.",
+      "current_implementation_status": "NOT_IMPLEMENTED",
+      "current_visual_status": "TYPE_A_SHARED_SHELL",
+      "openart_generation_required": {
+        "lean": false,
+        "balanced": false,
+        "premium": false
+      },
+      "new_image_jobs": {
+        "lean": 0,
+        "balanced": 0,
+        "premium": 0
+      },
+      "dependencies": [
+        "Approval request record",
+        "SITE00_DF_OPERATIONAL_REMINDERS"
+      ],
+      "priority": "P1",
+      "implementation_owner": "UNASSIGNED. Stage 1 design after founder budget approval. Stage 2 HTML is a later agent and is not authorized in this sprint.",
+      "message_classification": "OPERATIONAL",
+      "consent": "PROJECT_OPERATIONS",
+      "id_collision": null,
+      "copy_contract": {
+        "subject": "YOUR APPROVAL IS REQUESTED",
+        "preheader": "REVIEW THE ITEM IN YOUR FOUNDATION",
+        "body_outline": [
+          "AN APPROVAL IS WAITING.",
+          "SUBJECT: {{approval_subject}}.",
+          "THIS MESSAGE DOES NOT SAY THE ITEM IS APPROVED."
+        ],
+        "primary_cta": "REVIEW AND APPROVE",
+        "secondary_cta": "OPEN YOUR PROJECT",
+        "destination_route": "/foundation/{{public_token}}",
+        "route_source": "PORTAL surface",
+        "dynamic_placeholders": [
+          "{{approval_subject}}",
+          "{{public_token}}"
+        ],
+        "fallback": "If approval_subject is missing, omit it. Do not invent the item.",
+        "opt_out": "SUPPRESS WHEN PROJECT OPERATIONS PREFERENCE IS OFF.",
+        "sender_identity": "UNREGISTERED. No from-address is stored on the Digital Foundation communications domain. Do not invent one.",
+        "message_classification": "OPERATIONAL",
+        "case_rule": "SITE 00 AUTHORED TEXT IS UPPERCASE. PRESERVE CASE FOR CLIENT NAMES, EMAIL ADDRESSES, DOMAINS, URLS, CLIENT-ENTERED MESSAGES, LEGAL IDENTIFIERS, AND DATA FIELDS THAT MUST KEEP ORIGINAL CASE."
+      }
+    },
+    {
+      "template_id": "approval-completed",
+      "manifest_alias": null,
+      "template_name": "APPROVAL COMPLETED",
+      "email_family": "OPERATIONAL",
+      "trigger_event": "CLIENT_ACTION_COMPLETED",
+      "target_audience": "CLIENT WHOSE ACTION WAS RECORDED COMPLETE",
+      "client_lifecycle_stage": "PROJECT",
+      "purpose": "CONFIRM THE CLIENT ACTION WAS RECORDED COMPLETE. THE APPROVED EVENT HAS NO SEPARATE TEMPLATE.",
+      "primary_cta": "VIEW PROJECT STATUS",
+      "secondary_cta": null,
+      "personalization_fields": [
+        "business_name",
+        "public_token",
+        "action_title"
+      ],
+      "data_source": "CLIENT_ACTION_COMPLETED event.",
+      "required_records": [
+        "artifact",
+        "client_action"
+      ],
+      "design_archetype": "APPROVAL",
+      "visual_authority": "Shared transactional shell. Type A references only: DF-H01 header, DF-H02 mobile layout, DF-H03 desktop layout. Those images are not a finished template.",
+      "asset_requirements": "Reuse DF-H01, DF-H02, DF-H03. Live HTML text carries the message. No new OpenArt job on the lean or balanced plans.",
+      "responsive_requirements": "Mobile email (fluid, max 600px) and desktop email (600px content inside a 640px table). Not a 9:16 application screen.",
+      "current_implementation_status": "NOT_IMPLEMENTED",
+      "current_visual_status": "TYPE_A_SHARED_SHELL",
+      "openart_generation_required": {
+        "lean": false,
+        "balanced": false,
+        "premium": false
+      },
+      "new_image_jobs": {
+        "lean": 0,
+        "balanced": 0,
+        "premium": 0
+      },
+      "dependencies": [
+        "Do not also send a template for event APPROVED",
+        "SITE00_DF_OPERATIONAL_REMINDERS"
+      ],
+      "priority": "P1",
+      "implementation_owner": "UNASSIGNED. Stage 1 design after founder budget approval. Stage 2 HTML is a later agent and is not authorized in this sprint.",
+      "message_classification": "OPERATIONAL",
+      "consent": "PROJECT_OPERATIONS",
+      "id_collision": null,
+      "copy_contract": {
+        "subject": "YOUR ACTION IS RECORDED",
+        "preheader": "THE REQUEST ON YOUR FOUNDATION IS COMPLETE",
+        "body_outline": [
+          "THE ACTION IS RECORDED COMPLETE.",
+          "TITLE: {{action_title}}.",
+          "A SEPARATE APPROVED EVENT DOES NOT SEND A SECOND EMAIL."
+        ],
+        "primary_cta": "VIEW PROJECT STATUS",
+        "secondary_cta": null,
+        "destination_route": "/foundation/{{public_token}}",
+        "route_source": "PORTAL surface",
+        "dynamic_placeholders": [
+          "{{action_title}}",
+          "{{public_token}}"
+        ],
+        "fallback": "Omit the title if the action record has none.",
+        "opt_out": "SUPPRESS WHEN PROJECT OPERATIONS PREFERENCE IS OFF.",
+        "sender_identity": "UNREGISTERED. No from-address is stored on the Digital Foundation communications domain. Do not invent one.",
+        "message_classification": "OPERATIONAL",
+        "case_rule": "SITE 00 AUTHORED TEXT IS UPPERCASE. PRESERVE CASE FOR CLIENT NAMES, EMAIL ADDRESSES, DOMAINS, URLS, CLIENT-ENTERED MESSAGES, LEGAL IDENTIFIERS, AND DATA FIELDS THAT MUST KEEP ORIGINAL CASE."
+      }
+    },
+    {
+      "template_id": "foundation-complete",
+      "manifest_alias": "T23",
+      "template_name": "FOUNDATION COMPLETE",
+      "email_family": "TRANSACTIONAL",
+      "trigger_event": "FOUNDATION_COMPLETED",
+      "target_audience": "CLIENT WHOSE FOUNDATION SERVICE IS COMPLETE",
+      "client_lifecycle_stage": "COMPLETE",
+      "purpose": "CONFIRM FOUNDATION COMPLETION. THIS IS NOT THE MARKETING FOLLOW-UP.",
+      "primary_cta": "VIEW YOUR FOUNDATION",
+      "secondary_cta": null,
+      "personalization_fields": [
+        "business_name",
+        "public_token"
+      ],
+      "data_source": "FOUNDATION_COMPLETED event.",
+      "required_records": [
+        "artifact"
+      ],
+      "design_archetype": "COMPLETION",
+      "visual_authority": "Shared transactional shell. Type A references only: DF-H01 header, DF-H02 mobile layout, DF-H03 desktop layout. Those images are not a finished template. DF-I03 is the marketing post-completion image and is not this template.",
+      "asset_requirements": "Reuse DF-H01, DF-H02, DF-H03. Live HTML text carries the message. No new OpenArt job on the lean or balanced plans.",
+      "responsive_requirements": "Mobile email (fluid, max 600px) and desktop email (600px content inside a 640px table). Not a 9:16 application screen.",
+      "current_implementation_status": "NOT_IMPLEMENTED",
+      "current_visual_status": "TYPE_A_SHARED_SHELL",
+      "openart_generation_required": {
+        "lean": false,
+        "balanced": false,
+        "premium": false
+      },
+      "new_image_jobs": {
+        "lean": 0,
+        "balanced": 0,
+        "premium": 0
+      },
+      "dependencies": [
+        "ESSENTIAL_SERVICE",
+        "Must stay distinct from M13"
+      ],
+      "priority": "P0",
+      "implementation_owner": "UNASSIGNED. Stage 1 design after founder budget approval. Stage 2 HTML is a later agent and is not authorized in this sprint.",
+      "message_classification": "TRANSACTIONAL",
+      "consent": "ESSENTIAL_SERVICE",
+      "id_collision": null,
+      "copy_contract": {
+        "subject": "YOUR FOUNDATION IS COMPLETE",
+        "preheader": "THE FOUNDATION SERVICE IS RECORDED COMPLETE",
+        "body_outline": [
+          "THE FOUNDATION IS COMPLETE.",
+          "RECORDS AVAILABILITY IS A SEPARATE MESSAGE.",
+          "NO UPSELL COPY IN THIS TEMPLATE."
+        ],
+        "primary_cta": "VIEW YOUR FOUNDATION",
+        "secondary_cta": null,
+        "destination_route": "/foundation/{{public_token}}",
+        "route_source": "surface COMPLETE",
+        "dynamic_placeholders": [
+          "{{business_name}}",
+          "{{public_token}}"
+        ],
+        "fallback": "Do not send on marketing journeys.",
+        "opt_out": "SERVICE NOTICE. NO MARKETING UNSUBSCRIBE. DO NOT ATTACH A BLDR OR CREDIT OFFER.",
+        "sender_identity": "UNREGISTERED. No from-address is stored on the Digital Foundation communications domain. Do not invent one.",
+        "message_classification": "TRANSACTIONAL",
+        "case_rule": "SITE 00 AUTHORED TEXT IS UPPERCASE. PRESERVE CASE FOR CLIENT NAMES, EMAIL ADDRESSES, DOMAINS, URLS, CLIENT-ENTERED MESSAGES, LEGAL IDENTIFIERS, AND DATA FIELDS THAT MUST KEEP ORIGINAL CASE."
+      }
+    },
+    {
+      "template_id": "records-available",
+      "manifest_alias": null,
+      "template_name": "RECORDS AVAILABLE",
+      "email_family": "TRANSACTIONAL",
+      "trigger_event": "FOUNDATION_VERIFIED",
+      "target_audience": "CLIENT WHOSE FOUNDATION RECORDS ARE AVAILABLE",
+      "client_lifecycle_stage": "COMPLETE",
+      "purpose": "TELL THE CLIENT RECORDS CAN BE OPENED AFTER VERIFICATION.",
+      "primary_cta": "OPEN YOUR RECORDS",
+      "secondary_cta": null,
+      "personalization_fields": [
+        "business_name",
+        "public_token"
+      ],
+      "data_source": "FOUNDATION_VERIFIED event. Records live in the foundation client, not a separate public records URL.",
+      "required_records": [
+        "artifact",
+        "verification"
+      ],
+      "design_archetype": "RECORDS_AVAILABLE",
+      "visual_authority": "Shared transactional shell. Type A references only: DF-H01 header, DF-H02 mobile layout, DF-H03 desktop layout. Those images are not a finished template.",
+      "asset_requirements": "Reuse DF-H01, DF-H02, DF-H03. Live HTML text carries the message. No new OpenArt job on the lean or balanced plans.",
+      "responsive_requirements": "Mobile email (fluid, max 600px) and desktop email (600px content inside a 640px table). Not a 9:16 application screen.",
+      "current_implementation_status": "NOT_IMPLEMENTED",
+      "current_visual_status": "TYPE_A_SHARED_SHELL",
+      "openart_generation_required": {
+        "lean": false,
+        "balanced": false,
+        "premium": false
+      },
+      "new_image_jobs": {
+        "lean": 0,
+        "balanced": 0,
+        "premium": 0
+      },
+      "dependencies": [
+        "ESSENTIAL_SERVICE",
+        "No /records route exists"
+      ],
+      "priority": "P1",
+      "implementation_owner": "UNASSIGNED. Stage 1 design after founder budget approval. Stage 2 HTML is a later agent and is not authorized in this sprint.",
+      "message_classification": "TRANSACTIONAL",
+      "consent": "ESSENTIAL_SERVICE",
+      "id_collision": null,
+      "copy_contract": {
+        "subject": "YOUR RECORDS ARE AVAILABLE",
+        "preheader": "OPEN THE FOUNDATION TO VIEW RECORDS",
+        "body_outline": [
+          "VERIFICATION IS RECORDED.",
+          "RECORDS CAN BE OPENED FROM THE FOUNDATION.",
+          "THIS MESSAGE DOES NOT LIST PRIVATE DOCUMENTS."
+        ],
+        "primary_cta": "OPEN YOUR RECORDS",
+        "secondary_cta": null,
+        "destination_route": "/foundation/{{public_token}}",
+        "route_source": "surface COMPLETE / portal records inside FoundationClient",
+        "dynamic_placeholders": [
+          "{{business_name}}",
+          "{{public_token}}"
+        ],
+        "fallback": "Do not attach document names unless the records projection already exposes them to the client.",
+        "opt_out": "SERVICE NOTICE. NO MARKETING UNSUBSCRIBE.",
+        "sender_identity": "UNREGISTERED. No from-address is stored on the Digital Foundation communications domain. Do not invent one.",
+        "message_classification": "TRANSACTIONAL",
+        "case_rule": "SITE 00 AUTHORED TEXT IS UPPERCASE. PRESERVE CASE FOR CLIENT NAMES, EMAIL ADDRESSES, DOMAINS, URLS, CLIENT-ENTERED MESSAGES, LEGAL IDENTIFIERS, AND DATA FIELDS THAT MUST KEEP ORIGINAL CASE."
+      }
+    },
+    {
+      "template_id": "foundation-credit-issued",
+      "manifest_alias": null,
+      "template_name": "FOUNDATION CREDIT ISSUED",
+      "email_family": "MARKETING",
+      "trigger_event": "CREDIT_CREATED",
+      "target_audience": "CLIENT WITH MARKETING CONSENT AND A CREDIT RECORD",
+      "client_lifecycle_stage": "POST_SERVICE",
+      "purpose": "TELL THE CLIENT A FOUNDATION CREDIT EXISTS. AMOUNT COMES FROM THE CREDIT RECORD.",
+      "primary_cta": "VIEW YOUR CREDIT",
+      "secondary_cta": "MANAGE PREFERENCES",
+      "personalization_fields": [
+        "business_name",
+        "public_token",
+        "credit_amount_display",
+        "credit_valid_until"
+      ],
+      "data_source": "Credit record referenced by artifact.foundation_credit_id. Not commercialConfig defaults.",
+      "required_records": [
+        "artifact",
+        "credit",
+        "marketing_opt_in"
+      ],
+      "design_archetype": "PROGRESS_AND_OPPORTUNITY",
+      "visual_authority": "Approved marketing authority (architectural editorial \u00d7 blueprint dispatch). No dedicated campaign plate in batch I.",
+      "asset_requirements": "Lean reuses the registered authority and DF-I01 modules. Balanced and premium add one credit composition.",
+      "responsive_requirements": "Mobile email (fluid, max 600px) and desktop email (600px content inside a 640px table). Not a 9:16 application screen.",
+      "current_implementation_status": "NOT_IMPLEMENTED",
+      "current_visual_status": "AUTHORITY_ONLY",
+      "openart_generation_required": {
+        "lean": false,
+        "balanced": true,
+        "premium": true
+      },
+      "new_image_jobs": {
+        "lean": 0,
+        "balanced": 1,
+        "premium": 1
+      },
+      "dependencies": [
+        "MARKETING consent",
+        "SITE00_DF_MARKETING_EMAIL_SEND",
+        "preference_url unresolved",
+        "Do not bake commercialConfig.foundation_credit_amount_minor into the design"
+      ],
+      "priority": "P2",
+      "implementation_owner": "UNASSIGNED. Stage 1 design after founder budget approval. Stage 2 HTML is a later agent and is not authorized in this sprint.",
+      "message_classification": "MARKETING",
+      "consent": "MARKETING",
+      "id_collision": null,
+      "copy_contract": {
+        "subject": "A FOUNDATION CREDIT IS ON YOUR PROJECT",
+        "preheader": "VIEW THE CREDIT INSIDE YOUR FOUNDATION",
+        "body_outline": [
+          "A CREDIT IS RECORDED.",
+          "AMOUNT AND WINDOW COME FROM THE CREDIT RECORD.",
+          "THIS IS NOT A PAYMENT RECEIPT AND NOT A COMPLETION NOTICE."
+        ],
+        "primary_cta": "VIEW YOUR CREDIT",
+        "secondary_cta": "MANAGE PREFERENCES",
+        "destination_route": "/foundation/{{public_token}}",
+        "route_source": "digitalFoundationClientPath. preference_url is not implemented.",
+        "dynamic_placeholders": [
+          "{{credit_amount_display}}",
+          "{{credit_valid_until}}",
+          "{{preference_url}}",
+          "{{public_token}}"
+        ],
+        "fallback": "If the amount or date is missing, omit that line. The sentence A FOUNDATION CREDIT IS ON YOUR PROJECT still stands.",
+        "opt_out": "REQUIRES marketing_opt_in. UNSUBSCRIBE, PREFERENCE LINK, SUPPRESSION ON UNSUBSCRIBE, BOUNCE, COMPLAINT, FOUNDER, POLICY.",
+        "sender_identity": "UNREGISTERED. No from-address is stored on the Digital Foundation communications domain. Do not invent one.",
+        "message_classification": "MARKETING",
+        "case_rule": "SITE 00 AUTHORED TEXT IS UPPERCASE. PRESERVE CASE FOR CLIENT NAMES, EMAIL ADDRESSES, DOMAINS, URLS, CLIENT-ENTERED MESSAGES, LEGAL IDENTIFIERS, AND DATA FIELDS THAT MUST KEEP ORIGINAL CASE."
+      }
+    },
+    {
+      "template_id": "bldr-discovery",
+      "manifest_alias": null,
+      "template_name": "BLDR DISCOVERY",
+      "email_family": "MARKETING",
+      "trigger_event": "BUILD_INTEREST_CAPTURED",
+      "target_audience": "CLIENT WHOSE BUILD INTEREST WAS CAPTURED AND WHO OPTED INTO MARKETING",
+      "client_lifecycle_stage": "POST_SERVICE",
+      "purpose": "RESPOND TO RECORDED BUILD INTEREST. DO NOT SEND AS A GENERAL INTRODUCTION.",
+      "primary_cta": "CONTINUE WITH BLDR",
+      "secondary_cta": "MANAGE PREFERENCES",
+      "personalization_fields": [
+        "business_name",
+        "public_token"
+      ],
+      "data_source": "BUILD_INTEREST_CAPTURED event.",
+      "required_records": [
+        "artifact",
+        "build_interest",
+        "marketing_opt_in"
+      ],
+      "design_archetype": "BLDR_JOURNEY",
+      "visual_authority": "DF-I02 BLDR journey plate inside the approved marketing family.",
+      "asset_requirements": "Reuse DF-I02. Distinct copy from M06.",
+      "responsive_requirements": "Mobile email (fluid, max 600px) and desktop email (600px content inside a 640px table). Not a 9:16 application screen.",
+      "current_implementation_status": "NOT_IMPLEMENTED",
+      "current_visual_status": "TYPE_A_CAMPAIGN_PLATE",
+      "openart_generation_required": {
+        "lean": false,
+        "balanced": false,
+        "premium": false
+      },
+      "new_image_jobs": {
+        "lean": 0,
+        "balanced": 0,
+        "premium": 0
+      },
+      "dependencies": [
+        "MARKETING consent",
+        "Must not replace M06",
+        "BLDR product route is the foundation path until a dedicated BLDR mail URL exists"
+      ],
+      "priority": "P2",
+      "implementation_owner": "UNASSIGNED. Stage 1 design after founder budget approval. Stage 2 HTML is a later agent and is not authorized in this sprint.",
+      "message_classification": "MARKETING",
+      "consent": "MARKETING",
+      "id_collision": null,
+      "copy_contract": {
+        "subject": "YOUR BUILD INTEREST IS RECORDED",
+        "preheader": "CONTINUE THE BLDR CONVERSATION FROM YOUR FOUNDATION",
+        "body_outline": [
+          "BUILD INTEREST IS ON THE RECORD.",
+          "THIS IS NOT A BOOKING CONFIRMATION.",
+          "BUILD_BOOKED HAS NO EMAIL TEMPLATE."
+        ],
+        "primary_cta": "CONTINUE WITH BLDR",
+        "secondary_cta": "MANAGE PREFERENCES",
+        "destination_route": "/foundation/{{public_token}}",
+        "route_source": "event map BUILD_INTEREST_CAPTURED",
+        "dynamic_placeholders": [
+          "{{business_name}}",
+          "{{public_token}}",
+          "{{preference_url}}"
+        ],
+        "fallback": "Do not send if marketing_opt_in is false, even when interest was captured.",
+        "opt_out": "REQUIRES marketing_opt_in PLUS THE INTEREST EVENT. FULL MARKETING FOOTER.",
+        "sender_identity": "UNREGISTERED. No from-address is stored on the Digital Foundation communications domain. Do not invent one.",
+        "message_classification": "MARKETING",
+        "case_rule": "SITE 00 AUTHORED TEXT IS UPPERCASE. PRESERVE CASE FOR CLIENT NAMES, EMAIL ADDRESSES, DOMAINS, URLS, CLIENT-ENTERED MESSAGES, LEGAL IDENTIFIERS, AND DATA FIELDS THAT MUST KEEP ORIGINAL CASE."
+      }
+    },
+    {
+      "template_id": "M01",
+      "manifest_alias": "M01",
+      "template_name": "DIGITAL FOUNDATION EDUCATION",
+      "email_family": "MARKETING",
+      "trigger_event": null,
+      "target_audience": "CLIENT WHO OPTED INTO EDUCATIONAL EMAIL",
+      "client_lifecycle_stage": "NURTURE",
+      "purpose": "EXPLAIN THE FOUNDATION. NO LIFECYCLE EVENT IS BOUND.",
+      "primary_cta": "LEARN THE FOUNDATION",
+      "secondary_cta": "MANAGE PREFERENCES",
+      "personalization_fields": [
+        "business_name"
+      ],
+      "data_source": "Manifest journey only. Client preference educational.",
+      "required_records": [
+        "educational preference"
+      ],
+      "design_archetype": "EDITORIAL_EDUCATION",
+      "visual_authority": "DF-I01 education plate. Approved marketing authority is the family reference.",
+      "asset_requirements": "Reuse DF-I01. No new image.",
+      "responsive_requirements": "Mobile email (fluid, max 600px) and desktop email (600px content inside a 640px table). Not a 9:16 application screen.",
+      "current_implementation_status": "NOT_IMPLEMENTED",
+      "current_visual_status": "TYPE_A_CAMPAIGN_PLATE",
+      "openart_generation_required": {
+        "lean": false,
+        "balanced": false,
+        "premium": false
+      },
+      "new_image_jobs": {
+        "lean": 0,
+        "balanced": 0,
+        "premium": 0
+      },
+      "dependencies": [
+        "No event binding",
+        "Use educational preference, not a fake transactional trigger",
+        "site00_template_id is null"
+      ],
+      "priority": "P2",
+      "implementation_owner": "UNASSIGNED. Stage 1 design after founder budget approval. Stage 2 HTML is a later agent and is not authorized in this sprint.",
+      "message_classification": "PLANNED_CONTRACT",
+      "consent": "EDUCATIONAL",
+      "id_collision": null,
+      "copy_contract": {
+        "subject": "HOW THE DIGITAL FOUNDATION WORKS",
+        "preheader": "A SHORT GUIDE TO THE FOUNDATION",
+        "body_outline": [
+          "WHAT THE FOUNDATION IS.",
+          "WHAT IT DOES NOT PROMISE.",
+          "NO PRICE, NO PAYMENT STATUS, NO PROJECT PERCENTAGE."
+        ],
+        "primary_cta": "LEARN THE FOUNDATION",
+        "secondary_cta": "MANAGE PREFERENCES",
+        "destination_route": "/foundation/{{public_token}}",
+        "route_source": "DIGITAL_FOUNDATION_V2_EMAIL_TEMPLATE_MANIFEST.json M01",
+        "dynamic_placeholders": [
+          "{{business_name}}",
+          "{{preference_url}}"
+        ],
+        "fallback": "If there is no public_token, this journey does not send. Do not fall back to a broadcast list in this pack.",
+        "opt_out": "SUPPRESS WHEN educational IS FALSE. STILL CARRY UNSUBSCRIBE AND A PREFERENCE LINK. DO NOT SEND UNDER ESSENTIAL_SERVICE.",
+        "sender_identity": "UNREGISTERED. No from-address is stored on the Digital Foundation communications domain. Do not invent one.",
+        "message_classification": "PLANNED_CONTRACT",
+        "case_rule": "SITE 00 AUTHORED TEXT IS UPPERCASE. PRESERVE CASE FOR CLIENT NAMES, EMAIL ADDRESSES, DOMAINS, URLS, CLIENT-ENTERED MESSAGES, LEGAL IDENTIFIERS, AND DATA FIELDS THAT MUST KEEP ORIGINAL CASE."
+      }
+    },
+    {
+      "template_id": "M06",
+      "manifest_alias": "M06",
+      "template_name": "BLDR INTRODUCTION",
+      "email_family": "MARKETING",
+      "trigger_event": null,
+      "target_audience": "CLIENT WHO OPTED INTO MARKETING AND HAS NOT REQUIRED A BUILD-INTEREST EVENT",
+      "client_lifecycle_stage": "NURTURE",
+      "purpose": "INTRODUCE BLDR. THIS IS NOT THE BUILD_INTEREST_CAPTURED NOTICE.",
+      "primary_cta": "SEE BLDR",
+      "secondary_cta": "MANAGE PREFERENCES",
+      "personalization_fields": [
+        "business_name"
+      ],
+      "data_source": "Manifest journey M06. Separate from bldr-discovery.",
+      "required_records": [
+        "marketing_opt_in"
+      ],
+      "design_archetype": "BLDR_JOURNEY",
+      "visual_authority": "DF-I02 shared with bldr-discovery. Copy and trigger differ.",
+      "asset_requirements": "Reuse DF-I02. No second BLDR plate.",
+      "responsive_requirements": "Mobile email (fluid, max 600px) and desktop email (600px content inside a 640px table). Not a 9:16 application screen.",
+      "current_implementation_status": "NOT_IMPLEMENTED",
+      "current_visual_status": "TYPE_A_CAMPAIGN_PLATE",
+      "openart_generation_required": {
+        "lean": false,
+        "balanced": false,
+        "premium": false
+      },
+      "new_image_jobs": {
+        "lean": 0,
+        "balanced": 0,
+        "premium": 0
+      },
+      "dependencies": [
+        "No event binding",
+        "Must not fire on BUILD_INTEREST_CAPTURED"
+      ],
+      "priority": "P2",
+      "implementation_owner": "UNASSIGNED. Stage 1 design after founder budget approval. Stage 2 HTML is a later agent and is not authorized in this sprint.",
+      "message_classification": "PLANNED_CONTRACT",
+      "consent": "MARKETING",
+      "id_collision": null,
+      "copy_contract": {
+        "subject": "AN INTRODUCTION TO BLDR",
+        "preheader": "WHAT BLDR IS, WITHOUT A BOOKING CLAIM",
+        "body_outline": [
+          "BLDR IS INTRODUCED.",
+          "NO INTEREST IS CLAIMED.",
+          "NO BOOKING IS CLAIMED."
+        ],
+        "primary_cta": "SEE BLDR",
+        "secondary_cta": "MANAGE PREFERENCES",
+        "destination_route": "/foundation/{{public_token}}",
+        "route_source": "manifest M06",
+        "dynamic_placeholders": [
+          "{{business_name}}",
+          "{{preference_url}}"
+        ],
+        "fallback": "Do not send when marketing_opt_in is false.",
+        "opt_out": "REQUIRES marketing_opt_in. FULL MARKETING FOOTER.",
+        "sender_identity": "UNREGISTERED. No from-address is stored on the Digital Foundation communications domain. Do not invent one.",
+        "message_classification": "PLANNED_CONTRACT",
+        "case_rule": "SITE 00 AUTHORED TEXT IS UPPERCASE. PRESERVE CASE FOR CLIENT NAMES, EMAIL ADDRESSES, DOMAINS, URLS, CLIENT-ENTERED MESSAGES, LEGAL IDENTIFIERS, AND DATA FIELDS THAT MUST KEEP ORIGINAL CASE."
+      }
+    },
+    {
+      "template_id": "M13",
+      "manifest_alias": "M13",
+      "template_name": "POST-COMPLETION FOLLOW-UP",
+      "email_family": "MARKETING",
+      "trigger_event": null,
+      "target_audience": "CLIENT AFTER FOUNDATION COMPLETION WHO OPTED INTO MARKETING",
+      "client_lifecycle_stage": "POST_SERVICE",
+      "purpose": "MARKETING FOLLOW-UP AFTER COMPLETION. NOT THE COMPLETION RECEIPT.",
+      "primary_cta": "SEE WHAT COMES NEXT",
+      "secondary_cta": "MANAGE PREFERENCES",
+      "personalization_fields": [
+        "business_name",
+        "public_token"
+      ],
+      "data_source": "Manifest journey M13. Send only after FOUNDATION_COMPLETED is already true, and only with marketing consent.",
+      "required_records": [
+        "artifact completion",
+        "marketing_opt_in"
+      ],
+      "design_archetype": "POST_COMPLETION_JOURNEY",
+      "visual_authority": "DF-I03 post-completion plate.",
+      "asset_requirements": "Reuse DF-I03. No new image.",
+      "responsive_requirements": "Mobile email (fluid, max 600px) and desktop email (600px content inside a 640px table). Not a 9:16 application screen.",
+      "current_implementation_status": "NOT_IMPLEMENTED",
+      "current_visual_status": "TYPE_A_CAMPAIGN_PLATE",
+      "openart_generation_required": {
+        "lean": false,
+        "balanced": false,
+        "premium": false
+      },
+      "new_image_jobs": {
+        "lean": 0,
+        "balanced": 0,
+        "premium": 0
+      },
+      "dependencies": [
+        "Must not replace foundation-complete",
+        "No event binding on the map"
+      ],
+      "priority": "P2",
+      "implementation_owner": "UNASSIGNED. Stage 1 design after founder budget approval. Stage 2 HTML is a later agent and is not authorized in this sprint.",
+      "message_classification": "PLANNED_CONTRACT",
+      "consent": "MARKETING",
+      "id_collision": null,
+      "copy_contract": {
+        "subject": "AFTER THE FOUNDATION",
+        "preheader": "A FOLLOW-UP FROM SITE 00",
+        "body_outline": [
+          "THE FOUNDATION SERVICE IS ALREADY COMPLETE.",
+          "THIS MESSAGE IS OPTIONAL.",
+          "IT DOES NOT REOPEN A PAYMENT OR A VERIFICATION CLAIM."
+        ],
+        "primary_cta": "SEE WHAT COMES NEXT",
+        "secondary_cta": "MANAGE PREFERENCES",
+        "destination_route": "/foundation/{{public_token}}",
+        "route_source": "manifest M13",
+        "dynamic_placeholders": [
+          "{{business_name}}",
+          "{{public_token}}",
+          "{{preference_url}}"
+        ],
+        "fallback": "Do not send if the artifact is not complete. Do not send if marketing_opt_in is false.",
+        "opt_out": "REQUIRES marketing_opt_in. FULL MARKETING FOOTER.",
+        "sender_identity": "UNREGISTERED. No from-address is stored on the Digital Foundation communications domain. Do not invent one.",
+        "message_classification": "PLANNED_CONTRACT",
+        "case_rule": "SITE 00 AUTHORED TEXT IS UPPERCASE. PRESERVE CASE FOR CLIENT NAMES, EMAIL ADDRESSES, DOMAINS, URLS, CLIENT-ENTERED MESSAGES, LEGAL IDENTIFIERS, AND DATA FIELDS THAT MUST KEEP ORIGINAL CASE."
+      }
+    }
+  ]
+}
