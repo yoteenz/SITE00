@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <title>VERIFICATION — surveyor's benchmark (a level that has been measured, not assumed)</title>
+  <g fill="none" stroke-linecap="square">
+    <path d="M8 14H40" stroke="#d90c0c" stroke-width="2.6"/>
+    <path d="M24 18V42M24 18L12 42M24 18L36 42" stroke="#141414" stroke-width="2.2"/>
+  </g>
+</svg>

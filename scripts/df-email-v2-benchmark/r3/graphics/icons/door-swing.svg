@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <title>ENTRY — plan door swing: the leaf held open, its arc sweeping to the threshold</title>
+  <g fill="none" stroke-linecap="square">
+    <path d="M2 40H8M38 40H46" stroke="#141414" stroke-width="2.4"/>
+    <path d="M8 10A30 30 0 0 1 38 40" stroke="#141414" stroke-width="1.2" stroke-dasharray="2 2.6"/>
+    <path d="M8 40V10" stroke="#d90c0c" stroke-width="2.6"/>
+    <circle cx="8" cy="40" r="2" fill="#141414" stroke="none"/>
+  </g>
+</svg>
