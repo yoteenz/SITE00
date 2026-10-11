@@ -16167,3 +16167,10 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Context:** Sprint `P0.SITE00.IDNTY.MARKETING-EMAIL-AUTHORITY-REPOSITORY-RECOVERY3` — locate original JPEG in workspace, bypass chat transcoding, register on `cursor/df-mass-production-scope-a9f7`.
 - **Outcome:** Copy 4 chat attachment byte-identical to copies 2–3 (`1d431920…`, 474,703 bytes). Full scan of 4,847 JPEGs in workspace/home/tmp/opt-cursor: **zero** files with expected `e814042c…`. No binary on git refs. Canonical path not committed. Registration, tokens, modules, campaign map, Batch I reconciliation **not done**. Ceiling **6,340** unchanged.
 - **Resupply:** Founder or CI must `git add` the verified file to the branch (or attach via GitHub web upload / release ZIP). Chat will not deliver original bytes.
+
+## 2026-10-10 — DF visual batch B (records and approvals) + review flow scroll
+
+- **Context:** Batch A direction approved with two Opus copy corrections. Founder requested batch B OpenArt generation (four records/approval child screens), ZIP + direct download. Separately, review page CTAs now scroll between phone frames on `/foundation/review`.
+- **Batch B:** OpenArt project `6Ueswtr8vt58ur2n3CRs`, model `gpt-image-2-5-sunburst`, 4k 9:16, four first-pass images (2016×3584), credits 27854→26590 (Δ1264). Screens DF-B01–B04. Release tag `df-v2-batch-b-2026-10-10`. Do not regenerate batch A. Do not merge batch PRs without founder. Implementation NOT AUTHORIZED.
+- **Batch A handoff:** `batch-a/BATCH_A_OPUS_HANDOFF_CORRECTIONS.md` — no “decision recorded” while pending; revision reason optional label must match contract at implementation.
+- **Review flow:** PR #1595 merged — VIEW MY RECOMMENDATION scrolls to `#df-r-P04` without router navigation.
