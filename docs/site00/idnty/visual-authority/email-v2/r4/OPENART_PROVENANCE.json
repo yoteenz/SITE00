@@ -1,0 +1,270 @@
+{
+  "sprint": "P0.SITE00.IDNTY.EMAIL-V2-R4-PREMIUM-EDITORIAL-ASSET-PASS-AND-FULL-PACK-COMPOSITION-REBUILD1",
+  "provider": "OPENART",
+  "project_id": "6Ueswtr8vt58ur2n3CRs",
+  "project_name": "SITE00 IDNTY Digital Foundation Production",
+  "model": "gpt-image-2-5-sunburst",
+  "mode": "image2image",
+  "params": {
+    "resolutionTier": "2k",
+    "quality": "high",
+    "imageCount": 1,
+    "autoEnhancePrompt": false,
+    "outputFormat": "png"
+  },
+  "shared_prompt_suffix": "Photoreal editorial architectural photography, medium-format camera, natural Mediterranean daylight, crisp detail. Restrained palette: warm white board-formed concrete, honed travertine, pale polished stone floor, translucent saturated red glass, dark steel, calm sea and soft blue mountains on the horizon, a few olive trees. Use the reference image only for its material world, palette and light. Output one single full-bleed photograph: no text, no letters, no numbers, no typography, no logos, no wordmark, no interface, no borders, no panels, no collage, no people.",
+  "references": {
+    "DF-I01": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791696576107_c1029ee6.png",
+    "DF-I02": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791696575350_a7a4ff21.png",
+    "DF-I03": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791696577738_a1a7b793.png"
+  },
+  "credits": {
+    "balance_before": 20899,
+    "balance_after": 19199,
+    "spent": 1700,
+    "quoted": 1630,
+    "reserve_used": 0,
+    "regenerations": 0
+  },
+  "reserve": {
+    "count": 1,
+    "credits": 162,
+    "rule": "Only for a job that fails visual QA (text in frame, wrong world, unusable composition). Reason recorded."
+  },
+  "assets": [
+    {
+      "asset_id": "R4-G01",
+      "name": "THE OPEN DOOR",
+      "aspect_ratio": "2:3",
+      "reference": "DF-I01",
+      "reference_url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791696576107_c1029ee6.png",
+      "openart": {
+        "history_id": "qVrMpDq8BDXLWDBvyMFU",
+        "resource_id": "XjixyjHKt5EaYaqjXMFQ",
+        "url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791753740851_babc6280.png"
+      },
+      "original": {
+        "width": 1344,
+        "height": 2016,
+        "png_sha256": "20e2928e598ba4a076178fdf5d27457c7c420a7ad4f3d2cf9148d88030259a30",
+        "png_bytes": 4745325
+      },
+      "archive_jpg": "docs/site00/idnty/visual-authority/email-v2/r4/premium-assets/R4-G01.jpg",
+      "serves": [
+        "personal-foundation-invitation",
+        "intake-started"
+      ],
+      "prompt": "A tall pivoting door of red glass set into a deep board-formed concrete wall, standing half open toward a sunlit travertine terrace and the sea beyond. The camera stands inside the cool shaded entry looking out through the opening; the open leaf catches the light so soft red reflections fall across the pale stone floor. Quiet plain concrete wall fills the left third. Vertical composition with the threshold in the lower third."
+    },
+    {
+      "asset_id": "R4-G02",
+      "name": "GROUND LAID",
+      "aspect_ratio": "3:2",
+      "reference": "DF-I03",
+      "reference_url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791696577738_a1a7b793.png",
+      "openart": {
+        "history_id": "WVLLzcHZ7KXVLAvR5YwR",
+        "resource_id": "8Q9RE95QYFs5Ow0jwXLi",
+        "url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791753894133_22bda37f.png"
+      },
+      "original": {
+        "width": 2016,
+        "height": 1344,
+        "png_sha256": "ace2db5c89443dbae874a85554b93d5d9d8cd82e524d4de4ae5d66df4a6c7b99",
+        "png_bytes": 4395081
+      },
+      "archive_jpg": "docs/site00/idnty/visual-authority/email-v2/r4/premium-assets/R4-G02.jpg",
+      "serves": [
+        "foundation-complete"
+      ],
+      "prompt": "A single monumental slab of honed travertine resting on a low concrete plinth on an open cliff-top terrace, photographed in low raking morning light so every pore and chisel line of the stone shows. One long top edge of the slab carries a thin inlaid line of red glass. The slab sits slightly right of centre with wide calm sky and sea horizon behind; the foreground is clean pale stone. It reads as a foundation stone: finished, level and permanent."
+    },
+    {
+      "asset_id": "R4-G03",
+      "name": "THE COVER",
+      "aspect_ratio": "4:5",
+      "reference": "DF-I02",
+      "reference_url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791696575350_a7a4ff21.png",
+      "openart": {
+        "history_id": "kLk7yDc09AdzMaIiVaWe",
+        "resource_id": "9PvOwIp2HDWcNkCCaaDH",
+        "url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791753847496_1c08c992.png"
+      },
+      "original": {
+        "width": 1344,
+        "height": 1680,
+        "png_sha256": "a9cb0fbd4d20636fd994d082a8d264d69e6481af2611dfe5b8357570a5e6c1a8",
+        "png_bytes": 3592501
+      },
+      "archive_jpg": "docs/site00/idnty/visual-authority/email-v2/r4/premium-assets/R4-G03.jpg",
+      "serves": [
+        "bldr-discovery",
+        "M06"
+      ],
+      "prompt": "The red glass pavilion with its cantilevered concrete roof seen from the travertine terrace, set low and wide in the bottom half of the frame, with a large expanse of clear pale sky filling the upper half as open space. Infinity edge, sea and mountains behind. Calm, frontal, almost symmetric, like the cover photograph of an architecture magazine."
+    },
+    {
+      "asset_id": "R4-G04",
+      "name": "THE SCOPE MODEL",
+      "aspect_ratio": "3:2",
+      "reference": "DF-I02",
+      "reference_url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791696575350_a7a4ff21.png",
+      "openart": {
+        "history_id": "uCGqFNpLg182MwWiP6Jm",
+        "resource_id": "mGThXosTR9To7M9DijqG",
+        "url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791753853388_c3340778.png"
+      },
+      "original": {
+        "width": 2016,
+        "height": 1344,
+        "png_sha256": "117b7f43b5d0d7031615bd42f4f0c23fd4d13fa915b7232959cf92af737def48",
+        "png_bytes": 4181928
+      },
+      "archive_jpg": "docs/site00/idnty/visual-authority/email-v2/r4/premium-assets/R4-G04.jpg",
+      "serves": [
+        "quote-ready",
+        "quote-updated"
+      ],
+      "prompt": "A precise white architectural scale model of a small pavilion resting on a travertine plinth in a bright studio beside a tall window, one volume of the model made of translucent red glass. On the stone around it: a steel scale rule, a folded sheet of tracing paper with faint pencil lines and no legible writing, a brass pencil. Overhead three-quarter view, shallow depth of field with focus on the red volume."
+    },
+    {
+      "asset_id": "R4-G05",
+      "name": "THE THRESHOLD",
+      "aspect_ratio": "16:9",
+      "reference": "DF-I01",
+      "reference_url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791696576107_c1029ee6.png",
+      "openart": {
+        "history_id": "YAZbHDQt4n6GnV64YBDP",
+        "resource_id": "yw0e65hB0WpFqfgzyeE4",
+        "url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791753852458_32ce2181.png"
+      },
+      "original": {
+        "width": 2304,
+        "height": 1296,
+        "png_sha256": "f45fcbe782dd8f5998e5b281e354742a5866016551ab5616108933fe3e27700d",
+        "png_bytes": 4336826
+      },
+      "archive_jpg": "docs/site00/idnty/visual-authority/email-v2/r4/premium-assets/R4-G05.jpg",
+      "serves": [
+        "checkout-link-ready",
+        "payment-confirmed"
+      ],
+      "prompt": "Close architectural detail: a flush plate of dark red glass set into a honed travertine threshold where a shaded interior floor meets a sunlit terrace; the steel door frame casts one crisp shadow line across it. Very low camera angle along the floor, the sea a soft blur in the distance. Minimal, quiet and exact: the moment of crossing a threshold."
+    },
+    {
+      "asset_id": "R4-G06",
+      "name": "SETTING OUT",
+      "aspect_ratio": "16:9",
+      "reference": "DF-I03",
+      "reference_url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791696577738_a1a7b793.png",
+      "openart": {
+        "history_id": "yKathOVIiSuryVZVoGqy",
+        "resource_id": "j7A5wUpGlXQwOaX1LSQu",
+        "url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791753857988_9c44b12f.png"
+      },
+      "original": {
+        "width": 2304,
+        "height": 1296,
+        "png_sha256": "00648f3fca4beacffe567685275d3b48b58fd424df5a25f49d3cf3b27ed09ca0",
+        "png_bytes": 6199147
+      },
+      "archive_jpg": "docs/site00/idnty/visual-authority/email-v2/r4/premium-assets/R4-G06.jpg",
+      "serves": [
+        "project-activated"
+      ],
+      "prompt": "Early morning on a cliff-top site above the sea: levelled ground of pale compacted earth and crushed stone, with taut red string lines stretched between slim steel survey pins marking out the rectangle of a future building, and one finished travertine corner footing already set in place. Long low sun and long shadows from the pins. No building yet; this is ground being set out. Sea and mountains on the horizon."
+    },
+    {
+      "asset_id": "R4-G07",
+      "name": "THE ARCHIVE",
+      "aspect_ratio": "3:2",
+      "reference": "DF-I01",
+      "reference_url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791696576107_c1029ee6.png",
+      "openart": {
+        "history_id": "Vmc5nRDoA9fT0k0TjoS2",
+        "resource_id": "3WTZBmZzuRvi5bAf3wua",
+        "url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791753859245_52ae3832.png"
+      },
+      "original": {
+        "width": 2016,
+        "height": 1344,
+        "png_sha256": "3d37b89038f26e1c97b5d490ca6e8d03afd768b64456d8a2aa6f9e2eff50b295",
+        "png_bytes": 4487402
+      },
+      "archive_jpg": "docs/site00/idnty/visual-authority/email-v2/r4/premium-assets/R4-G07.jpg",
+      "serves": [
+        "records-available"
+      ],
+      "prompt": "A quiet archive room of board-formed concrete and travertine: a long run of shallow pale stone flat-file drawers, one drawer pulled open showing neatly stacked architectural drawing sheets with no legible writing, and a single small red glass index tab on that drawer. Soft daylight from a high clerestory window. Calm, ordered, permanent."
+    },
+    {
+      "asset_id": "R4-G08",
+      "name": "THE CREDIT",
+      "aspect_ratio": "4:5",
+      "reference": "DF-I03",
+      "reference_url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791696577738_a1a7b793.png",
+      "openart": {
+        "history_id": "1Wzjudvfh8rSfDV2YKkA",
+        "resource_id": "9PWM29cP7xozGuys3h25",
+        "url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791753870849_d7ec3a67.png"
+      },
+      "original": {
+        "width": 1344,
+        "height": 1680,
+        "png_sha256": "2c3977791e80ee7b86c04154852c111a84379b01c23f33ac78d459bf8490acf9",
+        "png_bytes": 4034901
+      },
+      "archive_jpg": "docs/site00/idnty/visual-authority/email-v2/r4/premium-assets/R4-G08.jpg",
+      "serves": [
+        "foundation-credit-issued"
+      ],
+      "prompt": "A single solid block of translucent red glass, about the size of a closed book, resting on a honed travertine plinth inside a deep board-formed concrete wall niche, lit by a shaft of afternoon sun so the glass glows and casts red light onto the stone. Everything else neutral and still. Gallery-like, valuable and restrained."
+    },
+    {
+      "asset_id": "R4-G09",
+      "name": "THE SECTION",
+      "aspect_ratio": "16:9",
+      "reference": "DF-I02",
+      "reference_url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791696575350_a7a4ff21.png",
+      "openart": {
+        "history_id": "zIoYYnSJIWwnGoKZfejg",
+        "resource_id": "v7tld8cyfNwQRaNh5XPI",
+        "url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791753862054_5160b4de.png"
+      },
+      "original": {
+        "width": 2304,
+        "height": 1296,
+        "png_sha256": "e2b31cba0729530fac83324076fd8f1a32bbf9e8886912013aa3a4064fa451e3",
+        "png_bytes": 5301181
+      },
+      "archive_jpg": "docs/site00/idnty/visual-authority/email-v2/r4/premium-assets/R4-G09.jpg",
+      "serves": [
+        "M01"
+      ],
+      "prompt": "A large architectural sectional model cut cleanly through the middle and displayed on a pale stone table: the cut face reveals the layers beneath a small pavilion, from compacted earth and gravel to a thick concrete foundation slab and a travertine floor, with red glass walls and a concrete roof above. Crisp matte cut surfaces. Soft studio daylight, slightly elevated three-quarter view. Educational and beautiful."
+    },
+    {
+      "asset_id": "R4-G10",
+      "name": "AFTER",
+      "aspect_ratio": "16:9",
+      "reference": "DF-I02",
+      "reference_url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791696575350_a7a4ff21.png",
+      "openart": {
+        "history_id": "pnTZecLA9jQCdOpXwefc",
+        "resource_id": "A9q44AEZRFzNcIVOOTrb",
+        "url": "https://cdn.openart.ai/openart-ai/production/2026-10/create-image/r70bB5cq1TcusCDgMpPY/gpt-image-2.5-sunburst-edit-1_1791753864292_d4d28ae6.png"
+      },
+      "original": {
+        "width": 2304,
+        "height": 1296,
+        "png_sha256": "bcc800a66aa204224d821a37ba61f23393fd17b75c201558542cc5979fee863b",
+        "png_bytes": 4482110
+      },
+      "archive_jpg": "docs/site00/idnty/visual-authority/email-v2/r4/premium-assets/R4-G10.jpg",
+      "serves": [
+        "M13"
+      ],
+      "prompt": "The red glass pavilion at blue-hour dusk, its interior lit warm so the red glass glows from within. The terrace is in use: a low travertine table with two glasses and a folded linen napkin, one chair turned toward the sea. Calm water, last light on the mountains. A lived-in evening after the work is done."
+    }
+  ]
+}

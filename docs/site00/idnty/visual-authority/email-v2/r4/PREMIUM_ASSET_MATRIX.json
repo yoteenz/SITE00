@@ -1,0 +1,587 @@
+{
+  "sprint": "P0.SITE00.IDNTY.EMAIL-V2-R4-PREMIUM-EDITORIAL-ASSET-PASS-AND-FULL-PACK-COMPOSITION-REBUILD1",
+  "status": "FOUNDER REVIEW PENDING",
+  "rule": {
+    "P1": "UNIQUE PREMIUM HERO. The email is a moment the client keeps or acts on with money; one photograph carries its idea.",
+    "P2": "SHARED FAMILY ART. A sibling of a P1 moment; it reuses that photograph through a different crop, so the family reads as one sequence without a new commission.",
+    "P3": "UTILITY. A short status or request; drawn devices, icons and live type carry it. A photograph would slow the job down."
+  },
+  "counts": {
+    "P1": 10,
+    "P2": 4,
+    "P3": 6
+  },
+  "classes": {
+    "P1": [
+      "personal-foundation-invitation",
+      "quote-ready",
+      "payment-confirmed",
+      "project-activated",
+      "foundation-complete",
+      "records-available",
+      "foundation-credit-issued",
+      "M01",
+      "M06",
+      "M13"
+    ],
+    "P2": [
+      "intake-started",
+      "quote-updated",
+      "checkout-link-ready",
+      "bldr-discovery"
+    ],
+    "P3": [
+      "intake-completed",
+      "quote-accepted",
+      "payment-failed",
+      "client-action-required",
+      "approval-requested",
+      "approval-completed"
+    ]
+  },
+  "generation": {
+    "provider": "OPENART",
+    "project_id": "6Ueswtr8vt58ur2n3CRs",
+    "project_name": "SITE00 IDNTY Digital Foundation Production",
+    "model": "gpt-image-2-5-sunburst",
+    "mode": "image2image",
+    "params": {
+      "resolutionTier": "2k",
+      "quality": "high",
+      "imageCount": 1,
+      "autoEnhancePrompt": false,
+      "outputFormat": "png"
+    },
+    "jobs": 10,
+    "ceiling": {
+      "previous_premium_scenario": "DF_V2_EMAIL_PACK_BUDGET_APPROVAL.md PREMIUM: 4 new + 2 reserve at 317 = 1902 credits",
+      "r4_plan": "10 new + 1 reserve at 162 (2k is sufficient for a 640px email at 2x) = 1782 credits",
+      "within_previous_range": true
+    },
+    "credits": {
+      "balance_before": 20899,
+      "balance_after": 19199,
+      "spent": 1700,
+      "quoted": 1630,
+      "reserve_used": 0,
+      "regenerations": 0
+    }
+  },
+  "assets": [
+    {
+      "asset_id": "R4-G01",
+      "name": "THE OPEN DOOR",
+      "aspect_ratio": "2:3",
+      "reference": "DF-I01",
+      "serves": [
+        "personal-foundation-invitation",
+        "intake-started"
+      ],
+      "planned_but_not_used": [],
+      "crops_by_template": {
+        "personal-foundation-invitation": [
+          "gen/door_band_m.jpg",
+          "gen/door_col.jpg"
+        ],
+        "intake-started": [
+          "gen/door_floor.jpg",
+          "gen/door_floor_m.jpg"
+        ]
+      }
+    },
+    {
+      "asset_id": "R4-G02",
+      "name": "GROUND LAID",
+      "aspect_ratio": "3:2",
+      "reference": "DF-I03",
+      "serves": [
+        "foundation-complete"
+      ],
+      "planned_but_not_used": [],
+      "crops_by_template": {
+        "foundation-complete": [
+          "gen/slab.jpg",
+          "gen/slab_m.jpg"
+        ]
+      }
+    },
+    {
+      "asset_id": "R4-G03",
+      "name": "THE COVER",
+      "aspect_ratio": "4:5",
+      "reference": "DF-I02",
+      "serves": [
+        "bldr-discovery",
+        "M06"
+      ],
+      "planned_but_not_used": [],
+      "crops_by_template": {
+        "bldr-discovery": [
+          "gen/pavilion_band.jpg"
+        ],
+        "M06": [
+          "gfx/cover-r4.jpg"
+        ]
+      }
+    },
+    {
+      "asset_id": "R4-G04",
+      "name": "THE SCOPE MODEL",
+      "aspect_ratio": "3:2",
+      "reference": "DF-I02",
+      "serves": [
+        "quote-ready",
+        "quote-updated"
+      ],
+      "planned_but_not_used": [
+        "quote-accepted"
+      ],
+      "crops_by_template": {
+        "quote-ready": [
+          "gen/model.jpg",
+          "gen/model_m.jpg"
+        ],
+        "quote-updated": [
+          "gen/model_detail.jpg"
+        ]
+      }
+    },
+    {
+      "asset_id": "R4-G05",
+      "name": "THE THRESHOLD",
+      "aspect_ratio": "16:9",
+      "reference": "DF-I01",
+      "serves": [
+        "checkout-link-ready",
+        "payment-confirmed"
+      ],
+      "planned_but_not_used": [],
+      "crops_by_template": {
+        "checkout-link-ready": [
+          "gen/threshold_slot.jpg"
+        ],
+        "payment-confirmed": [
+          "gen/threshold.jpg",
+          "gen/threshold_m.jpg"
+        ]
+      }
+    },
+    {
+      "asset_id": "R4-G06",
+      "name": "SETTING OUT",
+      "aspect_ratio": "16:9",
+      "reference": "DF-I03",
+      "serves": [
+        "project-activated"
+      ],
+      "planned_but_not_used": [],
+      "crops_by_template": {
+        "project-activated": [
+          "gen/setout.jpg",
+          "gen/setout_m.jpg"
+        ]
+      }
+    },
+    {
+      "asset_id": "R4-G07",
+      "name": "THE ARCHIVE",
+      "aspect_ratio": "3:2",
+      "reference": "DF-I01",
+      "serves": [
+        "records-available"
+      ],
+      "planned_but_not_used": [],
+      "crops_by_template": {
+        "records-available": [
+          "gen/archive.jpg",
+          "gen/archive_m.jpg"
+        ]
+      }
+    },
+    {
+      "asset_id": "R4-G08",
+      "name": "THE CREDIT",
+      "aspect_ratio": "4:5",
+      "reference": "DF-I03",
+      "serves": [
+        "foundation-credit-issued"
+      ],
+      "planned_but_not_used": [],
+      "crops_by_template": {
+        "foundation-credit-issued": [
+          "gen/credit_col.jpg",
+          "gen/credit_m.jpg"
+        ]
+      }
+    },
+    {
+      "asset_id": "R4-G09",
+      "name": "THE SECTION",
+      "aspect_ratio": "16:9",
+      "reference": "DF-I02",
+      "serves": [
+        "M01"
+      ],
+      "planned_but_not_used": [],
+      "crops_by_template": {
+        "M01": [
+          "gfx/section-r4.jpg"
+        ]
+      }
+    },
+    {
+      "asset_id": "R4-G10",
+      "name": "AFTER",
+      "aspect_ratio": "16:9",
+      "reference": "DF-I02",
+      "serves": [
+        "M13"
+      ],
+      "planned_but_not_used": [],
+      "crops_by_template": {
+        "M13": [
+          "gen/after.jpg",
+          "gen/after_m.jpg",
+          "gen/after_strip.jpg"
+        ]
+      }
+    }
+  ],
+  "templates": [
+    {
+      "code": "TR-01",
+      "template_id": "personal-foundation-invitation",
+      "family": "transactional",
+      "visual_class": "P1",
+      "premium_assets": [
+        "R4-G01"
+      ],
+      "premium_crops": {
+        "R4-G01": [
+          "gen/door_band_m.jpg",
+          "gen/door_col.jpg"
+        ]
+      },
+      "drawn_assets": [
+        "r3/icon-address-plaque.png",
+        "r3/icon-door-swing.png",
+        "r3/icon-envelope-plan.png",
+        "r3/icon-registration.png",
+        "r3/icon-route.png",
+        "r3/icon-seal.png"
+      ]
+    },
+    {
+      "code": "TR-02",
+      "template_id": "intake-started",
+      "family": "transactional",
+      "visual_class": "P2",
+      "premium_assets": [
+        "R4-G01"
+      ],
+      "premium_crops": {
+        "R4-G01": [
+          "gen/door_floor.jpg",
+          "gen/door_floor_m.jpg"
+        ]
+      },
+      "drawn_assets": [
+        "r3/icon-door-swing.png"
+      ]
+    },
+    {
+      "code": "TR-03",
+      "template_id": "intake-completed",
+      "family": "transactional",
+      "visual_class": "P3",
+      "premium_assets": [],
+      "premium_crops": {},
+      "drawn_assets": [
+        "r3/icon-envelope-plan.png"
+      ]
+    },
+    {
+      "code": "TR-04",
+      "template_id": "quote-ready",
+      "family": "transactional",
+      "visual_class": "P1",
+      "premium_assets": [
+        "R4-G04"
+      ],
+      "premium_crops": {
+        "R4-G04": [
+          "gen/model.jpg",
+          "gen/model_m.jpg"
+        ]
+      },
+      "drawn_assets": [
+        "gfx/icon-scale-rule.png"
+      ]
+    },
+    {
+      "code": "TR-05",
+      "template_id": "quote-updated",
+      "family": "transactional",
+      "visual_class": "P2",
+      "premium_assets": [
+        "R4-G04"
+      ],
+      "premium_crops": {
+        "R4-G04": [
+          "gen/model_detail.jpg"
+        ]
+      },
+      "drawn_assets": [
+        "gfx/icon-revision.png"
+      ]
+    },
+    {
+      "code": "TR-06",
+      "template_id": "quote-accepted",
+      "family": "transactional",
+      "visual_class": "P3",
+      "premium_assets": [],
+      "premium_crops": {},
+      "drawn_assets": [
+        "gfx/icon-countersign.png",
+        "gfx/icon-scale-rule.png"
+      ]
+    },
+    {
+      "code": "TR-07",
+      "template_id": "checkout-link-ready",
+      "family": "transactional",
+      "visual_class": "P2",
+      "premium_assets": [
+        "R4-G05"
+      ],
+      "premium_crops": {
+        "R4-G05": [
+          "gen/threshold_slot.jpg"
+        ]
+      },
+      "drawn_assets": [
+        "gfx/icon-ticket.png"
+      ]
+    },
+    {
+      "code": "TR-08",
+      "template_id": "payment-confirmed",
+      "family": "transactional",
+      "visual_class": "P1",
+      "premium_assets": [
+        "R4-G05"
+      ],
+      "premium_crops": {
+        "R4-G05": [
+          "gen/threshold.jpg",
+          "gen/threshold_m.jpg"
+        ]
+      },
+      "drawn_assets": [
+        "gfx/icon-ticket.png"
+      ]
+    },
+    {
+      "code": "TR-09",
+      "template_id": "payment-failed",
+      "family": "transactional",
+      "visual_class": "P3",
+      "premium_assets": [],
+      "premium_crops": {},
+      "drawn_assets": []
+    },
+    {
+      "code": "TR-10",
+      "template_id": "project-activated",
+      "family": "transactional",
+      "visual_class": "P1",
+      "premium_assets": [
+        "R4-G06"
+      ],
+      "premium_crops": {
+        "R4-G06": [
+          "gen/setout.jpg",
+          "gen/setout_m.jpg"
+        ]
+      },
+      "drawn_assets": [
+        "gfx/icon-plumb.png"
+      ]
+    },
+    {
+      "code": "TR-11",
+      "template_id": "foundation-complete",
+      "family": "transactional",
+      "visual_class": "P1",
+      "premium_assets": [
+        "R4-G02"
+      ],
+      "premium_crops": {
+        "R4-G02": [
+          "gen/slab.jpg",
+          "gen/slab_m.jpg"
+        ]
+      },
+      "drawn_assets": [
+        "r3/completion-seal.png",
+        "r3/icon-address-plaque.png",
+        "r3/icon-benchmark.png",
+        "r3/icon-device-signature.png",
+        "r3/icon-envelope-plan.png",
+        "r3/icon-property-line.png",
+        "r3/icon-route.png",
+        "r3/icon-seal.png",
+        "r3/lockup-groundwork-m.png",
+        "r3/lockup-groundwork.png"
+      ]
+    },
+    {
+      "code": "TR-12",
+      "template_id": "records-available",
+      "family": "transactional",
+      "visual_class": "P1",
+      "premium_assets": [
+        "R4-G07"
+      ],
+      "premium_crops": {
+        "R4-G07": [
+          "gen/archive.jpg",
+          "gen/archive_m.jpg"
+        ]
+      },
+      "drawn_assets": [
+        "gfx/icon-drawer.png"
+      ]
+    },
+    {
+      "code": "OP-01",
+      "template_id": "client-action-required",
+      "family": "operational",
+      "visual_class": "P3",
+      "premium_assets": [],
+      "premium_crops": {},
+      "drawn_assets": [
+        "gfx/icon-pin.png"
+      ]
+    },
+    {
+      "code": "OP-02",
+      "template_id": "approval-requested",
+      "family": "operational",
+      "visual_class": "P3",
+      "premium_assets": [],
+      "premium_crops": {},
+      "drawn_assets": [
+        "gfx/icon-decision.png"
+      ]
+    },
+    {
+      "code": "OP-03",
+      "template_id": "approval-completed",
+      "family": "operational",
+      "visual_class": "P3",
+      "premium_assets": [],
+      "premium_crops": {},
+      "drawn_assets": [
+        "gfx/icon-recorded.png"
+      ]
+    },
+    {
+      "code": "MK-01",
+      "template_id": "foundation-credit-issued",
+      "family": "marketing",
+      "visual_class": "P1",
+      "premium_assets": [
+        "R4-G08"
+      ],
+      "premium_crops": {
+        "R4-G08": [
+          "gen/credit_col.jpg",
+          "gen/credit_m.jpg"
+        ]
+      },
+      "drawn_assets": [
+        "gfx/icon-token.png"
+      ]
+    },
+    {
+      "code": "MK-02",
+      "template_id": "bldr-discovery",
+      "family": "marketing",
+      "visual_class": "P2",
+      "premium_assets": [
+        "R4-G03"
+      ],
+      "premium_crops": {
+        "R4-G03": [
+          "gen/pavilion_band.jpg"
+        ]
+      },
+      "drawn_assets": [
+        "r3/icon-north.png",
+        "r3/plan-a-gallery.png",
+        "r3/plan-b-courtyard.png",
+        "r3/plan-c-open-hall.png"
+      ]
+    },
+    {
+      "code": "MK-03",
+      "template_id": "M01",
+      "family": "marketing",
+      "visual_class": "P1",
+      "premium_assets": [
+        "R4-G09"
+      ],
+      "premium_crops": {
+        "R4-G09": [
+          "gfx/section-r4.jpg"
+        ]
+      },
+      "drawn_assets": [
+        "gfx/icon-layers.png"
+      ]
+    },
+    {
+      "code": "MK-04",
+      "template_id": "M06",
+      "family": "marketing",
+      "visual_class": "P1",
+      "premium_assets": [
+        "R4-G03"
+      ],
+      "premium_crops": {
+        "R4-G03": [
+          "gfx/cover-r4.jpg"
+        ]
+      },
+      "drawn_assets": [
+        "r3/icon-north.png",
+        "r3/icon-route.png",
+        "r3/icon-station.png",
+        "r3/plan-a-gallery.png",
+        "r3/plan-b-courtyard.png",
+        "r3/plan-c-open-hall.png"
+      ]
+    },
+    {
+      "code": "MK-05",
+      "template_id": "M13",
+      "family": "marketing",
+      "visual_class": "P1",
+      "premium_assets": [
+        "R4-G10"
+      ],
+      "premium_crops": {
+        "R4-G10": [
+          "gen/after.jpg",
+          "gen/after_m.jpg",
+          "gen/after_strip.jpg"
+        ]
+      },
+      "drawn_assets": [
+        "gfx/icon-horizon.png"
+      ]
+    }
+  ]
+}
