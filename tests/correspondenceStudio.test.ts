@@ -11,6 +11,11 @@ import {
   r3VersionId,
 } from '../shared/site00-correspondence-studio/import/r3EditorialImport.js';
 import {
+  R4_PREMIUM_IMPORT_CONTRACT,
+  listR4TemplateIds,
+  r4VersionId,
+} from '../shared/site00-correspondence-studio/import/r4PremiumImport.js';
+import {
   OPUS_V2_BENCHMARK_IMPORT_CONTRACT,
   applyOpusV2BenchmarkImport,
   listOpusBenchmarkTemplateIds,
@@ -93,17 +98,18 @@ describe('Correspondence Studio workspace', () => {
     expect(out[0].body).toBe('ok');
   });
 
-  it('registers R3 as current without removing V2 or the R2 territories', () => {
+  it('keeps R3, V2 and the R2 territories registered under R4', () => {
     resetCorrespondenceWorkspaceCache();
     expect(R3_EDITORIAL_IMPORT_CONTRACT.auto_approve).toBe(false);
     const m = getCorrespondenceWorkspace();
     for (const row of R3_EDITORIAL_IMPORT_CONTRACT.emails) {
       const t = m.templates[row.template_id];
       const ids = t.versions.map((v) => v.version_id);
-      expect(t.current_version_id).toBe(r3VersionId(row.benchmark_id));
+      expect(ids).toContain(r3VersionId(row.benchmark_id));
+      expect(t.current_version_id).toBe(r4VersionId(row.template_id));
       expect(ids).toContain(`${row.benchmark_id}@v2-editorial-benchmark`);
       for (const letter of ['A', 'B', 'C']) expect(ids).toContain(r2VersionId(row.benchmark_id, letter));
-      for (const v of t.versions.filter((x) => /@r[23]-/.test(x.version_id))) expect(v.review_state).toBe('founder_review');
+      for (const v of t.versions.filter((x) => /@r[234]-/.test(x.version_id))) expect(v.review_state).toBe('founder_review');
     }
     expect(listR3TemplateIds()).toEqual(['personal-foundation-invitation', 'foundation-complete', 'M06']);
   });
@@ -127,6 +133,39 @@ describe('Correspondence Studio workspace', () => {
   it('does not cache the benchmark-free manifest as the default workspace', () => {
     resetCorrespondenceWorkspaceCache();
     getCorrespondenceWorkspace({ includeOpusBenchmarks: false });
-    expect(getCorrespondenceWorkspace().templates.M06.current_version_id).toBe(r3VersionId('B03'));
+    expect(getCorrespondenceWorkspace().templates.M06.current_version_id).toBe(r4VersionId('M06'));
+  });
+
+  it('registers an R4 premium version as current for all 20 templates, at founder review', () => {
+    resetCorrespondenceWorkspaceCache();
+    expect(R4_PREMIUM_IMPORT_CONTRACT.auto_approve).toBe(false);
+    const m = getCorrespondenceWorkspace();
+    expect(listR4TemplateIds()).toHaveLength(DIGITAL_FOUNDATION_TEMPLATE_COUNT);
+    expect(new Set(listR4TemplateIds())).toEqual(new Set(Object.keys(m.templates)));
+    for (const id of listR4TemplateIds()) {
+      const t = m.templates[id];
+      const v = t.versions.find((x) => x.version_id === r4VersionId(id));
+      expect(t.current_version_id).toBe(r4VersionId(id));
+      expect(v?.review_state).toBe('founder_review');
+      expect(t.versions.length).toBeGreaterThan(1);
+    }
+  });
+
+  it('publishes every R4 preview and keeps the asset classes consistent with the matrix', () => {
+    resetCorrespondenceWorkspaceCache();
+    const m = getCorrespondenceWorkspace();
+    const matrix = JSON.parse(fs.readFileSync('docs/site00/idnty/visual-authority/email-v2/r4/PREMIUM_ASSET_MATRIX.json', 'utf8'));
+    for (const row of R4_PREMIUM_IMPORT_CONTRACT.emails) {
+      const v = m.templates[row.template_id].versions.find((x) => x.version_id === r4VersionId(row.template_id))!;
+      expect(v.preview_source.kind).toBe('repository_html');
+      if (v.preview_source.kind !== 'repository_html') continue;
+      expect(fs.existsSync(path.join('public', v.preview_source.publicPreviewPath!)), row.template_id).toBe(true);
+      expect(fs.existsSync(v.preview_source.repoPath), row.template_id).toBe(true);
+      const entry = matrix.templates.find((t: { template_id: string }) => t.template_id === row.template_id);
+      expect(entry.visual_class).toBe(row.visual_class);
+      expect(entry.premium_assets).toEqual(row.premium_assets);
+    }
+    expect(matrix.counts).toEqual({ P1: 10, P2: 4, P3: 6 });
+    expect(fs.existsSync(path.join('public', R4_PREMIUM_IMPORT_CONTRACT.review_artifact))).toBe(true);
   });
 });

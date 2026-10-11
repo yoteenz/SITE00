@@ -3,6 +3,7 @@ export * from './devicePreview.js';
 export * from './workspace.js';
 export * from './import/opusV2BenchmarkImport.js';
 export * from './import/r3EditorialImport.js';
+export * from './import/r4PremiumImport.js';
 export * from './review/repositoryReviewStore.js';
 export * from './delivery/planClientDelivery.js';
 export * from './manifests/digital-foundation-lifecycle.js';
