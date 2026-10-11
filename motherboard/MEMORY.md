@@ -16135,7 +16135,6 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
-<<<<<<< HEAD
 ## 2026-10-10 — BLDR monument realism V2 benchmark (PLACE · ADVANCED, opt-in)
 
 - **Context:** The founder said V1 (#1589) was "still too similar" and ruled out any more material-token-only passes. The sprint asked for one benchmark monument before any rollout: no auto-merge, no production deploy.
@@ -16151,14 +16150,12 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - The ADVANCED card still renders through V2.
 - **Docs:** `docs/site00/bldr/MONUMENT_REALISM_V2_BENCHMARK.{md,json}`. Artifacts are in `/opt/cursor/artifacts/bldr-v2/`. Tests: `tests/bldrMonumentRealismV2.test.ts`.
 - **Conventions:** Widen `isRealismBenchmark` family by family, and only after founder approval: PLACE, FEEL, WORK, PACE, then BLUEPRINT, which needs a V2 `lit` state. The current path still keeps WebGL contexts after dispose; fix that with the rollout.
-=======
 ## 2026-10-10 — DF visual batch B (records and approvals) + review flow scroll
 
 - **Context:** Batch A direction approved with two Opus copy corrections. Founder requested batch B OpenArt generation (four records/approval child screens), ZIP + direct download. Separately, review page CTAs now scroll between phone frames on `/foundation/review`.
 - **Batch B:** OpenArt project `6Ueswtr8vt58ur2n3CRs`, model `gpt-image-2-5-sunburst`, 4k 9:16, four first-pass images (2016×3584), credits 27854→26590 (Δ1264). Screens DF-B01–B04. Release tag `df-v2-batch-b-2026-10-10`. Do not regenerate batch A. Do not merge batch PRs without founder. Implementation NOT AUTHORIZED.
 - **Batch A handoff:** `batch-a/BATCH_A_OPUS_HANDOFF_CORRECTIONS.md` — no “decision recorded” while pending; revision reason optional label must match contract at implementation.
 - **Review flow:** PR #1595 merged — VIEW MY RECOMMENDATION scrolls to `#df-r-P04` without router navigation.
->>>>>>> origin/main
 
 ## 2026-10-11 — Email V2: NDX editorial intelligence + three-email benchmark (founder review)
 
@@ -16173,3 +16170,31 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - All SITE 00-authored copy is uppercase. Client names, emails, domains, URLs and tokens keep their original case.
   - Never put system or contract language in customer copy. Gaps are logged in `qa/CONTRACT_GAPS.md` (invitation route, `completed_stages`, M06 `public_token`, `unsubscribe_url`/`postal_address`, sender).
   - The 17-email rollout is NOT AUTHORIZED until the founder approves the benchmarks (`ROLLOUT_PLAN.md`, Gates 0–4).
+
+## 2026-10-11 — Email V2 R2: professional art direction, nine bespoke territories (founder selection pending)
+
+- **Context:** The founder approved the V2 editorial content and visual identity, but rejected the graphic art direction as "polished premade templates". Sprint `P0.SITE00.IDNTY.EMAIL-V2-NDX-PROFESSIONAL-ART-DIRECTION-AND-BESPOKE-GRAPHIC-COMPOSITION-R2`, run by Claude Opus on parent PR #1607. Constraints: copy unchanged, 0 OpenArt credits, no regeneration, no sending, no merge, no deploy, no auto-approval.
+- **Outcome:** Branch `cursor/df-email-v2-ndx-benchmark-a9f7`, draft PR #1607, not merged. Each email gets three territories, each with one central idea and a signature device:
+  - B01 invitation:
+    - A PRIVATE CORRESPONDENCE: a red-glass spine and a perforated reply card.
+    - B ARCHITECTURAL OPENING: stepped marble jambs around a doorway, with the headline standing in the threshold.
+    - C PERSONAL EDITORIAL: the client name as masthead and hanging numerals; no photo.
+  - B02 completion:
+    - A MONUMENT ESTABLISHED: a stepped travertine monument, an inscription band, and the ledger as stone courses.
+    - B ARCHITECTURAL RECORD: the email as a drawing sheet, with a section through five strata and a title block.
+    - C MILESTONE REVEAL: one image cut at a red datum, drawing above and photo below; the ledger as a timeline.
+  - B03 BLDR:
+    - A ARCHITECTURAL MANIFESTO: a dark declaration with a glass column, and articles numbered without images.
+    - B ENTER THE LOCATION: a dashed route with station maps, and images that grow as you walk in.
+    - C THE UNBUILT POSSIBILITY: superimposed plans on a plot, the headline inside the site boundary, and the sections as plan rooms.
+- **Paths:**
+  - Source is in `scripts/df-email-v2-benchmark/r2/` and covers prepare_r2, r2.css, territories, territories.json, build_review, render, qa_r2, contact_sheet and package_r2.
+  - The review artifact is `r2/review/index.html` (email, direction, device 390/768/1024, compare with R1, rationale). It is hosted via githack at the commit SHA, behind one interstitial tap.
+  - Docs are `docs/site00/idnty/visual-authority/email-v2/r2/ART_DIRECTION_R2.md` and `r2/qa/R2_COPY_PRESERVATION_QA.json`.
+- **QA:** 27 renders. Copy preservation PASS, with every COPY.md unit present in all nine territories. The only added text is drawing furniture: PROJECT, STATUS, and numerals.
+- **Release:** `df-v2-email-r2-territories-2026-10-11`, prerelease (ZIP sha256 `32060312…`, download verified).
+- **Conventions:**
+  - The Saira board fonts are now committed (OFL) so hosted previews render correctly. Production email still falls back to Arial Narrow.
+  - Do not use class `note` or `from` in board emails; the `qa_copy.py` chrome filter skips them.
+  - Copy authority is COPY.md, not R1 HTML. R1 used "AS DRAWN / AS LAID" where COPY.md says "GROUND · LAID".
+  - FULL_EMAIL_ROLLOUT is NOT AUTHORIZED until the founder picks one direction per benchmark.
