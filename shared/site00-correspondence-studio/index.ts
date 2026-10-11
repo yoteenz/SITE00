@@ -7,3 +7,4 @@ export * from './delivery/planClientDelivery.js';
 export * from './manifests/digital-foundation-lifecycle.js';
 export * from './serviceScope.js';
 export * from './brandFirewall.js';
+export * from './workspaceLibrary.js';
