@@ -16135,6 +16135,22 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
+## 2026-10-10 — BLDR monument realism V2 benchmark (PLACE · ADVANCED, opt-in)
+
+- **Context:** The founder said V1 (#1589) was "still too similar" and ruled out any more material-token-only passes. The sprint asked for one benchmark monument before any rollout: no auto-merge, no production deploy.
+- **Topics covered:** This session's earlier BLDR V1 work, the vector chamber restore, and the Anthony infra docs. Then the V2 benchmark on branch `cursor/bldr-monument-realism-v2-a9f7` (draft PR, not merged).
+- **Root cause of V1's limit:** The canvas is transparent over a CSS plate, so transmission refracts empty alpha. Every element is a scaled unit cube, so there are no edges, bevels or thickness.
+- **Decisions / outcomes:**
+  - New `buildObject/realism.ts`, active only with `?realism=v2` when the composition key starts with `place|ADVANCED|`. The default renderer is unchanged.
+  - The room plate is drawn in-scene with the same `center 62% / cover` fit, so glass refracts the real photograph.
+  - Glass rooms are 22 mm panels with beveled chrome frames and mullion bars. The red spine is a beveled transmissive acrylic shell around a dense `#E50107` core. The marble plinth is beveled, with finer veins unfolded over the edges.
+  - Baked contact occlusion and red bounce; no bloom.
+  - No idle rendering (0 draws versus 5,278 in 3 s). The refraction buffer and pixel ratio adapt on phones. The WebGL context is released on dispose.
+  - Under SwiftShader, a V2 frame costs about 2.1–2.25× a current frame. Draw calls fall from 182 to 42.
+  - The ADVANCED card still renders through V2.
+- **Docs:** `docs/site00/bldr/MONUMENT_REALISM_V2_BENCHMARK.{md,json}`. Artifacts are in `/opt/cursor/artifacts/bldr-v2/`. Tests: `tests/bldrMonumentRealismV2.test.ts`.
+- **Conventions:** Widen `isRealismBenchmark` family by family, and only after founder approval: PLACE, FEEL, WORK, PACE, then BLUEPRINT, which needs a V2 `lit` state. The current path still keeps WebGL contexts after dispose; fix that with the rollout.
+
 ## 2026-10-10 — DF visual mass-production cost scope (C–J)
 
 - **Context:** Founder asked for the cost of remaining Digital Foundation visual batches C–J before any mass generation. No new images. No OpenArt spend.
@@ -16176,6 +16192,11 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Review flow:** PR #1595 merged — VIEW MY RECOMMENDATION scrolls to `#df-r-P04` without router navigation.
 
 ---
+
+## 2026-10-11 — Remove committed MEMORY.md conflict markers
+
+- **Context:** `origin/main` had an unresolved merge left in `motherboard/MEMORY.md` (BLDR V2 benchmark entry versus the batch B log). That marker block made later branches report conflicts with `main`.
+- **Resolution:** Both log entries stay. The conflict markers are removed. No product code changed.
 
 ## 2026-10-10 — Merge conflict review vs origin/main (888fccd1)
 
