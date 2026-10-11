@@ -361,7 +361,7 @@ body:has(.csw) {
 }
 
 .csw-nav__id {
-  padding: 30px 22px 18px 28px;
+  padding: 26px 18px 12px 28px;
   border-bottom: 1px solid var(--hair);
 }
 
@@ -397,15 +397,15 @@ body:has(.csw) {
   margin: 0;
   font-size: 10px;
   font-weight: 500;
-  line-height: 1.62;
-  letter-spacing: 0.15em;
+  line-height: 1.55;
+  letter-spacing: 0.13em;
   color: var(--ink);
 }
 
 .csw-nav__list {
   display: flex;
   flex-direction: column;
-  padding: 18px 14px 10px 8px;
+  padding: 14px 14px 10px 8px;
 }
 
 .csw-nav__item {
@@ -587,7 +587,7 @@ body:has(.csw) {
   display: flex;
   align-items: center;
   gap: clamp(16px, 2vw, 40px);
-  padding: 0 clamp(20px, 2.6vw, 56px) 0 clamp(24px, 3.6vw, 72px);
+  padding: 0 clamp(20px, 2.6vw, 56px) calc(var(--mast) * 0.1) clamp(24px, 3.6vw, 72px);
   background:
     linear-gradient(90deg, rgba(250, 249, 247, 0.5) 0%, rgba(250, 249, 247, 0.86) 9%, rgba(250, 249, 247, 0.92) 60%, rgba(250, 249, 247, 0.88) 100%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.25), rgba(230, 228, 224, 0.35));
@@ -795,7 +795,7 @@ body:has(.csw) {
   flex: none;
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 5px 4px;
   padding: 12px 14px 10px;
 }
 
