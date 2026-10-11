@@ -15598,3 +15598,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - Descendants were not generated. This branch is for founder review and is not merged.
 - **Changes:** `SETUP v1/` authorities, plates, `SETUP v1/MANIFESTS/setup-parent-authority-manifest.json`, and `SETUP v1/REVIEW/` contact sheets. `motherboard/MEMORY.md` only, besides that folder.
 - **Conventions:** SETUP is organizing and assembling. ENTRY is ceremonial admission. Do not infer founder approval of these 16 parents. Do not generate SETUP descendants until that review.
+
+---
+
+## 2026-10-11 — P0 Digital Foundation screen review tunnel activation (PR #1612)
+
+- **Context:** Founder sprint to expose the already-built `/admin/site00/foundation/screen-review` artifact (FoundationReviewStudioPage from PR #1612) on the cloud dev tunnel without merging that PR to `main` or touching production.
+- **Topics covered:** Integrate PR #1612 onto review branch `cursor/df-screen-review-tunnel-be3b`; pin preview worktree `/tmp/site00-preview-main` to SHA `98e2387e`; restart Vite dev on `:5174`; verify tunnel serves dev mode (`/src/main.tsx?v=dev-local`); browser QA at mobile/tablet/desktop for P13–G01 navigation and honest context-required states.
+- **Decisions / outcomes:** PR #1612 **not** merged to `main`. Preview lineage `PREVIEW_AUTHORITY=PINNED` with `PREVIEW_PIN_REF=cursor/df-screen-review-tunnel-be3b`. `serve-site00-preview-from-pin-ref.sh` cannot checkout a branch already checked out in `/workspace` — worktree was detached to PR head manually; Vite restarted from worktree. Admin guard uses preview bypass (`TEMPORARY_SITE00_ADMIN_BYPASS_ON_PREVIEW`) on tunnel host. `npm run build` / `typecheck` still fail on pre-existing repo TS errors (JURNL deviceRepository duplicate export, builder-studio anatomy, foundation-client ProjectPortal, DigitalFoundationReviewPage ROADMAP) — unrelated to screen-review route; Vite dev and targeted vitest pass.
+- **Changes:** Branch `cursor/df-screen-review-tunnel-be3b` pushed (same tree as PR #1612). Runtime: tmux `site00_vite` on pinned worktree. QA screenshots under `/opt/cursor/artifacts/df-screen-review-*.png`. Revert tunnel integration: `bash .cursor/scripts/serve-site00-preview-from-main.sh`.
+- **Conventions:** For founder review of unmerged PRs, pin preview with `serve-site00-preview-from-pin-ref.sh` + SHA (not branch name if that branch is bound to main workspace worktree).
