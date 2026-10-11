@@ -36,6 +36,16 @@ export const JURNL_CREATIVE_GRAMMAR_FLAGS = {
   artifact_only_interpretation_forbidden: true,
   generic_stationery_drift_forbidden: true,
   contrast_anchor_required: true,
+  parent_first_only: true,
+  unapproved_parent_sidekick_generation_forbidden: true,
+  unapproved_parent_component_generation_forbidden: true,
+  unapproved_parent_overlay_extraction_forbidden: true,
+  unapproved_parent_descendant_generation_forbidden: true,
+  plate_derives_from_approved_parent: true,
+  components_derive_from_approved_parent: true,
+  overlays_derive_from_approved_parent: true,
+  founder_lock_required_before_explosion: true,
+  courtroom_or_masculine_study_drift_forbidden: true,
 } as const;
 
 /** The only JURNL mark. Do not draw, retype, or restyle it. */
@@ -115,6 +125,7 @@ export const JURNL_CREATIVE_GRAMMAR_FAIL_IF = [
   'The page is one stationery object on a generic desk or wall.',
   'A family uses one camera for every parent.',
   'The family has no distinct room.',
+  'SETUP reads as a courtroom, a law document, a records office, or a masculine study.',
 ] as const;
 
 export const JURNL_CREATIVE_GRAMMAR_PASS_IF = [
@@ -209,7 +220,7 @@ export const JURNL_CREATIVE_GRAMMAR = {
   family_expression_rule: 'The five-level grammar is shared. Each family invents its own artifact language. MONEY, CREDIT, PLAN, SETUP, and RECORDS must not look like ENTRY.',
   fail_if: JURNL_CREATIVE_GRAMMAR_FAIL_IF,
   pass_if: JURNL_CREATIVE_GRAMMAR_PASS_IF,
-  plate_rule: 'Page authority first. The plate keeps the set, objects, collisions, fragments, foreground, shadows, perspective, and crop, and removes live product UI. The plate must still read as a JURNL campaign image.',
+  plate_rule: 'Page authority first. The plate, components, and overlays derive only from a founder-approved parent. The plate keeps the set, objects, collisions, fragments, foreground, shadows, perspective, and crop, and removes live product UI. The plate must still read as a JURNL campaign image. An unapproved parent does not explode into sidekicks, components, overlays, or descendants.',
   entry: JURNL_ENTRY_RECONSTRUCTION,
 } as const;
 

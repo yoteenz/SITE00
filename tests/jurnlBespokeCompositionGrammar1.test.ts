@@ -36,6 +36,16 @@ describe('JURNL bespoke composition grammar', () => {
       artifact_only_interpretation_forbidden: true,
       generic_stationery_drift_forbidden: true,
       contrast_anchor_required: true,
+      parent_first_only: true,
+      unapproved_parent_sidekick_generation_forbidden: true,
+      unapproved_parent_component_generation_forbidden: true,
+      unapproved_parent_overlay_extraction_forbidden: true,
+      unapproved_parent_descendant_generation_forbidden: true,
+      plate_derives_from_approved_parent: true,
+      components_derive_from_approved_parent: true,
+      overlays_derive_from_approved_parent: true,
+      founder_lock_required_before_explosion: true,
+      courtroom_or_masculine_study_drift_forbidden: true,
     });
     expect(G.JURNL_CREATIVE_GRAMMAR.official_brand_asset).toBe('public/site00/projects/jurnl/brand/jurnl-logo-official.png');
   });
