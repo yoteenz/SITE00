@@ -16285,3 +16285,13 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 - **Context:** `origin/main` had an unresolved merge left in `motherboard/MEMORY.md` (BLDR V2 benchmark entry versus the batch B log). That marker block made later branches report conflicts with `main`.
 - **Resolution:** Both log entries stay. The conflict markers are removed. No product code changed.
+
+---
+
+## 2026-10-11 — Email V2 R4 premium editorial pack (20 emails, draft PR, not merged)
+
+- **Context:** Sprint `P0.SITE00.IDNTY.EMAIL-V2-R4-PREMIUM-EDITORIAL-ASSET-PASS-AND-FULL-PACK-COMPOSITION-REBUILD1` on `cursor/df-email-v2-r4-premium-a9f7` (includes the R3 commits from draft PR #1611). Rebuilt all 20 Digital Foundation emails (Transactional 12, Operational 3, Marketing 5) as distinct editorial compositions.
+- **Art:** 10 OpenArt gpt-image-2-5-sunburst image-to-image jobs (G01–G10, project `6Ueswtr8vt58ur2n3CRs`), 0 regenerations. Credits 20,899 → 19,199 (1,700 spent, ceiling 1,902). Classes: P1 10 (unique hero art), P2 4 (shared-family art), P3 6 (typography/utility only).
+- **Pipeline:** `scripts/df-email-v2-benchmark/r4/` holds `compose/` (base.css, pack.py), `build_r4.py` (tokens + widow binding), `render.mjs` (390/768/1024 + fonts-blocked run), `qa_r4.mjs` (contracts, tokens, banned language, line faults, variety), `build_review_r4.py` (review artifact, matrix, provenance, `--public` mount) and `package_r4.py` (client ZIP). QA 20/20 PASS; 120 clean renders.
+- **Review:** The primary deliverable is the interactive review artifact at `/site00-correspondence-studio/previews/r4/review/index.html`. It offers an EMAIL / FAMILY WALL / ASSETS view, a family filter, P1/P2/P3 filters, MOBILE/TABLET/DESKTOP/ALL 3, and an R3 compare. Studio import `r4PremiumImport.ts` sets `<id>@r4-premium` current at `founder_review` (`auto_approve: false`). ZIP on release `df-v2-email-r4-premium-2026-10-11`. Docs: `docs/site00/idnty/visual-authority/email-v2/r4/`.
+- **Conventions:** Widow binding happens in `build_r4.py`, not by hand. Text wrapped in an extra `<span>` escapes binding. Fallback-font line notes are advisory, but overflow under fallback fonts is a fail. No email is sent. The founder selects or approves per template in the Studio.
