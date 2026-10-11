@@ -9,11 +9,8 @@ import type {
   DigitalFoundationQuote,
   IntakeNeedFlag,
 } from '../../../shared/site00-digital-foundation/types.js';
-import { site00ApiUrl } from '../../utils/site00ApiBase.js';
 
-function artifactApiUrl(query: string): string {
-  return site00ApiUrl(`/api/site00/digital-foundation-artifact${query}`);
-}
+const ENDPOINT = '/api/site00/digital-foundation-artifact';
 
 export type ClientCatalogEntry = {
   addon_id: DigitalFoundationQuote['selected_addons'][number]['addon_id'];
@@ -64,7 +61,7 @@ async function request<T>(url: string, init?: RequestInit): Promise<T> {
 }
 
 function post<T>(token: string, action: string, body: Record<string, unknown> = {}): Promise<T> {
-  return request<T>(artifactApiUrl(`?action=${encodeURIComponent(action)}`), {
+  return request<T>(`${ENDPOINT}?action=${encodeURIComponent(action)}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ ...body, token }),
@@ -72,11 +69,11 @@ function post<T>(token: string, action: string, body: Record<string, unknown> = 
 }
 
 export function fetchPayload(token: string): Promise<ClientDigitalFoundationPayload> {
-  return request(artifactApiUrl(`?action=payload&token=${encodeURIComponent(token)}`));
+  return request(`${ENDPOINT}?action=payload&token=${encodeURIComponent(token)}`);
 }
 
 export function fetchCatalog(): Promise<ClientCatalog> {
-  return request(artifactApiUrl('?action=catalog'));
+  return request(`${ENDPOINT}?action=catalog`);
 }
 
 /**
@@ -108,21 +105,6 @@ export function removeAddon(
 
 export function acceptQuote(token: string, disclosures: readonly string[]): Promise<ClientDigitalFoundationPayload> {
   return post(token, 'accept-quote', { disclosures: [...disclosures] });
-}
-
-export function completeClientAction(
-  token: string,
-  requestId: string,
-  response: Record<string, unknown>,
-): Promise<ClientDigitalFoundationPayload> {
-  return post(token, 'complete-client-action', { request_id: requestId, response });
-}
-
-export function updateCommunicationPreferences(
-  token: string,
-  preferences: { marketing_opt_in: boolean; project_operations: boolean; educational: boolean },
-): Promise<ClientDigitalFoundationPayload> {
-  return post(token, 'update-communication-preferences', { preferences });
 }
 
 export function startCheckout(

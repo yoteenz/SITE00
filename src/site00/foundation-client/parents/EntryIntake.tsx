@@ -13,18 +13,7 @@ import {
   type IntakeDraft,
   type IntakeErrors,
 } from '../model';
-import {
-  DfBottomSheet,
-  DfCheckMark,
-  DfField,
-  DfModal,
-  DfPopover,
-  DfRadioMark,
-  DfSelect,
-  DfToggleMark,
-  useDfToasts,
-} from '../components';
-import { DfAlert, DfCta, DfHeadline, DfHeroObject, DfLede, DfRail, DfTrust } from '../shell';
+import { DfAlert, DfCta, DfHeadline, DfHeroObject, DfLede, DfRail, DfSheet, DfTrust } from '../shell';
 import type { SaveStatus } from '../useFoundationArtifact';
 
 // ─── Shared bits ───────────────────────────────────────────────────────────────────────────────
@@ -86,7 +75,7 @@ export function P01Entry({
         <li>
           <DfIcon name="envelope" />
           <span>PROFESSIONAL</span>
-          <span className="df-triad__line-2">BUSINESS EMAIL</span>
+          <span>EMAIL</span>
         </li>
         <li>
           <DfIcon name="shield" />
@@ -107,6 +96,32 @@ export function P01Entry({
 
 // ─── P02 ───────────────────────────────────────────────────────────────────────────────────────
 
+function Field({
+  id,
+  label,
+  error,
+  children,
+}: {
+  id: string;
+  label: string;
+  error?: string;
+  children: ReactNode;
+}) {
+  return (
+    <div className={`df-field${error ? ' df-field--error' : ''}`}>
+      <label className="df-field__label" htmlFor={id}>
+        {label}
+      </label>
+      {children}
+      {error && (
+        <p className="df-field__error" id={`${id}-error`}>
+          {error}
+        </p>
+      )}
+    </div>
+  );
+}
+
 export function P02Intake({
   draft,
   update,
@@ -114,7 +129,6 @@ export function P02Intake({
   onContinue,
   save,
   errors: externalErrors,
-  onSaveForLater,
 }: {
   draft: IntakeDraft;
   update: (patch: Partial<IntakeDraft>) => void;
@@ -122,13 +136,8 @@ export function P02Intake({
   onContinue: () => void;
   save: ReactNode;
   errors?: IntakeErrors;
-  /** Flushes the autosave now; resolves true only once the server confirmed the save. */
-  onSaveForLater?: () => Promise<boolean>;
 }) {
   const [errors, setErrors] = useState<IntakeErrors>(externalErrors ?? {});
-  const [savingLater, setSavingLater] = useState(false);
-  const [savedOpen, setSavedOpen] = useState(false);
-  const toasts = useDfToasts();
   const err = { ...errors };
   const input = (field: 'business_name' | 'contact_name' | 'current_email' | 'phone', extra: Record<string, unknown> = {}) => ({
     id: `df-${field}`,
@@ -139,11 +148,7 @@ export function P02Intake({
     'aria-describedby': err[field as keyof IntakeErrors] ? `df-${field}-error` : undefined,
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
       update({ [field]: e.target.value } as Partial<IntakeDraft>);
-      if (err[field as keyof IntakeErrors]) {
-        const rest = { ...err, [field]: undefined };
-        setErrors(rest);
-        if (!Object.values(rest).some(Boolean)) toasts.dismiss('p02-required');
-      }
+      if (err[field as keyof IntakeErrors]) setErrors((p) => ({ ...p, [field]: undefined }));
     },
     ...extra,
   });
@@ -152,22 +157,11 @@ export function P02Intake({
     const found = validateBusinessInfo(draft);
     setErrors(found);
     if (Object.keys(found).length) {
-      toasts.push({ tone: 'warning', message: 'PLEASE COMPLETE ALL REQUIRED FIELDS.', key: 'p02-required' });
       const first = Object.keys(found)[0];
       document.getElementById(`df-${first}`)?.focus();
       return;
     }
-    toasts.dismiss('p02-required');
     onContinue();
-  };
-
-  const saveForLater = async () => {
-    if (!onSaveForLater || savingLater) return;
-    setSavingLater(true);
-    const ok = await onSaveForLater();
-    setSavingLater(false);
-    if (ok) setSavedOpen(true);
-    else toasts.push({ tone: 'error', message: 'SOMETHING WENT WRONG. PLEASE TRY AGAIN.', key: 'intake-save' });
   };
 
   return (
@@ -185,75 +179,50 @@ export function P02Intake({
           submit();
         }}
       >
-        <DfField id="df-business_name" label="BUSINESS NAME" error={err.business_name}>
+        <Field id="df-business_name" label="BUSINESS NAME" error={err.business_name}>
           <input {...input('business_name', { placeholder: 'YOUR BUSINESS NAME', autoComplete: 'organization' })} />
-        </DfField>
-        <DfField id="df-industry" label="BUSINESS TYPE" help="THIS INFORMATION HELPS US RECOMMEND THE RIGHT SETUP.">
-          <DfSelect
-            id="df-industry"
-            labelledBy="df-industry-label"
-            value={draft.industry}
-            placeholder="SELECT A BUSINESS TYPE"
-            disabled={!editable}
-            options={[
-              ...(draft.industry && !BUSINESS_TYPES.includes(draft.industry)
-                ? [{ value: draft.industry, label: draft.industry.toUpperCase() }]
-                : []),
-              ...BUSINESS_TYPES.map((t) => ({ value: t, label: t })),
-            ]}
-            onChange={(v) => update({ industry: v })}
-          />
-        </DfField>
-        <DfField id="df-contact_name" label="PRIMARY CONTACT" error={err.contact_name}>
+        </Field>
+        <Field id="df-industry" label="BUSINESS TYPE">
+          <span className={`df-select${draft.industry ? '' : ' df-select--empty'}`}>
+            <select
+              id="df-industry"
+              className="df-input"
+              value={BUSINESS_TYPES.includes(draft.industry) ? draft.industry : draft.industry ? '__custom' : ''}
+              disabled={!editable}
+              onChange={(e) => update({ industry: e.target.value })}
+            >
+              <option value="">SELECT A BUSINESS TYPE</option>
+              {draft.industry && !BUSINESS_TYPES.includes(draft.industry) && (
+                <option value="__custom">{draft.industry.toUpperCase()}</option>
+              )}
+              {BUSINESS_TYPES.map((t) => (
+                <option key={t} value={t}>
+                  {t}
+                </option>
+              ))}
+            </select>
+            <DfIcon name="chevron" className="df-select__chev" />
+          </span>
+        </Field>
+        <Field id="df-contact_name" label="PRIMARY CONTACT" error={err.contact_name}>
           <input {...input('contact_name', { placeholder: 'FULL NAME', autoComplete: 'name' })} />
-        </DfField>
-        <DfField id="df-current_email" label="EMAIL ADDRESS" error={err.current_email}>
+        </Field>
+        <Field id="df-current_email" label="EMAIL ADDRESS" error={err.current_email}>
           <input
             {...input('current_email', {
               type: 'email',
               inputMode: 'email',
               placeholder: 'YOU@EXAMPLE.COM',
               autoComplete: 'email',
-              autoCapitalize: 'none',
-              spellCheck: false,
             })}
           />
-        </DfField>
-        <DfField id="df-phone" label="PHONE NUMBER">
+        </Field>
+        <Field id="df-phone" label="PHONE NUMBER">
           <input {...input('phone', { type: 'tel', inputMode: 'tel', placeholder: '(   )   -', autoComplete: 'tel' })} />
-        </DfField>
-        <DfCta type="submit" label="CONTINUE" action="p02-continue" />
-        {onSaveForLater && editable && (
-          <DfCta
-            tone="text"
-            label="SAVE FOR LATER"
-            onClick={() => void saveForLater()}
-            busy={savingLater}
-            busyLabel="SAVING…"
-            action="save-later"
-          />
-        )}
+        </Field>
+        <DfCta type="submit" label="CONTINUE" />
       </form>
       <DfTrust text="YOUR INFORMATION IS SECURE." aside={save} />
-      <DfModal
-        open={savedOpen}
-        tone="success"
-        title="INFORMATION SAVED."
-        onClose={() => setSavedOpen(false)}
-        primary={{
-          label: 'CONTINUE',
-          onClick: () => {
-            setSavedOpen(false);
-            submit();
-          },
-        }}
-        secondary={{ label: 'SAVE FOR LATER', onClick: () => setSavedOpen(false) }}
-      >
-        <p>
-          YOUR BUSINESS INFORMATION HAS BEEN SAVED SUCCESSFULLY. YOU CAN CONTINUE TO THE NEXT STEP OR COME BACK ANYTIME WITH
-          THIS LINK.
-        </p>
-      </DfModal>
     </>
   );
 }
@@ -265,7 +234,7 @@ type RowProps = {
   title: string;
   sub: string;
   tags: ClassTag[];
-  control: 'locked' | 'check' | 'toggle' | 'arrow';
+  control: 'locked' | 'check' | 'arrow';
   checked?: boolean;
   active?: boolean;
   disabled?: boolean;
@@ -291,13 +260,13 @@ function ServiceRow({ icon, title, sub, tags, control, checked, active, disabled
         <span className="df-row__arrowbox" aria-hidden="true">
           <DfIcon name="arrow" />
         </span>
-      ) : control === 'toggle' ? (
-        <span className="df-row__switch" aria-hidden="true">
-          <span className={`df-choice__state${checked ? ' df-choice__state--on' : ''}`}>{checked ? 'ON' : 'OFF'}</span>
-          <DfToggleMark on={Boolean(checked)} disabled={disabled} />
-        </span>
       ) : (
-        <DfCheckMark checked={Boolean(checked)} locked={control === 'locked'} disabled={disabled && control !== 'locked'} />
+        <span
+          className={`df-check${checked ? ' df-check--on' : ''}${control === 'locked' ? ' df-check--locked' : ''}`}
+          aria-hidden="true"
+        >
+          {checked && <DfIcon name="check" />}
+        </span>
       )}
     </>
   );
@@ -319,8 +288,8 @@ function ServiceRow({ icon, title, sub, tags, control, checked, active, disabled
         className="df-row__main"
         onClick={onActivate}
         disabled={disabled}
-        role={control === 'check' ? 'checkbox' : control === 'toggle' ? 'switch' : undefined}
-        aria-checked={control === 'check' || control === 'toggle' ? Boolean(checked) : undefined}
+        role={control === 'check' ? 'checkbox' : undefined}
+        aria-checked={control === 'check' ? Boolean(checked) : undefined}
         aria-expanded={expanded}
       >
         {body}
@@ -441,7 +410,7 @@ export function P03Configure({
                         setErrors((e) => ({ ...e, domainPath: undefined }));
                       }}
                     />
-                    <DfRadioMark checked={draft.domainPath === p.path} disabled={!editable} />
+                    <span className="df-path__dot" aria-hidden="true" />
                     <span className="df-path__text">
                       <span className="df-path__title">{p.title}</span>
                       <span className="df-path__sub">{p.sub}</span>
@@ -452,7 +421,7 @@ export function P03Configure({
               </fieldset>
               {(draft.domainPath === 'OWN' || draft.domainPath === 'LOST') && (
                 <div className="df-reveal__fields">
-                  <DfField id="df-existing_domain" label="YOUR DOMAIN" error={errors.existing_domain}>
+                  <Field id="df-existing_domain" label="YOUR DOMAIN" error={errors.existing_domain}>
                     <input
                       id="df-existing_domain"
                       className="df-input"
@@ -467,8 +436,8 @@ export function P03Configure({
                         setErrors((x) => ({ ...x, existing_domain: undefined }));
                       }}
                     />
-                  </DfField>
-                  <DfField id="df-existing_registrar" label="WHERE IT'S REGISTERED (IF YOU KNOW)">
+                  </Field>
+                  <Field id="df-existing_registrar" label="WHERE IT'S REGISTERED (IF YOU KNOW)">
                     <input
                       id="df-existing_registrar"
                       className="df-input"
@@ -477,7 +446,7 @@ export function P03Configure({
                       disabled={!editable}
                       onChange={(e) => update({ existing_registrar: e.target.value })}
                     />
-                  </DfField>
+                  </Field>
                 </div>
               )}
               {draft.domainPath && (
@@ -549,7 +518,7 @@ export function P03Configure({
           title="EMAIL MIGRATION"
           sub="MOVE FROM EXISTING PROVIDER"
           tags={['PAID ADD-ON', 'MANUAL REVIEW']}
-          control="toggle"
+          control="check"
           checked={has('NEED_MIGRATION')}
           active={has('NEED_MIGRATION')}
           disabled={!editable}
@@ -560,7 +529,7 @@ export function P03Configure({
         >
           {open === 'migration' && has('NEED_MIGRATION') && (
             <div className="df-reveal">
-              <DfField id="df-existing_email_provider" label="CURRENT EMAIL PROVIDER (IF YOU KNOW)">
+              <Field id="df-existing_email_provider" label="CURRENT EMAIL PROVIDER (IF YOU KNOW)">
                 <input
                   id="df-existing_email_provider"
                   className="df-input"
@@ -569,7 +538,7 @@ export function P03Configure({
                   disabled={!editable}
                   onChange={(e) => update({ existing_email_provider: e.target.value })}
                 />
-              </DfField>
+              </Field>
             </div>
           )}
         </ServiceRow>
@@ -584,26 +553,6 @@ export function P03Configure({
           onActivate={() => setSheet(true)}
         />
       </ul>
-      <DfPopover triggerLabel="WHAT DO THE TAGS MEAN?" title="SERVICE TAGS">
-        <dl>
-          <div>
-            <dt>INCLUDED</dt>
-            <dd>PART OF YOUR FOUNDATION PRICE.</dd>
-          </div>
-          <div>
-            <dt>CONFIGURABLE</dt>
-            <dd>YOU CHOOSE HOW IT IS SET UP.</dd>
-          </div>
-          <div>
-            <dt>PAID ADD-ON</dt>
-            <dd>PRICED ON YOUR RECOMMENDATION BEFORE YOU COMMIT.</dd>
-          </div>
-          <div>
-            <dt>MANUAL REVIEW</dt>
-            <dd>SITE 00 CONFIRMS SCOPE AND PRICING BEFORE CHECKOUT.</dd>
-          </div>
-        </dl>
-      </DfPopover>
       {submitError && <DfAlert role="alert">{submitError}</DfAlert>}
       <DfCta
         label="VIEW MY RECOMMENDATION"
@@ -613,7 +562,7 @@ export function P03Configure({
         disabled={!editable}
       />
       <DfTrust text="NO PASSWORDS. EVER." aside={save} />
-      <DfBottomSheet open={sheet} title="ADDITIONAL SERVICES" onClose={() => setSheet(false)}>
+      <DfSheet open={sheet} title="ADDITIONAL SERVICES" onClose={() => setSheet(false)}>
         <ul className="df-rows df-rows--sheet">
           {ADDITIONAL_SERVICES.map((s) => (
             <ServiceRow
@@ -633,23 +582,7 @@ export function P03Configure({
         <p className="df-sheet__note">
           ADDITIONAL DOMAINS, MAILBOXES, ROUTING AND DNS CLEANUP ARE ADDED ON YOUR RECOMMENDATION, WITH THEIR PRICES.
         </p>
-      </DfBottomSheet>
-    </>
-  );
-}
-
-/** Shown when intake is complete but full-service checkout is not yet certified (launch gate). */
-export function P03IntakeSubmitted() {
-  return (
-    <>
-      <DfRail index="03" label="INTAKE RECEIVED" />
-      <DfHeadline lines={['WE HAVE', 'YOUR', 'FOUNDATION', 'DETAILS.']} />
-      <DfLede>
-        SITE 00 IS REVIEWING YOUR SUBMITTED INFORMATION. YOU DO NOT NEED TO DO ANYTHING ELSE RIGHT NOW. WE WILL FOLLOW UP
-        WITH NEXT STEPS ON THIS SAME LINK WHEN YOUR QUOTE AND CHECKOUT ARE READY.
-      </DfLede>
-      <DfAlert>YOUR RECORD IS SAVED. REFRESHING THIS PAGE WILL NOT LOSE YOUR SUBMISSION.</DfAlert>
-      <DfTrust text="SECURE. GUIDED. DONE FOR YOU." />
+      </DfSheet>
     </>
   );
 }

@@ -13,17 +13,16 @@ import {
   type AddonRow,
   type Selections,
 } from '../model';
-import { DfBottomSheet, DfCheckMark } from '../components';
-import { DfAlert, DfCta, DfHeadline, DfLede, DfRail, DfTrust } from '../shell';
+import { DfAlert, DfCta, DfHeadline, DfLede, DfRail, DfSheet, DfTrust } from '../shell';
 import type { QuoteSyncStatus } from '../useFoundationArtifact';
 
 export const INCLUDED_SCOPE: { icon: DfIconName; label: string }[] = [
   { icon: 'globe', label: 'DOMAIN & OWNERSHIP' },
   { icon: 'envelope', label: 'PROFESSIONAL EMAIL' },
-  { icon: 'aliases', label: 'EMAIL ALIASES' },
+  { icon: 'layers', label: 'EMAIL ALIASES' },
   { icon: 'shield', label: 'SECURITY & AUTHENTICATION' },
-  { icon: 'signature', label: 'EMAIL SIGNATURE' },
-  { icon: 'device', label: 'DEVICE SETUP' },
+  { icon: 'document', label: 'EMAIL SIGNATURE' },
+  { icon: 'phone', label: 'DEVICE SETUP' },
 ];
 
 export function IncludedList({ compact = false }: { compact?: boolean }) {
@@ -98,8 +97,15 @@ function AddonLine({
             </button>
           </span>
         ) : (
-          <button type="button" tabIndex={-1} aria-hidden="true" className="df-addon__checkbtn" disabled={locked || blocked} onClick={onToggle}>
-            <DfCheckMark checked={row.selected} />
+          <button
+            type="button"
+            tabIndex={-1}
+            aria-hidden="true"
+            className={`df-check${row.selected ? ' df-check--on' : ''}`}
+            disabled={locked || blocked}
+            onClick={onToggle}
+          >
+            {row.selected && <DfIcon name="check" />}
           </button>
         )}
       </span>
@@ -246,7 +252,7 @@ export function P04Recommendation({
       <DfCta label="CONTINUE TO REVIEW" onClick={onContinue} disabled={updating} busy={updating} busyLabel="UPDATING YOUR QUOTE…" />
       <DfTrust text="SECURE. GUIDED. DONE FOR YOU." />
 
-      <DfBottomSheet open={allOpen} title="ALL ADD-ONS" onClose={() => setAllOpen(false)}>
+      <DfSheet open={allOpen} title="ALL ADD-ONS" onClose={() => setAllOpen(false)}>
         {['DOMAIN', 'EMAIL', 'SETUP', 'PRIORITY', 'CUSTOM'].map((g) => {
           const list = rest.filter((r) => r.group === g);
           if (!list.length) return null;
@@ -267,7 +273,7 @@ export function P04Recommendation({
             </section>
           );
         })}
-      </DfBottomSheet>
+      </DfSheet>
       <ThirdPartySheet open={costsOpen} onClose={() => setCostsOpen(false)} payload={payload} />
     </>
   );
@@ -283,13 +289,13 @@ export function ThirdPartySheet({
   payload: ClientDigitalFoundationPayload;
 }) {
   return (
-    <DfBottomSheet open={open} title="THIRD-PARTY COSTS" onClose={onClose}>
+    <DfSheet open={open} title="THIRD-PARTY COSTS" onClose={onClose}>
       <ul className="df-bullets">
         {(payload.recommendation?.third_party_costs ?? []).map((c) => (
           <li key={c}>{c.toUpperCase()}</li>
         ))}
       </ul>
       {payload.quote && <p className="df-sheet__note">{payload.quote.third_party_cost_notice.toUpperCase()}</p>}
-    </DfBottomSheet>
+    </DfSheet>
   );
 }

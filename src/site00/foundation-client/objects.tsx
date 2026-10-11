@@ -1,8 +1,10 @@
 /**
  * Digital Foundation threshold architecture (DF-A01 hero, DF-A02 crown, DF-A03 corner fragment).
  *
- * The initial architecture is the vector chamber: white field, glass Foundation Plate, red threshold,
- * stone plinth. Paths stay null. Generated photographs are not the background. Purely decorative.
+ * Interim vector renditions of the approved architecture: white chamber, glass Foundation Plate with the
+ * "01 DIGITAL FOUNDATION" etching, red translucent threshold plates, stone plinth. When Grok delivers the
+ * photoreal renders (GROK_ASSET_REQUEST_MANIFEST DF-G01..G05) set their paths in DF_ARCHITECTURE_RENDERS and
+ * the slot swaps to the raster without layout change. Purely decorative: never carries client data.
  */
 import { useId } from 'react';
 
@@ -12,7 +14,7 @@ export const DF_ARCHITECTURE_RENDERS: { hero: string | null; crown: string | nul
   corner: null,
 };
 
-const RED = '#E50107';
+const RED = '#d3121b';
 
 function RedGlass({ id, top = '#f0474d', bottom = '#a80c13' }: { id: string; top?: string; bottom?: string }) {
   return (

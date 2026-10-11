@@ -1,0 +1,197 @@
+{
+  "vp": "m390",
+  "results": [
+    {
+      "id": "Q01",
+      "name": "P01 renders on a fresh link and the server marks it OPENED",
+      "pass": true,
+      "detail": "state=OPENED url=/foundation/<token>"
+    },
+    {
+      "id": "Q02",
+      "name": "BEGIN starts intake server-side and opens P02 prefilled from the lead",
+      "pass": true,
+      "detail": "INTAKE_IN_PROGRESS"
+    },
+    {
+      "id": "Q03",
+      "name": "P02 required-field validation blocks CONTINUE",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "Q04",
+      "name": "P02 autosave reports SAVED only after the server holds the fields",
+      "pass": true,
+      "detail": "saved to server"
+    },
+    {
+      "id": "Q05",
+      "name": "Reload resumes P02 with the saved answers (one URL, server-resolved)",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "Q06",
+      "name": "P02 save failure is shown as NOT SAVED, never SAVED",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "Q07",
+      "name": "CONTINUE opens P03 with core services locked as included",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "Q07b",
+      "name": "Menu lists the parents this surface allows; additional services sheet opens",
+      "pass": true,
+      "detail": "01 GET STARTED | 02 BUSINESS INFORMATION | 03 BUILD YOUR FOUNDATION"
+    },
+    {
+      "id": "Q08",
+      "name": "P03 requires exactly one domain path",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "Q09",
+      "name": "P03 selections: own domain, 2 people, migration, device setup",
+      "pass": true,
+      "detail": "NEED_MIGRATION,NEED_DEVICE,OWN_DOMAIN,NEED_MULTI_MAILBOX"
+    },
+    {
+      "id": "Q10",
+      "name": "VIEW MY RECOMMENDATION completes intake and P04 shows the server quote",
+      "pass": true,
+      "detail": "v1 $900 3–5d lines=ADDITIONAL_MAILBOX×2,LEGACY_EMAIL_MIGRATION×1,ADDITIONAL_DEVICE_SETUP×1"
+    },
+    {
+      "id": "Q11",
+      "name": "P04 manual-review notice for reviewed add-ons",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "Q12",
+      "name": "P04 add DOMAIN TRANSFER: one update-quote, totals + timeline recalculated by the server",
+      "pass": true,
+      "detail": "$900→$1,000, 3–5→4–7"
+    },
+    {
+      "id": "Q13",
+      "name": "P04 mailbox stepper sets quantity on the server",
+      "pass": true,
+      "detail": "2→3"
+    },
+    {
+      "id": "Q14",
+      "name": "P04 removing a line uses remove-addon (server dependency check)",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "Q15",
+      "name": "P04 dependency lock: STAFF SIGNATURE needs MULTI-USER",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "Q16",
+      "name": "P05 READY TO REVIEW with canonical disclosures and quote-bound rows",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "Q17",
+      "name": "P05 manual review: acceptance recorded, checkout blocked (AWAITING FOUNDER PRICING)",
+      "pass": true,
+      "detail": "server refuses checkout: MANUAL_REVIEW_PENDING"
+    },
+    {
+      "id": "Q18",
+      "name": "Founder confirms pricing → P05 READY FOR CHECKOUT",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "Q19",
+      "name": "PROCEED TO CHECKOUT hands off to the hosted checkout URL; return shows VERIFYING, not paid",
+      "pass": true,
+      "detail": "redirect alone did not mark PAID"
+    },
+    {
+      "id": "Q20",
+      "name": "Poll exhausts → PAYMENT CONFIRMATION PENDING (still not paid)",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "Q21",
+      "name": "Webhook confirms payment → P06 verified activation from server data",
+      "pass": true,
+      "detail": "AWAITING_REQUIRED_INFORMATION; needs_you=3; stage=01_DETAILS_RECEIVED"
+    },
+    {
+      "id": "Q22",
+      "name": "VIEW PROJECT OVERVIEW → interim overview from server stages; reload lands there",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "Q23",
+      "name": "Client payload carries no events, referral accounting or secrets",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "Q24",
+      "name": "P05 PAYMENT CANCELLED on ?checkout=cancel",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "Q25",
+      "name": "P05 PAYMENT PENDING when a checkout is open without a return",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "Q26",
+      "name": "P05 CHECKOUT ERROR when the checkout call fails; nothing charged",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "Q27",
+      "name": "P06 AWAITING CLIENT AUTHORIZATION from an open authorization request",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "Q28",
+      "name": "P06 PROJECT PAUSED after a recorded refund",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "Q29",
+      "name": "Founder scope change after acceptance → P05 asks to accept again, then checkout at the new price",
+      "pass": true,
+      "detail": "re-accepted v2 at $550 (Composer gap: adjust returned INVALID_ARTIFACT_TRANSITION:AWAITING_PAYMENT->QUOTE_READY but applied the new version)"
+    },
+    {
+      "id": "Q30",
+      "name": "Invalid link shows the closed-link panel, no data",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "id": "Q31",
+      "name": "No app console errors or failed app requests on the main flow",
+      "pass": true,
+      "detail": " · proxy-blocked external: https://hyycomvcaqxxvyrfupes.supabase.co"
+    }
+  ]
+}
