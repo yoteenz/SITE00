@@ -1,0 +1,107 @@
+{
+  "authority": "benchmarks/B0*/COPY.md",
+  "territories": {
+    "B01_A": {
+      "copy_units": 25,
+      "copy_units_missing": [],
+      "added_structural_labels": [],
+      "added_text_over_label_length": [],
+      "uppercase_violations": [],
+      "internal_language": [],
+      "images_without_alt_attribute": [],
+      "images": 0
+    },
+    "B01_B": {
+      "copy_units": 25,
+      "copy_units_missing": [],
+      "added_structural_labels": [],
+      "added_text_over_label_length": [],
+      "uppercase_violations": [],
+      "internal_language": [],
+      "images_without_alt_attribute": [],
+      "images": 2
+    },
+    "B01_C": {
+      "copy_units": 25,
+      "copy_units_missing": [],
+      "added_structural_labels": [
+        "01",
+        "02",
+        "03",
+        "04"
+      ],
+      "added_text_over_label_length": [],
+      "uppercase_violations": [],
+      "internal_language": [],
+      "images_without_alt_attribute": [],
+      "images": 0
+    },
+    "B02_A": {
+      "copy_units": 35,
+      "copy_units_missing": [],
+      "added_structural_labels": [],
+      "added_text_over_label_length": [],
+      "uppercase_violations": [],
+      "internal_language": [],
+      "images_without_alt_attribute": [],
+      "images": 3
+    },
+    "B02_B": {
+      "copy_units": 35,
+      "copy_units_missing": [],
+      "added_structural_labels": [
+        "1",
+        "2",
+        "PROJECT",
+        "STATUS"
+      ],
+      "added_text_over_label_length": [],
+      "uppercase_violations": [],
+      "internal_language": [],
+      "images_without_alt_attribute": [],
+      "images": 0
+    },
+    "B02_C": {
+      "copy_units": 35,
+      "copy_units_missing": [],
+      "added_structural_labels": [],
+      "added_text_over_label_length": [],
+      "uppercase_violations": [],
+      "internal_language": [],
+      "images_without_alt_attribute": [],
+      "images": 2
+    },
+    "B03_A": {
+      "copy_units": 45,
+      "copy_units_missing": [],
+      "added_structural_labels": [],
+      "added_text_over_label_length": [],
+      "uppercase_violations": [],
+      "internal_language": [],
+      "images_without_alt_attribute": [],
+      "images": 5
+    },
+    "B03_B": {
+      "copy_units": 45,
+      "copy_units_missing": [],
+      "added_structural_labels": [],
+      "added_text_over_label_length": [],
+      "uppercase_violations": [],
+      "internal_language": [],
+      "images_without_alt_attribute": [],
+      "images": 12
+    },
+    "B03_C": {
+      "copy_units": 45,
+      "copy_units_missing": [],
+      "added_structural_labels": [],
+      "added_text_over_label_length": [],
+      "uppercase_violations": [],
+      "internal_language": [],
+      "images_without_alt_attribute": [],
+      "images": 6
+    }
+  },
+  "failures": [],
+  "result": "PASS"
+}

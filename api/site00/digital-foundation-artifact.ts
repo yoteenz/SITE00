@@ -23,7 +23,11 @@ import {
 import { getCommercialConfig } from '../_lib/digitalFoundation/service.js';
 import { listCatalogForClient } from '../../shared/site00-digital-foundation/quoteEngine.js';
 import { isDigitalFoundationFlagEnabled, DF_FEATURE_FLAGS } from '../../shared/site00-digital-foundation/featureFlags.js';
-import { loadArtifactGraphByToken } from '../_lib/digitalFoundation/persistence/supabaseStore.js';
+import {
+  isSupabaseDfPersistenceEnabled,
+  loadArtifactGraphByToken,
+  persistArtifactGraph,
+} from '../_lib/digitalFoundation/persistence/supabaseStore.js';
 
 function setCors(res: VercelResponse): void {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -33,6 +37,45 @@ function setCors(res: VercelResponse): void {
 
 function tokenFromReq(req: VercelRequest): string {
   return String(req.query.token ?? req.body?.token ?? '');
+}
+
+/** Supabase and fetch failures are often plain objects. String(object) is "[object Object]". */
+export function digitalFoundationHandlerError(e: unknown): { status: number; error: string } {
+  let message = 'Digital Foundation request failed';
+  let code = '';
+  if (e instanceof Error && e.message) {
+    message = e.message;
+  } else if (e && typeof e === 'object') {
+    const record = e as Record<string, unknown>;
+    const text = [record.message, record.detail, record.title, record.error].find(
+      (value) => typeof value === 'string' && value.trim().length > 0,
+    );
+    if (typeof text === 'string') message = text;
+    else {
+      try {
+        message = JSON.stringify(e).slice(0, 300);
+      } catch {
+        message = 'Digital Foundation request failed';
+      }
+    }
+    if (typeof record.code === 'string') code = record.code;
+    else if (typeof record.status === 'number') code = String(record.status);
+  } else if (e != null) {
+    message = String(e);
+  }
+
+  const blob = `${code} ${message}`;
+  const unavailable = /522|timeout|timed out|ETIMEDOUT|ECONNREFUSED|fetch failed|Connection terminated|schema cache/i.test(
+    blob,
+  );
+  const status = blob.includes('NOT_FOUND') || code === 'PGRST116'
+    ? 404
+    : message.includes('REQUIRED')
+      ? 400
+      : unavailable
+        ? 503
+        : 500;
+  return { status, error: message };
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -72,18 +115,23 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       switch (postAction) {
         case 'open':
           return res.status(200).json(getClientArtifactPayloadByToken(token));
-        case 'update-intake':
+        case 'update-intake': {
+          const after = updateIntake(
+            artifact.artifact_id,
+            {
+              ...body.intake,
+              needs: Array.isArray(body.needs) ? (body.needs as IntakeNeedFlag[]) : undefined,
+            },
+            Boolean(body.markComplete),
+          );
+          if (isSupabaseDfPersistenceEnabled()) {
+            await persistArtifactGraph(artifact.artifact_id);
+          }
           return res.status(200).json({
             payload: getClientArtifactPayloadByToken(token),
-            after: updateIntake(
-              artifact.artifact_id,
-              {
-                ...body.intake,
-                needs: Array.isArray(body.needs) ? (body.needs as IntakeNeedFlag[]) : undefined,
-              },
-              Boolean(body.markComplete),
-            ),
+            after,
           });
+        }
         case 'update-quote':
           return res.status(200).json({
             quote: updateQuoteSelections(artifact.artifact_id, body.selections ?? []),
@@ -147,9 +195,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     return res.status(405).json({ error: 'Method not allowed' });
   } catch (e) {
-    const message = e instanceof Error ? e.message : String(e);
-    const status = message.includes('NOT_FOUND') ? 404 : message.includes('REQUIRED') ? 400 : 500;
+    const mapped = digitalFoundationHandlerError(e);
     console.error('[digital-foundation-artifact]', e);
-    return res.status(status).json({ error: message });
+    return res.status(mapped.status).json({ error: mapped.error });
   }
 }

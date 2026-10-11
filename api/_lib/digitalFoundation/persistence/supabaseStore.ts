@@ -121,9 +121,6 @@ export async function loadArtifactGraphByToken(token: string): Promise<DigitalFo
     return found ?? null;
   }
 
-  const existing = memGetArtifactByToken(token);
-  if (existing) return existing;
-
   const sb = getSupabaseAdmin();
   const { data: row, error } = await sb
     .from('site00_df_artifacts')

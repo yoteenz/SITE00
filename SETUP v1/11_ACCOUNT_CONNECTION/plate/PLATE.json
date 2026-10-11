@@ -1,0 +1,16 @@
+{
+  "SCREEN_ID": "11_ACCOUNT_CONNECTION",
+  "PLATE_STATUS": "NEW_PLATE_REQUIRED",
+  "STATION": "K connection console",
+  "CAMERA": "frontal linking console",
+  "PLATE_PATH": "SETUP v1/11_ACCOUNT_CONNECTION/plate/setup-v1-11_account_connection-plate.png",
+  "AUTHORITY_PATH": "SETUP v1/11_ACCOUNT_CONNECTION/authority/setup-v1-11_account_connection-authority.png",
+  "SUPERSEDED_AUTHORITY": "SETUP v1/11_ACCOUNT_CONNECTION/authority/SUPERSEDED/setup-v1-11_account_connection-authority.png",
+  "SUPERSEDED_PLATE": "SETUP v1/11_ACCOUNT_CONNECTION/plate/SUPERSEDED/setup-v1-11_account_connection-plate.png",
+  "STATUS": "FOUNDER_REVIEW_REQUIRED",
+  "OPENART_AUTHORITY_HISTORY": "mffmikStQ6wifabS4fMt",
+  "OPENART_AUTHORITY_RESOURCE": "mhTJMdYmJcYfKj56aEYJ",
+  "OPENART_PLATE_HISTORY": "mxxOmWozec5wzOEVtCxr",
+  "OPENART_PLATE_RESOURCE": "cMteie8DRYMjhK3lTJ4A",
+  "NOTE": "New station plate. Live words and controls removed. Objects, crop, and camera stay. Prior plate is SUPERSEDED."
+}

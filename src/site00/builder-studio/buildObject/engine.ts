@@ -10,13 +10,13 @@
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
-import type { BuildCamera, BuildComposition, BuildElement, BuildMaterial, BuildMotion } from './composition';
-import { buildContactOcclusion, buildRealismBody, createRealismMaterials, disposeRealism, fitPlate, plateUrlOf, redBounce, type RealismMaterials, type RealismMode } from './realism';
+import type { BuildCamera, BuildComposition, BuildElement, BuildMaterial } from './composition';
 
+const BACKGROUND = 0xf2f0ec;
 const TWEEN_MS = 760;
 const DEG = Math.PI / 180;
 const FOV = 26;
-const FRAME_T = 0.034;
+const FRAME_T = 0.042;
 
 /* ─────────────────────────────── procedural textures ─────────────────────────────── */
 
@@ -47,7 +47,7 @@ function stoneCanvas(base: string, vein: string, opts: { veins: number; speckle:
   ctx.putImageData(image, 0, 0);
   if (opts.banding) {
     for (let y = 0; y < size; y += 6 + Math.floor(rand() * 18)) {
-      ctx.fillStyle = `rgba(112, 114, 120, ${0.04 + rand() * 0.06})`;
+      ctx.fillStyle = `rgba(120, 96, 70, ${0.05 + rand() * 0.08})`;
       ctx.fillRect(0, y, size, 2 + rand() * 5);
     }
   }
@@ -83,67 +83,9 @@ function stoneCanvas(base: string, vein: string, opts: { veins: number; speckle:
   return canvas;
 }
 
-/**
- * Carrara as drawn in the references: a light grey ground with soft mottling and a network of bold, angular dark
- * veins that branch like cracks (not the faint wisps of a generic marble).
- */
-function crackMarbleCanvas(opts: { base: string; mottle: string; vein: string; seed: number; veins: number; size?: number }): HTMLCanvasElement {
-  const size = opts.size ?? 1024;
-  const canvas = document.createElement('canvas');
-  canvas.width = size;
-  canvas.height = size;
-  const ctx = canvas.getContext('2d')!;
-  const rand = seeded(opts.seed);
-  ctx.fillStyle = opts.base;
-  ctx.fillRect(0, 0, size, size);
-  // Low-frequency mottling.
-  for (let i = 0; i < 90; i += 1) {
-    const x = rand() * size;
-    const y = rand() * size;
-    const r = 40 + rand() * 180;
-    const g = ctx.createRadialGradient(x, y, 0, x, y, r);
-    g.addColorStop(0, opts.mottle);
-    g.addColorStop(1, 'rgba(0,0,0,0)');
-    ctx.globalAlpha = 0.1 + rand() * 0.16;
-    ctx.fillStyle = g;
-    ctx.fillRect(x - r, y - r, r * 2, r * 2);
-  }
-  ctx.globalAlpha = 1;
-  // Crack veins: angular polylines that taper and branch.
-  const drawVein = (x: number, y: number, angle: number, width: number, length: number, depth: number) => {
-    const points: [number, number][] = [[x, y]];
-    let a = angle;
-    let px = x;
-    let py = y;
-    for (let travelled = 0; travelled < length; ) {
-      const step = 8 + rand() * 16;
-      a += (rand() - 0.5) * (rand() < 0.2 ? 1.6 : 0.5);
-      px += Math.cos(a) * step;
-      py += Math.sin(a) * step;
-      points.push([px, py]);
-      travelled += step;
-      if (depth < 3 && rand() < 0.07) drawVein(px, py, a + (rand() < 0.5 ? 1 : -1) * (0.5 + rand() * 0.9), width * 0.6, length * (0.25 + rand() * 0.35), depth + 1);
-    }
-    for (const pass of [{ w: width * 3.2, a: 0.1 }, { w: width, a: 0.82 }]) {
-      ctx.strokeStyle = opts.vein;
-      ctx.globalAlpha = pass.a;
-      ctx.lineWidth = pass.w;
-      ctx.lineJoin = 'miter';
-      ctx.beginPath();
-      points.forEach(([vx, vy], i) => (i ? ctx.lineTo(vx, vy) : ctx.moveTo(vx, vy)));
-      ctx.stroke();
-    }
-    ctx.globalAlpha = 1;
-  };
-  for (let v = 0; v < opts.veins; v += 1) {
-    drawVein(rand() * size, rand() * size, rand() * Math.PI * 2, 2.6 + rand() * 3.2, 260 + rand() * 520, 0);
-  }
-  return canvas;
-}
-
-function canvasTexture(canvas: HTMLCanvasElement, repeat = 1, colorSpace: THREE.ColorSpace = THREE.SRGBColorSpace): THREE.CanvasTexture {
+function canvasTexture(canvas: HTMLCanvasElement, repeat = 1): THREE.CanvasTexture {
   const texture = new THREE.CanvasTexture(canvas);
-  texture.colorSpace = colorSpace;
+  texture.colorSpace = THREE.SRGBColorSpace;
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
   texture.repeat.set(repeat, repeat);
@@ -151,186 +93,88 @@ function canvasTexture(canvas: HTMLCanvasElement, repeat = 1, colorSpace: THREE.
   return texture;
 }
 
-/** Honed stone: the same procedural map, a low bump so veins catch light, and a thin clearcoat. */
-function polishedStone(
-  canvas: HTMLCanvasElement,
-  opts: { roughness: number; clearcoat: number; color?: number; bump?: number },
-): THREE.MeshPhysicalMaterial {
-  return new THREE.MeshPhysicalMaterial({
-    map: canvasTexture(canvas),
-    bumpMap: canvasTexture(canvas, 1, THREE.NoColorSpace),
-    bumpScale: opts.bump ?? 0.014,
-    color: opts.color ?? 0xffffff,
-    roughness: opts.roughness,
-    metalness: 0,
-    clearcoat: opts.clearcoat,
-    clearcoatRoughness: 0.24,
-    envMapIntensity: 0.48,
-  });
-}
-
 /* ─────────────────────────────── materials ─────────────────────────────── */
 
 type MaterialSet = {
   surface: Record<BuildMaterial, THREE.Material>;
   edge: Partial<Record<BuildMaterial, THREE.LineBasicMaterial>>;
-  /** Pane subdivisions drawn on the faces of glass and acrylic volumes (the references' mullion grids). */
-  mullion: Partial<Record<BuildMaterial, THREE.LineBasicMaterial>>;
   frame: Partial<Record<BuildMaterial, THREE.Material>>;
   castsShadow: Record<BuildMaterial, boolean>;
-  /**
-   * Blueprint inspection: a lit element keeps its own material and is drawn in red illumination — red edges and
-   * mullions, red frame members, a faint red glow through glass, a brighter acrylic.
-   */
-  lit: { edge: THREE.LineBasicMaterial; mullion: THREE.LineBasicMaterial; frame: THREE.Material; surface: Partial<Record<BuildMaterial, THREE.Material>> };
 };
 
-/**
- * Painted glass, not transmission. The canvas is transparent over a photographic plate, so a
- * transmission pass refracts empty alpha and the panes disappear.
- * `lite` is the phone tier. Clearcoat doubles the cost of a physical material, and a room can stack dozens of
- * transparent double-sided volumes, so on a phone GPU it is dropped.
- */
-function clearVolume(opts: {
-  color: number;
-  opacity: number;
-  roughness: number;
-  env?: number;
-  lite?: boolean;
-}): THREE.MeshPhysicalMaterial {
-  return new THREE.MeshPhysicalMaterial({
-    color: opts.color,
-    roughness: opts.roughness,
+function createMaterials(): MaterialSet {
+  const marble = canvasTexture(stoneCanvas('#dedcd8', '#45423e', { veins: 16, speckle: 16, seed: 7, veinAlpha: 0.9 }));
+  const darkMarble = canvasTexture(stoneCanvas('#242322', '#e2ded8', { veins: 12, speckle: 14, seed: 11, veinAlpha: 0.8 }));
+  const stone = canvasTexture(stoneCanvas('#cfccc6', '#8f8b84', { veins: 3, speckle: 30, seed: 3, veinAlpha: 0.45 }));
+  const concrete = canvasTexture(stoneCanvas('#bdbab4', '#85827c', { veins: 0, speckle: 40, seed: 5 }));
+  const travertine = canvasTexture(stoneCanvas('#ddcfbb', '#a28a6d', { veins: 1, speckle: 24, banding: true, seed: 13 }));
+
+  const glass = new THREE.MeshPhysicalMaterial({
+    color: 0xd3dddf,
+    roughness: 0.04,
     metalness: 0,
     transparent: true,
-    opacity: opts.opacity,
-    clearcoat: opts.lite ? 0 : 1,
-    clearcoatRoughness: 0.1,
-    specularIntensity: 1,
-    envMapIntensity: opts.env ?? 1.55,
+    opacity: 0.24,
+    clearcoat: 1,
+    clearcoatRoughness: 0.03,
+    envMapIntensity: 2.2,
     depthWrite: false,
     side: THREE.DoubleSide,
-    // Volumes stand exactly on the marble; pulled toward the camera so the shared plane never z-fights.
-    polygonOffset: true,
-    polygonOffsetFactor: -2,
-    polygonOffsetUnits: -2,
   });
-}
-
-function createMaterials(lite = false): MaterialSet {
-  // Cool Carrara white with grey veining; neutral limestone and concrete (no warm cast).
-  const marbleCanvas = crackMarbleCanvas({ base: '#d6d4d2', mottle: '#a9a6a3', vein: '#2b2a2a', seed: 7, veins: 24 });
-  const darkMarbleCanvas = stoneCanvas('#1c1e21', '#dadde2', { veins: 12, speckle: 12, seed: 11, veinAlpha: 0.8 });
-  // FEEL study stones as drawn: a charcoal slate and a warm taupe marble, both crack-veined.
-  const slateCanvas = crackMarbleCanvas({ base: '#6a6968', mottle: '#525150', vein: '#4a4948', seed: 17, veins: 6, size: 512 });
-  const warmMarbleCanvas = crackMarbleCanvas({ base: '#b7aea6', mottle: '#8e857c', vein: '#3f3934', seed: 19, veins: 20, size: 512 });
-  // Grey veined stone (the FEEL panel and the Blueprint's standing slabs).
-  const stoneCanvasMap = crackMarbleCanvas({ base: '#a6a4a2', mottle: '#7c7a78', vein: '#353434', seed: 3, veins: 18, size: 512 });
-  const concreteCanvas = stoneCanvas('#c8cacd', '#8c8f95', { veins: 0, speckle: 36, seed: 5 });
-  const travertineCanvas = stoneCanvas('#e2e2e0', '#acaaa6', { veins: 1, speckle: 22, banding: true, seed: 13 });
-
-  // Clear architectural glass. Specular coat and a slightly denser body so the pane has an edge.
-  const glass = clearVolume({ color: 0xf4f7f8, opacity: 0.4, roughness: 0.05, env: 1.65, lite });
-  const glassTint = clearVolume({ color: 0xd5e0e6, opacity: 0.46, roughness: 0.06, env: 1.35, lite });
-  const darkGlass = clearVolume({ color: 0x1a1e22, opacity: 0.72, roughness: 0.1, env: 0.7, lite });
-  // Translucent SITE 00 red acrylic. The body stays #E50107; the edge members carry the deeper rim.
+  const glassTint = glass.clone();
+  glassTint.color = new THREE.Color(0xdfe9ea);
+  glassTint.opacity = 0.3;
+  const darkGlass = glass.clone();
+  darkGlass.color = new THREE.Color(0x202428);
+  darkGlass.opacity = 0.62;
   const red = new THREE.MeshPhysicalMaterial({
-    color: 0xe50107,
+    color: 0xe0101e,
     roughness: 0.08,
     metalness: 0,
     transparent: true,
-    opacity: 0.92,
-    clearcoat: lite ? 0 : 1,
-    clearcoatRoughness: 0.06,
-    specularIntensity: 1,
-    envMapIntensity: 1.15,
-    emissive: new THREE.Color(0x8e0008),
-    emissiveIntensity: 0.22,
+    opacity: 0.78,
+    clearcoat: 1,
+    clearcoatRoughness: 0.05,
+    emissive: new THREE.Color(0x8a000c),
+    emissiveIntensity: 0.32,
+    envMapIntensity: 1.3,
     depthWrite: false,
     side: THREE.DoubleSide,
-    polygonOffset: true,
-    polygonOffsetFactor: -2,
-    polygonOffsetUnits: -2,
   });
-  const redSolid = new THREE.MeshPhysicalMaterial({
-    color: 0xd4121c,
-    roughness: 0.16,
-    metalness: 0,
-    clearcoat: lite ? 0 : 1,
-    clearcoatRoughness: 0.08,
-    envMapIntensity: 0.8,
-    emissive: new THREE.Color(0x52000a),
-    emissiveIntensity: 0.14,
-  });
-  // Blueprint inspection: what is not in focus stays as a faint glass outline.
-  const ghost = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.05, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2 });
+  const redSolid = new THREE.MeshPhysicalMaterial({ color: 0xcc0e1c, roughness: 0.22, clearcoat: 0.8, emissive: new THREE.Color(0x4a0006), emissiveIntensity: 0.22 });
   const surface: Record<BuildMaterial, THREE.Material> = {
     glass,
     glassTint,
     darkGlass,
     red,
     redSolid,
-    // Carrara stays mid-grey. A thin clearcoat and vein bump make it honed stone, not a flat fill.
-    marble: polishedStone(marbleCanvas, { roughness: 0.34, clearcoat: 0.4, color: 0xe4e2e0, bump: 0.016 }),
-    darkMarble: polishedStone(darkMarbleCanvas, { roughness: 0.24, clearcoat: 0.48, bump: 0.02 }),
-    stone: polishedStone(stoneCanvasMap, { roughness: 0.5, clearcoat: 0.22, bump: 0.018 }),
-    concrete: polishedStone(concreteCanvas, { roughness: 0.86, clearcoat: 0.04, bump: 0.028 }),
-    travertine: polishedStone(travertineCanvas, { roughness: 0.55, clearcoat: 0.18, bump: 0.02 }),
-    steel: new THREE.MeshPhysicalMaterial({ color: 0xb4b9bf, roughness: 0.2, metalness: 0.92, clearcoat: 0.25, envMapIntensity: 0.7 }),
-    ghost,
-    slate: polishedStone(slateCanvas, { roughness: 0.48, clearcoat: 0.14, bump: 0.016 }),
-    warmMarble: polishedStone(warmMarbleCanvas, { roughness: 0.36, clearcoat: 0.38, bump: 0.016 }),
-    // Drafting lines (the references' construction hairlines): flat, unlit, faint.
-    hairline: new THREE.MeshBasicMaterial({ color: 0x8a8682, transparent: true, opacity: 0.5, depthWrite: false }),
-    figure: new THREE.MeshStandardMaterial({ color: 0x2c2e32, roughness: 0.9, metalness: 0 }),
+    marble: new THREE.MeshStandardMaterial({ map: marble, roughness: 0.3, metalness: 0 }),
+    darkMarble: new THREE.MeshStandardMaterial({ map: darkMarble, roughness: 0.25, metalness: 0 }),
+    stone: new THREE.MeshStandardMaterial({ map: stone, roughness: 0.78, metalness: 0 }),
+    concrete: new THREE.MeshStandardMaterial({ map: concrete, roughness: 0.88, metalness: 0 }),
+    travertine: new THREE.MeshStandardMaterial({ map: travertine, roughness: 0.62, metalness: 0 }),
+    steel: new THREE.MeshStandardMaterial({ color: 0x868b90, roughness: 0.3, metalness: 0.85 }),
+    figure: new THREE.MeshStandardMaterial({ color: 0x3a3937, roughness: 0.9, metalness: 0 }),
   };
   const line = (color: number, opacity: number) => new THREE.LineBasicMaterial({ color, transparent: true, opacity });
-  // Chrome-white mullions: crisp edges that define every glass volume.
-  const lightFrame = new THREE.MeshPhysicalMaterial({ color: 0xe4e7e9, roughness: 0.16, metalness: 0.84, clearcoat: 0.3, envMapIntensity: 0.75 });
-  const darkFrame = new THREE.MeshPhysicalMaterial({ color: 0x14171a, roughness: 0.28, metalness: 0.62, clearcoat: 0.15, envMapIntensity: 0.45 });
-  // Red acrylic reads with a deeper red edge where the sheet is seen through its thickness.
-  const redFrame = new THREE.MeshPhysicalMaterial({
-    color: 0x8e0710,
-    roughness: 0.2,
-    metalness: 0.12,
-    clearcoat: 0.55,
-    clearcoatRoughness: 0.12,
-    emissive: new THREE.Color(0x3a0004),
-    emissiveIntensity: 0.22,
-  });
-  const outline = line(0x34363b, 0.14);
-  // Red illumination (inspection): the SITE 00 red, luminous, drawn over everything it outlines.
-  const litEdge = new THREE.LineBasicMaterial({ color: 0xe50107, transparent: true, opacity: 0.95, depthTest: false });
-  const litMullion = new THREE.LineBasicMaterial({ color: 0xe50107, transparent: true, opacity: 0.42 });
-  const litFrame = new THREE.MeshStandardMaterial({ color: 0xd8070f, roughness: 0.3, metalness: 0.2, emissive: new THREE.Color(0x7a0008), emissiveIntensity: 0.55 });
-  const litGlass = glass.clone();
-  litGlass.color = new THREE.Color(0xfff2f2);
-  litGlass.opacity = 0.48;
-  litGlass.emissive = new THREE.Color(0xe50107);
-  litGlass.emissiveIntensity = 0.14;
-  const litRed = red.clone();
-  litRed.emissiveIntensity = 0.55;
-  litRed.opacity = 0.96;
+  const lightFrame = new THREE.MeshStandardMaterial({ color: 0xeef0f0, roughness: 0.26, metalness: 0.35 });
+  const darkFrame = new THREE.MeshStandardMaterial({ color: 0x1c1f22, roughness: 0.35, metalness: 0.4 });
+  const outline = line(0x3a3836, 0.16);
   return {
-    lit: { edge: litEdge, mullion: litMullion, frame: litFrame, surface: { glass: litGlass, glassTint: litGlass, darkGlass: litGlass, red: litRed } },
     surface,
     edge: {
-      glass: line(0x8d9396, 0.72),
-      glassTint: line(0x76848c, 0.74),
-      darkGlass: line(0x0c0e10, 0.85),
-      red: line(0xb00010, 0.9),
+      glass: line(0x9aa5a8, 0.55),
+      glassTint: line(0x8b989b, 0.6),
+      darkGlass: line(0x0f1113, 0.8),
+      red: line(0xa5000f, 0.85),
       redSolid: line(0x7a000a, 0.5),
       marble: outline,
       darkMarble: line(0x000000, 0.3),
       stone: outline,
       concrete: outline,
       travertine: outline,
-      ghost: line(0xa6aeb5, 0.32),
-      slate: line(0x1a1a1a, 0.3),
-      warmMarble: outline,
     },
-    frame: { glass: lightFrame, glassTint: lightFrame, darkGlass: darkFrame, red: redFrame },
-    mullion: { glass: line(0x9ba1a4, 0.34), glassTint: line(0x8f979b, 0.38), darkGlass: line(0x0b0d0f, 0.5), red: line(0x86050d, 0.55) },
+    frame: { glass: lightFrame, glassTint: lightFrame, darkGlass: darkFrame },
     castsShadow: {
       glass: false,
       glassTint: false,
@@ -343,10 +187,6 @@ function createMaterials(lite = false): MaterialSet {
       concrete: true,
       travertine: true,
       steel: true,
-      ghost: false,
-      slate: true,
-      warmMarble: true,
-      hairline: false,
       figure: true,
     },
   };
@@ -356,34 +196,6 @@ function createMaterials(lite = false): MaterialSet {
 
 const UNIT_BOX = new THREE.BoxGeometry(1, 1, 1);
 const UNIT_EDGES = new THREE.EdgesGeometry(UNIT_BOX);
-/** Approximate pane size of the references' glazing, in scene units. */
-const PANE = 1.05;
-const gridCache = new Map<string, THREE.BufferGeometry>();
-/** Mullion lines on the four vertical faces of a unit box, with pane counts chosen from the element's real size. */
-function paneGrid(size: readonly number[]): THREE.BufferGeometry {
-  const [w, h, d] = size;
-  const nx = Math.max(1, Math.round(w / PANE));
-  const ny = Math.max(1, Math.round(h / PANE));
-  const nz = Math.max(1, Math.round(d / PANE));
-  const key = `${nx}.${ny}.${nz}`;
-  const cached = gridCache.get(key);
-  if (cached) return cached;
-  const v: number[] = [];
-  const seg = (a: number[], b: number[]) => v.push(...a, ...b);
-  for (const z of [-0.5, 0.5]) {
-    for (let i = 1; i < nx; i += 1) seg([-0.5 + i / nx, -0.5, z], [-0.5 + i / nx, 0.5, z]);
-    for (let j = 1; j < ny; j += 1) seg([-0.5, -0.5 + j / ny, z], [0.5, -0.5 + j / ny, z]);
-  }
-  for (const x of [-0.5, 0.5]) {
-    for (let i = 1; i < nz; i += 1) seg([x, -0.5, -0.5 + i / nz], [x, 0.5, -0.5 + i / nz]);
-    for (let j = 1; j < ny; j += 1) seg([x, -0.5 + j / ny, -0.5], [x, -0.5 + j / ny, 0.5]);
-  }
-  const geometry = new THREE.BufferGeometry();
-  geometry.setAttribute('position', new THREE.Float32BufferAttribute(v, 3));
-  gridCache.set(key, geometry);
-  return geometry;
-}
-
 /** A slender human figure for scale, one unit tall (feet at -0.5, head at +0.5), scaled uniformly. */
 const FIGURE_BODY = (() => {
   const body = new THREE.CapsuleGeometry(0.075, 0.6, 4, 10);
@@ -393,39 +205,16 @@ const FIGURE_BODY = (() => {
   return mergeGeometries([body, head])!;
 })();
 
-/** Interim reflection map from SITE 00's own atrium render (until the GA-01 HDRI exists). */
-const REFLECTION_MAP = '/site00/builder-studio/env/atrium-reflection.webp';
-
-function buildStage(scene: THREE.Scene, renderer: THREE.WebGLRenderer, mobile: boolean, onEnvironment?: (ready: boolean) => void) {
-  // The stage is composited: a photographic environment plate sits behind a transparent canvas (CSS layer), so the
-  // scene draws only the architecture, its shadow on the floor and its reflections.
-  scene.background = null;
+function buildStage(scene: THREE.Scene, renderer: THREE.WebGLRenderer, mobile: boolean) {
+  scene.background = new THREE.Color(BACKGROUND);
+  scene.fog = new THREE.Fog(BACKGROUND, 14, 34);
   const pmrem = new THREE.PMREMGenerator(renderer);
   scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-  scene.environmentIntensity = 0.72;
-  new THREE.TextureLoader().load(
-    REFLECTION_MAP,
-    (texture) => {
-      texture.mapping = THREE.EquirectangularReflectionMapping;
-      texture.colorSpace = THREE.SRGBColorSpace;
-      const previous = scene.environment;
-      scene.environment = pmrem.fromEquirectangular(texture).texture;
-      scene.environmentIntensity = 1.05;
-      previous?.dispose();
-      texture.dispose();
-      pmrem.dispose();
-      // Repaint once now, so the reflection swap lands immediately (also under reduced motion), never on a later frame.
-      onEnvironment?.(true);
-    },
-    undefined,
-    () => {
-      pmrem.dispose();
-      onEnvironment?.(false);
-    },
-  );
+  scene.environmentIntensity = 0.5;
+  pmrem.dispose();
 
-  scene.add(new THREE.HemisphereLight(0xfffbf8, 0xd8d3ce, 0.72));
-  const sun = new THREE.DirectionalLight(0xfffaf6, 2.05);
+  scene.add(new THREE.HemisphereLight(0xffffff, 0xe4e1dc, 0.5));
+  const sun = new THREE.DirectionalLight(0xffffff, 2.5);
   sun.position.set(-6, 10, 7);
   sun.castShadow = true;
   sun.shadow.mapSize.set(mobile ? 1024 : 2048, mobile ? 1024 : 2048);
@@ -436,20 +225,38 @@ function buildStage(scene: THREE.Scene, renderer: THREE.WebGLRenderer, mobile: b
   sun.shadow.camera.far = 40;
   sun.shadow.bias = -0.0005;
   sun.shadow.normalBias = 0.025;
-  sun.shadow.radius = mobile ? 3 : 5;
+  sun.shadow.radius = 3;
   scene.add(sun);
-  const fill = new THREE.DirectionalLight(0xf7f4f1, 0.52);
+  const fill = new THREE.DirectionalLight(0xfbf8f5, 0.5);
   fill.position.set(7, 4, -2);
   scene.add(fill);
-  const front = new THREE.DirectionalLight(0xffffff, 0.5);
-  front.position.set(2, 2.4, 10);
+  const front = new THREE.DirectionalLight(0xffffff, 0.35);
+  front.position.set(2, 2, 10);
   scene.add(front);
 
-  // Shadow catcher: the plate's polished floor shows through; the contact shadow grounds the object.
-  const floor = new THREE.Mesh(new THREE.PlaneGeometry(120, 120), new THREE.ShadowMaterial({ color: 0x2c2a28, opacity: 0.24 }));
+  const floor = new THREE.Mesh(
+    new THREE.PlaneGeometry(120, 120),
+    new THREE.MeshStandardMaterial({ color: 0xe6e3de, roughness: 0.55, metalness: 0 }),
+  );
   floor.rotation.x = -Math.PI / 2;
   floor.receiveShadow = true;
   scene.add(floor);
+
+  // Atmosphere: the white architectural room the object sits in, softened by fog.
+  const atmosphere = new THREE.MeshStandardMaterial({ color: 0xf4f2ee, roughness: 0.9 });
+  for (const [x, z, w] of [[-10, -13, 1.8], [-4, -16, 1.3], [5, -15, 1.5], [11, -12, 2]] as const) {
+    const column = new THREE.Mesh(UNIT_BOX, atmosphere);
+    column.scale.set(w, 16, w);
+    column.position.set(x, 8, z);
+    scene.add(column);
+  }
+  const distantRed = new THREE.Mesh(
+    UNIT_BOX,
+    new THREE.MeshStandardMaterial({ color: 0xd24a52, roughness: 0.4, transparent: true, opacity: 0.16 }),
+  );
+  distantRed.scale.set(2.4, 11, 0.2);
+  distantRed.position.set(15, 5.5, -18);
+  scene.add(distantRed);
 }
 
 type NodeState = { position: THREE.Vector3; size: THREE.Vector3; rotationY: number };
@@ -457,22 +264,13 @@ type NodeState = { position: THREE.Vector3; size: THREE.Vector3; rotationY: numb
 type SceneNode = {
   id: string;
   material: BuildMaterial;
-  /** Drawn in red illumination (Blueprint inspection). */
-  lit: boolean;
   group: THREE.Group;
   mesh: THREE.Mesh;
   edges: THREE.LineSegments | null;
-  mullions: THREE.LineSegments | null;
   frames: THREE.Mesh[];
-  /** Realism benchmark: the element built at its true size (`bodySize`), scaled by the tween relative to it. */
-  body?: THREE.Object3D;
-  bodySize?: THREE.Vector3;
   from: NodeState;
   to: NodeState;
   start: number;
-  /** Assembly delay (ms) before this node starts moving, and its own tween length. */
-  delay: number;
-  duration: number;
   removing: boolean;
 };
 
@@ -492,18 +290,6 @@ function collapsed(state: NodeState): NodeState {
     size: new THREE.Vector3(state.size.x, 0.002, state.size.z),
     rotationY: state.rotationY,
   };
-}
-
-/** Where an element enters from, per the composition's motion. */
-function entryState(state: NodeState, entry: BuildMotion['entry']): NodeState {
-  if (entry === 'lateral') {
-    const side = state.position.x === 0 ? 1 : Math.sign(state.position.x);
-    return { position: state.position.clone().add(new THREE.Vector3(side * 1.4, 0, 0.35)), size: state.size.clone().multiplyScalar(0.92), rotationY: state.rotationY };
-  }
-  if (entry === 'above') {
-    return { position: state.position.clone().add(new THREE.Vector3(0, 0.9, 0)), size: state.size.clone(), rotationY: state.rotationY };
-  }
-  return collapsed(state);
 }
 
 function ease(t: number): number {
@@ -541,11 +327,7 @@ function applyState(node: SceneNode, state: NodeState) {
     return;
   }
   node.mesh.scale.copy(state.size);
-  if (node.body && node.bodySize) {
-    node.body.scale.set(Math.max(state.size.x / node.bodySize.x, 1e-4), Math.max(state.size.y / node.bodySize.y, 1e-4), Math.max(state.size.z / node.bodySize.z, 1e-4));
-  }
   node.edges?.scale.copy(state.size);
-  node.mullions?.scale.copy(state.size);
   layoutFrames(node.frames, state.size);
 }
 
@@ -577,41 +359,9 @@ const fitCam = new THREE.PerspectiveCamera(FOV, 1, 0.1, 400);
  * object's bounds fill `fill` of the frame.
  */
 export function fitCamera(elements: BuildElement[], camera: BuildCamera, aspect: number): BuildCamera {
-  const whole = fitBounds(elements, camera, aspect);
-  const focus = camera.focus?.length ? new Set(camera.focus) : null;
-  const closeness = Math.max(0, Math.min(1, camera.closeness ?? 0));
-  if (!focus || !closeness) return whole;
-  const part = elements.filter((el) => focus.has(el.id));
-  if (!part.length) return whole;
-  // Inspection: turn toward the part (a part right of centre is seen more frontally) and move part-way to it,
-  // never closer than half the whole-object distance, so the rest of the structure stays in view as context.
-  const turn = Math.max(-16, Math.min(16, (centerX(part) - centerX(elements)) * 7));
-  const near = fitBounds(part, { ...camera, azimuth: camera.azimuth + turn, fill: 0.62, lift: 0 }, aspect);
-  const l = (a: number, b: number) => a + (b - a) * closeness;
-  return {
-    ...whole,
-    azimuth: l(whole.azimuth, near.azimuth),
-    target: [l(whole.target[0], near.target[0]), l(whole.target[1], near.target[1]), l(whole.target[2], near.target[2])],
-    distance: Math.max(whole.distance * 0.5, l(whole.distance, near.distance)),
-  };
-}
-
-function centerX(elements: BuildElement[]): number {
-  let min = Infinity;
-  let max = -Infinity;
-  for (const el of elements) {
-    min = Math.min(min, el.position[0] - el.size[0] / 2);
-    max = Math.max(max, el.position[0] + el.size[0] / 2);
-  }
-  return (min + max) / 2;
-}
-
-function fitBounds(elements: BuildElement[], camera: BuildCamera, aspect: number): BuildCamera {
   const box = new THREE.Box3();
   const v = new THREE.Vector3();
   for (const el of elements) {
-    // Drafting hairlines run past the object on purpose; they never drive the framing.
-    if (el.material === 'hairline') continue;
     const [w, h, d] = el.size;
     const [x, y, z] = el.position;
     const r = el.rotationY ?? 0;
@@ -653,44 +403,6 @@ export function webglAvailable(): boolean {
   }
 }
 
-/**
- * Dresses a node in its material, or in red illumination when lit: the surface brightens (glass, acrylic), every
- * edge, mullion and frame member turns SITE 00 red. Edges are added for a lit material that has none of its own.
- */
-function dressNode(node: SceneNode, materials: MaterialSet, material: BuildMaterial, lit: boolean) {
-  node.material = material;
-  node.lit = lit;
-  node.mesh.material = (lit && materials.lit.surface[material]) || materials.surface[material];
-  node.mesh.castShadow = materials.castsShadow[material];
-  node.mesh.renderOrder = material.includes('lass') || material === 'red' || material === 'ghost' ? 2 : 0;
-  const edgeMaterial = lit && material !== 'figure' ? materials.lit.edge : materials.edge[material];
-  if (edgeMaterial && !node.edges) {
-    node.edges = new THREE.LineSegments(UNIT_EDGES, edgeMaterial);
-    node.edges.scale.copy(node.mesh.scale);
-    node.group.add(node.edges);
-  } else if (!edgeMaterial && node.edges) {
-    node.group.remove(node.edges);
-    node.edges = null;
-  } else if (edgeMaterial && node.edges) {
-    node.edges.material = edgeMaterial;
-  }
-  if (node.edges) node.edges.renderOrder = lit ? 4 : 3;
-  const mullionMaterial = materials.mullion[material] ? (lit ? materials.lit.mullion : materials.mullion[material]) : undefined;
-  if (mullionMaterial && !node.mullions) {
-    node.mullions = new THREE.LineSegments(paneGrid(node.to.size.toArray()), mullionMaterial);
-    node.mullions.renderOrder = 3;
-    node.mullions.scale.copy(node.mesh.scale);
-    node.group.add(node.mullions);
-  } else if (!mullionMaterial && node.mullions) {
-    node.group.remove(node.mullions);
-    node.mullions = null;
-  } else if (mullionMaterial && node.mullions) {
-    node.mullions.material = mullionMaterial;
-  }
-  const frameMaterial = materials.frame[material];
-  if (frameMaterial) for (const member of node.frames) member.material = lit ? materials.lit.frame : frameMaterial;
-}
-
 function makeNodeFactory(scene: THREE.Scene, materials: MaterialSet) {
   return (el: BuildElement): SceneNode => {
     const group = new THREE.Group();
@@ -698,7 +410,7 @@ function makeNodeFactory(scene: THREE.Scene, materials: MaterialSet) {
     const mesh = new THREE.Mesh(isFigure ? FIGURE_BODY : UNIT_BOX, materials.surface[el.material]);
     mesh.castShadow = materials.castsShadow[el.material];
     mesh.receiveShadow = !isFigure;
-    if (el.material.includes('lass') || el.material === 'red' || el.material === 'ghost') mesh.renderOrder = 2;
+    if (el.material.includes('lass') || el.material === 'red') mesh.renderOrder = 2;
     group.add(mesh);
     let edges: THREE.LineSegments | null = null;
     const edgeMaterial = materials.edge[el.material];
@@ -706,13 +418,6 @@ function makeNodeFactory(scene: THREE.Scene, materials: MaterialSet) {
       edges = new THREE.LineSegments(UNIT_EDGES, edgeMaterial);
       edges.renderOrder = 3;
       group.add(edges);
-    }
-    let mullions: THREE.LineSegments | null = null;
-    const mullionMaterial = materials.mullion[el.material];
-    if (mullionMaterial) {
-      mullions = new THREE.LineSegments(paneGrid(el.size), mullionMaterial);
-      mullions.renderOrder = 3;
-      group.add(mullions);
     }
     const frames: THREE.Mesh[] = [];
     const frameMaterial = materials.frame[el.material];
@@ -727,44 +432,26 @@ function makeNodeFactory(scene: THREE.Scene, materials: MaterialSet) {
     }
     scene.add(group);
     const target = stateOf(el);
-    const node: SceneNode = { id: el.id, material: el.material, lit: false, group, mesh, edges, mullions, frames, from: collapsed(target), to: target, start: performance.now(), delay: 0, duration: TWEEN_MS, removing: false };
-    if (el.lit) dressNode(node, materials, el.material, true);
-    return node;
+    return { id: el.id, material: el.material, group, mesh, edges, frames, from: collapsed(target), to: target, start: performance.now(), removing: false };
   };
 }
 
 /* ─────────────────────────────── live engine ─────────────────────────────── */
 
-/** A point on the model the page annotates: the centre of the named elements (in the stage's CSS px). */
-export type StageAnchor = { id: string; elements: readonly string[] };
-export type AnchorPoint = { x: number; y: number; visible: boolean };
-export type AnchorListener = (points: Record<string, AnchorPoint>) => void;
-
 export type BuildObjectEngine = {
   setComposition: (composition: BuildComposition) => void;
   setInteractive: (interactive: boolean) => void;
   resetView: () => void;
-  /** Track points on the model; the listener hears their stage position whenever the view or the object moves. */
-  setAnchors: (anchors: readonly StageAnchor[], listener: AnchorListener | null) => void;
   dispose: () => void;
 };
 
-export function createBuildObjectEngine(
-  container: HTMLElement,
-  options: { reducedMotion: boolean; onContextLost?: () => void; realism?: RealismMode | null },
-): BuildObjectEngine {
+export function createBuildObjectEngine(container: HTMLElement, options: { reducedMotion: boolean }): BuildObjectEngine {
   const mobile = Math.min(window.innerWidth, window.innerHeight) < 700;
-  const realism = options.realism === 'v2';
-  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
-  renderer.setClearColor(0x000000, 0);
-  const maxPixelRatio = Math.min(window.devicePixelRatio || 1, mobile ? 1.5 : 1.75);
-  let pixelRatio = maxPixelRatio;
-  renderer.setPixelRatio(pixelRatio);
-  // The transmission pass re-renders the opaque scene into its own target; on a phone it starts at 0.75 resolution.
-  if (realism) renderer.transmissionResolutionScale = mobile ? 0.75 : 1;
+  const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, mobile ? 2 : 1.75));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.NeutralToneMapping;
-  renderer.toneMappingExposure = 1.02;
+  renderer.toneMappingExposure = 0.94;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.domElement.className = 'bs-object__canvas';
@@ -772,101 +459,10 @@ export function createBuildObjectEngine(
   container.appendChild(renderer.domElement);
 
   const scene = new THREE.Scene();
-  // The stage reports when its reflections are in place (`data-env`), so captures and checks can wait for the final look.
-  buildStage(scene, renderer, mobile, (ready) => {
-    container.dataset.env = ready ? 'ready' : 'fallback';
-    requestFrame();
-  });
-  const materials = createMaterials(mobile);
-  const makeDefaultNode = makeNodeFactory(scene, materials);
+  buildStage(scene, renderer, mobile);
+  const materials = createMaterials();
+  const makeNode = makeNodeFactory(scene, materials);
   const camera = new THREE.PerspectiveCamera(FOV, 1, 0.1, 160);
-
-  const realismMaterials = realism ? createRealismMaterials(mobile) : null;
-  const realismOwned: (THREE.BufferGeometry | THREE.Texture | THREE.Material)[] = [];
-  const realismGeometries: THREE.BufferGeometry[] = [];
-  let realismDressing: THREE.Object3D[] = [];
-  let plate: THREE.Texture | null = null;
-  const hiddenProxy = new THREE.MeshBasicMaterial({ visible: false });
-  if (realism) {
-    // The room plate is drawn in the scene (same photograph, same cover fit as the CSS layer behind the canvas) so
-    // transmission has real content to refract.
-    const url = plateUrlOf(container);
-    container.dataset.realism = 'loading';
-    if (url) {
-      new THREE.TextureLoader().load(
-        url,
-        (texture) => {
-          if (disposed) {
-            texture.dispose();
-            return;
-          }
-          texture.colorSpace = THREE.SRGBColorSpace;
-          plate = texture;
-          fitPlate(texture, aspect);
-          scene.background = texture;
-          container.dataset.realism = 'ready';
-          requestFrame();
-        },
-        undefined,
-        () => {
-          container.dataset.realism = 'fallback';
-        },
-      );
-    } else {
-      container.dataset.realism = 'fallback';
-    }
-  }
-
-  function makeNode(el: BuildElement): SceneNode {
-    const body = realismMaterials ? buildRealismBody(el, realismMaterials, realismGeometries) : null;
-    if (!body) return makeDefaultNode(el);
-    const group = new THREE.Group();
-    // An invisible unit box keeps the node's size where the anchors and the default helpers expect it.
-    const mesh = new THREE.Mesh(UNIT_BOX, hiddenProxy);
-    group.add(mesh, body);
-    scene.add(group);
-    const target = stateOf(el);
-    return { id: el.id, material: el.material, lit: false, group, mesh, edges: null, mullions: null, frames: [], body, bodySize: target.size.clone(), from: collapsed(target), to: target, start: performance.now(), delay: 0, duration: TWEEN_MS, removing: false };
-  }
-
-  function dressRealism(elements: readonly BuildElement[]) {
-    if (!realismMaterials) return;
-    for (const item of realismDressing) scene.remove(item);
-    for (const item of realismOwned.splice(0)) item.dispose();
-    realismDressing = [buildContactOcclusion(elements, realismMaterials, realismOwned)];
-    const bounce = redBounce(elements, realismMaterials, realismOwned);
-    if (bounce) realismDressing.push(bounce);
-    for (const item of realismDressing) scene.add(item);
-  }
-
-  /**
-   * Adaptive tier: if assembly frames run long, first halve the refraction buffer, then step the pixel ratio down
-   * (never below 1×). Effects are never switched off.
-   */
-  const frameGaps: number[] = [];
-  let lastTick = 0;
-  function adaptQuality(now: number, animating: boolean) {
-    if (!realism || !animating) {
-      lastTick = 0;
-      return;
-    }
-    if (lastTick) frameGaps.push(now - lastTick);
-    lastTick = now;
-    if (frameGaps.length < 12) return;
-    const sorted = [...frameGaps].sort((a, b) => a - b);
-    frameGaps.length = 0;
-    const median = sorted[Math.floor(sorted.length / 2)];
-    if (median > 34) {
-      if (renderer.transmissionResolutionScale > 0.5) {
-        renderer.transmissionResolutionScale = 0.5;
-      } else if (pixelRatio > 1) {
-        pixelRatio = Math.max(1, pixelRatio - 0.25);
-        renderer.setPixelRatio(pixelRatio);
-        renderer.setSize(Math.max(1, container.clientWidth), Math.max(1, container.clientHeight), false);
-      }
-    }
-    container.dataset.quality = `${pixelRatio.toFixed(2)}/${maxPixelRatio.toFixed(2)}/${renderer.transmissionResolutionScale}`;
-  }
 
   const nodes = new Map<string, SceneNode>();
   let composition: BuildComposition | null = null;
@@ -883,64 +479,37 @@ export function createBuildObjectEngine(
   let disposed = false;
   let lastSwayRender = 0;
   const reducedMotion = options.reducedMotion;
-  let anchors: readonly StageAnchor[] = [];
-  let anchorListener: AnchorListener | null = null;
-  let lastAnchors = '';
-  const anchorBox = new THREE.Box3();
-  const anchorPoint = new THREE.Vector3();
 
-  /** Projects each anchor's centre (from the nodes' current, animated state) and reports changes. */
-  function reportAnchors() {
-    if (!anchorListener) return;
-    const width = container.clientWidth;
-    const height = container.clientHeight;
-    const out: Record<string, AnchorPoint> = {};
-    for (const anchor of anchors) {
-      anchorBox.makeEmpty();
-      for (const id of anchor.elements) {
-        const node = nodes.get(id);
-        if (!node || node.removing) continue;
-        const s = node.mesh.scale;
-        const p = node.group.position;
-        anchorBox.expandByPoint(anchorPoint.set(p.x - s.x / 2, p.y - s.y / 2, p.z - s.z / 2));
-        anchorBox.expandByPoint(anchorPoint.set(p.x + s.x / 2, p.y + s.y / 2, p.z + s.z / 2));
-      }
-      if (anchorBox.isEmpty()) {
-        out[anchor.id] = { x: 0, y: 0, visible: false };
-        continue;
-      }
-      // The centre of the named volume (a tag on a stem rises from it, so tall volumes are not marked at the sky).
-      anchorPoint.set((anchorBox.min.x + anchorBox.max.x) / 2, (anchorBox.min.y + anchorBox.max.y) / 2, (anchorBox.min.z + anchorBox.max.z) / 2).project(camera);
-      const x = ((anchorPoint.x + 1) / 2) * width;
-      const y = ((1 - anchorPoint.y) / 2) * height;
-      out[anchor.id] = { x: Math.round(x * 2) / 2, y: Math.round(y * 2) / 2, visible: anchorPoint.z < 1 && x >= 0 && x <= width && y >= 0 && y <= height };
-    }
-    const signature = JSON.stringify(out);
-    if (signature === lastAnchors) return;
-    lastAnchors = signature;
-    anchorListener(out);
-  }
-
-  function setNodeMaterial(node: SceneNode, material: BuildMaterial, lit: boolean) {
-    if (node.material === material && node.lit === lit) return;
+  function setNodeMaterial(node: SceneNode, material: BuildMaterial) {
+    if (node.material === material) return;
     // A material family change (glass ↔ stone) rebuilds the node in place.
     const needsFrames = Boolean(materials.frame[material]);
-    if (realism || needsFrames !== node.frames.length > 0 || (node.material === 'figure') !== (material === 'figure')) {
+    if (needsFrames !== node.frames.length > 0 || (node.material === 'figure') !== (material === 'figure')) {
       scene.remove(node.group);
-      const rebuilt = makeNode({ id: node.id, material, lit, size: node.to.size.toArray() as [number, number, number], position: node.to.position.toArray() as [number, number, number], rotationY: node.to.rotationY });
-      Object.assign(node, { group: rebuilt.group, mesh: rebuilt.mesh, edges: rebuilt.edges, mullions: rebuilt.mullions, frames: rebuilt.frames, body: rebuilt.body, bodySize: rebuilt.bodySize, material, lit });
+      const rebuilt = makeNode({ id: node.id, material, size: node.to.size.toArray() as [number, number, number], position: node.to.position.toArray() as [number, number, number], rotationY: node.to.rotationY });
+      Object.assign(node, { group: rebuilt.group, mesh: rebuilt.mesh, edges: rebuilt.edges, frames: rebuilt.frames, material });
       return;
     }
-    dressNode(node, materials, material, lit);
-  }
-
-  function progress(node: SceneNode, now: number): number {
-    if (reducedMotion) return 1;
-    return Math.max(0, Math.min(1, (now - node.start - node.delay) / node.duration));
+    node.material = material;
+    node.mesh.material = materials.surface[material];
+    node.mesh.castShadow = materials.castsShadow[material];
+    node.mesh.renderOrder = material.includes('lass') || material === 'red' ? 2 : 0;
+    for (const member of node.frames) member.material = materials.frame[material]!;
+    const edgeMaterial = materials.edge[material];
+    if (edgeMaterial && !node.edges) {
+      node.edges = new THREE.LineSegments(UNIT_EDGES, edgeMaterial);
+      node.edges.renderOrder = 3;
+      node.group.add(node.edges);
+    } else if (!edgeMaterial && node.edges) {
+      node.group.remove(node.edges);
+      node.edges = null;
+    } else if (edgeMaterial && node.edges) {
+      node.edges.material = edgeMaterial;
+    }
   }
 
   function currentStateOf(node: SceneNode, now: number): NodeState {
-    const t = ease(progress(node, now));
+    const t = reducedMotion ? 1 : ease(Math.min(1, (now - node.start) / TWEEN_MS));
     return {
       position: node.from.position.clone().lerp(node.to.position, t),
       size: node.from.size.clone().lerp(node.to.size, t),
@@ -959,7 +528,6 @@ export function createBuildObjectEngine(
     aspect = width / height;
     camera.aspect = aspect;
     camera.updateProjectionMatrix();
-    if (plate) fitPlate(plate, aspect);
     // A new stage shape re-frames immediately (no tween on resize).
     const next = fitted();
     if (next) {
@@ -975,7 +543,7 @@ export function createBuildObjectEngine(
     if (disposed) return;
     let animating = false;
     for (const node of [...nodes.values()]) {
-      const t = progress(node, now);
+      const t = reducedMotion ? 1 : Math.min(1, (now - node.start) / TWEEN_MS);
       if (t < 1) animating = true;
       applyState(node, currentStateOf(node, now));
       if (node.removing && t >= 1) {
@@ -990,17 +558,14 @@ export function createBuildObjectEngine(
       else fromCamera = null;
     }
     if (currentCamera) {
-      // The benchmark holds still when idle: nothing is drawn until something changes.
-      const sway = reducedMotion || interactive || realism ? 0 : Math.sin(now / 5200) * 2.2;
+      const sway = reducedMotion || interactive ? 0 : Math.sin(now / 5200) * 2.2;
       const view = { ...currentCamera, elevation: Math.max(2, Math.min(55, currentCamera.elevation + dragElevation)) };
       camera.position.copy(cameraPosition(view, sway + dragAzimuth));
       camera.lookAt(...view.target);
     }
     renderer.render(scene, camera);
-    reportAnchors();
-    adaptQuality(now, animating);
     if (animating) requestFrame();
-    else if (!reducedMotion && !interactive && visible && !realism) {
+    else if (!reducedMotion && !interactive && visible) {
       // A gentle idle sway at a low frame rate; transitions run at full rate.
       const wait = Math.max(0, 1000 / 20 - (now - lastSwayRender));
       lastSwayRender = now;
@@ -1043,13 +608,6 @@ export function createBuildObjectEngine(
     dragging = null;
     if (interactive) canvas.style.cursor = 'grab';
   };
-  // A phone can drop the WebGL context (memory pressure, GPU watchdog, the page backgrounded). The canvas then stays
-  // blank for good, so the stage is told and builds a fresh engine instead of leaving the place empty.
-  const onContextLost = (event: Event) => {
-    event.preventDefault();
-    options.onContextLost?.();
-  };
-  canvas.addEventListener('webglcontextlost', onContextLost);
   canvas.addEventListener('pointerdown', onDown);
   canvas.addEventListener('pointermove', onMove);
   canvas.addEventListener('pointerup', onUp);
@@ -1061,51 +619,32 @@ export function createBuildObjectEngine(
     setComposition(next) {
       const now = performance.now();
       const first = composition === null;
-      const changed = composition?.key !== next.key;
       composition = next;
-      const motion = next.motion;
-      // A replaying composition (PACE, Blueprint timeline) re-assembles everything in its own rhythm.
-      const replay = !first && changed && motion.replay;
       const seen = new Set<string>();
       for (const el of next.elements) {
         seen.add(el.id);
         const existing = nodes.get(el.id);
-        const target = stateOf(el);
-        const delay = (el.seq ?? 0) * motion.stagger;
         if (!existing) {
           const node = makeNode(el);
-          node.from = first ? target : entryState(target, motion.entry);
-          node.delay = first ? 0 : delay;
-          node.duration = motion.duration;
+          if (first) node.from = node.to;
           nodes.set(el.id, node);
           continue;
         }
-        // A staged element (Blueprint timeline) assembles now, in its own order, even though it is already here.
-        const enter = changed && el.enter === true;
-        const from = existing.removing || replay || enter ? entryState(target, motion.entry) : currentStateOf(existing, now);
-        setNodeMaterial(existing, el.material, el.lit === true);
+        const from = existing.removing ? collapsed(stateOf(el)) : currentStateOf(existing, now);
+        setNodeMaterial(existing, el.material);
         existing.from = from;
-        existing.to = target;
+        existing.to = stateOf(el);
         existing.start = now;
-        existing.delay = replay || enter ? delay : Math.min(delay, 240);
-        existing.duration = motion.duration;
         existing.removing = false;
-        if (replay || enter) applyState(existing, from);
       }
       for (const node of nodes.values()) {
         if (seen.has(node.id) || node.removing) continue;
         node.from = currentStateOf(node, now);
         node.to = collapsed(node.to);
         node.start = now;
-        node.delay = 0;
-        node.duration = Math.min(motion.duration, 520);
         node.removing = true;
       }
-      if (realism && (first || changed)) dressRealism(next.elements);
       const target = fitted()!;
-      // The framing the camera is heading for, readable by checks (azimuth / distance / look-at).
-      container.dataset.camera = `${target.azimuth.toFixed(1)}/${target.distance.toFixed(2)}/${target.target.map((n) => n.toFixed(2)).join(',')}`;
-      container.dataset.lit = String(next.elements.filter((el) => el.lit).length);
       if (!currentCamera) {
         currentCamera = target;
       } else {
@@ -1126,40 +665,20 @@ export function createBuildObjectEngine(
       dragElevation = 0;
       requestFrame();
     },
-    setAnchors(next, listener) {
-      anchors = next;
-      anchorListener = listener;
-      lastAnchors = '';
-      requestFrame();
-    },
     dispose() {
       disposed = true;
       if (frame) cancelAnimationFrame(frame);
       resizeObserver.disconnect();
       intersection.disconnect();
       document.removeEventListener('visibilitychange', onVisibility);
-      canvas.removeEventListener('webglcontextlost', onContextLost);
       canvas.removeEventListener('pointerdown', onDown);
       canvas.removeEventListener('pointermove', onMove);
       canvas.removeEventListener('pointerup', onUp);
       canvas.removeEventListener('pointercancel', onUp);
       scene.environment?.dispose();
       for (const material of Object.values(materials.surface)) {
-        const physical = material as THREE.MeshPhysicalMaterial;
-        physical.map?.dispose();
-        physical.bumpMap?.dispose();
+        (material as THREE.MeshStandardMaterial).map?.dispose();
         material.dispose();
-      }
-      for (const material of [materials.lit.edge, materials.lit.mullion, materials.lit.frame, ...new Set(Object.values(materials.lit.surface))]) material?.dispose();
-      if (realismMaterials) {
-        for (const item of realismOwned.splice(0)) item.dispose();
-        for (const geometry of realismGeometries.splice(0)) geometry.dispose();
-        disposeRealism(realismMaterials);
-        hiddenProxy.dispose();
-        plate?.dispose();
-        scene.background = null;
-        // Crossing in and out of the benchmark rebuilds the engine; release the context now rather than at GC.
-        renderer.forceContextLoss();
       }
       renderer.dispose();
       canvas.remove();
@@ -1184,13 +703,10 @@ export function renderBuildThumbnail(composition: BuildComposition, width: numbe
   if (cached) return cached;
   try {
     if (!thumbRenderer) {
-      // Transparent, like the stage: the card frame carries the room's photographic plate behind the still.
-      thumbRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
-      thumbRenderer.setClearColor(0x000000, 0);
+      thumbRenderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
       thumbRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
       thumbRenderer.outputColorSpace = THREE.SRGBColorSpace;
       thumbRenderer.toneMapping = THREE.NeutralToneMapping;
-      thumbRenderer.toneMappingExposure = 1.02;
       thumbRenderer.shadowMap.enabled = true;
       thumbRenderer.shadowMap.type = THREE.PCFSoftShadowMap;
       thumbScene = new THREE.Scene();
@@ -1209,88 +725,8 @@ export function renderBuildThumbnail(composition: BuildComposition, width: numbe
     cam.position.copy(cameraPosition(framing));
     cam.lookAt(...framing.target);
     renderer.render(scene, cam);
-    const url = renderer.domElement.toDataURL('image/png');
+    const url = renderer.domElement.toDataURL('image/jpeg', 0.86);
     scene.remove(group);
-    thumbCache.set(cacheKey, url);
-    return url;
-  } catch {
-    return null;
-  }
-}
-
-let realismThumb: { renderer: THREE.WebGLRenderer; scene: THREE.Scene; materials: MaterialSet; realism: RealismMaterials; envReady: Promise<void> } | null = null;
-const plateCache = new Map<string, Promise<THREE.Texture>>();
-
-function loadPlate(url: string): Promise<THREE.Texture> {
-  let pending = plateCache.get(url);
-  if (!pending) {
-    pending = new THREE.TextureLoader().loadAsync(url).then((texture) => {
-      texture.colorSpace = THREE.SRGBColorSpace;
-      return texture;
-    });
-    plateCache.set(url, pending);
-  }
-  return pending;
-}
-
-/**
- * Realism benchmark still for an option card: the same bodies, materials and in-scene plate as the benchmark
- * stage, so the card shows the object the hero shows. Opaque (the plate is in the image).
- */
-export async function renderRealismThumbnail(composition: BuildComposition, width: number, height: number, plateUrl: string, plateY: number): Promise<string | null> {
-  const cacheKey = `v2|${composition.key}@${width}x${height}|${plateUrl}|${plateY}`;
-  const cached = thumbCache.get(cacheKey);
-  if (cached) return cached;
-  try {
-    if (!realismThumb) {
-      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-      renderer.outputColorSpace = THREE.SRGBColorSpace;
-      renderer.toneMapping = THREE.NeutralToneMapping;
-      renderer.toneMappingExposure = 1.02;
-      renderer.shadowMap.enabled = true;
-      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-      const scene = new THREE.Scene();
-      const lite = Math.min(window.innerWidth, window.innerHeight) < 700;
-      let resolveEnv: () => void = () => {};
-      const envReady = new Promise<void>((resolve) => (resolveEnv = resolve));
-      buildStage(scene, renderer, true, () => resolveEnv());
-      realismThumb = { renderer, scene, materials: createMaterials(lite), realism: createRealismMaterials(lite), envReady };
-    }
-    const { renderer, scene, materials, realism, envReady } = realismThumb;
-    const [plate] = await Promise.all([loadPlate(plateUrl), Promise.race([envReady, new Promise((r) => window.setTimeout(r, 4000))])]);
-    const group = new THREE.Group();
-    scene.add(group);
-    const geometries: THREE.BufferGeometry[] = [];
-    const owned: (THREE.BufferGeometry | THREE.Texture | THREE.Material)[] = [];
-    const makeDefault = makeNodeFactory(group as unknown as THREE.Scene, materials);
-    for (const el of composition.elements) {
-      const body = buildRealismBody(el, realism, geometries);
-      if (!body) {
-        applyState(makeDefault(el), stateOf(el));
-        continue;
-      }
-      body.position.set(...el.position);
-      body.rotation.y = el.rotationY ?? 0;
-      group.add(body);
-    }
-    group.add(buildContactOcclusion(composition.elements, realism, owned));
-    const bounce = redBounce(composition.elements, realism, owned);
-    if (bounce) group.add(bounce);
-    const plateView = plate.clone();
-    fitPlate(plateView, width / height, plateY);
-    scene.background = plateView;
-    renderer.setSize(width, height, false);
-    const framing = fitCamera(composition.elements, { ...composition.camera, fill: Math.min(0.94, (composition.camera.fill ?? 0.86) + 0.04), lift: 0 }, width / height);
-    const cam = new THREE.PerspectiveCamera(FOV, width / height, 0.1, 160);
-    cam.position.copy(cameraPosition(framing));
-    cam.lookAt(...framing.target);
-    renderer.render(scene, cam);
-    const url = renderer.domElement.toDataURL('image/png');
-    scene.remove(group);
-    scene.background = null;
-    plateView.dispose();
-    for (const item of [...geometries, ...owned]) item.dispose();
     thumbCache.set(cacheKey, url);
     return url;
   } catch {
