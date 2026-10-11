@@ -16135,7 +16135,6 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 ---
 
-<<<<<<< HEAD
 ## 2026-10-10 — BLDR monument realism V2 benchmark (PLACE · ADVANCED, opt-in)
 
 - **Context:** The founder said V1 (#1589) was "still too similar" and ruled out any more material-token-only passes. The sprint asked for one benchmark monument before any rollout: no auto-merge, no production deploy.
@@ -16151,11 +16150,22 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - The ADVANCED card still renders through V2.
 - **Docs:** `docs/site00/bldr/MONUMENT_REALISM_V2_BENCHMARK.{md,json}`. Artifacts are in `/opt/cursor/artifacts/bldr-v2/`. Tests: `tests/bldrMonumentRealismV2.test.ts`.
 - **Conventions:** Widen `isRealismBenchmark` family by family, and only after founder approval: PLACE, FEEL, WORK, PACE, then BLUEPRINT, which needs a V2 `lit` state. The current path still keeps WebGL contexts after dispose; fix that with the rollout.
-=======
+
+---
+
 ## 2026-10-10 — DF visual batch B (records and approvals) + review flow scroll
 
 - **Context:** Batch A direction approved with two Opus copy corrections. Founder requested batch B OpenArt generation (four records/approval child screens), ZIP + direct download. Separately, review page CTAs now scroll between phone frames on `/foundation/review`.
 - **Batch B:** OpenArt project `6Ueswtr8vt58ur2n3CRs`, model `gpt-image-2-5-sunburst`, 4k 9:16, four first-pass images (2016×3584), credits 27854→26590 (Δ1264). Screens DF-B01–B04. Release tag `df-v2-batch-b-2026-10-10`. Do not regenerate batch A. Do not merge batch PRs without founder. Implementation NOT AUTHORIZED.
 - **Batch A handoff:** `batch-a/BATCH_A_OPUS_HANDOFF_CORRECTIONS.md` — no “decision recorded” while pending; revision reason optional label must match contract at implementation.
 - **Review flow:** PR #1595 merged — VIEW MY RECOMMENDATION scrolls to `#df-r-P04` without router navigation.
->>>>>>> origin/main
+
+---
+
+## 2026-10-11 — Anthony Gate A consolidated production recovery (execution)
+
+- **Context:** P0 sprint to restore Digital Foundation Gate A intake for Anthony (not another forensic audit). Prior sprints (#1602 globe, #1604 workload containment, #1605 recovery docs) established blockers: Supabase restarted; zero `site00_df_*` tables; stale cPanel `index.D8Jaygrd.js`; Railway on `3cd487e` with persist flags on.
+- **Topics covered:** Applied Gate A migrations v1+v2 on production Supabase (`hyycomvcaqxxvyrfupes`); API fixes for authoritative Supabase load and await intake persist; E2E script + Anthony mint script; cPanel ZIP; MEMORY conflict cleanup; merge to `main`.
+- **Decisions / outcomes:** Gate B messaging migration **not** applied. Production DDL migrations **applied** (13 tables, RLS). Disposable production E2E **PASS** (API+DB); live site00.com bundle still **STALE** until founder cPanel upload; Railway redeploy needed after merge for await/authoritative-load fixes. Anthony link **READY** via founder-only mint (`ANTHONY_CONTACT_EMAIL`); never commit token or auto-send.
+- **Changes:** `api/_lib/digitalFoundation/persistence/supabaseStore.ts`, `api/site00/digital-foundation-artifact.ts`, `scripts/site00/df-gate-a-production-e2e.mjs`, `scripts/site00/mint-anthony-foundation-invite.mjs`, `motherboard/MEMORY.md`.
+- **Conventions:** Gate A = invite, intake, save/resume, submit, founder retrieval only. Do not block Anthony on Gate B (Stripe, messaging, email).
