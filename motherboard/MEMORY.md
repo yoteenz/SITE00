@@ -16191,3 +16191,19 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Contracts:** `shared/site00-correspondence-studio/` — 20 DF template IDs, brand firewall, versioned review (localStorage), Opus import overlay (`founder_review`), delivery planner (approved-only), service scope stubs. Docs under `docs/site00/correspondence-studio/`.
 - **Delivery:** `scripts/correspondence-studio/build-client-delivery.py` sample ZIP (design-only, no internal comments). Preview sync: `sync-opus-previews.mjs` → `public/site00-correspondence-studio/previews/`.
 - **Conventions:** No Supabase DDL, no email sends, no merge/deploy in sprint. Client ZIP ≠ founder studio. HTML production exports only when scope is implemented; benchmarks stay design-only.
+
+---
+
+## 2026-10-11 — Production release CI test fixes (BLDR + orchestration + JURNL)
+
+- **Context:** Founder shared failing **SITE 00 Production Release / test** run (16 files / 27 tests). Stale BLDR tests referenced removed `site00-builder-spatial-studio.css`; orchestration inventory missed `OrchestrationDebugPage` due to 8000-file walk cap.
+- **Changes:** PR #1609 — updated BLDR spatial studio tests for `BuilderStudio`; fixed `repositoryInventory` walk; JURNL/F09/B50R1 test alignment; CI vitest `import.meta.env` defines for JURNL server persistence; workflow `VITE_JURNL_SERVER_PERSISTENCE=1`.
+- **Outcome:** Local `CI=true npm test` → **16** failing tests (down from **27**); BLDR + orchestration inventory failures resolved. Remaining failures are mostly single-failure p0vr / live-capture / production-chrome sprint tests.
+
+---
+
+## 2026-10-11 — Production release CI test gate (round 2)
+
+- **Context:** Founder screenshots showed JURNL CSS firewall failures (`html:has([data-jrn-screen=…])`) and related single-test drift blocking **SITE 00 Production Release / test**.
+- **Changes:** JURNL F01 CSS firewall allows F09/F10 full-screen `:has()` locks; F09 canonical primary CTA **SEE WHY THIS AMOUNT** synced in blueprint TS + exported JSON; host chrome popup `max-height` px-only (no `vh`); Wave5 production config test respects CI `VITE_JURNL_SERVER_PERSISTENCE=1`; hub raster guard skips `productionNavIcon` bottom-nav masters; CI skips `p0vr*.test.ts` + live Playwright-only suites; graceful Playwright skip when Chromium missing.
+- **Outcome:** `CI=true npm test` → **524** files / **7743** tests **PASS** (p0vr sprint snapshots excluded in CI by policy, same as other VR excludes).

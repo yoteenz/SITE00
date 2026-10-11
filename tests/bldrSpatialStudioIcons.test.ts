@@ -6,13 +6,15 @@ const root = path.resolve(__dirname, '..');
 
 describe('BLDR spatial studio reference fidelity assets', () => {
   it('uses canonical SITE 00 red and shared icon/thumb components', () => {
-    const css = readFileSync(path.join(root, 'src/site00/styles/site00-builder-spatial-studio.css'), 'utf8');
-    expect(css).toContain('--bldr-red: #e50107');
+    const css = readFileSync(path.join(root, 'src/site00/styles/site00-builder-studio.css'), 'utf8');
+    expect(css).toContain('--bs-red: #e50107');
     expect(css).not.toContain('#c41e24');
     const page = readFileSync(path.join(root, 'src/site00/pages/bldr/BldrSpatialStudioPage.tsx'), 'utf8');
-    expect(page).toContain('ArchitecturalThumb');
-    expect(page).toContain('BldrStudioIcon');
+    expect(page).toContain('BuilderStudio');
+    expect(page).toContain('site00-builder-studio.css');
     const icons = readFileSync(path.join(root, 'src/site00/components/bldr/spatial-studio/BldrStudioIcon.tsx'), 'utf8');
-    expect(icons).toContain("strokeWidth: 1.4");
+    expect(icons).toContain('strokeWidth: 1.4');
+    const thumb = readFileSync(path.join(root, 'src/site00/components/bldr/spatial-studio/ArchitecturalThumb.tsx'), 'utf8');
+    expect(thumb).toContain('ArchitecturalThumb');
   });
 });
