@@ -1,0 +1,146 @@
+[
+  {
+    "asset_id": "DF-C01",
+    "file": "BATCH_C/01_FOUNDATION_COMPLETE.png",
+    "sha256": "f1c40b00cec5f727a5544c130524fbcc0b979c8e3314f6e494c5742f8a8e1886",
+    "bytes": 4744464,
+    "width": 2016,
+    "height": 3584
+  },
+  {
+    "asset_id": "DF-C02",
+    "file": "BATCH_C/02_DIGITAL_LOCATION.png",
+    "sha256": "2445931cf06a56766a8b20ff718a9d6df82d27d9839a4630a62a6ba652400b6d",
+    "bytes": 4707566,
+    "width": 2016,
+    "height": 3584
+  },
+  {
+    "asset_id": "DF-D01",
+    "file": "BATCH_D/01_PIPELINE_DESKTOP.png",
+    "sha256": "ab1b81821dbc4d65c978904e9b70766e628e04f1644a958ecd6c4aa8845aafa7",
+    "bytes": 4087292,
+    "width": 3584,
+    "height": 2016
+  },
+  {
+    "asset_id": "DF-D02",
+    "file": "BATCH_D/02_PROJECT_COMMAND_DESKTOP.png",
+    "sha256": "7c1e1d93e326aa3a488b3a595316348fcdad75ee6bc06896d77de3c21c30b132",
+    "bytes": 3712452,
+    "width": 3584,
+    "height": 2016
+  },
+  {
+    "asset_id": "DF-D03",
+    "file": "BATCH_D/03_WORKBENCH_DESKTOP.png",
+    "sha256": "6b809a13f979b4893bb29ceb6cbeeaf791c70c397bce426a770cdcd08010623e",
+    "bytes": 3706842,
+    "width": 3584,
+    "height": 2016
+  },
+  {
+    "asset_id": "DF-E01",
+    "file": "BATCH_E/01_RUNBOOK_TASK.png",
+    "sha256": "874889333a8ac99d0b41eaa2763117c0f1e92bd09114a32f306996d29902cd66",
+    "bytes": 4196966,
+    "width": 2016,
+    "height": 3584
+  },
+  {
+    "asset_id": "DF-E02",
+    "file": "BATCH_E/02_VERIFICATION_CHECKLIST.png",
+    "sha256": "c527549083638daf7b4bb612b850879bb359dcbd5d8165f122ca213c58d55f82",
+    "bytes": 4245135,
+    "width": 2016,
+    "height": 3584
+  },
+  {
+    "asset_id": "DF-F01",
+    "file": "BATCH_F/01_FOUNDATION_CREDIT.png",
+    "sha256": "e45821817c91b8588cd1a06807bfde8695ffc2f728df76810ccc578ec21e6fdb",
+    "bytes": 4611621,
+    "width": 2016,
+    "height": 3584
+  },
+  {
+    "asset_id": "DF-F02",
+    "file": "BATCH_F/02_BLDR_INTRODUCTION.png",
+    "sha256": "fd7938eb4ba81b4bde6263e9458346728bc9f221975b0e008735ff0b3baf2af4",
+    "bytes": 4246601,
+    "width": 2016,
+    "height": 3584
+  },
+  {
+    "asset_id": "DF-G01",
+    "file": "BATCH_G/01_COMMUNICATIONS_COMMAND.png",
+    "sha256": "95c4baebe262ad12ec3135c9a4949a88aab8813193e47866de6c01f11234af3b",
+    "bytes": 3801485,
+    "width": 3584,
+    "height": 2016
+  },
+  {
+    "asset_id": "DF-G02",
+    "file": "BATCH_G/02_TEMPLATE_STUDIO.png",
+    "sha256": "8b297668f5fa49a76d5b809a153ecfde24e914b21915a74512e2995182050b36",
+    "bytes": 3930963,
+    "width": 3584,
+    "height": 2016
+  },
+  {
+    "asset_id": "DF-H01",
+    "file": "BATCH_H/01_TRANSACTIONAL_HEADER.png",
+    "sha256": "f57804869a478b3e471fdfc12997fbe36cd1b7fa01863fcdff2c73f5447a7e44",
+    "bytes": 2584864,
+    "width": 3584,
+    "height": 2016
+  },
+  {
+    "asset_id": "DF-H02",
+    "file": "BATCH_H/02_TRANSACTIONAL_MOBILE.png",
+    "sha256": "45bf4442d40b7477ea1c9f22e7e4a38da597c13cd735024c9a5d7a46ec1c781d",
+    "bytes": 3709825,
+    "width": 3584,
+    "height": 2016
+  },
+  {
+    "asset_id": "DF-H03",
+    "file": "BATCH_H/03_TRANSACTIONAL_DESKTOP.png",
+    "sha256": "c4aed3fce671052c162662497772c7b1a621f7156e5af2027f2075f40d95ac40",
+    "bytes": 3226428,
+    "width": 3584,
+    "height": 2016
+  },
+  {
+    "asset_id": "DF-I01",
+    "file": "BATCH_I/01_EDUCATION.png",
+    "sha256": "ea46a85e457cab210f740261e975db687f2836400c5352c3226eff99b8496464",
+    "bytes": 8040808,
+    "width": 3584,
+    "height": 2016
+  },
+  {
+    "asset_id": "DF-I02",
+    "file": "BATCH_I/02_BLDR_JOURNEY.png",
+    "sha256": "886769cc60a4dc97041877bcbd35c5855fc08c6dd88fa19960462a5a9e81f011",
+    "bytes": 8256436,
+    "width": 3584,
+    "height": 2016
+  },
+  {
+    "asset_id": "DF-I03",
+    "file": "BATCH_I/03_POST_COMPLETION.png",
+    "sha256": "c1999b1977a6e7bee0cad5e9b9a8b8d85160da4cf11368991c872dc02b2fbb03",
+    "bytes": 7372818,
+    "width": 3584,
+    "height": 2016
+  },
+  {
+    "asset_id": "DF-J01",
+    "file": "BATCH_J/01_COMMUNICATION_PREFERENCES.png",
+    "sha256": "6e8fc196ca5f1497f29e116345053e9caf94d1d510ca64591d3ba3d2b1542088",
+    "bytes": 4505650,
+    "width": 2016,
+    "height": 3584
+  }
+]

@@ -16191,3 +16191,11 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Context:** Sprint `P0.SITE00.IDNTY.MARKETING-EMAIL-AUTHORITY-DIRECT-URL-REGISTRATION-RECOVERY2` on `cursor/df-mass-production-scope-a9f7` (PR #1597). Founder supplied corrected Supabase signed URL; no OpenArt spend.
 - **Outcome:** Raw GET returned HTTP 200, `image/jpeg`, 491,267 bytes, 1086×1448, SHA256 `e814042c318f7f45d7db07a6d11e4878fcc20888c583a76537828cfa3c2ede83` **matches** expected. Canonical JPEG committed; manifest + registration note added under `docs/site00/idnty/visual-authority/marketing-email/`. Mass-production scope JSON and budget/email scope docs updated to **REGISTERED**. Batch I **3** images; ceiling **6,340** unchanged; founder budget approval **PENDING**. No merge/deploy.
 - **Conventions:** Future batch I / email art jobs bind the repo canonical JPEG; do not use chat attachments for this authority.
+
+---
+
+## 2026-10-11 — DF visual mass production C–J (paid, not merged)
+
+- **Context:** Founder approved the balanced 6,340-credit ceiling for image generation only. Branch `cursor/df-mass-visual-cj-a9f7` from the registered marketing-authority commit. No merge, no deploy, no email send.
+- **Outcome:** 18 Sunburst image-to-image jobs (C2 D3 E2 F2 G2 H3 I3 J1), 0 regenerations. Quote 317 each. Account 26,590 → 20,899 (delta 5,691). All files 2016×3584 or 3584×2016. Founder review PENDING. ZIPs on GitHub release `df-v2-mass-cj-2026-10-11`. Ledger: `docs/site00/idnty/visual-authority/mass-production/cj-run/`.
+- **Conventions:** Do not treat these plates as live UI or as sent email. Do not regenerate A or B. Marketing email jobs used the registered canonical JPEG.
