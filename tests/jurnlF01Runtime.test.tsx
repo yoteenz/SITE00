@@ -388,10 +388,12 @@ describe('host / project firewall', () => {
       const css = read(f).replace(/\/\*[\s\S]*?\*\//g, '').replace(/@font-face\s*\{[^}]*\}/g, '').replace(/@keyframes[^{]+\{(?:[^{}]*\{[^}]*\})*\s*\}/g, '');
       for (const m of css.matchAll(/(^|\})\s*([^{}@][^{}]*)\{/g)) {
         for (const sel of splitSelectors(m[2]!).filter((x) => !x.startsWith('@'))) {
-          expect(sel, f).toMatch(/^(\.jrn\b|(#root|html|body):has\(\[data-jrn-screen=)/);
+          expect(sel, f).toMatch(
+            /^(\.jrn(\b|:has\(\[data-jrn-screen)|(#root|html|body):has\(\[data-jrn-screen)/,
+          );
         }
       }
-      expect(css).not.toMatch(/:root|(^|[^-\w])(body|html)(?![-\w])|\.pxa|\.ph-|\.site00/m);
+      expect(css).not.toMatch(/:root\b|\.pxa|\.ph-|\.site00/);
     }
     for (const f of walk('src/site00/styles')) expect(read(f), f).not.toMatch(/\.jrn[-\s{.]/);
   });

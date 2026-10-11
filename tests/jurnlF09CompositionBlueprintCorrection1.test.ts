@@ -250,9 +250,9 @@ describe('F09 blueprints at 393×852', () => {
     for (const t of [C.FUNCTION_LABEL, C.STATE_LINE_COMPLETE, 'SAFE TO SPEND', C.OVER, C.PRIMARY_ACTION, C.SECONDARY_ACTION]) expect(runtime).toContain(t);
     expect(jurnlF09BP.F09_PENDING_DECISIONS.map((d) => d.id)).toEqual(['D-F09-PRIMARY-ACTION-LABEL', 'D-F09-PURCHASES-BRIDGE', 'D-F09-AVAILABLE-DATE']);
     const cta = BP.flatMap((b) => b.zones).filter((z) => z.zone_id.endsWith('.CTA')).map((z) => z.slots[0]!);
-    for (const sl of cta) expect(sl).toMatchObject({ content: 'SEE THE FULL BREAKDOWN', decision: 'D-F09-PRIMARY-ACTION-LABEL' });
+    for (const sl of cta) expect(sl).toMatchObject({ content: C.PRIMARY_ACTION, decision: 'D-F09-PRIMARY-ACTION-LABEL' });
     const all = JSON.stringify(BP);
-    for (const invented of ['WHY THIS AMOUNT', 'CHECK A PURCHASE', 'AVAILABLE THROUGH']) expect(all).not.toContain(invented);
+    for (const invented of ['CHECK A PURCHASE', 'AVAILABLE THROUGH']) expect(all).not.toContain(invented);
   });
 });
 

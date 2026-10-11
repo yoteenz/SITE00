@@ -535,7 +535,7 @@
             "BUTTON",
             "EXACT_COPY"
           ],
-          "content": "SEE THE FULL BREAKDOWN",
+          "content": "SEE WHY THIS AMOUNT",
           "decision": "D-F09-PRIMARY-ACTION-LABEL",
           "rect": {
             "x": 26.5,
