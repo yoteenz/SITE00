@@ -15579,133 +15579,22 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Changes:** `src/studioos/estimation/`, internal page `/admin/site00/estimator`, `docs/site00/SITE00_ESTIMATION_ENGINE.md`. Twelve engine tests pass. The public builder is unchanged. Client estimate preview stays off.
 - **Conventions:** Do not estimate by page count. Do not call priority production “rush.” Do not show family units to clients. Do not treat an estimate as a quote. Do not auto-adjust coefficients from calibration records. Do not invent visual-system sample images.
 
-
 ---
 
-## 2026-10-08 — Builder template and estimate selection experience (P0.SITE00.BUILDER.TEMPLATE-AND-ESTIMATE-SELECTION-EXPERIENCE1)
+## 2026-10-08 — SETUP v1 parent authorities, isolated from ENTRY
 
-- **Founder decision:** SITE 00's Builder becomes a VISUAL CONFIGURATION EXPERIENCE. Clients see and select what they build, how it behaves, looks and moves, what it does, and standard vs priority production. The Builder assembles PROJECT BLUEPRINT + PROJECTED WINDOW + PROJECTED INVESTMENT + SCOPE without exposing production machinery. TEMPLATES PROVIDE GRAMMAR, NOT IDENTITY.
-- **Supersedes:** long questionnaires as the main path, "describe your dream website" prompts, page-count pricing, non-visual template selection (`/bldr/templates` is a generic marketplace), and fixed quote cards disconnected from scope.
-- **Landed (UX authority + contract, not implemented):**
-  - `docs/site00/builder-experience/` holds the 21 outputs, wireframes, authority previews and generated mapping / pricing-evidence JSON.
-  - `src/site00/builder-experience/` holds the selection contract → `toEstimateConfig` → canonical estimator; client views; 23 tests. No route imports it.
-  - Estimator v1.0.0 is unchanged. No public price changed.
-- **Interaction architecture:** four rooms (THE PLACE · THE FEEL · THE WORK · THE PACE) + reveal (BLUEPRINT → ESTIMATE). The Blueprint sheet is the progress model. Type / colour / image / motion are tuning layers on the chosen expression. Simple clients never open them (ESSENTIAL edition); FULL edition = ADVANCED.
-- **Rules (durable):**
-  - Build level is derived, never picked, and every step up shows its reason.
-  - Keep-it-simple turns a level raise into a decision.
-  - COMES WITH is always visible.
-  - One secondary influence = ADVANCED; three or more systems = CUSTOM direction; one liked facet = a note.
-  - A world inside a site = HYBRID.
-  - Scope words LIGHT / MODERATE / DEEP / EXPANSIVE (DEEP, so it never collides with ADVANCED BUILD).
-  - No money or dates inside the rooms. Money and dates are revealed at the Blueprint.
-  - Confidence labels: EARLY → INITIAL RANGE, BLUEPRINT → REFINED RANGE, LOCKED → CONFIRMED RANGE; PRODUCTION SCHEDULE only for the founder-issued document.
-  - Priority is offered only where the estimator says it shortens the project.
-  - No invented preview imagery: structure = schematic, expression = specimen.
-- **Pricing finding (needs founder decisions F1–F12):** estimator output for real Builder configs (refined range), compared with today's public anchors:
-
-  | Config | Estimator | Public anchor |
-  |---|---|---|
-  | Smallest site | $3K–$4K | SITE $4K+ |
-  | Typical simple site | $6K–$7K | SITE $4K+ |
-  | Smallest world | $14K–$20K | WORLD $10K+ |
-  | Portal | $39K–$53K | ENTERPRISE $25K+ |
-
-  Recommended Option D: engine-anchored FROM + TYPICAL per build kind, generated from founder-approved reference configurations.
-- **Estimator findings E1–E8** are for the estimation owner; the Builder works around them in presentation only:
-  - SYSTEM ≥30 FU is labelled WORLD / SPATIAL.
-  - "$3K–$3K".
-  - Dependency tokens are internal.
-  - Priority multiplier applies when infeasible: priority only compresses at about 10+ families; 1.85× for no time below that.
-  - Window unit flips between confidence stages.
-  - Compression is 20–32% vs the 30–45% target.
-  - The client contract is thin.
-  - Payments are ADVANCED-only.
-- **Review artifact:** "BLDR Visual Builder" (private claude.ai artifact) mirrors `wireframes/BUILDER_UX_AUTHORITY.html`.
-
----
-
-## 2026-10-08 — Platform economics foundation
-
-- **Context:** SITE 00 is becoming commercial infrastructure, not only a one-time build. Platform participation has to live in SITE 00 so AIO and later projects consume one engine. This sprint is the foundation. It does not move money.
-- **Topics covered:** Revenue types, the default platform rate, eligible volume, exclusions, project agreements, an append-only ledger, refunds, chargebacks, payout batches, statements, a processor boundary, Builder and Blueprint disclosure, and AIO as the first consumer.
+- **Context:** This chat first refined ENTRY v2 parents 01–07, enriched their environments, shipped a lean review zip, filed parents 08–14, then paused descendants. The founder then locked the five-level grammar and had 08–14 recomposed. Those ENTRY decisions are already recorded above. This turn is a separate workstream: F02 SETUP parent authorities only.
+- **Topics covered:** ENTRY graphic refinement, environment enrichment, remaining parents, the descendant pause, the composition-grammar lock, and SETUP v1 parents 01–16. SETUP must feel like assembling a financial system on a worktable, not like ENTRY admission.
 - **Decisions / outcomes:**
-  - SITE 00 owns the engine. A project holds a platform agreement. A transaction calculates a fee. The ledger accrues and reverses. AIO calls that engine and does not keep its own percentage math.
-  - The default rate is 200 basis points, shown as 2.00%, and that number lives only in `src/studioos/platform-economics/rate.ts`. A different rate needs founder approval with author, reason, and time.
-  - Build fees, platform usage, and optional ongoing service stay separate. Future transaction fees are not added to the build total. A non-transaction project is not charged a percentage.
-  - Eligible volume is collected commerce. Taxes, gratuities, government fees, regulatory fees, and pass-through charges are excluded by default. Processor fees stay unspecified until the agreement says otherwise. Refunds reverse the matching fee. A full refund can return net accrual to zero. Chargebacks stay visible and reverse the fee when lost.
-  - Agreements move DRAFT → FOUNDER_REVIEW → OFFERED → CLIENT_REVIEW → ACCEPTED → ACTIVE. A Builder save does not accept. A quote does not activate. Historical entries keep their rate snapshot.
-  - Money is integer minor units. Currencies are not mixed. Duplicate processor events do not accrue twice. Payout batches are drafts. Stripe Connect is a stub. No connected accounts, no live fees, no published terms. Legal copy is marked LEGAL_REVIEW_REQUIRED.
-  - Version is 1.0.0. Build-tier rate rules are not activated.
-- **Changes:** `src/studioos/platform-economics/`, `docs/site00/SITE00_PLATFORM_ECONOMICS.md`. The client estimate and Builder blueprint disclose platform usage beside the build range. Internal surfaces: `/admin/site00/finance/platform` and the project Commercial tab. No new root navigation. The public site is unchanged.
-- **Conventions:** Do not hardcode the platform percentage in a client project. Do not treat Stripe as the ledger. Do not hide platform fees. Do not infer an active agreement from the Builder or from a quote. Do not collect or move money until a later founder-approved sprint.
-
----
-
-## 2026-10-08 — Digital Foundation Artifact V1 (IDNTY infrastructure + commerce)
-
-- **Context:** Founder sprint `P0.SITE00.IDNTY.DIGITAL-FOUNDATION-ARTIFACT.V1-INFRASTRUCTURE-AND-COMMERCE1` — ship a persistent `/foundation/:token` artifact (prospect → intake → quote → Stripe hosted checkout → micro portal → completion → build upsell), not a disposable form.
-- **Topics covered:** Configurable base/add-on catalog (minor units), timeline engine, referral attribution, quote versioning, explicit acceptance disclosures, payment abstraction + Stripe test/sim webhook path, project stages, needs-you/approvals, foundation build credit, fixtures A–M, founder admin console, Supabase schema migration, feature flags, product doc.
-- **Decisions / outcomes:** V1 runtime uses in-memory store (`api/_lib/digitalFoundation/`) matching existing-location pattern; Supabase migration documents persistence. Payment marks PAID only via webhook/simulation, never redirect. Functional UI shell only — Opus owns visual authority next. No live production Stripe until founder configures keys and legal.
-- **Changes:** `shared/site00-digital-foundation/`, `api/site00/digital-foundation-artifact.ts`, `api/admin/site00-foundation.ts`, `api/site00/digital-foundation-stripe-webhook.ts`, routes `/foundation/:token` + `/admin/site00/foundation`, `docs/site00/idnty/SITE00_DIGITAL_FOUNDATION_ARTIFACT_V1.md`, `tests/digitalFoundationCommerce.test.ts`.
-- **Conventions:** Do not hardcode $500 or add-on prices in logic — use `commercialConfig.ts` / addon catalog. Keep platform economics separate from Digital Foundation service purchase.
-
----
-
-## 2026-10-08 — Digital Foundation Operations V1 (runbook + execution engine)
-
-- **Context:** Sprint `P0.SITE00.IDNTY.DIGITAL-FOUNDATION.V1-OPERATIONS-RUNBOOK-AND-EXECUTION-ENGINE1` after Artifact V1 commerce (`a7aa125a`) — founder needs quote → runbook → tasks → verify → complete orchestration, not manual checklists.
-- **Topics covered:** Runbook generator from scope hash, execution tasks/modes, provider abstraction (no live writes), dependency + verification + completion gate, stage rollup from tasks, P13/P14/P15 query contracts, five-board OPUS handoff, admin API extensions, forecast refinement, Needs-you task linkage.
-- **Decisions / outcomes:** Quote still drives runbook; payment activates runbook; completion requires gate (founder override with reason allowed); client artifact gets `operations_summary` only; no provider credentials/passwords; LIVE provider writes NO.
-- **Changes:** `shared/site00-digital-foundation/operations/`, `api/_lib/digitalFoundation/operationsEngine.ts`, hooks in `service.ts` (payment activate, completion gate, client-action → task), `docs/site00/idnty/SITE00_DIGITAL_FOUNDATION_OPERATIONS_V1.md`, `SITE00_DIGITAL_FOUNDATION_FIVE_BOARD_HANDOFF.md`, `tests/digitalFoundationOperations.test.ts`.
-- **Conventions:** THE QUOTE CONFIGURATION GENERATES THE PRODUCTION RUNBOOK; do not manually diverge stage copies — use rollup; Opus owns five-board visuals next.
-
----
-
-## 2026-10-08 — Digital Foundation Critical Contract Repair V1 (launch safety)
-
-- **Context:** Sprint `P0.SITE00.IDNTY.DIGITAL-FOUNDATION.V1-CRITICAL-CONTRACT-REPAIR-AND-LAUNCH-SAFETY1` — Opus audit (`1ecdaac3`, baseline `8b936c08`) nine blockers: broken public API import, memory-only persistence, approval vs request-change, client payload leak, refund/complete routing, payment safety, quote gating, included-scope double charge, readiness timeline.
-- **Topics covered:** Client projection API, Supabase persist bridge + migration v2, quote payability + founder commercial ready, production Stripe fail-closed, webhook session correlation, recommendation engine included-scope fix, readiness clock, tests (handler smoke + critical repair suite), repair doc.
-- **Decisions / outcomes:** Public artifact endpoint returns redacted client payload; admin/founder still uses full `getArtifactPayload`. Persistence activates with `SITE00_DIGITAL_FOUNDATION_PERSIST_SUPABASE=1` after migration deploy. Manual-review add-ons require founder `quote-commercial-ready` before checkout. No live funds/provider writes.
-- **Changes:** `shared/site00-digital-foundation/{quoteReadiness,readinessClock,clientProjection}.ts`, `api/_lib/digitalFoundation/{approvalDecisions,persistence/supabaseStore}.ts`, service/payment/webhook/surface/recommendation repairs, `docs/site00/idnty/SITE00_DIGITAL_FOUNDATION_CRITICAL_REPAIR_V1.md`, tests `digitalFoundationCriticalRepair.test.ts`, `digitalFoundationArtifactHandler.test.ts`, `digitalFoundationPersistence.test.ts`, client page consumes `ClientDigitalFoundationPayload`.
-- **Conventions:** Do not expose `events` or internal referral labels on public API; do not simulate Stripe checkout in production without explicit test flag; REQUEST_CHANGE must never satisfy approval gates.
-
----
-
-## 2026-10-08 — Builder Hybrid Spatial Studio Composer role redirect
-
-- **Context:** Interjection `P0.SITE00.BUILDER.HYBRID-SPATIAL-STUDIO.V1-COMPOSER-ROLE-BOUNDARY-AND-IMPLEMENTATION-REDIRECTION1` supersedes Composer visual ownership on active sprint `…APPROVED-VISUAL-AUTHORITY-AND-EXPERIENCE-IMPLEMENTATION1`. Opus owns UX/visual fidelity; Grok owns assets; Composer owns technical machinery.
-- **Topics covered:** Five-room canonical state (PLACE/FEEL/WORK/PACE/BLUEPRINT), `spatialSelectionToBuilder()` → `BuilderSelection`, estimator via `builderEstimateView` (no hardcoded mock prices or DF day counts), blueprint snapshot + submission blockers, Build Object presentation-neutral params, localStorage save/resume, feature flags `VITE_SITE00_TEMPLATE_SYSTEM_V1` + `VITE_SITE00_CLIENT_ESTIMATE_PREVIEW_V1`, gated route `/bldr/studio`, non-authoritative UI scaffold for Opus.
-- **Decisions / outcomes:** Preserve scaffold; do not delete or refine visual layer in Composer. Submit-for-review API and server spatial persistence remain **MISSING**. Approved JPG wireframes in `docs/site00/builder-experience/wireframes/`. Primary handoff: `docs/site00/builder-experience/BUILDER_OPUS_TECHNICAL_HANDOFF.md`.
-- **Changes:** `src/site00/builder-experience/spatialStudio/*`, `BldrSpatialStudioPage.tsx`, `components/bldr/spatial-studio/*`, `spatialStudio.test.ts` (5), docs `BUILDER_*`, routes `SITE00_ROUTES.bldrSpatialStudio`.
-- **Conventions:** Composer must not compete with Opus on CSS/spatial UX; shared contract changes are Composer-owned; do not rewrite estimator math or invent fixed public prices.
-
----
-
-## 2026-10-08 — Builder intake artifact end-to-end audit V1
-
-- **Context:** Sprint `P0.SITE00.BUILDER.INTAKE-ARTIFACT.V1-END-TO-END-CONTRACT-AND-CONTINUITY-AUDIT1` — read-only reconciliation of canonical `site00_bldr_intakes` + `/api/site00/intakes` vs Hybrid Spatial Studio (`/bldr/studio`).
-- **Topics covered:** 15-step client journey classification; continuity map; data contract (`answers` jsonb = draftPayload); blueprint/estimator trace; submit/founder handoff; duplicated legacy vs spatial questions; gap register (GAP-INT-001–014).
-- **Decisions / outcomes:** Intake infrastructure **IMPLEMENTED** for legacy `useBldrAssessment` path; spatial studio **NOT** wired to server intake/submit (localStorage + fake submit). Do not merge Digital Foundation artifact. Next Composer sprint: spatial–intake binding + real blueprint submit payload.
-- **Changes:** `docs/site00/builder-experience/BUILDER_INTAKE_*_V1.md` (6 audit/handoff files).
-- **Conventions:** One client / one project context is the target principle; until binding ships, treat dual local keys as continuity risk.
-
----
-
-## 2026-10-08 — Builder spatial intake server binding V1
-
-- **Context:** Sprint `P0.SITE00.BUILDER.INTAKE-SPATIAL-SERVER-BINDING.V1` closes GAP-INT-001–004 — wire `/bldr/studio` to `site00_bldr_intakes` without new intake system.
-- **Topics covered:** `useBuilderSpatialIntakeSession`, draft envelope `builder-spatial-v1`, server autosave via `useIntakeSync`, conflict resolution, legacy hint mapping, versioned `submitted_payload` with blueprint snapshot, admin `request-revision`, resume URLs, memory-store fix (undefined patch keys).
-- **Decisions / outcomes:** Estimator unchanged; founder submission snapshot always includes estimate; public preview flag still gates client display; production activation remains gated via `builderProjectActivationHint`.
-- **Changes:** `spatialStudio/intakeDraft.ts`, `useBuilderSpatialIntakeSession.ts`, `intakeService.submitIntake` BUILDER spatial branch, `submitBuilderSpatialIntake.ts`, tests `spatialIntakeSubmit.test.ts`, docs `BUILDER_SPATIAL_INTAKE_BINDING_V1.md`.
-- **Conventions:** Opus keeps visual layer; Composer owns intake contracts; do not treat localStorage as system of record when server sync succeeded.
-
----
-
-## 2026-10-08 — Builder preview feature flags (fsbw-dev tunnel only)
-
-- **Context:** Sprint `P0.SITE00.BUILDER.HYBRID-SPATIAL-STUDIO.V1-DEV-PREVIEW-FEATURE-FLAG-ACTIVATION1` — founder `/bldr/studio` blocked by `VITE_SITE00_TEMPLATE_SYSTEM_V1` on site00.fsbw-dev.com.
-- **Topics covered:** Cloud preview dev server (`SITE00_CLOUD_PREVIEW_MODE=dev`) now exports template + client estimate preview flags; production deploy workflows unchanged; AGENTS.md note.
-- **Decisions / outcomes:** Not enabled on `npm run build` / GoDaddy; restart Vite preview terminal after merge for flags to take effect.
-- **Changes:** `.cursor/scripts/run-site00-cloud-preview-server.sh`, `.env.example`, `AGENTS.md`.
-- **Conventions:** Do not add these flags to site00-production-deploy.yml without explicit founder release approval.
+  - SETUP lives only in `SETUP v1/`. ENTRY v2, live React, CSS, routes, Supabase, and other families were not edited.
+  - Sixteen parents: intro, profile, money in, money held, money owed, upcoming, plans, goals, Safe to Spend setup, buffer, account connection, by hand, notifications, Ask Jurnl context, review, setup complete.
+  - Five desks, not sixteen rooms: worktable, ledger/drawer wall, planning desk, private settings, review table. Every parent has its own stripped plate because the object differs. All plates are derived family plates.
+  - Copy follows live F02 and account strings. No invented dollars, bank names, balances, channels, or AI provider. Image lettering is guidance.
+  - Money owed has no dedicated live screen; the authority uses the debt priority and the rule of a name with no balance.
+  - Notifications stay the live card copy. No email, push, or SMS choices were added.
+  - Account connection states that aggregation is not live and JURNL does not move money.
+  - Ask Jurnl states that there is no live AI provider.
+  - Setup complete says JURNL IS READY and OPEN TODAY. It is not the ENTRY doorway.
+  - Descendants were not generated. This branch is for founder review and is not merged.
+- **Changes:** `SETUP v1/` authorities, plates, `SETUP v1/MANIFESTS/setup-parent-authority-manifest.json`, and `SETUP v1/REVIEW/` contact sheets. `motherboard/MEMORY.md` only, besides that folder.
+- **Conventions:** SETUP is organizing and assembling. ENTRY is ceremonial admission. Do not infer founder approval of these 16 parents. Do not generate SETUP descendants until that review.

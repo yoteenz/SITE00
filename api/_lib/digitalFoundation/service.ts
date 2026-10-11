@@ -2,7 +2,8 @@ import { randomBytes, randomUUID } from 'node:crypto';
 import { assertArtifactTransition, canTransitionArtifactState } from '../../../shared/site00-digital-foundation/lifecycle.js';
 import { createQuoteDraft, type SelectedAddonInput, validateSelectionRemovable } from '../../../shared/site00-digital-foundation/quoteEngine.js';
 import { inferBuildRecommendation, recommendFromIntake } from '../../../shared/site00-digital-foundation/recommendationEngine.js';
-import { resolveArtifactSurface } from '../../../shared/site00-digital-foundation/surface.js';
+import { isLaunchGateCheckoutBlocked, LAUNCH_GATE_CHECKOUT_ERROR } from '../../../shared/site00-digital-foundation/launchGate.js';
+import { resolveArtifactSurface, resolveArtifactSurfaceForClient } from '../../../shared/site00-digital-foundation/surface.js';
 import { initialProjectStages } from '../../../shared/site00-digital-foundation/projectStages.js';
 import { findReferralByKind } from '../../../shared/site00-digital-foundation/referralSources.js';
 import {
@@ -22,6 +23,8 @@ import {
   type QuoteAcceptanceRecord,
   type ReferralSourceKind,
 } from '../../../shared/site00-digital-foundation/types.js';
+import type { CommunicationConsentRecord } from '../../../shared/site00-digital-foundation/communications/types.js';
+import { enqueueCommunicationsForEvent } from './communications/dispatch.js';
 import * as mem from './memoryStore.js';
 import { getFoundationPaymentAdapter } from './payment/stripeHostedCheckout.js';
 import {
@@ -36,7 +39,10 @@ import {
 } from './approvalDecisions.js';
 import { assessQuotePayability } from '../../../shared/site00-digital-foundation/quoteReadiness.js';
 import { computeReadinessState } from '../../../shared/site00-digital-foundation/readinessClock.js';
-import { toClientArtifactPayload } from '../../../shared/site00-digital-foundation/clientProjection.js';
+import {
+  toClientArtifactPayload,
+  type ClientCommunicationPreferences,
+} from '../../../shared/site00-digital-foundation/clientProjection.js';
 import { persistArtifactGraph } from './persistence/supabaseStore.js';
 
 function nowIso(): string {
@@ -67,6 +73,10 @@ function logEvent(
     payload,
     created_at: nowIso(),
   });
+  const artifact = mem.memGetArtifact(artifactId);
+  const lead = artifact ? mem.memGetLead(artifact.lead_id) : undefined;
+  const email = lead?.contact_email ?? artifact?.intake.current_email ?? null;
+  enqueueCommunicationsForEvent({ artifactId, eventType: event_type, recipientEmail: email, payload });
 }
 
 function transitionArtifact(a: DigitalFoundationArtifact, to: DigitalFoundationArtifact['state']): void {
@@ -382,6 +392,9 @@ export async function createCheckoutSession(input: {
   success_url: string;
   cancel_url: string;
 }): Promise<{ checkout_url: string; session_id: string; simulated?: boolean }> {
+  if (isLaunchGateCheckoutBlocked()) {
+    throw new Error(LAUNCH_GATE_CHECKOUT_ERROR);
+  }
   const a = mem.memGetArtifact(input.artifact_id);
   if (!a?.quote_id) throw new Error('QUOTE_NOT_READY');
   const q = mem.memGetQuote(a.quote_id);
@@ -811,7 +824,46 @@ export function getClientArtifactPayloadByToken(token: string) {
     projected_min_days: internal.quote?.projected_min_days ?? null,
     projected_max_days: internal.quote?.projected_max_days ?? null,
   });
-  return toClientArtifactPayload(internal, timeline_readiness);
+  return toClientArtifactPayload(internal, timeline_readiness, getCommunicationPreferencesForArtifact(internal.artifact.artifact_id));
+}
+
+export function getCommunicationPreferencesForArtifact(artifactId: string): ClientCommunicationPreferences {
+  const stored = mem.getDfMemoryState().communicationConsents.get(artifactId);
+  return {
+    marketing_opt_in: stored?.marketing_opt_in ?? false,
+    project_operations: stored?.categories.PROJECT_OPERATIONS ?? true,
+    educational: stored?.categories.EDUCATIONAL ?? false,
+  };
+}
+
+export function updateCommunicationPreferences(
+  artifactId: string,
+  preferences: ClientCommunicationPreferences,
+): CommunicationConsentRecord {
+  const artifact = mem.memGetArtifact(artifactId);
+  if (!artifact) throw new Error('ARTIFACT_NOT_FOUND');
+  const lead = mem.memGetLead(artifact.lead_id);
+  const email = lead?.contact_email ?? artifact.intake.current_email ?? '';
+  const rec: CommunicationConsentRecord = {
+    artifact_id: artifactId,
+    contact_email: email,
+    marketing_opt_in: preferences.marketing_opt_in,
+    categories: {
+      PROJECT_OPERATIONS: preferences.project_operations,
+      EDUCATIONAL: preferences.educational,
+      MARKETING: preferences.marketing_opt_in,
+      ESSENTIAL_SERVICE: true,
+      SECURITY: true,
+    },
+    consent_source: 'CLIENT_PREFERENCE_CENTER',
+    consent_at: nowIso(),
+    notice_version: 'df-comm-prefs-v1',
+    updated_at: nowIso(),
+  };
+  mem.getDfMemoryState().communicationConsents.set(artifactId, rec);
+  logEvent(artifactId, 'INTAKE_UPDATED', 'CLIENT', { communication_preferences: true });
+  schedulePersist(artifactId);
+  return rec;
 }
 
 export function getArtifactPayload(artifactId: string): DigitalFoundationArtifactPayload {
@@ -851,7 +903,7 @@ export function getArtifactPayload(artifactId: string): DigitalFoundationArtifac
     build_readiness: s.buildReadiness.get(artifactId) ?? null,
     credit: artifact.foundation_credit_id ? s.credits.get(artifact.foundation_credit_id) ?? null : null,
     events: s.events.filter((e) => e.artifact_id === artifactId).slice(-50),
-    surface: resolveArtifactSurface(artifact),
+    surface: resolveArtifactSurfaceForClient(artifact),
     operations_summary:
       artifact.payment_state === 'PAID'
         ? {

@@ -1,0 +1,39 @@
+captured mobile-01a-place-default
+captured mobile-01b-place-simple
+captured mobile-01c-place-advanced
+captured mobile-01d-place-world
+captured mobile-01e-place-custom
+captured mobile-02a-feel-modern
+captured mobile-02b-feel-bold
+captured mobile-02c-feel-editorial
+captured mobile-02d-feel-immersive
+captured mobile-03a-work-none
+captured mobile-03b-work-pages
+captured mobile-03c-work-multiple
+captured mobile-04a-pace-standard
+captured mobile-04b-pace-flexible
+captured mobile-05a-blueprint-overview
+captured mobile-05a-blueprint-overview-full
+captured mobile-05b-blueprint-structure
+captured mobile-05c-blueprint-pages
+captured mobile-05d-blueprint-features
+captured mobile-05e-blueprint-timeline
+captured mobile-05f-blueprint-rotated
+captured mobile-05g-blueprint-fullscreen
+captured mobile-05h-blueprint-confirmation
+captured mobile-05i-blueprint-confirmation-ready
+captured mobile-05j-blueprint-submission-received
+captured mobile-05k-blueprint-submitted-state
+mobile: console errors 0
+captured desktop-01b-place-simple
+captured desktop-02a-feel-modern
+captured desktop-03c-work-multiple
+captured desktop-05a-blueprint-overview
+captured desktop-05h-blueprint-confirmation
+desktop: console errors 0
+captured tablet-01b-place-simple
+captured tablet-02a-feel-modern
+captured tablet-03c-work-multiple
+captured tablet-05a-blueprint-overview
+captured tablet-05h-blueprint-confirmation
+tablet: console errors 0

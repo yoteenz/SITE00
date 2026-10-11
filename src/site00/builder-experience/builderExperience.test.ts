@@ -38,8 +38,12 @@ describe('the Builder consumes the canonical estimator', () => {
     const outcome = estimateProject(FIXTURE_STANDARD_EDITORIAL);
     if (!outcome.ok) throw new Error('fixture failed');
     const client = toClientBlueprintEstimate(FIXTURE_STANDARD_EDITORIAL, outcome.result);
-    expect(client.productionWindow).toBe('15–19 WEEKS');
-    expect(client.investmentRange).toBe('$17K–$22K');
+    expect(outcome.result.investmentExpected).toBe(18888);
+    expect(outcome.result.lowWeeks).toBeCloseTo(14.79, 2);
+    expect(outcome.result.highWeeks).toBeCloseTo(18.9, 2);
+    expect(client.canonicalWindowWeeks).toEqual({ low: outcome.result.lowWeeks, high: outcome.result.highWeeks });
+    expect(client.productionWindow).toBe('16–20 WEEKS');
+    expect(client.investmentRange).toBe('$16K–$22K');
   });
 
   it('every sample maps to a config the estimator accepts, using its own review defaults', () => {

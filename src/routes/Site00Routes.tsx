@@ -66,6 +66,7 @@ import '../site00/assts/styles/assts-composition.css';
 import '../site00/assts/styles/assts-library-home.css';
 import '../site00/astral-world/styles/astral-world.css';
 import '../site00/styles/site00-twin-test-a.css';
+import '../site00/styles/site00-invitation.css';
 
 const Site00OriginPage = lazy(() => import('../site00/pages/OriginPage'));
 const JurnlF01ParentAssemblyPage = lazy(
@@ -84,6 +85,10 @@ const ExistingLocationCasePage = lazy(() => import('../site00/pages/existing-loc
 const DigitalFoundationArtifactPage = lazy(
   () => import('../site00/pages/foundation/DigitalFoundationArtifactPage'),
 );
+const DigitalFoundationReviewPage = lazy(
+  () => import('../site00/pages/foundation/DigitalFoundationReviewPage'),
+);
+const InvitationEntryPage = lazy(() => import('../site00/pages/invitation/InvitationEntryPage'));
 const Site00SignInPage = lazy(() => import('../site00/pages/Site00SignInPage'));
 const Site00CreateAccountPage = lazy(() => import('../site00/pages/Site00CreateAccountPage'));
 const AccessCredentialPage = lazy(() => import('../site00/pages/access/AccessCredentialPage'));
@@ -2403,6 +2408,16 @@ export function Site00Routes() {
       {Site00PublicPageRoutes(SITE00_ROUTES.existingLocation, ExistingLocationEntryPage)}
       {Site00PublicPageRoutes(SITE00_ROUTES.existingLocationStart, ExistingLocationEntryPage)}
       <Route
+        path={SITE00_ROUTES.digitalFoundationReview}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <DigitalFoundationReviewPage />
+            </Site00Suspense>
+          </Site00Layout>
+        }
+      />
+      <Route
         path={SITE00_ROUTES.digitalFoundationArtifact}
         element={
           <Site00Layout>
@@ -2411,6 +2426,16 @@ export function Site00Routes() {
                 <DigitalFoundationArtifactPage />
               </Site00Suspense>
             </Site00PublicRouteShell>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.invitationEntry}
+        element={
+          <Site00Layout>
+            <Site00Suspense>
+              <InvitationEntryPage />
+            </Site00Suspense>
           </Site00Layout>
         }
       />

@@ -1,0 +1,16 @@
+{
+  "SCREEN_ID": "05_MONEY_OWED",
+  "PLATE_STATUS": "NEW_PLATE_REQUIRED",
+  "STATION": "E debt register",
+  "CAMERA": "top-down formal register",
+  "PLATE_PATH": "SETUP v1/05_MONEY_OWED/plate/setup-v1-05_money_owed-plate.png",
+  "AUTHORITY_PATH": "SETUP v1/05_MONEY_OWED/authority/setup-v1-05_money_owed-authority.png",
+  "SUPERSEDED_AUTHORITY": "SETUP v1/05_MONEY_OWED/authority/SUPERSEDED/setup-v1-05_money_owed-authority.png",
+  "SUPERSEDED_PLATE": "SETUP v1/05_MONEY_OWED/plate/SUPERSEDED/setup-v1-05_money_owed-plate.png",
+  "STATUS": "FOUNDER_REVIEW_REQUIRED",
+  "OPENART_AUTHORITY_HISTORY": "RptI7GXDFoVQFtUX0EdE",
+  "OPENART_AUTHORITY_RESOURCE": "DNXxQ1IhHfVw5l16NrSY",
+  "OPENART_PLATE_HISTORY": "1K4Qt1OMJzzmwX4G8nkb",
+  "OPENART_PLATE_RESOURCE": "RF6VjHcSYdDMI4bfElgg",
+  "NOTE": "New station plate. Live words and controls removed. Objects, crop, and camera stay. Prior plate is SUPERSEDED."
+}

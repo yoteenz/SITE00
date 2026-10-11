@@ -909,6 +909,7 @@ export function createPlatformBooks(options?: { now?: () => string }) {
     portfolio,
     netFee: (projectId: string, currency: string) => netOf(projectEntries(projectId).filter((entry) => entry.currency === currency)),
     getAgreement: (agreementId: string) => agreements.get(agreementId) ?? null,
+    listAgreements: () => [...agreements.values()],
     listEntries: () => entries.slice(),
     listBatches: () => batches.slice(),
   };
