@@ -15598,3 +15598,48 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - Descendants were not generated. This branch is for founder review and is not merged.
 - **Changes:** `SETUP v1/` authorities, plates, `SETUP v1/MANIFESTS/setup-parent-authority-manifest.json`, and `SETUP v1/REVIEW/` contact sheets. `motherboard/MEMORY.md` only, besides that folder.
 - **Conventions:** SETUP is organizing and assembling. ENTRY is ceremonial admission. Do not infer founder approval of these 16 parents. Do not generate SETUP descendants until that review.
+
+---
+
+## 2026-10-11 — Merge sweep, then Email V2 R3 editorial compositions (B01 / B02 / B03) + Correspondence Studio R3 import
+
+- **Context:** This chat ran the Email V2 R2 territories sprint, answered Correspondence Studio link and "ACQUIRING OPERATOR STATE…" questions, and reviewed merge conflicts. It then did "merge all the open pr" and finally sprint `P0.SITE00.IDNTY.EMAIL-V2-R3-EDITORIAL-PUBLISHING-BESPOKE-GRAPHIC-INTELLIGENCE-AND-TYPOGRAPHIC-AUTHORITY1` (parent PR #1607).
+- **Merge sweep:**
+  - Every open PR was merged except #1599 (DF visual mass production C–J). It has unrelated history and is marked "do not merge"; it is still open.
+  - After the sweep, `main` has 23 TypeScript errors. They are in `deviceRepository.ts`, `builder-studio/buildObject/anatomy.ts`, `buildObject/realism.ts`, `foundation-client/parents/ProjectPortal.tsx` and `pages/foundation/DigitalFoundationReviewPage.tsx`. This needs a follow-up fix sprint.
+- **R3 decisions / outcomes:**
+  - One integrated editorial composition per email:
+    - B01 "The Invitation": a letterhead letter with a doorway column.
+    - B02 "The Record": a title block, schedule, datum band and ownership.
+    - B03 "The Issue": a BLDR nameplate, a stepped headline, three stations, and an ink spread with three plans.
+  - Each email has a different structure. All are table-based, email-safe HTML at 640px, with a single 480px breakpoint.
+  - Typography:
+    - Body face: Saira Semi Condensed.
+    - Display face, verified from `site00-df-client.css`: Barlow Condensed 900/800, aliased `SITE00 DF Display`. Martian Mono is only the console monospace.
+    - Barlow has no →, so the arrow is set in Saira.
+    - SITE 00 copy is literal uppercase; client values and tokens keep their case.
+  - Graphics: 11 custom icons and 14 custom graphic devices, plus 15 reused approved photographs. No new imagery; OpenArt generations 0, credits 0.
+  - Only the BLDR and GROUNDWORK display lockups are images.
+  - QA: 0 overflow and 0 escapes across 18 Playwright renders (390 / 768 / 1024, with webfonts and with fallback fonts).
+    - Copy QA against the benchmark COPY.md: B01 22/22, B02 25/25, B03 35/35, alts complete.
+    - Client fidelity (Gmail, Outlook, Apple Mail) was not tested and is not claimed.
+  - Correspondence Studio (`r3EditorialImport.ts`):
+    - Adds `B0x@r2-territory-a/b/c` and `B0x@r3-editorial` without removing existing versions. All are at `founder_review`, and R3 is the current version.
+    - Adds a version selector, side-by-side compare, a 1024 desktop width, and graphic-provenance and source sections in the inspector.
+    - The preview iframe uses `sandbox="allow-same-origin"` so fonts load.
+    - Fixed a workspace cache-poisoning bug.
+  - Interactive review: `scripts/df-email-v2-benchmark/r3/review/index.html` (served via githack). The ZIP is secondary, on release `df-v2-email-r3-editorial-2026-10-11`.
+  - Draft PR #1611 is not merged; automatic merge is not authorized. No sends and no deploy.
+- **Changes:**
+  - `scripts/df-email-v2-benchmark/r3/` (compose, graphics, fonts, build, render, QA, review)
+  - `docs/site00/idnty/visual-authority/email-v2/r3/`
+  - `shared/site00-correspondence-studio/import/r3EditorialImport.ts`, plus edits in `workspace.ts`, `devicePreview.ts` and `index.ts`
+  - `CorrespondencePreviewPane.tsx`, `CorrespondenceEmailReviewPage.tsx` and the studio CSS
+  - `scripts/correspondence-studio/sync-r3-previews.mjs`
+  - `public/site00-correspondence-studio/previews/{r2,r3}/`
+  - `tests/correspondenceStudio.test.ts`
+- **Conventions:**
+  - Agent selection is not founder approval.
+  - SITE 00 owns email marketing. Studio World owns the methodology. Correspondence Studio is the review environment. NDX is only the pilot brand.
+  - Do not build the other 17 emails until the founder picks a direction.
+  - Re-run the R3 pipeline in this order: `build_emails.py`, `render.mjs`, `qa_r3.mjs`, `build_review.py`, `sync-r3-previews.mjs`.
