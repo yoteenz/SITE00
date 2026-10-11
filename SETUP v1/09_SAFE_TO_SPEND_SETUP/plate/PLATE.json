@@ -1,11 +1,16 @@
 {
   "SCREEN_ID": "09_SAFE_TO_SPEND_SETUP",
-  "PLATE_STATUS": "DERIVE_FAMILY_PLATE",
-  "ENVIRONMENT_LINEAGE": "C_PLANNING_DESK",
+  "PLATE_STATUS": "NEW_PLATE_REQUIRED",
+  "STATION": "I calculation table",
+  "CAMERA": "top-down calculation apparatus",
   "PLATE_PATH": "SETUP v1/09_SAFE_TO_SPEND_SETUP/plate/setup-v1-09_safe_to_spend_setup-plate.png",
   "AUTHORITY_PATH": "SETUP v1/09_SAFE_TO_SPEND_SETUP/authority/setup-v1-09_safe_to_spend_setup-authority.png",
+  "SUPERSEDED_AUTHORITY": "SETUP v1/09_SAFE_TO_SPEND_SETUP/authority/SUPERSEDED/setup-v1-09_safe_to_spend_setup-authority.png",
+  "SUPERSEDED_PLATE": "SETUP v1/09_SAFE_TO_SPEND_SETUP/plate/SUPERSEDED/setup-v1-09_safe_to_spend_setup-plate.png",
   "STATUS": "FOUNDER_REVIEW_REQUIRED",
-  "OPENART_AUTHORITY_HISTORY": "hnNz4JRd9JypUUR0bZgX",
-  "OPENART_PLATE_HISTORY": "HRe1ufJxAwAWYYpFzE1S",
-  "NOTE": "Plate is the authority with type, buttons, and field lettering removed. Objects, crop, and lineage stay."
+  "OPENART_AUTHORITY_HISTORY": "EaNtL7oANlvx12eskd5F",
+  "OPENART_AUTHORITY_RESOURCE": "1WOr1At507eaTnskCSRs",
+  "OPENART_PLATE_HISTORY": "kyZ3GE8IzafOB4DWjxeQ",
+  "OPENART_PLATE_RESOURCE": "wAKosKP7VVXG6BqjLJhM",
+  "NOTE": "New station plate. Live words and controls removed. Objects, crop, and camera stay. Prior plate is SUPERSEDED."
 }

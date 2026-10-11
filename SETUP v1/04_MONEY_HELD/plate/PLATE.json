@@ -1,11 +1,16 @@
 {
   "SCREEN_ID": "04_MONEY_HELD",
-  "PLATE_STATUS": "DERIVE_FAMILY_PLATE",
-  "ENVIRONMENT_LINEAGE": "B_LEDGER_DRAWER_WALL",
+  "PLATE_STATUS": "NEW_PLATE_REQUIRED",
+  "STATION": "D financial cabinet",
+  "CAMERA": "frontal storage wall",
   "PLATE_PATH": "SETUP v1/04_MONEY_HELD/plate/setup-v1-04_money_held-plate.png",
   "AUTHORITY_PATH": "SETUP v1/04_MONEY_HELD/authority/setup-v1-04_money_held-authority.png",
+  "SUPERSEDED_AUTHORITY": "SETUP v1/04_MONEY_HELD/authority/SUPERSEDED/setup-v1-04_money_held-authority.png",
+  "SUPERSEDED_PLATE": "SETUP v1/04_MONEY_HELD/plate/SUPERSEDED/setup-v1-04_money_held-plate.png",
   "STATUS": "FOUNDER_REVIEW_REQUIRED",
-  "OPENART_AUTHORITY_HISTORY": "P1CLQI1FJFS14Q3iMczE",
-  "OPENART_PLATE_HISTORY": "U3OKy7163G38mxXBynea",
-  "NOTE": "Plate is the authority with type, buttons, and field lettering removed. Objects, crop, and lineage stay."
+  "OPENART_AUTHORITY_HISTORY": "E1y7ENHOZRP531LwrJbp",
+  "OPENART_AUTHORITY_RESOURCE": "nSi70nZ1ogT5RnpeqpIS",
+  "OPENART_PLATE_HISTORY": "pz2zEt57SbHFljOq03wn",
+  "OPENART_PLATE_RESOURCE": "HNqrlK6X2gz5ut711Oxm",
+  "NOTE": "New station plate. Live words and controls removed. Objects, crop, and camera stay. Prior plate is SUPERSEDED."
 }

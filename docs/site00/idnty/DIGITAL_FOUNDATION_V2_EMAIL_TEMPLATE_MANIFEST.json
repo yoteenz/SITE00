@@ -1,0 +1,20 @@
+{
+  "sprint": "P0.SITE00.IDNTY.DIGITAL-FOUNDATION.V2-COMPLETE-PARENT-CHILD-ARCHITECTURE-LIFECYCLE-COMMUNICATIONS-AND-END-TO-END-RECOVERY1",
+  "transactional_inventory": [
+    { "id": "T01", "name": "PERSONAL FOUNDATION INVITATION", "site00_template_id": "personal-foundation-invitation", "status": "CANDIDATE", "live_send": false },
+    { "id": "T07", "name": "RECOMMENDATION READY", "site00_template_id": null, "status": "UNMAPPED" },
+    { "id": "T08", "name": "QUOTE READY", "site00_template_id": "quote-ready", "status": "CANDIDATE", "live_send": false },
+    { "id": "T13", "name": "PAYMENT CONFIRMED", "site00_template_id": "payment-confirmed", "status": "CANDIDATE", "live_send": false },
+    { "id": "T14", "name": "PAYMENT FAILED / RECOVERY", "site00_template_id": "payment-failed", "status": "CANDIDATE", "live_send": false },
+    { "id": "T17", "name": "CLIENT ACTION REQUIRED", "site00_template_id": "client-action-required", "status": "CANDIDATE", "live_send": false },
+    { "id": "T23", "name": "FOUNDATION COMPLETE", "site00_template_id": "foundation-complete", "status": "CANDIDATE", "live_send": false }
+  ],
+  "marketing_journeys": [
+    { "id": "M01", "name": "DIGITAL FOUNDATION EDUCATION", "status": "CONTRACT_ONLY", "live_send": false },
+    { "id": "M06", "name": "BLDR INTRODUCTION", "status": "CONTRACT_ONLY", "live_send": false },
+    { "id": "M13", "name": "POST-COMPLETION FOLLOW-UP", "status": "CONTRACT_ONLY", "live_send": false }
+  ],
+  "event_map_source": "shared/site00-digital-foundation/communications/eventMap.ts",
+  "preview_routes": ["/admin/site00/debug/email-pack", "/admin/site00/debug/email-pack/:templateId"],
+  "notes": "Full T01–T29 and M01–M15 expansion tracked in sprint spec; only mapped rows listed here. All lifecycle map entries default enabled:false."
+}

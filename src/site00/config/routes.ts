@@ -16,6 +16,7 @@ export const SITE00_ROUTES = {
   bldr: '/bldr',
   bldrTemplates: '/bldr/templates',
   bldrStart: '/bldr/start',
+  bldrSpatialStudio: '/bldr/studio',
   bldrState: '/bldr/state',
   bldrStateDesktop: '/bldr/state/desktop',
   evolve: '/evolve',
@@ -40,6 +41,19 @@ export const SITE00_ROUTES = {
   existingLocationCaseCheckout: '/existing-location/case/:caseId/checkout',
   existingLocationCaseComplete: '/existing-location/case/:caseId/complete',
   existingLocationAdmin: '/admin/site00/existing-location',
+  /** IDNTY — Digital Foundation personalized artifact (opaque token) */
+  digitalFoundationArtifact: '/foundation/:token',
+  /** All Digital Foundation screens plus the following BLDR studio, on one review page. */
+  digitalFoundationReview: '/foundation/review',
+  /** Physical invitation entry (opaque code, partner attribution). */
+  invitationEntry: '/invite/:code',
+  digitalFoundationAdmin: '/admin/site00/foundation',
+  digitalFoundationAdminDetail: '/admin/site00/foundation/:id',
+  digitalFoundationPipeline: '/admin/site00/foundation/pipeline',
+  digitalFoundationProjectCommand: '/admin/site00/foundation/:id/command',
+  digitalFoundationWorkbench: '/admin/site00/foundation/:id/workbench',
+  digitalFoundationCommunications: '/admin/site00/foundation/communications',
+  invitationAdmin: '/admin/site00/invitation',
   assts: '/assts',
   asstsBatch: '/assts/batches/:batchId',
   asstsAsset: '/assts/:assetId',

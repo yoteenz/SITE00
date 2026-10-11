@@ -1,0 +1,74 @@
+{
+  "sprint": "P0.JURNL.TODAY-ACTIVITY.CANONICAL-BRAND-AND-BESPOKE-WORLD-RECONSTRUCTION1",
+  "status": "FOUNDER_REVIEW_REQUIRED",
+  "superseded_batch": "TODAY v1/SUPERSEDED_DRAFT",
+  "official_logo_source": "public/site00/projects/jurnl/brand/jurnl-logo-official.png",
+  "logo_method": "Official asset composited on the page authority. Plates leave that region empty so the live mark can render.",
+  "alternate_logo_variants": 0,
+  "world": "Curated morning editorial. Airier, present-tense, front-page.",
+  "screens": [
+    {
+      "id": "01_TODAY_OVERVIEW",
+      "thesis": "DAILY EDITORIAL TABLEAU",
+      "station": "oblique walnut table",
+      "artifact": "torn daily broadside on oxblood blotter",
+      "camera": "oblique tabletop",
+      "contrast": "oxblood leather",
+      "plate": "DERIVED"
+    },
+    {
+      "id": "02_STS_SIGNAL",
+      "thesis": "THE NUMBER AS AN EDITORIAL OBJECT",
+      "station": "plaster niche",
+      "artifact": "leaning poster on a green marble shelf",
+      "camera": "frontal niche",
+      "contrast": "deep olive niche",
+      "plate": "DERIVED"
+    },
+    {
+      "id": "03_COMING",
+      "thesis": "NEAR-TERM ARRIVAL RAIL",
+      "station": "layered plaster wall",
+      "artifact": "dated slips on a brass rail",
+      "camera": "frontal wall",
+      "contrast": "olive linen",
+      "plate": "DERIVED"
+    },
+    {
+      "id": "04_MOVED",
+      "thesis": "RECENT MOVEMENT DESK",
+      "station": "dark walnut desk",
+      "artifact": "pinned receipt strips and an oxblood stamp",
+      "camera": "close oblique",
+      "contrast": "near-black wood and oxblood ink",
+      "plate": "DERIVED"
+    },
+    {
+      "id": "05_ACTIVITY_PREVIEW",
+      "thesis": "A WINDOW INTO THE ARCHIVE",
+      "station": "open cabinet drawer",
+      "artifact": "transaction stack inside the drawer",
+      "camera": "open-drawer",
+      "contrast": "dark drawer against green marble",
+      "plate": "DERIVED"
+    },
+    {
+      "id": "06_UPCOMING_PREVIEW",
+      "thesis": "FORECAST BOARD",
+      "station": "linen pin board",
+      "artifact": "asymmetrical dated notes over an engraving",
+      "camera": "oblique wall plane",
+      "contrast": "burgundy note",
+      "plate": "DERIVED"
+    },
+    {
+      "id": "07_MORE",
+      "thesis": "FOLDED DAILY INDEX",
+      "station": "travertine ledge",
+      "artifact": "accordion fold with a burgundy ribbon",
+      "camera": "folio close-up",
+      "contrast": "burgundy ribbon",
+      "plate": "DERIVED"
+    }
+  ]
+}

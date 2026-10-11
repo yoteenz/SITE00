@@ -284,8 +284,9 @@ describe('P0.CLIENT.2 browser QA — client reviews routes', () => {
       return;
     }
 
-    const { chromium } = await import('playwright');
-    const browser = await chromium.launch({ headless: true });
+    const { launchPlaywrightChromiumOrSkip } = await import('./setup/playwrightLaunchCi.js');
+    const browser = await launchPlaywrightChromiumOrSkip();
+    if (!browser) return;
     const artifactsDir = '/opt/cursor/artifacts';
     const { mkdirSync } = await import('node:fs');
     mkdirSync(artifactsDir, { recursive: true });

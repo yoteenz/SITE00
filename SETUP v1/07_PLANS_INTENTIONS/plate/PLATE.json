@@ -1,11 +1,16 @@
 {
   "SCREEN_ID": "07_PLANS_INTENTIONS",
-  "PLATE_STATUS": "DERIVE_FAMILY_PLATE",
-  "ENVIRONMENT_LINEAGE": "C_PLANNING_DESK",
+  "PLATE_STATUS": "NEW_PLATE_REQUIRED",
+  "STATION": "G planning desk",
+  "CAMERA": "oblique open planning book",
   "PLATE_PATH": "SETUP v1/07_PLANS_INTENTIONS/plate/setup-v1-07_plans_intentions-plate.png",
   "AUTHORITY_PATH": "SETUP v1/07_PLANS_INTENTIONS/authority/setup-v1-07_plans_intentions-authority.png",
+  "SUPERSEDED_AUTHORITY": "SETUP v1/07_PLANS_INTENTIONS/authority/SUPERSEDED/setup-v1-07_plans_intentions-authority.png",
+  "SUPERSEDED_PLATE": "SETUP v1/07_PLANS_INTENTIONS/plate/SUPERSEDED/setup-v1-07_plans_intentions-plate.png",
   "STATUS": "FOUNDER_REVIEW_REQUIRED",
-  "OPENART_AUTHORITY_HISTORY": "AJmhn8F6XQuZ6UOsfgk7",
-  "OPENART_PLATE_HISTORY": "uKfvQC3iPsKUFT2KsjZI",
-  "NOTE": "Plate is the authority with type, buttons, and field lettering removed. Objects, crop, and lineage stay."
+  "OPENART_AUTHORITY_HISTORY": "M5AldDPwFiqxT2zmv4fY",
+  "OPENART_AUTHORITY_RESOURCE": "ugVvbOCaDyYjfArSk4Yy",
+  "OPENART_PLATE_HISTORY": "0JYsjhgTgzJwagyAh84Z",
+  "OPENART_PLATE_RESOURCE": "UEV2q6MnaywDvEf4bZ0t",
+  "NOTE": "New station plate. Live words and controls removed. Objects, crop, and camera stay. Prior plate is SUPERSEDED."
 }

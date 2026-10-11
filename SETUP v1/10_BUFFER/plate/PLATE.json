@@ -1,11 +1,16 @@
 {
   "SCREEN_ID": "10_BUFFER",
-  "PLATE_STATUS": "DERIVE_FAMILY_PLATE",
-  "ENVIRONMENT_LINEAGE": "C_PLANNING_DESK",
+  "PLATE_STATUS": "NEW_PLATE_REQUIRED",
+  "STATION": "J reserve drawer",
+  "CAMERA": "close-up open drawer",
   "PLATE_PATH": "SETUP v1/10_BUFFER/plate/setup-v1-10_buffer-plate.png",
   "AUTHORITY_PATH": "SETUP v1/10_BUFFER/authority/setup-v1-10_buffer-authority.png",
+  "SUPERSEDED_AUTHORITY": "SETUP v1/10_BUFFER/authority/SUPERSEDED/setup-v1-10_buffer-authority.png",
+  "SUPERSEDED_PLATE": "SETUP v1/10_BUFFER/plate/SUPERSEDED/setup-v1-10_buffer-plate.png",
   "STATUS": "FOUNDER_REVIEW_REQUIRED",
-  "OPENART_AUTHORITY_HISTORY": "29SSHLiUo04SjbHDiWU3",
-  "OPENART_PLATE_HISTORY": "nDsNGFR2SQ0XxgOyum81",
-  "NOTE": "Plate is the authority with type, buttons, and field lettering removed. Objects, crop, and lineage stay."
+  "OPENART_AUTHORITY_HISTORY": "y15nFADipaKhgkzSf8AK",
+  "OPENART_AUTHORITY_RESOURCE": "uRJANm3QFEKyiq8d3XPT",
+  "OPENART_PLATE_HISTORY": "nPHIKndZGG3jB84xQ94x",
+  "OPENART_PLATE_RESOURCE": "xuJ4Bsb93YJkcFXsSRz4",
+  "NOTE": "New station plate. Live words and controls removed. Objects, crop, and camera stay. Prior plate is SUPERSEDED."
 }

@@ -1,0 +1,290 @@
+{
+  "id": "BUILDER_PRICING_EVIDENCE",
+  "sprint": "P0.SITE00.BUILDER.TEMPLATE-AND-ESTIMATE-SELECTION-EXPERIENCE1",
+  "estimatorVersion": "1.0.0",
+  "generatedBy": "scripts/site00/builder-experience-export.ts",
+  "note": "Client-facing windows and investments use presentation policy 1.1.0. Week and month endpoints are even numbers. Raw estimator math is unchanged. Nothing here is a published price or an agreed contract.",
+  "publicAnchorsToday": {
+    "source": "src/site00/config/bldr-classification.ts · builder.ts · bldr-entry.ts",
+    "SITE": "FROM $4K+",
+    "WORLD": "FROM $10K+",
+    "ENTERPRISE": "FROM $25K+",
+    "IDNTY": "FROM $1,750 / $2,500 / $3,500 (separate offer)"
+  },
+  "engineFloors": {
+    "SIMPLE": 3000,
+    "ADVANCED": 6000,
+    "CUSTOM": 10000,
+    "includedFamilyUnitsInFloor": {
+      "SIMPLE": 2,
+      "ADVANCED": 5,
+      "CUSTOM": 8
+    },
+    "priorityPriceMultiplier": 1.85
+  },
+  "references": {
+    "SITE_MINIMUM": {
+      "label": "Smallest real site: front door (home, about, contact) and one offer page, essential edition",
+      "build": "SITE",
+      "buildLevel": "SIMPLE BUILD",
+      "scopeSignal": "LIGHT",
+      "initialRange": {
+        "window": "6–8 WEEKS",
+        "investment": "$2.5K–$4.5K"
+      },
+      "refinedRange": {
+        "window": "6–8 WEEKS",
+        "investment": "$2.5K–$4K"
+      },
+      "priority": {
+        "available": false
+      }
+    },
+    "SITE_SIMPLE_TYPICAL": {
+      "label": "Typical simple practice site (Service grammar, self-editable)",
+      "build": "SITE",
+      "buildLevel": "SIMPLE BUILD",
+      "scopeSignal": "LIGHT",
+      "initialRange": {
+        "window": "8–12 WEEKS",
+        "investment": "$4.5K–$8.5K"
+      },
+      "refinedRange": {
+        "window": "10–12 WEEKS",
+        "investment": "$5.5K–$7.5K"
+      },
+      "priority": {
+        "available": false
+      }
+    },
+    "SITE_SIMPLE_BOOKING": {
+      "label": "Simple hospitality site with booking",
+      "build": "SITE",
+      "buildLevel": "SIMPLE BUILD",
+      "scopeSignal": "LIGHT",
+      "initialRange": {
+        "window": "12–20 WEEKS",
+        "investment": "$7.5K–$14K"
+      },
+      "refinedRange": {
+        "window": "12–16 WEEKS",
+        "investment": "$8.5K–$12K"
+      },
+      "priority": {
+        "available": false
+      }
+    },
+    "SITE_ADVANCED": {
+      "label": "Advanced editorial site with membership",
+      "build": "SITE",
+      "buildLevel": "ADVANCED BUILD",
+      "scopeSignal": "MODERATE",
+      "initialRange": {
+        "window": "4–6 MONTHS",
+        "investment": "$15K–$26K"
+      },
+      "refinedRange": {
+        "window": "16–20 WEEKS",
+        "investment": "$17K–$23K"
+      },
+      "priority": {
+        "available": false
+      }
+    },
+    "SITE_CUSTOM": {
+      "label": "Custom-direction commerce site",
+      "build": "SITE",
+      "buildLevel": "CUSTOM BUILD",
+      "scopeSignal": "DEEP",
+      "initialRange": {
+        "window": "4–8 MONTHS",
+        "investment": "$20K–$37K"
+      },
+      "refinedRange": {
+        "window": "6–8 MONTHS",
+        "investment": "$23K–$32K"
+      },
+      "priority": {
+        "available": false
+      }
+    },
+    "WORLD_MINIMUM": {
+      "label": "Smallest world: a few places, look-only, flat illustrated, guided path",
+      "build": "WORLD",
+      "buildLevel": "ADVANCED BUILD",
+      "scopeSignal": "EXPANSIVE",
+      "initialRange": {
+        "window": "4–6 MONTHS",
+        "investment": "$12K–$23K"
+      },
+      "refinedRange": {
+        "window": "14–18 WEEKS",
+        "investment": "$14K–$20K"
+      },
+      "priority": {
+        "available": false
+      }
+    },
+    "WORLD_SHOWROOM": {
+      "label": "Dimensional showroom world",
+      "build": "WORLD",
+      "buildLevel": "ADVANCED BUILD",
+      "scopeSignal": "EXPANSIVE",
+      "initialRange": {
+        "window": "6–10 MONTHS",
+        "investment": "$32K–$58K"
+      },
+      "refinedRange": {
+        "window": "6–10 MONTHS",
+        "investment": "$37K–$51K"
+      },
+      "priority": {
+        "available": false
+      }
+    },
+    "SYSTEM_PORTAL": {
+      "label": "Client portal system",
+      "build": "SYSTEM",
+      "buildLevel": "ADVANCED BUILD",
+      "scopeSignal": "EXPANSIVE",
+      "initialRange": {
+        "window": "6–12 MONTHS",
+        "investment": "$33K–$61K"
+      },
+      "refinedRange": {
+        "window": "8–10 MONTHS",
+        "investment": "$38K–$53K"
+      },
+      "priority": {
+        "available": false
+      }
+    },
+    "HYBRID_LARGE": {
+      "label": "Practice site with a members platform (17 families)",
+      "build": "HYBRID",
+      "buildLevel": "ADVANCED BUILD",
+      "scopeSignal": "EXPANSIVE",
+      "initialRange": {
+        "window": "10–20 MONTHS",
+        "investment": "$62K–$112K"
+      },
+      "refinedRange": {
+        "window": "12–16 MONTHS",
+        "investment": "$71K–$98K"
+      },
+      "priority": {
+        "available": true,
+        "window": "8–14 MONTHS",
+        "investment": "$115K–$208K",
+        "sooner": "ABOUT 30% SOONER"
+      }
+    }
+  },
+  "fixtures": [
+    {
+      "fixture": "SIMPLE_SERVICE",
+      "standard": {
+        "window": "8–10 WEEKS",
+        "investment": "$5K–$7K",
+        "complexity": "SIMPLE",
+        "priorityFeasible": false
+      },
+      "priority": {
+        "window": "8–10 WEEKS",
+        "investment": "$9K–$13K",
+        "complexity": "SIMPLE",
+        "priorityFeasible": false
+      }
+    },
+    {
+      "fixture": "STANDARD_EDITORIAL",
+      "standard": {
+        "window": "16–20 WEEKS",
+        "investment": "$16K–$22K",
+        "complexity": "STANDARD",
+        "priorityFeasible": false
+      },
+      "priority": {
+        "window": "16–20 WEEKS",
+        "investment": "$31K–$41K",
+        "complexity": "STANDARD",
+        "priorityFeasible": false
+      }
+    },
+    {
+      "fixture": "ADVANCED_COMMERCE",
+      "standard": {
+        "window": "6–8 MONTHS",
+        "investment": "$27K–$35K",
+        "complexity": "ADVANCED",
+        "priorityFeasible": false
+      },
+      "priority": {
+        "window": "6–8 MONTHS",
+        "investment": "$50K–$65K",
+        "complexity": "ADVANCED",
+        "priorityFeasible": false
+      }
+    },
+    {
+      "fixture": "LARGE_PRODUCT",
+      "standard": {
+        "window": "8–10 MONTHS",
+        "investment": "$43K–$56K",
+        "complexity": "LARGE PRODUCT / PORTAL",
+        "priorityFeasible": false
+      },
+      "priority": {
+        "window": "6–8 MONTHS",
+        "investment": "$79K–$103K",
+        "complexity": "LARGE PRODUCT / PORTAL",
+        "priorityFeasible": true
+      }
+    },
+    {
+      "fixture": "PORTAL_SYSTEM",
+      "standard": {
+        "window": "10–12 MONTHS",
+        "investment": "$51K–$71K",
+        "complexity": "WORLD / SPATIAL",
+        "priorityFeasible": false
+      },
+      "priority": {
+        "window": "10–12 MONTHS",
+        "investment": "$95K–$130K",
+        "complexity": "WORLD / SPATIAL",
+        "priorityFeasible": false
+      }
+    },
+    {
+      "fixture": "SPATIAL_WORLD",
+      "standard": {
+        "window": "12–16 MONTHS",
+        "investment": "$69K–$94K",
+        "complexity": "WORLD / SPATIAL",
+        "priorityFeasible": false
+      },
+      "priority": {
+        "window": "12–16 MONTHS",
+        "investment": "$127K–$174K",
+        "complexity": "WORLD / SPATIAL",
+        "priorityFeasible": false
+      }
+    },
+    {
+      "fixture": "ZERO_FAMILIES",
+      "standard": {
+        "window": "4–6 WEEKS",
+        "investment": "$3K–$4K",
+        "complexity": "SIMPLE",
+        "priorityFeasible": false
+      },
+      "priority": {
+        "window": "4–6 WEEKS",
+        "investment": "$3K–$4K",
+        "complexity": "SIMPLE",
+        "priorityFeasible": false
+      }
+    }
+  ]
+}

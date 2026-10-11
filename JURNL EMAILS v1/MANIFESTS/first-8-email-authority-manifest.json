@@ -1,0 +1,133 @@
+{
+  "SPRINT": "P0.JURNL.EMAILS.FIRST-8.BRAND-LAYER-AND-TORN-EDITORIAL-CORRECTION1",
+  "PRIOR_SPRINT": "P0.JURNL.EMAILS.FIRST-8.IMAGE-TO-IMAGE-BRAND-AUTHORITY-RECONSTRUCTION1",
+  "PROJECT_ROOT": "JURNL EMAILS v1",
+  "STATUS": "FOUNDER_REVIEW_REQUIRED",
+  "FAMILY_STATUS": "FIRST_8_EMAIL_PARENTS_BRAND_LAYER_CORRECTION",
+  "OLD_BATCH_STATUS": "SUPERSEDED_DRAFT",
+  "PRIOR_BOARD_STATUS": "SUPERSEDED_DRAFT",
+  "IMPLEMENTATION": "BLOCKED_PENDING_APPROVAL",
+  "DOWNSTREAM_EMAIL_ASSETS": "BLOCKED",
+  "IMAGE_TO_IMAGE_USED": true,
+  "MODEL": "gpt-image-2-5-sunburst",
+  "MODE": "image2image",
+  "MOBILE_ASPECT": "3:4",
+  "RESOLUTION": "2k",
+  "DESKTOP_DERIVATIVES": "NOT_GENERATED",
+  "COPY_SOURCE": "shared/jurnl-email-engine/contracts.ts. Headlines, body, amounts, dates, codes, and CTA labels stay live HTML. Photographs hold blank zones and decorative structure only.",
+  "OFFICIAL_LOGO_SOURCE": "public/site00/projects/jurnl/brand/jurnl-logo-official.png",
+  "LOGO_METHOD": "The keyed official botanical file is printed into each parent. Black is removed. The mark is not redrawn. Treatments differ: torn margin, seal stamp, linen spine, torn report edge, vellum, cropped slip, ceremonial sheet, brass-crossed credential card.",
+  "PHOTOGRAPHS_CONTAIN_CRITICAL_TEXT": false,
+  "PHOTOGRAPHS_CONTAIN_DYNAMIC_DATA": false,
+  "SIDEKICKS_GENERATED": 0,
+  "COMPONENTS_GENERATED": 0,
+  "HTML_IMPLEMENTATION": 0,
+  "READY_FOR_HTML_EXTRACTION": false,
+  "MOBILE_COUNT": 8,
+  "DESKTOP_COUNT": 0,
+  "REVIEW": {
+    "PARENTS": "JURNL EMAILS v1/REVIEW/first-8-brand-layer-torn-editorial1.png",
+    "PRIOR_BOARD": "JURNL EMAILS v1/REVIEW/first-8-image-to-image-reconstruction1.png"
+  },
+  "REFERENCE_IMAGES_USED": [
+    "public/site00/projects/jurnl/brand/jurnl-logo-official.png",
+    "JURNL EMAILS v1/A01_WELCOME_TO_JURNL/SUPERSEDED_DRAFT/image-to-image-reconstruction1/mobile/a01-mobile.png",
+    "JURNL EMAILS v1/A02_VERIFY_YOUR_EMAIL/SUPERSEDED_DRAFT/image-to-image-reconstruction1/mobile/a02-mobile.png",
+    "JURNL EMAILS v1/A03_FINISH_SETTING_UP_JURNL/SUPERSEDED_DRAFT/image-to-image-reconstruction1/mobile/a03-mobile.png",
+    "JURNL EMAILS v1/A04_SAFE_TO_SPEND_READY/SUPERSEDED_DRAFT/image-to-image-reconstruction1/mobile/a04-mobile.png",
+    "JURNL EMAILS v1/A05_YOUR_WEEK_IN_JURNL/SUPERSEDED_DRAFT/image-to-image-reconstruction1/mobile/a05-mobile.png",
+    "JURNL EMAILS v1/A06_PURCHASE_SECOND_LOOK/SUPERSEDED_DRAFT/image-to-image-reconstruction1/mobile/a06-mobile.png",
+    "JURNL EMAILS v1/A07_MILESTONE/SUPERSEDED_DRAFT/image-to-image-reconstruction1/mobile/a07-mobile.png",
+    "JURNL EMAILS v1/A08_RESET_YOUR_ACCESS/SUPERSEDED_DRAFT/image-to-image-reconstruction1/mobile/a08-mobile.png"
+  ],
+  "EMAILS": [
+    {
+      "AUTHORITY_ID": "A01",
+      "NAME": "WELCOME TO JURNL",
+      "EMAIL_FAMILY": "E01",
+      "COMPOSITION_THESIS": "PRIVATE INVITATION ON A TORN WELCOME SHEET",
+      "LOGO_TREATMENT": "Official mark printed on the torn left margin, leaves cropped by the tear",
+      "MOBILE_AUTHORITY": "JURNL EMAILS v1/A01_WELCOME_TO_JURNL/mobile/a01-mobile.png",
+      "OPENART_HISTORY": "qVPGtb45IUlbxrtboyIV",
+      "LIVE_TEXT_ZONES": ["headline", "body", "cta", "footer"],
+      "STATUS": "FOUNDER_REVIEW_REQUIRED"
+    },
+    {
+      "AUTHORITY_ID": "A02",
+      "NAME": "VERIFY YOUR EMAIL",
+      "EMAIL_FAMILY": "E06",
+      "COMPOSITION_THESIS": "SEALED ACCESS TO A PRIVATE SANCTUARY",
+      "LOGO_TREATMENT": "Official mark stamped inside the seal",
+      "MOBILE_AUTHORITY": "JURNL EMAILS v1/A02_VERIFY_YOUR_EMAIL/mobile/a02-mobile.png",
+      "OPENART_HISTORY": "UpS2iEXXDml4twsKBSOL",
+      "LIVE_TEXT_ZONES": ["headline", "body", "cta", "notice", "footer"],
+      "STATUS": "FOUNDER_REVIEW_REQUIRED"
+    },
+    {
+      "AUTHORITY_ID": "A03",
+      "NAME": "FINISH SETTING UP JURNL",
+      "EMAIL_FAMILY": "E05",
+      "COMPOSITION_THESIS": "UNFINISHED JOURNAL WAITING ON THE COVER",
+      "LOGO_TREATMENT": "Official mark on the linen spine, beside the torn slip",
+      "MOBILE_AUTHORITY": "JURNL EMAILS v1/A03_FINISH_SETTING_UP_JURNL/mobile/a03-mobile.png",
+      "OPENART_HISTORY": "0dTK5aWy3FdLfrTS9FpI",
+      "LIVE_TEXT_ZONES": ["headline", "body", "cta", "footer"],
+      "STATUS": "FOUNDER_REVIEW_REQUIRED"
+    },
+    {
+      "AUTHORITY_ID": "A04",
+      "NAME": "YOUR SAFE TO SPEND IS READY",
+      "EMAIL_FAMILY": "E01",
+      "COMPOSITION_THESIS": "PRIVATE FINANCIAL BRIEF",
+      "LOGO_TREATMENT": "Official mark on the torn report edge",
+      "MOBILE_AUTHORITY": "JURNL EMAILS v1/A04_SAFE_TO_SPEND_READY/mobile/a04-mobile.png",
+      "OPENART_HISTORY": "bBvEjfSgyg1KGTyJqHzP",
+      "LIVE_TEXT_ZONES": ["headline", "body", "number", "cta", "footer"],
+      "STATUS": "FOUNDER_REVIEW_REQUIRED"
+    },
+    {
+      "AUTHORITY_ID": "A05",
+      "NAME": "YOUR WEEK IN JURNL",
+      "EMAIL_FAMILY": "E03",
+      "COMPOSITION_THESIS": "WEEKLY EDITORIAL SPREAD",
+      "LOGO_TREATMENT": "Official mark large on the vellum layer",
+      "MOBILE_AUTHORITY": "JURNL EMAILS v1/A05_YOUR_WEEK_IN_JURNL/mobile/a05-mobile.png",
+      "OPENART_HISTORY": "3MFPZwrXRYrAyML9r8PV",
+      "LIVE_TEXT_ZONES": ["headline", "ledger", "cta", "footer"],
+      "STATUS": "FOUNDER_REVIEW_REQUIRED"
+    },
+    {
+      "AUTHORITY_ID": "A06",
+      "NAME": "A PURCHASE MAY NEED A SECOND LOOK",
+      "EMAIL_FAMILY": "E05",
+      "COMPOSITION_THESIS": "TORN DECISION SLIP",
+      "LOGO_TREATMENT": "Official mark cropped into the torn slip",
+      "MOBILE_AUTHORITY": "JURNL EMAILS v1/A06_PURCHASE_SECOND_LOOK/mobile/a06-mobile.png",
+      "OPENART_HISTORY": "lTrgLP3qi63BbYXY4mqx",
+      "LIVE_TEXT_ZONES": ["headline", "purchase", "cta", "footer"],
+      "STATUS": "FOUNDER_REVIEW_REQUIRED"
+    },
+    {
+      "AUTHORITY_ID": "A07",
+      "NAME": "YOU REACHED A MILESTONE",
+      "EMAIL_FAMILY": "E04",
+      "COMPOSITION_THESIS": "PRIVATE FINANCIAL CEREMONY",
+      "LOGO_TREATMENT": "Official mark large on the layered announcement",
+      "MOBILE_AUTHORITY": "JURNL EMAILS v1/A07_MILESTONE/mobile/a07-mobile.png",
+      "OPENART_HISTORY": "33Ie4Ra5246DAGIWfkw0",
+      "LIVE_TEXT_ZONES": ["headline", "milestone", "cta", "footer"],
+      "STATUS": "FOUNDER_REVIEW_REQUIRED"
+    },
+    {
+      "AUTHORITY_ID": "A08",
+      "NAME": "RESET YOUR ACCESS",
+      "EMAIL_FAMILY": "E06",
+      "COMPOSITION_THESIS": "REISSUED CREDENTIAL INSIDE THE FOLIO",
+      "LOGO_TREATMENT": "Official mark on the inner card, crossed by the brass bar",
+      "MOBILE_AUTHORITY": "JURNL EMAILS v1/A08_RESET_YOUR_ACCESS/mobile/a08-mobile.png",
+      "OPENART_HISTORY": "XxD5tgZ8iiW8Won0jKca",
+      "LIVE_TEXT_ZONES": ["headline", "body", "cta", "notice", "footer"],
+      "STATUS": "FOUNDER_REVIEW_REQUIRED"
+    }
+  ]
+}
