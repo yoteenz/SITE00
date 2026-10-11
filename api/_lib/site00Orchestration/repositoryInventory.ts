@@ -13,7 +13,10 @@ export type InventoryFinding = {
   metadata?: Record<string, unknown>;
 };
 
-function walkDir(root: string, max = 8000): string[] {
+/** Skip asset-heavy trees so admin/runtime paths stay inside the cap on large repos. */
+const INVENTORY_WALK_SKIP = new Set(['node_modules', '.git', 'dist', 'JURNL', 'public']);
+
+function walkDir(root: string, max = 14_000): string[] {
   const out: string[] = [];
   function walk(dir: string) {
     if (out.length >= max) return;
@@ -25,7 +28,7 @@ function walkDir(root: string, max = 8000): string[] {
     }
     for (const name of entries) {
       if (out.length >= max) return;
-      if (name === 'node_modules' || name === '.git' || name === 'dist') continue;
+      if (INVENTORY_WALK_SKIP.has(name)) continue;
       const full = join(dir, name);
       try {
         const st = statSync(full);
@@ -112,7 +115,10 @@ export function inventoryLocalSite00(workspaceRoot: string): InventoryFinding[] 
     }
   }
 
-  if (files.some((f) => /OrchestrationDebugPage/i.test(f)) && !files.some((f) => /admin\/pages\/DashboardPage/i.test(f) && /orchestration/i.test(f))) {
+  const orchestrationDebugPath = join(workspaceRoot, 'src/site00/admin/pages/debug/OrchestrationDebugPage.tsx');
+  const orchestrationDebugPresent = existsSync(orchestrationDebugPath) || files.some((f) => /OrchestrationDebugPage/i.test(f));
+  const dashboardOrchestrationWired = files.some((f) => /admin\/pages\/DashboardPage/i.test(f) && /orchestration/i.test(f));
+  if (orchestrationDebugPresent && !dashboardOrchestrationWired) {
     findings.push({
       evidence_type: 'GAP_EVIDENCE',
       title: 'Admin orchestration UI not wired to production dashboard',

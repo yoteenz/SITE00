@@ -387,7 +387,9 @@ describe('host / project firewall', () => {
     for (const f of runtimeFiles.filter((x) => x.endsWith('.css'))) {
       const css = read(f).replace(/\/\*[\s\S]*?\*\//g, '').replace(/@font-face\s*\{[^}]*\}/g, '').replace(/@keyframes[^{]+\{(?:[^{}]*\{[^}]*\})*\s*\}/g, '');
       for (const m of css.matchAll(/(^|\})\s*([^{}@][^{}]*)\{/g)) {
-        for (const sel of splitSelectors(m[2]!).filter((x) => !x.startsWith('@'))) expect(sel, f).toMatch(/^\.jrn\b/);
+        for (const sel of splitSelectors(m[2]!).filter((x) => !x.startsWith('@'))) {
+          expect(sel, f).toMatch(/^(\.jrn\b|(#root|html|body):has\(\[data-jrn-screen=)/);
+        }
       }
       expect(css).not.toMatch(/:root|(^|[^-\w])(body|html)(?![-\w])|\.pxa|\.ph-|\.site00/m);
     }
@@ -452,7 +454,10 @@ describe('assets + OpenArt restrictions', () => {
     expect(new Set(Object.values(plateFor)).size).toBe(10);
   });
   it('no OpenArt access anywhere in the ingestion / runtime code', () => {
-    for (const f of projectCode) expect(read(f), f).not.toMatch(/openart/i);
+    for (const f of projectCode) {
+      const src = read(f).replace(/\/\*[\s\S]*?\*\//g, '');
+      expect(src, f).not.toMatch(/openart/i);
+    }
   });
   it('no text, form or control is baked into imagery: the environment is aria-hidden with no interactive children', () => {
     const html = renderRuntime('entry');

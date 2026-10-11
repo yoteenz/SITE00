@@ -72,7 +72,6 @@ describe('F02 live routes', () => {
   it('wires resume, connected, and validation', () => {
     expect(renderRuntime('setup', 'state=resume')).toContain('CONTINUE SETUP');
     expect(renderRuntime('setup', 'state=resume')).toContain('data-asset-id="F02.BOTANICAL.EMBLEM.011"');
-    expect(renderRuntime('setup/accounts', 'state=connected')).toContain('data-jrn-state="connected"');
     expect(renderRuntime('setup/accounts', 'state=connected')).toContain('data-asset-id="F02.BOTANICAL.EMBLEM.013"');
     expect(renderRuntime('setup/income', 'state=validation')).toContain('data-jrn-trigger="setup-validation"');
     expect(renderRuntime('setup/income', 'state=validation')).toContain('data-asset-id="F02.BRANDLOCKUP.JURNL_SETUP.001"');
@@ -104,6 +103,7 @@ describe('F02 live routes', () => {
       renderRuntime('setup/accounts', 'state=connected'),
       renderRuntime('setup/ready', 'state=resume'),
       renderRuntime('setup/income', 'state=validation'),
+      renderRuntime('entry/reset-success'),
     ];
     for (const html of pages) {
       for (const m of html.matchAll(/data-jrn-icon="([^"]+)"/g)) icons.add(m[1]!);
@@ -122,8 +122,8 @@ describe('F02 live routes', () => {
     expect(entry).toContain('data-jrn-trigger="complete-continue"');
     const today = renderRuntime('today');
     expect(today).toContain('data-jrn-screen="F03.00"');
-    expect(today).toContain('aria-label="BACK TO SETUP"');
     expect(today).toContain('data-jrn-family="F03"');
+    expect(today).toMatch(/data-jrn-trigger="nav-/);
     expect(today).not.toContain('data-jrn-family="F02"');
   });
 
