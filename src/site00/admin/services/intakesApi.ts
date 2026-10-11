@@ -58,6 +58,13 @@ export const site00AdminIntakesApi = {
       body: { action: 'mark-in-review', intakeType, id },
     }),
 
+  /** Reopens a submitted Builder Blueprint for the client. The submitted version stays on record (server-side). */
+  requestRevision: (intakeType: IntakeType, id: string, message: string) =>
+    intakesFetch<{ intake: IntakeDetail }>('/api/admin/site00-intakes', {
+      method: 'POST',
+      body: { action: 'request-revision', intakeType, id, message },
+    }),
+
   archive: (intakeType: IntakeType, id: string) =>
     intakesFetch<{ intake: IntakeDetail }>('/api/admin/site00-intakes', {
       method: 'POST',

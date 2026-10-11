@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { toClientBlueprintEstimate } from '../../../studioos/estimation/clientContract';
 import { estimateProject } from '../../../studioos/estimation/engine';
 import { builderEstimateView } from '../clientView';
 import { toEstimateConfig } from '../toEstimateConfig';
@@ -18,11 +19,17 @@ describe('Hybrid Spatial Studio mapping', () => {
     };
     const selection = spatialSelectionToBuilder(state);
     const view = builderEstimateView(selection);
-    expect(view.productionWindow.toUpperCase()).toMatch(/WEEK|MONTH/);
+    const config = toEstimateConfig(selection);
+    const outcome = estimateProject(config);
+    if (!outcome.ok) throw new Error('spatial estimate failed');
+    const canonical = toClientBlueprintEstimate(config, outcome.result);
+    expect(view.productionWindow).toBe(canonical.productionWindow);
+    const ends = view.productionWindow.match(/^(\d+)–(\d+) (WEEKS|MONTHS)$/);
+    expect(ends).not.toBeNull();
+    expect(Number(ends?.[1]) % 2).toBe(0);
+    expect(Number(ends?.[2]) % 2).toBe(0);
     expect(view.productionWindow).not.toMatch(/BUSINESS DAY/i);
     expect(view.investment).toMatch(/\$/);
-    const config = toEstimateConfig(selection);
-    expect(estimateProject(config).ok).toBe(true);
     expect(selection.build).toBe('SITE');
   });
 

@@ -46,6 +46,7 @@ function serializeOpsBundle(artifactId: string): Record<string, unknown> {
     forecasts: s.forecasts.get(artifactId) ?? null,
     projectConfig: s.projectConfig.get(artifactId) ?? null,
     readinessClock: s.readinessClock.get(artifactId) ?? null,
+    projectMessages: s.projectMessages?.get(artifactId) ?? [],
   };
 }
 
@@ -76,13 +77,49 @@ function hydrateOpsBundle(artifactId: string, bundle: Record<string, unknown>): 
   if (bundle.forecasts) s.forecasts.set(artifactId, bundle.forecasts as never);
   if (bundle.projectConfig) s.projectConfig.set(artifactId, bundle.projectConfig as never);
   if (bundle.readinessClock) s.readinessClock.set(artifactId, bundle.readinessClock as never);
+  if (Array.isArray(bundle.projectMessages) && bundle.projectMessages.length) {
+    if (!s.projectMessages) s.projectMessages = new Map();
+    s.projectMessages.set(artifactId, bundle.projectMessages as never);
+  }
+}
+
+/** Load all artifact rows (and leads) from Supabase into the in-process memory index for admin list. */
+export async function syncAllArtifactsIntoMemory(): Promise<void> {
+  if (!isSupabaseDfPersistenceEnabled()) return;
+
+  const sb = getSupabaseAdmin();
+  const { data: rows, error } = await sb
+    .from('site00_df_artifacts')
+    .select('*')
+    .order('created_at', { ascending: false });
+  if (error) throw error;
+  if (!rows?.length) return;
+
+  const s = getDfMemoryState();
+  for (const row of rows) {
+    const artifact = mapArtifactRow(row);
+    s.artifacts.set(artifact.artifact_id, artifact);
+    s.artifactsByToken.set(artifact.public_token, artifact.artifact_id);
+  }
+
+  const leadIds = [...new Set(rows.map((r) => String(r.lead_id)))];
+  const { data: leads, error: leadErr } = await sb.from('site00_df_leads').select('*').in('lead_id', leadIds);
+  if (leadErr) throw leadErr;
+  for (const lead of leads ?? []) {
+    s.leads.set(String(lead.lead_id), mapLeadRow(lead));
+  }
 }
 
 export async function loadArtifactGraphByToken(token: string): Promise<DigitalFoundationArtifact | null> {
-  if (!isSupabaseDfPersistenceEnabled()) return memGetArtifactByToken(token) ?? null;
-
-  const existing = memGetArtifactByToken(token);
-  if (existing) return existing;
+  if (!isSupabaseDfPersistenceEnabled()) {
+    let found = memGetArtifactByToken(token);
+    if (!found) {
+      const { memRefreshPreviewSnapshotFromDisk } = await import('../memoryStore.js');
+      memRefreshPreviewSnapshotFromDisk();
+      found = memGetArtifactByToken(token);
+    }
+    return found ?? null;
+  }
 
   const sb = getSupabaseAdmin();
   const { data: row, error } = await sb

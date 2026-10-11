@@ -434,19 +434,34 @@ export async function getMarketingEngagementPayload(engagementId: string, client
   };
 }
 
-export async function listMarketingEngagementsForClient(clientEmail: string): Promise<MarketingEngagementRecord[]> {
+const MARKETING_ENGAGEMENT_LIST_MAX = 500;
+const MARKETING_ENGAGEMENT_LIST_DEFAULT = 200;
+
+export async function listMarketingEngagementsForClient(
+  clientEmail: string,
+  limit = MARKETING_ENGAGEMENT_LIST_DEFAULT,
+): Promise<MarketingEngagementRecord[]> {
   const supabase = getSupabaseAdmin();
+  const capped = Math.min(Math.max(1, limit), MARKETING_ENGAGEMENT_LIST_MAX);
   const { data } = await supabase
     .from('site00_marketing_engagements')
     .select('*')
     .eq('client_email', clientEmail)
-    .order('updated_at', { ascending: false });
+    .order('updated_at', { ascending: false })
+    .limit(capped);
   return (data ?? []).map((row) => mapRow(row as DbRow));
 }
 
-export async function listMarketingEngagementsAdmin(): Promise<MarketingEngagementRecord[]> {
+export async function listMarketingEngagementsAdmin(
+  limit = MARKETING_ENGAGEMENT_LIST_DEFAULT,
+): Promise<MarketingEngagementRecord[]> {
   const supabase = getSupabaseAdmin();
-  const { data } = await supabase.from('site00_marketing_engagements').select('*').order('updated_at', { ascending: false });
+  const capped = Math.min(Math.max(1, limit), MARKETING_ENGAGEMENT_LIST_MAX);
+  const { data } = await supabase
+    .from('site00_marketing_engagements')
+    .select('*')
+    .order('updated_at', { ascending: false })
+    .limit(capped);
   return (data ?? []).map((row) => mapRow(row as DbRow));
 }
 

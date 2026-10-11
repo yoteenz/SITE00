@@ -4,6 +4,7 @@ import { validateHierarchicalExpression } from './hierarchicalExpression.js';
 import { validatePlateOccupancy } from './plateOccupancy.js';
 import { validateFamilyOutputProject } from './familyOutputProjects.js';
 import { validateAuthorityFirstPlate } from './authorityFirstPlate.js';
+import { validateJurnlReferenceHygiene } from './jurnlReferenceHygiene.js';
 import { validateSidekickDerivationReference } from './sidekickReferenceBinding.js';
 import {
   classifyGenerationRequest,
@@ -14,6 +15,24 @@ import type { GenerationRequest, PrecheckResult } from './types.js';
 
 export function precheckGenerationDispatch(request: GenerationRequest, options: ValidateOptions): PrecheckResult {
   const classification = classifyGenerationRequest(request, options.resolverContext);
+  const hygiene = validateJurnlReferenceHygiene(classification, options.resolverContext.repoRoot);
+  if (hygiene.status === 'BLOCKED') {
+    return {
+      classification,
+      status: 'BLOCKED',
+      dispatchAllowed: false,
+      blockedReason: hygiene.blockedReason,
+      referenceRequired: classification.referenceRequired,
+      referenceFound: false,
+      referenceAttached: Boolean(classification.referenceInputAttached),
+      generationMode: classification.generationMode,
+      resolvedReference: null,
+      referencePath: null,
+      referenceAuthorityId: classification.referenceAuthorityIdHint ?? null,
+      referenceStatus: null,
+      creditsSpent: 0,
+    };
+  }
   const expression = validateFamilyExpressionBrief(classification, options.resolverContext.repoRoot);
   const hierarchy =
     expression.status === 'PASS' ? validateHierarchicalExpression(classification, options.resolverContext.repoRoot) : expression;

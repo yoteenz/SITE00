@@ -65,6 +65,7 @@ export async function getPersonalityReplayRecord(replayId: string): Promise<Bran
 
 export async function listPersonalityReplayRecordsForOrg(
   organizationId: string,
+  options?: { limit?: number; mode?: string },
 ): Promise<BrandPersonalityReplayRecord[]> {
-  return (await store()).listPersonalityReplayRecordsForOrg(organizationId);
+  return (await store()).listPersonalityReplayRecordsForOrg(organizationId, options);
 }

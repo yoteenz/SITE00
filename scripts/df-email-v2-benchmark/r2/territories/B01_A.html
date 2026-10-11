@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>B01 · A — PRIVATE CORRESPONDENCE</title>
+<link rel="stylesheet" href="../r2.css">
+<style>
+  /* A letter on house stock, bound by one sliver of red glass, with a reply card torn from its foot. */
+  .email { background: var(--paper); }
+  .head { display: flex; justify-content: space-between; align-items: flex-start; padding: 40px var(--pad) 0; }
+  .house { font-size: 13px; font-weight: 700; letter-spacing: .34em; color: var(--ink); }
+  .house span { display: block; margin-top: 7px; font-size: 9.5px; font-weight: 500; letter-spacing: .3em; color: var(--faint); }
+  .window { width: 230px; border: 1px solid #d8d4cc; padding: 12px 14px 13px; background: #fff; }
+  .window .k { font-size: 9px; letter-spacing: .26em; color: var(--faint); }
+  .window .n { margin-top: 6px; font-size: 19px; font-weight: 600; letter-spacing: .01em; color: var(--ink); line-height: 1.2; }
+
+  .sheet { display: flex; margin-top: 46px; }
+  .spine { width: 12px; flex: none; margin-left: var(--pad); background: #8a0d0d url("../assets/a_glass_spine.jpg") 50% 8% / auto 860px no-repeat; }
+  .letter { flex: 1; padding: 4px var(--pad) 0 34px; }
+  h1 { font-size: 30px; line-height: 1.16; font-weight: 500; letter-spacing: .015em; color: var(--ink); max-width: 430px; }
+  .letter .body { margin-top: 0; max-width: 440px; }
+  .letter h1 + .body { margin-top: 26px; }
+  .letter .body + .body { margin-top: 14px; }
+  .sign { margin-top: 30px; display: flex; align-items: center; gap: 12px; }
+  .sign .mark { width: 12px; height: 12px; background: linear-gradient(var(--red), var(--red)) center / 100% 1.4px no-repeat, linear-gradient(var(--red), var(--red)) center / 1.4px 100% no-repeat; }
+  .sign b { font-size: 12.5px; font-weight: 700; letter-spacing: .3em; color: var(--ink); }
+  .sign span { font-size: 9.5px; letter-spacing: .28em; color: var(--faint); }
+
+  .perf { margin-top: 44px; height: 18px; background: url("../assets/a_perf.png") center / auto 18px repeat-x; }
+  .card { margin: 0 var(--pad) 0; background: #fff; border: 1px solid #e2ded6; border-top: 0; padding: 28px 30px 30px; display: flex; gap: 30px; align-items: flex-start; }
+  .card .l { flex: 1; }
+  .card .to { font-size: 9px; letter-spacing: .26em; color: var(--faint); }
+  .card .to b { display: block; margin-top: 5px; font-size: 15px; font-weight: 600; letter-spacing: .02em; color: var(--ink); }
+  .btn { display: inline-block; margin-top: 20px; background: var(--ink); color: #fff; text-decoration: none; font-size: 12.5px; font-weight: 600; letter-spacing: .22em; padding: 15px 22px 14px; white-space: nowrap; }
+  .card .u { margin-top: 10px; font-size: 11px; letter-spacing: .04em; color: var(--mute); }
+  .card .ps { width: 210px; flex: none; font-size: 12.5px; line-height: 1.6; letter-spacing: .04em; color: var(--mute); border-left: 1px solid var(--hair); padding-left: 20px; }
+  .card .ps b { color: var(--ink); font-weight: 600; }
+
+  .foot { padding: 26px var(--pad) 30px; font-size: 10.5px; letter-spacing: .12em; line-height: 1.7; color: var(--mute); }
+  .foot .sig { margin-top: 8px; color: var(--ink); font-weight: 600; letter-spacing: .16em; }
+
+  @media (max-width: 480px) {
+    .head { display: block; padding-top: 28px; }
+    .window { width: auto; margin-top: 20px; }
+    .sheet { margin-top: 30px; }
+    .spine { width: 8px; }
+    .letter { padding-left: 18px; }
+    h1 { font-size: 25px; }
+    .perf { margin-top: 34px; }
+    .card { display: block; margin: 0 14px; padding: 22px 20px 24px; }
+    .btn { display: block; text-align: center; }
+    .card .ps { width: auto; border-left: 0; border-top: 1px solid var(--hair); padding: 16px 0 0; margin-top: 20px; }
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="inbox">
+    <div class="from">FROM · SENDER ADDRESS PENDING REGISTRATION</div>
+    <div class="subj">WE'VE SET ASIDE A FOUNDATION FOR <span class="v">Halden &amp; Rowe</span></div>
+    <div class="pre">A FEW QUESTIONS ABOUT HOW YOU WORK, THEN A SCOPE YOU SEE BEFORE ANYTHING IS CHARGED.</div>
+  </div>
+
+  <div class="email" role="article" aria-label="Personal foundation invitation">
+    <div class="head">
+      <div class="house">SITE 00<span>DIGITAL FOUNDATION</span></div>
+      <div class="window">
+        <div class="k">PREPARED FOR</div>
+        <div class="n"><span class="v">Halden &amp; Rowe</span></div>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="spine" role="img" aria-label="A SLIVER OF RED GLASS."></div>
+      <div class="letter">
+        <h1>BEFORE WE SET ANYTHING UP, WE'D LIKE TO KNOW HOW YOU WORK.</h1>
+        <p class="body">SITE 00 HAS PREPARED A DIGITAL FOUNDATION FOR <span class="v">Halden &amp; Rowe</span>. IT'S THE GROUNDWORK A BUSINESS NEEDS AND RARELY HAS TIME TO GET RIGHT: A DOMAIN THAT IS UNMISTAKABLY YOURS, EMAIL THAT ARRIVES FROM IT, AND THE RECORDS THAT TELL OTHER INBOXES YOUR MAIL IS GENUINELY FROM YOU.</p>
+        <p class="body">THE LINK BELOW OPENS YOUR BRIEFING. IT ASKS WHAT YOU ALREADY HAVE — A DOMAIN, A MAIL PROVIDER, PEOPLE WHO NEED AN ADDRESS — SO NOTHING YOU'VE ALREADY BUILT GETS REBUILT FOR THE SAKE OF IT.</p>
+        <p class="body">FROM YOUR ANSWERS WE PREPARE A SCOPE AND A PRICE. YOU READ BOTH BEFORE ANYTHING IS CHARGED, AND EVERY ACCOUNT WE SET UP IS REGISTERED TO YOU.</p>
+        <p class="body">TAKE IT AT YOUR OWN PACE. WHATEVER YOU'VE ENTERED WILL BE THERE WHEN YOU COME BACK.</p>
+        <div class="sign"><i class="mark"></i><div><b>SITE 00</b><br><span>DIGITAL FOUNDATION</span></div></div>
+      </div>
+    </div>
+
+    <div class="perf" aria-hidden="true"></div>
+    <div class="card">
+      <div class="l">
+        <div class="to">FOR<b><span class="v">Halden &amp; Rowe</span></b></div>
+        <a class="btn" href="https://site00.com/foundation/hr7Kq2Lm9x?step=intake">BEGIN YOUR FOUNDATION →</a>
+        <div class="u"><span class="url">site00.com/foundation/<span class="v">hr7Kq2Lm9x</span></span></div>
+      </div>
+      <p class="ps"><b>P.S.</b> IF THE BRIEFING ASKS WHO REGISTERED YOUR DOMAIN AND NOBODY QUITE REMEMBERS, SAY SO. UNTANGLING THAT IS PART OF THE WORK.</p>
+    </div>
+
+    <div class="foot">
+      THIS MESSAGE WAS SENT TO <span class="v">studio@haldenrowe.com</span> BECAUSE A DIGITAL FOUNDATION WAS PREPARED FOR <span class="v">Halden &amp; Rowe</span>. IF YOU WEREN'T EXPECTING IT, NO ACTION IS NEEDED.
+      <div class="sig">SITE 00 · <span class="url">site00.com</span></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

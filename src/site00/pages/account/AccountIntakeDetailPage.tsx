@@ -10,6 +10,8 @@ import { EmptyState, StatusBadge } from '../../components/pages/Site00PagePrimit
 import { SITE00_ROUTES } from '../../config/routes';
 import { getIntake } from '../../api/intakesApi';
 import { builderIntakeResumeHref } from '../../builder-experience/spatialStudio/resumeRoute';
+import { clientReviewState } from '../../builder-studio/reviewModel';
+import { isBuilderSpatialDraftPayload } from '../../../../shared/site00-builder-spatial-intake/types';
 import { isIntakeType } from '../../../../shared/site00-intakes/types';
 import type { IntakeDetail, IntakeType } from '../../../../shared/site00-intakes/types';
 import '../../styles/site00-projects.css';
@@ -84,6 +86,9 @@ export default function AccountIntakeDetailPage() {
         ? SITE00_ROUTES.idnty
         : SITE00_ROUTES.bldr;
   const canContinue = intake?.status === 'DRAFT' || intake?.status === 'AWAITING_EMAIL_VERIFICATION' || intake?.status === 'ACTIVE';
+  // A Builder studio Blueprint lives in the studio itself (submitted versions are inspectable there), not as JSON.
+  const spatialBlueprint = intake?.intakeType === 'BUILDER' && isBuilderSpatialDraftPayload(intake.draftPayload);
+  const review = spatialBlueprint ? clientReviewState(intake) : null;
 
   return (
     <EcosystemShell hidePageHeader>
@@ -137,7 +142,19 @@ export default function AccountIntakeDetailPage() {
                 </section>
               ) : null}
 
-              {intake.submittedPayload ? (
+              {review ? (
+                <section className="site00-project-command__section">
+                  <h2 className="site00-project-command__section-title">YOUR BLUEPRINT</h2>
+                  <p className="site00-body">
+                    {review.stage === 'DRAFT' ? 'IN PROGRESS' : `${review.label}${review.version ? ` · VERSION ${review.version}` : ''}`}
+                    {review.sub ? ` — ${review.sub}` : ''}
+                  </p>
+                  {review.request ? <p className="site00-body">FROM SITE 00: {review.request.message}</p> : null}
+                  <Link className="site00-action-link site00-action-link--red" to={resumeHref}>
+                    OPEN YOUR BLUEPRINT →
+                  </Link>
+                </section>
+              ) : intake.submittedPayload ? (
                 <section className="site00-project-command__section">
                   <h2 className="site00-project-command__section-title">YOUR SUBMISSION</h2>
                   <pre className="site00-account-intakes-detail__payload">
@@ -154,7 +171,7 @@ export default function AccountIntakeDetailPage() {
               ) : null}
             </div>
 
-            {canContinue ? (
+            {canContinue && !spatialBlueprint ? (
               <div className="site00-eco-mobile-cta">
                 <Link to={resumeHref} className="site00-btn site00-btn--primary site00-project-command__cta">
                   CONTINUE INTAKE →

@@ -44,6 +44,12 @@ export const SITE00_ADMIN_ROUTES = {
   settingsAutomation: '/admin/site00/settings/studio/automation',
   emailPack: '/admin/site00/debug/email-pack',
   emailTemplate: (id: string) => `/admin/site00/debug/email-pack/${id}`,
+  correspondenceStudio: '/admin/site00/correspondence-studio',
+  correspondenceProject: (projectId: string) => `/admin/site00/correspondence-studio/projects/${projectId}`,
+  correspondenceCampaign: (projectId: string, campaignId: string) =>
+    `/admin/site00/correspondence-studio/projects/${projectId}/campaigns/${campaignId}`,
+  correspondenceEmail: (projectId: string, campaignId: string, templateId: string) =>
+    `/admin/site00/correspondence-studio/projects/${projectId}/campaigns/${campaignId}/emails/${templateId}`,
   evolveMarketingDebug: '/admin/site00/debug/evolve-marketing',
   orchestrationDebug: '/admin/site00/debug/orchestration',
   orchestrationProject: (orgSlug: string) => `/admin/site00/orchestration/${orgSlug}`,

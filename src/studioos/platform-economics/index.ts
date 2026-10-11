@@ -26,6 +26,19 @@ export {
   saveBlueprintVariant,
 } from './disclosure';
 export type { PlatformDisclosure, SavedBlueprintVariant } from './disclosure';
+export { formatMinorForDisplay } from './format';
+export { illustrativeTransactionPreview, ELIGIBILITY_CONTRACT_NOTES, ILLUSTRATIVE_EXAMPLE_COMPONENTS } from './illustration';
+export { blueprintFinancialPresentation, clientFacingAgreementState, agreementDeductionActive } from './presentation';
+export type { BlueprintFinancialPresentation, ClientFacingAgreementState } from './presentation';
+export { clientStatement, clientStatementHistory, clientTransactionBreakdown } from './clientStatement';
+export type { ClientFinancialStatement, ClientStatementResult } from './clientStatement';
+export {
+  AIO_PLATFORM_PARTICIPATION_ACTIVATED,
+  AIO_TRANSACTION_MODELS,
+  CLIENT_ACCOUNT_FINANCIAL_CONTRACT,
+  FINANCIAL_GATES,
+  STATEMENT_INTERACTIONS,
+} from './clientExperience';
 export { runFoundationHarness } from './harness';
 export type { HarnessCase } from './harness';
 export type {

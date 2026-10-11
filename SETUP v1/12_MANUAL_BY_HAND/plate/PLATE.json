@@ -1,0 +1,16 @@
+{
+  "SCREEN_ID": "12_MANUAL_BY_HAND",
+  "PLATE_STATUS": "NEW_PLATE_REQUIRED",
+  "STATION": "L manual ledger station",
+  "CAMERA": "desk-level open ledger",
+  "PLATE_PATH": "SETUP v1/12_MANUAL_BY_HAND/plate/setup-v1-12_manual_by_hand-plate.png",
+  "AUTHORITY_PATH": "SETUP v1/12_MANUAL_BY_HAND/authority/setup-v1-12_manual_by_hand-authority.png",
+  "SUPERSEDED_AUTHORITY": "SETUP v1/12_MANUAL_BY_HAND/authority/SUPERSEDED/setup-v1-12_manual_by_hand-authority.png",
+  "SUPERSEDED_PLATE": "SETUP v1/12_MANUAL_BY_HAND/plate/SUPERSEDED/setup-v1-12_manual_by_hand-plate.png",
+  "STATUS": "FOUNDER_REVIEW_REQUIRED",
+  "OPENART_AUTHORITY_HISTORY": "nmsSbjtfYFO1KENc4YZU",
+  "OPENART_AUTHORITY_RESOURCE": "l9inBA4ElGHs5X7oIVBV",
+  "OPENART_PLATE_HISTORY": "jwbOUxcHcJFB5rWpmxrC",
+  "OPENART_PLATE_RESOURCE": "0PuwxkzyGuSzX2gVVyVT",
+  "NOTE": "New station plate. Live words and controls removed. Objects, crop, and camera stay. Prior plate is SUPERSEDED."
+}
