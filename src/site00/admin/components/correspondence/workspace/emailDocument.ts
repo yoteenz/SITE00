@@ -36,6 +36,33 @@ function text(el: Element | null | undefined): string | null {
   return t ? t : null;
 }
 
+const BLOCK_BOUNDARY = /^(P|DIV|H[1-6]|LI|TD|TH|TR|TABLE|SECTION|HEADER|FOOTER|FIGURE|FIGCAPTION|BR|HR)$/;
+const ALNUM = /[\p{L}\p{N}]/u;
+
+/** Email CSS sets many inline elements to display:block; keep adjacent words apart without layout. */
+function spacedText(root: Element): string {
+  const walker = root.ownerDocument.createTreeWalker(root, NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT);
+  let out = '';
+  let prevParent: Node | null = null;
+  let boundary = false;
+  for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+    if (node.nodeType === Node.ELEMENT_NODE) {
+      if (BLOCK_BOUNDARY.test((node as Element).tagName)) boundary = true;
+      continue;
+    }
+    const t = node.textContent ?? '';
+    if (!t) continue;
+    if (prevParent) {
+      const joinedWord = ALNUM.test(out.slice(-1)) && ALNUM.test(t.charAt(0)) && prevParent !== node.parentNode;
+      if (boundary || joinedWord) out += ' ';
+    }
+    out += t;
+    prevParent = node.parentNode;
+    boundary = false;
+  }
+  return out;
+}
+
 function injectStageStyle(html: string): string {
   return html.includes('</head>') ? html.replace('</head>', `${STAGE_STYLE}</head>`) : `${STAGE_STYLE}${html}`;
 }
@@ -47,7 +74,7 @@ function parseRepositoryHtml(html: string): EmailDocument {
     ? Array.from(email.children).map((node) => ({
         tag: node.tagName.toLowerCase(),
         className: node.getAttribute('class') ?? '',
-        text: node.textContent ?? '',
+        text: spacedText(node),
         imageSrc: node.matches('img') ? node.getAttribute('src') : node.querySelector('img')?.getAttribute('src') ?? null,
         hasHeading1: Boolean(node.querySelector('h1')),
         hasHeading2: Boolean(node.querySelector('h2')),

@@ -12,7 +12,7 @@ function primaryFor(state: ReviewState): { label: string; next: ReviewState | nu
   switch (state) {
     case 'approved':
     case 'approved_with_revisions':
-      return { label: 'MARK DELIVERY READY', next: 'delivery_ready' };
+      return { label: 'MARK READY', next: 'delivery_ready' };
     case 'delivery_ready':
       return { label: 'DELIVERY READY', next: null };
     case 'delivered':
@@ -20,7 +20,7 @@ function primaryFor(state: ReviewState): { label: string; next: ReviewState | nu
     case 'archived':
       return { label: 'ARCHIVED', next: null };
     default:
-      return { label: 'APPROVE VERSION', next: 'approved' };
+      return { label: 'APPROVE', next: 'approved' };
   }
 }
 
@@ -31,8 +31,8 @@ export function CsActions({ state, canApprove, onSetState, className = '' }: Pro
 
   return (
     <div className={`csw-actions ${className}`.trim()} role="group" aria-label="Version decisions">
-      <button type="button" className="csw-btn csw-btn--outline" disabled={!revisionEnabled} onClick={() => onSetState('revision_required')}>
-        REQUEST REVISION
+      <button type="button" className="csw-btn csw-btn--outline" disabled={!revisionEnabled} onClick={() => onSetState('revision_required')} title="Request a revision of this version">
+        REVISE
       </button>
       <button
         type="button"
@@ -40,7 +40,7 @@ export function CsActions({ state, canApprove, onSetState, className = '' }: Pro
         disabled
         title="Test sends are off: no sender is registered and the studio does not send email."
       >
-        SEND TEST · OFF
+        SEND TEST OFF
       </button>
       <button
         type="button"

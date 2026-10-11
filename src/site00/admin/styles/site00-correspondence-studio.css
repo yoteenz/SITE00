@@ -66,7 +66,7 @@ body:has(.csw) {
 
   --gl: clamp(16px, 3.06vw, 72px);
   --gr: clamp(12px, 1.17vw, 36px);
-  --nav: clamp(200px, 12.4vw, 248px);
+  --nav: clamp(188px, 12.4vw, 248px);
   --lib: clamp(296px, 21.8vw, 392px);
   --insp: clamp(324px, 23.6vw, 424px);
   --top: 48px;
@@ -373,8 +373,9 @@ body:has(.csw) {
 }
 
 .csw-nav__studio {
-  height: clamp(66px, 8.2vh, 88px);
-  margin: 6px 0 12px;
+  --studio: calc((var(--nav) - 50px) * 0.415);
+  height: calc(var(--studio) * 1.42);
+  margin: 8px 0 12px;
   overflow: hidden;
 }
 
@@ -382,12 +383,13 @@ body:has(.csw) {
   display: block;
   font-family: var(--display);
   font-weight: 300;
-  font-size: clamp(56px, 6.6vh, 70px);
+  font-size: var(--studio);
   line-height: 0.74;
-  letter-spacing: 0.005em;
-  transform: scaleY(1.62);
+  letter-spacing: 0;
+  white-space: nowrap;
+  transform: scaleY(1.9);
   transform-origin: 0 0;
-  padding-top: 0.12em;
+  margin-top: -0.06em;
   color: var(--ink);
 }
 
@@ -410,10 +412,10 @@ body:has(.csw) {
   position: relative;
   display: flex;
   align-items: center;
-  gap: 22px;
+  gap: 20px;
   width: 100%;
   height: clamp(34px, 4.6vh, 42px);
-  padding: 0 12px 0 20px;
+  padding: 0 8px 0 20px;
   border: 0;
   background: transparent;
   font-size: 10.5px;
@@ -421,6 +423,10 @@ body:has(.csw) {
   letter-spacing: 0.18em;
   text-align: left;
   color: var(--ink);
+}
+
+.csw-nav__item svg {
+  flex: none;
 }
 
 .csw-nav__item.is-active {
@@ -448,9 +454,10 @@ body:has(.csw) {
 
 .csw-nav__item em {
   margin-left: auto;
+  white-space: nowrap;
   font-style: normal;
-  font-size: 7.5px;
-  letter-spacing: 0.14em;
+  font-size: 7px;
+  letter-spacing: 0.08em;
   color: #b4b0a9;
 }
 
@@ -492,6 +499,30 @@ body:has(.csw) {
   position: absolute;
   right: 0;
   pointer-events: none;
+}
+
+.csw-select--boxed {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid var(--hair-2);
+  background: #fff;
+}
+
+.csw-select--boxed select {
+  height: 30px;
+  padding: 0 26px 0 10px;
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+}
+
+.csw-select--boxed select:disabled {
+  opacity: 1;
+  color: var(--ink);
+}
+
+.csw-select--boxed svg {
+  right: 8px;
 }
 
 .csw-nav__card {
@@ -555,8 +586,8 @@ body:has(.csw) {
   inset: 0 14.4% 0 28.9%;
   display: flex;
   align-items: center;
-  gap: clamp(18px, 2.2vw, 40px);
-  padding: 0 clamp(24px, 3.4vw, 64px) 0 clamp(26px, 4.3vw, 72px);
+  gap: clamp(16px, 2vw, 40px);
+  padding: 0 clamp(20px, 2.6vw, 56px) 0 clamp(24px, 3.6vw, 72px);
   background:
     linear-gradient(90deg, rgba(250, 249, 247, 0.5) 0%, rgba(250, 249, 247, 0.86) 9%, rgba(250, 249, 247, 0.92) 60%, rgba(250, 249, 247, 0.88) 100%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.25), rgba(230, 228, 224, 0.35));
@@ -566,11 +597,15 @@ body:has(.csw) {
 }
 
 .csw-mast__title {
+  flex: none;
   min-width: 0;
+  text-align: center;
 }
 
 .csw-mast__kicker {
   margin: 0 0 4px;
+  padding-left: 0.6em;
+  text-align: left;
   font-size: 11.5px;
   font-weight: 600;
   letter-spacing: 0.32em;
@@ -580,7 +615,7 @@ body:has(.csw) {
 .csw-mast h1 {
   margin: 0;
   font-weight: 300;
-  font-size: min(calc(var(--mast) * 0.29), 3.05vw);
+  font-size: min(calc(var(--mast) * 0.215), 2.5vw);
   line-height: 1.06;
   letter-spacing: 0.035em;
   white-space: nowrap;
@@ -671,9 +706,9 @@ body:has(.csw) {
 .csw-tabs {
   flex: none;
   display: flex;
-  gap: clamp(14px, 1.6vw, 30px);
+  gap: clamp(12px, 1.35vw, 30px);
   height: 44px;
-  padding: 0 18px;
+  padding: 0 16px;
   border-bottom: 1px solid var(--hair);
   overflow-x: auto;
   scrollbar-width: none;
@@ -685,9 +720,9 @@ body:has(.csw) {
   padding: 0;
   border: 0;
   background: transparent;
-  font-size: 10px;
+  font-size: 9.5px;
   font-weight: 600;
-  letter-spacing: 0.17em;
+  letter-spacing: 0.15em;
   color: var(--mute);
   white-space: nowrap;
 }
@@ -759,21 +794,20 @@ body:has(.csw) {
 .csw-chips {
   flex: none;
   display: flex;
+  flex-wrap: wrap;
   gap: 6px;
   padding: 12px 14px 10px;
-  overflow-x: auto;
-  scrollbar-width: none;
 }
 
 .csw-chips button {
   flex: none;
   height: 23px;
-  padding: 0 8px;
+  padding: 0 6px;
   border: 1px solid var(--hair-2);
   background: #fff;
-  font-size: 8.5px;
+  font-size: 8px;
   font-weight: 500;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.09em;
   color: var(--body);
   white-space: nowrap;
 }
@@ -1113,6 +1147,7 @@ body:has(.csw) {
 }
 
 .csw-stage__title b {
+  min-width: 7em;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -1147,7 +1182,7 @@ body:has(.csw) {
 
 .csw-version select {
   height: 26px;
-  max-width: 170px;
+  max-width: 118px;
   padding: 0 22px 0 8px;
   border: 1px solid var(--hair-2);
   background: rgba(255, 255, 255, 0.85);
@@ -1706,9 +1741,10 @@ body:has(.csw) {
   background: #fff;
   font-size: 9px;
   font-weight: 600;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.14em;
   line-height: 1.2;
   text-align: center;
+  white-space: nowrap;
 }
 
 .csw-btn--small {
@@ -1738,6 +1774,17 @@ body:has(.csw) {
   border-color: #2f2f2f;
   background: #3a3a3a;
   color: #cfcac3;
+}
+
+.csw-scrim {
+  display: none;
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  padding: 0;
+  border: 0;
+  background: rgba(20, 16, 12, 0.18);
+  cursor: pointer;
 }
 
 /* ── Tablet: preview first, library and inspector in drawers ─────────────── */
@@ -1771,7 +1818,7 @@ body:has(.csw) {
   }
 
   .csw-top__crumbs {
-    margin-left: 18px;
+    visibility: hidden;
   }
 
   .csw-top__who small,
@@ -1848,6 +1895,11 @@ body:has(.csw) {
   .csw[data-panel='inspector'] .csw-work__inspector {
     transform: none;
     visibility: visible;
+  }
+
+  .csw[data-panel='library'] .csw-scrim,
+  .csw[data-panel='inspector'] .csw-scrim {
+    display: block;
   }
 
   .csw-inspector__footer {
@@ -1945,6 +1997,10 @@ body:has(.csw) {
 
   .csw-mast__kicker {
     font-size: 9px;
+  }
+
+  .csw-mast__title {
+    flex: 1 1 auto;
   }
 
   .csw-mast h1 {

@@ -120,6 +120,32 @@ export function CsInspector(props: Props) {
               EMAIL DETAILS <span className="csw-ro">READ ONLY</span>
             </h2>
             <ReadOnlyField label="TEMPLATE NAME" value={entry.display_name} source="REGISTRY" />
+            <div className="csw-field">
+              <label className="csw-label" htmlFor="csw-version">
+                VERSION
+              </label>
+              <div className="csw-field__row">
+                <div className="csw-select csw-select--boxed">
+                  <select
+                    id="csw-version"
+                    value={version.version_id}
+                    disabled={entry.versions.length < 2}
+                    onChange={(e) => props.onSelectVersion(e.target.value)}
+                  >
+                    {entry.versions.map((v) => (
+                      <option key={v.version_id} value={v.version_id}>
+                        {v.label}
+                        {v.version_id === entry.current_version_id ? ' · CURRENT' : ''}
+                      </option>
+                    ))}
+                  </select>
+                  {entry.versions.length > 1 ? <CsIcon name="chevron-down" size={13} /> : null}
+                </div>
+                <span className="csw-field__src" title="Versions come from the template manifest">
+                  {entry.versions.length} {entry.versions.length === 1 ? 'VERSION' : 'VERSIONS'}
+                </span>
+              </div>
+            </div>
             <ReadOnlyField label="SUBJECT LINE" value={subject} source={copySource} />
             <ReadOnlyField label="PREHEADER TEXT" value={preheader} source={copySource} />
 

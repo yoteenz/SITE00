@@ -26,7 +26,12 @@ const ENV = '/site00-correspondence-studio/environment';
 
 type Panel = 'library' | 'preview' | 'inspector';
 
-type NavItem = { id: string; label: string; icon: IconName; mode?: LibraryMode };
+type NavItem = {
+  id: string;
+  label: string;
+  icon: IconName;
+  mode?: LibraryMode;
+};
 
 const NAV: NavItem[] = [
   { id: 'templates', label: 'TEMPLATES', icon: 'templates', mode: 'emails' },
@@ -34,7 +39,12 @@ const NAV: NavItem[] = [
   { id: 'audiences', label: 'AUDIENCES', icon: 'audiences' },
   { id: 'assets', label: 'ASSETS', icon: 'assets' },
   { id: 'analytics', label: 'ANALYTICS', icon: 'analytics' },
-  { id: 'deliveries', label: 'DELIVERIES', icon: 'deliveries', mode: 'deliveries' },
+  {
+    id: 'deliveries',
+    label: 'DELIVERIES',
+    icon: 'deliveries',
+    mode: 'deliveries',
+  },
   { id: 'settings', label: 'SETTINGS', icon: 'settings' },
 ];
 
@@ -91,14 +101,27 @@ export default function CorrespondenceWorkspacePage() {
   const [panel, setPanel] = useState<Panel>(routeKind === 'email' ? 'preview' : 'library');
   const [navOpen, setNavOpen] = useState(false);
   const [device, setDeviceState] = useState<DevicePreviewMode>(() => initialDevice(search.get('device')));
+  const mastRef = useRef<HTMLElement>(null);
 
-  const scopeCampaignId = routeKind === 'campaign' || routeKind === 'project' ? campaignId ?? null : null;
+  useEffect(() => {
+    const mast = mastRef.current;
+    if (!mast || !window.matchMedia('(max-width: 699px)').matches) return;
+    const header = document.querySelector<HTMLElement>('.csw-top')?.offsetHeight ?? 0;
+    const top = mast.offsetTop + mast.offsetHeight - header;
+    if (window.scrollY > top) window.scrollTo({ top });
+  }, [panel]);
+
+  const scopeCampaignId = routeKind === 'campaign' || routeKind === 'project' ? (campaignId ?? null) : null;
   const brandCampaigns = useMemo(
     () => manifest.projects.flatMap((p) => p.campaigns).filter((c) => c.brand_authority_id === brandId && (!projectId || c.project_id === projectId)),
     [manifest, brandId, projectId],
   );
   const scopeRows = useMemo(
-    () => listLibraryRows(manifest, { brandAuthorityId: brandId, campaignId: scopeCampaignId }),
+    () =>
+      listLibraryRows(manifest, {
+        brandAuthorityId: brandId,
+        campaignId: scopeCampaignId,
+      }),
     [manifest, brandId, scopeCampaignId],
   );
   const stateOfRow = useCallback((row: LibraryRow) => review.stateOf(row.template_id, row.current_version), [review]);
@@ -127,7 +150,10 @@ export default function CorrespondenceWorkspacePage() {
   const thumbnails = useLibraryThumbnails(thumbnailPaths);
 
   const selectedRow =
-    (templateId ? scopeRows.find((r) => r.template_id === templateId) ?? listLibraryRows(manifest, { brandAuthorityId: brandId }).find((r) => r.template_id === templateId) : undefined) ??
+    (templateId
+      ? (scopeRows.find((r) => r.template_id === templateId) ??
+        listLibraryRows(manifest, { brandAuthorityId: brandId }).find((r) => r.template_id === templateId))
+      : undefined) ??
     scopeRows.find((r) => r.composed) ??
     scopeRows[0] ??
     null;
@@ -136,7 +162,7 @@ export default function CorrespondenceWorkspacePage() {
   const version = useMemo(() => (entry ? resolveVersion(entry, versionParam) : null), [entry, versionParam]);
   const docState = useEmailDocument(version);
   const contract = selectedRow ? copyContractFor(selectedRow.template_id) : null;
-  const campaign = selectedRow ? manifest.projects.flatMap((p) => p.campaigns).find((c) => c.campaign_id === selectedRow.campaign_id) ?? null : null;
+  const campaign = selectedRow ? (manifest.projects.flatMap((p) => p.campaigns).find((c) => c.campaign_id === selectedRow.campaign_id) ?? null) : null;
   const bundle = entry && version ? review.bundleOf(entry.template_id, version) : null;
   const selectedState = bundle?.review_state ?? 'draft';
   const canApprove = docState.status === 'ready';
@@ -173,7 +199,9 @@ export default function CorrespondenceWorkspacePage() {
 
   const selectCampaign = (c: { project_id: string; campaign_id: string } | null) => {
     setMode('emails');
-    navigate(c ? `${SITE00_ADMIN_ROUTES.correspondenceCampaign(c.project_id, c.campaign_id)}${carry()}` : `${SITE00_ADMIN_ROUTES.correspondenceStudio}${carry()}`);
+    navigate(
+      c ? `${SITE00_ADMIN_ROUTES.correspondenceCampaign(c.project_id, c.campaign_id)}${carry()}` : `${SITE00_ADMIN_ROUTES.correspondenceStudio}${carry()}`,
+    );
   };
 
   const selectBrand = (id: string) => {
@@ -193,11 +221,9 @@ export default function CorrespondenceWorkspacePage() {
   const delivery = review.deliveryFor(campaign?.campaign_id ?? scopeCampaignId ?? brandCampaigns[0]?.campaign_id ?? null);
   const title = entry ? `${selectedRow?.code} · ${entry.display_name}` : 'NO TEMPLATE';
 
-  const actions = (className?: string) => (
-    <CsActions state={selectedState} canApprove={canApprove} onSetState={setState} className={className} />
-  );
+  const actions = (className?: string) => <CsActions state={selectedState} canApprove={canApprove} onSetState={setState} className={className} />;
 
-  const studioNav = (
+  const studioNav = (idSuffix: string) => (
     <>
       <nav className="csw-nav__list" aria-label="Studio">
         {NAV.map((item) =>
@@ -222,11 +248,11 @@ export default function CorrespondenceWorkspacePage() {
         )}
       </nav>
       <div className="csw-nav__brand">
-        <label className="csw-label" htmlFor="csw-brand">
+        <label className="csw-label" htmlFor={`csw-brand${idSuffix}`}>
           ACTIVE BRAND
         </label>
         <div className="csw-select">
-          <select id="csw-brand" value={brandId} onChange={(e) => selectBrand(e.target.value)}>
+          <select id={`csw-brand${idSuffix}`} value={brandId} onChange={(e) => selectBrand(e.target.value)}>
             {manifest.brand_authorities.map((b) => (
               <option key={b.brand_authority_id} value={b.brand_authority_id}>
                 {b.display_name}
@@ -243,7 +269,10 @@ export default function CorrespondenceWorkspacePage() {
     <div
       className={`csw${focus ? ' is-focus' : ''}${navOpen ? ' is-nav-open' : ''}`}
       data-panel={panel}
-      style={{ ['--csw-env-gutter' as string]: `url(${ENV}/cs-env-red-glass-tall.webp)`, ['--csw-env-floor' as string]: `url(${ENV}/cs-env-terrace.webp)` }}
+      style={{
+        ['--csw-env-gutter' as string]: `url(${ENV}/cs-env-red-glass-tall.webp)`,
+        ['--csw-env-floor' as string]: `url(${ENV}/cs-env-terrace.webp)`,
+      }}
     >
       <div className="csw-env" aria-hidden="true">
         <span className="csw-env__gutter" />
@@ -309,7 +338,7 @@ export default function CorrespondenceWorkspacePage() {
           </p>
           <p className="csw-nav__desc">DESIGN. REFINE. APPROVE. DELIVER. A CURATED ENVIRONMENT FOR BRAND-SPECIFIC CORRESPONDENCE.</p>
         </div>
-        {studioNav}
+        {studioNav('')}
         <figure className="csw-nav__card">
           <img src={`${ENV}/cs-env-doorway.webp`} alt="" />
           <figcaption>DIGITAL LOCATIONS FOR VISIONARIES.</figcaption>
@@ -320,13 +349,13 @@ export default function CorrespondenceWorkspacePage() {
       </aside>
 
       <div className="csw-drawer-nav" role="dialog" aria-label="Studio menu" hidden={!navOpen}>
-        {studioNav}
+        {studioNav('-drawer')}
         <Link className="csw-nav__legacy" to={SITE00_ADMIN_ROUTES.emailPack}>
           EMAIL PACK DEBUG ↗
         </Link>
       </div>
 
-      <section className="csw-mast" aria-label="Correspondence Studio">
+      <section ref={mastRef} className="csw-mast" aria-label="Correspondence Studio">
         <img className="csw-mast__photo" src={`${ENV}/cs-env-pavilion.webp`} alt="" />
         <div className="csw-mast__glass">
           <div className="csw-mast__title">
@@ -361,6 +390,7 @@ export default function CorrespondenceWorkspacePage() {
       </div>
 
       <main className="csw-work">
+        <button type="button" className="csw-scrim" tabIndex={-1} aria-hidden="true" onClick={() => setPanel('preview')} />
         <div className="csw-work__library">
           <CsLibrary
             mode={mode}
@@ -386,42 +416,50 @@ export default function CorrespondenceWorkspacePage() {
 
         <section className="csw-stage" aria-label="Email preview">
           <header className="csw-stage__bar">
-            <button type="button" className="csw-stage__drawer-btn" onClick={() => setPanel(panel === 'library' ? 'preview' : 'library')} aria-pressed={panel === 'library'}>
+            <button
+              type="button"
+              className="csw-stage__drawer-btn"
+              onClick={() => setPanel(panel === 'library' ? 'preview' : 'library')}
+              aria-pressed={panel === 'library'}
+            >
               LIBRARY
             </button>
             <p className="csw-stage__title">
               <b>{title}</b>
-              <span className={`csw-dot csw-state--${selectedState}`} aria-hidden="true" />
-              <span className="csw-stage__state">{reviewStateLabel(selectedState)}</span>
+              {version ? (
+                <>
+                  <span className={`csw-dot csw-state--${selectedState}`} aria-hidden="true" />
+                  <span className="csw-stage__state">{reviewStateLabel(selectedState)}</span>
+                </>
+              ) : null}
             </p>
-            {entry && entry.versions.length > 1 ? (
-              <label className="csw-version">
-                <span className="csw-sr">Version</span>
-                <select value={version?.version_id} onChange={(e) => updateSearch({ v: e.target.value })}>
-                  {entry.versions.map((v) => (
-                    <option key={v.version_id} value={v.version_id}>
-                      {v.label}
-                      {v.version_id === entry.current_version_id ? ' · CURRENT' : ''}
-                    </option>
+            {version ? (
+              <>
+                <div className="csw-devices" role="group" aria-label="Preview device">
+                  {DEVICE_PREVIEW_MODES.map((d) => (
+                    <button key={d} type="button" aria-pressed={device === d} className={device === d ? 'is-active' : ''} onClick={() => setDevice(d)}>
+                      {d.toUpperCase()}
+                    </button>
                   ))}
-                </select>
-                <CsIcon name="chevron-down" size={13} />
-              </label>
-            ) : version ? (
-              <span className="csw-version csw-version--single">{version.label}</span>
-            ) : null}
-            <div className="csw-devices" role="group" aria-label="Preview device">
-              {DEVICE_PREVIEW_MODES.map((d) => (
-                <button key={d} type="button" aria-pressed={device === d} className={device === d ? 'is-active' : ''} onClick={() => setDevice(d)}>
-                  {d.toUpperCase()}
+                </div>
+                <button
+                  type="button"
+                  className="csw-icon-btn csw-stage__expand"
+                  aria-pressed={focus}
+                  onClick={() => setFocus((v) => !v)}
+                  title={focus ? 'Show library and inspector' : 'Focus the preview'}
+                >
+                  <CsIcon name={focus ? 'collapse' : 'expand'} size={17} />
+                  <span className="csw-sr">{focus ? 'Exit focus' : 'Focus preview'}</span>
                 </button>
-              ))}
-            </div>
-            <button type="button" className="csw-icon-btn csw-stage__expand" aria-pressed={focus} onClick={() => setFocus((v) => !v)} title={focus ? 'Show library and inspector' : 'Focus the preview'}>
-              <CsIcon name={focus ? 'collapse' : 'expand'} size={17} />
-              <span className="csw-sr">{focus ? 'Exit focus' : 'Focus preview'}</span>
-            </button>
-            <button type="button" className="csw-stage__drawer-btn" onClick={() => setPanel(panel === 'inspector' ? 'preview' : 'inspector')} aria-pressed={panel === 'inspector'}>
+              </>
+            ) : null}
+            <button
+              type="button"
+              className="csw-stage__drawer-btn"
+              onClick={() => setPanel(panel === 'inspector' ? 'preview' : 'inspector')}
+              aria-pressed={panel === 'inspector'}
+            >
               INSPECTOR
             </button>
           </header>
