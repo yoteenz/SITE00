@@ -1,0 +1,45 @@
+<!doctype html>
+<!-- R4 composites. Rendered to JPEG by render_graphics_r4.mjs at 2x.
+     #cover   M06: the BLDR nameplate printed into the open sky of R4-G03, like a magazine cover. The only words
+              in the image are the nameplate and the issue line; both repeat as alt text.
+     #section M01: R4-G09 with four numbered markers. The legend that explains them is live text in the email. -->
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face { font-family: "Barlow Condensed"; font-weight: 900; src: url("../fonts/barlow-condensed-900.woff2") format("woff2"); }
+  @font-face { font-family: "Saira Semi Condensed"; font-weight: 600; src: url("../fonts/SairaSemiCondensed-600.ttf") format("truetype"); }
+  body { margin: 0; background: #fff; }
+  [data-shot] { position: relative; line-height: 0; overflow: hidden; }
+
+  #cover { width: 640px; height: 800px; }
+  #cover img { width: 640px; height: 800px; }
+  #cover .name { position: absolute; left: 0; right: 0; top: 58px; text-align: center; font-family: "Barlow Condensed"; font-weight: 900;
+                 font-size: 300px; line-height: .74; letter-spacing: -.012em; color: #141414; }
+  #cover .issue { position: absolute; left: 40px; right: 40px; top: 26px; display: flex; justify-content: space-between;
+                  font-family: "Saira Semi Condensed"; font-weight: 600; font-size: 10.5px; line-height: 1; letter-spacing: .32em; color: #141414; }
+  #cover .issue i { font-style: normal; color: #d90c0c; }
+
+  #section { width: 640px; height: 360px; }
+  #section img { width: 640px; height: 360px; }
+  #section .m { position: absolute; width: 26px; height: 26px; margin: -13px 0 0 -13px; background: #d90c0c; color: #fff;
+                font-family: "Barlow Condensed"; font-weight: 900; font-size: 15px; line-height: 26px; text-align: center;
+                box-shadow: 0 0 0 2px #fff; }
+</style>
+</head>
+<body>
+  <div data-shot="cover" id="cover">
+    <img src="../assets/gen/cover_base.jpg" alt="">
+    <div class="name">BLDR</div>
+    <div class="issue"><span>SITE 00 · BLDR</span><span><i>■</i> A STUDIO FOR THE BUILD</span></div>
+  </div>
+  <br>
+  <div data-shot="section" id="section">
+    <img src="../assets/gen/section_base.jpg" alt="">
+    <div class="m" style="left:34%;top:68.5%;">01</div>
+    <div class="m" style="left:46%;top:63.5%;">02</div>
+    <div class="m" style="left:66%;top:71%;">03</div>
+    <div class="m" style="left:57%;top:49%;">04</div>
+  </div>
+</body>
+</html>
