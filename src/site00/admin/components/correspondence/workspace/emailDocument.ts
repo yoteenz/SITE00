@@ -67,8 +67,35 @@ function injectStageStyle(html: string): string {
   return html.includes('</head>') ? html.replace('</head>', `${STAGE_STYLE}</head>`) : `${STAGE_STYLE}${html}`;
 }
 
+function decodeCfEmail(hex: string): string | null {
+  if (!/^(?:[0-9a-f]{2}){2,}$/i.test(hex)) return null;
+  const key = parseInt(hex.slice(0, 2), 16);
+  let out = '';
+  for (let i = 2; i < hex.length; i += 2) out += String.fromCharCode(parseInt(hex.slice(i, i + 2), 16) ^ key);
+  return out;
+}
+
+/**
+ * Proxies in front of the preview host (Cloudflare email obfuscation) rewrite addresses and inject
+ * scripts. The preview iframe runs no scripts, so restore the repository text and drop any script.
+ */
+function restoreRepositoryMarkup(dom: Document): void {
+  dom.querySelectorAll('script').forEach((el) => el.remove());
+  dom.querySelectorAll('[data-cfemail]').forEach((el) => {
+    const email = decodeCfEmail(el.getAttribute('data-cfemail') ?? '');
+    if (email) el.replaceWith(dom.createTextNode(email));
+  });
+  dom.querySelectorAll<HTMLAnchorElement>('a[href*="/cdn-cgi/l/email-protection#"]').forEach((a) => {
+    const email = decodeCfEmail(a.getAttribute('href')?.split('#')[1] ?? '');
+    if (email) a.setAttribute('href', `mailto:${email}`);
+  });
+}
+
 function parseRepositoryHtml(html: string): EmailDocument {
   const dom = new DOMParser().parseFromString(html, 'text/html');
+  const proxied = /data-cfemail|<script/i.test(html);
+  if (proxied) restoreRepositoryMarkup(dom);
+  const markup = proxied ? `<!doctype html>\n${dom.documentElement.outerHTML}` : html;
   const email = dom.querySelector('.email');
   const descriptors: EmailBlockDescriptor[] = email
     ? Array.from(email.children).map((node) => ({
@@ -83,7 +110,7 @@ function parseRepositoryHtml(html: string): EmailDocument {
   const images = email ? Array.from(email.querySelectorAll('img')) : [];
   return {
     source: 'repository_html',
-    srcDoc: injectStageStyle(html),
+    srcDoc: injectStageStyle(markup),
     subject: text(dom.querySelector('.inbox .subj')),
     preheader: text(dom.querySelector('.inbox .pre')),
     from: text(dom.querySelector('.inbox .from')),
