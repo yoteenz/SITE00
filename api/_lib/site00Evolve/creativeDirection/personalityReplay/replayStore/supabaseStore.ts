@@ -3,6 +3,7 @@
  */
 
 import { getSupabaseAdmin } from '../../../../supabase.js';
+import { clampListLimit, resolveBoundedListRange } from '../../../../supabase/boundedListQuery.js';
 import type { BrandPersonalityReplayRecord } from '../../../../../shared/site00-brand-lore/personalityReplayTypes.js';
 import { resolveProjectDbIdForSupabaseFk } from '../../../../site00Projects/founderProjectDbId.js';
 
@@ -40,12 +41,40 @@ export async function getPersonalityReplayRecord(replayId: string): Promise<Bran
 
 export async function listPersonalityReplayRecordsForOrg(
   organizationId: string,
+  options?: { limit?: number; mode?: string },
 ): Promise<BrandPersonalityReplayRecord[]> {
-  const { data, error } = await getSupabaseAdmin()
+  const limit = clampListLimit(options?.limit, 100, 500);
+  let query = getSupabaseAdmin()
     .from(TABLE)
     .select('record')
     .eq('organization_id', organizationId)
-    .order('updated_at', { ascending: false });
+    .order('updated_at', { ascending: false })
+    .limit(limit);
+  if (options?.mode) query = query.eq('mode', options.mode);
+  const { data, error } = await query;
   if (error || !data) return [];
   return data.map((row) => row.record as BrandPersonalityReplayRecord);
+}
+
+export async function listPersonalityReplayRecordsForOrgPage(
+  organizationId: string,
+  options?: { page?: number; limit?: number; mode?: string },
+): Promise<{ items: BrandPersonalityReplayRecord[]; hasMore: boolean }> {
+  const { limit, from, to } = resolveBoundedListRange({
+    page: options?.page,
+    limit: options?.limit,
+    defaultLimit: 50,
+    maxLimit: 200,
+  });
+  let query = getSupabaseAdmin()
+    .from(TABLE)
+    .select('record')
+    .eq('organization_id', organizationId)
+    .order('updated_at', { ascending: false })
+    .range(from, to);
+  if (options?.mode) query = query.eq('mode', options.mode);
+  const { data, error } = await query;
+  if (error || !data) return { items: [], hasMore: false };
+  const items = data.map((row) => row.record as BrandPersonalityReplayRecord);
+  return { items, hasMore: items.length >= limit };
 }

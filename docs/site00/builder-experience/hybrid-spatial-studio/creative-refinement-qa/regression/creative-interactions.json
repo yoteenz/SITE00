@@ -1,0 +1,164 @@
+[
+  {
+    "id": "L-390x844-1",
+    "name": "390x844: no horizontal page scroll in any room",
+    "result": "PASS",
+    "detail": "place:0 feel:0 work:0 pace:0 blueprint:0"
+  },
+  {
+    "id": "L-390x844-2",
+    "name": "390x844: every headline line sets on one line inside the viewport",
+    "result": "PASS",
+    "detail": ""
+  },
+  {
+    "id": "L-390x844-3",
+    "name": "390x844: no text overflows its box",
+    "result": "PASS",
+    "detail": ""
+  },
+  {
+    "id": "L-393x852-1",
+    "name": "393x852: no horizontal page scroll in any room",
+    "result": "PASS",
+    "detail": "place:0 feel:0 work:0 pace:0 blueprint:0"
+  },
+  {
+    "id": "L-393x852-2",
+    "name": "393x852: every headline line sets on one line inside the viewport",
+    "result": "PASS",
+    "detail": ""
+  },
+  {
+    "id": "L-393x852-3",
+    "name": "393x852: no text overflows its box",
+    "result": "PASS",
+    "detail": ""
+  },
+  {
+    "id": "L-834x1194-1",
+    "name": "834x1194: no horizontal page scroll in any room",
+    "result": "PASS",
+    "detail": "place:0 feel:0 work:0 pace:0 blueprint:0"
+  },
+  {
+    "id": "L-834x1194-2",
+    "name": "834x1194: every headline line sets on one line inside the viewport",
+    "result": "PASS",
+    "detail": ""
+  },
+  {
+    "id": "L-834x1194-3",
+    "name": "834x1194: no text overflows its box",
+    "result": "PASS",
+    "detail": ""
+  },
+  {
+    "id": "L-1440x900-1",
+    "name": "1440x900: no horizontal page scroll in any room",
+    "result": "PASS",
+    "detail": "place:0 feel:0 work:0 pace:0 blueprint:0"
+  },
+  {
+    "id": "L-1440x900-2",
+    "name": "1440x900: every headline line sets on one line inside the viewport",
+    "result": "PASS",
+    "detail": ""
+  },
+  {
+    "id": "L-1440x900-3",
+    "name": "1440x900: no text overflows its box",
+    "result": "PASS",
+    "detail": ""
+  },
+  {
+    "id": "T01",
+    "name": "Headline, lede and tabs use the Production Workspace face",
+    "result": "PASS",
+    "detail": "\"Saira Semi Condensed\", \"Martian Mono\", ui-monospace, \"Cascadia Code\", Menlo, Monaco, Consolas, monospace, sans-serif"
+  },
+  {
+    "id": "T02",
+    "name": "Saira Semi Condensed is actually loaded (not a fallback)",
+    "result": "PASS",
+    "detail": "Saira Semi Condensed 400, Saira Semi Condensed 500, Saira Semi Condensed 600, Saira Semi Condensed 700"
+  },
+  {
+    "id": "T03",
+    "name": "No Anton / Inter faces are loaded by the studio",
+    "result": "PASS",
+    "detail": ""
+  },
+  {
+    "id": "K01",
+    "name": "ArrowRight selects and focuses the next Blueprint section",
+    "result": "PASS",
+    "detail": "{\"sel\":\"02STRUCTURE\",\"focus\":\"02STRUCTURE\"}"
+  },
+  {
+    "id": "K02",
+    "name": "End / wrap / ArrowLeft / Home move through the sections",
+    "result": "PASS",
+    "detail": "05TIMELINE → 01OVERVIEW → 05TIMELINE → 01OVERVIEW"
+  },
+  {
+    "id": "K03",
+    "name": "Only the selected section is in the tab order (roving tabindex)",
+    "result": "PASS",
+    "detail": "[0,-1,-1,-1,-1]"
+  },
+  {
+    "id": "F01",
+    "name": "Each Blueprint section re-lights the Build Object (distinct inspection focus)",
+    "result": "PASS",
+    "detail": "blueprint|ADVANCED|EDITORIAL|PAGES,SHOP|STANDARD|STRUCTURE | blueprint|ADVANCED|EDITORIAL|PAGES,SHOP|STANDARD|PAGES | blueprint|ADVANCED|EDITORIAL|PAGES,SHOP|STANDARD|FEATURES | blueprint|ADVANCED|EDITORIAL|PAGES,SHOP|STANDARD|TIMELINE"
+  },
+  {
+    "id": "F02",
+    "name": "Section indicator follows the selected section",
+    "result": "PASS",
+    "detail": "--bs-tab-i=4"
+  },
+  {
+    "id": "R01",
+    "name": "Reduced motion: the section reveal does not animate",
+    "result": "PASS",
+    "detail": "none"
+  },
+  {
+    "id": "F03",
+    "name": "Returning to OVERVIEW restores the overview composition",
+    "result": "PASS",
+    "detail": ""
+  },
+  {
+    "id": "D01",
+    "name": "Confirmation opens as a modal dialog and takes focus",
+    "result": "PASS",
+    "detail": "{\"modal\":\"true\",\"focus\":\"CLOSE\"}"
+  },
+  {
+    "id": "D02",
+    "name": "Proposal rows name each choice once (no \"BUILD BUILD\")",
+    "result": "PASS",
+    "detail": "01PLACEADVANCED BUILD / 02FEELEDITORIAL / 03WORKPAGES · SHOP / 04PACESTANDARD"
+  },
+  {
+    "id": "D03",
+    "name": "Proposal range is the same canonical figure as the Blueprint",
+    "result": "PASS",
+    "detail": "$18,000 – $34,000 vs 3 – 6 MONTHS | $18,000 – $34,000"
+  },
+  {
+    "id": "D04",
+    "name": "Submit stays locked until SITE 00 can reply (guest email)",
+    "result": "PASS",
+    "detail": ""
+  },
+  {
+    "id": "D05",
+    "name": "Escape closes the sheet without submitting",
+    "result": "PASS",
+    "detail": "{\"open\":false,\"status\":\"saved\"}"
+  }
+]

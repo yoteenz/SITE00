@@ -1,0 +1,25 @@
+{
+  "sprint": "P0.SITE00.BLDR.MONUMENTS.V2-OPUS-SPATIAL-REALISM-AND-REFERENCE-PRESERVATION1",
+  "status": "BENCHMARK_READY_FOR_FOUNDER_REVIEW",
+  "benchmark_monument": "PLACE · ADVANCED",
+  "flag": "?realism=v2",
+  "scope_guard": "isRealismBenchmark(composition) — key starts with 'place|ADVANCED|'",
+  "default_renderer_changed": false,
+  "renderer": "three.js r185 WebGL, hybrid composite: room plate drawn in-scene (same photograph and CSS cover fit), MeshPhysicalMaterial transmission",
+  "geometry_source": "composition.ts (unchanged silhouettes); realism.ts builds each element at true size",
+  "material_source": "realism.ts (procedural fine Carrara 2048/1024, physical glass and acrylic, beveled chrome)",
+  "background_source": "/site00/builder-studio/env/place.webp, read from the host's computed style",
+  "geometry_upgrades": ["glass rooms as 22 mm wall/roof panels", "beveled chrome frame members", "mullion bars 11 mm", "60 mm glass floor plate", "beveled acrylic spine with inset core", "35 mm beveled marble plinth with unfolded vein UVs", "beveled stone wall"],
+  "glass_upgrades": ["transmission 1", "ior 1.52", "thickness = panel", "cool attenuation", "no clearcoat (removed milky veil)", "refracts the real plate"],
+  "stone_upgrades": ["fine flowing veins along a bedding", "matched roughness map", "veins wrap the arris", "light luxury palette kept"],
+  "lighting_upgrades": ["baked contact occlusion per footprint", "baked red bounce on marble", "no bloom or neon"],
+  "mobile": ["no idle rendering (0 draws idle vs 5278 in 3 s)", "refraction buffer 0.75 then 0.5 adaptive", "pixel ratio adaptive down to 1x", "lite geometry and 1024 marble", "WebGL context released on dispose"],
+  "measurements_swiftshader": {
+    "phone_393x852_3x": { "current": { "draws": 182, "triangles": 3627, "frame_ms": 106.7, "idle_draws_3s": 5278 }, "v2": { "draws": 42, "triangles": 22280, "frame_ms": 222.7, "idle_draws_3s": 0 } },
+    "desktop_1440x900": { "current": { "draws": 182, "triangles": 3627, "frame_ms": 334.4, "idle_draws_3s": 1638 }, "v2": { "draws": 42, "triangles": 41000, "frame_ms": 754.1, "idle_draws_3s": 0 } }
+  },
+  "viewports_captured": ["390x844", "393x852", "834x1194", "1440x900"],
+  "artifacts": "/opt/cursor/artifacts/bldr-v2/",
+  "founder_benchmark_approval": "PENDING",
+  "full_family_rollout": "NOT AUTHORIZED YET"
+}

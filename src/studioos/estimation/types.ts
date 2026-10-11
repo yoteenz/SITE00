@@ -250,12 +250,31 @@ export type ClientBlueprintEstimate = {
   complexity: string;
   productionWindow: string;
   investmentRange: string;
+  presentationPolicyVersion: string;
+  /** Raw estimator weeks. Display rounding is not written back here. */
+  canonicalWindowWeeks: { low: number; high: number };
+  canonicalInvestment: { low: number; expected: number; high: number };
+  timelineFounderReview: boolean;
+  investmentFounderReview: boolean;
+  presentationNote: string | null;
   deliveryMode: string;
   includedSystems: string[];
   dependencies: string[];
   assumptions: string[];
   whatHappensNext: string;
   confidence: ConfidenceLevel;
+  /** Platform usage is disclosed beside the build range. It is not added into investmentRange. */
+  platformUsage: {
+    applicable: boolean;
+    rateLabel: string | null;
+    summary: string;
+    includedInBuildInvestment: false;
+    learnHowThisWorks: string;
+  };
+  ongoingService: {
+    status: 'OPTIONAL' | 'SELECTED' | 'NOT_CONTRACTED';
+    summary: string;
+  };
 };
 
 export type SavedEstimateRecord = {

@@ -1,0 +1,16 @@
+{
+  "SCREEN_ID": "01_SETUP_INTRO",
+  "PLATE_STATUS": "NEW_PLATE_REQUIRED",
+  "STATION": "A intake table",
+  "CAMERA": "oblique wide worktable",
+  "PLATE_PATH": "SETUP v1/01_SETUP_INTRO/plate/setup-v1-01_setup_intro-plate.png",
+  "AUTHORITY_PATH": "SETUP v1/01_SETUP_INTRO/authority/setup-v1-01_setup_intro-authority.png",
+  "SUPERSEDED_AUTHORITY": "SETUP v1/01_SETUP_INTRO/authority/SUPERSEDED/setup-v1-01_setup_intro-authority.png",
+  "SUPERSEDED_PLATE": "SETUP v1/01_SETUP_INTRO/plate/SUPERSEDED/setup-v1-01_setup_intro-plate.png",
+  "STATUS": "FOUNDER_REVIEW_REQUIRED",
+  "OPENART_AUTHORITY_HISTORY": "WgRz1lR4u489lslg64I9",
+  "OPENART_AUTHORITY_RESOURCE": "AnDbadWpA9CFSYgGa4g9",
+  "OPENART_PLATE_HISTORY": "cnQ9uMAjOzNaL5ZQCBCN",
+  "OPENART_PLATE_RESOURCE": "F0I2bb9MoVyMlUG7ugbm",
+  "NOTE": "New station plate. Live words and controls removed. Objects, crop, and camera stay. Prior plate is SUPERSEDED."
+}
