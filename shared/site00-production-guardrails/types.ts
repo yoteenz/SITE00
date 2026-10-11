@@ -40,6 +40,8 @@ export const BLOCKED_REASONS = [
   'PLATE_OCCUPANCY_REQUIRED',
   'AUTHORITY_FIRST_REQUIRED',
   'UNAUTHORIZED_SPEND',
+  'SUPERSEDED_IDENTITY_REFERENCE',
+  'REFERENCE_HYGIENE_FAILED',
 ] as const;
 export type BlockedReason = (typeof BLOCKED_REASONS)[number];
 
@@ -114,6 +116,11 @@ export type GenerationRequest = {
    * source is a standalone background and is blocked.
    */
   derivationSourceType?: 'FULL_PAGE' | null;
+  /**
+   * Image paths the job will attach. When set on a JURNL job, reference hygiene
+   * runs before spend. Omit it and the historical dispatcher path is unchanged.
+   */
+  attachedReferencePaths?: readonly string[] | null;
 };
 
 export type SessionReferenceOutput = {
