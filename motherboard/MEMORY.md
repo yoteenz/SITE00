@@ -16183,3 +16183,11 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Findings:** After `main` moved past `f71bbd50`, four Digital Foundation PR branches conflicted only on append-only `motherboard/MEMORY.md` tail entries, except **#1593** also conflicted on `DIGITAL_FOUNDATION_V2_PARENT_CHILD_SCREEN_MANIFEST.json` (`visual_status` for DF-A01–A04: branch `CANDIDATE_PENDING_FOUNDER` vs main `DIRECTION_APPROVED_COPY_CORRECTIONS_PENDING_IMPLEMENTATION`).
 - **Resolution:** Merged `origin/main` into `cursor/df-mass-production-scope-a9f7` (`81d66bf0`), `cursor/df-batch-a-visual-authority-a9f7` (`d9a7ca8b`, manifest took **main**), `cursor/bldr-monument-realism-v2-a9f7` (`c33d8524`), `cursor/df-gate-a-error-shape-a9f7` (`dd8ef55e`). MEMORY kept **both** branch-specific and main entries. GitHub: **#1597, #1593, #1592, #1585** → `MERGEABLE` / `CLEAN`.
 - **Not fixed (out of scope):** Open JURNL and Claude DF PRs still `CONFLICTING` — sampled branches show **MEMORY.md-only** skew (simple mechanically) but branches are stale review-only; no auto-merge. **#1585** mergeable but product policy still blocks Gate A until Supabase healthy. Marketing email blocked on checksum, not git.
+
+---
+
+## 2026-10-10 — Marketing email authority direct URL registration (RECOVERY2)
+
+- **Context:** Sprint `P0.SITE00.IDNTY.MARKETING-EMAIL-AUTHORITY-DIRECT-URL-REGISTRATION-RECOVERY2` on `cursor/df-mass-production-scope-a9f7` (PR #1597). Founder supplied corrected Supabase signed URL; no OpenArt spend.
+- **Outcome:** Raw GET returned HTTP 200, `image/jpeg`, 491,267 bytes, 1086×1448, SHA256 `e814042c318f7f45d7db07a6d11e4878fcc20888c583a76537828cfa3c2ede83` **matches** expected. Canonical JPEG committed; manifest + registration note added under `docs/site00/idnty/visual-authority/marketing-email/`. Mass-production scope JSON and budget/email scope docs updated to **REGISTERED**. Batch I **3** images; ceiling **6,340** unchanged; founder budget approval **PENDING**. No merge/deploy.
+- **Conventions:** Future batch I / email art jobs bind the repo canonical JPEG; do not use chat attachments for this authority.
