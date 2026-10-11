@@ -1,0 +1,56 @@
+{
+  "openart_generations": 0,
+  "credits_spent": 0,
+  "reused": [
+    {
+      "id": "DF-H01",
+      "file": "SHARED_ASSETS/ORIGINALS/DF-H01_TRANSACTIONAL_HEADER.png",
+      "role": "Provenance. Not pasted as an email."
+    },
+    {
+      "id": "DF-H02",
+      "file": "SHARED_ASSETS/ORIGINALS/DF-H02_TRANSACTIONAL_MOBILE.png",
+      "role": "Provenance. Sample layout. Not pasted."
+    },
+    {
+      "id": "DF-H03",
+      "file": "SHARED_ASSETS/ORIGINALS/DF-H03_TRANSACTIONAL_DESKTOP.png",
+      "role": "Provenance. Sample layout. Not pasted."
+    },
+    {
+      "id": "DF-I01",
+      "file": "SHARED_ASSETS/ORIGINALS/DF-I01_EDUCATION.png",
+      "role": "Photo crops: steps, olive, door."
+    },
+    {
+      "id": "DF-I02",
+      "file": "SHARED_ASSETS/ORIGINALS/DF-I02_BLDR_JOURNEY.png",
+      "role": "Photo crops: glass, sea, place, feel, work."
+    },
+    {
+      "id": "DF-I03",
+      "file": "SHARED_ASSETS/ORIGINALS/DF-I03_POST_COMPLETION.png",
+      "role": "Photo crops: pool, handles, lounge."
+    },
+    {
+      "id": "AUTHORITY",
+      "file": "SHARED_ASSETS/ORIGINALS/SITE00_MARKETING_EMAIL_APPROVED_AUTHORITY_V1.jpg",
+      "sha256": "e814042c318f7f45d7db07a6d11e4878fcc20888c583a76537828cfa3c2ede83",
+      "role": "Registered marketing language. Composition reference. Not flattened into the twenty emails."
+    }
+  ],
+  "crops": [
+    "door",
+    "feel",
+    "glass",
+    "handles",
+    "lounge",
+    "olive",
+    "place",
+    "pool",
+    "sea",
+    "steps",
+    "work"
+  ],
+  "release_source": "df-v2-mass-cj-2026-10-11 SITE00_DF_V2_BATCH_H.zip and SITE00_DF_V2_BATCH_I.zip"
+}

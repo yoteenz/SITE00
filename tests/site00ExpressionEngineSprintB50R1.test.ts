@@ -82,11 +82,12 @@ describe('B5.0R1 production journey order', () => {
     expect(downstream.map((s) => s.shortLabel)).toEqual(['SOCIALS', 'PACKAGE', 'CAMPAIGN']);
   });
 
-  it('14. desktop journey includes all 12 stages with correct labels', () => {
+  it('14. desktop journey includes all 13 stages with correct labels', () => {
     const stages = journeyWithReelApproved(false);
     expect(stages.map((s) => s.shortLabel)).toEqual([
       'COVER',
       'NARRATIVE',
+      'CAST',
       'TREATMENT',
       'AUTHORITIES',
       'STORYBOARD',
@@ -190,7 +191,7 @@ describe('B5.0R1 social package readiness', () => {
 });
 
 describe('B5.0R1 workspace hierarchy unchanged', () => {
-  it('15. journey stage count is 11 — upstream + downstream preserved', () => {
-    expect(journeyWithReelApproved(false)).toHaveLength(12);
+  it('15. journey stage count is 13 — upstream + downstream preserved', () => {
+    expect(journeyWithReelApproved(false)).toHaveLength(13);
   });
 });

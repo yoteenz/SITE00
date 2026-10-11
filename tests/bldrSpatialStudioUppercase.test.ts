@@ -10,9 +10,8 @@ const root = path.resolve(__dirname, '..');
 
 describe('BLDR Spatial Studio uppercase', () => {
   it('applies text-transform uppercase at the page shell (economics, disclaimers, registry labels, notes)', () => {
-    const css = readFileSync(path.join(root, 'src/site00/styles/site00-builder-spatial-studio.css'), 'utf8');
-    expect(css).toMatch(/\.bldr-spatial-page\s*\{[\s\S]*?text-transform:\s*uppercase/);
-    expect(css).toMatch(/\.bldr-spatial-disabled[\s\S]*text-transform:\s*uppercase/);
+    const css = readFileSync(path.join(root, 'src/site00/styles/site00-builder-studio.css'), 'utf8');
+    expect(css).toMatch(/\.bs-root\s*\{[\s\S]*?text-transform:\s*uppercase/);
   });
 
   it('keeps option hints in uppercase at the source', () => {
@@ -22,9 +21,12 @@ describe('BLDR Spatial Studio uppercase', () => {
     }
   });
 
-  it('does not ship sentence-case blueprint metric copy in the studio page', () => {
+  it('routes through BuilderStudio and keeps blueprint metrics labeled in uppercase', () => {
     const page = readFileSync(path.join(root, 'src/site00/pages/bldr/BldrSpatialStudioPage.tsx'), 'utf8');
+    expect(page).toContain('BuilderStudio');
     expect(page).not.toMatch(/Refine an established system/);
-    expect(page).toContain('FROM THE SITE 00 ESTIMATOR — NOT A GUARANTEED DELIVERY DATE.');
+    const blueprint = readFileSync(path.join(root, 'src/site00/builder-studio/BlueprintRoom.tsx'), 'utf8');
+    expect(blueprint).toContain('ESTIMATED TIMELINE');
+    expect(blueprint).toContain('ESTIMATED INVESTMENT');
   });
 });

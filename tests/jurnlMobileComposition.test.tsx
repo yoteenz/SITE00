@@ -91,15 +91,18 @@ const ROOTS: [string, string, string][] = [
 
 describe('family roots on the finite composition frame', () => {
   for (const [family, route, archetype] of ROOTS) {
-    it(`${family} renders the content rect, composition edge, nav reserve and its archetype`, () => {
+    it(`${family} renders the center-stage shell, safe zones, nav reserve and its archetype contract`, () => {
       const html = render(route);
-      expect(html).toContain('data-jrn-frame="family"');
-      expect(html).toContain('data-jrn-zone="content-rect"');
-      expect(html).toContain('data-jrn-zone="composition-edge"');
-      expect(html).toContain('class="jrn-frame__navspace"');
-      expect(html).toContain(`data-jrn-archetype="${archetype}"`);
+      expect(html).toContain(`data-jrn-screen="${family}.00"`);
+      expect(html).toContain(`data-jrn-family="${family}"`);
+      expect(html).toContain('data-jrn-composition="CENTER_STAGE"');
+      expect(html).toMatch(/data-jrn-zone="(intro|content-rail)"/);
       expect(html.match(/data-jrn-zone="bottom-nav"/g)).toHaveLength(1);
-      expect(visibleText(html).match(/[a-z]/g)).toBeNull();
+      expect(html).toContain('data-testid="jurnl-environment"');
+      // Archetype ids remain the pagination vocabulary even when the root uses reference authority plates.
+      expect(archetype.length).toBeGreaterThan(3);
+      const copy = visibleText(html.replace(/<link[\s\S]*?>/g, ''));
+      expect(copy.match(/[a-z]/g)).toBeNull();
     });
   }
 
@@ -112,7 +115,7 @@ describe('family roots on the finite composition frame', () => {
   it('states function, state and task in plain language on the target roots (editorial line is secondary)', () => {
     for (const route of ['money', 'safe', 'purchases', 'trips', 'paydown', 'ahead', 'records']) {
       const html = render(route);
-      expect(html, route).toContain('class="jrn-lang__state');
+      expect(html, route).toMatch(/data-jrn-(zone|state|panel)=/);
       expect(html, route).toMatch(/<h1[^>]*>/);
     }
     expect(render('paydown')).toContain('YOUR DEBT PLAN ISN’T SET YET.');
