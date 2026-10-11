@@ -15579,6 +15579,7 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 - **Changes:** `src/studioos/estimation/`, internal page `/admin/site00/estimator`, `docs/site00/SITE00_ESTIMATION_ENGINE.md`. Twelve engine tests pass. The public builder is unchanged. Client estimate preview stays off.
 - **Conventions:** Do not estimate by page count. Do not call priority production “rush.” Do not show family units to clients. Do not treat an estimate as a quote. Do not auto-adjust coefficients from calibration records. Do not invent visual-system sample images.
 
+
 ---
 
 ## 2026-10-08 — SETUP v1 parent authorities, isolated from ENTRY
@@ -15643,3 +15644,644 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - SITE 00 owns email marketing. Studio World owns the methodology. Correspondence Studio is the review environment. NDX is only the pilot brand.
   - Do not build the other 17 emails until the founder picks a direction.
   - Re-run the R3 pipeline in this order: `build_emails.py`, `render.mjs`, `qa_r3.mjs`, `build_review.py`, `sync-r3-previews.mjs`.
+
+---
+
+## 2026-10-08 — Builder template and estimate selection experience (P0.SITE00.BUILDER.TEMPLATE-AND-ESTIMATE-SELECTION-EXPERIENCE1)
+
+- **Founder decision:** SITE 00's Builder becomes a VISUAL CONFIGURATION EXPERIENCE. Clients see and select what they build, how it behaves, looks and moves, what it does, and standard vs priority production. The Builder assembles PROJECT BLUEPRINT + PROJECTED WINDOW + PROJECTED INVESTMENT + SCOPE without exposing production machinery. TEMPLATES PROVIDE GRAMMAR, NOT IDENTITY.
+- **Supersedes:** long questionnaires as the main path, "describe your dream website" prompts, page-count pricing, non-visual template selection (`/bldr/templates` is a generic marketplace), and fixed quote cards disconnected from scope.
+- **Landed (UX authority + contract, not implemented):**
+  - `docs/site00/builder-experience/` holds the 21 outputs, wireframes, authority previews and generated mapping / pricing-evidence JSON.
+  - `src/site00/builder-experience/` holds the selection contract → `toEstimateConfig` → canonical estimator; client views; 23 tests. No route imports it.
+  - Estimator v1.0.0 is unchanged. No public price changed.
+- **Interaction architecture:** four rooms (THE PLACE · THE FEEL · THE WORK · THE PACE) + reveal (BLUEPRINT → ESTIMATE). The Blueprint sheet is the progress model. Type / colour / image / motion are tuning layers on the chosen expression. Simple clients never open them (ESSENTIAL edition); FULL edition = ADVANCED.
+- **Rules (durable):**
+  - Build level is derived, never picked, and every step up shows its reason.
+  - Keep-it-simple turns a level raise into a decision.
+  - COMES WITH is always visible.
+  - One secondary influence = ADVANCED; three or more systems = CUSTOM direction; one liked facet = a note.
+  - A world inside a site = HYBRID.
+  - Scope words LIGHT / MODERATE / DEEP / EXPANSIVE (DEEP, so it never collides with ADVANCED BUILD).
+  - No money or dates inside the rooms. Money and dates are revealed at the Blueprint.
+  - Confidence labels: EARLY → INITIAL RANGE, BLUEPRINT → REFINED RANGE, LOCKED → CONFIRMED RANGE; PRODUCTION SCHEDULE only for the founder-issued document.
+  - Priority is offered only where the estimator says it shortens the project.
+  - No invented preview imagery: structure = schematic, expression = specimen.
+- **Pricing finding (needs founder decisions F1–F12):** estimator output for real Builder configs (refined range), compared with today's public anchors:
+
+  | Config | Estimator | Public anchor |
+  |---|---|---|
+  | Smallest site | $3K–$4K | SITE $4K+ |
+  | Typical simple site | $6K–$7K | SITE $4K+ |
+  | Smallest world | $14K–$20K | WORLD $10K+ |
+  | Portal | $39K–$53K | ENTERPRISE $25K+ |
+
+  Recommended Option D: engine-anchored FROM + TYPICAL per build kind, generated from founder-approved reference configurations.
+- **Estimator findings E1–E8** are for the estimation owner; the Builder works around them in presentation only:
+  - SYSTEM ≥30 FU is labelled WORLD / SPATIAL.
+  - "$3K–$3K".
+  - Dependency tokens are internal.
+  - Priority multiplier applies when infeasible: priority only compresses at about 10+ families; 1.85× for no time below that.
+  - Window unit flips between confidence stages.
+  - Compression is 20–32% vs the 30–45% target.
+  - The client contract is thin.
+  - Payments are ADVANCED-only.
+- **Review artifact:** "BLDR Visual Builder" (private claude.ai artifact) mirrors `wireframes/BUILDER_UX_AUTHORITY.html`.
+
+---
+
+## 2026-10-08 — Platform economics foundation
+
+- **Context:** SITE 00 is becoming commercial infrastructure, not only a one-time build. Platform participation has to live in SITE 00 so AIO and later projects consume one engine. This sprint is the foundation. It does not move money.
+- **Topics covered:** Revenue types, the default platform rate, eligible volume, exclusions, project agreements, an append-only ledger, refunds, chargebacks, payout batches, statements, a processor boundary, Builder and Blueprint disclosure, and AIO as the first consumer.
+- **Decisions / outcomes:**
+  - SITE 00 owns the engine. A project holds a platform agreement. A transaction calculates a fee. The ledger accrues and reverses. AIO calls that engine and does not keep its own percentage math.
+  - The default rate is 200 basis points, shown as 2.00%, and that number lives only in `src/studioos/platform-economics/rate.ts`. A different rate needs founder approval with author, reason, and time.
+  - Build fees, platform usage, and optional ongoing service stay separate. Future transaction fees are not added to the build total. A non-transaction project is not charged a percentage.
+  - Eligible volume is collected commerce. Taxes, gratuities, government fees, regulatory fees, and pass-through charges are excluded by default. Processor fees stay unspecified until the agreement says otherwise. Refunds reverse the matching fee. A full refund can return net accrual to zero. Chargebacks stay visible and reverse the fee when lost.
+  - Agreements move DRAFT → FOUNDER_REVIEW → OFFERED → CLIENT_REVIEW → ACCEPTED → ACTIVE. A Builder save does not accept. A quote does not activate. Historical entries keep their rate snapshot.
+  - Money is integer minor units. Currencies are not mixed. Duplicate processor events do not accrue twice. Payout batches are drafts. Stripe Connect is a stub. No connected accounts, no live fees, no published terms. Legal copy is marked LEGAL_REVIEW_REQUIRED.
+  - Version is 1.0.0. Build-tier rate rules are not activated.
+- **Changes:** `src/studioos/platform-economics/`, `docs/site00/SITE00_PLATFORM_ECONOMICS.md`. The client estimate and Builder blueprint disclose platform usage beside the build range. Internal surfaces: `/admin/site00/finance/platform` and the project Commercial tab. No new root navigation. The public site is unchanged.
+- **Conventions:** Do not hardcode the platform percentage in a client project. Do not treat Stripe as the ledger. Do not hide platform fees. Do not infer an active agreement from the Builder or from a quote. Do not collect or move money until a later founder-approved sprint.
+
+---
+
+## 2026-10-08 — Digital Foundation Artifact V1 (IDNTY infrastructure + commerce)
+
+- **Context:** Founder sprint `P0.SITE00.IDNTY.DIGITAL-FOUNDATION-ARTIFACT.V1-INFRASTRUCTURE-AND-COMMERCE1` — ship a persistent `/foundation/:token` artifact (prospect → intake → quote → Stripe hosted checkout → micro portal → completion → build upsell), not a disposable form.
+- **Topics covered:** Configurable base/add-on catalog (minor units), timeline engine, referral attribution, quote versioning, explicit acceptance disclosures, payment abstraction + Stripe test/sim webhook path, project stages, needs-you/approvals, foundation build credit, fixtures A–M, founder admin console, Supabase schema migration, feature flags, product doc.
+- **Decisions / outcomes:** V1 runtime uses in-memory store (`api/_lib/digitalFoundation/`) matching existing-location pattern; Supabase migration documents persistence. Payment marks PAID only via webhook/simulation, never redirect. Functional UI shell only — Opus owns visual authority next. No live production Stripe until founder configures keys and legal.
+- **Changes:** `shared/site00-digital-foundation/`, `api/site00/digital-foundation-artifact.ts`, `api/admin/site00-foundation.ts`, `api/site00/digital-foundation-stripe-webhook.ts`, routes `/foundation/:token` + `/admin/site00/foundation`, `docs/site00/idnty/SITE00_DIGITAL_FOUNDATION_ARTIFACT_V1.md`, `tests/digitalFoundationCommerce.test.ts`.
+- **Conventions:** Do not hardcode $500 or add-on prices in logic — use `commercialConfig.ts` / addon catalog. Keep platform economics separate from Digital Foundation service purchase.
+
+---
+
+## 2026-10-08 — Digital Foundation Operations V1 (runbook + execution engine)
+
+- **Context:** Sprint `P0.SITE00.IDNTY.DIGITAL-FOUNDATION.V1-OPERATIONS-RUNBOOK-AND-EXECUTION-ENGINE1` after Artifact V1 commerce (`a7aa125a`) — founder needs quote → runbook → tasks → verify → complete orchestration, not manual checklists.
+- **Topics covered:** Runbook generator from scope hash, execution tasks/modes, provider abstraction (no live writes), dependency + verification + completion gate, stage rollup from tasks, P13/P14/P15 query contracts, five-board OPUS handoff, admin API extensions, forecast refinement, Needs-you task linkage.
+- **Decisions / outcomes:** Quote still drives runbook; payment activates runbook; completion requires gate (founder override with reason allowed); client artifact gets `operations_summary` only; no provider credentials/passwords; LIVE provider writes NO.
+- **Changes:** `shared/site00-digital-foundation/operations/`, `api/_lib/digitalFoundation/operationsEngine.ts`, hooks in `service.ts` (payment activate, completion gate, client-action → task), `docs/site00/idnty/SITE00_DIGITAL_FOUNDATION_OPERATIONS_V1.md`, `SITE00_DIGITAL_FOUNDATION_FIVE_BOARD_HANDOFF.md`, `tests/digitalFoundationOperations.test.ts`.
+- **Conventions:** THE QUOTE CONFIGURATION GENERATES THE PRODUCTION RUNBOOK; do not manually diverge stage copies — use rollup; Opus owns five-board visuals next.
+
+---
+
+## 2026-10-08 — Digital Foundation Critical Contract Repair V1 (launch safety)
+
+- **Context:** Sprint `P0.SITE00.IDNTY.DIGITAL-FOUNDATION.V1-CRITICAL-CONTRACT-REPAIR-AND-LAUNCH-SAFETY1` — Opus audit (`1ecdaac3`, baseline `8b936c08`) nine blockers: broken public API import, memory-only persistence, approval vs request-change, client payload leak, refund/complete routing, payment safety, quote gating, included-scope double charge, readiness timeline.
+- **Topics covered:** Client projection API, Supabase persist bridge + migration v2, quote payability + founder commercial ready, production Stripe fail-closed, webhook session correlation, recommendation engine included-scope fix, readiness clock, tests (handler smoke + critical repair suite), repair doc.
+- **Decisions / outcomes:** Public artifact endpoint returns redacted client payload; admin/founder still uses full `getArtifactPayload`. Persistence activates with `SITE00_DIGITAL_FOUNDATION_PERSIST_SUPABASE=1` after migration deploy. Manual-review add-ons require founder `quote-commercial-ready` before checkout. No live funds/provider writes.
+- **Changes:** `shared/site00-digital-foundation/{quoteReadiness,readinessClock,clientProjection}.ts`, `api/_lib/digitalFoundation/{approvalDecisions,persistence/supabaseStore}.ts`, service/payment/webhook/surface/recommendation repairs, `docs/site00/idnty/SITE00_DIGITAL_FOUNDATION_CRITICAL_REPAIR_V1.md`, tests `digitalFoundationCriticalRepair.test.ts`, `digitalFoundationArtifactHandler.test.ts`, `digitalFoundationPersistence.test.ts`, client page consumes `ClientDigitalFoundationPayload`.
+- **Conventions:** Do not expose `events` or internal referral labels on public API; do not simulate Stripe checkout in production without explicit test flag; REQUEST_CHANGE must never satisfy approval gates.
+
+---
+
+## 2026-10-08 — Builder Hybrid Spatial Studio Composer role redirect
+
+- **Context:** Interjection `P0.SITE00.BUILDER.HYBRID-SPATIAL-STUDIO.V1-COMPOSER-ROLE-BOUNDARY-AND-IMPLEMENTATION-REDIRECTION1` supersedes Composer visual ownership on active sprint `…APPROVED-VISUAL-AUTHORITY-AND-EXPERIENCE-IMPLEMENTATION1`. Opus owns UX/visual fidelity; Grok owns assets; Composer owns technical machinery.
+- **Topics covered:** Five-room canonical state (PLACE/FEEL/WORK/PACE/BLUEPRINT), `spatialSelectionToBuilder()` → `BuilderSelection`, estimator via `builderEstimateView` (no hardcoded mock prices or DF day counts), blueprint snapshot + submission blockers, Build Object presentation-neutral params, localStorage save/resume, feature flags `VITE_SITE00_TEMPLATE_SYSTEM_V1` + `VITE_SITE00_CLIENT_ESTIMATE_PREVIEW_V1`, gated route `/bldr/studio`, non-authoritative UI scaffold for Opus.
+- **Decisions / outcomes:** Preserve scaffold; do not delete or refine visual layer in Composer. Submit-for-review API and server spatial persistence remain **MISSING**. Approved JPG wireframes in `docs/site00/builder-experience/wireframes/`. Primary handoff: `docs/site00/builder-experience/BUILDER_OPUS_TECHNICAL_HANDOFF.md`.
+- **Changes:** `src/site00/builder-experience/spatialStudio/*`, `BldrSpatialStudioPage.tsx`, `components/bldr/spatial-studio/*`, `spatialStudio.test.ts` (5), docs `BUILDER_*`, routes `SITE00_ROUTES.bldrSpatialStudio`.
+- **Conventions:** Composer must not compete with Opus on CSS/spatial UX; shared contract changes are Composer-owned; do not rewrite estimator math or invent fixed public prices.
+
+---
+
+## 2026-10-08 — Builder intake artifact end-to-end audit V1
+
+- **Context:** Sprint `P0.SITE00.BUILDER.INTAKE-ARTIFACT.V1-END-TO-END-CONTRACT-AND-CONTINUITY-AUDIT1` — read-only reconciliation of canonical `site00_bldr_intakes` + `/api/site00/intakes` vs Hybrid Spatial Studio (`/bldr/studio`).
+- **Topics covered:** 15-step client journey classification; continuity map; data contract (`answers` jsonb = draftPayload); blueprint/estimator trace; submit/founder handoff; duplicated legacy vs spatial questions; gap register (GAP-INT-001–014).
+- **Decisions / outcomes:** Intake infrastructure **IMPLEMENTED** for legacy `useBldrAssessment` path; spatial studio **NOT** wired to server intake/submit (localStorage + fake submit). Do not merge Digital Foundation artifact. Next Composer sprint: spatial–intake binding + real blueprint submit payload.
+- **Changes:** `docs/site00/builder-experience/BUILDER_INTAKE_*_V1.md` (6 audit/handoff files).
+- **Conventions:** One client / one project context is the target principle; until binding ships, treat dual local keys as continuity risk.
+
+---
+
+## 2026-10-08 — Builder spatial intake server binding V1
+
+- **Context:** Sprint `P0.SITE00.BUILDER.INTAKE-SPATIAL-SERVER-BINDING.V1` closes GAP-INT-001–004 — wire `/bldr/studio` to `site00_bldr_intakes` without new intake system.
+- **Topics covered:** `useBuilderSpatialIntakeSession`, draft envelope `builder-spatial-v1`, server autosave via `useIntakeSync`, conflict resolution, legacy hint mapping, versioned `submitted_payload` with blueprint snapshot, admin `request-revision`, resume URLs, memory-store fix (undefined patch keys).
+- **Decisions / outcomes:** Estimator unchanged; founder submission snapshot always includes estimate; public preview flag still gates client display; production activation remains gated via `builderProjectActivationHint`.
+- **Changes:** `spatialStudio/intakeDraft.ts`, `useBuilderSpatialIntakeSession.ts`, `intakeService.submitIntake` BUILDER spatial branch, `submitBuilderSpatialIntake.ts`, tests `spatialIntakeSubmit.test.ts`, docs `BUILDER_SPATIAL_INTAKE_BINDING_V1.md`.
+- **Conventions:** Opus keeps visual layer; Composer owns intake contracts; do not treat localStorage as system of record when server sync succeeded.
+
+---
+
+## 2026-10-09 — Business Growth Intelligence V1 foundation contracts
+
+- **Context:** Sprint `P0.SITE00.BUSINESS-GROWTH-INTELLIGENCE.V1-FOUNDATION-AMBITION-SERVICE-CATALOG-AND-DYNAMIC-DELIVERY1` — new BUSINESS GROWTH category discoverable in Foundation journey (contracts only; flags off).
+- **Topics covered:** `shared/site00-business-growth-intelligence/` catalog, Business Ambition, recommendation engine, quote sections, delivery engine, roadmap; DF `business_ambition` ref; $500 base preserved; BLDR estimator for Presence Launch; no live Growth charges.
+- **Decisions / outcomes:** Public activation **NOT AUTHORIZED**; Growth prices **DRAFT**; Opus handoff `docs/site00/business-growth/BUSINESS_GROWTH_OPUS_VISUAL_HANDOFF_V1.md`.
+- **Changes:** PR branch `cursor/business-growth-intelligence-a9f7`, tests `businessGrowthIntelligence.test.ts`.
+- **Conventions:** Invitation 001 attribution unchanged; AIO services separate billing.
+
+---
+
+## 2026-10-08 — Opus Builder pinned on founder tunnel (PR #1524 @ c5e604e5)
+
+- **Context:** Sprint `P0.SITE00.BUILDER.HYBRID-SPATIAL-STUDIO.V1-FOUNDER-TUNNEL-DEPLOYMENT-AND-LIVE-VERIFICATION1` — deploy Opus five-screen studio without merging PR #1524.
+- **Topics covered:** `serve-site00-preview-from-pin-ref.sh`; worktree pinned `c5e604e5`; flags on dev Vite; `VITE_SITE00_PREVIEW_LOCAL_API` routes fsbw-dev dev HMR to same-origin `/api` + `SITE00_INTAKES_USE_MEMORY=1`; live tunnel QA all 5 rooms SAVED; screenshots in `/opt/cursor/artifacts/MOBILE_*.png`.
+- **Decisions / outcomes:** PR #1524 **NOT MERGED**; tunnel serves Opus implementation until pin reverted via `serve-site00-preview-from-main.sh`. Supabase durable persistence still **BLOCKED** (memory store only on preview).
+- **Changes:** PR #1526 — pin script + `site00ClientApiBase.ts` dev tunnel local API.
+- **Conventions:** Revert pin after Opus merges to main and `preview/tunnel` catches up.
+
+---
+
+## 2026-10-08 — Builder contract reconciliation + founder preview readiness
+
+- **Context:** Sprint `P0.SITE00.BUILDER.HYBRID-SPATIAL-STUDIO.V1-COMPOSER-CONTRACT-RECONCILIATION-AND-FOUNDER-PREVIEW-READINESS1` — verify main contracts, Opus handoff, preview flags; no visual implementation.
+- **Topics covered:** Main SHA `7cbcd11a`; Opus branch `e32e67e2` uses `builder-studio/` + `/bldr/builder/*` vs main `/bldr/studio` + `useBuilderSpatialIntakeSession`; Supabase intake migration missing on preview-linked DB (500 on `/api/site00/intakes` start); dev tunnel ephemeral `SITE00_INTAKES_USE_MEMORY=1`; live scaffold verified (5 rooms, Three.js).
+- **Decisions / outcomes:** **PARTIAL — DEPLOYMENT BLOCKED** for Opus five-screen experience until Opus rebases and merges; contracts **READY** on main. Supabase persistence test **BLOCKED** until `20260821010000_site00_intake_persistence.sql` applied.
+- **Changes:** `BUILDER_CONTRACT_RECONCILIATION_REPORT_V1.md`, `BUILDER_OPUS_BRANCH_INTEGRATION_MAP_V1.md`, handoff doc updates, preview script memory intake flag.
+- **Conventions:** Composer does not merge Opus old branch; founder URL path `/bldr/studio`.
+
+---
+
+## 2026-10-08 — Builder preview feature flags (fsbw-dev tunnel only)
+
+- **Context:** Sprint `P0.SITE00.BUILDER.HYBRID-SPATIAL-STUDIO.V1-DEV-PREVIEW-FEATURE-FLAG-ACTIVATION1` — founder `/bldr/studio` blocked by `VITE_SITE00_TEMPLATE_SYSTEM_V1` on site00.fsbw-dev.com.
+- **Topics covered:** Cloud preview dev server (`SITE00_CLOUD_PREVIEW_MODE=dev`) now exports template + client estimate preview flags; production deploy workflows unchanged; AGENTS.md note.
+- **Decisions / outcomes:** Not enabled on `npm run build` / GoDaddy; restart Vite preview terminal after merge for flags to take effect.
+- **Changes:** `.cursor/scripts/run-site00-cloud-preview-server.sh`, `.env.example`, `AGENTS.md`.
+- **Conventions:** Do not add these flags to site00-production-deploy.yml without explicit founder release approval.
+
+---
+
+## 2026-10-09 — Blueprint disclosure and client statement contracts
+
+- **Context:** Sprint `P0.SITE00.PLATFORM-ECONOMICS.BUILDER-BLUEPRINT-AND-CLIENT-STATEMENTS-UX1`. Integrate Platform Economics V1 into the Builder Blueprint and the future client financial record. No live deductions, no billing dashboard, no public production deploy.
+- **Topics covered:** Foundation baseline on main (ancestor of `e9779def`, reported SHA `f9f6c4b0`). Spatial Blueprint sections OVERVIEW, STRUCTURE, PAGES, FEATURES, TIMELINE. Agreement presentation. Illustrative examples. Statement fields. Account placement. AIO compatibility. Opus handoff. Shipping is not its own exclusion code.
+- **Decisions / outcomes:**
+  - The existing books stay the calculator. Presentation, illustration, and statements call that engine.
+  - A Builder with no agreement shows a proposed share, or says the share does not apply. `deductionActive` is true only when the stored agreement is ACTIVE and the fee applies.
+  - Screen words: PROPOSED, PENDING ACCEPTANCE, ACTIVE, SUPERSEDED, TERMINATED, plus SUSPENDED for a paused agreement.
+  - Client statements keep posted, pending, and settled apart. A draft payout is the same posted share, not a second fee. Settled is zero. Export is unavailable. Client net stays unavailable while processor treatment is unspecified.
+  - The ledger `clientNet` field is not shown as money the client keeps in that unspecified case.
+  - Tips are gratuities. Shipping has no exclusion code and is not invented here.
+  - AIO participation stays off. Brokerage, permitting, dispatching, insurance, and bookkeeping are not assumed eligible.
+  - The financial record belongs inside `/account`. It is not a separate environment and it does not show Studio OS.
+  - Opus designs the experience. Composer does not add a sixth Blueprint tab.
+- **Changes:** `presentation.ts`, `illustration.ts`, `format.ts`, `clientStatement.ts`, `clientExperience.ts`, `books.listAgreements`, spatial `blueprintEconomics.ts` and `opusFinancialFixtures.ts`, overview copy on `BldrSpatialStudioPage.tsx`, `clientFinancialExperience.test.ts` (14), handoff `docs/site00/platform-economics/OPUS_CLIENT_FINANCIAL_EXPERIENCE_HANDOFF.md`.
+- **Conventions:** Do not hardcode the platform rate in a component. Do not draw an export control until a real file exists. Do not treat a Blueprint as an accepted agreement. Do not deploy this as a public production release until legal, processor, and founder review.
+
+---
+
+## 2026-10-09 — Estimate range presentation and pricing reconciliation
+
+- **Context:** Sprint `P0.SITE00.SCOPE-ESTIMATION.PRICING-POSITIONING-AND-SYMMETRIC-RANGE-RECONCILIATION1`. Reconcile historical $3,000 / $10,000 starting concepts with the family-unit estimator, and present client ranges with even week endpoints and covering investment bands. No public price change.
+- **Topics covered:** Estimator `1.0.0` on main. Fixture displays (8–10 weeks / $5K–$7K through 12–16 months / $69K–$94K) are scoped project estimates, not starting offers and not contracts. Presentation policy separate from raw weeks and dollars. Builder and Blueprint share `toClientBlueprintEstimate()`.
+- **Decisions / outcomes:**
+  - Starting investment, project estimate, final proposal, and agreed contract value stay different layers.
+  - Week windows round outward to even endpoints. 15–19 weeks displays as 16–20 weeks. The high end is not rounded down.
+  - Month windows round outward and are not forced onto even months. 5–7 months displays as 6–7 and is flagged. 9–12 months displays as 9–13 and is flagged. 8–10 and 12–16 stay.
+  - Investment bands cover the calculated dollars. The standard editorial display becomes $16K–$22K because $16,999 is not inside a $17K floor. Internal dollars stay exact.
+  - Platform percentages, ledger amounts, and payouts are not rounded by this policy.
+  - Public `FROM $4K+` anchors were not edited. Founder still approves positioning.
+- **Changes:** `src/studioos/estimation/presentation.ts`, client contract fields, admin estimator review line, `presentationPolicy.test.ts`, `BUILDER_PRICING_EVIDENCE.json`, `docs/site00/estimation/HISTORICAL_PRICING_AUDIT.md`, `docs/site00/estimation/PRICING_RECONCILIATION.md`.
+- **Conventions:** Normalize once from canonical values. Do not feed a display range back into the estimator. Do not treat a fixture as a published price.
+
+---
+
+## 2026-10-09 — Even timeline endpoints for months
+
+- **Context:** Sprint `P0.SITE00.SCOPE-ESTIMATION.EVEN-ENDPOINT-MONTH-RANGE-NORMALIZATION1`. Follows the merged pricing reconciliation (`c7f1841f`, PR #1530) and the blueprint economics binding. Founder decided client-facing range endpoints are even numbers for weeks and months.
+- **Topics covered:** Presentation policy only. Raw family-unit, lane, dependency, risk, and investment math stay on estimator `1.0.0`. Public price anchors and platform economics stay untouched.
+- **Decisions / outcomes:**
+  - Presentation policy is `1.1.0`. Estimator version stays `1.0.0`.
+  - The 1.0.0 sentence “months are rounded outward and are not forced even” is superseded.
+  - 5–7 months displays as 6–8 months. 9–12 months displays as 10–12 months. 15–19 weeks stays 16–20 weeks. 16–20 stays a week range.
+  - Month integers are the nearest whole months of the rounded week window, then both ends move to the next even number when odd.
+  - Builder preview and Blueprint summary still read `toClientBlueprintEstimate()`. The admin estimator shows the raw week span beside the display window.
+- **Changes:** `src/studioos/estimation/presentation.ts`, presentation and estimator tests, spatial studio binding test, admin raw-window line, `BUILDER_PRICING_EVIDENCE.json`, `docs/site00/estimation/PRICING_RECONCILIATION.md`, `docs/site00/SITE00_ESTIMATION_ENGINE.md`.
+- **Conventions:** Do not add a second formatter. Do not write the display range back into the estimator. Do not publish a production price change from this policy.
+
+---
+
+## 2026-10-09 — Immersive Blueprint on the founder tunnel
+
+- **Context:** Founder asked to see sprint `P0.SITE00.BLDR.BLUEPRINT.V1-IMMERSIVE-TAB-BEHAVIOR-AND-SPATIAL-INFORMATION-RECOVERY1` on the tunnel, with links. That work is draft PR #1528, not merged to main. `origin/preview/tunnel` is `6b9b616f` (same tree as `91798796`).
+- **Topics covered:** The public hostname was down (Cloudflare 1033). The preview server on port 5174 was still on an October 8 worktree. Main (`45256e30`) has the even-endpoint timeline policy and does not contain this Blueprint.
+- **Decisions / outcomes:**
+  - The live tunnel now serves `preview/tunnel` `6b9b616f` in dev mode. Open Builder, then Blueprint, on the founder preview hostname.
+  - A new visit opens Place. Blueprint opens after path, direction, at least one capability, and pace.
+  - Overview, Structure (L1–L6), Pages, Features, and Timeline were checked in the browser. Timeline reads ILLUSTRATIVE ORDER · NOT A SCHEDULE.
+  - This preview is not main. Week labels here can still be odd. Do not treat that as a regression of policy 1.1.0.
+  - Submit on this preview stayed local-only. The visual review is the point of the link.
+- **Changes:** No product code. Preview worktree and the tunnel connector only.
+- **Conventions:** Do not force `preview/tunnel` back to main while the founder is reviewing this Blueprint. Do not merge #1528 without founder authorization.
+
+---
+
+## 2026-10-09 — Invitation system v1 (AIO / INVITATION 001 foundation)
+
+- **Context:** Sprint `P0.SITE00.INVITATION-SYSTEM.PARTNER-ATTRIBUTION-FOUNDATION-ACTIVATION-AND-REFERRAL-ECONOMICS1` — physical QR → partner attribution → secure activation → existing Digital Foundation → referral economics contracts (no public activation, no live payouts).
+- **Topics covered:** Partner/campaign/code model; `/invite/:code`; visit dedupe; activation with verification secret; Foundation idempotency via `createArtifactForLead({ referral_kind: 'AIO' })`; versioned attribution policy (`PENDING_FOUNDER`); unapproved commission rules (null rates); admin founder/partner reporting APIs; Supabase migration for future persistence; Opus handoff; QR generator CLI.
+- **Decisions / outcomes:**
+  - Initial partner **ALL IN ONE ENTERPRISES INC** (PARTNER 001 / display AIO); collection **INVITATION 001**; shared office code **`aio-office-inv001`**.
+  - Runtime store is in-memory for this sprint; migration `20261009180000_site00_invitation_system_v1.sql` prepared for Supabase.
+  - Commissions require verified payment events; scans create visits/events only. `payout_live: false`.
+  - Production identity/magic-link wiring for activation verification remains a follow-up; dev uses admin `test-set-activation-secret`.
+- **Changes:** `shared/site00-invitation-system/*`, `api/_lib/invitationSystem/*`, `api/site00/invitation.ts`, `api/admin/site00-invitation.ts`, `src/site00/pages/invitation/InvitationEntryPage.tsx`, `Site00Routes.tsx`, `tests/invitationSystem.test.ts`, `docs/site00/invitation-system/*`, `scripts/site00/generate-invitation-qr.ts`, `supabase/migrations/20261009180000_site00_invitation_system_v1.sql`, `motherboard/CORE.md`.
+- **Conventions:** Do not hardcode $50 / 5% commission; do not pay partners from scans; do not expose client intake to partners; QR URL must stay stable for print.
+
+---
+
+## 2026-10-09 — Digital Foundation artifact live on cloud preview tunnel
+
+- **Context:** Founder wanted the **IDNTY Digital Foundation micro product** (not `/idnty/starting-at-zero`) live on the mobile tunnel with a `/foundation/:token` link for BLDR-adjacent preview. Admin `create-artifact` requires Supabase Bearer; cloud preview uses in-memory DF store per Vite process.
+- **Topics covered:** Wrong public IDNTY assessment URL vs artifact route; Supabase auth `generateLink` failed (522) on VM; pinned preview at `fb7f24f4`; Vite restart; dev bootstrap endpoint.
+- **Decisions / outcomes:**
+  - Added gated dev route `GET/POST /api/dev/site00-digital-foundation-preview-bootstrap` (only when `SITE00_CLOUD_MOBILE_PREVIEW=1`) to mint/reuse artifact in the running Vite memory store.
+  - Restarted preview Vite on `:5174`; verified tunnel `site00.fsbw-dev.com` returns payload + SPA 200 for minted token.
+  - **Not** `/idnty/*` — artifact is **`/foundation/:token`**. Build interest connects to BLDR after completion; studio does not open this page.
+- **Changes:** `api/dev/site00-digital-foundation-preview-bootstrap.ts`, `scripts/vite-site00-local-api.mjs` (preview operational + branch `cursor/df-preview-bootstrap-0daf`).
+- **Conventions:** After Vite restart, hit bootstrap GET once to mint (or reuse first in-memory artifact). Production founder mint remains `POST /api/admin/site00-foundation` with admin session.
+
+---
+
+## 2026-10-09 — Digital Foundation admin console tsx recovery (P0 IDNTY)
+
+- **Context:** `/admin/site00/foundation` showed tsx `esm/api/esm/index.mjs` `LOCAL_API_ERROR` from Vite local API middleware.
+- **Root cause:** Dynamic `import()` of CJS `tsx/esm/api` entry via `require.resolve` + file URL from ESM plugin.
+- **Fix:** `import { register } from 'tsx/esm/api'`; admin list hydrates Supabase via `syncAllArtifactsIntoMemory()` when persistence flag on.
+- **Tunnel:** Multi-connector load-balancing can still hit stale `:5174` until canonical env runs fixed code only.
+- **Branch:** `cursor/digital-foundation-admin-console-route-recovery1` → `main`.
+
+## 2026-10-09 — INVITATION 001: physical territories + immersive /invite activation (Opus)
+
+- **Context:** Sprint `P0.SITE00.INVITATION-SYSTEM.INVITATION001-PHYSICAL-AND-IMMERSIVE-ACTIVATION-OPUS1`, baseline PR #1533 (`bcd67774`). Earlier in this chat: the Composer invitation sprint (#1533) and a question about whether all BLDR studio text is uppercase. The answer was no, with the mixed-case sources listed; no change was made.
+- **Topics covered:**
+  - Three physical card territories, founder board, and draft print spec.
+  - Five-stage digital activation at `/invite/:code`, bound to the real invitation and Digital Foundation APIs.
+  - Honest verification delivery, returning-visitor status, and all failure states.
+  - Native mobile rendering, accessibility, and four-viewport browser QA plus a recording.
+- **Decisions / outcomes:**
+  - Physical territories:
+    - A THE INVITATION: white, painted red edge, blind deboss.
+    - B THE ACCESS CARD: soft-touch black, silver foil.
+    - C THE THRESHOLD: 55×100 triplex, die-cut aperture.
+    - All are rendered from code at 300 PPI with the real prototype QR (V5-H, 22 mm, 0.49 mm per module).
+    - The agent recommends A. Founder selection is PENDING; print is not authorized.
+    - AI in-hand images are labelled as visualizations, not proofs.
+  - Activation stages: threshold arrival, then welcome (Foundation items plus `FROM $500` from the catalog; activating does not charge), then email and verification, then a `/foundation/:token` handoff, then BLDR discovery (`/bldr`, no commitment).
+  - Verification delivery: `DEVELOPMENT_INLINE` only under the Vite dev local API, with a code shown in a panel labelled DEVELOPMENT ONLY. Production is `PENDING_IDNTY`: a blocked state that collects no email.
+  - Returning visitors: the device stores only its own Foundation route. Status comes from the DF payload. "Not you?" clears the record, and a 404 leads to an honest reset.
+  - Unknown and revoked codes look identical, with no campaign or partner shown.
+  - The route now uses `Site00Layout` only. `Site00PublicRouteShell` scales a 1440 artboard onto phones.
+  - Composer blockers are listed in `OPUS_INVITATION_VISUAL_HANDOFF.md`: persistence, IDNTY delivery, the activation_id bearer short-circuit, rate limits, payment attribution, policy approval, physical QR proof, the red token mismatch (#e8192c vs #E50107), and the DF page styling.
+- **Changes:**
+  - `scripts/site00/invitation001/*` (territories, renderers, QA)
+  - `docs/site00/invitation-system/invitation-001/*`
+  - `src/site00/pages/invitation/{InvitationEntryPage.tsx,invitationJourney.ts}`
+  - `src/site00/styles/site00-invitation.css`
+  - `src/routes/Site00Routes.tsx`
+  - `api/_lib/invitationSystem/service.ts` (verificationDeliveryMode, issueDevelopmentVerificationCode)
+  - `api/site00/invitation.ts`
+  - `scripts/vite-site00-local-api.mjs` (invitation routes; the tsx ESM register fix also landed via #1538)
+  - tests in `invitationSystem.test.ts` and `invitationActivationExperience.test.tsx`
+- **Conventions:**
+  - Never return a verification code outside the Vite dev local API.
+  - Never store email, activation id, or codes on the device.
+  - Keep the invite route out of the scaled presentation shells.
+  - Do not place a print order or select a territory without the founder.
+  - When running a second Vite dev server for QA, blank `SITE00_CLOUDFLARE_TUNNEL_HOSTNAME`, or the HMR socket points at the tunnel and the page reload-loops.
+
+---
+
+## 2026-10-09 — DF admin console still broken (follow-up #2/#3)
+
+- **Founder report:** tsx error persisted on `site00.fsbw-dev.com/admin/site00/foundation` after #1538.
+- **Cause:** Preview worktree `/tmp/site00-preview-main` stuck on old `vite-site00-local-api.mjs`; Cloudflare tunnel load-balanced multiple `:5174` backends (some stale).
+- **Fix #1539:** `scripts/site00-register-tsx.cjs` + CJS register; reset worktree to `preview/tunnel`.
+- **Fix #1541:** **esbuild** bundles API handlers — **no tsx on request path**. Preview SHA `41251125`; tunnel browser smoke PASS.
+- **Anthony:** still not in linked Supabase; admin list after sign-in on persistence-enabled API.
+
+---
+
+## 2026-10-09 — DF founder mini console: disable sign-in on cloud preview
+
+- **Founder ask:** `/admin/site00/foundation` on `site00.fsbw-dev.com` showed **Sign in required**; bypass auth on tunnel preview only.
+- **Fix:** `api/_lib/cloudMobilePreview.ts` gates `SITE00_CLOUD_MOBILE_PREVIEW=1` + non-production. `api/admin/site00-foundation.ts` uses synthetic founder admin user instead of `resolveAdminAuth` when gated. List page auto-calls `GET /api/dev/site00-digital-foundation-preview-bootstrap` when cloud preview and empty artifacts (reuse in-memory row, no duplicate Anthony on Railway).
+- **Production:** Railway/cPanel still requires Bearer + admin email; preview bypass does not apply when `NODE_ENV=production`.
+
+---
+
+## 2026-10-09 — DF admin links → client intake (not founder dashboard)
+
+- **Founder report:** Admin console links felt like “dashboard” only, not client intake pages.
+- **Cause:** Table **Open** went to `/admin/site00/foundation/:id` (founder detail); **Public** opened `/foundation/:token` prospect landing (BEGIN), not intake form.
+- **Fix:** Primary link **Client intake** → `/foundation/:token?step=intake`; **Founder** → admin detail. Artifact page honors `?step=intake` (starts intake when still open). Helpers: `clientRoutes.ts`, `artifactUiStep.ts`.
+
+---
+
+## 2026-10-09 — DF ARTIFACT_NOT_FOUND on cloud preview
+
+- **Founder report:** Red `ARTIFACT_NOT_FOUND` on `/foundation/:token` (stale/production token or Vite restart wiped in-memory store; tunnel load-balanced multiple `:5174` backends).
+- **Fix:** `previewMemorySnapshot.ts` writes DF memory to `/tmp/site00-digital-foundation-preview-memory.json` when `SITE00_CLOUD_MOBILE_PREVIEW=1`; reload on token miss. Friendlier not-found UI links to admin on preview.
+
+---
+
+## 2026-10-09 — BLDR Spatial Studio all-caps copy
+
+- **Context:** Founder confirmed strict uppercase everywhere in BLDR studio after an earlier answer listed mixed-case sources (FEEL/WORK hints, blueprint economics headings, metric small copy, registry labels, estimator disclaimers, optional notes display, locale save time).
+- **Decision:** Hybrid Spatial Studio at `/bldr/studio` renders all visible copy in uppercase. Shell CSS is the authority; a few studio-local strings were normalized in source.
+- **Changes:** `text-transform: uppercase` on `.bldr-spatial-page` and `.bldr-spatial-disabled` in `site00-builder-spatial-studio.css`; FEEL/WORK hints in `spatialStudio/types.ts`; blueprint metric helper strings in `BldrSpatialStudioPage.tsx`; `tests/bldrSpatialStudioUppercase.test.ts`. PR #1544.
+- **Convention:** Do not lower-case shared `blueprintFinancialPresentation` globally — studio shell CSS uppercases it at display time. Stored `paceNotes` may remain mixed-case in JSON; the textarea displays uppercase.
+
+---
+
+## 2026-10-09 — Digital Foundation blank template preview link
+
+- **Founder ask:** Blank Digital Foundation starting at P01 (GET STARTED), no client intake data.
+- **Delivered:** Fresh artifact minted on DF board preview worktree (`INVITED`, `NOT_STARTED`, empty needs).
+- **Dev helper:** Preview bootstrap `POST` body `{ "template": true }` resets memory and mints blank template (PR #1551). Prefer Node `fetch` with timeout over slow Vite dev API probes.
+
+---
+
+## 2026-10-09 — DF typography, menu layering, P01 business email
+
+- **Founder ask:** Reduce all Digital Foundation text by 2px; fix menu drawer overlapped by bottom screen text; P01 triad center column → professional business email on two lines.
+- **Shipped (PR #1552):** Board 01+02 `FoundationClient` on `main`; global −2px on `site00-df-client.css`; menu sheet portaled to `document.body` with high z-index, body scroll lock, footer/trust hidden while open; P01 triad **PROFESSIONAL BUSINESS** / **EMAIL**.
+- **Menu icon (PR #1554):** Header ☰ uses founder JPEG `public/site00/idnty/digital-foundation/menu-icon.jpg` via `DF_HEADER_MENU_ICON_SRC` in `DfHeader` (replaces CSS bar spans).
+
+---
+
+## 2026-10-10 — Preview tunnel tsx Cannot find module on /foundation
+
+- **Symptom:** Mobile tunnel showed red `Cannot find module … tsx/dist/esm/api/…` on Digital Foundation (API LOCAL_API_ERROR surfaced in UI).
+- **Cause:** Preview worktree stuck on pinned DF branch commit still using tsx dynamic import for Vite local API, combined with `NODE_OPTIONS --import=tsx` on cloud dev server; dirty worktree blocked `preview/tunnel` remount.
+- **Fix:** Remount `/tmp/site00-preview-main` to `origin/preview/tunnel` (esbuild API bundler on main); remove global `--import=tsx` from `run-site00-cloud-preview-server.sh`; `ensure-site00-preview-main-authority.sh` hard-resets worktree when checkout fails.
+
+---
+
+## 2026-10-10 — Digital Foundation OpenArt architecture sidekicks
+
+- **Context:** Founder asked for a blank Digital Foundation template at P01, then a sequence of type, menu, and visual corrections, then real architectural background plates instead of the vector chamber.
+- **Topics covered:** Blank template (`INVITED` / `NOT_STARTED`); −2px type; menu sheet no longer covered by the footer; P01 triad “PROFESSIONAL” / “BUSINESS EMAIL”; founder hamburger PNG with no plate; lede line-height −1px; headline token reduced 4px then 8px; icon stroke 0.15 after a 0.3 pass and a 10% size increase; preview tsx module error fixed by dropping `--import=tsx`; invalid-link recovery via template bootstrap; menu sheet tokens so a portaled panel stays opaque; photoreal Cursor plates were rejected as generic.
+- **Decisions / outcomes:** Background plates are OpenArt image-to-image sidekicks of the approved boards, not text-to-image and not Cursor GenerateImage. UI copy stays in React. The glass etching “01 / DIGITAL FOUNDATION” stays on the hero plate because it is part of the physical object. P08–P15 are not client routes.
+- **Changes:** `DF_ARCHITECTURE_RENDERS` now points at `public/site00/idnty/digital-foundation/architecture/df-g01-hero-chamber.jpg`, `df-g02-crown-fragment.jpg`, and `df-g03-corner-fragment.jpg`. OpenArt project `6Ueswtr8vt58ur2n3CRs` (SITE00 IDNTY Digital Foundation Production), model `gpt-image-2-5-sunburst` image2image, 2k, high, autoEnhance off. Histories `aHlkWBWXr3ikxXgOdFHx` (hero), `OqWsW3dvLAub8eKo0E6L` (crown), `ipqkQnpBFZr286lgLyH2` (corner). Quoted 152 credits each. Do not generate these into a JURNL family project.
+- **Conventions:** Headless upload is `openart_upload_sign` + PUT + `openart_upload_metadata_get`. Crop the architecture out of the phone boards before image-to-image so the model does not keep headlines and buttons.
+
+---
+
+## 2026-10-10 — Digital Foundation + BLDR design review page
+
+- **Context:** Founder wanted one link that shows every Digital Foundation screen and the BLDR studio that follows, without stepping through the client flow.
+- **Topics covered:** OpenArt architecture plates on P01–P07; then a single review artifact for those screens plus BLDR PLACE, FEEL, WORK, PACE, and BLUEPRINT.
+- **Decisions / outcomes:** Route `/foundation/review`. Digital Foundation parents render in phone columns from the catalog and preview fixtures `A_BASE` and `J_PAYMENT_SUCCESS`. BLDR rooms render in iframes with `?reviewRoom=` so the review does not write the studio session.
+- **Changes:** `DigitalFoundationReviewPage.tsx`, route constant `digitalFoundationReview`, `BldrSpatialStudioPage` review-room override, review layout in `site00-df-client.css`.
+- **Conventions:** Do not put the preview hostname in MEMORY. The review page is for looking at the design; it does not change pricing, checkout, or intake contracts.
+
+---
+
+## 2026-10-10 — Digital Foundation mobile menu restored to the founder reference
+
+- **Context:** Founder opened the Digital Foundation hamburger on mobile and saw an oversized serif heading, blue link-colored rows and a bottom sheet over the hero. They attached a generated phone mockup of the open menu and asked for that exact drawer (sprint `P0.SITE00.IDNTY.DIGITAL-FOUNDATION.MOBILE-NAVIGATION-REFERENCE-RESTORATION1`). Merge requires founder review; production deploy is not authorized.
+- **Topics covered:** Root-cause audit of the portaled menu; reference measurements (drawer ~61% wide, backdrop black at ~58%, surface `#fbfaf8`); lifecycle-correct steps and destinations; accessibility; reference comparison captures.
+- **Decisions / outcomes:** Root cause: `DfSheet`/`DfMenu` portal to `<body>`, outside `.df-root`, so the scoped button font/color reset, box-sizing and focus ring never applied (UA Arial, iOS system-blue buttons; before `76d3ac54` the heading inherited Times New Roman). The menu is now a right drawer. Steps the client cannot open show `done` (check) or `locked` (lock) from `resolveDfRoute().views`. Records and Digital Location stay locked until completion because they only exist on the COMPLETE surface. ROADMAP opens the overview scrolled to `#df-stages-h`. The founder hamburger PNG stays. The personal-link note was dropped because the reference has none.
+- **Changes:** `shell.tsx` (`DfDrawer`, rebuilt `DfMenu`), `model.ts` (`buildDfMenu`, `DF_ROADMAP_ANCHOR`), `icons.tsx` (overview, roadmap, folder, pin), `FoundationClient.tsx` (anchor navigation), `site00-df-client.css` (scope for `.df-sheet`/`.df-drawer`, drawer styles, removed the footer-hiding hack), `tests/digitalFoundationMenuDrawer.test.ts`. Draft PR #1572 on `cursor/df-mobile-nav-restoration-a9f7`, unmerged.
+- **Conventions:** Anything portaled out of `.df-root` must sit under `.df-sheet` or `.df-drawer` so it inherits the Digital Foundation scope. Known gap: `barlow-condensed-800/900.woff2` and `inter-variable-latin.woff2` are not in `public/site00/fonts/`, so all Digital Foundation type renders in fallback fonts.
+
+---
+
+## 2026-10-10 — Digital Foundation plates are full mobile screens
+
+- **Context:** After the component-system, V2 portal, and icon-library drafts, the founder rejected the architecture sidekicks. The three OpenArt photographs had been masked and pasted into hero, crown, and corner slots on the flat page.
+- **Topics covered:** Full-mobile plate correction. Each distinct room (hero chamber, crown, corner) is one 9:16 photograph. Live UI stays in React on top of that photograph. The cropped `<img>` slots and the drawer fragment are gone.
+- **Decisions / outcomes:** Plates are image-to-image in OpenArt project `6Ueswtr8vt58ur2n3CRs`, model `gpt-image-2-5-sunburst`, 9:16, 2k, high, autoEnhance off. Histories: hero `or5zMVfH7kOsCVFLdv1a` then reframed `E1MVXYIojgDfk0J53P6L`; crown `YLn6wHPtJZqF4EYItSR7`; corner `A5SBH5rfBjj68iuYhqWA` then reframed `VVAo7LPHHGJ8DXuK7Mdt`. Quoted 172 credits each. The glass etching “01 / DIGITAL FOUNDATION” stays on the hero plate. The hamburger PNG and the drawer geometry stay. Do not generate these into a JURNL family project. Do not paste a crop of the plate back onto the screen.
+- **Changes:** `df-plate-hero.jpg`, `df-plate-crown.jpg`, `df-plate-corner.jpg` replace `df-g01-hero-chamber.jpg`, `df-g02-crown-fragment.jpg`, and `df-g03-corner-fragment.jpg`. `DfFrame` paints `--df-plate` as a full-viewport background. `DfHeroObject` is only the clear window in the P01 column. Drawer art crop removed.
+- **Conventions:** A Digital Foundation background plate is the whole mobile screen. UI copy, buttons, and the menu icon are not baked into it. The sculpture sits below the headline so black type stays on the quiet wall.
+
+---
+
+## 2026-10-10 — Preview tunnel pinned to BLDR review merge (d98d4dc6)
+
+- **Context:** Founder asked to put commit `d98d4dc6` on `preview/tunnel` so the mobile tunnel shows the BLDR studio on `/foundation/review` and real `/bldr/studio?reviewRoom=…` iframes.
+- **Outcome:** `origin/preview/tunnel` is at `d98d4dc6` (merge of studio branch into preview; parent `8d29986d`). Worktree `/tmp/site00-preview-main` remounted to that SHA; preview Vite on `:5174` restarted without running `sync-preview-tunnel-branch.sh` afterward.
+- **Caution:** `sync-preview-tunnel-branch.sh` treats any divergence from `main` as an error and **force-resets** `preview/tunnel` to `main`. That wiped `d98d4dc6` once during `post-merge-preview-tunnel-refresh.sh`; restored with `git push origin d98d4dc6:refs/heads/preview/tunnel`. Do not run that sync while tunnel intentionally carries pre-main integration commits.
+
+---
+
+## 2026-10-10 — #1572 menu drawer merged; Digital Foundation universal component system (#1573 on main)
+
+- **Context:** Founder approved the menu-drawer comparison. PR #1572 merged (`8d29986d`). Component system sprint merged to `main` as #1573 (`4bf6fa50`): `components.tsx` + `site00-df-components.css`; hamburger and menu drawer unchanged.
+- **Conventions:** New DF UI uses primitives in `components.tsx`. Portaled overlays use `df-portal`.
+
+---
+
+## 2026-10-10 — Digital Foundation V2 architecture recovery (portal + communications + founder ops)
+
+- **Context:** Sprint V2 recovery — client portal P07–P10, records, founder ops, Family F communications (dry-run). Landed on `main` via #1577 (Anthony launch gate integration). PR #1574 remains open as historical branch.
+- **Outcomes:** Manifests under `docs/site00/idnty/DIGITAL_FOUNDATION_V2_*`. Portal v2 flag, founder pipeline/command/workbench routes, communications dispatch (DRY_RUN default off for live sends).
+- **Partial:** Messaging inbox, durable email delivery, Supabase send intents, P15A–C dedicated UI, Business Ambition client surface.
+
+---
+
+## 2026-10-10 — Digital Foundation canonical icon library
+
+- **Context:** 142 SVG icons + aliases on V2 branch tip (#1575 stacked on recovery). Included on Anthony launch branch merge.
+- **Conventions:** Header still uses `menu-icon.png`; do not replace with registry menu glyph.
+
+---
+
+## 2026-10-10 — Anthony launch gate recovery (real E2E2 sprint)
+
+- **Context:** P0 sprint to verify Anthony Digital Foundation journey — Gate A safe intake vs Gate B full service. Integrated on `main` as #1577. Founder approval required for production release; no live charges or client emails during engineering.
+- **Gate A (dev):** Browser 393×852 on `/foundation/:token` — intake save + hard refresh PASS; founder admin `detail?id=` matches client intake on cloud preview memory store. Launch gate env `SITE00_DIGITAL_FOUNDATION_LAUNCH_GATE_INTAKE_ONLY` blocks checkout and surfaces `INTAKE_SUBMITTED` (vitest). **Production BLOCKED:** `SITE00_DIGITAL_FOUNDATION_PERSIST_SUPABASE=1` + migrations not verified on deployed API; deploy SHA unverified.
+- **Gate B:** FAIL/BLOCKED — Stripe test checkout not run live; messaging API/tests only (no two-browser UI round trip); email DRY_RUN/memory intents; records download not E2E.
+- **Deliverables:** `docs/site00/idnty/ANTHONY_*`, `DIGITAL_FOUNDATION_E2E_TEST_MATRIX.json`, `FOUNDATION_*_VERIFICATION.md`. Evidence screenshots `/opt/cursor/artifacts/gate-a-intake-*.png`.
+- **Tests:** `npm test -- --run tests/digitalFoundation*` → 100 pass, 1 skipped; typecheck + build pass. Full repo vitest has pre-existing failures unrelated to DF.
+- **Recommendation:** NO-GO for production Anthony link until persistence + deploy SHA + intake-only env on Railway; INTAKE-ONLY after those close.
+
+---
+
+## 2026-10-10 — DF foundation link on fsbw-dev preview (API routing)
+
+- **Founder report:** Mobile tunnel `site00.fsbw-dev.com` showed foundation link unavailable / not on preview server when opening `/foundation/:token` (stale token or CI preview without local `/api`).
+- **Root cause:** Digital Foundation client fetches used same-origin `/api/...` while admin on fsbw uses `api.site00.com` via `site00ApiUrl`. `vite preview` (default CI tunnel mode) has no local DF API → 404 / not found. Dev tunnel also split admin (Railway) vs client (local) when `VITE_SITE00_PREVIEW_LOCAL_API` unset.
+- **Fix:** `foundation-client/api.ts` routes artifact calls through `site00ApiUrl` (#1578 on `main`). Invalid-link UI detects cloud preview via `meta site00-cloud-preview` + links to Digital Foundation admin; blank-template mint only when dev + `VITE_SITE00_PREVIEW_LOCAL_API=1`. Cloud preview dev script sets that env.
+- **Founder workflow on tunnel:** Open `/admin/site00/foundation` → **Client intake** on a row (fresh token). Do not reuse bookmarks after tunnel restart unless token lives on Railway/Supabase.
+
+---
+
+## 2026-10-09 — BLDR Hybrid Spatial Studio reference-fidelity (Grok, not merged)
+
+- **Sprint:** asset/icon/material refinement of `/bldr/studio` against three founder phone references. No estimator, no GLB, no production release.
+- **Finding:** live stage is CSS slabs, not Three.js. Refined marble plinth, glass layers, `#E50107` portal, Barlow Condensed headlines, shared `BldrStudioIcon`, distinct `ArchitecturalThumb` SVGs for PLACE/FEEL/blueprint cards.
+- **Gap:** photoreal reference architecture still needs a founder-gated WFE mesh. Draft PR only.
+
+---
+
+## 2026-10-10 — Digital Foundation plates must be the screen, not a corner crop under cards
+
+- **Context:** Founder on mobile wanted the design-review artifact (every Digital Foundation screen plus BLDR studio), not the founder dashboard Client intake link. They then sent the P02 intake and the P01–P06 authority boards and said the live screen is not using full background plates. Solid panels on top of the plate defeat it. Mostly text should sit on the photograph. It does not match the reference authority images.
+- **Topics covered:** `/foundation/review` versus `/admin/site00/foundation` and `/foundation/:token?step=intake`; OpenArt 9:16 plates (`df-plate-hero.jpg`, `df-plate-crown.jpg`, `df-plate-corner.jpg`) already on `main` via #1576; preview tunnel still pinned at `d98d4dc6`, which still paints the small corner fragment; white field, row, spec, and footer chips covering the plate.
+- **Decisions / outcomes:** The plate is the screen background (`background-size: cover`, one viewport tall). Hairline borders stay. Card fills on plated screens are transparent. The red primary button stays solid. Review link remains `/foundation/review` (P02 is `#df-r-P02`, BLDR rooms are `#df-r-bldr-PLACE` through `#df-r-bldr-BLUEPRINT`).
+- **Changes:** `src/site00/styles/site00-df-client.css`.
+- **Conventions:** Do not paste a cropped fragment back onto a screen that already has a full plate. Do not put an opaque panel over that plate. Preview must track merged `main` or the founder keeps seeing the old fragment.
+- **Follow-up:** The resting MORE INFORMATION peek is portaled outside the screen. While it is collapsed (`data-snap=peek`) its panel is transparent so the plate stays visible. An expanded sheet still uses a solid surface so the body can be read.
+
+---
+
+## 2026-10-10 — Founder restored the plate screen; 0.6 icon stroke rejected
+
+- **Context:** After the plate work (#1580, #1581, preview SHA `cb917089`, bundle `index.BpESgsIx.js`), a follow-up set icon strokes to 0.6 and shipped that on the tunnel. The founder said that was incorrect and to restore the plate status: type sits on the photograph, review anchor `/foundation/review#df-r-P02`.
+- **Decision:** Revert the 0.6 stroke. Glyphs stay at 1.65 on the 24 grid, with the component hairlines that were on `cb917089`. Do not republish the 0.6 bundle as the plate screen. The load-path fix that maps a missing preview artifact to 404 stays; it does not change the plate.
+- **Conventions:** Digital Foundation plates are the screen. Text and hairlines sit on the photograph. Card fills on plated screens stay transparent. The collapsed MORE INFORMATION peek stays transparent.
+
+---
+
+## 2026-10-10 — MORE INFORMATION moves into the menu; page panels restored
+
+- **Context:** Founder on the Digital Foundation phone screens: remove the bottom MORE INFORMATION swipe-up drawer and put that information in the hamburger menu. They also said the page panels still had not been restored.
+- **Topics covered:** The resting peek sheet on P02 (`DfBottomSheet` `variant="peek"`) listed domain, email, security, signature, device setup, and migration. A prior pass had forced field, row, spec, and card fills transparent so the plate showed through. The authority boards keep white field and row panels on the photograph.
+- **Decisions / outcomes:** The bottom peek is gone. The same scope is a MORE INFORMATION section in the hamburger menu, with the same expandable rows. Field inputs are white (`#ffffff`) and service rows are card fill (`#f9f8f6`) again. The full-bleed plate stays behind those panels. Other sheets that open from a control (additional services, add-ons, third-party costs) stay.
+- **Changes:** `src/site00/foundation-client/shell.tsx`, `src/site00/foundation-client/parents/EntryIntake.tsx`, `src/site00/styles/site00-df-client.css`, `tests/digitalFoundationMenuDrawer.test.ts`.
+- **Conventions:** Do not mount a resting bottom MORE INFORMATION sheet. That copy belongs in the menu. Do not strip the panel fill off inputs, rows, specs, or cards. The plate is the page background around those panels.
+
+---
+
+## 2026-10-10 — Generated full-screen plates rejected; original chamber photographs restored
+
+- **Context:** After the menu move and panel restore, the founder said the generated background plates were wrong and to restore the background image.
+- **Topics covered:** `#1576` had replaced `df-g01-hero-chamber.jpg`, `df-g02-crown-fragment.jpg`, and `df-g03-corner-fragment.jpg` with generated 9:16 files (`df-plate-hero.jpg`, `df-plate-crown.jpg`, `df-plate-corner.jpg`) painted as a full-viewport background. The approved photographs are the closer chamber, crown, and corner stills.
+- **Decisions / outcomes:** Those three photographs are back in the hero, crown, and corner slots. The page surface is the cream chamber again. The generated plate files are removed. Field and service panels stay filled. MORE INFORMATION stays in the hamburger menu.
+- **Changes:** `objects.tsx`, `shell.tsx`, `site00-df-client.css`, the three `df-g0*.jpg` files, removal of `df-plate-*.jpg`.
+- **Conventions:** Do not generate a new full-screen plate to stand in for these photographs. The hero image is the chamber between the lede and the triad. Crown and corner are the original fragments, masked into the cream page.
+
+---
+
+## 2026-10-10 — BLDR monument realism pass (same system, better materials)
+
+- **Context:** After the Digital Foundation menu move (#1586) and the chamber-photograph restore (#1587), the founder asked for a realism pass on the BLDR Studio monuments. Same objects, same layout, same selection flow. Enhancement, not a rebuild.
+- **Topics covered:** PLACE (SIMPLE / ADVANCED / CUSTOM / WORLD), FEEL (MODERN / BOLD / EDITORIAL / IMMERSIVE), WORK stacked structure, PACE (STANDARD / EXPEDITED / FLEXIBLE), BLUEPRINT tabs (OVERVIEW / STRUCTURE / PAGES / FEATURES / TIMELINE). Audit of how the monuments are drawn.
+- **Decisions / outcomes:** The monuments are live three.js WebGL (`buildObject/engine.ts`), shared by the hero stage and the card thumbnails. Geometry and camera stay in `composition.ts`. Glass cannot use transmission: the canvas is transparent over the photographic room plate, so a refraction pass shows empty alpha and the panes disappear. Glass stays a painted pane with a specular coat, thicker edge lines, and a higher environment response. Marble and stone get a polish coat and a bump map from the existing procedural canvases. Red acrylic stays `#E50107`. Contact shadow is stronger. Neutral tone mapping, exposure 1.02. No new raster assets. No layout, type, or selection changes.
+- **Changes:** `src/site00/builder-studio/buildObject/engine.ts`, `tests/bldrMonumentRealism.test.ts`, `docs/site00/bldr/MONUMENT_REALISM_PASS1.json`.
+- **Conventions:** Do not replace these monuments with product photography or a new object family. Do not turn glass transmission on while the stage canvas is transparent. Thumbnails must keep using the same materials as the hero.
+
+---
+
+## 2026-10-10 — Digital Foundation backgrounds return to the original vector chamber
+
+- **Context:** After the BLDR material pass, the founder said the background images were still wrong and to restore them to what they were initially. The status that claimed the chamber photographs were the originals (`#1587`, `df-g01` / `df-g02` / `df-g03`) was rejected. Those files were the first OpenArt generation. The 9:16 plates (`df-plate-*`, `#1576`) were the second generation. Neither is the initial architecture.
+- **Topics covered:** PLACE–BLUEPRINT realism on the existing three.js engine, then this restore. Authority boards in `docs/site00/idnty/df-visual-fidelity-v1/` show the vector chamber, crown, and corner on the cream page.
+- **Decisions / outcomes:** `DF_ARCHITECTURE_RENDERS` is null again. Hero, crown, and corner draw the original SVG. The three generated photographs are removed. Panels stay filled. MORE INFORMATION stays in the menu. No full-screen plate.
+- **Changes:** `objects.tsx`, `shell.tsx`, `site00-df-client.css`, `tests/digitalFoundationMenuDrawer.test.ts`, deletion of `df-g01-hero-chamber.jpg`, `df-g02-crown-fragment.jpg`, `df-g03-corner-fragment.jpg`.
+- **Conventions:** Do not mount a generated photograph or a full-screen plate as the Digital Foundation background. The initial architecture is the vector chamber.
+
+---
+
+## 2026-10-10 — Anthony infrastructure recovery (Supabase data plane blocked)
+
+- **Context:** P0 sprint to unblock Anthony Digital Foundation launch. Prior Gate A sprint failed on Supabase 522/timeouts and unverified migrations. User forbade repeating general audits; focus on connectivity, deployment access, and execution plans.
+- **Topics covered:** BLDR realism (#1589), vector chamber restore (#1590), then Anthony infra recovery sprint 5. PR #1585 (DF provider error shape) left open per directive.
+- **Findings:** Supabase management API reports `ACTIVE_HEALTHY` for `hyycomvcaqxxvyrfupes`, but MCP `execute_sql`, `list_migrations`, and authenticated REST all timeout (~12–20 s). Invalid-key REST returns 401 quickly. Production Railway `GET …/digital-foundation-artifact?action=payload` times out ~20 s with 500 `[object Object]` — same data-plane failure, not Composer-only. `site00.com` still serves September bundle `index.D8Jaygrd.js`. Live API `gitCommit` `56cae6852f0c` with persist + intake-only flags on. Railway CLI and cPanel not connected to Composer.
+- **Decisions / outcomes:** Gate A **FAIL/BLOCKED**. Migrations 160000, 170000, 10103000 documented; **do not apply** until founder approves Group A and SQL path works. Deploy order: fix Supabase → migrations → Railway → cPanel ZIP (v11+). Docs under `docs/site00/idnty/ANTHONY_*` and `FOUNDATION_*_EXECUTION*.md`.
+- **Conventions:** Do not merge #1585 until DB path healthy. Do not claim Anthony-ready without live browser proof on current SHAs.
+
+---
+
+## 2026-10-10 — Direct links under each Digital Foundation review route
+
+- **Context:** This chat covered a BLDR realism follow-up, a Digital Foundation visual batch, a preview-tunnel restart, and then a request to put a direct link under every page route on `/foundation/review`.
+- **Topics covered:** BLDR V2 PLACE · ADVANCED benchmark stays on draft PR #1592 and is not merged. Digital Foundation batch A (four OpenArt client screens, review ZIP, draft PR #1593) is images only and is not merged. The preview connector was restarted. The founder then asked for direct links on the review page.
+- **Decisions / outcomes:** Each route in the sticky bar, and each screen header, shows the absolute address for that screen. The host is the page origin, so the preview lists `…/foundation/review#df-r-P01` through `#df-r-OVERVIEW` and `#df-r-bldr-PLACE` through `#df-r-bldr-BLUEPRINT`. Opening a link scrolls that screen below the bar. Do not hardcode the preview hostname. Do not start batch B. Do not implement A01–A04 until the founder approves the ZIP. Do not roll the V2 monument renderer out past the PLACE · ADVANCED benchmark until the founder approves it.
+- **Changes:** `src/site00/pages/foundation/DigitalFoundationReviewPage.tsx`, `src/site00/pages/foundation/reviewLinks.ts`, `src/site00/styles/site00-df-client.css`, `tests/digitalFoundationReviewLinks.test.ts`.
+- **Conventions:** A review screen’s direct address is `/foundation/review` plus its anchor. The visible text is that full URL.
+
+---
+
+## 2026-10-10 — Foundation review flow CTAs scroll to the next screen
+
+- **Context:** Continuation of the review-page direct-link work. The founder reported that **VIEW MY RECOMMENDATION** on P03 did nothing on `/foundation/review` because handlers were no-ops.
+- **Decision:** On the review page only, intake CTAs (BEGIN, CONTINUE, VIEW MY RECOMMENDATION, CONTINUE TO REVIEW, checkout back-links, activation overview) **smooth-scroll** to the next `#df-r-*` block and `replaceState` the hash. No React Router navigation; separate phone frames stay on one page for visual consistency.
+- **Validation:** P03 still uses `validateForRecommendation`; scroll to P04 happens only when the error object is empty.
+- **Changes:** `reviewLinks.ts` (`scrollToReviewAnchor`, `reviewAnchorForView`), `DigitalFoundationReviewPage.tsx`, `digitalFoundationReviewLinks.test.ts`.
+
+---
+
+## 2026-10-10 — BLDR monument realism V2 benchmark (PLACE · ADVANCED, opt-in)
+
+- **Context:** The founder said V1 (#1589) was "still too similar" and ruled out any more material-token-only passes. The sprint asked for one benchmark monument before any rollout: no auto-merge, no production deploy.
+- **Topics covered:** This session's earlier BLDR V1 work, the vector chamber restore, and the Anthony infra docs. Then the V2 benchmark on branch `cursor/bldr-monument-realism-v2-a9f7` (draft PR, not merged).
+- **Root cause of V1's limit:** The canvas is transparent over a CSS plate, so transmission refracts empty alpha. Every element is a scaled unit cube, so there are no edges, bevels or thickness.
+- **Decisions / outcomes:**
+  - New `buildObject/realism.ts`, active only with `?realism=v2` when the composition key starts with `place|ADVANCED|`. The default renderer is unchanged.
+  - The room plate is drawn in-scene with the same `center 62% / cover` fit, so glass refracts the real photograph.
+  - Glass rooms are 22 mm panels with beveled chrome frames and mullion bars. The red spine is a beveled transmissive acrylic shell around a dense `#E50107` core. The marble plinth is beveled, with finer veins unfolded over the edges.
+  - Baked contact occlusion and red bounce; no bloom.
+  - No idle rendering (0 draws versus 5,278 in 3 s). The refraction buffer and pixel ratio adapt on phones. The WebGL context is released on dispose.
+  - Under SwiftShader, a V2 frame costs about 2.1–2.25× a current frame. Draw calls fall from 182 to 42.
+  - The ADVANCED card still renders through V2.
+- **Docs:** `docs/site00/bldr/MONUMENT_REALISM_V2_BENCHMARK.{md,json}`. Artifacts are in `/opt/cursor/artifacts/bldr-v2/`. Tests: `tests/bldrMonumentRealismV2.test.ts`.
+- **Conventions:** Widen `isRealismBenchmark` family by family, and only after founder approval: PLACE, FEEL, WORK, PACE, then BLUEPRINT, which needs a V2 `lit` state. The current path still keeps WebGL contexts after dispose; fix that with the rollout.
+
+## 2026-10-10 — DF visual mass-production cost scope (C–J)
+
+- **Context:** Founder asked for the cost of remaining Digital Foundation visual batches C–J before any mass generation. No new images. No OpenArt spend.
+- **Pricing:** Live quote 2026-10-10: Sunburst image-to-image 4k high is **317 credits** per job for 9:16 and 16:9. USD **UNVERIFIED**. Balance **26,590**. Batches A and B each consumed **1,264** credits for four successful images (quote 1,268). Zero regenerations.
+- **Recommendation:** Balanced scope **18** images plus **2** reserve jobs. Hard ceiling **6,340 credits**. Do not regenerate the seven boards or batches A and B. Do not start batch C until the founder approves that ceiling.
+
+---
+
+## 2026-10-10 — Marketing email authority checksum recovery blocked
+
+- **Context:** After the C–J cost plan (draft PR #1597, ceiling 6,340, budget still pending), the founder supplied an approved marketing email poster and then resupplied it. Registration is allowed only when SHA256 is `e814042c318f7f45d7db07a6d11e4878fcc20888c583a76537828cfa3c2ede83`.
+- **Topics covered:** Two chat JPEGs of the same poster. Copy 1 is 468,306 bytes, `f3c2745f79a79278ab2f24f6f4fc22a78c3818397844bdfc6b4c77c9103a308e`. Copy 2 is 474,703 bytes, `1d431920ffd56552b6eacc58ceaeeaa02faf8ed9ab687ffde3eee104d2945d8d`. Both are 1086×1448.
+- **Decisions / outcomes:** The attachment path re-encodes JPEGs. Copy 1 shares the REF-01 luminance quantization table and a Photoshop segment whose caption digest is the MD5 of empty data. Copy 2 is a second lossy encode (63.6% of pixels differ, max channel delta 34) with that segment removed. A cache search found zero files with the expected digest. The canonical JPEG was not written. Module docs were not written against a substitute. Batch I stays 3 images. Ceiling stays 6,340. Credits spent: 0. Do not merge #1597. Do not send another chat JPEG; commit or release the original bytes.
+- **Changes:** `docs/site00/idnty/visual-authority/marketing-email/MARKETING_EMAIL_AUTHORITY_CHECKSUM_RECOVERY.md`, budget summary, email asset scope, this memory entry.
+- **Conventions:** Do not register a visual authority image when the SHA256 does not match. Do not treat a chat JPEG as the founder’s original file.
+
+---
+
+## 2026-10-10 — Marketing email GitHub registration task (copy 3 blocked)
+
+- **Context:** Task to register `SITE00_MARKETING_EMAIL_APPROVED_AUTHORITY_V1.jpg` on `cursor/df-mass-production-scope-a9f7` (PR #1597) and complete blocked marketing docs plus Batch I budget reconciliation.
+- **Outcome:** Third chat attachment is byte-identical to copy 2 (474,703 bytes, SHA256 `1d431920ffd56552b6eacc58ceaeeaa02faf8ed9ab687ffde3eee104d2945d8d`). Expected `e814042c318f7f45d7db07a6d11e4878fcc20888c583a76537828cfa3c2ede83` not matched. Canonical JPEG not committed. Design tokens, module system, campaign mapping, and Batch I ceiling revision not applied.
+- **Budget:** Balanced hard ceiling **6,340** credits; Batch I **3** images (951 credits).
+- **Resupply:** Commit or release the original file with verified SHA256; do not use chat JPEG delivery.
+
+---
+
+## 2026-10-10 — Marketing email repository recovery 3 (no local original)
+
+- **Context:** Sprint `P0.SITE00.IDNTY.MARKETING-EMAIL-AUTHORITY-REPOSITORY-RECOVERY3` — locate original JPEG in workspace, bypass chat transcoding, register on `cursor/df-mass-production-scope-a9f7`.
+- **Outcome:** Copy 4 chat attachment byte-identical to copies 2–3 (`1d431920…`, 474,703 bytes). Full scan of 4,847 JPEGs in workspace/home/tmp/opt-cursor: **zero** files with expected `e814042c…`. No binary on git refs. Canonical path not committed. Registration, tokens, modules, campaign map, Batch I reconciliation **not done**. Ceiling **6,340** unchanged.
+- **Resupply:** Founder or CI must `git add` the verified file to the branch (or attach via GitHub web upload / release ZIP). Chat will not deliver original bytes.
+
+## 2026-10-10 — DF visual batch B (records and approvals) + review flow scroll
+
+- **Context:** Batch A direction approved with two Opus copy corrections. Founder requested batch B OpenArt generation (four records/approval child screens), ZIP + direct download. Separately, review page CTAs now scroll between phone frames on `/foundation/review`.
+- **Batch B:** OpenArt project `6Ueswtr8vt58ur2n3CRs`, model `gpt-image-2-5-sunburst`, 4k 9:16, four first-pass images (2016×3584), credits 27854→26590 (Δ1264). Screens DF-B01–B04. Release tag `df-v2-batch-b-2026-10-10`. Do not regenerate batch A. Do not merge batch PRs without founder. Implementation NOT AUTHORIZED.
+- **Batch A handoff:** `batch-a/BATCH_A_OPUS_HANDOFF_CORRECTIONS.md` — no “decision recorded” while pending; revision reason optional label must match contract at implementation.
+- **Review flow:** PR #1595 merged — VIEW MY RECOMMENDATION scrolls to `#df-r-P04` without router navigation.
+
+---
+
+## 2026-10-10 — Merge conflict review vs origin/main (888fccd1)
+
+- **Context:** Founder asked to fetch latest `main`, classify merge conflicts, fix simple ones, report complicated ones.
+- **Findings:** After `main` moved past `f71bbd50`, four Digital Foundation PR branches conflicted only on append-only `motherboard/MEMORY.md` tail entries, except **#1593** also conflicted on `DIGITAL_FOUNDATION_V2_PARENT_CHILD_SCREEN_MANIFEST.json` (`visual_status` for DF-A01–A04: branch `CANDIDATE_PENDING_FOUNDER` vs main `DIRECTION_APPROVED_COPY_CORRECTIONS_PENDING_IMPLEMENTATION`).
+- **Resolution:** Merged `origin/main` into `cursor/df-mass-production-scope-a9f7` (`81d66bf0`), `cursor/df-batch-a-visual-authority-a9f7` (`d9a7ca8b`, manifest took **main**), `cursor/bldr-monument-realism-v2-a9f7` (`c33d8524`), `cursor/df-gate-a-error-shape-a9f7` (`dd8ef55e`). MEMORY kept **both** branch-specific and main entries. GitHub: **#1597, #1593, #1592, #1585** → `MERGEABLE` / `CLEAN`.
+- **Not fixed (out of scope):** Open JURNL and Claude DF PRs still `CONFLICTING` — sampled branches show **MEMORY.md-only** skew (simple mechanically) but branches are stale review-only; no auto-merge. **#1585** mergeable but product policy still blocks Gate A until Supabase healthy. Marketing email blocked on checksum, not git.
+
+---
+
+## 2026-10-10 — Marketing email authority direct URL registration (RECOVERY2)
+
+- **Context:** Sprint `P0.SITE00.IDNTY.MARKETING-EMAIL-AUTHORITY-DIRECT-URL-REGISTRATION-RECOVERY2` on `cursor/df-mass-production-scope-a9f7` (PR #1597). Founder supplied corrected Supabase signed URL; no OpenArt spend.
+- **Outcome:** Raw GET returned HTTP 200, `image/jpeg`, 491,267 bytes, 1086×1448, SHA256 `e814042c318f7f45d7db07a6d11e4878fcc20888c583a76537828cfa3c2ede83` **matches** expected. Canonical JPEG committed; manifest + registration note added under `docs/site00/idnty/visual-authority/marketing-email/`. Mass-production scope JSON and budget/email scope docs updated to **REGISTERED**. Batch I **3** images; ceiling **6,340** unchanged; founder budget approval **PENDING**. No merge/deploy.
+- **Conventions:** Future batch I / email art jobs bind the repo canonical JPEG; do not use chat attachments for this authority.
+
+---
+
+## 2026-10-11 — DF visual mass production C–J (paid, not merged)
+
+- **Context:** Founder approved the balanced 6,340-credit ceiling for image generation only. Branch `cursor/df-mass-visual-cj-a9f7` from the registered marketing-authority commit. No merge, no deploy, no email send.
+- **Outcome:** 18 Sunburst image-to-image jobs (C2 D3 E2 F2 G2 H3 I3 J1), 0 regenerations. Quote 317 each. Account 26,590 → 20,899 (delta 5,691). All files 2016×3584 or 3584×2016. Founder review PENDING. ZIPs on GitHub release `df-v2-mass-cj-2026-10-11`. Ledger: `docs/site00/idnty/visual-authority/mass-production/cj-run/`.
+- **Conventions:** Do not treat these plates as live UI or as sent email. Do not regenerate A or B. Marketing email jobs used the registered canonical JPEG.
+
+## 2026-10-11 — Remove committed MEMORY.md conflict markers
+
+- **Context:** `origin/main` had an unresolved merge left in `motherboard/MEMORY.md` (BLDR V2 benchmark entry versus the batch B log). That marker block made later branches report conflicts with `main`.
+- **Resolution:** Both log entries stay. The conflict markers are removed. No product code changed.
