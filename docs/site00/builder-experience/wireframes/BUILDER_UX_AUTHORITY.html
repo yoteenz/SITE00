@@ -1,0 +1,925 @@
+<title>BLDR Visual Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&family=Martian+Mono:wght@300;400;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,600&family=Saira+Semi+Condensed:wght@500;700&display=swap">
+<style>
+/* Layout concept: a drafting table. Part A pins low-fidelity wireframes to boards with red callouts;
+   Part B shows three mid-fidelity authority previews in SITE 00's own language (ink, white, signal red, mono). */
+:root {
+  --paper: #f3f4f3;
+  --card: #ffffff;
+  --ink: #141515;
+  --muted: #5b5f61;
+  --line: #9a9ea0;
+  --faint: #dcdfe0;
+  --hatch: rgba(20, 21, 21, 0.07);
+  --red: #e8192c;
+  --red-soft: rgba(232, 25, 44, 0.1);
+  --ok: #2f7d4f;
+  --font-ui: 'Martian Mono', ui-monospace, Menlo, Consolas, monospace;
+  --font-read: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+  --font-serif: 'Newsreader', Georgia, 'Times New Roman', serif;
+  --font-cond: 'Saira Semi Condensed', 'Arial Narrow', sans-serif;
+  --step--1: 0.72rem;
+  --step-0: 0.9rem;
+  --step-1: 1.15rem;
+  --step-2: 1.6rem;
+  --step-3: 2.4rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #111314; --card: #191b1d; --ink: #eceeee; --muted: #a3a8aa; --line: #6f7477; --faint: #2b2f31;
+    --hatch: rgba(236, 238, 238, 0.07); --red: #ff4d5a; --red-soft: rgba(255, 77, 90, 0.14); --ok: #63b98a; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #111314; --card: #191b1d; --ink: #eceeee; --muted: #a3a8aa; --line: #6f7477; --faint: #2b2f31;
+  --hatch: rgba(236, 238, 238, 0.07); --red: #ff4d5a; --red-soft: rgba(255, 77, 90, 0.14); --ok: #63b98a; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--paper); color: var(--ink); font-family: var(--font-read); font-size: var(--step-0); line-height: 1.5; }
+.page { max-width: 1320px; margin: 0 auto; padding-inline: 20px; padding-block: 28px 64px; display: grid; gap: 40px; }
+.mono { font-family: var(--font-ui); text-transform: uppercase; letter-spacing: 0.04em; }
+h1, h2, h3 { text-wrap: balance; margin: 0; }
+p { margin: 0; }
+a { color: var(--red); }
+
+/* masthead */
+.mast { display: grid; gap: 14px; border-bottom: 1.5px solid var(--ink); padding-bottom: 22px; }
+.mast .loc { font-family: var(--font-ui); font-size: var(--step--1); letter-spacing: 0.08em; color: var(--muted); display: flex; flex-wrap: wrap; gap: 8px 18px; }
+.mast .loc b { color: var(--red); font-weight: 600; }
+.mast h1 { font-family: var(--font-ui); font-weight: 700; font-size: clamp(1.6rem, 4.4vw, var(--step-3)); text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.05; }
+.mast .thesis { max-width: 68ch; font-size: var(--step-1); }
+.mast .thesis strong { font-family: var(--font-ui); font-size: var(--step-0); text-transform: uppercase; letter-spacing: 0.03em; }
+.status { display: flex; flex-wrap: wrap; gap: 8px; }
+.pill { font-family: var(--font-ui); font-size: var(--step--1); text-transform: uppercase; letter-spacing: 0.06em; border: 1px solid var(--ink); padding: 3px 8px; border-radius: 2px; }
+.pill.red { border-color: var(--red); color: var(--red); }
+
+/* journey strip */
+.rooms { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border: 1px solid var(--line); }
+.rooms > div { padding: 12px; border-right: 1px solid var(--line); display: grid; gap: 4px; align-content: start; }
+.rooms > div:last-child { border-right: 0; background: var(--red-soft); }
+.rooms .r { font-family: var(--font-ui); font-size: var(--step--1); color: var(--red); letter-spacing: 0.06em; }
+.rooms .q { font-family: var(--font-ui); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; }
+.rooms .d { font-size: 0.8rem; color: var(--muted); }
+@media (max-width: 760px) { .rooms { grid-template-columns: 1fr; } .rooms > div { border-right: 0; border-bottom: 1px solid var(--line); } }
+
+.part-h { display: grid; gap: 6px; }
+.part-h .k { font-family: var(--font-ui); color: var(--red); font-size: var(--step--1); letter-spacing: 0.08em; }
+.part-h h2 { font-family: var(--font-ui); text-transform: uppercase; font-size: var(--step-2); }
+.part-h p { max-width: 70ch; color: var(--muted); }
+
+/* boards */
+.board { background: var(--card); border: 1px solid var(--faint); display: grid; grid-template-columns: minmax(0, 1fr) 300px; }
+.board + .board { margin-top: 18px; }
+.board .frames { padding: 22px; display: flex; flex-wrap: wrap; gap: 22px; align-items: flex-start; border-right: 1px dashed var(--faint); min-width: 0; }
+.board .notes { padding: 20px; display: grid; gap: 12px; align-content: start; }
+.board .notes h3 { font-family: var(--font-ui); font-size: 0.85rem; text-transform: uppercase; }
+.board .notes .tag { font-family: var(--font-ui); font-size: var(--step--1); color: var(--red); letter-spacing: 0.06em; }
+.board .notes ol { margin: 0; padding-left: 0; list-style: none; display: grid; gap: 8px; counter-reset: n; }
+.board .notes li { counter-increment: n; display: grid; grid-template-columns: 20px minmax(0, 1fr); gap: 8px; font-size: 0.84rem; }
+.board .notes li::before { content: counter(n); font-family: var(--font-ui); font-size: 0.66rem; color: #fff; background: var(--red); width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center; margin-top: 1px; }
+@media (max-width: 900px) { .board { grid-template-columns: 1fr; } .board .frames { border-right: 0; border-bottom: 1px dashed var(--faint); justify-content: center; } }
+
+/* wireframe primitives */
+.cap { font-family: var(--font-ui); font-size: 0.6rem; letter-spacing: 0.08em; color: var(--muted); text-transform: uppercase; margin-bottom: 6px; }
+.phone { width: 252px; max-width: 100%; aspect-ratio: 393 / 852; border: 1.5px solid var(--ink); border-radius: 22px; padding: 16px 12px 0; display: flex; flex-direction: column; gap: 7px; overflow: hidden; position: relative; background: var(--card); }
+.board .frames > div { max-width: 100%; min-width: 0; overflow-x: auto; }
+.desk { width: 600px; flex: none; aspect-ratio: 1440 / 900; border: 1.5px solid var(--ink); border-radius: 6px; overflow: hidden; display: grid; grid-template-rows: 22px minmax(0, 1fr); background: var(--card); }
+.desk .bar { border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 6px; padding-inline: 8px; font-family: var(--font-ui); font-size: 0.5rem; color: var(--muted); }
+.desk .body { display: grid; grid-template-columns: 130px minmax(0, 1fr) 150px; min-height: 0; }
+.desk .body > * { min-width: 0; min-height: 0; }
+.desk .col { padding: 8px; display: flex; flex-direction: column; gap: 6px; overflow: hidden; }
+.desk .col + .col { border-left: 1px solid var(--faint); }
+.wf-loc { font-family: var(--font-ui); font-size: 0.5rem; letter-spacing: 0.08em; color: var(--red); text-transform: uppercase; }
+.wf-q { font-family: var(--font-ui); font-weight: 700; font-size: 0.82rem; text-transform: uppercase; line-height: 1.15; }
+.wf-t { font-family: var(--font-ui); font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.03em; line-height: 1.35; }
+.wf-s { font-size: 0.6rem; color: var(--muted); line-height: 1.35; }
+.wf-b { font-family: var(--font-ui); font-weight: 700; font-size: 0.62rem; text-transform: uppercase; }
+.lines { display: grid; gap: 3px; }
+.lines i { display: block; height: 4px; background: var(--faint); border-radius: 2px; }
+.lines i:nth-child(2) { width: 82%; } .lines i:nth-child(3) { width: 64%; }
+.hatch { border: 1px dashed var(--line); background: repeating-linear-gradient(45deg, var(--hatch) 0 6px, transparent 6px 12px); display: grid; place-items: center; color: var(--muted); font-family: var(--font-ui); font-size: 0.5rem; text-transform: uppercase; letter-spacing: 0.06em; text-align: center; padding: 4px; }
+.stage { border: 1px solid var(--ink); padding: 8px; display: grid; gap: 6px; }
+.row { display: flex; gap: 5px; align-items: center; flex-wrap: wrap; }
+.btn { font-family: var(--font-ui); font-size: 0.52rem; text-transform: uppercase; letter-spacing: 0.04em; padding: 5px 7px; border: 1px solid var(--ink); border-radius: 2px; white-space: nowrap; }
+.btn.fill { background: var(--ink); color: var(--card); }
+.btn.red { background: var(--red); border-color: var(--red); color: #fff; }
+.btn.ghost { border-style: dashed; color: var(--muted); border-color: var(--line); }
+.chip { font-family: var(--font-ui); font-size: 0.48rem; text-transform: uppercase; border: 1px solid var(--line); padding: 2px 5px; border-radius: 9px; color: var(--muted); white-space: nowrap; }
+.chip.on { border-color: var(--red); color: var(--red); background: var(--red-soft); }
+.rail { display: flex; gap: 5px; overflow: hidden; }
+.rail > div { flex: 0 0 48px; height: 40px; border: 1px solid var(--line); display: grid; place-items: end start; padding: 3px; font-family: var(--font-ui); font-size: 0.4rem; text-transform: uppercase; }
+.rail > div.sel { border: 1.5px solid var(--ink); }
+.rail > div.none { border-style: dashed; color: var(--red); border-color: var(--red); }
+.strip { margin-top: auto; margin-inline: -12px; border-top: 1.5px solid var(--ink); padding: 7px 12px 14px; display: flex; justify-content: space-between; align-items: center; gap: 6px; font-family: var(--font-ui); font-size: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em; }
+.meter { display: inline-flex; gap: 2px; vertical-align: middle; }
+.meter i { width: 9px; height: 6px; border: 1px solid var(--ink); display: block; }
+.meter i.on { background: var(--ink); }
+.tile { border: 1px solid var(--ink); padding: 7px; display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 7px; align-items: center; }
+.tile svg { width: 44px; height: 30px; }
+.sch { width: 100%; height: auto; color: var(--ink); }
+.sch .f { fill: var(--hatch); }
+.sch .a { stroke: var(--red); }
+.facts { display: grid; grid-template-columns: 62px minmax(0, 1fr); gap: 3px 6px; }
+.facts dt { font-family: var(--font-ui); font-size: 0.45rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; padding-top: 1px; }
+.facts dd { margin: 0; font-size: 0.56rem; line-height: 1.3; }
+.callout { width: 15px; height: 15px; border-radius: 50%; background: var(--red); color: #fff; font-family: var(--font-ui); font-size: 0.5rem; display: grid; place-items: center; position: absolute; z-index: 2; box-shadow: 0 0 0 2px var(--card); }
+.split { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--ink); position: relative; }
+.split > div { padding: 6px; display: grid; gap: 4px; }
+.split > div + div { border-left: 2px solid var(--red); }
+.split .handle { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 14px; height: 22px; background: var(--red); border-radius: 7px; }
+.sheet { border: 1px solid var(--ink); padding: 6px; display: grid; gap: 3px; font-family: var(--font-ui); font-size: 0.46rem; text-transform: uppercase; }
+.sheet .l { display: flex; justify-content: space-between; gap: 4px; border-bottom: 1px dotted var(--faint); padding-bottom: 2px; }
+.sheet .l span:last-child { text-align: right; }
+.sheet .l.open span:last-child { color: var(--red); }
+.sheet .l .sys { color: var(--muted); }
+.plate { display: grid; grid-template-columns: 2fr 1fr; grid-template-rows: auto auto; border: 1px solid var(--line); }
+.plate > div { min-height: 16px; }
+.swatches { display: flex; gap: 3px; }
+.swatches i { flex: 1; height: 16px; border: 1px solid var(--faint); }
+.big { font-family: var(--font-ui); font-weight: 700; font-size: 1.05rem; line-height: 1.05; }
+.toggle { display: inline-flex; border: 1px solid var(--ink); border-radius: 2px; overflow: hidden; }
+.toggle span { font-family: var(--font-ui); font-size: 0.45rem; padding: 2px 5px; text-transform: uppercase; }
+.toggle span.on { background: var(--ink); color: var(--card); }
+.note-red { color: var(--red); }
+.cards { display: grid; gap: 5px; }
+.card-wf { border: 1px solid var(--line); padding: 6px; display: grid; gap: 3px; }
+.card-wf.sel { border: 1.5px solid var(--ink); }
+.card-wf.off { border-style: dashed; opacity: 0.75; }
+.slider { display: grid; gap: 2px; }
+.slider .track { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--ink); }
+.slider .track span { font-family: var(--font-ui); font-size: 0.42rem; text-transform: uppercase; text-align: center; padding: 3px 1px; }
+.slider .track span + span { border-left: 1px solid var(--faint); }
+.slider .track span.on { background: var(--ink); color: var(--card); }
+.slider.four .track { grid-template-columns: repeat(4, 1fr); }
+
+/* Part B: authority previews in SITE 00 language */
+.authority { display: grid; gap: 22px; }
+.ap { background: var(--card); border: 1px solid var(--faint); padding: 18px; display: grid; gap: 14px; }
+.ap .cap { margin: 0; }
+.ap-head { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6px 16px; align-items: baseline; }
+.ap-head h3 { font-family: var(--font-ui); text-transform: uppercase; font-size: 0.95rem; }
+.ap-screen { border: 1.5px solid var(--ink); background: var(--card); overflow: hidden; }
+.ap-screen .top { display: flex; justify-content: space-between; gap: 10px; padding: 10px 14px; border-bottom: 1px solid var(--ink); font-family: var(--font-ui); font-size: 0.62rem; letter-spacing: 0.06em; text-transform: uppercase; flex-wrap: wrap; }
+.ap-screen .top b { color: var(--red); font-weight: 600; }
+.cmp { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.cmp > div { padding: 14px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.cmp > div + div { border-left: 1px solid var(--faint); }
+@media (max-width: 860px) { .cmp { grid-template-columns: 1fr; } .cmp > div + div { border-left: 0; border-top: 1px solid var(--faint); } }
+.spec { border: 1px solid var(--faint); display: grid; min-height: 230px; }
+.spec .band { padding: 12px; display: grid; gap: 6px; }
+.spec .band + .band { border-top: 1px solid currentColor; }
+.spec small { font-family: var(--font-ui); font-size: 0.5rem; letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.7; }
+.spec-a { background: #f2f1ee; color: #17181a; }
+.spec-a h4 { font-family: var(--font-read); font-weight: 600; font-size: 1.35rem; letter-spacing: -0.02em; margin: 0; }
+.spec-b { background: #efe6da; color: #2b1d16; }
+.spec-b h4 { font-family: var(--font-serif); font-weight: 400; font-size: 1.55rem; margin: 0; line-height: 1.05; }
+.spec-c { background: #0e0d0c; color: #ece6dc; }
+.spec-c h4 { font-family: var(--font-cond); font-weight: 700; font-size: 1.65rem; text-transform: uppercase; margin: 0; letter-spacing: 0.02em; line-height: 0.95; }
+.spec .acc-a { color: #3b3d40; } .spec .acc-b { color: #9a4a2c; } .spec .acc-c { color: #b8915a; }
+.spec .cta { justify-self: start; font-family: var(--font-ui); font-size: 0.5rem; text-transform: uppercase; padding: 5px 8px; border: 1px solid currentColor; }
+.facets { display: flex; flex-wrap: wrap; gap: 4px; }
+.facet { font-family: var(--font-ui); font-size: 0.55rem; text-transform: uppercase; border: 1px solid var(--line); border-radius: 10px; padding: 2px 7px; color: var(--muted); }
+.facet.on { color: var(--red); border-color: var(--red); background: var(--red-soft); }
+.ap-actions { display: flex; flex-wrap: wrap; gap: 6px; }
+.ap-btn { font-family: var(--font-ui); font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.04em; padding: 7px 10px; border: 1px solid var(--ink); background: transparent; color: var(--ink); }
+.ap-btn.fill { background: var(--ink); color: var(--card); }
+.ap-btn.red { background: var(--red); border-color: var(--red); color: #fff; }
+.bp { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); }
+.bp > div { padding: 16px; min-width: 0; }
+.bp > div + div { border-left: 1px solid var(--ink); }
+@media (max-width: 860px) { .bp { grid-template-columns: 1fr; } .bp > div + div { border-left: 0; border-top: 1px solid var(--ink); } }
+.draw { border: 1px solid var(--line); padding: 14px; display: grid; gap: 8px; background: var(--paper); }
+.bp-lines { display: grid; font-family: var(--font-ui); font-size: 0.64rem; text-transform: uppercase; }
+.bp-lines div { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 10px; padding: 6px 0; border-bottom: 1px dotted var(--line); }
+.bp-lines span:first-child { color: var(--muted); letter-spacing: 0.05em; }
+.bp-lines em { font-style: normal; color: var(--muted); }
+.est { display: grid; gap: 14px; }
+.est .conf { font-family: var(--font-ui); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--red); }
+.figs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.fig { border-top: 2px solid var(--ink); padding-top: 6px; display: grid; gap: 3px; }
+.fig span { font-family: var(--font-ui); font-size: 0.55rem; text-transform: uppercase; color: var(--muted); letter-spacing: 0.05em; }
+.fig b { font-family: var(--font-ui); font-size: clamp(1.2rem, 3vw, 1.7rem); font-weight: 700; font-variant-numeric: tabular-nums; }
+.rangebar { height: 6px; background: var(--faint); position: relative; }
+.rangebar i { position: absolute; top: 0; bottom: 0; background: var(--ink); }
+.acc { border-top: 1px solid var(--ink); }
+.acc div { border-bottom: 1px solid var(--faint); padding: 8px 0; display: grid; gap: 4px; }
+.acc b { font-family: var(--font-ui); font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.05em; }
+.acc p { font-size: 0.82rem; }
+.fine { font-size: 0.75rem; color: var(--muted); }
+.mobile-pair { display: flex; flex-wrap: wrap; gap: 22px; justify-content: center; }
+.mphone { width: 300px; max-width: 100%; border: 1.5px solid var(--ink); border-radius: 26px; overflow: hidden; background: var(--card); }
+.mphone .in { padding: 18px 16px; display: grid; gap: 12px; }
+.mphone .strip2 { border-top: 1.5px solid var(--ink); padding: 10px 16px 18px; display: flex; justify-content: space-between; font-family: var(--font-ui); font-size: 0.58rem; text-transform: uppercase; }
+
+.gate { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 6px; }
+.gate div { border: 1px solid var(--faint); background: var(--card); padding: 8px 10px; display: flex; justify-content: space-between; gap: 8px; font-family: var(--font-ui); font-size: 0.62rem; text-transform: uppercase; }
+.gate b { color: var(--ok); }
+.foot { font-size: 0.8rem; color: var(--muted); border-top: 1px solid var(--line); padding-top: 16px; display: grid; gap: 6px; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+
+<main class="page">
+  <header class="mast">
+    <div class="loc"><span>SITE 00 / BLDR / UX AUTHORITY</span><span>P0.SITE00.BUILDER.TEMPLATE-AND-ESTIMATE-SELECTION-EXPERIENCE1</span><b>FOR FOUNDER UX REVIEW</b></div>
+    <h1>The visual Builder: choose what it is, how it feels, what it does</h1>
+    <p class="thesis"><strong>Templates provide grammar, not identity.</strong> Clients react to structures and expressions they can see. The Builder assembles a Blueprint from those reactions, and the canonical estimator turns it into a projected window and investment. Family units, lanes and coefficients never reach the client.</p>
+    <div class="status"><span class="pill">Wireframes + authority previews</span><span class="pill">Contract: src/site00/builder-experience</span><span class="pill">Estimator v1.0.0 unchanged</span><span class="pill red">Not implemented · no public price changed</span></div>
+  </header>
+
+  <section class="rooms" aria-label="Journey">
+    <div><span class="r">ROOM I</span><span class="q">The place</span><span class="d">Build · structure (or world form)</span></div>
+    <div><span class="r">ROOM II</span><span class="q">The feel</span><span class="d">Brand · expression · tune type, colour, image, motion</span></div>
+    <div><span class="r">ROOM III</span><span class="q">The work</span><span class="d">Features as verbs · experiences</span></div>
+    <div><span class="r">ROOM IV</span><span class="q">The pace</span><span class="d">Standard · priority where it helps · a date</span></div>
+    <div><span class="r">REVEAL</span><span class="q">Blueprint → estimate</span><span class="d">The project takes shape, then its range</span></div>
+  </section>
+
+  <section id="wireframes" class="part-h">
+    <span class="k">PART A</span>
+    <h2>Wireframes: the full journey</h2>
+    <p>Low fidelity on purpose: hierarchy, progression, selection, compare, Blueprint assembly and the estimate reveal. Hatched boxes are preview slots that stay empty until a real authority exists. Example client: “Northlight Studio”, a small practice (the SIMPLE path), unless a board says otherwise. Figures are real estimator output for the matching sample selection.</p>
+  </section>
+
+  <div>
+    <!-- W01 -->
+    <article class="board">
+      <div class="frames">
+        <div>
+          <div class="cap">W01 · Phone · Room I</div>
+          <div class="phone">
+            <span class="wf-loc">I · The place · 1 / 2</span>
+            <span class="wf-q">What are you building?</span>
+            <div class="tile"><svg viewBox="0 0 44 30" class="sch"><rect x="2" y="2" width="40" height="26" fill="none" stroke="currentColor"/><rect x="6" y="6" width="32" height="6" class="f" stroke="currentColor"/><line x1="6" y1="16" x2="30" y2="16" stroke="currentColor"/><line x1="6" y1="21" x2="24" y2="21" stroke="currentColor"/></svg><div><span class="wf-b">Site</span><p class="wf-s">A place people visit.</p></div></div>
+            <div class="tile"><svg viewBox="0 0 44 30" class="sch"><ellipse cx="22" cy="15" rx="19" ry="11" fill="none" stroke="currentColor"/><circle cx="14" cy="13" r="3" class="f" stroke="currentColor"/><circle cx="29" cy="18" r="3" class="f" stroke="currentColor"/><path d="M14 13 L29 18" stroke="currentColor" stroke-dasharray="2 2"/></svg><div><span class="wf-b">World</span><p class="wf-s">A place people explore.</p></div></div>
+            <div class="tile"><svg viewBox="0 0 44 30" class="sch"><rect x="2" y="2" width="40" height="26" fill="none" stroke="currentColor"/><rect x="2" y="2" width="9" height="26" class="f" stroke="currentColor"/><line x1="15" y1="8" x2="38" y2="8" stroke="currentColor"/><line x1="15" y1="14" x2="38" y2="14" stroke="currentColor"/><line x1="15" y1="20" x2="32" y2="20" stroke="currentColor"/></svg><div><span class="wf-b">System</span><p class="wf-s">A place people work.</p></div></div>
+            <div class="tile"><svg viewBox="0 0 44 30" class="sch"><rect x="2" y="6" width="20" height="20" fill="none" stroke="currentColor"/><ellipse cx="31" cy="16" rx="11" ry="9" fill="none" stroke="currentColor"/></svg><div><span class="wf-b">Hybrid</span><p class="wf-s">More than one of these.</p></div></div>
+            <span class="wf-t note-red">Not sure? Describe it instead →</span>
+            <div class="strip"><span>Blueprint · 0 / 9</span><span>Scope <span class="meter"><i></i><i></i><i></i><i></i></span> —</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="notes">
+        <span class="tag">W01 · BUILD</span><h3>One question, four answers</h3>
+        <ol>
+          <li>Each answer is a kind of place, drawn as a glyph of its behaviour. The choice changes every room after it (World swaps structure for world form).</li>
+          <li>“Not sure?” keeps the existing BLDR discovery as a fallback. Its result lands back here with BUILD and STRUCTURE pre-selected.</li>
+          <li>The Blueprint strip starts empty. It is the progress model for the whole Builder, not a stepper.</li>
+          <li>No money inside the rooms. Public “FROM / TYPICAL” anchors (Option D) stay on the marketing pages.</li>
+        </ol>
+      </div>
+    </article>
+
+    <!-- W02 -->
+    <article class="board">
+      <div class="frames">
+        <div>
+          <div class="cap">W02 · Phone · structure</div>
+          <div class="phone">
+            <span class="wf-loc">I · The place · 2 / 2</span>
+            <span class="wf-q">How should it behave?</span>
+            <div class="stage">
+              <div class="row" style="justify-content:space-between"><span class="wf-b">Service</span><span class="toggle"><span class="on">Phone</span><span>Desktop</span></span></div>
+              <svg viewBox="0 0 120 92" class="sch"><rect x="4" y="4" width="112" height="22" class="f" stroke="currentColor"/><text x="8" y="17" font-size="6" fill="currentColor" font-family="monospace">PROMISE</text><rect x="4" y="30" width="112" height="18" fill="none" stroke="currentColor"/><text x="8" y="41" font-size="6" fill="currentColor" font-family="monospace">OFFER</text><rect x="4" y="52" width="112" height="18" fill="none" stroke="currentColor"/><text x="8" y="63" font-size="6" fill="currentColor" font-family="monospace">PROOF</text><rect x="38" y="76" width="44" height="12" rx="1" class="a" fill="none"/><text x="47" y="84" font-size="6" fill="currentColor" font-family="monospace">BEGIN</text></svg>
+            </div>
+            <dl class="facts">
+              <dt>Behaves</dt><dd>What you offer, proof it works, a clear way to begin.</dd>
+              <dt>Navigation</dt><dd>Short and direct. Offer, proof, begin.</dd>
+              <dt>Ideal for</dt><dd>Consultants · clinics · trades</dd>
+              <dt>Scope</dt><dd>Lighter</dd>
+            </dl>
+            <div class="row"><span class="btn fill">Choose</span><span class="btn">Keep ♡</span><span class="btn">Compare</span></div>
+            <div class="rail"><div>Edit</div><div>Gall</div><div>Comm</div><div class="sel">Serv</div><div>Port</div><div class="none">None</div></div>
+            <div class="strip"><span>Blueprint · 1 / 9</span><span>Scope <span class="meter"><i></i><i></i><i></i><i></i></span> —</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="cap">W02 · Desktop · structure</div>
+          <div class="desk">
+            <div class="bar">SITE 00 / BLDR · I · THE PLACE</div>
+            <div class="body">
+              <div class="col">
+                <span class="wf-t">8 site grammars</span>
+                <div class="card-wf"><span class="wf-t">Editorial</span></div>
+                <div class="card-wf"><span class="wf-t">Gallery</span></div>
+                <div class="card-wf"><span class="wf-t">Commerce</span></div>
+                <div class="card-wf sel"><span class="wf-t">Service ●</span></div>
+                <div class="card-wf"><span class="wf-t">Portal</span></div>
+                <div class="card-wf"><span class="wf-t">Hospitality</span></div>
+                <div class="card-wf off"><span class="wf-t note-red">None of these</span></div>
+              </div>
+              <div class="col">
+                <div class="row" style="justify-content:space-between"><span class="wf-q">Service</span><span class="toggle"><span>Phone</span><span class="on">Desktop</span></span></div>
+                <div class="hatch" style="flex:1">Schematic: promise → offer → proof → begin<br>(real preview when an authority exists)</div>
+                <div class="row"><span class="btn fill">Choose</span><span class="btn">Keep ♡</span><span class="btn">Compare</span></div>
+              </div>
+              <div class="col">
+                <span class="wf-t">Project blueprint</span>
+                <div class="sheet"><div class="l"><span>Build</span><span>Site</span></div><div class="l open"><span>Structure</span><span>…</span></div><div class="l open"><span>Visual system</span><span>—</span></div><div class="l open"><span>Features</span><span>—</span></div><div class="l open"><span>Delivery</span><span>—</span></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="notes">
+        <span class="tag">W02 · STRUCTURE</span><h3>Structure is drawn as layout logic</h3>
+        <ol>
+          <li>The stage shows a schematic of how people move (promise → offer → proof → begin). It has no colour and no type personality, so structure never reads as style.</li>
+          <li>Five facts in client words: behaviour, navigation, ideal for, composition logic, scope hint (from the estimator’s typical class).</li>
+          <li>PHONE / DESKTOP preview slots are empty until an approved authority exists. No stand-in imagery.</li>
+          <li>The rail always ends with NONE OF THESE.</li>
+        </ol>
+      </div>
+    </article>
+
+    <!-- W03 -->
+    <article class="board">
+      <div class="frames">
+        <div>
+          <div class="cap">W03 · Phone · compare</div>
+          <div class="phone">
+            <span class="wf-loc">Compare · same content</span>
+            <span class="wf-q">Service or hospitality?</span>
+            <div class="split" style="flex:1">
+              <div><span class="wf-b">A · Service</span><svg viewBox="0 0 60 90" class="sch"><rect x="3" y="3" width="54" height="16" class="f" stroke="currentColor"/><rect x="3" y="23" width="54" height="14" fill="none" stroke="currentColor"/><rect x="3" y="41" width="54" height="14" fill="none" stroke="currentColor"/><rect x="16" y="62" width="28" height="9" class="a" fill="none"/></svg><p class="wf-s">Offer leads. Begin at the end.</p></div>
+              <div><span class="wf-b">B · Hospitality</span><svg viewBox="0 0 60 90" class="sch"><rect x="3" y="3" width="54" height="40" class="f" stroke="currentColor"/><rect x="3" y="47" width="54" height="10" fill="none" stroke="currentColor"/><rect x="34" y="62" width="23" height="9" class="a" fill="none"/></svg><p class="wf-s">The place leads. Book always near.</p></div>
+              <span class="handle" aria-hidden="true"></span>
+            </div>
+            <div class="row"><span class="btn">A | B</span><span class="btn fill">Choose A</span><span class="btn">Choose B</span></div>
+            <div class="strip"><span>Blueprint · 1 / 9</span><span>Comparing 2</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="cap">W03 · Desktop · compare up to three</div>
+          <div class="desk">
+            <div class="bar">SITE 00 / BLDR · COMPARE · structure changes, everything else held</div>
+            <div class="body" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+              <div class="col"><span class="wf-t">A · Service</span><div class="hatch" style="flex:1">Offer → proof → begin</div><span class="btn fill">Choose</span></div>
+              <div class="col"><span class="wf-t">B · Hospitality</span><div class="hatch" style="flex:1">Place → offer → book</div><span class="btn">Choose</span></div>
+              <div class="col"><span class="wf-t">C · Editorial</span><div class="hatch" style="flex:1">Lead story → index → read next</div><span class="btn">Choose</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="notes">
+        <span class="tag">W03 · COMPARE</span><h3>Change one dimension at a time</h3>
+        <ol>
+          <li>Compare renders the client’s same content in each option. Comparing structures holds the expression; comparing expressions holds the structure.</li>
+          <li>Phone: two options, a drag divider and an A | B toggle. Desktop: up to three side by side.</li>
+          <li>Kept options collect on the Blueprint shortlist for the creative team.</li>
+        </ol>
+      </div>
+    </article>
+
+    <!-- W04 -->
+    <article class="board">
+      <div class="frames">
+        <div>
+          <div class="cap">W04 · Phone · brand, then expression</div>
+          <div class="phone">
+            <span class="wf-loc">II · The feel</span>
+            <span class="wf-q">How should it feel?</span>
+            <div class="row"><span class="chip on">Brand: ready</span><span class="chip">In progress</span><span class="chip">Not yet → IDNTY</span></div>
+            <div class="stage">
+              <div class="row" style="justify-content:space-between"><span class="wf-b">Architectural minimal</span><span class="toggle"><span class="on">Essential</span><span>Full</span></span></div>
+              <div class="hatch" style="height:96px">Specimen: Northlight Studio set in the system’s type, on its colour plate, with a motion demo ▶</div>
+              <dl class="facts"><dt>Feels</dt><dd>Calm, exact, structural.</dd><dt>Material</dt><dd>Concrete, glass, daylight.</dd><dt>Motion</dt><dd>Quiet: fades, measured slides.</dd></dl>
+              <span class="wf-t" style="color:var(--muted)">I like parts of this</span>
+              <div class="row"><span class="chip">Composition</span><span class="chip">Type</span><span class="chip">Colour</span><span class="chip">Image</span><span class="chip">Material</span><span class="chip">Motion</span></div>
+            </div>
+            <div class="row"><span class="btn fill">Choose</span><span class="btn">Add as influence</span><span class="btn">Keep ♡</span></div>
+            <div class="strip"><span>Blueprint · 3 / 9</span><span>Scope <span class="meter"><i class="on"></i><i></i><i></i><i></i></span> Light</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="cap">W04 · Desktop · expression applied to structure</div>
+          <div class="desk">
+            <div class="bar">SITE 00 / BLDR · II · THE FEEL</div>
+            <div class="body">
+              <div class="col"><span class="wf-t">6 visual systems</span><div class="card-wf"><span class="wf-t">Editorial object</span></div><div class="card-wf sel"><span class="wf-t">Architectural minimal ●</span></div><div class="card-wf"><span class="wf-t">Cinematic luxury</span></div><div class="card-wf"><span class="wf-t">Soft organic</span></div><div class="card-wf"><span class="wf-t">Industrial command</span></div><div class="card-wf"><span class="wf-t">Pop editorial</span></div><div class="card-wf off"><span class="wf-t note-red">Build something custom</span></div></div>
+              <div class="col">
+                <div class="hatch" style="flex:1">Specimen applied to the SERVICE schematic: the bones in these clothes</div>
+                <div class="row"><span class="chip">Composition</span><span class="chip">Type</span><span class="chip">Colour</span><span class="chip">Image</span><span class="chip">Material</span><span class="chip">Spacing</span><span class="chip">Icons</span><span class="chip">Motion</span></div>
+                <div class="row"><span class="btn fill">Choose</span><span class="btn">Add as influence</span><span class="btn">Keep ♡</span></div>
+              </div>
+              <div class="col"><span class="wf-t">Project blueprint</span><div class="sheet"><div class="l"><span>Build</span><span>Site</span></div><div class="l"><span>Structure</span><span>Service</span></div><div class="l"><span>Visual system</span><span>Arch. minimal</span></div><div class="l"><span>Type</span><span class="sys">from system</span></div><div class="l"><span>Colour</span><span class="sys">from system</span></div><div class="l open"><span>Features</span><span>—</span></div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="notes">
+        <span class="tag">W04 · BRAND + EXPRESSION</span><h3>A complete grammar, not a colour theme</h3>
+        <ol>
+          <li>Brand comes first. “Not yet” routes to IDNTY as its own project and turns off “your brand colours”.</li>
+          <li>The specimen demonstrates all eight facets: composition, type, imagery, material, spacing, icons, object language, motion.</li>
+          <li>ESSENTIAL uses the system closely (Simple). FULL develops it for this project (Advanced).</li>
+          <li>Primary + one secondary influence. One liked facet is a note; two facets from one system count as an influence; three systems become a custom direction.</li>
+        </ol>
+      </div>
+    </article>
+
+    <!-- W05 -->
+    <article class="board">
+      <div class="frames">
+        <div>
+          <div class="cap">W05 · Phone · type in context</div>
+          <div class="phone">
+            <span class="wf-loc">II · Tune · typography</span>
+            <span class="wf-q">How should it speak?</span>
+            <div class="stage"><span class="wf-t" style="color:var(--muted)">Your headline, your structure</span><div class="hatch" style="height:62px">“Calm, exact practice.”<br>set in the selected direction</div></div>
+            <div class="cards">
+              <div class="card-wf sel"><span class="wf-t">Modern grotesk · from system</span><span class="wf-s">Clear and contemporary.</span></div>
+              <div class="card-wf"><span class="wf-t">Editorial serif</span><span class="wf-s">Literate and assured.</span></div>
+              <div class="card-wf"><span class="wf-t">Humanist sans</span><span class="wf-s">Warm and approachable.</span></div>
+              <div class="card-wf"><span class="wf-t">Expressive display + restrained body</span><span class="wf-s">Dramatic, then quiet.</span></div>
+            </div>
+            <div class="strip"><span>Tuned 0 of 4</span><span>Scope stays light</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="cap">W05 · Phone · colour relationships</div>
+          <div class="phone">
+            <span class="wf-loc">II · Tune · colour</span>
+            <span class="wf-q">What should the world feel like?</span>
+            <div class="card-wf sel"><span class="wf-t">Neutral architectural · from system</span><div class="swatches"><i style="background:#f2f1ee"></i><i style="background:#e2e0db"></i><i style="background:#3b3d40"></i><i style="background:#17181a"></i><i style="background:#b9b6ae"></i></div><span class="wf-s">Background · surface · accent · text · material. Text contrast ✓ ✓</span></div>
+            <div class="card-wf"><span class="wf-t">Warm mineral</span><div class="swatches"><i style="background:#efe6da"></i><i style="background:#dccab3"></i><i style="background:#9a4a2c"></i><i style="background:#2b1d16"></i><i style="background:#c2a383"></i></div></div>
+            <div class="card-wf"><span class="wf-t">Deep cinematic</span><div class="swatches"><i style="background:#0e0d0c"></i><i style="background:#1d1b19"></i><i style="background:#b8915a"></i><i style="background:#ece6dc"></i><i style="background:#4a3f33"></i></div></div>
+            <div class="card-wf"><span class="wf-t">Your brand colours</span><span class="wf-s">Offered when your brand is ready or in progress.</span></div>
+            <span class="wf-s">Specimens show a direction, not your palette.</span>
+            <div class="strip"><span>Tuned 0 of 4</span><span>Scope stays light</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="notes">
+        <span class="tag">W05 · TYPE + COLOUR</span><h3>Tuning layers, opened only when wanted</h3>
+        <ol>
+          <li>Simple clients never see these screens: the expression’s defaults are shown on the Blueprint as “from system”.</li>
+          <li>Type is never a font dropdown. Each direction is set in the client’s own headline on their own structure.</li>
+          <li>Colour is a five-part relationship with a contrast check, never a single swatch.</li>
+          <li>Each direction maps to an approved type system or palette later (slot `approvedTypeSystem: null`).</li>
+        </ol>
+      </div>
+    </article>
+
+    <!-- W06 -->
+    <article class="board">
+      <div class="frames">
+        <div>
+          <div class="cap">W06 · Phone · image world</div>
+          <div class="phone">
+            <span class="wf-loc">II · Tune · image world</span>
+            <span class="wf-q">What should people see?</span>
+            <div class="cards">
+              <div class="card-wf sel"><span class="wf-t">Architectural · from system</span><span class="wf-s">Your spaces or commissioned images.</span></div>
+              <div class="card-wf"><span class="wf-t">Photographic</span><span class="wf-s">Your photography, a shoot, or licensed.</span></div>
+              <div class="card-wf"><span class="wf-t">Editorial collage <span class="note-red">· advanced</span></span><span class="wf-s">Designed by SITE 00 from your material.</span></div>
+              <div class="card-wf"><span class="wf-t">Generative <span class="note-red">· advanced</span></span><span class="wf-s">A generated-image pipeline, reviewed per asset.</span></div>
+              <div class="card-wf"><span class="wf-t">3D / spatial <span class="note-red">· advanced</span></span><span class="wf-s">3D assets built for the project.</span></div>
+            </div>
+            <div class="strip"><span>Who makes it, shown</span><span>Light</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="cap">W06 · Phone · motion</div>
+          <div class="phone">
+            <span class="wf-loc">II · Tune · motion</span>
+            <span class="wf-q">How should it move?</span>
+            <div class="stage"><div class="hatch" style="height:84px">Demo plays once on the specimen ▶ replay<br>(still frame + caption under reduced motion)</div></div>
+            <div class="row"><span class="chip on">Quiet</span><span class="chip">Editorial</span><span class="chip">Kinetic</span><span class="chip">Cinematic</span><span class="chip">Spatial</span><span class="chip">Custom</span></div>
+            <dl class="facts"><dt>Quiet</dt><dd>Things appear calmly. Motion never asks for attention.</dd><dt>Kinetic</dt><dd>Snappy and graphic. <span class="note-red">Advanced build.</span></dd></dl>
+            <div class="strip"><span>Blueprint · 4 / 9</span><span>Scope <span class="meter"><i class="on"></i><i></i><i></i><i></i></span> Light</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="notes">
+        <span class="tag">W06 · IMAGE + MOTION</span><h3>What people see, how it moves</h3>
+        <ol>
+          <li>Each image world says who makes it. Worlds SITE 00 has to produce are marked advanced, because that is real production.</li>
+          <li>Motion is demonstrated on the client’s own specimen, never described alone.</li>
+          <li>The essential edition simplifies a demanding system default to editorial motion and says so on the specimen.</li>
+        </ol>
+      </div>
+    </article>
+
+    <!-- W07 -->
+    <article class="board">
+      <div class="frames">
+        <div>
+          <div class="cap">W07 · Phone · features as verbs</div>
+          <div class="phone">
+            <span class="wf-loc">III · The work</span>
+            <span class="wf-q">What does it need to do?</span>
+            <span class="wf-t" style="color:var(--muted)">Offer</span>
+            <div class="row"><span class="chip">Sell <span class="note-red">adv</span></span><span class="chip">Book</span><span class="chip">Take payment <span class="note-red">adv</span></span></div>
+            <span class="wf-t" style="color:var(--muted)">People</span>
+            <div class="row"><span class="chip">Membership <span class="note-red">adv</span></span><span class="chip">Accounts</span><span class="chip">Community <span class="note-red">adv</span></span></div>
+            <span class="wf-t" style="color:var(--muted)">Information</span>
+            <div class="row"><span class="chip on">Edit it yourself</span><span class="chip">Search</span><span class="chip">Upload files</span><span class="chip">Dashboard <span class="note-red">adv</span></span></div>
+            <span class="wf-t" style="color:var(--muted)">Reach</span>
+            <div class="row"><span class="chip">Email</span><span class="chip">Notifications</span><span class="chip">Multilingual</span><span class="chip">Measure</span></div>
+            <div class="card-wf"><span class="wf-t">Book · a large addition for this project</span><span class="wf-s">Adds a Booking experience. Scope stays light; still a simple build.</span></div>
+            <div class="card-wf" style="border-color:var(--red)"><span class="wf-t note-red">Sell is part of an advanced build</span><span class="wf-s">Keep it (advanced build) · Remove · Ask SITE 00</span></div>
+            <div class="strip"><span>Blueprint · 6 / 9</span><span>Scope <span class="meter"><i class="on"></i><i></i><i></i><i></i></span> Light</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="notes">
+        <span class="tag">W07 · FEATURES</span><h3>Verbs, with consequences in words</h3>
+        <ol>
+          <li>No implementation jargon. Internal feature identifiers never appear.</li>
+          <li>Each toggle reports its scope impact in words (none / small / medium / large), asked of the estimator.</li>
+          <li>COMES WITH is always shown: membership comes with accounts, sell comes with take payment.</li>
+          <li>For a keep-it-simple client, a choice that raises the build level becomes a decision card, never a silent upgrade.</li>
+          <li>Impossible combinations surface as questions (“What will people pay for?”).</li>
+        </ol>
+      </div>
+    </article>
+
+    <!-- W08 -->
+    <article class="board">
+      <div class="frames">
+        <div>
+          <div class="cap">W08 · Phone · experiences</div>
+          <div class="phone">
+            <span class="wf-loc">III · The work</span>
+            <span class="wf-q">What experiences does it need?</span>
+            <span class="wf-s">Pre-assembled from your structure and features.</span>
+            <div class="card-wf sel"><span class="wf-t">Front door</span><span class="wf-s">Home · About · Contact</span><div class="row"><span class="chip on">Essential</span><span class="chip">Full</span><span class="chip">Extensive</span></div></div>
+            <div class="card-wf sel"><span class="wf-t">What you offer</span><span class="wf-s">Services · Proof</span><div class="row"><span class="chip on">Essential</span><span class="chip">Full</span></div></div>
+            <div class="card-wf off"><span class="wf-t">Doing things</span><span class="wf-s">Booking appears when BOOK is on.</span></div>
+            <div class="card-wf off"><span class="wf-t">+ Journal</span><span class="wf-s">Offered, off.</span></div>
+            <div class="strip"><span>Blueprint · 7 / 9</span><span>Scope <span class="meter"><i class="on"></i><i></i><i></i><i></i></span> Light</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="cap">W08 · Desktop · the place as a map</div>
+          <div class="desk">
+            <div class="bar">SITE 00 / BLDR · III · EXPERIENCES</div>
+            <div class="body" style="grid-template-columns:minmax(0,1fr) 150px">
+              <div class="col">
+                <span class="wf-t">Front door</span>
+                <div class="row"><span class="btn">Home</span><span class="btn">About</span><span class="btn">Contact</span></div>
+                <span class="wf-t">What you offer</span>
+                <div class="row"><span class="btn">Services</span><span class="btn">Proof</span><span class="btn ghost">+ Journal</span></div>
+                <span class="wf-t">Doing things</span>
+                <div class="row"><span class="btn ghost">Booking · needs BOOK</span></div>
+                <div style="border-top:1px dashed var(--line);margin-top:4px;padding-top:4px"><span class="wf-t" style="color:var(--muted)">Signed in · behind this line · none yet</span></div>
+              </div>
+              <div class="col"><span class="wf-t">Depth</span><span class="wf-s">Essential: the core views. Full: every state and sub-view. Extensive: a large family of views.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="notes">
+        <span class="tag">W08 · FAMILIES</span><h3>Experiences, never “family units”</h3>
+        <ol>
+          <li>Grouped by where they sit: front door, what you offer, doing things, signed in, behind the scenes.</li>
+          <li>Availability reacts: Checkout appears only with SELL, Dashboard only with DASHBOARD. Adding one by hand surfaces the dependency.</li>
+          <li>Depth is in words. The view counts behind it are internal.</li>
+          <li>Front-door experiences share one production family, so home + about + contact cost one light family.</li>
+        </ol>
+      </div>
+    </article>
+
+    <!-- W09 -->
+    <article class="board">
+      <div class="frames">
+        <div>
+          <div class="cap">W09 · Phone · world form</div>
+          <div class="phone">
+            <span class="wf-loc">I · The place · World</span>
+            <span class="wf-q">What form is your world?</span>
+            <div class="stage">
+              <div class="row" style="justify-content:space-between"><span class="wf-b">Showroom</span><span class="toggle"><span class="on">Map</span><span>Space</span></span></div>
+              <svg viewBox="0 0 120 80" class="sch"><rect x="4" y="4" width="112" height="72" fill="none" stroke="currentColor"/><circle cx="30" cy="28" r="8" class="f" stroke="currentColor"/><circle cx="62" cy="22" r="8" class="f" stroke="currentColor"/><circle cx="92" cy="34" r="8" class="f" stroke="currentColor"/><circle cx="46" cy="56" r="8" class="f" stroke="currentColor"/><path d="M10 70 C 30 60, 50 66, 70 50 S 100 40, 110 44" class="a" fill="none" stroke-dasharray="3 2"/></svg>
+            </div>
+            <dl class="facts"><dt>Movement</dt><dd>Walk up to a piece and look closer.</dd><dt>Ideal for</dt><dd>Products, vehicles, fashion.</dd></dl>
+            <div class="rail"><div>Estate</div><div>Prom.</div><div>Hub</div><div class="sel">Show</div><div>Story</div><div class="none">None</div></div>
+            <div class="strip"><span>Advanced build</span><span>Scope <span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span> Expansive</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="cap">W09 · Phone · life and depth</div>
+          <div class="phone">
+            <span class="wf-loc">I · The place · World</span>
+            <span class="wf-q">Shape the world</span>
+            <div class="slider"><span class="wf-t">How many places?</span><div class="track"><span>A few</span><span class="on">Several</span><span>Many</span></div></div>
+            <div class="slider"><span class="wf-t">What can people do?</span><div class="track"><span>Look</span><span class="on">Touch</span><span>Play</span></div></div>
+            <div class="slider four"><span class="wf-t">Who lives there?</span><div class="track"><span>Nobody</span><span class="on">Guides</span><span>Characters</span><span>Crowds</span></div></div>
+            <div class="slider"><span class="wf-t">Does it change?</span><div class="track"><span>Still</span><span class="on">Time of day</span><span>Living</span></div></div>
+            <div class="slider four"><span class="wf-t">How deep?</span><div class="track"><span>Flat</span><span>Layered</span><span class="on">Dimensional</span><span>Fully 3D</span></div></div>
+            <div class="slider"><span class="wf-t">How do people find their way?</span><div class="track"><span>Guided</span><span>Free roam</span><span class="on">Both</span></div></div>
+            <div class="strip"><span>World estimates refine at review</span><span>Expansive</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="notes">
+        <span class="tag">W09 · WORLD PATH</span><h3>The Builder changes shape</h3>
+        <ol>
+          <li>Structure becomes world form, drawn as a plan view. Experiences become places. The SPACE preview appears when a spatial asset exists.</li>
+          <li>Zones, scenes, interactions, inhabitants, states, 3D load and navigation are asked in human words. Each answer maps to a point inside the estimator’s inputs.</li>
+          <li>A world is at least an advanced build. Its estimate always says it is refined during Blueprint review (world weights are still being calibrated).</li>
+        </ol>
+      </div>
+    </article>
+
+    <!-- W10 -->
+    <article class="board">
+      <div class="frames">
+        <div>
+          <div class="cap">W10 · Phone · delivery (small project)</div>
+          <div class="phone">
+            <span class="wf-loc">IV · The pace</span>
+            <span class="wf-q">How soon?</span>
+            <div class="card-wf sel"><span class="wf-t">Standard production ●</span><span class="wf-s">The normal pace, with work running in parallel wherever the plan allows.</span></div>
+            <div class="card-wf off"><span class="wf-t">Priority production · not available</span><span class="wf-s">Your project already runs at full concurrency, so reserving more capacity would not shorten it.</span></div>
+            <div class="card-wf"><span class="wf-t">A date you need to hit</span><span class="wf-s">Tell us the date. SITE 00 reviews whether the scope can meet it.</span></div>
+            <div class="strip"><span>Blueprint · 8 / 9</span><span>Light</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="cap">W10 · Phone · delivery (large project)</div>
+          <div class="phone">
+            <span class="wf-loc">IV · The pace · large hybrid</span>
+            <span class="wf-q">How soon?</span>
+            <div class="card-wf"><span class="wf-t">Standard production</span><span class="wf-s">The normal pace.</span></div>
+            <div class="card-wf sel"><span class="wf-t">Priority production ● · about 30% sooner</span><span class="wf-s">Reserved capacity · more work in parallel · priority scheduling · tighter review cadence.</span><span class="wf-s">Priority adds a capacity premium.</span></div>
+            <div class="card-wf"><span class="wf-t">Why not half the time?</span><span class="wf-s">Some work happens in order: blueprint, brand lock, integration, final checks, launch. Priority speeds up the rest.</span></div>
+            <div class="strip"><span>Blueprint · 8 / 9</span><span>Expansive</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="notes">
+        <span class="tag">W10 · DELIVERY</span><h3>Priority only where it helps</h3>
+        <ol>
+          <li>The estimator decides feasibility for this exact configuration. With estimator 1.0.0, priority shortens only large projects (about 10+ production families).</li>
+          <li>When it cannot shorten the project, it is shown as not available and nothing is charged (founder decision F4).</li>
+          <li>The relative effect (“about 30% sooner”) comes from the estimator. Windows and figures appear only at the estimate.</li>
+          <li>Never “pay double, half the time”. The “why not half” card explains why.</li>
+        </ol>
+      </div>
+    </article>
+
+    <!-- W11 -->
+    <article class="board">
+      <div class="frames">
+        <div>
+          <div class="cap">W11 · Phone · blueprint</div>
+          <div class="phone">
+            <span class="wf-loc">Reveal · 1 / 2</span>
+            <span class="wf-q">Your project has taken shape</span>
+            <div class="hatch" style="height:70px">Service schematic drawn in Architectural minimal</div>
+            <div class="sheet">
+              <div class="l"><span>Build type</span><span>Site</span></div>
+              <div class="l"><span>Build level</span><span>Simple build</span></div>
+              <div class="l"><span>Structure</span><span>Service</span></div>
+              <div class="l"><span>Visual system</span><span>Arch. minimal · essential</span></div>
+              <div class="l"><span>Type / colour</span><span class="sys">from system</span></div>
+              <div class="l"><span>Image / motion</span><span class="sys">from system</span></div>
+              <div class="l"><span>Features</span><span>Edit it yourself</span></div>
+              <div class="l"><span>Experiences</span><span>Front door · services · proof</span></div>
+              <div class="l"><span>Delivery</span><span>Standard</span></div>
+            </div>
+            <div class="row"><span class="btn red">See the estimate</span><span class="btn">Change</span></div>
+            <div class="strip"><span>Complete · 9 / 9</span><span>Scope <span class="meter"><i class="on"></i><i></i><i></i><i></i></span> Light</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="cap">W11 · Desktop · blueprint drawing</div>
+          <div class="desk">
+            <div class="bar">SITE 00 / BLDR · PROJECT BLUEPRINT</div>
+            <div class="body" style="grid-template-columns:minmax(0,1fr) minmax(0,1fr)">
+              <div class="col"><div class="hatch" style="flex:1">The structure schematic in the chosen expression: the bones in their clothes</div><span class="wf-t">Notes for the creative team</span><span class="wf-s">Kept: Hospitality. Liked: the type of Editorial object.</span></div>
+              <div class="col"><div class="sheet"><div class="l"><span>Build type</span><span>Site</span></div><div class="l"><span>Build level</span><span>Simple build</span></div><div class="l"><span>Structure</span><span>Service</span></div><div class="l"><span>Visual system</span><span>Arch. minimal</span></div><div class="l"><span>Typography</span><span class="sys">Modern grotesk · system</span></div><div class="l"><span>Colour</span><span class="sys">Neutral arch. · system</span></div><div class="l"><span>Image world</span><span class="sys">Architectural · system</span></div><div class="l"><span>Motion</span><span class="sys">Quiet · system</span></div><div class="l"><span>Features</span><span>Edit it yourself</span></div><div class="l"><span>Delivery</span><span>Standard</span></div></div><div class="row"><span class="btn red">See the estimate</span><span class="btn">Save blueprint</span></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="notes">
+        <span class="tag">W11 · BLUEPRINT</span><h3>A drawing, not an order summary</h3>
+        <ol>
+          <li>The client finally sees structure and style together: their schematic rendered in their expression.</li>
+          <li>Every required line is present. Inherited lines say “from system”.</li>
+          <li>Open decisions sit on top. “See the estimate” stays disabled until none remain, so there is never an estimate for an impossible project.</li>
+          <li>Kept options and liked parts travel with the Blueprint. They seed the three creative directions.</li>
+        </ol>
+      </div>
+    </article>
+
+    <!-- W12 -->
+    <article class="board">
+      <div class="frames">
+        <div>
+          <div class="cap">W12 · Phone · estimate reveal</div>
+          <div class="phone">
+            <span class="wf-loc">Reveal · 2 / 2 · Blueprint estimate</span>
+            <span class="wf-t note-red">Initial range</span>
+            <span class="wf-s">Before anyone from SITE 00 has reviewed it. Wide on purpose.</span>
+            <div><span class="wf-t" style="color:var(--muted)">Projected production window</span><div class="big">7–12 weeks</div></div>
+            <div><span class="wf-t" style="color:var(--muted)">Projected investment</span><div class="big">$5K–$8K</div></div>
+            <div class="row"><span class="chip">Simple build</span><span class="chip">Scope: light</span><span class="chip">Standard</span></div>
+            <div class="sheet"><div class="l"><span>▸ What is included</span><span></span></div><div class="l"><span>▸ Delivery</span><span></span></div><div class="l"><span>▸ Major dependencies</span><span></span></div><div class="l"><span>▸ Assumptions</span><span></span></div><div class="l"><span>▸ What happens next</span><span></span></div></div>
+            <span class="wf-s">Your window assumes each review comes back within 2 business days. When a review arrives later, the window moves by the same amount.</span>
+            <span class="btn red" style="text-align:center">Send blueprint to SITE 00</span>
+            <div class="strip"><span>Projected estimate · not a quote</span><span>v1.0.0</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="cap">W12 · Desktop · blueprint + estimate</div>
+          <div class="desk">
+            <div class="bar">SITE 00 / BLDR · BLUEPRINT ESTIMATE · INITIAL RANGE</div>
+            <div class="body" style="grid-template-columns:minmax(0,0.8fr) minmax(0,1.2fr)">
+              <div class="col"><div class="sheet"><div class="l"><span>Site · Service</span><span>Simple build</span></div><div class="l"><span>Arch. minimal</span><span>essential</span></div><div class="l"><span>Experiences</span><span>5</span></div><div class="l"><span>Delivery</span><span>Standard</span></div></div><span class="btn">Change something</span></div>
+              <div class="col"><div class="row" style="gap:16px"><div><span class="wf-t" style="color:var(--muted)">Window</span><div class="big">7–12 weeks</div></div><div><span class="wf-t" style="color:var(--muted)">Investment</span><div class="big">$5K–$8K</div></div></div><div class="lines"><i></i><i></i><i></i></div><span class="wf-t">Included · delivery · dependencies · assumptions · next</span><div class="lines"><i></i><i></i></div><span class="btn red">Send blueprint to SITE 00</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="notes">
+        <span class="tag">W12 · ESTIMATE</span><h3>Ranges, in the sprint’s order</h3>
+        <ol>
+          <li>Window, investment, build level, scope, delivery, what is included, dependencies, assumptions, what happens next.</li>
+          <li>Real output for this sample: 7–12 weeks · $5K–$8K initial. After review it tightens to 8–10 weeks · $6K–$7K.</li>
+          <li>Never family units, decimals, dates, “final price” or “guaranteed”.</li>
+          <li>The delay note is shared and plain, not punitive. Reviews: 2 rounds at each major approval point.</li>
+        </ol>
+      </div>
+    </article>
+
+    <!-- W13 -->
+    <article class="board">
+      <div class="frames">
+        <div>
+          <div class="cap">W13 · Phone · custom creative direction</div>
+          <div class="phone">
+            <span class="wf-loc">II · The feel · custom</span>
+            <span class="wf-q">Build something only yours</span>
+            <span class="wf-s">Tell us what none of these got right. Bring references, words, anything.</span>
+            <div class="hatch" style="height:64px">Your words · “like a gallery that happens to sell”</div>
+            <span class="wf-t" style="color:var(--muted)">Your reference shelf</span>
+            <div class="row"><span class="chip on">Cinematic luxury · motion</span><span class="chip on">Pop editorial · type</span><span class="chip">+ upload references</span></div>
+            <div class="card-wf sel"><span class="wf-t">Custom creative direction</span><span class="wf-s">A direction developed with you, from first principles.</span></div>
+            <div class="strip"><span>Custom build</span><span>Scope <span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span> Deep · custom</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="notes">
+        <span class="tag">W13 · CUSTOM PATH</span><h3>An invitation, not a fallback</h3>
+        <ol>
+          <li>Reached from NONE OF THESE, from drawing on three or more systems, or from a custom-only capability (marketplace).</li>
+          <li>Everything the client kept or liked becomes their reference shelf.</li>
+          <li>Custom describes creative direction, not size. The scope meter keeps its own word and adds a CUSTOM tag.</li>
+        </ol>
+      </div>
+    </article>
+  </div>
+
+  <section id="authority" class="part-h">
+    <span class="k">PART B</span>
+    <h2>Authority previews: three moments in SITE 00’s language</h2>
+    <p>Enough fidelity to judge the experience, built from SITE 00’s existing ink, white, signal red and mono. Specimen typefaces are stand-ins for type directions, not approved type systems. Colours on specimens illustrate a direction, not a client palette.</p>
+  </section>
+
+  <div class="authority">
+    <article class="ap">
+      <div class="ap-head"><h3>B1 · Compare three expressions on one structure</h3><span class="cap">Desktop · Room II</span></div>
+      <div class="ap-screen">
+        <div class="top"><span>SITE 00 / BLDR / <b>II · THE FEEL</b></span><span>COMPARING 3 · STRUCTURE HELD: SERVICE</span></div>
+        <div class="cmp">
+          <div>
+            <div class="spec spec-a">
+              <div class="band"><small>Architectural minimal · essential</small><h4>Calm, exact practice.</h4><span class="cta acc-a">Begin →</span></div>
+              <div class="band"><small>Offer</small><span style="font-size:0.78rem">Strategy, planning and delivery for growing studios.</span></div>
+              <div class="band"><small>Proof</small><span style="font-size:0.78rem">“They made the complicated feel obvious.”</span></div>
+            </div>
+            <div class="facets"><span class="facet">Composition</span><span class="facet">Type</span><span class="facet">Colour</span><span class="facet">Motion</span></div>
+            <div class="ap-actions"><button class="ap-btn fill" type="button">Choose</button><button class="ap-btn" type="button">Keep</button></div>
+          </div>
+          <div>
+            <div class="spec spec-b">
+              <div class="band"><small>Editorial object · essential</small><h4>Calm, exact practice.</h4><span class="cta acc-b">Begin →</span></div>
+              <div class="band"><small>Offer</small><span style="font-size:0.78rem">Strategy, planning and delivery for growing studios.</span></div>
+              <div class="band"><small>Proof</small><span style="font-size:0.78rem">“They made the complicated feel obvious.”</span></div>
+            </div>
+            <div class="facets"><span class="facet">Composition</span><span class="facet on">Type ✓</span><span class="facet">Colour</span><span class="facet">Motion</span></div>
+            <div class="ap-actions"><button class="ap-btn fill" type="button">Choose</button><button class="ap-btn" type="button">Add as influence</button></div>
+          </div>
+          <div>
+            <div class="spec spec-c">
+              <div class="band"><small>Cinematic luxury · full</small><h4>Calm, exact practice.</h4><span class="cta acc-c">Begin →</span></div>
+              <div class="band"><small>Offer</small><span style="font-size:0.78rem">Strategy, planning and delivery for growing studios.</span></div>
+              <div class="band"><small>Proof</small><span style="font-size:0.78rem">“They made the complicated feel obvious.”</span></div>
+            </div>
+            <div class="facets"><span class="facet">Composition</span><span class="facet">Type</span><span class="facet">Colour</span><span class="facet">Motion</span></div>
+            <div class="ap-actions"><button class="ap-btn fill" type="button">Choose · advanced</button><button class="ap-btn" type="button">Keep</button></div>
+          </div>
+        </div>
+      </div>
+      <p class="fine">Same copy, same Service structure, three grammars. The client liked the type of Editorial object: noted for the creative team, no scope change. Choosing Cinematic luxury in its full edition is labelled advanced before it is chosen.</p>
+    </article>
+
+    <article class="ap">
+      <div class="ap-head"><h3>B2 · Blueprint beside its estimate</h3><span class="cap">Desktop · Reveal</span></div>
+      <div class="ap-screen">
+        <div class="top"><span>SITE 00 / BLDR / <b>PROJECT BLUEPRINT</b></span><span>NORTHLIGHT STUDIO · EXAMPLE</span></div>
+        <div class="bp">
+          <div>
+            <div class="draw">
+              <svg viewBox="0 0 240 120" class="sch" style="max-width:380px" role="img" aria-label="Service structure schematic"><rect x="6" y="6" width="228" height="34" class="f" stroke="currentColor"/><text x="14" y="27" font-size="9" fill="currentColor" font-family="monospace">FRONT DOOR · HOME / ABOUT / CONTACT</text><rect x="6" y="46" width="110" height="34" fill="none" stroke="currentColor"/><text x="14" y="66" font-size="9" fill="currentColor" font-family="monospace">SERVICES</text><rect x="124" y="46" width="110" height="34" fill="none" stroke="currentColor"/><text x="132" y="66" font-size="9" fill="currentColor" font-family="monospace">PROOF</text><rect x="84" y="90" width="72" height="22" fill="none" class="a" stroke-width="1.5"/><text x="102" y="104" font-size="9" fill="currentColor" font-family="monospace">BEGIN</text></svg>
+              <span class="fine">Service structure drawn in Architectural minimal. Notes for the creative team: kept Hospitality; liked the type of Editorial object.</span>
+            </div>
+            <div class="bp-lines" style="margin-top:12px">
+              <div><span>Build type</span><span>Site</span></div>
+              <div><span>Build level</span><span>Simple build</span></div>
+              <div><span>Structure</span><span>Service</span></div>
+              <div><span>Visual system</span><span>Architectural minimal · essential</span></div>
+              <div><span>Typography</span><span>Modern grotesk <em>· from system</em></span></div>
+              <div><span>Colour</span><span>Neutral architectural <em>· from system</em></span></div>
+              <div><span>Image world</span><span>Architectural <em>· from system</em></span></div>
+              <div><span>Motion</span><span>Quiet <em>· from system</em></span></div>
+              <div><span>Features</span><span>Edit it yourself</span></div>
+              <div><span>Experiences</span><span>Front door · Services · Proof <em>· essential</em></span></div>
+              <div><span>Delivery</span><span>Standard production</span></div>
+            </div>
+          </div>
+          <div class="est">
+            <span class="conf">Blueprint estimate · initial range</span>
+            <p class="fine">Based on your choices before anyone from SITE 00 has reviewed them. The range is wide on purpose.</p>
+            <div class="figs">
+              <div class="fig"><span>Projected production window</span><b>7–12 weeks</b></div>
+              <div class="fig"><span>Projected investment</span><b>$5K–$8K</b></div>
+            </div>
+            <div><div class="rangebar" aria-hidden="true"><i style="left:18%;right:30%"></i></div><p class="fine" style="margin-top:4px">After Blueprint review this tightens to a refined range (here 8–10 weeks · $6K–$7K).</p></div>
+            <div class="acc">
+              <div><b>What is included</b><p>Home, about, contact, services and proof. Edit it yourself. Three creative directions from your choices, then one refined with you. 2 review rounds at each major approval point: creative direction, and the built experience before launch.</p></div>
+              <div><b>Delivery</b><p>Standard production. Priority is not available for this scope: your project already runs at full concurrency.</p></div>
+              <div><b>Major dependencies</b><p>Your brand is settled before the visual system is finalised. Each main experience is approved before its detail views are produced.</p></div>
+              <div><b>Assumptions</b><p>Your window assumes each review comes back within 2 business days. When a review or content arrives later, the window moves by the same amount.</p></div>
+              <div><b>What happens next</b><p>Send your Blueprint → a Blueprint review refines scope and range → a quote for the reviewed Blueprint → creative direction → a production schedule when scope locks.</p></div>
+            </div>
+            <div class="ap-actions"><button class="ap-btn red" type="button">Send blueprint to SITE 00</button><button class="ap-btn" type="button">Change something</button></div>
+            <p class="fine">This is a projected estimate. It is not a quote and not a schedule. Estimate reference v1.0.0.</p>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="ap">
+      <div class="ap-head"><h3>B3 · Delivery on a phone, small and large</h3><span class="cap">Phone · Room IV and the estimate</span></div>
+      <div class="mobile-pair">
+        <div class="mphone">
+          <div class="in">
+            <span class="cap" style="color:var(--red)">IV · The pace · Northlight Studio</span>
+            <h3 class="mono" style="font-size:1rem">How soon?</h3>
+            <div class="acc">
+              <div><b>Standard production ●</b><p>The normal pace, with work running in parallel wherever the plan allows.</p></div>
+              <div><b style="color:var(--muted)">Priority production · not available</b><p class="fine">Your project already runs at full concurrency, so reserving more capacity would not shorten it. Standard production is the fastest route for this scope.</p></div>
+              <div><b>A date you need to hit</b><p class="fine">Tell us the date. SITE 00 reviews whether the scope can meet it.</p></div>
+            </div>
+          </div>
+          <div class="strip2"><span>Blueprint 8 / 9</span><span>Light · simple build</span></div>
+        </div>
+        <div class="mphone">
+          <div class="in">
+            <span class="cap" style="color:var(--red)">Estimate · practice + members platform (example)</span>
+            <div class="figs">
+              <div class="fig"><span>Standard</span><b style="font-size:1rem">10–19 months</b><span>$62K–$112K</span></div>
+              <div class="fig"><span>Priority · about 30% sooner</span><b style="font-size:1rem">7–13 months</b><span>$115K–$207K</span></div>
+            </div>
+            <p class="fine">Priority reserves capacity: more work in parallel, priority scheduling and a tighter review cadence. Some work has to happen in order (blueprint, brand lock, integration, final checks, launch), so it shortens the window without halving it.</p>
+            <span class="cap">Initial range · refined at Blueprint review</span>
+          </div>
+          <div class="strip2"><span>Blueprint 9 / 9</span><span>Expansive · advanced</span></div>
+        </div>
+      </div>
+      <p class="fine">Both phones show real estimator output for the matching sample selections (SIMPLE_SERVICE and LARGE_HYBRID, initial range).</p>
+    </article>
+  </div>
+
+  <section class="part-h">
+    <span class="k">QUALITY GATE</span>
+    <h2>Checked against the sprint</h2>
+  </section>
+  <div class="gate">
+    <div><span>Client can visually select structure</span><b>Yes</b></div>
+    <div><span>Client can visually select expression</span><b>Yes</b></div>
+    <div><span>Structure vs style is clear</span><b>Yes</b></div>
+    <div><span>Simple path is simple</span><b>Yes</b></div>
+    <div><span>Advanced path goes deeper</span><b>Yes</b></div>
+    <div><span>Custom path exists</span><b>Yes</b></div>
+    <div><span>World path exists</span><b>Yes</b></div>
+    <div><span>Estimate hides family units</span><b>Yes</b></div>
+    <div><span>Estimate uses ranges</span><b>Yes</b></div>
+    <div><span>Priority never promises half</span><b>Yes</b></div>
+    <div><span>Blueprint connects to scope</span><b>Yes</b></div>
+    <div><span>Client UI consumes the estimator</span><b>Yes</b></div>
+    <div><span>Pricing discrepancy flagged</span><b>Yes</b></div>
+    <div><span>Ready for founder UX review</span><b>Yes</b></div>
+  </div>
+
+  <footer class="foot">
+    <span>Docs: docs/site00/builder-experience/ · contract: src/site00/builder-experience/ · estimator: src/studioos/estimation/ (v1.0.0, unchanged).</span>
+    <span>Pricing needs founder decisions F1–F12 before any public copy changes. See BUILDER_PRICING_COMMUNICATION.md.</span>
+  </footer>
+</main>

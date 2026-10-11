@@ -1,0 +1,16 @@
+---
+description: JURNL image references must pass the hygiene manifest before any generation
+alwaysApply: true
+---
+
+# JURNL reference hygiene
+
+Do not generate a JURNL parent, plate, email, or other visual authority until `JURNL/MANIFEST/REFERENCE_HYGIENE_V1/JURNL_REFERENCE_MANIFEST_V1.json` has `ready_for_corrected_generation` set to true.
+
+The vertical botanical file `public/site00/projects/jurnl/brand/jurnl-logo-official.png` is a `SUPERSEDED_IDENTITY_REFERENCE`. Do not attach it, the cream cover, the white official JPEG, the hi-res copy, or the horizontal rose rearrangement under `JURNL/F02_SETUP/ASSETS/LOCKUPS/`.
+
+The approved decorative treatment is the horizontal sprig and word cut from `F09_LOCKUP.png`. No clean isolated replacement file exists. Do not invent one. Do not substitute the vertical mark.
+
+Mediterranean limestone, olive, sunlight, and the sea are one material layer. Attach at most one Mediterranean scene. Do not attach the Safe to Spend plate and terrace together. Do not attach ENTRY welcome as the world for TODAY, ACTIVITY, SETUP, or email.
+
+Packs and the family map live in `JURNL/MANIFEST/REFERENCE_HYGIENE_V1/`. A JURNL dispatcher job that sets `attachedReferencePaths` is blocked before spend when the set fails this check.

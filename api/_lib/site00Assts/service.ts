@@ -262,7 +262,11 @@ export async function summarizeBatchForLibrary(batch: DbBatch) {
 export async function getLibrarySummary() {
   const { data: assets } = await supabase().from('site00_logical_assets').select('id, status, required, asset_type');
   const rows = assets ?? [];
-  const { data: batches } = await supabase().from('site00_batches').select('*').order('created_at', { ascending: false });
+  const { data: batches } = await supabase()
+    .from('site00_batches')
+    .select('*')
+    .order('created_at', { ascending: false })
+    .limit(200);
 
   const needsReview = rows.filter((a) => a.status === 'NEEDS_REVIEW').length;
   const approved = rows.filter((a) => a.status === 'APPROVED' || a.status === 'LOCKED').length;
@@ -291,7 +295,9 @@ const LIBRARY_CATEGORY_DEFS = [
 export async function getLibraryCategoryCounts(): Promise<
   Array<{ id: string; label: string; count: number; coverUrl: string | null }>
 > {
-  const { data: assets } = await supabase().from('site00_logical_assets').select('*');
+  const { data: assets } = await supabase().from('site00_logical_assets').select(
+    'id, status, asset_type, approved_version_id, current_version_id, asset_key, updated_at',
+  );
   const rows = (assets ?? []) as DbAsset[];
   const results = [];
   for (const cat of LIBRARY_CATEGORY_DEFS) {
@@ -323,13 +329,17 @@ export async function listLogicalAssetsForProject(projectId: string): Promise<Db
   return (data ?? []) as DbAsset[];
 }
 
+const ASSTS_LIBRARY_ASSET_LIST_MAX = 2000;
+
 export async function listFilteredLibraryAssets(filters: {
   status?: string;
   category?: string;
   projectId?: string;
+  limit?: number;
 }) {
   let rows: DbAsset[] = [];
-  let query = supabase().from('site00_logical_assets').select('*').order('asset_key');
+  const limit = Math.min(Math.max(1, filters.limit ?? ASSTS_LIBRARY_ASSET_LIST_MAX), ASSTS_LIBRARY_ASSET_LIST_MAX);
+  let query = supabase().from('site00_logical_assets').select('*').order('asset_key').limit(limit);
   if (filters.projectId) {
     query = query.eq('project_id', filters.projectId);
   }
@@ -479,8 +489,13 @@ export async function getNextNeedsReviewAssetInBatch(batchId: string, afterAsset
   return needs[idx + 1] ?? null;
 }
 
-export async function listAllAssetsWithVersions() {
-  const { data: assets, error } = await supabase().from('site00_logical_assets').select('*').order('updated_at', { ascending: false });
+export async function listAllAssetsWithVersions(options?: { limit?: number }) {
+  const limit = Math.min(Math.max(1, options?.limit ?? 100), 500);
+  const { data: assets, error } = await supabase()
+    .from('site00_logical_assets')
+    .select('*')
+    .order('updated_at', { ascending: false })
+    .limit(limit);
   if (error) throw new Error(error.message);
   const enriched = [];
   for (const asset of assets ?? []) {

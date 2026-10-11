@@ -46,6 +46,14 @@ export type UseIntakeSyncResult = {
     totalSteps?: number;
     draftPayload?: Record<string, unknown>;
   }) => void;
+  /** Resolves true only when the server confirmed the write (or there was nothing to write). */
+  flushAutosave: (patch?: {
+    currentStep?: string | null;
+    totalSteps?: number;
+    draftPayload?: Record<string, unknown>;
+  }) => Promise<boolean>;
+  reloadIntake: () => Promise<IntakeDetail | null>;
+  adoptIntakeId: (id: string) => Promise<IntakeDetail | null>;
   submit: () => Promise<IntakeDetail | null>;
   requestGuestAccess: (email: string) => Promise<{ accessToken: string; expiresAt: string } | null>;
   reset: () => void;
@@ -118,9 +126,9 @@ export function useIntakeSync(intakeType: IntakeType, storageKeyPrefix: string):
   );
 
   const runAutosave = useCallback(
-    async (patch: { currentStep?: string | null; totalSteps?: number; draftPayload?: Record<string, unknown> }) => {
+    async (patch: { currentStep?: string | null; totalSteps?: number; draftPayload?: Record<string, unknown> }): Promise<boolean> => {
       const id = serverIntakeIdRef.current;
-      if (!id) return;
+      if (!id) return false;
       setSaveState('saving');
       try {
         const intake = await intakesApi.autosaveIntake({
@@ -135,10 +143,12 @@ export function useIntakeSync(intakeType: IntakeType, storageKeyPrefix: string):
         setSaveState('saved');
         setLastSavedAt(intake.lastSavedAt ?? intake.updatedAt);
         setErrorMessage(null);
+        return true;
       } catch (e) {
         // FAIL LOUD — never report SAVED when the server write did not succeed.
         setSaveState('error');
         setErrorMessage(e instanceof Error ? e.message : 'SITE 00 could not save your latest answers.');
+        return false;
       }
     },
     [intakeType],
@@ -153,6 +163,46 @@ export function useIntakeSync(intakeType: IntakeType, storageKeyPrefix: string):
       }, AUTOSAVE_DEBOUNCE_MS);
     },
     [runAutosave],
+  );
+
+  const flushAutosave = useCallback(
+    async (patch?: { currentStep?: string | null; totalSteps?: number; draftPayload?: Record<string, unknown> }) => {
+      if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
+      if (patch) return runAutosave(patch);
+      if (serverIntakeIdRef.current) return runAutosave({});
+      return true;
+    },
+    [runAutosave],
+  );
+
+  const reloadIntake = useCallback(async () => {
+    const id = serverIntakeIdRef.current;
+    if (!id) return null;
+    try {
+      const intake = await intakesApi.getIntake({
+        intakeType,
+        id,
+        guestToken: guestTokenRef.current,
+      });
+      setServerIntake(intake);
+      setSaveState('saved');
+      setLastSavedAt(intake.lastSavedAt ?? intake.updatedAt);
+      setErrorMessage(null);
+      return intake;
+    } catch (e) {
+      setErrorMessage(e instanceof Error ? e.message : 'Could not reload intake from SITE 00.');
+      return null;
+    }
+  }, [intakeType]);
+
+  const adoptIntakeId = useCallback(
+    async (id: string) => {
+      writeLocal(idKey, id);
+      serverIntakeIdRef.current = id;
+      setServerIntakeId(id);
+      return reloadIntake();
+    },
+    [idKey, reloadIntake],
   );
 
   const submit = useCallback(async (): Promise<IntakeDetail | null> => {
@@ -230,6 +280,9 @@ export function useIntakeSync(intakeType: IntakeType, storageKeyPrefix: string):
       guestToken,
       ensureStarted,
       autosave,
+      flushAutosave,
+      reloadIntake,
+      adoptIntakeId,
       submit,
       requestGuestAccess,
       reset,
@@ -243,6 +296,9 @@ export function useIntakeSync(intakeType: IntakeType, storageKeyPrefix: string):
       guestToken,
       ensureStarted,
       autosave,
+      flushAutosave,
+      reloadIntake,
+      adoptIntakeId,
       submit,
       requestGuestAccess,
       reset,

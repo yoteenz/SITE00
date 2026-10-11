@@ -1,0 +1,61 @@
+{
+  "id": "JURNL_REFERENCE_MANIFEST_V1",
+  "sprint": "P0.JURNL.REFERENCE-HYGIENE.CANONICAL-LOGO-AND-VISUAL-AUTHORITY-RESET1",
+  "ready_for_corrected_generation": false,
+  "reason_generation_blocked": "The live decorative treatment is the horizontal sprig and word cut from F09_LOCKUP.png. Those cuts still contain plaster. No clean reusable identity file exists. The vertical botanical file must not be substituted.",
+  "canonical_logo_source": null,
+  "canonical_logo_note": "public/site00/projects/jurnl/brand/jurnl-logo-official.png is the vertical botanical mark. It is superseded for image-to-image. It is not a current canonical logo.",
+  "canonical_decorative_identity_source": "src/projects/jurnl/families/F09_SAFE/ENVIRONMENTS/F09_LOCKUP.png",
+  "decorative_layers": [
+    "src/projects/jurnl/families/F09_SAFE/REFERENCE_REPLICA/assets/LOCKUP_SPRIG.png",
+    "src/projects/jurnl/families/F09_SAFE/REFERENCE_REPLICA/assets/LOCKUP_WORD.png"
+  ],
+  "clean_reusable_decorative_asset": null,
+  "typography_authority": [
+    "public/site00/projects/jurnl/fonts/jurnl-authority-serif-400.woff2",
+    "public/site00/projects/jurnl/fonts/instrument-serif-400.woff2",
+    "public/site00/projects/jurnl/fonts/jost-400.woff2"
+  ],
+  "hierarchy": [
+    "CURRENT CANONICAL IDENTITY",
+    "APPROVED PAGE-FAMILY AUTHORITY",
+    "APPROVED EDITORIAL / TORN-PAGE GRAMMAR",
+    "WORLD / ARCHITECTURAL AUTHORITY",
+    "MATERIAL / PALETTE SUPPORT"
+  ],
+  "mediterranean_rule": "Mediterranean limestone, olive, sunlight, and stone are one material and atmosphere layer. They are not the required form of every screen. Do not attach arch + sea + olive + limestone as a set.",
+  "logo_usage_rule": "Do not repeat a tiny header stamp, a vertical logo card, or the same printed strip. Identity may sit in a binding, an emboss, a torn edge, a crop, or be absent when another brand cue carries the frame. Vary the treatment. Do not attach the superseded vertical mark to force recognition.",
+  "mediterranean_scene_cap": 1,
+  "superseded_identity_paths": [
+    "public/site00/projects/jurnl/brand/jurnl-logo-official.png",
+    "public/site00/projects/jurnl/brand/jurnl-cover.png",
+    "public/site00/projects/jurnl/f01/authorities/reference/REFERENCE_JURNL_LOGO_OFFICIAL.jpg",
+    "JURNL/F01_ENTRY/ASSETS/REFERENCE_JURNL_LOGO_OFFICIAL.jpg",
+    "public/jurnl/f01-asset-first/assets/ENTRY.LOGO.OFFICIAL.001.jpg",
+    "JURNL/F09_SAFE/THREE_CONCEPT_ART_DIRECTION_REGEN_CORRECTION1/ASSETS/jurnl-logo-official-hires.png",
+    "JURNL/F02_SETUP/ASSETS/LOCKUPS/F02.BRANDLOCKUP.JURNL.001.png",
+    "src/projects/jurnl/families/F02_SETUP/BRAND_LOCKUPS/F02_BRANDLOCKUP_JURNL_001.png"
+  ],
+  "do_not_use_paths": [
+    "JURNL/F02_SETUP/ASSETS/LOCKUPS/F02.BRANDLOCKUP.JURNL_SETUP.001.png",
+    "src/projects/jurnl/families/F02_SETUP/BRAND_LOCKUPS/F02_BRANDLOCKUP_JURNL_SETUP_001.png"
+  ],
+  "mediterranean_scene_paths": [
+    "src/projects/jurnl/families/F09_SAFE/ENVIRONMENTS/F09_ENVIRONMENT_AUTHORITY_PLATE.png",
+    "src/projects/jurnl/families/F09_SAFE/ENVIRONMENTS/F09_ENVIRONMENT_AUTHORITY_TERRACE.png",
+    "ENTRY v2/01_WELCOME/authority/entry-v2-welcome-authority.png",
+    "JURNL/F01_ENTRY/PARENT/REFERENCE_F01.00_WELCOME_APPROVED.jpg",
+    "JURNL/F01_ENTRY/AUTHORITIES/REFERENCE_F01.00_WELCOME_APPROVED.jpg",
+    "src/projects/jurnl/families/F01_ENTRY/AUTHORITIES/REFERENCE_F01.00_WELCOME_APPROVED.jpg",
+    "JURNL/F02_SETUP/PARENT/F02.00_SETUP_PARENT.jpg",
+    "src/projects/jurnl/families/F02_SETUP/AUTHORITIES/F02.00_SETUP_PARENT.jpg"
+  ],
+  "packs": {
+    "PACK_A_IDENTITY": "JURNL/MANIFEST/REFERENCE_HYGIENE_V1/IDENTITY_REFERENCE_PACK.json",
+    "PACK_B_EDITORIAL": "JURNL/MANIFEST/REFERENCE_HYGIENE_V1/EDITORIAL_REFERENCE_PACK.json",
+    "PACK_C_WORLD": "JURNL/MANIFEST/REFERENCE_HYGIENE_V1/WORLD_REFERENCE_PACK.json",
+    "PACK_D_MATERIAL": "JURNL/MANIFEST/REFERENCE_HYGIENE_V1/MATERIAL_REFERENCE_PACK.json",
+    "PACK_E_SAFE_TO_SPEND_LINEAGE": "JURNL/MANIFEST/REFERENCE_HYGIENE_V1/SAFE_TO_SPEND_LINEAGE_PACK.json",
+    "PACK_F_ENTRY_LINEAGE": "JURNL/MANIFEST/REFERENCE_HYGIENE_V1/ENTRY_LINEAGE_PACK.json"
+  }
+}
