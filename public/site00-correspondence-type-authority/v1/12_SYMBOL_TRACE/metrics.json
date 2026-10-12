@@ -390,7 +390,7 @@
       "w": 111,
       "h": 113,
       "iou": 0.9906,
-      "has_dot": false,
+      "has_dot": true,
       "valign": "baseline",
       "baseline_from_bottom_px": -133
     },

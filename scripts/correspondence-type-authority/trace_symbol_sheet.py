@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 """Trace the founder symbol sheet and paint the period dots red.
 
-The marks are the pixels on the sheet. Nothing is redrawn. A dot is red when
-it is a period: the standalone period, the base of ! and ?, both colon dots,
-the semicolon dot, the comma head, and the three ellipsis dots. Tails, stems,
+The marks are the pixels on the sheet. Nothing is redrawn. Red is the period
+dots, the whole comma and semicolon (head and tail), and the asterisk. Stems
 and every other mark stay black.
 """
 from __future__ import annotations
@@ -231,6 +230,10 @@ def main() -> None:
         for group, ch in zip(groups, chars):
             mask, (x, y, w, h) = union_mask(group)
             red, black = redact(mask, group, (x, y))
+            # The comma and the semicolon are red through the tail. The asterisk is red.
+            if ch in ',;*':
+                red = mask.copy()
+                black = np.zeros_like(mask)
             if red.sum() + black.sum() == 0:
                 raise SystemExit(f'empty {ch}')
             slug = f'u{ord(ch):04X}'
@@ -308,7 +311,7 @@ def main() -> None:
             canvas.alpha_composite(Image.fromarray(tint, 'RGBA'), (dx, dy))
     draw = ImageDraw.Draw(canvas)
     font = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf', 15)
-    caption = 'TRACED SYMBOLS  ·  PERIOD DOTS RED'
+    caption = 'TRACED SYMBOLS  ·  DOTS, COMMA TAILS, AND ASTERISK RED'
     tracking = 1.4
     widths = [font.getlength(c) + tracking for c in caption]
     tx = (width - (sum(widths) - tracking)) / 2
