@@ -16240,3 +16240,24 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 - **Context:** `origin/main` had an unresolved merge left in `motherboard/MEMORY.md` (BLDR V2 benchmark entry versus the batch B log). That marker block made later branches report conflicts with `main`.
 - **Resolution:** Both log entries stay. The conflict markers are removed. No product code changed.
+
+---
+
+## 2026-10-11 — Correspondence Studio V3 reference-fidelity workspace (Opus, chat summary incl. DF sprints 1–2)
+
+Summary of the whole conversation in this chat.
+
+- **Context:** Three sprints in one chat. (1) DF screen-review tunnel activation. (2) DF visual-authority pixel convergence → draft PR #1614 (`cursor/df-visual-authority-convergence-be3b`, SHA `a942a279`). (3) P0.SITE00.CORRESPONDENCE-STUDIO.V3-REFERENCE-FIDELITY-EDITORIAL-PUBLISHING-WORKSPACE1: rebuild the look of `/admin/site00/correspondence-studio` to match the founder's attached 1536×1024 reference while keeping every function (routes, manifest/registry, brand firewall, versions, founder review, client delivery planning).
+- **Decisions / outcomes:**
+  - All four Correspondence Studio routes render one `CorrespondenceWorkspacePage` (same component type, so state survives route changes). Paths unchanged.
+  - Zones: global header, left nav, masthead, email library, central preview (repository HTML in a no-script sandboxed `srcDoc` iframe), right inspector, bottom actions. Desktop ≥1200px: 100dvh grid, no document scroll, panels scroll internally. Tablet 700–1199: preview first, library/inspector drawers with a dismiss scrim. Mobile <700: LIBRARY / PREVIEW / REVIEW tasks, one at a time.
+  - Honesty rules applied: inspector fields are read-only with source badges (REGISTRY / COMPOSITION / BRAND); no drag handles; AUDIENCES/ASSETS/ANALYTICS/SETTINGS shown disabled "NOT IN V1"; SEND TEST always disabled; APPROVE requires a composed preview; automations view is the read-only lifecycle map (all OFF); deliveries view is the approval-based plan only (no upload/send).
+  - Footer actions mapped to real workflow (REVISE / SEND TEST OFF / APPROVE → MARK READY) instead of the reference's SAVE DRAFT / SEND TEST / PUBLISH. Fourth inspector tab renamed REVIEW & TEST.
+  - Fonts: Saira Semi Condensed (repo) + Barlow Condensed 300 for the thin STUDIO wordmark (scaleY). No SITE 00 serif exists; JURNL serifs not used (brand leakage).
+  - Environment imagery = derived webp crops of existing benchmark assets (`public/site00-correspondence-studio/environment/`), no paid generation.
+  - `addVersionComment` now takes a fallback state so the first note no longer demotes `founder_review` to `draft`.
+  - Preview loader strips scripts and decodes Cloudflare `data-cfemail` so tunnel previews show repository copy exactly (B01 address was rewritten to "[email protected]").
+- **Changes:** `shared/site00-correspondence-studio/workspaceLibrary.ts` (+tests `tests/correspondenceStudioWorkspace.test.ts`), `review/repositoryReviewStore.ts`, `src/routes/Site00AdminRoutes.tsx`, `src/site00/admin/pages/correspondence/CorrespondenceWorkspacePage.tsx`, `src/site00/admin/components/correspondence/workspace/*`, `src/site00/admin/styles/site00-correspondence-studio.css` (`.csw` namespace). Old per-route pages, `CorrespondencePreviewPane`, `useCorrespondenceReview` removed.
+- **Tunnel:** `cursor/review-tunnel-integration-be3b` = DF convergence `a942a279` + CS V3; `/tmp/site00-preview-main` pinned to it so both DF screen-review and Correspondence Studio are live on the canonical preview tunnel host (`SITE00_CLOUDFLARE_TUNNEL_HOSTNAME`). Revert with `serve-site00-preview-from-main.sh`.
+- **Known pre-existing blockers (not this branch):** `npm run build` fails on `main` too — 23 `tsc` errors in DF/foundation files and a duplicate `getRepositoryPersistRevision` export in `src/projects/jurnl/data/repository/deviceRepository.ts` (from #1390). AdminGuard preview-host bypass (`TEMPORARY_SITE00_ADMIN_BYPASS_ON_PREVIEW`) pre-exists on main.
+- **Conventions:** Use `/tmp/cs-ref/capture.mjs` + `func.mjs` style Playwright checks (clipping, no desktop scroll, console errors, 42 functional checks) through the tunnel before claiming fidelity. Draft PR only; no merge, no production deploy.
