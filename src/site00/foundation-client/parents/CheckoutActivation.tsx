@@ -24,7 +24,7 @@ import {
 import { DfAlert, DfCta, DfHeadline, DfLede, DfRail, DfSheet, DfTrust } from '../shell';
 import { IncludedList, ThirdPartySheet } from './Recommendation';
 
-function SpecRow({
+export function SpecRow({
   icon,
   label,
   sub,
