@@ -1,5 +1,6 @@
 /** Board 01 — P01 FOUNDATION ENTRY · P02 BUSINESS INTAKE · P03 FOUNDATION CONFIGURATOR. */
 import { useState, type ReactNode } from 'react';
+import { defaultDigitalFoundationCommercialConfig } from '../../../../shared/site00-digital-foundation/commercialConfig.js';
 import type { DigitalFoundationCommercialConfig } from '../../../../shared/site00-digital-foundation/types.js';
 import { DfIcon, type DfIconName } from '../icons';
 import {
@@ -56,14 +57,15 @@ export function P01Entry({
   busy: boolean;
   error: string | null;
 }) {
-  const days = config ? formatDayRange(config.base_min_business_days, config.base_max_business_days) : null;
+  const commercial = config ?? defaultDigitalFoundationCommercialConfig();
+  const days = formatDayRange(commercial.base_min_business_days, commercial.base_max_business_days);
   return (
     <>
       <DfRail index="01" label="GET STARTED" />
       <DfHeadline lines={['YOUR', 'DIGITAL', 'FOUNDATION', 'STARTS HERE']} />
       <DfLede>
         ESTABLISH YOUR BUSINESS ON A SECURE, PROFESSIONAL <strong>FOUNDATION</strong> — DOMAIN, EMAIL, SECURITY AND
-        OWNERSHIP. DONE FOR YOU.{days ? ` TYPICALLY ${days} BUSINESS DAYS.` : ''}
+        OWNERSHIP. DONE FOR YOU. TYPICALLY {days} BUSINESS DAYS.
       </DfLede>
       <DfHeroObject />
       <ul className="df-triad" aria-label="WHAT YOUR FOUNDATION COVERS">
