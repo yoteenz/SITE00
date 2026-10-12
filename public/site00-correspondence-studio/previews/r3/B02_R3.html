@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="x-apple-disable-message-reformatting">
+<meta name="format-detection" content="telephone=no, address=no, email=no, date=no">
+<title>YOUR FOUNDATION IS COMPLETE</title>
+<style>
+/* SITE 00 · Email V2 R3 — shared email base. Injected into every composition's <style> by build_emails.py.
+   Production send: inline with juice (or equivalent) and swap the local @font-face for hosted files. */
+
+@font-face { font-family: "Saira Semi Condensed"; font-weight: 400; src: url("/site00-correspondence-studio/previews/r3/fonts/SairaSemiCondensed-400.ttf") format("truetype"); }
+@font-face { font-family: "Saira Semi Condensed"; font-weight: 500; src: url("/site00-correspondence-studio/previews/r3/fonts/SairaSemiCondensed-500.ttf") format("truetype"); }
+@font-face { font-family: "Saira Semi Condensed"; font-weight: 600; src: url("/site00-correspondence-studio/previews/r3/fonts/SairaSemiCondensed-600.ttf") format("truetype"); }
+@font-face { font-family: "Saira Semi Condensed"; font-weight: 700; src: url("/site00-correspondence-studio/previews/r3/fonts/SairaSemiCondensed-700.ttf") format("truetype"); }
+@font-face { font-family: "Barlow Condensed"; font-weight: 800; src: url("/site00-correspondence-studio/previews/r3/fonts/barlow-condensed-800.woff2") format("woff2"); }
+@font-face { font-family: "Barlow Condensed"; font-weight: 900; src: url("/site00-correspondence-studio/previews/r3/fonts/barlow-condensed-900.woff2") format("woff2"); }
+
+body { margin: 0; padding: 0; background: #e9e7e3; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+table { border-collapse: collapse; mso-table-lspace: 0; mso-table-rspace: 0; }
+td { padding: 0; }
+img { display: block; border: 0; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; }
+a { color: inherit; }
+p { margin: 0; }
+
+/* Review chrome (not part of the sent message) */
+.stage { padding: 28px 16px 40px; }
+.inbox { max-width: 640px; margin: 0 auto 14px; padding: 14px 18px 13px; background: #fbfaf8; border: 1px solid #dcd9d3; border-radius: 6px; font-family: "Saira Semi Condensed", "Arial Narrow", Arial, sans-serif; }
+.inbox .from { font-size: 11px; letter-spacing: .06em; color: #72706c; }
+.inbox .subj { font-size: 14.5px; font-weight: 600; letter-spacing: .03em; color: #141414; margin: 6px 0 3px; line-height: 1.3; }
+.inbox .pre { font-size: 12px; letter-spacing: .04em; color: #5e5e5e; line-height: 1.45; }
+
+/* Type roles. Body face: Saira Semi Condensed. Display face: Barlow Condensed (DF alias "SITE00 DF Display"). */
+.sa { font-family: "Saira Semi Condensed", "Arial Narrow", Arial, sans-serif; }
+.dp { font-family: "Barlow Condensed", "Arial Narrow", "Helvetica Neue", Arial, sans-serif; text-transform: uppercase; }
+.d900 { font-weight: 900; letter-spacing: -.004em; line-height: .86; color: #141414; }
+.d800 { font-weight: 800; letter-spacing: .004em; line-height: .98; color: #141414; }
+.intro { font-weight: 500; font-size: 20px; line-height: 1.42; letter-spacing: .012em; color: #141414; }
+.body { font-weight: 400; font-size: 15px; line-height: 1.64; letter-spacing: .028em; color: #1e1e1e; }
+.sh { font-weight: 600; font-size: 11.5px; line-height: 1.4; letter-spacing: .26em; color: #141414; }
+.micro { font-weight: 600; font-size: 10px; line-height: 1.45; letter-spacing: .3em; color: #6f6c67; }
+.cap { font-weight: 500; font-size: 10.5px; line-height: 1.6; letter-spacing: .14em; color: #6f6c67; }
+.anno { font-weight: 400; font-size: 11px; line-height: 1.55; letter-spacing: .1em; color: #5e5e5e; }
+.cta { font-weight: 700; font-size: 13px; line-height: 1; letter-spacing: .2em; }
+.stop { display: inline-block; width: .15em; height: .15em; background: #d90c0c; margin-left: .05em; vertical-align: baseline; }
+
+/* Sample values (review only) and case-preserved content */
+.v { text-transform: none; border-bottom: 1px dotted currentColor; }
+.url { text-transform: none; }
+.tok { text-transform: none; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .88em; background: #f1efeb; padding: 1px 4px; border-radius: 2px; color: #5e5e5e; letter-spacing: 0; }
+
+.mob { display: none; max-height: 0; overflow: hidden; mso-hide: all; }
+
+@media (max-width: 480px) {
+  body { background: #ffffff; }
+  .stage { padding: 0; }
+  .inbox { margin: 0; border-radius: 0; border-width: 0 0 1px; }
+  .wrap { width: 100% !important; }
+  .col { display: block !important; width: 100% !important; box-sizing: border-box; }
+  .px { padding-left: 24px !important; padding-right: 24px !important; }
+  .desk { display: none !important; }
+  .mob { display: block !important; max-height: none !important; overflow: visible !important; }
+  .fluid { width: 100% !important; max-width: 100% !important; height: auto !important; }
+  .intro { font-size: 18px !important; }
+  .body { font-size: 15px !important; }
+}
+/* B02 R3 — THE RECORD. A certificate of work laid down: the seal, the slab with its title block, a schedule of
+   what now stands, the datum where drawing became building, and ownership stated once, plainly. */
+.tb td { border: 1.5px solid #141414; }
+.sched td { vertical-align: top; }
+.sched .n { width: 64px; font-size: 40px; line-height: .9; color: #d9d6d0; padding-top: 2px; }
+.sched .i { width: 50px; padding-top: 4px; }
+.sched .s { font-size: 24px; line-height: 1; letter-spacing: .01em; }
+.sched .m { padding-top: 7px; }
+.sched .row td { padding-bottom: 26px; }
+.sched .last td { background: #f4f2ee; padding-top: 22px; padding-bottom: 24px; }
+.sched .last .n { color: #d90c0c; padding-left: 18px; }
+.datum { background: #d90c0c; }
+.btn a { display: inline-block; color: #ffffff; text-decoration: none; padding: 19px 30px 18px; }
+@media (max-width: 480px) {
+  .seal-cell { width: 76px !important; }
+  .seal-cell img { width: 76px !important; height: 76px !important; }
+  .tb-wrap { padding-left: 24px !important; padding-right: 24px !important; }
+  .tb { width: 100% !important; }
+  .sched .n { width: 44px !important; font-size: 30px !important; }
+  .sched .last .n { padding-left: 12px !important; }
+  .sched .i { width: 40px !important; }
+  .sched .i img { width: 28px !important; height: 28px !important; }
+  .sched .s { font-size: 21px !important; }
+  .own { font-size: 30px !important; }
+  .cta-route { display: none !important; }
+  .btn, .btn a { display: block !important; text-align: center; }
+}
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="inbox">
+    <div class="from">FROM · SENDER ADDRESS PENDING REGISTRATION</div>
+    <div class="subj">YOUR FOUNDATION IS COMPLETE</div>
+    <div class="pre">THE PART NOBODY APPLAUDS, AND THE PART EVERYTHING ELSE STANDS ON.</div>
+  </div>
+
+  <!-- MESSAGE -->
+  <table role="presentation" class="wrap" width="640" align="center" cellpadding="0" cellspacing="0" border="0" style="width:640px;margin:0 auto;background:#ffffff;">
+    <tr><td style="display:none;font-size:1px;line-height:1px;max-height:0;overflow:hidden;mso-hide:all;" class="sa">THE PART NOBODY APPLAUDS, AND THE PART EVERYTHING ELSE STANDS ON.</td></tr>
+
+    <!-- masthead and seal -->
+    <tr><td class="px" style="padding:36px 48px 0 48px;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+        <td valign="top" class="sa micro" style="color:#141414;padding-top:6px;">SITE 00 · DIGITAL FOUNDATION</td>
+        <td valign="top" align="right" class="seal-cell" width="112" style="width:112px;"><img src="/site00-correspondence-studio/previews/r3/assets/gfx/completion-seal.png" width="112" height="112" alt="FOUNDATION COMPLETE" style="width:112px;height:112px;"></td>
+      </tr></table>
+    </td></tr>
+
+    <!-- headline lockup -->
+    <tr><td class="px" style="padding:18px 48px 0 48px;">
+      <img class="desk" src="/site00-correspondence-studio/previews/r3/assets/gfx/lockup-groundwork.png" width="544" height="183" alt="THE GROUNDWORK IS DONE." style="width:544px;height:183px;">
+      <div class="mob"><img src="/site00-correspondence-studio/previews/r3/assets/gfx/lockup-groundwork-m.png" width="342" height="209" class="fluid" alt="THE GROUNDWORK IS DONE." style="width:100%;"></div>
+    </td></tr>
+
+    <!-- monument with its title block -->
+    <tr><td style="padding:30px 0 0 0;">
+      <img class="desk" src="/site00-correspondence-studio/previews/r3/assets/slab.png" width="640" height="332" alt="LINE DRAWING OF A FOUNDATION SLAB WITH DIMENSION MARKS, ITS TOP SURFACE FILLED WITH WHITE MARBLE AND EDGED IN RED." style="width:640px;height:332px;">
+      <div class="mob"><img src="/site00-correspondence-studio/previews/r3/assets/slab_m.png" width="390" height="295" class="fluid" alt="LINE DRAWING OF A FOUNDATION SLAB WITH DIMENSION MARKS, ITS TOP SURFACE FILLED WITH WHITE MARBLE AND EDGED IN RED." style="width:100%;"></div>
+    </td></tr>
+    <tr><td class="tb-wrap" align="right" style="padding:0 48px 0 48px;">
+      <table role="presentation" class="tb" align="right" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;">
+        <tr>
+          <td class="sa micro" style="padding:10px 14px;color:#141414;white-space:nowrap;">GROUND · LAID</td>
+          <td class="sa" style="padding:9px 16px;font-weight:600;font-size:15px;letter-spacing:.02em;color:#141414;"><span class="v">Halden &amp; Rowe</span></td>
+        </tr>
+      </table>
+    </td></tr>
+
+    <!-- lede -->
+    <tr><td class="px" style="padding:40px 48px 0 48px;">
+      <p class="sa intro">AS OF TODAY, <span class="v">Halden &amp; Rowe</span> HAS A DOMAIN, MAIL, AND SECURITY THAT ARE SET UP, TESTED, AND REGISTERED TO YOU. HERE IS WHAT THAT MEANS IN PRACTICE.</p>
+    </td></tr>
+
+    <!-- schedule -->
+    <tr><td class="px" style="padding:48px 48px 0 48px;">
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
+        <td width="28" style="width:28px;"><div style="width:18px;height:3px;background:#d90c0c;font-size:0;line-height:0;">&nbsp;</div></td>
+        <td class="sa sh">WHAT'S NOW IN PLACE</td>
+      </tr></table>
+    </td></tr>
+    <tr><td class="px" style="padding:26px 48px 0 48px;">
+      <table role="presentation" class="sched" width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr class="row">
+          <td class="n dp d800">01</td>
+          <td class="i"><img src="/site00-correspondence-studio/previews/r3/assets/gfx/icon-address-plaque.png" width="32" height="32" alt=""></td>
+          <td><div class="s dp d800">DOMAIN</div><p class="m sa body">THE ADDRESS PEOPLE TYPE TO FIND YOU, REGISTERED IN YOUR NAME.</p></td>
+        </tr>
+        <tr class="row">
+          <td class="n dp d800">02</td>
+          <td class="i"><img src="/site00-correspondence-studio/previews/r3/assets/gfx/icon-envelope-plan.png" width="32" height="32" alt=""></td>
+          <td><div class="s dp d800">PROFESSIONAL EMAIL</div><p class="m sa body">MAILBOXES ON YOUR OWN DOMAIN, AS AGREED IN YOUR SCOPE.</p></td>
+        </tr>
+        <tr class="row">
+          <td class="n dp d800">03</td>
+          <td class="i"><img src="/site00-correspondence-studio/previews/r3/assets/gfx/icon-seal.png" width="32" height="32" alt=""></td>
+          <td><div class="s dp d800">DNS AND SECURITY</div><p class="m sa body">THE RECORDS THAT HELP YOUR MAIL REACH INBOXES AND MAKE YOUR NAME HARDER TO IMPERSONATE.</p></td>
+        </tr>
+        <tr class="row">
+          <td class="n dp d800">04</td>
+          <td class="i"><img src="/site00-correspondence-studio/previews/r3/assets/gfx/icon-device-signature.png" width="32" height="32" alt=""></td>
+          <td><div class="s dp d800">DEVICES AND SIGNATURE</div><p class="m sa body">YOUR MAIL ON THE DEVICES YOU USE, SIGNED THE WAY YOU'D SIGN IT.</p></td>
+        </tr>
+        <tr class="last">
+          <td class="n dp d800">05</td>
+          <td class="i"><img src="/site00-correspondence-studio/previews/r3/assets/gfx/icon-benchmark.png" width="32" height="32" alt=""></td>
+          <td style="padding-right:18px;"><div class="s dp d800">FINAL VERIFICATION</div><p class="m sa body">EACH OF THE ABOVE TESTED AND CONFIRMED, NOT ASSUMED.</p></td>
+        </tr>
+      </table>
+    </td></tr>
+
+    <!-- drawn to built, across the datum -->
+    <tr><td style="padding:52px 0 0 0;"><img src="/site00-correspondence-studio/previews/r3/assets/drawn.jpg" width="640" height="198" class="fluid" alt="A LINE DRAWING OF A MARBLE TERRACE AND A RED GLASS PAVILION, STILL ON PAPER." style="width:100%;max-width:640px;"></td></tr>
+    <tr><td class="datum px" bgcolor="#d90c0c" style="padding:9px 48px 8px 48px;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+        <td class="dp d800" style="font-size:17px;letter-spacing:.06em;color:#ffffff;">±0.00</td>
+        <td align="right" class="sa micro" style="color:#ffffff;letter-spacing:.32em;">DATUM</td>
+      </tr></table>
+    </td></tr>
+    <tr><td style="padding:0;"><img src="/site00-correspondence-studio/previews/r3/assets/built.jpg" width="640" height="183" class="fluid" alt="A RED GLASS PAVILION STANDING ON A MARBLE TERRACE ABOVE THE SEA." style="width:100%;max-width:640px;"></td></tr>
+
+    <!-- ownership -->
+    <tr><td class="px" style="padding:52px 48px 0 48px;">
+      <img src="/site00-correspondence-studio/previews/r3/assets/gfx/icon-property-line.png" width="40" height="40" alt="">
+      <p class="dp d800 own" style="font-size:38px;margin-top:18px;">THE ACCOUNTS BEHIND ALL OF THIS BELONG TO YOU.</p>
+      <table role="presentation" class="fluid" width="420" cellpadding="0" cellspacing="0" border="0" style="width:420px;margin-top:16px;"><tr>
+        <td class="sa body">SITE 00 SET THEM UP WITH YOU, AND THEY STAY YOURS WHOEVER YOU WORK WITH NEXT.</td>
+      </tr></table>
+    </td></tr>
+
+    <!-- continuity -->
+    <tr><td class="px" style="padding:40px 48px 0 48px;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+        <td valign="top" width="52" style="width:52px;padding-top:3px;"><img src="/site00-correspondence-studio/previews/r3/assets/gfx/icon-envelope-plan.png" width="32" height="32" alt=""></td>
+        <td valign="top" class="sa body" style="color:#3a3a3a;">YOUR FULL RECORD — WHERE EACH ACCOUNT LIVES, WHO ADMINISTERS IT, HOW IT ALL CONNECTS — ARRIVES IN ITS OWN EMAIL, SO IT'S EASY TO FIND ON THE DAY YOU NEED IT. NOTHING ELSE IS NEEDED FROM YOU.</td>
+      </tr></table>
+    </td></tr>
+
+    <!-- action -->
+    <tr><td class="px" style="padding:44px 48px 52px 48px;">
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" class="fluid"><tr>
+        <td class="btn sa cta" bgcolor="#141414" style="background:#141414;"><a href="https://site00.com/foundation/hr7Kq2Lm9x">VIEW YOUR FOUNDATION</a></td>
+        <td class="cta-route" valign="middle" style="padding-left:20px;"><img src="/site00-correspondence-studio/previews/r3/assets/gfx/icon-route.png" width="80" height="40" alt=""></td>
+      </tr></table>
+    </td></tr>
+
+    <!-- closing image -->
+    <tr><td style="padding:0;"><img src="/site00-correspondence-studio/previews/r3/assets/horizon.jpg" width="640" height="262" class="fluid" alt="A MARBLE TERRACE EDGE MEETING CALM SEA UNDER A CLEAR SKY." style="width:100%;max-width:640px;"></td></tr>
+
+    <!-- footer -->
+    <tr><td class="px" style="padding:30px 48px 38px 48px;">
+      <p class="sa cap" style="letter-spacing:.1em;">A SERVICE MESSAGE ABOUT THE DIGITAL FOUNDATION FOR <span class="v">Halden &amp; Rowe</span>.</p>
+      <p class="sa micro" style="margin-top:10px;color:#141414;">SITE 00 · <span class="url" style="letter-spacing:.08em;">site00.com</span></p>
+    </td></tr>
+  </table>
+</div>
+</body>
+</html>

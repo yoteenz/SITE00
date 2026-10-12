@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <title>ORIENTATION — north point on the issue's masthead</title>
+  <g stroke-linejoin="miter">
+    <circle cx="24" cy="24" r="17" fill="none" stroke="#141414" stroke-width="1.4"/>
+    <path d="M24 5L31 31L24 26Z" fill="#d90c0c"/>
+    <path d="M24 5L17 31L24 26Z" fill="none" stroke="#141414" stroke-width="1.4"/>
+  </g>
+</svg>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <title>OWNERSHIP — a property line with its four corner monuments</title>
+  <g fill="none" stroke-linecap="square">
+    <rect x="9" y="9" width="30" height="30" stroke="#141414" stroke-width="1.6" stroke-dasharray="4 3"/>
+    <path d="M4 9H14M9 4V14M34 9H44M39 4V14M4 39H14M9 34V44M34 39H44M39 34V44" stroke="#d90c0c" stroke-width="2"/>
+  </g>
+</svg>

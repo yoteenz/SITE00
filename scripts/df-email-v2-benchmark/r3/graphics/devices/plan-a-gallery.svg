@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 260" width="360" height="260">
+  <title>A · GALLERY — rooms in a row along one long hall; the marked room is the second in sequence</title>
+  <rect width="360" height="260" fill="#121212"/>
+  <g transform="translate(34 40)" fill="none" stroke="#f1efea" stroke-width="2.2" stroke-linecap="square">
+    <rect x="0" y="0" width="292" height="184"/>
+    <path d="M0 76H292"/>
+    <path d="M100 0V76M190 0V76"/>
+    <rect x="102" y="2" width="86" height="72" fill="rgba(217,12,12,0.38)" stroke="#d90c0c" stroke-width="3"/>
+    <path d="M40 76V64M140 76V64M230 76V64" stroke="#121212" stroke-width="5"/>
+    <path d="M128 184V170" stroke="#121212" stroke-width="8"/>
+    <path d="M118 210L128 196L138 210" stroke="#d90c0c" stroke-width="2.2"/>
+  </g>
+</svg>
