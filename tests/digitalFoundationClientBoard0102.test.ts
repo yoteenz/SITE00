@@ -30,6 +30,7 @@ import {
   planQuoteSync,
   quoteFigures,
   quoteNeedsFounderReview,
+  portalViewsForPayload,
   resolveDfRoute,
   selectionsFromQuote,
   validateForRecommendation,
@@ -73,7 +74,12 @@ describe('one link, server-resolved parent', () => {
     const l = quoted();
     acceptQuote({ artifact_id: l.id, disclosures: [...DF_DISCLOSURES] });
     await simulateStripeCheckoutCompleted({ artifact_id: l.id, quote_id: l.payload().quote!.quote_id });
-    expect(resolveDfRoute(l.payload(), ctx)).toEqual({ kind: 'views', views: ['P06', 'OVERVIEW'], defaultView: 'P06' });
+    const paid = l.payload();
+    expect(resolveDfRoute(paid, ctx)).toEqual({
+      kind: 'views',
+      views: ['P06', ...portalViewsForPayload(paid)],
+      defaultView: 'P06',
+    });
     expect(resolveDfRoute(l.payload(), { checkout: null, activationSeen: true })).toMatchObject({ defaultView: 'OVERVIEW' });
     recordRefund(l.id, {});
     expect(resolveDfRoute(l.payload(), ctx)).toEqual({ kind: 'views', views: ['P06'], defaultView: 'P06' });
