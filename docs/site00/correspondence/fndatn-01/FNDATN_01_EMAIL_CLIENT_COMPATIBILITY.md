@@ -4,20 +4,20 @@
 
 ## Static scan of send-mode output
 
-Rendered with `mode: 'send'`, an absolute https asset base, and the disposable fixtures.
+Rendered with `mode: 'send'`, an absolute https asset base, and the demo scenarios re-keyed as live records (send mode refuses demo payloads).
 
 | # | Bytes | Images | Missing alt | Missing width | Relative src | Non-https href | `<script>` | MSO blocks |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 01 | 40,382 | 9 | 0 | 0 | 0 | 0 | no | 9 |
-| 02 | 37,200 | 10 | 0 | 0 | 0 | 0 | no | 9 |
-| 03 | 43,102 | 13 | 0 | 0 | 0 | 0 | no | 9 |
-| 04 | 39,566 | 9 | 0 | 0 | 0 | 0 | no | 9 |
-| 05 | 46,252 | 18 | 0 | 0 | 0 | 0 | no | 9 |
-| 06 | 34,913 | 15 | 0 | 0 | 0 | 0 | no | 7 |
-| 07 | 48,303 | 12 | 0 | 0 | 0 | 0 | no | 9 |
+| 01 | 43,579 | 9 | 0 | 0 | 0 | 0 | no | 9 |
+| 02 | 41,730 | 10 | 0 | 0 | 0 | 0 | no | 9 |
+| 03 | 54,266 | 13 | 0 | 0 | 0 | 0 | no | 9 |
+| 04 | 42,842 | 9 | 0 | 0 | 0 | 0 | no | 9 |
+| 05 | 42,065 | 18 | 0 | 0 | 0 | 0 | no | 9 |
+| 06 | 37,661 | 15 | 0 | 0 | 0 | 0 | no | 7 |
+| 07 | 58,493 | 12 | 0 | 0 | 0 | 0 | no | 9 |
 
 - Every email is under Gmail's 102 KB clipping threshold. `tests/fndatn01.test.ts` enforces this.
-- There is no flexbox, grid, or absolute positioning. Layout uses nested `role="presentation"` tables with inline styles.
+- There is no flexbox, grid, or absolute positioning. Layout uses nested `role="presentation"` tables with inline styles. The quote, intake and receipt card fields are positioned on the hero art with table padding and fixed row heights.
 - Send mode rejects any non-https asset base. All personalized values are HTML-escaped (also tested).
 
 ## Techniques
@@ -29,14 +29,17 @@ Rendered with `mode: 'send'`, an absolute https asset base, and the disposable f
 | Apple Mail / iOS | `@font-face` for Saira Semi Condensed and Barlow Condensed; `x-apple-data-detectors` reset | Closest to the authority |
 | Mobile (≤480px) | `.desk-only` / `.mob-only` swaps, stacked columns, full-width buttons | Clients without media query support (some Gmail IMAP accounts) show the desktop layout scaled down |
 | Dark mode | `color-scheme: light only`; `[data-ogsc]` / `[data-ogsb]` ink and red locks | Outlook.com and Gmail app may still partially invert backgrounds; not verified |
-| Images off | Alt text on every image; headline, ledger, and CTA are live text | Content stays readable without images |
+| Card fields on the art | Live text in table rows over a background-image cell; the art is locked at its design size (`lock`) so the text stays on the card; the card's perspective is per-row indents; its tilt is a CSS `transform` on its own wrapper | Tilt shows in Apple Mail / iOS (WebKit) and Chromium. Clients that drop `transform` (Gmail, Outlook) show the same rows level, on the card. Verified in Chromium with and without transforms; not verified in a live client |
+| Mobile card heroes | The art and its text are locked together at 390 px: centred on wider phones, left-anchored and cropped on the right (scene only) below 390 px | Verified at 360, 390 and 430 px in Chromium |
+| Images off | Alt text on every image; headline, card fields and CTA are live text; card heroes fall back to a white cell | Content stays readable without images |
 | Preheader | Hidden preheader per email | — |
 
 ## Fonts
 
 - Body: `Saira Semi Condensed`, served from `public/site00-correspondence-studio/fndatn-01/fonts/`.
 - Display: `Barlow Condensed`, served from the existing `public/site00/fonts/barlow-condensed/`.
-- Clients that ignore `@font-face` (Gmail, Outlook desktop) render fallback stacks. This is the largest expected visual difference from the authority outside Apple Mail.
+- Clients that ignore `@font-face` (Gmail, Outlook desktop) render fallback stacks: `Arial Narrow`, `Roboto Condensed` / `sans-serif-condensed` (Android), `Impact` for display type, then Arial. This is the largest expected visual difference from the authority outside Apple Mail.
+- Measured with web fonts blocked (Arial metrics): desktop hero copy grows past the 300 px art by 5 to 24 px on 01, 02, 05, 06, 07 (white below a locked card hero, art rescaled on the others), and the 03 recommendation value crosses the card's printed rule by up to 19 px. Card fields stay on the card. See `artifact-data-qa/qa-report.json`.
 
 ## Known gaps before any live send
 

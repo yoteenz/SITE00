@@ -50,7 +50,8 @@ export type AddonLine = { label: string; quantity: number };
 export type Data01 = Common & { status: string; access: string };
 export type Data02 = Common & { status: string; receivedAt: string; reference: string };
 export type Data03 = Common & {
-  recommendation: string;
+  /** The recommendation title on record, or null (the card omits the row; nothing is defaulted). */
+  recommendation: string | null;
   quoteAmount: string;
   validUntil: string;
   addons: AddonLine[];
@@ -72,6 +73,8 @@ export type Data07 = Common & {
   quoteAmount: string;
   issuedAt: string;
   validUntil: string;
+  /** Date-only expiry for the quote card; `validUntil` carries the exact time for the countdown. */
+  validUntilDate: string;
   status: string;
   remaining: { days: number; hours: number; minutes: number };
   asOf: string;
@@ -196,7 +199,7 @@ export function derive03(payload: DigitalFoundationArtifactPayload, ctx: Fndatn0
   if (payload.artifact.payment_state === 'PAID') reasons.push('ALREADY_PAID');
   return result<'03'>(reasons, () => ({
     ...common(payload, ctx),
-    recommendation: (payload.recommendation?.title ?? 'DIGITAL FOUNDATION').toUpperCase(),
+    recommendation: payload.recommendation?.title?.trim() ? payload.recommendation.title.trim().toUpperCase() : null,
     quoteAmount: formatMoney(q!.subtotal_minor, q!.currency),
     validUntil: formatDate(q!.expires_at, ctx),
     addons: addonLines(q!),
@@ -352,6 +355,7 @@ export function derive07(payload: DigitalFoundationArtifactPayload, ctx: Fndatn0
     quoteAmount: formatMoney(q!.subtotal_minor, q!.currency),
     issuedAt: formatDate(q!.created_at, ctx),
     validUntil: formatDateTime(q!.expires_at, ctx),
+    validUntilDate: formatDate(q!.expires_at, ctx),
     status: q!.status === 'CLIENT_REVIEW' ? 'AWAITING ACCEPTANCE' : 'READY FOR REVIEW',
     remaining: quoteRemaining(exp!, ctx.now),
     asOf: formatDateTime(ctx.now.toISOString(), ctx),

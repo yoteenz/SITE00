@@ -45,7 +45,7 @@ Base checks that block every email: no `public_token` (`NO_PUBLIC_TOKEN`) and an
 
 | Field | Source |
 | --- | --- |
-| `recommendation` | `recommendation.title` |
+| `recommendation` | `recommendation.title`; `null` when absent and the card omits the RECOMMENDATION row (no default title) |
 | `quoteAmount` | `quote.subtotal_minor` and `quote.currency` |
 | `validUntil` | `quote.expires_at` |
 | `addons` | `quote.selected_addons`, labelled through `findAddon` |
@@ -93,11 +93,20 @@ An item is verified only when its stage is `COMPLETE` and its value is present. 
 | --- | --- |
 | `quoteAmount` | Quote subtotal and currency |
 | `issuedAt` | `quote.created_at` |
-| `validUntil` | `quote.expires_at` |
+| `validUntil` | `quote.expires_at`, date and time (countdown caption, preheader) |
+| `validUntilDate` | `quote.expires_at`, date only (quote card) |
 | `remaining` | `expires_at − now`, as days, hours, and minutes (static) |
 | `asOf` | `now` |
 | Blocks | `NO_QUOTE`, `QUOTE_STATUS_*`, `QUOTE_NOT_FOUNDER_APPROVED`, `QUOTE_HAS_NO_SUBTOTAL`, `QUOTE_HAS_NO_EXPIRATION`, `QUOTE_EXPIRED`, `REMINDER_WINDOW_NOT_REACHED`, `PAYMENT_STATE_PAID`, `PAYMENT_STATE_CHECKOUT_PENDING`, `QUOTE_ALREADY_ACCEPTED` |
 
-## Review fixtures
+## Where the fields render
 
-`shared/site00-correspondence-studio/fndatn01/fixtures.ts` holds disposable, non-production fixtures with `.invalid` addresses and a fixture token that resolves to nothing. The committed review previews under `public/site00-correspondence-studio/fndatn-01/` are rendered from them by `scripts/correspondence-studio/fndatn01/render-previews.ts`. A test fails if the committed HTML drifts from the renderer.
+Card fields are live text placed on the paper card inside the hero art (`cards.ts`, `CARD_SPECS`), not in a data grid below it. See `FNDATN_01_ARTIFACT_DATA.md` for the field map per email and device.
+
+## Demo scenarios (review only)
+
+`shared/site00-correspondence-studio/fndatn01/fixtures.ts` holds one nonproduction timeline for a fictional client (`Jordan Avery`, `Avery Studio`, `.invalid` addresses, `demo` ids, a token that resolves to nothing) and seven snapshots of it: `INVITED`, `INTAKE_IN_PROGRESS`, `INTAKE_SUBMITTED`, `QUOTE_READY_UNPAID`, `QUOTE_EXPIRING_UNPAID`, `PAID_PROJECT_ACTIVE`, `FOUNDATION_VERIFIED_COMPLETE`. Every snapshot shares the same artifact, quote ($1,334.00 USD), references and dates, and has its own `now`, the instant its email could legitimately be sent. `PAID_PROJECT_ACTIVE` has an `activation_pending` variant without the `PROJECT_ACTIVATED` event. The intake-in-progress snapshot has no quote and no payment.
+
+The committed review previews under `public/site00-correspondence-studio/fndatn-01/` are rendered from these scenarios by `scripts/correspondence-studio/fndatn01/render-previews.ts`, each labelled `DEMO DATA` with its scenario name in the inbox note and in the studio's data-state selector. A test fails if the committed HTML drifts from the renderer.
+
+Send mode throws on any payload `isFndatn01DemoPayload` recognises (demo artifact, token, lead or actor), so demo values can never reach a client. In send mode a missing value is never replaced with a demo value: an optional field drops its row, a required one makes the email ineligible.

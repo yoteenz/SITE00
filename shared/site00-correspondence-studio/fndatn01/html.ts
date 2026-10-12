@@ -16,8 +16,9 @@ export const T = {
   canvas: 680,
 } as const;
 
-export const FONT_BODY = "'Saira Semi Condensed','Arial Narrow',Arial,Helvetica,sans-serif";
-export const FONT_DISPLAY = "'Barlow Condensed','Arial Narrow',Arial,Helvetica,sans-serif";
+/** Clients without web fonts (Gmail, Outlook) fall back to the nearest condensed face they have before Arial. */
+export const FONT_BODY = "'Saira Semi Condensed','Arial Narrow','Roboto Condensed',sans-serif-condensed,Arial,Helvetica,sans-serif";
+export const FONT_DISPLAY = "'Barlow Condensed','Arial Narrow','Roboto Condensed',sans-serif-condensed,Impact,Arial,Helvetica,sans-serif";
 
 export function esc(value: string | number): string {
   return String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
@@ -77,7 +78,7 @@ u + #body a{color:inherit;text-decoration:none}
   .px{padding-left:20px!important;padding-right:20px!important}
   .stack{display:block!important;width:100%!important;box-sizing:border-box}
   .h-m{font-size:40px!important;line-height:38px!important}
-  .btn-m{display:block!important;width:100%!important;box-sizing:border-box;text-align:center!important}
+  .btn-m{display:block!important;width:100%!important;box-sizing:border-box;text-align:center!important;white-space:normal!important}
   .hide-m{display:none!important}
   .gap-m{padding-right:9px!important}
   .gap-m .site{font-size:18px!important;line-height:18px!important;letter-spacing:.2em!important}
@@ -85,6 +86,11 @@ u + #body a{color:inherit;text-decoration:none}
   .slash-m{font-size:18px!important;line-height:18px!important;padding-right:6px!important}
   .tiny-m{padding-right:0!important}
   .foot-r{text-align:left!important;padding-top:0!important}
+  .mast .tiny-m{white-space:normal!important}
+}
+@media screen and (max-width:389px){
+  .hero-lock{margin-left:0!important}
+  .mast .px{padding-left:16px!important;padding-right:16px!important}
 }
 [data-ogsc] .keep-ink, [data-ogsb] .keep-ink{color:#111111!important}
 [data-ogsc] .keep-red, [data-ogsb] .keep-red{color:#ce1017!important}
@@ -140,10 +146,25 @@ export function icon(src: string, alt: string, size = 22): string {
   return `<img src="${src}" alt="${esc(alt)}" width="${size}" height="${size}" style="display:block;width:${size}px;height:${size}px;border:0">`;
 }
 
-/** Background-image cell with VML fallback for Outlook. Content renders as live HTML on top. */
-export function bgCell(opts: { src: string; width: number; height: number; fallback: string; position?: string; content: string; className?: string }): string {
-  const pos = opts.position ?? 'center center';
-  return `<td class="${opts.className ?? ''}" background="${opts.src}" bgcolor="${opts.fallback}" width="${opts.width}" height="${opts.height}" valign="top" style="background-color:${opts.fallback};background-image:url('${opts.src}');background-size:cover;background-position:${pos};background-repeat:no-repeat;height:${opts.height}px">
+/**
+ * Background-image cell with VML fallback for Outlook. Content renders as live HTML on top.
+ * `lock` pins the art at a fixed size and offset instead of `cover`, so live text positioned over a
+ * feature of the art (a card's fields) stays on it even if the cell grows or the viewport changes.
+ */
+export function bgCell(opts: {
+  src: string;
+  width: number;
+  height: number;
+  fallback: string;
+  position?: string;
+  content: string;
+  className?: string;
+  /** Art drawn at this exact size, `x` px from the left (negative crops), top-aligned. */
+  lock?: { width: number; height: number; x?: number };
+}): string {
+  const pos = opts.lock ? `${opts.lock.x ?? 0}px 0` : (opts.position ?? 'center center');
+  const size = opts.lock ? `${opts.lock.width}px ${opts.lock.height}px` : 'cover';
+  return `<td class="${opts.className ?? ''}" background="${opts.src}" bgcolor="${opts.fallback}" width="${opts.width}" height="${opts.height}" valign="top" style="background-color:${opts.fallback};background-image:url('${opts.src}');background-size:${size};background-position:${pos};background-repeat:no-repeat;height:${opts.height}px">
 <!--[if gte mso 9]><v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="width:${opts.width}px;height:${opts.height}px;"><v:fill type="frame" src="${opts.src}" color="${opts.fallback}" /><v:textbox inset="0,0,0,0"><![endif]-->
 ${opts.content}
 <!--[if gte mso 9]></v:textbox></v:rect><![endif]-->
