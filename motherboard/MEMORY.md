@@ -16510,4 +16510,12 @@ Summary of the whole conversation in this chat.
 - **Goal:** Complete `/foundation/review` with real Family C portal screens + completion/digital location; keep BLDR rooms; no parallel review app; no prod deploy; **no auto-merge**.
 - **Change:** `DigitalFoundationReviewPage.tsx` mounts `P07ProjectOverview`, roadmap, stage, needs you, records, record detail, comm prefs; `M_COMPLETE_CREDIT` for complete + digital location; `reviewGalleryRegistry.ts` (families A–G); founder ops = admin deep links only; `reviewMode` blocks mutations on Needs You, prefs, build interest. PR **#1625** draft on `cursor/df-review-gallery-portal-be3b` → base `cursor/df-screen-review-tunnel-be3b`.
 - **Fixtures:** `A_BASE`, `J_PAYMENT_SUCCESS`, `M_COMPLETE_CREDIT`.
-- **Verify after merge:** dev preview tunnel `/foundation/review` anchors `#df-r-OVERVIEW`, `#df-r-ROADMAP`, `#df-r-COMPLETE`, `#df-r-bldr-PLACE`.
+- **Verify after merge:** review page direct anchors OVERVIEW, ROADMAP, COMPLETE, bldr-PLACE.
+
+---
+
+## 2026-10-12 — Hotfix: blank /foundation/review on preview tunnel
+
+- **Founder report:** `/foundation/review#df-r-bldr-PLACE` white screen on dev tunnel.
+- **Cause:** `EntryIntake` / `Recommendation` / `CheckoutActivation` import `DfSheet` from `shell.tsx`; drawer restore (#1622) removed that export → lazy review chunk failed at runtime.
+- **Fix:** Re-export `DfSheet` (modal `DfBottomSheet` wrapper), `completeClientAction` on client `api.ts`, export `SpecRow`. PR **#1626** merged **`main`** `d4af2e16`; preview tunnel refreshed to same SHA.
