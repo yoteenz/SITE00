@@ -16526,3 +16526,11 @@ Summary of the whole conversation in this chat.
 - **Founder report:** GitHub **SITE 00 Production Release / test** failed on `bldrMonumentRealismV2` (`expected … to contain 'Painted glass, not transmission'`).
 - **Cause:** Hybrid spatial studio rewrite (`e32e67e2`) replaced `buildObject/engine.ts` and simplified `composition.ts` without the V2 realism opt-in (`?realism=v2`, PLACE·ADVANCED monument, painted-glass default).
 - **Fix:** Branch `cursor/fix-bldr-realism-ci-a9f7` restores integrated `engine.ts`, `BuildObjectStage.tsx`, and full `composition.ts` from realism V2 benchmark baseline (`3cd487e2`). Merge with **#1634** keeps thumbnail cache/queue + uppercase blueprint body. `bldrMonumentRealism*.test.ts` + `composition.test.ts` green locally.
+
+---
+
+## 2026-10-12 — Correspondence preview: all 20 R4 emails on tunnel (#1636)
+
+- **Founder report:** Mobile tunnel showed only some new emails, not the full R4 pack of 20.
+- **Cause:** All 20 `public/.../previews/r4/emails/*.html` were on `main`; Studio defaulted to **FNDATN-01 pack (7)** and FNDATN was **current** on overlapping lifecycle ids, so R4 looked partial.
+- **Fix:** Register **`R4-PREMIUM`** pack (20 ids). Cloud preview dev sets `VITE_SITE00_R4_REVIEW_PRIORITY=1` to re-apply R4 as current after FNDATN and default the library pack chip to R4. Full browser review artifact: `/site00-correspondence-studio/previews/r4/review/index.html`.
