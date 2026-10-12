@@ -1,6 +1,6 @@
 /** FNDATN-01 compositions. Seven emails, seven arrangements of the shared parts. */
 import type { Data01, Data02, Data03, Data04, Data05, Data06, Data07, AddonLine, ScopeItem } from './contracts.js';
-import { FONT_BODY, FONT_DISPLAY, T, button, caption, esc, icon, img, microLabel, mobileOnly, paintProse, sectionTitle, v, type AssetResolver } from './html.js';
+import { FONT_BODY, FONT_DISPLAY, T, button, caption, esc, icon, img, microLabel, mobileOnly, sectionTitle, v, type AssetResolver } from './html.js';
 import {
   SPACE,
   deskAct,
@@ -48,8 +48,8 @@ function mobileColumns(asset: AssetResolver, title: string, items: BandItem[], o
 <td valign="middle">${icon(asset(`assets/icons/${it.icon}.png`), it.iconAlt, 18)}</td>
 </tr></table>
 ${SPACE(8)}
-<p style="margin:0;font-family:${FONT_BODY};font-size:9.5px;line-height:13px;letter-spacing:.14em;font-weight:600;color:${T.ink};text-transform:uppercase">${paintProse(it.title, asset)}</p>
-<p style="margin:4px 0 0;font-family:${FONT_BODY};font-size:8.5px;line-height:12px;letter-spacing:.08em;color:${T.mute};text-transform:uppercase">${paintProse(it.text, asset)}</p>
+<p style="margin:0;font-family:${FONT_BODY};font-size:9.5px;line-height:13px;letter-spacing:.14em;font-weight:600;color:${T.ink};text-transform:uppercase">${esc(it.title)}</p>
+<p style="margin:4px 0 0;font-family:${FONT_BODY};font-size:8.5px;line-height:12px;letter-spacing:.08em;color:${T.mute};text-transform:uppercase">${esc(it.text)}</p>
 </td>`,
     )
     .join('');
@@ -385,7 +385,7 @@ export function compose05(asset: AssetResolver, d: Data05): Composition {
       mobileAct({
         label: 'VIEW YOUR FOUNDATION',
         url: d.foundationUrl,
-        caption: paintProse('YOUR PROJECT IS COMPLETE. LOG IN TO ACCESS YOUR RECORDS, SETTINGS, AND NEXT STEPS.', asset),
+        caption: esc('YOUR PROJECT IS COMPLETE. LOG IN TO ACCESS YOUR RECORDS, SETTINGS, AND NEXT STEPS.'),
       }),
       mobileStrip(asset, slug, 'strip-mobile.jpg', STRIP_ALT.glass, 77),
       foot(),

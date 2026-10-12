@@ -26,7 +26,7 @@ function markImg(ch: string, key: number) {
   );
 }
 
-/** Same thousands rule as `paintProse` in fndatn01/html.ts. */
+/** Thousands separator rule (emails use plain body punctuation; this helper is for live DF/BLDR pages only). */
 export function correspondenceProseString(text: string): ReactNode[] {
   const out: ReactNode[] = [];
   let key = 0;
