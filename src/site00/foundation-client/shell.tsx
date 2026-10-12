@@ -4,9 +4,9 @@ import {
   CorrespondenceProse,
   displayLineEndsWithSplitMark,
 } from '../../../shared/site00-correspondence-studio/reactProse.js';
-import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ComponentProps, type CSSProperties, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
-import { DfButton, DfLoadingState, DfSheetRow } from './components';
+import { DfBottomSheet, DfButton, DfLoadingState, DfSheetRow } from './components';
 import { DfIcon, type DfIconName } from './icons';
 import { DF_ARCHITECTURE_RENDERS } from './objects';
 import {
@@ -479,4 +479,9 @@ export function DfLoading() {
       </DfFrame>
     </div>
   );
+}
+
+/** Modal bottom sheet used on intake / recommendation / checkout (not the right drawer menu). */
+export function DfSheet(props: Omit<ComponentProps<typeof DfBottomSheet>, 'variant'>) {
+  return <DfBottomSheet variant="modal" {...props} />;
 }
