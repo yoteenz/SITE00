@@ -16510,3 +16510,11 @@ Summary of the whole conversation in this chat.
 - **Root causes (stack):** (1) Lazy route chunk failures when shared DF exports break (`DfSheet` etc.) → whole page white. (2) Vite dev **local API** esbuild bundle for `api/site00/intakes` failed on inline `satisfies` in `toEstimateConfig.ts` `WORLD_INPUT_MAP` → `POST …/intakes?action=start` **500** → BLDR `ensureStarted` never completes (retry/blank). (3) Empty threshold slots looked flat/white without a JS crash.
 - **Fix:** Typed `WORLD_INPUT_MAP` without per-key `satisfies`; `vite-site00-local-api.mjs` `target: es2022` + `SITE00_INTAKES_USE_MEMORY=1` when `SITE00_CLOUD_MOBILE_PREVIEW`; test bundles `api/site00/intakes.ts` in `site00LocalApiTsxLoader.test.ts`.
 - **Hardening:** Keep shell export test; extend local-api bundle test when adding handlers that import builder-experience TS.
+
+---
+
+## 2026-10-12 — BLDR realism CI fix (Production Release test job)
+
+- **Founder report:** GitHub **SITE 00 Production Release / test** failed on `bldrMonumentRealismV2` (`expected … to contain 'Painted glass, not transmission'`).
+- **Cause:** Hybrid spatial studio rewrite (`e32e67e2`) replaced `buildObject/engine.ts` and simplified `composition.ts` without the V2 realism opt-in (`?realism=v2`, PLACE·ADVANCED monument, painted-glass default).
+- **Fix:** Branch `cursor/fix-bldr-realism-ci-a9f7` restores integrated `engine.ts`, `BuildObjectStage.tsx`, and full `composition.ts` from realism V2 benchmark baseline (`3cd487e2`). `bldrMonumentRealism*.test.ts` + `composition.test.ts` green locally.
