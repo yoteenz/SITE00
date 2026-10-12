@@ -1234,33 +1234,33 @@
         {
           "kind": "receipt_values",
           "box": [
-            345,
-            725,
-            560,
-            925
+            175,
+            722,
+            562,
+            928
           ]
         },
         {
           "kind": "receipt_values",
           "box": [
-            185,
-            975,
-            430,
-            1010
+            180,
+            950,
+            472,
+            1013
           ]
         },
         {
           "kind": "receipt_values",
           "box": [
-            515,
-            975,
-            690,
-            1008
+            508,
+            950,
+            702,
+            1011
           ]
         }
       ],
-      "note": "mobile receipt paper with printed labels and PAID seal; live values overlay the value column",
-      "sha256": "419798964a99a8bba83152b71d9ecc0bbf173d087a37a61e117377d30457c99d"
+      "note": "mobile receipt paper with header, divider and PAID seal; live receipt rows overlay the cleared field area",
+      "sha256": "7a5608f27b4180a057636adc790f8e2df68193750e870935257b2076ea181855"
     },
     {
       "asset": "shared/marble-band.jpg",

@@ -219,14 +219,14 @@ def build_strips(slug):
 
 
 # ---------------------------------------------------------------------------------------------
-# 04 mobile receipt: the flat torn-paper receipt keeps its printed labels; only values are erased so
-# live values sit in the value column.
+# 04 mobile receipt: the flat torn-paper receipt keeps its header, divider, PAID seal and torn edges.
+# Field labels and values, the next-step copy and the project state are erased; live rows replace them.
 
 RECEIPT_RECT = (131, 621, 811, 1040)
 RECEIPT_VALUE_BOXES = [
-    (345, 725, 560, 925),   # client .. status values
-    (185, 975, 430, 1010),  # next step copy
-    (515, 975, 690, 1008),  # project state value
+    (175, 722, 562, 928),   # field labels and values
+    (180, 950, 472, 1013),  # next step label and copy
+    (508, 950, 702, 1011),  # project state label and value
 ]
 
 
@@ -239,7 +239,7 @@ def build_receipt():
     out = crop_resize(clean, RECEIPT_RECT, MOBILE_CANVAS * 2)
     path = save_jpg(out, '04_payment_received/receipt-mobile.jpg')
     record(path, '04_payment_received', 'mobile', RECEIPT_RECT, [{'kind': 'receipt_values', 'box': list(b)} for b in RECEIPT_VALUE_BOXES],
-           'mobile receipt paper with printed labels and PAID seal; live values overlay the value column', [MOBILE_CANVAS, round(out.shape[0] / 2)])
+           'mobile receipt paper with header, divider and PAID seal; live receipt rows overlay the cleared field area', [MOBILE_CANVAS, round(out.shape[0] / 2)])
 
 
 # ---------------------------------------------------------------------------------------------
