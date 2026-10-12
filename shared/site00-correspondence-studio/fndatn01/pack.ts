@@ -55,7 +55,9 @@ function authority(slug: string) {
   };
 }
 
-export function fndatn01PreviewPath(slug: string, variant: 'default' | 'activation_pending' = 'default'): string {
+export type Fndatn01PreviewVariant = 'default' | 'activation_pending' | 'stress_long' | 'stress_short';
+
+export function fndatn01PreviewPath(slug: string, variant: Fndatn01PreviewVariant = 'default'): string {
   return `${FNDATN01_PUBLIC_ROOT}/${slug}${variant === 'default' ? '' : `--${variant.replace('_', '-')}`}.html`;
 }
 

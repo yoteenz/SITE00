@@ -112,7 +112,10 @@ const RECOMMENDATION = {
   manual_review_reasons: [],
 };
 
-export function fixtureFor(id: Fndatn01EmailId, variant: 'default' | 'activation_pending' = 'default'): DigitalFoundationArtifactPayload {
+export type Fndatn01FixtureVariant = 'default' | 'activation_pending' | 'stress_long' | 'stress_short';
+
+export function fixtureFor(id: Fndatn01EmailId, variant: Fndatn01FixtureVariant = 'default'): DigitalFoundationArtifactPayload {
+  if (variant === 'stress_long' || variant === 'stress_short') return stressFixture(id, variant);
   const p = basePayload();
   const a = p.artifact;
   switch (id) {
@@ -198,4 +201,58 @@ export function fixtureFor(id: Fndatn01EmailId, variant: 'default' | 'activation
       p.events.push(event('quote', 'QUOTE_CREATED', '2026-09-14T14:00:00.000Z'));
       return p;
   }
+}
+
+/**
+ * Personalization stress cases. Fictional values only: names that do not belong to any client,
+ * `.invalid` domains, fixture references. Long covers long names, business, currency, references,
+ * addon lists and payment method; short covers minimal values and absent optional fields.
+ */
+export const FNDATN01_STRESS_LONG_CONTEXT: Fndatn01Context = {
+  ...FNDATN01_FIXTURE_CONTEXT,
+  timeZone: 'Pacific/Chatham',
+  timeZoneLabel: 'CHATHAM STANDARD TIME',
+};
+
+const LONG = {
+  name: 'Maximiliana-Alexandria Featherstonehaugh-Vanderbilt',
+  business: 'Featherstonehaugh Architecture & Interior Restoration Collective',
+  domain: 'featherstonehaugh-architecture-and-interior-restoration.invalid',
+  mailbox: 'maximiliana-alexandria@featherstonehaugh-architecture.invalid',
+  quoteId: 'q-fixture-0001-revision-0007-extended-review-reference',
+  method: 'Corporate card ending 4242 · authorized signatory',
+};
+
+function stressFixture(id: Fndatn01EmailId, variant: 'stress_long' | 'stress_short'): DigitalFoundationArtifactPayload {
+  const p = fixtureFor(id, 'default');
+  const long = variant === 'stress_long';
+  p.lead.contact_name = long ? LONG.name : 'Al';
+  p.lead.business_name = long ? LONG.business : null;
+  if (p.artifact.intake.contact_name) p.artifact.intake.contact_name = p.lead.contact_name;
+  if (p.artifact.intake.business_name) p.artifact.intake.business_name = long ? LONG.business : undefined;
+  if (p.quote) {
+    const q = p.quote;
+    if (long) {
+      q.quote_id = LONG.quoteId;
+      q.base_price_minor = 1234567800;
+      q.selected_addons = [{ ...q.selected_addons[0], quantity: 12, line_total_minor: 60000 }];
+      q.addon_total_minor = 60000;
+      q.subtotal_minor = 1234627800;
+    } else {
+      q.base_price_minor = 900;
+      q.selected_addons = [];
+      q.addon_total_minor = 0;
+      q.subtotal_minor = 900;
+    }
+  }
+  const paid = p.events.find((e) => e.event_type === 'PAYMENT_CONFIRMED');
+  if (paid && long) paid.payload = { ...paid.payload, method_label: LONG.method };
+  if (p.ownership_record) {
+    p.ownership_record.domain = long ? LONG.domain : 'ox.invalid';
+    p.ownership_record.primary_mailbox = long ? LONG.mailbox : 'al@ox.invalid';
+    p.ownership_record.business = long ? LONG.business : 'Ox';
+    p.ownership_record.owner = p.lead.contact_name ?? '';
+  }
+  if (!long) p.artifact.completed_at = null;
+  return p;
 }

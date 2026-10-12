@@ -44,8 +44,8 @@ function fndatn01Version(email: Fndatn01Email): EmailTemplateVersion {
     review_state: 'founder_review',
     pack_id: FNDATN01_PACK_ID,
     reference_authority: { ...email.authority, manifest_ref: FNDATN01_AUTHORITY_MANIFEST },
-    state_previews:
-      email.id === '04'
+    state_previews: [
+      ...(email.id === '04'
         ? [
             { id: 'activation_confirmed', label: 'PAYMENT + ACTIVATION CONFIRMED', publicPreviewPath },
             {
@@ -54,7 +54,10 @@ function fndatn01Version(email: Fndatn01Email): EmailTemplateVersion {
               publicPreviewPath: fndatn01PreviewPath(email.slug, 'activation_pending'),
             },
           ]
-        : undefined,
+        : [{ id: 'default', label: 'DEFAULT FIXTURE', publicPreviewPath }]),
+      { id: 'stress_long', label: 'STRESS · LONG PERSONALIZATION', publicPreviewPath: fndatn01PreviewPath(email.slug, 'stress_long') },
+      { id: 'stress_short', label: 'STRESS · SHORT · OPTIONAL FIELDS ABSENT', publicPreviewPath: fndatn01PreviewPath(email.slug, 'stress_short') },
+    ],
   };
 }
 
