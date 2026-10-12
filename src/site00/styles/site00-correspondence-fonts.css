@@ -97,3 +97,7 @@
   margin: 0 0.06em;
   pointer-events: none;
 }
+
+.correspondence-display-mark {
+  color: #ce1017;
+}

@@ -1,5 +1,5 @@
 /** Digital Foundation client shell (DF-C01..C09, C26, C45..C48). Presentation only. */
-import { CorrespondenceProse } from '../../../shared/site00-correspondence-studio/reactProse.js';
+import { CorrespondenceDisplay, CorrespondenceProse } from '../../../shared/site00-correspondence-studio/reactProse.js';
 import { useEffect, useId, useRef, type ReactNode } from 'react';
 import { DfIcon, type DfIconName } from './icons';
 import { DfCornerFragment, DfCrownObject, DfThresholdHero } from './objects';
@@ -47,7 +47,7 @@ export function DfHeadline({ lines, id }: { lines: string[]; id?: string }) {
     <h1 className="df-headline" id={id}>
       {lines.map((line, i) => (
         <span key={i} className="df-headline__line">
-          {line}
+          <CorrespondenceDisplay>{line}</CorrespondenceDisplay>
           {i === lines.length - 1 && <span className="df-headline__period">.</span>}
         </span>
       ))}
@@ -236,7 +236,9 @@ export function DfMenu({
           })}
         </ol>
       </nav>
-      <p className="df-menu__note">THIS LINK IS PERSONAL TO YOUR BUSINESS. PLEASE DON&apos;T SHARE IT.</p>
+      <p className="df-menu__note">
+        <CorrespondenceProse>THIS LINK IS PERSONAL TO YOUR BUSINESS. PLEASE DON&apos;T SHARE IT.</CorrespondenceProse>
+      </p>
     </DfSheet>
   );
 }

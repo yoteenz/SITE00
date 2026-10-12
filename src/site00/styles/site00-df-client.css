@@ -162,6 +162,7 @@ body:has(.df-root) {
 }
 
 .df-rail__index {
+  font-family: var(--df-display);
   font-size: 17px;
   font-weight: 600;
   letter-spacing: 0.06em;

@@ -6,7 +6,7 @@
  * and what the object shows. Rooms are routes (`/bldr/studio/:room`) so device back and forward work. The
  * configuration itself lives in Composer's server-backed session (`useBuilderSpatialIntakeSession`).
  */
-import { CorrespondenceProse } from '../../../shared/site00-correspondence-studio/reactProse.js';
+import { CorrespondenceDisplay, CorrespondenceProse } from '../../../shared/site00-correspondence-studio/reactProse.js';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { SITE00_ROUTES } from '../config/routes';
@@ -174,7 +174,7 @@ export function BuilderStudio({
         <h1 id="bs-headline" className="bs-headline">
           {meta.headline.map((line, i) => (
             <span key={line} className="bs-headline__line">
-              {line}
+              <CorrespondenceDisplay>{line}</CorrespondenceDisplay>
               {i === meta.headline.length - 1 ? <span className="bs-dot">.</span> : null}
             </span>
           ))}

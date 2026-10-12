@@ -54,3 +54,33 @@ function mapProseChild(child: ReactNode, key: number): ReactNode {
 export function CorrespondenceProse({ children }: { children: ReactNode }) {
   return <>{Children.map(children, (child, i) => mapProseChild(child, i))}</>;
 }
+
+/** Display lines (SITE 00 Display): `.` `,` `;` `*` render in correspondence red — matches `displayText()` in fndatn01/html.ts. */
+const RED_DISPLAY = new Set(['.', ',', ';', '*']);
+
+export function correspondenceDisplayString(text: string): ReactNode[] {
+  const out: ReactNode[] = [];
+  let key = 0;
+  for (const ch of text) {
+    if (RED_DISPLAY.has(ch)) {
+      out.push(
+        <span key={key++} className="correspondence-display-mark" style={{ color: CORRESPONDENCE_RED }}>
+          {ch}
+        </span>,
+      );
+    } else {
+      out.push(<Fragment key={key++}>{ch}</Fragment>);
+    }
+  }
+  return out;
+}
+
+function mapDisplayChild(child: ReactNode, key: number): ReactNode {
+  if (typeof child === 'string') return <Fragment key={key}>{correspondenceDisplayString(child)}</Fragment>;
+  if (typeof child === 'number') return <Fragment key={key}>{correspondenceDisplayString(String(child))}</Fragment>;
+  return <Fragment key={key}>{child}</Fragment>;
+}
+
+export function CorrespondenceDisplay({ children }: { children: ReactNode }) {
+  return <>{Children.map(children, (child, i) => mapDisplayChild(child, i))}</>;
+}
