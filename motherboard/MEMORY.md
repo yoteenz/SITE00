@@ -16450,3 +16450,12 @@ Summary of the whole conversation in this chat.
 - **Prose marks:** `shared/site00-correspondence-studio/reactProse.tsx` (`CorrespondenceProse`) paints `,` `;` `*` in body copy with the same red mark PNGs as the emails. Wired through `DfLede`, `DfTrust`, `DfAlert`, BLDR room ledes and descriptors, and Blueprint prose/blockers/dialogs.
 - **Check:** `tests/correspondenceReactProse.test.tsx` and `tests/fndatn01.test.ts` pass. Preview tunnel on `:5174` may still mount a pinned older SHA until this branch merges to `main` and `preview/tunnel` refreshes; workspace dev on another port serves the branch.
 - **Conventions:** Draft PR #1617 carries emails plus this UI work. Not merged unless the founder asks.
+
+---
+
+## 2026-10-12 — Foundation review BLDR iframes restored (Hybrid Spatial Studio)
+
+- **Context:** Founder said `/foundation/review` no longer showed the real BLDR studio (Modern / Immersive feel cards, live 3D object).
+- **Cause:** `?reviewRoom=` sample mode and `useStudioSession(sample)` were dropped from `BldrSpatialStudioPage` / `BuilderStudio`; iframes loaded `/bldr/studio?reviewRoom=FEEL` without a frozen in-memory session. `.df-review__studio` CSS (844px iframe height) was also missing from `site00-df-client.css`.
+- **Fix:** `studioReviewSample.ts`, sample wiring restored, iframe src `/bldr/studio/feel?reviewRoom=FEEL`, review layout CSS back. Sample mode: interactive feel/place/work changes update the 3D object in memory only; no intake save.
+- **Check:** `tests/studioReviewSample.test.ts` + review link tests pass.
