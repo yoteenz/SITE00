@@ -17,7 +17,26 @@ import {
 } from '../builder-experience/spatialStudio/intakeDraft';
 import { snapshotFromSpatialState, useBuilderSpatialIntakeSession } from '../builder-experience/spatialStudio';
 import type { BlueprintSessionSnapshot, SpatialBuilderState, SpatialIntakeSyncStatus } from '../builder-experience/spatialStudio';
+import type { UseIntakeSyncResult } from '../hooks/useIntakeSync';
 import { clientReviewState, spatialSubmission, versionSnapshot } from './reviewModel';
+
+/** Frozen design-review sessions never call the API; stub satisfies the full intake sync contract for TypeScript. */
+const REVIEW_INTAKE_SYNC_STUB: UseIntakeSyncResult = {
+  serverIntakeId: null,
+  serverIntake: null,
+  saveState: 'idle',
+  lastSavedAt: null,
+  errorMessage: null,
+  guestToken: null,
+  ensureStarted: async () => null,
+  autosave: () => undefined,
+  flushAutosave: async () => false,
+  reloadIntake: async () => null,
+  adoptIntakeId: async () => null,
+  submit: async () => null,
+  requestGuestAccess: async () => null,
+  reset: () => undefined,
+};
 
 export type SaveIndicator = {
   /** Contract status the label was derived from. */
@@ -145,7 +164,7 @@ export function useStudioSession(sample: SpatialBuilderState | null = null) {
       submitForReview: (async () => null) as unknown as typeof live.submitForReview,
       serverIntakeId: null,
       serverIntake: null,
-      intakeSync: { saveState: 'idle' as const, lastSavedAt: null, errorMessage: null, serverIntakeId: null, serverIntake: null },
+      intakeSync: REVIEW_INTAKE_SYNC_STUB,
     };
   }, [live, frozen, reviewSnapshot]);
   const { state, persist, canEdit, intakeSync, syncStatus, conflictReason, serverIntake } = session;
