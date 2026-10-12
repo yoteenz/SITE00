@@ -1,9 +1,5 @@
 /** Digital Foundation client shell (DF-C01..C09, C26, C45..C48). Presentation only. */
-import {
-  CorrespondenceDisplayLine,
-  CorrespondenceProse,
-  displayLineEndsWithSplitMark,
-} from '../../../shared/site00-correspondence-studio/reactProse.js';
+import { CorrespondenceDisplayLine, displayLineEndsWithSplitMark } from '../../../shared/site00-correspondence-studio/reactProse.js';
 import { useEffect, useRef, useState, type ComponentProps, type CSSProperties, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { DfBottomSheet, DfButton, DfLoadingState, DfSheetRow } from './components';
@@ -77,12 +73,9 @@ export function DfHeadline({ lines, id }: { lines: string[]; id?: string }) {
   );
 }
 
+/** Body copy under the display headline — plain punctuation (marks are header-only). */
 export function DfLede({ children }: { children: ReactNode }) {
-  return (
-    <p className="df-lede">
-      <CorrespondenceProse>{children}</CorrespondenceProse>
-    </p>
-  );
+  return <p className="df-lede">{children}</p>;
 }
 
 /** Primary/secondary/text action (DF-C06). Thin alias over the shared `DfButton`. */
