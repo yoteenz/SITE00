@@ -123,8 +123,9 @@ export function kicker(text: string): string {
 </tr></table>`;
 }
 
-export function bodyCopy(text: string, size = 12.5, color: string = T.body, extra = ''): string {
-  return `<p style="margin:0;font-family:${FONT_BODY};font-size:${size}px;line-height:${Math.round(size * 1.5)}px;letter-spacing:.07em;color:${color};text-transform:uppercase;${extra}">${text}</p>`;
+export function bodyCopy(text: string, size = 12.5, color: string = T.body, extra = '', lineHeight?: number): string {
+  const leading = lineHeight ?? Math.round(size * 1.5);
+  return `<p style="margin:0;font-family:${FONT_BODY};font-size:${size}px;line-height:${leading}px;letter-spacing:.07em;color:${color};text-transform:uppercase;${extra}">${text}</p>`;
 }
 
 export function tagline(lines: string[]): string {
