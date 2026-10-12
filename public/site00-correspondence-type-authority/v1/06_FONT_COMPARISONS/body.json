@@ -1,0 +1,20 @@
+{
+  "observation": "Flat body and section labels are 10\u201312px tall. At that size a typeface cannot be identified glyph by glyph. Letter width/height is about 0.6\u20130.8, far wider than the display face (O is 0.40, I is 0.15). That proportion is a semi-condensed grotesque, which is what Saira Semi Condensed is. Saira stays the body family. No custom body glyphs.",
+  "saira_A_at_11px": [
+    {
+      "weight": "Regular",
+      "rendered_A_wh": 0.818,
+      "cap_px": 11
+    },
+    {
+      "weight": "Medium",
+      "rendered_A_wh": 0.909,
+      "cap_px": 11
+    },
+    {
+      "weight": "SemiBold",
+      "rendered_A_wh": 0.909,
+      "cap_px": 11
+    }
+  ]
+}

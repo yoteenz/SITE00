@@ -1,0 +1,182 @@
+[
+  {
+    "font": "Antonio",
+    "role": "previously-considered",
+    "license": "OFL",
+    "mean_iou": 0.832,
+    "min_iou": 0.519,
+    "mean_abs_width_error": 0.172,
+    "glyphs": 19
+  },
+  {
+    "font": "Bebas Neue",
+    "role": "previously-considered",
+    "license": "OFL",
+    "mean_iou": 0.803,
+    "min_iou": 0.472,
+    "mean_abs_width_error": 0.275,
+    "glyphs": 19
+  },
+  {
+    "font": "Anton",
+    "role": "candidate",
+    "license": "OFL",
+    "mean_iou": 0.787,
+    "min_iou": 0.448,
+    "mean_abs_width_error": 0.311,
+    "glyphs": 19
+  },
+  {
+    "font": "Fjalla One",
+    "role": "candidate",
+    "license": "OFL",
+    "mean_iou": 0.744,
+    "min_iou": 0.529,
+    "mean_abs_width_error": 0.333,
+    "glyphs": 19
+  },
+  {
+    "font": "Big Shoulders Display",
+    "role": "candidate",
+    "license": "OFL",
+    "mean_iou": 0.743,
+    "min_iou": 0.573,
+    "mean_abs_width_error": 0.335,
+    "glyphs": 19
+  },
+  {
+    "font": "Saira ExtraCondensed Black",
+    "role": "candidate",
+    "license": "OFL",
+    "mean_iou": 0.716,
+    "min_iou": 0.442,
+    "mean_abs_width_error": 0.388,
+    "glyphs": 19
+  },
+  {
+    "font": "Pathway Gothic One",
+    "role": "candidate",
+    "license": "OFL",
+    "mean_iou": 0.714,
+    "min_iou": 0.591,
+    "mean_abs_width_error": 0.138,
+    "glyphs": 19
+  },
+  {
+    "font": "Anybody",
+    "role": "candidate",
+    "license": "OFL",
+    "mean_iou": 0.665,
+    "min_iou": 0.356,
+    "mean_abs_width_error": 0.437,
+    "glyphs": 19
+  },
+  {
+    "font": "Oswald",
+    "role": "previously-considered",
+    "license": "OFL",
+    "mean_iou": 0.643,
+    "min_iou": 0.516,
+    "mean_abs_width_error": 0.477,
+    "glyphs": 19
+  },
+  {
+    "font": "Squada One",
+    "role": "candidate",
+    "license": "OFL",
+    "mean_iou": 0.639,
+    "min_iou": 0.47,
+    "mean_abs_width_error": 0.435,
+    "glyphs": 19
+  },
+  {
+    "font": "Staatliches",
+    "role": "candidate",
+    "license": "OFL",
+    "mean_iou": 0.621,
+    "min_iou": 0.4,
+    "mean_abs_width_error": 0.432,
+    "glyphs": 19
+  },
+  {
+    "font": "League Gothic",
+    "role": "candidate",
+    "license": "OFL",
+    "mean_iou": 0.6,
+    "min_iou": 0.443,
+    "mean_abs_width_error": 0.284,
+    "glyphs": 19
+  },
+  {
+    "font": "Barlow Condensed Black",
+    "role": "candidate",
+    "license": "OFL",
+    "mean_iou": 0.521,
+    "min_iou": 0.345,
+    "mean_abs_width_error": 0.7,
+    "glyphs": 19
+  },
+  {
+    "font": "Saira Condensed Black",
+    "role": "candidate",
+    "license": "OFL",
+    "mean_iou": 0.511,
+    "min_iou": 0.343,
+    "mean_abs_width_error": 0.668,
+    "glyphs": 19
+  },
+  {
+    "font": "Rajdhani Bold",
+    "role": "previously-considered",
+    "license": "OFL",
+    "mean_iou": 0.468,
+    "min_iou": 0.276,
+    "mean_abs_width_error": 0.753,
+    "glyphs": 19
+  },
+  {
+    "font": "Martian Mono",
+    "role": "official-wordmark-font",
+    "license": "OFL",
+    "mean_iou": 0.44,
+    "min_iou": 0.143,
+    "mean_abs_width_error": 0.946,
+    "glyphs": 19
+  },
+  {
+    "font": "Teko",
+    "role": "previously-considered",
+    "license": "OFL",
+    "mean_iou": 0.434,
+    "min_iou": 0.272,
+    "mean_abs_width_error": 0.821,
+    "glyphs": 19
+  },
+  {
+    "font": "Chivo",
+    "role": "candidate",
+    "license": "OFL",
+    "mean_iou": 0.318,
+    "min_iou": 0.18,
+    "mean_abs_width_error": 1.397,
+    "glyphs": 19
+  },
+  {
+    "font": "Archivo Black",
+    "role": "candidate",
+    "license": "OFL",
+    "mean_iou": 0.305,
+    "min_iou": 0.092,
+    "mean_abs_width_error": 1.514,
+    "glyphs": 19
+  },
+  {
+    "font": "Unbounded",
+    "role": "candidate",
+    "license": "OFL",
+    "mean_iou": 0.262,
+    "min_iou": 0.064,
+    "mean_abs_width_error": 1.898,
+    "glyphs": 19
+  }
+]
