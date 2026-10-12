@@ -16403,3 +16403,12 @@ Summary of the whole conversation in this chat.
 - **Red dots:** The period, the base of ! and ?, both colon dots, the semicolon dot, the comma head, and the three ellipsis dots. Tails and every other mark stay black. The bullet stays black.
 - **Sheet:** `09_REVIEW/SYMBOLS.png` keeps the sheet’s own arrangement. Font version 1.3 stores the outlines in one color.
 - **Conventions:** Do not redraw these marks. Do not rerun `trace_specimen_sheet.py`. Draft PR #1617 stays unmerged.
+
+---
+
+## 2026-10-12 — Asterisk and comma tails are red
+
+- **Context:** Same symbol sheet. The founder said the asterisk should be red too, and the comma tails had been left black.
+- **Color:** The whole comma and the whole semicolon are red, tail included. The asterisk is red. Period dots stay red. The exclamation and question tops stay black.
+- **Sheet:** `09_REVIEW/SYMBOLS.png`, rebuilt with `python3 scripts/correspondence-type-authority/trace_symbol_sheet.py`.
+- **Conventions:** Draft PR #1617 stays unmerged.
