@@ -4,7 +4,14 @@
  */
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import type { BuildComposition } from './composition';
-import { createBuildObjectEngine, renderBuildThumbnail, webglAvailable, type BuildObjectEngine } from './engine';
+import {
+  buildThumbnailCacheKey,
+  createBuildObjectEngine,
+  getCachedBuildThumbnail,
+  scheduleBuildThumbnail,
+  webglAvailable,
+  type BuildObjectEngine,
+} from './engine';
 
 export function usePrefersReducedMotion(): boolean {
   const [reduced, setReduced] = useState(
@@ -37,6 +44,7 @@ export function BuildObjectStage({ composition, description, interactive = false
   compositionRef.current = composition;
   const reducedMotion = usePrefersReducedMotion();
   const [failed, setFailed] = useState(false);
+  const [engineGeneration, setEngineGeneration] = useState(0);
 
   useEffect(() => {
     const host = hostRef.current;
@@ -45,8 +53,12 @@ export function BuildObjectStage({ composition, description, interactive = false
       setFailed(true);
       return;
     }
+    setFailed(false);
     try {
-      const engine = createBuildObjectEngine(host, { reducedMotion });
+      const engine = createBuildObjectEngine(host, {
+        reducedMotion,
+        onContextLost: () => setEngineGeneration((n) => n + 1),
+      });
       engine.setComposition(compositionRef.current);
       engineRef.current = engine;
     } catch {
@@ -56,11 +68,11 @@ export function BuildObjectStage({ composition, description, interactive = false
       engineRef.current?.dispose();
       engineRef.current = null;
     };
-  }, [reducedMotion]);
+  }, [reducedMotion, engineGeneration]);
 
   useEffect(() => {
     engineRef.current?.setComposition(composition);
-  }, [composition]);
+  }, [composition.key]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     engineRef.current?.setInteractive(interactive);
@@ -86,20 +98,24 @@ export function BuildObjectStage({ composition, description, interactive = false
 
 /** A still of a composition for option cards. Rendered once per composition key and cached. */
 export function BuildThumbnail({ composition, width, height, alt }: { composition: BuildComposition; width: number; height: number; alt: string }) {
-  const [src, setSrc] = useState<string | null>(null);
+  const cacheKey = buildThumbnailCacheKey(composition, width, height);
+  const [src, setSrc] = useState<string | null>(() => getCachedBuildThumbnail(composition, width, height));
+
   useEffect(() => {
+    const cached = getCachedBuildThumbnail(composition, width, height);
+    if (cached) {
+      setSrc(cached);
+      return;
+    }
     if (!webglAvailable()) return;
     let cancelled = false;
-    // Defer so the stage paints first; thumbnails share one offscreen context.
-    const id = window.setTimeout(() => {
-      const url = renderBuildThumbnail(composition, width, height);
-      if (!cancelled) setSrc(url);
-    }, 30);
+    void scheduleBuildThumbnail(composition, width, height).then((url) => {
+      if (!cancelled && url) setSrc(url);
+    });
     return () => {
       cancelled = true;
-      window.clearTimeout(id);
     };
-  }, [composition.key, width, height]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [cacheKey, width, height]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <span className="bs-thumb" style={{ aspectRatio: `${width} / ${height}` }}>
