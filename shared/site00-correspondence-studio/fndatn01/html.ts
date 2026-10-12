@@ -107,10 +107,16 @@ export function displayText(text: string): string {
   return out;
 }
 
-/** ? and ! — black stem, red bottom dot (symbol sheet). */
+const DISPLAY_SPLIT_MARK: Record<'!' | '?', { file: string; w: number; h: number }> = {
+  '?': { file: 'question.png', w: 79, h: 221 },
+  '!': { file: 'exclamation.png', w: 34, h: 222 },
+};
+
+/** ? and ! — black stem, red bottom dot (symbol sheet PNG, same as live DF/BLDR). */
 function displaySplitBangQuestion(ch: '!' | '?'): string {
-  const safe = esc(ch);
-  return `<span style="position:relative;display:inline-block;line-height:1"><span style="position:absolute;left:0;top:0;color:${T.ink};clip-path:inset(0 0 42% 0);-webkit-clip-path:inset(0 0 42% 0)">${safe}</span><span style="color:${T.red};clip-path:inset(58% 0 0 0);-webkit-clip-path:inset(58% 0 0 0)">${safe}</span></span>`;
+  const m = DISPLAY_SPLIT_MARK[ch];
+  const src = esc(`/site00-correspondence-studio/fndatn-01/marks/${m.file}`);
+  return `<img src="${src}" alt="${esc(ch)}" width="${m.w}" height="${m.h}" style="display:inline;height:1em;width:auto;vertical-align:-0.06em;border:0;margin:0" />`;
 }
 
 function displayLineHtml(line: string): string {

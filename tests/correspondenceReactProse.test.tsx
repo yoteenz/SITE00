@@ -19,8 +19,9 @@ describe('CorrespondenceProse (live pages)', () => {
     expect(displayLineEndsWithSplitMark('IT FEEL?')).toBe(true);
     expect(displayLineEndsWithSplitMark('YOUR BLUEPRINT')).toBe(false);
     const html = renderToStaticMarkup(<CorrespondenceDisplayLine line="IT FEEL?" />);
-    expect(html).toContain('correspondence-split-mark');
-    expect(html).not.toContain('correspondence-split-mark__top">?</span></span><span class="bs-dot');
+    expect(html).toContain('marks/question.png');
+    expect(html).toContain('correspondence-display-split');
+    expect(html).not.toContain('bs-dot');
   });
 
   it('colors display punctuation red', () => {
