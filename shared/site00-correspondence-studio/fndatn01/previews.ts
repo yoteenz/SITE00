@@ -4,14 +4,10 @@
  * `npx tsx scripts/correspondence-studio/fndatn01/render-previews.ts`.
  */
 import { FNDATN01_FIXTURE_CONTEXT, FNDATN01_FIXTURE_NOTE, fixtureFor } from './fixtures.js';
-import { FNDATN01_EMAILS, FNDATN01_PUBLIC_ROOT, type Fndatn01EmailId } from './pack.js';
+import { FNDATN01_EMAILS, fndatn01PreviewPath, type Fndatn01EmailId } from './pack.js';
 import { renderFndatn01Email } from './render.js';
 
 export type Fndatn01Preview = { id: Fndatn01EmailId; variant: 'default' | 'activation_pending'; publicPath: string; html: string };
-
-export function fndatn01PreviewPath(slug: string, variant: Fndatn01Preview['variant'] = 'default'): string {
-  return `${FNDATN01_PUBLIC_ROOT}/${slug}${variant === 'default' ? '' : `--${variant.replace('_', '-')}`}.html`;
-}
 
 function renderPreview(id: Fndatn01EmailId, variant: Fndatn01Preview['variant']): Fndatn01Preview {
   const email = FNDATN01_EMAILS.find((e) => e.id === id)!;

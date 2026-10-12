@@ -1,4 +1,5 @@
 import registry from '../../docs/site00/idnty/visual-authority/email-pack/DF_V2_COMPLETE_EMAIL_TEMPLATE_REGISTRY.json';
+import { FNDATN01_EMAILS, FNDATN01_PACK_ID, FNDATN01_PACK_TITLE, FNDATN01_STATUS } from './fndatn01/pack.js';
 import { OPUS_V2_BENCHMARK_IMPORT_CONTRACT } from './import/opusV2BenchmarkImport.js';
 import type { CorrespondenceWorkspaceManifest, EmailTemplateVersion, ReviewState } from './types.js';
 
@@ -39,13 +40,17 @@ type RegistryTemplate = {
   };
 };
 
-const REGISTRY_BY_ID = new Map<string, RegistryTemplate>(
-  (registry as { templates: RegistryTemplate[] }).templates.map((t) => [t.template_id, t]),
-);
+const REGISTRY_BY_ID = new Map<string, RegistryTemplate>((registry as { templates: RegistryTemplate[] }).templates.map((t) => [t.template_id, t]));
 
-const BENCHMARK_BY_VERSION = new Map<string, string>(
-  OPUS_V2_BENCHMARK_IMPORT_CONTRACT.emails.map((e) => [e.version_id, e.benchmark_id]),
-);
+const BENCHMARK_BY_VERSION = new Map<string, string>(OPUS_V2_BENCHMARK_IMPORT_CONTRACT.emails.map((e) => [e.version_id, e.benchmark_id]));
+
+const FNDATN01_CODE_BY_TEMPLATE = new Map(FNDATN01_EMAILS.map((e) => [e.template_id, `${FNDATN01_PACK_ID} · ${e.id}`]));
+
+function packCodeForVersion(version: EmailTemplateVersion): string | null {
+  if (version.pack_id !== FNDATN01_PACK_ID) return null;
+  const templateId = version.version_id.split('@')[0];
+  return FNDATN01_CODE_BY_TEMPLATE.get(templateId) ?? null;
+}
 
 export function benchmarkIdForVersion(versionId: string): string | null {
   return BENCHMARK_BY_VERSION.get(versionId) ?? null;
@@ -65,14 +70,34 @@ export function copyContractFor(templateId: string): CopyContract | null {
   };
 }
 
+export type CorrespondencePack = { pack_id: string; title: string; status: string; template_ids: string[] };
+
+const PACK_META: Record<string, { title: string; status: string; order: string[] }> = {
+  [FNDATN01_PACK_ID]: { title: FNDATN01_PACK_TITLE, status: FNDATN01_STATUS, order: FNDATN01_EMAILS.map((e) => e.template_id) },
+};
+
+/** Packs present in the manifest, read from version `pack_id`. Template order follows the pack, not the campaign. */
+export function listCorrespondencePacks(manifest: CorrespondenceWorkspaceManifest): CorrespondencePack[] {
+  const found = new Map<string, Set<string>>();
+  for (const entry of Object.values(manifest.templates)) {
+    for (const v of entry.versions) {
+      if (!v.pack_id) continue;
+      if (!found.has(v.pack_id)) found.set(v.pack_id, new Set());
+      found.get(v.pack_id)!.add(entry.template_id);
+    }
+  }
+  return [...found].map(([pack_id, ids]) => {
+    const meta = PACK_META[pack_id];
+    const order = meta?.order ?? [...ids];
+    return { pack_id, title: meta?.title ?? pack_id, status: meta?.status ?? '', template_ids: order.filter((id) => ids.has(id)) };
+  });
+}
+
 export function versionIsComposed(version: EmailTemplateVersion): boolean {
   return version.preview_source.kind === 'repository_html' && Boolean(version.preview_source.publicPreviewPath);
 }
 
-export function resolveVersion(
-  entry: CorrespondenceWorkspaceManifest['templates'][string],
-  versionId?: string | null,
-): EmailTemplateVersion {
+export function resolveVersion(entry: CorrespondenceWorkspaceManifest['templates'][string], versionId?: string | null): EmailTemplateVersion {
   return (
     (versionId ? entry.versions.find((v) => v.version_id === versionId) : undefined) ??
     entry.versions.find((v) => v.version_id === entry.current_version_id) ??
@@ -80,17 +105,13 @@ export function resolveVersion(
   );
 }
 
-export function listLibraryRows(
-  manifest: CorrespondenceWorkspaceManifest,
-  scope: { brandAuthorityId: string; campaignId?: string | null },
-): LibraryRow[] {
+export function listLibraryRows(manifest: CorrespondenceWorkspaceManifest, scope: { brandAuthorityId: string; campaignId?: string | null }): LibraryRow[] {
   const rows: LibraryRow[] = [];
   for (const project of manifest.projects) {
     for (const campaign of project.campaigns) {
       if (campaign.brand_authority_id !== scope.brandAuthorityId) continue;
       if (scope.campaignId && campaign.campaign_id !== scope.campaignId) continue;
-      const sequence =
-        campaign.template_sequence ?? campaign.email_families.flatMap((f) => f.template_ids);
+      const sequence = campaign.template_sequence ?? campaign.email_families.flatMap((f) => f.template_ids);
       sequence.forEach((templateId, index) => {
         const entry = manifest.templates[templateId];
         if (!entry) return;
@@ -103,7 +124,7 @@ export function listLibraryRows(
           campaign_id: campaign.campaign_id,
           brand_authority_id: campaign.brand_authority_id,
           classification: entry.classification,
-          code: benchmarkIdForVersion(current.version_id) ?? alias ?? String(index + 1).padStart(2, '0'),
+          code: packCodeForVersion(current) ?? benchmarkIdForVersion(current.version_id) ?? alias ?? String(index + 1).padStart(2, '0'),
           sequence: index + 1,
           version_count: entry.versions.length,
           current_version: current,
@@ -120,15 +141,14 @@ export type LibraryFilter = {
   query: string;
   /** When set, only rows whose current-version review state is in this list. */
   reviewStates?: ReviewState[] | null;
+  /** When set, only these template ids, in this order (a pack's sequence). */
+  templateIds?: string[] | null;
 };
 
-export function filterLibraryRows(
-  rows: LibraryRow[],
-  filter: LibraryFilter,
-  reviewStateOf: (row: LibraryRow) => ReviewState,
-): LibraryRow[] {
+export function filterLibraryRows(rows: LibraryRow[], filter: LibraryFilter, reviewStateOf: (row: LibraryRow) => ReviewState): LibraryRow[] {
   const q = filter.query.trim().toLowerCase();
-  return rows.filter((row) => {
+  const ordered = filter.templateIds ? filter.templateIds.map((id) => rows.find((r) => r.template_id === id)).filter((r): r is LibraryRow => Boolean(r)) : rows;
+  return ordered.filter((row) => {
     if (filter.classification !== 'all' && row.classification !== filter.classification) return false;
     if (filter.reviewStates && !filter.reviewStates.includes(reviewStateOf(row))) return false;
     if (!q) return true;
@@ -170,18 +190,7 @@ export type EmailBlockDescriptor = {
   hasHeading2: boolean;
 };
 
-export type EmailBlockKind =
-  | 'header'
-  | 'hero'
-  | 'headline'
-  | 'main_copy'
-  | 'feature'
-  | 'divider'
-  | 'image'
-  | 'primary_cta'
-  | 'close'
-  | 'footer'
-  | 'section';
+export type EmailBlockKind = 'header' | 'hero' | 'headline' | 'main_copy' | 'feature' | 'divider' | 'image' | 'primary_cta' | 'close' | 'footer' | 'section';
 
 const BLOCK_LABELS: Record<EmailBlockKind, string> = {
   header: 'HEADER',

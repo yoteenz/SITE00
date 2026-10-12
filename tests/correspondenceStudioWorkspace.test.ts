@@ -15,11 +15,11 @@ const manifest = applyOpusV2BenchmarkImport({ apply: true });
 const stateOf = (row: { current_version: { review_state: ReviewState } }) => row.current_version.review_state;
 
 describe('Correspondence Studio library', () => {
-  it('lists all 20 registered templates for the SITE 00 brand in campaign sequence', () => {
+  it('lists all 22 registered templates for the SITE 00 brand in campaign sequence', () => {
     const rows = listLibraryRows(manifest, { brandAuthorityId: 'site00-dna' });
-    expect(rows).toHaveLength(20);
+    expect(rows).toHaveLength(22);
     expect(rows[0].template_id).toBe('personal-foundation-invitation');
-    expect(countByClassification(rows)).toEqual({ all: 20, transactional: 12, operational: 3, marketing: 5 });
+    expect(countByClassification(rows)).toEqual({ all: 22, transactional: 14, operational: 3, marketing: 5 });
   });
 
   it('keeps another brand authority isolated from SITE 00 templates', () => {
@@ -42,9 +42,7 @@ describe('Correspondence Studio library', () => {
     expect(filterLibraryRows(rows, { classification: 'all', query: 'bldr' }, stateOf).map((r) => r.template_id)).toEqual(
       expect.arrayContaining(['bldr-discovery', 'M06']),
     );
-    expect(filterLibraryRows(rows, { classification: 'all', query: 'payment is confirmed' }, stateOf).map((r) => r.template_id)).toEqual([
-      'payment-confirmed',
-    ]);
+    expect(filterLibraryRows(rows, { classification: 'all', query: 'payment is confirmed' }, stateOf).map((r) => r.template_id)).toEqual(['payment-confirmed']);
     const review = filterLibraryRows(rows, { classification: 'all', query: '', reviewStates: ['founder_review'] }, stateOf);
     expect(review.map((r) => r.code).sort()).toEqual(['B01', 'B02', 'B03']);
   });

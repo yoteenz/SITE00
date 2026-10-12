@@ -55,11 +55,15 @@ function authority(slug: string) {
   };
 }
 
+export function fndatn01PreviewPath(slug: string, variant: 'default' | 'activation_pending' = 'default'): string {
+  return `${FNDATN01_PUBLIC_ROOT}/${slug}${variant === 'default' ? '' : `--${variant.replace('_', '-')}`}.html`;
+}
+
 function email(def: Omit<Fndatn01Email, 'authority' | 'preview_path' | 'dispatch_enabled'>): Fndatn01Email {
   return {
     ...def,
     authority: authority(def.slug),
-    preview_path: `${FNDATN01_PUBLIC_ROOT}/${def.slug}.html`,
+    preview_path: fndatn01PreviewPath(def.slug),
     dispatch_enabled: false,
   };
 }
