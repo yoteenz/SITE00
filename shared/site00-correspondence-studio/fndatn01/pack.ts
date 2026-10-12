@@ -79,7 +79,7 @@ export const FNDATN01_EMAILS: readonly Fndatn01Email[] = [
     purpose: 'Invite the client into their persistent Digital Foundation intake.',
     trigger: { kind: 'artifact_event', event: 'ARTIFACT_CREATED' },
     eligibility: ['Artifact exists with a public token', 'Founder authorizes the send', 'Artifact is not archived'],
-    never_send_when: ['Artifact is archived', 'No public token', 'Founder has not authorized the send'],
+    never_send_when: ['Artifact is archived', 'No public token', 'Founder has not authorized the send', 'Intake already submitted'],
     cta_label: 'BEGIN YOUR FOUNDATION',
     cta_destination: 'Persistent intake URL: /foundation/{public_token}?step=intake',
     preserved_contracts: [],
