@@ -16501,3 +16501,13 @@ Summary of the whole conversation in this chat.
 
 - **Request:** Tighter stacked display headlines on FNDATN-01 emails, foundation intake, and BLDR studio (incl. `/foundation/review` iframes).
 - **Change:** `displayHeadlineMetrics()` in `fndatn01/html.ts`; regenerated email previews; `.df-headline` and `.bs-headline` CSS (+4px size tokens, `calc(em - 2px)` line-height). PR **#1623** merged `main`.
+
+---
+
+## 2026-10-12 — Digital Foundation review gallery: client portal integration (draft)
+
+- **Sprint:** `P0.SITE00.IDNTY.DIGITAL-FOUNDATION-REVIEW-GALLERY-CLIENT-PORTAL-RECORDS-AND-MISSING-SCREENS-INTEGRATION1`
+- **Goal:** Complete `/foundation/review` with real Family C portal screens + completion/digital location; keep BLDR rooms; no parallel review app; no prod deploy; **no auto-merge**.
+- **Change:** `DigitalFoundationReviewPage.tsx` mounts `P07ProjectOverview`, roadmap, stage, needs you, records, record detail, comm prefs; `M_COMPLETE_CREDIT` for complete + digital location; `reviewGalleryRegistry.ts` (families A–G); founder ops = admin deep links only; `reviewMode` blocks mutations on Needs You, prefs, build interest. PR **#1625** draft on `cursor/df-review-gallery-portal-be3b` → base `cursor/df-screen-review-tunnel-be3b`.
+- **Fixtures:** `A_BASE`, `J_PAYMENT_SUCCESS`, `M_COMPLETE_CREDIT`.
+- **Verify after merge:** dev preview tunnel `/foundation/review` anchors `#df-r-OVERVIEW`, `#df-r-ROADMAP`, `#df-r-COMPLETE`, `#df-r-bldr-PLACE`.
