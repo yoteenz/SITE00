@@ -27,4 +27,12 @@ describe('Digital Foundation shell exports', () => {
     expect(shell).not.toContain('CorrespondenceProse');
     expect(shell).toMatch(/export function DfLede[\s\S]*className="df-lede"\>\{children\}/);
   });
+
+  it('mounts threshold architecture objects on each screen', () => {
+    const shell = readFileSync('src/site00/foundation-client/shell.tsx', 'utf8');
+    expect(shell).toContain('ObjectSlot');
+    expect(shell).toContain('DfThresholdHero');
+    expect(shell).toContain('DfCrownObject');
+    expect(shell).not.toContain('--df-plate');
+  });
 });
