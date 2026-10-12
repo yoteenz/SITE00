@@ -1,6 +1,7 @@
 import type { DigitalFoundationArtifactPayload } from '../../site00-digital-foundation/types.js';
 import { derive01, derive02, derive03, derive04, derive05, derive06, derive07, type Eligibility, type Fndatn01Context } from './contracts.js';
 import { compose01, compose02, compose03, compose04, compose05, compose06, compose07, type Composition } from './emails.js';
+import { isFndatn01DemoPayload } from './fixtures.js';
 import { assetResolver } from './html.js';
 import { documentHtml, inboxBlock } from './layout.js';
 import { FNDATN01_PUBLIC_ROOT, type Fndatn01EmailId } from './pack.js';
@@ -8,8 +9,9 @@ import { FNDATN01_PUBLIC_ROOT, type Fndatn01EmailId } from './pack.js';
 export type Fndatn01RenderOptions = Fndatn01Context & {
   /**
    * `send` requires an absolute https asset base and an eligible payload; it is the only mode a
-   * delivery path may use. `review` renders the studio preview with root-relative assets and an
-   * inbox header; it still refuses ineligible payloads.
+   * delivery path may use; it refuses demo scenario payloads outright and never substitutes a value for
+   * missing data (an ineligible payload returns `ok: false` with its reasons). `review` renders the
+   * studio preview with root-relative assets and an inbox header; it still refuses ineligible payloads.
    */
   mode: 'send' | 'review';
   assetBase: string;
@@ -64,6 +66,9 @@ function compose(
 export function renderFndatn01Email(id: Fndatn01EmailId, payload: DigitalFoundationArtifactPayload, o: Fndatn01RenderOptions): Fndatn01Rendered {
   if (o.mode === 'send' && !/^https:\/\/[a-z0-9.-]+(:\d+)?$/i.test(o.assetBase)) {
     throw new Error('FNDATN-01 send mode requires an absolute https asset base');
+  }
+  if (o.mode === 'send' && isFndatn01DemoPayload(payload)) {
+    throw new Error('FNDATN-01 send mode refuses demo scenario data');
   }
   if (o.mode === 'review' && o.assetBase !== '' && !/^https:\/\//i.test(o.assetBase)) {
     throw new Error('FNDATN-01 review asset base must be empty (root-relative) or https');

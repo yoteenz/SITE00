@@ -16,9 +16,10 @@ export const T = {
   canvas: 680,
 } as const;
 
-export const FONT_BODY = "'Saira Semi Condensed','Arial Narrow',Arial,Helvetica,sans-serif";
+/** Clients without web fonts (Gmail, Outlook) fall back to the nearest condensed face they have before Arial. */
+export const FONT_BODY = "'Saira Semi Condensed','Arial Narrow','Roboto Condensed',sans-serif-condensed,Arial,Helvetica,sans-serif";
 /** Heavy traced specimen. Headers and editorial numbers. Body stays Saira. */
-export const FONT_DISPLAY = "'SITE 00 Display','Arial Narrow',Arial,Helvetica,sans-serif";
+export const FONT_DISPLAY = "'SITE 00 Display','Arial Narrow','Roboto Condensed',sans-serif-condensed,Impact,Arial,Helvetica,sans-serif";
 
 export function esc(value: string | number): string {
   return String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
@@ -76,16 +77,20 @@ u + #body a{color:inherit;text-decoration:none}
   table.mob-only{display:table!important}
   .full{width:100%!important;max-width:100%!important}
   .px{padding-left:20px!important;padding-right:20px!important}
-  .stack{display:block!important;width:100%!important;box-sizing:border-box}
   .h-m{font-size:40px!important;line-height:38px!important}
-  .btn-m{display:block!important;width:100%!important;box-sizing:border-box;text-align:center!important}
+  table.btn-full{width:100%!important}
+  .btn-full .btn-l{width:auto!important;white-space:normal!important}
+  .btn-full .btn-l a{letter-spacing:.1em!important;padding-left:12px!important;padding-right:6px!important}
+  .mast-m .lab div,.foot-m .lab div{white-space:normal!important}
+  .btn-full .btn-long a{font-size:11px!important;letter-spacing:.04em!important}
   .hide-m{display:none!important}
-  .gap-m{padding-right:9px!important}
-  .gap-m .site{font-size:18px!important;line-height:18px!important;letter-spacing:.04em!important}
-  .tiny-m span{font-size:6.5px!important;line-height:10px!important;letter-spacing:.12em!important}
-  .slash-m{font-size:18px!important;line-height:18px!important;padding-right:6px!important}
-  .tiny-m{padding-right:0!important}
-  .foot-r{text-align:left!important;padding-top:0!important}
+}
+@media screen and (max-width:389px){
+  .mast-m .lab{white-space:normal!important}
+  .mast-m .lab span,.foot-m .lab span{letter-spacing:.1em!important}
+  .hero-lock{margin-left:0!important}
+  .btn-full .btn-l a{font-size:11px!important;letter-spacing:.06em!important}
+  .btn-full .btn-long a{font-size:10.5px!important;letter-spacing:.02em!important;padding-left:8px!important;padding-right:4px!important}
 }
 [data-ogsc] .keep-ink, [data-ogsb] .keep-ink{color:#111111!important}
 [data-ogsc] .keep-red, [data-ogsb] .keep-red{color:#ce1017!important}
@@ -177,12 +182,47 @@ export function tagline(lines: string[]): string {
   return `<div style="width:24px;height:1px;line-height:1px;font-size:1px;background:${T.ink};margin:0 0 9px">&nbsp;</div>${bodyCopy(lines.map(esc).join('<br>'), 8.5, T.ink, 'letter-spacing:.2em;font-weight:500;')}`;
 }
 
-/** Bulletproof button: VML roundrect for Outlook, padded anchor elsewhere. */
-export function button(label: string, url: string, opts: { width?: number; color?: string; mobileColor?: string } = {}): string {
+/** `color` mixed toward white by `t` (0..1), as a hex colour every client accepts (no rgba). */
+function tint(color: string, t: number): string {
+  const n = parseInt(color.slice(1), 16);
+  const ch = (shift: number) => Math.round(((n >> shift) & 255) * (1 - t) + 255 * t);
+  return `#${[16, 8, 0].map((s) => ch(s).toString(16).padStart(2, '0')).join('')}`;
+}
+
+const BTN_H = 46;
+const BTN_TIP = 17;
+const BTN_ARROW = 54;
+
+/**
+ * Angled-edge button (SITE 00 interface elements, style 02): a filled body with the label, a thin divider
+ * and an arrow, ending in a pointed tip. Every part is a table cell or a CSS border, so the shape survives
+ * with images off; the tip is a border triangle against the white CTA band. Outlook draws the same
+ * pentagon as a VML shape. The label, arrow and tip cells all link to the same URL; only the label is
+ * exposed to assistive technology.
+ */
+export function button(label: string, url: string, opts: { width?: number; color?: string } = {}): string {
   const width = opts.width ?? 300;
   const color = opts.color ?? T.red;
   const safe = href(url);
-  return `<!--[if mso]><v:rect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${safe}" style="height:46px;v-text-anchor:middle;width:${width}px;" stroke="f" fillcolor="${color}"><w:anchorlock/><center style="color:#ffffff;font-family:Arial,sans-serif;font-size:12px;letter-spacing:1px;font-weight:bold;">${esc(label)} &rarr;</center></v:rect><![endif]--><!--[if !mso]><!--><a class="btn-m${opts.mobileColor ? ' btn-alt' : ''}" href="${safe}" target="_blank" rel="noopener" style="display:inline-block;width:${width}px;max-width:100%;box-sizing:border-box;background:${color};color:#ffffff;font-family:${FONT_BODY};font-size:12px;line-height:16px;font-weight:600;letter-spacing:.16em;text-align:center;text-transform:uppercase;white-space:nowrap;padding:15px 10px">${esc(label)}&nbsp;&nbsp;&rarr;</a><!--<![endif]-->`;
+  const labelW = width - BTN_ARROW - BTN_TIP;
+  const half = BTN_H / 2;
+  const link = (inner: string, style: string, hidden = false) =>
+    `<a href="${safe}" target="_blank" rel="noopener"${hidden ? ' aria-hidden="true" tabindex="-1"' : ''} style="display:block;color:#ffffff;text-decoration:none;${style}">${inner}</a>`;
+  const vml = `<!--[if mso]><v:shape xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${safe}" style="width:${width}px;height:${BTN_H}px;v-text-anchor:middle;" coordsize="${width},${BTN_H}" path="m 0,0 l ${width - BTN_TIP},0, ${width},${half}, ${width - BTN_TIP},${BTN_H}, 0,${BTN_H} x e" fillcolor="${color}" stroke="f"><w:anchorlock/><center style="color:#ffffff;font-family:Arial,sans-serif;font-size:12px;letter-spacing:1px;font-weight:bold;">${esc(label)} &nbsp;&nbsp;|&nbsp;&nbsp; &rarr;</center></v:shape><![endif]-->`;
+  // The tip is three red cells beside the body: white border triangles cut the top and bottom corners, and
+  // at the designed 46 px they meet in a point. If the label wraps, the cells grow and the point blunts
+  // into a short vertical edge instead of leaving a notch.
+  const tipCell = (half: 'top' | 'bottom') =>
+    `<td valign="${half}" bgcolor="${color}" width="${BTN_TIP}" style="width:${BTN_TIP}px;height:${BTN_H / 2}px;background:${color};padding:0;font-size:0;line-height:0">${link(`<span style="display:block;width:0;height:0;border-left:${BTN_TIP}px solid ${color};border-${half}:${BTN_H / 2}px solid #ffffff"></span>`, 'font-size:0;line-height:0', true)}</td>`;
+  const html = `<!--[if !mso]><!--><table class="btn-full" role="presentation" cellpadding="0" cellspacing="0" border="0" width="${width}" style="width:${width}px;border-collapse:collapse"><tr>
+<td class="btn-l${label.length > 28 ? ' btn-long' : ''}" rowspan="3" bgcolor="${color}" valign="middle" width="${labelW}" style="width:${labelW}px;height:${BTN_H}px;background:${color};padding:0;white-space:nowrap">${link(esc(label), `padding:15px 8px 15px 18px;font-family:${FONT_BODY};font-size:12px;line-height:16px;font-weight:600;letter-spacing:${label.length > 28 ? '.1em' : '.16em'};text-align:center;text-transform:uppercase`)}</td>
+<td rowspan="3" bgcolor="${color}" valign="middle" width="${BTN_ARROW}" style="width:${BTN_ARROW}px;background:${color};padding:0">${link(`<span style="display:block;border-left:1px solid ${tint(color, 0.55)};font-family:Arial,Helvetica,sans-serif;font-size:17px;line-height:18px;text-align:center;color:#ffffff">&rarr;</span>`, 'padding:14px 0', true)}</td>
+${tipCell('top')}
+</tr>
+<tr><td bgcolor="${color}" style="background:${color};padding:0;font-size:0;line-height:0"></td></tr>
+<tr>${tipCell('bottom')}</tr>
+</table><!--<![endif]-->`;
+  return vml + html;
 }
 
 export function caption(text: string, align = 'center'): string {
@@ -199,10 +239,25 @@ export function icon(src: string, alt: string, size = 22): string {
   return `<img src="${src}" alt="${esc(alt)}" width="${size}" height="${size}" style="display:block;width:${size}px;height:${size}px;border:0">`;
 }
 
-/** Background-image cell with VML fallback for Outlook. Content renders as live HTML on top. */
-export function bgCell(opts: { src: string; width: number; height: number; fallback: string; position?: string; content: string; className?: string }): string {
-  const pos = opts.position ?? 'center center';
-  return `<td class="${opts.className ?? ''}" background="${opts.src}" bgcolor="${opts.fallback}" width="${opts.width}" height="${opts.height}" valign="top" style="background-color:${opts.fallback};background-image:url('${opts.src}');background-size:cover;background-position:${pos};background-repeat:no-repeat;height:${opts.height}px">
+/**
+ * Background-image cell with VML fallback for Outlook. Content renders as live HTML on top.
+ * `lock` pins the art at a fixed size and offset instead of `cover`, so live text positioned over a
+ * feature of the art (a card's fields) stays on it even if the cell grows or the viewport changes.
+ */
+export function bgCell(opts: {
+  src: string;
+  width: number;
+  height: number;
+  fallback: string;
+  position?: string;
+  content: string;
+  className?: string;
+  /** Art drawn at this exact size, `x` px from the left (negative crops), top-aligned. */
+  lock?: { width: number; height: number; x?: number; y?: number };
+}): string {
+  const pos = opts.lock ? `${opts.lock.x ?? 0}px ${opts.lock.y ?? 0}px` : (opts.position ?? 'center center');
+  const size = opts.lock ? `${opts.lock.width}px ${opts.lock.height}px` : 'cover';
+  return `<td class="${opts.className ?? ''}" background="${opts.src}" bgcolor="${opts.fallback}" width="${opts.width}" height="${opts.height}" valign="top" style="background-color:${opts.fallback};background-image:url('${opts.src}');background-size:${size};background-position:${pos};background-repeat:no-repeat;height:${opts.height}px">
 <!--[if gte mso 9]><v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="width:${opts.width}px;height:${opts.height}px;"><v:fill type="frame" src="${opts.src}" color="${opts.fallback}" /><v:textbox inset="0,0,0,0"><![endif]-->
 ${opts.content}
 <!--[if gte mso 9]></v:textbox></v:rect><![endif]-->
@@ -217,5 +272,10 @@ export function mobileOnly(html: string): string {
   return `<!--[if !mso]><!-->${html}<!--<![endif]-->`;
 }
 
-export const SITE_WORD = (size = 26) =>
-  `<span class="keep-ink site" style="font-family:${FONT_DISPLAY};font-weight:600;font-size:${size}px;line-height:${size}px;letter-spacing:.04em;color:${T.ink}">SITE&nbsp;00</span>`;
+/**
+ * SITE 00 lettering in the traced display face. No vector wordmark exists in the repository (see
+ * site00-correspondence-type-authority/v1/08_AUTHORITY/wordmark.json), so the mark is live text in the
+ * face traced from the founder references, set at the reference's size and tracking.
+ */
+export const SITE_WORD = (size = 26, tracking = 0.04) =>
+  `<span class="keep-ink site" style="font-family:${FONT_DISPLAY};font-weight:600;font-size:${size}px;line-height:${size}px;letter-spacing:${tracking}em;color:${T.ink};white-space:nowrap">SITE&nbsp;00</span>`;

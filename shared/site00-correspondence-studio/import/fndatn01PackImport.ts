@@ -8,6 +8,7 @@ import {
   fndatn01PreviewPath,
   type Fndatn01Email,
 } from '../fndatn01/pack.js';
+import { FNDATN01_DEMO_LABELS, FNDATN01_EMAIL_SCENARIO } from '../fndatn01/fixtures.js';
 import type { CorrespondenceWorkspaceManifest, EmailTemplateVersion } from '../types.js';
 
 const FNDATN01_DOCS = 'docs/site00/correspondence/fndatn-01';
@@ -44,17 +45,18 @@ function fndatn01Version(email: Fndatn01Email): EmailTemplateVersion {
     review_state: 'founder_review',
     pack_id: FNDATN01_PACK_ID,
     reference_authority: { ...email.authority, manifest_ref: FNDATN01_AUTHORITY_MANIFEST },
+    // Every preview renders demo scenario data; the selector names the scenario so it is never mistaken for a client.
     state_previews:
       email.id === '04'
         ? [
-            { id: 'activation_confirmed', label: 'PAYMENT + ACTIVATION CONFIRMED', publicPreviewPath },
+            { id: 'activation_confirmed', label: FNDATN01_DEMO_LABELS.PAID_PROJECT_ACTIVE, publicPreviewPath },
             {
               id: 'activation_pending',
-              label: 'PAYMENT RECORDED · ACTIVATION PENDING',
+              label: 'DEMO · PAID · ACTIVATION PENDING',
               publicPreviewPath: fndatn01PreviewPath(email.slug, 'activation_pending'),
             },
           ]
-        : undefined,
+        : [{ id: FNDATN01_EMAIL_SCENARIO[email.id].toLowerCase(), label: FNDATN01_DEMO_LABELS[FNDATN01_EMAIL_SCENARIO[email.id]], publicPreviewPath }],
   };
 }
 

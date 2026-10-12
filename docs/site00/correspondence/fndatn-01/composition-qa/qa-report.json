@@ -1,0 +1,1365 @@
+{
+  "generated_by": "scripts/correspondence-studio/fndatn01/qa-artifact-data.ts",
+  "checks": [
+    {
+      "email": "01_invitation",
+      "file": "01_invitation.html",
+      "device": "desktop",
+      "width": 760,
+      "mode": "webfonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 300,
+        "copyBottom": 266,
+        "copyZone": null,
+        "rows": 4
+      }
+    },
+    {
+      "email": "02_intake_received",
+      "file": "02_intake_received.html",
+      "device": "desktop",
+      "width": 760,
+      "mode": "webfonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 300,
+        "copyBottom": 219,
+        "copyZone": null,
+        "rows": 5
+      }
+    },
+    {
+      "email": "03_recommendation_quote",
+      "file": "03_recommendation_quote.html",
+      "device": "desktop",
+      "width": 760,
+      "mode": "webfonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 300,
+        "copyBottom": 288,
+        "copyZone": null,
+        "rows": 6
+      }
+    },
+    {
+      "email": "04_payment_received",
+      "file": "04_payment_received--activation-pending.html",
+      "device": "desktop",
+      "width": 760,
+      "mode": "webfonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 300,
+        "copyBottom": 232,
+        "copyZone": null,
+        "rows": 6
+      }
+    },
+    {
+      "email": "04_payment_received",
+      "file": "04_payment_received.html",
+      "device": "desktop",
+      "width": 760,
+      "mode": "webfonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 300,
+        "copyBottom": 235,
+        "copyZone": null,
+        "rows": 6
+      }
+    },
+    {
+      "email": "05_foundation_complete",
+      "file": "05_foundation_complete.html",
+      "device": "desktop",
+      "width": 760,
+      "mode": "webfonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 300,
+        "copyBottom": 274,
+        "copyZone": null,
+        "rows": 0
+      }
+    },
+    {
+      "email": "06_resume_intake",
+      "file": "06_resume_intake.html",
+      "device": "desktop",
+      "width": 760,
+      "mode": "webfonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 300,
+        "copyBottom": 270,
+        "copyZone": null,
+        "rows": 0
+      }
+    },
+    {
+      "email": "07_quote_expiry",
+      "file": "07_quote_expiry.html",
+      "device": "desktop",
+      "width": 760,
+      "mode": "webfonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 300,
+        "copyBottom": 227,
+        "copyZone": null,
+        "rows": 6
+      }
+    },
+    {
+      "email": "01_invitation",
+      "file": "01_invitation.html",
+      "device": "mobile",
+      "width": 360,
+      "mode": "webfonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 347,
+        "copyBottom": 162,
+        "copyZone": 182,
+        "rows": 4
+      }
+    },
+    {
+      "email": "02_intake_received",
+      "file": "02_intake_received.html",
+      "device": "mobile",
+      "width": 360,
+      "mode": "webfonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 440,
+        "copyBottom": 201,
+        "copyZone": 214,
+        "rows": 5
+      }
+    },
+    {
+      "email": "03_recommendation_quote",
+      "file": "03_recommendation_quote.html",
+      "device": "mobile",
+      "width": 360,
+      "mode": "webfonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 470,
+        "copyBottom": 253,
+        "copyZone": 268,
+        "rows": 6
+      }
+    },
+    {
+      "email": "04_payment_received",
+      "file": "04_payment_received--activation-pending.html",
+      "device": "mobile",
+      "width": 360,
+      "mode": "webfonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 196,
+        "copyBottom": 149,
+        "copyZone": 186,
+        "rows": 0
+      }
+    },
+    {
+      "email": "04_payment_received",
+      "file": "04_payment_received.html",
+      "device": "mobile",
+      "width": 360,
+      "mode": "webfonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 262,
+        "copyBottom": 230,
+        "copyZone": 252,
+        "rows": 0
+      }
+    },
+    {
+      "email": "05_foundation_complete",
+      "file": "05_foundation_complete.html",
+      "device": "mobile",
+      "width": 360,
+      "mode": "webfonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 326,
+        "copyBottom": 202,
+        "copyZone": 300,
+        "rows": 0
+      }
+    },
+    {
+      "email": "06_resume_intake",
+      "file": "06_resume_intake.html",
+      "device": "mobile",
+      "width": 360,
+      "mode": "webfonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 361,
+        "copyBottom": 305,
+        "copyZone": 320,
+        "rows": 0
+      }
+    },
+    {
+      "email": "07_quote_expiry",
+      "file": "07_quote_expiry.html",
+      "device": "mobile",
+      "width": 360,
+      "mode": "webfonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 362,
+        "copyBottom": 185,
+        "copyZone": 200,
+        "rows": 6
+      }
+    },
+    {
+      "email": "01_invitation",
+      "file": "01_invitation.html",
+      "device": "mobile",
+      "width": 390,
+      "mode": "webfonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 347,
+        "copyBottom": 162,
+        "copyZone": 182,
+        "rows": 4
+      }
+    },
+    {
+      "email": "02_intake_received",
+      "file": "02_intake_received.html",
+      "device": "mobile",
+      "width": 390,
+      "mode": "webfonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 440,
+        "copyBottom": 201,
+        "copyZone": 214,
+        "rows": 5
+      }
+    },
+    {
+      "email": "03_recommendation_quote",
+      "file": "03_recommendation_quote.html",
+      "device": "mobile",
+      "width": 390,
+      "mode": "webfonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 470,
+        "copyBottom": 253,
+        "copyZone": 268,
+        "rows": 6
+      }
+    },
+    {
+      "email": "04_payment_received",
+      "file": "04_payment_received--activation-pending.html",
+      "device": "mobile",
+      "width": 390,
+      "mode": "webfonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 196,
+        "copyBottom": 149,
+        "copyZone": 186,
+        "rows": 0
+      }
+    },
+    {
+      "email": "04_payment_received",
+      "file": "04_payment_received.html",
+      "device": "mobile",
+      "width": 390,
+      "mode": "webfonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 262,
+        "copyBottom": 230,
+        "copyZone": 252,
+        "rows": 0
+      }
+    },
+    {
+      "email": "05_foundation_complete",
+      "file": "05_foundation_complete.html",
+      "device": "mobile",
+      "width": 390,
+      "mode": "webfonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 326,
+        "copyBottom": 202,
+        "copyZone": 300,
+        "rows": 0
+      }
+    },
+    {
+      "email": "06_resume_intake",
+      "file": "06_resume_intake.html",
+      "device": "mobile",
+      "width": 390,
+      "mode": "webfonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 361,
+        "copyBottom": 305,
+        "copyZone": 320,
+        "rows": 0
+      }
+    },
+    {
+      "email": "07_quote_expiry",
+      "file": "07_quote_expiry.html",
+      "device": "mobile",
+      "width": 390,
+      "mode": "webfonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 362,
+        "copyBottom": 185,
+        "copyZone": 200,
+        "rows": 6
+      }
+    },
+    {
+      "email": "01_invitation",
+      "file": "01_invitation.html",
+      "device": "mobile",
+      "width": 430,
+      "mode": "webfonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 347,
+        "copyBottom": 162,
+        "copyZone": 182,
+        "rows": 4
+      }
+    },
+    {
+      "email": "02_intake_received",
+      "file": "02_intake_received.html",
+      "device": "mobile",
+      "width": 430,
+      "mode": "webfonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 440,
+        "copyBottom": 201,
+        "copyZone": 214,
+        "rows": 5
+      }
+    },
+    {
+      "email": "03_recommendation_quote",
+      "file": "03_recommendation_quote.html",
+      "device": "mobile",
+      "width": 430,
+      "mode": "webfonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 470,
+        "copyBottom": 253,
+        "copyZone": 268,
+        "rows": 6
+      }
+    },
+    {
+      "email": "04_payment_received",
+      "file": "04_payment_received--activation-pending.html",
+      "device": "mobile",
+      "width": 430,
+      "mode": "webfonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 196,
+        "copyBottom": 149,
+        "copyZone": 186,
+        "rows": 0
+      }
+    },
+    {
+      "email": "04_payment_received",
+      "file": "04_payment_received.html",
+      "device": "mobile",
+      "width": 430,
+      "mode": "webfonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 262,
+        "copyBottom": 230,
+        "copyZone": 252,
+        "rows": 0
+      }
+    },
+    {
+      "email": "05_foundation_complete",
+      "file": "05_foundation_complete.html",
+      "device": "mobile",
+      "width": 430,
+      "mode": "webfonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 326,
+        "copyBottom": 202,
+        "copyZone": 300,
+        "rows": 0
+      }
+    },
+    {
+      "email": "06_resume_intake",
+      "file": "06_resume_intake.html",
+      "device": "mobile",
+      "width": 430,
+      "mode": "webfonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 361,
+        "copyBottom": 305,
+        "copyZone": 320,
+        "rows": 0
+      }
+    },
+    {
+      "email": "07_quote_expiry",
+      "file": "07_quote_expiry.html",
+      "device": "mobile",
+      "width": 430,
+      "mode": "webfonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 362,
+        "copyBottom": 185,
+        "copyZone": 200,
+        "rows": 6
+      }
+    },
+    {
+      "email": "01_invitation",
+      "file": "01_invitation.html",
+      "device": "desktop",
+      "width": 760,
+      "mode": "fallback-fonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 300,
+        "copyBottom": 280,
+        "copyZone": null,
+        "rows": 4
+      }
+    },
+    {
+      "email": "02_intake_received",
+      "file": "02_intake_received.html",
+      "device": "desktop",
+      "width": 760,
+      "mode": "fallback-fonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 300,
+        "copyBottom": 219,
+        "copyZone": null,
+        "rows": 5
+      }
+    },
+    {
+      "email": "03_recommendation_quote",
+      "file": "03_recommendation_quote.html",
+      "device": "desktop",
+      "width": 760,
+      "mode": "fallback-fonts",
+      "problems": [
+        "\"DIGITAL FOUNDATION\" ends at 564px, rule at 560px",
+        "\"YOUR DIGITAL FOUNDATION\" ends at 579px, rule at 560px"
+      ],
+      "metrics": {
+        "heroHeight": 300,
+        "copyBottom": 288,
+        "copyZone": null,
+        "rows": 6
+      }
+    },
+    {
+      "email": "04_payment_received",
+      "file": "04_payment_received--activation-pending.html",
+      "device": "desktop",
+      "width": 760,
+      "mode": "fallback-fonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 300,
+        "copyBottom": 249,
+        "copyZone": null,
+        "rows": 6
+      }
+    },
+    {
+      "email": "04_payment_received",
+      "file": "04_payment_received.html",
+      "device": "desktop",
+      "width": 760,
+      "mode": "fallback-fonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 300,
+        "copyBottom": 235,
+        "copyZone": null,
+        "rows": 6
+      }
+    },
+    {
+      "email": "05_foundation_complete",
+      "file": "05_foundation_complete.html",
+      "device": "desktop",
+      "width": 760,
+      "mode": "fallback-fonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 300,
+        "copyBottom": 288,
+        "copyZone": null,
+        "rows": 0
+      }
+    },
+    {
+      "email": "06_resume_intake",
+      "file": "06_resume_intake.html",
+      "device": "desktop",
+      "width": 760,
+      "mode": "fallback-fonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 300,
+        "copyBottom": 270,
+        "copyZone": null,
+        "rows": 0
+      }
+    },
+    {
+      "email": "07_quote_expiry",
+      "file": "07_quote_expiry.html",
+      "device": "desktop",
+      "width": 760,
+      "mode": "fallback-fonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 300,
+        "copyBottom": 241,
+        "copyZone": null,
+        "rows": 6
+      }
+    },
+    {
+      "email": "01_invitation",
+      "file": "01_invitation.html",
+      "device": "mobile",
+      "width": 360,
+      "mode": "fallback-fonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 347,
+        "copyBottom": 175,
+        "copyZone": 182,
+        "rows": 4
+      }
+    },
+    {
+      "email": "02_intake_received",
+      "file": "02_intake_received.html",
+      "device": "mobile",
+      "width": 360,
+      "mode": "fallback-fonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 440,
+        "copyBottom": 201,
+        "copyZone": 214,
+        "rows": 5
+      }
+    },
+    {
+      "email": "03_recommendation_quote",
+      "file": "03_recommendation_quote.html",
+      "device": "mobile",
+      "width": 360,
+      "mode": "fallback-fonts",
+      "problems": [
+        "\"YOUR DIGITAL FOUNDATION\" ends at 265px, rule at 260.0769230769231px",
+        "button 62px tall (label wraps; tip blunts)"
+      ],
+      "metrics": {
+        "heroHeight": 470,
+        "copyBottom": 253,
+        "copyZone": 268,
+        "rows": 6
+      }
+    },
+    {
+      "email": "04_payment_received",
+      "file": "04_payment_received--activation-pending.html",
+      "device": "mobile",
+      "width": 360,
+      "mode": "fallback-fonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 196,
+        "copyBottom": 162,
+        "copyZone": 186,
+        "rows": 0
+      }
+    },
+    {
+      "email": "04_payment_received",
+      "file": "04_payment_received.html",
+      "device": "mobile",
+      "width": 360,
+      "mode": "fallback-fonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 262,
+        "copyBottom": 230,
+        "copyZone": 252,
+        "rows": 0
+      }
+    },
+    {
+      "email": "05_foundation_complete",
+      "file": "05_foundation_complete.html",
+      "device": "mobile",
+      "width": 360,
+      "mode": "fallback-fonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 326,
+        "copyBottom": 202,
+        "copyZone": 300,
+        "rows": 0
+      }
+    },
+    {
+      "email": "06_resume_intake",
+      "file": "06_resume_intake.html",
+      "device": "mobile",
+      "width": 360,
+      "mode": "fallback-fonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 361,
+        "copyBottom": 305,
+        "copyZone": 320,
+        "rows": 0
+      }
+    },
+    {
+      "email": "07_quote_expiry",
+      "file": "07_quote_expiry.html",
+      "device": "mobile",
+      "width": 360,
+      "mode": "fallback-fonts",
+      "problems": [
+        "hero 366px tall, art is 362px"
+      ],
+      "metrics": {
+        "heroHeight": 366,
+        "copyBottom": 198,
+        "copyZone": 200,
+        "rows": 6
+      }
+    },
+    {
+      "email": "01_invitation",
+      "file": "01_invitation.html",
+      "device": "mobile",
+      "width": 390,
+      "mode": "fallback-fonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 347,
+        "copyBottom": 175,
+        "copyZone": 182,
+        "rows": 4
+      }
+    },
+    {
+      "email": "02_intake_received",
+      "file": "02_intake_received.html",
+      "device": "mobile",
+      "width": 390,
+      "mode": "fallback-fonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 440,
+        "copyBottom": 201,
+        "copyZone": 214,
+        "rows": 5
+      }
+    },
+    {
+      "email": "03_recommendation_quote",
+      "file": "03_recommendation_quote.html",
+      "device": "mobile",
+      "width": 390,
+      "mode": "fallback-fonts",
+      "problems": [
+        "\"YOUR DIGITAL FOUNDATION\" ends at 265px, rule at 260.0769230769231px"
+      ],
+      "metrics": {
+        "heroHeight": 470,
+        "copyBottom": 253,
+        "copyZone": 268,
+        "rows": 6
+      }
+    },
+    {
+      "email": "04_payment_received",
+      "file": "04_payment_received--activation-pending.html",
+      "device": "mobile",
+      "width": 390,
+      "mode": "fallback-fonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 196,
+        "copyBottom": 162,
+        "copyZone": 186,
+        "rows": 0
+      }
+    },
+    {
+      "email": "04_payment_received",
+      "file": "04_payment_received.html",
+      "device": "mobile",
+      "width": 390,
+      "mode": "fallback-fonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 262,
+        "copyBottom": 230,
+        "copyZone": 252,
+        "rows": 0
+      }
+    },
+    {
+      "email": "05_foundation_complete",
+      "file": "05_foundation_complete.html",
+      "device": "mobile",
+      "width": 390,
+      "mode": "fallback-fonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 326,
+        "copyBottom": 202,
+        "copyZone": 300,
+        "rows": 0
+      }
+    },
+    {
+      "email": "06_resume_intake",
+      "file": "06_resume_intake.html",
+      "device": "mobile",
+      "width": 390,
+      "mode": "fallback-fonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 361,
+        "copyBottom": 305,
+        "copyZone": 320,
+        "rows": 0
+      }
+    },
+    {
+      "email": "07_quote_expiry",
+      "file": "07_quote_expiry.html",
+      "device": "mobile",
+      "width": 390,
+      "mode": "fallback-fonts",
+      "problems": [
+        "hero 366px tall, art is 362px"
+      ],
+      "metrics": {
+        "heroHeight": 366,
+        "copyBottom": 198,
+        "copyZone": 200,
+        "rows": 6
+      }
+    },
+    {
+      "email": "01_invitation",
+      "file": "01_invitation.html",
+      "device": "mobile",
+      "width": 430,
+      "mode": "fallback-fonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 347,
+        "copyBottom": 175,
+        "copyZone": 182,
+        "rows": 4
+      }
+    },
+    {
+      "email": "02_intake_received",
+      "file": "02_intake_received.html",
+      "device": "mobile",
+      "width": 430,
+      "mode": "fallback-fonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 440,
+        "copyBottom": 201,
+        "copyZone": 214,
+        "rows": 5
+      }
+    },
+    {
+      "email": "03_recommendation_quote",
+      "file": "03_recommendation_quote.html",
+      "device": "mobile",
+      "width": 430,
+      "mode": "fallback-fonts",
+      "problems": [
+        "\"YOUR DIGITAL FOUNDATION\" ends at 265px, rule at 260.0769230769231px"
+      ],
+      "metrics": {
+        "heroHeight": 470,
+        "copyBottom": 253,
+        "copyZone": 268,
+        "rows": 6
+      }
+    },
+    {
+      "email": "04_payment_received",
+      "file": "04_payment_received--activation-pending.html",
+      "device": "mobile",
+      "width": 430,
+      "mode": "fallback-fonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 196,
+        "copyBottom": 162,
+        "copyZone": 186,
+        "rows": 0
+      }
+    },
+    {
+      "email": "04_payment_received",
+      "file": "04_payment_received.html",
+      "device": "mobile",
+      "width": 430,
+      "mode": "fallback-fonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 262,
+        "copyBottom": 230,
+        "copyZone": 252,
+        "rows": 0
+      }
+    },
+    {
+      "email": "05_foundation_complete",
+      "file": "05_foundation_complete.html",
+      "device": "mobile",
+      "width": 430,
+      "mode": "fallback-fonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 326,
+        "copyBottom": 202,
+        "copyZone": 300,
+        "rows": 0
+      }
+    },
+    {
+      "email": "06_resume_intake",
+      "file": "06_resume_intake.html",
+      "device": "mobile",
+      "width": 430,
+      "mode": "fallback-fonts",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 361,
+        "copyBottom": 305,
+        "copyZone": 320,
+        "rows": 0
+      }
+    },
+    {
+      "email": "07_quote_expiry",
+      "file": "07_quote_expiry.html",
+      "device": "mobile",
+      "width": 430,
+      "mode": "fallback-fonts",
+      "problems": [
+        "hero 366px tall, art is 362px"
+      ],
+      "metrics": {
+        "heroHeight": 366,
+        "copyBottom": 198,
+        "copyZone": 200,
+        "rows": 6
+      }
+    },
+    {
+      "email": "01_invitation",
+      "file": "01_invitation.html",
+      "device": "desktop",
+      "width": 760,
+      "mode": "no-transform",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 300,
+        "copyBottom": 266,
+        "copyZone": null,
+        "rows": 4
+      }
+    },
+    {
+      "email": "02_intake_received",
+      "file": "02_intake_received.html",
+      "device": "desktop",
+      "width": 760,
+      "mode": "no-transform",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 300,
+        "copyBottom": 219,
+        "copyZone": null,
+        "rows": 5
+      }
+    },
+    {
+      "email": "03_recommendation_quote",
+      "file": "03_recommendation_quote.html",
+      "device": "desktop",
+      "width": 760,
+      "mode": "no-transform",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 300,
+        "copyBottom": 288,
+        "copyZone": null,
+        "rows": 6
+      }
+    },
+    {
+      "email": "04_payment_received",
+      "file": "04_payment_received--activation-pending.html",
+      "device": "desktop",
+      "width": 760,
+      "mode": "no-transform",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 300,
+        "copyBottom": 232,
+        "copyZone": null,
+        "rows": 6
+      }
+    },
+    {
+      "email": "04_payment_received",
+      "file": "04_payment_received.html",
+      "device": "desktop",
+      "width": 760,
+      "mode": "no-transform",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 300,
+        "copyBottom": 235,
+        "copyZone": null,
+        "rows": 6
+      }
+    },
+    {
+      "email": "05_foundation_complete",
+      "file": "05_foundation_complete.html",
+      "device": "desktop",
+      "width": 760,
+      "mode": "no-transform",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 300,
+        "copyBottom": 274,
+        "copyZone": null,
+        "rows": 0
+      }
+    },
+    {
+      "email": "06_resume_intake",
+      "file": "06_resume_intake.html",
+      "device": "desktop",
+      "width": 760,
+      "mode": "no-transform",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 300,
+        "copyBottom": 270,
+        "copyZone": null,
+        "rows": 0
+      }
+    },
+    {
+      "email": "07_quote_expiry",
+      "file": "07_quote_expiry.html",
+      "device": "desktop",
+      "width": 760,
+      "mode": "no-transform",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 300,
+        "copyBottom": 227,
+        "copyZone": null,
+        "rows": 6
+      }
+    },
+    {
+      "email": "01_invitation",
+      "file": "01_invitation.html",
+      "device": "mobile",
+      "width": 360,
+      "mode": "no-transform",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 347,
+        "copyBottom": 162,
+        "copyZone": 182,
+        "rows": 4
+      }
+    },
+    {
+      "email": "02_intake_received",
+      "file": "02_intake_received.html",
+      "device": "mobile",
+      "width": 360,
+      "mode": "no-transform",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 440,
+        "copyBottom": 201,
+        "copyZone": 214,
+        "rows": 5
+      }
+    },
+    {
+      "email": "03_recommendation_quote",
+      "file": "03_recommendation_quote.html",
+      "device": "mobile",
+      "width": 360,
+      "mode": "no-transform",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 470,
+        "copyBottom": 253,
+        "copyZone": 268,
+        "rows": 6
+      }
+    },
+    {
+      "email": "04_payment_received",
+      "file": "04_payment_received--activation-pending.html",
+      "device": "mobile",
+      "width": 360,
+      "mode": "no-transform",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 196,
+        "copyBottom": 149,
+        "copyZone": 186,
+        "rows": 0
+      }
+    },
+    {
+      "email": "04_payment_received",
+      "file": "04_payment_received.html",
+      "device": "mobile",
+      "width": 360,
+      "mode": "no-transform",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 262,
+        "copyBottom": 230,
+        "copyZone": 252,
+        "rows": 0
+      }
+    },
+    {
+      "email": "05_foundation_complete",
+      "file": "05_foundation_complete.html",
+      "device": "mobile",
+      "width": 360,
+      "mode": "no-transform",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 326,
+        "copyBottom": 202,
+        "copyZone": 300,
+        "rows": 0
+      }
+    },
+    {
+      "email": "06_resume_intake",
+      "file": "06_resume_intake.html",
+      "device": "mobile",
+      "width": 360,
+      "mode": "no-transform",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 361,
+        "copyBottom": 305,
+        "copyZone": 320,
+        "rows": 0
+      }
+    },
+    {
+      "email": "07_quote_expiry",
+      "file": "07_quote_expiry.html",
+      "device": "mobile",
+      "width": 360,
+      "mode": "no-transform",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 362,
+        "copyBottom": 185,
+        "copyZone": 200,
+        "rows": 6
+      }
+    },
+    {
+      "email": "01_invitation",
+      "file": "01_invitation.html",
+      "device": "mobile",
+      "width": 390,
+      "mode": "no-transform",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 347,
+        "copyBottom": 162,
+        "copyZone": 182,
+        "rows": 4
+      }
+    },
+    {
+      "email": "02_intake_received",
+      "file": "02_intake_received.html",
+      "device": "mobile",
+      "width": 390,
+      "mode": "no-transform",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 440,
+        "copyBottom": 201,
+        "copyZone": 214,
+        "rows": 5
+      }
+    },
+    {
+      "email": "03_recommendation_quote",
+      "file": "03_recommendation_quote.html",
+      "device": "mobile",
+      "width": 390,
+      "mode": "no-transform",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 470,
+        "copyBottom": 253,
+        "copyZone": 268,
+        "rows": 6
+      }
+    },
+    {
+      "email": "04_payment_received",
+      "file": "04_payment_received--activation-pending.html",
+      "device": "mobile",
+      "width": 390,
+      "mode": "no-transform",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 196,
+        "copyBottom": 149,
+        "copyZone": 186,
+        "rows": 0
+      }
+    },
+    {
+      "email": "04_payment_received",
+      "file": "04_payment_received.html",
+      "device": "mobile",
+      "width": 390,
+      "mode": "no-transform",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 262,
+        "copyBottom": 230,
+        "copyZone": 252,
+        "rows": 0
+      }
+    },
+    {
+      "email": "05_foundation_complete",
+      "file": "05_foundation_complete.html",
+      "device": "mobile",
+      "width": 390,
+      "mode": "no-transform",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 326,
+        "copyBottom": 202,
+        "copyZone": 300,
+        "rows": 0
+      }
+    },
+    {
+      "email": "06_resume_intake",
+      "file": "06_resume_intake.html",
+      "device": "mobile",
+      "width": 390,
+      "mode": "no-transform",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 361,
+        "copyBottom": 305,
+        "copyZone": 320,
+        "rows": 0
+      }
+    },
+    {
+      "email": "07_quote_expiry",
+      "file": "07_quote_expiry.html",
+      "device": "mobile",
+      "width": 390,
+      "mode": "no-transform",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 362,
+        "copyBottom": 185,
+        "copyZone": 200,
+        "rows": 6
+      }
+    },
+    {
+      "email": "01_invitation",
+      "file": "01_invitation.html",
+      "device": "mobile",
+      "width": 430,
+      "mode": "no-transform",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 347,
+        "copyBottom": 162,
+        "copyZone": 182,
+        "rows": 4
+      }
+    },
+    {
+      "email": "02_intake_received",
+      "file": "02_intake_received.html",
+      "device": "mobile",
+      "width": 430,
+      "mode": "no-transform",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 440,
+        "copyBottom": 201,
+        "copyZone": 214,
+        "rows": 5
+      }
+    },
+    {
+      "email": "03_recommendation_quote",
+      "file": "03_recommendation_quote.html",
+      "device": "mobile",
+      "width": 430,
+      "mode": "no-transform",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 470,
+        "copyBottom": 253,
+        "copyZone": 268,
+        "rows": 6
+      }
+    },
+    {
+      "email": "04_payment_received",
+      "file": "04_payment_received--activation-pending.html",
+      "device": "mobile",
+      "width": 430,
+      "mode": "no-transform",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 196,
+        "copyBottom": 149,
+        "copyZone": 186,
+        "rows": 0
+      }
+    },
+    {
+      "email": "04_payment_received",
+      "file": "04_payment_received.html",
+      "device": "mobile",
+      "width": 430,
+      "mode": "no-transform",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 262,
+        "copyBottom": 230,
+        "copyZone": 252,
+        "rows": 0
+      }
+    },
+    {
+      "email": "05_foundation_complete",
+      "file": "05_foundation_complete.html",
+      "device": "mobile",
+      "width": 430,
+      "mode": "no-transform",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 326,
+        "copyBottom": 202,
+        "copyZone": 300,
+        "rows": 0
+      }
+    },
+    {
+      "email": "06_resume_intake",
+      "file": "06_resume_intake.html",
+      "device": "mobile",
+      "width": 430,
+      "mode": "no-transform",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 361,
+        "copyBottom": 305,
+        "copyZone": 320,
+        "rows": 0
+      }
+    },
+    {
+      "email": "07_quote_expiry",
+      "file": "07_quote_expiry.html",
+      "device": "mobile",
+      "width": 430,
+      "mode": "no-transform",
+      "problems": [],
+      "metrics": {
+        "heroHeight": 362,
+        "copyBottom": 185,
+        "copyZone": 200,
+        "rows": 6
+      }
+    }
+  ]
+}

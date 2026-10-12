@@ -1,25 +1,33 @@
 /**
- * Review previews served to Correspondence Studio. Rendered from disposable fixtures in review mode
- * (root-relative assets, inbox header). Regenerate with
+ * Review previews served to Correspondence Studio. Each email renders its demo scenario (fixtures.ts)
+ * in review mode: root-relative assets, an inbox header and a DEMO DATA note. Regenerate with
  * `npx tsx scripts/correspondence-studio/fndatn01/render-previews.ts`.
  */
-import { FNDATN01_FIXTURE_CONTEXT, FNDATN01_FIXTURE_NOTE, fixtureFor } from './fixtures.js';
+import { FNDATN01_DEMO_NOTE, FNDATN01_EMAIL_SCENARIO, demoScenario, type Fndatn01DemoScenarioId, type Fndatn01DemoVariant } from './fixtures.js';
 import { FNDATN01_EMAILS, fndatn01PreviewPath, type Fndatn01EmailId } from './pack.js';
 import { renderFndatn01Email } from './render.js';
 
-export type Fndatn01Preview = { id: Fndatn01EmailId; variant: 'default' | 'activation_pending'; publicPath: string; html: string };
+export type Fndatn01Preview = {
+  id: Fndatn01EmailId;
+  variant: Fndatn01DemoVariant;
+  scenario: Fndatn01DemoScenarioId;
+  label: string;
+  publicPath: string;
+  html: string;
+};
 
-function renderPreview(id: Fndatn01EmailId, variant: Fndatn01Preview['variant']): Fndatn01Preview {
+function renderPreview(id: Fndatn01EmailId, variant: Fndatn01DemoVariant): Fndatn01Preview {
   const email = FNDATN01_EMAILS.find((e) => e.id === id)!;
-  const result = renderFndatn01Email(id, fixtureFor(id, variant), {
-    ...FNDATN01_FIXTURE_CONTEXT,
+  const scenario = demoScenario(FNDATN01_EMAIL_SCENARIO[id], variant);
+  const result = renderFndatn01Email(id, scenario.payload, {
+    ...scenario.context,
     mode: 'review',
     assetBase: '',
     founderAuthorized: id === '01',
-    reviewNote: variant === 'activation_pending' ? `${FNDATN01_FIXTURE_NOTE} · ACTIVATION PENDING STATE` : FNDATN01_FIXTURE_NOTE,
+    reviewNote: `${FNDATN01_DEMO_NOTE} · ${scenario.label}`,
   });
-  if (!result.ok) throw new Error(`FNDATN-01 ${id} fixture is ineligible: ${result.eligibility.reasons.join('; ')}`);
-  return { id, variant, publicPath: fndatn01PreviewPath(email.slug, variant), html: result.html };
+  if (!result.ok) throw new Error(`FNDATN-01 ${id} demo scenario ${scenario.id} is ineligible: ${result.eligibility.reasons.join('; ')}`);
+  return { id, variant, scenario: scenario.id, label: scenario.label, publicPath: fndatn01PreviewPath(email.slug, variant), html: result.html };
 }
 
 export function renderFndatn01Previews(): Fndatn01Preview[] {
