@@ -101,7 +101,7 @@ export default function CorrespondenceWorkspacePage() {
   const [pack, setPack] = useState<string | null>(() => {
     const fromUrl = search.get('pack');
     if (fromUrl) return fromUrl;
-    if (import.meta.env.VITE_SITE00_R4_REVIEW_PRIORITY === '1') return R4_PREMIUM_PACK_ID;
+    if (import.meta.env?.VITE_SITE00_R4_REVIEW_PRIORITY === '1') return R4_PREMIUM_PACK_ID;
     return null;
   });
   const [inspectorTab, setInspectorTab] = useState<InspectorTab>('content');

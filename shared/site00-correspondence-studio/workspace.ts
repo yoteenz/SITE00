@@ -16,7 +16,7 @@ export function getCorrespondenceWorkspace(options?: { includeOpusBenchmarks?: b
     applyR4PremiumImport(manifest);
     applyFndatn01PackImport(manifest);
     // Founder mobile preview: keep all 20 R4 compositions current (FNDATN-01 versions remain in the picker).
-    if (import.meta.env.VITE_SITE00_R4_REVIEW_PRIORITY === '1') {
+    if (import.meta.env?.VITE_SITE00_R4_REVIEW_PRIORITY === '1') {
       applyR4PremiumImport(manifest);
     }
     cached = manifest;
