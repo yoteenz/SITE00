@@ -23,7 +23,7 @@ import {
   renderFndatn01Previews,
   type Fndatn01EmailId,
 } from '../shared/site00-correspondence-studio/fndatn01/index.js';
-import { displayHeadlineMetrics } from '../shared/site00-correspondence-studio/fndatn01/html.js';
+import { displayHeadlineMetrics, displaySubtextMetrics } from '../shared/site00-correspondence-studio/fndatn01/html.js';
 import { FNDATN01_PACK_IMPORT_CONTRACT, fndatn01VersionId, listFndatn01TemplateIds } from '../shared/site00-correspondence-studio/import/fndatn01PackImport.js';
 import { DIGITAL_FOUNDATION_LIFECYCLE_EVENT_MAP } from '../shared/site00-digital-foundation/communications/eventMap.js';
 import type { DigitalFoundationArtifactPayload, QuoteAcceptanceRecord } from '../shared/site00-digital-foundation/types.js';
@@ -241,6 +241,7 @@ describe('FNDATN-01 HTML safety', () => {
   it('bumps display header size +4px and tightens line spacing −2px', () => {
     expect(displayHeadlineMetrics(44)).toEqual({ fontSize: 48, lineHeight: 43 });
     expect(displayHeadlineMetrics(30)).toEqual({ fontSize: 34, lineHeight: 29 });
+    expect(displaySubtextMetrics(10.5, 15)).toEqual({ fontSize: 8.5, lineHeight: 13 });
   });
 });
 

@@ -145,6 +145,12 @@ export function displayHeadlineMetrics(size: number): { fontSize: number; lineHe
   };
 }
 
+/** First body line under a display headline (hero subtext): −2px size and −2px leading. */
+export function displaySubtextMetrics(size: number, lineHeightPx?: number): { fontSize: number; lineHeight: number } {
+  const leading = lineHeightPx ?? Math.round(size * 1.5);
+  return { fontSize: size - 2, lineHeight: leading - 2 };
+}
+
 export function headline(lines: string[], size = 44, extraClass = ''): string {
   const { fontSize, lineHeight } = displayHeadlineMetrics(size);
   const body = lines

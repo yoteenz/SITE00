@@ -120,3 +120,11 @@ export function startCheckout(
     cancel_url: `${origin}/foundation/${encodeURIComponent(token)}?checkout=cancel`,
   });
 }
+
+export function completeClientAction(
+  token: string,
+  requestId: string,
+  response: { decision: 'APPROVE' | 'REQUEST_CHANGE'; notes?: string; target_version?: number },
+): Promise<ClientDigitalFoundationPayload> {
+  return post(token, 'complete-client-action', { request_id: requestId, response });
+}

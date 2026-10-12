@@ -7,6 +7,7 @@ import {
   T,
   bgCell,
   bodyCopy,
+  displaySubtextMetrics,
   button,
   caption,
   esc,
@@ -187,9 +188,15 @@ export function desktopHero(asset: AssetResolver, slug: string, copy: HeroCopy, 
 <td class="hero-copy" width="${opts.column}" valign="top" style="width:${opts.column}px;max-width:${opts.column}px;padding:${copy.headline.length > 2 ? 20 : 26}px 0 10px 28px">
 ${copy.kicker ? `${kicker(copy.kicker)}<div style="height:11px;line-height:11px;font-size:1px">&nbsp;</div>` : ''}
 ${headline(copy.headline, (copy.deskSize ?? (copy.headline.length > 2 ? 40 : 46)) + 2)}
-${copy.sub ? `<div style="height:10px;line-height:10px;font-size:1px">&nbsp;</div><p style="margin:0;font-family:${FONT_BODY};font-size:13px;line-height:17px;letter-spacing:.1em;font-weight:600;color:${T.ink};text-transform:uppercase">${copy.sub}</p>` : ''}
+${copy.sub ? (() => {
+  const sub = displaySubtextMetrics(13, 17);
+  return `<div style="height:10px;line-height:10px;font-size:1px">&nbsp;</div><p style="margin:0;font-family:${FONT_BODY};font-size:${sub.fontSize}px;line-height:${sub.lineHeight}px;letter-spacing:.1em;font-weight:600;color:${T.ink};text-transform:uppercase">${copy.sub}</p>`;
+})() : ''}
 <div style="height:12px;line-height:12px;font-size:1px">&nbsp;</div>
-<div style="max-width:${copy.deskBodyWidth ?? 196}px">${bodyCopy(copy.body, 9.5, T.ink, 'font-weight:500;letter-spacing:.1em;', 14)}</div>
+${(() => {
+  const hero = displaySubtextMetrics(9.5, 14);
+  return `<div style="max-width:${copy.deskBodyWidth ?? 196}px">${bodyCopy(copy.body, hero.fontSize, T.ink, 'font-weight:500;letter-spacing:.1em;', hero.lineHeight)}</div>`;
+})()}
 ${copy.tagline && copy.deskTagline !== false ? `<div style="height:12px;line-height:12px;font-size:1px">&nbsp;</div>${tagline(copy.tagline)}` : ''}
 </td>${card}
 </tr></table>`;
@@ -232,7 +239,10 @@ export function mobileHero(
 ${copy.kicker ? `${kicker(copy.kicker)}<div style="height:10px;line-height:10px;font-size:1px">&nbsp;</div>` : ''}
 ${headline(lines, (f.head ?? (lines.length > 3 ? 36 : 40)) + 2)}
 <div style="height:9px;line-height:9px;font-size:1px">&nbsp;</div>
-<div style="max-width:${f.textWidth ?? 240}px">${bodyCopy(copy.mobileBody ?? copy.body, body, T.ink, `line-height:${Math.round(body * 1.42)}px;letter-spacing:.06em;font-weight:500;`)}</div>
+<div style="max-width:${f.textWidth ?? 240}px">${(() => {
+  const hero = displaySubtextMetrics(body, Math.round(body * 1.42));
+  return bodyCopy(copy.mobileBody ?? copy.body, hero.fontSize, T.ink, 'letter-spacing:.06em;font-weight:500;', hero.lineHeight);
+})()}</div>
 ${f.tagline?.at === 'below' && copy.tagline ? `<div style="height:12px;line-height:12px;font-size:1px">&nbsp;</div>${tagline(copy.mobileTagline ?? copy.tagline)}` : ''}
 </div></td></tr>`;
   const beside = f.tagline?.at === 'beside-card' && copy.tagline && opts.card ? f.tagline.top : null;
