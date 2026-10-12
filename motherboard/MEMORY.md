@@ -16356,3 +16356,12 @@ Summary of the whole conversation in this chat.
 - **Sheet:** `public/site00-correspondence-type-authority/v1/09_REVIEW/SHEET.png` and `sheet.html`. It sets BEGIN YOUR FOUNDATION, then A–Z, then red 0–9. Rebuild with `python3 scripts/correspondence-type-authority/build_specimen_sheet.py`.
 - **Coverage:** Traced from the invitation: A B D E F G H I K L N O R S T U W Y and red 0 1 2 3. Not in the email, built from those strokes and marked with a red square: C J M P Q V X Z and digits 4–9. No lowercase. No font file.
 - **Conventions:** Do not present the eight derived letters as source traces. The sheet is for founder review. Draft PR #1617 stays unmerged.
+
+---
+
+## 2026-10-12 — Specimen sheet is now the trace source
+
+- **Context:** The founder sent a clean alphabet sheet (1122×1402 JPEG, sha256 `2307d85c8994ca62af05c587d42cb75a47613d6e7d3522776129f3bb4f55f61f`) and said to trace the letters and numbers from that sheet instead of the earlier email crops and derived extensions.
+- **Traces:** Heavy A–Z, light A–Z, and red 0–9. 62 glyphs, all source-traced. Mean silhouette IoU 0.991. The heavy Q tail and the light Q descender are included. Rebuild with `python3 scripts/correspondence-type-authority/trace_specimen_sheet.py`.
+- **Sheet:** `09_REVIEW/SHEET.png` is the vector reconstruction placed back on the original spacing. Files live in `11_SPECIMEN_TRACE/`.
+- **Conventions:** The earlier constructed C J M P Q V X Z and digits 4–9 are superseded for the character set. Do not present them as the current alphabet. Draft PR #1617 stays unmerged.

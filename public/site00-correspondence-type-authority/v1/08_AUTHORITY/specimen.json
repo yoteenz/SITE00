@@ -1,49 +1,14 @@
 {
-  "traced_letters": [
-    "A",
-    "B",
-    "D",
-    "E",
-    "F",
-    "G",
-    "H",
-    "I",
-    "K",
-    "L",
-    "N",
-    "O",
-    "R",
-    "S",
-    "T",
-    "U",
-    "W",
-    "Y"
+  "authority": "11_SPECIMEN_TRACE/source.jpg",
+  "sha256": "2307d85c8994ca62af05c587d42cb75a47613d6e7d3522776129f3bb4f55f61f",
+  "dimensions": [
+    1122,
+    1402
   ],
-  "derived_letters": [
-    "C",
-    "J",
-    "M",
-    "P",
-    "Q",
-    "V",
-    "X",
-    "Z"
-  ],
-  "derived_letter_note": "C J M P Q V X Z are not in the invitation. They are built from the traced O, U, W, R, A, K, and E. They are not source traces.",
-  "traced_digits": [
-    "0",
-    "1",
-    "2",
-    "3"
-  ],
-  "derived_digits": [
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9"
-  ],
-  "gap_ratio": 0.1,
-  "sheet": "09_REVIEW/SHEET.png"
+  "heavy": "11_SPECIMEN_TRACE/heavy/A.svg through Z.svg",
+  "light": "11_SPECIMEN_TRACE/light/A.svg through Z.svg",
+  "numerals": "11_SPECIMEN_TRACE/numerals/0.svg through 9.svg",
+  "mean_iou": 0.9915,
+  "derived_letters": [],
+  "note": "The specimen sheet replaced the earlier derived C J M P Q V X Z and derived 4\u20139. Every glyph on the sheet is a source trace."
 }

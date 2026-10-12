@@ -2189,8 +2189,8 @@
     },
     {
       "path": "08_AUTHORITY/specimen.json",
-      "bytes": 640,
-      "sha256": "48d5ae6bdb6f2f8c85c17124d017f9b8bab0d4678422bc32d3d312d0810edab7"
+      "bytes": 542,
+      "sha256": "6ea22adb64223d7831133da23f18e4c126238bbd72dd0576b39f9f173f147853"
     },
     {
       "path": "08_AUTHORITY/wordmark.json",
@@ -2199,19 +2199,350 @@
     },
     {
       "path": "09_REVIEW/SHEET.png",
-      "bytes": 149024,
-      "sha256": "0b601fffb34f6487da90c5f0b49102af9a35a58a2ed76bbe4897c601e11f996d"
+      "bytes": 93744,
+      "sha256": "b9fb8193a39fcdf10fce92c693a62651d1e9c0a5f11deacf157f7eea9f750086"
     },
     {
       "path": "09_REVIEW/index.html",
-      "bytes": 26080,
-      "sha256": "c9e2e93947da401b8cb214d9608ab9b6cabfb5758d6e201a4d272576734a926f"
+      "bytes": 26220,
+      "sha256": "340a8821c143a053d7c785038d2f48ed5f1a75f7333417f76e8a6cac0f2f63a8"
     },
     {
       "path": "09_REVIEW/sheet.html",
       "bytes": 467,
       "sha256": "ea4c42894f7c9c6a05fbaf9d1ae240cc09c0368812299f2e6fb4bc7f29243d3e"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/SHEET.png",
+      "bytes": 93744,
+      "sha256": "b9fb8193a39fcdf10fce92c693a62651d1e9c0a5f11deacf157f7eea9f750086"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/difference.png",
+      "bytes": 15256,
+      "sha256": "df01c51a8408944e54579e88efedaea052d4d2c719509455b385283a6c8ec2f2"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/heavy/A.svg",
+      "bytes": 1038,
+      "sha256": "d930885e5d5b5d0afd2e4f5c4f90948f3d265fd8828a4148ac720396cd08117e"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/heavy/B.svg",
+      "bytes": 1017,
+      "sha256": "9626ed902bb306262a27d7107f9e70d5b7c428731dee4bf78410eeb5b505f52a"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/heavy/C.svg",
+      "bytes": 934,
+      "sha256": "d871b66589372f106eb5ca7e32f9d0fb195a0ae39a17316affdaa319473ba140"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/heavy/D.svg",
+      "bytes": 756,
+      "sha256": "ed56c039a5743c36a0aeacb5274906536d4224da1e5ff52aa8df55ce619dcdad"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/heavy/E.svg",
+      "bytes": 712,
+      "sha256": "3f00ad8c856f6cd62d80b1a3f42b58354d8cecebccdca42ca8864d612ea198aa"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/heavy/F.svg",
+      "bytes": 714,
+      "sha256": "7789b5897377f69b591989943c86c59936f40d8760240f520f7448c4399a8de5"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/heavy/G.svg",
+      "bytes": 981,
+      "sha256": "91b9afaa0282e4942cf6cd7ef8af02b7ae361ad4312e90faaa64dde99fcb5d1a"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/heavy/H.svg",
+      "bytes": 697,
+      "sha256": "852dcf8ec85e548814b202edb8c834997493af84289c6f1777816a8a963742f1"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/heavy/I.svg",
+      "bytes": 597,
+      "sha256": "40035f02ae5bf1c2ff7651df06d0cea1414c10627019aaf19d7145399a0b799e"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/heavy/J.svg",
+      "bytes": 789,
+      "sha256": "f6218eb33ca764ed5e87fce45ee883bf7cc455a183bca921ae62e007ff137757"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/heavy/K.svg",
+      "bytes": 918,
+      "sha256": "df7611c64a3f988df7b58b33a9bfdd7b2ebd11212ae07ae149bbd949f3db5549"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/heavy/L.svg",
+      "bytes": 637,
+      "sha256": "d5f870f2381ac982c3c03eddf181f8ffc452535c0767cdb22a4c7e0df78f5042"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/heavy/M.svg",
+      "bytes": 898,
+      "sha256": "50c764a7966ace9ae6eaeab1ea6385d9c680615fe42b781eae73ff913359c03f"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/heavy/N.svg",
+      "bytes": 846,
+      "sha256": "e6ef8ec047eae1fdf2e5026e6081642584d554c291a287f51395fd701d7ac031"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/heavy/O.svg",
+      "bytes": 858,
+      "sha256": "16518fc59973505b6e19a9561b5ff572371e82292f94432433b9004209d9e34e"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/heavy/P.svg",
+      "bytes": 809,
+      "sha256": "6d0bd9d2f927503705e6cfc2058eac3c95e721c1d3d378ba81a9d618b142f78f"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/heavy/Q.svg",
+      "bytes": 1003,
+      "sha256": "1c81bd7462e2c4bfd7f1a7ffa28c8d0d1530c461230736032133d01fd7246268"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/heavy/R.svg",
+      "bytes": 887,
+      "sha256": "7439e0d1238c0442832f018cf63dadb874d511821726e71208d14e5dd6f6d5c2"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/heavy/S.svg",
+      "bytes": 1025,
+      "sha256": "9c2acdf2f74fa38240cd2bc8811e75c385a2b440452c89799132f6fb2de48d49"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/heavy/T.svg",
+      "bytes": 680,
+      "sha256": "ad8ad705c343c50c05b1663892d37149e4067f6c7285f3e8afb81afb01e69f04"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/heavy/U.svg",
+      "bytes": 798,
+      "sha256": "36eff88c5c2f6cb2309ec5b81e23341da97982d87ba4d77da1714a510e5d6b76"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/heavy/V.svg",
+      "bytes": 939,
+      "sha256": "d9de10e15e5d81028736dc64d68f921305c9fcca9b88ee09ad243fdd330f880f"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/heavy/W.svg",
+      "bytes": 1164,
+      "sha256": "91358bbe7b1a20b1be57c3f5ff0dbf230f88dd6b1a2e956092cf22016a671ae0"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/heavy/X.svg",
+      "bytes": 1097,
+      "sha256": "8c18252efcec083d095c0baa15f6ee8a85990b3792df1621858ecd4bc322924d"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/heavy/Y.svg",
+      "bytes": 886,
+      "sha256": "db8fd59da4e303cd72761bc47162b61314bb94b36e2b8b1f7dc52d9c27ea01b2"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/heavy/Z.svg",
+      "bytes": 852,
+      "sha256": "288f31a961d3d9575d40342c580e617154f94f2c657557d5dcb3410c3b5e8b04"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/light/A.svg",
+      "bytes": 909,
+      "sha256": "fa9206abf80a6ce89765aacdc7055a05cd2905e458107d1eee6ed68b54db26f9"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/light/B.svg",
+      "bytes": 950,
+      "sha256": "9ffe95e79b2d8d9b280820796d26cfec1ddbe97451fdc962c336ee3550b8f47b"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/light/C.svg",
+      "bytes": 877,
+      "sha256": "8a24eefcee0e15ef3eb15ebfeac75057fbf7ec2731f04e8e9593e73e6b403caa"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/light/D.svg",
+      "bytes": 750,
+      "sha256": "6117799dd9950aa2b1f68174775aff2a3d2c1ddf77bf4e32356ca2e1b055e519"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/light/E.svg",
+      "bytes": 752,
+      "sha256": "53dcd56d32a97c6331c8a7309c94cb988a5f5508b4dce4fe6a882682dca539bb"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/light/F.svg",
+      "bytes": 677,
+      "sha256": "6402d88183bf4351e72d49845192fb6331c0aacd1bd5656ceebd6fd208c7b5ba"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/light/G.svg",
+      "bytes": 927,
+      "sha256": "ca44306ce04e9c4121ab8b3c6f71965c712f92bae3c8a27a3bf40371763d31e6"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/light/H.svg",
+      "bytes": 688,
+      "sha256": "eab00a45aa974c10f91597d50b7e932f0f287829848248a81b1bb17cb09c531a"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/light/I.svg",
+      "bytes": 588,
+      "sha256": "37607e23f790eaba952351835dc1c9eea3731aeec924c163622fca52d4a1da61"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/light/J.svg",
+      "bytes": 750,
+      "sha256": "809d0ce900705b3040fccf82f97749da68ac6d78a69ea8f6fc649222abad30df"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/light/K.svg",
+      "bytes": 774,
+      "sha256": "26e9dd9bf35e9e2b4c124b94b2e38833839c2ed023245f34fe04c9cc8d4b3e05"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/light/L.svg",
+      "bytes": 633,
+      "sha256": "d08cbfac56a0f0ae3aec38b8a85e906074b5d72966addeade326f8fab4e5bfd5"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/light/M.svg",
+      "bytes": 926,
+      "sha256": "0434145653ffdc5f4c40ed40dd65b0d84b555996f5803b63bfdd2eacf4098539"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/light/N.svg",
+      "bytes": 811,
+      "sha256": "fd3b08da9da6c59aaedd86067bbe65ac0e733412ac129af0abc0eefb59954e8d"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/light/O.svg",
+      "bytes": 839,
+      "sha256": "369e49a46868f8b19543b74b84bed95b2c93b79914f20040555accfd91ef5a8c"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/light/P.svg",
+      "bytes": 814,
+      "sha256": "eeb7b748bd8e776b11563d21f11641fd997a377fdb2e427f245ca9b392004b57"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/light/Q.svg",
+      "bytes": 962,
+      "sha256": "e6dd5e4f867cb870082463300fc11b82752d4a6cc1e6fd917f08a59e17c92d38"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/light/R.svg",
+      "bytes": 872,
+      "sha256": "312d216e95c88d62b5cf756c7e3354e9d92622d5bef12d99e3b40446321e0d23"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/light/S.svg",
+      "bytes": 1013,
+      "sha256": "a4cab964fc4d4265f9fc486c209b3986f42f4537f678528e4925059afb53fdf3"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/light/T.svg",
+      "bytes": 660,
+      "sha256": "72ed85ae666b731ae0dbd75832f67cddb77562d702481e956223903b44c46250"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/light/U.svg",
+      "bytes": 817,
+      "sha256": "174b8a013577fbf19bcf7134c3866b230382ee83335f9b17ed8c67b25b17920a"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/light/V.svg",
+      "bytes": 834,
+      "sha256": "4c53777c4c11793b5169f8ea01ff7a01e9ea9c82e7c73a7ee21e34c6e038783e"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/light/W.svg",
+      "bytes": 1150,
+      "sha256": "8859b162fa9ce08b8e9f97897c140d6c6a41266a3d18aa5fb0dea9c82597cfa5"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/light/X.svg",
+      "bytes": 896,
+      "sha256": "ecea5a29b3ec59bedef7626207f7c7dcff7cd6cd763968cad01df42786b81f9b"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/light/Y.svg",
+      "bytes": 820,
+      "sha256": "196e0826b6769dcaa622f87c00a476ae0fa504169202126b8e4a523baaefc00b"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/light/Z.svg",
+      "bytes": 797,
+      "sha256": "0a45395a36110194e57685c91dea314dbe1d05469d23bc1e9a0212ea8ccdd19d"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/metrics.json",
+      "bytes": 19123,
+      "sha256": "37dd90d43e6358795212801d564ae711689874ba168bf0cf040a0375f60282c3"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/numerals/0.svg",
+      "bytes": 887,
+      "sha256": "c9dad24e9872b65194c16f45f28181d79810b2d85e0badd94c82d70aeea589d3"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/numerals/1.svg",
+      "bytes": 715,
+      "sha256": "fd9940941cb0b4ae13046e27cba3fd43babbe633af40b947733a19227bd56f03"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/numerals/2.svg",
+      "bytes": 994,
+      "sha256": "d7bcd5a51b30049819c19544265cb9ad309b22189cccfd6b6363d00cb351c287"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/numerals/3.svg",
+      "bytes": 1160,
+      "sha256": "40b8d2fe885cbe4b2ff617a4a3fcd4762f54ed10da0dfde6bf5a8d255efa826b"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/numerals/4.svg",
+      "bytes": 929,
+      "sha256": "e24c8d2dd235a63318ba534709ff982d2c44abe8d015e279a823f38fc1308f39"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/numerals/5.svg",
+      "bytes": 1022,
+      "sha256": "60f66d878c458d911ea708956bb3e2f41789d4faeec88e295bcef03e85ca3367"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/numerals/6.svg",
+      "bytes": 1162,
+      "sha256": "b834164bfcf18b4358df6582d299460a05949391b515e9713d5e30cbb6bb674a"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/numerals/7.svg",
+      "bytes": 835,
+      "sha256": "1e40f0bd2c4438a934b889ce5b7f247ce7746eac34ab0604d44cdb6debb31d37"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/numerals/8.svg",
+      "bytes": 1233,
+      "sha256": "01bddc7c0cfa79e061520781cce7b45794cd87934ef32157f0b04fb7d642c24c"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/numerals/9.svg",
+      "bytes": 1092,
+      "sha256": "a85c3514269e52f65ff5612805715b580bb810a79a81474c038aa17b39b03d27"
+    },
+    {
+      "path": "11_SPECIMEN_TRACE/source.jpg",
+      "bytes": 228395,
+      "sha256": "2307d85c8994ca62af05c587d42cb75a47613d6e7d3522776129f3bb4f55f61f"
     }
   ],
-  "specimen_sheet": "09_REVIEW/SHEET.png"
+  "specimen_sheet": "09_REVIEW/SHEET.png",
+  "specimen_trace": "11_SPECIMEN_TRACE/source.jpg"
 }
