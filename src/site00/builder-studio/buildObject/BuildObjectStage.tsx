@@ -8,10 +8,14 @@ import {
   buildThumbnailCacheKey,
   createBuildObjectEngine,
   getCachedBuildThumbnail,
+  renderRealismThumbnail,
   scheduleBuildThumbnail,
   webglAvailable,
+  type AnchorListener,
   type BuildObjectEngine,
+  type StageAnchor,
 } from './engine';
+import { isRealismBenchmark, plateUrlOf, plateYOf, realismRequested } from './realism';
 
 export function usePrefersReducedMotion(): boolean {
   const [reduced, setReduced] = useState(
@@ -33,11 +37,25 @@ type StageProps = {
   description: string;
   interactive?: boolean;
   resetToken?: number;
+  /** Points on the model the page annotates, and who hears where they are on the stage. */
+  anchors?: readonly StageAnchor[];
+  onAnchors?: AnchorListener;
   className?: string;
   children?: ReactNode;
 };
 
-export function BuildObjectStage({ composition, description, interactive = false, resetToken = 0, className, children }: StageProps) {
+const NO_ANCHORS: readonly StageAnchor[] = [];
+
+export function BuildObjectStage({
+  composition,
+  description,
+  interactive = false,
+  resetToken = 0,
+  anchors = NO_ANCHORS,
+  onAnchors,
+  className,
+  children,
+}: StageProps) {
   const hostRef = useRef<HTMLDivElement>(null);
   const engineRef = useRef<BuildObjectEngine | null>(null);
   const compositionRef = useRef(composition);
@@ -45,6 +63,9 @@ export function BuildObjectStage({ composition, description, interactive = false
   const reducedMotion = usePrefersReducedMotion();
   const [failed, setFailed] = useState(false);
   const [engineGeneration, setEngineGeneration] = useState(0);
+  const losses = useRef<number[]>([]);
+  // Realism benchmark (review only): `?realism=v2` on PLACE · ADVANCED. Crossing in or out rebuilds the engine.
+  const realism = isRealismBenchmark(composition) ? realismRequested() : null;
 
   useEffect(() => {
     const host = hostRef.current;
@@ -57,7 +78,13 @@ export function BuildObjectStage({ composition, description, interactive = false
     try {
       const engine = createBuildObjectEngine(host, {
         reducedMotion,
-        onContextLost: () => setEngineGeneration((n) => n + 1),
+        realism,
+        onContextLost: () => {
+          const now = Date.now();
+          losses.current = [...losses.current.filter((t) => now - t < 20000), now];
+          if (losses.current.length > 3) setFailed(true);
+          else setEngineGeneration((n) => n + 1);
+        },
       });
       engine.setComposition(compositionRef.current);
       engineRef.current = engine;
@@ -67,8 +94,10 @@ export function BuildObjectStage({ composition, description, interactive = false
     return () => {
       engineRef.current?.dispose();
       engineRef.current = null;
+      delete host.dataset.realism;
+      delete host.dataset.quality;
     };
-  }, [reducedMotion, engineGeneration]);
+  }, [reducedMotion, engineGeneration, realism]);
 
   useEffect(() => {
     engineRef.current?.setComposition(composition);
@@ -76,11 +105,15 @@ export function BuildObjectStage({ composition, description, interactive = false
 
   useEffect(() => {
     engineRef.current?.setInteractive(interactive);
-  }, [interactive]);
+  }, [interactive, realism]);
 
   useEffect(() => {
     if (resetToken) engineRef.current?.resetView();
   }, [resetToken]);
+
+  useEffect(() => {
+    engineRef.current?.setAnchors(anchors, onAnchors ?? null);
+  }, [anchors, onAnchors, reducedMotion, realism]);
 
   return (
     <div className={['bs-object', className].filter(Boolean).join(' ')} data-object-key={composition.key}>
@@ -100,6 +133,7 @@ export function BuildObjectStage({ composition, description, interactive = false
 export function BuildThumbnail({ composition, width, height, alt }: { composition: BuildComposition; width: number; height: number; alt: string }) {
   const cacheKey = buildThumbnailCacheKey(composition, width, height);
   const [src, setSrc] = useState<string | null>(() => getCachedBuildThumbnail(composition, width, height));
+  const frameRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     const cached = getCachedBuildThumbnail(composition, width, height);
@@ -109,16 +143,29 @@ export function BuildThumbnail({ composition, width, height, alt }: { compositio
     }
     if (!webglAvailable()) return;
     let cancelled = false;
-    void scheduleBuildThumbnail(composition, width, height).then((url) => {
-      if (!cancelled && url) setSrc(url);
-    });
+    const frame = frameRef.current;
+    const plate = frame && isRealismBenchmark(composition) && realismRequested() ? plateUrlOf(frame) : null;
+    const id = window.setTimeout(() => {
+      if (plate && frame) {
+        void renderRealismThumbnail(composition, width, height, plate, plateYOf(frame, 0.7)).then((url) => {
+          if (cancelled) return;
+          if (url) setSrc(url);
+          else void scheduleBuildThumbnail(composition, width, height).then((fallback) => fallback && setSrc(fallback));
+        });
+        return;
+      }
+      void scheduleBuildThumbnail(composition, width, height).then((url) => {
+        if (!cancelled && url) setSrc(url);
+      });
+    }, 30);
     return () => {
       cancelled = true;
+      window.clearTimeout(id);
     };
   }, [cacheKey, width, height]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <span className="bs-thumb" style={{ aspectRatio: `${width} / ${height}` }}>
+    <span className="bs-thumb" ref={frameRef} style={{ aspectRatio: `${width} / ${height}` }}>
       {src ? <img src={src} alt={alt} width={width} height={height} draggable={false} /> : <span className="bs-thumb__pending" aria-hidden="true" />}
     </span>
   );
