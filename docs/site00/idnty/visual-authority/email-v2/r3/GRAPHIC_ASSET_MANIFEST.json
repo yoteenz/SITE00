@@ -1,0 +1,369 @@
+{
+  "sprint": "P0.SITE00.IDNTY.EMAIL-V2-R3-EDITORIAL-PUBLISHING-BESPOKE-GRAPHIC-INTELLIGENCE-AND-TYPOGRAPHIC-AUTHORITY1",
+  "status": "FOUNDER REVIEW PENDING. AGENT SELECTION IS NOT APPROVAL.",
+  "openart_generations": 0,
+  "openart_credits_spent": 0,
+  "plates": "DF-I01 / I02 / I03 (release df-v2-mass-cj-2026-10-11), via R1 and R2 crops",
+  "custom_icons": [
+    {
+      "id": "icon-address-plaque",
+      "source_svg": "scripts/df-email-v2-benchmark/r3/graphics/icons/address-plaque.svg",
+      "png": "scripts/df-email-v2-benchmark/r3/assets/gfx/icon-address-plaque.png",
+      "role": "DOMAIN — address plaque fixed to a wall",
+      "used_in": [
+        "B01",
+        "B02"
+      ]
+    },
+    {
+      "id": "icon-benchmark",
+      "source_svg": "scripts/df-email-v2-benchmark/r3/graphics/icons/benchmark.svg",
+      "png": "scripts/df-email-v2-benchmark/r3/assets/gfx/icon-benchmark.png",
+      "role": "VERIFICATION — surveyor's benchmark (a level that has been measured, not assumed)",
+      "used_in": [
+        "B02"
+      ]
+    },
+    {
+      "id": "icon-device-signature",
+      "source_svg": "scripts/df-email-v2-benchmark/r3/graphics/icons/device-signature.svg",
+      "png": "scripts/df-email-v2-benchmark/r3/assets/gfx/icon-device-signature.png",
+      "role": "DEVICES AND SIGNATURE — a handset crossed by a signed line",
+      "used_in": [
+        "B02"
+      ]
+    },
+    {
+      "id": "icon-door-swing",
+      "source_svg": "scripts/df-email-v2-benchmark/r3/graphics/icons/door-swing.svg",
+      "png": "scripts/df-email-v2-benchmark/r3/assets/gfx/icon-door-swing.png",
+      "role": "ENTRY — plan door swing: the leaf held open, its arc sweeping to the threshold",
+      "used_in": [
+        "B01"
+      ]
+    },
+    {
+      "id": "icon-envelope-plan",
+      "source_svg": "scripts/df-email-v2-benchmark/r3/graphics/icons/envelope-plan.svg",
+      "png": "scripts/df-email-v2-benchmark/r3/assets/gfx/icon-envelope-plan.png",
+      "role": "MAIL — envelope drawn with its flap as a hidden line",
+      "used_in": [
+        "B01",
+        "B02"
+      ]
+    },
+    {
+      "id": "icon-north",
+      "source_svg": "scripts/df-email-v2-benchmark/r3/graphics/icons/north.svg",
+      "png": "scripts/df-email-v2-benchmark/r3/assets/gfx/icon-north.png",
+      "role": "ORIENTATION — north point on the issue's masthead",
+      "used_in": [
+        "B03"
+      ]
+    },
+    {
+      "id": "icon-property-line",
+      "source_svg": "scripts/df-email-v2-benchmark/r3/graphics/icons/property-line.svg",
+      "png": "scripts/df-email-v2-benchmark/r3/assets/gfx/icon-property-line.png",
+      "role": "OWNERSHIP — a property line with its four corner monuments",
+      "used_in": [
+        "B02"
+      ]
+    },
+    {
+      "id": "icon-registration",
+      "source_svg": "scripts/df-email-v2-benchmark/r3/graphics/icons/registration.svg",
+      "png": "scripts/df-email-v2-benchmark/r3/assets/gfx/icon-registration.png",
+      "role": "SIGNATURE — registration crosshair",
+      "used_in": [
+        "B01"
+      ]
+    },
+    {
+      "id": "icon-route",
+      "source_svg": "scripts/df-email-v2-benchmark/r3/graphics/icons/route.svg",
+      "png": "scripts/df-email-v2-benchmark/r3/assets/gfx/icon-route.png",
+      "role": "ROUTE — a walked line that ends at a door",
+      "used_in": [
+        "B01",
+        "B02",
+        "B03"
+      ]
+    },
+    {
+      "id": "icon-seal",
+      "source_svg": "scripts/df-email-v2-benchmark/r3/graphics/icons/seal.svg",
+      "png": "scripts/df-email-v2-benchmark/r3/assets/gfx/icon-seal.png",
+      "role": "RECORDS — authentication seal (mail genuinely from you)",
+      "used_in": [
+        "B01",
+        "B02"
+      ]
+    },
+    {
+      "id": "icon-station",
+      "source_svg": "scripts/df-email-v2-benchmark/r3/graphics/icons/station.svg",
+      "png": "scripts/df-email-v2-benchmark/r3/assets/gfx/icon-station.png",
+      "role": "STATION — section-cut marker: you are here, looking this way",
+      "used_in": [
+        "B03"
+      ]
+    }
+  ],
+  "custom_graphic_devices": [
+    {
+      "id": "completion-seal",
+      "kind": "vector → PNG",
+      "source": "scripts/df-email-v2-benchmark/r3/graphics/devices/completion-seal.svg",
+      "role": "B02 status seal: lettered ring with the surveyor's benchmark at its centre.",
+      "used_in": [
+        "B02"
+      ]
+    },
+    {
+      "id": "lockup-groundwork",
+      "kind": "display lockup → PNG",
+      "source": "scripts/df-email-v2-benchmark/r3/graphics/devices/lockups.html#groundwork (+ #groundwork-m)",
+      "role": "B02 headline at monument scale; GROUNDWORK fitted to the full measure. Alt carries the exact words.",
+      "used_in": [
+        "B02"
+      ]
+    },
+    {
+      "id": "lockup-bldr",
+      "kind": "display lockup → PNG",
+      "source": "scripts/df-email-v2-benchmark/r3/graphics/devices/lockups.html#bldr (+ #bldr-m)",
+      "role": "B03 nameplate set to the full measure.",
+      "used_in": [
+        "B03"
+      ]
+    },
+    {
+      "id": "plan-a-gallery",
+      "kind": "vector → PNG",
+      "source": "scripts/df-email-v2-benchmark/r3/graphics/devices/plan-a-gallery.svg",
+      "role": "B03 reveal: plan A, rooms along one long hall.",
+      "used_in": [
+        "B03"
+      ]
+    },
+    {
+      "id": "plan-b-courtyard",
+      "kind": "vector → PNG",
+      "source": "scripts/df-email-v2-benchmark/r3/graphics/devices/plan-b-courtyard.svg",
+      "role": "B03 reveal: plan B, rooms around an open court.",
+      "used_in": [
+        "B03"
+      ]
+    },
+    {
+      "id": "plan-c-open-hall",
+      "kind": "vector → PNG",
+      "source": "scripts/df-email-v2-benchmark/r3/graphics/devices/plan-c-open-hall.svg",
+      "role": "B03 reveal: plan C, one large hall with service on two edges.",
+      "used_in": [
+        "B03"
+      ]
+    },
+    {
+      "id": "interior-annotations",
+      "kind": "vector overlay → JPG",
+      "source": "scripts/df-email-v2-benchmark/r3/graphics/devices/interior-annotations.svg over assets/inside.jpg",
+      "role": "B03 station 02: leader lines naming the marble and the red glass.",
+      "used_in": [
+        "B03"
+      ]
+    },
+    {
+      "id": "perforation",
+      "kind": "reused R2 raster",
+      "source": "scripts/df-email-v2-benchmark/r2/assets/a_perf.png",
+      "role": "B01 tear line above the reply card.",
+      "used_in": [
+        "B01"
+      ]
+    },
+    {
+      "id": "red-glass sliver",
+      "kind": "live HTML",
+      "source": "scripts/df-email-v2-benchmark/r3/compose/B01_R3.html .sliver",
+      "role": "B01 8px glass cell beside the promise (background crop of the doorway).",
+      "used_in": [
+        "B01"
+      ]
+    },
+    {
+      "id": "title block",
+      "kind": "live HTML",
+      "source": "scripts/df-email-v2-benchmark/r3/compose/B02_R3.html .tb",
+      "role": "B02 drawing title block hung from the slab: GROUND · LAID | client.",
+      "used_in": [
+        "B02"
+      ]
+    },
+    {
+      "id": "schedule",
+      "kind": "live HTML",
+      "source": "scripts/df-email-v2-benchmark/r3/compose/B02_R3.html .sched",
+      "role": "B02 schedule: faint display numerals, stage icons, Barlow stage names; row 05 emphasised.",
+      "used_in": [
+        "B02"
+      ]
+    },
+    {
+      "id": "datum band",
+      "kind": "live HTML",
+      "source": "scripts/df-email-v2-benchmark/r3/compose/B02_R3.html .datum",
+      "role": "B02 red level line (±0.00) between the drawn and the built plate.",
+      "used_in": [
+        "B02"
+      ]
+    },
+    {
+      "id": "station numerals",
+      "kind": "live HTML",
+      "source": "scripts/df-email-v2-benchmark/r3/compose/B03_R3.html .st-n",
+      "role": "B03 64px display numerals that mark the three stations.",
+      "used_in": [
+        "B03"
+      ]
+    },
+    {
+      "id": "red square stop",
+      "kind": "live HTML",
+      "source": "scripts/df-email-v2-benchmark/r3/compose/base.css .stop",
+      "role": "The SITE 00 full stop after display headlines, drawn as a red square.",
+      "used_in": [
+        "B01",
+        "B03"
+      ]
+    }
+  ],
+  "reused_photographs": [
+    {
+      "id": "door_tall.jpg",
+      "file": "scripts/df-email-v2-benchmark/r3/assets/door_tall.jpg",
+      "reused_from": "scripts/df-email-v2-benchmark/r2/assets/s_door.jpg",
+      "used_in": [
+        "B01"
+      ]
+    },
+    {
+      "id": "door_band.jpg",
+      "file": "scripts/df-email-v2-benchmark/r3/assets/door_band.jpg",
+      "reused_from": "scripts/df-email-v2-benchmark/source/assets/b01_door_band.jpg",
+      "used_in": [
+        "B01"
+      ]
+    },
+    {
+      "id": "perforation.png",
+      "file": "scripts/df-email-v2-benchmark/r3/assets/perforation.png",
+      "reused_from": "scripts/df-email-v2-benchmark/r2/assets/a_perf.png",
+      "used_in": [
+        "B01"
+      ]
+    },
+    {
+      "id": "slab.png",
+      "file": "scripts/df-email-v2-benchmark/r3/assets/slab.png",
+      "reused_from": "scripts/df-email-v2-benchmark/source/assets/b02_slab.png",
+      "used_in": [
+        "B02"
+      ]
+    },
+    {
+      "id": "slab_m.png",
+      "file": "scripts/df-email-v2-benchmark/r3/assets/slab_m.png",
+      "reused_from": "scripts/df-email-v2-benchmark/source/assets/b02_slab_m.png",
+      "used_in": [
+        "B02"
+      ]
+    },
+    {
+      "id": "drawn.jpg",
+      "file": "scripts/df-email-v2-benchmark/r3/assets/drawn.jpg",
+      "reused_from": "scripts/df-email-v2-benchmark/r2/assets/c_drawn.jpg",
+      "used_in": [
+        "B02"
+      ]
+    },
+    {
+      "id": "built.jpg",
+      "file": "scripts/df-email-v2-benchmark/r3/assets/built.jpg",
+      "reused_from": "scripts/df-email-v2-benchmark/r2/assets/c_built.jpg",
+      "used_in": [
+        "B02"
+      ]
+    },
+    {
+      "id": "horizon.jpg",
+      "file": "scripts/df-email-v2-benchmark/r3/assets/horizon.jpg",
+      "reused_from": "scripts/df-email-v2-benchmark/source/assets/b02_horizon.jpg",
+      "used_in": [
+        "B02"
+      ]
+    },
+    {
+      "id": "cover.jpg",
+      "file": "scripts/df-email-v2-benchmark/r3/assets/cover.jpg",
+      "reused_from": "scripts/df-email-v2-benchmark/r2/assets/x_hero.jpg",
+      "used_in": [
+        "B03"
+      ]
+    },
+    {
+      "id": "cover_m.jpg",
+      "file": "scripts/df-email-v2-benchmark/r3/assets/cover_m.jpg",
+      "reused_from": "scripts/df-email-v2-benchmark/r2/assets/x_hero_m.jpg",
+      "used_in": [
+        "B03"
+      ]
+    },
+    {
+      "id": "sketch.jpg",
+      "file": "scripts/df-email-v2-benchmark/r3/assets/sketch.jpg",
+      "reused_from": "scripts/df-email-v2-benchmark/r2/assets/u_sketch.jpg",
+      "used_in": [
+        "B03"
+      ]
+    },
+    {
+      "id": "approach.jpg",
+      "file": "scripts/df-email-v2-benchmark/r3/assets/approach.jpg",
+      "reused_from": "scripts/df-email-v2-benchmark/r2/assets/s_far.jpg",
+      "used_in": [
+        "B03"
+      ]
+    },
+    {
+      "id": "inside.jpg",
+      "file": "scripts/df-email-v2-benchmark/r3/assets/inside.jpg",
+      "reused_from": "scripts/df-email-v2-benchmark/r2/assets/s_inside.jpg",
+      "used_in": [
+        "B03"
+      ]
+    },
+    {
+      "id": "work.jpg",
+      "file": "scripts/df-email-v2-benchmark/r3/assets/work.jpg",
+      "reused_from": "scripts/df-email-v2-benchmark/r2/assets/s_work.jpg",
+      "used_in": [
+        "B03"
+      ]
+    },
+    {
+      "id": "rest.jpg",
+      "file": "scripts/df-email-v2-benchmark/r3/assets/rest.jpg",
+      "reused_from": "scripts/df-email-v2-benchmark/r2/assets/u_rest.jpg",
+      "used_in": [
+        "B03"
+      ]
+    }
+  ],
+  "counts": {
+    "custom_icons": 11,
+    "custom_graphic_devices": 14,
+    "reused_photographs": 15
+  }
+}

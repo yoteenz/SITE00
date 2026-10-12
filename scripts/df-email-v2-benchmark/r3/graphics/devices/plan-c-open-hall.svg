@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 260" width="360" height="260">
+  <title>C · OPEN HALL — one large room with service along two edges; the marked room is the hall</title>
+  <rect width="360" height="260" fill="#121212"/>
+  <g transform="translate(34 40)" fill="none" stroke="#f1efea" stroke-width="2.2" stroke-linecap="square">
+    <rect x="0" y="0" width="292" height="184"/>
+    <path d="M0 40H292M210 40V184"/>
+    <rect x="14" y="54" width="182" height="116" fill="rgba(217,12,12,0.38)" stroke="#d90c0c" stroke-width="3"/>
+    <path d="M60 40V28M250 40V28" stroke="#121212" stroke-width="5"/>
+    <path d="M100 184V170" stroke="#121212" stroke-width="8"/>
+    <path d="M90 210L100 196L110 210" stroke="#d90c0c" stroke-width="2.2"/>
+  </g>
+</svg>
