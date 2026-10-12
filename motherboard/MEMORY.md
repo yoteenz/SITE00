@@ -16440,3 +16440,13 @@ Summary of the whole conversation in this chat.
 - **Emails:** Prose commas, semicolons, and asterisks in FNDATN-01 are the traced mark as a red image (`public/site00-correspondence-studio/fndatn-01/marks/`), tail included. A comma between digits, such as `$1,334.00`, stays text. Headlines, the +2px size, and the 15px subtext leading are unchanged.
 - **Check:** `tests/fndatn01.test.ts` passed 17/17. The invitation hero and the symbol page were opened in the browser.
 - **Conventions:** Do not rerun `trace_specimen_sheet.py`. Draft PR #1617 stays unmerged.
+
+---
+
+## 2026-10-12 — Digital Foundation intake and BLDR studio use correspondence type
+
+- **Context:** The founder asked to update text and symbols on foundation intake pages and BLDR studio pages the same way as FNDATN-01.
+- **Live UI:** `site00-correspondence-fonts.css` loads SITE 00 Display 1.3 and Saira Semi Condensed on `.df-root` and `.bs-root`. Barlow, Inter, and Anton are removed from those sheets. Brand red is `#ce1017`.
+- **Prose marks:** `shared/site00-correspondence-studio/reactProse.tsx` (`CorrespondenceProse`) paints `,` `;` `*` in body copy with the same red mark PNGs as the emails. Wired through `DfLede`, `DfTrust`, `DfAlert`, BLDR room ledes and descriptors, and Blueprint prose/blockers/dialogs.
+- **Check:** `tests/correspondenceReactProse.test.tsx` and `tests/fndatn01.test.ts` pass. Preview tunnel on `:5174` may still mount a pinned older SHA until this branch merges to `main` and `preview/tunnel` refreshes; workspace dev on another port serves the branch.
+- **Conventions:** Draft PR #1617 carries emails plus this UI work. Not merged unless the founder asks.
