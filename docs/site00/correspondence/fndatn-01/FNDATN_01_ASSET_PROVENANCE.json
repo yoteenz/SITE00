@@ -8,18 +8,18 @@
       "public_path": "/site00-correspondence-studio/fndatn-01/assets/01_invitation/hero-desktop.jpg",
       "source_authority": "01_invitation/desktop.jpg",
       "source_rect": {
-        "x0": 184,
+        "x0": 63,
         "y0": 70,
         "x1": 1400,
         "y1": 660
       },
       "pixels": {
         "width": 1360,
-        "height": 660
+        "height": 600
       },
       "css_size": [
         680,
-        330
+        300
       ],
       "erased_regions": [
         {
@@ -63,7 +63,7 @@
         }
       ],
       "note": "desktop hero art; live headline, copy and record fields render over or beside it",
-      "sha256": "767a485104163b733e7c458234cb8ee582a4835098b67a7e84cc471888aceada"
+      "sha256": "49e1211d66da3c583bd55466e925a4ac903787e3beca20c256b14ea9fb70f852"
     },
     {
       "asset": "01_invitation/hero-mobile.jpg",
@@ -180,18 +180,18 @@
       "public_path": "/site00-correspondence-studio/fndatn-01/assets/02_intake_received/hero-desktop.jpg",
       "source_authority": "02_intake_received/desktop.jpg",
       "source_rect": {
-        "x0": 183,
+        "x0": 66,
         "y0": 72,
         "x1": 1360,
         "y1": 643
       },
       "pixels": {
         "width": 1360,
-        "height": 660
+        "height": 600
       },
       "css_size": [
         680,
-        330
+        300
       ],
       "erased_regions": [
         {
@@ -235,7 +235,7 @@
         }
       ],
       "note": "desktop hero art; live headline, copy and record fields render over or beside it",
-      "sha256": "915c7be54ee7c5a83df9cfb156b1d885b646c2d59c08d215ea9cb30816431869"
+      "sha256": "636b8acf31d8479bd64f653118e8c62df84ddcbebb954bd29e449c4ebfc0874b"
     },
     {
       "asset": "02_intake_received/hero-mobile.jpg",
@@ -371,18 +371,18 @@
       "public_path": "/site00-correspondence-studio/fndatn-01/assets/03_recommendation_quote/hero-desktop.jpg",
       "source_authority": "03_recommendation_quote/desktop.jpg",
       "source_rect": {
-        "x0": 141,
+        "x0": 16,
         "y0": 70,
         "x1": 1390,
         "y1": 676
       },
       "pixels": {
         "width": 1360,
-        "height": 660
+        "height": 600
       },
       "css_size": [
         680,
-        330
+        300
       ],
       "erased_regions": [
         {
@@ -447,7 +447,7 @@
         }
       ],
       "note": "desktop hero art; live headline, copy and record fields render over or beside it",
-      "sha256": "b7e4d0e3a4eb6ddac0e59448f48f0eb8578936f7066071ed3271c964b6706799"
+      "sha256": "d1cd6804a878ebae635abbc66851959138cfccf48c168493c7dd6a6c1a72fce1"
     },
     {
       "asset": "03_recommendation_quote/hero-mobile.jpg",
@@ -594,18 +594,18 @@
       "public_path": "/site00-correspondence-studio/fndatn-01/assets/04_payment_received/hero-desktop.jpg",
       "source_authority": "04_payment_received/desktop.jpg",
       "source_rect": {
-        "x0": 213,
+        "x0": 86,
         "y0": 70,
         "x1": 1480,
         "y1": 685
       },
       "pixels": {
         "width": 1360,
-        "height": 660
+        "height": 600
       },
       "css_size": [
         680,
-        330
+        300
       ],
       "erased_regions": [
         {
@@ -649,7 +649,7 @@
         }
       ],
       "note": "desktop hero art; live headline, copy and record fields render over or beside it",
-      "sha256": "e1e71238245b5c0ea38c64d84fc811e48baa72b74a28203bfa555beafda40125"
+      "sha256": "7fc70a538f2f5a16393399bb93c8bbcfc0ec5e070170453c6eb12ccd544e237e"
     },
     {
       "asset": "04_payment_received/hero-mobile.jpg",
@@ -745,18 +745,18 @@
       "public_path": "/site00-correspondence-studio/fndatn-01/assets/05_foundation_complete/hero-desktop.jpg",
       "source_authority": "05_foundation_complete/desktop.jpg",
       "source_rect": {
-        "x0": 232,
+        "x0": 112,
         "y0": 70,
         "x1": 1440,
         "y1": 656
       },
       "pixels": {
         "width": 1360,
-        "height": 660
+        "height": 600
       },
       "css_size": [
         680,
-        330
+        300
       ],
       "erased_regions": [
         {
@@ -779,7 +779,7 @@
         }
       ],
       "note": "desktop hero art; live headline, copy and record fields render over or beside it",
-      "sha256": "1c7195e66584122b343e2477e8bb65db1d28d6ab26f0f811b1263bbe0ec606c5"
+      "sha256": "f3cbf4c1f95d8f9d539cfd87d37a2c2c4503d663d5f4cc1720e7a3cf4d24eb9c"
     },
     {
       "asset": "05_foundation_complete/hero-mobile.jpg",
@@ -884,18 +884,18 @@
       "public_path": "/site00-correspondence-studio/fndatn-01/assets/06_resume_intake/hero-desktop.jpg",
       "source_authority": "06_resume_intake/desktop.jpg",
       "source_rect": {
-        "x0": 199,
+        "x0": 73,
         "y0": 70,
         "x1": 1460,
         "y1": 682
       },
       "pixels": {
         "width": 1360,
-        "height": 660
+        "height": 600
       },
       "css_size": [
         680,
-        330
+        300
       ],
       "erased_regions": [
         {
@@ -918,7 +918,7 @@
         }
       ],
       "note": "desktop hero art; live headline, copy and record fields render over or beside it",
-      "sha256": "302cbeddf6322fd81582bd0bda23e494a3d7b165bf69a68a7883d19bee798fa1"
+      "sha256": "6c7fa62a3101ee445452db08c87bb94c4ea696767ca21f3bc574c8df4efa7dab"
     },
     {
       "asset": "06_resume_intake/hero-mobile.jpg",
@@ -1013,18 +1013,18 @@
       "public_path": "/site00-correspondence-studio/fndatn-01/assets/07_quote_expiry/hero-desktop.jpg",
       "source_authority": "07_quote_expiry/desktop.jpg",
       "source_rect": {
-        "x0": 258,
+        "x0": 135,
         "y0": 70,
         "x1": 1490,
         "y1": 668
       },
       "pixels": {
         "width": 1360,
-        "height": 660
+        "height": 600
       },
       "css_size": [
         680,
-        330
+        300
       ],
       "erased_regions": [
         {
@@ -1089,7 +1089,7 @@
         }
       ],
       "note": "desktop hero art; live headline, copy and record fields render over or beside it",
-      "sha256": "aa40a921ca25372e249592ea2cb31ed720109016ea63739508f3afcdee95c923"
+      "sha256": "f6b1de3fa6293e50f4eddc8a9e771e2cd29393be26ff640005d1c11bf3779290"
     },
     {
       "asset": "07_quote_expiry/hero-mobile.jpg",
