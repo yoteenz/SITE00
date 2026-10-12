@@ -16421,3 +16421,12 @@ Summary of the whole conversation in this chat.
 - **Emails:** Headlines, section titles, the mast `SITE 00`, and the editorial numbers use `SITE 00 Display` 1.3. Letters are the 10% wider traces. The stop after a headline or section title is the traced period in red (`#ce1017`). A comma, semicolon, or asterisk in that display line is red too. Body, labels, and the red CTA stay Saira Semi Condensed.
 - **Previews:** Regenerated with `npx tsx scripts/correspondence-studio/fndatn01/render-previews.ts`. The font URL is `site00-correspondence-display.woff2?v=1.3`. `tests/fndatn01.test.ts` passed 17/17. Invitation, intake, and quote expiry were opened in the browser; the display face loaded.
 - **Conventions:** Do not put this face on body copy. Draft PR #1617 stays unmerged.
+
+---
+
+## 2026-10-12 — FNDATN-01 hero header +2px, subtext leading −1px
+
+- **Context:** The founder asked to increase the header text at the top of these emails only by 2px, and to reduce the line spacing of the subtext beneath it by 1px.
+- **Change:** Hero headlines in `shared/site00-correspondence-studio/fndatn01/layout.ts` are 2px larger (48/42 desktop, 42/38 mobile, and the resume desk size 36). The paragraph directly under that headline leads at 15px instead of 16px. Section titles, the mast, and other body copy are unchanged.
+- **Check:** Previews regenerated. `tests/fndatn01.test.ts` passed 17/17. Invitation measured 48px headline and 15px body leading, and the text stays inside the hero.
+- **Conventions:** This adjustment is FNDATN-01 only. Draft PR #1617 stays unmerged.
