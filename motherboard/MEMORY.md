@@ -16534,3 +16534,12 @@ Summary of the whole conversation in this chat.
 - **Founder report:** Mobile tunnel showed only some new emails, not the full R4 pack of 20.
 - **Cause:** All 20 `public/.../previews/r4/emails/*.html` were on `main`; Studio defaulted to **FNDATN-01 pack (7)** and FNDATN was **current** on overlapping lifecycle ids, so R4 looked partial.
 - **Fix:** Register **`R4-PREMIUM`** pack (20 ids). Cloud preview dev sets `VITE_SITE00_R4_REVIEW_PRIORITY=1` to re-apply R4 as current after FNDATN and default the library pack chip to R4. Full browser review artifact: `/site00-correspondence-studio/previews/r4/review/index.html`.
+
+---
+
+## 2026-10-12 — Production Release CI: DF portal v2 route test drift
+
+- **Founder report:** Mobile CI showed **Production Release / test** failing on `resolveDfRoute` — expected `views: ['P06','OVERVIEW']` but received full portal v2 list (ROADMAP, NEEDS_YOU, STAGE, RECORDS, RECORD, COMM_PREFS).
+- **Cause:** `portalViewsForPayload()` expanded when `SITE00_DIGITAL_FOUNDATION_PROJECT_PORTAL_V2` is on (default); board 01/02 test still asserted pre-v2 list. Related stale assertions: client CSS now includes review `.df-sheet__panel` / `.df-confirm`; icon stroke test still expected removed `stroke-width: 1.65`.
+- **Fix:** PR branch `cursor/fix-df-portal-route-test-be3b` — board test uses `['P06', ...portalViewsForPayload(paid)]`; components test guards duplicate modal/toast stacks only; icon test checks `.df-cta__arrow` stroke 1.25 and no 0.15 hairline.
+- **Verified:** `npm test -- tests/digitalFoundation` — 19 files green.
