@@ -16412,3 +16412,12 @@ Summary of the whole conversation in this chat.
 - **Color:** The whole comma and the whole semicolon are red, tail included. The asterisk is red. Period dots stay red. The exclamation and question tops stay black.
 - **Sheet:** `09_REVIEW/SYMBOLS.png`, rebuilt with `python3 scripts/correspondence-type-authority/trace_symbol_sheet.py`.
 - **Conventions:** Draft PR #1617 stays unmerged.
+
+---
+
+## 2026-10-12 — FNDATN-01 emails use the widened face and traced symbols
+
+- **Context:** The founder asked to update the foundation emails with the widened letters and the new symbols.
+- **Emails:** Headlines, section titles, the mast `SITE 00`, and the editorial numbers use `SITE 00 Display` 1.3. Letters are the 10% wider traces. The stop after a headline or section title is the traced period in red (`#ce1017`). A comma, semicolon, or asterisk in that display line is red too. Body, labels, and the red CTA stay Saira Semi Condensed.
+- **Previews:** Regenerated with `npx tsx scripts/correspondence-studio/fndatn01/render-previews.ts`. The font URL is `site00-correspondence-display.woff2?v=1.3`. `tests/fndatn01.test.ts` passed 17/17. Invitation, intake, and quote expiry were opened in the browser; the display face loaded.
+- **Conventions:** Do not put this face on body copy. Draft PR #1617 stays unmerged.

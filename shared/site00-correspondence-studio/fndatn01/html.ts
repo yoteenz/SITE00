@@ -53,7 +53,7 @@ export function fontFaces(assetBase: string, fndatnRoot: string): string {
   const display = [400, 500, 600, 700, 800, 900]
     .map(
       (w) =>
-        `@font-face{font-family:'SITE 00 Display';font-style:normal;font-weight:${w};src:url('${base}${fndatnRoot}/fonts/site00-correspondence-display.woff2') format('woff2');}`,
+        `@font-face{font-family:'SITE 00 Display';font-style:normal;font-weight:${w};src:url('${base}${fndatnRoot}/fonts/site00-correspondence-display.woff2?v=1.3') format('woff2');}`,
     )
     .join('\n');
   return `${saira}\n${display}`;
@@ -95,13 +95,25 @@ export function microLabel(text: string, color: string = T.mute, size = 9): stri
   return `<span style="font-family:${FONT_BODY};font-size:${size}px;line-height:${Math.round(size * 1.45)}px;letter-spacing:.18em;color:${color};text-transform:uppercase">${text}</span>`;
 }
 
+/** Period, comma, semicolon, and asterisk are the red marks. The rest of the display line stays ink. */
+const RED_DISPLAY = new Set(['.', ',', ';', '*']);
+
+export function displayText(text: string): string {
+  let out = '';
+  for (const ch of text) {
+    const safe = esc(ch);
+    out += RED_DISPLAY.has(ch) ? `<span class="keep-red" style="color:${T.red}">${safe}</span>` : safe;
+  }
+  return out;
+}
+
 export function headline(lines: string[], size = 44, extraClass = ''): string {
-  const body = lines.map(esc).join('<br>');
+  const body = lines.map((line) => displayText(line)).join('<br>');
   return `<h1 class="keep-ink ${extraClass}" style="margin:0;font-family:${FONT_DISPLAY};font-weight:900;font-size:${size}px;line-height:${Math.round(size * 1.02)}px;letter-spacing:0;color:${T.ink};text-transform:uppercase;mso-line-height-rule:exactly">${body}<span class="keep-red" style="color:${T.red}">.</span></h1>`;
 }
 
 export function sectionTitle(text: string, size = 30): string {
-  return `<h2 class="keep-ink" style="margin:0;font-family:${FONT_DISPLAY};font-weight:900;font-size:${size}px;line-height:${Math.round(size * 1.02)}px;letter-spacing:0;color:${T.ink};text-transform:uppercase">${esc(text)}<span class="keep-red" style="color:${T.red}">.</span></h2>`;
+  return `<h2 class="keep-ink" style="margin:0;font-family:${FONT_DISPLAY};font-weight:900;font-size:${size}px;line-height:${Math.round(size * 1.02)}px;letter-spacing:0;color:${T.ink};text-transform:uppercase">${displayText(text)}<span class="keep-red" style="color:${T.red}">.</span></h2>`;
 }
 
 export function kicker(text: string): string {
