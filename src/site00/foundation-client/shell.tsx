@@ -1,5 +1,9 @@
 /** Digital Foundation client shell (DF-C01..C09, C26, C45..C48). Presentation only. */
-import { CorrespondenceDisplay, CorrespondenceProse } from '../../../shared/site00-correspondence-studio/reactProse.js';
+import {
+  CorrespondenceDisplayLine,
+  CorrespondenceProse,
+  displayLineEndsWithSplitMark,
+} from '../../../shared/site00-correspondence-studio/reactProse.js';
 import { useEffect, useId, useRef, type ReactNode } from 'react';
 import { DfIcon, type DfIconName } from './icons';
 import { DfCornerFragment, DfCrownObject, DfThresholdHero } from './objects';
@@ -45,12 +49,16 @@ export function DfRail({ index, label }: { index: string; label: string }) {
 export function DfHeadline({ lines, id }: { lines: string[]; id?: string }) {
   return (
     <h1 className="df-headline" id={id}>
-      {lines.map((line, i) => (
-        <span key={i} className="df-headline__line">
-          <CorrespondenceDisplay>{line}</CorrespondenceDisplay>
-          {i === lines.length - 1 && <span className="df-headline__period">.</span>}
-        </span>
-      ))}
+      {lines.map((line, i) => {
+        const isLast = i === lines.length - 1;
+        const terminalMark = displayLineEndsWithSplitMark(line);
+        return (
+          <span key={i} className="df-headline__line">
+            <CorrespondenceDisplayLine line={line} />
+            {isLast && !terminalMark ? <span className="df-headline__period">.</span> : null}
+          </span>
+        );
+      })}
     </h1>
   );
 }

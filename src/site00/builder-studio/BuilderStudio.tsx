@@ -6,7 +6,11 @@
  * and what the object shows. Rooms are routes (`/bldr/studio/:room`) so device back and forward work. The
  * configuration itself lives in Composer's server-backed session (`useBuilderSpatialIntakeSession`).
  */
-import { CorrespondenceDisplay, CorrespondenceProse } from '../../../shared/site00-correspondence-studio/reactProse.js';
+import {
+  CorrespondenceDisplayLine,
+  CorrespondenceProse,
+  displayLineEndsWithSplitMark,
+} from '../../../shared/site00-correspondence-studio/reactProse.js';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { SITE00_ROUTES } from '../config/routes';
@@ -172,12 +176,16 @@ export function BuilderStudio({
           <span className="bs-roomid__label">{meta.label}</span>
         </p>
         <h1 id="bs-headline" className="bs-headline">
-          {meta.headline.map((line, i) => (
-            <span key={line} className="bs-headline__line">
-              <CorrespondenceDisplay>{line}</CorrespondenceDisplay>
-              {i === meta.headline.length - 1 ? <span className="bs-dot">.</span> : null}
-            </span>
-          ))}
+          {meta.headline.map((line, i) => {
+            const isLast = i === meta.headline.length - 1;
+            const terminalMark = displayLineEndsWithSplitMark(line);
+            return (
+              <span key={line} className="bs-headline__line">
+                <CorrespondenceDisplayLine line={line} />
+                {isLast && !terminalMark ? <span className="bs-dot">.</span> : null}
+              </span>
+            );
+          })}
         </h1>
         <p className="bs-lede">
           <CorrespondenceProse>{meta.lede}</CorrespondenceProse>
