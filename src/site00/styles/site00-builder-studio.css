@@ -1,28 +1,14 @@
 /**
  * SITE 00 Builder — Hybrid Spatial Studio.
  * Mobile authority: the two founder-approved references (rooms 01–04, Blueprint 05), measured at 390px width.
- * Luminous warm off-white, black, SITE 00 red. Condensed display headlines, tracked uppercase UI.
+ * Luminous warm off-white, black, SITE 00 red. Correspondence display headlines, Saira body, red traced marks.
  */
+
+@import './site00-correspondence-fonts.css';
 
 body.bs-body {
   margin: 0;
   background: #f2f0ec;
-}
-
-@font-face {
-  font-family: 'BS Display';
-  src: url('/site00/fonts/anton/anton-400-latin.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'BS Sans';
-  src: url('/site00/fonts/inter/inter-variable-latin.woff2') format('woff2');
-  font-weight: 300 700;
-  font-style: normal;
-  font-display: swap;
 }
 
 .bs-root {
@@ -35,11 +21,11 @@ body.bs-body {
   --bs-faint: #a6a29c;
   --bs-line: rgba(12, 12, 12, 0.11);
   --bs-line-strong: rgba(12, 12, 12, 0.24);
-  --bs-red: #d8121f;
+  --bs-red: #ce1017;
   --bs-red-hi: #e5222a;
   --bs-red-deep: #b70c17;
-  --bs-display: 'BS Display', 'Anton', 'Haettenschweiler', 'Arial Narrow', sans-serif;
-  --bs-sans: 'BS Sans', 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  --bs-display: 'SITE 00 Display', 'Arial Narrow', sans-serif;
+  --bs-sans: 'Saira Semi Condensed', 'Arial Narrow', Arial, sans-serif;
   --bs-gutter: 20px;
 
   position: relative;
@@ -177,7 +163,7 @@ body.bs-body {
   margin: 9px 0 0;
   font-family: var(--bs-display);
   font-size: clamp(46px, 13.8vw, 56px);
-  font-weight: 400;
+  font-weight: 900;
   line-height: 0.88;
   letter-spacing: 0.004em;
   text-transform: uppercase;
@@ -324,6 +310,7 @@ body.bs-body {
 
 .bs-card__label {
   margin-top: 5px;
+  font-family: var(--bs-display);
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.15em;

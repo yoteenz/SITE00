@@ -26,7 +26,7 @@ Rendered with `mode: 'send'`, an absolute https asset base, and the demo scenari
 | --- | --- | --- |
 | Outlook desktop (Word engine) | VML `v:shape` pentagon buttons (angled edge); VML `v:fill` hero backgrounds; `mso-line-height-rule:exactly`; `mso-hide:all` on mobile-only blocks | Hero art and buttons render; web fonts fall back to Arial |
 | Gmail web and app | Inline styles on every element; one `<style>` block (~4 KB) for media queries | Gmail supports `<style>` in `<head>` but **not `@font-face`**: type falls back to Arial Narrow or sans-serif condensed metrics |
-| Apple Mail / iOS | `@font-face` for Saira Semi Condensed and Barlow Condensed; `x-apple-data-detectors` reset | Closest to the authority |
+| Apple Mail / iOS | `@font-face` for Saira Semi Condensed and SITE 00 Display; `x-apple-data-detectors` reset | Closest to the authority |
 | Mobile (≤480px) | `.desk-only` / `.mob-only` swaps, stacked columns, full-width buttons | Clients without media query support (some Gmail IMAP accounts) show the desktop layout scaled down |
 | Dark mode | `color-scheme: light only`; `[data-ogsc]` / `[data-ogsb]` ink and red locks | Outlook.com and Gmail app may still partially invert backgrounds; not verified |
 | Card fields on the art | Live text in table rows over a background-image cell; the art is locked at its design size (`lock`) so the text stays on the card; the card's perspective is per-row indents; its tilt is a CSS `transform` on its own wrapper | Tilt shows in Apple Mail / iOS (WebKit) and Chromium. Clients that drop `transform` (Gmail, Outlook) show the same rows level, on the card. Verified in Chromium with and without transforms; not verified in a live client |
@@ -38,7 +38,7 @@ Rendered with `mode: 'send'`, an absolute https asset base, and the demo scenari
 ## Fonts
 
 - Body: `Saira Semi Condensed`, served from `public/site00-correspondence-studio/fndatn-01/fonts/`.
-- Display: `Barlow Condensed`, served from the existing `public/site00/fonts/barlow-condensed/`.
+- Display, headers and editorial numbers: `SITE 00 Display`, traced from the founder specimen, served from `public/site00-correspondence-studio/fndatn-01/fonts/site00-correspondence-display.woff2`.
 - Clients that ignore `@font-face` (Gmail, Outlook desktop) render fallback stacks: `Arial Narrow`, `Roboto Condensed` / `sans-serif-condensed` (Android), `Impact` for display type, then Arial. This is the largest expected visual difference from the authority outside Apple Mail.
 - Measured with web fonts blocked (Arial metrics): desktop hero copy grows past the 300 px art by 5 to 24 px on 01, 02, 05, 06, 07 (white below a locked card hero, art rescaled on the others), and the 03 recommendation value crosses the card's printed rule by up to 19 px. Card fields stay on the card. See `artifact-data-qa/qa-report.json`.
 

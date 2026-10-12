@@ -13,6 +13,7 @@ import {
   mobileHero,
   mobileRows,
   mobileStrip,
+  bandText,
   type BandItem,
   type HeroCopy,
 } from './layout.js';
@@ -30,7 +31,7 @@ function forName(name: string | null): string | null {
 const SCOPE_ICONS: Record<string, string> = { domain: 'globe', email: 'envelope', security: 'shield', device: 'device', records: 'records' };
 
 function scopeItems(scope: readonly ScopeItem[]): BandItem[] {
-  return scope.map((s, i) => ({ n: String(i + 1).padStart(2, '0'), icon: SCOPE_ICONS[s.key], iconAlt: s.label, title: esc(s.label), text: esc(s.detail) }));
+  return scope.map((s, i) => ({ n: String(i + 1).padStart(2, '0'), icon: SCOPE_ICONS[s.key], iconAlt: s.label, title: s.label, text: s.detail }));
 }
 
 function addonsLine(addons: AddonLine[]): string {
@@ -50,8 +51,8 @@ function mobileColumns(asset: AssetResolver, title: string, items: BandItem[], o
 <td valign="middle">${icon(asset(`assets/icons/${it.icon}.png`), it.iconAlt, 18)}</td>
 </tr></table>
 ${SPACE(8)}
-<p style="margin:0;font-family:${FONT_BODY};font-size:9.5px;line-height:13px;letter-spacing:.14em;font-weight:600;color:${T.ink};text-transform:uppercase">${it.title}</p>
-<p style="margin:4px 0 0;font-family:${FONT_BODY};font-size:8.5px;line-height:12px;letter-spacing:.08em;color:${T.mute};text-transform:uppercase">${it.text}</p>
+<p style="margin:0;font-family:${FONT_BODY};font-size:9.5px;line-height:13px;letter-spacing:.14em;font-weight:600;color:${T.ink};text-transform:uppercase">${esc(it.title)}</p>
+<p style="margin:4px 0 0;font-family:${FONT_BODY};font-size:8.5px;line-height:12px;letter-spacing:.08em;color:${T.mute};text-transform:uppercase">${bandText(it)}</p>
 </td>`,
     )
     .join('');
@@ -398,10 +399,9 @@ export function compose05(asset: AssetResolver, d: Data05): Composition {
     n: String(i + 1).padStart(2, '0'),
     icon: icons[i],
     iconAlt: it.label,
-    title: esc(it.label),
-    text: it.verified
-      ? `${esc(it.detail)}${it.value && it.key !== 'device' && it.key !== 'records' ? `<br><span style="color:${T.ink}">${v(it.value)}</span>` : ''}`
-      : 'PENDING VERIFICATION.',
+    title: it.label,
+    text: it.verified ? it.detail : 'PENDING VERIFICATION.',
+    value: it.verified && it.value && it.key !== 'device' && it.key !== 'records' ? it.value : undefined,
     tone: it.verified ? undefined : 'muted',
   }));
   const status = (_: BandItem, i: number) => {
@@ -429,7 +429,7 @@ export function compose05(asset: AssetResolver, d: Data05): Composition {
       mobileAct({
         label: 'VIEW YOUR FOUNDATION',
         url: d.foundationUrl,
-        caption: 'YOUR PROJECT IS COMPLETE. LOG IN TO ACCESS YOUR RECORDS, SETTINGS, AND NEXT STEPS.',
+        caption: esc('YOUR PROJECT IS COMPLETE. LOG IN TO ACCESS YOUR RECORDS, SETTINGS, AND NEXT STEPS.'),
       }),
       mobileStrip(asset, slug, 'strip-mobile.jpg', STRIP_ALT.glass, 77),
       foot(),
@@ -470,8 +470,9 @@ ${SPACE(9)}
     n: String(i + 1).padStart(2, '0'),
     icon: stepIcons[s.key],
     iconAlt: s.label,
-    title: esc(s.label),
-    text: s.state === 'in_progress' ? `<span style="color:${T.red}">${esc(s.note)}</span>` : esc(s.note),
+    title: s.label,
+    text: s.note,
+    textTone: s.state === 'in_progress' ? ('red' as const) : undefined,
     tone: s.state === 'pending' ? 'muted' : undefined,
   }));
   const status = (_: BandItem, i: number) => {

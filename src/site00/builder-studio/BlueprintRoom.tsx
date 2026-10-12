@@ -1,5 +1,6 @@
 /** 05 BLUEPRINT — the reveal, its five inspection sections, the review status, and submission. */
-import { useEffect, useId, useRef, useState, type RefObject } from 'react';
+import { CorrespondenceProse } from '../../../shared/site00-correspondence-studio/reactProse.js';
+import { useEffect, useId, useRef, useState, type ReactNode, type RefObject } from 'react';
 import { normalizeIntakeStatus } from '../../../shared/site00-intakes/types';
 import { IntakeGuestAccessCapture } from '../components/intake/IntakeGuestAccessCapture';
 import type { BlueprintSessionSnapshot } from '../builder-experience/spatialStudio';
@@ -42,6 +43,10 @@ type Props = {
   tab: BlueprintTab;
   setTab: (tab: BlueprintTab) => void;
 };
+
+function BsProse({ children }: { children: ReactNode }) {
+  return <CorrespondenceProse>{children}</CorrespondenceProse>;
+}
 
 /* ─────────────────────────────── stage overlay ─────────────────────────────── */
 
@@ -127,11 +132,15 @@ export function ReviewStatus({ session }: { session: StudioSession }) {
         <span className="bs-review__dot" aria-hidden="true" />
         {review.label}
       </p>
-      <p className="bs-review__sub">{review.sub}</p>
+      <p className="bs-review__sub">
+        <BsProse>{review.sub}</BsProse>
+      </p>
       {review.stage === 'REVISION_REQUESTED' ? (
         <div className="bs-review__request">
           <p className="bs-review__request-label">FROM SITE 00{review.request ? ` · ${formatDate(review.request.requestedAt)}` : ''}</p>
-          <p className="bs-review__request-text">{review.request?.message ?? 'SITE 00 REOPENED YOUR BLUEPRINT FOR CHANGES.'}</p>
+          <p className="bs-review__request-text">
+            <BsProse>{review.request?.message ?? 'SITE 00 REOPENED YOUR BLUEPRINT FOR CHANGES.'}</BsProse>
+          </p>
           <p className="bs-review__hint">
             EDIT YOUR CHOICES, THEN RESUBMIT. VERSION {review.version} STAYS ON RECORD EXACTLY AS YOU SENT IT.
           </p>
@@ -265,19 +274,25 @@ function OverviewTab({ session, setTab, goToRoom, openMenu }: Props) {
           <BuildTypeIcon size={22} />
           <span className="bs-fact__label">BUILD TYPE</span>
           <span className="bs-fact__value">{build.label}</span>
-          <span className="bs-fact__sub">{build.descriptor}</span>
+          <span className="bs-fact__sub">
+            <BsProse>{build.descriptor}</BsProse>
+          </span>
         </div>
         <div className="bs-fact">
           <ClockIcon size={22} />
           <span className="bs-fact__label">ESTIMATED TIMELINE</span>
           <EstimateFigure value={estimate ? spacedRange(estimate.productionWindow) : null} preview={preview} />
-          <span className="bs-fact__sub">{rangeNote(snapshot, preview)}</span>
+          <span className="bs-fact__sub">
+            <BsProse>{rangeNote(snapshot, preview)}</BsProse>
+          </span>
         </div>
         <div className="bs-fact">
           <InvestmentIcon size={22} />
           <span className="bs-fact__label">ESTIMATED INVESTMENT</span>
           <EstimateFigure value={estimate ? expandInvestment(estimate.investment) : null} preview={preview} />
-          <span className="bs-fact__sub">{rangeNote(snapshot, preview)}</span>
+          <span className="bs-fact__sub">
+            <BsProse>{rangeNote(snapshot, preview)}</BsProse>
+          </span>
         </div>
       </div>
       <div className="bs-config-head">
@@ -316,7 +331,8 @@ function StructureTab({ session, goToRoom }: Props) {
   return (
     <div className="bs-sheet">
       <p className="bs-sheet__lead">
-        <strong>{build.label} BUILD</strong> {build.reasons.length ? build.reasons.join(' ').toUpperCase() : 'EVERY CHOICE FITS A SIMPLE BUILD.'}
+        <strong>{build.label} BUILD</strong>{' '}
+        <BsProse>{build.reasons.length ? build.reasons.join(' ').toUpperCase() : 'EVERY CHOICE FITS A SIMPLE BUILD.'}</BsProse>
       </p>
       <dl className="bs-lines">
         {snapshot.blueprint.lines
@@ -342,7 +358,9 @@ function PagesTab({ session, goToRoom }: Props) {
   if (state.placePath === 'WORLD') {
     return (
       <div className="bs-sheet">
-        <p className="bs-sheet__lead">A WORLD IS DESIGNED AS PLACES, NOT PAGES. ITS PLACES, MOMENTS AND THINGS TO DO ARE SHAPED WITH YOU AT BLUEPRINT REVIEW.</p>
+        <p className="bs-sheet__lead">
+          <BsProse>A WORLD IS DESIGNED AS PLACES, NOT PAGES. ITS PLACES, MOMENTS AND THINGS TO DO ARE SHAPED WITH YOU AT BLUEPRINT REVIEW.</BsProse>
+        </p>
         <ChangeLink session={session} room="work" goToRoom={goToRoom} />
       </div>
     );
@@ -380,7 +398,9 @@ function FeaturesTab({ session, goToRoom }: Props) {
         {snapshot.blueprint.capabilities.map((cap) => (
           <li key={cap.verb}>
             <span className="bs-features__verb">{cap.verb}</span>
-            <span className="bs-features__plain">{capabilityPlain(cap.verb)}</span>
+            <span className="bs-features__plain">
+              <BsProse>{capabilityPlain(cap.verb)}</BsProse>
+            </span>
             {cap.comesWith ? <em>COMES WITH YOUR CHOICES</em> : null}
           </li>
         ))}
@@ -430,9 +450,13 @@ function TimelineTab({ session, goToRoom }: Props) {
             </div>
           </dl>
           <p className="bs-sheet__hint">
-            {(estimate.delivery.priority.available ? estimate.delivery.priority.whyNotHalf : estimate.delivery.priority.reason).toUpperCase()}
+            <BsProse>
+              {(estimate.delivery.priority.available ? estimate.delivery.priority.whyNotHalf : estimate.delivery.priority.reason).toUpperCase()}
+            </BsProse>
           </p>
-          <p className="bs-sheet__hint">{estimate.timelineNote.toUpperCase()}</p>
+          <p className="bs-sheet__hint">
+            <BsProse>{estimate.timelineNote.toUpperCase()}</BsProse>
+          </p>
           <h3 className="bs-sheet__title">WHAT COMES FIRST</h3>
           <ul className="bs-bullets">
             {estimate.dependencies.map((d) => (
@@ -446,7 +470,9 @@ function TimelineTab({ session, goToRoom }: Props) {
             ))}
           </ol>
           <p className="bs-fineprint">
-            {estimate.notAQuote} {estimate.reference}
+            <BsProse>
+              {estimate.notAQuote} {estimate.reference}
+            </BsProse>
           </p>
         </>
       ) : (
@@ -455,7 +481,9 @@ function TimelineTab({ session, goToRoom }: Props) {
       {note ? (
         <>
           <h3 className="bs-sheet__title">{state.placePath === 'CUSTOM' ? 'YOUR CUSTOM DIRECTION' : 'YOUR NOTE'}</h3>
-          <p className="bs-sheet__hint">{note}</p>
+          <p className="bs-sheet__hint">
+            <BsProse>{note}</BsProse>
+          </p>
         </>
       ) : null}
       <ChangeLink session={session} room="pace" goToRoom={goToRoom} />
@@ -532,7 +560,7 @@ export function BlueprintActions({ session, goToRoom }: Props) {
         <div className="bs-decision" role="alert">
           {decisions.map((d) => (
             <p key={d.id} className="bs-decision__text">
-              {d.message.toUpperCase()}
+              <BsProse>{d.message.toUpperCase()}</BsProse>
             </p>
           ))}
           <div className="bs-decision__actions">
@@ -551,7 +579,7 @@ export function BlueprintActions({ session, goToRoom }: Props) {
         <ul className="bs-blockers" aria-live="polite">
           {blockers.map((b) => (
             <li key={b.text}>
-              {b.text}
+              <BsProse>{b.text}</BsProse>
               {b.room ? (
                 <button type="button" className="bs-link" onClick={() => goToRoom(b.room!)}>
                   GO TO {b.room.toUpperCase()}
@@ -571,9 +599,11 @@ export function BlueprintActions({ session, goToRoom }: Props) {
         </button>
       ) : null}
       <p className="bs-status" aria-live="polite">
-        {review.stage === 'DRAFT' || review.stage === 'REVISION_REQUESTED'
-          ? session.indicator.detail ?? ''
-          : 'SITE 00 REPLIES BY EMAIL. YOUR BLUEPRINT STAYS HERE, EXACTLY AS SUBMITTED.'}
+        <BsProse>
+          {review.stage === 'DRAFT' || review.stage === 'REVISION_REQUESTED'
+            ? session.indicator.detail ?? ''
+            : 'SITE 00 REPLIES BY EMAIL. YOUR BLUEPRINT STAYS HERE, EXACTLY AS SUBMITTED.'}
+        </BsProse>
       </p>
       {sheet === 'submit' ? <SubmitSheet session={session} onClose={() => setSheet(null)} /> : null}
       {sheet === 'save' ? <SaveSheet session={session} onClose={() => setSheet(null)} /> : null}
@@ -662,7 +692,9 @@ function SubmitSheet({ session, onClose }: { session: StudioSession; onClose: ()
               {received.reference} · VERSION {received.version}
             </p>
             <p className="bs-dialog__text">
-              AWAITING FOUNDER REVIEW. SITE 00 REVIEWS YOUR BLUEPRINT AND REPLIES BY EMAIL. NOTHING IS CHARGED AND THE RANGE IS NOT A QUOTE.
+              <BsProse>
+                AWAITING FOUNDER REVIEW. SITE 00 REVIEWS YOUR BLUEPRINT AND REPLIES BY EMAIL. NOTHING IS CHARGED AND THE RANGE IS NOT A QUOTE.
+              </BsProse>
             </p>
             <button type="button" className="bs-cta" onClick={onClose}>
               VIEW MY BLUEPRINT
@@ -676,9 +708,13 @@ function SubmitSheet({ session, onClose }: { session: StudioSession; onClose: ()
             </h2>
             <Summary state={session.state} snapshot={session.snapshot} preview={session.preview} />
             {nextVersion > 1 ? (
-              <p className="bs-dialog__text">VERSION {nextVersion - 1} STAYS ON RECORD. SITE 00 SEES WHAT CHANGED.</p>
+              <p className="bs-dialog__text">
+                <BsProse>VERSION {nextVersion - 1} STAYS ON RECORD. SITE 00 SEES WHAT CHANGED.</BsProse>
+              </p>
             ) : (
-              <p className="bs-dialog__text">SITE 00 RECEIVES THIS EXACT VERSION WITH ITS INITIAL RANGE. THIS IS NOT A QUOTE.</p>
+              <p className="bs-dialog__text">
+                <BsProse>SITE 00 RECEIVES THIS EXACT VERSION WITH ITS INITIAL RANGE. THIS IS NOT A QUOTE.</BsProse>
+              </p>
             )}
             {email ? (
               <div className="bs-dialog__email">
@@ -687,15 +723,21 @@ function SubmitSheet({ session, onClose }: { session: StudioSession; onClose: ()
             ) : null}
             {phase === 'failed' ? (
               <p className="bs-dialog__error" role="alert">
-                NOT SUBMITTED. {(session.intakeSync.errorMessage ?? 'SITE 00 DID NOT CONFIRM THE SUBMISSION.').toUpperCase()}{' '}
-                {session.intakeSync.saveState === 'error' ? 'YOUR LATEST CHOICES ARE ON THIS DEVICE.' : 'YOUR DRAFT IS SAVED WITH SITE 00.'}
+                <BsProse>
+                  NOT SUBMITTED. {(session.intakeSync.errorMessage ?? 'SITE 00 DID NOT CONFIRM THE SUBMISSION.').toUpperCase()}{' '}
+                  {session.intakeSync.saveState === 'error' ? 'YOUR LATEST CHOICES ARE ON THIS DEVICE.' : 'YOUR DRAFT IS SAVED WITH SITE 00.'}
+                </BsProse>
               </p>
             ) : null}
             <button type="button" className="bs-cta" disabled={email || phase === 'submitting'} onClick={() => void submit()}>
               {phase === 'submitting' ? 'SUBMITTING…' : phase === 'failed' ? 'TRY AGAIN' : nextVersion > 1 ? `SUBMIT VERSION ${nextVersion}` : 'SUBMIT FOR REVIEW'}
               {phase === 'submitting' ? null : <ArrowGlyph />}
             </button>
-            {email ? <p className="bs-dialog__text bs-dialog__text--small">ADD YOUR EMAIL ABOVE SO SITE 00 CAN REPLY.</p> : null}
+            {email ? (
+              <p className="bs-dialog__text bs-dialog__text--small">
+                <BsProse>ADD YOUR EMAIL ABOVE SO SITE 00 CAN REPLY.</BsProse>
+              </p>
+            ) : null}
           </>
         )}
       </div>
@@ -730,11 +772,13 @@ function SaveSheet({ session, onClose }: { session: StudioSession; onClose: () =
           <span className="bs-dot">.</span>
         </h2>
         <p className="bs-dialog__text" aria-live="polite">
-          {result === 'saved'
-            ? `YOUR BLUEPRINT IS SAVED WITH SITE 00${time ? ` AT ${time}` : ''}. ${session.serverIntake?.publicReference ?? ''}`
-            : result === 'local'
-              ? `SITE 00 DID NOT CONFIRM THE SAVE. YOUR CHOICES ARE ON THIS DEVICE ONLY.${session.intakeSync.errorMessage ? ` ${session.intakeSync.errorMessage.toUpperCase()}` : ''}`
-              : 'SAVING YOUR BLUEPRINT WITH SITE 00…'}
+          <BsProse>
+            {result === 'saved'
+              ? `YOUR BLUEPRINT IS SAVED WITH SITE 00${time ? ` AT ${time}` : ''}. ${session.serverIntake?.publicReference ?? ''}`
+              : result === 'local'
+                ? `SITE 00 DID NOT CONFIRM THE SAVE. YOUR CHOICES ARE ON THIS DEVICE ONLY.${session.intakeSync.errorMessage ? ` ${session.intakeSync.errorMessage.toUpperCase()}` : ''}`
+                : 'SAVING YOUR BLUEPRINT WITH SITE 00…'}
+          </BsProse>
         </p>
         {result === 'saved' && needsEmail(session) ? (
           <div className="bs-dialog__email">

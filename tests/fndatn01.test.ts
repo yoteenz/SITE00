@@ -97,6 +97,15 @@ describe('FNDATN-01 registration', () => {
   it('leaves every lifecycle event trigger off', () => {
     expect(DIGITAL_FOUNDATION_LIFECYCLE_EVENT_MAP.every((m) => !m.enabled)).toBe(true);
   });
+
+  it('applies red correspondence marks on display headers only, not Saira body copy', () => {
+    const r = send('01');
+    if (!r.ok) throw new Error(r.eligibility.reasons.join());
+    expect(r.html).toContain('keep-red');
+    expect(r.html).not.toContain('marks/comma.png');
+    expect(r.html).not.toContain('marks/semicolon.png');
+    expect(r.html).not.toContain('marks/asterisk.png');
+  });
 });
 
 describe('FNDATN-01 eligibility guards', () => {
@@ -385,5 +394,11 @@ describe('FNDATN-01 angled-edge buttons', () => {
       expect((r.html.match(/<v:shape /g) ?? []).length).toBe(tables.length);
       expect(r.html).not.toContain('<v:rect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w=');
     }
+  });
+});
+
+describe('FNDATN-01 band markup', () => {
+  it('never shows escaped markup as visible text', () => {
+    for (const preview of renderFndatn01Previews()) expect(preview.html, preview.publicPath).not.toMatch(/&lt;(br|span|p|a)\b/);
   });
 });
