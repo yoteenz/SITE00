@@ -16476,3 +16476,28 @@ Summary of the whole conversation in this chat.
 - **Rule:** Correspondence symbols (`.`, `,`, `;`, `*`) in **emails** are for **SITE 00 Display header lines** (`headline`, `sectionTitle`, `displayText`). **Saira body copy** stays plain punctuation — no `marks/*.png` in prose.
 - **Change:** Removed `paintProse()` from `fndatn01/html.ts`; regenerated previews; test guards against body mark images. PR **#1619** merged to `main`.
 - **Live UI:** DF/BLDR pages may still use `CorrespondenceProse` for on-screen body — that is separate from email HTML.
+
+---
+
+## 2026-10-12 — Display ? and ! PNG marks (BLDR FEEL headline)
+
+- **Founder report:** “HOW SHOULD IT FEEL?” showed a normal black `?` plus a separate red square (not the correspondence question mark).
+- **Cause:** PR **#1620** used CSS clip-path on the font glyph; on mobile that read as full black `?` + detached red dot/period. Tunnel `:5174` also served `preview/tunnel` until merge.
+- **Fix:** Traced two-color `question.png` / `exclamation.png` in `fndatn-01/marks/`; `CorrespondenceDisplayLine` renders `<img class="correspondence-display-split">`; emails use same PNG in `displaySplitBangQuestion`. Regen: `scripts/correspondence-type-authority/export_display_split_marks.py`. PR **#1621** merged **`main`** `2e30b629`; preview tunnel refreshed to same SHA.
+- **Verify:** `/bldr/studio/feel` or review iframe `#df-r-bldr-FEEL` — one mark, no extra red square after `?`.
+
+---
+
+## 2026-10-12 — Digital Foundation menu: right drawer restored
+
+- **Founder report:** Hamburger menu should slide in from the **right**, not the bottom sheet.
+- **Cause:** Board 01+02 rebuild (`19fd19c0`) replaced `DfDrawer`/`DfMenu` with bottom `DfSheet` menu; `buildDfMenu` and drawer CSS were dropped from `model.ts` / `site00-df-client.css`.
+- **Fix:** Restored portaled right drawer (61vw, dark backdrop), step/destination list, `buildDfMenu`, menu icons, anchor nav; kept correspondence headlines. PR **#1622** merged to `main`.
+- **Verify:** `/foundation/:token` → menu from right; `tests/digitalFoundationMenuDrawer.test.ts`.
+
+---
+
+## 2026-10-12 — Display header typography (+4px / −2px line spacing)
+
+- **Request:** Tighter stacked display headlines on FNDATN-01 emails, foundation intake, and BLDR studio (incl. `/foundation/review` iframes).
+- **Change:** `displayHeadlineMetrics()` in `fndatn01/html.ts`; regenerated email previews; `.df-headline` and `.bs-headline` CSS (+4px size tokens, `calc(em - 2px)` line-height). PR **#1623** merged `main`.

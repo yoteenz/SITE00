@@ -84,3 +84,41 @@ function mapDisplayChild(child: ReactNode, key: number): ReactNode {
 export function CorrespondenceDisplay({ children }: { children: ReactNode }) {
   return <>{Children.map(children, (child, i) => mapDisplayChild(child, i))}</>;
 }
+
+/** True when a display headline line already ends with ? or ! (no separate red period). */
+export function displayLineEndsWithSplitMark(line: string): boolean {
+  return /[!?]$/.test(line.trimEnd());
+}
+
+const DISPLAY_SPLIT_MARKS: Record<'!' | '?', { file: string; w: number; h: number }> = {
+  '?': { file: 'question.png', w: 79, h: 221 },
+  '!': { file: 'exclamation.png', w: 34, h: 222 },
+};
+
+/** Two-color ? and ! from traced display face (symbol sheet rule — not clip-path on plain glyph). */
+function SplitBangQuestion({ ch }: { ch: '!' | '?' }) {
+  const m = DISPLAY_SPLIT_MARKS[ch];
+  return (
+    <img
+      className="correspondence-display-split"
+      src={`${CORRESPONDENCE_MARK_BASE}/${m.file}`}
+      alt={ch}
+      width={m.w}
+      height={m.h}
+    />
+  );
+}
+
+/** Display headline line: red comma/semicolon/asterisk in-line; ? and ! use black stem + red dot (symbol sheet). */
+export function CorrespondenceDisplayLine({ line }: { line: string }) {
+  const m = line.match(/^(.*?)([!?])$/);
+  if (m?.[1] !== undefined && m[2]) {
+    return (
+      <>
+        {correspondenceDisplayString(m[1])}
+        <SplitBangQuestion ch={m[2] as '!' | '?'} />
+      </>
+    );
+  }
+  return <>{correspondenceDisplayString(line)}</>;
+}

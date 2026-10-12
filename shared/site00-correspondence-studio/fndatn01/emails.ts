@@ -241,6 +241,7 @@ export function compose03(asset: AssetResolver, d: Data03): Composition {
     kicker: forName(d.firstName),
     headline: ['YOUR', 'RECOMMENDATION', 'IS READY'],
     body: "BASED ON YOUR INTAKE, WE'VE PREPARED A TAILORED DIGITAL FOUNDATION PLAN AND QUOTE FOR YOUR REVIEW.",
+    deskSize: 37,
     tagline: TAGLINE,
     mobileTagline: TAGLINE_MOBILE,
   };

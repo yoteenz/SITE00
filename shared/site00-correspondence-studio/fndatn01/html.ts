@@ -112,13 +112,51 @@ export function displayText(text: string): string {
   return out;
 }
 
+const DISPLAY_SPLIT_MARK: Record<'!' | '?', { file: string; w: number; h: number }> = {
+  '?': { file: 'question.png', w: 79, h: 221 },
+  '!': { file: 'exclamation.png', w: 34, h: 222 },
+};
+
+/** ? and ! — black stem, red bottom dot (symbol sheet PNG, same as live DF/BLDR). */
+function displaySplitBangQuestion(ch: '!' | '?'): string {
+  const m = DISPLAY_SPLIT_MARK[ch];
+  const src = esc(`/site00-correspondence-studio/fndatn-01/marks/${m.file}`);
+  return `<img src="${src}" alt="${esc(ch)}" width="${m.w}" height="${m.h}" style="display:inline;height:1em;width:auto;vertical-align:-0.06em;border:0;margin:0" />`;
+}
+
+function displayLineHtml(line: string): string {
+  const m = line.match(/^(.*?)([!?])$/);
+  if (m?.[1] !== undefined && m[2]) {
+    return `${displayText(m[1])}${displaySplitBangQuestion(m[2] as '!' | '?')}`;
+  }
+  return displayText(line);
+}
+
+function displayHeadlineTerminalDot(lines: string[]): string {
+  const last = lines[lines.length - 1]?.trimEnd() ?? '';
+  return /[!?]$/.test(last) ? '' : `<span class="keep-red" style="color:${T.red}">.</span>`;
+}
+
+/** Display headers only: +4px size, −2px line spacing vs the authority baseline. */
+export function displayHeadlineMetrics(size: number): { fontSize: number; lineHeight: number } {
+  return {
+    fontSize: size + 4,
+    lineHeight: Math.round(size * 1.02) - 2,
+  };
+}
+
 export function headline(lines: string[], size = 44, extraClass = ''): string {
-  const body = lines.map((line) => displayText(line)).join('<br>');
-  return `<h1 class="keep-ink ${extraClass}" style="margin:0;font-family:${FONT_DISPLAY};font-weight:900;font-size:${size}px;line-height:${Math.round(size * 0.9)}px;letter-spacing:0;color:${T.ink};text-transform:uppercase;mso-line-height-rule:exactly">${body}<span class="keep-red" style="color:${T.red}">.</span></h1>`;
+  const { fontSize, lineHeight } = displayHeadlineMetrics(size);
+  const body = lines
+    .map((line, i) => (i === lines.length - 1 ? displayLineHtml(line) : displayText(line)))
+    .join('<br>');
+  return `<h1 class="keep-ink ${extraClass}" style="margin:0;font-family:${FONT_DISPLAY};font-weight:900;font-size:${fontSize}px;line-height:${lineHeight}px;letter-spacing:0;color:${T.ink};text-transform:uppercase;mso-line-height-rule:exactly">${body}${displayHeadlineTerminalDot(lines)}</h1>`;
 }
 
 export function sectionTitle(text: string, size = 30): string {
-  return `<h2 class="keep-ink" style="margin:0;font-family:${FONT_DISPLAY};font-weight:900;font-size:${size}px;line-height:${Math.round(size * 1.02)}px;letter-spacing:0;color:${T.ink};text-transform:uppercase">${displayText(text)}<span class="keep-red" style="color:${T.red}">.</span></h2>`;
+  const { fontSize, lineHeight } = displayHeadlineMetrics(size);
+  const terminal = /[!?]$/.test(text.trimEnd()) ? '' : `<span class="keep-red" style="color:${T.red}">.</span>`;
+  return `<h2 class="keep-ink" style="margin:0;font-family:${FONT_DISPLAY};font-weight:900;font-size:${fontSize}px;line-height:${lineHeight}px;letter-spacing:0;color:${T.ink};text-transform:uppercase">${displayLineHtml(text)}${terminal}</h2>`;
 }
 
 export function kicker(text: string): string {

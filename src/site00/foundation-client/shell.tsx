@@ -1,9 +1,21 @@
 /** Digital Foundation client shell (DF-C01..C09, C26, C45..C48). Presentation only. */
-import { CorrespondenceDisplay, CorrespondenceProse } from '../../../shared/site00-correspondence-studio/reactProse.js';
-import { useEffect, useId, useRef, type ReactNode } from 'react';
+import {
+  CorrespondenceDisplayLine,
+  CorrespondenceProse,
+  displayLineEndsWithSplitMark,
+} from '../../../shared/site00-correspondence-studio/reactProse.js';
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
+import { createPortal } from 'react-dom';
+import { DfButton, DfLoadingState, DfSheetRow } from './components';
 import { DfIcon, type DfIconName } from './icons';
-import { DfCornerFragment, DfCrownObject, DfThresholdHero } from './objects';
-import { DF_VIEW_META, DF_VIEW_ORDER, type DfView } from './model';
+import { DF_ARCHITECTURE_RENDERS } from './objects';
+import {
+  buildDfMenu,
+  DF_VIEW_META,
+  type DfMenuDestinationId,
+  type DfMenuStepState,
+  type DfView,
+} from './model';
 
 export type DfObjectKind = 'hero' | 'crown' | 'corner' | 'none';
 
@@ -23,8 +35,14 @@ export function DfHeader({ onMenu, menuOpen }: { onMenu?: () => void; menuOpen?:
           aria-controls="df-menu"
           onClick={onMenu}
         >
-          <span />
-          <span />
+          <img
+            className="df-header__menu-icon"
+            src="/site00/idnty/digital-foundation/menu-icon.png"
+            alt=""
+            width={28}
+            height={13}
+            decoding="async"
+          />
         </button>
       )}
     </header>
@@ -45,12 +63,16 @@ export function DfRail({ index, label }: { index: string; label: string }) {
 export function DfHeadline({ lines, id }: { lines: string[]; id?: string }) {
   return (
     <h1 className="df-headline" id={id}>
-      {lines.map((line, i) => (
-        <span key={i} className="df-headline__line">
-          <CorrespondenceDisplay>{line}</CorrespondenceDisplay>
-          {i === lines.length - 1 && <span className="df-headline__period">.</span>}
-        </span>
-      ))}
+      {lines.map((line, i) => {
+        const isLast = i === lines.length - 1;
+        const terminalMark = displayLineEndsWithSplitMark(line);
+        return (
+          <span key={i} className="df-headline__line">
+            <CorrespondenceDisplayLine line={line} />
+            {isLast && !terminalMark ? <span className="df-headline__period">.</span> : null}
+          </span>
+        );
+      })}
     </h1>
   );
 }
@@ -63,6 +85,7 @@ export function DfLede({ children }: { children: ReactNode }) {
   );
 }
 
+/** Primary/secondary/text action (DF-C06). Thin alias over the shared `DfButton`. */
 export function DfCta({
   label,
   onClick,
@@ -71,6 +94,7 @@ export function DfCta({
   busyLabel,
   type = 'button',
   tone = 'red',
+  action,
 }: {
   label: string;
   onClick?: () => void;
@@ -78,20 +102,20 @@ export function DfCta({
   busy?: boolean;
   busyLabel?: string;
   type?: 'button' | 'submit';
-  tone?: 'red' | 'outline';
+  tone?: 'red' | 'outline' | 'text';
+  action?: string;
 }) {
   return (
-    <button
-      type={type}
-      className={`df-cta df-cta--${tone}`}
+    <DfButton
+      label={label}
       onClick={onClick}
-      disabled={disabled || busy}
-      aria-busy={busy || undefined}
-      data-busy={busy ? '1' : undefined}
-    >
-      <span>{busy ? busyLabel ?? label : label}</span>
-      {!busy && <DfIcon name="arrow" className="df-cta__arrow" />}
-    </button>
+      disabled={disabled}
+      busy={busy}
+      busyLabel={busyLabel}
+      type={type}
+      tone={tone === 'red' ? 'primary' : tone === 'outline' ? 'secondary' : 'text'}
+      action={action}
+    />
   );
 }
 
@@ -99,9 +123,7 @@ export function DfTrust({ text, aside }: { text: string; aside?: ReactNode }) {
   return (
     <div className="df-trust">
       <DfIcon name="lock" className="df-trust__lock" />
-      <span className="df-trust__text">
-        <CorrespondenceProse>{text}</CorrespondenceProse>
-      </span>
+      <span className="df-trust__text">{text}</span>
       {aside && <span className="df-trust__aside">{aside}</span>}
     </div>
   );
@@ -133,66 +155,165 @@ export function DfAlert({
   return (
     <div className={`df-alert df-alert--${tone}`} role={role}>
       <DfIcon name={icon} className="df-alert__icon" />
-      <div className="df-alert__body">
-        <CorrespondenceProse>{children}</CorrespondenceProse>
-      </div>
+      <div className="df-alert__body">{children}</div>
     </div>
   );
 }
 
-/** Bottom sheet for children that are not full screens (DF-C45). */
-export function DfSheet({
-  open,
-  title,
-  onClose,
-  children,
-  footer,
-}: {
-  open: boolean;
-  title: string;
-  onClose: () => void;
-  children: ReactNode;
-  footer?: ReactNode;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const titleId = useId();
+const DRAWER_EXIT_MS = 220;
+const DRAWER_FOCUSABLE = 'button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])';
+
+const STEP_STATUS: Record<DfMenuStepState, string | null> = {
+  current: 'CURRENT STEP',
+  open: null,
+  done: 'COMPLETE',
+  locked: 'LOCKED',
+};
+
+const DESTINATION_ICON: Record<DfMenuDestinationId, DfIconName> = {
+  overview: 'overview',
+  roadmap: 'roadmap',
+  needs_you: 'needsYou',
+  records: 'folder',
+  comm_prefs: 'message',
+  location: 'pin',
+};
+
+function prefersReducedMotion(): boolean {
+  return typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches === true;
+}
+
+/** Right-side navigation drawer (DF-C48). Portaled to `body`, so it carries its own `df-drawer` scope. */
+function DfDrawer({ open, onClose, children }: { open: boolean; onClose: () => void; children: ReactNode }) {
+  const [mounted, setMounted] = useState(open);
+  const hostRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const onCloseRef = useRef(onClose);
+  onCloseRef.current = onClose;
+
   useEffect(() => {
-    if (!open) return undefined;
+    if (open) {
+      setMounted(true);
+      return undefined;
+    }
+    if (prefersReducedMotion()) {
+      setMounted(false);
+      return undefined;
+    }
+    const t = window.setTimeout(() => setMounted(false), DRAWER_EXIT_MS);
+    return () => window.clearTimeout(t);
+  }, [open]);
+
+  const active = open && mounted;
+
+  useEffect(() => {
+    if (!active) return undefined;
     const prev = document.activeElement as HTMLElement | null;
-    ref.current?.focus();
+    closeRef.current?.focus({ preventScroll: true });
+    document.body.classList.add('df-drawer-open');
+    const inerted: Element[] = [];
+    for (const el of Array.from(document.body.children)) {
+      if (el === hostRef.current || el.hasAttribute('inert')) continue;
+      el.setAttribute('inert', '');
+      inerted.push(el);
+    }
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        onCloseRef.current();
+        return;
+      }
+      if (e.key !== 'Tab' || !panelRef.current) return;
+      const items = Array.from(panelRef.current.querySelectorAll<HTMLElement>(DRAWER_FOCUSABLE));
+      if (!items.length) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (e.shiftKey && (document.activeElement === first || !panelRef.current.contains(document.activeElement))) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     };
     window.addEventListener('keydown', onKey);
     return () => {
       window.removeEventListener('keydown', onKey);
-      prev?.focus?.();
+      for (const el of inerted) el.removeAttribute('inert');
+      document.body.classList.remove('df-drawer-open');
+      prev?.focus?.({ preventScroll: true });
     };
-  }, [open, onClose]);
-  if (!open) return null;
-  return (
-    <div className="df-sheet" role="presentation" onClick={onClose}>
-      <div
-        ref={ref}
-        className="df-sheet__panel"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby={titleId}
-        tabIndex={-1}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="df-sheet__head">
-          <h2 id={titleId} className="df-sheet__title">
-            {title}
-          </h2>
-          <button type="button" className="df-sheet__close" aria-label="CLOSE" onClick={onClose}>
+  }, [active]);
+
+  if (!mounted) return null;
+
+  const drawer = (
+    <div ref={hostRef} className="df-drawer" data-state={open ? 'open' : 'closed'}>
+      <div className="df-drawer__backdrop" aria-hidden="true" onClick={onClose} />
+      <div ref={panelRef} className="df-drawer__panel" role="dialog" aria-modal="true" aria-label="DIGITAL FOUNDATION MENU">
+        <div className="df-drawer__head">
+          <div className="df-drawer__brand">
+            <span className="df-drawer__mark">SITE 00</span>
+            <span className="df-drawer__product">DIGITAL FOUNDATION</span>
+          </div>
+          <button ref={closeRef} type="button" className="df-drawer__close" aria-label="CLOSE MENU" onClick={onClose}>
             <DfIcon name="close" />
           </button>
         </div>
-        <div className="df-sheet__body">{children}</div>
-        {footer && <div className="df-sheet__foot">{footer}</div>}
+        <div className="df-drawer__scroll">{children}</div>
       </div>
     </div>
+  );
+
+  return typeof document !== 'undefined' ? createPortal(drawer, document.body) : drawer;
+}
+
+/** Scope that used to live in the bottom MORE INFORMATION sheet. The menu owns it now. */
+const FOUNDATION_MENU_INFO: { icon: DfIconName; title: string; sub: string; tag: string; detail?: string }[] = [
+  { icon: 'globe', title: 'DOMAIN & OWNERSHIP', sub: 'REGISTER, TRANSFER OR CONNECT YOUR DOMAIN', tag: 'INCLUDED · CONFIGURABLE', detail: 'THE DOMAIN IS REGISTERED IN YOUR NAME. YOU OWN IT.' },
+  {
+    icon: 'envelope',
+    title: 'PROFESSIONAL EMAIL',
+    sub: 'BUSINESS MAILBOX, ALIASES AND CONFIGURATION',
+    tag: 'CORE · INCLUDED',
+    detail: 'ONE MAILBOX IS INCLUDED. EACH ADDITIONAL MAILBOX IS A PAID ADD-ON.',
+  },
+  { icon: 'layers', title: 'EMAIL ALIASES', sub: 'INFO@, BILLING@, ETC.', tag: 'CORE · INCLUDED' },
+  { icon: 'shield', title: 'EMAIL SECURITY', sub: 'SPF, DKIM, DMARC SETUP', tag: 'CORE · INCLUDED' },
+  { icon: 'document', title: 'EMAIL SIGNATURE', sub: 'PROFESSIONAL SIGNATURE DESIGN AND SETUP', tag: 'CORE · INCLUDED' },
+  { icon: 'phone', title: 'DEVICE SETUP', sub: 'ONE DEVICE INCLUDED · ADD YOUR TEAM', tag: 'INCLUDED · CONFIGURABLE' },
+  {
+    icon: 'swap',
+    title: 'EMAIL MIGRATION',
+    sub: 'MOVE FROM EXISTING PROVIDER',
+    tag: 'PAID ADD-ON · MANUAL REVIEW',
+    detail: 'SITE 00 CONFIRMS MIGRATION SCOPE AND PRICING BEFORE CHECKOUT.',
+  },
+];
+
+function DfMenuInformation() {
+  const [open, setOpen] = useState<string | null>(null);
+  return (
+    <section className="df-drawer__info" aria-label="MORE INFORMATION">
+      <h2 className="df-drawer__info-title">MORE INFORMATION</h2>
+      <p className="df-drawer__info-summary">DOMAIN, EMAIL, SECURITY AND MORE</p>
+      <ul className="df-srows">
+        {FOUNDATION_MENU_INFO.map((row) => (
+          <DfSheetRow
+            key={row.title}
+            icon={row.icon}
+            title={row.title}
+            description={row.sub}
+            tag={row.tag}
+            expanded={open === row.title}
+            onToggle={() => setOpen(open === row.title ? null : row.title)}
+          >
+            {row.detail && <span>{row.detail}</span>}
+          </DfSheetRow>
+        ))}
+      </ul>
+    </section>
   );
 }
 
@@ -207,70 +328,87 @@ export function DfMenu({
   onClose: () => void;
   views: DfView[];
   current: DfView | null;
-  onNavigate: (v: DfView) => void;
+  onNavigate: (v: DfView, anchor?: string) => void;
 }) {
+  const { steps, destinations } = buildDfMenu(views, current);
   return (
-    <DfSheet open={open} title="YOUR FOUNDATION" onClose={onClose}>
-      <nav id="df-menu" aria-label="DIGITAL FOUNDATION">
-        <ol className="df-menu">
-          {DF_VIEW_ORDER.filter((v) => v !== 'OVERVIEW' || views.includes('OVERVIEW')).map((v) => {
-            const meta = DF_VIEW_META[v];
-            const enabled = views.includes(v);
+    <DfDrawer open={open} onClose={onClose}>
+      <nav id="df-menu" className="df-drawer__nav" aria-label="DIGITAL FOUNDATION">
+        <ol className="df-drawer__steps">
+          {steps.map((s) => {
+            const enabled = s.state === 'current' || s.state === 'open';
+            const status = STEP_STATUS[s.state];
             return (
-              <li key={v}>
+              <li key={s.view}>
                 <button
                   type="button"
-                  className="df-menu__item"
-                  disabled={!enabled}
-                  aria-current={current === v ? 'step' : undefined}
+                  className={`df-drawer__step df-drawer__step--${s.state}`}
+                  aria-disabled={enabled ? undefined : true}
+                  aria-current={s.state === 'current' ? 'step' : undefined}
                   onClick={() => {
-                    onNavigate(v);
+                    if (!enabled) return;
+                    onNavigate(s.view);
                     onClose();
                   }}
                 >
-                  <span className="df-menu__index">{meta.index}</span>
-                  <span className="df-menu__label">{meta.label}</span>
+                  <span className="df-drawer__index">{s.index}</span>
+                  <span className="df-drawer__connector" aria-hidden="true" />
+                  <span className="df-drawer__label">
+                    {s.label}
+                    {status && <span className="df-visually-hidden">, {status}</span>}
+                  </span>
+                  <DfIcon
+                    name={s.state === 'locked' ? 'lock' : s.state === 'done' ? 'check' : 'arrow'}
+                    className="df-drawer__glyph"
+                  />
                 </button>
               </li>
             );
           })}
         </ol>
+        <ul className="df-drawer__places">
+          {destinations.map((d) => (
+            <li key={d.id}>
+              <button
+                type="button"
+                className={`df-drawer__place${d.available ? '' : ' df-drawer__place--locked'}`}
+                aria-disabled={d.available ? undefined : true}
+                aria-current={d.current ? 'page' : undefined}
+                onClick={() => {
+                  if (!d.available || !d.view) return;
+                  onNavigate(d.view, d.anchor);
+                  onClose();
+                }}
+              >
+                <DfIcon name={DESTINATION_ICON[d.id]} className="df-drawer__place-icon" />
+                <span className="df-drawer__label">
+                  {d.label}
+                  {d.status && <span className="df-drawer__status">{d.status}</span>}
+                </span>
+                <DfIcon name={d.available ? 'arrow' : 'lock'} className="df-drawer__glyph" />
+              </button>
+            </li>
+          ))}
+        </ul>
+        <DfMenuInformation />
       </nav>
-      <p className="df-menu__note">
-        <CorrespondenceProse>THIS LINK IS PERSONAL TO YOUR BUSINESS. PLEASE DON&apos;T SHARE IT.</CorrespondenceProse>
-      </p>
-    </DfSheet>
+      <div className="df-drawer__foot">
+        <span className="df-drawer__foot-rule" aria-hidden="true" />
+        <p className="df-drawer__foot-text">
+          SECURE.
+          <br />
+          GUIDED.
+          <br />
+          DONE FOR YOU.
+        </p>
+      </div>
+    </DfDrawer>
   );
 }
 
-function ObjectSlot({ kind, variant }: { kind: DfObjectKind; variant: DfView | null }) {
-  if (kind === 'none') return null;
-  if (kind === 'hero') return null;
-  if (kind === 'crown') {
-    return (
-      <>
-        <div className="df-object df-object--crown" aria-hidden="true">
-          <DfCrownObject variant={variant === 'P05' || variant === 'P06' || variant === 'OVERVIEW' ? variant : 'P04'} />
-        </div>
-        <div className="df-object df-object--corner" aria-hidden="true">
-          <DfCornerFragment />
-        </div>
-      </>
-    );
-  }
-  return (
-    <div className="df-object df-object--corner" aria-hidden="true">
-      <DfCornerFragment />
-    </div>
-  );
-}
-
+/** Clear window in the P01 column so the chamber on the full plate stays visible between the lede and the triad. */
 export function DfHeroObject() {
-  return (
-    <div className="df-object df-object--hero" aria-hidden="true">
-      <DfThresholdHero />
-    </div>
-  );
+  return <div className="df-object df-object--hero" aria-hidden="true" />;
 }
 
 /** One parent screen: header, rail, content column, footer, threshold object. */
@@ -291,9 +429,14 @@ export function DfFrame({
   state?: string;
 }) {
   const meta = view ? DF_VIEW_META[view] : null;
+  const plate = object === 'none' ? null : DF_ARCHITECTURE_RENDERS[object];
   return (
-    <div className={`df-screen df-screen--${object}`} data-view={view ?? 'SYSTEM'} data-state={state}>
-      <ObjectSlot kind={object} variant={view} />
+    <div
+      className={`df-screen df-screen--${object}`}
+      data-view={view ?? 'SYSTEM'}
+      data-state={state}
+      style={plate ? ({ '--df-plate': `url("${plate}")` } as CSSProperties) : undefined}
+    >
       <DfHeader onMenu={onMenu} menuOpen={menuOpen} />
       <div className="df-screen__grid">
         <main className="df-screen__main">{children}</main>
@@ -331,17 +474,9 @@ export function DfSystemPanel({
 export function DfLoading() {
   return (
     <div className="df-root">
-    <DfFrame view={null} object="none" state="LOADING">
-      <div className="df-skeleton" role="status" aria-live="polite">
-        <span className="df-skeleton__rail" />
-        <span className="df-skeleton__line df-skeleton__line--xl" />
-        <span className="df-skeleton__line df-skeleton__line--xl" />
-        <span className="df-skeleton__line df-skeleton__line--lg" />
-        <span className="df-skeleton__line" />
-        <span className="df-skeleton__line" />
-        <span className="df-visually-hidden">LOADING YOUR DIGITAL FOUNDATION</span>
-      </div>
-    </DfFrame>
+      <DfFrame view={null} object="none" state="LOADING">
+        <DfLoadingState label="LOADING YOUR DIGITAL FOUNDATION…" block />
+      </DfFrame>
     </div>
   );
 }
