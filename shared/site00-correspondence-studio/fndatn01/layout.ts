@@ -149,8 +149,9 @@ export function mast(opts: MastOpts): string {
 </tr></table>
 </td></tr>
 </table>`);
-  return `<div style="display:none;max-height:0;overflow:hidden;mso-hide:all;font-size:1px;line-height:1px;color:#ffffff">${esc(opts.preheader)}${PREHEADER_PAD}</div>
-${desk}
+  // The hidden preheader rides inside the masthead table (first text in the message, one content block in the studio).
+  const pre = `<div style="display:none;max-height:0;overflow:hidden;mso-hide:all;font-size:1px;line-height:1px;color:#ffffff">${esc(opts.preheader)}${PREHEADER_PAD}</div>`;
+  return `${desk.replace('<tr>\n<td valign="middle" style="padding:9px 0 9px 25px">', `<tr>\n<td valign="middle" style="padding:9px 0 9px 25px">${pre}`)}
 ${mob}`;
 }
 
@@ -422,7 +423,7 @@ ${side(strips.right, strips.rightAlt)}
 
 export function mobileAct(cta: { label: string; url: string; caption: string }, opts: { color?: string } = {}): string {
   return mobileOnly(`<table class="act mob-only" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="display:none;max-height:0;overflow:hidden;width:100%;background:#ffffff">
-<tr><td style="padding:18px 20px 20px" align="center">${button(cta.label, cta.url, { width: 350, color: opts.color })}${caption(cta.caption)}</td></tr>
+<tr><td style="padding:18px 20px 20px" align="center">${button(cta.label, cta.url, { width: 350, color: opts.color })}${cta.caption ? caption(cta.caption) : ''}</td></tr>
 </table>`);
 }
 

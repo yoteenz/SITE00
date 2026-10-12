@@ -382,9 +382,9 @@ export function compose04(asset: AssetResolver, d: Data04): Composition {
         ),
       }),
       mobileHero(asset, slug, mobileCopy, {
-        height: active ? 360 : 300,
+        height: active ? 262 : 196,
         alt: 'Limestone and red glass architecture above the coast.',
-        fit: { zone: active ? 340 : 280, padTop: 22, head: 36, body: 9.5, textWidth: 250 },
+        fit: { zone: active ? 252 : 186, padTop: 22, head: 36, body: 9.5, textWidth: 250 },
       }),
       receipt,
       deskBand(asset, 'WHAT HAPPENS NEXT', next, { titleWidth: 170 }),
@@ -395,7 +395,7 @@ export function compose04(asset: AssetResolver, d: Data04): Composition {
         leftAlt: STRIP_ALT.glass,
         rightAlt: 'Red glass architecture with the words people, ideas, systems, foundations, reality.',
       }),
-      mobileAct(cta),
+      mobileAct({ label: 'OPEN YOUR PROJECT', url: d.foundationUrl, caption: '' }),
       foot({
         mobile: {
           line1: "ARCHITECTURE FOR WHAT'S NEXT",
