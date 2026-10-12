@@ -16513,8 +16513,16 @@ Summary of the whole conversation in this chat.
 
 ---
 
+## 2026-10-12 — BLDR Blueprint uppercase body + stable 3D option thumbnails
+
+- **Founder report:** Blueprint overview body still mixed case; red correspondence comma marks in body (e.g. unreachable blocker); 3D selection cards flickering / blank on mobile.
+- **Cause:** `CorrespondenceProse` on all `BsProse` body copy; `rangeNote` and `LEVEL_DESCRIPTOR` sentence case; thumbnails re-rendered from empty state and competed with live WebGL; `setComposition` re-ran on every new object reference.
+- **Fix:** `text-transform: uppercase` on `.bs-root`; plain `BsBody` for blueprint/room body (headlines still `CorrespondenceDisplayLine`); uppercase descriptors at source; thumbnail sync cache + `scheduleBuildThumbnail` queue; skip `setComposition` when key unchanged; WebGL context-loss rebuild. PR **#1634** merged to `main`.
+
+---
+
 ## 2026-10-12 — BLDR realism CI fix (Production Release test job)
 
 - **Founder report:** GitHub **SITE 00 Production Release / test** failed on `bldrMonumentRealismV2` (`expected … to contain 'Painted glass, not transmission'`).
 - **Cause:** Hybrid spatial studio rewrite (`e32e67e2`) replaced `buildObject/engine.ts` and simplified `composition.ts` without the V2 realism opt-in (`?realism=v2`, PLACE·ADVANCED monument, painted-glass default).
-- **Fix:** Branch `cursor/fix-bldr-realism-ci-a9f7` restores integrated `engine.ts`, `BuildObjectStage.tsx`, and full `composition.ts` from realism V2 benchmark baseline (`3cd487e2`). `bldrMonumentRealism*.test.ts` + `composition.test.ts` green locally.
+- **Fix:** Branch `cursor/fix-bldr-realism-ci-a9f7` restores integrated `engine.ts`, `BuildObjectStage.tsx`, and full `composition.ts` from realism V2 benchmark baseline (`3cd487e2`). Merge with **#1634** keeps thumbnail cache/queue + uppercase blueprint body. `bldrMonumentRealism*.test.ts` + `composition.test.ts` green locally.

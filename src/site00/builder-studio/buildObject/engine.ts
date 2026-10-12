@@ -1059,6 +1059,7 @@ export function createBuildObjectEngine(
 
   return {
     setComposition(next) {
+      if (composition !== null && composition.key === next.key) return;
       const now = performance.now();
       const first = composition === null;
       const changed = composition?.key !== next.key;
@@ -1143,6 +1144,7 @@ export function createBuildObjectEngine(
       canvas.removeEventListener('pointermove', onMove);
       canvas.removeEventListener('pointerup', onUp);
       canvas.removeEventListener('pointercancel', onUp);
+      canvas.removeEventListener('webglcontextlost', onContextLost);
       scene.environment?.dispose();
       for (const material of Object.values(materials.surface)) {
         const physical = material as THREE.MeshPhysicalMaterial;
@@ -1173,21 +1175,48 @@ let thumbRenderer: THREE.WebGLRenderer | null = null;
 let thumbScene: THREE.Scene | null = null;
 let thumbMaterials: MaterialSet | null = null;
 const thumbCache = new Map<string, string>();
+let thumbRenderTail: Promise<void> = Promise.resolve();
+
+export function buildThumbnailCacheKey(composition: BuildComposition, width: number, height: number): string {
+  return `${composition.key}@${width}x${height}`;
+}
+
+export function getCachedBuildThumbnail(composition: BuildComposition, width: number, height: number): string | null {
+  return thumbCache.get(buildThumbnailCacheKey(composition, width, height)) ?? null;
+}
+
+/** One offscreen still at a time so option cards do not fight the live stage for the GPU. */
+export function scheduleBuildThumbnail(composition: BuildComposition, width: number, height: number): Promise<string | null> {
+  const cached = getCachedBuildThumbnail(composition, width, height);
+  if (cached) return Promise.resolve(cached);
+  const run = () => renderBuildThumbnail(composition, width, height);
+  const job = thumbRenderTail.then(run, run);
+  thumbRenderTail = job.then(
+    () => undefined,
+    () => undefined,
+  );
+  return job;
+}
 
 /**
  * Renders a composition still to a data URL using one shared offscreen context, so every option card shows the
  * same object the stage shows rather than an unrelated illustration.
  */
 export function renderBuildThumbnail(composition: BuildComposition, width: number, height: number): string | null {
-  const cacheKey = `${composition.key}@${width}x${height}`;
+  const cacheKey = buildThumbnailCacheKey(composition, width, height);
   const cached = thumbCache.get(cacheKey);
   if (cached) return cached;
   try {
     if (!thumbRenderer) {
       // Transparent, like the stage: the card frame carries the room's photographic plate behind the still.
-      thumbRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
+      thumbRenderer = new THREE.WebGLRenderer({
+        antialias: true,
+        alpha: true,
+        preserveDrawingBuffer: true,
+        powerPreference: 'low-power',
+      });
       thumbRenderer.setClearColor(0x000000, 0);
-      thumbRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      thumbRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
       thumbRenderer.outputColorSpace = THREE.SRGBColorSpace;
       thumbRenderer.toneMapping = THREE.NeutralToneMapping;
       thumbRenderer.toneMappingExposure = 1.02;
