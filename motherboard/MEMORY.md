@@ -16543,3 +16543,12 @@ Summary of the whole conversation in this chat.
 - **Cause:** `portalViewsForPayload()` expanded when `SITE00_DIGITAL_FOUNDATION_PROJECT_PORTAL_V2` is on (default); board 01/02 test still asserted pre-v2 list. Related stale assertions: client CSS now includes review `.df-sheet__panel` / `.df-confirm`; icon stroke test still expected removed `stroke-width: 1.65`.
 - **Fix:** PR branch `cursor/fix-df-portal-route-test-be3b` — board test uses `['P06', ...portalViewsForPayload(paid)]`; components test guards duplicate modal/toast stacks only; icon test checks `.df-cta__arrow` stroke 1.25 and no 0.15 hairline.
 - **Verified:** `npm test -- tests/digitalFoundation` — 19 files green.
+
+---
+
+## 2026-10-12 — Production Release CI: `npm run build` blocked on BLDR studio TS
+
+- **Founder report:** **Production Release / test** failed in `site00FounderWorkspaceSprintB59R8R1.test.ts` test 9 — `execSync('npm run build')` exit 1.
+- **Cause:** `useStudioSession` frozen (design-review) branch replaced `intakeSync` with a partial object missing `ensureStarted` / `requestGuestAccess`; TypeScript union broke `BlueprintRoom.tsx` and `useStudioSession.ts` (`tsc --noEmit` before Vite).
+- **Fix:** `REVIEW_INTAKE_SYNC_STUB` implements full `UseIntakeSyncResult` with no-op async methods; merged via PR to `main`.
+- **Verified:** `npm run build` green; founder workspace test 9 (verify-projects-index-bundle) passes.
