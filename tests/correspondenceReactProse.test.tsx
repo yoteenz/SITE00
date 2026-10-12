@@ -2,8 +2,10 @@ import { describe, expect, it } from 'vitest';
 import { renderToStaticMarkup } from 'react-dom/server';
 import {
   CorrespondenceDisplay,
+  CorrespondenceDisplayLine,
   CorrespondenceProse,
   correspondenceProseString,
+  displayLineEndsWithSplitMark,
 } from '../shared/site00-correspondence-studio/reactProse.js';
 
 describe('CorrespondenceProse (live pages)', () => {
@@ -11,6 +13,14 @@ describe('CorrespondenceProse (live pages)', () => {
     const html = renderToStaticMarkup(<CorrespondenceProse>DOMAIN, EMAIL</CorrespondenceProse>);
     expect(html).toContain('marks/comma.png');
     expect(html).not.toMatch(/>DOMAIN,/);
+  });
+
+  it('treats ? and ! as terminal split marks (no extra period)', () => {
+    expect(displayLineEndsWithSplitMark('IT FEEL?')).toBe(true);
+    expect(displayLineEndsWithSplitMark('YOUR BLUEPRINT')).toBe(false);
+    const html = renderToStaticMarkup(<CorrespondenceDisplayLine line="IT FEEL?" />);
+    expect(html).toContain('correspondence-split-mark');
+    expect(html).not.toContain('correspondence-split-mark__top">?</span></span><span class="bs-dot');
   });
 
   it('colors display punctuation red', () => {

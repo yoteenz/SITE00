@@ -84,3 +84,31 @@ function mapDisplayChild(child: ReactNode, key: number): ReactNode {
 export function CorrespondenceDisplay({ children }: { children: ReactNode }) {
   return <>{Children.map(children, (child, i) => mapDisplayChild(child, i))}</>;
 }
+
+/** True when a display headline line already ends with ? or ! (no separate red period). */
+export function displayLineEndsWithSplitMark(line: string): boolean {
+  return /[!?]$/.test(line.trimEnd());
+}
+
+function SplitBangQuestion({ ch }: { ch: '!' | '?' }) {
+  return (
+    <span className="correspondence-split-mark" aria-hidden="true">
+      <span className="correspondence-split-mark__top">{ch}</span>
+      <span className="correspondence-split-mark__bottom">{ch}</span>
+    </span>
+  );
+}
+
+/** Display headline line: red comma/semicolon/asterisk in-line; ? and ! use black stem + red dot (symbol sheet). */
+export function CorrespondenceDisplayLine({ line }: { line: string }) {
+  const m = line.match(/^(.*?)([!?])$/);
+  if (m?.[1] !== undefined && m[2]) {
+    return (
+      <>
+        {correspondenceDisplayString(m[1])}
+        <SplitBangQuestion ch={m[2] as '!' | '?'} />
+      </>
+    );
+  }
+  return <>{correspondenceDisplayString(line)}</>;
+}

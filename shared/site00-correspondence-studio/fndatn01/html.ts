@@ -107,13 +107,35 @@ export function displayText(text: string): string {
   return out;
 }
 
+/** ? and ! — black stem, red bottom dot (symbol sheet). */
+function displaySplitBangQuestion(ch: '!' | '?'): string {
+  const safe = esc(ch);
+  return `<span style="position:relative;display:inline-block;line-height:1"><span style="position:absolute;left:0;top:0;color:${T.ink};clip-path:inset(0 0 42% 0);-webkit-clip-path:inset(0 0 42% 0)">${safe}</span><span style="color:${T.red};clip-path:inset(58% 0 0 0);-webkit-clip-path:inset(58% 0 0 0)">${safe}</span></span>`;
+}
+
+function displayLineHtml(line: string): string {
+  const m = line.match(/^(.*?)([!?])$/);
+  if (m?.[1] !== undefined && m[2]) {
+    return `${displayText(m[1])}${displaySplitBangQuestion(m[2] as '!' | '?')}`;
+  }
+  return displayText(line);
+}
+
+function displayHeadlineTerminalDot(lines: string[]): string {
+  const last = lines[lines.length - 1]?.trimEnd() ?? '';
+  return /[!?]$/.test(last) ? '' : `<span class="keep-red" style="color:${T.red}">.</span>`;
+}
+
 export function headline(lines: string[], size = 44, extraClass = ''): string {
-  const body = lines.map((line) => displayText(line)).join('<br>');
-  return `<h1 class="keep-ink ${extraClass}" style="margin:0;font-family:${FONT_DISPLAY};font-weight:900;font-size:${size}px;line-height:${Math.round(size * 1.02)}px;letter-spacing:0;color:${T.ink};text-transform:uppercase;mso-line-height-rule:exactly">${body}<span class="keep-red" style="color:${T.red}">.</span></h1>`;
+  const body = lines
+    .map((line, i) => (i === lines.length - 1 ? displayLineHtml(line) : displayText(line)))
+    .join('<br>');
+  return `<h1 class="keep-ink ${extraClass}" style="margin:0;font-family:${FONT_DISPLAY};font-weight:900;font-size:${size}px;line-height:${Math.round(size * 1.02)}px;letter-spacing:0;color:${T.ink};text-transform:uppercase;mso-line-height-rule:exactly">${body}${displayHeadlineTerminalDot(lines)}</h1>`;
 }
 
 export function sectionTitle(text: string, size = 30): string {
-  return `<h2 class="keep-ink" style="margin:0;font-family:${FONT_DISPLAY};font-weight:900;font-size:${size}px;line-height:${Math.round(size * 1.02)}px;letter-spacing:0;color:${T.ink};text-transform:uppercase">${displayText(text)}<span class="keep-red" style="color:${T.red}">.</span></h2>`;
+  const terminal = /[!?]$/.test(text.trimEnd()) ? '' : `<span class="keep-red" style="color:${T.red}">.</span>`;
+  return `<h2 class="keep-ink" style="margin:0;font-family:${FONT_DISPLAY};font-weight:900;font-size:${size}px;line-height:${Math.round(size * 1.02)}px;letter-spacing:0;color:${T.ink};text-transform:uppercase">${displayLineHtml(text)}${terminal}</h2>`;
 }
 
 export function kicker(text: string): string {
