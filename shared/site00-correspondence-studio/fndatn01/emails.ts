@@ -133,6 +133,7 @@ ${[
         preheader: "BEFORE WE BUILD, WE'D LIKE TO LEARN HOW YOU WORK.",
         line1: 'TRANSACTIONAL · DIGITAL FOUNDATION',
         line2: "ARCHITECTURE FOR WHAT'S NEXT",
+        rule: true,
       }),
       desktopHero(asset, slug, copy, {
         column: 285,
@@ -203,7 +204,7 @@ export function compose02(asset: AssetResolver, d: Data02): Composition {
     preheader: "OUR TEAM IS NOW REVIEWING IT. YOU'LL HEAR FROM US SOON WITH NEXT STEPS.",
     label: 'Digital Foundation intake received',
     blocks: [
-      mast({ preheader: "OUR TEAM IS NOW REVIEWING IT. YOU'LL HEAR FROM US SOON WITH NEXT STEPS.", line1: 'DIGITAL FOUNDATION', line2: 'CLIENT INTAKE' }),
+      mast({ preheader: "OUR TEAM IS NOW REVIEWING IT. YOU'LL HEAR FROM US SOON WITH NEXT STEPS.", line1: 'DIGITAL FOUNDATION', line2: 'CLIENT INTAKE', rule: true }),
       desktopHero(asset, slug, copy, {
         column: 300,
         alt: 'Intake confirmation card on a marble ledge before a city skyline, a crystal and a red maple nearby.',
@@ -255,6 +256,7 @@ export function compose03(asset: AssetResolver, d: Data03): Composition {
         preheader: `A TAILORED DIGITAL FOUNDATION PLAN AND QUOTE FOR YOUR REVIEW. VALID UNTIL ${d.validUntil}.`,
         line1: 'TRANSACTIONAL · DIGITAL FOUNDATION',
         line2: 'RECOMMENDATION & QUOTE',
+        mobileLines: ['DIGITAL FOUNDATION', 'RECOMMENDATION & QUOTE'],
       }),
       desktopHero(asset, slug, copy, {
         column: 285,
@@ -355,7 +357,12 @@ export function compose04(asset: AssetResolver, d: Data04): Composition {
     preheader: pre,
     label: 'Digital Foundation payment received',
     blocks: [
-      mast({ preheader: pre, line1: 'TRANSACTIONAL · DIGITAL FOUNDATION', line2: 'PAYMENT RECEIPT' }),
+      mast({
+        preheader: pre,
+        line1: 'TRANSACTIONAL · DIGITAL FOUNDATION',
+        line2: 'PAYMENT RECEIPT',
+        mobileLines: ['TRANSACTIONAL', 'DIGITAL FOUNDATION', "ARCHITECTURE FOR WHAT'S NEXT"],
+      }),
       desktopHero(asset, slug, copy, {
         column: 250,
         alt: 'Payment receipt card with a red PAID seal on a limestone ledge above the sea.',
@@ -379,7 +386,14 @@ export function compose04(asset: AssetResolver, d: Data04): Composition {
         rightAlt: 'Red glass architecture with the words people, ideas, systems, foundations, reality.',
       }),
       mobileAct(cta),
-      foot("ARCHITECTURE FOR WHAT'S NEXT", 'IDEAS · SYSTEMS · PEOPLE · REALITY'),
+      foot({
+        mobile: {
+          line1: "ARCHITECTURE FOR WHAT'S NEXT",
+          line2: 'IDEAS · SYSTEMS · PEOPLE · REALITY',
+          classification: ['TRANSACTIONAL', 'SERVICE NOTICE', 'NO MARKETING', 'UNSUBSCRIBE'],
+          stroke: true,
+        },
+      }),
     ],
   };
 }
@@ -416,7 +430,12 @@ export function compose05(asset: AssetResolver, d: Data05): Composition {
     preheader: 'EVERYTHING YOU NEED IS SET UP AND READY.',
     label: 'Digital Foundation complete',
     blocks: [
-      mast({ preheader: 'EVERYTHING YOU NEED IS SET UP AND READY.', line1: 'DIGITAL FOUNDATION', line2: 'ORDER COMPLETE & DELIVERED' }),
+      mast({
+        preheader: 'EVERYTHING YOU NEED IS SET UP AND READY.',
+        line1: 'DIGITAL FOUNDATION',
+        line2: 'ORDER COMPLETE',
+        mobileLines: ['DIGITAL FOUNDATION', 'ORDER COMPLETE & DELIVERED'],
+      }),
       desktopHero(asset, slug, copy, { column: 270, alt: 'Marble gift box tied with a red ribbon and wax seal on a limestone terrace above the sea.' }),
       mobileHero(asset, slug, copy, {
         height: 390,

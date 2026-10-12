@@ -74,30 +74,84 @@ export function inboxBlock(from: string, subject: string, preheader: string, not
 
 const PREHEADER_PAD = '&#847;&zwnj;&nbsp;'.repeat(24);
 
-export function mast(opts: { preheader: string; line1: string; line2: string; mobileLine2?: string }): string {
-  const list = ['IDEAS', 'SYSTEMS', 'FOUNDATIONS', 'REALITY'].join('<br>');
-  return `<table class="mast" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%;background:#ffffff">
-<tr><td style="padding:0">
-<div style="display:none;max-height:0;overflow:hidden;mso-hide:all;font-size:1px;line-height:1px;color:#ffffff">${esc(opts.preheader)}${PREHEADER_PAD}</div>
+type MicroStyle = { size: number; lh: number; color: string; track: number; weight?: number };
+
+/** One line of masthead / footer microcopy, as its own block so its leading is exact (no 16 px strut). */
+function micro(text: string, o: MicroStyle): string {
+  return `<div style="font-family:${FONT_BODY};font-size:${o.size}px;line-height:${o.lh}px;mso-line-height-rule:exactly;letter-spacing:${o.track}em;font-weight:${o.weight ?? 500};color:${o.color};text-transform:uppercase;white-space:nowrap"><span>${text}</span></div>`;
+}
+
+/** Microcopy lines stacked at a fixed pitch. */
+function lines(items: string[], o: MicroStyle): string {
+  return items.map((t) => micro(esc(t), o)).join('');
+}
+
+/** The masthead's two red architectural strokes. */
+function slashes(size: number): string {
+  return `<span class="keep-red" style="font-family:${FONT_BODY};font-weight:300;font-size:${size}px;line-height:${size}px;color:${T.red};letter-spacing:-.02em;font-style:italic;white-space:nowrap">//</span>`;
+}
+
+const MAST_LIST = ['IDEAS', 'SYSTEMS', 'FOUNDATIONS', 'REALITY'];
+const LABEL_GREY = '#8e8a83';
+
+export type MastOpts = {
+  preheader: string;
+  /** Desktop service label (line 1 ink, line 2 grey). */
+  line1: string;
+  line2: string;
+  /** Mobile label lines when the mobile authority differs from desktop. */
+  mobileLines?: string[];
+  /** Short rule under A CLEARER TOMORROW TOGETHER (01 and 02 authorities). */
+  rule?: boolean;
+};
+
+/**
+ * Masthead, rebuilt from the authority geometry. Desktop (680): wordmark, divider, service label pair,
+ * then red strokes, the four-word list, a divider and the grey A CLEARER TOMORROW TOGETHER, on one
+ * centre line. Mobile (390) is its own row: larger wordmark, label lines, strokes and list.
+ */
+export function mast(opts: MastOpts): string {
+  const ink = { size: 7.5, lh: 11, color: T.ink, track: 0.3, weight: 500 };
+  const grey = { ...ink, color: LABEL_GREY };
+  const listStyle = { size: 6.5, lh: 8.5, color: T.ink, track: 0.2, weight: 500 };
+  const rightGrey = { size: 6.5, lh: 8.5, color: '#9a968f', track: 0.25, weight: 500 };
+  const desk = `<table class="mast desk-only" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%;background:#ffffff">
+<tr>
+<td valign="middle" style="padding:9px 0 9px 25px">
+<table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
+<td valign="middle" style="padding-right:22px">${SITE_WORD(18, 0.27)}</td>
+<td valign="middle" style="padding-right:16px">${vrule(17, '#2b2b2b')}</td>
+<td valign="middle" style="white-space:nowrap">${micro(esc(opts.line1), ink)}${micro(esc(opts.line2), grey)}</td>
+</tr></table>
+</td>
+<td valign="middle" align="right" style="padding:6px 29px 6px 0">
+<table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
+<td valign="middle" style="padding-right:15px">${slashes(26)}</td>
+<td valign="middle" style="padding-right:56px">${lines(MAST_LIST, listStyle)}</td>
+<td valign="middle" style="padding-right:13px">${vrule(18, '#3a3a3a')}</td>
+<td valign="middle">${lines(['A CLEARER', 'TOMORROW', 'TOGETHER.'], rightGrey)}${opts.rule ? `<div style="width:11px;height:1px;line-height:1px;font-size:1px;background:#9a968f;margin-top:3px">&nbsp;</div>` : ''}</td>
+</tr></table>
+</td>
+</tr>
+</table>`;
+  const m = opts.mobileLines ?? [opts.line1, opts.line2];
+  const mLab = { size: 6.5, lh: 10, color: T.ink, track: 0.2, weight: 600 };
+  const mob = mobileOnly(`<table class="mast-m mob-only" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="display:none;max-height:0;overflow:hidden;width:100%;background:#ffffff">
+<tr><td style="padding:11px 18px 11px 22px">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
-<td class="px" valign="middle" style="padding:14px 0 13px 28px">
-<table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
-<td valign="middle" class="gap-m" style="padding-right:14px;white-space:nowrap">${SITE_WORD(22)}</td>
-<td valign="middle" class="gap-m" style="padding-right:14px">${vrule(24, '#3a3a3a')}</td>
-<td valign="middle" class="tiny-m" style="white-space:nowrap">${microLabel(esc(opts.line1), T.ink, 8.5)}<br>${microLabel(esc(opts.line2), T.faint, 8.5)}</td>
-</tr></table>
-</td>
-<td class="px" valign="middle" align="right" style="padding:11px 28px 11px 0">
-<table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
-<td valign="middle" class="keep-red slash-m" style="padding-right:12px;font-family:${FONT_BODY};font-weight:300;font-size:22px;line-height:22px;color:${T.red};font-style:italic;letter-spacing:-.08em">//</td>
-<td valign="middle" class="tiny-m" style="padding-right:22px">${microLabel(list, T.ink, 7)}</td>
-<td valign="middle" class="hide-m" style="padding-right:14px">${vrule(28, '#9a968f')}</td>
-<td valign="middle" class="hide-m">${microLabel('A CLEARER<br>TOMORROW<br>TOGETHER.', T.faint, 7)}</td>
-</tr></table>
-</td>
+<td valign="middle" style="padding-right:15px;white-space:nowrap">${SITE_WORD(22, 0.25)}</td>
+<td valign="middle" style="padding-right:12px">${vrule(22, '#2b2b2b')}</td>
+<td class="lab" valign="middle" style="white-space:nowrap">${m.map((t, i) => micro(esc(t), i === m.length - 1 && m.length > 1 ? { ...mLab, color: LABEL_GREY, weight: 500 } : mLab)).join('')}</td>
+<td valign="middle" align="right" style="padding-left:8px"><table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
+<td valign="middle" style="padding-right:16px">${slashes(23)}</td>
+<td valign="middle">${lines(MAST_LIST, { size: 6, lh: 7.5, color: T.ink, track: 0.18, weight: 600 })}</td>
+</tr></table></td>
 </tr></table>
 </td></tr>
-</table>`;
+</table>`);
+  return `<div style="display:none;max-height:0;overflow:hidden;mso-hide:all;font-size:1px;line-height:1px;color:#ffffff">${esc(opts.preheader)}${PREHEADER_PAD}</div>
+${desk}
+${mob}`;
 }
 
 /** Matches DESKTOP_HERO_HEIGHT in scripts/correspondence-studio/fndatn01/extract_assets.py. */
@@ -309,24 +363,56 @@ export function mobileStrip(asset: AssetResolver, slug: string, file: string, al
 </table>`);
 }
 
-export function foot(line1 = 'DIGITAL FOUNDATION', line2 = "BRANDS BUILT FOR WHAT'S NEXT."): string {
-  return `<table class="foot" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%;background:#ffffff;border-top:1px solid #e7e4de">
+export type FootOpts = {
+  /** Mobile footer variant from the 04 authority: its own label pair and a stacked classification with a red stroke. */
+  mobile?: { line1: string; line2: string; classification: string[]; stroke?: boolean };
+};
+
+const CLASSIFICATION = ['CLASSIFICATION · TRANSACTIONAL', 'SERVICE NOTICE. NO MARKETING UNSUBSCRIBE.'];
+
+/**
+ * Colophon footer, rebuilt from the authority geometry: hairline top rule, wordmark, divider, DIGITAL
+ * FOUNDATION and its tagline, a centre divider, then the transactional classification set right. Mobile
+ * keeps the same single row at phone scale. Design microcopy only: no address, contact or legal claim is
+ * invented here; real sender details belong to the delivery layer.
+ */
+export function foot(opts: FootOpts = {}): string {
+  const ink = { size: 7, lh: 11, color: T.ink, track: 0.25, weight: 600 };
+  const grey = { size: 7, lh: 11, color: LABEL_GREY, track: 0.25, weight: 500 };
+  const cls = { size: 7, lh: 11, color: '#97938b', track: 0.2, weight: 500 };
+  const desk = `<table class="foot desk-only" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%;background:#ffffff;border-top:1px solid ${T.line}">
 <tr>
-<td class="px stack" valign="middle" style="padding:14px 0 15px 28px">
+<td valign="middle" width="313" style="width:313px;padding:12px 0 13px 27px">
 <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
-<td valign="middle" style="padding-right:14px;white-space:nowrap">${SITE_WORD(16)}</td>
-<td valign="middle" style="padding-right:12px">${vrule(22, '#3a3a3a')}</td>
-<td valign="middle" style="white-space:nowrap">${microLabel(esc(line1), T.ink, 7.5)}<br>${microLabel(esc(line2), T.faint, 7.5)}</td>
+<td valign="middle" style="padding-right:14px">${SITE_WORD(14.5, 0.19)}</td>
+<td valign="middle" style="padding-right:14px">${vrule(14, '#2b2b2b')}</td>
+<td valign="middle" style="white-space:nowrap">${micro('DIGITAL FOUNDATION', ink)}${micro('BRANDS BUILT FOR WHAT&#39;S NEXT.', grey)}</td>
 </tr></table>
 </td>
-<td class="px stack foot-r" valign="middle" align="right" style="padding:14px 28px 15px 0">
-<table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
-<td valign="middle" class="hide-m" style="padding-right:18px">${vrule(22, '#3a3a3a')}</td>
-<td valign="middle">${microLabel('CLASSIFICATION · TRANSACTIONAL<br>SERVICE NOTICE. NO MARKETING UNSUBSCRIBE.', T.faint, 7)}</td>
-</tr></table>
-</td>
+<td valign="middle" width="1" style="width:1px">${vrule(16, '#3a3a3a')}</td>
+<td valign="middle" align="right" style="padding:12px 34px 13px 0"><table role="presentation" cellpadding="0" cellspacing="0" border="0" align="right"><tr><td align="left" style="text-align:left">${lines(CLASSIFICATION, cls)}</td></tr></table></td>
 </tr>
 </table>`;
+  const mm = opts.mobile;
+  const mInk = { size: 6.5, lh: 10, color: T.ink, track: 0.16, weight: 600 };
+  const mGrey = { ...mInk, color: LABEL_GREY, weight: 500 };
+  const mCls = { size: 6.5, lh: 10, color: '#97938b', track: 0.14, weight: 500 };
+  const right = mm
+    ? `<table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>${mm.stroke ? `<td valign="middle" style="padding-right:10px">${slashes(17).replace('//', '/')}</td>` : ''}<td valign="middle">${lines(mm.classification, mCls)}</td></tr></table>`
+    : lines(['CLASSIFICATION · TRANSACTIONAL', 'SERVICE NOTICE.', 'NO MARKETING UNSUBSCRIBE.'], mCls);
+  const mob = mobileOnly(`<table class="foot-m mob-only" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="display:none;max-height:0;overflow:hidden;width:100%;background:#ffffff;border-top:1px solid ${T.line}">
+<tr><td style="padding:13px 14px 15px 18px">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+<td valign="middle" style="padding-right:10px;white-space:nowrap">${SITE_WORD(14.5, 0.19)}</td>
+<td valign="middle" style="padding-right:10px">${vrule(22, '#2b2b2b')}</td>
+<td class="lab" valign="middle" style="white-space:nowrap">${micro(esc(mm?.line1 ?? 'DIGITAL FOUNDATION'), mInk)}${micro(esc(mm?.line2 ?? "BRANDS BUILT FOR WHAT'S NEXT."), mGrey)}</td>
+<td valign="middle" width="1" style="width:1px;padding:0 12px 0 10px">${vrule(22, '#3a3a3a')}</td>
+<td class="lab" valign="middle" style="white-space:nowrap">${right}</td>
+</tr></table>
+</td></tr>
+</table>`);
+  return `${desk}
+${mob}`;
 }
 
 export const SPACE = (h: number) => `<div style="height:${h}px;line-height:${h}px;font-size:1px">&nbsp;</div>`;

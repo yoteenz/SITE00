@@ -77,24 +77,17 @@ u + #body a{color:inherit;text-decoration:none}
   table.mob-only{display:table!important}
   .full{width:100%!important;max-width:100%!important}
   .px{padding-left:20px!important;padding-right:20px!important}
-  .stack{display:block!important;width:100%!important;box-sizing:border-box}
   .h-m{font-size:40px!important;line-height:38px!important}
   table.btn-full{width:100%!important}
   .btn-full .btn-l{width:auto!important;white-space:normal!important}
   .btn-full .btn-l a{letter-spacing:.1em!important;padding-left:12px!important;padding-right:6px!important}
   .btn-full .btn-long a{font-size:11px!important;letter-spacing:.04em!important}
   .hide-m{display:none!important}
-  .gap-m{padding-right:9px!important}
-  .gap-m .site{font-size:18px!important;line-height:18px!important;letter-spacing:.04em!important}
-  .tiny-m span{font-size:6.5px!important;line-height:10px!important;letter-spacing:.12em!important}
-  .slash-m{font-size:18px!important;line-height:18px!important;padding-right:6px!important}
-  .tiny-m{padding-right:0!important}
-  .foot-r{text-align:left!important;padding-top:0!important}
-  .mast .tiny-m{white-space:normal!important}
 }
 @media screen and (max-width:389px){
+  .mast-m .lab{white-space:normal!important}
+  .mast-m .lab span,.foot-m .lab span{letter-spacing:.1em!important}
   .hero-lock{margin-left:0!important}
-  .mast .px{padding-left:16px!important;padding-right:16px!important}
   .btn-full .btn-l a{font-size:11px!important;letter-spacing:.06em!important}
   .btn-full .btn-long a{font-size:10.5px!important;letter-spacing:.02em!important;padding-left:8px!important;padding-right:4px!important}
 }
@@ -234,5 +227,10 @@ export function mobileOnly(html: string): string {
   return `<!--[if !mso]><!-->${html}<!--<![endif]-->`;
 }
 
-export const SITE_WORD = (size = 26) =>
-  `<span class="keep-ink site" style="font-family:${FONT_DISPLAY};font-weight:600;font-size:${size}px;line-height:${size}px;letter-spacing:.04em;color:${T.ink}">SITE&nbsp;00</span>`;
+/**
+ * SITE 00 lettering in the traced display face. No vector wordmark exists in the repository (see
+ * site00-correspondence-type-authority/v1/08_AUTHORITY/wordmark.json), so the mark is live text in the
+ * face traced from the founder references, set at the reference's size and tracking.
+ */
+export const SITE_WORD = (size = 26, tracking = 0.04) =>
+  `<span class="keep-ink site" style="font-family:${FONT_DISPLAY};font-weight:600;font-size:${size}px;line-height:${size}px;letter-spacing:${tracking}em;color:${T.ink};white-space:nowrap">SITE&nbsp;00</span>`;
