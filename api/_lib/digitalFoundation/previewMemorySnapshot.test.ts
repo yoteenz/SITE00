@@ -3,7 +3,13 @@ import os from 'node:os';
 import path from 'node:path';
 import { afterEach, describe, expect, it } from 'vitest';
 import { createArtifactForLead } from './service.js';
-import { resetDigitalFoundationMemoryStore, memGetArtifactByToken, getDfMemoryState } from './memoryStore.js';
+import {
+  resetDigitalFoundationMemoryStore,
+  memGetArtifact,
+  memGetArtifactByToken,
+  memGetLead,
+  getDfMemoryState,
+} from './memoryStore.js';
 import {
   mergePreviewSnapshotFromDisk,
   previewSnapshotPath,
@@ -38,5 +44,24 @@ describe('previewMemorySnapshot', () => {
     mergePreviewSnapshotFromDisk(fresh);
     expect(memGetArtifactByToken(artifact.public_token)?.artifact_id).toBe(artifact.artifact_id);
     expect(previewSnapshotPath()).toContain('snap.json');
+  });
+
+  it('resolves an artifact id minted by another preview module on first lookup', () => {
+    tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'df-preview-'));
+    process.env.NODE_ENV = 'development';
+    process.env.SITE00_CLOUD_MOBILE_PREVIEW = '1';
+    process.env.SITE00_DF_PREVIEW_SNAPSHOT_PATH = path.join(tmpDir, 'snap.json');
+
+    resetDigitalFoundationMemoryStore();
+    const artifact = createArtifactForLead({ business_name: 'Id lookup', referral_kind: 'DIRECT' });
+    writePreviewSnapshotFromState(getDfMemoryState());
+
+    resetDigitalFoundationMemoryStore();
+    delete process.env.SITE00_CLOUD_MOBILE_PREVIEW;
+    getDfMemoryState();
+    expect(memGetArtifact(artifact.artifact_id)).toBeUndefined();
+    process.env.SITE00_CLOUD_MOBILE_PREVIEW = '1';
+    expect(memGetArtifact(artifact.artifact_id)?.lead_id).toBe(artifact.lead_id);
+    expect(memGetLead(artifact.lead_id)?.lead_id).toBe(artifact.lead_id);
   });
 });

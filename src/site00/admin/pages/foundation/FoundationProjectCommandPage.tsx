@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { SITE00_ROUTES } from '../../../config/routes';
+import { DfaCta, DfaIcon, DfaNote, DfaShell, DfaStatus, type DfaGlyph } from '../../../foundation-authority/DfAuthority';
 import { foundationAdminApi } from '../../services/foundationAdminApi';
+import { foundationOpsMenu, opsLabel } from './foundationOpsMenu';
 import './foundationOperations.css';
 
 type ProjectSnapshot = {
@@ -17,7 +19,9 @@ type ProjectSnapshot = {
   ownership_record?: unknown;
   forecast?: { projected_completion?: string } | null;
 };
-const fmt = (s: string | undefined) => s?.replace(/_/g, ' ').toUpperCase() || '—';
+const DONE = new Set(['COMPLETE', 'VERIFIED']);
+const plural = (n: number, word: string) => `${n} ${word}${n === 1 ? '' : 'S'}`;
+
 export default function FoundationProjectCommandPage() {
   const { id = '' } = useParams();
   const [snap, setSnap] = useState<ProjectSnapshot | null>(null);
@@ -37,39 +41,88 @@ export default function FoundationProjectCommandPage() {
   const tasks = snap?.tasks ?? [];
   const stages = snap?.stages ?? [];
   const actions = snap?.client_actions ?? [];
-  const complete = tasks.filter((t) => t.status === 'COMPLETE' || t.status === 'VERIFIED').length;
-  return <main className="df-ops">
-    <div className="df-ops__breadcrumb"><Link to={SITE00_ROUTES.digitalFoundationPipeline}>FOUNDATION / PIPELINE</Link><span>/</span><span>PROJECT COMMAND</span></div>
-    <header className="df-ops__hero"><div>
-      <span className="df-ops__eyebrow">SITE 00 / DIGITAL FOUNDATION / PROJECT AUTHORITY</span>
-      <h1>PROJECT<br />COMMAND<span className="df-ops__red">.</span></h1>
-      <p className="df-ops__lede">A SINGLE READ-ONLY VIEW OF THE FOUNDATION, EXECUTION STATUS, REQUIRED CLIENT INPUT AND VERIFICATION.</p>
-    </div><div className="df-ops__progress"><span className="df-ops__eyebrow">EXECUTION STATUS</span><strong>{tasks.length ? Math.round(complete / tasks.length * 100) : 0}<small>%</small></strong><span>{complete} / {tasks.length} TASKS COMPLETE</span><div className="df-ops__meter"><span style={{width: `${tasks.length ? complete / tasks.length * 100 : 0}%`}} /></div></div></header>
-    <div className="df-ops__toolbar"><Link to={SITE00_ROUTES.digitalFoundationWorkbench.replace(':id', id)}>OPEN EXECUTION WORKBENCH ↗</Link><Link to={SITE00_ROUTES.digitalFoundationAdminDetail.replace(':id', id)}>OPEN ARTIFACT ↗</Link><button type="button" onClick={() => setRefresh(n => n + 1)}>REFRESH ↗</button></div>
-    {loading && <p className="df-ops__notice" role="status">LOADING PROJECT COMMAND…</p>}
-    {error && <p className="df-ops__notice df-ops__notice--error" role="alert">{error}</p>}
-    {!loading && !error && snap && <>
-      <div className="df-ops__metric-grid">
-        <article><small>PROJECT</small><strong>{snap.lead?.business_name || 'UNNAMED FOUNDATION'}</strong><span>{fmt(snap.artifact?.state)}</span></article>
-        <article><small>PAYMENT</small><strong>{fmt(snap.artifact?.payment_state)}</strong><span>RECORDED TRANSACTION STATE</span></article>
-        <article><small>CLIENT ACTIONS</small><strong>{actions.filter(a => a.status === 'OPEN').length}</strong><span>OPEN REQUESTS</span></article>
-        <article><small>BLOCKERS</small><strong>{snap.blockers?.length ?? 0}</strong><span>EXECUTION ATTENTION</span></article>
+  const openActions = actions.filter((a) => a.status === 'OPEN');
+  const approvals = snap?.approvals ?? [];
+  const approvedCount = approvals.filter((a) => a.status === 'APPROVED' || a.status === 'COMPLETED').length;
+  const openApprovals = approvals.length - approvedCount;
+  const blockers = snap?.blockers?.length ?? 0;
+  const complete = tasks.filter((t) => DONE.has(t.status)).length;
+  const currentStage = stages.find((s) => !DONE.has(s.status)) ?? stages[stages.length - 1];
+  const workbench = SITE00_ROUTES.digitalFoundationWorkbench.replace(':id', encodeURIComponent(id));
+  const artifact = SITE00_ROUTES.digitalFoundationAdminDetail.replace(':id', encodeURIComponent(id));
+
+  const rows: { icon: DfaGlyph; label: string; value: string; to: string }[] = snap ? [
+    { icon: 'gear', label: 'CURRENT STAGE', value: currentStage ? opsLabel(currentStage.stage_code) : 'NOT YET STARTED', to: workbench },
+    { icon: 'card', label: 'PAYMENT', value: opsLabel(snap.artifact?.payment_state), to: artifact },
+    { icon: 'document', label: 'RUNBOOK', value: snap.runbook ? `${plural(tasks.length, 'TASK')} · ${complete} COMPLETE` : 'NOT YET CREATED', to: workbench },
+    { icon: 'user', label: 'NEEDS YOU', value: blockers ? `${plural(blockers, 'BLOCKER')}` : 'NONE ACTIVE', to: `${workbench}?queue=blocked` },
+    { icon: 'checkCircle', label: 'APPROVALS', value: approvals.length ? `${approvedCount} COMPLETE${openApprovals ? ` · ${openApprovals} OPEN` : ''}` : 'NONE REQUESTED', to: artifact },
+  ] : [];
+
+  return (
+    <DfaShell code="14" kicker="PROJECT COMMAND" title={['PROJECT COMMAND']} plate="d02" footCode="D02" authority="desktop"
+      menu={foundationOpsMenu('command', id)}>
+      <div className="dfo dfo--command">
+        {loading && <DfaStatus kind="loading">LOADING PROJECT COMMAND…</DfaStatus>}
+        {error && <DfaStatus kind="error">{error}</DfaStatus>}
+        {!loading && !error && snap && (
+          <>
+            <div className="dfo-client">
+              <span className="dfo-client__icon"><DfaIcon name="cube" /></span>
+              <div className="dfo-client__name">
+                <small>CLIENT</small>
+                <strong>{snap.lead?.business_name?.trim() ? snap.lead.business_name.toUpperCase() : 'UNNAMED FOUNDATION'}</strong>
+              </div>
+              <button type="button" className="dfo-textbtn" onClick={() => setRefresh((n) => n + 1)}>REFRESH</button>
+            </div>
+            <div className="dfa-rows dfa-rows--ruled dfo-command-rows">
+              {rows.map((r) => (
+                <Link key={r.label} className="dfa-row" to={r.to}>
+                  <span className="dfa-row__icon"><DfaIcon name={r.icon} className="dfa-ico" /></span>
+                  <span className="dfa-row__main dfo-kv"><small>{r.label}</small><strong>{r.value}</strong></span>
+                  <span />
+                  <span className="dfa-row__chev"><DfaIcon name="chevron" className="dfa-chev" /></span>
+                </Link>
+              ))}
+            </div>
+          </>
+        )}
       </div>
-      <div className="df-ops__layout">
-        <section className="df-ops__list"><div className="df-ops__section-head"><div><span className="df-ops__eyebrow">EXECUTION MAP</span><h2>PROJECT STAGES</h2></div><span>{stages.length} STAGES</span></div>
-          {stages.length === 0 && <p className="df-ops__empty">STAGES WILL APPEAR WHEN THE PROJECT RUNBOOK IS READY.</p>}
-          {stages.map((stage, i) => <div className="df-ops__command-stage" key={stage.stage_code}><span className="df-ops__task-index">{String(i + 1).padStart(2, '0')}</span><strong>{fmt(stage.stage_code)}</strong><span>{fmt(stage.status)}</span></div>)}
-        </section>
-        <aside className="df-ops__inspector"><span className="df-ops__eyebrow">PROJECT RECORD</span><h2>WHAT'S NEXT.</h2>
-          <dl><div><dt>RUNBOOK</dt><dd>{snap.runbook ? fmt(snap.runbook.status) : 'NOT YET CREATED'}</dd></div>
-          <div><dt>VERIFICATION RECORDS</dt><dd>{snap.verification_results?.length ?? 0}</dd></div>
-          <div><dt>OWNERSHIP RECORD</dt><dd>{snap.ownership_record ? 'ON RECORD' : 'NOT YET AVAILABLE'}</dd></div>
-          <div><dt>OPEN APPROVALS</dt><dd>{(snap.approvals ?? []).filter(a => a.status !== 'APPROVED' && a.status !== 'COMPLETED').length}</dd></div></dl>
-          <Link className="df-ops__inspector-link" to={SITE00_ROUTES.digitalFoundationWorkbench.replace(':id', id)}>REVIEW TASKS AND DEPENDENCIES ↗</Link>
-          <p className="df-ops__footnote">ALL INFORMATION IS READ FROM THE CURRENT PROJECT SNAPSHOT. NO COMPLETION CLAIMS ARE INFERRED.</p>
-        </aside>
+      <div className="dfo-cta dfo-cta--full">
+        <DfaCta to={id ? workbench : undefined} disabled={!id}>OPEN EXECUTION WORKBENCH</DfaCta>
       </div>
-      {actions.filter(a => a.status === 'OPEN').length > 0 && <section className="df-ops__attention"><span className="df-ops__eyebrow">CLIENT ACTION QUEUE</span>{actions.filter(a => a.status === 'OPEN').map(a => <p key={a.request_id}>{a.title}</p>)}</section>}
-    </>}
-  </main>;
+      <DfaNote>READ FROM THE CURRENT PROJECT SNAPSHOT. NO COMPLETION CLAIMS ARE INFERRED.</DfaNote>
+      {!loading && !error && snap && (
+        <details className="dfo-more">
+          <summary>
+            <span>PROJECT RECORD</span>
+            <small>{plural(stages.length, 'STAGE')} · {plural(openActions.length, 'OPEN CLIENT ACTION')}</small>
+          </summary>
+          <div className="dfo-more__grid">
+            <section aria-label="Project stages">
+              <h2>STAGES</h2>
+              {stages.length === 0 && <p>STAGES WILL APPEAR WHEN THE PROJECT RUNBOOK IS READY.</p>}
+              <ol>{stages.map((s) => <li key={s.stage_code}><span>{opsLabel(s.stage_code)}</span><b>{opsLabel(s.status)}</b></li>)}</ol>
+            </section>
+            <section aria-label="Project record">
+              <h2>RECORD</h2>
+              <dl>
+                <div><dt>ARTIFACT STATE</dt><dd>{opsLabel(snap.artifact?.state)}</dd></div>
+                <div><dt>COMPLETION</dt><dd>{opsLabel(snap.artifact?.completion_state)}</dd></div>
+                <div><dt>VERIFICATION RECORDS</dt><dd>{snap.verification_results?.length ?? 0}</dd></div>
+                <div><dt>OWNERSHIP RECORD</dt><dd>{snap.ownership_record ? 'ON RECORD' : 'NOT YET AVAILABLE'}</dd></div>
+                <div><dt>PROJECTED COMPLETION</dt><dd>{snap.forecast?.projected_completion?.toUpperCase() ?? '—'}</dd></div>
+              </dl>
+              {openActions.length > 0 && (
+                <>
+                  <h2>CLIENT ACTION QUEUE</h2>
+                  <ul>{openActions.map((a) => <li key={a.request_id}><span>{a.title.toUpperCase()}</span><b>OPEN</b></li>)}</ul>
+                </>
+              )}
+            </section>
+          </div>
+        </details>
+      )}
+    </DfaShell>
+  );
 }
