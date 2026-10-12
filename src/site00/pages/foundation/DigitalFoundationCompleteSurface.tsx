@@ -47,10 +47,24 @@ const BLDR_ROOMS: { name: string; note: string; icon: DfaGlyph }[] = [
   { name: 'PACE', note: 'THE TIMELINE', icon: 'clock' },
 ];
 
-export default function DigitalFoundationCompleteSurface({ token, payload, reload }: {
-  token: string; payload: ClientDigitalFoundationPayload; reload: () => Promise<unknown>;
+export default function DigitalFoundationCompleteSurface({
+  token,
+  payload,
+  reload,
+  reviewMode = false,
+  focus = 'full',
+}: {
+  token: string;
+  payload: ClientDigitalFoundationPayload;
+  reload: () => Promise<unknown>;
+  /** Gallery / design review: no API mutations. */
+  reviewMode?: boolean;
+  /** When `digital_location`, show only the post-completion build discovery block. */
+  focus?: 'full' | 'digital_location';
 }) {
-  const [{ station, records }, setNav] = useState(readStation);
+  const [{ station, records }, setNav] = useState(() =>
+    focus === 'digital_location' ? { station: 'location' as Station, records: false } : readStation(),
+  );
   const [busy, setBusy] = useState<'INTERESTED' | 'SAVED_FOR_LATER' | null>(null);
   const [error, setError] = useState<string | null>(null);
   const complete = payload.artifact.completion_state === 'COMPLETE';
@@ -61,10 +75,11 @@ export default function DigitalFoundationCompleteSurface({ token, payload, reloa
   const business = ownership?.business || payload.lead?.business_name || null;
 
   useEffect(() => {
+    if (focus !== 'full') return;
     const onHash = () => setNav(readStation());
     window.addEventListener('hashchange', onHash);
     return () => window.removeEventListener('hashchange', onHash);
-  }, []);
+  }, [focus]);
 
   const go = useCallback((next: Station, withRecords = false) => {
     const hash = withRecords ? '#records' : next === 'complete' ? '' : `#${next}`;
@@ -75,6 +90,7 @@ export default function DigitalFoundationCompleteSurface({ token, payload, reloa
   }, []);
 
   const interest = async (choice: 'INTERESTED' | 'SAVED_FOR_LATER') => {
+    if (reviewMode) return;
     setBusy(choice); setError(null);
     try {
       await captureBuildInterest(token, choice);
@@ -87,13 +103,16 @@ export default function DigitalFoundationCompleteSurface({ token, payload, reloa
     }
   };
 
-  const menu: DfaMenuItem[] = [
-    { label: 'COMPLETION RECORD', onSelect: () => go('complete'), current: station === 'complete' && !records },
-    { label: 'YOUR RECORDS', onSelect: () => go('complete', true), current: records },
-    { label: 'DIGITAL LOCATION', onSelect: () => go('location'), current: station === 'location' },
-    { label: 'FOUNDATION CREDIT', onSelect: () => go('credit'), current: station === 'credit', disabled: !credit },
-    { label: 'BLDR INTRODUCTION', onSelect: () => go('bldr'), current: station === 'bldr' },
-  ];
+  const menu: DfaMenuItem[] =
+    focus === 'digital_location'
+      ? [{ label: 'DIGITAL LOCATION', onSelect: () => go('location'), current: true }]
+      : [
+          { label: 'COMPLETION RECORD', onSelect: () => go('complete'), current: station === 'complete' && !records },
+          { label: 'YOUR RECORDS', onSelect: () => go('complete', true), current: records },
+          { label: 'DIGITAL LOCATION', onSelect: () => go('location'), current: station === 'location' },
+          { label: 'FOUNDATION CREDIT', onSelect: () => go('credit'), current: station === 'credit', disabled: !credit },
+          { label: 'BLDR INTRODUCTION', onSelect: () => go('bldr'), current: station === 'bldr' },
+        ];
 
   if (!complete) {
     return (
@@ -136,11 +155,12 @@ export default function DigitalFoundationCompleteSurface({ token, payload, reloa
             ))}
           </div>
           {error && <DfaStatus kind="error">{error}</DfaStatus>}
+          {reviewMode ? <DfaNote>REVIEW GALLERY — BUILD INTEREST IS NOT RECORDED.</DfaNote> : null}
           <div className="dfc-actions">
-            <DfaCta onClick={() => interest('INTERESTED')} disabled={busy !== null}>
+            <DfaCta onClick={() => interest('INTERESTED')} disabled={reviewMode || busy !== null}>
               {busy === 'INTERESTED' ? 'SAVING…' : 'VIEW MY DIGITAL LOCATION'}
             </DfaCta>
-            <DfaCta variant="secondary" onClick={() => interest('SAVED_FOR_LATER')} disabled={busy !== null}>
+            <DfaCta variant="secondary" onClick={() => interest('SAVED_FOR_LATER')} disabled={reviewMode || busy !== null}>
               {busy === 'SAVED_FOR_LATER' ? 'SAVING…' : interestState === 'SAVED_FOR_LATER' ? 'SAVED FOR LATER ✓' : 'SAVE THIS FOR LATER'}
             </DfaCta>
           </div>
