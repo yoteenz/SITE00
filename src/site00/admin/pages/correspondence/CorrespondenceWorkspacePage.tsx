@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { resolveBrandForCampaign } from '../../../../../shared/site00-correspondence-studio/brandFirewall.js';
 import { DEVICE_PREVIEW_MODES, type DevicePreviewMode } from '../../../../../shared/site00-correspondence-studio/types.js';
+import { R4_PREMIUM_PACK_ID } from '../../../../../shared/site00-correspondence-studio/import/r4PremiumImport.js';
 import { getCorrespondenceWorkspace } from '../../../../../shared/site00-correspondence-studio/workspace.js';
 import {
   copyContractFor,
@@ -97,7 +98,12 @@ export default function CorrespondenceWorkspacePage() {
   const [query, setQuery] = useState('');
   const [family, setFamily] = useState<LibraryClassification | 'all'>('all');
   const [reviewOnly, setReviewOnly] = useState(false);
-  const [pack, setPack] = useState<string | null>(() => search.get('pack'));
+  const [pack, setPack] = useState<string | null>(() => {
+    const fromUrl = search.get('pack');
+    if (fromUrl) return fromUrl;
+    if (import.meta.env.VITE_SITE00_R4_REVIEW_PRIORITY === '1') return R4_PREMIUM_PACK_ID;
+    return null;
+  });
   const [inspectorTab, setInspectorTab] = useState<InspectorTab>('content');
   const [focus, setFocus] = useState(false);
   const [panel, setPanel] = useState<Panel>(routeKind === 'email' ? 'preview' : 'library');

@@ -18,9 +18,12 @@ type R4Row = {
  * (V2 benchmark, R2 territories, R3 editorial), never replacing them. Agent selection is not approval: every
  * version enters at founder_review. P1 = unique premium hero, P2 = shared family art, P3 = utility (drawn only).
  */
+export const R4_PREMIUM_PACK_ID = 'R4-PREMIUM' as const;
+
 export const R4_PREMIUM_IMPORT_CONTRACT = {
   sprint: 'P0.SITE00.IDNTY.EMAIL-V2-R4-PREMIUM-EDITORIAL-ASSET-PASS-AND-FULL-PACK-COMPOSITION-REBUILD1',
   branch: 'cursor/df-email-v2-r4-premium-a9f7',
+  pack_id: R4_PREMIUM_PACK_ID,
   auto_approve: false,
   review_artifact: '/site00-correspondence-studio/previews/r4/review/index.html',
   asset_matrix: `${R4_DOCS}/PREMIUM_ASSET_MATRIX.json`,
@@ -70,6 +73,7 @@ function r4Version(row: R4Row): EmailTemplateVersion {
     copy_ref: 'docs/site00/idnty/visual-authority/email-pack/DF_V2_EMAIL_COPY_AND_TOKEN_CONTRACTS.md',
     asset_provenance_ref: `${R4_DOCS}/PREMIUM_ASSET_MATRIX.json`,
     review_state: 'founder_review',
+    pack_id: R4_PREMIUM_PACK_ID,
   };
 }
 

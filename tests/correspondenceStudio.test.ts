@@ -17,6 +17,7 @@ import {
   buildDigitalFoundationWorkspaceManifest,
 } from '../shared/site00-correspondence-studio/manifests/digital-foundation-lifecycle.js';
 import { getCorrespondenceWorkspace, registeredTemplateCount, resetCorrespondenceWorkspaceCache } from '../shared/site00-correspondence-studio/workspace.js';
+import { listCorrespondencePacks } from '../shared/site00-correspondence-studio/workspaceLibrary.js';
 
 describe('Correspondence Studio workspace', () => {
   it('registers 22 Digital Foundation template IDs', () => {
@@ -128,6 +129,13 @@ describe('Correspondence Studio workspace', () => {
     resetCorrespondenceWorkspaceCache();
     getCorrespondenceWorkspace({ includeOpusBenchmarks: false });
     expect(getCorrespondenceWorkspace().templates.M06.current_version_id).toBe(r4VersionId('M06'));
+  });
+
+  it('lists the R4 premium pack with all 20 template ids for library filtering', () => {
+    resetCorrespondenceWorkspaceCache();
+    const r4 = listCorrespondencePacks(getCorrespondenceWorkspace()).find((p) => p.pack_id === R4_PREMIUM_IMPORT_CONTRACT.pack_id);
+    expect(r4?.template_ids).toHaveLength(20);
+    expect(r4?.template_ids).toEqual(listR4TemplateIds());
   });
 
   it('registers an R4 premium version for the 20 original templates, current unless FNDATN-01 supersedes it', () => {
