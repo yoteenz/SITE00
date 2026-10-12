@@ -16592,3 +16592,13 @@ Summary of the whole conversation in this chat.
 - **Founder report:** Mobile tunnel showed only some new emails, not the full R4 pack of 20.
 - **Cause:** All 20 `public/.../previews/r4/emails/*.html` were on `main`; Studio defaulted to **FNDATN-01 pack (7)** and FNDATN was **current** on overlapping lifecycle ids, so R4 looked partial.
 - **Fix:** Register **`R4-PREMIUM`** pack (20 ids). Cloud preview dev sets `VITE_SITE00_R4_REVIEW_PRIORITY=1` to re-apply R4 as current after FNDATN and default the library pack chip to R4. Full browser review artifact: `/site00-correspondence-studio/previews/r4/review/index.html`.
+
+---
+
+## 2026-10-12 — Production Release CI: BLDR spatial icon contract (#1637) + tunnel branch sync
+
+- **Context:** Founder mobile CI screenshots showed **SITE 00 Production Release / test** failing on `bldrSpatialStudioIcons.test.ts` (expected legacy `--bs-red: #e50107`, old `BldrStudioIcon` / `ArchitecturalThumb` paths). Handoff also tracked DF review gallery merge (#1625) on `cursor/df-screen-review-tunnel-be3b` and open draft PR for icon test fix.
+- **Topics covered:** Merge conflict triage on integration branch; PR #1625 merged into tunnel branch; align vitest with correspondence red `#ce1017` (`CORRESPONDENCE_RED`) and `BuildThumbnail` in `BuildObjectStage.tsx`; merge fix to `main`; fast-forward integration branch with `origin/main`.
+- **Decisions / outcomes:** PR **#1637** marked ready and **merged to `main`** (`f8cd69ce`). Test-only change in `tests/bldrSpatialStudioIcons.test.ts`. `cursor/df-screen-review-tunnel-be3b` merged `origin/main` with **simple** `MEMORY.md` conflict (keep DF tunnel + visual authority entries and R4 preview entry).
+- **Changes:** `main` ← #1637; integration branch merge commit includes BLDR uppercase/thumbnail/R4 preview commits from main plus existing review gallery registry work at `20119417` base.
+- **Conventions:** BLDR `--bs-red` must match `CORRESPONDENCE_RED` in shared correspondence prose module, not legacy invitation `#e50107`.
