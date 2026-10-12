@@ -1172,6 +1172,16 @@ body:has(.csw) {
   margin: 0 auto 0 0;
 }
 
+.csw-stage__bar:has(.csw-views) {
+  flex-wrap: wrap;
+  row-gap: 6px;
+}
+
+.csw-stage__bar:has(.csw-views) .csw-stage__title {
+  flex: 1 0 100%;
+  order: -1;
+}
+
 .csw-stage__title b {
   min-width: 7em;
   overflow: hidden;
