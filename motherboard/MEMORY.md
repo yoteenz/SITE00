@@ -16485,3 +16485,12 @@ Summary of the whole conversation in this chat.
 - **Cause:** PR **#1620** used CSS clip-path on the font glyph; on mobile that read as full black `?` + detached red dot/period. Tunnel `:5174` also served `preview/tunnel` until merge.
 - **Fix:** Traced two-color `question.png` / `exclamation.png` in `fndatn-01/marks/`; `CorrespondenceDisplayLine` renders `<img class="correspondence-display-split">`; emails use same PNG in `displaySplitBangQuestion`. Regen: `scripts/correspondence-type-authority/export_display_split_marks.py`. PR **#1621** merged **`main`** `2e30b629`; preview tunnel refreshed to same SHA.
 - **Verify:** `/bldr/studio/feel` or review iframe `#df-r-bldr-FEEL` — one mark, no extra red square after `?`.
+
+---
+
+## 2026-10-12 — Digital Foundation menu: right drawer restored
+
+- **Founder report:** Hamburger menu should slide in from the **right**, not the bottom sheet.
+- **Cause:** Board 01+02 rebuild (`19fd19c0`) replaced `DfDrawer`/`DfMenu` with bottom `DfSheet` menu; `buildDfMenu` and drawer CSS were dropped from `model.ts` / `site00-df-client.css`.
+- **Fix:** Restored portaled right drawer (61vw, dark backdrop), step/destination list, `buildDfMenu`, menu icons, anchor nav; kept correspondence headlines. PR **#1622** merged to `main`.
+- **Verify:** `/foundation/:token` → menu from right; `tests/digitalFoundationMenuDrawer.test.ts`.
