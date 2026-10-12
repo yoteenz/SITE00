@@ -81,6 +81,7 @@ u + #body a{color:inherit;text-decoration:none}
   table.btn-full{width:100%!important}
   .btn-full .btn-l{width:auto!important;white-space:normal!important}
   .btn-full .btn-l a{letter-spacing:.1em!important;padding-left:12px!important;padding-right:6px!important}
+  .mast-m .lab div,.foot-m .lab div{white-space:normal!important}
   .btn-full .btn-long a{font-size:11px!important;letter-spacing:.04em!important}
   .hide-m{display:none!important}
 }
@@ -113,7 +114,7 @@ export function displayText(text: string): string {
 
 export function headline(lines: string[], size = 44, extraClass = ''): string {
   const body = lines.map((line) => displayText(line)).join('<br>');
-  return `<h1 class="keep-ink ${extraClass}" style="margin:0;font-family:${FONT_DISPLAY};font-weight:900;font-size:${size}px;line-height:${Math.round(size * 1.02)}px;letter-spacing:0;color:${T.ink};text-transform:uppercase;mso-line-height-rule:exactly">${body}<span class="keep-red" style="color:${T.red}">.</span></h1>`;
+  return `<h1 class="keep-ink ${extraClass}" style="margin:0;font-family:${FONT_DISPLAY};font-weight:900;font-size:${size}px;line-height:${Math.round(size * 0.9)}px;letter-spacing:0;color:${T.ink};text-transform:uppercase;mso-line-height-rule:exactly">${body}<span class="keep-red" style="color:${T.red}">.</span></h1>`;
 }
 
 export function sectionTitle(text: string, size = 30): string {
@@ -208,9 +209,9 @@ export function bgCell(opts: {
   content: string;
   className?: string;
   /** Art drawn at this exact size, `x` px from the left (negative crops), top-aligned. */
-  lock?: { width: number; height: number; x?: number };
+  lock?: { width: number; height: number; x?: number; y?: number };
 }): string {
-  const pos = opts.lock ? `${opts.lock.x ?? 0}px 0` : (opts.position ?? 'center center');
+  const pos = opts.lock ? `${opts.lock.x ?? 0}px ${opts.lock.y ?? 0}px` : (opts.position ?? 'center center');
   const size = opts.lock ? `${opts.lock.width}px ${opts.lock.height}px` : 'cover';
   return `<td class="${opts.className ?? ''}" background="${opts.src}" bgcolor="${opts.fallback}" width="${opts.width}" height="${opts.height}" valign="top" style="background-color:${opts.fallback};background-image:url('${opts.src}');background-size:${size};background-position:${pos};background-repeat:no-repeat;height:${opts.height}px">
 <!--[if gte mso 9]><v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="width:${opts.width}px;height:${opts.height}px;"><v:fill type="frame" src="${opts.src}" color="${opts.fallback}" /><v:textbox inset="0,0,0,0"><![endif]-->

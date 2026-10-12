@@ -97,12 +97,14 @@ export const CARD_SPECS = {
   },
 } as const satisfies Record<string, { desktop?: CardSpec; mobile?: CardSpec }>;
 
-/** Natural CSS height of each mobile hero with a card at the 390 px width (asset height / 2). */
+/** Natural CSS height of each locked mobile hero (a card or a panel lip) at the 390 px width (asset height / 2). */
 export const MOBILE_ART_HEIGHT = {
   '01_invitation': 347,
   '02_intake_received': 424,
   '03_recommendation_quote': 455,
   '07_quote_expiry': 380,
+  '05_foundation_complete': 366.5,
+  '06_resume_intake': 394,
 } as const;
 
 export type ArtMap = { k: number; ox: number };
@@ -127,7 +129,7 @@ export function mapSpec(spec: CardSpec, m: ArtMap): CardSpec {
 }
 
 /** Card layer for a mobile hero `cell` px tall: maps the spec through the hero's cover geometry. */
-export function mobileCardLayer(slug: keyof typeof MOBILE_ART_HEIGHT, cell: number, rows: CardRow[], tags: string[] = []): CardLayer & { artHeight: number } {
+export function mobileCardLayer(slug: keyof typeof CARD_SPECS & keyof typeof MOBILE_ART_HEIGHT, cell: number, rows: CardRow[], tags: string[] = []): CardLayer & { artHeight: number } {
   const artHeight = MOBILE_ART_HEIGHT[slug];
   return { ...cardLayer(mapSpec(CARD_SPECS[slug].mobile, coverMap(artHeight, cell)), rows, tags), artHeight };
 }

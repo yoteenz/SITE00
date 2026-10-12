@@ -169,7 +169,7 @@ export type HeroCopy = {
   mobileTagline?: string[];
   /** Desktop headline size override when the default would push the hero past its art height. */
   deskSize?: number;
-  /** Desktop body measure when the art beside the column (a crystal, a book stack) sits closer than the headline's edge. */
+  /** Desktop body measure. Default 196 px: about 34 characters a line, the authority's break. */
   deskBodyWidth?: number;
   /** The tagline is dropped on desktop where the art behind the column bottom is too busy to read over. */
   deskTagline?: boolean;
@@ -188,7 +188,7 @@ ${copy.kicker ? `${kicker(copy.kicker)}<div style="height:11px;line-height:11px;
 ${headline(copy.headline, (copy.deskSize ?? (copy.headline.length > 2 ? 40 : 46)) + 2)}
 ${copy.sub ? `<div style="height:10px;line-height:10px;font-size:1px">&nbsp;</div><p style="margin:0;font-family:${FONT_BODY};font-size:13px;line-height:17px;letter-spacing:.1em;font-weight:600;color:${T.ink};text-transform:uppercase">${copy.sub}</p>` : ''}
 <div style="height:12px;line-height:12px;font-size:1px">&nbsp;</div>
-${copy.deskBodyWidth ? `<div style="max-width:${copy.deskBodyWidth}px">${bodyCopy(copy.body, 10.5, T.ink, 'font-weight:500;', 15)}</div>` : bodyCopy(copy.body, 10.5, T.ink, 'font-weight:500;', 15)}
+<div style="max-width:${copy.deskBodyWidth ?? 196}px">${bodyCopy(copy.body, 9.5, T.ink, 'font-weight:500;letter-spacing:.1em;', 14)}</div>
 ${copy.tagline && copy.deskTagline !== false ? `<div style="height:12px;line-height:12px;font-size:1px">&nbsp;</div>${tagline(copy.tagline)}` : ''}
 </td>${card}
 </tr></table>`;
@@ -212,7 +212,16 @@ export function mobileHero(
   asset: AssetResolver,
   slug: string,
   copy: HeroCopy,
-  opts: { height: number; alt: string; fit: MobileCopyFit; card?: CardLayer & { artHeight: number } },
+  opts: {
+    height: number;
+    alt: string;
+    fit: MobileCopyFit;
+    card?: CardLayer & { artHeight: number };
+    /** Natural art height at 390 px, required with `lip` when there is no card. */
+    artHeight?: number;
+    /** A panel lip over the bottom of the art: the last `height` px of the hero carry `html` (see panelHead). */
+    lip?: { height: number; html: string };
+  },
 ): string {
   const lines = copy.mobileHeadline ?? copy.headline;
   const f = opts.fit;
@@ -234,24 +243,47 @@ ${f.tagline?.at === 'below' && copy.tagline ? `<div style="height:12px;line-heig
 <td class="hero-card" valign="top" style="padding:${opts.card.top - f.zone}px 0 0 0">${opts.card.html}</td>
 </tr></table></td></tr>`
       : `<tr><td class="hero-card" valign="top" style="padding:${opts.card.top - f.zone}px 0 0 ${opts.card.left}px">${opts.card.html}</td></tr>`;
-  if (!opts.card) {
+  if (!opts.card && !opts.lip) {
     const content = `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">${copyRow}</table>`;
     return mobileOnly(`<table class="hero mob-only" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="display:none;max-height:0;overflow:hidden;width:100%" aria-label="${esc(opts.alt)}">
 <tr>${bgCell({ src: asset(`assets/${slug}/hero-mobile.jpg`), width: 390, height: opts.height, fallback: '#ebe8e3', position: 'center bottom', content, className: 'full' })}</tr>
 </table>`);
   }
-  // With a card, the art and its live text are locked together at the 390 px design width (the same
-  // geometry `cover` gives at 390): centred on wider phones, left-anchored and cropped on the right
-  // (scene only) on narrower ones.
-  const m = coverMap(opts.card.artHeight, opts.height);
+  // With a card or a panel lip, the art and its live content are locked together at the 390 px design
+  // width (the same geometry `cover` gives at 390): centred on wider phones, left-anchored and cropped on
+  // the right (scene only) on narrower ones. A lip is the art's last rows in a second cell, drawn at the
+  // same size and offset so the image runs on unbroken under the panel's top edge.
+  const art = opts.card?.artHeight ?? opts.artHeight;
+  if (!art) throw new Error(`FNDATN-01 ${slug} mobile hero needs its art height`);
+  const m = coverMap(art, opts.height);
+  const lipH = opts.lip?.height ?? 0;
+  const lock = (y: number) => ({ width: Math.round(390 * m.k * 10) / 10, height: opts.height, x: -Math.round(m.ox * 10) / 10, y });
+  const src = asset(`assets/${slug}/hero-mobile.jpg`);
   const content = `<table role="presentation" width="390" cellpadding="0" cellspacing="0" border="0" style="width:390px">${copyRow}${cardRow}</table>`;
+  const lipRow = opts.lip ? `<tr>${bgCell({ src, width: 390, height: lipH, fallback: '#ffffff', content: opts.lip.html, lock: lock(-(opts.height - lipH)) })}</tr>` : '';
   return mobileOnly(`<table class="hero mob-only" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="display:none;max-height:0;overflow:hidden;width:100%;table-layout:fixed" aria-label="${esc(opts.alt)}">
 <tr><td align="center" style="padding:0;overflow:hidden"><div style="width:100%;overflow:hidden">
 <table class="hero-lock" role="presentation" width="390" cellpadding="0" cellspacing="0" border="0" style="width:390px;margin:0 auto">
-<tr>${bgCell({ src: asset(`assets/${slug}/hero-mobile.jpg`), width: 390, height: opts.height, fallback: '#ffffff', content, lock: { width: Math.round(390 * m.k * 10) / 10, height: opts.height, x: -Math.round(m.ox * 10) / 10 } })}</tr>
+<tr>${bgCell({ src, width: 390, height: opts.height - lipH, fallback: '#ffffff', content, lock: lock(0) })}</tr>
+${lipRow}
 </table>
 </div></td></tr>
 </table>`);
+}
+
+const PANEL_EDGE = '#e3dfd8';
+const PANEL_GROUND = '#f2f0ec';
+
+/** The top of a mobile section panel (white, inset 12 px), drawn inside a hero lip: section title and aside. */
+export function panelHead(title: string, aside?: string, padTop = 18): string {
+  const side = aside
+    ? `<td valign="middle" align="left" width="112" style="width:112px;padding-left:12px;border-left:1px solid ${T.line}">${microLabel(aside, T.ink, 7)}</td>`
+    : '';
+  return `<table role="presentation" width="390" cellpadding="0" cellspacing="0" border="0" style="width:390px"><tr><td valign="bottom" style="padding:0 12px">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%;background:#ffffff;border:1px solid ${PANEL_EDGE};border-bottom:0;border-radius:6px 6px 0 0"><tr><td style="padding:${padTop}px 16px 6px">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td valign="middle">${sectionTitle(title, 27)}</td>${side}</tr></table>
+</td></tr></table>
+</td></tr></table>`;
 }
 
 /** Plain-text band item; renderers escape every field. `value` is a personalized line under the text; `textTone` reddens the text. */
@@ -263,34 +295,45 @@ export function bandText(it: BandItem): string {
   return it.value ? `${text}<br><span class="keep-ink" style="color:${T.ink}">${v(it.value)}</span>` : text;
 }
 
-export function deskBand(asset: AssetResolver, title: string, items: BandItem[], opts: { titleWidth?: number; side?: string; sideLeft?: string } = {}): string {
+/** How a band item's marker reads in its authority: number then icon (01/02/04), icon then number (03/05), icon only (07). */
+export type BandMark = 'num-icon' | 'icon-num' | 'icon';
+
+export function deskBand(
+  asset: AssetResolver,
+  title: string,
+  items: BandItem[],
+  opts: { titleWidth?: number; side?: string; sideLeft?: string; mark?: BandMark } = {},
+): string {
   const tw = opts.titleWidth ?? 190;
+  const mark = opts.mark ?? 'num-icon';
+  const num = (it: BandItem) =>
+    `<td valign="middle" class="keep-red" style="${mark === 'icon-num' ? 'padding-left:9px' : 'padding-right:10px'};font-family:${FONT_DISPLAY};font-weight:600;font-size:18px;line-height:19px;color:${it.tone === 'muted' ? T.faint : T.red}">${esc(it.n)}</td>`;
+  const ico = (it: BandItem) => `<td valign="middle">${icon(asset(`assets/icons/${it.icon}.png`), it.iconAlt, 18)}</td>`;
   const cols = items
     .map(
-      (it) => `<td valign="top" style="padding:22px 12px 22px 14px;border-left:1px solid ${T.line}">
+      (it) => `<td valign="top" style="padding:17px 10px 16px 12px;border-left:1px solid ${T.line}">
 <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
-<td valign="middle" class="keep-red" style="padding-right:12px;font-family:${FONT_DISPLAY};font-weight:600;font-size:21px;line-height:22px;color:${it.tone === 'muted' ? T.faint : T.red}">${esc(it.n)}</td>
-<td valign="middle">${icon(asset(`assets/icons/${it.icon}.png`), it.iconAlt, 20)}</td>
+${mark === 'icon' ? ico(it) : mark === 'icon-num' ? `${ico(it)}${num(it)}` : `${num(it)}${ico(it)}`}
 </tr></table>
-<div style="height:9px;line-height:9px;font-size:1px">&nbsp;</div>
-<p style="margin:0;font-family:${FONT_BODY};font-size:10.5px;line-height:14px;letter-spacing:.16em;font-weight:600;color:${it.tone === 'muted' ? T.faint : T.ink};text-transform:uppercase">${esc(it.title)}</p>
-<div style="height:5px;line-height:5px;font-size:1px">&nbsp;</div>
-<p style="margin:0;font-family:${FONT_BODY};font-size:9px;line-height:13px;letter-spacing:.12em;color:${T.mute};text-transform:uppercase">${bandText(it)}</p>
+<div style="height:8px;line-height:8px;font-size:1px">&nbsp;</div>
+<p style="margin:0;font-family:${FONT_BODY};font-size:9.5px;line-height:13px;letter-spacing:.16em;font-weight:600;color:${it.tone === 'muted' ? T.faint : T.ink};text-transform:uppercase">${esc(it.title)}</p>
+<div style="height:4px;line-height:4px;font-size:1px">&nbsp;</div>
+<p style="margin:0;font-family:${FONT_BODY};font-size:8px;line-height:11.5px;letter-spacing:.12em;color:${T.mute};text-transform:uppercase">${bandText(it)}</p>
 </td>`,
     )
     .join('');
   const side = opts.side
-    ? `<td valign="middle" width="96" style="width:96px;padding:0 0 0 14px;border-left:1px solid ${T.line}">${microLabel(opts.side, T.mute, 7.5)}</td>`
+    ? `<td valign="middle" width="90" style="width:90px;padding:0 0 0 14px;border-left:1px solid ${T.line}">${microLabel(opts.side, T.mute, 7)}</td>`
     : '';
-  const sideLeft = opts.sideLeft ? `<td valign="middle" width="92" style="width:92px;padding:0 14px 0 0">${microLabel(opts.sideLeft, T.mute, 7.5)}</td>` : '';
+  const sideLeft = opts.sideLeft ? `<td valign="middle" width="92" style="width:92px;padding:0 14px 0 0">${microLabel(opts.sideLeft, T.mute, 7)}</td>` : '';
   return `<table class="walk desk-only" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%">
 <tr>${bgCell({
     src: asset('assets/shared/marble-band.jpg'),
     width: T.canvas,
-    height: 150,
+    height: 112,
     fallback: T.marble,
     content: `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
-<td style="padding:0 0 0 24px" width="${tw + (opts.sideLeft ? 92 : 0)}" valign="middle"><table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>${sideLeft}<td valign="middle" style="width:${tw}px">${sectionTitle(title, 30)}</td></tr></table></td>
+<td style="padding:0 0 0 24px" width="${tw + (opts.sideLeft ? 92 : 0)}" valign="middle"><table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>${sideLeft}<td valign="middle" style="width:${tw}px">${sectionTitle(title, 27)}</td></tr></table></td>
 ${cols}
 ${side}
 <td width="12" style="width:12px;font-size:1px">&nbsp;</td>
@@ -303,30 +346,56 @@ export function mobileRows(
   asset: AssetResolver,
   title: string,
   items: BandItem[],
-  opts: { aside?: string; status?: (it: BandItem, i: number) => string } = {},
+  opts: {
+    aside?: string;
+    status?: (it: BandItem, i: number) => string;
+    /** Number and icon (default), or icon only (07). */
+    mark?: 'num-icon' | 'icon';
+    /** Title and description side by side (03), instead of stacked. */
+    inline?: boolean;
+    /** Render as the body of an inset panel whose head sits in the hero lip (05/06/07); `after` closes the panel (CTA). */
+    panel?: { after?: string };
+  } = {},
 ): string {
+  const titleP = (it: BandItem) =>
+    `<p style="margin:0;font-family:${FONT_BODY};font-size:10px;line-height:13px;letter-spacing:.16em;font-weight:600;color:${it.tone === 'muted' ? T.faint : T.ink};text-transform:uppercase">${esc(it.title)}</p>`;
+  const textP = (it: BandItem, top: number) =>
+    `<p style="margin:${top}px 0 0;font-family:${FONT_BODY};font-size:8.5px;line-height:12px;letter-spacing:.1em;color:${T.mute};text-transform:uppercase">${bandText(it)}</p>`;
+  const pad = opts.panel ? 14 : 20;
   const rows = items
     .map(
       (
         it,
         i,
-      ) => `<tr><td style="padding:0 20px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-top:${i === 0 ? 0 : 1}px solid ${T.line}"><tr>
-<td width="34" valign="middle" class="keep-red" style="width:34px;padding:12px 0;font-family:${FONT_DISPLAY};font-weight:600;font-size:22px;line-height:22px;color:${it.tone === 'muted' ? T.faint : T.red}">${esc(it.n)}</td>
-<td width="44" valign="middle" style="width:44px;padding:12px 0">${icon(asset(`assets/icons/${it.icon}.png`), it.iconAlt, 22)}</td>
-<td width="1" valign="middle" style="padding:12px 12px 12px 0">${vrule(30)}</td>
-<td valign="middle" style="padding:12px 0">
-<p style="margin:0;font-family:${FONT_BODY};font-size:11px;line-height:15px;letter-spacing:.16em;font-weight:600;color:${it.tone === 'muted' ? T.faint : T.ink};text-transform:uppercase">${esc(it.title)}</p>
-<p style="margin:3px 0 0;font-family:${FONT_BODY};font-size:9.5px;line-height:13px;letter-spacing:.1em;color:${T.mute};text-transform:uppercase">${bandText(it)}</p>
-</td>
-${opts.status ? `<td valign="middle" align="left" width="96" style="width:96px;padding:12px 0 12px 12px;border-left:1px solid ${T.line}">${opts.status(it, i)}</td>` : ''}
+      ) => `<tr><td style="padding:0 ${pad}px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-top:${i === 0 ? 0 : 1}px solid ${T.line}"><tr>
+${opts.mark === 'icon' ? '' : `<td width="30" valign="middle" class="keep-red" style="width:30px;padding:9px 0;font-family:${FONT_DISPLAY};font-weight:600;font-size:19px;line-height:20px;color:${it.tone === 'muted' ? T.faint : T.red}">${esc(it.n)}</td>`}
+<td width="36" valign="middle" style="width:36px;padding:9px 0">${icon(asset(`assets/icons/${it.icon}.png`), it.iconAlt, 19)}</td>
+<td width="1" valign="middle" style="padding:9px 11px 9px 0">${vrule(24)}</td>
+${
+  opts.inline
+    ? `<td width="88" valign="middle" style="width:88px;padding:9px 8px 9px 0">${titleP(it)}</td><td valign="middle" style="padding:9px 0">${textP(it, 0)}</td>`
+    : `<td valign="middle" style="padding:9px 0">${titleP(it)}${textP(it, 2)}</td>`
+}
+${opts.status ? `<td valign="middle" align="left" width="96" style="width:96px;padding:9px 0 9px 10px;white-space:nowrap;border-left:1px solid ${T.line}">${opts.status(it, i)}</td>` : ''}
 </tr></table></td></tr>`,
     )
     .join('');
+  if (opts.panel) {
+    return mobileOnly(`<table class="walk mob-only" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="display:none;max-height:0;overflow:hidden;width:100%;background:${PANEL_GROUND}">
+<tr><td style="padding:0 12px 16px">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%;background:#ffffff;border:1px solid ${PANEL_EDGE};border-top:0;border-radius:0 0 6px 6px">
+<tr><td style="height:6px;line-height:6px;font-size:1px">&nbsp;</td></tr>
+${rows}
+${opts.panel.after ? `<tr><td style="padding:12px 14px 16px" align="center">${opts.panel.after}</td></tr>` : '<tr><td style="height:10px;line-height:10px;font-size:1px">&nbsp;</td></tr>'}
+</table>
+</td></tr>
+</table>`);
+  }
   const aside = opts.aside
     ? `<td valign="middle" align="left" width="120" style="width:120px;padding-left:14px;border-left:1px solid ${T.line}">${microLabel(opts.aside, T.ink, 7.5)}</td>`
     : '';
   return mobileOnly(`<table class="walk mob-only" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="display:none;max-height:0;overflow:hidden;width:100%;background:${T.white}">
-<tr><td style="padding:24px 20px 12px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td valign="middle">${sectionTitle(title, 30)}</td>${aside}</tr></table></td></tr>
+<tr><td style="padding:22px 20px 10px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td valign="middle">${sectionTitle(title, 28)}</td>${aside}</tr></table></td></tr>
 ${rows}
 <tr><td style="height:10px;line-height:10px;font-size:1px">&nbsp;</td></tr>
 </table>`);
@@ -345,7 +414,7 @@ export function deskAct(
   return `<table class="act desk-only" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%;background:#ffffff">
 <tr>
 ${side(strips.left, strips.leftAlt)}
-<td valign="middle" align="center" style="padding:14px 10px">${button(cta.label, cta.url, { width: 350 })}${caption(cta.caption)}</td>
+<td valign="middle" align="center" style="padding:10px 10px 9px">${button(cta.label, cta.url, { width: 350 })}${caption(cta.caption)}</td>
 ${side(strips.right, strips.rightAlt)}
 </tr>
 </table>`;
