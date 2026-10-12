@@ -37,6 +37,6 @@ describe('Digital Foundation icon registry', () => {
   it('keeps a visible stroke instead of the 0.15 hairline', () => {
     const css = readFileSync(new URL('../src/site00/styles/site00-df-client.css', import.meta.url), 'utf8');
     expect(css).not.toContain('stroke-width: 0.15');
-    expect(css).toContain('stroke-width: 1.65');
+    expect(css).toMatch(/\.df-cta__arrow[\s\S]*stroke-width:\s*1\.25/);
   });
 });

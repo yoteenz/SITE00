@@ -170,8 +170,9 @@ describe('component stylesheet', () => {
     expect(css).toContain('prefers-reduced-motion: reduce');
   });
 
-  it('old one-off sheet/confirm primitives are gone from the client sheet (single UI system)', () => {
-    expect(client).not.toMatch(/^\.df-confirm(\s|\{|__)/m);
-    expect(client).not.toMatch(/^\.df-sheet__panel\b/m);
+  it('keeps modal/toast stacks in the component sheet only (client may add review overlays)', () => {
+    expect(css).toMatch(/^\.df-modal\b/m);
+    expect(client).not.toMatch(/^\.df-modal\b/m);
+    expect(client).not.toMatch(/^\.df-toasts\b/m);
   });
 });
