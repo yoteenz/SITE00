@@ -4,7 +4,8 @@
  */
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import type { BuildComposition } from './composition';
-import { createBuildObjectEngine, renderBuildThumbnail, webglAvailable, type BuildObjectEngine } from './engine';
+import { createBuildObjectEngine, renderBuildThumbnail, renderRealismThumbnail, webglAvailable, type AnchorListener, type BuildObjectEngine, type StageAnchor } from './engine';
+import { isRealismBenchmark, plateUrlOf, plateYOf, realismRequested } from './realism';
 
 export function usePrefersReducedMotion(): boolean {
   const [reduced, setReduced] = useState(
@@ -26,17 +27,27 @@ type StageProps = {
   description: string;
   interactive?: boolean;
   resetToken?: number;
+  /** Points on the model the page annotates, and who hears where they are on the stage. */
+  anchors?: readonly StageAnchor[];
+  onAnchors?: AnchorListener;
   className?: string;
   children?: ReactNode;
 };
 
-export function BuildObjectStage({ composition, description, interactive = false, resetToken = 0, className, children }: StageProps) {
+const NO_ANCHORS: readonly StageAnchor[] = [];
+
+export function BuildObjectStage({ composition, description, interactive = false, resetToken = 0, anchors = NO_ANCHORS, onAnchors, className, children }: StageProps) {
   const hostRef = useRef<HTMLDivElement>(null);
   const engineRef = useRef<BuildObjectEngine | null>(null);
   const compositionRef = useRef(composition);
   compositionRef.current = composition;
   const reducedMotion = usePrefersReducedMotion();
   const [failed, setFailed] = useState(false);
+  // Bumped when the GPU drops the context: the engine is rebuilt (and the current composition drawn again).
+  const [generation, setGeneration] = useState(0);
+  const losses = useRef<number[]>([]);
+  // Realism benchmark (review only): `?realism=v2` on PLACE · ADVANCED. Crossing in or out rebuilds the engine.
+  const realism = isRealismBenchmark(composition) ? realismRequested() : null;
 
   useEffect(() => {
     const host = hostRef.current;
@@ -46,7 +57,17 @@ export function BuildObjectStage({ composition, description, interactive = false
       return;
     }
     try {
-      const engine = createBuildObjectEngine(host, { reducedMotion });
+      const engine = createBuildObjectEngine(host, {
+        reducedMotion,
+        realism,
+        onContextLost: () => {
+          // Rebuild, unless the device keeps losing it (then show the honest fallback rather than flicker forever).
+          const now = Date.now();
+          losses.current = [...losses.current.filter((t) => now - t < 20000), now];
+          if (losses.current.length > 3) setFailed(true);
+          else setGeneration((n) => n + 1);
+        },
+      });
       engine.setComposition(compositionRef.current);
       engineRef.current = engine;
     } catch {
@@ -55,8 +76,10 @@ export function BuildObjectStage({ composition, description, interactive = false
     return () => {
       engineRef.current?.dispose();
       engineRef.current = null;
+      delete host.dataset.realism;
+      delete host.dataset.quality;
     };
-  }, [reducedMotion]);
+  }, [reducedMotion, generation, realism]);
 
   useEffect(() => {
     engineRef.current?.setComposition(composition);
@@ -69,6 +92,15 @@ export function BuildObjectStage({ composition, description, interactive = false
   useEffect(() => {
     if (resetToken) engineRef.current?.resetView();
   }, [resetToken]);
+
+  // Re-subscribe when the engine is rebuilt (reduced-motion change) as well as when the anchors change.
+  useEffect(() => {
+    engineRef.current?.setAnchors(anchors, onAnchors ?? null);
+  }, [anchors, onAnchors, reducedMotion, realism]);
+
+  useEffect(() => {
+    engineRef.current?.setInteractive(interactive);
+  }, [realism]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className={['bs-object', className].filter(Boolean).join(' ')} data-object-key={composition.key}>
@@ -87,11 +119,21 @@ export function BuildObjectStage({ composition, description, interactive = false
 /** A still of a composition for option cards. Rendered once per composition key and cached. */
 export function BuildThumbnail({ composition, width, height, alt }: { composition: BuildComposition; width: number; height: number; alt: string }) {
   const [src, setSrc] = useState<string | null>(null);
+  const frameRef = useRef<HTMLSpanElement>(null);
   useEffect(() => {
     if (!webglAvailable()) return;
     let cancelled = false;
+    const frame = frameRef.current;
+    const plate = frame && isRealismBenchmark(composition) && realismRequested() ? plateUrlOf(frame) : null;
     // Defer so the stage paints first; thumbnails share one offscreen context.
     const id = window.setTimeout(() => {
+      if (plate && frame) {
+        // Realism benchmark: the card still matches the benchmark stage (same bodies, plate in the image).
+        void renderRealismThumbnail(composition, width, height, plate, plateYOf(frame, 0.7)).then((url) => {
+          if (!cancelled) setSrc(url ?? renderBuildThumbnail(composition, width, height));
+        });
+        return;
+      }
       const url = renderBuildThumbnail(composition, width, height);
       if (!cancelled) setSrc(url);
     }, 30);
@@ -102,7 +144,7 @@ export function BuildThumbnail({ composition, width, height, alt }: { compositio
   }, [composition.key, width, height]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <span className="bs-thumb" style={{ aspectRatio: `${width} / ${height}` }}>
+    <span className="bs-thumb" ref={frameRef} style={{ aspectRatio: `${width} / ${height}` }}>
       {src ? <img src={src} alt={alt} width={width} height={height} draggable={false} /> : <span className="bs-thumb__pending" aria-hidden="true" />}
     </span>
   );
