@@ -1,6 +1,14 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { mappingsForEvent } from '../../../../../../shared/site00-digital-foundation/communications/eventMap.js';
 import { DEVICE_PREVIEW_WIDTHS } from '../../../../../../shared/site00-correspondence-studio/devicePreview.js';
+import {
+  FNDATN01_PACK_ID,
+  FNDATN01_PACK_TITLE,
+  FNDATN01_REMINDER_POLICY,
+  FNDATN01_STATUS,
+  fndatn01EmailForTemplate,
+  type Fndatn01Email,
+} from '../../../../../../shared/site00-correspondence-studio/fndatn01/pack.js';
 import { APPROVAL_PERSISTENCE_MODE, type StoredReviewBundle } from '../../../../../../shared/site00-correspondence-studio/review/repositoryReviewStore.js';
 import type {
   BrandAuthorityContract,
@@ -9,11 +17,7 @@ import type {
   EmailTemplateVersion,
   ReviewState,
 } from '../../../../../../shared/site00-correspondence-studio/types.js';
-import {
-  reviewStateLabel,
-  type CopyContract,
-  type EmailBlock,
-} from '../../../../../../shared/site00-correspondence-studio/workspaceLibrary.js';
+import { reviewStateLabel, type CopyContract, type EmailBlock } from '../../../../../../shared/site00-correspondence-studio/workspaceLibrary.js';
 import type { EmailDocumentState } from './emailDocument';
 import { CsIcon } from './CsIcons';
 
@@ -26,13 +30,7 @@ const TABS: { id: InspectorTab; label: string }[] = [
   { id: 'review', label: 'REVIEW & TEST' },
 ];
 
-export const REVIEW_ACTIONS: ReviewState[] = [
-  'founder_review',
-  'revision_required',
-  'approved',
-  'approved_with_revisions',
-  'delivery_ready',
-];
+export const REVIEW_ACTIONS: ReviewState[] = ['founder_review', 'revision_required', 'approved', 'approved_with_revisions', 'delivery_ready'];
 
 type Entry = CorrespondenceWorkspaceManifest['templates'][string];
 
@@ -68,6 +66,61 @@ function ReadOnlyField({ label, value, source }: { label: string; value: string 
   );
 }
 
+function packTrigger(email: Fndatn01Email): string {
+  if (email.trigger.kind === 'artifact_event') return `${email.trigger.event.replace(/_/g, ' ')} · ARTIFACT EVENT`;
+  const hours =
+    email.trigger.condition === 'INTAKE_RESUME_REMINDER_DUE'
+      ? `${FNDATN01_REMINDER_POLICY.intake_resume_after_hours}H AFTER LAST INTAKE ACTIVITY`
+      : `WITHIN ${FNDATN01_REMINDER_POLICY.quote_expiry_window_hours}H OF THE QUOTE'S ACTUAL EXPIRY`;
+  return `${email.trigger.condition.replace(/_/g, ' ')} · DERIVED CONDITION · ${hours} · NOT SCHEDULED`;
+}
+
+function PackContract({ email }: { email: Fndatn01Email }) {
+  return (
+    <>
+      <h2 className="csw-heading csw-heading--gap">
+        TRIGGER CONTRACT <span className="csw-ro">{FNDATN01_PACK_ID}</span>
+      </h2>
+      <dl className="csw-dl">
+        <dt>PURPOSE</dt>
+        <dd>{email.purpose.toUpperCase()}</dd>
+        <dt>ROLE</dt>
+        <dd>{email.role === 'conditional_recovery' ? 'CONDITIONAL RECOVERY · NOT A LIFECYCLE STEP' : 'LIFECYCLE'}</dd>
+        <dt>TRIGGER</dt>
+        <dd>{packTrigger(email)}</dd>
+        <dt>ELIGIBLE WHEN</dt>
+        <dd>
+          <ul className="csw-plain-list">
+            {email.eligibility.map((rule) => (
+              <li key={rule}>{rule.toUpperCase()}</li>
+            ))}
+          </ul>
+        </dd>
+        <dt>NEVER SEND WHEN</dt>
+        <dd>
+          <ul className="csw-plain-list">
+            {email.never_send_when.map((rule) => (
+              <li key={rule}>{rule.toUpperCase()}</li>
+            ))}
+          </ul>
+        </dd>
+        <dt>PRIMARY ACTION</dt>
+        <dd>
+          {email.cta_label} · {email.cta_destination.toUpperCase()}
+        </dd>
+        {email.preserved_contracts.length ? (
+          <>
+            <dt>KEPT SEPARATE</dt>
+            <dd>{email.preserved_contracts.join(' · ').toUpperCase()}</dd>
+          </>
+        ) : null}
+        <dt>DISPATCH</dt>
+        <dd>OFF · DRY RUN · REGISTERING THE PACK DOES NOT AUTHORIZE SENDING</dd>
+      </dl>
+    </>
+  );
+}
+
 function BlockThumb({ block }: { block: EmailBlock }) {
   if (block.imageSrc) return <img src={block.imageSrc} alt="" loading="lazy" />;
   if (block.kind === 'primary_cta') return <span className="csw-block__cta">{block.summary.slice(0, 18)}</span>;
@@ -94,20 +147,14 @@ export function CsInspector(props: Props) {
   const subject = doc?.subject ?? contract?.subject ?? null;
   const preheader = doc?.preheader ?? contract?.preheader ?? null;
   const copySource = doc?.subject ? 'COMPOSITION' : contract ? 'REGISTRY' : 'NONE';
+  const packEmail = version.pack_id === FNDATN01_PACK_ID ? (fndatn01EmailForTemplate(entry.template_id) ?? null) : null;
   const triggers = contract?.trigger_event ? mappingsForEvent(contract.trigger_event as Parameters<typeof mappingsForEvent>[0]) : [];
 
   return (
     <section className="csw-inspector" aria-label="Editorial inspector">
       <div className="csw-tabs" role="tablist" aria-label="Inspector">
         {TABS.map((t) => (
-          <button
-            key={t.id}
-            type="button"
-            role="tab"
-            aria-selected={tab === t.id}
-            className={tab === t.id ? 'is-active' : ''}
-            onClick={() => onTab(t.id)}
-          >
+          <button key={t.id} type="button" role="tab" aria-selected={tab === t.id} className={tab === t.id ? 'is-active' : ''} onClick={() => onTab(t.id)}>
             {t.label}
           </button>
         ))}
@@ -146,6 +193,15 @@ export function CsInspector(props: Props) {
                 </span>
               </div>
             </div>
+            {packEmail ? (
+              <div className="csw-field">
+                <span className="csw-label">PACK</span>
+                <output className="csw-field__value csw-field__value--pack">
+                  {FNDATN01_PACK_TITLE}
+                  <small>{FNDATN01_STATUS}</small>
+                </output>
+              </div>
+            ) : null}
             <ReadOnlyField label="SUBJECT LINE" value={subject} source={copySource} />
             <ReadOnlyField label="PREHEADER TEXT" value={preheader} source={copySource} />
 
@@ -224,7 +280,7 @@ export function CsInspector(props: Props) {
             </div>
             <ReadOnlyField
               label="TYPE SCALE"
-              value={brand.uses_site00_visual_dna ? 'SAIRA SEMI CONDENSED · EDITORIAL' : brand.typography?.family ?? null}
+              value={brand.uses_site00_visual_dna ? 'SAIRA SEMI CONDENSED · EDITORIAL' : (brand.typography?.family ?? null)}
               source="BRAND"
             />
           </>
@@ -252,6 +308,12 @@ export function CsInspector(props: Props) {
               <dd className="csw-mono">{version.copy_ref ?? '—'}</dd>
               <dt>ASSET PROVENANCE</dt>
               <dd className="csw-mono">{version.asset_provenance_ref ?? '—'}</dd>
+              {version.reference_authority ? (
+                <>
+                  <dt>FOUNDER AUTHORITY</dt>
+                  <dd className="csw-mono">{version.reference_authority.manifest_ref}</dd>
+                </>
+              ) : null}
               <dt>VISUAL AUTHORITY</dt>
               <dd className="csw-mono">{campaign.visual_authority_ref ?? '—'}</dd>
               <dt>VOICE</dt>
@@ -280,16 +342,18 @@ export function CsInspector(props: Props) {
                   <dd>{brand.approval_requirements.join(' · ').toUpperCase()}</dd>
                 </>
               ) : null}
-              <dt>TRIGGER</dt>
-              <dd>{contract?.trigger_event?.replace(/_/g, ' ') ?? 'NONE'}</dd>
+              {packEmail ? null : (
+                <>
+                  <dt>TRIGGER</dt>
+                  <dd>{contract?.trigger_event?.replace(/_/g, ' ') ?? 'NONE'}</dd>
+                </>
+              )}
               <dt>SEND</dt>
               <dd>
-                {triggers.length
-                  ? triggers.map((m) => `${m.event_type.replace(/_/g, ' ')} · ${m.enabled ? 'ON' : 'OFF'}`).join(' / ')
-                  : 'OFF'}{' '}
-                · NO LIVE SENDING IN CORRESPONDENCE STUDIO V1
+                {triggers.length ? triggers.map((m) => `${m.event_type.replace(/_/g, ' ')} · ${m.enabled ? 'ON' : 'OFF'}`).join(' / ') : 'OFF'} · NO LIVE
+                SENDING IN CORRESPONDENCE STUDIO V1
               </dd>
-              {contract?.primary_cta ? (
+              {contract?.primary_cta && !packEmail ? (
                 <>
                   <dt>PRIMARY ACTION</dt>
                   <dd>{contract.primary_cta}</dd>
@@ -298,6 +362,7 @@ export function CsInspector(props: Props) {
               <dt>SENDER</dt>
               <dd>{doc?.from ?? 'PENDING REGISTRATION'}</dd>
             </dl>
+            {packEmail ? <PackContract email={packEmail} /> : null}
           </>
         ) : null}
 
@@ -339,8 +404,7 @@ export function CsInspector(props: Props) {
                         {v.version_id === entry.current_version_id ? <em>CURRENT</em> : null}
                       </span>
                       <span className="csw-versions__meta">
-                        {v.created_at.slice(0, 10)} · {v.implementation_scope.replace(/_/g, ' ').toUpperCase()} ·{' '}
-                        {reviewStateLabel(props.versionStateOf(v))}
+                        {v.created_at.slice(0, 10)} · {v.implementation_scope.replace(/_/g, ' ').toUpperCase()} · {reviewStateLabel(props.versionStateOf(v))}
                       </span>
                     </button>
                   </li>
@@ -422,8 +486,7 @@ export function CsInspector(props: Props) {
               <CsIcon name="lock" size={14} /> OFF. NO SENDER IS REGISTERED AND CORRESPONDENCE STUDIO V1 DOES NOT SEND EMAIL.
             </p>
             <p className="csw-note">
-              DECISIONS AND NOTES ARE SAVED IN THIS BROWSER ({APPROVAL_PERSISTENCE_MODE.replace(/-/g, ' ').toUpperCase()}). NOTHING IS
-              WRITTEN TO A DATABASE.
+              DECISIONS AND NOTES ARE SAVED IN THIS BROWSER ({APPROVAL_PERSISTENCE_MODE.replace(/-/g, ' ').toUpperCase()}). NOTHING IS WRITTEN TO A DATABASE.
             </p>
           </>
         ) : null}

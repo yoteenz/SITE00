@@ -6,6 +6,7 @@ import { getCorrespondenceWorkspace } from '../../../../../shared/site00-corresp
 import {
   copyContractFor,
   filterLibraryRows,
+  listCorrespondencePacks,
   listLibraryRows,
   resolveVersion,
   reviewStateLabel,
@@ -17,7 +18,7 @@ import { CsActions } from '../../components/correspondence/workspace/CsActions';
 import { CsIcon, type IconName } from '../../components/correspondence/workspace/CsIcons';
 import { CsInspector, type InspectorTab } from '../../components/correspondence/workspace/CsInspector';
 import { CsLibrary, type LibraryMode } from '../../components/correspondence/workspace/CsLibrary';
-import { CsPreviewStage, type PreviewStageHandle } from '../../components/correspondence/workspace/CsPreviewStage';
+import { CsPreviewStage, type PreviewStageHandle, type StageView } from '../../components/correspondence/workspace/CsPreviewStage';
 import { useEmailDocument, useLibraryThumbnails } from '../../components/correspondence/workspace/emailDocument';
 import { useWorkspaceReview } from '../../components/correspondence/workspace/useWorkspaceReview';
 import { SITE00_ADMIN_ROUTES } from '../../config/routes';
@@ -96,6 +97,7 @@ export default function CorrespondenceWorkspacePage() {
   const [query, setQuery] = useState('');
   const [family, setFamily] = useState<LibraryClassification | 'all'>('all');
   const [reviewOnly, setReviewOnly] = useState(false);
+  const [pack, setPack] = useState<string | null>(() => search.get('pack'));
   const [inspectorTab, setInspectorTab] = useState<InspectorTab>('content');
   const [focus, setFocus] = useState(false);
   const [panel, setPanel] = useState<Panel>(routeKind === 'email' ? 'preview' : 'library');
@@ -124,6 +126,11 @@ export default function CorrespondenceWorkspacePage() {
       }),
     [manifest, brandId, scopeCampaignId],
   );
+  const packs = useMemo(
+    () => listCorrespondencePacks(manifest).filter((p) => p.template_ids.some((id) => scopeRows.some((r) => r.template_id === id))),
+    [manifest, scopeRows],
+  );
+  const activePack = packs.find((p) => p.pack_id === pack) ?? null;
   const stateOfRow = useCallback((row: LibraryRow) => review.stateOf(row.template_id, row.current_version), [review]);
   const visibleRows = useMemo(
     () =>
@@ -133,10 +140,11 @@ export default function CorrespondenceWorkspacePage() {
           classification: mode === 'archive' ? 'all' : family,
           query,
           reviewStates: mode === 'archive' ? ['archived'] : reviewOnly ? ['founder_review'] : null,
+          templateIds: mode === 'emails' && activePack ? activePack.template_ids : null,
         },
         stateOfRow,
       ),
-    [scopeRows, mode, family, query, reviewOnly, stateOfRow],
+    [scopeRows, mode, family, query, reviewOnly, stateOfRow, activePack],
   );
   const awaitingReview = useMemo(() => scopeRows.filter((r) => stateOfRow(r) === 'founder_review').length, [scopeRows, stateOfRow]);
 
@@ -160,7 +168,16 @@ export default function CorrespondenceWorkspacePage() {
   const entry = selectedRow ? manifest.templates[selectedRow.template_id] : null;
   const versionParam = search.get('v');
   const version = useMemo(() => (entry ? resolveVersion(entry, versionParam) : null), [entry, versionParam]);
-  const docState = useEmailDocument(version);
+  const statePreviews = version?.state_previews ?? null;
+  const statePreview = statePreviews?.find((p) => p.id === search.get('state')) ?? statePreviews?.[0] ?? null;
+  const previewVersion = useMemo(() => {
+    if (!version || !statePreview || version.preview_source.kind !== 'repository_html') return version;
+    return { ...version, preview_source: { ...version.preview_source, publicPreviewPath: statePreview.publicPreviewPath } };
+  }, [version, statePreview]);
+  const docState = useEmailDocument(previewVersion);
+  const reference = version?.reference_authority ?? null;
+  const viewParam = search.get('view');
+  const view: StageView = reference && (viewParam === 'reference' || viewParam === 'compare') ? viewParam : 'html';
   const contract = selectedRow ? copyContractFor(selectedRow.template_id) : null;
   const campaign = selectedRow ? (manifest.projects.flatMap((p) => p.campaigns).find((c) => c.campaign_id === selectedRow.campaign_id) ?? null) : null;
   const bundle = entry && version ? review.bundleOf(entry.template_id, version) : null;
@@ -179,6 +196,12 @@ export default function CorrespondenceWorkspacePage() {
     [search, setSearch],
   );
 
+  const selectPack = (id: string | null) => {
+    setPack(id);
+    if (id) setFamily('all');
+    updateSearch({ pack: id });
+  };
+
   const setDevice = (d: DevicePreviewMode) => {
     setDeviceState(d);
     updateSearch({ device: d });
@@ -186,8 +209,10 @@ export default function CorrespondenceWorkspacePage() {
 
   const carry = () => {
     const keep = new URLSearchParams();
-    const d = search.get('device');
-    if (d) keep.set('device', d);
+    for (const k of ['device', 'pack', 'view']) {
+      const val = search.get(k);
+      if (val) keep.set(k, val);
+    }
     const s = keep.toString();
     return s ? `?${s}` : '';
   };
@@ -401,6 +426,9 @@ export default function CorrespondenceWorkspacePage() {
             onFamily={setFamily}
             reviewOnly={reviewOnly}
             onReviewOnly={setReviewOnly}
+            packs={packs}
+            activePackId={activePack?.pack_id ?? null}
+            onPack={selectPack}
             scopeRows={scopeRows}
             visibleRows={visibleRows}
             selectedId={selectedRow?.template_id ?? null}
@@ -442,6 +470,40 @@ export default function CorrespondenceWorkspacePage() {
                     </button>
                   ))}
                 </div>
+                {reference ? (
+                  <div className="csw-devices csw-views" role="group" aria-label="Preview view">
+                    {(
+                      [
+                        ['html', 'HTML'],
+                        ['reference', 'REFERENCE'],
+                        ['compare', 'COMPARE'],
+                      ] as [StageView, string][]
+                    ).map(([id, label]) => (
+                      <button
+                        key={id}
+                        type="button"
+                        aria-pressed={view === id}
+                        className={view === id ? 'is-active' : ''}
+                        onClick={() => updateSearch({ view: id === 'html' ? null : id })}
+                      >
+                        {label}
+                      </button>
+                    ))}
+                  </div>
+                ) : null}
+                {statePreviews && statePreview ? (
+                  <label className="csw-version" title="Data state rendered by this version">
+                    <span className="csw-sr">Data state</span>
+                    <select value={statePreview.id} onChange={(e) => updateSearch({ state: e.target.value === statePreviews[0].id ? null : e.target.value })}>
+                      {statePreviews.map((p) => (
+                        <option key={p.id} value={p.id}>
+                          {p.label}
+                        </option>
+                      ))}
+                    </select>
+                    <CsIcon name="chevron-down" size={12} />
+                  </label>
+                ) : null}
                 <button
                   type="button"
                   className="csw-icon-btn csw-stage__expand"
@@ -464,7 +526,7 @@ export default function CorrespondenceWorkspacePage() {
             </button>
           </header>
           {version ? (
-            <CsPreviewStage ref={stageRef} state={docState} device={device} title={title} contract={contract} />
+            <CsPreviewStage ref={stageRef} state={docState} device={device} title={title} contract={contract} view={view} reference={reference} />
           ) : (
             <p className="csw-empty">NO TEMPLATES ARE REGISTERED FOR THIS BRAND AUTHORITY.</p>
           )}
