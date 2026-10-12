@@ -7,6 +7,7 @@ import {
   T,
   bgCell,
   bodyCopy,
+  displaySubtextMetrics,
   button,
   caption,
   esc,
@@ -122,9 +123,15 @@ export function desktopHero(asset: AssetResolver, slug: string, copy: HeroCopy, 
 <td width="${w}" valign="top" style="width:${w}px;max-width:${w}px;padding:${copy.headline.length > 2 ? 20 : 26}px 0 10px 28px">
 ${copy.kicker ? `${kicker(copy.kicker)}<div style="height:11px;line-height:11px;font-size:1px">&nbsp;</div>` : ''}
 ${headline(copy.headline, (copy.deskSize ?? (copy.headline.length > 2 ? 40 : 46)) + 2)}
-${copy.sub ? `<div style="height:10px;line-height:10px;font-size:1px">&nbsp;</div><p style="margin:0;font-family:${FONT_BODY};font-size:13px;line-height:17px;letter-spacing:.1em;font-weight:600;color:${T.ink};text-transform:uppercase">${copy.sub}</p>` : ''}
+${copy.sub ? (() => {
+  const sub = displaySubtextMetrics(13, 17);
+  return `<div style="height:10px;line-height:10px;font-size:1px">&nbsp;</div><p style="margin:0;font-family:${FONT_BODY};font-size:${sub.fontSize}px;line-height:${sub.lineHeight}px;letter-spacing:.1em;font-weight:600;color:${T.ink};text-transform:uppercase">${copy.sub}</p>`;
+})() : ''}
 <div style="height:12px;line-height:12px;font-size:1px">&nbsp;</div>
-${bodyCopy(copy.body, 10.5, T.ink, 'font-weight:500;', 15)}
+${(() => {
+  const hero = displaySubtextMetrics(10.5, 15);
+  return bodyCopy(copy.body, hero.fontSize, T.ink, 'font-weight:500;', hero.lineHeight);
+})()}
 ${copy.tagline && copy.deskTagline !== false ? `<div style="height:12px;line-height:12px;font-size:1px">&nbsp;</div>${tagline(copy.tagline)}` : ''}
 </td>
 </tr></table>`;
@@ -140,7 +147,10 @@ export function mobileHero(asset: AssetResolver, slug: string, copy: HeroCopy, o
 ${copy.kicker ? `${kicker(copy.kicker)}<div style="height:11px;line-height:11px;font-size:1px">&nbsp;</div>` : ''}
 ${headline(lines, (lines.length > 3 ? 36 : 40) + 2)}
 <div style="height:10px;line-height:10px;font-size:1px">&nbsp;</div>
-<div style="max-width:${opts.textWidth ?? 240}px">${bodyCopy(copy.mobileBody ?? copy.body, 10.5, T.ink, 'letter-spacing:.06em;font-weight:500;', 15)}</div>
+<div style="max-width:${opts.textWidth ?? 240}px">${(() => {
+  const hero = displaySubtextMetrics(10.5, 15);
+  return bodyCopy(copy.mobileBody ?? copy.body, hero.fontSize, T.ink, 'letter-spacing:.06em;font-weight:500;', hero.lineHeight);
+})()}</div>
 </td></tr></table>`;
   return mobileOnly(`<table class="hero mob-only" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="display:none;max-height:0;overflow:hidden;width:100%" aria-label="${esc(opts.alt)}">
 <tr>${bgCell({ src: asset(`assets/${slug}/hero-mobile.jpg`), width: 390, height: opts.height, fallback: '#ebe8e3', position: 'center bottom', content, className: 'full' })}</tr>
