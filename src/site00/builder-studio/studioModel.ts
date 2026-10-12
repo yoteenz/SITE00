@@ -322,15 +322,19 @@ export function spacedRange(value: string): string {
 }
 
 const LEVEL_DESCRIPTOR = {
-  SIMPLE: 'Refine an established system for your needs.',
-  ADVANCED: 'Reshape an established system around your needs.',
-  CUSTOM: 'A custom direction built from zero around your needs.',
+  SIMPLE: 'REFINE AN ESTABLISHED SYSTEM FOR YOUR NEEDS',
+  ADVANCED: 'RESHAPE AN ESTABLISHED SYSTEM AROUND YOUR NEEDS',
+  CUSTOM: 'A CUSTOM DIRECTION BUILT FROM ZERO AROUND YOUR NEEDS',
 } as const;
 
 export function buildTypeSummary(path: PlacePathId | null, selection: BuilderSelection): { label: string; descriptor: string; reasons: string[] } {
   const { level, reasons } = deriveBuildLevel(selection);
   if (path === 'WORLD') {
-    return { label: 'WORLD', descriptor: `A connected environment people explore · ${level} build.`, reasons: reasons.map((r) => r.reason) };
+    return {
+      label: 'WORLD',
+      descriptor: `A CONNECTED ENVIRONMENT PEOPLE EXPLORE · ${level} BUILD`,
+      reasons: reasons.map((r) => r.reason),
+    };
   }
   return { label: level, descriptor: LEVEL_DESCRIPTOR[level], reasons: reasons.map((r) => r.reason) };
 }

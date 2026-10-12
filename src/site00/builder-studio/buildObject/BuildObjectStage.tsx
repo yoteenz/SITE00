@@ -4,7 +4,18 @@
  */
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import type { BuildComposition } from './composition';
-import { createBuildObjectEngine, renderBuildThumbnail, webglAvailable, type BuildObjectEngine } from './engine';
+import {
+  buildThumbnailCacheKey,
+  createBuildObjectEngine,
+  getCachedBuildThumbnail,
+  renderRealismThumbnail,
+  scheduleBuildThumbnail,
+  webglAvailable,
+  type AnchorListener,
+  type BuildObjectEngine,
+  type StageAnchor,
+} from './engine';
+import { isRealismBenchmark, plateUrlOf, plateYOf, realismRequested } from './realism';
 
 export function usePrefersReducedMotion(): boolean {
   const [reduced, setReduced] = useState(
@@ -26,17 +37,35 @@ type StageProps = {
   description: string;
   interactive?: boolean;
   resetToken?: number;
+  /** Points on the model the page annotates, and who hears where they are on the stage. */
+  anchors?: readonly StageAnchor[];
+  onAnchors?: AnchorListener;
   className?: string;
   children?: ReactNode;
 };
 
-export function BuildObjectStage({ composition, description, interactive = false, resetToken = 0, className, children }: StageProps) {
+const NO_ANCHORS: readonly StageAnchor[] = [];
+
+export function BuildObjectStage({
+  composition,
+  description,
+  interactive = false,
+  resetToken = 0,
+  anchors = NO_ANCHORS,
+  onAnchors,
+  className,
+  children,
+}: StageProps) {
   const hostRef = useRef<HTMLDivElement>(null);
   const engineRef = useRef<BuildObjectEngine | null>(null);
   const compositionRef = useRef(composition);
   compositionRef.current = composition;
   const reducedMotion = usePrefersReducedMotion();
   const [failed, setFailed] = useState(false);
+  const [engineGeneration, setEngineGeneration] = useState(0);
+  const losses = useRef<number[]>([]);
+  // Realism benchmark (review only): `?realism=v2` on PLACE · ADVANCED. Crossing in or out rebuilds the engine.
+  const realism = isRealismBenchmark(composition) ? realismRequested() : null;
 
   useEffect(() => {
     const host = hostRef.current;
@@ -45,8 +74,18 @@ export function BuildObjectStage({ composition, description, interactive = false
       setFailed(true);
       return;
     }
+    setFailed(false);
     try {
-      const engine = createBuildObjectEngine(host, { reducedMotion });
+      const engine = createBuildObjectEngine(host, {
+        reducedMotion,
+        realism,
+        onContextLost: () => {
+          const now = Date.now();
+          losses.current = [...losses.current.filter((t) => now - t < 20000), now];
+          if (losses.current.length > 3) setFailed(true);
+          else setEngineGeneration((n) => n + 1);
+        },
+      });
       engine.setComposition(compositionRef.current);
       engineRef.current = engine;
     } catch {
@@ -55,20 +94,26 @@ export function BuildObjectStage({ composition, description, interactive = false
     return () => {
       engineRef.current?.dispose();
       engineRef.current = null;
+      delete host.dataset.realism;
+      delete host.dataset.quality;
     };
-  }, [reducedMotion]);
+  }, [reducedMotion, engineGeneration, realism]);
 
   useEffect(() => {
     engineRef.current?.setComposition(composition);
-  }, [composition]);
+  }, [composition.key]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     engineRef.current?.setInteractive(interactive);
-  }, [interactive]);
+  }, [interactive, realism]);
 
   useEffect(() => {
     if (resetToken) engineRef.current?.resetView();
   }, [resetToken]);
+
+  useEffect(() => {
+    engineRef.current?.setAnchors(anchors, onAnchors ?? null);
+  }, [anchors, onAnchors, reducedMotion, realism]);
 
   return (
     <div className={['bs-object', className].filter(Boolean).join(' ')} data-object-key={composition.key}>
@@ -86,23 +131,41 @@ export function BuildObjectStage({ composition, description, interactive = false
 
 /** A still of a composition for option cards. Rendered once per composition key and cached. */
 export function BuildThumbnail({ composition, width, height, alt }: { composition: BuildComposition; width: number; height: number; alt: string }) {
-  const [src, setSrc] = useState<string | null>(null);
+  const cacheKey = buildThumbnailCacheKey(composition, width, height);
+  const [src, setSrc] = useState<string | null>(() => getCachedBuildThumbnail(composition, width, height));
+  const frameRef = useRef<HTMLSpanElement>(null);
+
   useEffect(() => {
+    const cached = getCachedBuildThumbnail(composition, width, height);
+    if (cached) {
+      setSrc(cached);
+      return;
+    }
     if (!webglAvailable()) return;
     let cancelled = false;
-    // Defer so the stage paints first; thumbnails share one offscreen context.
+    const frame = frameRef.current;
+    const plate = frame && isRealismBenchmark(composition) && realismRequested() ? plateUrlOf(frame) : null;
     const id = window.setTimeout(() => {
-      const url = renderBuildThumbnail(composition, width, height);
-      if (!cancelled) setSrc(url);
+      if (plate && frame) {
+        void renderRealismThumbnail(composition, width, height, plate, plateYOf(frame, 0.7)).then((url) => {
+          if (cancelled) return;
+          if (url) setSrc(url);
+          else void scheduleBuildThumbnail(composition, width, height).then((fallback) => fallback && setSrc(fallback));
+        });
+        return;
+      }
+      void scheduleBuildThumbnail(composition, width, height).then((url) => {
+        if (!cancelled && url) setSrc(url);
+      });
     }, 30);
     return () => {
       cancelled = true;
       window.clearTimeout(id);
     };
-  }, [composition.key, width, height]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [cacheKey, width, height]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <span className="bs-thumb" style={{ aspectRatio: `${width} / ${height}` }}>
+    <span className="bs-thumb" ref={frameRef} style={{ aspectRatio: `${width} / ${height}` }}>
       {src ? <img src={src} alt={alt} width={width} height={height} draggable={false} /> : <span className="bs-thumb__pending" aria-hidden="true" />}
     </span>
   );
