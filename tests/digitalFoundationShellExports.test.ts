@@ -20,4 +20,11 @@ describe('Digital Foundation shell exports', () => {
     const api = readFileSync('src/site00/foundation-client/api.ts', 'utf8');
     expect(api).toContain('export function completeClientAction');
   });
+
+  it('keeps correspondence marks on headlines only, not df-lede body', () => {
+    const shell = readFileSync('src/site00/foundation-client/shell.tsx', 'utf8');
+    expect(shell).toContain('CorrespondenceDisplayLine');
+    expect(shell).not.toContain('CorrespondenceProse');
+    expect(shell).toMatch(/export function DfLede[\s\S]*className="df-lede"\>\{children\}/);
+  });
 });

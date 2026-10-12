@@ -1,4 +1,7 @@
-/** Red traced commas, semicolons, and asterisks for live SITE 00 pages (matches FNDATN-01 email prose). */
+/**
+ * Optional prose mark helper for non-header UI (prefer plain body copy on DF/BLDR ledes).
+ * FNDATN-01 email body uses plain punctuation — display marks belong on headline lines only.
+ */
 import { Children, Fragment, type ReactNode } from 'react';
 
 export const CORRESPONDENCE_RED = '#ce1017';
