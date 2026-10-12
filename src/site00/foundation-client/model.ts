@@ -5,6 +5,8 @@
  * timelines are read from the server quote; nothing in this file prices or schedules anything.
  */
 import type { ClientDigitalFoundationPayload } from '../../../shared/site00-digital-foundation/clientProjection.js';
+import { buildClientRecords } from '../../../shared/site00-digital-foundation/clientRecords.js';
+import { DF_FEATURE_FLAGS, isDigitalFoundationFlagEnabled } from '../../../shared/site00-digital-foundation/featureFlags.js';
 import { assessQuotePayability } from '../../../shared/site00-digital-foundation/quoteReadiness.js';
 import type {
   ClientActionType,
@@ -16,7 +18,9 @@ import type {
 } from '../../../shared/site00-digital-foundation/types.js';
 import type { ClientCatalogEntry } from './api';
 
-export type DfView = 'P01' | 'P02' | 'P03' | 'P04' | 'P05' | 'P06' | 'OVERVIEW';
+export type DfIntakeView = 'P01' | 'P02' | 'P03' | 'P04' | 'P05' | 'P06';
+export type DfPortalView = 'OVERVIEW' | 'ROADMAP' | 'STAGE' | 'NEEDS_YOU' | 'RECORDS' | 'RECORD' | 'COMM_PREFS';
+export type DfView = DfIntakeView | DfPortalView;
 export type CheckoutParam = 'return' | 'cancel' | null;
 
 export const DF_VIEW_META: Record<DfView, { index: string; label: string; footer: string }> = {
@@ -27,9 +31,137 @@ export const DF_VIEW_META: Record<DfView, { index: string; label: string; footer
   P05: { index: '05', label: 'REVIEW + CHECKOUT', footer: '005' },
   P06: { index: '06', label: 'ACTIVATION', footer: '006' },
   OVERVIEW: { index: '07', label: 'PROJECT OVERVIEW', footer: '007' },
+  ROADMAP: { index: '08', label: 'PROJECT ROADMAP', footer: '008' },
+  STAGE: { index: '09', label: 'STAGE DETAIL', footer: '009' },
+  NEEDS_YOU: { index: '10', label: 'NEEDS YOU', footer: '010' },
+  RECORDS: { index: '—', label: 'MY RECORDS', footer: 'REC' },
+  RECORD: { index: '—', label: 'RECORD DETAIL', footer: 'REC' },
+  COMM_PREFS: { index: '—', label: 'COMMUNICATION PREFERENCES', footer: 'COM' },
 };
 
 export const DF_VIEW_ORDER: DfView[] = ['P01', 'P02', 'P03', 'P04', 'P05', 'P06', 'OVERVIEW'];
+
+export function isProjectPortalV2Enabled(): boolean {
+  return isDigitalFoundationFlagEnabled(DF_FEATURE_FLAGS.SITE00_DIGITAL_FOUNDATION_PROJECT_PORTAL_V2);
+}
+
+export function portalViewsForPayload(payload: ClientDigitalFoundationPayload): DfPortalView[] {
+  if (!isProjectPortalV2Enabled()) return ['OVERVIEW'];
+  const base: DfPortalView[] = ['OVERVIEW', 'ROADMAP', 'NEEDS_YOU'];
+  if (payload.stages.length) base.push('STAGE');
+  if (buildClientRecords(payload).length) base.push('RECORDS', 'RECORD');
+  base.push('COMM_PREFS');
+  return base;
+}
+
+export function recordsAvailable(payload: ClientDigitalFoundationPayload): boolean {
+  return buildClientRecords(payload).length > 0;
+}
+
+// ─── Menu drawer (DF-C48) ───────────────────────────────────────────────────────────────────────
+
+/** `done` = behind the server surface (no longer editable); `locked` = not reached yet. */
+export type DfMenuStepState = 'current' | 'open' | 'done' | 'locked';
+
+export interface DfMenuStep {
+  view: DfView;
+  index: string;
+  label: string;
+  state: DfMenuStepState;
+}
+
+export type DfMenuDestinationId = 'overview' | 'roadmap' | 'needs_you' | 'records' | 'location' | 'comm_prefs';
+
+export interface DfMenuDestination {
+  id: DfMenuDestinationId;
+  label: string;
+  view: DfView | null;
+  anchor?: string;
+  available: boolean;
+  current: boolean;
+  /** Lifecycle caption shown while the destination is not open to this client. */
+  status: string | null;
+}
+
+/** Overview section the ROADMAP destination scrolls to. */
+export const DF_ROADMAP_ANCHOR = 'df-stages-h';
+
+/**
+ * The drawer shows the whole journey, but only the parents the server surface allows (`resolveDfRoute`)
+ * are navigable. Records and the digital location live on the COMPLETE surface, which has no menu.
+ */
+export function buildDfMenu(views: readonly DfView[], current: DfView | null): {
+  steps: DfMenuStep[];
+  destinations: DfMenuDestination[];
+} {
+  const order = DF_VIEW_ORDER.filter((v) => v !== 'OVERVIEW');
+  const firstOpen = order.findIndex((v) => views.includes(v));
+  const steps = order.map((view, i): DfMenuStep => {
+    const state: DfMenuStepState = views.includes(view)
+      ? current === view
+        ? 'current'
+        : 'open'
+      : firstOpen === -1 || i < firstOpen
+        ? 'done'
+        : 'locked';
+    return { view, index: DF_VIEW_META[view].index, label: DF_VIEW_META[view].label, state };
+  });
+  const portal = views.includes('OVERVIEW');
+  const portalV2 = portal && views.includes('ROADMAP');
+  const recs = portal && views.includes('RECORDS');
+  const destinations: DfMenuDestination[] = [
+    {
+      id: 'overview',
+      label: 'PROJECT OVERVIEW',
+      view: 'OVERVIEW',
+      available: portal,
+      current: current === 'OVERVIEW',
+      status: portal ? null : 'AFTER PAYMENT',
+    },
+    {
+      id: 'roadmap',
+      label: 'ROADMAP',
+      view: portalV2 ? 'ROADMAP' : 'OVERVIEW',
+      anchor: portalV2 ? undefined : DF_ROADMAP_ANCHOR,
+      available: portal,
+      current: current === 'ROADMAP',
+      status: portal ? null : 'AFTER PAYMENT',
+    },
+    {
+      id: 'needs_you',
+      label: 'NEEDS YOU',
+      view: portalV2 ? 'NEEDS_YOU' : null,
+      available: portal && portalV2,
+      current: current === 'NEEDS_YOU',
+      status: portal ? null : 'AFTER PAYMENT',
+    },
+    {
+      id: 'records',
+      label: 'VIEW MY RECORDS',
+      view: recs ? 'RECORDS' : null,
+      available: recs,
+      current: current === 'RECORDS' || current === 'RECORD',
+      status: recs ? null : 'WHEN RECORDS EXIST',
+    },
+    {
+      id: 'comm_prefs',
+      label: 'COMMUNICATION PREFERENCES',
+      view: portalV2 ? 'COMM_PREFS' : null,
+      available: portal && portalV2,
+      current: current === 'COMM_PREFS',
+      status: portal ? null : 'AFTER PAYMENT',
+    },
+    {
+      id: 'location',
+      label: 'VIEW MY DIGITAL LOCATION',
+      view: null,
+      available: false,
+      current: false,
+      status: 'AFTER COMPLETION',
+    },
+  ];
+  return { steps, destinations };
+}
 
 /** The three acceptance disclosures the server requires verbatim (`acceptQuote`). */
 export const DF_DISCLOSURES = [
@@ -60,12 +192,14 @@ export function resolveDfRoute(
       return { kind: 'complete' };
     case 'PAYMENT_RECOVERY':
       return { kind: 'views', views: ['P06'], defaultView: 'P06' };
-    case 'PORTAL':
+    case 'PORTAL': {
+      const portal = portalViewsForPayload(payload);
       return {
         kind: 'views',
-        views: ['P06', 'OVERVIEW'],
+        views: ['P06', ...portal],
         defaultView: ctx.checkout === 'return' || !ctx.activationSeen ? 'P06' : 'OVERVIEW',
       };
+    }
     default:
       break;
   }
@@ -85,6 +219,8 @@ export function resolveDfRoute(
       return { kind: 'views', views: ['P04'], defaultView: 'P04' };
     case 'INTAKE':
       return { kind: 'views', views: ['P01', 'P02', 'P03'], defaultView: 'P02' };
+    case 'INTAKE_SUBMITTED':
+      return { kind: 'views', views: ['P03'], defaultView: 'P03' };
     case 'PROSPECT':
     default:
       return { kind: 'views', views: ['P01', 'P02', 'P03'], defaultView: 'P01' };
@@ -602,4 +738,37 @@ export function activationTurnaround(
       : 'ONCE WE HAVE WHAT WE NEED';
   if (min == null || max == null) return null;
   return { value: formatDayRange(min, max), unit: 'BUSINESS DAYS', caption };
+}
+
+// ─── Lifecycle progress (DF-U12) ───────────────────────────────────────────────────────────────
+
+export type DfProgressStepState = 'complete' | 'current' | 'future' | 'locked';
+
+/**
+ * The six Foundation stages as lifecycle facts (never the view the client happens to be on).
+ * Display only: activation stays locked until payment is recorded.
+ */
+export function foundationProgress(
+  payload: ClientDigitalFoundationPayload,
+): { index: string; label: string; state: DfProgressStepState }[] {
+  const { artifact, quote, acceptance, stages } = payload;
+  const paid = artifact.payment_state === 'PAID';
+  const accepted =
+    paid || Boolean(quote && (quote.status === 'ACCEPTED' || quote.status === 'PAID') && acceptance?.quote_version === quote.quote_version);
+  const done = [
+    artifact.intake_state !== 'NOT_STARTED',
+    artifact.intake_state === 'COMPLETE' || Object.keys(validateBusinessInfo(draftFromPayload(payload))).length === 0,
+    artifact.intake_state === 'COMPLETE',
+    accepted,
+    paid,
+    paid && artifact.project_state !== 'NOT_STARTED' && stages.length > 0,
+  ];
+  const views: DfView[] = ['P01', 'P02', 'P03', 'P04', 'P05', 'P06'];
+  const current = done.findIndex((d) => !d);
+  return views.map((v, i) => ({
+    index: DF_VIEW_META[v].index,
+    // Soft hyphen: six phone-width columns can't hold the 14-letter word on one line.
+    label: v === 'P04' ? 'RECOMMEN\u00ADDATION' : DF_VIEW_META[v].label,
+    state: done[i] ? 'complete' : i === current ? 'current' : v === 'P06' && !paid ? 'locked' : 'future',
+  }));
 }
