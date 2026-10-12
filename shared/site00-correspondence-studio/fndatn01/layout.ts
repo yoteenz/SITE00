@@ -440,11 +440,11 @@ export type FootOpts = {
 
 const CLASSIFICATION = ['CLASSIFICATION · TRANSACTIONAL', 'SERVICE NOTICE. NO MARKETING UNSUBSCRIBE.'];
 
-/** Classification lines, with the unsubscribe statement in red so it reads clearly; the rest stays grey. */
+/** Classification lines, with the word UNSUBSCRIBE in red so it reads clearly; everything else stays grey. */
 function classLines(items: string[], o: MicroStyle): string {
   const red = (t: string) => `<span class="keep-red" style="color:${T.red}">${t}</span>`;
   return items
-    .map((t) => micro(esc(t).replace(/NO MARKETING UNSUBSCRIBE\.?|NO MARKETING|UNSUBSCRIBE/g, (m) => red(m)), o))
+    .map((t) => micro(esc(t).replace(/UNSUBSCRIBE/g, (m) => red(m)), o))
     .join('');
 }
 
