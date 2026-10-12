@@ -19,6 +19,8 @@ OUT_WOFF = ROOT / 'public/site00-correspondence-studio/fndatn-01/fonts/site00-co
 CAP = 800
 LSB = 14
 RSB = 14
+# Letters only. Numbers stay at the traced width.
+LETTER_WIDEN = 1.10
 
 meta = json.loads((PACK / 'metrics.json').read_text())
 glyphs = meta['glyphs']
@@ -40,10 +42,10 @@ font.fontname = 'SITE00Display-Heavy'
 font.fullname = 'SITE 00 Display Heavy'
 font.weight = 'Heavy'
 font.copyright = 'SITE 00 correspondence reconstruction of the founder specimen. For SITE 00 correspondence only.'
-font.version = '1.0'
+font.version = '1.1'
 font.encoding = 'UnicodeFull'
 
-def place(ch: str, svg: Path, px_h: int, desc_px: float) -> None:
+def place(ch: str, svg: Path, px_h: int, desc_px: float, widen: float = 1.0) -> None:
     g = font.createChar(ord(ch))
     g.importOutlines(str(svg))
     xmin, ymin, xmax, ymax = g.boundingBox()
@@ -55,19 +57,22 @@ def place(ch: str, svg: Path, px_h: int, desc_px: float) -> None:
     xmin, ymin, xmax, ymax = g.boundingBox()
     desc = desc_px * scale_px
     g.transform((1, 0, 0, 1, LSB - xmin, -desc - ymin))
+    if widen != 1.0:
+        xmin, ymin, xmax, ymax = g.boundingBox()
+        g.transform((widen, 0, 0, 1, xmin * (1 - widen), 0))
     xmin, ymin, xmax, ymax = g.boundingBox()
     g.width = int(round(xmax + RSB))
     print(f'{ch} width {g.width} box {tuple(round(v) for v in g.boundingBox())}')
 
 for g in heavy:
     desc = q_desc_px if g['char'] == 'Q' else 0
-    place(g['char'], ROOT / 'public/site00-correspondence-type-authority/v1' / g['svg'], g['height'], desc)
+    place(g['char'], ROOT / 'public/site00-correspondence-type-authority/v1' / g['svg'], g['height'], desc, LETTER_WIDEN)
 
 for g in nums:
     place(g['char'], ROOT / 'public/site00-correspondence-type-authority/v1' / g['svg'], g['height'], 0)
 
 space = font.createChar(ord(' '))
-space.width = int(round(CAP * 0.22))
+space.width = int(round(CAP * 0.22 * LETTER_WIDEN))
 
 # Square period. Not on the specimen. Sits on the baseline at stem width.
 period = font.createChar(ord('.'))
@@ -83,7 +88,7 @@ period.width = LSB + s + RSB
 # Apostrophe for WE'VE. Not on the specimen. A stem-weight mark at the cap.
 apos = font.createChar(ord("'"))
 pen = apos.glyphPen()
-w = int(round(CAP * 0.08))
+w = int(round(CAP * 0.08 * LETTER_WIDEN))
 h = int(round(CAP * 0.22))
 top = CAP
 pen.moveTo((LSB, top - h))

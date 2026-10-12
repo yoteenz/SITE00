@@ -16374,3 +16374,13 @@ Summary of the whole conversation in this chat.
 - **Font:** `SITE 00 Display` is built from the heavy A–Z and the red 0–9 traces. File: `public/site00-correspondence-studio/fndatn-01/fonts/site00-correspondence-display.woff2`. Rebuild with `fontforge -lang=py -script scripts/correspondence-type-authority/build_display_font.py` after `pip install brotli` if woff2 encoding is missing.
 - **Where it applies:** FNDATN-01 headlines, section titles, the mast `SITE 00`, and the editorial numbers (01 02 03 and the other step counts). Body, labels, and the red CTA stay Saira Semi Condensed. The apostrophe and the square period are not on the specimen; they are in the face so `WE'VE` and the red stop stay in the same family.
 - **Conventions:** Do not put this face on other brands or on body copy. Gmail and Outlook still fall back. Draft PR #1617 stays unmerged.
+
+---
+
+## 2026-10-12 — Letters widened 10% on the correspondence display
+
+- **Context:** Same correspondence-type chat. The founder said the numbers are fine and the letters are a bit too narrow, and asked for the letters widened horizontally just a little, delivered on one specimen sheet.
+- **Change:** `LETTER_WIDEN = 1.10` in `scripts/correspondence-type-authority/build_display_font.py` scales A–Z (and the space and apostrophe) about the left ink edge after baseline placement. Numerals stay at the traced width. The square period stays a square. Font version is 1.1. A advances 355 → 387 units. Numeral advances are unchanged (0 is 303).
+- **Sheet:** `public/site00-correspondence-type-authority/v1/09_REVIEW/SHEET.png` is rendered from the rebuilt face: BEGIN YOUR / FOUNDATION., A–Z, red 0–9. The unwidened traces stay in `11_SPECIMEN_TRACE/`. Do not rerun `trace_specimen_sheet.py` after a widen; it overwrites `09_REVIEW/SHEET.png` with the unwidened paste.
+- **Pack:** The same woff2 is `public/site00-correspondence-studio/fndatn-01/fonts/site00-correspondence-display.woff2`, so FNDATN-01 headers use the wider letters and the numbers stay as they were. HTML did not need a regen.
+- **Conventions:** Widen letters only. Do not scale the numerals when the founder says the numbers are fine. Draft PR #1617 stays unmerged.
