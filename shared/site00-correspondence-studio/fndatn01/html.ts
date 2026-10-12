@@ -132,16 +132,26 @@ function displayHeadlineTerminalDot(lines: string[]): string {
   return /[!?]$/.test(last) ? '' : `<span class="keep-red" style="color:${T.red}">.</span>`;
 }
 
+/** Display headers only: +4px size, −2px line spacing vs the authority baseline. */
+export function displayHeadlineMetrics(size: number): { fontSize: number; lineHeight: number } {
+  return {
+    fontSize: size + 4,
+    lineHeight: Math.round(size * 1.02) - 2,
+  };
+}
+
 export function headline(lines: string[], size = 44, extraClass = ''): string {
+  const { fontSize, lineHeight } = displayHeadlineMetrics(size);
   const body = lines
     .map((line, i) => (i === lines.length - 1 ? displayLineHtml(line) : displayText(line)))
     .join('<br>');
-  return `<h1 class="keep-ink ${extraClass}" style="margin:0;font-family:${FONT_DISPLAY};font-weight:900;font-size:${size}px;line-height:${Math.round(size * 1.02)}px;letter-spacing:0;color:${T.ink};text-transform:uppercase;mso-line-height-rule:exactly">${body}${displayHeadlineTerminalDot(lines)}</h1>`;
+  return `<h1 class="keep-ink ${extraClass}" style="margin:0;font-family:${FONT_DISPLAY};font-weight:900;font-size:${fontSize}px;line-height:${lineHeight}px;letter-spacing:0;color:${T.ink};text-transform:uppercase;mso-line-height-rule:exactly">${body}${displayHeadlineTerminalDot(lines)}</h1>`;
 }
 
 export function sectionTitle(text: string, size = 30): string {
+  const { fontSize, lineHeight } = displayHeadlineMetrics(size);
   const terminal = /[!?]$/.test(text.trimEnd()) ? '' : `<span class="keep-red" style="color:${T.red}">.</span>`;
-  return `<h2 class="keep-ink" style="margin:0;font-family:${FONT_DISPLAY};font-weight:900;font-size:${size}px;line-height:${Math.round(size * 1.02)}px;letter-spacing:0;color:${T.ink};text-transform:uppercase">${displayLineHtml(text)}${terminal}</h2>`;
+  return `<h2 class="keep-ink" style="margin:0;font-family:${FONT_DISPLAY};font-weight:900;font-size:${fontSize}px;line-height:${lineHeight}px;letter-spacing:0;color:${T.ink};text-transform:uppercase">${displayLineHtml(text)}${terminal}</h2>`;
 }
 
 export function kicker(text: string): string {

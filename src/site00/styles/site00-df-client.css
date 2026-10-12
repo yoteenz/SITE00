@@ -23,7 +23,7 @@
   --df-display: 'SITE 00 Display', 'Arial Narrow', sans-serif;
   --df-text: 'Saira Semi Condensed', 'Arial Narrow', Arial, sans-serif;
   --df-gutter: 26px;
-  --df-headline: min(60px, 15.4vw);
+  --df-headline: min(64px, 15.4vw);
 }
 
 body:has(.df-root) {
@@ -206,7 +206,7 @@ body:has(.df-root) {
   font-family: var(--df-display);
   font-weight: 900;
   font-size: var(--df-headline);
-  line-height: 0.81;
+  line-height: calc(0.81em - 2px);
   letter-spacing: 0;
   text-transform: uppercase;
   color: var(--df-ink);
@@ -228,8 +228,8 @@ body:has(.df-root) {
 }
 
 .df-screen--crown .df-headline {
-  --df-headline: min(52px, 13.4vw);
-  line-height: 0.94;
+  --df-headline: min(56px, 13.4vw);
+  line-height: calc(0.94em - 2px);
 }
 
 /* ─── Lede (DF-C04) ────────────────────────────────────────────────────────────────────────── */
@@ -2282,7 +2282,7 @@ button.df-spec__btn {
   .df-root,
   .df-screen {
     --df-gutter: 64px;
-    --df-headline: 84px;
+    --df-headline: 88px;
   }
 
   .df-screen {
@@ -2294,7 +2294,7 @@ button.df-spec__btn {
   }
 
   .df-screen--crown .df-headline {
-    --df-headline: 78px;
+    --df-headline: 82px;
   }
 
   .df-lede {
@@ -2513,7 +2513,7 @@ button.df-spec__btn {
   .df-review .df-root,
   .df-review .df-screen {
     --df-gutter: 26px;
-    --df-headline: 46px;
+    --df-headline: 50px;
   }
 
   .df-review .df-screen {
@@ -2521,7 +2521,7 @@ button.df-spec__btn {
   }
 
   .df-review .df-screen--crown .df-headline {
-    --df-headline: 40px;
+    --df-headline: 44px;
   }
 
   .df-review .df-lede {
