@@ -25,7 +25,7 @@ OUT = ROOT / 'public/site00-correspondence-studio/fndatn-01/assets'
 PUBLIC = '/site00-correspondence-studio/fndatn-01/assets'
 PROVENANCE = ROOT / 'docs/site00/correspondence/fndatn-01/FNDATN_01_ASSET_PROVENANCE.json'
 
-DESKTOP_HERO_HEIGHT = 330  # CSS px at the 680 px canvas
+DESKTOP_HERO_HEIGHT = 300  # CSS px at the 680 px canvas
 DESKTOP_CANVAS = 680
 MOBILE_CANVAS = 390
 
