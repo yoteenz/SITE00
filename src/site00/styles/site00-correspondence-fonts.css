@@ -102,31 +102,13 @@
   color: #ce1017;
 }
 
-/* ? and ! — ink hook, red bottom (same rule as correspondence symbol sheet). */
-.correspondence-split-mark {
-  position: relative;
-  display: inline-block;
-  line-height: 1;
-  vertical-align: baseline;
-}
-
-.correspondence-split-mark__top,
-.correspondence-split-mark__bottom {
-  font: inherit;
-  letter-spacing: inherit;
-}
-
-.correspondence-split-mark__top {
-  position: absolute;
-  left: 0;
-  top: 0;
-  color: #0c0c0c;
-  clip-path: inset(0 0 42% 0);
-  -webkit-clip-path: inset(0 0 42% 0);
-}
-
-.correspondence-split-mark__bottom {
-  color: #ce1017;
-  clip-path: inset(58% 0 0 0);
-  -webkit-clip-path: inset(58% 0 0 0);
+/* ? and ! — traced PNG (black stem + red bottom), scales with display headline em box. */
+.correspondence-display-split {
+  display: inline;
+  height: 0.92em;
+  width: auto;
+  vertical-align: -0.06em;
+  border: 0;
+  margin: 0;
+  pointer-events: none;
 }

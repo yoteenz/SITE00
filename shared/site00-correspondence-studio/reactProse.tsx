@@ -90,12 +90,22 @@ export function displayLineEndsWithSplitMark(line: string): boolean {
   return /[!?]$/.test(line.trimEnd());
 }
 
+const DISPLAY_SPLIT_MARKS: Record<'!' | '?', { file: string; w: number; h: number }> = {
+  '?': { file: 'question.png', w: 79, h: 221 },
+  '!': { file: 'exclamation.png', w: 34, h: 222 },
+};
+
+/** Two-color ? and ! from traced display face (symbol sheet rule — not clip-path on plain glyph). */
 function SplitBangQuestion({ ch }: { ch: '!' | '?' }) {
+  const m = DISPLAY_SPLIT_MARKS[ch];
   return (
-    <span className="correspondence-split-mark" aria-hidden="true">
-      <span className="correspondence-split-mark__top">{ch}</span>
-      <span className="correspondence-split-mark__bottom">{ch}</span>
-    </span>
+    <img
+      className="correspondence-display-split"
+      src={`${CORRESPONDENCE_MARK_BASE}/${m.file}`}
+      alt={ch}
+      width={m.w}
+      height={m.h}
+    />
   );
 }
 
