@@ -440,6 +440,14 @@ export type FootOpts = {
 
 const CLASSIFICATION = ['CLASSIFICATION · TRANSACTIONAL', 'SERVICE NOTICE. NO MARKETING UNSUBSCRIBE.'];
 
+/** Classification lines, with the unsubscribe statement in red so it reads clearly; the rest stays grey. */
+function classLines(items: string[], o: MicroStyle): string {
+  const red = (t: string) => `<span class="keep-red" style="color:${T.red}">${t}</span>`;
+  return items
+    .map((t) => micro(esc(t).replace(/NO MARKETING UNSUBSCRIBE\.?|NO MARKETING|UNSUBSCRIBE/g, (m) => red(m)), o))
+    .join('');
+}
+
 /**
  * Colophon footer, rebuilt from the authority geometry: hairline top rule, wordmark, divider, DIGITAL
  * FOUNDATION and its tagline, a centre divider, then the transactional classification set right. Mobile
@@ -460,7 +468,7 @@ export function foot(opts: FootOpts = {}): string {
 </tr></table>
 </td>
 <td valign="middle" width="1" style="width:1px">${vrule(16, '#3a3a3a')}</td>
-<td valign="middle" align="right" style="padding:12px 34px 13px 0"><table role="presentation" cellpadding="0" cellspacing="0" border="0" align="right"><tr><td align="left" style="text-align:left">${lines(CLASSIFICATION, cls)}</td></tr></table></td>
+<td valign="middle" align="right" style="padding:12px 34px 13px 0"><table role="presentation" cellpadding="0" cellspacing="0" border="0" align="right"><tr><td align="left" style="text-align:left">${classLines(CLASSIFICATION, cls)}</td></tr></table></td>
 </tr>
 </table>`;
   const mm = opts.mobile;
@@ -468,8 +476,8 @@ export function foot(opts: FootOpts = {}): string {
   const mGrey = { ...mInk, color: LABEL_GREY, weight: 500 };
   const mCls = { size: 6.5, lh: 10, color: '#97938b', track: 0.14, weight: 500 };
   const right = mm
-    ? `<table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>${mm.stroke ? `<td valign="middle" style="padding-right:10px">${slashes(17).replace('//', '/')}</td>` : ''}<td valign="middle">${lines(mm.classification, mCls)}</td></tr></table>`
-    : lines(['CLASSIFICATION · TRANSACTIONAL', 'SERVICE NOTICE.', 'NO MARKETING UNSUBSCRIBE.'], mCls);
+    ? `<table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>${mm.stroke ? `<td valign="middle" style="padding-right:10px">${slashes(17).replace('//', '/')}</td>` : ''}<td valign="middle">${classLines(mm.classification, mCls)}</td></tr></table>`
+    : classLines(['CLASSIFICATION · TRANSACTIONAL', 'SERVICE NOTICE.', 'NO MARKETING UNSUBSCRIBE.'], mCls);
   const mob = mobileOnly(`<table class="foot-m mob-only" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="display:none;max-height:0;overflow:hidden;width:100%;background:#ffffff;border-top:1px solid ${T.line}">
 <tr><td style="padding:13px 14px 15px 18px">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
