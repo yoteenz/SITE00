@@ -213,12 +213,14 @@ function ActionWorkspace({
   onApprove,
   onRequestChange,
   onProvide,
+  readOnly = false,
 }: {
   action: ClientActionRequest;
   busy: boolean;
   onApprove: () => void;
   onRequestChange: () => void;
   onProvide: (notes: string) => void;
+  readOnly?: boolean;
 }) {
   const [notes, setNotes] = useState('');
   return (
@@ -230,9 +232,9 @@ function ActionWorkspace({
         <textarea className="df-input df-input--area" rows={3} value={notes} onChange={(e) => setNotes(e.target.value)} />
       </label>
       <div className="df-actions df-actions--inline">
-        <DfCta label="APPROVE" busy={busy} onClick={onApprove} />
-        <DfCta tone="outline" label="REQUEST CHANGES" busy={busy} onClick={onRequestChange} />
-        <DfCta tone="outline" label="SUBMIT INFORMATION" busy={busy} onClick={() => onProvide(notes)} />
+        <DfCta label="APPROVE" busy={busy} disabled={readOnly} onClick={onApprove} />
+        <DfCta tone="outline" label="REQUEST CHANGES" busy={busy} disabled={readOnly} onClick={onRequestChange} />
+        <DfCta tone="outline" label="SUBMIT INFORMATION" busy={busy} disabled={readOnly} onClick={() => onProvide(notes)} />
       </div>
     </article>
   );
@@ -243,11 +245,14 @@ export function P10NeedsYou({
   payload,
   onReload,
   onOverview,
+  reviewMode = false,
 }: {
   token: string;
   payload: ClientDigitalFoundationPayload;
   onReload: () => Promise<unknown>;
   onOverview: () => void;
+  /** Design review gallery: show UI, block server mutations. */
+  reviewMode?: boolean;
 }) {
   const open = payload.client_actions.filter((a) => a.status === 'OPEN');
   const done = payload.client_actions.filter((a) => a.status === 'COMPLETED');
@@ -255,6 +260,7 @@ export function P10NeedsYou({
   const [error, setError] = useState<string | null>(null);
 
   const respond = async (action: ClientActionRequest, decision: 'APPROVE' | 'REQUEST_CHANGE', notes?: string) => {
+    if (reviewMode) return;
     setError(null);
     setBusyId(action.request_id);
     try {
@@ -272,16 +278,18 @@ export function P10NeedsYou({
       <DfRail index="10" label="NEEDS YOU" />
       <DfHeadline lines={['YOUR', 'ACTIONS']} />
       <DfLede>REVIEW EACH REQUEST, APPROVE, REQUEST CHANGES, OR SUBMIT INFORMATION. SITE 00 PROCESSES YOUR RESPONSE ON THE SERVER.</DfLede>
+      {reviewMode && <p className="df-section__note">REVIEW GALLERY — RESPONSES ARE NOT SAVED.</p>}
       {error && <p className="df-field__error" role="alert">{error}</p>}
       {!open.length && <p className="df-section__note">NO OPEN REQUESTS RIGHT NOW. CHECK BACK WHEN SITE 00 NEEDS SOMETHING FROM YOU.</p>}
       {open.map((a) => (
         <ActionWorkspace
           key={a.request_id}
           action={a}
-          busy={busyId === a.request_id}
+          busy={!reviewMode && busyId === a.request_id}
           onApprove={() => void respond(a, 'APPROVE')}
           onRequestChange={() => void respond(a, 'REQUEST_CHANGE', 'Please revise.')}
           onProvide={(notes) => void respond(a, 'APPROVE', notes)}
+          readOnly={reviewMode}
         />
       ))}
       {done.length > 0 && (
@@ -391,11 +399,13 @@ export function CommunicationPreferences({
   busy,
   onSave,
   onOverview,
+  reviewMode = false,
 }: {
   prefs: CommunicationPrefs;
   busy: boolean;
   onSave: (next: CommunicationPrefs) => void;
   onOverview: () => void;
+  reviewMode?: boolean;
 }) {
   const [local, setLocal] = useState(prefs);
   return (
@@ -406,6 +416,7 @@ export function CommunicationPreferences({
         ESSENTIAL SERVICE AND SECURITY NOTICES ALWAYS APPLY TO AN ACTIVE FOUNDATION PROJECT. MARKETING EMAIL IS OPTIONAL AND NEVER
         INFERRED FROM OPENING YOUR LINK.
       </DfLede>
+      {reviewMode && <p className="df-section__note">REVIEW GALLERY — PREFERENCES ARE NOT SAVED.</p>}
       <ul className="df-specs">
         <li className="df-choice df-choice--locked">
           <span className="df-choice__label">ESSENTIAL SERVICE + SECURITY (REQUIRED)</span>
@@ -428,7 +439,12 @@ export function CommunicationPreferences({
         <span className="df-choice__label">PROMOTIONAL MARKETING (OPT IN)</span>
       </label>
       <div className="df-actions">
-        <DfCta label="SAVE PREFERENCES" busy={busy} onClick={() => onSave(local)} />
+        <DfCta
+          label="SAVE PREFERENCES"
+          busy={busy}
+          disabled={reviewMode}
+          onClick={() => (reviewMode ? undefined : onSave(local))}
+        />
         <DfCta tone="outline" label="BACK TO OVERVIEW" onClick={onOverview} />
       </div>
       <DfTrust text="SAFE. SECURE. ON TRACK." />

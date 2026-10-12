@@ -22,69 +22,93 @@ export default function DigitalFoundationCompleteSurface({
   token,
   payload,
   reload,
+  reviewMode = false,
+  focus = 'full',
 }: {
   token: string;
   payload: ClientDigitalFoundationPayload;
   reload: () => Promise<unknown>;
+  /** Gallery / design review: no API mutations. */
+  reviewMode?: boolean;
+  /** When `digital_location`, show only the post-completion build discovery block. */
+  focus?: 'full' | 'digital_location';
 }) {
   const reducedMotion =
     typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  return (
-    <main className="site00-df-artifact" data-surface={payload.surface}>
-      <header className="site00-df-artifact__header">
-        <p className="site00-df-artifact__eyebrow">SITE 00 · IDNTY</p>
-        <h1>DIGITAL FOUNDATION</h1>
-      </header>
-      {payload.artifact.completion_state === 'COMPLETE' && (
-        <section
-          className="site00-df-artifact__panel site00-df-artifact__complete"
-          data-reduced-motion={reducedMotion ? '1' : '0'}
-        >
-          <h2>Your foundation is complete</h2>
-          <p>Your domain and professional business communications are now operational.</p>
-          {payload.ownership_record && (
-            <ul>
-              {payload.ownership_record.domain && <li>Domain — active</li>}
-              {payload.ownership_record.primary_mailbox && <li>Professional email — active</li>}
-              {payload.ownership_record.dns_status && <li>DNS — {payload.ownership_record.dns_status.toLowerCase()}</li>}
-              {payload.ownership_record.security_status && (
-                <li>Email security — {payload.ownership_record.security_status.toLowerCase()}</li>
-              )}
-            </ul>
-          )}
-          {payload.credit && payload.credit.status === 'AVAILABLE' && (
-            <div className="site00-df-artifact__credit">
-              <h3>Your foundation credit</h3>
-              <p>{formatMoney(payload.credit.amount_minor, payload.credit.currency)}</p>
-              <p>
-                Book a qualifying SITE 00 build before {new Date(payload.credit.expires_at).toLocaleDateString()} and
-                this credit applies to your build.
-              </p>
-            </div>
-          )}
-          <h3>Your digital location</h3>
-          <p>The foundation is operational. The next optional step is what should live at your domain.</p>
-          {payload.build_readiness?.site_needed && (
-            <p>Recommendation: {payload.artifact.build_recommendation.replace(/_/g, ' ')}</p>
-          )}
-          <div className="site00-df-artifact__concept">
-            <p className="site00-df-artifact__concept-label">CONCEPT PREVIEW — NOT FINAL DESIGN</p>
-            <div className="site00-df-artifact__concept-frame">
-              <p>Hero · navigation · primary value proposition · CTA</p>
-            </div>
+  const onInterest = reviewMode
+    ? () => undefined
+    : () => captureBuildInterest(token, 'INTERESTED').then(reload);
+  const onSaveLater = reviewMode
+    ? () => undefined
+    : () => captureBuildInterest(token, 'SAVED_FOR_LATER').then(reload);
+
+  const completeBlock =
+    payload.artifact.completion_state === 'COMPLETE' ? (
+      <section
+        className="site00-df-artifact__panel site00-df-artifact__complete"
+        data-reduced-motion={reducedMotion ? '1' : '0'}
+        id="df-digital-location"
+      >
+        {focus === 'full' && (
+          <>
+            <h2>Your foundation is complete</h2>
+            <p>Your domain and professional business communications are now operational.</p>
+            {payload.ownership_record && (
+              <ul>
+                {payload.ownership_record.domain && <li>Domain — active</li>}
+                {payload.ownership_record.primary_mailbox && <li>Professional email — active</li>}
+                {payload.ownership_record.dns_status && <li>DNS — {payload.ownership_record.dns_status.toLowerCase()}</li>}
+                {payload.ownership_record.security_status && (
+                  <li>Email security — {payload.ownership_record.security_status.toLowerCase()}</li>
+                )}
+              </ul>
+            )}
+            {payload.credit && payload.credit.status === 'AVAILABLE' && (
+              <div className="site00-df-artifact__credit">
+                <h3>Your foundation credit</h3>
+                <p>{formatMoney(payload.credit.amount_minor, payload.credit.currency)}</p>
+                <p>
+                  Book a qualifying SITE 00 build before {new Date(payload.credit.expires_at).toLocaleDateString()} and
+                  this credit applies to your build.
+                </p>
+              </div>
+            )}
+          </>
+        )}
+        <h3>Your digital location</h3>
+        <p>The foundation is operational. The next optional step is what should live at your domain.</p>
+        {payload.build_readiness?.site_needed && (
+          <p>Recommendation: {payload.artifact.build_recommendation.replace(/_/g, ' ')}</p>
+        )}
+        <div className="site00-df-artifact__concept">
+          <p className="site00-df-artifact__concept-label">CONCEPT PREVIEW — NOT FINAL DESIGN</p>
+          <div className="site00-df-artifact__concept-frame">
+            <p>Hero · navigation · primary value proposition · CTA</p>
           </div>
-          <button
-            type="button"
-            className="site00-df-artifact__cta"
-            onClick={() => captureBuildInterest(token, 'INTERESTED').then(reload)}
-          >
-            CONFIGURE MY DIGITAL LOCATION
-          </button>
-          <button type="button" onClick={() => captureBuildInterest(token, 'SAVED_FOR_LATER').then(reload)}>
-            SAVE THIS FOR LATER
-          </button>
-        </section>
+        </div>
+        {reviewMode && (
+          <p className="site00-df-artifact__review-note">REVIEW GALLERY — BUILD INTEREST IS NOT RECORDED.</p>
+        )}
+        <button type="button" className="site00-df-artifact__cta" disabled={reviewMode} onClick={onInterest}>
+          CONFIGURE MY DIGITAL LOCATION
+        </button>
+        <button type="button" disabled={reviewMode} onClick={onSaveLater}>
+          SAVE THIS FOR LATER
+        </button>
+      </section>
+    ) : (
+      <p className="site00-df-artifact__review-note">Completion demo requires fixture M_COMPLETE_CREDIT.</p>
+    );
+
+  return (
+    <main className="site00-df-artifact" data-surface={payload.surface} data-review={reviewMode ? '1' : undefined}>
+      {focus === 'full' && (
+        <header className="site00-df-artifact__header">
+          <p className="site00-df-artifact__eyebrow">SITE 00 · IDNTY</p>
+          <h1>DIGITAL FOUNDATION</h1>
+        </header>
       )}
+      {completeBlock}
     </main>
   );
 }

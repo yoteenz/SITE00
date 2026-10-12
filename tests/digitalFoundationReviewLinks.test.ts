@@ -1,21 +1,9 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
+import { allReviewAnchors } from '../src/site00/pages/foundation/reviewGalleryRegistry';
 import { reviewAnchorForView, reviewScreenUrl } from '../src/site00/pages/foundation/reviewLinks';
 
-const ANCHORS = [
-  'df-r-P01',
-  'df-r-P02',
-  'df-r-P03',
-  'df-r-P04',
-  'df-r-P05',
-  'df-r-P06',
-  'df-r-OVERVIEW',
-  'df-r-bldr-PLACE',
-  'df-r-bldr-FEEL',
-  'df-r-bldr-WORK',
-  'df-r-bldr-PACE',
-  'df-r-bldr-BLUEPRINT',
-];
+const ANCHORS = allReviewAnchors();
 
 describe('foundation review direct links', () => {
   it('builds an absolute review URL for every screen', () => {
@@ -32,10 +20,10 @@ describe('foundation review direct links', () => {
     );
   });
 
-  it('renders the direct address under each route and each screen', () => {
+  it('renders direct addresses for gallery screens', () => {
     const page = readFileSync('src/site00/pages/foundation/DigitalFoundationReviewPage.tsx', 'utf8');
     expect(page).toContain('className="df-review__direct"');
-    expect(page.match(/<DirectLink /g)?.length).toBe(4);
+    expect(page.match(/<DirectLink /g)?.length ?? 0).toBeGreaterThanOrEqual(10);
   });
 
   it('maps review steps to anchor ids', () => {
