@@ -16365,3 +16365,12 @@ Summary of the whole conversation in this chat.
 - **Traces:** Heavy A–Z, light A–Z, and red 0–9. 62 glyphs, all source-traced. Mean silhouette IoU 0.991. The heavy Q tail and the light Q descender are included. Rebuild with `python3 scripts/correspondence-type-authority/trace_specimen_sheet.py`.
 - **Sheet:** `09_REVIEW/SHEET.png` is the vector reconstruction placed back on the original spacing. Files live in `11_SPECIMEN_TRACE/`.
 - **Conventions:** The earlier constructed C J M P Q V X Z and digits 4–9 are superseded for the character set. Do not present them as the current alphabet. Draft PR #1617 stays unmerged.
+
+---
+
+## 2026-10-12 — Specimen type on the FNDATN-01 headers and numbers
+
+- **Context:** The founder said to use the traced specimen for the header and the numbers on the foundation email pack.
+- **Font:** `SITE 00 Display` is built from the heavy A–Z and the red 0–9 traces. File: `public/site00-correspondence-studio/fndatn-01/fonts/site00-correspondence-display.woff2`. Rebuild with `fontforge -lang=py -script scripts/correspondence-type-authority/build_display_font.py` after `pip install brotli` if woff2 encoding is missing.
+- **Where it applies:** FNDATN-01 headlines, section titles, the mast `SITE 00`, and the editorial numbers (01 02 03 and the other step counts). Body, labels, and the red CTA stay Saira Semi Condensed. The apostrophe and the square period are not on the specimen; they are in the face so `WE'VE` and the red stop stay in the same family.
+- **Conventions:** Do not put this face on other brands or on body copy. Gmail and Outlook still fall back. Draft PR #1617 stays unmerged.
