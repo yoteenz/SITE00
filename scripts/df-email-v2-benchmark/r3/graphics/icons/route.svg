@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 48" width="96" height="48">
+  <title>ROUTE — a walked line that ends at a door</title>
+  <g fill="none" stroke-linecap="square">
+    <circle cx="8" cy="24" r="4" fill="#d90c0c" stroke="none"/>
+    <path d="M16 24H70" stroke="#141414" stroke-width="2" stroke-dasharray="5 4"/>
+    <path d="M74 24H88M80 16L88 24L80 32" stroke="#141414" stroke-width="2.6"/>
+  </g>
+</svg>

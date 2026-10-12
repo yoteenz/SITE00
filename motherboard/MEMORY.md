@@ -15642,6 +15642,51 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
   - Run a parallel dev server with its own `SITE00_DF_PREVIEW_SNAPSHOT_PATH` so it does not clobber the tunnel snapshot.
   - Do not send C-c to tmux `site00_vite`; it kills the session.
 
+## 2026-10-11 — Merge sweep, then Email V2 R3 editorial compositions (B01 / B02 / B03) + Correspondence Studio R3 import
+
+- **Context:** This chat ran the Email V2 R2 territories sprint, answered Correspondence Studio link and "ACQUIRING OPERATOR STATE…" questions, and reviewed merge conflicts. It then did "merge all the open pr" and finally sprint `P0.SITE00.IDNTY.EMAIL-V2-R3-EDITORIAL-PUBLISHING-BESPOKE-GRAPHIC-INTELLIGENCE-AND-TYPOGRAPHIC-AUTHORITY1` (parent PR #1607).
+- **Merge sweep:**
+  - Every open PR was merged except #1599 (DF visual mass production C–J). It has unrelated history and is marked "do not merge"; it is still open.
+  - After the sweep, `main` has 23 TypeScript errors. They are in `deviceRepository.ts`, `builder-studio/buildObject/anatomy.ts`, `buildObject/realism.ts`, `foundation-client/parents/ProjectPortal.tsx` and `pages/foundation/DigitalFoundationReviewPage.tsx`. This needs a follow-up fix sprint.
+- **R3 decisions / outcomes:**
+  - One integrated editorial composition per email:
+    - B01 "The Invitation": a letterhead letter with a doorway column.
+    - B02 "The Record": a title block, schedule, datum band and ownership.
+    - B03 "The Issue": a BLDR nameplate, a stepped headline, three stations, and an ink spread with three plans.
+  - Each email has a different structure. All are table-based, email-safe HTML at 640px, with a single 480px breakpoint.
+  - Typography:
+    - Body face: Saira Semi Condensed.
+    - Display face, verified from `site00-df-client.css`: Barlow Condensed 900/800, aliased `SITE00 DF Display`. Martian Mono is only the console monospace.
+    - Barlow has no →, so the arrow is set in Saira.
+    - SITE 00 copy is literal uppercase; client values and tokens keep their case.
+  - Graphics: 11 custom icons and 14 custom graphic devices, plus 15 reused approved photographs. No new imagery; OpenArt generations 0, credits 0.
+  - Only the BLDR and GROUNDWORK display lockups are images.
+  - QA: 0 overflow and 0 escapes across 18 Playwright renders (390 / 768 / 1024, with webfonts and with fallback fonts).
+    - Copy QA against the benchmark COPY.md: B01 22/22, B02 25/25, B03 35/35, alts complete.
+    - Client fidelity (Gmail, Outlook, Apple Mail) was not tested and is not claimed.
+  - Correspondence Studio (`r3EditorialImport.ts`):
+    - Adds `B0x@r2-territory-a/b/c` and `B0x@r3-editorial` without removing existing versions. All are at `founder_review`, and R3 is the current version.
+    - Adds a version selector, side-by-side compare, a 1024 desktop width, and graphic-provenance and source sections in the inspector.
+    - The preview iframe uses `sandbox="allow-same-origin"` so fonts load.
+    - Fixed a workspace cache-poisoning bug.
+  - Interactive review: `scripts/df-email-v2-benchmark/r3/review/index.html` (served via githack). The ZIP is secondary, on release `df-v2-email-r3-editorial-2026-10-11`.
+  - Draft PR #1611 is not merged; automatic merge is not authorized. No sends and no deploy.
+- **Changes:**
+  - `scripts/df-email-v2-benchmark/r3/` (compose, graphics, fonts, build, render, QA, review)
+  - `docs/site00/idnty/visual-authority/email-v2/r3/`
+  - `shared/site00-correspondence-studio/import/r3EditorialImport.ts`, plus edits in `workspace.ts`, `devicePreview.ts` and `index.ts`
+  - `CorrespondencePreviewPane.tsx`, `CorrespondenceEmailReviewPage.tsx` and the studio CSS
+  - `scripts/correspondence-studio/sync-r3-previews.mjs`
+  - `public/site00-correspondence-studio/previews/{r2,r3}/`
+  - `tests/correspondenceStudio.test.ts`
+- **Conventions:**
+  - Agent selection is not founder approval.
+  - SITE 00 owns email marketing. Studio World owns the methodology. Correspondence Studio is the review environment. NDX is only the pilot brand.
+  - Do not build the other 17 emails until the founder picks a direction.
+  - Re-run the R3 pipeline in this order: `build_emails.py`, `render.mjs`, `qa_r3.mjs`, `build_review.py`, `sync-r3-previews.mjs`.
+
+---
+
 ## 2026-10-08 — Builder template and estimate selection experience (P0.SITE00.BUILDER.TEMPLATE-AND-ESTIMATE-SELECTION-EXPERIENCE1)
 
 - **Founder decision:** SITE 00's Builder becomes a VISUAL CONFIGURATION EXPERIENCE. Clients see and select what they build, how it behaves, looks and moves, what it does, and standard vs priority production. The Builder assembles PROJECT BLUEPRINT + PROJECTED WINDOW + PROJECTED INVESTMENT + SCOPE without exposing production machinery. TEMPLATES PROVIDE GRAMMAR, NOT IDENTITY.
@@ -16280,3 +16325,55 @@ Summary of **P0.JURNL.F01-ENTRY-FULL-FAMILY-PRODUCTION1** in this cloud agent ru
 
 - **Context:** `origin/main` had an unresolved merge left in `motherboard/MEMORY.md` (BLDR V2 benchmark entry versus the batch B log). That marker block made later branches report conflicts with `main`.
 - **Resolution:** Both log entries stay. The conflict markers are removed. No product code changed.
+
+---
+
+## 2026-10-11 — Correspondence Studio V3 reference-fidelity workspace (Opus, chat summary incl. DF sprints 1–2)
+
+Summary of the whole conversation in this chat.
+
+- **Context:** Three sprints in one chat. (1) DF screen-review tunnel activation. (2) DF visual-authority pixel convergence → draft PR #1614 (`cursor/df-visual-authority-convergence-be3b`, SHA `a942a279`). (3) P0.SITE00.CORRESPONDENCE-STUDIO.V3-REFERENCE-FIDELITY-EDITORIAL-PUBLISHING-WORKSPACE1: rebuild the look of `/admin/site00/correspondence-studio` to match the founder's attached 1536×1024 reference while keeping every function (routes, manifest/registry, brand firewall, versions, founder review, client delivery planning).
+- **Decisions / outcomes:**
+  - All four Correspondence Studio routes render one `CorrespondenceWorkspacePage` (same component type, so state survives route changes). Paths unchanged.
+  - Zones: global header, left nav, masthead, email library, central preview (repository HTML in a no-script sandboxed `srcDoc` iframe), right inspector, bottom actions. Desktop ≥1200px: 100dvh grid, no document scroll, panels scroll internally. Tablet 700–1199: preview first, library/inspector drawers with a dismiss scrim. Mobile <700: LIBRARY / PREVIEW / REVIEW tasks, one at a time.
+  - Honesty rules applied: inspector fields are read-only with source badges (REGISTRY / COMPOSITION / BRAND); no drag handles; AUDIENCES/ASSETS/ANALYTICS/SETTINGS shown disabled "NOT IN V1"; SEND TEST always disabled; APPROVE requires a composed preview; automations view is the read-only lifecycle map (all OFF); deliveries view is the approval-based plan only (no upload/send).
+  - Footer actions mapped to real workflow (REVISE / SEND TEST OFF / APPROVE → MARK READY) instead of the reference's SAVE DRAFT / SEND TEST / PUBLISH. Fourth inspector tab renamed REVIEW & TEST.
+  - Fonts: Saira Semi Condensed (repo) + Barlow Condensed 300 for the thin STUDIO wordmark (scaleY). No SITE 00 serif exists; JURNL serifs not used (brand leakage).
+  - Environment imagery = derived webp crops of existing benchmark assets (`public/site00-correspondence-studio/environment/`), no paid generation.
+  - `addVersionComment` now takes a fallback state so the first note no longer demotes `founder_review` to `draft`.
+  - Preview loader strips scripts and decodes Cloudflare `data-cfemail` so tunnel previews show repository copy exactly (B01 address was rewritten to "[email protected]").
+- **Changes:** `shared/site00-correspondence-studio/workspaceLibrary.ts` (+tests `tests/correspondenceStudioWorkspace.test.ts`), `review/repositoryReviewStore.ts`, `src/routes/Site00AdminRoutes.tsx`, `src/site00/admin/pages/correspondence/CorrespondenceWorkspacePage.tsx`, `src/site00/admin/components/correspondence/workspace/*`, `src/site00/admin/styles/site00-correspondence-studio.css` (`.csw` namespace). Old per-route pages, `CorrespondencePreviewPane`, `useCorrespondenceReview` removed.
+- **Tunnel:** `cursor/review-tunnel-integration-be3b` = DF convergence `a942a279` + CS V3; `/tmp/site00-preview-main` pinned to it so both DF screen-review and Correspondence Studio are live on the canonical preview tunnel host (`SITE00_CLOUDFLARE_TUNNEL_HOSTNAME`). Revert with `serve-site00-preview-from-main.sh`.
+- **Known pre-existing blockers (not this branch):** `npm run build` fails on `main` too — 23 `tsc` errors in DF/foundation files and a duplicate `getRepositoryPersistRevision` export in `src/projects/jurnl/data/repository/deviceRepository.ts` (from #1390). AdminGuard preview-host bypass (`TEMPORARY_SITE00_ADMIN_BYPASS_ON_PREVIEW`) pre-exists on main.
+- **Conventions:** Use `/tmp/cs-ref/capture.mjs` + `func.mjs` style Playwright checks (clipping, no desktop scroll, console errors, 42 functional checks) through the tunnel before claiming fidelity. Draft PR only; no merge, no production deploy.
+
+---
+
+## 2026-10-11 — Email V2 R4 premium editorial pack (20 emails, draft PR, not merged)
+
+- **Context:** Sprint `P0.SITE00.IDNTY.EMAIL-V2-R4-PREMIUM-EDITORIAL-ASSET-PASS-AND-FULL-PACK-COMPOSITION-REBUILD1` on `cursor/df-email-v2-r4-premium-a9f7` (includes the R3 commits from draft PR #1611). Rebuilt all 20 Digital Foundation emails (Transactional 12, Operational 3, Marketing 5) as distinct editorial compositions.
+- **Art:** 10 OpenArt gpt-image-2-5-sunburst image-to-image jobs (G01–G10, project `6Ueswtr8vt58ur2n3CRs`), 0 regenerations. Credits 20,899 → 19,199 (1,700 spent, ceiling 1,902). Classes: P1 10 (unique hero art), P2 4 (shared-family art), P3 6 (typography/utility only).
+- **Pipeline:** `scripts/df-email-v2-benchmark/r4/` holds `compose/` (base.css, pack.py), `build_r4.py` (tokens + widow binding), `render.mjs` (390/768/1024 + fonts-blocked run), `qa_r4.mjs` (contracts, tokens, banned language, line faults, variety), `build_review_r4.py` (review artifact, matrix, provenance, `--public` mount) and `package_r4.py` (client ZIP). QA 20/20 PASS; 120 clean renders.
+- **Review:** The primary deliverable is the interactive review artifact at `/site00-correspondence-studio/previews/r4/review/index.html`. It offers an EMAIL / FAMILY WALL / ASSETS view, a family filter, P1/P2/P3 filters, MOBILE/TABLET/DESKTOP/ALL 3, and an R3 compare. Studio import `r4PremiumImport.ts` sets `<id>@r4-premium` current at `founder_review` (`auto_approve: false`). ZIP on release `df-v2-email-r4-premium-2026-10-11`. Docs: `docs/site00/idnty/visual-authority/email-v2/r4/`.
+- **Conventions:** Widow binding happens in `build_r4.py`, not by hand. Text wrapped in an extra `<span>` escapes binding. Fallback-font line notes are advisory, but overflow under fallback fonts is a fail. No email is sent. The founder selects or approves per template in the Studio.
+
+---
+
+## 2026-10-12 — R4 branch merged with Correspondence Studio V3 (#1615)
+
+- **Context:** Founder asked to fetch `main`, classify the merge conflicts on `cursor/df-email-v2-r4-premium-a9f7` (PR #1613), fix the simple ones and report the complicated ones.
+- **Resolution:** MEMORY was an append-only conflict, so both entries are kept. V3 deleted `CorrespondencePreviewPane` and `CorrespondenceEmailReviewPage`; the deletion is accepted because the V3 workspace replaces them. The CSS takes main's version. R3's in-Studio side-by-side compare and 1024px width are not ported into V3; the R4 review artifact still provides both.
+- **Integration fix:** V3's `emailDocument.ts` required a div `.email` root, so every R3/R4 version was rejected with "PREVIEW IS NOT A COMPOSED EMAIL". The loader now also accepts `table.wrap` emails. Block indexing still covers only `.email`. Verified with Playwright before and after the fix.
+- **Conventions:** Any new pack format must load in `loadRepositoryEmail`. Check it in the V3 workspace, not only in the pack's own review artifact.
+
+---
+
+## 2026-10-12 — FNDATN-01: first seven Digital Foundation emails from founder visual authority (draft PR, not merged)
+
+- **Context:** This chat ran four sprints. (1) DF screen-review tunnel. (2) DF visual-authority convergence, draft PR #1614. (3) Correspondence Studio V3, #1615, now on main. (4) This one, `P0.SITE00.CORRESPONDENCE-STUDIO.FNDATN-FIRST-SEVEN-EMAILS-FOUNDER-VISUAL-AUTHORITY-IMPLEMENTATION1`. The founder supplied `SITE00_FNDATN_7_EMAILS_UNDER_4MB_5cf4.zip`: pack FNDATN-01 with 7 emails and 14 desktop/mobile authorities. The task was to implement them as real HTML inside the existing studio at `/admin/site00/correspondence-studio`. Branch `cursor/fndatn-01-seven-emails-be3b`.
+- **Assets:** The 14 authorities are under `public/site00-correspondence-studio/fndatn-01/authority/`. Decomposed parts (hero crops at 680×300 desktop, mobile heroes, strips, keyed icons, a mobile receipt) come from deterministic PIL crops in `scripts/correspondence-studio/fndatn01/extract_assets.py`. Baked copy and card fields are erased, and live HTML ledgers carry every personalized value. Manifests are in `docs/site00/correspondence/fndatn-01/`. No OpenArt spend.
+- **Code:** `shared/site00-correspondence-studio/fndatn01/` holds the pack, the contracts (guards `derive01`–`derive07`, all from `DigitalFoundationArtifactPayload`, no new data model), the renderers, the fixtures and the previews. `import/fndatn01PackImport.ts` adds `<template>@fndatn-01` as current at `founder_review` with `auto_approve` false; all prior versions are kept. Two new templates: `intake-resume-reminder` and `quote-expiry-reminder` (22 total). `project-activated` stays on R4. `eventMap.ts` is unchanged; dispatch is off and delivery is dry-run.
+- **Studio:** Pack chip and `?pack=FNDATN-01` filter. HTML / REFERENCE / COMPARE stage views (`?view=`). A state select for 04 (activation confirmed or pending, `?state=`). The inspector shows a pack contract: purpose, trigger, eligible-when, never-send-when, `DISPATCH OFF · DRY RUN`; derived triggers are marked NOT SCHEDULED. When views are present, the stage bar wraps the title onto its own row.
+- **Previews:** Regenerate with `npx tsx scripts/correspondence-studio/fndatn01/render-previews.ts`. `tests/fndatn01.test.ts` fails if the committed HTML drifts from the renderer.
+- **QA:** 136/136 Playwright studio checks (`/tmp/cs-ref/fndatn-func.mjs`) on a local branch dev server. Static scan of send output: all <49 KB, no script, https-only links, alt text and width on every image. No live email-client test. The full vitest suite shows the same 80 failing files as `origin/main`, so nothing new. `tsc` still has the 23 known errors. The build is still blocked by the `deviceRepository.ts` duplicate export.
+- **Conventions:** FNDATN-style packs register via `pack_id` on versions and `reference_authority` paths. `workspaceLibrary.listCorrespondencePacks` groups them. Never put whole reference images in the email body. Approval stays local-session only.

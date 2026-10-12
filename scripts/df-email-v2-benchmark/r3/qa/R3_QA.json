@@ -1,0 +1,79 @@
+[
+  {
+    "id": "B01_R3",
+    "copy_units": 22,
+    "copy_missing": [],
+    "alt_units": 1,
+    "alt_missing": [],
+    "unsourced_visible_lines": [],
+    "uppercase_failures": [],
+    "type_role_failures": [],
+    "images_described": 2,
+    "images_decorative": 7,
+    "images_missing_alt": [],
+    "links": [
+      {
+        "text": "BEGIN YOUR FOUNDATION →",
+        "href": "https://site00.com/foundation/hr7Kq2Lm9x?step=intake"
+      }
+    ],
+    "cta_ok": true,
+    "scripts": 0,
+    "positioned_elements": 0,
+    "pass": true
+  },
+  {
+    "id": "B02_R3",
+    "copy_units": 25,
+    "copy_missing": [],
+    "alt_units": 2,
+    "alt_missing": [],
+    "unsourced_visible_lines": [],
+    "uppercase_failures": [],
+    "type_role_failures": [],
+    "images_described": 8,
+    "images_decorative": 8,
+    "images_missing_alt": [],
+    "links": [
+      {
+        "text": "VIEW YOUR FOUNDATION",
+        "href": "https://site00.com/foundation/hr7Kq2Lm9x"
+      }
+    ],
+    "cta_ok": true,
+    "scripts": 0,
+    "positioned_elements": 0,
+    "pass": true
+  },
+  {
+    "id": "B03_R3",
+    "copy_units": 35,
+    "copy_missing": [],
+    "alt_units": 6,
+    "alt_missing": [],
+    "unsourced_visible_lines": [],
+    "uppercase_failures": [],
+    "type_role_failures": [],
+    "images_described": 12,
+    "images_decorative": 5,
+    "images_missing_alt": [],
+    "links": [
+      {
+        "text": "TAKE A WALK THROUGH BLDR →",
+        "href": "#bldr-route-pending"
+      },
+      {
+        "text": "MANAGE PREFERENCES → {{preference_url}}",
+        "href": "{{preference_url}}"
+      },
+      {
+        "text": "UNSUBSCRIBE → {{unsubscribe_url}}",
+        "href": "{{unsubscribe_url}}"
+      }
+    ],
+    "cta_ok": true,
+    "scripts": 0,
+    "positioned_elements": 0,
+    "pass": true
+  }
+]

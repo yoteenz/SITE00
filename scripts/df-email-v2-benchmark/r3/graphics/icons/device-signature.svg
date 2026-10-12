@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <title>DEVICES AND SIGNATURE — a handset crossed by a signed line</title>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="9" y="5" width="18" height="34" rx="2.5" stroke="#141414" stroke-width="2.2"/>
+    <path d="M15 34H21" stroke="#141414" stroke-width="1.6"/>
+    <path d="M13 23C16 15 19 16 18 22C17 28 21 27 24 21C26 17 28 20 29 24C30 27 33 26 36 22L44 22" stroke="#d90c0c" stroke-width="2.2"/>
+  </g>
+</svg>

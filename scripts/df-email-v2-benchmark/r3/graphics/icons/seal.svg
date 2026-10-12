@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <title>RECORDS — authentication seal (mail genuinely from you)</title>
+  <g fill="none" stroke-linecap="square">
+    <circle cx="24" cy="24" r="17" stroke="#141414" stroke-width="2.2"/>
+    <circle cx="24" cy="24" r="11" stroke="#141414" stroke-width="1"/>
+    <path d="M24 3V7M24 41V45M3 24H7M41 24H45M9.2 9.2L12 12M36 36L38.8 38.8M38.8 9.2L36 12M12 36L9.2 38.8" stroke="#141414" stroke-width="1.4"/>
+    <path d="M18.5 24.5L22.5 28.5L30 19.5" stroke="#d90c0c" stroke-width="2.4"/>
+  </g>
+</svg>

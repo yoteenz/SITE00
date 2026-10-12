@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 260" width="360" height="260">
+  <title>B · COURTYARD — rooms wrapped around an open centre; the marked room is the court itself</title>
+  <rect width="360" height="260" fill="#121212"/>
+  <g transform="translate(34 40)" fill="none" stroke="#f1efea" stroke-width="2.2" stroke-linecap="square">
+    <rect x="0" y="0" width="292" height="184"/>
+    <path d="M74 0V136M218 0V136M74 136H218"/>
+    <rect x="90" y="16" width="112" height="104" fill="rgba(217,12,12,0.38)" stroke="#d90c0c" stroke-width="3" stroke-dasharray="7 5"/>
+    <path d="M74 56V80M218 56V80" stroke="#121212" stroke-width="5"/>
+    <path d="M146 184V170" stroke="#121212" stroke-width="8"/>
+    <path d="M136 210L146 196L156 210" stroke="#d90c0c" stroke-width="2.2"/>
+  </g>
+</svg>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <title>ACTION — a sheet pinned to the board, waiting to be picked up</title>
+  <g fill="none" stroke-linecap="square">
+    <path d="M8 12H40V44H8Z" stroke="#141414" stroke-width="2.2"/>
+    <path d="M14 26H34M14 32H34M14 38H26" stroke="#141414" stroke-width="1.2"/>
+    <circle cx="24" cy="12" r="5" fill="#d90c0c" stroke="none"/>
+    <path d="M24 17V21" stroke="#141414" stroke-width="1.4"/>
+  </g>
+</svg>

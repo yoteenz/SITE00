@@ -1,0 +1,454 @@
+{
+  "version": "r4-premium",
+  "count": 20,
+  "emails": [
+    {
+      "code": "TR-01",
+      "template_id": "personal-foundation-invitation",
+      "family": "transactional",
+      "name": "PERSONAL FOUNDATION INVITATION",
+      "register": "LETTER",
+      "title": "THE INVITATION",
+      "visual_class": "P1",
+      "premium_assets": [
+        "R4-G01"
+      ],
+      "devices": "Letterhead, two-voice headline beside the native portrait doorway, reply card, P.S.",
+      "lineage": "R3 composition refined in R4",
+      "subject": "WE'VE SET ASIDE A FOUNDATION FOR Halden &amp; Rowe",
+      "preheader": "A FEW QUESTIONS ABOUT HOW YOU WORK, THEN A SCOPE YOU SEE BEFORE ANYTHING IS CHARGED.",
+      "review_file": "personal-foundation-invitation.html",
+      "template_file": "templates/personal-foundation-invitation.template.html",
+      "tokens": [
+        "business_name",
+        "public_token",
+        "recipient_email"
+      ]
+    },
+    {
+      "code": "TR-02",
+      "template_id": "intake-started",
+      "family": "transactional",
+      "name": "INTAKE STARTED",
+      "register": "LETTER",
+      "title": "THE DOOR, AJAR",
+      "visual_class": "P2",
+      "premium_assets": [
+        "R4-G01"
+      ],
+      "devices": "Short note; the open door returns as a floor-light detail stepped in from the right; margin note.",
+      "lineage": "New in R4",
+      "subject": "YOUR INTAKE IS OPEN",
+      "preheader": "YOUR ANSWERS ARE WHERE YOU LEFT THEM. PICK UP AT THE NEXT QUESTION.",
+      "review_file": "intake-started.html",
+      "template_file": "templates/intake-started.template.html",
+      "tokens": [
+        "business_name",
+        "public_token"
+      ]
+    },
+    {
+      "code": "TR-03",
+      "template_id": "intake-completed",
+      "family": "transactional",
+      "name": "INTAKE COMPLETED",
+      "register": "RECORD",
+      "title": "RECEIVED",
+      "visual_class": "P3",
+      "premium_assets": [],
+      "devices": "Double-ruled RECEIVED stamp, three-step progress rail, outlined action.",
+      "lineage": "New in R4",
+      "subject": "YOUR INTAKE IS RECEIVED",
+      "preheader": "THANK YOU. THE NEXT THING YOU'LL HEAR FROM US IS YOUR QUOTE.",
+      "review_file": "intake-completed.html",
+      "template_file": "templates/intake-completed.template.html",
+      "tokens": [
+        "business_name",
+        "public_token"
+      ]
+    },
+    {
+      "code": "TR-04",
+      "template_id": "quote-ready",
+      "family": "transactional",
+      "name": "QUOTE READY",
+      "register": "BRIEF",
+      "title": "THE WORK, MEASURED",
+      "visual_class": "P1",
+      "premium_assets": [
+        "R4-G04"
+      ],
+      "devices": "Scale-model hero, figure caption, specification sheet with the total set in display type, margin note.",
+      "lineage": "New in R4",
+      "subject": "YOUR QUOTE IS READY",
+      "preheader": "WHAT WE'LL SET UP FOR YOU, AND WHAT IT COSTS. READ IT WHEN YOU'RE READY.",
+      "review_file": "quote-ready.html",
+      "template_file": "templates/quote-ready.template.html",
+      "tokens": [
+        "business_name",
+        "public_token",
+        "quote_total_display",
+        "quote_version"
+      ]
+    },
+    {
+      "code": "TR-05",
+      "template_id": "quote-updated",
+      "family": "transactional",
+      "name": "QUOTE UPDATED",
+      "register": "BRIEF",
+      "title": "REVISION",
+      "visual_class": "P2",
+      "premium_assets": [
+        "R4-G04"
+      ],
+      "devices": "Model detail beside the headline; drawing-style revision table with the earlier version struck.",
+      "lineage": "New in R4",
+      "subject": "YOUR QUOTE WAS UPDATED",
+      "preheader": "VERSION 3 REPLACES THE ONE YOU HAVE. HAVE A LOOK BEFORE YOU GO ON.",
+      "review_file": "quote-updated.html",
+      "template_file": "templates/quote-updated.template.html",
+      "tokens": [
+        "public_token",
+        "quote_total_display",
+        "quote_version"
+      ]
+    },
+    {
+      "code": "TR-06",
+      "template_id": "quote-accepted",
+      "family": "transactional",
+      "name": "QUOTE ACCEPTED",
+      "register": "RECORD",
+      "title": "AGREED",
+      "visual_class": "P3",
+      "premium_assets": [],
+      "devices": "One-word monument headline; countersignature device with version and terms.",
+      "lineage": "New in R4",
+      "subject": "YOUR QUOTE ACCEPTANCE IS RECORDED",
+      "preheader": "THANK YOU. THE NEXT STEP IS CHECKOUT, WHENEVER YOU'RE READY.",
+      "review_file": "quote-accepted.html",
+      "template_file": "templates/quote-accepted.template.html",
+      "tokens": [
+        "public_token",
+        "quote_version",
+        "terms_version"
+      ]
+    },
+    {
+      "code": "TR-07",
+      "template_id": "checkout-link-ready",
+      "family": "transactional",
+      "name": "CHECKOUT LINK READY",
+      "register": "NOTICE",
+      "title": "CHECKOUT IS OPEN",
+      "visual_class": "P2",
+      "premium_assets": [
+        "R4-G05"
+      ],
+      "devices": "Threshold slot as a letterbox header; admission ticket with a perforated stub.",
+      "lineage": "New in R4",
+      "subject": "YOUR CHECKOUT IS READY",
+      "preheader": "THE QUOTE YOU ACCEPTED, READY FOR PAYMENT WHEN YOU ARE.",
+      "review_file": "checkout-link-ready.html",
+      "template_file": "templates/checkout-link-ready.template.html",
+      "tokens": [
+        "business_name",
+        "public_token"
+      ]
+    },
+    {
+      "code": "TR-08",
+      "template_id": "payment-confirmed",
+      "family": "transactional",
+      "name": "PAYMENT CONFIRMED",
+      "register": "RECORD",
+      "title": "RECEIPT",
+      "visual_class": "P1",
+      "premium_assets": [
+        "R4-G05"
+      ],
+      "devices": "Threshold hero, amount as monument numerals, perforation rule, split thanks.",
+      "lineage": "New in R4",
+      "subject": "YOUR PAYMENT IS CONFIRMED",
+      "preheader": "THANK YOU. THE PAYMENT IS RECORDED AGAINST YOUR FOUNDATION.",
+      "review_file": "payment-confirmed.html",
+      "template_file": "templates/payment-confirmed.template.html",
+      "tokens": [
+        "payment_amount_display",
+        "public_token"
+      ]
+    },
+    {
+      "code": "TR-09",
+      "template_id": "payment-failed",
+      "family": "transactional",
+      "name": "PAYMENT FAILED / RECOVERY",
+      "register": "NOTICE",
+      "title": "ATTENTION",
+      "visual_class": "P3",
+      "premium_assets": [],
+      "devices": "Status bar with a hollow red square; three-row fact sheet; no imagery on purpose.",
+      "lineage": "New in R4",
+      "subject": "YOUR PAYMENT NEEDS ATTENTION",
+      "preheader": "THE PAYMENT DIDN'T COMPLETE. YOU CAN REVIEW IT FROM YOUR FOUNDATION.",
+      "review_file": "payment-failed.html",
+      "template_file": "templates/payment-failed.template.html",
+      "tokens": [
+        "business_name",
+        "public_token"
+      ]
+    },
+    {
+      "code": "TR-10",
+      "template_id": "project-activated",
+      "family": "transactional",
+      "name": "PROJECT ACTIVATED",
+      "register": "FEATURE",
+      "title": "THE GROUND IS MARKED OUT",
+      "visual_class": "P1",
+      "premium_assets": [
+        "R4-G06"
+      ],
+      "devices": "Headline before image; setting-out photograph; five-stage map with stage 01 in red.",
+      "lineage": "New in R4",
+      "subject": "YOUR PROJECT IS ACTIVE",
+      "preheader": "THE GROUND IS MARKED OUT. HERE IS WHAT WILL BE BUILT ON IT.",
+      "review_file": "project-activated.html",
+      "template_file": "templates/project-activated.template.html",
+      "tokens": [
+        "business_name",
+        "public_token"
+      ]
+    },
+    {
+      "code": "TR-11",
+      "template_id": "foundation-complete",
+      "family": "transactional",
+      "name": "FOUNDATION COMPLETE",
+      "register": "RECORD",
+      "title": "THE RECORD",
+      "visual_class": "P1",
+      "premium_assets": [
+        "R4-G02"
+      ],
+      "devices": "Seal, groundwork lockup, built travertine slab with its title block, schedule, datum, ownership.",
+      "lineage": "R3 composition refined in R4",
+      "subject": "YOUR FOUNDATION IS COMPLETE",
+      "preheader": "THE PART NOBODY APPLAUDS, AND THE PART EVERYTHING ELSE STANDS ON.",
+      "review_file": "foundation-complete.html",
+      "template_file": "templates/foundation-complete.template.html",
+      "tokens": [
+        "business_name",
+        "public_token"
+      ]
+    },
+    {
+      "code": "TR-12",
+      "template_id": "records-available",
+      "family": "transactional",
+      "name": "RECORDS AVAILABLE",
+      "register": "RECORD",
+      "title": "THE ARCHIVE",
+      "visual_class": "P1",
+      "premium_assets": [
+        "R4-G07"
+      ],
+      "devices": "Archive photograph opens the email; index card with a red tab; no documents in email.",
+      "lineage": "New in R4",
+      "subject": "YOUR RECORDS ARE AVAILABLE",
+      "preheader": "FILED IN ONE PLACE, BEHIND YOUR OWN LINK, FOR THE DAY YOU NEED THEM.",
+      "review_file": "records-available.html",
+      "template_file": "templates/records-available.template.html",
+      "tokens": [
+        "business_name",
+        "public_token"
+      ]
+    },
+    {
+      "code": "OP-01",
+      "template_id": "client-action-required",
+      "family": "operational",
+      "name": "CLIENT ACTION REQUIRED",
+      "register": "NOTICE",
+      "title": "ONE THING NEEDS YOU",
+      "visual_class": "P3",
+      "premium_assets": [],
+      "devices": "Pinned stone card carrying the request and its note in original case; primary plus text link.",
+      "lineage": "New in R4",
+      "subject": "A FOUNDATION ACTION NEEDS YOU",
+      "preheader": "ONE REQUEST IS WAITING ON YOU. IT'S QUICKEST TO HANDLE IN YOUR FOUNDATION.",
+      "review_file": "client-action-required.html",
+      "template_file": "templates/client-action-required.template.html",
+      "tokens": [
+        "action_title",
+        "client_message",
+        "public_token"
+      ]
+    },
+    {
+      "code": "OP-02",
+      "template_id": "approval-requested",
+      "family": "operational",
+      "name": "APPROVAL REQUESTED",
+      "register": "BRIEF",
+      "title": "YOUR SIGN-OFF, PLEASE",
+      "visual_class": "P3",
+      "premium_assets": [],
+      "devices": "Kicker into headline; ruled decision strip; two numbered steps.",
+      "lineage": "New in R4",
+      "subject": "YOUR APPROVAL IS REQUESTED",
+      "preheader": "SOMETHING ON YOUR FOUNDATION IS READY FOR YOUR SIGN-OFF.",
+      "review_file": "approval-requested.html",
+      "template_file": "templates/approval-requested.template.html",
+      "tokens": [
+        "approval_subject",
+        "public_token"
+      ]
+    },
+    {
+      "code": "OP-03",
+      "template_id": "approval-completed",
+      "family": "operational",
+      "name": "APPROVAL COMPLETED",
+      "register": "RECORD",
+      "title": "DONE. THANK YOU",
+      "visual_class": "P3",
+      "premium_assets": [],
+      "devices": "Registration tick beside the headline; two-line record; the shortest email in the pack.",
+      "lineage": "New in R4",
+      "subject": "YOUR ACTION IS RECORDED",
+      "preheader": "DONE, AND ON RECORD. THANK YOU.",
+      "review_file": "approval-completed.html",
+      "template_file": "templates/approval-completed.template.html",
+      "tokens": [
+        "action_title",
+        "public_token"
+      ]
+    },
+    {
+      "code": "MK-01",
+      "template_id": "foundation-credit-issued",
+      "family": "marketing",
+      "name": "FOUNDATION CREDIT ISSUED",
+      "register": "FEATURE",
+      "title": "SET ASIDE, IN YOUR NAME",
+      "visual_class": "P1",
+      "premium_assets": [
+        "R4-G08"
+      ],
+      "devices": "Stacked headline beside the red-glass still life; value plate; red band.",
+      "lineage": "New in R4",
+      "subject": "A FOUNDATION CREDIT IS ON YOUR PROJECT",
+      "preheader": "SET ASIDE IN YOUR NAME, AND KEPT FOR YOU IN YOUR FOUNDATION.",
+      "review_file": "foundation-credit-issued.html",
+      "template_file": "templates/foundation-credit-issued.template.html",
+      "tokens": [
+        "credit_amount_display",
+        "credit_valid_until",
+        "postal_address",
+        "preference_url",
+        "public_token",
+        "unsubscribe_url"
+      ]
+    },
+    {
+      "code": "MK-02",
+      "template_id": "bldr-discovery",
+      "family": "marketing",
+      "name": "BLDR DISCOVERY",
+      "register": "LETTER",
+      "title": "YOU MENTIONED YOU MIGHT BUILD",
+      "visual_class": "P2",
+      "premium_assets": [
+        "R4-G03"
+      ],
+      "devices": "Pavilion band from the BLDR cover; three illustrative plans; letter sign-off.",
+      "lineage": "New in R4",
+      "subject": "YOUR BUILD INTEREST IS RECORDED",
+      "preheader": "YOU MENTIONED YOU MIGHT BUILD. HERE'S WHERE THAT CONVERSATION STARTS.",
+      "review_file": "bldr-discovery.html",
+      "template_file": "templates/bldr-discovery.template.html",
+      "tokens": [
+        "business_name",
+        "postal_address",
+        "preference_url",
+        "public_token",
+        "unsubscribe_url"
+      ]
+    },
+    {
+      "code": "MK-03",
+      "template_id": "M01",
+      "family": "marketing",
+      "name": "M01 \u2014 DIGITAL FOUNDATION EDUCATION",
+      "register": "FEATURE",
+      "title": "WHAT'S UNDER THE FLOOR",
+      "visual_class": "P1",
+      "premium_assets": [
+        "R4-G09"
+      ],
+      "devices": "Field-guide masthead; sectional model with numbered markers; legend; stone panel on what a foundation is not; red band.",
+      "lineage": "New in R4",
+      "subject": "HOW THE DIGITAL FOUNDATION WORKS",
+      "preheader": "FOUR LAYERS NOBODY SEES, AND WHY EVERYTHING ELSE STANDS ON THEM.",
+      "review_file": "M01.html",
+      "template_file": "templates/M01.template.html",
+      "tokens": [
+        "postal_address",
+        "preference_url",
+        "public_token",
+        "unsubscribe_url"
+      ]
+    },
+    {
+      "code": "MK-04",
+      "template_id": "M06",
+      "family": "marketing",
+      "name": "M06 \u2014 BLDR INTRODUCTION",
+      "register": "FEATURE",
+      "title": "THE ISSUE",
+      "visual_class": "P1",
+      "premium_assets": [
+        "R4-G03"
+      ],
+      "devices": "Magazine cover with the nameplate in the sky; stepped headline; three stations; plan reveal; ink spread; closing link.",
+      "lineage": "R3 composition refined in R4",
+      "subject": "WHAT STANDS AT YOUR ADDRESS?",
+      "preheader": "A LOOK INSIDE BLDR, WHERE SITE 00 DESIGNS WHAT PEOPLE FIND WHEN THEY ARRIVE AT YOUR DOMAIN.",
+      "review_file": "M06.html",
+      "template_file": "templates/M06.template.html",
+      "tokens": [
+        "business_name",
+        "postal_address",
+        "preference_url",
+        "unsubscribe_url"
+      ]
+    },
+    {
+      "code": "MK-05",
+      "template_id": "M13",
+      "family": "marketing",
+      "name": "M13 \u2014 POST-COMPLETION FOLLOW-UP",
+      "register": "FEATURE",
+      "title": "AFTER HOURS",
+      "visual_class": "P1",
+      "premium_assets": [
+        "R4-G10"
+      ],
+      "devices": "Dusk pavilion into a night band; three vignettes in white; terrace strip; red band.",
+      "lineage": "New in R4",
+      "subject": "AFTER THE FOUNDATION",
+      "preheader": "THE GROUND IS LAID. A SHORT NOTE ON WHAT IT'S FOR, NOW THAT IT'S THERE.",
+      "review_file": "M13.html",
+      "template_file": "templates/M13.template.html",
+      "tokens": [
+        "business_name",
+        "postal_address",
+        "preference_url",
+        "public_token",
+        "unsubscribe_url"
+      ]
+    }
+  ]
+}
