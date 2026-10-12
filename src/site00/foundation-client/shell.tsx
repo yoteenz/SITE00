@@ -1,4 +1,5 @@
 /** Digital Foundation client shell (DF-C01..C09, C26, C45..C48). Presentation only. */
+import { CorrespondenceProse } from '../../../shared/site00-correspondence-studio/reactProse.js';
 import { useEffect, useId, useRef, type ReactNode } from 'react';
 import { DfIcon, type DfIconName } from './icons';
 import { DfCornerFragment, DfCrownObject, DfThresholdHero } from './objects';
@@ -55,7 +56,11 @@ export function DfHeadline({ lines, id }: { lines: string[]; id?: string }) {
 }
 
 export function DfLede({ children }: { children: ReactNode }) {
-  return <p className="df-lede">{children}</p>;
+  return (
+    <p className="df-lede">
+      <CorrespondenceProse>{children}</CorrespondenceProse>
+    </p>
+  );
 }
 
 export function DfCta({
@@ -94,7 +99,9 @@ export function DfTrust({ text, aside }: { text: string; aside?: ReactNode }) {
   return (
     <div className="df-trust">
       <DfIcon name="lock" className="df-trust__lock" />
-      <span className="df-trust__text">{text}</span>
+      <span className="df-trust__text">
+        <CorrespondenceProse>{text}</CorrespondenceProse>
+      </span>
       {aside && <span className="df-trust__aside">{aside}</span>}
     </div>
   );
@@ -126,7 +133,9 @@ export function DfAlert({
   return (
     <div className={`df-alert df-alert--${tone}`} role={role}>
       <DfIcon name={icon} className="df-alert__icon" />
-      <div className="df-alert__body">{children}</div>
+      <div className="df-alert__body">
+        <CorrespondenceProse>{children}</CorrespondenceProse>
+      </div>
     </div>
   );
 }

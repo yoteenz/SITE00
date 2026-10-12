@@ -1,29 +1,7 @@
 /* SITE 00 — IDNTY — Digital Foundation client artifact (Board 01 + Board 02).
    White chamber / black type / red threshold. No gradients as decoration, no rounded primary buttons. */
 
-@font-face {
-  font-family: 'SITE00 DF Display';
-  font-style: normal;
-  font-weight: 800;
-  font-display: swap;
-  src: url('/site00/fonts/barlow-condensed/barlow-condensed-800.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'SITE00 DF Display';
-  font-style: normal;
-  font-weight: 900;
-  font-display: swap;
-  src: url('/site00/fonts/barlow-condensed/barlow-condensed-900.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'SITE00 DF Text';
-  font-style: normal;
-  font-weight: 100 900;
-  font-display: swap;
-  src: url('/site00/fonts/inter/inter-variable-latin.woff2') format('woff2');
-}
+@import './site00-correspondence-fonts.css';
 
 .df-root,
 .df-screen {
@@ -36,11 +14,11 @@
   --df-faint: #a3a19c;
   --df-rule: #dcdad5;
   --df-rule-strong: #c9c7c2;
-  --df-red: #d3121b;
+  --df-red: #ce1017;
   --df-red-ink: #b30f17;
-  --df-red-tint: rgba(211, 18, 27, 0.07);
-  --df-display: 'SITE00 DF Display', 'Barlow Condensed', 'Arial Narrow', sans-serif;
-  --df-text: 'SITE00 DF Text', 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  --df-red-tint: rgba(206, 16, 23, 0.07);
+  --df-display: 'SITE 00 Display', 'Arial Narrow', sans-serif;
+  --df-text: 'Saira Semi Condensed', 'Arial Narrow', Arial, sans-serif;
   --df-gutter: 26px;
   --df-headline: min(60px, 15.4vw);
 }
