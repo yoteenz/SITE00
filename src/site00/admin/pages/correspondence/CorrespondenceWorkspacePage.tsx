@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { resolveBrandForCampaign } from '../../../../../shared/site00-correspondence-studio/brandFirewall.js';
+import { emailForClient, type ClientFontScenario } from '../../../../../shared/site00-correspondence-studio/editorial/clientSimulation.js';
 import { DEVICE_PREVIEW_MODES, type DevicePreviewMode } from '../../../../../shared/site00-correspondence-studio/types.js';
 import { getCorrespondenceWorkspace } from '../../../../../shared/site00-correspondence-studio/workspace.js';
 import {
@@ -175,6 +176,14 @@ export default function CorrespondenceWorkspacePage() {
     return { ...version, preview_source: { ...version.preview_source, publicPreviewPath: statePreview.publicPreviewPath } };
   }, [version, statePreview]);
   const docState = useEmailDocument(previewVersion);
+  const client: ClientFontScenario = search.get('client') === 'fallback' ? 'fallback' : 'webfont';
+  const stageState = useMemo(
+    () =>
+      docState.status === 'ready' && docState.doc.source === 'repository_html' && client === 'fallback'
+        ? { ...docState, doc: { ...docState.doc, srcDoc: emailForClient(docState.doc.srcDoc, client) } }
+        : docState,
+    [docState, client],
+  );
   const reference = version?.reference_authority ?? null;
   const viewParam = search.get('view');
   const view: StageView = reference && (viewParam === 'reference' || viewParam === 'compare') ? viewParam : 'html';
@@ -209,7 +218,7 @@ export default function CorrespondenceWorkspacePage() {
 
   const carry = () => {
     const keep = new URLSearchParams();
-    for (const k of ['device', 'pack', 'view']) {
+    for (const k of ['device', 'pack', 'view', 'client']) {
       const val = search.get(k);
       if (val) keep.set(k, val);
     }
@@ -491,6 +500,27 @@ export default function CorrespondenceWorkspacePage() {
                     ))}
                   </div>
                 ) : null}
+                {version.preview_source.kind === 'repository_html' ? (
+                  <div className="csw-devices csw-views" role="group" aria-label="Client font rendering">
+                    {(
+                      [
+                        ['webfont', 'WEBFONT', 'Apple Mail, iOS Mail, Samsung Mail: brand fonts load'],
+                        ['fallback', 'GMAIL · OUTLOOK', 'Gmail, Outlook and Outlook.com refuse webfonts: Arial metrics and the client fallback layout'],
+                      ] as [ClientFontScenario, string, string][]
+                    ).map(([id, label, hint]) => (
+                      <button
+                        key={id}
+                        type="button"
+                        aria-pressed={client === id}
+                        className={client === id ? 'is-active' : ''}
+                        title={hint}
+                        onClick={() => updateSearch({ client: id === 'webfont' ? null : id })}
+                      >
+                        {label}
+                      </button>
+                    ))}
+                  </div>
+                ) : null}
                 {statePreviews && statePreview ? (
                   <label className="csw-version" title="Data state rendered by this version">
                     <span className="csw-sr">Data state</span>
@@ -526,7 +556,7 @@ export default function CorrespondenceWorkspacePage() {
             </button>
           </header>
           {version ? (
-            <CsPreviewStage ref={stageRef} state={docState} device={device} title={title} contract={contract} view={view} reference={reference} />
+            <CsPreviewStage ref={stageRef} state={stageState} device={device} title={title} contract={contract} view={view} reference={reference} />
           ) : (
             <p className="csw-empty">NO TEMPLATES ARE REGISTERED FOR THIS BRAND AUTHORITY.</p>
           )}
