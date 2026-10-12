@@ -16468,3 +16468,11 @@ Summary of the whole conversation in this chat.
 - **Gap fix:** `CorrespondenceDisplay` for display-line red punctuation; `FoundationClient` loads `site00-df-components.css`; correspondence fonts on portaled drawer; rail/card labels on display face; broader `CorrespondenceProse` on forms/menu.
 - **Ship:** PR **#1617** merged to **`main`** (`5ce8f715` typography completion + BLDR review restore + emails/symbols).
 - **Founder:** Refresh **`preview/tunnel`** / mobile tunnel; **site00.com** still needs cPanel ZIP when ready.
+
+---
+
+## 2026-10-12 — FNDATN-01: red marks on display headers only (not body)
+
+- **Rule:** Correspondence symbols (`.`, `,`, `;`, `*`) in **emails** are for **SITE 00 Display header lines** (`headline`, `sectionTitle`, `displayText`). **Saira body copy** stays plain punctuation — no `marks/*.png` in prose.
+- **Change:** Removed `paintProse()` from `fndatn01/html.ts`; regenerated previews; test guards against body mark images. PR **#1619** merged to `main`.
+- **Live UI:** DF/BLDR pages may still use `CorrespondenceProse` for on-screen body — that is separate from email HTML.
