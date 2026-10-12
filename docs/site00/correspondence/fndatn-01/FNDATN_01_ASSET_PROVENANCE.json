@@ -1,0 +1,1637 @@
+{
+  "pack": "FNDATN-01",
+  "method": "Crops of the committed authority JPEGs. Baked copy and variable fields removed by masked OpenCV inpainting (Telea) from surrounding pixels of the same image. No generation, no stock imagery.",
+  "script": "scripts/correspondence-studio/fndatn01/extract_assets.py",
+  "assets": [
+    {
+      "asset": "01_invitation/hero-desktop.jpg",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/01_invitation/hero-desktop.jpg",
+      "source_authority": "01_invitation/desktop.jpg",
+      "source_rect": {
+        "x0": 184,
+        "y0": 70,
+        "x1": 1400,
+        "y1": 660
+      },
+      "pixels": {
+        "width": 1360,
+        "height": 660
+      },
+      "css_size": [
+        680,
+        330
+      ],
+      "erased_regions": [
+        {
+          "kind": "baked_copy",
+          "box": [
+            50,
+            110,
+            495,
+            480
+          ]
+        },
+        {
+          "kind": "baked_copy",
+          "box": [
+            50,
+            480,
+            175,
+            565
+          ]
+        },
+        {
+          "kind": "card_fields",
+          "quad": [
+            [
+              808,
+              372
+            ],
+            [
+              1084,
+              384
+            ],
+            [
+              1078,
+              483
+            ],
+            [
+              805,
+              477
+            ]
+          ]
+        }
+      ],
+      "note": "desktop hero art; live headline, copy and record fields render over or beside it",
+      "sha256": "767a485104163b733e7c458234cb8ee582a4835098b67a7e84cc471888aceada"
+    },
+    {
+      "asset": "01_invitation/hero-mobile.jpg",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/01_invitation/hero-mobile.jpg",
+      "source_authority": "01_invitation/mobile.jpg",
+      "source_rect": {
+        "x0": 62,
+        "y0": 155,
+        "x1": 879,
+        "y1": 882
+      },
+      "pixels": {
+        "width": 780,
+        "height": 694
+      },
+      "css_size": [
+        390,
+        347
+      ],
+      "erased_regions": [
+        {
+          "kind": "baked_copy",
+          "box": [
+            90,
+            188,
+            466,
+            523
+          ]
+        },
+        {
+          "kind": "card_fields",
+          "quad": [
+            [
+              334,
+              612
+            ],
+            [
+              578,
+              625
+            ],
+            [
+              555,
+              724
+            ],
+            [
+              317,
+              711
+            ]
+          ]
+        }
+      ],
+      "note": "mobile hero art; live headline, copy and record fields render over or beside it",
+      "sha256": "f9b8ec849f4dce3d57f9c59d3ed0e22e5f31f42c96ee35da67899ccc701b6714"
+    },
+    {
+      "asset": "01_invitation/left-desktop.jpg",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/01_invitation/left-desktop.jpg",
+      "source_authority": "01_invitation/desktop.jpg",
+      "source_rect": {
+        "x0": 0,
+        "y0": 818,
+        "x1": 502,
+        "y1": 948
+      },
+      "pixels": {
+        "width": 502,
+        "height": 130
+      },
+      "css_size": null,
+      "erased_regions": [],
+      "note": "desktop left crop",
+      "sha256": "0503b88f67c99ad85bbedde66e1a332bf7fdd847606cae958229e6c8b9495146"
+    },
+    {
+      "asset": "01_invitation/right-desktop.jpg",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/01_invitation/right-desktop.jpg",
+      "source_authority": "01_invitation/desktop.jpg",
+      "source_rect": {
+        "x0": 1080,
+        "y0": 818,
+        "x1": 1536,
+        "y1": 948
+      },
+      "pixels": {
+        "width": 456,
+        "height": 130
+      },
+      "css_size": null,
+      "erased_regions": [],
+      "note": "desktop right crop",
+      "sha256": "2b4af1adcf8540b2b8ef02db66add565bf714012e802cf44c5970a9b16733486"
+    },
+    {
+      "asset": "01_invitation/strip-mobile.jpg",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/01_invitation/strip-mobile.jpg",
+      "source_authority": "01_invitation/mobile.jpg",
+      "source_rect": {
+        "x0": 62,
+        "y0": 1242,
+        "x1": 879,
+        "y1": 1369
+      },
+      "pixels": {
+        "width": 817,
+        "height": 127
+      },
+      "css_size": null,
+      "erased_regions": [],
+      "note": "mobile strip crop",
+      "sha256": "ab8c481e94cb3ee9ebff3ab3b277de08f46ec6df18b3b53edbf50f8a031d19ae"
+    },
+    {
+      "asset": "02_intake_received/hero-desktop.jpg",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/02_intake_received/hero-desktop.jpg",
+      "source_authority": "02_intake_received/desktop.jpg",
+      "source_rect": {
+        "x0": 183,
+        "y0": 72,
+        "x1": 1360,
+        "y1": 643
+      },
+      "pixels": {
+        "width": 1360,
+        "height": 660
+      },
+      "css_size": [
+        680,
+        330
+      ],
+      "erased_regions": [
+        {
+          "kind": "baked_copy",
+          "box": [
+            50,
+            120,
+            550,
+            455
+          ]
+        },
+        {
+          "kind": "baked_copy",
+          "box": [
+            50,
+            455,
+            255,
+            535
+          ]
+        },
+        {
+          "kind": "card_fields",
+          "quad": [
+            [
+              811,
+              350
+            ],
+            [
+              1134,
+              365
+            ],
+            [
+              1128,
+              512
+            ],
+            [
+              808,
+              490
+            ]
+          ]
+        }
+      ],
+      "note": "desktop hero art; live headline, copy and record fields render over or beside it",
+      "sha256": "915c7be54ee7c5a83df9cfb156b1d885b646c2d59c08d215ea9cb30816431869"
+    },
+    {
+      "asset": "02_intake_received/hero-mobile.jpg",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/02_intake_received/hero-mobile.jpg",
+      "source_authority": "02_intake_received/mobile.jpg",
+      "source_rect": {
+        "x0": 0,
+        "y0": 91,
+        "x1": 880,
+        "y1": 1048
+      },
+      "pixels": {
+        "width": 780,
+        "height": 848
+      },
+      "css_size": [
+        390,
+        424
+      ],
+      "erased_regions": [
+        {
+          "kind": "baked_copy",
+          "box": [
+            52,
+            148,
+            437,
+            585
+          ]
+        },
+        {
+          "kind": "card_fields",
+          "quad": [
+            [
+              247,
+              666
+            ],
+            [
+              590,
+              680
+            ],
+            [
+              600,
+              855
+            ],
+            [
+              243,
+              827
+            ]
+          ]
+        }
+      ],
+      "note": "mobile hero art; live headline, copy and record fields render over or beside it",
+      "sha256": "05fb521979f87aede2e492f53d52a1105059e302b06bed58f9a88239db729d8d"
+    },
+    {
+      "asset": "02_intake_received/left-desktop.jpg",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/02_intake_received/left-desktop.jpg",
+      "source_authority": "02_intake_received/desktop.jpg",
+      "source_rect": {
+        "x0": 0,
+        "y0": 815,
+        "x1": 510,
+        "y1": 952
+      },
+      "pixels": {
+        "width": 510,
+        "height": 137
+      },
+      "css_size": null,
+      "erased_regions": [],
+      "note": "desktop left crop",
+      "sha256": "97b4999995211b5d1759707e85437c7091667b5e93f2b28a0850e23af1da1528"
+    },
+    {
+      "asset": "02_intake_received/right-desktop.jpg",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/02_intake_received/right-desktop.jpg",
+      "source_authority": "02_intake_received/desktop.jpg",
+      "source_rect": {
+        "x0": 1025,
+        "y0": 815,
+        "x1": 1536,
+        "y1": 952
+      },
+      "pixels": {
+        "width": 511,
+        "height": 137
+      },
+      "css_size": null,
+      "erased_regions": [],
+      "note": "desktop right crop",
+      "sha256": "4a81a23bf290a42eb50fc305dd5e9da68ce7e381a5ff96cf1004d2c504fbd313"
+    },
+    {
+      "asset": "02_intake_received/strip-mobile.jpg",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/02_intake_received/strip-mobile.jpg",
+      "source_authority": "02_intake_received/mobile.jpg",
+      "source_rect": {
+        "x0": 0,
+        "y0": 1367,
+        "x1": 419,
+        "y1": 1559
+      },
+      "pixels": {
+        "width": 419,
+        "height": 192
+      },
+      "css_size": null,
+      "erased_regions": [],
+      "note": "mobile strip crop",
+      "sha256": "72bd69ef8b4e2ac391bed36e6d7cd5918b83fabfe1c3b16d683f16a7b85091b3"
+    },
+    {
+      "asset": "02_intake_received/cta_side-mobile.jpg",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/02_intake_received/cta_side-mobile.jpg",
+      "source_authority": "02_intake_received/mobile.jpg",
+      "source_rect": {
+        "x0": 611,
+        "y0": 1571,
+        "x1": 880,
+        "y1": 1694
+      },
+      "pixels": {
+        "width": 269,
+        "height": 123
+      },
+      "css_size": null,
+      "erased_regions": [],
+      "note": "mobile cta_side crop",
+      "sha256": "c741c1ffd7cec4867a905253376251301c96a3ab01bdb8f4a00c58b6a959e755"
+    },
+    {
+      "asset": "03_recommendation_quote/hero-desktop.jpg",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/03_recommendation_quote/hero-desktop.jpg",
+      "source_authority": "03_recommendation_quote/desktop.jpg",
+      "source_rect": {
+        "x0": 141,
+        "y0": 70,
+        "x1": 1390,
+        "y1": 676
+      },
+      "pixels": {
+        "width": 1360,
+        "height": 660
+      },
+      "css_size": [
+        680,
+        330
+      ],
+      "erased_regions": [
+        {
+          "kind": "baked_copy",
+          "box": [
+            50,
+            120,
+            585,
+            500
+          ]
+        },
+        {
+          "kind": "baked_copy",
+          "box": [
+            50,
+            500,
+            180,
+            590
+          ]
+        },
+        {
+          "kind": "card_fields",
+          "quad": [
+            [
+              819,
+              355
+            ],
+            [
+              1112,
+              364
+            ],
+            [
+              1106,
+              528
+            ],
+            [
+              816,
+              507
+            ]
+          ]
+        },
+        {
+          "kind": "card_fields",
+          "quad": [
+            [
+              1231,
+              370
+            ],
+            [
+              1322,
+              376
+            ],
+            [
+              1319,
+              470
+            ],
+            [
+              1228,
+              464
+            ]
+          ]
+        }
+      ],
+      "note": "desktop hero art; live headline, copy and record fields render over or beside it",
+      "sha256": "b7e4d0e3a4eb6ddac0e59448f48f0eb8578936f7066071ed3271c964b6706799"
+    },
+    {
+      "asset": "03_recommendation_quote/hero-mobile.jpg",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/03_recommendation_quote/hero-mobile.jpg",
+      "source_authority": "03_recommendation_quote/mobile.jpg",
+      "source_rect": {
+        "x0": 0,
+        "y0": 92,
+        "x1": 838,
+        "y1": 1070
+      },
+      "pixels": {
+        "width": 780,
+        "height": 910
+      },
+      "css_size": [
+        390,
+        455
+      ],
+      "erased_regions": [
+        {
+          "kind": "baked_copy",
+          "box": [
+            51,
+            147,
+            459,
+            560
+          ]
+        },
+        {
+          "kind": "baked_copy",
+          "box": [
+            51,
+            560,
+            200,
+            660
+          ]
+        },
+        {
+          "kind": "card_fields",
+          "quad": [
+            [
+              171,
+              744
+            ],
+            [
+              526,
+              762
+            ],
+            [
+              491,
+              936
+            ],
+            [
+              167,
+              911
+            ]
+          ]
+        },
+        {
+          "kind": "card_fields",
+          "quad": [
+            [
+              629,
+              780
+            ],
+            [
+              732,
+              787
+            ],
+            [
+              729,
+              886
+            ],
+            [
+              626,
+              879
+            ]
+          ]
+        }
+      ],
+      "note": "mobile hero art; live headline, copy and record fields render over or beside it",
+      "sha256": "0b7c5ccd8980e1ca4e664be29b7c7b08f267fdf9ec053d4f06d2ad859c09e831"
+    },
+    {
+      "asset": "03_recommendation_quote/left-desktop.jpg",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/03_recommendation_quote/left-desktop.jpg",
+      "source_authority": "03_recommendation_quote/desktop.jpg",
+      "source_rect": {
+        "x0": 0,
+        "y0": 790,
+        "x1": 477,
+        "y1": 948
+      },
+      "pixels": {
+        "width": 477,
+        "height": 158
+      },
+      "css_size": null,
+      "erased_regions": [],
+      "note": "desktop left crop",
+      "sha256": "800425ca33e6f2a5cb9bd5ca56d9a8236eec22582fa5e735670e015b8b82b669"
+    },
+    {
+      "asset": "03_recommendation_quote/right-desktop.jpg",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/03_recommendation_quote/right-desktop.jpg",
+      "source_authority": "03_recommendation_quote/desktop.jpg",
+      "source_rect": {
+        "x0": 1068,
+        "y0": 835,
+        "x1": 1536,
+        "y1": 948
+      },
+      "pixels": {
+        "width": 468,
+        "height": 113
+      },
+      "css_size": null,
+      "erased_regions": [],
+      "note": "desktop right crop",
+      "sha256": "bf8c36bc759dc4b7d16234ae87b223cb52b2ec9a334ab64f0364a0a80d7665b5"
+    },
+    {
+      "asset": "03_recommendation_quote/strip-mobile.jpg",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/03_recommendation_quote/strip-mobile.jpg",
+      "source_authority": "03_recommendation_quote/mobile.jpg",
+      "source_rect": {
+        "x0": 0,
+        "y0": 1673,
+        "x1": 838,
+        "y1": 1806
+      },
+      "pixels": {
+        "width": 838,
+        "height": 133
+      },
+      "css_size": null,
+      "erased_regions": [],
+      "note": "mobile strip crop",
+      "sha256": "e9b51e34e836de20e7dac4c709288e1b6bd51842da08affc8f297d0f4e262e4f"
+    },
+    {
+      "asset": "04_payment_received/hero-desktop.jpg",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/04_payment_received/hero-desktop.jpg",
+      "source_authority": "04_payment_received/desktop.jpg",
+      "source_rect": {
+        "x0": 213,
+        "y0": 70,
+        "x1": 1480,
+        "y1": 685
+      },
+      "pixels": {
+        "width": 1360,
+        "height": 660
+      },
+      "css_size": [
+        680,
+        330
+      ],
+      "erased_regions": [
+        {
+          "kind": "baked_copy",
+          "box": [
+            50,
+            120,
+            465,
+            470
+          ]
+        },
+        {
+          "kind": "baked_copy",
+          "box": [
+            50,
+            470,
+            340,
+            560
+          ]
+        },
+        {
+          "kind": "card_fields",
+          "quad": [
+            [
+              787,
+              389
+            ],
+            [
+              1080,
+              400
+            ],
+            [
+              1076,
+              569
+            ],
+            [
+              784,
+              554
+            ]
+          ]
+        }
+      ],
+      "note": "desktop hero art; live headline, copy and record fields render over or beside it",
+      "sha256": "e1e71238245b5c0ea38c64d84fc811e48baa72b74a28203bfa555beafda40125"
+    },
+    {
+      "asset": "04_payment_received/hero-mobile.jpg",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/04_payment_received/hero-mobile.jpg",
+      "source_authority": "04_payment_received/mobile.jpg",
+      "source_rect": {
+        "x0": 131,
+        "y0": 106,
+        "x1": 811,
+        "y1": 621
+      },
+      "pixels": {
+        "width": 780,
+        "height": 591
+      },
+      "css_size": [
+        390,
+        296
+      ],
+      "erased_regions": [
+        {
+          "kind": "baked_copy",
+          "box": [
+            160,
+            127,
+            490,
+            608
+          ]
+        }
+      ],
+      "note": "mobile hero art; live headline, copy and record fields render over or beside it",
+      "sha256": "a79b50ff70cf9bbb50b9b5fe1720bbaca40f73a827b4a4bff07cdb106d4cbdbe"
+    },
+    {
+      "asset": "04_payment_received/left-desktop.jpg",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/04_payment_received/left-desktop.jpg",
+      "source_authority": "04_payment_received/desktop.jpg",
+      "source_rect": {
+        "x0": 0,
+        "y0": 803,
+        "x1": 485,
+        "y1": 952
+      },
+      "pixels": {
+        "width": 485,
+        "height": 149
+      },
+      "css_size": null,
+      "erased_regions": [],
+      "note": "desktop left crop",
+      "sha256": "5ec9bfa8ee7cfd5540cf2bf45b30e14d025d3cac07f6fa48a96cf993b7115a3d"
+    },
+    {
+      "asset": "04_payment_received/right-desktop.jpg",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/04_payment_received/right-desktop.jpg",
+      "source_authority": "04_payment_received/desktop.jpg",
+      "source_rect": {
+        "x0": 1218,
+        "y0": 855,
+        "x1": 1536,
+        "y1": 952
+      },
+      "pixels": {
+        "width": 318,
+        "height": 97
+      },
+      "css_size": null,
+      "erased_regions": [],
+      "note": "desktop right crop",
+      "sha256": "3eaa3a627707d4da68d5f741c406514effe67e20049c3d7be8e4a835c6bfb9eb"
+    },
+    {
+      "asset": "04_payment_received/blueprint-mobile.jpg",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/04_payment_received/blueprint-mobile.jpg",
+      "source_authority": "04_payment_received/mobile.jpg",
+      "source_rect": {
+        "x0": 131,
+        "y0": 1040,
+        "x1": 811,
+        "y1": 1266
+      },
+      "pixels": {
+        "width": 680,
+        "height": 226
+      },
+      "css_size": null,
+      "erased_regions": [],
+      "note": "mobile blueprint crop",
+      "sha256": "d88a46c99fac19fea42b820653acbd9aac3f6b55f68c14fe418dde28580d1e09"
+    },
+    {
+      "asset": "05_foundation_complete/hero-desktop.jpg",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/05_foundation_complete/hero-desktop.jpg",
+      "source_authority": "05_foundation_complete/desktop.jpg",
+      "source_rect": {
+        "x0": 232,
+        "y0": 70,
+        "x1": 1440,
+        "y1": 656
+      },
+      "pixels": {
+        "width": 1360,
+        "height": 660
+      },
+      "css_size": [
+        680,
+        330
+      ],
+      "erased_regions": [
+        {
+          "kind": "baked_copy",
+          "box": [
+            50,
+            120,
+            510,
+            520
+          ]
+        },
+        {
+          "kind": "baked_copy",
+          "box": [
+            50,
+            520,
+            275,
+            620
+          ]
+        }
+      ],
+      "note": "desktop hero art; live headline, copy and record fields render over or beside it",
+      "sha256": "1c7195e66584122b343e2477e8bb65db1d28d6ab26f0f811b1263bbe0ec606c5"
+    },
+    {
+      "asset": "05_foundation_complete/hero-mobile.jpg",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/05_foundation_complete/hero-mobile.jpg",
+      "source_authority": "05_foundation_complete/mobile.jpg",
+      "source_rect": {
+        "x0": 0,
+        "y0": 92,
+        "x1": 838,
+        "y1": 880
+      },
+      "pixels": {
+        "width": 780,
+        "height": 733
+      },
+      "css_size": [
+        390,
+        366
+      ],
+      "erased_regions": [
+        {
+          "kind": "baked_copy",
+          "box": [
+            51,
+            143,
+            413,
+            560
+          ]
+        },
+        {
+          "kind": "baked_copy",
+          "box": [
+            51,
+            560,
+            260,
+            633
+          ]
+        }
+      ],
+      "note": "mobile hero art; live headline, copy and record fields render over or beside it",
+      "sha256": "5f8fe8d40bb97e73ab904beedec34187020661c5d7c178eea024e2e94475719c"
+    },
+    {
+      "asset": "05_foundation_complete/left-desktop.jpg",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/05_foundation_complete/left-desktop.jpg",
+      "source_authority": "05_foundation_complete/desktop.jpg",
+      "source_rect": {
+        "x0": 0,
+        "y0": 783,
+        "x1": 480,
+        "y1": 948
+      },
+      "pixels": {
+        "width": 480,
+        "height": 165
+      },
+      "css_size": null,
+      "erased_regions": [],
+      "note": "desktop left crop",
+      "sha256": "46d5a29717ba831ef10baf1ddcd1e46db2ef1ee2465c17f3878eb410a091540d"
+    },
+    {
+      "asset": "05_foundation_complete/right-desktop.jpg",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/05_foundation_complete/right-desktop.jpg",
+      "source_authority": "05_foundation_complete/desktop.jpg",
+      "source_rect": {
+        "x0": 1065,
+        "y0": 819,
+        "x1": 1536,
+        "y1": 948
+      },
+      "pixels": {
+        "width": 471,
+        "height": 129
+      },
+      "css_size": null,
+      "erased_regions": [],
+      "note": "desktop right crop",
+      "sha256": "054c56f91e97f9e979976bd2a421fe7fa99a435946317273e549f91b3d26571e"
+    },
+    {
+      "asset": "05_foundation_complete/strip-mobile.jpg",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/05_foundation_complete/strip-mobile.jpg",
+      "source_authority": "05_foundation_complete/mobile.jpg",
+      "source_rect": {
+        "x0": 0,
+        "y0": 1617,
+        "x1": 838,
+        "y1": 1783
+      },
+      "pixels": {
+        "width": 838,
+        "height": 166
+      },
+      "css_size": null,
+      "erased_regions": [],
+      "note": "mobile strip crop",
+      "sha256": "b5149c7042e4cd79ae377709abbc9941166c602b74c9ead3dad78af663d0bd0f"
+    },
+    {
+      "asset": "06_resume_intake/hero-desktop.jpg",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/06_resume_intake/hero-desktop.jpg",
+      "source_authority": "06_resume_intake/desktop.jpg",
+      "source_rect": {
+        "x0": 199,
+        "y0": 70,
+        "x1": 1460,
+        "y1": 682
+      },
+      "pixels": {
+        "width": 1360,
+        "height": 660
+      },
+      "css_size": [
+        680,
+        330
+      ],
+      "erased_regions": [
+        {
+          "kind": "baked_copy",
+          "box": [
+            55,
+            120,
+            585,
+            520
+          ]
+        },
+        {
+          "kind": "baked_copy",
+          "box": [
+            55,
+            520,
+            190,
+            615
+          ]
+        }
+      ],
+      "note": "desktop hero art; live headline, copy and record fields render over or beside it",
+      "sha256": "302cbeddf6322fd81582bd0bda23e494a3d7b165bf69a68a7883d19bee798fa1"
+    },
+    {
+      "asset": "06_resume_intake/hero-mobile.jpg",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/06_resume_intake/hero-mobile.jpg",
+      "source_authority": "06_resume_intake/mobile.jpg",
+      "source_rect": {
+        "x0": 0,
+        "y0": 88,
+        "x1": 838,
+        "y1": 935
+      },
+      "pixels": {
+        "width": 780,
+        "height": 788
+      },
+      "css_size": [
+        390,
+        394
+      ],
+      "erased_regions": [
+        {
+          "kind": "baked_copy",
+          "box": [
+            51,
+            132,
+            431,
+            520
+          ]
+        },
+        {
+          "kind": "baked_copy",
+          "box": [
+            51,
+            520,
+            376,
+            610
+          ]
+        },
+        {
+          "kind": "baked_copy",
+          "box": [
+            51,
+            640,
+            175,
+            724
+          ]
+        }
+      ],
+      "note": "mobile hero art; live headline, copy and record fields render over or beside it",
+      "sha256": "393ccd561f8167963510ed1753f837bb3f4a385633fc6acc485a1d8230239769"
+    },
+    {
+      "asset": "06_resume_intake/left-desktop.jpg",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/06_resume_intake/left-desktop.jpg",
+      "source_authority": "06_resume_intake/desktop.jpg",
+      "source_rect": {
+        "x0": 0,
+        "y0": 800,
+        "x1": 517,
+        "y1": 933
+      },
+      "pixels": {
+        "width": 517,
+        "height": 133
+      },
+      "css_size": null,
+      "erased_regions": [],
+      "note": "desktop left crop",
+      "sha256": "0968ee643b0033dfdc27373cef0767ba1f0131ea5e7921110f618d39fe996800"
+    },
+    {
+      "asset": "06_resume_intake/strip-mobile.jpg",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/06_resume_intake/strip-mobile.jpg",
+      "source_authority": "06_resume_intake/mobile.jpg",
+      "source_rect": {
+        "x0": 0,
+        "y0": 1617,
+        "x1": 838,
+        "y1": 1788
+      },
+      "pixels": {
+        "width": 838,
+        "height": 171
+      },
+      "css_size": null,
+      "erased_regions": [],
+      "note": "mobile strip crop",
+      "sha256": "b68143f8dd263fe88421d611b23a7f78d239ccf9f678f40e8317f3107583ff10"
+    },
+    {
+      "asset": "07_quote_expiry/hero-desktop.jpg",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/07_quote_expiry/hero-desktop.jpg",
+      "source_authority": "07_quote_expiry/desktop.jpg",
+      "source_rect": {
+        "x0": 258,
+        "y0": 70,
+        "x1": 1490,
+        "y1": 668
+      },
+      "pixels": {
+        "width": 1360,
+        "height": 660
+      },
+      "css_size": [
+        680,
+        330
+      ],
+      "erased_regions": [
+        {
+          "kind": "baked_copy",
+          "box": [
+            50,
+            120,
+            465,
+            540
+          ]
+        },
+        {
+          "kind": "baked_copy",
+          "box": [
+            50,
+            540,
+            180,
+            625
+          ]
+        },
+        {
+          "kind": "card_fields",
+          "quad": [
+            [
+              816,
+              383
+            ],
+            [
+              1073,
+              392
+            ],
+            [
+              1067,
+              542
+            ],
+            [
+              813,
+              521
+            ]
+          ]
+        },
+        {
+          "kind": "card_fields",
+          "quad": [
+            [
+              1176,
+              383
+            ],
+            [
+              1276,
+              389
+            ],
+            [
+              1273,
+              483
+            ],
+            [
+              1173,
+              477
+            ]
+          ]
+        }
+      ],
+      "note": "desktop hero art; live headline, copy and record fields render over or beside it",
+      "sha256": "aa40a921ca25372e249592ea2cb31ed720109016ea63739508f3afcdee95c923"
+    },
+    {
+      "asset": "07_quote_expiry/hero-mobile.jpg",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/07_quote_expiry/hero-mobile.jpg",
+      "source_authority": "07_quote_expiry/mobile.jpg",
+      "source_rect": {
+        "x0": 0,
+        "y0": 88,
+        "x1": 838,
+        "y1": 905
+      },
+      "pixels": {
+        "width": 780,
+        "height": 760
+      },
+      "css_size": [
+        390,
+        380
+      ],
+      "erased_regions": [
+        {
+          "kind": "baked_copy",
+          "box": [
+            51,
+            143,
+            413,
+            540
+          ]
+        },
+        {
+          "kind": "baked_copy",
+          "box": [
+            51,
+            540,
+            160,
+            614
+          ]
+        },
+        {
+          "kind": "card_fields",
+          "quad": [
+            [
+              340,
+              653
+            ],
+            [
+              566,
+              665
+            ],
+            [
+              547,
+              794
+            ],
+            [
+              338,
+              775
+            ]
+          ]
+        },
+        {
+          "kind": "card_fields",
+          "quad": [
+            [
+              616,
+              674
+            ],
+            [
+              705,
+              682
+            ],
+            [
+              703,
+              768
+            ],
+            [
+              614,
+              761
+            ]
+          ]
+        }
+      ],
+      "note": "mobile hero art; live headline, copy and record fields render over or beside it",
+      "sha256": "5c0b815755eddde8c081f15c78c28aadbcea37bf667e4b89552ae800c2ab665f"
+    },
+    {
+      "asset": "07_quote_expiry/left-desktop.jpg",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/07_quote_expiry/left-desktop.jpg",
+      "source_authority": "07_quote_expiry/desktop.jpg",
+      "source_rect": {
+        "x0": 0,
+        "y0": 798,
+        "x1": 387,
+        "y1": 942
+      },
+      "pixels": {
+        "width": 387,
+        "height": 144
+      },
+      "css_size": null,
+      "erased_regions": [],
+      "note": "desktop left crop",
+      "sha256": "9d2cdbf23c30f8c23bb8a421fdb96bcc2892f2a2df7624be694efc4d08d965bb"
+    },
+    {
+      "asset": "07_quote_expiry/strip-mobile.jpg",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/07_quote_expiry/strip-mobile.jpg",
+      "source_authority": "07_quote_expiry/mobile.jpg",
+      "source_rect": {
+        "x0": 0,
+        "y0": 1656,
+        "x1": 838,
+        "y1": 1806
+      },
+      "pixels": {
+        "width": 838,
+        "height": 150
+      },
+      "css_size": null,
+      "erased_regions": [],
+      "note": "mobile strip crop",
+      "sha256": "a680e0f818cbe8968c06504bc0d676bcde69ca7a9edae9df290284660e6d6425"
+    },
+    {
+      "asset": "04_payment_received/receipt-mobile.jpg",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/04_payment_received/receipt-mobile.jpg",
+      "source_authority": "04_payment_received/mobile.jpg",
+      "source_rect": {
+        "x0": 131,
+        "y0": 621,
+        "x1": 811,
+        "y1": 1040
+      },
+      "pixels": {
+        "width": 780,
+        "height": 481
+      },
+      "css_size": [
+        390,
+        240
+      ],
+      "erased_regions": [
+        {
+          "kind": "receipt_values",
+          "box": [
+            345,
+            725,
+            560,
+            925
+          ]
+        },
+        {
+          "kind": "receipt_values",
+          "box": [
+            185,
+            975,
+            430,
+            1010
+          ]
+        },
+        {
+          "kind": "receipt_values",
+          "box": [
+            515,
+            975,
+            690,
+            1008
+          ]
+        }
+      ],
+      "note": "mobile receipt paper with printed labels and PAID seal; live values overlay the value column",
+      "sha256": "419798964a99a8bba83152b71d9ecc0bbf173d087a37a61e117377d30457c99d"
+    },
+    {
+      "asset": "shared/marble-band.jpg",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/shared/marble-band.jpg",
+      "source_authority": "01_invitation/desktop.jpg",
+      "source_rect": {
+        "x0": 0,
+        "y0": 666,
+        "x1": 1536,
+        "y1": 812
+      },
+      "pixels": {
+        "width": 1536,
+        "height": 146
+      },
+      "css_size": null,
+      "erased_regions": [
+        {
+          "kind": "band_copy_icons_dividers",
+          "box": [
+            0,
+            0,
+            1536,
+            146
+          ]
+        }
+      ],
+      "note": "marble texture for info bands and panels",
+      "sha256": "c1130a55f7f027ab441d1f342eafe5284840f1fdd557d79a771e4728840a4b42"
+    },
+    {
+      "asset": "icons/person.png",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/icons/person.png",
+      "source_authority": "01_invitation/mobile.jpg",
+      "source_rect": {
+        "x0": 193,
+        "y0": 980,
+        "x1": 245,
+        "y1": 1038
+      },
+      "pixels": {
+        "width": 42,
+        "height": 42
+      },
+      "css_size": null,
+      "erased_regions": [],
+      "note": "person icon, ink keyed to transparency",
+      "sha256": "177cd16188f52b583c9966cfe1e1c9cf462581a6a47c4611dab0d7b10f0b8d56"
+    },
+    {
+      "asset": "icons/target.png",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/icons/target.png",
+      "source_authority": "01_invitation/mobile.jpg",
+      "source_rect": {
+        "x0": 193,
+        "y0": 1065,
+        "x1": 248,
+        "y1": 1124
+      },
+      "pixels": {
+        "width": 44,
+        "height": 44
+      },
+      "css_size": null,
+      "erased_regions": [],
+      "note": "target icon, ink keyed to transparency",
+      "sha256": "9d5eb615417b597c8a21ec8e3e13abb1fc9173adb490530785b6ce15ed748e4e"
+    },
+    {
+      "asset": "icons/layers.png",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/icons/layers.png",
+      "source_authority": "01_invitation/mobile.jpg",
+      "source_rect": {
+        "x0": 188,
+        "y0": 1152,
+        "x1": 248,
+        "y1": 1212
+      },
+      "pixels": {
+        "width": 46,
+        "height": 46
+      },
+      "css_size": null,
+      "erased_regions": [],
+      "note": "layers icon, ink keyed to transparency",
+      "sha256": "aaf31791b0033447d80507ab5cb1bdaf946f605e7b5fdd01b93877501bb30b24"
+    },
+    {
+      "asset": "icons/magnifier.png",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/icons/magnifier.png",
+      "source_authority": "02_intake_received/mobile.jpg",
+      "source_rect": {
+        "x0": 147,
+        "y0": 1149,
+        "x1": 196,
+        "y1": 1201
+      },
+      "pixels": {
+        "width": 42,
+        "height": 42
+      },
+      "css_size": null,
+      "erased_regions": [],
+      "note": "magnifier icon, ink keyed to transparency",
+      "sha256": "ca86c8ee617ad9b73f87bf58728880c3d2c6acce3986dd5e55ab987c0cb2f42d"
+    },
+    {
+      "asset": "icons/bubble.png",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/icons/bubble.png",
+      "source_authority": "02_intake_received/mobile.jpg",
+      "source_rect": {
+        "x0": 419,
+        "y0": 1149,
+        "x1": 471,
+        "y1": 1201
+      },
+      "pixels": {
+        "width": 41,
+        "height": 41
+      },
+      "css_size": null,
+      "erased_regions": [],
+      "note": "bubble icon, ink keyed to transparency",
+      "sha256": "6fc88caa0763c4e9d55cf7eb0ff984519bb7754c646a9e94c5f407f00480a247"
+    },
+    {
+      "asset": "icons/document.png",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/icons/document.png",
+      "source_authority": "02_intake_received/mobile.jpg",
+      "source_rect": {
+        "x0": 686,
+        "y0": 1149,
+        "x1": 733,
+        "y1": 1201
+      },
+      "pixels": {
+        "width": 43,
+        "height": 43
+      },
+      "css_size": null,
+      "erased_regions": [],
+      "note": "document icon, ink keyed to transparency",
+      "sha256": "13ebcd0b5249c4772724830dcc0ed9b761483ad432f596912f19cfa9efb6df16"
+    },
+    {
+      "asset": "icons/globe.png",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/icons/globe.png",
+      "source_authority": "03_recommendation_quote/mobile.jpg",
+      "source_rect": {
+        "x0": 180,
+        "y0": 1144,
+        "x1": 235,
+        "y1": 1199
+      },
+      "pixels": {
+        "width": 43,
+        "height": 43
+      },
+      "css_size": null,
+      "erased_regions": [],
+      "note": "globe icon, ink keyed to transparency",
+      "sha256": "e3769c7d964a2e48dd1a761d21656ca74ea2ab42e8ded883fe09242ba32ddedd"
+    },
+    {
+      "asset": "icons/envelope.png",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/icons/envelope.png",
+      "source_authority": "03_recommendation_quote/mobile.jpg",
+      "source_rect": {
+        "x0": 180,
+        "y0": 1229,
+        "x1": 235,
+        "y1": 1280
+      },
+      "pixels": {
+        "width": 44,
+        "height": 44
+      },
+      "css_size": null,
+      "erased_regions": [],
+      "note": "envelope icon, ink keyed to transparency",
+      "sha256": "69d4db722b1bd40a208b1c6d386908632775ece71fce187b421c5a2ed2a653c9"
+    },
+    {
+      "asset": "icons/shield.png",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/icons/shield.png",
+      "source_authority": "03_recommendation_quote/mobile.jpg",
+      "source_rect": {
+        "x0": 180,
+        "y0": 1311,
+        "x1": 235,
+        "y1": 1366
+      },
+      "pixels": {
+        "width": 44,
+        "height": 44
+      },
+      "css_size": null,
+      "erased_regions": [],
+      "note": "shield icon, ink keyed to transparency",
+      "sha256": "fa9851df74fb8f88853f40497b0eca43a5adea241e79ec441b160de0bd2a5961"
+    },
+    {
+      "asset": "icons/device.png",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/icons/device.png",
+      "source_authority": "03_recommendation_quote/mobile.jpg",
+      "source_rect": {
+        "x0": 180,
+        "y0": 1394,
+        "x1": 235,
+        "y1": 1449
+      },
+      "pixels": {
+        "width": 45,
+        "height": 45
+      },
+      "css_size": null,
+      "erased_regions": [],
+      "note": "device icon, ink keyed to transparency",
+      "sha256": "97da4e476ef18aecbdbd28e4b884fa40fe030fc2f942cdfae97464ac46e88a1d"
+    },
+    {
+      "asset": "icons/records.png",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/icons/records.png",
+      "source_authority": "03_recommendation_quote/mobile.jpg",
+      "source_rect": {
+        "x0": 180,
+        "y0": 1474,
+        "x1": 235,
+        "y1": 1533
+      },
+      "pixels": {
+        "width": 43,
+        "height": 43
+      },
+      "css_size": null,
+      "erased_regions": [],
+      "note": "records icon, ink keyed to transparency",
+      "sha256": "b12ff627987edf955f3dff7cc4246907472a2621d236966e213a05e7009cea20"
+    },
+    {
+      "asset": "icons/square.png",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/icons/square.png",
+      "source_authority": "04_payment_received/mobile.jpg",
+      "source_rect": {
+        "x0": 212,
+        "y0": 1324,
+        "x1": 255,
+        "y1": 1369
+      },
+      "pixels": {
+        "width": 35,
+        "height": 35
+      },
+      "css_size": null,
+      "erased_regions": [],
+      "note": "square icon, ink keyed to transparency",
+      "sha256": "5b77f4b62c6e72c51000e36b01a747cd0f1ecd06676bd9eeb6138a0f39fbc33d"
+    },
+    {
+      "asset": "icons/cube.png",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/icons/cube.png",
+      "source_authority": "06_resume_intake/mobile.jpg",
+      "source_rect": {
+        "x0": 178,
+        "y0": 1306,
+        "x1": 226,
+        "y1": 1357
+      },
+      "pixels": {
+        "width": 43,
+        "height": 43
+      },
+      "css_size": null,
+      "erased_regions": [],
+      "note": "cube icon, ink keyed to transparency",
+      "sha256": "5f56835124c8a800d2794e8000ad7c1a5d272e9d7e570f7bff09dce803f61790"
+    },
+    {
+      "asset": "icons/gear.png",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/icons/gear.png",
+      "source_authority": "06_resume_intake/mobile.jpg",
+      "source_rect": {
+        "x0": 176,
+        "y0": 1388,
+        "x1": 227,
+        "y1": 1440
+      },
+      "pixels": {
+        "width": 42,
+        "height": 42
+      },
+      "css_size": null,
+      "erased_regions": [],
+      "note": "gear icon, ink keyed to transparency",
+      "sha256": "2a167d24dc503127e93a4080ebcf72ad14927536a88057e502703439269712da"
+    },
+    {
+      "asset": "icons/check-red.png",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/icons/check-red.png",
+      "source_authority": "05_foundation_complete/mobile.jpg",
+      "source_rect": {
+        "x0": 611,
+        "y0": 1011,
+        "x1": 658,
+        "y1": 1058
+      },
+      "pixels": {
+        "width": 39,
+        "height": 39
+      },
+      "css_size": null,
+      "erased_regions": [],
+      "note": "check-red status mark keyed to transparency",
+      "sha256": "29ec2df939c70bffc67958bcc42175114a687470e85c0db638df986e4593f7a4"
+    },
+    {
+      "asset": "icons/check-ink.png",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/icons/check-ink.png",
+      "source_authority": "06_resume_intake/mobile.jpg",
+      "source_rect": {
+        "x0": 569,
+        "y0": 1060,
+        "x1": 605,
+        "y1": 1097
+      },
+      "pixels": {
+        "width": 37,
+        "height": 37
+      },
+      "css_size": null,
+      "erased_regions": [],
+      "note": "check-ink status mark keyed to transparency",
+      "sha256": "56ff213098c02f42b2803e0d3747b5586a1252fc8c149626b87e5f9b0d04d962"
+    },
+    {
+      "asset": "icons/ring-red.png",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/icons/ring-red.png",
+      "source_authority": "06_resume_intake/mobile.jpg",
+      "source_rect": {
+        "x0": 569,
+        "y0": 1229,
+        "x1": 607,
+        "y1": 1267
+      },
+      "pixels": {
+        "width": 37,
+        "height": 37
+      },
+      "css_size": null,
+      "erased_regions": [],
+      "note": "ring-red status mark keyed to transparency",
+      "sha256": "e993564e28eb92272a2d76c8346cfd4b39b7ae085b544bea0a5066c9639f79e1"
+    },
+    {
+      "asset": "icons/ring-pending.png",
+      "public_path": "/site00-correspondence-studio/fndatn-01/assets/icons/ring-pending.png",
+      "source_authority": "06_resume_intake/mobile.jpg",
+      "source_rect": {
+        "x0": 569,
+        "y0": 1311,
+        "x1": 607,
+        "y1": 1350
+      },
+      "pixels": {
+        "width": 37,
+        "height": 37
+      },
+      "css_size": null,
+      "erased_regions": [],
+      "note": "ring-pending status mark keyed to transparency",
+      "sha256": "666a929e1a540657de31a0113fece0918ebe7f3277294921889c1d0cfffe3217"
+    }
+  ]
+}
