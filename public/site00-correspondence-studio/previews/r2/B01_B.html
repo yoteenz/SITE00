@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>B01 · B — ARCHITECTURAL OPENING</title>
+<link rel="stylesheet" href="/site00-correspondence-studio/previews/r2/r2.css">
+<style>
+  /* Two walls close the top of the email around a slot of red glass and sea.
+     As the reader scrolls, the walls step back and the headline passes through the opening.
+     Each row is a three-cell table row; walls are background-image cells sliced from one texture. */
+  .mast { display: flex; justify-content: space-between; align-items: baseline; padding: 22px var(--pad) 18px; }
+  .mast .w { font-size: 14px; font-weight: 700; letter-spacing: .26em; color: var(--ink); }
+  .mast .w span { font-weight: 500; color: var(--faint); letter-spacing: .22em; font-size: 10px; margin-left: 12px; }
+  .mast .f { font-size: 10px; letter-spacing: .22em; color: var(--faint); }
+  .mast .f .v { color: var(--ink); font-size: 12px; letter-spacing: .04em; font-weight: 600; margin-left: 6px; }
+
+  .r { display: flex; }
+  .wl, .wr { flex: none; background-repeat: no-repeat; background-size: 330px 1040px; }
+  .wl { background-image: url("/site00-correspondence-studio/previews/r2/assets/b_wall.jpg"); background-position-x: right; }
+  .wr { background-image: url("/site00-correspondence-studio/previews/r2/assets/b_wall_r.jpg"); background-position-x: left; }
+  .c { flex: 1; min-width: 0; }
+
+  .r1 { height: 300px; } .r1 .wl, .r1 .wr { width: 250px; background-position-y: 0; }
+  .r1 .c img { width: 100%; height: 300px; object-fit: cover; object-position: 40% 50%; }
+  .r2 { height: 92px; } .r2 .wl, .r2 .wr { width: 150px; background-position-y: -300px; }
+  .r3 { height: 150px; } .r3 .wl, .r3 .wr { width: 92px; background-position-y: -392px; }
+  .r4 { height: 70px; } .r4 .wl, .r4 .wr { width: 22px; background-position-y: -542px; }
+  .r2 .c, .r3 .c, .r4 .c { display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 10px; }
+  .k1 { font-size: 13px; font-weight: 500; letter-spacing: .3em; color: var(--mute); white-space: nowrap; }
+  h1 { font-size: 40px; line-height: 1.04; font-weight: 700; letter-spacing: .01em; color: var(--ink); }
+  .r4 .c { font-size: 10px; letter-spacing: .3em; color: var(--faint); }
+
+  .sill { height: 2px; background: var(--red); margin: 0 22px; }
+
+  .room { padding: 44px var(--pad) 0; display: flex; gap: 40px; }
+  .room .l { width: 200px; flex: none; font-size: 18px; font-weight: 500; line-height: 1.42; letter-spacing: .02em; color: var(--ink); }
+  .room .r0 { flex: 1; }
+  .act { padding: 34px var(--pad) 0; text-align: center; }
+  .btn { display: inline-block; background: var(--ink); color: #fff; text-decoration: none; font-size: 13px; font-weight: 600; letter-spacing: .24em; padding: 17px 30px 16px; }
+  .act .u { margin-top: 12px; font-size: 11px; letter-spacing: .04em; color: var(--mute); }
+  .sign { padding: 40px var(--pad) 0; display: flex; justify-content: space-between; gap: 30px; align-items: flex-start; border-top: 0; }
+  .sign .s { font-size: 12.5px; font-weight: 700; letter-spacing: .28em; color: var(--ink); white-space: nowrap; }
+  .sign .s span { display: block; margin-top: 4px; font-size: 9.5px; font-weight: 500; letter-spacing: .26em; color: var(--faint); }
+  .sign .ps { max-width: 340px; font-size: 12.5px; line-height: 1.6; letter-spacing: .04em; color: var(--mute); }
+  .sign .ps b { color: var(--ink); }
+  .foot { margin-top: 40px; background: var(--stone); padding: 24px var(--pad) 28px; font-size: 10.5px; letter-spacing: .12em; line-height: 1.7; color: var(--mute); }
+  .foot .sig { margin-top: 8px; color: var(--ink); font-weight: 600; letter-spacing: .16em; }
+
+  @media (max-width: 480px) {
+    .mast { display: block; padding: 18px var(--pad) 14px; }
+    .mast .f { display: block; margin-top: 8px; }
+    .wl, .wr { background-size: 200px 630px; }
+    .r1 { height: 250px; } .r1 .wl, .r1 .wr { width: 104px; }
+    .r1 .c img { height: 250px; }
+    .r2 { height: 70px; } .r2 .wl, .r2 .wr { width: 64px; background-position-y: -250px; }
+    .r3 { height: 150px; } .r3 .wl, .r3 .wr { width: 22px; background-position-y: -320px; }
+    .r4 { height: 44px; } .r4 .wl, .r4 .wr { width: 6px; background-position-y: -470px; }
+    h1 { font-size: 29px; }
+    .k1 { font-size: 11px; letter-spacing: .24em; }
+    .sill { margin: 0 6px; }
+    .room { display: block; padding-top: 32px; }
+    .room .l { width: auto; margin-bottom: 18px; font-size: 17px; }
+    .btn { display: block; padding: 18px 12px 17px; }
+    .sign { display: block; }
+    .sign .ps { margin-top: 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="inbox">
+    <div class="from">FROM · SENDER ADDRESS PENDING REGISTRATION</div>
+    <div class="subj">WE'VE SET ASIDE A FOUNDATION FOR <span class="v">Halden &amp; Rowe</span></div>
+    <div class="pre">A FEW QUESTIONS ABOUT HOW YOU WORK, THEN A SCOPE YOU SEE BEFORE ANYTHING IS CHARGED.</div>
+  </div>
+
+  <div class="email" role="article" aria-label="Personal foundation invitation">
+    <div class="mast">
+      <div class="w">SITE 00<span>DIGITAL FOUNDATION</span></div>
+      <div class="f">PREPARED FOR<span class="v">Halden &amp; Rowe</span></div>
+    </div>
+
+    <div class="r r1">
+      <div class="wl"></div>
+      <div class="c">
+        <img class="desk-only" src="/site00-correspondence-studio/previews/r2/assets/b_view.jpg" alt="RED GLASS DOORWAY SET INTO A PALE MARBLE WALL, OPEN TO DAYLIGHT.">
+        <img class="mob-only" src="/site00-correspondence-studio/previews/r2/assets/b_view.jpg" alt="RED GLASS DOORWAY SET INTO A PALE MARBLE WALL, OPEN TO DAYLIGHT.">
+      </div>
+      <div class="wr"></div>
+    </div>
+    <div class="r r2"><div class="wl"></div><div class="c"><p class="k1">BEFORE WE SET ANYTHING UP,</p></div><div class="wr"></div></div>
+    <div class="r r3"><div class="wl"></div><div class="c"><h1>WE'D LIKE TO KNOW HOW YOU WORK.</h1></div><div class="wr"></div></div>
+    <div class="r r4"><div class="wl"></div><div class="c"></div><div class="wr"></div></div>
+    <div class="sill" aria-hidden="true"></div>
+
+    <div class="room">
+      <p class="l">SITE 00 HAS PREPARED A DIGITAL FOUNDATION FOR <span class="v">Halden &amp; Rowe</span>.</p>
+      <div class="r0">
+        <p class="body">IT'S THE GROUNDWORK A BUSINESS NEEDS AND RARELY HAS TIME TO GET RIGHT: A DOMAIN THAT IS UNMISTAKABLY YOURS, EMAIL THAT ARRIVES FROM IT, AND THE RECORDS THAT TELL OTHER INBOXES YOUR MAIL IS GENUINELY FROM YOU.</p>
+        <p class="body">THE LINK BELOW OPENS YOUR BRIEFING. IT ASKS WHAT YOU ALREADY HAVE — A DOMAIN, A MAIL PROVIDER, PEOPLE WHO NEED AN ADDRESS — SO NOTHING YOU'VE ALREADY BUILT GETS REBUILT FOR THE SAKE OF IT.</p>
+        <p class="body">FROM YOUR ANSWERS WE PREPARE A SCOPE AND A PRICE. YOU READ BOTH BEFORE ANYTHING IS CHARGED, AND EVERY ACCOUNT WE SET UP IS REGISTERED TO YOU.</p>
+        <p class="body">TAKE IT AT YOUR OWN PACE. WHATEVER YOU'VE ENTERED WILL BE THERE WHEN YOU COME BACK.</p>
+      </div>
+    </div>
+
+    <div class="act">
+      <a class="btn" href="https://site00.com/foundation/hr7Kq2Lm9x?step=intake">BEGIN YOUR FOUNDATION →</a>
+      <div class="u"><span class="url">site00.com/foundation/<span class="v">hr7Kq2Lm9x</span></span></div>
+    </div>
+
+    <div class="sign">
+      <div class="s">SITE 00<span>DIGITAL FOUNDATION</span></div>
+      <p class="ps"><b>P.S.</b> IF THE BRIEFING ASKS WHO REGISTERED YOUR DOMAIN AND NOBODY QUITE REMEMBERS, SAY SO. UNTANGLING THAT IS PART OF THE WORK.</p>
+    </div>
+
+    <div class="foot">
+      THIS MESSAGE WAS SENT TO <span class="v">studio@haldenrowe.com</span> BECAUSE A DIGITAL FOUNDATION WAS PREPARED FOR <span class="v">Halden &amp; Rowe</span>. IF YOU WEREN'T EXPECTING IT, NO ACTION IS NEEDED.
+      <div class="sig">SITE 00 · <span class="url">site00.com</span></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

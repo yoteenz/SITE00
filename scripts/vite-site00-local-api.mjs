@@ -99,6 +99,12 @@ function applyServerEnv() {
   if (!process.env.SITE00_VITE_LOCAL_API) {
     process.env.SITE00_VITE_LOCAL_API = '1';
   }
+  if (
+    (process.env.SITE00_CLOUD_MOBILE_PREVIEW === '1' || process.env.SITE00_CLOUD_MOBILE_PREVIEW === 'true') &&
+    !process.env.SITE00_INTAKES_USE_MEMORY
+  ) {
+    process.env.SITE00_INTAKES_USE_MEMORY = '1';
+  }
 }
 
 function readRequestBody(req) {
@@ -146,7 +152,7 @@ async function bundleApiHandler(file) {
       outfile: outPath,
       format: 'esm',
       platform: 'node',
-      target: 'node20',
+      target: 'es2022',
       bundle: true,
       logLevel: 'silent',
       plugins: [

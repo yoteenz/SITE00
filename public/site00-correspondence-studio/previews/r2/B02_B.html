@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>B02 · B — ARCHITECTURAL RECORD</title>
+<link rel="stylesheet" href="/site00-correspondence-studio/previews/r2/r2.css">
+<style>
+  /* The email is the record sheet: a section cut through what was laid, read from the finished surface down to the ground,
+     signed off in a title block. The drawing and the words share one grid. */
+  .email { background: #fff; padding: 14px; }
+  .sheet { border: 1px solid var(--ink); }
+
+  .top { display: flex; border-bottom: 1px solid var(--ink); font-size: 10px; letter-spacing: .28em; color: var(--mute); }
+  .top div { padding: 11px 16px 10px; }
+  .top .w { color: var(--ink); font-weight: 700; letter-spacing: .32em; border-right: 1px solid var(--ink); }
+  .top .g { flex: 1; }
+  .top .s { border-left: 1px solid var(--ink); color: var(--ink); }
+
+  .hd { padding: 40px 34px 0; display: flex; gap: 30px; align-items: flex-end; }
+  h1 { width: 270px; flex: none; font-size: 46px; line-height: .98; font-weight: 700; color: var(--ink); letter-spacing: 0; }
+  .lede { font-size: 14.5px; line-height: 1.6; letter-spacing: .03em; color: var(--body); padding-bottom: 4px; }
+
+  .sec { margin: 42px 34px 0; }
+  .sec .cap { display: flex; justify-content: space-between; font-size: 9.5px; font-weight: 600; letter-spacing: .3em; color: var(--ink); padding-bottom: 8px; border-bottom: 1px solid var(--ink); }
+  .sec .cap span { color: var(--faint); font-weight: 500; }
+  .row { display: flex; min-height: 76px; }
+  .cut { width: 190px; flex: none; background: url("/site00-correspondence-studio/previews/r2/assets/b_strata.png") no-repeat; background-size: 260px 404px; border-left: 1px solid var(--ink); border-right: 1px solid var(--ink); }
+  .r5 .cut { background-position: -35px -12px; }
+  .r4 .cut { background-position: -35px -88px; }
+  .r3 .cut { background-position: -35px -164px; }
+  .r2 .cut { background-position: -35px -240px; }
+  .r1 .cut { background-position: -35px -316px; }
+  .lead { width: 34px; flex: none; position: relative; background: linear-gradient(var(--ink), var(--ink)) 0 21px / 100% 1px no-repeat; }
+  .txt { flex: 1; padding: 12px 0 12px 4px; border-bottom: 1px solid var(--hair); }
+  .r1 .txt { border-bottom: 0; }
+  .txt .st { font-size: 11.5px; font-weight: 700; letter-spacing: .2em; color: var(--ink); }
+  .txt .st b { font-weight: 600; color: var(--faint); margin-right: 10px; letter-spacing: .1em; }
+  .txt .m { margin-top: 4px; font-size: 13px; line-height: 1.5; letter-spacing: .03em; color: var(--body); }
+  .r5 .txt .st b { color: var(--red); }
+  .gl { height: 10px; margin-right: calc(100% - 190px); border: 1px solid var(--ink); border-top: 0; background: repeating-linear-gradient(135deg, var(--ink) 0 1px, transparent 1px 5px); }
+  .sec .scale { margin-top: 8px; font-size: 9px; letter-spacing: .26em; color: var(--faint); }
+
+  .notes { display: flex; gap: 26px; margin: 40px 34px 0; }
+  .nt { flex: 1; border-top: 1px solid var(--ink); padding-top: 12px; }
+  .nt .k { width: 18px; height: 18px; border: 1px solid var(--ink); border-radius: 50%; font-size: 9.5px; font-weight: 600; line-height: 17px; text-align: center; color: var(--ink); margin-bottom: 10px; }
+  .nt p { font-size: 13.5px; line-height: 1.6; letter-spacing: .03em; color: var(--body); }
+
+  .tb { display: flex; margin-top: 40px; border-top: 1px solid var(--ink); }
+  .tb > div { padding: 12px 14px 13px; border-right: 1px solid var(--ink); }
+  .tb > div:last-child { border-right: 0; }
+  .tb .k { font-size: 8.5px; letter-spacing: .28em; color: var(--faint); margin-bottom: 6px; }
+  .tb .p { flex: 1.3; }
+  .tb .p .n { font-size: 15px; font-weight: 600; letter-spacing: .02em; color: var(--ink); }
+  .tb .st { flex: .9; }
+  .stamp { display: inline-block; border: 1.5px solid var(--red); color: var(--red); font-size: 11px; font-weight: 700; letter-spacing: .24em; padding: 4px 8px 3px; }
+  .tb .go { flex: 1.4; background: var(--ink); padding-top: 18px; }
+    .tb .go a { color: #fff; text-decoration: none; font-size: 12px; font-weight: 600; letter-spacing: .2em; white-space: nowrap; }
+  .tb .go .u { margin-top: 6px; font-size: 10px; letter-spacing: .04em; color: #a9a6a0; }
+
+  .foot { padding: 18px 20px 6px; font-size: 10.5px; letter-spacing: .12em; line-height: 1.7; color: var(--mute); display: flex; justify-content: space-between; gap: 20px; }
+  .foot .sig { color: var(--ink); font-weight: 600; letter-spacing: .16em; white-space: nowrap; }
+
+  @media (max-width: 480px) {
+    .email { padding: 8px; }
+    .top .g { display: none; }
+    .hd { display: block; padding: 28px 20px 0; }
+    h1 { width: auto; font-size: 38px; }
+    .lede { margin-top: 16px; }
+    .sec { margin: 34px 20px 0; }
+    .cut { width: 62px; }
+    .r5 .cut, .r4 .cut, .r3 .cut, .r2 .cut, .r1 .cut { background-size: 260px auto; }
+    .lead { width: 14px; }
+    .gl { margin-right: calc(100% - 62px); }
+    .notes { display: block; margin: 32px 20px 0; }
+    .nt + .nt { margin-top: 22px; }
+    .tb { flex-wrap: wrap; }
+    .tb .p { flex: 1 1 55%; }
+    .tb .st { flex: 1 1 30%; border-right: 0; }
+    .tb .go { flex: 1 1 100%; border-right: 0; padding: 16px 14px; }
+    .foot { display: block; padding: 16px 12px 6px; }
+    .foot .sig { display: block; margin-top: 6px; }
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="inbox">
+    <div class="from">FROM · SENDER ADDRESS PENDING REGISTRATION</div>
+    <div class="subj">YOUR FOUNDATION IS COMPLETE</div>
+    <div class="pre">THE PART NOBODY APPLAUDS, AND THE PART EVERYTHING ELSE STANDS ON.</div>
+  </div>
+
+  <div class="email" role="article" aria-label="Foundation complete">
+    <div class="sheet">
+      <div class="top">
+        <div class="w">SITE 00</div>
+        <div class="g">DIGITAL FOUNDATION</div>
+        <div class="s">FOUNDATION COMPLETE</div>
+      </div>
+
+      <div class="hd">
+        <h1>THE GROUNDWORK IS DONE.</h1>
+        <p class="lede">AS OF TODAY, <span class="v">Halden &amp; Rowe</span> HAS A DOMAIN, MAIL, AND SECURITY THAT ARE SET UP, TESTED, AND REGISTERED TO YOU. HERE IS WHAT THAT MEANS IN PRACTICE.</p>
+      </div>
+
+      <div class="sec" role="list" aria-label="What's now in place">
+        <div class="cap">WHAT'S NOW IN PLACE<span>GROUND · LAID</span></div>
+        <div class="row r5" role="listitem"><div class="cut" role="img" aria-label="LINE DRAWING OF A FOUNDATION SLAB WITH DIMENSION MARKS, ITS TOP SURFACE FILLED WITH WHITE MARBLE AND EDGED IN RED."></div><div class="lead"></div><div class="txt"><div class="st"><b>05</b>FINAL VERIFICATION</div><p class="m">EACH OF THE ABOVE TESTED AND CONFIRMED, NOT ASSUMED.</p></div></div>
+        <div class="row r4" role="listitem"><div class="cut"></div><div class="lead"></div><div class="txt"><div class="st"><b>04</b>DEVICES AND SIGNATURE</div><p class="m">YOUR MAIL ON THE DEVICES YOU USE, SIGNED THE WAY YOU'D SIGN IT.</p></div></div>
+        <div class="row r3" role="listitem"><div class="cut"></div><div class="lead"></div><div class="txt"><div class="st"><b>03</b>DNS AND SECURITY</div><p class="m">THE RECORDS THAT HELP YOUR MAIL REACH INBOXES AND MAKE YOUR NAME HARDER TO IMPERSONATE.</p></div></div>
+        <div class="row r2" role="listitem"><div class="cut"></div><div class="lead"></div><div class="txt"><div class="st"><b>02</b>PROFESSIONAL EMAIL</div><p class="m">MAILBOXES ON YOUR OWN DOMAIN, AS AGREED IN YOUR SCOPE.</p></div></div>
+        <div class="row r1" role="listitem"><div class="cut"></div><div class="lead"></div><div class="txt"><div class="st"><b>01</b>DOMAIN</div><p class="m">THE ADDRESS PEOPLE TYPE TO FIND YOU, REGISTERED IN YOUR NAME.</p></div></div>
+        <div class="gl" aria-hidden="true"></div>
+      </div>
+
+      <div class="notes">
+        <div class="nt"><div class="k">1</div><p>THE ACCOUNTS BEHIND ALL OF THIS BELONG TO YOU. SITE 00 SET THEM UP WITH YOU, AND THEY STAY YOURS WHOEVER YOU WORK WITH NEXT.</p></div>
+        <div class="nt"><div class="k">2</div><p>YOUR FULL RECORD — WHERE EACH ACCOUNT LIVES, WHO ADMINISTERS IT, HOW IT ALL CONNECTS — ARRIVES IN ITS OWN EMAIL, SO IT'S EASY TO FIND ON THE DAY YOU NEED IT. NOTHING ELSE IS NEEDED FROM YOU.</p></div>
+      </div>
+
+      <div class="tb">
+        <div class="p"><div class="k">PROJECT</div><div class="n"><span class="v">Halden &amp; Rowe</span></div></div>
+        <div class="st"><div class="k">STATUS</div><span class="stamp">COMPLETE</span></div>
+        <div class="go"><a href="https://site00.com/foundation/hr7Kq2Lm9x">VIEW YOUR FOUNDATION →</a><div class="u"><span class="url">site00.com/foundation/<span class="v">hr7Kq2Lm9x</span></span></div></div>
+      </div>
+    </div>
+    <div class="foot">
+      <span>A SERVICE MESSAGE ABOUT THE DIGITAL FOUNDATION FOR <span class="v">Halden &amp; Rowe</span>.</span>
+      <span class="sig">SITE 00 · <span class="url">site00.com</span></span>
+    </div>
+  </div>
+</div>
+</body>
+</html>

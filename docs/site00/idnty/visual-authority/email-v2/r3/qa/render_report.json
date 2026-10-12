@@ -1,0 +1,236 @@
+[
+  {
+    "id": "B01_R3",
+    "view": "MOBILE",
+    "width": 390,
+    "mode": "WEBFONT",
+    "overflow": 0,
+    "escapes": [],
+    "height": 1998,
+    "fonts": {
+      "saira": true,
+      "barlow": true
+    }
+  },
+  {
+    "id": "B01_R3",
+    "view": "TABLET",
+    "width": 768,
+    "mode": "WEBFONT",
+    "overflow": 0,
+    "escapes": [],
+    "height": 1820,
+    "fonts": {
+      "saira": true,
+      "barlow": true
+    }
+  },
+  {
+    "id": "B01_R3",
+    "view": "DESKTOP",
+    "width": 1024,
+    "mode": "WEBFONT",
+    "overflow": 0,
+    "escapes": [],
+    "height": 1820,
+    "fonts": {
+      "saira": true,
+      "barlow": true
+    }
+  },
+  {
+    "id": "B01_R3",
+    "view": "MOBILE",
+    "width": 390,
+    "mode": "FALLBACK",
+    "overflow": 0,
+    "escapes": [],
+    "height": 2199,
+    "fonts": {
+      "saira": false,
+      "barlow": false
+    }
+  },
+  {
+    "id": "B01_R3",
+    "view": "TABLET",
+    "width": 768,
+    "mode": "FALLBACK",
+    "overflow": 0,
+    "escapes": [],
+    "height": 1939,
+    "fonts": {
+      "saira": false,
+      "barlow": false
+    }
+  },
+  {
+    "id": "B01_R3",
+    "view": "DESKTOP",
+    "width": 1024,
+    "mode": "FALLBACK",
+    "overflow": 0,
+    "escapes": [],
+    "height": 1939,
+    "fonts": {
+      "saira": false,
+      "barlow": false
+    }
+  },
+  {
+    "id": "B02_R3",
+    "view": "MOBILE",
+    "width": 390,
+    "mode": "WEBFONT",
+    "overflow": 0,
+    "escapes": [],
+    "height": 2697,
+    "fonts": {
+      "saira": true,
+      "barlow": true
+    }
+  },
+  {
+    "id": "B02_R3",
+    "view": "TABLET",
+    "width": 768,
+    "mode": "WEBFONT",
+    "overflow": 0,
+    "escapes": [],
+    "height": 2869,
+    "fonts": {
+      "saira": true,
+      "barlow": true
+    }
+  },
+  {
+    "id": "B02_R3",
+    "view": "DESKTOP",
+    "width": 1024,
+    "mode": "WEBFONT",
+    "overflow": 0,
+    "escapes": [],
+    "height": 2869,
+    "fonts": {
+      "saira": true,
+      "barlow": true
+    }
+  },
+  {
+    "id": "B02_R3",
+    "view": "MOBILE",
+    "width": 390,
+    "mode": "FALLBACK",
+    "overflow": 0,
+    "escapes": [],
+    "height": 2914,
+    "fonts": {
+      "saira": false,
+      "barlow": false
+    }
+  },
+  {
+    "id": "B02_R3",
+    "view": "TABLET",
+    "width": 768,
+    "mode": "FALLBACK",
+    "overflow": 0,
+    "escapes": [],
+    "height": 2939,
+    "fonts": {
+      "saira": false,
+      "barlow": false
+    }
+  },
+  {
+    "id": "B02_R3",
+    "view": "DESKTOP",
+    "width": 1024,
+    "mode": "FALLBACK",
+    "overflow": 0,
+    "escapes": [],
+    "height": 2939,
+    "fonts": {
+      "saira": false,
+      "barlow": false
+    }
+  },
+  {
+    "id": "B03_R3",
+    "view": "MOBILE",
+    "width": 390,
+    "mode": "WEBFONT",
+    "overflow": 0,
+    "escapes": [],
+    "height": 3667,
+    "fonts": {
+      "saira": true,
+      "barlow": true
+    }
+  },
+  {
+    "id": "B03_R3",
+    "view": "TABLET",
+    "width": 768,
+    "mode": "WEBFONT",
+    "overflow": 0,
+    "escapes": [],
+    "height": 3589,
+    "fonts": {
+      "saira": true,
+      "barlow": true
+    }
+  },
+  {
+    "id": "B03_R3",
+    "view": "DESKTOP",
+    "width": 1024,
+    "mode": "WEBFONT",
+    "overflow": 0,
+    "escapes": [],
+    "height": 3589,
+    "fonts": {
+      "saira": true,
+      "barlow": true
+    }
+  },
+  {
+    "id": "B03_R3",
+    "view": "MOBILE",
+    "width": 390,
+    "mode": "FALLBACK",
+    "overflow": 0,
+    "escapes": [],
+    "height": 3947,
+    "fonts": {
+      "saira": false,
+      "barlow": false
+    }
+  },
+  {
+    "id": "B03_R3",
+    "view": "TABLET",
+    "width": 768,
+    "mode": "FALLBACK",
+    "overflow": 0,
+    "escapes": [],
+    "height": 3749,
+    "fonts": {
+      "saira": false,
+      "barlow": false
+    }
+  },
+  {
+    "id": "B03_R3",
+    "view": "DESKTOP",
+    "width": 1024,
+    "mode": "FALLBACK",
+    "overflow": 0,
+    "escapes": [],
+    "height": 3749,
+    "fonts": {
+      "saira": false,
+      "barlow": false
+    }
+  }
+]

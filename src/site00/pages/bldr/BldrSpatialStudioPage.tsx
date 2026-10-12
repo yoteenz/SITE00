@@ -6,21 +6,24 @@
  * `VITE_SITE00_CLIENT_ESTIMATE_PREVIEW_V1`. `?intakeId=` resumes a server-saved Blueprint
  * (`builderIntakeResumeHref`).
  */
-import { useEffect } from 'react';
-import { Navigate, useParams } from 'react-router-dom';
+import { useEffect, useMemo } from 'react';
+import { Navigate, useParams, useSearchParams } from 'react-router-dom';
 import { templateSystemEnabled } from '../../../studioos/estimation/flags';
 import { SITE00_ROUTES } from '../../config/routes';
 import { BuilderStudio } from '../../builder-studio/BuilderStudio';
 import { parseStudioRoom } from '../../builder-studio/studioModel';
+import { reviewSampleFromQuery } from '../../builder-studio/studioReviewSample';
 import '../../styles/site00-builder-studio.css';
 
 export default function BldrSpatialStudioPage() {
   const params = useParams();
+  const [search] = useSearchParams();
+  const sample = useMemo(() => reviewSampleFromQuery(search.get('reviewRoom')), [search]);
   // Page-scoped body reset (no default margin, studio background under overscroll); removed on exit.
   useEffect(() => {
     document.body.classList.add('bs-body');
     return () => document.body.classList.remove('bs-body');
   }, []);
   if (!templateSystemEnabled()) return <Navigate to={SITE00_ROUTES.bldr} replace />;
-  return <BuilderStudio room={parseStudioRoom(params['*'])} />;
+  return <BuilderStudio room={parseStudioRoom(params['*'])} sample={sample} />;
 }

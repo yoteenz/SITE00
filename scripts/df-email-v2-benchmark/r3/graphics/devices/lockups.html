@@ -1,0 +1,58 @@
+<!doctype html>
+<!-- R3 display lockups. Rendered to PNG by render_graphics.mjs (each [data-lockup] element is
+     screenshotted at 2x). These are the only display lines delivered as images: their scale depends
+     on Barlow Condensed's width, and a fallback face would overflow a phone. Every lockup ships with
+     its exact words as alt text, and the email repeats nothing that only exists here. -->
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face { font-family: "Barlow Condensed"; font-weight: 800; src: url("../../fonts/barlow-condensed-800.woff2") format("woff2"); }
+  @font-face { font-family: "Barlow Condensed"; font-weight: 900; src: url("../../fonts/barlow-condensed-900.woff2") format("woff2"); }
+  body { margin: 0; background: #ffffff; }
+  [data-lockup] { display: inline-block; background: #ffffff; color: #141414; font-family: "Barlow Condensed"; font-weight: 900; text-transform: uppercase; }
+  .stop { display: inline-block; width: .17em; height: .17em; background: #d90c0c; margin-left: .03em; vertical-align: baseline; }
+
+  /* B02 — THE GROUNDWORK IS DONE. Monument type: the middle word carries the weight of the slab. */
+  #groundwork { width: 1120px; padding: 6px 0 14px; }
+  #groundwork .a { font-size: 104px; line-height: .86; letter-spacing: .004em; }
+  #groundwork .b { font-size: 250px; line-height: .8; letter-spacing: -.004em; margin-left: -6px; }
+  #groundwork .c { font-size: 104px; line-height: .86; letter-spacing: .004em; text-align: right; padding-right: 8px; }
+
+  /* B02 mobile — same words, stacked for a 342px column. */
+  #groundwork-m { width: 684px; padding: 4px 0 10px; }
+  #groundwork-m .a, #groundwork-m .c { font-size: 92px; line-height: .86; }
+  #groundwork-m .b { font-size: 150px; line-height: .82; margin-left: -4px; }
+  #groundwork-m .c { text-align: right; }
+
+  /* B03 — BLDR nameplate, set to the full measure like a magazine title. */
+  #bldr { width: 1180px; padding: 0 0 40px; }
+  #bldr .b { font-size: 760px; line-height: .74; letter-spacing: -.01em; margin-left: -10px; }
+  #bldr-m { width: 684px; padding: 0 0 22px; }
+  #bldr-m .b { font-size: 440px; line-height: .74; letter-spacing: -.01em; margin-left: -6px; }
+</style>
+</head>
+<body>
+  <div data-lockup="groundwork" id="groundwork"><div class="a">THE</div><div class="b">GROUNDWORK</div><div class="c">IS DONE<span class="stop"></span></div></div>
+  <br>
+  <div data-lockup="groundwork-m" id="groundwork-m"><div class="a">THE</div><div class="b">GROUND</div><div class="b">WORK</div><div class="c">IS DONE<span class="stop"></span></div></div>
+  <br>
+  <div data-lockup="bldr" id="bldr"><div class="b">BLDR</div></div>
+  <br>
+  <div data-lockup="bldr-m" id="bldr-m"><div class="b">BLDR</div></div>
+<script>
+  // Fit each .b line to its lockup's full measure once the face has loaded.
+  document.fonts.ready.then(() => {
+    for (const line of document.querySelectorAll('[data-lockup] .b')) {
+      const box = line.parentElement.clientWidth;
+      line.style.whiteSpace = 'nowrap';
+      line.style.display = 'inline-block';
+      let size = parseFloat(getComputedStyle(line).fontSize);
+      while (line.scrollWidth > box && size > 20) { size -= 1; line.style.fontSize = size + 'px'; }
+      line.style.display = 'block';
+    }
+    document.body.dataset.fitted = '1';
+  });
+</script>
+</body>
+</html>

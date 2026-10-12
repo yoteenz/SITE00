@@ -73,9 +73,11 @@ export function addVersionComment(
   versionId: string,
   body: string,
   visibility: CorrespondenceComment['visibility'] = 'internal',
+  /** Review state to keep when this is the version's first stored record. */
+  fallback: ReviewState = 'draft',
 ): StoredReviewBundle {
   const key = versionKey(templateId, versionId);
-  const prev = getVersionReview(templateId, versionId, 'draft');
+  const prev = getVersionReview(templateId, versionId, fallback);
   const comment: CorrespondenceComment = {
     id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
     version_id: versionId,

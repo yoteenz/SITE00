@@ -6,6 +6,7 @@
  * and what the object shows. Rooms are routes (`/bldr/studio/:room`) so device back and forward work. The
  * configuration itself lives in Composer's server-backed session (`useBuilderSpatialIntakeSession`).
  */
+import { CorrespondenceDisplayLine, displayLineEndsWithSplitMark } from '../../../shared/site00-correspondence-studio/reactProse.js';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { SITE00_ROUTES } from '../config/routes';
@@ -81,10 +82,16 @@ export function SaveStatusChip({ indicator, onRetry }: { indicator: SaveIndicato
   );
 }
 
-export function BuilderStudio({ room: requested }: { room: StudioRoomId | null }) {
+export function BuilderStudio({
+  room: requested,
+  sample = null,
+}: {
+  room: StudioRoomId | null;
+  sample?: SpatialBuilderState | null;
+}) {
   const navigate = useNavigate();
   const location = useLocation();
-  const session = useStudioSession();
+  const session = useStudioSession(sample);
   const { state, locked, submitted, syncStatus, update } = session;
   const hydrated = syncStatus !== 'restoring';
   const [menuOpen, setMenuOpen] = useState(false);
@@ -165,12 +172,16 @@ export function BuilderStudio({ room: requested }: { room: StudioRoomId | null }
           <span className="bs-roomid__label">{meta.label}</span>
         </p>
         <h1 id="bs-headline" className="bs-headline">
-          {meta.headline.map((line, i) => (
-            <span key={line} className="bs-headline__line">
-              {line}
-              {i === meta.headline.length - 1 ? <span className="bs-dot">.</span> : null}
-            </span>
-          ))}
+          {meta.headline.map((line, i) => {
+            const isLast = i === meta.headline.length - 1;
+            const terminalMark = displayLineEndsWithSplitMark(line);
+            return (
+              <span key={line} className="bs-headline__line">
+                <CorrespondenceDisplayLine line={line} />
+                {isLast && !terminalMark ? <span className="bs-dot">.</span> : null}
+              </span>
+            );
+          })}
         </h1>
         <p className="bs-lede">{meta.lede}</p>
       </section>

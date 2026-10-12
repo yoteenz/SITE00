@@ -3,12 +3,16 @@
    Luminous white controls, ultra-fine neutral borders, SITE 00 red for focus / selection / primary action.
    Semantic success / warning colours appear only on status components. */
 
+@import './site00-correspondence-fonts.css';
+
 /* ─── Component tokens ─────────────────────────────────────────────────────────────────────── */
 
 .df-root,
 .df-screen,
 .df-drawer,
 .df-portal {
+  --df-display: 'SITE 00 Display', 'Arial Narrow', sans-serif;
+  --df-text: 'Saira Semi Condensed', 'Arial Narrow', Arial, sans-serif;
   --df-surface: #ffffff;
   --df-control-border: #d9d7d2;
   --df-control-border-strong: #b8b6b1;

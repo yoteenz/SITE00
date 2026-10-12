@@ -1,0 +1,64 @@
+/* SITE 00 correspondence V2 · R2 territories — shared tokens and review chrome only.
+   Each territory carries its own composition. Email-body structures map to table HTML:
+   640px column, fixed-width cells, background-image cells with live text, no positioning. */
+
+@font-face { font-family: "Saira Semi Condensed"; font-weight: 400; src: url("/site00-correspondence-studio/previews/r2/fonts/SairaSemiCondensed-400.ttf") format("truetype"); }
+@font-face { font-family: "Saira Semi Condensed"; font-weight: 500; src: url("/site00-correspondence-studio/previews/r2/fonts/SairaSemiCondensed-500.ttf") format("truetype"); }
+@font-face { font-family: "Saira Semi Condensed"; font-weight: 600; src: url("/site00-correspondence-studio/previews/r2/fonts/SairaSemiCondensed-600.ttf") format("truetype"); }
+@font-face { font-family: "Saira Semi Condensed"; font-weight: 700; src: url("/site00-correspondence-studio/previews/r2/fonts/SairaSemiCondensed-700.ttf") format("truetype"); }
+
+:root {
+  --ink: #141414;
+  --body: #1e1e1e;
+  --mute: #5e5e5e;
+  --faint: #72706c;
+  --hair: #e4e2dd;
+  --stone: #f6f5f2;
+  --paper: #faf9f6;
+  --red: #d90c0c;
+  --pad: 48px;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: #e9e7e3;
+  font-family: "Saira Semi Condensed", "Arial Narrow", Arial, sans-serif;
+  color: var(--body);
+  text-transform: uppercase;
+  -webkit-font-smoothing: antialiased;
+}
+img { display: block; border: 0; max-width: 100%; }
+a { color: inherit; }
+p, h1, h2 { margin: 0; }
+
+.stage { padding: 28px 16px 40px; }
+
+.inbox {
+  max-width: 640px; margin: 0 auto 14px; padding: 14px 18px 13px;
+  background: #fbfaf8; border: 1px solid #dcd9d3; border-radius: 6px;
+}
+.inbox .from { font-size: 11px; letter-spacing: .06em; color: var(--faint); }
+.inbox .subj { font-size: 14.5px; font-weight: 600; letter-spacing: .03em; color: var(--ink); margin: 6px 0 3px; line-height: 1.3; }
+.inbox .pre { font-size: 12px; letter-spacing: .04em; color: var(--mute); line-height: 1.45; }
+
+.email { width: 640px; max-width: 100%; margin: 0 auto; background: #fff; overflow: hidden; }
+
+.v { text-transform: none; border-bottom: 1px dotted currentColor; }
+.url { text-transform: none; }
+.tok { text-transform: none; font-family: ui-monospace, Menlo, monospace; font-size: .9em; background: #f1efeb; padding: 1px 4px; border-radius: 2px; color: var(--mute); letter-spacing: 0; }
+
+.body { font-size: 15px; letter-spacing: .03em; line-height: 1.64; color: var(--body); }
+.body + .body { margin-top: 14px; }
+
+.mob-only { display: none; }
+
+@media (max-width: 480px) {
+  :root { --pad: 24px; }
+  body { background: #fff; }
+  .stage { padding: 0; }
+  .inbox { margin: 0; border-radius: 0; border-width: 0 0 1px; }
+  .email { width: 100%; }
+  .desk-only { display: none !important; }
+  .mob-only { display: block; }
+}

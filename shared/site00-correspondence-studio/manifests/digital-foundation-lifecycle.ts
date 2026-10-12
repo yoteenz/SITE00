@@ -8,9 +8,11 @@ const DF_TEMPLATE_ROWS: {
 }[] = [
   { id: 'personal-foundation-invitation', name: 'PERSONAL FOUNDATION INVITATION', family: 'transactional', familyId: 'transactional' },
   { id: 'intake-started', name: 'INTAKE STARTED', family: 'transactional', familyId: 'transactional' },
+  { id: 'intake-resume-reminder', name: 'INTAKE RESUME REMINDER', family: 'transactional', familyId: 'transactional' },
   { id: 'intake-completed', name: 'INTAKE COMPLETED', family: 'transactional', familyId: 'transactional' },
   { id: 'quote-ready', name: 'QUOTE READY', family: 'transactional', familyId: 'transactional' },
   { id: 'quote-updated', name: 'QUOTE UPDATED', family: 'transactional', familyId: 'transactional' },
+  { id: 'quote-expiry-reminder', name: 'QUOTE EXPIRY REMINDER', family: 'transactional', familyId: 'transactional' },
   { id: 'quote-accepted', name: 'QUOTE ACCEPTED', family: 'transactional', familyId: 'transactional' },
   { id: 'checkout-link-ready', name: 'CHECKOUT LINK READY', family: 'transactional', familyId: 'transactional' },
   { id: 'payment-confirmed', name: 'PAYMENT CONFIRMED', family: 'transactional', familyId: 'transactional' },
@@ -39,7 +41,7 @@ function packVersion(templateId: string): EmailTemplateVersion {
   };
 }
 
-/** Digital Foundation client lifecycle — 20 registered template IDs (12 + 3 + 5). */
+/** Digital Foundation client lifecycle — 22 registered template IDs (14 + 3 + 5). The two reminders arrive with FNDATN-01. */
 export function buildDigitalFoundationWorkspaceManifest(): CorrespondenceWorkspaceManifest {
   const templates: CorrespondenceWorkspaceManifest['templates'] = {};
   for (const row of DF_TEMPLATE_ROWS) {

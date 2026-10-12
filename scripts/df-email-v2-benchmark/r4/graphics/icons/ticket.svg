@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <title>CHECKOUT — a ticket with its stub ready to tear</title>
+  <g fill="none" stroke-linecap="square">
+    <path d="M4 14H44V20A4 4 0 0 0 44 28V34H4V28A4 4 0 0 0 4 20Z" stroke="#141414" stroke-width="2.2"/>
+    <path d="M32 15V33" stroke="#141414" stroke-width="1.2" stroke-dasharray="2 2.4"/>
+    <path d="M11 24H25" stroke="#d90c0c" stroke-width="2.6"/>
+  </g>
+</svg>

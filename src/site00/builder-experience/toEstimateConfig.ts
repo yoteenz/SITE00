@@ -55,15 +55,23 @@ export const DEFAULT_WORLD_SELECTION: WorldSelection = {
 };
 
 /** Human world choices → estimator world-scope inputs. Counts are representative points inside each band. */
-export const WORLD_INPUT_MAP = {
-  places: { FEW: 4, SEVERAL: 8, MANY: 13 } satisfies Record<WorldPlaces, number>,
-  moments: { FEW: 4, MANY: 10, CINEMATIC: 20 } satisfies Record<WorldMoments, number>,
-  thingsToDo: { LOOK: 3, TOUCH: 10, PLAY: 24 } satisfies Record<WorldThingsToDo, number>,
-  inhabitants: { NONE: 'NONE', GUIDES: 'LIGHT', CHARACTERS: 'STANDARD', CROWDS: 'HEAVY' } satisfies Record<WorldInhabitants, InhabitantComplexity>,
-  change: { STILL: 1, TIME_OF_DAY: 3, LIVING: 8 } satisfies Record<WorldChange, number>,
-  depth: { FLAT: 'NONE', LAYERED: 'LIGHT', DIMENSIONAL: 'STANDARD', FULLY_3D: 'HEAVY' } satisfies Record<WorldDepth, ThreeDAssetLoad>,
-  wayfinding: { GUIDED_PATH: 'SIMPLE', FREE_ROAM: 'STANDARD', BOTH: 'ADVANCED' } satisfies Record<WorldWayfinding, NavigationComplexity>,
-} as const;
+export const WORLD_INPUT_MAP: {
+  readonly places: Record<WorldPlaces, number>;
+  readonly moments: Record<WorldMoments, number>;
+  readonly thingsToDo: Record<WorldThingsToDo, number>;
+  readonly inhabitants: Record<WorldInhabitants, InhabitantComplexity>;
+  readonly change: Record<WorldChange, number>;
+  readonly depth: Record<WorldDepth, ThreeDAssetLoad>;
+  readonly wayfinding: Record<WorldWayfinding, NavigationComplexity>;
+} = {
+  places: { FEW: 4, SEVERAL: 8, MANY: 13 },
+  moments: { FEW: 4, MANY: 10, CINEMATIC: 20 },
+  thingsToDo: { LOOK: 3, TOUCH: 10, PLAY: 24 },
+  inhabitants: { NONE: 'NONE', GUIDES: 'LIGHT', CHARACTERS: 'STANDARD', CROWDS: 'HEAVY' },
+  change: { STILL: 1, TIME_OF_DAY: 3, LIVING: 8 },
+  depth: { FLAT: 'NONE', LAYERED: 'LIGHT', DIMENSIONAL: 'STANDARD', FULLY_3D: 'HEAVY' },
+  wayfinding: { GUIDED_PATH: 'SIMPLE', FREE_ROAM: 'STANDARD', BOTH: 'ADVANCED' },
+};
 
 export const VIEWPORT_MAP: Record<ViewportChoice, ResponsiveMode> = {
   PHONE_FIRST: 'MOBILE_ONLY',

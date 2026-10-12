@@ -1,0 +1,16 @@
+{
+  "file": "01a12e32-afd7-7710-8390-79c5c7a0e3f8.jpg",
+  "bytes": 472029,
+  "sha256": "ab8a4a2832bed8e5ede9358327f2b3e490f2096ab5c9503c24b1b53efc31b320",
+  "format": "JPEG",
+  "dimensions": [
+    941,
+    1672
+  ],
+  "dpi_tag": 72,
+  "quantization_max": {
+    "luma": 11,
+    "chroma": 11
+  },
+  "note": "Same 941x1672 composition as the FNDATN-01 mobile authority. Mean absolute channel difference versus that more compressed file is about 2.6. This file is the higher-quality source and is the trace authority. The reference is AI-rendered. Lettering is not assumed to be a font file."
+}

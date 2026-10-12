@@ -1,0 +1,162 @@
+{
+  "package": "SITE00 Digital Foundation Seven Email Visual Authority",
+  "version": "1.0",
+  "source": "FNDATN Emails.zip supplied by founder",
+  "approval": "founder review; visual references not final HTML",
+  "items": [
+    {
+      "slug": "01_invitation",
+      "title": "INVITATION",
+      "existing_registry_mapping_candidate": "personal-foundation-invitation",
+      "send_guard": "Invitation created / founder-authorized send",
+      "assets": {
+        "desktop": {
+          "file": "emails/01_invitation/desktop.jpg",
+          "source": "7AE10321-F8CE-45E0-ABD5-75C7F3754B04.PNG",
+          "width": 1536,
+          "height": 1024,
+          "sha256": "360283d726e0cb5895b79b9295746691c0f873c75f803d3e5d2732501d381913"
+        },
+        "mobile": {
+          "file": "emails/01_invitation/mobile.jpg",
+          "source": "62241503-C1FB-40AF-B778-4EFA0B6959E3.PNG",
+          "width": 941,
+          "height": 1672,
+          "sha256": "4e1fa143616e5aea3b3657f873dfae5c3fcb6bf3738a1adb98175fae76e39b88"
+        }
+      }
+    },
+    {
+      "slug": "02_intake_received",
+      "title": "INTAKE RECEIVED",
+      "existing_registry_mapping_candidate": "intake-completed",
+      "send_guard": "Intake submitted and persisted (not merely opened)",
+      "assets": {
+        "desktop": {
+          "file": "emails/02_intake_received/desktop.jpg",
+          "source": "1E27FB80-0336-4EC7-8BF5-B64464766B66.PNG",
+          "width": 1536,
+          "height": 1024,
+          "sha256": "e1a1d136ef62ec02e71fd3ab1b09ebd42d3ca8e330c743804612ca763e3cb4ed"
+        },
+        "mobile": {
+          "file": "emails/02_intake_received/mobile.jpg",
+          "source": "1BAE7400-CB2D-42F6-9BD6-E02AFADE8D75.PNG",
+          "width": 880,
+          "height": 1787,
+          "sha256": "238339ad239dcaaaaf8a4b78795b96682182a733132c88b7db515a3119111724"
+        }
+      }
+    },
+    {
+      "slug": "03_recommendation_quote",
+      "title": "RECOMMENDATION & QUOTE",
+      "existing_registry_mapping_candidate": "quote-ready",
+      "send_guard": "Real founder-approved quote issued with review URL",
+      "assets": {
+        "desktop": {
+          "file": "emails/03_recommendation_quote/desktop.jpg",
+          "source": "84F17A5A-699F-4CBB-BC89-9430B6B3F64F.PNG",
+          "width": 1536,
+          "height": 1024,
+          "sha256": "472763889469d290c0c46f344b71e914a4b8be9a29ca33b0674d1f180e46af1a"
+        },
+        "mobile": {
+          "file": "emails/03_recommendation_quote/mobile.jpg",
+          "source": "7AF03C63-6C24-44C9-AB61-D00EECB7C180.PNG",
+          "width": 838,
+          "height": 1877,
+          "sha256": "0a001560b5e104544792d0ee669720aefba4fa1cafb83bce90b1a49ad13ffca7"
+        }
+      }
+    },
+    {
+      "slug": "04_payment_received",
+      "title": "PAYMENT RECEIVED / PROJECT ACTIVATED",
+      "existing_registry_mapping_candidate": "payment-confirmed / project-activated",
+      "send_guard": "Verified payment webhook plus actual project activation (combine only when both true)",
+      "assets": {
+        "desktop": {
+          "file": "emails/04_payment_received/desktop.jpg",
+          "source": "F42FD3C7-3324-45A1-B881-B96185CF938D.PNG",
+          "width": 1536,
+          "height": 1024,
+          "sha256": "aaa2fbc890fd2036db174da4c127b15f797f3e241e13a6626c3e60f0997978bf"
+        },
+        "mobile": {
+          "file": "emails/04_payment_received/mobile.jpg",
+          "source": "E63E06C5-D838-4FA4-A8F0-9409CFD84ED7.PNG",
+          "width": 941,
+          "height": 1672,
+          "sha256": "2f2775403cf2fe712886bff524b704ca9be29cb2b4e534c3321510db6928fa15"
+        }
+      }
+    },
+    {
+      "slug": "05_foundation_complete",
+      "title": "FOUNDATION COMPLETE / DELIVERED",
+      "existing_registry_mapping_candidate": "foundation-complete / records-available",
+      "send_guard": "Verified all completion gates and delivery records available",
+      "assets": {
+        "desktop": {
+          "file": "emails/05_foundation_complete/desktop.jpg",
+          "source": "C8AE9FAB-B1A7-485E-8B5A-D986DC787D3E.PNG",
+          "width": 1536,
+          "height": 1024,
+          "sha256": "491608d7091905a64ebfb12f1b6aec4bdfab6146bd7913a162de3ddb32b15ed1"
+        },
+        "mobile": {
+          "file": "emails/05_foundation_complete/mobile.jpg",
+          "source": "70350037-69B4-4560-B462-609D384C9F63.PNG",
+          "width": 838,
+          "height": 1877,
+          "sha256": "6598680c66860f645792b676fc6985b488919a7d38baafb79dddd2b6bd2f9932"
+        }
+      }
+    },
+    {
+      "slug": "06_resume_intake",
+      "title": "RESUME YOUR INTAKE",
+      "existing_registry_mapping_candidate": "intake-started / intake-reminder (verify actual event)",
+      "send_guard": "Saved partially completed intake; not submitted; exclude completed or opted-out",
+      "assets": {
+        "desktop": {
+          "file": "emails/06_resume_intake/desktop.jpg",
+          "source": "F5583D4B-8309-4139-A86D-4BE1D6D247DD.PNG",
+          "width": 1536,
+          "height": 1024,
+          "sha256": "8603f0e67afe06d52ad9c1ddee3460e356ae3392eabd2143908bad669ee492af"
+        },
+        "mobile": {
+          "file": "emails/06_resume_intake/mobile.jpg",
+          "source": "7B0BBCE9-58BF-4330-BC8B-281D8B86E3C7.PNG",
+          "width": 838,
+          "height": 1877,
+          "sha256": "034b580323e9b743d7d3ffcc2be7f673cf7eb2fe6b9d143b8d60a4142b675d17"
+        }
+      }
+    },
+    {
+      "slug": "07_quote_expiry",
+      "title": "QUOTE EXPIRY REMINDER",
+      "existing_registry_mapping_candidate": "quote-ready / quote-expiring (verify actual event)",
+      "send_guard": "Unpaid, approved, not expired; deadline truth from backend",
+      "assets": {
+        "desktop": {
+          "file": "emails/07_quote_expiry/desktop.jpg",
+          "source": "7BA9AE7E-C174-4735-98C3-87390FBA2949.PNG",
+          "width": 1536,
+          "height": 1024,
+          "sha256": "28665adc37b1a93222f3e5c3266028963052643a76c4f2d9f0295de9ce859ba0"
+        },
+        "mobile": {
+          "file": "emails/07_quote_expiry/mobile.jpg",
+          "source": "EAAA9A66-9F89-4049-BBA1-3B14E911B12E.PNG",
+          "width": 838,
+          "height": 1877,
+          "sha256": "45aea1a6e8f9da3f1ac41da937a60601c4adc49fecd9a51a3cade9d30f4cb7bf"
+        }
+      }
+    }
+  ]
+}

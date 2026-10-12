@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>B03 · B — ENTER THE LOCATION</title>
+<link rel="stylesheet" href="/site00-correspondence-studio/previews/r2/r2.css">
+<style>
+  /* The email is a walk. You start at the threshold, see the building from the terrace, step inside, then sit down to work.
+     A small plan at each station marks where you are standing; the pictures get closer as you go in. */
+  .email { background: #fff; }
+  .mast { display: flex; justify-content: space-between; align-items: center; padding: 20px var(--pad) 18px; border-bottom: 1px solid var(--hair); }
+  .mast .l { font-size: 12.5px; font-weight: 700; letter-spacing: .34em; color: var(--ink); }
+  .mast .l span { color: var(--faint); font-weight: 600; letter-spacing: .24em; margin-left: 8px; }
+  .mast .f { font-size: 10px; letter-spacing: .22em; color: var(--mute); }
+
+  .door { display: flex; }
+  .door .w { flex: 1; padding: 44px 30px 34px var(--pad); display: flex; flex-direction: column; justify-content: space-between; }
+  .door h1 { font-size: 46px; line-height: .98; font-weight: 700; color: var(--ink); }
+  .door .lede { font-size: 14.5px; line-height: 1.6; letter-spacing: .03em; color: var(--body); }
+  .door img { width: 250px; height: 377px; object-fit: cover; flex: none; }
+
+  .open { padding: 40px var(--pad) 0; }
+  .open p { font-size: 16px; line-height: 1.6; letter-spacing: .03em; color: var(--ink); max-width: 500px; }
+
+  .walk { margin-top: 52px; }
+  .stop { display: flex; }
+  .gut { width: 88px; flex: none; background: repeating-linear-gradient(#bdb8af 0 4px, transparent 4px 9px) 43px 0 / 1px 100% no-repeat; }
+  .gut img { width: 66px; height: 48px; margin: 0 0 0 11px; background: #fff; }
+  .cnt { flex: 1; min-width: 0; padding-bottom: 46px; }
+  .t { height: 48px; display: flex; align-items: center; font-size: 12px; font-weight: 700; letter-spacing: .26em; color: var(--ink); }
+  .t b { color: var(--red); font-weight: 600; margin-right: 10px; letter-spacing: .1em; }
+  .cnt img.v1 { width: 552px; height: 120px; object-fit: cover; margin-top: 14px; }
+  .cnt img.v2 { width: 552px; height: 210px; object-fit: cover; margin-top: 14px; }
+  .cnt img.v3 { width: 552px; height: 290px; object-fit: cover; object-position: 30% 50%; margin-top: 14px; }
+  .cnt .body { padding: 18px var(--pad) 0 0; max-width: 500px; }
+  .stop.last .cnt { padding-bottom: 8px; }
+  .rev .map { width: 66px; height: 48px; }
+  .rev { margin-top: 54px; background: var(--stone); padding: 34px var(--pad) 32px; }
+  .rev h2 { margin-top: 18px; font-size: 27px; line-height: 1.06; font-weight: 600; color: var(--ink); }
+  .rev .body { margin-top: 12px; font-size: 14px; }
+  .plans { display: flex; gap: 12px; margin-top: 22px; }
+  .plan { flex: 1; background: #fff; padding: 10px 10px 11px; }
+  .plan img { width: 100%; height: auto; }
+  .plan .pl { margin-top: 6px; font-size: 10px; font-weight: 600; letter-spacing: .2em; color: var(--ink); }
+  .rev .cap { margin-top: 12px; font-size: 9px; letter-spacing: .24em; color: var(--faint); }
+
+  .close { padding: 36px var(--pad) 0; text-align: center; }
+  .close .body { max-width: 440px; margin: 0 auto; }
+  .act { text-align: center; padding: 24px 0 38px; }
+  .btn { display: inline-block; border: 1.5px solid var(--ink); color: var(--ink); text-decoration: none; font-size: 12.5px; font-weight: 600; letter-spacing: .24em; padding: 15px 26px 14px; }
+  .btn em { font-style: normal; color: var(--red); margin-left: 6px; }
+
+  .rest img { width: 640px; height: 88px; object-fit: cover; }
+  .foot { padding: 20px var(--pad) 28px; font-size: 10.5px; letter-spacing: .12em; line-height: 1.7; color: var(--mute); }
+  .foot .links { margin-top: 8px; color: var(--ink); }
+  .foot .sig { margin-top: 6px; color: var(--ink); font-weight: 600; letter-spacing: .16em; }
+
+  @media (max-width: 480px) {
+    .mast .f { display: none; }
+    .door { display: block; }
+    .door img { width: 100%; height: 330px; object-position: 50% 40%; }
+    .door .w { padding: 28px var(--pad) 0; display: block; }
+    .door h1 { font-size: 40px; margin-bottom: 16px; }
+    .open { padding-top: 26px; }
+    .walk { margin-top: 40px; }
+    .gut { width: 46px; background-position: 22px 0; }
+    .gut img { width: 40px; height: 29px; margin-left: 3px; }
+    .t { height: 29px; font-size: 11px; }
+    .cnt { padding-bottom: 36px; }
+    .cnt img.v1, .cnt img.v2, .cnt img.v3 { width: 100%; }
+    .cnt img.v1 { height: 96px; object-position: 25% 50%; }
+    .cnt img.v2 { height: 170px; }
+    .cnt img.v3 { height: 230px; }
+    .cnt .body { padding-right: var(--pad); }
+    .rev { margin-top: 40px; }
+    .rev h2 { font-size: 23px; }
+    .plans { display: block; }
+    .plan { display: flex; align-items: center; gap: 14px; padding: 8px 12px; margin-top: 8px; }
+    .plan img { width: 120px; flex: none; }
+    .plan .pl { margin: 0; }
+    .btn { display: block; margin: 0 var(--pad); }
+    .rest img { width: 100%; height: 76px; }
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="inbox">
+    <div class="from">FROM · SENDER ADDRESS PENDING REGISTRATION</div>
+    <div class="subj">WHAT STANDS AT YOUR ADDRESS?</div>
+    <div class="pre">A LOOK INSIDE BLDR, WHERE SITE 00 DESIGNS WHAT PEOPLE FIND WHEN THEY ARRIVE AT YOUR DOMAIN.</div>
+  </div>
+
+  <div class="email" role="article" aria-label="BLDR introduction">
+    <div class="mast">
+      <div class="l">SITE 00<span>· BLDR</span></div>
+      <div class="f">FOR <span class="v">Halden &amp; Rowe</span></div>
+    </div>
+
+    <div class="door">
+      <div class="w">
+        <h1>AN ADDRESS DESERVES A BUILDING.</h1>
+        <p class="lede">YOUR DOMAIN TELLS PEOPLE WHERE TO FIND YOU. WHAT THEY FIND WHEN THEY ARRIVE IS ANOTHER MATTER ENTIRELY. BLDR IS WHERE SITE 00 WORKS THAT OUT WITH YOU.</p>
+      </div>
+      <img src="/site00-correspondence-studio/previews/r2/assets/s_door.jpg" alt="A PAVILION WITH TALL RED GLASS WALLS OPENS ONTO A MARBLE TERRACE AND A CALM SEA.">
+    </div>
+
+    <div class="open"><p>MOST WEBSITES ARE PLANNED LIKE BROCHURES: A COVER, A FEW PAGES, A WAY TO GET IN TOUCH. WE PLAN THEM THE WAY AN ARCHITECT PLANS A BUILDING — STARTING WITH WHO ARRIVES, WHAT THEY CAME FOR, AND HOW IT SHOULD FEEL TO WALK IN.</p></div>
+
+    <div class="walk">
+      <div class="stop">
+        <div class="gut"><img src="/site00-correspondence-studio/previews/r2/assets/s_map_1.png" alt=""></div>
+        <div class="cnt">
+          <div class="t"><b>01</b>THE APPROACH</div>
+          <img class="v1" src="/site00-correspondence-studio/previews/r2/assets/s_far.jpg" alt="A RED GLASS PANEL AT THE EDGE OF A TERRACE, WITH AN OLIVE TREE AND THE SEA BEYOND.">
+          <p class="body">FIRST, WHERE PEOPLE ARRIVE. A RESTAURANT'S FIRST SCREEN MIGHT BE A MENU AND A WAY TO FIND THE DOOR. A CONSULTANCY'S MIGHT BE ONE SENTENCE THAT EARNS THE NEXT. BLDR BEGINS BY WORKING OUT WHICH KIND OF ARRIVAL YOURS IS.</p>
+        </div>
+      </div>
+      <div class="stop">
+        <div class="gut"><img src="/site00-correspondence-studio/previews/r2/assets/s_map_2.png" alt=""></div>
+        <div class="cnt">
+          <div class="t"><b>02</b>INSIDE</div>
+          <img class="v2" src="/site00-correspondence-studio/previews/r2/assets/s_inside.jpg" alt="A QUIET MARBLE ROOM WITH A LOW SOFA, LIT THROUGH RED GLASS.">
+          <p class="body">THEN, HOW IT FEELS ONCE THEY'RE IN. TYPE, COLOR, THE PACE OF A SCROLL, HOW MUCH SPACE SITS AROUND A SENTENCE. THESE ARE MATERIAL DECISIONS, AS MUCH AS MARBLE AND GLASS ARE, AND THEY SHAPE WHETHER SOMEONE TRUSTS YOU BEFORE THEY'VE READ A WORD.</p>
+        </div>
+      </div>
+      <div class="stop last">
+        <div class="gut"><img src="/site00-correspondence-studio/previews/r2/assets/s_map_3.png" alt=""></div>
+        <div class="cnt">
+          <div class="t"><b>03</b>IN USE</div>
+          <img class="v3" src="/site00-correspondence-studio/previews/r2/assets/s_work.jpg" alt="A LONG STONE WORKTABLE WITH CHAIRS AND A LAPTOP, FACING THE SEA.">
+          <p class="body">AND THEN IT HAS TO WORK. INQUIRIES, APPOINTMENTS, ORDERS — WHATEVER YOUR BUSINESS RUNS ON, MOVING AT THE PACE YOUR CUSTOMERS EXPECT, AT YOUR OWN ADDRESS.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="rev">
+      <img class="map" src="/site00-correspondence-studio/previews/r2/assets/s_map_4.png" alt="">
+      <h2>THREE DIRECTIONS, THEN YOUR DECISION.</h2>
+      <p class="body">ONCE YOU'VE TOLD BLDR ABOUT YOUR BUSINESS, IT PRODUCES THREE BLUEPRINT DIRECTIONS: THREE GENUINELY DIFFERENT WAYS YOUR LOCATION COULD BE ORGANIZED, LOOK, AND BEHAVE. YOU REVIEW ALL THREE AND CHOOSE THE ONE WORTH BUILDING.</p>
+      <div class="plans" role="img" aria-label="THREE SIMPLE FLOOR PLANS, EACH WITH ONE ROOM MARKED IN RED.">
+        <div class="plan"><img src="/site00-correspondence-studio/previews/art/b03_plan_a.svg" alt=""><div class="pl">A · GALLERY</div></div>
+        <div class="plan"><img src="/site00-correspondence-studio/previews/art/b03_plan_b.svg" alt=""><div class="pl">B · COURTYARD</div></div>
+        <div class="plan"><img src="/site00-correspondence-studio/previews/art/b03_plan_c.svg" alt=""><div class="pl">C · OPEN HALL</div></div>
+      </div>
+      <div class="cap">ILLUSTRATIVE PLANS</div>
+    </div>
+
+    <div class="close"><p class="body">NONE OF THIS ASKS ANYTHING OF YOU TODAY. BLDR IS OPEN TO WALK AROUND WHENEVER CURIOSITY GETS THE BETTER OF YOU.</p></div>
+    <div class="act"><a class="btn" href="#bldr">TAKE A WALK THROUGH BLDR<em>→</em></a></div>
+
+    <div class="rest"><img src="/site00-correspondence-studio/previews/r2/assets/u_rest.jpg" alt="PALE ROCKS AT THE WATER'S EDGE UNDER A WIDE SKY."></div>
+    <div class="foot">
+      YOU'RE RECEIVING THIS BECAUSE YOU ASKED SITE 00 TO SHARE WHAT COMES AFTER THE FOUNDATION.
+      <div class="links"><a href="#preference_url">MANAGE PREFERENCES</a> <span class="tok">{{preference_url}}</span> · <a href="#unsubscribe_url">UNSUBSCRIBE</a> <span class="tok">{{unsubscribe_url}}</span></div>
+      <div class="sig">SITE 00 · <span class="tok">{{postal_address}}</span> · <span class="url">site00.com</span></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -17,6 +17,7 @@ import { InterimOverview, P05Review, P06Activation } from './parents/CheckoutAct
 import { DfCta, DfFrame, DfLoading, DfMenu, DfSystemPanel, type DfObjectKind } from './shell';
 import { useFoundationArtifact, useIntakeDraft, usePaymentVerification, useQuoteSelections } from './useFoundationArtifact';
 import '../styles/site00-df-client.css';
+import '../styles/site00-df-components.css';
 
 const OBJECT_FOR: Record<DfView, DfObjectKind> = {
   P01: 'hero',
@@ -26,6 +27,12 @@ const OBJECT_FOR: Record<DfView, DfObjectKind> = {
   P05: 'crown',
   P06: 'crown',
   OVERVIEW: 'crown',
+  ROADMAP: 'crown',
+  STAGE: 'crown',
+  NEEDS_YOU: 'crown',
+  RECORDS: 'crown',
+  RECORD: 'crown',
+  COMM_PREFS: 'corner',
 };
 
 function seenKey(artifactId: string) {
@@ -89,7 +96,9 @@ export function FoundationClient({ token }: { token: string }) {
   const checkoutRaw = params.get('checkout');
   const checkout: CheckoutParam = checkoutRaw === 'return' || checkoutRaw === 'cancel' ? checkoutRaw : null;
   const simulated = params.get('simulated_checkout') === '1';
-  const stateView = ((location.state as { dfView?: DfView } | null)?.dfView ?? null) as DfView | null;
+  const navState = location.state as { dfView?: DfView; dfAnchor?: string } | null;
+  const stateView = (navState?.dfView ?? null) as DfView | null;
+  const stateAnchor = navState?.dfAnchor ?? null;
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [beginBusy, setBeginBusy] = useState(false);
@@ -114,10 +123,13 @@ export function FoundationClient({ token }: { token: string }) {
   const verification = usePaymentVerification(verifying, reload);
 
   const go = useCallback(
-    (v: DfView, opts: { replace?: boolean; dropQuery?: boolean } = {}) => {
+    (v: DfView, opts: { replace?: boolean; dropQuery?: boolean; anchor?: string } = {}) => {
       navigate(
         { pathname: location.pathname, search: opts.dropQuery ? '' : location.search },
-        { state: { dfView: v }, replace: opts.replace },
+        {
+          state: opts.anchor ? { dfView: v, dfAnchor: opts.anchor } : { dfView: v },
+          replace: opts.replace,
+        },
       );
       setMenuOpen(false);
       window.scrollTo(0, 0);
@@ -125,6 +137,12 @@ export function FoundationClient({ token }: { token: string }) {
     },
     [navigate, location.pathname, location.search],
   );
+
+  useEffect(() => {
+    if (!stateAnchor) return;
+    const el = document.getElementById(stateAnchor);
+    el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, [stateAnchor, view]);
 
   // Once Stripe's webhook has marked the artifact PAID, drop the return marker so a reload is just the portal link.
   useEffect(() => {
@@ -323,7 +341,13 @@ export function FoundationClient({ token }: { token: string }) {
       >
         {body}
       </DfFrame>
-      <DfMenu open={menuOpen} onClose={() => setMenuOpen(false)} views={route.views} current={view} onNavigate={(v) => go(v)} />
+      <DfMenu
+        open={menuOpen}
+        onClose={() => setMenuOpen(false)}
+        views={route.views}
+        current={view}
+        onNavigate={(v, anchor) => go(v, { anchor })}
+      />
     </div>
   );
 }

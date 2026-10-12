@@ -1,0 +1,1454 @@
+{
+  "spec": {
+    "pack": "SITE00_CORRESPONDENCE_TYPE_AUTHORITY_V1",
+    "source_sha256": "ab8a4a2832bed8e5ede9358327f2b3e490f2096ab5c9503c24b1b53efc31b320",
+    "dimensions": [
+      941,
+      1672
+    ],
+    "roles": [
+      "display headlines (BEGIN YOUR FOUNDATION, WHAT WE'LL ASK, HOW IT WORKS)",
+      "red editorial numerals 01 02 03",
+      "section labels (YOUR BUSINESS and siblings) \u2014 semi-condensed, ~11px",
+      "body \u2014 semi-condensed, ~10px",
+      "CTA \u2014 semi-condensed, ~12px, tracked, white on red",
+      "micro labels (SUBJECT, PREHEADER, footer classification)",
+      "technical metadata (intake URL token)",
+      "email wordmark SITE 00 \u2014 proportional display, not the official Martian Mono mark",
+      "punctuation: red square period; apostrophe in WE'LL is below the isolation threshold",
+      "in-scene card lettering \u2014 perspective, not used as a trace source"
+    ],
+    "best_existing_font": null,
+    "closest_measured_font": {
+      "font": "Antonio",
+      "role": "previously-considered",
+      "license": "OFL",
+      "mean_iou": 0.832,
+      "min_iou": 0.519,
+      "mean_abs_width_error": 0.172,
+      "glyphs": 19
+    },
+    "match_rule": "A face is a match only when mean IoU is at least 0.85 and mean absolute width error is at most 0.12, at the source cap height, with counters preserved. Otherwise it is not a match.",
+    "fidelity_rule": "No universal pass percentage. The source edge is about 1px of JPEG anti-aliasing. A trace is reported with its IoU against the thresholded source and its mean edge deviation. A font is not treated as a match unless its cap-height overlay agrees in width and in the counter, which the scores below record.",
+    "traced": 38,
+    "derived": 6,
+    "mean_trace_iou": 0.999,
+    "license": "Comparison faces are SIL Open Font License and were not copied into this pack. No commercial font file was downloaded. Traced SVGs are reconstructions of the founder-supplied AI reference, not a released font. A distributable OTF was not built: the numerals are fixed artwork, and an AI render does not clear the design of an underlying typeface. Do not ship these vectors as a font until that is reviewed."
+  },
+  "glyphs": [
+    {
+      "id": "display-B-101",
+      "char": "B",
+      "role": "display",
+      "kind": "black",
+      "status": "source-traced",
+      "box": [
+        101,
+        234,
+        133,
+        313
+      ],
+      "width": 32,
+      "height": 79,
+      "width_ratio": 0.405,
+      "hole_px": 331,
+      "iou": 0.9981,
+      "edge_px": 0.011,
+      "alphamax": 0.0,
+      "threshold": "y<80",
+      "shift": [
+        0,
+        0
+      ],
+      "color": [
+        2,
+        1,
+        1
+      ],
+      "svg": "05_DISPLAY_GLYPHS/display-B-101.svg"
+    },
+    {
+      "id": "display-E-141",
+      "char": "E",
+      "role": "display",
+      "kind": "black",
+      "status": "source-traced",
+      "box": [
+        141,
+        234,
+        168,
+        313
+      ],
+      "width": 27,
+      "height": 79,
+      "width_ratio": 0.342,
+      "hole_px": 0,
+      "iou": 1.0,
+      "edge_px": 0.0,
+      "alphamax": 0.0,
+      "threshold": "y<80",
+      "shift": [
+        0,
+        0
+      ],
+      "color": [
+        3,
+        3,
+        3
+      ],
+      "svg": "05_DISPLAY_GLYPHS/display-E-141.svg"
+    },
+    {
+      "id": "display-G-174",
+      "char": "G",
+      "role": "display",
+      "kind": "black",
+      "status": "source-traced",
+      "box": [
+        174,
+        234,
+        207,
+        314
+      ],
+      "width": 33,
+      "height": 80,
+      "width_ratio": 0.412,
+      "hole_px": 0,
+      "iou": 0.999,
+      "edge_px": 0.01,
+      "alphamax": 0.0,
+      "threshold": "y<55",
+      "shift": [
+        0,
+        0
+      ],
+      "color": [
+        2,
+        2,
+        2
+      ],
+      "svg": "05_DISPLAY_GLYPHS/display-G-174.svg"
+    },
+    {
+      "id": "display-I-213",
+      "char": "I",
+      "role": "display",
+      "kind": "black",
+      "status": "source-traced",
+      "box": [
+        213,
+        234,
+        226,
+        313
+      ],
+      "width": 13,
+      "height": 79,
+      "width_ratio": 0.165,
+      "hole_px": 0,
+      "iou": 1.0,
+      "edge_px": 0.0,
+      "alphamax": 0.0,
+      "threshold": "y<55",
+      "shift": [
+        0,
+        0
+      ],
+      "color": [
+        2,
+        2,
+        2
+      ],
+      "svg": "05_DISPLAY_GLYPHS/display-I-213.svg"
+    },
+    {
+      "id": "display-N-231",
+      "char": "N",
+      "role": "display",
+      "kind": "black",
+      "status": "source-traced",
+      "box": [
+        231,
+        234,
+        265,
+        313
+      ],
+      "width": 34,
+      "height": 79,
+      "width_ratio": 0.43,
+      "hole_px": 0,
+      "iou": 0.9982,
+      "edge_px": 0.01,
+      "alphamax": 0.0,
+      "threshold": "y<55",
+      "shift": [
+        0,
+        0
+      ],
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "svg": "05_DISPLAY_GLYPHS/display-N-231.svg"
+    },
+    {
+      "id": "display-Y-287",
+      "char": "Y",
+      "role": "display",
+      "kind": "black",
+      "status": "source-traced",
+      "box": [
+        287,
+        234,
+        322,
+        313
+      ],
+      "width": 35,
+      "height": 79,
+      "width_ratio": 0.443,
+      "hole_px": 0,
+      "iou": 0.9986,
+      "edge_px": 0.007,
+      "alphamax": 0.0,
+      "threshold": "y<80",
+      "shift": [
+        0,
+        0
+      ],
+      "color": [
+        2,
+        2,
+        2
+      ],
+      "svg": "05_DISPLAY_GLYPHS/display-Y-287.svg"
+    },
+    {
+      "id": "display-O-325",
+      "char": "O",
+      "role": "display",
+      "kind": "black",
+      "status": "source-traced",
+      "box": [
+        325,
+        234,
+        357,
+        313
+      ],
+      "width": 32,
+      "height": 79,
+      "width_ratio": 0.405,
+      "hole_px": 399,
+      "iou": 0.999,
+      "edge_px": 0.005,
+      "alphamax": 0.0,
+      "threshold": "y<55",
+      "shift": [
+        0,
+        0
+      ],
+      "color": [
+        2,
+        1,
+        2
+      ],
+      "svg": "05_DISPLAY_GLYPHS/display-O-325.svg"
+    },
+    {
+      "id": "display-U-362",
+      "char": "U",
+      "role": "display",
+      "kind": "black",
+      "status": "source-traced",
+      "box": [
+        362,
+        234,
+        394,
+        314
+      ],
+      "width": 32,
+      "height": 80,
+      "width_ratio": 0.4,
+      "hole_px": 0,
+      "iou": 0.9991,
+      "edge_px": 0.005,
+      "alphamax": 0.0,
+      "threshold": "y<110",
+      "shift": [
+        0,
+        0
+      ],
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "svg": "05_DISPLAY_GLYPHS/display-U-362.svg"
+    },
+    {
+      "id": "display-R-399",
+      "char": "R",
+      "role": "display",
+      "kind": "black",
+      "status": "source-traced",
+      "box": [
+        399,
+        234,
+        432,
+        313
+      ],
+      "width": 33,
+      "height": 79,
+      "width_ratio": 0.418,
+      "hole_px": 170,
+      "iou": 0.9991,
+      "edge_px": 0.005,
+      "alphamax": 0.0,
+      "threshold": "y<80",
+      "shift": [
+        0,
+        0
+      ],
+      "color": [
+        2,
+        2,
+        2
+      ],
+      "svg": "05_DISPLAY_GLYPHS/display-R-399.svg"
+    },
+    {
+      "id": "display-F-101",
+      "char": "F",
+      "role": "display",
+      "kind": "black",
+      "status": "source-traced",
+      "box": [
+        101,
+        324,
+        129,
+        402
+      ],
+      "width": 28,
+      "height": 78,
+      "width_ratio": 0.359,
+      "hole_px": 0,
+      "iou": 1.0,
+      "edge_px": 0.0,
+      "alphamax": 0.0,
+      "threshold": "y<35",
+      "shift": [
+        0,
+        0
+      ],
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "svg": "05_DISPLAY_GLYPHS/display-F-101.svg"
+    },
+    {
+      "id": "display-O-136",
+      "char": "O",
+      "role": "display",
+      "kind": "black",
+      "status": "source-traced",
+      "box": [
+        136,
+        324,
+        168,
+        403
+      ],
+      "width": 32,
+      "height": 79,
+      "width_ratio": 0.405,
+      "hole_px": 387,
+      "iou": 1.0,
+      "edge_px": 0.0,
+      "alphamax": 0.0,
+      "threshold": "y<110",
+      "shift": [
+        0,
+        0
+      ],
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "svg": "05_DISPLAY_GLYPHS/display-O-136.svg"
+    },
+    {
+      "id": "display-U-173",
+      "char": "U",
+      "role": "display",
+      "kind": "black",
+      "status": "source-traced",
+      "box": [
+        173,
+        324,
+        204,
+        403
+      ],
+      "width": 31,
+      "height": 79,
+      "width_ratio": 0.392,
+      "hole_px": 0,
+      "iou": 0.999,
+      "edge_px": 0.005,
+      "alphamax": 0.0,
+      "threshold": "y<55",
+      "shift": [
+        0,
+        0
+      ],
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "svg": "05_DISPLAY_GLYPHS/display-U-173.svg"
+    },
+    {
+      "id": "display-N-209",
+      "char": "N",
+      "role": "display",
+      "kind": "black",
+      "status": "source-traced",
+      "box": [
+        209,
+        324,
+        243,
+        402
+      ],
+      "width": 34,
+      "height": 78,
+      "width_ratio": 0.436,
+      "hole_px": 0,
+      "iou": 0.9974,
+      "edge_px": 0.026,
+      "alphamax": 0.35,
+      "threshold": "y<110",
+      "shift": [
+        0,
+        0
+      ],
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "svg": "05_DISPLAY_GLYPHS/display-N-209.svg"
+    },
+    {
+      "id": "display-D-249",
+      "char": "D",
+      "role": "display",
+      "kind": "black",
+      "status": "source-traced",
+      "box": [
+        249,
+        324,
+        281,
+        402
+      ],
+      "width": 32,
+      "height": 78,
+      "width_ratio": 0.41,
+      "hole_px": 387,
+      "iou": 0.999,
+      "edge_px": 0.006,
+      "alphamax": 0.0,
+      "threshold": "y<110",
+      "shift": [
+        0,
+        0
+      ],
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "svg": "05_DISPLAY_GLYPHS/display-D-249.svg"
+    },
+    {
+      "id": "display-A-285",
+      "char": "A",
+      "role": "display",
+      "kind": "black",
+      "status": "source-traced",
+      "box": [
+        285,
+        324,
+        321,
+        402
+      ],
+      "width": 36,
+      "height": 78,
+      "width_ratio": 0.462,
+      "hole_px": 97,
+      "iou": 0.9952,
+      "edge_px": 0.03,
+      "alphamax": 0.0,
+      "threshold": "y<110",
+      "shift": [
+        0,
+        0
+      ],
+      "color": [
+        2,
+        2,
+        2
+      ],
+      "svg": "05_DISPLAY_GLYPHS/display-A-285.svg"
+    },
+    {
+      "id": "display-T-319",
+      "char": "T",
+      "role": "display",
+      "kind": "black",
+      "status": "source-traced",
+      "box": [
+        319,
+        324,
+        349,
+        402
+      ],
+      "width": 30,
+      "height": 78,
+      "width_ratio": 0.385,
+      "hole_px": 0,
+      "iou": 0.9991,
+      "edge_px": 0.0,
+      "alphamax": 0.0,
+      "threshold": "y<80",
+      "shift": [
+        0,
+        0
+      ],
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "svg": "05_DISPLAY_GLYPHS/display-T-319.svg"
+    },
+    {
+      "id": "display-I-352",
+      "char": "I",
+      "role": "display",
+      "kind": "black",
+      "status": "source-traced",
+      "box": [
+        352,
+        324,
+        365,
+        402
+      ],
+      "width": 13,
+      "height": 78,
+      "width_ratio": 0.167,
+      "hole_px": 0,
+      "iou": 1.0,
+      "edge_px": 0.0,
+      "alphamax": 0.0,
+      "threshold": "y<35",
+      "shift": [
+        0,
+        0
+      ],
+      "color": [
+        3,
+        3,
+        3
+      ],
+      "svg": "05_DISPLAY_GLYPHS/display-I-352.svg"
+    },
+    {
+      "id": "display-O-370",
+      "char": "O",
+      "role": "display",
+      "kind": "black",
+      "status": "source-traced",
+      "box": [
+        370,
+        324,
+        402,
+        403
+      ],
+      "width": 32,
+      "height": 79,
+      "width_ratio": 0.405,
+      "hole_px": 392,
+      "iou": 0.9981,
+      "edge_px": 0.011,
+      "alphamax": 0.0,
+      "threshold": "y<80",
+      "shift": [
+        0,
+        0
+      ],
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "svg": "05_DISPLAY_GLYPHS/display-O-370.svg"
+    },
+    {
+      "id": "display-N-408",
+      "char": "N",
+      "role": "display",
+      "kind": "black",
+      "status": "source-traced",
+      "box": [
+        408,
+        324,
+        441,
+        402
+      ],
+      "width": 33,
+      "height": 78,
+      "width_ratio": 0.423,
+      "hole_px": 0,
+      "iou": 0.9986,
+      "edge_px": 0.013,
+      "alphamax": 0.0,
+      "threshold": "y<80",
+      "shift": [
+        0,
+        0
+      ],
+      "color": [
+        1,
+        1,
+        1
+      ],
+      "svg": "05_DISPLAY_GLYPHS/display-N-408.svg"
+    },
+    {
+      "id": "display-W-ask-100",
+      "char": "W",
+      "role": "display-secondary",
+      "kind": "black",
+      "status": "source-traced",
+      "box": [
+        100,
+        911,
+        145,
+        964
+      ],
+      "width": 45,
+      "height": 53,
+      "width_ratio": 0.849,
+      "hole_px": 0,
+      "iou": 0.99,
+      "edge_px": 0.037,
+      "alphamax": 0.0,
+      "threshold": "y<55",
+      "shift": [
+        0,
+        0
+      ],
+      "color": [
+        3,
+        2,
+        3
+      ],
+      "svg": "05_DISPLAY_GLYPHS/display-W-ask-100.svg"
+    },
+    {
+      "id": "display-H-ask-148",
+      "char": "H",
+      "role": "display-secondary",
+      "kind": "black",
+      "status": "source-traced",
+      "box": [
+        148,
+        911,
+        172,
+        964
+      ],
+      "width": 24,
+      "height": 53,
+      "width_ratio": 0.453,
+      "hole_px": 0,
+      "iou": 1.0,
+      "edge_px": 0.0,
+      "alphamax": 0.0,
+      "threshold": "y<80",
+      "shift": [
+        0,
+        0
+      ],
+      "color": [
+        4,
+        3,
+        4
+      ],
+      "svg": "05_DISPLAY_GLYPHS/display-H-ask-148.svg"
+    },
+    {
+      "id": "display-W-ask-237",
+      "char": "W",
+      "role": "display-secondary",
+      "kind": "black",
+      "status": "source-traced",
+      "box": [
+        237,
+        911,
+        282,
+        964
+      ],
+      "width": 45,
+      "height": 53,
+      "width_ratio": 0.849,
+      "hole_px": 0,
+      "iou": 0.9914,
+      "edge_px": 0.032,
+      "alphamax": 0.0,
+      "threshold": "y<55",
+      "shift": [
+        0,
+        0
+      ],
+      "color": [
+        2,
+        2,
+        2
+      ],
+      "svg": "05_DISPLAY_GLYPHS/display-W-ask-237.svg"
+    },
+    {
+      "id": "display-L-ask-321",
+      "char": "L",
+      "role": "display-secondary",
+      "kind": "black",
+      "status": "source-traced",
+      "box": [
+        321,
+        911,
+        339,
+        964
+      ],
+      "width": 18,
+      "height": 53,
+      "width_ratio": 0.34,
+      "hole_px": 0,
+      "iou": 1.0,
+      "edge_px": 0.0,
+      "alphamax": 0.0,
+      "threshold": "y<80",
+      "shift": [
+        0,
+        0
+      ],
+      "color": [
+        3,
+        3,
+        3
+      ],
+      "svg": "05_DISPLAY_GLYPHS/display-L-ask-321.svg"
+    },
+    {
+      "id": "display-L-ask-342",
+      "char": "L",
+      "role": "display-secondary",
+      "kind": "black",
+      "status": "source-traced",
+      "box": [
+        342,
+        911,
+        360,
+        964
+      ],
+      "width": 18,
+      "height": 53,
+      "width_ratio": 0.34,
+      "hole_px": 0,
+      "iou": 1.0,
+      "edge_px": 0.0,
+      "alphamax": 0.0,
+      "threshold": "y<55",
+      "shift": [
+        0,
+        0
+      ],
+      "color": [
+        3,
+        2,
+        2
+      ],
+      "svg": "05_DISPLAY_GLYPHS/display-L-ask-342.svg"
+    },
+    {
+      "id": "display-S-ask-403",
+      "char": "S",
+      "role": "display-secondary",
+      "kind": "black",
+      "status": "source-traced",
+      "box": [
+        403,
+        911,
+        426,
+        964
+      ],
+      "width": 23,
+      "height": 53,
+      "width_ratio": 0.434,
+      "hole_px": 0,
+      "iou": 0.9956,
+      "edge_px": 0.016,
+      "alphamax": 0.0,
+      "threshold": "y<80",
+      "shift": [
+        0,
+        0
+      ],
+      "color": [
+        4,
+        4,
+        4
+      ],
+      "svg": "05_DISPLAY_GLYPHS/display-S-ask-403.svg"
+    },
+    {
+      "id": "display-K-ask-430",
+      "char": "K",
+      "role": "display-secondary",
+      "kind": "black",
+      "status": "source-traced",
+      "box": [
+        430,
+        911,
+        454,
+        964
+      ],
+      "width": 24,
+      "height": 53,
+      "width_ratio": 0.453,
+      "hole_px": 0,
+      "iou": 0.9979,
+      "edge_px": 0.008,
+      "alphamax": 0.0,
+      "threshold": "y<80",
+      "shift": [
+        0,
+        0
+      ],
+      "color": [
+        4,
+        3,
+        3
+      ],
+      "svg": "05_DISPLAY_GLYPHS/display-K-ask-430.svg"
+    },
+    {
+      "id": "wordmark-S-100",
+      "char": "S",
+      "role": "email-wordmark-not-logo",
+      "kind": "black",
+      "status": "source-traced",
+      "box": [
+        100,
+        95,
+        112,
+        130
+      ],
+      "width": 12,
+      "height": 35,
+      "width_ratio": 0.343,
+      "hole_px": 0,
+      "iou": 1.0,
+      "edge_px": 0.0,
+      "alphamax": 0.0,
+      "threshold": "y<110",
+      "shift": [
+        0,
+        0
+      ],
+      "color": [
+        3,
+        3,
+        3
+      ],
+      "svg": "05_DISPLAY_GLYPHS/wordmark-S-100.svg"
+    },
+    {
+      "id": "wordmark-I-129",
+      "char": "I",
+      "role": "email-wordmark-not-logo",
+      "kind": "black",
+      "status": "source-traced",
+      "box": [
+        129,
+        95,
+        134,
+        130
+      ],
+      "width": 5,
+      "height": 35,
+      "width_ratio": 0.143,
+      "hole_px": 0,
+      "iou": 1.0,
+      "edge_px": 0.0,
+      "alphamax": 0.0,
+      "threshold": "y<80",
+      "shift": [
+        0,
+        0
+      ],
+      "color": [
+        6,
+        6,
+        6
+      ],
+      "svg": "05_DISPLAY_GLYPHS/wordmark-I-129.svg"
+    },
+    {
+      "id": "wordmark-T-149",
+      "char": "T",
+      "role": "email-wordmark-not-logo",
+      "kind": "black",
+      "status": "source-traced",
+      "box": [
+        149,
+        95,
+        160,
+        130
+      ],
+      "width": 11,
+      "height": 35,
+      "width_ratio": 0.314,
+      "hole_px": 0,
+      "iou": 1.0,
+      "edge_px": 0.0,
+      "alphamax": 0.0,
+      "threshold": "y<55",
+      "shift": [
+        0,
+        0
+      ],
+      "color": [
+        7,
+        7,
+        7
+      ],
+      "svg": "05_DISPLAY_GLYPHS/wordmark-T-149.svg"
+    },
+    {
+      "id": "wordmark-E-176",
+      "char": "E",
+      "role": "email-wordmark-not-logo",
+      "kind": "black",
+      "status": "source-traced",
+      "box": [
+        176,
+        95,
+        186,
+        130
+      ],
+      "width": 10,
+      "height": 35,
+      "width_ratio": 0.286,
+      "hole_px": 0,
+      "iou": 1.0,
+      "edge_px": 0.0,
+      "alphamax": 0.0,
+      "threshold": "y<80",
+      "shift": [
+        0,
+        0
+      ],
+      "color": [
+        2,
+        2,
+        2
+      ],
+      "svg": "05_DISPLAY_GLYPHS/wordmark-E-176.svg"
+    },
+    {
+      "id": "wordmark-0-222",
+      "char": "0",
+      "role": "email-wordmark-not-logo",
+      "kind": "black",
+      "status": "source-traced",
+      "box": [
+        222,
+        95,
+        234,
+        130
+      ],
+      "width": 12,
+      "height": 35,
+      "width_ratio": 0.343,
+      "hole_px": 84,
+      "iou": 1.0,
+      "edge_px": 0.0,
+      "alphamax": 0.0,
+      "threshold": "y<80",
+      "shift": [
+        0,
+        0
+      ],
+      "color": [
+        5,
+        5,
+        5
+      ],
+      "svg": "05_DISPLAY_GLYPHS/wordmark-0-222.svg"
+    },
+    {
+      "id": "wordmark-0-249",
+      "char": "0",
+      "role": "email-wordmark-not-logo",
+      "kind": "black",
+      "status": "source-traced",
+      "box": [
+        249,
+        95,
+        261,
+        131
+      ],
+      "width": 12,
+      "height": 36,
+      "width_ratio": 0.333,
+      "hole_px": 83,
+      "iou": 1.0,
+      "edge_px": 0.0,
+      "alphamax": 0.0,
+      "threshold": "y<110",
+      "shift": [
+        0,
+        0
+      ],
+      "color": [
+        2,
+        2,
+        3
+      ],
+      "svg": "05_DISPLAY_GLYPHS/wordmark-0-249.svg"
+    },
+    {
+      "id": "numeral-0-990",
+      "char": "0",
+      "role": "red-numeral",
+      "kind": "red",
+      "status": "source-traced",
+      "box": [
+        122,
+        990,
+        133,
+        1022
+      ],
+      "width": 11,
+      "height": 32,
+      "width_ratio": 0.344,
+      "hole_px": 70,
+      "iou": 1.0,
+      "edge_px": 0.0,
+      "alphamax": 0.0,
+      "threshold": "g<110",
+      "shift": [
+        0,
+        0
+      ],
+      "color": [
+        197,
+        17,
+        22
+      ],
+      "svg": "03_NUMERAL_SVGS/numeral-0-990.svg"
+    },
+    {
+      "id": "numeral-1-990",
+      "char": "1",
+      "role": "red-numeral",
+      "kind": "red",
+      "status": "source-traced",
+      "box": [
+        137,
+        990,
+        144,
+        1022
+      ],
+      "width": 5,
+      "height": 31,
+      "width_ratio": 0.161,
+      "hole_px": 0,
+      "iou": 1.0,
+      "edge_px": 0.0,
+      "alphamax": 0.0,
+      "threshold": "g<40",
+      "shift": [
+        0,
+        0
+      ],
+      "color": [
+        202,
+        14,
+        20
+      ],
+      "svg": "03_NUMERAL_SVGS/numeral-1-990.svg"
+    },
+    {
+      "id": "numeral-0-1076",
+      "char": "0",
+      "role": "red-numeral",
+      "kind": "red",
+      "status": "source-traced",
+      "box": [
+        122,
+        1076,
+        133,
+        1108
+      ],
+      "width": 11,
+      "height": 32,
+      "width_ratio": 0.344,
+      "hole_px": 71,
+      "iou": 1.0,
+      "edge_px": 0.0,
+      "alphamax": 0.0,
+      "threshold": "g<110",
+      "shift": [
+        0,
+        0
+      ],
+      "color": [
+        197,
+        18,
+        22
+      ],
+      "svg": "03_NUMERAL_SVGS/numeral-0-1076.svg"
+    },
+    {
+      "id": "numeral-2-1076",
+      "char": "2",
+      "role": "red-numeral",
+      "kind": "red",
+      "status": "source-traced",
+      "box": [
+        138,
+        1076,
+        149,
+        1108
+      ],
+      "width": 11,
+      "height": 32,
+      "width_ratio": 0.344,
+      "hole_px": 0,
+      "iou": 1.0,
+      "edge_px": 0.0,
+      "alphamax": 0.0,
+      "threshold": "g<70",
+      "shift": [
+        0,
+        0
+      ],
+      "color": [
+        195,
+        20,
+        26
+      ],
+      "svg": "03_NUMERAL_SVGS/numeral-2-1076.svg"
+    },
+    {
+      "id": "numeral-0-1163",
+      "char": "0",
+      "role": "red-numeral",
+      "kind": "red",
+      "status": "source-traced",
+      "box": [
+        122,
+        1163,
+        133,
+        1195
+      ],
+      "width": 11,
+      "height": 32,
+      "width_ratio": 0.344,
+      "hole_px": 71,
+      "iou": 1.0,
+      "edge_px": 0.0,
+      "alphamax": 0.0,
+      "threshold": "g<110",
+      "shift": [
+        0,
+        0
+      ],
+      "color": [
+        198,
+        20,
+        25
+      ],
+      "svg": "03_NUMERAL_SVGS/numeral-0-1163.svg"
+    },
+    {
+      "id": "numeral-3-1163",
+      "char": "3",
+      "role": "red-numeral",
+      "kind": "red",
+      "status": "source-traced",
+      "box": [
+        138,
+        1163,
+        149,
+        1195
+      ],
+      "width": 11,
+      "height": 32,
+      "width_ratio": 0.344,
+      "hole_px": 0,
+      "iou": 0.9918,
+      "edge_px": 0.029,
+      "alphamax": 0.0,
+      "threshold": "g<110",
+      "shift": [
+        0,
+        0
+      ],
+      "color": [
+        199,
+        22,
+        27
+      ],
+      "svg": "03_NUMERAL_SVGS/numeral-3-1163.svg"
+    },
+    {
+      "id": "derived-4",
+      "char": "4",
+      "role": "numeral",
+      "kind": "derived",
+      "status": "derived-extension",
+      "svg": "03_NUMERAL_SVGS/derived-4.svg",
+      "note": "Not present in the reference. Built from the traced 0 stem, width and square corner. Requires founder approval."
+    },
+    {
+      "id": "derived-5",
+      "char": "5",
+      "role": "numeral",
+      "kind": "derived",
+      "status": "derived-extension",
+      "svg": "03_NUMERAL_SVGS/derived-5.svg",
+      "note": "Not present in the reference. Built from the traced 0 stem, width and square corner. Requires founder approval."
+    },
+    {
+      "id": "derived-6",
+      "char": "6",
+      "role": "numeral",
+      "kind": "derived",
+      "status": "derived-extension",
+      "svg": "03_NUMERAL_SVGS/derived-6.svg",
+      "note": "Not present in the reference. Built from the traced 0 stem, width and square corner. Requires founder approval."
+    },
+    {
+      "id": "derived-7",
+      "char": "7",
+      "role": "numeral",
+      "kind": "derived",
+      "status": "derived-extension",
+      "svg": "03_NUMERAL_SVGS/derived-7.svg",
+      "note": "Not present in the reference. Built from the traced 0 stem, width and square corner. Requires founder approval."
+    },
+    {
+      "id": "derived-8",
+      "char": "8",
+      "role": "numeral",
+      "kind": "derived",
+      "status": "derived-extension",
+      "svg": "03_NUMERAL_SVGS/derived-8.svg",
+      "note": "Not present in the reference. Built from the traced 0 stem, width and square corner. Requires founder approval."
+    },
+    {
+      "id": "derived-9",
+      "char": "9",
+      "role": "numeral",
+      "kind": "derived",
+      "status": "derived-extension",
+      "svg": "03_NUMERAL_SVGS/derived-9.svg",
+      "note": "Not present in the reference. Built from the traced 0 stem, width and square corner. Requires founder approval."
+    }
+  ],
+  "fonts": [
+    {
+      "font": "Antonio",
+      "role": "previously-considered",
+      "license": "OFL",
+      "mean_iou": 0.832,
+      "min_iou": 0.519,
+      "mean_abs_width_error": 0.172,
+      "glyphs": 19
+    },
+    {
+      "font": "Bebas Neue",
+      "role": "previously-considered",
+      "license": "OFL",
+      "mean_iou": 0.803,
+      "min_iou": 0.472,
+      "mean_abs_width_error": 0.275,
+      "glyphs": 19
+    },
+    {
+      "font": "Anton",
+      "role": "candidate",
+      "license": "OFL",
+      "mean_iou": 0.787,
+      "min_iou": 0.448,
+      "mean_abs_width_error": 0.311,
+      "glyphs": 19
+    },
+    {
+      "font": "Fjalla One",
+      "role": "candidate",
+      "license": "OFL",
+      "mean_iou": 0.744,
+      "min_iou": 0.529,
+      "mean_abs_width_error": 0.333,
+      "glyphs": 19
+    },
+    {
+      "font": "Big Shoulders Display",
+      "role": "candidate",
+      "license": "OFL",
+      "mean_iou": 0.743,
+      "min_iou": 0.573,
+      "mean_abs_width_error": 0.335,
+      "glyphs": 19
+    },
+    {
+      "font": "Saira ExtraCondensed Black",
+      "role": "candidate",
+      "license": "OFL",
+      "mean_iou": 0.716,
+      "min_iou": 0.442,
+      "mean_abs_width_error": 0.388,
+      "glyphs": 19
+    },
+    {
+      "font": "Pathway Gothic One",
+      "role": "candidate",
+      "license": "OFL",
+      "mean_iou": 0.714,
+      "min_iou": 0.591,
+      "mean_abs_width_error": 0.138,
+      "glyphs": 19
+    },
+    {
+      "font": "Anybody",
+      "role": "candidate",
+      "license": "OFL",
+      "mean_iou": 0.665,
+      "min_iou": 0.356,
+      "mean_abs_width_error": 0.437,
+      "glyphs": 19
+    },
+    {
+      "font": "Oswald",
+      "role": "previously-considered",
+      "license": "OFL",
+      "mean_iou": 0.643,
+      "min_iou": 0.516,
+      "mean_abs_width_error": 0.477,
+      "glyphs": 19
+    },
+    {
+      "font": "Squada One",
+      "role": "candidate",
+      "license": "OFL",
+      "mean_iou": 0.639,
+      "min_iou": 0.47,
+      "mean_abs_width_error": 0.435,
+      "glyphs": 19
+    },
+    {
+      "font": "Staatliches",
+      "role": "candidate",
+      "license": "OFL",
+      "mean_iou": 0.621,
+      "min_iou": 0.4,
+      "mean_abs_width_error": 0.432,
+      "glyphs": 19
+    },
+    {
+      "font": "League Gothic",
+      "role": "candidate",
+      "license": "OFL",
+      "mean_iou": 0.6,
+      "min_iou": 0.443,
+      "mean_abs_width_error": 0.284,
+      "glyphs": 19
+    },
+    {
+      "font": "Barlow Condensed Black",
+      "role": "candidate",
+      "license": "OFL",
+      "mean_iou": 0.521,
+      "min_iou": 0.345,
+      "mean_abs_width_error": 0.7,
+      "glyphs": 19
+    },
+    {
+      "font": "Saira Condensed Black",
+      "role": "candidate",
+      "license": "OFL",
+      "mean_iou": 0.511,
+      "min_iou": 0.343,
+      "mean_abs_width_error": 0.668,
+      "glyphs": 19
+    },
+    {
+      "font": "Rajdhani Bold",
+      "role": "previously-considered",
+      "license": "OFL",
+      "mean_iou": 0.468,
+      "min_iou": 0.276,
+      "mean_abs_width_error": 0.753,
+      "glyphs": 19
+    },
+    {
+      "font": "Martian Mono",
+      "role": "official-wordmark-font",
+      "license": "OFL",
+      "mean_iou": 0.44,
+      "min_iou": 0.143,
+      "mean_abs_width_error": 0.946,
+      "glyphs": 19
+    },
+    {
+      "font": "Teko",
+      "role": "previously-considered",
+      "license": "OFL",
+      "mean_iou": 0.434,
+      "min_iou": 0.272,
+      "mean_abs_width_error": 0.821,
+      "glyphs": 19
+    },
+    {
+      "font": "Chivo",
+      "role": "candidate",
+      "license": "OFL",
+      "mean_iou": 0.318,
+      "min_iou": 0.18,
+      "mean_abs_width_error": 1.397,
+      "glyphs": 19
+    },
+    {
+      "font": "Archivo Black",
+      "role": "candidate",
+      "license": "OFL",
+      "mean_iou": 0.305,
+      "min_iou": 0.092,
+      "mean_abs_width_error": 1.514,
+      "glyphs": 19
+    },
+    {
+      "font": "Unbounded",
+      "role": "candidate",
+      "license": "OFL",
+      "mean_iou": 0.262,
+      "min_iou": 0.064,
+      "mean_abs_width_error": 1.898,
+      "glyphs": 19
+    }
+  ]
+}
