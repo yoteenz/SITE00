@@ -16476,3 +16476,12 @@ Summary of the whole conversation in this chat.
 - **Rule:** Correspondence symbols (`.`, `,`, `;`, `*`) in **emails** are for **SITE 00 Display header lines** (`headline`, `sectionTitle`, `displayText`). **Saira body copy** stays plain punctuation — no `marks/*.png` in prose.
 - **Change:** Removed `paintProse()` from `fndatn01/html.ts`; regenerated previews; test guards against body mark images. PR **#1619** merged to `main`.
 - **Live UI:** DF/BLDR pages may still use `CorrespondenceProse` for on-screen body — that is separate from email HTML.
+
+---
+
+## 2026-10-12 — Display ? and ! PNG marks (BLDR FEEL headline)
+
+- **Founder report:** “HOW SHOULD IT FEEL?” showed a normal black `?` plus a separate red square (not the correspondence question mark).
+- **Cause:** PR **#1620** used CSS clip-path on the font glyph; on mobile that read as full black `?` + detached red dot/period. Tunnel `:5174` also served `preview/tunnel` until merge.
+- **Fix:** Traced two-color `question.png` / `exclamation.png` in `fndatn-01/marks/`; `CorrespondenceDisplayLine` renders `<img class="correspondence-display-split">`; emails use same PNG in `displaySplitBangQuestion`. Regen: `scripts/correspondence-type-authority/export_display_split_marks.py`. PR **#1621** merged **`main`** `2e30b629`; preview tunnel refreshed to same SHA.
+- **Verify:** `/bldr/studio/feel` or review iframe `#df-r-bldr-FEEL` — one mark, no extra red square after `?`.
