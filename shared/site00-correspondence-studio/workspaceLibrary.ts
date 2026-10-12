@@ -103,15 +103,25 @@ export function versionIsComposed(version: EmailTemplateVersion): boolean {
   return version.preview_source.kind === 'repository_html' && Boolean(version.preview_source.publicPreviewPath);
 }
 
-export function resolveVersion(entry: CorrespondenceWorkspaceManifest['templates'][string], versionId?: string | null): EmailTemplateVersion {
+/**
+ * Version to show for a template. An explicit version id wins; otherwise, when a pack is selected and the template
+ * has a version from that pack, that version is shown (a template shared by two packs follows the pack chip),
+ * and finally the template's current version.
+ */
+export function resolveVersion(
+  entry: CorrespondenceWorkspaceManifest['templates'][string],
+  versionId?: string | null,
+  packId?: string | null,
+): EmailTemplateVersion {
   return (
     (versionId ? entry.versions.find((v) => v.version_id === versionId) : undefined) ??
+    (packId ? entry.versions.filter((v) => v.pack_id === packId).at(-1) : undefined) ??
     entry.versions.find((v) => v.version_id === entry.current_version_id) ??
     entry.versions[0]
   );
 }
 
-export function listLibraryRows(manifest: CorrespondenceWorkspaceManifest, scope: { brandAuthorityId: string; campaignId?: string | null }): LibraryRow[] {
+export function listLibraryRows(manifest: CorrespondenceWorkspaceManifest, scope: { brandAuthorityId: string; campaignId?: string | null; packId?: string | null }): LibraryRow[] {
   const rows: LibraryRow[] = [];
   for (const project of manifest.projects) {
     for (const campaign of project.campaigns) {
@@ -121,7 +131,7 @@ export function listLibraryRows(manifest: CorrespondenceWorkspaceManifest, scope
       sequence.forEach((templateId, index) => {
         const entry = manifest.templates[templateId];
         if (!entry) return;
-        const current = resolveVersion(entry);
+        const current = resolveVersion(entry, null, scope.packId);
         const alias = REGISTRY_BY_ID.get(templateId)?.manifest_alias ?? null;
         rows.push({
           template_id: templateId,
