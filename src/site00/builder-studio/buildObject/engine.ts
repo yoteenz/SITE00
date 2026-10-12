@@ -445,7 +445,10 @@ export type BuildObjectEngine = {
   dispose: () => void;
 };
 
-export function createBuildObjectEngine(container: HTMLElement, options: { reducedMotion: boolean }): BuildObjectEngine {
+export function createBuildObjectEngine(
+  container: HTMLElement,
+  options: { reducedMotion: boolean; onContextLost?: () => void },
+): BuildObjectEngine {
   const mobile = Math.min(window.innerWidth, window.innerHeight) < 700;
   const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, mobile ? 2 : 1.75));
@@ -608,6 +611,11 @@ export function createBuildObjectEngine(container: HTMLElement, options: { reduc
     dragging = null;
     if (interactive) canvas.style.cursor = 'grab';
   };
+  const onContextLost = (event: Event) => {
+    event.preventDefault();
+    options.onContextLost?.();
+  };
+  canvas.addEventListener('webglcontextlost', onContextLost);
   canvas.addEventListener('pointerdown', onDown);
   canvas.addEventListener('pointermove', onMove);
   canvas.addEventListener('pointerup', onUp);
@@ -617,6 +625,7 @@ export function createBuildObjectEngine(container: HTMLElement, options: { reduc
 
   return {
     setComposition(next) {
+      if (composition !== null && composition.key === next.key) return;
       const now = performance.now();
       const first = composition === null;
       composition = next;
@@ -675,6 +684,7 @@ export function createBuildObjectEngine(container: HTMLElement, options: { reduc
       canvas.removeEventListener('pointermove', onMove);
       canvas.removeEventListener('pointerup', onUp);
       canvas.removeEventListener('pointercancel', onUp);
+      canvas.removeEventListener('webglcontextlost', onContextLost);
       scene.environment?.dispose();
       for (const material of Object.values(materials.surface)) {
         (material as THREE.MeshStandardMaterial).map?.dispose();
@@ -692,19 +702,41 @@ let thumbRenderer: THREE.WebGLRenderer | null = null;
 let thumbScene: THREE.Scene | null = null;
 let thumbMaterials: MaterialSet | null = null;
 const thumbCache = new Map<string, string>();
+let thumbRenderTail: Promise<void> = Promise.resolve();
+
+export function buildThumbnailCacheKey(composition: BuildComposition, width: number, height: number): string {
+  return `${composition.key}@${width}x${height}`;
+}
+
+export function getCachedBuildThumbnail(composition: BuildComposition, width: number, height: number): string | null {
+  return thumbCache.get(buildThumbnailCacheKey(composition, width, height)) ?? null;
+}
+
+/** One offscreen still at a time so option cards do not fight the live stage for the GPU. */
+export function scheduleBuildThumbnail(composition: BuildComposition, width: number, height: number): Promise<string | null> {
+  const cached = getCachedBuildThumbnail(composition, width, height);
+  if (cached) return Promise.resolve(cached);
+  const run = () => renderBuildThumbnail(composition, width, height);
+  const job = thumbRenderTail.then(run, run);
+  thumbRenderTail = job.then(
+    () => undefined,
+    () => undefined,
+  );
+  return job;
+}
 
 /**
  * Renders a composition still to a data URL using one shared offscreen context, so every option card shows the
  * same object the stage shows rather than an unrelated illustration.
  */
 export function renderBuildThumbnail(composition: BuildComposition, width: number, height: number): string | null {
-  const cacheKey = `${composition.key}@${width}x${height}`;
+  const cacheKey = buildThumbnailCacheKey(composition, width, height);
   const cached = thumbCache.get(cacheKey);
   if (cached) return cached;
   try {
     if (!thumbRenderer) {
-      thumbRenderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
-      thumbRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      thumbRenderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true, powerPreference: 'low-power' });
+      thumbRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
       thumbRenderer.outputColorSpace = THREE.SRGBColorSpace;
       thumbRenderer.toneMapping = THREE.NeutralToneMapping;
       thumbRenderer.shadowMap.enabled = true;

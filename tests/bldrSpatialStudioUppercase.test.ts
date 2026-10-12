@@ -28,5 +28,8 @@ describe('BLDR Spatial Studio uppercase', () => {
     const blueprint = readFileSync(path.join(root, 'src/site00/builder-studio/BlueprintRoom.tsx'), 'utf8');
     expect(blueprint).toContain('ESTIMATED TIMELINE');
     expect(blueprint).toContain('ESTIMATED INVESTMENT');
+    expect(blueprint).not.toContain('CorrespondenceProse');
+    const model = readFileSync(path.join(root, 'src/site00/builder-studio/studioModel.ts'), 'utf8');
+    expect(model).not.toMatch(/Refine an established system/);
   });
 });

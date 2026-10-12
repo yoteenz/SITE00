@@ -16510,3 +16510,11 @@ Summary of the whole conversation in this chat.
 - **Root causes (stack):** (1) Lazy route chunk failures when shared DF exports break (`DfSheet` etc.) → whole page white. (2) Vite dev **local API** esbuild bundle for `api/site00/intakes` failed on inline `satisfies` in `toEstimateConfig.ts` `WORLD_INPUT_MAP` → `POST …/intakes?action=start` **500** → BLDR `ensureStarted` never completes (retry/blank). (3) Empty threshold slots looked flat/white without a JS crash.
 - **Fix:** Typed `WORLD_INPUT_MAP` without per-key `satisfies`; `vite-site00-local-api.mjs` `target: es2022` + `SITE00_INTAKES_USE_MEMORY=1` when `SITE00_CLOUD_MOBILE_PREVIEW`; test bundles `api/site00/intakes.ts` in `site00LocalApiTsxLoader.test.ts`.
 - **Hardening:** Keep shell export test; extend local-api bundle test when adding handlers that import builder-experience TS.
+
+---
+
+## 2026-10-12 — BLDR Blueprint uppercase body + stable 3D option thumbnails
+
+- **Founder report:** Blueprint overview body still mixed case; red correspondence comma marks in body (e.g. unreachable blocker); 3D selection cards flickering / blank on mobile.
+- **Cause:** `CorrespondenceProse` on all `BsProse` body copy; `rangeNote` and `LEVEL_DESCRIPTOR` sentence case; thumbnails re-rendered from empty state and competed with live WebGL; `setComposition` re-ran on every new object reference.
+- **Fix:** `text-transform: uppercase` on `.bs-root`; plain `BsBody` for blueprint/room body (headlines still `CorrespondenceDisplayLine`); uppercase descriptors at source; thumbnail sync cache + `scheduleBuildThumbnail` queue; skip `setComposition` when key unchanged; WebGL context-loss rebuild. PR **#1634** merged to `main`.
