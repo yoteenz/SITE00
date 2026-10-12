@@ -16494,3 +16494,10 @@ Summary of the whole conversation in this chat.
 - **Cause:** Board 01+02 rebuild (`19fd19c0`) replaced `DfDrawer`/`DfMenu` with bottom `DfSheet` menu; `buildDfMenu` and drawer CSS were dropped from `model.ts` / `site00-df-client.css`.
 - **Fix:** Restored portaled right drawer (61vw, dark backdrop), step/destination list, `buildDfMenu`, menu icons, anchor nav; kept correspondence headlines. PR **#1622** merged to `main`.
 - **Verify:** `/foundation/:token` → menu from right; `tests/digitalFoundationMenuDrawer.test.ts`.
+
+---
+
+## 2026-10-12 — Display header typography (+4px / −2px line spacing)
+
+- **Request:** Tighter stacked display headlines on FNDATN-01 emails, foundation intake, and BLDR studio (incl. `/foundation/review` iframes).
+- **Change:** `displayHeadlineMetrics()` in `fndatn01/html.ts`; regenerated email previews; `.df-headline` and `.bs-headline` CSS (+4px size tokens, `calc(em - 2px)` line-height). PR **#1623** merged `main`.
