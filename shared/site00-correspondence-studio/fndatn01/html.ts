@@ -17,7 +17,8 @@ export const T = {
 } as const;
 
 export const FONT_BODY = "'Saira Semi Condensed','Arial Narrow',Arial,Helvetica,sans-serif";
-export const FONT_DISPLAY = "'Barlow Condensed','Arial Narrow',Arial,Helvetica,sans-serif";
+/** Heavy traced specimen. Headers and editorial numbers. Body stays Saira. */
+export const FONT_DISPLAY = "'SITE 00 Display','Arial Narrow',Arial,Helvetica,sans-serif";
 
 export function esc(value: string | number): string {
   return String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
@@ -49,13 +50,13 @@ export function fontFaces(assetBase: string, fndatnRoot: string): string {
         `@font-face{font-family:'Saira Semi Condensed';font-style:normal;font-weight:${w};src:url('${base}${fndatnRoot}/fonts/saira-semi-condensed-latin-${w}.woff2') format('woff2');}`,
     )
     .join('\n');
-  const barlow = [500, 600, 700, 800, 900]
+  const display = [400, 500, 600, 700, 800, 900]
     .map(
       (w) =>
-        `@font-face{font-family:'Barlow Condensed';font-style:normal;font-weight:${w};src:url('${base}/site00/fonts/barlow-condensed/barlow-condensed-${w}.woff2') format('woff2');}`,
+        `@font-face{font-family:'SITE 00 Display';font-style:normal;font-weight:${w};src:url('${base}${fndatnRoot}/fonts/site00-correspondence-display.woff2?v=1.3') format('woff2');}`,
     )
     .join('\n');
-  return `${saira}\n${barlow}`;
+  return `${saira}\n${display}`;
 }
 
 export const BASE_CSS = `
@@ -80,7 +81,7 @@ u + #body a{color:inherit;text-decoration:none}
   .btn-m{display:block!important;width:100%!important;box-sizing:border-box;text-align:center!important}
   .hide-m{display:none!important}
   .gap-m{padding-right:9px!important}
-  .gap-m .site{font-size:18px!important;line-height:18px!important;letter-spacing:.2em!important}
+  .gap-m .site{font-size:18px!important;line-height:18px!important;letter-spacing:.04em!important}
   .tiny-m span{font-size:6.5px!important;line-height:10px!important;letter-spacing:.12em!important}
   .slash-m{font-size:18px!important;line-height:18px!important;padding-right:6px!important}
   .tiny-m{padding-right:0!important}
@@ -94,13 +95,46 @@ export function microLabel(text: string, color: string = T.mute, size = 9): stri
   return `<span style="font-family:${FONT_BODY};font-size:${size}px;line-height:${Math.round(size * 1.45)}px;letter-spacing:.18em;color:${color};text-transform:uppercase">${text}</span>`;
 }
 
+/** Period, comma, semicolon, and asterisk are the red marks. The rest of the display line stays ink. */
+const RED_DISPLAY = new Set(['.', ',', ';', '*']);
+
+/**
+ * Traced comma, semicolon, and asterisk. The PNG is the whole mark in #ce1017,
+ * tail included, so a mail client cannot paint the tail black.
+ * `drop` is how far the image hangs below the text baseline.
+ */
+const PROSE_MARKS: Record<string, { file: string; w: number; h: number; drop: number }> = {
+  ',': { file: 'marks/comma.png', w: 6, h: 12, drop: 5 },
+  ';': { file: 'marks/semicolon.png', w: 6, h: 28, drop: 6 },
+  '*': { file: 'marks/asterisk.png', w: 12, h: 12, drop: 1 },
+};
+
+/** Replace prose commas, semicolons, and asterisks. Thousands separators stay text. */
+export function paintProse(text: string, asset: AssetResolver): string {
+  return text.replace(/[,;*]/g, (ch, i, s) => {
+    if (ch === ',' && /\d$/.test(s.slice(0, i)) && /^\d/.test(s.slice(i + 1))) return ch;
+    const mark = PROSE_MARKS[ch];
+    const src = asset(mark.file);
+    return `<img src="${src}" alt="${ch}" width="${mark.w}" height="${mark.h}" style="display:inline-block;vertical-align:-${mark.drop}px;width:${mark.w}px;height:${mark.h}px;border:0;margin:0 1px">`;
+  });
+}
+
+export function displayText(text: string): string {
+  let out = '';
+  for (const ch of text) {
+    const safe = esc(ch);
+    out += RED_DISPLAY.has(ch) ? `<span class="keep-red" style="color:${T.red}">${safe}</span>` : safe;
+  }
+  return out;
+}
+
 export function headline(lines: string[], size = 44, extraClass = ''): string {
-  const body = lines.map(esc).join('<br>');
-  return `<h1 class="keep-ink ${extraClass}" style="margin:0;font-family:${FONT_DISPLAY};font-weight:900;font-size:${size}px;line-height:${Math.round(size * 0.92)}px;letter-spacing:-.004em;color:${T.ink};text-transform:uppercase;mso-line-height-rule:exactly">${body}<span class="keep-red" style="color:${T.red}">.</span></h1>`;
+  const body = lines.map((line) => displayText(line)).join('<br>');
+  return `<h1 class="keep-ink ${extraClass}" style="margin:0;font-family:${FONT_DISPLAY};font-weight:900;font-size:${size}px;line-height:${Math.round(size * 1.02)}px;letter-spacing:0;color:${T.ink};text-transform:uppercase;mso-line-height-rule:exactly">${body}<span class="keep-red" style="color:${T.red}">.</span></h1>`;
 }
 
 export function sectionTitle(text: string, size = 30): string {
-  return `<h2 class="keep-ink" style="margin:0;font-family:${FONT_DISPLAY};font-weight:900;font-size:${size}px;line-height:${Math.round(size * 0.95)}px;letter-spacing:-.004em;color:${T.ink};text-transform:uppercase">${esc(text)}<span class="keep-red" style="color:${T.red}">.</span></h2>`;
+  return `<h2 class="keep-ink" style="margin:0;font-family:${FONT_DISPLAY};font-weight:900;font-size:${size}px;line-height:${Math.round(size * 1.02)}px;letter-spacing:0;color:${T.ink};text-transform:uppercase">${displayText(text)}<span class="keep-red" style="color:${T.red}">.</span></h2>`;
 }
 
 export function kicker(text: string): string {
@@ -110,8 +144,10 @@ export function kicker(text: string): string {
 </tr></table>`;
 }
 
-export function bodyCopy(text: string, size = 12.5, color: string = T.body, extra = ''): string {
-  return `<p style="margin:0;font-family:${FONT_BODY};font-size:${size}px;line-height:${Math.round(size * 1.5)}px;letter-spacing:.07em;color:${color};text-transform:uppercase;${extra}">${text}</p>`;
+export function bodyCopy(text: string, size = 12.5, color: string = T.body, extra = '', lineHeight?: number, asset?: AssetResolver): string {
+  const leading = lineHeight ?? Math.round(size * 1.5);
+  const shown = asset ? paintProse(text, asset) : text;
+  return `<p style="margin:0;font-family:${FONT_BODY};font-size:${size}px;line-height:${leading}px;letter-spacing:.07em;color:${color};text-transform:uppercase;${extra}">${shown}</p>`;
 }
 
 export function tagline(lines: string[]): string {
@@ -159,4 +195,4 @@ export function mobileOnly(html: string): string {
 }
 
 export const SITE_WORD = (size = 26) =>
-  `<span class="keep-ink site" style="font-family:${FONT_DISPLAY};font-weight:600;font-size:${size}px;line-height:${size}px;letter-spacing:.24em;color:${T.ink}">SITE&nbsp;00</span>`;
+  `<span class="keep-ink site" style="font-family:${FONT_DISPLAY};font-weight:600;font-size:${size}px;line-height:${size}px;letter-spacing:.04em;color:${T.ink}">SITE&nbsp;00</span>`;

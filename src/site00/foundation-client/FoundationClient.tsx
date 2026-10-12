@@ -17,6 +17,7 @@ import { InterimOverview, P05Review, P06Activation } from './parents/CheckoutAct
 import { DfCta, DfFrame, DfLoading, DfMenu, DfSystemPanel, type DfObjectKind } from './shell';
 import { useFoundationArtifact, useIntakeDraft, usePaymentVerification, useQuoteSelections } from './useFoundationArtifact';
 import '../styles/site00-df-client.css';
+import '../styles/site00-df-components.css';
 
 const OBJECT_FOR: Record<DfView, DfObjectKind> = {
   P01: 'hero',

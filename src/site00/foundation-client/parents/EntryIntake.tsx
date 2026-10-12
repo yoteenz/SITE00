@@ -13,6 +13,7 @@ import {
   type IntakeDraft,
   type IntakeErrors,
 } from '../model';
+import { CorrespondenceProse } from '../../../../shared/site00-correspondence-studio/reactProse.js';
 import { DfAlert, DfCta, DfHeadline, DfHeroObject, DfLede, DfRail, DfSheet, DfTrust } from '../shell';
 import type { SaveStatus } from '../useFoundationArtifact';
 
@@ -115,7 +116,7 @@ function Field({
       {children}
       {error && (
         <p className="df-field__error" id={`${id}-error`}>
-          {error}
+          <CorrespondenceProse>{error}</CorrespondenceProse>
         </p>
       )}
     </div>

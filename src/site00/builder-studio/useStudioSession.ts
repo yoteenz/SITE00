@@ -6,7 +6,7 @@
  * in the same tick, the submitted version to show once the Blueprint is locked, the client's review stage, and the
  * save status worded for the studio.
  */
-import { useCallback, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { clientEstimatePreviewEnabled } from '../../studioos/estimation/flags';
 import {
   SPATIAL_INTAKE_DOMAIN_LABEL,
@@ -112,8 +112,42 @@ export function sameChoices(a: SpatialBuilderState | null, b: SpatialBuilderStat
 
 type Patch = Partial<SpatialBuilderState> | ((state: SpatialBuilderState) => SpatialBuilderState);
 
-export function useStudioSession() {
-  const session = useBuilderSpatialIntakeSession();
+/**
+ * `sample` shows the studio on a frozen starting point (Digital Foundation design review): choices update in memory
+ * only — nothing is saved, submitted, or written to the canonical intake.
+ */
+export function useStudioSession(sample: SpatialBuilderState | null = null) {
+  const live = useBuilderSpatialIntakeSession();
+  const [frozen, setFrozen] = useState<SpatialBuilderState | null>(sample);
+  useEffect(() => {
+    setFrozen(sample);
+  }, [sample]);
+  const reviewSnapshot = useMemo(
+    () => (frozen ? snapshotFromSpatialState(frozen, { allowEstimate: frozen.room === 'BLUEPRINT' && clientEstimatePreviewEnabled() }) : null),
+    [frozen],
+  );
+  const session = useMemo(() => {
+    if (!frozen || !reviewSnapshot) return live;
+    return {
+      ...live,
+      state: frozen,
+      snapshot: reviewSnapshot,
+      selection: reviewSnapshot.selection,
+      persist: (next: SpatialBuilderState) => {
+        setFrozen(next);
+        return next;
+      },
+      canEdit: true,
+      isSubmitted: false,
+      syncStatus: 'saved' as SpatialIntakeSyncStatus,
+      goRoom: (() => false) as typeof live.goRoom,
+      resetSession: () => undefined,
+      submitForReview: (async () => null) as unknown as typeof live.submitForReview,
+      serverIntakeId: null,
+      serverIntake: null,
+      intakeSync: { saveState: 'idle' as const, lastSavedAt: null, errorMessage: null, serverIntakeId: null, serverIntake: null },
+    };
+  }, [live, frozen, reviewSnapshot]);
   const { state, persist, canEdit, intakeSync, syncStatus, conflictReason, serverIntake } = session;
 
   // Patch updates compose against the latest state, including one written earlier in the same tick.
@@ -178,6 +212,7 @@ export function useStudioSession() {
 
   /** Retry a save SITE 00 did not take: start the intake if it never started, otherwise flush the draft again. */
   const retrySave = useCallback(async () => {
+    if (frozen) return true;
     const current = latest.current;
     if (!intakeSync.serverIntakeId) {
       const id = await intakeSync.ensureStarted({
@@ -190,9 +225,9 @@ export function useStudioSession() {
     if (!canEdit) return false;
     const envelope = envelopeFromSpatialState(current, parseBuilderSpatialDraft(intakeSync.serverIntake?.draftPayload));
     return intakeSync.flushAutosave({ currentStep: `spatial:${current.room}`, totalSteps: 5, draftPayload: draftPayloadFromEnvelope(envelope) });
-  }, [canEdit, intakeSync]);
+  }, [canEdit, frozen, intakeSync]);
 
-  return { ...session, update, submitted, review, locked, view, readiness, indicator, retrySave, preview };
+  return { ...session, update, submitted, review, locked, view, readiness, indicator, retrySave, preview, isSample: frozen !== null };
 }
 
 export type StudioSession = ReturnType<typeof useStudioSession>;

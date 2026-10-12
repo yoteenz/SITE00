@@ -1,0 +1,40 @@
+[
+  {
+    "char": "I",
+    "instances": [
+      "display-I-213",
+      "display-I-352"
+    ],
+    "iou": 0.997,
+    "rule": "Use the larger hero instance. Do not average the two shapes."
+  },
+  {
+    "char": "N",
+    "instances": [
+      "display-N-231",
+      "display-N-209",
+      "display-N-408"
+    ],
+    "iou": 0.985,
+    "rule": "Use the larger hero instance. Do not average the two shapes."
+  },
+  {
+    "char": "O",
+    "instances": [
+      "display-O-325",
+      "display-O-136",
+      "display-O-370"
+    ],
+    "iou": 0.933,
+    "rule": "Use the larger hero instance. Do not average the two shapes."
+  },
+  {
+    "char": "U",
+    "instances": [
+      "display-U-362",
+      "display-U-173"
+    ],
+    "iou": 0.93,
+    "rule": "Use the larger hero instance. Do not average the two shapes."
+  }
+]

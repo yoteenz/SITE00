@@ -1,4 +1,5 @@
 /** Room controls for 01 PLACE · 02 FEEL · 03 WORK · 04 PACE. */
+import { CorrespondenceProse } from '../../../shared/site00-correspondence-studio/reactProse.js';
 import { useMemo, useState } from 'react';
 import { EXPERIENCE_BY_ID, builderEstimateView, builderNotices, chosenExperiences, deriveBuildLevel } from '../builder-experience';
 import type { BuilderSelection } from '../builder-experience';
@@ -75,7 +76,9 @@ export function PlaceControls({ state, update }: RoomProps) {
           >
             <BuildThumbnail composition={thumb} width={176} height={88} alt="" />
             <span className="bs-card__label">{option.label}</span>
-            <span className="bs-card__sub">{option.descriptor}</span>
+            <span className="bs-card__sub">
+              <CorrespondenceProse>{option.descriptor}</CorrespondenceProse>
+            </span>
           </button>
         );
       })}
@@ -102,7 +105,9 @@ export function FeelControls({ state, update }: RoomProps) {
     <>
       <div className="bs-feel-caption" aria-live="polite">
         <p className="bs-feel-caption__label">{focused ? focused.label : 'YOUR DIRECTION'}</p>
-        <p className="bs-feel-caption__sub">{focused ? focused.descriptor : 'CHOOSE ONE BELOW'}</p>
+        <p className="bs-feel-caption__sub">
+          <CorrespondenceProse>{focused ? focused.descriptor : 'CHOOSE ONE BELOW'}</CorrespondenceProse>
+        </p>
         {state.placePath === 'CUSTOM' && state.feelVibe ? (
           <p className="bs-feel-caption__note">A STARTING REFERENCE FOR YOUR CUSTOM DIRECTION</p>
         ) : null}
@@ -204,7 +209,9 @@ export function WorkControls(props: RoomProps & { pending: PendingRaise; keep: (
     <>
       {pending ? (
         <div className="bs-decision" role="alertdialog" aria-label="DECISION">
-          <p className="bs-decision__text">{pending.reason}</p>
+          <p className="bs-decision__text">
+            <CorrespondenceProse>{pending.reason}</CorrespondenceProse>
+          </p>
           <div className="bs-decision__actions">
             <button type="button" className="bs-btn bs-btn--small bs-btn--red" onClick={keep}>
               ADD IT · MOVE TO ADVANCED
@@ -297,7 +304,9 @@ export function PaceControls({ state, selection, update }: RoomProps) {
               <IconCmp size={26} className="bs-pace__icon" />
               <span className="bs-pace__text">
                 <span className="bs-pace__label">{option.label}</span>
-                <span className="bs-pace__sub">{disabled ? 'NOT AVAILABLE FOR THIS SCOPE' : option.sub}</span>
+                <span className="bs-pace__sub">
+                  <CorrespondenceProse>{disabled ? 'NOT AVAILABLE FOR THIS SCOPE' : option.sub}</CorrespondenceProse>
+                </span>
               </span>
               <span className="bs-check" aria-hidden="true">{selected ? <CheckIcon size={16} /> : null}</span>
             </button>
@@ -305,7 +314,9 @@ export function PaceControls({ state, selection, update }: RoomProps) {
         })}
       </div>
       {state.pace === 'EXPEDITED' && expeditedBlocked ? (
-        <p className="bs-note">{(priority.reason ?? 'PRIORITY DOES NOT SHORTEN THIS SCOPE.').toUpperCase()}</p>
+        <p className="bs-note">
+          <CorrespondenceProse>{(priority.reason ?? 'PRIORITY DOES NOT SHORTEN THIS SCOPE.').toUpperCase()}</CorrespondenceProse>
+        </p>
       ) : null}
       <label className="bs-notes">
         <span className="bs-visually-hidden">{state.placePath === 'CUSTOM' ? 'YOUR CUSTOM DIRECTION (OPTIONAL)' : 'PROJECT NOTES (OPTIONAL)'}</span>

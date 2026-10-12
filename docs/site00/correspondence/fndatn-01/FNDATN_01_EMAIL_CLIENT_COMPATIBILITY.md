@@ -26,7 +26,7 @@ Rendered with `mode: 'send'`, an absolute https asset base, and the disposable f
 | --- | --- | --- |
 | Outlook desktop (Word engine) | VML `v:rect` bulletproof buttons; VML `v:fill` hero backgrounds; `mso-line-height-rule:exactly`; `mso-hide:all` on mobile-only blocks | Hero art and buttons render; web fonts fall back to Arial |
 | Gmail web and app | Inline styles on every element; one `<style>` block (~4 KB) for media queries | Gmail supports `<style>` in `<head>` but **not `@font-face`**: type falls back to Arial Narrow or sans-serif condensed metrics |
-| Apple Mail / iOS | `@font-face` for Saira Semi Condensed and Barlow Condensed; `x-apple-data-detectors` reset | Closest to the authority |
+| Apple Mail / iOS | `@font-face` for Saira Semi Condensed and SITE 00 Display; `x-apple-data-detectors` reset | Closest to the authority |
 | Mobile (≤480px) | `.desk-only` / `.mob-only` swaps, stacked columns, full-width buttons | Clients without media query support (some Gmail IMAP accounts) show the desktop layout scaled down |
 | Dark mode | `color-scheme: light only`; `[data-ogsc]` / `[data-ogsb]` ink and red locks | Outlook.com and Gmail app may still partially invert backgrounds; not verified |
 | Images off | Alt text on every image; headline, ledger, and CTA are live text | Content stays readable without images |
@@ -35,7 +35,7 @@ Rendered with `mode: 'send'`, an absolute https asset base, and the disposable f
 ## Fonts
 
 - Body: `Saira Semi Condensed`, served from `public/site00-correspondence-studio/fndatn-01/fonts/`.
-- Display: `Barlow Condensed`, served from the existing `public/site00/fonts/barlow-condensed/`.
+- Display, headers and editorial numbers: `SITE 00 Display`, traced from the founder specimen, served from `public/site00-correspondence-studio/fndatn-01/fonts/site00-correspondence-display.woff2`.
 - Clients that ignore `@font-face` (Gmail, Outlook desktop) render fallback stacks. This is the largest expected visual difference from the authority outside Apple Mail.
 
 ## Known gaps before any live send

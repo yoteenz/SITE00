@@ -16337,3 +16337,125 @@ Summary of the whole conversation in this chat.
 - **Previews:** Regenerate with `npx tsx scripts/correspondence-studio/fndatn01/render-previews.ts`. `tests/fndatn01.test.ts` fails if the committed HTML drifts from the renderer.
 - **QA:** 136/136 Playwright studio checks (`/tmp/cs-ref/fndatn-func.mjs`) on a local branch dev server. Static scan of send output: all <49 KB, no script, https-only links, alt text and width on every image. No live email-client test. The full vitest suite shows the same 80 failing files as `origin/main`, so nothing new. `tsc` still has the 23 known errors. The build is still blocked by the `deviceRepository.ts` duplicate export.
 - **Conventions:** FNDATN-style packs register via `pack_id` on versions and `reference_authority` paths. `workspaceLibrary.listCorrespondencePacks` groups them. Never put whole reference images in the email body. Approval stays local-session only.
+
+---
+
+## 2026-10-12 — Correspondence typography forensics (FNDATN invitation, draft, not merged)
+
+- **Context:** Sprint `P0.SITE00.CORRESPONDENCE.TYPOGRAPHY-FORENSICS-AND-CUSTOM-GLYPH-RECONSTRUCTION1` on `cursor/correspondence-type-authority-be3b`, branched from `main` (`61c4f795`). The founder attached the full-resolution invitation (941×1672 JPEG, sha256 `ab8a4a2832bed8e5ede9358327f2b3e490f2096ab5c9503c24b1b53efc31b320`). It is the same composition as the FNDATN-01 mobile authority and the higher-quality file. The seven FNDATN email compositions were not modified. No paid generation, no deploy, no merge.
+- **Finding:** No free face matched the display. Highest score was Antonio (already rejected) at mean IoU 0.832 with width error 0.172. Teko, Rajdhani, Oswald and Bebas Neue scored lower. Saira Semi Condensed stays the body family: body and labels are ~10–12px and much wider than the display. The official SITE 00 mark is Martian Mono CSS (`.site00-logo-mark`). There is no vector logo file. The email wordmark is proportional and was traced as email lettering, not as a replacement logo.
+- **Traces:** 38 source glyphs (display letters visible in the flat headlines, the red 01/02/03, and the email wordmark). Mean IoU against the thresholded silhouette is 0.999. That score is against the chosen threshold, not against the JPEG halo. Digits 4–9 are derived from the traced 0 and are labeled as such. No OTF was built.
+- **Pack:** `public/site00-correspondence-type-authority/v1/`. Review: `09_REVIEW/index.html`. Rebuild with `python3 scripts/correspondence-type-authority/build_type_authority.py`.
+- **Conventions:** Do not treat an AI email render as a font file. Do not average disagreeing instances of the same letter. Do not ship traced SVGs as a distributable font until licensing is reviewed. Integration into the emails waits for founder approval and is a separate Opus task.
+
+---
+
+## 2026-10-12 — Correspondence type specimen sheet
+
+- **Context:** Same chat as the typography forensics sprint. The founder asked for one sheet of the reconstructed letters and numbers instead of the folder pack.
+- **Sheet:** `public/site00-correspondence-type-authority/v1/09_REVIEW/SHEET.png` and `sheet.html`. It sets BEGIN YOUR FOUNDATION, then A–Z, then red 0–9. Rebuild with `python3 scripts/correspondence-type-authority/build_specimen_sheet.py`.
+- **Coverage:** Traced from the invitation: A B D E F G H I K L N O R S T U W Y and red 0 1 2 3. Not in the email, built from those strokes and marked with a red square: C J M P Q V X Z and digits 4–9. No lowercase. No font file.
+- **Conventions:** Do not present the eight derived letters as source traces. The sheet is for founder review. Draft PR #1617 stays unmerged.
+
+---
+
+## 2026-10-12 — Specimen sheet is now the trace source
+
+- **Context:** The founder sent a clean alphabet sheet (1122×1402 JPEG, sha256 `2307d85c8994ca62af05c587d42cb75a47613d6e7d3522776129f3bb4f55f61f`) and said to trace the letters and numbers from that sheet instead of the earlier email crops and derived extensions.
+- **Traces:** Heavy A–Z, light A–Z, and red 0–9. 62 glyphs, all source-traced. Mean silhouette IoU 0.991. The heavy Q tail and the light Q descender are included. Rebuild with `python3 scripts/correspondence-type-authority/trace_specimen_sheet.py`.
+- **Sheet:** `09_REVIEW/SHEET.png` is the vector reconstruction placed back on the original spacing. Files live in `11_SPECIMEN_TRACE/`.
+- **Conventions:** The earlier constructed C J M P Q V X Z and digits 4–9 are superseded for the character set. Do not present them as the current alphabet. Draft PR #1617 stays unmerged.
+
+---
+
+## 2026-10-12 — Specimen type on the FNDATN-01 headers and numbers
+
+- **Context:** The founder said to use the traced specimen for the header and the numbers on the foundation email pack.
+- **Font:** `SITE 00 Display` is built from the heavy A–Z and the red 0–9 traces. File: `public/site00-correspondence-studio/fndatn-01/fonts/site00-correspondence-display.woff2`. Rebuild with `fontforge -lang=py -script scripts/correspondence-type-authority/build_display_font.py` after `pip install brotli` if woff2 encoding is missing.
+- **Where it applies:** FNDATN-01 headlines, section titles, the mast `SITE 00`, and the editorial numbers (01 02 03 and the other step counts). Body, labels, and the red CTA stay Saira Semi Condensed. The apostrophe and the square period are not on the specimen; they are in the face so `WE'VE` and the red stop stay in the same family.
+- **Conventions:** Do not put this face on other brands or on body copy. Gmail and Outlook still fall back. Draft PR #1617 stays unmerged.
+
+---
+
+## 2026-10-12 — Letters widened 10% on the correspondence display
+
+- **Context:** Same correspondence-type chat. The founder said the numbers are fine and the letters are a bit too narrow, and asked for the letters widened horizontally just a little, delivered on one specimen sheet.
+- **Change:** `LETTER_WIDEN = 1.10` in `scripts/correspondence-type-authority/build_display_font.py` scales A–Z (and the space and apostrophe) about the left ink edge after baseline placement. Numerals stay at the traced width. The square period stays a square. Font version is 1.1. A advances 355 → 387 units. Numeral advances are unchanged (0 is 303).
+- **Sheet:** `public/site00-correspondence-type-authority/v1/09_REVIEW/SHEET.png` is rendered from the rebuilt face: BEGIN YOUR / FOUNDATION., A–Z, red 0–9. The unwidened traces stay in `11_SPECIMEN_TRACE/`. Do not rerun `trace_specimen_sheet.py` after a widen; it overwrites `09_REVIEW/SHEET.png` with the unwidened paste.
+- **Pack:** The same woff2 is `public/site00-correspondence-studio/fndatn-01/fonts/site00-correspondence-display.woff2`, so FNDATN-01 headers use the wider letters and the numbers stay as they were. HTML did not need a regen.
+- **Conventions:** Widen letters only. Do not scale the numerals when the founder says the numbers are fine. Draft PR #1617 stays unmerged.
+
+---
+
+## 2026-10-12 — Correspondence symbol sheet (period, exclamation, question)
+
+- **Context:** Same correspondence-type chat. After the 10% letter widen, the founder asked for a matching symbol sheet: red periods, and exclamation marks and question marks with only the base period in red and the top mark in black.
+- **Marks:** The period stays the square already in `SITE 00 Display` (`CAP * 0.15`, not widened). `!` and `?` are built from that same square plus a black stem or hook in the same stem weight. The question dot is centered under the whole mark. Font version 1.2. Rebuild with `fontforge -lang=py -script scripts/correspondence-type-authority/build_display_font.py`, then `python3 scripts/correspondence-type-authority/build_symbol_sheet.py`.
+- **Sheet:** `public/site00-correspondence-type-authority/v1/09_REVIEW/SYMBOLS.png` and `symbols.html`. Red is `#ce1017`. The color split is on the sheet. The woff2 outlines stay one color, same as the numerals.
+- **Conventions:** Do not paint the numeral row or the letter rows on this sheet. Do not rerun `trace_specimen_sheet.py`. Draft PR #1617 stays unmerged.
+
+---
+
+## 2026-10-12 — Symbol sheet traced from the founder marks
+
+- **Context:** The constructed exclamation, question, and period were the wrong shapes. The founder sent a symbol sheet and said to use those marks and apply the red dots.
+- **Traces:** `public/site00-correspondence-type-authority/v1/12_SYMBOL_TRACE/`. 33 marks, mean silhouette IoU 0.994. Rebuild with `python3 scripts/correspondence-type-authority/trace_symbol_sheet.py`, then `fontforge -lang=py -script scripts/correspondence-type-authority/build_display_font.py`.
+- **Red dots:** The period, the base of ! and ?, both colon dots, the semicolon dot, the comma head, and the three ellipsis dots. Tails and every other mark stay black. The bullet stays black.
+- **Sheet:** `09_REVIEW/SYMBOLS.png` keeps the sheet’s own arrangement. Font version 1.3 stores the outlines in one color.
+- **Conventions:** Do not redraw these marks. Do not rerun `trace_specimen_sheet.py`. Draft PR #1617 stays unmerged.
+
+---
+
+## 2026-10-12 — Asterisk and comma tails are red
+
+- **Context:** Same symbol sheet. The founder said the asterisk should be red too, and the comma tails had been left black.
+- **Color:** The whole comma and the whole semicolon are red, tail included. The asterisk is red. Period dots stay red. The exclamation and question tops stay black.
+- **Sheet:** `09_REVIEW/SYMBOLS.png`, rebuilt with `python3 scripts/correspondence-type-authority/trace_symbol_sheet.py`.
+- **Conventions:** Draft PR #1617 stays unmerged.
+
+---
+
+## 2026-10-12 — FNDATN-01 emails use the widened face and traced symbols
+
+- **Context:** The founder asked to update the foundation emails with the widened letters and the new symbols.
+- **Emails:** Headlines, section titles, the mast `SITE 00`, and the editorial numbers use `SITE 00 Display` 1.3. Letters are the 10% wider traces. The stop after a headline or section title is the traced period in red (`#ce1017`). A comma, semicolon, or asterisk in that display line is red too. Body, labels, and the red CTA stay Saira Semi Condensed.
+- **Previews:** Regenerated with `npx tsx scripts/correspondence-studio/fndatn01/render-previews.ts`. The font URL is `site00-correspondence-display.woff2?v=1.3`. `tests/fndatn01.test.ts` passed 17/17. Invitation, intake, and quote expiry were opened in the browser; the display face loaded.
+- **Conventions:** Do not put this face on body copy. Draft PR #1617 stays unmerged.
+
+---
+
+## 2026-10-12 — FNDATN-01 hero header +2px, subtext leading −1px
+
+- **Context:** The founder asked to increase the header text at the top of these emails only by 2px, and to reduce the line spacing of the subtext beneath it by 1px.
+- **Change:** Hero headlines in `shared/site00-correspondence-studio/fndatn01/layout.ts` are 2px larger (48/42 desktop, 42/38 mobile, and the resume desk size 36). The paragraph directly under that headline leads at 15px instead of 16px. Section titles, the mast, and other body copy are unchanged.
+- **Check:** Previews regenerated. `tests/fndatn01.test.ts` passed 17/17. Invitation measured 48px headline and 15px body leading, and the text stays inside the hero.
+- **Conventions:** This adjustment is FNDATN-01 only. Draft PR #1617 stays unmerged.
+
+---
+
+## 2026-10-12 — Comma tails and the asterisk are red on the sheet and in the emails
+
+- **Context:** Same correspondence-type chat. The founder said the bottom half of the commas and the asterisk were still not colored.
+- **Sheet:** The traced comma and semicolon were already red through the tail, and the asterisk was already red. `09_REVIEW/SYMBOLS.png` now leads with those two marks large, in `#ce1017`, labeled “COMMA TAIL RED · ASTERISK RED”. `symbols.html` also sets the live display face to that red for `,` `;` `*`. Cache key is `SYMBOLS.png?v=1.5`.
+- **Emails:** Prose commas, semicolons, and asterisks in FNDATN-01 are the traced mark as a red image (`public/site00-correspondence-studio/fndatn-01/marks/`), tail included. A comma between digits, such as `$1,334.00`, stays text. Headlines, the +2px size, and the 15px subtext leading are unchanged.
+- **Check:** `tests/fndatn01.test.ts` passed 17/17. The invitation hero and the symbol page were opened in the browser.
+- **Conventions:** Do not rerun `trace_specimen_sheet.py`. Draft PR #1617 stays unmerged.
+
+---
+
+## 2026-10-12 — Digital Foundation intake and BLDR studio use correspondence type
+
+- **Context:** The founder asked to update text and symbols on foundation intake pages and BLDR studio pages the same way as FNDATN-01.
+- **Live UI:** `site00-correspondence-fonts.css` loads SITE 00 Display 1.3 and Saira Semi Condensed on `.df-root` and `.bs-root`. Barlow, Inter, and Anton are removed from those sheets. Brand red is `#ce1017`.
+- **Prose marks:** `shared/site00-correspondence-studio/reactProse.tsx` (`CorrespondenceProse`) paints `,` `;` `*` in body copy with the same red mark PNGs as the emails. Wired through `DfLede`, `DfTrust`, `DfAlert`, BLDR room ledes and descriptors, and Blueprint prose/blockers/dialogs.
+- **Check:** `tests/correspondenceReactProse.test.tsx` and `tests/fndatn01.test.ts` pass. Preview tunnel on `:5174` may still mount a pinned older SHA until this branch merges to `main` and `preview/tunnel` refreshes; workspace dev on another port serves the branch.
+- **Conventions:** Draft PR #1617 carries emails plus this UI work. Not merged unless the founder asks.
+
+---
+
+## 2026-10-12 — Foundation review BLDR iframes restored (Hybrid Spatial Studio)
+
+- **Context:** Founder said `/foundation/review` no longer showed the real BLDR studio (Modern / Immersive feel cards, live 3D object).
+- **Cause:** `?reviewRoom=` sample mode and `useStudioSession(sample)` were dropped from `BldrSpatialStudioPage` / `BuilderStudio`; iframes loaded `/bldr/studio?reviewRoom=FEEL` without a frozen in-memory session. `.df-review__studio` CSS (844px iframe height) was also missing from `site00-df-client.css`.
+- **Fix:** `studioReviewSample.ts`, sample wiring restored, iframe src `/bldr/studio/feel?reviewRoom=FEEL`, review layout CSS back. Sample mode: interactive feel/place/work changes update the 3D object in memory only; no intake save.
+- **Check:** `tests/studioReviewSample.test.ts` + review link tests pass.

@@ -1,0 +1,7 @@
+{
+  "official_logo_file": null,
+  "official_mark": "CSS text .site00-logo-mark in src/site00/styles/site00-typography.css, family Martian Mono via --site00-font-display. No vector wordmark file is in the repository.",
+  "action": "Official wordmark was not reconstructed and was not replaced.",
+  "email_wordmark": "The email SITE 00 is proportional (S is about 13px wide, I is about 5px, at 36px tall). Martian Mono is monospaced, so it is not this lettering.",
+  "martian_mono_S_iou_vs_email_S": 0.521
+}
