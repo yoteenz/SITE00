@@ -10,6 +10,7 @@ import {
   button,
   caption,
   esc,
+  paintProse,
   fontFaces,
   headline,
   icon,
@@ -124,7 +125,7 @@ ${copy.kicker ? `${kicker(copy.kicker)}<div style="height:11px;line-height:11px;
 ${headline(copy.headline, (copy.deskSize ?? (copy.headline.length > 2 ? 40 : 46)) + 2)}
 ${copy.sub ? `<div style="height:10px;line-height:10px;font-size:1px">&nbsp;</div><p style="margin:0;font-family:${FONT_BODY};font-size:13px;line-height:17px;letter-spacing:.1em;font-weight:600;color:${T.ink};text-transform:uppercase">${copy.sub}</p>` : ''}
 <div style="height:12px;line-height:12px;font-size:1px">&nbsp;</div>
-${bodyCopy(copy.body, 10.5, T.ink, 'font-weight:500;', 15)}
+${bodyCopy(copy.body, 10.5, T.ink, 'font-weight:500;', 15, asset)}
 ${copy.tagline && copy.deskTagline !== false ? `<div style="height:12px;line-height:12px;font-size:1px">&nbsp;</div>${tagline(copy.tagline)}` : ''}
 </td>
 </tr></table>`;
@@ -140,7 +141,7 @@ export function mobileHero(asset: AssetResolver, slug: string, copy: HeroCopy, o
 ${copy.kicker ? `${kicker(copy.kicker)}<div style="height:11px;line-height:11px;font-size:1px">&nbsp;</div>` : ''}
 ${headline(lines, (lines.length > 3 ? 36 : 40) + 2)}
 <div style="height:10px;line-height:10px;font-size:1px">&nbsp;</div>
-<div style="max-width:${opts.textWidth ?? 240}px">${bodyCopy(copy.mobileBody ?? copy.body, 10.5, T.ink, 'letter-spacing:.06em;font-weight:500;', 15)}</div>
+<div style="max-width:${opts.textWidth ?? 240}px">${bodyCopy(copy.mobileBody ?? copy.body, 10.5, T.ink, 'letter-spacing:.06em;font-weight:500;', 15, asset)}</div>
 </td></tr></table>`;
   return mobileOnly(`<table class="hero mob-only" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="display:none;max-height:0;overflow:hidden;width:100%" aria-label="${esc(opts.alt)}">
 <tr>${bgCell({ src: asset(`assets/${slug}/hero-mobile.jpg`), width: 390, height: opts.height, fallback: '#ebe8e3', position: 'center bottom', content, className: 'full' })}</tr>
@@ -215,9 +216,9 @@ export function deskBand(asset: AssetResolver, title: string, items: BandItem[],
 <td valign="middle">${icon(asset(`assets/icons/${it.icon}.png`), it.iconAlt, 20)}</td>
 </tr></table>
 <div style="height:9px;line-height:9px;font-size:1px">&nbsp;</div>
-<p style="margin:0;font-family:${FONT_BODY};font-size:10.5px;line-height:14px;letter-spacing:.16em;font-weight:600;color:${it.tone === 'muted' ? T.faint : T.ink};text-transform:uppercase">${it.title}</p>
+<p style="margin:0;font-family:${FONT_BODY};font-size:10.5px;line-height:14px;letter-spacing:.16em;font-weight:600;color:${it.tone === 'muted' ? T.faint : T.ink};text-transform:uppercase">${paintProse(it.title, asset)}</p>
 <div style="height:5px;line-height:5px;font-size:1px">&nbsp;</div>
-<p style="margin:0;font-family:${FONT_BODY};font-size:9px;line-height:13px;letter-spacing:.12em;color:${T.mute};text-transform:uppercase">${it.text}</p>
+<p style="margin:0;font-family:${FONT_BODY};font-size:9px;line-height:13px;letter-spacing:.12em;color:${T.mute};text-transform:uppercase">${paintProse(it.text, asset)}</p>
 </td>`,
     )
     .join('');
@@ -257,8 +258,8 @@ export function mobileRows(
 <td width="44" valign="middle" style="width:44px;padding:12px 0">${icon(asset(`assets/icons/${it.icon}.png`), it.iconAlt, 22)}</td>
 <td width="1" valign="middle" style="padding:12px 12px 12px 0">${vrule(30)}</td>
 <td valign="middle" style="padding:12px 0">
-<p style="margin:0;font-family:${FONT_BODY};font-size:11px;line-height:15px;letter-spacing:.16em;font-weight:600;color:${it.tone === 'muted' ? T.faint : T.ink};text-transform:uppercase">${it.title}</p>
-<p style="margin:3px 0 0;font-family:${FONT_BODY};font-size:9.5px;line-height:13px;letter-spacing:.1em;color:${T.mute};text-transform:uppercase">${it.text}</p>
+<p style="margin:0;font-family:${FONT_BODY};font-size:11px;line-height:15px;letter-spacing:.16em;font-weight:600;color:${it.tone === 'muted' ? T.faint : T.ink};text-transform:uppercase">${paintProse(it.title, asset)}</p>
+<p style="margin:3px 0 0;font-family:${FONT_BODY};font-size:9.5px;line-height:13px;letter-spacing:.1em;color:${T.mute};text-transform:uppercase">${paintProse(it.text, asset)}</p>
 </td>
 ${opts.status ? `<td valign="middle" align="left" width="96" style="width:96px;padding:12px 0 12px 12px;border-left:1px solid ${T.line}">${opts.status(it, i)}</td>` : ''}
 </tr></table></td></tr>`,

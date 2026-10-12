@@ -16430,3 +16430,13 @@ Summary of the whole conversation in this chat.
 - **Change:** Hero headlines in `shared/site00-correspondence-studio/fndatn01/layout.ts` are 2px larger (48/42 desktop, 42/38 mobile, and the resume desk size 36). The paragraph directly under that headline leads at 15px instead of 16px. Section titles, the mast, and other body copy are unchanged.
 - **Check:** Previews regenerated. `tests/fndatn01.test.ts` passed 17/17. Invitation measured 48px headline and 15px body leading, and the text stays inside the hero.
 - **Conventions:** This adjustment is FNDATN-01 only. Draft PR #1617 stays unmerged.
+
+---
+
+## 2026-10-12 — Comma tails and the asterisk are red on the sheet and in the emails
+
+- **Context:** Same correspondence-type chat. The founder said the bottom half of the commas and the asterisk were still not colored.
+- **Sheet:** The traced comma and semicolon were already red through the tail, and the asterisk was already red. `09_REVIEW/SYMBOLS.png` now leads with those two marks large, in `#ce1017`, labeled “COMMA TAIL RED · ASTERISK RED”. `symbols.html` also sets the live display face to that red for `,` `;` `*`. Cache key is `SYMBOLS.png?v=1.5`.
+- **Emails:** Prose commas, semicolons, and asterisks in FNDATN-01 are the traced mark as a red image (`public/site00-correspondence-studio/fndatn-01/marks/`), tail included. A comma between digits, such as `$1,334.00`, stays text. Headlines, the +2px size, and the 15px subtext leading are unchanged.
+- **Check:** `tests/fndatn01.test.ts` passed 17/17. The invitation hero and the symbol page were opened in the browser.
+- **Conventions:** Do not rerun `trace_specimen_sheet.py`. Draft PR #1617 stays unmerged.

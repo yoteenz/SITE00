@@ -320,10 +320,37 @@ def main() -> None:
         tx += tw
     rgb = Image.new('RGB', canvas.size, (255, 255, 255))
     rgb.paste(canvas, mask=canvas.split()[-1])
+    rgb = with_proof(rgb)
     rgb.save(SHEET, 'PNG')
     art = Path('/opt/cursor/artifacts/symbol-specimen.png')
     rgb.save(art, 'PNG')
     print(rgb.size, SHEET)
+
+
+def with_proof(sheet: Image.Image) -> Image.Image:
+    """Put a large red comma and a large red asterisk above the traced rows.
+
+    The comma image is the whole traced mark, tail included. Both marks are
+    #ce1017 through every pixel, so the tail and the asterisk read as red
+    before the rest of the sheet.
+    """
+    marks = ROOT / 'public/site00-correspondence-studio/fndatn-01/marks'
+    comma = Image.open(marks / 'comma.png').convert('RGBA')
+    star = Image.open(marks / 'asterisk.png').convert('RGBA')
+    comma = comma.resize((154, 326), Image.Resampling.NEAREST)
+    star = star.resize((280, 285), Image.Resampling.NEAREST)
+    band_h = 430
+    band = Image.new('RGB', (sheet.width, band_h), (255, 255, 255))
+    band.paste(comma, (sheet.width // 2 - 360, 70), comma)
+    band.paste(star, (sheet.width // 2 + 80, 90), star)
+    draw = ImageDraw.Draw(band)
+    font = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf', 18)
+    label = 'COMMA TAIL RED    ·    ASTERISK RED'
+    draw.text(((sheet.width - font.getlength(label)) / 2, 28), label, font=font, fill=(206, 16, 23))
+    out = Image.new('RGB', (sheet.width, band_h + sheet.height), (255, 255, 255))
+    out.paste(band, (0, 0))
+    out.paste(sheet, (0, band_h))
+    return out
 
 
 if __name__ == '__main__':
