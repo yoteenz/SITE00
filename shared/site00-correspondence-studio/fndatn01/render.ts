@@ -79,6 +79,7 @@ export function renderFndatn01Email(id: Fndatn01EmailId, payload: DigitalFoundat
     inbox,
     label: comp.label,
     blocks: comp.blocks,
+    styles: comp.styles,
   });
   return { ok: true, html, subject: comp.subject, preheader: comp.preheader, eligibility };
 }

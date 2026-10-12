@@ -6,20 +6,15 @@ import {
   SITE_WORD,
   T,
   bgCell,
-  bodyCopy,
-  displaySubtextMetrics,
   button,
   caption,
   esc,
   fontFaces,
-  headline,
   icon,
   img,
-  kicker,
   microLabel,
   mobileOnly,
   sectionTitle,
-  tagline,
   vrule,
   type AssetResolver,
 } from './html.js';
@@ -32,6 +27,7 @@ export type DocumentOpts = {
   inbox: string | null;
   label: string;
   blocks: string[];
+  styles?: string[];
 };
 
 export function documentHtml(o: DocumentOpts): string {
@@ -50,9 +46,10 @@ export function documentHtml(o: DocumentOpts): string {
 <style>
 ${fontFaces(o.assetBase, o.root)}
 ${BASE_CSS}
+${(o.styles ?? []).filter(Boolean).join('\n')}
 </style>
 </head>
-<body id="body" style="margin:0;padding:0;background:#ffffff;word-spacing:normal">
+<body id="body" class="body" style="margin:0;padding:0;background:#ffffff;word-spacing:normal">
 ${o.inbox ?? ''}
 <div class="email" role="article" aria-roledescription="email" aria-label="${esc(o.label)}" lang="en" style="width:100%;max-width:680px;margin:0 auto;background:#ffffff">
 ${o.blocks.join('\n')}
@@ -102,73 +99,18 @@ export function mast(opts: { preheader: string; line1: string; line2: string; mo
 /** Matches DESKTOP_HERO_HEIGHT in scripts/correspondence-studio/fndatn01/extract_assets.py. */
 export const DESKTOP_HERO_HEIGHT = 300;
 
-export type HeroCopy = {
-  kicker: string | null;
-  headline: string[];
-  mobileHeadline?: string[];
-  sub?: string;
-  body: string;
-  mobileBody?: string;
-  tagline?: string[];
-  /** Desktop headline size override when the default would push the hero past its art height. */
-  deskSize?: number;
-  /** The tagline is dropped on desktop where the art behind the column bottom is too busy to read over. */
-  deskTagline?: boolean;
-};
-
-/** `column` is the live text width; it must end before the hero object in the art. */
-export function desktopHero(asset: AssetResolver, slug: string, copy: HeroCopy, opts: { column: number; alt: string }): string {
-  const w = opts.column + 28;
-  const content = `<table role="presentation" width="${w}" cellpadding="0" cellspacing="0" border="0" align="left" style="width:${w}px"><tr>
-<td width="${w}" valign="top" style="width:${w}px;max-width:${w}px;padding:${copy.headline.length > 2 ? 20 : 26}px 0 10px 28px">
-${copy.kicker ? `${kicker(copy.kicker)}<div style="height:11px;line-height:11px;font-size:1px">&nbsp;</div>` : ''}
-${headline(copy.headline, (copy.deskSize ?? (copy.headline.length > 2 ? 40 : 46)) + 2)}
-${copy.sub ? (() => {
-  const sub = displaySubtextMetrics(13, 17);
-  return `<div style="height:10px;line-height:10px;font-size:1px">&nbsp;</div><p style="margin:0;font-family:${FONT_BODY};font-size:${sub.fontSize}px;line-height:${sub.lineHeight}px;letter-spacing:.1em;font-weight:600;color:${T.ink};text-transform:uppercase">${copy.sub}</p>`;
-})() : ''}
-<div style="height:12px;line-height:12px;font-size:1px">&nbsp;</div>
-${(() => {
-  const hero = displaySubtextMetrics(10.5, 15);
-  return bodyCopy(copy.body, hero.fontSize, T.ink, 'font-weight:500;', hero.lineHeight);
-})()}
-${copy.tagline && copy.deskTagline !== false ? `<div style="height:12px;line-height:12px;font-size:1px">&nbsp;</div>${tagline(copy.tagline)}` : ''}
-</td>
-</tr></table>`;
-  return `<table class="hero desk-only" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%" aria-label="${esc(opts.alt)}">
-<tr>${bgCell({ src: asset(`assets/${slug}/hero-desktop.jpg`), width: T.canvas, height: DESKTOP_HERO_HEIGHT, fallback: '#ebe8e3', position: 'center center', content })}</tr>
-</table>`;
-}
-
-export function mobileHero(asset: AssetResolver, slug: string, copy: HeroCopy, opts: { height: number; alt: string; textWidth?: number }): string {
-  const lines = copy.mobileHeadline ?? copy.headline;
-  const content = `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
-<td valign="top" style="padding:24px 20px 0 20px">
-${copy.kicker ? `${kicker(copy.kicker)}<div style="height:11px;line-height:11px;font-size:1px">&nbsp;</div>` : ''}
-${headline(lines, (lines.length > 3 ? 36 : 40) + 2)}
-<div style="height:10px;line-height:10px;font-size:1px">&nbsp;</div>
-<div style="max-width:${opts.textWidth ?? 240}px">${(() => {
-  const hero = displaySubtextMetrics(10.5, 15);
-  return bodyCopy(copy.mobileBody ?? copy.body, hero.fontSize, T.ink, 'letter-spacing:.06em;font-weight:500;', hero.lineHeight);
-})()}</div>
-</td></tr></table>`;
-  return mobileOnly(`<table class="hero mob-only" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="display:none;max-height:0;overflow:hidden;width:100%" aria-label="${esc(opts.alt)}">
-<tr>${bgCell({ src: asset(`assets/${slug}/hero-mobile.jpg`), width: 390, height: opts.height, fallback: '#ebe8e3', position: 'center bottom', content, className: 'full' })}</tr>
-</table>`);
-}
-
 export type RecordField = { label: string; value: string; tone?: 'red' | 'ink'; personalized?: boolean };
 
 /** Live mirror of the card fields that were cleared from the artwork. */
 function fieldValue(f: RecordField, size: number): string {
   const red = f.tone === 'red';
-  return `<span class="${red ? 'keep-red' : 'keep-ink'}" style="font-family:${FONT_BODY};font-size:${size}px;line-height:${Math.round(size * 1.45)}px;letter-spacing:.08em;font-weight:${red ? 600 : 500};color:${red ? T.red : T.ink};text-transform:uppercase">${f.personalized === false ? esc(f.value) : `<span class="v">${esc(f.value)}</span>`}</span>`;
+  return `<span class="${red ? 'keep-red' : 'keep-ink'}" style="font-family:${FONT_BODY};font-size:${size}px;line-height:${Math.round(size * 1.45)}px;letter-spacing:.08em;font-weight:${red ? 600 : 500};color:${red ? T.red : T.ink};text-transform:uppercase;overflow-wrap:anywhere;word-break:break-word">${f.personalized === false ? esc(f.value) : `<span class="v">${esc(f.value)}</span>`}</span>`;
 }
 
 const LEDGER_TABLE = `role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%;background:${T.paper};border-top:1px solid ${T.line};border-bottom:1px solid ${T.line}"`;
 
 /** Live mirror of the card fields that were cleared from the artwork. Desktop one row (two when more than five), mobile grid of two. */
-export function ledger(title: string, subtitle: string, fields: RecordField[], opts: { mobile?: boolean } = {}): string {
+export function ledger(title: string, subtitle: string, fields: RecordField[], opts: { mobile?: boolean; desktop?: boolean } = {}): string {
   const perRow = fields.length <= 5 ? fields.length : Math.ceil(fields.length / 2);
   const rows: RecordField[][] = [];
   for (let i = 0; i < fields.length; i += perRow) rows.push(fields.slice(i, i + perRow));
@@ -179,7 +121,7 @@ export function ledger(title: string, subtitle: string, fields: RecordField[], o
         .map(
           (
             f,
-          ) => `<td valign="top" width="${cellW}" style="width:${cellW}px;padding:11px 10px 11px 14px;border-left:1px solid ${T.line};${r > 0 ? `border-top:1px solid ${T.line};` : ''}">
+          ) => `<td valign="top" width="${cellW}" style="width:${cellW}px;max-width:${cellW}px;overflow-wrap:anywhere;word-break:break-word;padding:11px 10px 11px 14px;border-left:1px solid ${T.line};${r > 0 ? `border-top:1px solid ${T.line};` : ''}">
 ${microLabel(esc(f.label), T.mute, 7.5)}<br>${fieldValue(f, 11)}</td>`,
         )
         .join(
@@ -206,10 +148,11 @@ ${deskCells
 <tr><td style="padding:0 20px 8px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">${pairs
     .map(
       (pair) =>
-        `<tr>${pair.map((f, i) => `<td valign="top" width="50%" style="width:50%;padding:9px ${i === 0 ? 10 : 0}px 9px ${i === 0 ? 0 : 12}px;border-top:1px solid ${T.line};${i === 1 ? `border-left:1px solid ${T.line};` : ''}">${microLabel(esc(f.label), T.mute, 7.5)}<br>${fieldValue(f, 11)}</td>`).join('')}${pair.length === 1 ? `<td width="50%" style="border-top:1px solid ${T.line};border-left:1px solid ${T.line}">&nbsp;</td>` : ''}</tr>`,
+        `<tr>${pair.map((f, i) => `<td valign="top" width="50%" style="width:50%;overflow-wrap:anywhere;word-break:break-word;padding:9px ${i === 0 ? 10 : 0}px 9px ${i === 0 ? 0 : 12}px;border-top:1px solid ${T.line};${i === 1 ? `border-left:1px solid ${T.line};` : ''}">${microLabel(esc(f.label), T.mute, 7.5)}<br>${fieldValue(f, 11)}</td>`).join('')}${pair.length === 1 ? `<td width="50%" style="border-top:1px solid ${T.line};border-left:1px solid ${T.line}">&nbsp;</td>` : ''}</tr>`,
     )
     .join('')}</table></td></tr>
 </table>`);
+  if (opts.desktop === false) return mob;
   return opts.mobile === false ? desk : `${desk}\n${mob}`;
 }
 

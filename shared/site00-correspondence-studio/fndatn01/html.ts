@@ -2,6 +2,7 @@
  * FNDATN-01 email HTML primitives. Table layout, inline styles, live text, no JavaScript.
  * Every dynamic string passes through `esc` or `href`.
  */
+import { wrapText } from '../editorial/measure.js';
 
 export const T = {
   ink: '#111111',
@@ -69,8 +70,9 @@ a{text-decoration:none}
 a[x-apple-data-detectors]{color:inherit!important;text-decoration:none!important;font-size:inherit!important;font-family:inherit!important;font-weight:inherit!important;line-height:inherit!important}
 u + #body a{color:inherit;text-decoration:none}
 .email{width:100%;max-width:680px;margin:0 auto}
+.email td{overflow-wrap:anywhere;word-break:break-word}
 .mob-only{display:none;max-height:0;overflow:hidden;mso-hide:all}
-@media screen and (max-width:480px){
+@media screen and (max-width:679px){
   .desk-only{display:none!important;max-height:0!important;overflow:hidden!important;mso-hide:all}
   .mob-only{display:block!important;max-height:none!important;overflow:visible!important}
   table.mob-only{display:table!important}
@@ -86,7 +88,18 @@ u + #body a{color:inherit;text-decoration:none}
   .slash-m{font-size:18px!important;line-height:18px!important;padding-right:6px!important}
   .tiny-m{padding-right:0!important}
   .foot-r{text-align:left!important;padding-top:0!important}
+  table.mob-only.ez-b{display:none!important}
 }
+@media screen and (min-width:680px){
+  u + .body table.ez-a.desk-only{display:none!important}
+  u + .body table.ez-b.desk-only{display:table!important;max-height:none!important;overflow:visible!important}
+}
+@media screen and (max-width:679px){
+  u + .body table.ez-a.mob-only{display:none!important}
+  u + .body table.ez-b.mob-only{display:table!important;max-height:none!important;overflow:visible!important}
+}
+[class~="x_ez-a"][class~="x_desk-only"]{display:none!important}
+[class~="x_ez-b"][class~="x_desk-only"]{display:table!important;max-height:none!important;overflow:visible!important}
 [data-ogsc] .keep-ink, [data-ogsb] .keep-ink{color:#111111!important}
 [data-ogsc] .keep-red, [data-ogsb] .keep-red{color:#ce1017!important}
 `;
@@ -148,6 +161,11 @@ export function displaySubtextMetrics(size: number, lineHeightPx?: number): { fo
 
 export function headline(lines: string[], size = 44, extraClass = ''): string {
   const { fontSize, lineHeight } = displayHeadlineMetrics(size);
+  return headlineAt(lines, fontSize, lineHeight, extraClass);
+}
+
+/** Display headline at solved metrics (see editorial/solve.ts). */
+export function headlineAt(lines: string[], fontSize: number, lineHeight: number, extraClass = ''): string {
   const body = lines
     .map((line, i) => (i === lines.length - 1 ? displayLineHtml(line) : displayText(line)))
     .join('<br>');
@@ -160,10 +178,14 @@ export function sectionTitle(text: string, size = 30): string {
   return `<h2 class="keep-ink" style="margin:0;font-family:${FONT_DISPLAY};font-weight:900;font-size:${fontSize}px;line-height:${lineHeight}px;letter-spacing:0;color:${T.ink};text-transform:uppercase">${displayLineHtml(text)}${terminal}</h2>`;
 }
 
-export function kicker(text: string): string {
+export function kicker(text: string, opts: { size?: number; lineHeight?: number; width?: number; rule?: boolean } = {}): string {
+  const size = opts.size ?? 11;
+  const lh = opts.lineHeight ?? 14;
+  const w = opts.width ? ` width="${opts.width}" style="width:${opts.width}px;max-width:${opts.width}px;` : ' style="';
+  const rule = opts.rule ?? true;
   return `<table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
-<td style="font-family:${FONT_BODY};font-size:11px;line-height:14px;letter-spacing:.2em;color:${T.red};font-weight:500;text-transform:uppercase;padding-right:12px" class="keep-red">${text}</td>
-<td style="padding-top:1px"><div style="width:44px;height:1px;line-height:1px;font-size:1px;background:${T.red}">&nbsp;</div></td>
+<td${w}font-family:${FONT_BODY};font-size:${size}px;line-height:${lh}px;letter-spacing:.2em;color:${T.red};font-weight:500;text-transform:uppercase;${rule ? 'padding-right:12px' : ''}" class="keep-red" data-ez-text>${text}</td>
+${rule ? `<td valign="top" style="padding-top:${Math.round(lh / 2) - 1}px"><div style="width:44px;height:1px;line-height:1px;font-size:1px;background:${T.red}">&nbsp;</div></td>` : ''}
 </tr></table>`;
 }
 
@@ -177,12 +199,14 @@ export function tagline(lines: string[]): string {
   return `<div style="width:24px;height:1px;line-height:1px;font-size:1px;background:${T.ink};margin:0 0 9px">&nbsp;</div>${bodyCopy(lines.map(esc).join('<br>'), 8.5, T.ink, 'letter-spacing:.2em;font-weight:500;')}`;
 }
 
-/** Bulletproof button: VML roundrect for Outlook, padded anchor elsewhere. */
+/** Bulletproof button: VML roundrect for Outlook, padded anchor elsewhere. Long labels wrap; the VML grows to match. */
 export function button(label: string, url: string, opts: { width?: number; color?: string; mobileColor?: string } = {}): string {
   const width = opts.width ?? 300;
   const color = opts.color ?? T.red;
   const safe = href(url);
-  return `<!--[if mso]><v:rect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${safe}" style="height:46px;v-text-anchor:middle;width:${width}px;" stroke="f" fillcolor="${color}"><w:anchorlock/><center style="color:#ffffff;font-family:Arial,sans-serif;font-size:12px;letter-spacing:1px;font-weight:bold;">${esc(label)} &rarr;</center></v:rect><![endif]--><!--[if !mso]><!--><a class="btn-m${opts.mobileColor ? ' btn-alt' : ''}" href="${safe}" target="_blank" rel="noopener" style="display:inline-block;width:${width}px;max-width:100%;box-sizing:border-box;background:${color};color:#ffffff;font-family:${FONT_BODY};font-size:12px;line-height:16px;font-weight:600;letter-spacing:.16em;text-align:center;text-transform:uppercase;white-space:nowrap;padding:15px 10px">${esc(label)}&nbsp;&nbsp;&rarr;</a><!--<![endif]-->`;
+  const lines = wrapText(`${label} →`, width - 20, { family: 'body', weight: 700, size: 12, tracking: 0.16 }, 'fallback').lines.length;
+  const vmlHeight = 46 + (lines - 1) * 16;
+  return `<!--[if mso]><v:rect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="${safe}" style="height:${vmlHeight}px;v-text-anchor:middle;width:${width}px;" stroke="f" fillcolor="${color}"><w:anchorlock/><center style="color:#ffffff;font-family:Arial,sans-serif;font-size:12px;line-height:16px;letter-spacing:1px;font-weight:bold;">${esc(label)} &rarr;</center></v:rect><![endif]--><!--[if !mso]><!--><a class="btn-m${opts.mobileColor ? ' btn-alt' : ''}" data-ez-cta href="${safe}" target="_blank" rel="noopener" style="display:inline-block;width:${width}px;max-width:100%;box-sizing:border-box;background:${color};color:#ffffff;font-family:${FONT_BODY};font-size:12px;line-height:16px;font-weight:600;letter-spacing:.16em;text-align:center;text-transform:uppercase;white-space:normal;overflow-wrap:break-word;padding:15px 10px">${esc(label)}&nbsp;&nbsp;&rarr;</a><!--<![endif]-->`;
 }
 
 export function caption(text: string, align = 'center'): string {

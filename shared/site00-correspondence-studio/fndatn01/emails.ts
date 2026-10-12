@@ -1,23 +1,11 @@
 /** FNDATN-01 compositions. Seven emails, seven arrangements of the shared parts. */
 import type { Data01, Data02, Data03, Data04, Data05, Data06, Data07, AddonLine, ScopeItem } from './contracts.js';
 import { FONT_BODY, FONT_DISPLAY, T, button, caption, esc, icon, img, microLabel, mobileOnly, sectionTitle, v, type AssetResolver } from './html.js';
-import {
-  SPACE,
-  deskAct,
-  deskBand,
-  desktopHero,
-  foot,
-  ledger,
-  mast,
-  mobileAct,
-  mobileHero,
-  mobileRows,
-  mobileStrip,
-  type BandItem,
-  type HeroCopy,
-} from './layout.js';
+import { textWidth } from '../editorial/measure.js';
+import { desktopHero, mobileHero, type HeroCopy } from './hero.js';
+import { SPACE, deskAct, deskBand, foot, ledger, mast, mobileAct, mobileRows, mobileStrip, type BandItem } from './layout.js';
 
-export type Composition = { subject: string; subjectHtml: string; preheader: string; label: string; blocks: string[] };
+export type Composition = { subject: string; subjectHtml: string; preheader: string; label: string; blocks: string[]; styles?: string[] };
 
 const TAGLINE = ['SAME VISION.', 'MORE CLARITY.', 'A STRONGER TOMORROW.'];
 
@@ -104,7 +92,10 @@ ${[
 </table>`);
   const linkCaption = `<a href="${esc(d.intakeUrl)}" style="color:${T.mute};text-decoration:none;letter-spacing:.06em;text-transform:none">${esc(d.intakeUrl.replace(/^https:\/\//, ''))}</a>`;
   const cta = { label: 'BEGIN YOUR FOUNDATION', url: d.intakeUrl, caption: linkCaption };
+  const dh = desktopHero(asset, '01', copy, 'Foundation invitation card resting on a limestone terrace above the sea, red glass architecture behind.');
+  const mh = mobileHero(asset, '01', copy, 'Foundation invitation card on a limestone terrace, red glass architecture behind.');
   return {
+    styles: [dh.css, mh.css],
     subject: 'YOUR FOUNDATION INVITATION',
     subjectHtml: 'YOUR FOUNDATION INVITATION',
     preheader: "BEFORE WE BUILD, WE'D LIKE TO LEARN HOW YOU WORK.",
@@ -115,11 +106,8 @@ ${[
         line1: 'TRANSACTIONAL · DIGITAL FOUNDATION',
         line2: "ARCHITECTURE FOR WHAT'S NEXT",
       }),
-      desktopHero(asset, slug, copy, {
-        column: 285,
-        alt: 'Foundation invitation card resting on a limestone terrace above the sea, red glass architecture behind.',
-      }),
-      mobileHero(asset, slug, copy, { height: 347, alt: 'Foundation invitation card on a limestone terrace, red glass architecture behind.' }),
+      dh.html,
+      mh.html,
       ledger('FOUNDATION INVITATION', 'CLIENT INTAKE', [
         ...(d.clientName ? [{ label: 'CLIENT', value: d.clientName }] : []),
         { label: 'SERVICE', value: d.service, personalized: false },
@@ -142,12 +130,16 @@ export function compose02(asset: AssetResolver, d: Data02): Composition {
   const copy: HeroCopy = {
     kicker: forName(d.firstName),
     headline: ["WE'VE RECEIVED", 'YOUR INTAKE'],
-    mobileHeadline: ["WE'VE", 'RECEIVED', 'YOUR INTAKE'],
     body: "THANK YOU FOR SHARING YOUR INFORMATION. WE'VE RECEIVED YOUR DIGITAL FOUNDATION INTAKE AND OUR TEAM IS NOW REVIEWING IT. YOU'LL HEAR FROM US SOON WITH NEXT STEPS.",
-    mobileBody: "THANK YOU FOR SHARING YOUR INFORMATION. WE'VE RECEIVED YOUR DIGITAL FOUNDATION INTAKE AND ARE NOW REVIEWING IT.",
     tagline: TAGLINE,
-    deskTagline: false,
   };
+  const mobileCopy: HeroCopy = {
+    ...copy,
+    headline: ["WE'VE", 'RECEIVED', 'YOUR INTAKE'],
+    body: "THANK YOU FOR SHARING YOUR INFORMATION. WE'VE RECEIVED YOUR DIGITAL FOUNDATION INTAKE AND ARE NOW REVIEWING IT.",
+  };
+  const dh = desktopHero(asset, '02', copy, 'Intake confirmation card on a marble ledge before a city skyline, a crystal and a red maple nearby.');
+  const mh = mobileHero(asset, '02', mobileCopy, 'Intake confirmation card on a marble table beside red glass and a red maple.');
   const next: BandItem[] = [
     { n: '01', icon: 'magnifier', iconAlt: 'Review', title: 'REVIEW', text: "WE'LL REVIEW YOUR INFORMATION FOR ACCURACY AND ANY ADDITIONAL NEEDS." },
     { n: '02', icon: 'bubble', iconAlt: 'Clarify', title: 'CLARIFY', text: "IF WE NEED ANY ADDITIONAL DETAILS, WE'LL REACH OUT DIRECTLY." },
@@ -170,17 +162,15 @@ export function compose02(asset: AssetResolver, d: Data02): Composition {
 </tr>
 </table>`);
   return {
+    styles: [dh.css, mh.css],
     subject: "WE'VE RECEIVED YOUR INTAKE",
     subjectHtml: "WE'VE RECEIVED YOUR INTAKE",
     preheader: "OUR TEAM IS NOW REVIEWING IT. YOU'LL HEAR FROM US SOON WITH NEXT STEPS.",
     label: 'Digital Foundation intake received',
     blocks: [
       mast({ preheader: "OUR TEAM IS NOW REVIEWING IT. YOU'LL HEAR FROM US SOON WITH NEXT STEPS.", line1: 'DIGITAL FOUNDATION', line2: 'CLIENT INTAKE' }),
-      desktopHero(asset, slug, copy, {
-        column: 300,
-        alt: 'Intake confirmation card on a marble ledge before a city skyline, a crystal and a red maple nearby.',
-      }),
-      mobileHero(asset, slug, copy, { height: 440, alt: 'Intake confirmation card on a marble table beside red glass and a red maple.' }),
+      dh.html,
+      mh.html,
       ledger('DIGITAL FOUNDATION', 'INTAKE CONFIRMATION', [
         ...(d.clientName ? [{ label: 'CLIENT', value: d.clientName }] : []),
         { label: 'STATUS', value: d.status, tone: 'red' as const, personalized: false },
@@ -207,7 +197,10 @@ export function compose03(asset: AssetResolver, d: Data03): Composition {
   };
   const items = scopeItems(d.scope);
   const cta = { label: 'REVIEW YOUR RECOMMENDATION & QUOTE', url: d.foundationUrl, caption: 'OR REPLY TO THIS EMAIL IF YOU HAVE ANY QUESTIONS.' };
+  const dh = desktopHero(asset, '03', copy, 'Recommendation and quote card on a marble ledge with a crystal and stacked books, the sea behind.');
+  const mh = mobileHero(asset, '03', copy, 'Recommendation and quote card on a limestone ledge, a crystal on stacked books.');
   return {
+    styles: [dh.css, mh.css],
     subject: 'YOUR RECOMMENDATION IS READY',
     subjectHtml: 'YOUR RECOMMENDATION IS READY',
     preheader: `A TAILORED DIGITAL FOUNDATION PLAN AND QUOTE FOR YOUR REVIEW. VALID UNTIL ${d.validUntil}.`,
@@ -218,8 +211,8 @@ export function compose03(asset: AssetResolver, d: Data03): Composition {
         line1: 'TRANSACTIONAL · DIGITAL FOUNDATION',
         line2: 'RECOMMENDATION & QUOTE',
       }),
-      desktopHero(asset, slug, copy, { column: 285, alt: 'Recommendation and quote card on a marble ledge with a crystal and stacked books, the sea behind.' }),
-      mobileHero(asset, slug, copy, { height: 470, alt: 'Recommendation and quote card on a limestone ledge, a crystal on stacked books.' }),
+      dh.html,
+      mh.html,
       ledger('DIGITAL FOUNDATION', 'RECOMMENDATION & QUOTE', [
         ...(d.clientName ? [{ label: 'CLIENT', value: d.clientName }] : []),
         { label: 'RECOMMENDATION', value: d.recommendation },
@@ -235,6 +228,18 @@ export function compose03(asset: AssetResolver, d: Data03): Composition {
       foot(),
     ],
   };
+}
+
+const RECEIPT_ROWS = 7;
+const RECEIPT_LABEL = { family: 'body', weight: 400, size: 8, tracking: 0.16 } as const;
+const RECEIPT_VALUE = { family: 'body', weight: 600, size: 9.5, tracking: 0.1 } as const;
+
+/** The mobile receipt card holds seven one-line rows (112 px labels, 138 px values); anything longer moves to the standard ledger. */
+function receiptFits(fields: { label: string; value: string }[]): boolean {
+  return (
+    fields.length <= RECEIPT_ROWS &&
+    fields.every((f) => textWidth(f.label, RECEIPT_LABEL, 'fallback') <= 108 && textWidth(f.value, RECEIPT_VALUE, 'fallback') <= 134)
+  );
 }
 
 export function compose04(asset: AssetResolver, d: Data04): Composition {
@@ -288,12 +293,21 @@ export function compose04(asset: AssetResolver, d: Data04): Composition {
     .map(
       (
         f,
-      ) => `<tr><td width="112" style="width:112px;height:${rowH}px;font-family:${FONT_BODY};font-size:8px;line-height:${rowH}px;letter-spacing:.16em;color:${T.mute};text-transform:uppercase;white-space:nowrap">${esc(f.label)}</td>
-<td style="height:${rowH}px;font-family:${FONT_BODY};font-size:9.5px;line-height:${rowH}px;letter-spacing:.1em;font-weight:${'red' in f ? 600 : 500};color:${'red' in f ? T.red : T.ink};text-transform:uppercase;white-space:nowrap;overflow:hidden">${v(f.value)}</td></tr>`,
+      ) => `<tr><td width="112" style="width:112px;height:${rowH}px;font-family:${FONT_BODY};font-size:8px;line-height:${rowH}px;letter-spacing:.16em;color:${T.mute};text-transform:uppercase">${esc(f.label)}</td>
+<td style="height:${rowH}px;font-family:${FONT_BODY};font-size:9.5px;line-height:${rowH}px;letter-spacing:.1em;font-weight:${'red' in f ? 600 : 500};color:${'red' in f ? T.red : T.ink};text-transform:uppercase;overflow-wrap:anywhere;word-break:break-word">${v(f.value)}</td></tr>`,
     )
     .join('');
-  const receipt =
-    mobileOnly(`<table class="ledger mob-only" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="display:none;max-height:0;overflow:hidden;width:100%">
+  const blueprint = img(
+    asset(`assets/${slug}/blueprint-mobile.jpg`),
+    'Architectural blueprint on limestone beside red glass, with the words ideas, systems, people, reality.',
+    390,
+    null,
+    'width:100%;height:auto;',
+  );
+  const ledgerFields = fields.map((f) => ({ label: f.label, value: f.value, tone: 'red' in f ? ('red' as const) : undefined }));
+  const receipt = !receiptFits(fields)
+    ? `${ledger('DIGITAL FOUNDATION', 'PAYMENT RECEIPT', ledgerFields, { desktop: false })}\n${mobileOnly(`<table class="rest mob-only" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="display:none;max-height:0;overflow:hidden;width:100%"><tr><td>${blueprint}</td></tr></table>`)}`
+    : mobileOnly(`<table class="ledger mob-only" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="display:none;max-height:0;overflow:hidden;width:100%">
 <tr><td background="${asset(`assets/${slug}/receipt-mobile.jpg`)}" bgcolor="#f1efeb" height="240" valign="top" style="background-color:#f1efeb;background-image:url('${asset(`assets/${slug}/receipt-mobile.jpg`)}');background-size:100% 100%;background-repeat:no-repeat;height:240px;padding:0">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr><td style="height:64px;line-height:64px;font-size:1px">&nbsp;</td></tr>
@@ -304,25 +318,23 @@ export function compose04(asset: AssetResolver, d: Data04): Composition {
 </tr></table></td></tr>
 </table>
 </td></tr>
-<tr><td>${img(asset(`assets/${slug}/blueprint-mobile.jpg`), 'Architectural blueprint on limestone beside red glass, with the words ideas, systems, people, reality.', 390, null, 'width:100%;height:auto;')}</td></tr>
+<tr><td>${blueprint}</td></tr>
 </table>`);
   const cta = { label: 'OPEN YOUR FOUNDATION', url: d.foundationUrl, caption: 'OR REPLY TO THIS EMAIL IF YOU HAVE ANY QUESTIONS.' };
   const pre = active ? 'YOUR DIGITAL FOUNDATION IS NOW IN PROGRESS.' : "WE'VE RECORDED YOUR PAYMENT. PROJECT ACTIVATION IS PENDING.";
+  const dh = desktopHero(asset, '04', copy, 'Payment receipt card with a red PAID seal on a limestone ledge above the sea.');
+  const mh = mobileHero(asset, '04', mobileCopy, 'Limestone and red glass architecture above the coast.');
   return {
+    styles: [dh.css, mh.css],
     subject: 'PAYMENT RECEIVED',
     subjectHtml: 'PAYMENT RECEIVED',
     preheader: pre,
     label: 'Digital Foundation payment received',
     blocks: [
       mast({ preheader: pre, line1: 'TRANSACTIONAL · DIGITAL FOUNDATION', line2: 'PAYMENT RECEIPT' }),
-      desktopHero(asset, slug, copy, { column: 250, alt: 'Payment receipt card with a red PAID seal on a limestone ledge above the sea.' }),
-      mobileHero(asset, slug, mobileCopy, { height: active ? 360 : 300, alt: 'Limestone and red glass architecture above the coast.' }),
-      ledger(
-        'DIGITAL FOUNDATION',
-        'PAYMENT RECEIPT',
-        fields.map((f) => ({ label: f.label, value: f.value, tone: 'red' in f ? ('red' as const) : undefined })),
-        { mobile: false },
-      ),
+      dh.html,
+      mh.html,
+      ledger('DIGITAL FOUNDATION', 'PAYMENT RECEIPT', ledgerFields, { mobile: false }),
       receipt,
       deskBand(asset, 'WHAT HAPPENS NEXT', next, { titleWidth: 170 }),
       mobileColumns(asset, 'WHAT HAPPENS NEXT', next, { small: true }),
@@ -344,9 +356,9 @@ export function compose05(asset: AssetResolver, d: Data05): Composition {
     kicker: forName(d.firstName),
     headline: ['YOUR', 'FOUNDATION', 'IS COMPLETE'],
     body: 'EVERYTHING YOU NEED IS SET UP AND READY. YOUR DIGITAL FOUNDATION HAS BEEN DELIVERED.',
-    mobileBody: 'EVERYTHING IS SET UP, VERIFIED, AND READY FOR YOU TO USE. WELCOME TO A CLEARER TOMORROW.',
     tagline: TAGLINE,
   };
+  const mobileCopy: HeroCopy = { ...copy, body: 'EVERYTHING IS SET UP, VERIFIED, AND READY FOR YOU TO USE. WELCOME TO A CLEARER TOMORROW.' };
   const icons = ['globe', 'envelope', 'shield', 'device', 'records'];
   const items: BandItem[] = d.items.map((it, i) => ({
     n: String(i + 1).padStart(2, '0'),
@@ -364,15 +376,18 @@ export function compose05(asset: AssetResolver, d: Data05): Composition {
   };
   const panel = mobileRows(asset, "WHAT'S COMPLETE", items, { aside: 'YOUR DIGITAL<br>FOUNDATION<br>INCLUDES:', status });
   const cta = { label: 'VIEW YOUR COMPLETED FOUNDATION', url: d.foundationUrl, caption: 'EVERYTHING IS READY IN YOUR CLIENT PORTAL.' };
+  const dh = desktopHero(asset, '05', copy, 'Marble gift box tied with a red ribbon and wax seal on a limestone terrace above the sea.');
+  const mh = mobileHero(asset, '05', mobileCopy, 'Marble gift box with a red ribbon and an All Set card on a limestone terrace.');
   return {
+    styles: [dh.css, mh.css],
     subject: 'YOUR FOUNDATION IS COMPLETE',
     subjectHtml: 'YOUR FOUNDATION IS COMPLETE',
     preheader: 'EVERYTHING YOU NEED IS SET UP AND READY.',
     label: 'Digital Foundation complete',
     blocks: [
       mast({ preheader: 'EVERYTHING YOU NEED IS SET UP AND READY.', line1: 'DIGITAL FOUNDATION', line2: 'ORDER COMPLETE & DELIVERED' }),
-      desktopHero(asset, slug, copy, { column: 270, alt: 'Marble gift box tied with a red ribbon and wax seal on a limestone terrace above the sea.' }),
-      mobileHero(asset, slug, copy, { height: 390, alt: 'Marble gift box with a red ribbon and an All Set card on a limestone terrace.' }),
+      dh.html,
+      mh.html,
       ledger('DIGITAL FOUNDATION', 'ORDER COMPLETE', [
         ...(d.clientName ? [{ label: 'CLIENT', value: d.clientName }] : []),
         { label: 'SERVICE', value: d.service, personalized: false },
@@ -398,7 +413,6 @@ export function compose06(asset: AssetResolver, d: Data06): Composition {
   const copy: HeroCopy = {
     kicker: forName(d.firstName),
     headline: ['YOUR', 'FOUNDATION', 'IS ALMOST READY'],
-    mobileHeadline: ['YOUR', 'FOUNDATION', 'IS ALMOST', 'READY'],
     deskSize: 34,
     body: "IT LOOKS LIKE YOU STARTED YOUR DIGITAL FOUNDATION, BUT DIDN'T FINISH. PICK UP WHERE YOU LEFT OFF TO COMPLETE YOUR SETUP.",
     tagline: TAGLINE,
@@ -446,7 +460,15 @@ ${SPACE(9)}
 <td valign="middle" align="right" style="padding:14px 24px 14px 0">${button('RESUME YOUR INTAKE', d.intakeUrl, { width: 230 })}</td>
 </tr>
 </table>`;
+  const dh = desktopHero(asset, '06', copy, 'Laptop showing the Digital Foundation intake on a limestone terrace above the sea.');
+  const mh = mobileHero(
+    asset,
+    '06',
+    { ...copy, headline: ['YOUR', 'FOUNDATION', 'IS ALMOST', 'READY'] },
+    'Laptop showing the Digital Foundation intake beside books and a crystal on a limestone terrace.',
+  );
   return {
+    styles: [dh.css, mh.css],
     subject: 'YOUR FOUNDATION IS ALMOST READY',
     subjectHtml: 'YOUR FOUNDATION IS ALMOST READY',
     preheader: 'PICK UP WHERE YOU LEFT OFF. YOUR PROGRESS IS SAVED.',
@@ -457,8 +479,8 @@ ${SPACE(9)}
         line1: 'TRANSACTIONAL · DIGITAL FOUNDATION',
         line2: 'PICK UP WHERE YOU LEFT OFF',
       }),
-      desktopHero(asset, slug, copy, { column: 250, alt: 'Laptop showing the Digital Foundation intake on a limestone terrace above the sea.' }),
-      mobileHero(asset, slug, copy, { height: 425, alt: 'Laptop showing the Digital Foundation intake beside books and a crystal on a limestone terrace.' }),
+      dh.html,
+      mh.html,
       deskProgress,
       mobileRows(asset, 'YOUR PROGRESS', items, { aside: 'DIGITAL FOUNDATION<br>SETUP PROGRESS', status }),
       deskNext,
@@ -501,15 +523,18 @@ export function compose07(asset: AssetResolver, d: Data07): Composition {
 <tr><td align="center" style="padding:16px 20px 22px">${button('SECURE YOUR QUOTE', d.foundationUrl, { width: 350 })}${caption('LOCK IN YOUR PRICING AND COMPLETE YOUR DIGITAL FOUNDATION BEFORE THIS OFFER EXPIRES.')}</td></tr>
 </table>`);
   const pre = `YOUR QUOTE IS VALID UNTIL ${d.validUntil}. SECURE IT TO KEEP YOUR PRICING.`;
+  const dh = desktopHero(asset, '07', copy, 'Quote card stamped QUOTE beside an hourglass of red sand on a limestone ledge above the sea.');
+  const mh = mobileHero(asset, '07', copy, 'Quote card beside an hourglass of red sand on a limestone ledge.');
   return {
+    styles: [dh.css, mh.css],
     subject: 'YOUR QUOTE IS ABOUT TO EXPIRE',
     subjectHtml: 'YOUR QUOTE IS ABOUT TO EXPIRE',
     preheader: pre,
     label: 'Digital Foundation quote expiry reminder',
     blocks: [
       mast({ preheader: pre, line1: 'TRANSACTIONAL · DIGITAL FOUNDATION', line2: 'YOUR QUOTE IS ABOUT TO EXPIRE' }),
-      desktopHero(asset, slug, copy, { column: 260, alt: 'Quote card stamped QUOTE beside an hourglass of red sand on a limestone ledge above the sea.' }),
-      mobileHero(asset, slug, copy, { height: 410, alt: 'Quote card beside an hourglass of red sand on a limestone ledge.' }),
+      dh.html,
+      mh.html,
       ledger('DIGITAL FOUNDATION', 'RECOMMENDATION & QUOTE', [
         ...(d.clientName ? [{ label: 'CLIENT', value: d.clientName }] : []),
         { label: 'QUOTE', value: d.quoteAmount },
