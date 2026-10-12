@@ -123,6 +123,9 @@ export function memSaveArtifact(a: DigitalFoundationArtifact): void {
 }
 
 export function memGetArtifact(id: string): DigitalFoundationArtifact | undefined {
+  const found = getDfMemoryState().artifacts.get(id);
+  if (found || !isCloudMobilePreviewDev()) return found;
+  mergePreviewSnapshotFromDisk(getDfMemoryState());
   return getDfMemoryState().artifacts.get(id);
 }
 

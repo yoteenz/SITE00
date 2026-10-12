@@ -49,7 +49,10 @@ export const foundationAdminApi = {
       body: { action: 'mark-complete', artifact_id: artifactId, ownership },
     }),
 
-  pipeline: () => foundationFetch<{ rows: PipelineRow[] }>('/api/admin/site00-foundation?action=pipeline'),
+  pipeline: () =>
+    foundationFetch<{ rows: PipelineRow[]; attention?: Partial<Record<PipelineAttentionKey, PipelineRow[]>> }>(
+      '/api/admin/site00-foundation?action=pipeline',
+    ),
 
   projectCommand: (id: string) =>
     foundationFetch<Record<string, unknown>>(`/api/admin/site00-foundation?action=project-command&id=${encodeURIComponent(id)}`),
@@ -65,4 +68,17 @@ export type PipelineRow = {
   current_stage: string | null;
   next_action: string | null;
   blocker: string | null;
+  artifact_state?: string;
+  quote_amount_minor?: number | null;
+  credit_status?: string | null;
+  build_interest?: string | null;
 };
+
+export type PipelineAttentionKey =
+  | 'needs_founder'
+  | 'waiting_clients'
+  | 'waiting_providers'
+  | 'blocked'
+  | 'ready_to_execute'
+  | 'ready_to_verify'
+  | 'about_to_complete';

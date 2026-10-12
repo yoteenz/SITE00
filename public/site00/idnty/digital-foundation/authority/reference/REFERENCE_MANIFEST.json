@@ -1,0 +1,210 @@
+{
+  "source_manifest": "docs/site00/idnty/visual-authority/mass-production/cj-run/MASTER_ASSET_INDEX.json",
+  "note": "Review-size derivatives of the hash-verified C\u2013J originals. Decorative plates in ../ are crops of the same originals with no lettering.",
+  "assets": [
+    {
+      "asset_id": "DF-D01",
+      "review_file": "/site00/idnty/digital-foundation/authority/reference/df-d01.webp",
+      "review_size": [
+        1600,
+        900
+      ],
+      "original_file": "cj-run/BATCH_D/01_PIPELINE_DESKTOP.png",
+      "original_size": [
+        3584,
+        2016
+      ],
+      "original_sha256": "ab1b81821dbc4d65c978904e9b70766e628e04f1644a958ecd6c4aa8845aafa7",
+      "original_sha256_verified": true,
+      "history_id": "S91yesBI82eMJGQDg9MA",
+      "founder_review": "PENDING"
+    },
+    {
+      "asset_id": "DF-D02",
+      "review_file": "/site00/idnty/digital-foundation/authority/reference/df-d02.webp",
+      "review_size": [
+        1600,
+        900
+      ],
+      "original_file": "cj-run/BATCH_D/02_PROJECT_COMMAND_DESKTOP.png",
+      "original_size": [
+        3584,
+        2016
+      ],
+      "original_sha256": "7c1e1d93e326aa3a488b3a595316348fcdad75ee6bc06896d77de3c21c30b132",
+      "original_sha256_verified": true,
+      "history_id": "AquigNXM0MW8cHO28c2J",
+      "founder_review": "PENDING"
+    },
+    {
+      "asset_id": "DF-D03",
+      "review_file": "/site00/idnty/digital-foundation/authority/reference/df-d03.webp",
+      "review_size": [
+        1600,
+        900
+      ],
+      "original_file": "cj-run/BATCH_D/03_WORKBENCH_DESKTOP.png",
+      "original_size": [
+        3584,
+        2016
+      ],
+      "original_sha256": "6b809a13f979b4893bb29ceb6cbeeaf791c70c397bce426a770cdcd08010623e",
+      "original_sha256_verified": true,
+      "history_id": "P36OIWXJpWDD8jzmm4HG",
+      "founder_review": "PENDING"
+    },
+    {
+      "asset_id": "DF-G01",
+      "review_file": "/site00/idnty/digital-foundation/authority/reference/df-g01.webp",
+      "review_size": [
+        1600,
+        900
+      ],
+      "original_file": "cj-run/BATCH_G/01_COMMUNICATIONS_COMMAND.png",
+      "original_size": [
+        3584,
+        2016
+      ],
+      "original_sha256": "95c4baebe262ad12ec3135c9a4949a88aab8813193e47866de6c01f11234af3b",
+      "original_sha256_verified": true,
+      "history_id": "btg6xT0o5rhzZtzLODnQ",
+      "founder_review": "PENDING"
+    },
+    {
+      "asset_id": "DF-C01",
+      "review_file": "/site00/idnty/digital-foundation/authority/reference/df-c01.webp",
+      "review_size": [
+        900,
+        1600
+      ],
+      "original_file": "cj-run/BATCH_C/01_FOUNDATION_COMPLETE.png",
+      "original_size": [
+        2016,
+        3584
+      ],
+      "original_sha256": "f1c40b00cec5f727a5544c130524fbcc0b979c8e3314f6e494c5742f8a8e1886",
+      "original_sha256_verified": true,
+      "history_id": "DeFyjTGjidcqhy8rWbQN",
+      "founder_review": "PENDING"
+    },
+    {
+      "asset_id": "DF-C02",
+      "review_file": "/site00/idnty/digital-foundation/authority/reference/df-c02.webp",
+      "review_size": [
+        900,
+        1600
+      ],
+      "original_file": "cj-run/BATCH_C/02_DIGITAL_LOCATION.png",
+      "original_size": [
+        2016,
+        3584
+      ],
+      "original_sha256": "2445931cf06a56766a8b20ff718a9d6df82d27d9839a4630a62a6ba652400b6d",
+      "original_sha256_verified": true,
+      "history_id": "1tpEQ3zBPW06tMprPH2s",
+      "founder_review": "PENDING"
+    },
+    {
+      "asset_id": "DF-F01",
+      "review_file": "/site00/idnty/digital-foundation/authority/reference/df-f01.webp",
+      "review_size": [
+        900,
+        1600
+      ],
+      "original_file": "cj-run/BATCH_F/01_FOUNDATION_CREDIT.png",
+      "original_size": [
+        2016,
+        3584
+      ],
+      "original_sha256": "e45821817c91b8588cd1a06807bfde8695ffc2f728df76810ccc578ec21e6fdb",
+      "original_sha256_verified": true,
+      "history_id": "H2iVhpfnG77HwbL3EIKA",
+      "founder_review": "PENDING"
+    },
+    {
+      "asset_id": "DF-F02",
+      "review_file": "/site00/idnty/digital-foundation/authority/reference/df-f02.webp",
+      "review_size": [
+        900,
+        1600
+      ],
+      "original_file": "cj-run/BATCH_F/02_BLDR_INTRODUCTION.png",
+      "original_size": [
+        2016,
+        3584
+      ],
+      "original_sha256": "fd7938eb4ba81b4bde6263e9458346728bc9f221975b0e008735ff0b3baf2af4",
+      "original_sha256_verified": true,
+      "history_id": "VF0CA2AhLVuzoQW6zgbf",
+      "founder_review": "PENDING"
+    },
+    {
+      "asset_id": "DF-E01",
+      "review_file": "/site00/idnty/digital-foundation/authority/reference/df-e01.webp",
+      "review_size": [
+        900,
+        1600
+      ],
+      "original_file": "cj-run/BATCH_E/01_RUNBOOK_TASK.png",
+      "original_size": [
+        2016,
+        3584
+      ],
+      "original_sha256": "874889333a8ac99d0b41eaa2763117c0f1e92bd09114a32f306996d29902cd66",
+      "original_sha256_verified": true,
+      "history_id": "Ona2WzuCXvR66Qllk60v",
+      "founder_review": "PENDING"
+    },
+    {
+      "asset_id": "DF-E02",
+      "review_file": "/site00/idnty/digital-foundation/authority/reference/df-e02.webp",
+      "review_size": [
+        900,
+        1600
+      ],
+      "original_file": "cj-run/BATCH_E/02_VERIFICATION_CHECKLIST.png",
+      "original_size": [
+        2016,
+        3584
+      ],
+      "original_sha256": "c527549083638daf7b4bb612b850879bb359dcbd5d8165f122ca213c58d55f82",
+      "original_sha256_verified": true,
+      "history_id": "At1FatipxHeUxyDuHITr",
+      "founder_review": "PENDING"
+    },
+    {
+      "asset_id": "DF-G02",
+      "review_file": "/site00/idnty/digital-foundation/authority/reference/df-g02.webp",
+      "review_size": [
+        1600,
+        900
+      ],
+      "original_file": "cj-run/BATCH_G/02_TEMPLATE_STUDIO.png",
+      "original_size": [
+        3584,
+        2016
+      ],
+      "original_sha256": "8b297668f5fa49a76d5b809a153ecfde24e914b21915a74512e2995182050b36",
+      "original_sha256_verified": true,
+      "history_id": "4jMPVagOIdhFgI8ylHnl",
+      "founder_review": "PENDING"
+    },
+    {
+      "asset_id": "DF-J01",
+      "review_file": "/site00/idnty/digital-foundation/authority/reference/df-j01.webp",
+      "review_size": [
+        900,
+        1600
+      ],
+      "original_file": "cj-run/BATCH_J/01_COMMUNICATION_PREFERENCES.png",
+      "original_size": [
+        2016,
+        3584
+      ],
+      "original_sha256": "6e8fc196ca5f1497f29e116345053e9caf94d1d510ca64591d3ba3d2b1542088",
+      "original_sha256_verified": true,
+      "history_id": "kjLqyLtKEUd67yXa3WyI",
+      "founder_review": "PENDING"
+    }
+  ]
+}

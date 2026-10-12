@@ -16519,3 +16519,68 @@ Summary of the whole conversation in this chat.
 - **Founder report:** `/foundation/review#df-r-bldr-PLACE` white screen on dev tunnel.
 - **Cause:** `EntryIntake` / `Recommendation` / `CheckoutActivation` import `DfSheet` from `shell.tsx`; drawer restore (#1622) removed that export → lazy review chunk failed at runtime.
 - **Fix:** Re-export `DfSheet` (modal `DfBottomSheet` wrapper), `completeClientAction` on client `api.ts`, export `SpecRow`. PR **#1626** merged **`main`** `d4af2e16`; preview tunnel refreshed to same SHA.
+
+## 2026-10-12 — Preview tunnel blank BLDR / DL (intakes local API 500)
+
+- **Founder report:** Correspondence Studio and DL/BLDR “just a blank white screen” on mobile tunnel (recurring).
+- **Root causes (stack):** (1) Lazy route chunk failures when shared DF exports break (`DfSheet` etc.) → whole page white. (2) Vite dev **local API** esbuild bundle for `api/site00/intakes` failed on inline `satisfies` in `toEstimateConfig.ts` `WORLD_INPUT_MAP` → `POST …/intakes?action=start` **500** → BLDR `ensureStarted` never completes (retry/blank). (3) Empty threshold slots looked flat/white without a JS crash.
+- **Fix:** Typed `WORLD_INPUT_MAP` without per-key `satisfies`; `vite-site00-local-api.mjs` `target: es2022` + `SITE00_INTAKES_USE_MEMORY=1` when `SITE00_CLOUD_MOBILE_PREVIEW`; test bundles `api/site00/intakes.ts` in `site00LocalApiTsxLoader.test.ts`.
+- **Hardening:** Keep shell export test; extend local-api bundle test when adding handlers that import builder-experience TS.
+
+---
+
+## 2026-10-12 — BLDR Blueprint uppercase body + stable 3D option thumbnails
+
+- **Founder report:** Blueprint overview body still mixed case; red correspondence comma marks in body (e.g. unreachable blocker); 3D selection cards flickering / blank on mobile.
+- **Cause:** `CorrespondenceProse` on all `BsProse` body copy; `rangeNote` and `LEVEL_DESCRIPTOR` sentence case; thumbnails re-rendered from empty state and competed with live WebGL; `setComposition` re-ran on every new object reference.
+- **Fix:** `text-transform: uppercase` on `.bs-root`; plain `BsBody` for blueprint/room body (headlines still `CorrespondenceDisplayLine`); uppercase descriptors at source; thumbnail sync cache + `scheduleBuildThumbnail` queue; skip `setComposition` when key unchanged; WebGL context-loss rebuild. PR **#1634** merged to `main`.
+
+---
+
+## 2026-10-12 — BLDR realism CI fix (Production Release test job)
+
+- **Founder report:** GitHub **SITE 00 Production Release / test** failed on `bldrMonumentRealismV2` (`expected … to contain 'Painted glass, not transmission'`).
+- **Cause:** Hybrid spatial studio rewrite (`e32e67e2`) replaced `buildObject/engine.ts` and simplified `composition.ts` without the V2 realism opt-in (`?realism=v2`, PLACE·ADVANCED monument, painted-glass default).
+- **Fix:** Branch `cursor/fix-bldr-realism-ci-a9f7` restores integrated `engine.ts`, `BuildObjectStage.tsx`, and full `composition.ts` from realism V2 benchmark baseline (`3cd487e2`). Merge with **#1634** keeps thumbnail cache/queue + uppercase blueprint body. `bldrMonumentRealism*.test.ts` + `composition.test.ts` green locally.
+
+---
+
+## 2026-10-11 — P0 Digital Foundation screen review tunnel activation (PR #1612)
+
+- **Context:** Founder sprint to expose the already-built `/admin/site00/foundation/screen-review` artifact (FoundationReviewStudioPage from PR #1612) on the cloud dev tunnel without merging that PR to `main` or touching production.
+- **Topics covered:** Integrate PR #1612 onto review branch `cursor/df-screen-review-tunnel-be3b`; pin preview worktree `/tmp/site00-preview-main` to SHA `98e2387e`; restart Vite dev on `:5174`; verify tunnel serves dev mode (`/src/main.tsx?v=dev-local`); browser QA at mobile/tablet/desktop for P13–G01 navigation and honest context-required states.
+- **Decisions / outcomes:** PR #1612 **not** merged to `main`. Preview lineage `PREVIEW_AUTHORITY=PINNED` with `PREVIEW_PIN_REF=cursor/df-screen-review-tunnel-be3b`. `serve-site00-preview-from-pin-ref.sh` cannot checkout a branch already checked out in `/workspace` — worktree was detached to PR head manually; Vite restarted from worktree. Admin guard uses preview bypass (`TEMPORARY_SITE00_ADMIN_BYPASS_ON_PREVIEW`) on tunnel host. `npm run build` / `typecheck` still fail on pre-existing repo TS errors (JURNL deviceRepository duplicate export, builder-studio anatomy, foundation-client ProjectPortal, DigitalFoundationReviewPage ROADMAP) — unrelated to screen-review route; Vite dev and targeted vitest pass.
+- **Changes:** Branch `cursor/df-screen-review-tunnel-be3b` pushed (same tree as PR #1612). Runtime: tmux `site00_vite` on pinned worktree. QA screenshots under `/opt/cursor/artifacts/df-screen-review-*.png`. Revert tunnel integration: `bash .cursor/scripts/serve-site00-preview-from-main.sh`.
+- **Conventions:** For founder review of unmerged PRs, pin preview with `serve-site00-preview-from-pin-ref.sh` + SHA (not branch name if that branch is bound to main workspace worktree).
+
+---
+
+## 2026-10-11 — P0 Digital Foundation visual authority pixel convergence (Claude Opus)
+
+- **Context:** Founder sprint "KEEP THE FUNCTION. REBUILD THE LOOK… REFERENCE = DESIGN AUTHORITY." It refines P13, P14, P15, G01, C01, C02, F01 and F02 against the generated references DF-D01/D02/D03, G01, C01, C02, F01 and F02. E01, E02, G02 and J01 are reference only. No new art, no image generation, no merge, no production deploy.
+- **Topics covered:**
+  - Measured the reference geometry from the 3584×2016 and 2016×3584 PNGs (scale 3.5). Rebuilt type, spacing, rows and plates using `--u` units for mobile (390 basis), tablet (1100 basis, title scale .84) and desktop (1280 basis).
+  - Display face is Anton (`--dfa-headline`) with a size per authority. Barlow Condensed stays for codes; Inter for text.
+  - Plates are masked, lettering-free crops of the references (`public/site00/idnty/digital-foundation/authority/`).
+  - The pipeline and workbench show the 3 most recent rows, with a "SHOW ALL" toggle. The workbench task total comes from `by_mode`.
+  - Fixed the review studio overflow at 390.
+- **Decisions / outcomes:**
+  - Dev-only API fix: `memGetArtifact` merges the shared preview snapshot on a miss, so P14 and P15 deep links resolve. There is a test for it.
+  - Tunnel pinned to branch `cursor/df-visual-authority-convergence-be3b`. All 18 screen×width loads were verified.
+  - Draft PR only.
+  - Remaining deviations:
+    - F01's title has a lower cap height, because of the font.
+    - Functional extras (tools, tabs, the project record drawer) push the desktop footers of P13, P14 and P15 below 720.
+    - Live screens show fixture data rather than the sample copy.
+    - Mobile D and G layouts are derived, because no handset reference exists.
+  - The 21 vitest failures and the global typecheck/build errors predate this sprint.
+- **Changes:**
+  - `src/site00/foundation-authority/dfAuthority.css`
+  - `foundationOperations.css`, `digitalFoundationCompletion.css`, `foundationReviewStudio.css`
+  - `FoundationPipelinePage.tsx`, `FoundationWorkbenchPage.tsx`, `DigitalFoundationCompleteSurface.tsx`
+  - `api/_lib/digitalFoundation/memoryStore.ts` and its test
+  - Authority plates
+  - Comparison artifacts in `/opt/cursor/artifacts/df-convergence/`
+- **Conventions:**
+  - Run a parallel dev server with its own `SITE00_DF_PREVIEW_SNAPSHOT_PATH` so it does not clobber the tunnel snapshot.
+  - Do not send C-c to tmux `site00_vite`; it kills the session.
