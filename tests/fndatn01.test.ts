@@ -88,6 +88,17 @@ describe('FNDATN-01 registration', () => {
     expect(new Set(rows.map((r) => r.template_id)).size).toBe(rows.length);
   });
 
+  it('shows the selected pack\'s version of a template two packs share', () => {
+    const manifest = getCorrespondenceWorkspace();
+    const scope = { brandAuthorityId: 'site00-dna' };
+    for (const id of listFndatn01TemplateIds()) {
+      const fndatn = listLibraryRows(manifest, { ...scope, packId: 'FNDATN-01' }).find((r) => r.template_id === id);
+      expect(fndatn?.current_version.pack_id).toBe('FNDATN-01');
+    }
+    const r4 = listLibraryRows(manifest, { ...scope, packId: 'R4-PREMIUM' }).find((r) => r.template_id === 'intake-completed');
+    expect(r4?.current_version.pack_id).toBe('R4-PREMIUM');
+  });
+
   it('exposes the pack to the library in pack order with its status', () => {
     const pack = listCorrespondencePacks(getCorrespondenceWorkspace()).find((p) => p.pack_id === 'FNDATN-01');
     expect(pack).toBeDefined();

@@ -129,8 +129,9 @@ export default function CorrespondenceWorkspacePage() {
       listLibraryRows(manifest, {
         brandAuthorityId: brandId,
         campaignId: scopeCampaignId,
+        packId: pack,
       }),
-    [manifest, brandId, scopeCampaignId],
+    [manifest, brandId, scopeCampaignId, pack],
   );
   const packs = useMemo(
     () => listCorrespondencePacks(manifest).filter((p) => p.template_ids.some((id) => scopeRows.some((r) => r.template_id === id))),
@@ -166,14 +167,14 @@ export default function CorrespondenceWorkspacePage() {
   const selectedRow =
     (templateId
       ? (scopeRows.find((r) => r.template_id === templateId) ??
-        listLibraryRows(manifest, { brandAuthorityId: brandId }).find((r) => r.template_id === templateId))
+        listLibraryRows(manifest, { brandAuthorityId: brandId, packId: pack }).find((r) => r.template_id === templateId))
       : undefined) ??
     scopeRows.find((r) => r.composed) ??
     scopeRows[0] ??
     null;
   const entry = selectedRow ? manifest.templates[selectedRow.template_id] : null;
   const versionParam = search.get('v');
-  const version = useMemo(() => (entry ? resolveVersion(entry, versionParam) : null), [entry, versionParam]);
+  const version = useMemo(() => (entry ? resolveVersion(entry, versionParam, pack) : null), [entry, versionParam, pack]);
   const statePreviews = version?.state_previews ?? null;
   const statePreview = statePreviews?.find((p) => p.id === search.get('state')) ?? statePreviews?.[0] ?? null;
   const previewVersion = useMemo(() => {
