@@ -16459,3 +16459,12 @@ Summary of the whole conversation in this chat.
 - **Cause:** `?reviewRoom=` sample mode and `useStudioSession(sample)` were dropped from `BldrSpatialStudioPage` / `BuilderStudio`; iframes loaded `/bldr/studio?reviewRoom=FEEL` without a frozen in-memory session. `.df-review__studio` CSS (844px iframe height) was also missing from `site00-df-client.css`.
 - **Fix:** `studioReviewSample.ts`, sample wiring restored, iframe src `/bldr/studio/feel?reviewRoom=FEEL`, review layout CSS back. Sample mode: interactive feel/place/work changes update the 3D object in memory only; no intake save.
 - **Check:** `tests/studioReviewSample.test.ts` + review link tests pass.
+
+---
+
+## 2026-10-12 — Correspondence type merged to main (DF + BLDR + FNDATN-01)
+
+- **Context:** Founder said foundation intake and BLDR studio still lacked the new text/symbols after email work.
+- **Gap fix:** `CorrespondenceDisplay` for display-line red punctuation; `FoundationClient` loads `site00-df-components.css`; correspondence fonts on portaled drawer; rail/card labels on display face; broader `CorrespondenceProse` on forms/menu.
+- **Ship:** PR **#1617** merged to **`main`** (`5ce8f715` typography completion + BLDR review restore + emails/symbols).
+- **Founder:** Refresh **`preview/tunnel`** / mobile tunnel; **site00.com** still needs cPanel ZIP when ready.
