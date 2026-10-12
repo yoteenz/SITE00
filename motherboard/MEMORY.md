@@ -16384,3 +16384,12 @@ Summary of the whole conversation in this chat.
 - **Sheet:** `public/site00-correspondence-type-authority/v1/09_REVIEW/SHEET.png` is rendered from the rebuilt face: BEGIN YOUR / FOUNDATION., A–Z, red 0–9. The unwidened traces stay in `11_SPECIMEN_TRACE/`. Do not rerun `trace_specimen_sheet.py` after a widen; it overwrites `09_REVIEW/SHEET.png` with the unwidened paste.
 - **Pack:** The same woff2 is `public/site00-correspondence-studio/fndatn-01/fonts/site00-correspondence-display.woff2`, so FNDATN-01 headers use the wider letters and the numbers stay as they were. HTML did not need a regen.
 - **Conventions:** Widen letters only. Do not scale the numerals when the founder says the numbers are fine. Draft PR #1617 stays unmerged.
+
+---
+
+## 2026-10-12 — Correspondence symbol sheet (period, exclamation, question)
+
+- **Context:** Same correspondence-type chat. After the 10% letter widen, the founder asked for a matching symbol sheet: red periods, and exclamation marks and question marks with only the base period in red and the top mark in black.
+- **Marks:** The period stays the square already in `SITE 00 Display` (`CAP * 0.15`, not widened). `!` and `?` are built from that same square plus a black stem or hook in the same stem weight. The question dot is centered under the whole mark. Font version 1.2. Rebuild with `fontforge -lang=py -script scripts/correspondence-type-authority/build_display_font.py`, then `python3 scripts/correspondence-type-authority/build_symbol_sheet.py`.
+- **Sheet:** `public/site00-correspondence-type-authority/v1/09_REVIEW/SYMBOLS.png` and `symbols.html`. Red is `#ce1017`. The color split is on the sheet. The woff2 outlines stay one color, same as the numerals.
+- **Conventions:** Do not paint the numeral row or the letter rows on this sheet. Do not rerun `trace_specimen_sheet.py`. Draft PR #1617 stays unmerged.

@@ -3,7 +3,8 @@
 
 Heavy A–Z and red 0–9 are the traced outlines. The apostrophe and the
 square period are not on the sheet; they exist so WE'VE and the red
-headline stop can stay in the same face.
+headline stop can stay in the same face. The exclamation and the question
+mark use that same square as their base.
 """
 import json
 import subprocess
@@ -42,7 +43,7 @@ font.fontname = 'SITE00Display-Heavy'
 font.fullname = 'SITE 00 Display Heavy'
 font.weight = 'Heavy'
 font.copyright = 'SITE 00 correspondence reconstruction of the founder specimen. For SITE 00 correspondence only.'
-font.version = '1.1'
+font.version = '1.2'
 font.encoding = 'UnicodeFull'
 
 def place(ch: str, svg: Path, px_h: int, desc_px: float, widen: float = 1.0) -> None:
@@ -75,15 +76,72 @@ space = font.createChar(ord(' '))
 space.width = int(round(CAP * 0.22 * LETTER_WIDEN))
 
 # Square period. Not on the specimen. Sits on the baseline at stem width.
+# The exclamation and the question use this same square as their base.
+STEM = int(round(CAP * 0.15))
+DOT_GAP = int(round(CAP * 0.07))
+
+
+def square(pen, x, y, s):
+    pen.moveTo((x, y))
+    pen.lineTo((x + s, y))
+    pen.lineTo((x + s, y + s))
+    pen.lineTo((x, y + s))
+    pen.closePath()
+
+
+def corner(pen, a, b, c):
+    """Quarter-turn cubic from a (current point) through the corner to c."""
+    k = 0.5523
+    ax, ay = a
+    bx, by = b
+    cx, cy = c
+    pen.curveTo((ax + (bx - ax) * k, ay + (by - ay) * k), (cx + (bx - cx) * k, cy + (by - cy) * k), c)
+
+
 period = font.createChar(ord('.'))
 pen = period.glyphPen()
-s = int(round(CAP * 0.15))
-pen.moveTo((LSB, 0))
-pen.lineTo((LSB + s, 0))
-pen.lineTo((LSB + s, s))
-pen.lineTo((LSB, s))
+square(pen, LSB, 0, STEM)
+period.width = LSB + STEM + RSB
+
+# Exclamation: the square period, then a stem of the same width up to the cap.
+bang = font.createChar(ord('!'))
+pen = bang.glyphPen()
+square(pen, LSB, 0, STEM)
+stem_bot = STEM + DOT_GAP
+pen.moveTo((LSB, stem_bot))
+pen.lineTo((LSB + STEM, stem_bot))
+pen.lineTo((LSB + STEM, CAP))
+pen.lineTo((LSB, CAP))
 pen.closePath()
-period.width = LSB + s + RSB
+bang.width = LSB + STEM + RSB
+bang.correctDirection()
+
+# Question: heavy hook in the condensed stem weight, same square centered under it.
+hook_left = LSB
+hook_right = LSB + STEM + 36 + STEM
+hook_top = CAP
+term_y = 500
+inner_left = hook_left + STEM
+inner_top = hook_top - STEM
+stem_left = hook_right - STEM
+radius = 64
+quest = font.createChar(ord('?'))
+pen = quest.glyphPen()
+pen.moveTo((stem_left, stem_bot))
+pen.lineTo((hook_right, stem_bot))
+pen.lineTo((hook_right, hook_top - radius))
+corner(pen, (hook_right, hook_top - radius), (hook_right, hook_top), (hook_right - radius, hook_top))
+pen.lineTo((hook_left + radius, hook_top))
+corner(pen, (hook_left + radius, hook_top), (hook_left, hook_top), (hook_left, hook_top - radius))
+pen.lineTo((hook_left, term_y))
+pen.lineTo((inner_left, term_y))
+pen.lineTo((inner_left, inner_top))
+pen.lineTo((stem_left, inner_top))
+pen.closePath()
+mark_mid = (hook_left + hook_right) / 2
+square(pen, int(round(mark_mid - STEM / 2)), 0, STEM)
+quest.width = hook_right + RSB
+quest.correctDirection()
 
 # Apostrophe for WE'VE. Not on the specimen. A stem-weight mark at the cap.
 apos = font.createChar(ord("'"))
