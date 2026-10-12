@@ -1,6 +1,7 @@
 import registry from '../../docs/site00/idnty/visual-authority/email-pack/DF_V2_COMPLETE_EMAIL_TEMPLATE_REGISTRY.json';
 import { FNDATN01_EMAILS, FNDATN01_PACK_ID, FNDATN01_PACK_TITLE, FNDATN01_STATUS } from './fndatn01/pack.js';
 import { OPUS_V2_BENCHMARK_IMPORT_CONTRACT } from './import/opusV2BenchmarkImport.js';
+import { R4_PREMIUM_IMPORT_CONTRACT, R4_PREMIUM_PACK_ID } from './import/r4PremiumImport.js';
 import type { CorrespondenceWorkspaceManifest, EmailTemplateVersion, ReviewState } from './types.js';
 
 export type LibraryClassification = CorrespondenceWorkspaceManifest['templates'][string]['classification'];
@@ -74,6 +75,11 @@ export type CorrespondencePack = { pack_id: string; title: string; status: strin
 
 const PACK_META: Record<string, { title: string; status: string; order: string[] }> = {
   [FNDATN01_PACK_ID]: { title: FNDATN01_PACK_TITLE, status: FNDATN01_STATUS, order: FNDATN01_EMAILS.map((e) => e.template_id) },
+  [R4_PREMIUM_PACK_ID]: {
+    title: 'EMAIL V2 R4 PREMIUM EDITORIAL (20)',
+    status: 'FOUNDER REVIEW — full pack, interactive review artifact in public previews/r4/review',
+    order: R4_PREMIUM_IMPORT_CONTRACT.emails.map((e) => e.template_id),
+  },
 };
 
 /** Packs present in the manifest, read from version `pack_id`. Template order follows the pack, not the campaign. */

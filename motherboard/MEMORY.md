@@ -16584,3 +16584,11 @@ Summary of the whole conversation in this chat.
 - **Conventions:**
   - Run a parallel dev server with its own `SITE00_DF_PREVIEW_SNAPSHOT_PATH` so it does not clobber the tunnel snapshot.
   - Do not send C-c to tmux `site00_vite`; it kills the session.
+
+---
+
+## 2026-10-12 — Correspondence preview: all 20 R4 emails on tunnel (#1636)
+
+- **Founder report:** Mobile tunnel showed only some new emails, not the full R4 pack of 20.
+- **Cause:** All 20 `public/.../previews/r4/emails/*.html` were on `main`; Studio defaulted to **FNDATN-01 pack (7)** and FNDATN was **current** on overlapping lifecycle ids, so R4 looked partial.
+- **Fix:** Register **`R4-PREMIUM`** pack (20 ids). Cloud preview dev sets `VITE_SITE00_R4_REVIEW_PRIORITY=1` to re-apply R4 as current after FNDATN and default the library pack chip to R4. Full browser review artifact: `/site00-correspondence-studio/previews/r4/review/index.html`.
