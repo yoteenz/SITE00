@@ -16501,3 +16501,12 @@ Summary of the whole conversation in this chat.
 
 - **Request:** Tighter stacked display headlines on FNDATN-01 emails, foundation intake, and BLDR studio (incl. `/foundation/review` iframes).
 - **Change:** `displayHeadlineMetrics()` in `fndatn01/html.ts`; regenerated email previews; `.df-headline` and `.bs-headline` CSS (+4px size tokens, `calc(em - 2px)` line-height). PR **#1623** merged `main`.
+
+---
+
+## 2026-10-12 — Preview tunnel blank BLDR / DL (intakes local API 500)
+
+- **Founder report:** Correspondence Studio and DL/BLDR “just a blank white screen” on mobile tunnel (recurring).
+- **Root causes (stack):** (1) Lazy route chunk failures when shared DF exports break (`DfSheet` etc.) → whole page white. (2) Vite dev **local API** esbuild bundle for `api/site00/intakes` failed on inline `satisfies` in `toEstimateConfig.ts` `WORLD_INPUT_MAP` → `POST …/intakes?action=start` **500** → BLDR `ensureStarted` never completes (retry/blank). (3) Empty threshold slots looked flat/white without a JS crash.
+- **Fix:** Typed `WORLD_INPUT_MAP` without per-key `satisfies`; `vite-site00-local-api.mjs` `target: es2022` + `SITE00_INTAKES_USE_MEMORY=1` when `SITE00_CLOUD_MOBILE_PREVIEW`; test bundles `api/site00/intakes.ts` in `site00LocalApiTsxLoader.test.ts`.
+- **Hardening:** Keep shell export test; extend local-api bundle test when adding handlers that import builder-experience TS.
