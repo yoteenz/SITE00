@@ -366,3 +366,24 @@ describe('FNDATN-01 personalized data lives in the artifacts', () => {
     expect(v04.state_previews!.map((s) => s.id)).toEqual(['activation_confirmed', 'activation_pending']);
   });
 });
+
+describe('FNDATN-01 angled-edge buttons', () => {
+  it('draws every CTA as the angled-edge shape, with an Outlook pentagon and one exposed link', () => {
+    for (const id of ids) {
+      const r = send(id);
+      if (!r.ok) throw new Error(id);
+      const tables = r.html.match(/<table class="btn-full"[\s\S]*?<\/table>/g) ?? [];
+      expect(tables.length, id).toBeGreaterThan(0);
+      for (const t of tables) {
+        // The tip: white border triangles cut the top and bottom corners of a 17 px red cell, meeting at 23 px.
+        expect(t).toMatch(/border-left:17px solid #[0-9a-f]{6};border-top:23px solid #ffffff/);
+        expect(t).toMatch(/border-left:17px solid #[0-9a-f]{6};border-bottom:23px solid #ffffff/);
+        expect(t).toContain('&rarr;');
+        expect((t.match(/<a /g) ?? []).length).toBe(4);
+        expect((t.match(/aria-hidden="true" tabindex="-1"/g) ?? []).length).toBe(3);
+      }
+      expect((r.html.match(/<v:shape /g) ?? []).length).toBe(tables.length);
+      expect(r.html).not.toContain('<v:rect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w=');
+    }
+  });
+});

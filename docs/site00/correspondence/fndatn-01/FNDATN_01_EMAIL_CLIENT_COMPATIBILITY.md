@@ -24,13 +24,14 @@ Rendered with `mode: 'send'`, an absolute https asset base, and the demo scenari
 
 | Concern | Implementation | Expected behaviour (not live-verified) |
 | --- | --- | --- |
-| Outlook desktop (Word engine) | VML `v:rect` bulletproof buttons; VML `v:fill` hero backgrounds; `mso-line-height-rule:exactly`; `mso-hide:all` on mobile-only blocks | Hero art and buttons render; web fonts fall back to Arial |
+| Outlook desktop (Word engine) | VML `v:shape` pentagon buttons (angled edge); VML `v:fill` hero backgrounds; `mso-line-height-rule:exactly`; `mso-hide:all` on mobile-only blocks | Hero art and buttons render; web fonts fall back to Arial |
 | Gmail web and app | Inline styles on every element; one `<style>` block (~4 KB) for media queries | Gmail supports `<style>` in `<head>` but **not `@font-face`**: type falls back to Arial Narrow or sans-serif condensed metrics |
 | Apple Mail / iOS | `@font-face` for Saira Semi Condensed and Barlow Condensed; `x-apple-data-detectors` reset | Closest to the authority |
 | Mobile (≤480px) | `.desk-only` / `.mob-only` swaps, stacked columns, full-width buttons | Clients without media query support (some Gmail IMAP accounts) show the desktop layout scaled down |
 | Dark mode | `color-scheme: light only`; `[data-ogsc]` / `[data-ogsb]` ink and red locks | Outlook.com and Gmail app may still partially invert backgrounds; not verified |
 | Card fields on the art | Live text in table rows over a background-image cell; the art is locked at its design size (`lock`) so the text stays on the card; the card's perspective is per-row indents; its tilt is a CSS `transform` on its own wrapper | Tilt shows in Apple Mail / iOS (WebKit) and Chromium. Clients that drop `transform` (Gmail, Outlook) show the same rows level, on the card. Verified in Chromium with and without transforms; not verified in a live client |
 | Mobile card heroes | The art and its text are locked together at 390 px: centred on wider phones, left-anchored and cropped on the right (scene only) below 390 px | Verified at 360, 390 and 430 px in Chromium |
+| CTA buttons (angled edge) | Style 02 of the SITE 00 interface elements: filled body, label, divider, arrow, pointed tip. Built from table cells; the tip is white border triangles cutting the corners of a 17 px cell, so it needs no image and survives images-off. A wrapped label blunts the tip rather than notching it | Verified in Chromium at 760 / 360 / 390 / 430 px, with and without web fonts (`artifact-data-qa/cta-angled-edge.jpg`). The tip assumes the white CTA band behind it |
 | Images off | Alt text on every image; headline, card fields and CTA are live text; card heroes fall back to a white cell | Content stays readable without images |
 | Preheader | Hidden preheader per email | — |
 

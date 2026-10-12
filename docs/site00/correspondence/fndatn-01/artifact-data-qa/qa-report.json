@@ -611,7 +611,8 @@
       "width": 360,
       "mode": "fallback-fonts",
       "problems": [
-        "\"YOUR DIGITAL FOUNDATION\" ends at 265px, rule at 260.0769230769231px"
+        "\"YOUR DIGITAL FOUNDATION\" ends at 265px, rule at 260.0769230769231px",
+        "button 62px tall (label wraps; tip blunts)"
       ],
       "metrics": {
         "heroHeight": 470,

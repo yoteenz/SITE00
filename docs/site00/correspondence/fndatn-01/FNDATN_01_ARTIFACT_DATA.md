@@ -37,6 +37,10 @@ Not the cause: the data. Every field was derived and present (`contracts.ts`, th
 | 06 Resume intake | No data card in the art (laptop) | — | No payment step anywhere (the authority's PAYMENT RECEIVED step is not encoded) |
 | 07 Quote expiry | Quote card, desktop + mobile | CLIENT · SERVICE · QUOTE · ISSUED · VALID UNTIL (red, date) · STATUS (red); scope tags | The countdown keeps the exact expiry time from the backend; no JavaScript countdown |
 
+### CTA buttons
+
+Every CTA uses the angled-edge button (style 02 of the SITE 00 interface elements): a filled body with the label, a thin divider and an arrow, ending in a pointed tip, in red (ink for the 02 mobile intake button). `button()` in `html.ts` builds it from table cells; the tip is two white border triangles cutting a 17 px red cell, meeting in a point at the designed 46 px. Outlook draws the same pentagon as a VML `v:shape`. Only the label link is exposed to assistive technology. Long labels (03) tighten their tracking; below 390 px all labels step down to fit on one line. Evidence: `artifact-data-qa/cta-angled-edge.jpg`.
+
 ## Demo scenarios
 
 One centralized, typed, nonproduction timeline in `fndatn01/fixtures.ts`: a fictional client (`Jordan Avery`, `Avery Studio`, `.invalid` addresses, `demo` ids, a token that resolves to nothing), one artifact, one quote ($1,334.00 USD), seven snapshots.
@@ -65,6 +69,8 @@ Review previews and the studio's data-state selector are labelled `DEMO · <SCEN
 | Transforms stripped | 32 / 32 clean |
 | Web fonts blocked | 23 / 32 clean; the rest listed below |
 
+Every check also confirms each angled-edge CTA renders at its designed 46 px.
+
 Evidence in `artifact-data-qa/`: `compare-<device>-<email>.jpg` (authority hero vs rendered hero, same scale) and `before-after-<device>-<email>.jpg` (full page before and after).
 
 Correspondence Studio, checked on a local dev server: the FNDATN-01 pack lists all seven emails; each opens with its DEMO scenario in the data-state selector and the DEMO DATA note; 04 switches to activation pending; the stage shows the card data; SEND TEST stays off; no page errors and no send requests.
@@ -77,4 +83,5 @@ Correspondence Studio, checked on a local dev server: the FNDATN-01 pack lists a
 4. **Mobile card heroes** show white gutters on phones wider than 390 px and crop scene on the right below 390 px.
 5. **Desktop taglines** on 01 and 03 touch the red glass at the bottom left, as in the authority's composition with larger type.
 6. **Inpainting residue** from the asset extraction remains faintly visible in places the live copy does not cover (most visible on 03 mobile right of the body).
-7. **Not tested in live clients.** No Litmus / Email on Acid pass, no real inbox. Outlook VML text placement is untested.
+7. **CTA tip without web fonts at 360 px:** the 03 label wraps and the tip blunts to a short vertical edge (no notch).
+8. **Not tested in live clients.** No Litmus / Email on Acid pass, no real inbox. Outlook VML text placement is untested.

@@ -5,6 +5,7 @@
  *   - mobile hero copy ends inside its copy zone, above the card or object in the art;
  *   - every card value ends before the card's printed rule (CARD_SPECS.valueMax);
  *   - the page never scrolls horizontally;
+ *   - every angled-edge button stays 46 px tall (a wrapped label blunts the tip);
  *   - the same layout with web fonts blocked (fallback fonts) and with CSS transforms stripped
  *     (Gmail / Outlook behaviour for the card tilt).
  * Writes screenshots, authority-vs-render hero sheets and qa-report.json to the output directory.
@@ -88,6 +89,9 @@ async function measure(page: Page, device: 'desktop' | 'mobile') {
       values,
       labels,
       scrollX: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+      buttons: Array.from(document.querySelectorAll<HTMLElement>('table.btn-full'))
+        .map((t) => Math.round(t.getBoundingClientRect().height))
+        .filter((height) => height > 0),
     };
   }, device);
 }
@@ -130,6 +134,8 @@ async function main() {
             problems.push(`first label at x ${Math.round(m.labels[0].left)}, authority ${spec.first[0]}`);
         }
         if (m.scrollX > 0) problems.push(`horizontal scroll ${m.scrollX}px`);
+        // The angled tip meets in a point at the designed 46 px; a wrapped label blunts it.
+        for (const height of m.buttons) if (height !== 46) problems.push(`button ${height}px tall (label wraps; tip blunts)`);
         checks.push({ email: slug, file, device, width, mode, problems, metrics: { heroHeight: m.heroHeight, copyBottom: m.copyBottom, copyZone: m.copyZone, rows: m.values.length } });
         const tag = `${mode}-${device}${device === 'mobile' && width !== 390 ? `-${width}` : ''}-${file.replace('.html', '')}`;
         if (mode === 'webfonts' && (device === 'desktop' || width === 390)) await page.screenshot({ path: path.join(OUT, `page-${device}-${file.replace('.html', '')}.png`), fullPage: true });
