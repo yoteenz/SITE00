@@ -16316,3 +16316,12 @@ Summary of the whole conversation in this chat.
 - **Pipeline:** `scripts/df-email-v2-benchmark/r4/` holds `compose/` (base.css, pack.py), `build_r4.py` (tokens + widow binding), `render.mjs` (390/768/1024 + fonts-blocked run), `qa_r4.mjs` (contracts, tokens, banned language, line faults, variety), `build_review_r4.py` (review artifact, matrix, provenance, `--public` mount) and `package_r4.py` (client ZIP). QA 20/20 PASS; 120 clean renders.
 - **Review:** The primary deliverable is the interactive review artifact at `/site00-correspondence-studio/previews/r4/review/index.html`. It offers an EMAIL / FAMILY WALL / ASSETS view, a family filter, P1/P2/P3 filters, MOBILE/TABLET/DESKTOP/ALL 3, and an R3 compare. Studio import `r4PremiumImport.ts` sets `<id>@r4-premium` current at `founder_review` (`auto_approve: false`). ZIP on release `df-v2-email-r4-premium-2026-10-11`. Docs: `docs/site00/idnty/visual-authority/email-v2/r4/`.
 - **Conventions:** Widow binding happens in `build_r4.py`, not by hand. Text wrapped in an extra `<span>` escapes binding. Fallback-font line notes are advisory, but overflow under fallback fonts is a fail. No email is sent. The founder selects or approves per template in the Studio.
+
+---
+
+## 2026-10-12 — R4 branch merged with Correspondence Studio V3 (#1615)
+
+- **Context:** Founder asked to fetch `main`, classify the merge conflicts on `cursor/df-email-v2-r4-premium-a9f7` (PR #1613), fix the simple ones and report the complicated ones.
+- **Resolution:** MEMORY was an append-only conflict, so both entries are kept. V3 deleted `CorrespondencePreviewPane` and `CorrespondenceEmailReviewPage`; the deletion is accepted because the V3 workspace replaces them. The CSS takes main's version. R3's in-Studio side-by-side compare and 1024px width are not ported into V3; the R4 review artifact still provides both.
+- **Integration fix:** V3's `emailDocument.ts` required a div `.email` root, so every R3/R4 version was rejected with "PREVIEW IS NOT A COMPOSED EMAIL". The loader now also accepts `table.wrap` emails. Block indexing still covers only `.email`. Verified with Playwright before and after the fix.
+- **Conventions:** Any new pack format must load in `loadRepositoryEmail`. Check it in the V3 workspace, not only in the pack's own review artifact.
