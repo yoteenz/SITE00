@@ -273,6 +273,46 @@
       "sha256": "8cd6fff9c5a8264cda3c8ec5fb20ea904a71df40787457486b26470689925fff"
     },
     {
+      "path": "05_DISPLAY_GLYPHS/derived-C.svg",
+      "bytes": 981,
+      "sha256": "2b76f7e83b0d1b740d8c050f43fe8466b22add526770b68eeaae2603b6f7ffc6"
+    },
+    {
+      "path": "05_DISPLAY_GLYPHS/derived-J.svg",
+      "bytes": 670,
+      "sha256": "ef9cce5c07de6c56bd68414066bea3f41eeabde64dc6798ebee615c6cbde6a0d"
+    },
+    {
+      "path": "05_DISPLAY_GLYPHS/derived-M.svg",
+      "bytes": 799,
+      "sha256": "d89e4596ac674430477504f973aa6d46d854290827d1d88a9f8543d182869361"
+    },
+    {
+      "path": "05_DISPLAY_GLYPHS/derived-P.svg",
+      "bytes": 955,
+      "sha256": "d697bdc18f0a42c975072948b9f81b26c71691fc3eb5e2bbfaea66103ef0acf2"
+    },
+    {
+      "path": "05_DISPLAY_GLYPHS/derived-Q.svg",
+      "bytes": 1184,
+      "sha256": "f387fedf3c23d67eee44d734a95c4fb7c80b072aac9e786a1868c92d789e6a30"
+    },
+    {
+      "path": "05_DISPLAY_GLYPHS/derived-V.svg",
+      "bytes": 1255,
+      "sha256": "8f2b77a4725e45918bc094cfc267aa286d0892d6c972940efef86dae0d18a632"
+    },
+    {
+      "path": "05_DISPLAY_GLYPHS/derived-X.svg",
+      "bytes": 1099,
+      "sha256": "496afdb0c738b39989b36db282a198ba7d635b8319e438aa586925d104f7d7cf"
+    },
+    {
+      "path": "05_DISPLAY_GLYPHS/derived-Z.svg",
+      "bytes": 691,
+      "sha256": "dd6bbd010d1c11bada85bc8dbf23f153274a65934d6d3ba60e15d1410ba84326"
+    },
+    {
       "path": "05_DISPLAY_GLYPHS/display-A-285.pbm",
       "bytes": 399,
       "sha256": "0e6919d8a4ad5c20ddf4569296dc7a9bf41bd2777b8774178d29bc0d1530f6fc"
@@ -2148,14 +2188,30 @@
       "sha256": "02daecde5afb7d6cf91faf22feec0f5d8ad0eb8ad568dbd8b24abcf561f6580f"
     },
     {
+      "path": "08_AUTHORITY/specimen.json",
+      "bytes": 640,
+      "sha256": "48d5ae6bdb6f2f8c85c17124d017f9b8bab0d4678422bc32d3d312d0810edab7"
+    },
+    {
       "path": "08_AUTHORITY/wordmark.json",
       "bytes": 505,
       "sha256": "cd6e6d1c8f7c4f30dd48c617b0fe175e4f9f95d8049dd77d97d9985a9a2f8632"
     },
     {
+      "path": "09_REVIEW/SHEET.png",
+      "bytes": 149024,
+      "sha256": "0b601fffb34f6487da90c5f0b49102af9a35a58a2ed76bbe4897c601e11f996d"
+    },
+    {
       "path": "09_REVIEW/index.html",
-      "bytes": 25835,
-      "sha256": "d73f2e67537499b3e56fa7b0f863d67b19efd14026b197eedc47f5ffb46239af"
+      "bytes": 26080,
+      "sha256": "c9e2e93947da401b8cb214d9608ab9b6cabfb5758d6e201a4d272576734a926f"
+    },
+    {
+      "path": "09_REVIEW/sheet.html",
+      "bytes": 467,
+      "sha256": "ea4c42894f7c9c6a05fbaf9d1ae240cc09c0368812299f2e6fb4bc7f29243d3e"
     }
-  ]
+  ],
+  "specimen_sheet": "09_REVIEW/SHEET.png"
 }

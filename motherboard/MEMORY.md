@@ -16347,3 +16347,12 @@ Summary of the whole conversation in this chat.
 - **Traces:** 38 source glyphs (display letters visible in the flat headlines, the red 01/02/03, and the email wordmark). Mean IoU against the thresholded silhouette is 0.999. That score is against the chosen threshold, not against the JPEG halo. Digits 4–9 are derived from the traced 0 and are labeled as such. No OTF was built.
 - **Pack:** `public/site00-correspondence-type-authority/v1/`. Review: `09_REVIEW/index.html`. Rebuild with `python3 scripts/correspondence-type-authority/build_type_authority.py`.
 - **Conventions:** Do not treat an AI email render as a font file. Do not average disagreeing instances of the same letter. Do not ship traced SVGs as a distributable font until licensing is reviewed. Integration into the emails waits for founder approval and is a separate Opus task.
+
+---
+
+## 2026-10-12 — Correspondence type specimen sheet
+
+- **Context:** Same chat as the typography forensics sprint. The founder asked for one sheet of the reconstructed letters and numbers instead of the folder pack.
+- **Sheet:** `public/site00-correspondence-type-authority/v1/09_REVIEW/SHEET.png` and `sheet.html`. It sets BEGIN YOUR FOUNDATION, then A–Z, then red 0–9. Rebuild with `python3 scripts/correspondence-type-authority/build_specimen_sheet.py`.
+- **Coverage:** Traced from the invitation: A B D E F G H I K L N O R S T U W Y and red 0 1 2 3. Not in the email, built from those strokes and marked with a red square: C J M P Q V X Z and digits 4–9. No lowercase. No font file.
+- **Conventions:** Do not present the eight derived letters as source traces. The sheet is for founder review. Draft PR #1617 stays unmerged.
