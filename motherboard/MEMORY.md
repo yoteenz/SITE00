@@ -16393,3 +16393,13 @@ Summary of the whole conversation in this chat.
 - **Marks:** The period stays the square already in `SITE 00 Display` (`CAP * 0.15`, not widened). `!` and `?` are built from that same square plus a black stem or hook in the same stem weight. The question dot is centered under the whole mark. Font version 1.2. Rebuild with `fontforge -lang=py -script scripts/correspondence-type-authority/build_display_font.py`, then `python3 scripts/correspondence-type-authority/build_symbol_sheet.py`.
 - **Sheet:** `public/site00-correspondence-type-authority/v1/09_REVIEW/SYMBOLS.png` and `symbols.html`. Red is `#ce1017`. The color split is on the sheet. The woff2 outlines stay one color, same as the numerals.
 - **Conventions:** Do not paint the numeral row or the letter rows on this sheet. Do not rerun `trace_specimen_sheet.py`. Draft PR #1617 stays unmerged.
+
+---
+
+## 2026-10-12 — Symbol sheet traced from the founder marks
+
+- **Context:** The constructed exclamation, question, and period were the wrong shapes. The founder sent a symbol sheet and said to use those marks and apply the red dots.
+- **Traces:** `public/site00-correspondence-type-authority/v1/12_SYMBOL_TRACE/`. 33 marks, mean silhouette IoU 0.994. Rebuild with `python3 scripts/correspondence-type-authority/trace_symbol_sheet.py`, then `fontforge -lang=py -script scripts/correspondence-type-authority/build_display_font.py`.
+- **Red dots:** The period, the base of ! and ?, both colon dots, the semicolon dot, the comma head, and the three ellipsis dots. Tails and every other mark stay black. The bullet stays black.
+- **Sheet:** `09_REVIEW/SYMBOLS.png` keeps the sheet’s own arrangement. Font version 1.3 stores the outlines in one color.
+- **Conventions:** Do not redraw these marks. Do not rerun `trace_specimen_sheet.py`. Draft PR #1617 stays unmerged.
