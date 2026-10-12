@@ -98,27 +98,6 @@ export function microLabel(text: string, color: string = T.mute, size = 9): stri
 /** Period, comma, semicolon, and asterisk are the red marks. The rest of the display line stays ink. */
 const RED_DISPLAY = new Set(['.', ',', ';', '*']);
 
-/**
- * Traced comma, semicolon, and asterisk. The PNG is the whole mark in #ce1017,
- * tail included, so a mail client cannot paint the tail black.
- * `drop` is how far the image hangs below the text baseline.
- */
-const PROSE_MARKS: Record<string, { file: string; w: number; h: number; drop: number }> = {
-  ',': { file: 'marks/comma.png', w: 6, h: 12, drop: 5 },
-  ';': { file: 'marks/semicolon.png', w: 6, h: 28, drop: 6 },
-  '*': { file: 'marks/asterisk.png', w: 12, h: 12, drop: 1 },
-};
-
-/** Replace prose commas, semicolons, and asterisks. Thousands separators stay text. */
-export function paintProse(text: string, asset: AssetResolver): string {
-  return text.replace(/[,;*]/g, (ch, i, s) => {
-    if (ch === ',' && /\d$/.test(s.slice(0, i)) && /^\d/.test(s.slice(i + 1))) return ch;
-    const mark = PROSE_MARKS[ch];
-    const src = asset(mark.file);
-    return `<img src="${src}" alt="${ch}" width="${mark.w}" height="${mark.h}" style="display:inline-block;vertical-align:-${mark.drop}px;width:${mark.w}px;height:${mark.h}px;border:0;margin:0 1px">`;
-  });
-}
-
 export function displayText(text: string): string {
   let out = '';
   for (const ch of text) {
@@ -144,10 +123,10 @@ export function kicker(text: string): string {
 </tr></table>`;
 }
 
-export function bodyCopy(text: string, size = 12.5, color: string = T.body, extra = '', lineHeight?: number, asset?: AssetResolver): string {
+/** Body stays Saira with plain punctuation. Red traced marks are display headers only (`displayText`, `headline`, `sectionTitle`). */
+export function bodyCopy(text: string, size = 12.5, color: string = T.body, extra = '', lineHeight?: number): string {
   const leading = lineHeight ?? Math.round(size * 1.5);
-  const shown = asset ? paintProse(text, asset) : text;
-  return `<p style="margin:0;font-family:${FONT_BODY};font-size:${size}px;line-height:${leading}px;letter-spacing:.07em;color:${color};text-transform:uppercase;${extra}">${shown}</p>`;
+  return `<p style="margin:0;font-family:${FONT_BODY};font-size:${size}px;line-height:${leading}px;letter-spacing:.07em;color:${color};text-transform:uppercase;${extra}">${text}</p>`;
 }
 
 export function tagline(lines: string[]): string {

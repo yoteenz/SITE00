@@ -78,6 +78,15 @@ describe('FNDATN-01 registration', () => {
   it('leaves every lifecycle event trigger off', () => {
     expect(DIGITAL_FOUNDATION_LIFECYCLE_EVENT_MAP.every((m) => !m.enabled)).toBe(true);
   });
+
+  it('applies red correspondence marks on display headers only, not Saira body copy', () => {
+    const r = send('01');
+    if (!r.ok) throw new Error(r.eligibility.reasons.join());
+    expect(r.html).toContain('keep-red');
+    expect(r.html).not.toContain('marks/comma.png');
+    expect(r.html).not.toContain('marks/semicolon.png');
+    expect(r.html).not.toContain('marks/asterisk.png');
+  });
 });
 
 describe('FNDATN-01 eligibility guards', () => {
