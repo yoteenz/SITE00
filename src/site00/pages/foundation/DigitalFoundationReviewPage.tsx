@@ -11,6 +11,7 @@ import { P04Recommendation } from '../../foundation-client/parents/Recommendatio
 import { InterimOverview, P05Review, P06Activation } from '../../foundation-client/parents/CheckoutActivation';
 import { DfFrame, DfMenu, type DfObjectKind } from '../../foundation-client/shell';
 import { DF_VIEW_META, DF_VIEW_ORDER, type DfView, type IntakeDraft } from '../../foundation-client/model';
+import { studioPathForReviewRoom } from '../../builder-studio/studioReviewSample';
 import { reviewAnchorForView, reviewScreenUrl, scrollToReviewAnchor } from './reviewLinks';
 import '../../styles/site00-df-client.css';
 import '../../styles/site00-df-components.css';
@@ -254,7 +255,7 @@ export default function DigitalFoundationReviewPage() {
             <iframe
               className="df-review__studio"
               title={room.label}
-              src={`/bldr/studio?reviewRoom=${room.id}`}
+              src={`/bldr/studio/${studioPathForReviewRoom(room.id)}?reviewRoom=${room.id}`}
             />
           </article>
         ))}

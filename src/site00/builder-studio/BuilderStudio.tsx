@@ -82,10 +82,16 @@ export function SaveStatusChip({ indicator, onRetry }: { indicator: SaveIndicato
   );
 }
 
-export function BuilderStudio({ room: requested }: { room: StudioRoomId | null }) {
+export function BuilderStudio({
+  room: requested,
+  sample = null,
+}: {
+  room: StudioRoomId | null;
+  sample?: SpatialBuilderState | null;
+}) {
   const navigate = useNavigate();
   const location = useLocation();
-  const session = useStudioSession();
+  const session = useStudioSession(sample);
   const { state, locked, submitted, syncStatus, update } = session;
   const hydrated = syncStatus !== 'restoring';
   const [menuOpen, setMenuOpen] = useState(false);
