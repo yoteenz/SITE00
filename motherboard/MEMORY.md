@@ -16510,3 +16510,13 @@ Summary of the whole conversation in this chat.
 - **Root causes (stack):** (1) Lazy route chunk failures when shared DF exports break (`DfSheet` etc.) → whole page white. (2) Vite dev **local API** esbuild bundle for `api/site00/intakes` failed on inline `satisfies` in `toEstimateConfig.ts` `WORLD_INPUT_MAP` → `POST …/intakes?action=start` **500** → BLDR `ensureStarted` never completes (retry/blank). (3) Empty threshold slots looked flat/white without a JS crash.
 - **Fix:** Typed `WORLD_INPUT_MAP` without per-key `satisfies`; `vite-site00-local-api.mjs` `target: es2022` + `SITE00_INTAKES_USE_MEMORY=1` when `SITE00_CLOUD_MOBILE_PREVIEW`; test bundles `api/site00/intakes.ts` in `site00LocalApiTsxLoader.test.ts`.
 - **Hardening:** Keep shell export test; extend local-api bundle test when adding handlers that import builder-experience TS.
+
+---
+
+## 2026-10-12 — Correspondence adaptive editorial text zones (FNDATN-01, draft PR, not merged)
+
+- **Sprint:** `P0.SITE00.CORRESPONDENCE.ADAPTIVE-EDITORIAL-TEXT-WRAPPING-AND-SPATIAL-INTELLIGENCE1`. Hero copy on all seven FNDATN-01 emails wrapped past the safe area into architecture, red glass, and artifacts. Root cause: fixed column widths and hardcoded line breaks with no model of the art.
+- **Change:** Shared `shared/site00-correspondence-studio/editorial/` (advance-table measurement, zone contract schema, deterministic L1–L5 fit ladder, fallback-client simulation). Fourteen measured contracts in `fndatn01/zones.ts`; heroes rendered by `fndatn01/hero.ts`. The webfont plan and the Arial plan ship as `ez-a`/`ez-b` variants targeted to Gmail, Outlook.com, and Outlook desktop (mso). Breakpoint is now 679. CTA, ledger, and receipt reflow. Fictional `stress_long`/`stress_short` fixtures and previews. Studio has a fixture selector and a WEBFONT / GMAIL·OUTLOOK toggle.
+- **Result:** All webfont heroes overlay with no zone collisions. All Arial-fallback heroes stack the text above the art. Desktop taglines are omitted (they were tiny type over glass). Doc: `docs/site00/correspondence/fndatn-01/FNDATN_01_EDITORIAL_ZONE_CONTRACT.md`.
+- **Tests:** `tests/correspondenceEditorialGeometry.test.ts` (66, real Chromium bounding boxes at 390/430/600/768/1280) and `tests/editorialZoneContracts.test.ts` (16).
+- **Ship:** Draft PR **#1632** to `main`, not merged; no deploy, by sprint firewall. `npm run build` on `main` is blocked by a duplicate `getRepositoryPersistRevision` in `src/projects/jurnl/data/repository/deviceRepository.ts` (parallel JURNL work, left untouched).
