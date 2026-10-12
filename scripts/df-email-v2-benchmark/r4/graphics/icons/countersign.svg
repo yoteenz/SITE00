@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <title>QUOTE ACCEPTED — two signature lines, joined where both parties meet</title>
+  <g fill="none" stroke-linecap="square">
+    <path d="M4 40H22M26 40H44" stroke="#141414" stroke-width="2.2"/>
+    <path d="M6 33C9 25 12 25 13 31C14 36 17 22 20 30" stroke="#141414" stroke-width="1.4"/>
+    <path d="M28 33C31 27 33 24 35 30C36 33 39 27 42 29" stroke="#141414" stroke-width="1.4"/>
+    <circle cx="24" cy="40" r="2.6" fill="#d90c0c" stroke="none"/>
+  </g>
+</svg>

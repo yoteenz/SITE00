@@ -39,10 +39,7 @@ const AccessCredentialsPage = lazy(() => import('../site00/admin/pages/access/Ac
 const AccessCredentialDetailPage = lazy(() => import('../site00/admin/pages/access/AccessCredentialDetailPage'));
 const EmailPackGalleryPage = lazy(() => import('../site00/admin/pages/debug/EmailPackGalleryPage'));
 const EmailTemplateDetailPage = lazy(() => import('../site00/admin/pages/debug/EmailTemplateDetailPage'));
-const CorrespondenceStudioHomePage = lazy(() => import('../site00/admin/pages/correspondence/CorrespondenceStudioHomePage'));
-const CorrespondenceProjectPage = lazy(() => import('../site00/admin/pages/correspondence/CorrespondenceProjectPage'));
-const CorrespondenceCampaignPage = lazy(() => import('../site00/admin/pages/correspondence/CorrespondenceCampaignPage'));
-const CorrespondenceEmailReviewPage = lazy(() => import('../site00/admin/pages/correspondence/CorrespondenceEmailReviewPage'));
+const CorrespondenceWorkspacePage = lazy(() => import('../site00/admin/pages/correspondence/CorrespondenceWorkspacePage'));
 const EvolveMarketingDebugPage = lazy(() => import('../site00/admin/pages/debug/EvolveMarketingDebugPage'));
 const OrchestrationDebugPage = lazy(() => import('../site00/admin/pages/debug/OrchestrationDebugPage'));
 const ReconciliationInboxPage = lazy(() => import('../site00/admin/pages/ReconciliationInboxPage'));
@@ -353,7 +350,7 @@ export function Site00AdminRoutes() {
         path="site00/correspondence-studio"
         element={
           <AdminSuspense>
-            <CorrespondenceStudioHomePage />
+            <CorrespondenceWorkspacePage />
           </AdminSuspense>
         }
       />
@@ -361,7 +358,7 @@ export function Site00AdminRoutes() {
         path="site00/correspondence-studio/projects/:projectId"
         element={
           <AdminSuspense>
-            <CorrespondenceProjectPage />
+            <CorrespondenceWorkspacePage />
           </AdminSuspense>
         }
       />
@@ -369,7 +366,7 @@ export function Site00AdminRoutes() {
         path="site00/correspondence-studio/projects/:projectId/campaigns/:campaignId"
         element={
           <AdminSuspense>
-            <CorrespondenceCampaignPage />
+            <CorrespondenceWorkspacePage />
           </AdminSuspense>
         }
       />
@@ -377,7 +374,7 @@ export function Site00AdminRoutes() {
         path="site00/correspondence-studio/projects/:projectId/campaigns/:campaignId/emails/:templateId"
         element={
           <AdminSuspense>
-            <CorrespondenceEmailReviewPage />
+            <CorrespondenceWorkspacePage />
           </AdminSuspense>
         }
       />

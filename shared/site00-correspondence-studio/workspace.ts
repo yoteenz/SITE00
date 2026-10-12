@@ -1,5 +1,6 @@
 import { applyOpusV2BenchmarkImport } from './import/opusV2BenchmarkImport.js';
 import { applyR3EditorialImport } from './import/r3EditorialImport.js';
+import { applyR4PremiumImport } from './import/r4PremiumImport.js';
 import { DIGITAL_FOUNDATION_TEMPLATE_COUNT } from './manifests/digital-foundation-lifecycle.js';
 import type { CampaignDefinition, CorrespondenceWorkspaceManifest, ProjectDefinition } from './types.js';
 
@@ -11,6 +12,7 @@ export function getCorrespondenceWorkspace(options?: { includeOpusBenchmarks?: b
   const manifest = applyOpusV2BenchmarkImport({ apply: include });
   if (include) {
     applyR3EditorialImport(manifest);
+    applyR4PremiumImport(manifest);
     cached = manifest;
   }
   return manifest;

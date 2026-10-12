@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="x-apple-disable-message-reformatting">
+<meta name="format-detection" content="telephone=no, address=no, email=no, date=no">
+<title>YOUR QUOTE IS READY</title>
+<style>
+/* SITE 00 · Email V2 R4 — shared email base (R3 base plus the R4 device roles). Injected into every composition's
+   <style> by build_r4.py.
+   Production send: inline with juice (or equivalent) and swap the local @font-face for hosted files. */
+
+@font-face { font-family: "Saira Semi Condensed"; font-weight: 400; src: url("{{font_base}}/SairaSemiCondensed-400.ttf") format("truetype"); }
+@font-face { font-family: "Saira Semi Condensed"; font-weight: 500; src: url("{{font_base}}/SairaSemiCondensed-500.ttf") format("truetype"); }
+@font-face { font-family: "Saira Semi Condensed"; font-weight: 600; src: url("{{font_base}}/SairaSemiCondensed-600.ttf") format("truetype"); }
+@font-face { font-family: "Saira Semi Condensed"; font-weight: 700; src: url("{{font_base}}/SairaSemiCondensed-700.ttf") format("truetype"); }
+@font-face { font-family: "Barlow Condensed"; font-weight: 800; src: url("{{font_base}}/barlow-condensed-800.woff2") format("woff2"); }
+@font-face { font-family: "Barlow Condensed"; font-weight: 900; src: url("{{font_base}}/barlow-condensed-900.woff2") format("woff2"); }
+
+body { margin: 0; padding: 0; background: #e9e7e3; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+table { border-collapse: collapse; mso-table-lspace: 0; mso-table-rspace: 0; }
+td { padding: 0; }
+img { display: block; border: 0; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; }
+a { color: inherit; }
+p { margin: 0; }
+.wrap { font-family: "Saira Semi Condensed", "Arial Narrow", Arial, sans-serif; }
+
+/* Review chrome (not part of the sent message) */
+.stage { padding: 28px 16px 40px; }
+.inbox { max-width: 640px; margin: 0 auto 14px; padding: 14px 18px 13px; background: #fbfaf8; border: 1px solid #dcd9d3; border-radius: 6px; font-family: "Saira Semi Condensed", "Arial Narrow", Arial, sans-serif; }
+.inbox .from { font-size: 11px; letter-spacing: .06em; color: #72706c; }
+.inbox .subj { font-size: 14.5px; font-weight: 600; letter-spacing: .03em; color: #141414; margin: 6px 0 3px; line-height: 1.3; }
+.inbox .pre { font-size: 12px; letter-spacing: .04em; color: #5e5e5e; line-height: 1.45; }
+
+/* Type roles. Body face: Saira Semi Condensed. Display face: Barlow Condensed (DF alias "SITE00 DF Display"). */
+.sa { font-family: "Saira Semi Condensed", "Arial Narrow", Arial, sans-serif; }
+.dp { font-family: "Barlow Condensed", "Arial Narrow", "Helvetica Neue", Arial, sans-serif; text-transform: uppercase; }
+.d900 { font-weight: 900; letter-spacing: -.004em; line-height: .86; color: #141414; }
+.d800 { font-weight: 800; letter-spacing: .004em; line-height: .98; color: #141414; }
+.intro { font-weight: 500; font-size: 20px; line-height: 1.42; letter-spacing: .012em; color: #141414; }
+.body { font-weight: 400; font-size: 15px; line-height: 1.64; letter-spacing: .028em; color: #1e1e1e; }
+.sh { font-weight: 600; font-size: 11.5px; line-height: 1.4; letter-spacing: .26em; color: #141414; }
+.micro { font-weight: 600; font-size: 10px; line-height: 1.45; letter-spacing: .3em; color: #6f6c67; }
+.cap { font-weight: 500; font-size: 10.5px; line-height: 1.6; letter-spacing: .14em; color: #6f6c67; }
+.anno { font-weight: 400; font-size: 11px; line-height: 1.55; letter-spacing: .1em; color: #5e5e5e; }
+.cta { font-weight: 700; font-size: 13px; line-height: 1; letter-spacing: .2em; }
+.stop { display: inline-block; width: .15em; height: .15em; background: #d90c0c; margin-left: .05em; vertical-align: baseline; }
+
+/* Sample values (review only) and case-preserved content */
+.v { text-transform: none; border-bottom: 1px dotted currentColor; }
+.url { text-transform: none; }
+.tok { text-transform: none; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .88em; background: #f1efeb; padding: 1px 4px; border-radius: 2px; color: #5e5e5e; letter-spacing: 0; }
+
+.mob { display: none; max-height: 0; overflow: hidden; mso-hide: all; }
+
+/* R4 device roles */
+.kick { font-weight: 500; font-size: 19px; line-height: 1.3; letter-spacing: .02em; color: #6f6c67; }
+.fig { font-weight: 500; font-size: 10px; line-height: 1.5; letter-spacing: .22em; color: #6f6c67; }
+.fig b { font-weight: 600; color: #d90c0c; }
+.rule { border-top: 1px solid #e4e2dd; font-size: 0; line-height: 0; }
+.rule-k { border-top: 1.5px solid #141414; font-size: 0; line-height: 0; }
+.note { border-left: 2px solid #d90c0c; padding: 2px 0 2px 16px; }
+.note p { font-family: "Saira Semi Condensed", "Arial Narrow", Arial, sans-serif; font-weight: 400; font-size: 13px; line-height: 1.6; letter-spacing: .06em; color: #3a3a3a; }
+.spec td { border-top: 1px solid #e4e2dd; padding: 12px 0 11px; vertical-align: baseline; }
+.spec tr:last-child td { border-bottom: 1.5px solid #141414; }
+.spec .k { width: 132px; font-weight: 600; font-size: 10px; letter-spacing: .26em; color: #6f6c67; }
+.spec .val { font-weight: 500; font-size: 15px; letter-spacing: .03em; color: #141414; }
+.btn-k a, .btn-r a, .btn-o a { display: inline-block; text-decoration: none; padding: 18px 28px 17px; }
+.btn-k a { color: #ffffff; }
+.btn-r a { color: #ffffff; }
+.btn-o { border: 1.5px solid #141414; }
+.btn-o a { color: #141414; padding: 16px 26px 15px; }
+.tlink a { text-decoration: none; border-bottom: 1px solid #141414; padding-bottom: 2px; }
+.band a { display: block; color: #ffffff; text-decoration: none; }
+.num { display: inline-block; min-width: 22px; padding: 4px 4px 3px; background: #d90c0c; color: #ffffff; text-align: center; }
+
+@media (max-width: 480px) {
+  body { background: #ffffff; }
+  .stage { padding: 0; }
+  .inbox { margin: 0; border-radius: 0; border-width: 0 0 1px; }
+  .wrap { width: 100% !important; }
+  .col { display: block !important; width: 100% !important; box-sizing: border-box; }
+  .px { padding-left: 24px !important; padding-right: 24px !important; }
+  .desk { display: none !important; }
+  .mob { display: block !important; max-height: none !important; overflow: visible !important; }
+  .fluid { width: 100% !important; max-width: 100% !important; height: auto !important; }
+  .intro { font-size: 18px !important; }
+  .body { font-size: 15px !important; }
+  .kick { font-size: 17px !important; }
+  .spec .k { width: 112px !important; letter-spacing: .18em !important; padding-right: 10px !important; }
+  .btn-k, .btn-r, .btn-o, .btn-k a, .btn-r a, .btn-o a { display: block !important; text-align: center; }
+  .stack { display: block !important; width: 100% !important; box-sizing: border-box; padding-left: 0 !important; padding-right: 0 !important; }
+  .mt-m { padding-top: 24px !important; }
+  .mob-i { display: inline !important; }
+  .flush { padding-left: 0 !important; padding-right: 0 !important; }
+}
+/* TR-04 quote-ready — THE WORK, MEASURED. Scale-model hero, figure caption, specification sheet with the total set in display type, margin note. */
+.total { font-size: 54px; line-height: .9; }
+@media (max-width: 480px) {
+  .total { font-size: 44px !important; }
+  .h1 { font-size: 56px !important; }
+}
+</style>
+</head>
+<body>
+<div class="stage">
+  <!-- MESSAGE -->
+  <table role="presentation" class="wrap" width="640" align="center" cellpadding="0" cellspacing="0" border="0" style="width:640px;margin:0 auto;background:#ffffff;">
+    <tr><td style="display:none;font-size:1px;line-height:1px;max-height:0;overflow:hidden;mso-hide:all;" class="sa">WHAT WE'LL SET UP FOR YOU, AND WHAT IT COSTS. READ IT WHEN YOU'RE&nbsp;READY.</td></tr>
+
+<tr><td class="px" style="padding:34px 48px 0px 48px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td valign="middle" width="34" style="width:34px;"><img src="{{asset_base}}/gfx/icon-scale-rule.png" width="24" height="24" alt=""></td><td valign="middle" class="sa micro" style="color:#141414;">SITE 00 · DIGITAL FOUNDATION<span class="mob-i" style="display:none;mso-hide:all;"><br><span style="color:#6f6c67;">QUOTE · VERSION {{quote_version}}</span></span></td><td valign="middle" align="right" class="sa micro desk" style="color:#141414;text-align:right;padding-left:16px;white-space:nowrap;">QUOTE · VERSION&nbsp;{{quote_version}}</td></tr></table></td></tr>
+
+<tr><td style="padding:28px 0 0 0;"><img class="desk" src="{{asset_base}}/gen/model.jpg" width="640" height="426" alt="A WHITE ARCHITECTURAL SCALE MODEL OF A PAVILION ON A TRAVERTINE PLINTH, ONE VOLUME IN RED GLASS, WITH A STEEL RULE AND A BRASS PENCIL BESIDE IT." style="width:640px;height:426px;"><div class="mob"><img src="{{asset_base}}/gen/model_m.jpg" width="390" height="266" class="fluid" alt="A WHITE ARCHITECTURAL SCALE MODEL OF A PAVILION ON A TRAVERTINE PLINTH, ONE VOLUME IN RED GLASS, WITH A STEEL RULE AND A BRASS PENCIL BESIDE IT." style="width:100%;"></div></td></tr>
+
+<tr><td class="px" style="padding:12px 48px 0 48px;"><p class="sa fig">FIG. 01 · <b>■</b> THE SCOPE, AT&nbsp;SCALE</p></td></tr>
+
+<tr><td class="px" style="padding:40px 48px 0px 48px;"><h1 class="dp d900 h1" style="margin:0;font-size:78px;line-height:.88;color:#141414;">THE WORK,<br>MEASURED<span class="stop"></span></h1></td></tr>
+
+<tr><td class="px" style="padding:26px 48px 0px 48px;"><p class="sa intro">WE'VE TURNED YOUR BRIEFING INTO A QUOTE FOR {{business_name}}: WHAT WE'LL SET UP, AND WHAT IT&nbsp;COSTS.</p></td></tr>
+
+<tr><td class="px" style="padding:36px 48px 0px 48px;"><table role="presentation" class="spec" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="k sa">PREPARED&nbsp;FOR</td><td class="val sa">{{business_name}}</td></tr><tr><td class="k sa">VERSION</td><td class="val sa">{{quote_version}}</td></tr><tr><td class="k sa">TOTAL</td><td class="val"><span class="dp d900 total">{{quote_total_display}}</span></td></tr><tr><td class="k sa">STATUS</td><td class="val sa">WAITING FOR YOUR&nbsp;REVIEW</td></tr></table></td></tr>
+
+<tr><td class="px" style="padding:36px 48px 0px 48px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td valign="top" class="col flush" width="300" style="width:300px;padding-right:28px;"><p class="sa body">READ IT AT YOUR OWN PACE. NOTHING IS AGREED UNTIL YOU ACCEPT IT IN YOUR FOUNDATION, AND PAYMENT IS A SEPARATE STEP AFTER&nbsp;THAT.</p></td><td valign="top" class="col mt-m"><div class="note"><p>THE TOTAL HERE IS COPIED FROM YOUR QUOTE. IF THE TWO EVER DISAGREE, THE QUOTE IN YOUR FOUNDATION IS THE ONE THAT&nbsp;COUNTS.</p></div></td></tr></table></td></tr>
+
+<tr><td class="px" style="padding:40px 48px 0px 48px;"><table role="presentation" cellpadding="0" cellspacing="0" border="0" class="fluid"><tr><td class="btn-k sa cta" bgcolor="#141414" style="background:#141414;"><a href="https://site00.com/foundation/{{public_token}}">REVIEW YOUR QUOTE <span style="letter-spacing:0;">→</span></a></td></tr></table><p class="sa anno" style="margin-top:12px;">OR OPEN <span class="url" style="letter-spacing:.04em;">site00.com/foundation/{{public_token}}</span></p></td></tr>
+
+<tr><td class="px" style="padding:36px 48px 38px 48px;"><p class="sa cap" style="letter-spacing:.1em;">YOU'RE RECEIVING THIS BECAUSE PROJECT UPDATES ARE SWITCHED ON FOR THE DIGITAL FOUNDATION OF {{business_name}}. YOU CAN TURN THEM OFF IN YOUR FOUNDATION'S&nbsp;PREFERENCES.</p><p class="sa micro" style="margin-top:10px;color:#141414;">SITE 00 · <span class="url" style="letter-spacing:.08em;">site00.com</span></p></td></tr>
+  </table>
+</div>
+</body>
+</html>

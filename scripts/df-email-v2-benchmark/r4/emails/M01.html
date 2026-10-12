@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="x-apple-disable-message-reformatting">
+<meta name="format-detection" content="telephone=no, address=no, email=no, date=no">
+<title>HOW THE DIGITAL FOUNDATION WORKS</title>
+<style>
+/* SITE 00 · Email V2 R4 — shared email base (R3 base plus the R4 device roles). Injected into every composition's
+   <style> by build_r4.py.
+   Production send: inline with juice (or equivalent) and swap the local @font-face for hosted files. */
+
+@font-face { font-family: "Saira Semi Condensed"; font-weight: 400; src: url("../fonts/SairaSemiCondensed-400.ttf") format("truetype"); }
+@font-face { font-family: "Saira Semi Condensed"; font-weight: 500; src: url("../fonts/SairaSemiCondensed-500.ttf") format("truetype"); }
+@font-face { font-family: "Saira Semi Condensed"; font-weight: 600; src: url("../fonts/SairaSemiCondensed-600.ttf") format("truetype"); }
+@font-face { font-family: "Saira Semi Condensed"; font-weight: 700; src: url("../fonts/SairaSemiCondensed-700.ttf") format("truetype"); }
+@font-face { font-family: "Barlow Condensed"; font-weight: 800; src: url("../fonts/barlow-condensed-800.woff2") format("woff2"); }
+@font-face { font-family: "Barlow Condensed"; font-weight: 900; src: url("../fonts/barlow-condensed-900.woff2") format("woff2"); }
+
+body { margin: 0; padding: 0; background: #e9e7e3; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+table { border-collapse: collapse; mso-table-lspace: 0; mso-table-rspace: 0; }
+td { padding: 0; }
+img { display: block; border: 0; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; height: auto; }
+a { color: inherit; }
+p { margin: 0; }
+.wrap { font-family: "Saira Semi Condensed", "Arial Narrow", Arial, sans-serif; }
+
+/* Review chrome (not part of the sent message) */
+.stage { padding: 28px 16px 40px; }
+.inbox { max-width: 640px; margin: 0 auto 14px; padding: 14px 18px 13px; background: #fbfaf8; border: 1px solid #dcd9d3; border-radius: 6px; font-family: "Saira Semi Condensed", "Arial Narrow", Arial, sans-serif; }
+.inbox .from { font-size: 11px; letter-spacing: .06em; color: #72706c; }
+.inbox .subj { font-size: 14.5px; font-weight: 600; letter-spacing: .03em; color: #141414; margin: 6px 0 3px; line-height: 1.3; }
+.inbox .pre { font-size: 12px; letter-spacing: .04em; color: #5e5e5e; line-height: 1.45; }
+
+/* Type roles. Body face: Saira Semi Condensed. Display face: Barlow Condensed (DF alias "SITE00 DF Display"). */
+.sa { font-family: "Saira Semi Condensed", "Arial Narrow", Arial, sans-serif; }
+.dp { font-family: "Barlow Condensed", "Arial Narrow", "Helvetica Neue", Arial, sans-serif; text-transform: uppercase; }
+.d900 { font-weight: 900; letter-spacing: -.004em; line-height: .86; color: #141414; }
+.d800 { font-weight: 800; letter-spacing: .004em; line-height: .98; color: #141414; }
+.intro { font-weight: 500; font-size: 20px; line-height: 1.42; letter-spacing: .012em; color: #141414; }
+.body { font-weight: 400; font-size: 15px; line-height: 1.64; letter-spacing: .028em; color: #1e1e1e; }
+.sh { font-weight: 600; font-size: 11.5px; line-height: 1.4; letter-spacing: .26em; color: #141414; }
+.micro { font-weight: 600; font-size: 10px; line-height: 1.45; letter-spacing: .3em; color: #6f6c67; }
+.cap { font-weight: 500; font-size: 10.5px; line-height: 1.6; letter-spacing: .14em; color: #6f6c67; }
+.anno { font-weight: 400; font-size: 11px; line-height: 1.55; letter-spacing: .1em; color: #5e5e5e; }
+.cta { font-weight: 700; font-size: 13px; line-height: 1; letter-spacing: .2em; }
+.stop { display: inline-block; width: .15em; height: .15em; background: #d90c0c; margin-left: .05em; vertical-align: baseline; }
+
+/* Sample values (review only) and case-preserved content */
+.v { text-transform: none; border-bottom: 1px dotted currentColor; }
+.url { text-transform: none; }
+.tok { text-transform: none; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .88em; background: #f1efeb; padding: 1px 4px; border-radius: 2px; color: #5e5e5e; letter-spacing: 0; }
+
+.mob { display: none; max-height: 0; overflow: hidden; mso-hide: all; }
+
+/* R4 device roles */
+.kick { font-weight: 500; font-size: 19px; line-height: 1.3; letter-spacing: .02em; color: #6f6c67; }
+.fig { font-weight: 500; font-size: 10px; line-height: 1.5; letter-spacing: .22em; color: #6f6c67; }
+.fig b { font-weight: 600; color: #d90c0c; }
+.rule { border-top: 1px solid #e4e2dd; font-size: 0; line-height: 0; }
+.rule-k { border-top: 1.5px solid #141414; font-size: 0; line-height: 0; }
+.note { border-left: 2px solid #d90c0c; padding: 2px 0 2px 16px; }
+.note p { font-family: "Saira Semi Condensed", "Arial Narrow", Arial, sans-serif; font-weight: 400; font-size: 13px; line-height: 1.6; letter-spacing: .06em; color: #3a3a3a; }
+.spec td { border-top: 1px solid #e4e2dd; padding: 12px 0 11px; vertical-align: baseline; }
+.spec tr:last-child td { border-bottom: 1.5px solid #141414; }
+.spec .k { width: 132px; font-weight: 600; font-size: 10px; letter-spacing: .26em; color: #6f6c67; }
+.spec .val { font-weight: 500; font-size: 15px; letter-spacing: .03em; color: #141414; }
+.btn-k a, .btn-r a, .btn-o a { display: inline-block; text-decoration: none; padding: 18px 28px 17px; }
+.btn-k a { color: #ffffff; }
+.btn-r a { color: #ffffff; }
+.btn-o { border: 1.5px solid #141414; }
+.btn-o a { color: #141414; padding: 16px 26px 15px; }
+.tlink a { text-decoration: none; border-bottom: 1px solid #141414; padding-bottom: 2px; }
+.band a { display: block; color: #ffffff; text-decoration: none; }
+.num { display: inline-block; min-width: 22px; padding: 4px 4px 3px; background: #d90c0c; color: #ffffff; text-align: center; }
+
+@media (max-width: 480px) {
+  body { background: #ffffff; }
+  .stage { padding: 0; }
+  .inbox { margin: 0; border-radius: 0; border-width: 0 0 1px; }
+  .wrap { width: 100% !important; }
+  .col { display: block !important; width: 100% !important; box-sizing: border-box; }
+  .px { padding-left: 24px !important; padding-right: 24px !important; }
+  .desk { display: none !important; }
+  .mob { display: block !important; max-height: none !important; overflow: visible !important; }
+  .fluid { width: 100% !important; max-width: 100% !important; height: auto !important; }
+  .intro { font-size: 18px !important; }
+  .body { font-size: 15px !important; }
+  .kick { font-size: 17px !important; }
+  .spec .k { width: 112px !important; letter-spacing: .18em !important; padding-right: 10px !important; }
+  .btn-k, .btn-r, .btn-o, .btn-k a, .btn-r a, .btn-o a { display: block !important; text-align: center; }
+  .stack { display: block !important; width: 100% !important; box-sizing: border-box; padding-left: 0 !important; padding-right: 0 !important; }
+  .mt-m { padding-top: 24px !important; }
+  .mob-i { display: inline !important; }
+  .flush { padding-left: 0 !important; padding-right: 0 !important; }
+}
+/* MK-03 M01 — WHAT'S UNDER THE FLOOR. Field-guide masthead; sectional model with numbered markers; legend; stone panel on what a foundation is not; red band. */
+.legend td { vertical-align: top; padding-bottom: 22px; }
+.legend .n { width: 46px; padding-top: 2px; }
+.legend .k { font-size: 22px; line-height: 1; }
+.legend .t { padding-top: 6px; }
+.isnt { background: #f4f2ee; }
+@media (max-width: 480px) {
+  .isnt-h { font-size: 30px !important; }
+  .h1 { font-size: 56px !important; }
+  .h2 { font-size: 28px !important; }
+}
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="inbox">
+    <div class="from">FROM · SENDER ADDRESS PENDING REGISTRATION</div>
+    <div class="subj">HOW THE DIGITAL FOUNDATION WORKS</div>
+    <div class="pre">FOUR LAYERS NOBODY SEES, AND WHY EVERYTHING ELSE STANDS ON THEM.</div>
+  </div>
+
+  <!-- MESSAGE -->
+  <table role="presentation" class="wrap" width="640" align="center" cellpadding="0" cellspacing="0" border="0" style="width:640px;margin:0 auto;background:#ffffff;">
+    <tr><td style="display:none;font-size:1px;line-height:1px;max-height:0;overflow:hidden;mso-hide:all;" class="sa">FOUR LAYERS NOBODY SEES, AND WHY EVERYTHING ELSE STANDS ON&nbsp;THEM.</td></tr>
+
+<tr><td class="px" style="padding:34px 48px 0px 48px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td valign="middle" width="34" style="width:34px;"><img src="../assets/gfx/icon-layers.png" width="24" height="24" alt=""></td><td valign="middle" class="sa micro" style="color:#141414;">SITE 00 · FIELD GUIDE<span class="mob-i" style="display:none;mso-hide:all;"><br><span style="color:#6f6c67;">THE DIGITAL FOUNDATION</span></span></td><td valign="middle" align="right" class="sa micro desk" style="color:#141414;text-align:right;padding-left:16px;white-space:nowrap;">THE DIGITAL&nbsp;FOUNDATION</td></tr></table></td></tr>
+
+<tr><td class="px" style="padding:42px 48px 0px 48px;"><h1 class="dp d900 h1" style="margin:0;font-size:80px;line-height:.88;color:#141414;">WHAT'S UNDER<br>THE&nbsp;FLOOR<span class="stop"></span></h1></td></tr>
+
+<tr><td class="px" style="padding:26px 48px 0px 48px;"><p class="sa intro">EVERY BUSINESS STANDS ON A FEW THINGS NOBODY SEES: AN ADDRESS, THE RECORDS BEHIND IT, THE MAIL THAT LEAVES FROM IT. HERE IS HOW THEY FIT TOGETHER, ONE LAYER AT A&nbsp;TIME.</p></td></tr>
+
+<tr><td style="padding:38px 0 0 0;"><img src="../assets/gfx/section-r4.jpg" width="640" height="360" class="fluid" alt="A SECTIONAL MODEL OF A SMALL PAVILION CUT THROUGH THE MIDDLE, SHOWING EARTH, A GRAVEL BED, A CONCRETE FOUNDATION AND A TRAVERTINE FLOOR. FOUR RED MARKERS NUMBER THE LAYERS." style="width:100%;max-width:640px;"></td></tr>
+
+<tr><td class="px" style="padding:12px 48px 0 48px;"><p class="sa fig">FIG. 01 · <b>■</b> A FOUNDATION IN&nbsp;SECTION</p></td></tr>
+
+<tr><td class="px" style="padding:36px 48px 0px 48px;"><table role="presentation" class="legend" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="n"><span class="num dp d800" style="font-size:14px;">01</span></td><td><p class="sa micro">THE&nbsp;GROUND</p><p class="dp d800 k" style="margin-top:6px;">DOMAIN</p><p class="sa body t">YOUR ADDRESS ON THE INTERNET, REGISTERED IN YOUR&nbsp;NAME.</p></td></tr><tr><td class="n"><span class="num dp d800" style="font-size:14px;">02</span></td><td><p class="sa micro">THE&nbsp;BED</p><p class="dp d800 k" style="margin-top:6px;">DNS AND&nbsp;SECURITY</p><p class="sa body t">THE RECORDS THAT SAY WHERE YOUR MAIL AND SITE LIVE, AND WHICH MAIL IS GENUINELY&nbsp;YOURS.</p></td></tr><tr><td class="n"><span class="num dp d800" style="font-size:14px;">03</span></td><td><p class="sa micro">THE&nbsp;SLAB</p><p class="dp d800 k" style="margin-top:6px;">PROFESSIONAL&nbsp;EMAIL</p><p class="sa body t">MAILBOXES ON YOUR OWN DOMAIN: THE SURFACE YOU WORK FROM EVERY&nbsp;DAY.</p></td></tr><tr><td class="n"><span class="num dp d800" style="font-size:14px;">04</span></td><td><p class="sa micro">THE&nbsp;FLOOR</p><p class="dp d800 k" style="margin-top:6px;">DEVICES AND&nbsp;SIGNATURE</p><p class="sa body t">YOUR MAIL ON THE DEVICES YOU USE, SIGNED THE WAY YOU'D SIGN&nbsp;IT.</p></td></tr></table></td></tr>
+
+<tr><td class="px" style="padding:10px 48px 0px 48px;"><table role="presentation" class="isnt" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding:28px 28px 30px 28px;"><p class="sa micro" style="color:#d90c0c;">■ WHAT A FOUNDATION&nbsp;ISN'T</p><h2 class="dp d800 h2" style="margin:0;font-size:34px;line-height:.98;color:#141414;margin-top:14px;">IT ISN'T A WEBSITE,<br>AND IT DOESN'T<br>PROMISE CUSTOMERS.</h2><p class="sa body" style="margin-top:14px;">IT'S THE GROUND A WEBSITE STANDS ON, ALONG WITH EVERYTHING ELSE THAT CARRIES YOUR&nbsp;NAME.</p></td></tr></table></td></tr>
+
+<tr><td style="padding:44px 0 0 0;"></td></tr>
+
+<tr><td class="band" bgcolor="#d90c0c" style="background:#d90c0c;"><a href="https://site00.com/foundation/hr7Kq2Lm9x" class="px" style="padding:30px 48px 29px 48px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="sa cta" style="color:#ffffff;font-size:14px;">LEARN THE&nbsp;FOUNDATION</td><td align="right" class="sa" style="color:#ffffff;font-size:22px;line-height:1;">→</td></tr></table></a></td></tr>
+
+<tr><td class="px" style="padding:40px 48px 40px 48px;"><p class="sa cap" style="letter-spacing:.1em;">YOU'RE RECEIVING THIS BECAUSE YOU ASKED SITE 00 FOR GUIDES ABOUT YOUR&nbsp;FOUNDATION.</p><p class="sa cap" style="margin-top:8px;letter-spacing:.1em;"><a href="{{preference_url}}">MANAGE PREFERENCES → <span class="tok">{{preference_url}}</span></a> · <a href="{{unsubscribe_url}}">UNSUBSCRIBE → <span class="tok">{{unsubscribe_url}}</span></a></p><p class="sa micro" style="margin-top:12px;color:#141414;">SITE 00 · <span class="tok">{{postal_address}}</span> · <span class="url" style="letter-spacing:.08em;">site00.com</span></p></td></tr>
+  </table>
+</div>
+</body>
+</html>
