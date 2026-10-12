@@ -1,3 +1,4 @@
+import { applyFndatn01PackImport } from './import/fndatn01PackImport.js';
 import { applyOpusV2BenchmarkImport } from './import/opusV2BenchmarkImport.js';
 import { applyR3EditorialImport } from './import/r3EditorialImport.js';
 import { applyR4PremiumImport } from './import/r4PremiumImport.js';
@@ -13,6 +14,7 @@ export function getCorrespondenceWorkspace(options?: { includeOpusBenchmarks?: b
   if (include) {
     applyR3EditorialImport(manifest);
     applyR4PremiumImport(manifest);
+    applyFndatn01PackImport(manifest);
     cached = manifest;
   }
   return manifest;

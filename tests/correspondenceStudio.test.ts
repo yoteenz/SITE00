@@ -4,34 +4,25 @@ import { describe, expect, it } from 'vitest';
 import { emailCanvasUsesSite00Dna, resolveBrandForCampaign } from '../shared/site00-correspondence-studio/brandFirewall.js';
 import { planClientDelivery, isApprovedForClientExport, clientSafeCommentFilter } from '../shared/site00-correspondence-studio/delivery/planClientDelivery.js';
 import { DEVICE_PREVIEW_WIDTHS, REPOSITORY_PREVIEW_WIDTHS } from '../shared/site00-correspondence-studio/devicePreview.js';
-import {
-  R3_EDITORIAL_IMPORT_CONTRACT,
-  listR3TemplateIds,
-  r2VersionId,
-  r3VersionId,
-} from '../shared/site00-correspondence-studio/import/r3EditorialImport.js';
-import {
-  R4_PREMIUM_IMPORT_CONTRACT,
-  listR4TemplateIds,
-  r4VersionId,
-} from '../shared/site00-correspondence-studio/import/r4PremiumImport.js';
+import { R3_EDITORIAL_IMPORT_CONTRACT, listR3TemplateIds, r2VersionId, r3VersionId } from '../shared/site00-correspondence-studio/import/r3EditorialImport.js';
+import { R4_PREMIUM_IMPORT_CONTRACT, listR4TemplateIds, r4VersionId } from '../shared/site00-correspondence-studio/import/r4PremiumImport.js';
+import { fndatn01VersionId, listFndatn01TemplateIds } from '../shared/site00-correspondence-studio/import/fndatn01PackImport.js';
 import {
   OPUS_V2_BENCHMARK_IMPORT_CONTRACT,
   applyOpusV2BenchmarkImport,
   listOpusBenchmarkTemplateIds,
 } from '../shared/site00-correspondence-studio/import/opusV2BenchmarkImport.js';
-import { DIGITAL_FOUNDATION_TEMPLATE_COUNT, buildDigitalFoundationWorkspaceManifest } from '../shared/site00-correspondence-studio/manifests/digital-foundation-lifecycle.js';
 import {
-  getCorrespondenceWorkspace,
-  registeredTemplateCount,
-  resetCorrespondenceWorkspaceCache,
-} from '../shared/site00-correspondence-studio/workspace.js';
+  DIGITAL_FOUNDATION_TEMPLATE_COUNT,
+  buildDigitalFoundationWorkspaceManifest,
+} from '../shared/site00-correspondence-studio/manifests/digital-foundation-lifecycle.js';
+import { getCorrespondenceWorkspace, registeredTemplateCount, resetCorrespondenceWorkspaceCache } from '../shared/site00-correspondence-studio/workspace.js';
 
 describe('Correspondence Studio workspace', () => {
-  it('registers 20 Digital Foundation template IDs', () => {
-    expect(DIGITAL_FOUNDATION_TEMPLATE_COUNT).toBe(20);
+  it('registers 22 Digital Foundation template IDs', () => {
+    expect(DIGITAL_FOUNDATION_TEMPLATE_COUNT).toBe(22);
     const m = buildDigitalFoundationWorkspaceManifest();
-    expect(Object.keys(m.templates)).toHaveLength(20);
+    expect(Object.keys(m.templates)).toHaveLength(22);
     expect(m.templates['personal-foundation-invitation']).toBeDefined();
     expect(m.templates.M06).toBeDefined();
   });
@@ -106,7 +97,10 @@ describe('Correspondence Studio workspace', () => {
       const t = m.templates[row.template_id];
       const ids = t.versions.map((v) => v.version_id);
       expect(ids).toContain(r3VersionId(row.benchmark_id));
-      expect(t.current_version_id).toBe(r4VersionId(row.template_id));
+      expect(ids).toContain(r4VersionId(row.template_id));
+      expect(t.current_version_id).toBe(
+        listFndatn01TemplateIds().includes(row.template_id) ? fndatn01VersionId(row.template_id) : r4VersionId(row.template_id),
+      );
       expect(ids).toContain(`${row.benchmark_id}@v2-editorial-benchmark`);
       for (const letter of ['A', 'B', 'C']) expect(ids).toContain(r2VersionId(row.benchmark_id, letter));
       for (const v of t.versions.filter((x) => /@r[234]-/.test(x.version_id))) expect(v.review_state).toBe('founder_review');
@@ -136,16 +130,17 @@ describe('Correspondence Studio workspace', () => {
     expect(getCorrespondenceWorkspace().templates.M06.current_version_id).toBe(r4VersionId('M06'));
   });
 
-  it('registers an R4 premium version as current for all 20 templates, at founder review', () => {
+  it('registers an R4 premium version for the 20 original templates, current unless FNDATN-01 supersedes it', () => {
     resetCorrespondenceWorkspaceCache();
     expect(R4_PREMIUM_IMPORT_CONTRACT.auto_approve).toBe(false);
     const m = getCorrespondenceWorkspace();
-    expect(listR4TemplateIds()).toHaveLength(DIGITAL_FOUNDATION_TEMPLATE_COUNT);
-    expect(new Set(listR4TemplateIds())).toEqual(new Set(Object.keys(m.templates)));
+    const reminders = ['intake-resume-reminder', 'quote-expiry-reminder'];
+    expect(listR4TemplateIds()).toHaveLength(DIGITAL_FOUNDATION_TEMPLATE_COUNT - reminders.length);
+    expect(new Set(listR4TemplateIds())).toEqual(new Set(Object.keys(m.templates).filter((id) => !reminders.includes(id))));
     for (const id of listR4TemplateIds()) {
       const t = m.templates[id];
       const v = t.versions.find((x) => x.version_id === r4VersionId(id));
-      expect(t.current_version_id).toBe(r4VersionId(id));
+      expect(t.current_version_id).toBe(listFndatn01TemplateIds().includes(id) ? fndatn01VersionId(id) : r4VersionId(id));
       expect(v?.review_state).toBe('founder_review');
       expect(t.versions.length).toBeGreaterThan(1);
     }

@@ -9,19 +9,28 @@ export type PreviewStageHandle = {
   scrollToBlock: (index: number) => boolean;
 };
 
+export type StageView = 'html' | 'reference' | 'compare';
+
 type Props = {
   state: EmailDocumentState;
   device: DevicePreviewMode;
   title: string;
   contract: CopyContract | null;
+  view?: StageView;
+  /** Founder device references for the version; tablet has none and shows the desktop reference. */
+  reference?: { desktop: string; mobile: string } | null;
 };
 
 const STAGE_PAD = 28;
+const COMPARE_GAP = 24;
 
 export const CsPreviewStage = forwardRef<PreviewStageHandle, Props>(function CsPreviewStage(
-  { state, device, title, contract },
+  { state, device, title, contract, view = 'html', reference = null },
   ref,
 ) {
+  const mode: StageView = reference ? view : 'html';
+  const refDevice = device === 'mobile' ? 'mobile' : 'desktop';
+  const refSrc = reference ? reference[refDevice] : null;
   const viewportRef = useRef<HTMLDivElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const width = DEVICE_PREVIEW_WIDTHS[device];
@@ -67,7 +76,8 @@ export const CsPreviewStage = forwardRef<PreviewStageHandle, Props>(function CsP
 
   useLayoutEffect(() => () => contentObserver.current?.disconnect(), []);
 
-  const scale = available > 0 ? Math.min(1, (available - STAGE_PAD * 2) / width) : 1;
+  const columns = mode === 'compare' ? 2 : 1;
+  const scale = available > 0 ? Math.min(1, (available - STAGE_PAD * 2 - (columns - 1) * COMPARE_GAP) / (width * columns)) : 1;
 
   useImperativeHandle(
     ref,
@@ -87,8 +97,8 @@ export const CsPreviewStage = forwardRef<PreviewStageHandle, Props>(function CsP
   );
 
   return (
-    <div className="csw-stage__viewport" ref={viewportRef} data-device={device}>
-      {state.status === 'loading' ? <p className="csw-stage__status">LOADING PREVIEW…</p> : null}
+    <div className={`csw-stage__viewport${mode === 'compare' ? ' is-compare' : ''}`} ref={viewportRef} data-device={device} data-view={mode}>
+      {state.status === 'loading' && mode !== 'reference' ? <p className="csw-stage__status">LOADING PREVIEW…</p> : null}
       {state.status === 'unavailable' ? (
         <article className="csw-stage__empty" aria-live="polite">
           <p className="csw-micro">NO COMPOSED EMAIL FOR THIS VERSION</p>
@@ -131,12 +141,19 @@ export const CsPreviewStage = forwardRef<PreviewStageHandle, Props>(function CsP
           ) : null}
         </article>
       ) : null}
-      {state.status === 'ready' ? (
-        <div className="csw-stage__slot" style={{ width: width * scale, height: contentHeight * scale }}>
-          <div
-            className="csw-stage__canvas"
-            style={{ width, height: contentHeight, transform: `scale(${scale})`, transformOrigin: 'top left' }}
-          >
+      {refSrc && mode !== 'html' ? (
+        <figure className="csw-stage__ref" style={{ width: width * scale }}>
+          <figcaption className="csw-micro">
+            FOUNDER AUTHORITY · {refDevice.toUpperCase()}
+            {device === 'tablet' ? ' · NO TABLET AUTHORITY' : ''}
+          </figcaption>
+          <img src={refSrc} alt={`${title} — founder ${refDevice} reference`} style={{ width: width * scale }} />
+        </figure>
+      ) : null}
+      {state.status === 'ready' && mode !== 'reference' ? (
+        <div className={`csw-stage__slot${mode === 'compare' ? ' is-compare' : ''}`} style={{ width: width * scale, height: contentHeight * scale }}>
+          {mode === 'compare' ? <p className="csw-micro csw-stage__label">LIVE HTML · {width}PX</p> : null}
+          <div className="csw-stage__canvas" style={{ width, height: contentHeight, transform: `scale(${scale})`, transformOrigin: 'top left' }}>
             <iframe
               ref={iframeRef}
               title={`${title} — ${device} preview`}

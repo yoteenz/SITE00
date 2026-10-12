@@ -89,6 +89,12 @@ export type EmailTemplateVersion = {
   copy_ref?: string;
   asset_provenance_ref?: string;
   review_state: ReviewState;
+  /** Correspondence pack this version belongs to (e.g. FNDATN-01). */
+  pack_id?: string;
+  /** Founder-supplied device references the HTML implements. Shown beside the build, never sent. */
+  reference_authority?: { desktop: string; mobile: string; manifest_ref: string };
+  /** The same version rendered from alternate data states (e.g. payment recorded, activation pending). */
+  state_previews?: { id: string; label: string; publicPreviewPath: string }[];
 };
 
 export type EmailFamilyDefinition = {

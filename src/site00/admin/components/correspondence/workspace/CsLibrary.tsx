@@ -3,6 +3,7 @@ import type { CampaignDefinition, ReviewState } from '../../../../../../shared/s
 import {
   countByClassification,
   reviewStateLabel,
+  type CorrespondencePack,
   type LibraryClassification,
   type LibraryRow,
 } from '../../../../../../shared/site00-correspondence-studio/workspaceLibrary.js';
@@ -34,6 +35,9 @@ type Props = {
   onFamily: (f: LibraryClassification | 'all') => void;
   reviewOnly: boolean;
   onReviewOnly: (on: boolean) => void;
+  packs: CorrespondencePack[];
+  activePackId: string | null;
+  onPack: (packId: string | null) => void;
   scopeRows: LibraryRow[];
   visibleRows: LibraryRow[];
   selectedId: string | null;
@@ -46,9 +50,13 @@ type Props = {
   delivery: ClientDeliverySummary | null;
 };
 
+function referenceThumbOf(row: LibraryRow): string | null {
+  return row.current_version.reference_authority?.desktop ?? null;
+}
+
 function previewPathOf(row: LibraryRow): string | null {
   const v = row.current_version.preview_source;
-  return v.kind === 'repository_html' ? v.publicPreviewPath ?? null : null;
+  return v.kind === 'repository_html' ? (v.publicPreviewPath ?? null) : null;
 }
 
 export function CsLibrary(props: Props) {
@@ -78,12 +86,7 @@ export function CsLibrary(props: Props) {
             <label className="csw-search">
               <CsIcon name="search" size={15} />
               <span className="csw-sr">Search templates</span>
-              <input
-                type="search"
-                value={props.query}
-                onChange={(e) => props.onQuery(e.target.value)}
-                placeholder="SEARCH TEMPLATES…"
-              />
+              <input type="search" value={props.query} onChange={(e) => props.onQuery(e.target.value)} placeholder="SEARCH TEMPLATES…" />
             </label>
             <button
               type="button"
@@ -103,13 +106,38 @@ export function CsLibrary(props: Props) {
                   key={f.id}
                   type="button"
                   aria-pressed={props.family === f.id}
-                  className={props.family === f.id ? 'is-active' : ''}
-                  onClick={() => props.onFamily(f.id)}
+                  className={props.family === f.id && !props.activePackId ? 'is-active' : ''}
+                  onClick={() => {
+                    props.onPack(null);
+                    props.onFamily(f.id);
+                  }}
                 >
                   {f.label} <b>{counts[f.id]}</b>
                 </button>
               ))}
             </div>
+          ) : null}
+          {mode === 'emails' && props.packs.length ? (
+            <div className="csw-chips csw-chips--packs" role="group" aria-label="Correspondence pack">
+              {props.packs.map((p) => (
+                <button
+                  key={p.pack_id}
+                  type="button"
+                  aria-pressed={props.activePackId === p.pack_id}
+                  className={props.activePackId === p.pack_id ? 'is-active' : ''}
+                  onClick={() => props.onPack(props.activePackId === p.pack_id ? null : p.pack_id)}
+                  title={p.title}
+                >
+                  PACK · {p.pack_id} <b>{p.template_ids.length}</b>
+                </button>
+              ))}
+            </div>
+          ) : null}
+          {mode === 'emails' && props.activePackId ? (
+            <p className="csw-scope csw-scope--pack">
+              <span>{props.packs.find((p) => p.pack_id === props.activePackId)?.title}</span>
+              <small>{props.packs.find((p) => p.pack_id === props.activePackId)?.status}</small>
+            </p>
           ) : null}
           {props.activeCampaignId ? (
             <p className="csw-scope">
@@ -123,7 +151,7 @@ export function CsLibrary(props: Props) {
             {props.visibleRows.map((row) => {
               const state = props.reviewStateOf(row);
               const path = previewPathOf(row);
-              const thumb = path ? props.thumbnails[path] : null;
+              const thumb = referenceThumbOf(row) ?? (path ? props.thumbnails[path] : null);
               const selected = row.template_id === props.selectedId;
               return (
                 <li key={`${row.campaign_id}:${row.template_id}`}>
@@ -142,6 +170,7 @@ export function CsLibrary(props: Props) {
                       <span className="csw-row__meta">
                         <i aria-hidden="true">↳</i> {row.classification.toUpperCase()}
                         {row.version_count > 1 ? ` · ${row.version_count} VERSIONS` : ''}
+                        {row.current_version.pack_id ? ` · ${row.current_version.pack_id}` : ''}
                       </span>
                     </span>
                     <span className={`csw-row__state csw-state--${state}`}>{reviewStateLabel(state)}</span>
@@ -197,8 +226,7 @@ export function CsLibrary(props: Props) {
       {mode === 'automations' ? (
         <div className="csw-automations">
           <p className="csw-note">
-            <CsIcon name="lock" size={14} /> LIFECYCLE TRIGGER MAP · READ ONLY. EVERY TRIGGER IS OFF UNTIL THE FOUNDER APPROVES THE
-            TEMPLATE AND ITS SEND FLAG.
+            <CsIcon name="lock" size={14} /> LIFECYCLE TRIGGER MAP · READ ONLY. EVERY TRIGGER IS OFF UNTIL THE FOUNDER APPROVES THE TEMPLATE AND ITS SEND FLAG.
           </p>
           <ul className="csw-trigger-list">
             {DIGITAL_FOUNDATION_LIFECYCLE_EVENT_MAP.map((m) => (
@@ -220,10 +248,7 @@ export function CsLibrary(props: Props) {
               <p className="csw-delivery__count">
                 <b>{props.delivery.approved.length}</b> OF {props.delivery.total} TEMPLATES APPROVED FOR EXPORT
               </p>
-              <p className="csw-note">
-                ONLY APPROVED VERSIONS ENTER A CLIENT PACKAGE. INTERNAL COMMENTS NEVER SHIP. SCOPE ·{' '}
-                {props.delivery.scopeLabel}
-              </p>
+              <p className="csw-note">ONLY APPROVED VERSIONS ENTER A CLIENT PACKAGE. INTERNAL COMMENTS NEVER SHIP. SCOPE · {props.delivery.scopeLabel}</p>
               <h3 className="csw-label">IN PACKAGE</h3>
               <ul className="csw-plain-list">
                 {props.delivery.approved.length === 0 ? <li>NONE YET</li> : null}
@@ -235,9 +260,8 @@ export function CsLibrary(props: Props) {
               <p className="csw-plain">{props.delivery.rejected.length} TEMPLATES</p>
               <h3 className="csw-label">EXPORT</h3>
               <p className="csw-note">
-                THIS PLAN READS THE APPROVALS SAVED IN THIS BROWSER. THE REPOSITORY PACKAGER{' '}
-                <code>scripts/correspondence-studio/build-client-delivery.py</code> BUILDS A DESIGN-ONLY SAMPLE ZIP. THE STUDIO DOES NOT
-                UPLOAD OR SEND ANYTHING.
+                THIS PLAN READS THE APPROVALS SAVED IN THIS BROWSER. THE REPOSITORY PACKAGER <code>scripts/correspondence-studio/build-client-delivery.py</code>{' '}
+                BUILDS A DESIGN-ONLY SAMPLE ZIP. THE STUDIO DOES NOT UPLOAD OR SEND ANYTHING.
               </p>
             </>
           ) : (
