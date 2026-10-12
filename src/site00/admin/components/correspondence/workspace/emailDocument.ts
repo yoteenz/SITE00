@@ -97,6 +97,8 @@ function parseRepositoryHtml(html: string): EmailDocument {
   if (proxied) restoreRepositoryMarkup(dom);
   const markup = proxied ? `<!doctype html>\n${dom.documentElement.outerHTML}` : html;
   const email = dom.querySelector('.email');
+  // R3/R4 packs are table-based (640px `table.wrap`); the block classifier only reads the div `.email` layout.
+  const root = email ?? dom.querySelector('table.wrap');
   const descriptors: EmailBlockDescriptor[] = email
     ? Array.from(email.children).map((node) => ({
         tag: node.tagName.toLowerCase(),
@@ -107,7 +109,7 @@ function parseRepositoryHtml(html: string): EmailDocument {
         hasHeading2: Boolean(node.querySelector('h2')),
       }))
     : [];
-  const images = email ? Array.from(email.querySelectorAll('img')) : [];
+  const images = root ? Array.from(root.querySelectorAll('img')) : [];
   return {
     source: 'repository_html',
     srcDoc: injectStageStyle(markup),
@@ -117,13 +119,13 @@ function parseRepositoryHtml(html: string): EmailDocument {
     boardNote: text(dom.querySelector('.inbox .note')),
     blocks: email ? classifyEmailBlocks(descriptors) : null,
     heroImage: images[0]?.getAttribute('src') ?? null,
-    checks: email
+    checks: root
       ? {
           images: images.length,
           imagesMissingAlt: images.filter((img) => !img.hasAttribute('alt')).length,
-          links: email.querySelectorAll('a[href]').length,
-          personalizedFields: email.querySelectorAll('.v').length,
-          pendingFields: email.querySelectorAll('.tok').length,
+          links: root.querySelectorAll('a[href]').length,
+          personalizedFields: root.querySelectorAll('.v').length,
+          pendingFields: root.querySelectorAll('.tok').length,
         }
       : null,
   };
@@ -135,7 +137,9 @@ export function loadRepositoryEmail(path: string): Promise<EmailDocument> {
     hit = fetch(path, { credentials: 'same-origin' }).then(async (res) => {
       if (!res.ok) throw new Error(`PREVIEW ${res.status}`);
       const body = await res.text();
-      if (!body.includes('class="email"')) throw new Error('PREVIEW IS NOT A COMPOSED EMAIL');
+      if (!body.includes('class="email"') && !/<table\b[^>]*\bclass="wrap"/.test(body)) {
+        throw new Error('PREVIEW IS NOT A COMPOSED EMAIL');
+      }
       return parseRepositoryHtml(body);
     });
     hit.catch(() => cache.delete(path));
