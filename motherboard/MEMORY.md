@@ -16552,3 +16552,25 @@ Summary of the whole conversation in this chat.
 - **Cause:** `useStudioSession` frozen (design-review) branch replaced `intakeSync` with a partial object missing `ensureStarted` / `requestGuestAccess`; TypeScript union broke `BlueprintRoom.tsx` and `useStudioSession.ts` (`tsc --noEmit` before Vite).
 - **Fix:** `REVIEW_INTAKE_SYNC_STUB` implements full `UseIntakeSyncResult` with no-op async methods; merged via PR to `main`.
 - **Verified:** `npm run build` green; founder workspace test 9 (verify-projects-index-bundle) passes.
+
+---
+
+## 2026-10-12 — FNDATN-01 permanent on main + preview tunnel remount
+
+- **Sprint:** Confirm PRs #1618/#1624 (merge `e4c464bce`) on `main` and founder tunnel serving same SHA.
+- **Git:** `e4c464bce` ancestor of `origin/main`; `origin/preview/tunnel` = `bc5a5188` (same as main). Worktree had been stale at `d2c65994` in `/tmp/site00-preview-runtime-lineage.txt`.
+- **Runtime fix:** `bash .cursor/scripts/post-merge-preview-tunnel-refresh.sh` on canonical env (`SITE00_CLOUDFLARE_TUNNEL_CANONICAL=1`) → worktree `/tmp/site00-preview-main` @ `bc5a5188`, Vite restarted, tunnel serves `main.tsx?v=dev-local`.
+- **Source checks:** `layout.ts` red only on word UNSUBSCRIBE; `cards.ts` present (no `ledger()`); `html.ts` angled `button()`; repo HTML `public/.../fndatn-01/01_invitation.html` has `#ce1017` CTA + grey/red footer.
+- **Tests:** `vitest run tests/fndatn01.test.ts` — 33 pass (pack registration by id with R4 listed first).
+- **Founder:** Hard-refresh `site00.fsbw-dev.com` after remount if still seeing pre-#1618 email chrome.
+
+---
+
+## 2026-10-12 — FNDATN-01 pack chip fix (#1640) + tunnel mount b5822803
+
+- **Sprint:** Mount `main` on preview tunnel; verify all 7 FNDATN-01 emails serve FNDATN art (not R4 for 01–05).
+- **Source:** PR #1640 `b5822803e` — `listLibraryRows` / `resolveVersion` take `packId`; Studio passes selected pack so FNDATN-01 chip wins over R4 review priority on shared template ids.
+- **Git:** `b5822803e` ancestor of `origin/main`; `origin/preview/tunnel` fast-forwarded to match.
+- **Runtime:** `post-merge-preview-tunnel-refresh.sh` + Vite cache clear; worktree `/tmp/site00-preview-main` @ `b5822803e` (was `bc5a5188`).
+- **Tests:** `fndatn01.test.ts` (34), `correspondenceStudio.test.ts`, `correspondenceStudioWorkspace.test.ts` — 57 pass.
+- **QA:** Studio localhost — FNDATN-01 library 7 rows FOUNDER REVIEW, no R4-PRE labels; Compare captures 01–07 + list; R4-PREMIUM pack still shows R4.
