@@ -15,6 +15,16 @@ export const FNDATN01_STATUS = 'FOUNDER VISUAL AUTHORITY SUPPLIED / HTML IMPLEME
 export const FNDATN01_SOURCE_ATTACHMENT = 'SITE00_FNDATN_7_EMAILS_UNDER_4MB_5cf4.zip';
 
 export const FNDATN01_PUBLIC_ROOT = '/site00-correspondence-studio/fndatn-01';
+
+/** Absolute origin for review HTML assets (hero JPEGs, icons, fonts). Override with FNDATN01_PREVIEW_ASSET_ORIGIN. */
+export function fndatn01PreviewAssetOrigin(): string {
+  const fromEnv =
+    typeof process !== 'undefined' && process.env.FNDATN01_PREVIEW_ASSET_ORIGIN
+      ? process.env.FNDATN01_PREVIEW_ASSET_ORIGIN.trim()
+      : '';
+  if (fromEnv && /^https:\/\//i.test(fromEnv)) return fromEnv.replace(/\/$/, '');
+  return 'https://site00.com';
+}
 export const FNDATN01_AUTHORITY_MANIFEST = 'docs/site00/correspondence/fndatn-01/FNDATN_01_AUTHORITY_MANIFEST.json';
 export const FNDATN01_ASSET_PROVENANCE = 'docs/site00/correspondence/fndatn-01/FNDATN_01_ASSET_PROVENANCE.json';
 

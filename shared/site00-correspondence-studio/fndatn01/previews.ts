@@ -4,7 +4,7 @@
  * `npx tsx scripts/correspondence-studio/fndatn01/render-previews.ts`.
  */
 import { FNDATN01_DEMO_NOTE, FNDATN01_EMAIL_SCENARIO, demoScenario, type Fndatn01DemoScenarioId, type Fndatn01DemoVariant } from './fixtures.js';
-import { FNDATN01_EMAILS, fndatn01PreviewPath, type Fndatn01EmailId } from './pack.js';
+import { FNDATN01_EMAILS, fndatn01PreviewAssetOrigin, fndatn01PreviewPath, type Fndatn01EmailId } from './pack.js';
 import { renderFndatn01Email } from './render.js';
 
 export type Fndatn01Preview = {
@@ -22,7 +22,7 @@ function renderPreview(id: Fndatn01EmailId, variant: Fndatn01DemoVariant): Fndat
   const result = renderFndatn01Email(id, scenario.payload, {
     ...scenario.context,
     mode: 'review',
-    assetBase: '',
+    assetBase: fndatn01PreviewAssetOrigin(),
     founderAuthorized: id === '01',
     reviewNote: `${FNDATN01_DEMO_NOTE} · ${scenario.label}`,
   });

@@ -95,7 +95,7 @@ export function compose01(asset: AssetResolver, d: Data01): Composition {
   const copy: HeroCopy = {
     kicker: forName(d.firstName),
     headline: ['BEGIN YOUR', 'FOUNDATION'],
-    body: "EVERY GREAT BUSINESS DESERVES A STRONG BEGINNING. SITE 00 IS REACHING OUT PERSONALLY TO HELP YOU ESTABLISH THE ESSENTIALS—YOUR DOMAIN, PROFESSIONAL EMAIL, AND THE DETAILS THAT BRING YOUR PRESENCE TOGETHER. WHEN YOU ARE READY, A SHORT INTAKE HELPS US UNDERSTAND YOUR BUSINESS AND WHAT YOU ENVISION NEXT. THERE IS NO OBLIGATION UNTIL YOU REVIEW AND ACCEPT A QUOTE.",
+    body: "EVERY GREAT BUSINESS DESERVES A STRONG BEGINNING. SITE 00 IS REACHING OUT PERSONALLY TO HELP YOU ESTABLISH THE ESSENTIALS—YOUR DOMAIN, PROFESSIONAL EMAIL, AND THE DETAILS THAT BRING YOUR PRESENCE TOGETHER. A SHORT INTAKE HELPS US UNDERSTAND YOUR BUSINESS BEFORE WE PREPARE YOUR QUOTE. NOTHING MOVES FORWARD UNTIL YOU REVIEW AND ACCEPT.",
     tagline: ['YOUR NEXT', 'CHAPTER', 'STARTS HERE.'],
     deskBodyWidth: 236,
   };
@@ -125,7 +125,12 @@ ${[
 </tr></table></td></tr>
 </table>`);
   const cta = { label: 'BEGIN YOUR FOUNDATION', url: d.intakeUrl, caption: 'YOUR SECURE LINK IS IN THE BUTTON ABOVE—JUST FOR YOU.' };
-  const card: CardRow[] = [...clientRow(d.clientName)];
+  const card: CardRow[] = [
+    ...clientRow(d.clientName),
+    { label: 'YOUR FOUNDATION', value: d.service, personalized: false },
+    { label: 'NEXT STEP', value: d.status, tone: 'red', personalized: false },
+    { label: 'YOUR LINK', value: d.access, tone: 'red', personalized: false },
+  ];
   return {
     subject: 'YOUR INVITATION TO BEGIN',
     subjectHtml: 'YOUR INVITATION TO BEGIN',

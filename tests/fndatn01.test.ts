@@ -353,7 +353,7 @@ describe('FNDATN-01 demo data isolation and live data safety', () => {
 
 describe('FNDATN-01 personalized data lives in the artifacts', () => {
   const cards: Record<string, string[]> = {
-    '01': ['JORDAN AVERY'],
+    '01': ['JORDAN AVERY', 'DIGITAL FOUNDATION', 'READY TO BEGIN', 'PERSONAL LINK'],
     '02': ['JORDAN AVERY', 'RECEIVED · UNDER REVIEW', 'OCT 2, 2026 · 12:24 PM ET', 'DF-DEMO-0001'],
     '03': ['JORDAN AVERY', 'YOUR DIGITAL FOUNDATION', '$1,334.00 USD', 'OCT 19, 2026', 'REVIEW PROPOSAL'],
     '04': ['JORDAN AVERY', '$1,334.00 USD', 'OCT 19, 2026', 'Q-DEMO-0001', 'PAID'],
@@ -453,6 +453,15 @@ describe('FNDATN-01 lifecycle subject system', () => {
       if (!r.ok) throw new Error(id);
       expect(r.html).not.toMatch(/CLASSIFICATION · TRANSACTIONAL/);
       expect(r.html).not.toMatch(/CORRESPONDENCE STUDIO/i);
+    }
+  });
+});
+
+describe('FNDATN-01 preview asset URLs', () => {
+  it('commits review previews with absolute https hero assets so imagery loads outside the SPA origin', () => {
+    for (const preview of renderFndatn01Previews()) {
+      expect(preview.html, preview.publicPath).toMatch(/background-image:url\('https:\/\/site00\.com\/site00-correspondence-studio\/fndatn-01\/assets\/[^']+hero-desktop\.jpg'\)/);
+      expect(preview.html, preview.publicPath).not.toMatch(/background-image:url\('\/site00-correspondence-studio/);
     }
   });
 });
