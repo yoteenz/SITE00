@@ -16574,3 +16574,12 @@ Summary of the whole conversation in this chat.
 - **Runtime:** `post-merge-preview-tunnel-refresh.sh` + Vite cache clear; worktree `/tmp/site00-preview-main` @ `b5822803e` (was `bc5a5188`).
 - **Tests:** `fndatn01.test.ts` (34), `correspondenceStudio.test.ts`, `correspondenceStudioWorkspace.test.ts` — 57 pass.
 - **QA:** Studio localhost — FNDATN-01 library 7 rows FOUNDER REVIEW, no R4-PRE labels; Compare captures 01–07 + list; R4-PREMIUM pack still shows R4.
+
+---
+
+## 2026-10-14 — P0 Founder readiness E2E1 (IDNTY / Digital Foundation)
+
+- **Sprint:** P0.SITE00.IDNTY.FOUNDER-READINESS-E2E1 — audit + safe founder test mode + Resend bridge; **no Anthony invite, no merge/deploy without founder approval**.
+- **Audit:** Production lifecycle map still `enabled: false`; dispatch records DRY_RUN/QUEUED only; no delivery worker before this branch. FNDATN-01 visual/copy unchanged.
+- **Implemented (draft PR `cursor/idnty-founder-readiness-e2e-be3b`):** `/admin/site00/foundation-readiness`, Resend adapter, delivery worker (allowlist + SYNTH · guard), FNDATN test event map, reminder eligibility tests, `FOUNDER_READINESS_E2E_REPORT.md`.
+- **Blocked:** DELIVERED webhooks, reminder cron, full Stripe TEST UI round-trip on deployed API, Supabase persistence gate for production Anthony link.
