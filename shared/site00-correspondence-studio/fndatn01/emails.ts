@@ -95,23 +95,23 @@ export function compose01(asset: AssetResolver, d: Data01): Composition {
   const copy: HeroCopy = {
     kicker: forName(d.firstName),
     headline: ['BEGIN YOUR', 'FOUNDATION'],
-    body: "WE'VE PREPARED YOUR DIGITAL FOUNDATION INVITATION. BEFORE WE SET ANYTHING UP, WE'D LIKE TO UNDERSTAND YOUR WORK, PRIORITIES, AND WHAT COMES NEXT.",
-    tagline: ['A STRONGER', 'TOMORROW', 'STARTS HERE.'],
+    body: "EVERY GREAT BUSINESS DESERVES A STRONG BEGINNING. WE'RE PREPARING THE ESSENTIALS THAT HELP YOUR BUSINESS ESTABLISH ITS PLACE ONLINE—FROM YOUR DOMAIN TO YOUR PROFESSIONAL EMAIL AND THE DETAILS THAT BRING EVERYTHING TOGETHER. BEFORE WE BEGIN, WE'D LOVE TO LEARN A LITTLE ABOUT YOUR BUSINESS AND WHAT YOU ENVISION FOR IT.",
+    tagline: ['YOUR NEXT', 'CHAPTER', 'STARTS HERE.'],
     deskBodyWidth: 236,
   };
   const ask: BandItem[] = [
-    { n: '01', icon: 'person', iconAlt: 'Person', title: 'YOUR BUSINESS', text: 'WHAT YOU DO, WHO YOU SERVE, AND WHAT NEEDS TO BE IN PLACE.' },
-    { n: '02', icon: 'target', iconAlt: 'Target', title: 'YOUR PRIORITIES', text: 'TIMING, GOALS, AND THE DIRECTION THAT FITS YOUR NEXT STEP.' },
-    { n: '03', icon: 'layers', iconAlt: 'Layers', title: 'BUILD DIRECTION', text: "PAGES, FEATURES, AND THE WAY YOU'D LIKE SITE 00 TO APPROACH IT." },
+    { n: '01', icon: 'person', iconAlt: 'Person', title: 'YOUR BUSINESS', text: 'TELL US ABOUT YOUR BUSINESS AND WHAT YOU\'RE BUILDING.' },
+    { n: '02', icon: 'target', iconAlt: 'Target', title: 'YOUR PRIORITIES', text: 'SHARE WHAT MATTERS MOST AND WHEN YOU\'D LIKE TO BEGIN.' },
+    { n: '03', icon: 'layers', iconAlt: 'Layers', title: 'YOUR DIGITAL NEEDS', text: 'WE\'LL EXPLORE YOUR DOMAIN, PROFESSIONAL EMAIL, AND THE ESSENTIALS YOUR BUSINESS NEEDS.' },
   ];
   const how =
     mobileOnly(`<table class="walk mob-only" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="display:none;max-height:0;overflow:hidden;width:100%;background:#ffffff">
 <tr><td style="padding:22px 20px 12px">${sectionTitle('HOW IT WORKS', 28)}</td></tr>
 <tr><td style="padding:0 20px 6px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
 ${[
-  ['01', 'OPEN YOUR<br>INVITATION'],
-  ['02', 'COMPLETE THE<br>FOUNDATION INTAKE'],
-  ['03', 'WE REVIEW AND<br>PREPARE YOUR<br>NEXT STEP'],
+  ['01', 'TELL US ABOUT<br>YOUR BUSINESS'],
+  ['02', 'WE PREPARE<br>YOUR NEXT STEP'],
+  ['03', 'YOUR FOUNDATION<br>TAKES SHAPE'],
 ]
   .map(
     (
@@ -124,13 +124,12 @@ ${[
   .join('')}
 </tr></table></td></tr>
 </table>`);
-  const linkCaption = `<a href="${esc(d.intakeUrl)}" style="color:${T.mute};text-decoration:none;letter-spacing:.06em;text-transform:none">${esc(d.intakeUrl.replace(/^https:\/\//, ''))}</a>`;
-  const cta = { label: 'BEGIN YOUR FOUNDATION', url: d.intakeUrl, caption: linkCaption };
+  const cta = { label: 'BEGIN YOUR FOUNDATION', url: d.intakeUrl, caption: 'YOUR SECURE LINK IS IN THE BUTTON ABOVE—JUST FOR YOU.' };
   const card: CardRow[] = [
     ...clientRow(d.clientName),
-    { label: 'SERVICE', value: d.service, personalized: false },
-    { label: 'STATUS', value: d.status, tone: 'red', personalized: false },
-    { label: 'ACCESS', value: d.access, tone: 'red', personalized: false },
+    { label: 'YOUR FOUNDATION', value: d.service, personalized: false },
+    { label: 'NEXT STEP', value: d.status, tone: 'red', personalized: false },
+    { label: 'YOUR LINK', value: d.access, tone: 'red', personalized: false },
   ];
   return {
     subject: 'YOUR FOUNDATION INVITATION',
@@ -140,8 +139,8 @@ ${[
     blocks: [
       mast({
         preheader: "BEFORE WE BUILD, WE'D LIKE TO LEARN HOW YOU WORK",
-        line1: 'TRANSACTIONAL · DIGITAL FOUNDATION',
-        line2: "ARCHITECTURE FOR WHAT'S NEXT",
+        line1: 'A PERSONAL',
+        line2: 'INVITATION',
         rule: true,
       }),
       desktopHero(asset, slug, copy, {
@@ -187,8 +186,8 @@ export function compose02(asset: AssetResolver, d: Data02): Composition {
   const cta = { label: 'VIEW YOUR INTAKE STATUS', url: d.foundationUrl, caption: 'OR REPLY TO THIS EMAIL IF YOU HAVE ANY QUESTIONS.' };
   const card: CardRow[] = [
     ...clientRow(d.clientName),
-    { label: 'SERVICE', value: d.service, personalized: false },
-    { label: 'STATUS', value: d.status, tone: 'red', personalized: false },
+    { label: 'YOUR FOUNDATION', value: d.service, personalized: false },
+    { label: 'WHERE YOU ARE', value: d.status, tone: 'red', personalized: false },
     { label: 'RECEIVED', value: d.receivedAt },
     { label: 'REFERENCE', value: d.reference },
   ];
@@ -213,7 +212,7 @@ export function compose02(asset: AssetResolver, d: Data02): Composition {
     preheader: "OUR TEAM IS NOW REVIEWING IT. YOU'LL HEAR FROM US SOON WITH NEXT STEPS.",
     label: 'Digital Foundation intake received',
     blocks: [
-      mast({ preheader: "OUR TEAM IS NOW REVIEWING IT. YOU'LL HEAR FROM US SOON WITH NEXT STEPS.", line1: 'DIGITAL FOUNDATION', line2: 'CLIENT INTAKE', rule: true }),
+      mast({ preheader: "OUR TEAM IS NOW REVIEWING IT. YOU'LL HEAR FROM US SOON WITH NEXT STEPS.", line1: 'YOUR DIGITAL FOUNDATION', line2: 'INTAKE RECEIVED', rule: true }),
       desktopHero(asset, slug, copy, {
         column: 300,
         alt: 'Intake confirmation card on a marble ledge before a city skyline, a crystal and a red maple nearby.',
@@ -249,8 +248,8 @@ export function compose03(asset: AssetResolver, d: Data03): Composition {
   const cta = { label: 'REVIEW YOUR RECOMMENDATION & QUOTE', url: d.foundationUrl, caption: 'OR REPLY TO THIS EMAIL IF YOU HAVE ANY QUESTIONS.' };
   const card = (pill: boolean): CardRow[] => [
     ...clientRow(d.clientName),
-    { label: 'SERVICE', value: d.service, personalized: false },
-    ...(d.recommendation ? [{ label: 'RECOMMENDATION', value: d.recommendation }] : []),
+    { label: 'YOUR FOUNDATION', value: d.service, personalized: false },
+    ...(d.recommendation ? [{ label: 'OUR RECOMMENDATION', value: d.recommendation }] : []),
     { label: 'QUOTE', value: d.quoteAmount },
     { label: 'VALID UNTIL', value: d.validUntil },
     { label: 'NEXT STEP', value: 'REVIEW & ACCEPT', tone: 'red', personalized: false, ...(pill ? { pill: { url: d.foundationUrl } } : {}) },
@@ -264,9 +263,9 @@ export function compose03(asset: AssetResolver, d: Data03): Composition {
     blocks: [
       mast({
         preheader: `A TAILORED DIGITAL FOUNDATION PLAN AND QUOTE FOR YOUR REVIEW. VALID UNTIL ${d.validUntil}.`,
-        line1: 'TRANSACTIONAL · DIGITAL FOUNDATION',
-        line2: 'RECOMMENDATION & QUOTE',
-        mobileLines: ['DIGITAL FOUNDATION', 'RECOMMENDATION & QUOTE'],
+        line1: 'YOUR DIGITAL FOUNDATION',
+        line2: 'YOUR NEXT STEP',
+        mobileLines: ['YOUR DIGITAL FOUNDATION', 'RECOMMENDATION & QUOTE'],
       }),
       desktopHero(asset, slug, copy, {
         column: 285,
@@ -311,20 +310,20 @@ export function compose04(asset: AssetResolver, d: Data04): Composition {
   };
   const fields = [
     ...(d.clientName ? [{ label: 'CLIENT', value: d.clientName }] : []),
-    { label: 'SERVICE', value: d.service },
+    { label: 'YOUR FOUNDATION', value: d.service },
     { label: 'AMOUNT', value: d.amount },
     { label: 'DATE', value: d.paidAt },
     ...(d.method ? [{ label: 'PAYMENT METHOD', value: d.method }] : []),
     { label: 'REFERENCE', value: d.reference },
-    { label: 'STATUS', value: d.status, red: true },
+    { label: 'PAYMENT', value: d.status, red: true },
   ];
   const next: BandItem[] = [
     {
       n: '01',
       icon: 'square',
       iconAlt: 'Project',
-      title: active ? 'PROJECT OPENED' : 'PROJECT ACTIVATION',
-      text: active ? "WE'VE RECORDED YOUR PAYMENT AND ACTIVATED YOUR DIGITAL FOUNDATION." : "WE'VE RECORDED YOUR PAYMENT. ACTIVATION IS CONFIRMED SEPARATELY.",
+      title: active ? 'WE\'RE UNDERWAY' : 'CONFIRMATION',
+      text: active ? "WE'VE RECORDED YOUR PAYMENT AND OPENED YOUR DIGITAL FOUNDATION PROJECT." : "WE'VE RECORDED YOUR PAYMENT. WE'LL EMAIL YOU AS SOON AS YOUR PROJECT IS ACTIVE.",
       tone: active ? undefined : 'muted',
     },
     {
@@ -332,7 +331,7 @@ export function compose04(asset: AssetResolver, d: Data04): Composition {
       icon: 'layers',
       iconAlt: 'Setup',
       title: 'FOUNDATION SETUP',
-      text: active ? 'OUR TEAM IS PREPARING YOUR ACCOUNT AND INITIAL PROJECT ENVIRONMENT.' : 'BEGINS ONCE YOUR PROJECT IS ACTIVE.',
+      text: active ? 'OUR TEAM IS PREPARING YOUR ACCOUNT AND THE ESSENTIALS WE DISCUSSED.' : 'BEGINS ONCE YOUR PROJECT IS ACTIVE.',
       tone: active ? undefined : 'muted',
     },
     { n: '03', icon: 'document', iconAlt: 'Records', title: 'RECORDS + DELIVERY', text: "YOU'LL RECEIVE ACCESS DETAILS AND NEXT STEPS SHORTLY VIA EMAIL." },
@@ -354,7 +353,7 @@ export function compose04(asset: AssetResolver, d: Data04): Composition {
 <tr><td style="padding:0 0 0 38px;height:116px" valign="top"><table role="presentation" width="250" cellpadding="0" cellspacing="0" border="0" style="width:250px">${receiptRows}</table></td></tr>
 <tr><td style="padding:6px 0 0 38px"><table role="presentation" width="310" cellpadding="0" cellspacing="0" border="0" style="width:310px"><tr>
 <td valign="top" width="190" style="width:190px;font-size:7.5px;line-height:11px">${microLabel('NEXT STEP', T.ink, 7.5)}<br>${microLabel(active ? 'OUR TEAM IS PREPARING<br>YOUR PROJECT ENVIRONMENT.' : "WE'LL CONFIRM WHEN<br>YOUR PROJECT IS ACTIVE.", T.body, 7.5)}</td>
-<td valign="top" style="padding-left:18px;font-size:7.5px;line-height:11px">${microLabel('PROJECT STATE', T.ink, 7.5)}<br>${microLabel(active ? 'FOUNDATION OPENED' : 'ACTIVATION PENDING', active ? T.body : T.red, 7.5)}</td>
+<td valign="top" style="padding-left:18px;font-size:7.5px;line-height:11px">${microLabel('WHERE YOU ARE', T.ink, 7.5)}<br>${microLabel(active ? 'FOUNDATION IN PROGRESS' : 'ACTIVATION SOON', active ? T.body : T.red, 7.5)}</td>
 </tr></table></td></tr>
 </table>
 </td></tr>
@@ -370,9 +369,9 @@ export function compose04(asset: AssetResolver, d: Data04): Composition {
     blocks: [
       mast({
         preheader: pre,
-        line1: 'TRANSACTIONAL · DIGITAL FOUNDATION',
-        line2: 'PAYMENT RECEIPT',
-        mobileLines: ['TRANSACTIONAL', 'DIGITAL FOUNDATION', "ARCHITECTURE FOR WHAT'S NEXT"],
+        line1: 'YOUR DIGITAL FOUNDATION',
+        line2: 'PAYMENT CONFIRMED',
+        mobileLines: ['YOUR DIGITAL FOUNDATION', 'PAYMENT CONFIRMED'],
       }),
       desktopHero(asset, slug, copy, {
         column: 250,
@@ -397,14 +396,7 @@ export function compose04(asset: AssetResolver, d: Data04): Composition {
         rightAlt: 'Red glass architecture with the words people, ideas, systems, foundations, reality.',
       }),
       mobileAct({ label: 'OPEN YOUR PROJECT', url: d.foundationUrl, caption: '' }),
-      foot({
-        mobile: {
-          line1: "ARCHITECTURE FOR WHAT'S NEXT",
-          line2: 'IDEAS · SYSTEMS · PEOPLE · REALITY',
-          classification: ['TRANSACTIONAL', 'SERVICE NOTICE', 'NO MARKETING', 'UNSUBSCRIBE'],
-          stroke: true,
-        },
-      }),
+      foot(),
     ],
   };
 }
@@ -448,9 +440,9 @@ export function compose05(asset: AssetResolver, d: Data05): Composition {
     blocks: [
       mast({
         preheader: 'EVERYTHING YOU NEED IS SET UP AND READY.',
-        line1: 'DIGITAL FOUNDATION',
-        line2: 'ORDER COMPLETE',
-        mobileLines: ['DIGITAL FOUNDATION', 'ORDER COMPLETE & DELIVERED'],
+        line1: 'YOUR DIGITAL FOUNDATION',
+        line2: 'DELIVERY COMPLETE',
+        mobileLines: ['YOUR DIGITAL FOUNDATION', 'DELIVERY COMPLETE'],
       }),
       desktopHero(asset, slug, copy, { column: 270, alt: 'Marble gift box tied with a red ribbon and wax seal on a limestone terrace above the sea.' }),
       mobileHero(asset, slug, copy, {
@@ -532,8 +524,8 @@ ${SPACE(9)}
     blocks: [
       mast({
         preheader: 'PICK UP WHERE YOU LEFT OFF. YOUR PROGRESS IS SAVED.',
-        line1: 'TRANSACTIONAL · DIGITAL FOUNDATION',
-        line2: 'PICK UP WHERE YOU LEFT OFF',
+        line1: 'YOUR DIGITAL FOUNDATION',
+        line2: 'YOUR NEXT STEP',
       }),
       desktopHero(asset, slug, copy, { column: 250, alt: 'Laptop showing the Digital Foundation intake on a limestone terrace above the sea.' }),
       mobileHero(asset, slug, copy, {
@@ -541,7 +533,7 @@ ${SPACE(9)}
         alt: 'Laptop showing the Digital Foundation intake beside books and a crystal on a limestone terrace.',
         fit: { zone: 320, padTop: 18, head: 34, body: 9, textWidth: 175, tagline: { at: 'below' } },
         artHeight: MOBILE_ART_HEIGHT[slug],
-        lip: { height: 64, html: panelHead('YOUR PROGRESS', 'DIGITAL FOUNDATION<br>SETUP PROGRESS') },
+        lip: { height: 64, html: panelHead('YOUR PROGRESS', 'YOUR FOUNDATION<br>INTAKE PROGRESS') },
       }),
       deskProgress,
       mobileRows(asset, 'YOUR PROGRESS', items, {
@@ -590,11 +582,11 @@ export function compose07(asset: AssetResolver, d: Data07): Composition {
   const pre = `YOUR QUOTE IS VALID UNTIL ${d.validUntil}. SECURE IT TO KEEP YOUR PRICING.`;
   const card: CardRow[] = [
     ...clientRow(d.clientName),
-    { label: 'SERVICE', value: d.service, personalized: false },
+    { label: 'YOUR FOUNDATION', value: d.service, personalized: false },
     { label: 'QUOTE', value: d.quoteAmount },
     { label: 'ISSUED', value: d.issuedAt },
     { label: 'VALID UNTIL', value: d.validUntilDate, tone: 'red' },
-    { label: 'STATUS', value: d.status, tone: 'red', personalized: false },
+    { label: 'WHERE YOU ARE', value: d.status, tone: 'red', personalized: false },
   ];
   const tags = scopeTags(d.scope);
   return {
@@ -603,7 +595,7 @@ export function compose07(asset: AssetResolver, d: Data07): Composition {
     preheader: pre,
     label: 'Digital Foundation quote expiry reminder',
     blocks: [
-      mast({ preheader: pre, line1: 'TRANSACTIONAL · DIGITAL FOUNDATION', line2: 'YOUR QUOTE IS ABOUT TO EXPIRE' }),
+      mast({ preheader: pre, line1: 'YOUR DIGITAL FOUNDATION', line2: 'QUOTE REMINDER' }),
       desktopHero(asset, slug, copy, {
         column: 260,
         alt: 'Quote card stamped QUOTE beside an hourglass of red sand on a limestone ledge above the sea.',

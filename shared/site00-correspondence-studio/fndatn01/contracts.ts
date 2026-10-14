@@ -166,7 +166,7 @@ export function derive01(payload: DigitalFoundationArtifactPayload, ctx: Fndatn0
   const reasons = baseChecks(payload);
   if (!opts.founderAuthorized) reasons.push('FOUNDER_SEND_NOT_AUTHORIZED');
   if (payload.artifact.intake_state === 'COMPLETE') reasons.push('INTAKE_ALREADY_SUBMITTED');
-  return result<'01'>(reasons, () => ({ ...common(payload, ctx), status: 'READY TO BEGIN', access: 'OPEN' }));
+  return result<'01'>(reasons, () => ({ ...common(payload, ctx), status: 'READY TO BEGIN', access: 'PERSONAL LINK' }));
 }
 
 export function derive02(payload: DigitalFoundationArtifactPayload, ctx: Fndatn01Context): Derived<'02'> {

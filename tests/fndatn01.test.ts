@@ -156,7 +156,7 @@ describe('FNDATN-01 eligibility guards', () => {
     expect(derive04(fixtureFor('04', 'activation_pending'), ctxOf('04')).data?.activation).toBe('pending');
     const pending = send('04', fixtureFor('04', 'activation_pending'));
     if (!pending.ok) throw new Error('pending fixture should render');
-    expect(pending.html).toContain('ACTIVATION PENDING');
+    expect(pending.html).toContain('PROJECT ACTIVATION IS PENDING');
     expect(pending.html).not.toContain('IS NOW IN PROGRESS');
     expect(pending.html).not.toMatch(/ENDING IN|VISA|MASTERCARD/);
     const unpaid = fixtureFor('04');
@@ -353,7 +353,7 @@ describe('FNDATN-01 demo data isolation and live data safety', () => {
 
 describe('FNDATN-01 personalized data lives in the artifacts', () => {
   const cards: Record<string, string[]> = {
-    '01': ['JORDAN AVERY', 'DIGITAL FOUNDATION', 'READY TO BEGIN', 'OPEN'],
+    '01': ['JORDAN AVERY', 'DIGITAL FOUNDATION', 'READY TO BEGIN', 'PERSONAL LINK'],
     '02': ['JORDAN AVERY', 'RECEIVED · UNDER REVIEW', 'OCT 2, 2026 · 12:24 PM ET', 'DF-DEMO-0001'],
     '03': ['JORDAN AVERY', 'YOUR DIGITAL FOUNDATION', '$1,334.00 USD', 'OCT 19, 2026', 'REVIEW &amp; ACCEPT'],
     '04': ['JORDAN AVERY', '$1,334.00 USD', 'OCT 19, 2026', 'Q-DEMO-0001', 'PAID'],
