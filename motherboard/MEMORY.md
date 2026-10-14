@@ -16604,3 +16604,12 @@ Summary of the whole conversation in this chat.
 - **Delivered:** `docs/site00/idnty/FOUNDER_STAGING_DEPLOYMENT_MANIFEST.md`, `scripts/staging/*`, FNDATN dispatch `siteOrigin` = `SITE00_PUBLIC_APP_ORIGIN` for staging invitation URLs.
 - **Tests:** 61+ targeted vitest pass on branch; local `founder-invitation-preview.mjs` dry-run with staging origin.
 - **Blocked:** Founder must create Railway **duplicate** service on PR branch + staging Supabase project + staging SPA host before live staging URLs.
+
+---
+
+## 2026-10-14 — P0 Client email voice and presentation1 (FNDATN-01)
+
+- **Sprint:** P0.SITE00.IDNTY.CLIENT-EMAIL-VOICE-AND-PRESENTATION1 — client-facing copy pass on all seven FNDATN-01 Digital Foundation transactional emails; **preserve visual layout**; **no send, no merge without founder approval**.
+- **Changes:** `emails.ts` (compose01–07 mast headers, hero/band copy, invitation CTA caption without visible URL, card row labels); `layout.ts` footer → SITE 00 / BUILDING WHAT COMES NEXT + SITE00.COM contact (removed CLASSIFICATION · TRANSACTIONAL); `contracts.ts` invitation access label value `PERSONAL LINK`; regenerated `public/site00-correspondence-studio/fndatn-01/*.html`.
+- **Tests:** `tests/fndatn01.test.ts` 34 pass; before/after screenshots under `/opt/cursor/artifacts/` for invitation, quote, payment.
+- **Branch:** `cursor/df-client-email-voice-be3b` (draft PR to `main`).
