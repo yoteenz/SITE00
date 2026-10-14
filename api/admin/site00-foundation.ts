@@ -106,6 +106,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           markProjectMessagesRead({ artifact_id: id, reader_role: 'FOUNDER' });
           return res.status(200).json({ messages: listProjectMessages(id) });
         }
+        case 'readiness-report': {
+          const { buildFounderReadinessReport } = await import('../_lib/digitalFoundation/founderReadiness.js');
+          return res.status(200).json(buildFounderReadinessReport());
+        }
+        case 'email-timeline': {
+          const { listEmailTimeline } = await import('../_lib/digitalFoundation/founderReadiness.js');
+          return res.status(200).json({ events: listEmailTimeline() });
+        }
+        case 'test-journey': {
+          const id = String(req.query.id ?? '');
+          const { getSyntheticTestJourney } = await import('../_lib/digitalFoundation/founderReadiness.js');
+          return res.status(200).json(getSyntheticTestJourney(id));
+        }
         default:
           return res.status(400).json({ error: 'Unknown action' });
       }
@@ -199,6 +212,32 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             body: String(body.body ?? ''),
           });
           return res.status(200).json({ messages: listProjectMessages(String(body.artifact_id)) });
+        case 'create-test-client': {
+          const { createSyntheticTestClient } = await import('../_lib/digitalFoundation/founderReadiness.js');
+          return res.status(200).json(
+            createSyntheticTestClient({
+              display_name: String(body.display_name ?? 'Founder E2E'),
+              contact_email: String(body.contact_email ?? ''),
+              contact_name: body.contact_name ? String(body.contact_name) : undefined,
+            }),
+          );
+        }
+        case 'advance-test-intake': {
+          const { advanceSyntheticIntakeSubmitted } = await import('../_lib/digitalFoundation/founderReadiness.js');
+          return res.status(200).json(advanceSyntheticIntakeSubmitted(String(body.artifact_id)));
+        }
+        case 'advance-test-quote': {
+          const { advanceSyntheticQuoteReady } = await import('../_lib/digitalFoundation/founderReadiness.js');
+          return res.status(200).json(advanceSyntheticQuoteReady(String(body.artifact_id)));
+        }
+        case 'dispatch-test-email': {
+          const { dispatchQueuedEmail } = await import('../_lib/digitalFoundation/founderReadiness.js');
+          return res.status(200).json(await dispatchQueuedEmail(String(body.intent_id)));
+        }
+        case 'reset-test-data': {
+          const { resetSyntheticTestData } = await import('../_lib/digitalFoundation/founderReadiness.js');
+          return res.status(200).json(resetSyntheticTestData());
+        }
         default:
           return res.status(400).json({ error: 'Unknown action' });
       }

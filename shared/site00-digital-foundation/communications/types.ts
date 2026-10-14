@@ -29,7 +29,18 @@ export type CommunicationSuppression = {
   created_at: string;
 };
 
-export type SendIntentStatus = 'QUEUED' | 'SENT' | 'FAILED' | 'SUPPRESSED' | 'SKIPPED' | 'DRY_RUN';
+export type SendIntentStatus =
+  | 'DRY_RUN'
+  | 'SIMULATED'
+  | 'QUEUED'
+  | 'ACCEPTED'
+  | 'SENT'
+  | 'DELIVERED'
+  | 'FAILED'
+  | 'BOUNCED'
+  | 'COMPLAINED'
+  | 'SUPPRESSED'
+  | 'SKIPPED';
 
 export type CommunicationSendIntent = {
   intent_id: string;
@@ -44,6 +55,10 @@ export type CommunicationSendIntent = {
   attempts: number;
   last_error: string | null;
   provider_message_id: string | null;
+  /** When the provider last reported a terminal or accepted state. */
+  provider_status_at?: string | null;
+  /** Masked audit — never store API keys. */
+  delivery_channel?: 'RESEND' | 'SIMULATED' | 'NONE';
 };
 
 export type LifecycleEventMapping = {
