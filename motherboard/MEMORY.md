@@ -16613,3 +16613,19 @@ Summary of the whole conversation in this chat.
 - **Changes:** `emails.ts` (compose01–07 mast headers, hero/band copy, invitation CTA caption without visible URL, card row labels); `layout.ts` footer → SITE 00 / BUILDING WHAT COMES NEXT + SITE00.COM contact (removed CLASSIFICATION · TRANSACTIONAL); `contracts.ts` invitation access label value `PERSONAL LINK`; regenerated `public/site00-correspondence-studio/fndatn-01/*.html`.
 - **Tests:** `tests/fndatn01.test.ts` 34 pass; before/after screenshots under `/opt/cursor/artifacts/` for invitation, quote, payment.
 - **Branch:** `cursor/df-client-email-voice-be3b` (draft PR to `main`).
+
+---
+
+## 2026-10-14 — P0 Correspondence lifecycle experience1 (FNDATN-01)
+
+- **Sprint:** P0.SITE00.IDNTY.CORRESPONDENCE-LIFECYCLE-EXPERIENCE1 — lifecycle-specific voice, subject/preheader system, scope-accurate proposal/payment/completion copy; builds on client-email-voice sprint; **no send, no merge without approval**.
+- **Delivered:** `docs/site00/idnty/FNDATN01_LIFECYCLE_CORRESPONDENCE_MATRIX.md`; editorial pass on all seven composers; invitation card client-only; optional enhancements label; tests for subjects + no classification leak (37 pass).
+- **Branch:** `cursor/df-correspondence-lifecycle-be3b` (includes voice commits; draft PR to `main`).
+
+---
+
+## 2026-10-14 — P0 Correspondence visual regression recovery1 (FNDATN-01)
+
+- **Sprint:** P0 CORRESPONDENCE-VISUAL-REGRESSION-RECOVERY1 on PR #1645 — **keep improved copy**, restore visual authority.
+- **Root cause:** (1) Lifecycle sprint removed invitation card rows → `cardLayer` geometry drift vs 4-row CARD_SPEC; (2) review previews used root-relative asset URLs → broken hero JPEGs on staging/non-SPA hosts (visible alt/fallback text); footer/copy-only changes in 4f0cf10a/2c17d4a0 did not remove hero assets.
+- **Fix:** Restore 4-row invitation card with client labels; `fndatn01PreviewAssetOrigin()` for committed previews; 38 tests pass; seven-template screenshots in artifacts.
