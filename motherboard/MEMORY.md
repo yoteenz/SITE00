@@ -16583,3 +16583,14 @@ Summary of the whole conversation in this chat.
 - **Audit:** Production lifecycle map still `enabled: false`; dispatch records DRY_RUN/QUEUED only; no delivery worker before this branch. FNDATN-01 visual/copy unchanged.
 - **Implemented (draft PR `cursor/idnty-founder-readiness-e2e-be3b`):** `/admin/site00/foundation-readiness`, Resend adapter, delivery worker (allowlist + SYNTH · guard), FNDATN test event map, reminder eligibility tests, `FOUNDER_READINESS_E2E_REPORT.md`.
 - **Blocked:** DELIVERED webhooks, reminder cron, full Stripe TEST UI round-trip on deployed API, Supabase persistence gate for production Anthony link.
+
+---
+
+## 2026-10-14 — P0 Founder readiness Activation2 (IDNTY)
+
+- **Sprint:** P0.SITE00.IDNTY.FOUNDER-READINESS-ACTIVATION2 — verify Railway/Resend/Supabase/Stripe config; prepare first allowlisted invitation **without sending**; **no merge (#1642), no Anthony email**.
+- **Railway probe:** `GET https://api.site00.com/api/health` → `gitCommit` `286dba76249c` (main); **`digitalFoundation.founderReadiness` absent** — PR #1642 code not on API yet despite founder `RESEND_API_KEY` on Railway.
+- **Fix:** `dispatch.ts` synthetic detection now uses lead `business_name` (SYNTH · prefix) so FNDATN test intents enqueue on `create-test-client`.
+- **Activation2 additions:** `prepare-test-invitation`, `founder_approved_send` gate on dispatch, Resend webhook route + handler, health env-presence flags, readiness UI prepare/send checkbox.
+- **Tests:** `tests/founderReadinessE2e.test.ts` 9 pass; `npm run build` green on branch.
+- **Founder next:** Approve merge #1642 + Railway redeploy; set `SITE00_DF_FOUNDER_TEST_MODE=1`, allowlist, transactional from/reply-to, optional `SITE00_DF_TRANSACTIONAL_EMAIL_SEND=1`, webhook secret; then use readiness workspace to prepare → approve → send one test to self.
