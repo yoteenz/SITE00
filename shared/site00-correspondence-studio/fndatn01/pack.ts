@@ -170,7 +170,7 @@ export const FNDATN01_EMAILS: readonly Fndatn01Email[] = [
     trigger: { kind: 'derived_condition', condition: 'QUOTE_EXPIRY_REMINDER_DUE' },
     eligibility: ['Quote status READY or CLIENT_REVIEW', 'payment_state not PAID', 'Actual expires_at present', 'Reminder window reached', 'Not yet expired'],
     never_send_when: ['Quote accepted, paid, superseded or expired', 'No expiration date', 'Outside the reminder window'],
-    cta_label: 'SECURE YOUR QUOTE',
+    cta_label: 'REVIEW YOUR QUOTE',
     cta_destination: 'Quote review and acceptance URL: /foundation/{public_token}',
     preserved_contracts: ['quote-ready stays the first presentation of the quote'],
   }),

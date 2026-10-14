@@ -39,7 +39,7 @@ function addonsLine(addons: AddonLine[]): string {
   if (!addons.length) return '';
   const list = addons.map((a) => `${v(a.label)}${a.quantity > 1 ? ` × ${v(a.quantity)}` : ''}`).join(' &nbsp;·&nbsp; ');
   return `<table class="addons desk-only" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%;background:${T.paper};border-bottom:1px solid ${T.line}">
-<tr><td class="px" style="padding:12px 28px">${microLabel('SELECTED ADD-ONS', T.mute, 8)}<br><span style="font-family:${FONT_BODY};font-size:11px;line-height:17px;letter-spacing:.1em;font-weight:500;color:${T.ink};text-transform:uppercase">${list}</span></td></tr>
+<tr><td class="px" style="padding:12px 28px">${microLabel('OPTIONAL ENHANCEMENTS', T.mute, 8)}<br><span style="font-family:${FONT_BODY};font-size:11px;line-height:17px;letter-spacing:.1em;font-weight:500;color:${T.ink};text-transform:uppercase">${list}</span></td></tr>
 </table>`;
 }
 
@@ -47,7 +47,7 @@ function addonsLine(addons: AddonLine[]): string {
 function addonsInline(addons: AddonLine[]): string {
   if (!addons.length) return '';
   const list = addons.map((a) => `${v(a.label)}${a.quantity > 1 ? ` × ${v(a.quantity)}` : ''}`).join(' &nbsp;·&nbsp; ');
-  return `<p style="margin:0 0 12px;font-family:${FONT_BODY};font-size:8.5px;line-height:12px;letter-spacing:.14em;color:${T.mute};text-transform:uppercase;text-align:center">SELECTED ADD-ONS &nbsp;${list}</p>`;
+  return `<p style="margin:0 0 12px;font-family:${FONT_BODY};font-size:8.5px;line-height:12px;letter-spacing:.14em;color:${T.mute};text-transform:uppercase;text-align:center">OPTIONAL ENHANCEMENTS &nbsp;${list}</p>`;
 }
 
 function mobileColumns(asset: AssetResolver, title: string, items: BandItem[], opts: { small?: boolean } = {}): string {
@@ -95,7 +95,7 @@ export function compose01(asset: AssetResolver, d: Data01): Composition {
   const copy: HeroCopy = {
     kicker: forName(d.firstName),
     headline: ['BEGIN YOUR', 'FOUNDATION'],
-    body: "EVERY GREAT BUSINESS DESERVES A STRONG BEGINNING. WE'RE PREPARING THE ESSENTIALS THAT HELP YOUR BUSINESS ESTABLISH ITS PLACE ONLINE—FROM YOUR DOMAIN TO YOUR PROFESSIONAL EMAIL AND THE DETAILS THAT BRING EVERYTHING TOGETHER. BEFORE WE BEGIN, WE'D LOVE TO LEARN A LITTLE ABOUT YOUR BUSINESS AND WHAT YOU ENVISION FOR IT.",
+    body: "EVERY GREAT BUSINESS DESERVES A STRONG BEGINNING. SITE 00 IS REACHING OUT PERSONALLY TO HELP YOU ESTABLISH THE ESSENTIALS—YOUR DOMAIN, PROFESSIONAL EMAIL, AND THE DETAILS THAT BRING YOUR PRESENCE TOGETHER. WHEN YOU ARE READY, A SHORT INTAKE HELPS US UNDERSTAND YOUR BUSINESS AND WHAT YOU ENVISION NEXT. THERE IS NO OBLIGATION UNTIL YOU REVIEW AND ACCEPT A QUOTE.",
     tagline: ['YOUR NEXT', 'CHAPTER', 'STARTS HERE.'],
     deskBodyWidth: 236,
   };
@@ -125,20 +125,15 @@ ${[
 </tr></table></td></tr>
 </table>`);
   const cta = { label: 'BEGIN YOUR FOUNDATION', url: d.intakeUrl, caption: 'YOUR SECURE LINK IS IN THE BUTTON ABOVE—JUST FOR YOU.' };
-  const card: CardRow[] = [
-    ...clientRow(d.clientName),
-    { label: 'YOUR FOUNDATION', value: d.service, personalized: false },
-    { label: 'NEXT STEP', value: d.status, tone: 'red', personalized: false },
-    { label: 'YOUR LINK', value: d.access, tone: 'red', personalized: false },
-  ];
+  const card: CardRow[] = [...clientRow(d.clientName)];
   return {
-    subject: 'YOUR FOUNDATION INVITATION',
-    subjectHtml: 'YOUR FOUNDATION INVITATION',
-    preheader: "BEFORE WE BUILD, WE'D LIKE TO LEARN HOW YOU WORK",
+    subject: 'YOUR INVITATION TO BEGIN',
+    subjectHtml: 'YOUR INVITATION TO BEGIN',
+    preheader: "LET'S ESTABLISH THE ESSENTIALS FOR WHAT'S NEXT.",
     label: 'Digital Foundation invitation',
     blocks: [
       mast({
-        preheader: "BEFORE WE BUILD, WE'D LIKE TO LEARN HOW YOU WORK",
+        preheader: "LET'S ESTABLISH THE ESSENTIALS FOR WHAT'S NEXT.",
         line1: 'A PERSONAL',
         line2: 'INVITATION',
         rule: true,
@@ -171,8 +166,8 @@ export function compose02(asset: AssetResolver, d: Data02): Composition {
     kicker: forName(d.firstName),
     headline: ["WE'VE RECEIVED", 'YOUR INTAKE'],
     mobileHeadline: ["WE'VE", 'RECEIVED', 'YOUR INTAKE'],
-    body: "THANK YOU FOR SHARING YOUR INFORMATION. WE'VE RECEIVED YOUR DIGITAL FOUNDATION INTAKE AND OUR TEAM IS NOW REVIEWING IT. YOU'LL HEAR FROM US SOON WITH NEXT STEPS.",
-    mobileBody: "THANK YOU FOR SHARING YOUR INFORMATION. WE'VE RECEIVED YOUR DIGITAL FOUNDATION INTAKE AND ARE NOW REVIEWING IT.",
+    body: "THANK YOU FOR TAKING THE TIME TO SHARE YOUR BUSINESS WITH US. YOUR INTAKE IS IN OUR HANDS NOW. WE'RE REVIEWING WHAT YOU SENT SO WE CAN PREPARE A THOUGHTFUL RECOMMENDATION AND QUOTE—NOTHING MOVES FORWARD UNTIL YOU'VE HAD A CHANCE TO REVIEW AND ACCEPT.",
+    mobileBody: "THANK YOU FOR SHARING YOUR BUSINESS WITH US. WE'RE REVIEWING YOUR INTAKE AND WILL REACH OUT WITH YOUR RECOMMENDATION AND QUOTE WHEN IT'S READY.",
     tagline: TAGLINE,
     mobileTagline: TAGLINE_MOBILE,
     deskTagline: false,
@@ -181,15 +176,15 @@ export function compose02(asset: AssetResolver, d: Data02): Composition {
   const next: BandItem[] = [
     { n: '01', icon: 'magnifier', iconAlt: 'Review', title: 'REVIEW', text: "WE'LL REVIEW YOUR INFORMATION FOR ACCURACY AND ANY ADDITIONAL NEEDS." },
     { n: '02', icon: 'bubble', iconAlt: 'Clarify', title: 'CLARIFY', text: "IF WE NEED ANY ADDITIONAL DETAILS, WE'LL REACH OUT DIRECTLY." },
-    { n: '03', icon: 'document', iconAlt: 'Prepare', title: 'PREPARE', text: "ONCE EVERYTHING IS CONFIRMED, WE'LL PREPARE YOUR CUSTOM PLAN AND QUOTE." },
+    { n: '03', icon: 'document', iconAlt: 'Prepare', title: 'PREPARE', text: "WHEN WE'RE READY, WE'LL SEND YOUR PERSONALIZED RECOMMENDATION AND QUOTE FOR REVIEW." },
   ];
-  const cta = { label: 'VIEW YOUR INTAKE STATUS', url: d.foundationUrl, caption: 'OR REPLY TO THIS EMAIL IF YOU HAVE ANY QUESTIONS.' };
+  const cta = { label: 'VIEW YOUR INTAKE STATUS', url: d.foundationUrl, caption: 'VISIT YOUR FOUNDATION PAGE ANYTIME, OR REPLY TO THIS EMAIL WITH QUESTIONS.' };
   const card: CardRow[] = [
     ...clientRow(d.clientName),
     { label: 'YOUR FOUNDATION', value: d.service, personalized: false },
     { label: 'WHERE YOU ARE', value: d.status, tone: 'red', personalized: false },
     { label: 'RECEIVED', value: d.receivedAt },
-    { label: 'REFERENCE', value: d.reference },
+    { label: 'FOR YOUR RECORDS', value: d.reference },
   ];
   const mobileClose =
     mobileOnly(`<table class="rest mob-only" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="display:none;max-height:0;overflow:hidden;width:100%;background:#ffffff">
@@ -209,10 +204,10 @@ export function compose02(asset: AssetResolver, d: Data02): Composition {
   return {
     subject: "WE'VE RECEIVED YOUR INTAKE",
     subjectHtml: "WE'VE RECEIVED YOUR INTAKE",
-    preheader: "OUR TEAM IS NOW REVIEWING IT. YOU'LL HEAR FROM US SOON WITH NEXT STEPS.",
+    preheader: "WE'RE REVIEWING WHAT YOU SHARED AND WILL FOLLOW UP WITH YOUR RECOMMENDATION.",
     label: 'Digital Foundation intake received',
     blocks: [
-      mast({ preheader: "OUR TEAM IS NOW REVIEWING IT. YOU'LL HEAR FROM US SOON WITH NEXT STEPS.", line1: 'YOUR DIGITAL FOUNDATION', line2: 'INTAKE RECEIVED', rule: true }),
+      mast({ preheader: "WE'RE REVIEWING WHAT YOU SHARED AND WILL FOLLOW UP WITH YOUR RECOMMENDATION.", line1: 'YOUR DIGITAL FOUNDATION', line2: 'INTAKE RECEIVED', rule: true }),
       desktopHero(asset, slug, copy, {
         column: 300,
         alt: 'Intake confirmation card on a marble ledge before a city skyline, a crystal and a red maple nearby.',
@@ -239,32 +234,32 @@ export function compose03(asset: AssetResolver, d: Data03): Composition {
   const copy: HeroCopy = {
     kicker: forName(d.firstName),
     headline: ['YOUR', 'RECOMMENDATION', 'IS READY'],
-    body: "BASED ON YOUR INTAKE, WE'VE PREPARED A TAILORED DIGITAL FOUNDATION PLAN AND QUOTE FOR YOUR REVIEW.",
+    body: "THANK YOU AGAIN FOR YOUR INTAKE. BASED ON WHAT YOU SHARED, WE'VE PREPARED A DIGITAL FOUNDATION RECOMMENDATION AND A CLEAR QUOTE FOR YOUR REVIEW. THIS IS A PROPOSAL—NOT A COMMITMENT—UNTIL YOU ACCEPT THE SCOPE AND COMPLETE PAYMENT.",
     deskSize: 37,
     tagline: TAGLINE,
     mobileTagline: TAGLINE_MOBILE,
   };
   const items = scopeItems(d.scope);
-  const cta = { label: 'REVIEW YOUR RECOMMENDATION & QUOTE', url: d.foundationUrl, caption: 'OR REPLY TO THIS EMAIL IF YOU HAVE ANY QUESTIONS.' };
+  const cta = { label: 'REVIEW YOUR RECOMMENDATION & QUOTE', url: d.foundationUrl, caption: 'REVIEW SCOPE, PRICING, AND OPTIONAL ENHANCEMENTS ON YOUR FOUNDATION PAGE.' };
   const card = (pill: boolean): CardRow[] => [
     ...clientRow(d.clientName),
     { label: 'YOUR FOUNDATION', value: d.service, personalized: false },
     ...(d.recommendation ? [{ label: 'OUR RECOMMENDATION', value: d.recommendation }] : []),
     { label: 'QUOTE', value: d.quoteAmount },
     { label: 'VALID UNTIL', value: d.validUntil },
-    { label: 'NEXT STEP', value: 'REVIEW & ACCEPT', tone: 'red', personalized: false, ...(pill ? { pill: { url: d.foundationUrl } } : {}) },
+    { label: 'NEXT STEP', value: 'REVIEW PROPOSAL', tone: 'red', personalized: false, ...(pill ? { pill: { url: d.foundationUrl } } : {}) },
   ];
   const tags = scopeTags(d.scope);
   return {
-    subject: 'YOUR RECOMMENDATION IS READY',
-    subjectHtml: 'YOUR RECOMMENDATION IS READY',
-    preheader: `A TAILORED DIGITAL FOUNDATION PLAN AND QUOTE FOR YOUR REVIEW. VALID UNTIL ${d.validUntil}.`,
+    subject: 'YOUR FOUNDATION RECOMMENDATION IS READY',
+    subjectHtml: 'YOUR FOUNDATION RECOMMENDATION IS READY',
+    preheader: "WE'VE PREPARED A DIRECTION BASED ON YOUR BUSINESS NEEDS.",
     label: 'Digital Foundation recommendation and quote',
     blocks: [
       mast({
-        preheader: `A TAILORED DIGITAL FOUNDATION PLAN AND QUOTE FOR YOUR REVIEW. VALID UNTIL ${d.validUntil}.`,
+        preheader: "WE'VE PREPARED A DIRECTION BASED ON YOUR BUSINESS NEEDS.",
         line1: 'YOUR DIGITAL FOUNDATION',
-        line2: 'YOUR NEXT STEP',
+        line2: 'YOUR PROPOSAL',
         mobileLines: ['YOUR DIGITAL FOUNDATION', 'RECOMMENDATION & QUOTE'],
       }),
       desktopHero(asset, slug, copy, {
@@ -296,17 +291,17 @@ export function compose04(asset: AssetResolver, d: Data04): Composition {
   const copy: HeroCopy = {
     kicker: forName(d.firstName),
     headline: ['PAYMENT', 'RECEIVED'],
-    sub: active ? 'YOUR DIGITAL FOUNDATION IS NOW IN PROGRESS.' : 'PROJECT ACTIVATION IS PENDING.',
+    sub: active ? 'YOUR DIGITAL FOUNDATION IS UNDERWAY.' : 'YOUR PAYMENT IS CONFIRMED.',
     body: active
-      ? "THANK YOU FOR YOUR TRUST. WE'VE RECORDED YOUR PAYMENT AND STARTED YOUR PROJECT."
-      : "THANK YOU FOR YOUR TRUST. WE'VE RECORDED YOUR PAYMENT. WE'LL CONFIRM AS SOON AS YOUR PROJECT IS ACTIVE.",
+      ? "THANK YOU—YOUR PAYMENT IS CONFIRMED AND YOUR DIGITAL FOUNDATION IS OFFICIALLY UNDERWAY. OUR TEAM IS BEGINNING THE WORK WE OUTLINED IN YOUR ACCEPTED QUOTE."
+      : "THANK YOU—YOUR PAYMENT IS CONFIRMED. WE'RE FINALIZING PROJECT ACTIVATION ON OUR SIDE AND WILL EMAIL YOU AS SOON AS YOUR FOUNDATION WORK BEGINS.",
   };
   const mobileCopy: HeroCopy = {
-    kicker: 'PAYMENT RECEIVED',
-    headline: active ? ['YOUR', 'FOUNDATION', 'IS NOW', 'IN MOTION'] : ['PAYMENT', 'RECEIVED'],
+    kicker: forName(d.firstName) ?? 'PAYMENT CONFIRMED',
+    headline: active ? ['YOUR', 'FOUNDATION', 'IS', 'UNDERWAY'] : ['PAYMENT', 'CONFIRMED'],
     body: active
-      ? "WE'VE RECORDED YOUR PAYMENT AND OPENED YOUR DIGITAL FOUNDATION PROJECT. YOUR WORK IS NOW FORMALLY IN MOTION."
-      : "WE'VE RECORDED YOUR PAYMENT. WE'LL CONFIRM AS SOON AS YOUR PROJECT IS ACTIVE.",
+      ? "YOUR PAYMENT IS CONFIRMED AND YOUR DIGITAL FOUNDATION IS UNDERWAY. WE'LL KEEP YOU INFORMED AS MILESTONES COMPLETE."
+      : "YOUR PAYMENT IS CONFIRMED. ACTIVATION IS BEING FINALIZED—WE'LL EMAIL YOU WHEN YOUR FOUNDATION WORK BEGINS.",
   };
   const fields = [
     ...(d.clientName ? [{ label: 'CLIENT', value: d.clientName }] : []),
@@ -314,7 +309,7 @@ export function compose04(asset: AssetResolver, d: Data04): Composition {
     { label: 'AMOUNT', value: d.amount },
     { label: 'DATE', value: d.paidAt },
     ...(d.method ? [{ label: 'PAYMENT METHOD', value: d.method }] : []),
-    { label: 'REFERENCE', value: d.reference },
+    { label: 'FOR YOUR RECORDS', value: d.reference },
     { label: 'PAYMENT', value: d.status, red: true },
   ];
   const next: BandItem[] = [
@@ -360,10 +355,11 @@ export function compose04(asset: AssetResolver, d: Data04): Composition {
 <tr><td>${img(asset(`assets/${slug}/blueprint-mobile.jpg`), 'Architectural blueprint on limestone beside red glass, with the words ideas, systems, people, reality.', 390, null, 'width:100%;height:auto;')}</td></tr>
 </table>`);
   const cta = { label: 'OPEN YOUR FOUNDATION', url: d.foundationUrl, caption: 'OR REPLY TO THIS EMAIL IF YOU HAVE ANY QUESTIONS.' };
-  const pre = active ? 'YOUR DIGITAL FOUNDATION IS NOW IN PROGRESS.' : "WE'VE RECORDED YOUR PAYMENT. PROJECT ACTIVATION IS PENDING.";
+  const pre = active ? "HERE'S WHAT HAPPENS NEXT ON YOUR FOUNDATION." : 'YOUR PAYMENT IS CONFIRMED. ACTIVATION FOLLOWS SHORTLY.';
+  const subject = active ? 'YOUR DIGITAL FOUNDATION IS UNDERWAY' : 'YOUR PAYMENT IS CONFIRMED';
   return {
-    subject: 'PAYMENT RECEIVED',
-    subjectHtml: 'PAYMENT RECEIVED',
+    subject,
+    subjectHtml: subject,
     preheader: pre,
     label: 'Digital Foundation payment received',
     blocks: [
@@ -406,8 +402,8 @@ export function compose05(asset: AssetResolver, d: Data05): Composition {
   const copy: HeroCopy = {
     kicker: forName(d.firstName),
     headline: ['YOUR', 'FOUNDATION', 'IS COMPLETE'],
-    body: 'EVERYTHING YOU NEED IS SET UP AND READY. YOUR DIGITAL FOUNDATION HAS BEEN DELIVERED.',
-    mobileBody: 'EVERYTHING IS SET UP, VERIFIED, AND READY FOR YOU TO USE. WELCOME TO A CLEARER TOMORROW.',
+    body: 'YOUR DIGITAL FOUNDATION IS COMPLETE—VERIFIED AND READY FOR YOU. DOMAIN, EMAIL, SECURITY, AND RECORDS ARE IN PLACE. YOUR CLIENT PORTAL HOLDS ACCESS DETAILS, OWNERSHIP INFORMATION, AND RENEWAL GUIDANCE GOING FORWARD.',
+    mobileBody: 'YOUR FOUNDATION IS COMPLETE AND VERIFIED. VISIT YOUR PORTAL FOR ACCESS, RECORDS, AND WHAT COMES NEXT.',
     tagline: TAGLINE,
     mobileTagline: TAGLINE_MOBILE,
   };
@@ -428,18 +424,18 @@ export function compose05(asset: AssetResolver, d: Data05): Composition {
   const panel = mobileRows(asset, "WHAT'S COMPLETE", items, {
     status,
     panel: {
-      after: `${button('VIEW YOUR FOUNDATION', d.foundationUrl, { width: 320 })}${caption(esc('YOUR PROJECT IS COMPLETE. LOG IN TO ACCESS YOUR RECORDS, SETTINGS, AND NEXT STEPS.'))}`,
+      after: `${button('VIEW YOUR FOUNDATION', d.foundationUrl, { width: 320 })}${caption(esc('YOUR HANDOFF LIVES IN YOUR CLIENT PORTAL—RECORDS, ACCESS, AND NEXT STEPS.'))}`,
     },
   });
-  const cta = { label: 'VIEW YOUR COMPLETED FOUNDATION', url: d.foundationUrl, caption: 'EVERYTHING IS READY IN YOUR CLIENT PORTAL.' };
+  const cta = { label: 'VIEW YOUR COMPLETED FOUNDATION', url: d.foundationUrl, caption: 'OPEN YOUR PORTAL FOR RECORDS, ACCESS, AND ONGOING GUIDANCE.' };
   return {
-    subject: 'YOUR FOUNDATION IS COMPLETE',
-    subjectHtml: 'YOUR FOUNDATION IS COMPLETE',
-    preheader: 'EVERYTHING YOU NEED IS SET UP AND READY.',
+    subject: 'YOUR DIGITAL FOUNDATION IS COMPLETE',
+    subjectHtml: 'YOUR DIGITAL FOUNDATION IS COMPLETE',
+    preheader: 'YOUR ESSENTIALS ARE IN PLACE. HERE IS YOUR HANDOFF.',
     label: 'Digital Foundation complete',
     blocks: [
       mast({
-        preheader: 'EVERYTHING YOU NEED IS SET UP AND READY.',
+        preheader: 'YOUR ESSENTIALS ARE IN PLACE. HERE IS YOUR HANDOFF.',
         line1: 'YOUR DIGITAL FOUNDATION',
         line2: 'DELIVERY COMPLETE',
         mobileLines: ['YOUR DIGITAL FOUNDATION', 'DELIVERY COMPLETE'],
@@ -465,10 +461,10 @@ export function compose06(asset: AssetResolver, d: Data06): Composition {
   const slug = '06_resume_intake';
   const copy: HeroCopy = {
     kicker: forName(d.firstName),
-    headline: ['YOUR', 'FOUNDATION', 'IS ALMOST READY'],
-    mobileHeadline: ['YOUR', 'FOUNDATION', 'IS ALMOST', 'READY'],
+    headline: ['CONTINUE YOUR', 'FOUNDATION'],
+    mobileHeadline: ['CONTINUE', 'YOUR', 'FOUNDATION'],
     deskSize: 34,
-    body: "IT LOOKS LIKE YOU STARTED YOUR DIGITAL FOUNDATION, BUT DIDN'T FINISH. PICK UP WHERE YOU LEFT OFF TO COMPLETE YOUR SETUP.",
+    body: "WHENEVER YOU'RE READY, YOU CAN CONTINUE YOUR DIGITAL FOUNDATION INTAKE. YOUR ANSWERS ARE SAVED—PICK UP WHERE YOU LEFT OFF AT YOUR OWN PACE.",
     tagline: TAGLINE,
     mobileTagline: TAGLINE_MOBILE,
   };
@@ -510,22 +506,22 @@ ${SPACE(9)}
 <td valign="middle" style="padding:14px 10px 14px 22px"><table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
 <td valign="top" style="padding-right:12px">${icon(asset('assets/icons/document.png'), 'Intake', 24)}</td>
 <td valign="top"><p style="margin:0;font-family:${FONT_BODY};font-size:11px;line-height:15px;letter-spacing:.18em;font-weight:600;color:${T.ink}">NEXT STEP:</p>
-<p style="margin:4px 0 0;font-family:${FONT_BODY};font-size:9px;line-height:13px;letter-spacing:.12em;color:${T.mute}">CONTINUE YOUR INTAKE TO HELP US UNDERSTAND YOUR BUSINESS, PRIORITIES, AND SETUP NEEDS.</p>
+<p style="margin:4px 0 0;font-family:${FONT_BODY};font-size:9px;line-height:13px;letter-spacing:.12em;color:${T.mute}">A FEW MORE DETAILS HELP US UNDERSTAND YOUR BUSINESS, PRIORITIES, AND SETUP NEEDS—NO PRESSURE, NO DEADLINE UNLESS YOU SET ONE.</p>
 <p style="margin:6px 0 0;font-family:${FONT_BODY};font-size:8.5px;line-height:12px;letter-spacing:.14em;color:${T.faint}">PROGRESS SAVED ${v(d.savedAt)}</p></td>
 </tr></table></td>
 <td valign="middle" align="right" style="padding:14px 24px 14px 0">${button('RESUME YOUR INTAKE', d.intakeUrl, { width: 230 })}</td>
 </tr>
 </table>`;
   return {
-    subject: 'YOUR FOUNDATION IS ALMOST READY',
-    subjectHtml: 'YOUR FOUNDATION IS ALMOST READY',
-    preheader: 'PICK UP WHERE YOU LEFT OFF. YOUR PROGRESS IS SAVED.',
+    subject: 'CONTINUE YOUR FOUNDATION INTAKE',
+    subjectHtml: 'CONTINUE YOUR FOUNDATION INTAKE',
+    preheader: 'YOUR PROGRESS IS SAVED WHENEVER YOU ARE READY.',
     label: 'Resume your Digital Foundation intake',
     blocks: [
       mast({
-        preheader: 'PICK UP WHERE YOU LEFT OFF. YOUR PROGRESS IS SAVED.',
+        preheader: 'YOUR PROGRESS IS SAVED WHENEVER YOU ARE READY.',
         line1: 'YOUR DIGITAL FOUNDATION',
-        line2: 'YOUR NEXT STEP',
+        line2: 'CONTINUE INTAKE',
       }),
       desktopHero(asset, slug, copy, { column: 250, alt: 'Laptop showing the Digital Foundation intake on a limestone terrace above the sea.' }),
       mobileHero(asset, slug, copy, {
@@ -554,7 +550,7 @@ export function compose07(asset: AssetResolver, d: Data07): Composition {
   const copy: HeroCopy = {
     kicker: forName(d.firstName),
     headline: ['YOUR QUOTE', 'IS ABOUT TO', 'EXPIRE SOON'],
-    body: 'YOUR DIGITAL FOUNDATION PLAN IS READY, BUT YOUR QUOTE WILL EXPIRE SOON. SECURE IT NOW TO KEEP YOUR PRICING AND GET STARTED.',
+    body: 'YOUR DIGITAL FOUNDATION PROPOSAL REMAINS AVAILABLE, AND YOUR QUOTED PRICING IS VALID UNTIL THE DATE BELOW. WHEN YOU ARE READY, REVIEW AND ACCEPT TO MOVE FORWARD—NO WEBSITE BUILD IS INCLUDED UNLESS YOU ADD IT SEPARATELY.',
     tagline: TAGLINE,
     mobileTagline: TAGLINE_MOBILE,
     deskTagline: false,
@@ -575,11 +571,11 @@ export function compose07(asset: AssetResolver, d: Data07): Composition {
 <tr>
 <td width="150" valign="middle" style="width:150px">${img(asset(`assets/${slug}/left-desktop.jpg`), STRIP_ALT.glass, 150, 110, 'object-fit:cover;')}</td>
 <td valign="middle" style="padding:14px 8px 14px 22px">${countdown}</td>
-<td valign="middle" align="center" style="padding:14px 22px 14px 8px">${button('SECURE YOUR QUOTE', d.foundationUrl, { width: 220 })}${caption('LOCK IN YOUR PRICING AND COMPLETE<br>YOUR DIGITAL FOUNDATION.')}</td>
+<td valign="middle" align="center" style="padding:14px 22px 14px 8px">${button('REVIEW YOUR QUOTE', d.foundationUrl, { width: 220 })}${caption('ACCEPT YOUR PROPOSAL BEFORE<br>THE QUOTE EXPIRES.')}</td>
 </tr>
 </table>`;
-  const mobileClose = `${addonsInline(d.addons)}${countdown.replace('margin:0 0 8px', 'margin:0 0 8px;text-align:center').replace('margin:8px 0 0', 'margin:8px 0 0;text-align:center')}<div style="height:14px;line-height:14px;font-size:1px">&nbsp;</div>${button('SECURE YOUR QUOTE', d.foundationUrl, { width: 320 })}${caption('LOCK IN YOUR PRICING AND COMPLETE YOUR DIGITAL FOUNDATION BEFORE THIS OFFER EXPIRES.')}`;
-  const pre = `YOUR QUOTE IS VALID UNTIL ${d.validUntil}. SECURE IT TO KEEP YOUR PRICING.`;
+  const mobileClose = `${addonsInline(d.addons)}${countdown.replace('margin:0 0 8px', 'margin:0 0 8px;text-align:center').replace('margin:8px 0 0', 'margin:8px 0 0;text-align:center')}<div style="height:14px;line-height:14px;font-size:1px">&nbsp;</div>${button('REVIEW YOUR QUOTE', d.foundationUrl, { width: 320 })}${caption('YOUR QUOTED PRICING IS VALID UNTIL THE DATE SHOWN—REVIEW WHEN YOU ARE READY.')}`;
+  const pre = `YOUR QUOTE IS VALID UNTIL ${d.validUntil}. REVIEW YOUR PROPOSAL WHEN YOU ARE READY.`;
   const card: CardRow[] = [
     ...clientRow(d.clientName),
     { label: 'YOUR FOUNDATION', value: d.service, personalized: false },
@@ -590,8 +586,8 @@ export function compose07(asset: AssetResolver, d: Data07): Composition {
   ];
   const tags = scopeTags(d.scope);
   return {
-    subject: 'YOUR QUOTE IS ABOUT TO EXPIRE',
-    subjectHtml: 'YOUR QUOTE IS ABOUT TO EXPIRE',
+    subject: 'REMINDER: YOUR QUOTE EXPIRES SOON',
+    subjectHtml: 'REMINDER: YOUR QUOTE EXPIRES SOON',
     preheader: pre,
     label: 'Digital Foundation quote expiry reminder',
     blocks: [

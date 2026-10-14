@@ -156,7 +156,7 @@ describe('FNDATN-01 eligibility guards', () => {
     expect(derive04(fixtureFor('04', 'activation_pending'), ctxOf('04')).data?.activation).toBe('pending');
     const pending = send('04', fixtureFor('04', 'activation_pending'));
     if (!pending.ok) throw new Error('pending fixture should render');
-    expect(pending.html).toContain('PROJECT ACTIVATION IS PENDING');
+    expect(pending.html).toContain('YOUR PAYMENT IS CONFIRMED');
     expect(pending.html).not.toContain('IS NOW IN PROGRESS');
     expect(pending.html).not.toMatch(/ENDING IN|VISA|MASTERCARD/);
     const unpaid = fixtureFor('04');
@@ -353,9 +353,9 @@ describe('FNDATN-01 demo data isolation and live data safety', () => {
 
 describe('FNDATN-01 personalized data lives in the artifacts', () => {
   const cards: Record<string, string[]> = {
-    '01': ['JORDAN AVERY', 'DIGITAL FOUNDATION', 'READY TO BEGIN', 'PERSONAL LINK'],
+    '01': ['JORDAN AVERY'],
     '02': ['JORDAN AVERY', 'RECEIVED · UNDER REVIEW', 'OCT 2, 2026 · 12:24 PM ET', 'DF-DEMO-0001'],
-    '03': ['JORDAN AVERY', 'YOUR DIGITAL FOUNDATION', '$1,334.00 USD', 'OCT 19, 2026', 'REVIEW &amp; ACCEPT'],
+    '03': ['JORDAN AVERY', 'YOUR DIGITAL FOUNDATION', '$1,334.00 USD', 'OCT 19, 2026', 'REVIEW PROPOSAL'],
     '04': ['JORDAN AVERY', '$1,334.00 USD', 'OCT 19, 2026', 'Q-DEMO-0001', 'PAID'],
     '07': ['JORDAN AVERY', '$1,334.00 USD', 'OCT 5, 2026', 'OCT 19, 2026', 'AWAITING ACCEPTANCE'],
   };
@@ -419,5 +419,40 @@ describe('FNDATN-01 angled-edge buttons', () => {
 describe('FNDATN-01 band markup', () => {
   it('never shows escaped markup as visible text', () => {
     for (const preview of renderFndatn01Previews()) expect(preview.html, preview.publicPath).not.toMatch(/&lt;(br|span|p|a)\b/);
+  });
+});
+
+describe('FNDATN-01 lifecycle subject system', () => {
+  const subjects: Record<string, string> = {
+    '01': 'YOUR INVITATION TO BEGIN',
+    '02': "WE'VE RECEIVED YOUR INTAKE",
+    '03': 'YOUR FOUNDATION RECOMMENDATION IS READY',
+    '04': 'YOUR DIGITAL FOUNDATION IS UNDERWAY',
+    '05': 'YOUR DIGITAL FOUNDATION IS COMPLETE',
+    '06': 'CONTINUE YOUR FOUNDATION INTAKE',
+    '07': 'REMINDER: YOUR QUOTE EXPIRES SOON',
+  };
+
+  it('uses lifecycle subjects for default demo scenarios', () => {
+    for (const id of ids) {
+      const r = send(id);
+      if (!r.ok) throw new Error(id);
+      expect(r.subject).toBe(subjects[id]);
+    }
+  });
+
+  it('uses payment-confirmed subject when activation is still pending', () => {
+    const r = send('04', fixtureFor('04', 'activation_pending'));
+    if (!r.ok) throw new Error('pending 04');
+    expect(r.subject).toBe('YOUR PAYMENT IS CONFIRMED');
+  });
+
+  it('does not expose internal classification labels in client HTML', () => {
+    for (const id of ids) {
+      const r = send(id);
+      if (!r.ok) throw new Error(id);
+      expect(r.html).not.toMatch(/CLASSIFICATION · TRANSACTIONAL/);
+      expect(r.html).not.toMatch(/CORRESPONDENCE STUDIO/i);
+    }
   });
 });
