@@ -16594,3 +16594,13 @@ Summary of the whole conversation in this chat.
 - **Activation2 additions:** `prepare-test-invitation`, `founder_approved_send` gate on dispatch, Resend webhook route + handler, health env-presence flags, readiness UI prepare/send checkbox.
 - **Tests:** `tests/founderReadinessE2e.test.ts` 9 pass; `npm run build` green on branch.
 - **Founder next:** Approve merge #1642 + Railway redeploy; set `SITE00_DF_FOUNDER_TEST_MODE=1`, allowlist, transactional from/reply-to, optional `SITE00_DF_TRANSACTIONAL_EMAIL_SEND=1`, webhook secret; then use readiness workspace to prepare → approve → send one test to self.
+
+---
+
+## 2026-10-14 — P0 Founder staging deployment1 (IDNTY)
+
+- **Sprint:** P0.SITE00.IDNTY.FOUNDER-STAGING-DEPLOYMENT1 — isolated staging for DF founder test; **no merge #1642**, **no prod Railway/GoDaddy**, **no email sent**.
+- **Audit:** No Railway staging service, no Supabase branch/project for staging; production Supabase `hyycomvcaqxxvyrfupes` already has `site00_df_*` rows — **staging must not write there**.
+- **Delivered:** `docs/site00/idnty/FOUNDER_STAGING_DEPLOYMENT_MANIFEST.md`, `scripts/staging/*`, FNDATN dispatch `siteOrigin` = `SITE00_PUBLIC_APP_ORIGIN` for staging invitation URLs.
+- **Tests:** 61+ targeted vitest pass on branch; local `founder-invitation-preview.mjs` dry-run with staging origin.
+- **Blocked:** Founder must create Railway **duplicate** service on PR branch + staging Supabase project + staging SPA host before live staging URLs.

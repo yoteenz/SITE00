@@ -37,6 +37,9 @@ describe('founder test mode guards', () => {
     const invite = prepareTestInvitation(inviteIntent!.intent_id);
     expect(invite.template_id).toBe('personal-foundation-invitation');
     expect(invite.invitation_link_valid).toBe(true);
+    vi.stubEnv('SITE00_PUBLIC_APP_ORIGIN', 'https://staging-df.site00.test');
+    const inviteStaging = prepareTestInvitation(inviteIntent!.intent_id);
+    expect(inviteStaging.invitation_links.some((l) => l.includes('staging-df.site00.test'))).toBe(true);
     const journey = advanceSyntheticIntakeSubmitted(out.artifact.artifact_id);
     expect(journey.intake_state).toBe('COMPLETE');
     expect(journey.email_events.some((e) => e.template_id === 'intake-completed')).toBe(true);

@@ -7,5 +7,7 @@ describe('Digital Foundation runtime diagnostics', () => {
     expect(typeof d.persistSupabaseEnv).toBe('boolean');
     expect(typeof d.launchGateIntakeOnly).toBe('boolean');
     expect(d.migrationFilesExpected.length).toBeGreaterThanOrEqual(2);
+    expect(d.founderReadiness).toBeDefined();
+    expect(typeof d.founderReadiness.workspaceApiPresent).toBe('boolean');
   });
 });

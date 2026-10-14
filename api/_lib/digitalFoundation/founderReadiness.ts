@@ -197,10 +197,20 @@ export function prepareTestInvitation(intentId: string): TestInvitationPreview {
   const linkRe = /https?:\/\/[^\s"'<>]+\/foundation\/[A-Za-z0-9_-]+/g;
   const invitation_links = [...new Set(html.match(linkRe) ?? [])];
   const expectedPath = `/foundation/${payload.artifact.public_token}`;
+  const stagingOrigin = assetBaseFromEnv();
   const invitation_link_valid = invitation_links.some((l) => l.includes(expectedPath));
+  const invitation_uses_staging_origin = invitation_links.some((l) => l.startsWith(`${stagingOrigin}/foundation/`));
 
   if (intent.template_id === 'personal-foundation-invitation' && !invitation_link_valid) {
     blockers.push('INVITATION_LINK_MISSING_OR_MISMATCH');
+  }
+  if (
+    intent.template_id === 'personal-foundation-invitation' &&
+    invitation_link_valid &&
+    !invitation_uses_staging_origin &&
+    stagingOrigin !== 'https://site00.com'
+  ) {
+    blockers.push('INVITATION_LINK_NOT_USING_SITE00_PUBLIC_APP_ORIGIN');
   }
 
   const recipient_masked = intent.recipient_email.replace(/(.{2}).+(@.+)/, '$1•••$2');
@@ -215,6 +225,8 @@ export function prepareTestInvitation(intentId: string): TestInvitationPreview {
     reply_to_configured: Boolean(process.env.SITE00_DF_TRANSACTIONAL_REPLY_TO?.trim()),
     invitation_links,
     invitation_link_valid,
+    invitation_uses_configured_origin: invitation_uses_staging_origin,
+    configured_public_origin: stagingOrigin,
     allowlisted_recipient: isRecipientAllowedForFounderTestSend(intent.recipient_email),
     synthetic_artifact: synthetic,
     ready_to_send: blockers.length === 0,
