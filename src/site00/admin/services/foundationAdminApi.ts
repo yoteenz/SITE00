@@ -12,7 +12,7 @@ async function parseJson<T>(res: Response): Promise<T> {
   return JSON.parse(raw) as T;
 }
 
-async function foundationFetch<T>(path: string, init?: { method?: string; body?: Record<string, unknown> }): Promise<T> {
+export async function foundationFetch<T>(path: string, init?: { method?: string; body?: Record<string, unknown> }): Promise<T> {
   const res = await apiFetch(path, init);
   const data = await parseJson<T & { error?: string; code?: string }>(res);
   if (!res.ok) {

@@ -6,6 +6,11 @@ import {
   type CommunicationSendIntent,
   type CommunicationPurpose,
 } from '../../../../shared/site00-digital-foundation/communications/index.js';
+import { mappingsForFndatnTestEvent } from '../../../../shared/site00-digital-foundation/communications/fndatnTestEventMap.js';
+import {
+  isFounderTestModeEnabled,
+  isSyntheticBusinessName,
+} from '../../../../shared/site00-digital-foundation/founderTestMode.js';
 import { randomUUID } from 'node:crypto';
 import type { ArtifactEventType } from '../../../../shared/site00-digital-foundation/types.js';
 import * as mem from '../memoryStore.js';
@@ -35,7 +40,13 @@ export function enqueueCommunicationsForEvent(input: {
   payload?: Record<string, unknown>;
 }): CommunicationSendIntent[] {
   if (!input.recipientEmail) return [];
-  const mappings = mappingsForEvent(input.eventType).filter((m) => m.enabled && m.template_ids.length);
+  const artifact = mem.memGetArtifact(input.artifactId);
+  const lead = artifact ? mem.memGetLead(artifact.lead_id) : null;
+  const synthetic = isSyntheticBusinessName(artifact?.intake.business_name ?? lead?.business_name);
+  const useFndatnTest = isFounderTestModeEnabled() && synthetic;
+  const mappings = (useFndatnTest ? mappingsForFndatnTestEvent(input.eventType) : mappingsForEvent(input.eventType)).filter(
+    (m) => m.enabled && m.template_ids.length,
+  );
   if (!mappings.length) return [];
 
   const state = mem.getDfMemoryState();
@@ -69,6 +80,7 @@ export function enqueueCommunicationsForEvent(input: {
         attempts: 0,
         last_error: null,
         provider_message_id: null,
+        delivery_channel: allowed ? 'NONE' : 'NONE',
       };
       state.sendIntents.set(idempotency_key, intent);
       intents.push(intent);

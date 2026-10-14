@@ -73,6 +73,7 @@ const FoundationPipelinePage = lazy(() => import('../site00/admin/pages/foundati
 const FoundationProjectCommandPage = lazy(() => import('../site00/admin/pages/foundation/FoundationProjectCommandPage'));
 const FoundationWorkbenchPage = lazy(() => import('../site00/admin/pages/foundation/FoundationWorkbenchPage'));
 const CommunicationsCommandPage = lazy(() => import('../site00/admin/pages/foundation/CommunicationsCommandPage'));
+const FoundationReadinessPage = lazy(() => import('../site00/admin/pages/foundation/FoundationReadinessPage'));
 
 function AdminSuspense({ children }: { children: React.ReactNode }) {
   return <Suspense fallback={<LoadingScreen />}>{children}</Suspense>;
@@ -607,6 +608,14 @@ export function Site00AdminRoutes() {
         element={
           <AdminSuspense>
             <CommunicationsCommandPage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/foundation-readiness"
+        element={
+          <AdminSuspense>
+            <FoundationReadinessPage />
           </AdminSuspense>
         }
       />
