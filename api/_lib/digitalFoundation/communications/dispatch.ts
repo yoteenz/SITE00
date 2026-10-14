@@ -41,7 +41,8 @@ export function enqueueCommunicationsForEvent(input: {
 }): CommunicationSendIntent[] {
   if (!input.recipientEmail) return [];
   const artifact = mem.memGetArtifact(input.artifactId);
-  const synthetic = isSyntheticBusinessName(artifact?.intake.business_name);
+  const lead = artifact ? mem.memGetLead(artifact.lead_id) : null;
+  const synthetic = isSyntheticBusinessName(artifact?.intake.business_name ?? lead?.business_name);
   const useFndatnTest = isFounderTestModeEnabled() && synthetic;
   const mappings = (useFndatnTest ? mappingsForFndatnTestEvent(input.eventType) : mappingsForEvent(input.eventType)).filter(
     (m) => m.enabled && m.template_ids.length,

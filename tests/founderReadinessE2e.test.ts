@@ -1,10 +1,12 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { resetDigitalFoundationMemoryStore } from '../api/_lib/digitalFoundation/memoryStore.js';
+import { getDfMemoryState, resetDigitalFoundationMemoryStore } from '../api/_lib/digitalFoundation/memoryStore.js';
 import {
   buildFounderReadinessReport,
   createSyntheticTestClient,
   advanceSyntheticIntakeSubmitted,
+  prepareTestInvitation,
 } from '../api/_lib/digitalFoundation/founderReadiness.js';
+import { applyResendWebhookEvent } from '../api/_lib/digitalFoundation/communications/resendWebhookHandler.js';
 import { intakeIncompleteReminderEligibility, quoteUnpaidReminderEligibility } from '../shared/site00-digital-foundation/communications/reminderEligibility.js';
 import { fixtureFor } from '../shared/site00-correspondence-studio/fndatn01/index.js';
 import { sendViaResend, resendApiKeyConfigured } from '../api/_lib/digitalFoundation/communications/resendAdapter.js';
@@ -24,12 +26,34 @@ describe('founder test mode guards', () => {
 
   it('creates synthetic artifact and DRY_RUN/QUEUED invitation intent when test mode on', () => {
     vi.stubEnv('SITE00_DF_FOUNDER_TEST_MODE', '1');
+    vi.stubEnv('SITE00_DF_FOUNDER_TEST_RECIPIENT_ALLOWLIST', 'founder@test.com');
     const out = createSyntheticTestClient({ display_name: 'Anthony Test', contact_email: 'founder@test.com' });
     expect(out.lead.business_name).toMatch(/^SYNTH · /);
     expect(out.personalized_url).toMatch(/^\/foundation\//);
+    const inviteIntent = [...getDfMemoryState().sendIntents.values()].find(
+      (e) => e.template_id === 'personal-foundation-invitation',
+    );
+    expect(inviteIntent).toBeTruthy();
+    const invite = prepareTestInvitation(inviteIntent!.intent_id);
+    expect(invite.template_id).toBe('personal-foundation-invitation');
+    expect(invite.invitation_link_valid).toBe(true);
     const journey = advanceSyntheticIntakeSubmitted(out.artifact.artifact_id);
     expect(journey.intake_state).toBe('COMPLETE');
     expect(journey.email_events.some((e) => e.template_id === 'intake-completed')).toBe(true);
+  });
+});
+
+describe('Resend webhook status', () => {
+  it('updates intent to DELIVERED when provider id matches', () => {
+    vi.stubEnv('SITE00_DF_FOUNDER_TEST_MODE', '1');
+    vi.stubEnv('SITE00_DF_FOUNDER_TEST_RECIPIENT_ALLOWLIST', 'founder@test.com');
+    createSyntheticTestClient({ display_name: 'X', contact_email: 'founder@test.com' });
+    const firstIntent = [...getDfMemoryState().sendIntents.values()][0];
+    firstIntent.provider_message_id = 're_test_123';
+    firstIntent.status = 'ACCEPTED';
+    const r = applyResendWebhookEvent({ type: 'email.delivered', data: { email_id: 're_test_123' } });
+    expect(r.updated).toBe(true);
+    expect(r.status).toBe('DELIVERED');
   });
 });
 

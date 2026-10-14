@@ -35,9 +35,20 @@
 6. **Stripe TEST:** complete hosted checkout once in test workspace; confirm webhook endpoint on staging API
 7. **Supabase persistence:** `SITE00_DIGITAL_FOUNDATION_PERSIST_SUPABASE=1` + migrations before any real client link survives restart
 
+## Activation2 (P0.SITE00.IDNTY.FOUNDER-READINESS-ACTIVATION2)
+
+| Check | Result (2026-10-14) |
+| --- | --- |
+| Railway `/api/health` gitCommit | `286dba76249c` (**main** — PR #1642 **not** merged) |
+| `digitalFoundation.founderReadiness` on health | **Absent** until #1642 deploys |
+| Production Resend key (founder) | Confirmed set on Railway — **not exercised** this sprint |
+| First test email sent | **NO** — requires merge, env, UI approve + checkbox |
+
+**New in Activation2 branch:** `prepare-test-invitation` API, founder-approval gate on `dispatch-test-email`, Resend webhook route `/api/site00/digital-foundation-resend-webhook`, `/api/health` env-presence block under `digitalFoundation.founderReadiness`, dispatch fix (synthetic detection uses lead `SYNTH ·` name).
+
 ## C. BLOCKED
 
-- **Provider-confirmed DELIVERED** — no webhook ingestion for Resend delivery events in this sprint.
+- **Provider-confirmed DELIVERED** — webhook handler added; founder must register URL + `RESEND_WEBHOOK_SECRET` on Railway.
 - **Reminder cron** — eligibility tested; no production scheduler job added.
 - **Full 9-stage browser E2E** — requires founder credentials + Railway deploy of this branch.
 - **Anthony** — do not invite until gates above are green.

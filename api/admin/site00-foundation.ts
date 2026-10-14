@@ -119,6 +119,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           const { getSyntheticTestJourney } = await import('../_lib/digitalFoundation/founderReadiness.js');
           return res.status(200).json(getSyntheticTestJourney(id));
         }
+        case 'prepare-test-invitation': {
+          const intentId = String(req.query.intent_id ?? '');
+          const { prepareTestInvitation } = await import('../_lib/digitalFoundation/founderReadiness.js');
+          return res.status(200).json(prepareTestInvitation(intentId));
+        }
         default:
           return res.status(400).json({ error: 'Unknown action' });
       }
@@ -232,7 +237,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         case 'dispatch-test-email': {
           const { dispatchQueuedEmail } = await import('../_lib/digitalFoundation/founderReadiness.js');
-          return res.status(200).json(await dispatchQueuedEmail(String(body.intent_id)));
+          return res.status(200).json(
+            await dispatchQueuedEmail(String(body.intent_id), {
+              founderApprovedSend: body.founder_approved_send === true || body.founder_approved_send === 'true',
+            }),
+          );
+        }
+        case 'prepare-test-invitation': {
+          const { prepareTestInvitation } = await import('../_lib/digitalFoundation/founderReadiness.js');
+          return res.status(200).json(prepareTestInvitation(String(body.intent_id)));
         }
         case 'reset-test-data': {
           const { resetSyntheticTestData } = await import('../_lib/digitalFoundation/founderReadiness.js');

@@ -9,7 +9,31 @@ export type FounderReadinessReport = {
     transactional_send_flag: boolean;
     resend_configured: boolean;
     allowlist_configured: boolean;
+    supabase_persistence: boolean;
+    stripe_secret_present: boolean;
+    stripe_webhook_secret_present: boolean;
+    resend_webhook_secret_present: boolean;
+    transactional_from_present: boolean;
+    transactional_reply_to_present: boolean;
   };
+  deployment: {
+    commit_short: string | null;
+    pr1642_reference: string;
+    package_marker: string;
+  };
+  env_vars: { name: string; present: boolean }[];
+};
+
+export type TestInvitationPreview = {
+  intent_id: string;
+  template_id: string;
+  subject: string;
+  recipient_masked: string;
+  from_identity: string;
+  invitation_link_valid: boolean;
+  invitation_links: string[];
+  ready_to_send: boolean;
+  blockers: string[];
 };
 
 export type EmailEventRow = {
@@ -55,11 +79,18 @@ export const foundationReadinessApi = {
       method: 'POST',
       body: { action: 'advance-test-quote', artifact_id },
     }),
-  dispatchTestEmail: (intent_id: string) =>
-    foundationFetch<{ intent: EmailEventRow; blocked?: string }>('/api/admin/site00-foundation', {
-      method: 'POST',
-      body: { action: 'dispatch-test-email', intent_id },
-    }),
+  prepareTestInvitation: (intent_id: string) =>
+    foundationFetch<TestInvitationPreview>(
+      `/api/admin/site00-foundation?action=prepare-test-invitation&intent_id=${encodeURIComponent(intent_id)}`,
+    ),
+  dispatchTestEmail: (intent_id: string, founder_approved_send = false) =>
+    foundationFetch<{ preview: TestInvitationPreview; intent: EmailEventRow | null; blocked?: string }>(
+      '/api/admin/site00-foundation',
+      {
+        method: 'POST',
+        body: { action: 'dispatch-test-email', intent_id, founder_approved_send },
+      },
+    ),
   resetTestData: () =>
     foundationFetch<{ ok: true }>('/api/admin/site00-foundation', {
       method: 'POST',

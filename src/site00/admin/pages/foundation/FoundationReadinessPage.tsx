@@ -2,7 +2,12 @@ import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { SITE00_ROUTES } from '../../../config/routes';
 import { SITE00_ADMIN_ROUTES } from '../../config/routes';
-import { foundationReadinessApi, type FounderReadinessReport, type TestJourney } from '../../services/foundationReadinessApi';
+import {
+  foundationReadinessApi,
+  type FounderReadinessReport,
+  type TestInvitationPreview,
+  type TestJourney,
+} from '../../services/foundationReadinessApi';
 
 /** Founder-only Digital Foundation E2E test desk (synthetic clients, email timeline, real /foundation/:token). */
 export default function FoundationReadinessPage() {
@@ -12,6 +17,8 @@ export default function FoundationReadinessPage() {
   const [journey, setJourney] = useState<TestJourney | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [invitePreview, setInvitePreview] = useState<TestInvitationPreview | null>(null);
+  const [sendApproved, setSendApproved] = useState(false);
 
   const refresh = useCallback(async () => {
     setError(null);
@@ -86,6 +93,18 @@ export default function FoundationReadinessPage() {
                 <li key={line}>{line}</li>
               ))}
             </ul>
+            <h3>Env vars (presence only)</h3>
+            <ul>
+              {report.env_vars.map((row) => (
+                <li key={row.name}>
+                  {row.name}: {row.present ? 'present' : 'missing'}
+                </li>
+              ))}
+            </ul>
+            <p>
+              API build {report.deployment.commit_short ?? 'unknown'} · {report.deployment.package_marker} ·{' '}
+              {report.deployment.pr1642_reference}
+            </p>
           </>
         ) : (
           <p>Loading…</p>
@@ -167,18 +186,64 @@ export default function FoundationReadinessPage() {
                   <td>{ev.event_type}</td>
                   <td>{ev.provider_message_id ?? '—'}</td>
                   <td>
-                    {ev.status === 'QUEUED' || ev.status === 'DRY_RUN' ? (
+                    {ev.template_id === 'personal-foundation-invitation' &&
+                    (ev.status === 'QUEUED' || ev.status === 'DRY_RUN' || ev.status === 'SIMULATED') ? (
+                      <>
+                        <button
+                          type="button"
+                          disabled={busy}
+                          onClick={() =>
+                            void (async () => {
+                              setBusy(true);
+                              setError(null);
+                              try {
+                                setInvitePreview(await foundationReadinessApi.prepareTestInvitation(ev.intent_id));
+                                setSendApproved(false);
+                              } catch (e) {
+                                setError(e instanceof Error ? e.message : 'Prepare failed');
+                              } finally {
+                                setBusy(false);
+                              }
+                            })()
+                          }
+                        >
+                          Prepare test invitation
+                        </button>{' '}
+                        <label>
+                          <input
+                            type="checkbox"
+                            checked={sendApproved}
+                            onChange={(e) => setSendApproved(e.target.checked)}
+                          />{' '}
+                          Founder approves Resend send
+                        </label>{' '}
+                        <button
+                          type="button"
+                          disabled={busy || !sendApproved}
+                          onClick={() =>
+                            void run(async () => {
+                              await foundationReadinessApi.dispatchTestEmail(ev.intent_id, true);
+                              setInvitePreview(null);
+                              setSendApproved(false);
+                              return foundationReadinessApi.testJourney(journey.artifact_id);
+                            })
+                          }
+                        >
+                          Send test invitation
+                        </button>
+                      </>
+                    ) : ev.status === 'QUEUED' || ev.status === 'DRY_RUN' ? (
                       <button
                         type="button"
                         disabled={busy}
                         onClick={() =>
                           void run(async () => {
-                            await foundationReadinessApi.dispatchTestEmail(ev.intent_id);
+                            await foundationReadinessApi.dispatchTestEmail(ev.intent_id, true);
                             return foundationReadinessApi.testJourney(journey.artifact_id);
                           })
                         }
                       >
-                        Dispatch
+                        Send lifecycle email (approved)
                       </button>
                     ) : null}
                   </td>
@@ -186,6 +251,25 @@ export default function FoundationReadinessPage() {
               ))}
             </tbody>
           </table>
+          {invitePreview ? (
+            <div>
+              <h3>Invitation preview (no send)</h3>
+              <p>
+                Subject: {invitePreview.subject} · To: {invitePreview.recipient_masked} · From: {invitePreview.from_identity}
+              </p>
+              <p>
+                Link valid: {invitePreview.invitation_link_valid ? 'yes' : 'no'} · Ready:{' '}
+                {invitePreview.ready_to_send ? 'yes' : 'no'}
+              </p>
+              {invitePreview.blockers.length ? (
+                <ul>
+                  {invitePreview.blockers.map((b) => (
+                    <li key={b}>{b}</li>
+                  ))}
+                </ul>
+              ) : null}
+            </div>
+          ) : null}
         </section>
       ) : null}
     </div>
