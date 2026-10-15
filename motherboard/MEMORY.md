@@ -16604,3 +16604,12 @@ Summary of the whole conversation in this chat.
 - **Delivered:** `docs/site00/idnty/FOUNDER_STAGING_DEPLOYMENT_MANIFEST.md`, `scripts/staging/*`, FNDATN dispatch `siteOrigin` = `SITE00_PUBLIC_APP_ORIGIN` for staging invitation URLs.
 - **Tests:** 61+ targeted vitest pass on branch; local `founder-invitation-preview.mjs` dry-run with staging origin.
 - **Blocked:** Founder must create Railway **duplicate** service on PR branch + staging Supabase project + staging SPA host before live staging URLs.
+
+---
+
+## 2026-10-15 — P0 Railway staging SPA build recovery (carefree-luck)
+
+- **Sprint:** P0.SITE00.IDNTY.RAILWAY-STAGING-SPA-BUILD-RECOVERY1 — fix `carefree-luck` staging frontend build on branch `cursor/idnty-founder-readiness-e2e-be3b`.
+- **Root cause:** `scripts/staging/build-founder-staging-spa.sh` ran `zip` after successful `npm run build`; Railway build image has no `zip(1)` → exit **127**, failed deploy despite good `dist/`.
+- **Fix:** Require `dist/index.html`; skip ZIP by default; optional `STAGING_SPA_PACKAGE_ZIP=1` when `zip` installed (local artifact). Docs/README updated. Commit `5d06fe32`.
+- **Verify (local):** build exit 0 without zip; bundle inlines staging API + staging Supabase; no service_role; `npx serve -s` returns 200 for `/` and deep `/admin/site00/foundation-readiness`. Staging URL health **UNVERIFIED** from agent (404 before push).
