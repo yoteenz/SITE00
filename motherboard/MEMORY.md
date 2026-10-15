@@ -16613,3 +16613,12 @@ Summary of the whole conversation in this chat.
 - **Root cause:** `scripts/staging/build-founder-staging-spa.sh` ran `zip` after successful `npm run build`; Railway build image has no `zip(1)` → exit **127**, failed deploy despite good `dist/`.
 - **Fix:** Require `dist/index.html`; skip ZIP by default; optional `STAGING_SPA_PACKAGE_ZIP=1` when `zip` installed (local artifact). Docs/README updated. Commit `5d06fe32`.
 - **Verify (local):** build exit 0 without zip; bundle inlines staging API + staging Supabase; no service_role; `npx serve -s` returns 200 for `/` and deep `/admin/site00/foundation-readiness`. Staging URL health **UNVERIFIED** from agent (404 before push).
+
+---
+
+## 2026-10-15 — Staging auth redirect (cherry-pick onto founder staging branch)
+
+- **Sprint:** P0.SITE00.IDNTY.STAGING-AUTH-REDIRECT-AND-FOUNDER-LOGIN-RECOVERY1 / DEPLOYMENT-RECOVERY2. Staging only. No merge to `main`. PR #1647 remains a receipt; deploy path is **`cursor/idnty-founder-readiness-e2e-be3b`** (Railway `carefree-luck` SPA + `reliable-creation-staging` API).
+- **Root cause:** signup omitted `emailRedirectTo`; GoTrue falls back to Site URL (`localhost:3000` on new projects). Founder corrected Supabase staging dashboard Site URL + allowlist for `https://carefree-luck-staging.up.railway.app`.
+- **Code:** cherry-pick `70d83ecb` onto founder staging branch — `site00AuthRedirect.ts`, sign-in/create-account actions, recovery hash handling. **Not live until Railway redeploys** the staging branch SHA.
+- **Login:** E2E password login **not verified** without founder credentials; bundle grep is the deploy gate.
