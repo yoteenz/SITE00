@@ -30,6 +30,10 @@
 | **RISK** | **LOW** — aligns with existing DF pattern; no destructive DDL |
 | **APPROVAL REQUIRED** | **YES** before remote apply |
 
+### Applied (founder-approved 2026-10-15)
+
+Migration `20261015120000_site00_df_project_messages_rls` applied to **site00-staging** (`soocqbyjkxeubfjnuwvf`) only. Verified: RLS ON, 0 policies (matches artifacts), anon/authenticated without SELECT/INSERT/UPDATE/DELETE, row count unchanged (0).
+
 Optional follow-up (separate approval): record `20261010103000` in migration history via Supabase CLI repair to remove drift — not required for RLS fix.
 
 ## Railway staging API (`reliable-creation`)
