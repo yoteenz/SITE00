@@ -16622,3 +16622,15 @@ Summary of the whole conversation in this chat.
 - **Root cause:** signup omitted `emailRedirectTo`; GoTrue falls back to Site URL (`localhost:3000` on new projects). Founder corrected Supabase staging dashboard Site URL + allowlist for `https://carefree-luck-staging.up.railway.app`.
 - **Code:** cherry-pick `70d83ecb` onto founder staging branch — `site00AuthRedirect.ts`, sign-in/create-account actions, recovery hash handling. **Not live until Railway redeploys** the staging branch SHA.
 - **Login:** E2E password login **not verified** without founder credentials; bundle grep is the deploy gate.
+
+---
+
+## 2026-10-15 — P0 Staging foundation config & persistence readiness1 (IDNTY)
+
+- **Sprint:** P0.SITE00.IDNTY.STAGING-FOUNDATION-CONFIG-AND-PERSISTENCE-READINESS1 — staging-only forensic audit; **no merge**, **no Railway redeploy**, **no E2E send/payment**, **no Anthony**.
+- **Branch:** `cursor/staging-foundation-config-readiness-be3b` from `cursor/idnty-founder-readiness-e2e-be3b`.
+- **Live staging:** API `a3ac68d526cc`, Supabase host `soocqbyjkxeubfjnuwvf`, `persistSupabaseEnv` false, transactional send false. SPA HTTP 200, bundle `index.CqHB0fcH.js`.
+- **Code:** `stagingEnvConfig.ts`, readiness report groups env aliases + `unverified` + `staging_identities`; health diagnostics add persistence store, public origin, Stripe key mode (prefix only); readiness workspace styled summary table; audit doc `docs/site00/idnty/STAGING_FOUNDATION_READINESS_AUDIT.md`; prepared migration `20261015120000_site00_df_project_messages_rls.sql` (not applied remotely).
+- **Schema:** Staging DB has core DF tables; remote migrations missing repo `20261010103000` history entry; `site00_df_project_messages` RLS off.
+- **Founder actions (ordered):** approve apply RLS migration on staging Supabase; set `SITE00_PUBLIC_APP_ORIGIN` + `SITE00_DIGITAL_FOUNDATION_PERSIST_SUPABASE=1` on Railway API after approval; redeploy API; sign in on staging; authorize synthetic E2E.
+- **Tests:** vitest stagingEnvConfig + founderReadinessE2e + runtime diagnostics (17 pass on changed files).

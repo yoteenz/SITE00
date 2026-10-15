@@ -99,5 +99,14 @@ describe('readiness report', () => {
   it('lists blocked founder test mode when env off', () => {
     const r = buildFounderReadinessReport();
     expect(r.blocked.some((b) => b.includes('FOUNDER_TEST_MODE'))).toBe(true);
+    expect(Array.isArray(r.unverified)).toBe(true);
+    expect(r.env_var_groups.some((g) => g.id === 'stripe_secret')).toBe(true);
+    expect(r.staging_identities.e2e_passed).toBe(false);
+  });
+
+  it('does not require both Stripe env alias names when one is set', () => {
+    vi.stubEnv('STRIPE_SECRET_KEY', 'sk_test_abc');
+    const stripeGroup = buildFounderReadinessReport().env_var_groups.find((g) => g.id === 'stripe_secret');
+    expect(stripeGroup?.satisfied).toBe(true);
   });
 });

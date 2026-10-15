@@ -9,5 +9,8 @@ describe('Digital Foundation runtime diagnostics', () => {
     expect(d.migrationFilesExpected.length).toBeGreaterThanOrEqual(2);
     expect(d.founderReadiness).toBeDefined();
     expect(typeof d.founderReadiness.workspaceApiPresent).toBe('boolean');
+    expect(d.persistenceStore).toMatch(/^(memory|supabase)$/);
+    expect(typeof d.publicAppOriginEffective).toBe('string');
+    expect(typeof d.founderReadiness.stripeKeyMode).toBe('string');
   });
 });

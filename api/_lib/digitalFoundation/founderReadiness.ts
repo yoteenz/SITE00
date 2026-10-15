@@ -22,6 +22,18 @@ import { getDeploymentIdentity } from '../site00ExpressionEngine/deploymentIdent
 import { renderFndatnForDispatch, supportsFndatnTemplate } from './communications/fndatnTemplateBridge.js';
 import { isRecipientAllowedForFounderTestSend } from '../../../shared/site00-digital-foundation/founderTestMode.js';
 import { resendWebhookSecretConfigured } from './communications/resendWebhookHandler.js';
+import {
+  buildEnvVarGroups,
+  detectStripeKeyMode,
+  effectivePublicAppOrigin,
+  extractSupabaseProjectRefFromUrl,
+  isSupabaseIsolationVerifiedForStaging,
+  resolveConfiguredPublicAppOrigin,
+  SITE00_STAGING_API_ORIGIN,
+  SITE00_STAGING_FRONTEND_ORIGIN,
+  SITE00_STAGING_SUPABASE_PROJECT_REF,
+  type EnvVarGroup,
+} from './stagingEnvConfig.js';
 
 export type EnvVarPresence = { name: string; present: boolean };
 
@@ -29,6 +41,20 @@ export type FounderReadinessReport = {
   ready: string[];
   needs_founder: string[];
   blocked: string[];
+  unverified: string[];
+  env_var_groups: EnvVarGroup[];
+  staging_identities: {
+    expected_frontend_origin: string;
+    expected_api_origin: string;
+    configured_public_origin: string | null;
+    effective_public_origin: string;
+    supabase_project_ref: string | null;
+    supabase_staging_isolation_verified: boolean;
+    persistence_store: 'supabase' | 'memory';
+    email_sending_enabled: boolean;
+    stripe_key_mode: ReturnType<typeof detectStripeKeyMode>;
+    e2e_passed: false;
+  };
   env: {
     founder_test_mode: boolean;
     transactional_send_flag: boolean;
@@ -70,9 +96,7 @@ export function buildEnvVarPresenceSnapshot(): EnvVarPresence[] {
 }
 
 function assetBaseFromEnv(): string {
-  const raw = process.env.SITE00_PUBLIC_APP_ORIGIN?.trim() || process.env.VITE_SITE00_PUBLIC_ORIGIN?.trim();
-  if (raw && /^https:\/\//i.test(raw)) return raw.replace(/\/$/, '');
-  return 'https://site00.com';
+  return effectivePublicAppOrigin();
 }
 
 function fromAddress(): string {
@@ -83,53 +107,104 @@ export function buildFounderReadinessReport(): FounderReadinessReport {
   const ready: string[] = [];
   const needs: string[] = [];
   const blocked: string[] = [];
+  const unverified: string[] = [];
+  const groups = buildEnvVarGroups();
 
-  if (isFounderTestModeEnabled()) ready.push('SITE00_DF_FOUNDER_TEST_MODE=1');
-  else blocked.push('Set SITE00_DF_FOUNDER_TEST_MODE=1 on Railway API for synthetic E2E');
-
-  if (isDfCommunicationFlagEnabled(DF_COMM_FEATURE_FLAGS.SITE00_DF_TRANSACTIONAL_EMAIL_SEND)) {
-    ready.push('Transactional send flag ON (still allowlist-gated)');
-  } else {
-    needs.push('Set SITE00_DF_TRANSACTIONAL_EMAIL_SEND=1 when ready to queue real provider sends');
-  }
-
-  if (resendApiKeyConfigured()) ready.push('RESEND_API_KEY present');
-  else needs.push('Add RESEND_API_KEY on Railway (server-only) for ACCEPTED sends');
+  if (isFounderTestModeEnabled()) ready.push('Founder test mode enabled (synthetic clients only)');
+  else blocked.push('Set SITE00_DF_FOUNDER_TEST_MODE=1 on Railway API staging service');
 
   const allowlist = process.env.SITE00_DF_FOUNDER_TEST_RECIPIENT_ALLOWLIST?.trim();
-  if (allowlist) ready.push('Founder test recipient allowlist configured');
-  else needs.push('Set SITE00_DF_FOUNDER_TEST_RECIPIENT_ALLOWLIST to founder inbox(es) only');
+  if (allowlist) ready.push('Founder test recipient allowlist configured (server-enforced)');
+  else blocked.push('Set SITE00_DF_FOUNDER_TEST_RECIPIENT_ALLOWLIST to founder inbox(es) only');
 
-  if (isSupabaseDfPersistenceEnabled()) ready.push('SITE00_DIGITAL_FOUNDATION_PERSIST_SUPABASE=1');
-  else needs.push('Enable SITE00_DIGITAL_FOUNDATION_PERSIST_SUPABASE=1 for durable intake across API restarts');
+  if (isDfCommunicationFlagEnabled(DF_COMM_FEATURE_FLAGS.SITE00_DF_TRANSACTIONAL_EMAIL_SEND)) {
+    unverified.push('Transactional email send flag is ON — delivery not verified in automated audit');
+  } else {
+    ready.push('Transactional email sending disabled (SITE00_DF_TRANSACTIONAL_EMAIL_SEND off)');
+  }
 
-  if (process.env.SITE00_DF_TRANSACTIONAL_FROM?.trim()) ready.push('SITE00_DF_TRANSACTIONAL_FROM present');
-  else needs.push('Set SITE00_DF_TRANSACTIONAL_FROM (verified Resend sender identity)');
+  if (resendApiKeyConfigured()) unverified.push('Resend API key present — outbound delivery not tested this sprint');
+  else needs.push('Add RESEND_API_KEY on Railway API when ready for allowlisted sends');
 
-  if (process.env.SITE00_DF_TRANSACTIONAL_REPLY_TO?.trim()) ready.push('SITE00_DF_TRANSACTIONAL_REPLY_TO present');
-  else needs.push('Set SITE00_DF_TRANSACTIONAL_REPLY_TO (typically hello@site00.com)');
+  if (isSupabaseIsolationVerifiedForStaging()) {
+    ready.push(`API Supabase project is staging (${SITE00_STAGING_SUPABASE_PROJECT_REF})`);
+  } else {
+    blocked.push(
+      'Railway API SUPABASE_URL must point only to staging project soocqbyjkxeubfjnuwvf — never production hyycomvcaqxxvyrfupes',
+    );
+  }
 
-  if (resendWebhookSecretConfigured()) ready.push('Resend webhook secret present (DELIVERED/BOUNCED tracking)');
-  else needs.push('Add RESEND_WEBHOOK_SECRET after registering POST /api/site00/digital-foundation-resend-webhook in Resend');
+  if (isSupabaseDfPersistenceEnabled()) {
+    unverified.push('Persistence flag ON — confirm schema + RLS on staging before relying on save/resume E2E');
+  } else {
+    needs.push(
+      'After schema review: set SITE00_DIGITAL_FOUNDATION_PERSIST_SUPABASE=1 on Railway API (in-memory store loses data on restart until then)',
+    );
+  }
+
+  const configuredOrigin = resolveConfiguredPublicAppOrigin();
+  const effectiveOrigin = effectivePublicAppOrigin();
+  if (!configuredOrigin) {
+    needs.push(
+      `Set SITE00_PUBLIC_APP_ORIGIN=${SITE00_STAGING_FRONTEND_ORIGIN} on Railway API so invitation and checkout links stay on staging`,
+    );
+  } else if (effectiveOrigin !== SITE00_STAGING_FRONTEND_ORIGIN.replace(/\/$/, '')) {
+    needs.push(
+      `SITE00_PUBLIC_APP_ORIGIN is ${effectiveOrigin} — expected ${SITE00_STAGING_FRONTEND_ORIGIN} for this staging stack`,
+    );
+  } else {
+    unverified.push('Public app origin matches staging frontend — link rendering not E2E-tested');
+  }
+
+  const stripeMode = detectStripeKeyMode();
+  if (stripeMode === 'live') {
+    blocked.push('Stripe secret appears to be LIVE mode — replace with TEST keys on staging before checkout E2E');
+  } else if (stripeMode === 'test') {
+    unverified.push('Stripe TEST key prefix detected — checkout + webhook flow not verified this sprint');
+  } else if (stripeMode === 'missing') {
+    needs.push('Add Stripe TEST secret (STRIPE_SECRET_KEY or SITE00_STRIPE_SECRET_KEY) for payment stage');
+  } else {
+    unverified.push('Stripe secret present but key mode unrecognized — confirm TEST keys manually');
+  }
+
+  if (resendWebhookSecretConfigured()) unverified.push('Resend webhook secret present — webhook URL not verified');
+  else needs.push('Configure Resend webhook → staging API POST /api/site00/digital-foundation-resend-webhook');
+
+  if (process.env.SITE00_DF_TRANSACTIONAL_FROM?.trim()) ready.push('Transactional From identity configured');
+  else needs.push('Set SITE00_DF_TRANSACTIONAL_FROM (verified Resend sender)');
+
+  if (process.env.SITE00_DF_TRANSACTIONAL_REPLY_TO?.trim()) ready.push('Transactional Reply-To configured');
+  else needs.push('Set SITE00_DF_TRANSACTIONAL_REPLY_TO');
+
+  needs.push('Verify GoDaddy DKIM + Resend domain (founder DNS — not automated)');
+  unverified.push('Founder sign-in, password recovery, and full synthetic E2E not run in this sprint');
+  unverified.push('Code deployed on Railway — external E2E test has not passed');
+
+  const deployCommit = getDeploymentIdentity().deploymentCommit;
+  ready.push(`API deployment commit ${deployCommit ?? 'unknown'} (verify via ${SITE00_STAGING_API_ORIGIN}/api/health)`);
 
   const stripeSecret = Boolean(
     process.env.STRIPE_SECRET_KEY?.trim() || process.env.SITE00_STRIPE_SECRET_KEY?.trim(),
-  );
-  if (stripeSecret) ready.push('Stripe secret key present (use TEST keys only for founder E2E)');
-  else needs.push('Add Stripe TEST secret key on Railway for hosted checkout stage');
-
-  needs.push('Verify GoDaddy DKIM + Resend domain (founder DNS approval card — no auto DNS)');
-  needs.push('Complete Stripe TEST checkout in founder test workspace when exercising payment stage');
-
-  const deployCommit = getDeploymentIdentity().deploymentCommit;
-  needs.push(
-    `Confirm Railway API serves PR #1642 (check /api/health → digitalFoundation.founderReadiness after merge; current build ${deployCommit ?? 'unknown'})`,
   );
 
   return {
     ready,
     needs_founder: needs,
     blocked,
+    unverified,
+    env_var_groups: groups,
+    staging_identities: {
+      expected_frontend_origin: SITE00_STAGING_FRONTEND_ORIGIN,
+      expected_api_origin: SITE00_STAGING_API_ORIGIN,
+      configured_public_origin: configuredOrigin,
+      effective_public_origin: effectiveOrigin,
+      supabase_project_ref: extractSupabaseProjectRefFromUrl(process.env.SUPABASE_URL),
+      supabase_staging_isolation_verified: isSupabaseIsolationVerifiedForStaging(),
+      persistence_store: isSupabaseDfPersistenceEnabled() ? 'supabase' : 'memory',
+      email_sending_enabled: isDfCommunicationFlagEnabled(DF_COMM_FEATURE_FLAGS.SITE00_DF_TRANSACTIONAL_EMAIL_SEND),
+      stripe_key_mode: stripeMode,
+      e2e_passed: false,
+    },
     env: {
       founder_test_mode: isFounderTestModeEnabled(),
       transactional_send_flag: isDfCommunicationFlagEnabled(DF_COMM_FEATURE_FLAGS.SITE00_DF_TRANSACTIONAL_EMAIL_SEND),
@@ -163,6 +238,8 @@ export type TestInvitationPreview = {
   reply_to_configured: boolean;
   invitation_links: string[];
   invitation_link_valid: boolean;
+  invitation_uses_configured_origin: boolean;
+  configured_public_origin: string;
   allowlisted_recipient: boolean;
   synthetic_artifact: boolean;
   ready_to_send: boolean;

@@ -1,9 +1,37 @@
 import { foundationFetch } from './foundationAdminApi';
 
+export type IntegrationStatusLabel = 'READY' | 'ACTION_REQUIRED' | 'BLOCKED' | 'UNVERIFIED';
+
+export type EnvVarGroup = {
+  id: string;
+  primary: string;
+  aliases: string[];
+  purpose: string;
+  required: boolean;
+  satisfied: boolean;
+  present_names: string[];
+  status: IntegrationStatusLabel;
+  note?: string;
+};
+
 export type FounderReadinessReport = {
   ready: string[];
   needs_founder: string[];
   blocked: string[];
+  unverified: string[];
+  env_var_groups: EnvVarGroup[];
+  staging_identities: {
+    expected_frontend_origin: string;
+    expected_api_origin: string;
+    configured_public_origin: string | null;
+    effective_public_origin: string;
+    supabase_project_ref: string | null;
+    supabase_staging_isolation_verified: boolean;
+    persistence_store: 'supabase' | 'memory';
+    email_sending_enabled: boolean;
+    stripe_key_mode: 'test' | 'live' | 'missing' | 'unrecognized';
+    e2e_passed: false;
+  };
   env: {
     founder_test_mode: boolean;
     transactional_send_flag: boolean;
@@ -31,6 +59,8 @@ export type TestInvitationPreview = {
   recipient_masked: string;
   from_identity: string;
   invitation_link_valid: boolean;
+  invitation_uses_configured_origin: boolean;
+  configured_public_origin: string;
   invitation_links: string[];
   ready_to_send: boolean;
   blockers: string[];
