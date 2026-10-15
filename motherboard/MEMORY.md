@@ -16645,3 +16645,12 @@ Summary of the whole conversation in this chat.
 - **RLS migration:** strengthened `20261015120000_site00_df_project_messages_rls.sql` (enable RLS + revoke row privs from anon/authenticated; no permissive policies). Migration SQL tests + PostgREST probe (`stagingDatabaseSecurityProbe.ts`) wired into async readiness report.
 - **Docs:** `STAGING_E2E_ACTIVATION_APPROVAL.md` — approval gate + post-approval deploy order.
 - **Tests:** 22 pass (RLS migration, probe mocks, founder readiness, staging env, runtime diagnostics).
+
+---
+
+## 2026-10-15 — P0 Founder synthetic intake unblock1 (IDNTY)
+
+- **“Not authorized” UI:** Full **email/payment E2E** gate (hardcoded), not login failure. Brief sign-in flash → readiness = Supabase **session restore** + valid admin session on `/admin/*` (Railway staging is **not** preview auth bypass).
+- **Readiness copy:** Removed stale RLS/deploy #1648 instructions via `stagingReadinessRuntime.ts`; API report now sets `founder_login_verified`, `synthetic_intake_ready`, `remote_migration_applied` from live probes + authenticated readiness call.
+- **Mobile styling:** `FoundationReadinessPage` wrapped in `Site00AdminShell` + readiness-specific admin CSS.
+- **Branch:** `cursor/founder-synthetic-intake-unblock-be3b` · draft PR **#1650** · **not deployed** to Railway.
