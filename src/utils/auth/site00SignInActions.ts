@@ -23,6 +23,7 @@ import { registerServerSessionCookie } from '../sessionRestore';
 import { trackActivity } from '../activity';
 import { flushQueuedProfilePatch } from '../profileSyncQueue';
 import { isSupabaseTransportFailure, SUPABASE_UNAVAILABLE_MESSAGE } from '../supabaseFetch';
+import { site00AuthCallbackUrl, site00BrowserAuthOrigin } from './site00AuthRedirect';
 
 export type Site00SignInResult =
   | { ok: true }
@@ -190,7 +191,10 @@ export async function site00SignInWithMagicLink(email: string, redirectTo: strin
   }
 }
 
-export async function site00RequestPasswordReset(email: string): Promise<Site00SignInResult> {
+export async function site00RequestPasswordReset(
+  email: string,
+  returnPath?: string | null,
+): Promise<Site00SignInResult> {
   const emailTrim = email.trim();
   if (!emailTrim) return { ok: false, message: 'EMAIL IS REQUIRED.' };
 
@@ -201,11 +205,34 @@ export async function site00RequestPasswordReset(email: string): Promise<Site00S
   const supabase = getSupabase();
   if (!supabase) return { ok: false, message: 'PASSWORD RESET FAILED. TRY AGAIN.' };
 
+  let redirectTo: string;
   try {
-    const origin = typeof window !== 'undefined' ? window.location.origin : '';
-    const { error } = await supabase.auth.resetPasswordForEmail(emailTrim, {
-      redirectTo: `${origin}/account/settings`,
-    });
+    redirectTo = site00AuthCallbackUrl(
+      site00BrowserAuthOrigin(typeof window !== 'undefined' ? window.location : null),
+      returnPath,
+    );
+  } catch {
+    return { ok: false, message: 'PASSWORD RESET REQUIRES THE STAGING OR PRODUCTION SITE ADDRESS.' };
+  }
+
+  try {
+    const { error } = await supabase.auth.resetPasswordForEmail(emailTrim, { redirectTo });
+    if (error) return { ok: false, message: normalizeAuthError(error.message) };
+    return { ok: true };
+  } catch {
+    return { ok: false, message: 'PASSWORD RESET FAILED. TRY AGAIN.' };
+  }
+}
+
+export async function site00CompletePasswordRecovery(password: string): Promise<Site00SignInResult> {
+  const next = password.trim();
+  if (next.length < 8) return { ok: false, message: 'USE AT LEAST 8 CHARACTERS.' };
+
+  const supabase = getSupabase();
+  if (!supabase) return { ok: false, message: 'PASSWORD RESET FAILED. TRY AGAIN.' };
+
+  try {
+    const { error } = await supabase.auth.updateUser({ password: next });
     if (error) return { ok: false, message: normalizeAuthError(error.message) };
     return { ok: true };
   } catch {

@@ -16594,3 +16594,13 @@ Summary of the whole conversation in this chat.
 - **Activation2 additions:** `prepare-test-invitation`, `founder_approved_send` gate on dispatch, Resend webhook route + handler, health env-presence flags, readiness UI prepare/send checkbox.
 - **Tests:** `tests/founderReadinessE2e.test.ts` 9 pass; `npm run build` green on branch.
 - **Founder next:** Approve merge #1642 + Railway redeploy; set `SITE00_DF_FOUNDER_TEST_MODE=1`, allowlist, transactional from/reply-to, optional `SITE00_DF_TRANSACTIONAL_EMAIL_SEND=1`, webhook secret; then use readiness workspace to prepare → approve → send one test to self.
+
+---
+
+## 2026-10-15 — Staging auth redirect and founder login
+
+- **Sprint:** P0.SITE00.IDNTY.STAGING-AUTH-REDIRECT-AND-FOUNDER-LOGIN-RECOVERY1. Staging only. No production writes. No merge.
+- **Root cause:** `site00SignUpWithPassword` omitted `emailRedirectTo`. GoTrue then uses the project Site URL. New Supabase projects default that to `http://localhost:3000`. The staging bundle contains zero `localhost:3000` strings. Live client is `soocqbyjkxeubfjnuwvf`, not production `hyycomvcaqxxvyrfupes`.
+- **Staging Auth:** one user, email confirmed, matches the default founder admin address, last sign-in is the confirmation click (2026-10-15 00:51 UTC). No recovery email has been sent. Production passwords are not this project's passwords.
+- **Code:** signup and password reset now send `https://<browser-origin>/origin/sign-in?returnTo=...` and refuse to invent `localhost:3000`. Recovery hash shows a new-password form and does not bounce away before the password is saved. Draft branch `cursor/staging-auth-redirect-be3b`. Not deployed.
+- **Dashboard (manual):** Site URL and redirect allowlist must be the carefree-luck origin. Until that is saved, new confirmation links still fall back to localhost.
