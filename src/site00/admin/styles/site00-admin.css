@@ -1385,3 +1385,23 @@
   background: rgba(255, 255, 255, 0.88);
 }
 
+.site00-readiness-overall {
+  font-family: var(--site00-font-label);
+  font-size: var(--site00-size-label);
+  letter-spacing: 0.06em;
+  margin: 0 0 16px;
+}
+
+.site00-readiness-details {
+  margin: 16px 0;
+  padding: 12px;
+  border: 1px solid var(--site-line);
+  background: rgba(255, 255, 255, 0.88);
+}
+
+.site00-readiness-details summary {
+  cursor: pointer;
+  font-family: var(--site00-font-label);
+  letter-spacing: 0.06em;
+}
+

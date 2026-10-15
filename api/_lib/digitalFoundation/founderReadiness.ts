@@ -34,15 +34,33 @@ import {
   SITE00_STAGING_SUPABASE_PROJECT_REF,
   type EnvVarGroup,
 } from './stagingEnvConfig.js';
+import {
+  probeDfDatabaseSecurity,
+  type DfDatabaseSecuritySnapshot,
+} from './stagingDatabaseSecurityProbe.js';
 
 export type EnvVarPresence = { name: string; present: boolean };
 
+export type FounderOverallReadinessStatus =
+  | 'BLOCKED'
+  | 'ACTION_REQUIRED'
+  | 'AWAITING_FOUNDER_APPROVAL'
+  | 'UNVERIFIED';
+
 export type FounderReadinessReport = {
+  overall_status: FounderOverallReadinessStatus;
   ready: string[];
   needs_founder: string[];
   blocked: string[];
   unverified: string[];
   env_var_groups: EnvVarGroup[];
+  database_security: DfDatabaseSecuritySnapshot | null;
+  activation: {
+    e2e_authorized: false;
+    remote_migration_applied: false;
+    deployment_performed: false;
+    founder_login_verified: false;
+  };
   staging_identities: {
     expected_frontend_origin: string;
     expected_api_origin: string;
@@ -103,6 +121,17 @@ function fromAddress(): string {
   return process.env.SITE00_DF_TRANSACTIONAL_FROM?.trim() || 'SITE 00 Digital Foundation <hello@site00.com>';
 }
 
+function computeOverallStatus(input: {
+  blocked: string[];
+  needs: string[];
+  unverified: string[];
+}): FounderOverallReadinessStatus {
+  if (input.blocked.length) return 'BLOCKED';
+  if (input.needs.length) return 'ACTION_REQUIRED';
+  if (input.unverified.length) return 'AWAITING_FOUNDER_APPROVAL';
+  return 'UNVERIFIED';
+}
+
 export function buildFounderReadinessReport(): FounderReadinessReport {
   const ready: string[] = [];
   const needs: string[] = [];
@@ -135,10 +164,12 @@ export function buildFounderReadinessReport(): FounderReadinessReport {
   }
 
   if (isSupabaseDfPersistenceEnabled()) {
-    unverified.push('Persistence flag ON — confirm schema + RLS on staging before relying on save/resume E2E');
+    unverified.push(
+      'Persistence flag ON — apply 20261015120000_site00_df_project_messages_rls.sql on staging Supabase, then re-check this report',
+    );
   } else {
     needs.push(
-      'After schema review: set SITE00_DIGITAL_FOUNDATION_PERSIST_SUPABASE=1 on Railway API (in-memory store loses data on restart until then)',
+      'After RLS migration on staging: set SITE00_DIGITAL_FOUNDATION_PERSIST_SUPABASE=1 on Railway API reliable-creation (in-memory store loses data on restart until then)',
     );
   }
 
@@ -187,12 +218,20 @@ export function buildFounderReadinessReport(): FounderReadinessReport {
     process.env.STRIPE_SECRET_KEY?.trim() || process.env.SITE00_STRIPE_SECRET_KEY?.trim(),
   );
 
-  return {
+  const report: FounderReadinessReport = {
+    overall_status: computeOverallStatus({ blocked, needs, unverified }),
     ready,
     needs_founder: needs,
     blocked,
     unverified,
     env_var_groups: groups,
+    database_security: null,
+    activation: {
+      e2e_authorized: false,
+      remote_migration_applied: false,
+      deployment_performed: false,
+      founder_login_verified: false,
+    },
     staging_identities: {
       expected_frontend_origin: SITE00_STAGING_FRONTEND_ORIGIN,
       expected_api_origin: SITE00_STAGING_API_ORIGIN,
@@ -226,6 +265,47 @@ export function buildFounderReadinessReport(): FounderReadinessReport {
     },
     env_vars: buildEnvVarPresenceSnapshot(),
   };
+  return report;
+}
+
+/** Adds live PostgREST exposure probes (staging API only; no secrets in response). */
+export async function buildFounderReadinessReportAsync(): Promise<FounderReadinessReport> {
+  const report = buildFounderReadinessReport();
+  if (!process.env.SUPABASE_URL?.trim() || !process.env.SUPABASE_ANON_KEY?.trim()) {
+    report.unverified.push('Database security probe skipped — SUPABASE_URL or SUPABASE_ANON_KEY not configured on API');
+    report.overall_status = computeOverallStatus({
+      blocked: report.blocked,
+      needs: report.needs_founder,
+      unverified: report.unverified,
+    });
+    return report;
+  }
+
+  try {
+    const db = await probeDfDatabaseSecurity();
+    report.database_security = db;
+    if (!db.persistence_safe) {
+      report.blocked.push('PostgREST anon can read site00_df_project_messages — do not run E2E until RLS migration is applied');
+    } else if (isSupabaseDfPersistenceEnabled()) {
+      report.unverified.push(
+        'Persistence ON and anon PostgREST denied on project_messages — apply migration 20261015120000 on staging Supabase if not done yet, then proceed to deploy #1648',
+      );
+    }
+    for (const note of db.notes) {
+      if (note.startsWith('BLOCKER:') && !report.blocked.includes(note.replace(/^BLOCKER:\s*/, ''))) {
+        report.blocked.push(note.replace(/^BLOCKER:\s*/, ''));
+      }
+    }
+  } catch {
+    report.unverified.push('Database security probe failed — treat staging DB as UNVERIFIED');
+  }
+
+  report.overall_status = computeOverallStatus({
+    blocked: report.blocked,
+    needs: report.needs_founder,
+    unverified: report.unverified,
+  });
+  return report;
 }
 
 export type TestInvitationPreview = {

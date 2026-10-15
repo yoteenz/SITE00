@@ -90,6 +90,7 @@ export default function FoundationReadinessPage() {
   };
 
   const ids = report?.staging_identities;
+  const overall = report?.overall_status;
 
   return (
     <div className="site00-admin-page site00-foundation-readiness">
@@ -98,6 +99,22 @@ export default function FoundationReadinessPage() {
         <p className="site00-admin-page-subtitle">
           Synthetic clients only · allowlisted email · staging Supabase · no production deploy
         </p>
+        {overall ? (
+          <p className="site00-readiness-overall">
+            Overall:{' '}
+            <span className={statusClass(overall === 'AWAITING_FOUNDER_APPROVAL' ? 'UNVERIFIED' : overall)}>
+              {overall === 'AWAITING_FOUNDER_APPROVAL' ? 'Awaiting founder approval' : overall.replace(/_/g, ' ')}
+            </span>
+            {' · '}
+            E2E run:{' '}
+            <span className={statusClass('BLOCKED')}>Not authorized</span>
+            {' · '}
+            Email send:{' '}
+            <span className={statusClass(ids?.email_sending_enabled ? 'UNVERIFIED' : 'READY')}>
+              {ids?.email_sending_enabled ? 'Flag on' : 'Disabled'}
+            </span>
+          </p>
+        ) : null}
         <p>
           <Link to={SITE00_ROUTES.digitalFoundationAdmin}>All foundation artifacts</Link> ·{' '}
           <Link to={SITE00_ADMIN_ROUTES.correspondenceStudio}>Correspondence Studio</Link>
@@ -169,6 +186,24 @@ export default function FoundationReadinessPage() {
         )}
       </section>
 
+      {report?.database_security ? (
+        <section className="site00-admin-panel">
+          <h2 className="site00-admin-panel__title">Database security probe</h2>
+          <p>
+            Staging project ref: <code>{report.database_security.supabase_project_ref ?? 'unknown'}</code> · Anon read
+            project_messages: {report.database_security.project_messages_table.anon_select} · Persistence exposure safe:{' '}
+            {report.database_security.persistence_safe ? 'yes' : 'no'}
+          </p>
+          {report.database_security.notes.length ? (
+            <ul>
+              {report.database_security.notes.map((n) => (
+                <li key={n}>{n}</li>
+              ))}
+            </ul>
+          ) : null}
+        </section>
+      ) : null}
+
       <section>
         <h2>Readiness report</h2>
         {report ? (
@@ -206,23 +241,36 @@ export default function FoundationReadinessPage() {
               </div>
             </div>
 
-            <h3>Configuration (grouped — aliases are not duplicates)</h3>
-            <table className="site00-admin-table site00-readiness-env-table">
-              <thead>
-                <tr>
-                  <th>Status</th>
-                  <th>Setting</th>
-                  <th>Purpose</th>
-                  <th>State</th>
-                  <th>Note</th>
-                </tr>
-              </thead>
-              <tbody>
-                {report.env_var_groups.map((g) => (
-                  <EnvGroupRow key={g.id} group={g} />
+            <details className="site00-readiness-details">
+              <summary>Technical configuration (grouped env — aliases are not duplicates)</summary>
+              <table className="site00-admin-table site00-readiness-env-table">
+                <thead>
+                  <tr>
+                    <th>Status</th>
+                    <th>Setting</th>
+                    <th>Purpose</th>
+                    <th>State</th>
+                    <th>Note</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {report.env_var_groups.map((g) => (
+                    <EnvGroupRow key={g.id} group={g} />
+                  ))}
+                </tbody>
+              </table>
+            </details>
+
+            <details className="site00-readiness-details">
+              <summary>Legacy env presence list (diagnostic only)</summary>
+              <ul>
+                {report.env_vars.map((row) => (
+                  <li key={row.name}>
+                    {row.name}: {row.present ? 'present' : 'missing'}
+                  </li>
                 ))}
-              </tbody>
-            </table>
+              </ul>
+            </details>
 
             <p className="site00-readiness-meta">
               API build {report.deployment.commit_short ?? 'unknown'} · {report.deployment.package_marker}

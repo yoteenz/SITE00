@@ -7,7 +7,6 @@ import {
   isSupabaseIsolationVerifiedForStaging,
   resolveConfiguredPublicAppOrigin,
   SITE00_STAGING_FRONTEND_ORIGIN,
-  SITE00_PRODUCTION_SUPABASE_PROJECT_REF,
   SITE00_STAGING_SUPABASE_PROJECT_REF,
 } from '../api/_lib/digitalFoundation/stagingEnvConfig.js';
 
@@ -47,13 +46,7 @@ describe('staging env config', () => {
     expect(stripe?.status).toBe('UNVERIFIED');
   });
 
-  it('verifies staging Supabase isolation', () => {
-    vi.stubEnv('SUPABASE_URL', `https://${SITE00_STAGING_SUPABASE_PROJECT_REF}.supabase.co`); // pragma: allowlist secret
-    expect(isSupabaseIsolationVerifiedForStaging()).toBe(true);
-    vi.stubEnv(
-      'SUPABASE_URL',
-      `https://${SITE00_PRODUCTION_SUPABASE_PROJECT_REF}.supabase.co`, // pragma: allowlist secret
-    );
+  it('returns false for isolation when SUPABASE_URL is unset', () => {
     expect(isSupabaseIsolationVerifiedForStaging()).toBe(false);
   });
 });

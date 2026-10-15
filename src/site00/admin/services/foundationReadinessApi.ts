@@ -14,12 +14,30 @@ export type EnvVarGroup = {
   note?: string;
 };
 
+export type DfDatabaseSecuritySnapshot = {
+  supabase_project_ref: string | null;
+  project_messages_table: {
+    anon_select: 'denied' | 'allowed_rows' | 'not_configured' | 'error';
+    service_role_select: 'denied' | 'allowed_rows' | 'not_configured' | 'error';
+  };
+  persistence_safe: boolean;
+  notes: string[];
+};
+
 export type FounderReadinessReport = {
+  overall_status: 'BLOCKED' | 'ACTION_REQUIRED' | 'AWAITING_FOUNDER_APPROVAL' | 'UNVERIFIED';
   ready: string[];
   needs_founder: string[];
   blocked: string[];
   unverified: string[];
   env_var_groups: EnvVarGroup[];
+  database_security: DfDatabaseSecuritySnapshot | null;
+  activation: {
+    e2e_authorized: false;
+    remote_migration_applied: false;
+    deployment_performed: false;
+    founder_login_verified: false;
+  };
   staging_identities: {
     expected_frontend_origin: string;
     expected_api_origin: string;

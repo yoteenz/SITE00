@@ -102,6 +102,8 @@ describe('readiness report', () => {
     expect(Array.isArray(r.unverified)).toBe(true);
     expect(r.env_var_groups.some((g) => g.id === 'stripe_secret')).toBe(true);
     expect(r.staging_identities.e2e_passed).toBe(false);
+    expect(r.overall_status).toBe('BLOCKED');
+    expect(r.activation.e2e_authorized).toBe(false);
   });
 
   it('does not require both Stripe env alias names when one is set', () => {
