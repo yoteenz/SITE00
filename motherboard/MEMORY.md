@@ -16634,3 +16634,14 @@ Summary of the whole conversation in this chat.
 - **Schema:** Staging DB has core DF tables; remote migrations missing repo `20261010103000` history entry; `site00_df_project_messages` RLS off.
 - **Founder actions (ordered):** approve apply RLS migration on staging Supabase; set `SITE00_PUBLIC_APP_ORIGIN` + `SITE00_DIGITAL_FOUNDATION_PERSIST_SUPABASE=1` on Railway API after approval; redeploy API; sign in on staging; authorize synthetic E2E.
 - **Tests:** vitest stagingEnvConfig + founderReadinessE2e + runtime diagnostics (17 pass on changed files).
+
+---
+
+## 2026-10-15 — P0 Staging security deployment E2E unblock1 (IDNTY)
+
+- **Sprint:** P0.SITE00.IDNTY.STAGING-SECURITY-DEPLOYMENT-AND-E2E-UNBLOCK1 — no remote migration, no deploy, no merge, no E2E send/payment.
+- **Branch:** `cursor/staging-security-e2e-unblock-be3b` (extends #1648 readiness work).
+- **DB forensics (staging soocqbyjkxeubfjnuwvf):** `site00_df_project_messages` exists; migration `20261010103000` not in history (schema drift); RLS OFF on messages vs ON on sibling tables; live API health shows **persistSupabaseEnv true** and transactional send **false**.
+- **RLS migration:** strengthened `20261015120000_site00_df_project_messages_rls.sql` (enable RLS + revoke row privs from anon/authenticated; no permissive policies). Migration SQL tests + PostgREST probe (`stagingDatabaseSecurityProbe.ts`) wired into async readiness report.
+- **Docs:** `STAGING_E2E_ACTIVATION_APPROVAL.md` — approval gate + post-approval deploy order.
+- **Tests:** 22 pass (RLS migration, probe mocks, founder readiness, staging env, runtime diagnostics).
