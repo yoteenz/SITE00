@@ -47,6 +47,7 @@ export function Site00CreateAccountForm({ layout = 'desktop' }: Site00CreateAcco
         password,
         confirmPassword,
         displayName: displayName.trim() || undefined,
+        returnPath: returnTo,
       });
       if (!result.ok) {
         setError(result.message);

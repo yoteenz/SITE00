@@ -21,6 +21,7 @@ import { registerServerSessionCookie } from '../sessionRestore';
 import { trackActivity } from '../activity';
 import { flushQueuedProfilePatch } from '../profileSyncQueue';
 import { claimGuestIntakes } from '../../site00/api/intakesApi';
+import { site00AuthCallbackUrl, site00BrowserAuthOrigin } from './site00AuthRedirect';
 
 export type Site00SignUpResult =
   | { ok: true; kind: 'active_session' }
@@ -95,6 +96,7 @@ export async function site00SignUpWithPassword(params: {
   password: string;
   confirmPassword: string;
   displayName?: string;
+  returnPath?: string | null;
 }): Promise<Site00SignUpResult> {
   const emailTrim = params.email.trim().toLowerCase();
   if (!emailTrim) return { ok: false, message: 'EMAIL IS REQUIRED.' };
@@ -115,10 +117,21 @@ export async function site00SignUpWithPassword(params: {
   if (!supabase) return { ok: false, message: 'ACCOUNT CREATION FAILED. TRY AGAIN.' };
 
   try {
+    let emailRedirectTo: string;
+    try {
+      emailRedirectTo = site00AuthCallbackUrl(
+        site00BrowserAuthOrigin(typeof window !== 'undefined' ? window.location : null),
+        params.returnPath,
+      );
+    } catch {
+      return { ok: false, message: 'ACCOUNT CREATION REQUIRES THE STAGING OR PRODUCTION SITE ADDRESS.' };
+    }
+
     const { data, error } = await supabase.auth.signUp({
       email: emailTrim,
       password: params.password.trim(),
       options: {
+        emailRedirectTo,
         data: params.displayName?.trim() ? { display_name: params.displayName.trim() } : undefined,
       },
     });
