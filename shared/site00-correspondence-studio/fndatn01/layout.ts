@@ -448,7 +448,7 @@ export type FootOpts = {
   mobile?: { line1: string; line2: string; classification: string[]; stroke?: boolean };
 };
 
-const CLASSIFICATION = ['CLASSIFICATION · TRANSACTIONAL', 'SERVICE NOTICE. NO MARKETING UNSUBSCRIBE.'];
+const CLASSIFICATION = ['SITE00.COM', 'QUESTIONS? REPLY TO THIS EMAIL.'];
 
 /** Classification lines, with the word UNSUBSCRIBE in red so it reads clearly; everything else stays grey. */
 function classLines(items: string[], o: MicroStyle): string {
@@ -474,7 +474,7 @@ export function foot(opts: FootOpts = {}): string {
 <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
 <td valign="middle" style="padding-right:14px">${SITE_WORD(14.5, 0.19)}</td>
 <td valign="middle" style="padding-right:14px">${vrule(14, '#2b2b2b')}</td>
-<td valign="middle" style="white-space:nowrap">${micro('DIGITAL FOUNDATION', ink)}${micro('BRANDS BUILT FOR WHAT&#39;S NEXT.', grey)}</td>
+<td valign="middle" style="white-space:nowrap">${micro('SITE 00', ink)}${micro('BUILDING WHAT COMES NEXT.', grey)}</td>
 </tr></table>
 </td>
 <td valign="middle" width="1" style="width:1px">${vrule(16, '#3a3a3a')}</td>
@@ -487,13 +487,13 @@ export function foot(opts: FootOpts = {}): string {
   const mCls = { size: 6.5, lh: 10, color: '#97938b', track: 0.14, weight: 500 };
   const right = mm
     ? `<table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>${mm.stroke ? `<td valign="middle" style="padding-right:10px">${slashes(17).replace('//', '/')}</td>` : ''}<td valign="middle">${classLines(mm.classification, mCls)}</td></tr></table>`
-    : classLines(['CLASSIFICATION · TRANSACTIONAL', 'SERVICE NOTICE.', 'NO MARKETING UNSUBSCRIBE.'], mCls);
+    : classLines(['SITE00.COM', 'QUESTIONS? REPLY', 'TO THIS EMAIL.'], mCls);
   const mob = mobileOnly(`<table class="foot-m mob-only" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="display:none;max-height:0;overflow:hidden;width:100%;background:#ffffff;border-top:1px solid ${T.line}">
 <tr><td style="padding:13px 14px 15px 18px">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
 <td valign="middle" style="padding-right:10px;white-space:nowrap">${SITE_WORD(14.5, 0.19)}</td>
 <td valign="middle" style="padding-right:10px">${vrule(22, '#2b2b2b')}</td>
-<td class="lab" valign="middle" style="white-space:nowrap">${micro(esc(mm?.line1 ?? 'DIGITAL FOUNDATION'), mInk)}${micro(esc(mm?.line2 ?? "BRANDS BUILT FOR WHAT'S NEXT."), mGrey)}</td>
+<td class="lab" valign="middle" style="white-space:nowrap">${micro(esc(mm?.line1 ?? 'SITE 00'), mInk)}${micro(esc(mm?.line2 ?? 'BUILDING WHAT COMES NEXT.'), mGrey)}</td>
 <td valign="middle" width="1" style="width:1px;padding:0 12px 0 10px">${vrule(22, '#3a3a3a')}</td>
 <td class="lab" valign="middle" style="white-space:nowrap">${right}</td>
 </tr></table>
