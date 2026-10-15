@@ -14,6 +14,7 @@ Set STAGING_PUBLIC_ORIGIN to that exact URL, rebuild once if needed, then set on
 RAILWAY SPA SERVICE (static)
 - Builder: Railpack or Nixpacks
 - Build command: bash scripts/staging/build-founder-staging-spa.sh
+  (Railway has no zip(1) — script skips ZIP by default; set STAGING_SPA_PACKAGE_ZIP=1 locally to emit /tmp/*.zip when zip is installed)
 - Start command: npx serve dist -s -l ${PORT:-8080}
 - Healthcheck: / (or disable — static)
 - Root directory: blank

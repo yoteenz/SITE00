@@ -80,6 +80,8 @@ STAGING_PUBLIC_ORIGIN=https://YOUR-STAGING-SPA-ORIGIN \
 bash scripts/staging/build-founder-staging-spa.sh
 ```
 
+Railway serves `dist/` directly (no ZIP required). Optional local artifact: `STAGING_SPA_PACKAGE_ZIP=1` when `zip(1)` is installed.
+
 Upload ZIP output to **staging host only** — not GoDaddy production `public_html` for apex `site00.com`.
 
 **Founder test route:** `{STAGING_PUBLIC_ORIGIN}/admin/site00/foundation-readiness`
