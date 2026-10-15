@@ -100,18 +100,18 @@ export function compose01(asset: AssetResolver, d: Data01): Composition {
     deskBodyWidth: 236,
   };
   const ask: BandItem[] = [
-    { n: '01', icon: 'person', iconAlt: 'Person', title: 'YOUR BUSINESS', text: 'TELL US ABOUT YOUR BUSINESS AND WHAT YOU ARE BUILDING.' },
-    { n: '02', icon: 'target', iconAlt: 'Target', title: 'YOUR PRIORITIES', text: 'SHARE WHAT MATTERS MOST AND WHEN YOU WOULD LIKE TO BEGIN.' },
-    { n: '03', icon: 'layers', iconAlt: 'Layers', title: 'YOUR NEEDS', text: 'YOUR DOMAIN, PROFESSIONAL EMAIL, AND THE ESSENTIALS YOU NEED.' },
+    { n: '01', icon: 'person', iconAlt: 'Person', title: 'YOUR BUSINESS', text: 'WHAT YOU DO, WHO YOU SERVE, AND WHAT NEEDS TO BE IN PLACE.' },
+    { n: '02', icon: 'target', iconAlt: 'Target', title: 'YOUR PRIORITIES', text: 'TIMING, GOALS, AND THE DIRECTION THAT FITS YOUR NEXT STEP.' },
+    { n: '03', icon: 'layers', iconAlt: 'Layers', title: 'BUILD DIRECTION', text: "PAGES, FEATURES, AND THE WAY YOU'D LIKE SITE 00 TO APPROACH IT." },
   ];
   const how =
     mobileOnly(`<table class="walk mob-only" role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="display:none;max-height:0;overflow:hidden;width:100%;background:#ffffff">
 <tr><td style="padding:22px 20px 12px">${sectionTitle('HOW IT WORKS', 28)}</td></tr>
 <tr><td style="padding:0 20px 6px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
 ${[
-  ['01', 'TELL US ABOUT<br>YOUR BUSINESS'],
-  ['02', 'WE PREPARE<br>YOUR NEXT STEP'],
-  ['03', 'YOUR FOUNDATION<br>TAKES SHAPE<br>FROM THERE'],
+  ['01', 'OPEN YOUR<br>INVITATION'],
+  ['02', 'COMPLETE THE<br>FOUNDATION INTAKE'],
+  ['03', 'WE REVIEW AND<br>PREPARE YOUR<br>NEXT STEP'],
 ]
   .map(
     (
@@ -127,9 +127,9 @@ ${[
   const cta = { label: 'BEGIN YOUR FOUNDATION', url: d.intakeUrl, caption: esc('YOUR SECURE LINK IS IN THE BUTTON ABOVE.') };
   const card: CardRow[] = [
     ...clientRow(d.clientName),
-    { label: 'SETUP', value: d.service, personalized: false },
-    { label: 'NEXT', value: d.status, tone: 'red', personalized: false },
-    { label: 'LINK', value: d.access, tone: 'red', personalized: false },
+    { label: 'SERVICE', value: d.service, personalized: false },
+    { label: 'STATUS', value: d.status, tone: 'red', personalized: false },
+    { label: 'ACCESS', value: d.access, tone: 'red', personalized: false },
   ];
   return {
     subject: 'YOUR INVITATION TO BEGIN',
@@ -181,13 +181,13 @@ export function compose02(asset: AssetResolver, d: Data02): Composition {
   const next: BandItem[] = [
     { n: '01', icon: 'magnifier', iconAlt: 'Review', title: 'REVIEW', text: "WE'LL REVIEW YOUR INFORMATION FOR ACCURACY AND ANY ADDITIONAL NEEDS." },
     { n: '02', icon: 'bubble', iconAlt: 'Clarify', title: 'CLARIFY', text: "IF WE NEED ANY ADDITIONAL DETAILS, WE'LL REACH OUT DIRECTLY." },
-    { n: '03', icon: 'document', iconAlt: 'Prepare', title: 'PREPARE', text: "WHEN WE ARE READY, WE WILL SEND YOUR RECOMMENDATION AND QUOTE FOR REVIEW." },
+    { n: '03', icon: 'document', iconAlt: 'Prepare', title: 'PREPARE', text: "ONCE EVERYTHING IS CONFIRMED, WE'LL PREPARE YOUR CUSTOM PLAN AND QUOTE." },
   ];
   const cta = { label: 'VIEW YOUR INTAKE STATUS', url: d.foundationUrl, caption: 'OR REPLY TO THIS EMAIL IF YOU HAVE ANY QUESTIONS.' };
   const card: CardRow[] = [
     ...clientRow(d.clientName),
-    { label: 'SETUP', value: d.service, personalized: false },
-    { label: 'NEXT', value: d.status, tone: 'red', personalized: false },
+    { label: 'SERVICE', value: d.service, personalized: false },
+    { label: 'STATUS', value: d.status, tone: 'red', personalized: false },
     { label: 'RECEIVED', value: d.receivedAt },
     { label: 'REFERENCE', value: d.reference },
   ];
@@ -239,7 +239,7 @@ export function compose03(asset: AssetResolver, d: Data03): Composition {
   const copy: HeroCopy = {
     kicker: forName(d.firstName),
     headline: ['YOUR', 'RECOMMENDATION', 'IS READY'],
-    body: "YOUR DIGITAL FOUNDATION RECOMMENDATION AND QUOTE ARE READY. ESSENTIALS ARE INCLUDED. ADD-ONS STAY OPTIONAL.",
+    body: "YOUR DIGITAL FOUNDATION QUOTE IS READY. ESSENTIALS ARE INCLUDED. ADD-ONS STAY OPTIONAL.",
     deskSize: 37,
     tagline: TAGLINE,
     mobileTagline: TAGLINE_MOBILE,
@@ -248,7 +248,7 @@ export function compose03(asset: AssetResolver, d: Data03): Composition {
   const cta = { label: 'REVIEW YOUR RECOMMENDATION & QUOTE', url: d.foundationUrl, caption: 'OR REPLY TO THIS EMAIL IF YOU HAVE ANY QUESTIONS.' };
   const card = (pill: boolean): CardRow[] => [
     ...clientRow(d.clientName),
-    { label: 'SETUP', value: d.service, personalized: false },
+    { label: 'SERVICE', value: d.service, personalized: false },
     ...(d.recommendation ? [{ label: 'RECOMMENDATION', value: d.recommendation }] : []),
     { label: 'QUOTE', value: d.quoteAmount },
     { label: 'VALID UNTIL', value: d.validUntil },
@@ -310,12 +310,12 @@ export function compose04(asset: AssetResolver, d: Data04): Composition {
   };
   const fields = [
     ...(d.clientName ? [{ label: 'CLIENT', value: d.clientName }] : []),
-    { label: 'SETUP', value: d.service },
+    { label: 'SERVICE', value: d.service },
     { label: 'AMOUNT', value: d.amount },
     { label: 'DATE', value: d.paidAt },
     ...(d.method ? [{ label: 'PAYMENT METHOD', value: d.method }] : []),
     { label: 'REFERENCE', value: d.reference },
-    { label: 'NEXT', value: d.status, red: true },
+    { label: 'STATUS', value: d.status, red: true },
   ];
   const next: BandItem[] = [
     {
@@ -472,8 +472,8 @@ export function compose06(asset: AssetResolver, d: Data06): Composition {
   const slug = '06_resume_intake';
   const copy: HeroCopy = {
     kicker: forName(d.firstName),
-    headline: ['CONTINUE', 'YOUR', 'FOUNDATION'],
-    mobileHeadline: ['CONTINUE', 'YOUR', 'FOUNDATION', 'INTAKE'],
+    headline: ['YOUR', 'FOUNDATION', 'IS ALMOST READY'],
+    mobileHeadline: ['YOUR', 'FOUNDATION', 'IS ALMOST', 'READY'],
     deskSize: 34,
     body: "YOUR DIGITAL FOUNDATION INTAKE IS SAVED. CONTINUE WHENEVER YOU ARE READY AND PICK UP WHERE YOU LEFT OFF.",
     tagline: TAGLINE,
@@ -540,7 +540,7 @@ ${SPACE(9)}
         alt: 'Laptop showing the Digital Foundation intake beside books and a crystal on a limestone terrace.',
         fit: { zone: 320, padTop: 18, head: 34, body: 9, textWidth: 175, tagline: { at: 'below' } },
         artHeight: MOBILE_ART_HEIGHT[slug],
-        lip: { height: 64, html: panelHead('YOUR PROGRESS', 'YOUR FOUNDATION<br>INTAKE PROGRESS') },
+        lip: { height: 64, html: panelHead('YOUR PROGRESS', 'DIGITAL FOUNDATION<br>SETUP PROGRESS') },
       }),
       deskProgress,
       mobileRows(asset, 'YOUR PROGRESS', items, {
@@ -589,11 +589,11 @@ export function compose07(asset: AssetResolver, d: Data07): Composition {
   const pre = `YOUR QUOTE IS VALID UNTIL ${d.validUntil}. REVIEW YOUR PROPOSAL WHEN YOU ARE READY.`;
   const card: CardRow[] = [
     ...clientRow(d.clientName),
-    { label: 'SETUP', value: d.service, personalized: false },
+    { label: 'SERVICE', value: d.service, personalized: false },
     { label: 'QUOTE', value: d.quoteAmount },
     { label: 'ISSUED', value: d.issuedAt },
     { label: 'VALID UNTIL', value: d.validUntilDate, tone: 'red' },
-    { label: 'NEXT', value: d.status, tone: 'red', personalized: false },
+    { label: 'STATUS', value: d.status, tone: 'red', personalized: false },
   ];
   const tags = scopeTags(d.scope);
   return {
@@ -613,7 +613,7 @@ export function compose07(asset: AssetResolver, d: Data07): Composition {
         alt: 'Quote card beside an hourglass of red sand on a limestone ledge.',
         fit: { zone: 200, padTop: 20, head: 32, body: 9, textWidth: 210, tagline: { at: 'beside-card', top: 210 } },
         card: mobileCardLayer(slug, 410, card, tags),
-        lip: { height: 48, html: panelHead('YOUR PLAN INCLUDES', 'ESSENTIALS FOR YOUR<br>DIGITAL FOUNDATION.<br>ADD-ONS ARE OPTIONAL.', 8) },
+        lip: { height: 48, html: panelHead('YOUR PLAN INCLUDES', 'EVERYTHING YOU NEED<br>TO LAUNCH YOUR<br>DIGITAL FOUNDATION.', 8) },
       }),
       deskBand(asset, 'YOUR PLAN INCLUDES', items, { titleWidth: 150, mark: 'icon' }),
       mobileRows(asset, 'YOUR PLAN INCLUDES', items, { mark: 'icon', panel: { after: mobileClose } }),

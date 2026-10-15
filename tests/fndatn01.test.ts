@@ -353,7 +353,7 @@ describe('FNDATN-01 demo data isolation and live data safety', () => {
 
 describe('FNDATN-01 personalized data lives in the artifacts', () => {
   const cards: Record<string, string[]> = {
-    '01': ['JORDAN AVERY', 'DIGITAL FOUNDATION', 'READY TO BEGIN', 'PERSONAL LINK'],
+    '01': ['JORDAN AVERY', 'DIGITAL FOUNDATION', 'READY TO BEGIN', 'OPEN'],
     '02': ['JORDAN AVERY', 'RECEIVED · UNDER REVIEW', 'OCT 2, 2026 · 12:24 PM ET', 'DF-DEMO-0001'],
     '03': ['JORDAN AVERY', 'YOUR DIGITAL FOUNDATION', '$1,334.00 USD', 'OCT 19, 2026', 'REVIEW &amp; ACCEPT'],
     '04': ['JORDAN AVERY', '$1,334.00 USD', 'OCT 19, 2026', 'Q-DEMO-0001', 'PAID'],

@@ -16605,3 +16605,14 @@ Summary of the whole conversation in this chat.
 - **This branch:** `cursor/df-exact-visual-rollback-be3b` from `main`. Strings only. Style multiset matches the baseline except two approved removals per email: the red `UNSUBSCRIBE` span, and (invitation only) the raw URL caption anchor. Button href stays. Fonts unchanged: Saira Semi Condensed + SITE 00 Display, with the original narrow/Arial fallbacks. Card labels shortened (`SETUP`, `NEXT`, `LINK`) so tracking stays 0.16em — longer labels such as `YOUR FOUNDATION` overflow the measured column.
 - **Guard:** `tests/fndatn01-visual-guard.test.ts` + `tests/fixtures/fndatn01-visual-baseline.json`. 37 fndatn tests pass. Draft PR, no merge, no production upload.
 - **04 mobile footer:** left pair remains the original architecture lines; the four-line classification stack is now contact words, stroke kept.
+
+---
+
+## 2026-10-15 — FNDATN-01 copy correction against original visual baseline
+
+- **Context:** Whole chat covered founder-readiness staging (ZIP optional on `cursor/idnty-founder-readiness-e2e-be3b`, not merged), client email voice (#1644) and lifecycle voice (#1645) which the founder rejected visually, exact visual rollback (#1646), and staging auth redirect (#1647, `cursor/staging-auth-redirect-be3b`, do not touch). This entry is the copy correction on #1646.
+- **Sprint:** P0.SITE00.IDNTY.CORRESPONDENCE-EXACT-BASELINE-COPY-CORRECTION2. Visual authority remains `f71e403e`. Recovery commit `43327158` is not the design source. Shortened card labels `SETUP` / `NEXT` / `LINK` and value `PERSONAL LINK` from commit `54a64462` are not approved.
+- **Decision:** Restore invitation card to `SERVICE` / `STATUS` / `ACCESS` / `OPEN`. Restore email 06 headline to `YOUR / FOUNDATION / IS ALMOST READY` (mobile four lines) and the original progress lip. Restore email 07 plan lip. Keep client mast, footer contact lines, and the invitation caption `YOUR SECURE LINK IS IN THE BUTTON ABOVE.` The button href still carries the intake URL. Band lines that wrapped an extra row (`PROFESSIONAL`, `RECOMMENDATION`) were put back to the original sentences so section heights match.
+- **Layout:** `html.ts` and `cards.ts` are unchanged versus `f71e403e`. `layout.ts` changes strings only. Rendered email height matches the baseline at 680 and 390 for all seven. Fonts loaded: Saira Semi Condensed and SITE 00 Display. Images loaded (natural width > 0).
+- **Stale preview:** A screenshot that still shows `TRANSACTIONAL`, `CLASSIFICATION`, and the raw foundation URL is the original baseline (`main` / preview tunnel), not this branch. The tunnel does not serve `cursor/*` until merge. This sprint does not merge and does not deploy.
+- **Guard:** `tests/fndatn01.test.ts` and `tests/fndatn01-visual-guard.test.ts` — 37 pass. Draft PR #1646 updated. No production ZIP.
