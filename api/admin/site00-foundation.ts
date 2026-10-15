@@ -108,7 +108,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         case 'readiness-report': {
           const { buildFounderReadinessReportAsync } = await import('../_lib/digitalFoundation/founderReadiness.js');
-          return res.status(200).json(await buildFounderReadinessReportAsync());
+          return res.status(200).json(
+            await buildFounderReadinessReportAsync({
+              founder_admin_verified: true,
+              founder_email: auth.user.email,
+            }),
+          );
         }
         case 'email-timeline': {
           const { listEmailTimeline } = await import('../_lib/digitalFoundation/founderReadiness.js');

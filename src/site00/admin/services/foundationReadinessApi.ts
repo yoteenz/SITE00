@@ -33,10 +33,11 @@ export type FounderReadinessReport = {
   env_var_groups: EnvVarGroup[];
   database_security: DfDatabaseSecuritySnapshot | null;
   activation: {
-    e2e_authorized: false;
-    remote_migration_applied: false;
-    deployment_performed: false;
-    founder_login_verified: false;
+    e2e_authorized: boolean;
+    synthetic_intake_ready: boolean;
+    remote_migration_applied: boolean;
+    deployment_performed: boolean;
+    founder_login_verified: boolean;
   };
   staging_identities: {
     expected_frontend_origin: string;

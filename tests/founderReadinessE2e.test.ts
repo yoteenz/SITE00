@@ -104,6 +104,7 @@ describe('readiness report', () => {
     expect(r.staging_identities.e2e_passed).toBe(false);
     expect(r.overall_status).toBe('BLOCKED');
     expect(r.activation.e2e_authorized).toBe(false);
+    expect(r.activation.synthetic_intake_ready).toBe(false);
   });
 
   it('does not require both Stripe env alias names when one is set', () => {

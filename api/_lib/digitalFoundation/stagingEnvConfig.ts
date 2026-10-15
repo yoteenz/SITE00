@@ -191,7 +191,7 @@ export function buildEnvVarGroups(): EnvVarGroup[] {
           : 'ACTION_REQUIRED',
       note:
         process.env.SITE00_DIGITAL_FOUNDATION_PERSIST_SUPABASE === '1'
-          ? 'Persistence flag on — schema + RLS must be verified before E2E'
+          ? 'Persistence on — intake saves to staging Supabase when enabled on API'
           : 'Off — API uses in-memory store; restarts lose test clients',
     },
     {

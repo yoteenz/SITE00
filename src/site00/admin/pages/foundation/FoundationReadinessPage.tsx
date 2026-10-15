@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { SITE00_ROUTES } from '../../../config/routes';
 import { SITE00_ADMIN_ROUTES } from '../../config/routes';
+import { Site00AdminShell } from '../../components/shell/Site00AdminShell';
 import {
   foundationReadinessApi,
   type EnvVarGroup,
@@ -92,8 +93,11 @@ export default function FoundationReadinessPage() {
   const ids = report?.staging_identities;
   const overall = report?.overall_status;
 
+  const activation = report?.activation;
+
   return (
-    <div className="site00-admin-page site00-foundation-readiness">
+    <Site00AdminShell>
+      <div className="site00-admin-page site00-foundation-readiness">
       <header>
         <h1 className="site00-admin-page-title">[ DIGITAL FOUNDATION · STAGING READINESS ]</h1>
         <p className="site00-admin-page-subtitle">
@@ -106,8 +110,18 @@ export default function FoundationReadinessPage() {
               {overall === 'AWAITING_FOUNDER_APPROVAL' ? 'Awaiting founder approval' : overall.replace(/_/g, ' ')}
             </span>
             {' · '}
-            E2E run:{' '}
-            <span className={statusClass('BLOCKED')}>Not authorized</span>
+            Synthetic intake:{' '}
+            <span className={statusClass(activation?.synthetic_intake_ready ? 'READY' : 'ACTION_REQUIRED')}>
+              {activation?.synthetic_intake_ready ? 'Ready' : 'Complete checklist below'}
+            </span>
+            {' · '}
+            Email/payment E2E:{' '}
+            <span className={statusClass('BLOCKED')}>Not authorized (by design)</span>
+            {' · '}
+            Founder session:{' '}
+            <span className={statusClass(activation?.founder_login_verified ? 'READY' : 'UNVERIFIED')}>
+              {activation?.founder_login_verified ? 'Verified on API' : 'Unverified'}
+            </span>
             {' · '}
             Email send:{' '}
             <span className={statusClass(ids?.email_sending_enabled ? 'UNVERIFIED' : 'READY')}>
@@ -445,6 +459,7 @@ export default function FoundationReadinessPage() {
           ) : null}
         </section>
       ) : null}
-    </div>
+      </div>
+    </Site00AdminShell>
   );
 }
