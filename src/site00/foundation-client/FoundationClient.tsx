@@ -155,6 +155,9 @@ export function FoundationClient({ token }: { token: string }) {
   if (load.status === 'error' && !payload) {
     if (load.error.status === 404 || load.error.code.includes('NOT_FOUND')) return <InvalidLink />;
     if (load.error.status === 503) return <Unavailable />;
+    if (load.error.code === 'INVALID_API_RESPONSE' || load.error.code === 'INVALID_PAYLOAD') {
+      return <Unavailable />;
+    }
     return (
       <DfSystemPanel
         index="00"

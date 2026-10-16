@@ -5,7 +5,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { ClientDigitalFoundationPayload } from '../../../shared/site00-digital-foundation/clientProjection.js';
 import type { DigitalFoundationAddonId } from '../../../shared/site00-digital-foundation/types.js';
-import { DfApiError, fetchCatalog, fetchPayload, removeAddon, saveIntake, updateQuote, type ClientCatalog } from './api';
+import { fetchCatalog, fetchPayload, removeAddon, saveIntake, updateQuote, type ClientCatalog } from './api';
+import { DfApiError } from './dfApiError';
 import {
   draftFromPayload,
   intakeFromDraft,
@@ -82,7 +83,9 @@ export function useIntakeDraft(
   const artifactId = payload?.artifact.artifact_id ?? null;
 
   const editable = Boolean(
-    payload && payload.artifact.intake_state !== 'COMPLETE' && payload.artifact.payment_state !== 'PAID',
+    payload?.artifact &&
+      payload.artifact.intake_state !== 'COMPLETE' &&
+      payload.artifact.payment_state !== 'PAID',
   );
 
   // Seed once per artifact from what the server already holds (resume after reload).
