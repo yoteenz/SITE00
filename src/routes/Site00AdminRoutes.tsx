@@ -1,6 +1,8 @@
 import { lazy, Suspense } from 'react';
 import { Route } from 'react-router-dom';
 import LoadingScreen from '../components/base/LoadingScreen';
+import { lazyWithChunkRecovery } from '../utils/lazyWithChunkRecovery';
+import { Site00AdminRouteErrorBoundary } from '../site00/admin/components/Site00AdminRouteErrorBoundary';
 import '../site00/admin/styles/site00-admin.css';
 import '../site00/admin/styles/site00-control.css';
 import '../site00/admin/styles/site00-email-debug.css';
@@ -73,10 +75,17 @@ const FoundationPipelinePage = lazy(() => import('../site00/admin/pages/foundati
 const FoundationProjectCommandPage = lazy(() => import('../site00/admin/pages/foundation/FoundationProjectCommandPage'));
 const FoundationWorkbenchPage = lazy(() => import('../site00/admin/pages/foundation/FoundationWorkbenchPage'));
 const CommunicationsCommandPage = lazy(() => import('../site00/admin/pages/foundation/CommunicationsCommandPage'));
-const FoundationReadinessPage = lazy(() => import('../site00/admin/pages/foundation/FoundationReadinessPage'));
+const FoundationReadinessPage = lazyWithChunkRecovery(
+  () => import('../site00/admin/pages/foundation/FoundationReadinessPage'),
+  'FoundationReadinessPage',
+);
 
-function AdminSuspense({ children }: { children: React.ReactNode }) {
-  return <Suspense fallback={<LoadingScreen />}>{children}</Suspense>;
+function AdminSuspense({ children, routeLabel }: { children: React.ReactNode; routeLabel?: string }) {
+  return (
+    <Site00AdminRouteErrorBoundary routeLabel={routeLabel}>
+      <Suspense fallback={<LoadingScreen />}>{children}</Suspense>
+    </Site00AdminRouteErrorBoundary>
+  );
 }
 
 /** SITE 00 Admin Production OS routes — mounted under AdminGuard at /admin/site00/* */
@@ -614,7 +623,7 @@ export function Site00AdminRoutes() {
       <Route
         path="site00/foundation-readiness"
         element={
-          <AdminSuspense>
+          <AdminSuspense routeLabel="foundation-readiness">
             <FoundationReadinessPage />
           </AdminSuspense>
         }
