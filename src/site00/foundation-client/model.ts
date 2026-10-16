@@ -185,6 +185,9 @@ export function resolveDfRoute(
   payload: ClientDigitalFoundationPayload,
   ctx: { checkout: CheckoutParam; activationSeen: boolean },
 ): DfRoute {
+  if (!payload.artifact?.artifact_id) {
+    return { kind: 'views', views: ['P01'], defaultView: 'P01' };
+  }
   const { artifact, quote, acceptance } = payload;
   switch (payload.surface) {
     case 'COMPLETE':
@@ -297,7 +300,7 @@ export function domainPathFromNeeds(needs: IntakeNeedFlag[]): DomainPath | null 
 
 /** Saved intake first, then the founder-entered lead, so a returning client sees what they already gave us. */
 export function draftFromPayload(payload: ClientDigitalFoundationPayload): IntakeDraft {
-  const intake: DigitalFoundationIntake = payload.artifact.intake ?? { needs: [] };
+  const intake: DigitalFoundationIntake = payload.artifact?.intake ?? { needs: [] };
   const lead = payload.lead;
   const needs = intake.needs ?? [];
   const domainPath = domainPathFromNeeds(needs);

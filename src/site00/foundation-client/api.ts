@@ -9,8 +9,18 @@ import type {
   DigitalFoundationQuote,
   IntakeNeedFlag,
 } from '../../../shared/site00-digital-foundation/types.js';
+import { site00ApiUrl } from '../../utils/site00ApiBase';
+import { DfApiError } from './dfApiError';
+import { parseClientDigitalFoundationPayload } from './validateClientPayload';
 
-const ENDPOINT = '/api/site00/digital-foundation-artifact';
+export { DfApiError };
+
+const ENDPOINT_PATH = '/api/site00/digital-foundation-artifact';
+
+function artifactApiUrl(query: string): string {
+  const q = query.startsWith('?') ? query : `?${query}`;
+  return site00ApiUrl(`${ENDPOINT_PATH}${q}`);
+}
 
 export type ClientCatalogEntry = {
   addon_id: DigitalFoundationQuote['selected_addons'][number]['addon_id'];
@@ -28,23 +38,19 @@ export type ClientCatalog = {
   config: DigitalFoundationCommercialConfig;
 };
 
-/** `status` 0 means the request never reached the server (offline / network). */
-export class DfApiError extends Error {
-  readonly status: number;
-  readonly code: string;
-
-  constructor(status: number, code: string) {
-    super(code);
-    this.status = status;
-    this.code = code;
-  }
+function isJsonResponse(res: Response): boolean {
+  const ct = (res.headers.get('content-type') ?? '').toLowerCase();
+  return ct.includes('application/json') || ct.includes('+json');
 }
 
 async function readJson(res: Response): Promise<Record<string, unknown>> {
+  if (!isJsonResponse(res)) {
+    throw new DfApiError(0, 'INVALID_API_RESPONSE');
+  }
   try {
     return (await res.json()) as Record<string, unknown>;
   } catch {
-    return {};
+    throw new DfApiError(0, 'INVALID_API_RESPONSE');
   }
 }
 
@@ -61,7 +67,7 @@ async function request<T>(url: string, init?: RequestInit): Promise<T> {
 }
 
 function post<T>(token: string, action: string, body: Record<string, unknown> = {}): Promise<T> {
-  return request<T>(`${ENDPOINT}?action=${encodeURIComponent(action)}`, {
+  return request<T>(artifactApiUrl(`action=${encodeURIComponent(action)}`), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ ...body, token }),
@@ -69,11 +75,24 @@ function post<T>(token: string, action: string, body: Record<string, unknown> = 
 }
 
 export function fetchPayload(token: string): Promise<ClientDigitalFoundationPayload> {
-  return request(`${ENDPOINT}?action=payload&token=${encodeURIComponent(token)}`);
+  return request<unknown>(
+    artifactApiUrl(`action=payload&token=${encodeURIComponent(token)}`),
+  ).then(parseClientDigitalFoundationPayload);
 }
 
 export function fetchCatalog(): Promise<ClientCatalog> {
-  return request(`${ENDPOINT}?action=catalog`);
+  return request<ClientCatalog>(artifactApiUrl('action=catalog'));
+}
+
+export function postDigitalFoundationArtifact<T>(
+  action: string,
+  body: Record<string, unknown>,
+): Promise<T> {
+  return request<T>(artifactApiUrl(`action=${encodeURIComponent(action)}`), {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
 }
 
 /**
@@ -127,4 +146,11 @@ export function completeClientAction(
   response: { decision: 'APPROVE' | 'REQUEST_CHANGE'; notes?: string; target_version?: number },
 ): Promise<ClientDigitalFoundationPayload> {
   return post(token, 'complete-client-action', { request_id: requestId, response });
+}
+
+export function captureBuildInterest(
+  token: string,
+  interest: 'INTERESTED' | 'SAVED_FOR_LATER',
+): Promise<unknown> {
+  return post(token, 'build-interest', { interest });
 }

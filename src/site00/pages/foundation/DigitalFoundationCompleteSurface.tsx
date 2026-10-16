@@ -3,6 +3,7 @@
  * Board 04 (P11/P12) owns its visual rebuild; this sprint keeps the function as-is.
  */
 import type { ClientDigitalFoundationPayload } from '../../../../shared/site00-digital-foundation/clientProjection.js';
+import { captureBuildInterest as sendBuildInterest } from '../../foundation-client/api';
 import '../../styles/site00-digital-foundation.css';
 
 function formatMoney(minor: number, currency: string): string {
@@ -10,12 +11,7 @@ function formatMoney(minor: number, currency: string): string {
 }
 
 async function captureBuildInterest(token: string, interest: 'INTERESTED' | 'SAVED_FOR_LATER') {
-  const res = await fetch('/api/site00/digital-foundation-artifact?action=build-interest', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ token, interest }),
-  });
-  if (!res.ok) throw new Error('Request failed');
+  await sendBuildInterest(token, interest);
 }
 
 export default function DigitalFoundationCompleteSurface({

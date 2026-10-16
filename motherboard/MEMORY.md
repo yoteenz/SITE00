@@ -16666,3 +16666,13 @@ Summary of the whole conversation in this chat.
 - **Live forensics:** Staging HTML build `mvb3kwqd`; `#1652` asset routing **live** (missing `/assets/*.js` → **404** `text/plain`; hashed bundles **200**). Playwright iPhone profile: `/`, `/origin/sign-in`, `/admin/site00/foundation-readiness` mount React (`data-site00-app-mounted=1`); no `pageerror` on happy path. Simulated **OriginPage chunk abort** on current staging → **empty body (white)** — root cause class **F** (React/lazy gap) + **D** (null suspense fallback), not broken SPA fallback anymore.
 - **Fix (branch `cursor/staging-white-screen-runtime-be3b`):** `Site00WorldRouteSuspenseFallback` (visible `#f5f5f3` “Loading SITE 00…” instead of `null` after cinematic gate); `Site00WorldRouteErrorBoundary` + `lazyWithChunkRecovery` for `Site00OriginPage`; admin `LoadingScreen` no longer unmounts to blank on 12s timeout; `site00-assts-loader-boot.js` reads `meta[name=site00-supabase-project-ref]` injected at Vite build from `VITE_SUPABASE_URL`.
 - **Status:** **IMPLEMENTED — LIVE VERIFICATION PENDING** until Railway redeploys carefree-luck from integration branch and founder re-checks iPhone Safari post-loader.
+
+---
+
+## 2026-10-16 — P0 Artifact initialization crash recovery (IDNTY staging)
+
+- **Symptom:** After PR #1653 error boundary, iPhone Safari showed `undefined is not an object (evaluating 't.artifact.artifact_id')` / `Cannot read properties of undefined (reading 'artifact_id')` on staging.
+- **Root cause:** `src/site00/foundation-client/api.ts` used relative `/api/site00/digital-foundation-artifact`. On Railway **carefree-luck** (static SPA only), browser fetches hit the SPA host → **200 text/html** → `{}` treated as payload → `useIntakeDraft` / `resolveDfRoute` dereferenced missing `artifact`.
+- **Fix (branch `cursor/artifact-init-crash-recovery-be3b`):** Route DF client fetches through `site00ApiUrl()` (`VITE_API_BASE` → **reliable-creation-staging**); reject non-JSON and invalid payloads (`INVALID_API_RESPONSE`, `INVALID_PAYLOAD`); hook/model guards; regression tests `tests/foundationClientArtifactApi.test.ts`.
+- **Repro:** `https://carefree-luck-staging.up.railway.app/foundation/not-a-real-token` before fix → world error boundary; after fix locally → DF “WE COULDN'T LOAD THIS” recoverable panel (no throw).
+- **Deploy:** Staging SPA redeploy required; `npm run start:spa` unchanged.
