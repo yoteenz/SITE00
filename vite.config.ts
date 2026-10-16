@@ -84,6 +84,8 @@ export default defineConfig(({ mode, command }) => {
   }
 
   function indexBuildStampPlugin(stamp: string) {
+    const supabaseUrl = (env.VITE_SUPABASE_URL || process.env.VITE_SUPABASE_URL || '').trim();
+    const supabaseProjectRef = supabaseUrl.match(/https?:\/\/([^.]+)\./)?.[1] ?? '';
     return {
       name: 'site00-index-build-stamp',
       transformIndexHtml: {
@@ -100,6 +102,12 @@ export default defineConfig(({ mode, command }) => {
               'src="/site00-assts-loader-boot.js?v=environment-v2"',
               `src="/site00-assts-loader-boot.js?v=${stamp}"`,
             );
+          if (supabaseProjectRef && !next.includes('name="site00-supabase-project-ref"')) {
+            next = next.replace(
+              '</head>',
+              `    <meta name="site00-supabase-project-ref" content="${supabaseProjectRef}" />\n  </head>`,
+            );
+          }
           if (cloudMobilePreview) {
             const previewMeta =
               `<meta name="site00-cloud-preview" content="1" />` +

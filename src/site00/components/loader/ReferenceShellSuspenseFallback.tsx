@@ -15,6 +15,7 @@ import { renderMobileFounderWorkspaceScreen } from '../founderWorkspace/MobileFo
 import { resolveMobileVisualShellSpec } from '../../config/ndxMobileVisualShellSpecs';
 import { useSite00OriginWideViewport } from '../shell/useSite00OriginWideViewport';
 import { useSite00 } from '../../state/Site00Context';
+import { Site00WorldRouteSuspenseFallback } from './Site00WorldRouteSuspenseFallback';
 import '../../styles/site00-founder-workspace.css';
 
 function resolvePathname(): string {
@@ -57,7 +58,7 @@ export function ReferenceShellSuspenseFallback() {
   }
 
   if (!isNdxReconstructedRoute(pathname)) {
-    return null;
+    return <Site00WorldRouteSuspenseFallback />;
   }
 
   return <ReferenceShellSuspenseFallbackNdx pathname={pathname} />;
