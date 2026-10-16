@@ -10,6 +10,7 @@ import {
   type TestInvitationPreview,
   type TestJourney,
 } from '../../services/foundationReadinessApi';
+import { clearChunkRecoveryFlag } from '../../../../utils/lazyWithChunkRecovery';
 
 const STATUS_LABEL: Record<string, string> = {
   READY: 'Ready',
@@ -69,6 +70,7 @@ export default function FoundationReadinessPage() {
   }, []);
 
   useEffect(() => {
+    clearChunkRecoveryFlag('FoundationReadinessPage');
     void refresh();
   }, [refresh]);
 
@@ -205,7 +207,8 @@ export default function FoundationReadinessPage() {
           <h2 className="site00-admin-panel__title">Database security probe</h2>
           <p>
             Staging project ref: <code>{report.database_security.supabase_project_ref ?? 'unknown'}</code> · Anon read
-            project_messages: {report.database_security.project_messages_table.anon_select} · Persistence exposure safe:{' '}
+            project_messages:{' '}
+            {report.database_security.project_messages_table?.anon_select ?? 'unknown'} · Persistence exposure safe:{' '}
             {report.database_security.persistence_safe ? 'yes' : 'no'}
           </p>
           {report.database_security.notes.length ? (

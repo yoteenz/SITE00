@@ -510,6 +510,17 @@
   background-attachment: fixed;
 }
 
+@media (max-width: 1023px) {
+  /* iOS Safari: fixed backgrounds + fixed pseudo-layers can paint a blank viewport over admin content. */
+  .site00-admin-shell--with-bg {
+    background-attachment: scroll;
+  }
+
+  .site00-admin-shell--with-bg::before {
+    position: absolute;
+  }
+}
+
 .site00-admin-shell--with-bg::before {
   content: '';
   position: fixed;
@@ -1457,5 +1468,33 @@
   cursor: pointer;
   font-family: var(--site00-font-label);
   letter-spacing: 0.06em;
+}
+
+.site00-admin-route-error {
+  max-width: 640px;
+  margin: 24px auto;
+  padding: 20px;
+  border: 1px solid var(--site-line);
+  background: rgba(255, 255, 255, 0.96);
+}
+
+.site00-admin-route-error__lead {
+  margin: 0 0 12px;
+  line-height: 1.5;
+  text-transform: none;
+}
+
+.site00-admin-route-error__detail {
+  margin: 0 0 16px;
+  font-size: 12px;
+  word-break: break-word;
+  text-transform: none;
+}
+
+.site00-admin-route-error__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  text-transform: none;
 }
 
