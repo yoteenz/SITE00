@@ -25,6 +25,18 @@ describe('SITE 00 immersive suspense fallback guard', () => {
     expect(fallback).toContain('ReferenceShellSuspenseFallback');
   });
 
+  it('non-NDX suspense fallback stays visible (never null white gap)', () => {
+    const refShell = read('src/site00/components/loader/ReferenceShellSuspenseFallback.tsx');
+    expect(refShell).toContain('Site00WorldRouteSuspenseFallback');
+    expect(refShell).toContain('return <Site00WorldRouteSuspenseFallback />');
+    expect(read('src/site00/components/loader/Site00WorldRouteSuspenseFallback.tsx')).toContain('Loading SITE 00');
+  });
+
+  it('world routes wrap suspense with chunk error boundary', () => {
+    expect(read('src/routes/Site00Routes.tsx')).toContain('Site00WorldRouteErrorBoundary');
+    expect(read('src/routes/Site00Routes.tsx')).toContain('lazyWithChunkRecovery');
+  });
+
   it('ASSTS route suspense fallback never portals immersive loader', () => {
     const suspense = read('src/site00/assts/components/AsstsRouteSuspense.tsx');
     expect(suspense).not.toContain('Site00ImmersiveLoader');
