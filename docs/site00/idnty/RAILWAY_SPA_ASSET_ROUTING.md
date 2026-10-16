@@ -26,7 +26,10 @@ Implementation: `server/site00SpaStaticServer.ts` (Express)
 
 - **Build:** `bash scripts/staging/build-founder-staging-spa.sh` (unchanged)
 - **Start:** `npm run start:spa` (replace `npx serve dist -s -l $PORT`)
+- **Config-as-code (optional):** set service config path to repo root `railway-spa.toml` (sets `startCommand = npm run start:spa`)
 - **PORT:** injected by Railway (server reads `process.env.PORT`)
+
+Manual path if config-as-code is not used: Railway dashboard → **carefree-luck** → **Settings** → **Deploy** → **Custom Start Command** → `npm run start:spa` → **Redeploy**.
 
 ## Regression tests
 
