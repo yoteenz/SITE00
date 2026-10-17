@@ -50,6 +50,7 @@ export const SITE00_ROUTES = {
   digitalFoundationAdmin: '/admin/site00/foundation',
   digitalFoundationAdminDetail: '/admin/site00/foundation/:id',
   digitalFoundationPipeline: '/admin/site00/foundation/pipeline',
+  digitalFoundationScreenReview: '/admin/site00/foundation/screen-review',
   digitalFoundationProjectCommand: '/admin/site00/foundation/:id/command',
   digitalFoundationWorkbench: '/admin/site00/foundation/:id/workbench',
   digitalFoundationCommunications: '/admin/site00/foundation/communications',

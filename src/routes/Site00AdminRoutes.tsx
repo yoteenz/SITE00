@@ -69,6 +69,7 @@ const MarketingEngagementsAdminPage = lazy(() => import('../site00/admin/pages/m
 const MarketingEngagementAdminDetailPage = lazy(() => import('../site00/admin/pages/marketing/MarketingEngagementAdminDetailPage'));
 const FoundationAdminListPage = lazy(() => import('../site00/admin/pages/foundation/FoundationAdminListPage'));
 const FoundationAdminDetailPage = lazy(() => import('../site00/admin/pages/foundation/FoundationAdminDetailPage'));
+const FoundationReviewStudioPage = lazy(() => import('../site00/admin/pages/foundation/FoundationReviewStudioPage'));
 const FoundationPipelinePage = lazy(() => import('../site00/admin/pages/foundation/FoundationPipelinePage'));
 const FoundationProjectCommandPage = lazy(() => import('../site00/admin/pages/foundation/FoundationProjectCommandPage'));
 const FoundationWorkbenchPage = lazy(() => import('../site00/admin/pages/foundation/FoundationWorkbenchPage'));
@@ -594,6 +595,10 @@ export function Site00AdminRoutes() {
             <SettingsPage />
           </AdminSuspense>
         }
+      />
+      <Route
+        path="site00/foundation/screen-review"
+        element={<AdminSuspense><FoundationReviewStudioPage /></AdminSuspense>}
       />
       <Route
         path="site00/foundation/pipeline"
