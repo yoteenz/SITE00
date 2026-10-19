@@ -32,7 +32,14 @@ function quoted() {
   const l = link();
   updateIntake(
     l.id,
-    { business_name: 'Progress Test LLC', contact_name: 'Ana', current_email: 'a@example.com', team_size: 1, needs: ['NEED_DOMAIN'] },
+    {
+      business_name: 'Progress Test LLC',
+      contact_name: 'Ana',
+      current_email: 'a@example.com',
+      phone: '901-555-0100',
+      team_size: 1,
+      needs: ['NEED_DOMAIN'],
+    },
     true,
   );
   return l;

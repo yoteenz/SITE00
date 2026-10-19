@@ -13,6 +13,7 @@ import {
   type AddonRow,
   type Selections,
 } from '../model';
+import { DfCheckMark } from '../components';
 import { DfAlert, DfCta, DfHeadline, DfLede, DfRail, DfSheet, DfTrust } from '../shell';
 import type { QuoteSyncStatus } from '../useFoundationArtifact';
 
@@ -101,11 +102,11 @@ function AddonLine({
             type="button"
             tabIndex={-1}
             aria-hidden="true"
-            className={`df-check${row.selected ? ' df-check--on' : ''}`}
+            className="df-addon__checkbtn"
             disabled={locked || blocked}
             onClick={onToggle}
           >
-            {row.selected && <DfIcon name="check" />}
+            <DfCheckMark checked={row.selected} disabled={locked || blocked} />
           </button>
         )}
       </span>

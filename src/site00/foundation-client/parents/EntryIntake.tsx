@@ -1,5 +1,5 @@
 /** Board 01 — P01 FOUNDATION ENTRY · P02 BUSINESS INTAKE · P03 FOUNDATION CONFIGURATOR. */
-import { useMemo, useState, type ReactNode } from 'react';
+import { useMemo, useState, type ChangeEvent, type ReactNode } from 'react';
 import { defaultDigitalFoundationCommercialConfig } from '../../../../shared/site00-digital-foundation/commercialConfig.js';
 import type { DigitalFoundationCommercialConfig } from '../../../../shared/site00-digital-foundation/types.js';
 import { DfIcon, type DfIconName } from '../icons';
@@ -14,9 +14,9 @@ import {
   type IntakeDraft,
   type IntakeErrors,
 } from '../model';
-import { DfField } from '../components';
+import { DfCheckMark, DfField } from '../components';
 import { IdntySelect, businessTypeSelectOptions, dfCustomIndustrySelectEnabled } from '../idntySelect';
-import { formatUsPhoneDisplay } from '../phoneFormat';
+import { formatContactPhoneInput } from '../contactPhoneInput';
 import { DfAlert, DfCta, DfHeadline, DfHeroObject, DfLede, DfRail, DfSheet, DfTrust } from '../shell';
 import type { SaveStatus } from '../useFoundationArtifact';
 
@@ -226,21 +226,22 @@ export function P02Intake({
         <DfField
           id="df-phone"
           label="CONTACT NUMBER"
-          optional
+          required
+          error={err.phone}
           hint="USED AS A BACKUP CONTACT FOR URGENT ACCOUNT, DOMAIN, OR EMAIL ISSUES."
         >
           <input
-            id="df-phone"
-            className="df-input"
-            type="tel"
-            inputMode="tel"
-            autoComplete="tel"
-            placeholder="ENTER PHONE NUMBER"
-            value={draft.phone}
-            disabled={!editable}
-            onChange={(e) => {
-              update({ phone: formatUsPhoneDisplay(e.target.value) });
-            }}
+            {...input('phone', {
+              type: 'tel',
+              inputMode: 'tel',
+              autoComplete: 'tel',
+              placeholder: 'ENTER PHONE NUMBER',
+              'aria-required': true,
+              onChange: (e: ChangeEvent<HTMLInputElement>) => {
+                update({ phone: formatContactPhoneInput(e.target.value) });
+                if (err.phone) setErrors((p) => ({ ...p, phone: undefined }));
+              },
+            })}
           />
         </DfField>
         <DfCta type="submit" label="CONTINUE" />
@@ -284,12 +285,7 @@ function ServiceRow({ icon, title, sub, tags, control, checked, active, disabled
           <DfIcon name="arrow" />
         </span>
       ) : (
-        <span
-          className={`df-check${checked ? ' df-check--on' : ''}${control === 'locked' ? ' df-check--locked' : ''}`}
-          aria-hidden="true"
-        >
-          {checked && <DfIcon name="check" />}
-        </span>
+        <DfCheckMark checked={Boolean(checked)} locked={control === 'locked'} />
       )}
     </>
   );

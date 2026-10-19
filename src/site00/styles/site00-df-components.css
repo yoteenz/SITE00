@@ -606,15 +606,37 @@ body.df-scroll-locked .df-root {
   vector-effect: non-scaling-stroke;
 }
 
-.df-check--on {
-  border-color: var(--df-red);
+/* System B (FD-3): red period inside an ink-edged box for optional choices. */
+.df-check--on:not(.df-check--locked) {
+  border-color: var(--df-ink);
+  background: var(--df-surface);
+  color: var(--df-ink);
+}
+
+.df-check--on:not(.df-check--locked)::after {
+  content: '';
+  width: 8px;
+  height: 8px;
   background: var(--df-red);
 }
 
-/* Included core services: checked and not removable. Ink, not red, so “included” never reads as a choice. */
+.df-check--on:not(.df-check--locked) svg {
+  display: none;
+}
+
+.df-addon__checkbtn {
+  display: inline-flex;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+/* Included core services: checked and not removable. Ink fill + white check. */
 .df-check--locked.df-check--on {
   border-color: var(--df-ink);
   background: var(--df-ink);
+  color: #fff;
 }
 
 .df-check--disabled,

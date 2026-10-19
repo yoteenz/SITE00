@@ -16710,3 +16710,20 @@ Summary of the whole conversation in this chat.
 - **Shipped:** `DfField` required `*` + optional `OPTIONAL`; P02 unified on `DfField` (CONTACT NUMBER label/hint, phone still optional); native select chevron → `df-native-select__chev` (C-1); component tokens + coarse-pointer 16px inputs (NF-01); `.df-chip` styles (NF-02); checkbox edge token `#8f8d88` (NF-06 prep); tests `tests/dfFormControlPhase1.test.ts`; docs `docs/site00/idnty/form-control-implementation-phase1/`.
 - **Not in Phase 1:** Business Type sheet, System B checkboxes, phone required, progression/save/API changes. PR left unmerged per sprint.
 - **Verify:** Playwright iPhone profile on workspace Vite `:5175` → business name input 16px; screenshots `/opt/cursor/artifacts/df-phase1-visual/`.
+
+---
+
+## 2026-10-19 — IDNTY form control Phase 2 selector (Composer)
+
+- **Sprint:** `P0.SITE00.IDNTY.FORM-CONTROL-IMPLEMENTATION.COMPOSER-PHASE2` on `cursor/idnty-founder-readiness-e2e-be3b` after Phase 1 merge #1659 (`76396baf`).
+- **Shipped:** `IdntySelect` + mobile `IdntySelectionSheet` (FD-1 / FD-6); P02 Business Type behind `VITE_DF_CUSTOM_INDUSTRY_SELECT` (preview dev `=1`); desktop reuses `DfSelect`; legacy industry row; tests `tests/idntySelectPhase2.test.ts`; docs `docs/site00/idnty/form-control-implementation-phase2/`.
+- **Flag:** Production builds still default native select until founder sets `VITE_DF_CUSTOM_INDUSTRY_SELECT=1` at build.
+- **Evidence:** `/opt/cursor/artifacts/df-phase2-visual/` (mobile sheet + desktop listbox).
+
+---
+
+## 2026-10-19 — IDNTY form control consolidated A (Phases 3–5)
+
+- **Sprint:** `P0.SITE00.IDNTY.FORM-CONTROL-IMPLEMENTATION.COMPOSER-CONSOLIDATED-A` on integration after #1660.
+- **Shipped:** System B checkbox CSS + `DfCheckMark` on P03/P04/P05; required CONTACT NUMBER with `libphonenumber-js` validation; `completeIntake` server guard; synthetic/fixture test phones; docs `form-control-implementation-consolidated-a/`.
+- **Grandfather:** already-`COMPLETE` intakes skip re-validation on `completeIntake`.
