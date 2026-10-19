@@ -14,6 +14,7 @@ import {
   type IntakeDraft,
   type IntakeErrors,
 } from '../model';
+import { formatUsPhoneDisplay } from '../phoneFormat';
 import { DfAlert, DfCta, DfHeadline, DfHeroObject, DfLede, DfRail, DfSheet, DfTrust } from '../shell';
 import type { SaveStatus } from '../useFoundationArtifact';
 
@@ -220,7 +221,19 @@ export function P02Intake({
           />
         </Field>
         <Field id="df-phone" label="PHONE NUMBER">
-          <input {...input('phone', { type: 'tel', inputMode: 'tel', placeholder: '(   )   -', autoComplete: 'tel' })} />
+          <input
+            id="df-phone"
+            className="df-input"
+            type="tel"
+            inputMode="tel"
+            autoComplete="tel"
+            placeholder="901-236-2647"
+            value={draft.phone}
+            disabled={!editable}
+            onChange={(e) => {
+              update({ phone: formatUsPhoneDisplay(e.target.value) });
+            }}
+          />
         </Field>
         <DfCta type="submit" label="CONTINUE" />
       </form>
@@ -365,8 +378,23 @@ export function P03Configure({
   const toggleNeed = (f: ConfigurableNeed) =>
     update({ needs: has(f) ? draft.needs.filter((n) => n !== f) : [...draft.needs, f] });
   const domain = DOMAIN_PATHS.find((d) => d.path === draft.domainPath) ?? null;
+  const domainSelected = draft.domainPath !== null;
   const extraPeople = draft.team_size - 1;
   const extras = ADDITIONAL_SERVICES.filter((s) => has(s.flag));
+
+  const clearDomainSelection = () => {
+    update({ domainPath: null, existing_domain: '', existing_registrar: '' });
+    setOpen(null);
+    setErrors((e) => ({ ...e, domainPath: undefined, existing_domain: undefined }));
+  };
+
+  const toggleDomainRow = () => {
+    if (domainSelected) {
+      clearDomainSelection();
+      return;
+    }
+    setOpen(open === 'domain' ? null : 'domain');
+  };
 
   const submit = () => {
     const found = validateForRecommendation(draft);
@@ -389,11 +417,11 @@ export function P03Configure({
           sub={domain ? domain.title : 'REGISTER, TRANSFER OR CONNECT YOUR DOMAIN'}
           tags={domain?.path === 'LOST' ? ['PAID ADD-ON', 'MANUAL REVIEW'] : ['INCLUDED', 'CONFIGURABLE']}
           control="check"
-          checked={Boolean(domain)}
-          active={Boolean(domain) || open === 'domain'}
+          checked={domainSelected}
+          active={domainSelected || open === 'domain'}
           disabled={!editable}
           expanded={open === 'domain'}
-          onActivate={() => setOpen(open === 'domain' ? null : 'domain')}
+          onActivate={toggleDomainRow}
         >
           {open === 'domain' && (
             <div className="df-reveal">

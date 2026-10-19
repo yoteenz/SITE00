@@ -17,6 +17,7 @@ import type {
   IntakeNeedFlag,
 } from '../../../shared/site00-digital-foundation/types.js';
 import type { ClientCatalogEntry } from './api';
+import { formatUsPhoneDisplay } from './phoneFormat';
 
 export type DfIntakeView = 'P01' | 'P02' | 'P03' | 'P04' | 'P05' | 'P06';
 export type DfPortalView = 'OVERVIEW' | 'ROADMAP' | 'STAGE' | 'NEEDS_YOU' | 'RECORDS' | 'RECORD' | 'COMM_PREFS';
@@ -309,7 +310,7 @@ export function draftFromPayload(payload: ClientDigitalFoundationPayload): Intak
     industry: intake.industry ?? '',
     contact_name: intake.contact_name ?? lead.contact_name ?? '',
     current_email: intake.current_email ?? lead.contact_email ?? '',
-    phone: intake.phone ?? '',
+    phone: formatUsPhoneDisplay(intake.phone ?? ''),
     existing_domain: intake.existing_domain ?? '',
     existing_registrar: intake.existing_registrar ?? '',
     existing_email_provider: intake.existing_email_provider ?? '',
