@@ -16755,3 +16755,11 @@ Summary of the whole conversation in this chat.
 - **Fixes:** Five-column registry (`FoundationsRegistry` + container CSS); shared `RegistryFilterProvider` for OL-07/toolbar; referral activity timeline from real attributed list rows (no fake `/api/admin/referrals/events`).
 - **Docs:** acceptance pack under `founder-workspace-full-authority-implementation-composer1/` including `FINAL_ACCEPTANCE_REPORT.md`.
 - **Verify:** vitest 22 workspace + 24 intake; build pass. Authenticated React capture still **BLOCKED** (no founder session in cloud VM).
+
+---
+
+## 2026-10-19 — Founder Workspace tunnel review pin (Composer1)
+
+- **Sprint:** Single-branch tunnel review for PR **#1665** — pin `origin/cursor/founder-workspace-full-authority-implementation-composer1-be3b` @ `b8f0bcf0` on canonical Cloudflare tunnel → `:5174` via `serve-site00-preview-from-pin-ref.sh` (worktree `/tmp/site00-preview-main`, `PREVIEW_AUTHORITY=PINNED`).
+- **Public URL:** canonical tunnel hostname (Cloud Secrets) — smoke 200, `main.tsx?v=dev-local`, lineage SHA matches review branch.
+- **Docs:** `docs/site00/idnty/founder-workspace-tunnel-review-composer1/`. Revert: `serve-site00-preview-from-main.sh`. No Railway/staging/production changes; no merge.
