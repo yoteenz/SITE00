@@ -753,6 +753,12 @@ body.df-drawer-open {
   outline: none;
 }
 
+.df-input:focus-visible {
+  border-color: var(--df-red);
+  outline: 2px solid var(--df-red);
+  outline-offset: 0;
+}
+
 .df-input:disabled {
   color: var(--df-muted);
 }
@@ -794,11 +800,20 @@ body.df-drawer-open {
   letter-spacing: 0.2em;
 }
 
+@media (pointer: coarse) {
+  .df-native-select .df-input,
+  .df-native-select.df-select--empty .df-input {
+    font-size: 16px;
+    letter-spacing: 0.04em;
+  }
+}
+
 .df-select option {
   color: var(--df-ink);
 }
 
-.df-select__chev {
+/* Native `<select>` chevron (intake P02). Custom combobox chevrons use `.df-select__chev` in site00-df-components.css (C-1). */
+.df-native-select__chev {
   position: absolute;
   top: 50%;
   right: 12px;

@@ -44,6 +44,11 @@
   --df-tooltip-bg: #1c1c1b;
   --df-label-size: 10px;
   --df-control-text: 10px;
+  --df-input-value-size: 14px;
+  --df-input-touch-size: 16px;
+  --df-focus-ring: 2px solid var(--df-red);
+  --df-check-edge: #8f8d88;
+  --df-check-border: 1.5px solid var(--df-check-edge);
 }
 
 body.df-scroll-locked {
@@ -281,11 +286,32 @@ body.df-scroll-locked .df-root {
 }
 
 .df-field__label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
   font-size: var(--df-label-size);
   font-weight: 700;
   letter-spacing: 0.18em;
   line-height: 1.2;
   color: var(--df-ink);
+  text-transform: uppercase;
+}
+
+.df-field__label-main {
+  display: inline;
+}
+
+.df-field__required {
+  color: var(--df-red);
+  font-weight: 700;
+}
+
+.df-field__optional {
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  line-height: 1.2;
+  color: var(--df-muted);
   text-transform: uppercase;
 }
 
@@ -302,18 +328,27 @@ body.df-scroll-locked .df-root {
 
 .df-input {
   width: 100%;
+  min-width: 0;
+  max-width: 100%;
   height: var(--df-control-h);
   padding: 0 14px;
   border: 1px solid var(--df-control-border);
   border-radius: var(--df-radius-sm);
   background: var(--df-surface);
   /* User-entered values keep their own casing; only chrome copy is uppercase. */
-  font-size: 14px;
+  font-size: var(--df-input-value-size);
   letter-spacing: 0.01em;
   color: var(--df-ink);
   appearance: none;
   -webkit-appearance: none;
   transition: border-color 120ms ease;
+}
+
+@media (pointer: coarse) {
+  .df-input,
+  .df-select__trigger {
+    font-size: var(--df-input-touch-size);
+  }
 }
 
 .df-input::placeholder {
@@ -331,6 +366,12 @@ body.df-scroll-locked .df-root {
 .df-input:focus {
   border-color: var(--df-red);
   outline: none;
+}
+
+.df-input:focus-visible {
+  border-color: var(--df-red);
+  outline: var(--df-focus-ring);
+  outline-offset: 0;
 }
 
 .df-input:disabled {
@@ -363,12 +404,14 @@ body.df-scroll-locked .df-root {
 .df-field__error,
 .df-field__hint {
   margin: -2px 0 0;
+  max-width: 100%;
   font-size: 8.5px;
   font-weight: 700;
   letter-spacing: 0.16em;
   line-height: 1.5;
   color: var(--df-red);
   text-transform: uppercase;
+  overflow-wrap: anywhere;
 }
 
 .df-field__hint {
@@ -535,7 +578,7 @@ body.df-scroll-locked .df-root {
   justify-content: center;
   width: 20px;
   height: 20px;
-  border: 1px solid var(--df-control-border-strong);
+  border: var(--df-check-border);
   border-radius: 2px;
   background: var(--df-surface);
   color: #fff;
@@ -1649,6 +1692,63 @@ div.df-srow__main {
 
 .df-progress__step--locked .df-progress__label {
   color: var(--df-disabled-ink);
+}
+
+/* ─── DF CHIPS (record filters, segmented tabs — NF-02) ─────────────────────────────────────── */
+
+.df-chips {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 8px;
+  max-width: 100%;
+  margin-top: 14px;
+  padding-bottom: 4px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.df-chip {
+  flex: 0 0 auto;
+  min-height: 36px;
+  min-width: 0;
+  padding: 0 14px;
+  border: 1px solid var(--df-control-border);
+  border-radius: var(--df-radius-sm);
+  background: var(--df-surface);
+  color: var(--df-ink);
+  font-family: var(--df-text);
+  font-size: var(--df-label-size);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: border-color 120ms ease, color 120ms ease, background-color 120ms ease;
+}
+
+.df-chip:hover:not(:disabled) {
+  border-color: var(--df-control-border-strong);
+}
+
+.df-chip:focus-visible {
+  border-color: var(--df-red);
+  outline: var(--df-focus-ring);
+  outline-offset: 0;
+}
+
+.df-chip--on {
+  border-color: var(--df-red);
+  background: #fffafa;
+  color: var(--df-red);
+}
+
+.df-chip--on:focus-visible {
+  outline: var(--df-focus-ring);
 }
 
 /* ─── DF EMPTY STATE (U13) ─────────────────────────────────────────────────────────────────── */
