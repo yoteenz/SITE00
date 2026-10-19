@@ -54,6 +54,8 @@ export const SITE00_ROUTES = {
   digitalFoundationWorkbench: '/admin/site00/foundation/:id/workbench',
   digitalFoundationCommunications: '/admin/site00/foundation/communications',
   digitalFoundationReadiness: '/admin/site00/foundation-readiness',
+  digitalFoundationFounderWorkspace: '/admin/site00/founder-workspace',
+  digitalFoundationFounderWorkspaceOverview: '/admin/site00/founder-workspace/overview',
   invitationAdmin: '/admin/site00/invitation',
   assts: '/assts',
   asstsBatch: '/assts/batches/:batchId',

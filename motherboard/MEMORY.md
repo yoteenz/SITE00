@@ -16727,3 +16727,39 @@ Summary of the whole conversation in this chat.
 - **Sprint:** `P0.SITE00.IDNTY.FORM-CONTROL-IMPLEMENTATION.COMPOSER-CONSOLIDATED-A` on integration after #1660.
 - **Shipped:** System B checkbox CSS + `DfCheckMark` on P03/P04/P05; required CONTACT NUMBER with `libphonenumber-js` validation; `completeIntake` server guard; synthetic/fixture test phones; docs `form-control-implementation-consolidated-a/`.
 - **Grandfather:** already-`COMPLETE` intakes skip re-validation on `completeIntake`.
+
+---
+
+## 2026-10-19 — IDNTY Founder Workspace full authority implementation (Composer1, slice 1)
+
+- **Sprint:** `P0.SITE00.IDNTY.FOUNDER-WORKSPACE.FULL-AUTHORITY-IMPLEMENTATION.COMPOSER1` on `cursor/founder-workspace-full-authority-implementation-composer1-be3b` → integration `cursor/idnty-founder-readiness-e2e-be3b`.
+- **Shipped (React):** `src/site00/admin/founder-workspace/` — shell (sidebar 01–07, tablet rail, mobile bottom + menu Referrals), overlay host + CREATE_CLIENT, seven pages, Opus2-oriented CSS, list API `intake_state` for G-01; `/foundation-readiness` → workspace System; auth return → `/founder-workspace/overview`.
+- **Docs on branch:** Opus1/2/3 + policy lock trees; implementation pack `founder-workspace-full-authority-implementation-composer1/` (partial deliverables).
+- **Policy:** Referrals commissions/payouts/print remain blocked UI; AIO not auto-active.
+- **Verify:** `tests/idntyFounderWorkspaceImplementation.test.ts` (9); `npm run build` pass. Staging E2E + full overlay parity **not** complete.
+
+---
+
+## 2026-10-19 — IDNTY Founder Workspace implementation slice 2 (completion pass)
+
+- **Continuation:** PR **#1665** on `cursor/founder-workspace-full-authority-implementation-composer1-be3b` (not merged).
+- **Shipped:** Canonical OL-01…20 + RO-01…20 overlay bodies/triggers; enhanced host (geometry, dirty confirm); shell ⌘K search; operations/reviews/correspondence/referrals/system depth; `foundationAdminApi` task/quote/message actions; screenshot script + 28 PNGs (unauthenticated limitation documented).
+- **Tests:** workspace vitest 16; intake regressions 24; build pass.
+- **Honest gates:** PR **not** merge-ready — Opus pixel signoff, authenticated E2E, commission backend still open.
+
+---
+
+## 2026-10-19 — IDNTY Founder Workspace slice 3 (authenticated acceptance + defect closure)
+
+- **Sprint:** `P0.SITE00.IDNTY.FOUNDER-WORKSPACE.AUTHENTICATED-VISUAL-ACCEPTANCE-AND-DEFECT-CLOSURE.COMPOSER1` on PR **#1665** (draft, not merged).
+- **Fixes:** Five-column registry (`FoundationsRegistry` + container CSS); shared `RegistryFilterProvider` for OL-07/toolbar; referral activity timeline from real attributed list rows (no fake `/api/admin/referrals/events`).
+- **Docs:** acceptance pack under `founder-workspace-full-authority-implementation-composer1/` including `FINAL_ACCEPTANCE_REPORT.md`.
+- **Verify:** vitest 22 workspace + 24 intake; build pass. Authenticated React capture still **BLOCKED** (no founder session in cloud VM).
+
+---
+
+## 2026-10-19 — Founder Workspace tunnel review pin (Composer1)
+
+- **Sprint:** Single-branch tunnel review for PR **#1665** — pin `origin/cursor/founder-workspace-full-authority-implementation-composer1-be3b` @ `b8f0bcf0` on canonical Cloudflare tunnel → `:5174` via `serve-site00-preview-from-pin-ref.sh` (worktree `/tmp/site00-preview-main`, `PREVIEW_AUTHORITY=PINNED`).
+- **Public URL:** canonical tunnel hostname (Cloud Secrets) — smoke 200, `main.tsx?v=dev-local`, lineage SHA matches review branch.
+- **Docs:** `docs/site00/idnty/founder-workspace-tunnel-review-composer1/`. Revert: `serve-site00-preview-from-main.sh`. No Railway/staging/production changes; no merge.

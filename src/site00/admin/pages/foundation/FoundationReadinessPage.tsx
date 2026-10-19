@@ -50,7 +50,7 @@ function EnvGroupRow({ group }: { group: EnvVarGroup }) {
 }
 
 /** Founder-only Digital Foundation E2E test desk (synthetic clients, email timeline, real /foundation/:token). */
-export default function FoundationReadinessPage() {
+export function FoundationReadinessDesk({ embedded = false }: { embedded?: boolean }) {
   const [report, setReport] = useState<FounderReadinessReport | null>(null);
   const [email, setEmail] = useState('');
   const [name, setName] = useState('Founder E2E Client');
@@ -98,8 +98,8 @@ export default function FoundationReadinessPage() {
   const activation = report?.activation;
 
   return (
-    <Site00AdminShell>
-      <div className="site00-admin-page site00-foundation-readiness">
+      <div className={`site00-admin-page site00-foundation-readiness ${embedded ? 'site00-foundation-readiness--embedded' : ''}`.trim()}>
+      {!embedded ? (
       <header>
         <h1 className="site00-admin-page-title">[ DIGITAL FOUNDATION · STAGING READINESS ]</h1>
         <p className="site00-admin-page-subtitle">
@@ -136,6 +136,9 @@ export default function FoundationReadinessPage() {
           <Link to={SITE00_ADMIN_ROUTES.correspondenceStudio}>Correspondence Studio</Link>
         </p>
       </header>
+      ) : (
+        <p className="site00-admin-page-subtitle">Test lab · synthetic clients · gated email send</p>
+      )}
 
       {error ? (
         <p role="alert" className="site00-readiness-error">
@@ -463,6 +466,13 @@ export default function FoundationReadinessPage() {
         </section>
       ) : null}
       </div>
+  );
+}
+
+export default function FoundationReadinessPage() {
+  return (
+    <Site00AdminShell>
+      <FoundationReadinessDesk />
     </Site00AdminShell>
   );
 }

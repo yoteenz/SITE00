@@ -76,6 +76,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
               public_token: a.public_token,
               state: a.state,
               payment_state: a.payment_state,
+              intake_state: a.intake_state,
+              business_name: a.intake?.business_name ?? null,
               lead_id: a.lead_id,
               referral_source_id: a.referral_source_id,
               created_at: a.created_at,

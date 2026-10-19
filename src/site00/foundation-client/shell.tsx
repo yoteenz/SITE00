@@ -329,7 +329,7 @@ export function DfMenu({
       <nav id="df-menu" className="df-drawer__nav" aria-label="DIGITAL FOUNDATION">
         <ol className="df-drawer__steps">
           {steps.map((s) => {
-            const enabled = s.state === 'current' || s.state === 'open';
+            const enabled = s.state === 'current' || s.state === 'done' || s.state === 'open';
             const status = STEP_STATUS[s.state];
             return (
               <li key={s.view}>

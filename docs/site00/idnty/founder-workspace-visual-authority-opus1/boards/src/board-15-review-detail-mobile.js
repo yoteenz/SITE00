@@ -1,0 +1,21 @@
+import { header, section, frame, phone, S, foot, mount, btn, icon, mk, chip, status, kv, tabs, nrow, field, journey, plate } from './fw-kit.js';
+import { REVIEWS, sheet, toast } from './fw-parts.js';
+
+const r = REVIEWS[0];
+const head = (st = 'founder', label = 'INTAKE COMPLETE · AWAITING YOUR REVIEW') => `<div class="fw-mhead"><span class="fw-iconbtn">${icon('back')}</span><span class="fw-label" style="letter-spacing:.24em">INTAKE REVIEW</span><span class="fw-iconbtn">${icon('more')}</span></div>
+  <div style="padding:0 22px">${plate(r.c.name, { attn: st === 'founder', size: 'lg' })}<h1 class="fw-h2" style="margin-top:12px;font-size:34px">HORIZON FREIGHT</h1><div class="fw-sub" style="margin-top:8px">TRANSPORTATION + LOGISTICS</div><div class="fw-between fw-mt14">${status(st, label)}<span class="fw-meta">1D</span></div>
+  <div class="fw-mt14">${journey(2, { labels: ['INV', 'INT', 'REC', 'QTE', 'PAY', 'SET', 'VER', 'DONE'], dates: ['OCT 10', 'OCT 14', 'TODAY', '', '', '', '', ''] })}</div></div>`;
+const detail = frame({ title: 'REVIEW DETAIL · IN REVIEW', chips: S.ref('REF F') + ' ' + S.prop('GEOMETRY'), body: phone({ nav: 'reviews', body: `${head()}<div style="padding:12px 16px 0">${tabs(['OVERVIEW', 'INTAKE', 'RECOMMEND', 'NOTES'], 0)}<div class="fw-mt14">${nrow('user', 'CLIENT INFORMATION', 'DANA RUIZ · CONTACT')}${nrow('business', 'BUSINESS DETAILS', 'TRANSPORTATION + LOGISTICS')}${nrow('domain', 'DOMAIN + EMAIL', 'CONNECT A DOMAIN I OWN · 6 MAILBOXES')}${nrow('addons', 'RECOMMENDED SERVICES', 'MANUAL REVIEW · 2 REASONS', chip('warn', '3'))}${nrow('price', 'GENERATED QUOTE', 'V1 · NOT APPROVED', chip('muted', 'PENDING'))}</div></div>
+  <div class="fw-sheet__f" style="position:absolute;left:0;right:0;bottom:84px;background:#fff">${btn('ADD NOTE', { tone: 'out', arrow: false })}${btn('DECIDE', { block: true })}</div>` }),
+  note: 'Evidence rows open in place (sheets). The decision bar is fixed above the navigation with a hairline gap so it can never be confused with it.' });
+const decide = frame({ title: 'DECISION SHEET', chips: S.prop(), body: phone({ nav: 'reviews', body: head(), overlay: sheet('YOUR DECISION', `
+  <div class="fw-choice fw-choice--on"><span class="fw-choice__dot"></span><span><b>READY TO QUOTE</b><span>OPENS THE QUOTE WITH THE RECOMMENDED SELECTIONS. NOTHING IS SENT TO THE CLIENT YET.</span></span></div>
+  <div class="fw-choice"><span class="fw-choice__dot"></span><span><b>ASK THE CLIENT FOR MORE</b><span>CREATES A CLIENT ACTION “PROVIDE BUSINESS DETAILS” VISIBLE IN THEIR PORTAL.</span></span></div>
+  ${field({ label: 'NOTE', ph: 'WHAT YOU DECIDED AND WHY', opt: true })}`, `${btn('CANCEL', { tone: 'out', arrow: false })}${btn('CONFIRM DECISION', { block: true })}`, { top: '210px' }) }),
+  note: 'Only outcomes the state machine supports: an intake review has no approve/reject API — “ready to quote” opens the quote; “ask for more” = client-action PROVIDE_BUSINESS_DETAILS (not persisted alone, G-04).' });
+const done = frame({ title: 'CONFIRMED · NEXT STATE', chips: S.prop(), body: phone({ nav: 'reviews', body: head('client', 'QUOTE IN PREPARATION'), overlay: toast('DECISION RECORDED · QUOTE OPENED', { style: 'position:absolute;left:16px;right:16px;bottom:100px;z-index:40' }) }),
+  note: 'The resulting state is shown immediately from the server response, not assumed.' });
+const stale = frame({ title: 'ALREADY PROCESSED / FAILED', chips: S.prop(), body: phone({ nav: 'reviews', body: `${head('done', 'ALREADY DECIDED · 2 MIN AGO')}<div style="padding:16px" class="fw-col fw-gap10"><div class="fw-banner">${mk('done')}THIS REVIEW WAS COMPLETED IN ANOTHER TAB. NOTHING WAS CHANGED.</div><div class="fw-banner fw-banner--red">${mk('founder')}YOUR DECISION WASN'T SAVED (NETWORK). TRY AGAIN — NOTHING WAS SENT.</div>${btn('TRY AGAIN', { block: true })}</div>` }) });
+mount(`${header({ num: '15', title: 'Review detail · mobile', round: 'C', sub: 'Understand the request, inspect the evidence, record a decision, see the resulting state — with a clear decision boundary and no accidental submission.' })}
+${section('01', 'REVIEW → DECIDE → CONFIRM', `<div class="bd-row">${detail}${decide}${done}${stale}</div>`)}
+${foot('BOARD 15 / 28 · REVIEW DETAIL · MOBILE', 'NO REJECT STATE EXISTS · REVISION_REQUESTED IS THE ONLY NEGATIVE OUTCOME (APPROVALS)')}`);

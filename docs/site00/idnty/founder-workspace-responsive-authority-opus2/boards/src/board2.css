@@ -1,0 +1,31 @@
+/* Board chrome additions for the Opus 2 responsive boards (extends OPUS1 board.css). Never part of the product. */
+#board { min-width: 1570px; }
+.st--dir { color: #fff; background: #0c0c0c; border-color: #0c0c0c; }
+.st--refine { color: #ce1017; border-color: #ce1017; }
+.st--open { color: #0c0c0c; border-style: dashed; }
+.st--backend { color: #2f2f2e; border-style: dotted; border-width: 1.5px; }
+.st--illus { color: #75736e; border-color: #c9c7c2; background: repeating-linear-gradient(135deg, #fff 0 4px, #f3f2ef 4px 8px); }
+.st--before { color: #fff; background: #75736e; border-color: #75736e; }
+.st--after { color: #fff; background: #ce1017; border-color: #ce1017; }
+.st--measured { color: #2e7a4b; border-color: #2e7a4b; }
+.bd-vp { position: relative; overflow: hidden; background: #fbfaf8; }
+.bd-vp iframe { position: absolute; left: 0; top: 0; border: 0; transform-origin: 0 0; background: #fbfaf8; }
+.bd-vp img { display: block; }
+.bd-zone { display: grid; gap: 0; height: 132px; border: 1px solid #0c0c0c; background: #fff; font-size: 9.5px; font-weight: 700; letter-spacing: 0.14em; }
+.bd-zone > div { position: relative; display: flex; flex-direction: column; justify-content: space-between; padding: 8px 9px; border-right: 1px solid #c9c7c2; min-width: 0; }
+.bd-zone > div:last-child { border-right: 0; }
+.bd-zone b { font-family: 'SITE 00 Display', sans-serif; font-size: 22px; font-weight: 900; letter-spacing: 0; }
+.bd-zone span { color: #75736e; font-weight: 600; letter-spacing: 0.1em; line-height: 1.4; }
+.bd-zone .nav { background: #f3f2ef; }
+.bd-zone .insp { background: repeating-linear-gradient(135deg, #fff 0 6px, #f6f5f2 6px 12px); }
+.bd-zone .gut { background: #fbfaf8; color: #a3a19c; }
+.bd-t { width: 100%; border-collapse: collapse; font-size: 10.5px; letter-spacing: 0.06em; }
+.bd-t th { text-align: left; padding: 7px 10px; border-bottom: 1.5px solid #0c0c0c; font-size: 9px; font-weight: 700; letter-spacing: 0.18em; color: #75736e; white-space: nowrap; }
+.bd-t td { padding: 7px 10px; border-bottom: 1px solid #e4e2de; vertical-align: top; font-weight: 500; }
+.bd-t td b { font-weight: 700; }
+.bd-t td.n { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.bd-grid { display: grid; gap: 22px; align-items: start; }
+.bd-callout { padding: 12px 14px; border: 1px solid #0c0c0c; border-left: 3px solid #ce1017; background: #fff; font-size: 11px; line-height: 1.55; letter-spacing: 0.03em; }
+.bd-callout b { font-weight: 700; }
+.bd-defect { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 4px 12px; padding: 10px 12px; border: 1px solid #c9c7c2; background: #fff; font-size: 10.5px; line-height: 1.5; }
+.bd-defect b { font-family: 'SITE 00 Display', sans-serif; font-size: 18px; color: #ce1017; }

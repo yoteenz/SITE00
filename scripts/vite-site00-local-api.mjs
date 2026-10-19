@@ -6,8 +6,13 @@ import fs from 'node:fs';
 import { pathToFileURL } from 'node:url';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import esbuild from 'esbuild';
+import { createRequire } from 'node:module';
 import { loadEnv } from 'vite';
+
+// Use Vite's own esbuild. A bare `import 'esbuild'` resolves to the hoisted esbuild 0.14.x pulled in by
+// @vercel/node, which cannot parse TypeScript 4.9 `satisfies` (e.g. shared/site00-correspondence-studio/fndatn01/cards.ts)
+// and surfaced in the founder workspace as "Build failed with 1 error … Expected ';' but found 'satisfies'".
+const esbuild = createRequire(createRequire(import.meta.url).resolve('vite/package.json'))('esbuild');
 
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const API_CACHE_DIR = path.join(ROOT, 'node_modules/.cache/site00-vite-local-api');
@@ -146,15 +151,20 @@ async function bundleApiHandler(file) {
   const srcPath = path.join(ROOT, file);
   fs.mkdirSync(API_CACHE_DIR, { recursive: true });
   const outPath = path.join(API_CACHE_DIR, file.replace(/\//g, '__').replace(/\.ts$/, '.mjs'));
-  const srcMtime = fs.statSync(srcPath).mtimeMs;
+  const metaPath = `${outPath}.inputs.json`;
+  // Rebuild when the handler or any module it bundles changed (not only the entry file).
+  const inputs = fs.existsSync(metaPath) ? JSON.parse(fs.readFileSync(metaPath, 'utf8')) : [file];
+  const srcMtime = Math.max(...inputs.map((f) => (fs.existsSync(path.join(ROOT, f)) ? fs.statSync(path.join(ROOT, f)).mtimeMs : Infinity)));
   if (!fs.existsSync(outPath) || fs.statSync(outPath).mtimeMs < srcMtime) {
-    await esbuild.build({
+    const result = await esbuild.build({
       entryPoints: [srcPath],
       outfile: outPath,
       format: 'esm',
       platform: 'node',
       target: 'es2022',
       bundle: true,
+      metafile: true,
+      absWorkingDir: ROOT,
       logLevel: 'silent',
       plugins: [
         {
@@ -168,8 +178,10 @@ async function bundleApiHandler(file) {
         },
       ],
     });
+    fs.writeFileSync(metaPath, JSON.stringify(Object.keys(result.metafile.inputs)));
   }
-  return (await import(pathToFileURL(outPath).href)).default;
+  // Query string = bundle mtime so a rebuilt handler is re-imported instead of served from the ESM cache.
+  return (await import(`${pathToFileURL(outPath).href}?v=${fs.statSync(outPath).mtimeMs}`)).default;
 }
 
 export function site00LocalApiPlugin() {
