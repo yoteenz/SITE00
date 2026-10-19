@@ -5,18 +5,35 @@ import {
   type FoundationAdminListRow,
   type ReferralSourceRow,
 } from '../../services/foundationAdminApi';
-import { intakeColumnStatusKind, normalizeIntakeColumnLabel } from '../data/intakeColumn';
+import { normalizeIntakeColumnLabel } from '../data/intakeColumn';
+import { useRegistryFilters } from '../data/registryFilters';
+import { FoundationsRegistry } from '../foundations/FoundationsRegistry';
 import { IDNTY_FOUNDER_WORKSPACE_ROUTES } from '../config/routes';
 import { FounderWorkspacePageFrame } from '../shell/FounderWorkspacePageFrame';
 import { useFounderWorkspaceOverlay } from '../overlay/OverlayContext';
 
+function sortRows(rows: FoundationAdminListRow[], sortKey: 'name' | 'activity' | 'lifecycle'): FoundationAdminListRow[] {
+  const copy = [...rows];
+  copy.sort((a, b) => {
+    if (sortKey === 'name') {
+      return (a.business_name ?? '').localeCompare(b.business_name ?? '', undefined, { sensitivity: 'base' });
+    }
+    if (sortKey === 'lifecycle') {
+      return a.state.localeCompare(b.state);
+    }
+    const ta = Date.parse(a.last_activity_at ?? a.created_at);
+    const tb = Date.parse(b.last_activity_at ?? b.created_at);
+    return tb - ta;
+  });
+  return copy;
+}
+
 export function FoundationsPage() {
   const navigate = useNavigate();
   const { openOverlay } = useFounderWorkspaceOverlay();
+  const { query, stateFilter, sortKey, setQuery, setStateFilter } = useRegistryFilters();
   const [rows, setRows] = useState<FoundationAdminListRow[]>([]);
   const [sources, setSources] = useState<ReferralSourceRow[]>([]);
-  const [query, setQuery] = useState('');
-  const [stateFilter, setStateFilter] = useState<string>('ALL');
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -43,19 +60,22 @@ export function FoundationsPage() {
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return rows.filter((r) => {
+    const base = rows.filter((r) => {
       if (stateFilter !== 'ALL' && r.state !== stateFilter) return false;
       if (!q) return true;
       const name = (r.business_name ?? '').toLowerCase();
       return name.includes(q) || r.artifact_id.includes(q) || r.public_token.includes(q);
     });
-  }, [rows, query, stateFilter]);
+    return sortRows(base, sortKey);
+  }, [rows, query, stateFilter, sortKey]);
 
   const selected = filtered.find((r) => r.artifact_id === selectedId) ?? filtered[0] ?? null;
 
   useEffect(() => {
     if (selected && !selectedId) setSelectedId(selected.artifact_id);
   }, [selected, selectedId]);
+
+  const stateOptions = useMemo(() => [...new Set(rows.map((r) => r.state))], [rows]);
 
   return (
     <FounderWorkspacePageFrame destination="foundations">
@@ -68,13 +88,18 @@ export function FoundationsPage() {
         <div className="ifw-foundations__toolbar">
           <label className="ifw-field ifw-field--inline">
             <span className="ifw-field__label">Search</span>
-            <input className="ifw-field__input fw-data" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Name or id" />
+            <input
+              className="ifw-field__input fw-data"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Name or id"
+            />
           </label>
           <label className="ifw-field ifw-field--inline">
             <span className="ifw-field__label">State</span>
             <select className="ifw-field__input" value={stateFilter} onChange={(e) => setStateFilter(e.target.value)}>
               <option value="ALL">All</option>
-              {[...new Set(rows.map((r) => r.state))].map((s) => (
+              {stateOptions.map((s) => (
                 <option key={s} value={s}>
                   {s}
                 </option>
@@ -84,8 +109,16 @@ export function FoundationsPage() {
           <button type="button" className="ifw-btn ifw-btn--ghost" onClick={() => void load()} disabled={loading}>
             Refresh
           </button>
-          <button type="button" className="ifw-btn ifw-btn--ghost" onClick={() => openOverlay('OL-07')}>
-            Filter
+          <button
+            type="button"
+            className="ifw-btn ifw-btn--ghost"
+            onClick={() =>
+              openOverlay('OL-07', {
+                lifecycle_states: stateOptions,
+              })
+            }
+          >
+            Filter & sort
           </button>
           <button type="button" className="ifw-btn ifw-btn--primary" onClick={() => openOverlay('OL-01')}>
             Create client
@@ -93,27 +126,18 @@ export function FoundationsPage() {
         </div>
 
         <div className="ifw-foundations__workbench">
-          <div className="ifw-registry" role="region" aria-label="Client registry">
-            {loading ? <p className="ifw-muted">Loading…</p> : null}
-            {!loading && !filtered.length ? <p className="ifw-muted">No records match</p> : null}
-            <ul className="ifw-registry__list">
-              {filtered.map((r) => (
-                <li key={r.artifact_id}>
-                  <button
-                    type="button"
-                    className={`ifw-registry-row ${selected?.artifact_id === r.artifact_id ? 'ifw-registry-row--selected' : ''}`.trim()}
-                    onClick={() => setSelectedId(r.artifact_id)}
-                    onDoubleClick={() => openOverlay('OL-19', { ...r, artifact_id: r.artifact_id })}
-                  >
-                    <span className="ifw-registry-row__name">{r.business_name || 'Unnamed'}</span>
-                    <span className={`ifw-status ifw-status--${intakeColumnStatusKind(r)}`}>{normalizeIntakeColumnLabel(r)}</span>
-                    <span className="ifw-registry-row__meta">{r.state}</span>
-                    <span className="ifw-registry-row__meta">{r.payment_state}</span>
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <FoundationsRegistry
+            rows={filtered}
+            selectedId={selectedId}
+            loading={loading}
+            onSelect={setSelectedId}
+            onRowActions={(r) =>
+              openOverlay('OL-06', {
+                artifact_id: r.artifact_id,
+                public_token: r.public_token,
+              })
+            }
+          />
 
           <aside className="ifw-inspector" aria-label="Record inspector">
             {selected ? (

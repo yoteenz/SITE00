@@ -5,6 +5,10 @@ import { FounderWorkspacePageFrame } from '../shell/FounderWorkspacePageFrame';
 import { useFounderWorkspaceOverlay } from '../overlay/OverlayContext';
 import { REFERRAL_OVERLAY_IDS, OVERLAY_META } from '../overlay/overlayRegistry';
 import { DF_REFERRAL_SOURCE_ID } from '../../../../../shared/site00-digital-foundation/referralSources.js';
+import {
+  formatReferralActivityTime,
+  referralActivityFromRegistry,
+} from '../data/referralActivityEvents';
 
 type ReferralsSection = 'overview' | 'partners' | 'attribution' | 'commissions' | 'payouts' | 'card' | 'activity';
 
@@ -14,18 +18,30 @@ export function ReferralsPage() {
   const [artifacts, setArtifacts] = useState<FoundationAdminListRow[]>([]);
   const [sources, setSources] = useState<ReferralSourceRow[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
   const [selectedPartner, setSelectedPartner] = useState<ReferralSourceRow | null>(null);
+  const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
 
   useEffect(() => {
+    setLoading(true);
     void foundationAdminApi
       .list()
       .then((j) => {
         setArtifacts(j.artifacts ?? []);
         setSources(j.referral_sources ?? []);
         setSelectedPartner(j.referral_sources?.[0] ?? null);
+        setError(null);
       })
-      .catch((e) => setError(e instanceof Error ? e.message : 'Load failed'));
+      .catch((e) => setError(e instanceof Error ? e.message : 'Load failed'))
+      .finally(() => setLoading(false));
   }, []);
+
+  const activityEvents = useMemo(() => referralActivityFromRegistry(artifacts, sources), [artifacts, sources]);
+  const selectedEvent = activityEvents.find((e) => e.id === selectedEventId) ?? activityEvents[0] ?? null;
+
+  useEffect(() => {
+    if (selectedEvent && !selectedEventId) setSelectedEventId(selectedEvent.id);
+  }, [selectedEvent, selectedEventId]);
 
   const attributionRows = useMemo(
     () =>
@@ -94,7 +110,7 @@ export function ReferralsPage() {
             <ul className="ifw-partner-list">
               {sources.map((s) => (
                 <li key={s.referral_source_id}>
-                  <button type="button" className="ifw-registry-row" onClick={() => setSelectedPartner(s)}>
+                  <button type="button" className="ifw-partner-row" onClick={() => setSelectedPartner(s)}>
                     <strong>{s.label}</strong>
                     <span className="fw-data">{s.kind}</span>
                   </button>
@@ -189,9 +205,63 @@ export function ReferralsPage() {
         ) : null}
 
         {section === 'activity' ? (
-          <section className="ifw-panel">
+          <section className="ifw-panel ifw-referral-activity" aria-busy={loading}>
             <h2 className="ifw-panel__title">Referral activity</h2>
-            <p className="ifw-muted">Activity stream requires durable partner commerce events (backend gap).</p>
+            <p className="ifw-muted" role="status">
+              Partner commerce event API (<span className="fw-data">GET /api/admin/referrals/events</span>) is not
+              deployed. Timeline shows persisted attribution snapshots from the foundation registry only — no
+              fabricated commissions or payouts.
+            </p>
+            {loading ? <p className="ifw-muted">Loading registry…</p> : null}
+            {!loading && error ? (
+              <p role="alert" className="ifw-inline-error">
+                {error}
+              </p>
+            ) : null}
+            {!loading && !error && !activityEvents.length ? (
+              <p className="ifw-muted">No attributed clients in registry yet.</p>
+            ) : null}
+            {!loading && activityEvents.length ? (
+              <div className="ifw-referral-activity__layout">
+                <ul className="ifw-activity-stream" aria-label="Referral activity events">
+                  {activityEvents.map((ev) => (
+                    <li key={ev.id}>
+                      <button
+                        type="button"
+                        className={`ifw-activity-stream__row ${selectedEvent?.id === ev.id ? 'ifw-activity-stream__row--selected' : ''}`.trim()}
+                        onClick={() => setSelectedEventId(ev.id)}
+                      >
+                        <time className="ifw-activity-stream__time" dateTime={ev.occurred_at}>
+                          {formatReferralActivityTime(ev.occurred_at)}
+                        </time>
+                        <span className="ifw-activity-stream__verb">{ev.verb}</span>
+                        <span className="ifw-activity-stream__subject">{ev.subject}</span>
+                        <span className="ifw-activity-stream__partner">{ev.partner_label}</span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+                <aside className="ifw-activity-detail" aria-label="Event detail">
+                  {selectedEvent ? (
+                    <>
+                      <h3 className="ifw-activity-detail__title">{selectedEvent.subject}</h3>
+                      <dl className="ifw-kv">
+                        <dt>When</dt>
+                        <dd>{formatReferralActivityTime(selectedEvent.occurred_at)}</dd>
+                        <dt>Partner</dt>
+                        <dd>{selectedEvent.partner_label}</dd>
+                        <dt>Category</dt>
+                        <dd>{selectedEvent.category}</dd>
+                        <dt>Artifact</dt>
+                        <dd className="fw-data">{selectedEvent.artifact_id}</dd>
+                      </dl>
+                    </>
+                  ) : (
+                    <p className="ifw-muted">Select an event</p>
+                  )}
+                </aside>
+              </div>
+            ) : null}
           </section>
         ) : null}
 

@@ -1,4 +1,5 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
+import { RegistryFilterProvider } from './data/registryFilters';
 import { OverlayProvider } from './overlay/OverlayContext';
 import { IDNTY_FOUNDER_WORKSPACE_ROUTES } from './config/routes';
 import { OverviewPage } from './pages/OverviewPage';
@@ -12,7 +13,8 @@ import { ClientRecordPage } from './pages/ClientRecordPage';
 
 export default function FounderWorkspaceApp() {
   return (
-    <OverlayProvider>
+    <RegistryFilterProvider>
+      <OverlayProvider>
       <Routes>
         <Route index element={<Navigate to="overview" replace />} />
         <Route path="overview" element={<OverviewPage />} />
@@ -25,6 +27,7 @@ export default function FounderWorkspaceApp() {
         <Route path="system" element={<SystemPage />} />
         <Route path="*" element={<Navigate to={IDNTY_FOUNDER_WORKSPACE_ROUTES.overview} replace />} />
       </Routes>
-    </OverlayProvider>
+      </OverlayProvider>
+    </RegistryFilterProvider>
   );
 }

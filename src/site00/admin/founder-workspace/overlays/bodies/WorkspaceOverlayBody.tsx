@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { foundationAdminApi, digitalFoundationClientIntakePath } from '../../../services/foundationAdminApi';
 import { foundationReadinessApi } from '../../../services/foundationReadinessApi';
 import { IDNTY_FOUNDER_WORKSPACE_ROUTES } from '../../config/routes';
+import { useRegistryFilters, type RegistrySortKey } from '../../data/registryFilters';
 import { useFounderWorkspaceOverlay } from '../../overlay/OverlayContext';
 import type { WorkspaceOverlayId } from '../../overlay/overlayRegistry';
 import { OverlayFormShell } from './OverlayFormShell';
@@ -214,11 +215,7 @@ export function WorkspaceOverlayBody({ id, payload, onClose, markDirty }: Props)
     }
 
     case 'OL-07':
-      return (
-        <OverlayFormShell id={id} lede="Registry filters (client-side)" primaryLabel="Apply" onClose={onClose}>
-          <p className="ifw-muted">Filters apply on the Foundations page toolbar. Use state + search there.</p>
-        </OverlayFormShell>
-      );
+      return <Ol07RegistryFilters id={id} onClose={onClose} payload={payload} markDirty={markDirty} />;
 
     case 'OL-08':
       return (
@@ -533,4 +530,90 @@ export function WorkspaceOverlayBody({ id, payload, onClose, markDirty }: Props)
         />
       );
   }
+}
+
+function Ol07RegistryFilters({
+  id,
+  onClose,
+  payload,
+  markDirty,
+}: {
+  id: WorkspaceOverlayId;
+  onClose: () => void;
+  payload?: Record<string, unknown>;
+  markDirty: (dirty: boolean) => void;
+}) {
+  const { query, stateFilter, sortKey, applyDraft, resetFilters } = useRegistryFilters();
+  const [draftQuery, setDraftQuery] = useState(query);
+  const [draftState, setDraftState] = useState(stateFilter);
+  const [draftSort, setDraftSort] = useState<RegistrySortKey>(sortKey);
+
+  const lifecycleStates = Array.isArray(payload?.lifecycle_states)
+    ? (payload.lifecycle_states as string[])
+    : [];
+
+  useEffect(() => {
+    setDraftQuery(query);
+    setDraftState(stateFilter);
+    setDraftSort(sortKey);
+    markDirty(false);
+  }, [query, stateFilter, sortKey, markDirty]);
+
+  const dirty =
+    draftQuery !== query || draftState !== stateFilter || draftSort !== sortKey;
+
+  useEffect(() => {
+    markDirty(dirty);
+  }, [dirty, markDirty]);
+
+  return (
+    <OverlayFormShell
+      id={id}
+      lede="Filter and sort the client registry (shared with the Foundations toolbar)."
+      primaryLabel="Apply"
+      onPrimary={() => {
+        applyDraft({ query: draftQuery, stateFilter: draftState, sortKey: draftSort });
+        onClose();
+      }}
+      secondaryLabel="Reset"
+      onSecondary={() => {
+        resetFilters();
+        onClose();
+      }}
+      onClose={onClose}
+    >
+      <label className="ifw-field">
+        <span className="ifw-field__label">Search</span>
+        <input
+          className="ifw-field__input fw-data"
+          value={draftQuery}
+          onChange={(e) => setDraftQuery(e.target.value)}
+          placeholder="Name or id"
+        />
+      </label>
+      <label className="ifw-field">
+        <span className="ifw-field__label">Lifecycle state</span>
+        <select className="ifw-field__input" value={draftState} onChange={(e) => setDraftState(e.target.value)}>
+          <option value="ALL">All</option>
+          {lifecycleStates.map((s) => (
+            <option key={s} value={s}>
+              {s}
+            </option>
+          ))}
+        </select>
+      </label>
+      <label className="ifw-field">
+        <span className="ifw-field__label">Sort</span>
+        <select
+          className="ifw-field__input"
+          value={draftSort}
+          onChange={(e) => setDraftSort(e.target.value as RegistrySortKey)}
+        >
+          <option value="activity">Last activity</option>
+          <option value="name">Client name</option>
+          <option value="lifecycle">Lifecycle</option>
+        </select>
+      </label>
+    </OverlayFormShell>
+  );
 }
