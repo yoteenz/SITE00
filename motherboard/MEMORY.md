@@ -16684,3 +16684,12 @@ Summary of the whole conversation in this chat.
 - **P02:** US phone field formats as `901-236-2647` while typing (`phoneFormat.ts`); saved intake phones normalized in `draftFromPayload`.
 - **P03:** DOMAIN service row toggles off — clears `domainPath` and related fields when the checkbox row is tapped again (was only opening/closing panel while radio selection kept row checked).
 - **Branch:** `cursor/df-intake-phone-domain-toggle-be3b` → `cursor/idnty-founder-readiness-e2e-be3b`. Redeploy **carefree-luck** after merge.
+
+---
+
+## 2026-10-19 — P0 Form control authority audit1 (IDNTY)
+
+- **Sprint:** `P0.SITE00.IDNTY.FORM-CONTROL-AUTHORITY-AUDIT1` — read-only; no UI changes.
+- **Package:** `docs/site00/idnty/form-control-authority-audit1/` (inventory, gap matrix, Opus brief, migration plan, coverage report + founder P02/P03 evidence JPGs).
+- **Headline finding:** P02 Business Type uses native `<select>` (iOS open UI = CLASS A P1); repo already has unused `DfSelect` in `components.tsx`. Portal comm prefs use unstyled native checkboxes (CLASS B P1).
+- **Counts:** 52 inventoried control instances, 16 families, 17 native form tags in `foundation-client`.
