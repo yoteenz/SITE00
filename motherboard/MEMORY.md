@@ -16746,3 +16746,12 @@ Summary of the whole conversation in this chat.
 - **Shipped:** Canonical OL-01…20 + RO-01…20 overlay bodies/triggers; enhanced host (geometry, dirty confirm); shell ⌘K search; operations/reviews/correspondence/referrals/system depth; `foundationAdminApi` task/quote/message actions; screenshot script + 28 PNGs (unauthenticated limitation documented).
 - **Tests:** workspace vitest 16; intake regressions 24; build pass.
 - **Honest gates:** PR **not** merge-ready — Opus pixel signoff, authenticated E2E, commission backend still open.
+
+---
+
+## 2026-10-19 — IDNTY Founder Workspace slice 3 (authenticated acceptance + defect closure)
+
+- **Sprint:** `P0.SITE00.IDNTY.FOUNDER-WORKSPACE.AUTHENTICATED-VISUAL-ACCEPTANCE-AND-DEFECT-CLOSURE.COMPOSER1` on PR **#1665** (draft, not merged).
+- **Fixes:** Five-column registry (`FoundationsRegistry` + container CSS); shared `RegistryFilterProvider` for OL-07/toolbar; referral activity timeline from real attributed list rows (no fake `/api/admin/referrals/events`).
+- **Docs:** acceptance pack under `founder-workspace-full-authority-implementation-composer1/` including `FINAL_ACCEPTANCE_REPORT.md`.
+- **Verify:** vitest 22 workspace + 24 intake; build pass. Authenticated React capture still **BLOCKED** (no founder session in cloud VM).
