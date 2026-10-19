@@ -16737,3 +16737,12 @@ Summary of the whole conversation in this chat.
 - **Docs on branch:** Opus1/2/3 + policy lock trees; implementation pack `founder-workspace-full-authority-implementation-composer1/` (partial deliverables).
 - **Policy:** Referrals commissions/payouts/print remain blocked UI; AIO not auto-active.
 - **Verify:** `tests/idntyFounderWorkspaceImplementation.test.ts` (9); `npm run build` pass. Staging E2E + full overlay parity **not** complete.
+
+---
+
+## 2026-10-19 — IDNTY Founder Workspace implementation slice 2 (completion pass)
+
+- **Continuation:** PR **#1665** on `cursor/founder-workspace-full-authority-implementation-composer1-be3b` (not merged).
+- **Shipped:** Canonical OL-01…20 + RO-01…20 overlay bodies/triggers; enhanced host (geometry, dirty confirm); shell ⌘K search; operations/reviews/correspondence/referrals/system depth; `foundationAdminApi` task/quote/message actions; screenshot script + 28 PNGs (unauthenticated limitation documented).
+- **Tests:** workspace vitest 16; intake regressions 24; build pass.
+- **Honest gates:** PR **not** merge-ready — Opus pixel signoff, authenticated E2E, commission backend still open.
