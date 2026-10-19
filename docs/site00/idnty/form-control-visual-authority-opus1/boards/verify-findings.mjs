@@ -4,6 +4,7 @@
  *   NF-01  text inputs compute to 14px (iOS Safari zooms on focus below 16px)
  *   NF-02  .df-chip (portal record filter) has no CSS rule anywhere
  *   C-1    the client sheet's legacy .df-select__chev rule rotates DfSelect's own chevron
+ *   NF-06  (OPUS2) the unchecked .df-check edge computes to 1px #b8b6b1 — under the 3:1 non-text contrast minimum
  * Writes ../evidence/finding-measurements.json. Read-only: renders a scratch page, changes nothing.
  * Usage (repo root): node docs/site00/idnty/form-control-visual-authority-opus1/boards/verify-findings.mjs
  */
@@ -35,6 +36,9 @@ try {
       '<div class="df-select df-select--below"><button type="button" role="combobox" class="df-select__trigger"><span class="df-select__value">SELECT A BUSINESS TYPE</span><svg class="df-select__chev" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></button></div>';
     host.appendChild(probe);
     const chev = probe.querySelector('.df-select__chev');
+    const check = document.createElement('span');
+    check.className = 'df-check';
+    host.appendChild(check);
     const chip = document.createElement('button');
     chip.className = 'df-chip';
     chip.textContent = 'DOMAIN';
@@ -58,7 +62,14 @@ try {
       },
       'NF-02': { selector: '.df-chip', matching_css_rules: chipRules, border: cs(chip).borderStyle, appearance: cs(chip).appearance },
       'C-1': { selector: '.df-root .df-select__chev (DfSelect markup)', position: cs(chev).position, transform: cs(chev).transform },
+      'NF-06': {
+        selector: '.df-root .df-check (unchecked)',
+        border: `${cs(check).borderTopWidth} ${cs(check).borderTopStyle} ${cs(check).borderTopColor}`,
+        background: cs(check).backgroundColor,
+        note: 'site00-df-client.css sets 1.5px #8f8d88; site00-df-components.css (loaded later) overrides it',
+      },
     };
+    check.remove();
     probe.remove();
     chip.remove();
     return out;

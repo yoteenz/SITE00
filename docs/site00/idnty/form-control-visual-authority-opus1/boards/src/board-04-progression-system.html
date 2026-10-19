@@ -15,10 +15,12 @@
 <body>
 <div id="board"></div>
 <script type="module">
-import { DF, header, section, frame, stage, device, S, icon, rail, cta, trust, status, backLink, field, mount } from './kit.js';
+import { DF, header, section, frame, stage, device, S, icon, rail, cta, trust, status, backLink, field, phoneField, PHONE, mount, decisionBox } from './kit.js';
 
 const V = DF.VIEW_META;
-const intake = ['P01', 'P02', 'P03', 'P04', 'P05', 'P06'];
+const PRESERVE = S.appr('FD-5 · PRESERVE');
+const REJECTED = S.rej('NOT APPROVED · FD-5');
+const STAMP = 'REJECTED BY THE FOUNDER · DO NOT IMPLEMENT';
 
 // ── Approved drawer, rendered from buildDfMenu() output ──
 const glyphFor = (st) => (st === 'locked' ? 'lock' : st === 'done' ? 'check' : 'arrow');
@@ -28,29 +30,84 @@ const drawerSteps = (steps) =>
       (s) => `<li><span class="df-drawer__step df-drawer__step--${s.state}"><span class="df-drawer__index">${s.index}</span><span class="df-drawer__connector"></span><span class="df-drawer__label">${s.label}</span>${icon(glyphFor(s.state), 'df-drawer__glyph')}</span></li>`,
     )
     .join('')}</ol>`;
-const steps = DF.menu.steps;
 const drawer = frame({
   title: 'MENU DRAWER STEPS · buildDfMenu(P01–P03, current P02)',
-  chips: S.locked('APPROVED #1572'),
+  chips: S.locked('APPROVED #1572') + ' ' + PRESERVE,
   width: 360,
-  body: `<div class="df-portal drawer-stage" style="width:360px;padding:14px 18px 14px 20px;border:1px solid #dcdad5">${drawerSteps(steps)}</div>`,
-  note: 'Founder-approved (“yes i approve”, PR #1572). Index · connector · label · glyph; current in red, done and locked muted. This is the progression grammar every other progress surface should speak.',
+  body: `<div class="df-portal drawer-stage" style="width:360px;padding:14px 18px 14px 20px;border:1px solid #dcdad5">${drawerSteps(DF.menu.steps)}</div>`,
+  note: 'Founder-approved (“yes i approve”, PR #1572) and preferred again under FD-5. Index · connector · label · glyph; current in red, done and locked muted. Preserve the markup, states and drawer relationship exactly.',
 });
-
 const railFrame = frame({
   title: 'PAGE RAIL (DF-C02)',
-  chips: S.impl('BOARD 01/02'),
+  chips: S.impl('BOARD 01/02') + ' ' + PRESERVE,
   width: 360,
   body: stage(`${rail('02', V.P02.label)}<div style="height:12px"></div>${rail('03', V.P03.label)}<div style="height:12px"></div>${rail('—', V.COMM_PREFS.label)}`, { w: 360 }),
-  note: 'Each screen already announces where you are with the same index-rule-label line.',
+  note: 'Each screen announces where you are with the same index · rule · label line. Unchanged.',
 });
 
-// ── Progress: current vs proposed ──
+// ── Implemented in-page progress (library) ──
 const states = ['complete', 'complete', 'current', 'future', 'future', 'locked'];
 const labels = ['GET STARTED', 'BUSINESS', 'FOUNDATION', 'RECOMMENDATION', 'REVIEW', 'ACTIVATION'];
 const dfProgress = `<ol class="df-progress" style="margin:0">${labels
   .map((l, i) => `<li class="df-progress__step df-progress__step--${states[i]}"><span class="df-progress__node">${states[i] === 'locked' ? '' : String(i + 1).padStart(2, '0')}</span><span class="df-progress__label">${l}</span></li>`)
   .join('')}</ol>`;
+const progressNow = frame({
+  title: 'IN-PAGE PROGRESS · DfProgress (U12)',
+  chips: S.impl('#1573') + ' ' + PRESERVE,
+  width: 560,
+  body: stage(dfProgress, { w: 560 }),
+  note: 'The implemented component, kept as it is: numbered round nodes, red current, completed steps filled. It lives in the component library (components.tsx, covered by digitalFoundationComponents.test.ts) and no client page mounts it today. FD-5 does not ask for it to be mounted; it asks that nothing replace it.',
+});
+
+// ── Implemented navigation controls ──
+const ctaCell = (t, html) => frame({ title: t, chips: S.impl() + ' ' + PRESERVE, width: 300, body: stage(html, { w: 300 }) });
+const nav = [
+  ctaCell('PRIMARY', cta('CONTINUE')),
+  ctaCell('PRIMARY · BUSY', cta('BUILDING YOUR RECOMMENDATION…', { busy: true, arrow: false })),
+  ctaCell('PRIMARY · DISABLED', cta('PROCEED TO CHECKOUT', { disabled: true })),
+  ctaCell('SECONDARY · OUTLINE', cta('BACK TO OVERVIEW', { tone: 'outline' })),
+].join('');
+
+// ── Implemented blocked / resume behaviour ──
+const validate = frame({
+  title: 'BLOCKED · VALIDATE ON PRESS (P02)',
+  chips: S.impl('BEHAVIOUR') + ' ' + PRESERVE,
+  body: device({
+    h: 520,
+    scroll: 0,
+    body: `<div style="padding-top:18px">${rail('02', V.P02.label)}</div><div class="df-form" style="display:flex;flex-direction:column">
+      ${field({ label: 'BUSINESS NAME', value: '', placeholder: 'YOUR BUSINESS NAME', state: 'invalid-focus', error: DF.messages.business_name, mark: true })}
+      ${field({ label: 'PRIMARY CONTACT', value: 'Founder Test' })}
+      ${phoneField({ value: '', state: 'invalid', error: PHONE.empty })}
+      ${cta('CONTINUE')}</div>`,
+  }),
+  note: 'Implemented: CONTINUE stays enabled; on press validateBusinessInfo runs, each message sits under its own field and focus moves to the first invalid field. Only the field states are re-presented (Board 07 grammar). With FD-2, an empty CONTACT NUMBER joins this same gate. No summary block is added.',
+});
+const gate = frame({
+  title: 'BLOCKED · GATED BUTTON (P05)',
+  chips: S.impl('BEHAVIOUR') + ' ' + PRESERVE,
+  body: device({
+    h: 520,
+    body: `<div style="padding-top:18px">${rail('05', V.P05.label)}</div>
+      <fieldset class="df-acks" style="margin-top:16px"><legend class="df-reveal__label">BEFORE YOU ACCEPT</legend>
+      ${DF.DF_DISCLOSURES.map((d, i) => `<label class="df-ack ${i === 0 ? 'df-ack--on' : ''}"><span class="df-check ${i === 0 ? 'ix-check-period' : ''}"></span><span class="df-ack__text">${d}</span></label>`).join('')}</fieldset>
+      ${cta('PROCEED TO CHECKOUT', { disabled: true })}`,
+  }),
+  note: 'Implemented: the CTA stays disabled until every disclosure is confirmed (payment safety). Marks follow FD-3 (System B). Accept and checkout logic untouched. No counter line under the button.',
+});
+const resume = frame({
+  title: 'RESUME · RETURNING TO A SAVED DRAFT (P02)',
+  chips: S.impl('BEHAVIOUR') + ' ' + PRESERVE,
+  body: device({
+    h: 520,
+    body: `<div style="padding-top:18px">${rail('02', V.P02.label)}</div>
+      <div class="df-form" style="display:flex;flex-direction:column">${field({ label: 'BUSINESS NAME', value: 'JURNL' })}${field({ label: 'PRIMARY CONTACT', value: 'Founder Test' })}${phoneField({ value: '901-236-2647' })}</div>
+      ${trust('')}`,
+  }),
+  note: 'Implemented: draftFromPayload() seeds the fields from the saved intake (then the founder-entered lead) and the status line stays empty until the client edits. The saved CONTACT NUMBER repopulates through formatUsPhoneDisplay. No welcome banner.',
+});
+
+// ── Rejected proposals, kept as history ──
 const ixSteps = `<ol class="ix-steps">${labels
   .map((l, i) => {
     const st = states[i] === 'complete' ? 'done' : states[i];
@@ -58,82 +115,37 @@ const ixSteps = `<ol class="ix-steps">${labels
     return `<li class="ix-step ix-step--${st}"><span class="ix-step__n">${String(i + 1).padStart(2, '0')}</span><span class="ix-step__rule"></span><span class="ix-step__label">${g}${l}</span></li>`;
   })
   .join('')}</ol>`;
-const progressNow = frame({
-  title: 'IN-PAGE PROGRESS · CURRENT (DfProgress, U12)',
-  chips: S.impl('#1573') + ' ' + S.unres('REFERENCE BOARD NOT IN REPO'),
-  width: 560,
-  body: stage(dfProgress, { w: 560 }),
-  note: 'Round nodes with a red halo. Built in #1573 “to match the founder reference boards” — those images are not in the repository, so whether the circles were the founder’s choice cannot be verified (FD-5).',
+const rStrip = frame({ title: 'IN-PAGE PROGRESS · INDEX STRIP', chips: REJECTED, rejected: STAMP, width: 560, body: stage(ixSteps, { w: 560 }), note: 'OPUS1 recommendation (FD-5). Rejected: do not replace DfProgress, the drawer or the rail with this strip.' });
+const rBack = frame({ title: 'BACK · TEXT LINK', chips: REJECTED, rejected: STAMP, width: 300, body: stage(`<div style="padding:12px 0">${backLink('BACK TO BUSINESS INFORMATION')}</div>`, { w: 300 }), note: 'Rejected. The drawer remains the way back.' });
+const rSummary = frame({
+  title: 'BLOCKED SUMMARY ABOVE THE CTA',
+  chips: REJECTED,
+  rejected: STAMP,
+  width: 380,
+  body: stage(`<div class="ix-summary"><span class="ix-mark" style="margin-top:3px"></span><div><div class="ix-summary__t">2 ITEMS NEED ATTENTION</div><ul class="ix-summary__l"><li>${DF.messages.domainPath}</li><li>${DF.messages.existing_domain_invalid}</li></ul></div></div>`, { w: 380 }),
+  note: 'Rejected here, and therefore also removed from the Board 05 severity ladder (section level).',
 });
-const progressNext = frame({
-  title: 'IN-PAGE PROGRESS · PROPOSED INDEX STRIP',
-  chips: S.prop() + ' ' + S.rec(),
-  width: 560,
-  body: stage(ixSteps, { w: 560 }),
-  note: 'The drawer grammar laid flat: display numerals, a hairline that fills ink when done and red up to the current step, a check or lock glyph on the label. No circles, no halo. Labels shortened for the strip only; state still comes from foundationProgress().',
-});
+const rCounter = frame({ title: 'P05 COUNTER LINE UNDER THE CTA', chips: REJECTED, rejected: STAMP, width: 340, body: stage(`${cta('PROCEED TO CHECKOUT', { disabled: true })}<p class="ix-hint" style="margin-top:10px;text-align:center">CONFIRM 2 MORE ITEMS TO CONTINUE</p>`, { w: 340 }), note: 'Rejected. (The legend count “2 OF 3” is a Board 03 choice-control treatment and stays approved under FD-3.)' });
+const rBanner = frame({ title: 'RESUME BANNER', chips: REJECTED, rejected: STAMP, width: 380, body: stage(`<div class="ix-banner"><span class="ix-mark ix-mark--ink"></span>WELCOME BACK. YOUR SAVED ANSWERS ARE RESTORED.<span class="ix-banner__act">DISMISS</span></div>`, { w: 380 }), note: 'Rejected.' });
 
-// ── Navigation controls ──
-const ctaCell = (t, html, chips) => frame({ title: t, chips, width: 300, body: stage(html, { w: 300 }) });
-const nav = [
-  ctaCell('PRIMARY', cta('CONTINUE'), S.impl()),
-  ctaCell('PRIMARY · BUSY', cta('BUILDING YOUR RECOMMENDATION…', { busy: true, arrow: false }), S.impl()),
-  ctaCell('PRIMARY · DISABLED', cta('PROCEED TO CHECKOUT', { disabled: true }), S.impl()),
-  ctaCell('SECONDARY · OUTLINE', cta('BACK TO OVERVIEW', { tone: 'outline' }), S.impl()),
-  ctaCell('BACK · TEXT', `<div style="padding:12px 0">${backLink('BACK TO BUSINESS INFORMATION')}</div>`, S.prop()),
-].join('');
-
-// ── Blocked + resume ──
-const blocked = frame({
-  title: 'BLOCKED · VALIDATE ON PRESS (P02 / P03)',
-  chips: S.impl('BEHAVIOUR') + ' ' + S.prop('SUMMARY'),
-  body: device({
-    h: 520,
-    scroll: 0,
-    body: `<div style="padding-top:18px">${rail('03', V.P03.label)}</div>
-      <div class="ix-summary"><span class="ix-mark" style="margin-top:3px"></span><div><div class="ix-summary__t">2 ITEMS NEED ATTENTION</div><ul class="ix-summary__l"><li>${DF.messages.domainPath}</li><li>${DF.messages.existing_domain_invalid}</li></ul></div></div>
-      ${cta('VIEW MY RECOMMENDATION')}
-      ${trust(status('saved', 'SAVED 7:12 AM'))}`,
-  }),
-  note: 'Today P03 opens the domain panel and focuses the field. Proposed addition only when more than one item blocks: a summary above the CTA whose lines jump to each field. Messages verbatim. The CTA is never disabled for validation — a disabled button cannot say why.',
-});
-const disabledGate = frame({
-  title: 'BLOCKED · GATED BUTTON (P05)',
-  chips: S.impl('BEHAVIOUR') + ' ' + S.prop('COUNTER'),
-  body: device({
-    h: 520,
-    body: `<div style="padding-top:18px">${rail('05', V.P05.label)}</div>
-      <fieldset class="df-acks" style="margin-top:16px"><legend class="df-reveal__label" style="display:flex;width:100%">BEFORE YOU ACCEPT<span class="ix-ack-count">1 OF 3</span></legend>
-      ${DF.DF_DISCLOSURES.map((d, i) => `<label class="df-ack ${i === 0 ? 'df-ack--on' : ''}"><span class="df-check ${i === 0 ? 'df-check--on' : ''}">${i === 0 ? icon('check') : ''}</span><span class="df-ack__text">${d}</span></label>`).join('')}</fieldset>
-      ${cta('PROCEED TO CHECKOUT', { disabled: true })}
-      <p class="ix-hint" style="margin-top:10px;text-align:center">CONFIRM 2 MORE ITEMS TO CONTINUE</p>`,
-  }),
-  note: 'P05 keeps its disabled gate (payment safety). The proposed counter and one muted line say exactly what unlocks it. Accept / checkout logic untouched.',
-});
-const resume = frame({
-  title: 'RESUME · RETURNING TO A SAVED DRAFT',
-  chips: S.prop() + ' ' + S.con('NO SAVED-AT IN PAYLOAD'),
-  body: device({
-    h: 520,
-    body: `<div style="padding-top:18px">${rail('02', V.P02.label)}</div>
-      <div class="ix-banner"><span class="ix-mark ix-mark--ink"></span>WELCOME BACK. YOUR SAVED ANSWERS ARE RESTORED.<span class="ix-banner__act">DISMISS</span></div>
-      <div class="df-form" style="display:flex;flex-direction:column">${field({ label: 'BUSINESS NAME', value: 'JURNL' })}${field({ label: 'PRIMARY CONTACT', value: 'Founder Test' })}</div>
-      ${trust(status('restored', 'RESTORED'))}`,
-  }),
-  note: 'Shown only when the server returned a non-empty saved draft (draftFromPayload). The client payload carries no intake saved-at time, so RESTORED shows no time: a device-clock time could claim a save that never happened. Adding a time needs an API field — out of scope. Copy proposed.',
-});
+const decision = decisionBox(
+  'FD-5',
+  'APPROVED — PRESERVE THE CURRENT IMPLEMENTED PROGRESSION · REJECT THE PROPOSED INDEX STRIP',
+  '<b>Founder decision:</b> the implemented examples are preferred and the new Board 04 proposals are rejected. Preserve step progression, the drawer and its relationship to the page, the rail, numbering, completed-step representation, the CTAs and their busy / disabled behaviour. <b>Allowed:</b> verified accessibility repairs, documented responsive bugs, functional fixes, and minor state alignment with approved shared components (FD-3 marks, Board 07 field states). <b>Not allowed:</b> the index strip, the back text link, the blocked summary, the P05 counter line, the resume banner, or any restructure of intake navigation.',
+);
 
 mount(`
 ${header({
   num: '04',
   title: 'Progression system',
-  sub: 'IDNTY already has an approved way to say “where you are”: the numbered rail on every page and the founder-approved menu drawer. This board keeps both, aligns the in-page progress strip to them, and defines continue / back / blocked / resume without turning the page into a wizard.',
+  sub: 'The founder prefers the implemented progression. Everything shipping today is the authority: the numbered page rail, the approved menu drawer, the DfProgress component, the CTAs and the implemented blocked and resume behaviour. The OPUS1 proposals are kept below as history only, stamped NOT APPROVED.',
 })}
-${section('01', 'APPROVED GRAMMAR', `<div class="bd-row">${drawer}${railFrame}</div>`, S.locked())}
-${section('02', 'IN-PAGE PROGRESS · ONE STATE MODEL, TWO PRESENTATIONS', `<div class="bd-row">${progressNow}${progressNext}</div>`)}
-${section('03', 'CONTINUE · BACK · BUSY', `<div class="bd-row">${nav}</div>`, S.impl('DfButton'))}
-${section('04', 'BLOCKED AND RESUMED', `<div class="bd-row">${blocked}${disabledGate}${resume}</div>`)}
-<div class="bd-foot"><span>BOARD 04 / 07 · PROGRESSION SYSTEM</span><span>STATE: <b>buildDfMenu · foundationProgress · DF_VIEW_META</b> (model.ts) · SEQUENCE UNCHANGED</span></div>
+${section('01', 'APPROVED GRAMMAR · PRESERVED', `<div class="bd-row">${drawer}${railFrame}</div>`, S.appr('FD-5'))}
+${section('02', 'IMPLEMENTED PROGRESS + CONTROLS · PRESERVED', `<div class="bd-row">${progressNow}</div><div class="bd-row" style="margin-top:18px">${nav}</div>`, S.appr('FD-5'))}
+${section('03', 'IMPLEMENTED BLOCKED + RESUME BEHAVIOUR · PRESERVED', `<div class="bd-row">${validate}${gate}${resume}</div>`, S.appr('FD-5'))}
+${section('04', 'REJECTED PROPOSALS · HISTORICAL ONLY', `<div class="bd-row">${rStrip}${rBack}</div><div class="bd-row" style="margin-top:18px">${rSummary}${rCounter}${rBanner}</div>`, S.rej('NOT APPROVED'))}
+${section('—', 'FOUNDER DECISION', decision)}
+<div class="bd-foot"><span>BOARD 04 / 07 · PROGRESSION SYSTEM</span><span>STATE: <b>buildDfMenu · foundationProgress · DF_VIEW_META</b> (model.ts) · SEQUENCE UNCHANGED · FD-5 APPROVED</span></div>
 `);
 </script>
 </body>

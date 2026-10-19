@@ -39,7 +39,7 @@
 
 ## Dependent approvals carried from the form-control sprint
 
-The field, choice and focus grammar comes from `docs/site00/idnty/form-control-visual-authority-opus1/` (draft PR #1658). It is also **PROPOSED**, and its decisions remain open there. If the founder changes that grammar, boards 07, 08, 12, 23 and 27 inherit the change.
+The field, choice and focus grammar comes from `docs/site00/idnty/form-control-visual-authority-opus1/` (draft PR #1658). The founder has since **approved** that package's FD-1 to FD-6 (OPUS2): mobile selection sheet and desktop listbox, required CONTACT NUMBER, System B checkboxes, completion controls aligned, implemented progression preserved, square red-edge sheets. Workspace boards 07, 08, 12, 23 and 27 were drawn before those decisions; where they differ, the form-control register wins and the workspace implementation follows it.
 
 ## Data-gap decisions (product and backend, outside this visual sprint)
 

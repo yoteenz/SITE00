@@ -20,7 +20,7 @@ Each custom interaction must meet its contract before it ships. Where an existin
 | Announcements | Value change is announced through the combobox value (button text). No extra live region. | Yes |
 | Tests to add | Each `BUSINESS_TYPES` value commits and calls `onChange` with the exact string; a legacy value is rendered and preserved; the Escape, Tab and outside-click paths do not change the value | — |
 
-## C-02 · IdntySelectionSheet, Territory B: new
+## C-02 · IdntySelectionSheet, Territory B: new (FD-1 APPROVED for mobile)
 
 | Item | Contract |
 | --- | --- |
@@ -37,7 +37,7 @@ Each custom interaction must meet its contract before it ships. Where an existin
 | Targets | Rows are 48 px (44 px in landscape); close is 44 × 44 |
 | Tests to add | Focus moves in on open and returns on close; Escape and the scrim leave the value unchanged; every option commits its exact string; Clear writes `''`; a legacy value is listed and preserved; the scroll lock count returns to 0 |
 
-## C-03 · Territory C (if chosen): disclosure plus native radio group
+## C-03 · Territory C (only for a justified short list; never the Business Type default): disclosure plus native radio group
 
 - `button[aria-expanded][aria-controls]` toggles a `fieldset` > `legend` plus native `input[type=radio]` with visually hidden inputs. **Not** `pointer-events: none`.
 - Arrow keys move between options natively; Space selects.
@@ -47,12 +47,13 @@ Each custom interaction must meet its contract before it ships. Where an existin
 
 - Visible `<label for>` is always present; placeholders are never the label.
 - Error: `aria-invalid="true"` plus `aria-describedby` pointing to the error id. The message starts with the red period, which is decorative (`aria-hidden`); the text carries the meaning.
-- The **`OPTIONAL` tag is text**, so assistive tech reads it with the label. Required fields may add `aria-required="true"`; the validation behaviour is unchanged.
+- The **`OPTIONAL` tag is text**, so assistive tech reads it with the label.
+- **Required (FD-2):** CONTACT NUMBER renders `CONTACT NUMBER *`. The asterisk is `aria-hidden` and the input carries `aria-required="true"`, so VoiceOver says "required" rather than "star". The helper is linked with `aria-describedby`; when an error shows, `aria-describedby` lists the error id first, then the helper. Other required fields may add `aria-required="true"` now; their visible marker is U-7.
 - **Submit-time errors:** focus goes to the first invalid field (existing behaviour). A section summary, when present, is `role="alert"` with in-page links to field ids.
 - **Read-only:** use `readonly`, not `disabled`, when the value must stay reachable for reading. The lock glyph is `aria-hidden`; the `SUBMITTED` tag is text.
 - **Focus visible:** the 2 px red frame. `--df-red` on white has a contrast of about 5.6:1, so it passes 1.4.11.
 
-## C-05 · Checkbox (DfCheckbox / acks / prefs / service rows)
+## C-05 · Checkbox (DfCheckbox / acks / prefs / service rows / add-ons): System B (FD-3)
 
 - **A native `input[type=checkbox]` or `role=checkbox` stays the single focusable control.** The visual mark is a `span[aria-hidden]`.
 - **Add-ons (FC-024):** remove the duplicate `button[tabIndex=-1][aria-hidden]`. Keep the row `button[role=checkbox][aria-checked]`.
@@ -60,6 +61,8 @@ Each custom interaction must meet its contract before it ships. Where an existin
 - **The locked required category** is a non-interactive list item reading `ESSENTIAL SERVICE + SECURITY, REQUIRED`. Never a disabled checkbox that can be tabbed into and confuses.
 - **Acks:** keep the `fieldset` / `legend`. The `2 OF 3` count is in the legend text, so it is announced. The blocked-accept line is `role="alert"`, shown only after an attempt.
 - **Focus ring:** solid 2 px red, offset 2. The current `rgba(229,1,7,.35)` ring is under 3:1 on warm white.
+- **Mark contrast (WCAG 1.4.11):** the System B chosen state is carried by the 1 px ink edge (19.56:1) and the red period (5.66:1), not by colour alone. The unchecked edge must be at least 3:1: use `#8f8d88` (3.32:1). The shipped `#b8b6b1` (2.03:1) fails (NF-06).
+- **State is never colour only:** checked = period present; included / accepted = ink fill + check glyph; invalid = red edge **plus** the text message.
 - **Indeterminate:** `aria-checked="mixed"`, and only if a "select all" is ever introduced.
 
 ## C-06 · Radio group: domain path
@@ -92,4 +95,4 @@ Each custom interaction must meet its contract before it ships. Where an existin
 
 - Busy keeps `aria-busy` and `aria-disabled` and stays focusable (existing DfButton).
 - A disabled gate (P05) has visible explanatory text linked with `aria-describedby` (`CONFIRM 2 MORE ITEMS TO CONTINUE`).
-- Drawer steps keep `aria-current="step"` and `aria-disabled` (existing); the in-page strip is an `ol` with `aria-current="step"` on the current item.
+- Drawer steps keep `aria-current="step"` and `aria-disabled` (existing). `DfProgress` keeps its `ol` with `aria-current="step"` and the visually hidden state suffix (existing). FD-5 preserves both; the OPUS1 index strip is rejected.

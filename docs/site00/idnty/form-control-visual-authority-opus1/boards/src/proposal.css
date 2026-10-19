@@ -70,6 +70,11 @@
   color: var(--df-faint);
 }
 
+.ix-req {
+  margin-left: 0.35em;
+  color: var(--df-ink);
+}
+
 .ix-head__state {
   margin-left: auto;
   display: inline-flex;
@@ -1014,4 +1019,36 @@
 
 .ix-ladder > div:last-child {
   border-right: 0;
+}
+
+/* ─── FD-3 APPROVED: System B — red period inside an ink-edged box (OPUS2) ─────
+   Built on .df-check (20 px, radius 2). Locked / accepted / done keep the ink fill + white check. */
+/* NF-06 repair: the shipped unchecked edge (1 px #b8b6b1) is 2.03:1 on white, under the 3:1 non-text minimum.
+   The rest edge uses the client sheet's own #8f8d88 (3.32:1); hover darkens to ink-2. */
+.ix .df-check:not(.df-check--on):not(.ix-check-period):not(.ix-check-invalid):not(.ix-check-indet):not(.ix-check-disabled):not(.df-check--disabled) {
+  border-color: #8f8d88;
+}
+
+.ix-check-period.ix-hover,
+.df-check.ix-hover {
+  border-color: var(--df-ink-2) !important;
+}
+
+.ix-check-period.ix-check-disabled {
+  border-color: #d3d1cc !important;
+  background: var(--df-disabled-bg, #efeeeb) !important;
+}
+
+.ix-check-period.ix-check-disabled::after {
+  background: #b5b3ae;
+}
+
+.ix-check-disabled {
+  border-color: #d3d1cc !important;
+  background: var(--df-disabled-bg, #efeeeb) !important;
+}
+
+/* Valid (formatted) value: no decoration beyond the filled value — nothing turns green. */
+.ix-valid-note {
+  color: var(--df-muted);
 }

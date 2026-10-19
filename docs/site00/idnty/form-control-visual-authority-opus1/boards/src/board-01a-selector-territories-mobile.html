@@ -11,7 +11,7 @@
 <body>
 <div id="board"></div>
 <script type="module">
-import { header, section, frame, device, stage, S, p02Page, selectField, territoryA, territoryC, sheet, field, BUSINESS_TYPES, mount } from './kit.js';
+import { header, section, frame, device, stage, S, decisionBox, p02Page, selectField, territoryA, territoryC, sheet, field, BUSINESS_TYPES, mount } from './kit.js';
 
 const T = BUSINESS_TYPES;
 const OTHER = T[T.length - 1];
@@ -26,7 +26,7 @@ const current = frame({
 
 const keep = frame({
   title: 'CLOSED STATE — KEPT IN ALL THREE',
-  chips: S.impl() + ' ' + S.prop('+ OPTIONAL TAG'),
+  chips: S.impl() + ' ' + S.appr('+ OPTIONAL TAG · BOARD 07'),
   width: 340,
   body: stage(
     selectField({ value: '' }) +
@@ -43,8 +43,9 @@ const keep = frame({
 
 // ── Territory A on iPhone ──
 const aOpen = frame({
-  title: 'A · ARCHITECTURAL DROPDOWN',
-  chips: S.prop(),
+  title: 'A · ARCHITECTURAL DROPDOWN ON A PHONE',
+  chips: S.rej('NOT THE MOBILE TREATMENT · FD-1'),
+  rejected: 'ON PHONES: NOT APPROVED · A IS THE DESKTOP COMPANION (BOARD 01B)',
   body: device({
     scroll: 300,
     body: p02Page({ typeSlot: territoryA({ value: OTHER, active: 7, rows: 6.5, scrollAt: 3.5 }) }),
@@ -53,7 +54,8 @@ const aOpen = frame({
 });
 const aAbove = frame({
   title: 'A · 375 × 667 — FLIPS ABOVE',
-  chips: S.impl('PLACEMENT LOGIC EXISTS') + ' ' + S.prop('VISUAL'),
+  chips: S.impl('PLACEMENT LOGIC EXISTS') + ' ' + S.rej('NOT ON PHONES · FD-1'),
+  rejected: 'ON PHONES: NOT APPROVED · KEPT AS EVIDENCE FOR FD-1',
   body: device({
     h: 667,
     w: 375,
@@ -67,7 +69,7 @@ const aAbove = frame({
 // ── Territory B ──
 const bOpen = frame({
   title: 'B · EDITORIAL SELECTION SHEET',
-  chips: S.prop() + ' ' + S.rec('OPUS RECOMMENDS ON PHONES'),
+  chips: S.appr('FD-1 · FOUNDER SELECTED · MOBILE'),
   body: device({
     scroll: 300,
     body: p02Page({ typeSlot: selectField({ value: OTHER, open: true, mark: true }) }),
@@ -77,7 +79,7 @@ const bOpen = frame({
 });
 const bSmall = frame({
   title: 'B · 375 × 667 — LIST SCROLLS INSIDE',
-  chips: S.prop(),
+  chips: S.appr('FD-1'),
   body: device({
     w: 375,
     h: 667,
@@ -92,7 +94,8 @@ const bSmall = frame({
 // ── Territory C ──
 const cOpen = frame({
   title: 'C · INLINE EXPANDED SELECTION',
-  chips: S.prop() + ' ' + S.alt('SHORT LISTS ONLY'),
+  chips: S.rej('NOT THE BUSINESS TYPE DEFAULT') + ' ' + S.alt('RESERVED · SHORT LISTS'),
+  rejected: 'NOT APPROVED FOR BUSINESS TYPE · ONLY WHERE A SHORT LIST JUSTIFIES IT',
   body: device({
     scroll: 300,
     body: p02Page({ typeSlot: territoryC({ value: OTHER }) }),
@@ -101,8 +104,8 @@ const cOpen = frame({
 });
 
 const detail = frame({
-  title: 'OPTION ROW STATES — ALL TERRITORIES',
-  chips: S.prop(),
+  title: 'OPTION ROW STATES — LISTBOX (A) + SHEET (B)',
+  chips: S.appr('FD-1'),
   width: 380,
   body: stage(
     `<div class="ix-dd"><div class="ix-dd__panel" style="position:relative;top:0;box-shadow:none;border-top:1px solid var(--df-red);border-radius:3px">
@@ -129,27 +132,28 @@ const detail = frame({
 const matrix = `<div class="bd-panel"><table class="bd-table">
 <thead><tr><th>TERRITORY</th><th>MOBILE</th><th>DESKTOP</th><th>LONG LIST (10)</th><th>ACCESSIBILITY</th><th>BUILD COMPLEXITY</th><th>DATA-CONTRACT RISK</th><th>BEST FOR</th></tr></thead>
 <tbody>
-<tr><td>A · ARCHITECTURAL DROPDOWN</td><td>Works; cramped under 700 px tall; competes with the keyboard</td><td><span class="r">Strongest</span> — anchored, fast, pointer + keys</td><td>6½ rows then scroll</td><td>APG select-only combobox — <b>already built and tested</b> in DfSelect</td><td><span class="r">LOW</span> — restyle DfSelect, bind P02</td><td>LOW — value stays a BUSINESS_TYPES string</td><td>Desktop · lists ≤ 10 · fine pointer</td></tr>
-<tr><td>B · EDITORIAL SHEET</td><td><span class="r">Strongest</span> — full-width rows, 48 px targets, no clipping</td><td>Possible as centred panel; heavier than needed</td><td>All 10 visible on 844; inner scroll on 667</td><td>Modal dialog containing a listbox; focus trap + return (useDfDialogFocus exists)</td><td>MEDIUM — new IdntySelectionSheet on DfBottomSheet’s focus / scroll-lock plumbing</td><td>LOW — same value contract; Clear restores ''</td><td>Phones · coarse pointer · long labels</td></tr>
-<tr><td>C · INLINE EXPANSION</td><td>Calm, in-flow; long page jump for 10</td><td>Fine</td><td>Pushes the form ≈ 450 px</td><td>Disclosure button + radio group (native radios) — simplest semantics</td><td>LOW–MEDIUM</td><td>LOW</td><td>≤ 5 options in context (already used for domain paths)</td></tr>
+<tr><td>A · ARCHITECTURAL DROPDOWN</td><td>Works; cramped under 700 px tall; competes with the keyboard</td><td><span class="r">Strongest</span> — anchored, fast, pointer + keys</td><td>6½ rows then scroll</td><td>APG select-only combobox — <b>already built and tested</b> in DfSelect</td><td><span class="r">LOW</span> — restyle DfSelect, bind P02</td><td>LOW — value stays a BUSINESS_TYPES string</td><td><b>DESKTOP COMPANION · APPROVED (FD-1)</b><br>fine pointer · lists ≤ 10</td></tr>
+<tr><td>B · EDITORIAL SHEET</td><td><span class="r">Strongest</span> — full-width rows, 48 px targets, no clipping</td><td>Possible as centred panel; heavier than needed</td><td>All 10 visible on 844; inner scroll on 667</td><td>Modal dialog containing a listbox; focus trap + return (useDfDialogFocus exists)</td><td>MEDIUM — new IdntySelectionSheet on DfBottomSheet’s focus / scroll-lock plumbing</td><td>LOW — same value contract; Clear restores ''</td><td><b>MOBILE · FOUNDER SELECTED (FD-1)</b><br>coarse pointer ≤ 600 px · long labels</td></tr>
+<tr><td>C · INLINE EXPANSION</td><td>Calm, in-flow; long page jump for 10</td><td>Fine</td><td>Pushes the form ≈ 450 px</td><td>Disclosure button + radio group (native radios) — simplest semantics</td><td>LOW–MEDIUM</td><td>LOW</td><td><b>RESERVED</b> · not the Business Type default · ≤ 5 options in context (domain paths already use this grammar)</td></tr>
 </tbody></table></div>`;
 
-const decision = `<div class="bd-decision"><div class="bd-decision__k">FD-1</div><div>
-<div class="bd-decision__q">BUSINESS TYPE ON MOBILE — SELECTION SHEET (B) OR ANCHORED LISTBOX (A)?</div>
-<div class="bd-decision__o"><b>Opus recommends: one IdntySelect, two presentations.</b> B on phones (coarse pointer, ≤ 600 px wide), A on tablet / desktop. Same component, same option list, same value. C stays reserved for short in-context choices (domain path). Alternatives: A everywhere (least build) · B everywhere · C for Business Type.</div>
-</div></div>`;
+const decision = decisionBox(
+  'FD-1',
+  'APPROVED — OPTION B EDITORIAL MOBILE SELECTION SHEET · DESKTOP COMPANION A',
+  '<b>Founder selection:</b> Board 01, Option B. One reusable IdntySelect: the selection sheet on coarse pointers up to 600 px wide, the anchored listbox (Territory A) otherwise. Both share the closed field, typography, red-period selection, the active frame and the feedback states. Built on DfSelect (A) and DfBottomSheet focus / scroll-lock plumbing (B). Territory C only where a specific short list justifies it; never the Business Type default. Sheet geometry follows FD-6.',
+);
 
 mount(`
 ${header({
   num: '01A',
   title: 'Selector territories · iPhone',
-  sub: 'FC-004 Business Type, shown with the ten real BUSINESS_TYPES values from model.ts on the founder-tested P02 page. Three genuinely different ways to open a SITE 00 selector; the closed field the founder approved stays identical in all three. Desktop presentations are on Board 01B.',
+  sub: 'FC-004 Business Type with the ten real BUSINESS_TYPES values on the founder-tested P02 page. The founder selected Territory B, the editorial selection sheet, for mobile; the closed field stays exactly as it is. A remains the desktop companion (Board 01B); C is reserved for short lists. The A and C phone frames stay below as greyed history.',
 })}
 ${section('00', 'THE PROBLEM AND WHAT STAYS', `<div class="bd-row">${current}${keep}</div>`)}
-${section('01', 'OPEN STATE IN CONTEXT — A · B · C ON THE SAME PAGE, SAME SCROLL', `<div class="bd-row">${aOpen}${bOpen}${cOpen}</div>`, S.prop())}
-${section('02', 'SHORT PHONE, FLIPPED PLACEMENT, ROW STATES', `<div class="bd-row">${aAbove}${bSmall}${detail}</div>`, S.prop())}
-${section('—', 'COMPARISON AND DECISION', matrix + '<div style="height:18px"></div>' + decision)}
-<div class="bd-foot"><span>BOARD 01A / 07 · SELECTOR TERRITORIES · IPHONE</span><span>VALUES: <b>BUSINESS_TYPES</b> (src/site00/foundation-client/model.ts) · NOTHING HERE IS APPROVED UNTIL THE FOUNDER SELECTS</span></div>
+${section('01', 'OPEN STATE IN CONTEXT — B SELECTED · A AND C KEPT AS HISTORY', `<div class="bd-row">${bOpen}${aOpen}${cOpen}</div>`, S.appr('FD-1'))}
+${section('02', 'SHORT PHONE, ROW STATES', `<div class="bd-row">${bSmall}${detail}${aAbove}</div>`, S.appr('FD-1'))}
+${section('—', 'COMPARISON (HISTORICAL) AND FOUNDER DECISION', matrix + '<div style="height:18px"></div>' + decision)}
+<div class="bd-foot"><span>BOARD 01A / 07 · SELECTOR TERRITORIES · IPHONE</span><span>VALUES: <b>BUSINESS_TYPES</b> (src/site00/foundation-client/model.ts, ratification U-1) · FD-1 APPROVED · TERRITORY B ON MOBILE</span></div>
 `);
 </script>
 </body>

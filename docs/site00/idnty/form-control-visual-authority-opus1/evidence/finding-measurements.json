@@ -16,6 +16,12 @@
     "position": "absolute",
     "transform": "matrix(0, 1, -1, 0, 0, -8)"
   },
+  "NF-06": {
+    "selector": ".df-root .df-check (unchecked)",
+    "border": "1px solid rgb(184, 182, 177)",
+    "background": "rgb(255, 255, 255)",
+    "note": "site00-df-client.css sets 1.5px #8f8d88; site00-df-components.css (loaded later) overrides it"
+  },
   "measured_with": "Chromium (Playwright) at 390×844, /foundation/review on the local Vite server",
-  "measured_at": "2026-10-19T13:14:26.332Z"
+  "measured_at": "2026-10-19T14:28:35.659Z"
 }

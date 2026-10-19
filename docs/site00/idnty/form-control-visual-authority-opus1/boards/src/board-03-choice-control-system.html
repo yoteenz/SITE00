@@ -19,60 +19,75 @@
 <body>
 <div id="board"></div>
 <script type="module">
-import { DF, header, section, frame, stage, S, icon, mount } from './kit.js';
+import { DF, header, section, frame, stage, S, icon, mount, decisionBox } from './kit.js';
 
 const CHECK = icon('check');
 const mark = (cls, inner = '') => `<span class="df-check ${cls}">${inner}</span>`;
 const markCell = (t, html) => `<div>${html}<span class="t">${t}</span></div>`;
 
-const systemA = `<div class="marks df-portal ix" style="grid-template-columns:repeat(10,82px)">
+// FD-3 APPROVED — System B: the red period inside an ink-edged box. Ink fill + white check = included / accepted / done (a record, never a choice).
+const B = {
+  off: () => mark(''),
+  hover: () => mark('ix-hover'),
+  focus: () => mark('ix-check-focus'),
+  on: () => mark('ix-check-period'),
+  onFocus: () => mark('ix-check-period ix-check-focus'),
+  locked: () => mark('df-check--on df-check--locked', CHECK),
+  disabled: () => mark('ix-check-disabled'),
+  disabledOn: () => mark('ix-check-period ix-check-disabled'),
+  invalid: () => mark('ix-check-invalid'),
+  indet: () => mark('ix-check-indet'),
+};
+
+const systemB = `<div class="marks df-portal ix" style="grid-template-columns:repeat(10,86px)">
+  ${markCell('UNCHECKED', B.off())}
+  ${markCell('HOVER', B.hover())}
+  ${markCell('FOCUS-VISIBLE', B.focus())}
+  ${markCell('CHECKED', B.on())}
+  ${markCell('CHECKED + FOCUS', B.onFocus())}
+  ${markCell('INCLUDED · ACCEPTED · DONE', B.locked())}
+  ${markCell('DISABLED', B.disabled())}
+  ${markCell('DISABLED · CHECKED', B.disabledOn())}
+  ${markCell('INVALID · REQUIRED', B.invalid())}
+  ${markCell('INDETERMINATE', B.indet())}
+</div>`;
+const systemA = `<div class="marks df-portal ix" style="grid-template-columns:repeat(5,82px)">
   ${markCell('UNCHECKED', mark(''))}
-  ${markCell('HOVER', mark('ix-hover'))}
-  ${markCell('FOCUS-VISIBLE', mark('ix-check-focus'))}
   ${markCell('CHECKED', mark('df-check--on', CHECK))}
   ${markCell('CHECKED + FOCUS', mark('df-check--on ix-check-focus', CHECK))}
-  ${markCell('INCLUDED · LOCKED', mark('df-check--on df-check--locked', CHECK))}
-  ${markCell('DISABLED', mark('df-check--disabled'))}
-  ${markCell('DISABLED · CHECKED', mark('df-check--disabled df-check--on', CHECK))}
-  ${markCell('INVALID · REQUIRED', mark('ix-check-invalid'))}
-  ${markCell('INDETERMINATE', mark('ix-check-indet'))}
-</div>`;
-const systemB = `<div class="marks df-portal ix" style="grid-template-columns:repeat(5,82px)">
-  ${markCell('UNCHECKED', mark(''))}
-  ${markCell('CHECKED', mark('ix-check-period'))}
-  ${markCell('INCLUDED · LOCKED', mark('df-check--on df-check--locked', CHECK))}
   ${markCell('INVALID', mark('ix-check-invalid'))}
   ${markCell('INDETERMINATE', mark('ix-check-indet'))}
 </div>`;
 
-const marksA = frame({
-  title: 'SYSTEM A · RED CHECK (ONE MARK EVERYWHERE)',
-  chips: S.impl('MARK EXISTS') + ' ' + S.prop('STATES · FOCUS · INVALID') + ' ' + S.rec('OPUS RECOMMENDS'),
-  width: 822,
-  body: systemA,
-  note: 'The 20 px / 2 px-radius mark from the component system, red when chosen, ink when included (never a choice). Proposed: a solid 2 px red focus ring (today rgba .35 — faint on warm white), a red-edged invalid state, and an indeterminate dash for any future “select all”. Unmistakably a checkbox.',
-});
 const marksB = frame({
-  title: 'SYSTEM B · THE RED PERIOD INSIDE',
-  chips: S.alt(),
-  width: 412,
+  title: 'SYSTEM B · THE RED PERIOD INSIDE · SELECTED AUTHORITY',
+  chips: S.appr('FD-3 · FOUNDER SELECTED'),
+  width: 878,
   body: systemB,
-  note: 'More editorial: ink-edged box, red period when chosen. Distinctive, but a square-in-a-square reads closer to a radio button and weakens “I agree” moments (P05). Kept as the FD-3 alternative.',
+  note: '<b>Unchecked</b> = white box, 1 px #8f8d88 edge (NF-06 repair: the shipped #b8b6b1 edge is 2.03:1, under the 3:1 non-text minimum). <b>Checked</b> = white box, 1 px ink edge, 8 px red period. <b>Included / accepted / done</b> = ink fill + white check (unchanged from the implemented locked state). Focus-visible = solid 2 px red ring, offset 2 (retained Board 03 proposal; today rgba .35). Hover (fine pointer) = ink-2 edge. Disabled · checked = grey edge, grey period. Invalid = red edge on #fffafa. Indeterminate (only if a “select all” ever exists) = red fill, white dash.',
+});
+const marksA = frame({
+  title: 'SYSTEM A · RED CHECK',
+  chips: S.rej('NOT APPROVED · SUPERSEDED BY FD-3'),
+  rejected: 'HISTORICAL EXPLORATION · NOT APPROVED',
+  width: 450,
+  body: systemA,
+  note: 'OPUS1 recommended this. The founder selected System B. Do not implement a red-filled chosen state anywhere.',
 });
 
-// ── Service row (P03) ──
+// ── Service row (P03) — row layout is the founder screenshot; the chosen mark follows FD-3 ──
 const row = ({ title, sub, tags, state, iconName }) => {
-  const on = state !== 'off';
   const locked = state === 'locked';
+  const on = state === 'on' || state === 'active';
   return `<li class="df-row df-row--service ${state === 'active' ? 'df-row--active' : ''} ${locked ? 'df-row--locked' : ''}" style="list-style:none">
     <div class="df-row__main">${icon(iconName, 'df-row__icon')}<span class="df-row__text"><span class="df-row__title">${title}</span><span class="df-row__sub">${sub}</span><span class="df-row__tags">${tags
       .map((t) => `<span class="df-tag df-tag--${t === 'CONFIGURABLE' ? 'ink' : t === 'PAID ADD-ON' || t === 'MANUAL REVIEW' ? 'red' : 'muted'}">${t}</span>`)
-      .join('')}</span></span>${mark(on ? `df-check--on ${locked ? 'df-check--locked' : ''}` : '', on ? CHECK : '')}</div>
+      .join('')}</span></span>${locked ? B.locked() : on ? B.on() : B.off()}</div>
   </li>`;
 };
 const services = frame({
   title: 'P03 SERVICE ROWS (FC-010, 016–020)',
-  chips: S.locked('FOUNDER SCREENSHOT') + ' ' + S.impl(),
+  chips: S.locked('ROW LAYOUT · FOUNDER SCREENSHOT') + ' ' + S.appr('MARK · FD-3'),
   width: 380,
   body: stage(
     `<ul class="df-rows" style="margin:0;padding:0">
@@ -83,15 +98,15 @@ const services = frame({
     </ul>`,
     { w: 380, touch: true },
   ),
-  note: 'Kept as is: red frame on the open row, red check for a chosen service, ink check for included core. Row copy and tags verbatim from P03Configure.',
+  note: 'Kept exactly: row layout, red frame on the open row, ink check for included core, tags and copy (P03Configure). <b>Changed by FD-3:</b> a chosen service now shows System B (red period in an ink-edged box) instead of the red-filled check. FD-3 names P03 services explicitly.',
 });
 
-// ── Domain path radios ──
+// ── Domain path radios — radio semantics kept (one-of-many), not converted to a checkbox ──
 const path = (p, on, focus = false) => `<label class="df-path ${on ? 'df-path--on' : ''}" style="${focus ? 'outline:2px solid var(--df-red);outline-offset:1px' : ''}"><span class="df-path__dot"></span><span class="df-path__text"><span class="df-path__title">${p.title}</span><span class="df-path__sub">${p.sub}</span></span><span class="df-tag df-tag--${p.tag === 'MANUAL REVIEW' ? 'red' : 'muted'}">${p.tag}</span></label>`;
 const P = DF.DOMAIN_PATHS;
 const radios = frame({
   title: 'RADIO GROUP · DOMAIN PATH (FC-011)',
-  chips: S.locked('FOUNDER SCREENSHOT') + ' ' + S.prop('ERROR + KEYBOARD'),
+  chips: S.locked('FOUNDER SCREENSHOT') + ' ' + S.appr('ERROR + KEYBOARD · RETAINED'),
   width: 380,
   body: stage(
     `<fieldset class="df-paths"><legend class="df-reveal__label">HOW SHOULD WE HANDLE YOUR DOMAIN?</legend>${P.map((p, i) => path(p, i === 1, i === 1)).join('')}</fieldset>
@@ -100,30 +115,30 @@ const radios = frame({
     <p class="ix-error" style="margin-top:8px"><span class="ix-mark"></span>${DF.messages.domainPath}</p>`,
     { w: 380, touch: true },
   ),
-  note: 'The circle stays: one-of-many must read as a radio. Selected = red frame + red dot (approved). Proposed: invalid group edges in red with the real message; keyboard focus ring on the label; arrow keys move within the group (native radios — fix the pointer-events: none flag, FC-011 / E).',
+  note: 'A radio stays a radio: circle + red dot, red frame when chosen (approved). System B is the checkbox grammar only, so this group keeps its own mark. Retained proposals: the invalid group edge with the existing message (validateForRecommendation, verbatim), the focus ring on the label, and the keyboard fix (remove pointer-events: none so arrow keys work, FC-011 / E).',
 });
 
 // ── P05 acknowledgements ──
-const ack = (t, on, cls = '') => `<label class="df-ack ${on ? 'df-ack--on' : ''} ${cls}">${mark(on ? 'df-check--on' : cls.includes('invalid') ? 'ix-check-invalid' : '', on ? CHECK : '')}<span class="df-ack__text">${t}</span></label>`;
+const ack = (t, st, cls = '') => `<label class="df-ack ${st === 'on' || st === 'locked' ? 'df-ack--on' : ''} ${cls}">${B[st]()}<span class="df-ack__text">${t}</span></label>`;
 const D = DF.DF_DISCLOSURES;
 const acks = frame({
   title: 'CONSENT · P05 DISCLOSURES (FC-027)',
-  chips: S.impl() + ' ' + S.prop('INVALID + COUNT'),
+  chips: S.impl('ACCEPT GATE') + ' ' + S.appr('MARK + COUNT') + ' ' + S.unres('U-8 INVALID TRIGGER'),
   width: 400,
   body: stage(
-    `<fieldset class="df-acks" style="margin:0"><legend class="df-reveal__label" style="display:flex;width:100%">BEFORE YOU ACCEPT<span class="ix-ack-count">2 OF 3</span></legend>${ack(D[0], true)}${ack(D[1], true)}${ack(D[2], false, 'ix-ack--invalid')}</fieldset>
+    `<fieldset class="df-acks" style="margin:0"><legend class="df-reveal__label" style="display:flex;width:100%">BEFORE YOU ACCEPT<span class="ix-ack-count">2 OF 3</span></legend>${ack(D[0], 'on')}${ack(D[1], 'on')}${ack(D[2], 'invalid', 'ix-ack--invalid')}</fieldset>
     <p class="ix-ack-summary"><span class="ix-mark"></span>CONFIRM EACH ITEM TO CONTINUE</p>
     <div style="height:16px"></div>
-    <fieldset class="df-acks" disabled style="margin:0"><legend class="df-reveal__label" style="display:flex;width:100%">ACCEPTED<span class="ix-ack-count">3 OF 3</span></legend>${D.map((d) => `<label class="df-ack df-ack--on">${mark('df-check--on df-check--locked', CHECK)}<span class="df-ack__text">${d}</span></label>`).join('')}</fieldset>`,
+    <fieldset class="df-acks" disabled style="margin:0"><legend class="df-reveal__label" style="display:flex;width:100%">ACCEPTED<span class="ix-ack-count">3 OF 3</span></legend>${D.map((d) => ack(d, 'locked')).join('')}</fieldset>`,
     { w: 400, touch: true },
   ),
-  note: 'Disclosure text is DF_DISCLOSURES verbatim. Proposed: a running “2 OF 3” count, and — only after a blocked accept — the unchecked item edged red with one line of guidance (copy proposed). After acceptance the marks turn ink: a record, not a choice. Accept-gate logic is untouched.',
+  note: 'DF_DISCLOSURES verbatim; the accept gate (CTA disabled until all three) is unchanged. <b>Retained:</b> System B marks, the running count in the legend, ink marks after acceptance (a record). <b>Not approved by this decision:</b> <i>when</i> the red invalid edge and the line appear (the CTA is disabled, so there is no “attempt” event today) and the line’s copy — U-8 and U-2.',
 });
 
 // ── Portal prefs ──
 const prefsNow = frame({
   title: 'PORTAL PREFERENCES · CURRENT (FC-036)',
-  chips: S.impl('NATIVE CHECKBOX VISIBLE'),
+  chips: S.impl('NATIVE CHECKBOX · TO BE REPLACED'),
   width: 340,
   body: stage(
     `<ul class="df-specs" style="margin:0;padding:0"><li class="df-choice df-choice--locked"><span class="df-choice__label">ESSENTIAL SERVICE + SECURITY (REQUIRED)</span></li></ul>
@@ -132,22 +147,22 @@ const prefsNow = frame({
     <label class="df-choice native-pref"><input type="checkbox"><span class="df-choice__label">PROMOTIONAL MARKETING (OPT IN)</span></label>`,
     { w: 340, touch: true },
   ),
-  note: 'Exact markup from ProjectPortal.tsx: the browser draws the box (third checkbox system). Labels verbatim.',
+  note: 'Exact markup from ProjectPortal.tsx: the browser draws the box. Labels verbatim.',
 });
-const pref = (label, desc, on, locked = false) =>
-  `<label class="ix-pref ${locked ? 'ix-pref--locked' : ''}">${mark(on ? `df-check--on ${locked ? 'df-check--locked' : ''}` : '', on ? CHECK : '')}<span class="ix-pref__text"><span class="ix-pref__label">${label}</span>${desc ? `<span class="ix-pref__desc">${desc}</span>` : ''}</span></label>`;
+const pref = (label, desc, st, locked = false) =>
+  `<label class="ix-pref ${locked ? 'ix-pref--locked' : ''}">${B[st]()}<span class="ix-pref__text"><span class="ix-pref__label">${label}</span>${desc ? `<span class="ix-pref__desc">${desc}</span>` : ''}</span></label>`;
 const prefsNext = frame({
-  title: 'PORTAL PREFERENCES · PROPOSED',
-  chips: S.prop() + ' ' + S.dec('FD-3'),
+  title: 'PORTAL PREFERENCES · APPROVED TREATMENT',
+  chips: S.appr('FD-3 · SYSTEM B'),
   width: 340,
   body: stage(
-    pref('ESSENTIAL SERVICE + SECURITY', 'REQUIRED · ALWAYS ON', true, true) +
-      pref('PROJECT OPERATIONS UPDATES', '', true) +
-      pref('OPTIONAL EDUCATIONAL EMAIL', '', false) +
-      pref('PROMOTIONAL MARKETING (OPT IN)', '', false),
+    pref('ESSENTIAL SERVICE + SECURITY', 'REQUIRED · ALWAYS ON', 'locked', true) +
+      pref('PROJECT OPERATIONS UPDATES', '', 'on') +
+      pref('OPTIONAL EDUCATIONAL EMAIL', '', 'off') +
+      pref('PROMOTIONAL MARKETING (OPT IN)', '', 'off'),
     { w: 340, touch: true },
   ),
-  note: 'Same rows and mark as P05: ink for the required category, red for an opt-in. Native input kept (visually hidden, full-row hit area) — CommunicationPrefs payload unchanged.',
+  note: 'Same mark as P05: ink for the required category (a non-interactive item, not a disabled checkbox), System B for each opt-in. Native input kept (visually hidden, full-row hit area). CommunicationPrefs keys and payload unchanged. The CONTACT NUMBER (FD-2) never sets any of these.',
 });
 
 // ── Add-on rows ──
@@ -157,56 +172,56 @@ const transfer = A.find((a) => a.id === 'DOMAIN_TRANSFER');
 const addonIcon = (n) => { try { return icon(n, 'df-row__icon'); } catch { return icon('add', 'df-row__icon'); } };
 const money = (m) => `$${(m / 100).toFixed(0)}`;
 const addon = (a, on, qty) => `<div class="ix-addon ${on ? 'ix-addon--on' : ''}">${addonIcon(a.icon)}<span class="ix-addon__text"><span class="df-row__title">${a.title}</span><span class="df-row__sub">${a.sub}</span></span>${
-  qty ? `<span class="ix-stepper"><span class="ix-stepper__btn ${qty <= 1 ? 'ix-stepper__btn--off' : ''}">${icon('minus')}</span><span class="ix-stepper__val">${qty}</span><span class="ix-stepper__btn">${icon('plus')}</span></span>` : mark(on ? 'df-check--on' : '', on ? CHECK : '')
+  qty ? `<span class="ix-stepper"><span class="ix-stepper__btn ${qty <= 1 ? 'ix-stepper__btn--off' : ''}">${icon('minus')}</span><span class="ix-stepper__val">${qty}</span><span class="ix-stepper__btn">${icon('plus')}</span></span>` : on ? B.on() : B.off()
 }<span class="ix-addon__price">${money(a.price_minor_units * (qty || 1))}${qty ? `<small>${money(a.price_minor_units)} EACH</small>` : ''}</span></div>`;
 const addons = frame({
   title: 'ADD-ON ROWS · ONE CONTROL PER ROW (FC-023/024/025)',
-  chips: S.prop() + ' ' + S.con('A11Y FIX'),
+  chips: S.appr('FD-3 · SYSTEM B') + ' ' + S.con('A11Y FIX'),
   width: 420,
   body: stage(`<div style="display:flex;flex-direction:column;gap:5px">${addon(transfer, false)}${addon(transfer, true)}${addon(mailbox, true, 2)}</div>`, { w: 420, touch: true }),
-  note: 'Today a row is a role=checkbox button <b>and</b> a second aria-hidden button draws the mark (duplicate control, E). Proposed: the whole row is the one checkbox; the mark is a span. When an add-on has quantity units the stepper replaces the mark (existing rule). Titles and prices: addon catalog + ADDON_PRESENTATION, verbatim.',
+  note: 'Retained: the whole row is the one role=checkbox control and the mark is a span (removes the duplicate aria-hidden button, E); red frame when on; the stepper replaces the mark for quantity add-ons (existing rule). Mark = System B. addon_id, quantity and quote sync unchanged. Titles and prices from the catalog, verbatim.',
 });
 
-// ── Chips ──
+// ── Tabs + switch ──
 const F = ['ALL', 'DOMAIN', 'EMAIL', 'SECURITY', 'PAYMENTS', 'PROJECT']; // RECORD_FILTERS, ProjectPortal.tsx:305 (not exported)
 const chips = frame({
   title: 'RECORD FILTER TABS (FC-035)',
-  chips: S.con('NF-02 · UNSTYLED') + ' ' + S.prop(),
+  chips: S.con('NF-02 · UNSTYLED TODAY') + ' ' + S.appr('RETAINED'),
   width: 420,
   body: stage(
-    `<div class="df-chips">${F.map((f, i) => `<button class="df-chip" style="margin:0 4px 4px 0">${f}</button>`).join('')}</div>
+    `<div class="df-chips">${F.map((f) => `<button class="df-chip" style="margin:0 4px 4px 0">${f}</button>`).join('')}</div>
      <div style="height:18px"></div>
      <div class="ix-tabs">${F.map((f, i) => `<span class="ix-tab ${i === 1 ? 'ix-tab--on' : ''}">${f}</span>`).join('')}</div>`,
     { w: 420 },
   ),
-  note: '<b>NF-02:</b> .df-chip has no rule in any stylesheet — the top row is what ships (browser buttons). Proposed: rectilinear tabs, ink label + 2 px red underline for the current tab. No pills.',
+  note: '<b>NF-02:</b> .df-chip has no rule in any stylesheet; the top row is what ships. Retained proposal: rectilinear tabs, ink label + 2 px red underline on the current tab, arrow-key roving. A tab is a filter, not a choice control, so it does not use the System B box.',
 });
-
 const toggle = frame({
   title: 'SWITCH (DfToggle, U06)',
-  chips: S.impl('FROM #1573') + ' ' + S.unres('NOT USED IN CLIENT'),
+  chips: S.impl('FROM #1573') + ' ' + S.unres('U-3 · UNRESOLVED'),
   width: 300,
   body: stage(`<div style="display:flex;gap:18px;align-items:center"><span class="df-toggle"><span class="df-toggle__thumb"></span></span><span class="df-toggle df-toggle--on"><span class="df-toggle__thumb"></span></span><span class="df-toggle df-toggle--disabled"><span class="df-toggle__thumb"></span></span></div>`, { w: 300 }),
-  note: 'The pill switch is the one rounded control in the system. No client surface uses it; proposal: keep it out of IDNTY client flows (checkbox rows cover every case) rather than redesign it.',
+  note: 'Not decided by FD-3 or Board 07. It stays unused in client flows; no redesign and no removal until the founder rules on U-3.',
 });
 
-const decision = `<div class="bd-decision"><div class="bd-decision__k">FD-3</div><div>
-<div class="bd-decision__q">ONE CHECKBOX SYSTEM FOR P03 SERVICES, P05 DISCLOSURES AND PORTAL PREFERENCES — SYSTEM A OR SYSTEM B?</div>
-<div class="bd-decision__o"><b>Opus recommends System A</b> (the existing red check, with the proposed focus, invalid and locked states) on every surface, including portal preferences. System B (red period inside an ink box) is the editorial alternative. Either way, the native portal checkboxes go.</div>
-</div></div>`;
+const decision = decisionBox(
+  'FD-3',
+  'APPROVED — SYSTEM B WITH COMPATIBLE BOARD 03 PROPOSALS',
+  '<b>Founder selection:</b> Board 03, System B (red period inside an ink-edged box), plus the additional Board 03 proposals where they complement System B. Applies to P03 service selections, add-on rows, P05 consent acknowledgements and client portal preferences. <b>Retained proposals:</b> solid red focus ring; invalid edge; indeterminate; legend count on P05; ink marks after acceptance; portal rows with a locked ink required item; one control per add-on row; record-filter tabs; domain-radio error and keyboard fix. <b>Not decided here:</b> P05 invalid trigger + line copy (U-8, U-2), the pill switch (U-3).',
+);
 
 mount(`
 ${header({
   num: '03',
   title: 'Choice control system',
-  sub: 'Three checkbox systems ship today (P03/P05 custom marks, DfCheckbox in the library, native boxes in portal preferences). This board folds them into one mark with one set of states, keeps the approved P03 rows and domain radios, and fixes the duplicate add-on control.',
+  sub: 'One checkbox grammar for IDNTY: the founder-selected System B, the red period inside an ink-edged box, applied to services, add-ons, consent and portal preferences. Radios, tabs and steppers keep their own semantics and share only the focus, invalid and colour rules.',
 })}
-${section('01', 'THE MARK', `<div class="bd-row">${marksA}${marksB}</div>`)}
-${section('02', 'APPROVED ROWS · KEPT', `<div class="bd-row">${services}${radios}</div>`, S.locked('P03 FOUNDER SCREENSHOT'))}
+${section('01', 'THE MARK · SYSTEM B', `<div class="bd-row">${marksB}${marksA}</div>`, S.appr('FD-3'))}
+${section('02', 'APPROVED ROWS', `<div class="bd-row">${services}${radios}</div>`)}
 ${section('03', 'CONSENT · PREFERENCES · ADD-ONS', `<div class="bd-row">${acks}${prefsNow}${prefsNext}${addons}</div>`)}
 ${section('04', 'TABS AND SWITCHES', `<div class="bd-row">${chips}${toggle}</div>`)}
-${section('—', 'DECISION', decision)}
-<div class="bd-foot"><span>BOARD 03 / 07 · CHOICE CONTROL SYSTEM</span><span>COPY: <b>DF_DISCLOSURES · DOMAIN_PATHS · ADDON CATALOG</b> VERBATIM · FD-3 OPEN</span></div>
+${section('—', 'FOUNDER DECISION', decision)}
+<div class="bd-foot"><span>BOARD 03 / 07 · CHOICE CONTROL SYSTEM</span><span>COPY: <b>DF_DISCLOSURES · DOMAIN_PATHS · ADDON CATALOG</b> VERBATIM · FD-3 APPROVED (SYSTEM B)</span></div>
 `);
 </script>
 </body>

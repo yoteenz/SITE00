@@ -1,0 +1,20 @@
+# Unresolved items register
+
+These items are **not** decided by FD-1 to FD-6. They stay separate from the approved decisions, and none of them blocks the approved phases unless the "Blocks" column says so.
+
+| ID | Item | Why open | Current authority until decided | Blocks |
+| --- | --- | --- | --- | --- |
+| **U-1** | `BUSINESS_TYPES` ratification | `src/site00/foundation-client/model.ts` marks the list "Pending founder ratification". | Use the ten values verbatim. **Do not rename existing enum values.** A legacy free-text `industry` value is shown, selectable and never rewritten. | Nothing. FD-1 ships with the current list. |
+| **U-2** | Proposed UI copy not explicitly approved | The founder approved visual treatments and the FD-2 field copy, not every proposed line. | Ship implemented copy where it exists. Proposed lines stay unshipped until confirmed: `UNSAVED CHANGES`, `RESTORED`, `OFFLINE — NOT SAVED`, `SUBMITTED` (read-only tag), `OPTIONAL · CHOOSE ONE` and `CLEAR SELECTION` (sheet), `10 OPTIONS`, `CONFIRM EACH ITEM TO CONTINUE`, `ENTER A CONTACT NUMBER`, `CHECK THIS CONTACT NUMBER`, page-banner lines, toast lines. `OPTIONAL` (micro tag) is shown on Board 07's approved typography and is treated as approved with it. | Phase 4 error copy and Phase 2 sheet copy need either founder confirmation or founder-supplied wording before release. Building and tests can proceed. |
+| **U-3** | Unused DfToggle pill switch | From #1573. No client surface uses it. Neither FD-3 nor Board 07 decides it. | Leave it as it is: unused, not redesigned, not removed. | Nothing |
+| **U-4** | Restored timestamp | The client payload has no intake saved-at field (NF-04), so "restored from <time>" would need an API change. | No time is shown. The implemented resume shows no restore label (FD-5). | Nothing |
+| **U-5** | Admin Readiness Desk input redesign (FC-039–041) | Outside the client scope. | Unchanged. | Nothing |
+| **U-6** | Real iPhone Safari and VoiceOver verification | Only Chromium is available in this environment; no device. | Boards and requirements are designed in Chromium. | **Phase 6 acceptance gate** and founder acceptance (Phase 7). Not a blocker for building Phases 1–5. |
+| **U-7** | Required-marker convention for other fields | The founder's FD-2 label is `CONTACT NUMBER *`. The other required P02 fields (BUSINESS NAME, PRIMARY CONTACT, EMAIL ADDRESS) carry no marker today, and OPUS1 proposed "mark only optional fields". With only one asterisk, the form could imply the other fields are optional. | CONTACT NUMBER carries `*` exactly as approved. The other fields keep their implemented labels. **Recommendation:** put the same ink asterisk on every required field for consistency. | Nothing (FD-2 ships as approved) |
+| **U-8** | When the P05 invalid state appears | Board 03's acknowledgement proposal shows the invalid edge "after an accept attempt". The P05 CTA is disabled until every box is checked (FD-5 preserves this), so no attempt event exists. A trigger would be a behaviour change. | The System B invalid **appearance** is approved and stays unused on P05 until the founder chooses a trigger. Accept-gate logic is unchanged. | Nothing |
+| **U-9** | Completion surface copy case | `DigitalFoundationCompleteSurface.tsx` uses mixed-case copy ("Your foundation is complete"), which predates the uppercase rule. FD-4 preserves the composition and defers the rebuild. | Copy unchanged. | Nothing; belongs to the separate completion sprint |
+| **U-10** | Non-US phone numbers | `formatUsPhoneDisplay` keeps only 10 US digits, so international numbers cannot be entered. FD-2 says to preserve the existing formatting behaviour. | US-only, as today. | Nothing. A founder decision is needed only if non-US clients are expected. |
+
+## Resolved by this sprint (moved to the approval register)
+
+FD-1, FD-2, FD-3, FD-4, FD-5 and FD-6 are recorded in [`FOUNDER_APPROVAL_REGISTER.md`](FOUNDER_APPROVAL_REGISTER.md). The OPUS1 provenance gap is resolved by FD-5 and FD-6: the #1573 reference boards are still not in the repository, but the founder has now ruled on round nodes (preserved) and sheet geometry (square).

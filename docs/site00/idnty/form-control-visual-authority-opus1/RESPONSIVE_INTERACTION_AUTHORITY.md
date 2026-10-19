@@ -1,12 +1,14 @@
 # Responsive interaction authority
 
+**Authority:** FD-1 (sheet on mobile, listbox on desktop) and FD-6 (square red-edge sheets) are founder-approved. The Safari requirements for the selected sheet are summarised on Board 06 §04; device verification is U-6.
+
 **Boards:** 01A, 01B, 06. The founder-tested iPhone Safari experience comes first.
 
 ## 1. Breakpoints
 
 These match the existing DF media queries in `site00-df-client.css`: 768 px and 1100 px; the 520 px column is the sheet width.
 
-| Class | Example viewport | Column | Selector (Opus recommendation) | Value text | Notes |
+| Class | Example viewport | Column | Selector (FD-1 approved) | Value text | Notes |
 | --- | --- | --- | --- | --- | --- |
 | Compact mobile | 320 × 568 / 375 × 667 | Full width, 26 px gutter | B sheet; the list scrolls inside | 16 px | Labels wrap in lists and never truncate; a closed trigger may ellipsize |
 | Standard mobile | 390 × 844 (founder) | Full width | B sheet; all 10 rows visible | 16 px | Reference viewport |
@@ -16,7 +18,7 @@ These match the existing DF media queries in `site00-df-client.css`: 768 px and 
 | Desktop | 1280 × 800 | 520 px form column, 88 px headline | A listbox; all 10 rows, no scroll | 14 px | Board 01B |
 | Ultra-wide | 1920+ | Column stays 520 px | A | 14 px | Nothing stretches |
 
-**Selection rule:** `matchMedia('(pointer: coarse) and (max-width: 600px)')` selects B, otherwise A.
+**Selection rule (FD-1):** `matchMedia('(pointer: coarse) and (max-width: 600px)')` selects B (the editorial sheet), otherwise A (the anchored listbox). Territory C is never the Business Type presentation.
 
 Re-evaluate on `change`, but never while a list is open.
 
@@ -40,7 +42,7 @@ Re-evaluate on `change`, but never while a list is open.
 ## 3. Overlay rules
 
 - **Selector sheets are modal:** `aria-modal`, scrim, background inert, scroll lock.
-- **Information sheets** (P02 MORE INFORMATION and the P04/P05 detail sheets) keep their non-modal peek behaviour from #1573. The visual skin (FD-6) is separate from the behaviour.
+- **Information sheets** (P02 MORE INFORMATION and the P04/P05 detail sheets) keep their non-modal peek behaviour from #1573. Their skin follows FD-6 (approved): square, 2 px red threshold edge, no shadow. The behaviour is unchanged.
 - **One overlay at a time.** A selector never opens over a peeking sheet; DfSelect already measures the peek and opens above it.
 - **The menu drawer** (approved) is not changed and never stacks with a selector sheet.
 
@@ -49,7 +51,7 @@ Re-evaluate on `change`, but never while a list is open.
 - Opens below when space below is at least the smaller of the list height and 180 px; otherwise opens above.
 - Height runs from a minimum of 120 px to a maximum of 300 px (the existing `place()` numbers: `want = min(n × 38 + 2, 300)`).
 - **Proposed constant change:** rows from 38 to 40 px (the control height), and the cap from 300 to 402 px with a fine pointer, so all 10 Business Types show on desktop without scrolling (Board 01B).
-- This is a visual constant only, with no data impact. On touch the cap stays at 300 (6½ rows), which is why B is recommended there.
+- This is a visual constant only, with no data impact. On touch the cap stays at 300 (6½ rows), one reason the founder selected B for phones (FD-1).
 
 ## 5. Verification still owed
 

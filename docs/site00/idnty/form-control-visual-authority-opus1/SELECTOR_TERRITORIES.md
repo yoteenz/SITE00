@@ -1,5 +1,6 @@
 # Selector territories — FC-004 Business Type
 
+**Authority:** **FD-1 APPROVED** (founder). Mobile uses **Territory B**, the editorial selection sheet. Desktop uses **Territory A**, the anchored listbox, as its coordinated companion. Territory C is reserved for a specific short list that justifies it and is **not** the Business Type default. A on phones, B on desktop and C for Business Type are **NOT APPROVED**; they stay on the boards as greyed history.
 **Boards:** 01A (iPhone), 01B (desktop) and 06 (mobile edge cases).
 **Values:** the ten `BUSINESS_TYPES` strings in `src/site00/foundation-client/model.ts`, verbatim. `model.ts` marks the list "pending founder ratification"; this package does not change it.
 **Placeholder:** `SELECT A BUSINESS TYPE` (the existing `<option value="">`).
@@ -17,13 +18,13 @@ The closed field already matches the page; the founder's own screenshot confirms
 | Empty | Placeholder in caps, `#a9a7a2`, chevron in ink | IMPLEMENTED |
 | Selected | Value in caps, ink | IMPLEMENTED |
 | Hover (fine pointer) | Border `#b8b6b1` | IMPLEMENTED |
-| Keyboard focus | Active frame (2 px red) plus the red period before the label | PROPOSED |
-| Open | Active frame, `#fffafa` fill, chevron turned 180° | IMPLEMENTED (`df-select--open`) plus the frame |
+| Keyboard focus | Active frame (2 px red) plus the red period before the label | APPROVED (Board 07) |
+| Open | Active frame, `#fffafa` fill, chevron turned 180° | IMPLEMENTED (`df-select--open`) plus the approved frame |
 | Disabled (intake submitted) | `#efeeeb` fill and grey text | IMPLEMENTED |
-| Invalid | Red border plus the red period and a message | PROPOSED. **Illustrative only:** the field is optional today. |
-| Optional marker | `OPTIONAL` micro tag at the right of the label row | PROPOSED |
+| Invalid | Red border plus the red period and a message | APPROVED treatment (Board 07). **Illustrative only:** Business Type stays optional. |
+| Optional marker | `OPTIONAL` micro tag at the right of the label row | APPROVED (Board 07) |
 
-## Territory A — architectural dropdown (anchored listbox)
+## Territory A — architectural dropdown (anchored listbox) · APPROVED FOR DESKTOP
 
 The list is part of the field. It hangs from the trigger with the same edge, inside the red active frame, with no gap and no shadow. Rows are 40 px tall with hairline dividers. The selected row carries the red period and ink weight. The row under the pointer or arrow key is tinted `#f4f3f0`.
 
@@ -42,18 +43,19 @@ The list is part of the field. It hangs from the trigger with the same edge, ins
 | Data-contract risk | Low. `onChange` writes the same string to `draft.industry`. |
 | Use cases | Desktop and tablet, fine pointer, lists of 10 or fewer |
 
-## Territory B — editorial mobile selection sheet
+## Territory B — editorial mobile selection sheet · APPROVED FOR MOBILE (FD-1)
 
 A square sheet with the 2 px red threshold edge rises from the bottom over a `rgba(12,12,12,.46)` scrim. The scrim has no blur.
 
+- **Geometry (FD-6, approved):** square corners, 2 px red top edge, no shadow, no blur; never the native translucent iOS picker or a rounded browser menu.
 - **Head:**
   - index rail (`02 —— BUSINESS TYPE`)
   - display title `SELECT A BUSINESS TYPE.` with the red period
-  - meta line `OPTIONAL · CHOOSE ONE`
+  - meta line `OPTIONAL · CHOOSE ONE` (copy U-2)
   - 44 px close button
   - a 1 px ink rule below it
 - **Rows:** 48 px, full width. Index numerals 01 to 10 are presentation only and never stored. Labels are 11 px caps. The selected row has a red numeral, ink 700 label, the red period and a 2 px red inset edge.
-- **Foot:** `10 OPTIONS`, plus `CLEAR SELECTION` when a value is set. This preserves the native select's ability to return to `''`.
+- **Foot:** `10 OPTIONS`, plus `CLEAR SELECTION` when a value is set (copy U-2). This preserves the native select's ability to return to `''`.
 
 | Aspect | Specification |
 | --- | --- |
@@ -71,7 +73,7 @@ A square sheet with the 2 px red threshold edge rises from the bottom over a `rg
 | Data-contract risk | Low. Same value contract; Clear writes `''`, exactly what the native placeholder option writes. |
 | Use cases | Phones, coarse pointer, long labels, lists of more than 6 |
 
-## Territory C — inline expanded selection
+## Territory C — inline expanded selection · RESERVED, NOT THE BUSINESS TYPE DEFAULT
 
 The field card grows in place. Below the open trigger, each option is a 40 px white tile with a 4 px gap, the same tile grammar as the founder-approved P03 domain paths. The chosen tile takes the red active frame and the red period. Other tiles carry no box or dot, so the list never reads as a multi-select. A `DONE` link and `10 OPTIONS · CHOOSE ONE` close the card.
 
@@ -89,7 +91,7 @@ The field card grows in place. Below the open trigger, each option is a 40 px wh
 | Data-contract risk | Low |
 | Use cases | 5 options or fewer, in context. It is **already the right pattern for the four domain paths.** |
 
-## Comparison
+## Comparison (historical; the decision is FD-1)
 
 | | A · dropdown | B · sheet | C · inline |
 | --- | --- | --- | --- |
@@ -100,17 +102,26 @@ The field card grows in place. Below the open trigger, each option is a 40 px wh
 | Build | Low | Medium | Low to medium |
 | Looks like SITE 00 | Yes: the field's own frame | Yes: threshold edge, rail, display title | Yes: P03 tile grammar |
 
-## Recommendation (FD-1 stays with the founder)
+## Founder authority (FD-1 APPROVED)
 
-**One `IdntySelect` component with two presentations:**
+**One `IdntySelect` component, two presentations:**
 
-- **Territory B** when `(pointer: coarse)` and the viewport is 600 px wide or less.
-- **Territory A** otherwise.
+- **Territory B (`IdntySelectionSheet`)** when `matchMedia('(pointer: coarse) and (max-width: 600px)')` matches.
+- **Territory A (restyled `DfSelect`)** otherwise.
 
-Both presentations share the same props (`id`, `value`, `options`, `placeholder`, `onChange`, `disabled`, `invalid`, `describedBy`, `labelledBy`, matching DfSelect), the same option list and the same value. **Territory C** stays reserved for short choices in context (domain path, already implemented).
+Re-evaluate on `change`, but never while a list is open.
 
-**Alternatives offered to the founder:**
+Both presentations share:
+- the props: `id`, `value`, `options`, `placeholder`, `onChange`, `disabled`, `invalid`, `describedBy`, `labelledBy` (matching DfSelect);
+- the option list and value contract;
+- the closed field;
+- the typography;
+- the red-period selected state;
+- the active frame;
+- the feedback states.
 
-1. A everywhere: least build, slightly cramped on small phones.
-2. B everywhere.
-3. C for Business Type.
+There is no second selector component.
+
+**Territory C** is used only where a specific short list justifies it in context. The domain-path radios already use its tile grammar. It is never the Business Type default.
+
+**Not approved:** A everywhere, B everywhere, C for Business Type.

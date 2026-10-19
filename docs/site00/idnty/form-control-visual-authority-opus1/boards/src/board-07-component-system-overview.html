@@ -31,7 +31,7 @@
 <body>
 <div id="board"></div>
 <script type="module">
-import { DF, header, section, frame, stage, device, S, icon, rail, cta, field, selectField, mount } from './kit.js';
+import { DF, header, section, frame, stage, device, S, icon, rail, cta, field, selectField, phoneField, PHONE, mount, decisionBox } from './kit.js';
 
 // ── 01 colour ──
 const sw = (k, v, src, chip = '') => `<div class="bd-swatch"><div class="bd-swatch__chip" style="background:${v}"></div><span class="bd-swatch__k">${k}</span><span class="bd-swatch__v">${v}<br>${src}</span>${chip}</div>`;
@@ -58,15 +58,17 @@ ${sw('--df-scrim', 'rgba(12,12,12,.46)', 'components.css')}
 const tr = (k, sample, spec, chip) => `<div class="type-row"><span class="type-k">${k}</span>${sample}<span class="type-v">${spec} ${chip}</span></div>`;
 const type = `<div class="bd-panel df-portal ix" style="width:1180px">
 ${tr('PAGE HEADLINE', '<span style="font-family:var(--df-display);font-weight:900;font-size:48px;line-height:.86">TELL US<span class="df-headline__period" style="display:inline-block;width:.15em;height:.15em;background:var(--df-red);color:transparent">.</span></span>', 'SITE 00 DISPLAY · 900 · MIN(64PX, 15.4VW)', S.locked())}
-${tr('SHEET TITLE', '<span class="ix-sheet__title" style="margin:0">SELECT A BUSINESS TYPE<i></i></span>', 'SITE 00 DISPLAY · 900 · 30 PX', S.prop())}
+${tr('SHEET TITLE', '<span class="ix-sheet__title" style="margin:0">SELECT A BUSINESS TYPE<i></i></span>', 'SITE 00 DISPLAY · 900 · 30 PX', S.appr('BOARD 07 · FD-1'))}
 ${tr('RAIL INDEX', '<span class="df-rail__index">02</span>', 'SITE 00 DISPLAY · 600 · 17 PX · RED', S.impl())}
 ${tr('FIELD LABEL', '<span class="df-field__label">BUSINESS TYPE</span>', 'SAIRA SEMI CONDENSED · 700 · 10 PX · .18EM', S.impl())}
 ${tr('CONTROL TEXT / PLACEHOLDER', '<span style="font-size:10px;letter-spacing:.16em;color:var(--df-placeholder)">SELECT A BUSINESS TYPE</span>', 'SAIRA · 500 · 10 PX · .16EM · UPPERCASE', S.impl())}
-${tr('ENTERED VALUE', '<span style="font-size:16px;letter-spacing:.01em">founder@jurnl.example</span>', 'SAIRA · 400 · 16 PX TOUCH / 14 PX FINE POINTER · OWN CASE', S.prop('16 PX'))}
-${tr('OPTION ROW · SHEET', '<span style="font-size:11px;font-weight:600;letter-spacing:.16em">PROFESSIONAL SERVICES</span>', 'SAIRA · 600 · 11 PX · .16EM', S.prop())}
+${tr('ENTERED VALUE', '<span style="font-size:16px;letter-spacing:.01em">founder@jurnl.example</span>', 'SAIRA · 400 · 16 PX TOUCH / 14 PX FINE POINTER · OWN CASE', S.appr('BOARD 07 · NF-01'))}
+${tr('OPTION ROW · SHEET', '<span style="font-size:11px;font-weight:600;letter-spacing:.16em">PROFESSIONAL SERVICES</span>', 'SAIRA · 600 · 11 PX · .16EM', S.appr('BOARD 07'))}
 ${tr('INDEX NUMERAL', '<span class="ix-srow__n">07</span>', 'SAIRA · 400 · 12.5 PX · TABULAR (= DRAWER INDEX)', S.locked('DRAWER'))}
-${tr('MESSAGE', '<span class="ix-error" style="margin:0"><span class="ix-mark"></span>CHECK THIS EMAIL ADDRESS</span>', 'SAIRA · 700 · 8.5 PX · .16EM', S.impl('TYPE') + ' ' + S.prop('MARK'))}
-${tr('MICRO TAG', '<span class="ix-opt" style="margin:0">OPTIONAL</span>', 'SAIRA · 700 · 7.5 PX · .2EM', S.prop())}
+${tr('MESSAGE', '<span class="ix-error" style="margin:0"><span class="ix-mark"></span>CHECK THIS EMAIL ADDRESS</span>', 'SAIRA · 700 · 8.5 PX · .16EM', S.impl('TYPE') + ' ' + S.appr('MARK'))}
+${tr('MICRO TAG', '<span class="ix-opt" style="margin:0">OPTIONAL</span>', 'SAIRA · 700 · 7.5 PX · .2EM', S.appr('BOARD 07'))}
+${tr('REQUIRED LABEL', `<span class="df-field__label">${PHONE.label}<span class="ix-req">*</span></span>`, 'LABEL STYLE · INK ASTERISK · ARIA-HIDDEN + ARIA-REQUIRED ON THE INPUT', S.appr('FD-2 COPY') + ' ' + S.unres('U-7 OTHER FIELDS'))}
+${tr('FIELD HELPER', `<span class="ix-hint" style="margin:0;max-width:330px">${PHONE.hint}</span>`, 'SAIRA · 500 · 8.5 PX · .16EM · MUTED', S.appr('FD-2 COPY'))}
 ${tr('BUTTON', '<span style="font-size:11px;font-weight:600;letter-spacing:.26em">CONTINUE</span>', 'SAIRA · 600 · 11 PX · .26EM', S.impl())}
 </div>`;
 
@@ -75,9 +77,9 @@ const g = (k, v, demo, chip) => `<div><span class="gk">${k}</span>${demo}<span c
 const geometry = `<div class="bd-panel df-portal ix" style="width:1180px"><div class="geo">
 ${g('CONTROL', '40 PX · R3 · 1 PX BORDER', '<div style="height:40px;border:1px solid var(--df-control-border);border-radius:3px;background:#fff"></div>', S.impl())}
 ${g('CTA', '46 PX · R3', '<div style="height:46px;border-radius:3px;background:var(--df-red)"></div>', S.impl())}
-${g('ACTIVE FRAME', '1 PX + 1 PX INSET RED', '<div style="height:40px;border:1px solid var(--df-red);box-shadow:inset 0 0 0 1px var(--df-red);border-radius:3px;background:#fffafa"></div>', S.prop())}
-${g('SHEET', 'SQUARE · 2 PX RED TOP EDGE', '<div style="height:40px;border-top:2px solid var(--df-red);background:#fff;border-left:1px solid #dcdad5;border-right:1px solid #dcdad5"></div>', S.prop() + ' ' + S.dec('FD-6'))}
-${g('THE RED PERIOD', '6 PX (LISTS) · 5 PX (LABELS, STATUS)', '<div style="height:40px;display:flex;align-items:center;gap:14px"><span class="ix-mark"></span><span class="ix-mark" style="width:5px;height:5px"></span><span class="df-headline__period" style="display:inline-block;width:10px;height:10px;background:var(--df-red)"></span></div>', S.prop())}
+${g('ACTIVE FRAME', '1 PX + 1 PX INSET RED', '<div style="height:40px;border:1px solid var(--df-red);box-shadow:inset 0 0 0 1px var(--df-red);border-radius:3px;background:#fffafa"></div>', S.appr('BOARD 07'))}
+${g('SHEET', 'SQUARE · 2 PX RED TOP EDGE', '<div style="height:40px;border-top:2px solid var(--df-red);background:#fff;border-left:1px solid #dcdad5;border-right:1px solid #dcdad5"></div>', S.appr('FD-6'))}
+${g('THE RED PERIOD', '6 PX (LISTS) · 5 PX (LABELS, STATUS)', '<div style="height:40px;display:flex;align-items:center;gap:14px"><span class="ix-mark"></span><span class="ix-mark" style="width:5px;height:5px"></span><span class="df-headline__period" style="display:inline-block;width:10px;height:10px;background:var(--df-red)"></span><span class="df-check ix-check-period"></span></div>', S.appr('BOARD 07 · FD-3'))}
 ${g('TOUCH TARGET', '≥ 44 PX ROWS, BUTTONS, CLOSE', '<div style="height:44px;width:44px;border:1px dashed #b8b6b1;display:flex;align-items:center;justify-content:center">' + icon('close', '', 'style="width:20px;height:20px"') + '</div>', S.con('WCAG 2.5.8'))}
 </div></div>`;
 
@@ -86,12 +88,13 @@ const grammar = `<div class="bd-panel grammar" style="width:1180px"><table class
 <thead><tr><th>STATE</th><th>BORDER</th><th>FILL</th><th>MARK</th><th>TEXT</th><th>APPLIES TO</th><th></th></tr></thead><tbody>
 <tr><td>REST</td><td>1 px #d9d7d2</td><td>white</td><td>—</td><td>ink / placeholder</td><td>every control</td><td>${S.impl()}</td></tr>
 <tr><td>HOVER (FINE POINTER)</td><td>1 px #b8b6b1</td><td>white</td><td>—</td><td>—</td><td>inputs, triggers, rows</td><td>${S.impl()}</td></tr>
-<tr><td>FOCUS-VISIBLE · OPEN</td><td>2 px red frame</td><td>white / #fffafa open</td><td>red period on label</td><td>—</td><td>inputs, triggers; ring on marks and rows</td><td>${S.prop()}</td></tr>
-<tr><td>SELECTED · CHOSEN</td><td>red (rows, tiles)</td><td>red (check)</td><td>red period (lists)</td><td>ink, 700</td><td>options, services, add-ons, radios</td><td>${S.impl('ROWS')} ${S.prop('LISTS')}</td></tr>
+<tr><td>FOCUS-VISIBLE · OPEN</td><td>2 px red frame</td><td>white / #fffafa open</td><td>red period on label</td><td>—</td><td>inputs, triggers; 2 px red ring on marks and rows</td><td>${S.appr('BOARD 07')}</td></tr>
+<tr><td>SELECTED · CHOSEN</td><td>red (rows, tiles)</td><td>white</td><td>red period in an ink-edged box (checkboxes) · red period (lists, sheet) · red dot (radios)</td><td>ink, 700</td><td>services, add-ons, consent, prefs · options · domain paths</td><td>${S.appr('FD-3 · FD-1')}</td></tr>
 <tr><td>INCLUDED · LOCKED · DONE</td><td>—</td><td>ink</td><td>ink check · ink period</td><td>muted / ink</td><td>core services, accepted acks, done steps, saved</td><td>${S.impl()}</td></tr>
-<tr><td>INVALID</td><td>1 px red (2 px when focused)</td><td>white</td><td>red period + message</td><td>red message</td><td>fields, groups, acks</td><td>${S.prop('MARK')}</td></tr>
+<tr><td>INVALID</td><td>1 px red (2 px when focused)</td><td>white</td><td>red period + message</td><td>red message</td><td>fields, groups, acks</td><td>${S.appr('BOARD 07')}</td></tr>
+<tr><td>REQUIRED</td><td>as rest</td><td>white</td><td>* after the label</td><td>ink</td><td>CONTACT NUMBER (FD-2); other required fields: U-7</td><td>${S.appr('FD-2')} ${S.unres('U-7')}</td></tr>
 <tr><td>DISABLED</td><td>#e4e2dd</td><td>#efeeeb</td><td>grey</td><td>#b5b3ae</td><td>every control</td><td>${S.impl()}</td></tr>
-<tr><td>READ-ONLY · SUBMITTED</td><td>#dcdad5</td><td>#f9f8f6</td><td>lock glyph</td><td>ink-2</td><td>intake after COMPLETE / PAID</td><td>${S.prop()}</td></tr>
+<tr><td>READ-ONLY · SUBMITTED</td><td>#dcdad5</td><td>#f9f8f6</td><td>lock glyph</td><td>ink-2</td><td>intake after COMPLETE / PAID</td><td>${S.appr('BOARD 07')} ${S.unres('U-2 TAG COPY')}</td></tr>
 <tr><td>BUSY</td><td>red-ink</td><td>red-ink</td><td>spinner</td><td>busy label</td><td>CTAs (aria-busy, stays focusable)</td><td>${S.impl()}</td></tr>
 </tbody></table></div>`;
 
@@ -101,50 +104,51 @@ const rel = `<div class="bd-panel" style="width:1180px"><div class="rel">
   <div class="rel__b">DF TOKENS<small>client.css + components.css (unchanged)</small></div>
   <div class="rel__b rel__b--new">IX GRAMMAR<small>red period · active frame · 3 named values</small></div></div>
 <div class="rel__col"><span class="rel__h">PRIMITIVES (components.tsx)</span>
-  <div class="rel__b">DfField<small>label · hint · error ids — gains optional tag + mark</small></div>
+  <div class="rel__b">DfField<small>label · hint · error ids — gains optional tag, required asterisk (FD-2) + mark</small></div>
   <div class="rel__b">DfSelect<small>combobox + listbox — Territory A</small></div>
   <div class="rel__b rel__b--new">IdntySelectionSheet<small>listbox inside DfBottomSheet’s focus + scroll-lock plumbing — Territory B</small></div>
-  <div class="rel__b">DfCheckbox · DfRadio<small>one mark, all states</small></div>
+  <div class="rel__b">DfCheckbox · DfRadio<small>checkbox = System B (FD-3) · radio keeps its dot</small></div>
   <div class="rel__b rel__b--new">IdntyStepper<small>extracted from EntryIntake + Recommendation</small></div>
-  <div class="rel__b">DfButton · DfProgress · DfToast<small>restyle only</small></div></div>
+  <div class="rel__b">DfButton · DfProgress · DfToast<small>preserved as implemented (FD-5)</small></div></div>
 <div class="rel__col"><span class="rel__h">COMPOSED</span>
-  <div class="rel__b rel__b--new">IdntySelect<small>one API: value · options · placeholder → A on fine pointer, B on coarse</small></div>
-  <div class="rel__b">IdntySaveStatus<small>SaveChip, re-presented (same SaveStatus input)</small></div>
+  <div class="rel__b rel__b--new">IdntySelect<small>one API · B sheet on coarse pointer ≤ 600 px · A listbox otherwise (FD-1)</small></div>
+  <div class="rel__b">IdntySaveStatus<small>SaveChip marks (same SaveStatus input); new labels U-2</small></div>
   <div class="rel__b">IdntyChoiceRow<small>service row · ack · pref · add-on share one row shell</small></div></div>
 <div class="rel__col"><span class="rel__h">SURFACES</span>
-  <div class="rel__b">P02<small>FC-003–009 · FC-004 → IdntySelect</small></div>
+  <div class="rel__b">P02<small>FC-003–009 · FC-004 → IdntySelect · CONTACT NUMBER required (FD-2)</small></div>
   <div class="rel__b">P03<small>FC-010–022 · rows + paths kept</small></div>
   <div class="rel__b">P04 / P05<small>FC-023–030 · single add-on control · acks</small></div>
-  <div class="rel__b">PORTAL<small>FC-033–037 · prefs → DfCheckbox · tabs</small></div></div>
+  <div class="rel__b">PORTAL<small>FC-033–037 · prefs → System B rows · tabs</small></div></div>
 </div><div class="bd-note" style="margin-top:12px">Only three genuinely new pieces (red outline): the selection sheet, the extracted stepper and the IdntySelect wrapper that picks A or B. Everything else is the existing component layer re-presented — no second UI system.</div></div>`;
 
 // ── 06 overlays (FD-6) ──
 const bsheetNow = frame({
   title: 'BOTTOM SHEET · CURRENT (DfBottomSheet, U07)',
-  chips: S.impl('#1573') + ' ' + S.unres('REFERENCE BOARD NOT IN REPO'),
+  chips: S.rej('SKIN SUPERSEDED · FD-6'),
+  rejected: 'ROUNDED SKIN NOT APPROVED · PEEK / SNAP BEHAVIOUR KEPT',
   width: 392,
   body: `<div class="df-portal" style="position:relative;width:392px;height:300px;background:var(--df-bg);border:1px solid #0c0c0c;overflow:hidden"><div class="df-bsheet__panel" style="position:absolute;left:0;margin:0;bottom:0;transform:none;max-height:none;height:250px"><div class="df-bsheet__head"><span class="df-bsheet__handle"><span></span></span><div class="df-bsheet__bar"><h3 class="df-bsheet__title">MORE INFORMATION</h3><span class="df-bsheet__close">${icon('close')}</span></div></div><div class="df-bsheet__body"><p class="df-sheet__note">16 PX ROUNDED TOP, DRAG HANDLE, SOFT SHADOW.</p></div></div></div>`,
-  note: 'Used today for P02 MORE INFORMATION and P04/P05 detail sheets.',
+  note: 'Used today for P02 MORE INFORMATION and P04/P05 detail sheets. FD-6 replaces the 16 px rounded top, handle styling and soft shadow; DfBottomSheet’s non-modal peek, snaps and focus behaviour stay.',
 });
 const bsheetNext = frame({
-  title: 'BOTTOM SHEET · PROPOSED (SAME AS SELECTION SHEET)',
-  chips: S.prop() + ' ' + S.dec('FD-6'),
+  title: 'BOTTOM SHEET · APPROVED (SAME AS SELECTION SHEET)',
+  chips: S.appr('FD-6'),
   width: 392,
   body: `<div class="df-portal ix" style="position:relative;width:392px;height:300px;background:var(--df-bg);border:1px solid #0c0c0c;overflow:hidden"><div class="ix-sheet" style="height:250px"><div class="ix-sheet__head">${rail('02', 'MORE INFORMATION')}<span class="ix-sheet__close">${icon('close')}</span></div><div style="padding:14px 22px"><p class="df-sheet__note" style="margin:0">SQUARE, 2 PX RED THRESHOLD EDGE, INDEX RAIL, NO SHADOW. DRAG HANDLE OPTIONAL.</p></div></div></div>`,
-  note: 'One overlay language for every sheet (brief §4.11). If the founder chose the rounded sheet on the #1573 reference board, the selection sheet adopts it instead — the content grammar is unchanged either way.',
+  note: 'One overlay language for every sheet: square, 2 px red threshold edge, index rail, 44 px close, no shadow, scrim without blur. Matches the FD-1 selection sheet exactly.',
 });
 
 // ── 07 completion surface (FD-4) ──
 const legacy = frame({
   title: 'COMPLETION SURFACE · CURRENT (FC-038)',
-  chips: S.impl('LEGACY CSS'),
+  chips: S.impl('LEGACY CSS') + ' ' + S.appr('COMPOSITION PRESERVED'),
   width: 420,
   body: `<div class="legacy"><section class="site00-df-artifact__panel site00-df-artifact__complete"><h2>Your foundation is complete</h2><p>Your domain and professional business communications are now operational.</p><ul><li>Domain — active</li><li>Professional email — active</li></ul><button type="button" class="site00-df-artifact__cta">CONFIGURE MY DIGITAL LOCATION</button><button type="button">SAVE THIS FOR LATER</button></section></div>`,
-  note: 'Markup and stylesheet from DigitalFoundationCompleteSurface.tsx / site00-digital-foundation.css (list shown with sample ownership values). Second action is a browser-default button.',
+  note: 'Markup and stylesheet from DigitalFoundationCompleteSurface.tsx / site00-digital-foundation.css (sample ownership values). FD-4 keeps this composition and copy; only the list marks and the two buttons change. Its mixed-case copy predates the uppercase rule and is left for the separate completion sprint (U-9).',
 });
 const aligned = frame({
   title: 'CONTROLS ALIGNED · LAYOUT UNTOUCHED',
-  chips: S.prop() + ' ' + S.dec('FD-4'),
+  chips: S.appr('FD-4'),
   width: 420,
   body: stage(
     `<ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:4px">${['DOMAIN — ACTIVE', 'PROFESSIONAL EMAIL — ACTIVE']
@@ -152,22 +156,23 @@ const aligned = frame({
       .join('')}</ul>${cta('CONFIGURE MY DIGITAL LOCATION')}${cta('SAVE THIS FOR LATER', { tone: 'outline', arrow: false })}`,
     { w: 420 },
   ),
-  note: 'Only the controls change: ink “done” marks for the ownership list, DfButton primary + outline for the two build-interest actions (captureBuildInterest unchanged). The page composition stays Board 04’s job.',
+  note: 'Only the controls change: ink “done” marks (the System B included state) for the ownership list, DfButton primary + outline for the two build-interest actions (captureBuildInterest unchanged). No full completion rebuild: that needs its own founder-approved sprint.',
 });
 
 const decisions = `<div style="display:flex;flex-direction:column;gap:10px;width:1180px">
-<div class="bd-decision"><div class="bd-decision__k">FD-1</div><div><div class="bd-decision__q">SELECTOR PATTERN — SHEET (B) VS LISTBOX (A)</div><div class="bd-decision__o">Opus: IdntySelect — B on phones, A on desktop. Boards 01A / 01B / 06.</div></div></div>
-<div class="bd-decision"><div class="bd-decision__k">FD-3</div><div><div class="bd-decision__q">CHECKBOX SYSTEM — RED CHECK (A) VS RED PERIOD (B)</div><div class="bd-decision__o">Opus: System A everywhere, portal included. Board 03.</div></div></div>
-<div class="bd-decision"><div class="bd-decision__k">FD-4</div><div><div class="bd-decision__q">COMPLETION SURFACE — ALIGN CONTROLS NOW, OR WAIT FOR THE BOARD 04 REBUILD</div><div class="bd-decision__o">Opus: align controls now (low risk, phase 3); full composition stays with Board 04. This board, section 07.</div></div></div>
-<div class="bd-decision"><div class="bd-decision__k">FD-5</div><div><div class="bd-decision__q">IN-PAGE PROGRESS — KEEP ROUND NODES (#1573) OR ADOPT THE INDEX STRIP</div><div class="bd-decision__o">Opus: index strip (matches the approved drawer). Board 04.</div></div></div>
-<div class="bd-decision"><div class="bd-decision__k">FD-6</div><div><div class="bd-decision__q">SHEET GEOMETRY — SQUARE RED-EDGE OR THE ROUNDED #1573 SHEET</div><div class="bd-decision__o">Opus: square red-edge for all sheets — unless the #1573 reference board was a founder decision. This board, section 06.</div></div></div>
+${decisionBox('FD-1', 'APPROVED — OPTION B MOBILE SELECTION SHEET · DESKTOP COMPANION A', 'IdntySelect: the editorial sheet on coarse pointers ≤ 600 px, the anchored listbox otherwise; one field, one value contract. Territory C only for justified short lists. Boards 01A / 01B / 06.')}
+${decisionBox('FD-2', 'APPROVED — CONTACT NUMBER REQUIRED AS A BACKUP CONTACT', 'Label CONTACT NUMBER *, placeholder ENTER PHONE NUMBER, helper USED AS A BACKUP CONTACT FOR URGENT ACCOUNT, DOMAIN, OR EMAIL ISSUES. Never marketing or automated-message consent. Boards 02 / 05.')}
+${decisionBox('FD-3', 'APPROVED — SYSTEM B WITH COMPATIBLE BOARD 03 PROPOSALS', 'Red period inside an ink-edged box for every checkbox surface; radios, tabs and steppers keep their own semantics. Board 03.')}
+${decisionBox('FD-4', 'APPROVED — ALIGN COMPLETION CONTROLS · PRESERVE THE PAGE COMPOSITION', 'This board, section 07. A full completion rebuild needs a separate founder-approved sprint.')}
+${decisionBox('FD-5', 'APPROVED — PRESERVE THE IMPLEMENTED PROGRESSION · REJECT THE INDEX STRIP', 'Drawer, rail, DfProgress, CTAs and implemented blocked / resume behaviour are the authority. Board 04.')}
+${decisionBox('FD-6', 'APPROVED — SQUARED SHEET GEOMETRY WITH THE 2 PX RED THRESHOLD EDGE', 'Every sheet, selection and information alike; no rounded floating sheets. This board, section 06.')}
 </div>`;
 
 mount(`
 ${header({
   num: '07',
   title: 'Component system overview',
-  sub: 'The whole grammar on one page: the colours and type that already exist, the geometry, one table of states, how primitives compose into surfaces, the overlay and completion questions, and every founder decision this package asks for.',
+  sub: 'The founder prefers the proposed component-system treatments. This page is now the canonical grammar, with the more specific decisions applied on top: FD-1 (sheet on mobile, listbox on desktop), FD-3 (System B), FD-5 (implemented progression), FD-6 (square red-edge sheets), FD-4 (controls aligned, completion layout kept) and FD-2 (required contact number).',
 })}
 ${section('01', 'COLOUR — EXISTING TOKENS ONLY', colours)}
 ${section('02', 'TYPOGRAPHY', type)}
@@ -176,8 +181,8 @@ ${section('04', 'STATE GRAMMAR — ONE TABLE FOR EVERY CONTROL', grammar)}
 ${section('05', 'COMPONENT RELATIONSHIPS', rel)}
 ${section('06', 'OVERLAYS', `<div class="bd-row">${bsheetNow}${bsheetNext}</div>`)}
 ${section('07', 'COMPLETION SURFACE', `<div class="bd-row">${legacy}${aligned}</div>`)}
-${section('—', 'FOUNDER DECISIONS IN THIS PACKAGE', decisions)}
-<div class="bd-foot"><span>BOARD 07 / 07 · COMPONENT SYSTEM OVERVIEW</span><span>NOTHING ON THESE BOARDS IS APPROVED UNTIL THE FOUNDER SELECTS · <b>PROPOSED</b></span></div>
+${section('—', 'FOUNDER DECISIONS · INCORPORATED', decisions)}
+<div class="bd-foot"><span>BOARD 07 / 07 · COMPONENT SYSTEM OVERVIEW</span><span>BOARD 07 TREATMENTS APPROVED · FD-1 TO FD-6 INCORPORATED · OPEN ITEMS IN THE UNRESOLVED REGISTER</span></div>
 `);
 </script>
 </body>

@@ -154,6 +154,69 @@ textarea {
   color: #b30f17;
 }
 
+/* OPUS2: founder decisions recorded on the boards. */
+.st--approved {
+  border-color: #0c0c0c;
+  background: #0c0c0c;
+  color: #fff;
+}
+
+.st--approved::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: #ce1017;
+}
+
+.st--rejected {
+  border-color: #a3a19c;
+  background: repeating-linear-gradient(135deg, #fff 0 4px, #efeeeb 4px 8px);
+  color: #75736e;
+}
+
+/* A rejected or superseded treatment stays visible as history, greyed and stamped. */
+.bd-frame--rejected > :not(.bd-cap):not(.bd-note) {
+  position: relative;
+  filter: grayscale(1);
+  opacity: 0.42;
+}
+
+.bd-frame--rejected .bd-cap__t {
+  color: #75736e;
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+}
+
+.bd-stamp {
+  display: inline-block;
+  margin-bottom: 8px;
+  padding: 5px 9px 4px;
+  border: 1px solid #75736e;
+  background: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: #75736e;
+}
+
+.bd-decision.bd-decision--approved {
+  border-color: #0c0c0c;
+}
+
+.bd-decision.bd-decision--approved .bd-decision__k {
+  color: #0c0c0c;
+  white-space: nowrap;
+}
+
+.bd-decision--approved .bd-decision__k::after {
+  content: '';
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-left: 3px;
+  background: #ce1017;
+}
+
 /* Sections */
 .bd-section {
   margin-top: 44px;

@@ -30,7 +30,17 @@ export const S = {
   dec: (t = 'FOUNDER DECISION') => st('decision', t),
   unres: (t = 'UNRESOLVED') => st('unresolved', t),
   rec: (t = 'OPUS RECOMMENDS') => st('rec', t),
+  // OPUS2: founder decisions (P0.SITE00.IDNTY.FORM-CONTROL-FOUNDER-AUTHORITY-FINALIZATION.OPUS2)
+  appr: (t = 'FOUNDER APPROVED') => st('approved', t),
+  rej: (t = 'NOT APPROVED') => st('rejected', t),
 };
+
+export const FOUNDER_META =
+  'SPRINT P0.SITE00.IDNTY.FORM-CONTROL-FOUNDER-AUTHORITY-FINALIZATION.OPUS2<br>SUPERSEDES OPUS1 RECOMMENDATIONS · AUDIT 5f4d26c3 · PR #1656<br>STATUS — FOUNDER AUTHORITY INCORPORATED';
+
+/** Founder decision banner. `approved` turns the box ink; `text` is the recorded decision. */
+export const decisionBox = (key, q, text, approved = true) =>
+  `<div class="bd-decision ${approved ? 'bd-decision--approved' : ''}"><div class="bd-decision__k">${key}</div><div><div class="bd-decision__q">${q}</div><div class="bd-decision__o">${text}</div></div></div>`;
 
 export function header({ num, title, kicker = 'SITE 00 / IDNTY / DIGITAL FOUNDATION / FORM-CONTROL VISUAL AUTHORITY', meta, sub }) {
   return `
@@ -40,9 +50,9 @@ export function header({ num, title, kicker = 'SITE 00 / IDNTY / DIGITAL FOUNDAT
       <div class="bd-kicker">${kicker}</div>
       <h1 class="bd-title">${title}<i></i></h1>
     </div>
-    <div class="bd-meta">${meta ?? 'SPRINT P0.SITE00.IDNTY.FORM-CONTROL-VISUAL-AUTHORITY.OPUS1<br>AUDIT SOURCE 5f4d26c3 · PR #1656<br>STATUS — FOUNDER REVIEW REQUIRED'}</div>
+    <div class="bd-meta">${meta ?? FOUNDER_META}</div>
   </header>
-  <div class="bd-legend">${S.locked('LOCKED — APPROVED')} ${S.impl()} ${S.prop()} ${S.alt()} ${S.con()} ${S.dec()} ${S.unres()}</div>
+  <div class="bd-legend">${S.appr('FOUNDER APPROVED')} ${S.rej('NOT APPROVED')} ${S.locked('LOCKED')} ${S.impl()} ${S.prop()} ${S.alt()} ${S.con()} ${S.dec()} ${S.unres()}</div>
   ${sub ? `<p class="bd-sub">${sub}</p>` : ''}`;
 }
 
@@ -50,9 +60,10 @@ export function section(n, title, inner, chips = '') {
   return `<section class="bd-section"><h2 class="bd-h2"><b>${n}</b>${title}<span class="bd-rule"></span>${chips}</h2>${inner}</section>`;
 }
 
-export function frame({ title, chips = '', body, note = '', width }) {
-  return `<div class="bd-frame" style="${width ? `width:${width}px` : ''}">
+export function frame({ title, chips = '', body, note = '', width, rejected = '' }) {
+  return `<div class="bd-frame ${rejected ? 'bd-frame--rejected' : ''}" style="${width ? `width:${width}px` : ''}">
     <div class="bd-cap"><span class="bd-cap__t">${title}</span><span>${chips}</span></div>
+    ${rejected ? `<div class="bd-stamp" style="filter:none;opacity:1">${rejected}</div>` : ''}
     ${body}
     ${note ? `<div class="bd-note">${note}</div>` : ''}
   </div>`;
@@ -96,7 +107,7 @@ export function p02Intro() {
  * P02 field card. state: '', 'focus', 'invalid', 'invalid-focus', 'readonly', 'disabled', 'hover'.
  * opts.mark shows the red period before the label (proposed focus / attention marker).
  */
-export function field({ label, value = '', placeholder = '', state = '', error = '', hint = '', optional = false, mark = false, control, headState = '' }) {
+export function field({ label, value = '', placeholder = '', state = '', error = '', hint = '', optional = false, required = false, mark = false, control, headState = '' }) {
   const inputCls = ['df-input'];
   if (state.includes('focus')) inputCls.push('ix-focus');
   if (state.includes('invalid')) inputCls.push('ix-invalid');
@@ -107,7 +118,7 @@ export function field({ label, value = '', placeholder = '', state = '', error =
     (state === 'readonly'
       ? `<span class="ix-value-wrap"><input class="${inputCls.join(' ')}" value="${value}" readonly>${icon('lock')}</span>`
       : `<input class="${inputCls.join(' ')}" value="${value}" placeholder="${placeholder}" ${state === 'disabled' ? 'disabled' : ''}>`);
-  const head = `<span class="ix-head">${mark ? '<span class="ix-mark"></span>' : ''}<span class="df-field__label">${label}</span>${
+  const head = `<span class="ix-head">${mark ? '<span class="ix-mark"></span>' : ''}<span class="df-field__label">${label}${required ? '<span class="ix-req" aria-hidden="true">*</span>' : ''}</span>${
     headState || (optional ? '<span class="ix-opt">OPTIONAL</span>' : '')
   }</span>`;
   return `<div class="df-field ${state.includes('invalid') ? 'df-field--error ix-field--invalid' : ''}">${head}${ctl}${
@@ -256,13 +267,24 @@ export function territoryC({ value = '', focus = -1, invalid = false, rows }) {
 }
 
 /** P02 page body (inside a device) with a replaceable business-type slot. */
+/** FD-2 (founder-approved): required backup contact number. Data key stays `phone`; formatting stays formatUsPhoneDisplay. */
+export const PHONE = {
+  label: 'CONTACT NUMBER',
+  placeholder: 'ENTER PHONE NUMBER',
+  hint: 'USED AS A BACKUP CONTACT FOR URGENT ACCOUNT, DOMAIN, OR EMAIL ISSUES.',
+  // Proposed messages in the existing validateBusinessInfo voice (not founder-approved copy; U-2).
+  empty: 'ENTER A CONTACT NUMBER',
+  invalid: 'CHECK THIS CONTACT NUMBER',
+};
+export const phoneField = (o = {}) => field({ label: PHONE.label, placeholder: PHONE.placeholder, hint: o.error ? '' : PHONE.hint, required: true, ...o });
+
 export function p02Page({ typeSlot, name = 'JURNL', contact = 'Founder Test', email = 'founder@jurnl.example', phone = '', footerNote = true, tail = '' }) {
   return `${p02Intro()}<div class="df-form" style="display:flex;flex-direction:column">
     ${field({ label: 'BUSINESS NAME', value: name, placeholder: 'YOUR BUSINESS NAME' })}
     ${typeSlot}
     ${field({ label: 'PRIMARY CONTACT', value: contact, placeholder: 'FULL NAME' })}
     ${field({ label: 'EMAIL ADDRESS', value: email, placeholder: 'YOU@EXAMPLE.COM' })}
-    ${field({ label: 'PHONE NUMBER', value: phone, placeholder: '901-236-2647', optional: true })}
+    ${phoneField({ value: phone })}
     ${cta('CONTINUE')}
   </div>${footerNote ? trust(status('saved', 'SAVED 7:08 AM')) : ''}${tail}`;
 }
