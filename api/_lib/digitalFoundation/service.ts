@@ -5,6 +5,7 @@ import { inferBuildRecommendation, recommendFromIntake } from '../../../shared/s
 import { isLaunchGateCheckoutBlocked, LAUNCH_GATE_CHECKOUT_ERROR } from '../../../shared/site00-digital-foundation/launchGate.js';
 import { resolveArtifactSurface, resolveArtifactSurfaceForClient } from '../../../shared/site00-digital-foundation/surface.js';
 import { initialProjectStages } from '../../../shared/site00-digital-foundation/projectStages.js';
+import { validateContactPhoneForCompletion } from '../../../shared/site00-digital-foundation/contactPhone.js';
 import { findReferralByKind } from '../../../shared/site00-digital-foundation/referralSources.js';
 import {
   DIGITAL_FOUNDATION_SERVICE_ID,
@@ -255,6 +256,11 @@ function ensureIntakePath(artifact: DigitalFoundationArtifact): void {
 export function completeIntake(artifactId: string): DigitalFoundationArtifact {
   const a = mem.memGetArtifact(artifactId);
   if (!a) throw new Error('ARTIFACT_NOT_FOUND');
+  if (a.intake_state === 'COMPLETE') return a;
+  const phoneCheck = validateContactPhoneForCompletion(a.intake.phone ?? '');
+  if (!phoneCheck.ok) {
+    throw new Error(phoneCheck.code === 'MISSING' ? 'CONTACT_PHONE_REQUIRED' : 'CONTACT_PHONE_INVALID');
+  }
   ensureIntakePath(a);
   a.intake_state = 'COMPLETE';
   transitionArtifact(a, 'INTAKE_COMPLETE');
@@ -969,7 +975,11 @@ export async function materializeFixtureScenario(
     referral_kind: scenario.referral_kind ?? 'DIRECT',
     business_name: scenario.intake.business_name ?? `Fixture ${scenario.id}`,
   });
-  updateIntake(artifact.artifact_id, scenario.intake, true);
+  updateIntake(
+    artifact.artifact_id,
+    { phone: scenario.intake.phone ?? '901-555-0100', ...scenario.intake },
+    true,
+  );
 
   if (scenario.extra_addon_selections?.length) {
     updateQuoteSelections(artifact.artifact_id, scenario.extra_addon_selections, 'FOUNDER');

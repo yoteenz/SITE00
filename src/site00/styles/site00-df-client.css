@@ -656,9 +656,20 @@ body.df-drawer-open {
   stroke-width: 2.4;
 }
 
-.df-check--on {
-  border-color: var(--df-red);
+.df-check--on:not(.df-check--locked) {
+  border-color: var(--df-ink);
+  background: rgba(255, 255, 255, 0.85);
+}
+
+.df-check--on:not(.df-check--locked)::after {
+  content: '';
+  width: 8px;
+  height: 8px;
   background: var(--df-red);
+}
+
+.df-check--on:not(.df-check--locked) svg {
+  display: none;
 }
 
 .df-check--locked.df-check--on {
