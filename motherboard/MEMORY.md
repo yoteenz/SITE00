@@ -16727,3 +16727,13 @@ Summary of the whole conversation in this chat.
 - **Sprint:** `P0.SITE00.IDNTY.FORM-CONTROL-IMPLEMENTATION.COMPOSER-CONSOLIDATED-A` on integration after #1660.
 - **Shipped:** System B checkbox CSS + `DfCheckMark` on P03/P04/P05; required CONTACT NUMBER with `libphonenumber-js` validation; `completeIntake` server guard; synthetic/fixture test phones; docs `form-control-implementation-consolidated-a/`.
 - **Grandfather:** already-`COMPLETE` intakes skip re-validation on `completeIntake`.
+
+---
+
+## 2026-10-19 — IDNTY Founder Workspace full authority implementation (Composer1, slice 1)
+
+- **Sprint:** `P0.SITE00.IDNTY.FOUNDER-WORKSPACE.FULL-AUTHORITY-IMPLEMENTATION.COMPOSER1` on `cursor/founder-workspace-full-authority-implementation-composer1-be3b` → integration `cursor/idnty-founder-readiness-e2e-be3b`.
+- **Shipped (React):** `src/site00/admin/founder-workspace/` — shell (sidebar 01–07, tablet rail, mobile bottom + menu Referrals), overlay host + CREATE_CLIENT, seven pages, Opus2-oriented CSS, list API `intake_state` for G-01; `/foundation-readiness` → workspace System; auth return → `/founder-workspace/overview`.
+- **Docs on branch:** Opus1/2/3 + policy lock trees; implementation pack `founder-workspace-full-authority-implementation-composer1/` (partial deliverables).
+- **Policy:** Referrals commissions/payouts/print remain blocked UI; AIO not auto-active.
+- **Verify:** `tests/idntyFounderWorkspaceImplementation.test.ts` (9); `npm run build` pass. Staging E2E + full overlay parity **not** complete.
