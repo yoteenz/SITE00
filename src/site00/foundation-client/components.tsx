@@ -4,7 +4,9 @@
  * Overlays portal to `body` with the shared `df-portal` scope so tokens and typography match `.df-root`.
  */
 import {
+  cloneElement,
   createContext,
+  isValidElement,
   useCallback,
   useContext,
   useEffect,
@@ -200,6 +202,8 @@ export function DfField({
   hint,
   help,
   validating,
+  required,
+  optional,
   children,
 }: {
   id: string;
@@ -209,13 +213,39 @@ export function DfField({
   /** Short contextual help rendered as a tooltip trigger beside the label. */
   help?: string;
   validating?: boolean;
+  /** Visual required marker only; does not change validation schema. */
+  required?: boolean;
+  /** Meaningful optional distinction (Phase 1 label primitive). */
+  optional?: boolean;
   children: ReactNode;
 }) {
+  const describedBy = error ? `${id}-error` : hint ? `${id}-hint` : undefined;
+  const child =
+    describedBy && isValidElement(children)
+      ? cloneElement(children as React.ReactElement<Record<string, unknown>>, {
+          'aria-describedby': [
+            describedBy,
+            (children as React.ReactElement<{ 'aria-describedby'?: string }>).props['aria-describedby'],
+          ]
+            .filter(Boolean)
+            .join(' '),
+        })
+      : children;
+
   return (
     <div className={`df-field${error ? ' df-field--error' : ''}${validating ? ' df-field--validating' : ''}`}>
       <span className="df-field__head">
         <label className="df-field__label" htmlFor={id} id={`${id}-label`}>
-          {label}
+          <span className="df-field__label-main">
+            {label}
+            {required ? (
+              <span className="df-field__required" aria-hidden="true">
+                {' '}
+                *
+              </span>
+            ) : null}
+          </span>
+          {optional ? <span className="df-field__optional">OPTIONAL</span> : null}
         </label>
         {help && <DfTooltip label={`ABOUT ${label}`} content={help} />}
         {validating && (
@@ -225,9 +255,9 @@ export function DfField({
           </span>
         )}
       </span>
-      {children}
+      {child}
       {error ? (
-        <p className="df-field__error" id={`${id}-error`}>
+        <p className="df-field__error" id={`${id}-error`} role="alert">
           {error}
         </p>
       ) : (
