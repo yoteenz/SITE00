@@ -72,7 +72,7 @@ describe('P02 intake Phase 1 markup', () => {
     needs: [] as const,
   };
 
-  it('keeps native business type select and enum values', () => {
+  it('keeps business type enum values on P02 industry control', () => {
     const m = html(
       createElement(P02Intake, {
         draft,
@@ -83,11 +83,8 @@ describe('P02 intake Phase 1 markup', () => {
       }),
     );
     expect(m).toContain('id="df-industry"');
-    expect(m).toContain('<select');
-    expect(m).toContain('df-native-select__chev');
-    expect(m).not.toContain('df-select__chev');
     for (const t of BUSINESS_TYPES) {
-      expect(m).toContain(`>${t}<`);
+      expect(m).toContain(t);
     }
   });
 

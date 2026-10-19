@@ -539,7 +539,7 @@ body.df-scroll-locked .df-root {
 .df-select__option {
   display: flex;
   align-items: center;
-  min-height: 38px;
+  min-height: 40px;
   padding: 0 14px;
   font-size: var(--df-control-text);
   font-weight: 500;
@@ -559,9 +559,19 @@ body.df-scroll-locked .df-root {
 }
 
 .df-select__option--selected {
-  background: #ebeae6;
+  background: var(--df-surface);
   color: var(--df-ink);
   font-weight: 700;
+  box-shadow: inset 3px 0 0 var(--df-red);
+}
+
+.df-select__option--selected::before {
+  content: '';
+  flex: 0 0 auto;
+  width: 6px;
+  height: 6px;
+  margin-right: 10px;
+  background: var(--df-red);
 }
 
 .df-select__option[aria-disabled='true'] {
@@ -1801,6 +1811,148 @@ div.df-srow__main {
   margin-top: 6px;
 }
 
+/* ─── IDNTY selection sheet (Phase 2 — FD-1 / FD-6) ─────────────────────────────────────────── */
+
+.idnty-sel-sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  pointer-events: none;
+}
+
+.idnty-sel-sheet--on {
+  pointer-events: auto;
+}
+
+.idnty-sel-sheet__backdrop {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: var(--df-scrim);
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+
+.idnty-sel-sheet--on .idnty-sel-sheet__backdrop {
+  opacity: 1;
+}
+
+.idnty-sel-sheet__panel {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  max-height: min(88dvh, 640px);
+  margin-top: auto;
+  border-top: 2px solid var(--df-red);
+  border-radius: 0;
+  background: var(--df-surface);
+  transform: translate3d(0, 100%, 0);
+  transition: transform 220ms var(--df-ease);
+}
+
+.idnty-sel-sheet--on .idnty-sel-sheet__panel {
+  transform: translate3d(0, 0, 0);
+}
+
+.idnty-sel-sheet__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px 12px;
+  border-bottom: 1px solid var(--df-control-border);
+}
+
+.idnty-sel-sheet__title {
+  margin: 0;
+  font-family: var(--df-display);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.idnty-sel-sheet__cancel {
+  min-height: 44px;
+  padding: 0 8px;
+  border: 0;
+  background: none;
+  color: var(--df-red);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.idnty-sel-sheet__list {
+  margin: 0;
+  padding: 0 0 calc(12px + env(safe-area-inset-bottom, 0px));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  list-style: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.idnty-sel-sheet__option {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 48px;
+  padding: 0 16px;
+  border: 0;
+  border-bottom: 1px solid #eeede9;
+  background: var(--df-surface);
+  color: var(--df-ink);
+  font-family: var(--df-text);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  line-height: 1.25;
+  text-align: left;
+  text-transform: uppercase;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.idnty-sel-sheet__option:disabled {
+  color: var(--df-disabled-ink);
+  cursor: not-allowed;
+}
+
+.idnty-sel-sheet__option--selected {
+  font-weight: 700;
+  box-shadow: inset 3px 0 0 var(--df-red);
+}
+
+.idnty-sel-sheet__option--selected .idnty-sel-sheet__option-label::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 10px;
+  vertical-align: middle;
+  background: var(--df-red);
+}
+
+.idnty-sel-sheet__option-label {
+  display: inline;
+}
+
+@media (min-width: 601px) {
+  .idnty-sel-sheet {
+    display: none;
+  }
+}
+
 /* ─── Reduced motion ───────────────────────────────────────────────────────────────────────── */
 
 @media (prefers-reduced-motion: reduce) {
@@ -1814,7 +1966,9 @@ div.df-srow__main {
   .df-bsheet__backdrop,
   .df-modal__panel,
   .df-modal__backdrop,
-  .df-srow__chev {
+  .df-srow__chev,
+  .idnty-sel-sheet__panel,
+  .idnty-sel-sheet__backdrop {
     transition: none;
   }
 
