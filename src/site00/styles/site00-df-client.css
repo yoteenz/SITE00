@@ -2005,6 +2005,10 @@ button.df-spec__btn {
   cursor: pointer;
 }
 
+.df-drawer__close:focus-visible {
+  outline: none;
+}
+
 .df-drawer__close svg {
   width: 18px;
   height: 18px;
@@ -2148,7 +2152,11 @@ button.df-spec__btn {
   color: var(--df-red);
 }
 
-.df-drawer__step--done,
+.df-drawer__step--done {
+  color: var(--df-ink);
+}
+
+.df-drawer__step--open,
 .df-drawer__step--locked,
 .df-drawer__place--locked {
   color: var(--df-muted);

@@ -62,7 +62,7 @@ export function recordsAvailable(payload: ClientDigitalFoundationPayload): boole
 
 // ─── Menu drawer (DF-C48) ───────────────────────────────────────────────────────────────────────
 
-/** `done` = behind the server surface (no longer editable); `locked` = not reached yet. */
+/** `done` = completed (navigable back); `locked` = not reached yet; `open` is legacy — prefer locked until current. */
 export type DfMenuStepState = 'current' | 'open' | 'done' | 'locked';
 
 export interface DfMenuStep {
@@ -96,16 +96,33 @@ export function buildDfMenu(views: readonly DfView[], current: DfView | null): {
   steps: DfMenuStep[];
   destinations: DfMenuDestination[];
 } {
-  const order = DF_VIEW_ORDER.filter((v) => v !== 'OVERVIEW');
+  const order = DF_VIEW_ORDER.filter((v) => v !== 'OVERVIEW') as DfIntakeView[];
   const firstOpen = order.findIndex((v) => views.includes(v));
+  const currentInOrder = current != null && order.includes(current as DfIntakeView);
+  const currentIndex = currentInOrder
+    ? order.indexOf(current as DfIntakeView)
+    : current != null
+      ? order.length
+      : -1;
   const steps = order.map((view, i): DfMenuStep => {
-    const state: DfMenuStepState = views.includes(view)
-      ? current === view
-        ? 'current'
-        : 'open'
-      : firstOpen === -1 || i < firstOpen
-        ? 'done'
-        : 'locked';
+    let state: DfMenuStepState;
+    if (current === view) {
+      state = 'current';
+    } else if (currentIndex >= 0) {
+      if (i < currentIndex) {
+        state = 'done';
+      } else if (!views.includes(view)) {
+        state = firstOpen === -1 || i < firstOpen ? 'done' : 'locked';
+      } else {
+        state = 'locked';
+      }
+    } else if (views.includes(view)) {
+      state = 'locked';
+    } else if (firstOpen === -1 || i < firstOpen) {
+      state = 'done';
+    } else {
+      state = 'locked';
+    }
     return { view, index: DF_VIEW_META[view].index, label: DF_VIEW_META[view].label, state };
   });
   const portal = views.includes('OVERVIEW');
