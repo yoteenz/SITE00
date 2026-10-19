@@ -16727,3 +16727,12 @@ Summary of the whole conversation in this chat.
 - **Sprint:** `P0.SITE00.IDNTY.FORM-CONTROL-IMPLEMENTATION.COMPOSER-CONSOLIDATED-A` on integration after #1660.
 - **Shipped:** System B checkbox CSS + `DfCheckMark` on P03/P04/P05; required CONTACT NUMBER with `libphonenumber-js` validation; `completeIntake` server guard; synthetic/fixture test phones; docs `form-control-implementation-consolidated-a/`.
 - **Grandfather:** already-`COMPLETE` intakes skip re-validation on `completeIntake`.
+
+---
+
+## 2026-10-19 — IDNTY referral commission policy lock 1
+
+- **Sprint:** `P0.SITE00.IDNTY.REFERRAL-COMMISSION-POLICY.FOUNDER-DECISION-LOCK1` on Opus3 authority branch @ `890fc40b6`.
+- **Locked:** Fixed-fee only — $25 / $35 / up to $50 cap; $500 base package only; 90-day attribution; 14-day hold; monthly 15th record-only payouts; FD-R01–R09, R16, R17 decided in register; AIO planned $50 not activated.
+- **Docs:** `docs/site00/idnty/referral-commission-policy-founder-lock1/`; updated `29_FOUNDER_APPROVAL_REGISTER.md`.
+- **Not done:** Live commissions, payouts, deploy, merge PR #1658; payment evidence gaps remain (doc 26).
