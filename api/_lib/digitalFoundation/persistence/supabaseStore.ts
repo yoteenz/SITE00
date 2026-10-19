@@ -3,6 +3,7 @@ import { getSupabaseAdmin } from '../../supabase.js';
 import type { DfMemoryState } from '../memoryStore.js';
 import { getDfMemoryState, memGetArtifactByToken, resetDigitalFoundationMemoryStore } from '../memoryStore.js';
 import type { DigitalFoundationArtifact } from '../../../../shared/site00-digital-foundation/types.js';
+import { assertSupabaseOk } from './dfPersistenceError.js';
 
 export function isSupabaseDfPersistenceEnabled(): boolean {
   if (process.env.VITEST === 'true' || process.env.NODE_ENV === 'test') {
@@ -153,6 +154,22 @@ export async function loadArtifactGraphByToken(token: string): Promise<DigitalFo
   return artifact;
 }
 
+async function ensureReferralSourcesPersisted(sb: ReturnType<typeof getSupabaseAdmin>): Promise<void> {
+  const sources = getDfMemoryState().referralSources;
+  assertSupabaseOk(
+    'site00_df_referral_sources',
+    await sb.from('site00_df_referral_sources').upsert(
+      sources.map((r) => ({
+        referral_source_id: r.referral_source_id,
+        kind: r.kind,
+        label: r.label,
+        active: r.active,
+      })),
+      { onConflict: 'referral_source_id' },
+    ),
+  );
+}
+
 export async function persistArtifactGraph(artifactId: string): Promise<void> {
   if (!isSupabaseDfPersistenceEnabled()) return;
   const s = getDfMemoryState();
@@ -161,35 +178,52 @@ export async function persistArtifactGraph(artifactId: string): Promise<void> {
   const lead = s.leads.get(artifact.lead_id);
   const sb = getSupabaseAdmin();
 
+  await ensureReferralSourcesPersisted(sb);
+
   if (lead) {
-    await sb.from('site00_df_leads').upsert(mapLeadToRow(lead));
+    assertSupabaseOk('site00_df_leads', await sb.from('site00_df_leads').upsert(mapLeadToRow(lead), { onConflict: 'lead_id' }));
   }
-  await sb.from('site00_df_artifacts').upsert(mapArtifactToRow(artifact));
+  assertSupabaseOk(
+    'site00_df_artifacts',
+    await sb.from('site00_df_artifacts').upsert(mapArtifactToRow(artifact), { onConflict: 'artifact_id' }),
+  );
 
   const quotes = [...s.quotes.values()].filter((q) => q.artifact_id === artifactId);
   if (quotes.length) {
-    await sb.from('site00_df_quotes').upsert(quotes.map(mapQuoteToRow));
+    assertSupabaseOk('site00_df_quotes', await sb.from('site00_df_quotes').upsert(quotes.map(mapQuoteToRow), { onConflict: 'quote_id' }));
   }
 
   const acceptance = s.acceptances.get(artifactId);
   if (acceptance) {
-    await sb.from('site00_df_quote_acceptances').upsert({
-      artifact_id: acceptance.artifact_id,
-      quote_version: acceptance.quote_version,
-      terms_version: acceptance.terms_version,
-      accepted_at: acceptance.accepted_at,
-      accepted_disclosures: acceptance.accepted_disclosures,
-      source_surface: acceptance.source_surface,
-      client_ip: acceptance.client_ip,
-      user_agent: acceptance.user_agent,
-    });
+    assertSupabaseOk(
+      'site00_df_quote_acceptances',
+      await sb.from('site00_df_quote_acceptances').upsert(
+        {
+          artifact_id: acceptance.artifact_id,
+          quote_version: acceptance.quote_version,
+          terms_version: acceptance.terms_version,
+          accepted_at: acceptance.accepted_at,
+          accepted_disclosures: acceptance.accepted_disclosures,
+          source_surface: acceptance.source_surface,
+          client_ip: acceptance.client_ip,
+          user_agent: acceptance.user_agent,
+        },
+        { onConflict: 'artifact_id' },
+      ),
+    );
   }
 
-  await sb.from('site00_df_operations_bundle').upsert({
-    artifact_id: artifactId,
-    bundle: serializeOpsBundle(artifactId),
-    updated_at: new Date().toISOString(),
-  });
+  assertSupabaseOk(
+    'site00_df_operations_bundle',
+    await sb.from('site00_df_operations_bundle').upsert(
+      {
+        artifact_id: artifactId,
+        bundle: serializeOpsBundle(artifactId),
+        updated_at: new Date().toISOString(),
+      },
+      { onConflict: 'artifact_id' },
+    ),
+  );
 }
 
 function mapArtifactRow(row: Record<string, unknown>): DigitalFoundationArtifact {

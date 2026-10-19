@@ -9,7 +9,7 @@ import { listAllSendIntents, processSendIntent } from './communications/delivery
 import { enqueueCommunicationsForEvent } from './communications/dispatch.js';
 import * as mem from './memoryStore.js';
 import {
-  createArtifactForLead,
+  createArtifactForLeadDurable,
   createLead,
   getArtifactPayload,
   markFoundationComplete,
@@ -397,7 +397,7 @@ export function prepareTestInvitation(intentId: string): TestInvitationPreview {
   };
 }
 
-export function createSyntheticTestClient(input: {
+export async function createSyntheticTestClient(input: {
   display_name: string;
   contact_email: string;
   contact_name?: string;
@@ -411,7 +411,11 @@ export function createSyntheticTestClient(input: {
     contact_email: input.contact_email,
     referral_kind: 'DIRECT',
   });
-  const artifact = createArtifactForLead({ lead_id: lead.lead_id, business_name: business, contact_email: input.contact_email });
+  const artifact = await createArtifactForLeadDurable({
+    lead_id: lead.lead_id,
+    business_name: business,
+    contact_email: input.contact_email,
+  });
   enqueueCommunicationsForEvent({
     artifactId: artifact.artifact_id,
     eventType: 'ARTIFACT_CREATED',
@@ -494,8 +498,13 @@ export function listEmailTimeline() {
   }));
 }
 
-export function resetSyntheticTestData() {
+export async function resetSyntheticTestData() {
   if (!isFounderTestModeEnabled()) throw new Error('FOUNDER_TEST_MODE_DISABLED');
   mem.resetDigitalFoundationMemoryStore();
+  if (isSupabaseDfPersistenceEnabled()) {
+    const { syncAllArtifactsIntoMemory } = await import('./persistence/supabaseStore.js');
+    await syncAllArtifactsIntoMemory();
+  }
   return { ok: true as const };
 }
+

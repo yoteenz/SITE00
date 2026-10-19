@@ -16693,3 +16693,11 @@ Summary of the whole conversation in this chat.
 - **Package:** `docs/site00/idnty/form-control-authority-audit1/` (inventory, gap matrix, Opus brief, migration plan, coverage report + founder P02/P03 evidence JPGs).
 - **Headline finding:** P02 Business Type uses native `<select>` (iOS open UI = CLASS A P1); repo already has unused `DfSelect` in `components.tsx`. Portal comm prefs use unstyled native checkboxes (CLASS B P1).
 - **Counts:** 52 inventoried control instances, 16 families, 17 native form tags in `foundation-client`.
+
+---
+
+## 2026-10-19 — P0 Persistent artifact & intake recovery (IDNTY staging)
+
+- **Symptom:** Synthetic `/foundation/:token` worked until refresh/restart; dashboard client vanished; link → “ISN'T ACTIVE”.
+- **Root cause:** Supabase upserts ignored errors; referral_source FK failed (random in-memory UUIDs never seeded in DB); artifacts only in Railway memory. Staging DB had **0** DF rows — original founder test artifact **not recoverable**.
+- **Fix:** Stable `DF_REFERRAL_SOURCE_ID`, seed referral rows on persist, `DfPersistenceError` + `createArtifactForLeadDurable`, await persist on test-client create, 404 when Supabase miss, reset rehydrates from DB. Report: `docs/site00/idnty/PERSISTENT_ARTIFACT_RECOVERY_REPORT.md`. Migration service_role policies applied staging `soocqbyjkxeubfjnuwvf`.

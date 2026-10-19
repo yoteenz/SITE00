@@ -18,16 +18,16 @@ beforeEach(() => {
 });
 
 describe('founder test mode guards', () => {
-  it('blocks synthetic client creation when founder test mode is off', () => {
-    expect(() =>
+  it('blocks synthetic client creation when founder test mode is off', async () => {
+    await expect(
       createSyntheticTestClient({ display_name: 'X', contact_email: 'test@example.com' }),
-    ).toThrow(/FOUNDER_TEST_MODE_DISABLED/);
+    ).rejects.toThrow(/FOUNDER_TEST_MODE_DISABLED/);
   });
 
-  it('creates synthetic artifact and DRY_RUN/QUEUED invitation intent when test mode on', () => {
+  it('creates synthetic artifact and DRY_RUN/QUEUED invitation intent when test mode on', async () => {
     vi.stubEnv('SITE00_DF_FOUNDER_TEST_MODE', '1');
     vi.stubEnv('SITE00_DF_FOUNDER_TEST_RECIPIENT_ALLOWLIST', 'founder@test.com');
-    const out = createSyntheticTestClient({ display_name: 'Anthony Test', contact_email: 'founder@test.com' });
+    const out = await createSyntheticTestClient({ display_name: 'Anthony Test', contact_email: 'founder@test.com' });
     expect(out.lead.business_name).toMatch(/^SYNTH · /);
     expect(out.personalized_url).toMatch(/^\/foundation\//);
     const inviteIntent = [...getDfMemoryState().sendIntents.values()].find(
@@ -47,10 +47,10 @@ describe('founder test mode guards', () => {
 });
 
 describe('Resend webhook status', () => {
-  it('updates intent to DELIVERED when provider id matches', () => {
+  it('updates intent to DELIVERED when provider id matches', async () => {
     vi.stubEnv('SITE00_DF_FOUNDER_TEST_MODE', '1');
     vi.stubEnv('SITE00_DF_FOUNDER_TEST_RECIPIENT_ALLOWLIST', 'founder@test.com');
-    createSyntheticTestClient({ display_name: 'X', contact_email: 'founder@test.com' });
+    await createSyntheticTestClient({ display_name: 'X', contact_email: 'founder@test.com' });
     const firstIntent = [...getDfMemoryState().sendIntents.values()][0];
     firstIntent.provider_message_id = 're_test_123';
     firstIntent.status = 'ACCEPTED';
