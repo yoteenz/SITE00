@@ -8,6 +8,7 @@ import {
 import { stageLabel } from '../../../../shared/site00-digital-foundation/projectStages.js';
 import type { ClientActionRequest, ProjectStageCode } from '../../../../shared/site00-digital-foundation/types.js';
 import { completeClientAction } from '../api';
+import { dfInputDisplayUpper } from '../dfInputText';
 import {
   activationTurnaround,
   deriveActivationState,
@@ -227,7 +228,12 @@ function ActionWorkspace({
       <p className="df-action-card__body">{action.detail.toUpperCase()}</p>
       <label className="df-field">
         <span className="df-field__label">YOUR NOTES (OPTIONAL)</span>
-        <textarea className="df-input df-input--area" rows={3} value={notes} onChange={(e) => setNotes(e.target.value)} />
+        <textarea
+          className="df-input df-input--area"
+          rows={3}
+          value={notes}
+          onChange={(e) => setNotes(dfInputDisplayUpper(e.target.value))}
+        />
       </label>
       <div className="df-actions df-actions--inline">
         <DfCta label="APPROVE" busy={busy} onClick={onApprove} />

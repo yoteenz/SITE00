@@ -335,10 +335,10 @@ body.df-scroll-locked .df-root {
   border: 1px solid var(--df-control-border);
   border-radius: var(--df-radius-sm);
   background: var(--df-surface);
-  /* User-entered values keep their own casing; only chrome copy is uppercase. */
   font-size: var(--df-input-value-size);
   letter-spacing: 0.01em;
   color: var(--df-ink);
+  text-transform: uppercase;
   appearance: none;
   -webkit-appearance: none;
   transition: border-color 120ms ease;
@@ -349,6 +349,10 @@ body.df-scroll-locked .df-root {
   .df-select__trigger {
     font-size: var(--df-input-touch-size);
   }
+}
+
+.df-input[type='password'] {
+  text-transform: none;
 }
 
 .df-input::placeholder {

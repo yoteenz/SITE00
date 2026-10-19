@@ -17,6 +17,7 @@ import {
 import { DfCheckMark, DfField } from '../components';
 import { IdntySelect, businessTypeSelectOptions, dfCustomIndustrySelectEnabled } from '../idntySelect';
 import { formatContactPhoneInput } from '../contactPhoneInput';
+import { dfInputDisplayUpper } from '../dfInputText';
 import { DfAlert, DfCta, DfHeadline, DfHeroObject, DfLede, DfRail, DfSheet, DfTrust } from '../shell';
 import type { SaveStatus } from '../useFoundationArtifact';
 
@@ -128,7 +129,8 @@ export function P02Intake({
     'aria-invalid': err[field as keyof IntakeErrors] ? true : undefined,
     'aria-describedby': err[field as keyof IntakeErrors] ? `df-${field}-error` : undefined,
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-      update({ [field]: e.target.value } as Partial<IntakeDraft>);
+      const type = e.target.type;
+      update({ [field]: dfInputDisplayUpper(e.target.value, type) } as Partial<IntakeDraft>);
       if (err[field as keyof IntakeErrors]) setErrors((p) => ({ ...p, [field]: undefined }));
     },
     ...extra,
@@ -468,7 +470,7 @@ export function P03Configure({
                       aria-describedby={errors.existing_domain ? 'df-existing_domain-error' : undefined}
                       aria-required
                       onChange={(e) => {
-                        update({ existing_domain: e.target.value });
+                        update({ existing_domain: dfInputDisplayUpper(e.target.value, e.target.type) });
                         setErrors((x) => ({ ...x, existing_domain: undefined }));
                       }}
                     />
@@ -480,7 +482,7 @@ export function P03Configure({
                       value={draft.existing_registrar}
                       placeholder="E.G. GODADDY, SQUARESPACE"
                       disabled={!editable}
-                      onChange={(e) => update({ existing_registrar: e.target.value })}
+                      onChange={(e) => update({ existing_registrar: dfInputDisplayUpper(e.target.value, e.target.type) })}
                     />
                   </DfField>
                 </div>
@@ -572,7 +574,7 @@ export function P03Configure({
                   value={draft.existing_email_provider}
                   placeholder="E.G. GMAIL, OUTLOOK, YAHOO"
                   disabled={!editable}
-                  onChange={(e) => update({ existing_email_provider: e.target.value })}
+                  onChange={(e) => update({ existing_email_provider: dfInputDisplayUpper(e.target.value, e.target.type) })}
                 />
               </DfField>
             </div>

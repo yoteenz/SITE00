@@ -15,6 +15,7 @@ import {
   sameDraft,
   sameSelections,
   selectionsFromQuote,
+  normalizeIntakeDraftText,
   type IntakeDraft,
   type Selections,
 } from './model';
@@ -130,7 +131,7 @@ export function useIntakeDraft(
     (patch: Partial<IntakeDraft>) => {
       const base = draftRef.current;
       if (!base || !editable) return;
-      const next = { ...base, ...patch };
+      const next = normalizeIntakeDraftText({ ...base, ...patch });
       draftRef.current = next;
       setDraft(next);
       setStatus('dirty');
