@@ -1,32 +1,56 @@
 import { type ReactNode, useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { getSupabase } from '../../../../utils/supabase';
-import {
-  FOUNDER_WORKSPACE_MOBILE_BOTTOM_NAV,
-  FOUNDER_WORKSPACE_MOBILE_MENU_EXTRA,
-  FOUNDER_WORKSPACE_SIDEBAR_NAV,
-  destinationFromPathname,
-  navItemIsActive,
-} from '../config/navigation';
+import { SITE00_ROUTES } from '../../../config/routes';
+import { FOUNDER_WORKSPACE_MOBILE_BOTTOM_NAV, FOUNDER_WORKSPACE_SIDEBAR_NAV, destinationFromPathname, navItemIsActive } from '../config/navigation';
 import { useFounderWorkspaceOverlay } from '../overlay/OverlayContext';
 import { OverlayHost } from '../overlay/OverlayHost';
 import { ToastStack } from '../overlay/ToastStack';
+import { WsBrand, WsIcon, WsIconButton, WsPlate, WsPlus } from './wsKit';
 import '../../../styles/site00-correspondence-fonts.css';
 import '../styles/idnty-founder-workspace.css';
+import '../styles/ifw-authority.css';
 
 type Props = {
   children: ReactNode;
-  pageTitle: string;
-  pageSubtitle?: string;
+  /** Breadcrumb trail after the destination index, e.g. ['FOUNDATIONS', 'CARTER & LANE']. */
+  crumb: string[];
+  density?: 'relaxed' | 'standard' | 'compact';
 };
 
-export function FounderWorkspaceShell({ children, pageTitle, pageSubtitle }: Props) {
+/** Environment tag beside the SITE 00 wordmark — derived from the host, never hard-coded. */
+function environmentLabel(): string {
+  if (typeof window === 'undefined') return 'PREVIEW';
+  const h = window.location.hostname;
+  if (h === 'site00.com' || h === 'www.site00.com') return 'LIVE';
+  if (h.includes('staging')) return 'STAGING';
+  return 'PREVIEW';
+}
+
+const NAV_ICON: Record<string, string> = {
+  overview: 'home',
+  foundations: 'users',
+  reviews: 'approval',
+  operations: 'checklist',
+  correspondence: 'email',
+  referrals: 'share',
+  system: 'server',
+};
+const RAIL_LABEL: Record<string, string> = { overview: 'HOME', operations: 'OPS', correspondence: 'MAIL' };
+
+/**
+ * Founder workspace frame — React port of the approved OPUS2 shell (ws-kit `app()`):
+ * sidebar ≥ 1280 · 80 px rail 768–1279 · header + bottom bar < 768; the stage is a `stage` container so pages
+ * recompose from the width they actually have.
+ */
+export function FounderWorkspaceShell({ children, crumb, density = 'standard' }: Props) {
   const { pathname } = useLocation();
   const dest = destinationFromPathname(pathname);
   const { openOverlay } = useFounderWorkspaceOverlay();
-  const [menuOpen, setMenuOpen] = useState(false);
   const [profileLabel, setProfileLabel] = useState('FOUNDER');
   const [profileEmail, setProfileEmail] = useState<string | null>(null);
+  const env = environmentLabel();
+  const current = FOUNDER_WORKSPACE_SIDEBAR_NAV.find((n) => n.id === dest) ?? FOUNDER_WORKSPACE_SIDEBAR_NAV[0];
 
   useEffect(() => {
     const supabase = getSupabase();
@@ -52,126 +76,152 @@ export function FounderWorkspaceShell({ children, pageTitle, pageSubtitle }: Pro
     return () => window.removeEventListener('keydown', onKey);
   }, [openOverlay]);
 
+  const openAccount = () => openOverlay('OL-18', { email: profileEmail ?? profileLabel });
+
   return (
-    <div className="ifw ifw-shell" data-ifw-destination={dest}>
-      <aside className="ifw-shell__sidebar" aria-label="Workspace navigation">
-        <div className="ifw-shell__brand">
-          <span className="ifw-shell__brand-mark">IDNTY</span>
-          <span className="ifw-shell__brand-sub">Founder workspace</span>
-        </div>
-        <nav className="ifw-shell__nav">
-          {FOUNDER_WORKSPACE_SIDEBAR_NAV.map((item) => (
-            <Link
-              key={item.id}
-              to={item.href}
-              className={`ifw-shell__nav-link ${navItemIsActive(pathname, item.href) ? 'ifw-shell__nav-link--active' : ''}`.trim()}
-            >
-              <span className="ifw-shell__nav-ord">{item.ordinal}</span>
-              <span>{item.label}</span>
-            </Link>
-          ))}
-        </nav>
-      </aside>
-
-      <div className="ifw-shell__tablet-rail" aria-hidden="true">
-        {FOUNDER_WORKSPACE_SIDEBAR_NAV.map((item) => (
-          <Link
-            key={item.id}
-            to={item.href}
-            className={`ifw-shell__rail-link ${navItemIsActive(pathname, item.href) ? 'ifw-shell__rail-link--active' : ''}`.trim()}
-            title={item.label}
-          >
-            <span className="ifw-shell__rail-ord">{item.ordinal}</span>
-            <span className="ifw-shell__rail-label">{item.label}</span>
-          </Link>
-        ))}
-      </div>
-
-      <div className="ifw-shell__main">
-        <header className="ifw-shell__header">
-          <div className="ifw-shell__header-top">
-            <button
-              type="button"
-              className="ifw-shell__menu-btn"
-              onClick={() => {
-                setMenuOpen(false);
-                openOverlay('OL-03');
-              }}
-              aria-expanded={menuOpen}
-            >
-              Menu
-            </button>
-            <button type="button" className="ifw-shell__icon-btn" onClick={() => openOverlay('OL-04')} aria-label="Search">
-              Search
-            </button>
-            <button type="button" className="ifw-shell__icon-btn" onClick={() => openOverlay('OL-05')} aria-label="Notifications">
-              Alerts
-            </button>
-            <div className="ifw-shell__header-meta">
-              <button
-                type="button"
-                className="ifw-shell__account-btn"
-                onClick={() => openOverlay('OL-18', { email: profileEmail ?? profileLabel })}
-              >
-                {profileLabel}
+    <div className="ws ifw" data-ifw-destination={dest}>
+      <div className="ws-app">
+        <nav className="ws-nav" aria-label="PRIMARY">
+          <div className="ws-side">
+            <WsBrand env={env} />
+            <div className="ws-side__create">
+              <button type="button" className="ws-btn ws-btn--red ws-btn--block" onClick={() => openOverlay('OL-01')}>
+                <WsIcon name="add" />
+                <span>NEW FOUNDATION</span>
               </button>
             </div>
-            <button type="button" className="ifw-btn ifw-btn--primary ifw-shell__create" onClick={() => openOverlay('OL-01')}>
-              Create
+            <ul className="ws-side__list">
+              {FOUNDER_WORKSPACE_SIDEBAR_NAV.map((n) => {
+                const on = navItemIsActive(pathname, n.href);
+                return (
+                  <li key={n.id}>
+                    <Link to={n.href} className={`ws-side__i ${on ? 'ws-side__i--on' : ''}`.trim()} aria-current={on ? 'page' : undefined}>
+                      <span className="ws-idx">{n.ordinal}</span>
+                      <i />
+                      <span>{n.label.toUpperCase()}</span>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+            <div className="ws-side__sep" />
+            <Link className="ws-side__tool" to={SITE00_ROUTES.digitalFoundationReadiness}>
+              <WsIcon name="checklist" />
+              <span>READINESS DESK</span>
+              <WsIcon name="external" />
+            </Link>
+            <button type="button" className="ws-side__foot" onClick={openAccount}>
+              <WsPlate name={profileLabel} size="xs" />
+              <span className="ws-who">
+                <b style={{ fontSize: 12 }}>{profileLabel}</b>
+                <span>ADMIN · SIGNED IN</span>
+              </span>
+              <span style={{ marginLeft: 'auto', color: 'var(--ws-muted)' }}>
+                <WsIcon name="more" />
+              </span>
             </button>
           </div>
-          <h1 className="ifw-page-title">
-            {pageTitle}
-            <span className="ifw-period" aria-hidden="true" />
-          </h1>
-          {pageSubtitle ? <p className="ifw-page-sub">{pageSubtitle}</p> : null}
+
+          <div className="ws-rail">
+            <span className="ws-plate ws-plate--xs" aria-hidden="true">
+              00
+            </span>
+            <button type="button" className="ws-rail__create" onClick={() => openOverlay('OL-01')}>
+              <span>
+                <WsPlus />
+              </span>
+              NEW
+            </button>
+            {FOUNDER_WORKSPACE_SIDEBAR_NAV.map((n) => {
+              const on = navItemIsActive(pathname, n.href);
+              return (
+                <Link
+                  key={n.id}
+                  to={n.href}
+                  className={`ws-rail__i ${on ? 'ws-rail__i--on' : ''}`.trim()}
+                  aria-current={on ? 'page' : undefined}
+                  aria-label={n.label.toUpperCase()}
+                >
+                  <WsIcon name={NAV_ICON[n.id]} />
+                  <span>{RAIL_LABEL[n.id] ?? n.label.toUpperCase()}</span>
+                </Link>
+              );
+            })}
+            <button type="button" className="ws-rail__foot" onClick={openAccount} aria-label="ACCOUNT">
+              <WsPlate name={profileLabel} size="xs" />
+            </button>
+          </div>
+        </nav>
+
+        <header className="ws-top">
+          <div className="ws-top__m">
+            <WsBrand env={env} />
+            <span className="ws-top__acts">
+              <WsIconButton icon="search" label="SEARCH" onClick={() => openOverlay('OL-04')} />
+              <WsIconButton icon="notification" label="NOTIFICATIONS" onClick={() => openOverlay('OL-05')} />
+              <WsIconButton icon="menu" label="MENU" onClick={() => openOverlay('OL-03')} />
+            </span>
+          </div>
+          <div className="ws-top__d">
+            <nav className="ws-crumb" aria-label="BREADCRUMB">
+              <b>{current.ordinal}</b>
+              <i />
+              {crumb.map((p, i) =>
+                i < crumb.length - 1 ? (
+                  <span key={p}>
+                    <span>{p}</span>
+                    <span className="sep">/</span>
+                  </span>
+                ) : (
+                  <span key={p} className="cur">
+                    {p}
+                  </span>
+                ),
+              )}
+            </nav>
+            <button type="button" className="ws-search ws-search--top" onClick={() => openOverlay('OL-04')}>
+              <WsIcon name="search" />
+              <span>SEARCH CLIENTS, REVIEWS, TASKS</span>
+              <span className="ws-kbd">⌘K</span>
+            </button>
+            <WsIconButton icon="notification" label="NOTIFICATIONS" onClick={() => openOverlay('OL-05')} />
+          </div>
         </header>
 
-        <div className="ifw-shell__stage">{children}</div>
-      </div>
+        <main className={`ws-stage ws-${density}`} id="stage">
+          {children}
+        </main>
 
-      <nav className="ifw-shell__bottom" aria-label="Mobile primary navigation">
-        {FOUNDER_WORKSPACE_MOBILE_BOTTOM_NAV.map((item) => {
-          if (item.kind === 'action') {
-            return (
-              <button
-                key={item.id}
-                type="button"
-                className="ifw-shell__bottom-btn ifw-shell__bottom-btn--create"
-                onClick={() => openOverlay('OL-01')}
-              >
-                {item.label}
+        <nav className="ws-bnav" aria-label="PRIMARY">
+          {/* Founder lock: HOME · FOUNDATIONS · CREATE · REVIEWS · SYSTEM (config/navigation). REFERRALS lives in the MENU. */}
+          {FOUNDER_WORKSPACE_MOBILE_BOTTOM_NAV.map((item) =>
+            item.kind === 'action' ? (
+              <button key={item.id} type="button" className="ws-bnav__c" onClick={() => openOverlay('OL-01')}>
+                <span>
+                  <WsPlus />
+                </span>
+                {item.label.toUpperCase()}
               </button>
-            );
-          }
-          const active = item.href ? navItemIsActive(pathname, item.href) : false;
-          return (
-            <Link key={item.id} to={item.href!} className={`ifw-shell__bottom-link ${active ? 'ifw-shell__bottom-link--active' : ''}`.trim()}>
-              {item.label}
-            </Link>
-          );
-        })}
-      </nav>
-
-      {menuOpen ? (
-        <div className="ifw-mobile-menu">
-          <button type="button" className="ifw-mobile-menu__scrim" aria-label="Close menu" onClick={() => setMenuOpen(false)} />
-          <div className="ifw-mobile-menu__panel" role="dialog" aria-label="Workspace menu">
-            <p className="ifw-mobile-menu__title">Workspace</p>
-            {FOUNDER_WORKSPACE_MOBILE_MENU_EXTRA.map((item) => (
-              <Link key={item.id} to={item.href} className="ifw-mobile-menu__link" onClick={() => setMenuOpen(false)}>
-                <span>{item.ordinal}</span> {item.label}
-              </Link>
-            ))}
-            <button type="button" className="ifw-btn ifw-btn--ghost" onClick={() => setMenuOpen(false)}>
-              Close
-            </button>
-          </div>
-        </div>
-      ) : null}
+            ) : (
+              <BottomItem key={item.id} id={item.id} label={item.label} href={item.href!} pathname={pathname} />
+            ),
+          )}
+        </nav>
+      </div>
 
       <OverlayHost />
       <ToastStack />
     </div>
+  );
+}
+
+function BottomItem({ id, label, href, pathname }: { id: string; label: string; href: string; pathname: string }) {
+  // Menu destinations (REFERRALS, OPERATIONS, CORRESPONDENCE) leave every bottom item unselected.
+  const on = navItemIsActive(pathname, href);
+  return (
+    <Link to={href} className={`ws-bnav__i ${on ? 'ws-bnav__i--on' : ''}`.trim()} aria-current={on ? 'page' : undefined}>
+      <WsIcon name={NAV_ICON[id]} />
+      {label.toUpperCase()}
+    </Link>
   );
 }

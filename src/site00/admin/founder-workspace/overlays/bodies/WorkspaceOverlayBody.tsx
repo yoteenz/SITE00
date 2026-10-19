@@ -7,6 +7,7 @@ import { useRegistryFilters, type RegistrySortKey } from '../../data/registryFil
 import { useFounderWorkspaceOverlay } from '../../overlay/OverlayContext';
 import type { WorkspaceOverlayId } from '../../overlay/overlayRegistry';
 import { OverlayFormShell } from './OverlayFormShell';
+import { WorkspaceMenuRows } from './WorkspaceMenuRows';
 
 type Props = {
   id: WorkspaceOverlayId;
@@ -115,19 +116,10 @@ export function WorkspaceOverlayBody({ id, payload, onClose, markDirty }: Props)
       );
 
     case 'OL-03':
+      // Workspace menu (OPUS1/OPUS2 drawer grammar; OPUS3 adds 06 REFERRALS). Phones reach REFERRALS only here.
       return (
-        <OverlayFormShell id={id} lede="Extra destinations" primaryLabel="Done" onClose={onClose}>
-          <nav className="ifw-overlay-nav">
-            {[
-              { label: 'Operations', href: IDNTY_FOUNDER_WORKSPACE_ROUTES.operations },
-              { label: 'Correspondence', href: IDNTY_FOUNDER_WORKSPACE_ROUTES.correspondence },
-              { label: 'Referrals', href: IDNTY_FOUNDER_WORKSPACE_ROUTES.referrals },
-            ].map((item) => (
-              <Link key={item.href} to={item.href} className="ifw-overlay-nav__link" onClick={onClose}>
-                {item.label}
-              </Link>
-            ))}
-          </nav>
+        <OverlayFormShell id={id} lede="All destinations" primaryLabel="Close" onClose={onClose}>
+          <WorkspaceMenuRows onNavigate={onClose} />
         </OverlayFormShell>
       );
 
