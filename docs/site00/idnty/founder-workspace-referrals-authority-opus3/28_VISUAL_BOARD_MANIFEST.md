@@ -37,7 +37,7 @@ Every board also embeds frames from other tiers where useful (for example R14 ha
 | R14 | C · ATTRIBUTION | Source trace | EVIDENCE CLASSES | `png/board-R14-source-trace.png` | 3212×2546 | 2/2 | YES | 0 | 0 | 4d60c43e0287 |
 | R15 | C · ATTRIBUTION | Attribution exception | RO-18 · RO-19 · 21 EDGE CASES | `png/board-R15-attribution-exception.png` | 3397×3636 | 3/3 | YES | 0 | 0 | 86c91e706f49 |
 | R16 | D · COMMISSIONS | Commission ledger · mobile | MOBILE | `png/board-R16-commissions-mobile.png` | 3160×2468 | 4/4 | YES | 0 | 0 | 4be36e17044b |
-| R17 | D · COMMISSIONS | Commission ledger · tablet | TABLET PORTRAIT + LANDSCAPE | `png/board-R17-commissions-tablet.png` | 3400×4148 | 4/4 | YES | 0 | 0 | d5d5bcb186f4 |
+| R17 | D · COMMISSIONS | Commission ledger · tablet | TABLET PORTRAIT + LANDSCAPE | `png/board-R17-commissions-tablet.png` | 3400×4148 | 4/4 | YES | 0 | 0 | 4949c702ebd2 |
 | R18 | D · COMMISSIONS | Commission ledger · desktop | DESKTOP | `png/board-R18-commissions-desktop.png` | 3148×2254 | 2/2 | YES | 0 | 0 | 1f822f324244 |
 | R19 | D · COMMISSIONS | Commission detail | CALCULATION · HISTORY | `png/board-R19-commission-detail.png` | 3302×2702 | 2/2 | YES | 0 | 0 | f17d3c37fdc0 |
 | R20 | D · COMMISSIONS | Commission approval | RO-12 · RO-13 | `png/board-R20-commission-approval.png` | 3169×2520 | 3/3 | YES | 0 | 0 | 99af33800c11 |
@@ -61,7 +61,7 @@ Every board also embeds frames from other tiers where useful (for example R14 ha
 | R38 | G · PARTNER PORTAL | Partner portal · desktop | DESKTOP | `png/board-R38-partner-portal-desktop.png` | 3148×3678 | 3/3 | YES | 0 | 0 | fa70431a10fb |
 | R39 | H · SHARED | Referral activity | ALL TIERS | `png/board-R39-referral-activity.png` | 3140×2180 | 3/3 | YES | 0 | 0 | dd87f81b01a2 |
 | R40 | H · SHARED | Overlay system | RO-01 … RO-20 | `png/board-R40-overlay-system.png` | 3140×5451 | 20/20 | YES | 0 | 0 | 97eafc1d1be1 |
-| R41 | H · SHARED | Responsive component matrix | M · TP · TL · D | `png/board-R41-responsive-component-matrix.png` | 3140×3146 | 4/4 | YES | 0 | 0 | e007c7c3aa57 |
+| R41 | H · SHARED | Responsive component matrix | M · TP · TL · D | `png/board-R41-responsive-component-matrix.png` | 3140×3146 | 4/4 | YES | 0 | 0 | 8f5ae2140e2c |
 | R42 | H · SHARED | Navigation and route tree | SIDEBAR · RAIL · MENU · BOTTOM BAR | `png/board-R42-navigation-route-tree.png` | 3400×2746 | 3/3 | YES | 0 | 0 | 3e5b62e5b4d5 |
 | R43 | H · SHARED | End-to-end attribution journey | PARTNER → DF ARTIFACT | `png/board-R43-e2e-attribution-journey.png` | 3248×2808 | 4/4 | NO | 0 | 0 | f565f0e73e0d |
 | R44 | H · SHARED | End-to-end commission and payout journey | PAYMENT → AUDIT | `png/board-R44-e2e-commission-payout-journey.png` | 3160×2189 | 4/4 | YES | 0 | 0 | 5ecd34e572fc |

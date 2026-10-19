@@ -599,8 +599,8 @@
         3400,
         4148
       ],
-      "bytes": 1038952,
-      "sha256": "d5d5bcb186f485e3596b25324554870a5ba8ec0b0951ddb75e3df9b895cc8363",
+      "bytes": 999722,
+      "sha256": "4949c702ebd2ba2e92a2298d1496c0cd7afe9c0dd790f5500310c6e9cf1b0cec",
       "live_frames": {
         "total": 4,
         "ready": 4
@@ -1159,8 +1159,8 @@
         3140,
         3146
       ],
-      "bytes": 646905,
-      "sha256": "e007c7c3aa57bbc5ef081243a2cf58d1aabc2bb5e9a886867730b60b1e03ca02",
+      "bytes": 633412,
+      "sha256": "8f5ae2140e2cf91a51204f88baa0867615a4fd2d9666de06e1b641e9abf96b4d",
       "live_frames": {
         "total": 4,
         "ready": 4

@@ -9,6 +9,56 @@ Machine-readable: `registry/referrals-component-registry.json` and `.csv`, built
 - **Numbering:** RF ids are grouped by family with gaps for later additions (RF-001…009 navigation/links, 010s overview, 020s partners, 030s partner detail, 040s attribution, 050s commissions, 060s payouts, 070s cards, 080s public/portal, 090s activity/analytics).
 
 
+## Component tree
+
+```
+SH-01 FounderWorkspaceShell
+├── SH-11 Sidebar / SH-10 IndexRail / SH-09 WorkspaceMenuDrawer ── RF-001 ReferralsDestination  (SH-08 BottomNav unchanged · RF-002)
+├── SH-04 GlobalSearch ── RF-004 · SH-05 NotificationCenter ── RF-005 · RF-006 ReferralsPermissions
+├── RF-010 ReferralsOverviewPage
+│   ├── RF-003 ReferralsSectionNav ── RO-S (phones)
+│   ├── RF-011 ReferralSignalsStrip ── RF-012 ReferralMetric ── RF-092 EvidenceAwareMetric
+│   ├── RF-013 ReferralFocusCard
+│   ├── RF-014 PartnersPanel ── RF-022 PartnerRow
+│   ├── RF-015 MoneyPanel ── RF-052 CommissionRow
+│   └── RF-016 CardStudioEntry ── RF-071 ReferralCard
+├── RF-020 PartnersRegistryPage
+│   ├── RF-021 PartnerStatusViews
+│   ├── RF-022 PartnerRow ── RF-023 PartnerThumb · RF-024 PartnerStatusMark
+│   ├── RF-025 PartnerInspector (SH-12)
+│   └── RO-01 · RO-04 · RO-06
+├── RF-030 PartnerDetailPage
+│   ├── RF-031 PartnerHeader ── RO-02 · RO-03 · RO-04 · RO-08 · RO-20
+│   ├── RF-032 PartnerOverviewSection ── RF-033 PlannedPartnerChecklist · RF-036 ReferralLinkBlock ── RF-072 QrMark
+│   ├── RF-034 PartnerTermsSection ── RO-05
+│   ├── RF-035 PartnerSectionPanels (REFERRALS · COMMISSIONS · PAYOUTS · CARDS · ACTIVITY)
+│   └── RF-037 AccessStateBlock
+├── RF-040 AttributionLedgerPage
+│   ├── RF-041 AttributionRow
+│   ├── RF-042 SourceTrace ── RF-043 EvidenceClassTag
+│   └── RF-044 AttributionExceptionQueue ── RO-18 → RO-19
+├── RF-050 CommissionsLedgerPage
+│   ├── RF-052 CommissionRow ── RF-051 CommissionStateChip
+│   └── RF-054 CommissionInspector = RO-11 (SH-12) ── RF-053 CommissionCalculation · RO-12 · RO-13
+├── RF-060 PayoutsPage
+│   ├── RF-061 PayoutPolicyBanner
+│   ├── RF-062 PayoutRow
+│   └── RF-063 PayoutInspector = RO-14 (SH-12) ── RF-064 PayeeRecord · RO-15 → RO-16 · RO-17
+├── RF-070 CardStudioPage
+│   ├── RF-071 ReferralCard ── RF-072 QrMark
+│   ├── RF-073 TemplatePicker
+│   ├── RF-074 PrintGate ── RF-076 QrValidator (RO-07) · RF-077 PrintProof (RO-10)
+│   ├── RF-075 DigitalShareActions ── RO-08 · RO-09
+│   └── RF-079 BatchRecord
+├── RF-090 ReferralActivityPage ── RF-091 ReferralEventRow
+├── CR-01 ClientRecordPage ── RF-008 ClientReferralSourceBlock · RF-009 ReferralBackLinks
+└── SY System ── RF-007 ReferralsDiagnostics
+
+SERVER  RF-045 AttributionResolver · RF-055 CommissionEngine · RF-078 PrintPackageExport
+PUBLIC  RF-080 InvitationEntryStates (/invite/:code, existing page)
+PORTAL  RF-081 PartnerPortalShell ── RF-082 PartnerHome · RF-083 PartnerCard (RF-071) · RF-084 PartnerEarnings · RF-085 PartnerTerms
+```
+
 ## NAVIGATION
 
 | ID | NAME | SOURCE RELATIONSHIP | PARENT → CHILDREN | PURPOSE | STATES | DATA / API | M · T · D | ACCESSIBILITY | SECURITY | PHASE | BOARDS |

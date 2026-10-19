@@ -9,11 +9,11 @@
 - Boards with any flag: **none**.
 
 ## 2. Responsive layout audit (`audit-layout.mjs`, Chromium)
-59 states × 16 viewports = **944 renders, 942 passed** every hard check.
+59 states × 16 viewports = **944 renders, 944 passed** every hard check.
 
 | CHECK | RENDERS WITH A FINDING |
 | --- | --- |
-| overflow | 2 |
+| overflow | 0 |
 | collision | 0 |
 | dimensions | 0 |
 | inspector | 0 |
@@ -22,13 +22,6 @@
 | minText | 0 |
 | fonts | 0 |
 | stretch (warning) | 17 |
-
-Failing renders:
-
-| STATE | VIEWPORT | FINDINGS |
-| --- | --- | --- |
-| page=partner&p=mer&sec=2 | 1280x800 | overflow: ['stage 1117 > 1056'] |
-| page=commissions | 1280x800 | overflow: ['stage 1100 > 1056'] |
 
 Viewports: 320x700, 375x812, 390x844, 430x932, 768x1024, 820x1180, 834x1112, 1024x768, 1194x834, 1280x800, 1366x768, 1440x900, 1600x900, 1920x1080, 2560x1440, 3440x1440. Machine-readable results: `verification/layout-audit.json`, summary `verification/layout-audit-summary.md`, contact sheets `verification/contact-sheets/`.
 
@@ -69,7 +62,8 @@ Defects found by visual inspection and fixed in this sprint:
 - mockup cards collapsing to zero width;
 - territory C front not distinct;
 - proof canvas scaling artwork to bleed;
-- TEST band hidden under the photograph.
+- TEST band hidden under the photograph;
+- eight-column commission ledger overflowing the 1280 × 800 stage (first audit run: 942 / 944; now uses the four-column template until the ledger is 1100 px wide).
 
 ## 4. Functional gate (§50) — specification level (no production code)
 | Gate | Result |
