@@ -16727,3 +16727,12 @@ Summary of the whole conversation in this chat.
 - **Sprint:** `P0.SITE00.IDNTY.FORM-CONTROL-IMPLEMENTATION.COMPOSER-CONSOLIDATED-A` on integration after #1660.
 - **Shipped:** System B checkbox CSS + `DfCheckMark` on P03/P04/P05; required CONTACT NUMBER with `libphonenumber-js` validation; `completeIntake` server guard; synthetic/fixture test phones; docs `form-control-implementation-consolidated-a/`.
 - **Grandfather:** already-`COMPLETE` intakes skip re-validation on `completeIntake`.
+
+---
+
+## 2026-10-19 — Staging deployment parity recovery (Composer1)
+
+- **Sprint:** `P0.SITE00.IDNTY.STAGING-DEPLOYMENT-PARITY-RECOVERY.COMPOSER1`.
+- **Verified:** Staging API **`255576b5`**; SPA runtime smoke — custom industry select (`button`), CONTACT NUMBER on live carefree-luck; missing JS → 404 plain text. Agent had no Railway deploy access; parity already restored on staging before doc commit.
+- **Shipped:** `docs/site00/idnty/staging-deployment-parity-recovery-composer1/`; `staging-live-spa-form-control-smoke.mjs`; parity script; staging build defaults `VITE_DF_CUSTOM_INDUSTRY_SELECT=1`.
+- **Next:** Founder-auth Sprint B E2E + iPhone Safari (`IPHONE_SAFARI_FOUNDER_QA.md`).
