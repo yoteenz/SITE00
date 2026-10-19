@@ -88,7 +88,7 @@ describe('P02 intake Phase 1 markup', () => {
     }
   });
 
-  it('prepares contact number label without aria-required', () => {
+  it('requires contact number on P02 with approved copy', () => {
     const m = html(
       createElement(P02Intake, {
         draft,
@@ -99,8 +99,10 @@ describe('P02 intake Phase 1 markup', () => {
       }),
     );
     expect(m).toContain('CONTACT NUMBER');
+    expect(m).toContain('df-field__required');
     expect(m).toContain('ENTER PHONE NUMBER');
-    expect(m).not.toMatch(/id="df-phone"[^>]*aria-required="true"/);
+    expect(m).toMatch(/id="df-phone"[^>]*aria-required="true"/);
+    expect(m).toContain('BACKUP CONTACT');
   });
 });
 

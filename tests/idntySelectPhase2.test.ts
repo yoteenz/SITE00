@@ -162,6 +162,7 @@ describe('industry persistence regression (memory store)', () => {
         contact_name: 'Pat',
         current_email: 'p@example.com',
         industry: 'OTHER',
+        phone: '901-555-0100',
         team_size: 1,
         needs: [],
       },

@@ -458,6 +458,7 @@ export function advanceSyntheticIntakeSubmitted(artifactId: string) {
       current_email: payload.lead.contact_email ?? payload.artifact.intake.current_email,
       team_size: payload.artifact.intake.team_size || 1,
       needs: payload.artifact.intake.needs?.length ? payload.artifact.intake.needs : ['NEED_DOMAIN'],
+      phone: payload.artifact.intake.phone?.trim() || '901-555-0199',
     },
     true,
   );

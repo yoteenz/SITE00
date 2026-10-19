@@ -17,6 +17,7 @@ import type {
   IntakeNeedFlag,
 } from '../../../shared/site00-digital-foundation/types.js';
 import type { ClientCatalogEntry } from './api';
+import { contactPhoneFieldError } from '../../../shared/site00-digital-foundation/contactPhone.js';
 import { formatUsPhoneDisplay } from './phoneFormat';
 
 export type DfIntakeView = 'P01' | 'P02' | 'P03' | 'P04' | 'P05' | 'P06';
@@ -346,7 +347,7 @@ export function intakeFromDraft(draft: IntakeDraft): Partial<DigitalFoundationIn
   return out;
 }
 
-export type IntakeField = 'business_name' | 'contact_name' | 'current_email' | 'existing_domain' | 'domainPath';
+export type IntakeField = 'business_name' | 'contact_name' | 'current_email' | 'phone' | 'existing_domain' | 'domainPath';
 export type IntakeErrors = Partial<Record<IntakeField, string>>;
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -359,6 +360,8 @@ export function validateBusinessInfo(draft: IntakeDraft): IntakeErrors {
   if (!draft.contact_name.trim()) errors.contact_name = 'ENTER THE PRIMARY CONTACT';
   if (!draft.current_email.trim()) errors.current_email = 'ENTER AN EMAIL ADDRESS';
   else if (!EMAIL_RE.test(draft.current_email.trim())) errors.current_email = 'CHECK THIS EMAIL ADDRESS';
+  const phoneErr = contactPhoneFieldError(draft.phone);
+  if (phoneErr) errors.phone = phoneErr;
   return errors;
 }
 
