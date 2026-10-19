@@ -18,6 +18,7 @@ import type {
 } from '../../../shared/site00-digital-foundation/types.js';
 import type { ClientCatalogEntry } from './api';
 import { contactPhoneFieldError } from '../../../shared/site00-digital-foundation/contactPhone.js';
+import { dfInputDisplayUpper } from './dfInputText';
 import { formatUsPhoneDisplay } from './phoneFormat';
 
 export type DfIntakeView = 'P01' | 'P02' | 'P03' | 'P04' | 'P05' | 'P06';
@@ -309,6 +310,25 @@ const CONFIGURABLE: ConfigurableNeed[] = [
   'UNSURE',
 ];
 
+const INTAKE_TEXT_FIELDS = [
+  'business_name',
+  'industry',
+  'contact_name',
+  'current_email',
+  'phone',
+  'existing_domain',
+  'existing_registrar',
+  'existing_email_provider',
+] as const satisfies readonly (keyof IntakeDraft)[];
+
+export function normalizeIntakeDraftText(draft: IntakeDraft): IntakeDraft {
+  const next = { ...draft };
+  for (const key of INTAKE_TEXT_FIELDS) {
+    next[key] = dfInputDisplayUpper(next[key]);
+  }
+  return next;
+}
+
 export function domainPathFromNeeds(needs: IntakeNeedFlag[]): DomainPath | null {
   if (needs.includes('LOST_DOMAIN')) return 'LOST';
   if (needs.includes('OWN_DOMAIN')) return 'OWN';
@@ -323,7 +343,7 @@ export function draftFromPayload(payload: ClientDigitalFoundationPayload): Intak
   const lead = payload.lead;
   const needs = intake.needs ?? [];
   const domainPath = domainPathFromNeeds(needs);
-  return {
+  return normalizeIntakeDraftText({
     business_name: intake.business_name ?? lead.business_name ?? '',
     industry: intake.industry ?? '',
     contact_name: intake.contact_name ?? lead.contact_name ?? '',
@@ -336,7 +356,7 @@ export function draftFromPayload(payload: ClientDigitalFoundationPayload): Intak
     domainPath,
     // UNSURE doubles as the domain "not sure" path; only count it as an extra need when a real path is chosen.
     needs: CONFIGURABLE.filter((f) => needs.includes(f) && !(f === 'UNSURE' && domainPath === 'UNSURE')),
-  };
+  });
 }
 
 export function needsFromDraft(draft: IntakeDraft): IntakeNeedFlag[] {
