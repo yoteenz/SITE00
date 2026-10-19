@@ -1,0 +1,1237 @@
+{
+  "boards": {
+    "R01": {
+      "source": "src/board-R01-overview-mobile.html",
+      "image": "png/board-R01-overview-mobile.png",
+      "css_px": [
+        1580,
+        2170
+      ],
+      "image_px": [
+        3160,
+        4340
+      ],
+      "bytes": 926647,
+      "sha256": "ea4be4a4a898166b2c322e50183d4f81d2503997fa08041d2d79f7f9a9d443cb",
+      "live_frames": {
+        "total": 8,
+        "ready": 8
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 8,
+        "failing": []
+      }
+    },
+    "R29": {
+      "source": "src/board-R29-card-front-concepts.html",
+      "image": "png/board-R29-card-front-concepts.png",
+      "css_px": [
+        1700,
+        1440
+      ],
+      "image_px": [
+        3400,
+        2880
+      ],
+      "bytes": 1102579,
+      "sha256": "b1f86c513f5ce9365cb07461f0843caac380440a24c9a1edb33bd2d49951d681",
+      "live_frames": {
+        "total": 6,
+        "ready": 6
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": false
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 6,
+        "failing": []
+      }
+    },
+    "R42": {
+      "source": "src/board-R42-navigation-route-tree.html",
+      "image": "png/board-R42-navigation-route-tree.png",
+      "css_px": [
+        1700,
+        1373
+      ],
+      "image_px": [
+        3400,
+        2746
+      ],
+      "bytes": 627514,
+      "sha256": "3e5b62e5b4d5906b828125ddfcfd31314262c251ae9177cb1deb3ec1e154d429",
+      "live_frames": {
+        "total": 3,
+        "ready": 3
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 3,
+        "failing": []
+      }
+    },
+    "R30": {
+      "source": "src/board-R30-card-back-concepts.html",
+      "image": "png/board-R30-card-back-concepts.png",
+      "css_px": [
+        1576,
+        1120
+      ],
+      "image_px": [
+        3152,
+        2240
+      ],
+      "bytes": 577214,
+      "sha256": "32f105ab216c37b133d927d01cf3fcc8f5ca7d1354d905d0fcf1e71c4dccd235",
+      "live_frames": {
+        "total": 6,
+        "ready": 6
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": false,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 6,
+        "failing": []
+      }
+    },
+    "R33": {
+      "source": "src/board-R33-print-preview.html",
+      "image": "png/board-R33-print-preview.png",
+      "css_px": [
+        1574,
+        1086
+      ],
+      "image_px": [
+        3148,
+        2172
+      ],
+      "bytes": 733679,
+      "sha256": "0fc395cf42030556d69ccd31feeef5402a12335a80fdbdf8b87bb9737d61822c",
+      "live_frames": {
+        "total": 2,
+        "ready": 2
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 2,
+        "failing": []
+      }
+    },
+    "R34": {
+      "source": "src/board-R34-print-production-specimen.html",
+      "image": "png/board-R34-print-production-specimen.png",
+      "css_px": [
+        1672,
+        1667
+      ],
+      "image_px": [
+        3343,
+        3334
+      ],
+      "bytes": 877594,
+      "sha256": "e6c99997aa9f492b055e49e3f1cfcc54195172648bb0bea6fb4bff000673ac38",
+      "live_frames": {
+        "total": 3,
+        "ready": 3
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 3,
+        "failing": []
+      }
+    },
+    "R02": {
+      "source": "src/board-R02-overview-tablet-portrait.html",
+      "image": "png/board-R02-overview-tablet-portrait.png",
+      "css_px": [
+        1664,
+        2509
+      ],
+      "image_px": [
+        3327,
+        5018
+      ],
+      "bytes": 1131746,
+      "sha256": "cfd30cb2646b23ae0b5f09d20547977b062e6e30bbc7b031ff4c34a2dbd005c8",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "R03": {
+      "source": "src/board-R03-overview-tablet-landscape.html",
+      "image": "png/board-R03-overview-tablet-landscape.png",
+      "css_px": [
+        1684,
+        1904
+      ],
+      "image_px": [
+        3368,
+        3808
+      ],
+      "bytes": 1178938,
+      "sha256": "234722695e67024d09295e9e702d970e6b0487393891656c43bce548789ca59e",
+      "live_frames": {
+        "total": 3,
+        "ready": 3
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 3,
+        "failing": []
+      }
+    },
+    "R04": {
+      "source": "src/board-R04-overview-desktop.html",
+      "image": "png/board-R04-overview-desktop.png",
+      "css_px": [
+        1604,
+        1858
+      ],
+      "image_px": [
+        3208,
+        3715
+      ],
+      "bytes": 1101412,
+      "sha256": "e2e1932e54fb2e892ec6cf2360be6d79026846339c36a85a854a712b90341f0f",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "R05": {
+      "source": "src/board-R05-overview-ultra-wide.html",
+      "image": "png/board-R05-overview-ultra-wide.png",
+      "css_px": [
+        1574,
+        1820
+      ],
+      "image_px": [
+        3148,
+        3640
+      ],
+      "bytes": 1029506,
+      "sha256": "338aa6e894e2eb579acf1f6303b151569f52840cdc435ff1604706c52dea0b71",
+      "live_frames": {
+        "total": 3,
+        "ready": 3
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 3,
+        "failing": []
+      }
+    },
+    "R06": {
+      "source": "src/board-R06-partners-mobile.html",
+      "image": "png/board-R06-partners-mobile.png",
+      "css_px": [
+        1580,
+        2143
+      ],
+      "image_px": [
+        3160,
+        4286
+      ],
+      "bytes": 1442825,
+      "sha256": "c1fd8b6156cee9468a5e055a10815544daba5986c2864bdb144da3ab75082dae",
+      "live_frames": {
+        "total": 8,
+        "ready": 8
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 8,
+        "failing": []
+      }
+    },
+    "R07": {
+      "source": "src/board-R07-partners-tablet.html",
+      "image": "png/board-R07-partners-tablet.png",
+      "css_px": [
+        1687,
+        2060
+      ],
+      "image_px": [
+        3374,
+        4120
+      ],
+      "bytes": 1147537,
+      "sha256": "055589903af189f5cbe6fbaa09c9dc471f9cbceceb48446b10f923cf0ef3b817",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "R08": {
+      "source": "src/board-R08-partners-desktop.html",
+      "image": "png/board-R08-partners-desktop.png",
+      "css_px": [
+        1574,
+        1507
+      ],
+      "image_px": [
+        3148,
+        3014
+      ],
+      "bytes": 932194,
+      "sha256": "192a52d5d3a5aafffcfcaff7e452193d4094e280107dc17f49c28699ce474a94",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "R09": {
+      "source": "src/board-R09-partner-detail-mobile.html",
+      "image": "png/board-R09-partner-detail-mobile.png",
+      "css_px": [
+        1580,
+        2162
+      ],
+      "image_px": [
+        3160,
+        4325
+      ],
+      "bytes": 1887463,
+      "sha256": "77cb50215ce5b9c2d648e113a4c5a8694c22f4f941ad0169ed7a6e92b79a4b5b",
+      "live_frames": {
+        "total": 8,
+        "ready": 8
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 8,
+        "failing": []
+      }
+    },
+    "R10": {
+      "source": "src/board-R10-partner-detail-desktop.html",
+      "image": "png/board-R10-partner-detail-desktop.png",
+      "css_px": [
+        1574,
+        2496
+      ],
+      "image_px": [
+        3148,
+        4993
+      ],
+      "bytes": 1078816,
+      "sha256": "3f941465bb66996d9f83f0489e36952cd57428dce408d3ffe077ea5ade3bdbe2",
+      "live_frames": {
+        "total": 5,
+        "ready": 5
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 5,
+        "failing": []
+      }
+    },
+    "R11": {
+      "source": "src/board-R11-partner-creation-terms.html",
+      "image": "png/board-R11-partner-creation-terms.png",
+      "css_px": [
+        1700,
+        1589
+      ],
+      "image_px": [
+        3400,
+        3178
+      ],
+      "bytes": 736139,
+      "sha256": "f192110cb50baa6e3e7029b2d09a8052b18efd63751b4920d00ca72ffa82fd20",
+      "live_frames": {
+        "total": 5,
+        "ready": 5
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 5,
+        "failing": []
+      }
+    },
+    "R12": {
+      "source": "src/board-R12-referral-history-mobile.html",
+      "image": "png/board-R12-referral-history-mobile.png",
+      "css_px": [
+        1580,
+        1234
+      ],
+      "image_px": [
+        3160,
+        2468
+      ],
+      "bytes": 753644,
+      "sha256": "48b0d10fe999921329d32d28400ee13aab11d157ec59e368a2cad32bd7a16e99",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "R13": {
+      "source": "src/board-R13-attribution-ledger-desktop.html",
+      "image": "png/board-R13-attribution-ledger-desktop.png",
+      "css_px": [
+        1590,
+        2466
+      ],
+      "image_px": [
+        3179,
+        4932
+      ],
+      "bytes": 1252320,
+      "sha256": "d886a18dfc4c95de860eca0edcc9fab1a0d24895026edd6a824fa0e06d8a6085",
+      "live_frames": {
+        "total": 3,
+        "ready": 3
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 3,
+        "failing": []
+      }
+    },
+    "R14": {
+      "source": "src/board-R14-source-trace.html",
+      "image": "png/board-R14-source-trace.png",
+      "css_px": [
+        1606,
+        1273
+      ],
+      "image_px": [
+        3212,
+        2546
+      ],
+      "bytes": 562318,
+      "sha256": "4d60c43e0287259fd06174bf978cfce714288142b3d11b7c0066484839aa0ae5",
+      "live_frames": {
+        "total": 2,
+        "ready": 2
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 2,
+        "failing": []
+      }
+    },
+    "R15": {
+      "source": "src/board-R15-attribution-exception.html",
+      "image": "png/board-R15-attribution-exception.png",
+      "css_px": [
+        1699,
+        1818
+      ],
+      "image_px": [
+        3397,
+        3636
+      ],
+      "bytes": 895962,
+      "sha256": "86c91e706f49708026834f45521370951caec7450a5eb61fa31522a04b083166",
+      "live_frames": {
+        "total": 3,
+        "ready": 3
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 3,
+        "failing": []
+      }
+    },
+    "R16": {
+      "source": "src/board-R16-commissions-mobile.html",
+      "image": "png/board-R16-commissions-mobile.png",
+      "css_px": [
+        1580,
+        1234
+      ],
+      "image_px": [
+        3160,
+        2468
+      ],
+      "bytes": 503376,
+      "sha256": "4be36e17044bb4b692c3408932deaa569d16b30ef01fa1eee29f1884ed361b7d",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "R17": {
+      "source": "src/board-R17-commissions-tablet.html",
+      "image": "png/board-R17-commissions-tablet.png",
+      "css_px": [
+        1700,
+        2074
+      ],
+      "image_px": [
+        3400,
+        4148
+      ],
+      "bytes": 1038952,
+      "sha256": "d5d5bcb186f485e3596b25324554870a5ba8ec0b0951ddb75e3df9b895cc8363",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "R18": {
+      "source": "src/board-R18-commissions-desktop.html",
+      "image": "png/board-R18-commissions-desktop.png",
+      "css_px": [
+        1574,
+        1127
+      ],
+      "image_px": [
+        3148,
+        2254
+      ],
+      "bytes": 726404,
+      "sha256": "1f822f324244a0ce7a836a08e2f610743f67dde2c2b0c5ae8131dcfd2595ea23",
+      "live_frames": {
+        "total": 2,
+        "ready": 2
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 2,
+        "failing": []
+      }
+    },
+    "R19": {
+      "source": "src/board-R19-commission-detail.html",
+      "image": "png/board-R19-commission-detail.png",
+      "css_px": [
+        1651,
+        1351
+      ],
+      "image_px": [
+        3302,
+        2702
+      ],
+      "bytes": 446989,
+      "sha256": "f17d3c37fdc0198e42c4208277c544235c5be4c45062eb390c002f3f3f94237c",
+      "live_frames": {
+        "total": 2,
+        "ready": 2
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 2,
+        "failing": []
+      }
+    },
+    "R20": {
+      "source": "src/board-R20-commission-approval.html",
+      "image": "png/board-R20-commission-approval.png",
+      "css_px": [
+        1584,
+        1260
+      ],
+      "image_px": [
+        3169,
+        2520
+      ],
+      "bytes": 487209,
+      "sha256": "99af33800c11e53902c235dc63cb580a549427f332d75bf8ef1358d25ca73cfc",
+      "live_frames": {
+        "total": 3,
+        "ready": 3
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 3,
+        "failing": []
+      }
+    },
+    "R21": {
+      "source": "src/board-R21-payouts-mobile.html",
+      "image": "png/board-R21-payouts-mobile.png",
+      "css_px": [
+        1580,
+        1234
+      ],
+      "image_px": [
+        3160,
+        2468
+      ],
+      "bytes": 504380,
+      "sha256": "1261365d943821102503f67366f26b6fa4896ff527edfe75c0173e160782a57f",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "R22": {
+      "source": "src/board-R22-payouts-tablet.html",
+      "image": "png/board-R22-payouts-tablet.png",
+      "css_px": [
+        1679,
+        1417
+      ],
+      "image_px": [
+        3358,
+        2834
+      ],
+      "bytes": 524037,
+      "sha256": "32fabfe2ad9e1dfdfae722d92c89fc059f9139dfe7142c828127fc8cf41dd886",
+      "live_frames": {
+        "total": 2,
+        "ready": 2
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 2,
+        "failing": []
+      }
+    },
+    "R23": {
+      "source": "src/board-R23-payouts-desktop.html",
+      "image": "png/board-R23-payouts-desktop.png",
+      "css_px": [
+        1574,
+        916
+      ],
+      "image_px": [
+        3148,
+        1832
+      ],
+      "bytes": 571260,
+      "sha256": "a2cda5eff574233e57ab59b671ffc3d899b3815f5374c0d9f5a5c5b7386e1b11",
+      "live_frames": {
+        "total": 2,
+        "ready": 2
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 2,
+        "failing": []
+      }
+    },
+    "R24": {
+      "source": "src/board-R24-payout-detail.html",
+      "image": "png/board-R24-payout-detail.png",
+      "css_px": [
+        1576,
+        763
+      ],
+      "image_px": [
+        3152,
+        1526
+      ],
+      "bytes": 354550,
+      "sha256": "99a7fc2252c101fd2ddcf486d475088ceb184645c7bfcdd91eb9a9847bee1658",
+      "live_frames": {
+        "total": 3,
+        "ready": 3
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 3,
+        "failing": []
+      }
+    },
+    "R25": {
+      "source": "src/board-R25-record-payment.html",
+      "image": "png/board-R25-record-payment.png",
+      "css_px": [
+        1576,
+        1081
+      ],
+      "image_px": [
+        3152,
+        2161
+      ],
+      "bytes": 427850,
+      "sha256": "3fa1f8f012e2f089b5f735df4878d1a0fec79fdfc198357794632766499f14cf",
+      "live_frames": {
+        "total": 3,
+        "ready": 3
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 3,
+        "failing": []
+      }
+    },
+    "R26": {
+      "source": "src/board-R26-card-studio-mobile.html",
+      "image": "png/board-R26-card-studio-mobile.png",
+      "css_px": [
+        1580,
+        1234
+      ],
+      "image_px": [
+        3160,
+        2468
+      ],
+      "bytes": 828852,
+      "sha256": "21b2d4f9720258dde450b5dbbf76be5e24e5d0821ef05a1ae1b83ae713f8af41",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "R27": {
+      "source": "src/board-R27-card-studio-tablet.html",
+      "image": "png/board-R27-card-studio-tablet.png",
+      "css_px": [
+        1700,
+        1431
+      ],
+      "image_px": [
+        3400,
+        2862
+      ],
+      "bytes": 848953,
+      "sha256": "b7ce2bd265a2f769a6cafb4f93a6d2e03c99add3bd22bf7a8f2cdde09423fc43",
+      "live_frames": {
+        "total": 2,
+        "ready": 2
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 2,
+        "failing": []
+      }
+    },
+    "R28": {
+      "source": "src/board-R28-card-studio-desktop.html",
+      "image": "png/board-R28-card-studio-desktop.png",
+      "css_px": [
+        1574,
+        1839
+      ],
+      "image_px": [
+        3148,
+        3678
+      ],
+      "bytes": 1209836,
+      "sha256": "ff5d502a2fe5f169f0200d362108180953980839043f43570ef801e1b7570553",
+      "live_frames": {
+        "total": 3,
+        "ready": 3
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 3,
+        "failing": []
+      }
+    },
+    "R31": {
+      "source": "src/board-R31-qr-validation.html",
+      "image": "png/board-R31-qr-validation.png",
+      "css_px": [
+        1643,
+        1351
+      ],
+      "image_px": [
+        3287,
+        2702
+      ],
+      "bytes": 496030,
+      "sha256": "32c58366da3bf338f9285b55e835e103216b3e3ec7349ff753238d8e37d36545",
+      "live_frames": {
+        "total": 3,
+        "ready": 3
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 3,
+        "failing": []
+      }
+    },
+    "R32": {
+      "source": "src/board-R32-digital-card-share.html",
+      "image": "png/board-R32-digital-card-share.png",
+      "css_px": [
+        1676,
+        1899
+      ],
+      "image_px": [
+        3353,
+        3798
+      ],
+      "bytes": 2077238,
+      "sha256": "45a31699b7fafd772b2ab48380a8d487da7bba0a03ed5b6f412480aee2513c7c",
+      "live_frames": {
+        "total": 7,
+        "ready": 7
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 7,
+        "failing": []
+      }
+    },
+    "R35": {
+      "source": "src/board-R35-partner-portal-mobile-home.html",
+      "image": "png/board-R35-partner-portal-mobile-home.png",
+      "css_px": [
+        1652,
+        1541
+      ],
+      "image_px": [
+        3303,
+        3082
+      ],
+      "bytes": 598934,
+      "sha256": "a088114f7b717f442ed22dd34543fb6d7b031d6a31d849c23091a10fb62bb1f8",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "R36": {
+      "source": "src/board-R36-partner-portal-mobile-card.html",
+      "image": "png/board-R36-partner-portal-mobile-card.png",
+      "css_px": [
+        1570,
+        1301
+      ],
+      "image_px": [
+        3140,
+        2602
+      ],
+      "bytes": 863153,
+      "sha256": "00b663c0865e1210a2b16b915fdbd4ce63f8f3870257467e8811945089cd980e",
+      "live_frames": {
+        "total": 3,
+        "ready": 3
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 3,
+        "failing": []
+      }
+    },
+    "R37": {
+      "source": "src/board-R37-partner-portal-mobile-earnings.html",
+      "image": "png/board-R37-partner-portal-mobile-earnings.png",
+      "css_px": [
+        1570,
+        1301
+      ],
+      "image_px": [
+        3140,
+        2602
+      ],
+      "bytes": 449798,
+      "sha256": "642668812168d1538bbc69137bdb218c48cecbb9af572da386cbb985d10b7842",
+      "live_frames": {
+        "total": 3,
+        "ready": 3
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 3,
+        "failing": []
+      }
+    },
+    "R38": {
+      "source": "src/board-R38-partner-portal-desktop.html",
+      "image": "png/board-R38-partner-portal-desktop.png",
+      "css_px": [
+        1574,
+        1839
+      ],
+      "image_px": [
+        3148,
+        3678
+      ],
+      "bytes": 578573,
+      "sha256": "fa70431a10fb7c0eb0c3ec19968d5f34d0201355998534a0eb2556dcdcbcb172",
+      "live_frames": {
+        "total": 3,
+        "ready": 3
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 3,
+        "failing": []
+      }
+    },
+    "R39": {
+      "source": "src/board-R39-referral-activity.html",
+      "image": "png/board-R39-referral-activity.png",
+      "css_px": [
+        1570,
+        1090
+      ],
+      "image_px": [
+        3140,
+        2180
+      ],
+      "bytes": 466879,
+      "sha256": "dd87f81b01a22495c41605c84680d08322d1299b424b6f1038699350a6bd8a25",
+      "live_frames": {
+        "total": 3,
+        "ready": 3
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 3,
+        "failing": []
+      }
+    },
+    "R40": {
+      "source": "src/board-R40-overlay-system.html",
+      "image": "png/board-R40-overlay-system.png",
+      "css_px": [
+        1570,
+        2725
+      ],
+      "image_px": [
+        3140,
+        5451
+      ],
+      "bytes": 1661378,
+      "sha256": "97eafc1d1be1153b95a75fdb7d250a0dd125d75f776012c0104684daa07a8f4f",
+      "live_frames": {
+        "total": 20,
+        "ready": 20
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 20,
+        "failing": []
+      }
+    },
+    "R41": {
+      "source": "src/board-R41-responsive-component-matrix.html",
+      "image": "png/board-R41-responsive-component-matrix.png",
+      "css_px": [
+        1570,
+        1573
+      ],
+      "image_px": [
+        3140,
+        3146
+      ],
+      "bytes": 646905,
+      "sha256": "e007c7c3aa57bbc5ef081243a2cf58d1aabc2bb5e9a886867730b60b1e03ca02",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "R43": {
+      "source": "src/board-R43-e2e-attribution-journey.html",
+      "image": "png/board-R43-e2e-attribution-journey.png",
+      "css_px": [
+        1624,
+        1404
+      ],
+      "image_px": [
+        3248,
+        2808
+      ],
+      "bytes": 828451,
+      "sha256": "f565f0e73e0d7fb86b5f26a450705ef85d82ba8190578048fe396bc4ccd46ce0",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": false,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "R44": {
+      "source": "src/board-R44-e2e-commission-payout-journey.html",
+      "image": "png/board-R44-e2e-commission-payout-journey.png",
+      "css_px": [
+        1580,
+        1095
+      ],
+      "image_px": [
+        3160,
+        2189
+      ],
+      "bytes": 550876,
+      "sha256": "5ecd34e572fc1b24837384b06c58785c721aa4c88d6576c193c2a68adc6ee1cb",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    }
+  },
+  "renderer": "boards/render-boards.mjs (Vite SSR data + Playwright Chromium, deviceScaleFactor 2; live specimens in iframes at true viewport widths)"
+}

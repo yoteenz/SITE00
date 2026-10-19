@@ -1,0 +1,29 @@
+/* Board chrome additions for the Opus 3 REFERRALS boards (extends OPUS1 board.css + OPUS2 board2.css). Never part of the product. */
+.bd-chain { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); border: 1px solid #0c0c0c; background: #fff; }
+.bd-chain > div { position: relative; display: flex; flex-direction: column; gap: 6px; padding: 12px 12px 12px 14px; border-right: 1px solid #c9c7c2; min-width: 0; }
+.bd-chain > div:last-child { border-right: 0; }
+.bd-chain b { font-family: 'SITE 00 Display', sans-serif; font-size: 22px; font-weight: 900; line-height: 1; }
+.bd-chain span { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; }
+.bd-chain small { font-size: 9.5px; letter-spacing: 0.06em; line-height: 1.45; color: #75736e; text-transform: uppercase; }
+.bd-chain .on { background: #0c0c0c; color: #fff; }
+.bd-chain .on small { color: #c9c7c2; }
+.bd-chain .red { box-shadow: inset 0 3px 0 #ce1017; }
+.bd-sm { display: grid; gap: 10px; }
+.bd-sm__row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.bd-sm__s { padding: 8px 10px; border: 1px solid #0c0c0c; background: #fff; font-size: 10.5px; font-weight: 700; letter-spacing: 0.14em; white-space: nowrap; }
+.bd-sm__s--term { background: #0c0c0c; color: #fff; }
+.bd-sm__s--red { border-color: #ce1017; color: #ce1017; }
+.bd-sm__s--dash { border-style: dashed; color: #75736e; }
+.bd-sm__a { font-size: 9px; letter-spacing: 0.12em; color: #75736e; display: flex; flex-direction: column; align-items: center; line-height: 1.2; }
+.bd-sm__a::after { content: '→'; font-size: 14px; color: #0c0c0c; }
+.bd-tree { font-size: 11px; letter-spacing: 0.08em; line-height: 1.75; font-weight: 600; white-space: pre; font-variant-numeric: tabular-nums; background: #fff; border: 1px solid #0c0c0c; padding: 16px 18px; }
+.bd-tree em { font-style: normal; color: #ce1017; }
+.bd-tree i { font-style: normal; color: #75736e; font-weight: 500; }
+.bd-pal { display: flex; gap: 0; border: 1px solid #0c0c0c; }
+.bd-pal > div { flex: 1; padding: 46px 10px 8px; font-size: 9.5px; font-weight: 700; letter-spacing: 0.12em; border-right: 1px solid #c9c7c2; }
+.bd-pal > div:last-child { border-right: 0; }
+.bd-mat td.y { color: #0c0c0c; font-weight: 700; }
+.bd-mat td.d { color: #75736e; }
+.bd-bul { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; font-size: 11px; line-height: 1.5; letter-spacing: 0.03em; }
+.bd-bul li { padding-left: 14px; position: relative; }
+.bd-bul li::before { content: ''; position: absolute; left: 0; top: 7px; width: 6px; height: 2px; background: #ce1017; }

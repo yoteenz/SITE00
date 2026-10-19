@@ -1,0 +1,374 @@
+{
+ "RO-01": {
+  "name": "CREATE PARTNER",
+  "base": {
+   "page": "partners"
+  },
+  "m": "full",
+  "t": "dialog",
+  "d": "dialog",
+  "title": "CREATE PARTNER",
+  "buttons": [
+   "CANCEL",
+   "CREATE DRAFT"
+  ],
+  "labels": [
+   "LEGAL NAME*",
+   "DISPLAY NAME",
+   "PARTNER TYPE · PROPOSED, NOT FINAL ENUMS",
+   "CONTACT EMAIL*",
+   "RELATIONSHIP OWNER"
+  ]
+ },
+ "RO-02": {
+  "name": "EDIT PARTNER",
+  "base": {
+   "page": "partner",
+   "p": "mer"
+  },
+  "m": "full",
+  "t": "dialog",
+  "d": "dialog",
+  "title": "EDIT PARTNER",
+  "buttons": [
+   "CANCEL",
+   "SAVE CHANGES"
+  ],
+  "labels": [
+   "LEGAL NAME",
+   "DISPLAY NAME",
+   "CONTACT EMAIL",
+   "NOTES · FOUNDER ONLYOPTIONAL"
+  ]
+ },
+ "RO-03": {
+  "name": "INVITE PARTNER",
+  "base": {
+   "page": "partner",
+   "p": "riv"
+  },
+  "m": "sheet",
+  "t": "dialog",
+  "d": "dialog",
+  "title": "INVITE PARTNER",
+  "buttons": [
+   "CANCEL",
+   "SEND INVITATION (DISABLED)"
+  ],
+  "labels": []
+ },
+ "RO-04": {
+  "name": "PARTNER STATUS CHANGE",
+  "base": {
+   "page": "partner",
+   "p": "kes"
+  },
+  "m": "sheet",
+  "t": "dialog",
+  "d": "dialog",
+  "title": "CHANGE PARTNER STATUS",
+  "buttons": [
+   "CANCEL",
+   "SUSPEND PARTNER"
+  ],
+  "labels": [
+   "REASON*"
+  ]
+ },
+ "RO-05": {
+  "name": "COMMISSION TERMS EDITOR",
+  "base": {
+   "page": "partner",
+   "p": "mer",
+   "sec": 5
+  },
+  "m": "full",
+  "t": "dialog",
+  "d": "dialog",
+  "title": "COMMISSION TERMS",
+  "buttons": [
+   "CANCEL",
+   "SAVE TERMS V3 (DISABLED)"
+  ],
+  "labels": [
+   "COMPENSATION TYPE · FD-R01",
+   "RATE OR AMOUNT · FD-R03*",
+   "EFFECTIVE FROM*",
+   "BASIS · FD-R02",
+   "TRIGGER · FD-R04",
+   "CAP (OPTIONAL)OPTIONAL"
+  ]
+ },
+ "RO-06": {
+  "name": "REFERRAL LINK PREVIEW",
+  "base": {
+   "page": "partner",
+   "p": "mer"
+  },
+  "m": "sheet",
+  "t": "popover",
+  "d": "popover",
+  "title": "REFERRAL LINK",
+  "buttons": [
+   "COPY",
+   "OPEN PREVIEW",
+   "REVOKE…"
+  ],
+  "labels": []
+ },
+ "RO-07": {
+  "name": "QR VALIDATION RESULT",
+  "base": {
+   "page": "cards"
+  },
+  "m": "full",
+  "t": "dialog",
+  "d": "dialog",
+  "title": "QR VALIDATION",
+  "buttons": [
+   "RE-RUN CHECKS",
+   "RECORD DEVICE SCAN"
+  ],
+  "labels": []
+ },
+ "RO-08": {
+  "name": "CARD SHARE SHEET",
+  "base": {
+   "page": "partner",
+   "p": "mer",
+   "sec": 4
+  },
+  "m": "sheet",
+  "t": "popover",
+  "d": "popover",
+  "title": "SHARE CARD",
+  "buttons": [
+   "SHARE VIA DEVICE",
+   "COPY LINK",
+   "DOWNLOAD PNG"
+  ],
+  "labels": []
+ },
+ "RO-09": {
+  "name": "CARD EXPORT DIALOG",
+  "base": {
+   "page": "cards"
+  },
+  "m": "full",
+  "t": "dialog",
+  "d": "dialog",
+  "title": "EXPORT CARD",
+  "buttons": [
+   "CANCEL",
+   "EXPORT PNG"
+  ],
+  "labels": []
+ },
+ "RO-10": {
+  "name": "PRINT PROOF",
+  "base": {
+   "page": "cards"
+  },
+  "m": "full",
+  "t": "dialog",
+  "d": "dialog",
+  "title": "PRINT PROOF",
+  "buttons": [
+   "REJECT PROOF",
+   "APPROVE PROOF (DISABLED)"
+  ],
+  "labels": []
+ },
+ "RO-11": {
+  "name": "COMMISSION DETAIL",
+  "base": {
+   "page": "commissions",
+   "insp": "commission"
+  },
+  "m": null,
+  "t": null,
+  "d": null,
+  "title": null,
+  "buttons": [],
+  "labels": []
+ },
+ "RO-12": {
+  "name": "COMMISSION APPROVAL",
+  "base": {
+   "page": "commissions",
+   "insp": "commission"
+  },
+  "m": "sheet",
+  "t": "dialog",
+  "d": "dialog",
+  "title": "APPROVE COMMISSION?",
+  "buttons": [
+   "CANCEL",
+   "APPROVE"
+  ],
+  "labels": []
+ },
+ "RO-13": {
+  "name": "COMMISSION ADJUSTMENT",
+  "base": {
+   "page": "commissions",
+   "insp": "commission"
+  },
+  "m": "full",
+  "t": "dialog",
+  "d": "dialog",
+  "title": "ADJUST COMMISSION",
+  "buttons": [
+   "CANCEL",
+   "RECORD ADJUSTMENT"
+  ],
+  "labels": [
+   "ADJUSTMENT*",
+   "REFERENCE*",
+   "REASON*"
+  ]
+ },
+ "RO-14": {
+  "name": "PAYOUT DETAIL",
+  "base": {
+   "page": "payouts",
+   "insp": "payout"
+  },
+  "m": null,
+  "t": null,
+  "d": null,
+  "title": null,
+  "buttons": [],
+  "labels": []
+ },
+ "RO-15": {
+  "name": "RECORD PAYMENT",
+  "base": {
+   "page": "payouts",
+   "insp": "payout"
+  },
+  "m": "full",
+  "t": "dialog",
+  "d": "dialog",
+  "title": "RECORD PAYMENT",
+  "buttons": [
+   "CANCEL",
+   "CONTINUE"
+  ],
+  "labels": [
+   "AMOUNT PAID*",
+   "PAID ON*",
+   "METHOD*",
+   "REFERENCE*",
+   "RECEIPTOPTIONAL"
+  ]
+ },
+ "RO-16": {
+  "name": "CONFIRM PAYMENT",
+  "base": {
+   "page": "payouts",
+   "insp": "payout"
+  },
+  "m": "sheet",
+  "t": "dialog",
+  "d": "dialog",
+  "title": "CONFIRM PAYMENT",
+  "buttons": [
+   "BACK",
+   "MARK PAID"
+  ],
+  "labels": []
+ },
+ "RO-17": {
+  "name": "PAYOUT REVERSAL",
+  "base": {
+   "page": "payouts",
+   "insp": "payout"
+  },
+  "m": "full",
+  "t": "dialog",
+  "d": "dialog",
+  "title": "PAYOUT REVERSAL",
+  "buttons": [
+   "CANCEL",
+   "RECORD REVERSAL"
+  ],
+  "labels": [
+   "NOTE*"
+  ]
+ },
+ "RO-18": {
+  "name": "ATTRIBUTION EXCEPTION",
+  "base": {
+   "page": "attribution"
+  },
+  "m": "full",
+  "t": "dialog",
+  "d": "dialog",
+  "title": "ATTRIBUTION EXCEPTION",
+  "buttons": [
+   "CANCEL",
+   "CONTINUE TO CORRECTION"
+  ],
+  "labels": []
+ },
+ "RO-19": {
+  "name": "MANUAL ATTRIBUTION CORRECTION",
+  "base": {
+   "page": "attribution"
+  },
+  "m": "full",
+  "t": "dialog",
+  "d": "dialog",
+  "title": "MANUAL ATTRIBUTION CORRECTION",
+  "buttons": [
+   "CANCEL",
+   "APPLY CORRECTION (DISABLED)"
+  ],
+  "labels": [
+   "EVIDENCE / REASON*"
+  ]
+ },
+ "RO-20": {
+  "name": "PARTNER ACCESS REVOCATION",
+  "base": {
+   "page": "partner",
+   "p": "kes"
+  },
+  "m": "sheet",
+  "t": "dialog",
+  "d": "dialog",
+  "title": "REVOKE PARTNER ACCESS",
+  "buttons": [
+   "CANCEL",
+   "REVOKE ACCESS (DISABLED)"
+  ],
+  "labels": [
+   "TYPE REVOKE TO CONFIRM"
+  ]
+ },
+ "RO-M": {
+  "name": "WORKSPACE MENU · REFERRALS",
+  "base": {
+   "page": "overview"
+  },
+  "m": "drawer",
+  "t": "drawer",
+  "d": "none",
+  "title": "MENU",
+  "buttons": [],
+  "labels": []
+ },
+ "RO-S": {
+  "name": "SECTION SELECT (PHONE)",
+  "base": {
+   "page": "overview"
+  },
+  "m": "sheet",
+  "t": "none",
+  "d": "none",
+  "title": "SECTION",
+  "buttons": [],
+  "labels": []
+ }
+}
