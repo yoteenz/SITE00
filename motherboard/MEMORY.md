@@ -16701,3 +16701,12 @@ Summary of the whole conversation in this chat.
 - **Symptom:** Synthetic `/foundation/:token` worked until refresh/restart; dashboard client vanished; link → “ISN'T ACTIVE”.
 - **Root cause:** Supabase upserts ignored errors; referral_source FK failed (random in-memory UUIDs never seeded in DB); artifacts only in Railway memory. Staging DB had **0** DF rows — original founder test artifact **not recoverable**.
 - **Fix:** Stable `DF_REFERRAL_SOURCE_ID`, seed referral rows on persist, `DfPersistenceError` + `createArtifactForLeadDurable`, await persist on test-client create, 404 when Supabase miss, reset rehydrates from DB. Report: `docs/site00/idnty/PERSISTENT_ARTIFACT_RECOVERY_REPORT.md`. Migration service_role policies applied staging `soocqbyjkxeubfjnuwvf`.
+
+---
+
+## 2026-10-19 — IDNTY form control Phase 1 implementation (Composer)
+
+- **Sprint:** `P0.SITE00.IDNTY.FORM-CONTROL-IMPLEMENTATION.COMPOSER-PHASE1` on integration branch `cursor/idnty-founder-readiness-e2e-be3b`; authority Opus2 `c5a773381` / PR #1658 (docs only, not blind-merged); persistence #1657 preserved.
+- **Shipped:** `DfField` required `*` + optional `OPTIONAL`; P02 unified on `DfField` (CONTACT NUMBER label/hint, phone still optional); native select chevron → `df-native-select__chev` (C-1); component tokens + coarse-pointer 16px inputs (NF-01); `.df-chip` styles (NF-02); checkbox edge token `#8f8d88` (NF-06 prep); tests `tests/dfFormControlPhase1.test.ts`; docs `docs/site00/idnty/form-control-implementation-phase1/`.
+- **Not in Phase 1:** Business Type sheet, System B checkboxes, phone required, progression/save/API changes. PR left unmerged per sprint.
+- **Verify:** Playwright iPhone profile on workspace Vite `:5175` → business name input 16px; screenshots `/opt/cursor/artifacts/df-phase1-visual/`.
