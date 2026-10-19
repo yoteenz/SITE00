@@ -47,6 +47,7 @@ describe('site00SignUpWithPassword', () => {
   beforeEach(() => {
     signUpMock.mockReset();
     getSessionMock.mockReset();
+    vi.stubGlobal('window', { location: { origin: 'https://carefree-luck-staging.up.railway.app' } });
   });
 
   it('rejects password mismatch', async () => {
@@ -79,8 +80,17 @@ describe('site00SignUpWithPassword', () => {
       email: 'new@example.com',
       password: 'secret123',
       confirmPassword: 'secret123',
+      returnPath: '/admin/site00/foundation-readiness',
     });
     expect(result).toEqual({ ok: true, kind: 'verification_required', email: 'new@example.com' });
+    expect(signUpMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        options: expect.objectContaining({
+          emailRedirectTo:
+            'https://carefree-luck-staging.up.railway.app/origin/sign-in?returnTo=%2Fadmin%2Fsite00%2Ffoundation-readiness',
+        }),
+      }),
+    );
   });
 
   it('maps already-registered errors safely', async () => {

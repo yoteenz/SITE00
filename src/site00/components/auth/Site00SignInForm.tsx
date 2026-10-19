@@ -1,10 +1,12 @@
 import { FormEvent, useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
+  site00CompletePasswordRecovery,
   site00RequestPasswordReset,
   site00SignInWithMagicLink,
   site00SignInWithPassword,
 } from '../../../utils/auth/site00SignInActions';
+import { isSite00PasswordRecoveryHash } from '../../../utils/auth/site00AuthRedirect';
 import { readSignInFieldValues } from '../../../utils/auth/site00SignInFormValues';
 import { resolveSite00ReturnToAfterSignIn } from '../../../utils/signInReturnTo';
 import { SITE00_ROUTES, site00CreateAccountLinkTarget } from '../../config/routes';
@@ -24,6 +26,11 @@ export function Site00SignInForm({ layout = 'desktop' }: Site00SignInFormProps) 
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [info, setInfo] = useState('');
+  const [recoveryMode, setRecoveryMode] = useState(() =>
+    typeof window !== 'undefined' ? isSite00PasswordRecoveryHash(window.location.hash) : false,
+  );
+  const [nextPassword, setNextPassword] = useState('');
+  const [confirmNextPassword, setConfirmNextPassword] = useState('');
   const formRef = useRef<HTMLFormElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
@@ -118,7 +125,8 @@ export function Site00SignInForm({ layout = 'desktop' }: Site00SignInFormProps) 
     }
     setSubmitting(true);
     try {
-      const result = await site00RequestPasswordReset(emailValue);
+      const returnTo = new URLSearchParams(location.search).get('returnTo');
+      const result = await site00RequestPasswordReset(emailValue, returnTo);
       if (!result.ok) {
         setError(result.message);
         return;
@@ -129,7 +137,75 @@ export function Site00SignInForm({ layout = 'desktop' }: Site00SignInFormProps) 
     }
   };
 
+  const onSetRecoveredPassword = async (event: FormEvent) => {
+    event.preventDefault();
+    setError('');
+    setInfo('');
+    if (nextPassword !== confirmNextPassword) {
+      setError('PASSWORDS DO NOT MATCH.');
+      return;
+    }
+    setSubmitting(true);
+    try {
+      const result = await site00CompletePasswordRecovery(nextPassword);
+      if (!result.ok) {
+        setError(result.message);
+        return;
+      }
+      setRecoveryMode(false);
+      redirectAfterSignIn();
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   const createAccountTo = site00CreateAccountLinkTarget(location);
+
+  if (recoveryMode) {
+    return (
+      <div className={`site00-signin-form site00-signin-form--${layout}`.trim()}>
+        <form className="site00-signin-form__body" onSubmit={(event) => void onSetRecoveredPassword(event)}>
+          <label className="site00-signin-form__label" htmlFor={`${passwordInputId}-new`}>
+            NEW PASSWORD
+          </label>
+          <input
+            id={`${passwordInputId}-new`}
+            name="new-password"
+            type={showPassword ? 'text' : 'password'}
+            autoComplete="new-password"
+            value={nextPassword}
+            onChange={(event) => setNextPassword(event.target.value)}
+            className="site00-signin-form__input"
+            disabled={submitting}
+          />
+          <label className="site00-signin-form__label" htmlFor={`${passwordInputId}-confirm`}>
+            CONFIRM PASSWORD
+          </label>
+          <input
+            id={`${passwordInputId}-confirm`}
+            name="confirm-password"
+            type={showPassword ? 'text' : 'password'}
+            autoComplete="new-password"
+            value={confirmNextPassword}
+            onChange={(event) => setConfirmNextPassword(event.target.value)}
+            className="site00-signin-form__input"
+            disabled={submitting}
+          />
+          <button type="button" className="site00-signin-form__show" onClick={() => setShowPassword((prev) => !prev)}>
+            {showPassword ? 'HIDE' : 'SHOW'}
+          </button>
+          <button type="submit" className="site00-signin-form__cta" disabled={submitting}>
+            SAVE PASSWORD →
+          </button>
+          {error ? (
+            <p className="site00-signin-form__message site00-signin-form__message--error" role="alert">
+              {error}
+            </p>
+          ) : null}
+        </form>
+      </div>
+    );
+  }
 
   return (
     <div className={`site00-signin-form site00-signin-form--${layout}`.trim()}>
