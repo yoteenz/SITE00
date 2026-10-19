@@ -1,5 +1,5 @@
 /** Board 01 — P01 FOUNDATION ENTRY · P02 BUSINESS INTAKE · P03 FOUNDATION CONFIGURATOR. */
-import { useState, type ReactNode } from 'react';
+import { useMemo, useState, type ReactNode } from 'react';
 import { defaultDigitalFoundationCommercialConfig } from '../../../../shared/site00-digital-foundation/commercialConfig.js';
 import type { DigitalFoundationCommercialConfig } from '../../../../shared/site00-digital-foundation/types.js';
 import { DfIcon, type DfIconName } from '../icons';
@@ -15,6 +15,7 @@ import {
   type IntakeErrors,
 } from '../model';
 import { DfField } from '../components';
+import { IdntySelect, businessTypeSelectOptions, dfCustomIndustrySelectEnabled } from '../idntySelect';
 import { formatUsPhoneDisplay } from '../phoneFormat';
 import { DfAlert, DfCta, DfHeadline, DfHeroObject, DfLede, DfRail, DfSheet, DfTrust } from '../shell';
 import type { SaveStatus } from '../useFoundationArtifact';
@@ -117,6 +118,8 @@ export function P02Intake({
 }) {
   const [errors, setErrors] = useState<IntakeErrors>(externalErrors ?? {});
   const err = { ...errors };
+  const industryOptions = useMemo(() => businessTypeSelectOptions(draft.industry), [draft.industry]);
+  const customIndustrySelect = dfCustomIndustrySelectEnabled();
   const input = (field: 'business_name' | 'contact_name' | 'current_email' | 'phone', extra: Record<string, unknown> = {}) => ({
     id: `df-${field}`,
     className: 'df-input',
@@ -167,26 +170,42 @@ export function P02Intake({
           />
         </DfField>
         <DfField id="df-industry" label="BUSINESS TYPE" optional>
-          <span className={`df-select df-native-select${draft.industry ? '' : ' df-select--empty'}`}>
-            <select
+          {customIndustrySelect ? (
+            <IdntySelect
               id="df-industry"
-              className="df-input"
-              value={BUSINESS_TYPES.includes(draft.industry) ? draft.industry : draft.industry ? '__custom' : ''}
+              value={draft.industry}
+              options={industryOptions}
+              placeholder="SELECT A BUSINESS TYPE"
               disabled={!editable}
-              onChange={(e) => update({ industry: e.target.value })}
-            >
-              <option value="">SELECT A BUSINESS TYPE</option>
-              {draft.industry && !BUSINESS_TYPES.includes(draft.industry) && (
-                <option value="__custom">{draft.industry.toUpperCase()}</option>
-              )}
-              {BUSINESS_TYPES.map((t) => (
-                <option key={t} value={t}>
-                  {t}
-                </option>
-              ))}
-            </select>
-            <DfIcon name="chevron" className="df-native-select__chev" aria-hidden="true" />
-          </span>
+              onChange={(industry) => update({ industry })}
+              sheetTitle="SELECT BUSINESS TYPE"
+              labelledBy="df-industry-label"
+            />
+          ) : (
+            <span className={`df-select df-native-select${draft.industry ? '' : ' df-select--empty'}`}>
+              <select
+                id="df-industry"
+                className="df-input"
+                value={BUSINESS_TYPES.includes(draft.industry) ? draft.industry : draft.industry ? '__custom' : ''}
+                disabled={!editable}
+                onChange={(e) => {
+                  const v = e.target.value;
+                  update({ industry: v === '__custom' ? draft.industry : v });
+                }}
+              >
+                <option value="">SELECT A BUSINESS TYPE</option>
+                {draft.industry && !BUSINESS_TYPES.includes(draft.industry) && (
+                  <option value="__custom">{draft.industry.toUpperCase()}</option>
+                )}
+                {BUSINESS_TYPES.map((t) => (
+                  <option key={t} value={t}>
+                    {t}
+                  </option>
+                ))}
+              </select>
+              <DfIcon name="chevron" className="df-native-select__chev" aria-hidden="true" />
+            </span>
+          )}
         </DfField>
         <DfField id="df-contact_name" label="PRIMARY CONTACT" required error={err.contact_name}>
           <input

@@ -56,6 +56,7 @@ if [[ "$MODE" == "dev" ]]; then
     VITE_SITE00_TEMPLATE_SYSTEM_V1=1 \
     VITE_SITE00_CLIENT_ESTIMATE_PREVIEW_V1=1 \
     VITE_SITE00_R4_REVIEW_PRIORITY=1 \
+    VITE_DF_CUSTOM_INDUSTRY_SELECT=1 \
     npm run dev -- --port "$PORT" --host
 fi
 
