@@ -1,0 +1,1181 @@
+{
+  "boards": {
+    "D02": {
+      "source": "src/board-D02-overview.html",
+      "image": "png/board-D02-overview.png",
+      "css_px": [
+        1653,
+        3556
+      ],
+      "image_px": [
+        3307,
+        7113
+      ],
+      "bytes": 1277139,
+      "sha256": "f9702d117a505f6bd2649ded9725a4966e54c9afb6aeb5004ad4a7535adad799",
+      "live_frames": {
+        "total": 7,
+        "ready": 7
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 7,
+        "failing": []
+      }
+    },
+    "C01": {
+      "source": "src/board-C01-desktop-before-after.html",
+      "image": "png/board-C01-desktop-before-after.png",
+      "css_px": [
+        1574,
+        5261
+      ],
+      "image_px": [
+        3149,
+        10522
+      ],
+      "bytes": 3251885,
+      "sha256": "ba3e058eb999203e56d55e2f0847540dda283a87d016548b6bff45e352906f35",
+      "live_frames": {
+        "total": 8,
+        "ready": 8
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 8,
+        "failing": []
+      }
+    },
+    "C02": {
+      "source": "src/board-C02-tablet-portrait-landscape.html",
+      "image": "png/board-C02-tablet-portrait-landscape.png",
+      "css_px": [
+        1700,
+        3017
+      ],
+      "image_px": [
+        3400,
+        6034
+      ],
+      "bytes": 1691131,
+      "sha256": "b829d5d0d9982381fa026b771d0468b65877a897cba302853ea33f0880e24b80",
+      "live_frames": {
+        "total": 7,
+        "ready": 7
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 7,
+        "failing": []
+      }
+    },
+    "C03": {
+      "source": "src/board-C03-typographic-reflow.html",
+      "image": "png/board-C03-typographic-reflow.png",
+      "css_px": [
+        1700,
+        2540
+      ],
+      "image_px": [
+        3400,
+        5080
+      ],
+      "bytes": 951215,
+      "sha256": "b90dfd2f9794134eecdd884a776f30fc06f5241df53d6e73658470c921499409",
+      "live_frames": {
+        "total": 20,
+        "ready": 20
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 20,
+        "failing": []
+      }
+    },
+    "C04": {
+      "source": "src/board-C04-component-proportions.html",
+      "image": "png/board-C04-component-proportions.png",
+      "css_px": [
+        1575,
+        2723
+      ],
+      "image_px": [
+        3149,
+        5446
+      ],
+      "bytes": 652897,
+      "sha256": "62d856283be7e9198dad51611de67f2581e27cf092599afdad31901d84759ff3",
+      "live_frames": {
+        "total": 1,
+        "ready": 1
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 1,
+        "failing": []
+      }
+    },
+    "C05": {
+      "source": "src/board-C05-registry-inspector-responsiveness.html",
+      "image": "png/board-C05-registry-inspector-responsiveness.png",
+      "css_px": [
+        1580,
+        2048
+      ],
+      "image_px": [
+        3160,
+        4096
+      ],
+      "bytes": 1079987,
+      "sha256": "827f8a6fe06b1a7e153ce3550cddaa62c9ed67105f83868653a0dfa9233203e8",
+      "live_frames": {
+        "total": 8,
+        "ready": 8
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 8,
+        "failing": []
+      }
+    },
+    "C06": {
+      "source": "src/board-C06-reviews-workbench-responsiveness.html",
+      "image": "png/board-C06-reviews-workbench-responsiveness.png",
+      "css_px": [
+        1700,
+        2261
+      ],
+      "image_px": [
+        3400,
+        4522
+      ],
+      "bytes": 918963,
+      "sha256": "6a61418cfe3db1363d188a113c906c088cb246089ec6c9a70af0d9ab99ae6cfe",
+      "live_frames": {
+        "total": 7,
+        "ready": 7
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 7,
+        "failing": []
+      }
+    },
+    "C07": {
+      "source": "src/board-C07-system-console-responsiveness.html",
+      "image": "png/board-C07-system-console-responsiveness.png",
+      "css_px": [
+        1574,
+        2307
+      ],
+      "image_px": [
+        3148,
+        4614
+      ],
+      "bytes": 941123,
+      "sha256": "ea2dfaa29f1d7607010a8ad5be8e1a305e82ef865978c179ce865fef417b102f",
+      "live_frames": {
+        "total": 6,
+        "ready": 6
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 6,
+        "failing": []
+      }
+    },
+    "D01": {
+      "source": "src/board-D01-global-shell.html",
+      "image": "png/board-D01-global-shell.png",
+      "css_px": [
+        1603,
+        2466
+      ],
+      "image_px": [
+        3207,
+        4932
+      ],
+      "bytes": 1101189,
+      "sha256": "4649fa43b46f8a3579d661b4c3491472684fcd0b0969465947b95cc5ef03e0d9",
+      "live_frames": {
+        "total": 7,
+        "ready": 7
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 7,
+        "failing": []
+      }
+    },
+    "D03": {
+      "source": "src/board-D03-foundations-registry.html",
+      "image": "png/board-D03-foundations-registry.png",
+      "css_px": [
+        1580,
+        3038
+      ],
+      "image_px": [
+        3160,
+        6075
+      ],
+      "bytes": 1338082,
+      "sha256": "cf5df1df03a86b6a184bbd8854d0db108da659710a9a6356fad94d8592a2e668",
+      "live_frames": {
+        "total": 9,
+        "ready": 9
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 9,
+        "failing": []
+      }
+    },
+    "D04": {
+      "source": "src/board-D04-create-client.html",
+      "image": "png/board-D04-create-client.png",
+      "css_px": [
+        1700,
+        1961
+      ],
+      "image_px": [
+        3400,
+        3922
+      ],
+      "bytes": 957020,
+      "sha256": "82bffc2fe368a2d139caf620ca208a5a9d8dabb19a1c7ae54002cc126059d67a",
+      "live_frames": {
+        "total": 8,
+        "ready": 8
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 8,
+        "failing": []
+      }
+    },
+    "D05": {
+      "source": "src/board-D05-client-record.html",
+      "image": "png/board-D05-client-record.png",
+      "css_px": [
+        1599,
+        2481
+      ],
+      "image_px": [
+        3198,
+        4962
+      ],
+      "bytes": 954658,
+      "sha256": "55be0c0be6248929a18bb8f6c604c6b5e0219bd44c88e81a9151040d1dc3a20d",
+      "live_frames": {
+        "total": 6,
+        "ready": 6
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 6,
+        "failing": []
+      }
+    },
+    "D06": {
+      "source": "src/board-D06-client-intake-recommendations.html",
+      "image": "png/board-D06-client-intake-recommendations.png",
+      "css_px": [
+        1574,
+        1585
+      ],
+      "image_px": [
+        3148,
+        3170
+      ],
+      "bytes": 712960,
+      "sha256": "cb119a4df5a082c29438cdb11bcbe666f9d17969dedc373452cc4f414188178d",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "D07": {
+      "source": "src/board-D07-client-quote.html",
+      "image": "png/board-D07-client-quote.png",
+      "css_px": [
+        1671,
+        2043
+      ],
+      "image_px": [
+        3341,
+        4086
+      ],
+      "bytes": 600079,
+      "sha256": "7b90a92fcb897c14475aec7200e5b1598c0f9cd6d82cca05de03b4b289e082da",
+      "live_frames": {
+        "total": 3,
+        "ready": 3
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 3,
+        "failing": []
+      }
+    },
+    "D08": {
+      "source": "src/board-D08-reviews-queue.html",
+      "image": "png/board-D08-reviews-queue.png",
+      "css_px": [
+        1681,
+        2634
+      ],
+      "image_px": [
+        3361,
+        5268
+      ],
+      "bytes": 943964,
+      "sha256": "ee77ac67b1c52bdc2e7d96b404c902584f5a0e4dae420701e1a035e343dc9b03",
+      "live_frames": {
+        "total": 5,
+        "ready": 5
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 5,
+        "failing": []
+      }
+    },
+    "D09": {
+      "source": "src/board-D09-review-detail.html",
+      "image": "png/board-D09-review-detail.png",
+      "css_px": [
+        1576,
+        1899
+      ],
+      "image_px": [
+        3152,
+        3798
+      ],
+      "bytes": 660426,
+      "sha256": "b3744ae4fc1ff61eccde9893bee47efb58176dd9dc426472a0592db9f161c419",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "D10": {
+      "source": "src/board-D10-operations.html",
+      "image": "png/board-D10-operations.png",
+      "css_px": [
+        1634,
+        2634
+      ],
+      "image_px": [
+        3267,
+        5268
+      ],
+      "bytes": 1036452,
+      "sha256": "b58856609a8156f133e2ce5b1b1653e9d01e7cc4736d758b6be8eccaa2725ee7",
+      "live_frames": {
+        "total": 5,
+        "ready": 5
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 5,
+        "failing": []
+      }
+    },
+    "D11": {
+      "source": "src/board-D11-correspondence.html",
+      "image": "png/board-D11-correspondence.png",
+      "css_px": [
+        1574,
+        3003
+      ],
+      "image_px": [
+        3148,
+        6006
+      ],
+      "bytes": 937095,
+      "sha256": "0d41c96c05cc4fbb7cbd8f53a27abe92c84e1ebf44e4267026c04263db2fcf9e",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "D12": {
+      "source": "src/board-D12-system.html",
+      "image": "png/board-D12-system.png",
+      "css_px": [
+        1574,
+        2043
+      ],
+      "image_px": [
+        3148,
+        4086
+      ],
+      "bytes": 808319,
+      "sha256": "00fd0320e83c530ed4563306805e38ed6ba2535cd54ea547038845716d489e60",
+      "live_frames": {
+        "total": 3,
+        "ready": 3
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 3,
+        "failing": []
+      }
+    },
+    "D13": {
+      "source": "src/board-D13-test-lab.html",
+      "image": "png/board-D13-test-lab.png",
+      "css_px": [
+        1574,
+        3003
+      ],
+      "image_px": [
+        3148,
+        6006
+      ],
+      "bytes": 797389,
+      "sha256": "75a2e0b185617709d1dfeb9309ff02e61b9f1c2eb40bb4d9b92a22af40837cce",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "D14": {
+      "source": "src/board-D14-global-overlays.html",
+      "image": "png/board-D14-global-overlays.png",
+      "css_px": [
+        1700,
+        4625
+      ],
+      "image_px": [
+        3400,
+        9250
+      ],
+      "bytes": 2626009,
+      "sha256": "be8455cce7529ef073beacb3f0989a540d39d5f9ba099a6c5c6fb7df60454c02",
+      "live_frames": {
+        "total": 42,
+        "ready": 42
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 42,
+        "failing": []
+      }
+    },
+    "D15": {
+      "source": "src/board-D15-component-system.html",
+      "image": "png/board-D15-component-system.png",
+      "css_px": [
+        1572,
+        3628
+      ],
+      "image_px": [
+        3144,
+        7256
+      ],
+      "bytes": 799478,
+      "sha256": "229e8aa17bcd73d19388255fb797f14663fdc5bb0d17eeca8f7d7690b55bcb37",
+      "live_frames": {
+        "total": 2,
+        "ready": 2
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 2,
+        "failing": []
+      }
+    },
+    "TL01": {
+      "source": "src/board-TL01-global-shell.html",
+      "image": "png/board-TL01-global-shell.png",
+      "css_px": [
+        1587,
+        1992
+      ],
+      "image_px": [
+        3174,
+        3984
+      ],
+      "bytes": 808085,
+      "sha256": "5b896d0b583d32a849b61c409403f89c183bff8c618f310e3eb661e51f210824",
+      "live_frames": {
+        "total": 5,
+        "ready": 5
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 5,
+        "failing": []
+      }
+    },
+    "TL02": {
+      "source": "src/board-TL02-overview.html",
+      "image": "png/board-TL02-overview.png",
+      "css_px": [
+        1597,
+        1742
+      ],
+      "image_px": [
+        3193,
+        3484
+      ],
+      "bytes": 752154,
+      "sha256": "7a8a6f314b8d987861e723fcd9ae689d783e4d07b19139092a84c339ff8edec5",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "TL03": {
+      "source": "src/board-TL03-foundations.html",
+      "image": "png/board-TL03-foundations.png",
+      "css_px": [
+        1598,
+        1578
+      ],
+      "image_px": [
+        3196,
+        3156
+      ],
+      "bytes": 859638,
+      "sha256": "9563e6d3a75d54cb1ad565470c624de536c871d2a9e459c07ae0288c00468b13",
+      "live_frames": {
+        "total": 5,
+        "ready": 5
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 5,
+        "failing": []
+      }
+    },
+    "TL04": {
+      "source": "src/board-TL04-create-client.html",
+      "image": "png/board-TL04-create-client.png",
+      "css_px": [
+        1598,
+        899
+      ],
+      "image_px": [
+        3195,
+        1798
+      ],
+      "bytes": 372844,
+      "sha256": "9993ded7ed37c0b04d4ee739c1b4dc38536abde3da056896e18b6327cca3ea86",
+      "live_frames": {
+        "total": 3,
+        "ready": 3
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 3,
+        "failing": []
+      }
+    },
+    "TL05": {
+      "source": "src/board-TL05-client-record.html",
+      "image": "png/board-TL05-client-record.png",
+      "css_px": [
+        1597,
+        1742
+      ],
+      "image_px": [
+        3195,
+        3484
+      ],
+      "bytes": 656185,
+      "sha256": "528c668193a6005ceb7a3fc0571eb20d0c46d44725c59318cd6d39e161d666e1",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "TL06": {
+      "source": "src/board-TL06-reviews.html",
+      "image": "png/board-TL06-reviews.png",
+      "css_px": [
+        1597,
+        1559
+      ],
+      "image_px": [
+        3195,
+        3118
+      ],
+      "bytes": 580089,
+      "sha256": "7a9de757540104952bdc71f2cd0b482252233356a242db92d5eebb7e512b5fbd",
+      "live_frames": {
+        "total": 5,
+        "ready": 5
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 5,
+        "failing": []
+      }
+    },
+    "TL07": {
+      "source": "src/board-TL07-operations.html",
+      "image": "png/board-TL07-operations.png",
+      "css_px": [
+        1592,
+        1742
+      ],
+      "image_px": [
+        3185,
+        3484
+      ],
+      "bytes": 732725,
+      "sha256": "88b2dcd349ba97e3d5e0f43b78bb5cecd8657e8fbe46ad8c2112b7866e66e5ad",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "TL08": {
+      "source": "src/board-TL08-correspondence.html",
+      "image": "png/board-TL08-correspondence.png",
+      "css_px": [
+        1598,
+        1742
+      ],
+      "image_px": [
+        3196,
+        3484
+      ],
+      "bytes": 753996,
+      "sha256": "abc6d91617d334117a8615d45a147534a3a7e5f786012451507baaf8bc8cf27c",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "TL09": {
+      "source": "src/board-TL09-system.html",
+      "image": "png/board-TL09-system.png",
+      "css_px": [
+        1597,
+        1742
+      ],
+      "image_px": [
+        3195,
+        3484
+      ],
+      "bytes": 750835,
+      "sha256": "88992f9ffda943255a322f5598efe567b1547918f029fc20bb972e940704e193",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "TL10": {
+      "source": "src/board-TL10-global-overlays.html",
+      "image": "png/board-TL10-global-overlays.png",
+      "css_px": [
+        1700,
+        2500
+      ],
+      "image_px": [
+        3400,
+        5000
+      ],
+      "bytes": 1259671,
+      "sha256": "b427e8a70529da08fc360f9afd5cf06069ca19c69fc535ec82ad739fa5b1b20d",
+      "live_frames": {
+        "total": 21,
+        "ready": 21
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 21,
+        "failing": []
+      }
+    },
+    "TP01": {
+      "source": "src/board-TP01-global-shell.html",
+      "image": "png/board-TP01-global-shell.png",
+      "css_px": [
+        1576,
+        2200
+      ],
+      "image_px": [
+        3152,
+        4400
+      ],
+      "bytes": 828757,
+      "sha256": "6e835c4bcaa284fa0c0ef3c0a82ad4fceda2ff1b57d4168a9dacb8238c8cecd2",
+      "live_frames": {
+        "total": 6,
+        "ready": 6
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 6,
+        "failing": []
+      }
+    },
+    "TP02": {
+      "source": "src/board-TP02-overview.html",
+      "image": "png/board-TP02-overview.png",
+      "css_px": [
+        1583,
+        2260
+      ],
+      "image_px": [
+        3166,
+        4520
+      ],
+      "bytes": 790102,
+      "sha256": "675111781ae4980f56c14690e22cb99ffcad90006deef2d0c18eb9477d4842f0",
+      "live_frames": {
+        "total": 5,
+        "ready": 5
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 5,
+        "failing": []
+      }
+    },
+    "TP03": {
+      "source": "src/board-TP03-foundations.html",
+      "image": "png/board-TP03-foundations.png",
+      "css_px": [
+        1584,
+        2260
+      ],
+      "image_px": [
+        3169,
+        4520
+      ],
+      "bytes": 886942,
+      "sha256": "12313a1bcc8fd136ecd0a93029fe43f2e5a0a8ec37c2d9eb15a7ec542407eb91",
+      "live_frames": {
+        "total": 5,
+        "ready": 5
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 5,
+        "failing": []
+      }
+    },
+    "TP04": {
+      "source": "src/board-TP04-create-client.html",
+      "image": "png/board-TP04-create-client.png",
+      "css_px": [
+        1584,
+        1914
+      ],
+      "image_px": [
+        3168,
+        3828
+      ],
+      "bytes": 588646,
+      "sha256": "efef14c4a82b80929b4a70f975b99400692083ffed1e9b574ae0392450d13792",
+      "live_frames": {
+        "total": 6,
+        "ready": 6
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 6,
+        "failing": []
+      }
+    },
+    "TP05": {
+      "source": "src/board-TP05-client-record.html",
+      "image": "png/board-TP05-client-record.png",
+      "css_px": [
+        1584,
+        1933
+      ],
+      "image_px": [
+        3167,
+        3866
+      ],
+      "bytes": 686354,
+      "sha256": "ffaf6478f4a5c37cd43e895652e545bf61776632647c8f260c7f1b1745a4d467",
+      "live_frames": {
+        "total": 6,
+        "ready": 6
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 6,
+        "failing": []
+      }
+    },
+    "TP06": {
+      "source": "src/board-TP06-reviews.html",
+      "image": "png/board-TP06-reviews.png",
+      "css_px": [
+        1584,
+        1933
+      ],
+      "image_px": [
+        3167,
+        3866
+      ],
+      "bytes": 535602,
+      "sha256": "3499f03517e708f5b5dc0a560a84db5c0e1f4b5b6d22c65944f4d3313a6d78c1",
+      "live_frames": {
+        "total": 5,
+        "ready": 5
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 5,
+        "failing": []
+      }
+    },
+    "TP07": {
+      "source": "src/board-TP07-operations.html",
+      "image": "png/board-TP07-operations.png",
+      "css_px": [
+        1579,
+        1168
+      ],
+      "image_px": [
+        3158,
+        2336
+      ],
+      "bytes": 503744,
+      "sha256": "5c734bd6a3ad66d03407bab54c89c8b9bb4bb431beb57dabfb554c2a3f23a5b3",
+      "live_frames": {
+        "total": 3,
+        "ready": 3
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 3,
+        "failing": []
+      }
+    },
+    "TP08": {
+      "source": "src/board-TP08-correspondence.html",
+      "image": "png/board-TP08-correspondence.png",
+      "css_px": [
+        1584,
+        2241
+      ],
+      "image_px": [
+        3168,
+        4482
+      ],
+      "bytes": 705082,
+      "sha256": "4e6374be816cac8eeca79d2d42be77b8c76f7538197b6635b5fdca87f85d4d1b",
+      "live_frames": {
+        "total": 5,
+        "ready": 5
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 5,
+        "failing": []
+      }
+    },
+    "TP09": {
+      "source": "src/board-TP09-system.html",
+      "image": "png/board-TP09-system.png",
+      "css_px": [
+        1584,
+        1168
+      ],
+      "image_px": [
+        3168,
+        2336
+      ],
+      "bytes": 535061,
+      "sha256": "68b23ca589862923c0ac5196563607c108b7e5cd4a62fec908f4be3dc6b3cc68",
+      "live_frames": {
+        "total": 3,
+        "ready": 3
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 3,
+        "failing": []
+      }
+    },
+    "TP10": {
+      "source": "src/board-TP10-global-overlays.html",
+      "image": "png/board-TP10-global-overlays.png",
+      "css_px": [
+        1700,
+        2676
+      ],
+      "image_px": [
+        3400,
+        5352
+      ],
+      "bytes": 1250042,
+      "sha256": "c27d896bfcaeedb9a44a4b4238f6a69c5cafbab9195c50399405265d3ccbc721",
+      "live_frames": {
+        "total": 21,
+        "ready": 21
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 21,
+        "failing": []
+      }
+    }
+  },
+  "renderer": "boards/render-boards.mjs (Vite SSR data + Playwright Chromium, deviceScaleFactor 2; live specimens in iframes at true viewport widths)"
+}

@@ -22,17 +22,32 @@ export async function foundationFetch<T>(path: string, init?: { method?: string;
   return data;
 }
 
+export type ReferralSourceRow = {
+  referral_source_id: string;
+  kind: string;
+  label: string;
+  active: boolean;
+};
+
 export type FoundationAdminListRow = {
   artifact_id: string;
   public_token: string;
   state: string;
   payment_state: string;
+  intake_state?: string;
+  business_name?: string | null;
+  referral_source_id?: string | null;
   created_at: string;
+  last_activity_at?: string;
+};
+
+export type FoundationAdminListResponse = {
+  artifacts: FoundationAdminListRow[];
+  referral_sources?: ReferralSourceRow[];
 };
 
 export const foundationAdminApi = {
-  list: () =>
-    foundationFetch<{ artifacts: FoundationAdminListRow[] }>('/api/admin/site00-foundation?action=list'),
+  list: () => foundationFetch<FoundationAdminListResponse>('/api/admin/site00-foundation?action=list'),
 
   detail: (id: string) =>
     foundationFetch(`/api/admin/site00-foundation?action=detail&id=${encodeURIComponent(id)}`),

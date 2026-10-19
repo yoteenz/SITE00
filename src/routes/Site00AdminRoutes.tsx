@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { Route } from 'react-router-dom';
+import { Navigate, Route } from 'react-router-dom';
 import LoadingScreen from '../components/base/LoadingScreen';
 import { lazyWithChunkRecovery } from '../utils/lazyWithChunkRecovery';
 import { Site00AdminRouteErrorBoundary } from '../site00/admin/components/Site00AdminRouteErrorBoundary';
@@ -78,6 +78,10 @@ const CommunicationsCommandPage = lazy(() => import('../site00/admin/pages/found
 const FoundationReadinessPage = lazyWithChunkRecovery(
   () => import('../site00/admin/pages/foundation/FoundationReadinessPage'),
   'FoundationReadinessPage',
+);
+const IdntyFounderWorkspaceApp = lazyWithChunkRecovery(
+  () => import('../site00/admin/founder-workspace/FounderWorkspaceApp'),
+  'IdntyFounderWorkspaceApp',
 );
 
 function AdminSuspense({ children, routeLabel }: { children: React.ReactNode; routeLabel?: string }) {
@@ -622,8 +626,20 @@ export function Site00AdminRoutes() {
       />
       <Route
         path="site00/foundation-readiness"
+        element={<Navigate to="/admin/site00/founder-workspace/system" replace />}
+      />
+      <Route
+        path="site00/founder-workspace/*"
         element={
-          <AdminSuspense routeLabel="foundation-readiness">
+          <AdminSuspense routeLabel="founder-workspace">
+            <IdntyFounderWorkspaceApp />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/foundation-readiness-desk"
+        element={
+          <AdminSuspense routeLabel="foundation-readiness-desk">
             <FoundationReadinessPage />
           </AdminSuspense>
         }
