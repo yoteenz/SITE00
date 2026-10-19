@@ -16727,3 +16727,15 @@ Summary of the whole conversation in this chat.
 - **Sprint:** `P0.SITE00.IDNTY.FORM-CONTROL-IMPLEMENTATION.COMPOSER-CONSOLIDATED-A` on integration after #1660.
 - **Shipped:** System B checkbox CSS + `DfCheckMark` on P03/P04/P05; required CONTACT NUMBER with `libphonenumber-js` validation; `completeIntake` server guard; synthetic/fixture test phones; docs `form-control-implementation-consolidated-a/`.
 - **Grandfather:** already-`COMPLETE` intakes skip re-validation on `completeIntake`.
+- **PR #1661 merged** to `cursor/idnty-founder-readiness-e2e-be3b` @ **`255576b5`** (2026-10-19).
+
+---
+
+## 2026-10-19 — IDNTY form control Sprint B staging acceptance
+
+- **Sprint:** `P0.SITE00.IDNTY.FORM-CONTROL-STAGING-E2E-ACCEPTANCE.COMPOSER-CONSOLIDATED-B`.
+- **Result:** **NOT FULLY VERIFIED** — staging **carefree-luck** SPA + **reliable-creation** API still @ **`1152f25f`** (pre–Sprint A); bundle lacks phone/System B/custom selector strings.
+- **PASS:** live Supabase durability vitest; DF regression suites on `255576b5`; staging missing-JS → 404 plain text; local responsive review harness (11 viewports).
+- **Pending:** Railway redeploy both services from integration; founder iPhone Safari QA (`IPHONE_SAFARI_FOUNDER_QA.md`).
+- **Docs:** `docs/site00/idnty/form-control-staging-e2e-acceptance-b/`; parity JSON `/opt/cursor/artifacts/form-control-staging-b/staging-parity-report.json`.
+- **Fixes:** persistence test race; `build-founder-staging-spa.sh` defaults `VITE_DF_CUSTOM_INDUSTRY_SELECT=1`.
