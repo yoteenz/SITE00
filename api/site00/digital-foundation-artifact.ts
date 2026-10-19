@@ -28,6 +28,7 @@ import {
   loadArtifactGraphByToken,
   persistArtifactGraph,
 } from '../_lib/digitalFoundation/persistence/supabaseStore.js';
+import { DfPersistenceError } from '../_lib/digitalFoundation/persistence/dfPersistenceError.js';
 
 function setCors(res: VercelResponse): void {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -41,6 +42,15 @@ function tokenFromReq(req: VercelRequest): string {
 
 /** Supabase and fetch failures are often plain objects. String(object) is "[object Object]". */
 export function digitalFoundationHandlerError(e: unknown): { status: number; error: string } {
+  if (e instanceof DfPersistenceError) {
+    const status =
+      e.code === 'DATABASE_PERMISSION_DENIED' || e.code === 'DATA_CONTRACT_INVALID'
+        ? 503
+        : e.code === 'DATABASE_UNAVAILABLE'
+          ? 503
+          : 500;
+    return { status, error: e.code };
+  }
   let message = 'Digital Foundation request failed';
   let code = '';
   if (e instanceof Error && e.message) {
@@ -97,7 +107,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         case 'payload': {
           const token = tokenFromReq(req);
           if (!token) return res.status(400).json({ error: 'token required' });
-          await loadArtifactGraphByToken(token);
+          const loaded = await loadArtifactGraphByToken(token);
+          if (!loaded && isSupabaseDfPersistenceEnabled()) {
+            return res.status(404).json({ error: 'ARTIFACT_NOT_FOUND' });
+          }
           return res.status(200).json(getClientArtifactPayloadByToken(token));
         }
         default:
@@ -109,7 +122,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const postAction = String(body.action ?? action);
       const token = tokenFromReq(req);
       if (!token) return res.status(400).json({ error: 'token required' });
-      await loadArtifactGraphByToken(token);
+      const loaded = await loadArtifactGraphByToken(token);
+      if (!loaded && isSupabaseDfPersistenceEnabled()) {
+        return res.status(404).json({ error: 'ARTIFACT_NOT_FOUND' });
+      }
       const artifact = openArtifactByToken(token);
 
       switch (postAction) {

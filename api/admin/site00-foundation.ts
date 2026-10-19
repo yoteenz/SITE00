@@ -9,7 +9,7 @@ import {
 } from '../_lib/cloudMobilePreview.js';
 import {
   applyManualQuoteAdjustment,
-  createArtifactForLead,
+  createArtifactForLeadDurable,
   createClientAction,
   createLead,
   getArtifactPayload,
@@ -140,14 +140,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         case 'create-lead':
           return res.status(200).json({ lead: createLead(body) });
         case 'create-artifact': {
-          const artifact = createArtifactForLead(body);
+          const artifact = await createArtifactForLeadDurable(body);
           return res.status(200).json({
             artifact,
             personalized_url: `/foundation/${artifact.public_token}`,
           });
         }
         case 'create-artifact-for-lead': {
-          const artifact = createArtifactForLead({ lead_id: String(body.lead_id) });
+          const artifact = await createArtifactForLeadDurable({ lead_id: String(body.lead_id) });
           return res.status(200).json({
             artifact,
             personalized_url: `/foundation/${artifact.public_token}`,
@@ -225,7 +225,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         case 'create-test-client': {
           const { createSyntheticTestClient } = await import('../_lib/digitalFoundation/founderReadiness.js');
           return res.status(200).json(
-            createSyntheticTestClient({
+            await createSyntheticTestClient({
               display_name: String(body.display_name ?? 'Founder E2E'),
               contact_email: String(body.contact_email ?? ''),
               contact_name: body.contact_name ? String(body.contact_name) : undefined,
@@ -254,7 +254,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         case 'reset-test-data': {
           const { resetSyntheticTestData } = await import('../_lib/digitalFoundation/founderReadiness.js');
-          return res.status(200).json(resetSyntheticTestData());
+          return res.status(200).json(await resetSyntheticTestData());
         }
         default:
           return res.status(400).json({ error: 'Unknown action' });
