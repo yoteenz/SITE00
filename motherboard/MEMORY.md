@@ -16676,3 +16676,11 @@ Summary of the whole conversation in this chat.
 - **Fix (branch `cursor/artifact-init-crash-recovery-be3b`):** Route DF client fetches through `site00ApiUrl()` (`VITE_API_BASE` → **reliable-creation-staging**); reject non-JSON and invalid payloads (`INVALID_API_RESPONSE`, `INVALID_PAYLOAD`); hook/model guards; regression tests `tests/foundationClientArtifactApi.test.ts`.
 - **Repro:** `https://carefree-luck-staging.up.railway.app/foundation/not-a-real-token` before fix → world error boundary; after fix locally → DF “WE COULDN'T LOAD THIS” recoverable panel (no throw).
 - **Deploy:** Staging SPA redeploy required; `npm run start:spa` unchanged.
+
+---
+
+## 2026-10-19 — DF intake P02 phone format + P03 domain uncheck (IDNTY staging)
+
+- **P02:** US phone field formats as `901-236-2647` while typing (`phoneFormat.ts`); saved intake phones normalized in `draftFromPayload`.
+- **P03:** DOMAIN service row toggles off — clears `domainPath` and related fields when the checkbox row is tapped again (was only opening/closing panel while radio selection kept row checked).
+- **Branch:** `cursor/df-intake-phone-domain-toggle-be3b` → `cursor/idnty-founder-readiness-e2e-be3b`. Redeploy **carefree-luck** after merge.
