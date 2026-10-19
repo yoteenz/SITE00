@@ -1,13 +1,19 @@
-export type OverlayPlacement = 'dialog' | 'sheet' | 'full';
+/** Canonical overlay registry — Opus1/2 (OL-*) and Opus3 (RO-*). */
 
-export type OverlayDefinition = {
-  id: string;
+export type OverlayPlacementTier = 'mobile' | 'tablet' | 'desktop';
+export type OverlayGeometry = 'sheet-bottom' | 'sheet-right' | 'dialog' | 'full' | 'popover';
+
+export type OverlayMeta = {
   title: string;
-  placement: OverlayPlacement;
   family: 'workspace' | 'referral';
+  /** Default geometry at desktop; host adjusts at breakpoints. */
+  geometry: OverlayGeometry;
+  /** Primary trigger location (documentation + tests). */
+  trigger: string;
+  blockedByPolicy?: boolean;
+  blockedByBackend?: boolean;
 };
 
-/** Original workspace overlay families (Opus1/2). */
 export const WORKSPACE_OVERLAY_IDS = [
   'OL-01',
   'OL-02',
@@ -31,7 +37,6 @@ export const WORKSPACE_OVERLAY_IDS = [
   'OL-20',
 ] as const;
 
-/** Referral overlay families RO-01 … RO-20 (Opus3). */
 export const REFERRAL_OVERLAY_IDS = [
   'RO-01',
   'RO-02',
@@ -57,56 +62,74 @@ export const REFERRAL_OVERLAY_IDS = [
 
 export type WorkspaceOverlayId = (typeof WORKSPACE_OVERLAY_IDS)[number];
 export type ReferralOverlayId = (typeof REFERRAL_OVERLAY_IDS)[number];
-export type RegisteredOverlayId = WorkspaceOverlayId | ReferralOverlayId | 'CREATE_CLIENT';
+export type RegisteredOverlayId = WorkspaceOverlayId | ReferralOverlayId;
 
-const TITLES: Record<string, string> = {
-  CREATE_CLIENT: 'Create client',
-  'OL-01': 'Global search',
-  'OL-02': 'Notifications',
-  'OL-03': 'Workspace menu',
-  'OL-04': 'Account',
-  'OL-05': 'Create client',
-  'OL-06': 'Client actions',
-  'OL-07': 'Quote decision',
-  'OL-08': 'Review decision',
-  'OL-09': 'Task start',
-  'OL-10': 'Task complete',
-  'OL-11': 'Verification',
-  'OL-12': 'Provider config',
-  'OL-13': 'Filter registry',
-  'OL-14': 'Compose message',
-  'OL-15': 'Send (gated)',
-  'OL-16': 'Confirm discard',
-  'OL-17': 'Inspector detail',
-  'OL-18': 'Density',
-  'OL-19': 'Keyboard shortcuts',
-  'OL-20': 'Status detail',
-  'RO-01': 'Partner create',
-  'RO-02': 'Partner terms',
-  'RO-03': 'Partner status',
-  'RO-04': 'Commission detail',
-  'RO-05': 'Commission review',
-  'RO-06': 'Commission approval',
-  'RO-07': 'Payout detail',
-  'RO-08': 'Record payment',
-  'RO-09': 'Referral link validation',
-  'RO-10': 'QR validation',
-  'RO-11': 'Print preview',
-  'RO-12': 'Attribution exception',
-  'RO-13': 'Attribution correction',
-  'RO-14': 'Card variant',
-  'RO-15': 'Partner assign',
-  'RO-16': 'Link status',
-  'RO-17': 'Proof status',
-  'RO-18': 'Partner activity',
-  'RO-19': 'Policy gate',
-  'RO-20': 'Referral confirm',
+/** @deprecated use OL-01 */
+export type LegacyCreateOverlayId = 'CREATE_CLIENT';
+
+export const OVERLAY_META: Record<RegisteredOverlayId, OverlayMeta> = {
+  'OL-01': { title: 'Create foundation', family: 'workspace', geometry: 'sheet-bottom', trigger: 'shell.create' },
+  'OL-02': { title: 'Link ready', family: 'workspace', geometry: 'dialog', trigger: 'create.success' },
+  'OL-03': { title: 'Workspace menu', family: 'workspace', geometry: 'sheet-right', trigger: 'shell.menu' },
+  'OL-04': { title: 'Search / command palette', family: 'workspace', geometry: 'full', trigger: 'shell.search' },
+  'OL-05': { title: 'Notification center', family: 'workspace', geometry: 'sheet-right', trigger: 'shell.notifications' },
+  'OL-06': { title: 'Row action menu', family: 'workspace', geometry: 'sheet-bottom', trigger: 'foundations.row' },
+  'OL-07': { title: 'Filter / sort', family: 'workspace', geometry: 'sheet-right', trigger: 'foundations.filter' },
+  'OL-08': { title: 'Approve quote confirmation', family: 'workspace', geometry: 'dialog', trigger: 'client.quote' },
+  'OL-09': { title: 'Revise quote / manual adjustment', family: 'workspace', geometry: 'dialog', trigger: 'client.quote' },
+  'OL-10': { title: 'Mark foundation complete', family: 'workspace', geometry: 'dialog', trigger: 'client.records' },
+  'OL-11': { title: 'Request changes / add note', family: 'workspace', geometry: 'dialog', trigger: 'reviews.decision' },
+  'OL-12': { title: 'Task detail', family: 'workspace', geometry: 'sheet-right', trigger: 'operations.task' },
+  'OL-13': { title: 'Set blocker', family: 'workspace', geometry: 'dialog', trigger: 'operations.blocker' },
+  'OL-14': { title: 'Compose message', family: 'workspace', geometry: 'sheet-bottom', trigger: 'correspondence.compose' },
+  'OL-15': { title: 'Send (gated, approval tick)', family: 'workspace', geometry: 'dialog', trigger: 'correspondence.send' },
+  'OL-16': { title: 'System module detail', family: 'workspace', geometry: 'sheet-right', trigger: 'system.module' },
+  'OL-17': { title: 'Reset test data confirmation', family: 'workspace', geometry: 'dialog', trigger: 'system.testlab' },
+  'OL-18': { title: 'Account menu', family: 'workspace', geometry: 'popover', trigger: 'shell.account' },
+  'OL-19': { title: 'Client preview', family: 'workspace', geometry: 'sheet-right', trigger: 'foundations.inspector' },
+  'OL-20': { title: 'Technical error detail', family: 'workspace', geometry: 'dialog', trigger: 'global.error' },
+  'RO-01': { title: 'Create partner', family: 'referral', geometry: 'dialog', trigger: 'referrals.partners', blockedByBackend: true },
+  'RO-02': { title: 'Edit partner', family: 'referral', geometry: 'dialog', trigger: 'referrals.partners', blockedByBackend: true },
+  'RO-03': { title: 'Invite partner', family: 'referral', geometry: 'sheet-right', trigger: 'referrals.partners', blockedByPolicy: true },
+  'RO-04': { title: 'Partner status change', family: 'referral', geometry: 'sheet-right', trigger: 'referrals.partners', blockedByBackend: true },
+  'RO-05': { title: 'Commission terms editor', family: 'referral', geometry: 'dialog', trigger: 'referrals.commissions', blockedByPolicy: true },
+  'RO-06': { title: 'Referral link preview', family: 'referral', geometry: 'sheet-right', trigger: 'referrals.card' },
+  'RO-07': { title: 'QR validation result', family: 'referral', geometry: 'dialog', trigger: 'referrals.card', blockedByPolicy: true },
+  'RO-08': { title: 'Card share sheet', family: 'referral', geometry: 'sheet-bottom', trigger: 'referrals.card' },
+  'RO-09': { title: 'Card export dialog', family: 'referral', geometry: 'dialog', trigger: 'referrals.card' },
+  'RO-10': { title: 'Print proof', family: 'referral', geometry: 'dialog', trigger: 'referrals.card', blockedByPolicy: true },
+  'RO-11': { title: 'Commission detail', family: 'referral', geometry: 'sheet-right', trigger: 'referrals.commissions', blockedByBackend: true },
+  'RO-12': { title: 'Commission approval', family: 'referral', geometry: 'dialog', trigger: 'referrals.commissions', blockedByPolicy: true },
+  'RO-13': { title: 'Commission adjustment', family: 'referral', geometry: 'dialog', trigger: 'referrals.commissions', blockedByPolicy: true },
+  'RO-14': { title: 'Payout detail', family: 'referral', geometry: 'sheet-right', trigger: 'referrals.payouts', blockedByBackend: true },
+  'RO-15': { title: 'Record payment', family: 'referral', geometry: 'dialog', trigger: 'referrals.payouts', blockedByPolicy: true },
+  'RO-16': { title: 'Confirm payment', family: 'referral', geometry: 'dialog', trigger: 'referrals.payouts', blockedByPolicy: true },
+  'RO-17': { title: 'Payout reversal', family: 'referral', geometry: 'dialog', trigger: 'referrals.payouts', blockedByPolicy: true },
+  'RO-18': { title: 'Attribution exception', family: 'referral', geometry: 'dialog', trigger: 'referrals.attribution', blockedByBackend: true },
+  'RO-19': { title: 'Manual attribution correction', family: 'referral', geometry: 'dialog', trigger: 'referrals.attribution', blockedByPolicy: true },
+  'RO-20': { title: 'Partner access revocation', family: 'referral', geometry: 'sheet-right', trigger: 'referrals.partners', blockedByPolicy: true },
 };
 
+export function normalizeOverlayId(id: string): RegisteredOverlayId | null {
+  if (id === 'CREATE_CLIENT') return 'OL-01';
+  if (id in OVERLAY_META) return id as RegisteredOverlayId;
+  return null;
+}
+
 export function overlayTitle(id: RegisteredOverlayId): string {
-  return TITLES[id] ?? id;
+  return OVERLAY_META[id]?.title ?? id;
 }
 
 export function isReferralOverlay(id: string): id is ReferralOverlayId {
   return id.startsWith('RO-');
+}
+
+export function overlayGeometryForViewport(id: RegisteredOverlayId, width: number): OverlayGeometry {
+  const base = OVERLAY_META[id].geometry;
+  if (width < 768) {
+    if (base === 'popover' || base === 'sheet-right') return 'sheet-bottom';
+    return base === 'dialog' ? 'sheet-bottom' : base;
+  }
+  if (width < 1024 && base === 'full') return 'dialog';
+  return base;
 }

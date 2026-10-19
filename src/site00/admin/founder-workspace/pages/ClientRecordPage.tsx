@@ -6,11 +6,14 @@ import { SITE00_ROUTES } from '../../../config/routes';
 import { IDNTY_FOUNDER_WORKSPACE_ROUTES } from '../config/routes';
 import { FounderWorkspacePageFrame } from '../shell/FounderWorkspacePageFrame';
 import { normalizeIntakeColumnLabel } from '../data/intakeColumn';
+import { useFounderWorkspaceOverlay } from '../overlay/OverlayContext';
 
 export function ClientRecordPage() {
   const { artifactId = '' } = useParams();
+  const { openOverlay } = useFounderWorkspaceOverlay();
   const [payload, setPayload] = useState<DigitalFoundationArtifactPayload | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [gate, setGate] = useState<Record<string, unknown> | null>(null);
 
   useEffect(() => {
     if (!artifactId) return;
@@ -18,6 +21,10 @@ export function ClientRecordPage() {
       .detail(artifactId)
       .then((j) => setPayload(j as DigitalFoundationArtifactPayload))
       .catch((e) => setError(e instanceof Error ? e.message : 'Load failed'));
+    void foundationAdminApi
+      .completionGate(artifactId)
+      .then(setGate)
+      .catch(() => setGate(null));
   }, [artifactId]);
 
   return (
@@ -71,6 +78,44 @@ export function ClientRecordPage() {
                   <dt>Funnel</dt>
                   <dd>{payload.lead.referral_funnel_stage}</dd>
                 </dl>
+              </section>
+              <section className="ifw-panel">
+                <h2 className="ifw-panel__title">Quote</h2>
+                <dl className="ifw-kv">
+                  <dt>Status</dt>
+                  <dd>{payload.quote?.status ?? '—'}</dd>
+                  <dt>Total</dt>
+                  <dd className="fw-data">
+                    {payload.quote ? `$${(payload.quote.subtotal_minor / 100).toFixed(2)}` : '—'}
+                  </dd>
+                </dl>
+                <div className="ifw-actions-row">
+                  <button
+                    type="button"
+                    className="ifw-btn ifw-btn--primary"
+                    onClick={() => openOverlay('OL-08', { artifact_id: payload.artifact.artifact_id })}
+                  >
+                    Approve quote
+                  </button>
+                  <button
+                    type="button"
+                    className="ifw-btn ifw-btn--ghost"
+                    onClick={() => openOverlay('OL-09', { artifact_id: payload.artifact.artifact_id })}
+                  >
+                    Manual adjustment
+                  </button>
+                </div>
+              </section>
+              <section className="ifw-panel">
+                <h2 className="ifw-panel__title">Records</h2>
+                <p className="ifw-muted">{gate ? String((gate as { summary?: string }).summary ?? 'Completion gate loaded') : '—'}</p>
+                <button
+                  type="button"
+                  className="ifw-btn ifw-btn--primary"
+                  onClick={() => openOverlay('OL-10', { artifact_id: payload.artifact.artifact_id })}
+                >
+                  Mark foundation complete
+                </button>
               </section>
             </div>
             <div className="ifw-actions-row">

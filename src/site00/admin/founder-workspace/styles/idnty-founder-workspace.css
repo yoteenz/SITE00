@@ -478,6 +478,121 @@
   overflow: hidden;
 }
 
+.ifw-overlay-host__panel--sheet-bottom {
+  border-radius: 12px 12px 0 0;
+  max-height: 88dvh;
+}
+
+.ifw-overlay-host__panel--sheet-right {
+  margin-left: auto;
+  height: 100dvh;
+  max-height: 100dvh;
+  width: min(480px, 100%);
+}
+
+.ifw-overlay-host__panel--full {
+  width: 100%;
+  height: 100dvh;
+  max-height: 100dvh;
+  border-radius: 0;
+}
+
+.ifw-shell__icon-btn,
+.ifw-shell__account-btn {
+  font: inherit;
+  border: 1px solid var(--ifw-rule);
+  background: var(--ifw-surface);
+  padding: 6px 10px;
+  border-radius: 3px;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+}
+
+.ifw-section-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.ifw-section-nav__btn {
+  font: inherit;
+  border: 1px solid var(--ifw-rule);
+  background: var(--ifw-surface);
+  padding: 8px 12px;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  cursor: pointer;
+}
+
+.ifw-section-nav__btn--active {
+  box-shadow: inset 0 0 0 1px var(--ifw-red);
+}
+
+.ifw-search-results {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+}
+
+.ifw-search-results__btn {
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  padding: 10px;
+  border: 1px solid var(--ifw-rule);
+  border-bottom: 0;
+  background: #fff;
+  cursor: pointer;
+}
+
+.ifw-overlay-nav__link {
+  display: block;
+  padding: 10px 0;
+  text-decoration: none;
+  color: var(--ifw-ink);
+}
+
+.ifw-module-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.ifw-module-card {
+  font: inherit;
+  text-align: left;
+  padding: 14px;
+  border: 1px solid var(--ifw-rule);
+  background: var(--ifw-chamber);
+  cursor: pointer;
+  letter-spacing: 0.14em;
+  font-size: 12px;
+}
+
+.ifw-operations__grid,
+.ifw-reviews__grid,
+.ifw-correspondence__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.ifw-table__row--selected {
+  background: var(--ifw-red-tint);
+}
+
+.ifw-table__select {
+  font: inherit;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+}
+
 .ifw-overlay-host__head {
   display: flex;
   align-items: center;
@@ -709,6 +824,16 @@
 
   .ifw-foundations__workbench {
     grid-template-columns: minmax(0, 1fr) var(--ifw-inspector-ultra);
+  }
+
+  .ifw-operations__grid,
+  .ifw-reviews__grid,
+  .ifw-correspondence__grid {
+    grid-template-columns: minmax(0, 1fr) var(--ifw-inspector-ultra);
+  }
+
+  .ifw-module-grid {
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 

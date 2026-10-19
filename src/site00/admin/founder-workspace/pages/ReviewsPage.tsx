@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { foundationAdminApi, type PipelineRow } from '../../services/foundationAdminApi';
-import { SITE00_ROUTES } from '../../../config/routes';
 import { FounderWorkspacePageFrame } from '../shell/FounderWorkspacePageFrame';
+import { useFounderWorkspaceOverlay } from '../overlay/OverlayContext';
+import { IDNTY_FOUNDER_WORKSPACE_ROUTES } from '../config/routes';
+import { Link } from 'react-router-dom';
 
 export function ReviewsPage() {
+  const { openOverlay } = useFounderWorkspaceOverlay();
   const [rows, setRows] = useState<PipelineRow[]>([]);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [approvals, setApprovals] = useState<Array<{ approval_id: string; status: string; kind?: string }>>([]);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -14,6 +18,17 @@ export function ReviewsPage() {
       .then((j) => setRows(j.rows ?? []))
       .catch((e) => setError(e instanceof Error ? e.message : 'Load failed'));
   }, []);
+
+  useEffect(() => {
+    if (!selectedId) return;
+    void foundationAdminApi
+      .detail(selectedId)
+      .then((json) => {
+        const list = (json as { approvals?: Array<{ approval_id: string; status: string; kind?: string }> }).approvals ?? [];
+        setApprovals(list);
+      })
+      .catch(() => setApprovals([]));
+  }, [selectedId]);
 
   const queue = rows.filter(
     (r) =>
@@ -24,29 +39,53 @@ export function ReviewsPage() {
 
   return (
     <FounderWorkspacePageFrame destination="reviews">
-      <div className="ifw-reviews">
+      <div className="ifw-reviews ifw-reviews__workbench">
         {error ? (
           <p role="alert" className="ifw-inline-error">
             {error}
           </p>
         ) : null}
-        <p className="ifw-lede">Review actions only where backend supports persistence — no client-side fake approval.</p>
-        {!queue.length ? <p className="ifw-muted">Review queue empty (pipeline has no review-tagged next actions).</p> : null}
-        <ul className="ifw-queue">
-          {queue.map((r) => (
-            <li key={r.artifact_id} className="ifw-queue__item">
-              <div>
-                <strong>{r.business_name ?? r.artifact_id.slice(0, 8)}</strong>
-                <span className="ifw-muted">{r.current_stage ?? '—'}</span>
+        <div className="ifw-reviews__grid">
+          <section className="ifw-panel">
+            <h2 className="ifw-panel__title">Queue</h2>
+            {!queue.length ? <p className="ifw-muted">No pipeline rows tagged for review.</p> : null}
+            <ul className="ifw-queue">
+              {queue.map((r) => (
+                <li key={r.artifact_id}>
+                  <button type="button" className="ifw-registry-row" onClick={() => setSelectedId(r.artifact_id)}>
+                    <span>{r.business_name ?? r.artifact_id.slice(0, 8)}</span>
+                    <span className="ifw-muted">{r.next_action ?? '—'}</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </section>
+          <aside className="ifw-inspector">
+            <h2 className="ifw-panel__title">Decision</h2>
+            {!selectedId ? <p className="ifw-muted">Select a queue row</p> : null}
+            {approvals.map((a) => (
+              <div key={a.approval_id} className="ifw-review-card">
+                <p>
+                  {a.kind ?? 'Approval'} · {a.status}
+                </p>
+                <button
+                  type="button"
+                  className="ifw-btn ifw-btn--ghost"
+                  onClick={() =>
+                    openOverlay('OL-11', { artifact_id: selectedId, approval_id: a.approval_id })
+                  }
+                >
+                  Request changes
+                </button>
               </div>
-              <p>{r.next_action ?? '—'}</p>
-              {r.blocker ? <p className="ifw-inline-error">{r.blocker}</p> : null}
-              <Link className="ifw-btn ifw-btn--ghost" to={SITE00_ROUTES.digitalFoundationAdminDetail.replace(':id', r.artifact_id)}>
-                Open artifact admin
+            ))}
+            {selectedId ? (
+              <Link to={IDNTY_FOUNDER_WORKSPACE_ROUTES.client(selectedId)} className="ifw-btn ifw-btn--primary">
+                Client record
               </Link>
-            </li>
-          ))}
-        </ul>
+            ) : null}
+          </aside>
+        </div>
       </div>
     </FounderWorkspacePageFrame>
   );

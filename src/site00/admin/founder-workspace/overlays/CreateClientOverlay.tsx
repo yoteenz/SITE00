@@ -7,11 +7,12 @@ import { useFounderWorkspaceOverlay } from '../overlay/OverlayContext';
 type Props = {
   onClose: () => void;
   payload?: Record<string, unknown>;
+  onDirty?: (dirty: boolean) => void;
 };
 
-export function CreateClientOverlay({ onClose, payload }: Props) {
+export function CreateClientOverlay({ onClose, payload, onDirty }: Props) {
   const navigate = useNavigate();
-  const { pushToast } = useFounderWorkspaceOverlay();
+  const { pushToast, openOverlay } = useFounderWorkspaceOverlay();
   const [contactEmail, setContactEmail] = useState(String(payload?.contact_email ?? 'prospect@example.com'));
   const [contactName, setContactName] = useState(String(payload?.contact_name ?? ''));
   const [businessName, setBusinessName] = useState(String(payload?.business_name ?? ''));
@@ -34,12 +35,14 @@ export function CreateClientOverlay({ onClose, payload }: Props) {
       const intakePath = token ? digitalFoundationClientIntakePath(token) : json.personalized_url ?? '';
       const full = intakePath ? `${window.location.origin}${intakePath}` : '';
       setCreatedLink(full);
+      onDirty?.(false);
       pushToast('Client created', 'ok');
+      onClose();
+      if (full) openOverlay('OL-02', { link: full });
       if (token) {
         const list = await foundationAdminApi.list();
         const row = list.artifacts?.find((a) => a.public_token === token);
         if (row?.artifact_id) {
-          onClose();
           navigate(IDNTY_FOUNDER_WORKSPACE_ROUTES.client(row.artifact_id));
         }
       }
@@ -72,7 +75,15 @@ export function CreateClientOverlay({ onClose, payload }: Props) {
       ) : null}
       <label className="ifw-field">
         <span className="ifw-field__label">Contact email</span>
-        <input className="ifw-field__input fw-data" type="email" value={contactEmail} onChange={(e) => setContactEmail(e.target.value)} />
+        <input
+          className="ifw-field__input fw-data"
+          type="email"
+          value={contactEmail}
+          onChange={(e) => {
+            setContactEmail(e.target.value);
+            onDirty?.(true);
+          }}
+        />
       </label>
       <label className="ifw-field">
         <span className="ifw-field__label">Contact name</span>

@@ -8,7 +8,7 @@ import {
   useState,
   type ReactNode,
 } from 'react';
-import type { RegisteredOverlayId } from './overlayRegistry';
+import { normalizeOverlayId, type RegisteredOverlayId } from './overlayRegistry';
 
 export type ToastTone = 'ok' | 'error' | 'blocked' | 'neutral';
 
@@ -26,8 +26,10 @@ type OpenOverlay = {
 
 type OverlayContextValue = {
   open: OpenOverlay | null;
-  openOverlay: (id: RegisteredOverlayId, payload?: Record<string, unknown>) => void;
-  closeOverlay: () => void;
+  openOverlay: (id: RegisteredOverlayId | 'CREATE_CLIENT', payload?: Record<string, unknown>) => void;
+  closeOverlay: (force?: boolean) => void;
+  dirty: boolean;
+  setOverlayDirty: (dirty: boolean) => void;
   toasts: WorkspaceToast[];
   pushToast: (message: string, tone?: ToastTone, opts?: { sticky?: boolean }) => void;
   dismissToast: (id: string) => void;
@@ -37,21 +39,33 @@ const OverlayContext = createContext<OverlayContextValue | null>(null);
 
 export function OverlayProvider({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState<OpenOverlay | null>(null);
+  const [dirty, setDirty] = useState(false);
   const [toasts, setToasts] = useState<WorkspaceToast[]>([]);
   const lastFocus = useRef<HTMLElement | null>(null);
 
-  const openOverlay = useCallback((id: RegisteredOverlayId, payload?: Record<string, unknown>) => {
+  const openOverlay = useCallback((id: RegisteredOverlayId | 'CREATE_CLIENT', payload?: Record<string, unknown>) => {
+    const normalized = normalizeOverlayId(id);
+    if (!normalized) return;
     lastFocus.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
-    setOpen({ id, payload });
+    setDirty(false);
+    setOpen({ id: normalized, payload });
   }, []);
 
-  const closeOverlay = useCallback(() => {
-    setOpen(null);
-    const el = lastFocus.current;
-    if (el && document.contains(el)) {
-      queueMicrotask(() => el.focus());
-    }
-  }, []);
+  const closeOverlay = useCallback(
+    (force?: boolean) => {
+      if (dirty && !force) {
+        const ok = window.confirm('Discard unsaved changes?');
+        if (!ok) return;
+      }
+      setDirty(false);
+      setOpen(null);
+      const el = lastFocus.current;
+      if (el && document.contains(el)) {
+        queueMicrotask(() => el.focus());
+      }
+    },
+    [dirty],
+  );
 
   const pushToast = useCallback((message: string, tone: ToastTone = 'neutral', opts?: { sticky?: boolean }) => {
     const id = `toast-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
@@ -85,8 +99,17 @@ export function OverlayProvider({ children }: { children: ReactNode }) {
   }, [open, closeOverlay]);
 
   const value = useMemo(
-    () => ({ open, openOverlay, closeOverlay, toasts, pushToast, dismissToast }),
-    [open, openOverlay, closeOverlay, toasts, pushToast, dismissToast],
+    () => ({
+      open,
+      openOverlay,
+      closeOverlay,
+      dirty,
+      setOverlayDirty: setDirty,
+      toasts,
+      pushToast,
+      dismissToast,
+    }),
+    [open, openOverlay, closeOverlay, dirty, toasts, pushToast, dismissToast],
   );
 
   return <OverlayContext.Provider value={value}>{children}</OverlayContext.Provider>;

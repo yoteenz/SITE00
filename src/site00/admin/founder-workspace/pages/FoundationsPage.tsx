@@ -84,7 +84,10 @@ export function FoundationsPage() {
           <button type="button" className="ifw-btn ifw-btn--ghost" onClick={() => void load()} disabled={loading}>
             Refresh
           </button>
-          <button type="button" className="ifw-btn ifw-btn--primary" onClick={() => openOverlay('CREATE_CLIENT')}>
+          <button type="button" className="ifw-btn ifw-btn--ghost" onClick={() => openOverlay('OL-07')}>
+            Filter
+          </button>
+          <button type="button" className="ifw-btn ifw-btn--primary" onClick={() => openOverlay('OL-01')}>
             Create client
           </button>
         </div>
@@ -100,6 +103,7 @@ export function FoundationsPage() {
                     type="button"
                     className={`ifw-registry-row ${selected?.artifact_id === r.artifact_id ? 'ifw-registry-row--selected' : ''}`.trim()}
                     onClick={() => setSelectedId(r.artifact_id)}
+                    onDoubleClick={() => openOverlay('OL-19', { ...r, artifact_id: r.artifact_id })}
                   >
                     <span className="ifw-registry-row__name">{r.business_name || 'Unnamed'}</span>
                     <span className={`ifw-status ifw-status--${intakeColumnStatusKind(r)}`}>{normalizeIntakeColumnLabel(r)}</span>
@@ -127,13 +131,27 @@ export function FoundationsPage() {
                   <dt>Referral</dt>
                   <dd>{sourceById.get(selected.referral_source_id ?? '')?.label ?? '—'}</dd>
                 </dl>
-                <button
-                  type="button"
-                  className="ifw-btn ifw-btn--primary"
-                  onClick={() => navigate(IDNTY_FOUNDER_WORKSPACE_ROUTES.client(selected.artifact_id))}
-                >
-                  Open full record
-                </button>
+                <div className="ifw-actions-row">
+                  <button
+                    type="button"
+                    className="ifw-btn ifw-btn--ghost"
+                    onClick={() =>
+                      openOverlay('OL-06', {
+                        artifact_id: selected.artifact_id,
+                        public_token: selected.public_token,
+                      })
+                    }
+                  >
+                    Row actions
+                  </button>
+                  <button
+                    type="button"
+                    className="ifw-btn ifw-btn--primary"
+                    onClick={() => navigate(IDNTY_FOUNDER_WORKSPACE_ROUTES.client(selected.artifact_id))}
+                  >
+                    Open full record
+                  </button>
+                </div>
               </>
             ) : (
               <p className="ifw-muted">Select a client</p>

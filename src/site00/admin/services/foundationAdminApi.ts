@@ -71,6 +71,55 @@ export const foundationAdminApi = {
 
   workbench: (id: string) =>
     foundationFetch<Record<string, unknown>>(`/api/admin/site00-foundation?action=workbench&id=${encodeURIComponent(id)}`),
+
+  completionGate: (id: string) =>
+    foundationFetch<Record<string, unknown>>(
+      `/api/admin/site00-foundation?action=completion-gate&id=${encodeURIComponent(id)}`,
+    ),
+
+  messages: (id: string) =>
+    foundationFetch<{ messages: unknown[] }>(
+      `/api/admin/site00-foundation?action=messages&id=${encodeURIComponent(id)}`,
+    ),
+
+  emailTimeline: () =>
+    foundationFetch<{ events: unknown[] }>('/api/admin/site00-foundation?action=email-timeline'),
+
+  quoteCommercialReady: (artifactId: string) =>
+    foundationFetch('/api/admin/site00-foundation', {
+      method: 'POST',
+      body: { action: 'quote-commercial-ready', artifact_id: artifactId },
+    }),
+
+  manualQuoteAdjustment: (artifactId: string, adjustmentMinor: number) =>
+    foundationFetch('/api/admin/site00-foundation', {
+      method: 'POST',
+      body: { action: 'manual-adjustment', artifact_id: artifactId, adjustment_minor: adjustmentMinor },
+    }),
+
+  approvalResolve: (artifactId: string, approvalId: string, status: 'APPROVED' | 'REVISION_REQUESTED', note?: string) =>
+    foundationFetch('/api/admin/site00-foundation', {
+      method: 'POST',
+      body: { action: 'approval-resolve', artifact_id: artifactId, approval_id: approvalId, status, note },
+    }),
+
+  startTask: (artifactId: string, taskId: string) =>
+    foundationFetch('/api/admin/site00-foundation', {
+      method: 'POST',
+      body: { action: 'start-task', artifact_id: artifactId, task_id: taskId },
+    }),
+
+  setBlocker: (artifactId: string, taskId: string, category: string, reason: string) =>
+    foundationFetch('/api/admin/site00-foundation', {
+      method: 'POST',
+      body: { action: 'set-blocker', artifact_id: artifactId, task_id: taskId, category, reason },
+    }),
+
+  sendMessage: (artifactId: string, body: string) =>
+    foundationFetch('/api/admin/site00-foundation', {
+      method: 'POST',
+      body: { action: 'send-message', artifact_id: artifactId, body },
+    }),
 };
 
 export type PipelineRow = {

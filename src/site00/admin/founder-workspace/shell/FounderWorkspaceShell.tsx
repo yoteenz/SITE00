@@ -26,6 +26,7 @@ export function FounderWorkspaceShell({ children, pageTitle, pageSubtitle }: Pro
   const { openOverlay } = useFounderWorkspaceOverlay();
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileLabel, setProfileLabel] = useState('FOUNDER');
+  const [profileEmail, setProfileEmail] = useState<string | null>(null);
 
   useEffect(() => {
     const supabase = getSupabase();
@@ -33,11 +34,23 @@ export function FounderWorkspaceShell({ children, pageTitle, pageSubtitle }: Pro
     supabase.auth.getUser().then(({ data }) => {
       const email = data.user?.email;
       if (email) {
+        setProfileEmail(email);
         const local = email.split('@')[0]?.replace(/\./g, ' ').toUpperCase();
         setProfileLabel(local || 'FOUNDER');
       }
     });
   }, []);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        openOverlay('OL-04');
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [openOverlay]);
 
   return (
     <div className="ifw ifw-shell" data-ifw-destination={dest}>
@@ -77,13 +90,33 @@ export function FounderWorkspaceShell({ children, pageTitle, pageSubtitle }: Pro
       <div className="ifw-shell__main">
         <header className="ifw-shell__header">
           <div className="ifw-shell__header-top">
-            <button type="button" className="ifw-shell__menu-btn" onClick={() => setMenuOpen((v) => !v)} aria-expanded={menuOpen}>
+            <button
+              type="button"
+              className="ifw-shell__menu-btn"
+              onClick={() => {
+                setMenuOpen(false);
+                openOverlay('OL-03');
+              }}
+              aria-expanded={menuOpen}
+            >
               Menu
             </button>
+            <button type="button" className="ifw-shell__icon-btn" onClick={() => openOverlay('OL-04')} aria-label="Search">
+              Search
+            </button>
+            <button type="button" className="ifw-shell__icon-btn" onClick={() => openOverlay('OL-05')} aria-label="Notifications">
+              Alerts
+            </button>
             <div className="ifw-shell__header-meta">
-              <span className="ifw-shell__context">{profileLabel}</span>
+              <button
+                type="button"
+                className="ifw-shell__account-btn"
+                onClick={() => openOverlay('OL-18', { email: profileEmail ?? profileLabel })}
+              >
+                {profileLabel}
+              </button>
             </div>
-            <button type="button" className="ifw-btn ifw-btn--primary ifw-shell__create" onClick={() => openOverlay('CREATE_CLIENT')}>
+            <button type="button" className="ifw-btn ifw-btn--primary ifw-shell__create" onClick={() => openOverlay('OL-01')}>
               Create
             </button>
           </div>
@@ -105,7 +138,7 @@ export function FounderWorkspaceShell({ children, pageTitle, pageSubtitle }: Pro
                 key={item.id}
                 type="button"
                 className="ifw-shell__bottom-btn ifw-shell__bottom-btn--create"
-                onClick={() => openOverlay('CREATE_CLIENT')}
+                onClick={() => openOverlay('OL-01')}
               >
                 {item.label}
               </button>
