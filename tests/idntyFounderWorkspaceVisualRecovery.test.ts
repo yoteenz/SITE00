@@ -54,6 +54,19 @@ describe('founder workspace visual recovery (Opus 1)', () => {
     expect(age(undefined, now)).toBe('—');
   });
 
+  it('gates workspace UI until Display + Saira preload (no fallback font flash)', () => {
+    const shell = read('src/site00/admin/founder-workspace/shell/FounderWorkspaceShell.tsx');
+    expect(shell).toContain('useFounderWorkspaceFontsReady');
+    expect(shell).toContain('ws--fonts-pending');
+    const fonts = read('src/site00/admin/founder-workspace/shell/founderWorkspaceFonts.ts');
+    expect(fonts).toContain('site00-correspondence-display.woff2');
+    expect(fonts).toContain('document.fonts.load');
+    const css = read('src/site00/admin/founder-workspace/styles/ifw-authority.css');
+    expect(css).toContain('.ws--fonts-pending .ws-app');
+    const app = read('src/site00/admin/founder-workspace/FounderWorkspaceApp.tsx');
+    expect(app).toContain('site00-correspondence-fonts.css');
+  });
+
   it('overview binds to the admin API and carries no illustrative fixtures', () => {
     const page = read('src/site00/admin/founder-workspace/pages/OverviewPage.tsx');
     expect(page).toContain('foundationAdminApi.list()');

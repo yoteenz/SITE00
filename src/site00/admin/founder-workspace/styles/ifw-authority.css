@@ -164,6 +164,16 @@
   text-rendering: optimizeLegibility;
 }
 
+/* Hide workspace chrome until self-hosted Display + Saira are loaded (no Arial/system flash). */
+.ws--fonts-pending {
+  min-height: 100dvh;
+  background: var(--ws-page);
+}
+
+.ws--fonts-pending .ws-app {
+  visibility: hidden;
+}
+
 .ws *, .ws *::before, .ws *::after { box-sizing: border-box; }
 .ws .ws-data { text-transform: none; letter-spacing: 0.01em; overflow-wrap: anywhere; }
 .ws .ws-data--nowrap { text-transform: none; letter-spacing: 0.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }

@@ -7,7 +7,7 @@ import { useFounderWorkspaceOverlay } from '../overlay/OverlayContext';
 import { OverlayHost } from '../overlay/OverlayHost';
 import { ToastStack } from '../overlay/ToastStack';
 import { WsBrand, WsIcon, WsIconButton, WsPlate, WsPlus } from './wsKit';
-import '../../../styles/site00-correspondence-fonts.css';
+import { useFounderWorkspaceFontsReady } from './useFounderWorkspaceFontsReady';
 import '../styles/idnty-founder-workspace.css';
 import '../styles/ifw-authority.css';
 
@@ -50,6 +50,7 @@ export function FounderWorkspaceShell({ children, crumb, density = 'standard' }:
   const [profileLabel, setProfileLabel] = useState('FOUNDER');
   const [profileEmail, setProfileEmail] = useState<string | null>(null);
   const env = environmentLabel();
+  const fontsReady = useFounderWorkspaceFontsReady();
   const current = FOUNDER_WORKSPACE_SIDEBAR_NAV.find((n) => n.id === dest) ?? FOUNDER_WORKSPACE_SIDEBAR_NAV[0];
 
   useEffect(() => {
@@ -79,7 +80,11 @@ export function FounderWorkspaceShell({ children, crumb, density = 'standard' }:
   const openAccount = () => openOverlay('OL-18', { email: profileEmail ?? profileLabel });
 
   return (
-    <div className="ws ifw" data-ifw-destination={dest}>
+    <div
+      className={`ws ifw ${fontsReady ? '' : 'ws--fonts-pending'}`.trim()}
+      data-ifw-destination={dest}
+      aria-busy={!fontsReady}
+    >
       <div className="ws-app">
         <nav className="ws-nav" aria-label="PRIMARY">
           <div className="ws-side">
