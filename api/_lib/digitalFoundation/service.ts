@@ -43,16 +43,30 @@ import {
   toClientArtifactPayload,
   type ClientCommunicationPreferences,
 } from '../../../shared/site00-digital-foundation/clientProjection.js';
-import { persistArtifactGraph } from './persistence/supabaseStore.js';
+import { isSupabaseDfPersistenceEnabled, persistArtifactGraph } from './persistence/supabaseStore.js';
+import { DfPersistenceError } from './persistence/dfPersistenceError.js';
 
 function nowIso(): string {
   return new Date().toISOString();
 }
 
 function schedulePersist(artifactId: string): void {
+  if (!isSupabaseDfPersistenceEnabled()) return;
   void persistArtifactGraph(artifactId).catch((err) => {
-    console.error('[digital-foundation] persist failed', artifactId, err);
+    const code = err instanceof DfPersistenceError ? err.code : 'SAVE_FAILED';
+    console.error('[digital-foundation] persist failed', artifactId, code, err);
   });
+}
+
+/** Create artifact in memory and require durable Supabase commit when persistence is enabled. */
+export async function createArtifactForLeadDurable(
+  input: Parameters<typeof createArtifactForLead>[0],
+): Promise<DigitalFoundationArtifact> {
+  const artifact = createArtifactForLead(input);
+  if (isSupabaseDfPersistenceEnabled()) {
+    await persistArtifactGraph(artifact.artifact_id);
+  }
+  return artifact;
 }
 
 function newPublicToken(): string {
