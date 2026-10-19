@@ -1,0 +1,1017 @@
+/* PROPOSED — IDNTY form-control visual authority (Opus 1).
+   Founder review only. Not imported by the application; implementation follows OPUS_TO_COMPOSER_IMPLEMENTATION_HANDOFF.md
+   after founder selection. Every value builds on the live DF tokens (site00-df-client.css, site00-df-components.css).
+
+   Grammar (one rule set for every control):
+   - THE RED PERIOD  6px red square, taken from the headline period. Means: selected value, current step, needs attention.
+   - ACTIVE FRAME    2px red frame (1px border + 1px inset), taken from the P03 active row. Means: focused / open.
+   - INK             included or locked, never a choice (existing convention).
+   - HAIRLINE        #eeede9 dividers inside lists, #dcdad5 between surfaces.
+   No drop shadows, no blur, no pills, radius stays at the implemented 3px (controls) / 2px (marks) / 0 (sheet). */
+
+.ix,
+.df-root {
+  --ix-mark: 6px;
+  --ix-row: 48px;
+  --ix-row-compact: 40px;
+  --ix-divider: #eeede9;
+  --ix-active-bg: #f4f3f0;
+  --ix-open-bg: #fffafa;
+  --ix-frame: 0 0 0 1px var(--df-red) inset;
+}
+
+/* ─── The red period ─────────────────────────────────────────────────────────── */
+
+.ix-mark {
+  display: inline-block;
+  flex: 0 0 auto;
+  width: var(--ix-mark);
+  height: var(--ix-mark);
+  background: var(--df-red);
+}
+
+.ix-mark--ink {
+  background: var(--df-ink);
+}
+
+.ix-mark--hollow {
+  border: 1px solid var(--df-muted);
+  background: transparent;
+}
+
+.ix-mark--hollow-red {
+  border: 1px solid var(--df-red);
+  background: transparent;
+}
+
+.ix-mark--space {
+  background: transparent;
+}
+
+/* ─── Field shell (U02 + P02 card) ───────────────────────────────────────────── */
+
+.ix-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 12px;
+}
+
+.ix-head .ix-mark {
+  width: 5px;
+  height: 5px;
+}
+
+.ix-opt {
+  margin-left: auto;
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--df-faint);
+}
+
+.ix-head__state {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 7.5px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--df-muted);
+}
+
+.ix-head__state svg {
+  width: 11px;
+  height: 11px;
+}
+
+/* Touch devices: values at 16px so iOS Safari never zooms on focus (restores the client sheet's rule that the
+   component sheet overrides at 14px). Desktop keeps 14px. */
+.ix-touch .df-input {
+  font-size: 16px;
+}
+
+.df-input.ix-focus,
+.df-select__trigger.ix-focus {
+  border-color: var(--df-red);
+  box-shadow: var(--ix-frame);
+}
+
+.ix-hover {
+  border-color: var(--df-control-border-strong) !important;
+}
+
+.df-input.ix-invalid {
+  border-color: var(--df-red);
+}
+
+.df-input.ix-invalid.ix-focus {
+  box-shadow: var(--ix-frame);
+}
+
+.ix-error {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: -2px 0 0;
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  line-height: 1.5;
+  color: var(--df-red);
+}
+
+.ix-error .ix-mark {
+  width: 5px;
+  height: 5px;
+}
+
+.ix-hint {
+  margin: -2px 0 0;
+  font-size: 8.5px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  line-height: 1.5;
+  color: var(--df-muted);
+}
+
+.ix-field--invalid {
+  border-color: rgba(206, 16, 23, 0.35) !important;
+}
+
+.ix-readonly {
+  border-color: var(--df-rule) !important;
+  background: var(--df-card) !important;
+  color: var(--df-ink-2) !important;
+}
+
+.ix-value-wrap {
+  position: relative;
+  display: block;
+}
+
+.ix-value-wrap > svg {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  width: 14px;
+  height: 14px;
+  color: var(--df-muted);
+  transform: translateY(-50%);
+}
+
+.ix-area {
+  height: auto !important;
+  min-height: 96px;
+  padding: 11px 14px !important;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.ix-count {
+  margin: -2px 0 0;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-align: right;
+  color: var(--df-faint);
+}
+
+/* ─── Selector: shared option grammar ────────────────────────────────────────── */
+
+.ix-opt-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: var(--ix-row-compact);
+  padding: 0 14px;
+  font-size: var(--df-control-text);
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  color: var(--df-ink-2);
+  text-transform: uppercase;
+}
+
+.ix-opt-row + .ix-opt-row {
+  border-top: 1px solid var(--ix-divider);
+}
+
+.ix-opt-row--active {
+  background: var(--ix-active-bg);
+  color: var(--df-ink);
+}
+
+.ix-opt-row--sel {
+  color: var(--df-ink);
+  font-weight: 700;
+}
+
+.ix-opt-row--custom {
+  color: var(--df-ink);
+}
+
+.ix-opt-row__tag {
+  margin-left: auto;
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--df-muted);
+}
+
+/* Trigger in its open state: the active frame, the implemented open tint, chevron turned. */
+.ix-trigger-open {
+  border-color: var(--df-red) !important;
+  background: var(--ix-open-bg) !important;
+  box-shadow: var(--ix-frame);
+}
+
+.ix-trigger-open .df-select__chev {
+  transform: rotate(180deg);
+}
+
+.ix-trigger-invalid {
+  border-color: var(--df-red) !important;
+}
+
+/* DfSelect chevron inside .df-root: undo the client sheet's native-select icon rule (collision C-1). */
+.df-select__chev.ix-chev {
+  position: static;
+  transform: none;
+}
+
+.ix-trigger-open .df-select__chev.ix-chev {
+  transform: rotate(180deg);
+}
+
+/* ─── Territory A — architectural dropdown (anchored listbox, DfSelect) ─────── */
+
+.ix-dd {
+  position: relative;
+}
+
+.ix-dd .ix-trigger-open {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.ix-dd__panel {
+  position: absolute;
+  z-index: 5;
+  top: calc(100% - 1px);
+  left: 0;
+  right: 0;
+  overflow: hidden;
+  border: 1px solid var(--df-red);
+  border-top: 1px solid var(--ix-divider);
+  border-radius: 0 0 var(--df-radius-sm) var(--df-radius-sm);
+  background: var(--df-surface);
+  box-shadow: var(--ix-frame);
+}
+
+.ix-dd__panel--above {
+  top: auto;
+  bottom: calc(100% - 1px);
+  border-top: 1px solid var(--df-red);
+  border-bottom: 1px solid var(--ix-divider);
+  border-radius: var(--df-radius-sm) var(--df-radius-sm) 0 0;
+}
+
+.ix-dd__scroll {
+  position: relative;
+  overflow: hidden;
+}
+
+.ix-dd__track {
+  position: absolute;
+  top: 6px;
+  right: 3px;
+  bottom: 6px;
+  width: 2px;
+  background: var(--ix-divider);
+}
+
+.ix-dd__thumb {
+  position: absolute;
+  right: 0;
+  left: 0;
+  background: var(--df-ink);
+}
+
+/* ─── Territory B — editorial selection sheet ────────────────────────────────── */
+
+.ix-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  background: var(--df-scrim);
+}
+
+.ix-sheet {
+  position: absolute;
+  z-index: 9;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  border-top: 2px solid var(--df-red);
+  background: var(--df-surface);
+}
+
+.ix-sheet__head {
+  position: relative;
+  padding: 14px 22px 14px;
+  border-bottom: 1px solid var(--df-ink);
+}
+
+.ix-sheet__head .df-rail {
+  margin: 0;
+}
+
+.ix-sheet__head .df-rail__rule {
+  flex-basis: 40px;
+}
+
+.ix-sheet__title {
+  margin: 12px 0 0;
+  font-family: var(--df-display);
+  font-size: 30px;
+  font-weight: 900;
+  line-height: 0.86;
+  text-transform: uppercase;
+}
+
+.ix-sheet__title i {
+  display: inline-block;
+  width: 0.15em;
+  height: 0.15em;
+  margin-left: 0.05em;
+  background: var(--df-red);
+}
+
+.ix-sheet__meta {
+  display: block;
+  margin-top: 10px;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: var(--df-muted);
+}
+
+.ix-sheet__close {
+  position: absolute;
+  top: 4px;
+  right: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  color: var(--df-ink);
+}
+
+.ix-sheet__close svg {
+  width: 20px;
+  height: 20px;
+}
+
+.ix-sheet__list {
+  flex: 1 1 auto;
+  overflow: hidden;
+}
+
+.ix-srow {
+  position: relative;
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr) 14px;
+  align-items: center;
+  column-gap: 12px;
+  min-height: var(--ix-row);
+  padding: 0 22px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--df-ink-2);
+}
+
+.ix-srow + .ix-srow {
+  border-top: 1px solid var(--ix-divider);
+}
+
+.ix-srow__n {
+  /* Same index grammar as the approved menu drawer (.df-drawer__index). */
+  font-size: 12.5px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+  color: var(--df-faint);
+}
+
+.ix-srow--sel {
+  color: var(--df-ink);
+  font-weight: 700;
+  box-shadow: inset 2px 0 0 var(--df-red);
+}
+
+.ix-srow--sel .ix-srow__n {
+  color: var(--df-red);
+}
+
+.ix-srow--sel .ix-mark {
+  justify-self: end;
+}
+
+.ix-srow--pressed {
+  background: var(--ix-active-bg);
+}
+
+.ix-srow--focus {
+  outline: 2px solid var(--df-red);
+  outline-offset: -2px;
+}
+
+.ix-srow--custom .ix-srow__n {
+  color: var(--df-muted);
+}
+
+.ix-srow__tag {
+  display: block;
+  margin-top: 3px;
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--df-muted);
+}
+
+.ix-sheet__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 52px;
+  padding: 0 22px;
+  border-top: 1px solid var(--df-rule);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: var(--df-muted);
+}
+
+.ix-sheet__foot .ix-textlink {
+  color: var(--df-red);
+}
+
+.ix-safe {
+  height: 34px;
+}
+
+.ix-fade {
+  position: relative;
+}
+
+.ix-fade::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 22px;
+  background: linear-gradient(rgba(255, 255, 255, 0), #fff);
+  pointer-events: none;
+}
+
+/* Desktop / tablet: the same sheet becomes a centred editorial panel (only if B is chosen everywhere). */
+.ix-sheet--panel {
+  position: absolute;
+  top: 50%;
+  bottom: auto;
+  left: 50%;
+  width: 440px;
+  transform: translate(-50%, -50%);
+  border: 1px solid var(--df-rule-strong);
+  border-top: 2px solid var(--df-red);
+}
+
+/* ─── Territory C — inline expanded selection ───────────────────────────────── */
+
+.ix-inline {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.ix-tile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1px solid var(--df-rule);
+  border-radius: 2px;
+  background: var(--df-surface);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.17em;
+  color: var(--df-ink-2);
+}
+
+.ix-tile__box {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--df-control-border-strong);
+  background: #fff;
+}
+
+.ix-tile--sel {
+  border-color: var(--df-red);
+  box-shadow: var(--ix-frame);
+  color: var(--df-ink);
+}
+
+.ix-tile--sel .ix-tile__box {
+  border-color: var(--df-red);
+}
+
+.ix-tile--sel .ix-tile__box::after {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: var(--df-red);
+}
+
+.ix-tile--focus {
+  outline: 2px solid var(--df-red);
+  outline-offset: 1px;
+}
+
+.ix-inline__more {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: var(--df-muted);
+}
+
+/* ─── Checkbox / radio / consent (U04, U05, P05 acks, portal prefs) ─────────── */
+
+.ix-check-focus {
+  outline: 2px solid var(--df-red);
+  outline-offset: 2px;
+}
+
+.ix-check-invalid {
+  border-color: var(--df-red) !important;
+  background: var(--ix-open-bg) !important;
+}
+
+.ix-check-indet {
+  border-color: var(--df-red) !important;
+  background: var(--df-red) !important;
+}
+
+.ix-check-indet::after {
+  content: '';
+  width: 9px;
+  height: 2px;
+  background: #fff;
+}
+
+/* FD-3 alternative B: white box, ink edge, red period inside. */
+.ix-check-period {
+  border-color: var(--df-ink) !important;
+  background: #fff !important;
+}
+
+.ix-check-period::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  background: var(--df-red);
+}
+
+.ix-ack--invalid {
+  border-color: var(--df-red) !important;
+}
+
+.ix-ack-summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--df-red);
+}
+
+.ix-ack-count {
+  margin-left: auto;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--df-muted);
+}
+
+.ix-pref {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 48px;
+  padding: 0 14px;
+  border: 1px solid var(--df-rule);
+  background: var(--df-card);
+}
+
+.ix-pref + .ix-pref {
+  margin-top: 4px;
+}
+
+.ix-pref__text {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.ix-pref__label {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.17em;
+}
+
+.ix-pref__desc {
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  color: var(--df-muted);
+}
+
+.ix-pref--locked .ix-pref__label {
+  color: var(--df-ink-2);
+}
+
+.ix-pref--on {
+  border-color: var(--df-red);
+}
+
+/* Add-on row with ONE focusable control (fixes FC-024 duplicate). */
+.ix-addon {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 64px;
+  padding: 8px 14px 8px 16px;
+  border: 1px solid var(--df-rule);
+  background: var(--df-card);
+}
+
+.ix-addon--on {
+  border-color: var(--df-red);
+  box-shadow: var(--ix-frame);
+}
+
+.ix-addon__text {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.ix-addon__price {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+}
+
+.ix-addon__price small {
+  display: block;
+  font-size: 7px;
+  letter-spacing: 0.16em;
+  color: var(--df-muted);
+  text-align: right;
+}
+
+/* ─── Stepper ─────────────────────────────────────────────────────────────────── */
+
+.ix-stepper {
+  display: inline-flex;
+  align-items: stretch;
+  height: 36px;
+  border: 1px solid var(--df-control-border);
+  border-radius: var(--df-radius-sm);
+  background: var(--df-surface);
+}
+
+.ix-stepper__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  color: var(--df-ink);
+}
+
+.ix-stepper__btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+.ix-stepper__btn--off {
+  color: var(--df-disabled-ink);
+}
+
+.ix-stepper__btn--focus {
+  outline: 2px solid var(--df-red);
+  outline-offset: -2px;
+}
+
+.ix-stepper__val {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 34px;
+  border-left: 1px solid var(--ix-divider);
+  border-right: 1px solid var(--ix-divider);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  font-variant-numeric: tabular-nums;
+}
+
+.ix-stepper__unit {
+  margin-left: 10px;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--df-muted);
+  align-self: center;
+}
+
+/* ─── Chips / tabs (records filter) ──────────────────────────────────────────── */
+
+.ix-tabs {
+  display: flex;
+  gap: 18px;
+  border-bottom: 1px solid var(--df-rule);
+}
+
+.ix-tab {
+  position: relative;
+  padding: 10px 0 11px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--df-muted);
+}
+
+.ix-tab--on {
+  color: var(--df-ink);
+}
+
+.ix-tab--on::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0.2em;
+  bottom: -1px;
+  height: 2px;
+  background: var(--df-red);
+}
+
+.ix-tab__n {
+  margin-left: 6px;
+  color: var(--df-faint);
+}
+
+/* ─── Progression ─────────────────────────────────────────────────────────────── */
+
+.ix-steps {
+  display: grid;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ix-step {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  column-gap: 8px;
+  row-gap: 8px;
+}
+
+.ix-step__n {
+  font-family: var(--df-display);
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  color: var(--df-faint);
+}
+
+.ix-step__rule {
+  height: 1px;
+  margin-right: 8px;
+  background: var(--df-rule-strong);
+}
+
+.ix-step__label {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 6.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  line-height: 1.4;
+  color: var(--df-faint);
+}
+
+.ix-step__label svg {
+  width: 9px;
+  height: 9px;
+}
+
+.ix-step--done .ix-step__n,
+.ix-step--done .ix-step__label {
+  color: var(--df-ink);
+}
+
+.ix-step--done .ix-step__rule {
+  background: var(--df-ink);
+}
+
+.ix-step--current .ix-step__n,
+.ix-step--current .ix-step__label {
+  color: var(--df-red);
+}
+
+.ix-step--current .ix-step__rule {
+  background: linear-gradient(90deg, var(--df-red) 0 40%, var(--df-rule-strong) 40%);
+}
+
+.ix-step--locked .ix-step__label {
+  color: var(--df-disabled-ink);
+}
+
+.ix-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.ix-textlink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--df-ink);
+}
+
+.ix-textlink svg {
+  width: 18px;
+  height: 9px;
+}
+
+.ix-textlink--red {
+  color: var(--df-red);
+}
+
+/* Error summary above a blocked CTA */
+.ix-summary {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 14px;
+  padding: 10px 12px;
+  border: 1px solid rgba(206, 16, 23, 0.4);
+  border-left: 2px solid var(--df-red);
+  background: var(--df-surface);
+}
+
+.ix-summary__t {
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--df-red);
+}
+
+.ix-summary__l {
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  line-height: 1.8;
+  color: var(--df-ink);
+}
+
+.ix-summary__l li {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  text-decoration: underline;
+  text-decoration-color: var(--df-rule-strong);
+  text-underline-offset: 3px;
+}
+
+/* ─── Save / system status ───────────────────────────────────────────────────── */
+
+.ix-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  white-space: nowrap;
+  color: var(--df-muted);
+}
+
+.ix-status .ix-mark {
+  width: 5px;
+  height: 5px;
+}
+
+.ix-status--saved {
+  color: var(--df-ink);
+}
+
+.ix-status--error {
+  color: var(--df-red);
+}
+
+.ix-status--error u {
+  text-underline-offset: 3px;
+}
+
+.ix-status .df-spinner {
+  width: 11px;
+  height: 11px;
+}
+
+.ix-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+  padding: 9px 12px;
+  border: 1px solid var(--df-rule-strong);
+  border-left: 2px solid var(--df-ink);
+  background: var(--df-surface);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  line-height: 1.6;
+  color: var(--df-ink);
+}
+
+.ix-banner--red {
+  border-color: rgba(206, 16, 23, 0.4);
+  border-left-color: var(--df-red);
+  color: var(--df-red-ink);
+}
+
+.ix-banner__act {
+  margin-left: auto;
+  font-weight: 700;
+  color: var(--df-red);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  white-space: nowrap;
+}
+
+/* Severity ladder diagram */
+.ix-ladder {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  border-top: 2px solid var(--df-ink);
+}
+
+.ix-ladder > div {
+  padding: 12px 14px 14px 0;
+  border-right: 1px solid var(--df-rule);
+}
+
+.ix-ladder > div + div {
+  padding-left: 14px;
+}
+
+.ix-ladder > div:last-child {
+  border-right: 0;
+}

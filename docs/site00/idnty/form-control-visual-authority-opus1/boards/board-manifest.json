@@ -1,0 +1,157 @@
+{
+  "boards": {
+    "01a": {
+      "source": "src/board-01a-selector-territories-mobile.html",
+      "image": "board-01a-selector-territories-mobile.png",
+      "css_px": [
+        2200,
+        3647
+      ],
+      "image_px": [
+        4400,
+        7294
+      ],
+      "bytes": 1133261,
+      "sha256": "24f22c2d970cfcab1942ac2a6da8f27c8ac580c0699052decc1957c188b149b6",
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "page_errors": []
+    },
+    "01b": {
+      "source": "src/board-01b-selector-territories-desktop.html",
+      "image": "board-01b-selector-territories-desktop.png",
+      "css_px": [
+        1990,
+        2061
+      ],
+      "image_px": [
+        3980,
+        4121
+      ],
+      "bytes": 552102,
+      "sha256": "17c999240aca249435c43b450e96aedbf36ecf643b488161966fedbb4e3b3c9f",
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "page_errors": []
+    },
+    "02": {
+      "source": "src/board-02-text-input-system.html",
+      "image": "board-02-text-input-system.png",
+      "css_px": [
+        2200,
+        3271
+      ],
+      "image_px": [
+        4400,
+        6543
+      ],
+      "bytes": 953179,
+      "sha256": "f34ebfc4147147dedb22885cb2e7ade9f39f67f4a755352199ccf67de6559665",
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "page_errors": []
+    },
+    "03": {
+      "source": "src/board-03-choice-control-system.html",
+      "image": "board-03-choice-control-system.png",
+      "css_px": [
+        1712,
+        2431
+      ],
+      "image_px": [
+        3424,
+        4862
+      ],
+      "bytes": 857561,
+      "sha256": "cea82b9f726b03868444a93f45603f678319ef6c00fab65963327c35eb9c262c",
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "page_errors": []
+    },
+    "04": {
+      "source": "src/board-04-progression-system.html",
+      "image": "board-04-progression-system.png",
+      "css_px": [
+        1740,
+        2089
+      ],
+      "image_px": [
+        3480,
+        4177
+      ],
+      "bytes": 612308,
+      "sha256": "33f79d9e5f6bb5b421b9bf131a3f748ad706c6b8e7aa28d6d95a130603891ca0",
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "page_errors": []
+    },
+    "05": {
+      "source": "src/board-05-validation-feedback.html",
+      "image": "board-05-validation-feedback.png",
+      "css_px": [
+        1780,
+        2441
+      ],
+      "image_px": [
+        3560,
+        4883
+      ],
+      "bytes": 649893,
+      "sha256": "171c8cd423b0fd2fadf1a03c5606db31d5a17d30b2f7b20acbb6d7e2ebbdc348",
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "page_errors": []
+    },
+    "06": {
+      "source": "src/board-06-mobile-interaction-states.html",
+      "image": "board-06-mobile-interaction-states.png",
+      "css_px": [
+        1782,
+        3078
+      ],
+      "image_px": [
+        3564,
+        6156
+      ],
+      "bytes": 795357,
+      "sha256": "7bf2b6a020c1a1cb327a1eb5744f7ecbd635cf5c2dcc9f054e99a686a5d61715",
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "page_errors": []
+    },
+    "07": {
+      "source": "src/board-07-component-system-overview.html",
+      "image": "board-07-component-system-overview.png",
+      "css_px": [
+        2200,
+        4407
+      ],
+      "image_px": [
+        4400,
+        8814
+      ],
+      "bytes": 1030537,
+      "sha256": "d57f02043c639df67a833db6a9a7ef8fc4ad1cab91365c85abdc756098253b19",
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "page_errors": []
+    }
+  },
+  "renderer": "boards/render-boards.mjs (Vite SSR data + Playwright Chromium, deviceScaleFactor 2)"
+}

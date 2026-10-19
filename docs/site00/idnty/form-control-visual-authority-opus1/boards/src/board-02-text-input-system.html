@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Board 02 — Text input system</title>
+<link rel="stylesheet" href="/src/site00/styles/site00-df-client.css">
+<link rel="stylesheet" href="/src/site00/styles/site00-df-components.css">
+<link rel="stylesheet" href="./board.css">
+<link rel="stylesheet" href="./proposal.css">
+<style>
+  .zoom2 { zoom: 2; }
+  .anno-list { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 14px; }
+  .anno-list li { display: flex; align-items: center; gap: 10px; font-size: 10.5px; letter-spacing: 0.12em; color: #2f2f2e; }
+  .anno-list li::before { content: ''; width: 34px; height: 1px; background: #ce1017; flex: 0 0 auto; }
+  .anno-list b { color: #0c0c0c; letter-spacing: 0.18em; }
+</style>
+</head>
+<body>
+<div id="board"></div>
+<script type="module">
+import { DF, header, section, frame, device, stage, S, field, liveField, p02Page, p02Intro, cta, trust, status, icon, mount } from './kit.js';
+
+const M = DF.messages;
+
+// ── 01 anatomy ──
+const anatomy = frame({
+  title: 'FIELD ANATOMY · 2× · TOUCH',
+  chips: S.impl('SHELL + SIZES') + ' ' + S.prop('MARK · OPTIONAL TAG · 16 PX'),
+  width: 1000,
+  body: `<div style="display:flex;gap:28px;align-items:center;width:1000px">
+    <div class="zoom2" style="width:340px">${stage(
+      field({ label: 'EMAIL ADDRESS', value: 'founder@', state: 'invalid-focus', mark: true, error: M.current_email_invalid }),
+      { w: 340, touch: true },
+    )}</div>
+    <ol class="anno-list">
+      <li><b>CARD</b> #F9F8F6 · 1 PX #DCDAD5 · PADDING 10 / 14 / 12 ${S.impl()}</li>
+      <li><b>LABEL</b> 10 PX · 700 · .18EM · UPPERCASE ${S.impl()}</li>
+      <li><b>RED PERIOD</b> 5 PX, BEFORE THE LABEL WHILE ACTIVE OR IN ERROR ${S.prop()}</li>
+      <li><b>CONTROL</b> 40 PX · WHITE · 1 PX #D9D7D2 · RADIUS 3 ${S.impl()}</li>
+      <li><b>ACTIVE FRAME</b> 1 PX RED BORDER + 1 PX RED INSET = 2 PX ${S.prop()}</li>
+      <li><b>VALUE</b> 16 PX ON TOUCH · 14 PX WITH A FINE POINTER ${S.prop()}</li>
+      <li><b>MESSAGE</b> 8.5 PX · 700 · .16EM · RED, LED BY THE PERIOD ${S.impl('COPY')} ${S.prop('MARK')}</li>
+    </ol>
+  </div>`,
+  note: '<b>Implemented and kept:</b> card shell, 40 px control, 3 px radius, uppercase tracked label and placeholder, red error copy. <b>Proposed:</b> the red period on the label while the field is active or in error, the 2 px active frame (focus is a 1 px border today — thin for WCAG 2.4.11), an OPTIONAL tag instead of silence, and 16 px values on touch devices.',
+});
+
+const zoomFinding = frame({
+  title: 'FINDING NF-01 · IOS FOCUS ZOOM',
+  chips: S.con() + ' ' + S.unres('DEVICE CHECK'),
+  width: 470,
+  body: `<div class="bd-panel" style="width:470px">
+    <table class="bd-table"><thead><tr><th>SHEET</th><th>RULE</th><th>RESULT</th></tr></thead><tbody>
+    <tr><td>site00-df-client.css :737</td><td>.df-input { font-size: 16px } — “keeps iOS from zooming the page on focus”</td><td>Intended</td></tr>
+    <tr><td>site00-df-components.css :303</td><td>.df-input { font-size: 14px } — loads later, same specificity</td><td class="r">Wins → text inputs are 14 px</td></tr>
+    <tr><td>Chromium 390 px (this sprint)</td><td>#df-business_name computed 14px</td><td class="r">Confirmed</td></tr>
+    <tr><td>iPhone Safari</td><td>Focus on a &lt; 16 px input zooms the page</td><td>Expected; confirm on device</td></tr>
+    </tbody></table></div>`,
+  note: 'Not in the audit. Fix is presentational: 16 px values on coarse pointers (or 16 px everywhere). No field, value or validation changes.',
+});
+
+// ── 02 state matrix ──
+const cell = (t, html, chips = '') => frame({ title: t, chips, width: 300, body: stage(html, { w: 300, touch: true }) });
+const matrix = [
+  cell('EMPTY', field({ label: 'BUSINESS NAME', placeholder: 'YOUR BUSINESS NAME' }), S.impl()),
+  cell('HOVER · POINTER ONLY', field({ label: 'BUSINESS NAME', placeholder: 'YOUR BUSINESS NAME', state: 'hover' }), S.impl()),
+  cell('FOCUS · EMPTY', field({ label: 'BUSINESS NAME', placeholder: 'YOUR BUSINESS NAME', state: 'focus', mark: true }), S.prop()),
+  cell('FOCUS · TYPING', field({ label: 'BUSINESS NAME', value: 'JURNL', state: 'focus', mark: true }), S.prop()),
+  cell('FILLED', field({ label: 'BUSINESS NAME', value: 'JURNL' }), S.impl()),
+  cell('REQUIRED · MISSING', field({ label: 'BUSINESS NAME', placeholder: 'YOUR BUSINESS NAME', state: 'invalid', error: M.business_name }), S.prop('MARK')),
+  cell('INVALID FORMAT', field({ label: 'EMAIL ADDRESS', value: 'founder@', state: 'invalid', error: M.current_email_invalid }), S.prop('MARK')),
+  cell('INVALID · REFOCUSED', field({ label: 'EMAIL ADDRESS', value: 'founder@', state: 'invalid-focus', mark: true, error: M.current_email_invalid }), S.prop()),
+  cell('OPTIONAL · WITH HINT', field({ label: 'PHONE NUMBER', placeholder: '901-236-2647', optional: true, hint: 'US NUMBERS FORMAT AS YOU TYPE' }), S.prop('TAG + HINT COPY')),
+  cell('MASKED · FILLED', field({ label: 'PHONE NUMBER', value: '901-236-2647', optional: true }), S.impl('MASK')),
+  cell('READ-ONLY · SUBMITTED', field({ label: 'BUSINESS NAME', value: 'JURNL', state: 'readonly', headState: `<span class="ix-head__state">${icon('lock')}SUBMITTED</span>` }), S.prop()),
+  cell('DISABLED', field({ label: 'BUSINESS NAME', value: 'JURNL', state: 'disabled' }), S.impl()),
+].join('');
+
+// ── 03 family ──
+const fam = (t, html, chips) => frame({ title: t, chips, width: 340, body: stage(html, { w: 340, touch: true }) });
+const family = [
+  fam('TEXT · NAME', field({ label: 'PRIMARY CONTACT', value: 'Founder Test' }), S.impl()),
+  fam('EMAIL', field({ label: 'EMAIL ADDRESS', value: 'founder@jurnl.example' }), S.impl()),
+  fam('TELEPHONE · MASKED', field({ label: 'PHONE NUMBER', value: '901-236-2647', optional: true }), S.impl()),
+  fam('DOMAIN · P03 REVEAL', `<div class="df-reveal__fields">${field({ label: 'YOUR DOMAIN', value: 'jurnl', state: 'invalid', error: M.existing_domain_invalid })}</div>`, S.impl() + ' ' + S.prop('MARK')),
+  fam('FREE TEXT · OPTIONAL', `<div class="df-reveal__fields">${field({ label: "WHERE IT'S REGISTERED (IF YOU KNOW)", placeholder: 'E.G. GODADDY, SQUARESPACE' })}</div>`, S.impl()),
+  fam('MULTILINE · PORTAL NOTES (FC-033)', `<div class="df-field"><span class="ix-head"><span class="df-field__label">YOUR NOTES</span><span class="ix-opt">OPTIONAL</span></span><textarea class="df-input ix-area" rows="3"></textarea></div>`, S.prop('SAME SHELL')),
+].join('');
+
+// ── 04 before / after ──
+const before = frame({
+  title: 'CURRENT · CHROMIUM 390 · INTEGRATION BRANCH',
+  chips: S.impl(),
+  width: 392,
+  body: `<img src="../../evidence/current-p02-chromium-390.png" style="width:392px;display:block;border:1px solid #0c0c0c">`,
+  note: 'Captured this sprint from /foundation/review at 5f4d26c3 (review route banner visible at top).',
+});
+const after = frame({
+  title: 'PROPOSED · SUBMIT PRESSED WITH TWO GAPS',
+  chips: S.prop(),
+  body: device({
+    scroll: 250,
+    body: `${p02Intro()}<div class="df-form" style="display:flex;flex-direction:column">
+      ${field({ label: 'BUSINESS NAME', value: 'JURNL' })}
+      <div class="df-field"><span class="ix-head"><span class="df-field__label">BUSINESS TYPE</span><span class="ix-opt">OPTIONAL</span></span><div class="df-select"><button class="df-select__trigger"><span class="df-select__value">OTHER</span><svg class="df-select__chev ix-chev" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></button></div></div>
+      ${field({ label: 'PRIMARY CONTACT', placeholder: 'FULL NAME', state: 'invalid-focus', mark: true, error: M.contact_name })}
+      ${field({ label: 'EMAIL ADDRESS', value: 'founder@', state: 'invalid', error: M.current_email_invalid })}
+      ${field({ label: 'PHONE NUMBER', placeholder: '901-236-2647', optional: true })}
+      ${cta('CONTINUE')}
+    </div>${trust(status('saved', 'SAVED 7:08 AM'))}`,
+  }),
+  note: 'Behaviour unchanged: validateBusinessInfo runs on submit and focus moves to the first invalid field (shown with the active frame). Only the presentation of the two errors changes.',
+});
+
+const kb = `<div class="bd-panel" style="width:820px"><table class="bd-table">
+<thead><tr><th>FIELD (DATA KEY)</th><th>TYPE</th><th>INPUTMODE</th><th>AUTOCOMPLETE</th><th>ENTERKEYHINT</th><th>NOTE</th></tr></thead><tbody>
+<tr><td>BUSINESS NAME (business_name)</td><td>text</td><td>—</td><td>organization</td><td class="r">next</td><td>implemented except enterkeyhint</td></tr>
+<tr><td>PRIMARY CONTACT (contact_name)</td><td>text</td><td>—</td><td>name</td><td class="r">next</td><td>—</td></tr>
+<tr><td>EMAIL ADDRESS (current_email)</td><td>email</td><td>email</td><td>email</td><td class="r">next</td><td>autocapitalize none implied by type</td></tr>
+<tr><td>PHONE NUMBER (phone)</td><td>tel</td><td>tel</td><td>tel</td><td class="r">done</td><td>dashed display string is what is stored today (FC-007) — unchanged</td></tr>
+<tr><td>YOUR DOMAIN (existing_domain)</td><td>text</td><td class="r">url</td><td class="r">off</td><td class="r">next</td><td>autocapitalize none + spellcheck off already set</td></tr>
+<tr><td>REGISTRAR / PROVIDER</td><td>text</td><td>—</td><td class="r">off</td><td class="r">done</td><td>—</td></tr>
+<tr><td>NOTES (portal)</td><td>textarea</td><td>—</td><td>—</td><td>—</td><td>Return inserts a line; not a submit</td></tr>
+</tbody></table><div class="bd-note bd-note--muted" style="margin-top:10px">Red = proposed attribute additions. Attributes only; no field names, values or validation rules change.</div></div>`;
+
+mount(`
+${header({
+  num: '02',
+  title: 'Text input system',
+  sub: 'One field shell for every typed value in IDNTY: P02 business information, P03 domain / registrar / provider reveals, portal notes. The shell the founder sees today is kept; the proposal adds a clearer active state, an honest optional marker and a touch-safe value size.',
+})}
+${section('01', 'ANATOMY', `<div class="bd-row">${anatomy}${zoomFinding}</div>`)}
+${section('02', 'STATE MATRIX · TEXT INPUT', `<div class="bd-row">${matrix}</div>`, S.impl('BASE') + ' ' + S.prop('STATES'))}
+${section('03', 'FAMILY · SAME SHELL FOR EVERY TYPED VALUE', `<div class="bd-row">${family}</div>`)}
+${section('04', 'IN CONTEXT · BEFORE / AFTER', `<div class="bd-row">${before}${after}${kb}</div>`)}
+<div class="bd-foot"><span>BOARD 02 / 07 · TEXT INPUT SYSTEM</span><span>MESSAGES: <b>validateBusinessInfo · validateForRecommendation</b> (model.ts) — VERBATIM</span></div>
+`);
+</script>
+</body>
+</html>

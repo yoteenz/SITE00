@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Board 05 — Validation and feedback</title>
+<link rel="stylesheet" href="/src/site00/styles/site00-df-client.css">
+<link rel="stylesheet" href="/src/site00/styles/site00-df-components.css">
+<link rel="stylesheet" href="./board.css">
+<link rel="stylesheet" href="./proposal.css">
+<style>
+  .ladder-t { font-size: 10px; font-weight: 700; letter-spacing: 0.2em; margin-bottom: 4px; }
+  .ladder-s { font-size: 9px; letter-spacing: 0.1em; line-height: 1.5; color: #75736e; margin-bottom: 12px; }
+</style>
+</head>
+<body>
+<div id="board"></div>
+<script type="module">
+import { DF, header, section, frame, stage, device, S, icon, rail, headline, lede, cta, trust, status, field, mount } from './kit.js';
+
+const M = DF.messages;
+
+// ── 01 save status ──
+const live = (txt, cls) => `<span class="df-save ${cls}">${txt}</span>`;
+const rowPair = (name, current, proposed, source, chip) => `<tr><td>${name}</td><td>${stage(trust(current), { w: 380, pad: 10 })}</td><td>${stage(trust(proposed), { w: 380, pad: 10 })}</td><td>${source}</td><td>${chip}</td></tr>`;
+const saveTable = `<div class="bd-panel"><table class="bd-table">
+<thead><tr><th>STATE</th><th>CURRENT (SaveChip)</th><th>PROPOSED</th><th>WHEN · SOURCE OF TRUTH</th><th></th></tr></thead><tbody>
+${rowPair('UNSAVED', live('SAVING…', 'df-save--dirty'), status('dirty', 'UNSAVED CHANGES'), 'status = dirty · edits waiting for the 900 ms debounce; no request yet', S.prop('TRUTHFUL LABEL'))}
+${rowPair('SAVING', live('SAVING…', 'df-save--saving'), status('saving', 'SAVING…'), 'status = saving · saveIntake() in flight', S.impl() + ' ' + S.prop('SPINNER'))}
+${rowPair('SAVED', live('SAVED 7:08 AM', 'df-save--saved'), status('saved', 'SAVED 7:08 AM'), 'status = saved · only after saveIntake() resolves; time = savedAt', S.impl() + ' ' + S.prop('MARK'))}
+${rowPair('SAVE FAILED', live('NOT SAVED — RETRY', 'df-save--error'), status('error', 'NOT SAVED —', { act: 'RETRY' }), 'status = error · saveIntake() threw; RETRY calls intake.retry()', S.impl())}
+${rowPair('RESTORED', '', status('restored', 'RESTORED'), 'first render after draftFromPayload() seeded a non-empty saved draft; no time (payload has none)', S.prop())}
+${rowPair('NETWORK UNAVAILABLE', '', status('offline', 'OFFLINE — NOT SAVED'), 'navigator.onLine === false (read-only signal); never claims a local copy', S.prop() + ' ' + S.con('NEW SIGNAL'))}
+</tbody></table>
+<div class="bd-note" style="margin-top:12px"><b>Rule:</b> SAVED appears only after the server confirmed the write — exactly as today. The proposal only stops showing “SAVING…” while nothing is being sent (the 900 ms debounce), and adds a mark so state reads before the words. No autosave timing, endpoint or retry logic changes.</div></div>`;
+
+// ── 02 severity ladder ──
+const ladder = `<div class="ix-ladder df-portal ix" style="background:transparent">
+  <div><div class="ladder-t">01 · FIELD</div><div class="ladder-s">ONE VALUE IS WRONG OR MISSING. INLINE, UNDER THE FIELD.</div>${stage(field({ label: 'EMAIL ADDRESS', value: 'founder@', state: 'invalid', error: M.current_email_invalid }), { w: 300, touch: true })}</div>
+  <div><div class="ladder-t">02 · SECTION</div><div class="ladder-s">SEVERAL ITEMS BLOCK ONE ACTION. SUMMARY ABOVE THE CTA.</div>${stage(`<div class="ix-summary" style="margin-top:0"><span class="ix-mark" style="margin-top:3px"></span><div><div class="ix-summary__t">2 ITEMS NEED ATTENTION</div><ul class="ix-summary__l"><li>${M.contact_name}</li><li>${M.current_email_invalid}</li></ul></div></div>`, { w: 300 })}</div>
+  <div><div class="ladder-t">03 · PAGE</div><div class="ladder-s">THE PAGE WORKS BUT SOMETHING NEEDS ATTENTION. BANNER UNDER THE RAIL.</div>${stage(`<div class="ix-banner ix-banner--red" style="margin-top:0"><span class="ix-mark"></span>WE COULDN'T SAVE YOUR LATEST CHANGES.<span class="ix-banner__act">RETRY</span></div><div class="ix-banner" style="margin-top:8px"><span class="ix-mark ix-mark--hollow-red"></span>YOU'RE OFFLINE. CHANGES WILL NOT SAVE UNTIL YOU RECONNECT.</div>`, { w: 300 })}</div>
+  <div><div class="ladder-t">04 · SYSTEM</div><div class="ladder-s">THE PAGE CANNOT BE USED. FULL SYSTEM PANEL (DfSystemPanel).</div>${stage(`${rail('00', 'FOUNDATION LINK')}<div style="--df-headline:38px">${headline(['THIS LINK', "ISN'T ACTIVE"])}</div>`, { w: 300 })}</div>
+</div>
+<div class="bd-note" style="margin-top:12px">Feedback scales with consequence. Red appears on fields and blocked actions; page banners use red only when work is at risk; system panels speak in the page’s own headline voice. Banner copy is proposed; field, section and system copy is verbatim from the source.</div>`;
+
+// ── 03 system panels (implemented) ──
+const sys = (title, chips, idx, label, lines, body, action) =>
+  frame({
+    title,
+    chips,
+    body: device({
+      h: 560,
+      body: `<div style="padding-top:22px">${rail(idx, label)}${headline(lines)}${lede(body)}${action ? `<div class="df-actions">${action}</div>` : ''}</div>`,
+    }),
+  });
+const panels = [
+  sys('INVALID INVITATION', S.impl(), '00', 'FOUNDATION LINK', ['THIS LINK', "ISN'T ACTIVE"], "CHECK THAT YOU OPENED THE FULL LINK SITE 00 SENT YOU. IF IT STILL DOESN'T OPEN, REPLY TO THE MESSAGE IT CAME IN."),
+  sys('LINK CLOSED · “SESSION EXPIRED”', S.impl(), '00', 'FOUNDATION LINK', ['THIS LINK', 'HAS BEEN', 'CLOSED'], "THIS DIGITAL FOUNDATION LINK IS NO LONGER ACTIVE. IF YOU THINK THAT'S A MISTAKE, REPLY TO THE MESSAGE IT CAME IN."),
+  sys('SERVER ERROR · LOAD', S.impl(), '00', 'DIGITAL FOUNDATION', ["WE COULDN'T", 'LOAD THIS'], 'SOMETHING WENT WRONG ON OUR SIDE. NOTHING YOU SAVED WAS LOST. PLEASE TRY AGAIN.', cta('TRY AGAIN')),
+  sys('NETWORK · LOAD', S.impl(), '00', 'DIGITAL FOUNDATION', ["WE COULDN'T", 'LOAD THIS'], "WE COULDN'T REACH SITE 00. CHECK YOUR CONNECTION AND TRY AGAIN.", cta('TRY AGAIN')),
+].join('');
+
+// ── 04 toasts ──
+const toast = (tone, msg) => `<div class="df-toast df-toast--${tone}" style="position:relative"><span class="df-toast__glyph">${icon(tone === 'success' ? 'check' : tone === 'error' ? 'warning' : 'info')}</span><span class="df-toast__msg">${msg}</span><span class="df-toast__close">${icon('close')}</span></div>`;
+const toasts = frame({
+  title: 'TOASTS (DfToastProvider, U11)',
+  chips: S.impl('LIBRARY') + ' ' + S.prop('USAGE RULE'),
+  width: 420,
+  body: stage(`<div style="display:flex;flex-direction:column;gap:8px">${toast('success', 'PREFERENCES SAVED.')}${toast('error', "WE COULDN'T SAVE YOUR PREFERENCES.")}</div>`, { w: 420 }),
+  note: 'Toasts are for confirmations of a user-initiated save that leaves the page unchanged (portal preferences). Autosave never toasts — the status line is enough. A success toast only after the request resolves. Copy proposed.',
+});
+const policy = frame({
+  title: 'WHAT EACH STATE IS ALLOWED TO PROMISE',
+  chips: S.con('DATA INTEGRITY'),
+  width: 620,
+  body: `<div class="bd-panel"><table class="bd-table"><thead><tr><th>MESSAGE</th><th>ALLOWED WHEN</th><th>NEVER</th></tr></thead><tbody>
+  <tr><td>SAVED · TIME</td><td>saveIntake() resolved; savedAt set</td><td>On debounce, on blur, on optimistic update</td></tr>
+  <tr><td>RESTORED</td><td>Server returned a saved draft</td><td>From local storage or memory</td></tr>
+  <tr><td>NOTHING YOU SAVED WAS LOST</td><td>Load failed, not a save (existing copy)</td><td>After a failed save</td></tr>
+  <tr><td>OFFLINE — NOT SAVED</td><td>navigator.onLine false</td><td>“Saved on this device” — there is no device copy</td></tr>
+  <tr><td>RETRY</td><td>Calls the existing retry()</td><td>A second save path</td></tr>
+  </tbody></table></div>`,
+});
+
+mount(`
+${header({
+  num: '05',
+  title: 'Validation and feedback',
+  sub: 'The founder is testing save and resume for real. Feedback here is designed around one rule: the interface may only say what the server has confirmed. States are mapped to the existing SaveStatus values and load errors — no behaviour, timing or persistence change.',
+})}
+${section('01', 'SAVE STATUS LINE · CURRENT VS PROPOSED', saveTable)}
+${section('02', 'SEVERITY LADDER · FIELD → SECTION → PAGE → SYSTEM', ladder)}
+${section('03', 'SYSTEM PANELS · KEPT AS IMPLEMENTED', `<div class="bd-row">${panels}</div>`, S.impl('DfSystemPanel'))}
+${section('04', 'CONFIRMATION AND HONESTY', `<div class="bd-row">${toasts}${policy}</div>`)}
+<div class="bd-foot"><span>BOARD 05 / 07 · VALIDATION + FEEDBACK</span><span>SOURCE: <b>useIntakeDraft · SaveChip · FoundationClient</b> — STATES MAPPED, NOT CHANGED</span></div>
+`);
+</script>
+</body>
+</html>

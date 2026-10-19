@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Board 01B — Selector territories · desktop</title>
+<link rel="stylesheet" href="/src/site00/styles/site00-df-client.css">
+<link rel="stylesheet" href="/src/site00/styles/site00-df-components.css">
+<link rel="stylesheet" href="./board.css">
+<link rel="stylesheet" href="./proposal.css">
+<style>
+  /* Desktop presentation: the DF ≥1100px column (max 520) with its 88px headline. */
+  .dk { --df-headline: 88px; }
+  .dk .df-lede { max-width: 400px; }
+</style>
+</head>
+<body>
+<div id="board"></div>
+<script type="module">
+import { header, section, frame, device, stage, S, p02Page, selectField, territoryA, territoryC, sheet, ddPanel, BUSINESS_TYPES, mount } from './kit.js';
+
+const T = BUSINESS_TYPES;
+const OTHER = T[T.length - 1];
+const desk = (body, extra = {}) =>
+  device({ w: 600, h: 700, label: 'DESKTOP 1280 × 800 · FORM COLUMN (520) CROP', touch: false, scroll: 380, body: `<div class="dk" style="max-width:520px">${body}</div>`, ...extra });
+
+const a = frame({
+  title: 'A · ANCHORED LISTBOX — FULL LIST',
+  chips: S.prop() + ' ' + S.rec('OPUS RECOMMENDS ON DESKTOP'),
+  body: desk(p02Page({ typeSlot: territoryA({ value: T[5], active: 6, rows: 10 }) })),
+  note: 'Ten rows fit (400 px) — no scroll on desktop. Pointer hover = tint; selected = red period + ink weight. The panel covers PRIMARY CONTACT without moving it; Escape, Tab or an outside click closes and returns focus.',
+});
+
+const b = frame({
+  title: 'B · SAME SHEET AS A CENTRED PANEL',
+  chips: S.alt('ONLY IF B IS CHOSEN EVERYWHERE'),
+  body: desk(p02Page({ typeSlot: selectField({ value: T[5], open: true, mark: true }) }), {
+    bottom: `<div class="ix-scrim"></div>${sheet({ value: T[5], safe: false }).replace('class="ix-sheet"', 'class="ix-sheet ix-sheet--panel"')}`,
+  }),
+  note: 'Works, but a modal for a ten-item choice on a large screen is heavier than the decision deserves. Kept only so B-everywhere is a real option.',
+});
+
+const c = frame({
+  title: 'C · INLINE EXPANSION',
+  chips: S.alt('SHORT LISTS ONLY'),
+  body: desk(p02Page({ typeSlot: territoryC({ value: T[5] }) })),
+  note: 'Calm on desktop, but the form below moves ~450 px every time it opens. Right for the four domain paths, wrong for ten business types.',
+});
+
+const states = [
+  ['CLOSED · HOVER', selectField({ value: '', hover: true })],
+  ['CLOSED · FOCUS-VISIBLE (TAB)', selectField({ value: '', focus: true, mark: true })],
+  ['CLOSED · SELECTED', selectField({ value: T[2] })],
+  ['DISABLED · INTAKE SUBMITTED', selectField({ value: T[2], disabled: true })],
+  ['INVALID (ILLUSTRATIVE)', selectField({ value: '', invalid: true, error: 'CHOOSE A BUSINESS TYPE' })],
+]
+  .map(([t, h]) => frame({ title: t, width: 300, body: stage(h, { w: 300 }) }))
+  .join('');
+
+const typeahead = frame({
+  title: 'OPEN · TYPEAHEAD “RE” → RETAIL',
+  chips: S.impl('BEHAVIOUR EXISTS') + ' ' + S.prop('VISUAL'),
+  width: 360,
+  body: stage(`<div style="height:300px">${territoryA({ value: T[0], active: 5, rows: 6.5, scrollAt: 1.5 })}</div>`, { w: 360 }),
+  note: 'DfSelect matches typed letters against labels (700 ms window). The matched row is the active row; Enter commits.',
+});
+
+const keys = `<div class="bd-panel" style="width:640px"><table class="bd-table">
+<thead><tr><th>KEY / INPUT</th><th>CLOSED</th><th>OPEN</th></tr></thead>
+<tbody>
+<tr><td>ENTER · SPACE · ↓ · ↑</td><td>Open (↑ on empty starts at last)</td><td>Enter / Space commit active row and close</td></tr>
+<tr><td>↓ ↑ HOME END</td><td>—</td><td>Move active row; disabled rows skipped</td></tr>
+<tr><td>LETTERS</td><td>—</td><td>Typeahead to first matching label</td></tr>
+<tr><td>ESC</td><td>—</td><td>Close, focus stays on the trigger</td></tr>
+<tr><td>TAB</td><td>Next field</td><td>Close without committing, move on</td></tr>
+<tr><td>POINTER OUTSIDE</td><td>—</td><td>Close without committing</td></tr>
+<tr><td>SCREEN READER</td><td colspan="2">combobox · aria-expanded · aria-activedescendant · listbox / option aria-selected — <b>all already in components.tsx</b></td></tr>
+</tbody></table></div>`;
+
+mount(`
+${header({
+  num: '01B',
+  title: 'Selector territories · desktop',
+  sub: 'The same three territories at the ≥1100 px Digital Foundation layout (520 px form column, 88 px headline). On desktop the anchored listbox is the natural home: ten options fit without scrolling and the keyboard model already exists in DfSelect.',
+})}
+${section('01', 'OPEN STATE IN CONTEXT', `<div class="bd-row">${a}${b}${c}</div>`, S.prop())}
+${section('02', 'TRIGGER STATES · DESKTOP (POINTER + KEYBOARD)', `<div class="bd-row">${states}</div>`, S.impl('CLOSED CHROME') + ' ' + S.prop('MARK + FRAME'))}
+${section('03', 'KEYBOARD AND TYPEAHEAD', `<div class="bd-row">${typeahead}${keys}</div>`, S.impl('DfSelect'))}
+<div class="bd-foot"><span>BOARD 01B / 07 · SELECTOR TERRITORIES · DESKTOP</span><span>BEHAVIOUR SOURCE: <b>DfSelect</b> (src/site00/foundation-client/components.tsx) · FD-1 OPEN</span></div>
+`);
+</script>
+</body>
+</html>

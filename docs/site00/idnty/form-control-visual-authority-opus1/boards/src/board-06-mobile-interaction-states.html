@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Board 06 — Mobile interaction states</title>
+<link rel="stylesheet" href="/src/site00/styles/site00-df-client.css">
+<link rel="stylesheet" href="/src/site00/styles/site00-df-components.css">
+<link rel="stylesheet" href="./board.css">
+<link rel="stylesheet" href="./proposal.css">
+<style>
+  .kb { position: absolute; left: 0; right: 0; bottom: 0; z-index: 12; display: flex; flex-direction: column; }
+  .kb__bar { display: flex; align-items: center; justify-content: space-between; height: 44px; padding: 0 16px; border-top: 1px solid #c9c7c2; background: #ecebe8; font-size: 8.5px; font-weight: 700; letter-spacing: 0.2em; color: #5d5b57; }
+  .zoom { zoom: 1.6; }
+  .land .ix-sheet__head { padding: 10px 22px; }
+  .land .ix-sheet__title { display: inline-block; margin: 0 0 0 14px; font-size: 22px; vertical-align: middle; }
+  .land .ix-sheet__head .df-rail { display: inline-flex; vertical-align: middle; }
+  .land .ix-sheet__meta { display: none; }
+  .land .ix-srow { min-height: 44px; }
+</style>
+</head>
+<body>
+<div id="board"></div>
+<script type="module">
+import { DF, header, section, frame, device, stage, S, p02Page, p02Intro, field, selectField, sheet, cta, trust, status, BUSINESS_TYPES, mount } from './kit.js';
+
+const T = BUSINESS_TYPES;
+const M = DF.messages;
+const keyboard = (h = 291, label = 'IOS KEYBOARD · SYSTEM UI · SCHEMATIC') =>
+  `<div class="kb"><div class="kb__bar"><span>‹ &nbsp; ›</span><span>FORM ACCESSORY BAR · SYSTEM</span><span>DONE</span></div><div class="bd-system" style="height:${h}px">${label}</div></div>`;
+const safariBar = '<div class="bd-safari" style="position:absolute;left:0;right:0;bottom:0;z-index:12;height:78px">SAFARI TOOLBAR · EXPANDED · SYSTEM UI</div>';
+
+// 1 — keyboard active, typing
+const typing = frame({
+  title: '01 · TYPING · KEYBOARD UP',
+  chips: S.prop(),
+  body: device({
+    scroll: 360,
+    body: p02Page({ typeSlot: selectField({ value: T[T.length - 1] }), email: '' }).replace(
+      /<div class="df-field "><span class="ix-head"><span class="df-field__label">EMAIL ADDRESS<\/span><\/span><input class="df-input"[^>]*>/,
+      field({ label: 'EMAIL ADDRESS', value: 'founder@jurnl.ex', state: 'focus', mark: true }).replace(/<\/div>$/, ''),
+    ),
+    bottom: keyboard(),
+  }),
+  note: 'Focused field sits in the visible area above the keyboard (scroll-margin on .df-field, scrollIntoView block: nearest). 16 px value — no page zoom. Enter key reads NEXT (enterkeyhint) and moves to PHONE.',
+});
+
+// 2 — error while keyboard up
+const errorKb = frame({
+  title: '02 · ERROR WITH KEYBOARD UP',
+  chips: S.prop(),
+  body: device({
+    scroll: 360,
+    body: p02Page({ typeSlot: selectField({ value: T[T.length - 1] }) }).replace(
+      /<div class="df-field "><span class="ix-head"><span class="df-field__label">EMAIL ADDRESS<\/span><\/span><input class="df-input"[^>]*>/,
+      field({ label: 'EMAIL ADDRESS', value: 'founder@', state: 'invalid-focus', mark: true, error: M.current_email_invalid }).replace(/<\/div>$/, ''),
+    ),
+    bottom: keyboard(),
+  }),
+  note: 'After CONTINUE, focus returns to the first invalid field (existing). The message line must stay above the keyboard: scroll the whole .df-field card into view, not just the input.',
+});
+
+// 3 — selector while keyboard was up
+const fromKb = frame({
+  title: '03 · OPENING BUSINESS TYPE FROM THE KEYBOARD',
+  chips: S.prop() + ' ' + S.dec('FD-1'),
+  body: device({
+    scroll: 300,
+    body: p02Page({ typeSlot: selectField({ value: '', open: true, mark: true }) }),
+    bottom: `<div class="ix-scrim"></div>${sheet({ value: '', focus: 0 })}`,
+  }),
+  note: 'Tapping the trigger blurs the text field — the keyboard drops, then the sheet rises in its place (no keyboard behind a sheet). Focus moves to the first row (VoiceOver reads “BUSINESS TYPE, list, 10 items”). Close returns focus to the trigger.',
+});
+
+// 4 — Safari toolbar
+const toolbar = frame({
+  title: '04 · SAFARI TOOLBAR EXPANDED',
+  chips: S.con('DYNAMIC VIEWPORT'),
+  body: device({
+    h: 844,
+    scroll: 300,
+    body: p02Page({ typeSlot: selectField({ value: T[3], open: true, mark: true }) }),
+    bottom: `<div class="ix-scrim" style="bottom:78px"></div><div style="position:absolute;left:0;right:0;bottom:78px;z-index:9">${sheet({ value: T[3], safe: false }).replace('class="ix-sheet"', 'class="ix-sheet" style="position:relative"')}</div>${safariBar}`,
+  }),
+  note: 'The sheet is anchored to the visual viewport, so it sits on top of Safari’s toolbar, never under it. Height cap = 100dvh − 56 px; bottom padding = env(safe-area-inset-bottom) when the toolbar collapses.',
+});
+
+// 5 — landscape
+const landscape = frame({
+  title: '05 · LANDSCAPE · 844 × 390',
+  chips: S.prop(),
+  body: `<div class="land">${device({
+    w: 844,
+    h: 390,
+    label: 'IPHONE SAFARI · LANDSCAPE 844 × 390',
+    scroll: 420,
+    body: `<div style="max-width:520px">${p02Page({ typeSlot: selectField({ value: T[4], open: true, mark: true }) })}</div>`,
+    bottom: `<div class="ix-scrim"></div><div style="position:absolute;left:50%;transform:translateX(-50%);width:520px;top:24px;bottom:0;z-index:9;display:flex">${sheet({ value: T[4], safe: false })
+      .replace('class="ix-sheet"', 'class="ix-sheet" style="position:relative;width:100%"')
+      .replace('SELECT A<br>BUSINESS TYPE', 'SELECT A BUSINESS TYPE').replace('class="ix-sheet__list "', 'class="ix-sheet__list ix-fade" style="min-height:0"')}</div>`,
+  })}</div>`,
+  note: 'Short viewport: the header collapses to one line, rows drop to 44 px, the sheet keeps 24 px of page above it and stays the 520 px column width. Only the list scrolls.',
+});
+
+// 6 — 320 px + long labels
+const narrow = frame({
+  title: '06 · 320 PX · LABELS WRAP, NEVER TRUNCATE',
+  chips: S.prop(),
+  body: device({
+    w: 320,
+    h: 640,
+    label: '320 × 640 · 200% TEXT ZOOM EQUIVALENT',
+    scroll: 300,
+    body: p02Page({ typeSlot: selectField({ value: T[2], open: true, mark: true }) }),
+    bottom: `<div class="ix-scrim"></div><div style="position:absolute;left:0;right:0;bottom:0;top:56px;z-index:9;display:flex;flex-direction:column;justify-content:flex-end"><div class="zoom" style="zoom:1.45">${sheet({ value: T[2], rows: 3, safe: false })
+      .replace('class="ix-sheet"', 'class="ix-sheet" style="position:relative"')
+      .replace('<span class="ix-sheet__meta">OPTIONAL · CHOOSE ONE</span>', '')}</div></div>`,
+  }),
+  note: 'At large text sizes “TRANSPORTATION + LOGISTICS” wraps to two lines and the row grows; the close button stays 44 px. Never ellipsis inside the list (the closed trigger may truncate, the list may not).',
+});
+
+const motion = `<div class="bd-panel" style="width:780px"><table class="bd-table">
+<thead><tr><th>CONCERN</th><th>BEHAVIOUR</th><th>SOURCE</th></tr></thead><tbody>
+<tr><td>SHEET MOTION</td><td>200 ms rise + 160 ms scrim fade; none with prefers-reduced-motion</td><td>df-rise / df-fade + existing reduced-motion block</td></tr>
+<tr><td>SCROLL LOCK</td><td>Body locked only while the sheet is open (modal); page-level scrolling otherwise untouched</td><td>useDfScrollLock (existing, ref-counted)</td></tr>
+<tr><td>SCROLL RESTORE</td><td>Page offset unchanged after close; focus returns to the trigger with preventScroll</td><td>DfSelect close() pattern</td></tr>
+<tr><td>ACCIDENTAL PICK</td><td>Commit on click (tap up), never on pointerdown; scroll gestures inside the list never select</td><td>browser click semantics</td></tr>
+<tr><td>BACKGROUND</td><td>Scrim tap = close without change; background inert (aria-modal) while open</td><td>useDfDialogFocus</td></tr>
+<tr><td>BROWSER ZOOM</td><td>All sizes in px scale with zoom; viewport meta allows user scaling (maximum-scale=10) — keep it</td><td>index.html</td></tr>
+</tbody></table></div>`;
+
+mount(`
+${header({
+  num: '06',
+  title: 'Mobile interaction states',
+  sub: 'The iPhone moments that decide whether the intake feels native to SITE 00: the keyboard, the error under it, the hand-off from keyboard to selector, Safari’s moving toolbar, landscape and very small or zoomed screens. System UI is drawn only as labelled grey placeholders — it is never imitated.',
+})}
+${section('01', 'KEYBOARD', `<div class="bd-row">${typing}${errorKb}${fromKb}</div>`)}
+${section('02', 'VIEWPORT EDGES', `<div class="bd-row">${toolbar}${narrow}</div>`)}
+${section('03', 'LANDSCAPE AND MOTION', `<div class="bd-row">${landscape}${motion}</div>`)}
+<div class="bd-foot"><span>BOARD 06 / 07 · MOBILE INTERACTION STATES</span><span>SHOWN WITH TERRITORY <b>B</b> (OPUS RECOMMENDATION) · FD-1 DECIDES</span></div>
+`);
+</script>
+</body>
+</html>

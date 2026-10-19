@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Board 04 — Progression system</title>
+<link rel="stylesheet" href="/src/site00/styles/site00-df-client.css">
+<link rel="stylesheet" href="/src/site00/styles/site00-df-components.css">
+<link rel="stylesheet" href="./board.css">
+<link rel="stylesheet" href="./proposal.css">
+<style>
+  .drawer-stage { --df-drawer-rule: #dcdbd8; background: #fbfaf8; }
+  .drawer-stage .df-drawer__steps { border-bottom: 0; }
+</style>
+</head>
+<body>
+<div id="board"></div>
+<script type="module">
+import { DF, header, section, frame, stage, device, S, icon, rail, cta, trust, status, backLink, field, mount } from './kit.js';
+
+const V = DF.VIEW_META;
+const intake = ['P01', 'P02', 'P03', 'P04', 'P05', 'P06'];
+
+// ── Approved drawer, rendered from buildDfMenu() output ──
+const glyphFor = (st) => (st === 'locked' ? 'lock' : st === 'done' ? 'check' : 'arrow');
+const drawerSteps = (steps) =>
+  `<ol class="df-drawer__steps" style="padding:4px 0">${steps
+    .map(
+      (s) => `<li><span class="df-drawer__step df-drawer__step--${s.state}"><span class="df-drawer__index">${s.index}</span><span class="df-drawer__connector"></span><span class="df-drawer__label">${s.label}</span>${icon(glyphFor(s.state), 'df-drawer__glyph')}</span></li>`,
+    )
+    .join('')}</ol>`;
+const steps = DF.menu.steps;
+const drawer = frame({
+  title: 'MENU DRAWER STEPS · buildDfMenu(P01–P03, current P02)',
+  chips: S.locked('APPROVED #1572'),
+  width: 360,
+  body: `<div class="df-portal drawer-stage" style="width:360px;padding:14px 18px 14px 20px;border:1px solid #dcdad5">${drawerSteps(steps)}</div>`,
+  note: 'Founder-approved (“yes i approve”, PR #1572). Index · connector · label · glyph; current in red, done and locked muted. This is the progression grammar every other progress surface should speak.',
+});
+
+const railFrame = frame({
+  title: 'PAGE RAIL (DF-C02)',
+  chips: S.impl('BOARD 01/02'),
+  width: 360,
+  body: stage(`${rail('02', V.P02.label)}<div style="height:12px"></div>${rail('03', V.P03.label)}<div style="height:12px"></div>${rail('—', V.COMM_PREFS.label)}`, { w: 360 }),
+  note: 'Each screen already announces where you are with the same index-rule-label line.',
+});
+
+// ── Progress: current vs proposed ──
+const states = ['complete', 'complete', 'current', 'future', 'future', 'locked'];
+const labels = ['GET STARTED', 'BUSINESS', 'FOUNDATION', 'RECOMMENDATION', 'REVIEW', 'ACTIVATION'];
+const dfProgress = `<ol class="df-progress" style="margin:0">${labels
+  .map((l, i) => `<li class="df-progress__step df-progress__step--${states[i]}"><span class="df-progress__node">${states[i] === 'locked' ? '' : String(i + 1).padStart(2, '0')}</span><span class="df-progress__label">${l}</span></li>`)
+  .join('')}</ol>`;
+const ixSteps = `<ol class="ix-steps">${labels
+  .map((l, i) => {
+    const st = states[i] === 'complete' ? 'done' : states[i];
+    const g = st === 'done' ? icon('check') : st === 'locked' ? icon('lock') : '';
+    return `<li class="ix-step ix-step--${st}"><span class="ix-step__n">${String(i + 1).padStart(2, '0')}</span><span class="ix-step__rule"></span><span class="ix-step__label">${g}${l}</span></li>`;
+  })
+  .join('')}</ol>`;
+const progressNow = frame({
+  title: 'IN-PAGE PROGRESS · CURRENT (DfProgress, U12)',
+  chips: S.impl('#1573') + ' ' + S.unres('REFERENCE BOARD NOT IN REPO'),
+  width: 560,
+  body: stage(dfProgress, { w: 560 }),
+  note: 'Round nodes with a red halo. Built in #1573 “to match the founder reference boards” — those images are not in the repository, so whether the circles were the founder’s choice cannot be verified (FD-5).',
+});
+const progressNext = frame({
+  title: 'IN-PAGE PROGRESS · PROPOSED INDEX STRIP',
+  chips: S.prop() + ' ' + S.rec(),
+  width: 560,
+  body: stage(ixSteps, { w: 560 }),
+  note: 'The drawer grammar laid flat: display numerals, a hairline that fills ink when done and red up to the current step, a check or lock glyph on the label. No circles, no halo. Labels shortened for the strip only; state still comes from foundationProgress().',
+});
+
+// ── Navigation controls ──
+const ctaCell = (t, html, chips) => frame({ title: t, chips, width: 300, body: stage(html, { w: 300 }) });
+const nav = [
+  ctaCell('PRIMARY', cta('CONTINUE'), S.impl()),
+  ctaCell('PRIMARY · BUSY', cta('BUILDING YOUR RECOMMENDATION…', { busy: true, arrow: false }), S.impl()),
+  ctaCell('PRIMARY · DISABLED', cta('PROCEED TO CHECKOUT', { disabled: true }), S.impl()),
+  ctaCell('SECONDARY · OUTLINE', cta('BACK TO OVERVIEW', { tone: 'outline' }), S.impl()),
+  ctaCell('BACK · TEXT', `<div style="padding:12px 0">${backLink('BACK TO BUSINESS INFORMATION')}</div>`, S.prop()),
+].join('');
+
+// ── Blocked + resume ──
+const blocked = frame({
+  title: 'BLOCKED · VALIDATE ON PRESS (P02 / P03)',
+  chips: S.impl('BEHAVIOUR') + ' ' + S.prop('SUMMARY'),
+  body: device({
+    h: 520,
+    scroll: 0,
+    body: `<div style="padding-top:18px">${rail('03', V.P03.label)}</div>
+      <div class="ix-summary"><span class="ix-mark" style="margin-top:3px"></span><div><div class="ix-summary__t">2 ITEMS NEED ATTENTION</div><ul class="ix-summary__l"><li>${DF.messages.domainPath}</li><li>${DF.messages.existing_domain_invalid}</li></ul></div></div>
+      ${cta('VIEW MY RECOMMENDATION')}
+      ${trust(status('saved', 'SAVED 7:12 AM'))}`,
+  }),
+  note: 'Today P03 opens the domain panel and focuses the field. Proposed addition only when more than one item blocks: a summary above the CTA whose lines jump to each field. Messages verbatim. The CTA is never disabled for validation — a disabled button cannot say why.',
+});
+const disabledGate = frame({
+  title: 'BLOCKED · GATED BUTTON (P05)',
+  chips: S.impl('BEHAVIOUR') + ' ' + S.prop('COUNTER'),
+  body: device({
+    h: 520,
+    body: `<div style="padding-top:18px">${rail('05', V.P05.label)}</div>
+      <fieldset class="df-acks" style="margin-top:16px"><legend class="df-reveal__label" style="display:flex;width:100%">BEFORE YOU ACCEPT<span class="ix-ack-count">1 OF 3</span></legend>
+      ${DF.DF_DISCLOSURES.map((d, i) => `<label class="df-ack ${i === 0 ? 'df-ack--on' : ''}"><span class="df-check ${i === 0 ? 'df-check--on' : ''}">${i === 0 ? icon('check') : ''}</span><span class="df-ack__text">${d}</span></label>`).join('')}</fieldset>
+      ${cta('PROCEED TO CHECKOUT', { disabled: true })}
+      <p class="ix-hint" style="margin-top:10px;text-align:center">CONFIRM 2 MORE ITEMS TO CONTINUE</p>`,
+  }),
+  note: 'P05 keeps its disabled gate (payment safety). The proposed counter and one muted line say exactly what unlocks it. Accept / checkout logic untouched.',
+});
+const resume = frame({
+  title: 'RESUME · RETURNING TO A SAVED DRAFT',
+  chips: S.prop() + ' ' + S.con('NO SAVED-AT IN PAYLOAD'),
+  body: device({
+    h: 520,
+    body: `<div style="padding-top:18px">${rail('02', V.P02.label)}</div>
+      <div class="ix-banner"><span class="ix-mark ix-mark--ink"></span>WELCOME BACK. YOUR SAVED ANSWERS ARE RESTORED.<span class="ix-banner__act">DISMISS</span></div>
+      <div class="df-form" style="display:flex;flex-direction:column">${field({ label: 'BUSINESS NAME', value: 'JURNL' })}${field({ label: 'PRIMARY CONTACT', value: 'Founder Test' })}</div>
+      ${trust(status('restored', 'RESTORED'))}`,
+  }),
+  note: 'Shown only when the server returned a non-empty saved draft (draftFromPayload). The client payload carries no intake saved-at time, so RESTORED shows no time: a device-clock time could claim a save that never happened. Adding a time needs an API field — out of scope. Copy proposed.',
+});
+
+mount(`
+${header({
+  num: '04',
+  title: 'Progression system',
+  sub: 'IDNTY already has an approved way to say “where you are”: the numbered rail on every page and the founder-approved menu drawer. This board keeps both, aligns the in-page progress strip to them, and defines continue / back / blocked / resume without turning the page into a wizard.',
+})}
+${section('01', 'APPROVED GRAMMAR', `<div class="bd-row">${drawer}${railFrame}</div>`, S.locked())}
+${section('02', 'IN-PAGE PROGRESS · ONE STATE MODEL, TWO PRESENTATIONS', `<div class="bd-row">${progressNow}${progressNext}</div>`)}
+${section('03', 'CONTINUE · BACK · BUSY', `<div class="bd-row">${nav}</div>`, S.impl('DfButton'))}
+${section('04', 'BLOCKED AND RESUMED', `<div class="bd-row">${blocked}${disabledGate}${resume}</div>`)}
+<div class="bd-foot"><span>BOARD 04 / 07 · PROGRESSION SYSTEM</span><span>STATE: <b>buildDfMenu · foundationProgress · DF_VIEW_META</b> (model.ts) · SEQUENCE UNCHANGED</span></div>
+`);
+</script>
+</body>
+</html>

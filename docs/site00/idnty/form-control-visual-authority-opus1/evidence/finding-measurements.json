@@ -1,0 +1,21 @@
+{
+  "NF-01": {
+    "selector": "#df-business_name (.df-input)",
+    "font_size": "14px",
+    "ios_zoom_threshold": "16px",
+    "below_ios_zoom_threshold": true
+  },
+  "NF-02": {
+    "selector": ".df-chip",
+    "matching_css_rules": [],
+    "border": "outset",
+    "appearance": "auto"
+  },
+  "C-1": {
+    "selector": ".df-root .df-select__chev (DfSelect markup)",
+    "position": "absolute",
+    "transform": "matrix(0, 1, -1, 0, 0, -8)"
+  },
+  "measured_with": "Chromium (Playwright) at 390×844, /foundation/review on the local Vite server",
+  "measured_at": "2026-10-19T13:14:26.332Z"
+}
