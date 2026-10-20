@@ -22,6 +22,7 @@ describe('Digital Foundation global typographic reflow', () => {
   });
 
   it('refines card and row text columns without changing grid geometry', () => {
+    expect(clientCss).toMatch(/\.df-spec__btn \{[\s\S]*grid-template-columns: 30px minmax\(0, 1fr\) 136px auto/);
     expect(clientCss).toMatch(/\.df-spec__text[\s\S]*min-width: 0/);
     expect(clientCss).toMatch(/\.df-addon__main[\s\S]*min-width: 0/);
     expect(clientCss).toMatch(/\.df-row__title[\s\S]*text-wrap: balance/);

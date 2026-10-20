@@ -1477,7 +1477,8 @@ div.df-row__main {
 
 .df-spec__btn {
   display: grid;
-  grid-template-columns: 30px minmax(0, 1fr) minmax(0, 136px) auto;
+  /* Fixed value column keeps the divider aligned when a chevron shares the row (e.g. third-party costs). */
+  grid-template-columns: 30px minmax(0, 1fr) 136px auto;
   align-items: center;
   gap: 0 14px;
   width: 100%;
@@ -1586,7 +1587,7 @@ button.df-spec__btn {
 }
 
 .df-specs--activation .df-spec__btn {
-  grid-template-columns: 28px minmax(0, 1fr) minmax(0, 132px);
+  grid-template-columns: 28px minmax(0, 1fr) 132px;
   min-height: 46px;
 }
 
@@ -2488,11 +2489,11 @@ button.df-spec__btn {
   }
 
   .df-spec__btn {
-    grid-template-columns: 30px minmax(0, 1fr) minmax(0, 190px) auto;
+    grid-template-columns: 30px minmax(0, 1fr) 190px auto;
   }
 
   .df-specs--activation .df-spec__btn {
-    grid-template-columns: 28px minmax(0, 1fr) minmax(0, 210px);
+    grid-template-columns: 28px minmax(0, 1fr) 210px;
   }
 }
 
