@@ -66,7 +66,7 @@ export function P01Entry({
   return (
     <>
       <DfRail index="01" label="GET STARTED" />
-      <DfHeadline lines={['YOUR', 'NEW DIGITAL', 'FOUNDATION', 'STARTS HERE']} />
+      <DfHeadline lines={['YOUR NEW', 'DIGITAL FOUNDATION', 'STARTS HERE']} />
       <DfLede>
         ESTABLISH YOUR BUSINESS ON A SECURE, PROFESSIONAL <strong>FOUNDATION</strong> — DOMAIN, EMAIL, SECURITY AND
         OWNERSHIP. DONE FOR YOU. TYPICALLY {days} BUSINESS DAYS.
