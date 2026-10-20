@@ -13,6 +13,7 @@ import type {
   ReferralSource,
 } from '../../../shared/site00-digital-foundation/types.js';
 import type { BuildReadinessAssessment } from '../../../shared/site00-digital-foundation/types.js';
+import type { FoundationBuilderHandoffRecord } from '../../../shared/site00-digital-foundation/builderHandoff.js';
 import { seedReferralSources } from '../../../shared/site00-digital-foundation/referralSources.js';
 import { defaultDigitalFoundationCommercialConfig } from '../../../shared/site00-digital-foundation/commercialConfig.js';
 import type { CommunicationConsentRecord, CommunicationSendIntent } from '../../../shared/site00-digital-foundation/communications/types.js';
@@ -64,6 +65,7 @@ export type DfMemoryState = {
   sendIntents: Map<string, CommunicationSendIntent>;
   communicationConsents: Map<string, CommunicationConsentRecord>;
   projectMessages: Map<string, ProjectMessage[]>;
+  builderHandoffs: Map<string, FoundationBuilderHandoffRecord>;
 };
 
 let state: DfMemoryState | null = null;
@@ -99,6 +101,7 @@ export function getDfMemoryState(): DfMemoryState {
       sendIntents: new Map(),
       communicationConsents: new Map(),
       projectMessages: new Map(),
+      builderHandoffs: new Map(),
     };
     if (isCloudMobilePreviewDev()) {
       mergePreviewSnapshotFromDisk(state);

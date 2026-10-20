@@ -45,6 +45,7 @@ const OBJECT_FOR: Record<DfView, DfObjectKind> = {
   RECORDS: 'crown',
   RECORD: 'crown',
   COMM_PREFS: 'corner',
+  COMPLETE: 'crown',
 };
 
 function seenKey(artifactId: string) {
@@ -211,9 +212,6 @@ export function FoundationClient({ token, pwaScope = true }: { token: string; pw
   }
   if (!payload || !route) return <DfLoading />;
 
-  if (route.kind === 'complete') {
-    return <DigitalFoundationCompleteSurface token={token} payload={payload} reload={reload} />;
-  }
   if (route.kind === 'closed') {
     return (
       <DfSystemPanel
@@ -444,6 +442,9 @@ export function FoundationClient({ token, pwaScope = true }: { token: string; pw
           onOverview={() => go('OVERVIEW')}
         />
       );
+      break;
+    case 'COMPLETE':
+      body = <DigitalFoundationCompleteSurface token={token} payload={payload} reload={reload} embedded />;
       break;
   }
 

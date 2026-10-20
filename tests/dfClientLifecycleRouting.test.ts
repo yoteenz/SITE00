@@ -48,8 +48,23 @@ describe('digital foundation client lifecycle routing', () => {
     if (portalActive.kind === 'views') expect(portalActive.defaultView).toBe('OVERVIEW');
   });
 
-  it('routes completion surfaces away from temporary queue', () => {
-    const complete = resolveDfRoute(payload('COMPLETE'), { checkout: null, activationSeen: true });
-    expect(complete.kind).toBe('complete');
+  it('routes completion surfaces into the living portal with milestone view', () => {
+    const complete = resolveDfRoute(
+      {
+        ...payload('COMPLETE'),
+        artifact: {
+          ...payload('COMPLETE').artifact,
+          completion_state: 'COMPLETE',
+          payment_state: 'PAID',
+        },
+      },
+      { checkout: null, activationSeen: true },
+    );
+    expect(complete.kind).toBe('views');
+    if (complete.kind === 'views') {
+      expect(complete.views).toContain('OVERVIEW');
+      expect(complete.views).toContain('COMPLETE');
+      expect(complete.defaultView).toBe('OVERVIEW');
+    }
   });
 });

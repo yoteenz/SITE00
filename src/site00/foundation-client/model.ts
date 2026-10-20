@@ -22,7 +22,15 @@ import { dfInputDisplayUpper } from './dfInputText';
 import { formatUsPhoneDisplay } from './phoneFormat';
 
 export type DfIntakeView = 'P01' | 'P02' | 'P03' | 'P04' | 'P05' | 'P06';
-export type DfPortalView = 'OVERVIEW' | 'ROADMAP' | 'STAGE' | 'NEEDS_YOU' | 'RECORDS' | 'RECORD' | 'COMM_PREFS';
+export type DfPortalView =
+  | 'OVERVIEW'
+  | 'ROADMAP'
+  | 'STAGE'
+  | 'NEEDS_YOU'
+  | 'RECORDS'
+  | 'RECORD'
+  | 'COMM_PREFS'
+  | 'COMPLETE';
 export type DfView = DfIntakeView | DfPortalView;
 export type CheckoutParam = 'return' | 'cancel' | null;
 
@@ -40,6 +48,7 @@ export const DF_VIEW_META: Record<DfView, { index: string; label: string; footer
   RECORDS: { index: '—', label: 'MY RECORDS', footer: 'REC' },
   RECORD: { index: '—', label: 'RECORD DETAIL', footer: 'REC' },
   COMM_PREFS: { index: '—', label: 'COMMUNICATION PREFERENCES', footer: 'COM' },
+  COMPLETE: { index: '11', label: 'FOUNDATION COMPLETE', footer: '011' },
 };
 
 export const DF_VIEW_ORDER: DfView[] = ['P01', 'P02', 'P03', 'P04', 'P05', 'P06', 'OVERVIEW'];
@@ -54,6 +63,7 @@ export function portalViewsForPayload(payload: ClientDigitalFoundationPayload): 
   if (payload.stages.length) base.push('STAGE');
   if (buildClientRecords(payload).length) base.push('RECORDS', 'RECORD');
   base.push('COMM_PREFS');
+  if (payload.artifact.completion_state === 'COMPLETE') base.push('COMPLETE');
   return base;
 }
 
@@ -91,7 +101,7 @@ export const DF_ROADMAP_ANCHOR = 'df-stages-h';
 
 /**
  * The drawer shows the whole journey, but only the parents the server surface allows (`resolveDfRoute`)
- * are navigable. Records and the digital location live on the COMPLETE surface, which has no menu.
+ * are navigable. After verified completion, records and the digital-location milestone stay inside the same portal shell.
  */
 export function buildDfMenu(views: readonly DfView[], current: DfView | null): {
   steps: DfMenuStep[];
@@ -129,6 +139,7 @@ export function buildDfMenu(views: readonly DfView[], current: DfView | null): {
   const portal = views.includes('OVERVIEW');
   const portalV2 = portal && views.includes('ROADMAP');
   const recs = portal && views.includes('RECORDS');
+  const completeMilestone = portal && views.includes('COMPLETE');
   const destinations: DfMenuDestination[] = [
     {
       id: 'overview',
@@ -174,10 +185,10 @@ export function buildDfMenu(views: readonly DfView[], current: DfView | null): {
     {
       id: 'location',
       label: 'VIEW MY DIGITAL LOCATION',
-      view: null,
-      available: false,
-      current: false,
-      status: 'AFTER COMPLETION',
+      view: completeMilestone ? 'COMPLETE' : null,
+      available: completeMilestone,
+      current: current === 'COMPLETE',
+      status: completeMilestone ? null : 'AFTER COMPLETION',
     },
   ];
   return { steps, destinations };
@@ -192,10 +203,7 @@ export const DF_DISCLOSURES = [
 
 // ─── Routing inside the one link ────────────────────────────────────────────────────────────────
 
-export type DfRoute =
-  | { kind: 'views'; views: DfView[]; defaultView: DfView }
-  | { kind: 'closed' }
-  | { kind: 'complete' };
+export type DfRoute = { kind: 'views'; views: DfView[]; defaultView: DfView } | { kind: 'closed' };
 
 /**
  * Which parents the client may open on the current server surface, and where the link lands.
@@ -211,8 +219,15 @@ export function resolveDfRoute(
   const { artifact, quote, acceptance } = payload;
   switch (payload.surface) {
     case 'COMPLETE':
-    case 'BUILD_UPSELL':
-      return { kind: 'complete' };
+    case 'BUILD_UPSELL': {
+      const portal = portalViewsForPayload(payload);
+      const defaultView: DfView = payload.surface === 'BUILD_UPSELL' ? 'COMPLETE' : 'OVERVIEW';
+      return {
+        kind: 'views',
+        views: ['P06', ...portal],
+        defaultView,
+      };
+    }
     case 'PAYMENT_RECOVERY':
       return { kind: 'views', views: ['P06'], defaultView: 'P06' };
     case 'PORTAL': {
