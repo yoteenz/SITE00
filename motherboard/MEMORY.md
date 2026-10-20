@@ -16810,3 +16810,12 @@ Summary of the whole conversation in this chat.
 - **Registry:** `digitalFoundationReviewRegistry.ts` (`2026-10-20-lock1`) — groups intake, P03 foundation builder, portal, post-intake, complete, deprecated public BLDR anchors; forbids `BuilderStudio` / `/bldr/studio/` on review page.
 - **Review page:** Removed BLDR iframes; `LegacyPublicBuilderRedirect` for `#df-r-bldr-*`; added ROADMAP/STAGE/NEEDS_YOU/RECORDS/COMM_PREFS, post-intake, complete (`M_COMPLETE_CREDIT`), client return link; grouped collapsible nav + provenance strip.
 - **Tests:** `digitalFoundationReviewBuilderOwnership.test.ts`; updated `digitalFoundationReviewLinks.test.ts`. Playwright smoke on workspace `:5175` — zero iframes, blocked BLDR panel.
+
+---
+
+## 2026-10-20 — DF crown optical text composition refinement (draft PR #1671)
+
+- **Sprint:** `P0.SITE00.IDNTY.FOUNDATION-BUILDER.OPUS-OPTICAL-TEXT-COMPOSITION-REFINEMENT1` on the same branch — **not merged, not deployed**.
+- **Fix:** `site00-df-client.css` — crown roles stop one gap short of where the locked SVG is *drawn* (rail → stone side x 52, headline → beam x 24, lede → glass pane x 36) via `--df-crown-art-w` (meet width in the locked box); ≥1100px roles take the 520px column (lede 440px); review frames keep phone values; rail rule shrinks before a label reaches the art. P01 lede keeps "TYPICALLY {days} BUSINESS DAYS." together (inline-block, max-width 100%). **No** artwork, font-size or copy changes.
+- **Evidence:** `docs/site00/idnty/df-optical-text-composition-refinement1/` (React before/after side-by-sides, 114-capture geometry JSON, 200% zoom); harness `scripts/site00/df-crown-text-qa/`.
+- **Tests:** `digitalFoundationCrownTextReflow.test.ts` and `digitalFoundationTypographicReflow.test.ts` assert the new contract. `digitalFoundationClientBoard0102` (10 × `CONTACT_PHONE_REQUIRED`) fails with or without this change.

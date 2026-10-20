@@ -8,7 +8,8 @@
  * For every page × width it records rail/headline/lede boxes, computed widths and per-line glyph extents,
  * the artwork boxes and computed styles, a pixel hash of the art-only render (text hidden, screen pinned
  * to 2400px so rasterization does not depend on page height), and per-line clearance to the nearest art
- * ink in that line's rows (art-only render minus art-hidden render).
+ * ink in that line's rows (art-only render minus art-hidden render). Captures wait for the headline,
+ * lede and rail font faces to load, so no measurement uses fallback metrics.
  */
 const { chromium } = require('playwright');
 const { PNG } = require('pngjs');
@@ -193,7 +194,20 @@ async function capture(page, sel, name, W, H) {
       }
       await page.waitForSelector('.df-screen');
       await page.evaluate(() => document.fonts.ready);
-      await page.waitForTimeout(400);
+      await page.evaluate(async () => {
+        const specs = [...document.querySelectorAll('.df-headline, .df-lede, .df-rail__label')].map((el) => {
+          const c = getComputedStyle(el);
+          return `${c.fontWeight} ${c.fontSize} ${c.fontFamily}`;
+        });
+        await Promise.all(specs.map((f) => document.fonts.load(f)));
+      });
+      await page.waitForFunction(() =>
+        [...document.querySelectorAll('.df-headline, .df-lede, .df-rail__label')].every((el) => {
+          const c = getComputedStyle(el);
+          return document.fonts.check(`${c.fontWeight} ${c.fontSize} ${c.fontFamily}`);
+        }),
+      );
+      await page.waitForTimeout(600);
       const got = await page.evaluate(() => document.querySelector('.df-screen').dataset.view);
       if (got !== P.key) { results.push({ name: `${P.key}-${W}`, error: `view ${got}` }); continue; }
       results.push(await capture(page, '.df-screen', `${P.key}-${W}`, W, H));
