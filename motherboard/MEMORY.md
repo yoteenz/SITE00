@@ -16828,3 +16828,12 @@ Summary of the whole conversation in this chat.
 - **Fix:** `site00-df-client.css` — crown roles stop one gap short of where the locked SVG is *drawn* (rail → stone side x 52, headline → beam x 24, lede → glass pane x 36) via `--df-crown-art-w` (meet width in the locked box); ≥1100px roles take the 520px column (lede 440px); review frames keep phone values; rail rule shrinks before a label reaches the art. P01 lede keeps "TYPICALLY {days} BUSINESS DAYS." together (inline-block, max-width 100%). **No** artwork, font-size or copy changes.
 - **Evidence:** `docs/site00/idnty/df-optical-text-composition-refinement1/` (React before/after side-by-sides, 114-capture geometry JSON, 200% zoom); harness `scripts/site00/df-crown-text-qa/`.
 - **Tests:** `digitalFoundationCrownTextReflow.test.ts` and `digitalFoundationTypographicReflow.test.ts` assert the new contract. `digitalFoundationClientBoard0102` (10 × `CONTACT_PHONE_REQUIRED`) fails with or without this change.
+
+---
+
+## 2026-10-20 — DF canonical review preview restoration (draft PR #1671)
+
+- **Sprint:** `P0.SITE00.IDNTY.MICROPRODUCT-REVIEW.CANONICAL-PAGE-RESTORATION-AND-TRUE-PREVIEW1` on `cursor/idnty-living-portal-one-pass-completion1-be3b` — **draft PR #1671**, not merged, no production deploy.
+- **Builder forensics:** Verified IDNTY builder = `EntryIntake.tsx#P03Configure` (3 manifest states); BLDR iframes removed @ `2693662b` — `digitalFoundationBuilderManifest.ts` + tests lock ownership; legacy `#df-r-bldr-*` stay blocked panels, not “foundation builder.”
+- **Review UX:** Single `#df-review-stage` + `DigitalFoundationReviewPreviewHost` (hash nav); client portal 4-tab host; founder workspace embedded via `MemoryRouter` + `FounderWorkspaceApp` (simulated cloud-preview admin). Registry `2026-10-20-canonical-preview1` (~92 entries) with honest preview status labels in nav.
+- **Evidence:** Playwright mobile/desktop captures under `/opt/cursor/artifacts/df-review-canonical/`; tunnel must run **dev Vite :5174** + `SITE00_CLOUD_MOBILE_PREVIEW=1` (clear `.vite` cache if strip UI persists).
