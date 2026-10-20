@@ -577,7 +577,7 @@ function RunbookTable({
               <DfPill tone={taskStatusTone(t.status)}>{taskStatusLabel(t.status)}</DfPill>
             </span>
             <span className="df-rtable__cell df-rtable__deps">
-              <span className="df-visually-hidden">DEPENDS ON </span>
+              <span className="df-rtable__deps-label">DEPENDS ON </span>
               {dependencyLabel(t, numbers)}
             </span>
             <DfIcon name="chevron" className="df-rtable__chev" />
@@ -825,17 +825,17 @@ export function FounderTaskDetailBoard({
             const res = latestResult(runbook, r.rule_id);
             const tone = ruleTone(r, res);
             return (
-              <li key={r.rule_id} className="df-check">
-                <span className={`df-check__dot${tone === 'ok' ? ' df-check__dot--pass' : tone === 'alert' ? ' df-check__dot--fail' : tone === 'info' ? ' df-check__dot--active' : ''}`} aria-hidden="true" />
-                <span className="df-check__label">{humanize(r.check_kind)}</span>
+              <li key={r.rule_id} className="df-vcheck">
+                <span className={`df-vcheck__dot${tone === 'ok' ? ' df-vcheck__dot--pass' : tone === 'alert' ? ' df-vcheck__dot--fail' : tone === 'info' ? ' df-vcheck__dot--active' : ''}`} aria-hidden="true" />
+                <span className="df-vcheck__label">{humanize(r.check_kind)}</span>
                 <DfPill tone={tone}>{ruleStatus(r, res)}</DfPill>
               </li>
             );
           })}
           {unlocks.map((u) => (
-            <li key={u.task_id} className="df-check">
-              <span className={`df-check__dot${isDone(u) ? ' df-check__dot--pass' : ''}`} aria-hidden="true" />
-              <span className="df-check__label">{`UNLOCKS ${u.title.toUpperCase()} (TASK ${numbers.get(u.task_id)})`}</span>
+            <li key={u.task_id} className="df-vcheck">
+              <span className={`df-vcheck__dot${isDone(u) ? ' df-vcheck__dot--pass' : ''}`} aria-hidden="true" />
+              <span className="df-vcheck__label">{`UNLOCKS ${u.title.toUpperCase()} (TASK ${numbers.get(u.task_id)})`}</span>
               <DfPill tone={taskStatusTone(u.status)}>{taskStatusLabel(u.status)}</DfPill>
             </li>
           ))}

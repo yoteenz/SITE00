@@ -23,7 +23,7 @@
 .df-honest,
 .df-rtable__head,
 .df-rtable__cell,
-.df-check__label,
+.df-vcheck__label,
 .df-sigcard {
   text-transform: uppercase;
 }
@@ -111,6 +111,12 @@
 
 .df-panel__aside {
   flex: 0 0 auto;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  line-height: 1.3;
+  color: var(--df-muted, #8f8d88);
+  text-transform: uppercase;
 }
 
 .df-panel__body {
@@ -266,6 +272,7 @@ button.df-brow__main:hover {
   position: relative;
   z-index: 1;
   display: flex;
+  background: var(--df-card);
   margin-top: 14px;
   overflow-x: auto;
   border-bottom: 1px solid var(--df-rule);
@@ -785,6 +792,7 @@ button.df-brow__main:hover {
   line-height: 0.95;
   letter-spacing: 0.01em;
   text-transform: uppercase;
+  overflow-wrap: anywhere;
   overflow-wrap: break-word;
 }
 
@@ -840,6 +848,11 @@ button.df-brow__main:hover {
   aspect-ratio: 16 / 7;
   overflow: hidden;
   background: #f6f5f2;
+}
+
+.df-recordhero :is(.df-object__etch, .df-object__etch-num),
+.df-concept :is(.df-object__etch, .df-object__etch-num) {
+  display: none;
 }
 
 .df-recordhero .df-object__svg,
@@ -955,6 +968,15 @@ button.df-rtable__row:hover {
   font-weight: 500;
 }
 
+.df-rtable__deps-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
 .df-rtable__chev {
   grid-area: chev;
   width: 12px;
@@ -968,20 +990,38 @@ button.df-rtable__row:hover {
   letter-spacing: 0.1em;
 }
 
-@media (max-width: 379px) {
+@media (max-width: 599px) {
   .df-rtable__row {
-    grid-template-columns: 18px minmax(0, 1fr) 50px 66px 12px;
+    grid-template-columns: 18px 16px minmax(0, 1fr) 50px 66px 12px;
     grid-template-areas:
-      'num task mode status chev'
-      'num deps deps deps chev';
-    row-gap: 3px;
-  }
-
-  .df-rtable__icon {
-    display: none;
+      'num icon task mode status chev'
+      'num icon deps deps deps chev';
+    gap: 3px 6px;
   }
 
   .df-rtable__head .df-rtable__deps {
+    display: none;
+  }
+
+  .df-rtable__deps-label {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip: auto;
+    color: var(--df-muted);
+  }
+}
+
+@media (max-width: 359px) {
+  .df-rtable__row {
+    grid-template-columns: 18px minmax(0, 1fr) 50px 62px 12px;
+    grid-template-areas:
+      'num task mode status chev'
+      'num deps deps deps chev';
+  }
+
+  .df-rtable__icon {
     display: none;
   }
 }
@@ -1010,7 +1050,7 @@ button.df-rtable__row:hover {
   }
 }
 
-.df-check {
+.df-vcheck {
   display: grid;
   grid-template-columns: 16px minmax(0, 1fr) auto;
   align-items: center;
@@ -1018,33 +1058,33 @@ button.df-rtable__row:hover {
   padding: 6px 12px;
 }
 
-.df-check + .df-check {
+.df-vcheck + .df-vcheck {
   border-top: 1px solid rgba(220, 218, 213, 0.6);
 }
 
-.df-check__dot {
+.df-vcheck__dot {
   width: 14px;
   height: 14px;
   border: 1.5px solid var(--df-rule-strong);
   border-radius: 50%;
 }
 
-.df-check__dot--pass {
+.df-vcheck__dot--pass {
   border-color: #1b7f4e;
   background: #1b7f4e;
 }
 
-.df-check__dot--active {
+.df-vcheck__dot--active {
   border-color: var(--df-red);
   box-shadow: inset 0 0 0 3px var(--df-card), inset 0 0 0 7px var(--df-red);
 }
 
-.df-check__dot--fail {
+.df-vcheck__dot--fail {
   border-color: var(--df-red);
   background: var(--df-red);
 }
 
-.df-check__label {
+.df-vcheck__label {
   font-size: 8px;
   font-weight: 600;
   letter-spacing: 0.12em;

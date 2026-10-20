@@ -422,7 +422,8 @@ export function P10NeedsYou({
       ? ['WE NEED', 'YOUR', 'APPROVAL']
       : ['WE NEED', 'YOUR', 'INPUT'];
   const n = open.length;
-  const [primary, ...rest] = open;
+  const primary = approvals[0] ?? open[0];
+  const rest = open.filter((a) => a !== primary);
 
   const respond = async (action: ClientActionRequest, decision: 'APPROVE' | 'REQUEST_CHANGE', notes: string) => {
     setError(null);
