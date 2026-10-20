@@ -29,8 +29,7 @@ import { updateCommunicationPreferences } from './api';
 import { useFoundationPwaHead } from './useFoundationPwaHead';
 import { DfCta, DfFrame, DfLoading, DfMenu, DfSystemPanel, type DfObjectKind } from './shell';
 import { useFoundationArtifact, useIntakeDraft, usePaymentVerification, useQuoteSelections } from './useFoundationArtifact';
-import '../styles/site00-df-client.css';
-import '../styles/site00-df-components.css';
+import './foundationDfStyles';
 
 const OBJECT_FOR: Record<DfView, DfObjectKind> = {
   P01: 'hero',

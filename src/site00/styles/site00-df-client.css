@@ -234,6 +234,15 @@ body:has(.df-root) {
 
 /* ─── Lede (DF-C04) ────────────────────────────────────────────────────────────────────────── */
 
+.df-reentry__form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  max-width: min(360px, 100%);
+  margin-top: 10px;
+}
+
 .df-lede {
   position: relative;
   z-index: 1;
@@ -2269,6 +2278,56 @@ button.df-spec__btn {
 .df-skeleton__line--lg {
   width: 64%;
   height: 46px !important;
+}
+
+/* ─── Phone (native width) ─────────────────────────────────────────────────────────────────── */
+
+@media (max-width: 767px) {
+  .df-root,
+  .df-screen {
+    --df-gutter: clamp(18px, 5.2vw, 26px);
+    --df-headline: min(50px, 12.2vw);
+  }
+
+  .df-screen--crown .df-headline {
+    --df-headline: min(44px, 10.8vw);
+  }
+
+  .df-screen--session {
+    --df-headline: min(42px, 10.2vw);
+  }
+
+  .df-screen--session .df-headline {
+    line-height: calc(0.88em - 2px);
+  }
+
+  .df-lede {
+    max-width: min(310px, 100%);
+  }
+
+  .df-reentry {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .df-reentry__form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    max-width: 100%;
+    margin-top: 8px;
+  }
+
+  .df-reentry__form .df-field {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .df-reentry__form .df-actions {
+    width: 100%;
+  }
 }
 
 /* ─── Tablet / desktop ─────────────────────────────────────────────────────────────────────── */

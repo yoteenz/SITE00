@@ -1,12 +1,15 @@
 import { useCallback, useEffect, useState } from 'react';
 import { fetchSessionPayload, requestDfReentry, verifyDfReentry } from '../../foundation-client/api';
-import { FoundationClient } from '../../foundation-client/FoundationClient';
 import { DfField } from '../../foundation-client/components';
-import { DfCta, DfHeadline, DfLede, DfLoading, DfSystemPanel } from '../../foundation-client/shell';
+import { FoundationDfRoot } from '../../foundation-client/FoundationDfRoot';
+import { FoundationClient } from '../../foundation-client/FoundationClient';
+import { DfCta, DfHeadline, DfLede, DfLoading, DfRail, DfSystemPanel } from '../../foundation-client/shell';
 import { dfInputDisplayUpper } from '../../foundation-client/dfInputText';
+import { useFoundationPwaHead } from '../../foundation-client/useFoundationPwaHead';
 
 /** `/foundation/return` — PWA start URL + session restore (G-09). */
 export default function DigitalFoundationReturnPage() {
+  useFoundationPwaHead(true);
   const [token, setToken] = useState<string | null>(null);
   const [phase, setPhase] = useState<'loading' | 'reentry' | 'ready' | 'error'>('loading');
   const [email, setEmail] = useState('');
@@ -74,45 +77,50 @@ export default function DigitalFoundationReturnPage() {
   }
 
   return (
-    <div className="df-root" data-surface="PROSPECT">
-      <div className="df-frame">
+    <FoundationDfRoot object="corner" state="REENTRY" screenClassName="df-screen--session">
+      <DfRail index="00" label="SECURE RETURN" />
+      <div className="df-reentry">
         <DfHeadline lines={["CONFIRM", "IT'S YOU"]} />
         <DfLede>ENTER THE EMAIL SITE 00 USES FOR YOUR FOUNDATION. WE SEND A ONE-TIME CODE — NO PASSWORD.</DfLede>
-        <DfField id="df-reentry-email" label="EMAIL">
-          <input
-            className="df-input"
-            type="email"
-            autoComplete="email"
-            value={email}
-            onChange={(e) => setEmail(dfInputDisplayUpper(e.target.value))}
-          />
-        </DfField>
-        {devCode && (
-          <p className="df-section__note" role="status">
-            DEV CODE: {devCode}
-          </p>
-        )}
-        <div className="df-actions">
-          <DfCta label="SEND CODE" busy={busy} onClick={() => void sendCode()} />
-        </div>
-        <DfField id="df-reentry-code" label="6-DIGIT CODE">
-          <input
-            className="df-input"
-            inputMode="numeric"
-            maxLength={6}
-            value={code}
-            onChange={(e) => setCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
-          />
-        </DfField>
-        {error && (
-          <p className="df-field__error" role="alert">
-            {error}
-          </p>
-        )}
-        <div className="df-actions">
-          <DfCta label="CONTINUE" busy={busy} onClick={() => void verify()} />
+        <div className="df-reentry__form">
+          <DfField id="df-reentry-email" label="EMAIL">
+            <input
+              className="df-input"
+              type="email"
+              autoComplete="email"
+              inputMode="email"
+              value={email}
+              onChange={(e) => setEmail(dfInputDisplayUpper(e.target.value))}
+            />
+          </DfField>
+          {devCode && (
+            <p className="df-section__note" role="status">
+              DEV CODE: {devCode}
+            </p>
+          )}
+          <div className="df-actions">
+            <DfCta label="SEND CODE" busy={busy} onClick={() => void sendCode()} />
+          </div>
+          <DfField id="df-reentry-code" label="6-DIGIT CODE">
+            <input
+              className="df-input"
+              inputMode="numeric"
+              autoComplete="one-time-code"
+              maxLength={6}
+              value={code}
+              onChange={(e) => setCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
+            />
+          </DfField>
+          {error && (
+            <p className="df-field__error" role="alert">
+              {error}
+            </p>
+          )}
+          <div className="df-actions">
+            <DfCta label="CONTINUE" busy={busy} onClick={() => void verify()} />
+          </div>
         </div>
       </div>
-    </div>
+    </FoundationDfRoot>
   );
 }

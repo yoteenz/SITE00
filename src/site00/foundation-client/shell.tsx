@@ -1,4 +1,5 @@
 /** Digital Foundation client shell (DF-C01..C09, C26, C45..C48). Presentation only. */
+import './foundationDfStyles';
 import { CorrespondenceDisplayLine, displayLineEndsWithSplitMark } from '../../../shared/site00-correspondence-studio/reactProse.js';
 import { useEffect, useRef, useState, type ComponentProps, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
@@ -438,6 +439,7 @@ export function DfFrame({
   menuOpen,
   children,
   state,
+  screenClassName,
 }: {
   view: DfView | null;
   object: DfObjectKind;
@@ -446,10 +448,13 @@ export function DfFrame({
   children: ReactNode;
   /** Exposed for QA and assistive tech; never drives logic. */
   state?: string;
+  /** Extra classes on `.df-screen` (e.g. compact mobile session layout). */
+  screenClassName?: string;
 }) {
   const meta = view ? DF_VIEW_META[view] : null;
+  const screenClass = ['df-screen', `df-screen--${object}`, screenClassName].filter(Boolean).join(' ');
   return (
-    <div className={`df-screen df-screen--${object}`} data-view={view ?? 'SYSTEM'} data-state={state}>
+    <div className={screenClass} data-view={view ?? 'SYSTEM'} data-state={state}>
       <ObjectSlot kind={object} variant={view} />
       <DfHeader onMenu={onMenu} menuOpen={menuOpen} />
       <div className="df-screen__grid">
