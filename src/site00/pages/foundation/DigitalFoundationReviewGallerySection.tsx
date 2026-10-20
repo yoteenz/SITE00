@@ -1,7 +1,7 @@
 import { Component, type ErrorInfo, type ReactNode, useEffect, useRef, useState } from 'react';
 import DigitalFoundationReviewPreviewHost from './DigitalFoundationReviewPreviewHost';
 import type { DfReviewEntry } from './digitalFoundationReviewRegistry';
-import { GALLERY_EAGER_MOUNT_COUNT } from './digitalFoundationReviewGallery';
+import { gallerySectionEagerMount } from './digitalFoundationReviewGallery';
 import { previewStatusForEntry, previewStatusLabel } from './reviewPreviewStatus';
 
 type Props = {
@@ -37,7 +37,23 @@ class SectionErrorBoundary extends Component<{ anchorId: string; children: React
 
 export default function DigitalFoundationReviewGallerySection({ entry, index }: Props) {
   const ref = useRef<HTMLElement>(null);
-  const [mount, setMount] = useState(index < GALLERY_EAGER_MOUNT_COUNT);
+  const [mount, setMount] = useState(() => gallerySectionEagerMount(entry, index));
+
+  useEffect(() => {
+    const onNav = (ev: Event) => {
+      const detail = (ev as CustomEvent<{ anchorId?: string }>).detail;
+      if (detail?.anchorId === entry.anchorId) setMount(true);
+    };
+    window.addEventListener('df-review-nav', onNav);
+    return () => window.removeEventListener('df-review-nav', onNav);
+  }, [entry.anchorId]);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const hash = window.location.hash.replace(/^#/, '');
+      if (hash === entry.anchorId) setMount(true);
+    }
+  }, [entry.anchorId]);
 
   useEffect(() => {
     if (mount) return;

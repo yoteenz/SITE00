@@ -7,6 +7,7 @@ import {
   galleryCoverageTotals,
   galleryEntriesOrdered,
   galleryMountContractAnchors,
+  gallerySectionEagerMount,
 } from '../src/site00/pages/foundation/digitalFoundationReviewGallery';
 import { reviewEntriesForIndex } from '../src/site00/pages/foundation/digitalFoundationReviewRegistry';
 
@@ -36,6 +37,16 @@ describe('digital foundation review gallery regression lock', () => {
     for (const anchor of builderManifestAnchorIds()) {
       expect(ordered.has(anchor)).toBe(true);
     }
+  });
+
+  it('eager-mounts builder, client portal, and founder workspace groups', () => {
+    const entries = galleryEntriesOrdered();
+    const lateFounder = entries.findIndex((e) => e.group === 'FOUNDER_WORKSPACE' && e.anchorId.includes('founder'));
+    expect(lateFounder).toBeGreaterThan(14);
+    expect(gallerySectionEagerMount(entries[lateFounder], lateFounder)).toBe(true);
+    const latePortal = entries.findIndex((e) => e.anchorId === 'df-r-client-portal');
+    expect(latePortal).toBeGreaterThan(0);
+    expect(gallerySectionEagerMount(entries[latePortal], latePortal)).toBe(true);
   });
 
   it('reports honest gallery totals separate from registry-only counts', () => {

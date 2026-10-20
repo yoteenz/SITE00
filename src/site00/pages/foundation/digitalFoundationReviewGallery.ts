@@ -82,3 +82,17 @@ export function galleryCoverageTotals() {
 
 /** Eager-mount first N gallery sections so initial load shows multiple consecutive screens. */
 export const GALLERY_EAGER_MOUNT_COUNT = 14;
+
+const EAGER_MOUNT_GROUPS: ReadonlySet<DfReviewGroupId> = new Set([
+  'FOUNDATION_BUILDER',
+  'CLIENT_PORTAL',
+  'FOUNDER_WORKSPACE',
+  'FOUNDER_REVIEW_QUEUE',
+  'FOUNDER_OPERATIONS',
+]);
+
+/** Mount builder, client portal, and founder workspace sections immediately (not only on scroll). */
+export function gallerySectionEagerMount(entry: DfReviewEntry, index: number): boolean {
+  if (index < GALLERY_EAGER_MOUNT_COUNT) return true;
+  return EAGER_MOUNT_GROUPS.has(entry.group);
+}
