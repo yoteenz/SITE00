@@ -16804,6 +16804,15 @@ Summary of the whole conversation in this chat.
 
 ---
 
+## 2026-10-20 — DF review coverage + runtime recovery (draft PR #1671)
+
+- **Sprint:** `P0.SITE00.IDNTY.COMPLETE-ARTIFACT-REVIEW.RUNTIME-AND-COVERAGE-RECOVERY1` on `cursor/idnty-living-portal-one-pass-completion1-be3b` @ `0805858d` — **draft PR #1671**, not merged.
+- **502 / loading root cause:** Tunnel was serving **vite preview (CI dist)** without `/api/dev/site00-digital-foundation-preview-bootstrap` → recommendation stuck loading; origin down → Cloudflare 502. Fix: pinned restart uses **dev Vite + local API**; offline `reviewFixtureSnapshots.json` fallback.
+- **Registry v2:** `2026-10-20-coverage1` — **89** entries (founder routes, 40 overlays, client lifecycle, gaps labeled NOT IMPLEMENTED). Nav: search, group chips, prev/next, `SHOW REGISTRY (89)`.
+- **Matrix:** `docs/site00/idnty/df-review-coverage-recovery1/DF_REVIEW_COVERAGE_MATRIX.json`. Tests: registry completeness + **public tunnel** Playwright acceptance.
+
+---
+
 ## 2026-10-20 — DF review registry + builder ownership lock (draft PR #1671)
 
 - **Sprint:** `COMPLETE-REVIEW-REGISTRY-AND-BUILDER-OWNERSHIP-LOCK1` on `cursor/idnty-living-portal-one-pass-completion1-be3b` — **draft PR #1671**, not merged.
