@@ -16891,6 +16891,11 @@ Summary of the whole conversation in this chat.
 - **Fix:** `DigitalFoundationReviewGallery` maps `galleryEntriesFilteredByZone` → `DigitalFoundationReviewGallerySection` (lazy IO + first-3 eager per zone). Zone pill CSS (`.df-review__zone-bar`). `navigateToReviewAnchor` scrolls to section id. Copy kicker `CONTINUOUS GALLERY`.
 - **Tests:** `digitalFoundationReviewGalleryRegression.test.ts` (zone eager contract), `digitalFoundationReviewLinks.test.ts`. Evidence `/opt/cursor/artifacts/df-review-zone-gallery/`.
 
+## 2026-10-20 — BLDR five-tab isolated preview (PR #1672)
+
+- **Sprint:** `P0.SITE00.BUILDER.OPUS-FIVE-TAB-PREVIEW-AND-SAFE-INTEGRATION1` — worktree `/tmp/site00-builder-preview-bldr1672` @ `5dd77ff1`; Vite **:5176**; quick tunnel URL in `/tmp/site00-builder-preview-url.txt` (foundation **site00.fsbw-dev.com** on **:5174** unchanged).
+- **Scripts:** `run-site00-builder-preview-server.sh`, `run-site00-builder-preview-tunnel.sh`, `bldr-five-tab-preview-capture.mjs`. Evidence `/opt/cursor/artifacts/bldr-five-tab-preview/`. **#1672 not merged.**
+
 ## 2026-10-20 — Merge base into living portal branch
 
 - **Merge:** `origin/cursor/idnty-founder-readiness-e2e-be3b` (includes merged #1671 + #1669 AIO referral card assets) into `cursor/idnty-living-portal-one-pass-completion1-be3b`. DF review conflicts resolved in favor of living-portal lifecycle/zone work; referral artwork from base retained via auto-merge.
