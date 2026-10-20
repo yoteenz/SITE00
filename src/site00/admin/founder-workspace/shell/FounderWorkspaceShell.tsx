@@ -1,4 +1,4 @@
-import { type ReactNode, useEffect, useState } from 'react';
+import { Fragment, type ReactNode, useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { getSupabase } from '../../../../utils/supabase';
 import { SITE00_ROUTES } from '../../../config/routes';
@@ -10,12 +10,16 @@ import { WsBrand, WsIcon, WsIconButton, WsPlate, WsPlus } from './wsKit';
 import { useFounderWorkspaceFontsReady } from './useFounderWorkspaceFontsReady';
 import '../styles/idnty-founder-workspace.css';
 import '../styles/ifw-authority.css';
+import '../styles/ifw-recovery2.css';
 
 type Props = {
   children: ReactNode;
   /** Breadcrumb trail after the destination index, e.g. ['FOUNDATIONS', 'CARTER & LANE']. */
   crumb: string[];
   density?: 'relaxed' | 'standard' | 'compact';
+  /** Inspector markup (ws-insp). Docked beside the stage ≥ 1100 px; a right sheet / phone sheet below. */
+  inspector?: ReactNode;
+  onInspectorClose?: () => void;
 };
 
 /** Environment tag beside the SITE 00 wordmark — derived from the host, never hard-coded. */
@@ -43,7 +47,7 @@ const RAIL_LABEL: Record<string, string> = { overview: 'HOME', operations: 'OPS'
  * sidebar ≥ 1280 · 80 px rail 768–1279 · header + bottom bar < 768; the stage is a `stage` container so pages
  * recompose from the width they actually have.
  */
-export function FounderWorkspaceShell({ children, crumb, density = 'standard' }: Props) {
+export function FounderWorkspaceShell({ children, crumb, density = 'standard', inspector, onInspectorClose }: Props) {
   const { pathname } = useLocation();
   const dest = destinationFromPathname(pathname);
   const { openOverlay } = useFounderWorkspaceOverlay();
@@ -77,6 +81,15 @@ export function FounderWorkspaceShell({ children, crumb, density = 'standard' }:
     return () => window.removeEventListener('keydown', onKey);
   }, [openOverlay]);
 
+  useEffect(() => {
+    if (!inspector || !onInspectorClose) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && !document.querySelector('[data-ifw-overlay]')) onInspectorClose();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [inspector, onInspectorClose]);
+
   const openAccount = () => openOverlay('OL-18', { email: profileEmail ?? profileLabel });
 
   return (
@@ -85,7 +98,7 @@ export function FounderWorkspaceShell({ children, crumb, density = 'standard' }:
       data-ifw-destination={dest}
       aria-busy={!fontsReady}
     >
-      <div className="ws-app">
+      <div className={`ws-app ${inspector ? 'ws-app--insp' : ''}`.trim()}>
         <nav className="ws-nav" aria-label="PRIMARY">
           <div className="ws-side">
             <WsBrand env={env} />
@@ -173,10 +186,10 @@ export function FounderWorkspaceShell({ children, crumb, density = 'standard' }:
               <i />
               {crumb.map((p, i) =>
                 i < crumb.length - 1 ? (
-                  <span key={p}>
-                    <span>{p}</span>
+                  <Fragment key={p}>
+                    <span style={{ color: 'var(--ws-muted)', whiteSpace: 'nowrap' }}>{p}</span>
                     <span className="sep">/</span>
-                  </span>
+                  </Fragment>
                 ) : (
                   <span key={p} className="cur">
                     {p}
@@ -196,6 +209,15 @@ export function FounderWorkspaceShell({ children, crumb, density = 'standard' }:
         <main className={`ws-stage ws-${density}`} id="stage">
           {children}
         </main>
+
+        {inspector ? (
+          <>
+            <button type="button" className="ifw-insp-scrim" aria-label="CLOSE INSPECTOR" tabIndex={-1} onClick={onInspectorClose} />
+            <aside className={`ws-insp ws-${density}`} aria-label="INSPECTOR">
+              {inspector}
+            </aside>
+          </>
+        ) : null}
 
         <nav className="ws-bnav" aria-label="PRIMARY">
           {/* Founder lock: HOME · FOUNDATIONS · CREATE · REVIEWS · SYSTEM (config/navigation). REFERRALS lives in the MENU. */}

@@ -16763,3 +16763,13 @@ Summary of the whole conversation in this chat.
 - **Sprint:** Single-branch tunnel review for PR **#1665** — pin `origin/cursor/founder-workspace-full-authority-implementation-composer1-be3b` @ `b8f0bcf0` on canonical Cloudflare tunnel → `:5174` via `serve-site00-preview-from-pin-ref.sh` (worktree `/tmp/site00-preview-main`, `PREVIEW_AUTHORITY=PINNED`).
 - **Public URL:** canonical tunnel hostname (Cloud Secrets) — smoke 200, `main.tsx?v=dev-local`, lineage SHA matches review branch.
 - **Docs:** `docs/site00/idnty/founder-workspace-tunnel-review-composer1/`. Revert: `serve-site00-preview-from-main.sh`. No Railway/staging/production changes; no merge.
+
+---
+
+## 2026-10-20 — Recovery2 PR reconciliation + tunnel repin (Composer)
+
+- **Problem:** PR **#1665** merged at `8761463e` before Opus Recovery2 (`0095c8b3`, `cfa83e9b7` on implementation branch).
+- **Review branch:** `cursor/founder-workspace-opus-recovery2-review-be3b` — cherry-pick Recovery2 onto integration `d68038a8`; founder-workspace tree **identical** to `cfa83e9b7`.
+- **Draft PR:** **#1668** → `cursor/idnty-founder-readiness-e2e-be3b` — **NOT MERGED**.
+- **Tunnel:** pinned to review branch head (`a34e3c07`+); worktree `/tmp/site00-preview-main`; workspace route smoke 200.
+- **Docs:** `docs/site00/idnty/founder-workspace-recovery2-pr-and-tunnel-repin1/`. Tests: workspace 41/41, build + typecheck pass.

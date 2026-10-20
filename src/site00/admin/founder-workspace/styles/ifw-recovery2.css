@@ -1,0 +1,143 @@
+/*
+ * Founder workspace — Recovery 2 interaction layer.
+ * ifw-authority.css is the verbatim OPUS2 ws.css port and stays untouched. The authority specimens render
+ * static <span>s; the live app needs real <input>, <textarea>, <button role=tab|radio|checkbox> and an overlay
+ * host. This file only teaches those real elements the same grammar (scoped to .ws) — no new visual language.
+ */
+
+/* ─── Real form controls in the ws-input grammar ─────────────────────────── */
+.ws input.ws-input,
+.ws textarea.ws-input {
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  color: var(--ws-ink);
+  font-family: var(--ws-text);
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.ws textarea.ws-input { display: block; padding: 12px 14px; line-height: 1.5; resize: vertical; }
+.ws .ws-input::placeholder { font-family: var(--ws-text); font-size: calc(var(--ws-fs-input) - 3px); font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ws-muted); opacity: 1; }
+.ws .ws-input:focus { border-color: var(--ws-red); box-shadow: 0 0 0 1px var(--ws-red) inset; }
+.ws .ws-input[readonly] { background: var(--ws-chamber); border-color: var(--ws-rule); }
+.ws .ws-field > label.ws-field__l { cursor: default; }
+
+/* Toolbar search with a live input */
+.ws .ws-search { cursor: text; }
+.ws .ifw-search__input { flex: 1 1 auto; min-width: 0; height: 100%; padding: 0; border: 0; outline: 0; background: transparent; color: var(--ws-ink); font-family: var(--ws-text); font-size: 14px; letter-spacing: 0.02em; }
+.ws .ifw-search__input::placeholder { font-size: var(--ws-fs-meta); font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ws-muted); opacity: 1; }
+.ws .ifw-search__clear { width: 32px; height: 32px; }
+.ws .ifw-search__clear svg { width: 16px; height: 16px; }
+.ws .ws-search:focus-within { border-color: var(--ws-red); box-shadow: 0 0 0 1px var(--ws-red) inset; }
+.ws .ws-search:focus-within :focus-visible { outline: none; }
+
+/* Tabs, segmented controls, choices and checks as real buttons */
+.ws button.ws-tab { height: 44px; text-transform: uppercase; }
+.ws .ws-segctl button { display: flex; align-items: center; justify-content: center; gap: 6px; height: 36px; padding: 0 14px; font-size: var(--ws-fs-label); font-weight: 700; letter-spacing: 0.14em; color: var(--ws-ink-2); white-space: nowrap; }
+.ws .ws-segctl button + button { border-left: 1px solid var(--ws-hair); }
+.ws .ws-segctl button.on { background: var(--ws-ink); color: #fff; }
+.ws button.ws-choice { width: 100%; text-align: left; align-items: start; }
+.ws button.ws-choice:disabled { cursor: not-allowed; opacity: 0.6; }
+.ws button.ws-check { width: 100%; text-align: left; }
+.ws button.ws-check:disabled { cursor: not-allowed; opacity: 0.6; }
+.ifw-choices { display: grid; gap: 8px; }
+.ifw-choices--2 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.ifw-choices--3 { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+.ifw-grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+.ws .ws-btn:disabled { cursor: not-allowed; }
+.ws a.ws-btn { text-decoration: none; }
+
+/* Selectable rows rendered as buttons/rows (registry, queues, threads, modules, tasks) */
+.ws .reg__r[role='row'],
+.ws .q-item[role='option'],
+.ws .proj[role='button'],
+.ws .task[role='row'],
+.ws .con__r[role='row'],
+.ws .ldg__r[role='row'],
+.ws .prt__r[role='row'] { cursor: pointer; }
+.ws button.q-item, .ws button.proj { width: 100%; text-align: left; }
+.ws .reg .c-chev .ws-iconbtn { width: 32px; height: 32px; margin-right: -8px; }
+.ws .reg .c-chev .ws-iconbtn svg { width: 16px; height: 16px; }
+
+/* ─── Inspector: docks ≥ 1100, otherwise a right sheet / phone sheet with a real scrim ───────────── */
+.ws .ws-app--insp::after { display: none; }
+.ifw-insp-scrim { display: none; }
+@media (max-width: 1099px) {
+  .ws-app--insp .ifw-insp-scrim { display: block; position: fixed; inset: 0; z-index: 44; background: rgba(12, 12, 12, 0.42); }
+}
+@media (max-width: 767px) {
+  .ws-app--insp .ws-insp { top: var(--ws-top); bottom: 0; }
+  .ws-app--insp .ws-insp__foot { padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px)); }
+}
+
+/* ─── Overlay host (OPUS2 ws-ov containers) ──────────────────────────────── */
+.ws .ws-scrim { border: 0; padding: 0; cursor: default; }
+.ws-ov { --ws-pad: 22px; }
+.ws-ov .ws-ov__h .ws-h2 { margin: 0; }
+.ws-ov__b > p { margin: 0; }
+/* Inspector-family overlays (task, module, client preview, commission, payout) keep the inspector chrome at every tier */
+.ws-ov[data-kind='insp'] { border-top: 0; }
+.ws-ov[data-kind='insp'] .ws-ov__b { padding: 0; gap: 0; }
+.ws-ov[data-kind='insp'] .ws-insp__body { overflow: visible; }
+@media (min-width: 768px) and (max-width: 1279px) {
+  .ws-ov[data-t='sheet-r'] .ws-ov__f { padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px)); }
+}
+@media (min-width: 1280px) {
+  .ws-ov[data-d='sheet-r'] { top: 0; right: 0; bottom: 0; width: var(--ws-insp); border-top: 0; border-left: 2px solid var(--ws-red); box-shadow: -24px 0 48px rgba(12, 12, 12, 0.12); }
+  .ws-ov[data-d='drawer'] { top: 0; bottom: 0; left: 0; width: 320px; border-top: 0; border-right: 2px solid var(--ws-red); }
+}
+@media (min-width: 1920px) {
+  .ws-ov[data-d='dialog'] { max-height: min(calc(100dvh - 120px), 900px); }
+}
+/* Menus inside overlays are real buttons/links */
+.ws .ws-menu__i { width: 100%; text-align: left; color: inherit; }
+.ws button.ws-menu__i:disabled { cursor: not-allowed; }
+.ws .ws-menu__i:hover:not(:disabled) { background: #f4f3f0; }
+.ws .pal__i { width: 100%; text-align: left; }
+.ws .pal__i:hover, .ws .pal__i:focus-visible { background: #f4f3f0; box-shadow: inset 2px 0 0 var(--ws-red); outline: none; }
+
+/* ─── Toast stack (above navigation, safe-area aware) ────────────────────── */
+.ifw-toasts { position: fixed; z-index: 70; left: 12px; right: 12px; bottom: calc(var(--ws-bnav) + 12px); display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
+@media (min-width: 768px) { .ifw-toasts { left: auto; right: 24px; bottom: 24px; width: min(440px, calc(100vw - var(--ws-nav) - 48px)); } }
+@media (min-width: 1280px) { .ifw-toasts { right: 32px; bottom: 28px; width: 440px; } }
+.ifw-toasts .ws-toast { pointer-events: auto; box-shadow: 0 18px 40px rgba(12, 12, 12, 0.16); }
+.ifw-toasts .ws-toast .ws-iconbtn { width: 32px; height: 32px; margin: -6px -8px -6px 0; color: inherit; }
+.ifw-toasts .ws-toast .ws-iconbtn svg { width: 14px; height: 14px; }
+.ws-toast--info { background: #fff; color: var(--ws-ink); border-color: var(--ws-ink); }
+.ws-toast--action { background: #fff; color: var(--ws-ink); border-color: var(--ws-ink); box-shadow: inset 3px 0 0 var(--ws-red), 0 18px 40px rgba(12, 12, 12, 0.16) !important; }
+.ws-toast--blocked { background: repeating-linear-gradient(135deg, #f1f0ed 0 4px, #e9e8e4 4px 8px); color: var(--ws-ink-2); border-color: var(--ws-rule-strong); }
+.ws-toast__k { display: block; font-size: 10px; letter-spacing: 0.2em; opacity: 0.72; margin-bottom: 2px; }
+
+/* ─── Page-level helpers (composition only, all from authority tokens) ─────── */
+.ifw-stack { display: flex; flex-direction: column; gap: var(--ws-gap); min-width: 0; }
+.ifw-row-end { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
+.ifw-check-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; min-height: 36px; border-bottom: 1px solid var(--ws-hair); }
+.ifw-check-row:last-child { border-bottom: 0; }
+.ifw-check-row > .ws-meta { color: var(--ws-ink); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ifw-pre { margin: 0; max-height: 260px; overflow: auto; padding: 12px; border: 1px solid var(--ws-rule); background: var(--ws-chamber); font-family: var(--ws-text); font-size: 12px; line-height: 1.5; white-space: pre-wrap; word-break: break-word; text-transform: none; }
+.ws .ws-panel__h > .ws-btn-row { flex-wrap: wrap; }
+.ifw-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Workbench back affordance (queue ↔ item) only exists where one pane shows at a time */
+.ifw-wb-back .ws-iconbtn { width: 36px; height: 36px; margin-left: -8px; }
+@container stage (min-width: 920px) { .ifw-wb-back { display: none; } }
+
+/* Overlay root + scroll lock while an overlay is open */
+.ifw-ov-root { position: relative; z-index: 60; }
+.ws[data-ifw-locked] .ws-stage { overflow: hidden; }
+.ws-ov:focus { outline: none; }
+.ws-ov[data-kind='menu'] .ws-ov__f { padding-top: 10px; padding-bottom: 12px; }
+@media (max-width: 767px) {
+  .ws-ov[data-m='action'] { bottom: calc(8px + env(safe-area-inset-bottom, 0px)); max-height: calc(100dvh - 72px); overflow: auto; }
+  .ws-ov[data-m='full'] .ws-ov__f { padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px)); }
+  .ws-ov[data-m='drawer'] { padding-bottom: env(safe-area-inset-bottom, 0px); }
+}
+
+/* Header segmented filters (OPERATIONS) wrap to a 2 × 2 grid on narrow stages instead of overflowing */
+@container stage (max-width: 479px) {
+  .ws-phead__acts .ws-segctl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; }
+  .ws-phead__acts .ws-segctl button { padding: 0 8px; }
+  .ws-phead__acts .ws-segctl button:nth-child(odd) { border-left: 0; }
+  .ws-phead__acts .ws-segctl button:nth-child(n + 3) { border-top: 1px solid var(--ws-hair); }
+}

@@ -133,3 +133,66 @@ export function overlayGeometryForViewport(id: RegisteredOverlayId, width: numbe
   if (width < 1024 && base === 'full') return 'dialog';
   return base;
 }
+
+/**
+ * OPUS2 / OPUS3 container modes per tier (ws-overlays.js `ov({ m, t, d, w })`, rf data/overlay-modes.json):
+ * data-m (phone < 768) · data-t (tablet 768–1279) · data-d (desktop ≥ 1280). `none` in the authority (the surface is
+ * inline at that tier) maps to the nearest live container so a trigger can never open nothing.
+ * kind: panel · menu (menu rows, no body padding) · palette (search) · insp (inspector chrome).
+ */
+export type OverlayModes = {
+  m: 'full' | 'sheet' | 'drawer' | 'action';
+  t: 'dialog' | 'sheet-r' | 'drawer' | 'popover' | 'palette';
+  d: 'dialog' | 'sheet-r' | 'drawer' | 'popover' | 'palette';
+  w: number;
+  kind: 'panel' | 'menu' | 'palette' | 'insp';
+  /** Authority headline (display face, red period). Menus and the palette carry an aria-label instead. */
+  head?: string;
+  /** Financial / destructive confirmations never close on a scrim click (Escape and CLOSE still work). */
+  scrimLocked?: boolean;
+  /** Popover placement relative to the trigger. */
+  place?: 'below-end' | 'above-start';
+};
+
+export const OVERLAY_MODES: Record<RegisteredOverlayId, OverlayModes> = {
+  'OL-01': { m: 'full', t: 'dialog', d: 'dialog', w: 600, kind: 'panel', head: 'CREATE A FOUNDATION' },
+  'OL-02': { m: 'full', t: 'dialog', d: 'dialog', w: 560, kind: 'panel', head: 'LINK READY' },
+  'OL-03': { m: 'drawer', t: 'drawer', d: 'drawer', w: 320, kind: 'menu', head: 'MENU' },
+  'OL-04': { m: 'full', t: 'palette', d: 'palette', w: 680, kind: 'palette' },
+  'OL-05': { m: 'sheet', t: 'popover', d: 'popover', w: 400, kind: 'panel', head: 'NOTIFICATIONS', place: 'below-end' },
+  'OL-06': { m: 'action', t: 'popover', d: 'popover', w: 280, kind: 'menu', place: 'below-end' },
+  'OL-07': { m: 'sheet', t: 'popover', d: 'popover', w: 380, kind: 'panel', head: 'FILTER + SORT', place: 'below-end' },
+  'OL-08': { m: 'sheet', t: 'dialog', d: 'dialog', w: 500, kind: 'panel', head: 'APPROVE THIS QUOTE?', scrimLocked: true },
+  'OL-09': { m: 'full', t: 'dialog', d: 'dialog', w: 640, kind: 'panel', head: 'REVISE QUOTE', scrimLocked: true },
+  'OL-10': { m: 'full', t: 'dialog', d: 'dialog', w: 600, kind: 'panel', head: 'MARK FOUNDATION COMPLETE', scrimLocked: true },
+  'OL-11': { m: 'sheet', t: 'dialog', d: 'dialog', w: 520, kind: 'panel', head: 'REQUEST REVISION' },
+  'OL-12': { m: 'sheet', t: 'sheet-r', d: 'sheet-r', w: 420, kind: 'insp' },
+  'OL-13': { m: 'sheet', t: 'dialog', d: 'dialog', w: 520, kind: 'panel', head: 'SET BLOCKER' },
+  'OL-14': { m: 'full', t: 'dialog', d: 'dialog', w: 600, kind: 'panel', head: 'COMPOSE MESSAGE' },
+  'OL-15': { m: 'sheet', t: 'dialog', d: 'dialog', w: 540, kind: 'panel', head: 'SEND TEST EMAIL', scrimLocked: true },
+  'OL-16': { m: 'sheet', t: 'sheet-r', d: 'sheet-r', w: 420, kind: 'insp' },
+  'OL-17': { m: 'sheet', t: 'dialog', d: 'dialog', w: 500, kind: 'panel', head: 'RESET TEST DATA?', scrimLocked: true },
+  'OL-18': { m: 'drawer', t: 'popover', d: 'popover', w: 280, kind: 'menu', place: 'above-start' },
+  'OL-19': { m: 'sheet', t: 'sheet-r', d: 'sheet-r', w: 420, kind: 'insp' },
+  'OL-20': { m: 'full', t: 'dialog', d: 'dialog', w: 600, kind: 'panel', head: 'TECHNICAL DETAIL' },
+  'RO-01': { m: 'full', t: 'dialog', d: 'dialog', w: 640, kind: 'panel', head: 'CREATE PARTNER' },
+  'RO-02': { m: 'full', t: 'dialog', d: 'dialog', w: 600, kind: 'panel', head: 'EDIT PARTNER' },
+  'RO-03': { m: 'sheet', t: 'dialog', d: 'dialog', w: 540, kind: 'panel', head: 'INVITE PARTNER' },
+  'RO-04': { m: 'sheet', t: 'dialog', d: 'dialog', w: 540, kind: 'panel', head: 'CHANGE PARTNER STATUS', scrimLocked: true },
+  'RO-05': { m: 'full', t: 'dialog', d: 'dialog', w: 720, kind: 'panel', head: 'COMMISSION TERMS', scrimLocked: true },
+  'RO-06': { m: 'sheet', t: 'popover', d: 'popover', w: 380, kind: 'panel', head: 'REFERRAL LINK', place: 'below-end' },
+  'RO-07': { m: 'full', t: 'dialog', d: 'dialog', w: 600, kind: 'panel', head: 'QR VALIDATION' },
+  'RO-08': { m: 'sheet', t: 'popover', d: 'popover', w: 360, kind: 'panel', head: 'SHARE CARD', place: 'below-end' },
+  'RO-09': { m: 'full', t: 'dialog', d: 'dialog', w: 600, kind: 'panel', head: 'EXPORT CARD' },
+  'RO-10': { m: 'full', t: 'dialog', d: 'dialog', w: 860, kind: 'panel', head: 'PRINT PROOF' },
+  'RO-11': { m: 'sheet', t: 'sheet-r', d: 'sheet-r', w: 420, kind: 'insp' },
+  'RO-12': { m: 'sheet', t: 'dialog', d: 'dialog', w: 520, kind: 'panel', head: 'APPROVE COMMISSION?', scrimLocked: true },
+  'RO-13': { m: 'full', t: 'dialog', d: 'dialog', w: 560, kind: 'panel', head: 'ADJUST COMMISSION', scrimLocked: true },
+  'RO-14': { m: 'sheet', t: 'sheet-r', d: 'sheet-r', w: 420, kind: 'insp' },
+  'RO-15': { m: 'full', t: 'dialog', d: 'dialog', w: 600, kind: 'panel', head: 'RECORD PAYMENT', scrimLocked: true },
+  'RO-16': { m: 'sheet', t: 'dialog', d: 'dialog', w: 520, kind: 'panel', head: 'CONFIRM PAYMENT', scrimLocked: true },
+  'RO-17': { m: 'full', t: 'dialog', d: 'dialog', w: 560, kind: 'panel', head: 'PAYOUT REVERSAL', scrimLocked: true },
+  'RO-18': { m: 'full', t: 'dialog', d: 'dialog', w: 640, kind: 'panel', head: 'ATTRIBUTION EXCEPTION' },
+  'RO-19': { m: 'full', t: 'dialog', d: 'dialog', w: 600, kind: 'panel', head: 'MANUAL ATTRIBUTION CORRECTION', scrimLocked: true },
+  'RO-20': { m: 'sheet', t: 'dialog', d: 'dialog', w: 540, kind: 'panel', head: 'REVOKE PARTNER ACCESS', scrimLocked: true },
+};
