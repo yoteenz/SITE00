@@ -220,7 +220,7 @@ body:has(.df-root) {
   font-family: var(--df-display);
   font-weight: 900;
   font-size: var(--df-headline);
-  line-height: calc(0.81em - 2px);
+  line-height: calc(0.81em - 1px);
   letter-spacing: 0;
   text-transform: uppercase;
   color: var(--df-ink);
@@ -269,7 +269,7 @@ body:has(.df-root) {
 
 .df-screen--crown .df-headline {
   --df-headline: min(56px, 13.4vw);
-  line-height: calc(0.94em - 2px);
+  line-height: calc(0.94em - 1px);
   max-width: var(--df-crown-text-max);
   overflow-wrap: normal;
   word-break: normal;
@@ -2414,7 +2414,7 @@ button.df-spec__btn {
   }
 
   .df-screen--session .df-headline {
-    line-height: calc(0.88em - 2px);
+    line-height: calc(0.88em - 1px);
   }
 
   .df-lede {
