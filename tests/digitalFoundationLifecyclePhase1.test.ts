@@ -52,9 +52,10 @@ describe('portal continuity through completion', () => {
     expect(route.views).toContain('NEEDS_YOU');
     expect(route.views).toContain('RECORDS');
     expect(route.views).toContain('COMPLETE');
+    expect(route.views).toContain('LOCATION');
     const menu = buildDfMenu(route.views, 'OVERVIEW');
     expect(menu.destinations.find((d) => d.id === 'records')?.available).toBe(true);
-    expect(menu.destinations.find((d) => d.id === 'location')?.view).toBe('COMPLETE');
+    expect(menu.destinations.find((d) => d.id === 'location')?.view).toBe('LOCATION');
   });
 
   it('incomplete project cannot create builder handoff (K)', async () => {

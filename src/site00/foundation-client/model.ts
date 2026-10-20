@@ -30,7 +30,8 @@ export type DfPortalView =
   | 'RECORDS'
   | 'RECORD'
   | 'COMM_PREFS'
-  | 'COMPLETE';
+  | 'COMPLETE'
+  | 'LOCATION';
 export type DfView = DfIntakeView | DfPortalView;
 export type CheckoutParam = 'return' | 'cancel' | null;
 
@@ -45,10 +46,11 @@ export const DF_VIEW_META: Record<DfView, { index: string; label: string; footer
   ROADMAP: { index: '08', label: 'PROJECT ROADMAP', footer: '008' },
   STAGE: { index: '09', label: 'STAGE DETAIL', footer: '009' },
   NEEDS_YOU: { index: '10', label: 'NEEDS YOU', footer: '010' },
-  RECORDS: { index: '—', label: 'MY RECORDS', footer: 'REC' },
-  RECORD: { index: '—', label: 'RECORD DETAIL', footer: 'REC' },
+  RECORDS: { index: '13A', label: 'VIEW MY RECORDS', footer: '013A' },
+  RECORD: { index: '13A', label: 'RECORD DETAIL', footer: '013A' },
   COMM_PREFS: { index: '—', label: 'COMMUNICATION PREFERENCES', footer: 'COM' },
   COMPLETE: { index: '11', label: 'FOUNDATION COMPLETE', footer: '011' },
+  LOCATION: { index: '12', label: 'NEXT THRESHOLD', footer: '012' },
 };
 
 export const DF_VIEW_ORDER: DfView[] = ['P01', 'P02', 'P03', 'P04', 'P05', 'P06', 'OVERVIEW'];
@@ -63,7 +65,7 @@ export function portalViewsForPayload(payload: ClientDigitalFoundationPayload): 
   if (payload.stages.length) base.push('STAGE');
   if (buildClientRecords(payload).length) base.push('RECORDS', 'RECORD');
   base.push('COMM_PREFS');
-  if (payload.artifact.completion_state === 'COMPLETE') base.push('COMPLETE');
+  if (payload.artifact.completion_state === 'COMPLETE') base.push('COMPLETE', 'LOCATION');
   return base;
 }
 
@@ -139,7 +141,7 @@ export function buildDfMenu(views: readonly DfView[], current: DfView | null): {
   const portal = views.includes('OVERVIEW');
   const portalV2 = portal && views.includes('ROADMAP');
   const recs = portal && views.includes('RECORDS');
-  const completeMilestone = portal && views.includes('COMPLETE');
+  const locationThreshold = portal && views.includes('LOCATION');
   const destinations: DfMenuDestination[] = [
     {
       id: 'overview',
@@ -185,10 +187,10 @@ export function buildDfMenu(views: readonly DfView[], current: DfView | null): {
     {
       id: 'location',
       label: 'VIEW MY DIGITAL LOCATION',
-      view: completeMilestone ? 'COMPLETE' : null,
-      available: completeMilestone,
-      current: current === 'COMPLETE',
-      status: completeMilestone ? null : 'AFTER COMPLETION',
+      view: locationThreshold ? 'LOCATION' : null,
+      available: locationThreshold,
+      current: current === 'LOCATION',
+      status: locationThreshold ? null : 'AFTER COMPLETION',
     },
   ];
   return { steps, destinations };
@@ -221,7 +223,7 @@ export function resolveDfRoute(
     case 'COMPLETE':
     case 'BUILD_UPSELL': {
       const portal = portalViewsForPayload(payload);
-      const defaultView: DfView = payload.surface === 'BUILD_UPSELL' ? 'COMPLETE' : 'OVERVIEW';
+      const defaultView: DfView = payload.surface === 'BUILD_UPSELL' ? 'LOCATION' : 'OVERVIEW';
       return {
         kind: 'views',
         views: ['P06', ...portal],

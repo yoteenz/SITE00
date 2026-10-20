@@ -197,7 +197,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
           await loadArtifactGraphByToken(token);
           return res.status(200).json({
-            handoff_id: handoff.handoff.id,
+            handoff_id: handoff.handoff.handoff_id,
             deep_link_path: handoff.deep_link_path,
             credit_verified: handoff.credit_verified,
             credit_amount_minor: handoff.credit_amount_minor,

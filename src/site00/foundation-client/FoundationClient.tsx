@@ -8,8 +8,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { DF_FEATURE_FLAGS, isDigitalFoundationFlagEnabled } from '../../../shared/site00-digital-foundation/featureFlags.js';
-import DigitalFoundationCompleteSurface from '../pages/foundation/DigitalFoundationCompleteSurface';
 import { saveIntake } from './api';
+import { P11FoundationComplete, P12DigitalLocation } from './parents/FoundationMilestone';
 import { resolveDfRoute, validateBusinessInfo, type CheckoutParam, type DfView, type IntakeErrors } from './model';
 import { P01Entry, P02Intake, P03Configure, SaveChip } from './parents/EntryIntake';
 import { P04Recommendation } from './parents/Recommendation';
@@ -46,6 +46,7 @@ const OBJECT_FOR: Record<DfView, DfObjectKind> = {
   RECORD: 'crown',
   COMM_PREFS: 'corner',
   COMPLETE: 'crown',
+  LOCATION: 'crown',
 };
 
 function seenKey(artifactId: string) {
@@ -382,6 +383,8 @@ export function FoundationClient({ token, pwaScope = true }: { token: string; pw
           onStage={(code) => go('STAGE', { stageCode: code })}
           onActivation={() => go('P06')}
           onPrefs={() => go('COMM_PREFS')}
+          onComplete={route.views.includes('COMPLETE') ? () => go('COMPLETE') : undefined}
+          onLocation={route.views.includes('LOCATION') ? () => go('LOCATION') : undefined}
         />
       );
       break;
@@ -444,7 +447,17 @@ export function FoundationClient({ token, pwaScope = true }: { token: string; pw
       );
       break;
     case 'COMPLETE':
-      body = <DigitalFoundationCompleteSurface token={token} payload={payload} reload={reload} embedded />;
+      body = (
+        <P11FoundationComplete
+          payload={payload}
+          onRecords={() => go('RECORDS')}
+          onLocation={() => go('LOCATION')}
+          onOverview={() => go('OVERVIEW')}
+        />
+      );
+      break;
+    case 'LOCATION':
+      body = <P12DigitalLocation token={token} payload={payload} reload={reload} onOverview={() => go('OVERVIEW')} />;
       break;
   }
 

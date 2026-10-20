@@ -186,7 +186,7 @@ function prefersReducedMotion(): boolean {
 }
 
 /** Right-side navigation drawer (DF-C48). Portaled to `body`, so it carries its own `df-drawer` scope. */
-function DfDrawer({ open, onClose, children }: { open: boolean; onClose: () => void; children: ReactNode }) {
+export function DfDrawer({ open, onClose, children }: { open: boolean; onClose: () => void; children: ReactNode }) {
   const [mounted, setMounted] = useState(open);
   const hostRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -448,6 +448,7 @@ export function DfFrame({
   children,
   state,
   screenClassName,
+  footerCode,
 }: {
   view: DfView | null;
   object: DfObjectKind;
@@ -458,6 +459,8 @@ export function DfFrame({
   state?: string;
   /** Extra classes on `.df-screen` (e.g. compact mobile session layout). */
   screenClassName?: string;
+  /** Footer index for screens outside the client view set (founder boards). */
+  footerCode?: string;
 }) {
   const meta = view ? DF_VIEW_META[view] : null;
   const screenClass = ['df-screen', `df-screen--${object}`, screenClassName].filter(Boolean).join(' ');
@@ -468,7 +471,7 @@ export function DfFrame({
       <div className="df-screen__grid">
         <main className="df-screen__main">{children}</main>
       </div>
-      <DfFooter code={meta ? meta.footer : '000'} />
+      <DfFooter code={footerCode ?? (meta ? meta.footer : '000')} />
     </div>
   );
 }

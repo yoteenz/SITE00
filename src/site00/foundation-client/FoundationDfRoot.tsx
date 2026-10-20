@@ -12,6 +12,7 @@ export function FoundationDfRoot({
   screenClassName,
   onMenu,
   menuOpen,
+  footerCode,
 }: {
   children: ReactNode;
   object?: DfObjectKind;
@@ -20,6 +21,7 @@ export function FoundationDfRoot({
   screenClassName?: string;
   onMenu?: () => void;
   menuOpen?: boolean;
+  footerCode?: string;
 }) {
   return (
     <div className="df-root">
@@ -30,6 +32,7 @@ export function FoundationDfRoot({
         screenClassName={screenClassName}
         onMenu={onMenu}
         menuOpen={menuOpen}
+        footerCode={footerCode}
       >
         {children}
       </DfFrame>

@@ -74,6 +74,9 @@ const FoundationAdminDetailPage = lazy(() => import('../site00/admin/pages/found
 const FoundationPipelinePage = lazy(() => import('../site00/admin/pages/foundation/FoundationPipelinePage'));
 const FoundationProjectCommandPage = lazy(() => import('../site00/admin/pages/foundation/FoundationProjectCommandPage'));
 const FoundationWorkbenchPage = lazy(() => import('../site00/admin/pages/foundation/FoundationWorkbenchPage'));
+const FoundationFounderProjectBoardPage = lazy(
+  () => import('../site00/admin/pages/foundation/FoundationFounderProjectBoardPage'),
+);
 const CommunicationsCommandPage = lazy(() => import('../site00/admin/pages/foundation/CommunicationsCommandPage'));
 const FoundationReadinessPage = lazyWithChunkRecovery(
   () => import('../site00/admin/pages/foundation/FoundationReadinessPage'),
@@ -657,6 +660,30 @@ export function Site00AdminRoutes() {
         element={
           <AdminSuspense>
             <FoundationWorkbenchPage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/foundation/:id/runbook"
+        element={
+          <AdminSuspense>
+            <FoundationFounderProjectBoardPage board="15A" />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/foundation/:id/runbook/tasks"
+        element={
+          <AdminSuspense>
+            <FoundationFounderProjectBoardPage board="15B" />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/foundation/:id/runbook/tasks/:taskId"
+        element={
+          <AdminSuspense>
+            <FoundationFounderProjectBoardPage board="15C" />
           </AdminSuspense>
         }
       />

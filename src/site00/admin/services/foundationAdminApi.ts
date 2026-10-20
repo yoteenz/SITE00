@@ -2,6 +2,12 @@
  * Digital Foundation founder mini console — admin API (Bearer via apiFetch).
  */
 import { digitalFoundationClientIntakePath } from '../../../../shared/site00-digital-foundation/clientRoutes.js';
+import type {
+  PipelineRow,
+  pipelineAttentionQueries,
+} from '../../../../shared/site00-digital-foundation/operations/contracts/p13Pipeline.js';
+import type { ProjectCommandSnapshot } from '../../../../shared/site00-digital-foundation/operations/contracts/p14ProjectCommand.js';
+import type { FounderRunbookView } from '../../../../shared/site00-digital-foundation/operations/contracts/p15RunbookView.js';
 import { apiFetch } from '../../../utils/api';
 
 export { digitalFoundationClientIntakePath };
@@ -64,13 +70,16 @@ export const foundationAdminApi = {
       body: { action: 'mark-complete', artifact_id: artifactId, ownership },
     }),
 
-  pipeline: () => foundationFetch<{ rows: PipelineRow[] }>('/api/admin/site00-foundation?action=pipeline'),
+  pipeline: () => foundationFetch<FoundationPipelineView>('/api/admin/site00-foundation?action=pipeline'),
 
   projectCommand: (id: string) =>
-    foundationFetch<Record<string, unknown>>(`/api/admin/site00-foundation?action=project-command&id=${encodeURIComponent(id)}`),
+    foundationFetch<ProjectCommandSnapshot>(`/api/admin/site00-foundation?action=project-command&id=${encodeURIComponent(id)}`),
 
   workbench: (id: string) =>
     foundationFetch<Record<string, unknown>>(`/api/admin/site00-foundation?action=workbench&id=${encodeURIComponent(id)}`),
+
+  runbook: (id: string) =>
+    foundationFetch<FounderRunbookView>(`/api/admin/site00-foundation?action=runbook&id=${encodeURIComponent(id)}`),
 
   completionGate: (id: string) =>
     foundationFetch<Record<string, unknown>>(
@@ -109,6 +118,12 @@ export const foundationAdminApi = {
       body: { action: 'start-task', artifact_id: artifactId, task_id: taskId },
     }),
 
+  completeTask: (artifactId: string, taskId: string) =>
+    foundationFetch('/api/admin/site00-foundation', {
+      method: 'POST',
+      body: { action: 'complete-task', artifact_id: artifactId, task_id: taskId },
+    }),
+
   setBlocker: (artifactId: string, taskId: string, category: string, reason: string) =>
     foundationFetch('/api/admin/site00-foundation', {
       method: 'POST',
@@ -122,11 +137,9 @@ export const foundationAdminApi = {
     }),
 };
 
-export type PipelineRow = {
-  artifact_id: string;
-  business_name: string | null;
-  payment_state: string;
-  current_stage: string | null;
-  next_action: string | null;
-  blocker: string | null;
+export type { PipelineRow, ProjectCommandSnapshot, FounderRunbookView };
+
+export type FoundationPipelineView = {
+  rows: PipelineRow[];
+  attention: ReturnType<typeof pipelineAttentionQueries>;
 };

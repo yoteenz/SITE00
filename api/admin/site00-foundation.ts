@@ -34,6 +34,7 @@ import {
   generateRunbookForArtifact,
   getPipelineView,
   getProjectCommandSnapshot,
+  getRunbookView,
   getWorkbenchView,
   runTaskVerification,
   setBlocker,
@@ -102,6 +103,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         case 'completion-gate': {
           const id = String(req.query.id ?? '');
           return res.status(200).json(assessArtifactCompletion(id));
+        }
+        case 'runbook': {
+          const id = String(req.query.id ?? '');
+          return res.status(200).json(getRunbookView(id));
         }
         case 'messages': {
           const id = String(req.query.id ?? '');

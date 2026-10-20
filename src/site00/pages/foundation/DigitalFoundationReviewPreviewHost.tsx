@@ -1,4 +1,4 @@
-import { useMemo, useState, type ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import type { DfView } from '../../foundation-client/model';
 import { P01Entry, P02Intake } from '../../foundation-client/parents/EntryIntake';
 import { P03IntakeSubmitted } from '../../foundation-client/parents/IntakeSubmittedStatus';
@@ -6,7 +6,6 @@ import { P04Recommendation } from '../../foundation-client/parents/Recommendatio
 import { P05Review, P06Activation } from '../../foundation-client/parents/CheckoutActivation';
 import { DfFrame, DfMenu, type DfObjectKind } from '../../foundation-client/shell';
 import { DF_VIEW_ORDER } from '../../foundation-client/model';
-import DigitalFoundationCompleteSurface from './DigitalFoundationCompleteSurface';
 import ReviewP03ConfigureSurface from './ReviewP03ConfigureSurface';
 import { intakeConfiguratorAnchorIds } from './digitalFoundationBuilderManifest';
 import { resolveReviewEntry } from './digitalFoundationReviewRegistry';
@@ -16,6 +15,8 @@ import DigitalFoundationReviewBuilderStudioEmbed from './DigitalFoundationReview
 import DigitalFoundationReviewClientPortalBody from './DigitalFoundationReviewClientPortalBody';
 import DigitalFoundationReviewClientPortalHost from './DigitalFoundationReviewClientPortalHost';
 import DigitalFoundationReviewFounderHost from './DigitalFoundationReviewFounderHost';
+import DigitalFoundationReviewFounderBoardHost, { FOUNDER_BOARD_FOR_REVIEW_ID } from './DigitalFoundationReviewFounderBoardHost';
+import { DfReviewInertProvider } from '../../foundation-client/reviewInert';
 import { SITE00_ROUTES } from '../../config/routes';
 
 const OBJECT_FOR: Record<DfView, DfObjectKind> = {
@@ -33,11 +34,26 @@ const OBJECT_FOR: Record<DfView, DfObjectKind> = {
   RECORD: 'crown',
   COMM_PREFS: 'corner',
   COMPLETE: 'crown',
+  LOCATION: 'crown',
 };
 
 const REVIEW_MENU_VIEWS: DfView[] = [...DF_VIEW_ORDER, 'ROADMAP', 'STAGE', 'NEEDS_YOU', 'RECORDS', 'COMM_PREFS'];
 
 const PORTAL_VIEWS = new Set<DfView>(['OVERVIEW', 'ROADMAP', 'STAGE', 'NEEDS_YOU', 'RECORDS', 'COMM_PREFS']);
+
+/** Client portal anchors whose id is not `df-r-{VIEW}`. Anything unmapped is not a portal view. */
+const PORTAL_ANCHOR_VIEW: Record<string, DfView> = {
+  'df-r-needs-you-approval': 'NEEDS_YOU',
+  'df-r-record-domain': 'RECORD',
+  'df-r-complete': 'COMPLETE',
+  'df-r-location': 'LOCATION',
+};
+
+/** Navigable portal shells and the view each one opens on. */
+const PORTAL_SHELL_ANCHORS: Record<string, DfView> = {
+  'df-r-client-portal': 'OVERVIEW',
+  'df-r-client-portal-complete': 'OVERVIEW',
+};
 
 function SimulatedBanner({ label }: { label: string }) {
   return <p className="df-review__sim df-review__sim--inline">SIMULATED FIXTURE · {label}</p>;
@@ -93,7 +109,16 @@ function PanelStage({ id, title, children }: { id: string; title: string; childr
   );
 }
 
+/** Every review surface renders inert: approvals, handoffs and founder task actions never reach the API. */
 export default function DigitalFoundationReviewPreviewHost({ anchorId }: { anchorId: string }) {
+  return (
+    <DfReviewInertProvider>
+      <ReviewSurface anchorId={anchorId} />
+    </DfReviewInertProvider>
+  );
+}
+
+function ReviewSurface({ anchorId }: { anchorId: string }) {
   const state = useReviewPreviewState();
   const {
     config,
@@ -104,8 +129,6 @@ export default function DigitalFoundationReviewPreviewHost({ anchorId }: { ancho
     postIntakePayload,
     proposalReadyPayload,
     paymentFailurePayload,
-    completePayload,
-    completeToken,
     postIntakeFetchedAt,
     draft,
     setDraft,
@@ -117,11 +140,16 @@ export default function DigitalFoundationReviewPreviewHost({ anchorId }: { ancho
   const update = (patch: Partial<typeof draft>) => setDraft((d) => ({ ...d, ...patch }));
   const advance = (view: DfView) => scrollToReviewAnchor(reviewAnchorForView(view));
 
-  const effectiveAnchor = useMemo(() => {
-    if (anchorId === 'df-r-client-portal') return anchorId;
-    if (PORTAL_VIEWS.has(viewFromAnchorId(anchorId))) return anchorId;
-    return anchorId || reviewAnchorForView('P01');
-  }, [anchorId]);
+  const portalView = portalViewForAnchor(anchorId);
+  const founderBoard = entry ? FOUNDER_BOARD_FOR_REVIEW_ID[entry.reviewId] : undefined;
+
+  if (entry?.renderMode === 'inline_founder_shell' && founderBoard) {
+    return (
+      <PanelStage id={anchorId} title={entry.pageName.toUpperCase()}>
+        <DigitalFoundationReviewFounderBoardHost initialBoard={founderBoard} />
+      </PanelStage>
+    );
+  }
 
   if (entry?.renderMode === 'inline_founder_shell') {
     return (
@@ -131,27 +159,23 @@ export default function DigitalFoundationReviewPreviewHost({ anchorId }: { ancho
     );
   }
 
-  if (effectiveAnchor === 'df-r-client-portal') {
+  if (entry && PORTAL_SHELL_ANCHORS[anchorId]) {
     return (
-      <PanelStage id="df-r-client-portal" title="CLIENT FOUNDATION PORTAL">
-        <DigitalFoundationReviewClientPortalHost anchorId={reviewAnchorForView('OVERVIEW')} />
+      <PanelStage id={anchorId} title={entry.pageName.toUpperCase()}>
+        <DigitalFoundationReviewClientPortalHost entry={entry} initialView={PORTAL_SHELL_ANCHORS[anchorId]} />
       </PanelStage>
     );
   }
 
-  if (
-    (entry?.group === 'CLIENT_PORTAL' || entry?.group === 'CLIENT_COMPLETION') &&
-    (PORTAL_VIEWS.has(viewFromAnchorId(effectiveAnchor)) || effectiveAnchor === 'df-r-record-domain')
-  ) {
-    const portalView = effectiveAnchor === 'df-r-record-domain' ? 'RECORD' : viewFromAnchorId(effectiveAnchor);
+  if ((entry?.group === 'CLIENT_PORTAL' || entry?.group === 'CLIENT_COMPLETION') && portalView) {
     const fixtureLabel = entry.fixtureContract ?? 'J_PAYMENT_SUCCESS';
     return (
-      <StageChrome id={effectiveAnchor} view={portalView === 'RECORD' ? 'RECORDS' : portalView} title={entry.pageName.toUpperCase()}>
+      <StageChrome id={anchorId} view={portalView} title={entry.pageName.toUpperCase()}>
         <SimulatedBanner label={`${fixtureLabel} · CLIENT PORTAL`} />
         <DigitalFoundationReviewClientPortalBody
           view={portalView}
           entry={entry}
-          recordId={effectiveAnchor === 'df-r-record-domain' ? 'record-domain' : undefined}
+          recordId={portalView === 'RECORD' ? 'record-domain' : undefined}
         />
       </StageChrome>
     );
@@ -380,20 +404,6 @@ export default function DigitalFoundationReviewPreviewHost({ anchorId }: { ancho
           )}
         </StageChrome>
       );
-    case 'df-r-complete':
-      return (
-        <PanelStage id={anchorId} title="FOUNDATION COMPLETE (FIXTURE)">
-          {completePayload && completeToken ? (
-            <DigitalFoundationCompleteSurface
-              token={completeToken}
-              payload={completePayload}
-              reload={async () => completePayload}
-            />
-          ) : (
-            <p className="df-review__wait">LOADING COMPLETE</p>
-          )}
-        </PanelStage>
-      );
     case 'df-r-client-return':
       return (
         <PanelStage id={anchorId} title="CLIENT RETURN / REENTRY">
@@ -417,7 +427,9 @@ export default function DigitalFoundationReviewPreviewHost({ anchorId }: { ancho
   }
 }
 
-function viewFromAnchorId(anchorId: string): DfView {
+export function portalViewForAnchor(anchorId: string): DfView | null {
+  if (PORTAL_ANCHOR_VIEW[anchorId]) return PORTAL_ANCHOR_VIEW[anchorId];
   const m = anchorId.match(/^df-r-([A-Z_]+)$/);
-  return (m?.[1] ?? 'OVERVIEW') as DfView;
+  const view = m?.[1] as DfView | undefined;
+  return view && PORTAL_VIEWS.has(view) ? view : null;
 }

@@ -14,12 +14,13 @@ import { SITE00_ROUTES } from '../../config/routes';
 import type { DfView } from '../../foundation-client/model';
 import { reviewAnchorForView } from './reviewLinks';
 
-export const DIGITAL_FOUNDATION_REVIEW_REGISTRY_VERSION = '2026-10-20-lifecycle-recovery1';
+export const DIGITAL_FOUNDATION_REVIEW_REGISTRY_VERSION = '2026-10-20-phase2-board-authority1';
 
 export const DF_REVIEW_PRODUCT = {
   IDNTY_DIGITAL_FOUNDATION: 'IDNTY_DIGITAL_FOUNDATION',
   IDNTY_FOUNDER_WORKSPACE: 'IDNTY_FOUNDER_WORKSPACE',
   SITE00_PUBLIC_BUILDER: 'SITE00_PUBLIC_BUILDER',
+  SITE00_DIGITAL_LOCATION: 'SITE00_DIGITAL_LOCATION',
 } as const;
 
 export const FORBIDDEN_FOUNDATION_BUILDER_REVIEW_IMPORTS = [
@@ -171,6 +172,33 @@ function founderRoute(
     authRequirement: 'founder_session',
     reviewAdapter: 'inline_fixture_founder',
     notes: notes ?? 'Simulated founder workspace in review stage (cloud preview admin fixtures).',
+  };
+}
+
+/** Founder boards 13–15C on the engine-generated operations snapshot (`generated/reviewFounderSnapshots.json`). */
+function founderBoard(
+  reviewId: string,
+  pageName: string,
+  route: string,
+  source: string,
+  group: DfReviewGroupId,
+  notes?: string,
+): DfReviewEntry {
+  return {
+    reviewId,
+    anchorId: `df-r-founder-${reviewId.toLowerCase()}`,
+    group,
+    productOwner: DF_REVIEW_PRODUCT.IDNTY_DIGITAL_FOUNDATION,
+    pageName,
+    pageFamily: 'founder-board',
+    componentSource: source,
+    runtimeRoute: route,
+    renderMode: 'inline_founder_shell',
+    implementationStatus: 'reviewable',
+    authRequirement: 'founder_session',
+    reviewAdapter: 'inline_fixture_founder',
+    fixtureContract: 'FOUNDER_OPERATIONS_SNAPSHOT',
+    notes: notes ?? 'Engine snapshot · navigable between boards · task actions inert.',
   };
 }
 
@@ -434,7 +462,7 @@ const CLIENT_INLINE: DfReviewEntry[] = [
     authRequirement: 'client_token',
     reviewAdapter: 'inline_fixture',
     fixtureContract: 'M_COMPLETE_CREDIT',
-    notes: 'Tabs (overview/documents/settings/history) pending — core verified fields shown.',
+    notes: 'Overview / documents / settings / history tabs. Documents stay empty until a document contract exists.',
   },
   {
     reviewId: 'CLIENT_FOUNDATION_COMM_PREFS',
@@ -492,20 +520,54 @@ const CLIENT_INLINE: DfReviewEntry[] = [
     productOwner: DF_REVIEW_PRODUCT.IDNTY_DIGITAL_FOUNDATION,
     pageName: 'Screen 11 · Your foundation is complete',
     pageFamily: 'client-portal',
-    componentSource: 'pages/foundation/DigitalFoundationCompleteSurface.tsx',
+    componentSource: 'foundation-client/parents/FoundationMilestone.tsx#P11FoundationComplete',
     renderMode: 'inline_df_screen',
     implementationStatus: 'reviewable',
     authRequirement: 'client_token',
     reviewAdapter: 'inline_fixture',
     fixtureContract: 'M_COMPLETE_CREDIT',
+    notes: 'Milestone inside the portal — the four portal areas stay reachable.',
   },
-  gapEntry(
-    'CLIENT_SCREEN_12A_LOCATION_LIVE',
-    'df-r-digital-location-live',
-    'CLIENT_COMPLETION',
-    'Screen 12A · Your digital location is live',
-    'Separate SITE 00 digital location product — show only when a location project has launched (not foundation complete alone).',
-  ),
+  {
+    reviewId: 'CLIENT_SCREEN_12_LOCATION',
+    anchorId: 'df-r-location',
+    group: 'CLIENT_COMPLETION',
+    productOwner: DF_REVIEW_PRODUCT.IDNTY_DIGITAL_FOUNDATION,
+    pageName: 'Screen 12 · Your digital location (next threshold)',
+    pageFamily: 'client-portal',
+    componentSource: 'foundation-client/parents/FoundationMilestone.tsx#P12DigitalLocation',
+    renderMode: 'inline_df_screen',
+    implementationStatus: 'reviewable',
+    authRequirement: 'client_token',
+    reviewAdapter: 'inline_fixture',
+    fixtureContract: 'M_COMPLETE_CREDIT',
+    notes: 'Credit state from the eligibility contract; build paths from builder PLACE_OPTIONS. Handoff inert in review.',
+  },
+  {
+    reviewId: 'CLIENT_PORTAL_COMPLETE_NAV',
+    anchorId: 'df-r-client-portal-complete',
+    group: 'CLIENT_COMPLETION',
+    productOwner: DF_REVIEW_PRODUCT.IDNTY_DIGITAL_FOUNDATION,
+    pageName: 'Completed portal (navigable shell)',
+    pageFamily: 'client-portal',
+    componentSource: 'foundation-client/FoundationClient.tsx + ProjectPortal + FoundationMilestone parents',
+    renderMode: 'inline_df_screen',
+    implementationStatus: 'reviewable',
+    authRequirement: 'client_token',
+    reviewAdapter: 'inline_fixture',
+    fixtureContract: 'M_COMPLETE_CREDIT',
+    notes: 'Post-completion portal: overview, roadmap, needs you, records, milestone and next threshold.',
+  },
+  {
+    ...gapEntry(
+      'CLIENT_SCREEN_12A_LOCATION_LIVE',
+      'df-r-digital-location-live',
+      'CLIENT_COMPLETION',
+      'Screen 12A · Your digital location is live',
+      'Board-only. Owned by the SITE 00 Digital Location product — shown when a location project launches, not on foundation completion.',
+    ),
+    productOwner: DF_REVIEW_PRODUCT.SITE00_DIGITAL_LOCATION,
+  },
   {
     reviewId: 'CLIENT_ACCESS_RETURN',
     anchorId: 'df-r-client-return',
@@ -604,50 +666,50 @@ const FOUNDER_ENTRIES: DfReviewEntry[] = [
     'admin/founder-workspace/pages/SystemPage.tsx',
     'FOUNDER_WORKSPACE',
   ),
-  founderRoute(
+  founderBoard(
     'FOUNDATION_PIPELINE',
     'Screen 13 · Foundation pipeline',
-    IDNTY_FOUNDER_WORKSPACE_ROUTES.foundations,
-    'admin/founder-workspace/pages/FoundationsPage.tsx',
+    SITE00_ROUTES.digitalFoundationPipeline,
+    'admin/pages/foundation/boards/FounderBoards.tsx#FounderPipelineBoard',
     'FOUNDER_WORKSPACE',
-    'Portfolio oversight — maps to Foundations list (not client queue).',
+    'Portfolio oversight over getPipelineView + pipelineAttentionQueries.',
   ),
-  founderRoute(
+  founderBoard(
     'PROJECT_COMMAND',
     'Screen 14 · Project command',
-    `${IDNTY_FOUNDER_WORKSPACE_ROUTES.foundations}/:artifactId`,
-    'admin/founder-workspace/pages/ClientRecordPage.tsx',
+    SITE00_ROUTES.digitalFoundationProjectCommand,
+    'admin/pages/foundation/boards/FounderBoards.tsx#FounderProjectCommandBoard',
     'FOUNDER_WORKSPACE',
-    'Single-project operations overview.',
+    'Single project over getProjectCommandSnapshot + getRunbookView.',
   ),
-  founderRoute(
+  founderBoard(
     'EXECUTION_WORKBENCH',
-    'Screen 15 · Run the foundation',
-    IDNTY_FOUNDER_WORKSPACE_ROUTES.operations,
-    'admin/founder-workspace/pages/OperationsPage.tsx',
+    'Screen 15 · Execution workbench',
+    SITE00_ROUTES.digitalFoundationWorkbench,
+    'admin/pages/foundation/boards/FounderBoards.tsx#FounderWorkbenchBoard',
     'FOUNDER_OPERATIONS',
   ),
-  founderRoute(
+  founderBoard(
     'RUNBOOK_OVERVIEW',
     'Screen 15A · Your runbook at a glance',
-    IDNTY_FOUNDER_WORKSPACE_ROUTES.operations,
-    'admin/founder-workspace/pages/OperationsPage.tsx',
+    SITE00_ROUTES.digitalFoundationRunbook,
+    'admin/pages/foundation/boards/FounderBoards.tsx#FounderRunbookOverviewBoard',
     'FOUNDER_OPERATIONS',
   ),
-  founderRoute(
+  founderBoard(
     'RUNBOOK_DETAIL',
-    'Screen 15B · Domain + email foundation runbook',
-    IDNTY_FOUNDER_WORKSPACE_ROUTES.operations,
-    'admin/founder-workspace/pages/OperationsPage.tsx',
+    'Screen 15B · Foundation runbook detail',
+    SITE00_ROUTES.digitalFoundationRunbookTasks,
+    'admin/pages/foundation/boards/FounderBoards.tsx#FounderRunbookDetailBoard',
     'FOUNDER_OPERATIONS',
   ),
-  founderRoute(
+  founderBoard(
     'RUNBOOK_TASK_DETAIL',
-    'Screen 15C · Task detail (example DKIM)',
-    IDNTY_FOUNDER_WORKSPACE_ROUTES.operations,
-    'admin/founder-workspace/pages/OperationsPage.tsx',
+    'Screen 15C · Task detail',
+    SITE00_ROUTES.digitalFoundationRunbookTask,
+    'admin/pages/foundation/boards/FounderBoards.tsx#FounderTaskDetailBoard',
     'FOUNDER_OPERATIONS',
-    'Task drill-in uses runbook selection state in live app.',
+    'Opens on the in-progress task of the snapshot (DKIM configured). Start / mark executed are inert in review.',
   ),
 ];
 
