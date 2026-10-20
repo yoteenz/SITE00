@@ -93,6 +93,9 @@ const DigitalFoundationArtifactPage = lazy(
 const DigitalFoundationReviewPage = lazy(
   () => import('../site00/pages/foundation/DigitalFoundationReviewPage'),
 );
+const DigitalFoundationReturnPage = lazy(
+  () => import('../site00/pages/foundation/DigitalFoundationReturnPage'),
+);
 const InvitationEntryPage = lazy(() => import('../site00/pages/invitation/InvitationEntryPage'));
 const Site00SignInPage = lazy(() => import('../site00/pages/Site00SignInPage'));
 const Site00CreateAccountPage = lazy(() => import('../site00/pages/Site00CreateAccountPage'));
@@ -2423,6 +2426,18 @@ export function Site00Routes() {
             <Site00Suspense>
               <DigitalFoundationReviewPage />
             </Site00Suspense>
+          </Site00Layout>
+        }
+      />
+      <Route
+        path={SITE00_ROUTES.digitalFoundationReturn}
+        element={
+          <Site00Layout>
+            <Site00PublicRouteShell>
+              <Site00Suspense>
+                <DigitalFoundationReturnPage />
+              </Site00Suspense>
+            </Site00PublicRouteShell>
           </Site00Layout>
         }
       />

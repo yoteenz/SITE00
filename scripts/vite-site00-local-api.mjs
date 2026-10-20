@@ -32,6 +32,7 @@ const LOCAL_API_ROUTES = [
   { path: '/api/site00/project-technical-intelligence', file: 'api/site00/project-technical-intelligence.ts' },
   { path: '/api/site00/marketing-engagements', file: 'api/site00/marketing-engagements.ts' },
   { path: '/api/site00/digital-foundation-artifact', file: 'api/site00/digital-foundation-artifact.ts' },
+  { path: '/api/site00/digital-foundation-session', file: 'api/site00/digital-foundation-session.ts' },
   { path: '/api/site00/digital-foundation-stripe-webhook', file: 'api/site00/digital-foundation-stripe-webhook.ts' },
   { path: '/api/site00/digital-foundation-resend-webhook', file: 'api/site00/digital-foundation-resend-webhook.ts' },
   { path: '/api/admin/site00-foundation', file: 'api/admin/site00-foundation.ts' },

@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import type {
   ApprovalRecord,
   ArtifactEvent,
@@ -115,10 +116,15 @@ export function resetDigitalFoundationMemoryStore(): void {
   state = null;
 }
 
+function hashPublicTokenForIndex(token: string): string {
+  return createHash('sha256').update(token, 'utf8').digest('hex');
+}
+
 export function memSaveArtifact(a: DigitalFoundationArtifact): void {
   const s = getDfMemoryState();
   s.artifacts.set(a.artifact_id, a);
   s.artifactsByToken.set(a.public_token, a.artifact_id);
+  s.artifactsByToken.set(hashPublicTokenForIndex(a.public_token), a.artifact_id);
   afterDfMutation();
 }
 
@@ -130,7 +136,8 @@ export function memGetArtifactByToken(token: string): DigitalFoundationArtifact 
   if (isCloudMobilePreviewDev()) {
     mergePreviewSnapshotFromDisk(getDfMemoryState());
   }
-  const id = getDfMemoryState().artifactsByToken.get(token);
+  const map = getDfMemoryState().artifactsByToken;
+  const id = map.get(token) ?? map.get(hashPublicTokenForIndex(token));
   return id ? memGetArtifact(id) : undefined;
 }
 

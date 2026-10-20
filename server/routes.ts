@@ -13,6 +13,7 @@ import site00ProjectsHandler from '../api/site00/projects.js';
 import site00ProjectTechnicalIntelligenceHandler from '../api/site00/project-technical-intelligence.js';
 import site00MarketingEngagementsHandler from '../api/site00/marketing-engagements.js';
 import site00DigitalFoundationArtifactHandler from '../api/site00/digital-foundation-artifact.js';
+import site00DigitalFoundationSessionHandler from '../api/site00/digital-foundation-session.js';
 import site00DigitalFoundationStripeWebhookHandler from '../api/site00/digital-foundation-stripe-webhook.js';
 import site00DigitalFoundationResendWebhookHandler from '../api/site00/digital-foundation-resend-webhook.js';
 import site00FoundationAdminHandler from '../api/admin/site00-foundation.js';
@@ -86,6 +87,7 @@ export const API_ROUTES: ReadonlyArray<{ path: string; handler: ApiHandler }> = 
   { path: '/api/site00/project-technical-intelligence', handler: site00ProjectTechnicalIntelligenceHandler },
   { path: '/api/site00/marketing-engagements', handler: site00MarketingEngagementsHandler },
   { path: '/api/site00/digital-foundation-artifact', handler: site00DigitalFoundationArtifactHandler },
+  { path: '/api/site00/digital-foundation-session', handler: site00DigitalFoundationSessionHandler },
   { path: '/api/site00/digital-foundation-stripe-webhook', handler: site00DigitalFoundationStripeWebhookHandler },
   { path: '/api/site00/digital-foundation-resend-webhook', handler: site00DigitalFoundationResendWebhookHandler },
   { path: '/api/admin/site00-foundation', handler: site00FoundationAdminHandler },

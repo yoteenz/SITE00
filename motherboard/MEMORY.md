@@ -16773,3 +16773,15 @@ Summary of the whole conversation in this chat.
 - **Draft PR:** **#1668** → `cursor/idnty-founder-readiness-e2e-be3b` — **NOT MERGED**.
 - **Tunnel:** pinned to review branch head (`a34e3c07`+); worktree `/tmp/site00-preview-main`; workspace route smoke 200.
 - **Docs:** `docs/site00/idnty/founder-workspace-recovery2-pr-and-tunnel-repin1/`. Tests: workspace 41/41, build + typecheck pass.
+
+---
+
+## 2026-10-20 — Living portal one-pass completion (draft, Composer continue)
+
+- **Branch:** `cursor/idnty-living-portal-one-pass-completion1-be3b` off integration (`d9431c63` post–Recovery2 merge); **draft PR only** (not merged to integration/main).
+- **Authority:** Ingested LOCK1 pack from `origin/claude/client-foundation-living-portal-authority-8d42xk` under `docs/site00/idnty/client-foundation-digital-access-authority-lock1/`; public assets at `public/site00/idnty/foundation/*` + `public/foundation-manifest.webmanifest`.
+- **Client:** `FoundationClient` mounts full `ProjectPortal` (OVERVIEW–COMM_PREFS); `P03IntakeSubmitted` for `INTAKE_SUBMITTED`; PWA head tags via `useFoundationPwaHead`; `/foundation/return` route + reentry UI.
+- **G-02:** `clientQuoteGate.ts` — quote/recommendation redacted and surface capped until `founder_commercial_ready`.
+- **G-09/G-12:** `digital-foundation-session` API (httpOnly cookie, email+code reentry in memory); token hash index + migration `20261020120000_site00_df_public_token_hash.sql`.
+- **Tests:** `digitalFoundationClientQuoteGate`, `digitalFoundationSession`, portal/launch gate phone fixes; build pass.
+- **Open:** Full email send for reentry, token URL replaceState after exchange, staging 24-step E2E, Supabase migration apply on Railway.

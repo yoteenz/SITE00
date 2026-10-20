@@ -123,10 +123,11 @@ export async function loadArtifactGraphByToken(token: string): Promise<DigitalFo
   }
 
   const sb = getSupabaseAdmin();
+  const tokenHash = hashPublicToken(token);
   const { data: row, error } = await sb
     .from('site00_df_artifacts')
     .select('*')
-    .eq('public_token', token)
+    .or(`public_token.eq.${token},public_token_hash.eq.${tokenHash}`)
     .maybeSingle();
   if (error) throw error;
   if (!row) return null;
@@ -292,6 +293,7 @@ function mapArtifactToRow(a: DigitalFoundationArtifact) {
   return {
     artifact_id: a.artifact_id,
     public_token: a.public_token,
+    public_token_hash: hashPublicToken(a.public_token),
     lead_id: a.lead_id,
     client_org_id: a.client_org_id,
     contact_id: a.contact_id,

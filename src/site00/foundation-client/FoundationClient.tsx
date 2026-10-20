@@ -13,7 +13,20 @@ import { saveIntake } from './api';
 import { resolveDfRoute, validateBusinessInfo, type CheckoutParam, type DfView, type IntakeErrors } from './model';
 import { P01Entry, P02Intake, P03Configure, SaveChip } from './parents/EntryIntake';
 import { P04Recommendation } from './parents/Recommendation';
-import { InterimOverview, P05Review, P06Activation } from './parents/CheckoutActivation';
+import { P05Review, P06Activation } from './parents/CheckoutActivation';
+import { P03IntakeSubmitted } from './parents/IntakeSubmittedStatus';
+import {
+  CommunicationPreferences,
+  P07ProjectOverview,
+  P08Roadmap,
+  P09StageDetail,
+  P10NeedsYou,
+  RecordDetail,
+  RecordsLibrary,
+} from './parents/ProjectPortal';
+import type { ProjectStageCode } from '../../../shared/site00-digital-foundation/types.js';
+import { updateCommunicationPreferences } from './api';
+import { useFoundationPwaHead } from './useFoundationPwaHead';
 import { DfCta, DfFrame, DfLoading, DfMenu, DfSystemPanel, type DfObjectKind } from './shell';
 import { useFoundationArtifact, useIntakeDraft, usePaymentVerification, useQuoteSelections } from './useFoundationArtifact';
 import '../styles/site00-df-client.css';
@@ -85,8 +98,11 @@ function Unavailable() {
   );
 }
 
-export function FoundationClient({ token }: { token: string }) {
+type NavState = { dfView?: DfView; dfAnchor?: string; dfStageCode?: ProjectStageCode; dfRecordId?: string };
+
+export function FoundationClient({ token, pwaScope = true }: { token: string; pwaScope?: boolean }) {
   useNoIndex();
+  useFoundationPwaHead(pwaScope);
   const enabled = isDigitalFoundationFlagEnabled(DF_FEATURE_FLAGS.SITE00_DIGITAL_FOUNDATION_ARTIFACT_V1);
   const { payload, setPayload, catalog, load, reload, retry } = useFoundationArtifact(enabled ? token : '');
   const location = useLocation();
@@ -96,9 +112,14 @@ export function FoundationClient({ token }: { token: string }) {
   const checkoutRaw = params.get('checkout');
   const checkout: CheckoutParam = checkoutRaw === 'return' || checkoutRaw === 'cancel' ? checkoutRaw : null;
   const simulated = params.get('simulated_checkout') === '1';
-  const navState = location.state as { dfView?: DfView; dfAnchor?: string } | null;
+  const navState = location.state as NavState | null;
   const stateView = (navState?.dfView ?? null) as DfView | null;
   const stateAnchor = navState?.dfAnchor ?? null;
+  const stateStageCode = navState?.dfStageCode ?? null;
+  const stateRecordId = navState?.dfRecordId ?? null;
+
+  const [prefsBusy, setPrefsBusy] = useState(false);
+  const [fetchedAt, setFetchedAt] = useState(() => new Date());
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [beginBusy, setBeginBusy] = useState(false);
@@ -122,12 +143,29 @@ export function FoundationClient({ token }: { token: string }) {
   const verifying = Boolean(payload && view === 'P06' && checkout === 'return' && !paid && payload.surface !== 'PAYMENT_RECOVERY');
   const verification = usePaymentVerification(verifying, reload);
 
+  useEffect(() => {
+    if (payload) setFetchedAt(new Date());
+  }, [payload]);
+
   const go = useCallback(
-    (v: DfView, opts: { replace?: boolean; dropQuery?: boolean; anchor?: string } = {}) => {
+    (
+      v: DfView,
+      opts: {
+        replace?: boolean;
+        dropQuery?: boolean;
+        anchor?: string;
+        stageCode?: ProjectStageCode;
+        recordId?: string;
+      } = {},
+    ) => {
+      const state: NavState = { dfView: v };
+      if (opts.anchor) state.dfAnchor = opts.anchor;
+      if (opts.stageCode) state.dfStageCode = opts.stageCode;
+      if (opts.recordId) state.dfRecordId = opts.recordId;
       navigate(
         { pathname: location.pathname, search: opts.dropQuery ? '' : location.search },
         {
-          state: opts.anchor ? { dfView: v, dfAnchor: opts.anchor } : { dfView: v },
+          state,
           replace: opts.replace,
         },
       );
@@ -225,7 +263,7 @@ export function FoundationClient({ token }: { token: string }) {
     setSubmitting(false);
     if (res.ok) {
       setP02Errors(undefined);
-      go('P04');
+      await reload();
     } else {
       setSubmitError(
         res.code === 'NETWORK'
@@ -267,17 +305,25 @@ export function FoundationClient({ token }: { token: string }) {
       ) : null;
       break;
     case 'P03':
-      body = intake.draft ? (
-        <P03Configure
-          draft={intake.draft}
-          update={intake.update}
-          editable={intake.editable}
-          onSubmit={submitIntake}
-          submitting={submitting}
-          submitError={submitError}
-          save={save}
-        />
-      ) : null;
+      body =
+        payload.surface === 'INTAKE_SUBMITTED' ? (
+          <P03IntakeSubmitted
+            payload={payload}
+            fetchedAt={fetchedAt}
+            busy={load.status === 'loading'}
+            onRefresh={() => void reload()}
+          />
+        ) : intake.draft ? (
+          <P03Configure
+            draft={intake.draft}
+            update={intake.update}
+            editable={intake.editable}
+            onSubmit={submitIntake}
+            submitting={submitting}
+            submitError={submitError}
+            save={save}
+          />
+        ) : null;
       break;
     case 'P04':
       body = (
@@ -329,7 +375,76 @@ export function FoundationClient({ token }: { token: string }) {
       );
       break;
     case 'OVERVIEW':
-      body = <InterimOverview payload={payload} onActivation={() => go('P06')} />;
+      body = (
+        <P07ProjectOverview
+          payload={payload}
+          verify={verification.phase}
+          onRoadmap={() => go('ROADMAP')}
+          onNeedsYou={() => go('NEEDS_YOU')}
+          onRecords={() => go('RECORDS')}
+          onStage={(code) => go('STAGE', { stageCode: code })}
+          onActivation={() => go('P06')}
+          onPrefs={() => go('COMM_PREFS')}
+        />
+      );
+      break;
+    case 'ROADMAP':
+      body = (
+        <P08Roadmap
+          payload={payload}
+          onStage={(code) => go('STAGE', { stageCode: code })}
+          onOverview={() => go('OVERVIEW')}
+        />
+      );
+      break;
+    case 'STAGE':
+      body = (
+        <P09StageDetail
+          payload={payload}
+          stageCode={stateStageCode ?? payload.stages[0]?.stage_code ?? '01_DETAILS_RECEIVED'}
+          onRoadmap={() => go('ROADMAP')}
+        />
+      );
+      break;
+    case 'NEEDS_YOU':
+      body = (
+        <P10NeedsYou token={token} payload={payload} onReload={reload} onOverview={() => go('OVERVIEW')} />
+      );
+      break;
+    case 'RECORDS':
+      body = (
+        <RecordsLibrary
+          payload={payload}
+          onOpen={(id) => go('RECORD', { recordId: id })}
+          onOverview={() => go('OVERVIEW')}
+        />
+      );
+      break;
+    case 'RECORD':
+      body = (
+        <RecordDetail
+          payload={payload}
+          recordId={stateRecordId ?? ''}
+          onBack={() => go('RECORDS')}
+        />
+      );
+      break;
+    case 'COMM_PREFS':
+      body = (
+        <CommunicationPreferences
+          prefs={payload.communication_preferences}
+          busy={prefsBusy}
+          onSave={(next) => {
+            setPrefsBusy(true);
+            void updateCommunicationPreferences(token, next)
+              .then((p) => {
+                setPayload(p);
+              })
+              .finally(() => setPrefsBusy(false));
+          }}
+          onOverview={() => go('OVERVIEW')}
+        />
+      );
       break;
   }
 
