@@ -1,27 +1,43 @@
 /**
- * Founder-facing review zones — four buckets for gallery + top pills (reduces mount churn vs 11 micro-groups).
+ * Lifecycle-aligned review zones — one zone mounted at a time; continuous scroll within zone.
  */
 import type { DfReviewEntry, DfReviewGroupId } from './digitalFoundationReviewRegistry';
 import { REVIEW_GROUP_ORDER, allReviewRegistryEntries, resolveReviewEntry } from './digitalFoundationReviewRegistry';
 
-export type DfReviewZoneId = 'INTAKE' | 'BUILDER' | 'CLIENT' | 'FOUNDER';
+export type DfReviewZoneId =
+  | 'INTAKE'
+  | 'BUILDER'
+  | 'CLIENT_QUEUE'
+  | 'CLIENT_PORTAL'
+  | 'CLIENT_COMPLETION'
+  | 'FOUNDER';
 
-export const REVIEW_ZONE_ORDER: DfReviewZoneId[] = ['INTAKE', 'BUILDER', 'CLIENT', 'FOUNDER'];
+export const REVIEW_ZONE_ORDER: DfReviewZoneId[] = [
+  'INTAKE',
+  'BUILDER',
+  'CLIENT_QUEUE',
+  'CLIENT_PORTAL',
+  'CLIENT_COMPLETION',
+  'FOUNDER',
+];
 
 export const REVIEW_ZONE_LABELS: Record<DfReviewZoneId, string> = {
   INTAKE: 'Foundation intake',
-  BUILDER: 'Builder',
-  CLIENT: 'Client queue & portal',
-  FOUNDER: 'Founder dashboard',
+  BUILDER: 'Website builder',
+  CLIENT_QUEUE: 'Pre-activation queue',
+  CLIENT_PORTAL: 'Living client portal',
+  CLIENT_COMPLETION: 'Completion & threshold',
+  FOUNDER: 'Founder operations',
 };
 
 const GROUP_TO_ZONE: Record<DfReviewGroupId, DfReviewZoneId> = {
   INTAKE: 'INTAKE',
   FOUNDATION_BUILDER: 'BUILDER',
-  POST_INTAKE: 'CLIENT',
-  PROPOSAL_CHECKOUT: 'INTAKE',
-  CLIENT_PORTAL: 'CLIENT',
-  CLIENT_ACCESS: 'CLIENT',
+  POST_INTAKE: 'CLIENT_QUEUE',
+  PROPOSAL_CHECKOUT: 'CLIENT_QUEUE',
+  CLIENT_PORTAL: 'CLIENT_PORTAL',
+  CLIENT_COMPLETION: 'CLIENT_COMPLETION',
+  CLIENT_ACCESS: 'CLIENT_QUEUE',
   FOUNDER_WORKSPACE: 'FOUNDER',
   FOUNDER_REVIEW_QUEUE: 'FOUNDER',
   FOUNDER_OPERATIONS: 'FOUNDER',

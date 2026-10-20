@@ -24,7 +24,15 @@ export function founderReviewPathForAnchor(anchorId: string): string {
     case 'CREATE_CLIENT':
       return IDNTY_FOUNDER_WORKSPACE_ROUTES.foundations;
     case 'CLIENT_RECORD':
+    case 'PROJECT_COMMAND':
       return IDNTY_FOUNDER_WORKSPACE_ROUTES.client(REVIEW_ARTIFACT_ID);
+    case 'FOUNDATION_PIPELINE':
+      return IDNTY_FOUNDER_WORKSPACE_ROUTES.foundations;
+    case 'EXECUTION_WORKBENCH':
+    case 'RUNBOOK_OVERVIEW':
+    case 'RUNBOOK_DETAIL':
+    case 'RUNBOOK_TASK_DETAIL':
+      return IDNTY_FOUNDER_WORKSPACE_ROUTES.operations;
     case 'REVIEWS':
     case 'REVIEWS_INTAKE_QUEUE':
     case 'INTAKE_REVIEW_DETAIL':
@@ -60,7 +68,15 @@ function founderReviewPage(reviewId: string): ReactNode {
     case 'CREATE_CLIENT':
       return <FoundationsPage />;
     case 'CLIENT_RECORD':
+    case 'PROJECT_COMMAND':
       return <ClientRecordPage reviewArtifactId={REVIEW_ARTIFACT_ID} />;
+    case 'FOUNDATION_PIPELINE':
+      return <FoundationsPage />;
+    case 'EXECUTION_WORKBENCH':
+    case 'RUNBOOK_OVERVIEW':
+    case 'RUNBOOK_DETAIL':
+    case 'RUNBOOK_TASK_DETAIL':
+      return <OperationsPage />;
     case 'REVIEWS':
     case 'REVIEWS_INTAKE_QUEUE':
     case 'INTAKE_REVIEW_DETAIL':

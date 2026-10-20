@@ -3101,6 +3101,28 @@ button.df-spec__btn {
   background: #fff;
 }
 
+.df-signature-preview {
+  margin: 12px 0 0;
+  padding: 14px 16px;
+  border: 1px solid #0c0c0c;
+  background: #fff;
+  text-align: left;
+}
+
+.df-signature-preview__name {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.df-signature-preview__line {
+  margin: 6px 0 0;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--df-muted, #666);
+}
+
 .df-review .df-screen {
   max-width: 390px;
   min-height: 844px;

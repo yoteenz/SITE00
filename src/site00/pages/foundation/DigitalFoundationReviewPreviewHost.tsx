@@ -138,12 +138,20 @@ export default function DigitalFoundationReviewPreviewHost({ anchorId }: { ancho
     );
   }
 
-  if (entry?.group === 'CLIENT_PORTAL' && PORTAL_VIEWS.has(viewFromAnchorId(effectiveAnchor))) {
-    const portalView = viewFromAnchorId(effectiveAnchor);
+  if (
+    (entry?.group === 'CLIENT_PORTAL' || entry?.group === 'CLIENT_COMPLETION') &&
+    (PORTAL_VIEWS.has(viewFromAnchorId(effectiveAnchor)) || effectiveAnchor === 'df-r-record-domain')
+  ) {
+    const portalView = effectiveAnchor === 'df-r-record-domain' ? 'RECORD' : viewFromAnchorId(effectiveAnchor);
+    const fixtureLabel = entry.fixtureContract ?? 'J_PAYMENT_SUCCESS';
     return (
-      <StageChrome id={effectiveAnchor} view={portalView} title={entry.pageName.toUpperCase()}>
-        <SimulatedBanner label="J_PAYMENT_SUCCESS · CLIENT PORTAL" />
-        <DigitalFoundationReviewClientPortalBody view={portalView} />
+      <StageChrome id={effectiveAnchor} view={portalView === 'RECORD' ? 'RECORDS' : portalView} title={entry.pageName.toUpperCase()}>
+        <SimulatedBanner label={`${fixtureLabel} · CLIENT PORTAL`} />
+        <DigitalFoundationReviewClientPortalBody
+          view={portalView}
+          entry={entry}
+          recordId={effectiveAnchor === 'df-r-record-domain' ? 'record-domain' : undefined}
+        />
       </StageChrome>
     );
   }

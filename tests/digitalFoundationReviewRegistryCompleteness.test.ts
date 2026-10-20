@@ -9,7 +9,7 @@ import {
 
 describe('digital foundation review registry completeness', () => {
   it('uses coverage registry version and registers far more than the old 12-link index', () => {
-    expect(DIGITAL_FOUNDATION_REVIEW_REGISTRY_VERSION).toContain('gallery-restoration');
+    expect(DIGITAL_FOUNDATION_REVIEW_REGISTRY_VERSION).toMatch(/lifecycle-recovery|gallery-restoration/);
     const totals = registryCoverageTotals();
     expect(totals.discovered).toBeGreaterThan(85);
     expect(totals.reviewable).toBeGreaterThan(35);

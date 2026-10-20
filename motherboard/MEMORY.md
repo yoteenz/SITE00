@@ -16869,6 +16869,13 @@ Summary of the whole conversation in this chat.
 - **Registry:** P03 family → group `INTAKE`; `df-r-bldr-*` → `FOUNDATION_BUILDER`. Client portal pages render as standalone `StageChrome` per anchor (not repeated tab shell). `digitalFoundationReviewZones.test.ts` locks separation.
 - **Manifest:** `digitalFoundationBuilderManifest.ts` lists five studio rooms; `intakeConfiguratorAnchorIds()` for P03 surfaces.
 
+## 2026-10-20 — DF canonical lifecycle recovery (draft PR #1673)
+
+- **Sprint:** `P0.SITE00.IDNTY.CANONICAL-LIFECYCLE.ORIGINAL-VISUAL-AUTHORITY-RECOVERY-AND-END-TO-END-RESTORATION1` — forensics matrix `docs/site00/idnty/canonical-lifecycle-restoration1/LIFECYCLE_RECONCILIATION_MATRIX.json`; review zones split into intake · builder · **pre-activation queue** · **living portal** · **completion & threshold** · founder ops.
+- **Screen 10:** `df-r-needs-you-approval` + `J_SIGNATURE_APPROVAL` fixture; P10 headline “WE NEED YOUR APPROVAL” + signature preview block for `APPROVE_SIGNATURE`.
+- **Screens 11–15C:** registry anchors for complete (11), records (13A/detail), founder pipeline/command/execution/runbook; founder host maps to `FoundationsPage` / `ClientRecordPage` / `OperationsPage`. 12A = registry gap (digital location product).
+- **Tests:** `dfClientLifecycleRouting.test.ts`, `digitalFoundationLifecycleRecovery.test.ts`. Evidence `/opt/cursor/artifacts/df-lifecycle-recovery/`. **Not merged** per sprint directive.
+
 ## 2026-10-20 — DF review zone-scoped continuous gallery (draft PR #1671)
 
 - **Founder ask:** Top zone pills (intake · builder · client · founder); **one zone mounted at a time**, but **all screens in that zone scroll on one page** — not single-screen stage, not all 92 sections at once.

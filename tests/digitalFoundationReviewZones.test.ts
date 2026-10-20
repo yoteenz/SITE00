@@ -18,4 +18,14 @@ describe('digital foundation review zones', () => {
       expect(intake).not.toContain(anchor);
     }
   });
+
+  it('separates pre-activation queue from living portal and completion zones', () => {
+    const queue = galleryEntriesForZone('CLIENT_QUEUE').map((e) => e.anchorId);
+    const portal = galleryEntriesForZone('CLIENT_PORTAL').map((e) => e.anchorId);
+    const completion = galleryEntriesForZone('CLIENT_COMPLETION').map((e) => e.anchorId);
+    expect(queue).toContain('df-r-post-intake-submitted');
+    expect(portal).toContain('df-r-OVERVIEW');
+    expect(completion).toContain('df-r-complete');
+    expect(portal).not.toContain('df-r-complete');
+  });
 });

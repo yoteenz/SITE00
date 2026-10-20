@@ -33,6 +33,27 @@ async function snapshotIntakeSubmitted() {
   return { token: a.public_token, payload: getClientArtifactPayloadByToken(a.public_token) };
 }
 
+async function snapshotSignatureApproval() {
+  resetDigitalFoundationMemoryStore();
+  const base = await snapshotFixture('J_PAYMENT_SUCCESS');
+  const payload = structuredClone(base.payload) as typeof base.payload;
+  payload.client_actions = [
+    {
+      request_id: 'review-signature-approval-01',
+      artifact_id: payload.artifact.artifact_id,
+      action_type: 'APPROVE_SIGNATURE',
+      title: 'Professional email signature',
+      detail: 'Review and approve the signature SITE 00 prepared for your primary mailbox.',
+      status: 'OPEN',
+      created_at: new Date().toISOString(),
+      completed_at: null,
+      response: null,
+    },
+  ];
+  if (payload.operations_summary) payload.operations_summary.needs_you_count = 1;
+  return { token: base.token, payload };
+}
+
 async function snapshotProposalReady() {
   resetDigitalFoundationMemoryStore();
   const a = createArtifactForLead({ business_name: 'Review · Proposal ready' });
@@ -53,6 +74,7 @@ async function main() {
     J_PAYMENT_SUCCESS: await snapshotFixture('J_PAYMENT_SUCCESS'),
     K_PAYMENT_FAILURE: await snapshotFixture('K_PAYMENT_FAILURE'),
     M_COMPLETE_CREDIT: await snapshotFixture('M_COMPLETE_CREDIT'),
+    J_SIGNATURE_APPROVAL: await snapshotSignatureApproval(),
   };
 
   mkdirSync(outDir, { recursive: true });

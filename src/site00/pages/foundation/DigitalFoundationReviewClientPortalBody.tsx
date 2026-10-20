@@ -6,29 +6,50 @@ import {
   P09StageDetail,
   P10NeedsYou,
   RecordsLibrary,
+  RecordDetail,
 } from '../../foundation-client/parents/ProjectPortal';
 import { useReviewPreviewState } from './DigitalFoundationReviewPreviewContext';
+import { reviewFixtureForEntry } from './reviewFixtureResolver';
+import type { DfReviewEntry } from './digitalFoundationReviewRegistry';
 
 export default function DigitalFoundationReviewClientPortalBody({
   view,
+  entry,
+  recordId,
   onNavigate,
 }: {
   view: DfView;
-  onNavigate?: (view: DfView) => void;
+  entry?: DfReviewEntry;
+  recordId?: string;
+  onNavigate?: (view: DfView, recordId?: string) => void;
 }) {
-  const { paidPayload, paidToken } = useReviewPreviewState();
-  const noop = () => undefined;
-  const go = (next: DfView) => onNavigate?.(next);
+  const state = useReviewPreviewState();
+  const resolved = reviewFixtureForEntry(entry, state.bootstrap, {
+    quote: state.quotePayload,
+    paid: state.paidPayload,
+    paidToken: state.paidToken,
+    postIntake: state.postIntakePayload,
+    proposalReady: state.proposalReadyPayload,
+    paymentFailure: state.paymentFailurePayload,
+    complete: state.completePayload,
+    completeToken: state.completeToken,
+  });
 
-  if (!paidPayload) {
-    return <p className="df-review__wait">CLIENT PORTAL FIXTURE NOT LOADED (J_PAYMENT_SUCCESS).</p>;
+  const payload = resolved?.payload ?? state.paidPayload;
+  const token = resolved?.token ?? state.paidToken;
+
+  const noop = () => undefined;
+  const go = (next: DfView, rec?: string) => onNavigate?.(next, rec);
+
+  if (!payload) {
+    return <p className="df-review__wait">CLIENT PORTAL FIXTURE NOT LOADED ({entry?.fixtureContract ?? 'J_PAYMENT_SUCCESS'}).</p>;
   }
 
   switch (view) {
     case 'OVERVIEW':
       return (
         <P07ProjectOverview
-          payload={paidPayload}
+          payload={payload}
           verify={null}
           onRoadmap={() => go('ROADMAP')}
           onNeedsYou={() => go('NEEDS_YOU')}
@@ -39,32 +60,35 @@ export default function DigitalFoundationReviewClientPortalBody({
         />
       );
     case 'ROADMAP':
-      return <P08Roadmap payload={paidPayload} onStage={() => go('STAGE')} onOverview={() => go('OVERVIEW')} />;
+      return <P08Roadmap payload={payload} onStage={() => go('STAGE')} onOverview={() => go('OVERVIEW')} />;
     case 'STAGE':
       return (
         <P09StageDetail
-          payload={paidPayload}
-          stageCode={paidPayload.stages[0]?.stage_code ?? '01_DETAILS_RECEIVED'}
+          payload={payload}
+          stageCode={payload.stages[0]?.stage_code ?? '01_DETAILS_RECEIVED'}
           onRoadmap={() => go('ROADMAP')}
         />
       );
     case 'NEEDS_YOU':
-      return paidToken ? (
-        <P10NeedsYou
-          token={paidToken}
-          payload={paidPayload}
-          onReload={async () => paidPayload}
-          onOverview={() => go('OVERVIEW')}
-        />
+      return token ? (
+        <P10NeedsYou token={token} payload={payload} onReload={async () => payload} onOverview={() => go('OVERVIEW')} />
       ) : (
-        <p className="df-review__wait">NEEDS YOU FIXTURE TOKEN MISSING.</p>
+        <P10NeedsYou token="review-inert" payload={payload} onReload={async () => payload} onOverview={() => go('OVERVIEW')} />
       );
     case 'RECORDS':
-      return <RecordsLibrary payload={paidPayload} onOpen={noop} onOverview={() => go('OVERVIEW')} />;
+      return <RecordsLibrary payload={payload} onOpen={(id) => go('RECORD', id)} onOverview={() => go('OVERVIEW')} />;
+    case 'RECORD':
+      return (
+        <RecordDetail
+          payload={payload}
+          recordId={recordId ?? 'record-domain'}
+          onBack={() => go('RECORDS')}
+        />
+      );
     case 'COMM_PREFS':
       return (
         <CommunicationPreferences
-          prefs={paidPayload.communication_preferences}
+          prefs={payload.communication_preferences}
           busy={false}
           onSave={noop}
           onOverview={() => go('OVERVIEW')}
