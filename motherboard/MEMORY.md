@@ -16851,3 +16851,9 @@ Summary of the whole conversation in this chat.
 
 - **Sprint:** `COMPLETE-ARTIFACT-REVIEW.CANONICAL-GALLERY-RESTORATION-AND-REGRESSION-LOCK1` — regression was single-screen `DigitalFoundationReviewPreviewHost` only (`7f0841be`); restored **continuous vertical gallery** (`DigitalFoundationReviewGallery` + lazy sections + error boundaries). Registry jump scrolls to `#anchor` and resets group filter to ALL; does not unmount siblings.
 - **Registry:** `2026-10-20-gallery-restoration1`; tests `digitalFoundationReviewGalleryRegression.test.ts`. Tunnel SHA `80936230`; Playwright evidence `/opt/cursor/artifacts/df-review-gallery-restoration/`.
+
+## 2026-10-20 — DF review founder/portal gallery mount fix (draft PR #1671)
+
+- **Founder BROKEN panels:** nested `MemoryRouter` inside site `BrowserRouter` on `/foundation/review`. Fix: inline render founder pages (`DigitalFoundationReviewFounderHost`) with `RegistryFilterProvider` + `OverlayProvider`; `ClientRecordPage` accepts optional `reviewArtifactId`.
+- **Visibility:** `gallerySectionEagerMount` mounts builder, client portal, and founder groups without scroll; hash/registry nav forces section mount. Bootstrap keeps offline fixtures when live mint fails; seeds preview memory via GET bootstrap.
+- **Ship:** `8199a7cd` on `cursor/idnty-living-portal-one-pass-completion1-be3b`; test `digitalFoundationReviewFounderHost.test.ts`.
