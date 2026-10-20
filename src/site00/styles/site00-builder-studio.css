@@ -279,6 +279,83 @@ body.bs-body {
   z-index: 2;
 }
 
+.bs-drill {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border: 1px solid var(--bs-line);
+  border-radius: 8px;
+  background: var(--bs-card);
+}
+
+.bs-drill__title {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  margin: 0 0 8px;
+}
+
+.bs-drill__plain {
+  font-size: 11px;
+  margin: 0 0 10px;
+  color: var(--bs-muted);
+}
+
+.bs-drill__actions {
+  display: flex;
+  gap: 8px;
+}
+
+.bs-drill__btn {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--bs-red);
+  background: var(--bs-red);
+  color: #fff;
+}
+
+.bs-drill__btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.bs-drill__btn--ghost {
+  background: transparent;
+  color: var(--bs-ink);
+  border-color: var(--bs-line);
+}
+
+.bs-drill__list {
+  list-style: none;
+  margin: 0 0 12px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.bs-drill__list li {
+  font-size: 11px;
+}
+
+.bs-drill__status {
+  display: inline-block;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--bs-muted);
+  margin-right: 6px;
+}
+
+.bs-drill__hint,
+.bs-drill__estimate {
+  font-size: 10px;
+  color: var(--bs-muted);
+  margin: 6px 0 0;
+}
+
 /* 01 PLACE */
 .bs-cards {
   display: grid;

@@ -19,6 +19,12 @@ export type SpatialBuilderState = {
   room: SpatialRoomId;
   placePath: PlacePathId | null;
   feelVibe: FeelVibeId | null;
+  /** Optional explicit typography while exploring FEEL (maps to BuilderSelection.type). */
+  feelType?: 'SYSTEM_DEFAULT' | 'CONDENSED_DISPLAY' | 'EXPRESSIVE_DISPLAY';
+  /** Optional explicit colour while exploring FEEL (maps to BuilderSelection.color). */
+  feelColor?: 'SYSTEM_DEFAULT' | 'SATURATED_EDITORIAL' | 'HIGH_CONTRAST_MONO';
+  /** WORK drill-down: optional ACCOUNTS when SHOP is on (prototype vertical slice). */
+  shopAccounts?: boolean;
   workModules: WorkModuleId[];
   pace: PacePreferenceId | null;
   paceNotes: string;
