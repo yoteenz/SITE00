@@ -43,6 +43,7 @@ import {
   StoreIcon,
   UploadIcon,
 } from './icons';
+import { designConflicts, resolveDesignDetails } from './designResolution';
 import {
   featuresView,
   mainExperience,
@@ -489,7 +490,6 @@ function OverviewTab({ session, setTab, goToRoom, openMenu }: Props) {
 /* ─────────────────────────────── 02 STRUCTURE ─────────────────────────────── */
 
 const COMMERCIAL_LINES = ['COMMERCE', 'PLATFORM', 'PLATFORM_USAGE', 'PAYMENT_PROCESSING', 'ONGOING_SUPPORT'];
-const DESIGN_LINES = ['STRUCTURE', 'WORLD', 'TYPE', 'COLOR', 'IMAGE', 'MOTION'];
 
 /** "ARCHITECTURAL MINIMAL · FULL EDITION" → "ARCHITECTURAL MINIMAL": the edition is a scope detail, not a direction. */
 function visualSystemName(value: string | null): string | null {
@@ -507,8 +507,8 @@ function StructureTab({ session, goToRoom }: Props) {
   const pace = PACE_OPTIONS.find((p) => p.id === state.pace);
   const lines = snapshot.blueprint.lines.filter((line) => !COMMERCIAL_LINES.includes(line.key));
   const system = visualSystemName(lines.find((line) => line.key === 'EXPRESSION')?.value ?? null);
-  const design = lines.filter((line) => DESIGN_LINES.includes(line.key));
-  const followsDirection = design.some((line) => line.fromSystem && line.value);
+  const designDetails = useMemo(() => resolveDesignDetails(selection), [selection]);
+  const conflicts = useMemo(() => designConflicts(selection), [selection]);
   const anatomy = useMemo(() => blueprintAnatomy(spec, snapshot), [spec, snapshot]);
   const thumbs = useMemo(
     () => Object.fromEntries(view.groups.map((g) => [g.key, partStill(spec, g.key, structurePartElements(anatomy, g.key))])),
@@ -580,16 +580,38 @@ function StructureTab({ session, goToRoom }: Props) {
       </Disclose>
       <Disclose title="DESIGN DETAILS">
         <dl className="bs-lines bs-lines--compact">
-          {design.map((line) => (
-            <div key={line.key} className={`bs-line${line.open ? ' is-open' : ''}`}>
+          {designDetails.map((line) => (
+            <div key={line.key} className={`bs-line${line.value ? '' : ' is-open'}`}>
               <dt>{line.label}</dt>
-              <dd>{line.value ? line.value.toUpperCase() : custom ? 'DEFINED WITH SITE 00 IN YOUR CUSTOM DIRECTION' : 'NOT CHOSEN YET'}</dd>
+              <dd>
+                {line.value ?? (custom ? 'DEFINED WITH SITE 00 IN YOUR CUSTOM DIRECTION' : 'NOT CHOSEN YET')}
+                <span className="bs-line__provenance"> · {line.provenanceLabel}</span>
+              </dd>
             </div>
           ))}
         </dl>
-        {followsDirection && feel ? (
+        <ul className="bs-bullets bs-bullets--compact">
+          {designDetails.map((line) => (
+            <li key={`${line.key}-fit`}>
+              <BsBody>
+                {line.label}: {line.fitNote}
+              </BsBody>
+            </li>
+          ))}
+        </ul>
+        {conflicts.length ? (
+          <div className="bs-sheet__hint">
+            {conflicts.map((c) => (
+              <p key={c.dimension}>
+                <BsBody>
+                  {c.message} {c.recommendation}
+                </BsBody>
+              </p>
+            ))}
+          </div>
+        ) : feel ? (
           <p className="bs-sheet__hint">
-            <BsBody>THESE FOLLOW YOUR {feel.label} DIRECTION UNLESS YOU CHANGE THEM AT BLUEPRINT REVIEW.</BsBody>
+            <BsBody>RECOMMENDATIONS FOLLOW YOUR {feel.label} DIRECTION UNTIL YOU SET A DIMENSION EXPLICITLY.</BsBody>
           </p>
         ) : null}
       </Disclose>
@@ -660,9 +682,22 @@ function PagesTab({ session, goToRoom }: Props) {
                     <p className="bs-pageitem__plain">
                       <BsBody>{page.plain}</BsBody>
                     </p>
+                    <p className="bs-pageitem__plain">
+                      <BsBody>{page.whyItMatters}</BsBody>
+                    </p>
                     {page.depth ? (
                       <p className="bs-pageitem__depth">
                         <strong>{page.depth} DEPTH</strong> <BsBody>{page.depthPlain}</BsBody>
+                      </p>
+                    ) : null}
+                    {page.featuresNote ? (
+                      <p className="bs-pageitem__depth">
+                        <BsBody>{page.featuresNote}</BsBody>
+                      </p>
+                    ) : null}
+                    {page.limitation ? (
+                      <p className="bs-pageitem__depth">
+                        <BsBody>{page.limitation}</BsBody>
                       </p>
                     ) : null}
                   </details>

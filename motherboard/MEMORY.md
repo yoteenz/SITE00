@@ -16597,6 +16597,15 @@ Summary of the whole conversation in this chat.
 
 ---
 
+## 2026-10-20 — Builder creative intelligence (PR #1672)
+
+- **Sprint:** P0.SITE00.BUILDER.CREATIVE-INTELLIGENCE-AND-PAGE-VALUE-DEPTH-RECOVERY1 — fix hardcoded client design resolution and generic FULL DEPTH page copy on five-tab Blueprint; **no IDNTY / no merge / PR #1672 stays draft**.
+- **Root cause:** Spatial feel → single visual system with `SYSTEM_DEFAULT` tunables; `pagesView` reused `EXPERIENCE_DEPTHS.plain` for every page.
+- **Added:** `designResolution.ts` (provenance: YOUR SELECTION / OUR RECOMMENDATION / FROM YOUR BRAND / TO BE REFINED), `pageValueIntelligence.ts` (page-type + capability-grounded copy), SOURCE_AUDIT doc, Playwright capture script, regression tests.
+- **Branch:** `cursor/bldr-creative-intelligence-be3b` off Opus five-tab SHA `5dd77ff1a`. Opus presentation pass (§16) still outstanding.
+
+---
+
 ## 2026-10-15 — Staging auth redirect and founder login
 
 - **Sprint:** P0.SITE00.IDNTY.STAGING-AUTH-REDIRECT-AND-FOUNDER-LOGIN-RECOVERY1. Staging only. No production writes. No merge.

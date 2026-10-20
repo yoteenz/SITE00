@@ -18,6 +18,7 @@ import {
 import type { BuilderSelection, CapabilityId } from '../builder-experience';
 import { estimateProject } from '../../studioos/estimation';
 import type { BlueprintAnatomy } from './buildObject/anatomy';
+import { resolvePageValue } from './pageValueIntelligence';
 
 const up = (value: string) => value.toUpperCase();
 
@@ -41,7 +42,16 @@ export const PAGE_GROUPS: readonly { key: PageGroupKey; title: string; plain: st
   { key: 'TEAM_ACCESS', title: 'TEAM & ACCESS', plain: 'HOW YOUR PLACE IS RUN, AND WHO CAN SEE AND DO WHAT.', private: true },
 ];
 
-export type PageItem = { id: string; label: string; plain: string; depth: string; depthPlain: string };
+export type PageItem = {
+  id: string;
+  label: string;
+  plain: string;
+  depth: string;
+  depthPlain: string;
+  whyItMatters: string;
+  featuresNote: string | null;
+  limitation: string | null;
+};
 export type PageGroupView = (typeof PAGE_GROUPS)[number] & { pages: PageItem[] };
 
 export type PagesView = { total: number; groups: PageGroupView[]; coreGroups: number; privatePages: number };
@@ -53,8 +63,18 @@ export function pagesView(selection: BuilderSelection): PagesView {
     const exp = EXPERIENCE_BY_ID[choice.id];
     const key = PAGE_GROUP_OF[exp.group] ?? 'STORY_OFFER';
     const depth = EXPERIENCE_DEPTHS.find((d) => d.id === choice.depth);
+    const value = resolvePageValue(selection, choice);
     const list = byGroup.get(key) ?? [];
-    list.push({ id: choice.id, label: up(exp.label), plain: up(exp.plain), depth: up(depth?.label ?? ''), depthPlain: up(depth?.plain ?? '') });
+    list.push({
+      id: choice.id,
+      label: up(exp.label),
+      plain: value.purpose,
+      depth: up(depth?.label ?? ''),
+      depthPlain: value.depthSummary,
+      whyItMatters: value.whyItMatters,
+      featuresNote: value.featuresNote,
+      limitation: value.limitation,
+    });
     byGroup.set(key, list);
   }
   const groups = PAGE_GROUPS.filter((g) => byGroup.has(g.key)).map((g) => ({ ...g, pages: byGroup.get(g.key)! }));
