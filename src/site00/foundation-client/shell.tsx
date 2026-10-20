@@ -56,16 +56,24 @@ export function DfRail({ index, label }: { index: string; label: string }) {
   );
 }
 
+/** Strip a trailing `.` on the last line so copy does not duplicate the system red terminal mark. */
+export function normalizeDfHeadlineLine(line: string, isLast: boolean): string {
+  if (!isLast || displayLineEndsWithSplitMark(line)) return line;
+  const trimmed = line.trimEnd();
+  return trimmed.endsWith('.') ? trimmed.slice(0, -1) : line;
+}
+
 /** Condensed uppercase headline; the red terminal period is part of the system, not punctuation. */
 export function DfHeadline({ lines, id }: { lines: string[]; id?: string }) {
   return (
     <h1 className="df-headline" id={id}>
       {lines.map((line, i) => {
         const isLast = i === lines.length - 1;
-        const terminalMark = displayLineEndsWithSplitMark(line);
+        const displayLine = normalizeDfHeadlineLine(line, isLast);
+        const terminalMark = displayLineEndsWithSplitMark(displayLine);
         return (
           <span key={i} className="df-headline__line">
-            <CorrespondenceDisplayLine line={line} />
+            <CorrespondenceDisplayLine line={displayLine} />
             {isLast && !terminalMark ? <span className="df-headline__period">.</span> : null}
           </span>
         );
