@@ -1,0 +1,407 @@
+{
+ "name": "P3",
+ "cfg": {
+  "place": "SIMPLE",
+  "feel": "MODERN",
+  "modules": [
+   "PAGES",
+   "SHOP"
+  ],
+  "pace": "FLEXIBLE"
+ },
+ "url": "http://127.0.0.1:5182/bldr/studio/blueprint",
+ "widths": {
+  "390": {
+   "structure": {
+    "docOverflowX": 0,
+    "lowercase": [],
+    "overflow": [],
+    "clipped": [],
+    "overlaps": [],
+    "minFont": 7.2,
+    "headers": 1
+   },
+   "direction": [
+    {
+     "label": "STRUCTURE",
+     "source": "YOUR SELECTION",
+     "value": "SERVICE",
+     "note": "A PRACTICE. WHAT YOU OFFER, PROOF THAT IT WORKS, AND A CLEAR WAY TO BEGIN."
+    },
+    {
+     "label": "TYPOGRAPHY",
+     "source": "OUR RECOMMENDATION",
+     "value": "MODERN GROTESK",
+     "note": "CLEAR AND CONTEMPORARY. NEUTRAL HEADLINES THAT LET SPACE AND IMAGE LEAD."
+    },
+    {
+     "label": "COLOR DIRECTION",
+     "source": "OUR RECOMMENDATION",
+     "value": "NEUTRAL ARCHITECTURAL",
+     "note": "DAYLIGHT ON CONCRETE. OFF-WHITE PLASTER AND PALE STONE, WITH ONE GRAPHITE LINE AS THE ACCENT."
+    },
+    {
+     "label": "IMAGE WORLD",
+     "source": "OUR RECOMMENDATION",
+     "value": "ARCHITECTURAL",
+     "note": "SPACES, LIGHT AND STRUCTURE."
+    },
+    {
+     "label": "MOTION",
+     "source": "OUR RECOMMENDATION",
+     "value": "QUIET",
+     "note": "THINGS APPEAR CALMLY. MOTION NEVER ASKS FOR ATTENTION."
+    },
+    {
+     "label": "COMPOSITION",
+     "source": "OUR RECOMMENDATION",
+     "value": "GRID AND LIGHT. SPACE IS THE MAIN MATERIAL",
+     "note": "STRICT GRID, LARGE QUIET FIELDS. IT PACES YOUR SERVICE PATH: PROMISE → OFFER → PROOF → BEGIN."
+    },
+    {
+     "label": "INTERACTION CHARACTER",
+     "source": "OUR RECOMMENDATION",
+     "value": "SHORT AND DIRECT. OFFER, PROOF, BEGIN",
+     "note": "HOW PEOPLE FIND THEIR WAY THROUGH SERVICE PAGES, MOVING WITH THE QUIET MOTION ABOVE."
+    }
+   ],
+   "directionNote": "STRUCTURE DECIDES HOW PEOPLE MOVE THROUGH YOUR PLACE. THE REST DECIDES HOW IT LOOKS AND FEELS. OUR RECOMMENDATIONS FOLLOW YOUR ARCHITECTURAL MINIMAL DIRECTION AND CAN STILL CHANGE AT BLUEPRINT REVIEW.",
+   "structureOpen": {
+    "docOverflowX": 0,
+    "lowercase": [],
+    "overflow": [],
+    "clipped": [],
+    "overlaps": [],
+    "minFont": 7.2,
+    "headers": 1
+   },
+   "pages": {
+    "docOverflowX": 0,
+    "lowercase": [],
+    "overflow": [],
+    "clipped": [],
+    "overlaps": [],
+    "minFont": 6.8,
+    "headers": 1
+   },
+   "pageText": [
+    {
+     "name": "HOME",
+     "purpose": "MAKE THE RIGHT FIRST IMPRESSION.",
+     "facts": [
+      "WHY IT MATTERS — SAYS WHO YOU ARE QUICKLY, BUILDS CREDIBILITY AND POINTS PEOPLE TOWARD WHAT MATTERS MOST.",
+      "WHAT IS INCLUDEDESSENTIAL DEPTH — AN OPENING THAT SAYS WHAT YOU DO · ONE CLEAR NEXT STEP",
+      "HOW IT CONNECTS — RUNS ON THESE FEATURES: EDIT IT YOURSELF"
+     ]
+    },
+    {
+     "name": "ABOUT",
+     "purpose": "GIVE PEOPLE A REASON TO TRUST YOU.",
+     "facts": [
+      "WHY IT MATTERS — TELLS YOUR STORY, YOUR PERSPECTIVE AND WHAT SETS YOU APART, IN YOUR OWN WORDS.",
+      "WHAT IS INCLUDEDESSENTIAL DEPTH — WHO YOU ARE AND WHY IT MATTERS · ONE PIECE OF PROOF",
+      "HOW IT CONNECTS — RUNS ON THESE FEATURES: EDIT IT YOURSELF"
+     ]
+    },
+    {
+     "name": "CONTACT / BEGIN",
+     "purpose": "MAKE STARTING A CONVERSATION EASY.",
+     "facts": [
+      "WHY IT MATTERS — TURNS INTEREST INTO A FIRST MESSAGE, WITH CLEAR EXPECTATIONS ABOUT WHAT HAPPENS NEXT.",
+      "WHAT IS INCLUDEDESSENTIAL DEPTH — A SHORT ENQUIRY FORM · HOW AND WHEN YOU REPLY"
+     ]
+    },
+    {
+     "name": "SERVICES",
+     "purpose": "SHOW WHAT YOU OFFER, CLEARLY.",
+     "facts": [
+      "WHY IT MATTERS — HELPS PEOPLE SEE WHICH SERVICE FITS THEM BEFORE THEY GET IN TOUCH.",
+      "WHAT IS INCLUDEDESSENTIAL DEPTH — YOUR SERVICES, EACH IN PLAIN WORDS · A WAY TO ENQUIRE ABOUT EACH ONE",
+      "HOW IT CONNECTS — RUNS ON THESE FEATURES: EDIT IT YOURSELF"
+     ]
+    },
+    {
+     "name": "PROOF / WORK",
+     "purpose": "SHOW THAT YOUR WORK WORKS.",
+     "facts": [
+      "WHY IT MATTERS — GIVES PEOPLE EVIDENCE — RESULTS, CASES AND CLIENT VOICES — BEFORE THEY COMMIT.",
+      "WHAT IS INCLUDEDESSENTIAL DEPTH — SELECTED RESULTS OR TESTIMONIALS",
+      "HOW IT CONNECTS — RUNS ON THESE FEATURES: EDIT IT YOURSELF"
+     ]
+    }
+   ],
+   "opened": [
+    "HOME",
+    "ABOUT"
+   ],
+   "sameCanvas": true
+  },
+  "834": {
+   "structure": {
+    "docOverflowX": 0,
+    "lowercase": [],
+    "overflow": [],
+    "clipped": [],
+    "overlaps": [],
+    "minFont": 7.2,
+    "headers": 1
+   },
+   "direction": [
+    {
+     "label": "STRUCTURE",
+     "source": "YOUR SELECTION",
+     "value": "SERVICE",
+     "note": "A PRACTICE. WHAT YOU OFFER, PROOF THAT IT WORKS, AND A CLEAR WAY TO BEGIN."
+    },
+    {
+     "label": "TYPOGRAPHY",
+     "source": "OUR RECOMMENDATION",
+     "value": "MODERN GROTESK",
+     "note": "CLEAR AND CONTEMPORARY. NEUTRAL HEADLINES THAT LET SPACE AND IMAGE LEAD."
+    },
+    {
+     "label": "COLOR DIRECTION",
+     "source": "OUR RECOMMENDATION",
+     "value": "NEUTRAL ARCHITECTURAL",
+     "note": "DAYLIGHT ON CONCRETE. OFF-WHITE PLASTER AND PALE STONE, WITH ONE GRAPHITE LINE AS THE ACCENT."
+    },
+    {
+     "label": "IMAGE WORLD",
+     "source": "OUR RECOMMENDATION",
+     "value": "ARCHITECTURAL",
+     "note": "SPACES, LIGHT AND STRUCTURE."
+    },
+    {
+     "label": "MOTION",
+     "source": "OUR RECOMMENDATION",
+     "value": "QUIET",
+     "note": "THINGS APPEAR CALMLY. MOTION NEVER ASKS FOR ATTENTION."
+    },
+    {
+     "label": "COMPOSITION",
+     "source": "OUR RECOMMENDATION",
+     "value": "GRID AND LIGHT. SPACE IS THE MAIN MATERIAL",
+     "note": "STRICT GRID, LARGE QUIET FIELDS. IT PACES YOUR SERVICE PATH: PROMISE → OFFER → PROOF → BEGIN."
+    },
+    {
+     "label": "INTERACTION CHARACTER",
+     "source": "OUR RECOMMENDATION",
+     "value": "SHORT AND DIRECT. OFFER, PROOF, BEGIN",
+     "note": "HOW PEOPLE FIND THEIR WAY THROUGH SERVICE PAGES, MOVING WITH THE QUIET MOTION ABOVE."
+    }
+   ],
+   "directionNote": "STRUCTURE DECIDES HOW PEOPLE MOVE THROUGH YOUR PLACE. THE REST DECIDES HOW IT LOOKS AND FEELS. OUR RECOMMENDATIONS FOLLOW YOUR ARCHITECTURAL MINIMAL DIRECTION AND CAN STILL CHANGE AT BLUEPRINT REVIEW.",
+   "structureOpen": {
+    "docOverflowX": 0,
+    "lowercase": [],
+    "overflow": [],
+    "clipped": [],
+    "overlaps": [],
+    "minFont": 7.2,
+    "headers": 1
+   },
+   "pages": {
+    "docOverflowX": 0,
+    "lowercase": [],
+    "overflow": [],
+    "clipped": [],
+    "overlaps": [],
+    "minFont": 6.8,
+    "headers": 1
+   },
+   "pageText": [
+    {
+     "name": "HOME",
+     "purpose": "MAKE THE RIGHT FIRST IMPRESSION.",
+     "facts": [
+      "WHY IT MATTERS — SAYS WHO YOU ARE QUICKLY, BUILDS CREDIBILITY AND POINTS PEOPLE TOWARD WHAT MATTERS MOST.",
+      "WHAT IS INCLUDEDESSENTIAL DEPTH — AN OPENING THAT SAYS WHAT YOU DO · ONE CLEAR NEXT STEP",
+      "HOW IT CONNECTS — RUNS ON THESE FEATURES: EDIT IT YOURSELF"
+     ]
+    },
+    {
+     "name": "ABOUT",
+     "purpose": "GIVE PEOPLE A REASON TO TRUST YOU.",
+     "facts": [
+      "WHY IT MATTERS — TELLS YOUR STORY, YOUR PERSPECTIVE AND WHAT SETS YOU APART, IN YOUR OWN WORDS.",
+      "WHAT IS INCLUDEDESSENTIAL DEPTH — WHO YOU ARE AND WHY IT MATTERS · ONE PIECE OF PROOF",
+      "HOW IT CONNECTS — RUNS ON THESE FEATURES: EDIT IT YOURSELF"
+     ]
+    },
+    {
+     "name": "CONTACT / BEGIN",
+     "purpose": "MAKE STARTING A CONVERSATION EASY.",
+     "facts": [
+      "WHY IT MATTERS — TURNS INTEREST INTO A FIRST MESSAGE, WITH CLEAR EXPECTATIONS ABOUT WHAT HAPPENS NEXT.",
+      "WHAT IS INCLUDEDESSENTIAL DEPTH — A SHORT ENQUIRY FORM · HOW AND WHEN YOU REPLY"
+     ]
+    },
+    {
+     "name": "SERVICES",
+     "purpose": "SHOW WHAT YOU OFFER, CLEARLY.",
+     "facts": [
+      "WHY IT MATTERS — HELPS PEOPLE SEE WHICH SERVICE FITS THEM BEFORE THEY GET IN TOUCH.",
+      "WHAT IS INCLUDEDESSENTIAL DEPTH — YOUR SERVICES, EACH IN PLAIN WORDS · A WAY TO ENQUIRE ABOUT EACH ONE",
+      "HOW IT CONNECTS — RUNS ON THESE FEATURES: EDIT IT YOURSELF"
+     ]
+    },
+    {
+     "name": "PROOF / WORK",
+     "purpose": "SHOW THAT YOUR WORK WORKS.",
+     "facts": [
+      "WHY IT MATTERS — GIVES PEOPLE EVIDENCE — RESULTS, CASES AND CLIENT VOICES — BEFORE THEY COMMIT.",
+      "WHAT IS INCLUDEDESSENTIAL DEPTH — SELECTED RESULTS OR TESTIMONIALS",
+      "HOW IT CONNECTS — RUNS ON THESE FEATURES: EDIT IT YOURSELF"
+     ]
+    }
+   ],
+   "opened": [
+    "HOME",
+    "ABOUT"
+   ],
+   "sameCanvas": true
+  },
+  "1440": {
+   "structure": {
+    "docOverflowX": 0,
+    "lowercase": [],
+    "overflow": [],
+    "clipped": [],
+    "overlaps": [],
+    "minFont": 7.2,
+    "headers": 1
+   },
+   "direction": [
+    {
+     "label": "STRUCTURE",
+     "source": "YOUR SELECTION",
+     "value": "SERVICE",
+     "note": "A PRACTICE. WHAT YOU OFFER, PROOF THAT IT WORKS, AND A CLEAR WAY TO BEGIN."
+    },
+    {
+     "label": "TYPOGRAPHY",
+     "source": "OUR RECOMMENDATION",
+     "value": "MODERN GROTESK",
+     "note": "CLEAR AND CONTEMPORARY. NEUTRAL HEADLINES THAT LET SPACE AND IMAGE LEAD."
+    },
+    {
+     "label": "COLOR DIRECTION",
+     "source": "OUR RECOMMENDATION",
+     "value": "NEUTRAL ARCHITECTURAL",
+     "note": "DAYLIGHT ON CONCRETE. OFF-WHITE PLASTER AND PALE STONE, WITH ONE GRAPHITE LINE AS THE ACCENT."
+    },
+    {
+     "label": "IMAGE WORLD",
+     "source": "OUR RECOMMENDATION",
+     "value": "ARCHITECTURAL",
+     "note": "SPACES, LIGHT AND STRUCTURE."
+    },
+    {
+     "label": "MOTION",
+     "source": "OUR RECOMMENDATION",
+     "value": "QUIET",
+     "note": "THINGS APPEAR CALMLY. MOTION NEVER ASKS FOR ATTENTION."
+    },
+    {
+     "label": "COMPOSITION",
+     "source": "OUR RECOMMENDATION",
+     "value": "GRID AND LIGHT. SPACE IS THE MAIN MATERIAL",
+     "note": "STRICT GRID, LARGE QUIET FIELDS. IT PACES YOUR SERVICE PATH: PROMISE → OFFER → PROOF → BEGIN."
+    },
+    {
+     "label": "INTERACTION CHARACTER",
+     "source": "OUR RECOMMENDATION",
+     "value": "SHORT AND DIRECT. OFFER, PROOF, BEGIN",
+     "note": "HOW PEOPLE FIND THEIR WAY THROUGH SERVICE PAGES, MOVING WITH THE QUIET MOTION ABOVE."
+    }
+   ],
+   "directionNote": "STRUCTURE DECIDES HOW PEOPLE MOVE THROUGH YOUR PLACE. THE REST DECIDES HOW IT LOOKS AND FEELS. OUR RECOMMENDATIONS FOLLOW YOUR ARCHITECTURAL MINIMAL DIRECTION AND CAN STILL CHANGE AT BLUEPRINT REVIEW.",
+   "structureOpen": {
+    "docOverflowX": 0,
+    "lowercase": [],
+    "overflow": [],
+    "clipped": [],
+    "overlaps": [],
+    "minFont": 7.2,
+    "headers": 1
+   },
+   "pages": {
+    "docOverflowX": 0,
+    "lowercase": [],
+    "overflow": [],
+    "clipped": [],
+    "overlaps": [],
+    "minFont": 6.8,
+    "headers": 1
+   },
+   "pageText": [
+    {
+     "name": "HOME",
+     "purpose": "MAKE THE RIGHT FIRST IMPRESSION.",
+     "facts": [
+      "WHY IT MATTERS — SAYS WHO YOU ARE QUICKLY, BUILDS CREDIBILITY AND POINTS PEOPLE TOWARD WHAT MATTERS MOST.",
+      "WHAT IS INCLUDEDESSENTIAL DEPTH — AN OPENING THAT SAYS WHAT YOU DO · ONE CLEAR NEXT STEP",
+      "HOW IT CONNECTS — RUNS ON THESE FEATURES: EDIT IT YOURSELF"
+     ]
+    },
+    {
+     "name": "ABOUT",
+     "purpose": "GIVE PEOPLE A REASON TO TRUST YOU.",
+     "facts": [
+      "WHY IT MATTERS — TELLS YOUR STORY, YOUR PERSPECTIVE AND WHAT SETS YOU APART, IN YOUR OWN WORDS.",
+      "WHAT IS INCLUDEDESSENTIAL DEPTH — WHO YOU ARE AND WHY IT MATTERS · ONE PIECE OF PROOF",
+      "HOW IT CONNECTS — RUNS ON THESE FEATURES: EDIT IT YOURSELF"
+     ]
+    },
+    {
+     "name": "CONTACT / BEGIN",
+     "purpose": "MAKE STARTING A CONVERSATION EASY.",
+     "facts": [
+      "WHY IT MATTERS — TURNS INTEREST INTO A FIRST MESSAGE, WITH CLEAR EXPECTATIONS ABOUT WHAT HAPPENS NEXT.",
+      "WHAT IS INCLUDEDESSENTIAL DEPTH — A SHORT ENQUIRY FORM · HOW AND WHEN YOU REPLY"
+     ]
+    },
+    {
+     "name": "SERVICES",
+     "purpose": "SHOW WHAT YOU OFFER, CLEARLY.",
+     "facts": [
+      "WHY IT MATTERS — HELPS PEOPLE SEE WHICH SERVICE FITS THEM BEFORE THEY GET IN TOUCH.",
+      "WHAT IS INCLUDEDESSENTIAL DEPTH — YOUR SERVICES, EACH IN PLAIN WORDS · A WAY TO ENQUIRE ABOUT EACH ONE",
+      "HOW IT CONNECTS — RUNS ON THESE FEATURES: EDIT IT YOURSELF"
+     ]
+    },
+    {
+     "name": "PROOF / WORK",
+     "purpose": "SHOW THAT YOUR WORK WORKS.",
+     "facts": [
+      "WHY IT MATTERS — GIVES PEOPLE EVIDENCE — RESULTS, CASES AND CLIENT VOICES — BEFORE THEY COMMIT.",
+      "WHAT IS INCLUDEDESSENTIAL DEPTH — SELECTED RESULTS OR TESTIMONIALS",
+      "HOW IT CONNECTS — RUNS ON THESE FEATURES: EDIT IT YOURSELF"
+     ]
+    }
+   ],
+   "opened": [
+    "HOME",
+    "ABOUT"
+   ],
+   "sameCanvas": true
+  }
+ },
+ "writesDuringTabs": [],
+ "headerSame": true,
+ "estimate": [
+  "8 – 14 WEEKS",
+  "$4,500 – $9,500"
+ ],
+ "resumeUrl": "http://127.0.0.1:5182/bldr/studio/blueprint",
+ "resumeDirection": [
+  "SERVICE",
+  "MODERN GROTESK",
+  "NEUTRAL ARCHITECTURAL",
+  "ARCHITECTURAL",
+  "QUIET",
+  "GRID AND LIGHT. SPACE IS THE MAIN MATERIAL",
+  "SHORT AND DIRECT. OFFER, PROOF, BEGIN"
+ ],
+ "errors": []
+}
