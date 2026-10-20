@@ -12,4 +12,5 @@
 | Recovery2 source SHA (Opus) | `cfa83e9b7d9813164ec02d8a8424c799e1373606` |
 | Original PR | #1665 (merged at `8761463e`, closed — do not reopen) |
 
-PR number and URL are recorded in [10_FOUNDER_REVIEW_LINKS.md](./10_FOUNDER_REVIEW_LINKS.md) after `gh`/ManagePullRequest create.
+| PR | **#1668** (draft) |
+| URL | https://github.com/yoteenz/SITE00/pull/1668 |
