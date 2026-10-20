@@ -16785,3 +16785,11 @@ Summary of the whole conversation in this chat.
 - **G-09/G-12:** `digital-foundation-session` API (httpOnly cookie, email+code reentry in memory); token hash index + migration `20261020120000_site00_df_public_token_hash.sql`.
 - **Tests:** `digitalFoundationClientQuoteGate`, `digitalFoundationSession`, portal/launch gate phone fixes; build pass.
 - **Open:** Full email send for reentry, token URL replaceState after exchange, staging 24-step E2E, Supabase migration apply on Railway.
+
+---
+
+## 2026-10-20 — DF crown text-only responsive reflow (P0, draft PR #1671)
+
+- **Sprint:** `P0.SITE00.IDNTY.FOUNDATION-BUILDER.TEXT-ONLY-RESPONSIVE-REFLOW-RECOVERY1` on `cursor/idnty-living-portal-one-pass-completion1-be3b` — **draft PR #1671**, not merged.
+- **Fix:** `site00-df-client.css` — `--df-crown-text-max` on `.df-screen--crown` for headline/lede/rail; review nav wrap + ellipsis; `.df-review .df-screen--crown .df-lede` no longer forces 310px over artwork band. **No** `.df-object--crown` geometry changes.
+- **Tests:** `tests/digitalFoundationCrownTextReflow.test.ts`; Playwright geometry at 390px on `/foundation/review` (P04–P07 family).
