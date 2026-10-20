@@ -1,5 +1,6 @@
+import { shouldWithholdClientQuoteFromClient } from './clientQuoteGate.js';
 import { isLaunchGateIntakeOnly } from './launchGate.js';
-import type { DigitalFoundationArtifact, DigitalFoundationArtifactPayload } from './types.js';
+import type { DigitalFoundationArtifact, DigitalFoundationArtifactPayload, DigitalFoundationQuote } from './types.js';
 
 export type ArtifactSurface = DigitalFoundationArtifactPayload['surface'];
 
@@ -23,13 +24,31 @@ export function resolveArtifactSurface(artifact: DigitalFoundationArtifact): Art
   return 'PROSPECT';
 }
 
-/** Applies launch gate after the normal lifecycle surface is resolved. */
-export function resolveArtifactSurfaceForClient(artifact: DigitalFoundationArtifact): ArtifactSurface {
+function clientLifecycleUnlocked(artifact: DigitalFoundationArtifact): boolean {
+  return (
+    artifact.payment_state === 'PAID' ||
+    artifact.project_state !== 'NOT_STARTED' ||
+    artifact.completion_state === 'COMPLETE'
+  );
+}
+
+/** Applies launch gate and G-02 quote withholding after the normal lifecycle surface is resolved. */
+export function resolveArtifactSurfaceForClient(
+  artifact: DigitalFoundationArtifact,
+  quote?: DigitalFoundationQuote | null,
+): ArtifactSurface {
   const base = resolveArtifactSurface(artifact);
-  if (!isLaunchGateIntakeOnly()) return base;
-  if (artifact.payment_state === 'PAID' || artifact.project_state !== 'NOT_STARTED') return base;
-  if (artifact.completion_state === 'COMPLETE') return base;
-  if (base === 'PROSPECT' || base === 'INTAKE') return base;
-  if (artifact.intake_state === 'COMPLETE') return 'INTAKE_SUBMITTED';
+  const unlocked = clientLifecycleUnlocked(artifact);
+
+  if (isLaunchGateIntakeOnly()) {
+    if (unlocked) return base;
+    if (base === 'PROSPECT' || base === 'INTAKE') return base;
+    if (artifact.intake_state === 'COMPLETE') return 'INTAKE_SUBMITTED';
+    return base;
+  }
+
+  if (!unlocked && shouldWithholdClientQuoteFromClient(artifact, quote ?? null) && artifact.intake_state === 'COMPLETE') {
+    return 'INTAKE_SUBMITTED';
+  }
   return base;
 }

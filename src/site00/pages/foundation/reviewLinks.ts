@@ -6,15 +6,21 @@ export function reviewAnchorForView(view: DfView): string {
   return `df-r-${view}`;
 }
 
+/** Map hash anchors to canonical review entries (legacy BLDR ids stay addressable). */
+export function normalizeReviewAnchor(anchorId: string): string {
+  if (anchorId.startsWith('df-r-bldr-')) return anchorId;
+  return anchorId;
+}
+
 /** Scroll to a screen on the review page without leaving `/foundation/review`. */
 export function scrollToReviewAnchor(anchorId: string): void {
-  if (typeof document === 'undefined') return;
-  const el = document.getElementById(anchorId);
-  if (!el) return;
-  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  if (typeof window !== 'undefined') {
-    window.history.replaceState(null, '', `${SITE00_ROUTES.digitalFoundationReview}#${anchorId}`);
+  if (typeof window === 'undefined') return;
+  window.history.replaceState(null, '', `${SITE00_ROUTES.digitalFoundationReview}#${anchorId}`);
+  const target = document.getElementById(anchorId) ?? document.querySelector(`[data-review-gallery-section="${anchorId}"]`);
+  if (target) {
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
+  window.dispatchEvent(new CustomEvent('df-review-nav', { detail: { anchorId } }));
 }
 
 /** Absolute address for one screen on `/foundation/review`. */

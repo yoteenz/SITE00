@@ -1,3 +1,4 @@
+import { shouldWithholdClientQuoteFromClient } from './clientQuoteGate.js';
 import type {
   DigitalFoundationArtifactPayload,
   ReferralSourceKind,
@@ -49,10 +50,13 @@ export function toClientArtifactPayload(
   timeline_readiness: ProjectReadinessState,
   communication_preferences: ClientCommunicationPreferences,
 ): ClientDigitalFoundationPayload {
-  const { events: _events, referral_source, ...rest } = internal;
+  const { events: _events, referral_source, quote, recommendation, ...rest } = internal;
   void _events;
+  const withholdQuote = shouldWithholdClientQuoteFromClient(internal.artifact, quote);
   return {
     ...rest,
+    quote: withholdQuote ? null : quote,
+    recommendation: withholdQuote ? null : recommendation,
     referral_channel: toClientReferralChannel(referral_source),
     timeline_readiness,
     communication_preferences,

@@ -16773,3 +16773,81 @@ Summary of the whole conversation in this chat.
 - **Draft PR:** **#1668** → `cursor/idnty-founder-readiness-e2e-be3b` — **NOT MERGED**.
 - **Tunnel:** pinned to review branch head (`a34e3c07`+); worktree `/tmp/site00-preview-main`; workspace route smoke 200.
 - **Docs:** `docs/site00/idnty/founder-workspace-recovery2-pr-and-tunnel-repin1/`. Tests: workspace 41/41, build + typecheck pass.
+
+---
+
+## 2026-10-20 — Living portal one-pass completion (draft, Composer continue)
+
+- **Branch:** `cursor/idnty-living-portal-one-pass-completion1-be3b` off integration (`d9431c63` post–Recovery2 merge); **draft PR only** (not merged to integration/main).
+- **Authority:** Ingested LOCK1 pack from `origin/claude/client-foundation-living-portal-authority-8d42xk` under `docs/site00/idnty/client-foundation-digital-access-authority-lock1/`; public assets at `public/site00/idnty/foundation/*` + `public/foundation-manifest.webmanifest`.
+- **Client:** `FoundationClient` mounts full `ProjectPortal` (OVERVIEW–COMM_PREFS); `P03IntakeSubmitted` for `INTAKE_SUBMITTED`; PWA head tags via `useFoundationPwaHead`; `/foundation/return` route + reentry UI.
+- **G-02:** `clientQuoteGate.ts` — quote/recommendation redacted and surface capped until `founder_commercial_ready`.
+- **G-09/G-12:** `digital-foundation-session` API (httpOnly cookie, email+code reentry in memory); token hash index + migration `20261020120000_site00_df_public_token_hash.sql`.
+- **Tests:** `digitalFoundationClientQuoteGate`, `digitalFoundationSession`, portal/launch gate phone fixes; build pass.
+- **Open:** Full email send for reentry, token URL replaceState after exchange, staging 24-step E2E, Supabase migration apply on Railway.
+
+---
+
+## 2026-10-20 — DF crown text-only responsive reflow (P0, draft PR #1671)
+
+- **Sprint:** `P0.SITE00.IDNTY.FOUNDATION-BUILDER.TEXT-ONLY-RESPONSIVE-REFLOW-RECOVERY1` on `cursor/idnty-living-portal-one-pass-completion1-be3b` — **draft PR #1671**, not merged.
+- **Fix:** `site00-df-client.css` — `--df-crown-text-max` on `.df-screen--crown` for headline/lede/rail; review nav wrap + ellipsis; `.df-review .df-screen--crown .df-lede` no longer forces 310px over artwork band. **No** `.df-object--crown` geometry changes.
+- **Tests:** `tests/digitalFoundationCrownTextReflow.test.ts`; Playwright geometry at 390px on `/foundation/review` (P04–P07 family).
+
+---
+
+## 2026-10-20 — DF global typographic reflow (follow-up, draft PR #1671)
+
+- **Sprint:** `P0.SITE00.IDNTY.FOUNDATION-BUILDER.GLOBAL-TYPOGRAPHIC-REFLOW-AND-OPTICAL-BALANCE1` on same branch — extends crown text recovery; **not merged**.
+- **Fix:** `site00-df-client.css` + `site00-df-components.css` — `text-wrap: balance` (headlines, section/row titles), `text-wrap: pretty` (lede, subs, acks, hints), `min-width: 0` on card text columns; parent `--df-crown-text-max` unchanged; `.df-object--crown` untouched.
+- **Tests:** `tests/digitalFoundationTypographicReflow.test.ts`; Playwright orphan audit + screenshots under `/opt/cursor/artifacts/df-typography-after/`.
+
+---
+
+## 2026-10-20 — DF review coverage + runtime recovery (draft PR #1671)
+
+- **Sprint:** `P0.SITE00.IDNTY.COMPLETE-ARTIFACT-REVIEW.RUNTIME-AND-COVERAGE-RECOVERY1` on `cursor/idnty-living-portal-one-pass-completion1-be3b` @ `0805858d` — **draft PR #1671**, not merged.
+- **502 / loading root cause:** Tunnel was serving **vite preview (CI dist)** without `/api/dev/site00-digital-foundation-preview-bootstrap` → recommendation stuck loading; origin down → Cloudflare 502. Fix: pinned restart uses **dev Vite + local API**; offline `reviewFixtureSnapshots.json` fallback.
+- **Registry v2:** `2026-10-20-coverage1` — **89** entries (founder routes, 40 overlays, client lifecycle, gaps labeled NOT IMPLEMENTED). Nav: search, group chips, prev/next, `SHOW REGISTRY (89)`.
+- **Matrix:** `docs/site00/idnty/df-review-coverage-recovery1/DF_REVIEW_COVERAGE_MATRIX.json`. Tests: registry completeness + **public tunnel** Playwright acceptance.
+
+---
+
+## 2026-10-20 — DF review registry + builder ownership lock (draft PR #1671)
+
+- **Sprint:** `COMPLETE-REVIEW-REGISTRY-AND-BUILDER-OWNERSHIP-LOCK1` on `cursor/idnty-living-portal-one-pass-completion1-be3b` — **draft PR #1671**, not merged.
+- **Registry:** `digitalFoundationReviewRegistry.ts` (`2026-10-20-lock1`) — groups intake, P03 foundation builder, portal, post-intake, complete, deprecated public BLDR anchors; forbids `BuilderStudio` / `/bldr/studio/` on review page.
+- **Review page:** Removed BLDR iframes; `LegacyPublicBuilderRedirect` for `#df-r-bldr-*`; added ROADMAP/STAGE/NEEDS_YOU/RECORDS/COMM_PREFS, post-intake, complete (`M_COMPLETE_CREDIT`), client return link; grouped collapsible nav + provenance strip.
+- **Tests:** `digitalFoundationReviewBuilderOwnership.test.ts`; updated `digitalFoundationReviewLinks.test.ts`. Playwright smoke on workspace `:5175` — zero iframes, blocked BLDR panel.
+
+---
+
+## 2026-10-20 — DF crown optical text composition refinement (draft PR #1671)
+
+- **Sprint:** `P0.SITE00.IDNTY.FOUNDATION-BUILDER.OPUS-OPTICAL-TEXT-COMPOSITION-REFINEMENT1` on the same branch — **not merged, not deployed**.
+- **Fix:** `site00-df-client.css` — crown roles stop one gap short of where the locked SVG is *drawn* (rail → stone side x 52, headline → beam x 24, lede → glass pane x 36) via `--df-crown-art-w` (meet width in the locked box); ≥1100px roles take the 520px column (lede 440px); review frames keep phone values; rail rule shrinks before a label reaches the art. P01 lede keeps "TYPICALLY {days} BUSINESS DAYS." together (inline-block, max-width 100%). **No** artwork, font-size or copy changes.
+- **Evidence:** `docs/site00/idnty/df-optical-text-composition-refinement1/` (React before/after side-by-sides, 114-capture geometry JSON, 200% zoom); harness `scripts/site00/df-crown-text-qa/`.
+- **Tests:** `digitalFoundationCrownTextReflow.test.ts` and `digitalFoundationTypographicReflow.test.ts` assert the new contract. `digitalFoundationClientBoard0102` (10 × `CONTACT_PHONE_REQUIRED`) fails with or without this change.
+
+---
+
+## 2026-10-20 — DF canonical review preview restoration (draft PR #1671)
+
+- **Sprint:** `P0.SITE00.IDNTY.MICROPRODUCT-REVIEW.CANONICAL-PAGE-RESTORATION-AND-TRUE-PREVIEW1` on `cursor/idnty-living-portal-one-pass-completion1-be3b` — **draft PR #1671**, not merged, no production deploy.
+- **Builder forensics:** Verified IDNTY builder = `EntryIntake.tsx#P03Configure` (3 manifest states); BLDR iframes removed @ `2693662b` — `digitalFoundationBuilderManifest.ts` + tests lock ownership; legacy `#df-r-bldr-*` stay blocked panels, not “foundation builder.”
+- **Review UX:** Single `#df-review-stage` + `DigitalFoundationReviewPreviewHost` (hash nav); client portal 4-tab host; founder workspace embedded via `MemoryRouter` + `FounderWorkspaceApp` (simulated cloud-preview admin). Registry `2026-10-20-canonical-preview1` (~92 entries) with honest preview status labels in nav.
+- **Evidence:** Playwright mobile/desktop captures under `/opt/cursor/artifacts/df-review-canonical/`; tunnel must run **dev Vite :5174** + `SITE00_CLOUD_MOBILE_PREVIEW=1` (clear `.vite` cache if strip UI persists).
+
+---
+
+## 2026-10-20 — Split display ? cap alignment (draft PR #1671)
+
+- **Ask:** Custom split `?` (black stem + red dot) on builder/display headlines was taller than adjacent uppercase — cap-align to text.
+- **Fix:** `correspondence-display-split--question` in `reactProse.tsx`; CSS in `site00-correspondence-fonts.css` plus `.df-headline` / `.bs-headline` overrides; email `html.ts` inline height matched. Commit `55f89597` on `cursor/idnty-living-portal-one-pass-completion1-be3b`.
+
+---
+
+## 2026-10-20 — DF review gallery restoration (draft PR #1671)
+
+- **Sprint:** `COMPLETE-ARTIFACT-REVIEW.CANONICAL-GALLERY-RESTORATION-AND-REGRESSION-LOCK1` — regression was single-screen `DigitalFoundationReviewPreviewHost` only (`7f0841be`); restored **continuous vertical gallery** (`DigitalFoundationReviewGallery` + lazy sections + error boundaries). Registry jump scrolls to `#anchor` and resets group filter to ALL; does not unmount siblings.
+- **Registry:** `2026-10-20-gallery-restoration1`; tests `digitalFoundationReviewGalleryRegression.test.ts`. Tunnel SHA `80936230`; Playwright evidence `/opt/cursor/artifacts/df-review-gallery-restoration/`.

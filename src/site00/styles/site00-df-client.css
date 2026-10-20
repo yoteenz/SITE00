@@ -113,6 +113,19 @@ body:has(.df-root) {
 .df-screen__main {
   display: flex;
   flex-direction: column;
+  min-width: 0;
+}
+
+/* ─── Optical text composition (DF client) ─────────────────────────────────────────────────── */
+
+:is(.df-root, .df-drawer, .df-portal) {
+  text-wrap: pretty;
+}
+
+@supports not (text-wrap: pretty) {
+  :is(.df-root, .df-drawer, .df-portal) {
+    overflow-wrap: break-word;
+  }
 }
 
 /* ─── Header (DF-C01) ──────────────────────────────────────────────────────────────────────── */
@@ -197,6 +210,7 @@ body:has(.df-root) {
   font-size: 10.5px;
   font-weight: 700;
   letter-spacing: 0.25em;
+  text-wrap: balance;
 }
 
 /* ─── Headline (DF-C03) ────────────────────────────────────────────────────────────────────── */
@@ -206,14 +220,21 @@ body:has(.df-root) {
   font-family: var(--df-display);
   font-weight: 900;
   font-size: var(--df-headline);
-  line-height: calc(0.81em - 2px);
+  line-height: calc(0.81em - 1px);
   letter-spacing: 0;
   text-transform: uppercase;
   color: var(--df-ink);
+  text-wrap: balance;
+}
+
+.df-headline .correspondence-display-split--question {
+  height: 0.68em;
+  vertical-align: 0.12em;
 }
 
 .df-headline__line {
   display: block;
+  text-wrap: balance;
 }
 
 .df-headline__period {
@@ -225,14 +246,69 @@ body:has(.df-root) {
   color: transparent;
   overflow: hidden;
   vertical-align: baseline;
+  white-space: nowrap;
+}
+
+/*
+ * Crown text contract — each text role stops one gap short of where the locked crown artwork is
+ * actually drawn beside it, not short of the artwork's (mostly empty) box. The SVG (viewBox 180×320,
+ * xMaxYMin meet) hangs from the screen's right edge inside `.df-object--crown`; its drawn width is
+ * `--df-crown-art-w`, and its leftmost drawn edge depends on height: the stone side (x 52) beside the
+ * rail, the beam (x 24) beside the headline, the glass pane (x 36) beside the lede. Percentages
+ * resolve against `.df-screen__main`, so `100% + gutter` is the screen edge the artwork hangs from.
+ * The founder review frames are fixed 390px phones at every viewport, so they keep these values.
+ */
+.df-screen--crown,
+.df-review .df-screen--crown {
+  --df-crown-art-w: min(calc((100% + 2 * var(--df-gutter)) * 0.46), 230px, calc(340px * 9 / 16));
+  --df-crown-text-gap: 12px;
+  --df-crown-rail-max: calc(100% + var(--df-gutter) - var(--df-crown-art-w) * 128 / 180 - var(--df-crown-text-gap));
+  --df-crown-text-max: calc(100% + var(--df-gutter) - var(--df-crown-art-w) * 156 / 180 - var(--df-crown-text-gap));
+  --df-crown-lede-max: calc(100% + var(--df-gutter) - var(--df-crown-art-w) * 144 / 180 - var(--df-crown-text-gap));
 }
 
 .df-screen--crown .df-headline {
   --df-headline: min(56px, 13.4vw);
-  line-height: calc(0.94em - 2px);
+  line-height: calc(0.94em - 1px);
+  max-width: var(--df-crown-text-max);
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+.df-screen--crown .df-lede {
+  max-width: min(var(--df-crown-lede-max), 100%);
+  text-wrap: pretty;
+  overflow-wrap: break-word;
+}
+
+.df-screen--crown .df-rail {
+  max-width: var(--df-crown-rail-max);
+}
+
+/*
+ * Review frames can sit the rail lower than a phone does (the fixture label above it, the desktop rail
+ * margin), which puts it beside the beam (x 24) rather than the stone side, so it yields to the beam there.
+ */
+.df-review .df-screen--crown {
+  --df-crown-rail-max: var(--df-crown-text-max);
+}
+
+/* A long label takes length from the rule before it wraps or reaches the artwork. */
+.df-screen--crown .df-rail__rule {
+  flex: 0 100 76px;
+  min-width: 16px;
 }
 
 /* ─── Lede (DF-C04) ────────────────────────────────────────────────────────────────────────── */
+
+.df-reentry__form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  max-width: min(360px, 100%);
+  margin-top: 10px;
+}
 
 .df-lede {
   position: relative;
@@ -245,11 +321,22 @@ body:has(.df-root) {
   letter-spacing: 0.2em;
   color: var(--df-ink-2);
   text-transform: uppercase;
+  text-wrap: pretty;
+  overflow-wrap: break-word;
 }
 
 .df-lede strong {
   font-weight: 700;
   color: var(--df-ink);
+}
+
+/*
+ * A figure and its unit travel together: no “2–” / “3 BUSINESS DAYS” split, no orphaned qualifier.
+ * Inline-block, not nowrap: when enlarged text makes the phrase wider than the lede it still wraps inside it.
+ */
+.df-lede__keep {
+  display: inline-block;
+  max-width: 100%;
 }
 
 /* ─── Threshold objects (DF-C05) ───────────────────────────────────────────────────────────── */
@@ -463,6 +550,9 @@ body:has(.df-root) {
 
 .df-trust__text {
   flex: 1 1 auto;
+  min-width: 0;
+  text-wrap: pretty;
+  overflow-wrap: break-word;
 }
 
 .df-trust__aside {
@@ -573,6 +663,9 @@ body.df-drawer-open {
 
 .df-alert__body {
   flex: 1 1 auto;
+  min-width: 0;
+  text-wrap: pretty;
+  overflow-wrap: break-word;
 }
 
 /* ─── Links, tags, checks, steppers ───────────────────────────────────────────────────────── */
@@ -900,6 +993,8 @@ div.df-row__main {
   font-weight: 700;
   letter-spacing: 0.19em;
   line-height: 1.3;
+  text-wrap: balance;
+  overflow-wrap: break-word;
 }
 
 .df-row__sub {
@@ -908,6 +1003,8 @@ div.df-row__main {
   letter-spacing: 0.17em;
   line-height: 1.55;
   color: var(--df-muted);
+  text-wrap: pretty;
+  overflow-wrap: break-word;
 }
 
 .df-row__tags {
@@ -1085,6 +1182,7 @@ div.df-row__main {
   align-items: center;
   gap: 14px;
   min-height: 35px;
+  min-width: 0;
   padding: 3px 12px 3px 16px;
 }
 
@@ -1099,9 +1197,12 @@ div.df-row__main {
 
 .df-included__label {
   flex: 1 1 auto;
+  min-width: 0;
   font-size: 9px;
   font-weight: 700;
   letter-spacing: 0.12em;
+  text-wrap: balance;
+  overflow-wrap: break-word;
 }
 
 .df-included__tag {
@@ -1147,6 +1248,7 @@ div.df-row__main {
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.24em;
+  text-wrap: balance;
 }
 
 .df-section__label::after {
@@ -1165,6 +1267,8 @@ div.df-row__main {
   font-size: 9px;
   letter-spacing: 0.16em;
   color: var(--df-muted);
+  text-wrap: pretty;
+  overflow-wrap: break-word;
 }
 
 .df-addons {
@@ -1192,6 +1296,7 @@ div.df-row__main {
   align-items: center;
   gap: 14px;
   width: 100%;
+  min-width: 0;
   min-height: 42px;
   padding: 5px 6px 5px 16px;
   border: 0;
@@ -1260,6 +1365,8 @@ div.df-row__main {
   font-size: 13.5px;
   font-weight: 700;
   letter-spacing: 0.02em;
+  white-space: nowrap;
+  text-wrap: nowrap;
 }
 
 .df-addon__price--review {
@@ -1334,6 +1441,8 @@ div.df-row__main {
   letter-spacing: 0.16em;
   line-height: 1.4;
   color: var(--df-ink-2);
+  text-wrap: pretty;
+  overflow-wrap: break-word;
 }
 
 .df-split__updating {
@@ -1393,12 +1502,15 @@ button.df-spec__btn {
   display: flex;
   flex-direction: column;
   gap: 3px;
+  min-width: 0;
 }
 
 .df-spec__label {
   font-size: 9.5px;
   font-weight: 700;
   letter-spacing: 0.15em;
+  text-wrap: balance;
+  overflow-wrap: break-word;
 }
 
 .df-spec__sub {
@@ -1407,6 +1519,8 @@ button.df-spec__btn {
   letter-spacing: 0.16em;
   line-height: 1.55;
   color: var(--df-muted);
+  text-wrap: pretty;
+  overflow-wrap: break-word;
 }
 
 .df-spec--wide .df-spec__sub {
@@ -1419,6 +1533,7 @@ button.df-spec__btn {
   align-self: stretch;
   justify-content: center;
   gap: 2px;
+  min-width: 0;
   padding-left: 14px;
   border-left: 1px solid var(--df-rule);
 }
@@ -1527,11 +1642,15 @@ button.df-spec__btn {
 }
 
 .df-ack__text {
+  flex: 1 1 auto;
+  min-width: 0;
   font-size: 8.5px;
   font-weight: 500;
   letter-spacing: 0.15em;
   line-height: 1.6;
   color: var(--df-ink-2);
+  text-wrap: pretty;
+  overflow-wrap: break-word;
 }
 
 .df-acks__done {
@@ -1626,12 +1745,14 @@ button.df-spec__btn {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  min-width: 0;
 }
 
 .df-confirm-card__title {
   font-size: 12.5px;
   font-weight: 700;
   letter-spacing: 0.2em;
+  text-wrap: balance;
 }
 
 .df-confirm-card__body {
@@ -1640,6 +1761,8 @@ button.df-spec__btn {
   letter-spacing: 0.17em;
   line-height: 1.55;
   color: var(--df-muted);
+  text-wrap: pretty;
+  overflow-wrap: break-word;
 }
 
 @keyframes df-spin {
@@ -1706,6 +1829,8 @@ button.df-spec__btn {
   font-size: 9.5px;
   font-weight: 700;
   letter-spacing: 0.17em;
+  text-wrap: balance;
+  overflow-wrap: break-word;
 }
 
 .df-stage__status {
@@ -2271,6 +2396,56 @@ button.df-spec__btn {
   height: 46px !important;
 }
 
+/* ─── Phone (native width) ─────────────────────────────────────────────────────────────────── */
+
+@media (max-width: 767px) {
+  .df-root,
+  .df-screen {
+    --df-gutter: clamp(18px, 5.2vw, 26px);
+    --df-headline: min(50px, 12.2vw);
+  }
+
+  .df-screen--crown .df-headline {
+    --df-headline: min(44px, 10.8vw);
+  }
+
+  .df-screen--session {
+    --df-headline: min(42px, 10.2vw);
+  }
+
+  .df-screen--session .df-headline {
+    line-height: calc(0.88em - 1px);
+  }
+
+  .df-lede {
+    max-width: min(310px, 100%);
+  }
+
+  .df-reentry {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .df-reentry__form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    max-width: 100%;
+    margin-top: 8px;
+  }
+
+  .df-reentry__form .df-field {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .df-reentry__form .df-actions {
+    width: 100%;
+  }
+}
+
 /* ─── Tablet / desktop ─────────────────────────────────────────────────────────────────────── */
 
 @media (min-width: 768px) {
@@ -2285,6 +2460,11 @@ button.df-spec__btn {
 
   .df-screen__main {
     max-width: 560px;
+  }
+
+  .df-screen--crown {
+    --df-crown-art-w: min(calc((100% + 2 * var(--df-gutter)) * 0.44), 300px, calc(440px * 9 / 16));
+    --df-crown-text-gap: 18px;
   }
 
   .df-object--crown {
@@ -2329,6 +2509,17 @@ button.df-spec__btn {
 
   .df-screen--crown .df-headline {
     --df-headline: 82px;
+  }
+
+  /* The artwork's box begins right of the 520px column (54% of a ≥1100px screen), so no role yields to it. */
+  .df-screen--crown {
+    --df-crown-rail-max: 100%;
+    --df-crown-text-max: 100%;
+    --df-crown-lede-max: 100%;
+  }
+
+  .df-screen--crown .df-lede {
+    max-width: min(var(--df-crown-lede-max), 440px);
   }
 
   .df-lede {
@@ -2431,21 +2622,68 @@ button.df-spec__btn {
 
 .df-review {
   min-height: 100dvh;
+  overflow-x: clip;
   background: #e4e2dd;
   color: #0c0c0c;
 }
 
-.df-review__nav {
+.df-review__nav-shell {
   position: sticky;
   top: 0;
   z-index: 30;
-  display: flex;
-  align-items: flex-start;
-  gap: 18px;
-  overflow-x: auto;
-  padding: 12px 14px;
+  max-width: 100%;
   background: #0c0c0c;
   color: #f3f2ef;
+}
+
+.df-review__nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+}
+
+.df-review__nav-kicker {
+  margin: 0;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  white-space: nowrap;
+}
+
+.df-review__nav-toggle {
+  margin: 0;
+  padding: 8px 10px;
+  border: 1px solid rgba(243, 242, 239, 0.35);
+  background: transparent;
+  color: inherit;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  line-height: 1.2;
+  text-align: right;
+  cursor: pointer;
+}
+
+.df-review__nav-toggle:focus-visible {
+  outline: 2px solid var(--df-red);
+  outline-offset: 2px;
+}
+
+.df-review__nav {
+  display: none;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 12px 18px;
+  max-width: 100%;
+  padding: 0 14px 12px;
+  border-top: 1px solid rgba(243, 242, 239, 0.12);
+}
+
+.df-review__nav-shell--open .df-review__nav {
+  display: flex;
+  padding-top: 10px;
 }
 
 .df-review__route {
@@ -2479,8 +2717,189 @@ button.df-spec__btn {
 }
 
 .df-review__nav .df-review__direct {
-  max-width: 168px;
+  max-width: min(168px, 42vw);
   font-size: 9px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: normal;
+}
+
+.df-review__nav-group {
+  flex: 1 1 140px;
+  min-width: 0;
+}
+
+.df-review__nav-group-label {
+  margin: 0 0 6px;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  opacity: 0.72;
+}
+
+.df-review__nav-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.df-review__nav-list li + li {
+  margin-top: 4px;
+}
+
+.df-review__route-name--deprecated {
+  opacity: 0.55;
+  text-decoration: line-through;
+}
+
+.df-review__route-name--external {
+  font-size: 10px;
+  opacity: 0.92;
+}
+
+.df-review__route-name--cta {
+  display: inline-block;
+  margin: 16px 26px 24px;
+  color: #0c0c0c;
+  text-decoration: underline;
+}
+
+.df-review__provenance {
+  margin: 0 0 10px;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  line-height: 1.5;
+  opacity: 0.85;
+}
+
+.df-review__blocked {
+  padding: 18px 20px 22px;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  line-height: 1.45;
+}
+
+.df-review__blocked .df-review__sim {
+  margin: 0 0 10px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--df-red, #c41e3a);
+}
+
+.df-review__wait--panel {
+  margin-bottom: 8px;
+}
+
+.df-review__external-cta {
+  margin-top: 0;
+}
+
+.df-review__nav-tools {
+  flex: 1 1 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.df-review__nav-search {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid rgba(243, 242, 239, 0.25);
+  background: rgba(12, 12, 12, 0.35);
+  color: inherit;
+  font-size: 11px;
+}
+
+.df-review__nav-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.df-review__nav-chip {
+  margin: 0;
+  padding: 4px 8px;
+  border: 1px solid rgba(243, 242, 239, 0.25);
+  background: transparent;
+  color: inherit;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+}
+
+.df-review__nav-chip--on {
+  border-color: var(--df-red, #c41e3a);
+}
+
+.df-review__nav-step {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.df-review__nav-step-btn {
+  padding: 6px 10px;
+  border: 1px solid rgba(243, 242, 239, 0.25);
+  background: transparent;
+  color: inherit;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.df-review__nav-step-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.df-review__nav-source {
+  display: block;
+  font-size: 8px;
+  opacity: 0.55;
+  letter-spacing: 0.06em;
+  margin-top: 2px;
+}
+
+.df-review__route-name--gap {
+  opacity: 0.7;
+}
+
+.df-review__route-name--current {
+  text-decoration: underline;
+}
+
+.df-review__sim--inline {
+  margin: 12px 16px 0;
+}
+
+/* On crown frames the fixture label sits beside the artwork's beam, so it keeps to the headline's width. */
+.df-review .df-screen--crown .df-review__sim--inline {
+  max-width: calc(var(--df-crown-text-max) - 16px);
+}
+
+.df-review__diag {
+  color: var(--df-red, #c41e3a);
+}
+
+.df-review__gap-note {
+  margin: 0 20px 20px;
+  font-size: 11px;
+  line-height: 1.45;
+  letter-spacing: 0.04em;
+}
+
+.df-review__nav-hint {
+  flex: 1 1 100%;
+  margin: 8px 0 0;
+  font-size: 10px;
+  opacity: 0.85;
 }
 
 .df-review__intro {
@@ -2491,6 +2910,103 @@ button.df-spec__btn {
   font-weight: 600;
   letter-spacing: 0.14em;
   line-height: 1.45;
+}
+
+.df-review__kicker {
+  margin: 0 0 6px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+}
+
+.df-review__back-top {
+  margin-top: 8px;
+}
+
+.df-review__gallery-section {
+  width: 100%;
+  max-width: 420px;
+}
+
+.df-review__gallery-meta {
+  margin: 0 0 6px 4px;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--df-muted, #666);
+}
+
+.df-review__item--placeholder {
+  min-height: 120px;
+  opacity: 0.85;
+}
+
+.df-review__stage {
+  display: flex;
+  justify-content: center;
+  padding: 12px 12px 32px;
+}
+
+.df-review__stage-hint {
+  text-align: center;
+  padding-bottom: 24px;
+}
+
+.df-review__current {
+  margin: 8px 0 0;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  font-weight: 600;
+}
+
+.df-review__item--stage {
+  width: min(100%, 390px);
+}
+
+.df-review__portal-host,
+.df-review__founder-host {
+  width: 100%;
+}
+
+.df-review__portal-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 8px 10px 10px;
+  background: #e8e6e1;
+}
+
+.df-review__portal-tab {
+  border: 1px solid #0c0c0c;
+  background: #f3f2ef;
+  color: #0c0c0c;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  padding: 8px 10px;
+  cursor: pointer;
+}
+
+.df-review__portal-tab--on {
+  background: #0c0c0c;
+  color: #f3f2ef;
+}
+
+.df-review__portal-tab--link {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+.df-review__founder-frame {
+  width: 100%;
+  min-height: 720px;
+  overflow: auto;
+  background: #fff;
+}
+
+.df-review__founder-frame .ws-app {
+  min-width: min(100%, 1280px);
 }
 
 .df-review__strip {
@@ -2557,6 +3073,13 @@ button.df-spec__btn {
 
   .df-review .df-screen--crown .df-headline {
     --df-headline: 44px;
+    max-width: var(--df-crown-text-max);
+  }
+
+  .df-review .df-screen--crown .df-lede {
+    max-width: min(var(--df-crown-lede-max), 100%);
+    font-size: 7.5px;
+    line-height: calc(1.65em - 2px);
   }
 
   .df-review .df-lede {
@@ -2598,13 +3121,14 @@ button.df-spec__btn {
 
 @media (min-width: 1100px) {
   .df-review__strip {
-    flex-direction: row;
-    align-items: flex-start;
-    overflow-x: auto;
-    padding-bottom: 28px;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: visible;
+    padding-bottom: 48px;
   }
 
   .df-review__item {
-    flex: 0 0 390px;
+    flex: none;
+    width: min(100%, 390px);
   }
 }

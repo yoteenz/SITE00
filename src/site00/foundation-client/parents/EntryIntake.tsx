@@ -66,10 +66,10 @@ export function P01Entry({
   return (
     <>
       <DfRail index="01" label="GET STARTED" />
-      <DfHeadline lines={['YOUR', 'DIGITAL', 'FOUNDATION', 'STARTS HERE']} />
+      <DfHeadline lines={['YOUR NEW', 'DIGITAL FOUNDATION', 'STARTS HERE']} />
       <DfLede>
         ESTABLISH YOUR BUSINESS ON A SECURE, PROFESSIONAL <strong>FOUNDATION</strong> — DOMAIN, EMAIL, SECURITY AND
-        OWNERSHIP. DONE FOR YOU. TYPICALLY {days} BUSINESS DAYS.
+        OWNERSHIP. DONE FOR YOU. <span className="df-lede__keep">TYPICALLY {days} BUSINESS DAYS.</span>
       </DfLede>
       <DfHeroObject />
       <ul className="df-triad" aria-label="WHAT YOUR FOUNDATION COVERS">
@@ -171,7 +171,7 @@ export function P02Intake({
             })}
           />
         </DfField>
-        <DfField id="df-industry" label="BUSINESS TYPE" optional>
+        <DfField id="df-industry" label="BUSINESS TYPE">
           {customIndustrySelect ? (
             <IdntySelect
               id="df-industry"
@@ -368,6 +368,7 @@ export function P03Configure({
   submitting,
   submitError,
   save,
+  initialExpandedRow = null,
 }: {
   draft: IntakeDraft;
   update: (patch: Partial<IntakeDraft>) => void;
@@ -376,8 +377,10 @@ export function P03Configure({
   submitting: boolean;
   submitError: string | null;
   save: ReactNode;
+  /** Review harness: open domain / email / migration row on first paint. */
+  initialExpandedRow?: 'domain' | 'email' | 'migration' | null;
 }) {
-  const [open, setOpen] = useState<'domain' | 'email' | 'migration' | null>(null);
+  const [open, setOpen] = useState<'domain' | 'email' | 'migration' | null>(initialExpandedRow);
   const [sheet, setSheet] = useState(false);
   const [errors, setErrors] = useState<IntakeErrors>({});
   const has = (f: ConfigurableNeed) => draft.needs.includes(f);

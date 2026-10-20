@@ -190,6 +190,17 @@ export function createArtifactForLead(input: {
   return artifact;
 }
 
+export function findArtifactIdByContactEmail(email: string): string | null {
+  const normalized = email.trim().toLowerCase();
+  if (!normalized) return null;
+  for (const a of mem.getDfMemoryState().artifacts.values()) {
+    const lead = mem.memGetLead(a.lead_id);
+    const em = a.intake.current_email?.toLowerCase() ?? lead?.contact_email?.toLowerCase() ?? '';
+    if (em === normalized) return a.artifact_id;
+  }
+  return null;
+}
+
 export function openArtifactByToken(token: string): DigitalFoundationArtifact {
   const a = mem.memGetArtifactByToken(token);
   if (!a) throw new Error('ARTIFACT_NOT_FOUND');
@@ -831,8 +842,7 @@ export function getArtifactPayloadByToken(token: string): DigitalFoundationArtif
   return getArtifactPayload(artifact.artifact_id);
 }
 
-export function getClientArtifactPayloadByToken(token: string) {
-  const internal = getArtifactPayloadByToken(token);
+function buildClientPayloadFromInternal(internal: ReturnType<typeof getArtifactPayload>) {
   const s = mem.getDfMemoryState();
   const clock = s.readinessClock.get(internal.artifact.artifact_id);
   const timeline_readiness = computeReadinessState({
@@ -845,6 +855,14 @@ export function getClientArtifactPayloadByToken(token: string) {
     projected_max_days: internal.quote?.projected_max_days ?? null,
   });
   return toClientArtifactPayload(internal, timeline_readiness, getCommunicationPreferencesForArtifact(internal.artifact.artifact_id));
+}
+
+export function getClientArtifactPayloadByToken(token: string) {
+  return buildClientPayloadFromInternal(getArtifactPayloadByToken(token));
+}
+
+export function getClientArtifactPayloadByArtifactId(artifactId: string) {
+  return buildClientPayloadFromInternal(getArtifactPayload(artifactId));
 }
 
 export function getCommunicationPreferencesForArtifact(artifactId: string): ClientCommunicationPreferences {
@@ -923,7 +941,7 @@ export function getArtifactPayload(artifactId: string): DigitalFoundationArtifac
     build_readiness: s.buildReadiness.get(artifactId) ?? null,
     credit: artifact.foundation_credit_id ? s.credits.get(artifact.foundation_credit_id) ?? null : null,
     events: s.events.filter((e) => e.artifact_id === artifactId).slice(-50),
-    surface: resolveArtifactSurfaceForClient(artifact),
+    surface: resolveArtifactSurfaceForClient(artifact, quote),
     operations_summary:
       artifact.payment_state === 'PAID'
         ? {

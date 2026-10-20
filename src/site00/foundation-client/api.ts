@@ -16,6 +16,12 @@ import { parseClientDigitalFoundationPayload } from './validateClientPayload';
 export { DfApiError };
 
 const ENDPOINT_PATH = '/api/site00/digital-foundation-artifact';
+const SESSION_PATH = '/api/site00/digital-foundation-session';
+
+function sessionApiUrl(query: string): string {
+  const q = query.startsWith('?') ? query : `?${query}`;
+  return site00ApiUrl(`${SESSION_PATH}${q}`);
+}
 
 function artifactApiUrl(query: string): string {
   const q = query.startsWith('?') ? query : `?${query}`;
@@ -57,7 +63,7 @@ async function readJson(res: Response): Promise<Record<string, unknown>> {
 async function request<T>(url: string, init?: RequestInit): Promise<T> {
   let res: Response;
   try {
-    res = await fetch(url, init);
+    res = await fetch(url, { credentials: init?.credentials ?? 'same-origin', ...init });
   } catch {
     throw new DfApiError(0, 'NETWORK');
   }
@@ -153,4 +159,51 @@ export function captureBuildInterest(
   interest: 'INTERESTED' | 'SAVED_FOR_LATER',
 ): Promise<unknown> {
   return post(token, 'build-interest', { interest });
+}
+
+export function updateCommunicationPreferences(
+  token: string,
+  preferences: ClientDigitalFoundationPayload['communication_preferences'],
+): Promise<ClientDigitalFoundationPayload> {
+  return post(token, 'update-communication-preferences', { preferences });
+}
+
+export function establishDfSession(token: string): Promise<{ ok: boolean; payload: ClientDigitalFoundationPayload }> {
+  return request(sessionApiUrl('action=establish-session'), {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ token, action: 'establish-session' }),
+  });
+}
+
+export function fetchSessionPayload(): Promise<ClientDigitalFoundationPayload> {
+  return request(sessionApiUrl('action=session-payload'), { credentials: 'include' }).then(parseClientDigitalFoundationPayload);
+}
+
+export function requestDfReentry(email: string): Promise<{ ok: boolean; dev_code?: string }> {
+  return request(sessionApiUrl('action=request-reentry'), {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ action: 'request-reentry', email }),
+  });
+}
+
+export function verifyDfReentry(email: string, code: string): Promise<{ ok: boolean; payload: ClientDigitalFoundationPayload }> {
+  return request(sessionApiUrl('action=verify-reentry'), {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ action: 'verify-reentry', email, code }),
+  });
+}
+
+export function signOutDfSession(): Promise<{ ok: boolean }> {
+  return request(sessionApiUrl('action=sign-out-session'), {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ action: 'sign-out-session' }),
+  });
 }

@@ -32,10 +32,21 @@ describe('foundation review direct links', () => {
     );
   });
 
-  it('renders the direct address under each route and each screen', () => {
+  it('renders deep-link markers on the preview stage chrome', () => {
+    const host = readFileSync('src/site00/pages/foundation/DigitalFoundationReviewPreviewHost.tsx', 'utf8');
+    expect(host).toContain('className="df-review__direct"');
+    expect(host.match(/df-review__direct/g)?.length ?? 0).toBeGreaterThanOrEqual(2);
+  });
+
+  it('collapses the review nav by default on mobile preview', () => {
     const page = readFileSync('src/site00/pages/foundation/DigitalFoundationReviewPage.tsx', 'utf8');
-    expect(page).toContain('className="df-review__direct"');
-    expect(page.match(/<DirectLink /g)?.length).toBe(4);
+    const nav = readFileSync('src/site00/pages/foundation/DigitalFoundationReviewNav.tsx', 'utf8');
+    expect(page).toContain('DigitalFoundationReviewNav');
+    expect(nav).toContain('df-review__nav-shell');
+    expect(nav).toContain('SHOW REGISTRY');
+    const css = readFileSync('src/site00/styles/site00-df-client.css', 'utf8');
+    expect(css).toMatch(/\.df-review__nav-shell--open \.df-review__nav[\s\S]*display: flex/);
+    expect(css).toMatch(/\.df-review__nav \{[\s\S]*display: none/);
   });
 
   it('maps review steps to anchor ids', () => {
@@ -45,8 +56,9 @@ describe('foundation review direct links', () => {
 
   it('advances the intake flow by scrolling, not routing away from review', () => {
     const page = readFileSync('src/site00/pages/foundation/DigitalFoundationReviewPage.tsx', 'utf8');
-    expect(page).toContain("advance('P04')");
+    const host = readFileSync('src/site00/pages/foundation/DigitalFoundationReviewPreviewHost.tsx', 'utf8');
+    expect(host).toContain("advance('P04')");
     expect(page).toContain('scrollToReviewAnchor');
-    expect(page).not.toContain('navigate(');
+    expect(host).not.toContain('useNavigate(');
   });
 });

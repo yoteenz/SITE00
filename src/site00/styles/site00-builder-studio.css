@@ -171,6 +171,11 @@ body.bs-body {
   color: var(--bs-ink);
 }
 
+.bs-headline .correspondence-display-split--question {
+  height: 0.68em;
+  vertical-align: 0.12em;
+}
+
 .bs-dot {
   color: var(--bs-red);
 }
