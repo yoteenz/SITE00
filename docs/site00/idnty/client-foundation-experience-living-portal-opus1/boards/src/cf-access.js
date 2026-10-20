@@ -1,0 +1,183 @@
+// YOUR FOUNDATION — access specimens: save to home screen (F), access card (G), secure reentry (H), overlays (T).
+// The access-card QR encodes a revocable card reference on the proposed /foundation/return route — never the
+// /foundation/:token bearer link, never a session, never a secret. Possession of the card is not authentication.
+import QRCode from 'qrcode';
+import { C, ic, hero, sec, st, cta, link, trust, alert, row, spec, hl, rail, foot } from './cf-kit.js';
+
+const DF = window.__DF;
+
+/** Card reference: illustrative, random-looking, revocable, grants nothing alone. */
+export const CARD = { id: 'AC-9T2W-7HKX', ver: 'CARD 2', url: 'https://site00.com/foundation/return?card=AC9T2W7HKX' };
+
+let QR_SVG = '';
+export async function prepareQr() {
+  QR_SVG = await QRCode.toString(CARD.url, { type: 'svg', margin: 0, errorCorrectionLevel: 'M', color: { dark: '#0c0c0c', light: '#00000000' } });
+}
+
+export const appIcon = (dark = false) => `<div class="appicon${dark ? ' appicon--dark' : ''}"><span class="appicon__s">00</span><span class="appicon__bar"></span><span class="appicon__dot"></span></div>`;
+
+/** The access card face. light = printable variant. void = superseded card (regenerated). tall = wallet-style image. */
+export function card({ light = false, void: v = false, w = 340, tall = false } = {}) {
+  const z = tall ? w / 250 : w / 340;
+  return `<div class="ac${light ? ' ac--light' : ''}${v ? ' ac--void' : ''}${tall ? ' ac--tall' : ''}" style="zoom:${z.toFixed(4)}" role="img" aria-label="SITE 00 ACCESS CARD${tall ? ', WALLET-STYLE IMAGE' : ''} FOR ${C.biz}">${light ? '' : '<span class="ac__bar" aria-hidden="true"></span>'}<div class="ac__in">
+    <div class="ac__brand"><div class="ac__mark">SITE 00</div><div class="ac__prod">DIGITAL FOUNDATION</div></div>
+    <div class="ac__title">MY<br>FOUNDATION<i></i></div>
+    <div class="ac__meta"><div class="ac__biz">${C.biz}</div><div class="ac__ref">REF ${C.ref} · ${CARD.ver}</div><div class="ac__foot">SCAN · CONFIRM BY EMAIL</div></div>
+    <div class="ac__qr"><div class="ac__qrbox">${QR_SVG}</div><div class="ac__qrcap">SCAN TO RETURN</div></div>
+  </div></div>`;
+}
+
+// ─── F. SAVE TO HOME SCREEN ────────────────────────────────────────────────────────────────────
+const HS_SHEET = {
+  ios: {
+    t: 'SAVE TO HOME SCREEN · IPHONE',
+    steps: [
+      ['TAP SHARE', `IN SAFARI’S TOOLBAR, TAP <span class="cf-sysicon">${ic('share')}</span> SHARE.`],
+      ['CHOOSE “ADD TO HOME SCREEN”', 'SCROLL THE LIST IF YOU DON’T SEE IT.'],
+      ['TAP ADD', 'THE NAME IS ALREADY SET TO “MY FOUNDATION”.'],
+    ],
+    note: 'SITE 00 CAN’T ADD IT FOR YOU — IPHONE ONLY ALLOWS THIS FROM THE SHARE MENU.',
+  },
+  android: {
+    t: 'SAVE TO HOME SCREEN · ANDROID',
+    steps: [['TAP “ADD TO HOME SCREEN” BELOW', 'YOUR BROWSER SHOWS ITS OWN CONFIRMATION.'], ['CONFIRM IN THE BROWSER PROMPT', 'MY FOUNDATION APPEARS ON YOUR HOME SCREEN.']],
+    note: 'THIS BUTTON ONLY APPEARS WHEN YOUR BROWSER OFFERS INSTALLATION.',
+    btn: true,
+  },
+  manual: {
+    t: 'SAVE TO HOME SCREEN · ANDROID',
+    steps: [['OPEN YOUR BROWSER MENU', `TAP <span class="cf-sysicon">${ic('options')}</span> IN THE TOP OR BOTTOM BAR.`], ['CHOOSE “ADD TO HOME SCREEN”', 'SOME BROWSERS CALL IT “INSTALL APP”.'], ['CONFIRM', 'MY FOUNDATION APPEARS ON YOUR HOME SCREEN.']],
+    note: 'YOUR BROWSER DIDN’T OFFER A DIRECT INSTALL, SO HERE ARE THE STEPS.',
+  },
+  desktop: {
+    t: 'KEEP YOUR FOUNDATION ONE CLICK AWAY',
+    steps: [['BOOKMARK THIS PAGE', 'PRESS ⌘ D ON MAC OR CTRL D ON WINDOWS.'], ['NAME IT “MY FOUNDATION”', 'SAVE IT TO YOUR BOOKMARKS BAR.'], ['ON YOUR PHONE?', 'SCAN YOUR ACCESS CARD OR USE THE LINK IN ANY SITE 00 EMAIL.']],
+    note: 'THE BOOKMARK SAVES SITE00.COM/FOUNDATION/RETURN — NOT A PRIVATE LINK. ON A NEW DEVICE YOU CONFIRM BY EMAIL.',
+  },
+};
+export function homeSheet(os = 'ios') {
+  const h = HS_SHEET[os];
+  const preview = `<div style="display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--rule)"><div style="width:58px;height:58px;border-radius:14px;overflow:hidden;box-shadow:0 0 0 1px var(--rule-strong)">${appIcon()}</div><div><div class="cf-row__t">MY FOUNDATION</div><div class="cf-row__s">SITE00.COM · OPENS YOUR FOUNDATION</div></div></div>`;
+  return `<div class="cf-sheet" role="dialog" aria-modal="true" aria-label="${h.t}"><div class="cf-grab"></div><div class="cf-sheet__h"><span class="cf-sheet__t">${h.t}</span><button class="cf-sheet__x" type="button" aria-label="CLOSE">${ic('close')}</button></div>
+    <div class="cf-sheet__b">${preview}${h.steps.map(([a, b], i) => `<div class="cf-step"><span class="cf-step__n">0${i + 1}</span><div><div class="cf-step__t">${a}</div><div class="cf-step__s">${b}</div></div></div>`).join('')}
+    ${h.btn ? cta('ADD TO HOME SCREEN', { icon: 'download' }) : ''}<p class="cf-note">${h.note}</p></div></div>`;
+}
+export function homePage({ os = 'ios' }, t) {
+  if (os === 'installed') {
+    const body = `${hero({ i: '—', l: 'HOME SCREEN', lines: ['ON YOUR', 'HOME SCREEN'], lede: 'YOU OPENED MY FOUNDATION FROM YOUR HOME SCREEN. THERE’S NOTHING ELSE TO SAVE ON THIS DEVICE.', obj: '', wide: true })}<div class="cf-sec">${alert('THIS DEVICE STAYS SIGNED IN FOR 30 DAYS', 'AFTER THAT, OR IF YOU SIGN OUT, YOU CONFIRM BY EMAIL. NOTHING PRIVATE IS STORED IN THE ICON.', { kind: 'ink', icon: 'security' })}</div>${foot('HS')}`;
+    return { area: 'overview', body };
+  }
+  const intro = `${hero({ i: '—', l: 'COME BACK ANYTIME', lines: t === 'm' ? ['SAVE TO', 'HOME SCREEN'] : ['SAVE TO HOME SCREEN'], lede: 'THE EASIEST WAY BACK TO YOUR FOUNDATION. ONE TAP OPENS IT — ON A NEW DEVICE YOU CONFIRM BY EMAIL ONCE.', obj: '', wide: true })}
+    ${sec('THREE WAYS BACK', `<ul class="cf-rows">${row({ icon: 'download', t: '01  HOME SCREEN', s: 'RECOMMENDED · ONE TAP.', v: st('open', 'BEST'), red: true })}${row({ icon: 'qr', t: '02  ACCESS CARD', s: 'A CARD YOU CAN SAVE OR PRINT.', arrow: true })}${row({ icon: 'email', t: '03  EMAIL', s: 'EVERY SITE 00 EMAIL LINKS BACK. ALWAYS WORKS.', arrow: true })}</ul>`)}`;
+  return { area: 'overview', body: intro + foot('HS'), sheet: HS_SHEET[os] ? homeSheet(os) : '' };
+}
+
+/** Browser chrome strip used on boards to show where the platform control lives. */
+export function osBar(os) {
+  if (os === 'ios') return `<div class="os-bar"><span class="os-ic">${ic('back')}</span><span class="os-bar__u">site00.com/foundation/return</span><span class="os-ic os-ic--hl">${ic('share')}</span><span class="os-ic">${ic('grid')}</span></div>`;
+  return `<div class="os-bar"><span class="os-ic">${ic('home')}</span><span class="os-bar__u">site00.com/foundation/return</span><span class="os-ic os-ic--hl">${ic('options')}</span></div>`;
+}
+
+export function homeScreen() {
+  const apps = ['', '', '', '', '', 'MF', '', '', '', '', '', ''];
+  return `<div class="hs">${apps.map((a, i) => `<div class="hs__a"><div class="hs__i${a ? ' hs__i--mf' : ''}">${a ? appIcon() : ''}</div><span class="hs__l">${a ? 'My Foundation' : ['Mail', 'Maps', 'Photos', 'Camera', 'Notes', '', 'Clock', 'Wallet', 'Music', 'Phone', 'Files', 'Settings'][i]}</span></div>`).join('')}</div>`;
+}
+
+export function splash(dark = false) {
+  return `<div style="position:fixed;inset:0;background:${dark ? '#0c0c0c' : 'var(--bg)'};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px">
+    <div style="width:96px;height:96px;border-radius:22px;overflow:hidden;box-shadow:0 0 0 1px ${dark ? '#2f2f2e' : 'var(--rule-strong)'}">${appIcon(dark)}</div>
+    <div class="cf-brand" style="align-items:center;color:${dark ? '#f3f2ef' : 'var(--ink)'}"><span class="cf-brand__mark">SITE 00</span><span class="cf-brand__prod" style="color:inherit">MY FOUNDATION</span></div></div>`;
+}
+
+// ─── G. ACCESS CARD ────────────────────────────────────────────────────────────────────────────
+export function cardPage({ v = 'preview' }, t) {
+  const w = t === 'm' ? 300 : t === 'tp' ? 420 : 460;
+  const acts = `<div class="cf-acts">${cta('DOWNLOAD IMAGE', { icon: 'download' })}${cta('SHARE IMAGE', { kind: 'out', icon: 'share' })}${cta('SAVE AS PDF', { kind: 'ghost', icon: 'pdf' })}</div><button class="cf-link" type="button">${ic('retry')}REPLACE MY CARD</button>`;
+  const what = sec(
+    'WHAT THE CODE DOES',
+    `<ul class="cf-rows">${row({ icon: 'qr', t: 'OPENS SITE00.COM/FOUNDATION/RETURN', s: 'ON A DEVICE YOU’RE ALREADY SIGNED IN ON, IT OPENS YOUR FOUNDATION.' })}${row({ icon: 'email', t: 'ANYWHERE ELSE, IT ASKS FOR YOUR EMAIL', s: `WE SEND A ONE-TIME LINK TO ${C.email}.` })}${row({ icon: 'security', t: 'IT IS NOT A KEY', s: 'SOMEONE WHO FINDS YOUR CARD CAN’T OPEN YOUR FOUNDATION WITHOUT YOUR EMAIL.' })}</ul>`,
+  );
+  const never = sec('NEVER ON YOUR CARD', `<p class="cf-note">PASSWORDS · PRIVATE LINKS · PAYMENT DETAILS · ACCOUNT DETAILS · YOUR EMAIL ADDRESS. THE CARD SHOWS YOUR BUSINESS NAME AND A REFERENCE ONLY.</p>`);
+  let body;
+  if (v === 'wallet') {
+    body = `${hero({ i: '—', l: 'ACCESS CARD', lines: ['WALLET-STYLE', 'VIEW'], lede: 'A TALL VERSION SIZED FOR YOUR PHOTOS. IT IS AN IMAGE — NOT AN APPLE WALLET OR GOOGLE WALLET PASS.', obj: '', wide: true })}<div class="ac-stage">${walletPass()}</div>${cta('SAVE TO PHOTOS', { icon: 'download' })}<p class="cf-note">WALLET PASSES NEED PASS INFRASTRUCTURE SITE 00 DOESN’T HAVE. THIS VIEW NEVER CLAIMS TO BE ONE.</p>${foot('AC')}`;
+  } else {
+    body = `${hero({ i: '—', l: 'ACCESS CARD', lines: t === 'm' ? ['YOUR', 'ACCESS CARD'] : ['YOUR ACCESS CARD'], lede: 'A CARD WITH A SCAN-TO-RETURN CODE. KEEP IT IN YOUR PHOTOS OR PRINT IT FOR YOUR DESK.', obj: '', wide: true })}
+      ${t === 'd' || t === 'uw' || t === 'tl' ? `<div class="cf-cols" style="margin-top:22px"><div><div class="ac-stage" style="justify-content:flex-start">${card({ w })}</div>${acts}</div><div>${what}${never}</div></div>` : `<div class="ac-stage">${card({ w })}</div>${acts}${what}${never}`}${foot('AC')}`;
+  }
+  return { area: 'overview', body };
+}
+
+export function walletPass(w = 260) {
+  return card({ tall: true, w });
+}
+
+/** Raw card render for exports (PNG / share image / PDF page). */
+export function cardExport({ v = 'png' }) {
+  if (v === 'pdf')
+    return `<div style="position:fixed;inset:0;background:#fff;padding:48px 56px;text-transform:uppercase">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start"><div class="cf-brand"><span class="cf-brand__mark">SITE 00</span><span class="cf-brand__prod">DIGITAL FOUNDATION · ACCESS CARD</span></div><span class="cf-note" style="margin:0">PRINT AT 100% · CREDIT-CARD SIZE 85.6 × 54 MM</span></div>
+      <div style="margin-top:36px;display:flex;gap:30px;align-items:center"><div style="padding:14px;border:1px dashed #a3a19c">${card({ light: true, w: 324 })}</div>
+      <div style="max-width:320px">${rail('—', 'HOW TO RETURN')}<p class="cf-lede">1. SCAN THE CODE WITH YOUR PHONE CAMERA. 2. ON A NEW DEVICE, ENTER YOUR EMAIL. 3. OPEN THE ONE-TIME LINK WE SEND.</p><p class="cf-note">LOST THIS CARD? REPLACE IT FROM YOUR FOUNDATION — THE OLD CODE STOPS WORKING. A CARD ALONE NEVER OPENS YOUR FOUNDATION.</p></div></div>
+      <div class="cf-note" style="position:absolute;left:56px;right:56px;bottom:40px;border-top:1px solid var(--rule);padding-top:12px">${C.biz} · REF ${C.ref} · ${CARD.ver} · ISSUED OCT 16 · NO PASSWORDS, PRIVATE LINKS OR ACCOUNT DETAILS ARE PRINTED ON THIS PAGE.</div></div>`;
+  if (v === 'share')
+    return `<div style="position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px">${card({ w: 420 })}<div class="cf-note" style="margin:0">SITE 00 · MY FOUNDATION · SCAN, THEN CONFIRM BY EMAIL</div></div>`;
+  if (v === 'light') return `<div style="position:fixed;inset:0;background:#fff;display:flex;align-items:center;justify-content:center">${card({ light: true, w: 500 })}</div>`;
+  if (v === 'void') return `<div style="position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center">${card({ w: 500, void: true })}</div>`;
+  return `<div style="position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center">${card({ w: 500 })}</div>`;
+}
+
+// ─── H. SECURE REENTRY ─────────────────────────────────────────────────────────────────────────
+export const REENTRY = {
+  session: { l: 'WELCOME BACK', lines: ['WELCOME', 'BACK'], b: `SIGNED IN ON THIS DEVICE AS ${C.short}. OPENING YOUR FOUNDATION.`, a: 'CONTINUE', icon: 'next', busy: true },
+  expired: { l: 'SIGN IN AGAIN', lines: ['YOUR SESSION', 'ENDED'], b: 'FOR YOUR SECURITY, YOU’VE BEEN SIGNED OUT ON THIS DEVICE. WE’LL EMAIL YOU A ONE-TIME LINK.', a: 'EMAIL ME A LINK', icon: 'email', field: true },
+  verify: { l: 'CONFIRM IT’S YOU', lines: ['CONFIRM', 'IT’S YOU'], b: `ENTER THE EMAIL YOU USED FOR YOUR FOUNDATION. WE’LL SEND A ONE-TIME LINK AND CODE.`, a: 'EMAIL ME A LINK', icon: 'email', field: true },
+  sent: { l: 'CHECK YOUR EMAIL', lines: ['CHECK YOUR', 'EMAIL'], b: `IF THAT EMAIL MATCHES A FOUNDATION, A LINK AND A 6-DIGIT CODE ARE ON THEIR WAY. THE LINK WORKS ONCE AND EXPIRES IN 15 MINUTES.`, a: 'CONTINUE', icon: 'next', code: true, resend: true },
+  linkexpired: { l: 'LINK EXPIRED', lines: ['THAT LINK', 'EXPIRED'], b: 'SIGN-IN LINKS WORK ONCE AND LAST 15 MINUTES. WE CAN SEND A NEW ONE.', a: 'SEND A NEW LINK', icon: 'email' },
+  invalid: { l: 'LINK NOT RECOGNIZED', lines: ['WE DON’T', 'RECOGNIZE', 'THAT LINK'], b: 'IT MAY BE INCOMPLETE OR ALREADY USED. CONFIRM YOUR EMAIL AND WE’LL SEND A FRESH ONE.', a: 'CONFIRM MY EMAIL', icon: 'email' },
+  notfound: { l: 'NOT FOUND', lines: ['NOTHING', 'FOUND'], b: 'WE COULDN’T FIND A FOUNDATION FOR THAT LINK OR CARD. IF YOU HAVE A SITE 00 EMAIL, USE ITS BUTTON.', a: 'CONFIRM MY EMAIL', icon: 'email' },
+  revoked: { l: 'CARD REPLACED', lines: ['THIS CARD WAS', 'REPLACED'], b: 'A NEWER ACCESS CARD WAS ISSUED, SO THIS ONE NO LONGER WORKS. CONFIRM YOUR EMAIL TO GET BACK IN.', a: 'CONFIRM MY EMAIL', icon: 'email' },
+  wrongid: { l: 'DIFFERENT FOUNDATION', lines: ['ANOTHER', 'FOUNDATION', 'IS OPEN'], b: 'THIS DEVICE IS SIGNED IN TO A DIFFERENT FOUNDATION. SIGN OUT OF IT TO OPEN THIS ONE.', a: 'SIGN OUT AND CONTINUE', icon: 'next', second: 'KEEP THE CURRENT ONE' },
+  unavailable: { l: 'TEMPORARILY UNAVAILABLE', lines: ['BACK', 'SHORTLY'], b: 'SIGN-IN IS TEMPORARILY UNAVAILABLE. YOUR FOUNDATION IS SAFE. TRY AGAIN IN A FEW MINUTES.', a: 'TRY AGAIN', icon: 'retry' },
+  retry: { l: 'TOO MANY TRIES', lines: ['PLEASE', 'WAIT'], b: 'TOO MANY SIGN-IN ATTEMPTS FROM THIS DEVICE. YOU CAN TRY AGAIN IN 5 MINUTES.', a: 'TRY AGAIN', icon: 'retry', dis: true },
+  success: { l: 'SIGNED IN', lines: ['YOU’RE', 'BACK IN'], b: `THIS DEVICE IS SIGNED IN FOR 30 DAYS. SIGN OUT ANY TIME FROM THE MENU.`, a: 'OPEN MY FOUNDATION', icon: 'home' },
+};
+export function reentry({ st: s = 'verify' }, t) {
+  const r = REENTRY[s];
+  const field = r.field ? `<div class="cf-field"><label class="cf-field__l">YOUR EMAIL</label><span class="cf-input">M.OKAFOR@…</span></div>` : '';
+  const code = r.code ? `<div class="cf-field"><span class="cf-field__l">OR ENTER YOUR 6-DIGIT CODE</span><div class="cf-code"><span class="f">4</span><span class="f">8</span><span class="f">1</span><span></span><span></span><span></span></div><span class="cf-note" style="margin:4px 0 0">USE THE CODE IF YOU OPENED MY FOUNDATION FROM YOUR HOME SCREEN — EMAIL LINKS OPEN IN YOUR BROWSER.</span></div>` : '';
+  const btn = r.busy ? `<button class="cf-cta cf-cta--busy" type="button" aria-busy="true"><span>OPENING…</span></button>` : cta(r.a, { icon: r.icon, dis: r.dis });
+  const body = `<div class="cf-sys">${hero({ i: '—', l: r.l, lines: r.lines, lede: r.b, obj: t === 'm' ? '' : 'corner' })}
+    ${field}${code}<div class="cf-acts${t === 'm' ? '' : ' cf-acts--row'}">${btn}${r.second ? cta(r.second, { kind: 'ghost', icon: '' }) : ''}</div>
+    ${r.resend ? `<p class="cf-note">NOTHING YET? <b>RESEND IN 0:42</b> · CHECK SPAM · WRONG EMAIL? GO BACK.</p>` : ''}
+    ${trust(s === 'success' || s === 'session' ? 'SECURE SESSION ON THIS DEVICE.' : 'WE NEVER ASK FOR A PASSWORD.')}${foot('IN')}</div>`;
+  return { area: 'overview', body, nav: false, session: s === 'success' || s === 'session' };
+}
+
+// ─── T. GLOBAL OVERLAYS ────────────────────────────────────────────────────────────────────────
+export function drawer() {
+  const dest = [['home', 'OVERVIEW', ''], ['roadmap', 'ROADMAP', ''], ['attention', 'NEEDS YOU', '1'], ['folder', 'RECORDS', '']];
+  return `<div class="cf-drawer" role="dialog" aria-modal="true" aria-label="MENU"><div style="display:flex;align-items:center;justify-content:space-between"><div class="cf-brand"><span class="cf-brand__mark">SITE 00</span><span class="cf-brand__prod">YOUR FOUNDATION</span></div><button class="cf-sheet__x" type="button" aria-label="CLOSE">${ic('close')}</button></div>
+    <div class="cf-sec"><h2 class="cf-sec__h">${C.short}</h2><ul class="cf-rows">${dest.map(([i, l, b]) => `<li class="cf-row"${l === 'OVERVIEW' ? ' style="box-shadow:inset 3px 0 0 var(--red)"' : ''}>${ic(i, 'i cf-row__ic')}<div class="cf-row__tx"><div class="cf-row__t">${l}</div></div>${b ? `<span class="cf-badge">${b}</span>` : ''}${ic('next', 'i cf-row__ar')}</li>`).join('')}</ul></div>
+    <div class="cf-sec"><h2 class="cf-sec__h">COME BACK ANYTIME</h2><ul class="cf-rows">${row({ icon: 'download', t: 'SAVE TO HOME SCREEN', arrow: true })}${row({ icon: 'qr', t: 'ACCESS CARD', arrow: true })}${row({ icon: 'notification', t: 'UPDATES BY EMAIL', arrow: true })}</ul></div>
+    <div class="cf-sec"><ul class="cf-rows">${row({ icon: 'help', t: 'HELP', s: 'REPLY TO ANY SITE 00 EMAIL', arrow: true })}${row({ icon: 'unlock', t: 'SIGN OUT ON THIS DEVICE', arrow: true })}</ul></div>
+    <p class="cf-note">REF ${C.ref} · SECURE SESSION</p></div>`;
+}
+
+const dialog = (title, inner, foot = '') =>
+  `<div class="cf-sheet" role="dialog" aria-modal="true" aria-label="${title}"><div class="cf-grab"></div><div class="cf-sheet__h"><span class="cf-sheet__t">${title}</span><button class="cf-sheet__x" type="button" aria-label="CLOSE">${ic('close')}</button></div><div class="cf-sheet__b">${inner}</div>${foot ? `<div class="cf-sheet__f">${foot}</div>` : ''}</div>`;
+
+export const OVERLAYS = {
+  menu: () => ({ html: drawer(), scrim: true }),
+  signout: () => ({ html: dialog('SIGN OUT ON THIS DEVICE?', `<p class="cf-note">YOU’LL CONFIRM BY EMAIL NEXT TIME YOU OPEN MY FOUNDATION HERE. YOUR PROJECT ISN’T AFFECTED.</p>`, `${cta('SIGN OUT', { kind: 'ink', icon: 'unlock' })}${cta('STAY SIGNED IN', { kind: 'ghost', icon: '' })}`), scrim: true }),
+  sensitive: () => ({ html: dialog('OPEN A SENSITIVE RECORD', `<p class="cf-note">THE DOMAIN OWNERSHIP RECORD SHOWS ACCOUNT DETAILS. WE’LL EMAIL A ONE-TIME LINK TO ${C.email} TO OPEN IT ON THIS DEVICE.</p>`, cta('EMAIL ME A LINK', { icon: 'email' })), scrim: true }),
+  decline: () => ({ html: dialog('DECLINE DNS CLEANUP?', `${alert('THIS ITEM IS REQUIRED FOR RELIABLE EMAIL', 'DECLINING SENDS YOUR PROPOSAL BACK TO SITE 00 FOR REVIEW. YOU CAN’T PAY UNTIL A NEW VERSION IS READY. NOTHING CHANGES SILENTLY.')}`, `${cta('DECLINE AND SEND FOR REVIEW', { kind: 'ink', icon: 'send' })}${cta('KEEP DNS CLEANUP', { kind: 'out', icon: '' })}`), scrim: true }),
+  regen: () => ({ html: dialog('REPLACE YOUR ACCESS CARD?', `<div class="ac-stage" style="gap:14px"><div style="transform:scale(.62);transform-origin:center;margin:-40px -60px">${card({ w: 300, void: true })}</div></div><p class="cf-note">YOUR CURRENT CARD (${CARD.ver}) STOPS WORKING IMMEDIATELY. USE THIS IF A CARD WAS LOST OR SHARED BY MISTAKE. YOUR FOUNDATION IS NOT AFFECTED.</p>`, `${cta('REPLACE CARD', { kind: 'ink', icon: 'retry' })}${cta('KEEP CURRENT CARD', { kind: 'ghost', icon: '' })}`), scrim: true }),
+  saved: () => ({ html: `<div class="cf-toast" role="status">${ic('check')}<span>ACCESS CARD SAVED · PNG · 1600 × 1008</span></div>`, scrim: false }),
+  shared: () => ({ html: `<div class="cf-toast" role="status">${ic('share')}<span>SHARE SHEET OPENED · IMAGE ONLY, NO LINK</span></div>`, scrim: false }),
+  saveerr: () => ({ html: `<div class="cf-toast cf-toast--err" role="alert">${ic('warning')}<span>COULDN’T SAVE THE IMAGE · TRY AGAIN</span></div>`, scrim: false }),
+  offline: () => ({ banner: `<div class="cf-banner" role="status">${ic('network')}<span>YOU’RE OFFLINE · SHOWING STATUS AS OF 4:31 PM</span><button type="button">RETRY</button></div>` }),
+  expiring: () => ({ banner: `<div class="cf-banner cf-banner--red" role="alert">${ic('time')}<span>YOUR SECURE VIEW CLOSES IN 2 MINUTES</span><button type="button">STAY SIGNED IN</button></div>` }),
+  refreshfail: () => ({ html: `<div class="cf-toast cf-toast--err" role="alert">${ic('warning')}<span>COULDN’T REFRESH · SHOWING STATUS AS OF 4:31 PM</span></div>`, scrim: false }),
+  help: () => ({ html: dialog('HELP', `<ul class="cf-rows">${row({ icon: 'email', t: 'REPLY TO ANY SITE 00 EMAIL', s: 'A PERSON AT SITE 00 READS EVERY REPLY.' })}${row({ icon: 'info', t: 'WHAT EACH STATUS MEANS', s: 'OPEN · IN PROGRESS · SUBMITTED · RESOLVED · BLOCKED', arrow: true })}${row({ icon: 'security', t: 'HOW SIGN-IN WORKS', s: 'EMAIL LINKS AND CODES. NEVER A PASSWORD.', arrow: true })}</ul>`), scrim: true }),
+};
