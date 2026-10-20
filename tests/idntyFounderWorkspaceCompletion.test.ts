@@ -56,9 +56,10 @@ describe('IDNTY founder workspace completion (slice 2)', () => {
     expect(api).toContain('sendMessage');
   });
 
-  it('overlay host supports responsive geometry classes', () => {
+  it('overlay host renders the OPUS2 ws-ov container with per-tier modes', () => {
     const host = read('src/site00/admin/founder-workspace/overlay/OverlayHost.tsx');
     expect(host).toContain('overlayGeometryForViewport');
-    expect(host).toContain('ifw-overlay-host__panel--');
+    // Recovery 2: the generic ifw-overlay-host panel was replaced by the authority container (data-m / data-t / data-d).
+    for (const attr of ['className="ws-ov"', 'data-m=', 'data-t=', 'data-d=', 'data-ifw-overlay=']) expect(host).toContain(attr);
   });
 });
