@@ -644,13 +644,23 @@ function fitBounds(elements: BuildElement[], camera: BuildCamera, aspect: number
   return { ...camera, target, distance };
 }
 
+let webglProbe: boolean | null = null;
+
+/**
+ * Probed once per page. Every probe opens a real WebGL context, and browsers keep only a handful alive (Chrome 16):
+ * probing per thumbnail used to pile up contexts until the browser dropped the oldest one, which could be the stage.
+ */
 export function webglAvailable(): boolean {
+  if (webglProbe !== null) return webglProbe;
   try {
     const canvas = document.createElement('canvas');
-    return Boolean(canvas.getContext('webgl2') ?? canvas.getContext('webgl'));
+    const gl = (canvas.getContext('webgl2') ?? canvas.getContext('webgl')) as WebGLRenderingContext | null;
+    webglProbe = Boolean(gl);
+    gl?.getExtension('WEBGL_lose_context')?.loseContext();
   } catch {
-    return false;
+    webglProbe = false;
   }
+  return webglProbe;
 }
 
 /**

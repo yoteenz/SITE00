@@ -1,5 +1,5 @@
 /** 05 BLUEPRINT — the reveal, its five inspection sections, the review status, and submission. */
-import { useEffect, useId, useMemo, useRef, useState, type RefObject } from 'react';
+import { useEffect, useId, useMemo, useRef, useState, type ReactNode, type RefObject } from 'react';
 import { BsBody } from './bldrBody';
 import { normalizeIntakeStatus } from '../../../shared/site00-intakes/types';
 import { IntakeGuestAccessCapture } from '../components/intake/IntakeGuestAccessCapture';
@@ -7,16 +7,55 @@ import type { BlueprintSessionSnapshot } from '../builder-experience/spatialStud
 import { compose } from './buildObject/composition';
 import { BuildThumbnail } from './buildObject/BuildObjectStage';
 import {
+  ArrowsIcon,
+  BadgeIcon,
+  BagIcon,
+  BarsIcon,
+  BellIcon,
+  BoltIcon,
   BuildTypeIcon,
+  CalendarIcon,
+  CardIcon,
+  ChevronDownIcon,
   ChevronSmallRightIcon,
   ClockIcon,
   CloseIcon,
   CubeIcon,
+  DatabaseIcon,
+  DocumentIcon,
+  FolderIcon,
   FullscreenIcon,
+  GlobeIcon,
+  GridIcon,
+  ImageIcon,
   InvestmentIcon,
+  LayersIcon,
+  LinkIcon,
+  LockIcon,
+  MailIcon,
+  PeopleIcon,
+  PersonIcon,
   RecenterIcon,
+  SearchIcon,
   SlidersIcon,
+  SparkIcon,
+  StandardIcon,
+  StoreIcon,
+  UploadIcon,
 } from './icons';
+import { designConflicts, resolveDesignDetails } from './designResolution';
+import {
+  featuresView,
+  mainExperience,
+  pageGroupElements,
+  pagesView,
+  structurePartElements,
+  structureView,
+  timelineView,
+  type FeatureIconKey,
+  type FlowKey,
+} from './blueprintTabsModel';
+import { blueprintAnatomy } from './buildObject/anatomy';
 import {
   CORE_INCLUDED,
   FEEL_BY_ID,
@@ -24,7 +63,6 @@ import {
   blockerCopy,
   buildSpec,
   buildTypeSummary,
-  capabilityPlain,
   expandInvestment,
   featureCount,
   spacedRange,
@@ -213,12 +251,13 @@ export function BlueprintPanel(props: Props) {
 function rangeNote(snapshot: BlueprintSessionSnapshot, preview: boolean): string {
   if (!preview) return 'SHARED AT BLUEPRINT REVIEW';
   const label = snapshot.estimate?.confidence.label ?? 'INITIAL RANGE';
-  return `${label}. BASED ON YOUR CURRENT SELECTIONS AND REQUIREMENTS.`;
+  return `${label.toUpperCase()}. BASED ON YOUR CURRENT SELECTIONS AND REQUIREMENTS.`;
 }
 
 function EstimateFigure({ value, preview }: { value: string | null; preview: boolean }) {
   if (!preview) return <span className="bs-figure bs-figure--muted">AT REVIEW</span>;
-  return <span className="bs-figure">{value ?? '—'}</span>;
+  // A range that has to wrap keeps its dash on the first figure ("$38,000 –" / "$76,000").
+  return <span className="bs-figure">{value ? value.replace(' – ', '\u00a0– ') : '—'}</span>;
 }
 
 function ChangeLink({ session, room, goToRoom }: { session: StudioSession; room: StudioRoomId; goToRoom: (room: StudioRoomId) => void }) {
@@ -230,6 +269,97 @@ function ChangeLink({ session, room, goToRoom }: { session: StudioSession; room:
     </button>
   );
 }
+
+function TabHead({ title, lede }: { title: string; lede: string }) {
+  return (
+    <header className="bs-tabhead">
+      <h2 className="bs-tabhead__title">{title}</h2>
+      <p className="bs-tabhead__lede">
+        <BsBody>{lede}</BsBody>
+      </p>
+    </header>
+  );
+}
+
+function Disclose({ title, children }: { title: string; children: ReactNode }) {
+  return (
+    <details className="bs-disclose">
+      <summary>
+        <span>{title}</span>
+        <ChevronDownIcon size={10} />
+      </summary>
+      <div className="bs-disclose__body">{children}</div>
+    </details>
+  );
+}
+
+function Glance({ items }: { items: { key: string; icon: ReactNode; value: string; label: string }[] }) {
+  return (
+    <ul className="bs-glance">
+      {items.map((item) => (
+        <li key={item.key}>
+          {item.icon}
+          <span className="bs-glance__text">
+            <span className="bs-glance__value">{item.value}</span>
+            <span className="bs-glance__label">{item.label}</span>
+          </span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function StatStrip({ items }: { items: { key: string; icon: ReactNode; label: string; value: string }[] }) {
+  return (
+    <ul className="bs-stats">
+      {items.map((item) => (
+        <li key={item.key}>
+          {item.icon}
+          <span className="bs-stats__label">{item.label}</span>
+          <span className="bs-stats__value">{item.value}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+/**
+ * One part of the build, drawn as the same Build Object the stage shows with only that part's real geometry lit
+ * (its pages' volumes and its features' modules, from the Blueprint anatomy) and the rest held as glass.
+ */
+function partStill(spec: ReturnType<typeof buildSpec>, key: string, lit: readonly string[]) {
+  return compose('blueprint', spec, { inspect: { key: `part-${key}-${lit.join('.')}`, lit, isolate: true } });
+}
+
+const FEATURE_ICONS: Record<FeatureIconKey, (p: { size?: number }) => ReactNode> = {
+  DOCUMENT: DocumentIcon,
+  BAG: BagIcon,
+  CARD: CardIcon,
+  PERSON: PersonIcon,
+  PEOPLE: PeopleIcon,
+  FOLDER: FolderIcon,
+  CHART: BarsIcon,
+  CALENDAR: CalendarIcon,
+  BADGE: BadgeIcon,
+  SEARCH: SearchIcon,
+  BELL: BellIcon,
+  MAIL: MailIcon,
+  GLOBE: GlobeIcon,
+  LINK: LinkIcon,
+  BOLT: BoltIcon,
+  UPLOAD: UploadIcon,
+  DATABASE: DatabaseIcon,
+  CUBE: CubeIcon,
+  SPARK: SparkIcon,
+  STORE: StoreIcon,
+};
+
+function FeatureGlyph({ icon, size = 22 }: { icon: FeatureIconKey; size?: number }) {
+  const Glyph = FEATURE_ICONS[icon];
+  return <Glyph size={size} />;
+}
+
+/* ─────────────────────────────── 01 OVERVIEW ─────────────────────────────── */
 
 function OverviewTab({ session, setTab, goToRoom, openMenu }: Props) {
   const { state, snapshot } = session.view;
@@ -243,6 +373,7 @@ function OverviewTab({ session, setTab, goToRoom, openMenu }: Props) {
   const spec = buildSpec(state);
   const features = featureCount(selection);
   const world = state.placePath === 'WORLD';
+  const main = mainExperience(selection);
   const cards = useMemo(() => {
     const list: { key: string; label: string; value: string; thumb: ReturnType<typeof compose>; onOpen: () => void; hint: string }[] = [
       {
@@ -282,29 +413,41 @@ function OverviewTab({ session, setTab, goToRoom, openMenu }: Props) {
   }, [feel?.label, world, pages, features, pace?.label, spec, session.locked, setTab, goToRoom]);
   return (
     <>
-      <div className="bs-facts">
-        <div className="bs-fact">
-          <BuildTypeIcon size={22} />
-          <span className="bs-fact__label">BUILD TYPE</span>
-          <span className="bs-fact__value">{build.label}</span>
-          <span className="bs-fact__sub">
-            <BsBody>{build.descriptor}</BsBody>
+      <TabHead
+        title="A DIGITAL LOCATION SHAPED AROUND YOUR BUSINESS."
+        lede="THE DIRECTION, SCALE AND RANGE OF YOUR BUILD AS IT STANDS NOW. REVIEW IT HERE BEFORE YOU SEND IT TO SITE 00."
+      />
+      <div className="bs-tiles">
+        <div className="bs-tile">
+          <BuildTypeIcon size={24} />
+          <span className="bs-tile__label">BUILD TYPE</span>
+          <span className="bs-tile__value">{build.label}</span>
+          <span className="bs-tile__sub">
+            <BsBody>{build.descriptor}.</BsBody>
           </span>
         </div>
-        <div className="bs-fact">
-          <ClockIcon size={22} />
-          <span className="bs-fact__label">ESTIMATED TIMELINE</span>
+        <div className="bs-tile">
+          <ClockIcon size={24} />
+          <span className="bs-tile__label">ESTIMATED TIMELINE</span>
           <EstimateFigure value={estimate ? spacedRange(estimate.productionWindow) : null} preview={preview} />
-          <span className="bs-fact__sub">
+          <span className="bs-tile__sub">
             <BsBody>{rangeNote(snapshot, preview)}</BsBody>
           </span>
         </div>
-        <div className="bs-fact">
-          <InvestmentIcon size={22} />
-          <span className="bs-fact__label">ESTIMATED INVESTMENT</span>
+        <div className="bs-tile">
+          <InvestmentIcon size={24} />
+          <span className="bs-tile__label">ESTIMATED INVESTMENT</span>
           <EstimateFigure value={estimate ? expandInvestment(estimate.investment) : null} preview={preview} />
-          <span className="bs-fact__sub">
+          <span className="bs-tile__sub">
             <BsBody>{rangeNote(snapshot, preview)}</BsBody>
+          </span>
+        </div>
+        <div className="bs-tile">
+          <BarsIcon size={24} />
+          <span className="bs-tile__label">MAIN EXPERIENCE</span>
+          <span className="bs-tile__value">{main?.label ?? (world ? 'WORLD' : 'AT REVIEW')}</span>
+          <span className="bs-tile__sub">
+            <BsBody>{main?.plain ?? 'SHAPED WITH YOU AT BLUEPRINT REVIEW.'}</BsBody>
           </span>
         </div>
       </div>
@@ -331,160 +474,489 @@ function OverviewTab({ session, setTab, goToRoom, openMenu }: Props) {
           </li>
         ))}
       </ul>
+      <h3 className="bs-section">AT A GLANCE</h3>
+      <Glance
+        items={[
+          { key: 'pages', icon: <DocumentIcon size={22} />, value: world ? 'AT REVIEW' : String(pages), label: world ? 'PLACES' : pages === 1 ? 'PAGE' : 'PAGES' },
+          { key: 'features', icon: <GridIcon size={22} />, value: String(features), label: features === 1 ? 'KEY FEATURE' : 'KEY FEATURES' },
+          { key: 'experience', icon: <PeopleIcon size={22} />, value: main?.label ?? 'AT REVIEW', label: 'EXPERIENCE' },
+          { key: 'pace', icon: <BoltIcon size={22} />, value: pace?.label ?? 'NOT CHOSEN', label: 'PRODUCTION' },
+        ]}
+      />
     </>
   );
 }
 
+/* ─────────────────────────────── 02 STRUCTURE ─────────────────────────────── */
+
 const COMMERCIAL_LINES = ['COMMERCE', 'PLATFORM', 'PLATFORM_USAGE', 'PAYMENT_PROCESSING', 'ONGOING_SUPPORT'];
+
+/** "ARCHITECTURAL MINIMAL · FULL EDITION" → "ARCHITECTURAL MINIMAL": the edition is a scope detail, not a direction. */
+function visualSystemName(value: string | null): string | null {
+  return value ? value.split(' · ')[0].toUpperCase() : null;
+}
 
 function StructureTab({ session, goToRoom }: Props) {
   const { state, snapshot } = session.view;
-  const build = buildTypeSummary(state.placePath, snapshot.selection);
+  const selection = snapshot.selection;
+  const build = buildTypeSummary(state.placePath, selection);
   const custom = state.placePath === 'CUSTOM';
-  return (
-    <div className="bs-sheet">
-      <p className="bs-sheet__lead">
-        <strong>{build.label} BUILD</strong>{' '}
-        <BsBody>{build.reasons.length ? build.reasons.join(' ').toUpperCase() : 'EVERY CHOICE FITS A SIMPLE BUILD.'}</BsBody>
-      </p>
-      <dl className="bs-lines">
-        {snapshot.blueprint.lines
-          .filter((line) => !COMMERCIAL_LINES.includes(line.key))
-          .map((line) => (
-            <div key={line.key} className={`bs-line${line.open ? ' is-open' : ''}`}>
-              <dt>{line.label}</dt>
-              <dd>
-                {line.value ? line.value.toUpperCase() : custom ? 'TO BE DEFINED IN YOUR CUSTOM DIRECTION' : 'NOT CHOSEN'}
-                {line.fromSystem && line.value ? <em> FROM SYSTEM</em> : null}
-              </dd>
-            </div>
-          ))}
-      </dl>
-      <p className="bs-sheet__hint">THE STRUCTURE FOLLOWS FROM WHAT YOU ARE CREATING. SITE 00 CONFIRMS IT AT BLUEPRINT REVIEW.</p>
-      <ChangeLink session={session} room="place" goToRoom={goToRoom} />
-    </div>
+  const spec = buildSpec(state);
+  const view = useMemo(() => structureView(selection), [selection]);
+  const feel = state.feelVibe ? FEEL_BY_ID[state.feelVibe] : null;
+  const pace = PACE_OPTIONS.find((p) => p.id === state.pace);
+  const lines = snapshot.blueprint.lines.filter((line) => !COMMERCIAL_LINES.includes(line.key));
+  const system = visualSystemName(lines.find((line) => line.key === 'EXPRESSION')?.value ?? null);
+  const designDetails = useMemo(() => resolveDesignDetails(selection), [selection]);
+  const conflicts = useMemo(() => designConflicts(selection), [selection]);
+  const anatomy = useMemo(() => blueprintAnatomy(spec, snapshot), [spec, snapshot]);
+  const thumbs = useMemo(
+    () => Object.fromEntries(view.groups.map((g) => [g.key, partStill(spec, g.key, structurePartElements(anatomy, g.key))])),
+    [view.groups, spec, anatomy],
   );
-}
-
-function PagesTab({ session, goToRoom }: Props) {
-  const { state, snapshot } = session.view;
-  if (state.placePath === 'WORLD') {
-    return (
-      <div className="bs-sheet">
-        <p className="bs-sheet__lead">
-          <BsBody>A WORLD IS DESIGNED AS PLACES, NOT PAGES. ITS PLACES, MOMENTS AND THINGS TO DO ARE SHAPED WITH YOU AT BLUEPRINT REVIEW.</BsBody>
-        </p>
-        <ChangeLink session={session} room="work" goToRoom={goToRoom} />
-      </div>
-    );
-  }
-  const total = snapshot.blueprint.experiences.reduce((n, g) => n + g.items.length, 0);
   return (
-    <div className="bs-sheet">
-      <p className="bs-sheet__lead">
-        <strong>{total} PAGES</strong> ASSEMBLED FROM YOUR STRUCTURE AND FEATURES.
-      </p>
-      {snapshot.blueprint.experiences.map((group) => (
-        <div key={group.group} className="bs-group">
-          <h3 className="bs-group__title">{group.group}</h3>
-          <ul>
-            {group.items.map((item) => (
-              <li key={item.label}>
-                <span>{item.label.toUpperCase()}</span>
-                <em>{item.depth.toUpperCase()}</em>
+    <>
+      <TabHead
+        title="HOW YOUR DIGITAL LOCATION IS ORGANIZED."
+        lede={
+          view.groups.find((g) => g.key === 'CLIENT_SPACE')?.present
+            ? 'YOUR BUILD BRINGS TOGETHER THE PUBLIC PRESENCE PEOPLE MEET FIRST, THE ACTIONS YOU WANT THEM TO TAKE, AND THE PRIVATE SPACES USED TO MANAGE WORK BEHIND THE SCENES.'
+            : 'YOUR BUILD BRINGS TOGETHER THE PUBLIC PRESENCE PEOPLE MEET FIRST AND THE ACTIONS YOU WANT THEM TO TAKE.'
+        }
+      />
+      <ul className="bs-parts">
+        {view.groups.map((g) => (
+          <li key={g.key} className={`bs-part${g.present ? '' : ' is-absent'}`}>
+            <BuildThumbnail composition={thumbs[g.key]} width={120} height={104} alt="" />
+            <div className="bs-part__text">
+              <h3 className="bs-part__title">{g.title}</h3>
+              <p className="bs-part__plain">
+                <BsBody>{g.present ? g.plain : g.absent}</BsBody>
+              </p>
+              {g.present ? (
+                <Disclose title="WHAT IS HERE">
+                  <p className="bs-part__includes">{g.includes.join(' · ')}</p>
+                </Disclose>
+              ) : null}
+            </div>
+          </li>
+        ))}
+      </ul>
+      <h3 className="bs-section">AT A GLANCE</h3>
+      <Glance
+        items={[
+          { key: 'build', icon: <CubeIcon size={22} />, value: `${build.label} BUILD`, label: 'BUILD TYPE' },
+          { key: 'system', icon: <LayersIcon size={22} />, value: system ?? feel?.label ?? 'AT REVIEW', label: 'VISUAL SYSTEM' },
+          { key: 'access', icon: <PeopleIcon size={22} />, value: view.access, label: 'ACCESS MODEL' },
+          { key: 'pace', icon: <StandardIcon size={22} />, value: pace?.label ?? 'NOT CHOSEN', label: 'PRODUCTION PACE' },
+        ]}
+      />
+      <h3 className="bs-section">HOW IT FLOWS</h3>
+      <ol className="bs-flowsteps">
+        {view.flow.map((step) => (
+          <li key={step.n}>
+            <span className="bs-flowsteps__n">{step.n}</span>
+            <span className="bs-flowsteps__text">
+              <span className="bs-flowsteps__title">{step.title}</span>
+              <span className="bs-flowsteps__plain">
+                <BsBody>{step.plain}</BsBody>
+              </span>
+            </span>
+          </li>
+        ))}
+      </ol>
+      <Disclose title={`WHY THIS IS ${/^[AEIOU]/.test(build.label) ? 'AN' : 'A'} ${build.label} BUILD`}>
+        {build.reasons.length ? (
+          <ul className="bs-bullets">
+            {build.reasons.map((reason) => (
+              <li key={reason}>
+                <BsBody>{reason.toUpperCase()}</BsBody>
               </li>
             ))}
           </ul>
-        </div>
-      ))}
-      <ChangeLink session={session} room="work" goToRoom={goToRoom} />
-    </div>
+        ) : (
+          <p className="bs-sheet__hint">EVERY CHOICE FITS A SIMPLE BUILD.</p>
+        )}
+      </Disclose>
+      <Disclose title="DESIGN DETAILS">
+        <dl className="bs-lines bs-lines--compact">
+          {designDetails.map((line) => (
+            <div key={line.key} className={`bs-line${line.value ? '' : ' is-open'}`}>
+              <dt>{line.label}</dt>
+              <dd>
+                {line.value ?? (custom ? 'DEFINED WITH SITE 00 IN YOUR CUSTOM DIRECTION' : 'NOT CHOSEN YET')}
+                <span className="bs-line__provenance"> · {line.provenanceLabel}</span>
+              </dd>
+            </div>
+          ))}
+        </dl>
+        <ul className="bs-bullets bs-bullets--compact">
+          {designDetails.map((line) => (
+            <li key={`${line.key}-fit`}>
+              <BsBody>
+                {line.label}: {line.fitNote}
+              </BsBody>
+            </li>
+          ))}
+        </ul>
+        {conflicts.length ? (
+          <div className="bs-sheet__hint">
+            {conflicts.map((c) => (
+              <p key={c.dimension}>
+                <BsBody>
+                  {c.message} {c.recommendation}
+                </BsBody>
+              </p>
+            ))}
+          </div>
+        ) : feel ? (
+          <p className="bs-sheet__hint">
+            <BsBody>RECOMMENDATIONS FOLLOW YOUR {feel.label} DIRECTION UNTIL YOU SET A DIMENSION EXPLICITLY.</BsBody>
+          </p>
+        ) : null}
+      </Disclose>
+      <ChangeLink session={session} room="place" goToRoom={goToRoom} />
+    </>
   );
 }
+
+/* ─────────────────────────────── 03 PAGES ─────────────────────────────── */
+
+function PagesTab({ session, goToRoom }: Props) {
+  const { state, snapshot } = session.view;
+  const spec = buildSpec(state);
+  const view = useMemo(() => pagesView(snapshot.selection), [snapshot.selection]);
+  const anatomy = useMemo(() => blueprintAnatomy(spec, snapshot), [spec, snapshot]);
+  const thumbs = useMemo(
+    () => Object.fromEntries(view.groups.map((g) => [g.key, partStill(spec, `pages-${g.key}`, pageGroupElements(anatomy, g.key))])),
+    [view.groups, spec, anatomy],
+  );
+  if (state.placePath === 'WORLD') {
+    return (
+      <>
+        <TabHead
+          title="THE PLACES THAT SHAPE YOUR WORLD."
+          lede="A WORLD IS DESIGNED AS PLACES, NOT PAGES. ITS PLACES, MOMENTS AND THINGS TO DO ARE SHAPED WITH YOU AT BLUEPRINT REVIEW."
+        />
+        <ChangeLink session={session} room="work" goToRoom={goToRoom} />
+      </>
+    );
+  }
+  return (
+    <>
+      <TabHead
+        title="THE PAGES THAT SHAPE YOUR EXPERIENCE."
+        lede={
+          view.privatePages
+            ? 'YOUR PAGES ARE GROUPED BY PURPOSE, SO YOU CAN SEE WHAT VISITORS, CLIENTS AND YOUR TEAM WILL USE.'
+            : 'YOUR PAGES ARE GROUPED BY PURPOSE, SO YOU CAN SEE WHAT VISITORS WILL MEET AND USE.'
+        }
+      />
+      <StatStrip
+        items={[
+          { key: 'total', icon: <DocumentIcon size={24} />, label: 'TOTAL PAGES', value: String(view.total) },
+          { key: 'groups', icon: <GridIcon size={24} />, label: 'CORE GROUPS', value: String(view.coreGroups) },
+          { key: 'private', icon: <LockIcon size={24} />, label: 'PRIVATE PAGES', value: String(view.privatePages) },
+        ]}
+      />
+      <ul className="bs-pagegroups">
+        {view.groups.map((group) => (
+          <li key={group.key} className="bs-pagegroup">
+            <div className="bs-pagegroup__head">
+              <BuildThumbnail composition={thumbs[group.key]} width={120} height={96} alt="" />
+              <div>
+                <h3 className="bs-pagegroup__title">{group.title}</h3>
+                <p className="bs-pagegroup__plain">
+                  <BsBody>{group.plain}</BsBody>
+                </p>
+              </div>
+            </div>
+            <ul className="bs-pagelist">
+              {group.pages.map((page) => (
+                <li key={page.id}>
+                  <details className="bs-pageitem">
+                    <summary>
+                      <span>{page.label}</span>
+                      <ChevronSmallRightIcon size={9} />
+                    </summary>
+                    <p className="bs-pageitem__plain">
+                      <BsBody>{page.plain}</BsBody>
+                    </p>
+                    <p className="bs-pageitem__plain">
+                      <BsBody>{page.whyItMatters}</BsBody>
+                    </p>
+                    {page.depth ? (
+                      <p className="bs-pageitem__depth">
+                        <strong>{page.depth} DEPTH</strong> <BsBody>{page.depthPlain}</BsBody>
+                      </p>
+                    ) : null}
+                    {page.featuresNote ? (
+                      <p className="bs-pageitem__depth">
+                        <BsBody>{page.featuresNote}</BsBody>
+                      </p>
+                    ) : null}
+                    {page.limitation ? (
+                      <p className="bs-pageitem__depth">
+                        <BsBody>{page.limitation}</BsBody>
+                      </p>
+                    ) : null}
+                  </details>
+                </li>
+              ))}
+            </ul>
+          </li>
+        ))}
+      </ul>
+      <aside className="bs-note">
+        <DocumentIcon size={22} />
+        <span>
+          <span className="bs-note__title">PAGE NOTES</span>
+          <BsBody>FINAL NAMING AND GROUPING ARE REFINED AT BLUEPRINT REVIEW. WHAT EACH PAGE IS FOR MATTERS MORE THAN ITS LABEL AT THIS STAGE.</BsBody>
+        </span>
+      </aside>
+      <ChangeLink session={session} room="work" goToRoom={goToRoom} />
+    </>
+  );
+}
+
+/* ─────────────────────────────── 04 FEATURES ─────────────────────────────── */
+
+const FLOW_ICON: Record<FlowKey, ReactNode> = {
+  ATTRACT: <GlobeIcon size={22} />,
+  ACT: <BagIcon size={22} />,
+  DELIVER: <PersonIcon size={22} />,
+  SYNC: <BarsIcon size={22} />,
+};
 
 function FeaturesTab({ session, goToRoom }: Props) {
   const { state, snapshot } = session.view;
   const estimate = snapshot.estimate;
+  const view = useMemo(() => featuresView(snapshot.selection), [snapshot.selection]);
+  const world = state.placePath === 'WORLD';
   return (
-    <div className="bs-sheet">
-      <ul className="bs-features">
-        {snapshot.blueprint.capabilities.map((cap) => (
-          <li key={cap.verb}>
-            <span className="bs-features__verb">{cap.verb}</span>
-            <span className="bs-features__plain">
-              <BsBody>{capabilityPlain(cap.verb)}</BsBody>
+    <>
+      <TabHead
+        title="WHAT THIS BUILD WILL DO."
+        lede="THE WORKING CAPABILITIES IN YOUR BUILD, AND WHAT EACH ONE DOES FOR YOUR BUSINESS."
+      />
+      <StatStrip
+        items={[
+          { key: 'count', icon: <GridIcon size={24} />, label: 'SELECTED FEATURES', value: String(view.count) },
+          { key: 'access', icon: <PeopleIcon size={24} />, label: 'PUBLIC + PRIVATE', value: view.hasPrivate ? 'YES' : 'PUBLIC ONLY' },
+          { key: 'payments', icon: <CardIcon size={24} />, label: 'PAYMENTS', value: view.payments ? 'INCLUDED' : 'NOT INCLUDED' },
+        ]}
+      />
+      <ul className="bs-featcards">
+        {view.items.map((item) => (
+          <li key={item.id} className="bs-featcard">
+            <FeatureGlyph icon={item.icon} />
+            <span className="bs-featcard__text">
+              <span className="bs-featcard__verb">{item.verb}</span>
+              <span className="bs-featcard__plain">
+                <BsBody>{item.plain}</BsBody>
+              </span>
+              {item.includedWith ? <span className="bs-featcard__with">{item.includedWith}</span> : null}
             </span>
-            {cap.comesWith ? <em>COMES WITH YOUR CHOICES</em> : null}
           </li>
         ))}
       </ul>
-      <h3 className="bs-sheet__title">CORE INCLUDED</h3>
-      <p className="bs-sheet__hint">{CORE_INCLUDED.map((c) => (state.placePath === 'WORLD' ? c.worldLabel : c.label)).join(' · ')}</p>
+      <p className="bs-also">
+        <strong>IN EVERY BUILD</strong> {CORE_INCLUDED.map((c) => (world ? c.worldLabel : c.label)).join(' · ')}
+      </p>
       {estimate?.platformUsage.applicable ? (
-        <p className="bs-sheet__hint">
-          <strong>{estimate.platformUsage.label}</strong> {estimate.platformUsage.summary}
-        </p>
+        <Disclose title={estimate.platformUsage.label}>
+          <p className="bs-sheet__hint">
+            <BsBody>{estimate.platformUsage.summary.toUpperCase()}</BsBody>
+          </p>
+          <p className="bs-sheet__hint">
+            <BsBody>{estimate.platformUsage.learnHowThisWorks.body.toUpperCase()}</BsBody>
+          </p>
+        </Disclose>
       ) : null}
+      <h3 className="bs-section">HOW FEATURES WORK TOGETHER</h3>
+      <p className="bs-section__lede">
+        <BsBody>YOUR FEATURES ARE NOT SEPARATE ADD-ONS. TOGETHER THEY SHAPE THE WHOLE EXPERIENCE, FROM FIRST VISIT TO PRIVATE FOLLOW-THROUGH.</BsBody>
+      </p>
+      <ol className="bs-flow">
+        {view.flow.map((step) => (
+          <li key={step.key}>
+            {FLOW_ICON[step.key]}
+            <span className="bs-flow__title">{step.title}</span>
+            <span className="bs-flow__plain">
+              <BsBody>{step.plain}</BsBody>
+            </span>
+            {step.features.length ? <span className="bs-flow__with">{step.features.join(' · ')}</span> : null}
+          </li>
+        ))}
+      </ol>
       <ChangeLink session={session} room="work" goToRoom={goToRoom} />
-    </div>
+    </>
   );
 }
 
+/* ─────────────────────────────── 05 TIMELINE ─────────────────────────────── */
+
+const FACTOR_ICON: Record<string, ReactNode> = {
+  APPROVALS: <DocumentIcon size={20} />,
+  CONTENT: <ImageIcon size={20} />,
+  TOOLS: <LinkIcon size={20} />,
+  BRAND: <BadgeIcon size={20} />,
+  SCOPE: <ArrowsIcon size={20} />,
+};
+
 function TimelineTab({ session, goToRoom }: Props) {
   const { state, snapshot } = session.view;
+  const preview = session.preview;
   const estimate = snapshot.estimate;
   const pace = PACE_OPTIONS.find((p) => p.id === state.pace);
   const note = state.paceNotes.trim();
+  const view = useMemo(() => (estimate ? timelineView(snapshot.selection) : null), [estimate, snapshot.selection]);
+  const priority = estimate?.delivery.priority;
+  const standardPace = PACE_OPTIONS.find((p) => p.id === 'STANDARD');
+  const expeditedPace = PACE_OPTIONS.find((p) => p.id === 'EXPEDITED');
   return (
-    <div className="bs-sheet">
-      <p className="bs-sheet__lead">
-        <strong>{pace?.label ?? 'NO PACE CHOSEN'}</strong> {pace ? pace.plain.toUpperCase() : ''}
-      </p>
+    <>
+      <TabHead
+        title="WHAT THE JOURNEY AHEAD LOOKS LIKE."
+        lede="YOUR TIMELINE DEPENDS ON APPROVALS, CONTENT READINESS AND CONNECTED SYSTEMS. THIS IS THE WORKING RANGE AND THE PHASES AHEAD."
+      />
       {estimate ? (
         <>
-          <dl className="bs-lines">
-            <div className="bs-line">
-              <dt>STANDARD</dt>
-              <dd>
-                {spacedRange(estimate.delivery.standard.window)} · {expandInvestment(estimate.delivery.standard.investment)}
-              </dd>
-            </div>
-            <div className="bs-line">
-              <dt>EXPEDITED</dt>
-              <dd>
-                {estimate.delivery.priority.available
-                  ? `${spacedRange(estimate.delivery.priority.window)} · ${expandInvestment(estimate.delivery.priority.investment)} · ${estimate.delivery.priority.sooner}`
-                  : 'NOT AVAILABLE FOR THIS SCOPE'}
-              </dd>
-            </div>
-            <div className="bs-line">
-              <dt>RANGE</dt>
-              <dd>{estimate.confidence.label}</dd>
-            </div>
-          </dl>
-          <p className="bs-sheet__hint">
-            <BsBody>
-              {(estimate.delivery.priority.available ? estimate.delivery.priority.whyNotHalf : estimate.delivery.priority.reason).toUpperCase()}
-            </BsBody>
-          </p>
-          <p className="bs-sheet__hint">
-            <BsBody>{estimate.timelineNote.toUpperCase()}</BsBody>
-          </p>
-          <h3 className="bs-sheet__title">WHAT COMES FIRST</h3>
-          <ul className="bs-bullets">
-            {estimate.dependencies.map((d) => (
-              <li key={d}>{d}</li>
-            ))}
+          <ul className={`bs-cadence${priority?.available ? '' : ' is-single'}`}>
+            <li className={state.pace === 'STANDARD' ? 'is-chosen' : undefined}>
+              <span className="bs-cadence__icon">
+                <CalendarIcon size={22} />
+              </span>
+              <span className="bs-cadence__text">
+                <span className="bs-cadence__label">
+                  STANDARD{state.pace === 'STANDARD' ? <em>YOUR CHOICE</em> : null}
+                </span>
+                <EstimateFigure value={spacedRange(estimate.delivery.standard.window)} preview={preview} />
+                <span className="bs-cadence__plain">
+                  <BsBody>{standardPace?.plain.toUpperCase()}</BsBody>
+                </span>
+                {preview ? <span className="bs-cadence__money">{expandInvestment(estimate.delivery.standard.investment)}</span> : null}
+              </span>
+            </li>
+            {priority?.available ? (
+              <li className={state.pace === 'EXPEDITED' ? 'is-chosen' : undefined}>
+                <span className="bs-cadence__icon">
+                  <BoltIcon size={22} />
+                </span>
+                <span className="bs-cadence__text">
+                  <span className="bs-cadence__label">
+                    EXPEDITED{state.pace === 'EXPEDITED' ? <em>YOUR CHOICE</em> : null}
+                  </span>
+                  <EstimateFigure value={spacedRange(priority.window)} preview={preview} />
+                  <span className="bs-cadence__plain">
+                    <BsBody>{`A FASTER PATH: ${priority.sooner}.`}</BsBody>
+                  </span>
+                  {preview ? <span className="bs-cadence__money">{expandInvestment(priority.investment)}</span> : null}
+                </span>
+              </li>
+            ) : null}
           </ul>
-          <h3 className="bs-sheet__title">WHAT HAPPENS NEXT</h3>
-          <ol className="bs-bullets">
-            {estimate.whatHappensNext.map((step) => (
-              <li key={step}>{step}</li>
-            ))}
-          </ol>
+          {priority && !priority.available ? (
+            <p className="bs-sheet__hint">
+              <BsBody>
+                {state.pace === 'EXPEDITED' ? 'EXPEDITED IS NOT OFFERED FOR THIS SCOPE. ' : ''}
+                {priority.reason.toUpperCase()}
+              </BsBody>
+            </p>
+          ) : null}
+          {priority?.available ? (
+            <Disclose title="WHY EXPEDITED IS NOT TWICE AS FAST">
+              <p className="bs-sheet__hint">
+                <BsBody>{priority.whyNotHalf.toUpperCase()}</BsBody>
+              </p>
+              {expeditedPace ? (
+                <p className="bs-sheet__hint">
+                  <BsBody>{expeditedPace.plain.toUpperCase()}</BsBody>
+                </p>
+              ) : null}
+            </Disclose>
+          ) : null}
+          {state.pace === 'FLEXIBLE' ? (
+            <p className="bs-sheet__hint">
+              <BsBody>{pace?.plain.toUpperCase()}</BsBody>
+            </p>
+          ) : null}
+          {view ? (
+            <>
+              <h3 className="bs-section">PHASES</h3>
+              <ol className="bs-phases">
+                {view.phases.map((phase) => (
+                  <li key={phase.n}>
+                    <details className="bs-phase">
+                      <summary>
+                        <span className="bs-phase__n">{phase.n}</span>
+                        <span className="bs-phase__title">{phase.title}</span>
+                        <span className="bs-phase__plain">
+                          <BsBody>{phase.plain}</BsBody>
+                        </span>
+                        <ChevronSmallRightIcon size={9} />
+                      </summary>
+                      <dl className="bs-phase__body">
+                        <div>
+                          <dt>SITE 00</dt>
+                          <dd>
+                            <BsBody>{phase.siteDoes}</BsBody>
+                          </dd>
+                        </div>
+                        <div>
+                          <dt>YOU</dt>
+                          <dd>
+                            <BsBody>{phase.youDo}</BsBody>
+                          </dd>
+                        </div>
+                      </dl>
+                      <p className="bs-phase__tags">
+                        {phase.needsYou ? <span>NEEDS YOUR INPUT</span> : <span>SITE 00 LEADS</span>}
+                        {phase.runsAlongside ? <span>RUNS ALONGSIDE OTHER WORK</span> : <span>HAPPENS IN ORDER</span>}
+                      </p>
+                    </details>
+                  </li>
+                ))}
+              </ol>
+              <h3 className="bs-section">WHAT AFFECTS TIMING</h3>
+              <ul className="bs-factors">
+                {view.factors.map((factor) => (
+                  <li key={factor.key}>
+                    <span className="bs-factors__icon">{FACTOR_ICON[factor.key]}</span>
+                    <span className="bs-factors__text">
+                      <span className="bs-factors__title">{factor.title}</span>
+                      <span className="bs-factors__plain">
+                        <BsBody>{factor.plain}</BsBody>
+                      </span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </>
+          ) : null}
+          {estimate.dependencies.length ? (
+            <Disclose title="WHAT HAS TO HAPPEN IN ORDER">
+              <ul className="bs-bullets">
+                {estimate.dependencies.map((d) => (
+                  <li key={d}>
+                    <BsBody>{d.toUpperCase()}</BsBody>
+                  </li>
+                ))}
+              </ul>
+            </Disclose>
+          ) : null}
+          <Disclose title="AFTER YOU SUBMIT">
+            <ol className="bs-bullets">
+              {estimate.whatHappensNext.map((step) => (
+                <li key={step}>
+                  <BsBody>{step.toUpperCase()}</BsBody>
+                </li>
+              ))}
+            </ol>
+          </Disclose>
           <p className="bs-fineprint">
             <BsBody>
-              {estimate.notAQuote} {estimate.reference}
+              {estimate.timelineNote.toUpperCase()} {estimate.notAQuote.toUpperCase()} {estimate.reference.toUpperCase()}
             </BsBody>
           </p>
         </>
@@ -493,14 +965,12 @@ function TimelineTab({ session, goToRoom }: Props) {
       )}
       {note ? (
         <>
-          <h3 className="bs-sheet__title">{state.placePath === 'CUSTOM' ? 'YOUR CUSTOM DIRECTION' : 'YOUR NOTE'}</h3>
-          <p className="bs-sheet__hint">
-            <BsBody>{note}</BsBody>
-          </p>
+          <h3 className="bs-section">{state.placePath === 'CUSTOM' ? 'YOUR CUSTOM DIRECTION' : 'YOUR NOTE'}</h3>
+          <p className="bs-sheet__hint bs-usertext">{note}</p>
         </>
       ) : null}
       <ChangeLink session={session} room="pace" goToRoom={goToRoom} />
-    </div>
+    </>
   );
 }
 
