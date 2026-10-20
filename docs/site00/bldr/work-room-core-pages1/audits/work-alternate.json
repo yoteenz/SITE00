@@ -1,0 +1,448 @@
+{
+ "name": "alternate",
+ "modules": [
+  "PAGES",
+  "BLOG",
+  "BOOKING",
+  "MEMBER_AREA"
+ ],
+ "on": {
+  "PAGES": true,
+  "BLOG": true,
+  "SHOP": false,
+  "MEMBER_AREA": true,
+  "BOOKING": true,
+  "PORTAL": false
+ },
+ "widths": {
+  "390": {
+   "panel": {
+    "open": true,
+    "summary": null,
+    "metrics": [
+     "8PAGES",
+     "3GROUPS",
+     "1PRIVATE",
+     "WEBSITE",
+     "MOBILE READY"
+    ],
+    "groups": [
+     {
+      "title": "FRONT DOOR",
+      "pages": "HOME, ABOUT, CONTACT / BEGIN",
+      "open": false
+     },
+     {
+      "title": "STORY & OFFER",
+      "pages": "STORIES INDEX, STORY, MEMBERSHIP, BOOKING",
+      "open": false
+     },
+     {
+      "title": "CLIENT SPACE",
+      "pages": "ACCOUNT",
+      "open": false
+     }
+    ],
+    "features": [
+     "EDIT IT YOURSELF",
+     "MEMBERSHIP",
+     "BOOK",
+     "(ACCOUNTS)"
+    ],
+    "footer": "EACH CAPABILITY ADDS ITS OWN PAGES. OUTLINED FEATURES COME WITH MEMBERSHIP.",
+    "oldDebug": false
+   },
+   "audit": {
+    "docOverflowX": 0,
+    "lowercase": [],
+    "offscreen": [],
+    "collide": [],
+    "minFont": 7,
+    "stage": {
+     "x": 0,
+     "y": 215,
+     "w": 390,
+     "h": 316
+    },
+    "panel": {
+     "x": 20,
+     "y": 537,
+     "w": 350,
+     "h": 324
+    },
+    "canvas": true
+   },
+   "groupOpen": {
+    "panel": {
+     "open": true,
+     "summary": null,
+     "metrics": [
+      "8PAGES",
+      "3GROUPS",
+      "1PRIVATE",
+      "WEBSITE",
+      "MOBILE READY"
+     ],
+     "groups": [
+      {
+       "title": "FRONT DOOR",
+       "pages": "HOME, ABOUT, CONTACT / BEGIN",
+       "open": true
+      },
+      {
+       "title": "STORY & OFFER",
+       "pages": "STORIES INDEX, STORY, MEMBERSHIP, BOOKING",
+       "open": true
+      },
+      {
+       "title": "CLIENT SPACE",
+       "pages": "ACCOUNT",
+       "open": false
+      }
+     ],
+     "features": [
+      "EDIT IT YOURSELF",
+      "MEMBERSHIP",
+      "BOOK",
+      "(ACCOUNTS)"
+     ],
+     "footer": "EACH CAPABILITY ADDS ITS OWN PAGES. OUTLINED FEATURES COME WITH MEMBERSHIP.",
+     "oldDebug": false
+    },
+    "audit": {
+     "docOverflowX": 0,
+     "lowercase": [],
+     "offscreen": [],
+     "collide": [],
+     "minFont": 7,
+     "stage": {
+      "x": 0,
+      "y": 215,
+      "w": 390,
+      "h": 316
+     },
+     "panel": {
+      "x": 20,
+      "y": 537,
+      "w": 350,
+      "h": 483
+     },
+     "canvas": true
+    },
+    "writes": []
+   },
+   "collapsed": {
+    "panel": {
+     "open": false,
+     "summary": "8 PAGES · 3 GROUPS · 4 FEATURES",
+     "metrics": [],
+     "groups": [],
+     "features": [],
+     "footer": "EACH CAPABILITY ADDS ITS OWN PAGES. OUTLINED FEATURES COME WITH MEMBERSHIP.",
+     "oldDebug": false
+    },
+    "audit": {
+     "docOverflowX": 0,
+     "lowercase": [],
+     "offscreen": [],
+     "collide": [],
+     "minFont": 7.6,
+     "stage": {
+      "x": 0,
+      "y": 215,
+      "w": 390,
+      "h": 435
+     },
+     "panel": {
+      "x": 20,
+      "y": 656,
+      "w": 350,
+      "h": 42
+     },
+     "canvas": true
+    },
+    "writes": []
+   },
+   "sameCanvas": true
+  },
+  "834": {
+   "panel": {
+    "open": true,
+    "summary": null,
+    "metrics": [
+     "8PAGES",
+     "3GROUPS",
+     "1PRIVATE",
+     "WEBSITE",
+     "MOBILE READY"
+    ],
+    "groups": [
+     {
+      "title": "FRONT DOOR",
+      "pages": "HOME, ABOUT, CONTACT / BEGIN",
+      "open": false
+     },
+     {
+      "title": "STORY & OFFER",
+      "pages": "STORIES INDEX, STORY, MEMBERSHIP, BOOKING",
+      "open": false
+     },
+     {
+      "title": "CLIENT SPACE",
+      "pages": "ACCOUNT",
+      "open": false
+     }
+    ],
+    "features": [
+     "EDIT IT YOURSELF",
+     "MEMBERSHIP",
+     "BOOK",
+     "(ACCOUNTS)"
+    ],
+    "footer": "EACH CAPABILITY ADDS ITS OWN PAGES. OUTLINED FEATURES COME WITH MEMBERSHIP.",
+    "oldDebug": false
+   },
+   "audit": {
+    "docOverflowX": 0,
+    "lowercase": [],
+    "offscreen": [],
+    "collide": [],
+    "minFont": 7,
+    "stage": {
+     "x": 7,
+     "y": 235,
+     "w": 820,
+     "h": 500
+    },
+    "panel": {
+     "x": 47,
+     "y": 741,
+     "w": 740,
+     "h": 324
+    },
+    "canvas": true
+   },
+   "groupOpen": {
+    "panel": {
+     "open": true,
+     "summary": null,
+     "metrics": [
+      "8PAGES",
+      "3GROUPS",
+      "1PRIVATE",
+      "WEBSITE",
+      "MOBILE READY"
+     ],
+     "groups": [
+      {
+       "title": "FRONT DOOR",
+       "pages": "HOME, ABOUT, CONTACT / BEGIN",
+       "open": true
+      },
+      {
+       "title": "STORY & OFFER",
+       "pages": "STORIES INDEX, STORY, MEMBERSHIP, BOOKING",
+       "open": true
+      },
+      {
+       "title": "CLIENT SPACE",
+       "pages": "ACCOUNT",
+       "open": false
+      }
+     ],
+     "features": [
+      "EDIT IT YOURSELF",
+      "MEMBERSHIP",
+      "BOOK",
+      "(ACCOUNTS)"
+     ],
+     "footer": "EACH CAPABILITY ADDS ITS OWN PAGES. OUTLINED FEATURES COME WITH MEMBERSHIP.",
+     "oldDebug": false
+    },
+    "audit": {
+     "docOverflowX": 0,
+     "lowercase": [],
+     "offscreen": [],
+     "collide": [],
+     "minFont": 7,
+     "stage": {
+      "x": 7,
+      "y": 235,
+      "w": 820,
+      "h": 500
+     },
+     "panel": {
+      "x": 47,
+      "y": 741,
+      "w": 740,
+      "h": 483
+     },
+     "canvas": true
+    },
+    "writes": []
+   },
+   "collapsed": {
+    "panel": {
+     "open": false,
+     "summary": "8 PAGES · 3 GROUPS · 4 FEATURES",
+     "metrics": [],
+     "groups": [],
+     "features": [],
+     "footer": "EACH CAPABILITY ADDS ITS OWN PAGES. OUTLINED FEATURES COME WITH MEMBERSHIP.",
+     "oldDebug": false
+    },
+    "audit": {
+     "docOverflowX": 0,
+     "lowercase": [],
+     "offscreen": [],
+     "collide": [],
+     "minFont": 7.6,
+     "stage": {
+      "x": 7,
+      "y": 235,
+      "w": 820,
+      "h": 768
+     },
+     "panel": {
+      "x": 47,
+      "y": 1009,
+      "w": 740,
+      "h": 42
+     },
+     "canvas": true
+    },
+    "writes": []
+   },
+   "sameCanvas": true
+  }
+ },
+ "errors": [],
+ "toggle": {
+  "module": "BOOKING",
+  "before": [
+   "8PAGES",
+   "3GROUPS",
+   "1PRIVATE",
+   "WEBSITE",
+   "MOBILE READY"
+  ],
+  "after": [
+   "7PAGES",
+   "3GROUPS",
+   "1PRIVATE",
+   "WEBSITE",
+   "MOBILE READY"
+  ],
+  "back": [
+   "8PAGES",
+   "3GROUPS",
+   "1PRIVATE",
+   "WEBSITE",
+   "MOBILE READY"
+  ],
+  "featuresAfter": [
+   "EDIT IT YOURSELF",
+   "MEMBERSHIP",
+   "(ACCOUNTS)"
+  ],
+  "groupsAfter": [
+   "FRONT DOOR",
+   "STORY & OFFER",
+   "CLIENT SPACE"
+  ]
+ },
+ "work": {
+  "open": true,
+  "summary": null,
+  "metrics": [
+   "8PAGES",
+   "3GROUPS",
+   "1PRIVATE",
+   "WEBSITE",
+   "MOBILE READY"
+  ],
+  "groups": [
+   {
+    "title": "FRONT DOOR",
+    "pages": "HOME, ABOUT, CONTACT / BEGIN",
+    "open": false
+   },
+   {
+    "title": "STORY & OFFER",
+    "pages": "STORIES INDEX, STORY, MEMBERSHIP, BOOKING",
+    "open": false
+   },
+   {
+    "title": "CLIENT SPACE",
+    "pages": "ACCOUNT",
+    "open": false
+   }
+  ],
+  "features": [
+   "EDIT IT YOURSELF",
+   "MEMBERSHIP",
+   "BOOK",
+   "(ACCOUNTS)"
+  ],
+  "footer": "EACH CAPABILITY ADDS ITS OWN PAGES. OUTLINED FEATURES COME WITH MEMBERSHIP.",
+  "oldDebug": false
+ },
+ "blueprint": {
+  "stats": [
+   "TOTAL PAGES8",
+   "CORE GROUPS3",
+   "PRIVATE PAGES1"
+  ],
+  "groups": [
+   {
+    "title": "FRONT DOOR",
+    "pages": "HOME, ABOUT, CONTACT / BEGIN"
+   },
+   {
+    "title": "STORY & OFFER",
+    "pages": "STORIES INDEX, STORY, MEMBERSHIP, BOOKING"
+   },
+   {
+    "title": "CLIENT SPACE",
+    "pages": "ACCOUNT"
+   }
+  ]
+ },
+ "blueprintFeatures": null,
+ "workAfterResume": {
+  "open": true,
+  "summary": null,
+  "metrics": [
+   "8PAGES",
+   "3GROUPS",
+   "1PRIVATE",
+   "WEBSITE",
+   "MOBILE READY"
+  ],
+  "groups": [
+   {
+    "title": "FRONT DOOR",
+    "pages": "HOME, ABOUT, CONTACT / BEGIN",
+    "open": false
+   },
+   {
+    "title": "STORY & OFFER",
+    "pages": "STORIES INDEX, STORY, MEMBERSHIP, BOOKING",
+    "open": false
+   },
+   {
+    "title": "CLIENT SPACE",
+    "pages": "ACCOUNT",
+    "open": false
+   }
+  ],
+  "features": [
+   "EDIT IT YOURSELF",
+   "MEMBERSHIP",
+   "BOOK",
+   "(ACCOUNTS)"
+  ],
+  "footer": "EACH CAPABILITY ADDS ITS OWN PAGES. OUTLINED FEATURES COME WITH MEMBERSHIP.",
+  "oldDebug": false
+ }
+}

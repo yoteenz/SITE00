@@ -1,0 +1,225 @@
+{
+ "name": "minimum",
+ "modules": [
+  "PAGES"
+ ],
+ "on": {
+  "PAGES": true,
+  "BLOG": false,
+  "SHOP": false,
+  "MEMBER_AREA": false,
+  "BOOKING": false,
+  "PORTAL": false
+ },
+ "widths": {
+  "390": {
+   "panel": {
+    "open": true,
+    "summary": null,
+    "metrics": [
+     "5PAGES",
+     "2GROUPS",
+     "0PRIVATE",
+     "WEBSITE",
+     "MOBILE READY"
+    ],
+    "groups": [
+     {
+      "title": "FRONT DOOR",
+      "pages": "HOME, ABOUT, CONTACT / BEGIN",
+      "open": false
+     },
+     {
+      "title": "STORY & OFFER",
+      "pages": "SERVICES, PROOF / WORK",
+      "open": false
+     }
+    ],
+    "features": [
+     "EDIT IT YOURSELF"
+    ],
+    "footer": "EACH CAPABILITY ADDS ITS OWN PAGES AND FEATURES TO YOUR DIGITAL LOCATION.",
+    "oldDebug": false
+   },
+   "audit": {
+    "docOverflowX": 0,
+    "lowercase": [],
+    "offscreen": [],
+    "collide": [],
+    "minFont": 7,
+    "stage": {
+     "x": 0,
+     "y": 215,
+     "w": 390,
+     "h": 316
+    },
+    "panel": {
+     "x": 20,
+     "y": 537,
+     "w": 350,
+     "h": 283
+    },
+    "canvas": true
+   },
+   "groupOpen": {
+    "panel": {
+     "open": true,
+     "summary": null,
+     "metrics": [
+      "5PAGES",
+      "2GROUPS",
+      "0PRIVATE",
+      "WEBSITE",
+      "MOBILE READY"
+     ],
+     "groups": [
+      {
+       "title": "FRONT DOOR",
+       "pages": "HOME, ABOUT, CONTACT / BEGIN",
+       "open": true
+      },
+      {
+       "title": "STORY & OFFER",
+       "pages": "SERVICES, PROOF / WORK",
+       "open": true
+      }
+     ],
+     "features": [
+      "EDIT IT YOURSELF"
+     ],
+     "footer": "EACH CAPABILITY ADDS ITS OWN PAGES AND FEATURES TO YOUR DIGITAL LOCATION.",
+     "oldDebug": false
+    },
+    "audit": {
+     "docOverflowX": 0,
+     "lowercase": [],
+     "offscreen": [],
+     "collide": [],
+     "minFont": 7,
+     "stage": {
+      "x": 0,
+      "y": 215,
+      "w": 390,
+      "h": 316
+     },
+     "panel": {
+      "x": 20,
+      "y": 537,
+      "w": 350,
+      "h": 404
+     },
+     "canvas": true
+    },
+    "writes": []
+   },
+   "collapsed": {
+    "panel": {
+     "open": false,
+     "summary": "5 PAGES · 2 GROUPS · 1 FEATURE",
+     "metrics": [],
+     "groups": [],
+     "features": [],
+     "footer": "EACH CAPABILITY ADDS ITS OWN PAGES AND FEATURES TO YOUR DIGITAL LOCATION.",
+     "oldDebug": false
+    },
+    "audit": {
+     "docOverflowX": 0,
+     "lowercase": [],
+     "offscreen": [],
+     "collide": [],
+     "minFont": 7.6,
+     "stage": {
+      "x": 0,
+      "y": 215,
+      "w": 390,
+      "h": 435
+     },
+     "panel": {
+      "x": 20,
+      "y": 656,
+      "w": 350,
+      "h": 42
+     },
+     "canvas": true
+    },
+    "writes": []
+   },
+   "sameCanvas": true
+  }
+ },
+ "errors": [],
+ "work": {
+  "open": true,
+  "summary": null,
+  "metrics": [
+   "5PAGES",
+   "2GROUPS",
+   "0PRIVATE",
+   "WEBSITE",
+   "MOBILE READY"
+  ],
+  "groups": [
+   {
+    "title": "FRONT DOOR",
+    "pages": "HOME, ABOUT, CONTACT / BEGIN",
+    "open": false
+   },
+   {
+    "title": "STORY & OFFER",
+    "pages": "SERVICES, PROOF / WORK",
+    "open": false
+   }
+  ],
+  "features": [
+   "EDIT IT YOURSELF"
+  ],
+  "footer": "EACH CAPABILITY ADDS ITS OWN PAGES AND FEATURES TO YOUR DIGITAL LOCATION.",
+  "oldDebug": false
+ },
+ "blueprint": {
+  "stats": [
+   "TOTAL PAGES5",
+   "CORE GROUPS2",
+   "PRIVATE PAGES0"
+  ],
+  "groups": [
+   {
+    "title": "FRONT DOOR",
+    "pages": "HOME, ABOUT, CONTACT / BEGIN"
+   },
+   {
+    "title": "STORY & OFFER",
+    "pages": "SERVICES, PROOF / WORK"
+   }
+  ]
+ },
+ "blueprintFeatures": null,
+ "workAfterResume": {
+  "open": true,
+  "summary": null,
+  "metrics": [
+   "5PAGES",
+   "2GROUPS",
+   "0PRIVATE",
+   "WEBSITE",
+   "MOBILE READY"
+  ],
+  "groups": [
+   {
+    "title": "FRONT DOOR",
+    "pages": "HOME, ABOUT, CONTACT / BEGIN",
+    "open": false
+   },
+   {
+    "title": "STORY & OFFER",
+    "pages": "SERVICES, PROOF / WORK",
+    "open": false
+   }
+  ],
+  "features": [
+   "EDIT IT YOURSELF"
+  ],
+  "footer": "EACH CAPABILITY ADDS ITS OWN PAGES AND FEATURES TO YOUR DIGITAL LOCATION.",
+  "oldDebug": false
+ }
+}
