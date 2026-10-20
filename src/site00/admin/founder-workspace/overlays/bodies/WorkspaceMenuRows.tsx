@@ -14,7 +14,7 @@ const ICON: Record<string, string> = {
 };
 
 /** Menu drawer rows (ws-menu__i): every destination with its index, the current one marked, then tools. */
-export function WorkspaceMenuRows({ onNavigate }: { onNavigate: () => void }) {
+export function WorkspaceMenuRows({ onNavigate, onAccount }: { onNavigate: () => void; onAccount?: () => void }) {
   const { pathname } = useLocation();
   return (
     <nav className="ws-menu" aria-label="WORKSPACE MENU">
@@ -36,6 +36,21 @@ export function WorkspaceMenuRows({ onNavigate }: { onNavigate: () => void }) {
         <span>READINESS DESK</span>
         <span className="ws-meta">↗</span>
       </Link>
+      {onAccount ? (
+        <>
+          <div className="ws-menu__sep" role="separator" />
+          <button type="button" className="ws-menu__i" onClick={onAccount}>
+            <WsIcon name="user" />
+            <span>FOUNDER · ACCOUNT</span>
+            <span className="ws-meta" />
+          </button>
+          <Link to="/origin/sign-out" onClick={onNavigate} className="ws-menu__i ws-menu__i--danger">
+            <WsIcon name="back" />
+            <span>SIGN OUT</span>
+            <span className="ws-meta" />
+          </Link>
+        </>
+      ) : null}
     </nav>
   );
 }

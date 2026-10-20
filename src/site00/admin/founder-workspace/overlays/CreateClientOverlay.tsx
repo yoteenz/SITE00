@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { foundationAdminApi, digitalFoundationClientIntakePath } from '../../services/foundationAdminApi';
 import { IDNTY_FOUNDER_WORKSPACE_ROUTES } from '../config/routes';
 import { useFounderWorkspaceOverlay } from '../overlay/OverlayContext';
+import { WsBanner, WsButton, WsChip, WsChoice, WsChoiceGroup, WsField, WsInput } from '../shell/wsKit';
 
 type Props = {
   onClose: () => void;
@@ -10,16 +11,35 @@ type Props = {
   onDirty?: (dirty: boolean) => void;
 };
 
+const SOURCES: Array<[string, string, string]> = [
+  ['DIRECT', 'DIRECT', 'NO REFERRAL'],
+  ['AIO', 'AIO', 'PLANNED PARTNER · ATTRIBUTION ONLY · NOT ACTIVE'],
+  ['CLIENT_REFERRAL', 'CLIENT REFERRAL', 'AN EXISTING CLIENT INTRODUCED THEM'],
+  ['SITE00', 'SITE 00', 'SITE 00 OUTREACH'],
+];
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+/**
+ * OL-01 CREATE A FOUNDATION — OPUS2 family: phone full screen · tablet/desktop dialog. Creates the persistent
+ * artifact and its permanent personal link through the admin API; nothing is emailed. Success (OL-02) only after the
+ * server returns the link; a failed write keeps every entry.
+ */
 export function CreateClientOverlay({ onClose, payload, onDirty }: Props) {
   const navigate = useNavigate();
-  const { pushToast, openOverlay } = useFounderWorkspaceOverlay();
-  const [contactEmail, setContactEmail] = useState(String(payload?.contact_email ?? 'prospect@example.com'));
+  const { pushToast, openOverlay, closeOverlay } = useFounderWorkspaceOverlay();
+  const [contactEmail, setContactEmail] = useState(String(payload?.contact_email ?? ''));
   const [contactName, setContactName] = useState(String(payload?.contact_name ?? ''));
   const [businessName, setBusinessName] = useState(String(payload?.business_name ?? ''));
   const [referralKind, setReferralKind] = useState(String(payload?.referral_kind ?? 'DIRECT'));
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [createdLink, setCreatedLink] = useState<string | null>(null);
+
+  const emailErr = contactEmail.trim() && !EMAIL_RE.test(contactEmail.trim()) ? 'CHECK THIS EMAIL ADDRESS' : null;
+  const touch = (fn: (v: string) => void) => (v: string) => {
+    fn(v);
+    onDirty?.(true);
+  };
 
   const submit = async () => {
     setBusy(true);
@@ -34,94 +54,81 @@ export function CreateClientOverlay({ onClose, payload, onDirty }: Props) {
       const token = json.personalized_url?.replace(/^\/foundation\//, '').split(/[?#]/)[0] ?? '';
       const intakePath = token ? digitalFoundationClientIntakePath(token) : json.personalized_url ?? '';
       const full = intakePath ? `${window.location.origin}${intakePath}` : '';
-      setCreatedLink(full);
+      if (!full) throw new Error('THE SERVER DID NOT RETURN A PERSONAL LINK');
       onDirty?.(false);
-      pushToast('Client created', 'ok');
-      onClose();
-      if (full) openOverlay('OL-02', { link: full });
-      if (token) {
+      let artifactId: string | undefined;
+      try {
         const list = await foundationAdminApi.list();
-        const row = list.artifacts?.find((a) => a.public_token === token);
-        if (row?.artifact_id) {
-          navigate(IDNTY_FOUNDER_WORKSPACE_ROUTES.client(row.artifact_id));
-        }
+        artifactId = list.artifacts?.find((a) => a.public_token === token)?.artifact_id;
+      } catch {
+        artifactId = undefined;
       }
+      pushToast('FOUNDATION CREATED · CONFIRMED BY THE SERVER', 'success');
+      onClose();
+      openOverlay('OL-02', { link: full, artifact_id: artifactId, business_name: businessName.trim() || undefined });
+      if (artifactId) navigate(IDNTY_FOUNDER_WORKSPACE_ROUTES.client(artifactId));
     } catch (e) {
-      const msg = e instanceof Error ? e.message : 'Create failed';
-      setError(msg);
-      pushToast(msg, 'error', { sticky: true });
+      setError(e instanceof Error ? e.message : 'Create failed');
     } finally {
       setBusy(false);
     }
   };
 
-  const copyLink = async () => {
-    if (!createdLink) return;
-    try {
-      await navigator.clipboard.writeText(createdLink);
-      pushToast('Copy completed', 'ok');
-    } catch {
-      pushToast('Copy failed', 'error');
-    }
-  };
-
   return (
-    <div className="ifw-overlay-form">
-      <p className="ifw-lede">Persistent artifact · permanent personalized link · real backend save</p>
-      {error ? (
-        <p role="alert" className="ifw-inline-error">
-          {error}
-        </p>
-      ) : null}
-      <label className="ifw-field">
-        <span className="ifw-field__label">Contact email</span>
-        <input
-          className="ifw-field__input fw-data"
-          type="email"
-          value={contactEmail}
-          onChange={(e) => {
-            setContactEmail(e.target.value);
-            onDirty?.(true);
-          }}
-        />
-      </label>
-      <label className="ifw-field">
-        <span className="ifw-field__label">Contact name</span>
-        <input className="ifw-field__input" value={contactName} onChange={(e) => setContactName(e.target.value)} />
-      </label>
-      <label className="ifw-field">
-        <span className="ifw-field__label">Business name</span>
-        <input className="ifw-field__input" value={businessName} onChange={(e) => setBusinessName(e.target.value)} />
-      </label>
-      <label className="ifw-field">
-        <span className="ifw-field__label">Referral source kind</span>
-        <select className="ifw-field__input fw-data" value={referralKind} onChange={(e) => setReferralKind(e.target.value)}>
-          <option value="DIRECT">DIRECT</option>
-          <option value="AIO">AIO</option>
-          <option value="CLIENT_REFERRAL">CLIENT_REFERRAL</option>
-          <option value="SITE00">SITE00</option>
-        </select>
-      </label>
-      {createdLink ? (
-        <p className="ifw-field">
-          <span className="ifw-field__label">Intake link</span>
-          <code className="fw-data ifw-code">{createdLink}</code>
-        </p>
-      ) : null}
-      <footer className="ifw-overlay-form__actions">
-        <button type="button" className="ifw-btn ifw-btn--ghost" onClick={onClose} disabled={busy}>
-          Cancel
-        </button>
-        {createdLink ? (
-          <button type="button" className="ifw-btn ifw-btn--primary" onClick={copyLink}>
-            Copy link
-          </button>
-        ) : (
-          <button type="button" className="ifw-btn ifw-btn--primary" disabled={busy} onClick={() => void submit()}>
-            {busy ? 'Saving…' : 'Create client'}
-          </button>
-        )}
-      </footer>
-    </div>
+    <>
+      <div className="ws-ov__b" data-overlay-body="OL-01">
+        <WsChoiceGroup label="FOUNDATION TYPE" cols={2}>
+          <WsChoice on title="CLIENT FOUNDATION" desc="CREATES THE ARTIFACT + PERSONAL LINK" onSelect={() => undefined} />
+          <WsChoice on={false} disabled title="SYNTHETIC TEST CLIENT" tag={<WsChip kind="test">TEST</WsChip>} desc="USE 07 SYSTEM → TEST LAB" onSelect={() => undefined} />
+        </WsChoiceGroup>
+        <div className="ifw-grid2">
+          <WsField label="BUSINESS NAME">
+            <WsInput value={businessName} onChange={touch(setBusinessName)} readOnly={busy} ariaLabel="BUSINESS NAME" placeholder="ENTER BUSINESS NAME" />
+          </WsField>
+          <WsField label="CONTACT NAME">
+            <WsInput value={contactName} onChange={touch(setContactName)} readOnly={busy} ariaLabel="CONTACT NAME" placeholder="ENTER CONTACT NAME" />
+          </WsField>
+        </div>
+        <WsField label="CONTACT EMAIL" opt err={emailErr}>
+          <WsInput value={contactEmail} onChange={touch(setContactEmail)} type="email" inputMode="email" readOnly={busy} err={Boolean(emailErr)} ariaLabel="CONTACT EMAIL" placeholder="ENTER EMAIL ADDRESS" />
+        </WsField>
+        <div>
+          <div className="ws-label" style={{ marginBottom: 10 }}>
+            REFERRAL SOURCE
+          </div>
+          <WsChoiceGroup label="REFERRAL SOURCE" cols={2}>
+            {SOURCES.map(([v, t, d]) => (
+              <WsChoice
+                key={v}
+                on={referralKind === v}
+                title={t}
+                desc={d}
+                disabled={busy}
+                onSelect={() => {
+                  setReferralKind(v);
+                  onDirty?.(true);
+                }}
+              />
+            ))}
+          </WsChoiceGroup>
+        </div>
+        {error ? (
+          <WsBanner tone="red" icon="warning">
+            NOT CREATED — THE SERVER DID NOT CONFIRM A DURABLE WRITE. NOTHING WAS SAVED. RETRY; YOUR ENTRIES ARE KEPT. <span className="ws-data">{error}</span>
+          </WsBanner>
+        ) : null}
+      </div>
+      <div className="ws-ov__f">
+        <span className="ws-meta" style={{ marginRight: 'auto', alignSelf: 'center' }}>
+          NO EMAIL IS SENT
+        </span>
+        <WsButton tone="out" disabled={busy} onClick={() => closeOverlay()}>
+          CANCEL
+        </WsButton>
+        <WsButton tone="red" arrow={!error} icon={error ? 'retry' : undefined} busy={busy} disabled={Boolean(emailErr)} onClick={() => void submit()}>
+          {busy ? 'CREATING…' : error ? 'RETRY' : 'CREATE FOUNDATION'}
+        </WsButton>
+      </div>
+    </>
   );
 }

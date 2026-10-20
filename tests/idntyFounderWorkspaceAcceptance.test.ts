@@ -20,11 +20,11 @@ describe('IDNTY founder workspace acceptance (slice 3)', () => {
     expect(css).toContain('.ifw-registry__head');
   });
 
-  it('FoundationsRegistry renders five data columns in row markup', () => {
+  it('FoundationsRegistry renders the OPUS2 five-column registry (client · lifecycle · intake · next · last activity)', () => {
     const reg = read('src/site00/admin/founder-workspace/foundations/FoundationsRegistry.tsx');
-    expect(reg).toContain('ifw-registry__col--intake');
-    expect(reg).toContain('ifw-registry__col--next');
-    expect(reg).toContain('ifw-registry__col--activity');
+    // Recovery 2: the generic ifw-registry markup was replaced by the authority `reg` grammar (ifw-authority.css).
+    for (const col of ['c-client', 'c-life', 'c-intake', 'c-next', 'c-last', 'c-chev']) expect(reg).toContain(col);
+    expect(reg).toContain('className="reg"');
     expect(reg).toContain('data-testid="foundations-registry-row"');
   });
 
