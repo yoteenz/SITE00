@@ -227,6 +227,11 @@ body:has(.df-root) {
   text-wrap: balance;
 }
 
+.df-headline .correspondence-display-split--question {
+  height: 0.68em;
+  vertical-align: 0.12em;
+}
+
 .df-headline__line {
   display: block;
   text-wrap: balance;
