@@ -14,13 +14,11 @@ export function normalizeReviewAnchor(anchorId: string): string {
 
 /** Scroll to a screen on the review page without leaving `/foundation/review`. */
 export function scrollToReviewAnchor(anchorId: string): void {
-  if (typeof document === 'undefined') return;
-  const el = document.getElementById(anchorId);
-  if (!el) return;
-  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  if (typeof window !== 'undefined') {
-    window.history.replaceState(null, '', `${SITE00_ROUTES.digitalFoundationReview}#${anchorId}`);
-  }
+  if (typeof window === 'undefined') return;
+  window.history.replaceState(null, '', `${SITE00_ROUTES.digitalFoundationReview}#${anchorId}`);
+  const stage = document.getElementById('df-review-stage');
+  stage?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  window.dispatchEvent(new CustomEvent('df-review-nav', { detail: { anchorId } }));
 }
 
 /** Absolute address for one screen on `/foundation/review`. */

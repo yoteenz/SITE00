@@ -368,6 +368,7 @@ export function P03Configure({
   submitting,
   submitError,
   save,
+  initialExpandedRow = null,
 }: {
   draft: IntakeDraft;
   update: (patch: Partial<IntakeDraft>) => void;
@@ -376,8 +377,10 @@ export function P03Configure({
   submitting: boolean;
   submitError: string | null;
   save: ReactNode;
+  /** Review harness: open domain / email / migration row on first paint. */
+  initialExpandedRow?: 'domain' | 'email' | 'migration' | null;
 }) {
-  const [open, setOpen] = useState<'domain' | 'email' | 'migration' | null>(null);
+  const [open, setOpen] = useState<'domain' | 'email' | 'migration' | null>(initialExpandedRow);
   const [sheet, setSheet] = useState(false);
   const [errors, setErrors] = useState<IntakeErrors>({});
   const has = (f: ConfigurableNeed) => draft.needs.includes(f);

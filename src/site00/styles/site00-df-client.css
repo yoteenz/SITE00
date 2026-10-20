@@ -2907,6 +2907,74 @@ button.df-spec__btn {
   line-height: 1.45;
 }
 
+.df-review__stage {
+  display: flex;
+  justify-content: center;
+  padding: 12px 12px 32px;
+}
+
+.df-review__stage-hint {
+  text-align: center;
+  padding-bottom: 24px;
+}
+
+.df-review__current {
+  margin: 8px 0 0;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  font-weight: 600;
+}
+
+.df-review__item--stage {
+  width: min(100%, 390px);
+}
+
+.df-review__portal-host,
+.df-review__founder-host {
+  width: 100%;
+}
+
+.df-review__portal-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 8px 10px 10px;
+  background: #e8e6e1;
+}
+
+.df-review__portal-tab {
+  border: 1px solid #0c0c0c;
+  background: #f3f2ef;
+  color: #0c0c0c;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  padding: 8px 10px;
+  cursor: pointer;
+}
+
+.df-review__portal-tab--on {
+  background: #0c0c0c;
+  color: #f3f2ef;
+}
+
+.df-review__portal-tab--link {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+.df-review__founder-frame {
+  width: 100%;
+  min-height: 720px;
+  overflow: auto;
+  background: #fff;
+}
+
+.df-review__founder-frame .ws-app {
+  min-width: min(100%, 1280px);
+}
+
 .df-review__strip {
   display: flex;
   flex-direction: column;

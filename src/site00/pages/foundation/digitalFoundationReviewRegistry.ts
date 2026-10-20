@@ -14,7 +14,7 @@ import { SITE00_ROUTES } from '../../config/routes';
 import type { DfView } from '../../foundation-client/model';
 import { reviewAnchorForView } from './reviewLinks';
 
-export const DIGITAL_FOUNDATION_REVIEW_REGISTRY_VERSION = '2026-10-20-coverage1';
+export const DIGITAL_FOUNDATION_REVIEW_REGISTRY_VERSION = '2026-10-20-canonical-preview1';
 
 export const DF_REVIEW_PRODUCT = {
   IDNTY_DIGITAL_FOUNDATION: 'IDNTY_DIGITAL_FOUNDATION',
@@ -45,6 +45,7 @@ export type DfReviewGroupId =
 
 export type DfReviewRenderMode =
   | 'inline_df_screen'
+  | 'inline_founder_shell'
   | 'external_route'
   | 'legacy_redirect'
   | 'registry_gap';
@@ -69,7 +70,12 @@ export type DfReviewEntry = {
   renderMode: DfReviewRenderMode;
   implementationStatus: DfReviewImplementationStatus;
   authRequirement: 'none' | 'founder_session' | 'client_token';
-  reviewAdapter: 'inline_fixture' | 'live_route' | 'blocked_legacy' | 'coverage_inventory';
+  reviewAdapter:
+    | 'inline_fixture'
+    | 'inline_fixture_founder'
+    | 'live_route'
+    | 'blocked_legacy'
+    | 'coverage_inventory';
   fixtureContract?: string;
   notes?: string;
 };
@@ -158,11 +164,11 @@ function founderRoute(
     pageFamily: 'founder-workspace',
     componentSource: source,
     runtimeRoute: href,
-    renderMode: 'external_route',
-    implementationStatus: 'auth_gated',
+    renderMode: 'inline_founder_shell',
+    implementationStatus: 'reviewable',
     authRequirement: 'founder_session',
-    reviewAdapter: 'live_route',
-    notes,
+    reviewAdapter: 'inline_fixture_founder',
+    notes: notes ?? 'Simulated founder workspace in review stage (cloud preview admin fixtures).',
   };
 }
 
@@ -190,6 +196,32 @@ const CLIENT_INLINE: DfReviewEntry[] = [
   inlineIntake('P01', 'Get started', 'foundation-client/parents/EntryIntake.tsx#P01Entry', 'INTAKE'),
   inlineIntake('P02', 'Business information', 'foundation-client/parents/EntryIntake.tsx#P02Intake', 'INTAKE'),
   inlineIntake('P03', 'Build your foundation (configurator)', 'foundation-client/parents/EntryIntake.tsx#P03Configure', 'FOUNDATION_BUILDER'),
+  {
+    reviewId: 'BUILDER_P03_DOMAIN',
+    anchorId: 'df-r-P03-domain',
+    group: 'FOUNDATION_BUILDER',
+    productOwner: DF_REVIEW_PRODUCT.IDNTY_DIGITAL_FOUNDATION,
+    pageName: 'Foundation builder · domain path open',
+    pageFamily: 'foundation-builder',
+    componentSource: 'foundation-client/parents/EntryIntake.tsx#P03Configure',
+    renderMode: 'inline_df_screen',
+    implementationStatus: 'reviewable',
+    authRequirement: 'none',
+    reviewAdapter: 'inline_fixture',
+  },
+  {
+    reviewId: 'BUILDER_P03_EMAIL',
+    anchorId: 'df-r-P03-email',
+    group: 'FOUNDATION_BUILDER',
+    productOwner: DF_REVIEW_PRODUCT.IDNTY_DIGITAL_FOUNDATION,
+    pageName: 'Foundation builder · email row open',
+    pageFamily: 'foundation-builder',
+    componentSource: 'foundation-client/parents/EntryIntake.tsx#P03Configure',
+    renderMode: 'inline_df_screen',
+    implementationStatus: 'reviewable',
+    authRequirement: 'none',
+    reviewAdapter: 'inline_fixture',
+  },
   inlineIntake('P04', 'Recommendation', 'foundation-client/parents/Recommendation.tsx#P04Recommendation', 'PROPOSAL_CHECKOUT'),
   inlineIntake('P05', 'Review + checkout', 'foundation-client/parents/CheckoutActivation.tsx#P05Review', 'PROPOSAL_CHECKOUT'),
   inlineIntake('P06', 'Activation / payment confirmation', 'foundation-client/parents/CheckoutActivation.tsx#P06Activation', 'PROPOSAL_CHECKOUT'),
@@ -286,6 +318,21 @@ const CLIENT_INLINE: DfReviewEntry[] = [
     authRequirement: 'none',
     reviewAdapter: 'inline_fixture',
     fixtureContract: 'K_PAYMENT_FAILURE',
+  },
+  {
+    reviewId: 'CLIENT_PORTAL_NAV',
+    anchorId: 'df-r-client-portal',
+    group: 'CLIENT_PORTAL',
+    productOwner: DF_REVIEW_PRODUCT.IDNTY_DIGITAL_FOUNDATION,
+    pageName: 'Client portal (navigable shell)',
+    pageFamily: 'client-portal',
+    componentSource: 'foundation-client/FoundationClient.tsx + ProjectPortal parents',
+    renderMode: 'inline_df_screen',
+    implementationStatus: 'reviewable',
+    authRequirement: 'client_token',
+    reviewAdapter: 'inline_fixture',
+    fixtureContract: 'J_PAYMENT_SUCCESS',
+    notes: 'Four-tab portal shell with fixture payload — deep links still available per tab.',
   },
   {
     reviewId: 'CLIENT_FOUNDATION_OVERVIEW',
@@ -572,7 +619,11 @@ export function allReviewRegistryEntries(): DfReviewEntry[] {
 /** Inline panels on the review page (includes legacy blocked anchors). */
 export function reviewEntriesForIndex(): DfReviewEntry[] {
   return DIGITAL_FOUNDATION_REVIEW_ENTRIES.filter(
-    (e) => e.renderMode === 'inline_df_screen' || e.renderMode === 'legacy_redirect' || e.renderMode === 'registry_gap',
+    (e) =>
+      e.renderMode === 'inline_df_screen' ||
+      e.renderMode === 'inline_founder_shell' ||
+      e.renderMode === 'legacy_redirect' ||
+      e.renderMode === 'registry_gap',
   );
 }
 

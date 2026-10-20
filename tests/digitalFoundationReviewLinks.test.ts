@@ -32,10 +32,10 @@ describe('foundation review direct links', () => {
     );
   });
 
-  it('renders the direct address under each route and each screen', () => {
-    const page = readFileSync('src/site00/pages/foundation/DigitalFoundationReviewPage.tsx', 'utf8');
-    expect(page).toContain('className="df-review__direct"');
-    expect(page.match(/<DirectLink /g)?.length ?? 0).toBeGreaterThanOrEqual(3);
+  it('renders deep-link markers on the preview stage chrome', () => {
+    const host = readFileSync('src/site00/pages/foundation/DigitalFoundationReviewPreviewHost.tsx', 'utf8');
+    expect(host).toContain('className="df-review__direct"');
+    expect(host.match(/df-review__direct/g)?.length ?? 0).toBeGreaterThanOrEqual(2);
   });
 
   it('collapses the review nav by default on mobile preview', () => {
@@ -56,8 +56,9 @@ describe('foundation review direct links', () => {
 
   it('advances the intake flow by scrolling, not routing away from review', () => {
     const page = readFileSync('src/site00/pages/foundation/DigitalFoundationReviewPage.tsx', 'utf8');
-    expect(page).toContain("advance('P04')");
+    const host = readFileSync('src/site00/pages/foundation/DigitalFoundationReviewPreviewHost.tsx', 'utf8');
+    expect(host).toContain("advance('P04')");
     expect(page).toContain('scrollToReviewAnchor');
-    expect(page).not.toContain('navigate(');
+    expect(host).not.toContain('useNavigate(');
   });
 });

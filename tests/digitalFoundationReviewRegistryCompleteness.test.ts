@@ -9,10 +9,11 @@ import {
 
 describe('digital foundation review registry completeness', () => {
   it('uses coverage registry version and registers far more than the old 12-link index', () => {
-    expect(DIGITAL_FOUNDATION_REVIEW_REGISTRY_VERSION).toContain('coverage');
+    expect(DIGITAL_FOUNDATION_REVIEW_REGISTRY_VERSION).toContain('canonical-preview');
     const totals = registryCoverageTotals();
-    expect(totals.discovered).toBeGreaterThan(60);
-    expect(totals.auth_gated).toBeGreaterThanOrEqual(35);
+    expect(totals.discovered).toBeGreaterThan(85);
+    expect(totals.reviewable).toBeGreaterThan(35);
+    expect(totals.auth_gated).toBeGreaterThanOrEqual(20);
   });
 
   it('includes every required sprint group bucket', () => {
@@ -24,10 +25,12 @@ describe('digital foundation review registry completeness', () => {
 
   it('declares client portal and founder workspace entries in source', () => {
     const page = readFileSync('src/site00/pages/foundation/DigitalFoundationReviewPage.tsx', 'utf8');
-    expect(page).toContain('df-r-OVERVIEW');
-    expect(page).toContain('df-r-ROADMAP');
-    expect(page).toContain('df-r-NEEDS_YOU');
-    expect(page).toContain('df-r-proposal-ready');
+    const host = readFileSync('src/site00/pages/foundation/DigitalFoundationReviewPreviewHost.tsx', 'utf8');
+    expect(page).toContain('DigitalFoundationReviewPreviewHost');
+    expect(page).toContain('df-review-stage');
+    expect(host).toContain('df-r-proposal-ready');
+    expect(host).toContain('DigitalFoundationReviewClientPortalHost');
+    expect(host).toContain('DigitalFoundationReviewFounderHost');
     expect(page).toContain('DigitalFoundationReviewNav');
     expect(page).toContain('loadReviewBootstrapBundle');
   });

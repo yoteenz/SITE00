@@ -9,20 +9,10 @@ import {
 } from './digitalFoundationReviewRegistry';
 import { SITE00_ROUTES } from '../../config/routes';
 import { scrollToReviewAnchor } from './reviewLinks';
+import { previewStatusForEntry, previewStatusLabel } from './reviewPreviewStatus';
 
 function statusLabel(entry: DfReviewEntry): string {
-  switch (entry.implementationStatus) {
-    case 'auth_gated':
-      return 'AUTH';
-    case 'backend_blocked':
-      return 'BLOCKED';
-    case 'not_implemented':
-      return 'GAP';
-    case 'legacy_redirect':
-      return 'DEPRECATED';
-    default:
-      return 'INLINE';
-  }
+  return previewStatusLabel(previewStatusForEntry(entry));
 }
 
 function entryHref(entry: DfReviewEntry): string {
@@ -62,7 +52,14 @@ export default function DigitalFoundationReviewNav() {
   }, [all, query, groupFilter]);
 
   const inlineNavOrder = useMemo(
-    () => filtered.filter((e) => e.renderMode === 'inline_df_screen' || e.renderMode === 'legacy_redirect' || e.renderMode === 'registry_gap'),
+    () =>
+      filtered.filter(
+        (e) =>
+          e.renderMode === 'inline_df_screen' ||
+          e.renderMode === 'inline_founder_shell' ||
+          e.renderMode === 'legacy_redirect' ||
+          e.renderMode === 'registry_gap',
+      ),
     [filtered],
   );
 
@@ -159,7 +156,12 @@ export default function DigitalFoundationReviewNav() {
                         href={entryHref(entry)}
                         title={entry.componentSource}
                         onClick={(ev) => {
-                          if (entry.renderMode === 'registry_gap' || entry.renderMode === 'inline_df_screen' || entry.renderMode === 'legacy_redirect') {
+                          if (
+                            entry.renderMode === 'registry_gap' ||
+                            entry.renderMode === 'inline_df_screen' ||
+                            entry.renderMode === 'inline_founder_shell' ||
+                            entry.renderMode === 'legacy_redirect'
+                          ) {
                             ev.preventDefault();
                             jump(entry.anchorId);
                           }
