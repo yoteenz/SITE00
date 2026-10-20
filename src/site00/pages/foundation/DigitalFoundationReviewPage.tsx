@@ -8,13 +8,13 @@ import type { DigitalFoundationCommercialConfig } from '../../../../shared/site0
 import { fetchCatalog, fetchPayload, type ClientCatalogEntry } from '../../foundation-client/api';
 import { P01Entry, P02Intake, P03Configure } from '../../foundation-client/parents/EntryIntake';
 import { P04Recommendation } from '../../foundation-client/parents/Recommendation';
-import { InterimOverview, P05Review, P06Activation } from '../../foundation-client/parents/CheckoutActivation';
+import { P05Review, P06Activation } from '../../foundation-client/parents/CheckoutActivation';
+import { P07ProjectOverview } from '../../foundation-client/parents/ProjectPortal';
 import { DfFrame, DfMenu, type DfObjectKind } from '../../foundation-client/shell';
 import { DF_VIEW_META, DF_VIEW_ORDER, type DfView, type IntakeDraft } from '../../foundation-client/model';
 import { studioPathForReviewRoom } from '../../builder-studio/studioReviewSample';
 import { reviewAnchorForView, reviewScreenUrl, scrollToReviewAnchor } from './reviewLinks';
-import '../../styles/site00-df-client.css';
-import '../../styles/site00-df-components.css';
+import '../../foundation-client/foundationDfStyles';
 
 const OBJECT_FOR: Record<DfView, DfObjectKind> = {
   P01: 'hero',
@@ -241,7 +241,16 @@ export default function DigitalFoundationReviewPage() {
         </Screen>
         <Screen id="df-r-OVERVIEW" view="OVERVIEW" title="07 · PROJECT OVERVIEW">
           {paidPayload ? (
-            <InterimOverview payload={paidPayload} onActivation={() => advance('P06')} />
+            <P07ProjectOverview
+              payload={paidPayload}
+              verify={null}
+              onRoadmap={() => advance('ROADMAP')}
+              onNeedsYou={() => advance('NEEDS_YOU')}
+              onRecords={() => advance('RECORDS')}
+              onStage={() => advance('STAGE')}
+              onActivation={() => advance('P06')}
+              onPrefs={() => advance('COMM_PREFS')}
+            />
           ) : (
             <p className="df-review__wait">LOADING OVERVIEW</p>
           )}
