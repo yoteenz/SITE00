@@ -1,0 +1,6 @@
+/* Board chrome additions for the YOUR FOUNDATION client boards (extends OPUS1 board.css + OPUS2 board2.css). Never part of the product. */
+#board { min-width: 1600px; }
+.st--unwired { color: #0c0c0c; border-color: #0c0c0c; background: repeating-linear-gradient(90deg, #fff 0 6px, #f3f2ef 6px 12px); }
+.st--security { color: #fff; background: #b30f17; border-color: #b30f17; }
+.bd-colx { display: flex; flex-direction: column; gap: 14px; }
+.bd-t td code, .bd-callout code, .bd-note code { font-family: ui-monospace, Menlo, monospace; font-size: 10px; letter-spacing: 0; text-transform: none; }

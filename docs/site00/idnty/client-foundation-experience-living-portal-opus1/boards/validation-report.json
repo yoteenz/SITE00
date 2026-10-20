@@ -1,0 +1,1287 @@
+{
+  "generated_by": "boards/validate.mjs",
+  "base": "d68038a87",
+  "total": 200,
+  "passed": 200,
+  "failed": 0,
+  "groups": {
+    "authority-files": {
+      "pass": 35,
+      "fail": 0
+    },
+    "board-manifest": {
+      "pass": 17,
+      "fail": 0
+    },
+    "retired-card": {
+      "pass": 5,
+      "fail": 0
+    },
+    "component-registry": {
+      "pass": 14,
+      "fail": 0
+    },
+    "handoff": {
+      "pass": 20,
+      "fail": 0
+    },
+    "state-machine": {
+      "pass": 5,
+      "fail": 0
+    },
+    "quote-payment": {
+      "pass": 12,
+      "fail": 0
+    },
+    "doc-links": {
+      "pass": 6,
+      "fail": 0
+    },
+    "lock1-files": {
+      "pass": 14,
+      "fail": 0
+    },
+    "lock1-gaps": {
+      "pass": 1,
+      "fail": 0
+    },
+    "lock1-handoff": {
+      "pass": 24,
+      "fail": 0
+    },
+    "access-security": {
+      "pass": 4,
+      "fail": 0
+    },
+    "home-screen": {
+      "pass": 12,
+      "fail": 0
+    },
+    "asset-identity": {
+      "pass": 11,
+      "fail": 0
+    },
+    "brand-assets": {
+      "pass": 6,
+      "fail": 0
+    },
+    "production-isolation": {
+      "pass": 2,
+      "fail": 0
+    },
+    "responsive-spec": {
+      "pass": 3,
+      "fail": 0
+    },
+    "launch": {
+      "pass": 4,
+      "fail": 0
+    },
+    "truthfulness": {
+      "pass": 5,
+      "fail": 0
+    }
+  },
+  "results": [
+    {
+      "group": "authority-files",
+      "name": "README.md",
+      "ok": true,
+      "detail": "6974 chars"
+    },
+    {
+      "group": "authority-files",
+      "name": "01_SOURCE_AND_PRODUCT_AUDIT.md",
+      "ok": true,
+      "detail": "9919 chars"
+    },
+    {
+      "group": "authority-files",
+      "name": "02_CLIENT_EXPERIENCE_NARRATIVE.md",
+      "ok": true,
+      "detail": "4453 chars"
+    },
+    {
+      "group": "authority-files",
+      "name": "03_CLIENT_INFORMATION_ARCHITECTURE.md",
+      "ok": true,
+      "detail": "3648 chars"
+    },
+    {
+      "group": "authority-files",
+      "name": "04_CANONICAL_LIFECYCLE_UI_MATRIX.md",
+      "ok": true,
+      "detail": "5997 chars"
+    },
+    {
+      "group": "authority-files",
+      "name": "05_POST_INTAKE_REVIEW_AUTHORITY.md",
+      "ok": true,
+      "detail": "4227 chars"
+    },
+    {
+      "group": "authority-files",
+      "name": "06_FOUNDATION_ROADMAP_AUTHORITY.md",
+      "ok": true,
+      "detail": "2517 chars"
+    },
+    {
+      "group": "authority-files",
+      "name": "07_NEEDS_YOU_AUTHORITY.md",
+      "ok": true,
+      "detail": "2864 chars"
+    },
+    {
+      "group": "authority-files",
+      "name": "08_RECORDS_AUTHORITY.md",
+      "ok": true,
+      "detail": "1891 chars"
+    },
+    {
+      "group": "authority-files",
+      "name": "09_HOME_SCREEN_INSTALL_AUTHORITY.md",
+      "ok": true,
+      "detail": "4245 chars"
+    },
+    {
+      "group": "authority-files",
+      "name": "10_HOME_SCREEN_ICON_AND_LAUNCH.md",
+      "ok": true,
+      "detail": "1675 chars"
+    },
+    {
+      "group": "authority-files",
+      "name": "11_FOUNDATION_ACCESS_CARD_AUTHORITY.md",
+      "ok": true,
+      "detail": "1288 chars"
+    },
+    {
+      "group": "authority-files",
+      "name": "12_ACCESS_CARD_SECURITY_AND_QR.md",
+      "ok": true,
+      "detail": "867 chars"
+    },
+    {
+      "group": "authority-files",
+      "name": "13_SECURE_CLIENT_REENTRY.md",
+      "ok": true,
+      "detail": "4251 chars"
+    },
+    {
+      "group": "authority-files",
+      "name": "14_PERSONALIZED_PROPOSAL_AUTHORITY.md",
+      "ok": true,
+      "detail": "2750 chars"
+    },
+    {
+      "group": "authority-files",
+      "name": "15_RECOMMENDATION_SELECTION.md",
+      "ok": true,
+      "detail": "1741 chars"
+    },
+    {
+      "group": "authority-files",
+      "name": "16_QUOTE_VERSION_AND_ACCEPTANCE.md",
+      "ok": true,
+      "detail": "2438 chars"
+    },
+    {
+      "group": "authority-files",
+      "name": "17_PAYMENT_AND_CONFIRMATION.md",
+      "ok": true,
+      "detail": "3428 chars"
+    },
+    {
+      "group": "authority-files",
+      "name": "18_PROJECT_OPERATIONS_EXPERIENCE.md",
+      "ok": true,
+      "detail": "2430 chars"
+    },
+    {
+      "group": "authority-files",
+      "name": "19_COMPLETION_AND_HANDOFF.md",
+      "ok": true,
+      "detail": "1806 chars"
+    },
+    {
+      "group": "authority-files",
+      "name": "20_ACTIVITY_AND_NOTIFICATIONS.md",
+      "ok": true,
+      "detail": "3370 chars"
+    },
+    {
+      "group": "authority-files",
+      "name": "21_GLOBAL_CLIENT_OVERLAY_REGISTRY.md",
+      "ok": true,
+      "detail": "2579 chars"
+    },
+    {
+      "group": "authority-files",
+      "name": "22_RESPONSIVE_GRID_SPECIFICATION.md",
+      "ok": true,
+      "detail": "2207 chars"
+    },
+    {
+      "group": "authority-files",
+      "name": "23_TYPOGRAPHY_AND_DESIGN_TOKENS.md",
+      "ok": true,
+      "detail": "2525 chars"
+    },
+    {
+      "group": "authority-files",
+      "name": "24_APPROVED_ASSET_MANIFEST.md",
+      "ok": true,
+      "detail": "1638 chars"
+    },
+    {
+      "group": "authority-files",
+      "name": "25_MOTION_AND_TRANSITIONS.md",
+      "ok": true,
+      "detail": "1161 chars"
+    },
+    {
+      "group": "authority-files",
+      "name": "26_COMPONENT_REGISTRY.md",
+      "ok": true,
+      "detail": "11814 chars"
+    },
+    {
+      "group": "authority-files",
+      "name": "27_BACKEND_GAP_REGISTER.md",
+      "ok": true,
+      "detail": "4890 chars"
+    },
+    {
+      "group": "authority-files",
+      "name": "28_SECURITY_AND_PRIVACY_REVIEW.md",
+      "ok": true,
+      "detail": "4377 chars"
+    },
+    {
+      "group": "authority-files",
+      "name": "29_OPUS_TO_COMPOSER_HANDOFF.md",
+      "ok": true,
+      "detail": "11149 chars"
+    },
+    {
+      "group": "authority-files",
+      "name": "30_VISUAL_BOARD_MANIFEST.md",
+      "ok": true,
+      "detail": "14110 chars"
+    },
+    {
+      "group": "authority-files",
+      "name": "31_FOUNDER_APPROVAL_REGISTER.md",
+      "ok": true,
+      "detail": "5424 chars"
+    },
+    {
+      "group": "authority-files",
+      "name": "32_VALIDATION_AND_TEST_REPORT.md",
+      "ok": true,
+      "detail": "22611 chars"
+    },
+    {
+      "group": "authority-files",
+      "name": "33_IMPLEMENTATION_READINESS.md",
+      "ok": true,
+      "detail": "3303 chars"
+    },
+    {
+      "group": "authority-files",
+      "name": "no unexpected documents",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "board-manifest",
+      "name": "tier M ≥ 20",
+      "ok": true,
+      "detail": "20"
+    },
+    {
+      "group": "board-manifest",
+      "name": "tier TP ≥ 10",
+      "ok": true,
+      "detail": "10"
+    },
+    {
+      "group": "board-manifest",
+      "name": "tier TL ≥ 10",
+      "ok": true,
+      "detail": "10"
+    },
+    {
+      "group": "board-manifest",
+      "name": "tier D ≥ 20",
+      "ok": true,
+      "detail": "20"
+    },
+    {
+      "group": "board-manifest",
+      "name": "tier UW ≥ 5",
+      "ok": true,
+      "detail": "5"
+    },
+    {
+      "group": "board-manifest",
+      "name": "tier X ≥ 10",
+      "ok": true,
+      "detail": "12"
+    },
+    {
+      "group": "board-manifest",
+      "name": "tier AH ≥ 10",
+      "ok": true,
+      "detail": "10"
+    },
+    {
+      "group": "board-manifest",
+      "name": "total ≥ 85",
+      "ok": true,
+      "detail": "87"
+    },
+    {
+      "group": "board-manifest",
+      "name": "every board source rendered",
+      "ok": true,
+      "detail": "87 sources / 87 manifest"
+    },
+    {
+      "group": "board-manifest",
+      "name": "png sha256 matches manifest",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "board-manifest",
+      "name": "all live frames ready",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "board-manifest",
+      "name": "fonts loaded in every frame",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "board-manifest",
+      "name": "no page errors / failed requests",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "board-manifest",
+      "name": "no lowercase client copy",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "board-manifest",
+      "name": "no per-frame layout failures",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "board-manifest",
+      "name": "every board labels frames as specimens (not live screenshots)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "board-manifest",
+      "name": "families A–T present (G retired by LOCK1)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "retired-card",
+      "name": "retired card boards absent from the active manifest",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "retired-card",
+      "name": "retired card boards archived (history preserved)",
+      "ok": true,
+      "detail": "board-AH06-access-card-anatomy.png, board-AH07-card-exports.png, board-AH08-wallet-style-not-a-wallet-pass.png, board-AH09-qr-security-and-validation.png, board-AH10-download-share-replace-errors.png, board-D11-access-card.png, board-M09-access-card.png"
+    },
+    {
+      "group": "retired-card",
+      "name": "retired boards listed under manifest.retired with label",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "component-registry",
+      "name": "41 registered components (CF-34/35 retired, CF-41 launch added)",
+      "ok": true,
+      "detail": "41"
+    },
+    {
+      "group": "component-registry",
+      "name": "each component defines 13 interaction fields + id + name",
+      "ok": true,
+      "detail": "15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15"
+    },
+    {
+      "group": "component-registry",
+      "name": "DOWNLOAD ACCESS CARD mapped as RETIRED (no component)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "component-registry",
+      "name": "example control mapped: SAVE YOUR FOUNDATION",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "component-registry",
+      "name": "example control mapped: REFRESH STATUS",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "component-registry",
+      "name": "example control mapped: VIEW INTAKE SUMMARY",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "component-registry",
+      "name": "example control mapped: VIEW PROPOSAL",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "component-registry",
+      "name": "example control mapped: ACCEPT QUOTE",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "component-registry",
+      "name": "example control mapped: REQUEST CLARIFICATION",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "component-registry",
+      "name": "example control mapped: CONTINUE TO CHECKOUT",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "component-registry",
+      "name": "example control mapped: OPEN ROADMAP",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "component-registry",
+      "name": "example control mapped: VIEW RECORDS",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "component-registry",
+      "name": "example control mapped: RETURN TO FOUNDATION",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "component-registry",
+      "name": "14 overlays registered (4 retired, OL-C14 added)",
+      "ok": true,
+      "detail": "14"
+    },
+    {
+      "group": "handoff",
+      "name": "handoff section: Source route map",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "handoff",
+      "name": "handoff section: Current component map",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "handoff",
+      "name": "handoff section: New component map",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "handoff",
+      "name": "handoff section: Reusable visual primitives",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "handoff",
+      "name": "handoff section: Grid, type, tokens, fonts, assets, motion",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "handoff",
+      "name": "handoff section: Lifecycle UI matrix, post-intake mapping",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "handoff",
+      "name": "handoff section: Proposal / quote versioning",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "handoff",
+      "name": "handoff section: Home-screen install contract",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "handoff",
+      "name": "handoff section: Safe reentry architecture",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "handoff",
+      "name": "handoff section: Access card file contract, QR security",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "handoff",
+      "name": "handoff section: Email event contract",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "handoff",
+      "name": "handoff section: Payment event gates",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "handoff",
+      "name": "handoff section: Backend gaps",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "handoff",
+      "name": "handoff section: Accessibility",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "handoff",
+      "name": "handoff section: Error states",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "handoff",
+      "name": "handoff section: Test matrix",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "handoff",
+      "name": "handoff section: Migration impact",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "handoff",
+      "name": "handoff section: Implementation order",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "handoff",
+      "name": "handoff section: Acceptance criteria",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "handoff",
+      "name": "phases 0–14 present",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "state-machine",
+      "name": "source union equals sprint canonical list (17)",
+      "ok": true,
+      "detail": "INVITED,OPENED,INTAKE_IN_PROGRESS,INTAKE_COMPLETE,RECOMMENDATION_READY,QUOTE_READY,AWAITING_ACCEPTANCE,AWAITING_PAYMENT,PAID,PROJECT_ACTIVE,IN_PROGRESS,WAITING_ON_CLIENT,WAITING_ON_PROVIDER,FINAL_VERIFICATION,COMPLETE,BUILD_OPPORTUNITY,ARCHIVED"
+    },
+    {
+      "group": "state-machine",
+      "name": "every canonical state mapped in 04",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "state-machine",
+      "name": "specimen phases reference only canonical states",
+      "ok": true,
+      "detail": "INTAKE_COMPLETE,INTAKE_COMPLETE,QUOTE_READY,AWAITING_ACCEPTANCE,AWAITING_PAYMENT,IN_PROGRESS,WAITING_ON_CLIENT,WAITING_ON_PROVIDER,WAITING_ON_CLIENT,FINAL_VERIFICATION,COMPLETE"
+    },
+    {
+      "group": "state-machine",
+      "name": "roadmap = locked 7 client stages",
+      "ok": true,
+      "detail": "INTAKE RECEIVED · FOUNDATION REVIEW · PERSONALIZED PROPOSAL · APPROVAL & PAYMENT · FOUNDATION SETUP · FINAL VERIFICATION · COMPLETE"
+    },
+    {
+      "group": "state-machine",
+      "name": "no client state machine / transition table in specimens",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "quote-payment",
+      "name": "example add-on prices equal sprint example pricing",
+      "ok": true,
+      "detail": "{\"ADDITIONAL MAILBOX\":75,\"NEW DOMAIN\":100,\"DOMAIN TRANSFER\":100,\"DOMAIN RECOVERY\":150,\"EMAIL MIGRATION\":200,\"MULTI-USER SETUP\":150,\"EMAIL ROUTING\":100,\"EMAIL SIGNATURE\":150,\"DEVICE SETUP\":50,\"DNS CLEANUP\":150,\"SITE CONFLICT\":150}"
+    },
+    {
+      "group": "quote-payment",
+      "name": "base Digital Foundation $500",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "quote-payment",
+      "name": "example pricing labelled as not a charge",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "quote-payment",
+      "name": "no card input anywhere in specimens",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "quote-payment",
+      "name": "disclosures from source (DF_DISCLOSURES), not retyped",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "doc-links",
+      "name": "all relative markdown links resolve",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-files",
+      "name": "README.md",
+      "ok": true,
+      "detail": "3411 chars"
+    },
+    {
+      "group": "lock1-files",
+      "name": "01_FOUNDER_DECISION_LOCK.md",
+      "ok": true,
+      "detail": "2079 chars"
+    },
+    {
+      "group": "lock1-files",
+      "name": "02_APPROVED_ICON_ASSET.md",
+      "ok": true,
+      "detail": "4602 chars"
+    },
+    {
+      "group": "lock1-files",
+      "name": "03_APPROVED_LAUNCH_ASSET.md",
+      "ok": true,
+      "detail": "2676 chars"
+    },
+    {
+      "group": "lock1-files",
+      "name": "04_CLIENT_ACCESS_CARD_RETIREMENT.md",
+      "ok": true,
+      "detail": "2641 chars"
+    },
+    {
+      "group": "lock1-files",
+      "name": "05_HOME_SCREEN_INSTALL_CONTRACT.md",
+      "ok": true,
+      "detail": "4338 chars"
+    },
+    {
+      "group": "lock1-files",
+      "name": "06_SECURE_REENTRY_CONTRACT.md",
+      "ok": true,
+      "detail": "3219 chars"
+    },
+    {
+      "group": "lock1-files",
+      "name": "07_RESPONSIVE_LAUNCH_SPEC.md",
+      "ok": true,
+      "detail": "3946 chars"
+    },
+    {
+      "group": "lock1-files",
+      "name": "08_ASSET_MANIFEST.md",
+      "ok": true,
+      "detail": "2978 chars"
+    },
+    {
+      "group": "lock1-files",
+      "name": "09_BACKEND_GAP_RECONCILIATION.md",
+      "ok": true,
+      "detail": "1767 chars"
+    },
+    {
+      "group": "lock1-files",
+      "name": "10_UPDATED_COMPOSER_HANDOFF.md",
+      "ok": true,
+      "detail": "9321 chars"
+    },
+    {
+      "group": "lock1-files",
+      "name": "11_FOUNDER_APPROVAL_RECORD.md",
+      "ok": true,
+      "detail": "2199 chars"
+    },
+    {
+      "group": "lock1-files",
+      "name": "12_VALIDATION.md",
+      "ok": true,
+      "detail": "9371 chars"
+    },
+    {
+      "group": "lock1-files",
+      "name": "no unexpected LOCK1 documents",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "doc-links",
+      "name": "LOCK1 links resolve",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "doc-links",
+      "name": "all `NN` document references resolve",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "doc-links",
+      "name": "every G-xx reference is defined in 27",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "doc-links",
+      "name": "every OD-xx reference is defined in 31",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "doc-links",
+      "name": "every FR-xx reference is defined in LOCK1 11",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-gaps",
+      "name": "G-02, G-09, G-12 preserved as blocking; G-11 retired",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "implementation phases 0–14 present, no card/QR phase",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "handoff covers: Asset source files",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "handoff covers: Canonical repository paths",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "handoff covers: Icon export specification",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "handoff covers: Launch image contract",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "handoff covers: Responsive safe zones",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "handoff covers: PWA manifest",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "handoff covers: Apple touch icon",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "handoff covers: Android icons",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "handoff covers: theme colour",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "handoff covers: token-free start URL",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "handoff covers: Install flow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "handoff covers: iOS guidance",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "handoff covers: Android guidance",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "handoff covers: Secure email reentry",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "handoff covers: session restoration",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "handoff covers: persistent identity",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "handoff covers: Backend security gates",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "handoff covers: Post-intake status flow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "handoff covers: Quote approval gate",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "handoff covers: Payment verification gate",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "handoff covers: Client navigation",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "handoff covers: Removed card component list",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "handoff covers: Updated test requirements",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "access-security",
+      "name": "no bearer-token-shaped /foundation/<token> URL in boards or docs",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "access-security",
+      "name": "no secret-shaped strings (sk_live, sk_test, service_role key, JWT)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "home-screen",
+      "name": "manifest id and every field token-free",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "home-screen",
+      "name": "manifest icons point at the approved-icon deploy paths (192 any, 512 any, 512 maskable)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "home-screen",
+      "name": "manifest start_url has no token and targets /foundation/return",
+      "ok": true,
+      "detail": "/foundation/return?src=home"
+    },
+    {
+      "group": "home-screen",
+      "name": "manifest short_name MY FOUNDATION",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "home-screen",
+      "name": "manifest theme/background from --df-bg",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "asset-identity",
+      "name": "icon master byte-identical to founder attachment 01",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "asset-identity",
+      "name": "launch master byte-identical to founder attachment 02",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "asset-identity",
+      "name": "derivation record references the locked icon master",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "asset-identity",
+      "name": "derivative derived/foundation-icon-512.png: hash, 512² opaque RGB, no metadata",
+      "ok": true,
+      "detail": "512 512 RGB 0 0"
+    },
+    {
+      "group": "asset-identity",
+      "name": "derivative derived/foundation-icon-192.png: hash, 192² opaque RGB, no metadata",
+      "ok": true,
+      "detail": "192 192 RGB 0 0"
+    },
+    {
+      "group": "asset-identity",
+      "name": "derivative derived/apple-touch-icon-foundation-180.png: hash, 180² opaque RGB, no metadata",
+      "ok": true,
+      "detail": "180 180 RGB 0 0"
+    },
+    {
+      "group": "asset-identity",
+      "name": "derivative derived/foundation-icon-maskable-512.png: hash, 512² opaque RGB, no metadata",
+      "ok": true,
+      "detail": "512 512 RGB 0 0"
+    },
+    {
+      "group": "asset-identity",
+      "name": "derivative derived/foundation-icon-face-crop-724.png: hash, 724² opaque RGB, no metadata",
+      "ok": true,
+      "detail": "724 724 RGB 0 0"
+    },
+    {
+      "group": "asset-identity",
+      "name": "icon derivatives reproducible bit-for-bit from the master (derive-icons.py)",
+      "ok": true,
+      "detail": "[\"fc26dddb268b31e2378040e6e26f579e3510a443d92efb0cdf4fe41d98baac60\", \"150323881db019018d7ad96744b4a0c092b9cf9be7cd4aec2b"
+    },
+    {
+      "group": "retired-card",
+      "name": "active specimens contain no card component, QR library or ?card= route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "asset-identity",
+      "name": "specimens use the locked masters / derivatives, not the retired placeholder icon",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "brand-assets",
+      "name": "cf.css colours ⊂ DF tokens + object glass + neutral device chrome",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "brand-assets",
+      "name": "only the two approved font families",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "brand-assets",
+      "name": "no external image or stock photo references",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "brand-assets",
+      "name": "no AIO / referral card art reused",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "brand-assets",
+      "name": "no \"Anthony\" demo data",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "production-isolation",
+      "name": "application never imports the authority folder",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "production-isolation",
+      "name": "only the two authority folders changed vs base d68038a87 (no public/, src/, referral studio)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "responsive-spec",
+      "name": "layout audit 22 pages × 16 viewports (352 renders)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "responsive-spec",
+      "name": "all five tiers audited",
+      "ok": true,
+      "detail": "M,TP,TL,D,UW"
+    },
+    {
+      "group": "responsive-spec",
+      "name": "each tier has a distinct composition",
+      "ok": true,
+      "detail": "{\"M\":{\"bnav\":true,\"tabs\":false,\"side\":0,\"aside\":0},\"TP\":{\"bnav\":false,\"tabs\":true,\"side\":0,\"aside\":0},\"TL\":{\"bnav\":false,\"tabs\":false,\"side\":112,\"aside\":0},\"D\":{\"bnav\":false,\"tabs\":false,\"side\":272,\"aside\":340},\"UW\":{\"bnav\":false,\"tabs\":false,\"side\":312,\"aside\":420}}"
+    },
+    {
+      "group": "brand-assets",
+      "name": "specimen requests stay on the local origin",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "launch",
+      "name": "launch alt text carries the approved copy",
+      "ok": true,
+      "detail": "SITE 00 — DIGITAL FOUNDATION. YOUR DIGITAL SPACE AWAITS."
+    },
+    {
+      "group": "launch",
+      "name": "safe zones fully visible, correct mode, exact 941×1672 master at 18 viewports",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "launch",
+      "name": "resolution limitation measured and documented (max device upscale)",
+      "ok": true,
+      "detail": "max 1.67×"
+    },
+    {
+      "group": "launch",
+      "name": "status chips single-line, in view, never overlapping a safe zone (9 renders)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "retired-card",
+      "name": "no retired card CTA / QR in rendered client views (14 renders)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "asset-identity",
+      "name": "install sheet previews the approved icon derivative",
+      "ok": true,
+      "detail": "../../../client-foundation-digital-access-authority-lock1/assets/derived/foundation-icon-192.png"
+    },
+    {
+      "group": "home-screen",
+      "name": "CTA copy is SAVE YOUR FOUNDATION (LOCK1)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "quote-payment",
+      "name": "p=confirm: “RETURNING HERE DOES NOT MARK IT PAID” and never “YOUR FOUNDATION IS UNDERWAY”; no inputs",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "quote-payment",
+      "name": "p=confirm&st=delayed: “STILL” and never “YOUR FOUNDATION IS UNDERWAY”; no inputs",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "quote-payment",
+      "name": "p=confirm&st=confirmed: “VERIFIED BY STRIPE”; no inputs",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "quote-payment",
+      "name": "p=pay: “YOUR FOUNDATION IS READY TO BEGIN” and never “UNDERWAY”; no inputs",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "quote-payment",
+      "name": "p=accept&st=changed: “CAN NO LONGER BE ACCEPTED”; no inputs",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "quote-payment",
+      "name": "p=proposal&st=superseded: “PROPOSAL V1 CAN NO LONGER BE ACCEPTED OR PAID”; no inputs",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "quote-payment",
+      "name": "ACCEPT disabled until three disclosures confirmed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "truthfulness",
+      "name": "p=review: no percentage / countdown / “just updated”",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "truthfulness",
+      "name": "p=overview&st=underway: no percentage / countdown / “just updated”",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "truthfulness",
+      "name": "p=roadmap&st=underway: no percentage / countdown / “just updated”",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "truthfulness",
+      "name": "p=progress: no percentage / countdown / “just updated”",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "truthfulness",
+      "name": "p=verify: no percentage / countdown / “just updated”",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "home-screen",
+      "name": "ios: no install button",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "home-screen",
+      "name": "manual: no install button",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "home-screen",
+      "name": "desktop: no install button",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "home-screen",
+      "name": "android: one browser-prompt button",
+      "ok": true,
+      "detail": "ADD TO HOME SCREEN"
+    },
+    {
+      "group": "home-screen",
+      "name": "installed: no install button",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "home-screen",
+      "name": "iOS guidance names Share → Add to Home Screen and says SITE 00 cannot add it",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "access-security",
+      "name": "all 12 reentry states render",
+      "ok": true,
+      "detail": "12/12"
+    },
+    {
+      "group": "access-security",
+      "name": "public reentry states reveal no client data (non-enumerating)",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}
