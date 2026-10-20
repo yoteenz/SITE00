@@ -16858,6 +16858,17 @@ Summary of the whole conversation in this chat.
 - **Visibility:** `gallerySectionEagerMount` mounts builder, client portal, and founder groups without scroll; hash/registry nav forces section mount. Bootstrap keeps offline fixtures when live mint fails; seeds preview memory via GET bootstrap.
 - **Ship:** `8199a7cd` on `cursor/idnty-living-portal-one-pass-completion1-be3b`; test `digitalFoundationReviewFounderHost.test.ts`.
 
+## 2026-10-20 — BLDR PLACE horizontal strip (draft PR #1673)
+
+- **Ask:** PLACE room cards match FEEL — horizontal strip, title + descriptor above, cards show label only.
+- **Fix:** `PlaceControls` in `builder-studio/rooms.tsx` uses `bs-strip` + shared caption; `PATH_BY_ID` in `studioModel.ts`. Test `bldrPlaceControlsLayout.test.ts`.
+
+## 2026-10-20 — DF review intake vs website builder zones (draft PR #1673)
+
+- **Founder correction:** P03 “build your foundation” (incl. domain/email expanded) = **Foundation intake** tab. **Builder** tab = hybrid website builder only (PLACE, FEEL, WORK, PACE, BLUEPRINT sample iframes).
+- **Registry:** P03 family → group `INTAKE`; `df-r-bldr-*` → `FOUNDATION_BUILDER`. Client portal pages render as standalone `StageChrome` per anchor (not repeated tab shell). `digitalFoundationReviewZones.test.ts` locks separation.
+- **Manifest:** `digitalFoundationBuilderManifest.ts` lists five studio rooms; `intakeConfiguratorAnchorIds()` for P03 surfaces.
+
 ## 2026-10-20 — DF review zone-scoped continuous gallery (draft PR #1671)
 
 - **Founder ask:** Top zone pills (intake · builder · client · founder); **one zone mounted at a time**, but **all screens in that zone scroll on one page** — not single-screen stage, not all 92 sections at once.
