@@ -318,6 +318,20 @@ export const SparkIcon = (p: IconProps) => (
   </Icon>
 );
 
+export const HomeIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M3.5 11 12 4l8.5 7M6 9.2V20h12V9.2M10 20v-5.5h4V20" />
+  </Icon>
+);
+
+export const CartIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M2.5 4h2.6l2.3 11h10.4l2-7.5H6.2" />
+    <circle cx="9.2" cy="19" r="1.3" />
+    <circle cx="16.2" cy="19" r="1.3" />
+  </Icon>
+);
+
 export const StoreIcon = (p: IconProps) => (
   <Icon {...p}>
     <path d="M4 9.5 5.5 4h13L20 9.5M4 9.5h16v1a2.7 2.7 0 0 1-5.3 0 2.7 2.7 0 0 1-5.4 0 2.7 2.7 0 0 1-5.3 0zM5.5 12.5V20h13v-7.5M10 20v-4.5h4V20" />

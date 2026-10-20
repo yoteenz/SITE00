@@ -220,6 +220,70 @@ export function featuresView(selection: BuilderSelection): FeaturesView {
   return { count: items.length, items, hasPrivate: pages.privatePages > 0, payments: ids.includes('PAYMENTS'), flow };
 }
 
+/* ─────────────────────────────── WORK room · core pages included ─────────────────────────────── */
+
+/** What the build is delivered as. The contract has no native-app build, so phone support is the site's layout. */
+const BUILD_DELIVERY: Record<NonNullable<BuilderSelection['build']>, string> = {
+  SITE: 'WEBSITE',
+  WORLD: 'WORLD',
+  SYSTEM: 'PLATFORM',
+  HYBRID: 'WEBSITE + PLATFORM',
+};
+
+const VIEWPORT_DELIVERY: Record<BuilderSelection['viewports'], { label: string; plain: string }> = {
+  PHONE_FIRST: { label: 'MOBILE FIRST', plain: 'DESIGNED FOR PHONES FIRST, AND WORKS ON DESKTOP.' },
+  PHONE_AND_DESKTOP: { label: 'MOBILE READY', plain: 'ONE BUILD, DESIGNED FOR PHONE AND DESKTOP.' },
+  PHONE_TABLET_DESKTOP: { label: 'MOBILE + TABLET', plain: 'ONE BUILD, DESIGNED FOR PHONE, TABLET AND DESKTOP.' },
+  ADAPTIVE: { label: 'ADAPTIVE', plain: 'ADAPTS TO THE SCREEN IT IS OPENED ON.' },
+};
+
+export type CoreIncludedView = {
+  pages: PagesView;
+  delivery: { build: string; viewport: string; viewportPlain: string };
+  /** Every feature in the build once, the ones the client chose first; the rest say what they come with. */
+  features: { id: CapabilityId; verb: string; chosen: boolean; includedWith: string | null }[];
+  /** One line on how the choices shape the pages and features. */
+  footer: string;
+  /** What the collapsed panel says. */
+  summary: string;
+};
+
+/**
+ * The WORK room's CORE PAGES INCLUDED panel. Built from the same page and feature views the Blueprint PAGES and
+ * FEATURES tabs read, so both places always show the same counts, groups and features for one selection.
+ */
+export function coreIncludedView(selection: BuilderSelection): CoreIncludedView {
+  const pages = pagesView(selection);
+  const items = featuresView(selection).items;
+  const features = [...items.filter((i) => !i.includedWith), ...items.filter((i) => i.includedWith)].map((i) => ({
+    id: i.id,
+    verb: i.verb,
+    chosen: !i.includedWith,
+    includedWith: i.includedWith,
+  }));
+  const viewport = VIEWPORT_DELIVERY[selection.viewports];
+  const parents = [
+    ...new Set(
+      features
+        .filter((f) => !f.chosen)
+        .map((f) => f.includedWith!.replace(/^INCLUDED WITH (YOUR )?/, ''))
+        .filter(Boolean),
+    ),
+  ];
+  const footer =
+    parents.length > 0
+      ? `EACH CAPABILITY ADDS ITS OWN PAGES. OUTLINED FEATURES COME WITH ${parents.join(' AND ')}.`
+      : 'EACH CAPABILITY ADDS ITS OWN PAGES AND FEATURES TO YOUR DIGITAL LOCATION.';
+  const count = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
+  return {
+    pages,
+    delivery: { build: selection.build ? BUILD_DELIVERY[selection.build] : 'AT REVIEW', viewport: viewport.label, viewportPlain: viewport.plain },
+    features,
+    footer,
+    summary: [count(pages.total, 'PAGE', 'PAGES'), count(pages.coreGroups, 'GROUP', 'GROUPS'), count(features.length, 'FEATURE', 'FEATURES')].join(' · '),
+  };
+}
+
 /* ─────────────────────────────── structure ─────────────────────────────── */
 
 export type StructureGroupKey = 'FRONT_DOOR' | 'OFFER_ACTION' | 'CLIENT_SPACE' | 'OPERATIONS';
