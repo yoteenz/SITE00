@@ -92,6 +92,7 @@ const MEASURE = (sel) => {
     rail: screen.querySelector('.df-screen__main > .df-rail, .df-screen__main .df-rail'),
     headline: screen.querySelector('.df-headline'),
     lede: screen.querySelector('.df-lede'),
+    sim: screen.querySelector('.df-review__sim--inline'),
   };
   const roleData = {};
   for (const [k, el] of Object.entries(roles)) {
@@ -147,7 +148,7 @@ async function capture(page, sel, name, W, H) {
   };
   data.artHash = { crown: hashRect(data.art.crown && data.art.crown.box), corner: hashRect(data.art.corner && data.art.corner.box), hero: hashRect(data.art.hero && data.art.hero.box) };
   // clearance per line against art ink (T>=6 visible ink, T>=24 strong ink)
-  for (const role of ['rail', 'headline', 'lede']) {
+  for (const role of ['rail', 'headline', 'lede', 'sim']) {
     const R = data.roles[role];
     if (!R || !R.lines) continue;
     for (const l of R.lines) {
@@ -193,6 +194,7 @@ async function capture(page, sel, name, W, H) {
         await page.reload();
       }
       await page.waitForSelector('.df-screen');
+      await page.waitForLoadState('networkidle').catch(() => {});
       await page.evaluate(() => document.fonts.ready);
       await page.evaluate(async () => {
         const specs = [...document.querySelectorAll('.df-headline, .df-lede, .df-rail__label')].map((el) => {
@@ -222,6 +224,7 @@ async function capture(page, sel, name, W, H) {
       // Same document offset for every frame before and after, so gradient rasterization tiles identically.
       await page.addStyleTag({ content: '.df-review .df-screen { height: 2400px !important; min-height: 2400px !important; }' });
       await page.waitForTimeout(300);
+      await page.waitForLoadState('networkidle').catch(() => {});
       await page.evaluate(() => document.fonts.ready);
       await page.waitForTimeout(500);
       for (const v of ['P01', 'P04', 'P05', 'P06', 'OVERVIEW']) {

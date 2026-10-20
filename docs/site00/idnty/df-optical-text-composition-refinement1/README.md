@@ -197,6 +197,21 @@ No page is worse on any metric; no document overflow in either mode. The remaini
 fit at that size beside the art at all (for example RECOMMENDED at 88px on a 390px phone, or a rail label on a 195px
 CSS viewport). Fixing them would need smaller type or different copy, both out of scope here.
 
+## After the final merge (review page restructured upstream)
+
+Upstream commits after `18753cbb2` restructured `/foundation/review`. Fixture frames now carry a
+"SIMULATED FIXTURE · …" label above the rail. On crown frames that label ran over the art, and it lowered the rail
+beside the beam. Two follow-ups:
+
+- **Rail:** review frames' rails yield to the beam at every width (`.df-review .df-screen--crown { --df-crown-rail-max: var(--df-crown-text-max) }`).
+- **Label:** the label keeps to the headline width on crown frames.
+
+A smoke pass on the final tree at 390 and 1440 (`measure.cjs`, 26 captures, label measured as a role) found:
+
+- no text over drawn art, with minimum clearance 11.6px;
+- no document overflow;
+- text and artwork identical to the validated after state. The one exception is the review OVERVIEW frame, which now sits 0.5px higher on the restructured page; its art position relative to the frame is unchanged.
+
 ## Evidence files
 
 - `side-by-side/` — BEFORE | AFTER captures of the React client with role boxes outlined (blue headline, green lede,

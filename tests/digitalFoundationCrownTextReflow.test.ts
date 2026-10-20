@@ -55,6 +55,8 @@ describe('Digital Foundation crown text reflow (text-only)', () => {
     expect(clientCss).toMatch(/\.df-review \.df-screen--crown \.df-lede \{[^}]*var\(--df-crown-lede-max\)/);
     // Review frames are 390px phones at every viewport: they keep the phone artwork contract.
     expect(clientCss).toContain('.df-screen--crown,\n.df-review .df-screen--crown {');
+    // A review frame's rail can sit beside the beam (fixture label, desktop rail margin), so it yields to the beam.
+    expect(clientCss).toMatch(/\.df-review \.df-screen--crown \{\s*--df-crown-rail-max: var\(--df-crown-text-max\);\s*\}/);
   });
 
   it('keeps a figure and its unit together in the P01 lede without a manual break', () => {

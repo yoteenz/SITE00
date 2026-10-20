@@ -280,6 +280,14 @@ body:has(.df-root) {
   max-width: var(--df-crown-rail-max);
 }
 
+/*
+ * Review frames can sit the rail lower than a phone does (the fixture label above it, the desktop rail
+ * margin), which puts it beside the beam (x 24) rather than the stone side, so it yields to the beam there.
+ */
+.df-review .df-screen--crown {
+  --df-crown-rail-max: var(--df-crown-text-max);
+}
+
 /* A long label takes length from the rule before it wraps or reaches the artwork. */
 .df-screen--crown .df-rail__rule {
   flex: 0 100 76px;
@@ -2866,6 +2874,11 @@ button.df-spec__btn {
   margin: 12px 16px 0;
 }
 
+/* On crown frames the fixture label sits beside the artwork's beam, so it keeps to the headline's width. */
+.df-review .df-screen--crown .df-review__sim--inline {
+  max-width: calc(var(--df-crown-text-max) - 16px);
+}
+
 .df-review__diag {
   color: var(--df-red, #c41e3a);
 }
@@ -3005,11 +3018,6 @@ button.df-spec__btn {
 }
 
 @media (min-width: 1100px) {
-  /* Review frames keep the desktop rail margin, which lowers the rail beside the beam (x 24). */
-  .df-review .df-screen--crown {
-    --df-crown-rail-max: var(--df-crown-text-max);
-  }
-
   .df-review__strip {
     flex-direction: row;
     align-items: flex-start;
