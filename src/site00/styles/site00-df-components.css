@@ -295,6 +295,7 @@ body.df-scroll-locked .df-root {
   line-height: 1.2;
   color: var(--df-ink);
   text-transform: uppercase;
+  text-wrap: balance;
 }
 
 .df-field__label-main {
@@ -415,7 +416,8 @@ body.df-scroll-locked .df-root {
   line-height: 1.5;
   color: var(--df-red);
   text-transform: uppercase;
-  overflow-wrap: anywhere;
+  text-wrap: pretty;
+  overflow-wrap: break-word;
 }
 
 .df-field__hint {
