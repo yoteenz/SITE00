@@ -34,7 +34,9 @@ describe('digital foundation review builder ownership', () => {
   });
 
   it('indexes inline review screens from the registry', () => {
-    const anchors = reviewEntriesForIndex().map((e) => e.anchorId);
+    const anchors = reviewEntriesForIndex()
+      .filter((e) => e.renderMode === 'inline_df_screen' || e.renderMode === 'legacy_redirect')
+      .map((e) => e.anchorId);
     for (const anchor of anchors) {
       if (anchor.startsWith('df-r-bldr-')) continue;
       expect(reviewPage).toContain(`id="${anchor}"`);

@@ -2,10 +2,10 @@
  * Digital Foundation micro-product review index (`/foundation/review`).
  * Fixture-backed previews only — not live client/founder auth surfaces.
  */
-import { useEffect, useMemo, useState, type ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import type { ClientDigitalFoundationPayload } from '../../../../shared/site00-digital-foundation/clientProjection.js';
 import type { DigitalFoundationCommercialConfig } from '../../../../shared/site00-digital-foundation/types.js';
-import { fetchCatalog, fetchPayload, type ClientCatalogEntry } from '../../foundation-client/api';
+import type { ClientCatalogEntry } from '../../foundation-client/api';
 import { P01Entry, P02Intake, P03Configure } from '../../foundation-client/parents/EntryIntake';
 import { P03IntakeSubmitted } from '../../foundation-client/parents/IntakeSubmittedStatus';
 import { P04Recommendation } from '../../foundation-client/parents/Recommendation';
@@ -23,12 +23,12 @@ import { DF_VIEW_ORDER, type DfView, type IntakeDraft } from '../../foundation-c
 import DigitalFoundationCompleteSurface from './DigitalFoundationCompleteSurface';
 import {
   APPROVED_FOUNDATION_BUILDER_SOURCE,
-  DIGITAL_FOUNDATION_REVIEW_GROUP_LABELS,
   DIGITAL_FOUNDATION_REVIEW_REGISTRY_VERSION,
-  type DfReviewGroupId,
-  reviewEntriesByGroup,
-  reviewEntriesForIndex,
+  allReviewRegistryEntries,
+  registryCoverageTotals,
 } from './digitalFoundationReviewRegistry';
+import { loadReviewBootstrapBundle } from './digitalFoundationReviewBootstrap';
+import DigitalFoundationReviewNav from './DigitalFoundationReviewNav';
 import { reviewAnchorForView, reviewScreenUrl, scrollToReviewAnchor } from './reviewLinks';
 import { SITE00_ROUTES } from '../../config/routes';
 import '../../foundation-client/foundationDfStyles';
@@ -48,16 +48,6 @@ const OBJECT_FOR: Record<DfView, DfObjectKind> = {
   RECORD: 'crown',
   COMM_PREFS: 'corner',
 };
-
-const REVIEW_GROUP_ORDER: DfReviewGroupId[] = [
-  'INTAKE',
-  'FOUNDATION_BUILDER',
-  'POST_INTAKE',
-  'PROPOSAL_CHECKOUT',
-  'CLIENT_PORTAL',
-  'CLIENT_ACCESS',
-  'DEPRECATED',
-];
 
 const REVIEW_MENU_VIEWS: DfView[] = [
   ...DF_VIEW_ORDER,
@@ -93,89 +83,30 @@ function DirectLink({ anchorId }: { anchorId: string }) {
   );
 }
 
-function ReviewProvenance() {
+function ReviewProvenance({ dataSource }: { dataSource: string }) {
   const buildId =
     typeof document !== 'undefined'
       ? document.querySelector('meta[name="app-build-id"]')?.getAttribute('content') ?? '—'
       : '—';
+  const totals = registryCoverageTotals();
   return (
     <p className="df-review__provenance">
-      IDNTY DIGITAL FOUNDATION · REVIEW REGISTRY {DIGITAL_FOUNDATION_REVIEW_REGISTRY_VERSION} · BUILD {buildId} · BUILDER{' '}
-      {APPROVED_FOUNDATION_BUILDER_SOURCE}
+      IDNTY DIGITAL FOUNDATION · REGISTRY {DIGITAL_FOUNDATION_REVIEW_REGISTRY_VERSION} · BUILD {buildId} · DATA {dataSource} ·
+      REGISTERED {totals.discovered} · BUILDER {APPROVED_FOUNDATION_BUILDER_SOURCE}
     </p>
   );
 }
 
-/** Founder/dev review only — collapsible grouped index (no raw URLs in the nav list). */
-function ReviewNav() {
-  const grouped = useMemo(() => reviewEntriesByGroup(), []);
-  const routeCount = reviewEntriesForIndex().length;
-  const [open, setOpen] = useState(false);
+function SimulatedBanner({ label }: { label: string }) {
+  return <p className="df-review__sim df-review__sim--inline">SIMULATED FIXTURE · {label}</p>;
+}
 
-  useEffect(() => {
-    const collapse = () => setOpen(false);
-    window.addEventListener('hashchange', collapse);
-    return () => window.removeEventListener('hashchange', collapse);
-  }, []);
-
+function RegistryGapPanel({ id, title, notes }: { id: string; title: string; notes?: string }) {
   return (
-    <div className={`df-review__nav-shell${open ? ' df-review__nav-shell--open' : ''}`}>
-      <div className="df-review__nav-bar">
-        <p className="df-review__nav-kicker">DIGITAL FOUNDATION REVIEW</p>
-        <button
-          type="button"
-          className="df-review__nav-toggle"
-          aria-expanded={open}
-          aria-controls="df-review-nav-routes"
-          onClick={() => setOpen((v) => !v)}
-        >
-          {open ? 'HIDE INDEX' : `SHOW INDEX (${routeCount})`}
-        </button>
-      </div>
-      <nav id="df-review-nav-routes" className="df-review__nav" aria-label="REVIEW SCREENS">
-        {REVIEW_GROUP_ORDER.map((groupId) => {
-          const entries = grouped.get(groupId);
-          if (!entries?.length) return null;
-          return (
-            <div className="df-review__nav-group" key={groupId}>
-              <p className="df-review__nav-group-label">{DIGITAL_FOUNDATION_REVIEW_GROUP_LABELS[groupId]}</p>
-              <ul className="df-review__nav-list">
-                {entries.map((entry) => (
-                  <li key={entry.reviewId}>
-                    <a
-                      className={`df-review__route-name${entry.renderMode === 'legacy_redirect' ? ' df-review__route-name--deprecated' : ''}`}
-                      href={`#${entry.anchorId}`}
-                    >
-                      {entry.pageName}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          );
-        })}
-        <div className="df-review__nav-group">
-          <p className="df-review__nav-group-label">{DIGITAL_FOUNDATION_REVIEW_GROUP_LABELS.FOUNDER_WORKSPACE}</p>
-          <ul className="df-review__nav-list">
-            <li>
-              <a className="df-review__route-name df-review__route-name--external" href={SITE00_ROUTES.digitalFoundationFounderWorkspaceOverview} target="_blank" rel="noreferrer">
-                Founder overview (live · auth)
-              </a>
-            </li>
-            <li>
-              <a
-                className="df-review__route-name df-review__route-name--external"
-                href={`${SITE00_ROUTES.digitalFoundationFounderWorkspace}/foundations`}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Foundations registry (live · auth)
-              </a>
-            </li>
-          </ul>
-        </div>
-      </nav>
-    </div>
+    <ReviewPanel id={id} title={title}>
+      <p className="df-review__wait df-review__wait--panel">COVERAGE INVENTORY · NOT IMPLEMENTED AS INLINE PREVIEW</p>
+      {notes && <p className="df-review__gap-note">{notes}</p>}
+    </ReviewPanel>
   );
 }
 
@@ -257,11 +188,15 @@ export default function DigitalFoundationReviewPage() {
   const [paidToken, setPaidToken] = useState('');
   const [paidPayload, setPaidPayload] = useState<ClientDigitalFoundationPayload | null>(null);
   const [postIntakePayload, setPostIntakePayload] = useState<ClientDigitalFoundationPayload | null>(null);
+  const [proposalReadyPayload, setProposalReadyPayload] = useState<ClientDigitalFoundationPayload | null>(null);
+  const [paymentFailurePayload, setPaymentFailurePayload] = useState<ClientDigitalFoundationPayload | null>(null);
   const [completePayload, setCompletePayload] = useState<ClientDigitalFoundationPayload | null>(null);
   const [completeToken, setCompleteToken] = useState('');
   const [postIntakeFetchedAt] = useState(() => new Date());
   const [draft, setDraft] = useState<IntakeDraft>(BLANK_DRAFT);
   const [note, setNote] = useState<string | null>(null);
+  const [dataSource, setDataSource] = useState('loading');
+  const gapEntries = allReviewRegistryEntries().filter((e) => e.implementationStatus === 'not_implemented');
 
   useEffect(() => {
     const prev = document.title;
@@ -274,31 +209,29 @@ export default function DigitalFoundationReviewPage() {
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      try {
-        const cat = await fetchCatalog();
-        if (!cancelled) {
-          setCatalog(cat.catalog);
-          setConfig(cat.config);
-        }
-      } catch {
-        if (!cancelled) setNote('CATALOG DID NOT LOAD. ENTRY SCREENS STILL SHOW.');
+      const bundle = await loadReviewBootstrapBundle();
+      if (cancelled) return;
+      setDataSource(bundle.source);
+      setCatalog(bundle.catalog);
+      setConfig(bundle.config);
+      const f = bundle.fixtures;
+      if (f.A_BASE) {
+        setQuoteToken(f.A_BASE.token);
+        setQuotePayload(f.A_BASE.payload);
       }
-      try {
-        const quote = await mint('A_BASE');
-        const paid = await mint('J_PAYMENT_SUCCESS');
-        const postIntake = await mint('A_BASE');
-        const complete = await mint('M_COMPLETE_CREDIT');
-        if (cancelled) return;
-        setQuoteToken(quote.token);
-        setQuotePayload(quote.payload);
-        setPaidToken(paid.token);
-        setPaidPayload(paid.payload);
-        setPostIntakePayload(postIntake.payload);
-        setCompleteToken(complete.token);
-        setCompletePayload(complete.payload);
-      } catch {
-        if (!cancelled) setNote('LATER SCREENS NEED THE PREVIEW SERVER. P01–P03 ARE STILL ON THIS PAGE.');
+      if (f.J_PAYMENT_SUCCESS) {
+        setPaidToken(f.J_PAYMENT_SUCCESS.token);
+        setPaidPayload(f.J_PAYMENT_SUCCESS.payload);
       }
+      if (f.INTAKE_SUBMITTED) setPostIntakePayload(f.INTAKE_SUBMITTED.payload);
+      if (f.PROPOSAL_READY) setProposalReadyPayload(f.PROPOSAL_READY.payload);
+      if (f.K_PAYMENT_FAILURE) setPaymentFailurePayload(f.K_PAYMENT_FAILURE.payload);
+      if (f.M_COMPLETE_CREDIT) {
+        setCompleteToken(f.M_COMPLETE_CREDIT.token);
+        setCompletePayload(f.M_COMPLETE_CREDIT.payload);
+      }
+      if (bundle.bootstrapError) setNote(bundle.bootstrapError.toUpperCase());
+      else if (!f.A_BASE) setNote('FIXTURE BUNDLE INCOMPLETE — RECOMMENDATION MAY NOT RENDER.');
     })();
     return () => {
       cancelled = true;
@@ -311,11 +244,11 @@ export default function DigitalFoundationReviewPage() {
 
   return (
     <div className="df-review">
-      <ReviewNav />
+      <DigitalFoundationReviewNav />
       <header className="df-review__intro">
-        <ReviewProvenance />
+        <ReviewProvenance dataSource={dataSource} />
         <p>FIXTURE-BACKED IDNTY DIGITAL FOUNDATION SCREENS ON ONE PAGE. PUBLIC SITE 00 BUILDER ROUTES ARE BLOCKED.</p>
-        {note && <p>{note}</p>}
+        {note && <p className="df-review__diag">{note}</p>}
       </header>
       <div className="df-review__strip">
         <Screen id="df-r-P01" view="P01" title="01 · GET STARTED">
@@ -340,20 +273,23 @@ export default function DigitalFoundationReviewPage() {
         </Screen>
         <Screen id="df-r-P04" view="P04" title="04 · RECOMMENDATION">
           {quotePayload ? (
-            <P04Recommendation
-              payload={quotePayload}
-              catalog={catalog}
-              config={config}
-              desired={{}}
-              syncStatus="idle"
-              syncError={null}
-              onToggle={noop}
-              onQuantity={noop}
-              onContinue={() => advance('P05')}
-              onRefresh={noop}
-            />
+            <>
+              <SimulatedBanner label="A_BASE · QUOTE FIXTURE" />
+              <P04Recommendation
+                payload={quotePayload}
+                catalog={catalog}
+                config={config}
+                desired={{}}
+                syncStatus="idle"
+                syncError={null}
+                onToggle={noop}
+                onQuantity={noop}
+                onContinue={() => advance('P05')}
+                onRefresh={noop}
+              />
+            </>
           ) : (
-            <p className="df-review__wait">LOADING RECOMMENDATION</p>
+            <p className="df-review__wait">RECOMMENDATION FIXTURE NOT LOADED — CHECK PREVIEW DATA SOURCE.</p>
           )}
         </Screen>
         <Screen id="df-r-P05" view="P05" title="05 · REVIEW + CHECKOUT">
@@ -373,29 +309,120 @@ export default function DigitalFoundationReviewPage() {
         </Screen>
         <Screen id="df-r-P06" view="P06" title="06 · ACTIVATION">
           {paidPayload ? (
-            <P06Activation
-              payload={paidPayload}
-              verify={null}
-              attempt={0}
-              attempts={0}
-              simulated={false}
-              onOverview={() => advance('OVERVIEW')}
-              onRetry={noop}
-            />
+            <>
+              <SimulatedBanner label="J_PAYMENT_SUCCESS" />
+              <P06Activation
+                payload={paidPayload}
+                verify={null}
+                attempt={0}
+                attempts={0}
+                simulated
+                onOverview={() => advance('OVERVIEW')}
+                onRetry={noop}
+              />
+            </>
           ) : (
-            <p className="df-review__wait">LOADING ACTIVATION</p>
+            <p className="df-review__wait">ACTIVATION FIXTURE NOT LOADED.</p>
           )}
         </Screen>
         <Screen id="df-r-post-intake-submitted" view="P03" title="POST-INTAKE · INTAKE RECEIVED">
           {postIntakePayload ? (
-            <P03IntakeSubmitted
-              payload={postIntakePayload}
-              fetchedAt={postIntakeFetchedAt}
-              onRefresh={noop}
-              busy={false}
-            />
+            <>
+              <SimulatedBanner label="INTAKE_SUBMITTED · G-02 WITHHELD" />
+              <P03IntakeSubmitted
+                payload={postIntakePayload}
+                fetchedAt={postIntakeFetchedAt}
+                onRefresh={noop}
+                busy={false}
+              />
+            </>
           ) : (
-            <p className="df-review__wait">LOADING POST-INTAKE</p>
+            <p className="df-review__wait">POST-INTAKE FIXTURE NOT LOADED.</p>
+          )}
+        </Screen>
+        <Screen id="df-r-post-intake-status" view="P03" title="POST-INTAKE · REVIEW STATUS">
+          {postIntakePayload ? (
+            <>
+              <SimulatedBanner label="INTAKE_SUBMITTED" />
+              <P03IntakeSubmitted payload={postIntakePayload} fetchedAt={postIntakeFetchedAt} onRefresh={noop} busy={false} />
+            </>
+          ) : (
+            <p className="df-review__wait">POST-INTAKE FIXTURE NOT LOADED.</p>
+          )}
+        </Screen>
+        <Screen id="df-r-proposal-ready" view="P04" title="PROPOSAL · PERSONALIZED READY">
+          {proposalReadyPayload ? (
+            <>
+              <SimulatedBanner label="PROPOSAL_READY · COMMERCIAL RELEASE" />
+              <P04Recommendation
+                payload={proposalReadyPayload}
+                catalog={catalog}
+                config={config}
+                desired={{}}
+                syncStatus="idle"
+                syncError={null}
+                onToggle={noop}
+                onQuantity={noop}
+                onContinue={() => advance('P05')}
+                onRefresh={noop}
+              />
+            </>
+          ) : (
+            <p className="df-review__wait">PROPOSAL READY FIXTURE NOT LOADED.</p>
+          )}
+        </Screen>
+        <Screen id="df-r-quote-acceptance" view="P05" title="QUOTE ACCEPTANCE">
+          {quotePayload && quoteToken ? (
+            <>
+              <SimulatedBanner label="A_BASE" />
+              <P05Review
+                token={quoteToken}
+                payload={quotePayload}
+                config={config}
+                setPayload={setQuotePayload}
+                reload={async () => quotePayload}
+                checkout={null}
+                onEditAddons={() => advance('P04')}
+              />
+            </>
+          ) : (
+            <p className="df-review__wait">QUOTE FIXTURE NOT LOADED.</p>
+          )}
+        </Screen>
+        <Screen id="df-r-awaiting-payment" view="P05" title="AWAITING PAYMENT">
+          {quotePayload && quoteToken ? (
+            <>
+              <SimulatedBanner label="A_BASE · CHECKOUT PARENT" />
+              <P05Review
+                token={quoteToken}
+                payload={quotePayload}
+                config={config}
+                setPayload={setQuotePayload}
+                reload={async () => quotePayload}
+                checkout={null}
+                onEditAddons={() => advance('P04')}
+              />
+            </>
+          ) : (
+            <p className="df-review__wait">CHECKOUT FIXTURE NOT LOADED.</p>
+          )}
+        </Screen>
+        <Screen id="df-r-payment-failure" view="P06" title="PAYMENT FAILURE">
+          {paymentFailurePayload ? (
+            <>
+              <SimulatedBanner label="K_PAYMENT_FAILURE" />
+              <P06Activation
+                payload={paymentFailurePayload}
+                verify={null}
+                attempt={1}
+                attempts={3}
+                simulated
+                onOverview={() => advance('OVERVIEW')}
+                onRetry={noop}
+              />
+            </>
+          ) : (
+            <p className="df-review__wait">PAYMENT FAILURE FIXTURE NOT LOADED.</p>
           )}
         </Screen>
         <Screen id="df-r-OVERVIEW" view="OVERVIEW" title="07 · PROJECT OVERVIEW">
@@ -495,22 +522,13 @@ export default function DigitalFoundationReviewPage() {
             OPEN {SITE00_ROUTES.digitalFoundationReturn}
           </a>
         </ReviewPanel>
+        {gapEntries.map((entry) => (
+          <RegistryGapPanel key={entry.reviewId} id={entry.anchorId} title={entry.pageName.toUpperCase()} notes={entry.notes} />
+        ))}
         {DEPRECATED_BLDR_ROOMS.map((room) => (
           <LegacyPublicBuilderRedirect key={room} anchorId={`df-r-bldr-${room}`} room={room} />
         ))}
       </div>
     </div>
   );
-}
-
-async function mint(fixtureId: string): Promise<{ token: string; payload: ClientDigitalFoundationPayload }> {
-  const res = await fetch('/api/dev/site00-digital-foundation-preview-bootstrap', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ fixture_id: fixtureId }),
-  });
-  const json = (await res.json()) as { public_token?: string; error?: string };
-  if (!res.ok || !json.public_token) throw new Error(json.error ?? 'BOOTSTRAP_FAILED');
-  const payload = await fetchPayload(json.public_token);
-  return { token: json.public_token, payload };
 }
