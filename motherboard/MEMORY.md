@@ -16801,3 +16801,12 @@ Summary of the whole conversation in this chat.
 - **Sprint:** `P0.SITE00.IDNTY.FOUNDATION-BUILDER.GLOBAL-TYPOGRAPHIC-REFLOW-AND-OPTICAL-BALANCE1` on same branch — extends crown text recovery; **not merged**.
 - **Fix:** `site00-df-client.css` + `site00-df-components.css` — `text-wrap: balance` (headlines, section/row titles), `text-wrap: pretty` (lede, subs, acks, hints), `min-width: 0` on card text columns; parent `--df-crown-text-max` unchanged; `.df-object--crown` untouched.
 - **Tests:** `tests/digitalFoundationTypographicReflow.test.ts`; Playwright orphan audit + screenshots under `/opt/cursor/artifacts/df-typography-after/`.
+
+---
+
+## 2026-10-20 — DF review registry + builder ownership lock (draft PR #1671)
+
+- **Sprint:** `COMPLETE-REVIEW-REGISTRY-AND-BUILDER-OWNERSHIP-LOCK1` on `cursor/idnty-living-portal-one-pass-completion1-be3b` — **draft PR #1671**, not merged.
+- **Registry:** `digitalFoundationReviewRegistry.ts` (`2026-10-20-lock1`) — groups intake, P03 foundation builder, portal, post-intake, complete, deprecated public BLDR anchors; forbids `BuilderStudio` / `/bldr/studio/` on review page.
+- **Review page:** Removed BLDR iframes; `LegacyPublicBuilderRedirect` for `#df-r-bldr-*`; added ROADMAP/STAGE/NEEDS_YOU/RECORDS/COMM_PREFS, post-intake, complete (`M_COMPLETE_CREDIT`), client return link; grouped collapsible nav + provenance strip.
+- **Tests:** `digitalFoundationReviewBuilderOwnership.test.ts`; updated `digitalFoundationReviewLinks.test.ts`. Playwright smoke on workspace `:5175` — zero iframes, blocked BLDR panel.
