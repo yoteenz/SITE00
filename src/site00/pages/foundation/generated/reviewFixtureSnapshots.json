@@ -1,0 +1,1041 @@
+{
+  "generated_at": "2026-10-20T14:39:57.528Z",
+  "catalog": {
+    "catalog": [
+      {
+        "addon_id": "ADDITIONAL_MAILBOX",
+        "label": "Additional mailbox",
+        "client_description": "Extra professional mailbox beyond the base package.",
+        "price_minor_units": 7500,
+        "currency": "USD",
+        "requires_manual_review": false,
+        "quantity_unit": true,
+        "dependencies": []
+      },
+      {
+        "addon_id": "ADDITIONAL_DOMAIN",
+        "label": "Additional domain",
+        "client_description": "Register or connect an extra domain.",
+        "price_minor_units": 10000,
+        "currency": "USD",
+        "requires_manual_review": false,
+        "quantity_unit": false,
+        "dependencies": []
+      },
+      {
+        "addon_id": "DOMAIN_TRANSFER",
+        "label": "Domain transfer",
+        "client_description": "Transfer an existing domain into your controlled registrar account.",
+        "price_minor_units": 10000,
+        "currency": "USD",
+        "requires_manual_review": false,
+        "quantity_unit": false,
+        "dependencies": []
+      },
+      {
+        "addon_id": "DOMAIN_RECOVERY",
+        "label": "Domain recovery",
+        "client_description": "Recover access when domain ownership or registrar access is unclear.",
+        "price_minor_units": 15000,
+        "currency": "USD",
+        "requires_manual_review": true,
+        "quantity_unit": false,
+        "dependencies": []
+      },
+      {
+        "addon_id": "LEGACY_EMAIL_MIGRATION",
+        "label": "Legacy email migration",
+        "client_description": "Migrate mail from a previous provider or personal inbox.",
+        "price_minor_units": 20000,
+        "currency": "USD",
+        "requires_manual_review": true,
+        "quantity_unit": false,
+        "dependencies": []
+      },
+      {
+        "addon_id": "MULTI_USER_WORKSPACE_SETUP",
+        "label": "Multi-user workspace setup",
+        "client_description": "Configure workspace for multiple team members.",
+        "price_minor_units": 15000,
+        "currency": "USD",
+        "requires_manual_review": true,
+        "quantity_unit": false,
+        "dependencies": []
+      },
+      {
+        "addon_id": "ADVANCED_EMAIL_ROUTING",
+        "label": "Advanced email routing",
+        "client_description": "Routing rules, shared inboxes, or forwarders beyond base aliases.",
+        "price_minor_units": 10000,
+        "currency": "USD",
+        "requires_manual_review": false,
+        "quantity_unit": false,
+        "dependencies": []
+      },
+      {
+        "addon_id": "STAFF_SIGNATURE_SYSTEM",
+        "label": "Staff signature system",
+        "client_description": "Consistent signatures for multiple staff mailboxes.",
+        "price_minor_units": 15000,
+        "currency": "USD",
+        "requires_manual_review": true,
+        "quantity_unit": false,
+        "dependencies": [
+          "MULTI_USER_WORKSPACE_SETUP"
+        ]
+      },
+      {
+        "addon_id": "ADDITIONAL_DEVICE_SETUP",
+        "label": "Additional device setup",
+        "client_description": "Guidance for an extra phone or computer beyond the first device.",
+        "price_minor_units": 5000,
+        "currency": "USD",
+        "requires_manual_review": false,
+        "quantity_unit": true,
+        "dependencies": []
+      },
+      {
+        "addon_id": "ADVANCED_DNS_CLEANUP",
+        "label": "Advanced DNS cleanup",
+        "client_description": "Untangle conflicting DNS from prior hosts or email providers.",
+        "price_minor_units": 15000,
+        "currency": "USD",
+        "requires_manual_review": true,
+        "quantity_unit": false,
+        "dependencies": []
+      },
+      {
+        "addon_id": "EXISTING_SITE_DOMAIN_CONFLICT",
+        "label": "Existing site / domain conflict",
+        "client_description": "Your domain already points at a live site or conflicting service.",
+        "price_minor_units": 15000,
+        "currency": "USD",
+        "requires_manual_review": true,
+        "quantity_unit": false,
+        "dependencies": []
+      },
+      {
+        "addon_id": "EXPEDITED_FOUNDATION",
+        "label": "Expedited foundation",
+        "client_description": "Priority scheduling when operations capacity allows.",
+        "price_minor_units": 0,
+        "currency": "USD",
+        "requires_manual_review": true,
+        "quantity_unit": false,
+        "dependencies": []
+      },
+      {
+        "addon_id": "CUSTOM_FOUNDATION_WORK",
+        "label": "Custom foundation work",
+        "client_description": "Scope outside the standard catalog — quoted after review.",
+        "price_minor_units": 0,
+        "currency": "USD",
+        "requires_manual_review": true,
+        "quantity_unit": false,
+        "dependencies": []
+      }
+    ],
+    "config": {
+      "base_price_minor": 50000,
+      "base_currency": "USD",
+      "base_min_business_days": 2,
+      "base_max_business_days": 3,
+      "base_service_version": "df-v1-base",
+      "quote_expiry_days": 14,
+      "terms_version": "df-terms-v1",
+      "foundation_credit_amount_minor": 20000,
+      "foundation_credit_validity_days": 30,
+      "expedited_premium_minor": null,
+      "third_party_cost_notice": "Domain registration, Google Workspace, Microsoft 365, and other provider subscriptions are typically paid directly to those providers unless explicitly included in your quote."
+    }
+  },
+  "fixtures": {
+    "A_BASE": {
+      "token": "ksNdtfzkYqHczxV4OZBvBsbnX1uDqPXT",
+      "payload": {
+        "artifact": {
+          "artifact_id": "5fc5481e-601c-4676-93c7-659e952b15f0",
+          "public_token": "ksNdtfzkYqHczxV4OZBvBsbnX1uDqPXT",
+          "lead_id": "e396a40c-7de9-4fc0-8c3a-1566120662e9",
+          "client_org_id": null,
+          "contact_id": null,
+          "referral_source_id": "11111111-1111-4111-8111-111111111103",
+          "service_id": "IDNTY.DIGITAL_FOUNDATION",
+          "state": "AWAITING_PAYMENT",
+          "intake_state": "COMPLETE",
+          "quote_id": "1a2b2e50-4a30-46eb-b472-31696d2787c9",
+          "payment_state": "NONE",
+          "project_state": "NOT_STARTED",
+          "completion_state": "NOT_STARTED",
+          "build_interest": "NONE",
+          "build_recommendation": "NONE",
+          "foundation_credit_id": null,
+          "intake": {
+            "needs": [
+              "NEED_DOMAIN",
+              "NEED_PRO_EMAIL",
+              "NEED_SIGNATURE"
+            ],
+            "phone": "901-555-0100"
+          },
+          "created_at": "2026-10-20T14:39:57.514Z",
+          "opened_at": "2026-10-20T14:39:57.514Z",
+          "last_activity_at": "2026-10-20T14:39:57.517Z",
+          "completed_at": null
+        },
+        "lead": {
+          "lead_id": "e396a40c-7de9-4fc0-8c3a-1566120662e9",
+          "contact_email": null,
+          "contact_name": null,
+          "business_name": "Fixture A_BASE",
+          "referral_source_id": "11111111-1111-4111-8111-111111111103",
+          "referral_funnel_stage": "ACCEPTED",
+          "created_at": "2026-10-20T14:39:57.513Z"
+        },
+        "acceptance": {
+          "artifact_id": "5fc5481e-601c-4676-93c7-659e952b15f0",
+          "quote_version": 1,
+          "terms_version": "df-terms-v1",
+          "accepted_at": "2026-10-20T14:39:57.517Z",
+          "accepted_disclosures": [
+            "I HAVE REVIEWED MY DIGITAL FOUNDATION SCOPE.",
+            "I UNDERSTAND THAT DOMAIN / EMAIL PROVIDER SUBSCRIPTIONS AND OTHER THIRD-PARTY FEES MAY BE SEPARATE.",
+            "I UNDERSTAND THAT THE PROJECTED TURNAROUND BEGINS AFTER REQUIRED INFORMATION, ACCESS AND PAYMENT ARE RECEIVED."
+          ],
+          "source_surface": "artifact",
+          "client_ip": null,
+          "user_agent": null
+        },
+        "stages": [],
+        "client_actions": [],
+        "approvals": [],
+        "ownership_record": null,
+        "build_readiness": {
+          "site_needed": false,
+          "site_type": null,
+          "primary_customer_action": null,
+          "recommended_structure": null,
+          "brand_readiness": null,
+          "content_readiness": null
+        },
+        "credit": null,
+        "surface": "CHECKOUT",
+        "quote": {
+          "quote_id": "1a2b2e50-4a30-46eb-b472-31696d2787c9",
+          "artifact_id": "5fc5481e-601c-4676-93c7-659e952b15f0",
+          "base_service_version": "df-v1-base",
+          "base_price_minor": 50000,
+          "selected_addons": [],
+          "addon_total_minor": 0,
+          "manual_adjustments_minor": 0,
+          "subtotal_minor": 50000,
+          "currency": "USD",
+          "projected_min_days": 2,
+          "projected_max_days": 3,
+          "timeline_custom_review": false,
+          "third_party_cost_notice": "Domain registration, Google Workspace, Microsoft 365, and other provider subscriptions are typically paid directly to those providers unless explicitly included in your quote.",
+          "quote_version": 1,
+          "status": "ACCEPTED",
+          "created_at": "2026-10-20T14:39:57.517Z",
+          "expires_at": "2026-11-03T14:39:57.517Z"
+        },
+        "recommendation": {
+          "title": "YOUR DIGITAL FOUNDATION",
+          "recommended_addons": [],
+          "site00_handles": [
+            "Business / domain consultation",
+            "Domain ownership configuration guidance",
+            "Professional email setup (MX, SPF, DKIM, DMARC)",
+            "One primary device setup guidance",
+            "One professional email signature",
+            "Digital ownership record",
+            "SITE 00 build-readiness check"
+          ],
+          "client_must_provide": [
+            "Preferred domain names for approval",
+            "Payment after quote acceptance",
+            "No passwords in this form — access via provider invite when needed"
+          ],
+          "third_party_costs": [
+            "Domain registration (registrar)",
+            "Google Workspace or Microsoft 365 (if applicable)"
+          ],
+          "projected_investment_minor": 50000,
+          "projected_min_days": 2,
+          "projected_max_days": 3,
+          "timeline_custom_review": false,
+          "dependencies": [],
+          "manual_review": false,
+          "manual_review_reasons": []
+        },
+        "referral_channel": {
+          "kind": "DIRECT",
+          "display_label": "Direct"
+        },
+        "timeline_readiness": {
+          "readiness_satisfied": false,
+          "missing_requirements": [
+            "PAYMENT_CONFIRMED"
+          ],
+          "readiness_satisfied_at": null,
+          "production_started_at": null,
+          "service_window_label": "Estimated 2–3 business days after required information, access, approvals, and payment are received.",
+          "forecast_min_days": null,
+          "forecast_max_days": null
+        },
+        "communication_preferences": {
+          "marketing_opt_in": false,
+          "project_operations": true,
+          "educational": false
+        }
+      }
+    },
+    "INTAKE_SUBMITTED": {
+      "token": "fyq-JIqSV5_MqDOp0NlIRKixh4Ee4oGN",
+      "payload": {
+        "artifact": {
+          "artifact_id": "743f589d-59bf-4634-a174-688e510602da",
+          "public_token": "fyq-JIqSV5_MqDOp0NlIRKixh4Ee4oGN",
+          "lead_id": "dffb17b7-53e5-4f6f-b3f4-5f40a19fec08",
+          "client_org_id": null,
+          "contact_id": null,
+          "referral_source_id": null,
+          "service_id": "IDNTY.DIGITAL_FOUNDATION",
+          "state": "QUOTE_READY",
+          "intake_state": "COMPLETE",
+          "quote_id": "af143e25-1781-4693-9ebb-8109fb618828",
+          "payment_state": "NONE",
+          "project_state": "NOT_STARTED",
+          "completion_state": "NOT_STARTED",
+          "build_interest": "NONE",
+          "build_recommendation": "NONE",
+          "foundation_credit_id": null,
+          "intake": {
+            "needs": [],
+            "phone": "901-555-0100"
+          },
+          "created_at": "2026-10-20T14:39:57.517Z",
+          "opened_at": "2026-10-20T14:39:57.517Z",
+          "last_activity_at": "2026-10-20T14:39:57.518Z",
+          "completed_at": null
+        },
+        "lead": {
+          "lead_id": "dffb17b7-53e5-4f6f-b3f4-5f40a19fec08",
+          "contact_email": null,
+          "contact_name": null,
+          "business_name": "Review · Intake submitted",
+          "referral_source_id": null,
+          "referral_funnel_stage": "QUOTED",
+          "created_at": "2026-10-20T14:39:57.517Z"
+        },
+        "acceptance": null,
+        "stages": [],
+        "client_actions": [],
+        "approvals": [],
+        "ownership_record": null,
+        "build_readiness": {
+          "site_needed": false,
+          "site_type": null,
+          "primary_customer_action": null,
+          "recommended_structure": null,
+          "brand_readiness": null,
+          "content_readiness": null
+        },
+        "credit": null,
+        "surface": "INTAKE_SUBMITTED",
+        "quote": null,
+        "recommendation": null,
+        "referral_channel": null,
+        "timeline_readiness": {
+          "readiness_satisfied": false,
+          "missing_requirements": [
+            "QUOTE_ACCEPTED",
+            "PAYMENT_CONFIRMED"
+          ],
+          "readiness_satisfied_at": null,
+          "production_started_at": null,
+          "service_window_label": "Estimated 2–3 business days after required information, access, approvals, and payment are received.",
+          "forecast_min_days": null,
+          "forecast_max_days": null
+        },
+        "communication_preferences": {
+          "marketing_opt_in": false,
+          "project_operations": true,
+          "educational": false
+        }
+      }
+    },
+    "PROPOSAL_READY": {
+      "token": "PlBkcc_zHp_TwgffSgmI3vY4nuoSUdGK",
+      "payload": {
+        "artifact": {
+          "artifact_id": "f781906b-df3e-4fa7-9de8-7a9347e2ec7a",
+          "public_token": "PlBkcc_zHp_TwgffSgmI3vY4nuoSUdGK",
+          "lead_id": "28c967c9-f248-4f18-8f08-5a2fbab31be3",
+          "client_org_id": null,
+          "contact_id": null,
+          "referral_source_id": null,
+          "service_id": "IDNTY.DIGITAL_FOUNDATION",
+          "state": "QUOTE_READY",
+          "intake_state": "COMPLETE",
+          "quote_id": "556b8feb-22b1-4554-8547-afd16c592e9d",
+          "payment_state": "NONE",
+          "project_state": "NOT_STARTED",
+          "completion_state": "NOT_STARTED",
+          "build_interest": "NONE",
+          "build_recommendation": "NONE",
+          "foundation_credit_id": null,
+          "intake": {
+            "needs": [],
+            "phone": "901-555-0100"
+          },
+          "created_at": "2026-10-20T14:39:57.518Z",
+          "opened_at": "2026-10-20T14:39:57.518Z",
+          "last_activity_at": "2026-10-20T14:39:57.518Z",
+          "completed_at": null
+        },
+        "lead": {
+          "lead_id": "28c967c9-f248-4f18-8f08-5a2fbab31be3",
+          "contact_email": null,
+          "contact_name": null,
+          "business_name": "Review · Proposal ready",
+          "referral_source_id": null,
+          "referral_funnel_stage": "QUOTED",
+          "created_at": "2026-10-20T14:39:57.518Z"
+        },
+        "acceptance": null,
+        "stages": [],
+        "client_actions": [],
+        "approvals": [],
+        "ownership_record": null,
+        "build_readiness": {
+          "site_needed": false,
+          "site_type": null,
+          "primary_customer_action": null,
+          "recommended_structure": null,
+          "brand_readiness": null,
+          "content_readiness": null
+        },
+        "credit": null,
+        "surface": "QUOTE",
+        "quote": {
+          "quote_id": "556b8feb-22b1-4554-8547-afd16c592e9d",
+          "artifact_id": "f781906b-df3e-4fa7-9de8-7a9347e2ec7a",
+          "base_service_version": "df-v1-base",
+          "base_price_minor": 50000,
+          "selected_addons": [],
+          "addon_total_minor": 0,
+          "manual_adjustments_minor": 0,
+          "subtotal_minor": 50000,
+          "currency": "USD",
+          "projected_min_days": 2,
+          "projected_max_days": 3,
+          "timeline_custom_review": false,
+          "third_party_cost_notice": "Domain registration, Google Workspace, Microsoft 365, and other provider subscriptions are typically paid directly to those providers unless explicitly included in your quote.",
+          "quote_version": 1,
+          "status": "CLIENT_REVIEW",
+          "created_at": "2026-10-20T14:39:57.518Z",
+          "expires_at": "2026-11-03T14:39:57.518Z",
+          "founder_commercial_ready": true,
+          "founder_commercial_ready_at": "2026-10-20T14:39:57.518Z"
+        },
+        "recommendation": {
+          "title": "YOUR DIGITAL FOUNDATION",
+          "recommended_addons": [],
+          "site00_handles": [
+            "Business / domain consultation",
+            "Domain ownership configuration guidance",
+            "Professional email setup (MX, SPF, DKIM, DMARC)",
+            "One primary device setup guidance",
+            "One professional email signature",
+            "Digital ownership record",
+            "SITE 00 build-readiness check"
+          ],
+          "client_must_provide": [
+            "Payment after quote acceptance",
+            "No passwords in this form — access via provider invite when needed"
+          ],
+          "third_party_costs": [
+            "Domain registration (registrar)",
+            "Google Workspace or Microsoft 365 (if applicable)"
+          ],
+          "projected_investment_minor": 50000,
+          "projected_min_days": 2,
+          "projected_max_days": 3,
+          "timeline_custom_review": false,
+          "dependencies": [],
+          "manual_review": false,
+          "manual_review_reasons": []
+        },
+        "referral_channel": null,
+        "timeline_readiness": {
+          "readiness_satisfied": false,
+          "missing_requirements": [
+            "QUOTE_ACCEPTED",
+            "PAYMENT_CONFIRMED"
+          ],
+          "readiness_satisfied_at": null,
+          "production_started_at": null,
+          "service_window_label": "Estimated 2–3 business days after required information, access, approvals, and payment are received.",
+          "forecast_min_days": null,
+          "forecast_max_days": null
+        },
+        "communication_preferences": {
+          "marketing_opt_in": false,
+          "project_operations": true,
+          "educational": false
+        }
+      }
+    },
+    "J_PAYMENT_SUCCESS": {
+      "token": "FHzacf9IUC78v_oluH4ajDFkS-cKQKew",
+      "payload": {
+        "artifact": {
+          "artifact_id": "dcd4378b-0e07-4278-89d8-ed401cf1ccf8",
+          "public_token": "FHzacf9IUC78v_oluH4ajDFkS-cKQKew",
+          "lead_id": "f56af3bc-8e4a-4263-8cf1-ae6b03c9448e",
+          "client_org_id": null,
+          "contact_id": null,
+          "referral_source_id": "11111111-1111-4111-8111-111111111103",
+          "service_id": "IDNTY.DIGITAL_FOUNDATION",
+          "state": "IN_PROGRESS",
+          "intake_state": "COMPLETE",
+          "quote_id": "6d73f52a-0d60-404b-99c2-f5313897361e",
+          "payment_state": "PAID",
+          "project_state": "ACTIVE",
+          "completion_state": "NOT_STARTED",
+          "build_interest": "NONE",
+          "build_recommendation": "NONE",
+          "foundation_credit_id": null,
+          "intake": {
+            "needs": [
+              "NEED_DOMAIN",
+              "NEED_PRO_EMAIL"
+            ],
+            "phone": "901-555-0100"
+          },
+          "created_at": "2026-10-20T14:39:57.519Z",
+          "opened_at": "2026-10-20T14:39:57.519Z",
+          "last_activity_at": "2026-10-20T14:39:57.523Z",
+          "completed_at": null
+        },
+        "lead": {
+          "lead_id": "f56af3bc-8e4a-4263-8cf1-ae6b03c9448e",
+          "contact_email": null,
+          "contact_name": null,
+          "business_name": "Fixture J_PAYMENT_SUCCESS",
+          "referral_source_id": "11111111-1111-4111-8111-111111111103",
+          "referral_funnel_stage": "PAID",
+          "created_at": "2026-10-20T14:39:57.519Z"
+        },
+        "acceptance": {
+          "artifact_id": "dcd4378b-0e07-4278-89d8-ed401cf1ccf8",
+          "quote_version": 1,
+          "terms_version": "df-terms-v1",
+          "accepted_at": "2026-10-20T14:39:57.519Z",
+          "accepted_disclosures": [
+            "I HAVE REVIEWED MY DIGITAL FOUNDATION SCOPE.",
+            "I UNDERSTAND THAT DOMAIN / EMAIL PROVIDER SUBSCRIPTIONS AND OTHER THIRD-PARTY FEES MAY BE SEPARATE.",
+            "I UNDERSTAND THAT THE PROJECTED TURNAROUND BEGINS AFTER REQUIRED INFORMATION, ACCESS AND PAYMENT ARE RECEIVED."
+          ],
+          "source_surface": "artifact",
+          "client_ip": null,
+          "user_agent": null
+        },
+        "stages": [
+          {
+            "stage_code": "01_DETAILS_RECEIVED",
+            "status": "IN_PROGRESS",
+            "updated_at": "2026-10-20T14:39:57.525Z"
+          },
+          {
+            "stage_code": "02_DOMAIN",
+            "status": "NEEDS_CLIENT",
+            "updated_at": "2026-10-20T14:39:57.525Z"
+          },
+          {
+            "stage_code": "03_PROFESSIONAL_EMAIL",
+            "status": "IN_PROGRESS",
+            "updated_at": "2026-10-20T14:39:57.525Z"
+          },
+          {
+            "stage_code": "04_DNS_SECURITY",
+            "status": "WAITING",
+            "updated_at": "2026-10-20T14:39:57.525Z"
+          },
+          {
+            "stage_code": "05_DEVICE_SIGNATURE",
+            "status": "IN_PROGRESS",
+            "updated_at": "2026-10-20T14:39:57.525Z"
+          },
+          {
+            "stage_code": "06_FINAL_VERIFICATION",
+            "status": "IN_PROGRESS",
+            "updated_at": "2026-10-20T14:39:57.525Z"
+          },
+          {
+            "stage_code": "07_FOUNDATION_COMPLETE",
+            "status": "WAITING",
+            "updated_at": "2026-10-20T14:39:57.525Z"
+          }
+        ],
+        "client_actions": [
+          {
+            "request_id": "f4a603b4-5536-48b0-a695-bf9ea7bee14a",
+            "artifact_id": "dcd4378b-0e07-4278-89d8-ed401cf1ccf8",
+            "action_type": "CHOOSE_DOMAIN",
+            "title": "Domain availability and selection",
+            "detail": "Client chooses preferred domain name(s) for approval.",
+            "status": "OPEN",
+            "created_at": "2026-10-20T14:39:57.525Z",
+            "completed_at": null,
+            "response": null
+          }
+        ],
+        "approvals": [],
+        "ownership_record": null,
+        "build_readiness": {
+          "site_needed": false,
+          "site_type": null,
+          "primary_customer_action": null,
+          "recommended_structure": null,
+          "brand_readiness": null,
+          "content_readiness": null
+        },
+        "credit": null,
+        "surface": "PORTAL",
+        "operations_summary": {
+          "current_stage": "01_DETAILS_RECEIVED",
+          "needs_you_count": 1,
+          "projected_completion": "2–3 business days"
+        },
+        "quote": {
+          "quote_id": "6d73f52a-0d60-404b-99c2-f5313897361e",
+          "artifact_id": "dcd4378b-0e07-4278-89d8-ed401cf1ccf8",
+          "base_service_version": "df-v1-base",
+          "base_price_minor": 50000,
+          "selected_addons": [],
+          "addon_total_minor": 0,
+          "manual_adjustments_minor": 0,
+          "subtotal_minor": 50000,
+          "currency": "USD",
+          "projected_min_days": 2,
+          "projected_max_days": 3,
+          "timeline_custom_review": false,
+          "third_party_cost_notice": "Domain registration, Google Workspace, Microsoft 365, and other provider subscriptions are typically paid directly to those providers unless explicitly included in your quote.",
+          "quote_version": 1,
+          "status": "PAID",
+          "created_at": "2026-10-20T14:39:57.519Z",
+          "expires_at": "2026-11-03T14:39:57.519Z"
+        },
+        "recommendation": {
+          "title": "YOUR DIGITAL FOUNDATION",
+          "recommended_addons": [],
+          "site00_handles": [
+            "Business / domain consultation",
+            "Domain ownership configuration guidance",
+            "Professional email setup (MX, SPF, DKIM, DMARC)",
+            "One primary device setup guidance",
+            "One professional email signature",
+            "Digital ownership record",
+            "SITE 00 build-readiness check"
+          ],
+          "client_must_provide": [
+            "Preferred domain names for approval",
+            "Payment after quote acceptance",
+            "No passwords in this form — access via provider invite when needed"
+          ],
+          "third_party_costs": [
+            "Domain registration (registrar)",
+            "Google Workspace or Microsoft 365 (if applicable)"
+          ],
+          "projected_investment_minor": 50000,
+          "projected_min_days": 2,
+          "projected_max_days": 3,
+          "timeline_custom_review": false,
+          "dependencies": [],
+          "manual_review": false,
+          "manual_review_reasons": []
+        },
+        "referral_channel": {
+          "kind": "DIRECT",
+          "display_label": "Direct"
+        },
+        "timeline_readiness": {
+          "readiness_satisfied": true,
+          "missing_requirements": [
+            "DOMAIN_APPROVED"
+          ],
+          "readiness_satisfied_at": "2026-10-20T14:39:57.523Z",
+          "production_started_at": "2026-10-20T14:39:57.523Z",
+          "service_window_label": "Estimated 2–3 business days after required information, access, approvals, and payment are received.",
+          "forecast_min_days": 2,
+          "forecast_max_days": 3
+        },
+        "communication_preferences": {
+          "marketing_opt_in": false,
+          "project_operations": true,
+          "educational": false
+        }
+      }
+    },
+    "K_PAYMENT_FAILURE": {
+      "token": "G2Z9GNZ8Y_IRQeByDxHW8r0p2T0YtETk",
+      "payload": {
+        "artifact": {
+          "artifact_id": "165b799f-31ac-4d45-8259-10fe9a55d513",
+          "public_token": "G2Z9GNZ8Y_IRQeByDxHW8r0p2T0YtETk",
+          "lead_id": "83cef8cb-6b4b-425d-9ed7-07b1db2bf209",
+          "client_org_id": null,
+          "contact_id": null,
+          "referral_source_id": "11111111-1111-4111-8111-111111111103",
+          "service_id": "IDNTY.DIGITAL_FOUNDATION",
+          "state": "AWAITING_PAYMENT",
+          "intake_state": "COMPLETE",
+          "quote_id": "2fd890cc-5b9a-4e31-93d9-cf63c151bb81",
+          "payment_state": "FAILED",
+          "project_state": "NOT_STARTED",
+          "completion_state": "NOT_STARTED",
+          "build_interest": "NONE",
+          "build_recommendation": "NONE",
+          "foundation_credit_id": null,
+          "intake": {
+            "needs": [
+              "NEED_DOMAIN",
+              "NEED_PRO_EMAIL"
+            ],
+            "phone": "901-555-0100"
+          },
+          "created_at": "2026-10-20T14:39:57.526Z",
+          "opened_at": "2026-10-20T14:39:57.526Z",
+          "last_activity_at": "2026-10-20T14:39:57.526Z",
+          "completed_at": null
+        },
+        "lead": {
+          "lead_id": "83cef8cb-6b4b-425d-9ed7-07b1db2bf209",
+          "contact_email": null,
+          "contact_name": null,
+          "business_name": "Fixture K_PAYMENT_FAILURE",
+          "referral_source_id": "11111111-1111-4111-8111-111111111103",
+          "referral_funnel_stage": "ACCEPTED",
+          "created_at": "2026-10-20T14:39:57.526Z"
+        },
+        "acceptance": {
+          "artifact_id": "165b799f-31ac-4d45-8259-10fe9a55d513",
+          "quote_version": 1,
+          "terms_version": "df-terms-v1",
+          "accepted_at": "2026-10-20T14:39:57.526Z",
+          "accepted_disclosures": [
+            "I HAVE REVIEWED MY DIGITAL FOUNDATION SCOPE.",
+            "I UNDERSTAND THAT DOMAIN / EMAIL PROVIDER SUBSCRIPTIONS AND OTHER THIRD-PARTY FEES MAY BE SEPARATE.",
+            "I UNDERSTAND THAT THE PROJECTED TURNAROUND BEGINS AFTER REQUIRED INFORMATION, ACCESS AND PAYMENT ARE RECEIVED."
+          ],
+          "source_surface": "artifact",
+          "client_ip": null,
+          "user_agent": null
+        },
+        "stages": [],
+        "client_actions": [],
+        "approvals": [],
+        "ownership_record": null,
+        "build_readiness": {
+          "site_needed": false,
+          "site_type": null,
+          "primary_customer_action": null,
+          "recommended_structure": null,
+          "brand_readiness": null,
+          "content_readiness": null
+        },
+        "credit": null,
+        "surface": "CHECKOUT",
+        "quote": {
+          "quote_id": "2fd890cc-5b9a-4e31-93d9-cf63c151bb81",
+          "artifact_id": "165b799f-31ac-4d45-8259-10fe9a55d513",
+          "base_service_version": "df-v1-base",
+          "base_price_minor": 50000,
+          "selected_addons": [],
+          "addon_total_minor": 0,
+          "manual_adjustments_minor": 0,
+          "subtotal_minor": 50000,
+          "currency": "USD",
+          "projected_min_days": 2,
+          "projected_max_days": 3,
+          "timeline_custom_review": false,
+          "third_party_cost_notice": "Domain registration, Google Workspace, Microsoft 365, and other provider subscriptions are typically paid directly to those providers unless explicitly included in your quote.",
+          "quote_version": 1,
+          "status": "ACCEPTED",
+          "created_at": "2026-10-20T14:39:57.526Z",
+          "expires_at": "2026-11-03T14:39:57.526Z"
+        },
+        "recommendation": {
+          "title": "YOUR DIGITAL FOUNDATION",
+          "recommended_addons": [],
+          "site00_handles": [
+            "Business / domain consultation",
+            "Domain ownership configuration guidance",
+            "Professional email setup (MX, SPF, DKIM, DMARC)",
+            "One primary device setup guidance",
+            "One professional email signature",
+            "Digital ownership record",
+            "SITE 00 build-readiness check"
+          ],
+          "client_must_provide": [
+            "Preferred domain names for approval",
+            "Payment after quote acceptance",
+            "No passwords in this form — access via provider invite when needed"
+          ],
+          "third_party_costs": [
+            "Domain registration (registrar)",
+            "Google Workspace or Microsoft 365 (if applicable)"
+          ],
+          "projected_investment_minor": 50000,
+          "projected_min_days": 2,
+          "projected_max_days": 3,
+          "timeline_custom_review": false,
+          "dependencies": [],
+          "manual_review": false,
+          "manual_review_reasons": []
+        },
+        "referral_channel": {
+          "kind": "DIRECT",
+          "display_label": "Direct"
+        },
+        "timeline_readiness": {
+          "readiness_satisfied": false,
+          "missing_requirements": [
+            "PAYMENT_CONFIRMED"
+          ],
+          "readiness_satisfied_at": null,
+          "production_started_at": null,
+          "service_window_label": "Estimated 2–3 business days after required information, access, approvals, and payment are received.",
+          "forecast_min_days": null,
+          "forecast_max_days": null
+        },
+        "communication_preferences": {
+          "marketing_opt_in": false,
+          "project_operations": true,
+          "educational": false
+        }
+      }
+    },
+    "M_COMPLETE_CREDIT": {
+      "token": "L0GcsaBtGKTf-3aket-yOxIzQByhePq5",
+      "payload": {
+        "artifact": {
+          "artifact_id": "4c91b352-11e8-4d37-91e7-03b5fcd8ea2e",
+          "public_token": "L0GcsaBtGKTf-3aket-yOxIzQByhePq5",
+          "lead_id": "badb9358-1f4a-4c00-81b2-73741d2cb4d6",
+          "client_org_id": null,
+          "contact_id": null,
+          "referral_source_id": "11111111-1111-4111-8111-111111111103",
+          "service_id": "IDNTY.DIGITAL_FOUNDATION",
+          "state": "BUILD_OPPORTUNITY",
+          "intake_state": "COMPLETE",
+          "quote_id": "59c3cfba-26ee-4286-8c37-f2d7aa57d4e9",
+          "payment_state": "PAID",
+          "project_state": "ACTIVE",
+          "completion_state": "COMPLETE",
+          "build_interest": "NONE",
+          "build_recommendation": "SIMPLE_BUILD",
+          "foundation_credit_id": "b196029a-8a0c-4ee3-b171-00b44d68ae0d",
+          "intake": {
+            "needs": [
+              "NEED_DOMAIN",
+              "NEED_PRO_EMAIL",
+              "EVENTUAL_WEBSITE"
+            ],
+            "phone": "901-555-0100",
+            "future_website_interest": "yes"
+          },
+          "created_at": "2026-10-20T14:39:57.526Z",
+          "opened_at": "2026-10-20T14:39:57.526Z",
+          "last_activity_at": "2026-10-20T14:39:57.527Z",
+          "completed_at": "2026-10-20T14:39:57.527Z"
+        },
+        "lead": {
+          "lead_id": "badb9358-1f4a-4c00-81b2-73741d2cb4d6",
+          "contact_email": null,
+          "contact_name": null,
+          "business_name": "Fixture M_COMPLETE_CREDIT",
+          "referral_source_id": "11111111-1111-4111-8111-111111111103",
+          "referral_funnel_stage": "COMPLETE",
+          "created_at": "2026-10-20T14:39:57.526Z"
+        },
+        "acceptance": {
+          "artifact_id": "4c91b352-11e8-4d37-91e7-03b5fcd8ea2e",
+          "quote_version": 1,
+          "terms_version": "df-terms-v1",
+          "accepted_at": "2026-10-20T14:39:57.526Z",
+          "accepted_disclosures": [
+            "I HAVE REVIEWED MY DIGITAL FOUNDATION SCOPE.",
+            "I UNDERSTAND THAT DOMAIN / EMAIL PROVIDER SUBSCRIPTIONS AND OTHER THIRD-PARTY FEES MAY BE SEPARATE.",
+            "I UNDERSTAND THAT THE PROJECTED TURNAROUND BEGINS AFTER REQUIRED INFORMATION, ACCESS AND PAYMENT ARE RECEIVED."
+          ],
+          "source_surface": "artifact",
+          "client_ip": null,
+          "user_agent": null
+        },
+        "stages": [
+          {
+            "stage_code": "01_DETAILS_RECEIVED",
+            "status": "IN_PROGRESS",
+            "updated_at": "2026-10-20T14:39:57.527Z"
+          },
+          {
+            "stage_code": "02_DOMAIN",
+            "status": "NEEDS_CLIENT",
+            "updated_at": "2026-10-20T14:39:57.527Z"
+          },
+          {
+            "stage_code": "03_PROFESSIONAL_EMAIL",
+            "status": "IN_PROGRESS",
+            "updated_at": "2026-10-20T14:39:57.527Z"
+          },
+          {
+            "stage_code": "04_DNS_SECURITY",
+            "status": "WAITING",
+            "updated_at": "2026-10-20T14:39:57.527Z"
+          },
+          {
+            "stage_code": "05_DEVICE_SIGNATURE",
+            "status": "IN_PROGRESS",
+            "updated_at": "2026-10-20T14:39:57.527Z"
+          },
+          {
+            "stage_code": "06_FINAL_VERIFICATION",
+            "status": "IN_PROGRESS",
+            "updated_at": "2026-10-20T14:39:57.527Z"
+          },
+          {
+            "stage_code": "07_FOUNDATION_COMPLETE",
+            "status": "COMPLETE",
+            "updated_at": "2026-10-20T14:39:57.527Z"
+          }
+        ],
+        "client_actions": [
+          {
+            "request_id": "1f5dc5db-1329-4da2-921f-0e895e0126b2",
+            "artifact_id": "4c91b352-11e8-4d37-91e7-03b5fcd8ea2e",
+            "action_type": "CHOOSE_DOMAIN",
+            "title": "Domain availability and selection",
+            "detail": "Client chooses preferred domain name(s) for approval.",
+            "status": "OPEN",
+            "created_at": "2026-10-20T14:39:57.527Z",
+            "completed_at": null,
+            "response": null
+          }
+        ],
+        "approvals": [],
+        "ownership_record": {
+          "business": "Fixture business",
+          "domain": "example.com",
+          "registrar": "Example Registrar",
+          "renewal_date": null,
+          "email_provider": "Google Workspace",
+          "primary_mailbox": "hello@example.com",
+          "aliases": [],
+          "dns_status": "CONFIGURED",
+          "security_status": "PROTECTED",
+          "owner": null,
+          "administrative_access_model": "Client-owned with SITE 00 setup"
+        },
+        "build_readiness": {
+          "site_needed": true,
+          "site_type": "focused business presence",
+          "primary_customer_action": "contact",
+          "recommended_structure": "Starter SITE 00 build path",
+          "brand_readiness": "unknown",
+          "content_readiness": "light"
+        },
+        "credit": {
+          "credit_id": "b196029a-8a0c-4ee3-b171-00b44d68ae0d",
+          "artifact_id": "4c91b352-11e8-4d37-91e7-03b5fcd8ea2e",
+          "amount_minor": 20000,
+          "currency": "USD",
+          "valid_from": "2026-10-20T14:39:57.527Z",
+          "expires_at": "2026-11-19T14:39:57.527Z",
+          "status": "AVAILABLE",
+          "applicable_product_types": [
+            "SITE00.BLDR"
+          ],
+          "applied_project_id": null,
+          "created_at": "2026-10-20T14:39:57.527Z"
+        },
+        "surface": "COMPLETE",
+        "operations_summary": {
+          "current_stage": "01_DETAILS_RECEIVED",
+          "needs_you_count": 1,
+          "projected_completion": "2–3 business days"
+        },
+        "quote": {
+          "quote_id": "59c3cfba-26ee-4286-8c37-f2d7aa57d4e9",
+          "artifact_id": "4c91b352-11e8-4d37-91e7-03b5fcd8ea2e",
+          "base_service_version": "df-v1-base",
+          "base_price_minor": 50000,
+          "selected_addons": [],
+          "addon_total_minor": 0,
+          "manual_adjustments_minor": 0,
+          "subtotal_minor": 50000,
+          "currency": "USD",
+          "projected_min_days": 2,
+          "projected_max_days": 3,
+          "timeline_custom_review": false,
+          "third_party_cost_notice": "Domain registration, Google Workspace, Microsoft 365, and other provider subscriptions are typically paid directly to those providers unless explicitly included in your quote.",
+          "quote_version": 1,
+          "status": "PAID",
+          "created_at": "2026-10-20T14:39:57.526Z",
+          "expires_at": "2026-11-03T14:39:57.526Z"
+        },
+        "recommendation": {
+          "title": "YOUR DIGITAL FOUNDATION",
+          "recommended_addons": [],
+          "site00_handles": [
+            "Business / domain consultation",
+            "Domain ownership configuration guidance",
+            "Professional email setup (MX, SPF, DKIM, DMARC)",
+            "One primary device setup guidance",
+            "One professional email signature",
+            "Digital ownership record",
+            "SITE 00 build-readiness check"
+          ],
+          "client_must_provide": [
+            "Preferred domain names for approval",
+            "Payment after quote acceptance",
+            "No passwords in this form — access via provider invite when needed"
+          ],
+          "third_party_costs": [
+            "Domain registration (registrar)",
+            "Google Workspace or Microsoft 365 (if applicable)"
+          ],
+          "projected_investment_minor": 50000,
+          "projected_min_days": 2,
+          "projected_max_days": 3,
+          "timeline_custom_review": false,
+          "dependencies": [],
+          "manual_review": false,
+          "manual_review_reasons": []
+        },
+        "referral_channel": {
+          "kind": "DIRECT",
+          "display_label": "Direct"
+        },
+        "timeline_readiness": {
+          "readiness_satisfied": true,
+          "missing_requirements": [
+            "DOMAIN_APPROVED"
+          ],
+          "readiness_satisfied_at": "2026-10-20T14:39:57.527Z",
+          "production_started_at": "2026-10-20T14:39:57.527Z",
+          "service_window_label": "Estimated 2–3 business days after required information, access, approvals, and payment are received.",
+          "forecast_min_days": 2,
+          "forecast_max_days": 3
+        },
+        "communication_preferences": {
+          "marketing_opt_in": false,
+          "project_operations": true,
+          "educational": false
+        }
+      }
+    }
+  }
+}
