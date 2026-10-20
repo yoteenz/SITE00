@@ -32,6 +32,7 @@ const OBJECT_FOR: Record<DfView, DfObjectKind> = {
   RECORDS: 'crown',
   RECORD: 'crown',
   COMM_PREFS: 'corner',
+  COMPLETE: 'crown',
 };
 
 const REVIEW_MENU_VIEWS: DfView[] = [...DF_VIEW_ORDER, 'ROADMAP', 'STAGE', 'NEEDS_YOU', 'RECORDS', 'COMM_PREFS'];

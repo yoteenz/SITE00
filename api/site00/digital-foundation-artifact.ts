@@ -8,6 +8,7 @@ import {
   captureBuildInterest,
   completeClientAction,
   createCheckoutSession,
+  createFoundationBuilderHandoff,
   getClientArtifactPayloadByToken,
   openArtifactByToken,
   removeQuoteAddon,
@@ -190,6 +191,23 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           captureBuildInterest(artifact.artifact_id, body.interest ?? 'INTERESTED');
           await loadArtifactGraphByToken(token);
           return res.status(200).json(getClientArtifactPayloadByToken(token));
+        case 'create-builder-handoff': {
+          const handoff = createFoundationBuilderHandoff(artifact.artifact_id, {
+            build_path_preference: body.build_path_preference ?? null,
+          });
+          await loadArtifactGraphByToken(token);
+          return res.status(200).json({
+            handoff_id: handoff.handoff.id,
+            deep_link_path: handoff.deep_link_path,
+            credit_verified: handoff.credit_verified,
+            credit_amount_minor: handoff.credit_amount_minor,
+            credit_currency: handoff.credit_currency,
+            credit_expires_at: handoff.credit_expires_at,
+            build_path_preference: handoff.handoff.build_path_preference,
+            builder_credit_consumption: handoff.builder_credit_consumption,
+            payload: getClientArtifactPayloadByToken(token),
+          });
+        }
         case 'list-messages':
           markProjectMessagesRead({ artifact_id: artifact.artifact_id, reader_role: 'CLIENT' });
           return res.status(200).json({ messages: listProjectMessages(artifact.artifact_id) });
