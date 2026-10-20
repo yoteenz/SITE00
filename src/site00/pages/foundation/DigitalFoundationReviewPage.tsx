@@ -57,7 +57,7 @@ const BLANK_DRAFT: IntakeDraft = {
 function DirectLink({ anchorId }: { anchorId: string }) {
   const href = reviewScreenUrl(anchorId);
   return (
-    <a className="df-review__direct" href={href}>
+    <a className="df-review__direct" href={href} title={href}>
       {href}
     </a>
   );

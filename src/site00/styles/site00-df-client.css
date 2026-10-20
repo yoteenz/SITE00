@@ -227,9 +227,28 @@ body:has(.df-root) {
   vertical-align: baseline;
 }
 
+.df-screen--crown {
+  /* Reserve the locked crown artwork band; text-only width follows available inline space. */
+  --df-crown-art-band: min(46%, 230px);
+  --df-crown-text-gap: 14px;
+  --df-crown-text-max: calc(100% - var(--df-crown-art-band) - var(--df-crown-text-gap));
+}
+
 .df-screen--crown .df-headline {
   --df-headline: min(56px, 13.4vw);
   line-height: calc(0.94em - 2px);
+  max-width: var(--df-crown-text-max);
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+.df-screen--crown .df-lede {
+  max-width: min(var(--df-crown-text-max), 100%);
+  overflow-wrap: anywhere;
+}
+
+.df-screen--crown .df-rail {
+  max-width: var(--df-crown-text-max);
 }
 
 /* ─── Lede (DF-C04) ────────────────────────────────────────────────────────────────────────── */
@@ -2305,6 +2324,15 @@ button.df-spec__btn {
     max-width: min(310px, 100%);
   }
 
+  .df-screen--crown {
+    --df-crown-art-band: min(46%, 230px);
+    --df-crown-text-gap: 12px;
+  }
+
+  .df-screen--crown .df-lede {
+    max-width: min(var(--df-crown-text-max), 100%);
+  }
+
   .df-reentry {
     width: 100%;
     max-width: 100%;
@@ -2344,6 +2372,11 @@ button.df-spec__btn {
 
   .df-screen__main {
     max-width: 560px;
+  }
+
+  .df-screen--crown {
+    --df-crown-art-band: min(44%, 300px);
+    --df-crown-text-gap: 18px;
   }
 
   .df-object--crown {
@@ -2388,6 +2421,15 @@ button.df-spec__btn {
 
   .df-screen--crown .df-headline {
     --df-headline: 82px;
+  }
+
+  .df-screen--crown {
+    --df-crown-art-band: min(46%, 560px);
+    --df-crown-text-gap: 24px;
+  }
+
+  .df-screen--crown .df-lede {
+    max-width: min(var(--df-crown-text-max), 440px);
   }
 
   .df-lede {
@@ -2490,6 +2532,7 @@ button.df-spec__btn {
 
 .df-review {
   min-height: 100dvh;
+  overflow-x: clip;
   background: #e4e2dd;
   color: #0c0c0c;
 }
@@ -2499,9 +2542,10 @@ button.df-spec__btn {
   top: 0;
   z-index: 30;
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-start;
-  gap: 18px;
-  overflow-x: auto;
+  gap: 12px 18px;
+  max-width: 100%;
   padding: 12px 14px;
   background: #0c0c0c;
   color: #f3f2ef;
@@ -2538,8 +2582,12 @@ button.df-spec__btn {
 }
 
 .df-review__nav .df-review__direct {
-  max-width: 168px;
+  max-width: min(168px, 42vw);
   font-size: 9px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: normal;
 }
 
 .df-review__intro {
@@ -2616,6 +2664,13 @@ button.df-spec__btn {
 
   .df-review .df-screen--crown .df-headline {
     --df-headline: 44px;
+    max-width: var(--df-crown-text-max);
+  }
+
+  .df-review .df-screen--crown .df-lede {
+    max-width: min(var(--df-crown-text-max), 100%);
+    font-size: 7.5px;
+    line-height: calc(1.65em - 2px);
   }
 
   .df-review .df-lede {
