@@ -16793,3 +16793,11 @@ Summary of the whole conversation in this chat.
 - **Sprint:** `P0.SITE00.IDNTY.FOUNDATION-BUILDER.TEXT-ONLY-RESPONSIVE-REFLOW-RECOVERY1` on `cursor/idnty-living-portal-one-pass-completion1-be3b` — **draft PR #1671**, not merged.
 - **Fix:** `site00-df-client.css` — `--df-crown-text-max` on `.df-screen--crown` for headline/lede/rail; review nav wrap + ellipsis; `.df-review .df-screen--crown .df-lede` no longer forces 310px over artwork band. **No** `.df-object--crown` geometry changes.
 - **Tests:** `tests/digitalFoundationCrownTextReflow.test.ts`; Playwright geometry at 390px on `/foundation/review` (P04–P07 family).
+
+---
+
+## 2026-10-20 — DF global typographic reflow (follow-up, draft PR #1671)
+
+- **Sprint:** `P0.SITE00.IDNTY.FOUNDATION-BUILDER.GLOBAL-TYPOGRAPHIC-REFLOW-AND-OPTICAL-BALANCE1` on same branch — extends crown text recovery; **not merged**.
+- **Fix:** `site00-df-client.css` + `site00-df-components.css` — `text-wrap: balance` (headlines, section/row titles), `text-wrap: pretty` (lede, subs, acks, hints), `min-width: 0` on card text columns; parent `--df-crown-text-max` unchanged; `.df-object--crown` untouched.
+- **Tests:** `tests/digitalFoundationTypographicReflow.test.ts`; Playwright orphan audit + screenshots under `/opt/cursor/artifacts/df-typography-after/`.
