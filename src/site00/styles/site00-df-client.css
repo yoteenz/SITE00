@@ -317,9 +317,13 @@ body:has(.df-root) {
   color: var(--df-ink);
 }
 
-/* A figure and its unit travel together: no “2–” / “3 BUSINESS DAYS” split, no orphaned qualifier. */
+/*
+ * A figure and its unit travel together: no “2–” / “3 BUSINESS DAYS” split, no orphaned qualifier.
+ * Inline-block, not nowrap: when enlarged text makes the phrase wider than the lede it still wraps inside it.
+ */
 .df-lede__keep {
-  white-space: nowrap;
+  display: inline-block;
+  max-width: 100%;
 }
 
 /* ─── Threshold objects (DF-C05) ───────────────────────────────────────────────────────────── */

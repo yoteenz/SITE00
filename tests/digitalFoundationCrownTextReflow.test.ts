@@ -58,7 +58,8 @@ describe('Digital Foundation crown text reflow (text-only)', () => {
   });
 
   it('keeps a figure and its unit together in the P01 lede without a manual break', () => {
-    expect(clientCss).toMatch(/\.df-lede__keep \{[^}]*white-space: nowrap/);
+    expect(clientCss).toMatch(/\.df-lede__keep \{[^}]*display: inline-block;[^}]*max-width: 100%/);
+    expect(clientCss).not.toMatch(/\.df-lede__keep \{[^}]*nowrap/);
     const entry = readFileSync(new URL('../src/site00/foundation-client/parents/EntryIntake.tsx', import.meta.url), 'utf8');
     expect(entry).toContain('<span className="df-lede__keep">TYPICALLY {days} BUSINESS DAYS.</span>');
     expect(entry.slice(entry.indexOf('<DfLede>'), entry.indexOf('</DfLede>'))).not.toContain('<br');
