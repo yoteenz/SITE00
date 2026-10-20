@@ -3,6 +3,7 @@
  * checklist, QR placeholder) plus the founder-selected referral card. Class names match rf.css one-to-one.
  */
 import { useState, type ReactNode } from 'react';
+import { approvedReferralCardAssets } from '../config/referralCardAssets';
 import { CARD_STUDIO_COPY } from '../config/referralPolicy';
 import { WsCheckGlyph, WsChip, WsIcon, WsPlate, WsTabs, type WsChipKind } from '../shell/wsKit';
 
@@ -262,12 +263,21 @@ export const QrPlaceholder = ({ seed, label = true }: { seed: string; label?: bo
 export const CARD_BENEFITS = ['DOMAIN', 'PROFESSIONAL EMAIL', 'EMAIL SECURITY', 'OWNERSHIP RECORDS'] as const;
 
 /**
- * FOUNDER-SELECTED REFERRAL CARD (3.5 × 2 in) — front "YOUR BUSINESS. BUILT TO LAST."; back "START HERE." with the
- * service benefits, a partner-specific QR (placeholder until the URL is verified) and the partner company name in red.
- * Red typography and accents carry the reflective red metallic foil (screen simulation only).
+ * FOUNDER-SELECTED REFERRAL CARD — approved partners use founder-supplied raster artwork; others use the CSS
+ * reconstruction placeholder until artwork is ingested.
  */
 export function FounderCard({ side, partner, width = 420 }: { side: 'front' | 'back'; partner: string; width?: number }) {
   const style = { ['--cw' as string]: `${width}px` };
+  const approved = approvedReferralCardAssets(partner);
+  if (approved) {
+    const src = side === 'front' ? approved.frontSrc : approved.backSrc;
+    const alt = side === 'front' ? approved.altFront : approved.altBack;
+    return (
+      <figure className="rcard rcard--approved-art" style={style} data-side={side}>
+        <img className="rcard__art" src={src} alt={alt} width={1536} height={1024} loading="lazy" decoding="async" />
+      </figure>
+    );
+  }
   if (side === 'front') {
     return (
       <div className="rcard rcard--founder rcard--front" style={style} role="img" aria-label={`REFERRAL CARD FRONT · ${CARD_STUDIO_COPY.frontLine1} ${CARD_STUDIO_COPY.frontLine2}`}>

@@ -151,6 +151,8 @@
 
 /* ─── Referral card (3.5 × 2 in; --cw sets the rendered width) ──────────────────────────────────── */
 .ws .rcard { --cw: 420px; position: relative; width: min(100%, var(--cw)); max-width: 100%; aspect-ratio: 3.5 / 2; overflow: hidden; background: #fbfaf8; color: #0c0c0c; font-family: var(--ws-text); text-transform: uppercase; box-shadow: 0 0 0 1px rgba(12, 12, 12, 0.08); container: card / inline-size; flex: 0 0 auto; }
+.ws .rcard--approved-art { aspect-ratio: auto; height: auto; margin: 0; padding: 0; overflow: visible; background: transparent; text-transform: none; }
+.ws .rcard--approved-art .rcard__art { display: block; width: 100%; height: auto; max-width: 100%; object-fit: contain; object-position: center; border-radius: 2.8%; box-shadow: 0 0 0 1px rgba(12, 12, 12, 0.08); }
 .ws .rcard * { box-sizing: border-box; }
 .ws .rcard__brand { font-size: 5.2cqw; font-weight: 600; letter-spacing: 0.26em; line-height: 1; white-space: nowrap; }
 .ws .rcard__df { font-family: var(--ws-display); font-weight: 900; line-height: 0.86; letter-spacing: 0; }

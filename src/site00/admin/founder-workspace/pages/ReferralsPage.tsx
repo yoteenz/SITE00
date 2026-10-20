@@ -1019,7 +1019,7 @@ function CardStudio({ partners, ro }: { partners: Partner[]; ro: Ro }) {
         <div className="cs-stage">
           <FounderCard side={side} partner={p?.name ?? CARD_STUDIO_COPY.partnerName} width={520} />
           <span className="ws-meta" style={{ textAlign: 'center' }}>
-            3.5 × 2 IN · FOUNDER-SELECTED DESIGN · QR IS A NON-SCANNABLE PLACEHOLDER · FOIL SHOWN AS A SCREEN SIMULATION
+            FOUNDER-APPROVED ORIGINAL ARTWORK · REFERRAL LINK NOT ISSUED · QR ON BACK IMAGE UNVERIFIED · NOT FOR DISTRIBUTION
           </span>
         </div>
         <div className="tpl" role="radiogroup" aria-label="CARD SIDES">
