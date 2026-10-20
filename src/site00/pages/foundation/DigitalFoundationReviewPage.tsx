@@ -63,6 +63,53 @@ function DirectLink({ anchorId }: { anchorId: string }) {
   );
 }
 
+/** Founder/dev review only — collapsible so mobile preview keeps screen space for DF screens. */
+function ReviewNav() {
+  const routeCount = DF_VIEW_ORDER.length + BLDR_ROOMS.length;
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    const collapse = () => setOpen(false);
+    window.addEventListener('hashchange', collapse);
+    return () => window.removeEventListener('hashchange', collapse);
+  }, []);
+
+  return (
+    <div className={`df-review__nav-shell${open ? ' df-review__nav-shell--open' : ''}`}>
+      <div className="df-review__nav-bar">
+        <p className="df-review__nav-kicker">DESIGN REVIEW</p>
+        <button
+          type="button"
+          className="df-review__nav-toggle"
+          aria-expanded={open}
+          aria-controls="df-review-nav-routes"
+          onClick={() => setOpen((v) => !v)}
+        >
+          {open ? 'HIDE SCREEN LINKS' : `SHOW SCREEN LINKS (${routeCount})`}
+        </button>
+      </div>
+      <nav id="df-review-nav-routes" className="df-review__nav" aria-label="REVIEW SCREENS">
+        {DF_VIEW_ORDER.map((view) => (
+          <div className="df-review__route" key={view}>
+            <a className="df-review__route-name" href={`#df-r-${view}`}>
+              {DF_VIEW_META[view].index} {DF_VIEW_META[view].label}
+            </a>
+            <DirectLink anchorId={`df-r-${view}`} />
+          </div>
+        ))}
+        {BLDR_ROOMS.map((room) => (
+          <div className="df-review__route" key={room.id}>
+            <a className="df-review__route-name" href={`#df-r-bldr-${room.id}`}>
+              {room.label}
+            </a>
+            <DirectLink anchorId={`df-r-bldr-${room.id}`} />
+          </div>
+        ))}
+      </nav>
+    </div>
+  );
+}
+
 function Screen({
   id,
   view,
@@ -148,24 +195,7 @@ export default function DigitalFoundationReviewPage() {
 
   return (
     <div className="df-review">
-      <nav className="df-review__nav" aria-label="REVIEW SCREENS">
-        {DF_VIEW_ORDER.map((view) => (
-          <div className="df-review__route" key={view}>
-            <a className="df-review__route-name" href={`#df-r-${view}`}>
-              {DF_VIEW_META[view].index} {DF_VIEW_META[view].label}
-            </a>
-            <DirectLink anchorId={`df-r-${view}`} />
-          </div>
-        ))}
-        {BLDR_ROOMS.map((room) => (
-          <div className="df-review__route" key={room.id}>
-            <a className="df-review__route-name" href={`#df-r-bldr-${room.id}`}>
-              {room.label}
-            </a>
-            <DirectLink anchorId={`df-r-bldr-${room.id}`} />
-          </div>
-        ))}
-      </nav>
+      <ReviewNav />
       <header className="df-review__intro">
         <p>DIGITAL FOUNDATION AND THE BLDR STUDIO THAT FOLLOWS. EVERY SCREEN IS ON THIS PAGE.</p>
         {note && <p>{note}</p>}

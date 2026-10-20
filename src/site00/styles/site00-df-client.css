@@ -2595,18 +2595,63 @@ button.df-spec__btn {
   color: #0c0c0c;
 }
 
-.df-review__nav {
+.df-review__nav-shell {
   position: sticky;
   top: 0;
   z-index: 30;
+  max-width: 100%;
+  background: #0c0c0c;
+  color: #f3f2ef;
+}
+
+.df-review__nav-bar {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+}
+
+.df-review__nav-kicker {
+  margin: 0;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  white-space: nowrap;
+}
+
+.df-review__nav-toggle {
+  margin: 0;
+  padding: 8px 10px;
+  border: 1px solid rgba(243, 242, 239, 0.35);
+  background: transparent;
+  color: inherit;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  line-height: 1.2;
+  text-align: right;
+  cursor: pointer;
+}
+
+.df-review__nav-toggle:focus-visible {
+  outline: 2px solid var(--df-red);
+  outline-offset: 2px;
+}
+
+.df-review__nav {
+  display: none;
   flex-wrap: wrap;
   align-items: flex-start;
   gap: 12px 18px;
   max-width: 100%;
-  padding: 12px 14px;
-  background: #0c0c0c;
-  color: #f3f2ef;
+  padding: 0 14px 12px;
+  border-top: 1px solid rgba(243, 242, 239, 0.12);
+}
+
+.df-review__nav-shell--open .df-review__nav {
+  display: flex;
+  padding-top: 10px;
 }
 
 .df-review__route {

@@ -38,6 +38,16 @@ describe('foundation review direct links', () => {
     expect(page.match(/<DirectLink /g)?.length).toBe(4);
   });
 
+  it('collapses the review nav by default on mobile preview', () => {
+    const page = readFileSync('src/site00/pages/foundation/DigitalFoundationReviewPage.tsx', 'utf8');
+    expect(page).toContain('function ReviewNav');
+    expect(page).toContain('df-review__nav-shell');
+    expect(page).toContain('SHOW SCREEN LINKS');
+    const css = readFileSync('src/site00/styles/site00-df-client.css', 'utf8');
+    expect(css).toMatch(/\.df-review__nav-shell--open \.df-review__nav[\s\S]*display: flex/);
+    expect(css).toMatch(/\.df-review__nav \{[\s\S]*display: none/);
+  });
+
   it('maps review steps to anchor ids', () => {
     expect(reviewAnchorForView('P04')).toBe('df-r-P04');
     expect(reviewAnchorForView('OVERVIEW')).toBe('df-r-OVERVIEW');
