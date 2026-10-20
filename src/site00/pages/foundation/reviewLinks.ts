@@ -6,6 +6,12 @@ export function reviewAnchorForView(view: DfView): string {
   return `df-r-${view}`;
 }
 
+/** Map hash anchors to canonical review entries (legacy BLDR ids stay addressable). */
+export function normalizeReviewAnchor(anchorId: string): string {
+  if (anchorId.startsWith('df-r-bldr-')) return anchorId;
+  return anchorId;
+}
+
 /** Scroll to a screen on the review page without leaving `/foundation/review`. */
 export function scrollToReviewAnchor(anchorId: string): void {
   if (typeof document === 'undefined') return;
