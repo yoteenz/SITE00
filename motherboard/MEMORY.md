@@ -16844,3 +16844,10 @@ Summary of the whole conversation in this chat.
 
 - **Ask:** Custom split `?` (black stem + red dot) on builder/display headlines was taller than adjacent uppercase — cap-align to text.
 - **Fix:** `correspondence-display-split--question` in `reactProse.tsx`; CSS in `site00-correspondence-fonts.css` plus `.df-headline` / `.bs-headline` overrides; email `html.ts` inline height matched. Commit `55f89597` on `cursor/idnty-living-portal-one-pass-completion1-be3b`.
+
+---
+
+## 2026-10-20 — DF review gallery restoration (draft PR #1671)
+
+- **Sprint:** `COMPLETE-ARTIFACT-REVIEW.CANONICAL-GALLERY-RESTORATION-AND-REGRESSION-LOCK1` — regression was single-screen `DigitalFoundationReviewPreviewHost` only (`7f0841be`); restored **continuous vertical gallery** (`DigitalFoundationReviewGallery` + lazy sections + error boundaries). Registry jump scrolls to `#anchor` and resets group filter to ALL; does not unmount siblings.
+- **Registry:** `2026-10-20-gallery-restoration1`; tests `digitalFoundationReviewGalleryRegression.test.ts`. Tunnel SHA `80936230`; Playwright evidence `/opt/cursor/artifacts/df-review-gallery-restoration/`.
