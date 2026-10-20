@@ -14,7 +14,7 @@ import { SITE00_ROUTES } from '../../config/routes';
 import type { DfView } from '../../foundation-client/model';
 import { reviewAnchorForView } from './reviewLinks';
 
-export const DIGITAL_FOUNDATION_REVIEW_REGISTRY_VERSION = '2026-10-20-gallery-restoration1';
+export const DIGITAL_FOUNDATION_REVIEW_REGISTRY_VERSION = '2026-10-20-intake-vs-website-builder1';
 
 export const DF_REVIEW_PRODUCT = {
   IDNTY_DIGITAL_FOUNDATION: 'IDNTY_DIGITAL_FOUNDATION',
@@ -82,7 +82,7 @@ export type DfReviewEntry = {
 
 export const DIGITAL_FOUNDATION_REVIEW_GROUP_LABELS: Record<DfReviewGroupId, string> = {
   INTAKE: 'A · Foundation intake',
-  FOUNDATION_BUILDER: 'B · Digital Foundation builder',
+  FOUNDATION_BUILDER: 'B · Website builder (hybrid studio)',
   POST_INTAKE: 'C · Post-intake review / waiting',
   PROPOSAL_CHECKOUT: 'D · Personalized proposals & checkout',
   CLIENT_PORTAL: 'E · Client foundation portal',
@@ -195,14 +195,14 @@ function overlayEntry(id: RegisteredOverlayId): DfReviewEntry {
 const CLIENT_INLINE: DfReviewEntry[] = [
   inlineIntake('P01', 'Get started', 'foundation-client/parents/EntryIntake.tsx#P01Entry', 'INTAKE'),
   inlineIntake('P02', 'Business information', 'foundation-client/parents/EntryIntake.tsx#P02Intake', 'INTAKE'),
-  inlineIntake('P03', 'Build your foundation (configurator)', 'foundation-client/parents/EntryIntake.tsx#P03Configure', 'FOUNDATION_BUILDER'),
+  inlineIntake('P03', 'Build your foundation (configurator)', 'foundation-client/parents/EntryIntake.tsx#P03Configure', 'INTAKE'),
   {
-    reviewId: 'BUILDER_P03_DOMAIN',
+    reviewId: 'INTAKE_P03_DOMAIN',
     anchorId: 'df-r-P03-domain',
-    group: 'FOUNDATION_BUILDER',
+    group: 'INTAKE',
     productOwner: DF_REVIEW_PRODUCT.IDNTY_DIGITAL_FOUNDATION,
-    pageName: 'Foundation builder · domain path open',
-    pageFamily: 'foundation-builder',
+    pageName: 'Build your foundation · domain path open',
+    pageFamily: 'foundation-intake',
     componentSource: 'foundation-client/parents/EntryIntake.tsx#P03Configure',
     renderMode: 'inline_df_screen',
     implementationStatus: 'reviewable',
@@ -210,12 +210,12 @@ const CLIENT_INLINE: DfReviewEntry[] = [
     reviewAdapter: 'inline_fixture',
   },
   {
-    reviewId: 'BUILDER_P03_EMAIL',
+    reviewId: 'INTAKE_P03_EMAIL',
     anchorId: 'df-r-P03-email',
-    group: 'FOUNDATION_BUILDER',
+    group: 'INTAKE',
     productOwner: DF_REVIEW_PRODUCT.IDNTY_DIGITAL_FOUNDATION,
-    pageName: 'Foundation builder · email row open',
-    pageFamily: 'foundation-builder',
+    pageName: 'Build your foundation · email row open',
+    pageFamily: 'foundation-intake',
     componentSource: 'foundation-client/parents/EntryIntake.tsx#P03Configure',
     renderMode: 'inline_df_screen',
     implementationStatus: 'reviewable',
@@ -576,21 +576,21 @@ const FOUNDER_ENTRIES: DfReviewEntry[] = [
 
 const OVERLAY_ENTRIES = [...WORKSPACE_OVERLAY_IDS, ...REFERRAL_OVERLAY_IDS].map(overlayEntry);
 
-const DEPRECATED_BLDR = (['PLACE', 'FEEL', 'WORK', 'PACE', 'BLUEPRINT'] as const).map(
+const HYBRID_BUILDER_STUDIO = (['PLACE', 'FEEL', 'WORK', 'PACE', 'BLUEPRINT'] as const).map(
   (room): DfReviewEntry => ({
-    reviewId: `DEPRECATED_PUBLIC_BUILDER_${room}`,
+    reviewId: `HYBRID_BUILDER_${room}`,
     anchorId: `df-r-bldr-${room}`,
-    group: 'DEPRECATED',
+    group: 'FOUNDATION_BUILDER',
     productOwner: DF_REVIEW_PRODUCT.SITE00_PUBLIC_BUILDER,
-    pageName: `Legacy BLDR · ${room} (blocked)`,
-    pageFamily: 'public-builder',
-    componentSource: 'pages/bldr/BldrSpatialStudioPage.tsx → BuilderStudio (FORBIDDEN)',
-    runtimeRoute: `${SITE00_ROUTES.bldrSpatialStudio}/${room.toLowerCase()}`,
-    renderMode: 'legacy_redirect',
-    implementationStatus: 'legacy_redirect',
+    pageName: `Hybrid builder · ${room}`,
+    pageFamily: 'hybrid-spatial-builder',
+    componentSource: 'pages/bldr/BldrSpatialStudioPage.tsx → BuilderStudio (?reviewRoom= sample embed)',
+    runtimeRoute: `${SITE00_ROUTES.bldrSpatialStudio}/${room.toLowerCase()}?reviewRoom=${room}`,
+    renderMode: 'inline_df_screen',
+    implementationStatus: 'reviewable',
     authRequirement: 'none',
-    reviewAdapter: 'blocked_legacy',
-    notes: 'Do not iframe /bldr/studio on DF review. Use P03 configurator.',
+    reviewAdapter: 'inline_fixture',
+    notes: 'Sample-mode iframe on DF review — distinct from P03 foundation configurator.',
   }),
 );
 
@@ -598,7 +598,7 @@ export const DIGITAL_FOUNDATION_REVIEW_ENTRIES: readonly DfReviewEntry[] = [
   ...CLIENT_INLINE,
   ...FOUNDER_ENTRIES,
   ...OVERLAY_ENTRIES,
-  ...DEPRECATED_BLDR,
+  ...HYBRID_BUILDER_STUDIO,
 ];
 
 const anchorIndex = new Map<string, DfReviewEntry>();

@@ -45,6 +45,9 @@ describe('digital foundation review gallery regression lock', () => {
     for (const anchor of builderManifestAnchorIds()) {
       expect(ordered.has(anchor)).toBe(true);
     }
+    for (const room of ['PLACE', 'FEEL', 'WORK', 'PACE', 'BLUEPRINT']) {
+      expect(ordered.has(`df-r-bldr-${room}`)).toBe(true);
+    }
   });
 
   it('eager-mounts only the first screens in each zone gallery', () => {

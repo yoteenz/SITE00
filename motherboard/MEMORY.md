@@ -16857,3 +16857,9 @@ Summary of the whole conversation in this chat.
 - **Founder BROKEN panels:** nested `MemoryRouter` inside site `BrowserRouter` on `/foundation/review`. Fix: inline render founder pages (`DigitalFoundationReviewFounderHost`) with `RegistryFilterProvider` + `OverlayProvider`; `ClientRecordPage` accepts optional `reviewArtifactId`.
 - **Visibility:** `gallerySectionEagerMount` mounts builder, client portal, and founder groups without scroll; hash/registry nav forces section mount. Bootstrap keeps offline fixtures when live mint fails; seeds preview memory via GET bootstrap.
 - **Ship:** `8199a7cd` on `cursor/idnty-living-portal-one-pass-completion1-be3b`; test `digitalFoundationReviewFounderHost.test.ts`.
+
+## 2026-10-20 — DF review zone-scoped continuous gallery (draft PR #1671)
+
+- **Founder ask:** Top zone pills (intake · builder · client · founder); **one zone mounted at a time**, but **all screens in that zone scroll on one page** — not single-screen stage, not all 92 sections at once.
+- **Fix:** `DigitalFoundationReviewGallery` maps `galleryEntriesFilteredByZone` → `DigitalFoundationReviewGallerySection` (lazy IO + first-3 eager per zone). Zone pill CSS (`.df-review__zone-bar`). `navigateToReviewAnchor` scrolls to section id. Copy kicker `CONTINUOUS GALLERY`.
+- **Tests:** `digitalFoundationReviewGalleryRegression.test.ts` (zone eager contract), `digitalFoundationReviewLinks.test.ts`. Evidence `/opt/cursor/artifacts/df-review-zone-gallery/`.

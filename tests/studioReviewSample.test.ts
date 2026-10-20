@@ -16,9 +16,12 @@ describe('BLDR studio design-review sample', () => {
   });
 
   it('foundation review embeds hybrid studio with reviewRoom query', () => {
-    const page = readFileSync('src/site00/pages/foundation/DigitalFoundationReviewPage.tsx', 'utf8');
-    expect(page).toContain('reviewRoom=');
-    expect(page).toContain('studioPathForReviewRoom');
-    expect(page).toContain('df-review__studio');
+    const embed = readFileSync(
+      'src/site00/pages/foundation/DigitalFoundationReviewBuilderStudioEmbed.tsx',
+      'utf8',
+    );
+    expect(embed).toContain('reviewRoom=');
+    expect(embed).toContain('studioPathForReviewRoom');
+    expect(embed).toContain('df-review__studio');
   });
 });

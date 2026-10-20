@@ -8,14 +8,15 @@ import { DfFrame, DfMenu, type DfObjectKind } from '../../foundation-client/shel
 import { DF_VIEW_ORDER } from '../../foundation-client/model';
 import DigitalFoundationCompleteSurface from './DigitalFoundationCompleteSurface';
 import ReviewP03ConfigureSurface from './ReviewP03ConfigureSurface';
-import { builderManifestAnchorIds } from './digitalFoundationBuilderManifest';
+import { intakeConfiguratorAnchorIds } from './digitalFoundationBuilderManifest';
 import { resolveReviewEntry } from './digitalFoundationReviewRegistry';
 import { reviewAnchorForView, scrollToReviewAnchor } from './reviewLinks';
 import { useReviewPreviewState } from './DigitalFoundationReviewPreviewContext';
+import DigitalFoundationReviewBuilderStudioEmbed from './DigitalFoundationReviewBuilderStudioEmbed';
+import DigitalFoundationReviewClientPortalBody from './DigitalFoundationReviewClientPortalBody';
 import DigitalFoundationReviewClientPortalHost from './DigitalFoundationReviewClientPortalHost';
 import DigitalFoundationReviewFounderHost from './DigitalFoundationReviewFounderHost';
 import { SITE00_ROUTES } from '../../config/routes';
-import { APPROVED_FOUNDATION_BUILDER_SOURCE } from './digitalFoundationReviewRegistry';
 
 const OBJECT_FOR: Record<DfView, DfObjectKind> = {
   P01: 'hero',
@@ -91,26 +92,6 @@ function PanelStage({ id, title, children }: { id: string; title: string; childr
   );
 }
 
-function LegacyPublicBuilderBlocked({ anchorId, room }: { anchorId: string; room: string }) {
-  return (
-    <PanelStage id={anchorId} title={`BLOCKED · PUBLIC BUILDER · ${room}`}>
-      <div className="df-review__blocked">
-        <p className="df-review__sim">REVIEW MODE · WRONG PRODUCT BLOCKED</p>
-        <p>
-          THIS LINK PREVIOUSLY IFRAMED THE PUBLIC SITE 00 CUSTOMER BUILDER (<code>/bldr/studio</code>). THAT IS NOT THE IDNTY
-          DIGITAL FOUNDATION CONFIGURATOR.
-        </p>
-        <p>
-          APPROVED FOUNDATION BUILDER SOURCE: <code>{APPROVED_FOUNDATION_BUILDER_SOURCE}</code>
-        </p>
-        <button type="button" className="df-review__route-name df-review__route-name--cta" onClick={() => scrollToReviewAnchor(reviewAnchorForView('P03'))}>
-          OPEN FOUNDATION CONFIGURATOR (P03)
-        </button>
-      </div>
-    </PanelStage>
-  );
-}
-
 export default function DigitalFoundationReviewPreviewHost({ anchorId }: { anchorId: string }) {
   const state = useReviewPreviewState();
   const {
@@ -149,18 +130,27 @@ export default function DigitalFoundationReviewPreviewHost({ anchorId }: { ancho
     );
   }
 
-  if (effectiveAnchor === 'df-r-client-portal' || (entry?.group === 'CLIENT_PORTAL' && PORTAL_VIEWS.has(viewFromAnchorId(effectiveAnchor)))) {
-    const stageId = effectiveAnchor === 'df-r-client-portal' ? 'df-r-client-portal' : effectiveAnchor;
+  if (effectiveAnchor === 'df-r-client-portal') {
     return (
-      <PanelStage id={stageId} title="CLIENT FOUNDATION PORTAL">
-        <DigitalFoundationReviewClientPortalHost anchorId={stageId === 'df-r-client-portal' ? reviewAnchorForView('OVERVIEW') : stageId} />
+      <PanelStage id="df-r-client-portal" title="CLIENT FOUNDATION PORTAL">
+        <DigitalFoundationReviewClientPortalHost anchorId={reviewAnchorForView('OVERVIEW')} />
       </PanelStage>
+    );
+  }
+
+  if (entry?.group === 'CLIENT_PORTAL' && PORTAL_VIEWS.has(viewFromAnchorId(effectiveAnchor))) {
+    const portalView = viewFromAnchorId(effectiveAnchor);
+    return (
+      <StageChrome id={effectiveAnchor} view={portalView} title={entry.pageName.toUpperCase()}>
+        <SimulatedBanner label="J_PAYMENT_SUCCESS · CLIENT PORTAL" />
+        <DigitalFoundationReviewClientPortalBody view={portalView} />
+      </StageChrome>
     );
   }
 
   if (anchorId.startsWith('df-r-bldr-')) {
     const room = anchorId.replace('df-r-bldr-', '');
-    return <LegacyPublicBuilderBlocked anchorId={anchorId} room={room} />;
+    return <DigitalFoundationReviewBuilderStudioEmbed anchorId={anchorId} room={room} />;
   }
 
   if (entry?.renderMode === 'registry_gap') {
@@ -202,7 +192,7 @@ export default function DigitalFoundationReviewPreviewHost({ anchorId }: { ancho
     );
   }
 
-  if (builderManifestAnchorIds().includes(anchorId)) {
+  if (intakeConfiguratorAnchorIds().includes(anchorId)) {
     const initialState =
       anchorId === 'df-r-P03-domain' ? 'domain_expanded' : anchorId === 'df-r-P03-email' ? 'email_expanded' : 'default';
     return (

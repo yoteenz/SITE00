@@ -13,6 +13,7 @@ describe('digital foundation review builder ownership', () => {
     readFileSync('src/site00/pages/foundation/DigitalFoundationReviewPage.tsx', 'utf8'),
     readFileSync('src/site00/pages/foundation/DigitalFoundationReviewGallery.tsx', 'utf8'),
     readFileSync('src/site00/pages/foundation/DigitalFoundationReviewPreviewHost.tsx', 'utf8'),
+    readFileSync('src/site00/pages/foundation/DigitalFoundationReviewBuilderStudioEmbed.tsx', 'utf8'),
   ].join('\n');
 
   it('locks registry version and approved builder source', () => {
@@ -22,17 +23,18 @@ describe('digital foundation review builder ownership', () => {
 
   it('does not iframe or route review through the public SITE 00 builder', () => {
     expect(reviewBundle).not.toContain(FORBIDDEN_FOUNDATION_BUILDER_REVIEW_SRC);
-    expect(reviewBundle).not.toContain('BuilderStudio');
-    expect(reviewBundle).not.toContain('BldrSpatialStudioPage');
+    expect(reviewBundle).not.toMatch(/from ['"].*builder-studio\/BuilderStudio/);
+    expect(reviewBundle).not.toMatch(/from ['"].*BldrSpatialStudioPage/);
     expect(reviewBundle).not.toContain('<iframe');
     for (const forbidden of FORBIDDEN_FOUNDATION_BUILDER_REVIEW_IMPORTS) {
       expect(reviewBundle).not.toContain(forbidden);
     }
   });
 
-  it('blocks legacy BLDR anchors with explicit wrong-product panel', () => {
-    expect(reviewBundle).toContain('LegacyPublicBuilderBlocked');
-    expect(reviewBundle).toContain('WRONG PRODUCT BLOCKED');
+  it('embeds hybrid BLDR studio rooms with reviewRoom sample iframes', () => {
+    expect(reviewBundle).toContain('DigitalFoundationReviewBuilderStudioEmbed');
+    expect(reviewBundle).toContain('reviewRoom=');
+    expect(reviewBundle).toContain('df-review__studio');
     expect(reviewBundle).toContain('df-r-bldr-');
   });
 
