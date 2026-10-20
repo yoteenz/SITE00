@@ -171,7 +171,7 @@ export function P02Intake({
             })}
           />
         </DfField>
-        <DfField id="df-industry" label="BUSINESS TYPE" optional>
+        <DfField id="df-industry" label="BUSINESS TYPE">
           {customIndustrySelect ? (
             <IdntySelect
               id="df-industry"
