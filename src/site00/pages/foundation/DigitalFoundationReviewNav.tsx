@@ -4,11 +4,11 @@ import {
   REVIEW_GROUP_ORDER,
   allReviewRegistryEntries,
   resolveReviewEntry,
-  type DfReviewGroupId,
   type DfReviewEntry,
 } from './digitalFoundationReviewRegistry';
+import { reviewZoneForEntry, type DfReviewZoneId } from './digitalFoundationReviewZones';
 import { SITE00_ROUTES } from '../../config/routes';
-import { scrollToReviewAnchor } from './reviewLinks';
+import { navigateToReviewAnchor } from './reviewLinks';
 import { previewStatusForEntry, previewStatusLabel } from './reviewPreviewStatus';
 
 function statusLabel(entry: DfReviewEntry): string {
@@ -25,41 +25,34 @@ function isExternal(entry: DfReviewEntry): boolean {
 }
 
 type NavProps = {
-  groupFilter?: DfReviewGroupId | 'ALL';
-  setGroupFilter?: (g: DfReviewGroupId | 'ALL') => void;
+  zoneFilter: DfReviewZoneId;
+  activeAnchor: string;
+  onPickAnchor: (anchorId: string) => void;
 };
 
-export default function DigitalFoundationReviewNav({
-  groupFilter: groupFilterProp,
-  setGroupFilter: setGroupFilterProp,
-}: NavProps = {}) {
+export default function DigitalFoundationReviewNav({ zoneFilter, activeAnchor, onPickAnchor }: NavProps) {
   const all = useMemo(() => allReviewRegistryEntries(), []);
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
-  const [groupFilterLocal, setGroupFilterLocal] = useState<DfReviewGroupId | 'ALL'>('ALL');
-  const groupFilter = groupFilterProp ?? groupFilterLocal;
-  const setGroupFilter = setGroupFilterProp ?? setGroupFilterLocal;
-  const [currentAnchor, setCurrentAnchor] = useState('');
 
   useEffect(() => {
     const sync = () => {
       const id = window.location.hash.replace(/^#/, '');
-      setCurrentAnchor(id);
+      if (id) onPickAnchor(id);
     };
-    sync();
     window.addEventListener('hashchange', sync);
     return () => window.removeEventListener('hashchange', sync);
-  }, []);
+  }, [onPickAnchor]);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     return all.filter((e) => {
-      if (groupFilter !== 'ALL' && e.group !== groupFilter) return false;
+      if (reviewZoneForEntry(e) !== zoneFilter) return false;
       if (!q) return true;
       const hay = `${e.pageName} ${e.reviewId} ${e.componentSource} ${e.pageFamily}`.toLowerCase();
       return hay.includes(q);
     });
-  }, [all, query, groupFilter]);
+  }, [all, query, zoneFilter]);
 
   const inlineNavOrder = useMemo(
     () =>
@@ -74,19 +67,19 @@ export default function DigitalFoundationReviewNav({
   );
 
   const jump = (anchorId: string) => {
-    setGroupFilter('ALL');
-    scrollToReviewAnchor(anchorId);
+    onPickAnchor(anchorId);
+    navigateToReviewAnchor(anchorId);
     setOpen(false);
   };
 
-  const currentIndex = inlineNavOrder.findIndex((e) => e.anchorId === currentAnchor);
+  const currentIndex = inlineNavOrder.findIndex((e) => e.anchorId === activeAnchor);
   const prev = currentIndex > 0 ? inlineNavOrder[currentIndex - 1] : null;
   const next = currentIndex >= 0 && currentIndex < inlineNavOrder.length - 1 ? inlineNavOrder[currentIndex + 1] : null;
 
   return (
     <div className={`df-review__nav-shell${open ? ' df-review__nav-shell--open' : ''}`}>
       <div className="df-review__nav-bar">
-        <p className="df-review__nav-kicker">DF REVIEW · {all.length} REGISTERED</p>
+        <p className="df-review__nav-kicker">DF REVIEW · {all.length} REGISTERED · ZONE {zoneFilter}</p>
         <button
           type="button"
           className="df-review__nav-toggle"
@@ -94,7 +87,7 @@ export default function DigitalFoundationReviewNav({
           aria-controls="df-review-nav-routes"
           onClick={() => setOpen((v) => !v)}
         >
-          {open ? 'HIDE REGISTRY' : `SHOW REGISTRY (${all.length})`}
+          {open ? 'HIDE REGISTRY' : `SHOW REGISTRY (${filtered.length})`}
         </button>
       </div>
       <nav id="df-review-nav-routes" className="df-review__nav" aria-label="Digital Foundation review registry">
@@ -102,30 +95,11 @@ export default function DigitalFoundationReviewNav({
           <input
             className="df-review__nav-search"
             type="search"
-            placeholder="Search pages…"
+            placeholder="Search this zone…"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            aria-label="Search review registry"
+            aria-label="Search review registry in zone"
           />
-          <div className="df-review__nav-filters" role="group" aria-label="Filter by group">
-            <button
-              type="button"
-              className={`df-review__nav-chip${groupFilter === 'ALL' ? ' df-review__nav-chip--on' : ''}`}
-              onClick={() => setGroupFilter('ALL')}
-            >
-              ALL
-            </button>
-            {REVIEW_GROUP_ORDER.map((g) => (
-              <button
-                key={g}
-                type="button"
-                className={`df-review__nav-chip${groupFilter === g ? ' df-review__nav-chip--on' : ''}`}
-                onClick={() => setGroupFilter(g)}
-              >
-                {g.split('_')[0]}
-              </button>
-            ))}
-          </div>
           <div className="df-review__nav-step">
             <button type="button" className="df-review__nav-step-btn" disabled={!prev} onClick={() => prev && jump(prev.anchorId)}>
               PREV
@@ -134,7 +108,7 @@ export default function DigitalFoundationReviewNav({
               NEXT
             </button>
             <a className="df-review__nav-step-btn" href={SITE00_ROUTES.digitalFoundationReview}>
-              REGISTRY TOP
+              REVIEW TOP
             </a>
           </div>
         </div>
@@ -162,7 +136,7 @@ export default function DigitalFoundationReviewNav({
                         className={`df-review__route-name${
                           entry.renderMode === 'legacy_redirect' ? ' df-review__route-name--deprecated' : ''
                         }${entry.implementationStatus === 'not_implemented' ? ' df-review__route-name--gap' : ''}${
-                          currentAnchor === entry.anchorId ? ' df-review__route-name--current' : ''
+                          activeAnchor === entry.anchorId ? ' df-review__route-name--current' : ''
                         }`}
                         href={entryHref(entry)}
                         title={entry.componentSource}
@@ -188,7 +162,7 @@ export default function DigitalFoundationReviewNav({
             </div>
           );
         })}
-        {currentAnchor && resolveReviewEntry(currentAnchor)?.implementationStatus === 'not_implemented' && (
+        {activeAnchor && resolveReviewEntry(activeAnchor)?.implementationStatus === 'not_implemented' && (
           <p className="df-review__nav-hint">Selected entry is inventory-only — not a rendered client surface yet.</p>
         )}
       </nav>

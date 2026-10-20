@@ -12,15 +12,22 @@ export function normalizeReviewAnchor(anchorId: string): string {
   return anchorId;
 }
 
-/** Scroll to a screen on the review page without leaving `/foundation/review`. */
-export function scrollToReviewAnchor(anchorId: string): void {
+/** Select a screen on `/foundation/review` (hash + event; scroll within the active zone gallery). */
+export function navigateToReviewAnchor(anchorId: string): void {
   if (typeof window === 'undefined') return;
   window.history.replaceState(null, '', `${SITE00_ROUTES.digitalFoundationReview}#${anchorId}`);
-  const target = document.getElementById(anchorId) ?? document.querySelector(`[data-review-gallery-section="${anchorId}"]`);
-  if (target) {
-    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
   window.dispatchEvent(new CustomEvent('df-review-nav', { detail: { anchorId } }));
+  requestAnimationFrame(() => {
+    const el =
+      document.getElementById(anchorId) ??
+      document.querySelector<HTMLElement>(`[data-review-gallery-section="${anchorId}"]`);
+    el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+}
+
+/** @deprecated Prefer navigateToReviewAnchor — kept for in-flow CTAs that only need hash sync. */
+export function scrollToReviewAnchor(anchorId: string): void {
+  navigateToReviewAnchor(anchorId);
 }
 
 /** Absolute address for one screen on `/foundation/review`. */

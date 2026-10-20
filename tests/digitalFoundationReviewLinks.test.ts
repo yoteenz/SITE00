@@ -58,7 +58,8 @@ describe('foundation review direct links', () => {
     const page = readFileSync('src/site00/pages/foundation/DigitalFoundationReviewPage.tsx', 'utf8');
     const host = readFileSync('src/site00/pages/foundation/DigitalFoundationReviewPreviewHost.tsx', 'utf8');
     expect(host).toContain("advance('P04')");
-    expect(page).toContain('scrollToReviewAnchor');
+    expect(host).toContain('scrollToReviewAnchor');
+    expect(page).toMatch(/navigateToReviewAnchor|scrollToReviewAnchor/);
     expect(host).not.toContain('useNavigate(');
   });
 });

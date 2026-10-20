@@ -4,11 +4,16 @@ import {
   builderManifestAnchorIds,
 } from '../src/site00/pages/foundation/digitalFoundationBuilderManifest';
 import {
+  GALLERY_EAGER_MOUNT_COUNT,
   galleryCoverageTotals,
   galleryEntriesOrdered,
   galleryMountContractAnchors,
   gallerySectionEagerMount,
 } from '../src/site00/pages/foundation/digitalFoundationReviewGallery';
+import {
+  REVIEW_ZONE_ORDER,
+  galleryEntriesForZone,
+} from '../src/site00/pages/foundation/digitalFoundationReviewZones';
 import { reviewEntriesForIndex } from '../src/site00/pages/foundation/digitalFoundationReviewRegistry';
 
 describe('digital foundation review gallery regression lock', () => {
@@ -18,9 +23,12 @@ describe('digital foundation review gallery regression lock', () => {
   it('uses continuous gallery as primary surface (not single-screen mode)', () => {
     expect(page).toContain('DigitalFoundationReviewGallery');
     expect(page).toContain('CONTINUOUS GALLERY');
+    expect(page).not.toContain('ZONE STAGE');
     expect(page).not.toContain('df-review-stage');
     expect(page).not.toMatch(/DigitalFoundationReviewPreviewHost anchorId=\{activeAnchor\}/);
-    expect(gallery).toContain('df-review__strip');
+    expect(gallery).toContain('df-review__strip--continuous');
+    expect(gallery).toContain('DigitalFoundationReviewGallerySection');
+    expect(gallery).not.toContain('DigitalFoundationReviewStage');
     expect(gallery).toContain('df-review-gallery');
   });
 
@@ -39,14 +47,13 @@ describe('digital foundation review gallery regression lock', () => {
     }
   });
 
-  it('eager-mounts builder, client portal, and founder workspace groups', () => {
-    const entries = galleryEntriesOrdered();
-    const lateFounder = entries.findIndex((e) => e.group === 'FOUNDER_WORKSPACE' && e.anchorId.includes('founder'));
-    expect(lateFounder).toBeGreaterThan(14);
-    expect(gallerySectionEagerMount(entries[lateFounder], lateFounder)).toBe(true);
-    const latePortal = entries.findIndex((e) => e.anchorId === 'df-r-client-portal');
-    expect(latePortal).toBeGreaterThan(0);
-    expect(gallerySectionEagerMount(entries[latePortal], latePortal)).toBe(true);
+  it('eager-mounts only the first screens in each zone gallery', () => {
+    for (const zone of REVIEW_ZONE_ORDER) {
+      const entries = galleryEntriesForZone(zone);
+      entries.forEach((entry, index) => {
+        expect(gallerySectionEagerMount(entry, index)).toBe(index < GALLERY_EAGER_MOUNT_COUNT);
+      });
+    }
   });
 
   it('reports honest gallery totals separate from registry-only counts', () => {

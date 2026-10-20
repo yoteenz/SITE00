@@ -2907,6 +2907,47 @@ button.df-spec__btn {
   opacity: 0.85;
 }
 
+.df-review__top {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 12px 12px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.df-review__zone-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.df-review__zone-pill {
+  border: 1px solid #0c0c0c;
+  background: #f3f2ef;
+  color: #0c0c0c;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  padding: 8px 10px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.df-review__zone-pill--on {
+  background: #0c0c0c;
+  color: #f3f2ef;
+}
+
+.df-review__zone-pill-count {
+  font-size: 8px;
+  font-weight: 600;
+  opacity: 0.75;
+  letter-spacing: 0.08em;
+}
+
 .df-review__intro {
   max-width: 720px;
   margin: 0 auto;
