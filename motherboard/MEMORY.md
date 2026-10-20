@@ -16766,6 +16766,15 @@ Summary of the whole conversation in this chat.
 
 ---
 
+## 2026-10-20 — Recovery2 merge + approved referral card assets (Composer)
+
+- **Merge:** Founder-approved PR **#1668** → `cursor/idnty-founder-readiness-e2e-be3b` @ `d9431c63`.
+- **Card assets:** Founder JPEGs → `public/site00/idnty/referral-card/aio/`; `FounderCard` uses `<img>` for AIO only via `referralCardAssets.ts`.
+- **Follow-up:** Draft PR on `cursor/idnty-approved-referral-card-assets-be3b` — **not merged** until founder confirms artwork on tunnel.
+- **Safety:** Referral link MISSING, `REFERRAL_CARD_PRINT_READY=false`, AIO not auto-active.
+
+---
+
 ## 2026-10-20 — Recovery2 PR reconciliation + tunnel repin (Composer)
 
 - **Problem:** PR **#1665** merged at `8761463e` before Opus Recovery2 (`0095c8b3`, `cfa83e9b7` on implementation branch).
@@ -16881,3 +16890,7 @@ Summary of the whole conversation in this chat.
 - **Founder ask:** Top zone pills (intake · builder · client · founder); **one zone mounted at a time**, but **all screens in that zone scroll on one page** — not single-screen stage, not all 92 sections at once.
 - **Fix:** `DigitalFoundationReviewGallery` maps `galleryEntriesFilteredByZone` → `DigitalFoundationReviewGallerySection` (lazy IO + first-3 eager per zone). Zone pill CSS (`.df-review__zone-bar`). `navigateToReviewAnchor` scrolls to section id. Copy kicker `CONTINUOUS GALLERY`.
 - **Tests:** `digitalFoundationReviewGalleryRegression.test.ts` (zone eager contract), `digitalFoundationReviewLinks.test.ts`. Evidence `/opt/cursor/artifacts/df-review-zone-gallery/`.
+
+## 2026-10-20 — Merge base into living portal branch
+
+- **Merge:** `origin/cursor/idnty-founder-readiness-e2e-be3b` (includes merged #1671 + #1669 AIO referral card assets) into `cursor/idnty-living-portal-one-pass-completion1-be3b`. DF review conflicts resolved in favor of living-portal lifecycle/zone work; referral artwork from base retained via auto-merge.
