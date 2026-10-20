@@ -10,7 +10,10 @@ import { CorrespondenceDisplayLine, displayLineEndsWithSplitMark } from '../../.
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { SITE00_ROUTES } from '../config/routes';
-import { compose } from './buildObject/composition';
+import { composeStudioRoom } from './spatialDrilldown/studioCompose';
+import { useSpatialDrilldown } from './spatialDrilldown/useSpatialDrilldown';
+import { WorkShopDrilldownPanel, FeelBoldDrilldownPanel } from './spatialDrilldown/DrilldownPanel';
+import { canToggleAccounts } from './spatialDrilldown/workShopCatalog';
 import { BuildObjectStage } from './buildObject/BuildObjectStage';
 import { BlueprintActions, BlueprintPanel, BlueprintStageControls, type BlueprintTab } from './BlueprintRoom';
 import { ArrowRightIcon, CloseIcon, MenuIcon } from './icons';
@@ -111,6 +114,8 @@ export function BuilderStudio({
     return furthestOpenRoom(state);
   }, [requested, state, locked, submitted]);
 
+  const drill = useSpatialDrilldown(room);
+
   useEffect(() => {
     if (!hydrated) return;
     if (requested !== room) navigate(studioRoomPath(room, location.search), { replace: true });
@@ -140,7 +145,7 @@ export function BuilderStudio({
 
   const shown = session.view.state;
   const spec = useMemo(() => buildSpec(shown), [shown]);
-  const composition = useMemo(() => compose(room, spec), [room, spec]);
+  const composition = useMemo(() => composeStudioRoom(room, spec, drill.ui), [room, spec, drill.ui]);
 
   const meta = STUDIO_ROOM_BY_ID[room];
   const configIndex = CONFIG_ROOMS.indexOf(room);
@@ -211,8 +216,40 @@ export function BuilderStudio({
 
       <section className="bs-controls" aria-label={`${meta.label} CHOICES`}>
         {room === 'place' ? <PlaceControls {...roomProps} /> : null}
-        {room === 'feel' ? <FeelControls {...roomProps} /> : null}
-        {room === 'work' ? <WorkControls {...roomProps} pending={work.pending} keep={work.keep} dismiss={work.dismiss} /> : null}
+        {room === 'feel' ? (
+          <>
+            <FeelControls {...roomProps} />
+            <FeelBoldDrilldownPanel
+              ui={drill.ui}
+              state={shown}
+              onEnter={() => {
+                drill.selectFeelBold();
+                drill.enter();
+              }}
+              onBack={drill.back}
+              onFeelOption={(id) => drill.applyFeelOption(id, session.update)}
+            />
+          </>
+        ) : null}
+        {room === 'work' ? (
+          <>
+            <WorkControls {...roomProps} pending={work.pending} keep={work.keep} dismiss={work.dismiss} />
+            <WorkShopDrilldownPanel
+              ui={drill.ui}
+              state={shown}
+              selection={session.selection}
+              onEnter={() => {
+                drill.selectWorkShop();
+                drill.enter();
+              }}
+              onBack={drill.back}
+              onToggleAccounts={(on) => {
+                if (on && !canToggleAccounts(session.selection).ok) return;
+                drill.applyWorkAccounts(on, session.update);
+              }}
+            />
+          </>
+        ) : null}
         {room === 'pace' ? <PaceControls {...roomProps} /> : null}
         {room === 'blueprint' ? (
           <BlueprintPanel session={session} goToRoom={goToRoom} openMenu={() => setMenuOpen(true)} tab={tab} setTab={setTab} />

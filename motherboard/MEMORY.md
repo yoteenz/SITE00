@@ -16607,6 +16607,14 @@ Summary of the whole conversation in this chat.
 
 ---
 
+## 2026-10-20 — Builder spatial drill-down prototype 1
+
+- **Sprint:** `P0.SITE00.BUILDER.SPATIAL-DRILLDOWN-ENGINE.SOURCE-AUDIT-AND-INTERACTION-PROTOTYPE1` — audit + shared drill controller; WORK (SHOP/SELL) and FEEL (BOLD) vertical slices only; **no renderer replacement**.
+- **Truth:** Build Object is **Three.js WebGL** (`engine.ts`); camera focus/closeness already used for Blueprint inspect — extended to `work`/`feel` rooms via `compose(..., { inspect })`.
+- **Code:** `src/site00/builder-studio/spatialDrilldown/*`; optional spatial fields `shopAccounts`, `feelType`, `feelColor`; docs `docs/site00/bldr/spatial-drilldown-engine-prototype1/README.md`.
+
+---
+
 ## 2026-10-15 — Staging auth redirect and founder login
 
 - **Sprint:** P0.SITE00.IDNTY.STAGING-AUTH-REDIRECT-AND-FOUNDER-LOGIN-RECOVERY1. Staging only. No production writes. No merge.

@@ -10,6 +10,11 @@ describe('BLDR studio design-review sample', () => {
     expect(sample?.placePath).toBe('ADVANCED');
   });
 
+  it('honors reviewFeel override for frozen samples', () => {
+    const sample = reviewSampleFromQuery('FEEL', 'BOLD');
+    expect(sample?.feelVibe).toBe('BOLD');
+  });
+
   it('maps review room ids to studio route segments', () => {
     expect(studioPathForReviewRoom('FEEL')).toBe('feel');
     expect(studioPathForReviewRoom('BLUEPRINT')).toBe('blueprint');

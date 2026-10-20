@@ -57,6 +57,7 @@ export function spatialSelectionToBuilder(state: SpatialBuilderState): BuilderSe
   for (const mod of state.workModules) {
     for (const cap of WORK_TO_CAPABILITIES[mod]) capabilities.add(cap);
   }
+  if (state.shopAccounts) capabilities.add('ACCOUNTS');
 
   const feel = state.feelVibe;
   const visualSystem = feel ? FEEL_TO_SYSTEM[feel] : null;
@@ -77,8 +78,8 @@ export function spatialSelectionToBuilder(state: SpatialBuilderState): BuilderSe
       edition: state.placePath === 'ADVANCED' || state.placePath === 'CUSTOM' ? 'FULL' : 'ESSENTIAL',
       customDirectionNote: state.placePath === 'CUSTOM' ? state.paceNotes || undefined : undefined,
     },
-    type: 'SYSTEM_DEFAULT',
-    color: 'SYSTEM_DEFAULT',
+    type: state.feelType ?? 'SYSTEM_DEFAULT',
+    color: state.feelColor ?? 'SYSTEM_DEFAULT',
     imageWorld: state.feelVibe === 'IMMERSIVE' ? 'SPATIAL_3D' : 'SYSTEM_DEFAULT',
     motion: state.feelVibe === 'IMMERSIVE' ? 'CINEMATIC' : 'SYSTEM_DEFAULT',
     capabilities: [...capabilities],
