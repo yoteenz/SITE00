@@ -172,6 +172,36 @@ export default function DigitalFoundationReviewPreviewHost({ anchorId }: { ancho
     );
   }
 
+  if (entry?.renderMode === 'external_route' && entry.group === 'FOUNDER_OVERLAYS') {
+    return (
+      <PanelStage id={anchorId} title={entry.pageName.toUpperCase()}>
+        <p className="df-review__sim df-review__sim--inline">
+          {entry.implementationStatus === 'backend_blocked' ? 'BLOCKED' : 'AUTHENTICATED'} · OVERLAY · OPEN FROM FOUNDER WORKSPACE
+        </p>
+        <p className="df-review__gap-note">{entry.notes}</p>
+        {entry.runtimeRoute && (
+          <a className="df-review__route-name df-review__route-name--external" href={entry.runtimeRoute} target="_blank" rel="noreferrer">
+            LIVE ROUTE (AUTH REQUIRED) · {entry.runtimeRoute}
+          </a>
+        )}
+      </PanelStage>
+    );
+  }
+
+  if (entry?.renderMode === 'external_route') {
+    return (
+      <PanelStage id={anchorId} title={entry.pageName.toUpperCase()}>
+        <p className="df-review__sim df-review__sim--inline">AUTHENTICATED · LIVE ROUTE (NOT INLINE FIXTURE)</p>
+        {entry.notes && <p className="df-review__gap-note">{entry.notes}</p>}
+        {entry.runtimeRoute && (
+          <a className="df-review__route-name df-review__route-name--cta df-review__external-cta" href={entry.runtimeRoute} target="_blank" rel="noreferrer">
+            OPEN {entry.runtimeRoute}
+          </a>
+        )}
+      </PanelStage>
+    );
+  }
+
   if (builderManifestAnchorIds().includes(anchorId)) {
     const initialState =
       anchorId === 'df-r-P03-domain' ? 'domain_expanded' : anchorId === 'df-r-P03-email' ? 'email_expanded' : 'default';

@@ -11,6 +11,7 @@ import {
 describe('digital foundation review builder ownership', () => {
   const reviewBundle = [
     readFileSync('src/site00/pages/foundation/DigitalFoundationReviewPage.tsx', 'utf8'),
+    readFileSync('src/site00/pages/foundation/DigitalFoundationReviewGallery.tsx', 'utf8'),
     readFileSync('src/site00/pages/foundation/DigitalFoundationReviewPreviewHost.tsx', 'utf8'),
   ].join('\n');
 
@@ -35,10 +36,11 @@ describe('digital foundation review builder ownership', () => {
     expect(reviewBundle).toContain('df-r-bldr-');
   });
 
-  it('routes registry entries through the single preview stage', () => {
+  it('routes registry entries through the continuous gallery', () => {
+    expect(reviewBundle).toContain('DigitalFoundationReviewGallery');
+    expect(reviewBundle).toContain('df-review__strip');
     expect(reviewBundle).toContain('DigitalFoundationReviewPreviewHost');
-    expect(reviewBundle).toContain('df-review-stage');
-    expect(reviewBundle).not.toContain('df-review__strip');
+    expect(reviewBundle).not.toContain('df-review-stage');
     const inlineCount = reviewEntriesForIndex().filter(
       (e) => e.renderMode === 'inline_df_screen' || e.renderMode === 'inline_founder_shell',
     ).length;

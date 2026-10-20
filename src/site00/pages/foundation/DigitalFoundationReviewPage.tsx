@@ -1,6 +1,6 @@
 /**
  * Digital Foundation micro-product review index (`/foundation/review`).
- * Single preview stage + registry nav — fixture-backed, no live mutations.
+ * Continuous vertical gallery of real screens; registry is navigation-only.
  */
 import { useEffect, useMemo, useState } from 'react';
 import type { ClientDigitalFoundationPayload } from '../../../../shared/site00-digital-foundation/clientProjection.js';
@@ -11,14 +11,15 @@ import type { ReviewBootstrapBundle } from './digitalFoundationReviewBootstrap';
 import {
   APPROVED_FOUNDATION_BUILDER_SOURCE,
   DIGITAL_FOUNDATION_REVIEW_REGISTRY_VERSION,
-  registryCoverageTotals,
+  type DfReviewGroupId,
   resolveReviewEntry,
 } from './digitalFoundationReviewRegistry';
+import { galleryCoverageTotals } from './digitalFoundationReviewGallery';
 import { loadReviewBootstrapBundle } from './digitalFoundationReviewBootstrap';
 import DigitalFoundationReviewNav from './DigitalFoundationReviewNav';
-import { reviewAnchorForView, scrollToReviewAnchor } from './reviewLinks';
+import DigitalFoundationReviewGallery from './DigitalFoundationReviewGallery';
+import { scrollToReviewAnchor } from './reviewLinks';
 import { DigitalFoundationReviewPreviewProvider } from './DigitalFoundationReviewPreviewContext';
-import DigitalFoundationReviewPreviewHost from './DigitalFoundationReviewPreviewHost';
 import '../../foundation-client/foundationDfStyles';
 
 const BLANK_DRAFT: IntakeDraft = {
@@ -40,19 +41,13 @@ function ReviewProvenance({ dataSource }: { dataSource: string }) {
     typeof document !== 'undefined'
       ? document.querySelector('meta[name="app-build-id"]')?.getAttribute('content') ?? '—'
       : '—';
-  const totals = registryCoverageTotals();
+  const totals = galleryCoverageTotals();
   return (
     <p className="df-review__provenance">
       IDNTY DIGITAL FOUNDATION · REGISTRY {DIGITAL_FOUNDATION_REVIEW_REGISTRY_VERSION} · BUILD {buildId} · DATA {dataSource} ·
-      REGISTERED {totals.discovered} · BUILDER {APPROVED_FOUNDATION_BUILDER_SOURCE}
+      GALLERY {totals.gallerySections} · RENDERED+SIM {totals.rendered + totals.simulated} · BUILDER {APPROVED_FOUNDATION_BUILDER_SOURCE}
     </p>
   );
-}
-
-function readAnchorFromLocation(): string {
-  if (typeof window === 'undefined') return reviewAnchorForView('P01');
-  const id = window.location.hash.replace(/^#/, '');
-  return id || reviewAnchorForView('P01');
 }
 
 export default function DigitalFoundationReviewPage() {
@@ -61,29 +56,34 @@ export default function DigitalFoundationReviewPage() {
   const [quotePayload, setQuotePayload] = useState<ClientDigitalFoundationPayload | null>(null);
   const [quoteToken, setQuoteToken] = useState('');
   const [paidToken, setPaidToken] = useState('');
-  const [paidPayload, setPaidPayload] = useState<typeof quotePayload>(null);
-  const [postIntakePayload, setPostIntakePayload] = useState<typeof quotePayload>(null);
-  const [proposalReadyPayload, setProposalReadyPayload] = useState<typeof quotePayload>(null);
-  const [paymentFailurePayload, setPaymentFailurePayload] = useState<typeof quotePayload>(null);
-  const [completePayload, setCompletePayload] = useState<typeof quotePayload>(null);
+  const [paidPayload, setPaidPayload] = useState<ClientDigitalFoundationPayload | null>(null);
+  const [postIntakePayload, setPostIntakePayload] = useState<ClientDigitalFoundationPayload | null>(null);
+  const [proposalReadyPayload, setProposalReadyPayload] = useState<ClientDigitalFoundationPayload | null>(null);
+  const [paymentFailurePayload, setPaymentFailurePayload] = useState<ClientDigitalFoundationPayload | null>(null);
+  const [completePayload, setCompletePayload] = useState<ClientDigitalFoundationPayload | null>(null);
   const [completeToken, setCompleteToken] = useState('');
   const [postIntakeFetchedAt] = useState(() => new Date());
   const [draft, setDraft] = useState<IntakeDraft>(BLANK_DRAFT);
   const [note, setNote] = useState<string | null>(null);
   const [dataSource, setDataSource] = useState('loading');
   const [bootstrap, setBootstrap] = useState<ReviewBootstrapBundle | null>(null);
-  const [activeAnchor, setActiveAnchor] = useState(readAnchorFromLocation);
+  const [groupFilter, setGroupFilter] = useState<DfReviewGroupId | 'ALL'>('ALL');
+  const [focusAnchor, setFocusAnchor] = useState('');
 
   useEffect(() => {
     const prev = document.title;
-    document.title = 'DIGITAL FOUNDATION — REVIEW REGISTRY';
+    document.title = 'DIGITAL FOUNDATION — DESIGN REVIEW';
     return () => {
       document.title = prev;
     };
   }, []);
 
   useEffect(() => {
-    const sync = () => setActiveAnchor(readAnchorFromLocation());
+    const sync = () => {
+      const id = window.location.hash.replace(/^#/, '');
+      setFocusAnchor(id);
+      if (id) scrollToReviewAnchor(id);
+    };
     sync();
     window.addEventListener('hashchange', sync);
     window.addEventListener('df-review-nav', sync as EventListener);
@@ -165,33 +165,27 @@ export default function DigitalFoundationReviewPage() {
     ],
   );
 
-  const currentEntry = resolveReviewEntry(activeAnchor);
+  const focusEntry = focusAnchor ? resolveReviewEntry(focusAnchor) : undefined;
 
   return (
     <DigitalFoundationReviewPreviewProvider value={previewState}>
       <div className="df-review">
-        <DigitalFoundationReviewNav />
+        <DigitalFoundationReviewNav groupFilter={groupFilter} setGroupFilter={setGroupFilter} />
         <header className="df-review__intro">
+          <p className="df-review__kicker">DESIGN REVIEW · CONTINUOUS GALLERY</p>
           <ReviewProvenance dataSource={dataSource} />
-          <p>
-            ONE REVIEW STAGE · REAL COMPONENTS · SIMULATED FIXTURES · SELECT A REGISTRY ENTRY — PUBLIC SITE 00 BUILDER ROUTES
-            REMAIN BLOCKED.
-          </p>
-          {currentEntry && (
+          <p>SCROLL THROUGH EVERY IMPLEMENTED SCREEN. THE REGISTRY JUMPS TO A SECTION — IT DOES NOT REPLACE THE GALLERY.</p>
+          {focusEntry && (
             <p className="df-review__current">
-              CURRENT · {currentEntry.pageName} · <code>{activeAnchor}</code>
+              FOCUS · {focusEntry.pageName} · <code>{focusAnchor}</code>
             </p>
           )}
           {note && <p className="df-review__diag">{note}</p>}
-        </header>
-        <section id="df-review-stage" className="df-review__stage" aria-label="Review preview">
-          <DigitalFoundationReviewPreviewHost anchorId={activeAnchor} />
-        </section>
-        <p className="df-review__stage-hint">
-          <button type="button" className="df-review__nav-step-btn" onClick={() => scrollToReviewAnchor(reviewAnchorForView('P03'))}>
-            QUICK OPEN · P03 BUILDER
+          <button type="button" className="df-review__nav-step-btn df-review__back-top" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+            BACK TO TOP
           </button>
-        </p>
+        </header>
+        <DigitalFoundationReviewGallery groupFilter={groupFilter} />
       </div>
     </DigitalFoundationReviewPreviewProvider>
   );

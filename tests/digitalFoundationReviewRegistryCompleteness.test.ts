@@ -9,7 +9,7 @@ import {
 
 describe('digital foundation review registry completeness', () => {
   it('uses coverage registry version and registers far more than the old 12-link index', () => {
-    expect(DIGITAL_FOUNDATION_REVIEW_REGISTRY_VERSION).toContain('canonical-preview');
+    expect(DIGITAL_FOUNDATION_REVIEW_REGISTRY_VERSION).toContain('gallery-restoration');
     const totals = registryCoverageTotals();
     expect(totals.discovered).toBeGreaterThan(85);
     expect(totals.reviewable).toBeGreaterThan(35);
@@ -26,8 +26,9 @@ describe('digital foundation review registry completeness', () => {
   it('declares client portal and founder workspace entries in source', () => {
     const page = readFileSync('src/site00/pages/foundation/DigitalFoundationReviewPage.tsx', 'utf8');
     const host = readFileSync('src/site00/pages/foundation/DigitalFoundationReviewPreviewHost.tsx', 'utf8');
-    expect(page).toContain('DigitalFoundationReviewPreviewHost');
-    expect(page).toContain('df-review-stage');
+    const gallery = readFileSync('src/site00/pages/foundation/DigitalFoundationReviewGallery.tsx', 'utf8');
+    expect(page).toContain('DigitalFoundationReviewGallery');
+    expect(gallery).toContain('df-review__strip');
     expect(host).toContain('df-r-proposal-ready');
     expect(host).toContain('DigitalFoundationReviewClientPortalHost');
     expect(host).toContain('DigitalFoundationReviewFounderHost');

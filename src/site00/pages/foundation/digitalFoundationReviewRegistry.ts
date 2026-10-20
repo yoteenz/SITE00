@@ -14,7 +14,7 @@ import { SITE00_ROUTES } from '../../config/routes';
 import type { DfView } from '../../foundation-client/model';
 import { reviewAnchorForView } from './reviewLinks';
 
-export const DIGITAL_FOUNDATION_REVIEW_REGISTRY_VERSION = '2026-10-20-canonical-preview1';
+export const DIGITAL_FOUNDATION_REVIEW_REGISTRY_VERSION = '2026-10-20-gallery-restoration1';
 
 export const DF_REVIEW_PRODUCT = {
   IDNTY_DIGITAL_FOUNDATION: 'IDNTY_DIGITAL_FOUNDATION',

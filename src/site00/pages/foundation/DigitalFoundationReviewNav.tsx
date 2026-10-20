@@ -24,11 +24,21 @@ function isExternal(entry: DfReviewEntry): boolean {
   return entry.renderMode === 'external_route';
 }
 
-export default function DigitalFoundationReviewNav() {
+type NavProps = {
+  groupFilter?: DfReviewGroupId | 'ALL';
+  setGroupFilter?: (g: DfReviewGroupId | 'ALL') => void;
+};
+
+export default function DigitalFoundationReviewNav({
+  groupFilter: groupFilterProp,
+  setGroupFilter: setGroupFilterProp,
+}: NavProps = {}) {
   const all = useMemo(() => allReviewRegistryEntries(), []);
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
-  const [groupFilter, setGroupFilter] = useState<DfReviewGroupId | 'ALL'>('ALL');
+  const [groupFilterLocal, setGroupFilterLocal] = useState<DfReviewGroupId | 'ALL'>('ALL');
+  const groupFilter = groupFilterProp ?? groupFilterLocal;
+  const setGroupFilter = setGroupFilterProp ?? setGroupFilterLocal;
   const [currentAnchor, setCurrentAnchor] = useState('');
 
   useEffect(() => {
@@ -64,6 +74,7 @@ export default function DigitalFoundationReviewNav() {
   );
 
   const jump = (anchorId: string) => {
+    setGroupFilter('ALL');
     scrollToReviewAnchor(anchorId);
     setOpen(false);
   };

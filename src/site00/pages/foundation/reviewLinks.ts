@@ -16,8 +16,10 @@ export function normalizeReviewAnchor(anchorId: string): string {
 export function scrollToReviewAnchor(anchorId: string): void {
   if (typeof window === 'undefined') return;
   window.history.replaceState(null, '', `${SITE00_ROUTES.digitalFoundationReview}#${anchorId}`);
-  const stage = document.getElementById('df-review-stage');
-  stage?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  const target = document.getElementById(anchorId) ?? document.querySelector(`[data-review-gallery-section="${anchorId}"]`);
+  if (target) {
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
   window.dispatchEvent(new CustomEvent('df-review-nav', { detail: { anchorId } }));
 }
 
