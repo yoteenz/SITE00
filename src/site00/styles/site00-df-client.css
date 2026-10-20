@@ -216,6 +216,10 @@ body:has(.df-root) {
 /* ─── Headline (DF-C03) ────────────────────────────────────────────────────────────────────── */
 
 .df-headline {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
   margin: 16px 0 0;
   font-family: var(--df-display);
   font-weight: 900;

@@ -15,6 +15,7 @@ describe('Digital Foundation global typographic reflow', () => {
   });
 
   it('applies balance to display headings and pretty to body scope', () => {
+    expect(clientCss).toMatch(/\.df-headline \{[\s\S]*gap:\s*1px/);
     expect(clientCss).toMatch(/\.df-headline \{[\s\S]*text-wrap: balance/);
     expect(clientCss).toMatch(/:is\(\.df-root, \.df-drawer, \.df-portal\) \{[\s\S]*text-wrap: pretty/);
     expect(clientCss).toMatch(/\.df-lede \{[\s\S]*text-wrap: pretty/);
