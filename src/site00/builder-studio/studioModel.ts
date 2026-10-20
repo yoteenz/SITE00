@@ -164,10 +164,6 @@ export const PATH_OPTIONS: readonly { id: PlacePathId; label: string; descriptor
   (option) => ({ id: option.id, label: option.label, descriptor: option.hint, plain: PATH_PLAIN[option.id] }),
 );
 
-export const PATH_BY_ID: Record<PlacePathId, (typeof PATH_OPTIONS)[number]> = Object.fromEntries(
-  PATH_OPTIONS.map((item) => [item.id, item]),
-) as Record<PlacePathId, (typeof PATH_OPTIONS)[number]>;
-
 /* ─────────────────────────────── 02 FEEL ─────────────────────────────── */
 
 /** "Loud, playful, confident." → "LOUD. PLAYFUL. CONFIDENT." */
