@@ -1,0 +1,2453 @@
+{
+  "boards": {
+    "AH01": {
+      "source": "src/board-AH01-access-hierarchy.html",
+      "image": "png/board-AH01-access-hierarchy.png",
+      "css_px": [
+        1641,
+        1217
+      ],
+      "image_px": [
+        3282,
+        2434
+      ],
+      "bytes": 480434,
+      "sha256": "5fdc0764d1bda710461e79b5338c2ee614d2a0fe12a71269933fbc2e14ebc2d6",
+      "live_frames": {
+        "total": 3,
+        "ready": 3
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 3,
+        "failing": []
+      }
+    },
+    "AH02": {
+      "source": "src/board-AH02-iphone-and-ipad-guidance.html",
+      "image": "png/board-AH02-iphone-and-ipad-guidance.png",
+      "css_px": [
+        1651,
+        1208
+      ],
+      "image_px": [
+        3302,
+        2416
+      ],
+      "bytes": 393659,
+      "sha256": "b08f7e877426c4bc88ea4c2d9d22566295dc2ef33998c814205dd07690ea90ca",
+      "live_frames": {
+        "total": 3,
+        "ready": 3
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 3,
+        "failing": []
+      }
+    },
+    "AH03": {
+      "source": "src/board-AH03-android-guidance.html",
+      "image": "png/board-AH03-android-guidance.png",
+      "css_px": [
+        1652,
+        1208
+      ],
+      "image_px": [
+        3305,
+        2416
+      ],
+      "bytes": 355622,
+      "sha256": "5ee71c53f723ca9040bf6961f065e7cf67581e2baf4b332f7fbdc18e6d7deb61",
+      "live_frames": {
+        "total": 3,
+        "ready": 3
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 3,
+        "failing": []
+      }
+    },
+    "AH04": {
+      "source": "src/board-AH04-desktop-bookmark.html",
+      "image": "png/board-AH04-desktop-bookmark.png",
+      "css_px": [
+        1658,
+        1001
+      ],
+      "image_px": [
+        3316,
+        2002
+      ],
+      "bytes": 323451,
+      "sha256": "0dfa72c4f86c7a79990aac3e49004f5d7cfe4d1a08bd6f78c20bd5037a303d16",
+      "live_frames": {
+        "total": 2,
+        "ready": 2
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 2,
+        "failing": []
+      }
+    },
+    "AH05": {
+      "source": "src/board-AH05-icon-splash-manifest.html",
+      "image": "png/board-AH05-icon-splash-manifest.png",
+      "css_px": [
+        1652,
+        1313
+      ],
+      "image_px": [
+        3303,
+        2626
+      ],
+      "bytes": 318105,
+      "sha256": "73953be4e8948ee7951e1904fea1f322819eaec5e3b6fe1ec2757552621d0d22",
+      "live_frames": {
+        "total": 6,
+        "ready": 6
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 6,
+        "failing": []
+      }
+    },
+    "AH06": {
+      "source": "src/board-AH06-access-card-anatomy.html",
+      "image": "png/board-AH06-access-card-anatomy.png",
+      "css_px": [
+        1652,
+        1013
+      ],
+      "image_px": [
+        3303,
+        2026
+      ],
+      "bytes": 267564,
+      "sha256": "4ec28111f7261a0e3c6919b8386283ff7bc0a43c57f868783e9adfbc12eea6ac",
+      "live_frames": {
+        "total": 1,
+        "ready": 1
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 1,
+        "failing": []
+      }
+    },
+    "AH07": {
+      "source": "src/board-AH07-card-exports.html",
+      "image": "png/board-AH07-card-exports.png",
+      "css_px": [
+        1647,
+        930
+      ],
+      "image_px": [
+        3293,
+        1860
+      ],
+      "bytes": 280029,
+      "sha256": "ce188101ab1ae00c73f6b771e7abda25c92431b2dcec73be3eb79bf7427b6b04",
+      "live_frames": {
+        "total": 3,
+        "ready": 3
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 3,
+        "failing": []
+      }
+    },
+    "AH08": {
+      "source": "src/board-AH08-wallet-style-not-a-wallet-pass.html",
+      "image": "png/board-AH08-wallet-style-not-a-wallet-pass.png",
+      "css_px": [
+        1652,
+        1233
+      ],
+      "image_px": [
+        3304,
+        2466
+      ],
+      "bytes": 318078,
+      "sha256": "655c55925f915fd5a72e346cb9b7e6ebe4df3d68200c130ee804ef4172e3b13a",
+      "live_frames": {
+        "total": 2,
+        "ready": 2
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 2,
+        "failing": []
+      }
+    },
+    "AH09": {
+      "source": "src/board-AH09-qr-security-and-validation.html",
+      "image": "png/board-AH09-qr-security-and-validation.png",
+      "css_px": [
+        1652,
+        1556
+      ],
+      "image_px": [
+        3303,
+        3112
+      ],
+      "bytes": 389040,
+      "sha256": "18e13181a2e3dba771754d6d27901d0e8ad7484fe26998a992aa9d5dbc80f370",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "AH10": {
+      "source": "src/board-AH10-download-share-replace-errors.html",
+      "image": "png/board-AH10-download-share-replace-errors.png",
+      "css_px": [
+        1641,
+        1208
+      ],
+      "image_px": [
+        3282,
+        2416
+      ],
+      "bytes": 360330,
+      "sha256": "f399df7cce0abc2e07b793123420f685085402479b3965be9fd40bfe43230f4a",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "D01": {
+      "source": "src/board-D01-desktop-shell-anatomy.html",
+      "image": "png/board-D01-desktop-shell-anatomy.png",
+      "css_px": [
+        1658,
+        1263
+      ],
+      "image_px": [
+        3316,
+        2526
+      ],
+      "bytes": 504806,
+      "sha256": "05e9207cd9eac2a9dade8bd97cef161c3d96b43c8ef198ac66045dba93c4ed7d",
+      "live_frames": {
+        "total": 2,
+        "ready": 2
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 2,
+        "failing": []
+      }
+    },
+    "D02": {
+      "source": "src/board-D02-post-intake-review.html",
+      "image": "png/board-D02-post-intake-review.png",
+      "css_px": [
+        1658,
+        1001
+      ],
+      "image_px": [
+        3316,
+        2002
+      ],
+      "bytes": 431823,
+      "sha256": "d1eb64e4182ab851dfc768dea77e6c68e8b96c613a6b8c34a2be50d6da3b12ff",
+      "live_frames": {
+        "total": 2,
+        "ready": 2
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 2,
+        "failing": []
+      }
+    },
+    "D03": {
+      "source": "src/board-D03-overview-review-and-proposal.html",
+      "image": "png/board-D03-overview-review-and-proposal.png",
+      "css_px": [
+        1658,
+        1001
+      ],
+      "image_px": [
+        3316,
+        2002
+      ],
+      "bytes": 390987,
+      "sha256": "ba08642d6309d7a31373d0509961ea0eaf216b6a278f3e81d8e3946b436f6aad",
+      "live_frames": {
+        "total": 2,
+        "ready": 2
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 2,
+        "failing": []
+      }
+    },
+    "D04": {
+      "source": "src/board-D04-overview-payment-and-underway.html",
+      "image": "png/board-D04-overview-payment-and-underway.png",
+      "css_px": [
+        1658,
+        1001
+      ],
+      "image_px": [
+        3316,
+        2002
+      ],
+      "bytes": 390510,
+      "sha256": "ee2e951a6c4d5cab24d084bab4395c626a83992eeb428394411f403f40c63964",
+      "live_frames": {
+        "total": 2,
+        "ready": 2
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 2,
+        "failing": []
+      }
+    },
+    "D05": {
+      "source": "src/board-D05-overview-waiting-provider-verification-complete.html",
+      "image": "png/board-D05-overview-waiting-provider-verification-complete.png",
+      "css_px": [
+        1658,
+        1532
+      ],
+      "image_px": [
+        3316,
+        3064
+      ],
+      "bytes": 644771,
+      "sha256": "59c460d3c9331a4ce9f6dc605bb131c7224f743b303b74cc1f7c0a6bb9f90d5e",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "D06": {
+      "source": "src/board-D06-roadmap.html",
+      "image": "png/board-D06-roadmap.png",
+      "css_px": [
+        1658,
+        1532
+      ],
+      "image_px": [
+        3316,
+        3064
+      ],
+      "bytes": 546455,
+      "sha256": "91a2eddf54b2068a92f4fa6f2e32238eb29c0ad47e9da85444cb8f5616ab3924",
+      "live_frames": {
+        "total": 3,
+        "ready": 3
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 3,
+        "failing": []
+      }
+    },
+    "D07": {
+      "source": "src/board-D07-needs-you.html",
+      "image": "png/board-D07-needs-you.png",
+      "css_px": [
+        1658,
+        1532
+      ],
+      "image_px": [
+        3316,
+        3064
+      ],
+      "bytes": 386540,
+      "sha256": "464d7b0c197e1463bc6813315a9aeca8f739c5491af49cd323065c9ac8446fd9",
+      "live_frames": {
+        "total": 3,
+        "ready": 3
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 3,
+        "failing": []
+      }
+    },
+    "D08": {
+      "source": "src/board-D08-action-states.html",
+      "image": "png/board-D08-action-states.png",
+      "css_px": [
+        1658,
+        1001
+      ],
+      "image_px": [
+        3316,
+        2002
+      ],
+      "bytes": 232563,
+      "sha256": "5d0d4471db73eb072a9b1e81d0a7fa690e94be9ba4e411745c2db3a836dbdf4b",
+      "live_frames": {
+        "total": 2,
+        "ready": 2
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 2,
+        "failing": []
+      }
+    },
+    "D09": {
+      "source": "src/board-D09-records.html",
+      "image": "png/board-D09-records.png",
+      "css_px": [
+        1658,
+        1532
+      ],
+      "image_px": [
+        3316,
+        3064
+      ],
+      "bytes": 407682,
+      "sha256": "557bf2f79e64bb04a2e10f4706de0577206f1161e5f821b5e8ced0564d4d19d7",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "D10": {
+      "source": "src/board-D10-keep-it-one-click-away.html",
+      "image": "png/board-D10-keep-it-one-click-away.png",
+      "css_px": [
+        1658,
+        1001
+      ],
+      "image_px": [
+        3316,
+        2002
+      ],
+      "bytes": 308590,
+      "sha256": "1782dc07077afda3b3707f75a680dc24bef3a2ccbfe139f7d2afaa103a735aad",
+      "live_frames": {
+        "total": 2,
+        "ready": 2
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 2,
+        "failing": []
+      }
+    },
+    "D11": {
+      "source": "src/board-D11-access-card.html",
+      "image": "png/board-D11-access-card.png",
+      "css_px": [
+        1658,
+        1532
+      ],
+      "image_px": [
+        3316,
+        3064
+      ],
+      "bytes": 533128,
+      "sha256": "bf0365750f971624f4fd66a473f28dc49e7bac57f7eed16f7ba1cc4dac41a8c1",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "D12": {
+      "source": "src/board-D12-secure-reentry.html",
+      "image": "png/board-D12-secure-reentry.png",
+      "css_px": [
+        1658,
+        1532
+      ],
+      "image_px": [
+        3316,
+        3064
+      ],
+      "bytes": 420355,
+      "sha256": "822bc9eb95abc6e40901922da7dcfb7cdbc57dcc940a5c9ae295beb4ff1e18db",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "D13": {
+      "source": "src/board-D13-personalized-proposal.html",
+      "image": "png/board-D13-personalized-proposal.png",
+      "css_px": [
+        1658,
+        1532
+      ],
+      "image_px": [
+        3316,
+        3064
+      ],
+      "bytes": 586176,
+      "sha256": "83ae365c1835fd44c4af691ecbb84bd5ebd2fad7a3c3a3cefc08c08cda87eae7",
+      "live_frames": {
+        "total": 3,
+        "ready": 3
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 3,
+        "failing": []
+      }
+    },
+    "D14": {
+      "source": "src/board-D14-recommendation-selection.html",
+      "image": "png/board-D14-recommendation-selection.png",
+      "css_px": [
+        1658,
+        1532
+      ],
+      "image_px": [
+        3316,
+        3064
+      ],
+      "bytes": 519945,
+      "sha256": "28b98b861d04987d130a4be6ac882137a15b1d8c31454e43c7d5fea63c474edc",
+      "live_frames": {
+        "total": 3,
+        "ready": 3
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 3,
+        "failing": []
+      }
+    },
+    "D15": {
+      "source": "src/board-D15-quote-acceptance.html",
+      "image": "png/board-D15-quote-acceptance.png",
+      "css_px": [
+        1658,
+        1532
+      ],
+      "image_px": [
+        3316,
+        3064
+      ],
+      "bytes": 420040,
+      "sha256": "d381e237bea626970393f82e205d61ea070cb6c6c4b8e1e6ac064bbb8b1117a4",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "D16": {
+      "source": "src/board-D16-awaiting-payment.html",
+      "image": "png/board-D16-awaiting-payment.png",
+      "css_px": [
+        1658,
+        1532
+      ],
+      "image_px": [
+        3316,
+        3064
+      ],
+      "bytes": 633334,
+      "sha256": "6a696e7d5684131871a06f140ec492ef31d989d0f2ca12b21d8124aebe4648d1",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "D17": {
+      "source": "src/board-D17-payment-confirmation.html",
+      "image": "png/board-D17-payment-confirmation.png",
+      "css_px": [
+        1658,
+        1532
+      ],
+      "image_px": [
+        3316,
+        3064
+      ],
+      "bytes": 512321,
+      "sha256": "ecc0ea2495708485d35b2be9b224336f92a594ac58c7e1e3d5784a3822fd717a",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "D18": {
+      "source": "src/board-D18-project-in-progress.html",
+      "image": "png/board-D18-project-in-progress.png",
+      "css_px": [
+        1658,
+        1532
+      ],
+      "image_px": [
+        3316,
+        3064
+      ],
+      "bytes": 520529,
+      "sha256": "1b6d297c56ead1db29826757b8d3dcafd3355f3779ad34cb37dc6ceb946f6bc7",
+      "live_frames": {
+        "total": 3,
+        "ready": 3
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 3,
+        "failing": []
+      }
+    },
+    "D19": {
+      "source": "src/board-D19-verification-and-completion.html",
+      "image": "png/board-D19-verification-and-completion.png",
+      "css_px": [
+        1658,
+        1532
+      ],
+      "image_px": [
+        3316,
+        3064
+      ],
+      "bytes": 522283,
+      "sha256": "810d98b79b2a0e36a67b5f85c24f5a75d1e7861ee990a9ebd392dcce9d7264e4",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "D20": {
+      "source": "src/board-D20-activity-updates-errors-overlays.html",
+      "image": "png/board-D20-activity-updates-errors-overlays.png",
+      "css_px": [
+        1658,
+        1532
+      ],
+      "image_px": [
+        3316,
+        3064
+      ],
+      "bytes": 583891,
+      "sha256": "63d94545ba00e0349f516144e1526077717b5f634733e9f17004c5f1e5c2afd7",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "M01": {
+      "source": "src/board-M01-your-foundation-is-taking-shape.html",
+      "image": "png/board-M01-your-foundation-is-taking-shape.png",
+      "css_px": [
+        1700,
+        1435
+      ],
+      "image_px": [
+        3400,
+        2871
+      ],
+      "bytes": 690419,
+      "sha256": "d55486ed7c0bb54a4d8fc79642d99b7026a569b26bc5d6ba8ec2d1e6121b4599",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "M02": {
+      "source": "src/board-M02-overview-before-payment.html",
+      "image": "png/board-M02-overview-before-payment.png",
+      "css_px": [
+        1700,
+        1394
+      ],
+      "image_px": [
+        3400,
+        2787
+      ],
+      "bytes": 584675,
+      "sha256": "0c0ddf0e8aa60d656c7d8382a30d4e25f78f793cd5e7d93c145c903471d5ce61",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "M03": {
+      "source": "src/board-M03-overview-after-payment.html",
+      "image": "png/board-M03-overview-after-payment.png",
+      "css_px": [
+        1700,
+        1411
+      ],
+      "image_px": [
+        3400,
+        2821
+      ],
+      "bytes": 529961,
+      "sha256": "45dd328bd80bd66c1aaa81f06723876a6a8bd2f1bba9a933d378815c84d36047",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "M04": {
+      "source": "src/board-M04-roadmap-in-client-language.html",
+      "image": "png/board-M04-roadmap-in-client-language.png",
+      "css_px": [
+        1648,
+        1541
+      ],
+      "image_px": [
+        3295,
+        3082
+      ],
+      "bytes": 497647,
+      "sha256": "b85e3380e9832a98a234afa8f0cb95a1d21d40de13b0208ac4d7229560ad76a0",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "M05": {
+      "source": "src/board-M05-needs-you.html",
+      "image": "png/board-M05-needs-you.png",
+      "css_px": [
+        1660,
+        1483
+      ],
+      "image_px": [
+        3319,
+        2966
+      ],
+      "bytes": 498159,
+      "sha256": "aa0b80243a17d8134530e6d4f01685be5dd882822394cf06841bb6369498cab8",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "M06": {
+      "source": "src/board-M06-one-action-start-to-finish.html",
+      "image": "png/board-M06-one-action-start-to-finish.png",
+      "css_px": [
+        1689,
+        1387
+      ],
+      "image_px": [
+        3378,
+        2774
+      ],
+      "bytes": 425927,
+      "sha256": "572a28968120b5558d2104e3e9a32bbc99bf6d8c60f8cf80e86a11da996b5c87",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "M07": {
+      "source": "src/board-M07-records-only-when-they-exist.html",
+      "image": "png/board-M07-records-only-when-they-exist.png",
+      "css_px": [
+        1688,
+        1362
+      ],
+      "image_px": [
+        3376,
+        2725
+      ],
+      "bytes": 482757,
+      "sha256": "046a92e34315d2665589881ea5b43e182a7e88d911d13a561e51c2198866db8e",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "M08": {
+      "source": "src/board-M08-save-to-home-screen.html",
+      "image": "png/board-M08-save-to-home-screen.png",
+      "css_px": [
+        1700,
+        1403
+      ],
+      "image_px": [
+        3400,
+        2806
+      ],
+      "bytes": 473396,
+      "sha256": "27b8bd8b6d8be3d9233022d0f6abbf01ef00d25f2eb99ead13efa221bf28e07a",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "M09": {
+      "source": "src/board-M09-access-card.html",
+      "image": "png/board-M09-access-card.png",
+      "css_px": [
+        1688,
+        1337
+      ],
+      "image_px": [
+        3376,
+        2674
+      ],
+      "bytes": 466570,
+      "sha256": "fa6c5e3afadef4b79e31b1dd71c1e17249ec102185b649a3110eb0297dcd7a39",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "M10": {
+      "source": "src/board-M10-coming-back-the-happy-path.html",
+      "image": "png/board-M10-coming-back-the-happy-path.png",
+      "css_px": [
+        1700,
+        1264
+      ],
+      "image_px": [
+        3400,
+        2528
+      ],
+      "bytes": 346304,
+      "sha256": "8cf5cd20a788c797a350244446e30ac6507e292d53f846b41dd76ac97ee88cbb",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "M11": {
+      "source": "src/board-M11-reentry-expiry-and-bad-links.html",
+      "image": "png/board-M11-reentry-expiry-and-bad-links.png",
+      "css_px": [
+        1699,
+        1208
+      ],
+      "image_px": [
+        3397,
+        2416
+      ],
+      "bytes": 280071,
+      "sha256": "6e15a2ce6d19884c3acc48cce54a4df3925e1f3f9a7647e100d09153d6461087",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "M12": {
+      "source": "src/board-M12-reentry-revoked-wrong-identity-unavailable-retry.html",
+      "image": "png/board-M12-reentry-revoked-wrong-identity-unavailable-retry.png",
+      "css_px": [
+        1700,
+        1231
+      ],
+      "image_px": [
+        3400,
+        2461
+      ],
+      "bytes": 315025,
+      "sha256": "2bebd7681a7fc197ce0d200d60eb92b91a24303bd90279719b6458a96cc82188",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "M13": {
+      "source": "src/board-M13-personalized-proposal.html",
+      "image": "png/board-M13-personalized-proposal.png",
+      "css_px": [
+        1640,
+        1233
+      ],
+      "image_px": [
+        3281,
+        2466
+      ],
+      "bytes": 630004,
+      "sha256": "6b9f7c7472873e4daa159a9970f98508aa20fc9e50dcb7a4a6cfb8c7e63f524c",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "M14": {
+      "source": "src/board-M14-choose-what-fits.html",
+      "image": "png/board-M14-choose-what-fits.png",
+      "css_px": [
+        1700,
+        1247
+      ],
+      "image_px": [
+        3400,
+        2493
+      ],
+      "bytes": 524049,
+      "sha256": "aa4b3b245fd9400b0367b0eb62585903fb1cb9dacb5c19f3d8cb93006ad6318f",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "M15": {
+      "source": "src/board-M15-accept-the-exact-version.html",
+      "image": "png/board-M15-accept-the-exact-version.png",
+      "css_px": [
+        1700,
+        1954
+      ],
+      "image_px": [
+        3400,
+        3907
+      ],
+      "bytes": 536448,
+      "sha256": "a04bab859e8bcd36fbe432116a2aae92d4657017b40a2bda680e27a2c4a1f6bb",
+      "live_frames": {
+        "total": 5,
+        "ready": 5
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 5,
+        "failing": []
+      }
+    },
+    "M16": {
+      "source": "src/board-M16-your-foundation-is-ready-to-begin.html",
+      "image": "png/board-M16-your-foundation-is-ready-to-begin.png",
+      "css_px": [
+        1700,
+        1954
+      ],
+      "image_px": [
+        3400,
+        3907
+      ],
+      "bytes": 710982,
+      "sha256": "a558c0ce2aad5b5050a14320a136b472b88d6d049caf1e1017cd3b3cf15a4c1a",
+      "live_frames": {
+        "total": 5,
+        "ready": 5
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 5,
+        "failing": []
+      }
+    },
+    "M17": {
+      "source": "src/board-M17-confirmed-by-stripe-not-by-the-redirect.html",
+      "image": "png/board-M17-confirmed-by-stripe-not-by-the-redirect.png",
+      "css_px": [
+        1700,
+        1247
+      ],
+      "image_px": [
+        3400,
+        2493
+      ],
+      "bytes": 536024,
+      "sha256": "8c544de47bfb78b4720760b1a6de000b832646c14a308781c27d0bd66b3c9791",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "M18": {
+      "source": "src/board-M18-setup-and-final-verification.html",
+      "image": "png/board-M18-setup-and-final-verification.png",
+      "css_px": [
+        1700,
+        1247
+      ],
+      "image_px": [
+        3400,
+        2493
+      ],
+      "bytes": 597287,
+      "sha256": "a9f3ce7a265b8c939f2e9523acadef8cf2384c1ca7ee21d2f3b058d2169fd5c6",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "M19": {
+      "source": "src/board-M19-established-and-what-happened.html",
+      "image": "png/board-M19-established-and-what-happened.png",
+      "css_px": [
+        1700,
+        1289
+      ],
+      "image_px": [
+        3400,
+        2578
+      ],
+      "bytes": 557748,
+      "sha256": "6b6637fb9936743cfe8ae6379c311356857cd5b205b3b50d06afb0663e98324f",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "M20": {
+      "source": "src/board-M20-updates-errors-and-global-overlays.html",
+      "image": "png/board-M20-updates-errors-and-global-overlays.png",
+      "css_px": [
+        1700,
+        1954
+      ],
+      "image_px": [
+        3400,
+        3907
+      ],
+      "bytes": 643412,
+      "sha256": "7d272d3729937076bdbc833547b3e348e789cadb3f324a1dc5daecf58c1b3f95",
+      "live_frames": {
+        "total": 5,
+        "ready": 5
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 5,
+        "failing": []
+      }
+    },
+    "TL01": {
+      "source": "src/board-TL01-compact-rail.html",
+      "image": "png/board-TL01-compact-rail.png",
+      "css_px": [
+        1631,
+        1033
+      ],
+      "image_px": [
+        3262,
+        2066
+      ],
+      "bytes": 365123,
+      "sha256": "b9d068ef83c40550f9513610986899bc37dc04c2f988621bb92e427359000256",
+      "live_frames": {
+        "total": 2,
+        "ready": 2
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 2,
+        "failing": []
+      }
+    },
+    "TL02": {
+      "source": "src/board-TL02-review-and-needs-you-overview.html",
+      "image": "png/board-TL02-review-and-needs-you-overview.png",
+      "css_px": [
+        1641,
+        1033
+      ],
+      "image_px": [
+        3281,
+        2066
+      ],
+      "bytes": 359014,
+      "sha256": "5b3fc0510f2fb4696283fea5ecdc843481889f2a915348540dd0d1c62d93aed6",
+      "live_frames": {
+        "total": 2,
+        "ready": 2
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 2,
+        "failing": []
+      }
+    },
+    "TL03": {
+      "source": "src/board-TL03-proposal-and-options.html",
+      "image": "png/board-TL03-proposal-and-options.png",
+      "css_px": [
+        1642,
+        1033
+      ],
+      "image_px": [
+        3284,
+        2066
+      ],
+      "bytes": 388909,
+      "sha256": "c739e2340395b86ddc18e0d2c1e101016a6237df6b9f53510b6b1eadbfa32845",
+      "live_frames": {
+        "total": 2,
+        "ready": 2
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 2,
+        "failing": []
+      }
+    },
+    "TL04": {
+      "source": "src/board-TL04-acceptance-and-payment.html",
+      "image": "png/board-TL04-acceptance-and-payment.png",
+      "css_px": [
+        1642,
+        1033
+      ],
+      "image_px": [
+        3283,
+        2066
+      ],
+      "bytes": 351789,
+      "sha256": "7b04437ff092085be518943badf5dc8a171ec4cbd7cc6cd3a99cb545d9e639fc",
+      "live_frames": {
+        "total": 2,
+        "ready": 2
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 2,
+        "failing": []
+      }
+    },
+    "TL05": {
+      "source": "src/board-TL05-confirmation-and-setup.html",
+      "image": "png/board-TL05-confirmation-and-setup.png",
+      "css_px": [
+        1641,
+        1033
+      ],
+      "image_px": [
+        3282,
+        2066
+      ],
+      "bytes": 351599,
+      "sha256": "d7c611bcf08a3f3ce412ec60f91c571af5961e2972ddb9f2c9a15ab412a885a0",
+      "live_frames": {
+        "total": 2,
+        "ready": 2
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 2,
+        "failing": []
+      }
+    },
+    "TL06": {
+      "source": "src/board-TL06-needs-you.html",
+      "image": "png/board-TL06-needs-you.png",
+      "css_px": [
+        1641,
+        1033
+      ],
+      "image_px": [
+        3282,
+        2066
+      ],
+      "bytes": 293365,
+      "sha256": "b53c04ee4c3469e8b566dfb55227f27150436757f0001ca8b197e39af76e36f2",
+      "live_frames": {
+        "total": 2,
+        "ready": 2
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 2,
+        "failing": []
+      }
+    },
+    "TL07": {
+      "source": "src/board-TL07-records.html",
+      "image": "png/board-TL07-records.png",
+      "css_px": [
+        1636,
+        1033
+      ],
+      "image_px": [
+        3273,
+        2066
+      ],
+      "bytes": 281586,
+      "sha256": "0f9c1d872ab446f56561945c9845d7175b5be516d9c157fc0f35f991a71e89c4",
+      "live_frames": {
+        "total": 2,
+        "ready": 2
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 2,
+        "failing": []
+      }
+    },
+    "TL08": {
+      "source": "src/board-TL08-access-card-and-home-screen.html",
+      "image": "png/board-TL08-access-card-and-home-screen.png",
+      "css_px": [
+        1642,
+        1033
+      ],
+      "image_px": [
+        3284,
+        2066
+      ],
+      "bytes": 361055,
+      "sha256": "2d7cd5a3c8a93fd891a20610e3552a260e75cd5828be1e3a163aa82dade21e95",
+      "live_frames": {
+        "total": 2,
+        "ready": 2
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 2,
+        "failing": []
+      }
+    },
+    "TL09": {
+      "source": "src/board-TL09-secure-reentry.html",
+      "image": "png/board-TL09-secure-reentry.png",
+      "css_px": [
+        1641,
+        1033
+      ],
+      "image_px": [
+        3283,
+        2066
+      ],
+      "bytes": 253536,
+      "sha256": "d0cb1b758474cdc5d35670b9e29eedb9d578c23d6230e47aa80c0edc7bb170c1",
+      "live_frames": {
+        "total": 2,
+        "ready": 2
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 2,
+        "failing": []
+      }
+    },
+    "TL10": {
+      "source": "src/board-TL10-completion-and-dialogs.html",
+      "image": "png/board-TL10-completion-and-dialogs.png",
+      "css_px": [
+        1631,
+        1033
+      ],
+      "image_px": [
+        3262,
+        2066
+      ],
+      "bytes": 384795,
+      "sha256": "d7920796a01e16bfe5691205b69f53e416e67a7fd56d121c2420e3dcf046aa31",
+      "live_frames": {
+        "total": 2,
+        "ready": 2
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 2,
+        "failing": []
+      }
+    },
+    "TP01": {
+      "source": "src/board-TP01-four-areas-as-tabs.html",
+      "image": "png/board-TP01-four-areas-as-tabs.png",
+      "css_px": [
+        1617,
+        1076
+      ],
+      "image_px": [
+        3234,
+        2152
+      ],
+      "bytes": 415503,
+      "sha256": "94c8917800411686805b3eee407622a4e88827e505ff427f64cb2fd50d4a2c8b",
+      "live_frames": {
+        "total": 3,
+        "ready": 3
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 3,
+        "failing": []
+      }
+    },
+    "TP02": {
+      "source": "src/board-TP02-post-intake-review.html",
+      "image": "png/board-TP02-post-intake-review.png",
+      "css_px": [
+        1627,
+        1076
+      ],
+      "image_px": [
+        3254,
+        2152
+      ],
+      "bytes": 384415,
+      "sha256": "a222b06a851d0468559bd3a3dbf8d4fd003bc60f295b7fa2a946705173bd9a89",
+      "live_frames": {
+        "total": 3,
+        "ready": 3
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 3,
+        "failing": []
+      }
+    },
+    "TP03": {
+      "source": "src/board-TP03-proposal-options-acceptance.html",
+      "image": "png/board-TP03-proposal-options-acceptance.png",
+      "css_px": [
+        1628,
+        1076
+      ],
+      "image_px": [
+        3257,
+        2152
+      ],
+      "bytes": 399706,
+      "sha256": "7b2879725cc912a78a98f445b715d92f2e05f7a17481af1aa0f194faf535dd3d",
+      "live_frames": {
+        "total": 3,
+        "ready": 3
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 3,
+        "failing": []
+      }
+    },
+    "TP04": {
+      "source": "src/board-TP04-payment-and-confirmation.html",
+      "image": "png/board-TP04-payment-and-confirmation.png",
+      "css_px": [
+        1700,
+        1710
+      ],
+      "image_px": [
+        3400,
+        3420
+      ],
+      "bytes": 508206,
+      "sha256": "b17d725e60d13b2128e624a571a7f2f4e9814e1817c368a0b4b80909ea80cd5b",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "TP05": {
+      "source": "src/board-TP05-setup-and-verification.html",
+      "image": "png/board-TP05-setup-and-verification.png",
+      "css_px": [
+        1628,
+        1076
+      ],
+      "image_px": [
+        3255,
+        2152
+      ],
+      "bytes": 340765,
+      "sha256": "25dcb87c0e7f3eadc1729ea331c02d1038f07282dec0f8ae510dc11e5401152a",
+      "live_frames": {
+        "total": 3,
+        "ready": 3
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 3,
+        "failing": []
+      }
+    },
+    "TP06": {
+      "source": "src/board-TP06-needs-you-and-action-detail.html",
+      "image": "png/board-TP06-needs-you-and-action-detail.png",
+      "css_px": [
+        1628,
+        1076
+      ],
+      "image_px": [
+        3255,
+        2152
+      ],
+      "bytes": 303953,
+      "sha256": "d29450727c14d6e8afbcec6d3479dee9c8f3d289e27bb45529cd2124d2ef4b9b",
+      "live_frames": {
+        "total": 3,
+        "ready": 3
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 3,
+        "failing": []
+      }
+    },
+    "TP07": {
+      "source": "src/board-TP07-records.html",
+      "image": "png/board-TP07-records.png",
+      "css_px": [
+        1623,
+        1076
+      ],
+      "image_px": [
+        3246,
+        2152
+      ],
+      "bytes": 277322,
+      "sha256": "84b3d33e97cb950c787254499def203a33e2e33c3d87f69f514772e6b7d59b98",
+      "live_frames": {
+        "total": 3,
+        "ready": 3
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 3,
+        "failing": []
+      }
+    },
+    "TP08": {
+      "source": "src/board-TP08-home-screen-and-access-card.html",
+      "image": "png/board-TP08-home-screen-and-access-card.png",
+      "css_px": [
+        1628,
+        1076
+      ],
+      "image_px": [
+        3256,
+        2152
+      ],
+      "bytes": 347413,
+      "sha256": "f01d29fbe792007770edd53705ce6f120a8601b98a3cdfb246a381d0d4a69ceb",
+      "live_frames": {
+        "total": 3,
+        "ready": 3
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 3,
+        "failing": []
+      }
+    },
+    "TP09": {
+      "source": "src/board-TP09-secure-reentry.html",
+      "image": "png/board-TP09-secure-reentry.png",
+      "css_px": [
+        1700,
+        1710
+      ],
+      "image_px": [
+        3400,
+        3420
+      ],
+      "bytes": 315006,
+      "sha256": "cf32d9a13824a9854bb7d96873bb5d055190c9114703cbb53c4a613e81faacca",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "TP10": {
+      "source": "src/board-TP10-completion-errors-overlays.html",
+      "image": "png/board-TP10-completion-errors-overlays.png",
+      "css_px": [
+        1700,
+        1710
+      ],
+      "image_px": [
+        3400,
+        3420
+      ],
+      "bytes": 499902,
+      "sha256": "038c218a4ae6f5a37587afb9bd5a866da22898dd482e8bcb1c40e00ee6635f37",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "UW01": {
+      "source": "src/board-UW01-ultra-wide-shell.html",
+      "image": "png/board-UW01-ultra-wide-shell.png",
+      "css_px": [
+        1642,
+        951
+      ],
+      "image_px": [
+        3284,
+        1902
+      ],
+      "bytes": 351243,
+      "sha256": "421536d5e279389e321c7fa3de26cd206c9ce564766dba74c460eda236ecb919",
+      "live_frames": {
+        "total": 2,
+        "ready": 2
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 2,
+        "failing": []
+      }
+    },
+    "UW02": {
+      "source": "src/board-UW02-review-and-proposal-at-ultra-wide.html",
+      "image": "png/board-UW02-review-and-proposal-at-ultra-wide.png",
+      "css_px": [
+        1644,
+        951
+      ],
+      "image_px": [
+        3288,
+        1902
+      ],
+      "bytes": 356545,
+      "sha256": "25607bf69f827b2dba8828ef7693dd4173e079ab26e04d87f6feebee6140631e",
+      "live_frames": {
+        "total": 2,
+        "ready": 2
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 2,
+        "failing": []
+      }
+    },
+    "UW03": {
+      "source": "src/board-UW03-payment-and-confirmation-at-ultra-wide.html",
+      "image": "png/board-UW03-payment-and-confirmation-at-ultra-wide.png",
+      "css_px": [
+        1644,
+        951
+      ],
+      "image_px": [
+        3288,
+        1902
+      ],
+      "bytes": 317770,
+      "sha256": "d95bb21ad446cfc38376b0ebd94b8d1a3b89284f413add9fbb2c25da58f73d95",
+      "live_frames": {
+        "total": 2,
+        "ready": 2
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 2,
+        "failing": []
+      }
+    },
+    "UW04": {
+      "source": "src/board-UW04-setup-and-completion-at-ultra-wide.html",
+      "image": "png/board-UW04-setup-and-completion-at-ultra-wide.png",
+      "css_px": [
+        1644,
+        951
+      ],
+      "image_px": [
+        3288,
+        1902
+      ],
+      "bytes": 329533,
+      "sha256": "2b93888209588680fe782db2dd2fa3a52fc16985ef0e1316235648a8e221e516",
+      "live_frames": {
+        "total": 2,
+        "ready": 2
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 2,
+        "failing": []
+      }
+    },
+    "UW05": {
+      "source": "src/board-UW05-needs-you-and-records-at-1920.html",
+      "image": "png/board-UW05-needs-you-and-records-at-1920.png",
+      "css_px": [
+        1658,
+        954
+      ],
+      "image_px": [
+        3316,
+        1908
+      ],
+      "bytes": 323332,
+      "sha256": "ef573d65cb8c19b906ac8bcfb1f862aefc89a085a957fb134926eadbc9cc3f0b",
+      "live_frames": {
+        "total": 2,
+        "ready": 2
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 2,
+        "failing": []
+      }
+    },
+    "X01": {
+      "source": "src/board-X01-tier-ladder-one-overview-five-compositions.html",
+      "image": "png/board-X01-tier-ladder-one-overview-five-compositions.png",
+      "css_px": [
+        1600,
+        1580
+      ],
+      "image_px": [
+        3200,
+        3160
+      ],
+      "bytes": 764031,
+      "sha256": "f9f8c0a04b724ab52082395d40087b0109bbdc6f9a50a88e2425a2ff8dddebe6",
+      "live_frames": {
+        "total": 6,
+        "ready": 6
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 6,
+        "failing": []
+      }
+    },
+    "X02": {
+      "source": "src/board-X02-navigation-model-per-tier.html",
+      "image": "png/board-X02-navigation-model-per-tier.png",
+      "css_px": [
+        1688,
+        1311
+      ],
+      "image_px": [
+        3376,
+        2622
+      ],
+      "bytes": 456367,
+      "sha256": "94d93d35762559d05305fa8ce68001885bd6869c7b7e179b2622bf9dcd90b7b9",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "X03": {
+      "source": "src/board-X03-hero-type-scale.html",
+      "image": "png/board-X03-hero-type-scale.png",
+      "css_px": [
+        1693,
+        1179
+      ],
+      "image_px": [
+        3386,
+        2358
+      ],
+      "bytes": 663302,
+      "sha256": "5d35324a92309bd56303256e834e6405c49b87e1fe8609f482fddf4b8127b496",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    },
+    "X04": {
+      "source": "src/board-X04-progress-representation-per-tier.html",
+      "image": "png/board-X04-progress-representation-per-tier.png",
+      "css_px": [
+        1600,
+        1138
+      ],
+      "image_px": [
+        3200,
+        2276
+      ],
+      "bytes": 493212,
+      "sha256": "e35c65db18d04f9fafa95e0a9f4876221ede12ae15656cf36257c6a95d0d708f",
+      "live_frames": {
+        "total": 3,
+        "ready": 3
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 3,
+        "failing": []
+      }
+    },
+    "X05": {
+      "source": "src/board-X05-canonical-state-client-experience.html",
+      "image": "png/board-X05-canonical-state-client-experience.png",
+      "css_px": [
+        1688,
+        979
+      ],
+      "image_px": [
+        3376,
+        1958
+      ],
+      "bytes": 337587,
+      "sha256": "43e92fc68c99b7f738f505404669181bb62488bf5d578f24e89a03dbeedf5e4c",
+      "live_frames": {
+        "total": 0,
+        "ready": 0
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 0,
+        "failing": []
+      }
+    },
+    "X06": {
+      "source": "src/board-X06-founder-client-parity.html",
+      "image": "png/board-X06-founder-client-parity.png",
+      "css_px": [
+        1688,
+        723
+      ],
+      "image_px": [
+        3376,
+        1446
+      ],
+      "bytes": 242858,
+      "sha256": "30c528af8e52339681a065569a2710926eafa66e066ec48f68d6b3f10859f5e8",
+      "live_frames": {
+        "total": 0,
+        "ready": 0
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 0,
+        "failing": []
+      }
+    },
+    "X07": {
+      "source": "src/board-X07-payment-truth-gates.html",
+      "image": "png/board-X07-payment-truth-gates.png",
+      "css_px": [
+        1600,
+        1343
+      ],
+      "image_px": [
+        3200,
+        2686
+      ],
+      "bytes": 392403,
+      "sha256": "fa0faf81472796dd0f95b74d935c092d2671c1824ef92a5bee2bac978fdaba76",
+      "live_frames": {
+        "total": 2,
+        "ready": 2
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 2,
+        "failing": []
+      }
+    },
+    "X08": {
+      "source": "src/board-X08-access-and-privacy-boundaries.html",
+      "image": "png/board-X08-access-and-privacy-boundaries.png",
+      "css_px": [
+        1688,
+        1343
+      ],
+      "image_px": [
+        3376,
+        2686
+      ],
+      "bytes": 406293,
+      "sha256": "814af1098157d46c3d1cf9036cec3f2c592708bd0a288d75800b47029d2f7e18",
+      "live_frames": {
+        "total": 3,
+        "ready": 3
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 3,
+        "failing": []
+      }
+    },
+    "X09": {
+      "source": "src/board-X09-motion-refresh-and-status-truth.html",
+      "image": "png/board-X09-motion-refresh-and-status-truth.png",
+      "css_px": [
+        1600,
+        1343
+      ],
+      "image_px": [
+        3200,
+        2686
+      ],
+      "bytes": 530326,
+      "sha256": "668da79dc9c12682b8edd315154c25af1eebdf1c31bf4108e167977e365c94ac",
+      "live_frames": {
+        "total": 3,
+        "ready": 3
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 3,
+        "failing": []
+      }
+    },
+    "X10": {
+      "source": "src/board-X10-component-interaction-registry-summary.html",
+      "image": "png/board-X10-component-interaction-registry-summary.png",
+      "css_px": [
+        1600,
+        819
+      ],
+      "image_px": [
+        3200,
+        1638
+      ],
+      "bytes": 294377,
+      "sha256": "52141612189924be4fe738e7733969224758c49dc0edc0da5cf998e2474208cc",
+      "live_frames": {
+        "total": 0,
+        "ready": 0
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 0,
+        "failing": []
+      }
+    },
+    "X11": {
+      "source": "src/board-X11-empty-error-and-blocked-catalogue.html",
+      "image": "png/board-X11-empty-error-and-blocked-catalogue.png",
+      "css_px": [
+        1600,
+        1850
+      ],
+      "image_px": [
+        3200,
+        3700
+      ],
+      "bytes": 393944,
+      "sha256": "d8d9b6234d9cef0a369690da5d2acc4cca170fd77aa79b197a4cb5ed6594fa3c",
+      "live_frames": {
+        "total": 8,
+        "ready": 8
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 8,
+        "failing": []
+      }
+    },
+    "X12": {
+      "source": "src/board-X12-email-designs-design-only-nothing-sent.html",
+      "image": "png/board-X12-email-designs-design-only-nothing-sent.png",
+      "css_px": [
+        1600,
+        1258
+      ],
+      "image_px": [
+        3200,
+        2516
+      ],
+      "bytes": 628113,
+      "sha256": "3de5543d0dfbb095ead6729fa3fe930abf1983ec51553b2c0f646695f79964fd",
+      "live_frames": {
+        "total": 4,
+        "ready": 4
+      },
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": [],
+      "frame_layout": {
+        "frames": 4,
+        "failing": []
+      }
+    }
+  },
+  "renderer": "boards/render-boards.mjs (Vite SSR data + Playwright Chromium, deviceScaleFactor 2; static authority specimens in iframes at true viewport widths — not live application screenshots)",
+  "sprint": "P0.SITE00.IDNTY.CLIENT-FOUNDATION-EXPERIENCE.LIVING-PORTAL-AND-ACCESS-AUTHORITY.OPUS1",
+  "base": "d68038a87",
+  "count": 87,
+  "tiers": {
+    "AH": 10,
+    "D": 20,
+    "M": 20,
+    "TL": 10,
+    "TP": 10,
+    "UW": 5,
+    "X": 12
+  }
+}

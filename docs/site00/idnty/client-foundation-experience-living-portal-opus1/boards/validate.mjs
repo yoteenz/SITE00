@@ -133,7 +133,7 @@ check('doc-links', 'every OD-xx reference is defined in 31', !odRefs.length, odR
 
 // ─── 6. Access security (static) ─────────────────────────────────────────────────────────────
 // Bearer tokens are randomBytes(24).toString('base64url') = exactly 32 chars.
-const TOKEN_URL = /\/foundation\/(?!return\b|review\b)[A-Za-z0-9_-]{32}(?![A-Za-z0-9_-])/;
+const TOKEN_URL = /\/foundation\/(?!return\b|review\b)[A-Za-z0-9_-]{32}(?![A-Za-z0-9_.-])/; // a following "." is a source file path, not a token
 const scanFiles = [...readdirSync(join(here, 'src')).map((f) => join(here, 'src', f)), ...DOCS.map((f) => join(root, f))].filter((p) => statSync(p).isFile());
 const tokenHits = scanFiles.filter((p) => TOKEN_URL.test(readFileSync(p, 'utf8')));
 check('access-security', 'no bearer-token-shaped /foundation/<token> URL in boards or docs', !tokenHits.length, tokenHits.map((p) => relative(root, p)).join(', '));
