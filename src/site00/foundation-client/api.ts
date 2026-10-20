@@ -3,6 +3,7 @@
  * (`api/site00/digital-foundation-artifact.ts`). No new endpoints; no pricing or lifecycle logic here.
  */
 import type { ClientDigitalFoundationPayload } from '../../../shared/site00-digital-foundation/clientProjection.js';
+import type { FoundationBuildPathPreference } from '../../../shared/site00-digital-foundation/builderHandoff.js';
 import type {
   DigitalFoundationCommercialConfig,
   DigitalFoundationIntake,
@@ -159,6 +160,26 @@ export function captureBuildInterest(
   interest: 'INTERESTED' | 'SAVED_FOR_LATER',
 ): Promise<unknown> {
   return post(token, 'build-interest', { interest });
+}
+
+export type CreateBuilderHandoffResponse = {
+  handoff_id: string;
+  deep_link_path: string;
+  credit_verified: boolean;
+  credit_amount_minor: number | null;
+  credit_currency: string | null;
+  credit_expires_at: string | null;
+  build_path_preference: FoundationBuildPathPreference | null;
+  builder_credit_consumption: 'PENDING_BUILDER_INTEGRATION';
+};
+
+export function createBuilderHandoff(
+  token: string,
+  buildPathPreference: FoundationBuildPathPreference | null,
+): Promise<CreateBuilderHandoffResponse> {
+  return post(token, 'create-builder-handoff', {
+    build_path_preference: buildPathPreference,
+  });
 }
 
 export function updateCommunicationPreferences(

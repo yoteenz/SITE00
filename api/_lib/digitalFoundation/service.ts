@@ -4,6 +4,13 @@ import { createQuoteDraft, type SelectedAddonInput, validateSelectionRemovable }
 import { inferBuildRecommendation, recommendFromIntake } from '../../../shared/site00-digital-foundation/recommendationEngine.js';
 import { isLaunchGateCheckoutBlocked, LAUNCH_GATE_CHECKOUT_ERROR } from '../../../shared/site00-digital-foundation/launchGate.js';
 import { resolveArtifactSurface, resolveArtifactSurfaceForClient } from '../../../shared/site00-digital-foundation/surface.js';
+import {
+  assessFoundationCreditEligibility,
+  buildFoundationBuilderDeepLink,
+  normalizeBuildPathPreference,
+  type FoundationBuilderHandoffRecord,
+  type FoundationBuildPathPreference,
+} from '../../../shared/site00-digital-foundation/builderHandoff.js';
 import { initialProjectStages } from '../../../shared/site00-digital-foundation/projectStages.js';
 import { validateContactPhoneForCompletion } from '../../../shared/site00-digital-foundation/contactPhone.js';
 import { findReferralByKind } from '../../../shared/site00-digital-foundation/referralSources.js';
@@ -812,6 +819,105 @@ export function captureBuildInterest(
   }
   mem.memSaveArtifact(a);
   return a;
+}
+
+const HANDOFF_TTL_MS = 30 * 60 * 1000;
+
+function activeHandoffForArtifact(artifactId: string, now = Date.now()): FoundationBuilderHandoffRecord | null {
+  const s = mem.getDfMemoryState();
+  for (const h of s.builderHandoffs.values()) {
+    if (h.artifact_id !== artifactId || h.consumed_at) continue;
+    if (new Date(h.expires_at).getTime() < now) continue;
+    return h;
+  }
+  return null;
+}
+
+export function createFoundationBuilderHandoff(
+  artifactId: string,
+  opts?: { build_path_preference?: FoundationBuildPathPreference | null },
+): {
+  handoff: FoundationBuilderHandoffRecord;
+  deep_link_path: string;
+  credit_verified: boolean;
+  credit_amount_minor: number | null;
+  credit_currency: string | null;
+  credit_expires_at: string | null;
+  builder_credit_consumption: 'PENDING_BUILDER_INTEGRATION';
+} {
+  const a = mem.memGetArtifact(artifactId);
+  if (!a) throw new Error('ARTIFACT_NOT_FOUND');
+  const payload = getArtifactPayload(artifactId);
+  const eligibility = assessFoundationCreditEligibility({
+    completion_state: a.completion_state,
+    credit: payload.credit,
+  });
+  if (!eligibility.ok) throw new Error(`HANDOFF_${eligibility.code}`);
+
+  const existing = activeHandoffForArtifact(artifactId);
+  if (existing) {
+    return {
+      handoff: existing,
+      deep_link_path: buildFoundationBuilderDeepLink(existing.handoff_id),
+      credit_verified: true,
+      credit_amount_minor: eligibility.credit.amount_minor,
+      credit_currency: eligibility.credit.currency,
+      credit_expires_at: eligibility.credit.expires_at,
+      builder_credit_consumption: 'PENDING_BUILDER_INTEGRATION',
+    };
+  }
+
+  const pref =
+    opts?.build_path_preference ??
+    normalizeBuildPathPreference(null, a.build_recommendation);
+  const now = nowIso();
+  const handoff: FoundationBuilderHandoffRecord = {
+    handoff_id: `dfh_${randomBytes(16).toString('hex')}`,
+    artifact_id: artifactId,
+    credit_id: eligibility.credit.credit_id,
+    build_path_preference: pref,
+    created_at: now,
+    expires_at: new Date(Date.now() + HANDOFF_TTL_MS).toISOString(),
+    consumed_at: null,
+    consumed_by: null,
+  };
+  mem.getDfMemoryState().builderHandoffs.set(handoff.handoff_id, handoff);
+  logEvent(artifactId, 'BUILD_HANDOFF_CREATED', 'CLIENT', {
+    handoff_id: handoff.handoff_id,
+    credit_id: handoff.credit_id,
+    build_path_preference: handoff.build_path_preference,
+  });
+  return {
+    handoff,
+    deep_link_path: buildFoundationBuilderDeepLink(handoff.handoff_id),
+    credit_verified: true,
+    credit_amount_minor: eligibility.credit.amount_minor,
+    credit_currency: eligibility.credit.currency,
+    credit_expires_at: eligibility.credit.expires_at,
+    builder_credit_consumption: 'PENDING_BUILDER_INTEGRATION',
+  };
+}
+
+/** Server-side verification for the general builder (consumer not wired in Phase 1). */
+export function verifyFoundationBuilderHandoff(handoffId: string): {
+  ok: true;
+  handoff: FoundationBuilderHandoffRecord;
+  credit: FoundationBuildCredit;
+} {
+  const handoff = mem.getDfMemoryState().builderHandoffs.get(handoffId);
+  if (!handoff) throw new Error('HANDOFF_NOT_FOUND');
+  if (handoff.consumed_at) throw new Error('HANDOFF_ALREADY_CONSUMED');
+  if (new Date(handoff.expires_at).getTime() < Date.now()) throw new Error('HANDOFF_EXPIRED');
+  const a = mem.memGetArtifact(handoff.artifact_id);
+  if (!a || a.completion_state !== 'COMPLETE') throw new Error('HANDOFF_ARTIFACT_INVALID');
+  const credit = mem.getDfMemoryState().credits.get(handoff.credit_id);
+  if (!credit) throw new Error('CREDIT_NOT_FOUND');
+  const eligibility = assessFoundationCreditEligibility({
+    completion_state: a.completion_state,
+    credit,
+  });
+  if (!eligibility.ok) throw new Error(`HANDOFF_${eligibility.code}`);
+  return { ok: true, handoff, credit: eligibility.credit };
 }
 
 export function applyManualQuoteAdjustment(artifactId: string, adjustmentMinor: number): DigitalFoundationQuote {

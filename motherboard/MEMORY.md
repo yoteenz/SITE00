@@ -16899,3 +16899,11 @@ Summary of the whole conversation in this chat.
 ## 2026-10-20 — Merge base into living portal branch
 
 - **Merge:** `origin/cursor/idnty-founder-readiness-e2e-be3b` (includes merged #1671 + #1669 AIO referral card assets) into `cursor/idnty-living-portal-one-pass-completion1-be3b`. DF review conflicts resolved in favor of living-portal lifecycle/zone work; referral artwork from base retained via auto-merge.
+
+## 2026-10-20 — DF Phase 1 source recovery + builder handoff
+
+- **Sprint:** `P0.SITE00.IDNTY.PHASE1.CANONICAL-SOURCE-RECOVERY-AND-PAID-TO-BUILDER-LIFECYCLE-INTEGRATION1` — functional recovery only; no Opus visuals.
+- **Routing fix:** `resolveDfRoute` no longer returns `kind: 'complete'`; COMPLETE/BUILD_UPSELL surfaces keep the living portal plus view `COMPLETE` for Board 11/12 milestone inside `FoundationClient`.
+- **Builder handoff:** `shared/site00-digital-foundation/builderHandoff.ts`, API `create-builder-handoff`, opaque `dfHandoff` deep link to `/bldr/studio/blueprint`; credit verified server-side.
+- **Docs:** Phase 1 contracts and evidence under `docs/site00/idnty/canonical-lifecycle-restoration1/`.
+- **Tests:** `tests/digitalFoundationLifecyclePhase1.test.ts`.

@@ -27,9 +27,9 @@
       "reviewAnchor": "df-r-complete",
       "implementationStatus": "EXISTING_AND_CORRECT",
       "visualParityStatus": "MATCHES_BOARD_11_SHELL",
-      "functionalStatus": "LIVE_ON_COMPLETE_SURFACE",
+      "functionalStatus": "PORTAL_COMPLETE_VIEW",
       "dataSource": "ownership_record + verified credit rules",
-      "recoveryAction": "Moved to CLIENT_COMPLETION review zone"
+      "recoveryAction": "Embedded in living portal (COMPLETE view); resolveDfRoute no longer replaces portal"
     },
     {
       "referenceNumber": "12",
