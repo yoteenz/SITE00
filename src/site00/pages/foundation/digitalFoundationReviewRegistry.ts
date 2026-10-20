@@ -14,7 +14,7 @@ import { SITE00_ROUTES } from '../../config/routes';
 import type { DfView } from '../../foundation-client/model';
 import { reviewAnchorForView } from './reviewLinks';
 
-export const DIGITAL_FOUNDATION_REVIEW_REGISTRY_VERSION = '2026-10-20-gallery-restoration1';
+export const DIGITAL_FOUNDATION_REVIEW_REGISTRY_VERSION = '2026-10-20-lifecycle-recovery1';
 
 export const DF_REVIEW_PRODUCT = {
   IDNTY_DIGITAL_FOUNDATION: 'IDNTY_DIGITAL_FOUNDATION',
@@ -36,6 +36,7 @@ export type DfReviewGroupId =
   | 'POST_INTAKE'
   | 'PROPOSAL_CHECKOUT'
   | 'CLIENT_PORTAL'
+  | 'CLIENT_COMPLETION'
   | 'CLIENT_ACCESS'
   | 'FOUNDER_WORKSPACE'
   | 'FOUNDER_REVIEW_QUEUE'
@@ -82,15 +83,16 @@ export type DfReviewEntry = {
 
 export const DIGITAL_FOUNDATION_REVIEW_GROUP_LABELS: Record<DfReviewGroupId, string> = {
   INTAKE: 'A · Foundation intake',
-  FOUNDATION_BUILDER: 'B · Digital Foundation builder',
+  FOUNDATION_BUILDER: 'B · Website builder (hybrid studio)',
   POST_INTAKE: 'C · Post-intake review / waiting',
   PROPOSAL_CHECKOUT: 'D · Personalized proposals & checkout',
-  CLIENT_PORTAL: 'E · Client foundation portal',
-  CLIENT_ACCESS: 'F · Client secure access',
-  FOUNDER_WORKSPACE: 'G · Founder workspace',
-  FOUNDER_REVIEW_QUEUE: 'H · Review queue / quote approval',
-  FOUNDER_OPERATIONS: 'I · Operations & correspondence',
-  FOUNDER_OVERLAYS: 'J · Client & founder overlays',
+  CLIENT_PORTAL: 'E · Active client portal',
+  CLIENT_COMPLETION: 'F · Completion & next threshold',
+  CLIENT_ACCESS: 'G · Client secure access',
+  FOUNDER_WORKSPACE: 'H · Founder workspace & pipeline',
+  FOUNDER_REVIEW_QUEUE: 'I · Review queue / quote approval',
+  FOUNDER_OPERATIONS: 'J · Execution & runbook',
+  FOUNDER_OVERLAYS: 'K · Client & founder overlays',
   DEPRECATED: 'Deprecated public builder links',
 };
 
@@ -100,12 +102,12 @@ export const REVIEW_GROUP_ORDER: DfReviewGroupId[] = [
   'POST_INTAKE',
   'PROPOSAL_CHECKOUT',
   'CLIENT_PORTAL',
+  'CLIENT_COMPLETION',
   'CLIENT_ACCESS',
   'FOUNDER_WORKSPACE',
   'FOUNDER_REVIEW_QUEUE',
   'FOUNDER_OPERATIONS',
   'FOUNDER_OVERLAYS',
-  'DEPRECATED',
 ];
 
 function inlineIntake(view: DfView, pageName: string, source: string, group: DfReviewGroupId): DfReviewEntry {
@@ -195,14 +197,14 @@ function overlayEntry(id: RegisteredOverlayId): DfReviewEntry {
 const CLIENT_INLINE: DfReviewEntry[] = [
   inlineIntake('P01', 'Get started', 'foundation-client/parents/EntryIntake.tsx#P01Entry', 'INTAKE'),
   inlineIntake('P02', 'Business information', 'foundation-client/parents/EntryIntake.tsx#P02Intake', 'INTAKE'),
-  inlineIntake('P03', 'Build your foundation (configurator)', 'foundation-client/parents/EntryIntake.tsx#P03Configure', 'FOUNDATION_BUILDER'),
+  inlineIntake('P03', 'Build your foundation (configurator)', 'foundation-client/parents/EntryIntake.tsx#P03Configure', 'INTAKE'),
   {
-    reviewId: 'BUILDER_P03_DOMAIN',
+    reviewId: 'INTAKE_P03_DOMAIN',
     anchorId: 'df-r-P03-domain',
-    group: 'FOUNDATION_BUILDER',
+    group: 'INTAKE',
     productOwner: DF_REVIEW_PRODUCT.IDNTY_DIGITAL_FOUNDATION,
-    pageName: 'Foundation builder · domain path open',
-    pageFamily: 'foundation-builder',
+    pageName: 'Build your foundation · domain path open',
+    pageFamily: 'foundation-intake',
     componentSource: 'foundation-client/parents/EntryIntake.tsx#P03Configure',
     renderMode: 'inline_df_screen',
     implementationStatus: 'reviewable',
@@ -210,12 +212,12 @@ const CLIENT_INLINE: DfReviewEntry[] = [
     reviewAdapter: 'inline_fixture',
   },
   {
-    reviewId: 'BUILDER_P03_EMAIL',
+    reviewId: 'INTAKE_P03_EMAIL',
     anchorId: 'df-r-P03-email',
-    group: 'FOUNDATION_BUILDER',
+    group: 'INTAKE',
     productOwner: DF_REVIEW_PRODUCT.IDNTY_DIGITAL_FOUNDATION,
-    pageName: 'Foundation builder · email row open',
-    pageFamily: 'foundation-builder',
+    pageName: 'Build your foundation · email row open',
+    pageFamily: 'foundation-intake',
     componentSource: 'foundation-client/parents/EntryIntake.tsx#P03Configure',
     renderMode: 'inline_df_screen',
     implementationStatus: 'reviewable',
@@ -363,6 +365,21 @@ const CLIENT_INLINE: DfReviewEntry[] = [
     fixtureContract: 'J_PAYMENT_SUCCESS',
   },
   {
+    reviewId: 'CLIENT_SCREEN_10_APPROVAL',
+    anchorId: 'df-r-needs-you-approval',
+    group: 'CLIENT_PORTAL',
+    productOwner: DF_REVIEW_PRODUCT.IDNTY_DIGITAL_FOUNDATION,
+    pageName: 'Screen 10 · We need your approval',
+    pageFamily: 'client-portal',
+    componentSource: 'foundation-client/parents/ProjectPortal.tsx#P10NeedsYou',
+    renderMode: 'inline_df_screen',
+    implementationStatus: 'reviewable',
+    authRequirement: 'client_token',
+    reviewAdapter: 'inline_fixture',
+    fixtureContract: 'J_SIGNATURE_APPROVAL',
+    notes: 'Signature approval action with preview — review fixture only (inert submit).',
+  },
+  {
     reviewId: 'CLIENT_FOUNDATION_NEEDS_YOU',
     anchorId: reviewAnchorForView('NEEDS_YOU'),
     group: 'CLIENT_PORTAL',
@@ -391,11 +408,11 @@ const CLIENT_INLINE: DfReviewEntry[] = [
     fixtureContract: 'J_PAYMENT_SUCCESS',
   },
   {
-    reviewId: 'CLIENT_FOUNDATION_RECORDS',
+    reviewId: 'CLIENT_SCREEN_13A_RECORDS',
     anchorId: reviewAnchorForView('RECORDS'),
     group: 'CLIENT_PORTAL',
     productOwner: DF_REVIEW_PRODUCT.IDNTY_DIGITAL_FOUNDATION,
-    pageName: 'My records',
+    pageName: 'Screen 13A · Your records all in one place',
     pageFamily: 'client-portal',
     componentSource: 'foundation-client/parents/ProjectPortal.tsx#RecordsLibrary',
     renderMode: 'inline_df_screen',
@@ -403,6 +420,21 @@ const CLIENT_INLINE: DfReviewEntry[] = [
     authRequirement: 'client_token',
     reviewAdapter: 'inline_fixture',
     fixtureContract: 'J_PAYMENT_SUCCESS',
+  },
+  {
+    reviewId: 'CLIENT_RECORD_DOMAIN_DETAIL',
+    anchorId: 'df-r-record-domain',
+    group: 'CLIENT_PORTAL',
+    productOwner: DF_REVIEW_PRODUCT.IDNTY_DIGITAL_FOUNDATION,
+    pageName: 'Screen 13A detail · Domain registration record',
+    pageFamily: 'client-portal',
+    componentSource: 'foundation-client/parents/ProjectPortal.tsx#RecordDetail',
+    renderMode: 'inline_df_screen',
+    implementationStatus: 'reviewable',
+    authRequirement: 'client_token',
+    reviewAdapter: 'inline_fixture',
+    fixtureContract: 'M_COMPLETE_CREDIT',
+    notes: 'Tabs (overview/documents/settings/history) pending — core verified fields shown.',
   },
   {
     reviewId: 'CLIENT_FOUNDATION_COMM_PREFS',
@@ -454,11 +486,11 @@ const CLIENT_INLINE: DfReviewEntry[] = [
     'Rendered via stage roadmap when foundation nears complete.',
   ),
   {
-    reviewId: 'CLIENT_FOUNDATION_COMPLETE',
+    reviewId: 'CLIENT_SCREEN_11_COMPLETE',
     anchorId: 'df-r-complete',
-    group: 'CLIENT_PORTAL',
+    group: 'CLIENT_COMPLETION',
     productOwner: DF_REVIEW_PRODUCT.IDNTY_DIGITAL_FOUNDATION,
-    pageName: 'Foundation complete',
+    pageName: 'Screen 11 · Your foundation is complete',
     pageFamily: 'client-portal',
     componentSource: 'pages/foundation/DigitalFoundationCompleteSurface.tsx',
     renderMode: 'inline_df_screen',
@@ -468,11 +500,11 @@ const CLIENT_INLINE: DfReviewEntry[] = [
     fixtureContract: 'M_COMPLETE_CREDIT',
   },
   gapEntry(
-    'CLIENT_LAUNCH',
-    'df-r-launch-approved',
-    'CLIENT_PORTAL',
-    'Approved launch experience',
-    'Launch / digital location upsell follows COMPLETE surface — see foundation complete fixture.',
+    'CLIENT_SCREEN_12A_LOCATION_LIVE',
+    'df-r-digital-location-live',
+    'CLIENT_COMPLETION',
+    'Screen 12A · Your digital location is live',
+    'Separate SITE 00 digital location product — show only when a location project has launched (not foundation complete alone).',
   ),
   {
     reviewId: 'CLIENT_ACCESS_RETURN',
@@ -572,25 +604,70 @@ const FOUNDER_ENTRIES: DfReviewEntry[] = [
     'admin/founder-workspace/pages/SystemPage.tsx',
     'FOUNDER_WORKSPACE',
   ),
+  founderRoute(
+    'FOUNDATION_PIPELINE',
+    'Screen 13 · Foundation pipeline',
+    IDNTY_FOUNDER_WORKSPACE_ROUTES.foundations,
+    'admin/founder-workspace/pages/FoundationsPage.tsx',
+    'FOUNDER_WORKSPACE',
+    'Portfolio oversight — maps to Foundations list (not client queue).',
+  ),
+  founderRoute(
+    'PROJECT_COMMAND',
+    'Screen 14 · Project command',
+    `${IDNTY_FOUNDER_WORKSPACE_ROUTES.foundations}/:artifactId`,
+    'admin/founder-workspace/pages/ClientRecordPage.tsx',
+    'FOUNDER_WORKSPACE',
+    'Single-project operations overview.',
+  ),
+  founderRoute(
+    'EXECUTION_WORKBENCH',
+    'Screen 15 · Run the foundation',
+    IDNTY_FOUNDER_WORKSPACE_ROUTES.operations,
+    'admin/founder-workspace/pages/OperationsPage.tsx',
+    'FOUNDER_OPERATIONS',
+  ),
+  founderRoute(
+    'RUNBOOK_OVERVIEW',
+    'Screen 15A · Your runbook at a glance',
+    IDNTY_FOUNDER_WORKSPACE_ROUTES.operations,
+    'admin/founder-workspace/pages/OperationsPage.tsx',
+    'FOUNDER_OPERATIONS',
+  ),
+  founderRoute(
+    'RUNBOOK_DETAIL',
+    'Screen 15B · Domain + email foundation runbook',
+    IDNTY_FOUNDER_WORKSPACE_ROUTES.operations,
+    'admin/founder-workspace/pages/OperationsPage.tsx',
+    'FOUNDER_OPERATIONS',
+  ),
+  founderRoute(
+    'RUNBOOK_TASK_DETAIL',
+    'Screen 15C · Task detail (example DKIM)',
+    IDNTY_FOUNDER_WORKSPACE_ROUTES.operations,
+    'admin/founder-workspace/pages/OperationsPage.tsx',
+    'FOUNDER_OPERATIONS',
+    'Task drill-in uses runbook selection state in live app.',
+  ),
 ];
 
 const OVERLAY_ENTRIES = [...WORKSPACE_OVERLAY_IDS, ...REFERRAL_OVERLAY_IDS].map(overlayEntry);
 
-const DEPRECATED_BLDR = (['PLACE', 'FEEL', 'WORK', 'PACE', 'BLUEPRINT'] as const).map(
+const HYBRID_BUILDER_STUDIO = (['PLACE', 'FEEL', 'WORK', 'PACE', 'BLUEPRINT'] as const).map(
   (room): DfReviewEntry => ({
-    reviewId: `DEPRECATED_PUBLIC_BUILDER_${room}`,
+    reviewId: `HYBRID_BUILDER_${room}`,
     anchorId: `df-r-bldr-${room}`,
-    group: 'DEPRECATED',
+    group: 'FOUNDATION_BUILDER',
     productOwner: DF_REVIEW_PRODUCT.SITE00_PUBLIC_BUILDER,
-    pageName: `Legacy BLDR · ${room} (blocked)`,
-    pageFamily: 'public-builder',
-    componentSource: 'pages/bldr/BldrSpatialStudioPage.tsx → BuilderStudio (FORBIDDEN)',
-    runtimeRoute: `${SITE00_ROUTES.bldrSpatialStudio}/${room.toLowerCase()}`,
-    renderMode: 'legacy_redirect',
-    implementationStatus: 'legacy_redirect',
+    pageName: `Hybrid builder · ${room}`,
+    pageFamily: 'hybrid-spatial-builder',
+    componentSource: 'pages/bldr/BldrSpatialStudioPage.tsx → BuilderStudio (?reviewRoom= sample embed)',
+    runtimeRoute: `${SITE00_ROUTES.bldrSpatialStudio}/${room.toLowerCase()}?reviewRoom=${room}`,
+    renderMode: 'inline_df_screen',
+    implementationStatus: 'reviewable',
     authRequirement: 'none',
-    reviewAdapter: 'blocked_legacy',
-    notes: 'Do not iframe /bldr/studio on DF review. Use P03 configurator.',
+    reviewAdapter: 'inline_fixture',
+    notes: 'Sample-mode iframe on DF review — distinct from P03 foundation configurator.',
   }),
 );
 
@@ -598,7 +675,7 @@ export const DIGITAL_FOUNDATION_REVIEW_ENTRIES: readonly DfReviewEntry[] = [
   ...CLIENT_INLINE,
   ...FOUNDER_ENTRIES,
   ...OVERLAY_ENTRIES,
-  ...DEPRECATED_BLDR,
+  ...HYBRID_BUILDER_STUDIO,
 ];
 
 const anchorIndex = new Map<string, DfReviewEntry>();

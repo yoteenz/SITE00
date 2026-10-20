@@ -210,22 +210,33 @@ export function P09StageDetail({
 
 function ActionWorkspace({
   action,
+  payload,
   busy,
   onApprove,
   onRequestChange,
   onProvide,
 }: {
   action: ClientActionRequest;
+  payload: ClientDigitalFoundationPayload;
   busy: boolean;
   onApprove: () => void;
   onRequestChange: () => void;
   onProvide: (notes: string) => void;
 }) {
   const [notes, setNotes] = useState('');
+  const business = (payload.ownership_record?.business ?? payload.quote?.artifact_id ?? 'YOUR BUSINESS').toString().toUpperCase();
+  const mailbox = payload.ownership_record?.primary_mailbox?.toUpperCase() ?? '';
   return (
     <article className="df-action-card" data-action-id={action.request_id}>
       <h3 className="df-action-card__title">{action.title.toUpperCase()}</h3>
       <p className="df-action-card__body">{action.detail.toUpperCase()}</p>
+      {action.action_type === 'APPROVE_SIGNATURE' && (
+        <div className="df-signature-preview" aria-label="Professional email signature preview">
+          <p className="df-signature-preview__name">{business}</p>
+          {mailbox && <p className="df-signature-preview__line">{mailbox}</p>}
+          <p className="df-signature-preview__line">PROFESSIONAL EMAIL SIGNATURE · PREVIEW ONLY</p>
+        </div>
+      )}
       <label className="df-field">
         <span className="df-field__label">YOUR NOTES (OPTIONAL)</span>
         <textarea
@@ -259,6 +270,10 @@ export function P10NeedsYou({
   const done = payload.client_actions.filter((a) => a.status === 'COMPLETED');
   const [busyId, setBusyId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const approvalHeadline =
+    open.some((a) => a.action_type === 'APPROVE_SIGNATURE' || a.title.toLowerCase().includes('signature'))
+      ? (['WE NEED', 'YOUR', 'APPROVAL'] as const)
+      : (['YOUR', 'ACTIONS'] as const);
 
   const respond = async (action: ClientActionRequest, decision: 'APPROVE' | 'REQUEST_CHANGE', notes?: string) => {
     setError(null);
@@ -276,14 +291,19 @@ export function P10NeedsYou({
   return (
     <>
       <DfRail index="10" label="NEEDS YOU" />
-      <DfHeadline lines={['YOUR', 'ACTIONS']} />
-      <DfLede>REVIEW EACH REQUEST, APPROVE, REQUEST CHANGES, OR SUBMIT INFORMATION. SITE 00 PROCESSES YOUR RESPONSE ON THE SERVER.</DfLede>
+      <DfHeadline lines={[...approvalHeadline]} />
+      <DfLede>
+        {approvalHeadline[0] === 'WE NEED'
+          ? 'REVIEW THE PROFESSIONAL EMAIL SIGNATURE PREVIEW. APPROVE IT OR REQUEST CHANGES — SITE 00 PROCESSES YOUR RESPONSE ON THE SERVER.'
+          : 'REVIEW EACH REQUEST, APPROVE, REQUEST CHANGES, OR SUBMIT INFORMATION. SITE 00 PROCESSES YOUR RESPONSE ON THE SERVER.'}
+      </DfLede>
       {error && <p className="df-field__error" role="alert">{error}</p>}
       {!open.length && <p className="df-section__note">NO OPEN REQUESTS RIGHT NOW. CHECK BACK WHEN SITE 00 NEEDS SOMETHING FROM YOU.</p>}
       {open.map((a) => (
         <ActionWorkspace
           key={a.request_id}
           action={a}
+          payload={payload}
           busy={busyId === a.request_id}
           onApprove={() => void respond(a, 'APPROVE')}
           onRequestChange={() => void respond(a, 'REQUEST_CHANGE', 'Please revise.')}
@@ -325,7 +345,7 @@ export function RecordsLibrary({
   return (
     <>
       <DfRail index="—" label="MY RECORDS" />
-      <DfHeadline lines={['YOUR', 'RECORDS']} />
+      <DfHeadline lines={['YOUR', 'RECORDS', 'ALL IN ONE PLACE']} />
       <DfLede>VERIFIED PROJECT AND OWNERSHIP RECORDS SITE 00 HAS ON FILE. NO DOCUMENT IS SHOWN UNLESS IT EXISTS IN YOUR PROJECT.</DfLede>
       <div className="df-chips" role="tablist" aria-label="RECORD CATEGORIES">
         {RECORD_FILTERS.map((f) => (

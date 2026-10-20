@@ -216,6 +216,10 @@ body:has(.df-root) {
 /* ─── Headline (DF-C03) ────────────────────────────────────────────────────────────────────── */
 
 .df-headline {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
   margin: 16px 0 0;
   font-family: var(--df-display);
   font-weight: 900;
@@ -1473,7 +1477,8 @@ div.df-row__main {
 
 .df-spec__btn {
   display: grid;
-  grid-template-columns: 30px minmax(0, 1fr) minmax(0, 136px) auto;
+  /* Fixed value column keeps the divider aligned when a chevron shares the row (e.g. third-party costs). */
+  grid-template-columns: 30px minmax(0, 1fr) 136px auto;
   align-items: center;
   gap: 0 14px;
   width: 100%;
@@ -1582,7 +1587,7 @@ button.df-spec__btn {
 }
 
 .df-specs--activation .df-spec__btn {
-  grid-template-columns: 28px minmax(0, 1fr) minmax(0, 132px);
+  grid-template-columns: 28px minmax(0, 1fr) 132px;
   min-height: 46px;
 }
 
@@ -2484,11 +2489,11 @@ button.df-spec__btn {
   }
 
   .df-spec__btn {
-    grid-template-columns: 30px minmax(0, 1fr) minmax(0, 190px) auto;
+    grid-template-columns: 30px minmax(0, 1fr) 190px auto;
   }
 
   .df-specs--activation .df-spec__btn {
-    grid-template-columns: 28px minmax(0, 1fr) minmax(0, 210px);
+    grid-template-columns: 28px minmax(0, 1fr) 210px;
   }
 }
 
@@ -2902,6 +2907,47 @@ button.df-spec__btn {
   opacity: 0.85;
 }
 
+.df-review__top {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 12px 12px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.df-review__zone-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.df-review__zone-pill {
+  border: 1px solid #0c0c0c;
+  background: #f3f2ef;
+  color: #0c0c0c;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  padding: 8px 10px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.df-review__zone-pill--on {
+  background: #0c0c0c;
+  color: #f3f2ef;
+}
+
+.df-review__zone-pill-count {
+  font-size: 8px;
+  font-weight: 600;
+  opacity: 0.75;
+  letter-spacing: 0.08em;
+}
+
 .df-review__intro {
   max-width: 720px;
   margin: 0 auto;
@@ -3053,6 +3099,28 @@ button.df-spec__btn {
   height: 844px;
   border: 0;
   background: #fff;
+}
+
+.df-signature-preview {
+  margin: 12px 0 0;
+  padding: 14px 16px;
+  border: 1px solid #0c0c0c;
+  background: #fff;
+  text-align: left;
+}
+
+.df-signature-preview__name {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.df-signature-preview__line {
+  margin: 6px 0 0;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--df-muted, #666);
 }
 
 .df-review .df-screen {

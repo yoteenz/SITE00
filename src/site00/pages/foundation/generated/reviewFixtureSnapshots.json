@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-20T14:39:57.528Z",
+  "generated_at": "2026-10-20T19:10:55.503Z",
   "catalog": {
     "catalog": [
       {
@@ -151,19 +151,19 @@
   },
   "fixtures": {
     "A_BASE": {
-      "token": "ksNdtfzkYqHczxV4OZBvBsbnX1uDqPXT",
+      "token": "DcBuKROkhmJ4WYnw30B6vnAjhc9YVrNV",
       "payload": {
         "artifact": {
-          "artifact_id": "5fc5481e-601c-4676-93c7-659e952b15f0",
-          "public_token": "ksNdtfzkYqHczxV4OZBvBsbnX1uDqPXT",
-          "lead_id": "e396a40c-7de9-4fc0-8c3a-1566120662e9",
+          "artifact_id": "5026b6e2-ca41-497f-9424-7e1ce9988a7f",
+          "public_token": "DcBuKROkhmJ4WYnw30B6vnAjhc9YVrNV",
+          "lead_id": "69a53b99-e559-466d-9dd0-449134393bbf",
           "client_org_id": null,
           "contact_id": null,
           "referral_source_id": "11111111-1111-4111-8111-111111111103",
           "service_id": "IDNTY.DIGITAL_FOUNDATION",
           "state": "AWAITING_PAYMENT",
           "intake_state": "COMPLETE",
-          "quote_id": "1a2b2e50-4a30-46eb-b472-31696d2787c9",
+          "quote_id": "d85a1bad-256e-4437-9771-df49d4a87d24",
           "payment_state": "NONE",
           "project_state": "NOT_STARTED",
           "completion_state": "NOT_STARTED",
@@ -178,25 +178,25 @@
             ],
             "phone": "901-555-0100"
           },
-          "created_at": "2026-10-20T14:39:57.514Z",
-          "opened_at": "2026-10-20T14:39:57.514Z",
-          "last_activity_at": "2026-10-20T14:39:57.517Z",
+          "created_at": "2026-10-20T19:10:55.488Z",
+          "opened_at": "2026-10-20T19:10:55.488Z",
+          "last_activity_at": "2026-10-20T19:10:55.491Z",
           "completed_at": null
         },
         "lead": {
-          "lead_id": "e396a40c-7de9-4fc0-8c3a-1566120662e9",
+          "lead_id": "69a53b99-e559-466d-9dd0-449134393bbf",
           "contact_email": null,
           "contact_name": null,
           "business_name": "Fixture A_BASE",
           "referral_source_id": "11111111-1111-4111-8111-111111111103",
           "referral_funnel_stage": "ACCEPTED",
-          "created_at": "2026-10-20T14:39:57.513Z"
+          "created_at": "2026-10-20T19:10:55.488Z"
         },
         "acceptance": {
-          "artifact_id": "5fc5481e-601c-4676-93c7-659e952b15f0",
+          "artifact_id": "5026b6e2-ca41-497f-9424-7e1ce9988a7f",
           "quote_version": 1,
           "terms_version": "df-terms-v1",
-          "accepted_at": "2026-10-20T14:39:57.517Z",
+          "accepted_at": "2026-10-20T19:10:55.491Z",
           "accepted_disclosures": [
             "I HAVE REVIEWED MY DIGITAL FOUNDATION SCOPE.",
             "I UNDERSTAND THAT DOMAIN / EMAIL PROVIDER SUBSCRIPTIONS AND OTHER THIRD-PARTY FEES MAY BE SEPARATE.",
@@ -221,8 +221,8 @@
         "credit": null,
         "surface": "CHECKOUT",
         "quote": {
-          "quote_id": "1a2b2e50-4a30-46eb-b472-31696d2787c9",
-          "artifact_id": "5fc5481e-601c-4676-93c7-659e952b15f0",
+          "quote_id": "d85a1bad-256e-4437-9771-df49d4a87d24",
+          "artifact_id": "5026b6e2-ca41-497f-9424-7e1ce9988a7f",
           "base_service_version": "df-v1-base",
           "base_price_minor": 50000,
           "selected_addons": [],
@@ -236,8 +236,8 @@
           "third_party_cost_notice": "Domain registration, Google Workspace, Microsoft 365, and other provider subscriptions are typically paid directly to those providers unless explicitly included in your quote.",
           "quote_version": 1,
           "status": "ACCEPTED",
-          "created_at": "2026-10-20T14:39:57.517Z",
-          "expires_at": "2026-11-03T14:39:57.517Z"
+          "created_at": "2026-10-20T19:10:55.491Z",
+          "expires_at": "2026-11-03T19:10:55.491Z"
         },
         "recommendation": {
           "title": "YOUR DIGITAL FOUNDATION",
@@ -291,19 +291,19 @@
       }
     },
     "INTAKE_SUBMITTED": {
-      "token": "fyq-JIqSV5_MqDOp0NlIRKixh4Ee4oGN",
+      "token": "WRXdmuoXjc8Hmc15ss8F4DjbcJrwLWF6",
       "payload": {
         "artifact": {
-          "artifact_id": "743f589d-59bf-4634-a174-688e510602da",
-          "public_token": "fyq-JIqSV5_MqDOp0NlIRKixh4Ee4oGN",
-          "lead_id": "dffb17b7-53e5-4f6f-b3f4-5f40a19fec08",
+          "artifact_id": "9d518161-915b-49e9-b68a-772900563c7d",
+          "public_token": "WRXdmuoXjc8Hmc15ss8F4DjbcJrwLWF6",
+          "lead_id": "b5862dca-effc-4195-bb75-525395b8d682",
           "client_org_id": null,
           "contact_id": null,
           "referral_source_id": null,
           "service_id": "IDNTY.DIGITAL_FOUNDATION",
           "state": "QUOTE_READY",
           "intake_state": "COMPLETE",
-          "quote_id": "af143e25-1781-4693-9ebb-8109fb618828",
+          "quote_id": "796cbca4-95ee-44df-af75-62de16cbbb08",
           "payment_state": "NONE",
           "project_state": "NOT_STARTED",
           "completion_state": "NOT_STARTED",
@@ -314,19 +314,19 @@
             "needs": [],
             "phone": "901-555-0100"
           },
-          "created_at": "2026-10-20T14:39:57.517Z",
-          "opened_at": "2026-10-20T14:39:57.517Z",
-          "last_activity_at": "2026-10-20T14:39:57.518Z",
+          "created_at": "2026-10-20T19:10:55.492Z",
+          "opened_at": "2026-10-20T19:10:55.492Z",
+          "last_activity_at": "2026-10-20T19:10:55.492Z",
           "completed_at": null
         },
         "lead": {
-          "lead_id": "dffb17b7-53e5-4f6f-b3f4-5f40a19fec08",
+          "lead_id": "b5862dca-effc-4195-bb75-525395b8d682",
           "contact_email": null,
           "contact_name": null,
           "business_name": "Review · Intake submitted",
           "referral_source_id": null,
           "referral_funnel_stage": "QUOTED",
-          "created_at": "2026-10-20T14:39:57.517Z"
+          "created_at": "2026-10-20T19:10:55.492Z"
         },
         "acceptance": null,
         "stages": [],
@@ -366,19 +366,19 @@
       }
     },
     "PROPOSAL_READY": {
-      "token": "PlBkcc_zHp_TwgffSgmI3vY4nuoSUdGK",
+      "token": "yfL9dTjP0iHZ_Si0VGVYwF2sH_kS-hG7",
       "payload": {
         "artifact": {
-          "artifact_id": "f781906b-df3e-4fa7-9de8-7a9347e2ec7a",
-          "public_token": "PlBkcc_zHp_TwgffSgmI3vY4nuoSUdGK",
-          "lead_id": "28c967c9-f248-4f18-8f08-5a2fbab31be3",
+          "artifact_id": "00460351-51b6-46cd-821f-93aaaead6193",
+          "public_token": "yfL9dTjP0iHZ_Si0VGVYwF2sH_kS-hG7",
+          "lead_id": "e964cbe9-90b5-4d6c-954c-c5383f786b3b",
           "client_org_id": null,
           "contact_id": null,
           "referral_source_id": null,
           "service_id": "IDNTY.DIGITAL_FOUNDATION",
           "state": "QUOTE_READY",
           "intake_state": "COMPLETE",
-          "quote_id": "556b8feb-22b1-4554-8547-afd16c592e9d",
+          "quote_id": "9828b961-9320-43a3-b650-91721c158f06",
           "payment_state": "NONE",
           "project_state": "NOT_STARTED",
           "completion_state": "NOT_STARTED",
@@ -389,19 +389,19 @@
             "needs": [],
             "phone": "901-555-0100"
           },
-          "created_at": "2026-10-20T14:39:57.518Z",
-          "opened_at": "2026-10-20T14:39:57.518Z",
-          "last_activity_at": "2026-10-20T14:39:57.518Z",
+          "created_at": "2026-10-20T19:10:55.492Z",
+          "opened_at": "2026-10-20T19:10:55.492Z",
+          "last_activity_at": "2026-10-20T19:10:55.493Z",
           "completed_at": null
         },
         "lead": {
-          "lead_id": "28c967c9-f248-4f18-8f08-5a2fbab31be3",
+          "lead_id": "e964cbe9-90b5-4d6c-954c-c5383f786b3b",
           "contact_email": null,
           "contact_name": null,
           "business_name": "Review · Proposal ready",
           "referral_source_id": null,
           "referral_funnel_stage": "QUOTED",
-          "created_at": "2026-10-20T14:39:57.518Z"
+          "created_at": "2026-10-20T19:10:55.492Z"
         },
         "acceptance": null,
         "stages": [],
@@ -419,8 +419,8 @@
         "credit": null,
         "surface": "QUOTE",
         "quote": {
-          "quote_id": "556b8feb-22b1-4554-8547-afd16c592e9d",
-          "artifact_id": "f781906b-df3e-4fa7-9de8-7a9347e2ec7a",
+          "quote_id": "9828b961-9320-43a3-b650-91721c158f06",
+          "artifact_id": "00460351-51b6-46cd-821f-93aaaead6193",
           "base_service_version": "df-v1-base",
           "base_price_minor": 50000,
           "selected_addons": [],
@@ -434,10 +434,10 @@
           "third_party_cost_notice": "Domain registration, Google Workspace, Microsoft 365, and other provider subscriptions are typically paid directly to those providers unless explicitly included in your quote.",
           "quote_version": 1,
           "status": "CLIENT_REVIEW",
-          "created_at": "2026-10-20T14:39:57.518Z",
-          "expires_at": "2026-11-03T14:39:57.518Z",
+          "created_at": "2026-10-20T19:10:55.493Z",
+          "expires_at": "2026-11-03T19:10:55.493Z",
           "founder_commercial_ready": true,
-          "founder_commercial_ready_at": "2026-10-20T14:39:57.518Z"
+          "founder_commercial_ready_at": "2026-10-20T19:10:55.493Z"
         },
         "recommendation": {
           "title": "YOUR DIGITAL FOUNDATION",
@@ -488,19 +488,19 @@
       }
     },
     "J_PAYMENT_SUCCESS": {
-      "token": "FHzacf9IUC78v_oluH4ajDFkS-cKQKew",
+      "token": "lbWx2OTFueGnubhqwyFrM2ayEQViKNgT",
       "payload": {
         "artifact": {
-          "artifact_id": "dcd4378b-0e07-4278-89d8-ed401cf1ccf8",
-          "public_token": "FHzacf9IUC78v_oluH4ajDFkS-cKQKew",
-          "lead_id": "f56af3bc-8e4a-4263-8cf1-ae6b03c9448e",
+          "artifact_id": "403faeab-3597-4bc7-b61d-41da7565fa8b",
+          "public_token": "lbWx2OTFueGnubhqwyFrM2ayEQViKNgT",
+          "lead_id": "b9bdbaf1-4a43-4352-92da-690da68a2365",
           "client_org_id": null,
           "contact_id": null,
           "referral_source_id": "11111111-1111-4111-8111-111111111103",
           "service_id": "IDNTY.DIGITAL_FOUNDATION",
           "state": "IN_PROGRESS",
           "intake_state": "COMPLETE",
-          "quote_id": "6d73f52a-0d60-404b-99c2-f5313897361e",
+          "quote_id": "2539c8bc-4a21-4fc7-bbf1-849379b141d7",
           "payment_state": "PAID",
           "project_state": "ACTIVE",
           "completion_state": "NOT_STARTED",
@@ -514,25 +514,25 @@
             ],
             "phone": "901-555-0100"
           },
-          "created_at": "2026-10-20T14:39:57.519Z",
-          "opened_at": "2026-10-20T14:39:57.519Z",
-          "last_activity_at": "2026-10-20T14:39:57.523Z",
+          "created_at": "2026-10-20T19:10:55.493Z",
+          "opened_at": "2026-10-20T19:10:55.493Z",
+          "last_activity_at": "2026-10-20T19:10:55.497Z",
           "completed_at": null
         },
         "lead": {
-          "lead_id": "f56af3bc-8e4a-4263-8cf1-ae6b03c9448e",
+          "lead_id": "b9bdbaf1-4a43-4352-92da-690da68a2365",
           "contact_email": null,
           "contact_name": null,
           "business_name": "Fixture J_PAYMENT_SUCCESS",
           "referral_source_id": "11111111-1111-4111-8111-111111111103",
           "referral_funnel_stage": "PAID",
-          "created_at": "2026-10-20T14:39:57.519Z"
+          "created_at": "2026-10-20T19:10:55.493Z"
         },
         "acceptance": {
-          "artifact_id": "dcd4378b-0e07-4278-89d8-ed401cf1ccf8",
+          "artifact_id": "403faeab-3597-4bc7-b61d-41da7565fa8b",
           "quote_version": 1,
           "terms_version": "df-terms-v1",
-          "accepted_at": "2026-10-20T14:39:57.519Z",
+          "accepted_at": "2026-10-20T19:10:55.494Z",
           "accepted_disclosures": [
             "I HAVE REVIEWED MY DIGITAL FOUNDATION SCOPE.",
             "I UNDERSTAND THAT DOMAIN / EMAIL PROVIDER SUBSCRIPTIONS AND OTHER THIRD-PARTY FEES MAY BE SEPARATE.",
@@ -546,48 +546,48 @@
           {
             "stage_code": "01_DETAILS_RECEIVED",
             "status": "IN_PROGRESS",
-            "updated_at": "2026-10-20T14:39:57.525Z"
+            "updated_at": "2026-10-20T19:10:55.499Z"
           },
           {
             "stage_code": "02_DOMAIN",
             "status": "NEEDS_CLIENT",
-            "updated_at": "2026-10-20T14:39:57.525Z"
+            "updated_at": "2026-10-20T19:10:55.499Z"
           },
           {
             "stage_code": "03_PROFESSIONAL_EMAIL",
             "status": "IN_PROGRESS",
-            "updated_at": "2026-10-20T14:39:57.525Z"
+            "updated_at": "2026-10-20T19:10:55.499Z"
           },
           {
             "stage_code": "04_DNS_SECURITY",
             "status": "WAITING",
-            "updated_at": "2026-10-20T14:39:57.525Z"
+            "updated_at": "2026-10-20T19:10:55.499Z"
           },
           {
             "stage_code": "05_DEVICE_SIGNATURE",
             "status": "IN_PROGRESS",
-            "updated_at": "2026-10-20T14:39:57.525Z"
+            "updated_at": "2026-10-20T19:10:55.499Z"
           },
           {
             "stage_code": "06_FINAL_VERIFICATION",
             "status": "IN_PROGRESS",
-            "updated_at": "2026-10-20T14:39:57.525Z"
+            "updated_at": "2026-10-20T19:10:55.499Z"
           },
           {
             "stage_code": "07_FOUNDATION_COMPLETE",
             "status": "WAITING",
-            "updated_at": "2026-10-20T14:39:57.525Z"
+            "updated_at": "2026-10-20T19:10:55.499Z"
           }
         ],
         "client_actions": [
           {
-            "request_id": "f4a603b4-5536-48b0-a695-bf9ea7bee14a",
-            "artifact_id": "dcd4378b-0e07-4278-89d8-ed401cf1ccf8",
+            "request_id": "a03d9c7d-3534-4bbd-aa41-a72cdef4910d",
+            "artifact_id": "403faeab-3597-4bc7-b61d-41da7565fa8b",
             "action_type": "CHOOSE_DOMAIN",
             "title": "Domain availability and selection",
             "detail": "Client chooses preferred domain name(s) for approval.",
             "status": "OPEN",
-            "created_at": "2026-10-20T14:39:57.525Z",
+            "created_at": "2026-10-20T19:10:55.499Z",
             "completed_at": null,
             "response": null
           }
@@ -610,8 +610,8 @@
           "projected_completion": "2–3 business days"
         },
         "quote": {
-          "quote_id": "6d73f52a-0d60-404b-99c2-f5313897361e",
-          "artifact_id": "dcd4378b-0e07-4278-89d8-ed401cf1ccf8",
+          "quote_id": "2539c8bc-4a21-4fc7-bbf1-849379b141d7",
+          "artifact_id": "403faeab-3597-4bc7-b61d-41da7565fa8b",
           "base_service_version": "df-v1-base",
           "base_price_minor": 50000,
           "selected_addons": [],
@@ -625,8 +625,8 @@
           "third_party_cost_notice": "Domain registration, Google Workspace, Microsoft 365, and other provider subscriptions are typically paid directly to those providers unless explicitly included in your quote.",
           "quote_version": 1,
           "status": "PAID",
-          "created_at": "2026-10-20T14:39:57.519Z",
-          "expires_at": "2026-11-03T14:39:57.519Z"
+          "created_at": "2026-10-20T19:10:55.493Z",
+          "expires_at": "2026-11-03T19:10:55.493Z"
         },
         "recommendation": {
           "title": "YOUR DIGITAL FOUNDATION",
@@ -666,8 +666,8 @@
           "missing_requirements": [
             "DOMAIN_APPROVED"
           ],
-          "readiness_satisfied_at": "2026-10-20T14:39:57.523Z",
-          "production_started_at": "2026-10-20T14:39:57.523Z",
+          "readiness_satisfied_at": "2026-10-20T19:10:55.498Z",
+          "production_started_at": "2026-10-20T19:10:55.498Z",
           "service_window_label": "Estimated 2–3 business days after required information, access, approvals, and payment are received.",
           "forecast_min_days": 2,
           "forecast_max_days": 3
@@ -680,19 +680,19 @@
       }
     },
     "K_PAYMENT_FAILURE": {
-      "token": "G2Z9GNZ8Y_IRQeByDxHW8r0p2T0YtETk",
+      "token": "D7Q4lR4QrI_SLpPqUe0IWstp8gWxP7Yw",
       "payload": {
         "artifact": {
-          "artifact_id": "165b799f-31ac-4d45-8259-10fe9a55d513",
-          "public_token": "G2Z9GNZ8Y_IRQeByDxHW8r0p2T0YtETk",
-          "lead_id": "83cef8cb-6b4b-425d-9ed7-07b1db2bf209",
+          "artifact_id": "f4f9374c-7390-4f23-b444-d5204dd0615e",
+          "public_token": "D7Q4lR4QrI_SLpPqUe0IWstp8gWxP7Yw",
+          "lead_id": "c352c56c-5634-468d-a6b0-d7c611831054",
           "client_org_id": null,
           "contact_id": null,
           "referral_source_id": "11111111-1111-4111-8111-111111111103",
           "service_id": "IDNTY.DIGITAL_FOUNDATION",
           "state": "AWAITING_PAYMENT",
           "intake_state": "COMPLETE",
-          "quote_id": "2fd890cc-5b9a-4e31-93d9-cf63c151bb81",
+          "quote_id": "1b1c6b46-cb3f-4221-9ab3-d6737b05d404",
           "payment_state": "FAILED",
           "project_state": "NOT_STARTED",
           "completion_state": "NOT_STARTED",
@@ -706,25 +706,25 @@
             ],
             "phone": "901-555-0100"
           },
-          "created_at": "2026-10-20T14:39:57.526Z",
-          "opened_at": "2026-10-20T14:39:57.526Z",
-          "last_activity_at": "2026-10-20T14:39:57.526Z",
+          "created_at": "2026-10-20T19:10:55.500Z",
+          "opened_at": "2026-10-20T19:10:55.500Z",
+          "last_activity_at": "2026-10-20T19:10:55.500Z",
           "completed_at": null
         },
         "lead": {
-          "lead_id": "83cef8cb-6b4b-425d-9ed7-07b1db2bf209",
+          "lead_id": "c352c56c-5634-468d-a6b0-d7c611831054",
           "contact_email": null,
           "contact_name": null,
           "business_name": "Fixture K_PAYMENT_FAILURE",
           "referral_source_id": "11111111-1111-4111-8111-111111111103",
           "referral_funnel_stage": "ACCEPTED",
-          "created_at": "2026-10-20T14:39:57.526Z"
+          "created_at": "2026-10-20T19:10:55.500Z"
         },
         "acceptance": {
-          "artifact_id": "165b799f-31ac-4d45-8259-10fe9a55d513",
+          "artifact_id": "f4f9374c-7390-4f23-b444-d5204dd0615e",
           "quote_version": 1,
           "terms_version": "df-terms-v1",
-          "accepted_at": "2026-10-20T14:39:57.526Z",
+          "accepted_at": "2026-10-20T19:10:55.500Z",
           "accepted_disclosures": [
             "I HAVE REVIEWED MY DIGITAL FOUNDATION SCOPE.",
             "I UNDERSTAND THAT DOMAIN / EMAIL PROVIDER SUBSCRIPTIONS AND OTHER THIRD-PARTY FEES MAY BE SEPARATE.",
@@ -749,8 +749,8 @@
         "credit": null,
         "surface": "CHECKOUT",
         "quote": {
-          "quote_id": "2fd890cc-5b9a-4e31-93d9-cf63c151bb81",
-          "artifact_id": "165b799f-31ac-4d45-8259-10fe9a55d513",
+          "quote_id": "1b1c6b46-cb3f-4221-9ab3-d6737b05d404",
+          "artifact_id": "f4f9374c-7390-4f23-b444-d5204dd0615e",
           "base_service_version": "df-v1-base",
           "base_price_minor": 50000,
           "selected_addons": [],
@@ -764,8 +764,8 @@
           "third_party_cost_notice": "Domain registration, Google Workspace, Microsoft 365, and other provider subscriptions are typically paid directly to those providers unless explicitly included in your quote.",
           "quote_version": 1,
           "status": "ACCEPTED",
-          "created_at": "2026-10-20T14:39:57.526Z",
-          "expires_at": "2026-11-03T14:39:57.526Z"
+          "created_at": "2026-10-20T19:10:55.500Z",
+          "expires_at": "2026-11-03T19:10:55.500Z"
         },
         "recommendation": {
           "title": "YOUR DIGITAL FOUNDATION",
@@ -819,25 +819,25 @@
       }
     },
     "M_COMPLETE_CREDIT": {
-      "token": "L0GcsaBtGKTf-3aket-yOxIzQByhePq5",
+      "token": "ZaxhMPcuXVj2ttHGVb1uQbuLU_UmOIvm",
       "payload": {
         "artifact": {
-          "artifact_id": "4c91b352-11e8-4d37-91e7-03b5fcd8ea2e",
-          "public_token": "L0GcsaBtGKTf-3aket-yOxIzQByhePq5",
-          "lead_id": "badb9358-1f4a-4c00-81b2-73741d2cb4d6",
+          "artifact_id": "04147211-fb00-4918-a4c2-c5996bcca843",
+          "public_token": "ZaxhMPcuXVj2ttHGVb1uQbuLU_UmOIvm",
+          "lead_id": "047ad8d1-08c9-48fb-83d2-6bc9a9ac336e",
           "client_org_id": null,
           "contact_id": null,
           "referral_source_id": "11111111-1111-4111-8111-111111111103",
           "service_id": "IDNTY.DIGITAL_FOUNDATION",
           "state": "BUILD_OPPORTUNITY",
           "intake_state": "COMPLETE",
-          "quote_id": "59c3cfba-26ee-4286-8c37-f2d7aa57d4e9",
+          "quote_id": "676fd470-f0d8-4fd2-a138-3bc860c99b03",
           "payment_state": "PAID",
           "project_state": "ACTIVE",
           "completion_state": "COMPLETE",
           "build_interest": "NONE",
           "build_recommendation": "SIMPLE_BUILD",
-          "foundation_credit_id": "b196029a-8a0c-4ee3-b171-00b44d68ae0d",
+          "foundation_credit_id": "b51c0983-9e97-4bbc-898b-3e3016e7767d",
           "intake": {
             "needs": [
               "NEED_DOMAIN",
@@ -847,25 +847,25 @@
             "phone": "901-555-0100",
             "future_website_interest": "yes"
           },
-          "created_at": "2026-10-20T14:39:57.526Z",
-          "opened_at": "2026-10-20T14:39:57.526Z",
-          "last_activity_at": "2026-10-20T14:39:57.527Z",
-          "completed_at": "2026-10-20T14:39:57.527Z"
+          "created_at": "2026-10-20T19:10:55.501Z",
+          "opened_at": "2026-10-20T19:10:55.501Z",
+          "last_activity_at": "2026-10-20T19:10:55.502Z",
+          "completed_at": "2026-10-20T19:10:55.502Z"
         },
         "lead": {
-          "lead_id": "badb9358-1f4a-4c00-81b2-73741d2cb4d6",
+          "lead_id": "047ad8d1-08c9-48fb-83d2-6bc9a9ac336e",
           "contact_email": null,
           "contact_name": null,
           "business_name": "Fixture M_COMPLETE_CREDIT",
           "referral_source_id": "11111111-1111-4111-8111-111111111103",
           "referral_funnel_stage": "COMPLETE",
-          "created_at": "2026-10-20T14:39:57.526Z"
+          "created_at": "2026-10-20T19:10:55.501Z"
         },
         "acceptance": {
-          "artifact_id": "4c91b352-11e8-4d37-91e7-03b5fcd8ea2e",
+          "artifact_id": "04147211-fb00-4918-a4c2-c5996bcca843",
           "quote_version": 1,
           "terms_version": "df-terms-v1",
-          "accepted_at": "2026-10-20T14:39:57.526Z",
+          "accepted_at": "2026-10-20T19:10:55.501Z",
           "accepted_disclosures": [
             "I HAVE REVIEWED MY DIGITAL FOUNDATION SCOPE.",
             "I UNDERSTAND THAT DOMAIN / EMAIL PROVIDER SUBSCRIPTIONS AND OTHER THIRD-PARTY FEES MAY BE SEPARATE.",
@@ -879,48 +879,48 @@
           {
             "stage_code": "01_DETAILS_RECEIVED",
             "status": "IN_PROGRESS",
-            "updated_at": "2026-10-20T14:39:57.527Z"
+            "updated_at": "2026-10-20T19:10:55.502Z"
           },
           {
             "stage_code": "02_DOMAIN",
             "status": "NEEDS_CLIENT",
-            "updated_at": "2026-10-20T14:39:57.527Z"
+            "updated_at": "2026-10-20T19:10:55.502Z"
           },
           {
             "stage_code": "03_PROFESSIONAL_EMAIL",
             "status": "IN_PROGRESS",
-            "updated_at": "2026-10-20T14:39:57.527Z"
+            "updated_at": "2026-10-20T19:10:55.502Z"
           },
           {
             "stage_code": "04_DNS_SECURITY",
             "status": "WAITING",
-            "updated_at": "2026-10-20T14:39:57.527Z"
+            "updated_at": "2026-10-20T19:10:55.502Z"
           },
           {
             "stage_code": "05_DEVICE_SIGNATURE",
             "status": "IN_PROGRESS",
-            "updated_at": "2026-10-20T14:39:57.527Z"
+            "updated_at": "2026-10-20T19:10:55.502Z"
           },
           {
             "stage_code": "06_FINAL_VERIFICATION",
             "status": "IN_PROGRESS",
-            "updated_at": "2026-10-20T14:39:57.527Z"
+            "updated_at": "2026-10-20T19:10:55.502Z"
           },
           {
             "stage_code": "07_FOUNDATION_COMPLETE",
             "status": "COMPLETE",
-            "updated_at": "2026-10-20T14:39:57.527Z"
+            "updated_at": "2026-10-20T19:10:55.502Z"
           }
         ],
         "client_actions": [
           {
-            "request_id": "1f5dc5db-1329-4da2-921f-0e895e0126b2",
-            "artifact_id": "4c91b352-11e8-4d37-91e7-03b5fcd8ea2e",
+            "request_id": "e2c2d292-0b62-4ab0-aae4-540d1cf1630c",
+            "artifact_id": "04147211-fb00-4918-a4c2-c5996bcca843",
             "action_type": "CHOOSE_DOMAIN",
             "title": "Domain availability and selection",
             "detail": "Client chooses preferred domain name(s) for approval.",
             "status": "OPEN",
-            "created_at": "2026-10-20T14:39:57.527Z",
+            "created_at": "2026-10-20T19:10:55.501Z",
             "completed_at": null,
             "response": null
           }
@@ -948,18 +948,18 @@
           "content_readiness": "light"
         },
         "credit": {
-          "credit_id": "b196029a-8a0c-4ee3-b171-00b44d68ae0d",
-          "artifact_id": "4c91b352-11e8-4d37-91e7-03b5fcd8ea2e",
+          "credit_id": "b51c0983-9e97-4bbc-898b-3e3016e7767d",
+          "artifact_id": "04147211-fb00-4918-a4c2-c5996bcca843",
           "amount_minor": 20000,
           "currency": "USD",
-          "valid_from": "2026-10-20T14:39:57.527Z",
-          "expires_at": "2026-11-19T14:39:57.527Z",
+          "valid_from": "2026-10-20T19:10:55.502Z",
+          "expires_at": "2026-11-19T19:10:55.502Z",
           "status": "AVAILABLE",
           "applicable_product_types": [
             "SITE00.BLDR"
           ],
           "applied_project_id": null,
-          "created_at": "2026-10-20T14:39:57.527Z"
+          "created_at": "2026-10-20T19:10:55.502Z"
         },
         "surface": "COMPLETE",
         "operations_summary": {
@@ -968,8 +968,8 @@
           "projected_completion": "2–3 business days"
         },
         "quote": {
-          "quote_id": "59c3cfba-26ee-4286-8c37-f2d7aa57d4e9",
-          "artifact_id": "4c91b352-11e8-4d37-91e7-03b5fcd8ea2e",
+          "quote_id": "676fd470-f0d8-4fd2-a138-3bc860c99b03",
+          "artifact_id": "04147211-fb00-4918-a4c2-c5996bcca843",
           "base_service_version": "df-v1-base",
           "base_price_minor": 50000,
           "selected_addons": [],
@@ -983,8 +983,8 @@
           "third_party_cost_notice": "Domain registration, Google Workspace, Microsoft 365, and other provider subscriptions are typically paid directly to those providers unless explicitly included in your quote.",
           "quote_version": 1,
           "status": "PAID",
-          "created_at": "2026-10-20T14:39:57.526Z",
-          "expires_at": "2026-11-03T14:39:57.526Z"
+          "created_at": "2026-10-20T19:10:55.501Z",
+          "expires_at": "2026-11-03T19:10:55.501Z"
         },
         "recommendation": {
           "title": "YOUR DIGITAL FOUNDATION",
@@ -1024,8 +1024,200 @@
           "missing_requirements": [
             "DOMAIN_APPROVED"
           ],
-          "readiness_satisfied_at": "2026-10-20T14:39:57.527Z",
-          "production_started_at": "2026-10-20T14:39:57.527Z",
+          "readiness_satisfied_at": "2026-10-20T19:10:55.501Z",
+          "production_started_at": "2026-10-20T19:10:55.501Z",
+          "service_window_label": "Estimated 2–3 business days after required information, access, approvals, and payment are received.",
+          "forecast_min_days": 2,
+          "forecast_max_days": 3
+        },
+        "communication_preferences": {
+          "marketing_opt_in": false,
+          "project_operations": true,
+          "educational": false
+        }
+      }
+    },
+    "J_SIGNATURE_APPROVAL": {
+      "token": "VBULWw2-7NzD_TXbHEryp1DzFkIMRvFB",
+      "payload": {
+        "artifact": {
+          "artifact_id": "135e2c30-8009-4405-8e85-0cb2a02565bb",
+          "public_token": "VBULWw2-7NzD_TXbHEryp1DzFkIMRvFB",
+          "lead_id": "a3610a16-3085-4160-acc4-67329b41e249",
+          "client_org_id": null,
+          "contact_id": null,
+          "referral_source_id": "11111111-1111-4111-8111-111111111103",
+          "service_id": "IDNTY.DIGITAL_FOUNDATION",
+          "state": "IN_PROGRESS",
+          "intake_state": "COMPLETE",
+          "quote_id": "7d139d1e-b5a1-4221-ab1b-e5f19963abf2",
+          "payment_state": "PAID",
+          "project_state": "ACTIVE",
+          "completion_state": "NOT_STARTED",
+          "build_interest": "NONE",
+          "build_recommendation": "NONE",
+          "foundation_credit_id": null,
+          "intake": {
+            "needs": [
+              "NEED_DOMAIN",
+              "NEED_PRO_EMAIL"
+            ],
+            "phone": "901-555-0100"
+          },
+          "created_at": "2026-10-20T19:10:55.502Z",
+          "opened_at": "2026-10-20T19:10:55.502Z",
+          "last_activity_at": "2026-10-20T19:10:55.503Z",
+          "completed_at": null
+        },
+        "lead": {
+          "lead_id": "a3610a16-3085-4160-acc4-67329b41e249",
+          "contact_email": null,
+          "contact_name": null,
+          "business_name": "Fixture J_PAYMENT_SUCCESS",
+          "referral_source_id": "11111111-1111-4111-8111-111111111103",
+          "referral_funnel_stage": "PAID",
+          "created_at": "2026-10-20T19:10:55.502Z"
+        },
+        "acceptance": {
+          "artifact_id": "135e2c30-8009-4405-8e85-0cb2a02565bb",
+          "quote_version": 1,
+          "terms_version": "df-terms-v1",
+          "accepted_at": "2026-10-20T19:10:55.502Z",
+          "accepted_disclosures": [
+            "I HAVE REVIEWED MY DIGITAL FOUNDATION SCOPE.",
+            "I UNDERSTAND THAT DOMAIN / EMAIL PROVIDER SUBSCRIPTIONS AND OTHER THIRD-PARTY FEES MAY BE SEPARATE.",
+            "I UNDERSTAND THAT THE PROJECTED TURNAROUND BEGINS AFTER REQUIRED INFORMATION, ACCESS AND PAYMENT ARE RECEIVED."
+          ],
+          "source_surface": "artifact",
+          "client_ip": null,
+          "user_agent": null
+        },
+        "stages": [
+          {
+            "stage_code": "01_DETAILS_RECEIVED",
+            "status": "IN_PROGRESS",
+            "updated_at": "2026-10-20T19:10:55.503Z"
+          },
+          {
+            "stage_code": "02_DOMAIN",
+            "status": "NEEDS_CLIENT",
+            "updated_at": "2026-10-20T19:10:55.503Z"
+          },
+          {
+            "stage_code": "03_PROFESSIONAL_EMAIL",
+            "status": "IN_PROGRESS",
+            "updated_at": "2026-10-20T19:10:55.503Z"
+          },
+          {
+            "stage_code": "04_DNS_SECURITY",
+            "status": "WAITING",
+            "updated_at": "2026-10-20T19:10:55.503Z"
+          },
+          {
+            "stage_code": "05_DEVICE_SIGNATURE",
+            "status": "IN_PROGRESS",
+            "updated_at": "2026-10-20T19:10:55.503Z"
+          },
+          {
+            "stage_code": "06_FINAL_VERIFICATION",
+            "status": "IN_PROGRESS",
+            "updated_at": "2026-10-20T19:10:55.503Z"
+          },
+          {
+            "stage_code": "07_FOUNDATION_COMPLETE",
+            "status": "WAITING",
+            "updated_at": "2026-10-20T19:10:55.503Z"
+          }
+        ],
+        "client_actions": [
+          {
+            "request_id": "review-signature-approval-01",
+            "artifact_id": "135e2c30-8009-4405-8e85-0cb2a02565bb",
+            "action_type": "APPROVE_SIGNATURE",
+            "title": "Professional email signature",
+            "detail": "Review and approve the signature SITE 00 prepared for your primary mailbox.",
+            "status": "OPEN",
+            "created_at": "2026-10-20T19:10:55.503Z",
+            "completed_at": null,
+            "response": null
+          }
+        ],
+        "approvals": [],
+        "ownership_record": null,
+        "build_readiness": {
+          "site_needed": false,
+          "site_type": null,
+          "primary_customer_action": null,
+          "recommended_structure": null,
+          "brand_readiness": null,
+          "content_readiness": null
+        },
+        "credit": null,
+        "surface": "PORTAL",
+        "operations_summary": {
+          "current_stage": "01_DETAILS_RECEIVED",
+          "needs_you_count": 1,
+          "projected_completion": "2–3 business days"
+        },
+        "quote": {
+          "quote_id": "7d139d1e-b5a1-4221-ab1b-e5f19963abf2",
+          "artifact_id": "135e2c30-8009-4405-8e85-0cb2a02565bb",
+          "base_service_version": "df-v1-base",
+          "base_price_minor": 50000,
+          "selected_addons": [],
+          "addon_total_minor": 0,
+          "manual_adjustments_minor": 0,
+          "subtotal_minor": 50000,
+          "currency": "USD",
+          "projected_min_days": 2,
+          "projected_max_days": 3,
+          "timeline_custom_review": false,
+          "third_party_cost_notice": "Domain registration, Google Workspace, Microsoft 365, and other provider subscriptions are typically paid directly to those providers unless explicitly included in your quote.",
+          "quote_version": 1,
+          "status": "PAID",
+          "created_at": "2026-10-20T19:10:55.502Z",
+          "expires_at": "2026-11-03T19:10:55.502Z"
+        },
+        "recommendation": {
+          "title": "YOUR DIGITAL FOUNDATION",
+          "recommended_addons": [],
+          "site00_handles": [
+            "Business / domain consultation",
+            "Domain ownership configuration guidance",
+            "Professional email setup (MX, SPF, DKIM, DMARC)",
+            "One primary device setup guidance",
+            "One professional email signature",
+            "Digital ownership record",
+            "SITE 00 build-readiness check"
+          ],
+          "client_must_provide": [
+            "Preferred domain names for approval",
+            "Payment after quote acceptance",
+            "No passwords in this form — access via provider invite when needed"
+          ],
+          "third_party_costs": [
+            "Domain registration (registrar)",
+            "Google Workspace or Microsoft 365 (if applicable)"
+          ],
+          "projected_investment_minor": 50000,
+          "projected_min_days": 2,
+          "projected_max_days": 3,
+          "timeline_custom_review": false,
+          "dependencies": [],
+          "manual_review": false,
+          "manual_review_reasons": []
+        },
+        "referral_channel": {
+          "kind": "DIRECT",
+          "display_label": "Direct"
+        },
+        "timeline_readiness": {
+          "readiness_satisfied": true,
+          "missing_requirements": [
+            "DOMAIN_APPROVED"
+          ],
+          "readiness_satisfied_at": "2026-10-20T19:10:55.503Z",
+          "production_started_at": "2026-10-20T19:10:55.503Z",
           "service_window_label": "Estimated 2–3 business days after required information, access, approvals, and payment are received.",
           "forecast_min_days": 2,
           "forecast_max_days": 3

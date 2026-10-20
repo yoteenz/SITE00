@@ -1,18 +1,19 @@
 import DigitalFoundationReviewGallerySection from './DigitalFoundationReviewGallerySection';
-import { galleryEntriesFiltered } from './digitalFoundationReviewGallery';
-import type { DfReviewGroupId } from './digitalFoundationReviewRegistry';
+import { galleryEntriesFilteredByZone } from './digitalFoundationReviewGallery';
+import type { DfReviewZoneId } from './digitalFoundationReviewZones';
 
-export default function DigitalFoundationReviewGallery({
-  groupFilter = 'ALL',
-}: {
-  groupFilter?: DfReviewGroupId | 'ALL';
-}) {
-  const entries = galleryEntriesFiltered(groupFilter);
+/** Vertical stack of every screen in the active zone (one zone mounted at a time). */
+export default function DigitalFoundationReviewGallery({ zoneFilter }: { zoneFilter: DfReviewZoneId }) {
+  const entries = galleryEntriesFilteredByZone(zoneFilter);
 
   return (
-    <div className="df-review__strip" id="df-review-gallery" aria-label="Digital Foundation design review gallery">
+    <div
+      className="df-review__strip df-review__strip--continuous"
+      id="df-review-gallery"
+      aria-label="Digital Foundation review gallery"
+    >
       {entries.map((entry, index) => (
-        <DigitalFoundationReviewGallerySection key={entry.reviewId} entry={entry} index={index} />
+        <DigitalFoundationReviewGallerySection key={entry.reviewId} entry={entry} index={index} zone={zoneFilter} />
       ))}
     </div>
   );

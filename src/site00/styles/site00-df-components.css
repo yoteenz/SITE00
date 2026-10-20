@@ -423,6 +423,7 @@ body.df-scroll-locked .df-root {
 .df-field__hint {
   font-weight: 500;
   color: var(--df-muted);
+  text-align: center;
 }
 
 /* ─── DF SELECT (U03) ──────────────────────────────────────────────────────────────────────── */

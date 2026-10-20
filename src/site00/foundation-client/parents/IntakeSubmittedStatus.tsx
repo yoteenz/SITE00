@@ -36,7 +36,7 @@ export function P03IntakeSubmitted({
   return (
     <>
       <DfRail index="03" label="FOUNDATION STATUS" />
-      <DfHeadline lines={['YOUR FOUNDATION', 'IS TAKING', 'SHAPE.']} />
+      <DfHeadline lines={['YOUR FOUNDATION', 'IS TAKING', 'SHAPE']} />
       <DfLede>
         SITE 00 RECEIVED YOUR INTAKE. WE REVIEW YOUR INFORMATION BEFORE SENDING A PERSONALIZED PROPOSAL ON THIS SAME
         LINK — NO PRICING IS SHOWN UNTIL THAT REVIEW IS COMPLETE.

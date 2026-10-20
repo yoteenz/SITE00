@@ -16860,3 +16860,42 @@ Summary of the whole conversation in this chat.
 
 - **Sprint:** `COMPLETE-ARTIFACT-REVIEW.CANONICAL-GALLERY-RESTORATION-AND-REGRESSION-LOCK1` — regression was single-screen `DigitalFoundationReviewPreviewHost` only (`7f0841be`); restored **continuous vertical gallery** (`DigitalFoundationReviewGallery` + lazy sections + error boundaries). Registry jump scrolls to `#anchor` and resets group filter to ALL; does not unmount siblings.
 - **Registry:** `2026-10-20-gallery-restoration1`; tests `digitalFoundationReviewGalleryRegression.test.ts`. Tunnel SHA `80936230`; Playwright evidence `/opt/cursor/artifacts/df-review-gallery-restoration/`.
+
+## 2026-10-20 — DF review founder/portal gallery mount fix (draft PR #1671)
+
+- **Founder BROKEN panels:** nested `MemoryRouter` inside site `BrowserRouter` on `/foundation/review`. Fix: inline render founder pages (`DigitalFoundationReviewFounderHost`) with `RegistryFilterProvider` + `OverlayProvider`; `ClientRecordPage` accepts optional `reviewArtifactId`.
+- **Visibility:** `gallerySectionEagerMount` mounts builder, client portal, and founder groups without scroll; hash/registry nav forces section mount. Bootstrap keeps offline fixtures when live mint fails; seeds preview memory via GET bootstrap.
+- **Ship:** `8199a7cd` on `cursor/idnty-living-portal-one-pass-completion1-be3b`; test `digitalFoundationReviewFounderHost.test.ts`.
+
+## 2026-10-20 — BLDR PLACE horizontal strip (draft PR #1673)
+
+- **Ask:** PLACE room cards match FEEL — horizontal strip, title + descriptor above, cards show label only.
+- **Fix:** `PlaceControls` in `builder-studio/rooms.tsx` uses `bs-strip` + shared caption; `PATH_BY_ID` in `studioModel.ts`. Test `bldrPlaceControlsLayout.test.ts`.
+
+## 2026-10-20 — DF review intake vs website builder zones (draft PR #1673)
+
+- **Founder correction:** P03 “build your foundation” (incl. domain/email expanded) = **Foundation intake** tab. **Builder** tab = hybrid website builder only (PLACE, FEEL, WORK, PACE, BLUEPRINT sample iframes).
+- **Registry:** P03 family → group `INTAKE`; `df-r-bldr-*` → `FOUNDATION_BUILDER`. Client portal pages render as standalone `StageChrome` per anchor (not repeated tab shell). `digitalFoundationReviewZones.test.ts` locks separation.
+- **Manifest:** `digitalFoundationBuilderManifest.ts` lists five studio rooms; `intakeConfiguratorAnchorIds()` for P03 surfaces.
+
+## 2026-10-20 — DF canonical lifecycle recovery (draft PR #1673)
+
+- **Sprint:** `P0.SITE00.IDNTY.CANONICAL-LIFECYCLE.ORIGINAL-VISUAL-AUTHORITY-RECOVERY-AND-END-TO-END-RESTORATION1` — forensics matrix `docs/site00/idnty/canonical-lifecycle-restoration1/LIFECYCLE_RECONCILIATION_MATRIX.json`; review zones split into intake · builder · **pre-activation queue** · **living portal** · **completion & threshold** · founder ops.
+- **Screen 10:** `df-r-needs-you-approval` + `J_SIGNATURE_APPROVAL` fixture; P10 headline “WE NEED YOUR APPROVAL” + signature preview block for `APPROVE_SIGNATURE`.
+- **Screens 11–15C:** registry anchors for complete (11), records (13A/detail), founder pipeline/command/execution/runbook; founder host maps to `FoundationsPage` / `ClientRecordPage` / `OperationsPage`. 12A = registry gap (digital location product).
+- **Tests:** `dfClientLifecycleRouting.test.ts`, `digitalFoundationLifecycleRecovery.test.ts`. Evidence `/opt/cursor/artifacts/df-lifecycle-recovery/`. **Not merged** per sprint directive.
+
+## 2026-10-20 — DF review zone-scoped continuous gallery (draft PR #1671)
+
+- **Founder ask:** Top zone pills (intake · builder · client · founder); **one zone mounted at a time**, but **all screens in that zone scroll on one page** — not single-screen stage, not all 92 sections at once.
+- **Fix:** `DigitalFoundationReviewGallery` maps `galleryEntriesFilteredByZone` → `DigitalFoundationReviewGallerySection` (lazy IO + first-3 eager per zone). Zone pill CSS (`.df-review__zone-bar`). `navigateToReviewAnchor` scrolls to section id. Copy kicker `CONTINUOUS GALLERY`.
+- **Tests:** `digitalFoundationReviewGalleryRegression.test.ts` (zone eager contract), `digitalFoundationReviewLinks.test.ts`. Evidence `/opt/cursor/artifacts/df-review-zone-gallery/`.
+
+## 2026-10-20 — BLDR five-tab isolated preview (PR #1672)
+
+- **Sprint:** `P0.SITE00.BUILDER.OPUS-FIVE-TAB-PREVIEW-AND-SAFE-INTEGRATION1` — worktree `/tmp/site00-builder-preview-bldr1672` @ `5dd77ff1`; Vite **:5176**; quick tunnel URL in `/tmp/site00-builder-preview-url.txt` (foundation **site00.fsbw-dev.com** on **:5174** unchanged).
+- **Scripts:** `run-site00-builder-preview-server.sh`, `run-site00-builder-preview-tunnel.sh`, `bldr-five-tab-preview-capture.mjs`. Evidence `/opt/cursor/artifacts/bldr-five-tab-preview/`. **#1672 not merged.**
+
+## 2026-10-20 — Merge base into living portal branch
+
+- **Merge:** `origin/cursor/idnty-founder-readiness-e2e-be3b` (includes merged #1671 + #1669 AIO referral card assets) into `cursor/idnty-living-portal-one-pass-completion1-be3b`. DF review conflicts resolved in favor of living-portal lifecycle/zone work; referral artwork from base retained via auto-merge.

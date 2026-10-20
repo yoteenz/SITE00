@@ -8,6 +8,10 @@ import {
   type DfReviewEntry,
   type DfReviewGroupId,
 } from './digitalFoundationReviewRegistry';
+import {
+  galleryEntriesForZoneFilter,
+  type DfReviewZoneId,
+} from './digitalFoundationReviewZones';
 import { previewStatusForEntry } from './reviewPreviewStatus';
 
 /** Gallery sections in stable group order (every registry index entry, deduped by anchor). */
@@ -25,10 +29,15 @@ export function galleryEntriesOrdered(): DfReviewEntry[] {
   return out;
 }
 
+/** @deprecated Use zone filter on the review page. */
 export function galleryEntriesFiltered(groupFilter: DfReviewGroupId | 'ALL'): DfReviewEntry[] {
   const all = galleryEntriesOrdered();
   if (groupFilter === 'ALL') return all;
   return all.filter((e) => e.group === groupFilter);
+}
+
+export function galleryEntriesFilteredByZone(zone: DfReviewZoneId): DfReviewEntry[] {
+  return galleryEntriesForZoneFilter(zone);
 }
 
 /** Sections that must mount in the DOM for regression tests (inline + founder shell + gaps + blocked BLDR). */
@@ -80,5 +89,10 @@ export function galleryCoverageTotals() {
   };
 }
 
-/** Eager-mount first N gallery sections so initial load shows multiple consecutive screens. */
-export const GALLERY_EAGER_MOUNT_COUNT = 14;
+/** Eager-mount only the first screens in the active zone (scroll + hash mount the rest). */
+export const GALLERY_EAGER_MOUNT_COUNT = 3;
+
+/** Mount only when the section is in the first N slots of the visible zone gallery. */
+export function gallerySectionEagerMount(_entry: DfReviewEntry, indexInZone: number): boolean {
+  return indexInZone < GALLERY_EAGER_MOUNT_COUNT;
+}

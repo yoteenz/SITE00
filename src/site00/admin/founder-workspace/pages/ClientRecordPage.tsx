@@ -59,8 +59,9 @@ const STAGE_KIND: Record<string, WsKind> = { COMPLETE: 'done', BLOCKED: 'blocked
  * two-zone body (section left, context column right). Data: admin detail + completion gate.
  * Triggers kept: OL-08 approve quote · OL-09 manual adjustment · OL-10 mark complete · OL-06 more · OL-14 message.
  */
-export function ClientRecordPage() {
-  const { artifactId = '' } = useParams();
+export function ClientRecordPage({ reviewArtifactId }: { reviewArtifactId?: string } = {}) {
+  const { artifactId: routeArtifactId = '' } = useParams();
+  const artifactId = reviewArtifactId ?? routeArtifactId;
   const { openOverlay, pushToast } = useFounderWorkspaceOverlay();
   const [payload, setPayload] = useState<DigitalFoundationArtifactPayload | null>(null);
   const [error, setError] = useState<string | null>(null);

@@ -1,8 +1,8 @@
 /**
  * Digital Foundation micro-product review index (`/foundation/review`).
- * Continuous vertical gallery of real screens; registry is navigation-only.
+ * Zone pills + continuous vertical gallery per zone (only one zone’s sections mount at a time).
  */
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { ClientDigitalFoundationPayload } from '../../../../shared/site00-digital-foundation/clientProjection.js';
 import type { DigitalFoundationCommercialConfig } from '../../../../shared/site00-digital-foundation/types.js';
 import type { ClientCatalogEntry } from '../../foundation-client/api';
@@ -11,14 +11,19 @@ import type { ReviewBootstrapBundle } from './digitalFoundationReviewBootstrap';
 import {
   APPROVED_FOUNDATION_BUILDER_SOURCE,
   DIGITAL_FOUNDATION_REVIEW_REGISTRY_VERSION,
-  type DfReviewGroupId,
   resolveReviewEntry,
 } from './digitalFoundationReviewRegistry';
-import { galleryCoverageTotals } from './digitalFoundationReviewGallery';
+import { galleryCoverageTotals, galleryEntriesFilteredByZone } from './digitalFoundationReviewGallery';
 import { loadReviewBootstrapBundle } from './digitalFoundationReviewBootstrap';
 import DigitalFoundationReviewNav from './DigitalFoundationReviewNav';
 import DigitalFoundationReviewGallery from './DigitalFoundationReviewGallery';
-import { scrollToReviewAnchor } from './reviewLinks';
+import DigitalFoundationReviewZonePills from './DigitalFoundationReviewZonePills';
+import {
+  defaultAnchorForZone,
+  zoneForAnchorId,
+  type DfReviewZoneId,
+} from './digitalFoundationReviewZones';
+import { navigateToReviewAnchor } from './reviewLinks';
 import { DigitalFoundationReviewPreviewProvider } from './DigitalFoundationReviewPreviewContext';
 import '../../foundation-client/foundationDfStyles';
 
@@ -45,9 +50,19 @@ function ReviewProvenance({ dataSource }: { dataSource: string }) {
   return (
     <p className="df-review__provenance">
       IDNTY DIGITAL FOUNDATION · REGISTRY {DIGITAL_FOUNDATION_REVIEW_REGISTRY_VERSION} · BUILD {buildId} · DATA {dataSource} ·
-      GALLERY {totals.gallerySections} · RENDERED+SIM {totals.rendered + totals.simulated} · BUILDER {APPROVED_FOUNDATION_BUILDER_SOURCE}
+      REGISTERED {totals.registered} · BUILDER {APPROVED_FOUNDATION_BUILDER_SOURCE}
     </p>
   );
+}
+
+function applyAnchorSelection(
+  anchorId: string,
+  setZone: (z: DfReviewZoneId) => void,
+  setActiveAnchor: (a: string) => void,
+) {
+  const zone = zoneForAnchorId(anchorId);
+  if (zone) setZone(zone);
+  setActiveAnchor(anchorId);
 }
 
 export default function DigitalFoundationReviewPage() {
@@ -67,8 +82,8 @@ export default function DigitalFoundationReviewPage() {
   const [note, setNote] = useState<string | null>(null);
   const [dataSource, setDataSource] = useState('loading');
   const [bootstrap, setBootstrap] = useState<ReviewBootstrapBundle | null>(null);
-  const [groupFilter, setGroupFilter] = useState<DfReviewGroupId | 'ALL'>('ALL');
-  const [focusAnchor, setFocusAnchor] = useState('');
+  const [zone, setZone] = useState<DfReviewZoneId>('INTAKE');
+  const [activeAnchor, setActiveAnchor] = useState(() => defaultAnchorForZone('INTAKE'));
 
   useEffect(() => {
     const prev = document.title;
@@ -78,19 +93,43 @@ export default function DigitalFoundationReviewPage() {
     };
   }, []);
 
+  const zoneEntries = useMemo(() => galleryEntriesFilteredByZone(zone), [zone]);
+
   useEffect(() => {
-    const sync = () => {
+    if (!zoneEntries.length) return;
+    if (!zoneEntries.some((e) => e.anchorId === activeAnchor)) {
+      const next = zoneEntries[0]!.anchorId;
+      setActiveAnchor(next);
+      navigateToReviewAnchor(next);
+    }
+  }, [zone, zoneEntries, activeAnchor]);
+
+  useEffect(() => {
+    const syncFromHash = () => {
       const id = window.location.hash.replace(/^#/, '');
-      setFocusAnchor(id);
-      if (id) scrollToReviewAnchor(id);
+      if (id) applyAnchorSelection(id, setZone, setActiveAnchor);
     };
-    sync();
-    window.addEventListener('hashchange', sync);
-    window.addEventListener('df-review-nav', sync as EventListener);
+    const onNav = (ev: Event) => {
+      const id = (ev as CustomEvent<{ anchorId?: string }>).detail?.anchorId;
+      if (id) applyAnchorSelection(id, setZone, setActiveAnchor);
+    };
+    syncFromHash();
+    window.addEventListener('hashchange', syncFromHash);
+    window.addEventListener('df-review-nav', onNav as EventListener);
     return () => {
-      window.removeEventListener('hashchange', sync);
-      window.removeEventListener('df-review-nav', sync as EventListener);
+      window.removeEventListener('hashchange', syncFromHash);
+      window.removeEventListener('df-review-nav', onNav as EventListener);
     };
+  }, []);
+
+  const onZoneChange = useCallback((next: DfReviewZoneId) => {
+    setZone(next);
+    const anchor = defaultAnchorForZone(next);
+    if (anchor) {
+      setActiveAnchor(anchor);
+      navigateToReviewAnchor(anchor);
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
   useEffect(() => {
@@ -165,27 +204,30 @@ export default function DigitalFoundationReviewPage() {
     ],
   );
 
-  const focusEntry = focusAnchor ? resolveReviewEntry(focusAnchor) : undefined;
+  const focusEntry = activeAnchor ? resolveReviewEntry(activeAnchor) : undefined;
 
   return (
     <DigitalFoundationReviewPreviewProvider value={previewState}>
       <div className="df-review">
-        <DigitalFoundationReviewNav groupFilter={groupFilter} setGroupFilter={setGroupFilter} />
+        <div className="df-review__top">
+          <DigitalFoundationReviewZonePills zone={zone} onZoneChange={onZoneChange} />
+          <DigitalFoundationReviewNav zoneFilter={zone} activeAnchor={activeAnchor} onPickAnchor={setActiveAnchor} />
+        </div>
         <header className="df-review__intro">
           <p className="df-review__kicker">DESIGN REVIEW · CONTINUOUS GALLERY</p>
           <ReviewProvenance dataSource={dataSource} />
-          <p>SCROLL THROUGH EVERY IMPLEMENTED SCREEN. THE REGISTRY JUMPS TO A SECTION — IT DOES NOT REPLACE THE GALLERY.</p>
+          <p>
+            PICK A ZONE AT THE TOP — ALL SCREENS IN THAT ZONE SCROLL ON ONE PAGE. OTHER ZONES STAY UNMOUNTED. USE THE
+            REGISTRY TO JUMP WITHIN THE ACTIVE ZONE.
+          </p>
           {focusEntry && (
             <p className="df-review__current">
-              FOCUS · {focusEntry.pageName} · <code>{focusAnchor}</code>
+              REGISTRY FOCUS · {focusEntry.pageName} · <code>{activeAnchor}</code>
             </p>
           )}
           {note && <p className="df-review__diag">{note}</p>}
-          <button type="button" className="df-review__nav-step-btn df-review__back-top" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-            BACK TO TOP
-          </button>
         </header>
-        <DigitalFoundationReviewGallery groupFilter={groupFilter} />
+        <DigitalFoundationReviewGallery zoneFilter={zone} />
       </div>
     </DigitalFoundationReviewPreviewProvider>
   );

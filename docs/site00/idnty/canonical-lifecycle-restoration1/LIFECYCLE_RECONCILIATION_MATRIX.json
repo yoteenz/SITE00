@@ -1,0 +1,157 @@
+{
+  "version": "2026-10-20-lifecycle-recovery1",
+  "branch": "cursor/idnty-living-portal-one-pass-completion1-be3b",
+  "registryVersion": "2026-10-20-lifecycle-recovery1",
+  "screens": [
+    {
+      "referenceNumber": "10",
+      "title": "WE NEED YOUR APPROVAL",
+      "productOwner": "IDNTY_DIGITAL_FOUNDATION",
+      "actor": "client",
+      "lifecyclePhase": "C_ACTIVE_PORTAL",
+      "componentPath": "foundation-client/parents/ProjectPortal.tsx#P10NeedsYou",
+      "reviewAnchor": "df-r-needs-you-approval",
+      "implementationStatus": "EXISTING_AND_CORRECT",
+      "visualParityStatus": "RECOVERED_HEADLINE_AND_SIGNATURE_PREVIEW",
+      "functionalStatus": "LIVE_WITH_FIXTURE_IN_REVIEW",
+      "dataSource": "client_actions APPROVE_SIGNATURE",
+      "recoveryAction": "Registry + J_SIGNATURE_APPROVAL fixture; approval headline when signature action open"
+    },
+    {
+      "referenceNumber": "11",
+      "title": "YOUR FOUNDATION IS COMPLETE",
+      "productOwner": "IDNTY_DIGITAL_FOUNDATION",
+      "actor": "client",
+      "lifecyclePhase": "D_VERIFIED_COMPLETION",
+      "componentPath": "pages/foundation/DigitalFoundationCompleteSurface.tsx",
+      "reviewAnchor": "df-r-complete",
+      "implementationStatus": "EXISTING_AND_CORRECT",
+      "visualParityStatus": "MATCHES_BOARD_11_SHELL",
+      "functionalStatus": "LIVE_ON_COMPLETE_SURFACE",
+      "dataSource": "ownership_record + verified credit rules",
+      "recoveryAction": "Moved to CLIENT_COMPLETION review zone"
+    },
+    {
+      "referenceNumber": "12",
+      "title": "YOUR DIGITAL LOCATION",
+      "productOwner": "IDNTY_DIGITAL_FOUNDATION",
+      "actor": "client",
+      "lifecyclePhase": "E_BUILD_OPPORTUNITY",
+      "componentPath": "pages/foundation/DigitalFoundationCompleteSurface.tsx#df-location-h",
+      "reviewAnchor": "df-r-complete",
+      "implementationStatus": "EXISTING_AND_CORRECT",
+      "visualParityStatus": "CONCEPT_PREVIEW_ON_COMPLETE_SURFACE",
+      "functionalStatus": "CREDIT_GATED_SERVER_SIDE",
+      "recoveryAction": "Shown on complete surface only when eligible — not a separate queue card"
+    },
+    {
+      "referenceNumber": "12A",
+      "title": "YOUR DIGITAL LOCATION IS LIVE",
+      "productOwner": "SITE00_DIGITAL_LOCATION",
+      "actor": "client",
+      "lifecyclePhase": "E_DOWNSTREAM_PRODUCT",
+      "componentPath": null,
+      "reviewAnchor": "df-r-digital-location-live",
+      "implementationStatus": "BOARD_ONLY",
+      "visualParityStatus": "NOT_IMPLEMENTED",
+      "functionalStatus": "REGISTRY_GAP",
+      "recoveryAction": "Inventory entry — do not render live on foundation complete alone"
+    },
+    {
+      "referenceNumber": "13A",
+      "title": "YOUR RECORDS ALL IN ONE PLACE",
+      "productOwner": "IDNTY_DIGITAL_FOUNDATION",
+      "actor": "client",
+      "lifecyclePhase": "C_ACTIVE_PORTAL",
+      "componentPath": "foundation-client/parents/ProjectPortal.tsx#RecordsLibrary",
+      "reviewAnchor": "df-r-RECORDS",
+      "implementationStatus": "EXISTING_AND_CORRECT",
+      "visualParityStatus": "HEADLINE_RECOVERED",
+      "functionalStatus": "LIVE_PORTAL_RECORDS_TAB",
+      "recoveryAction": "Distinct portal gallery section — not overview duplicate"
+    },
+    {
+      "referenceNumber": "13A-DETAIL",
+      "title": "DOMAIN REGISTRATION RECORD",
+      "productOwner": "IDNTY_DIGITAL_FOUNDATION",
+      "actor": "client",
+      "lifecyclePhase": "C_ACTIVE_PORTAL",
+      "componentPath": "foundation-client/parents/ProjectPortal.tsx#RecordDetail",
+      "reviewAnchor": "df-r-record-domain",
+      "implementationStatus": "EXISTING_BUT_VISUALLY_REGRESSED",
+      "visualParityStatus": "TABS_NOT_YET_IMPLEMENTED",
+      "functionalStatus": "VERIFIED_FIELDS_FROM_OWNERSHIP_RECORD",
+      "recoveryAction": "Review anchor added; tabbed detail is follow-up"
+    },
+    {
+      "referenceNumber": "13",
+      "title": "FOUNDATION PIPELINE",
+      "productOwner": "IDNTY_FOUNDER_WORKSPACE",
+      "actor": "founder",
+      "lifecyclePhase": "FOUNDER_PORTFOLIO",
+      "componentPath": "admin/founder-workspace/pages/FoundationsPage.tsx",
+      "reviewAnchor": "df-r-founder-foundation_pipeline",
+      "implementationStatus": "EXISTING_AND_CORRECT",
+      "visualParityStatus": "OPUS_WORKSPACE_NOT_LEGACY_ADMIN_TABLE",
+      "functionalStatus": "LIVE_WITH_ADMIN_FIXTURES",
+      "recoveryAction": "Founder review registry + host route"
+    },
+    {
+      "referenceNumber": "14",
+      "title": "PROJECT COMMAND",
+      "productOwner": "IDNTY_FOUNDER_WORKSPACE",
+      "actor": "founder",
+      "lifecyclePhase": "FOUNDER_PROJECT",
+      "componentPath": "admin/founder-workspace/pages/ClientRecordPage.tsx",
+      "reviewAnchor": "df-r-founder-project_command",
+      "implementationStatus": "EXISTING_AND_CORRECT",
+      "functionalStatus": "LIVE_CLIENT_RECORD",
+      "recoveryAction": "Distinct from pipeline list — review anchor added"
+    },
+    {
+      "referenceNumber": "15",
+      "title": "RUN THE FOUNDATION",
+      "productOwner": "IDNTY_FOUNDER_WORKSPACE",
+      "actor": "founder",
+      "lifecyclePhase": "FOUNDER_EXECUTION",
+      "componentPath": "admin/founder-workspace/pages/OperationsPage.tsx",
+      "reviewAnchor": "df-r-founder-execution_workbench",
+      "implementationStatus": "EXISTING_AND_CORRECT",
+      "functionalStatus": "LIVE_RUNBOOK_ENGINE",
+      "recoveryAction": "Operations page in founder review gallery"
+    },
+    {
+      "referenceNumber": "15A",
+      "title": "YOUR RUNBOOK AT A GLANCE",
+      "productOwner": "IDNTY_FOUNDER_WORKSPACE",
+      "actor": "founder",
+      "componentPath": "admin/founder-workspace/pages/OperationsPage.tsx",
+      "reviewAnchor": "df-r-founder-runbook_overview",
+      "implementationStatus": "EXISTING_AND_CORRECT",
+      "functionalStatus": "SAME_SOURCE_AS_15_WITH_RUNBOOK_LIST",
+      "recoveryAction": "Separate review anchor for gallery ordering"
+    },
+    {
+      "referenceNumber": "15B",
+      "title": "DOMAIN + EMAIL FOUNDATION RUNBOOK",
+      "reviewAnchor": "df-r-founder-runbook_detail",
+      "implementationStatus": "EXISTING_AND_CORRECT",
+      "componentPath": "admin/founder-workspace/pages/OperationsPage.tsx"
+    },
+    {
+      "referenceNumber": "15C",
+      "title": "TASK DETAIL (DKIM EXAMPLE)",
+      "reviewAnchor": "df-r-founder-runbook_task_detail",
+      "implementationStatus": "EXISTING_BUT_VISUALLY_REGRESSED",
+      "componentPath": "admin/founder-workspace/pages/OperationsPage.tsx",
+      "recoveryAction": "Task drill-in state — matrix tracks; deep task panel follow-up"
+    }
+  ],
+  "lifecycleContract": {
+    "phaseA": "INTAKE + P03 configure (not public builder)",
+    "phaseB": "POST_INTAKE + PROPOSAL_CHECKOUT review zone CLIENT_QUEUE",
+    "phaseC": "PORTAL surface after verified payment — CLIENT_PORTAL zone",
+    "phaseD": "COMPLETE surface — CLIENT_COMPLETION zone; portal access retained",
+    "phaseE": "Build credit on complete surface; 12A separate product"
+  }
+}

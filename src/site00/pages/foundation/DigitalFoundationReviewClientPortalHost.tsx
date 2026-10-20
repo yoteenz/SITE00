@@ -1,13 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import type { DfView } from '../../foundation-client/model';
-import {
-  CommunicationPreferences,
-  P07ProjectOverview,
-  P08Roadmap,
-  P09StageDetail,
-  P10NeedsYou,
-  RecordsLibrary,
-} from '../../foundation-client/parents/ProjectPortal';
+import DigitalFoundationReviewClientPortalBody from './DigitalFoundationReviewClientPortalBody';
 import { DfFrame, DfMenu, type DfObjectKind } from '../../foundation-client/shell';
 import { DF_VIEW_ORDER } from '../../foundation-client/model';
 import { reviewAnchorForView } from './reviewLinks';
@@ -32,7 +25,7 @@ function viewFromAnchor(anchorId: string): DfView {
 }
 
 export default function DigitalFoundationReviewClientPortalHost({ anchorId }: { anchorId: string }) {
-  const { paidPayload, paidToken } = useReviewPreviewState();
+  useReviewPreviewState();
   const [view, setView] = useState<DfView>(() => viewFromAnchor(anchorId));
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -45,64 +38,7 @@ export default function DigitalFoundationReviewClientPortalHost({ anchorId }: { 
     scrollToReviewAnchor(reviewAnchorForView(next));
   }, []);
 
-  const noop = () => undefined;
-
-  const body = (() => {
-    if (!paidPayload) {
-      return <p className="df-review__wait">CLIENT PORTAL FIXTURE NOT LOADED (J_PAYMENT_SUCCESS).</p>;
-    }
-    switch (view) {
-      case 'OVERVIEW':
-        return (
-          <P07ProjectOverview
-            payload={paidPayload}
-            verify={null}
-            onRoadmap={() => goTab('ROADMAP')}
-            onNeedsYou={() => goTab('NEEDS_YOU')}
-            onRecords={() => goTab('RECORDS')}
-            onStage={() => goTab('STAGE')}
-            onActivation={noop}
-            onPrefs={noop}
-          />
-        );
-      case 'ROADMAP':
-        return (
-          <P08Roadmap payload={paidPayload} onStage={() => goTab('STAGE')} onOverview={() => goTab('OVERVIEW')} />
-        );
-      case 'STAGE':
-        return (
-          <P09StageDetail
-            payload={paidPayload}
-            stageCode={paidPayload.stages[0]?.stage_code ?? '01_DETAILS_RECEIVED'}
-            onRoadmap={() => goTab('ROADMAP')}
-          />
-        );
-      case 'NEEDS_YOU':
-        return paidToken ? (
-          <P10NeedsYou
-            token={paidToken}
-            payload={paidPayload}
-            onReload={async () => paidPayload}
-            onOverview={() => goTab('OVERVIEW')}
-          />
-        ) : (
-          <p className="df-review__wait">NEEDS YOU FIXTURE TOKEN MISSING.</p>
-        );
-      case 'RECORDS':
-        return <RecordsLibrary payload={paidPayload} onOpen={noop} onOverview={() => goTab('OVERVIEW')} />;
-      case 'COMM_PREFS':
-        return (
-          <CommunicationPreferences
-            prefs={paidPayload.communication_preferences}
-            busy={false}
-            onSave={noop}
-            onOverview={() => goTab('OVERVIEW')}
-          />
-        );
-      default:
-        return null;
-    }
-  })();
+  const body = <DigitalFoundationReviewClientPortalBody view={view} onNavigate={goTab} />;
 
   const menuViews = [...DF_VIEW_ORDER, 'ROADMAP', 'STAGE', 'NEEDS_YOU', 'RECORDS', 'COMM_PREFS'] as DfView[];
 
