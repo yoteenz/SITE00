@@ -16837,3 +16837,10 @@ Summary of the whole conversation in this chat.
 - **Builder forensics:** Verified IDNTY builder = `EntryIntake.tsx#P03Configure` (3 manifest states); BLDR iframes removed @ `2693662b` — `digitalFoundationBuilderManifest.ts` + tests lock ownership; legacy `#df-r-bldr-*` stay blocked panels, not “foundation builder.”
 - **Review UX:** Single `#df-review-stage` + `DigitalFoundationReviewPreviewHost` (hash nav); client portal 4-tab host; founder workspace embedded via `MemoryRouter` + `FounderWorkspaceApp` (simulated cloud-preview admin). Registry `2026-10-20-canonical-preview1` (~92 entries) with honest preview status labels in nav.
 - **Evidence:** Playwright mobile/desktop captures under `/opt/cursor/artifacts/df-review-canonical/`; tunnel must run **dev Vite :5174** + `SITE00_CLOUD_MOBILE_PREVIEW=1` (clear `.vite` cache if strip UI persists).
+
+---
+
+## 2026-10-20 — Split display ? cap alignment (draft PR #1671)
+
+- **Ask:** Custom split `?` (black stem + red dot) on builder/display headlines was taller than adjacent uppercase — cap-align to text.
+- **Fix:** `correspondence-display-split--question` in `reactProse.tsx`; CSS in `site00-correspondence-fonts.css` plus `.df-headline` / `.bs-headline` overrides; email `html.ts` inline height matched. Commit `55f89597` on `cursor/idnty-living-portal-one-pass-completion1-be3b`.
