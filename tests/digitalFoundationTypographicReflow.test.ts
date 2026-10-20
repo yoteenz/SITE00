@@ -6,7 +6,9 @@ const componentsCss = readFileSync(new URL('../src/site00/styles/site00-df-compo
 
 describe('Digital Foundation global typographic reflow', () => {
   it('preserves parent crown text-max contract', () => {
-    expect(clientCss).toContain('--df-crown-text-max: calc(100% - var(--df-crown-art-band) - var(--df-crown-text-gap))');
+    expect(clientCss).toContain(
+      '--df-crown-text-max: calc(100% + var(--df-gutter) - var(--df-crown-art-w) * 156 / 180 - var(--df-crown-text-gap))',
+    );
     const crownBlock = clientCss.match(/\.df-object--crown \{[^}]+\}/)?.[0] ?? '';
     expect(crownBlock).toContain('position: absolute');
     expect(crownBlock).toContain('max-width: 230px');

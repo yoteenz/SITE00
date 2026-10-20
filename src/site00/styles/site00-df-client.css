@@ -244,11 +244,22 @@ body:has(.df-root) {
   white-space: nowrap;
 }
 
-.df-screen--crown {
-  /* Reserve the locked crown artwork band; text-only width follows available inline space. */
-  --df-crown-art-band: min(46%, 230px);
-  --df-crown-text-gap: 14px;
-  --df-crown-text-max: calc(100% - var(--df-crown-art-band) - var(--df-crown-text-gap));
+/*
+ * Crown text contract — each text role stops one gap short of where the locked crown artwork is
+ * actually drawn beside it, not short of the artwork's (mostly empty) box. The SVG (viewBox 180×320,
+ * xMaxYMin meet) hangs from the screen's right edge inside `.df-object--crown`; its drawn width is
+ * `--df-crown-art-w`, and its leftmost drawn edge depends on height: the stone side (x 52) beside the
+ * rail, the beam (x 24) beside the headline, the glass pane (x 36) beside the lede. Percentages
+ * resolve against `.df-screen__main`, so `100% + gutter` is the screen edge the artwork hangs from.
+ * The founder review frames are fixed 390px phones at every viewport, so they keep these values.
+ */
+.df-screen--crown,
+.df-review .df-screen--crown {
+  --df-crown-art-w: min(calc((100% + 2 * var(--df-gutter)) * 0.46), 230px, calc(340px * 9 / 16));
+  --df-crown-text-gap: 12px;
+  --df-crown-rail-max: calc(100% + var(--df-gutter) - var(--df-crown-art-w) * 128 / 180 - var(--df-crown-text-gap));
+  --df-crown-text-max: calc(100% + var(--df-gutter) - var(--df-crown-art-w) * 156 / 180 - var(--df-crown-text-gap));
+  --df-crown-lede-max: calc(100% + var(--df-gutter) - var(--df-crown-art-w) * 144 / 180 - var(--df-crown-text-gap));
 }
 
 .df-screen--crown .df-headline {
@@ -260,13 +271,19 @@ body:has(.df-root) {
 }
 
 .df-screen--crown .df-lede {
-  max-width: min(var(--df-crown-text-max), 100%);
+  max-width: min(var(--df-crown-lede-max), 100%);
   text-wrap: pretty;
   overflow-wrap: break-word;
 }
 
 .df-screen--crown .df-rail {
-  max-width: var(--df-crown-text-max);
+  max-width: var(--df-crown-rail-max);
+}
+
+/* A long label takes length from the rule before it wraps or reaches the artwork. */
+.df-screen--crown .df-rail__rule {
+  flex: 0 100 76px;
+  min-width: 16px;
 }
 
 /* ─── Lede (DF-C04) ────────────────────────────────────────────────────────────────────────── */
@@ -298,6 +315,11 @@ body:has(.df-root) {
 .df-lede strong {
   font-weight: 700;
   color: var(--df-ink);
+}
+
+/* A figure and its unit travel together: no “2–” / “3 BUSINESS DAYS” split, no orphaned qualifier. */
+.df-lede__keep {
+  white-space: nowrap;
 }
 
 /* ─── Threshold objects (DF-C05) ───────────────────────────────────────────────────────────── */
@@ -2382,15 +2404,6 @@ button.df-spec__btn {
     max-width: min(310px, 100%);
   }
 
-  .df-screen--crown {
-    --df-crown-art-band: min(46%, 230px);
-    --df-crown-text-gap: 12px;
-  }
-
-  .df-screen--crown .df-lede {
-    max-width: min(var(--df-crown-text-max), 100%);
-  }
-
   .df-reentry {
     width: 100%;
     max-width: 100%;
@@ -2433,7 +2446,7 @@ button.df-spec__btn {
   }
 
   .df-screen--crown {
-    --df-crown-art-band: min(44%, 300px);
+    --df-crown-art-w: min(calc((100% + 2 * var(--df-gutter)) * 0.44), 300px, calc(440px * 9 / 16));
     --df-crown-text-gap: 18px;
   }
 
@@ -2481,13 +2494,15 @@ button.df-spec__btn {
     --df-headline: 82px;
   }
 
+  /* The artwork's box begins right of the 520px column (54% of a ≥1100px screen), so no role yields to it. */
   .df-screen--crown {
-    --df-crown-art-band: min(46%, 560px);
-    --df-crown-text-gap: 24px;
+    --df-crown-rail-max: 100%;
+    --df-crown-text-max: 100%;
+    --df-crown-lede-max: 100%;
   }
 
   .df-screen--crown .df-lede {
-    max-width: min(var(--df-crown-text-max), 440px);
+    max-width: min(var(--df-crown-lede-max), 440px);
   }
 
   .df-lede {
@@ -2771,7 +2786,7 @@ button.df-spec__btn {
   }
 
   .df-review .df-screen--crown .df-lede {
-    max-width: min(var(--df-crown-text-max), 100%);
+    max-width: min(var(--df-crown-lede-max), 100%);
     font-size: 7.5px;
     line-height: calc(1.65em - 2px);
   }
@@ -2814,6 +2829,11 @@ button.df-spec__btn {
 }
 
 @media (min-width: 1100px) {
+  /* Review frames keep the desktop rail margin, which lowers the rail beside the beam (x 24). */
+  .df-review .df-screen--crown {
+    --df-crown-rail-max: var(--df-crown-text-max);
+  }
+
   .df-review__strip {
     flex-direction: row;
     align-items: flex-start;

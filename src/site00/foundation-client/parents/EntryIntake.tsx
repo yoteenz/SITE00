@@ -69,7 +69,7 @@ export function P01Entry({
       <DfHeadline lines={['YOUR', 'DIGITAL FOUNDATION', 'STARTS HERE']} />
       <DfLede>
         ESTABLISH YOUR BUSINESS ON A SECURE, PROFESSIONAL <strong>FOUNDATION</strong> — DOMAIN, EMAIL, SECURITY AND
-        OWNERSHIP. DONE FOR YOU. TYPICALLY {days} BUSINESS DAYS.
+        OWNERSHIP. DONE FOR YOU. <span className="df-lede__keep">TYPICALLY {days} BUSINESS DAYS.</span>
       </DfLede>
       <DfHeroObject />
       <ul className="df-triad" aria-label="WHAT YOUR FOUNDATION COVERS">
