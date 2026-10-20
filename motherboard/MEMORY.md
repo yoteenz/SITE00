@@ -16603,6 +16603,7 @@ Summary of the whole conversation in this chat.
 - **Root cause:** Spatial feel → single visual system with `SYSTEM_DEFAULT` tunables; `pagesView` reused `EXPERIENCE_DEPTHS.plain` for every page.
 - **Added:** `designResolution.ts` (provenance: YOUR SELECTION / OUR RECOMMENDATION / FROM YOUR BRAND / TO BE REFINED), `pageValueIntelligence.ts` (page-type + capability-grounded copy), SOURCE_AUDIT doc, Playwright capture script, regression tests.
 - **Branch:** `cursor/bldr-creative-intelligence-be3b` off Opus five-tab SHA `5dd77ff1a`. Opus presentation pass (§16) still outstanding.
+- **Update:** #1672 + #1674 **merged to `main`** (`e8736615`). #1676 merged Phase 1 DF into `cursor/idnty-founder-readiness-e2e-be3b`. Stale PRs #1675, #1643–#1646, #1662, #1664, #1658, #1612 **closed**. **#1670** remains open (authority-only, founder review).
 
 ---
 
