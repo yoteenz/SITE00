@@ -1,5 +1,7 @@
 # 33 — Implementation Readiness
 
+> **LOCK1:** the implementation order is now LOCK1 [`10`](../client-foundation-digital-access-authority-lock1/10_UPDATED_COMPOSER_HANDOFF.md) §24, starting with G-12 (phase 1) and G-02 (phase 2). The access card is retired. The approved icon and launch assets are locked; icon derivatives await founder review (FR-01/FR-02).
+
 ## Verdict
 
 **The visual and interaction authority is complete and ready for founder review.** It is **not** ready for production implementation end-to-end, because three backend blockers stand between the authority and a truthful, secure client experience:
@@ -7,8 +9,8 @@
 | Blocker | Why it blocks | Unblocks |
 |---|---|---|
 | **G-02**: proposal shown before founder approval | Direction 3–6 and the "taking shape" moment are untrue while `completeIntake` exposes an instant CLIENT_REVIEW quote | families A, I, stage 2 |
-| **G-09**: no session / email reentry | Home screen, access card and email return have nothing secure to land on | families F, G, H |
-| **G-12**: non-expiring bearer token, CORS `*` | The home-screen icon or card must never carry it, and it must leave the address bar | families F, G; overall posture |
+| **G-09**: no session / email reentry | Home screen and email return have nothing secure to land on | families F, H |
+| **G-12**: non-expiring bearer token, CORS `*` | No shortcut may carry it, and it must leave the address bar | family F; overall posture |
 
 ## What Composer can build now (no backend change)
 
@@ -26,7 +28,7 @@
 | Phase | Waits on |
 |---|---|
 | 2 (full) · 7 · 8 | G-01, G-02, G-23, G-25, G-18 |
-| 4 · 5 · 6 | G-09, G-12, G-13, G-11 |
+| 4 · 5 · 6 (LOCK1 order: 1, 5–10) | G-09, G-12, G-13 (G-11 retired) |
 | 9 (decline-required) | G-17 |
 | 11 | G-07, G-08 |
 | 12 (full) | G-04, G-05, G-06, G-10, G-26 |

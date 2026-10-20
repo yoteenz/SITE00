@@ -13,7 +13,7 @@ The audit covers base `d68038a87` (`cursor/idnty-founder-readiness-e2e-be3b`; PR
 | `?simulated_checkout=1` | read by FoundationClient | Test adapter banner |
 | `?step=intake` | **ignored** | Added by admin pages and FNDATN-01 emails 01/06. `resolveDigitalFoundationArtifactUiStep` is used only by a test |
 
-**New route proposed by this authority:** `/foundation/return`, a literal sibling of `/foundation/review`. Tokens are 32-character base64url strings, so the literal cannot collide with one. It is the public reentry entry, the home-screen `start_url` and the access-card QR target. Composer registers it before `:token` in `Site00Routes.tsx`, the same way `/foundation/review` is registered. No other new route is introduced. The four areas stay history-state views inside the one artifact URL, as they are today.
+**New route proposed by this authority:** `/foundation/return`, a literal sibling of `/foundation/review`. Tokens are 32-character base64url strings, so the literal cannot collide with one. It is the public reentry entry and the home-screen `start_url`. The access-card QR target was retired in LOCK1. Composer registers it before `:token` in `Site00Routes.tsx`, the same way `/foundation/review` is registered. No other new route is introduced. The four areas stay history-state views inside the one artifact URL, as they are today.
 
 ## 2. Client views and what renders
 
@@ -106,8 +106,8 @@ None. There is no manifest, apple-touch-icon, `theme-color`, service worker or v
 | `P08Roadmap` (unwired) | C · ROADMAP, 7 client stages | re-wire, new stage derivation |
 | `P10NeedsYou` (unwired) | D · NEEDS YOU, 5 action states | re-wire, payload additions (G-04–G-06) |
 | `RecordsLibrary` / `RecordDetail` (unwired) | E · RECORDS + verified view | re-wire, step-up (G-10) |
-| — | F · SAVE TO HOME SCREEN | new (manifest, icons, guidance) |
-| — | G · ACCESS CARD | new (card id service G-11) |
+| — | F · SAVE YOUR FOUNDATION + approved launch (LOCK1) | new (manifest, approved icon, launch, guidance) |
+| — | ~~G · ACCESS CARD~~ | **RETIRED** (LOCK1 L-05) |
 | token link only | H · SECURE REENTRY | new route + session (G-09) |
 | P04 Recommendation | I · PROPOSAL + J · OPTIONS | re-skin; recommendation reasons (G-25) |
 | P05 Review + checkout | K · ACCEPTANCE + L · AWAITING PAYMENT | split presentation; same API |

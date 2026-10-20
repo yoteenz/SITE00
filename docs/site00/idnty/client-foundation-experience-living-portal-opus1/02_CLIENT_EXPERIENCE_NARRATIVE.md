@@ -25,11 +25,16 @@
 
 ## Coming back
 
-Coming back is always in this order: **home screen › access card › email.**
+Coming back is always in this order (LOCK1): **home screen › email.**
 
-- **Home screen.** On iPhone/iPad: Safari Share → Add to Home Screen. On Android: the browser's own install prompt where offered, otherwise menu steps. On desktop: bookmark. It opens `/foundation/return`. A device with a session goes straight in; a new device confirms by email.
-- **Access card.** A card with SITE 00 identity, MY FOUNDATION, the business name, a reference and a scan-to-return code. It comes as PNG, share image, PDF and a wallet-style image. The code is a revocable reference, not a key.
+- **Home screen ("SAVE YOUR FOUNDATION").**
+  - The client adds MY FOUNDATION to their home screen with the founder-approved white "00" icon. On iPhone/iPad: Safari Share → Add to Home Screen. On Android: the browser's own install prompt where offered, otherwise menu steps. On desktop: bookmark.
+  - It opens `/foundation/return`, briefly showing the approved light launch image, "YOUR DIGITAL SPACE AWAITS.", while the foundation loads.
+  - A device with a session goes straight in; a new device confirms by email.
+  - Installing is optional and never required to continue.
 - **Email.** Every SITE 00 email has VIEW MY FOUNDATION. Recovery is always by email: a one-time link plus a 6-digit code. The code is for home-screen apps, where email links open in the browser.
+
+There is **no access card and no QR** (retired, LOCK1). Both return methods resolve to the same canonical foundation.
 
 ## Voice
 

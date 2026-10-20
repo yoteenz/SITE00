@@ -23,7 +23,7 @@ Measured specimen viewports: 320×700, 375×812, 390×844, 430×932, 768×1024, 
 | Paired sections | stacked | stacked | side by side | side by side | side by side |
 | CTAs | full width, stacked | auto width (min 260), row | row | row | row |
 | Sheets | bottom, full width | bottom, 600 centred | dialog 560 / 820 wide | dialog | dialog |
-| Access card preview | 300 | 420 | 460 | 460 | 460 |
+| Launch image (LOCK1 `07`) | cover | panel | panel | panel | panel |
 
 ## Invariants (audited)
 

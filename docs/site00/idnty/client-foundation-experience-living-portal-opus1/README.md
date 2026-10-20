@@ -2,7 +2,9 @@
 
 **Sprint:** `P0.SITE00.IDNTY.CLIENT-FOUNDATION-EXPERIENCE.LIVING-PORTAL-AND-ACCESS-AUTHORITY.OPUS1`
 **Base:** `cursor/idnty-founder-readiness-e2e-be3b` @ `d68038a87` (Merge PR #1667)
-**Status:** AUTHORITY ONLY — founder visual review required. Production source, backend, database, email sending, Stripe and Railway are untouched.
+**Status:** AUTHORITY ONLY — founder visual review required.
+
+> **Amended by LOCK1** (`../client-foundation-digital-access-authority-lock1/`). The founder locked the home-screen icon and the light launch experience ("YOUR DIGITAL SPACE AWAITS."), and **retired the client access card**. Return methods are now home screen › verified email. Where this package and LOCK1 differ, **LOCK1 wins**. Production source, backend, database, email sending, Stripe and Railway are untouched.
 
 This package is the visual and interaction authority for the client side of the Digital Foundation, from the moment intake is submitted to an established foundation. It covers:
 
@@ -13,7 +15,7 @@ This package is the visual and interaction authority for the client side of the 
 - fulfillment;
 - verification;
 - completion;
-- the three ways back: home screen, then access card, then email.
+- the two ways back (LOCK1): home screen (SAVE YOUR FOUNDATION), then verified email.
 
 The founder-approved direction (§00, fifteen points) is treated as locked. Nothing here re-opens it.
 
@@ -22,7 +24,9 @@ The founder-approved direction (§00, fifteen points) is treated as locked. Noth
 | Path | What |
 |---|---|
 | `01`–`33` | Authority documents (see index below) |
-| `boards/png/` | 87 rendered boards (2× PNG) |
+| `boards/png/` | 87 active rendered boards (2× PNG) |
+| `boards/archive/` | retired access-card boards and the superseded placeholder-icon board: **NOT FOR IMPLEMENTATION** |
+| `archive/` | archived OPUS1 text of `10`, `11`, `12` |
 | `boards/src/` | Board source: specimen system (`cf.css`, `cf-kit.js`, `cf-pages.js`, `cf-access.js`, `specimen.js`), board kit, 87 board shells, `boards.js` |
 | `boards/board-manifest.json` | Board index: source, image, size, sha256, frame/font/layout audit per board |
 | `boards/render-boards.mjs` | Reproducible renderer (repo Vite server for SSR data + Playwright Chromium, DSF 2) |
@@ -55,9 +59,9 @@ The application never imports anything from this folder. Vite's production build
 | 07 | [Needs You authority](07_NEEDS_YOU_AUTHORITY.md) |
 | 08 | [Records authority](08_RECORDS_AUTHORITY.md) |
 | 09 | [Home screen install authority](09_HOME_SCREEN_INSTALL_AUTHORITY.md) |
-| 10 | [Home screen icon and launch](10_HOME_SCREEN_ICON_AND_LAUNCH.md) |
-| 11 | [Foundation access card authority](11_FOUNDATION_ACCESS_CARD_AUTHORITY.md) |
-| 12 | [Access card security and QR](12_ACCESS_CARD_SECURITY_AND_QR.md) |
+| 10 | [Home screen icon and launch — superseded by LOCK1](10_HOME_SCREEN_ICON_AND_LAUNCH.md) |
+| 11 | [Foundation access card authority — **RETIRED**](11_FOUNDATION_ACCESS_CARD_AUTHORITY.md) |
+| 12 | [Access card security and QR — **RETIRED**](12_ACCESS_CARD_SECURITY_AND_QR.md) |
 | 13 | [Secure client reentry](13_SECURE_CLIENT_REENTRY.md) |
 | 14 | [Personalized proposal authority](14_PERSONALIZED_PROPOSAL_AUTHORITY.md) |
 | 15 | [Recommendation selection](15_RECOMMENDATION_SELECTION.md) |
@@ -84,6 +88,6 @@ The application never imports anything from this folder. Vite's production build
 
 1. **The four-area portal exists but is not wired.** `parents/ProjectPortal.tsx` holds `P07ProjectOverview`, `P08Roadmap`, `P09StageDetail`, `P10NeedsYou`, `RecordsLibrary`, `RecordDetail` and `CommunicationPreferences`. Nothing imports it. `FoundationClient.tsx` renders `InterimOverview` for OVERVIEW and an empty frame for every other portal view. The regression traces to merge `b0b988db6` (PR #1527).
 2. **There is no review moment today.** `completeIntake` moves INTAKE_COMPLETE → RECOMMENDATION_READY → QUOTE_READY in one call and the client lands on a priced recommendation. Founder direction 3–6 (founder approves before the client sees a proposal) needs a server gate. See G-02.
-3. **`/foundation/:token` is a non-expiring bearer capability.** It has no session, expiry, revocation or rate limit, and CORS is `*`. The access card therefore never carries it, and the home-screen start route never contains it. See `12`, `13` and `28`.
+3. **`/foundation/:token` is a non-expiring bearer capability.** It has no session, expiry, revocation or rate limit, and CORS is `*`. So the home-screen `start_url` never contains the token, and the token leaves the address bar after a session exchange (see `13`, `28` and LOCK1 `06`).
 4. **No PWA plumbing.** There is no manifest, apple-touch-icon, theme colour or service worker, and `/site00/favicon.svg` is referenced but missing.
 5. **Email contradicts the screen.** FNDATN-01 email 02 says "OUR TEAM IS NOW REVIEWING IT" while the client sees an instant quote. Fixing finding 2 makes the email true.

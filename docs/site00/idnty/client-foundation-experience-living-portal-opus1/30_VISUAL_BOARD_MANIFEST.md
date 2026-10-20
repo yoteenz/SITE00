@@ -1,5 +1,7 @@
 # 30 — Visual Board Manifest
 
+> **Amended by LOCK1.** M09, D11 and AH06–AH10 are retired; AH01, AH05, M08, TP08, TL08, X08 and X10 are revised; AH11–AH15, M21 and D21 are new. The active count stays at 87, and every active board was re-rendered after the change.
+
 **87 boards**, all rendered by `boards/render-boards.mjs` (Vite SSR data + Playwright Chromium, DSF 2). Each board is a set of static authority specimens at true viewport widths. **None is a screenshot of the live application.** The machine-readable index with per-board sha256, live-frame, font, lowercase and layout audits is `boards/board-manifest.json`.
 
 | Tier | Required | Delivered |
@@ -10,7 +12,7 @@
 | DESKTOP 1280–1919 | 20 | **20** |
 | ULTRA-WIDE 1920+ | 5 | **5** |
 | CROSS-TIER | 10 | **12** |
-| ACCESS CARD / HOME SCREEN | 10 | **10** |
+| HOME SCREEN + LAUNCH + RETURN (was ACCESS CARD / HOME SCREEN) | 10 | **10** |
 | **TOTAL** | **85** | **87** |
 
 Every board shows a distinct implementation decision or state. Families (A–T) per board are listed below. Board source: `boards/src/board-<ID>-<slug>.html` (shell) + `boards/src/boards.js` (content).
@@ -22,16 +24,15 @@ Every board shows a distinct implementation decision or state. Families (A–T) 
 | [M01](boards/png/board-M01-your-foundation-is-taking-shape.png) | Your Foundation Is Taking Shape | A | 4/4 | 3400×2871 | 0 |
 | [M02](boards/png/board-M02-overview-before-payment.png) | Overview Before Payment | B | 4/4 | 3400×2787 | 0 |
 | [M03](boards/png/board-M03-overview-after-payment.png) | Overview After Payment | B | 4/4 | 3400×2821 | 0 |
-| [M04](boards/png/board-M04-roadmap-in-client-language.png) | Roadmap In Client Language | C | 4/4 | 3295×3082 | 0 |
-| [M05](boards/png/board-M05-needs-you.png) | Needs You | D | 4/4 | 3319×2966 | 0 |
-| [M06](boards/png/board-M06-one-action-start-to-finish.png) | One Action, Start To Finish | D | 4/4 | 3378×2774 | 0 |
+| [M04](boards/png/board-M04-roadmap-in-client-language.png) | Roadmap In Client Language | C | 4/4 | 3317×3082 | 0 |
+| [M05](boards/png/board-M05-needs-you.png) | Needs You | D | 4/4 | 3341×2966 | 0 |
+| [M06](boards/png/board-M06-one-action-start-to-finish.png) | One Action, Start To Finish | D | 4/4 | 3400×2801 | 0 |
 | [M07](boards/png/board-M07-records-only-when-they-exist.png) | Records Only When They Exist | E | 4/4 | 3376×2725 | 0 |
-| [M08](boards/png/board-M08-save-to-home-screen.png) | Save To Home Screen | F | 4/4 | 3400×2806 | 0 |
-| [M09](boards/png/board-M09-access-card.png) | Access Card | G | 4/4 | 3376×2674 | 0 |
+| [M08](boards/png/board-M08-save-your-foundation.png) | Save Your Foundation | F | 4/4 | 3400×2845 | 0 |
 | [M10](boards/png/board-M10-coming-back-the-happy-path.png) | Coming Back: The Happy Path | H | 4/4 | 3400×2528 | 0 |
-| [M11](boards/png/board-M11-reentry-expiry-and-bad-links.png) | Reentry: Expiry And Bad Links | H | 4/4 | 3397×2416 | 0 |
+| [M11](boards/png/board-M11-reentry-expiry-and-bad-links.png) | Reentry: Expiry And Bad Links | H | 4/4 | 3400×2443 | 0 |
 | [M12](boards/png/board-M12-reentry-revoked-wrong-identity-unavailable-retry.png) | Reentry: Revoked, Wrong Identity, Unavailable, Retry | H | 4/4 | 3400×2461 | 0 |
-| [M13](boards/png/board-M13-personalized-proposal.png) | Personalized Proposal | I | 4/4 | 3281×2466 | 0 |
+| [M13](boards/png/board-M13-personalized-proposal.png) | Personalized Proposal | I | 4/4 | 3303×2466 | 0 |
 | [M14](boards/png/board-M14-choose-what-fits.png) | Choose What Fits | J | 4/4 | 3400×2493 | 0 |
 | [M15](boards/png/board-M15-accept-the-exact-version.png) | Accept The Exact Version | K | 5/5 | 3400×3907 | 0 |
 | [M16](boards/png/board-M16-your-foundation-is-ready-to-begin.png) | Your Foundation Is Ready To Begin | L | 5/5 | 3400×3907 | 0 |
@@ -39,19 +40,20 @@ Every board shows a distinct implementation decision or state. Families (A–T) 
 | [M18](boards/png/board-M18-setup-and-final-verification.png) | Setup And Final Verification | NO | 4/4 | 3400×2493 | 0 |
 | [M19](boards/png/board-M19-established-and-what-happened.png) | Established, And What Happened | PQ | 4/4 | 3400×2578 | 0 |
 | [M20](boards/png/board-M20-updates-errors-and-global-overlays.png) | Updates, Errors And Global Overlays | RST | 5/5 | 3400×3907 | 0 |
+| [M21](boards/png/board-M21-launch-experience-on-phones.png) | Launch Experience On Phones | F | 4/4 | 3400×2744 | 0 |
 
 ## TABLET PORTRAIT 768–1023
 
 | Board | Title | Families | Live frames | Image (px) | Layout failures |
 |---|---|---|---|---|---|
-| [TP01](boards/png/board-TP01-four-areas-as-tabs.png) | Four Areas As Tabs | — | 3/3 | 3234×2152 | 0 |
-| [TP02](boards/png/board-TP02-post-intake-review.png) | Post-Intake Review | A | 3/3 | 3254×2152 | 0 |
-| [TP03](boards/png/board-TP03-proposal-options-acceptance.png) | Proposal, Options, Acceptance | IJK | 3/3 | 3257×2152 | 0 |
+| [TP01](boards/png/board-TP01-four-areas-as-tabs.png) | Four Areas As Tabs | — | 3/3 | 3256×2152 | 0 |
+| [TP02](boards/png/board-TP02-post-intake-review.png) | Post-Intake Review | A | 3/3 | 3276×2152 | 0 |
+| [TP03](boards/png/board-TP03-proposal-options-acceptance.png) | Proposal, Options, Acceptance | IJK | 3/3 | 3279×2152 | 0 |
 | [TP04](boards/png/board-TP04-payment-and-confirmation.png) | Payment And Confirmation | LM | 4/4 | 3400×3420 | 0 |
-| [TP05](boards/png/board-TP05-setup-and-verification.png) | Setup And Verification | NO | 3/3 | 3255×2152 | 0 |
-| [TP06](boards/png/board-TP06-needs-you-and-action-detail.png) | Needs You And Action Detail | D | 3/3 | 3255×2152 | 0 |
-| [TP07](boards/png/board-TP07-records.png) | Records | E | 3/3 | 3246×2152 | 0 |
-| [TP08](boards/png/board-TP08-home-screen-and-access-card.png) | Home Screen And Access Card | FG | 3/3 | 3256×2152 | 0 |
+| [TP05](boards/png/board-TP05-setup-and-verification.png) | Setup And Verification | NO | 3/3 | 3277×2152 | 0 |
+| [TP06](boards/png/board-TP06-needs-you-and-action-detail.png) | Needs You And Action Detail | D | 3/3 | 3277×2152 | 0 |
+| [TP07](boards/png/board-TP07-records.png) | Records | E | 3/3 | 3268×2152 | 0 |
+| [TP08](boards/png/board-TP08-home-screen-launch-and-email-return.png) | Home Screen, Launch And Email Return | FH | 3/3 | 3278×2152 | 0 |
 | [TP09](boards/png/board-TP09-secure-reentry.png) | Secure Reentry | H | 4/4 | 3400×3420 | 0 |
 | [TP10](boards/png/board-TP10-completion-errors-overlays.png) | Completion, Errors, Overlays | PST | 4/4 | 3400×3420 | 0 |
 
@@ -59,16 +61,16 @@ Every board shows a distinct implementation decision or state. Families (A–T) 
 
 | Board | Title | Families | Live frames | Image (px) | Layout failures |
 |---|---|---|---|---|---|
-| [TL01](boards/png/board-TL01-compact-rail.png) | Compact Rail | — | 2/2 | 3262×2066 | 0 |
-| [TL02](boards/png/board-TL02-review-and-needs-you-overview.png) | Review And Needs-You Overview | AB | 2/2 | 3281×2066 | 0 |
-| [TL03](boards/png/board-TL03-proposal-and-options.png) | Proposal And Options | IJ | 2/2 | 3284×2066 | 0 |
-| [TL04](boards/png/board-TL04-acceptance-and-payment.png) | Acceptance And Payment | KL | 2/2 | 3283×2066 | 0 |
-| [TL05](boards/png/board-TL05-confirmation-and-setup.png) | Confirmation And Setup | MN | 2/2 | 3282×2066 | 0 |
-| [TL06](boards/png/board-TL06-needs-you.png) | Needs You | D | 2/2 | 3282×2066 | 0 |
-| [TL07](boards/png/board-TL07-records.png) | Records | E | 2/2 | 3273×2066 | 0 |
-| [TL08](boards/png/board-TL08-access-card-and-home-screen.png) | Access Card And Home Screen | FG | 2/2 | 3284×2066 | 0 |
-| [TL09](boards/png/board-TL09-secure-reentry.png) | Secure Reentry | H | 2/2 | 3283×2066 | 0 |
-| [TL10](boards/png/board-TL10-completion-and-dialogs.png) | Completion And Dialogs | PT | 2/2 | 3262×2066 | 0 |
+| [TL01](boards/png/board-TL01-compact-rail.png) | Compact Rail | — | 2/2 | 3284×2066 | 0 |
+| [TL02](boards/png/board-TL02-review-and-needs-you-overview.png) | Review And Needs-You Overview | AB | 2/2 | 3303×2066 | 0 |
+| [TL03](boards/png/board-TL03-proposal-and-options.png) | Proposal And Options | IJ | 2/2 | 3306×2066 | 0 |
+| [TL04](boards/png/board-TL04-acceptance-and-payment.png) | Acceptance And Payment | KL | 2/2 | 3305×2066 | 0 |
+| [TL05](boards/png/board-TL05-confirmation-and-setup.png) | Confirmation And Setup | MN | 2/2 | 3304×2066 | 0 |
+| [TL06](boards/png/board-TL06-needs-you.png) | Needs You | D | 2/2 | 3304×2066 | 0 |
+| [TL07](boards/png/board-TL07-records.png) | Records | E | 2/2 | 3295×2066 | 0 |
+| [TL08](boards/png/board-TL08-home-screen-and-launch.png) | Home Screen And Launch | F | 2/2 | 3305×2066 | 0 |
+| [TL09](boards/png/board-TL09-secure-reentry.png) | Secure Reentry | H | 2/2 | 3305×2066 | 0 |
+| [TL10](boards/png/board-TL10-completion-and-dialogs.png) | Completion And Dialogs | PT | 2/2 | 3284×2066 | 0 |
 
 ## DESKTOP 1280–1919
 
@@ -84,7 +86,6 @@ Every board shows a distinct implementation decision or state. Families (A–T) 
 | [D08](boards/png/board-D08-action-states.png) | Action States | D | 2/2 | 3316×2002 | 0 |
 | [D09](boards/png/board-D09-records.png) | Records | E | 4/4 | 3316×3064 | 0 |
 | [D10](boards/png/board-D10-keep-it-one-click-away.png) | Keep It One Click Away | F | 2/2 | 3316×2002 | 0 |
-| [D11](boards/png/board-D11-access-card.png) | Access Card | G | 4/4 | 3316×3064 | 0 |
 | [D12](boards/png/board-D12-secure-reentry.png) | Secure Reentry | H | 4/4 | 3316×3064 | 0 |
 | [D13](boards/png/board-D13-personalized-proposal.png) | Personalized Proposal | I | 3/3 | 3316×3064 | 0 |
 | [D14](boards/png/board-D14-recommendation-selection.png) | Recommendation Selection | J | 3/3 | 3316×3064 | 0 |
@@ -94,6 +95,7 @@ Every board shows a distinct implementation decision or state. Families (A–T) 
 | [D18](boards/png/board-D18-project-in-progress.png) | Project In Progress | N | 3/3 | 3316×3064 | 0 |
 | [D19](boards/png/board-D19-verification-and-completion.png) | Verification And Completion | OP | 4/4 | 3316×3064 | 0 |
 | [D20](boards/png/board-D20-activity-updates-errors-overlays.png) | Activity, Updates, Errors, Overlays | QRST | 4/4 | 3316×3064 | 0 |
+| [D21](boards/png/board-D21-launch-experience-on-desktop.png) | Launch Experience On Desktop | — | 4/4 | 3316×3056 | 0 |
 
 ## ULTRA-WIDE 1920+
 
@@ -118,22 +120,37 @@ Every board shows a distinct implementation decision or state. Families (A–T) 
 | [X07](boards/png/board-X07-payment-truth-gates.png) | Payment Truth Gates | — | 2/2 | 3200×2686 | 0 |
 | [X08](boards/png/board-X08-access-and-privacy-boundaries.png) | Access And Privacy Boundaries | — | 3/3 | 3376×2686 | 0 |
 | [X09](boards/png/board-X09-motion-refresh-and-status-truth.png) | Motion, Refresh And Status Truth | — | 3/3 | 3200×2686 | 0 |
-| [X10](boards/png/board-X10-component-interaction-registry-summary.png) | Component Interaction Registry (Summary) | — | 0/0 | 3200×1638 | 0 |
+| [X10](boards/png/board-X10-component-interaction-registry-summary.png) | Component Interaction Registry (Summary) | — | 0/0 | 3400×1842 | 0 |
 | [X11](boards/png/board-X11-empty-error-and-blocked-catalogue.png) | Empty, Error And Blocked Catalogue | — | 8/8 | 3200×3700 | 0 |
 | [X12](boards/png/board-X12-email-designs-design-only-nothing-sent.png) | Email Designs (Design Only — Nothing Sent) | — | 4/4 | 3200×2516 | 0 |
 
-## ACCESS CARD / HOME SCREEN
+## HOME SCREEN + LAUNCH + RETURN (was ACCESS CARD / HOME SCREEN)
 
 | Board | Title | Families | Live frames | Image (px) | Layout failures |
 |---|---|---|---|---|---|
-| [AH01](boards/png/board-AH01-access-hierarchy.png) | Access Hierarchy | — | 3/3 | 3282×2434 | 0 |
-| [AH02](boards/png/board-AH02-iphone-and-ipad-guidance.png) | Iphone And Ipad Guidance | — | 3/3 | 3302×2416 | 0 |
-| [AH03](boards/png/board-AH03-android-guidance.png) | Android Guidance | — | 3/3 | 3305×2416 | 0 |
-| [AH04](boards/png/board-AH04-desktop-bookmark.png) | Desktop Bookmark | — | 2/2 | 3316×2002 | 0 |
-| [AH05](boards/png/board-AH05-icon-splash-manifest.png) | Icon, Splash, Manifest | — | 6/6 | 3303×2626 | 0 |
-| [AH06](boards/png/board-AH06-access-card-anatomy.png) | Access Card Anatomy | — | 1/1 | 3303×2026 | 0 |
-| [AH07](boards/png/board-AH07-card-exports.png) | Card Exports | — | 3/3 | 3293×1860 | 0 |
-| [AH08](boards/png/board-AH08-wallet-style-not-a-wallet-pass.png) | Wallet-Style, Not A Wallet Pass | — | 2/2 | 3304×2466 | 0 |
-| [AH09](boards/png/board-AH09-qr-security-and-validation.png) | Qr Security And Validation | — | 4/4 | 3303×3112 | 0 |
-| [AH10](boards/png/board-AH10-download-share-replace-errors.png) | Download, Share, Replace, Errors | — | 4/4 | 3282×2416 | 0 |
+| [AH01](boards/png/board-AH01-return-methods.png) | Return Methods | — | 3/3 | 3377×2765 | 0 |
+| [AH02](boards/png/board-AH02-iphone-and-ipad-guidance.png) | Iphone And Ipad Guidance | — | 3/3 | 3397×2416 | 0 |
+| [AH03](boards/png/board-AH03-android-guidance.png) | Android Guidance | — | 3/3 | 3399×2416 | 0 |
+| [AH04](boards/png/board-AH04-desktop-bookmark.png) | Desktop Bookmark | — | 2/2 | 3399×2002 | 0 |
+| [AH05](boards/png/board-AH05-approved-home-screen-icon.png) | Approved Home-Screen Icon | — | 5/5 | 3398×2750 | 0 |
+| [AH11](boards/png/board-AH11-approved-launch-experience.png) | Approved Launch Experience | — | 3/3 | 3356×2526 | 0 |
+| [AH12](boards/png/board-AH12-launch-responsive-compositions.png) | Launch Responsive Compositions | — | 10/10 | 3375×4262 | 0 |
+| [AH13](boards/png/board-AH13-launch-behaviour.png) | Launch Behaviour | — | 5/5 | 3400×4746 | 0 |
+| [AH14](boards/png/board-AH14-secure-return-flow.png) | Secure Return Flow | — | 7/7 | 3377×4082 | 0 |
+| [AH15](boards/png/board-AH15-post-submission-email-how-to-return.png) | Post-Submission Email: How To Return | — | 2/2 | 3377×2784 | 0 |
+
+## RETIRED / SUPERSEDED (archived — NOT FOR IMPLEMENTATION)
+
+LOCK1 retired the client access card (L-05) and superseded the placeholder icon (L-01). These boards are kept as design history only and are **not** part of the active manifest or the client build.
+
+| Board | Status | Archived image |
+|---|---|---|
+| AH06 | RETIRED · NOT FOR IMPLEMENTATION · SUPERSEDED BY HOME SCREEN ACCESS (LOCK1 L-05) | [board-AH06-access-card-anatomy.png](boards/archive/retired-access-card/board-AH06-access-card-anatomy.png) |
+| AH07 | RETIRED · NOT FOR IMPLEMENTATION · SUPERSEDED BY HOME SCREEN ACCESS (LOCK1 L-05) | [board-AH07-card-exports.png](boards/archive/retired-access-card/board-AH07-card-exports.png) |
+| AH08 | RETIRED · NOT FOR IMPLEMENTATION · SUPERSEDED BY HOME SCREEN ACCESS (LOCK1 L-05) | [board-AH08-wallet-style-not-a-wallet-pass.png](boards/archive/retired-access-card/board-AH08-wallet-style-not-a-wallet-pass.png) |
+| AH09 | RETIRED · NOT FOR IMPLEMENTATION · SUPERSEDED BY HOME SCREEN ACCESS (LOCK1 L-05) | [board-AH09-qr-security-and-validation.png](boards/archive/retired-access-card/board-AH09-qr-security-and-validation.png) |
+| AH10 | RETIRED · NOT FOR IMPLEMENTATION · SUPERSEDED BY HOME SCREEN ACCESS (LOCK1 L-05) | [board-AH10-download-share-replace-errors.png](boards/archive/retired-access-card/board-AH10-download-share-replace-errors.png) |
+| D11 | RETIRED · NOT FOR IMPLEMENTATION · SUPERSEDED BY HOME SCREEN ACCESS (LOCK1 L-05) | [board-D11-access-card.png](boards/archive/retired-access-card/board-D11-access-card.png) |
+| M09 | RETIRED · NOT FOR IMPLEMENTATION · SUPERSEDED BY HOME SCREEN ACCESS (LOCK1 L-05) | [board-M09-access-card.png](boards/archive/retired-access-card/board-M09-access-card.png) |
+| AH05-placeholder | SUPERSEDED · placeholder icon/splash replaced by founder-approved assets (LOCK1 L-01/L-02) | [board-AH05-icon-splash-manifest.png](boards/archive/superseded-placeholder-icon/board-AH05-icon-splash-manifest.png) |
 

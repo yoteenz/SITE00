@@ -20,8 +20,8 @@
 | C | Roadmap | area 02 | `ROADMAP` |
 | D | Needs you · action detail | area 03 | `NEEDS_YOU`, `ACTION` (new history-state view) |
 | E | Records · record detail | area 04 | `RECORDS`, `RECORD` |
-| F | Save to home screen | menu / sidebar / review page | sheet over current view |
-| G | Access card | menu / sidebar | `ACCESS_CARD` (new history-state view) |
+| F | Save your foundation (+ approved launch on cold entry) | menu / sidebar / review page | sheet over current view; launch veil on `/foundation/return` |
+| G | ~~Access card~~ | — | **RETIRED** (LOCK1). No view, no tab, no section |
 | H | Secure reentry | `/foundation/return` | separate route (public) |
 | I | Proposal | OVERVIEW CTA, NEEDS YOU item | `P04` (re-skinned) |
 | J | Options | proposal | `P04` (options section) |
@@ -35,11 +35,11 @@
 | R | Updates by email | menu / sidebar | `COMM_PREFS` |
 | S | Errors / empty / blocked | anywhere | system panel |
 
-The new view ids (`ACTION`, `ACCESS_CARD`, `ACTIVITY`) are history-state views inside `/foundation/:token`, like the existing ones. They are not paths.
+The new view ids (`ACTION`, `ACTIVITY`) are history-state views inside `/foundation/:token`, like the existing ones. They are not paths.
 
 ## Navigation per tier
 
-| Tier | Areas | Utilities (home screen, access card, updates, help, sign out) |
+| Tier | Areas | Utilities (SAVE YOUR FOUNDATION, updates, help, sign out) |
 |---|---|---|
 | M 320–767 | fixed bottom bar, 4 × 64px, icon + label, NEEDS YOU badge | menu drawer (full screen) |
 | TP 768–1023 | tab strip under header | menu drawer (right, 400) |

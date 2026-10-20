@@ -49,4 +49,4 @@ All client copy is uppercase (`text-transform: uppercase`), as in the live clien
 
 ## Geometry
 
-Radius 1px on CTAs and 0 on rows, panels and sheets. The exceptions are the access card (14px, physical-card affordance) and the app icon (platform mask). Hairlines are 1px; section/total rules are 1.5px; the current-stage inset is 3px. CTA height is 50 (min 44 in the live client).
+Radius 1px on CTAs and 0 on rows, panels and sheets. The exception is the app icon (platform mask). The access card is retired. Hairlines are 1px; section/total rules are 1.5px; the current-stage inset is 3px. CTA height is 50 (min 44 in the live client).

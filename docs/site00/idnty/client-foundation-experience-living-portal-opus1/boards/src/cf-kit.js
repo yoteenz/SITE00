@@ -125,7 +125,7 @@ export function frame({ area = 'overview', badge = 0, body, aside = '', tier, pr
           .join('')}${
           tier === 'tl'
             ? ''
-            : `<div class="cf-side__sep"></div><button class="cf-util" type="button">${ic('download')}SAVE TO HOME SCREEN</button><button class="cf-util" type="button">${ic('qr')}ACCESS CARD</button><button class="cf-util" type="button">${ic('notification')}UPDATES BY EMAIL</button><div class="cf-side__foot">${pre ? 'PAYMENT IS NEVER TAKEN ON THIS PAGE. CHECKOUT OPENS ON STRIPE.' : 'QUESTIONS? REPLY TO ANY SITE 00 EMAIL.'}</div>`
+            : `<div class="cf-side__sep"></div><button class="cf-util" type="button">${ic('download')}SAVE YOUR FOUNDATION</button><button class="cf-util" type="button">${ic('notification')}UPDATES BY EMAIL</button><div class="cf-side__foot">${pre ? 'PAYMENT IS NEVER TAKEN ON THIS PAGE. CHECKOUT OPENS ON STRIPE.' : 'QUESTIONS? REPLY TO ANY SITE 00 EMAIL.'}</div>`
         }</nav>`
       : '';
   const bnav =

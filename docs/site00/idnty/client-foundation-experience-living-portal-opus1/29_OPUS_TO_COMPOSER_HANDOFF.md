@@ -1,5 +1,7 @@
 # 29 — Opus → Composer Handoff
 
+> **LOCK1 amendment:** the implementation order (§25), access sections (§14–17), test matrix and acceptance criteria 6–7 are **superseded** by [LOCK1 10 — Updated Composer handoff](../client-foundation-digital-access-authority-lock1/10_UPDATED_COMPOSER_HANDOFF.md). The access card is retired; build none of its components.
+
 Composer builds from this package and does **not** invent design. Where a decision is open, it is listed in `31`. Do not ship around an open decision.
 
 Constraints carried forward:
@@ -16,7 +18,7 @@ Constraints carried forward:
 | `/foundation/return` | — | **new** literal route, registered before `:token`, like `/foundation/review`. Public reentry (CF-36) or the session-authorised portal |
 | `/foundation/review` | internal design review | unchanged (OD-04) |
 | `/foundation-manifest.webmanifest` | — | **new** static file (G-13) |
-| views | history state `dfView` | add `ACTION`, `ACCESS_CARD`, `ACTIVITY`; keep the rest |
+| views | history state `dfView` | add `ACTION`, `ACTIVITY`; keep the rest (no `ACCESS_CARD`, retired) |
 
 ## 2. Current component map → 3. New component map
 
@@ -34,7 +36,7 @@ Constraints carried forward:
 | `parents/ProjectPortal.tsx` P07/P08/P09/P10/Records/RecordDetail/CommPrefs | **re-wire** into FoundationClient's switch; re-skin per B, C, D, E, R | CF-10/13/14/15/18/19/32 |
 | *(new)* `parents/Operations.tsx` | workstreams + verification (N, O) | CF-28/29 |
 | `pages/foundation/DigitalFoundationCompleteSurface.tsx` | replaced by `parents/Established.tsx` (P), keeping `build-interest` | CF-30 |
-| *(new)* `access/HomeScreenSheet.tsx`, `access/AccessCard.tsx`, `access/Reentry.tsx` | F, G, H | CF-33–37 |
+| *(new)* `access/HomeScreenSheet.tsx`, `access/LaunchVeil.tsx`, `access/Reentry.tsx` | F, H (G retired) | CF-33, CF-36, CF-37, CF-41 |
 | *(new)* `parents/Activity.tsx` | Q | CF-31 |
 | `model.ts` | add `clientStage()`, posture derivations, the new view ids. **No new lifecycle state** | `04` |
 
@@ -93,7 +95,9 @@ See `09`, `10`. The browser `prompt()` is used only when `beforeinstallprompt` f
 
 See `13`. Session cookie: httpOnly, Secure, SameSite=Lax, 30 days. Link: 15 min, single use. Code: 10 min, 5 tries. Step-up: 30 min idle. The flow is non-enumerating, and the 12 states are listed in `13`.
 
-## 16–17. Access card file contract, QR security
+## 16–17. ~~Access card file contract, QR security~~ — RETIRED (LOCK1)
+
+No card files, no QR. Token exposure rules remain in `28` and LOCK1 `06`.
 
 See `11`, `12`.
 
@@ -145,7 +149,7 @@ Each says what happened, that nothing was lost, and gives one way forward. Inter
 | Views | each view renders for its states (vitest + RTL), using the fictional fixture only |
 | Responsive | Playwright at 320, 390, 820, 1194, 1440 and 2560: no horizontal overflow, no text < 10px, areas reachable |
 | Home screen | platform detection: iOS shows no button; Android shows the button only with `beforeinstallprompt` mocked; standalone hides entries; manifest has no token |
-| Access card | QR decodes to `/foundation/return?card=`; rendered PNG has no tEXt/EXIF chunks; no token substring in DOM/canvas/file |
+| ~~Access card~~ | RETIRED. Replaced by LOCK1 `10` tests 1–9 and 17–18 (asset identity, icon, manifest, launch, no card CTA or route) |
 | Reentry | 12 states; enumeration-safe responses (same body for match/no match); rate limit; code 5 tries |
 | Payment | redirect alone never shows UNDERWAY; webhook replay idempotent; amount/currency mismatch rejected (server tests) |
 | A11y | axe on each view; focus management on view change and dialogs |
@@ -155,7 +159,7 @@ Each says what happened, that nothing was lost, and gives one way forward. Inter
 
 - **Client.** InterimOverview is removed and ProjectPortal re-wired. Existing token links keep working. The localStorage key `site00.df.activation-seen.<id>` is kept.
 - **Server.**
-  - New tables are **proposed** (not created here): `df_client_sessions`, `df_login_challenges`, `df_access_cards`.
+  - New tables are **proposed** (not created here): `df_client_sessions`, `df_login_challenges` (`df_access_cards` retired with G-11).
   - New payload fields: `review`, `client_activity`, `client_workstreams`, `recommendations`, `fetched_at`, `client_note`.
   - CORS restriction and ARCHIVED handling may affect any external caller of the artifact API. None is known.
 - **Email.** Copy changes for template 02; three new templates; sending remains disabled.
@@ -171,7 +175,7 @@ Each says what happened, that nothing was lost, and gives one way forward. Inter
 | 3 | Persistent status + roadmap | 1, G-19 | 06, 20 |
 | 4 | Secure return access | G-09, G-12 | 13, 28 |
 | 5 | Save to home screen | 4, G-13 | 09, 10 |
-| 6 | Personal access card | 4, G-11 | 11, 12 |
+| 6 | ~~Personal access card~~ — **RETIRED**; see LOCK1 `10` for the new order | — | — |
 | 7 | Founder review status parity | G-01, G-02 | 04, X06 |
 | 8 | Personalized proposal | 7, G-23, G-25, G-18 | 14, 15 |
 | 9 | Quote acceptance and versioning | 8, G-17 | 16 |
@@ -191,7 +195,7 @@ This sequence does not authorize uncontrolled production changes.
 4. Records show READY only for existing records.
 5. No page, image, file, log or manifest contains a `/foundation/<token>` URL except the invitation email link and the token route itself.
 6. The iOS install sheet has no button. The Android button calls only `prompt()`.
-7. The QR decodes to `/foundation/return?card=<id>`, and scanning without a session never shows client data.
+7. *(superseded by LOCK1 `10` §25)* Home screen and email resolve to the same foundation via `/foundation/return`; no QR, card or token in any shortcut, asset or file.
 8. The 12 reentry states are reachable in tests, with enumeration-safe responses.
 9. Superseded quote versions cannot be accepted or paid from the UI. The redirect alone never shows UNDERWAY.
 10. Push is never requested, and no email is sent without founder approval.

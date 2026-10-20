@@ -14,7 +14,7 @@ Boards: **M01**, M02, TP02, TL02, D02, D03, UW02, X03, X12.
 ## Composition
 
 1. **Hero:** rail, headline, lede, and the crown object (`DfCrownObject`, etched "UNDER REVIEW" on tablet+).
-2. **Truth strip:** STATUS (IN REVIEW / IN PERSONAL REVIEW) · RECEIVED (event time) · REFERENCE. On TP+ it also holds `STATUS AS OF h:mm` + REFRESH.
+2. **Truth strip:** STATUS (IN REVIEW / IN PERSONAL REVIEW) · RECEIVED (event time) · LAST UPDATE (most recent recorded event) · REFERENCE. On TP+ it also holds `STATUS AS OF h:mm` + REFRESH.
 3. **Route notice** (conditional, see below).
 4. **Progress:**
    - Phone: 7 ticks with "STAGE 2 OF 7 · FOUNDATION REVIEW" and "NO PERCENTAGES. STAGES ONLY."
@@ -24,7 +24,7 @@ Boards: **M01**, M02, TP02, TL02, D02, D03, UW02, X03, X12.
    - 02 YOUR PERSONALIZED PROPOSAL: "WE EMAIL YOU WHEN IT'S READY."
    - 03 APPROVE AND PAY SECURELY: "ON STRIPE. NOTHING IS CHARGED UNTIL YOU ACCEPT."
 6. **WHAT WE RECEIVED:** the intake summary (business, domain path, mailboxes, devices). It ends with: "SUBMITTED … · YOUR ANSWERS ARE LOCKED WHILE SITE 00 REVIEWS THEM. NEED TO CHANGE SOMETHING? REPLY TO YOUR CONFIRMATION EMAIL."
-7. **COME BACK ANYTIME:** home screen › access card › email.
+7. **COME BACK ANYTIME:** SAVE YOUR FOUNDATION (home screen) › email. This is contextual and optional, and never blocks the page (LOCK1).
    - Phone/tablet: inline.
    - Desktop: in the status column.
 

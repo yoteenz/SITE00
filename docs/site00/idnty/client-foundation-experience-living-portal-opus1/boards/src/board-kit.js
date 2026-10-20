@@ -19,7 +19,7 @@ export function header({ num, title, sub, tier, fam }) {
   return `<header class="bd-head"><div class="bd-num">${num}</div><div>
       <div class="bd-kicker">SITE 00 / IDNTY / YOUR FOUNDATION / CLIENT LIVING PORTAL${tier ? ` / ${tier}` : ''}${fam ? ` / ${fam}` : ''}</div>
       <h1 class="bd-title">${title}<i></i></h1></div>
-    <div class="bd-meta">SPRINT P0.SITE00.IDNTY.CLIENT-FOUNDATION-EXPERIENCE.LIVING-PORTAL-AND-ACCESS-AUTHORITY.OPUS1<br>BASE d68038a87 · TOKENS FROM site00-df-client.css · ICONS + OBJECTS FROM SOURCE<br>STATUS — AUTHORITY SPECIMEN · NOT A LIVE SCREENSHOT · FOUNDER REVIEW REQUIRED</div></header>
+    <div class="bd-meta">SPRINT P0.SITE00.IDNTY.CLIENT-FOUNDATION-EXPERIENCE.LIVING-PORTAL-AND-ACCESS-AUTHORITY.OPUS1<br>AMENDED BY …CLIENT-FOUNDATION.DIGITAL-ACCESS-AND-LAUNCH-AUTHORITY-LOCK1 · ACCESS CARD RETIRED<br>STATUS — AUTHORITY SPECIMEN · NOT A LIVE SCREENSHOT · FOUNDER REVIEW REQUIRED</div></header>
   <div class="bd-legend">${S.locked()} ${S.prop()} ${S.exists()} ${S.unwired()} ${S.backend()} ${S.open()} ${S.security()} ${S.illus()}</div>
   <p class="bd-sub">${sub ?? ''} <b>Every frame is a static authority specimen rendered at its true viewport width in Chromium — not a screenshot of the running application.</b> The business, people, dates, prices and references are fictional and illustrative.</p>`;
 }

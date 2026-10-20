@@ -1,11 +1,11 @@
 # 26 — Component Registry
 
-40 components and 13 overlays (`21`). Each component defines the thirteen interaction fields (§40): purpose, trigger, initial state, data dependency, action, loading, success, error, disabled, responsive variant, accessibility semantics, security boundary and owner. Every sprint example control is mapped:
+40 registered components (**38 active, 2 retired** in LOCK1: CF-34, CF-35) plus **CF-41** (approved launch) added by LOCK1 — 39 active; overlays in `21`. Each component defines the thirteen interaction fields (§40): purpose, trigger, initial state, data dependency, action, loading, success, error, disabled, responsive variant, accessibility semantics, security boundary and owner. Every sprint example control is mapped:
 
 | Sprint example | Component |
 |---|---|
-| SAVE YOUR FOUNDATION | CF-33 |
-| DOWNLOAD ACCESS CARD | CF-35 |
+| SAVE YOUR FOUNDATION | CF-33 (CTA locked in LOCK1) |
+| ~~DOWNLOAD ACCESS CARD~~ | **RETIRED** (LOCK1) — no replacement |
 | REFRESH STATUS | CF-07 |
 | VIEW INTAKE SUMMARY | CF-17 |
 | VIEW PROPOSAL | CF-20 |
@@ -31,7 +31,7 @@ Specimen implementations live in `boards/src/cf-kit.js`, `cf-pages.js` and `cf-a
 | CF-09 | Stage strip | 7-stage summary | render | current cell red top bar | clientStage(), markers | — | — | — | — | — | TP+ | `role=list`; each cell has a text state | none | Composer |
 | CF-10 | OPEN ROADMAP · stage list | All stages with state + sub-line | area 02 / strip tap | current row white + red inset | clientStage(), stages | opens STAGE detail (existing P09) on tap | — | — | — | upcoming rows not tappable | all tiers; D/UW side workstreams | `ol`; state text per row | none | Composer |
 | CF-11 | Next-step panel | The one thing that happens next | render | from posture | lifecycle + open actions | optional CTA | — | — | — | — | D/UW status column; inline on M/TP via NEEDS YOU | `aside` region labelled | none | Composer |
-| CF-12 | Come-back-anytime panel | Access hierarchy | render | home › card › email | platform, standalone | opens OL-C02 / ACCESS_CARD / COMM_PREFS | — | — | — | home row hidden when standalone | inline (M/TP), status column (D) | list of buttons | none | Composer |
+| CF-12 | Come-back-anytime panel | Return methods (LOCK1) | render | SAVE YOUR FOUNDATION › EMAIL | platform, standalone | opens OL-C02 / COMM_PREFS | — | — | — | home row hidden when standalone | inline (M/TP), status column (D) | list of buttons | none | Composer |
 | CF-13 | Needs-you summary row | Surface open steps on overview | render | red border if OPEN | client_actions | opens ACTION | — | — | — | — | all | button with title + sub | session | Composer |
 | CF-14 | Action card | One client step with state | render | state chip | client_actions + G-04/05/06 | START / CONTINUE / VIEW WHAT YOU SENT | — | — | — | BLOCKED / RESOLVED have no CTA | all | `li` + button; chip text not colour only | session | Composer · API |
 | CF-15 | SUBMIT (action step) | Complete a client action | tap SUBMIT APPROVAL | disabled until fields + consent | request_id, response | POST complete-client-action | SUBMITTING… | SUBMITTED + toast | alert, input kept | missing fields / consent | form full width M; row CTAs TP+ | labels, error `aria-describedby` | session; never asks for passwords | Composer · API |
@@ -52,11 +52,12 @@ Specimen implementations live in `boards/src/cf-kit.js`, `cf-pages.js` and `cf-a
 | CF-30 | Build interest line | Opt-in only | tap I’M INTERESTED | quiet link | build_interest | POST build-interest (exists) | SENDING… | INTEREST SENT | alert | after sent | column on D | link → status text | none | Composer · API |
 | CF-31 | Activity timeline | Recorded events only | ACTIVITY view / UW column | newest first | G-08 client_activity | — | — | — | “ACTIVITY ISN’T AVAILABLE RIGHT NOW” | — | column on UW | `ol` with times | allow-list only | Composer · API |
 | CF-32 | Updates by email | Email preferences | COMM_PREFS | server prefs | communication_preferences (exists) | POST update-communication-preferences | SAVING… | SAVED toast | alert | essentials locked | all | switches `role=switch` | marketing consent explicit | Composer · API |
-| CF-33 | SAVE YOUR FOUNDATION (home sheet) | One-tap way back | SAVE TO HOME SCREEN | platform detected | UA, beforeinstallprompt, display-mode | Android prompt() / instructions | — | appinstalled toast | prompt dismissed → steps | hidden when standalone | sheet M/TP · dialog TL+ | dialog + focus trap | no token in start_url/icon | Composer |
-| CF-34 | Access card face | Card artwork | render | current version | card_id, ref, business (G-11) | — | PREPARING… | — | — | — | 300/420/460 | `role=img` + label | card id only | Composer · API |
-| CF-35 | DOWNLOAD ACCESS CARD (+ share / PDF / replace) | Outputs | tap | — | card render | download / navigator.share(files) / PDF / revoke+issue | PREPARING… | OL-C08 / OL-C09 | OL-C10 | no verified session | stacked M/TP · column TL+ | buttons | metadata stripped; image-only share | Composer · API |
+| CF-33 | SAVE YOUR FOUNDATION (home sheet) | One-tap way back | tap SAVE YOUR FOUNDATION (contextual, optional) | platform detected | UA, beforeinstallprompt, display-mode | Android prompt() / instructions | — | appinstalled toast | prompt dismissed → steps | hidden when standalone | sheet M/TP · dialog TL+ | dialog + focus trap | no token in start_url/icon | Composer |
+| CF-34 | ~~Access card face~~ | RETIRED (LOCK1) | — | — | — | — | — | — | — | — | — | — | — | do not build |
+| CF-35 | ~~DOWNLOAD ACCESS CARD (+ share / PDF / replace)~~ | RETIRED (LOCK1) | — | — | — | — | — | — | — | — | — | — | — | do not build |
 | CF-36 | RETURN TO FOUNDATION (reentry panel) | Public entry + 12 states | `/foundation/return` | session check | session cookie, card param, link token | email link / code / sign out-continue | busy | session → portal | state panels | rate limited | system panel all tiers | form labels, `role=alert` on errors | non-enumerating; G-09 | API · Composer |
 | CF-37 | Email code entry | Finish sign-in inside home-screen app | after link requested | 6 boxes | code | verify | CHECKING… | session | “THAT CODE DIDN’T WORK · n TRIES LEFT” | after 5 tries | all | one input with `autocomplete=one-time-code`, visual boxes | 10 min, 5 tries | Composer · API |
 | CF-38 | System panel | Errors / closed / paused | error | — | error code | TRY AGAIN / contact | — | — | — | — | corner object TP+ | `role=alert` | no internal codes shown | Composer |
 | CF-39 | Footer + trust line | Grammar + reassurance | render | posture-specific trust copy | posture | — | — | — | — | — | all | `footer` | none | Composer |
 | CF-40 | Status chip | State label | render | — | state | — | — | — | — | — | all | text label + shape (not colour alone) | none | Composer |
+| CF-41 | Approved launch veil (LOCK1) | Continuity on cold entry while the foundation opens | cold start `/foundation/return?src=home\|email` | approved launch image (exact) | session + payload readiness | none (informational) | chips at 3 s / 10 s | fade to portal (240 ms; instant with reduced motion) | restore fails → reentry; offline chip + TRY AGAIN | skipped if ready < 150 ms, height < 480, or in-session | cover ≤ 0.67 aspect · portrait panel > 0.67 | img alt = launch copy; `aria-busy` on main; chips `role=status` | shows no client data until the session resolves | Composer |

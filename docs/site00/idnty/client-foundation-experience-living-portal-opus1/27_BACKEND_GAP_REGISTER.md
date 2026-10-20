@@ -12,11 +12,11 @@ Nothing here was implemented. This sprint creates no tables, changes no backend,
 | G-06 | No action dependencies or effort metadata | BLOCKED, "ABOUT TWO MINUTES" | M | `blocked_by: request_id[]`, `effort_minutes` per action type | 12 |
 | G-07 | No client-safe workstream projection | family N, O | H | `client_workstreams[]` from stages + runbook tasks with `CLIENT_SAFE` visibility | 11 |
 | G-08 | `events` stripped from client payload | activity timeline, received time | H | `client_activity[]` from the allow-list in `20` | 11 |
-| **G-09** | No session / email-link / code reentry; no `/foundation/return` | family H, home screen, access card | **B** | route + `df_client_sessions` (httpOnly cookie, 30 days), link (15 min, single use) + code (10 min, 5 tries), rate limits, non-enumerating responses | 4 |
+| **G-09** | No session / email-link / code reentry; no `/foundation/return` | family H, home screen, email return | **B** | route + `df_client_sessions` (httpOnly cookie, 30 days), link (15 min, single use) + code (10 min, 5 tries), rate limits, non-enumerating responses | 4 |
 | G-10 | No step-up for sensitive records | verified view | H | step-up flag on session (30 min idle) | 12 |
-| G-11 | No access-card id service | family G | H | issue / revoke / version card ids, stored hashed; render inputs exclude `public_token` | 6 |
+| ~~G-11~~ | ~~No access-card id service~~ | **RETIRED** (LOCK1; access card removed) | — | — | 6 |
 | **G-12** | Bearer token: no expiry, rotation, hashing, revocation; CORS `*`; archived artifacts still served | security | **B** | exchange token→session on first use + replaceState; rotate on demand; store hash; restrict CORS to site00.com; reject POST on ARCHIVED | 4 |
-| G-13 | No manifest, icons, theme-color; `/site00/favicon.svg` missing | family F | H | static manifest + icons (`10`), linked only on `/foundation/*` | 5 |
+| G-13 | No manifest, icons, theme-color; `/site00/favicon.svg` missing | family F | H | static manifest + **approved icon derivatives** (LOCK1 `02`, `05`), linked only on `/foundation/*` | 5 |
 | G-14 | Email templates for taking-shape / needs-you / sign-in not present; sending disabled | `20` | M | templates in correspondence studio; `enabled: false` until founder approves | 13 |
 | G-15 | Webhook idempotency, amount and currency checks not verified | payment gates | H | assert in `webhookHandler` + tests | 10 |
 | G-16 | Quote EXPIRED status never set (read-time only) | consistency | L | acceptable; optional sweeper | 9 |

@@ -2,13 +2,15 @@
 
 Boards: **M08**, AH01–AH04, TP08, TL08, D10.
 
-Access priority is locked: **home screen › access card › email.** SAVE TO HOME SCREEN is the primary convenience and is listed first everywhere a way back is offered: the review page, overview, menu, desktop sidebar and status column.
+> **LOCK1:** the CTA is **SAVE YOUR FOUNDATION**, the icon is the founder-approved master (derivatives in LOCK1 `02`), the access card is retired, and the binding contract is [LOCK1 05](../client-foundation-digital-access-authority-lock1/05_HOME_SCREEN_INSTALL_CONTRACT.md). This document stays as design rationale.
+
+Access priority is locked: **home screen › email.** SAVE YOUR FOUNDATION is the primary convenience and is listed first everywhere a way back is offered: the review page, overview, menu, desktop sidebar and status column.
 
 ## Platform behaviour
 
 | Platform (detected) | What the client sees | Button? |
 |---|---|---|
-| iOS / iPadOS Safari | Sheet "SAVE TO HOME SCREEN · IPHONE": 01 TAP SHARE (inline Share glyph), 02 CHOOSE "ADD TO HOME SCREEN", 03 TAP ADD. Note: "SITE 00 CAN'T ADD IT FOR YOU — IPHONE ONLY ALLOWS THIS FROM THE SHARE MENU." | **No** |
+| iOS / iPadOS Safari | Sheet "SAVE YOUR FOUNDATION · IPHONE": 01 TAP SHARE (inline Share glyph), 02 CHOOSE "ADD TO HOME SCREEN", 03 TAP ADD. Note: "SITE 00 CAN'T ADD IT FOR YOU — IPHONE ONLY ALLOWS THIS FROM THE SHARE MENU." | **No** |
 | iOS other browsers | Same steps with "OPEN THIS PAGE IN SAFARI FIRST" as step 00 (verify per iOS version before shipping, OD-03) | No |
 | Android, `beforeinstallprompt` fired | Sheet with "ADD TO HOME SCREEN". The button calls the stored event's `prompt()`, then the browser shows its own confirmation | **Yes** — only this case |
 | Android, no prompt (Firefox, Samsung or criteria unmet) | Menu steps: open browser menu (⋮) → "ADD TO HOME SCREEN" / "INSTALL APP" → confirm | No |
@@ -40,7 +42,7 @@ Access priority is locked: **home screen › access card › email.** SAVE TO HO
 | Field | Value |
 |---|---|
 | Purpose | Get the client a one-tap way back |
-| Trigger | SAVE TO HOME SCREEN in the menu, sidebar, review page or status column |
+| Trigger | SAVE YOUR FOUNDATION in the menu, sidebar, review page or status column |
 | Initial state | Sheet closed; platform detected on open |
 | Data dependency | UA + `beforeinstallprompt` presence + display-mode |
 | Action | Android: `deferredPrompt.prompt()`. Others: none (instructions) |

@@ -9,7 +9,7 @@ invitation / email link  ──►  /foundation/:token   (existing bearer link)
                                    │  server: exchange token → httpOnly session cookie (SameSite=Lax, Secure, 30 days)
                                    │  client: history.replaceState → /foundation/return (token leaves the address bar)
 home screen / bookmark   ──►  /foundation/return?src=home
-access card scan         ──►  /foundation/return?card=<id>
+email link (after G-09)  ──►  /foundation/return?src=email
                                    │
                          session valid? ──yes──► portal (same FoundationClient, session-authorised payload)
                                    │no
@@ -35,7 +35,7 @@ access card scan         ──►  /foundation/return?card=<id>
 | 5 | Link expired | THAT LINK EXPIRED | SIGN-IN LINKS WORK ONCE AND LAST 15 MINUTES… | SEND A NEW LINK |
 | 6 | Link invalid | WE DON'T RECOGNIZE THAT LINK | IT MAY BE INCOMPLETE OR ALREADY USED… | CONFIRM MY EMAIL |
 | 7 | Not found | NOTHING FOUND | WE COULDN'T FIND A FOUNDATION FOR THAT LINK OR CARD… | CONFIRM MY EMAIL |
-| 8 | Revoked | THIS CARD WAS REPLACED | A NEWER ACCESS CARD WAS ISSUED… | CONFIRM MY EMAIL |
+| 8 | Link replaced (revoked) | THIS LINK WAS REPLACED | FOR YOUR SECURITY, SITE 00 REPLACED THIS LINK… (LOCK1: was “this card was replaced”) | CONFIRM MY EMAIL |
 | 9 | Wrong identity | ANOTHER FOUNDATION IS OPEN | THIS DEVICE IS SIGNED IN TO A DIFFERENT FOUNDATION… | SIGN OUT AND CONTINUE · KEEP THE CURRENT ONE |
 | 10 | Temporarily unavailable | BACK SHORTLY | SIGN-IN IS TEMPORARILY UNAVAILABLE. YOUR FOUNDATION IS SAFE… | TRY AGAIN |
 | 11 | Retry (rate limited) | PLEASE WAIT | TOO MANY SIGN-IN ATTEMPTS… TRY AGAIN IN 5 MINUTES. | TRY AGAIN (disabled with a countdown) |

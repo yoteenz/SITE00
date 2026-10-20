@@ -1,8 +1,8 @@
 {
   "generated_by": "boards/validate.mjs",
   "base": "d68038a87",
-  "total": 139,
-  "passed": 139,
+  "total": 200,
+  "passed": 200,
   "failed": 0,
   "groups": {
     "authority-files": {
@@ -11,6 +11,10 @@
     },
     "board-manifest": {
       "pass": 17,
+      "fail": 0
+    },
+    "retired-card": {
+      "pass": 5,
       "fail": 0
     },
     "component-registry": {
@@ -30,7 +34,19 @@
       "fail": 0
     },
     "doc-links": {
-      "pass": 4,
+      "pass": 6,
+      "fail": 0
+    },
+    "lock1-files": {
+      "pass": 14,
+      "fail": 0
+    },
+    "lock1-gaps": {
+      "pass": 1,
+      "fail": 0
+    },
+    "lock1-handoff": {
+      "pass": 24,
       "fail": 0
     },
     "access-security": {
@@ -38,7 +54,11 @@
       "fail": 0
     },
     "home-screen": {
-      "pass": 9,
+      "pass": 12,
+      "fail": 0
+    },
+    "asset-identity": {
+      "pass": 11,
       "fail": 0
     },
     "brand-assets": {
@@ -53,8 +73,8 @@
       "pass": 3,
       "fail": 0
     },
-    "qr-security": {
-      "pass": 3,
+    "launch": {
+      "pass": 4,
       "fail": 0
     },
     "truthfulness": {
@@ -67,25 +87,25 @@
       "group": "authority-files",
       "name": "README.md",
       "ok": true,
-      "detail": "6355 chars"
+      "detail": "6974 chars"
     },
     {
       "group": "authority-files",
       "name": "01_SOURCE_AND_PRODUCT_AUDIT.md",
       "ok": true,
-      "detail": "9853 chars"
+      "detail": "9919 chars"
     },
     {
       "group": "authority-files",
       "name": "02_CLIENT_EXPERIENCE_NARRATIVE.md",
       "ok": true,
-      "detail": "4271 chars"
+      "detail": "4453 chars"
     },
     {
       "group": "authority-files",
       "name": "03_CLIENT_INFORMATION_ARCHITECTURE.md",
       "ok": true,
-      "detail": "3594 chars"
+      "detail": "3648 chars"
     },
     {
       "group": "authority-files",
@@ -97,7 +117,7 @@
       "group": "authority-files",
       "name": "05_POST_INTAKE_REVIEW_AUTHORITY.md",
       "ok": true,
-      "detail": "4107 chars"
+      "detail": "4227 chars"
     },
     {
       "group": "authority-files",
@@ -121,31 +141,31 @@
       "group": "authority-files",
       "name": "09_HOME_SCREEN_INSTALL_AUTHORITY.md",
       "ok": true,
-      "detail": "3939 chars"
+      "detail": "4245 chars"
     },
     {
       "group": "authority-files",
       "name": "10_HOME_SCREEN_ICON_AND_LAUNCH.md",
       "ok": true,
-      "detail": "2619 chars"
+      "detail": "1675 chars"
     },
     {
       "group": "authority-files",
       "name": "11_FOUNDATION_ACCESS_CARD_AUTHORITY.md",
       "ok": true,
-      "detail": "4340 chars"
+      "detail": "1288 chars"
     },
     {
       "group": "authority-files",
       "name": "12_ACCESS_CARD_SECURITY_AND_QR.md",
       "ok": true,
-      "detail": "3575 chars"
+      "detail": "867 chars"
     },
     {
       "group": "authority-files",
       "name": "13_SECURE_CLIENT_REENTRY.md",
       "ok": true,
-      "detail": "4182 chars"
+      "detail": "4251 chars"
     },
     {
       "group": "authority-files",
@@ -169,7 +189,7 @@
       "group": "authority-files",
       "name": "17_PAYMENT_AND_CONFIRMATION.md",
       "ok": true,
-      "detail": "3426 chars"
+      "detail": "3428 chars"
     },
     {
       "group": "authority-files",
@@ -193,25 +213,25 @@
       "group": "authority-files",
       "name": "21_GLOBAL_CLIENT_OVERLAY_REGISTRY.md",
       "ok": true,
-      "detail": "2442 chars"
+      "detail": "2579 chars"
     },
     {
       "group": "authority-files",
       "name": "22_RESPONSIVE_GRID_SPECIFICATION.md",
       "ok": true,
-      "detail": "2191 chars"
+      "detail": "2207 chars"
     },
     {
       "group": "authority-files",
       "name": "23_TYPOGRAPHY_AND_DESIGN_TOKENS.md",
       "ok": true,
-      "detail": "2552 chars"
+      "detail": "2525 chars"
     },
     {
       "group": "authority-files",
       "name": "24_APPROVED_ASSET_MANIFEST.md",
       "ok": true,
-      "detail": "1670 chars"
+      "detail": "1638 chars"
     },
     {
       "group": "authority-files",
@@ -223,49 +243,49 @@
       "group": "authority-files",
       "name": "26_COMPONENT_REGISTRY.md",
       "ok": true,
-      "detail": "11277 chars"
+      "detail": "11814 chars"
     },
     {
       "group": "authority-files",
       "name": "27_BACKEND_GAP_REGISTER.md",
       "ok": true,
-      "detail": "4898 chars"
+      "detail": "4890 chars"
     },
     {
       "group": "authority-files",
       "name": "28_SECURITY_AND_PRIVACY_REVIEW.md",
       "ok": true,
-      "detail": "4409 chars"
+      "detail": "4377 chars"
     },
     {
       "group": "authority-files",
       "name": "29_OPUS_TO_COMPOSER_HANDOFF.md",
       "ok": true,
-      "detail": "10567 chars"
+      "detail": "11149 chars"
     },
     {
       "group": "authority-files",
       "name": "30_VISUAL_BOARD_MANIFEST.md",
       "ok": true,
-      "detail": "11746 chars"
+      "detail": "14110 chars"
     },
     {
       "group": "authority-files",
       "name": "31_FOUNDER_APPROVAL_REGISTER.md",
       "ok": true,
-      "detail": "4019 chars"
+      "detail": "5424 chars"
     },
     {
       "group": "authority-files",
       "name": "32_VALIDATION_AND_TEST_REPORT.md",
       "ok": true,
-      "detail": "504 chars"
+      "detail": "22611 chars"
     },
     {
       "group": "authority-files",
       "name": "33_IMPLEMENTATION_READINESS.md",
       "ok": true,
-      "detail": "2990 chars"
+      "detail": "3303 chars"
     },
     {
       "group": "authority-files",
@@ -371,31 +391,49 @@
     },
     {
       "group": "board-manifest",
-      "name": "families A–T all present",
+      "name": "families A–T present (G retired by LOCK1)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "retired-card",
+      "name": "retired card boards absent from the active manifest",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "retired-card",
+      "name": "retired card boards archived (history preserved)",
+      "ok": true,
+      "detail": "board-AH06-access-card-anatomy.png, board-AH07-card-exports.png, board-AH08-wallet-style-not-a-wallet-pass.png, board-AH09-qr-security-and-validation.png, board-AH10-download-share-replace-errors.png, board-D11-access-card.png, board-M09-access-card.png"
+    },
+    {
+      "group": "retired-card",
+      "name": "retired boards listed under manifest.retired with label",
       "ok": true,
       "detail": ""
     },
     {
       "group": "component-registry",
-      "name": "40 components",
+      "name": "41 registered components (CF-34/35 retired, CF-41 launch added)",
       "ok": true,
-      "detail": "40"
+      "detail": "41"
     },
     {
       "group": "component-registry",
       "name": "each component defines 13 interaction fields + id + name",
       "ok": true,
-      "detail": "15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15"
+      "detail": "15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15"
     },
     {
       "group": "component-registry",
-      "name": "example control mapped: SAVE YOUR FOUNDATION",
+      "name": "DOWNLOAD ACCESS CARD mapped as RETIRED (no component)",
       "ok": true,
       "detail": ""
     },
     {
       "group": "component-registry",
-      "name": "example control mapped: DOWNLOAD ACCESS CARD",
+      "name": "example control mapped: SAVE YOUR FOUNDATION",
       "ok": true,
       "detail": ""
     },
@@ -455,9 +493,9 @@
     },
     {
       "group": "component-registry",
-      "name": "13 overlays registered",
+      "name": "14 overlays registered (4 retired, OL-C14 added)",
       "ok": true,
-      "detail": "13"
+      "detail": "14"
     },
     {
       "group": "handoff",
@@ -646,6 +684,96 @@
       "detail": ""
     },
     {
+      "group": "lock1-files",
+      "name": "README.md",
+      "ok": true,
+      "detail": "3411 chars"
+    },
+    {
+      "group": "lock1-files",
+      "name": "01_FOUNDER_DECISION_LOCK.md",
+      "ok": true,
+      "detail": "2079 chars"
+    },
+    {
+      "group": "lock1-files",
+      "name": "02_APPROVED_ICON_ASSET.md",
+      "ok": true,
+      "detail": "4602 chars"
+    },
+    {
+      "group": "lock1-files",
+      "name": "03_APPROVED_LAUNCH_ASSET.md",
+      "ok": true,
+      "detail": "2676 chars"
+    },
+    {
+      "group": "lock1-files",
+      "name": "04_CLIENT_ACCESS_CARD_RETIREMENT.md",
+      "ok": true,
+      "detail": "2641 chars"
+    },
+    {
+      "group": "lock1-files",
+      "name": "05_HOME_SCREEN_INSTALL_CONTRACT.md",
+      "ok": true,
+      "detail": "4338 chars"
+    },
+    {
+      "group": "lock1-files",
+      "name": "06_SECURE_REENTRY_CONTRACT.md",
+      "ok": true,
+      "detail": "3219 chars"
+    },
+    {
+      "group": "lock1-files",
+      "name": "07_RESPONSIVE_LAUNCH_SPEC.md",
+      "ok": true,
+      "detail": "3946 chars"
+    },
+    {
+      "group": "lock1-files",
+      "name": "08_ASSET_MANIFEST.md",
+      "ok": true,
+      "detail": "2978 chars"
+    },
+    {
+      "group": "lock1-files",
+      "name": "09_BACKEND_GAP_RECONCILIATION.md",
+      "ok": true,
+      "detail": "1767 chars"
+    },
+    {
+      "group": "lock1-files",
+      "name": "10_UPDATED_COMPOSER_HANDOFF.md",
+      "ok": true,
+      "detail": "9321 chars"
+    },
+    {
+      "group": "lock1-files",
+      "name": "11_FOUNDER_APPROVAL_RECORD.md",
+      "ok": true,
+      "detail": "2199 chars"
+    },
+    {
+      "group": "lock1-files",
+      "name": "12_VALIDATION.md",
+      "ok": true,
+      "detail": "9371 chars"
+    },
+    {
+      "group": "lock1-files",
+      "name": "no unexpected LOCK1 documents",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "doc-links",
+      "name": "LOCK1 links resolve",
+      "ok": true,
+      "detail": ""
+    },
+    {
       "group": "doc-links",
       "name": "all `NN` document references resolve",
       "ok": true,
@@ -664,6 +792,162 @@
       "detail": ""
     },
     {
+      "group": "doc-links",
+      "name": "every FR-xx reference is defined in LOCK1 11",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-gaps",
+      "name": "G-02, G-09, G-12 preserved as blocking; G-11 retired",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "implementation phases 0–14 present, no card/QR phase",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "handoff covers: Asset source files",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "handoff covers: Canonical repository paths",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "handoff covers: Icon export specification",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "handoff covers: Launch image contract",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "handoff covers: Responsive safe zones",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "handoff covers: PWA manifest",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "handoff covers: Apple touch icon",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "handoff covers: Android icons",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "handoff covers: theme colour",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "handoff covers: token-free start URL",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "handoff covers: Install flow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "handoff covers: iOS guidance",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "handoff covers: Android guidance",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "handoff covers: Secure email reentry",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "handoff covers: session restoration",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "handoff covers: persistent identity",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "handoff covers: Backend security gates",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "handoff covers: Post-intake status flow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "handoff covers: Quote approval gate",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "handoff covers: Payment verification gate",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "handoff covers: Client navigation",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "handoff covers: Removed card component list",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "lock1-handoff",
+      "name": "handoff covers: Updated test requirements",
+      "ok": true,
+      "detail": ""
+    },
+    {
       "group": "access-security",
       "name": "no bearer-token-shaped /foundation/<token> URL in boards or docs",
       "ok": true,
@@ -672,6 +956,18 @@
     {
       "group": "access-security",
       "name": "no secret-shaped strings (sk_live, sk_test, service_role key, JWT)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "home-screen",
+      "name": "manifest id and every field token-free",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "home-screen",
+      "name": "manifest icons point at the approved-icon deploy paths (192 any, 512 any, 512 maskable)",
       "ok": true,
       "detail": ""
     },
@@ -690,6 +986,72 @@
     {
       "group": "home-screen",
       "name": "manifest theme/background from --df-bg",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "asset-identity",
+      "name": "icon master byte-identical to founder attachment 01",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "asset-identity",
+      "name": "launch master byte-identical to founder attachment 02",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "asset-identity",
+      "name": "derivation record references the locked icon master",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "asset-identity",
+      "name": "derivative derived/foundation-icon-512.png: hash, 512² opaque RGB, no metadata",
+      "ok": true,
+      "detail": "512 512 RGB 0 0"
+    },
+    {
+      "group": "asset-identity",
+      "name": "derivative derived/foundation-icon-192.png: hash, 192² opaque RGB, no metadata",
+      "ok": true,
+      "detail": "192 192 RGB 0 0"
+    },
+    {
+      "group": "asset-identity",
+      "name": "derivative derived/apple-touch-icon-foundation-180.png: hash, 180² opaque RGB, no metadata",
+      "ok": true,
+      "detail": "180 180 RGB 0 0"
+    },
+    {
+      "group": "asset-identity",
+      "name": "derivative derived/foundation-icon-maskable-512.png: hash, 512² opaque RGB, no metadata",
+      "ok": true,
+      "detail": "512 512 RGB 0 0"
+    },
+    {
+      "group": "asset-identity",
+      "name": "derivative derived/foundation-icon-face-crop-724.png: hash, 724² opaque RGB, no metadata",
+      "ok": true,
+      "detail": "724 724 RGB 0 0"
+    },
+    {
+      "group": "asset-identity",
+      "name": "icon derivatives reproducible bit-for-bit from the master (derive-icons.py)",
+      "ok": true,
+      "detail": "[\"fc26dddb268b31e2378040e6e26f579e3510a443d92efb0cdf4fe41d98baac60\", \"150323881db019018d7ad96744b4a0c092b9cf9be7cd4aec2b"
+    },
+    {
+      "group": "retired-card",
+      "name": "active specimens contain no card component, QR library or ?card= route",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "asset-identity",
+      "name": "specimens use the locked masters / derivatives, not the retired placeholder icon",
       "ok": true,
       "detail": ""
     },
@@ -731,7 +1093,7 @@
     },
     {
       "group": "production-isolation",
-      "name": "only the authority folder changed vs base d68038a87",
+      "name": "only the two authority folders changed vs base d68038a87 (no public/, src/, referral studio)",
       "ok": true,
       "detail": ""
     },
@@ -754,26 +1116,50 @@
       "detail": "{\"M\":{\"bnav\":true,\"tabs\":false,\"side\":0,\"aside\":0},\"TP\":{\"bnav\":false,\"tabs\":true,\"side\":0,\"aside\":0},\"TL\":{\"bnav\":false,\"tabs\":false,\"side\":112,\"aside\":0},\"D\":{\"bnav\":false,\"tabs\":false,\"side\":272,\"aside\":340},\"UW\":{\"bnav\":false,\"tabs\":false,\"side\":312,\"aside\":420}}"
     },
     {
-      "group": "qr-security",
-      "name": "rendered QR decodes to /foundation/return?card=<id>",
-      "ok": true,
-      "detail": "https://site00.com/foundation/return?card=AC9T2W7HKX"
-    },
-    {
-      "group": "qr-security",
-      "name": "decoded QR contains no bearer token",
-      "ok": true,
-      "detail": "https://site00.com/foundation/return?card=AC9T2W7HKX"
-    },
-    {
-      "group": "qr-security",
-      "name": "card text: no password, email address or private link",
-      "ok": true,
-      "detail": "SITE 00 DIGITAL FOUNDATION MY FOUNDATION NORTHLINE TRANSPORT LLC REF DF-7Q4M-K2 · CARD 2 SCAN · CONFIRM BY EMAIL SCAN TO RETURN"
-    },
-    {
       "group": "brand-assets",
       "name": "specimen requests stay on the local origin",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "launch",
+      "name": "launch alt text carries the approved copy",
+      "ok": true,
+      "detail": "SITE 00 — DIGITAL FOUNDATION. YOUR DIGITAL SPACE AWAITS."
+    },
+    {
+      "group": "launch",
+      "name": "safe zones fully visible, correct mode, exact 941×1672 master at 18 viewports",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "launch",
+      "name": "resolution limitation measured and documented (max device upscale)",
+      "ok": true,
+      "detail": "max 1.67×"
+    },
+    {
+      "group": "launch",
+      "name": "status chips single-line, in view, never overlapping a safe zone (9 renders)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "retired-card",
+      "name": "no retired card CTA / QR in rendered client views (14 renders)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "asset-identity",
+      "name": "install sheet previews the approved icon derivative",
+      "ok": true,
+      "detail": "../../../client-foundation-digital-access-authority-lock1/assets/derived/foundation-icon-192.png"
+    },
+    {
+      "group": "home-screen",
+      "name": "CTA copy is SAVE YOUR FOUNDATION (LOCK1)",
       "ok": true,
       "detail": ""
     },
