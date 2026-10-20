@@ -16766,6 +16766,15 @@ Summary of the whole conversation in this chat.
 
 ---
 
+## 2026-10-20 — Recovery2 merge + approved referral card assets (Composer)
+
+- **Merge:** Founder-approved PR **#1668** → `cursor/idnty-founder-readiness-e2e-be3b` @ `d9431c63`.
+- **Card assets:** Founder JPEGs → `public/site00/idnty/referral-card/aio/`; `FounderCard` uses `<img>` for AIO only via `referralCardAssets.ts`.
+- **Follow-up:** Draft PR on `cursor/idnty-approved-referral-card-assets-be3b` — **not merged** until founder confirms artwork on tunnel.
+- **Safety:** Referral link MISSING, `REFERRAL_CARD_PRINT_READY=false`, AIO not auto-active.
+
+---
+
 ## 2026-10-20 — Recovery2 PR reconciliation + tunnel repin (Composer)
 
 - **Problem:** PR **#1665** merged at `8761463e` before Opus Recovery2 (`0095c8b3`, `cfa83e9b7` on implementation branch).
