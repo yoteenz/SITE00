@@ -16612,6 +16612,7 @@ Summary of the whole conversation in this chat.
 - **Sprint:** `P0.SITE00.BUILDER.SPATIAL-DRILLDOWN-ENGINE.SOURCE-AUDIT-AND-INTERACTION-PROTOTYPE1` — audit + shared drill controller; WORK (SHOP/SELL) and FEEL (BOLD) vertical slices only; **no renderer replacement**.
 - **Truth:** Build Object is **Three.js WebGL** (`engine.ts`); camera focus/closeness already used for Blueprint inspect — extended to `work`/`feel` rooms via `compose(..., { inspect })`.
 - **Code:** `src/site00/builder-studio/spatialDrilldown/*`; optional spatial fields `shopAccounts`, `feelType`, `feelColor`; docs `docs/site00/bldr/spatial-drilldown-engine-prototype1/README.md`.
+- **Shipped:** **#1678 merged to `main`** (`6c0edb52`). QA capture: flagged Vite + `?reviewRoom=` / `reviewFeel=BOLD`. GoDaddy ZIP **site00-deploy-2026-10-20-v9**.
 
 ---
 
