@@ -25,8 +25,17 @@
 ## Foundation separation
 
 - PR **#1671** is **merged** into `cursor/idnty-founder-readiness-e2e-be3b`; living portal work continues on `cursor/idnty-living-portal-one-pass-completion1-be3b`.
-- **Do not** merge #1672 into foundation branches.
+- **Do not** merge #1672 into foundation branches wholesale.
 - Foundation review gallery and client portal were **not** modified in this sprint.
+
+## Integration on living portal (not “tunnel-only”)
+
+Opus Blueprint files are **committed on** `cursor/idnty-living-portal-one-pass-completion1-be3b`:
+
+- From PR #1672: `BlueprintRoom.tsx`, `blueprintTabsModel.ts`, Blueprint CSS, icons, engine probes.
+- **Preserved from living portal:** PLACE horizontal strip (`rooms.tsx` / `PATH_BY_ID`), DF lifecycle review, portal gallery, etc.
+
+The preview worktree only **checks out that same branch SHA** — it does not point at PR #1672’s branch directly.
 
 ## Shared-file risk (when merging #1672 → `main`)
 
