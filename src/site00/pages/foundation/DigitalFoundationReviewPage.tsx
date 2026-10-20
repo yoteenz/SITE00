@@ -1,19 +1,36 @@
 /**
- * Design review for Digital Foundation P01–P07 and the BLDR studio that follows.
- * One page. No intake flow. Preview and founder review only.
+ * Digital Foundation micro-product review index (`/foundation/review`).
+ * Fixture-backed previews only — not live client/founder auth surfaces.
  */
-import { useEffect, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import type { ClientDigitalFoundationPayload } from '../../../../shared/site00-digital-foundation/clientProjection.js';
 import type { DigitalFoundationCommercialConfig } from '../../../../shared/site00-digital-foundation/types.js';
 import { fetchCatalog, fetchPayload, type ClientCatalogEntry } from '../../foundation-client/api';
 import { P01Entry, P02Intake, P03Configure } from '../../foundation-client/parents/EntryIntake';
+import { P03IntakeSubmitted } from '../../foundation-client/parents/IntakeSubmittedStatus';
 import { P04Recommendation } from '../../foundation-client/parents/Recommendation';
 import { P05Review, P06Activation } from '../../foundation-client/parents/CheckoutActivation';
-import { P07ProjectOverview } from '../../foundation-client/parents/ProjectPortal';
+import {
+  CommunicationPreferences,
+  P07ProjectOverview,
+  P08Roadmap,
+  P09StageDetail,
+  P10NeedsYou,
+  RecordsLibrary,
+} from '../../foundation-client/parents/ProjectPortal';
 import { DfFrame, DfMenu, type DfObjectKind } from '../../foundation-client/shell';
-import { DF_VIEW_META, DF_VIEW_ORDER, type DfView, type IntakeDraft } from '../../foundation-client/model';
-import { studioPathForReviewRoom } from '../../builder-studio/studioReviewSample';
+import { DF_VIEW_ORDER, type DfView, type IntakeDraft } from '../../foundation-client/model';
+import DigitalFoundationCompleteSurface from './DigitalFoundationCompleteSurface';
+import {
+  APPROVED_FOUNDATION_BUILDER_SOURCE,
+  DIGITAL_FOUNDATION_REVIEW_GROUP_LABELS,
+  DIGITAL_FOUNDATION_REVIEW_REGISTRY_VERSION,
+  type DfReviewGroupId,
+  reviewEntriesByGroup,
+  reviewEntriesForIndex,
+} from './digitalFoundationReviewRegistry';
 import { reviewAnchorForView, reviewScreenUrl, scrollToReviewAnchor } from './reviewLinks';
+import { SITE00_ROUTES } from '../../config/routes';
 import '../../foundation-client/foundationDfStyles';
 
 const OBJECT_FOR: Record<DfView, DfObjectKind> = {
@@ -32,13 +49,26 @@ const OBJECT_FOR: Record<DfView, DfObjectKind> = {
   COMM_PREFS: 'corner',
 };
 
-const BLDR_ROOMS = [
-  { id: 'PLACE', label: 'BLDR · PLACE' },
-  { id: 'FEEL', label: 'BLDR · FEEL' },
-  { id: 'WORK', label: 'BLDR · WORK' },
-  { id: 'PACE', label: 'BLDR · PACE' },
-  { id: 'BLUEPRINT', label: 'BLDR · BLUEPRINT' },
-] as const;
+const REVIEW_GROUP_ORDER: DfReviewGroupId[] = [
+  'INTAKE',
+  'FOUNDATION_BUILDER',
+  'POST_INTAKE',
+  'PROPOSAL_CHECKOUT',
+  'CLIENT_PORTAL',
+  'CLIENT_ACCESS',
+  'DEPRECATED',
+];
+
+const REVIEW_MENU_VIEWS: DfView[] = [
+  ...DF_VIEW_ORDER,
+  'ROADMAP',
+  'STAGE',
+  'NEEDS_YOU',
+  'RECORDS',
+  'COMM_PREFS',
+];
+
+const DEPRECATED_BLDR_ROOMS = ['PLACE', 'FEEL', 'WORK', 'PACE', 'BLUEPRINT'] as const;
 
 const BLANK_DRAFT: IntakeDraft = {
   business_name: '',
@@ -63,9 +93,23 @@ function DirectLink({ anchorId }: { anchorId: string }) {
   );
 }
 
-/** Founder/dev review only — collapsible so mobile preview keeps screen space for DF screens. */
+function ReviewProvenance() {
+  const buildId =
+    typeof document !== 'undefined'
+      ? document.querySelector('meta[name="app-build-id"]')?.getAttribute('content') ?? '—'
+      : '—';
+  return (
+    <p className="df-review__provenance">
+      IDNTY DIGITAL FOUNDATION · REVIEW REGISTRY {DIGITAL_FOUNDATION_REVIEW_REGISTRY_VERSION} · BUILD {buildId} · BUILDER{' '}
+      {APPROVED_FOUNDATION_BUILDER_SOURCE}
+    </p>
+  );
+}
+
+/** Founder/dev review only — collapsible grouped index (no raw URLs in the nav list). */
 function ReviewNav() {
-  const routeCount = DF_VIEW_ORDER.length + BLDR_ROOMS.length;
+  const grouped = useMemo(() => reviewEntriesByGroup(), []);
+  const routeCount = reviewEntriesForIndex().length;
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -77,7 +121,7 @@ function ReviewNav() {
   return (
     <div className={`df-review__nav-shell${open ? ' df-review__nav-shell--open' : ''}`}>
       <div className="df-review__nav-bar">
-        <p className="df-review__nav-kicker">DESIGN REVIEW</p>
+        <p className="df-review__nav-kicker">DIGITAL FOUNDATION REVIEW</p>
         <button
           type="button"
           className="df-review__nav-toggle"
@@ -85,28 +129,89 @@ function ReviewNav() {
           aria-controls="df-review-nav-routes"
           onClick={() => setOpen((v) => !v)}
         >
-          {open ? 'HIDE SCREEN LINKS' : `SHOW SCREEN LINKS (${routeCount})`}
+          {open ? 'HIDE INDEX' : `SHOW INDEX (${routeCount})`}
         </button>
       </div>
       <nav id="df-review-nav-routes" className="df-review__nav" aria-label="REVIEW SCREENS">
-        {DF_VIEW_ORDER.map((view) => (
-          <div className="df-review__route" key={view}>
-            <a className="df-review__route-name" href={`#df-r-${view}`}>
-              {DF_VIEW_META[view].index} {DF_VIEW_META[view].label}
-            </a>
-            <DirectLink anchorId={`df-r-${view}`} />
-          </div>
-        ))}
-        {BLDR_ROOMS.map((room) => (
-          <div className="df-review__route" key={room.id}>
-            <a className="df-review__route-name" href={`#df-r-bldr-${room.id}`}>
-              {room.label}
-            </a>
-            <DirectLink anchorId={`df-r-bldr-${room.id}`} />
-          </div>
-        ))}
+        {REVIEW_GROUP_ORDER.map((groupId) => {
+          const entries = grouped.get(groupId);
+          if (!entries?.length) return null;
+          return (
+            <div className="df-review__nav-group" key={groupId}>
+              <p className="df-review__nav-group-label">{DIGITAL_FOUNDATION_REVIEW_GROUP_LABELS[groupId]}</p>
+              <ul className="df-review__nav-list">
+                {entries.map((entry) => (
+                  <li key={entry.reviewId}>
+                    <a
+                      className={`df-review__route-name${entry.renderMode === 'legacy_redirect' ? ' df-review__route-name--deprecated' : ''}`}
+                      href={`#${entry.anchorId}`}
+                    >
+                      {entry.pageName}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        })}
+        <div className="df-review__nav-group">
+          <p className="df-review__nav-group-label">{DIGITAL_FOUNDATION_REVIEW_GROUP_LABELS.FOUNDER_WORKSPACE}</p>
+          <ul className="df-review__nav-list">
+            <li>
+              <a className="df-review__route-name df-review__route-name--external" href={SITE00_ROUTES.digitalFoundationFounderWorkspaceOverview} target="_blank" rel="noreferrer">
+                Founder overview (live · auth)
+              </a>
+            </li>
+            <li>
+              <a
+                className="df-review__route-name df-review__route-name--external"
+                href={`${SITE00_ROUTES.digitalFoundationFounderWorkspace}/foundations`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Foundations registry (live · auth)
+              </a>
+            </li>
+          </ul>
+        </div>
       </nav>
     </div>
+  );
+}
+
+function LegacyPublicBuilderRedirect({ anchorId, room }: { anchorId: string; room: string }) {
+  return (
+    <article className="df-review__item df-review__item--blocked" id={anchorId}>
+      <div className="df-review__mark">
+        <p className="df-review__label">DEPRECATED · PUBLIC BUILDER · {room}</p>
+        <DirectLink anchorId={anchorId} />
+      </div>
+      <div className="df-review__blocked">
+        <p className="df-review__sim">REVIEW MODE · WRONG PRODUCT BLOCKED</p>
+        <p>
+          THIS LINK PREVIOUSLY IFRAMED THE PUBLIC SITE 00 CUSTOMER BUILDER (<code>/bldr/studio</code>). THAT IS NOT THE IDNTY
+          DIGITAL FOUNDATION CONFIGURATOR.
+        </p>
+        <p>
+          APPROVED FOUNDATION BUILDER SOURCE: <code>{APPROVED_FOUNDATION_BUILDER_SOURCE}</code>
+        </p>
+        <a className="df-review__route-name df-review__route-name--cta" href={`#${reviewAnchorForView('P03')}`}>
+          OPEN FOUNDATION CONFIGURATOR (P03)
+        </a>
+      </div>
+    </article>
+  );
+}
+
+function ReviewPanel({ id, title, children }: { id: string; title: string; children: ReactNode }) {
+  return (
+    <article className="df-review__item" id={id}>
+      <div className="df-review__mark">
+        <p className="df-review__label">{title}</p>
+        <DirectLink anchorId={id} />
+      </div>
+      {children}
+    </article>
   );
 }
 
@@ -135,7 +240,7 @@ function Screen({
         <DfMenu
           open={menuOpen}
           onClose={() => setMenuOpen(false)}
-          views={DF_VIEW_ORDER}
+          views={REVIEW_MENU_VIEWS}
           current={view}
           onNavigate={() => setMenuOpen(false)}
         />
@@ -149,13 +254,18 @@ export default function DigitalFoundationReviewPage() {
   const [catalog, setCatalog] = useState<ClientCatalogEntry[] | null>(null);
   const [quotePayload, setQuotePayload] = useState<ClientDigitalFoundationPayload | null>(null);
   const [quoteToken, setQuoteToken] = useState('');
+  const [paidToken, setPaidToken] = useState('');
   const [paidPayload, setPaidPayload] = useState<ClientDigitalFoundationPayload | null>(null);
+  const [postIntakePayload, setPostIntakePayload] = useState<ClientDigitalFoundationPayload | null>(null);
+  const [completePayload, setCompletePayload] = useState<ClientDigitalFoundationPayload | null>(null);
+  const [completeToken, setCompleteToken] = useState('');
+  const [postIntakeFetchedAt] = useState(() => new Date());
   const [draft, setDraft] = useState<IntakeDraft>(BLANK_DRAFT);
   const [note, setNote] = useState<string | null>(null);
 
   useEffect(() => {
     const prev = document.title;
-    document.title = 'DIGITAL FOUNDATION + BLDR — REVIEW';
+    document.title = 'DIGITAL FOUNDATION — REVIEW REGISTRY';
     return () => {
       document.title = prev;
     };
@@ -176,10 +286,16 @@ export default function DigitalFoundationReviewPage() {
       try {
         const quote = await mint('A_BASE');
         const paid = await mint('J_PAYMENT_SUCCESS');
+        const postIntake = await mint('A_BASE');
+        const complete = await mint('M_COMPLETE_CREDIT');
         if (cancelled) return;
         setQuoteToken(quote.token);
         setQuotePayload(quote.payload);
+        setPaidToken(paid.token);
         setPaidPayload(paid.payload);
+        setPostIntakePayload(postIntake.payload);
+        setCompleteToken(complete.token);
+        setCompletePayload(complete.payload);
       } catch {
         if (!cancelled) setNote('LATER SCREENS NEED THE PREVIEW SERVER. P01–P03 ARE STILL ON THIS PAGE.');
       }
@@ -197,7 +313,8 @@ export default function DigitalFoundationReviewPage() {
     <div className="df-review">
       <ReviewNav />
       <header className="df-review__intro">
-        <p>DIGITAL FOUNDATION AND THE BLDR STUDIO THAT FOLLOWS. EVERY SCREEN IS ON THIS PAGE.</p>
+        <ReviewProvenance />
+        <p>FIXTURE-BACKED IDNTY DIGITAL FOUNDATION SCREENS ON ONE PAGE. PUBLIC SITE 00 BUILDER ROUTES ARE BLOCKED.</p>
         {note && <p>{note}</p>}
       </header>
       <div className="df-review__strip">
@@ -269,6 +386,18 @@ export default function DigitalFoundationReviewPage() {
             <p className="df-review__wait">LOADING ACTIVATION</p>
           )}
         </Screen>
+        <Screen id="df-r-post-intake-submitted" view="P03" title="POST-INTAKE · INTAKE RECEIVED">
+          {postIntakePayload ? (
+            <P03IntakeSubmitted
+              payload={postIntakePayload}
+              fetchedAt={postIntakeFetchedAt}
+              onRefresh={noop}
+              busy={false}
+            />
+          ) : (
+            <p className="df-review__wait">LOADING POST-INTAKE</p>
+          )}
+        </Screen>
         <Screen id="df-r-OVERVIEW" view="OVERVIEW" title="07 · PROJECT OVERVIEW">
           {paidPayload ? (
             <P07ProjectOverview
@@ -285,18 +414,89 @@ export default function DigitalFoundationReviewPage() {
             <p className="df-review__wait">LOADING OVERVIEW</p>
           )}
         </Screen>
-        {BLDR_ROOMS.map((room) => (
-          <article className="df-review__item" id={`df-r-bldr-${room.id}`} key={room.id}>
-            <div className="df-review__mark">
-              <p className="df-review__label">{room.label}</p>
-              <DirectLink anchorId={`df-r-bldr-${room.id}`} />
-            </div>
-            <iframe
-              className="df-review__studio"
-              title={room.label}
-              src={`/bldr/studio/${studioPathForReviewRoom(room.id)}?reviewRoom=${room.id}`}
+        <Screen id="df-r-ROADMAP" view="ROADMAP" title="08 · PROJECT ROADMAP">
+          {paidPayload ? (
+            <P08Roadmap
+              payload={paidPayload}
+              onStage={() => advance('STAGE')}
+              onOverview={() => advance('OVERVIEW')}
             />
-          </article>
+          ) : (
+            <p className="df-review__wait">LOADING ROADMAP</p>
+          )}
+        </Screen>
+        <Screen id="df-r-STAGE" view="STAGE" title="09 · STAGE DETAIL">
+          {paidPayload ? (
+            <P09StageDetail
+              payload={paidPayload}
+              stageCode={paidPayload.stages[0]?.stage_code ?? '01_DETAILS_RECEIVED'}
+              onRoadmap={() => advance('ROADMAP')}
+            />
+          ) : (
+            <p className="df-review__wait">LOADING STAGE</p>
+          )}
+        </Screen>
+        <Screen id="df-r-NEEDS_YOU" view="NEEDS_YOU" title="10 · NEEDS YOU">
+          {paidPayload && paidToken ? (
+            <P10NeedsYou
+              token={paidToken}
+              payload={paidPayload}
+              onReload={async () => paidPayload}
+              onOverview={() => advance('OVERVIEW')}
+            />
+          ) : (
+            <p className="df-review__wait">LOADING NEEDS YOU</p>
+          )}
+        </Screen>
+        <Screen id="df-r-RECORDS" view="RECORDS" title="MY RECORDS">
+          {paidPayload ? (
+            <RecordsLibrary
+              payload={paidPayload}
+              onOpen={noop}
+              onOverview={() => advance('OVERVIEW')}
+            />
+          ) : (
+            <p className="df-review__wait">LOADING RECORDS</p>
+          )}
+        </Screen>
+        <Screen id="df-r-COMM_PREFS" view="COMM_PREFS" title="COMMUNICATION PREFERENCES">
+          {paidPayload ? (
+            <CommunicationPreferences
+              prefs={paidPayload.communication_preferences}
+              busy={false}
+              onSave={noop}
+              onOverview={() => advance('OVERVIEW')}
+            />
+          ) : (
+            <p className="df-review__wait">LOADING PREFERENCES</p>
+          )}
+        </Screen>
+        <ReviewPanel id="df-r-complete" title="FOUNDATION COMPLETE (FIXTURE)">
+          {completePayload && completeToken ? (
+            <DigitalFoundationCompleteSurface
+              token={completeToken}
+              payload={completePayload}
+              reload={async () => completePayload}
+            />
+          ) : (
+            <p className="df-review__wait">LOADING COMPLETE</p>
+          )}
+        </ReviewPanel>
+        <ReviewPanel id="df-r-client-return" title="CLIENT RETURN / REENTRY">
+          <p className="df-review__wait df-review__wait--panel">
+            LIVE ROUTE — SESSION OR REENTRY FORM (NOT INLINE ON THIS PAGE).
+          </p>
+          <a
+            className="df-review__route-name df-review__route-name--cta df-review__external-cta"
+            href={SITE00_ROUTES.digitalFoundationReturn}
+            target="_blank"
+            rel="noreferrer"
+          >
+            OPEN {SITE00_ROUTES.digitalFoundationReturn}
+          </a>
+        </ReviewPanel>
+        {DEPRECATED_BLDR_ROOMS.map((room) => (
+          <LegacyPublicBuilderRedirect key={room} anchorId={`df-r-bldr-${room}`} room={room} />
         ))}
       </div>
     </div>

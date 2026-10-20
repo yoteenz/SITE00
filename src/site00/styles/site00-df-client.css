@@ -2693,6 +2693,78 @@ button.df-spec__btn {
   word-break: normal;
 }
 
+.df-review__nav-group {
+  flex: 1 1 140px;
+  min-width: 0;
+}
+
+.df-review__nav-group-label {
+  margin: 0 0 6px;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  opacity: 0.72;
+}
+
+.df-review__nav-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.df-review__nav-list li + li {
+  margin-top: 4px;
+}
+
+.df-review__route-name--deprecated {
+  opacity: 0.55;
+  text-decoration: line-through;
+}
+
+.df-review__route-name--external {
+  font-size: 10px;
+  opacity: 0.92;
+}
+
+.df-review__route-name--cta {
+  display: inline-block;
+  margin: 16px 26px 24px;
+  color: #0c0c0c;
+  text-decoration: underline;
+}
+
+.df-review__provenance {
+  margin: 0 0 10px;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  line-height: 1.5;
+  opacity: 0.85;
+}
+
+.df-review__blocked {
+  padding: 18px 20px 22px;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  line-height: 1.45;
+}
+
+.df-review__blocked .df-review__sim {
+  margin: 0 0 10px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--df-red, #c41e3a);
+}
+
+.df-review__wait--panel {
+  margin-bottom: 8px;
+}
+
+.df-review__external-cta {
+  margin-top: 0;
+}
+
 .df-review__intro {
   max-width: 720px;
   margin: 0 auto;
