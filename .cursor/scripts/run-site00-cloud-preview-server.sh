@@ -52,6 +52,7 @@ if [[ "$MODE" == "dev" ]]; then
   # (NODE_OPTIONS --import=tsx breaks tsx/esm/api resolution and surfaces Cannot find module on /foundation).
   exec env SITE00_CLOUD_MOBILE_PREVIEW=1 SITE00_CLIENT_REVIEW_PREVIEW_MODE=1 \
     SITE00_INTAKES_USE_MEMORY=1 \
+    SITE00_DF_PREVIEW_SNAPSHOT_PATH="${SITE00_DF_PREVIEW_SNAPSHOT_PATH:-}" \
     VITE_SITE00_PREVIEW_LOCAL_API=1 \
     VITE_SITE00_TEMPLATE_SYSTEM_V1=1 \
     VITE_SITE00_CLIENT_ESTIMATE_PREVIEW_V1=1 \
@@ -85,7 +86,10 @@ fi
 if [[ "$MODE" == "local" ]]; then
   if [[ ! -f "$ROOT/dist/index.html" ]] || [[ "$(node -e "try{const m=require('$ROOT/dist/release-manifest.json');process.stdout.write(m.commitSha||'')}catch{process.stdout.write('')}" 2>/dev/null)" != "$HEAD_SHA" ]]; then
     log "Local production build for HEAD $HEAD_SHA (GITHUB_SHA=$HEAD_SHA)…"
-    env GITHUB_SHA="$(git rev-parse HEAD)" VITE_SITE00_EC_PREVIEW_GUEST=1 VITE_SITE00_CLIENT_APP_PREVIEW=1 SITE00_CLOUD_MOBILE_PREVIEW=1 npm run build >>"$LOG" 2>&1
+    env GITHUB_SHA="$(git rev-parse HEAD)" VITE_SITE00_EC_PREVIEW_GUEST=1 VITE_SITE00_CLIENT_APP_PREVIEW=1 \
+      SITE00_CLOUD_MOBILE_PREVIEW=1 VITE_SITE00_PREVIEW_LOCAL_API=1 VITE_SITE00_TEMPLATE_SYSTEM_V1=1 \
+      VITE_SITE00_CLIENT_ESTIMATE_PREVIEW_V1=1 VITE_SITE00_R4_REVIEW_PRIORITY=1 VITE_DF_CUSTOM_INDUSTRY_SELECT=1 \
+      npm run build >>"$LOG" 2>&1
   fi
   DIST_DIR="$ROOT/dist"
 elif [[ "$NEED_CI" == "1" ]]; then
@@ -94,7 +98,10 @@ elif [[ "$NEED_CI" == "1" ]]; then
     CI_SHA="$(node -e "const m=require('$DIST_DIR/release-manifest.json'); process.stdout.write(m.commitSha||'')" 2>/dev/null || true)"
     if [[ -n "$CI_SHA" && "$CI_SHA" != "$HEAD_SHA" ]]; then
       log "CI dist ($CI_SHA) behind HEAD $HEAD_SHA — building local preview dist"
-      env GITHUB_SHA="$(git rev-parse HEAD)" VITE_SITE00_EC_PREVIEW_GUEST=1 VITE_SITE00_CLIENT_APP_PREVIEW=1 SITE00_CLOUD_MOBILE_PREVIEW=1 npm run build >>"$LOG" 2>&1
+      env GITHUB_SHA="$(git rev-parse HEAD)" VITE_SITE00_EC_PREVIEW_GUEST=1 VITE_SITE00_CLIENT_APP_PREVIEW=1 \
+      SITE00_CLOUD_MOBILE_PREVIEW=1 VITE_SITE00_PREVIEW_LOCAL_API=1 VITE_SITE00_TEMPLATE_SYSTEM_V1=1 \
+      VITE_SITE00_CLIENT_ESTIMATE_PREVIEW_V1=1 VITE_SITE00_R4_REVIEW_PRIORITY=1 VITE_DF_CUSTOM_INDUSTRY_SELECT=1 \
+      npm run build >>"$LOG" 2>&1
       DIST_DIR="$ROOT/dist"
     fi
   fi
@@ -149,5 +156,8 @@ fi
 PREVIEW_SHA="$(git rev-parse HEAD 2>/dev/null || true)"
 log "Starting vite preview on :$PORT (dist synced from $DIST_DIR)"
 exec env SITE00_CLOUD_MOBILE_PREVIEW=1 SITE00_CLIENT_REVIEW_PREVIEW_MODE=1 \
+  SITE00_INTAKES_USE_MEMORY=1 \
+  SITE00_DF_PREVIEW_SNAPSHOT_PATH="${SITE00_DF_PREVIEW_SNAPSHOT_PATH:-}" \
+  VITE_SITE00_PREVIEW_LOCAL_API=1 \
   GITHUB_SHA="${PREVIEW_SHA}" SITE00_PREVIEW_COMMIT_SHA="${PREVIEW_SHA}" \
   npx vite preview --port "$PORT" --host --strictPort
