@@ -8,6 +8,7 @@ import {
   createArtifactForLead,
   createCheckoutSession,
   createClientAction,
+  getArtifactPayload,
   getClientArtifactPayloadByToken,
   markQuoteCommerciallyReady,
   recordRefund,
@@ -17,6 +18,7 @@ import {
 import { simulateStripeCheckoutCompleted } from '../api/_lib/digitalFoundation/payment/webhookHandler.js';
 import { defaultDigitalFoundationCommercialConfig } from '../shared/site00-digital-foundation/commercialConfig.js';
 import { listCatalogForClient } from '../shared/site00-digital-foundation/quoteEngine.js';
+import { DF_TEST_CONTACT_PHONE } from './helpers/dfTestContactPhone.js';
 import {
   buildAddonRows,
   DF_DISCLOSURES,
@@ -44,9 +46,27 @@ function link(lead: { business_name?: string; contact_name?: string; contact_ema
   return { id: a.artifact_id, token: a.public_token, payload: () => getClientArtifactPayloadByToken(a.public_token) };
 }
 
-function quoted(needs: Parameters<typeof updateIntake>[1]['needs'] = ['NEED_DOMAIN'], team_size = 1) {
+function quoted(
+  needs: Parameters<typeof updateIntake>[1]['needs'] = ['NEED_DOMAIN'],
+  team_size = 1,
+  opts?: { founderCommercialReady?: boolean },
+) {
   const l = link({ business_name: 'Anthony Transport LLC', contact_name: 'Anthony', contact_email: 'a@example.com' });
-  updateIntake(l.id, { business_name: 'Anthony Transport LLC', contact_name: 'Anthony', current_email: 'a@example.com', team_size, needs }, true);
+  updateIntake(
+    l.id,
+    {
+      business_name: 'Anthony Transport LLC',
+      contact_name: 'Anthony',
+      current_email: 'a@example.com',
+      phone: DF_TEST_CONTACT_PHONE,
+      team_size,
+      needs,
+    },
+    true,
+  );
+  if (opts?.founderCommercialReady !== false) {
+    markQuoteCommerciallyReady(l.id);
+  }
   return l;
 }
 
@@ -91,7 +111,12 @@ describe('P02 / P03 intake', () => {
   it('prefills from the lead and never sends both NEED_DOMAIN and OWN_DOMAIN', () => {
     const l = link({ business_name: 'Anthony Transport LLC', contact_name: 'Anthony', contact_email: 'a@example.com' });
     const draft = draftFromPayload(l.payload());
-    expect(draft).toMatchObject({ business_name: 'Anthony Transport LLC', contact_name: 'Anthony', current_email: 'a@example.com', domainPath: null });
+    expect(draft).toMatchObject({
+      business_name: 'ANTHONY TRANSPORT LLC',
+      contact_name: 'ANTHONY',
+      current_email: 'A@EXAMPLE.COM',
+      domainPath: null,
+    });
     const own = { ...draft, domainPath: 'OWN' as const, existing_domain: 'anthonytransport.co', team_size: 3, needs: ['NEED_MIGRATION' as const] };
     const needs = needsFromDraft(own);
     expect(needs).toEqual(expect.arrayContaining(['OWN_DOMAIN', 'NEED_MULTI_MAILBOX', 'NEED_MIGRATION']));
@@ -102,8 +127,21 @@ describe('P02 / P03 intake', () => {
 
   it('requires business info and exactly one domain path, with a domain for OWN', () => {
     const draft = draftFromPayload(link().payload());
-    expect(Object.keys(validateForRecommendation(draft))).toEqual(['business_name', 'contact_name', 'current_email', 'domainPath']);
-    const filled = { ...draft, business_name: 'B', contact_name: 'C', current_email: 'c@example.com', domainPath: 'OWN' as const };
+    expect(Object.keys(validateForRecommendation(draft))).toEqual([
+      'business_name',
+      'contact_name',
+      'current_email',
+      'phone',
+      'domainPath',
+    ]);
+    const filled = {
+      ...draft,
+      business_name: 'B',
+      contact_name: 'C',
+      current_email: 'c@example.com',
+      phone: DF_TEST_CONTACT_PHONE,
+      domainPath: 'OWN' as const,
+    };
     expect(validateForRecommendation(filled)).toEqual({ existing_domain: 'ENTER THE DOMAIN YOU OWN' });
     expect(validateForRecommendation({ ...filled, existing_domain: 'example.com' })).toEqual({});
   });
@@ -118,8 +156,8 @@ describe('P02 / P03 intake', () => {
 
 describe('P04 add-ons bind to the server quote', () => {
   it('shows server totals and the add-on delta; never hardcodes the mockup values', () => {
-    const l = quoted(['NEED_DOMAIN', 'NEED_MULTI_MAILBOX', 'NEED_MIGRATION'], 2);
-    const q = l.payload().quote!;
+    const l = quoted(['NEED_DOMAIN', 'NEED_MULTI_MAILBOX', 'NEED_MIGRATION'], 2, { founderCommercialReady: false });
+    const q = getArtifactPayload(l.id).quote!;
     const f = quoteFigures(q, config);
     expect(f.total).toBe(`$${(q.subtotal_minor / 100).toLocaleString('en-US')}`);
     expect(f.caption).toBe(`$500 + $${q.addon_total_minor / 100} ADD-ONS`);
@@ -147,6 +185,7 @@ describe('P04 add-ons bind to the server quote', () => {
   it('shows a line total only once the server line matches the on-screen quantity', () => {
     const l = quoted();
     updateQuoteSelections(l.id, [{ addon_id: 'ADDITIONAL_MAILBOX', quantity: 2 }]);
+    markQuoteCommerciallyReady(l.id);
     const quote = l.payload().quote;
     const row = (qty: number) =>
       buildAddonRows({ catalog, config, quote, recommended: [], desired: { ADDITIONAL_MAILBOX: qty } }).find((r) => r.addon_id === 'ADDITIONAL_MAILBOX')!;
@@ -169,14 +208,13 @@ describe('P05 review + checkout states', () => {
   const state = (l: ReturnType<typeof quoted>, extra: Partial<Parameters<typeof deriveReviewState>[0]> = {}) =>
     deriveReviewState({ payload: l.payload(), acknowledged: 0, checkout: null, creating: false, errorCode: null, ...extra });
 
-  it('walks READY TO REVIEW → AWAITING ACCEPTANCE → AWAITING FOUNDER PRICING → READY FOR CHECKOUT → PAYMENT PENDING', async () => {
-    const l = quoted(['NEED_DOMAIN', 'NEED_MIGRATION']);
+  it('withholds quote until G-02 release, then walks review through payment pending', async () => {
+    const l = quoted(['NEED_DOMAIN', 'NEED_MIGRATION'], 1, { founderCommercialReady: false });
+    expect(state(l)).toBe('NOT_READY');
+    markQuoteCommerciallyReady(l.id);
     expect(state(l)).toBe('READY_TO_REVIEW');
     expect(state(l, { acknowledged: 2 })).toBe('AWAITING_ACCEPTANCE');
     acceptQuote({ artifact_id: l.id, disclosures: [...DF_DISCLOSURES] });
-    expect(state(l)).toBe('AWAITING_FOUNDER_PRICING');
-    await expect(createCheckoutSession({ artifact_id: l.id, success_url: 'x', cancel_url: 'y' })).rejects.toThrow('MANUAL_REVIEW_PENDING');
-    markQuoteCommerciallyReady(l.id);
     expect(state(l)).toBe('READY_FOR_CHECKOUT');
     expect(state(l, { creating: true })).toBe('CREATING_CHECKOUT');
     expect(state(l, { errorCode: 'PROVIDER_ERROR' })).toBe('CHECKOUT_ERROR');
@@ -184,6 +222,14 @@ describe('P05 review + checkout states', () => {
     expect(l.payload().artifact.payment_state).toBe('CHECKOUT_PENDING');
     expect(state(l)).toBe('PAYMENT_PENDING');
     expect(state(l, { checkout: 'cancel' })).toBe('PAYMENT_CANCELLED');
+  });
+
+  it('blocks checkout for manual-review add-ons until founder commercial release', async () => {
+    const l = quoted(['NEED_DOMAIN', 'NEED_MIGRATION'], 1, { founderCommercialReady: false });
+    acceptQuote({ artifact_id: l.id, disclosures: [...DF_DISCLOSURES] });
+    await expect(createCheckoutSession({ artifact_id: l.id, success_url: 'x', cancel_url: 'y' })).rejects.toThrow(
+      'MANUAL_REVIEW_PENDING',
+    );
   });
 });
 

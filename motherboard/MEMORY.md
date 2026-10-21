@@ -16949,3 +16949,10 @@ Summary of the whole conversation in this chat.
 - **Fix:** merged `origin/main` into `cursor/idnty-living-portal-one-pass-completion1-be3b` (builder files take main's #1672/#1674/#1678 versions; founder-readiness files keep this branch's later evolution of #1642; MEMORY union). Pinned the canonical tunnel to the branch head with `serve-site00-preview-from-pin-ref.sh <sha>` (`PREVIEW_AUTHORITY=PINNED`). Revert with `serve-site00-preview-from-main.sh`.
 - **Gotcha:** a VM reboot / `post-merge-preview-tunnel-refresh.sh` drops the pin and remounts main. While this DF work is unmerged, re-pin to the branch head after any tunnel restart.
 - **Review gallery:** client portal entries now say "LOADING REVIEW FIXTURE…" until the bootstrap bundle arrives (about 3s over the tunnel) instead of "NOT LOADED".
+
+## 2026-10-21 — IDNTY Phase 3 integration branch (Composer)
+
+- **Sprint:** `P0.SITE00.IDNTY.PHASE3.COMPOSER-CANONICAL-LIFECYCLE-INTEGRATION-PERSISTENCE-AND-STAGING-E2E1`. Merged Phase 2 branch `afd34cfe` into `cursor/idnty-phase3-composer-integration-b71a` from `main` `b5654bd` with **zero merge conflicts**. **Not merged to main** — founder approval required (Gate T).
+- **Docs:** `PHASE3_GIT_INTEGRATION_AUDIT.md`, `PHASE3_COMPOSER_FINAL_REPORT.md` (gate matrix). Staging health (2026-10-21): persistence ON on Railway API, transactional send OFF, public origin matches carefree-luck SPA.
+- **Tests:** Reconciled `digitalFoundationClientBoard0102.test.ts` for `CONTACT_PHONE_REQUIRED` and G-02 quote withholding (`markQuoteCommerciallyReady` / internal quote for manual-review assertions). `digitalFoundation*` suite: 202 pass, 2 env-dependent fails (tunnel acceptance, review builder iframe guard).
+- **Still blocked for live E2E:** Resend send flag, founder staging login session, Stripe test mode confirmation in health, RUN VERIFICATION + record download contracts (unchanged from Phase 2 handoff). PR #1680 remains open; Phase 3 draft PR carries merge-ready integration.

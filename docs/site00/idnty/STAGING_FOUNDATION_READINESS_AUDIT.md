@@ -3,6 +3,8 @@
 **Sprint:** `P0.SITE00.IDNTY.STAGING-FOUNDATION-CONFIG-AND-PERSISTENCE-READINESS1`  
 **Scope:** Staging only · production unchanged · no E2E executed in audit sprint
 
+**Phase 3 refresh (2026-10-21):** Live staging API health now reports `persistSupabaseEnv: true`, `publicAppOriginMatchesStagingFrontend: true`, and `gitCommit` ahead of the snapshot below. See `canonical-lifecycle-restoration1/PHASE3_COMPOSER_FINAL_REPORT.md` for gate status. Transactional send remains off until founder approval.
+
 ## Staging identities (expected)
 
 | Layer | URL / ref |
