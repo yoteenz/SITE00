@@ -16916,3 +16916,29 @@ Summary of the whole conversation in this chat.
 - **Review gallery:** `DfReviewInertProvider` makes every action inert; founder boards use engine-generated `generated/reviewFounderSnapshots.json`; explicit `PORTAL_ANCHOR_VIEW` map ended duplicate overview previews; 12A owned by `SITE00_DIGITAL_LOCATION` (catalog only).
 - **Gotchas:** the local API bundles each endpoint with its own memory store (sync via the snapshot file; call the pipeline GET before admin reads). Run capture dev servers with a private `SITE00_DF_PREVIEW_SNAPSHOT_PATH` so the :5174 tunnel state is not shared. `.df-check` is the checkbox component — the 15C checklist uses `.df-vcheck`.
 - **Docs/evidence:** `PHASE3_COMPOSER_INTEGRATION_HANDOFF.md`, `FOUNDER_REVIEW_PACK.md`; captures `scripts/df-phase2-capture.mjs` → `/opt/cursor/artifacts/df-phase2/`. Tests `tests/digitalFoundationPhase2*.test.ts`.
+## 2026-10-20 — Builder creative intelligence (PR #1672)
+
+- **Sprint:** P0.SITE00.BUILDER.CREATIVE-INTELLIGENCE-AND-PAGE-VALUE-DEPTH-RECOVERY1 — fix hardcoded client design resolution and generic FULL DEPTH page copy on five-tab Blueprint; **no IDNTY / no merge / PR #1672 stays draft**.
+- **Root cause:** Spatial feel → single visual system with `SYSTEM_DEFAULT` tunables; `pagesView` reused `EXPERIENCE_DEPTHS.plain` for every page.
+- **Added:** `designResolution.ts` (provenance: YOUR SELECTION / OUR RECOMMENDATION / FROM YOUR BRAND / TO BE REFINED), `pageValueIntelligence.ts` (page-type + capability-grounded copy), SOURCE_AUDIT doc, Playwright capture script, regression tests.
+- **Branch:** `cursor/bldr-creative-intelligence-be3b` off Opus five-tab SHA `5dd77ff1a`. Opus presentation pass (§16) still outstanding.
+- **Update:** #1672 + #1674 **merged to `main`** (`e8736615`). #1676 merged Phase 1 DF into `cursor/idnty-founder-readiness-e2e-be3b`. Stale PRs #1675, #1643–#1646, #1662, #1664, #1658, #1612 **closed**. **#1670** remains open (authority-only, founder review).
+
+---
+
+## 2026-10-20 — Builder spatial drill-down prototype 1
+
+- **Sprint:** `P0.SITE00.BUILDER.SPATIAL-DRILLDOWN-ENGINE.SOURCE-AUDIT-AND-INTERACTION-PROTOTYPE1` — audit + shared drill controller; WORK (SHOP/SELL) and FEEL (BOLD) vertical slices only; **no renderer replacement**.
+- **Truth:** Build Object is **Three.js WebGL** (`engine.ts`); camera focus/closeness already used for Blueprint inspect — extended to `work`/`feel` rooms via `compose(..., { inspect })`.
+- **Code:** `src/site00/builder-studio/spatialDrilldown/*`; optional spatial fields `shopAccounts`, `feelType`, `feelColor`; docs `docs/site00/bldr/spatial-drilldown-engine-prototype1/README.md`.
+- **Shipped:** **#1678 merged to `main`** (`6c0edb52`). QA capture: flagged Vite + `?reviewRoom=` / `reviewFeel=BOLD`. GoDaddy ZIP **site00-deploy-2026-10-20-v9**.
+
+---
+
+## 2026-10-15 — Staging auth redirect and founder login
+
+- **Sprint:** P0.SITE00.IDNTY.STAGING-AUTH-REDIRECT-AND-FOUNDER-LOGIN-RECOVERY1. Staging only. No production writes. No merge.
+- **Root cause:** `site00SignUpWithPassword` omitted `emailRedirectTo`. GoTrue then uses the project Site URL. New Supabase projects default that to `http://localhost:3000`. The staging bundle contains zero `localhost:3000` strings. Live client is `soocqbyjkxeubfjnuwvf`, not production `hyycomvcaqxxvyrfupes`.
+- **Staging Auth:** one user, email confirmed, matches the default founder admin address, last sign-in is the confirmation click (2026-10-15 00:51 UTC). No recovery email has been sent. Production passwords are not this project's passwords.
+- **Code:** signup and password reset now send `https://<browser-origin>/origin/sign-in?returnTo=...` and refuse to invent `localhost:3000`. Recovery hash shows a new-password form and does not bounce away before the password is saved. Draft branch `cursor/staging-auth-redirect-be3b`. Not deployed.
+- **Dashboard (manual):** Site URL and redirect allowlist must be the carefree-luck origin. Until that is saved, new confirmation links still fall back to localhost.

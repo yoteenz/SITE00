@@ -18,7 +18,10 @@ import '../../styles/site00-builder-studio.css';
 export default function BldrSpatialStudioPage() {
   const params = useParams();
   const [search] = useSearchParams();
-  const sample = useMemo(() => reviewSampleFromQuery(search.get('reviewRoom')), [search]);
+  const sample = useMemo(
+    () => reviewSampleFromQuery(search.get('reviewRoom'), search.get('reviewFeel')),
+    [search],
+  );
   // Page-scoped body reset (no default margin, studio background under overscroll); removed on exit.
   useEffect(() => {
     document.body.classList.add('bs-body');

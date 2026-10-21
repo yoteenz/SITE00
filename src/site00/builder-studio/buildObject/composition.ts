@@ -645,10 +645,28 @@ export function compose(view: BuildView, spec: Spec, options: { focus?: BuildFoc
       elements = feelComposition(spec.feel, palette);
       Object.assign(camera, FEEL_CAMERAS[spec.feel ?? 'NONE']);
       motion = { duration: 820, stagger: 30, entry: 'base', replay: false };
+      if (options.inspect) {
+        elements = inspectElements(elements, options.inspect);
+        const lit = elements.filter((el) => el.lit).map((el) => el.id);
+        if (lit.length && options.inspect.closeness) {
+          camera.focus = lit;
+          camera.closeness = options.inspect.closeness;
+        }
+        motion = INSPECT_MOTION;
+      }
       break;
     case 'work':
       elements = workComposition(spec, palette);
       motion = { duration: 620, stagger: 60, entry: 'lateral', replay: false };
+      if (options.inspect) {
+        elements = inspectElements(elements, options.inspect);
+        const lit = elements.filter((el) => el.lit).map((el) => el.id);
+        if (lit.length && options.inspect.closeness) {
+          camera.focus = lit;
+          camera.closeness = options.inspect.closeness;
+        }
+        motion = INSPECT_MOTION;
+      }
       break;
     case 'pace':
       elements = assembled(spec, palette, false);
