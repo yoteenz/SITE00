@@ -47,7 +47,12 @@ export default function DigitalFoundationReviewClientPortalBody({
   const go = (next: DfView, rec?: string) => onNavigate?.(next, rec);
 
   if (!payload) {
-    return <p className="df-review__wait">CLIENT PORTAL FIXTURE NOT LOADED ({entry?.fixtureContract ?? 'J_PAYMENT_SUCCESS'}).</p>;
+    const fixture = entry?.fixtureContract ?? 'J_PAYMENT_SUCCESS';
+    return (
+      <p className="df-review__wait">
+        {state.bootstrap ? `CLIENT PORTAL FIXTURE NOT LOADED (${fixture}).` : `LOADING REVIEW FIXTURE (${fixture})…`}
+      </p>
+    );
   }
   const complete = payload.artifact.completion_state === 'COMPLETE';
   const reload = async () => payload;

@@ -16942,3 +16942,10 @@ Summary of the whole conversation in this chat.
 - **Staging Auth:** one user, email confirmed, matches the default founder admin address, last sign-in is the confirmation click (2026-10-15 00:51 UTC). No recovery email has been sent. Production passwords are not this project's passwords.
 - **Code:** signup and password reset now send `https://<browser-origin>/origin/sign-in?returnTo=...` and refuse to invent `localhost:3000`. Recovery hash shows a new-password form and does not bounce away before the password is saved. Draft branch `cursor/staging-auth-redirect-be3b`. Not deployed.
 - **Dashboard (manual):** Site URL and redirect allowlist must be the carefree-luck origin. Until that is saved, new confirmation links still fall back to localhost.
+
+## 2026-10-21 — DF living portal branch synced with main + tunnel pinned for Phase 2 review
+
+- **Founder ask:** "restart tunnel" → the restart remounted `preview/tunnel` (= main `b5654bd`), which has never had the DF review work (#1671/#1673 merged into `cursor/idnty-founder-readiness-e2e-be3b`, not main), so the review zone tabs and Phase 2 screens disappeared. Founder wanted the screens on the up-to-date tunnel, not stale code.
+- **Fix:** merged `origin/main` into `cursor/idnty-living-portal-one-pass-completion1-be3b` (builder files take main's #1672/#1674/#1678 versions; founder-readiness files keep this branch's later evolution of #1642; MEMORY union). Pinned the canonical tunnel to the branch head with `serve-site00-preview-from-pin-ref.sh <sha>` (`PREVIEW_AUTHORITY=PINNED`). Revert with `serve-site00-preview-from-main.sh`.
+- **Gotcha:** a VM reboot / `post-merge-preview-tunnel-refresh.sh` drops the pin and remounts main. While this DF work is unmerged, re-pin to the branch head after any tunnel restart.
+- **Review gallery:** client portal entries now say "LOADING REVIEW FIXTURE…" until the bootstrap bundle arrives (about 3s over the tunnel) instead of "NOT LOADED".
