@@ -16964,3 +16964,10 @@ Summary of the whole conversation in this chat.
 - **Supabase staging RLS:** all `site00_df_*` RLS on; `project_messages` RLS with 0 policies; service_role policies on core tables. Agent VM Supabase env is **production** — never use for DF writes.
 - **Code:** optional `test_run_id` on `create-test-client`; Stripe `rk_test_`/`rk_live_` mode detection; founder test mode unit test.
 - **Live E2E:** FAIL/ BLOCKED — founder session + allowlisted tester email + `SITE00_DF_TRANSACTIONAL_EMAIL_SEND=1` required. Docs: `docs/site00/idnty/phase3b-staging-activation1/`.
+
+## 2026-10-21 — IDNTY Phase 3B automated founder E2E email journey (Composer)
+
+- **Sprint:** `P0.SITE00.IDNTY.PHASE3B.COMPOSER-AUTOMATED-FOUNDER-E2E-EMAIL-JOURNEY-AND-STAGING-RELEASE-VALIDATION2`. **Authorized tester only:** `kateenaarmstrong@gmail.com`. **No merge** of #1681/#1682; follow-up branch `cursor/idnty-phase3b-automated-e2e-email-b71a`.
+- **Runner:** `startAutomatedEmailJourneyRun` — one POST authorization, synthetic client, lifecycle through payment sim + staged ops completion, five FNDATN lifecycle Resend sends; gallery all FNDATN-01 templates. Desk: `/admin/site00/foundation-email-journey`.
+- **Fixes:** `stageFail` intent_ids bug; server transactional send flag (`SITE00_DF_TRANSACTIONAL_EMAIL_SEND` without VITE on API); runner marks project stages 02–06 COMPLETE before `foundation-complete` render.
+- **Live gates C/V:** still blocked until Railway allowlist + send flag + deploy branch to staging. Staging health gate PASS; deployed API sendFlag still false @ `34d9afa`. Unit proof: `tests/automatedEmailJourneyRunner.test.ts`.
