@@ -5,7 +5,7 @@
   "BASE_BRANCH": "main",
   "BASE_SHA": "b5654bde677f85246bb883b5599fac811947f89e",
   "IMPLEMENTATION_BRANCH": "cursor/ndxbook-kling4-cinematic-pipeline-8aec",
-  "FINAL_SHA": "TBD_AFTER_COMMIT",
+  "FINAL_SHA": "17ad8c0d58f6d7e706a8c349c2bb7445e63f25ba",
   "PR": "TBD",
   "PR_STATUS": "DRAFT_OPEN",
   "NDXBOOK_PIPELINE_FOUND": true,
