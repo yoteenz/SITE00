@@ -16623,3 +16623,13 @@ Summary of the whole conversation in this chat.
 - **Staging Auth:** one user, email confirmed, matches the default founder admin address, last sign-in is the confirmation click (2026-10-15 00:51 UTC). No recovery email has been sent. Production passwords are not this project's passwords.
 - **Code:** signup and password reset now send `https://<browser-origin>/origin/sign-in?returnTo=...` and refuse to invent `localhost:3000`. Recovery hash shows a new-password form and does not bounce away before the password is saved. Draft branch `cursor/staging-auth-redirect-be3b`. Not deployed.
 - **Dashboard (manual):** Site URL and redirect allowlist must be the carefree-luck origin. Until that is saved, new confirmation links still fall back to localhost.
+
+---
+
+## 2026-10-21 — NDXBOOK Kling 4 cinematic execution foundation (draft PR, no merge)
+
+- **Sprint:** P0.SITE00.NDXBOOK.KLING4-CINEMATIC-EXECUTION-PIPELINE-AUDIT-REFERENCE-INTEGRITY-AND-ENTRY002-MOTION-PROOF1 — forensic audit + reference-locked execution contracts for Entry 002 motion; **no paid Artlist spend**, **no merge** until founder approval.
+- **Audit:** Expression engine + fal-kling routing exists; Entry 002 bootstraps keep `klingBlocked` / `videoGenerationBlocked`. Artlist Kling 4 is UI/MCP + business OAuth docs only in repo — adapter defaults to **MANUAL_SUBMISSION**.
+- **Assets:** 5 pre-storyboard JPGs + 16 final cinematic panels on disk; **3 reel keyframe webp paths missing**; storyboard manifest ID `004` vs on-disk `002` filenames — bind by public path.
+- **Added:** `shared/site00-ndxbook-cinematic-execution/` (schemas, reference readiness, keyframe compiler, job lifecycle, paid gate, Artlist adapter, benchmark shot P08 RECOGNITION packet), docs under `docs/site00/ndxbook/cinematic-execution/`, tests `ndxbookKling4CinematicExecution.test.ts`, flag `NDXBOOK_KLING4_EXECUTION_ENABLED` (default off).
+- **Branch:** `cursor/ndxbook-kling4-cinematic-pipeline-8aec` → draft PR to `main`.
