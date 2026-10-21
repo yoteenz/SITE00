@@ -32,12 +32,14 @@ export default defineConfig(({ mode, command }) => {
     process.env.GITHUB_SHA ||
     (mode === 'development' ? 'dev-local' : Date.now().toString(36));
 
+  const cloudMobilePreviewFlag =
+    process.env.SITE00_CLOUD_MOBILE_PREVIEW === '1' ||
+    process.env.SITE00_CLOUD_MOBILE_PREVIEW === 'true';
   const cloudMobilePreview =
-    command === 'serve' &&
-    (process.env.SITE00_CLOUD_MOBILE_PREVIEW === '1' ||
-      process.env.SITE00_CLOUD_MOBILE_PREVIEW === 'true');
+    cloudMobilePreviewFlag && (command === 'serve' || command === 'build');
   const cloudPreviewDevLocalApi =
-    cloudMobilePreview && command === 'serve' && mode === 'development';
+    cloudMobilePreviewFlag &&
+    ((command === 'serve' && mode === 'development') || command === 'build');
 
   /** HMR dev only — never transform dist/index.html during `vite preview` (would serve /src/main.tsx). */
   const cloudPreviewDevServer =

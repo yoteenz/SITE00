@@ -36,6 +36,21 @@ fi
 
 bash "$ROOT/.cursor/scripts/restart-site00-preview-tunnel.sh"
 
+# Seed in-memory Digital Foundation artifacts for founder workspace + review (same-origin /api).
+for _i in $(seq 1 45); do
+  if curl -sf "http://127.0.0.1:5174/api/admin/site00-foundation?action=list" >/dev/null 2>&1; then
+    curl -sf "http://127.0.0.1:5174/api/dev/site00-digital-foundation-preview-bootstrap" >/dev/null 2>&1 || true
+    for fx in A_BASE J_PAYMENT_SUCCESS M_COMPLETE_CREDIT; do
+      curl -sf -X POST "http://127.0.0.1:5174/api/dev/site00-digital-foundation-preview-bootstrap" \
+        -H 'Content-Type: application/json' \
+        -d "{\"fixture_id\":\"$fx\"}" >/dev/null 2>&1 || true
+    done
+    curl -sf "http://127.0.0.1:5174/api/admin/site00-foundation?action=pipeline" >/dev/null 2>&1 || true
+    break
+  fi
+  sleep 2
+done
+
 MANIFEST="$ROOT/dist/release-manifest.json"
 if [[ -f "$MANIFEST" ]]; then
   node -e "const m=require('$MANIFEST'); console.log('Preview bundle:', m.commitSha, m.bundleEntry)"
