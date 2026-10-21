@@ -203,58 +203,65 @@ export function site00LocalApiPlugin() {
 
   const routeByPath = new Map(LOCAL_API_ROUTES.map((r) => [r.path, r.file]));
 
+  function mountLocalApi(server) {
+    applyServerEnv();
+
+    server.middlewares.use(async (req, res, next) => {
+      const rawUrl = req.url ?? '';
+      const pathname = rawUrl.split('?')[0] ?? '';
+      const file = routeByPath.get(pathname);
+      if (!file) return next();
+
+      applyServerEnv();
+
+      try {
+        const handler = await loadHandler(file);
+        const parsed = new URL(rawUrl, 'http://127.0.0.1');
+        const query = Object.fromEntries(parsed.searchParams.entries());
+        let body = '';
+        if (req.method === 'POST' || req.method === 'PUT' || req.method === 'PATCH') {
+          body = await readRequestBody(req);
+        }
+
+        const vercelReq = {
+          method: req.method,
+          url: rawUrl,
+          query,
+          headers: req.headers,
+          body: body.trim()
+            ? (() => {
+                try {
+                  return JSON.parse(body);
+                } catch {
+                  return body;
+                }
+              })()
+            : undefined,
+        };
+
+        await handler(vercelReq, createVercelResponseAdapter(res));
+      } catch (err) {
+        const message = err instanceof Error ? err.message : String(err);
+        if (!res.headersSent) {
+          res.statusCode = 500;
+          res.setHeader('Content-Type', 'application/json; charset=utf-8');
+        }
+        res.end(JSON.stringify({ error: message, code: 'LOCAL_API_ERROR' }));
+      }
+    });
+
+    console.log(
+      `[vite] Local API: ${LOCAL_API_ROUTES.map((r) => r.path).join(', ')} served on this preview server.`,
+    );
+  }
+
   return {
     name: 'site00-local-api',
     configureServer(server) {
-      applyServerEnv();
-
-      server.middlewares.use(async (req, res, next) => {
-        const rawUrl = req.url ?? '';
-        const pathname = rawUrl.split('?')[0] ?? '';
-        const file = routeByPath.get(pathname);
-        if (!file) return next();
-
-        applyServerEnv();
-
-        try {
-          const handler = await loadHandler(file);
-          const parsed = new URL(rawUrl, 'http://127.0.0.1');
-          const query = Object.fromEntries(parsed.searchParams.entries());
-          let body = '';
-          if (req.method === 'POST' || req.method === 'PUT' || req.method === 'PATCH') {
-            body = await readRequestBody(req);
-          }
-
-          const vercelReq = {
-            method: req.method,
-            url: rawUrl,
-            query,
-            headers: req.headers,
-            body: body.trim()
-              ? (() => {
-                  try {
-                    return JSON.parse(body);
-                  } catch {
-                    return body;
-                  }
-                })()
-              : undefined,
-          };
-
-          await handler(vercelReq, createVercelResponseAdapter(res));
-        } catch (err) {
-          const message = err instanceof Error ? err.message : String(err);
-          if (!res.headersSent) {
-            res.statusCode = 500;
-            res.setHeader('Content-Type', 'application/json; charset=utf-8');
-          }
-          res.end(JSON.stringify({ error: message, code: 'LOCAL_API_ERROR' }));
-        }
-      });
-
-      console.log(
-        `[vite] Local API: ${LOCAL_API_ROUTES.map((r) => r.path).join(', ')} served on this dev server.`,
-      );
+      mountLocalApi(server);
+    },
+    configurePreviewServer(server) {
+      mountLocalApi(server);
     },
   };
 }
