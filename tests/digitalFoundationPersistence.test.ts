@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { createArtifactForLead, completeIntake } from '../api/_lib/digitalFoundation/service.js';
+import { createArtifactForLead } from '../api/_lib/digitalFoundation/service.js';
+import { completeIntakeWithContactPhone } from './helpers/dfTestContactPhone.js';
 import {
   isSupabaseDfPersistenceEnabled,
   persistArtifactGraph,
@@ -11,7 +12,7 @@ describe('Digital Foundation Supabase persistence', () => {
     'reloads artifact graph after memory reset',
     async () => {
       const a = createArtifactForLead({ business_name: 'Persist Co' });
-      completeIntake(a.artifact_id);
+      completeIntakeWithContactPhone(a.artifact_id);
       await persistArtifactGraph(a.artifact_id);
       const reloaded = await reloadArtifactFromSupabaseForTest(a.public_token);
       expect(reloaded?.artifact_id).toBe(a.artifact_id);

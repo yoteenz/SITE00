@@ -5,7 +5,7 @@
  */
 
 export const SITE00_STAGING_PUBLIC_ORIGIN = 'https://carefree-luck-staging.up.railway.app';
-export const SITE00_FOUNDER_READINESS_PATH = '/admin/site00/foundation-readiness';
+export const SITE00_FOUNDER_READINESS_PATH = '/admin/site00/founder-workspace/overview';
 const SIGN_IN_PATH = '/origin/sign-in';
 
 export function site00SafeReturnPath(returnPath: string | null | undefined): string {

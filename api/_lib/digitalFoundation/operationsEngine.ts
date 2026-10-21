@@ -12,6 +12,7 @@ import { extractBlockers } from '../../../shared/site00-digital-foundation/opera
 import { buildPipelineRows, pipelineAttentionQueries } from '../../../shared/site00-digital-foundation/operations/contracts/p13Pipeline.js';
 import { projectCommandAnswers, type ProjectCommandSnapshot } from '../../../shared/site00-digital-foundation/operations/contracts/p14ProjectCommand.js';
 import { groupWorkbenchTasks, tasksByMode } from '../../../shared/site00-digital-foundation/operations/contracts/p15ExecutionWorkbench.js';
+import type { FounderRunbookView } from '../../../shared/site00-digital-foundation/operations/contracts/p15RunbookView.js';
 import type { ClientActionType } from '../../../shared/site00-digital-foundation/types.js';
 import * as mem from './memoryStore.js';
 import { listArtifacts, memGetArtifact, memGetLead, memGetQuote } from './memoryStore.js';
@@ -304,6 +305,21 @@ export function getWorkbenchView(artifactId: string) {
     buckets: groupWorkbenchTasks(tasks),
     by_mode: tasksByMode(tasks),
     command: projectCommandAnswers(getProjectCommandSnapshot(artifactId)),
+  };
+}
+
+export function getRunbookView(artifactId: string): FounderRunbookView {
+  const s = mem.getDfMemoryState();
+  const artifact = memGetArtifact(artifactId);
+  if (!artifact) throw new Error('ARTIFACT_NOT_FOUND');
+  return {
+    artifact_id: artifactId,
+    runbook: s.runbooks.get(artifactId) ?? null,
+    tasks: (s.tasks.get(artifactId) ?? []).filter((t) => t.status !== 'SUPERSEDED'),
+    verification_rules: s.verificationRules.get(artifactId) ?? [],
+    verification_results: s.verificationResults.get(artifactId) ?? [],
+    forecast: s.forecasts.get(artifactId) ?? null,
+    credit: artifact.foundation_credit_id ? s.credits.get(artifact.foundation_credit_id) ?? null : null,
   };
 }
 

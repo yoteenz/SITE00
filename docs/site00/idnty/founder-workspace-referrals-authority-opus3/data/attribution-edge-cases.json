@@ -1,0 +1,149 @@
+[
+ {
+  "id": "E01",
+  "scenario": "Card scanned \u2192 DF entry started in the same session",
+  "signal": "Server-held referral context from /invite/:code is attached when the artifact is created.",
+  "outcome": "ATTRIBUTED \u00b7 OBSERVED",
+  "policy": "\u2014"
+ },
+ {
+  "id": "E02",
+  "scenario": "QR scanned, prospect leaves, returns later by typing site00.com",
+  "signal": "No server context survives unless within an approved window on the same browser.",
+  "outcome": "UNATTRIBUTED until FD-R07; RO-19 manual correction with evidence",
+  "policy": "FD-R07"
+ },
+ {
+  "id": "E03",
+  "scenario": "Return on the same device inside the approved window",
+  "signal": "First-party, httpOnly referral context (opaque id, server-side lookup) still valid.",
+  "outcome": "ATTRIBUTED \u00b7 OBSERVED",
+  "policy": "FD-R07"
+ },
+ {
+  "id": "E04",
+  "scenario": "Return after the window has closed",
+  "signal": "Context expired server-side.",
+  "outcome": "UNATTRIBUTED; correction allowed only with evidence",
+  "policy": "FD-R07"
+ },
+ {
+  "id": "E05",
+  "scenario": "Two different partner links touched before the artifact exists",
+  "signal": "Both touches recorded as visits.",
+  "outcome": "ATTRIBUTION EXCEPTION (RO-18) \u2192 manual review until FD-R08",
+  "policy": "FD-R08"
+ },
+ {
+  "id": "E06",
+  "scenario": "Partner link opened after the client's artifact already exists",
+  "signal": "Visit recorded; artifact attribution is immutable once set.",
+  "outcome": "PRESERVE PRIOR \u00b7 no change",
+  "policy": "FD-R08"
+ },
+ {
+  "id": "E07",
+  "scenario": "Prospect is an existing SITE 00 / DF client",
+  "signal": "Email or business match to an existing artifact.",
+  "outcome": "DISQUALIFIED (existing client) pending founder review",
+  "policy": "FD-R09"
+ },
+ {
+  "id": "E08",
+  "scenario": "Partner refers itself, its owner or a related business",
+  "signal": "Email domain / payee / owner match.",
+  "outcome": "DISQUALIFIED (self-referral) pending review",
+  "policy": "FD-R09"
+ },
+ {
+  "id": "E09",
+  "scenario": "Revoked code scanned",
+  "signal": "Code status REVOKED.",
+  "outcome": "Public page: card no longer active \u00b7 BEGIN WITHOUT A REFERRAL \u00b7 no attribution",
+  "policy": "\u2014"
+ },
+ {
+  "id": "E10",
+  "scenario": "Suspended partner's code scanned",
+  "signal": "Partner SUSPENDED; code paused.",
+  "outcome": "Begin unattributed; existing commissions follow FD-R19",
+  "policy": "FD-R19"
+ },
+ {
+  "id": "E11",
+  "scenario": "Staging or test code used",
+  "signal": "Code issued in a non-production environment.",
+  "outcome": "TEST banner; never creates production attribution",
+  "policy": "\u2014"
+ },
+ {
+  "id": "E12",
+  "scenario": "Guessed, malformed or tampered code",
+  "signal": "Code not found; high-entropy codes make guessing impractical.",
+  "outcome": "Generic invalid page; rate-limited; security event logged; no partner name revealed",
+  "policy": "\u2014"
+ },
+ {
+  "id": "E13",
+  "scenario": "Partner id supplied by the client (query string, form field, local storage)",
+  "signal": "Ignored; only the server-resolved code is evidence.",
+  "outcome": "Never attributes; logged as tamper signal",
+  "policy": "\u2014"
+ },
+ {
+  "id": "E14",
+  "scenario": "Prospect forwards the link to another business",
+  "signal": "Same code resolves for the second business.",
+  "outcome": "ATTRIBUTED to the code's partner; FORWARDED signal noted for review",
+  "policy": "FD-R08"
+ },
+ {
+  "id": "E15",
+  "scenario": "Scan on phone, finish on desktop",
+  "signal": "Server context lives on the phone browser only.",
+  "outcome": "UNAVAILABLE across devices unless continued via the private DF link; correction with evidence",
+  "policy": "FD-R18"
+ },
+ {
+  "id": "E16",
+  "scenario": "Duplicate artifacts for the same business",
+  "signal": "Two artifacts created by mistake.",
+  "outcome": "One attribution per client; duplicate flagged; commission only on the surviving artifact",
+  "policy": "FD-R09"
+ },
+ {
+  "id": "E17",
+  "scenario": "Payment refunded before eligibility",
+  "signal": "Refund evidence before the trigger is satisfied.",
+  "outcome": "Commission never becomes ELIGIBLE (stays NOT YET ELIGIBLE \u2192 REVERSED)",
+  "policy": "FD-R06"
+ },
+ {
+  "id": "E18",
+  "scenario": "Partial refund after approval, before payout",
+  "signal": "Basis reduced.",
+  "outcome": "ADJUSTED with a correction entry; approval re-required",
+  "policy": "FD-R06"
+ },
+ {
+  "id": "E19",
+  "scenario": "Chargeback after the payout was recorded PAID",
+  "signal": "Dispute evidence from the processor.",
+  "outcome": "DISPUTED; clawback / netting per FD-R06; payout reversal RO-17 only by founder",
+  "policy": "FD-R06"
+ },
+ {
+  "id": "E20",
+  "scenario": "Partner terminated between referral and client payment",
+  "signal": "Partner TERMINATED.",
+  "outcome": "Commission handled per FD-R19; no automatic forfeiture",
+  "policy": "FD-R19"
+ },
+ {
+  "id": "E21",
+  "scenario": "Verbal referral, no card or link used",
+  "signal": "No digital touch exists.",
+  "outcome": "Manual attribution with written evidence (RO-19); evidence class UNAVAILABLE",
+  "policy": "FD-R18"
+ }
+]

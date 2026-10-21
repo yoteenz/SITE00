@@ -1,0 +1,565 @@
+{
+  "boards": {
+    "10": {
+      "source": "src/board-10-client-record-desktop.html",
+      "image": "board-10-client-record-desktop.png",
+      "css_px": [
+        1570,
+        2551
+      ],
+      "image_px": [
+        3140,
+        5101
+      ],
+      "bytes": 633762,
+      "sha256": "b84f9ca638589b3af7e8758707a681e97b2512457106b2040c24259f561663cc",
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": []
+    },
+    "11": {
+      "source": "src/board-11-client-intake-recommendations.html",
+      "image": "board-11-client-intake-recommendations.png",
+      "css_px": [
+        1570,
+        2511
+      ],
+      "image_px": [
+        3140,
+        5022
+      ],
+      "bytes": 683068,
+      "sha256": "480df34cbbd5379f5e5f9692c9bea7c1d6b146630c069cb73cb1c28f5f9f0fc3",
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": []
+    },
+    "12": {
+      "source": "src/board-12-client-quote-commercial.html",
+      "image": "board-12-client-quote-commercial.png",
+      "css_px": [
+        1570,
+        2511
+      ],
+      "image_px": [
+        3140,
+        5022
+      ],
+      "bytes": 617416,
+      "sha256": "57d651b6fd088af03e92be2b5bc03df4c11b3a4a56fe12f471ae584ed8824247",
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": []
+    },
+    "13": {
+      "source": "src/board-13-reviews-queue-mobile.html",
+      "image": "board-13-reviews-queue-mobile.png",
+      "css_px": [
+        1780,
+        1436
+      ],
+      "image_px": [
+        3560,
+        2871
+      ],
+      "bytes": 350011,
+      "sha256": "d9b0e176907b28282c054427648119cb291dce05a0ebfd164952066aea18d047",
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": []
+    },
+    "14": {
+      "source": "src/board-14-reviews-queue-desktop.html",
+      "image": "board-14-reviews-queue-desktop.png",
+      "css_px": [
+        1570,
+        1459
+      ],
+      "image_px": [
+        3140,
+        2918
+      ],
+      "bytes": 382528,
+      "sha256": "2b357e8b10397895d7120a2276d09e1e8716331c448c5e5155f7b5e5aae7fb78",
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": []
+    },
+    "15": {
+      "source": "src/board-15-review-detail-mobile.html",
+      "image": "board-15-review-detail-mobile.png",
+      "css_px": [
+        1780,
+        1436
+      ],
+      "image_px": [
+        3560,
+        2871
+      ],
+      "bytes": 389757,
+      "sha256": "c951bd2d47c05eaec465b7332b63ebea6d390f0067ce605b8c1336c38a3d641a",
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": []
+    },
+    "16": {
+      "source": "src/board-16-review-detail-desktop.html",
+      "image": "board-16-review-detail-desktop.png",
+      "css_px": [
+        1570,
+        2508
+      ],
+      "image_px": [
+        3140,
+        5016
+      ],
+      "bytes": 488055,
+      "sha256": "d2f0826ded1030de620dc2cd44d2ef4c8fbda3ca0d66dc9a650d454435e34f0f",
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": []
+    },
+    "17": {
+      "source": "src/board-17-operations-mobile.html",
+      "image": "board-17-operations-mobile.png",
+      "css_px": [
+        1780,
+        1419
+      ],
+      "image_px": [
+        3560,
+        2839
+      ],
+      "bytes": 452026,
+      "sha256": "980bff9d3f2366d71766086e5455cfa59712969fbde7ba07abce3c0d75e11253",
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": []
+    },
+    "18": {
+      "source": "src/board-18-operations-desktop.html",
+      "image": "board-18-operations-desktop.png",
+      "css_px": [
+        1570,
+        1793
+      ],
+      "image_px": [
+        3140,
+        3585
+      ],
+      "bytes": 502764,
+      "sha256": "43bb76e3341c901981204186f1546af865a36327e7cd065b3b47b9abba3e800f",
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": []
+    },
+    "19": {
+      "source": "src/board-19-correspondence-mobile.html",
+      "image": "board-19-correspondence-mobile.png",
+      "css_px": [
+        1480,
+        1461
+      ],
+      "image_px": [
+        2960,
+        2921
+      ],
+      "bytes": 410329,
+      "sha256": "fdad6bdbb7eb68c04ceb7e8671fa99027b65cf106018717c5bd5af4ede4d06e2",
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": []
+    },
+    "20": {
+      "source": "src/board-20-correspondence-desktop.html",
+      "image": "board-20-correspondence-desktop.png",
+      "css_px": [
+        1570,
+        1459
+      ],
+      "image_px": [
+        3140,
+        2918
+      ],
+      "bytes": 399434,
+      "sha256": "48f44d45a24a0bbaedd1f750b6fbd0a8ece93be0a1594cdca552391cb3391c65",
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": []
+    },
+    "21": {
+      "source": "src/board-21-system-mobile.html",
+      "image": "board-21-system-mobile.png",
+      "css_px": [
+        1780,
+        2507
+      ],
+      "image_px": [
+        3560,
+        5013
+      ],
+      "bytes": 714483,
+      "sha256": "0cfef8029b3e936df1db60344ed843e3880fec6943104656390df7a8588f1bef",
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": []
+    },
+    "22": {
+      "source": "src/board-22-system-desktop.html",
+      "image": "board-22-system-desktop.png",
+      "css_px": [
+        1570,
+        2534
+      ],
+      "image_px": [
+        3140,
+        5069
+      ],
+      "bytes": 654249,
+      "sha256": "d1efc2b1d079346ba9c246850109e0479ca5b3c1b81a903c6ebef077cfe9e78f",
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": []
+    },
+    "23": {
+      "source": "src/board-23-system-test-lab.html",
+      "image": "board-23-system-test-lab.png",
+      "css_px": [
+        2028,
+        2627
+      ],
+      "image_px": [
+        4056,
+        5255
+      ],
+      "bytes": 794510,
+      "sha256": "35f3528b2133651ce09e9ede042c90cc2ca037a5204973a24363a25156b3f576",
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": []
+    },
+    "24": {
+      "source": "src/board-24-global-overlays-states.html",
+      "image": "board-24-global-overlays-states.png",
+      "css_px": [
+        2158,
+        3216
+      ],
+      "image_px": [
+        4316,
+        6431
+      ],
+      "bytes": 1048464,
+      "sha256": "1473c16af9f818dd6374737a614a22dc0eff9537e83c0a6d899ac85f286b2740",
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": []
+    },
+    "25": {
+      "source": "src/board-25-responsive-components.html",
+      "image": "board-25-responsive-components.png",
+      "css_px": [
+        2400,
+        3334
+      ],
+      "image_px": [
+        4800,
+        6668
+      ],
+      "bytes": 763401,
+      "sha256": "fe5af90d7c8404493422a78292aa8dcac93a2d3bfec29c02a37a8b9585b7f830",
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": []
+    },
+    "26": {
+      "source": "src/board-26-navigation-page-tree.html",
+      "image": "board-26-navigation-page-tree.png",
+      "css_px": [
+        1879,
+        2481
+      ],
+      "image_px": [
+        3758,
+        4962
+      ],
+      "bytes": 703673,
+      "sha256": "bec7aed159db92ef19d19f6ad9affca4c79fe459a0d757af0d260bf9432e33ee",
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": []
+    },
+    "27": {
+      "source": "src/board-27-component-system.html",
+      "image": "board-27-component-system.png",
+      "css_px": [
+        2076,
+        2625
+      ],
+      "image_px": [
+        4152,
+        5250
+      ],
+      "bytes": 668552,
+      "sha256": "1c812119f251447e2aaaca4c7cc284752759449abb5e08ca399951337494575d",
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": []
+    },
+    "28": {
+      "source": "src/board-28-end-to-end-workflow.html",
+      "image": "board-28-end-to-end-workflow.png",
+      "css_px": [
+        2408,
+        1457
+      ],
+      "image_px": [
+        4816,
+        2914
+      ],
+      "bytes": 621824,
+      "sha256": "24898dbc7c6b6d3f82e29a1d48c93e32c0408a5105f341bbc3ea3775505a540f",
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": []
+    },
+    "01": {
+      "source": "src/board-01-global-shell-mobile.html",
+      "image": "board-01-global-shell-mobile.png",
+      "css_px": [
+        1728,
+        2529
+      ],
+      "image_px": [
+        3456,
+        5058
+      ],
+      "bytes": 772325,
+      "sha256": "7d2d5d1574220c8b56eaf13a5dd65dfee4b4d99424508e1e9b26d122123fbcd6",
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": []
+    },
+    "02": {
+      "source": "src/board-02-global-shell-desktop.html",
+      "image": "board-02-global-shell-desktop.png",
+      "css_px": [
+        2400,
+        3733
+      ],
+      "image_px": [
+        4800,
+        7466
+      ],
+      "bytes": 1195803,
+      "sha256": "5018deb7f0e8280cf9437f8b078fb39b906992b871e8d18819e2cab8b5c9715e",
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": []
+    },
+    "03": {
+      "source": "src/board-03-overview-mobile.html",
+      "image": "board-03-overview-mobile.png",
+      "css_px": [
+        1480,
+        2471
+      ],
+      "image_px": [
+        2960,
+        4943
+      ],
+      "bytes": 614968,
+      "sha256": "15ad2a13643b2e8d14c799526f4e67d82662b57b95feead9f98b6e118411adfb",
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": []
+    },
+    "04": {
+      "source": "src/board-04-overview-desktop.html",
+      "image": "board-04-overview-desktop.png",
+      "css_px": [
+        1570,
+        2534
+      ],
+      "image_px": [
+        3140,
+        5069
+      ],
+      "bytes": 766484,
+      "sha256": "5e8e007028a4a8cf62d648280fb7c27b921bf7ecfbc3fbb7f1dc406112eab720",
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": []
+    },
+    "05": {
+      "source": "src/board-05-foundations-mobile.html",
+      "image": "board-05-foundations-mobile.png",
+      "css_px": [
+        1480,
+        2471
+      ],
+      "image_px": [
+        2960,
+        4943
+      ],
+      "bytes": 489912,
+      "sha256": "9fd923d6669c708cc4fa68a32bb030007e7a2b579358f2a13f656cb65569765f",
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": []
+    },
+    "06": {
+      "source": "src/board-06-foundations-desktop.html",
+      "image": "board-06-foundations-desktop.png",
+      "css_px": [
+        1570,
+        2534
+      ],
+      "image_px": [
+        3140,
+        5069
+      ],
+      "bytes": 727938,
+      "sha256": "64462d2e45f63b5de9d5dd67655bdebab907dd9952a678b276ea9c1a6434a3e9",
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": []
+    },
+    "07": {
+      "source": "src/board-07-create-client-mobile.html",
+      "image": "board-07-create-client-mobile.png",
+      "css_px": [
+        1480,
+        2480
+      ],
+      "image_px": [
+        2960,
+        4960
+      ],
+      "bytes": 550849,
+      "sha256": "a34e8925af17f886dc806fea86b590311f413255d4b4fb0105d229887308bdc0",
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": []
+    },
+    "08": {
+      "source": "src/board-08-create-client-desktop.html",
+      "image": "board-08-create-client-desktop.png",
+      "css_px": [
+        1570,
+        2534
+      ],
+      "image_px": [
+        3140,
+        5069
+      ],
+      "bytes": 606863,
+      "sha256": "5aa460620dad944fbd68bfadc47557c433ba60c922021e3a59b48f917b4d0ca8",
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": []
+    },
+    "09": {
+      "source": "src/board-09-client-record-mobile.html",
+      "image": "board-09-client-record-mobile.png",
+      "css_px": [
+        1480,
+        2471
+      ],
+      "image_px": [
+        2960,
+        4943
+      ],
+      "bytes": 536520,
+      "sha256": "92e8cb5170ea43179e3d7b33cb158c2f958633bdd67991bae61d92ef739dc405",
+      "fonts_loaded": {
+        "SITE 00 Display": true,
+        "Saira Semi Condensed": true
+      },
+      "lowercase_app_text": [],
+      "page_errors": []
+    }
+  },
+  "renderer": "boards/render-boards.mjs (Vite SSR data + Playwright Chromium, deviceScaleFactor 2)"
+}

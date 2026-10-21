@@ -17,7 +17,16 @@ import {
   StandardIcon,
   WebsiteIcon,
 } from './icons';
-import { CORE_INCLUDED, FEEL_BY_ID, FEEL_OPTIONS, PACE_OPTIONS, PATH_OPTIONS, WORK_MODULES, moduleLevelCheck } from './studioModel';
+import {
+  CORE_INCLUDED,
+  FEEL_BY_ID,
+  FEEL_OPTIONS,
+  PACE_OPTIONS,
+  PATH_BY_ID,
+  PATH_OPTIONS,
+  WORK_MODULES,
+  moduleLevelCheck,
+} from './studioModel';
 import type { CoreIncludedId, PacePreferenceId, PlacePathId, SpatialBuilderState, WorkModuleId } from './studioModel';
 
 export type RoomProps = {
@@ -59,30 +68,36 @@ export function PlaceStageArrows({ state, update }: RoomProps) {
 }
 
 export function PlaceControls({ state, update }: RoomProps) {
+  const focused = state.placePath ? PATH_BY_ID[state.placePath] : null;
   return (
-    <div className="bs-cards" role="radiogroup" aria-label="WHAT ARE WE CREATING">
-      {PATH_OPTIONS.map((option) => {
-        const selected = state.placePath === option.id;
-        const thumb = compose('place', { path: option.id, feel: state.feelVibe, modules: [], pace: state.pace });
-        return (
-          <button
-            key={option.id}
-            type="button"
-            role="radio"
-            aria-checked={selected}
-            className={`bs-card${selected ? ' is-selected' : ''}`}
-            onClick={() => update({ placePath: option.id })}
-            title={option.plain}
-          >
-            <BuildThumbnail composition={thumb} width={176} height={88} alt="" />
-            <span className="bs-card__label">{option.label}</span>
-            <span className="bs-card__sub">
-              <BsBody>{option.descriptor}</BsBody>
-            </span>
-          </button>
-        );
-      })}
-    </div>
+    <>
+      <div className="bs-feel-caption" aria-live="polite">
+        <p className="bs-feel-caption__label">{focused ? focused.label : 'YOUR BUILD TYPE'}</p>
+        <p className="bs-feel-caption__sub">
+          <BsBody>{focused ? focused.descriptor : 'CHOOSE ONE BELOW'}</BsBody>
+        </p>
+      </div>
+      <div className="bs-strip" role="radiogroup" aria-label="WHAT ARE WE CREATING">
+        {PATH_OPTIONS.map((option) => {
+          const selected = state.placePath === option.id;
+          const thumb = compose('place', { path: option.id, feel: state.feelVibe, modules: [], pace: state.pace });
+          return (
+            <button
+              key={option.id}
+              type="button"
+              role="radio"
+              aria-checked={selected}
+              className={`bs-strip__item${selected ? ' is-selected' : ''}`}
+              onClick={() => update({ placePath: option.id })}
+              title={option.plain}
+            >
+              <BuildThumbnail composition={thumb} width={160} height={126} alt="" />
+              <span className="bs-strip__label">{option.label}</span>
+            </button>
+          );
+        })}
+      </div>
+    </>
   );
 }
 

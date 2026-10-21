@@ -1,0 +1,117 @@
+{
+  "status": "PROPOSED — RESPONSIVE REFINEMENT; founder review required",
+  "shell_tiers": [
+    {
+      "id": "M",
+      "name": "phone",
+      "min": 0,
+      "max": 767,
+      "nav": "bottom nav 72 + header 52",
+      "nav_width": 0,
+      "top": 52,
+      "gutter": 16,
+      "inspector": "bottom sheet under the header"
+    },
+    {
+      "id": "TP",
+      "name": "tablet portrait",
+      "min": 768,
+      "max": 1023,
+      "nav": "labelled rail",
+      "nav_width": 80,
+      "top": 56,
+      "gutter": 24,
+      "inspector": "right sheet min(420px, 88vw) over a scrim"
+    },
+    {
+      "id": "TL",
+      "name": "tablet landscape",
+      "min": 1024,
+      "max": 1279,
+      "nav": "labelled rail",
+      "nav_width": 80,
+      "top": 56,
+      "gutter": 28,
+      "inspector": "docked 340 from 1100; right sheet below"
+    },
+    {
+      "id": "D",
+      "name": "desktop standard",
+      "min": 1280,
+      "max": 1919,
+      "nav": "sidebar",
+      "nav_width": "224 (1280–1599) · 248 (≥1600)",
+      "top": 56,
+      "gutter": 32,
+      "page_max": 1560,
+      "inspector": "docked clamp(344px, 24vw, 420px)"
+    },
+    {
+      "id": "UW",
+      "name": "desktop ultra-wide",
+      "min": 1920,
+      "max": null,
+      "nav": "sidebar",
+      "nav_width": 248,
+      "top": 56,
+      "gutter": 40,
+      "page_max": 1760,
+      "inspector": "docked clamp(420px, 18vw, 480px)"
+    }
+  ],
+  "dock_rule": "inspector docks when viewport − nav − inspector ≥ 680 (stage minimum); 80 + 340 + 680 = 1100",
+  "short_height_rule": "min-width 1024 and max-height 860 → title 44, header padding 18/16",
+  "stage_container_tiers": [
+    {
+      "id": "cs",
+      "max": 639,
+      "use": "single column, card rows"
+    },
+    {
+      "id": "cm",
+      "min": 640,
+      "max": 919,
+      "use": "two-zone pages, one-pane workbenches"
+    },
+    {
+      "id": "cl",
+      "min": 920,
+      "max": 1439,
+      "use": "two/three-zone pages; workbench two panes (three from 1160)"
+    },
+    {
+      "id": "cx",
+      "min": 1440,
+      "use": "three-zone pages; capped component widths"
+    }
+  ],
+  "component_container_rules": {
+    "registry (reg)": "<600 card rows · 600–919 CLIENT/STATUS/NEXT ACTION · ≥920 CLIENT/LIFECYCLE/INTAKE/NEXT ACTION/LAST ACTIVITY · ≥1300 capped column widths",
+    "decision pane (dec)": "<560 stacked · ≥560 footer grid (choices | note | CTA)",
+    "console (con)": "<960 icon · module · status · ≥960 MODULE/STATUS/AREA/DETAIL/CHECKED",
+    "kv grid": "≥720 two columns",
+    "answers grid": "≥760 two columns",
+    "stage rail": "<700 numbers only",
+    "task row": "<560 status stacks under mode · ≥1000 text column ≤480",
+    "signals": "<360 2×2",
+    "journey": "stage <920 abbreviated labels; inspector always abbreviated"
+  },
+  "verified_viewports": [
+    "320x700",
+    "375x812",
+    "390x844",
+    "430x932",
+    "768x1024",
+    "820x1180",
+    "834x1112",
+    "1024x768",
+    "1194x834",
+    "1280x800",
+    "1366x768",
+    "1440x900",
+    "1600x900",
+    "1920x1080",
+    "2560x1440",
+    "3440x1440"
+  ]
+}

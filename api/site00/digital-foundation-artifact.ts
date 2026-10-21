@@ -8,6 +8,7 @@ import {
   captureBuildInterest,
   completeClientAction,
   createCheckoutSession,
+  createFoundationBuilderHandoff,
   getClientArtifactPayloadByToken,
   openArtifactByToken,
   removeQuoteAddon,
@@ -28,6 +29,7 @@ import {
   loadArtifactGraphByToken,
   persistArtifactGraph,
 } from '../_lib/digitalFoundation/persistence/supabaseStore.js';
+import { DfPersistenceError } from '../_lib/digitalFoundation/persistence/dfPersistenceError.js';
 
 function setCors(res: VercelResponse): void {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -41,6 +43,15 @@ function tokenFromReq(req: VercelRequest): string {
 
 /** Supabase and fetch failures are often plain objects. String(object) is "[object Object]". */
 export function digitalFoundationHandlerError(e: unknown): { status: number; error: string } {
+  if (e instanceof DfPersistenceError) {
+    const status =
+      e.code === 'DATABASE_PERMISSION_DENIED' || e.code === 'DATA_CONTRACT_INVALID'
+        ? 503
+        : e.code === 'DATABASE_UNAVAILABLE'
+          ? 503
+          : 500;
+    return { status, error: e.code };
+  }
   let message = 'Digital Foundation request failed';
   let code = '';
   if (e instanceof Error && e.message) {
@@ -97,7 +108,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         case 'payload': {
           const token = tokenFromReq(req);
           if (!token) return res.status(400).json({ error: 'token required' });
-          await loadArtifactGraphByToken(token);
+          const loaded = await loadArtifactGraphByToken(token);
+          if (!loaded && isSupabaseDfPersistenceEnabled()) {
+            return res.status(404).json({ error: 'ARTIFACT_NOT_FOUND' });
+          }
           return res.status(200).json(getClientArtifactPayloadByToken(token));
         }
         default:
@@ -109,7 +123,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const postAction = String(body.action ?? action);
       const token = tokenFromReq(req);
       if (!token) return res.status(400).json({ error: 'token required' });
-      await loadArtifactGraphByToken(token);
+      const loaded = await loadArtifactGraphByToken(token);
+      if (!loaded && isSupabaseDfPersistenceEnabled()) {
+        return res.status(404).json({ error: 'ARTIFACT_NOT_FOUND' });
+      }
       const artifact = openArtifactByToken(token);
 
       switch (postAction) {
@@ -174,6 +191,23 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           captureBuildInterest(artifact.artifact_id, body.interest ?? 'INTERESTED');
           await loadArtifactGraphByToken(token);
           return res.status(200).json(getClientArtifactPayloadByToken(token));
+        case 'create-builder-handoff': {
+          const handoff = createFoundationBuilderHandoff(artifact.artifact_id, {
+            build_path_preference: body.build_path_preference ?? null,
+          });
+          await loadArtifactGraphByToken(token);
+          return res.status(200).json({
+            handoff_id: handoff.handoff.handoff_id,
+            deep_link_path: handoff.deep_link_path,
+            credit_verified: handoff.credit_verified,
+            credit_amount_minor: handoff.credit_amount_minor,
+            credit_currency: handoff.credit_currency,
+            credit_expires_at: handoff.credit_expires_at,
+            build_path_preference: handoff.handoff.build_path_preference,
+            builder_credit_consumption: handoff.builder_credit_consumption,
+            payload: getClientArtifactPayloadByToken(token),
+          });
+        }
         case 'list-messages':
           markProjectMessagesRead({ artifact_id: artifact.artifact_id, reader_role: 'CLIENT' });
           return res.status(200).json({ messages: listProjectMessages(artifact.artifact_id) });

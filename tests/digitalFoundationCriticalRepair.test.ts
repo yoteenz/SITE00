@@ -1,5 +1,6 @@
 import { describe, expect, it, beforeEach, vi } from 'vitest';
 import { resetDigitalFoundationMemoryStore } from '../api/_lib/digitalFoundation/memoryStore.js';
+import { completeIntakeWithContactPhone } from './helpers/dfTestContactPhone.js';
 import {
   acceptQuote,
   applyManualQuoteAdjustment,
@@ -38,7 +39,7 @@ describe('Digital Foundation critical repair — approvals', () => {
 
   it('REQUEST_CHANGE does not complete approval-gated task', () => {
     const a = createArtifactForLead({});
-    completeIntake(a.artifact_id);
+    completeIntakeWithContactPhone(a.artifact_id);
     const req = createClientAction({
       artifact_id: a.artifact_id,
       action_type: 'APPROVE_SIGNATURE',
@@ -123,7 +124,7 @@ describe('Digital Foundation critical repair — lifecycle routing', () => {
 
   it('refunded projects use PAYMENT_RECOVERY surface', () => {
     const a = createArtifactForLead({});
-    completeIntake(a.artifact_id);
+    completeIntakeWithContactPhone(a.artifact_id);
     acceptQuote({ artifact_id: a.artifact_id, disclosures });
     recordRefund(a.artifact_id, { reason: 'test' });
     const payload = getArtifactPayload(a.artifact_id);
@@ -132,7 +133,7 @@ describe('Digital Foundation critical repair — lifecycle routing', () => {
 
   it('completed projects use COMPLETE surface', async () => {
     const a = createArtifactForLead({});
-    completeIntake(a.artifact_id);
+    completeIntakeWithContactPhone(a.artifact_id);
     acceptQuote({ artifact_id: a.artifact_id, disclosures });
     markQuoteCommerciallyReady(a.artifact_id);
     await createCheckoutSession({
@@ -155,7 +156,7 @@ describe('Digital Foundation critical repair — quote gating', () => {
 
   it('blocks checkout when manual review pending', async () => {
     const a = createArtifactForLead({});
-    completeIntake(a.artifact_id);
+    completeIntakeWithContactPhone(a.artifact_id);
     updateQuoteSelections(a.artifact_id, [{ addon_id: 'DOMAIN_RECOVERY', quantity: 1 }]);
     acceptQuote({ artifact_id: a.artifact_id, disclosures });
     await expect(
@@ -176,7 +177,7 @@ describe('Digital Foundation critical repair — quote gating', () => {
 
   it('rejects outdated quote payment via webhook confirmation', async () => {
     const a = createArtifactForLead({});
-    completeIntake(a.artifact_id);
+    completeIntakeWithContactPhone(a.artifact_id);
     const oldQuoteId = getArtifactPayload(a.artifact_id).quote!.quote_id;
     updateQuoteSelections(a.artifact_id, [{ addon_id: 'ADDITIONAL_MAILBOX', quantity: 1 }]);
     acceptQuote({ artifact_id: a.artifact_id, disclosures });
@@ -212,7 +213,7 @@ describe('Digital Foundation critical repair — readiness clock', () => {
 
   it('does not mark production started before payment', () => {
     const a = createArtifactForLead({});
-    completeIntake(a.artifact_id);
+    completeIntakeWithContactPhone(a.artifact_id);
     const readiness = computeReadinessState({
       artifact: getArtifactPayload(a.artifact_id).artifact,
       quote: getArtifactPayload(a.artifact_id).quote,
@@ -241,7 +242,7 @@ describe('Digital Foundation critical repair — runbook idempotency', () => {
 
   it('does not duplicate runbook for same scope hash', async () => {
     const a = createArtifactForLead({});
-    completeIntake(a.artifact_id);
+    completeIntakeWithContactPhone(a.artifact_id);
     acceptQuote({ artifact_id: a.artifact_id, disclosures });
     markQuoteCommerciallyReady(a.artifact_id);
     await simulateStripeCheckoutCompleted({
@@ -268,7 +269,7 @@ describe('Digital Foundation critical repair — quote payability helper', () =>
 
   it('flags expired quotes', () => {
     const a = createArtifactForLead({});
-    completeIntake(a.artifact_id);
+    completeIntakeWithContactPhone(a.artifact_id);
     acceptQuote({ artifact_id: a.artifact_id, disclosures });
     const q = getArtifactPayload(a.artifact_id).quote!;
     q.expires_at = new Date(Date.now() - 86400000).toISOString();

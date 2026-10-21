@@ -1,5 +1,5 @@
 /** Board 01 — P01 FOUNDATION ENTRY · P02 BUSINESS INTAKE · P03 FOUNDATION CONFIGURATOR. */
-import { useState, type ReactNode } from 'react';
+import { useMemo, useState, type ChangeEvent, type ReactNode } from 'react';
 import { defaultDigitalFoundationCommercialConfig } from '../../../../shared/site00-digital-foundation/commercialConfig.js';
 import type { DigitalFoundationCommercialConfig } from '../../../../shared/site00-digital-foundation/types.js';
 import { DfIcon, type DfIconName } from '../icons';
@@ -14,6 +14,10 @@ import {
   type IntakeDraft,
   type IntakeErrors,
 } from '../model';
+import { DfCheckMark, DfField } from '../components';
+import { IdntySelect, businessTypeSelectOptions, dfCustomIndustrySelectEnabled } from '../idntySelect';
+import { formatContactPhoneInput } from '../contactPhoneInput';
+import { dfInputDisplayUpper } from '../dfInputText';
 import { DfAlert, DfCta, DfHeadline, DfHeroObject, DfLede, DfRail, DfSheet, DfTrust } from '../shell';
 import type { SaveStatus } from '../useFoundationArtifact';
 
@@ -62,10 +66,10 @@ export function P01Entry({
   return (
     <>
       <DfRail index="01" label="GET STARTED" />
-      <DfHeadline lines={['YOUR', 'DIGITAL', 'FOUNDATION', 'STARTS HERE']} />
+      <DfHeadline lines={['YOUR NEW', 'DIGITAL FOUNDATION', 'STARTS HERE']} />
       <DfLede>
         ESTABLISH YOUR BUSINESS ON A SECURE, PROFESSIONAL <strong>FOUNDATION</strong> — DOMAIN, EMAIL, SECURITY AND
-        OWNERSHIP. DONE FOR YOU. TYPICALLY {days} BUSINESS DAYS.
+        OWNERSHIP. DONE FOR YOU. <span className="df-lede__keep">TYPICALLY {days} BUSINESS DAYS.</span>
       </DfLede>
       <DfHeroObject />
       <ul className="df-triad" aria-label="WHAT YOUR FOUNDATION COVERS">
@@ -98,32 +102,6 @@ export function P01Entry({
 
 // ─── P02 ───────────────────────────────────────────────────────────────────────────────────────
 
-function Field({
-  id,
-  label,
-  error,
-  children,
-}: {
-  id: string;
-  label: string;
-  error?: string;
-  children: ReactNode;
-}) {
-  return (
-    <div className={`df-field${error ? ' df-field--error' : ''}`}>
-      <label className="df-field__label" htmlFor={id}>
-        {label}
-      </label>
-      {children}
-      {error && (
-        <p className="df-field__error" id={`${id}-error`}>
-          {error}
-        </p>
-      )}
-    </div>
-  );
-}
-
 export function P02Intake({
   draft,
   update,
@@ -141,6 +119,8 @@ export function P02Intake({
 }) {
   const [errors, setErrors] = useState<IntakeErrors>(externalErrors ?? {});
   const err = { ...errors };
+  const industryOptions = useMemo(() => businessTypeSelectOptions(draft.industry), [draft.industry]);
+  const customIndustrySelect = dfCustomIndustrySelectEnabled();
   const input = (field: 'business_name' | 'contact_name' | 'current_email' | 'phone', extra: Record<string, unknown> = {}) => ({
     id: `df-${field}`,
     className: 'df-input',
@@ -149,7 +129,8 @@ export function P02Intake({
     'aria-invalid': err[field as keyof IntakeErrors] ? true : undefined,
     'aria-describedby': err[field as keyof IntakeErrors] ? `df-${field}-error` : undefined,
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-      update({ [field]: e.target.value } as Partial<IntakeDraft>);
+      const type = e.target.type;
+      update({ [field]: dfInputDisplayUpper(e.target.value, type) } as Partial<IntakeDraft>);
       if (err[field as keyof IntakeErrors]) setErrors((p) => ({ ...p, [field]: undefined }));
     },
     ...extra,
@@ -181,47 +162,90 @@ export function P02Intake({
           submit();
         }}
       >
-        <Field id="df-business_name" label="BUSINESS NAME" error={err.business_name}>
-          <input {...input('business_name', { placeholder: 'YOUR BUSINESS NAME', autoComplete: 'organization' })} />
-        </Field>
-        <Field id="df-industry" label="BUSINESS TYPE">
-          <span className={`df-select${draft.industry ? '' : ' df-select--empty'}`}>
-            <select
+        <DfField id="df-business_name" label="BUSINESS NAME" required error={err.business_name}>
+          <input
+            {...input('business_name', {
+              placeholder: 'YOUR BUSINESS NAME',
+              autoComplete: 'organization',
+              'aria-required': true,
+            })}
+          />
+        </DfField>
+        <DfField id="df-industry" label="BUSINESS TYPE">
+          {customIndustrySelect ? (
+            <IdntySelect
               id="df-industry"
-              className="df-input"
-              value={BUSINESS_TYPES.includes(draft.industry) ? draft.industry : draft.industry ? '__custom' : ''}
+              value={draft.industry}
+              options={industryOptions}
+              placeholder="SELECT A BUSINESS TYPE"
               disabled={!editable}
-              onChange={(e) => update({ industry: e.target.value })}
-            >
-              <option value="">SELECT A BUSINESS TYPE</option>
-              {draft.industry && !BUSINESS_TYPES.includes(draft.industry) && (
-                <option value="__custom">{draft.industry.toUpperCase()}</option>
-              )}
-              {BUSINESS_TYPES.map((t) => (
-                <option key={t} value={t}>
-                  {t}
-                </option>
-              ))}
-            </select>
-            <DfIcon name="chevron" className="df-select__chev" />
-          </span>
-        </Field>
-        <Field id="df-contact_name" label="PRIMARY CONTACT" error={err.contact_name}>
-          <input {...input('contact_name', { placeholder: 'FULL NAME', autoComplete: 'name' })} />
-        </Field>
-        <Field id="df-current_email" label="EMAIL ADDRESS" error={err.current_email}>
+              onChange={(industry) => update({ industry })}
+              sheetTitle="SELECT BUSINESS TYPE"
+              labelledBy="df-industry-label"
+            />
+          ) : (
+            <span className={`df-select df-native-select${draft.industry ? '' : ' df-select--empty'}`}>
+              <select
+                id="df-industry"
+                className="df-input"
+                value={BUSINESS_TYPES.includes(draft.industry) ? draft.industry : draft.industry ? '__custom' : ''}
+                disabled={!editable}
+                onChange={(e) => {
+                  const v = e.target.value;
+                  update({ industry: v === '__custom' ? draft.industry : v });
+                }}
+              >
+                <option value="">SELECT A BUSINESS TYPE</option>
+                {draft.industry && !BUSINESS_TYPES.includes(draft.industry) && (
+                  <option value="__custom">{draft.industry.toUpperCase()}</option>
+                )}
+                {BUSINESS_TYPES.map((t) => (
+                  <option key={t} value={t}>
+                    {t}
+                  </option>
+                ))}
+              </select>
+              <DfIcon name="chevron" className="df-native-select__chev" aria-hidden="true" />
+            </span>
+          )}
+        </DfField>
+        <DfField id="df-contact_name" label="PRIMARY CONTACT" required error={err.contact_name}>
+          <input
+            {...input('contact_name', { placeholder: 'FULL NAME', autoComplete: 'name', 'aria-required': true })}
+          />
+        </DfField>
+        <DfField id="df-current_email" label="EMAIL ADDRESS" required error={err.current_email}>
           <input
             {...input('current_email', {
               type: 'email',
               inputMode: 'email',
               placeholder: 'YOU@EXAMPLE.COM',
               autoComplete: 'email',
+              'aria-required': true,
             })}
           />
-        </Field>
-        <Field id="df-phone" label="PHONE NUMBER">
-          <input {...input('phone', { type: 'tel', inputMode: 'tel', placeholder: '(   )   -', autoComplete: 'tel' })} />
-        </Field>
+        </DfField>
+        <DfField
+          id="df-phone"
+          label="CONTACT NUMBER"
+          required
+          error={err.phone}
+          hint="USED AS A BACKUP CONTACT FOR URGENT ACCOUNT, DOMAIN, OR EMAIL ISSUES."
+        >
+          <input
+            {...input('phone', {
+              type: 'tel',
+              inputMode: 'tel',
+              autoComplete: 'tel',
+              placeholder: 'ENTER PHONE NUMBER',
+              'aria-required': true,
+              onChange: (e: ChangeEvent<HTMLInputElement>) => {
+                update({ phone: formatContactPhoneInput(e.target.value) });
+                if (err.phone) setErrors((p) => ({ ...p, phone: undefined }));
+              },
+            })}
+          />
+        </DfField>
         <DfCta type="submit" label="CONTINUE" />
       </form>
       <DfTrust text="YOUR INFORMATION IS SECURE." aside={save} />
@@ -263,12 +287,7 @@ function ServiceRow({ icon, title, sub, tags, control, checked, active, disabled
           <DfIcon name="arrow" />
         </span>
       ) : (
-        <span
-          className={`df-check${checked ? ' df-check--on' : ''}${control === 'locked' ? ' df-check--locked' : ''}`}
-          aria-hidden="true"
-        >
-          {checked && <DfIcon name="check" />}
-        </span>
+        <DfCheckMark checked={Boolean(checked)} locked={control === 'locked'} />
       )}
     </>
   );
@@ -349,6 +368,7 @@ export function P03Configure({
   submitting,
   submitError,
   save,
+  initialExpandedRow = null,
 }: {
   draft: IntakeDraft;
   update: (patch: Partial<IntakeDraft>) => void;
@@ -357,16 +377,33 @@ export function P03Configure({
   submitting: boolean;
   submitError: string | null;
   save: ReactNode;
+  /** Review harness: open domain / email / migration row on first paint. */
+  initialExpandedRow?: 'domain' | 'email' | 'migration' | null;
 }) {
-  const [open, setOpen] = useState<'domain' | 'email' | 'migration' | null>(null);
+  const [open, setOpen] = useState<'domain' | 'email' | 'migration' | null>(initialExpandedRow);
   const [sheet, setSheet] = useState(false);
   const [errors, setErrors] = useState<IntakeErrors>({});
   const has = (f: ConfigurableNeed) => draft.needs.includes(f);
   const toggleNeed = (f: ConfigurableNeed) =>
     update({ needs: has(f) ? draft.needs.filter((n) => n !== f) : [...draft.needs, f] });
   const domain = DOMAIN_PATHS.find((d) => d.path === draft.domainPath) ?? null;
+  const domainSelected = draft.domainPath !== null;
   const extraPeople = draft.team_size - 1;
   const extras = ADDITIONAL_SERVICES.filter((s) => has(s.flag));
+
+  const clearDomainSelection = () => {
+    update({ domainPath: null, existing_domain: '', existing_registrar: '' });
+    setOpen(null);
+    setErrors((e) => ({ ...e, domainPath: undefined, existing_domain: undefined }));
+  };
+
+  const toggleDomainRow = () => {
+    if (domainSelected) {
+      clearDomainSelection();
+      return;
+    }
+    setOpen(open === 'domain' ? null : 'domain');
+  };
 
   const submit = () => {
     const found = validateForRecommendation(draft);
@@ -389,11 +426,11 @@ export function P03Configure({
           sub={domain ? domain.title : 'REGISTER, TRANSFER OR CONNECT YOUR DOMAIN'}
           tags={domain?.path === 'LOST' ? ['PAID ADD-ON', 'MANUAL REVIEW'] : ['INCLUDED', 'CONFIGURABLE']}
           control="check"
-          checked={Boolean(domain)}
-          active={Boolean(domain) || open === 'domain'}
+          checked={domainSelected}
+          active={domainSelected || open === 'domain'}
           disabled={!editable}
           expanded={open === 'domain'}
-          onActivate={() => setOpen(open === 'domain' ? null : 'domain')}
+          onActivate={toggleDomainRow}
         >
           {open === 'domain' && (
             <div className="df-reveal">
@@ -423,7 +460,7 @@ export function P03Configure({
               </fieldset>
               {(draft.domainPath === 'OWN' || draft.domainPath === 'LOST') && (
                 <div className="df-reveal__fields">
-                  <Field id="df-existing_domain" label="YOUR DOMAIN" error={errors.existing_domain}>
+                  <DfField id="df-existing_domain" label="YOUR DOMAIN" required error={errors.existing_domain}>
                     <input
                       id="df-existing_domain"
                       className="df-input"
@@ -433,22 +470,24 @@ export function P03Configure({
                       spellCheck={false}
                       disabled={!editable}
                       aria-invalid={errors.existing_domain ? true : undefined}
+                      aria-describedby={errors.existing_domain ? 'df-existing_domain-error' : undefined}
+                      aria-required
                       onChange={(e) => {
-                        update({ existing_domain: e.target.value });
+                        update({ existing_domain: dfInputDisplayUpper(e.target.value, e.target.type) });
                         setErrors((x) => ({ ...x, existing_domain: undefined }));
                       }}
                     />
-                  </Field>
-                  <Field id="df-existing_registrar" label="WHERE IT'S REGISTERED (IF YOU KNOW)">
+                  </DfField>
+                  <DfField id="df-existing_registrar" label="WHERE IT'S REGISTERED (IF YOU KNOW)" optional>
                     <input
                       id="df-existing_registrar"
                       className="df-input"
                       value={draft.existing_registrar}
                       placeholder="E.G. GODADDY, SQUARESPACE"
                       disabled={!editable}
-                      onChange={(e) => update({ existing_registrar: e.target.value })}
+                      onChange={(e) => update({ existing_registrar: dfInputDisplayUpper(e.target.value, e.target.type) })}
                     />
-                  </Field>
+                  </DfField>
                 </div>
               )}
               {draft.domainPath && (
@@ -531,16 +570,16 @@ export function P03Configure({
         >
           {open === 'migration' && has('NEED_MIGRATION') && (
             <div className="df-reveal">
-              <Field id="df-existing_email_provider" label="CURRENT EMAIL PROVIDER (IF YOU KNOW)">
+              <DfField id="df-existing_email_provider" label="CURRENT EMAIL PROVIDER (IF YOU KNOW)" optional>
                 <input
                   id="df-existing_email_provider"
                   className="df-input"
                   value={draft.existing_email_provider}
                   placeholder="E.G. GMAIL, OUTLOOK, YAHOO"
                   disabled={!editable}
-                  onChange={(e) => update({ existing_email_provider: e.target.value })}
+                  onChange={(e) => update({ existing_email_provider: dfInputDisplayUpper(e.target.value, e.target.type) })}
                 />
-              </Field>
+              </DfField>
             </div>
           )}
         </ServiceRow>

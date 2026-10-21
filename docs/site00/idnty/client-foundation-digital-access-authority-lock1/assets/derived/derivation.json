@@ -1,0 +1,47 @@
+{
+  "master": "master/SITE00_FOUNDATION_ICON_MASTER.png",
+  "master_sha256": "4dccf2ae9e5bd26220cb426b4e5a0d3ed53b4eeb7e5f22bb33fb66785b2f9b76",
+  "D1_face_crop_box": [
+    263,
+    266,
+    987,
+    990
+  ],
+  "D1_content_fraction_of_width": 0.655,
+  "master_content_fraction_of_tile": 0.553,
+  "D2_method": "reflect padding of blank face texture",
+  "D2_pad_px": 47,
+  "face_border_mean_rgb": [
+    238,
+    239,
+    239
+  ],
+  "D2_canvas_px": 819,
+  "outputs": [
+    {
+      "file": "derived/foundation-icon-512.png",
+      "px": 512,
+      "sha256": "fc26dddb268b31e2378040e6e26f579e3510a443d92efb0cdf4fe41d98baac60"
+    },
+    {
+      "file": "derived/foundation-icon-192.png",
+      "px": 192,
+      "sha256": "150323881db019018d7ad96744b4a0c092b9cf9be7cd4aec2b7cb5abd4314148"
+    },
+    {
+      "file": "derived/apple-touch-icon-foundation-180.png",
+      "px": 180,
+      "sha256": "8ff5f458507387e470be07da42767750dbf2461dc414252dcfc54f284558dacf"
+    },
+    {
+      "file": "derived/foundation-icon-maskable-512.png",
+      "px": 512,
+      "sha256": "a02ca77b70102b1395b963065ef736ac48a077e6cab49202f404650fc9bf469b"
+    },
+    {
+      "file": "derived/foundation-icon-face-crop-724.png",
+      "px": 724,
+      "sha256": "872dcc9888cc84afb8fc9dbe61c6cd9826dc2794751dee97d1d3fef17bba0ea8"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "/foundation/return",
+  "name": "SITE 00 · MY FOUNDATION",
+  "short_name": "MY FOUNDATION",
+  "start_url": "/foundation/return?src=home",
+  "scope": "/foundation/",
+  "display": "standalone",
+  "background_color": "#f3f2ef",
+  "theme_color": "#f3f2ef",
+  "icons": [
+    {
+      "src": "/site00/idnty/foundation/foundation-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/site00/idnty/foundation/foundation-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/site00/idnty/foundation/foundation-icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

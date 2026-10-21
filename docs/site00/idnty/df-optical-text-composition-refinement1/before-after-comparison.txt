@@ -1,0 +1,115 @@
+P01-320            | ra 284→284 n1→1 clr∞→∞ | he 284→284 n3→3 clr∞→∞ | le 284→284 n4→4 clr32→32 | hero:= | docOvX 0→0
+P04-320            | ra 141→185 n1→1 clr-41→12 (wasOVL) | he 141→162 n3→3 clr50→50 | le 141→172 n6→5 clr44→18 | crown:= | corner:= | docOvX 0→0
+P05-320            | ra 141→185 n1→1 clr3→63 | he 141→162 n3→3 clr94→94 | le 141→172 n8→6 clr45→26 | crown:= | corner:= | docOvX 0→0
+P06-320            | ra 141→185 n1→1 clr2→12 | he 141→162 n3→3 clr72→72 | le 141→172 n5→4 clr45→14 | crown:= | corner:= | docOvX 0→0
+OVERVIEW-320       | ra 141→185 n1→1 clr2→61 | he 141→162 n3→3 clr91→91 | le 141→172 n6→5 clr62→27 | crown:= | corner:= | docOvX 0→0
+ROADMAP-320        | ra 141→185 n1→1 clr6→61 | he 141→162 n3→3 clr95→95 | le 141→172 n5→5 clr46→46 | crown:= | corner:= | docOvX 0→0
+NEEDS_YOU-320      | ra 141→185 n1→1 clr30→12 | he 141→162 n2→2 clr99→98 | le 141→172 n7→5 clr51→16 | crown:= | corner:= | docOvX 0→0
+RECORDS-320        | ra 141→185 n1→1 clr12→25 | he 141→162 n2→2 clr96→96 | le 141→172 n6→5 clr43→15 | crown:= | pixΔmax0 n0 | corner:= | docOvX 0→0
+P01-360            | ra 323→323 n1→1 clr∞→∞ | he 323→323 n3→3 clr∞→∞ | le 310→310 n4→4 clr-11→51 (wasOVL) | hero:= | docOvX 0→0
+P04-360            | ra 162→212 n1→1 clr-16→11 (wasOVL) | he 162→186 n3→3 clr58→58 | le 162→197 n6→5 clr49→35 | pixΔmax4 n107 | crown:= PIXDIFF | corner:= | docOvX 0→0
+P05-360            | ra 162→212 n1→1 clr39→79 | he 162→186 n3→3 clr107→107 | le 162→197 n7→6 clr56→29 | crown:= | corner:= | docOvX 0→0
+P06-360            | ra 162→212 n1→1 clr28→28 | he 162→186 n3→3 clr83→83 | le 162→197 n4→4 clr51→14 | crown:= | corner:= | docOvX 0→0
+OVERVIEW-360       | ra 162→212 n1→1 clr39→72 | he 162→186 n3→3 clr104→104 | le 162→197 n5→4 clr52→23 | crown:= | corner:= | docOvX 0→0
+ROADMAP-360        | ra 162→212 n1→1 clr42→72 | he 162→186 n3→3 clr108→108 | le 162→197 n5→4 clr56→23 | crown:= | corner:= | docOvX 0→0
+NEEDS_YOU-360      | ra 162→212 n1→1 clr66→35 | he 162→186 n2→2 clr112→112 | le 162→197 n6→4 clr48→12 | crown:= | pixΔmax0 n0 | corner:= | docOvX 0→0
+RECORDS-360        | ra 162→212 n1→1 clr48→24 | he 162→186 n2→2 clr108→108 | le 162→197 n6→5 clr58→35 | crown:= | corner:= | docOvX 0→0
+P01-375            | ra 336→336 n1→1 clr∞→∞ | he 336→336 n3→3 clr∞→∞ | le 310→310 n4→4 clr-24→38 (wasOVL) | hero:= | docOvX 0→0
+P04-375            | ra 169→221 n1→1 clr-6→12 (wasOVL) | he 169→194 n3→3 clr62→62 | le 169→206 n5→5 clr52→44 | crown:= | corner:= | docOvX 0→0
+P05-375            | ra 169→221 n1→1 clr49→80 | he 169→194 n3→3 clr113→113 | le 169→206 n7→6 clr49→16 | crown:= | corner:= | docOvX 0→0
+P06-375            | ra 169→221 n1→1 clr38→38 | he 169→194 n3→3 clr87→87 | le 169→206 n4→4 clr60→23 | crown:= | corner:= | docOvX 0→0
+OVERVIEW-375       | ra 169→221 n1→1 clr49→73 | he 169→194 n3→3 clr109→109 | le 169→206 n5→4 clr61→32 | crown:= | corner:= | docOvX 0→0
+ROADMAP-375        | ra 169→221 n1→1 clr52→73 | he 169→194 n3→3 clr113→113 | le 169→206 n5→4 clr68→32 | crown:= | corner:= | docOvX 0→0
+NEEDS_YOU-375      | ra 169→221 n1→1 clr76→45 | he 169→194 n2→2 clr118→118 | le 169→206 n5→4 clr49→21 | crown:= | corner:= | docOvX 0→0
+RECORDS-375        | ra 169→221 n1→1 clr59→34 | he 169→194 n2→2 clr114→114 | le 169→206 n5→4 clr49→18 | crown:= | corner:= | docOvX 0→0
+P01-390            | ra 349→349 n1→1 clr∞→∞ | he 349→349 n3→3 clr∞→∞ | le 310→310 n4→4 clr14→60 | hero:= | docOvX 0→0
+P04-390            | ra 177→230 n1→1 clr4→12 | he 177→202 n3→3 clr64→64 | le 177→214 n5→4 clr52→19 | crown:= | corner:= | docOvX 0→0
+P05-390            | ra 177→230 n1→1 clr59→80 | he 177→202 n3→3 clr117→117 | le 177→214 n6→5 clr55→12 | crown:= | corner:= | docOvX 0→0
+P06-390            | ra 177→230 n1→1 clr47→47 | he 177→202 n3→3 clr91→91 | le 177→214 n4→3 clr57→17 | crown:= | corner:= | docOvX 0→0
+OVERVIEW-390       | ra 177→230 n1→1 clr58→73 | he 177→202 n3→3 clr113→113 | le 177→214 n5→4 clr69→14 | crown:= | corner:= | docOvX 0→0
+ROADMAP-390        | ra 177→230 n1→1 clr62→73 | he 177→202 n3→3 clr117→117 | le 177→214 n4→4 clr52→42 | crown:= | corner:= | docOvX 0→0
+NEEDS_YOU-390      | ra 177→230 n1→1 clr85→54 | he 177→202 n2→2 clr122→122 | le 177→214 n5→4 clr50→29 | crown:= | corner:= | docOvX 0→0
+RECORDS-390        | ra 177→230 n1→1 clr68→44 | he 177→202 n2→2 clr119→119 | le 177→214 n5→4 clr53→26 | crown:= | corner:= | docOvX 0→0
+review-P01-390     | ra 325→325 n1→1 clr∞→∞ | he 325→325 n3→3 clr∞→∞ | le 310→310 n4→4 clr-38→24 (wasOVL) | hero:= | docOvX 0→0
+review-P04-390     | ra 164→214 n1→1 clr-12→12 (wasOVL) | he 164→188 n3→3 clr49→49 | le 164→199 n6→5 clr62→37 | crown:= | corner:= | docOvX 0→0
+review-P05-390     | ra 164→214 n1→1 clr43→80 | he 164→188 n3→3 clr102→102 | le 164→199 n7→6 clr58→31 | crown:= | corner:= | docOvX 0→0
+review-P06-390     | ra 164→214 n1→1 clr31→31 | he 164→188 n3→3 clr76→76 | le 164→199 n4→4 clr53→16 | crown:= | corner:= | docOvX 0→0
+review-OVERVIEW-390 | ra 164→214 n1→1 clr42→73 | he 164→188 n3→3 clr98→98 | le 164→199 n5→4 clr54→25 | crown:= | corner:= | docOvX 0→0
+P01-402            | ra 360→360 n1→1 clr∞→∞ | he 360→360 n3→3 clr∞→∞ | le 310→310 n4→4 clr-35→27 (wasOVL) | hero:= | docOvX 0→0
+P04-402            | ra 183→238 n1→1 clr11→12 | he 183→209 n3→3 clr65→65 | le 183→221 n5→4 clr58→25 | crown:= | corner:= | docOvX 0→0
+P05-402            | ra 183→238 n1→1 clr66→80 | he 183→209 n3→3 clr119→119 | le 183→221 n6→5 clr53→18 | crown:= | corner:= | docOvX 0→0
+P06-402            | ra 183→238 n1→1 clr54→54 | he 183→209 n3→3 clr92→92 | le 183→221 n4→3 clr63→23 | crown:= | corner:= | docOvX 0→0
+OVERVIEW-402       | ra 183→238 n1→1 clr66→73 | he 183→209 n3→3 clr116→116 | le 183→221 n5→4 clr76→20 | crown:= | corner:= | docOvX 0→0
+ROADMAP-402        | ra 183→238 n1→1 clr69→73 | he 183→209 n3→3 clr120→120 | le 183→221 n4→3 clr58→14 | crown:= | corner:= | docOvX 0→0
+NEEDS_YOU-402      | ra 183→238 n1→1 clr93→62 | he 183→209 n2→2 clr125→125 | le 183→221 n5→4 clr54→36 | crown:= | corner:= | docOvX 0→0
+RECORDS-402        | ra 183→238 n1→1 clr75→51 | he 183→209 n2→2 clr121→121 | le 183→221 n5→4 clr59→32 | crown:= | corner:= | docOvX 0→0
+P01-430            | ra 385→385 n1→1 clr∞→∞ | he 385→385 n3→3 clr∞→∞ | le 310→310 n4→4 clr-60→-3 OVL (wasOVL) | hero:= | docOvX 0→0
+P04-430            | ra 196→260 n1→1 clr32→32 | he 196→230 n3→3 clr84→84 | le 196→243 n5→4 clr80→23 | crown:= | corner:= | docOvX 0→0
+P05-430            | ra 196→260 n1→1 clr88→19 | he 196→230 n3→3 clr140→141 | le 196→243 n6→5 clr74→21 | crown:= | pixΔmax0 n0 | corner:= | docOvX 0→0
+P06-430            | ra 196→260 n1→1 clr76→76 | he 196→230 n3→3 clr112→112 | le 196→243 n4→3 clr59→27 | crown:= | pixΔmax0 n0 | corner:= | docOvX 0→0
+OVERVIEW-430       | ra 196→260 n1→1 clr87→26 | he 196→230 n3→3 clr135→135 | le 196→243 n4→3 clr68→14 | crown:= | corner:= | docOvX 0→0
+ROADMAP-430        | ra 196→260 n1→1 clr90→29 | he 196→230 n3→3 clr140→140 | le 196→243 n4→3 clr69→22 | crown:= | corner:= | docOvX 0→0
+NEEDS_YOU-430      | ra 196→260 n1→1 clr83→83 | he 196→230 n2→2 clr145→145 | le 196→243 n5→4 clr61→24 | crown:= | corner:= | docOvX 0→0
+RECORDS-430        | ra 196→260 n1→1 clr97→73 | he 196→230 n2→2 clr141→141 | le 196→243 n5→4 clr81→13 | crown:= | corner:= | docOvX 0→0
+P01-768            | ra 560→560 n1→1 clr∞→∞ | he 560→560 n3→3 clr∞→∞ | le 310→310 n4→4 clr54→92 | hero:= | docOvX 0→0
+P04-768            | ra 296→406 n1→1 clr185→185 | he 296→368 n3→3 clr185→185 | le 296→384 n3→3 clr129→69 | crown:= | corner:= | docOvX 0→0
+P05-768            | ra 296→406 n1→1 clr171→171 | he 296→368 n3→3 clr258→258 | le 296→384 n4→3 clr108→48 | crown:= | pixΔmax0 n0 | corner:= | docOvX 0→0
+P06-768            | ra 296→406 n1→1 clr228→228 | he 296→368 n3→3 clr220→220 | le 296→384 n3→2 clr134→45 | crown:= | corner:= | docOvX 0→0
+OVERVIEW-768       | ra 296→406 n1→1 clr178→178 | he 296→368 n3→3 clr251→251 | le 296→384 n3→2 clr121→42 | crown:= | corner:= | docOvX 0→0
+ROADMAP-768        | ra 296→406 n1→1 clr182→182 | he 296→368 n3→3 clr256→256 | le 296→384 n3→2 clr129→44 | crown:= | corner:= | docOvX 0→0
+NEEDS_YOU-768      | ra 296→406 n1→1 clr235→235 | he 296→368 n2→2 clr262→262 | le 296→384 n3→3 clr146→43 | crown:= | corner:= | docOvX 0→0
+RECORDS-768        | ra 296→406 n1→1 clr225→225 | he 296→368 n2→2 clr257→257 | le 296→384 n3→2 clr118→21 | crown:= | corner:= | docOvX 0→0
+P01-834            | ra 560→560 n1→1 clr∞→∞ | he 560→560 n3→3 clr∞→∞ | le 310→310 n4→4 clr54→92 | hero:= | docOvX 0→0
+P04-834            | ra 296→406 n1→1 clr185→185 | he 296→368 n3→3 clr185→185 | le 296→384 n3→3 clr129→69 | crown:= | corner:= | docOvX 0→0
+P05-834            | ra 296→406 n1→1 clr171→171 | he 296→368 n3→3 clr258→258 | le 296→384 n4→3 clr108→48 | crown:= | corner:= | docOvX 0→0
+P06-834            | ra 296→406 n1→1 clr228→228 | he 296→368 n3→3 clr220→220 | le 296→384 n3→2 clr134→45 | crown:= | corner:= | docOvX 0→0
+OVERVIEW-834       | ra 296→406 n1→1 clr178→178 | he 296→368 n3→3 clr251→251 | le 296→384 n3→2 clr121→42 | crown:= | corner:= | docOvX 0→0
+ROADMAP-834        | ra 296→406 n1→1 clr182→182 | he 296→368 n3→3 clr256→256 | le 296→384 n3→2 clr129→44 | crown:= | corner:= | docOvX 0→0
+NEEDS_YOU-834      | ra 296→406 n1→1 clr235→235 | he 296→368 n2→2 clr262→262 | le 296→384 n3→3 clr146→43 | crown:= | corner:= | docOvX 0→0
+RECORDS-834        | ra 296→406 n1→1 clr225→225 | he 296→368 n2→2 clr257→257 | le 296→384 n3→2 clr118→21 | crown:= | corner:= | docOvX 0→0
+P01-1024           | ra 560→560 n1→1 clr∞→∞ | he 560→560 n3→3 clr∞→∞ | le 310→310 n4→4 clr54→92 | hero:= | docOvX 0→0
+P04-1024           | ra 296→406 n1→1 clr185→185 | he 296→368 n3→3 clr185→185 | le 296→384 n3→3 clr129→69 | crown:= | corner:= | docOvX 0→0
+P05-1024           | ra 296→406 n1→1 clr171→171 | he 296→368 n3→3 clr258→258 | le 296→384 n4→3 clr108→48 | crown:= | corner:= | docOvX 0→0
+P06-1024           | ra 296→406 n1→1 clr228→228 | he 296→368 n3→3 clr220→220 | le 296→384 n3→2 clr134→45 | crown:= | corner:= | docOvX 0→0
+OVERVIEW-1024      | ra 296→406 n1→1 clr178→178 | he 296→368 n3→3 clr251→251 | le 296→384 n3→2 clr121→42 | crown:= | pixΔmax0 n0 | corner:= | docOvX 0→0
+ROADMAP-1024       | ra 296→406 n1→1 clr182→182 | he 296→368 n3→3 clr256→256 | le 296→384 n3→2 clr129→44 | crown:= | corner:= | docOvX 0→0
+NEEDS_YOU-1024     | ra 296→406 n1→1 clr235→235 | he 296→368 n2→2 clr262→262 | le 296→384 n3→3 clr146→43 | crown:= | corner:= | docOvX 0→0
+RECORDS-1024       | ra 296→406 n1→1 clr225→225 | he 296→368 n2→2 clr257→257 | le 296→384 n3→2 clr118→21 | crown:= | corner:= | docOvX 0→0
+P01-1194           | ra 520→520 n1→1 clr∞→∞ | he 520→520 n3→3 clr201→201 | le 440→440 n3→3 clr234→240 | hero:= | docOvX 0→0
+P04-1194           | ra 257→520 n1→1 clr605→605 | he 257→520 n4→3 clr487→487 | le 257→440 n4→2 clr564→401 | crown:= | corner:= | docOvX 0→0
+P05-1194           | ra 257→520 n1→1 clr591→591 | he 257→520 n3→3 clr570→570 | le 257→440 n5→3 clr561→372 | crown:= | corner:= | docOvX 0→0
+P06-1194           | ra 257→520 n1→1 clr648→648 | he 257→520 n3→3 clr538→538 | le 257→440 n3→2 clr567→384 | crown:= | corner:= | docOvX 0→0
+OVERVIEW-1194      | ra 257→520 n1→1 clr598→598 | he 257→520 n3→3 clr560→560 | le 257→440 n3→2 clr554→428 | crown:= | corner:= | docOvX 0→0
+ROADMAP-1194       | ra 257→520 n1→1 clr602→602 | he 257→520 n3→3 clr568→568 | le 257→440 n3→2 clr562→393 | crown:= | pixΔmax0 n0 | corner:= | docOvX 0→0
+NEEDS_YOU-1194     | ra 257→520 n1→1 clr655→655 | he 257→520 n2→2 clr600→600 | le 257→440 n4→2 clr564→398 | crown:= | pixΔmax0 n0 | corner:= | docOvX 0→0
+RECORDS-1194       | ra 257→520 n1→1 clr645→645 | he 257→520 n2→2 clr593→593 | le 257→440 n4→2 clr552→386 | crown:= | corner:= | docOvX 0→0
+P01-1440           | ra 520→520 n1→1 clr∞→∞ | he 520→520 n3→3 clr310→310 | le 440→440 n3→3 clr207→207 | hero:= | docOvX 0→0
+P04-1440           | ra 257→520 n1→1 clr674→674 | he 257→520 n4→3 clr552→552 | le 257→440 n4→2 clr631→468 | crown:= | corner:= | docOvX 0→0
+P05-1440           | ra 257→520 n1→1 clr660→660 | he 257→520 n3→3 clr635→635 | le 257→440 n5→3 clr628→439 | crown:= | corner:= | docOvX 0→0
+P06-1440           | ra 257→520 n1→1 clr717→717 | he 257→520 n3→3 clr603→603 | le 257→440 n3→2 clr634→451 | crown:= | corner:= | docOvX 0→0
+OVERVIEW-1440      | ra 257→520 n1→1 clr667→667 | he 257→520 n3→3 clr625→625 | le 257→440 n3→2 clr621→495 | crown:= | corner:= | docOvX 0→0
+ROADMAP-1440       | ra 257→520 n1→1 clr670→670 | he 257→520 n3→3 clr633→633 | le 257→440 n3→2 clr629→460 | crown:= | corner:= | docOvX 0→0
+NEEDS_YOU-1440     | ra 257→520 n1→1 clr724→724 | he 257→520 n2→2 clr665→665 | le 257→440 n4→2 clr631→465 | crown:= | corner:= | docOvX 0→0
+RECORDS-1440       | ra 257→520 n1→1 clr714→714 | he 257→520 n2→2 clr658→658 | le 257→440 n4→2 clr619→453 | crown:= | corner:= | docOvX 0→0
+review-P01-1440    | ra 338→338 n1→1 clr∞→∞ | he 338→338 n3→3 clr∞→∞ | le 310→310 n3→3 clr45→45 | hero:= | docOvX 0→0
+review-P04-1440    | ra 159→197 n1→1 clr-26→16 (wasOVL) | he 159→197 n3→3 clr63→63 | le 159→208 n5→4 clr100→42 | crown:= | corner:= | docOvX 0→0
+review-P05-1440    | ra 159→197 n1→1 clr29→83 | he 159→197 n3→3 clr107→107 | le 159→208 n6→4 clr95→32 | crown:= | corner:= | docOvX 0→0
+review-P06-1440    | ra 159→197 n1→1 clr17→17 | he 159→197 n3→3 clr90→90 | le 159→208 n4→3 clr83→32 | crown:= | corner:= | docOvX 0→0
+review-OVERVIEW-1440 | ra 159→197 n1→1 clr28→76 | he 159→197 n3→3 clr102→102 | le 159→208 n4→3 clr91→42 | crown:= | corner:= | docOvX 0→0
+P01-1920           | ra 520→520 n1→1 clr∞→∞ | he 520→520 n3→3 clr310→310 | le 440→440 n3→3 clr208→213 | hero:= | docOvX 0→0
+P04-1920           | ra 257→520 n1→1 clr674→674 | he 257→520 n4→3 clr552→552 | le 257→440 n4→2 clr631→468 | crown:= | pixΔmax0 n0 | corner:= | docOvX 0→0
+P05-1920           | ra 257→520 n1→1 clr660→660 | he 257→520 n3→3 clr635→635 | le 257→440 n5→3 clr628→439 | crown:= | pixΔmax0 n0 | corner:= | docOvX 0→0
+P06-1920           | ra 257→520 n1→1 clr717→717 | he 257→520 n3→3 clr603→603 | le 257→440 n3→2 clr634→451 | crown:= | pixΔmax0 n0 | corner:= | docOvX 0→0
+OVERVIEW-1920      | ra 257→520 n1→1 clr667→667 | he 257→520 n3→3 clr625→625 | le 257→440 n3→2 clr621→495 | crown:= | corner:= | docOvX 0→0
+ROADMAP-1920       | ra 257→520 n1→1 clr670→670 | he 257→520 n3→3 clr633→633 | le 257→440 n3→2 clr629→460 | crown:= | corner:= | docOvX 0→0
+NEEDS_YOU-1920     | ra 257→520 n1→1 clr724→724 | he 257→520 n2→2 clr665→665 | le 257→440 n4→2 clr631→465 | crown:= | corner:= | docOvX 0→0
+RECORDS-1920       | ra 257→520 n1→1 clr714→714 | he 257→520 n2→2 clr658→658 | le 257→440 n4→2 clr619→453 | crown:= | corner:= | docOvX 0→0
+P01-2560           | ra 520→520 n1→1 clr∞→∞ | he 520→520 n3→3 clr310→310 | le 440→440 n3→3 clr207→207 | hero:= | docOvX 0→0
+P04-2560           | ra 257→520 n1→1 clr674→674 | he 257→520 n4→3 clr552→552 | le 257→440 n4→2 clr631→468 | crown:= | corner:= | docOvX 0→0
+P05-2560           | ra 257→520 n1→1 clr660→660 | he 257→520 n3→3 clr635→635 | le 257→440 n5→3 clr628→439 | crown:= | corner:= | docOvX 0→0
+P06-2560           | ra 257→520 n1→1 clr717→717 | he 257→520 n3→3 clr603→603 | le 257→440 n3→2 clr634→451 | crown:= | corner:= | docOvX 0→0
+OVERVIEW-2560      | ra 257→520 n1→1 clr667→667 | he 257→520 n3→3 clr625→625 | le 257→440 n3→2 clr621→495 | crown:= | pixΔmax0 n0 | corner:= | docOvX 0→0
+ROADMAP-2560       | ra 257→520 n1→1 clr670→670 | he 257→520 n3→3 clr633→633 | le 257→440 n3→2 clr629→460 | crown:= | corner:= | docOvX 0→0
+NEEDS_YOU-2560     | ra 257→520 n1→1 clr724→724 | he 257→520 n2→2 clr665→665 | le 257→440 n4→2 clr631→465 | crown:= | corner:= | docOvX 0→0
+RECORDS-2560       | ra 257→520 n1→1 clr714→714 | he 257→520 n2→2 clr658→658 | le 257→440 n4→2 clr619→453 | crown:= | corner:= | docOvX 0→0
+PROBLEMS [('P04-360', 'crown', 'art'), ('P01-430', 'lede', 'overlap')]

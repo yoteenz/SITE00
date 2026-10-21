@@ -1,0 +1,367 @@
+[
+ {
+  "label": "overview",
+  "route": "/admin/site00/founder-workspace/overview",
+  "mode": "mock",
+  "sizes": [
+   "320x700",
+   "375x812",
+   "390x844",
+   "430x932",
+   "768x1024",
+   "820x1180",
+   "834x1112",
+   "1024x768",
+   "1194x834",
+   "1280x800",
+   "1440x900",
+   "1920x1080",
+   "2560x1440",
+   "3440x1440"
+  ],
+  "steps": []
+ },
+ {
+  "label": "foundations",
+  "route": "/admin/site00/founder-workspace/foundations",
+  "mode": "mock",
+  "sizes": [
+   "320x700",
+   "375x812",
+   "390x844",
+   "430x932",
+   "768x1024",
+   "820x1180",
+   "834x1112",
+   "1024x768",
+   "1194x834",
+   "1280x800",
+   "1440x900",
+   "1920x1080",
+   "2560x1440",
+   "3440x1440"
+  ],
+  "steps": []
+ },
+ {
+  "label": "record",
+  "route": "/admin/site00/founder-workspace/foundations/fx00000-0000-4000-8000-000000000000",
+  "mode": "mock",
+  "sizes": [
+   "320x700",
+   "375x812",
+   "390x844",
+   "430x932",
+   "768x1024",
+   "820x1180",
+   "834x1112",
+   "1024x768",
+   "1194x834",
+   "1280x800",
+   "1440x900",
+   "1920x1080",
+   "2560x1440",
+   "3440x1440"
+  ],
+  "steps": []
+ },
+ {
+  "label": "reviews",
+  "route": "/admin/site00/founder-workspace/reviews",
+  "mode": "mock",
+  "sizes": [
+   "320x700",
+   "375x812",
+   "390x844",
+   "430x932",
+   "768x1024",
+   "820x1180",
+   "834x1112",
+   "1024x768",
+   "1194x834",
+   "1280x800",
+   "1440x900",
+   "1920x1080",
+   "2560x1440",
+   "3440x1440"
+  ],
+  "steps": []
+ },
+ {
+  "label": "operations",
+  "route": "/admin/site00/founder-workspace/operations",
+  "mode": "mock",
+  "sizes": [
+   "320x700",
+   "375x812",
+   "390x844",
+   "430x932",
+   "768x1024",
+   "820x1180",
+   "834x1112",
+   "1024x768",
+   "1194x834",
+   "1280x800",
+   "1440x900",
+   "1920x1080",
+   "2560x1440",
+   "3440x1440"
+  ],
+  "steps": []
+ },
+ {
+  "label": "correspondence",
+  "route": "/admin/site00/founder-workspace/correspondence",
+  "mode": "mock",
+  "sizes": [
+   "320x700",
+   "375x812",
+   "390x844",
+   "430x932",
+   "768x1024",
+   "820x1180",
+   "834x1112",
+   "1024x768",
+   "1194x834",
+   "1280x800",
+   "1440x900",
+   "1920x1080",
+   "2560x1440",
+   "3440x1440"
+  ],
+  "steps": []
+ },
+ {
+  "label": "system",
+  "route": "/admin/site00/founder-workspace/system",
+  "mode": "mock",
+  "sizes": [
+   "320x700",
+   "375x812",
+   "390x844",
+   "430x932",
+   "768x1024",
+   "820x1180",
+   "834x1112",
+   "1024x768",
+   "1194x834",
+   "1280x800",
+   "1440x900",
+   "1920x1080",
+   "2560x1440",
+   "3440x1440"
+  ],
+  "steps": []
+ },
+ {
+  "label": "testlab",
+  "route": "/admin/site00/founder-workspace/system",
+  "mode": "mock",
+  "sizes": [
+   "320x700",
+   "375x812",
+   "390x844",
+   "430x932",
+   "768x1024",
+   "820x1180",
+   "834x1112",
+   "1024x768",
+   "1194x834",
+   "1280x800",
+   "1440x900",
+   "1920x1080",
+   "2560x1440",
+   "3440x1440"
+  ],
+  "steps": [
+   {
+    "click": "button[role=tab]:has-text(\"TEST LAB\")"
+   }
+  ]
+ },
+ {
+  "label": "referrals",
+  "route": "/admin/site00/founder-workspace/referrals",
+  "mode": "mock",
+  "sizes": [
+   "320x700",
+   "375x812",
+   "390x844",
+   "430x932",
+   "768x1024",
+   "820x1180",
+   "834x1112",
+   "1024x768",
+   "1194x834",
+   "1280x800",
+   "1440x900",
+   "1920x1080",
+   "2560x1440",
+   "3440x1440"
+  ],
+  "steps": []
+ },
+ {
+  "label": "cardstudio",
+  "route": "/admin/site00/founder-workspace/referrals",
+  "mode": "mock",
+  "sizes": [
+   "320x700",
+   "375x812",
+   "390x844",
+   "430x932",
+   "768x1024",
+   "820x1180",
+   "834x1112",
+   "1024x768",
+   "1194x834",
+   "1280x800",
+   "1440x900",
+   "1920x1080",
+   "2560x1440",
+   "3440x1440"
+  ],
+  "steps": [
+   {
+    "click": "button:has-text(\"CARD STUDIO\"):visible"
+   }
+  ]
+ },
+ {
+  "label": "foundations-empty",
+  "route": "/admin/site00/founder-workspace/foundations",
+  "mode": "empty",
+  "sizes": [
+   "390x844",
+   "1440x900"
+  ]
+ },
+ {
+  "label": "foundations-error",
+  "route": "/admin/site00/founder-workspace/foundations",
+  "mode": "error",
+  "sizes": [
+   "390x844",
+   "1440x900"
+  ]
+ },
+ {
+  "label": "reviews-empty",
+  "route": "/admin/site00/founder-workspace/reviews",
+  "mode": "empty",
+  "sizes": [
+   "390x844",
+   "1440x900"
+  ]
+ },
+ {
+  "label": "reviews-error",
+  "route": "/admin/site00/founder-workspace/reviews",
+  "mode": "error",
+  "sizes": [
+   "390x844",
+   "1440x900"
+  ]
+ },
+ {
+  "label": "system-empty",
+  "route": "/admin/site00/founder-workspace/system",
+  "mode": "empty",
+  "sizes": [
+   "390x844",
+   "1440x900"
+  ]
+ },
+ {
+  "label": "system-error",
+  "route": "/admin/site00/founder-workspace/system",
+  "mode": "error",
+  "sizes": [
+   "390x844",
+   "1440x900"
+  ]
+ },
+ {
+  "label": "referrals-empty",
+  "route": "/admin/site00/founder-workspace/referrals",
+  "mode": "empty",
+  "sizes": [
+   "390x844",
+   "1440x900"
+  ]
+ },
+ {
+  "label": "referrals-error",
+  "route": "/admin/site00/founder-workspace/referrals",
+  "mode": "error",
+  "sizes": [
+   "390x844",
+   "1440x900"
+  ]
+ },
+ {
+  "label": "operations-empty",
+  "route": "/admin/site00/founder-workspace/operations",
+  "mode": "empty",
+  "sizes": [
+   "390x844",
+   "1440x900"
+  ]
+ },
+ {
+  "label": "operations-error",
+  "route": "/admin/site00/founder-workspace/operations",
+  "mode": "error",
+  "sizes": [
+   "390x844",
+   "1440x900"
+  ]
+ },
+ {
+  "label": "correspondence-empty",
+  "route": "/admin/site00/founder-workspace/correspondence",
+  "mode": "empty",
+  "sizes": [
+   "390x844",
+   "1440x900"
+  ]
+ },
+ {
+  "label": "correspondence-error",
+  "route": "/admin/site00/founder-workspace/correspondence",
+  "mode": "error",
+  "sizes": [
+   "390x844",
+   "1440x900"
+  ]
+ },
+ {
+  "label": "record-quote",
+  "route": "/admin/site00/founder-workspace/foundations/fx10000-0000-4000-8000-000000000001",
+  "mode": "mock",
+  "sizes": [
+   "390x844",
+   "1440x900"
+  ],
+  "steps": [
+   {
+    "click": "button[role=tab]:has-text(\"QUOTE\")"
+   }
+  ]
+ },
+ {
+  "label": "toast-error",
+  "route": "/admin/site00/founder-workspace/foundations/fx10000-0000-4000-8000-000000000001",
+  "mode": "mock",
+  "sizes": [
+   "390x844",
+   "1440x900"
+  ],
+  "steps": [
+   {
+    "click": ".rec-head__acts button:has-text(\"COPY LINK\")",
+    "wait": 800
+   }
+  ]
+ }
+]

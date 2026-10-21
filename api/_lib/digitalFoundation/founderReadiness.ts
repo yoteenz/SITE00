@@ -9,7 +9,7 @@ import { listAllSendIntents, processSendIntent } from './communications/delivery
 import { enqueueCommunicationsForEvent } from './communications/dispatch.js';
 import * as mem from './memoryStore.js';
 import {
-  createArtifactForLead,
+  createArtifactForLeadDurable,
   createLead,
   getArtifactPayload,
   markFoundationComplete,
@@ -22,13 +22,60 @@ import { getDeploymentIdentity } from '../site00ExpressionEngine/deploymentIdent
 import { renderFndatnForDispatch, supportsFndatnTemplate } from './communications/fndatnTemplateBridge.js';
 import { isRecipientAllowedForFounderTestSend } from '../../../shared/site00-digital-foundation/founderTestMode.js';
 import { resendWebhookSecretConfigured } from './communications/resendWebhookHandler.js';
+import {
+  buildEnvVarGroups,
+  detectStripeKeyMode,
+  effectivePublicAppOrigin,
+  extractSupabaseProjectRefFromUrl,
+  isSupabaseIsolationVerifiedForStaging,
+  resolveConfiguredPublicAppOrigin,
+  SITE00_STAGING_API_ORIGIN,
+  SITE00_STAGING_FRONTEND_ORIGIN,
+  SITE00_STAGING_SUPABASE_PROJECT_REF,
+  type EnvVarGroup,
+} from './stagingEnvConfig.js';
+import {
+  probeDfDatabaseSecurity,
+  type DfDatabaseSecuritySnapshot,
+} from './stagingDatabaseSecurityProbe.js';
 
 export type EnvVarPresence = { name: string; present: boolean };
 
+export type FounderOverallReadinessStatus =
+  | 'BLOCKED'
+  | 'ACTION_REQUIRED'
+  | 'AWAITING_FOUNDER_APPROVAL'
+  | 'UNVERIFIED';
+
 export type FounderReadinessReport = {
+  overall_status: FounderOverallReadinessStatus;
   ready: string[];
   needs_founder: string[];
   blocked: string[];
+  unverified: string[];
+  env_var_groups: EnvVarGroup[];
+  database_security: DfDatabaseSecuritySnapshot | null;
+  activation: {
+    /** Allowlisted email send + Stripe checkout E2E (explicit founder approval only). */
+    e2e_authorized: boolean;
+    /** Create synthetic client + open real /foundation/:token intake. */
+    synthetic_intake_ready: boolean;
+    remote_migration_applied: boolean;
+    deployment_performed: boolean;
+    founder_login_verified: boolean;
+  };
+  staging_identities: {
+    expected_frontend_origin: string;
+    expected_api_origin: string;
+    configured_public_origin: string | null;
+    effective_public_origin: string;
+    supabase_project_ref: string | null;
+    supabase_staging_isolation_verified: boolean;
+    persistence_store: 'supabase' | 'memory';
+    email_sending_enabled: boolean;
+    stripe_key_mode: ReturnType<typeof detectStripeKeyMode>;
+    e2e_passed: false;
+  };
   env: {
     founder_test_mode: boolean;
     transactional_send_flag: boolean;
@@ -70,66 +117,128 @@ export function buildEnvVarPresenceSnapshot(): EnvVarPresence[] {
 }
 
 function assetBaseFromEnv(): string {
-  const raw = process.env.SITE00_PUBLIC_APP_ORIGIN?.trim() || process.env.VITE_SITE00_PUBLIC_ORIGIN?.trim();
-  if (raw && /^https:\/\//i.test(raw)) return raw.replace(/\/$/, '');
-  return 'https://site00.com';
+  return effectivePublicAppOrigin();
 }
 
 function fromAddress(): string {
   return process.env.SITE00_DF_TRANSACTIONAL_FROM?.trim() || 'SITE 00 Digital Foundation <hello@site00.com>';
 }
 
+function computeOverallStatus(input: {
+  blocked: string[];
+  needs: string[];
+  unverified: string[];
+}): FounderOverallReadinessStatus {
+  if (input.blocked.length) return 'BLOCKED';
+  if (input.needs.length) return 'ACTION_REQUIRED';
+  if (input.unverified.length) return 'AWAITING_FOUNDER_APPROVAL';
+  return 'UNVERIFIED';
+}
+
 export function buildFounderReadinessReport(): FounderReadinessReport {
   const ready: string[] = [];
   const needs: string[] = [];
   const blocked: string[] = [];
+  const unverified: string[] = [];
+  const groups = buildEnvVarGroups();
 
-  if (isFounderTestModeEnabled()) ready.push('SITE00_DF_FOUNDER_TEST_MODE=1');
-  else blocked.push('Set SITE00_DF_FOUNDER_TEST_MODE=1 on Railway API for synthetic E2E');
-
-  if (isDfCommunicationFlagEnabled(DF_COMM_FEATURE_FLAGS.SITE00_DF_TRANSACTIONAL_EMAIL_SEND)) {
-    ready.push('Transactional send flag ON (still allowlist-gated)');
-  } else {
-    needs.push('Set SITE00_DF_TRANSACTIONAL_EMAIL_SEND=1 when ready to queue real provider sends');
-  }
-
-  if (resendApiKeyConfigured()) ready.push('RESEND_API_KEY present');
-  else needs.push('Add RESEND_API_KEY on Railway (server-only) for ACCEPTED sends');
+  if (isFounderTestModeEnabled()) ready.push('Founder test mode enabled (synthetic clients only)');
+  else blocked.push('Set SITE00_DF_FOUNDER_TEST_MODE=1 on Railway API staging service');
 
   const allowlist = process.env.SITE00_DF_FOUNDER_TEST_RECIPIENT_ALLOWLIST?.trim();
-  if (allowlist) ready.push('Founder test recipient allowlist configured');
-  else needs.push('Set SITE00_DF_FOUNDER_TEST_RECIPIENT_ALLOWLIST to founder inbox(es) only');
+  if (allowlist) ready.push('Founder test recipient allowlist configured (server-enforced)');
+  else blocked.push('Set SITE00_DF_FOUNDER_TEST_RECIPIENT_ALLOWLIST to founder inbox(es) only');
 
-  if (isSupabaseDfPersistenceEnabled()) ready.push('SITE00_DIGITAL_FOUNDATION_PERSIST_SUPABASE=1');
-  else needs.push('Enable SITE00_DIGITAL_FOUNDATION_PERSIST_SUPABASE=1 for durable intake across API restarts');
+  if (isDfCommunicationFlagEnabled(DF_COMM_FEATURE_FLAGS.SITE00_DF_TRANSACTIONAL_EMAIL_SEND)) {
+    unverified.push('Transactional email send flag is ON — delivery not verified in automated audit');
+  } else {
+    ready.push('Transactional email sending disabled (SITE00_DF_TRANSACTIONAL_EMAIL_SEND off)');
+  }
 
-  if (process.env.SITE00_DF_TRANSACTIONAL_FROM?.trim()) ready.push('SITE00_DF_TRANSACTIONAL_FROM present');
-  else needs.push('Set SITE00_DF_TRANSACTIONAL_FROM (verified Resend sender identity)');
+  if (resendApiKeyConfigured()) unverified.push('Resend API key present — outbound delivery not tested this sprint');
+  else needs.push('Add RESEND_API_KEY on Railway API when ready for allowlisted sends');
 
-  if (process.env.SITE00_DF_TRANSACTIONAL_REPLY_TO?.trim()) ready.push('SITE00_DF_TRANSACTIONAL_REPLY_TO present');
-  else needs.push('Set SITE00_DF_TRANSACTIONAL_REPLY_TO (typically hello@site00.com)');
+  if (isSupabaseIsolationVerifiedForStaging()) {
+    ready.push(`API Supabase project is staging (${SITE00_STAGING_SUPABASE_PROJECT_REF})`);
+  } else {
+    blocked.push(
+      'Railway API SUPABASE_URL must point only to staging project soocqbyjkxeubfjnuwvf — never production hyycomvcaqxxvyrfupes',
+    );
+  }
 
-  if (resendWebhookSecretConfigured()) ready.push('Resend webhook secret present (DELIVERED/BOUNCED tracking)');
-  else needs.push('Add RESEND_WEBHOOK_SECRET after registering POST /api/site00/digital-foundation-resend-webhook in Resend');
+  if (!isSupabaseDfPersistenceEnabled()) {
+    needs.push(
+      'Set SITE00_DIGITAL_FOUNDATION_PERSIST_SUPABASE=1 on Railway API reliable-creation (in-memory store loses data on restart until then)',
+    );
+  }
+
+  const configuredOrigin = resolveConfiguredPublicAppOrigin();
+  const effectiveOrigin = effectivePublicAppOrigin();
+  if (!configuredOrigin) {
+    needs.push(
+      `Set SITE00_PUBLIC_APP_ORIGIN=${SITE00_STAGING_FRONTEND_ORIGIN} on Railway API so invitation and checkout links stay on staging`,
+    );
+  } else if (effectiveOrigin !== SITE00_STAGING_FRONTEND_ORIGIN.replace(/\/$/, '')) {
+    needs.push(
+      `SITE00_PUBLIC_APP_ORIGIN is ${effectiveOrigin} — expected ${SITE00_STAGING_FRONTEND_ORIGIN} for this staging stack`,
+    );
+  }
+
+  const stripeMode = detectStripeKeyMode();
+  if (stripeMode === 'live') {
+    blocked.push('Stripe secret appears to be LIVE mode — replace with TEST keys on staging before checkout E2E');
+  } else if (stripeMode === 'test') {
+    unverified.push('Stripe TEST key prefix detected — checkout + webhook flow not verified this sprint');
+  } else if (stripeMode === 'missing') {
+    needs.push('Add Stripe TEST secret (STRIPE_SECRET_KEY or SITE00_STRIPE_SECRET_KEY) for payment stage');
+  } else {
+    unverified.push('Stripe secret present but key mode unrecognized — confirm TEST keys manually');
+  }
+
+  if (resendWebhookSecretConfigured()) unverified.push('Resend webhook secret present — webhook URL not verified');
+  else needs.push('Configure Resend webhook → staging API POST /api/site00/digital-foundation-resend-webhook');
+
+  if (process.env.SITE00_DF_TRANSACTIONAL_FROM?.trim()) ready.push('Transactional From identity configured');
+  else needs.push('Set SITE00_DF_TRANSACTIONAL_FROM (verified Resend sender)');
+
+  if (process.env.SITE00_DF_TRANSACTIONAL_REPLY_TO?.trim()) ready.push('Transactional Reply-To configured');
+  else needs.push('Set SITE00_DF_TRANSACTIONAL_REPLY_TO');
+
+  needs.push('Verify GoDaddy DKIM + Resend domain (founder DNS — not automated)');
+  const deployCommit = getDeploymentIdentity().deploymentCommit;
+  ready.push(`API deployment commit ${deployCommit ?? 'unknown'} (verify via ${SITE00_STAGING_API_ORIGIN}/api/health)`);
 
   const stripeSecret = Boolean(
     process.env.STRIPE_SECRET_KEY?.trim() || process.env.SITE00_STRIPE_SECRET_KEY?.trim(),
   );
-  if (stripeSecret) ready.push('Stripe secret key present (use TEST keys only for founder E2E)');
-  else needs.push('Add Stripe TEST secret key on Railway for hosted checkout stage');
 
-  needs.push('Verify GoDaddy DKIM + Resend domain (founder DNS approval card — no auto DNS)');
-  needs.push('Complete Stripe TEST checkout in founder test workspace when exercising payment stage');
-
-  const deployCommit = getDeploymentIdentity().deploymentCommit;
-  needs.push(
-    `Confirm Railway API serves PR #1642 (check /api/health → digitalFoundation.founderReadiness after merge; current build ${deployCommit ?? 'unknown'})`,
-  );
-
-  return {
+  const report: FounderReadinessReport = {
+    overall_status: computeOverallStatus({ blocked, needs, unverified }),
     ready,
     needs_founder: needs,
     blocked,
+    unverified,
+    env_var_groups: groups,
+    database_security: null,
+    activation: {
+      e2e_authorized: false,
+      synthetic_intake_ready: false,
+      remote_migration_applied: false,
+      deployment_performed: false,
+      founder_login_verified: false,
+    },
+    staging_identities: {
+      expected_frontend_origin: SITE00_STAGING_FRONTEND_ORIGIN,
+      expected_api_origin: SITE00_STAGING_API_ORIGIN,
+      configured_public_origin: configuredOrigin,
+      effective_public_origin: effectiveOrigin,
+      supabase_project_ref: extractSupabaseProjectRefFromUrl(process.env.SUPABASE_URL),
+      supabase_staging_isolation_verified: isSupabaseIsolationVerifiedForStaging(),
+      persistence_store: isSupabaseDfPersistenceEnabled() ? 'supabase' : 'memory',
+      email_sending_enabled: isDfCommunicationFlagEnabled(DF_COMM_FEATURE_FLAGS.SITE00_DF_TRANSACTIONAL_EMAIL_SEND),
+      stripe_key_mode: stripeMode,
+      e2e_passed: false,
+    },
     env: {
       founder_test_mode: isFounderTestModeEnabled(),
       transactional_send_flag: isDfCommunicationFlagEnabled(DF_COMM_FEATURE_FLAGS.SITE00_DF_TRANSACTIONAL_EMAIL_SEND),
@@ -151,6 +260,57 @@ export function buildFounderReadinessReport(): FounderReadinessReport {
     },
     env_vars: buildEnvVarPresenceSnapshot(),
   };
+  return report;
+}
+
+export type FounderReadinessBuildContext = {
+  founder_admin_verified?: boolean;
+  founder_email?: string | null;
+};
+
+/** Adds live PostgREST exposure probes (staging API only; no secrets in response). */
+export async function buildFounderReadinessReportAsync(
+  ctx: FounderReadinessBuildContext = {},
+): Promise<FounderReadinessReport> {
+  const report = buildFounderReadinessReport();
+  if (!process.env.SUPABASE_URL?.trim() || !process.env.SUPABASE_ANON_KEY?.trim()) {
+    report.unverified.push('Database security probe skipped — SUPABASE_URL or SUPABASE_ANON_KEY not configured on API');
+    report.overall_status = computeOverallStatus({
+      blocked: report.blocked,
+      needs: report.needs_founder,
+      unverified: report.unverified,
+    });
+    return report;
+  }
+
+  let db: Awaited<ReturnType<typeof probeDfDatabaseSecurity>> | null = null;
+  try {
+    db = await probeDfDatabaseSecurity();
+    report.database_security = db;
+    if (!db.persistence_safe) {
+      report.blocked.push('PostgREST anon can read site00_df_project_messages — staging database exposure risk');
+    }
+    for (const note of db.notes) {
+      if (note.startsWith('BLOCKER:') && !report.blocked.includes(note.replace(/^BLOCKER:\s*/, ''))) {
+        report.blocked.push(note.replace(/^BLOCKER:\s*/, ''));
+      }
+    }
+  } catch {
+    report.unverified.push('Database security probe failed — treat staging DB as UNVERIFIED');
+  }
+
+  const { applyStagingRuntimeReconciliation } = await import('./stagingReadinessRuntime.js');
+  applyStagingRuntimeReconciliation(report, {
+    founder_admin_verified: Boolean(ctx.founder_admin_verified),
+    founder_email: ctx.founder_email,
+  }, db);
+
+  report.overall_status = computeOverallStatus({
+    blocked: report.blocked,
+    needs: report.needs_founder,
+    unverified: report.unverified,
+  });
+  return report;
 }
 
 export type TestInvitationPreview = {
@@ -163,6 +323,8 @@ export type TestInvitationPreview = {
   reply_to_configured: boolean;
   invitation_links: string[];
   invitation_link_valid: boolean;
+  invitation_uses_configured_origin: boolean;
+  configured_public_origin: string;
   allowlisted_recipient: boolean;
   synthetic_artifact: boolean;
   ready_to_send: boolean;
@@ -197,10 +359,20 @@ export function prepareTestInvitation(intentId: string): TestInvitationPreview {
   const linkRe = /https?:\/\/[^\s"'<>]+\/foundation\/[A-Za-z0-9_-]+/g;
   const invitation_links = [...new Set(html.match(linkRe) ?? [])];
   const expectedPath = `/foundation/${payload.artifact.public_token}`;
+  const stagingOrigin = assetBaseFromEnv();
   const invitation_link_valid = invitation_links.some((l) => l.includes(expectedPath));
+  const invitation_uses_staging_origin = invitation_links.some((l) => l.startsWith(`${stagingOrigin}/foundation/`));
 
   if (intent.template_id === 'personal-foundation-invitation' && !invitation_link_valid) {
     blockers.push('INVITATION_LINK_MISSING_OR_MISMATCH');
+  }
+  if (
+    intent.template_id === 'personal-foundation-invitation' &&
+    invitation_link_valid &&
+    !invitation_uses_staging_origin &&
+    stagingOrigin !== 'https://site00.com'
+  ) {
+    blockers.push('INVITATION_LINK_NOT_USING_SITE00_PUBLIC_APP_ORIGIN');
   }
 
   const recipient_masked = intent.recipient_email.replace(/(.{2}).+(@.+)/, '$1•••$2');
@@ -215,6 +387,8 @@ export function prepareTestInvitation(intentId: string): TestInvitationPreview {
     reply_to_configured: Boolean(process.env.SITE00_DF_TRANSACTIONAL_REPLY_TO?.trim()),
     invitation_links,
     invitation_link_valid,
+    invitation_uses_configured_origin: invitation_uses_staging_origin,
+    configured_public_origin: stagingOrigin,
     allowlisted_recipient: isRecipientAllowedForFounderTestSend(intent.recipient_email),
     synthetic_artifact: synthetic,
     ready_to_send: blockers.length === 0,
@@ -223,7 +397,7 @@ export function prepareTestInvitation(intentId: string): TestInvitationPreview {
   };
 }
 
-export function createSyntheticTestClient(input: {
+export async function createSyntheticTestClient(input: {
   display_name: string;
   contact_email: string;
   contact_name?: string;
@@ -237,7 +411,11 @@ export function createSyntheticTestClient(input: {
     contact_email: input.contact_email,
     referral_kind: 'DIRECT',
   });
-  const artifact = createArtifactForLead({ lead_id: lead.lead_id, business_name: business, contact_email: input.contact_email });
+  const artifact = await createArtifactForLeadDurable({
+    lead_id: lead.lead_id,
+    business_name: business,
+    contact_email: input.contact_email,
+  });
   enqueueCommunicationsForEvent({
     artifactId: artifact.artifact_id,
     eventType: 'ARTIFACT_CREATED',
@@ -280,6 +458,7 @@ export function advanceSyntheticIntakeSubmitted(artifactId: string) {
       current_email: payload.lead.contact_email ?? payload.artifact.intake.current_email,
       team_size: payload.artifact.intake.team_size || 1,
       needs: payload.artifact.intake.needs?.length ? payload.artifact.intake.needs : ['NEED_DOMAIN'],
+      phone: payload.artifact.intake.phone?.trim() || '901-555-0199',
     },
     true,
   );
@@ -320,8 +499,13 @@ export function listEmailTimeline() {
   }));
 }
 
-export function resetSyntheticTestData() {
+export async function resetSyntheticTestData() {
   if (!isFounderTestModeEnabled()) throw new Error('FOUNDER_TEST_MODE_DISABLED');
   mem.resetDigitalFoundationMemoryStore();
+  if (isSupabaseDfPersistenceEnabled()) {
+    const { syncAllArtifactsIntoMemory } = await import('./persistence/supabaseStore.js');
+    await syncAllArtifactsIntoMemory();
+  }
   return { ok: true as const };
 }
+
