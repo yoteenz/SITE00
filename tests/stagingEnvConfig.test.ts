@@ -24,7 +24,11 @@ describe('staging env config', () => {
   it('detects Stripe test mode from prefix only', () => {
     vi.stubEnv('STRIPE_SECRET_KEY', 'sk_test_abc');
     expect(detectStripeKeyMode()).toBe('test');
+    vi.stubEnv('STRIPE_SECRET_KEY', 'rk_test_abc');
+    expect(detectStripeKeyMode()).toBe('test');
     vi.stubEnv('STRIPE_SECRET_KEY', 'sk_live_abc');
+    expect(detectStripeKeyMode()).toBe('live');
+    vi.stubEnv('STRIPE_SECRET_KEY', 'rk_live_abc');
     expect(detectStripeKeyMode()).toBe('live');
   });
 

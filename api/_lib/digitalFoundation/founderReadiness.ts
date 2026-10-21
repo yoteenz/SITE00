@@ -1,5 +1,6 @@
 import {
   formatSyntheticBusinessName,
+  formatSyntheticBusinessNameWithRunId,
   isFounderTestModeEnabled,
   isSyntheticBusinessName,
   maskToken,
@@ -402,9 +403,12 @@ export async function createSyntheticTestClient(input: {
   contact_email: string;
   contact_name?: string;
   business_name?: string;
+  test_run_id?: string;
 }) {
   if (!isFounderTestModeEnabled()) throw new Error('FOUNDER_TEST_MODE_DISABLED');
-  const business = formatSyntheticBusinessName(input.business_name ?? input.display_name);
+  const business = input.test_run_id?.trim()
+    ? formatSyntheticBusinessNameWithRunId(input.test_run_id, input.business_name ?? input.display_name)
+    : formatSyntheticBusinessName(input.business_name ?? input.display_name);
   const lead = createLead({
     business_name: business,
     contact_name: input.contact_name ?? 'Founder Test',
@@ -424,6 +428,7 @@ export async function createSyntheticTestClient(input: {
   return {
     artifact,
     lead,
+    test_run_id: input.test_run_id?.trim() || null,
     personalized_url: `/foundation/${artifact.public_token}`,
     token_masked: maskToken(artifact.public_token),
   };

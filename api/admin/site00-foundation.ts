@@ -236,6 +236,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
               display_name: String(body.display_name ?? 'Founder E2E'),
               contact_email: String(body.contact_email ?? ''),
               contact_name: body.contact_name ? String(body.contact_name) : undefined,
+              test_run_id: body.test_run_id ? String(body.test_run_id) : undefined,
             }),
           );
         }
