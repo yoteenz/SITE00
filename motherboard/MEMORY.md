@@ -16956,3 +16956,11 @@ Summary of the whole conversation in this chat.
 - **Docs:** `PHASE3_GIT_INTEGRATION_AUDIT.md`, `PHASE3_COMPOSER_FINAL_REPORT.md` (gate matrix). Staging health (2026-10-21): persistence ON on Railway API, transactional send OFF, public origin matches carefree-luck SPA.
 - **Tests:** Reconciled `digitalFoundationClientBoard0102.test.ts` for `CONTACT_PHONE_REQUIRED` and G-02 quote withholding (`markQuoteCommerciallyReady` / internal quote for manual-review assertions). `digitalFoundation*` suite: 202 pass, 2 env-dependent fails (tunnel acceptance, review builder iframe guard).
 - **Still blocked for live E2E:** Resend send flag, founder staging login session, Stripe test mode confirmation in health, RUN VERIFICATION + record download contracts (unchanged from Phase 2 handoff). PR #1680 remains open; Phase 3 draft PR carries merge-ready integration.
+
+## 2026-10-21 — IDNTY Phase 3B staging activation (Composer)
+
+- **Sprint:** `P0.SITE00.IDNTY.PHASE3B.COMPOSER-STAGING-ACTIVATION-FOUNDER-TESTER-JOURNEY-AND-RELEASE-GATE1`. Branch `cursor/idnty-phase3b-staging-activation-b71a` from Phase 3 `#1681` head (`62a54d9be`). **No merge, no production, no Anthony invite.**
+- **Staging health:** `scripts/staging/df-staging-health-gate.mjs` PASS (API persist on, send off, SPA asset MIME OK). Live API still `34d9afa` (not 1681 SHA). Playwright captures in `/opt/cursor/artifacts/phase3b-staging/`.
+- **Supabase staging RLS:** all `site00_df_*` RLS on; `project_messages` RLS with 0 policies; service_role policies on core tables. Agent VM Supabase env is **production** — never use for DF writes.
+- **Code:** optional `test_run_id` on `create-test-client`; Stripe `rk_test_`/`rk_live_` mode detection; founder test mode unit test.
+- **Live E2E:** FAIL/ BLOCKED — founder session + allowlisted tester email + `SITE00_DF_TRANSACTIONAL_EMAIL_SEND=1` required. Docs: `docs/site00/idnty/phase3b-staging-activation1/`.
