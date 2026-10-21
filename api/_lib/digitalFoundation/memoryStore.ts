@@ -66,6 +66,16 @@ export type DfMemoryState = {
   communicationConsents: Map<string, CommunicationConsentRecord>;
   projectMessages: Map<string, ProjectMessage[]>;
   builderHandoffs: Map<string, FoundationBuilderHandoffRecord>;
+  /** Founder step-by-step live email journey (staging test desk). */
+  emailJourneySessions: Map<
+    string,
+    {
+      test_run_id: string;
+      contact_email: string;
+      completed_steps: string[];
+      started_at: string;
+    }
+  >;
 };
 
 let state: DfMemoryState | null = null;
@@ -102,6 +112,7 @@ export function getDfMemoryState(): DfMemoryState {
       communicationConsents: new Map(),
       projectMessages: new Map(),
       builderHandoffs: new Map(),
+      emailJourneySessions: new Map(),
     };
     if (isCloudMobilePreviewDev()) {
       mergePreviewSnapshotFromDisk(state);

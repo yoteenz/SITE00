@@ -1498,3 +1498,42 @@
   text-transform: none;
 }
 
+.site00-email-journey-gallery {
+  display: grid;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.site00-email-journey-card {
+  border: 1px solid var(--site-line);
+  padding: 16px;
+}
+
+.site00-email-journey-meta {
+  display: grid;
+  grid-template-columns: minmax(100px, 140px) 1fr;
+  gap: 4px 12px;
+  font-size: 13px;
+  margin: 0 0 12px;
+}
+
+.site00-email-journey-meta dt {
+  font-family: var(--site00-font-label);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.site00-email-journey-meta dd {
+  margin: 0;
+}
+
+.site00-email-journey-preview {
+  border: 1px solid var(--site-line);
+  padding: 12px;
+  max-height: 360px;
+  overflow: auto;
+  background: #fff;
+}
+

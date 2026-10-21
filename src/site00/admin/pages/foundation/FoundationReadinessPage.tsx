@@ -105,6 +105,9 @@ export function FoundationReadinessDesk({ embedded = false }: { embedded?: boole
         <p className="site00-admin-page-subtitle">
           Synthetic clients only · allowlisted email · staging Supabase · no production deploy
         </p>
+        <p>
+          <Link to={SITE00_ROUTES.digitalFoundationEmailJourney}>Automated email journey (one-click E2E)</Link>
+        </p>
         {overall ? (
           <p className="site00-readiness-overall">
             Overall:{' '}

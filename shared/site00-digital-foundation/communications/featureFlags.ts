@@ -18,5 +18,14 @@ function envTruthy(key: string, defaultOn = false): boolean {
 }
 
 export function isDfCommunicationFlagEnabled(flag: (typeof DF_COMM_FEATURE_FLAGS)[keyof typeof DF_COMM_FEATURE_FLAGS]): boolean {
-  return envTruthy(`VITE_${flag}`, false) && envTruthy(flag, false);
+  const baseOn = envTruthy(flag, false);
+  /** API / workers: transactional send is gated by server env only (no VITE_ on Railway). */
+  const isServer =
+    typeof window === 'undefined' &&
+    typeof process !== 'undefined' &&
+    Boolean(process.env);
+  if (isServer && flag === DF_COMM_FEATURE_FLAGS.SITE00_DF_TRANSACTIONAL_EMAIL_SEND) {
+    return baseOn;
+  }
+  return envTruthy(`VITE_${flag}`, false) && baseOn;
 }

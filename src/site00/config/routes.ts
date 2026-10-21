@@ -58,6 +58,7 @@ export const SITE00_ROUTES = {
   digitalFoundationRunbookTask: '/admin/site00/foundation/:id/runbook/tasks/:taskId',
   digitalFoundationCommunications: '/admin/site00/foundation/communications',
   digitalFoundationReadiness: '/admin/site00/foundation-readiness',
+  digitalFoundationEmailJourney: '/admin/site00/foundation-email-journey',
   digitalFoundationFounderWorkspace: '/admin/site00/founder-workspace',
   digitalFoundationFounderWorkspaceOverview: '/admin/site00/founder-workspace/overview',
   invitationAdmin: '/admin/site00/invitation',

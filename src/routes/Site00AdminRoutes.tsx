@@ -82,6 +82,10 @@ const FoundationReadinessPage = lazyWithChunkRecovery(
   () => import('../site00/admin/pages/foundation/FoundationReadinessPage'),
   'FoundationReadinessPage',
 );
+const FoundationEmailJourneyPage = lazyWithChunkRecovery(
+  () => import('../site00/admin/pages/foundation/FoundationEmailJourneyPage'),
+  'FoundationEmailJourneyPage',
+);
 const IdntyFounderWorkspaceApp = lazyWithChunkRecovery(
   () => import('../site00/admin/founder-workspace/FounderWorkspaceApp'),
   'IdntyFounderWorkspaceApp',
@@ -644,6 +648,14 @@ export function Site00AdminRoutes() {
         element={
           <AdminSuspense routeLabel="foundation-readiness-desk">
             <FoundationReadinessPage />
+          </AdminSuspense>
+        }
+      />
+      <Route
+        path="site00/foundation-email-journey"
+        element={
+          <AdminSuspense routeLabel="foundation-email-journey">
+            <FoundationEmailJourneyPage />
           </AdminSuspense>
         }
       />

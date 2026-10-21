@@ -136,6 +136,37 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           const { prepareTestInvitation } = await import('../_lib/digitalFoundation/founderReadiness.js');
           return res.status(200).json(prepareTestInvitation(intentId));
         }
+        case 'automated-email-run': {
+          const runId = String(req.query.run_id ?? '');
+          const { getEmailJourneyRun, summarizeRunEmailStats } = await import(
+            '../_lib/digitalFoundation/automatedEmailJourneyRunner.js'
+          );
+          const run = getEmailJourneyRun(runId);
+          if (!run) return res.status(404).json({ error: 'RUN_NOT_FOUND' });
+          return res.status(200).json({ run, stats: summarizeRunEmailStats(run) });
+        }
+        case 'automated-email-runs': {
+          const { listEmailJourneyRuns } = await import('../_lib/digitalFoundation/automatedEmailJourneyRunner.js');
+          return res.status(200).json({ runs: listEmailJourneyRuns() });
+        }
+        case 'email-journey-gallery': {
+          const id = String(req.query.id ?? '');
+          const { getArtifactPayload } = await import('../_lib/digitalFoundation/service.js');
+          const { listSendIntentsForArtifact } = await import('../_lib/digitalFoundation/communications/deliveryWorker.js');
+          const { buildEmailJourneyGallery } = await import('../_lib/digitalFoundation/emailJourneyGallery.js');
+          const { refreshIntentDeliveryFromResend } = await import(
+            '../_lib/digitalFoundation/communications/resendDeliveryPoll.js'
+          );
+          const payload = getArtifactPayload(id);
+          const intents = listSendIntentsForArtifact(id);
+          for (const intent of intents) {
+            if (intent.provider_message_id) await refreshIntentDeliveryFromResend(intent.intent_id);
+          }
+          const refreshed = listSendIntentsForArtifact(id);
+          return res.status(200).json({
+            gallery: buildEmailJourneyGallery({ payload, intents: refreshed }),
+          });
+        }
         default:
           return res.status(400).json({ error: 'Unknown action' });
       }
@@ -263,6 +294,38 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         case 'reset-test-data': {
           const { resetSyntheticTestData } = await import('../_lib/digitalFoundation/founderReadiness.js');
           return res.status(200).json(await resetSyntheticTestData());
+        }
+        case 'start-automated-email-journey': {
+          if (body.founder_e2e_authorized !== true && body.founder_e2e_authorized !== 'true') {
+            return res.status(403).json({ error: 'FOUNDER_E2E_AUTHORIZATION_REQUIRED' });
+          }
+          const { startAutomatedEmailJourneyRun, summarizeRunEmailStats } = await import(
+            '../_lib/digitalFoundation/automatedEmailJourneyRunner.js'
+          );
+          const { buildEmailJourneyGallery } = await import('../_lib/digitalFoundation/emailJourneyGallery.js');
+          const { getArtifactPayload } = await import('../_lib/digitalFoundation/service.js');
+          const { listSendIntentsForArtifact } = await import('../_lib/digitalFoundation/communications/deliveryWorker.js');
+          const run = await startAutomatedEmailJourneyRun({
+            contact_email: body.contact_email ? String(body.contact_email) : undefined,
+            test_run_id: body.test_run_id ? String(body.test_run_id) : undefined,
+          });
+          const gallery =
+            run.artifact_id && run.status !== 'FAILED'
+              ? buildEmailJourneyGallery({
+                  payload: getArtifactPayload(run.artifact_id),
+                  intents: listSendIntentsForArtifact(run.artifact_id),
+                })
+              : run.artifact_id
+                ? buildEmailJourneyGallery({
+                    payload: getArtifactPayload(run.artifact_id),
+                    intents: listSendIntentsForArtifact(run.artifact_id),
+                  })
+                : [];
+          return res.status(200).json({
+            run,
+            stats: summarizeRunEmailStats(run),
+            gallery,
+          });
         }
         default:
           return res.status(400).json({ error: 'Unknown action' });
