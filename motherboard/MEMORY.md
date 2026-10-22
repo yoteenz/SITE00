@@ -16623,3 +16623,13 @@ Summary of the whole conversation in this chat.
 - **Staging Auth:** one user, email confirmed, matches the default founder admin address, last sign-in is the confirmation click (2026-10-15 00:51 UTC). No recovery email has been sent. Production passwords are not this project's passwords.
 - **Code:** signup and password reset now send `https://<browser-origin>/origin/sign-in?returnTo=...` and refuse to invent `localhost:3000`. Recovery hash shows a new-password form and does not bounce away before the password is saved. Draft branch `cursor/staging-auth-redirect-be3b`. Not deployed.
 - **Dashboard (manual):** Site URL and redirect allowlist must be the carefree-luck origin. Until that is saved, new confirmation links still fall back to localhost.
+
+---
+
+## 2026-10-22 — THE EXCHANGE engine capability audit (read-only)
+
+- **Sprint:** P0.NDXBOOK.THE-EXCHANGE.ENGINE-CAPABILITY-AUDIT-AND-REUSE-ASSESSMENT1 — audit only; THE EXCHANGE is independent IP; NDXBOOK assessed as reusable engine.
+- **Findings:** Tested founder gates, character continuity architecture, film planning, provider guardrails; Expression `entryStore.ts` in-memory vs unused `site00_creative_entries`; no episode part model or screenplay ingest; Kling on main = routing with `autoDispatch: false`; Kling 4 on unmerged branch #1683; default creative model Sonnet (`config.ts`).
+- **Deliverables:** `docs/site00/the-exchange/engine-audit/` (01–10 + SPRINT_STATUS.json).
+- **Verdict:** PARTIALLY READY engine; engine-hosted Opus ingestion BLOCKED until isolated slug + persisted fiction bible.
+- **Branch:** `cursor/the-exchange-engine-audit-8aec` — docs only; merge not authorized by sprint.
