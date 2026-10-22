@@ -34,7 +34,7 @@ LINEAGE="/tmp/site00-preview-runtime-lineage.txt"
   echo "PREVIEW_SHA=$SHA"
   echo "PREVIEW_PIN_REF=$REF"
   echo "PREVIEW_WORKTREE=$WT"
-  echo "PREVIEW_MODE=dev"
+  echo "PREVIEW_MODE=${SITE00_CLOUD_PREVIEW_MODE:-local}"
   echo "UPDATED_UTC=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
   echo "NOTE=Pinned preview (not main). Revert: serve-site00-preview-from-main.sh"
 } | tee "$LINEAGE"
@@ -42,7 +42,9 @@ LINEAGE="/tmp/site00-preview-runtime-lineage.txt"
 printf '%s\n' "$REF" > /tmp/site00-cloud-preview-pinned-ref
 
 export SITE00_CLOUD_PREVIEW_ROOT="$WT"
-export SITE00_CLOUD_PREVIEW_MODE=dev
+# Default `local` (bundled dist) on the tunnel — mobile Safari often whitescreens on dev HMR module graphs.
+# Override: SITE00_CLOUD_PREVIEW_MODE=dev for HMR debugging on desktop.
+export SITE00_CLOUD_PREVIEW_MODE="${SITE00_CLOUD_PREVIEW_MODE:-local}"
 export SITE00_PREVIEW_SYNC_MAIN=0
 export SITE00_PREVIEW_PIN_REF="$REF"
 # Keep API on this Vite dev server (not Railway) for founder preview.
@@ -50,6 +52,7 @@ export VITE_API_BASE=
 export VITE_DEV_PROXY_TARGET=
 # Ephemeral intake when Supabase migration is not on the linked project (honest dev-only persistence).
 export SITE00_INTAKES_USE_MEMORY=1
+export SITE00_DF_PREVIEW_SNAPSHOT_PATH="${SITE00_DF_PREVIEW_SNAPSHOT_PATH:-/tmp/site00-df-tunnel-preview-memory.json}"
 export SITE00_CLOUD_MOBILE_PREVIEW=1
 export SITE00_CLIENT_REVIEW_PREVIEW_MODE=1
 export VITE_SITE00_TEMPLATE_SYSTEM_V1=1

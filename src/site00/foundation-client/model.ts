@@ -17,9 +17,21 @@ import type {
   IntakeNeedFlag,
 } from '../../../shared/site00-digital-foundation/types.js';
 import type { ClientCatalogEntry } from './api';
+import { contactPhoneFieldError } from '../../../shared/site00-digital-foundation/contactPhone.js';
+import { dfInputDisplayUpper } from './dfInputText';
+import { formatUsPhoneDisplay } from './phoneFormat';
 
 export type DfIntakeView = 'P01' | 'P02' | 'P03' | 'P04' | 'P05' | 'P06';
-export type DfPortalView = 'OVERVIEW' | 'ROADMAP' | 'STAGE' | 'NEEDS_YOU' | 'RECORDS' | 'RECORD' | 'COMM_PREFS';
+export type DfPortalView =
+  | 'OVERVIEW'
+  | 'ROADMAP'
+  | 'STAGE'
+  | 'NEEDS_YOU'
+  | 'RECORDS'
+  | 'RECORD'
+  | 'COMM_PREFS'
+  | 'COMPLETE'
+  | 'LOCATION';
 export type DfView = DfIntakeView | DfPortalView;
 export type CheckoutParam = 'return' | 'cancel' | null;
 
@@ -34,9 +46,11 @@ export const DF_VIEW_META: Record<DfView, { index: string; label: string; footer
   ROADMAP: { index: '08', label: 'PROJECT ROADMAP', footer: '008' },
   STAGE: { index: '09', label: 'STAGE DETAIL', footer: '009' },
   NEEDS_YOU: { index: '10', label: 'NEEDS YOU', footer: '010' },
-  RECORDS: { index: '—', label: 'MY RECORDS', footer: 'REC' },
-  RECORD: { index: '—', label: 'RECORD DETAIL', footer: 'REC' },
+  RECORDS: { index: '13A', label: 'VIEW MY RECORDS', footer: '013A' },
+  RECORD: { index: '13A', label: 'RECORD DETAIL', footer: '013A' },
   COMM_PREFS: { index: '—', label: 'COMMUNICATION PREFERENCES', footer: 'COM' },
+  COMPLETE: { index: '11', label: 'FOUNDATION COMPLETE', footer: '011' },
+  LOCATION: { index: '12', label: 'NEXT THRESHOLD', footer: '012' },
 };
 
 export const DF_VIEW_ORDER: DfView[] = ['P01', 'P02', 'P03', 'P04', 'P05', 'P06', 'OVERVIEW'];
@@ -51,6 +65,7 @@ export function portalViewsForPayload(payload: ClientDigitalFoundationPayload): 
   if (payload.stages.length) base.push('STAGE');
   if (buildClientRecords(payload).length) base.push('RECORDS', 'RECORD');
   base.push('COMM_PREFS');
+  if (payload.artifact.completion_state === 'COMPLETE') base.push('COMPLETE', 'LOCATION');
   return base;
 }
 
@@ -60,7 +75,7 @@ export function recordsAvailable(payload: ClientDigitalFoundationPayload): boole
 
 // ─── Menu drawer (DF-C48) ───────────────────────────────────────────────────────────────────────
 
-/** `done` = behind the server surface (no longer editable); `locked` = not reached yet. */
+/** `done` = completed (navigable back); `locked` = not reached yet; `open` is legacy — prefer locked until current. */
 export type DfMenuStepState = 'current' | 'open' | 'done' | 'locked';
 
 export interface DfMenuStep {
@@ -88,27 +103,45 @@ export const DF_ROADMAP_ANCHOR = 'df-stages-h';
 
 /**
  * The drawer shows the whole journey, but only the parents the server surface allows (`resolveDfRoute`)
- * are navigable. Records and the digital location live on the COMPLETE surface, which has no menu.
+ * are navigable. After verified completion, records and the digital-location milestone stay inside the same portal shell.
  */
 export function buildDfMenu(views: readonly DfView[], current: DfView | null): {
   steps: DfMenuStep[];
   destinations: DfMenuDestination[];
 } {
-  const order = DF_VIEW_ORDER.filter((v) => v !== 'OVERVIEW');
+  const order = DF_VIEW_ORDER.filter((v) => v !== 'OVERVIEW') as DfIntakeView[];
   const firstOpen = order.findIndex((v) => views.includes(v));
+  const currentInOrder = current != null && order.includes(current as DfIntakeView);
+  const currentIndex = currentInOrder
+    ? order.indexOf(current as DfIntakeView)
+    : current != null
+      ? order.length
+      : -1;
   const steps = order.map((view, i): DfMenuStep => {
-    const state: DfMenuStepState = views.includes(view)
-      ? current === view
-        ? 'current'
-        : 'open'
-      : firstOpen === -1 || i < firstOpen
-        ? 'done'
-        : 'locked';
+    let state: DfMenuStepState;
+    if (current === view) {
+      state = 'current';
+    } else if (currentIndex >= 0) {
+      if (i < currentIndex) {
+        state = 'done';
+      } else if (!views.includes(view)) {
+        state = firstOpen === -1 || i < firstOpen ? 'done' : 'locked';
+      } else {
+        state = 'locked';
+      }
+    } else if (views.includes(view)) {
+      state = 'locked';
+    } else if (firstOpen === -1 || i < firstOpen) {
+      state = 'done';
+    } else {
+      state = 'locked';
+    }
     return { view, index: DF_VIEW_META[view].index, label: DF_VIEW_META[view].label, state };
   });
   const portal = views.includes('OVERVIEW');
   const portalV2 = portal && views.includes('ROADMAP');
   const recs = portal && views.includes('RECORDS');
+  const locationThreshold = portal && views.includes('LOCATION');
   const destinations: DfMenuDestination[] = [
     {
       id: 'overview',
@@ -154,10 +187,10 @@ export function buildDfMenu(views: readonly DfView[], current: DfView | null): {
     {
       id: 'location',
       label: 'VIEW MY DIGITAL LOCATION',
-      view: null,
-      available: false,
-      current: false,
-      status: 'AFTER COMPLETION',
+      view: locationThreshold ? 'LOCATION' : null,
+      available: locationThreshold,
+      current: current === 'LOCATION',
+      status: locationThreshold ? null : 'AFTER COMPLETION',
     },
   ];
   return { steps, destinations };
@@ -172,10 +205,7 @@ export const DF_DISCLOSURES = [
 
 // ─── Routing inside the one link ────────────────────────────────────────────────────────────────
 
-export type DfRoute =
-  | { kind: 'views'; views: DfView[]; defaultView: DfView }
-  | { kind: 'closed' }
-  | { kind: 'complete' };
+export type DfRoute = { kind: 'views'; views: DfView[]; defaultView: DfView } | { kind: 'closed' };
 
 /**
  * Which parents the client may open on the current server surface, and where the link lands.
@@ -185,11 +215,21 @@ export function resolveDfRoute(
   payload: ClientDigitalFoundationPayload,
   ctx: { checkout: CheckoutParam; activationSeen: boolean },
 ): DfRoute {
+  if (!payload.artifact?.artifact_id) {
+    return { kind: 'views', views: ['P01'], defaultView: 'P01' };
+  }
   const { artifact, quote, acceptance } = payload;
   switch (payload.surface) {
     case 'COMPLETE':
-    case 'BUILD_UPSELL':
-      return { kind: 'complete' };
+    case 'BUILD_UPSELL': {
+      const portal = portalViewsForPayload(payload);
+      const defaultView: DfView = payload.surface === 'BUILD_UPSELL' ? 'LOCATION' : 'OVERVIEW';
+      return {
+        kind: 'views',
+        views: ['P06', ...portal],
+        defaultView,
+      };
+    }
     case 'PAYMENT_RECOVERY':
       return { kind: 'views', views: ['P06'], defaultView: 'P06' };
     case 'PORTAL': {
@@ -287,6 +327,25 @@ const CONFIGURABLE: ConfigurableNeed[] = [
   'UNSURE',
 ];
 
+const INTAKE_TEXT_FIELDS = [
+  'business_name',
+  'industry',
+  'contact_name',
+  'current_email',
+  'phone',
+  'existing_domain',
+  'existing_registrar',
+  'existing_email_provider',
+] as const satisfies readonly (keyof IntakeDraft)[];
+
+export function normalizeIntakeDraftText(draft: IntakeDraft): IntakeDraft {
+  const next = { ...draft };
+  for (const key of INTAKE_TEXT_FIELDS) {
+    next[key] = dfInputDisplayUpper(next[key]);
+  }
+  return next;
+}
+
 export function domainPathFromNeeds(needs: IntakeNeedFlag[]): DomainPath | null {
   if (needs.includes('LOST_DOMAIN')) return 'LOST';
   if (needs.includes('OWN_DOMAIN')) return 'OWN';
@@ -297,16 +356,16 @@ export function domainPathFromNeeds(needs: IntakeNeedFlag[]): DomainPath | null 
 
 /** Saved intake first, then the founder-entered lead, so a returning client sees what they already gave us. */
 export function draftFromPayload(payload: ClientDigitalFoundationPayload): IntakeDraft {
-  const intake: DigitalFoundationIntake = payload.artifact.intake ?? { needs: [] };
+  const intake: DigitalFoundationIntake = payload.artifact?.intake ?? { needs: [] };
   const lead = payload.lead;
   const needs = intake.needs ?? [];
   const domainPath = domainPathFromNeeds(needs);
-  return {
+  return normalizeIntakeDraftText({
     business_name: intake.business_name ?? lead.business_name ?? '',
     industry: intake.industry ?? '',
     contact_name: intake.contact_name ?? lead.contact_name ?? '',
     current_email: intake.current_email ?? lead.contact_email ?? '',
-    phone: intake.phone ?? '',
+    phone: formatUsPhoneDisplay(intake.phone ?? ''),
     existing_domain: intake.existing_domain ?? '',
     existing_registrar: intake.existing_registrar ?? '',
     existing_email_provider: intake.existing_email_provider ?? '',
@@ -314,7 +373,7 @@ export function draftFromPayload(payload: ClientDigitalFoundationPayload): Intak
     domainPath,
     // UNSURE doubles as the domain "not sure" path; only count it as an extra need when a real path is chosen.
     needs: CONFIGURABLE.filter((f) => needs.includes(f) && !(f === 'UNSURE' && domainPath === 'UNSURE')),
-  };
+  });
 }
 
 export function needsFromDraft(draft: IntakeDraft): IntakeNeedFlag[] {
@@ -342,7 +401,7 @@ export function intakeFromDraft(draft: IntakeDraft): Partial<DigitalFoundationIn
   return out;
 }
 
-export type IntakeField = 'business_name' | 'contact_name' | 'current_email' | 'existing_domain' | 'domainPath';
+export type IntakeField = 'business_name' | 'contact_name' | 'current_email' | 'phone' | 'existing_domain' | 'domainPath';
 export type IntakeErrors = Partial<Record<IntakeField, string>>;
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -355,6 +414,8 @@ export function validateBusinessInfo(draft: IntakeDraft): IntakeErrors {
   if (!draft.contact_name.trim()) errors.contact_name = 'ENTER THE PRIMARY CONTACT';
   if (!draft.current_email.trim()) errors.current_email = 'ENTER AN EMAIL ADDRESS';
   else if (!EMAIL_RE.test(draft.current_email.trim())) errors.current_email = 'CHECK THIS EMAIL ADDRESS';
+  const phoneErr = contactPhoneFieldError(draft.phone);
+  if (phoneErr) errors.phone = phoneErr;
   return errors;
 }
 

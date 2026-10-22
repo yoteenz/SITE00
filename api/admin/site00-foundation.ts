@@ -9,7 +9,7 @@ import {
 } from '../_lib/cloudMobilePreview.js';
 import {
   applyManualQuoteAdjustment,
-  createArtifactForLead,
+  createArtifactForLeadDurable,
   createClientAction,
   createLead,
   getArtifactPayload,
@@ -34,6 +34,7 @@ import {
   generateRunbookForArtifact,
   getPipelineView,
   getProjectCommandSnapshot,
+  getRunbookView,
   getWorkbenchView,
   runTaskVerification,
   setBlocker,
@@ -76,6 +77,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
               public_token: a.public_token,
               state: a.state,
               payment_state: a.payment_state,
+              intake_state: a.intake_state,
+              business_name: a.intake?.business_name ?? null,
               lead_id: a.lead_id,
               referral_source_id: a.referral_source_id,
               created_at: a.created_at,
@@ -101,14 +104,23 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           const id = String(req.query.id ?? '');
           return res.status(200).json(assessArtifactCompletion(id));
         }
+        case 'runbook': {
+          const id = String(req.query.id ?? '');
+          return res.status(200).json(getRunbookView(id));
+        }
         case 'messages': {
           const id = String(req.query.id ?? '');
           markProjectMessagesRead({ artifact_id: id, reader_role: 'FOUNDER' });
           return res.status(200).json({ messages: listProjectMessages(id) });
         }
         case 'readiness-report': {
-          const { buildFounderReadinessReport } = await import('../_lib/digitalFoundation/founderReadiness.js');
-          return res.status(200).json(buildFounderReadinessReport());
+          const { buildFounderReadinessReportAsync } = await import('../_lib/digitalFoundation/founderReadiness.js');
+          return res.status(200).json(
+            await buildFounderReadinessReportAsync({
+              founder_admin_verified: true,
+              founder_email: auth.user.email,
+            }),
+          );
         }
         case 'email-timeline': {
           const { listEmailTimeline } = await import('../_lib/digitalFoundation/founderReadiness.js');
@@ -135,14 +147,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         case 'create-lead':
           return res.status(200).json({ lead: createLead(body) });
         case 'create-artifact': {
-          const artifact = createArtifactForLead(body);
+          const artifact = await createArtifactForLeadDurable(body);
           return res.status(200).json({
             artifact,
             personalized_url: `/foundation/${artifact.public_token}`,
           });
         }
         case 'create-artifact-for-lead': {
-          const artifact = createArtifactForLead({ lead_id: String(body.lead_id) });
+          const artifact = await createArtifactForLeadDurable({ lead_id: String(body.lead_id) });
           return res.status(200).json({
             artifact,
             personalized_url: `/foundation/${artifact.public_token}`,
@@ -220,10 +232,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         case 'create-test-client': {
           const { createSyntheticTestClient } = await import('../_lib/digitalFoundation/founderReadiness.js');
           return res.status(200).json(
-            createSyntheticTestClient({
+            await createSyntheticTestClient({
               display_name: String(body.display_name ?? 'Founder E2E'),
               contact_email: String(body.contact_email ?? ''),
               contact_name: body.contact_name ? String(body.contact_name) : undefined,
+              test_run_id: body.test_run_id ? String(body.test_run_id) : undefined,
             }),
           );
         }
@@ -249,7 +262,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
         case 'reset-test-data': {
           const { resetSyntheticTestData } = await import('../_lib/digitalFoundation/founderReadiness.js');
-          return res.status(200).json(resetSyntheticTestData());
+          return res.status(200).json(await resetSyntheticTestData());
         }
         default:
           return res.status(400).json({ error: 'Unknown action' });

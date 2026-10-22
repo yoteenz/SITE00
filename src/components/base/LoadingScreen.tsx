@@ -25,8 +25,8 @@ export default function LoadingScreen({
   source = 'LoadingScreen',
   maxDurationMs = DEFAULT_MAX_LOADING_MS,
 }: LoadingScreenProps = {}) {
-  const [isVisible, setIsVisible] = React.useState(true);
-  useLockPageScroll(isVisible);
+  const [timedOut, setTimedOut] = React.useState(false);
+  useLockPageScroll(true);
 
   React.useEffect(() => {
     const unregister = registerLoadingTerminal(source, maxDurationMs);
@@ -36,15 +36,13 @@ export default function LoadingScreen({
         stuck.length > 0 ? stuck : [{ id: source, label: source, since: Date.now() - maxDurationMs }],
         `LoadingScreen:${source}`,
       );
-      setIsVisible(false);
+      setTimedOut(true);
     }, maxDurationMs);
     return () => {
       window.clearTimeout(timer);
       unregister();
     };
   }, [source, maxDurationMs]);
-
-  if (!isVisible) return null;
 
   return createPortal(
     <div
@@ -56,21 +54,48 @@ export default function LoadingScreen({
         display: 'grid',
         placeItems: 'center',
         background: '#ffffff',
+        padding: '24px 16px',
       }}
-      aria-busy="true"
-      aria-label="Loading"
+      aria-busy={!timedOut}
+      aria-label={timedOut ? 'Loading stalled' : 'Loading'}
     >
-      <div
-        style={{
-          width: 48,
-          height: 48,
-          border: '2px solid #eee',
-          borderTopColor: '#eb1c24',
-          borderRadius: '50%',
-          animation: 'site00-spin 0.8s linear infinite',
-        }}
-      />
-      <style>{`@keyframes site00-spin { to { transform: rotate(360deg); } }`}</style>
+      {timedOut ? (
+        <div style={{ maxWidth: 360, textAlign: 'center', font: '600 14px/1.5 system-ui,sans-serif', color: '#1a1a18' }}>
+          <p style={{ margin: '0 0 12px' }}>Still loading this admin screen…</p>
+          <p style={{ margin: '0 0 16px', fontWeight: 500, fontSize: 13, opacity: 0.85 }}>
+            A fresh staging deploy may have shipped while this tab was open. Reload to fetch the latest JavaScript bundles.
+          </p>
+          <button
+            type="button"
+            onClick={() => window.location.reload()}
+            style={{
+              padding: '10px 18px',
+              border: 0,
+              borderRadius: 8,
+              background: '#1a1a18',
+              color: '#f5f5f3',
+              fontWeight: 700,
+              cursor: 'pointer',
+            }}
+          >
+            Reload
+          </button>
+        </div>
+      ) : (
+        <>
+          <div
+            style={{
+              width: 48,
+              height: 48,
+              border: '2px solid #eee',
+              borderTopColor: '#eb1c24',
+              borderRadius: '50%',
+              animation: 'site00-spin 0.8s linear infinite',
+            }}
+          />
+          <style>{`@keyframes site00-spin { to { transform: rotate(360deg); } }`}</style>
+        </>
+      )}
     </div>,
     document.body,
   );

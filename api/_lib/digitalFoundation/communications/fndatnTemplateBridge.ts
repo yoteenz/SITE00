@@ -31,7 +31,13 @@ export function renderFndatnForDispatch(templateId: string, payload: DigitalFoun
 
   const synthetic = isSyntheticBusinessName(payload.lead.business_name ?? payload.artifact.intake.business_name);
   const data = synthetic ? payload : demoScenario(emailId);
-  const ctx = { ...fixtureContextFor(emailId), mode: 'send' as const, assetBase, founderAuthorized: emailId === '01' };
+  const ctx = {
+    ...fixtureContextFor(emailId),
+    mode: 'send' as const,
+    assetBase,
+    siteOrigin: assetBase,
+    founderAuthorized: emailId === '01',
+  };
   const rendered = renderFndatn01Email(emailId, data, ctx);
   if (!rendered.ok || !rendered.html) return null;
   return { subject: rendered.subject ?? rendered.subjectHtml ?? 'SITE 00 Digital Foundation', html: rendered.html };

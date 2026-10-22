@@ -14,6 +14,14 @@ export function formatSyntheticBusinessName(displayName: string): string {
   return trimmed.startsWith(SYNTHETIC_BUSINESS_PREFIX) ? trimmed : `${SYNTHETIC_BUSINESS_PREFIX}${trimmed}`;
 }
 
+/** Canonical E2E run label embedded in synthetic business names (staging audit trail). */
+export function formatSyntheticBusinessNameWithRunId(testRunId: string, displayName: string): string {
+  const run = testRunId.trim().replace(/\s+/g, '-');
+  const base = formatSyntheticBusinessName(displayName);
+  if (!run) return base;
+  return `${base} [${run}]`;
+}
+
 function parseAllowlist(raw: string | undefined): Set<string> {
   if (!raw?.trim()) return new Set();
   return new Set(

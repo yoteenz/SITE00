@@ -1,44 +1,31 @@
 /**
- * Design review for Digital Foundation P01–P07 and the BLDR studio that follows.
- * One page. No intake flow. Preview and founder review only.
+ * Digital Foundation micro-product review index (`/foundation/review`).
+ * Zone pills + continuous vertical gallery per zone (only one zone’s sections mount at a time).
  */
-import { useEffect, useState, type ReactNode } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { ClientDigitalFoundationPayload } from '../../../../shared/site00-digital-foundation/clientProjection.js';
 import type { DigitalFoundationCommercialConfig } from '../../../../shared/site00-digital-foundation/types.js';
-import { fetchCatalog, fetchPayload, type ClientCatalogEntry } from '../../foundation-client/api';
-import { P01Entry, P02Intake, P03Configure } from '../../foundation-client/parents/EntryIntake';
-import { P04Recommendation } from '../../foundation-client/parents/Recommendation';
-import { InterimOverview, P05Review, P06Activation } from '../../foundation-client/parents/CheckoutActivation';
-import { DfFrame, DfMenu, type DfObjectKind } from '../../foundation-client/shell';
-import { DF_VIEW_META, DF_VIEW_ORDER, type DfView, type IntakeDraft } from '../../foundation-client/model';
-import { studioPathForReviewRoom } from '../../builder-studio/studioReviewSample';
-import { reviewAnchorForView, reviewScreenUrl, scrollToReviewAnchor } from './reviewLinks';
-import '../../styles/site00-df-client.css';
-import '../../styles/site00-df-components.css';
-
-const OBJECT_FOR: Record<DfView, DfObjectKind> = {
-  P01: 'hero',
-  P02: 'corner',
-  P03: 'corner',
-  P04: 'crown',
-  P05: 'crown',
-  P06: 'crown',
-  OVERVIEW: 'crown',
-  ROADMAP: 'crown',
-  STAGE: 'crown',
-  NEEDS_YOU: 'crown',
-  RECORDS: 'crown',
-  RECORD: 'crown',
-  COMM_PREFS: 'corner',
-};
-
-const BLDR_ROOMS = [
-  { id: 'PLACE', label: 'BLDR · PLACE' },
-  { id: 'FEEL', label: 'BLDR · FEEL' },
-  { id: 'WORK', label: 'BLDR · WORK' },
-  { id: 'PACE', label: 'BLDR · PACE' },
-  { id: 'BLUEPRINT', label: 'BLDR · BLUEPRINT' },
-] as const;
+import type { ClientCatalogEntry } from '../../foundation-client/api';
+import type { IntakeDraft } from '../../foundation-client/model';
+import type { ReviewBootstrapBundle } from './digitalFoundationReviewBootstrap';
+import {
+  APPROVED_FOUNDATION_BUILDER_SOURCE,
+  DIGITAL_FOUNDATION_REVIEW_REGISTRY_VERSION,
+  resolveReviewEntry,
+} from './digitalFoundationReviewRegistry';
+import { galleryCoverageTotals, galleryEntriesFilteredByZone } from './digitalFoundationReviewGallery';
+import { loadReviewBootstrapBundle } from './digitalFoundationReviewBootstrap';
+import DigitalFoundationReviewNav from './DigitalFoundationReviewNav';
+import DigitalFoundationReviewGallery from './DigitalFoundationReviewGallery';
+import DigitalFoundationReviewZonePills from './DigitalFoundationReviewZonePills';
+import {
+  defaultAnchorForZone,
+  zoneForAnchorId,
+  type DfReviewZoneId,
+} from './digitalFoundationReviewZones';
+import { navigateToReviewAnchor } from './reviewLinks';
+import { DigitalFoundationReviewPreviewProvider } from './DigitalFoundationReviewPreviewContext';
+import '../../foundation-client/foundationDfStyles';
 
 const BLANK_DRAFT: IntakeDraft = {
   business_name: '',
@@ -54,47 +41,28 @@ const BLANK_DRAFT: IntakeDraft = {
   needs: [],
 };
 
-function DirectLink({ anchorId }: { anchorId: string }) {
-  const href = reviewScreenUrl(anchorId);
+function ReviewProvenance({ dataSource }: { dataSource: string }) {
+  const buildId =
+    typeof document !== 'undefined'
+      ? document.querySelector('meta[name="app-build-id"]')?.getAttribute('content') ?? '—'
+      : '—';
+  const totals = galleryCoverageTotals();
   return (
-    <a className="df-review__direct" href={href}>
-      {href}
-    </a>
+    <p className="df-review__provenance">
+      IDNTY DIGITAL FOUNDATION · REGISTRY {DIGITAL_FOUNDATION_REVIEW_REGISTRY_VERSION} · BUILD {buildId} · DATA {dataSource} ·
+      REGISTERED {totals.registered} · BUILDER {APPROVED_FOUNDATION_BUILDER_SOURCE}
+    </p>
   );
 }
 
-function Screen({
-  id,
-  view,
-  title,
-  children,
-}: {
-  id: string;
-  view: DfView;
-  title: string;
-  children: ReactNode;
-}) {
-  const [menuOpen, setMenuOpen] = useState(false);
-  return (
-    <article className="df-review__item" id={id}>
-      <div className="df-review__mark">
-        <p className="df-review__label">{title}</p>
-        <DirectLink anchorId={id} />
-      </div>
-      <div className={`df-root${menuOpen ? ' df-root--menu-open' : ''}`}>
-        <DfFrame view={view} object={OBJECT_FOR[view]} onMenu={() => setMenuOpen((o) => !o)} menuOpen={menuOpen}>
-          {children}
-        </DfFrame>
-        <DfMenu
-          open={menuOpen}
-          onClose={() => setMenuOpen(false)}
-          views={DF_VIEW_ORDER}
-          current={view}
-          onNavigate={() => setMenuOpen(false)}
-        />
-      </div>
-    </article>
-  );
+function applyAnchorSelection(
+  anchorId: string,
+  setZone: (z: DfReviewZoneId) => void,
+  setActiveAnchor: (a: string) => void,
+) {
+  const zone = zoneForAnchorId(anchorId);
+  if (zone) setZone(zone);
+  setActiveAnchor(anchorId);
 }
 
 export default function DigitalFoundationReviewPage() {
@@ -102,176 +70,165 @@ export default function DigitalFoundationReviewPage() {
   const [catalog, setCatalog] = useState<ClientCatalogEntry[] | null>(null);
   const [quotePayload, setQuotePayload] = useState<ClientDigitalFoundationPayload | null>(null);
   const [quoteToken, setQuoteToken] = useState('');
+  const [paidToken, setPaidToken] = useState('');
   const [paidPayload, setPaidPayload] = useState<ClientDigitalFoundationPayload | null>(null);
+  const [postIntakePayload, setPostIntakePayload] = useState<ClientDigitalFoundationPayload | null>(null);
+  const [proposalReadyPayload, setProposalReadyPayload] = useState<ClientDigitalFoundationPayload | null>(null);
+  const [paymentFailurePayload, setPaymentFailurePayload] = useState<ClientDigitalFoundationPayload | null>(null);
+  const [completePayload, setCompletePayload] = useState<ClientDigitalFoundationPayload | null>(null);
+  const [completeToken, setCompleteToken] = useState('');
+  const [postIntakeFetchedAt] = useState(() => new Date());
   const [draft, setDraft] = useState<IntakeDraft>(BLANK_DRAFT);
   const [note, setNote] = useState<string | null>(null);
+  const [dataSource, setDataSource] = useState('loading');
+  const [bootstrap, setBootstrap] = useState<ReviewBootstrapBundle | null>(null);
+  const [zone, setZone] = useState<DfReviewZoneId>('INTAKE');
+  const [activeAnchor, setActiveAnchor] = useState(() => defaultAnchorForZone('INTAKE'));
 
   useEffect(() => {
     const prev = document.title;
-    document.title = 'DIGITAL FOUNDATION + BLDR — REVIEW';
+    document.title = 'DIGITAL FOUNDATION — DESIGN REVIEW';
     return () => {
       document.title = prev;
     };
   }, []);
 
+  const zoneEntries = useMemo(() => galleryEntriesFilteredByZone(zone), [zone]);
+
+  useEffect(() => {
+    if (!zoneEntries.length) return;
+    if (!zoneEntries.some((e) => e.anchorId === activeAnchor)) {
+      const next = zoneEntries[0]!.anchorId;
+      setActiveAnchor(next);
+      navigateToReviewAnchor(next);
+    }
+  }, [zone, zoneEntries, activeAnchor]);
+
+  useEffect(() => {
+    const syncFromHash = () => {
+      const id = window.location.hash.replace(/^#/, '');
+      if (id) applyAnchorSelection(id, setZone, setActiveAnchor);
+    };
+    const onNav = (ev: Event) => {
+      const id = (ev as CustomEvent<{ anchorId?: string }>).detail?.anchorId;
+      if (id) applyAnchorSelection(id, setZone, setActiveAnchor);
+    };
+    syncFromHash();
+    window.addEventListener('hashchange', syncFromHash);
+    window.addEventListener('df-review-nav', onNav as EventListener);
+    return () => {
+      window.removeEventListener('hashchange', syncFromHash);
+      window.removeEventListener('df-review-nav', onNav as EventListener);
+    };
+  }, []);
+
+  const onZoneChange = useCallback((next: DfReviewZoneId) => {
+    setZone(next);
+    const anchor = defaultAnchorForZone(next);
+    if (anchor) {
+      setActiveAnchor(anchor);
+      navigateToReviewAnchor(anchor);
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      try {
-        const cat = await fetchCatalog();
-        if (!cancelled) {
-          setCatalog(cat.catalog);
-          setConfig(cat.config);
-        }
-      } catch {
-        if (!cancelled) setNote('CATALOG DID NOT LOAD. ENTRY SCREENS STILL SHOW.');
+      const bundle = await loadReviewBootstrapBundle();
+      if (cancelled) return;
+      setBootstrap(bundle);
+      setDataSource(bundle.source);
+      setCatalog(bundle.catalog);
+      setConfig(bundle.config);
+      const f = bundle.fixtures;
+      if (f.A_BASE) {
+        setQuoteToken(f.A_BASE.token);
+        setQuotePayload(f.A_BASE.payload);
       }
-      try {
-        const quote = await mint('A_BASE');
-        const paid = await mint('J_PAYMENT_SUCCESS');
-        if (cancelled) return;
-        setQuoteToken(quote.token);
-        setQuotePayload(quote.payload);
-        setPaidPayload(paid.payload);
-      } catch {
-        if (!cancelled) setNote('LATER SCREENS NEED THE PREVIEW SERVER. P01–P03 ARE STILL ON THIS PAGE.');
+      if (f.J_PAYMENT_SUCCESS) {
+        setPaidToken(f.J_PAYMENT_SUCCESS.token);
+        setPaidPayload(f.J_PAYMENT_SUCCESS.payload);
       }
+      if (f.INTAKE_SUBMITTED) setPostIntakePayload(f.INTAKE_SUBMITTED.payload);
+      if (f.PROPOSAL_READY) setProposalReadyPayload(f.PROPOSAL_READY.payload);
+      if (f.K_PAYMENT_FAILURE) setPaymentFailurePayload(f.K_PAYMENT_FAILURE.payload);
+      if (f.M_COMPLETE_CREDIT) {
+        setCompleteToken(f.M_COMPLETE_CREDIT.token);
+        setCompletePayload(f.M_COMPLETE_CREDIT.payload);
+      }
+      if (bundle.bootstrapError) setNote(bundle.bootstrapError.toUpperCase());
+      else if (!f.A_BASE) setNote('FIXTURE BUNDLE INCOMPLETE — RECOMMENDATION MAY NOT RENDER.');
     })();
     return () => {
       cancelled = true;
     };
   }, []);
 
-  const update = (patch: Partial<IntakeDraft>) => setDraft((d) => ({ ...d, ...patch }));
-  const noop = () => undefined;
-  const advance = (view: DfView) => scrollToReviewAnchor(reviewAnchorForView(view));
+  const previewState = useMemo(
+    () => ({
+      dataSource,
+      catalog,
+      config,
+      quotePayload,
+      quoteToken,
+      paidPayload,
+      paidToken,
+      postIntakePayload,
+      proposalReadyPayload,
+      paymentFailurePayload,
+      completePayload,
+      completeToken,
+      postIntakeFetchedAt,
+      draft,
+      setDraft,
+      setQuotePayload,
+      bootstrap,
+    }),
+    [
+      dataSource,
+      catalog,
+      config,
+      quotePayload,
+      quoteToken,
+      paidPayload,
+      paidToken,
+      postIntakePayload,
+      proposalReadyPayload,
+      paymentFailurePayload,
+      completePayload,
+      completeToken,
+      postIntakeFetchedAt,
+      draft,
+      bootstrap,
+    ],
+  );
+
+  const focusEntry = activeAnchor ? resolveReviewEntry(activeAnchor) : undefined;
 
   return (
-    <div className="df-review">
-      <nav className="df-review__nav" aria-label="REVIEW SCREENS">
-        {DF_VIEW_ORDER.map((view) => (
-          <div className="df-review__route" key={view}>
-            <a className="df-review__route-name" href={`#df-r-${view}`}>
-              {DF_VIEW_META[view].index} {DF_VIEW_META[view].label}
-            </a>
-            <DirectLink anchorId={`df-r-${view}`} />
-          </div>
-        ))}
-        {BLDR_ROOMS.map((room) => (
-          <div className="df-review__route" key={room.id}>
-            <a className="df-review__route-name" href={`#df-r-bldr-${room.id}`}>
-              {room.label}
-            </a>
-            <DirectLink anchorId={`df-r-bldr-${room.id}`} />
-          </div>
-        ))}
-      </nav>
-      <header className="df-review__intro">
-        <p>DIGITAL FOUNDATION AND THE BLDR STUDIO THAT FOLLOWS. EVERY SCREEN IS ON THIS PAGE.</p>
-        {note && <p>{note}</p>}
-      </header>
-      <div className="df-review__strip">
-        <Screen id="df-r-P01" view="P01" title="01 · GET STARTED">
-          <P01Entry config={config} onBegin={() => advance('P02')} busy={false} error={null} />
-        </Screen>
-        <Screen id="df-r-P02" view="P02" title="02 · BUSINESS INFORMATION">
-          <P02Intake draft={draft} update={update} editable save={null} onContinue={() => advance('P03')} />
-        </Screen>
-        <Screen id="df-r-P03" view="P03" title="03 · BUILD YOUR FOUNDATION">
-          <P03Configure
-            draft={draft}
-            update={update}
-            editable
-            onSubmit={(errors) => {
-              if (Object.values(errors).some(Boolean)) return;
-              advance('P04');
-            }}
-            submitting={false}
-            submitError={null}
-            save={null}
-          />
-        </Screen>
-        <Screen id="df-r-P04" view="P04" title="04 · RECOMMENDATION">
-          {quotePayload ? (
-            <P04Recommendation
-              payload={quotePayload}
-              catalog={catalog}
-              config={config}
-              desired={{}}
-              syncStatus="idle"
-              syncError={null}
-              onToggle={noop}
-              onQuantity={noop}
-              onContinue={() => advance('P05')}
-              onRefresh={noop}
-            />
-          ) : (
-            <p className="df-review__wait">LOADING RECOMMENDATION</p>
+    <DigitalFoundationReviewPreviewProvider value={previewState}>
+      <div className="df-review">
+        <div className="df-review__top">
+          <DigitalFoundationReviewZonePills zone={zone} onZoneChange={onZoneChange} />
+          <DigitalFoundationReviewNav zoneFilter={zone} activeAnchor={activeAnchor} onPickAnchor={setActiveAnchor} />
+        </div>
+        <header className="df-review__intro">
+          <p className="df-review__kicker">DESIGN REVIEW · CONTINUOUS GALLERY</p>
+          <ReviewProvenance dataSource={dataSource} />
+          <p>
+            PICK A ZONE AT THE TOP — ALL SCREENS IN THAT ZONE SCROLL ON ONE PAGE. OTHER ZONES STAY UNMOUNTED. USE THE
+            REGISTRY TO JUMP WITHIN THE ACTIVE ZONE.
+          </p>
+          {focusEntry && (
+            <p className="df-review__current">
+              REGISTRY FOCUS · {focusEntry.pageName} · <code>{activeAnchor}</code>
+            </p>
           )}
-        </Screen>
-        <Screen id="df-r-P05" view="P05" title="05 · REVIEW + CHECKOUT">
-          {quotePayload ? (
-            <P05Review
-              token={quoteToken}
-              payload={quotePayload}
-              config={config}
-              setPayload={setQuotePayload}
-              reload={async () => quotePayload}
-              checkout={null}
-              onEditAddons={() => advance('P04')}
-            />
-          ) : (
-            <p className="df-review__wait">LOADING REVIEW</p>
-          )}
-        </Screen>
-        <Screen id="df-r-P06" view="P06" title="06 · ACTIVATION">
-          {paidPayload ? (
-            <P06Activation
-              payload={paidPayload}
-              verify={null}
-              attempt={0}
-              attempts={0}
-              simulated={false}
-              onOverview={() => advance('OVERVIEW')}
-              onRetry={noop}
-            />
-          ) : (
-            <p className="df-review__wait">LOADING ACTIVATION</p>
-          )}
-        </Screen>
-        <Screen id="df-r-OVERVIEW" view="OVERVIEW" title="07 · PROJECT OVERVIEW">
-          {paidPayload ? (
-            <InterimOverview payload={paidPayload} onActivation={() => advance('P06')} />
-          ) : (
-            <p className="df-review__wait">LOADING OVERVIEW</p>
-          )}
-        </Screen>
-        {BLDR_ROOMS.map((room) => (
-          <article className="df-review__item" id={`df-r-bldr-${room.id}`} key={room.id}>
-            <div className="df-review__mark">
-              <p className="df-review__label">{room.label}</p>
-              <DirectLink anchorId={`df-r-bldr-${room.id}`} />
-            </div>
-            <iframe
-              className="df-review__studio"
-              title={room.label}
-              src={`/bldr/studio/${studioPathForReviewRoom(room.id)}?reviewRoom=${room.id}`}
-            />
-          </article>
-        ))}
+          {note && <p className="df-review__diag">{note}</p>}
+        </header>
+        <DigitalFoundationReviewGallery zoneFilter={zone} />
       </div>
-    </div>
+    </DigitalFoundationReviewPreviewProvider>
   );
-}
-
-async function mint(fixtureId: string): Promise<{ token: string; payload: ClientDigitalFoundationPayload }> {
-  const res = await fetch('/api/dev/site00-digital-foundation-preview-bootstrap', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ fixture_id: fixtureId }),
-  });
-  const json = (await res.json()) as { public_token?: string; error?: string };
-  if (!res.ok || !json.public_token) throw new Error(json.error ?? 'BOOTSTRAP_FAILED');
-  const payload = await fetchPayload(json.public_token);
-  return { token: json.public_token, payload };
 }

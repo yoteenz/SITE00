@@ -539,9 +539,100 @@
       "metadata": {},
       "receiptId": "rcpt_1791809560782_5nt6688",
       "createdAt": "2026-10-12T12:52:40.782Z"
+    },
+    {
+      "requestId": "f03-full-page-dry",
+      "authorizationId": "sauth_db2dcd7b46532897103f03cc",
+      "projectId": "JURNL",
+      "familyId": "F03",
+      "visualId": "F03.00",
+      "generationClass": "SCREEN_PARENT",
+      "provider": "OpenArt",
+      "model": "gpt-image-2-5-sunburst",
+      "estimatedCredits": 316,
+      "actualCredits": 316,
+      "spendKind": "PRODUCTIVE",
+      "status": "COMPLETED",
+      "referenceAuthorityId": "F03.00_LIVE_STRUCTURE",
+      "metadata": {
+        "purpose": "F03_CORRECTION",
+        "uiOccupancy": {
+          "primary_ui_zone": "LEFT / CENTER-LEFT. Title, safe-to-spend figure, see why, and the journal sit here.",
+          "secondary_ui_zone": "The coming and moved journal, still on the left rail.",
+          "environment_focal_zone": "RIGHT / FAR-RIGHT. Daylight and one daily object.",
+          "protected_negative_space": "Behind TODAY, behind the safe-to-spend figure, and behind the coming and moved panels. Low noise, low contrast, low edge.",
+          "occlusion_allowed_zone": "See why and ask cover most of the room. Those sheets are not a new plate.",
+          "drawer_overlay_zone": "Lower sheet over the room. No plate of its own.",
+          "text_density_zone": "Left rail. One figure, two short groups.",
+          "screen_exposure_class": "ENVIRONMENT_DEPENDENT",
+          "occupancy_file": "/workspace/JURNL/F03_TODAY/MANIFEST/F03_PLATE_OCCUPANCY.json"
+        }
+      },
+      "receiptId": "rcpt_1792535798414_pj25np4",
+      "createdAt": "2026-10-20T22:36:38.414Z"
+    },
+    {
+      "requestId": "f03-t2i-block",
+      "authorizationId": "sauth_5fe3fe85a82401c6a74f1463",
+      "projectId": "JURNL",
+      "familyId": "F03",
+      "visualId": "F03.00",
+      "generationClass": "SCREEN_PARENT",
+      "provider": "OpenArt",
+      "model": "gpt-image-2-5-sunburst",
+      "estimatedCredits": null,
+      "actualCredits": 0,
+      "spendKind": "FAILED",
+      "status": "BLOCKED",
+      "referenceAuthorityId": "F03.00_LIVE_STRUCTURE",
+      "metadata": {
+        "blockedReason": "INVALID_GENERATION_MODE"
+      },
+      "receiptId": "rcpt_1792535798420_l4esei0",
+      "createdAt": "2026-10-20T22:36:38.420Z"
+    },
+    {
+      "requestId": "f03-plate-no-parent",
+      "authorizationId": "sauth_01c76a087d6ba52115190fd5",
+      "projectId": "JURNL",
+      "familyId": "F03",
+      "visualId": "F03.ENV",
+      "generationClass": "ENVIRONMENT_PLATE",
+      "provider": "OpenArt",
+      "model": "gpt-image-2-5-sunburst",
+      "estimatedCredits": null,
+      "actualCredits": 0,
+      "spendKind": "FAILED",
+      "status": "BLOCKED",
+      "referenceAuthorityId": null,
+      "metadata": {
+        "blockedReason": "AUTHORITY_FIRST_REQUIRED"
+      },
+      "receiptId": "rcpt_1792535798421_qiks99b",
+      "createdAt": "2026-10-20T22:36:38.421Z"
+    },
+    {
+      "requestId": "f03-plate-ok",
+      "authorizationId": "sauth_d2d38edd55dcdfd767df9f09",
+      "projectId": "JURNL",
+      "familyId": "F03",
+      "visualId": "F03.ENV",
+      "generationClass": "ENVIRONMENT_PLATE",
+      "provider": "OpenArt",
+      "model": "gpt-image-2-5-sunburst",
+      "estimatedCredits": null,
+      "actualCredits": null,
+      "spendKind": "PRODUCTIVE",
+      "status": "COMPLETED",
+      "referenceAuthorityId": "F03.00_TODAY_AUTHORITY_FIRST",
+      "environmentPlateOrigin": "DERIVED_FROM_AUTHORITY",
+      "plateAuthorityId": "F03.00_TODAY_AUTHORITY_FIRST",
+      "metadata": {},
+      "receiptId": "rcpt_1792535798423_k49yfav",
+      "createdAt": "2026-10-20T22:36:38.423Z"
     }
   ],
-  "last_gateway_receipt_at": "2026-10-12T12:52:40.782Z",
+  "last_gateway_receipt_at": "2026-10-20T22:36:38.423Z",
   "gateway_lineage": [
     {
       "requestId": "f03-full-page-dry",
@@ -730,7 +821,54 @@
       "createdAt": "2026-10-12T12:52:40.783Z",
       "costReceiptId": "rcpt_1791809560782_5nt6688",
       "spendAuthorizationId": "sauth_d31eb13a757190bf05d3f6a6"
+    },
+    {
+      "requestId": "f03-full-page-dry",
+      "receiptId": "rcpt_1792535798414_pj25np4",
+      "projectId": "JURNL",
+      "familyId": "F03",
+      "visualId": "F03.00",
+      "screenId": "F03.00",
+      "assetId": null,
+      "generationClass": "SCREEN_PARENT",
+      "role": "FULL_PAGE_AUTHORITY",
+      "parentAuthorityId": null,
+      "referenceAuthorityId": "F03.00_LIVE_STRUCTURE",
+      "plateAuthorityId": "F03.00_LIVE_STRUCTURE",
+      "provider": "OpenArt",
+      "model": "gpt-image-2-5-sunburst",
+      "generationMode": "REFERENCE_GUIDED",
+      "outputPath": "/workspace/src/projects/jurnl/families/F03_TODAY/REFERENCES/F03.00_LIVE_STRUCTURE.jpg",
+      "outputAssetId": null,
+      "status": "DRY_RUN",
+      "createdAt": "2026-10-20T22:36:38.418Z",
+      "costReceiptId": "rcpt_1792535798414_pj25np4",
+      "spendAuthorizationId": "sauth_db2dcd7b46532897103f03cc"
+    },
+    {
+      "requestId": "f03-plate-ok",
+      "receiptId": "rcpt_1792535798423_k49yfav",
+      "projectId": "JURNL",
+      "familyId": "F03",
+      "visualId": "F03.ENV",
+      "screenId": null,
+      "assetId": null,
+      "generationClass": "ENVIRONMENT_PLATE",
+      "role": "ENVIRONMENT_PLATE_DERIVATION",
+      "parentAuthorityId": null,
+      "referenceAuthorityId": "F03.00_TODAY_AUTHORITY_FIRST",
+      "plateAuthorityId": "F03.00_TODAY_AUTHORITY_FIRST",
+      "environmentPlateOrigin": "DERIVED_FROM_AUTHORITY",
+      "provider": "OpenArt",
+      "model": "gpt-image-2-5-sunburst",
+      "generationMode": "REFERENCE_GUIDED",
+      "outputPath": "/workspace/src/projects/jurnl/families/F03_TODAY/AUTHORITIES/F03.00_TODAY_AUTHORITY_FIRST.jpg",
+      "outputAssetId": null,
+      "status": "DRY_RUN",
+      "createdAt": "2026-10-20T22:36:38.423Z",
+      "costReceiptId": "rcpt_1792535798423_k49yfav",
+      "spendAuthorizationId": "sauth_d2d38edd55dcdfd767df9f09"
     }
   ],
-  "last_gateway_lineage_at": "2026-10-12T12:52:40.783Z"
+  "last_gateway_lineage_at": "2026-10-20T22:36:38.423Z"
 }

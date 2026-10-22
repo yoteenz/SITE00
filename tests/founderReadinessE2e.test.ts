@@ -18,16 +18,16 @@ beforeEach(() => {
 });
 
 describe('founder test mode guards', () => {
-  it('blocks synthetic client creation when founder test mode is off', () => {
-    expect(() =>
+  it('blocks synthetic client creation when founder test mode is off', async () => {
+    await expect(
       createSyntheticTestClient({ display_name: 'X', contact_email: 'test@example.com' }),
-    ).toThrow(/FOUNDER_TEST_MODE_DISABLED/);
+    ).rejects.toThrow(/FOUNDER_TEST_MODE_DISABLED/);
   });
 
-  it('creates synthetic artifact and DRY_RUN/QUEUED invitation intent when test mode on', () => {
+  it('creates synthetic artifact and DRY_RUN/QUEUED invitation intent when test mode on', async () => {
     vi.stubEnv('SITE00_DF_FOUNDER_TEST_MODE', '1');
     vi.stubEnv('SITE00_DF_FOUNDER_TEST_RECIPIENT_ALLOWLIST', 'founder@test.com');
-    const out = createSyntheticTestClient({ display_name: 'Anthony Test', contact_email: 'founder@test.com' });
+    const out = await createSyntheticTestClient({ display_name: 'Anthony Test', contact_email: 'founder@test.com' });
     expect(out.lead.business_name).toMatch(/^SYNTH · /);
     expect(out.personalized_url).toMatch(/^\/foundation\//);
     const inviteIntent = [...getDfMemoryState().sendIntents.values()].find(
@@ -37,6 +37,9 @@ describe('founder test mode guards', () => {
     const invite = prepareTestInvitation(inviteIntent!.intent_id);
     expect(invite.template_id).toBe('personal-foundation-invitation');
     expect(invite.invitation_link_valid).toBe(true);
+    vi.stubEnv('SITE00_PUBLIC_APP_ORIGIN', 'https://staging-df.site00.test');
+    const inviteStaging = prepareTestInvitation(inviteIntent!.intent_id);
+    expect(inviteStaging.invitation_links.some((l) => l.includes('staging-df.site00.test'))).toBe(true);
     const journey = advanceSyntheticIntakeSubmitted(out.artifact.artifact_id);
     expect(journey.intake_state).toBe('COMPLETE');
     expect(journey.email_events.some((e) => e.template_id === 'intake-completed')).toBe(true);
@@ -44,10 +47,10 @@ describe('founder test mode guards', () => {
 });
 
 describe('Resend webhook status', () => {
-  it('updates intent to DELIVERED when provider id matches', () => {
+  it('updates intent to DELIVERED when provider id matches', async () => {
     vi.stubEnv('SITE00_DF_FOUNDER_TEST_MODE', '1');
     vi.stubEnv('SITE00_DF_FOUNDER_TEST_RECIPIENT_ALLOWLIST', 'founder@test.com');
-    createSyntheticTestClient({ display_name: 'X', contact_email: 'founder@test.com' });
+    await createSyntheticTestClient({ display_name: 'X', contact_email: 'founder@test.com' });
     const firstIntent = [...getDfMemoryState().sendIntents.values()][0];
     firstIntent.provider_message_id = 're_test_123';
     firstIntent.status = 'ACCEPTED';
@@ -96,5 +99,17 @@ describe('readiness report', () => {
   it('lists blocked founder test mode when env off', () => {
     const r = buildFounderReadinessReport();
     expect(r.blocked.some((b) => b.includes('FOUNDER_TEST_MODE'))).toBe(true);
+    expect(Array.isArray(r.unverified)).toBe(true);
+    expect(r.env_var_groups.some((g) => g.id === 'stripe_secret')).toBe(true);
+    expect(r.staging_identities.e2e_passed).toBe(false);
+    expect(r.overall_status).toBe('BLOCKED');
+    expect(r.activation.e2e_authorized).toBe(false);
+    expect(r.activation.synthetic_intake_ready).toBe(false);
+  });
+
+  it('does not require both Stripe env alias names when one is set', () => {
+    vi.stubEnv('STRIPE_SECRET_KEY', 'sk_test_abc');
+    const stripeGroup = buildFounderReadinessReport().env_var_groups.find((g) => g.id === 'stripe_secret');
+    expect(stripeGroup?.satisfied).toBe(true);
   });
 });

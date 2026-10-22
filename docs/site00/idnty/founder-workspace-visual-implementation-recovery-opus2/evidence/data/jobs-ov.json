@@ -1,0 +1,842 @@
+[
+ {
+  "label": "OL-01",
+  "route": "/admin/site00/founder-workspace/overview",
+  "mode": "mock",
+  "sizes": [
+   "390x844",
+   "820x1180",
+   "1440x900"
+  ],
+  "steps": [
+   {
+    "click": ".ws-side__create button:visible, .ws-rail__create:visible, .ws-bnav__c:visible"
+   }
+  ],
+  "expectSel": "[data-ifw-overlay=\"OL-01\"]"
+ },
+ {
+  "label": "OL-02",
+  "route": "/admin/site00/founder-workspace/overview",
+  "mode": "mock",
+  "sizes": [
+   "390x844",
+   "820x1180",
+   "1440x900"
+  ],
+  "steps": [
+   {
+    "click": ".ws-side__create button:visible, .ws-rail__create:visible, .ws-bnav__c:visible"
+   },
+   {
+    "type": [
+     "input[aria-label=\"BUSINESS NAME\"]",
+     "Horizon Freight"
+    ]
+   },
+   {
+    "click": "button:has-text(\"CREATE FOUNDATION\")",
+    "wait": 1200
+   }
+  ],
+  "expectSel": "[data-ifw-overlay=\"OL-02\"]",
+  "fixturePosts": true
+ },
+ {
+  "label": "OL-03",
+  "route": "/admin/site00/founder-workspace/overview",
+  "mode": "mock",
+  "sizes": [
+   "390x844"
+  ],
+  "steps": [
+   {
+    "click": "button[aria-label=\"MENU\"]:visible"
+   }
+  ],
+  "expectSel": "[data-ifw-overlay=\"OL-03\"]"
+ },
+ {
+  "label": "OL-04",
+  "route": "/admin/site00/founder-workspace/overview",
+  "mode": "mock",
+  "sizes": [
+   "390x844",
+   "820x1180",
+   "1440x900"
+  ],
+  "steps": [
+   {
+    "click": ".ws-search--top:visible, button[aria-label=\"SEARCH\"]:visible"
+   },
+   {
+    "type": [
+     "input[aria-label=\"SEARCH AND COMMANDS\"]",
+     "ho"
+    ]
+   }
+  ],
+  "expectSel": "[data-ifw-overlay=\"OL-04\"]"
+ },
+ {
+  "label": "OL-05",
+  "route": "/admin/site00/founder-workspace/overview",
+  "mode": "mock",
+  "sizes": [
+   "390x844",
+   "820x1180",
+   "1440x900"
+  ],
+  "steps": [
+   {
+    "click": "button[aria-label=\"NOTIFICATIONS\"]:visible",
+    "wait": 800
+   }
+  ],
+  "expectSel": "[data-ifw-overlay=\"OL-05\"]"
+ },
+ {
+  "label": "OL-06",
+  "route": "/admin/site00/founder-workspace/foundations",
+  "mode": "mock",
+  "sizes": [
+   "390x844",
+   "820x1180",
+   "1440x900"
+  ],
+  "steps": [
+   {
+    "click": ".reg__r .c-chev button:visible"
+   }
+  ],
+  "expectSel": "[data-ifw-overlay=\"OL-06\"]"
+ },
+ {
+  "label": "OL-07",
+  "route": "/admin/site00/founder-workspace/foundations",
+  "mode": "mock",
+  "sizes": [
+   "390x844",
+   "820x1180",
+   "1440x900"
+  ],
+  "steps": [
+   {
+    "click": "button[aria-label=\"FILTER\"]:visible"
+   }
+  ],
+  "expectSel": "[data-ifw-overlay=\"OL-07\"]"
+ },
+ {
+  "label": "OL-08",
+  "route": "/admin/site00/founder-workspace/foundations/fx10000-0000-4000-8000-000000000001",
+  "mode": "mock",
+  "sizes": [
+   "390x844",
+   "820x1180",
+   "1440x900"
+  ],
+  "steps": [
+   {
+    "click": "button[role=tab]:has-text(\"QUOTE\")"
+   },
+   {
+    "click": "button:has-text(\"APPROVE QUOTE\")"
+   }
+  ],
+  "expectSel": "[data-ifw-overlay=\"OL-08\"]"
+ },
+ {
+  "label": "OL-09",
+  "route": "/admin/site00/founder-workspace/foundations/fx10000-0000-4000-8000-000000000001",
+  "mode": "mock",
+  "sizes": [
+   "390x844",
+   "820x1180",
+   "1440x900"
+  ],
+  "steps": [
+   {
+    "click": "button[role=tab]:has-text(\"QUOTE\")"
+   },
+   {
+    "click": "button:has-text(\"REVISE \u00b7 MANUAL ADJUSTMENT\")"
+   },
+   {
+    "type": [
+     "input[aria-label=\"MANUAL ADJUSTMENT\"]",
+     "-50.00"
+    ]
+   }
+  ],
+  "expectSel": "[data-ifw-overlay=\"OL-09\"]"
+ },
+ {
+  "label": "OL-10",
+  "route": "/admin/site00/founder-workspace/foundations/fx30000-0000-4000-8000-000000000003",
+  "mode": "mock",
+  "sizes": [
+   "390x844",
+   "820x1180",
+   "1440x900"
+  ],
+  "steps": [
+   {
+    "click": "button[role=tab]:has-text(\"RECORDS\")"
+   },
+   {
+    "click": "button:has-text(\"MARK COMPLETE\")",
+    "wait": 900
+   }
+  ],
+  "expectSel": "[data-ifw-overlay=\"OL-10\"]"
+ },
+ {
+  "label": "OL-11",
+  "route": "/admin/site00/founder-workspace/reviews",
+  "mode": "mock",
+  "sizes": [
+   "390x844",
+   "820x1180"
+  ],
+  "steps": [
+   {
+    "click": ".q-item:has-text(\"HORIZON FREIGHT\")",
+    "wait": 900
+   },
+   {
+    "click": ".wb-mbar button:has-text(\"REQUEST REVISION\")"
+   }
+  ],
+  "expectSel": "[data-ifw-overlay=\"OL-11\"]"
+ },
+ {
+  "label": "OL-12",
+  "route": "/admin/site00/founder-workspace/operations",
+  "mode": "mock",
+  "sizes": [
+   "1440x900"
+  ],
+  "steps": [
+   {
+    "click": ".proj:has-text(\"FIELD & EMBER\")",
+    "wait": 900
+   },
+   {
+    "click": ".task:has-text(\"DMARC\")",
+    "wait": 500
+   },
+   {
+    "click": ".ws-insp button:has-text(\"START TASK\")"
+   }
+  ],
+  "expectSel": "[data-ifw-overlay=\"OL-12\"]"
+ },
+ {
+  "label": "OL-12m",
+  "route": "/admin/site00/founder-workspace/operations",
+  "mode": "mock",
+  "sizes": [
+   "390x844",
+   "820x1180"
+  ],
+  "steps": [
+   {
+    "click": ".proj:has-text(\"FIELD & EMBER\")",
+    "wait": 900
+   },
+   {
+    "click": ".task:has-text(\"DMARC\")",
+    "wait": 500
+   }
+  ],
+  "expectSel": "[data-ifw-overlay=\"OL-12\"]"
+ },
+ {
+  "label": "OL-13",
+  "route": "/admin/site00/founder-workspace/operations",
+  "mode": "mock",
+  "sizes": [
+   "390x844",
+   "820x1180",
+   "1440x900"
+  ],
+  "steps": [
+   {
+    "click": ".proj:has-text(\"FIELD & EMBER\")",
+    "wait": 900
+   },
+   {
+    "click": ".task:has-text(\"DKIM\")",
+    "wait": 500
+   },
+   {
+    "click": ".ws-insp__foot button:has-text(\"BLOCK\"):visible"
+   }
+  ],
+  "expectSel": "[data-ifw-overlay=\"OL-13\"]"
+ },
+ {
+  "label": "OL-14",
+  "route": "/admin/site00/founder-workspace/correspondence",
+  "mode": "mock",
+  "sizes": [
+   "390x844",
+   "820x1180",
+   "1440x900"
+  ],
+  "steps": [
+   {
+    "click": ".q-item:has-text(\"FIELD & EMBER\")",
+    "wait": 900
+   },
+   {
+    "click": ".composer button:has-text(\"WRITE\"):visible"
+   }
+  ],
+  "expectSel": "[data-ifw-overlay=\"OL-14\"]"
+ },
+ {
+  "label": "OL-15",
+  "route": "/admin/site00/founder-workspace/correspondence",
+  "mode": "mock",
+  "sizes": [
+   "1440x900"
+  ],
+  "steps": [
+   {
+    "click": "button:has-text(\"SEND GATE\")"
+   }
+  ],
+  "expectSel": "[data-ifw-overlay=\"OL-15\"]"
+ },
+ {
+  "label": "OL-15t",
+  "route": "/admin/site00/founder-workspace/system",
+  "mode": "mock",
+  "sizes": [
+   "390x844",
+   "820x1180",
+   "1440x900"
+  ],
+  "steps": [
+   {
+    "click": "button[role=tab]:has-text(\"TEST LAB\")"
+   },
+   {
+    "type": [
+     "input[aria-label=\"TEST RECIPIENT\"]",
+     "founder-test@site00.invalid"
+    ]
+   },
+   {
+    "click": "button:has-text(\"CREATE TEST CLIENT\")",
+    "wait": 900
+   },
+   {
+    "click": "button:has-text(\"SEND TEST\")"
+   }
+  ],
+  "expectSel": "[data-ifw-overlay=\"OL-15\"]",
+  "fixturePosts": true
+ },
+ {
+  "label": "OL-16",
+  "route": "/admin/site00/founder-workspace/system",
+  "mode": "mock",
+  "sizes": [
+   "390x844",
+   "820x1180"
+  ],
+  "steps": [
+   {
+    "click": ".con__r:has-text(\"EMAIL SENDING\")",
+    "wait": 600
+   }
+  ],
+  "expectSel": "[data-ifw-overlay=\"OL-16\"]"
+ },
+ {
+  "label": "OL-17",
+  "route": "/admin/site00/founder-workspace/system",
+  "mode": "mock",
+  "sizes": [
+   "390x844",
+   "820x1180",
+   "1440x900"
+  ],
+  "steps": [
+   {
+    "click": "button[role=tab]:has-text(\"TEST LAB\")"
+   },
+   {
+    "click": "button:has-text(\"RESET TEST DATA\")"
+   }
+  ],
+  "expectSel": "[data-ifw-overlay=\"OL-17\"]"
+ },
+ {
+  "label": "OL-18",
+  "route": "/admin/site00/founder-workspace/overview",
+  "mode": "mock",
+  "sizes": [
+   "820x1180",
+   "1440x900"
+  ],
+  "steps": [
+   {
+    "click": ".ws-side__foot:visible, .ws-rail__foot:visible"
+   }
+  ],
+  "expectSel": "[data-ifw-overlay=\"OL-18\"]"
+ },
+ {
+  "label": "OL-18m",
+  "route": "/admin/site00/founder-workspace/overview",
+  "mode": "mock",
+  "sizes": [
+   "390x844"
+  ],
+  "steps": [
+   {
+    "click": "button[aria-label=\"MENU\"]:visible"
+   },
+   {
+    "click": "button:has-text(\"FOUNDER \u00b7 ACCOUNT\")"
+   }
+  ],
+  "expectSel": "[data-ifw-overlay=\"OL-18\"]"
+ },
+ {
+  "label": "OL-19",
+  "route": "/admin/site00/founder-workspace/foundations",
+  "mode": "mock",
+  "sizes": [
+   "390x844",
+   "820x1180"
+  ],
+  "steps": [
+   {
+    "click": ".reg__r:has-text(\"CARTER & LANE\")",
+    "wait": 600
+   }
+  ],
+  "expectSel": "[data-ifw-overlay=\"OL-19\"]"
+ },
+ {
+  "label": "OL-20",
+  "route": "/admin/site00/founder-workspace/foundations",
+  "mode": "error",
+  "sizes": [
+   "390x844",
+   "820x1180",
+   "1440x900"
+  ],
+  "steps": [
+   {
+    "click": "button:has-text(\"OPEN TECHNICAL DETAIL\")"
+   }
+  ],
+  "expectSel": "[data-ifw-overlay=\"OL-20\"]"
+ },
+ {
+  "label": "RO-01",
+  "route": "/admin/site00/founder-workspace/referrals",
+  "mode": "mock",
+  "sizes": [
+   "390x844",
+   "820x1180",
+   "1440x900"
+  ],
+  "steps": [
+   {
+    "click": "summary:has-text(\"REFERRAL OVERLAY FAMILIES\")"
+   },
+   {
+    "click": "button:has-text(\"RO-01\")",
+    "wait": 600
+   }
+  ],
+  "expectSel": "[data-ifw-overlay=\"RO-01\"]"
+ },
+ {
+  "label": "RO-02",
+  "route": "/admin/site00/founder-workspace/referrals",
+  "mode": "mock",
+  "sizes": [
+   "390x844",
+   "820x1180",
+   "1440x900"
+  ],
+  "steps": [
+   {
+    "click": "summary:has-text(\"REFERRAL OVERLAY FAMILIES\")"
+   },
+   {
+    "click": "button:has-text(\"RO-02\")",
+    "wait": 600
+   }
+  ],
+  "expectSel": "[data-ifw-overlay=\"RO-02\"]"
+ },
+ {
+  "label": "RO-03",
+  "route": "/admin/site00/founder-workspace/referrals",
+  "mode": "mock",
+  "sizes": [
+   "390x844",
+   "820x1180",
+   "1440x900"
+  ],
+  "steps": [
+   {
+    "click": "summary:has-text(\"REFERRAL OVERLAY FAMILIES\")"
+   },
+   {
+    "click": "button:has-text(\"RO-03\")",
+    "wait": 600
+   }
+  ],
+  "expectSel": "[data-ifw-overlay=\"RO-03\"]"
+ },
+ {
+  "label": "RO-04",
+  "route": "/admin/site00/founder-workspace/referrals",
+  "mode": "mock",
+  "sizes": [
+   "390x844",
+   "820x1180",
+   "1440x900"
+  ],
+  "steps": [
+   {
+    "click": "summary:has-text(\"REFERRAL OVERLAY FAMILIES\")"
+   },
+   {
+    "click": "button:has-text(\"RO-04\")",
+    "wait": 600
+   }
+  ],
+  "expectSel": "[data-ifw-overlay=\"RO-04\"]"
+ },
+ {
+  "label": "RO-05",
+  "route": "/admin/site00/founder-workspace/referrals",
+  "mode": "mock",
+  "sizes": [
+   "390x844",
+   "820x1180",
+   "1440x900"
+  ],
+  "steps": [
+   {
+    "click": "summary:has-text(\"REFERRAL OVERLAY FAMILIES\")"
+   },
+   {
+    "click": "button:has-text(\"RO-05\")",
+    "wait": 600
+   }
+  ],
+  "expectSel": "[data-ifw-overlay=\"RO-05\"]"
+ },
+ {
+  "label": "RO-06",
+  "route": "/admin/site00/founder-workspace/referrals",
+  "mode": "mock",
+  "sizes": [
+   "390x844",
+   "820x1180",
+   "1440x900"
+  ],
+  "steps": [
+   {
+    "click": "summary:has-text(\"REFERRAL OVERLAY FAMILIES\")"
+   },
+   {
+    "click": "button:has-text(\"RO-06\")",
+    "wait": 600
+   }
+  ],
+  "expectSel": "[data-ifw-overlay=\"RO-06\"]"
+ },
+ {
+  "label": "RO-07",
+  "route": "/admin/site00/founder-workspace/referrals",
+  "mode": "mock",
+  "sizes": [
+   "390x844",
+   "820x1180",
+   "1440x900"
+  ],
+  "steps": [
+   {
+    "click": "summary:has-text(\"REFERRAL OVERLAY FAMILIES\")"
+   },
+   {
+    "click": "button:has-text(\"RO-07\")",
+    "wait": 600
+   }
+  ],
+  "expectSel": "[data-ifw-overlay=\"RO-07\"]"
+ },
+ {
+  "label": "RO-08",
+  "route": "/admin/site00/founder-workspace/referrals",
+  "mode": "mock",
+  "sizes": [
+   "390x844",
+   "820x1180",
+   "1440x900"
+  ],
+  "steps": [
+   {
+    "click": "summary:has-text(\"REFERRAL OVERLAY FAMILIES\")"
+   },
+   {
+    "click": "button:has-text(\"RO-08\")",
+    "wait": 600
+   }
+  ],
+  "expectSel": "[data-ifw-overlay=\"RO-08\"]"
+ },
+ {
+  "label": "RO-09",
+  "route": "/admin/site00/founder-workspace/referrals",
+  "mode": "mock",
+  "sizes": [
+   "390x844",
+   "820x1180",
+   "1440x900"
+  ],
+  "steps": [
+   {
+    "click": "summary:has-text(\"REFERRAL OVERLAY FAMILIES\")"
+   },
+   {
+    "click": "button:has-text(\"RO-09\")",
+    "wait": 600
+   }
+  ],
+  "expectSel": "[data-ifw-overlay=\"RO-09\"]"
+ },
+ {
+  "label": "RO-10",
+  "route": "/admin/site00/founder-workspace/referrals",
+  "mode": "mock",
+  "sizes": [
+   "390x844",
+   "820x1180",
+   "1440x900"
+  ],
+  "steps": [
+   {
+    "click": "summary:has-text(\"REFERRAL OVERLAY FAMILIES\")"
+   },
+   {
+    "click": "button:has-text(\"RO-10\")",
+    "wait": 600
+   }
+  ],
+  "expectSel": "[data-ifw-overlay=\"RO-10\"]"
+ },
+ {
+  "label": "RO-11",
+  "route": "/admin/site00/founder-workspace/referrals",
+  "mode": "mock",
+  "sizes": [
+   "390x844",
+   "820x1180",
+   "1440x900"
+  ],
+  "steps": [
+   {
+    "click": "summary:has-text(\"REFERRAL OVERLAY FAMILIES\")"
+   },
+   {
+    "click": "button:has-text(\"RO-11\")",
+    "wait": 600
+   }
+  ],
+  "expectSel": "[data-ifw-overlay=\"RO-11\"]"
+ },
+ {
+  "label": "RO-12",
+  "route": "/admin/site00/founder-workspace/referrals",
+  "mode": "mock",
+  "sizes": [
+   "390x844",
+   "820x1180",
+   "1440x900"
+  ],
+  "steps": [
+   {
+    "click": "summary:has-text(\"REFERRAL OVERLAY FAMILIES\")"
+   },
+   {
+    "click": "button:has-text(\"RO-12\")",
+    "wait": 600
+   }
+  ],
+  "expectSel": "[data-ifw-overlay=\"RO-12\"]"
+ },
+ {
+  "label": "RO-13",
+  "route": "/admin/site00/founder-workspace/referrals",
+  "mode": "mock",
+  "sizes": [
+   "390x844",
+   "820x1180",
+   "1440x900"
+  ],
+  "steps": [
+   {
+    "click": "summary:has-text(\"REFERRAL OVERLAY FAMILIES\")"
+   },
+   {
+    "click": "button:has-text(\"RO-13\")",
+    "wait": 600
+   }
+  ],
+  "expectSel": "[data-ifw-overlay=\"RO-13\"]"
+ },
+ {
+  "label": "RO-14",
+  "route": "/admin/site00/founder-workspace/referrals",
+  "mode": "mock",
+  "sizes": [
+   "390x844",
+   "820x1180",
+   "1440x900"
+  ],
+  "steps": [
+   {
+    "click": "summary:has-text(\"REFERRAL OVERLAY FAMILIES\")"
+   },
+   {
+    "click": "button:has-text(\"RO-14\")",
+    "wait": 600
+   }
+  ],
+  "expectSel": "[data-ifw-overlay=\"RO-14\"]"
+ },
+ {
+  "label": "RO-15",
+  "route": "/admin/site00/founder-workspace/referrals",
+  "mode": "mock",
+  "sizes": [
+   "390x844",
+   "820x1180",
+   "1440x900"
+  ],
+  "steps": [
+   {
+    "click": "summary:has-text(\"REFERRAL OVERLAY FAMILIES\")"
+   },
+   {
+    "click": "button:has-text(\"RO-15\")",
+    "wait": 600
+   }
+  ],
+  "expectSel": "[data-ifw-overlay=\"RO-15\"]"
+ },
+ {
+  "label": "RO-16",
+  "route": "/admin/site00/founder-workspace/referrals",
+  "mode": "mock",
+  "sizes": [
+   "390x844",
+   "820x1180",
+   "1440x900"
+  ],
+  "steps": [
+   {
+    "click": "summary:has-text(\"REFERRAL OVERLAY FAMILIES\")"
+   },
+   {
+    "click": "button:has-text(\"RO-16\")",
+    "wait": 600
+   }
+  ],
+  "expectSel": "[data-ifw-overlay=\"RO-16\"]"
+ },
+ {
+  "label": "RO-17",
+  "route": "/admin/site00/founder-workspace/referrals",
+  "mode": "mock",
+  "sizes": [
+   "390x844",
+   "820x1180",
+   "1440x900"
+  ],
+  "steps": [
+   {
+    "click": "summary:has-text(\"REFERRAL OVERLAY FAMILIES\")"
+   },
+   {
+    "click": "button:has-text(\"RO-17\")",
+    "wait": 600
+   }
+  ],
+  "expectSel": "[data-ifw-overlay=\"RO-17\"]"
+ },
+ {
+  "label": "RO-18",
+  "route": "/admin/site00/founder-workspace/referrals",
+  "mode": "mock",
+  "sizes": [
+   "390x844",
+   "820x1180",
+   "1440x900"
+  ],
+  "steps": [
+   {
+    "click": "summary:has-text(\"REFERRAL OVERLAY FAMILIES\")"
+   },
+   {
+    "click": "button:has-text(\"RO-18\")",
+    "wait": 600
+   }
+  ],
+  "expectSel": "[data-ifw-overlay=\"RO-18\"]"
+ },
+ {
+  "label": "RO-19",
+  "route": "/admin/site00/founder-workspace/referrals",
+  "mode": "mock",
+  "sizes": [
+   "390x844",
+   "820x1180",
+   "1440x900"
+  ],
+  "steps": [
+   {
+    "click": "summary:has-text(\"REFERRAL OVERLAY FAMILIES\")"
+   },
+   {
+    "click": "button:has-text(\"RO-19\")",
+    "wait": 600
+   }
+  ],
+  "expectSel": "[data-ifw-overlay=\"RO-19\"]"
+ },
+ {
+  "label": "RO-20",
+  "route": "/admin/site00/founder-workspace/referrals",
+  "mode": "mock",
+  "sizes": [
+   "390x844",
+   "820x1180",
+   "1440x900"
+  ],
+  "steps": [
+   {
+    "click": "summary:has-text(\"REFERRAL OVERLAY FAMILIES\")"
+   },
+   {
+    "click": "button:has-text(\"RO-20\")",
+    "wait": 600
+   }
+  ],
+  "expectSel": "[data-ifw-overlay=\"RO-20\"]"
+ }
+]

@@ -1,0 +1,86 @@
+{
+  "status": "PROPOSED",
+  "pages": {
+    "overview": {
+      "density": "relaxed",
+      "M": "focus · signals · work · movement · milestone",
+      "TP": "focus · signals · needs|movement · work · milestone",
+      "TL": "focus|needs · signals · work · milestone|movement",
+      "D": "≥1100 stage: focus|needs · signals · work|movement · milestone|movement",
+      "UW": "≥1440 stage: focus|needs|signals · work|movement · milestone|movement",
+      "specimen": "page=overview"
+    },
+    "foundations": {
+      "density": "standard",
+      "M": "card rows",
+      "TP": "CLIENT / STATUS / NEXT ACTION",
+      "TL": "1024: five columns · 1194 + inspector: three",
+      "D": "five columns; three with inspector at 1280–1600",
+      "UW": "five, capped widths",
+      "specimen": "page=foundations"
+    },
+    "create": {
+      "density": "relaxed",
+      "M": "full screen",
+      "TP": "dialog min(600, 100vw−48), keyboard-aware",
+      "TL": "dialog 600",
+      "D": "dialog 600",
+      "UW": "dialog 600",
+      "specimen": "ol=OL-01"
+    },
+    "record": {
+      "density": "relaxed",
+      "M": "stacked; context below",
+      "TP": "stacked; abbreviated journey",
+      "TL": "section | context 300–360",
+      "D": "section | 360",
+      "UW": "section | 400; journey beside status",
+      "specimen": "page=record&sec=0..3"
+    },
+    "reviews": {
+      "density": "standard",
+      "M": "queue → pushed detail + sticky bar",
+      "TP": "two-column queue → pushed detail",
+      "TL": "queue | context + decision footer",
+      "D": "≥1160 stage: queue | context | decision",
+      "UW": "360 | context | 400",
+      "specimen": "page=reviews"
+    },
+    "operations": {
+      "density": "standard",
+      "M": "runbook strip · main · context",
+      "TP": "same",
+      "TL": "runbooks | main · context 3-up",
+      "D": "<1440 stage: runbooks | main · context 3-up; ≥1440: three columns",
+      "UW": "three columns",
+      "specimen": "page=operations"
+    },
+    "correspondence": {
+      "density": "standard",
+      "M": "index → pushed thread",
+      "TP": "index → pushed thread",
+      "TL": "index | thread",
+      "D": "index | thread | context",
+      "UW": "same, thread 68ch centred",
+      "specimen": "page=correspondence"
+    },
+    "system": {
+      "density": "compact",
+      "M": "verdict · console rows",
+      "TP": "same",
+      "TL": "full console at ≥960",
+      "D": "console (+ attention order at stage ≥1440)",
+      "UW": "same",
+      "specimen": "page=system"
+    },
+    "testlab": {
+      "density": "compact",
+      "M": "one column",
+      "TP": "one column",
+      "TL": "two columns",
+      "D": "two columns",
+      "UW": "three columns",
+      "specimen": "page=testlab"
+    }
+  }
+}
