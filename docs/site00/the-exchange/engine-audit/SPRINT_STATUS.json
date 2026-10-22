@@ -3,7 +3,7 @@
   "STATUS": "COMPLETE",
   "REPOSITORY": "yoteenz/SITE00",
   "BRANCH": "cursor/the-exchange-engine-audit-8aec",
-  "COMMIT": "TBD_AFTER_COMMIT",
+  "COMMIT": "8e1a5a265707280b3fa3d3c4f325bb2f66b8832f",
   "PR": "NOT_CREATED",
   "ENGINE_READINESS": "PARTIALLY_READY",
   "OPUS_INGESTION_READINESS": "BLOCKED",
