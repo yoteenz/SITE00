@@ -1,0 +1,10 @@
+{
+  "localIngestValidated": true,
+  "stagingPersistenceValidated": false,
+  "productionPersistenceValidated": false,
+  "storeMode": "memory-unless-supabase-tables",
+  "fictionTablesExist": false,
+  "notes": [
+    "Supabase fiction canon tables not present — writes fall back to memory store."
+  ]
+}

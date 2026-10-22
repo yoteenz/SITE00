@@ -1,0 +1,76 @@
+[
+  {
+    "schemaVersion": "1.0.0",
+    "id": "fdoc_1c2b6d4237d4c0b1959dffa3",
+    "propertyId": "bce1f3d0-d670-4887-9f98-379fe9a8a4a3",
+    "propertySlug": "the-exchange",
+    "documentType": "VISUAL_IDENTITY_REFERENCE",
+    "stableIdentifier": "visual-sloane-facial-identity-sheet-v1",
+    "version": 1,
+    "title": "Sloane Lockwood — facial identity sheet",
+    "content": {
+      "characterId": "sloane-lockwood",
+      "assetRole": "FOUNDER_SELECTED_REFERENCE",
+      "repositoryPath": "/site00/projects/the-exchange/visual_refs/sloane_lockwood_facial_identity_sheet.jpg",
+      "packageFile": "visual_refs/sloane_lockwood_facial_identity_sheet.jpg",
+      "sha256": "ae6a0f3394eef8bc33167927ed1579dc18cbcc04381db31d475832a6be9423df",
+      "note": "Same character — two founder-selected reference sheets; do not treat embedded AI board text as canon."
+    },
+    "sourceProvenance": {
+      "sourceId": "founder-bible-v1:visual_refs/sloane_lockwood_facial_identity_sheet.jpg",
+      "sourceKind": "FOUNDER_JSON",
+      "importedAt": "2026-10-22T05:06:37.717Z"
+    },
+    "canonStatus": "WORKING_CONCEPT",
+    "approvalStatus": "PENDING_REVIEW",
+    "supersededByDocumentId": null,
+    "supersedesDocumentId": null,
+    "characterReferences": [
+      "sloane-lockwood"
+    ],
+    "worldReferences": [],
+    "sourceTextOriginal": null,
+    "contentHash": "e02d92509c704809b37767b348c766c01b93abcedbca09b04815ffaf03af70d4",
+    "knowledgeLayer": "UNSPECIFIED",
+    "visualReferenceStatus": "FOUNDER_SELECTED_REFERENCE",
+    "createdAt": "2026-10-22T05:06:37.717Z",
+    "updatedAt": "2026-10-22T05:06:37.717Z"
+  },
+  {
+    "schemaVersion": "1.0.0",
+    "id": "fdoc_ac8f7c0b64258bc6541ffe79",
+    "propertyId": "bce1f3d0-d670-4887-9f98-379fe9a8a4a3",
+    "propertySlug": "the-exchange",
+    "documentType": "VISUAL_IDENTITY_REFERENCE",
+    "stableIdentifier": "visual-sloane-face-lock-editorial-board-v1",
+    "version": 1,
+    "title": "Sloane Lockwood — face lock editorial board",
+    "content": {
+      "characterId": "sloane-lockwood",
+      "assetRole": "FOUNDER_SELECTED_REFERENCE",
+      "repositoryPath": "/site00/projects/the-exchange/visual_refs/sloane_lockwood_face_lock_editorial_board.jpg",
+      "packageFile": "visual_refs/sloane_lockwood_face_lock_editorial_board.jpg",
+      "sha256": "1b1bae53622c726678327b920a2549e83bfbcaa2d352eae6229d326ce10f9407",
+      "note": "Same character — two founder-selected reference sheets; do not treat embedded AI board text as canon."
+    },
+    "sourceProvenance": {
+      "sourceId": "founder-bible-v1:visual_refs/sloane_lockwood_face_lock_editorial_board.jpg",
+      "sourceKind": "FOUNDER_JSON",
+      "importedAt": "2026-10-22T05:06:37.717Z"
+    },
+    "canonStatus": "WORKING_CONCEPT",
+    "approvalStatus": "PENDING_REVIEW",
+    "supersededByDocumentId": null,
+    "supersedesDocumentId": null,
+    "characterReferences": [
+      "sloane-lockwood"
+    ],
+    "worldReferences": [],
+    "sourceTextOriginal": null,
+    "contentHash": "edffce9e88300482bfbc4caef13f15f4de97ba29e82cf4f0cd5f40681d23e001",
+    "knowledgeLayer": "UNSPECIFIED",
+    "visualReferenceStatus": "FOUNDER_SELECTED_REFERENCE",
+    "createdAt": "2026-10-22T05:06:37.717Z",
+    "updatedAt": "2026-10-22T05:06:37.717Z"
+  }
+]

@@ -1,0 +1,56 @@
+{
+  "establishedFounderDecisions": [
+    "THE EXCHANGE title",
+    "Sloane Lockwood name",
+    "independent property",
+    "three-part episodes, ten-episode initial slate",
+    "privacy-first vivid retrofuturist world direction",
+    "living retired father, deceased mother, older sister",
+    "family legacy/maternal final exchange core mystery",
+    "Sloane visual selection"
+  ],
+  "strongWorkingDirections": [
+    "SOURCE_PACKAGE_README: founder-package-readme-v1",
+    "SERIES_BIBLE: founder-series-thesis-v1",
+    "WORLD_BIBLE: founder-world-and-culture-v1",
+    "INSTITUTION_BIBLE: founder-exchange-institution-v1",
+    "CHARACTER_BIBLE: founder-character-and-family-v1",
+    "FAMILY_HISTORY: founder-family-history-v1",
+    "CONTINUITY_LEDGER: founder-continuity-ledger-v1",
+    "AUDIENCE_KNOWLEDGE: founder-audience-knowledge-v1",
+    "TECHNOLOGY_BIBLE: founder-speculative-technology-v1",
+    "SEASON_ARCHITECTURE: founder-season-one-v1",
+    "NARRATIVE_METHODOLOGY: founder-story-production-method-v1",
+    "COMMERCIAL_STRATEGY: founder-commercial-strategy-v1",
+    "OPEN_QUESTIONS: founder-open-questions-v1",
+    "VISUAL_IDENTITY_REFERENCE: visual-sloane-facial-identity-sheet-v1",
+    "VISUAL_IDENTITY_REFERENCE: visual-sloane-face-lock-editorial-board-v1"
+  ],
+  "illustrativeEpisodeConcepts": [
+    "founder-episode-slate-v1"
+  ],
+  "unresolvedMysteries": [
+    "Mother's final exchange — exact events, mechanism of death, beneficiaries, culpability (explicitly UNRESOLVED in source)."
+  ],
+  "possibleContradictions": [
+    "Sloane Mercer (Studio World) superseded by Sloane Lockwood — preserve Mercer only as historical superseded reference if imported elsewhere.",
+    "Compact JPEG visual package re-encoded from PNG — pixel-exact parity not guaranteed; identity composition retained."
+  ],
+  "missingDevelopmentDecisions": [
+    "Romantic collaborator identity and casting",
+    "Final speculative technology rules and naming",
+    "Approved production runtimes per part",
+    "Commercial pricing and verified revenue",
+    "Definitive maternal final exchange outcome"
+  ],
+  "eligibleForFounderPromotion": [
+    "THE EXCHANGE title — eligible for explicit FOUNDER_APPROVED APPROVED_CANON promotion (not auto-promoted).",
+    "Sloane Lockwood name — eligible for explicit FOUNDER_APPROVED APPROVED_CANON promotion (not auto-promoted).",
+    "independent property — eligible for explicit FOUNDER_APPROVED APPROVED_CANON promotion (not auto-promoted).",
+    "three-part episodes, ten-episode initial slate — eligible for explicit FOUNDER_APPROVED APPROVED_CANON promotion (not auto-promoted).",
+    "privacy-first vivid retrofuturist world direction — eligible for explicit FOUNDER_APPROVED APPROVED_CANON promotion (not auto-promoted).",
+    "living retired father, deceased mother, older sister — eligible for explicit FOUNDER_APPROVED APPROVED_CANON promotion (not auto-promoted).",
+    "family legacy/maternal final exchange core mystery — eligible for explicit FOUNDER_APPROVED APPROVED_CANON promotion (not auto-promoted).",
+    "Sloane visual selection — eligible for explicit FOUNDER_APPROVED APPROVED_CANON promotion (not auto-promoted)."
+  ]
+}

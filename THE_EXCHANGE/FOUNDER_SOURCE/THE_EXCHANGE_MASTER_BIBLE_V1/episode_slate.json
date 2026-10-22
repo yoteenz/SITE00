@@ -1,0 +1,248 @@
+{
+  "property_slug": "the-exchange",
+  "status": "WORKING_CONCEPT",
+  "number_of_episodes": 10,
+  "parts_per_episode": 3,
+  "episodes": [
+    {
+      "episode_id": "E01",
+      "working_title": "The Invitation",
+      "status": "WORKING_CONCEPT",
+      "premise": "Exclusive event access reveals a request beyond status",
+      "parts": [
+        {
+          "part_id": "E01P1",
+          "function": "HOOK",
+          "outline": "At a colorful social gathering Sloane notices an unusual effort to gain entry; a credible petitioner asks for a single invitation."
+        },
+        {
+          "part_id": "E01P2",
+          "function": "COMPLICATION",
+          "outline": "The person whose access is sought has conditions; Sloane discovers the applicant\u2019s public reason is incomplete."
+        },
+        {
+          "part_id": "E01P3",
+          "function": "RESOLUTION",
+          "outline": "Sloane arranges a consensual opportunity with an unforeseen personal payoff; no proof she can force entry or acceptance."
+        }
+      ],
+      "subtext": "Playful social Sloane; vibrant privacy culture; access means trust."
+    },
+    {
+      "episode_id": "E02",
+      "working_title": "The Favor",
+      "status": "WORKING_CONCEPT",
+      "premise": "An escalating misunderstanding over who owes whom",
+      "parts": [
+        {
+          "part_id": "E02P1",
+          "function": "HOOK",
+          "outline": "An apparently easy favor generates contradictory expectations and Sloane agrees to mediate."
+        },
+        {
+          "part_id": "E02P2",
+          "function": "COMPLICATION",
+          "outline": "Multiple participants value the same favor differently; an informal obligation risks harming a friendship."
+        },
+        {
+          "part_id": "E02P3",
+          "function": "RESOLUTION",
+          "outline": "Sloane restores clarity with agreed terms and lets one person refuse."
+        }
+      ],
+      "subtext": "Nadine gently exposes how Sloane regards helping as habitual."
+    },
+    {
+      "episode_id": "E03",
+      "working_title": "Seven Degrees",
+      "status": "WORKING_CONCEPT",
+      "premise": "A reunion through unlikely human connections",
+      "parts": [
+        {
+          "part_id": "E03P1",
+          "function": "HOOK",
+          "outline": "Someone asks Sloane to locate a legitimate path to a distant contact, not track a person against their will."
+        },
+        {
+          "part_id": "E03P2",
+          "function": "COMPLICATION",
+          "outline": "Every connection fails until a non-elite person with an unlikely history becomes vital."
+        },
+        {
+          "part_id": "E03P3",
+          "function": "RESOLUTION",
+          "outline": "The contact consents to an opportunity, and the outcome is not what the requester expected."
+        }
+      ],
+      "subtext": "Father gives delightful advice; generational relational intelligence."
+    },
+    {
+      "episode_id": "E04",
+      "working_title": "The Promise",
+      "status": "WORKING_CONCEPT",
+      "premise": "A decades-old promise proves more complex than literal fulfillment",
+      "parts": [
+        {
+          "part_id": "E04P1",
+          "function": "HOOK",
+          "outline": "An older petitioner tries to honor an agreement exactly as remembered."
+        },
+        {
+          "part_id": "E04P2",
+          "function": "COMPLICATION",
+          "outline": "Parties disagree about original intent and ethics of strict adherence."
+        },
+        {
+          "part_id": "E04P3",
+          "function": "RESOLUTION",
+          "outline": "A better consensual act honors meaning rather than a coercive technicality."
+        }
+      ],
+      "subtext": "Sloane\u2019s discomfort with broken promises is visible, not explained."
+    },
+    {
+      "episode_id": "E05",
+      "working_title": "The Collaborator",
+      "status": "WORKING_CONCEPT",
+      "premise": "An equal partner challenges Sloane\u2019s methods",
+      "parts": [
+        {
+          "part_id": "E05P1",
+          "function": "HOOK",
+          "outline": "An exchange requires external expertise; Sloane and an accomplished collaborator meet in a spirited professional disagreement."
+        },
+        {
+          "part_id": "E05P2",
+          "function": "COMPLICATION",
+          "outline": "His solution is viable but requires Sloane to relinquish control; mutual respect emerges."
+        },
+        {
+          "part_id": "E05P3",
+          "function": "RESOLUTION",
+          "outline": "They find a compelling joint outcome; no romance announced."
+        }
+      ],
+      "subtext": "First subtle wit/chemistry; collaborator has independent agenda."
+    },
+    {
+      "episode_id": "E06",
+      "working_title": "The Anniversary",
+      "status": "WORKING_CONCEPT",
+      "premise": "An older widower\u2019s tradition intersects with Lockwood grief",
+      "parts": [
+        {
+          "part_id": "E06P1",
+          "function": "HOOK",
+          "outline": "A man seeks help preserving an annual ritual and involving a reluctant relative."
+        },
+        {
+          "part_id": "E06P2",
+          "function": "COMPLICATION",
+          "outline": "A refusal has a legitimate history; Sloane reevaluates whose need the ritual serves."
+        },
+        {
+          "part_id": "E06P3",
+          "function": "RESOLUTION",
+          "outline": "Family honors tradition without forced reconciliation. Sloane has a quiet call with her father."
+        }
+      ],
+      "subtext": "Mother acknowledged absent/deceased when earned; avoid exposition."
+    },
+    {
+      "episode_id": "E07",
+      "working_title": "The Exception",
+      "status": "WORKING_CONCEPT",
+      "premise": "A request tests a seemingly settled access rule",
+      "parts": [
+        {
+          "part_id": "E07P1",
+          "function": "HOOK",
+          "outline": "A credible request enters through an unusual but not necessarily illicit channel."
+        },
+        {
+          "part_id": "E07P2",
+          "function": "COMPLICATION",
+          "outline": "The exchange appears eligible yet imposes disproportionate risk to someone not requesting it."
+        },
+        {
+          "part_id": "E07P3",
+          "function": "RESOLUTION",
+          "outline": "Sloane can refuse or redesign the terms; a father\u2019s unease remains a small subtext."
+        }
+      ],
+      "subtext": "Demonstrate meaningful limits; tech not a magic permission bypass."
+    },
+    {
+      "episode_id": "E08",
+      "working_title": "No Strings",
+      "status": "WORKING_CONCEPT",
+      "premise": "A simple invitation challenges Sloane\u2019s transactional reflex",
+      "parts": [
+        {
+          "part_id": "E08P1",
+          "function": "HOOK",
+          "outline": "After a successful exchange the recurring collaborator invites Sloane to dinner for no professional reason."
+        },
+        {
+          "part_id": "E08P2",
+          "function": "COMPLICATION",
+          "outline": "Sloane looks for hidden intent while another modest exchange mirrors her difficulty receiving care."
+        },
+        {
+          "part_id": "E08P3",
+          "function": "RESOLUTION",
+          "outline": "The case resolves and Sloane accepts a non-transactional human connection, not full romantic commitment."
+        }
+      ],
+      "subtext": "Romance grows through mutual play and everyday attention."
+    },
+    {
+      "episode_id": "E09",
+      "working_title": "The Unfinished Business",
+      "status": "WORKING_CONCEPT",
+      "premise": "A historical obligation touches mother\u2019s generation",
+      "parts": [
+        {
+          "part_id": "E09P1",
+          "function": "HOOK",
+          "outline": "An elderly petitioner asks to complete unfinished business using authenticated records."
+        },
+        {
+          "part_id": "E09P2",
+          "function": "COMPLICATION",
+          "outline": "New context shifts the meaning of the original agreement; a historic connection to mother\u2019s era is discovered."
+        },
+        {
+          "part_id": "E09P3",
+          "function": "RESOLUTION",
+          "outline": "Standalone need resolves or reaches an ethical no; one genuinely useful family question emerges."
+        }
+      ],
+      "subtext": "Mother\u2019s influence visible, no complete final-exchange reveal."
+    },
+    {
+      "episode_id": "E10",
+      "working_title": "The Recall",
+      "status": "WORKING_CONCEPT",
+      "premise": "A former obligation reopens under disputed terms",
+      "parts": [
+        {
+          "part_id": "E10P1",
+          "function": "HOOK",
+          "outline": "A rare priority Recall interrupts normal life and references a previous exchange."
+        },
+        {
+          "part_id": "E10P2",
+          "function": "COMPLICATION",
+          "outline": "A recorded settlement differs from what someone believed; technical verification is not human resolution."
+        },
+        {
+          "part_id": "E10P3",
+          "function": "RESOLUTION",
+          "outline": "Sloane makes a principled resolution with consequences; her father recognizes a deeper historical pattern."
+        }
+      ],
+      "subtext": "First meaningful season-level connection; promise of answers, not exposition."
+    }
+  ]
+}

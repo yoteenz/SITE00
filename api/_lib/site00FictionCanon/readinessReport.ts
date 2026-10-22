@@ -25,14 +25,18 @@ export async function buildIngestionReadinessReport(propertySlug: string): Promi
   }
 
   const docs = await listFictionDocuments(property.id);
-  const activeTypes = new Set(
-    docs.filter((d) => d.canonStatus !== 'SUPERSEDED' && d.canonStatus !== 'REJECTED').map((d) => d.documentType),
-  );
+  const activeDocs = docs.filter((d) => d.canonStatus !== 'SUPERSEDED' && d.canonStatus !== 'REJECTED');
+  const activeTypes = new Set(activeDocs.map((d) => d.documentType));
 
   const documentsPresent = FOUNDER_BIBLE_COMPLETENESS_TYPES.filter((t) => activeTypes.has(t));
   const documentsMissing = FOUNDER_BIBLE_COMPLETENESS_TYPES.filter((t) => !activeTypes.has(t));
-
-  const seedOnly = docs.every((d) => d.sourceProvenance.sourceKind === 'SEED_ORIENTATION');
+  const founderPackagePresent = activeDocs.some((d) =>
+    d.sourceProvenance.sourceId.startsWith('founder-bible-v1'),
+  );
+  const seedOnly =
+    activeDocs.length > 0 &&
+    !founderPackagePresent &&
+    activeDocs.every((d) => d.sourceProvenance.sourceKind === 'SEED_ORIENTATION');
   const approvedCanon = docs.some(
     (d) => d.canonStatus === 'APPROVED_CANON' && d.approvalStatus === 'FOUNDER_APPROVED',
   );
@@ -40,6 +44,9 @@ export async function buildIngestionReadinessReport(propertySlug: string): Promi
   const notes: string[] = [];
   if (seedOnly) {
     notes.push('Only orientation seed documents present — not the definitive founder bible.');
+  }
+  if (founderPackagePresent) {
+    notes.push('Founder bible package V1 detected in active canon records.');
   }
   if (!approvedCanon) {
     notes.push('No FOUNDER_APPROVED APPROVED_CANON documents yet.');
@@ -51,9 +58,11 @@ export async function buildIngestionReadinessReport(propertySlug: string): Promi
   let overallStatus: FictionIngestionReadinessReport['overallStatus'] = 'AWAITING_FOUNDER_SOURCE';
   if (seedOnly) {
     overallStatus = 'AWAITING_FOUNDER_SOURCE';
+  } else if (founderPackagePresent && documentsMissing.length === 0 && !approvedCanon) {
+    overallStatus = 'READY_FOR_OPUS_DRY_RUN';
   } else if (documentsMissing.length === 0 && approvedCanon) {
     overallStatus = 'READY_FOR_OPUS_DRY_RUN';
-  } else if (documentsPresent.length > 0) {
+  } else if (documentsPresent.length > 0 || founderPackagePresent) {
     overallStatus = 'PARTIAL';
   }
 

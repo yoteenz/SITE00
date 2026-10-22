@@ -1,0 +1,114 @@
+[
+  {
+    "stableIdentifier": "founder-package-readme-v1",
+    "documentType": "SOURCE_PACKAGE_README",
+    "canonStatus": "WORKING_CONCEPT",
+    "approvalStatus": "PENDING_REVIEW",
+    "knowledgeLayer": "UNSPECIFIED"
+  },
+  {
+    "stableIdentifier": "founder-series-thesis-v1",
+    "documentType": "SERIES_BIBLE",
+    "canonStatus": "WORKING_CONCEPT",
+    "approvalStatus": "PENDING_REVIEW",
+    "knowledgeLayer": "UNSPECIFIED"
+  },
+  {
+    "stableIdentifier": "founder-world-and-culture-v1",
+    "documentType": "WORLD_BIBLE",
+    "canonStatus": "WORKING_CONCEPT",
+    "approvalStatus": "PENDING_REVIEW",
+    "knowledgeLayer": "UNSPECIFIED"
+  },
+  {
+    "stableIdentifier": "founder-exchange-institution-v1",
+    "documentType": "INSTITUTION_BIBLE",
+    "canonStatus": "WORKING_CONCEPT",
+    "approvalStatus": "PENDING_REVIEW",
+    "knowledgeLayer": "UNSPECIFIED"
+  },
+  {
+    "stableIdentifier": "founder-character-and-family-v1",
+    "documentType": "CHARACTER_BIBLE",
+    "canonStatus": "WORKING_CONCEPT",
+    "approvalStatus": "PENDING_REVIEW",
+    "knowledgeLayer": "WORLD_TRUTH"
+  },
+  {
+    "stableIdentifier": "founder-family-history-v1",
+    "documentType": "FAMILY_HISTORY",
+    "canonStatus": "WORKING_CONCEPT",
+    "approvalStatus": "PENDING_REVIEW",
+    "knowledgeLayer": "WORLD_TRUTH"
+  },
+  {
+    "stableIdentifier": "founder-continuity-ledger-v1",
+    "documentType": "CONTINUITY_LEDGER",
+    "canonStatus": "WORKING_CONCEPT",
+    "approvalStatus": "PENDING_REVIEW",
+    "knowledgeLayer": "WORLD_TRUTH"
+  },
+  {
+    "stableIdentifier": "founder-audience-knowledge-v1",
+    "documentType": "AUDIENCE_KNOWLEDGE",
+    "canonStatus": "WORKING_CONCEPT",
+    "approvalStatus": "PENDING_REVIEW",
+    "knowledgeLayer": "AUDIENCE_KNOWLEDGE"
+  },
+  {
+    "stableIdentifier": "founder-speculative-technology-v1",
+    "documentType": "TECHNOLOGY_BIBLE",
+    "canonStatus": "WORKING_CONCEPT",
+    "approvalStatus": "PENDING_REVIEW",
+    "knowledgeLayer": "UNSPECIFIED"
+  },
+  {
+    "stableIdentifier": "founder-season-one-v1",
+    "documentType": "SEASON_ARCHITECTURE",
+    "canonStatus": "WORKING_CONCEPT",
+    "approvalStatus": "PENDING_REVIEW",
+    "knowledgeLayer": "UNSPECIFIED"
+  },
+  {
+    "stableIdentifier": "founder-story-production-method-v1",
+    "documentType": "NARRATIVE_METHODOLOGY",
+    "canonStatus": "WORKING_CONCEPT",
+    "approvalStatus": "PENDING_REVIEW",
+    "knowledgeLayer": "UNSPECIFIED"
+  },
+  {
+    "stableIdentifier": "founder-commercial-strategy-v1",
+    "documentType": "COMMERCIAL_STRATEGY",
+    "canonStatus": "WORKING_CONCEPT",
+    "approvalStatus": "PENDING_REVIEW",
+    "knowledgeLayer": "UNSPECIFIED"
+  },
+  {
+    "stableIdentifier": "founder-open-questions-v1",
+    "documentType": "OPEN_QUESTIONS",
+    "canonStatus": "WORKING_CONCEPT",
+    "approvalStatus": "PENDING_REVIEW",
+    "knowledgeLayer": "UNSPECIFIED"
+  },
+  {
+    "stableIdentifier": "founder-episode-slate-v1",
+    "documentType": "EPISODE_CONCEPT",
+    "canonStatus": "PROPOSED",
+    "approvalStatus": "PENDING_REVIEW",
+    "knowledgeLayer": "UNSPECIFIED"
+  },
+  {
+    "stableIdentifier": "visual-sloane-facial-identity-sheet-v1",
+    "documentType": "VISUAL_IDENTITY_REFERENCE",
+    "canonStatus": "WORKING_CONCEPT",
+    "approvalStatus": "PENDING_REVIEW",
+    "knowledgeLayer": "UNSPECIFIED"
+  },
+  {
+    "stableIdentifier": "visual-sloane-face-lock-editorial-board-v1",
+    "documentType": "VISUAL_IDENTITY_REFERENCE",
+    "canonStatus": "WORKING_CONCEPT",
+    "approvalStatus": "PENDING_REVIEW",
+    "knowledgeLayer": "UNSPECIFIED"
+  }
+]

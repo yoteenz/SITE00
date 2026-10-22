@@ -1,0 +1,106 @@
+{
+  "package": "THE_EXCHANGE_MASTER_BIBLE_V1",
+  "date": "2026-10-21",
+  "property_slug": "the-exchange",
+  "source_type": "FOUNDER_CONVERSATION_SYNTHESIS",
+  "production_authorized": false,
+  "paid_opus_authorized": false,
+  "ingestion_api_schema_verified": false,
+  "status_contract": {
+    "APPROVED_CANON": "Only narrow explicit founder selections once independently verified and promoted",
+    "WORKING_CONCEPT": "Default for narrative elaboration and most developed drafts",
+    "UNRESOLVED": "Intentionally no definitive answer",
+    "ILLUSTRATIVE": "Scene/episode examples, not locked"
+  },
+  "verified_selections": [
+    "THE EXCHANGE title",
+    "Sloane Lockwood name",
+    "independent property",
+    "three-part episodes, ten-episode initial slate",
+    "privacy-first vivid retrofuturist world direction",
+    "living retired father, deceased mother, older sister",
+    "family legacy/maternal final exchange core mystery",
+    "Sloane visual selection"
+  ],
+  "documents": [
+    {
+      "file": "00_READ_ME.md",
+      "sha256": "2cc89b5a664cc8a4849fc8c2bce0f6e036976d73ae8faadc6d386af707fef58a",
+      "status": "WORKING_CONCEPT",
+      "authority": "FOUNDER_SOURCE_SNAPSHOT"
+    },
+    {
+      "file": "01_SERIES_THESIS.md",
+      "sha256": "9fa8a9495496b9a81d1d54ca53680ed922b933cc7e7b605614266cdbc8bd110b",
+      "status": "WORKING_CONCEPT",
+      "authority": "FOUNDER_SOURCE_SNAPSHOT"
+    },
+    {
+      "file": "02_WORLD_AND_CULTURE.md",
+      "sha256": "c16ef7ed6d1146522d4412643f9e9b949c0edcb359846968ae34e1734c9b86b2",
+      "status": "WORKING_CONCEPT",
+      "authority": "FOUNDER_SOURCE_SNAPSHOT"
+    },
+    {
+      "file": "03_EXCHANGE_INSTITUTION.md",
+      "sha256": "a15ee054449c67d33910197e46077308556b700b73262a5eb209325cd49a1c3c",
+      "status": "WORKING_CONCEPT",
+      "authority": "FOUNDER_SOURCE_SNAPSHOT"
+    },
+    {
+      "file": "04_CHARACTER_AND_FAMILY.md",
+      "sha256": "2644447ac675e6f2eae29c290fffa78e405ef1a08d1f5adddafd8ed76fb99d61",
+      "status": "WORKING_CONCEPT",
+      "authority": "FOUNDER_SOURCE_SNAPSHOT"
+    },
+    {
+      "file": "05_HIDDEN_HISTORY_AND_REVELATIONS.md",
+      "sha256": "dd056a5cd351a31b2c8016fb2b184db1b74bf86072e498ed13f25cfb56c45ba2",
+      "status": "WORKING_CONCEPT",
+      "authority": "FOUNDER_SOURCE_SNAPSHOT"
+    },
+    {
+      "file": "06_SPECULATIVE_TECHNOLOGY.md",
+      "sha256": "7f10a39ecf0b9ed6126408dc285b34f7ffa28e5e5c66dee21f6d8f63702c557d",
+      "status": "WORKING_CONCEPT",
+      "authority": "FOUNDER_SOURCE_SNAPSHOT"
+    },
+    {
+      "file": "07_SEASON_ONE_AND_THIRTY_PARTS.md",
+      "sha256": "619cc8f580a9c3a72ca4fc7faf29f007276cc0d26bfd6e2499297a24d630ee80",
+      "status": "WORKING_CONCEPT",
+      "authority": "FOUNDER_SOURCE_SNAPSHOT"
+    },
+    {
+      "file": "08_STORY_AND_PRODUCTION_METHOD.md",
+      "sha256": "a73ce60a85df92d652572b9587de350b4dc8c0dfaa5377bdf7d8d42fffb60f2c",
+      "status": "WORKING_CONCEPT",
+      "authority": "FOUNDER_SOURCE_SNAPSHOT"
+    },
+    {
+      "file": "09_COMMERCIAL_STRATEGY.md",
+      "sha256": "2c568547589e42a3d215f4bea3478665ab8f1a3a26995d695906152266836598",
+      "status": "WORKING_CONCEPT",
+      "authority": "FOUNDER_SOURCE_SNAPSHOT"
+    },
+    {
+      "file": "10_OPEN_QUESTIONS_AND_OPUS_BRIEF.md",
+      "sha256": "9a250d1abce10bfd9f281cbcde321c0883128efa85af8c276eeebd9c38ed6dd7",
+      "status": "WORKING_CONCEPT",
+      "authority": "FOUNDER_SOURCE_SNAPSHOT"
+    }
+  ],
+  "structured_slate": "episode_slate.json",
+  "visual_assets": [
+    {
+      "file": "visual_refs/sloane_lockwood_face_lock_editorial_board.jpg",
+      "sha256": "1b1bae53622c726678327b920a2549e83bfbcaa2d352eae6229d326ce10f9407",
+      "status": "FOUNDER_SELECTED_REFERENCE_NOT_RUNTIME_REGISTERED"
+    },
+    {
+      "file": "visual_refs/sloane_lockwood_facial_identity_sheet.jpg",
+      "sha256": "ae6a0f3394eef8bc33167927ed1579dc18cbcc04381db31d475832a6be9423df",
+      "status": "FOUNDER_SELECTED_REFERENCE_NOT_RUNTIME_REGISTERED"
+    }
+  ]
+}

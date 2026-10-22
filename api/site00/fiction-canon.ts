@@ -15,6 +15,9 @@ import {
 } from '../_lib/site00FictionCanon/readinessReport.js';
 import { evaluateFictionPremise } from '../_lib/site00FictionCanon/opusEvaluationAdapter.js';
 import { assembleFictionEvaluationContext } from '../_lib/site00FictionCanon/contextAssembly.js';
+import { ingestFounderBiblePackageFromDirectory } from '../_lib/site00FictionCanon/founderPackage/ingestFounderPackage.js';
+import { buildOpusDryRunPreview, assessPersistenceLayer } from '../_lib/site00FictionCanon/opusDryRunPreview.js';
+import path from 'node:path';
 import { getFictionPropertyBySlug, listFictionDocuments } from '../_lib/site00FictionCanon/fictionCanonStore.js';
 import type { FictionIngestBatch } from '../../shared/site00-fiction-canon/types.js';
 import { FICTION_PROPERTY_SLUG_THE_EXCHANGE } from '../../shared/site00-fiction-canon/types.js';
@@ -42,6 +45,14 @@ async function assertFictionAccess(req: VercelRequest, res: VercelResponse, slug
 export default async function handler(req: VercelRequest, res: VercelResponse): Promise<void> {
   const action = String(req.query.action ?? req.body?.action ?? '');
 
+  if (req.method === 'GET' && action === 'opus_preview') {
+    const slug = String(req.query.propertySlug ?? FICTION_PROPERTY_SLUG_THE_EXCHANGE);
+    if (!(await assertFictionAccess(req, res, slug))) return;
+    const preview = await buildOpusDryRunPreview(slug);
+    if (!preview) return json(res, 404, { ok: false, error: 'PROPERTY_NOT_FOUND' });
+    return json(res, 200, { ok: true, preview, persistence: await assessPersistenceLayer() });
+  }
+
   if (req.method === 'GET' && action === 'readiness') {
     const slug = String(req.query.propertySlug ?? FICTION_PROPERTY_SLUG_THE_EXCHANGE);
     if (!(await assertFictionAccess(req, res, slug))) return;
@@ -63,6 +74,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
   }
 
   const body = (req.body ?? {}) as Record<string, unknown>;
+
+  if (action === 'ingest_founder_bible_v1') {
+    if (!(await assertFictionAccess(req, res, FICTION_PROPERTY_SLUG_THE_EXCHANGE))) return;
+    const packageRoot =
+      typeof body.packageRoot === 'string' && body.packageRoot.trim()
+        ? body.packageRoot.trim()
+        : path.join(process.cwd(), 'THE_EXCHANGE/FOUNDER_SOURCE/THE_EXCHANGE_MASTER_BIBLE_V1');
+    const result = await ingestFounderBiblePackageFromDirectory(packageRoot);
+    if (!result.validation.ok) {
+      return json(res, 400, { ok: false, validation: result.validation, ...result });
+    }
+    return json(res, 200, { ok: true, ...result });
+  }
 
   if (action === 'register_the_exchange') {
     if (!(await assertFictionAccess(req, res, FICTION_PROPERTY_SLUG_THE_EXCHANGE))) return;

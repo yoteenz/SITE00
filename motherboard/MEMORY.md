@@ -16616,6 +16616,17 @@ Summary of the whole conversation in this chat.
 
 ---
 
+## 2026-10-21 — THE EXCHANGE property registration & Opus bible ingest (draft)
+
+- **Sprint:** `P0.THE-EXCHANGE.PROPERTY-REGISTRATION-AND-OPUS-BIBLE-INGEST1` — register isolated fiction property **`the-exchange`**, durable canon persistence, founder ingestion contract, fiction-specific Opus **`evaluateFictionPremise`** (dry-run only). **No paid Opus, no media gen, no merge** (founder draft PR).
+- **Prior context:** Engine audit on `docs/site00/the-exchange/engine-audit/` (PARTIALLY READY); Kling cinematic module on separate branch #1683, not on main.
+- **Shipped (branch `cursor/the-exchange-property-opus-ingest-8aec`):** `shared/site00-fiction-canon/`, `api/_lib/site00FictionCanon/`, `api/site00/fiction-canon.ts`, Supabase migration `20261022120000_site00_fiction_canon.sql`, project registry + `FICTION_CANON` / `FICTION_OPUS_EVALUATION` capabilities, docs `docs/site00/the-exchange/property-registration/`.
+- **Seed:** Orientation WORKING_CONCEPT only — ingestion status **AWAITING_FOUNDER_SOURCE** when seed-only; Sloane visual **AWAITING_FOUNDER_ASSET** (no invented URLs).
+- **Tests:** `tests/theExchangeFictionCanon.test.ts` (9 pass); `npm run typecheck` clean.
+- **Founder next:** Review draft PR; apply Supabase migration when ready; ingest complete founder bible; future sprint for authorized Opus execution.
+
+---
+
 ## 2026-10-15 — Staging auth redirect and founder login
 
 - **Sprint:** P0.SITE00.IDNTY.STAGING-AUTH-REDIRECT-AND-FOUNDER-LOGIN-RECOVERY1. Staging only. No production writes. No merge.
